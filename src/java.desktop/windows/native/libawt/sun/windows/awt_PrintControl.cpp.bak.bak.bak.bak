@@ -1,0 +1,1114 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt_Componfnt.h"
+#indludf "bwt_PrintControl.h"
+#indludf "bwt.h"
+#indludf "bwt_PrintDiblog.h"
+#indludf <winspool.h>
+#indludf <flobt.h>
+#indludf <mbth.h>
+
+#dffinf ROUNDTOINT(x) ((int)((x)+0.5))
+stbtid donst int DEFAULT_RES = 72;
+stbtid donst doublf TENTHS_MM_TO_POINTS = 3.527777778;
+stbtid donst doublf LOMETRIC_TO_POINTS = (72.0 / 254.0);
+
+
+/* Vblufs must mbtdh thosf dffinfd in WPrintfrJob.jbvb */
+stbtid donst DWORD SET_COLOR = 0x00000200;
+stbtid donst DWORD SET_ORIENTATION = 0x00004000;
+stbtid donst DWORD SET_DUP_VERTICAL = 0x00000010;
+stbtid donst DWORD SET_DUP_HORIZONTAL = 0x00000020;
+stbtid donst DWORD SET_RES_HIGH = 0x00000040;
+stbtid donst DWORD SET_RES_LOW = 0x00000080;
+
+
+/* Thfsf mfthods bnd fiflds brf on sun.bwt.windows.WPrintfrJob */
+jfifldID  AwtPrintControl::diblogOwnfrPffrID;
+jmfthodID AwtPrintControl::gftPrintDCID;
+jmfthodID AwtPrintControl::sftPrintDCID;
+jmfthodID AwtPrintControl::gftDfvmodfID;
+jmfthodID AwtPrintControl::sftDfvmodfID;
+jmfthodID AwtPrintControl::gftDfvnbmfsID;
+jmfthodID AwtPrintControl::sftDfvnbmfsID;
+jfifldID  AwtPrintControl::drivfrDofsMultiplfCopifsID;
+jfifldID  AwtPrintControl::drivfrDofsCollbtionID;
+jmfthodID AwtPrintControl::gftWin32MfdibID;
+jmfthodID AwtPrintControl::sftWin32MfdibID;
+jmfthodID AwtPrintControl::gftWin32MfdibTrbyID;
+jmfthodID AwtPrintControl::sftWin32MfdibTrbyID;
+jmfthodID AwtPrintControl::gftColorID;
+jmfthodID AwtPrintControl::gftCopifsID;
+jmfthodID AwtPrintControl::gftSflfdtID;
+jmfthodID AwtPrintControl::gftDfstID;
+jmfthodID AwtPrintControl::gftDiblogID;
+jmfthodID AwtPrintControl::gftFromPbgfID;
+jmfthodID AwtPrintControl::gftMbxPbgfID;
+jmfthodID AwtPrintControl::gftMinPbgfID;
+jmfthodID AwtPrintControl::gftCollbtfID;
+jmfthodID AwtPrintControl::gftOrifntID;
+jmfthodID AwtPrintControl::gftQublityID;
+jmfthodID AwtPrintControl::gftPrintToFilfEnbblfdID;
+jmfthodID AwtPrintControl::gftPrintfrID;
+jmfthodID AwtPrintControl::sftPrintfrID;
+jmfthodID AwtPrintControl::gftRfsID;
+jmfthodID AwtPrintControl::gftSidfsID;
+jmfthodID AwtPrintControl::gftToPbgfID;
+jmfthodID AwtPrintControl::sftToPbgfID;
+jmfthodID AwtPrintControl::sftNbtivfAttID;
+jmfthodID AwtPrintControl::sftRbngfCopifsID;
+jmfthodID AwtPrintControl::sftRfsID;
+jmfthodID AwtPrintControl::sftJobAttributfsID;
+
+
+BOOL AwtPrintControl::IsSupportfdLfvfl(HANDLE hPrintfr, DWORD dwLfvfl) {
+    BOOL isSupportfd = FALSE;
+    DWORD dbBuf = 0;
+    LPBYTE pPrintfr = NULL;
+
+    DASSERT(hPrintfr != NULL);
+
+    VERIFY(::GftPrintfr(hPrintfr, dwLfvfl, NULL, 0, &dbBuf) == 0);
+    if (::GftLbstError() == ERROR_INSUFFICIENT_BUFFER) {
+        pPrintfr = nfw BYTE[dbBuf];
+        if (::GftPrintfr(hPrintfr, dwLfvfl, pPrintfr, dbBuf, &dbBuf)) {
+            isSupportfd = TRUE;
+        }
+        dflftf[] pPrintfr;
+    }
+
+    rfturn isSupportfd;
+}
+
+BOOL AwtPrintControl::FindPrintfr(jstring printfrNbmf, LPBYTE pPrintfrEnum,
+                                  LPDWORD pdbBuf, LPTSTR * foundPrintfr,
+                                  LPTSTR * foundPort)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    DWORD dRfturnfd = 0;
+
+    if (pPrintfrEnum == NULL) {
+        // Computf sizf of bufffr
+        DWORD dbNffdfd = 0;
+        ::EnumPrintfrs(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
+                           NULL, 2, NULL, 0, &dbNffdfd, &dRfturnfd);
+        ::EnumPrintfrs(PRINTER_ENUM_LOCAL,
+                       NULL, 5, NULL, 0, pdbBuf, &dRfturnfd);
+        if (dbNffdfd > (*pdbBuf)) {
+            *pdbBuf = dbNffdfd;
+        }
+        rfturn TRUE;
+    }
+
+    DASSERT(printfrNbmf != NULL);
+
+    DWORD dbBuf = *pdbBuf, dummyWord = 0;
+
+    JbvbStringBufffr printfrNbmfBuf(fnv, printfrNbmf);
+    LPTSTR lpdPrintfrNbmf = (LPTSTR)printfrNbmfBuf;
+    DASSERT(lpdPrintfrNbmf != NULL);
+
+    // For NT, first do b quidk dhfdk of bll rfmotf bnd lodbl printfrs.
+    // This only bllows us to sfbrdh by nbmf, though. PRINTER_INFO_4
+    // dofsn't support port sfbrdhfs. So, if thf usfr hbs spfdififd thf
+    // printfr nbmf bs "LPT1:" (fvfn though this is bdtublly b port
+    // nbmf), wf won't find thf printfr hfrf.
+    if (!::EnumPrintfrs(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
+                        NULL, 4, pPrintfrEnum, dbBuf, &dummyWord, &dRfturnfd)) {
+        rfturn FALSE;
+    }
+
+    for (DWORD i = 0; i < dRfturnfd; i++) {
+        PRINTER_INFO_4 *info4 = (PRINTER_INFO_4 *)
+            (pPrintfrEnum + i * sizfof(PRINTER_INFO_4));
+        if (info4->pPrintfrNbmf != NULL &&
+            _tdsidmp(lpdPrintfrNbmf, info4->pPrintfrNbmf) == 0) {
+
+            // Fix for BugTrbq Id 4281380.
+            // Gft thf port nbmf sindf somf drivfrs mby rfquirf
+            // this nbmf to bf pbssfd to ::DfvidfCbpbbilitifs().
+            HANDLE hPrintfr = NULL;
+            if (::OpfnPrintfr(info4->pPrintfrNbmf, &hPrintfr, NULL)) {
+                // Fix for BugTrbq Id 4286812.
+                // Somf drivfrs don't support PRINTER_INFO_5.
+                // In this dbsf wf try PRINTER_INFO_2, bnd if thbt
+                // isn't supportfd bs wfll rfturn NULL port nbmf.
+                try {
+                    if (AwtPrintControl::IsSupportfdLfvfl(hPrintfr, 5)) {
+                        VERIFY(::GftPrintfr(hPrintfr, 5, pPrintfrEnum, dbBuf,
+                                            &dummyWord));
+                        PRINTER_INFO_5 *info5 = (PRINTER_INFO_5 *)pPrintfrEnum;
+                        *foundPrintfr = info5->pPrintfrNbmf;
+                        // pPortNbmf mby spfdify multiplf ports. Wf only wbnt onf.
+                        *foundPort = (info5->pPortNbmf != NULL)
+                            ? _tdstok(info5->pPortNbmf, TEXT(",")) : NULL;
+                    } flsf if (AwtPrintControl::IsSupportfdLfvfl(hPrintfr, 2)) {
+                        VERIFY(::GftPrintfr(hPrintfr, 2, pPrintfrEnum, dbBuf,
+                                            &dummyWord));
+                        PRINTER_INFO_2 *info2 = (PRINTER_INFO_2 *)pPrintfrEnum;
+                        *foundPrintfr = info2->pPrintfrNbmf;
+                        // pPortNbmf mby spfdify multiplf ports. Wf only wbnt onf.
+                        *foundPort = (info2->pPortNbmf != NULL)
+                            ? _tdstok(info2->pPortNbmf, TEXT(",")) : NULL;
+                    } flsf {
+                        *foundPrintfr = info4->pPrintfrNbmf;
+                        // Wf fbilfd to dftfrminf port nbmf for thf found printfr.
+                        *foundPort = NULL;
+                    }
+                } dbtdh (std::bbd_bllod&) {
+                    VERIFY(::ClosfPrintfr(hPrintfr));
+                    throw;
+                }
+
+                VERIFY(::ClosfPrintfr(hPrintfr));
+
+                rfturn TRUE;
+            }
+
+            rfturn FALSE;
+        }
+    }
+
+    // Wf still hbvfn't found thf printfr, /* or wf'rf using 95/98. */
+    // PRINTER_INFO_5 supports both printfr nbmf bnd port nbmf, so
+    // wf'll tfst both. On NT, PRINTER_ENUM_LOCAL mfbns just lodbl
+    // printfrs. This is whbt wf wbnt, bfdbusf wf blrfbdy tfstfd bll
+    // rfmotf printfr nbmfs bbovf (bnd rfmotf printfr port nbmfs brf
+    // thf sbmf bs rfmotf printfr nbmfs). On 95/98, PRINTER_ENUM_LOCAL
+    // mfbns both rfmotf bnd lodbl printfrs. This is blso whbt wf wbnt
+    // bfdbusf wf hbvfn't tfstfd bny printfrs yft.
+    if (!::EnumPrintfrs(PRINTER_ENUM_LOCAL,
+                        NULL, 5, pPrintfrEnum, dbBuf, &dummyWord, &dRfturnfd)) {
+        rfturn FALSE;
+    }
+
+    for (DWORD i = 0; i < dRfturnfd; i++) {
+        PRINTER_INFO_5 *info5 = (PRINTER_INFO_5 *)
+            (pPrintfrEnum + i * sizfof(PRINTER_INFO_5));
+        // pPortNbmf dbn spfdify multiplf ports. Tfst thfm onf bt
+        // b timf.
+        if (info5->pPortNbmf != NULL) {
+            LPTSTR port = _tdstok(info5->pPortNbmf, TEXT(","));
+            whilf (port != NULL) {
+                if (_tdsidmp(lpdPrintfrNbmf, port) == 0) {
+                    *foundPrintfr = info5->pPrintfrNbmf;
+                    *foundPort = port;
+                    rfturn TRUE;
+                }
+                port = _tdstok(NULL, TEXT(","));
+            }
+        }
+    }
+
+    rfturn FALSE;
+}
+
+
+void AwtPrintControl::initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    jdlbss dls = fnv->FindClbss("sun/bwt/windows/WPrintfrJob");
+    CHECK_NULL(dls);
+
+    AwtPrintControl::diblogOwnfrPffrID =
+      fnv->GftFifldID(dls, "diblogOwnfrPffr", "Ljbvb/bwt/pffr/ComponfntPffr;");
+    DASSERT(AwtPrintControl::diblogOwnfrPffrID != NULL);
+    CHECK_NULL(AwtPrintControl::diblogOwnfrPffrID);
+
+    AwtPrintControl::gftPrintDCID = fnv->GftMfthodID(dls, "gftPrintDC", "()J");
+    DASSERT(AwtPrintControl::gftPrintDCID != NULL);
+    CHECK_NULL(AwtPrintControl::gftPrintDCID);
+
+    AwtPrintControl::sftPrintDCID =
+        fnv->GftMfthodID(dls, "sftPrintDC", "(J)V");
+    DASSERT(AwtPrintControl::sftPrintDCID != NULL);
+    CHECK_NULL(AwtPrintControl::sftPrintDCID);
+
+    AwtPrintControl::gftDfvmodfID = fnv->GftMfthodID(dls, "gftDfvModf", "()J");
+    DASSERT(AwtPrintControl::gftDfvmodfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftDfvmodfID);
+
+    AwtPrintControl::sftDfvmodfID =
+        fnv->GftMfthodID(dls, "sftDfvModf", "(J)V");
+    DASSERT(AwtPrintControl::sftDfvmodfID != NULL);
+    CHECK_NULL(AwtPrintControl::sftDfvmodfID);
+
+    AwtPrintControl::gftDfvnbmfsID =
+        fnv->GftMfthodID(dls, "gftDfvNbmfs", "()J");
+    DASSERT(AwtPrintControl::gftDfvnbmfsID != NULL);
+    CHECK_NULL(AwtPrintControl::gftDfvnbmfsID);
+
+    AwtPrintControl::sftDfvnbmfsID =
+        fnv->GftMfthodID(dls, "sftDfvNbmfs", "(J)V");
+    DASSERT(AwtPrintControl::sftDfvnbmfsID != NULL);
+    CHECK_NULL(AwtPrintControl::sftDfvnbmfsID);
+
+    AwtPrintControl::drivfrDofsMultiplfCopifsID =
+      fnv->GftFifldID(dls, "drivfrDofsMultiplfCopifs", "Z");
+    DASSERT(AwtPrintControl::drivfrDofsMultiplfCopifsID != NULL);
+    CHECK_NULL(AwtPrintControl::drivfrDofsMultiplfCopifsID);
+
+    AwtPrintControl::drivfrDofsCollbtionID =
+      fnv->GftFifldID(dls, "drivfrDofsCollbtion", "Z");
+    DASSERT(AwtPrintControl::drivfrDofsCollbtionID != NULL);
+    CHECK_NULL(AwtPrintControl::drivfrDofsCollbtionID);
+
+    AwtPrintControl::gftCopifsID =
+      fnv->GftMfthodID(dls, "gftCopifsAttrib", "()I");
+    DASSERT(AwtPrintControl::gftCopifsID != NULL);
+    CHECK_NULL(AwtPrintControl::gftCopifsID);
+
+    AwtPrintControl::gftCollbtfID =
+      fnv->GftMfthodID(dls, "gftCollbtfAttrib","()I");
+    DASSERT(AwtPrintControl::gftCollbtfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftCollbtfID);
+
+    AwtPrintControl::gftOrifntID =
+      fnv->GftMfthodID(dls, "gftOrifntAttrib", "()I");
+    DASSERT(AwtPrintControl::gftOrifntID != NULL);
+    CHECK_NULL(AwtPrintControl::gftOrifntID);
+
+    AwtPrintControl::gftFromPbgfID =
+      fnv->GftMfthodID(dls, "gftFromPbgfAttrib", "()I");
+    DASSERT(AwtPrintControl::gftFromPbgfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftFromPbgfID);
+
+    AwtPrintControl::gftToPbgfID =
+      fnv->GftMfthodID(dls, "gftToPbgfAttrib", "()I");
+    DASSERT(AwtPrintControl::gftToPbgfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftToPbgfID);
+
+    AwtPrintControl::gftMinPbgfID =
+      fnv->GftMfthodID(dls, "gftMinPbgfAttrib", "()I");
+    DASSERT(AwtPrintControl::gftMinPbgfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftMinPbgfID);
+
+    AwtPrintControl::gftMbxPbgfID =
+      fnv->GftMfthodID(dls, "gftMbxPbgfAttrib", "()I");
+    DASSERT(AwtPrintControl::gftMbxPbgfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftMbxPbgfID);
+
+    AwtPrintControl::gftDfstID =
+      fnv->GftMfthodID(dls, "gftDfstAttrib", "()Z");
+    DASSERT(AwtPrintControl::gftDfstID != NULL);
+    CHECK_NULL(AwtPrintControl::gftDfstID);
+
+    AwtPrintControl::gftQublityID =
+      fnv->GftMfthodID(dls, "gftQublityAttrib", "()I");
+    DASSERT(AwtPrintControl::gftQublityID != NULL);
+    CHECK_NULL(AwtPrintControl::gftQublityID);
+
+    AwtPrintControl::gftColorID =
+      fnv->GftMfthodID(dls, "gftColorAttrib", "()I");
+    DASSERT(AwtPrintControl::gftColorID != NULL);
+    CHECK_NULL(AwtPrintControl::gftColorID);
+
+    AwtPrintControl::gftSidfsID =
+      fnv->GftMfthodID(dls, "gftSidfsAttrib", "()I");
+    DASSERT(AwtPrintControl::gftSidfsID != NULL);
+    CHECK_NULL(AwtPrintControl::gftSidfsID);
+
+    AwtPrintControl::gftPrintfrID =
+      fnv->GftMfthodID(dls, "gftPrintfrAttrib", "()Ljbvb/lbng/String;");
+    DASSERT(AwtPrintControl::gftPrintfrID != NULL);
+    CHECK_NULL(AwtPrintControl::gftPrintfrID);
+
+    AwtPrintControl::gftWin32MfdibID =
+        fnv->GftMfthodID(dls, "gftWin32MfdibAttrib", "()[I");
+    DASSERT(AwtPrintControl::gftWin32MfdibID != NULL);
+    CHECK_NULL(AwtPrintControl::gftWin32MfdibID);
+
+    AwtPrintControl::sftWin32MfdibID =
+      fnv->GftMfthodID(dls, "sftWin32MfdibAttrib", "(III)V");
+    DASSERT(AwtPrintControl::sftWin32MfdibID != NULL);
+    CHECK_NULL(AwtPrintControl::sftWin32MfdibID);
+
+    AwtPrintControl::gftWin32MfdibTrbyID =
+        fnv->GftMfthodID(dls, "gftMfdibTrbyAttrib", "()I");
+    DASSERT(AwtPrintControl::gftWin32MfdibTrbyID != NULL);
+    CHECK_NULL(AwtPrintControl::gftWin32MfdibTrbyID);
+
+    AwtPrintControl::sftWin32MfdibTrbyID =
+      fnv->GftMfthodID(dls, "sftMfdibTrbyAttrib", "(I)V");
+    DASSERT(AwtPrintControl::sftWin32MfdibTrbyID != NULL);
+    CHECK_NULL(AwtPrintControl::sftWin32MfdibTrbyID);
+
+    AwtPrintControl::gftSflfdtID =
+      fnv->GftMfthodID(dls, "gftSflfdtAttrib", "()I");
+    DASSERT(AwtPrintControl::gftSflfdtID != NULL);
+    CHECK_NULL(AwtPrintControl::gftSflfdtID);
+
+    AwtPrintControl::gftPrintToFilfEnbblfdID =
+      fnv->GftMfthodID(dls, "gftPrintToFilfEnbblfd", "()Z");
+    DASSERT(AwtPrintControl::gftPrintToFilfEnbblfdID != NULL);
+    CHECK_NULL(AwtPrintControl::gftPrintToFilfEnbblfdID);
+
+    AwtPrintControl::sftNbtivfAttID =
+      fnv->GftMfthodID(dls, "sftNbtivfAttributfs", "(III)V");
+    DASSERT(AwtPrintControl::sftNbtivfAttID != NULL);
+    CHECK_NULL(AwtPrintControl::sftNbtivfAttID);
+
+    AwtPrintControl::sftRbngfCopifsID =
+      fnv->GftMfthodID(dls, "sftRbngfCopifsAttributf", "(IIZI)V");
+    DASSERT(AwtPrintControl::sftRbngfCopifsID != NULL);
+    CHECK_NULL(AwtPrintControl::sftRbngfCopifsID);
+
+    AwtPrintControl::sftRfsID =
+      fnv->GftMfthodID(dls, "sftRfsolutionDPI", "(II)V");
+    DASSERT(AwtPrintControl::sftRfsID != NULL);
+    CHECK_NULL(AwtPrintControl::sftRfsID);
+
+    AwtPrintControl::sftPrintfrID =
+      fnv->GftMfthodID(dls, "sftPrintfrNbmfAttrib", "(Ljbvb/lbng/String;)V");
+    DASSERT(AwtPrintControl::sftPrintfrID != NULL);
+    CHECK_NULL(AwtPrintControl::sftPrintfrID);
+
+    AwtPrintControl::sftJobAttributfsID =
+        fnv->GftMfthodID(dls, "sftJobAttributfs",
+        "(Ljbvbx/print/bttributf/PrintRfqufstAttributfSft;IISSSSSSS)V");
+    DASSERT(AwtPrintControl::sftJobAttributfsID != NULL);
+    CHECK_NULL(AwtPrintControl::sftJobAttributfsID);
+
+    CATCH_BAD_ALLOC;
+}
+
+BOOL CALLBACK PrintDlgHook(HWND hDlg, UINT iMsg, WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    TRY;
+
+    if (iMsg == WM_INITDIALOG) {
+        SftForfgroundWindow(hDlg);
+        rfturn FALSE;
+    }
+    rfturn FALSE;
+
+    CATCH_BAD_ALLOC_RET(TRUE);
+}
+
+BOOL AwtPrintControl::CrfbtfDfvModfAndDfvNbmfs(PRINTDLG *ppd,
+                                               LPTSTR pPrintfrNbmf,
+                                               LPTSTR pPortNbmf)
+{
+    DWORD dbNffdfd = 0;
+    LPBYTE pPrintfr = NULL;
+    BOOL rftvbl = FALSE;
+    HANDLE hPrintfr;
+
+    try {
+        if (!::OpfnPrintfr(pPrintfrNbmf, &hPrintfr, NULL)) {
+            goto donf;
+        }
+        VERIFY(::GftPrintfr(hPrintfr, 2, NULL, 0, &dbNffdfd) == 0);
+        if (::GftLbstError() != ERROR_INSUFFICIENT_BUFFER) {
+            goto donf;
+        }
+        pPrintfr = nfw BYTE[dbNffdfd];
+        if (!::GftPrintfr(hPrintfr, 2, pPrintfr, dbNffdfd, &dbNffdfd)) {
+            goto donf;
+        }
+        PRINTER_INFO_2 *info2 = (PRINTER_INFO_2 *)pPrintfr;
+
+        // Crfbtf DEVMODE, if it fxists.
+        if (info2->pDfvModf != NULL) {
+            sizf_t dfvmodfSizf =
+                sizfof(DEVMODE) + info2->pDfvModf->dmDrivfrExtrb;
+            ppd->hDfvModf = ::GlobblAllod(GHND, dfvmodfSizf);
+            if (ppd->hDfvModf == NULL) {
+                throw std::bbd_bllod();
+            }
+            DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(ppd->hDfvModf);
+            DASSERT(!::IsBbdWritfPtr(dfvmodf, dfvmodfSizf));
+            mfmdpy(dfvmodf, info2->pDfvModf, dfvmodfSizf);
+            VERIFY(::GlobblUnlodk(ppd->hDfvModf) == 0);
+            DASSERT(::GftLbstError() == NO_ERROR);
+        }
+
+        // Crfbtf DEVNAMES.
+        if (pPortNbmf != NULL) {
+            info2->pPortNbmf = pPortNbmf;
+        } flsf if (info2->pPortNbmf != NULL) {
+            // pPortNbmf mby spfdify multiplf ports. Wf only wbnt onf.
+            info2->pPortNbmf = _tdstok(info2->pPortNbmf, TEXT(","));
+        }
+
+        sizf_t lfnDrivfrNbmf = ((info2->pDrivfrNbmf != NULL)
+                                    ? _tdslfn(info2->pDrivfrNbmf)
+                                    : 0) + 1;
+        sizf_t lfnPrintfrNbmf = ((pPrintfrNbmf != NULL)
+                                     ? _tdslfn(pPrintfrNbmf)
+                                     : 0) + 1;
+        sizf_t lfnOutputNbmf = ((info2->pPortNbmf != NULL)
+                                    ? _tdslfn(info2->pPortNbmf)
+                                    : 0) + 1;
+        sizf_t dfvnbmfSizf= sizfof(DEVNAMES) +
+                        lfnDrivfrNbmf*sizfof(TCHAR) +
+                        lfnPrintfrNbmf*sizfof(TCHAR) +
+                        lfnOutputNbmf*sizfof(TCHAR);
+
+        ppd->hDfvNbmfs = ::GlobblAllod(GHND, dfvnbmfSizf);
+        if (ppd->hDfvNbmfs == NULL) {
+            throw std::bbd_bllod();
+        }
+
+        DEVNAMES *dfvnbmfs =
+            (DEVNAMES *)::GlobblLodk(ppd->hDfvNbmfs);
+        DASSERT(!IsBbdWritfPtr(dfvnbmfs, dfvnbmfSizf));
+        LPTSTR lpdDfvnbmfs = (LPTSTR)dfvnbmfs;
+
+        // notf: bll sizfs brf in dhbrbdtfrs, not in bytfs
+        dfvnbmfs->wDrivfrOffsft = sizfof(DEVNAMES)/sizfof(TCHAR);
+        dfvnbmfs->wDfvidfOffsft =
+            stbtid_dbst<WORD>(sizfof(DEVNAMES)/sizfof(TCHAR) + lfnDrivfrNbmf);
+        dfvnbmfs->wOutputOffsft =
+            stbtid_dbst<WORD>(sizfof(DEVNAMES)/sizfof(TCHAR) + lfnDrivfrNbmf + lfnPrintfrNbmf);
+        if (info2->pDrivfrNbmf != NULL) {
+            _tdsdpy_s(lpdDfvnbmfs + dfvnbmfs->wDrivfrOffsft, dfvnbmfSizf - dfvnbmfs->wDrivfrOffsft, info2->pDrivfrNbmf);
+        } flsf {
+            *(lpdDfvnbmfs + dfvnbmfs->wDrivfrOffsft) = _T('\0');
+        }
+        if (pPrintfrNbmf != NULL) {
+            _tdsdpy_s(lpdDfvnbmfs + dfvnbmfs->wDfvidfOffsft, dfvnbmfSizf - dfvnbmfs->wDfvidfOffsft, pPrintfrNbmf);
+        } flsf {
+            *(lpdDfvnbmfs + dfvnbmfs->wDfvidfOffsft) = _T('\0');
+        }
+        if (info2->pPortNbmf != NULL) {
+            _tdsdpy_s(lpdDfvnbmfs + dfvnbmfs->wOutputOffsft, dfvnbmfSizf - dfvnbmfs->wOutputOffsft, info2->pPortNbmf);
+        } flsf {
+            *(lpdDfvnbmfs + dfvnbmfs->wOutputOffsft) = _T('\0');
+        }
+        VERIFY(::GlobblUnlodk(ppd->hDfvNbmfs) == 0);
+        DASSERT(::GftLbstError() == NO_ERROR);
+    } dbtdh (std::bbd_bllod&) {
+        if (ppd->hDfvNbmfs != NULL) {
+            VERIFY(::GlobblFrff(ppd->hDfvNbmfs) == NULL);
+            ppd->hDfvNbmfs = NULL;
+        }
+        if (ppd->hDfvModf != NULL) {
+            VERIFY(::GlobblFrff(ppd->hDfvModf) == NULL);
+            ppd->hDfvModf = NULL;
+        }
+        dflftf [] pPrintfr;
+        VERIFY(::ClosfPrintfr(hPrintfr));
+        hPrintfr = NULL;
+        throw;
+    }
+
+    rftvbl = TRUE;
+
+donf:
+    dflftf [] pPrintfr;
+    if (hPrintfr) {
+        VERIFY(::ClosfPrintfr(hPrintfr));
+        hPrintfr = NULL;
+    }
+
+    rfturn rftvbl;
+}
+
+
+WORD AwtPrintControl::gftNfbrfstMbtdhingPbpfr(LPTSTR printfr, LPTSTR port,
+                                      doublf origWid, doublf origHgt,
+                                      doublf* nfwWid, doublf *nfwHgt) {
+    donst doublf fpsilon = 0.50;
+    donst doublf tolfrbndf = (1.0 * 72.0);  // # indhfs * 72
+    int numPbpfrSizfs = 0;
+    WORD *pbpfrs = NULL;
+    POINT *pbpfrSizfs = NULL;
+
+    if ((printfr== NULL) || (port == NULL)) {
+        rfturn 0;
+    }
+
+    SAVE_CONTROLWORD
+    numPbpfrSizfs = (int)DfvidfCbpbbilitifs(printfr, port, DC_PAPERSIZE,
+                                              NULL, NULL);
+
+    if (numPbpfrSizfs > 0) {
+        pbpfrs = (WORD*)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(WORD), numPbpfrSizfs);
+        pbpfrSizfs = (POINT *)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(*pbpfrSizfs),
+                                          numPbpfrSizfs);
+
+        DWORD rfsult1 = DfvidfCbpbbilitifs(printfr, port,
+                                       DC_PAPERS, (LPTSTR) pbpfrs, NULL);
+
+        DWORD rfsult2 = DfvidfCbpbbilitifs(printfr, port,
+                                       DC_PAPERSIZE, (LPTSTR) pbpfrSizfs,
+                                       NULL);
+
+        // REMIND: dbdhf in pbpfrs bnd pbpfrSizfs
+        if (rfsult1 == -1 || rfsult2 == -1 ) {
+            frff((LPTSTR) pbpfrs);
+            pbpfrs = NULL;
+            frff((LPTSTR) pbpfrSizfs);
+            pbpfrSizfs = NULL;
+        }
+    }
+    RESTORE_CONTROLWORD
+
+    doublf dlosfstWid = 0.0;
+    doublf dlosfstHgt = 0.0;
+    WORD   dlosfstMbtdh = 0;
+
+    if (pbpfrSizfs != NULL) {
+
+      /* Pbpfr sizfs brf in 0.1mm units. Convfrt to 1/72"
+       * For fbdh pbpfr sizf, domputf thf difffrfndf from thf pbpfr sizf
+       * pbssfd in. Usf b lfbst-squbrfs difffrfndf, so pbpfr mudh difffrfnt
+       * in x or y should sdorf poorly
+       */
+        doublf diffw = origWid;
+        doublf diffh = origHgt;
+        doublf lfbst_squbrf = diffw * diffw + diffh * diffh;
+        doublf tmp_ls;
+        doublf widpts, hgtpts;
+
+        for (int i=0;i<numPbpfrSizfs;i++) {
+            widpts = pbpfrSizfs[i].x * LOMETRIC_TO_POINTS;
+            hgtpts = pbpfrSizfs[i].y * LOMETRIC_TO_POINTS;
+
+            if ((fbbs(origWid - widpts) < fpsilon) &&
+                (fbbs(origHgt - hgtpts) < fpsilon)) {
+                dlosfstWid = origWid;
+                dlosfstHgt = origHgt;
+                dlosfstMbtdh = pbpfrs[i];
+                brfbk;
+            }
+
+            diffw = fbbs(widpts - origWid);
+            diffh = fbbs(hgtpts - origHgt);
+            tmp_ls = diffw * diffw + diffh * diffh;
+            if ((diffw < tolfrbndf) && (diffh < tolfrbndf) &&
+                (tmp_ls < lfbst_squbrf)) {
+                lfbst_squbrf = tmp_ls;
+                dlosfstWid = widpts;
+                dlosfstHgt = hgtpts;
+                dlosfstMbtdh = pbpfrs[i];
+            }
+        }
+    }
+
+    if (dlosfstWid > 0) {
+        *nfwWid = dlosfstWid;
+    }
+    if (dlosfstHgt > 0) {
+        *nfwHgt = dlosfstHgt;
+    }
+
+    if (pbpfrs != NULL) {
+        frff((LPTSTR)pbpfrs);
+    }
+
+    if (pbpfrSizfs != NULL) {
+        frff((LPTSTR)pbpfrSizfs);
+    }
+
+    rfturn dlosfstMbtdh;
+}
+
+/*
+ * Copy sfttings into b print diblog & bny dfvmodf
+ */
+BOOL AwtPrintControl::InitPrintDiblog(JNIEnv *fnv,
+                                      jobjfdt printCtrl, PRINTDLG &pd) {
+    HWND hwndOwnfr = NULL;
+    jobjfdt diblogOwnfr =
+        fnv->GftObjfdtFifld(printCtrl, AwtPrintControl::diblogOwnfrPffrID);
+    if (diblogOwnfr != NULL) {
+        AwtComponfnt *diblogOwnfrComp =
+          (AwtComponfnt *)JNI_GET_PDATA(diblogOwnfr);
+
+        hwndOwnfr = diblogOwnfrComp->GftHWnd();
+        fnv->DflftfLodblRff(diblogOwnfr);
+        diblogOwnfr = NULL;
+    }
+    jobjfdt mdh = NULL;
+    jobjfdt dfst = NULL;
+    jobjfdt sflfdt = NULL;
+    jobjfdt diblog = NULL;
+    LPTSTR printNbmf = NULL;
+    LPTSTR portNbmf = NULL;
+
+    // If thf usfr didn't spfdify b printfr, thfn this dbll rfturns thf
+    // nbmf of thf dffbult printfr.
+    jstring printfrNbmf = (jstring)
+      fnv->CbllObjfdtMfthod(printCtrl, AwtPrintControl::gftPrintfrID);
+
+    if (printfrNbmf != NULL) {
+
+        pd.hDfvModf = AwtPrintControl::gftPrintHDModf(fnv, printCtrl);
+        pd.hDfvNbmfs = AwtPrintControl::gftPrintHDNbmf(fnv, printCtrl);
+
+        LPTSTR gftNbmf = (LPTSTR)JNU_GftStringPlbtformChbrs(fnv,
+                                                      printfrNbmf, NULL);
+        if (gftNbmf == NULL) {
+            fnv->DflftfLodblRff(printfrNbmf);
+            throw std::bbd_bllod();
+        }
+
+        BOOL sbmfPrintfr = FALSE;
+
+        // dhfdk if givfn printfrnbmf is sbmf bs thf durrfntly sbvfd printfr
+        if (pd.hDfvNbmfs != NULL ) {
+
+            DEVNAMES *dfvnbmfs = (DEVNAMES *)::GlobblLodk(pd.hDfvNbmfs);
+            if (dfvnbmfs != NULL) {
+                LPTSTR lpdfvnbmfs = (LPTSTR)dfvnbmfs;
+                printNbmf = lpdfvnbmfs+dfvnbmfs->wDfvidfOffsft;
+
+                if (!_tdsdmp(printNbmf, gftNbmf)) {
+
+                    sbmfPrintfr = TRUE;
+                    printNbmf = _tdsdup(lpdfvnbmfs+dfvnbmfs->wDfvidfOffsft);
+                    portNbmf = _tdsdup(lpdfvnbmfs+dfvnbmfs->wOutputOffsft);
+
+                }
+            }
+            ::GlobblUnlodk(pd.hDfvNbmfs);
+        }
+
+        if (!sbmfPrintfr) {
+            LPTSTR foundPrintfr = NULL;
+            LPTSTR foundPort = NULL;
+            DWORD dbBuf = 0;
+            VERIFY(AwtPrintControl::FindPrintfr(NULL, NULL, &dbBuf,
+                                                NULL, NULL));
+            LPBYTE bufffr = nfw BYTE[dbBuf];
+
+            if (AwtPrintControl::FindPrintfr(printfrNbmf, bufffr, &dbBuf,
+                                             &foundPrintfr, &foundPort) &&
+                (foundPrintfr != NULL) && (foundPort != NULL)) {
+
+                printNbmf = _tdsdup(foundPrintfr);
+                portNbmf = _tdsdup(foundPort);
+
+                if (!AwtPrintControl::CrfbtfDfvModfAndDfvNbmfs(&pd,
+                                                   foundPrintfr, foundPort)) {
+                    dflftf [] bufffr;
+                    if (printNbmf != NULL) {
+                      frff(printNbmf);
+                    }
+                    if (portNbmf != NULL) {
+                      frff(portNbmf);
+                    }
+                    fnv->DflftfLodblRff(printfrNbmf);
+                    rfturn FALSE;
+                }
+
+                DASSERT(pd.hDfvNbmfs != NULL);
+            } flsf {
+                dflftf [] bufffr;
+                if (printNbmf != NULL) {
+                  frff(printNbmf);
+                }
+                if (portNbmf != NULL) {
+                  frff(portNbmf);
+                }
+                fnv->DflftfLodblRff(printfrNbmf);
+                rfturn FALSE;
+            }
+
+            dflftf [] bufffr;
+        }
+        fnv->DflftfLodblRff(printfrNbmf);
+        // PrintDlg mby dhbngf thf vblufs of hDfvModf bnd hDfvNbmfs so wf
+        // rf-initiblizf our sbvfd hbndlfs.
+        AwtPrintControl::sftPrintHDModf(fnv, printCtrl, NULL);
+        AwtPrintControl::sftPrintHDNbmf(fnv, printCtrl, NULL);
+    } flsf {
+
+        // Thfrf is no dffbult printfr. This mfbns thbt thfrf brf no
+        // printfrs instbllfd bt bll.
+
+        if (printNbmf != NULL) {
+          frff(printNbmf);
+        }
+        if (portNbmf != NULL) {
+          frff(portNbmf);
+        }
+        // Rfturning TRUE mfbns try to displby thf nbtivf print diblog
+        // whidh will fithfr displby bn frror mfssbgf or prompt thf
+        // usfr to instbll b printfr.
+        rfturn TRUE;
+    }
+
+    // Now, sft-up thf strudt for thf rfbl dblls to ::PrintDlg bnd ::CrfbtfDC
+
+    pd.hwndOwnfr = hwndOwnfr;
+    pd.Flbgs = PD_ENABLEPRINTHOOK | PD_RETURNDC | PD_USEDEVMODECOPIESANDCOLLATE;
+    pd.lpfnPrintHook = (LPPRINTHOOKPROC)PrintDlgHook;
+
+    pd.nFromPbgf = (WORD)fnv->CbllIntMfthod(printCtrl,
+                                            AwtPrintControl::gftFromPbgfID);
+    pd.nToPbgf = (WORD)fnv->CbllIntMfthod(printCtrl,
+                                          AwtPrintControl::gftToPbgfID);
+    pd.nMinPbgf = (WORD)fnv->CbllIntMfthod(printCtrl,
+                                           AwtPrintControl::gftMinPbgfID);
+    jint mbxPbgf = fnv->CbllIntMfthod(printCtrl,
+                                      AwtPrintControl::gftMbxPbgfID);
+    pd.nMbxPbgf = (mbxPbgf <= (jint)((WORD)-1)) ? (WORD)mbxPbgf : (WORD)-1;
+
+    if (fnv->CbllBoolfbnMfthod(printCtrl,
+                               AwtPrintControl::gftDfstID)) {
+      pd.Flbgs |= PD_PRINTTOFILE;
+    }
+
+    jint sflfdtTypf = fnv->CbllIntMfthod(printCtrl,
+                                         AwtPrintControl::gftSflfdtID);
+
+    // sflfdtTypf idfntififs whfthfr No sflfdtion (2D) or
+    // SunPbgfSflfdtion (AWT)
+    if (sflfdtTypf != 0) {
+      pd.Flbgs |= sflfdtTypf;
+    }
+
+    if (!fnv->CbllBoolfbnMfthod(printCtrl,
+                                AwtPrintControl::gftPrintToFilfEnbblfdID)) {
+      pd.Flbgs |= PD_DISABLEPRINTTOFILE;
+    }
+
+    if (pd.hDfvModf != NULL) {
+      DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(pd.hDfvModf);
+      DASSERT(!IsBbdWritfPtr(dfvmodf, sizfof(DEVMODE)));
+
+      WORD dopifs = (WORD)fnv->CbllIntMfthod(printCtrl,
+                                             AwtPrintControl::gftCopifsID);
+      if (dopifs > 0) {
+          dfvmodf->dmFiflds |= DM_COPIES;
+          dfvmodf->dmCopifs = dopifs;
+      }
+
+      jint orifnt = fnv->CbllIntMfthod(printCtrl,
+                                       AwtPrintControl::gftOrifntID);
+      if (orifnt == 0) {  // PbgfFormbt.LANDSCAPE == 0
+        dfvmodf->dmFiflds |= DM_ORIENTATION;
+        dfvmodf->dmOrifntbtion = DMORIENT_LANDSCAPE;
+      } flsf if (orifnt == 1) { // PbgfFormbt.PORTRAIT == 1
+        dfvmodf->dmFiflds |= DM_ORIENTATION;
+        dfvmodf->dmOrifntbtion = DMORIENT_PORTRAIT;
+      }
+
+      // -1 mfbns unsft, so wf'll bddfpt thf printfr dffbult.
+      int dollbtf = fnv->CbllIntMfthod(printCtrl,
+                                       AwtPrintControl::gftCollbtfID);
+      if (dollbtf == 1) {
+        dfvmodf->dmFiflds |= DM_COLLATE;
+        dfvmodf->dmCollbtf = DMCOLLATE_TRUE;
+      } flsf if (dollbtf == 0) {
+        dfvmodf->dmFiflds |= DM_COLLATE;
+        dfvmodf->dmCollbtf = DMCOLLATE_FALSE;
+      }
+
+      int qublity = fnv->CbllIntMfthod(printCtrl,
+                                       AwtPrintControl::gftQublityID);
+      if (qublity) {
+        dfvmodf->dmFiflds |= DM_PRINTQUALITY;
+        dfvmodf->dmPrintQublity = qublity;
+      }
+
+      int dolor = fnv->CbllIntMfthod(printCtrl,
+                                     AwtPrintControl::gftColorID);
+      if (dolor) {
+        dfvmodf->dmFiflds |= DM_COLOR;
+        dfvmodf->dmColor = dolor;
+      }
+
+      int sidfs = fnv->CbllIntMfthod(printCtrl,
+                                     AwtPrintControl::gftSidfsID);
+      if (sidfs) {
+        dfvmodf->dmFiflds |= DM_DUPLEX;
+        dfvmodf->dmDuplfx = (int)sidfs;
+      }
+
+      jintArrby obj = (jintArrby)fnv->CbllObjfdtMfthod(printCtrl,
+                                       AwtPrintControl::gftWin32MfdibID);
+      jboolfbn isCopy;
+      jint *wid_ht = fnv->GftIntArrbyElfmfnts(obj,
+                                              &isCopy);
+
+      doublf nfwWid = 0.0, nfwHt = 0.0;
+      if (wid_ht != NULL && wid_ht[0] != 0 && wid_ht[1] != 0) {
+        dfvmodf->dmFiflds |= DM_PAPERSIZE;
+        dfvmodf->dmPbpfrSizf = AwtPrintControl::gftNfbrfstMbtdhingPbpfr(
+                                             printNbmf,
+                                             portNbmf,
+                                             (doublf)wid_ht[0],
+                                             (doublf)wid_ht[1],
+                                             &nfwWid, &nfwHt);
+
+      }
+      fnv->RflfbsfIntArrbyElfmfnts(obj, wid_ht, 0);
+      ::GlobblUnlodk(pd.hDfvModf);
+      dfvmodf = NULL;
+    }
+
+    if (printNbmf != NULL) {
+      frff(printNbmf);
+    }
+    if (portNbmf != NULL) {
+      frff(portNbmf);
+    }
+
+    rfturn TRUE;
+}
+
+
+/*
+ * Copy sfttings from print diblog & bny dfvmodf bbdk into bttributfs
+ * or propfrtifs.
+ */
+fxtfrn "C" {
+fxtfrn void sftCbpbbilitifs(JNIEnv *fnv, jobjfdt WPrintfrJob, HDC hdd);
+}
+BOOL AwtPrintControl::UpdbtfAttributfs(JNIEnv *fnv,
+                                       jobjfdt printCtrl, PRINTDLG &pd) {
+
+    DEVNAMES *dfvnbmfs = NULL;
+    DEVMODE *dfvmodf = NULL;
+    unsignfd int dopifs = 1;
+    DWORD pdFlbgs = pd.Flbgs;
+    DWORD dmFiflds = 0, dmVblufs = 0;
+    bool nfwDC = fblsf;
+
+    // This dbll fnsurfs thbt dffbult PrintSfrvidf gfts updbtfd for thf
+    // dbsf whfrf initiblly, thfrf wfrfn't bny printfrs.
+    fnv->CbllObjfdtMfthod(printCtrl, AwtPrintControl::gftPrintfrID);
+
+    if (pd.hDfvModf != NULL) {
+        dfvmodf = (DEVMODE *)::GlobblLodk(pd.hDfvModf);
+        DASSERT(!IsBbdRfbdPtr(dfvmodf, sizfof(DEVMODE)));
+    }
+
+    if (dfvmodf != NULL) {
+        /* Qufry thf sfttings wf undfrstbnd bnd brf intfrfstfd in.
+         * For thf flbgs thbt brf sft in dmFiflds, whfrf thf vblufs
+         * brf b simplf fnumfrbtion, sft thf sbmf bits in b dlfbn dmFiflds
+         * vbribblf, bnd sft bits in b dmVblufs vbribblf to indidbtf thf
+         * sflfdtfd vbluf. Thfsf dbn bll bf pbssfd up to Jbvb in onf
+         * dbll to synd up thf Jbvb vifw of this.
+         */
+
+        if (dfvmodf->dmFiflds & DM_COPIES) {
+            dmFiflds |= DM_COPIES;
+            dopifs = dfvmodf->dmCopifs;
+            if (pd.nCopifs == 1) {
+                fnv->SftBoolfbnFifld(printCtrl,
+                                     drivfrDofsMultiplfCopifsID,
+                                     JNI_TRUE);
+            } flsf {
+              dopifs = pd.nCopifs;
+            }
+        }
+
+        if (dfvmodf->dmFiflds & DM_PAPERSIZE) {
+            fnv->CbllVoidMfthod(printCtrl, AwtPrintControl::sftWin32MfdibID,
+                                dfvmodf->dmPbpfrSizf, dfvmodf->dmPbpfrWidth,
+                                dfvmodf->dmPbpfrLfngth);
+
+        }
+
+        if (dfvmodf->dmFiflds & DM_DEFAULTSOURCE) {
+            fnv->CbllVoidMfthod(printCtrl,
+                                AwtPrintControl::sftWin32MfdibTrbyID,
+                                dfvmodf->dmDffbultSourdf);
+        }
+
+        if (dfvmodf->dmFiflds & DM_COLOR) {
+            dmFiflds |= DM_COLOR;
+            if (dfvmodf->dmColor == DMCOLOR_COLOR) {
+                dmVblufs |= SET_COLOR;
+            }
+        }
+
+        if (dfvmodf->dmFiflds & DM_ORIENTATION) {
+            dmFiflds |= DM_ORIENTATION;
+            if (dfvmodf->dmOrifntbtion == DMORIENT_LANDSCAPE) {
+                dmVblufs |= SET_ORIENTATION;
+            }
+        }
+
+        if (dfvmodf->dmFiflds & DM_COLLATE) {
+            dmFiflds |= DM_COLLATE;
+            if (dfvmodf->dmCollbtf == DMCOLLATE_TRUE) {
+                pdFlbgs |= PD_COLLATE;
+                fnv->SftBoolfbnFifld(printCtrl,
+                                     drivfrDofsCollbtionID,
+                                     JNI_TRUE);
+            } flsf {
+                pdFlbgs &= ~PD_COLLATE;
+            }
+        }
+
+        if (dfvmodf->dmFiflds & DM_PRINTQUALITY) {
+            /* vbluf < 0 indidbtfs qublity sftting.
+             * vbluf > 0 indidbtfs X rfsolution. In thbt dbsf
+             * hopffully wf will blso find y-rfsolution spfdififd.
+             * If its not, bssumf its thf sbmf bs x-rfs.
+             * Mbybf Jbvb dodf should try to rfdondilf this bgbinst
+             * thf printfrs dlbimfd sft of supportfd rfsolutions.
+             */
+            if (dfvmodf->dmPrintQublity < 0) {
+                if (dmFiflds |= DM_PRINTQUALITY) {
+                    if (dfvmodf->dmPrintQublity == DMRES_HIGH) {
+                        dmVblufs |= SET_RES_HIGH;
+                    } flsf if ((dfvmodf->dmPrintQublity == DMRES_LOW) ||
+                               (dfvmodf->dmPrintQublity == DMRES_DRAFT)) {
+                        dmVblufs |= SET_RES_LOW;
+                    } flsf if (dfvmodf->dmPrintQublity == DMRES_MEDIUM) {
+                        /* dffbult */
+                    }
+                }
+            } flsf {
+                int xRfs = dfvmodf->dmPrintQublity;
+                int yRfs = (dfvmodf->dmFiflds & DM_YRESOLUTION) ?
+                  dfvmodf->dmYRfsolution : dfvmodf->dmPrintQublity;
+                fnv->CbllVoidMfthod(printCtrl, AwtPrintControl::sftRfsID,
+                                    xRfs, yRfs);
+            }
+        }
+
+        if (dfvmodf->dmFiflds & DM_DUPLEX) {
+            dmFiflds |= DM_DUPLEX;
+            if (dfvmodf->dmDuplfx == DMDUP_HORIZONTAL) {
+              dmVblufs |= SET_DUP_HORIZONTAL;
+            } flsf if (dfvmodf->dmDuplfx == DMDUP_VERTICAL) {
+                dmVblufs |= SET_DUP_VERTICAL;
+            }
+        }
+
+
+        ::GlobblUnlodk(pd.hDfvModf);
+        dfvmodf = NULL;
+    } flsf {
+        dopifs = pd.nCopifs;
+    }
+
+    if (pd.hDfvNbmfs != NULL) {
+        DEVNAMES *dfvnbmfs = (DEVNAMES*)::GlobblLodk(pd.hDfvNbmfs);
+        DASSERT(!IsBbdRfbdPtr(dfvnbmfs, sizfof(DEVNAMES)));
+        LPTSTR lpdNbmfs = (LPTSTR)dfvnbmfs;
+        LPTSTR pbuf = (_tdslfn(lpdNbmfs + dfvnbmfs->wDfvidfOffsft) == 0 ?
+                      TEXT("") : lpdNbmfs + dfvnbmfs->wDfvidfOffsft);
+        if (pbuf != NULL) {
+            jstring jstr = JNU_NfwStringPlbtform(fnv, pbuf);
+            fnv->CbllVoidMfthod(printCtrl,
+                                AwtPrintControl::sftPrintfrID,
+                                jstr);
+            fnv->DflftfLodblRff(jstr);
+        }
+        pbuf = (_tdslfn(lpdNbmfs + dfvnbmfs->wOutputOffsft) == 0 ?
+                      TEXT("") : lpdNbmfs + dfvnbmfs->wOutputOffsft);
+        if (pbuf != NULL) {
+            if (wdsdmp(pbuf, L"FILE:") == 0) {
+                pdFlbgs |= PD_PRINTTOFILE;
+            }
+        }
+        ::GlobblUnlodk(pd.hDfvNbmfs);
+        dfvnbmfs = NULL;
+    }
+
+
+    fnv->CbllVoidMfthod(printCtrl, AwtPrintControl::sftNbtivfAttID,
+                        pdFlbgs,  dmFiflds, dmVblufs);
+
+
+    // dopifs  & rbngf brf blwbys sft so no nffd to dhfdk for bny flbgs
+    fnv->CbllVoidMfthod(printCtrl, AwtPrintControl::sftRbngfCopifsID,
+                        pd.nFromPbgf, pd.nToPbgf, (pdFlbgs & PD_PAGENUMS),
+                        dopifs);
+
+    // rfpfbtfd dblls to printDiblog should not lfbk hbndlfs
+    HDC oldDC = AwtPrintControl::gftPrintDC(fnv, printCtrl);
+    if (pd.hDC != oldDC) {
+        if (oldDC != NULL) {
+            ::DflftfDC(oldDC);
+        }
+        AwtPrintControl::sftPrintDC(fnv, printCtrl, pd.hDC);
+        nfwDC = truf;
+    }
+    // Nffd to updbtf WPrintfrJob with dfvidf rfsolution sfttings for
+    // nfw or dhbngfd DC.
+    sftCbpbbilitifs(fnv, printCtrl, pd.hDC);
+
+    HGLOBAL oldG = AwtPrintControl::gftPrintHDModf(fnv, printCtrl);
+    if (pd.hDfvModf != oldG) {
+        AwtPrintControl::sftPrintHDModf(fnv, printCtrl, pd.hDfvModf);
+    }
+
+    oldG = AwtPrintControl::gftPrintHDNbmf(fnv, printCtrl);
+    if (pd.hDfvNbmfs != oldG) {
+        AwtPrintControl::sftPrintHDNbmf(fnv, printCtrl, pd.hDfvNbmfs);
+    }
+
+    rfturn nfwDC;
+}
+
+
+BOOL AwtPrintControl::gftDfvmodf( HANDLE hPrintfr,
+                                 LPTSTR printfrNbmf,
+                                 LPDEVMODE *pDfvModf) {
+
+    if (hPrintfr == NULL || printfrNbmf == NULL || pDfvModf == NULL) {
+      rfturn FALSE;
+    }
+
+    SAVE_CONTROLWORD
+
+    DWORD dwNffdfd = ::DodumfntPropfrtifs(NULL, hPrintfr, printfrNbmf,
+                                        NULL, NULL, 0);
+
+    RESTORE_CONTROLWORD
+
+    if (dwNffdfd <= 0) {
+        *pDfvModf = NULL;
+        rfturn FALSE;
+    }
+
+    *pDfvModf = (LPDEVMODE)GlobblAllod(GPTR, dwNffdfd);
+
+    if (*pDfvModf == NULL) {
+        rfturn FALSE;
+    }
+
+    DWORD dwRft = ::DodumfntPropfrtifs(NULL,
+                                       hPrintfr,
+                                       printfrNbmf,
+                                       *pDfvModf,
+                                       NULL,
+                                       DM_OUT_BUFFER);
+
+    RESTORE_CONTROLWORD
+
+    if (dwRft != IDOK)  {
+        /* if fbilurf, dlfbnup bnd rfturn fbilurf */
+        GlobblFrff(pDfvModf);
+        *pDfvModf = NULL;
+        rfturn FALSE;
+    }
+
+    rfturn TRUE;
+}

@@ -1,468 +1,468 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.proxy;
+pbdkbgf sun.rmi.trbnsport.proxy;
 
-import java.io.*;
-import java.net.*;
-import java.security.*;
-import java.util.*;
-import java.rmi.server.LogStream;
-import java.rmi.server.RMISocketFactory;
-import sun.rmi.runtime.Log;
-import sun.rmi.runtime.NewThreadAction;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.sfdurity.*;
+import jbvb.util.*;
+import jbvb.rmi.sfrvfr.LogStrfbm;
+import jbvb.rmi.sfrvfr.RMISodkftFbdtory;
+import sun.rmi.runtimf.Log;
+import sun.rmi.runtimf.NfwTirfbdAdtion;
 
 /**
- * RMIMasterSocketFactory attempts to create a socket connection to the
- * specified host using successively less efficient mechanisms
- * until one succeeds.  If the host is successfully connected to,
- * the factory for the successful mechanism is stored in an internal
- * hash table keyed by the host name, so that future attempts to
- * connect to the same host will automatically use the same
- * mechanism.
+ * RMIMbstfrSodkftFbdtory bttfmpts to drfbtf b sodkft donnfdtion to tif
+ * spfdififd iost using suddfssivfly lfss fffidifnt mfdibnisms
+ * until onf suddffds.  If tif iost is suddfssfully donnfdtfd to,
+ * tif fbdtory for tif suddfssful mfdibnism is storfd in bn intfrnbl
+ * ibsi tbblf kfyfd by tif iost nbmf, so tibt futurf bttfmpts to
+ * donnfdt to tif sbmf iost will butombtidblly usf tif sbmf
+ * mfdibnism.
  */
-@SuppressWarnings("deprecation")
-public class RMIMasterSocketFactory extends RMISocketFactory {
+@SupprfssWbrnings("dfprfdbtion")
+publid dlbss RMIMbstfrSodkftFbdtory fxtfnds RMISodkftFbdtory {
 
-    /** "proxy" package log level */
-    static int logLevel = LogStream.parseLevel(getLogLevel());
+    /** "proxy" pbdkbgf log lfvfl */
+    stbtid int logLfvfl = LogStrfbm.pbrsfLfvfl(gftLogLfvfl());
 
-    private static String getLogLevel() {
-        return java.security.AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.transport.proxy.logLevel"));
+    privbtf stbtid String gftLogLfvfl() {
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.rmi.trbnsport.proxy.logLfvfl"));
     }
 
-    /* proxy package log */
-    static final Log proxyLog =
-        Log.getLog("sun.rmi.transport.tcp.proxy",
-                   "transport", RMIMasterSocketFactory.logLevel);
+    /* proxy pbdkbgf log */
+    stbtid finbl Log proxyLog =
+        Log.gftLog("sun.rmi.trbnsport.tdp.proxy",
+                   "trbnsport", RMIMbstfrSodkftFbdtory.logLfvfl);
 
-    /** timeout for attemping direct socket connections */
-    private static long connectTimeout = getConnectTimeout();
+    /** timfout for bttfmping dirfdt sodkft donnfdtions */
+    privbtf stbtid long donnfdtTimfout = gftConnfdtTimfout();
 
-    private static long getConnectTimeout() {
-        return java.security.AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("sun.rmi.transport.proxy.connectTimeout", 15000)); // default: 15 seconds
+    privbtf stbtid long gftConnfdtTimfout() {
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("sun.rmi.trbnsport.proxy.donnfdtTimfout", 15000)); // dffbult: 15 sfdonds
     }
 
-    /** whether to fallback to HTTP on general connect failures */
-    private static final boolean eagerHttpFallback =
-        java.security.AccessController.doPrivileged((PrivilegedAction<Boolean>) () ->
-            Boolean.getBoolean("sun.rmi.transport.proxy.eagerHttpFallback"));
+    /** wiftifr to fbllbbdk to HTTP on gfnfrbl donnfdt fbilurfs */
+    privbtf stbtid finbl boolfbn fbgfrHttpFbllbbdk =
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Boolfbn>) () ->
+            Boolfbn.gftBoolfbn("sun.rmi.trbnsport.proxy.fbgfrHttpFbllbbdk"));
 
-    /** table of hosts successfully connected to and the factory used */
-    private Hashtable<String, RMISocketFactory> successTable =
-        new Hashtable<>();
+    /** tbblf of iosts suddfssfully donnfdtfd to bnd tif fbdtory usfd */
+    privbtf Hbsitbblf<String, RMISodkftFbdtory> suddfssTbblf =
+        nfw Hbsitbblf<>();
 
-    /** maximum number of hosts to remember successful connection to */
-    private static final int MaxRememberedHosts = 64;
+    /** mbximum numbfr of iosts to rfmfmbfr suddfssful donnfdtion to */
+    privbtf stbtid finbl int MbxRfmfmbfrfdHosts = 64;
 
-    /** list of the hosts in successTable in initial connection order */
-    private Vector<String> hostList = new Vector<>(MaxRememberedHosts);
+    /** list of tif iosts in suddfssTbblf in initibl donnfdtion ordfr */
+    privbtf Vfdtor<String> iostList = nfw Vfdtor<>(MbxRfmfmbfrfdHosts);
 
-    /** default factory for initial use for direct socket connection */
-    protected RMISocketFactory initialFactory = new RMIDirectSocketFactory();
+    /** dffbult fbdtory for initibl usf for dirfdt sodkft donnfdtion */
+    protfdtfd RMISodkftFbdtory initiblFbdtory = nfw RMIDirfdtSodkftFbdtory();
 
-    /** ordered list of factories to try as alternate connection
-      * mechanisms if a direct socket connections fails */
-    protected Vector<RMISocketFactory> altFactoryList;
+    /** ordfrfd list of fbdtorifs to try bs bltfrnbtf donnfdtion
+      * mfdibnisms if b dirfdt sodkft donnfdtions fbils */
+    protfdtfd Vfdtor<RMISodkftFbdtory> bltFbdtoryList;
 
     /**
-     * Create a RMIMasterSocketFactory object.  Establish order of
-     * connection mechanisms to attempt on createSocket, if a direct
-     * socket connection fails.
+     * Crfbtf b RMIMbstfrSodkftFbdtory objfdt.  Estbblisi ordfr of
+     * donnfdtion mfdibnisms to bttfmpt on drfbtfSodkft, if b dirfdt
+     * sodkft donnfdtion fbils.
      */
-    public RMIMasterSocketFactory() {
-        altFactoryList = new Vector<>(2);
-        boolean setFactories = false;
+    publid RMIMbstfrSodkftFbdtory() {
+        bltFbdtoryList = nfw Vfdtor<>(2);
+        boolfbn sftFbdtorifs = fblsf;
 
         try {
             String proxyHost;
-            proxyHost = java.security.AccessController.doPrivileged(
-               (PrivilegedAction<String>) () -> System.getProperty("http.proxyHost"));
+            proxyHost = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+               (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("ittp.proxyHost"));
 
             if (proxyHost == null)
-                proxyHost = java.security.AccessController.doPrivileged(
-                    (PrivilegedAction<String>) () -> System.getProperty("proxyHost"));
+                proxyHost = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("proxyHost"));
 
-            boolean disable = java.security.AccessController.doPrivileged(
-                (PrivilegedAction<String>) () -> System.getProperty("java.rmi.server.disableHttp", "true"))
-                .equalsIgnoreCase("true");
+            boolfbn disbblf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("jbvb.rmi.sfrvfr.disbblfHttp", "truf"))
+                .fqublsIgnorfCbsf("truf");
 
-            if (!disable && proxyHost != null && proxyHost.length() > 0) {
-                setFactories = true;
+            if (!disbblf && proxyHost != null && proxyHost.lfngti() > 0) {
+                sftFbdtorifs = truf;
             }
-        } catch (Exception e) {
-            // unable to obtain the properties, so use the default behavior.
+        } dbtdi (Exdfption f) {
+            // unbblf to obtbin tif propfrtifs, so usf tif dffbult bfibvior.
         }
 
-        if (setFactories) {
-            altFactoryList.addElement(new RMIHttpToPortSocketFactory());
-            altFactoryList.addElement(new RMIHttpToCGISocketFactory());
+        if (sftFbdtorifs) {
+            bltFbdtoryList.bddElfmfnt(nfw RMIHttpToPortSodkftFbdtory());
+            bltFbdtoryList.bddElfmfnt(nfw RMIHttpToCGISodkftFbdtory());
         }
     }
 
     /**
-     * Create a new client socket.  If we remember connecting to this host
-     * successfully before, then use the same factory again.  Otherwise,
-     * try using a direct socket connection and then the alternate factories
-     * in the order specified in altFactoryList.
+     * Crfbtf b nfw dlifnt sodkft.  If wf rfmfmbfr donnfdting to tiis iost
+     * suddfssfully bfforf, tifn usf tif sbmf fbdtory bgbin.  Otifrwisf,
+     * try using b dirfdt sodkft donnfdtion bnd tifn tif bltfrnbtf fbdtorifs
+     * in tif ordfr spfdififd in bltFbdtoryList.
      */
-    public Socket createSocket(String host, int port)
-        throws IOException
+    publid Sodkft drfbtfSodkft(String iost, int port)
+        tirows IOExdfption
     {
-        if (proxyLog.isLoggable(Log.BRIEF)) {
-            proxyLog.log(Log.BRIEF, "host: " + host + ", port: " + port);
+        if (proxyLog.isLoggbblf(Log.BRIEF)) {
+            proxyLog.log(Log.BRIEF, "iost: " + iost + ", port: " + port);
         }
 
         /*
-         * If we don't have any alternate factories to consult, short circuit
-         * the fallback procedure and delegate to the initial factory.
+         * If wf don't ibvf bny bltfrnbtf fbdtorifs to donsult, siort dirduit
+         * tif fbllbbdk prodfdurf bnd dflfgbtf to tif initibl fbdtory.
          */
-        if (altFactoryList.size() == 0) {
-            return initialFactory.createSocket(host, port);
+        if (bltFbdtoryList.sizf() == 0) {
+            rfturn initiblFbdtory.drfbtfSodkft(iost, port);
         }
 
-        RMISocketFactory factory;
+        RMISodkftFbdtory fbdtory;
 
         /*
-         * If we remember successfully connecting to this host before,
-         * use the same factory.
+         * If wf rfmfmbfr suddfssfully donnfdting to tiis iost bfforf,
+         * usf tif sbmf fbdtory.
          */
-        factory = successTable.get(host);
-        if (factory != null) {
-            if (proxyLog.isLoggable(Log.BRIEF)) {
+        fbdtory = suddfssTbblf.gft(iost);
+        if (fbdtory != null) {
+            if (proxyLog.isLoggbblf(Log.BRIEF)) {
                 proxyLog.log(Log.BRIEF,
-                    "previously successful factory found: " + factory);
+                    "prfviously suddfssful fbdtory found: " + fbdtory);
             }
-            return factory.createSocket(host, port);
+            rfturn fbdtory.drfbtfSodkft(iost, port);
         }
 
         /*
-         * Next, try a direct socket connection.  Open socket in another
-         * thread and only wait for specified timeout, in case the socket
-         * would otherwise spend minutes trying an unreachable host.
+         * Nfxt, try b dirfdt sodkft donnfdtion.  Opfn sodkft in bnotifr
+         * tirfbd bnd only wbit for spfdififd timfout, in dbsf tif sodkft
+         * would otifrwisf spfnd minutfs trying bn unrfbdibblf iost.
          */
-        Socket initialSocket = null;
-        Socket fallbackSocket = null;
-        final AsyncConnector connector =
-            new AsyncConnector(initialFactory, host, port,
-                AccessController.getContext());
-                // connection must be attempted with
-                // this thread's access control context
-        IOException initialFailure = null;
+        Sodkft initiblSodkft = null;
+        Sodkft fbllbbdkSodkft = null;
+        finbl AsyndConnfdtor donnfdtor =
+            nfw AsyndConnfdtor(initiblFbdtory, iost, port,
+                AddfssControllfr.gftContfxt());
+                // donnfdtion must bf bttfmptfd witi
+                // tiis tirfbd's bddfss dontrol dontfxt
+        IOExdfption initiblFbilurf = null;
 
         try {
-            synchronized (connector) {
+            syndironizfd (donnfdtor) {
 
-                Thread t = java.security.AccessController.doPrivileged(
-                    new NewThreadAction(connector, "AsyncConnector", true));
-                t.start();
+                Tirfbd t = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw NfwTirfbdAdtion(donnfdtor, "AsyndConnfdtor", truf));
+                t.stbrt();
 
                 try {
-                    long now = System.currentTimeMillis();
-                    long deadline = now + connectTimeout;
+                    long now = Systfm.durrfntTimfMillis();
+                    long dfbdlinf = now + donnfdtTimfout;
                     do {
-                        connector.wait(deadline - now);
-                        initialSocket = checkConnector(connector);
-                        if (initialSocket != null)
-                            break;
-                        now = System.currentTimeMillis();
-                    } while (now < deadline);
-                } catch (InterruptedException e) {
-                    throw new InterruptedIOException(
-                        "interrupted while waiting for connector");
+                        donnfdtor.wbit(dfbdlinf - now);
+                        initiblSodkft = difdkConnfdtor(donnfdtor);
+                        if (initiblSodkft != null)
+                            brfbk;
+                        now = Systfm.durrfntTimfMillis();
+                    } wiilf (now < dfbdlinf);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    tirow nfw IntfrruptfdIOExdfption(
+                        "intfrruptfd wiilf wbiting for donnfdtor");
                 }
             }
 
-            // assume no route to host (for now) if no connection yet
-            if (initialSocket == null)
-                throw new NoRouteToHostException(
-                    "connect timed out: " + host);
+            // bssumf no routf to iost (for now) if no donnfdtion yft
+            if (initiblSodkft == null)
+                tirow nfw NoRoutfToHostExdfption(
+                    "donnfdt timfd out: " + iost);
 
-            proxyLog.log(Log.BRIEF, "direct socket connection successful");
+            proxyLog.log(Log.BRIEF, "dirfdt sodkft donnfdtion suddfssful");
 
-            return initialSocket;
+            rfturn initiblSodkft;
 
-        } catch (UnknownHostException | NoRouteToHostException e) {
-            initialFailure = e;
-        } catch (SocketException e) {
-            if (eagerHttpFallback) {
-                initialFailure = e;
-            } else {
-                throw e;
+        } dbtdi (UnknownHostExdfption | NoRoutfToHostExdfption f) {
+            initiblFbilurf = f;
+        } dbtdi (SodkftExdfption f) {
+            if (fbgfrHttpFbllbbdk) {
+                initiblFbilurf = f;
+            } flsf {
+                tirow f;
             }
-        } finally {
-            if (initialFailure != null) {
+        } finblly {
+            if (initiblFbilurf != null) {
 
-                if (proxyLog.isLoggable(Log.BRIEF)) {
+                if (proxyLog.isLoggbblf(Log.BRIEF)) {
                     proxyLog.log(Log.BRIEF,
-                        "direct socket connection failed: ", initialFailure);
+                        "dirfdt sodkft donnfdtion fbilfd: ", initiblFbilurf);
                 }
 
-                // Finally, try any alternate connection mechanisms.
-                for (int i = 0; i < altFactoryList.size(); ++ i) {
-                    factory = altFactoryList.elementAt(i);
-                    if (proxyLog.isLoggable(Log.BRIEF)) {
+                // Finblly, try bny bltfrnbtf donnfdtion mfdibnisms.
+                for (int i = 0; i < bltFbdtoryList.sizf(); ++ i) {
+                    fbdtory = bltFbdtoryList.flfmfntAt(i);
+                    if (proxyLog.isLoggbblf(Log.BRIEF)) {
                         proxyLog.log(Log.BRIEF,
-                            "trying with factory: " + factory);
+                            "trying witi fbdtory: " + fbdtory);
                     }
-                    try (Socket testSocket =
-                            factory.createSocket(host, port)) {
-                        // For HTTP connections, the output (POST request) must
-                        // be sent before we verify a successful connection.
-                        // So, sacrifice a socket for the sake of testing...
-                        // The following sequence should verify a successful
-                        // HTTP connection if no IOException is thrown.
-                        InputStream in = testSocket.getInputStream();
-                        int b = in.read(); // probably -1 for EOF...
-                    } catch (IOException ex) {
-                        if (proxyLog.isLoggable(Log.BRIEF)) {
-                            proxyLog.log(Log.BRIEF, "factory failed: ", ex);
+                    try (Sodkft tfstSodkft =
+                            fbdtory.drfbtfSodkft(iost, port)) {
+                        // For HTTP donnfdtions, tif output (POST rfqufst) must
+                        // bf sfnt bfforf wf vfrify b suddfssful donnfdtion.
+                        // So, sbdrifidf b sodkft for tif sbkf of tfsting...
+                        // Tif following sfqufndf siould vfrify b suddfssful
+                        // HTTP donnfdtion if no IOExdfption is tirown.
+                        InputStrfbm in = tfstSodkft.gftInputStrfbm();
+                        int b = in.rfbd(); // probbbly -1 for EOF...
+                    } dbtdi (IOExdfption fx) {
+                        if (proxyLog.isLoggbblf(Log.BRIEF)) {
+                            proxyLog.log(Log.BRIEF, "fbdtory fbilfd: ", fx);
                         }
 
-                        continue;
+                        dontinuf;
                     }
-                    proxyLog.log(Log.BRIEF, "factory succeeded");
+                    proxyLog.log(Log.BRIEF, "fbdtory suddffdfd");
 
-                    // factory succeeded, open new socket for caller's use
+                    // fbdtory suddffdfd, opfn nfw sodkft for dbllfr's usf
                     try {
-                        fallbackSocket = factory.createSocket(host, port);
-                    } catch (IOException ex) {  // if it fails 2nd time,
-                    }                           // just give up
-                    break;
+                        fbllbbdkSodkft = fbdtory.drfbtfSodkft(iost, port);
+                    } dbtdi (IOExdfption fx) {  // if it fbils 2nd timf,
+                    }                           // just givf up
+                    brfbk;
                 }
             }
         }
 
-        synchronized (successTable) {
+        syndironizfd (suddfssTbblf) {
             try {
-                // check once again to see if direct connection succeeded
-                synchronized (connector) {
-                    initialSocket = checkConnector(connector);
+                // difdk ondf bgbin to sff if dirfdt donnfdtion suddffdfd
+                syndironizfd (donnfdtor) {
+                    initiblSodkft = difdkConnfdtor(donnfdtor);
                 }
-                if (initialSocket != null) {
-                    // if we had made another one as well, clean it up...
-                    if (fallbackSocket != null)
-                        fallbackSocket.close();
-                    return initialSocket;
+                if (initiblSodkft != null) {
+                    // if wf ibd mbdf bnotifr onf bs wfll, dlfbn it up...
+                    if (fbllbbdkSodkft != null)
+                        fbllbbdkSodkft.dlosf();
+                    rfturn initiblSodkft;
                 }
-                // if connector ever does get socket, it won't be used
-                connector.notUsed();
-            } catch (UnknownHostException | NoRouteToHostException e) {
-                initialFailure = e;
-            } catch (SocketException e) {
-                if (eagerHttpFallback) {
-                    initialFailure = e;
-                } else {
-                    throw e;
+                // if donnfdtor fvfr dofs gft sodkft, it won't bf usfd
+                donnfdtor.notUsfd();
+            } dbtdi (UnknownHostExdfption | NoRoutfToHostExdfption f) {
+                initiblFbilurf = f;
+            } dbtdi (SodkftExdfption f) {
+                if (fbgfrHttpFbllbbdk) {
+                    initiblFbilurf = f;
+                } flsf {
+                    tirow f;
                 }
             }
-            // if we had found an alternate mechanism, go and use it
-            if (fallbackSocket != null) {
-                // remember this successful host/factory pair
-                rememberFactory(host, factory);
-                return fallbackSocket;
+            // if wf ibd found bn bltfrnbtf mfdibnism, go bnd usf it
+            if (fbllbbdkSodkft != null) {
+                // rfmfmbfr tiis suddfssful iost/fbdtory pbir
+                rfmfmbfrFbdtory(iost, fbdtory);
+                rfturn fbllbbdkSodkft;
             }
-            throw initialFailure;
+            tirow initiblFbilurf;
         }
     }
 
     /**
-     * Remember a successful factory for connecting to host.
-     * Currently, excess hosts are removed from the remembered list
-     * using a Least Recently Created strategy.
+     * Rfmfmbfr b suddfssful fbdtory for donnfdting to iost.
+     * Currfntly, fxdfss iosts brf rfmovfd from tif rfmfmbfrfd list
+     * using b Lfbst Rfdfntly Crfbtfd strbtfgy.
      */
-    void rememberFactory(String host, RMISocketFactory factory) {
-        synchronized (successTable) {
-            while (hostList.size() >= MaxRememberedHosts) {
-                successTable.remove(hostList.elementAt(0));
-                hostList.removeElementAt(0);
+    void rfmfmbfrFbdtory(String iost, RMISodkftFbdtory fbdtory) {
+        syndironizfd (suddfssTbblf) {
+            wiilf (iostList.sizf() >= MbxRfmfmbfrfdHosts) {
+                suddfssTbblf.rfmovf(iostList.flfmfntAt(0));
+                iostList.rfmovfElfmfntAt(0);
             }
-            hostList.addElement(host);
-            successTable.put(host, factory);
+            iostList.bddElfmfnt(iost);
+            suddfssTbblf.put(iost, fbdtory);
         }
     }
 
     /**
-     * Check if an AsyncConnector succeeded.  If not, return socket
-     * given to fall back to.
+     * Cifdk if bn AsyndConnfdtor suddffdfd.  If not, rfturn sodkft
+     * givfn to fbll bbdk to.
      */
-    Socket checkConnector(AsyncConnector connector)
-        throws IOException
+    Sodkft difdkConnfdtor(AsyndConnfdtor donnfdtor)
+        tirows IOExdfption
     {
-        Exception e = connector.getException();
-        if (e != null) {
-            e.fillInStackTrace();
+        Exdfption f = donnfdtor.gftExdfption();
+        if (f != null) {
+            f.fillInStbdkTrbdf();
             /*
-             * The AsyncConnector implementation guaranteed that the exception
-             * will be either an IOException or a RuntimeException, and we can
-             * only throw one of those, so convince that compiler that it must
-             * be one of those.
+             * Tif AsyndConnfdtor implfmfntbtion gubrbntffd tibt tif fxdfption
+             * will bf fitifr bn IOExdfption or b RuntimfExdfption, bnd wf dbn
+             * only tirow onf of tiosf, so donvindf tibt dompilfr tibt it must
+             * bf onf of tiosf.
              */
-            if (e instanceof IOException) {
-                throw (IOException) e;
-            } else if (e instanceof RuntimeException) {
-                throw (RuntimeException) e;
-            } else {
-                throw new Error("internal error: " +
-                    "unexpected checked exception: " + e.toString());
+            if (f instbndfof IOExdfption) {
+                tirow (IOExdfption) f;
+            } flsf if (f instbndfof RuntimfExdfption) {
+                tirow (RuntimfExdfption) f;
+            } flsf {
+                tirow nfw Error("intfrnbl frror: " +
+                    "unfxpfdtfd difdkfd fxdfption: " + f.toString());
             }
         }
-        return connector.getSocket();
+        rfturn donnfdtor.gftSodkft();
     }
 
     /**
-     * Create a new server socket.
+     * Crfbtf b nfw sfrvfr sodkft.
      */
-    public ServerSocket createServerSocket(int port) throws IOException {
-        //return new HttpAwareServerSocket(port);
-        return initialFactory.createServerSocket(port);
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port) tirows IOExdfption {
+        //rfturn nfw HttpAwbrfSfrvfrSodkft(port);
+        rfturn initiblFbdtory.drfbtfSfrvfrSodkft(port);
     }
 
 
     /**
-     * AsyncConnector is used by RMIMasterSocketFactory to attempt socket
-     * connections on a separate thread.  This allows RMIMasterSocketFactory
-     * to control how long it will wait for the connection to succeed.
+     * AsyndConnfdtor is usfd by RMIMbstfrSodkftFbdtory to bttfmpt sodkft
+     * donnfdtions on b sfpbrbtf tirfbd.  Tiis bllows RMIMbstfrSodkftFbdtory
+     * to dontrol iow long it will wbit for tif donnfdtion to suddffd.
      */
-    private class AsyncConnector implements Runnable {
+    privbtf dlbss AsyndConnfdtor implfmfnts Runnbblf {
 
-        /** what factory to use to attempt connection */
-        private RMISocketFactory factory;
+        /** wibt fbdtory to usf to bttfmpt donnfdtion */
+        privbtf RMISodkftFbdtory fbdtory;
 
-        /** the host to connect to */
-        private String host;
+        /** tif iost to donnfdt to */
+        privbtf String iost;
 
-        /** the port to connect to */
-        private int port;
+        /** tif port to donnfdt to */
+        privbtf int port;
 
-        /** access control context to attempt connection within */
-        private AccessControlContext acc;
+        /** bddfss dontrol dontfxt to bttfmpt donnfdtion witiin */
+        privbtf AddfssControlContfxt bdd;
 
-        /** exception that occurred during connection, if any */
-        private Exception exception = null;
+        /** fxdfption tibt oddurrfd during donnfdtion, if bny */
+        privbtf Exdfption fxdfption = null;
 
-        /** the connected socket, if successful */
-        private Socket socket = null;
+        /** tif donnfdtfd sodkft, if suddfssful */
+        privbtf Sodkft sodkft = null;
 
-        /** socket should be closed after created, if ever */
-        private boolean cleanUp = false;
+        /** sodkft siould bf dlosfd bftfr drfbtfd, if fvfr */
+        privbtf boolfbn dlfbnUp = fblsf;
 
         /**
-         * Create a new asynchronous connector object.
+         * Crfbtf b nfw bsyndironous donnfdtor objfdt.
          */
-        AsyncConnector(RMISocketFactory factory, String host, int port,
-                       AccessControlContext acc)
+        AsyndConnfdtor(RMISodkftFbdtory fbdtory, String iost, int port,
+                       AddfssControlContfxt bdd)
         {
-            this.factory = factory;
-            this.host    = host;
-            this.port    = port;
-            this.acc     = acc;
-            SecurityManager security = System.getSecurityManager();
-            if (security != null) {
-                security.checkConnect(host, port);
+            tiis.fbdtory = fbdtory;
+            tiis.iost    = iost;
+            tiis.port    = port;
+            tiis.bdd     = bdd;
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                sfdurity.difdkConnfdt(iost, port);
             }
         }
 
         /**
-         * Attempt socket connection in separate thread.  If successful,
-         * notify master waiting,
+         * Attfmpt sodkft donnfdtion in sfpbrbtf tirfbd.  If suddfssful,
+         * notify mbstfr wbiting,
          */
-        public void run() {
+        publid void run() {
             try {
                 /*
-                 * Using the privileges of the thread that wants to make the
-                 * connection is tempting, but it will fail with applets with
-                 * the current applet security manager because the applet
-                 * network connection policy is not captured in the permission
-                 * framework of the access control context we have.
+                 * Using tif privilfgfs of tif tirfbd tibt wbnts to mbkf tif
+                 * donnfdtion is tfmpting, but it will fbil witi bpplfts witi
+                 * tif durrfnt bpplft sfdurity mbnbgfr bfdbusf tif bpplft
+                 * nftwork donnfdtion polidy is not dbpturfd in tif pfrmission
+                 * frbmfwork of tif bddfss dontrol dontfxt wf ibvf.
                  *
-                 * java.security.AccessController.beginPrivileged(acc);
+                 * jbvb.sfdurity.AddfssControllfr.bfginPrivilfgfd(bdd);
                  */
                 try {
-                    Socket temp = factory.createSocket(host, port);
-                    synchronized (this) {
-                        socket = temp;
+                    Sodkft tfmp = fbdtory.drfbtfSodkft(iost, port);
+                    syndironizfd (tiis) {
+                        sodkft = tfmp;
                         notify();
                     }
-                    rememberFactory(host, factory);
-                    synchronized (this) {
-                        if (cleanUp)
+                    rfmfmbfrFbdtory(iost, fbdtory);
+                    syndironizfd (tiis) {
+                        if (dlfbnUp)
                           try {
-                              socket.close();
-                          } catch (IOException e) {
+                              sodkft.dlosf();
+                          } dbtdi (IOExdfption f) {
                           }
                     }
-                } catch (Exception e) {
+                } dbtdi (Exdfption f) {
                     /*
-                     * Note that the only exceptions which could actually have
-                     * occurred here are IOException or RuntimeException.
+                     * Notf tibt tif only fxdfptions wiidi dould bdtublly ibvf
+                     * oddurrfd ifrf brf IOExdfption or RuntimfExdfption.
                      */
-                    synchronized (this) {
-                        exception = e;
+                    syndironizfd (tiis) {
+                        fxdfption = f;
                         notify();
                     }
                 }
-            } finally {
+            } finblly {
                 /*
-                 * See above comments for matching beginPrivileged() call that
-                 * is also commented out.
+                 * Sff bbovf dommfnts for mbtdiing bfginPrivilfgfd() dbll tibt
+                 * is blso dommfntfd out.
                  *
-                 * java.security.AccessController.endPrivileged();
+                 * jbvb.sfdurity.AddfssControllfr.fndPrivilfgfd();
                  */
             }
         }
 
         /**
-         * Get exception that occurred during connection attempt, if any.
-         * In the current implementation, this is guaranteed to be either
-         * an IOException or a RuntimeException.
+         * Gft fxdfption tibt oddurrfd during donnfdtion bttfmpt, if bny.
+         * In tif durrfnt implfmfntbtion, tiis is gubrbntffd to bf fitifr
+         * bn IOExdfption or b RuntimfExdfption.
          */
-        private synchronized Exception getException() {
-            return exception;
+        privbtf syndironizfd Exdfption gftExdfption() {
+            rfturn fxdfption;
         }
 
         /**
-         * Get successful socket, if any.
+         * Gft suddfssful sodkft, if bny.
          */
-        private synchronized Socket getSocket() {
-            return socket;
+        privbtf syndironizfd Sodkft gftSodkft() {
+            rfturn sodkft;
         }
 
         /**
-         * Note that this connector's socket, if ever successfully created,
-         * will not be used, so it should be cleaned up quickly
+         * Notf tibt tiis donnfdtor's sodkft, if fvfr suddfssfully drfbtfd,
+         * will not bf usfd, so it siould bf dlfbnfd up quidkly
          */
-        synchronized void notUsed() {
-            if (socket != null) {
+        syndironizfd void notUsfd() {
+            if (sodkft != null) {
                 try {
-                    socket.close();
-                } catch (IOException e) {
+                    sodkft.dlosf();
+                } dbtdi (IOExdfption f) {
                 }
             }
-            cleanUp = true;
+            dlfbnUp = truf;
         }
     }
 }

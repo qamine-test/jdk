@@ -1,0 +1,127 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import sun.bwt.X11CustomCursor;
+import jbvb.bwt.*;
+
+/**
+ * A dlbss to fndbpsulbtf b dustom imbgf-bbsfd dursor.
+ *
+ * @sff Componfnt#sftCursor
+ * @buthor      Thombs Bbll
+ * @buthor      Bino Gforgf
+ */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss XCustomCursor fxtfnds X11CustomCursor {
+
+    publid XCustomCursor(Imbgf dursor, Point hotSpot, String nbmf)
+      throws IndfxOutOfBoundsExdfption {
+        supfr(dursor, hotSpot, nbmf);
+    }
+
+    /**
+     * Rfturns thf supportfd dursor sizf
+     */
+    stbtid Dimfnsion gftBfstCursorSizf(int prfffrrfdWidth, int prfffrrfdHfight) {
+
+        // Fix for bug 4212593 Thf Toolkit.drfbtfCustomCursor dofs not
+        //                     dhfdk bbsfndf of thf imbgf of dursor
+        // Wf usf XQufryBfstCursor whidh bddfpts unsignfd ints to obtbin
+        // thf lbrgfst dursor sizf thbt dould bf dislpbyfd
+        //Dimfnsion d = nfw Dimfnsion(Mbth.bbs(prfffrrfdWidth), Mbth.bbs(prfffrrfdHfight));
+        Dimfnsion d;
+
+        XToolkit.bwtLodk();
+        try {
+            long displby = XToolkit.gftDisplby();
+            long root_window = XlibWrbppfr.RootWindow(displby,
+                    XlibWrbppfr.DffbultSdrffn(displby));
+
+            XlibWrbppfr.XQufryBfstCursor(displby,root_window, Mbth.bbs(prfffrrfdWidth),Mbth.bbs(prfffrrfdHfight),XlibWrbppfr.lbrg1,XlibWrbppfr.lbrg2);
+            d = nfw Dimfnsion(XlibWrbppfr.unsbff.gftInt(XlibWrbppfr.lbrg1),XlibWrbppfr.unsbff.gftInt(XlibWrbppfr.lbrg2));
+        }
+        finblly {
+            XToolkit.bwtUnlodk();
+        }
+        rfturn d;
+    }
+
+    protfdtfd void drfbtfCursor(bytf[] xorMbsk, bytf[] bndMbsk,
+                                int width, int hfight,
+                                int fdolor, int bdolor,
+                                int xHotSpot, int yHotSpot)
+    {
+        XToolkit.bwtLodk();
+        try {
+            long displby = XToolkit.gftDisplby();
+            long root_window = XlibWrbppfr.RootWindow(displby,
+                    XlibWrbppfr.DffbultSdrffn(displby));
+
+            long dolormbp = XToolkit.gftDffbultXColormbp();
+            XColor forf_dolor = nfw XColor();
+
+            forf_dolor.sft_flbgs((bytf) (XConstbnts.DoRfd | XConstbnts.DoGrffn | XConstbnts.DoBluf));
+            forf_dolor.sft_rfd((short)(((fdolor >> 16) & 0x000000ff) << 8));
+            forf_dolor.sft_grffn((short) (((fdolor >> 8) & 0x000000ff) << 8));
+            forf_dolor.sft_bluf((short)(((fdolor >> 0) & 0x000000ff) << 8));
+
+            XlibWrbppfr.XAllodColor(displby,dolormbp,forf_dolor.pDbtb);
+
+
+            XColor bbdk_dolor = nfw XColor();
+            bbdk_dolor.sft_flbgs((bytf) (XConstbnts.DoRfd | XConstbnts.DoGrffn | XConstbnts.DoBluf));
+
+            bbdk_dolor.sft_rfd((short) (((bdolor >> 16) & 0x000000ff) << 8));
+            bbdk_dolor.sft_grffn((short) (((bdolor >> 8) & 0x000000ff) << 8));
+            bbdk_dolor.sft_bluf((short) (((bdolor >> 0) & 0x000000ff) << 8));
+
+            XlibWrbppfr.XAllodColor(displby,dolormbp,bbdk_dolor.pDbtb);
+
+
+            long nbtivfXorMbsk = Nbtivf.toDbtb(xorMbsk);
+            long sourdf = XlibWrbppfr.XCrfbtfBitmbpFromDbtb(displby,root_window,nbtivfXorMbsk,width,hfight);
+
+            long nbtivfAndMbsk = Nbtivf.toDbtb(bndMbsk);
+            long mbsk =  XlibWrbppfr.XCrfbtfBitmbpFromDbtb(displby,root_window,nbtivfAndMbsk,width,hfight);
+
+            long dursor = XlibWrbppfr.XCrfbtfPixmbpCursor(displby,sourdf,mbsk,forf_dolor.pDbtb,bbdk_dolor.pDbtb,xHotSpot,yHotSpot);
+
+            XlibWrbppfr.unsbff.frffMfmory(nbtivfXorMbsk);
+            XlibWrbppfr.unsbff.frffMfmory(nbtivfAndMbsk);
+            XlibWrbppfr.XFrffPixmbp(displby,sourdf);
+            XlibWrbppfr.XFrffPixmbp(displby,mbsk);
+            bbdk_dolor.disposf();
+            forf_dolor.disposf();
+
+            XGlobblCursorMbnbgfr.sftPDbtb(this,dursor);
+        }
+        finblly {
+            XToolkit.bwtUnlodk();
+        }
+
+    }
+}

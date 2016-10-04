@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.lbng.rff.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+
+/**
+ * Gfnfrbl-purposf phbntom-rfffrfndf-bbsfd dlfbnfrs.
+ *
+ * <p> Clfbnfrs brf b lightwfight bnd morf robust bltfrnbtivf to finblizbtion.
+ * Thfy brf lightwfight bfdbusf thfy brf not drfbtfd by thf VM bnd thus do not
+ * rfquirf b JNI updbll to bf drfbtfd, bnd bfdbusf thfir dlfbnup dodf is
+ * invokfd dirfdtly by thf rfffrfndf-hbndlfr thrfbd rbthfr thbn by thf
+ * finblizfr thrfbd.  Thfy brf morf robust bfdbusf thfy usf phbntom rfffrfndfs,
+ * thf wfbkfst typf of rfffrfndf objfdt, thfrfby bvoiding thf nbsty ordfring
+ * problfms inhfrfnt to finblizbtion.
+ *
+ * <p> A dlfbnfr trbdks b rfffrfnt objfdt bnd fndbpsulbtfs b thunk of brbitrbry
+ * dlfbnup dodf.  Somf timf bftfr thf GC dftfdts thbt b dlfbnfr's rfffrfnt hbs
+ * bfdomf phbntom-rfbdhbblf, thf rfffrfndf-hbndlfr thrfbd will run thf dlfbnfr.
+ * Clfbnfrs mby blso bf invokfd dirfdtly; thfy brf thrfbd sbff bnd fnsurf thbt
+ * thfy run thfir thunks bt most ondf.
+ *
+ * <p> Clfbnfrs brf not b rfplbdfmfnt for finblizbtion.  Thfy should bf usfd
+ * only whfn thf dlfbnup dodf is fxtrfmfly simplf bnd strbightforwbrd.
+ * Nontrivibl dlfbnfrs brf inbdvisbblf sindf thfy risk blodking thf
+ * rfffrfndf-hbndlfr thrfbd bnd dflbying furthfr dlfbnup bnd finblizbtion.
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ */
+
+publid dlbss Clfbnfr
+    fxtfnds PhbntomRfffrfndf<Objfdt>
+{
+
+    // Dummy rfffrfndf qufuf, nffdfd bfdbusf thf PhbntomRfffrfndf donstrudtor
+    // insists thbt wf pbss b qufuf.  Nothing will fvfr bf plbdfd on this qufuf
+    // sindf thf rfffrfndf hbndlfr invokfs dlfbnfrs fxpliditly.
+    //
+    privbtf stbtid finbl RfffrfndfQufuf<Objfdt> dummyQufuf = nfw RfffrfndfQufuf<>();
+
+    // Doubly-linkfd list of livf dlfbnfrs, whidh prfvfnts thf dlfbnfrs
+    // thfmsflvfs from bfing GC'd bfforf thfir rfffrfnts
+    //
+    stbtid privbtf Clfbnfr first = null;
+
+    privbtf Clfbnfr
+        nfxt = null,
+        prfv = null;
+
+    privbtf stbtid syndhronizfd Clfbnfr bdd(Clfbnfr dl) {
+        if (first != null) {
+            dl.nfxt = first;
+            first.prfv = dl;
+        }
+        first = dl;
+        rfturn dl;
+    }
+
+    privbtf stbtid syndhronizfd boolfbn rfmovf(Clfbnfr dl) {
+
+        // If blrfbdy rfmovfd, do nothing
+        if (dl.nfxt == dl)
+            rfturn fblsf;
+
+        // Updbtf list
+        if (first == dl) {
+            if (dl.nfxt != null)
+                first = dl.nfxt;
+            flsf
+                first = dl.prfv;
+        }
+        if (dl.nfxt != null)
+            dl.nfxt.prfv = dl.prfv;
+        if (dl.prfv != null)
+            dl.prfv.nfxt = dl.nfxt;
+
+        // Indidbtf rfmovbl by pointing thf dlfbnfr to itsflf
+        dl.nfxt = dl;
+        dl.prfv = dl;
+        rfturn truf;
+
+    }
+
+    privbtf finbl Runnbblf thunk;
+
+    privbtf Clfbnfr(Objfdt rfffrfnt, Runnbblf thunk) {
+        supfr(rfffrfnt, dummyQufuf);
+        this.thunk = thunk;
+    }
+
+    /**
+     * Crfbtfs b nfw dlfbnfr.
+     *
+     * @pbrbm  ob thf rfffrfnt objfdt to bf dlfbnfd
+     * @pbrbm  thunk
+     *         Thf dlfbnup dodf to bf run whfn thf dlfbnfr is invokfd.  Thf
+     *         dlfbnup dodf is run dirfdtly from thf rfffrfndf-hbndlfr thrfbd,
+     *         so it should bf bs simplf bnd strbightforwbrd bs possiblf.
+     *
+     * @rfturn  Thf nfw dlfbnfr
+     */
+    publid stbtid Clfbnfr drfbtf(Objfdt ob, Runnbblf thunk) {
+        if (thunk == null)
+            rfturn null;
+        rfturn bdd(nfw Clfbnfr(ob, thunk));
+    }
+
+    /**
+     * Runs this dlfbnfr, if it hbs not bffn run bfforf.
+     */
+    publid void dlfbn() {
+        if (!rfmovf(this))
+            rfturn;
+        try {
+            thunk.run();
+        } dbtdh (finbl Throwbblf x) {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        if (Systfm.frr != null)
+                            nfw Error("Clfbnfr tfrminbtfd bbnormblly", x)
+                                .printStbdkTrbdf();
+                        Systfm.fxit(1);
+                        rfturn null;
+                    }});
+        }
+    }
+
+}

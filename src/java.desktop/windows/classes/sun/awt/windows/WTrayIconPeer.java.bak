@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.Graphics2D;
-import java.awt.AWTEvent;
-import java.awt.Frame;
-import java.awt.PopupMenu;
-import java.awt.Point;
-import java.awt.TrayIcon;
-import java.awt.Image;
-import java.awt.peer.TrayIconPeer;
-import java.awt.image.*;
-import sun.awt.SunToolkit;
-import sun.awt.image.IntegerComponentRaster;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.PopupMfnu;
+import jbvb.bwt.Point;
+import jbvb.bwt.TrbyIdon;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.pffr.TrbyIdonPffr;
+import jbvb.bwt.imbgf.*;
+import sun.bwt.SunToolkit;
+import sun.bwt.imbgf.IntfgfrComponfntRbstfr;
 
-final class WTrayIconPeer extends WObjectPeer implements TrayIconPeer {
-    final static int TRAY_ICON_WIDTH = 16;
-    final static int TRAY_ICON_HEIGHT = 16;
-    final static int TRAY_ICON_MASK_SIZE = (TRAY_ICON_WIDTH * TRAY_ICON_HEIGHT) / 8;
+finbl dlbss WTrbyIdonPffr fxtfnds WObjfdtPffr implfmfnts TrbyIdonPffr {
+    finbl stbtid int TRAY_ICON_WIDTH = 16;
+    finbl stbtid int TRAY_ICON_HEIGHT = 16;
+    finbl stbtid int TRAY_ICON_MASK_SIZE = (TRAY_ICON_WIDTH * TRAY_ICON_HEIGHT) / 8;
 
-    IconObserver observer = new IconObserver();
-    boolean firstUpdate = true;
-    Frame popupParent = new Frame("PopupMessageWindow");
-    PopupMenu popup;
+    IdonObsfrvfr obsfrvfr = nfw IdonObsfrvfr();
+    boolfbn firstUpdbtf = truf;
+    Frbmf popupPbrfnt = nfw Frbmf("PopupMfssbgfWindow");
+    PopupMfnu popup;
 
-    @Override
-    protected void disposeImpl() {
-        if (popupParent != null) {
-            popupParent.dispose();
+    @Ovfrridf
+    protfdtfd void disposfImpl() {
+        if (popupPbrfnt != null) {
+            popupPbrfnt.disposf();
         }
-        popupParent.dispose();
-        _dispose();
-        WToolkit.targetDisposedPeer(target, this);
+        popupPbrfnt.disposf();
+        _disposf();
+        WToolkit.tbrgftDisposfdPffr(tbrgft, tiis);
     }
 
-    WTrayIconPeer(TrayIcon target) {
-        this.target = target;
-        popupParent.addNotify();
-        create();
-        updateImage();
+    WTrbyIdonPffr(TrbyIdon tbrgft) {
+        tiis.tbrgft = tbrgft;
+        popupPbrfnt.bddNotify();
+        drfbtf();
+        updbtfImbgf();
     }
 
-    @Override
-    public void updateImage() {
-        Image image = ((TrayIcon)target).getImage();
-        if (image != null) {
-            updateNativeImage(image);
+    @Ovfrridf
+    publid void updbtfImbgf() {
+        Imbgf imbgf = ((TrbyIdon)tbrgft).gftImbgf();
+        if (imbgf != null) {
+            updbtfNbtivfImbgf(imbgf);
         }
     }
 
-    @Override
-    public native void setToolTip(String tooltip);
+    @Ovfrridf
+    publid nbtivf void sftToolTip(String tooltip);
 
-    @Override
-    public synchronized void showPopupMenu(final int x, final int y) {
-        if (isDisposed())
-            return;
+    @Ovfrridf
+    publid syndironizfd void siowPopupMfnu(finbl int x, finbl int y) {
+        if (isDisposfd())
+            rfturn;
 
-        SunToolkit.executeOnEventHandlerThread(target, new Runnable() {
-                @Override
-                public void run() {
-                    PopupMenu newPopup = ((TrayIcon)target).getPopupMenu();
-                    if (popup != newPopup) {
+        SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(tbrgft, nfw Runnbblf() {
+                @Ovfrridf
+                publid void run() {
+                    PopupMfnu nfwPopup = ((TrbyIdon)tbrgft).gftPopupMfnu();
+                    if (popup != nfwPopup) {
                         if (popup != null) {
-                            popupParent.remove(popup);
+                            popupPbrfnt.rfmovf(popup);
                         }
-                        if (newPopup != null) {
-                            popupParent.add(newPopup);
+                        if (nfwPopup != null) {
+                            popupPbrfnt.bdd(nfwPopup);
                         }
-                        popup = newPopup;
+                        popup = nfwPopup;
                     }
                     if (popup != null) {
-                        ((WPopupMenuPeer)popup.getPeer()).show(popupParent, new Point(x, y));
+                        ((WPopupMfnuPffr)popup.gftPffr()).siow(popupPbrfnt, nfw Point(x, y));
                     }
                 }
             });
     }
 
-    @Override
-    public void displayMessage(String caption, String text, String messageType) {
-        // The situation when both caption and text are null is processed in the shared code.
-        if (caption == null) {
-            caption = "";
+    @Ovfrridf
+    publid void displbyMfssbgf(String dbption, String tfxt, String mfssbgfTypf) {
+        // Tif situbtion wifn boti dbption bnd tfxt brf null is prodfssfd in tif sibrfd dodf.
+        if (dbption == null) {
+            dbption = "";
         }
-        if (text == null) {
-            text = "";
+        if (tfxt == null) {
+            tfxt = "";
         }
-        _displayMessage(caption, text, messageType);
+        _displbyMfssbgf(dbption, tfxt, mfssbgfTypf);
     }
 
 
@@ -117,92 +117,92 @@ final class WTrayIconPeer extends WObjectPeer implements TrayIconPeer {
     // ***********************************************
 
 
-    synchronized void updateNativeImage(Image image) {
-        if (isDisposed())
-            return;
+    syndironizfd void updbtfNbtivfImbgf(Imbgf imbgf) {
+        if (isDisposfd())
+            rfturn;
 
-        boolean autosize = ((TrayIcon)target).isImageAutoSize();
+        boolfbn butosizf = ((TrbyIdon)tbrgft).isImbgfAutoSizf();
 
-        BufferedImage bufImage = new BufferedImage(TRAY_ICON_WIDTH, TRAY_ICON_HEIGHT,
-                                                   BufferedImage.TYPE_INT_ARGB);
-        Graphics2D gr = bufImage.createGraphics();
+        BufffrfdImbgf bufImbgf = nfw BufffrfdImbgf(TRAY_ICON_WIDTH, TRAY_ICON_HEIGHT,
+                                                   BufffrfdImbgf.TYPE_INT_ARGB);
+        Grbpiids2D gr = bufImbgf.drfbtfGrbpiids();
         if (gr != null) {
             try {
-                gr.setPaintMode();
+                gr.sftPbintModf();
 
-                gr.drawImage(image, 0, 0, (autosize ? TRAY_ICON_WIDTH : image.getWidth(observer)),
-                             (autosize ? TRAY_ICON_HEIGHT : image.getHeight(observer)), observer);
+                gr.drbwImbgf(imbgf, 0, 0, (butosizf ? TRAY_ICON_WIDTH : imbgf.gftWidti(obsfrvfr)),
+                             (butosizf ? TRAY_ICON_HEIGHT : imbgf.gftHfigit(obsfrvfr)), obsfrvfr);
 
-                createNativeImage(bufImage);
+                drfbtfNbtivfImbgf(bufImbgf);
 
-                updateNativeIcon(!firstUpdate);
-                if (firstUpdate) firstUpdate = false;
+                updbtfNbtivfIdon(!firstUpdbtf);
+                if (firstUpdbtf) firstUpdbtf = fblsf;
 
-            } finally {
-                gr.dispose();
+            } finblly {
+                gr.disposf();
             }
         }
     }
 
-    void createNativeImage(BufferedImage bimage) {
-        Raster raster = bimage.getRaster();
-        byte[] andMask = new byte[TRAY_ICON_MASK_SIZE];
-        int  pixels[] = ((DataBufferInt)raster.getDataBuffer()).getData();
-        int npixels = pixels.length;
-        int ficW = raster.getWidth();
+    void drfbtfNbtivfImbgf(BufffrfdImbgf bimbgf) {
+        Rbstfr rbstfr = bimbgf.gftRbstfr();
+        bytf[] bndMbsk = nfw bytf[TRAY_ICON_MASK_SIZE];
+        int  pixfls[] = ((DbtbBufffrInt)rbstfr.gftDbtbBufffr()).gftDbtb();
+        int npixfls = pixfls.lfngti;
+        int fidW = rbstfr.gftWidti();
 
-        for (int i = 0; i < npixels; i++) {
-            int ibyte = i / 8;
-            int omask = 1 << (7 - (i % 8));
+        for (int i = 0; i < npixfls; i++) {
+            int ibytf = i / 8;
+            int ombsk = 1 << (7 - (i % 8));
 
-            if ((pixels[i] & 0xff000000) == 0) {
-                // Transparent bit
-                if (ibyte < andMask.length) {
-                    andMask[ibyte] |= omask;
+            if ((pixfls[i] & 0xff000000) == 0) {
+                // Trbnspbrfnt bit
+                if (ibytf < bndMbsk.lfngti) {
+                    bndMbsk[ibytf] |= ombsk;
                 }
             }
         }
 
-        if (raster instanceof IntegerComponentRaster) {
-            ficW = ((IntegerComponentRaster)raster).getScanlineStride();
+        if (rbstfr instbndfof IntfgfrComponfntRbstfr) {
+            fidW = ((IntfgfrComponfntRbstfr)rbstfr).gftSdbnlinfStridf();
         }
-        setNativeIcon(((DataBufferInt)bimage.getRaster().getDataBuffer()).getData(),
-                      andMask, ficW, raster.getWidth(), raster.getHeight());
+        sftNbtivfIdon(((DbtbBufffrInt)bimbgf.gftRbstfr().gftDbtbBufffr()).gftDbtb(),
+                      bndMbsk, fidW, rbstfr.gftWidti(), rbstfr.gftHfigit());
     }
 
-    void postEvent(AWTEvent event) {
-        WToolkit.postEvent(WToolkit.targetToAppContext(target), event);
+    void postEvfnt(AWTEvfnt fvfnt) {
+        WToolkit.postEvfnt(WToolkit.tbrgftToAppContfxt(tbrgft), fvfnt);
     }
 
-    native void create();
-    synchronized native void _dispose();
+    nbtivf void drfbtf();
+    syndironizfd nbtivf void _disposf();
 
     /*
-     * Updates/adds the icon in/to the system tray.
-     * @param doUpdate if <code>true</code>, updates the icon,
-     * otherwise, adds the icon
+     * Updbtfs/bdds tif idon in/to tif systfm trby.
+     * @pbrbm doUpdbtf if <dodf>truf</dodf>, updbtfs tif idon,
+     * otifrwisf, bdds tif idon
      */
-    native void updateNativeIcon(boolean doUpdate);
+    nbtivf void updbtfNbtivfIdon(boolfbn doUpdbtf);
 
-    native void setNativeIcon(int[] rData, byte[] andMask, int nScanStride,
-                              int width, int height);
+    nbtivf void sftNbtivfIdon(int[] rDbtb, bytf[] bndMbsk, int nSdbnStridf,
+                              int widti, int ifigit);
 
-    native void _displayMessage(String caption, String text, String messageType);
+    nbtivf void _displbyMfssbgf(String dbption, String tfxt, String mfssbgfTypf);
 
-    class IconObserver implements ImageObserver {
-        @Override
-        public boolean imageUpdate(Image image, int flags, int x, int y, int width, int height) {
-            if (image != ((TrayIcon)target).getImage() || // if the image has been changed
-                isDisposed())
+    dlbss IdonObsfrvfr implfmfnts ImbgfObsfrvfr {
+        @Ovfrridf
+        publid boolfbn imbgfUpdbtf(Imbgf imbgf, int flbgs, int x, int y, int widti, int ifigit) {
+            if (imbgf != ((TrbyIdon)tbrgft).gftImbgf() || // if tif imbgf ibs bffn dibngfd
+                isDisposfd())
             {
-                return false;
+                rfturn fblsf;
             }
-            if ((flags & (ImageObserver.FRAMEBITS | ImageObserver.ALLBITS |
-                          ImageObserver.WIDTH | ImageObserver.HEIGHT)) != 0)
+            if ((flbgs & (ImbgfObsfrvfr.FRAMEBITS | ImbgfObsfrvfr.ALLBITS |
+                          ImbgfObsfrvfr.WIDTH | ImbgfObsfrvfr.HEIGHT)) != 0)
             {
-                updateNativeImage(image);
+                updbtfNbtivfImbgf(imbgf);
             }
-            return (flags & ImageObserver.ALLBITS) == 0;
+            rfturn (flbgs & ImbgfObsfrvfr.ALLBITS) == 0;
         }
     }
 }

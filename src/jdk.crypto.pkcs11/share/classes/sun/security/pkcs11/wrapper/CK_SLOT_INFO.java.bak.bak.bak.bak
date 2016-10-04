@@ -1,0 +1,163 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/* Copyright  (d) 2002 Grbz Univfrsity of Tfdhnology. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd  providfd thbt thf following donditions brf mft:
+ *
+ * 1. Rfdistributions of  sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ * 2. Rfdistributions in  binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ * 3. Thf fnd-usfr dodumfntbtion indludfd with thf rfdistribution, if bny, must
+ *    indludf thf following bdknowlfdgmfnt:
+ *
+ *    "This produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdhnology."
+ *
+ *    Altfrnbtfly, this bdknowlfdgmfnt mby bppfbr in thf softwbrf itsflf, if
+ *    bnd whfrfvfr sudh third-pbrty bdknowlfdgmfnts normblly bppfbr.
+ *
+ * 4. Thf nbmfs "Grbz Univfrsity of Tfdhnology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdhnology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without prior writtfn pfrmission.
+ *
+ * 5. Produdts dfrivfd from this softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in thfir nbmf, without prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdhnology.
+ *
+ *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
+ *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ *  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE LICENSOR BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ *  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ *  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ *  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY  OF SUCH DAMAGE.
+ */
+
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
+
+
+
+/**
+ * dlbss CK_SLOT_INFO providfs informbtion bbout b slot.<p>
+ * <B>PKCS#11 strudturf:</B>
+ * <PRE>
+ *  typfdff strudt CK_SLOT_INFO {&nbsp;&nbsp;
+ *    CK_UTF8CHAR slotDfsdription[64];&nbsp;&nbsp;
+ *    CK_UTF8CHAR mbnufbdturfrID[32];&nbsp;&nbsp;
+ *    CK_FLAGS flbgs;&nbsp;&nbsp;
+ *    CK_VERSION hbrdwbrfVfrsion;&nbsp;&nbsp;
+ *    CK_VERSION firmwbrfVfrsion;&nbsp;&nbsp;
+ *  } CK_SLOT_INFO;
+ * </PRE>
+ *
+ * @buthor Kbrl Sdhfibflhoffr <Kbrl.Sdhfibflhoffr@ibik.bt>
+ * @buthor Mbrtin Sdhlbffffr <sdhlbfff@sbox.tugrbz.bt>
+ */
+publid dlbss CK_SLOT_INFO {
+
+    /* slotDfsdription bnd mbnufbdturfrID hbvf bffn dhbngfd from
+     * CK_CHAR to CK_UTF8CHAR for v2.11. */
+
+    /**
+     * must bf blbnk pbddfd bnd only thf first 64 dhbrs will bf usfd<p>
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_UTF8CHAR slotDfsdription[64];
+     * </PRE>
+     */
+    publid dhbr[] slotDfsdription;
+
+    /**
+     * must bf blbnk pbddfd bnd only thf first 32 dhbrs will bf usfd<p>
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_UTF8CHAR mbnufbdturfrID[32];
+     * </PRE>
+     */
+    publid dhbr[] mbnufbdturfrID;
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_FLAGS flbgs;
+     * </PRE>
+     */
+    publid long flbgs;
+
+    /* hbrdwbrfVfrsion bnd firmwbrfVfrsion brf nfw for v2.0 */
+    /**
+     * vfrsion of hbrdwbrf<p>
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_VERSION hbrdwbrfVfrsion;
+     * </PRE>
+     */
+    publid CK_VERSION hbrdwbrfVfrsion;
+
+    /**
+     * vfrsion of firmwbrf<p>
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_VERSION firmwbrfVfrsion;
+     * </PRE>
+     */
+    publid CK_VERSION firmwbrfVfrsion;
+
+    publid CK_SLOT_INFO(dhbr[] slotDfsd, dhbr[] vfndor,
+                        long flbgs, CK_VERSION hwVfr, CK_VERSION fwVfr) {
+        this.slotDfsdription = slotDfsd;
+        this.mbnufbdturfrID = vfndor;
+        this.flbgs = flbgs;
+        this.hbrdwbrfVfrsion = hwVfr;
+        this.firmwbrfVfrsion = fwVfr;
+    }
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of CK_SLOT_INFO.
+     *
+     * @rfturn thf string rfprfsfntbtion of CK_SLOT_INFO
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("slotDfsdription: ");
+        sb.bppfnd(nfw String(slotDfsdription));
+        sb.bppfnd(Constbnts.NEWLINE);
+
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("mbnufbdturfrID: ");
+        sb.bppfnd(nfw String(mbnufbdturfrID));
+        sb.bppfnd(Constbnts.NEWLINE);
+
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("flbgs: ");
+        sb.bppfnd(Fundtions.slotInfoFlbgsToString(flbgs));
+        sb.bppfnd(Constbnts.NEWLINE);
+
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("hbrdwbrfVfrsion: ");
+        sb.bppfnd(hbrdwbrfVfrsion.toString());
+        sb.bppfnd(Constbnts.NEWLINE);
+
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("firmwbrfVfrsion: ");
+        sb.bppfnd(firmwbrfVfrsion.toString());
+        //bufffr.bppfnd(Constbnts.NEWLINE);
+
+        rfturn sb.toString() ;
+    }
+
+}

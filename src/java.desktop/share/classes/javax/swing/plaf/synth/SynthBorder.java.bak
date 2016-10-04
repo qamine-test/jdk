@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.text.JTextComponent;
-import javax.swing.border.*;
-import javax.swing.plaf.UIResource;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.UIRfsourdf;
 
 /**
- * SynthBorder is a border that delegates to a Painter. The Insets
- * are determined at construction time.
+ * SyntiBordfr is b bordfr tibt dflfgbtfs to b Pbintfr. Tif Insfts
+ * brf dftfrminfd bt donstrudtion timf.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class SynthBorder extends AbstractBorder implements UIResource {
-    private SynthUI ui;
-    private Insets insets;
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss SyntiBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
+    privbtf SyntiUI ui;
+    privbtf Insfts insfts;
 
-    SynthBorder(SynthUI ui, Insets insets) {
-        this.ui = ui;
-        this.insets = insets;
+    SyntiBordfr(SyntiUI ui, Insfts insfts) {
+        tiis.ui = ui;
+        tiis.insfts = insfts;
     }
 
-    SynthBorder(SynthUI ui) {
-        this(ui, null);
+    SyntiBordfr(SyntiUI ui) {
+        tiis(ui, null);
     }
 
-    public void paintBorder(Component c, Graphics g, int x, int y,
-                            int width, int height) {
-        JComponent jc = (JComponent)c;
-        SynthContext context = ui.getContext(jc);
-        SynthStyle style = context.getStyle();
-        if (style == null) {
-            assert false: "SynthBorder is being used outside after the UI " +
-                          "has been uninstalled";
-            return;
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y,
+                            int widti, int ifigit) {
+        JComponfnt jd = (JComponfnt)d;
+        SyntiContfxt dontfxt = ui.gftContfxt(jd);
+        SyntiStylf stylf = dontfxt.gftStylf();
+        if (stylf == null) {
+            bssfrt fblsf: "SyntiBordfr is bfing usfd outsidf bftfr tif UI " +
+                          "ibs bffn uninstbllfd";
+            rfturn;
         }
-        ui.paintBorder(context, g, x, y, width, height);
-        context.dispose();
-    }
-
-    /**
-     * Reinitializes the insets parameter with this Border's current Insets.
-     * @param c the component for which this border insets value applies
-     * @param insets the object to be reinitialized
-     * @return the <code>insets</code> object
-     */
-    public Insets getBorderInsets(Component c, Insets insets) {
-        if (this.insets != null) {
-            if (insets == null) {
-                insets = new Insets(this.insets.top, this.insets.left,
-                                  this.insets.bottom, this.insets.right);
-            }
-            else {
-                insets.top    = this.insets.top;
-                insets.bottom = this.insets.bottom;
-                insets.left   = this.insets.left;
-                insets.right  = this.insets.right;
-            }
-        }
-        else if (insets == null) {
-            insets = new Insets(0, 0, 0, 0);
-        }
-        else {
-            insets.top = insets.bottom = insets.left = insets.right = 0;
-        }
-        if (c instanceof JComponent) {
-            Region region = Region.getRegion((JComponent)c);
-            Insets margin = null;
-            if ((region == Region.ARROW_BUTTON || region == Region.BUTTON ||
-                 region == Region.CHECK_BOX ||
-                 region == Region.CHECK_BOX_MENU_ITEM ||
-                 region == Region.MENU || region == Region.MENU_ITEM ||
-                 region == Region.RADIO_BUTTON ||
-                 region == Region.RADIO_BUTTON_MENU_ITEM ||
-                 region == Region.TOGGLE_BUTTON) &&
-                       (c instanceof AbstractButton)) {
-                margin = ((AbstractButton)c).getMargin();
-            }
-            else if ((region == Region.EDITOR_PANE ||
-                      region == Region.FORMATTED_TEXT_FIELD ||
-                      region == Region.PASSWORD_FIELD ||
-                      region == Region.TEXT_AREA ||
-                      region == Region.TEXT_FIELD ||
-                      region == Region.TEXT_PANE) &&
-                        (c instanceof JTextComponent)) {
-                margin = ((JTextComponent)c).getMargin();
-            }
-            else if (region == Region.TOOL_BAR && (c instanceof JToolBar)) {
-                margin = ((JToolBar)c).getMargin();
-            }
-            else if (region == Region.MENU_BAR && (c instanceof JMenuBar)) {
-                margin = ((JMenuBar)c).getMargin();
-            }
-            if (margin != null) {
-                insets.top += margin.top;
-                insets.bottom += margin.bottom;
-                insets.left += margin.left;
-                insets.right += margin.right;
-            }
-        }
-        return insets;
+        ui.pbintBordfr(dontfxt, g, x, y, widti, ifigit);
+        dontfxt.disposf();
     }
 
     /**
-     * This default implementation returns false.
-     * @return false
+     * Rfinitiblizfs tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
+     * @rfturn tif <dodf>insfts</dodf> objfdt
      */
-    public boolean isBorderOpaque() {
-        return false;
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        if (tiis.insfts != null) {
+            if (insfts == null) {
+                insfts = nfw Insfts(tiis.insfts.top, tiis.insfts.lfft,
+                                  tiis.insfts.bottom, tiis.insfts.rigit);
+            }
+            flsf {
+                insfts.top    = tiis.insfts.top;
+                insfts.bottom = tiis.insfts.bottom;
+                insfts.lfft   = tiis.insfts.lfft;
+                insfts.rigit  = tiis.insfts.rigit;
+            }
+        }
+        flsf if (insfts == null) {
+            insfts = nfw Insfts(0, 0, 0, 0);
+        }
+        flsf {
+            insfts.top = insfts.bottom = insfts.lfft = insfts.rigit = 0;
+        }
+        if (d instbndfof JComponfnt) {
+            Rfgion rfgion = Rfgion.gftRfgion((JComponfnt)d);
+            Insfts mbrgin = null;
+            if ((rfgion == Rfgion.ARROW_BUTTON || rfgion == Rfgion.BUTTON ||
+                 rfgion == Rfgion.CHECK_BOX ||
+                 rfgion == Rfgion.CHECK_BOX_MENU_ITEM ||
+                 rfgion == Rfgion.MENU || rfgion == Rfgion.MENU_ITEM ||
+                 rfgion == Rfgion.RADIO_BUTTON ||
+                 rfgion == Rfgion.RADIO_BUTTON_MENU_ITEM ||
+                 rfgion == Rfgion.TOGGLE_BUTTON) &&
+                       (d instbndfof AbstrbdtButton)) {
+                mbrgin = ((AbstrbdtButton)d).gftMbrgin();
+            }
+            flsf if ((rfgion == Rfgion.EDITOR_PANE ||
+                      rfgion == Rfgion.FORMATTED_TEXT_FIELD ||
+                      rfgion == Rfgion.PASSWORD_FIELD ||
+                      rfgion == Rfgion.TEXT_AREA ||
+                      rfgion == Rfgion.TEXT_FIELD ||
+                      rfgion == Rfgion.TEXT_PANE) &&
+                        (d instbndfof JTfxtComponfnt)) {
+                mbrgin = ((JTfxtComponfnt)d).gftMbrgin();
+            }
+            flsf if (rfgion == Rfgion.TOOL_BAR && (d instbndfof JToolBbr)) {
+                mbrgin = ((JToolBbr)d).gftMbrgin();
+            }
+            flsf if (rfgion == Rfgion.MENU_BAR && (d instbndfof JMfnuBbr)) {
+                mbrgin = ((JMfnuBbr)d).gftMbrgin();
+            }
+            if (mbrgin != null) {
+                insfts.top += mbrgin.top;
+                insfts.bottom += mbrgin.bottom;
+                insfts.lfft += mbrgin.lfft;
+                insfts.rigit += mbrgin.rigit;
+            }
+        }
+        rfturn insfts;
+    }
+
+    /**
+     * Tiis dffbult implfmfntbtion rfturns fblsf.
+     * @rfturn fblsf
+     */
+    publid boolfbn isBordfrOpbquf() {
+        rfturn fblsf;
     }
 }

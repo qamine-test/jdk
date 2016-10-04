@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: KeySelectorResult.java,v 1.3 2005/05/10 15:47:42 mullan Exp $
+ * $Id: KfySflfdtorRfsult.jbvb,v 1.3 2005/05/10 15:47:42 mullbn Exp $
  */
-package javax.xml.crypto;
+pbdkbgf jbvbx.xml.drypto;
 
-import java.security.Key;
+import jbvb.sfdurity.Kfy;
 
 /**
- * The result returned by the {@link KeySelector#select KeySelector.select}
- * method.
+ * Tif rfsult rfturnfd by tif {@link KfySflfdtor#sflfdt KfySflfdtor.sflfdt}
+ * mftiod.
  * <p>
- * At a minimum, a <code>KeySelectorResult</code> contains the <code>Key</code>
- * selected by the <code>KeySelector</code>. Implementations of this interface
- * may add methods to return implementation or algorithm specific information,
- * such as a chain of certificates or debugging information.
+ * At b minimum, b <dodf>KfySflfdtorRfsult</dodf> dontbins tif <dodf>Kfy</dodf>
+ * sflfdtfd by tif <dodf>KfySflfdtor</dodf>. Implfmfntbtions of tiis intfrfbdf
+ * mby bdd mftiods to rfturn implfmfntbtion or blgoritim spfdifid informbtion,
+ * sudi bs b dibin of dfrtifidbtfs or dfbugging informbtion.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see KeySelector
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff KfySflfdtor
  */
-public interface KeySelectorResult {
+publid intfrfbdf KfySflfdtorRfsult {
 
     /**
-     * Returns the selected key.
+     * Rfturns tif sflfdtfd kfy.
      *
-     * @return the selected key, or <code>null</code> if none can be found
+     * @rfturn tif sflfdtfd kfy, or <dodf>null</dodf> if nonf dbn bf found
      */
-    Key getKey();
+    Kfy gftKfy();
 }

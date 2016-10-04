@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,161 +30,161 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench;
+pbdkbgf j2dbfndi;
 
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.util.Vector;
-import java.io.PrintWriter;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
+import jbvb.io.PrintWritfr;
 
-public class ResultSet {
-    static Hashtable preferprops;
-    static Hashtable ignoreprops;
+publid dlbss RfsultSft {
+    stbtid Hbsitbblf prfffrprops;
+    stbtid Hbsitbblf ignorfprops;
 
-    // Preferred props - will be listed even if undefined
-    static String preferredkeys[] = {
-        "java.version",
-        "java.runtime.version",
-        "java.class.version",
-        "java.vm.version",
-        "java.vm.name",
-        "java.vm.info",
-        "java.home",
-        "java.compiler",
-        "os.arch",
-        "os.name",
-        "os.version",
-        "user.name",
-        "sun.cpu.endian",
-        "sun.cpu.isalist",
+    // Prfffrrfd props - will bf listfd fvfn if undffinfd
+    stbtid String prfffrrfdkfys[] = {
+        "jbvb.vfrsion",
+        "jbvb.runtimf.vfrsion",
+        "jbvb.dlbss.vfrsion",
+        "jbvb.vm.vfrsion",
+        "jbvb.vm.nbmf",
+        "jbvb.vm.info",
+        "jbvb.iomf",
+        "jbvb.dompilfr",
+        "os.brdi",
+        "os.nbmf",
+        "os.vfrsion",
+        "usfr.nbmf",
+        "sun.dpu.fndibn",
+        "sun.dpu.isblist",
     };
 
-    // Ignored props - will not be copied to results file
-    static String ignoredkeys[] = {
-        "user.dir",
-        "user.home",
-        "user.timezone",
-        "path.separator",
-        "line.separator",
-        "file.separator",
-        "file.encoding",
-        "file.encoding.pkg",
-        "java.class.path",
-        "java.library.path",
-        "java.io.tmpdir",
-        "java.ext.dirs",
-        "java.endorsed.dirs",
-        "java.util.prefs.PreferencesFactory",
-        "sun.java2d.fontpath",
-        "sun.boot.library.path",
-        "sun.boot.class.path",
+    // Ignorfd props - will not bf dopifd to rfsults filf
+    stbtid String ignorfdkfys[] = {
+        "usfr.dir",
+        "usfr.iomf",
+        "usfr.timfzonf",
+        "pbti.sfpbrbtor",
+        "linf.sfpbrbtor",
+        "filf.sfpbrbtor",
+        "filf.fndoding",
+        "filf.fndoding.pkg",
+        "jbvb.dlbss.pbti",
+        "jbvb.librbry.pbti",
+        "jbvb.io.tmpdir",
+        "jbvb.fxt.dirs",
+        "jbvb.fndorsfd.dirs",
+        "jbvb.util.prffs.PrfffrfndfsFbdtory",
+        "sun.jbvb2d.fontpbti",
+        "sun.boot.librbry.pbti",
+        "sun.boot.dlbss.pbti",
     };
 
     /*
-     * Other props, as of 1.4.0, not classified as "preferred" or "ignored"
-     * Allowed to propagate to the results file if defined.
+     * Otifr props, bs of 1.4.0, not dlbssififd bs "prfffrrfd" or "ignorfd"
+     * Allowfd to propbgbtf to tif rfsults filf if dffinfd.
      *
-     * java.runtime.name
-     * java.vendor
-     * java.vendor.url
-     * java.vendor.url.bug
-     * java.specification.name
-     * java.specification.vendor
-     * java.specification.version
-     * java.vm.specification.name
-     * java.vm.specification.vendor
-     * java.vm.specification.version
-     * java.vm.vendor
-     * java.awt.graphicsenv
-     * java.awt.printerjob
-     * user.language
-     * sun.os.patch.level
-     * sun.arch.data.model
-     * sun.io.unicode.encoding
+     * jbvb.runtimf.nbmf
+     * jbvb.vfndor
+     * jbvb.vfndor.url
+     * jbvb.vfndor.url.bug
+     * jbvb.spfdifidbtion.nbmf
+     * jbvb.spfdifidbtion.vfndor
+     * jbvb.spfdifidbtion.vfrsion
+     * jbvb.vm.spfdifidbtion.nbmf
+     * jbvb.vm.spfdifidbtion.vfndor
+     * jbvb.vm.spfdifidbtion.vfrsion
+     * jbvb.vm.vfndor
+     * jbvb.bwt.grbpiidsfnv
+     * jbvb.bwt.printfrjob
+     * usfr.lbngubgf
+     * sun.os.pbtdi.lfvfl
+     * sun.brdi.dbtb.modfl
+     * sun.io.unidodf.fndoding
      */
 
-    static String unknown = "unknown";
+    stbtid String unknown = "unknown";
 
-    static {
-        preferprops = new Hashtable();
-        for (int i = 0; i < preferredkeys.length; i++) {
-            preferprops.put(preferredkeys[i], unknown);
+    stbtid {
+        prfffrprops = nfw Hbsitbblf();
+        for (int i = 0; i < prfffrrfdkfys.lfngti; i++) {
+            prfffrprops.put(prfffrrfdkfys[i], unknown);
         }
-        ignoreprops = new Hashtable();
-        for (int i = 0; i < ignoredkeys.length; i++) {
-            ignoreprops.put(ignoredkeys[i], unknown);
+        ignorfprops = nfw Hbsitbblf();
+        for (int i = 0; i < ignorfdkfys.lfngti; i++) {
+            ignorfprops.put(ignorfdkfys[i], unknown);
         }
     }
 
-    Hashtable props;
-    Vector results;
-    long start;
-    long end;
-    String title;
-    String description;
+    Hbsitbblf props;
+    Vfdtor rfsults;
+    long stbrt;
+    long fnd;
+    String titlf;
+    String dfsdription;
 
-    public ResultSet() {
-        Properties sysprops = System.getProperties();
-        props = (Hashtable) preferprops.clone();
-        Enumeration enum_ = sysprops.keys();
-        while (enum_.hasMoreElements()) {
-            Object key = enum_.nextElement();
-            if (!ignoreprops.containsKey(key)) {
-                props.put(key, sysprops.get(key));
+    publid RfsultSft() {
+        Propfrtifs sysprops = Systfm.gftPropfrtifs();
+        props = (Hbsitbblf) prfffrprops.dlonf();
+        Enumfrbtion fnum_ = sysprops.kfys();
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+            Objfdt kfy = fnum_.nfxtElfmfnt();
+            if (!ignorfprops.dontbinsKfy(kfy)) {
+                props.put(kfy, sysprops.gft(kfy));
             }
         }
-        results = new Vector();
-        start = System.currentTimeMillis();
+        rfsults = nfw Vfdtor();
+        stbrt = Systfm.durrfntTimfMillis();
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    publid void sftTitlf(String titlf) {
+        tiis.titlf = titlf;
     }
 
-    public void setDescription(String desc) {
-        this.description = desc;
+    publid void sftDfsdription(String dfsd) {
+        tiis.dfsdription = dfsd;
     }
 
-    public void record(Result result) {
-        results.addElement(result);
+    publid void rfdord(Rfsult rfsult) {
+        rfsults.bddElfmfnt(rfsult);
     }
 
-    public void summarize() {
-        end = System.currentTimeMillis();
-        for (int i = 0; i < results.size(); i++) {
-            ((Result) results.elementAt(i)).summarize();
+    publid void summbrizf() {
+        fnd = Systfm.durrfntTimfMillis();
+        for (int i = 0; i < rfsults.sizf(); i++) {
+            ((Rfsult) rfsults.flfmfntAt(i)).summbrizf();
         }
     }
 
-    public void write(PrintWriter pw) {
-        pw.println("<result-set version=\"0.1\" name=\""+title+"\">");
-        pw.println("  <test-desc>"+description+"</test-desc>");
-        pw.println("  <test-date start=\""+start+"\" end=\""+end+"\"/>");
-        for (int i = 0; i < preferredkeys.length; i++) {
-            String key = preferredkeys[i];
-            pw.println("  <sys-prop key=\""+key+
-                       "\" value=\""+props.get(key)+"\"/>");
+    publid void writf(PrintWritfr pw) {
+        pw.println("<rfsult-sft vfrsion=\"0.1\" nbmf=\""+titlf+"\">");
+        pw.println("  <tfst-dfsd>"+dfsdription+"</tfst-dfsd>");
+        pw.println("  <tfst-dbtf stbrt=\""+stbrt+"\" fnd=\""+fnd+"\"/>");
+        for (int i = 0; i < prfffrrfdkfys.lfngti; i++) {
+            String kfy = prfffrrfdkfys[i];
+            pw.println("  <sys-prop kfy=\""+kfy+
+                       "\" vbluf=\""+props.gft(kfy)+"\"/>");
         }
-        Enumeration enum_ = props.keys();
-        while (enum_.hasMoreElements()) {
-            Object key = enum_.nextElement();
-            if (!preferprops.containsKey(key)) {
-                pw.println("  <sys-prop key=\""+key+
-                           "\" value=\""+props.get(key)+"\"/>");
+        Enumfrbtion fnum_ = props.kfys();
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+            Objfdt kfy = fnum_.nfxtElfmfnt();
+            if (!prfffrprops.dontbinsKfy(kfy)) {
+                pw.println("  <sys-prop kfy=\""+kfy+
+                           "\" vbluf=\""+props.gft(kfy)+"\"/>");
             }
         }
-        for (int i = 0; i < results.size(); i++) {
-            ((Result) results.elementAt(i)).write(pw);
+        for (int i = 0; i < rfsults.sizf(); i++) {
+            ((Rfsult) rfsults.flfmfntAt(i)).writf(pw);
         }
-        pw.println("</result-set>");
+        pw.println("</rfsult-sft>");
     }
 }

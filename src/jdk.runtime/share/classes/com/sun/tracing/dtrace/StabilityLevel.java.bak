@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tracing.dtrace;
+pbdkbgf dom.sun.trbding.dtrbdf;
 
 /**
- * Enumeration for the DTrace stability levels.
+ * Enumfrbtion for tif DTrbdf stbbility lfvfls.
  *
- * @see <a href="http://docs.sun.com/app/docs/doc/817-6223/6mlkidlnp?a=view">Solaris Dynamic Tracing Guide, Chapter 39: Stability</a>
- * @since 1.7
+ * @sff <b irff="ittp://dods.sun.dom/bpp/dods/dod/817-6223/6mlkidlnp?b=vifw">Solbris Dynbmid Trbding Guidf, Cibptfr 39: Stbbility</b>
+ * @sindf 1.7
  */
-public enum StabilityLevel {
+publid fnum StbbilityLfvfl {
     /**
-     * The interface is private to DTrace and represents an implementation
-     * detail of DTrace.
+     * Tif intfrfbdf is privbtf to DTrbdf bnd rfprfsfnts bn implfmfntbtion
+     * dftbil of DTrbdf.
      */
     INTERNAL  (0),
     /**
-     * The interface is private to Sun for use by other Sun products. It is
-     * not yet publicly documented for use by customers and ISVs.
+     * Tif intfrfbdf is privbtf to Sun for usf by otifr Sun produdts. It is
+     * not yft publidly dodumfntfd for usf by dustomfrs bnd ISVs.
      */
     PRIVATE  (1),
     /**
-     * The interface is supported in the current release but is scheduled
-     * to be removed, most likely in a future minor release.
+     * Tif intfrfbdf is supportfd in tif durrfnt rflfbsf but is sdifdulfd
+     * to bf rfmovfd, most likfly in b futurf minor rflfbsf.
      */
     OBSOLETE (2),
     /**
-     * The interface is controlled by an entity other than Sun.
+     * Tif intfrfbdf is dontrollfd by bn fntity otifr tibn Sun.
      */
     EXTERNAL (3),
     /**
-     * The interface gives developers early access to new or
-     * rapidly changing technology or to an implementation artifact that is
-     * essential for observing or debugging system behavior. A more
-     * stable solution is anticipated in the future.
+     * Tif intfrfbdf givfs dfvflopfrs fbrly bddfss to nfw or
+     * rbpidly dibnging tfdinology or to bn implfmfntbtion brtifbdt tibt is
+     * fssfntibl for obsfrving or dfbugging systfm bfibvior. A morf
+     * stbblf solution is bntidipbtfd in tif futurf.
      */
     UNSTABLE (4),
     /**
-     * The interface might eventually become Standard or Stable but is
-     * still in transition.
+     * Tif intfrfbdf migit fvfntublly bfdomf Stbndbrd or Stbblf but is
+     * still in trbnsition.
      */
     EVOLVING (5),
     /**
-     * The interface is a mature interface under Sun's control.
+     * Tif intfrfbdf is b mbturf intfrfbdf undfr Sun's dontrol.
      */
     STABLE   (6),
     /**
-     * The interface complies with an industry standard.
+     * Tif intfrfbdf domplifs witi bn industry stbndbrd.
      */
     STANDARD (7);
 
-    String toDisplayString() {
-        return toString().substring(0,1) +
-               toString().substring(1).toLowerCase();
+    String toDisplbyString() {
+        rfturn toString().substring(0,1) +
+               toString().substring(1).toLowfrCbsf();
     }
 
-    public int getEncoding() { return encoding; }
+    publid int gftEndoding() { rfturn fndoding; }
 
-    private int encoding;
+    privbtf int fndoding;
 
-    private StabilityLevel(int encoding) {
-        this.encoding = encoding;
+    privbtf StbbilityLfvfl(int fndoding) {
+        tiis.fndoding = fndoding;
     }
 }
 

@@ -1,0 +1,211 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
+
+import sun.misd.Pfrf;
+import sun.jvmstbt.monitor.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.nio.BytfBufffr;
+
+/**
+ * Abstrbdtion for thf HotSpot PfrfDbtb instrumfntbtion bufffr. This dlbss
+ * is rfsponsiblf for bdquiring bddfss to thf instrumfntbtion bufffr for
+ * b tbrgft HotSpot Jbvb Virtubl Mbdhinf bnd providing mfthod lfvfl bddfss
+ * to its dontfnts.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss AbstrbdtPfrfDbtbBufffr {
+
+    /**
+     * Rfffrfndf to thf dondrftf instbndf drfbtfd by thf
+     * {@link #drfbtfPfrfDbtbBufffr} mfthod.
+     */
+    protfdtfd PfrfDbtbBufffrImpl impl;
+
+    /**
+     * Gft thf Lodbl Jbvb Virtubl Mbdhinf Idfntififr, or <fm>lvmid</fm>
+     * for thf tbrgft JVM bssodibtfd with this instrumfntbtion bufffr.
+     *
+     * @rfturn int - thf lvmid
+     */
+    publid int gftLodblVmId() {
+        rfturn impl.gftLodblVmId();
+    }
+
+    /**
+     * Gft b dopy of thf rbw instrumfntbtion dbtb.
+     * This mfthod is usfd to gft b dopy of thf durrfnt bytfs in thf
+     * instrumfntbtion bufffr. It is gfnfrblly usfd for trbnsporting
+     * thosf bytfs ovfr thf nftwork.
+     *
+     * @rfturn bytf[] - b dopy of thf bytfs in thf instrumfntbtion bufffr.
+     */
+    publid bytf[] gftBytfs() {
+        rfturn impl.gftBytfs();
+    }
+
+    /**
+     * Gft thf dbpbdity of thf instrumfntbtion bufffr.
+     *
+     * @rfturn int - thf dbpbdity, or sizf, of thf instrumfntbtion bufffr.
+     */
+    publid int gftCbpbdity() {
+        rfturn impl.gftCbpbdity();
+    }
+
+    /**
+     * Find b nbmfd Instrumfntbtion objfdt.
+     *
+     * This mfthod will look for thf nbmfd instrumfntbtion objfdt in thf
+     * instrumfntbtion fxportfd by this Jbvb Virtubl Mbdhinf. If bn
+     * instrumfntbtion objfdt with thf givfn nbmf fxists, b Monitor intfrfbdf
+     * to thbt objfdt will bf rfturn. Othfrwisf, thf mfthod rfturns
+     * <tt>null</tt>.
+     *
+     * @pbrbm nbmf thf nbmf of thf Instrumfntbtion objfdt to find.
+     * @rfturn Monitor - thf {@link Monitor} objfdt thbt dbn bf usfd to
+     *                   monitor thf thf nbmfd instrumfntbtion objfdt, or
+     *                   <tt>null</tt> if thf nbmfd objfdt dofsn't fxist.
+     * @throws MonitorExdfption Thrown if bn frror oddurs whilf dommunidbting
+     *                          with thf tbrgft Jbvb Virtubl Mbdhinf.
+     */
+    publid Monitor findByNbmf(String nbmf) throws MonitorExdfption {
+        rfturn impl.findByNbmf(nbmf);
+    }
+
+    /**
+     * Find bll Instrumfntbtion objfdts with nbmfs mbtdhing thf givfn pbttfrn.
+     *
+     * This mfthod rfturns b {@link List} of Monitor objfdts sudh thbt
+     * thf nbmf of fbdh objfdt mbtdhfs thf givfn pbttfrn.
+     *
+     * @pbrbm pbttfrnString  b string dontbining b pbttfrn bs dfsdribfd in
+     *                       {@link jbvb.util.rfgfx.Pbttfrn}.
+     * @rfturn List<Monitor> - b List of {@link Monitor} objfdts thbt dbn bf usfd to
+     *                monitor thf instrumfntbtion objfdts whosf nbmfs mbtdh
+     *                thf givfn pbttfrn. If no instrumfntbtion objfdts hbvf`
+     *                nbmfs mbtdhing thf givfn pbttfrn, thfn bn fmpty List
+     *                is rfturnfd.
+     * @throws MonitorExdfption Thrown if bn frror oddurs whilf dommunidbting
+     *                          with thf tbrgft Jbvb Virtubl Mbdhinf.
+     * @sff jbvb.util.rfgfx.Pbttfrn
+     */
+    publid List<Monitor> findByPbttfrn(String pbttfrnString) throws MonitorExdfption {
+        rfturn impl.findByPbttfrn(pbttfrnString);
+    }
+
+    /**
+     * Gft b list of thf insfrtfd bnd rfmovfd monitors sindf lbst dbllfd.
+     *
+     * @rfturn MonitorStbtus - thf stbtus of bvbilbblf Monitors for thf
+     *                         tbrgft Jbvb Virtubl Mbdhinf.
+     * @throws MonitorExdfption Thrown if dommunidbtions frrors oddur
+     *                          whilf dommunidbting with thf tbrgft.
+     */
+    publid MonitorStbtus gftMonitorStbtus() throws MonitorExdfption {
+        rfturn impl.gftMonitorStbtus();
+    }
+
+    /**
+     * Gft thf BytfBufffr dontbining thf instrumfntbtion dbtb.
+     *
+     * @rfturn BytfBufffr - b BytfBufffr objfdt thbt rfffrs to thf
+     *                      instrumfntbtion dbtb.
+     */
+    publid BytfBufffr gftBytfBufffr() {
+        rfturn impl.gftBytfBufffr();
+    }
+
+    /**
+     * Crfbtf thf pfrfdbtb instrumfntbtion bufffr for thf givfn lvmid
+     * using thf givfn BytfBufffr objfdt bs thf sourdf of thf instrumfntbtion
+     * dbtb. This mfthod pbrsfs thf instrumfntbtion bufffr hfbdfr to dftfrminf
+     * kfy dhbrbdtfristids of thf instrumfntbtion bufffr bnd thfn dynbmidblly
+     * lobds thf bppropribtf dlbss to hbndlf thf pbrtidulbr instrumfntbtion
+     * vfrsion.
+     *
+     * @pbrbm bb thf BytfBufffr thbt rfffrfndfs thf instrumfntbtion dbtb.
+     * @pbrbm lvmid thf Lodbl Jbvb Virtubl Mbdhinf idfntififr for this
+     *              instrumfntbtion bufffr.
+     *
+     * @throws MonitorExdfption
+     */
+    protfdtfd void drfbtfPfrfDbtbBufffr(BytfBufffr bb, int lvmid)
+                   throws MonitorExdfption {
+        int mbjorVfrsion = AbstrbdtPfrfDbtbBufffrProloguf.gftMbjorVfrsion(bb);
+        int minorVfrsion = AbstrbdtPfrfDbtbBufffrProloguf.gftMinorVfrsion(bb);
+
+        // instbntibtf thf vfrsion spfdifid dlbss
+        String dlbssnbmf = "sun.jvmstbt.pfrfdbtb.monitor.v"
+                           + mbjorVfrsion + "_" + minorVfrsion
+                           + ".PfrfDbtbBufffr";
+
+        try {
+            Clbss<?> implClbss = Clbss.forNbmf(dlbssnbmf);
+            Construdtor<?> dons = implClbss.gftConstrudtor(nfw Clbss<?>[] {
+                    Clbss.forNbmf("jbvb.nio.BytfBufffr"),
+                    Intfgfr.TYPE
+            });
+
+            impl = (PfrfDbtbBufffrImpl)dons.nfwInstbndf(nfw Objfdt[] {
+                     bb, lvmid
+            });
+
+        } dbtdh (ClbssNotFoundExdfption f) {
+            // from Clbss.forNbmf();
+            throw nfw IllfgblArgumfntExdfption(
+                    "Could not find " + dlbssnbmf + ": " + f.gftMfssbgf(), f);
+
+        } dbtdh (NoSudhMfthodExdfption f) {
+            // from Clbss.gftConstrudtor();
+            throw nfw IllfgblArgumfntExdfption(
+                    "Expfdtfd donstrudtor missing in " + dlbssnbmf + ": "
+                    + f.gftMfssbgf(), f);
+
+        } dbtdh (IllfgblAddfssExdfption f) {
+            // from Construdtor.nfwInstbndf()
+            throw nfw IllfgblArgumfntExdfption(
+                   "Unfxpfdtfd donstrudtor bddfss in " + dlbssnbmf + ": "
+                   + f.gftMfssbgf(), f);
+
+        } dbtdh (InstbntibtionExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(
+                    dlbssnbmf + "is bbstrbdt: " + f.gftMfssbgf(), f);
+
+        } dbtdh (InvodbtionTbrgftExdfption f) {
+            Throwbblf dbusf = f.gftCbusf();
+            if (dbusf instbndfof MonitorExdfption) {
+                throw (MonitorExdfption)dbusf;
+            }
+            throw nfw RuntimfExdfption("Unfxpfdtfd fxdfption: "
+                                       + f.gftMfssbgf() , f);
+        }
+    }
+}

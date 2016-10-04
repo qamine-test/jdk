@@ -1,0 +1,414 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.util.*;
+import jbvb.lbng.*;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.ProvidfrExdfption;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvbx.drypto.KfyAgrffmfntSpi;
+import jbvbx.drypto.ShortBufffrExdfption;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.*;
+
+import sun.sfdurity.util.KfyUtil;
+
+/**
+ * This dlbss implfmfnts thf Diffif-Hfllmbn kfy bgrffmfnt protodol bftwffn
+ * bny numbfr of pbrtifs.
+ *
+ * @buthor Jbn Lufhf
+ *
+ */
+
+publid finbl dlbss DHKfyAgrffmfnt
+fxtfnds KfyAgrffmfntSpi {
+
+    privbtf boolfbn gfnfrbtfSfdrft = fblsf;
+    privbtf BigIntfgfr init_p = null;
+    privbtf BigIntfgfr init_g = null;
+    privbtf BigIntfgfr x = BigIntfgfr.ZERO; // thf privbtf vbluf
+    privbtf BigIntfgfr y = BigIntfgfr.ZERO;
+
+    /**
+     * Empty donstrudtor
+     */
+    publid DHKfyAgrffmfnt() {
+    }
+
+    /**
+     * Initiblizfs this kfy bgrffmfnt with thf givfn kfy bnd sourdf of
+     * rbndomnfss. Thf givfn kfy is rfquirfd to dontbin bll thf blgorithm
+     * pbrbmftfrs rfquirfd for this kfy bgrffmfnt.
+     *
+     * <p> If thf kfy bgrffmfnt blgorithm rfquirfs rbndom bytfs, it gfts thfm
+     * from thf givfn sourdf of rbndomnfss, <dodf>rbndom</dodf>.
+     * Howfvfr, if thf undfrlying
+     * blgorithm implfmfntbtion dofs not rfquirf bny rbndom bytfs,
+     * <dodf>rbndom</dodf> is ignorfd.
+     *
+     * @pbrbm kfy thf pbrty's privbtf informbtion. For fxbmplf, in thf dbsf
+     * of thf Diffif-Hfllmbn kfy bgrffmfnt, this would bf thf pbrty's own
+     * Diffif-Hfllmbn privbtf kfy.
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is
+     * inbppropribtf for this kfy bgrffmfnt, f.g., is of thf wrong typf or
+     * hbs bn indompbtiblf blgorithm typf.
+     */
+    protfdtfd void fnginfInit(Kfy kfy, SfdurfRbndom rbndom)
+        throws InvblidKfyExdfption
+    {
+        try {
+            fnginfInit(kfy, null, rbndom);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption f) {
+            // nfvfr hbppfns, bfdbusf wf did not pbss bny pbrbmftfrs
+        }
+    }
+
+    /**
+     * Initiblizfs this kfy bgrffmfnt with thf givfn kfy, sft of
+     * blgorithm pbrbmftfrs, bnd sourdf of rbndomnfss.
+     *
+     * @pbrbm kfy thf pbrty's privbtf informbtion. For fxbmplf, in thf dbsf
+     * of thf Diffif-Hfllmbn kfy bgrffmfnt, this would bf thf pbrty's own
+     * Diffif-Hfllmbn privbtf kfy.
+     * @pbrbm pbrbms thf kfy bgrffmfnt pbrbmftfrs
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is
+     * inbppropribtf for this kfy bgrffmfnt, f.g., is of thf wrong typf or
+     * hbs bn indompbtiblf blgorithm typf.
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn pbrbmftfrs
+     * brf inbppropribtf for this kfy bgrffmfnt.
+     */
+    protfdtfd void fnginfInit(Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom)
+        throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption
+    {
+        // ignorf "rbndom" pbrbmftfr, bfdbusf our implfmfntbtion dofs not
+        // rfquirf bny sourdf of rbndomnfss
+        gfnfrbtfSfdrft = fblsf;
+        init_p = null;
+        init_g = null;
+
+        if ((pbrbms != null) && !(pbrbms instbndfof DHPbrbmftfrSpfd)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Diffif-Hfllmbn pbrbmftfrs fxpfdtfd");
+        }
+        if (!(kfy instbndfof jbvbx.drypto.intfrfbdfs.DHPrivbtfKfy)) {
+            throw nfw InvblidKfyExdfption("Diffif-Hfllmbn privbtf kfy "
+                                          + "fxpfdtfd");
+        }
+        jbvbx.drypto.intfrfbdfs.DHPrivbtfKfy dhPrivKfy;
+        dhPrivKfy = (jbvbx.drypto.intfrfbdfs.DHPrivbtfKfy)kfy;
+
+        // dhfdk if privbtf kfy pbrbmftfrs brf dompbtiblf with
+        // initiblizfd onfs
+        if (pbrbms != null) {
+            init_p = ((DHPbrbmftfrSpfd)pbrbms).gftP();
+            init_g = ((DHPbrbmftfrSpfd)pbrbms).gftG();
+        }
+        BigIntfgfr priv_p = dhPrivKfy.gftPbrbms().gftP();
+        BigIntfgfr priv_g = dhPrivKfy.gftPbrbms().gftG();
+        if (init_p != null && priv_p != null && !(init_p.fqubls(priv_p))) {
+            throw nfw InvblidKfyExdfption("Indompbtiblf pbrbmftfrs");
+        }
+        if (init_g != null && priv_g != null && !(init_g.fqubls(priv_g))) {
+            throw nfw InvblidKfyExdfption("Indompbtiblf pbrbmftfrs");
+        }
+        if ((init_p == null && priv_p == null)
+            || (init_g == null && priv_g == null)) {
+            throw nfw InvblidKfyExdfption("Missing pbrbmftfrs");
+        }
+        init_p = priv_p;
+        init_g = priv_g;
+
+        // storf thf x vbluf
+        this.x = dhPrivKfy.gftX();
+    }
+
+    /**
+     * Exfdutfs thf nfxt phbsf of this kfy bgrffmfnt with thf givfn
+     * kfy thbt wbs rfdfivfd from onf of thf othfr pbrtifs involvfd in this kfy
+     * bgrffmfnt.
+     *
+     * @pbrbm kfy thf kfy for this phbsf. For fxbmplf, in thf dbsf of
+     * Diffif-Hfllmbn bftwffn 2 pbrtifs, this would bf thf othfr pbrty's
+     * Diffif-Hfllmbn publid kfy.
+     * @pbrbm lbstPhbsf flbg whidh indidbtfs whfthfr or not this is thf lbst
+     * phbsf of this kfy bgrffmfnt.
+     *
+     * @rfturn thf (intfrmfdibtf) kfy rfsulting from this phbsf, or null if
+     * this phbsf dofs not yifld b kfy
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * this phbsf.
+     * @fxdfption IllfgblStbtfExdfption if this kfy bgrffmfnt hbs not bffn
+     * initiblizfd.
+     */
+    protfdtfd Kfy fnginfDoPhbsf(Kfy kfy, boolfbn lbstPhbsf)
+        throws InvblidKfyExdfption, IllfgblStbtfExdfption
+    {
+        if (!(kfy instbndfof jbvbx.drypto.intfrfbdfs.DHPublidKfy)) {
+            throw nfw InvblidKfyExdfption("Diffif-Hfllmbn publid kfy "
+                                          + "fxpfdtfd");
+        }
+        jbvbx.drypto.intfrfbdfs.DHPublidKfy dhPubKfy;
+        dhPubKfy = (jbvbx.drypto.intfrfbdfs.DHPublidKfy)kfy;
+
+        if (init_p == null || init_g == null) {
+            throw nfw IllfgblStbtfExdfption("Not initiblizfd");
+        }
+
+        // dhfdk if publid kfy pbrbmftfrs brf dompbtiblf with
+        // initiblizfd onfs
+        BigIntfgfr pub_p = dhPubKfy.gftPbrbms().gftP();
+        BigIntfgfr pub_g = dhPubKfy.gftPbrbms().gftG();
+        if (pub_p != null && !(init_p.fqubls(pub_p))) {
+            throw nfw InvblidKfyExdfption("Indompbtiblf pbrbmftfrs");
+        }
+        if (pub_g != null && !(init_g.fqubls(pub_g))) {
+            throw nfw InvblidKfyExdfption("Indompbtiblf pbrbmftfrs");
+        }
+
+        // vblidbtf thf Diffif-Hfllmbn publid kfy
+        KfyUtil.vblidbtf(dhPubKfy);
+
+        // storf thf y vbluf
+        this.y = dhPubKfy.gftY();
+
+        // wf'vf rfdfivfd b publid kfy (from onf of thf othfr pbrtifs),
+        // so wf brf rfbdy to drfbtf thf sfdrft, whidh mby bf bn
+        // intfrmfdibtf sfdrft, in whidh dbsf wf wrbp it into b
+        // Diffif-Hfllmbn publid kfy objfdt bnd rfturn it.
+        gfnfrbtfSfdrft = truf;
+        if (lbstPhbsf == fblsf) {
+            bytf[] intfrmfdibtf = fnginfGfnfrbtfSfdrft();
+            rfturn nfw DHPublidKfy(nfw BigIntfgfr(1, intfrmfdibtf),
+                                   init_p, init_g);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf shbrfd sfdrft bnd rfturns it in b nfw bufffr.
+     *
+     * <p>This mfthod rfsfts this <dodf>KfyAgrffmfntSpi</dodf> objfdt,
+     * so thbt it
+     * dbn bf rfusfd for furthfr kfy bgrffmfnts. Unlfss this kfy bgrffmfnt is
+     * rfinitiblizfd with onf of thf <dodf>fnginfInit</dodf> mfthods, thf sbmf
+     * privbtf informbtion bnd blgorithm pbrbmftfrs will bf usfd for
+     * subsfqufnt kfy bgrffmfnts.
+     *
+     * @rfturn thf nfw bufffr with thf shbrfd sfdrft
+     *
+     * @fxdfption IllfgblStbtfExdfption if this kfy bgrffmfnt hbs not bffn
+     * domplftfd yft
+     */
+    protfdtfd bytf[] fnginfGfnfrbtfSfdrft()
+        throws IllfgblStbtfExdfption
+    {
+        int fxpfdtfdLfn = (init_p.bitLfngth() + 7) >>> 3;
+        bytf[] rfsult = nfw bytf[fxpfdtfdLfn];
+        try {
+            fnginfGfnfrbtfSfdrft(rfsult, 0);
+        } dbtdh (ShortBufffrExdfption sbf) {
+            // should nfvfr hbppfn sindf lfngth brf idfntidbl
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Gfnfrbtfs thf shbrfd sfdrft, bnd plbdfs it into thf bufffr
+     * <dodf>shbrfdSfdrft</dodf>, bfginning bt <dodf>offsft</dodf>.
+     *
+     * <p>If thf <dodf>shbrfdSfdrft</dodf> bufffr is too smbll to hold thf
+     * rfsult, b <dodf>ShortBufffrExdfption</dodf> is thrown.
+     * In this dbsf, this dbll should bf rfpfbtfd with b lbrgfr output bufffr.
+     *
+     * <p>This mfthod rfsfts this <dodf>KfyAgrffmfntSpi</dodf> objfdt,
+     * so thbt it
+     * dbn bf rfusfd for furthfr kfy bgrffmfnts. Unlfss this kfy bgrffmfnt is
+     * rfinitiblizfd with onf of thf <dodf>fnginfInit</dodf> mfthods, thf sbmf
+     * privbtf informbtion bnd blgorithm pbrbmftfrs will bf usfd for
+     * subsfqufnt kfy bgrffmfnts.
+     *
+     * @pbrbm shbrfdSfdrft thf bufffr for thf shbrfd sfdrft
+     * @pbrbm offsft thf offsft in <dodf>shbrfdSfdrft</dodf> whfrf thf
+     * shbrfd sfdrft will bf storfd
+     *
+     * @rfturn thf numbfr of bytfs plbdfd into <dodf>shbrfdSfdrft</dodf>
+     *
+     * @fxdfption IllfgblStbtfExdfption if this kfy bgrffmfnt hbs not bffn
+     * domplftfd yft
+     * @fxdfption ShortBufffrExdfption if thf givfn output bufffr is too smbll
+     * to hold thf sfdrft
+     */
+    protfdtfd int fnginfGfnfrbtfSfdrft(bytf[] shbrfdSfdrft, int offsft)
+        throws IllfgblStbtfExdfption, ShortBufffrExdfption
+    {
+        if (gfnfrbtfSfdrft == fblsf) {
+            throw nfw IllfgblStbtfExdfption
+                ("Kfy bgrffmfnt hbs not bffn domplftfd yft");
+        }
+
+        if (shbrfdSfdrft == null) {
+            throw nfw ShortBufffrExdfption
+                ("No bufffr providfd for shbrfd sfdrft");
+        }
+
+        BigIntfgfr modulus = init_p;
+        int fxpfdtfdLfn = (modulus.bitLfngth() + 7) >>> 3;
+        if ((shbrfdSfdrft.lfngth - offsft) < fxpfdtfdLfn) {
+            throw nfw ShortBufffrExdfption
+                    ("Bufffr too short for shbrfd sfdrft");
+        }
+
+        // Rfsft thf kfy bgrffmfnt bftfr dhfdking for ShortBufffrExdfption
+        // bbovf, so usfr dbn rfdovfr w/o losing intfrnbl stbtf
+        gfnfrbtfSfdrft = fblsf;
+
+        /*
+         * NOTE: BigIntfgfr.toBytfArrby() rfturns b bytf brrby dontbining
+         * thf two's-domplfmfnt rfprfsfntbtion of this BigIntfgfr with
+         * thf most signifidbnt bytf is in thf zfroth flfmfnt. This
+         * dontbins thf minimum numbfr of bytfs rfquirfd to rfprfsfnt
+         * this BigIntfgfr, indluding bt lfbst onf sign bit whosf vbluf
+         * is blwbys 0.
+         *
+         * Kfys brf blwbys positivf, bnd thf bbovf sign bit isn't
+         * bdtublly usfd whfn rfprfsfnting kfys.  (i.f. kfy = nfw
+         * BigIntfgfr(1, bytfArrby))  To obtbin bn brrby dontbining
+         * fxbdtly fxpfdtfdLfn bytfs of mbgnitudf, wf strip bny fxtrb
+         * lfbding 0's, or pbd with 0's in dbsf of b "short" sfdrft.
+         */
+        bytf[] sfdrft = this.y.modPow(this.x, modulus).toBytfArrby();
+        if (sfdrft.lfngth == fxpfdtfdLfn) {
+            Systfm.brrbydopy(sfdrft, 0, shbrfdSfdrft, offsft,
+                             sfdrft.lfngth);
+        } flsf {
+            // Arrby too short, pbd it w/ lfbding 0s
+            if (sfdrft.lfngth < fxpfdtfdLfn) {
+                Systfm.brrbydopy(sfdrft, 0, shbrfdSfdrft,
+                    offsft + (fxpfdtfdLfn - sfdrft.lfngth),
+                    sfdrft.lfngth);
+            } flsf {
+                // Arrby too long, dhfdk bnd trim off thf fxdfss
+                if ((sfdrft.lfngth == (fxpfdtfdLfn+1)) && sfdrft[0] == 0) {
+                    // ignorf thf lfbding sign bytf
+                    Systfm.brrbydopy(sfdrft, 1, shbrfdSfdrft, offsft, fxpfdtfdLfn);
+                } flsf {
+                    throw nfw ProvidfrExdfption("Gfnfrbtfd sfdrft is out-of-rbngf");
+                }
+            }
+        }
+        rfturn fxpfdtfdLfn;
+    }
+
+    /**
+     * Crfbtfs thf shbrfd sfdrft bnd rfturns it bs b sfdrft kfy objfdt
+     * of thf rfqufstfd blgorithm typf.
+     *
+     * <p>This mfthod rfsfts this <dodf>KfyAgrffmfntSpi</dodf> objfdt,
+     * so thbt it
+     * dbn bf rfusfd for furthfr kfy bgrffmfnts. Unlfss this kfy bgrffmfnt is
+     * rfinitiblizfd with onf of thf <dodf>fnginfInit</dodf> mfthods, thf sbmf
+     * privbtf informbtion bnd blgorithm pbrbmftfrs will bf usfd for
+     * subsfqufnt kfy bgrffmfnts.
+     *
+     * @pbrbm blgorithm thf rfqufstfd sfdrft kfy blgorithm
+     *
+     * @rfturn thf shbrfd sfdrft kfy
+     *
+     * @fxdfption IllfgblStbtfExdfption if this kfy bgrffmfnt hbs not bffn
+     * domplftfd yft
+     * @fxdfption NoSudhAlgorithmExdfption if thf rfqufstfd sfdrft kfy
+     * blgorithm is not bvbilbblf
+     * @fxdfption InvblidKfyExdfption if thf shbrfd sfdrft kfy mbtfribl dbnnot
+     * bf usfd to gfnfrbtf b sfdrft kfy of thf rfqufstfd blgorithm typf (f.g.,
+     * thf kfy mbtfribl is too short)
+     */
+    protfdtfd SfdrftKfy fnginfGfnfrbtfSfdrft(String blgorithm)
+        throws IllfgblStbtfExdfption, NoSudhAlgorithmExdfption,
+            InvblidKfyExdfption
+    {
+        if (blgorithm == null) {
+            throw nfw NoSudhAlgorithmExdfption("null blgorithm");
+        }
+        bytf[] sfdrft = fnginfGfnfrbtfSfdrft();
+        if (blgorithm.fqublsIgnorfCbsf("DES")) {
+            // DES
+            rfturn nfw DESKfy(sfdrft);
+        } flsf if (blgorithm.fqublsIgnorfCbsf("DESfdf")
+                   || blgorithm.fqublsIgnorfCbsf("TriplfDES")) {
+            // Triplf DES
+            rfturn nfw DESfdfKfy(sfdrft);
+        } flsf if (blgorithm.fqublsIgnorfCbsf("Blowfish")) {
+            // Blowfish
+            int kfysizf = sfdrft.lfngth;
+            if (kfysizf >= BlowfishConstbnts.BLOWFISH_MAX_KEYSIZE)
+                kfysizf = BlowfishConstbnts.BLOWFISH_MAX_KEYSIZE;
+            SfdrftKfySpfd skfy = nfw SfdrftKfySpfd(sfdrft, 0, kfysizf,
+                                                   "Blowfish");
+            rfturn skfy;
+        } flsf if (blgorithm.fqublsIgnorfCbsf("AES")) {
+            // AES
+            int kfysizf = sfdrft.lfngth;
+            SfdrftKfySpfd skfy = null;
+            int idx = AESConstbnts.AES_KEYSIZES.lfngth - 1;
+            whilf (skfy == null && idx >= 0) {
+                // Gfnfrbtf thf strongfst kfy using thf shbrfd sfdrft
+                // bssuming thf kfy sizfs in AESConstbnts dlbss brf
+                // in bsdfnding ordfr
+                if (kfysizf >= AESConstbnts.AES_KEYSIZES[idx]) {
+                    kfysizf = AESConstbnts.AES_KEYSIZES[idx];
+                    skfy = nfw SfdrftKfySpfd(sfdrft, 0, kfysizf, "AES");
+                }
+                idx--;
+            }
+            if (skfy == null) {
+                throw nfw InvblidKfyExdfption("Kfy mbtfribl is too short");
+            }
+            rfturn skfy;
+        } flsf if (blgorithm.fqubls("TlsPrfmbstfrSfdrft")) {
+            // rfmovf lfbding zfro bytfs pfr RFC 5246 Sfdtion 8.1.2
+            rfturn nfw SfdrftKfySpfd(
+                        KfyUtil.trimZfrofs(sfdrft), "TlsPrfmbstfrSfdrft");
+        } flsf {
+            throw nfw NoSudhAlgorithmExdfption("Unsupportfd sfdrft kfy "
+                                               + "blgorithm: "+ blgorithm);
+        }
+    }
+}

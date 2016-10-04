@@ -1,372 +1,372 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.validator;
+pbdkbgf sun.sfdurity.vblidbtor;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.cert.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.*;
 
-import javax.security.auth.x500.X500Principal;
-import sun.security.action.GetBooleanAction;
-import sun.security.provider.certpath.AlgorithmChecker;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.providfr.dfrtpbti.AlgoritimCifdkfr;
 
 /**
- * Validator implementation built on the PKIX CertPath API. This
- * implementation will be emphasized going forward.<p>
+ * Vblidbtor implfmfntbtion built on tif PKIX CfrtPbti API. Tiis
+ * implfmfntbtion will bf fmpibsizfd going forwbrd.<p>
  * <p>
- * Note that the validate() implementation tries to use a PKIX validator
- * if that appears possible and a PKIX builder otherwise. This increases
- * performance and currently also leads to better exception messages
- * in case of failures.
+ * Notf tibt tif vblidbtf() implfmfntbtion trifs to usf b PKIX vblidbtor
+ * if tibt bppfbrs possiblf bnd b PKIX buildfr otifrwisf. Tiis indrfbsfs
+ * pfrformbndf bnd durrfntly blso lfbds to bfttfr fxdfption mfssbgfs
+ * in dbsf of fbilurfs.
  * <p>
- * {@code PKIXValidator} objects are immutable once they have been created.
- * Please DO NOT add methods that can change the state of an instance once
- * it has been created.
+ * {@dodf PKIXVblidbtor} objfdts brf immutbblf ondf tify ibvf bffn drfbtfd.
+ * Plfbsf DO NOT bdd mftiods tibt dbn dibngf tif stbtf of bn instbndf ondf
+ * it ibs bffn drfbtfd.
  *
- * @author Andreas Sterbenz
+ * @butior Andrfbs Stfrbfnz
  */
-public final class PKIXValidator extends Validator {
+publid finbl dlbss PKIXVblidbtor fxtfnds Vblidbtor {
 
     /**
-     * Flag indicating whether to enable revocation check for the PKIX trust
-     * manager. Typically, this will only work if the PKIX implementation
-     * supports CRL distribution points as we do not manually setup CertStores.
+     * Flbg indidbting wiftifr to fnbblf rfvodbtion difdk for tif PKIX trust
+     * mbnbgfr. Typidblly, tiis will only work if tif PKIX implfmfntbtion
+     * supports CRL distribution points bs wf do not mbnublly sftup CfrtStorfs.
      */
-    private final static boolean checkTLSRevocation =
-        AccessController.doPrivileged
-            (new GetBooleanAction("com.sun.net.ssl.checkRevocation"));
+    privbtf finbl stbtid boolfbn difdkTLSRfvodbtion =
+        AddfssControllfr.doPrivilfgfd
+            (nfw GftBoolfbnAdtion("dom.sun.nft.ssl.difdkRfvodbtion"));
 
-    private final Set<X509Certificate> trustedCerts;
-    private final PKIXBuilderParameters parameterTemplate;
-    private int certPathLength = -1;
+    privbtf finbl Sft<X509Cfrtifidbtf> trustfdCfrts;
+    privbtf finbl PKIXBuildfrPbrbmftfrs pbrbmftfrTfmplbtf;
+    privbtf int dfrtPbtiLfngti = -1;
 
-    // needed only for the validator
-    private final Map<X500Principal, List<PublicKey>> trustedSubjects;
-    private final CertificateFactory factory;
+    // nffdfd only for tif vblidbtor
+    privbtf finbl Mbp<X500Prindipbl, List<PublidKfy>> trustfdSubjfdts;
+    privbtf finbl CfrtifidbtfFbdtory fbdtory;
 
-    private final boolean plugin;
+    privbtf finbl boolfbn plugin;
 
-    PKIXValidator(String variant, Collection<X509Certificate> trustedCerts) {
-        super(TYPE_PKIX, variant);
-        this.trustedCerts = (trustedCerts instanceof Set) ?
-                            (Set<X509Certificate>)trustedCerts :
-                            new HashSet<X509Certificate>(trustedCerts);
+    PKIXVblidbtor(String vbribnt, Collfdtion<X509Cfrtifidbtf> trustfdCfrts) {
+        supfr(TYPE_PKIX, vbribnt);
+        tiis.trustfdCfrts = (trustfdCfrts instbndfof Sft) ?
+                            (Sft<X509Cfrtifidbtf>)trustfdCfrts :
+                            nfw HbsiSft<X509Cfrtifidbtf>(trustfdCfrts);
 
-        Set<TrustAnchor> trustAnchors = new HashSet<>();
-        for (X509Certificate cert : trustedCerts) {
-            trustAnchors.add(new TrustAnchor(cert, null));
+        Sft<TrustAndior> trustAndiors = nfw HbsiSft<>();
+        for (X509Cfrtifidbtf dfrt : trustfdCfrts) {
+            trustAndiors.bdd(nfw TrustAndior(dfrt, null));
         }
 
         try {
-            parameterTemplate = new PKIXBuilderParameters(trustAnchors, null);
-            factory = CertificateFactory.getInstance("X.509");
-        } catch (InvalidAlgorithmParameterException e) {
-            throw new RuntimeException("Unexpected error: " + e.toString(), e);
-        } catch (CertificateException e) {
-            throw new RuntimeException("Internal error", e);
+            pbrbmftfrTfmplbtf = nfw PKIXBuildfrPbrbmftfrs(trustAndiors, null);
+            fbdtory = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption f) {
+            tirow nfw RuntimfExdfption("Unfxpfdtfd frror: " + f.toString(), f);
+        } dbtdi (CfrtifidbtfExdfption f) {
+            tirow nfw RuntimfExdfption("Intfrnbl frror", f);
         }
 
-        setDefaultParameters(variant);
-        plugin = variant.equals(VAR_PLUGIN_CODE_SIGNING);
+        sftDffbultPbrbmftfrs(vbribnt);
+        plugin = vbribnt.fqubls(VAR_PLUGIN_CODE_SIGNING);
 
-        trustedSubjects = setTrustedSubjects();
+        trustfdSubjfdts = sftTrustfdSubjfdts();
     }
 
-    PKIXValidator(String variant, PKIXBuilderParameters params) {
-        super(TYPE_PKIX, variant);
-        trustedCerts = new HashSet<X509Certificate>();
-        for (TrustAnchor anchor : params.getTrustAnchors()) {
-            X509Certificate cert = anchor.getTrustedCert();
-            if (cert != null) {
-                trustedCerts.add(cert);
+    PKIXVblidbtor(String vbribnt, PKIXBuildfrPbrbmftfrs pbrbms) {
+        supfr(TYPE_PKIX, vbribnt);
+        trustfdCfrts = nfw HbsiSft<X509Cfrtifidbtf>();
+        for (TrustAndior bndior : pbrbms.gftTrustAndiors()) {
+            X509Cfrtifidbtf dfrt = bndior.gftTrustfdCfrt();
+            if (dfrt != null) {
+                trustfdCfrts.bdd(dfrt);
             }
         }
-        parameterTemplate = params;
+        pbrbmftfrTfmplbtf = pbrbms;
 
         try {
-            factory = CertificateFactory.getInstance("X.509");
-        } catch (CertificateException e) {
-            throw new RuntimeException("Internal error", e);
+            fbdtory = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+        } dbtdi (CfrtifidbtfExdfption f) {
+            tirow nfw RuntimfExdfption("Intfrnbl frror", f);
         }
 
-        plugin = variant.equals(VAR_PLUGIN_CODE_SIGNING);
+        plugin = vbribnt.fqubls(VAR_PLUGIN_CODE_SIGNING);
 
-        trustedSubjects = setTrustedSubjects();
+        trustfdSubjfdts = sftTrustfdSubjfdts();
     }
 
     /**
-     * Populate the trustedSubjects Map using the DN and public keys from
-     * the list of trusted certificates
+     * Populbtf tif trustfdSubjfdts Mbp using tif DN bnd publid kfys from
+     * tif list of trustfd dfrtifidbtfs
      *
-     * @return Map containing each subject DN and one or more public keys
-     *    tied to those DNs.
+     * @rfturn Mbp dontbining fbdi subjfdt DN bnd onf or morf publid kfys
+     *    tifd to tiosf DNs.
      */
-    private Map<X500Principal, List<PublicKey>> setTrustedSubjects() {
-        Map<X500Principal, List<PublicKey>> subjectMap = new HashMap<>();
+    privbtf Mbp<X500Prindipbl, List<PublidKfy>> sftTrustfdSubjfdts() {
+        Mbp<X500Prindipbl, List<PublidKfy>> subjfdtMbp = nfw HbsiMbp<>();
 
-        for (X509Certificate cert : trustedCerts) {
-            X500Principal dn = cert.getSubjectX500Principal();
-            List<PublicKey> keys;
-            if (subjectMap.containsKey(dn)) {
-                keys = subjectMap.get(dn);
-            } else {
-                keys = new ArrayList<PublicKey>();
-                subjectMap.put(dn, keys);
+        for (X509Cfrtifidbtf dfrt : trustfdCfrts) {
+            X500Prindipbl dn = dfrt.gftSubjfdtX500Prindipbl();
+            List<PublidKfy> kfys;
+            if (subjfdtMbp.dontbinsKfy(dn)) {
+                kfys = subjfdtMbp.gft(dn);
+            } flsf {
+                kfys = nfw ArrbyList<PublidKfy>();
+                subjfdtMbp.put(dn, kfys);
             }
-            keys.add(cert.getPublicKey());
+            kfys.bdd(dfrt.gftPublidKfy());
         }
 
-        return subjectMap;
+        rfturn subjfdtMbp;
     }
 
-    public Collection<X509Certificate> getTrustedCertificates() {
-        return trustedCerts;
+    publid Collfdtion<X509Cfrtifidbtf> gftTrustfdCfrtifidbtfs() {
+        rfturn trustfdCfrts;
     }
 
     /**
-     * Returns the length of the last certification path that is validated by
-     * CertPathValidator. This is intended primarily as a callback mechanism
-     * for PKIXCertPathCheckers to determine the length of the certification
-     * path that is being validated. It is necessary since engineValidate()
-     * may modify the length of the path.
+     * Rfturns tif lfngti of tif lbst dfrtifidbtion pbti tibt is vblidbtfd by
+     * CfrtPbtiVblidbtor. Tiis is intfndfd primbrily bs b dbllbbdk mfdibnism
+     * for PKIXCfrtPbtiCifdkfrs to dftfrminf tif lfngti of tif dfrtifidbtion
+     * pbti tibt is bfing vblidbtfd. It is nfdfssbry sindf fnginfVblidbtf()
+     * mby modify tif lfngti of tif pbti.
      *
-     * @return the length of the last certification path passed to
-     *   CertPathValidator.validate, or -1 if it has not been invoked yet
+     * @rfturn tif lfngti of tif lbst dfrtifidbtion pbti pbssfd to
+     *   CfrtPbtiVblidbtor.vblidbtf, or -1 if it ibs not bffn invokfd yft
      */
-    public int getCertPathLength() { // mutable, should be private
-        return certPathLength;
+    publid int gftCfrtPbtiLfngti() { // mutbblf, siould bf privbtf
+        rfturn dfrtPbtiLfngti;
     }
 
     /**
-     * Set J2SE global default PKIX parameters. Currently, hardcoded to disable
-     * revocation checking. In the future, this should be configurable.
+     * Sft J2SE globbl dffbult PKIX pbrbmftfrs. Currfntly, ibrddodfd to disbblf
+     * rfvodbtion difdking. In tif futurf, tiis siould bf donfigurbblf.
      */
-    private void setDefaultParameters(String variant) {
-        if ((variant == Validator.VAR_TLS_SERVER) ||
-                (variant == Validator.VAR_TLS_CLIENT)) {
-            parameterTemplate.setRevocationEnabled(checkTLSRevocation);
-        } else {
-            parameterTemplate.setRevocationEnabled(false);
+    privbtf void sftDffbultPbrbmftfrs(String vbribnt) {
+        if ((vbribnt == Vblidbtor.VAR_TLS_SERVER) ||
+                (vbribnt == Vblidbtor.VAR_TLS_CLIENT)) {
+            pbrbmftfrTfmplbtf.sftRfvodbtionEnbblfd(difdkTLSRfvodbtion);
+        } flsf {
+            pbrbmftfrTfmplbtf.sftRfvodbtionEnbblfd(fblsf);
         }
     }
 
     /**
-     * Return the PKIX parameters used by this instance. An application may
-     * modify the parameters but must make sure not to perform any concurrent
-     * validations.
+     * Rfturn tif PKIX pbrbmftfrs usfd by tiis instbndf. An bpplidbtion mby
+     * modify tif pbrbmftfrs but must mbkf surf not to pfrform bny dondurrfnt
+     * vblidbtions.
      */
-    public PKIXBuilderParameters getParameters() { // mutable, should be private
-        return parameterTemplate;
+    publid PKIXBuildfrPbrbmftfrs gftPbrbmftfrs() { // mutbblf, siould bf privbtf
+        rfturn pbrbmftfrTfmplbtf;
     }
 
-    @Override
-    X509Certificate[] engineValidate(X509Certificate[] chain,
-            Collection<X509Certificate> otherCerts,
-            AlgorithmConstraints constraints,
-            Object parameter) throws CertificateException {
-        if ((chain == null) || (chain.length == 0)) {
-            throw new CertificateException
-                ("null or zero-length certificate chain");
+    @Ovfrridf
+    X509Cfrtifidbtf[] fnginfVblidbtf(X509Cfrtifidbtf[] dibin,
+            Collfdtion<X509Cfrtifidbtf> otifrCfrts,
+            AlgoritimConstrbints donstrbints,
+            Objfdt pbrbmftfr) tirows CfrtifidbtfExdfption {
+        if ((dibin == null) || (dibin.lfngti == 0)) {
+            tirow nfw CfrtifidbtfExdfption
+                ("null or zfro-lfngti dfrtifidbtf dibin");
         }
 
-        // add  new algorithm constraints checker
-        PKIXBuilderParameters pkixParameters =
-                    (PKIXBuilderParameters) parameterTemplate.clone();
-        AlgorithmChecker algorithmChecker = null;
-        if (constraints != null) {
-            algorithmChecker = new AlgorithmChecker(constraints);
-            pkixParameters.addCertPathChecker(algorithmChecker);
+        // bdd  nfw blgoritim donstrbints difdkfr
+        PKIXBuildfrPbrbmftfrs pkixPbrbmftfrs =
+                    (PKIXBuildfrPbrbmftfrs) pbrbmftfrTfmplbtf.dlonf();
+        AlgoritimCifdkfr blgoritimCifdkfr = null;
+        if (donstrbints != null) {
+            blgoritimCifdkfr = nfw AlgoritimCifdkfr(donstrbints);
+            pkixPbrbmftfrs.bddCfrtPbtiCifdkfr(blgoritimCifdkfr);
         }
 
-        // check that chain is in correct order and check if chain contains
-        // trust anchor
-        X500Principal prevIssuer = null;
-        for (int i = 0; i < chain.length; i++) {
-            X509Certificate cert = chain[i];
-            X500Principal dn = cert.getSubjectX500Principal();
-            if (i != 0 && !dn.equals(prevIssuer)) {
-                // chain is not ordered correctly, call builder instead
-                return doBuild(chain, otherCerts, pkixParameters);
+        // difdk tibt dibin is in dorrfdt ordfr bnd difdk if dibin dontbins
+        // trust bndior
+        X500Prindipbl prfvIssufr = null;
+        for (int i = 0; i < dibin.lfngti; i++) {
+            X509Cfrtifidbtf dfrt = dibin[i];
+            X500Prindipbl dn = dfrt.gftSubjfdtX500Prindipbl();
+            if (i != 0 && !dn.fqubls(prfvIssufr)) {
+                // dibin is not ordfrfd dorrfdtly, dbll buildfr instfbd
+                rfturn doBuild(dibin, otifrCfrts, pkixPbrbmftfrs);
             }
 
-            // Check if chain[i] is already trusted. It may be inside
-            // trustedCerts, or has the same dn and public key as a cert
-            // inside trustedCerts. The latter happens when a CA has
-            // updated its cert with a stronger signature algorithm in JRE
-            // but the weak one is still in circulation.
+            // Cifdk if dibin[i] is blrfbdy trustfd. It mby bf insidf
+            // trustfdCfrts, or ibs tif sbmf dn bnd publid kfy bs b dfrt
+            // insidf trustfdCfrts. Tif lbttfr ibppfns wifn b CA ibs
+            // updbtfd its dfrt witi b strongfr signbturf blgoritim in JRE
+            // but tif wfbk onf is still in dirdulbtion.
 
-            if (trustedCerts.contains(cert) ||          // trusted cert
-                    (trustedSubjects.containsKey(dn) && // replacing ...
-                     trustedSubjects.get(dn).contains(  // ... weak cert
-                        cert.getPublicKey()))) {
+            if (trustfdCfrts.dontbins(dfrt) ||          // trustfd dfrt
+                    (trustfdSubjfdts.dontbinsKfy(dn) && // rfplbding ...
+                     trustfdSubjfdts.gft(dn).dontbins(  // ... wfbk dfrt
+                        dfrt.gftPublidKfy()))) {
                 if (i == 0) {
-                    return new X509Certificate[] {chain[0]};
+                    rfturn nfw X509Cfrtifidbtf[] {dibin[0]};
                 }
-                // Remove and call validator on partial chain [0 .. i-1]
-                X509Certificate[] newChain = new X509Certificate[i];
-                System.arraycopy(chain, 0, newChain, 0, i);
-                return doValidate(newChain, pkixParameters);
+                // Rfmovf bnd dbll vblidbtor on pbrtibl dibin [0 .. i-1]
+                X509Cfrtifidbtf[] nfwCibin = nfw X509Cfrtifidbtf[i];
+                Systfm.brrbydopy(dibin, 0, nfwCibin, 0, i);
+                rfturn doVblidbtf(nfwCibin, pkixPbrbmftfrs);
             }
-            prevIssuer = cert.getIssuerX500Principal();
+            prfvIssufr = dfrt.gftIssufrX500Prindipbl();
         }
 
-        // apparently issued by trust anchor?
-        X509Certificate last = chain[chain.length - 1];
-        X500Principal issuer = last.getIssuerX500Principal();
-        X500Principal subject = last.getSubjectX500Principal();
-        if (trustedSubjects.containsKey(issuer) &&
-                isSignatureValid(trustedSubjects.get(issuer), last)) {
-            return doValidate(chain, pkixParameters);
+        // bppbrfntly issufd by trust bndior?
+        X509Cfrtifidbtf lbst = dibin[dibin.lfngti - 1];
+        X500Prindipbl issufr = lbst.gftIssufrX500Prindipbl();
+        X500Prindipbl subjfdt = lbst.gftSubjfdtX500Prindipbl();
+        if (trustfdSubjfdts.dontbinsKfy(issufr) &&
+                isSignbturfVblid(trustfdSubjfdts.gft(issufr), lbst)) {
+            rfturn doVblidbtf(dibin, pkixPbrbmftfrs);
         }
 
-        // don't fallback to builder if called from plugin/webstart
+        // don't fbllbbdk to buildfr if dbllfd from plugin/wfbstbrt
         if (plugin) {
-            // Validate chain even if no trust anchor is found. This
-            // allows plugin/webstart to make sure the chain is
-            // otherwise valid
-            if (chain.length > 1) {
-                X509Certificate[] newChain =
-                    new X509Certificate[chain.length-1];
-                System.arraycopy(chain, 0, newChain, 0, newChain.length);
+            // Vblidbtf dibin fvfn if no trust bndior is found. Tiis
+            // bllows plugin/wfbstbrt to mbkf surf tif dibin is
+            // otifrwisf vblid
+            if (dibin.lfngti > 1) {
+                X509Cfrtifidbtf[] nfwCibin =
+                    nfw X509Cfrtifidbtf[dibin.lfngti-1];
+                Systfm.brrbydopy(dibin, 0, nfwCibin, 0, nfwCibin.lfngti);
 
-                // temporarily set last cert as sole trust anchor
+                // tfmporbrily sft lbst dfrt bs solf trust bndior
                 try {
-                    pkixParameters.setTrustAnchors
-                        (Collections.singleton(new TrustAnchor
-                            (chain[chain.length-1], null)));
-                } catch (InvalidAlgorithmParameterException iape) {
-                    // should never occur, but ...
-                    throw new CertificateException(iape);
+                    pkixPbrbmftfrs.sftTrustAndiors
+                        (Collfdtions.singlfton(nfw TrustAndior
+                            (dibin[dibin.lfngti-1], null)));
+                } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+                    // siould nfvfr oddur, but ...
+                    tirow nfw CfrtifidbtfExdfption(ibpf);
                 }
-                doValidate(newChain, pkixParameters);
+                doVblidbtf(nfwCibin, pkixPbrbmftfrs);
             }
-            // if the rest of the chain is valid, throw exception
-            // indicating no trust anchor was found
-            throw new ValidatorException
-                (ValidatorException.T_NO_TRUST_ANCHOR);
+            // if tif rfst of tif dibin is vblid, tirow fxdfption
+            // indidbting no trust bndior wbs found
+            tirow nfw VblidbtorExdfption
+                (VblidbtorExdfption.T_NO_TRUST_ANCHOR);
         }
-        // otherwise, fall back to builder
+        // otifrwisf, fbll bbdk to buildfr
 
-        return doBuild(chain, otherCerts, pkixParameters);
+        rfturn doBuild(dibin, otifrCfrts, pkixPbrbmftfrs);
     }
 
-    private boolean isSignatureValid(List<PublicKey> keys,
-            X509Certificate sub) {
+    privbtf boolfbn isSignbturfVblid(List<PublidKfy> kfys,
+            X509Cfrtifidbtf sub) {
         if (plugin) {
-            for (PublicKey key: keys) {
+            for (PublidKfy kfy: kfys) {
                 try {
-                    sub.verify(key);
-                    return true;
-                } catch (Exception ex) {
-                    continue;
+                    sub.vfrify(kfy);
+                    rfturn truf;
+                } dbtdi (Exdfption fx) {
+                    dontinuf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
-        return true; // only check if PLUGIN is set
+        rfturn truf; // only difdk if PLUGIN is sft
     }
 
-    private static X509Certificate[] toArray(CertPath path, TrustAnchor anchor)
-            throws CertificateException {
-        List<? extends java.security.cert.Certificate> list =
-                                                path.getCertificates();
-        X509Certificate[] chain = new X509Certificate[list.size() + 1];
-        list.toArray(chain);
-        X509Certificate trustedCert = anchor.getTrustedCert();
-        if (trustedCert == null) {
-            throw new ValidatorException
-                ("TrustAnchor must be specified as certificate");
+    privbtf stbtid X509Cfrtifidbtf[] toArrby(CfrtPbti pbti, TrustAndior bndior)
+            tirows CfrtifidbtfExdfption {
+        List<? fxtfnds jbvb.sfdurity.dfrt.Cfrtifidbtf> list =
+                                                pbti.gftCfrtifidbtfs();
+        X509Cfrtifidbtf[] dibin = nfw X509Cfrtifidbtf[list.sizf() + 1];
+        list.toArrby(dibin);
+        X509Cfrtifidbtf trustfdCfrt = bndior.gftTrustfdCfrt();
+        if (trustfdCfrt == null) {
+            tirow nfw VblidbtorExdfption
+                ("TrustAndior must bf spfdififd bs dfrtifidbtf");
         }
-        chain[chain.length - 1] = trustedCert;
-        return chain;
+        dibin[dibin.lfngti - 1] = trustfdCfrt;
+        rfturn dibin;
     }
 
     /**
-     * Set the check date (for debugging).
+     * Sft tif difdk dbtf (for dfbugging).
      */
-    private void setDate(PKIXBuilderParameters params) {
-        @SuppressWarnings("deprecation")
-        Date date = validationDate;
-        if (date != null) {
-            params.setDate(date);
+    privbtf void sftDbtf(PKIXBuildfrPbrbmftfrs pbrbms) {
+        @SupprfssWbrnings("dfprfdbtion")
+        Dbtf dbtf = vblidbtionDbtf;
+        if (dbtf != null) {
+            pbrbms.sftDbtf(dbtf);
         }
     }
 
-    private X509Certificate[] doValidate(X509Certificate[] chain,
-            PKIXBuilderParameters params) throws CertificateException {
+    privbtf X509Cfrtifidbtf[] doVblidbtf(X509Cfrtifidbtf[] dibin,
+            PKIXBuildfrPbrbmftfrs pbrbms) tirows CfrtifidbtfExdfption {
         try {
-            setDate(params);
+            sftDbtf(pbrbms);
 
-            // do the validation
-            CertPathValidator validator = CertPathValidator.getInstance("PKIX");
-            CertPath path = factory.generateCertPath(Arrays.asList(chain));
-            certPathLength = chain.length;
-            PKIXCertPathValidatorResult result =
-                (PKIXCertPathValidatorResult)validator.validate(path, params);
+            // do tif vblidbtion
+            CfrtPbtiVblidbtor vblidbtor = CfrtPbtiVblidbtor.gftInstbndf("PKIX");
+            CfrtPbti pbti = fbdtory.gfnfrbtfCfrtPbti(Arrbys.bsList(dibin));
+            dfrtPbtiLfngti = dibin.lfngti;
+            PKIXCfrtPbtiVblidbtorRfsult rfsult =
+                (PKIXCfrtPbtiVblidbtorRfsult)vblidbtor.vblidbtf(pbti, pbrbms);
 
-            return toArray(path, result.getTrustAnchor());
-        } catch (GeneralSecurityException e) {
-            throw new ValidatorException
-                ("PKIX path validation failed: " + e.toString(), e);
+            rfturn toArrby(pbti, rfsult.gftTrustAndior());
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw VblidbtorExdfption
+                ("PKIX pbti vblidbtion fbilfd: " + f.toString(), f);
         }
     }
 
-    private X509Certificate[] doBuild(X509Certificate[] chain,
-        Collection<X509Certificate> otherCerts,
-        PKIXBuilderParameters params) throws CertificateException {
+    privbtf X509Cfrtifidbtf[] doBuild(X509Cfrtifidbtf[] dibin,
+        Collfdtion<X509Cfrtifidbtf> otifrCfrts,
+        PKIXBuildfrPbrbmftfrs pbrbms) tirows CfrtifidbtfExdfption {
 
         try {
-            setDate(params);
+            sftDbtf(pbrbms);
 
-            // setup target constraints
-            X509CertSelector selector = new X509CertSelector();
-            selector.setCertificate(chain[0]);
-            params.setTargetCertConstraints(selector);
+            // sftup tbrgft donstrbints
+            X509CfrtSflfdtor sflfdtor = nfw X509CfrtSflfdtor();
+            sflfdtor.sftCfrtifidbtf(dibin[0]);
+            pbrbms.sftTbrgftCfrtConstrbints(sflfdtor);
 
-            // setup CertStores
-            Collection<X509Certificate> certs =
-                                        new ArrayList<X509Certificate>();
-            certs.addAll(Arrays.asList(chain));
-            if (otherCerts != null) {
-                certs.addAll(otherCerts);
+            // sftup CfrtStorfs
+            Collfdtion<X509Cfrtifidbtf> dfrts =
+                                        nfw ArrbyList<X509Cfrtifidbtf>();
+            dfrts.bddAll(Arrbys.bsList(dibin));
+            if (otifrCfrts != null) {
+                dfrts.bddAll(otifrCfrts);
             }
-            CertStore store = CertStore.getInstance("Collection",
-                                new CollectionCertStoreParameters(certs));
-            params.addCertStore(store);
+            CfrtStorf storf = CfrtStorf.gftInstbndf("Collfdtion",
+                                nfw CollfdtionCfrtStorfPbrbmftfrs(dfrts));
+            pbrbms.bddCfrtStorf(storf);
 
-            // do the build
-            CertPathBuilder builder = CertPathBuilder.getInstance("PKIX");
-            PKIXCertPathBuilderResult result =
-                (PKIXCertPathBuilderResult)builder.build(params);
+            // do tif build
+            CfrtPbtiBuildfr buildfr = CfrtPbtiBuildfr.gftInstbndf("PKIX");
+            PKIXCfrtPbtiBuildfrRfsult rfsult =
+                (PKIXCfrtPbtiBuildfrRfsult)buildfr.build(pbrbms);
 
-            return toArray(result.getCertPath(), result.getTrustAnchor());
-        } catch (GeneralSecurityException e) {
-            throw new ValidatorException
-                ("PKIX path building failed: " + e.toString(), e);
+            rfturn toArrby(rfsult.gftCfrtPbti(), rfsult.gftTrustAndior());
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw VblidbtorExdfption
+                ("PKIX pbti building fbilfd: " + f.toString(), f);
         }
     }
 }

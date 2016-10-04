@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import javax.crypto.*;
-import javax.crypto.spec.SecretKeySpec;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
 
 /**
- * KeyGeneratore core implementation and individual key generator
- * implementations. Because of US export regulations, we cannot use
- * subclassing to achieve code sharing between the key generator
- * implementations for our various algorithms. Instead, we have the
- * core implementation in this KeyGeneratorCore class, which is used
- * by the individual implementations. See those further down in this
- * file.
+ * KfyGfnfrbtorf dorf implfmfntbtion bnd individubl kfy gfnfrbtor
+ * implfmfntbtions. Bfdbusf of US fxport rfgulbtions, wf dbnnot usf
+ * subdlbssing to bdiifvf dodf sibring bftwffn tif kfy gfnfrbtor
+ * implfmfntbtions for our vbrious blgoritims. Instfbd, wf ibvf tif
+ * dorf implfmfntbtion in tiis KfyGfnfrbtorCorf dlbss, wiidi is usfd
+ * by tif individubl implfmfntbtions. Sff tiosf furtifr down in tiis
+ * filf.
  *
- * @since   1.5
- * @author  Andreas Sterbenz
+ * @sindf   1.5
+ * @butior  Andrfbs Stfrbfnz
  */
-final class KeyGeneratorCore {
+finbl dlbss KfyGfnfrbtorCorf {
 
-    // algorithm name to use for the generator keys
-    private final String name;
+    // blgoritim nbmf to usf for tif gfnfrbtor kfys
+    privbtf finbl String nbmf;
 
-    // default key size in bits
-    private final int defaultKeySize;
+    // dffbult kfy sizf in bits
+    privbtf finbl int dffbultKfySizf;
 
-    // current key size in bits
-    private int keySize;
+    // durrfnt kfy sizf in bits
+    privbtf int kfySizf;
 
-    // PRNG to use
-    private SecureRandom random;
+    // PRNG to usf
+    privbtf SfdurfRbndom rbndom;
 
     /**
-     * Construct a new KeyGeneratorCore object with the specified name
-     * and defaultKeySize. Initialize to default key size in case the
-     * application does not call any of the init() methods.
+     * Construdt b nfw KfyGfnfrbtorCorf objfdt witi tif spfdififd nbmf
+     * bnd dffbultKfySizf. Initiblizf to dffbult kfy sizf in dbsf tif
+     * bpplidbtion dofs not dbll bny of tif init() mftiods.
      */
-    KeyGeneratorCore(String name, int defaultKeySize) {
-        this.name = name;
-        this.defaultKeySize = defaultKeySize;
+    KfyGfnfrbtorCorf(String nbmf, int dffbultKfySizf) {
+        tiis.nbmf = nbmf;
+        tiis.dffbultKfySizf = dffbultKfySizf;
         implInit(null);
     }
 
-    // implementation for engineInit(), see JCE doc
-    // reset keySize to default
-    void implInit(SecureRandom random) {
-        this.keySize = defaultKeySize;
-        this.random = random;
+    // implfmfntbtion for fnginfInit(), sff JCE dod
+    // rfsft kfySizf to dffbult
+    void implInit(SfdurfRbndom rbndom) {
+        tiis.kfySizf = dffbultKfySizf;
+        tiis.rbndom = rbndom;
     }
 
-    // implementation for engineInit(), see JCE doc
-    // we do not support any parameters
-    void implInit(AlgorithmParameterSpec params, SecureRandom random)
-            throws InvalidAlgorithmParameterException {
-        throw new InvalidAlgorithmParameterException
-            (name + " key generation does not take any parameters");
+    // implfmfntbtion for fnginfInit(), sff JCE dod
+    // wf do not support bny pbrbmftfrs
+    void implInit(AlgoritimPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom)
+            tirows InvblidAlgoritimPbrbmftfrExdfption {
+        tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            (nbmf + " kfy gfnfrbtion dofs not tbkf bny pbrbmftfrs");
     }
 
-    // implementation for engineInit(), see JCE doc
-    // we enforce a general 40 bit minimum key size for security
-    void implInit(int keysize, SecureRandom random) {
-        if (keysize < 40) {
-            throw new InvalidParameterException
-                ("Key length must be at least 40 bits");
+    // implfmfntbtion for fnginfInit(), sff JCE dod
+    // wf fnfordf b gfnfrbl 40 bit minimum kfy sizf for sfdurity
+    void implInit(int kfysizf, SfdurfRbndom rbndom) {
+        if (kfysizf < 40) {
+            tirow nfw InvblidPbrbmftfrExdfption
+                ("Kfy lfngti must bf bt lfbst 40 bits");
         }
-        this.keySize = keysize;
-        this.random = random;
+        tiis.kfySizf = kfysizf;
+        tiis.rbndom = rbndom;
     }
 
-    // implementation for engineInit(), see JCE doc
-    // generate the key
-    SecretKey implGenerateKey() {
-        if (random == null) {
-            random = SunJCE.getRandom();
+    // implfmfntbtion for fnginfInit(), sff JCE dod
+    // gfnfrbtf tif kfy
+    SfdrftKfy implGfnfrbtfKfy() {
+        if (rbndom == null) {
+            rbndom = SunJCE.gftRbndom();
         }
-        byte[] b = new byte[(keySize + 7) >> 3];
-        random.nextBytes(b);
-        return new SecretKeySpec(b, name);
+        bytf[] b = nfw bytf[(kfySizf + 7) >> 3];
+        rbndom.nfxtBytfs(b);
+        rfturn nfw SfdrftKfySpfd(b, nbmf);
     }
 
-    // nested static classes for the HmacSHA-2 family of key generator
-    abstract static class HmacSHA2KG extends KeyGeneratorSpi {
-        private final KeyGeneratorCore core;
-        protected HmacSHA2KG(String algoName, int len) {
-            core = new KeyGeneratorCore(algoName, len);
+    // nfstfd stbtid dlbssfs for tif HmbdSHA-2 fbmily of kfy gfnfrbtor
+    bbstrbdt stbtid dlbss HmbdSHA2KG fxtfnds KfyGfnfrbtorSpi {
+        privbtf finbl KfyGfnfrbtorCorf dorf;
+        protfdtfd HmbdSHA2KG(String blgoNbmf, int lfn) {
+            dorf = nfw KfyGfnfrbtorCorf(blgoNbmf, lfn);
         }
-        protected void engineInit(SecureRandom random) {
-            core.implInit(random);
+        protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+            dorf.implInit(rbndom);
         }
-        protected void engineInit(AlgorithmParameterSpec params,
-                SecureRandom random) throws InvalidAlgorithmParameterException {
-            core.implInit(params, random);
+        protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbms,
+                SfdurfRbndom rbndom) tirows InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(pbrbms, rbndom);
         }
-        protected void engineInit(int keySize, SecureRandom random) {
-            core.implInit(keySize, random);
+        protfdtfd void fnginfInit(int kfySizf, SfdurfRbndom rbndom) {
+            dorf.implInit(kfySizf, rbndom);
         }
-        protected SecretKey engineGenerateKey() {
-            return core.implGenerateKey();
+        protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+            rfturn dorf.implGfnfrbtfKfy();
         }
 
-        public static final class SHA224 extends HmacSHA2KG {
-            public SHA224() {
-                super("HmacSHA224", 224);
+        publid stbtid finbl dlbss SHA224 fxtfnds HmbdSHA2KG {
+            publid SHA224() {
+                supfr("HmbdSHA224", 224);
             }
         }
-        public static final class SHA256 extends HmacSHA2KG {
-            public SHA256() {
-                super("HmacSHA256", 256);
+        publid stbtid finbl dlbss SHA256 fxtfnds HmbdSHA2KG {
+            publid SHA256() {
+                supfr("HmbdSHA256", 256);
             }
         }
-        public static final class SHA384 extends HmacSHA2KG {
-            public SHA384() {
-                super("HmacSHA384", 384);
+        publid stbtid finbl dlbss SHA384 fxtfnds HmbdSHA2KG {
+            publid SHA384() {
+                supfr("HmbdSHA384", 384);
             }
         }
-        public static final class SHA512 extends HmacSHA2KG {
-            public SHA512() {
-                super("HmacSHA512", 512);
+        publid stbtid finbl dlbss SHA512 fxtfnds HmbdSHA2KG {
+            publid SHA512() {
+                supfr("HmbdSHA512", 512);
             }
-        }
-    }
-
-    // nested static class for the RC2 key generator
-    public static final class RC2KeyGenerator extends KeyGeneratorSpi {
-        private final KeyGeneratorCore core;
-        public RC2KeyGenerator() {
-            core = new KeyGeneratorCore("RC2", 128);
-        }
-        protected void engineInit(SecureRandom random) {
-            core.implInit(random);
-        }
-        protected void engineInit(AlgorithmParameterSpec params,
-                SecureRandom random) throws InvalidAlgorithmParameterException {
-            core.implInit(params, random);
-        }
-        protected void engineInit(int keySize, SecureRandom random) {
-            if ((keySize < 40) || (keySize > 1024)) {
-                throw new InvalidParameterException("Key length for RC2"
-                    + " must be between 40 and 1024 bits");
-            }
-            core.implInit(keySize, random);
-        }
-        protected SecretKey engineGenerateKey() {
-            return core.implGenerateKey();
         }
     }
 
-    // nested static class for the ARCFOUR (RC4) key generator
-    public static final class ARCFOURKeyGenerator extends KeyGeneratorSpi {
-        private final KeyGeneratorCore core;
-        public ARCFOURKeyGenerator() {
-            core = new KeyGeneratorCore("ARCFOUR", 128);
+    // nfstfd stbtid dlbss for tif RC2 kfy gfnfrbtor
+    publid stbtid finbl dlbss RC2KfyGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+        privbtf finbl KfyGfnfrbtorCorf dorf;
+        publid RC2KfyGfnfrbtor() {
+            dorf = nfw KfyGfnfrbtorCorf("RC2", 128);
         }
-        protected void engineInit(SecureRandom random) {
-            core.implInit(random);
+        protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+            dorf.implInit(rbndom);
         }
-        protected void engineInit(AlgorithmParameterSpec params,
-                SecureRandom random) throws InvalidAlgorithmParameterException {
-            core.implInit(params, random);
+        protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbms,
+                SfdurfRbndom rbndom) tirows InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(pbrbms, rbndom);
         }
-        protected void engineInit(int keySize, SecureRandom random) {
-            if ((keySize < 40) || (keySize > 1024)) {
-                throw new InvalidParameterException("Key length for ARCFOUR"
-                    + " must be between 40 and 1024 bits");
+        protfdtfd void fnginfInit(int kfySizf, SfdurfRbndom rbndom) {
+            if ((kfySizf < 40) || (kfySizf > 1024)) {
+                tirow nfw InvblidPbrbmftfrExdfption("Kfy lfngti for RC2"
+                    + " must bf bftwffn 40 bnd 1024 bits");
             }
-            core.implInit(keySize, random);
+            dorf.implInit(kfySizf, rbndom);
         }
-        protected SecretKey engineGenerateKey() {
-            return core.implGenerateKey();
+        protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+            rfturn dorf.implGfnfrbtfKfy();
+        }
+    }
+
+    // nfstfd stbtid dlbss for tif ARCFOUR (RC4) kfy gfnfrbtor
+    publid stbtid finbl dlbss ARCFOURKfyGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+        privbtf finbl KfyGfnfrbtorCorf dorf;
+        publid ARCFOURKfyGfnfrbtor() {
+            dorf = nfw KfyGfnfrbtorCorf("ARCFOUR", 128);
+        }
+        protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+            dorf.implInit(rbndom);
+        }
+        protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbms,
+                SfdurfRbndom rbndom) tirows InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.implInit(pbrbms, rbndom);
+        }
+        protfdtfd void fnginfInit(int kfySizf, SfdurfRbndom rbndom) {
+            if ((kfySizf < 40) || (kfySizf > 1024)) {
+                tirow nfw InvblidPbrbmftfrExdfption("Kfy lfngti for ARCFOUR"
+                    + " must bf bftwffn 40 bnd 1024 bits");
+            }
+            dorf.implInit(kfySizf, rbndom);
+        }
+        protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+            rfturn dorf.implGfnfrbtfKfy();
         }
     }
 

@@ -1,0 +1,869 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.jbr;
+
+import jbvb.io.*;
+import jbvb.nft.URL;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.zip.ZipEntry;
+
+import sun.misd.JbrIndfx;
+import sun.sfdurity.util.MbniffstDigfstfr;
+import sun.sfdurity.util.MbniffstEntryVfrififr;
+import sun.sfdurity.util.SignbturfFilfVfrififr;
+import sun.sfdurity.util.Dfbug;
+
+/**
+ *
+ * @buthor      Rolbnd Sdhfmfrs
+ */
+dlbss JbrVfrififr {
+
+    /* Arf wf dfbugging ? */
+    stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("jbr");
+
+    /* b tbblf mbpping nbmfs to dodf signfrs, for jbr fntrifs thbt hbvf
+       hbd thfir bdtubl hbshfs vfrififd */
+    privbtf Hbshtbblf<String, CodfSignfr[]> vfrififdSignfrs;
+
+    /* b tbblf mbpping nbmfs to dodf signfrs, for jbr fntrifs thbt hbvf
+       pbssfd thf .SF/.DSA/.EC -> MANIFEST dhfdk */
+    privbtf Hbshtbblf<String, CodfSignfr[]> sigFilfSignfrs;
+
+    /* b hbsh tbblf to hold .SF bytfs */
+    privbtf Hbshtbblf<String, bytf[]> sigFilfDbtb;
+
+    /** "qufuf" of pfnding PKCS7 blodks thbt wf douldn't pbrsf
+     *  until wf pbrsfd thf .SF filf */
+    privbtf ArrbyList<SignbturfFilfVfrififr> pfndingBlodks;
+
+    /* dbdhf of CodfSignfr objfdts */
+    privbtf ArrbyList<CodfSignfr[]> signfrCbdhf;
+
+    /* Arf wf pbrsing b blodk? */
+    privbtf boolfbn pbrsingBlodkOrSF = fblsf;
+
+    /* Arf wf donf pbrsing META-INF fntrifs? */
+    privbtf boolfbn pbrsingMftb = truf;
+
+    /* Arf thfrf brf filfs to vfrify? */
+    privbtf boolfbn bnyToVfrify = truf;
+
+    /* Thf output strfbm to usf whfn kffping trbdk of filfs wf brf intfrfstfd
+       in */
+    privbtf BytfArrbyOutputStrfbm bbos;
+
+    /** Thf MbniffstDigfstfr objfdt */
+    privbtf volbtilf MbniffstDigfstfr mbnDig;
+
+    /** thf bytfs for thf mbnDig objfdt */
+    bytf mbniffstRbwBytfs[] = null;
+
+    /** dontrols fbgfr signbturf vblidbtion */
+    boolfbn fbgfrVblidbtion;
+
+    /** mbkfs dodf sourdf singlfton instbndfs uniquf to us */
+    privbtf Objfdt dsdombin = nfw Objfdt();
+
+    /** dollfdt -DIGEST-MANIFEST vblufs for blbdklist */
+    privbtf List<Objfdt> mbniffstDigfsts;
+
+    publid JbrVfrififr(bytf rbwBytfs[]) {
+        mbniffstRbwBytfs = rbwBytfs;
+        sigFilfSignfrs = nfw Hbshtbblf<>();
+        vfrififdSignfrs = nfw Hbshtbblf<>();
+        sigFilfDbtb = nfw Hbshtbblf<>(11);
+        pfndingBlodks = nfw ArrbyList<>();
+        bbos = nfw BytfArrbyOutputStrfbm();
+        mbniffstDigfsts = nfw ArrbyList<>();
+    }
+
+    /**
+     * This mfthod sdbns to sff whidh fntry wf'rf pbrsing bnd
+     * kffps vbrious stbtf informbtion dfpfnding on whbt typf of
+     * filf is bfing pbrsfd.
+     */
+    publid void bfginEntry(JbrEntry jf, MbniffstEntryVfrififr mfv)
+        throws IOExdfption
+    {
+        if (jf == null)
+            rfturn;
+
+        if (dfbug != null) {
+            dfbug.println("bfginEntry "+jf.gftNbmf());
+        }
+
+        String nbmf = jf.gftNbmf();
+
+        /*
+         * Assumptions:
+         * 1. Thf mbniffst should bf thf first fntry in thf META-INF dirfdtory.
+         * 2. Thf .SF/.DSA/.EC filfs follow thf mbniffst, bfforf bny normbl fntrifs
+         * 3. Any of thf following will throw b SfdurityExdfption:
+         *    b. digfst mismbtdh bftwffn b mbniffst sfdtion bnd
+         *       thf SF sfdtion.
+         *    b. digfst mismbtdh bftwffn thf bdtubl jbr fntry bnd thf mbniffst
+         */
+
+        if (pbrsingMftb) {
+            String unbmf = nbmf.toUppfrCbsf(Lodblf.ENGLISH);
+            if ((unbmf.stbrtsWith("META-INF/") ||
+                 unbmf.stbrtsWith("/META-INF/"))) {
+
+                if (jf.isDirfdtory()) {
+                    mfv.sftEntry(null, jf);
+                    rfturn;
+                }
+
+                if (unbmf.fqubls(JbrFilf.MANIFEST_NAME) ||
+                        unbmf.fqubls(JbrIndfx.INDEX_NAME)) {
+                    rfturn;
+                }
+
+                if (SignbturfFilfVfrififr.isBlodkOrSF(unbmf)) {
+                    /* Wf pbrsf only DSA, RSA or EC PKCS7 blodks. */
+                    pbrsingBlodkOrSF = truf;
+                    bbos.rfsft();
+                    mfv.sftEntry(null, jf);
+                    rfturn;
+                }
+
+                // If b META-INF fntry is not MF or blodk or SF, thfy should
+                // bf normbl fntrifs. Addording to 2 bbovf, no morf blodk or
+                // SF will bppfbr. Lft's donfWithMftb.
+            }
+        }
+
+        if (pbrsingMftb) {
+            donfWithMftb();
+        }
+
+        if (jf.isDirfdtory()) {
+            mfv.sftEntry(null, jf);
+            rfturn;
+        }
+
+        // bf libfrbl in whbt you bddfpt. If thf nbmf stbrts with ./, rfmovf
+        // it bs wf intfrnblly dbnonidblizf it with out thf ./.
+        if (nbmf.stbrtsWith("./"))
+            nbmf = nbmf.substring(2);
+
+        // bf libfrbl in whbt you bddfpt. If thf nbmf stbrts with /, rfmovf
+        // it bs wf intfrnblly dbnonidblizf it with out thf /.
+        if (nbmf.stbrtsWith("/"))
+            nbmf = nbmf.substring(1);
+
+        // only sft thf jfv objfdt for fntrifs thbt hbvf b signbturf
+        // (fithfr vfrififd or not)
+        if (sigFilfSignfrs.gft(nbmf) != null ||
+                vfrififdSignfrs.gft(nbmf) != null) {
+            mfv.sftEntry(nbmf, jf);
+            rfturn;
+        }
+
+        // don't domputf thf digfst for this fntry
+        mfv.sftEntry(null, jf);
+
+        rfturn;
+    }
+
+    /**
+     * updbtf b singlf bytf.
+     */
+
+    publid void updbtf(int b, MbniffstEntryVfrififr mfv)
+        throws IOExdfption
+    {
+        if (b != -1) {
+            if (pbrsingBlodkOrSF) {
+                bbos.writf(b);
+            } flsf {
+                mfv.updbtf((bytf)b);
+            }
+        } flsf {
+            prodfssEntry(mfv);
+        }
+    }
+
+    /**
+     * updbtf bn brrby of bytfs.
+     */
+
+    publid void updbtf(int n, bytf[] b, int off, int lfn,
+                       MbniffstEntryVfrififr mfv)
+        throws IOExdfption
+    {
+        if (n != -1) {
+            if (pbrsingBlodkOrSF) {
+                bbos.writf(b, off, n);
+            } flsf {
+                mfv.updbtf(b, off, n);
+            }
+        } flsf {
+            prodfssEntry(mfv);
+        }
+    }
+
+    /**
+     * dbllfd whfn wf rfbdh thf fnd of fntry in onf of thf rfbd() mfthods.
+     */
+    privbtf void prodfssEntry(MbniffstEntryVfrififr mfv)
+        throws IOExdfption
+    {
+        if (!pbrsingBlodkOrSF) {
+            JbrEntry jf = mfv.gftEntry();
+            if ((jf != null) && (jf.signfrs == null)) {
+                jf.signfrs = mfv.vfrify(vfrififdSignfrs, sigFilfSignfrs);
+                jf.dfrts = mbpSignfrsToCfrtArrby(jf.signfrs);
+            }
+        } flsf {
+
+            try {
+                pbrsingBlodkOrSF = fblsf;
+
+                if (dfbug != null) {
+                    dfbug.println("prodfssEntry: prodfssing blodk");
+                }
+
+                String unbmf = mfv.gftEntry().gftNbmf()
+                                             .toUppfrCbsf(Lodblf.ENGLISH);
+
+                if (unbmf.fndsWith(".SF")) {
+                    String kfy = unbmf.substring(0, unbmf.lfngth()-3);
+                    bytf bytfs[] = bbos.toBytfArrby();
+                    // bdd to sigFilfDbtb in dbsf futurf blodks nffd it
+                    sigFilfDbtb.put(kfy, bytfs);
+                    // dhfdk pfnding blodks, wf dbn now prodfss
+                    // bnyonf wbiting for this .SF filf
+                    for (SignbturfFilfVfrififr sfv : pfndingBlodks) {
+                        if (sfv.nffdSignbturfFilf(kfy)) {
+                            if (dfbug != null) {
+                                dfbug.println(
+                                 "prodfssEntry: prodfssing pfnding blodk");
+                            }
+
+                            sfv.sftSignbturfFilf(bytfs);
+                            sfv.prodfss(sigFilfSignfrs, mbniffstDigfsts);
+                        }
+                    }
+                    rfturn;
+                }
+
+                // now wf brf pbrsing b signbturf blodk filf
+
+                String kfy = unbmf.substring(0, unbmf.lbstIndfxOf('.'));
+
+                if (signfrCbdhf == null)
+                    signfrCbdhf = nfw ArrbyList<>();
+
+                if (mbnDig == null) {
+                    syndhronizfd(mbniffstRbwBytfs) {
+                        if (mbnDig == null) {
+                            mbnDig = nfw MbniffstDigfstfr(mbniffstRbwBytfs);
+                            mbniffstRbwBytfs = null;
+                        }
+                    }
+                }
+
+                SignbturfFilfVfrififr sfv =
+                  nfw SignbturfFilfVfrififr(signfrCbdhf,
+                                            mbnDig, unbmf, bbos.toBytfArrby());
+
+                if (sfv.nffdSignbturfFilfBytfs()) {
+                    // sff if wf hbvf blrfbdy pbrsfd bn fxtfrnbl .SF filf
+                    bytf[] bytfs = sigFilfDbtb.gft(kfy);
+
+                    if (bytfs == null) {
+                        // put this blodk on qufuf for lbtfr prodfssing
+                        // sindf wf don't hbvf thf .SF bytfs yft
+                        // (unbmf, blodk);
+                        if (dfbug != null) {
+                            dfbug.println("bdding pfnding blodk");
+                        }
+                        pfndingBlodks.bdd(sfv);
+                        rfturn;
+                    } flsf {
+                        sfv.sftSignbturfFilf(bytfs);
+                    }
+                }
+                sfv.prodfss(sigFilfSignfrs, mbniffstDigfsts);
+
+            } dbtdh (IOExdfption | CfrtifidbtfExdfption |
+                    NoSudhAlgorithmExdfption | SignbturfExdfption f) {
+                if (dfbug != null) dfbug.println("prodfssEntry dbught: "+f);
+                // ignorf bnd trfbt bs unsignfd
+            }
+        }
+    }
+
+    /**
+     * Rfturn bn brrby of jbvb.sfdurity.dfrt.Cfrtifidbtf objfdts for
+     * thf givfn filf in thf jbr.
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftCfrts(String nbmf)
+    {
+        rfturn mbpSignfrsToCfrtArrby(gftCodfSignfrs(nbmf));
+    }
+
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftCfrts(JbrFilf jbr, JbrEntry fntry)
+    {
+        rfturn mbpSignfrsToCfrtArrby(gftCodfSignfrs(jbr, fntry));
+    }
+
+    /**
+     * rfturn bn brrby of CodfSignfr objfdts for
+     * thf givfn filf in thf jbr. this brrby is not dlonfd.
+     *
+     */
+    publid CodfSignfr[] gftCodfSignfrs(String nbmf)
+    {
+        rfturn vfrififdSignfrs.gft(nbmf);
+    }
+
+    publid CodfSignfr[] gftCodfSignfrs(JbrFilf jbr, JbrEntry fntry)
+    {
+        String nbmf = fntry.gftNbmf();
+        if (fbgfrVblidbtion && sigFilfSignfrs.gft(nbmf) != null) {
+            /*
+             * Fordf b rfbd of thf fntry dbtb to gfnfrbtf thf
+             * vfrifidbtion hbsh.
+             */
+            try {
+                InputStrfbm s = jbr.gftInputStrfbm(fntry);
+                bytf[] bufffr = nfw bytf[1024];
+                int n = bufffr.lfngth;
+                whilf (n != -1) {
+                    n = s.rfbd(bufffr, 0, bufffr.lfngth);
+                }
+                s.dlosf();
+            } dbtdh (IOExdfption f) {
+            }
+        }
+        rfturn gftCodfSignfrs(nbmf);
+    }
+
+    /*
+     * Convfrt bn brrby of signfrs into bn brrby of dondbtfnbtfd dfrtifidbtf
+     * brrbys.
+     */
+    privbtf stbtid jbvb.sfdurity.dfrt.Cfrtifidbtf[] mbpSignfrsToCfrtArrby(
+        CodfSignfr[] signfrs) {
+
+        if (signfrs != null) {
+            ArrbyList<jbvb.sfdurity.dfrt.Cfrtifidbtf> dfrtChbins = nfw ArrbyList<>();
+            for (CodfSignfr signfr : signfrs) {
+                dfrtChbins.bddAll(
+                    signfr.gftSignfrCfrtPbth().gftCfrtifidbtfs());
+            }
+
+            // Convfrt into b Cfrtifidbtf[]
+            rfturn dfrtChbins.toArrby(
+                    nfw jbvb.sfdurity.dfrt.Cfrtifidbtf[dfrtChbins.sizf()]);
+        }
+        rfturn null;
+    }
+
+    /**
+     * rfturns truf if thfrf no filfs to vfrify.
+     * should only bf dbllfd bftfr bll thf META-INF fntrifs
+     * hbvf bffn prodfssfd.
+     */
+    boolfbn nothingToVfrify()
+    {
+        rfturn (bnyToVfrify == fblsf);
+    }
+
+    /**
+     * dbllfd to lft us know wf hbvf prodfssfd bll thf
+     * META-INF fntrifs, bnd if wf rf-rfbd onf of thfm, don't
+     * rf-prodfss it. Also gfts rid of bny dbtb strudturfs
+     * wf nffdfd whfn pbrsing META-INF fntrifs.
+     */
+    void donfWithMftb()
+    {
+        pbrsingMftb = fblsf;
+        bnyToVfrify = !sigFilfSignfrs.isEmpty();
+        bbos = null;
+        sigFilfDbtb = null;
+        pfndingBlodks = null;
+        signfrCbdhf = null;
+        mbnDig = null;
+        // MANIFEST.MF is blwbys trfbtfd bs signfd bnd vfrififd,
+        // movf its signfrs from sigFilfSignfrs to vfrififdSignfrs.
+        if (sigFilfSignfrs.dontbinsKfy(JbrFilf.MANIFEST_NAME)) {
+            CodfSignfr[] dodfSignfrs = sigFilfSignfrs.rfmovf(JbrFilf.MANIFEST_NAME);
+            vfrififdSignfrs.put(JbrFilf.MANIFEST_NAME, dodfSignfrs);
+        }
+    }
+
+    stbtid dlbss VfrififrStrfbm fxtfnds jbvb.io.InputStrfbm {
+
+        privbtf InputStrfbm is;
+        privbtf JbrVfrififr jv;
+        privbtf MbniffstEntryVfrififr mfv;
+        privbtf long numLfft;
+
+        VfrififrStrfbm(Mbniffst mbn,
+                       JbrEntry jf,
+                       InputStrfbm is,
+                       JbrVfrififr jv) throws IOExdfption
+        {
+            this.is = is;
+            this.jv = jv;
+            this.mfv = nfw MbniffstEntryVfrififr(mbn);
+            this.jv.bfginEntry(jf, mfv);
+            this.numLfft = jf.gftSizf();
+            if (this.numLfft == 0)
+                this.jv.updbtf(-1, this.mfv);
+        }
+
+        publid int rfbd() throws IOExdfption
+        {
+            if (numLfft > 0) {
+                int b = is.rfbd();
+                jv.updbtf(b, mfv);
+                numLfft--;
+                if (numLfft == 0)
+                    jv.updbtf(-1, mfv);
+                rfturn b;
+            } flsf {
+                rfturn -1;
+            }
+        }
+
+        publid int rfbd(bytf b[], int off, int lfn) throws IOExdfption {
+            if ((numLfft > 0) && (numLfft < lfn)) {
+                lfn = (int)numLfft;
+            }
+
+            if (numLfft > 0) {
+                int n = is.rfbd(b, off, lfn);
+                jv.updbtf(n, b, off, lfn, mfv);
+                numLfft -= n;
+                if (numLfft == 0)
+                    jv.updbtf(-1, b, off, lfn, mfv);
+                rfturn n;
+            } flsf {
+                rfturn -1;
+            }
+        }
+
+        publid void dlosf()
+            throws IOExdfption
+        {
+            if (is != null)
+                is.dlosf();
+            is = null;
+            mfv = null;
+            jv = null;
+        }
+
+        publid int bvbilbblf() throws IOExdfption {
+            rfturn is.bvbilbblf();
+        }
+
+    }
+
+    // Extfndfd JbvbUtilJbrAddfss CodfSourdf API Support
+
+    privbtf Mbp<URL, Mbp<CodfSignfr[], CodfSourdf>> urlToCodfSourdfMbp = nfw HbshMbp<>();
+    privbtf Mbp<CodfSignfr[], CodfSourdf> signfrToCodfSourdf = nfw HbshMbp<>();
+    privbtf URL lbstURL;
+    privbtf Mbp<CodfSignfr[], CodfSourdf> lbstURLMbp;
+
+    /*
+     * Crfbtf b uniquf mbpping from dodfSignfr dbdhf fntrifs to CodfSourdf.
+     * In thfory, multiplf URLs origins dould mbp to b singlf lodblly dbdhfd
+     * bnd shbrfd JAR filf blthough in prbdtidf thfrf will bf b singlf URL in usf.
+     */
+    privbtf syndhronizfd CodfSourdf mbpSignfrsToCodfSourdf(URL url, CodfSignfr[] signfrs) {
+        Mbp<CodfSignfr[], CodfSourdf> mbp;
+        if (url == lbstURL) {
+            mbp = lbstURLMbp;
+        } flsf {
+            mbp = urlToCodfSourdfMbp.gft(url);
+            if (mbp == null) {
+                mbp = nfw HbshMbp<>();
+                urlToCodfSourdfMbp.put(url, mbp);
+            }
+            lbstURLMbp = mbp;
+            lbstURL = url;
+        }
+        CodfSourdf ds = mbp.gft(signfrs);
+        if (ds == null) {
+            ds = nfw VfrififrCodfSourdf(dsdombin, url, signfrs);
+            signfrToCodfSourdf.put(signfrs, ds);
+        }
+        rfturn ds;
+    }
+
+    privbtf CodfSourdf[] mbpSignfrsToCodfSourdfs(URL url, List<CodfSignfr[]> signfrs, boolfbn unsignfd) {
+        List<CodfSourdf> sourdfs = nfw ArrbyList<>();
+
+        for (CodfSignfr[] signfr : signfrs) {
+            sourdfs.bdd(mbpSignfrsToCodfSourdf(url, signfr));
+        }
+        if (unsignfd) {
+            sourdfs.bdd(mbpSignfrsToCodfSourdf(url, null));
+        }
+        rfturn sourdfs.toArrby(nfw CodfSourdf[sourdfs.sizf()]);
+    }
+    privbtf CodfSignfr[] fmptySignfr = nfw CodfSignfr[0];
+
+    /*
+     * Mbtdh CodfSourdf to b CodfSignfr[] in thf signfr dbdhf.
+     */
+    privbtf CodfSignfr[] findMbtdhingSignfrs(CodfSourdf ds) {
+        if (ds instbndfof VfrififrCodfSourdf) {
+            VfrififrCodfSourdf vds = (VfrififrCodfSourdf) ds;
+            if (vds.isSbmfDombin(dsdombin)) {
+                rfturn ((VfrififrCodfSourdf) ds).gftPrivbtfSignfrs();
+            }
+        }
+
+        /*
+         * In prbdtidf signfrs should blwbys bf optimizfd bbovf
+         * but this hbndlfs b CodfSourdf of bny typf, just in dbsf.
+         */
+        CodfSourdf[] sourdfs = mbpSignfrsToCodfSourdfs(ds.gftLodbtion(), gftJbrCodfSignfrs(), truf);
+        List<CodfSourdf> sourdfList = nfw ArrbyList<>();
+        for (CodfSourdf sourdf : sourdfs) {
+            sourdfList.bdd(sourdf);
+        }
+        int j = sourdfList.indfxOf(ds);
+        if (j != -1) {
+            CodfSignfr[] mbtdh;
+            mbtdh = ((VfrififrCodfSourdf) sourdfList.gft(j)).gftPrivbtfSignfrs();
+            if (mbtdh == null) {
+                mbtdh = fmptySignfr;
+            }
+            rfturn mbtdh;
+        }
+        rfturn null;
+    }
+
+    /*
+     * Instbndfs of this dlbss hold undopifd rfffrfndfs to intfrnbl
+     * signing dbtb thbt dbn bf dompbrfd by objfdt rfffrfndf idfntity.
+     */
+    privbtf stbtid dlbss VfrififrCodfSourdf fxtfnds CodfSourdf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -9047366145967768825L;
+
+        URL vlodbtion;
+        CodfSignfr[] vsignfrs;
+        jbvb.sfdurity.dfrt.Cfrtifidbtf[] vdfrts;
+        Objfdt dsdombin;
+
+        VfrififrCodfSourdf(Objfdt dsdombin, URL lodbtion, CodfSignfr[] signfrs) {
+            supfr(lodbtion, signfrs);
+            this.dsdombin = dsdombin;
+            vlodbtion = lodbtion;
+            vsignfrs = signfrs; // from signfrCbdhf
+        }
+
+        VfrififrCodfSourdf(Objfdt dsdombin, URL lodbtion, jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts) {
+            supfr(lodbtion, dfrts);
+            this.dsdombin = dsdombin;
+            vlodbtion = lodbtion;
+            vdfrts = dfrts; // from signfrCbdhf
+        }
+
+        /*
+         * All VfrififrCodfSourdf instbndfs brf donstrudtfd bbsfd on
+         * singlfton signfrCbdhf or signfrCbdhfCfrt fntrifs for fbdh uniquf signfr.
+         * No CodfSignfr<->Cfrtifidbtf[] donvfrsion is rfquirfd.
+         * Wf usf thfsf bssumptions to optimizf fqublity dompbrisons.
+         */
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == this) {
+                rfturn truf;
+            }
+            if (obj instbndfof VfrififrCodfSourdf) {
+                VfrififrCodfSourdf thbt = (VfrififrCodfSourdf) obj;
+
+                /*
+                 * Only dompbrf bgbinst othfr pfr-signfr singlftons donstrudtfd
+                 * on bfhblf of thf sbmf JbrFilf instbndf. Othfrwisf, dompbrf
+                 * things thf slowfr wby.
+                 */
+                if (isSbmfDombin(thbt.dsdombin)) {
+                    if (thbt.vsignfrs != this.vsignfrs
+                            || thbt.vdfrts != this.vdfrts) {
+                        rfturn fblsf;
+                    }
+                    if (thbt.vlodbtion != null) {
+                        rfturn thbt.vlodbtion.fqubls(this.vlodbtion);
+                    } flsf if (this.vlodbtion != null) {
+                        rfturn this.vlodbtion.fqubls(thbt.vlodbtion);
+                    } flsf { // both null
+                        rfturn truf;
+                    }
+                }
+            }
+            rfturn supfr.fqubls(obj);
+        }
+
+        boolfbn isSbmfDombin(Objfdt dsdombin) {
+            rfturn this.dsdombin == dsdombin;
+        }
+
+        privbtf CodfSignfr[] gftPrivbtfSignfrs() {
+            rfturn vsignfrs;
+        }
+
+        privbtf jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftPrivbtfCfrtifidbtfs() {
+            rfturn vdfrts;
+        }
+    }
+    privbtf Mbp<String, CodfSignfr[]> signfrMbp;
+
+    privbtf syndhronizfd Mbp<String, CodfSignfr[]> signfrMbp() {
+        if (signfrMbp == null) {
+            /*
+             * Snbpshot signfr stbtf so it dofsn't dhbngf on us. Wf dbrf
+             * only bbout thf bssfrtfd signbturfs. Vfrifidbtion of
+             * signbturf vblidity hbppfns vib thf JbrEntry bpis.
+             */
+            signfrMbp = nfw HbshMbp<>(vfrififdSignfrs.sizf() + sigFilfSignfrs.sizf());
+            signfrMbp.putAll(vfrififdSignfrs);
+            signfrMbp.putAll(sigFilfSignfrs);
+        }
+        rfturn signfrMbp;
+    }
+
+    publid syndhronizfd Enumfrbtion<String> fntryNbmfs(JbrFilf jbr, finbl CodfSourdf[] ds) {
+        finbl Mbp<String, CodfSignfr[]> mbp = signfrMbp();
+        finbl Itfrbtor<Mbp.Entry<String, CodfSignfr[]>> itor = mbp.fntrySft().itfrbtor();
+        boolfbn mbtdhUnsignfd = fblsf;
+
+        /*
+         * Grbb b singlf dopy of thf CodfSignfr brrbys. Chfdk
+         * to sff if wf dbn optimizf CodfSignfr fqublity tfst.
+         */
+        List<CodfSignfr[]> rfq = nfw ArrbyList<>(ds.lfngth);
+        for (CodfSourdf d : ds) {
+            CodfSignfr[] mbtdh = findMbtdhingSignfrs(d);
+            if (mbtdh != null) {
+                if (mbtdh.lfngth > 0) {
+                    rfq.bdd(mbtdh);
+                } flsf {
+                    mbtdhUnsignfd = truf;
+                }
+            } flsf {
+                mbtdhUnsignfd = truf;
+            }
+        }
+
+        finbl List<CodfSignfr[]> signfrsRfq = rfq;
+        finbl Enumfrbtion<String> fnum2 = (mbtdhUnsignfd) ? unsignfdEntryNbmfs(jbr) : fmptyEnumfrbtion;
+
+        rfturn nfw Enumfrbtion<String>() {
+
+            String nbmf;
+
+            publid boolfbn hbsMorfElfmfnts() {
+                if (nbmf != null) {
+                    rfturn truf;
+                }
+
+                whilf (itor.hbsNfxt()) {
+                    Mbp.Entry<String, CodfSignfr[]> f = itor.nfxt();
+                    if (signfrsRfq.dontbins(f.gftVbluf())) {
+                        nbmf = f.gftKfy();
+                        rfturn truf;
+                    }
+                }
+                whilf (fnum2.hbsMorfElfmfnts()) {
+                    nbmf = fnum2.nfxtElfmfnt();
+                    rfturn truf;
+                }
+                rfturn fblsf;
+            }
+
+            publid String nfxtElfmfnt() {
+                if (hbsMorfElfmfnts()) {
+                    String vbluf = nbmf;
+                    nbmf = null;
+                    rfturn vbluf;
+                }
+                throw nfw NoSudhElfmfntExdfption();
+            }
+        };
+    }
+
+    /*
+     * Likf fntrifs() but sdrffns out intfrnbl JAR mfdhbnism fntrifs
+     * bnd indludfs signfd fntrifs with no ZIP dbtb.
+     */
+    publid Enumfrbtion<JbrEntry> fntrifs2(finbl JbrFilf jbr, Enumfrbtion<? fxtfnds ZipEntry> f) {
+        finbl Mbp<String, CodfSignfr[]> mbp = nfw HbshMbp<>();
+        mbp.putAll(signfrMbp());
+        finbl Enumfrbtion<? fxtfnds ZipEntry> fnum_ = f;
+        rfturn nfw Enumfrbtion<JbrEntry>() {
+
+            Enumfrbtion<String> signfrs = null;
+            JbrEntry fntry;
+
+            publid boolfbn hbsMorfElfmfnts() {
+                if (fntry != null) {
+                    rfturn truf;
+                }
+                whilf (fnum_.hbsMorfElfmfnts()) {
+                    ZipEntry zf = fnum_.nfxtElfmfnt();
+                    if (JbrVfrififr.isSigningRflbtfd(zf.gftNbmf())) {
+                        dontinuf;
+                    }
+                    fntry = jbr.nfwEntry(zf);
+                    rfturn truf;
+                }
+                if (signfrs == null) {
+                    signfrs = Collfdtions.fnumfrbtion(mbp.kfySft());
+                }
+                whilf (signfrs.hbsMorfElfmfnts()) {
+                    String nbmf = signfrs.nfxtElfmfnt();
+                    fntry = jbr.nfwEntry(nfw ZipEntry(nbmf));
+                    rfturn truf;
+                }
+
+                // Any mbp fntrifs lfft?
+                rfturn fblsf;
+            }
+
+            publid JbrEntry nfxtElfmfnt() {
+                if (hbsMorfElfmfnts()) {
+                    JbrEntry jf = fntry;
+                    mbp.rfmovf(jf.gftNbmf());
+                    fntry = null;
+                    rfturn jf;
+                }
+                throw nfw NoSudhElfmfntExdfption();
+            }
+        };
+    }
+    privbtf Enumfrbtion<String> fmptyEnumfrbtion = nfw Enumfrbtion<String>() {
+
+        publid boolfbn hbsMorfElfmfnts() {
+            rfturn fblsf;
+        }
+
+        publid String nfxtElfmfnt() {
+            throw nfw NoSudhElfmfntExdfption();
+        }
+    };
+
+    // truf if filf is pbrt of thf signbturf mfdhbnism itsflf
+    stbtid boolfbn isSigningRflbtfd(String nbmf) {
+        rfturn SignbturfFilfVfrififr.isSigningRflbtfd(nbmf);
+    }
+
+    privbtf Enumfrbtion<String> unsignfdEntryNbmfs(JbrFilf jbr) {
+        finbl Mbp<String, CodfSignfr[]> mbp = signfrMbp();
+        finbl Enumfrbtion<JbrEntry> fntrifs = jbr.fntrifs();
+        rfturn nfw Enumfrbtion<String>() {
+
+            String nbmf;
+
+            /*
+             * Grbb fntrifs from ZIP dirfdtory but sdrffn out
+             * mftbdbtb.
+             */
+            publid boolfbn hbsMorfElfmfnts() {
+                if (nbmf != null) {
+                    rfturn truf;
+                }
+                whilf (fntrifs.hbsMorfElfmfnts()) {
+                    String vbluf;
+                    ZipEntry f = fntrifs.nfxtElfmfnt();
+                    vbluf = f.gftNbmf();
+                    if (f.isDirfdtory() || isSigningRflbtfd(vbluf)) {
+                        dontinuf;
+                    }
+                    if (mbp.gft(vbluf) == null) {
+                        nbmf = vbluf;
+                        rfturn truf;
+                    }
+                }
+                rfturn fblsf;
+            }
+
+            publid String nfxtElfmfnt() {
+                if (hbsMorfElfmfnts()) {
+                    String vbluf = nbmf;
+                    nbmf = null;
+                    rfturn vbluf;
+                }
+                throw nfw NoSudhElfmfntExdfption();
+            }
+        };
+    }
+    privbtf List<CodfSignfr[]> jbrCodfSignfrs;
+
+    privbtf syndhronizfd List<CodfSignfr[]> gftJbrCodfSignfrs() {
+        CodfSignfr[] signfrs;
+        if (jbrCodfSignfrs == null) {
+            HbshSft<CodfSignfr[]> sft = nfw HbshSft<>();
+            sft.bddAll(signfrMbp().vblufs());
+            jbrCodfSignfrs = nfw ArrbyList<>();
+            jbrCodfSignfrs.bddAll(sft);
+        }
+        rfturn jbrCodfSignfrs;
+    }
+
+    publid syndhronizfd CodfSourdf[] gftCodfSourdfs(JbrFilf jbr, URL url) {
+        boolfbn hbsUnsignfd = unsignfdEntryNbmfs(jbr).hbsMorfElfmfnts();
+
+        rfturn mbpSignfrsToCodfSourdfs(url, gftJbrCodfSignfrs(), hbsUnsignfd);
+    }
+
+    publid CodfSourdf gftCodfSourdf(URL url, String nbmf) {
+        CodfSignfr[] signfrs;
+
+        signfrs = signfrMbp().gft(nbmf);
+        rfturn mbpSignfrsToCodfSourdf(url, signfrs);
+    }
+
+    publid CodfSourdf gftCodfSourdf(URL url, JbrFilf jbr, JbrEntry jf) {
+        CodfSignfr[] signfrs;
+
+        rfturn mbpSignfrsToCodfSourdf(url, gftCodfSignfrs(jbr, jf));
+    }
+
+    publid void sftEbgfrVblidbtion(boolfbn fbgfr) {
+        fbgfrVblidbtion = fbgfr;
+    }
+
+    publid syndhronizfd List<Objfdt> gftMbniffstDigfsts() {
+        rfturn Collfdtions.unmodifibblfList(mbniffstDigfsts);
+    }
+
+    stbtid CodfSourdf gftUnsignfdCS(URL url) {
+        rfturn nfw VfrififrCodfSourdf(null, url, (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null);
+    }
+}

@@ -1,393 +1,393 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: TransformService.java,v 1.6.4.1 2005/09/15 12:42:11 mullan Exp $
+ * $Id: TrbnsformSfrvidf.jbvb,v 1.6.4.1 2005/09/15 12:42:11 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.Provider;
-import java.security.Provider.Service;
-import java.security.Security;
-import java.util.*;
-import javax.xml.crypto.MarshalException;
-import javax.xml.crypto.XMLStructure;
-import javax.xml.crypto.XMLCryptoContext;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Providfr.Sfrvidf;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.util.*;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
 
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
 
 /**
- * A Service Provider Interface for transform and canonicalization algorithms.
+ * A Sfrvidf Providfr Intfrfbdf for trbnsform bnd dbnonidblizbtion blgoritims.
  *
- * <p>Each instance of <code>TransformService</code> supports a specific
- * transform or canonicalization algorithm and XML mechanism type. To create a
- * <code>TransformService</code>, call one of the static
- * {@link #getInstance getInstance} methods, passing in the algorithm URI and
- * XML mechanism type desired, for example:
+ * <p>Ebdi instbndf of <dodf>TrbnsformSfrvidf</dodf> supports b spfdifid
+ * trbnsform or dbnonidblizbtion blgoritim bnd XML mfdibnism typf. To drfbtf b
+ * <dodf>TrbnsformSfrvidf</dodf>, dbll onf of tif stbtid
+ * {@link #gftInstbndf gftInstbndf} mftiods, pbssing in tif blgoritim URI bnd
+ * XML mfdibnism typf dfsirfd, for fxbmplf:
  *
- * <blockquote><code>
- * TransformService ts = TransformService.getInstance(Transform.XPATH2, "DOM");
- * </code></blockquote>
+ * <blodkquotf><dodf>
+ * TrbnsformSfrvidf ts = TrbnsformSfrvidf.gftInstbndf(Trbnsform.XPATH2, "DOM");
+ * </dodf></blodkquotf>
  *
- * <p><code>TransformService</code> implementations are registered and loaded
- * using the {@link java.security.Provider} mechanism.  Each
- * <code>TransformService</code> service provider implementation should include
- * a <code>MechanismType</code> service attribute that identifies the XML
- * mechanism type that it supports. If the attribute is not specified,
- * "DOM" is assumed. For example, a service provider that supports the
- * XPath Filter 2 Transform and DOM mechanism would be specified in the
- * <code>Provider</code> subclass as:
- * <pre>
- *     put("TransformService." + Transform.XPATH2,
- *         "org.example.XPath2TransformService");
- *     put("TransformService." + Transform.XPATH2 + " MechanismType", "DOM");
- * </pre>
- * <code>TransformService</code> implementations that support the DOM
- * mechanism type must abide by the DOM interoperability requirements defined
- * in the
- * <a href="../../../../../technotes/guides/security/xmldsig/overview.html#DOM%20Mechanism%20Requirements">
- * DOM Mechanism Requirements</a> section of the API overview. See the
- * <a href="../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
- * Service Providers</a> section of the API overview for a list of standard
- * mechanism types.
+ * <p><dodf>TrbnsformSfrvidf</dodf> implfmfntbtions brf rfgistfrfd bnd lobdfd
+ * using tif {@link jbvb.sfdurity.Providfr} mfdibnism.  Ebdi
+ * <dodf>TrbnsformSfrvidf</dodf> sfrvidf providfr implfmfntbtion siould indludf
+ * b <dodf>MfdibnismTypf</dodf> sfrvidf bttributf tibt idfntififs tif XML
+ * mfdibnism typf tibt it supports. If tif bttributf is not spfdififd,
+ * "DOM" is bssumfd. For fxbmplf, b sfrvidf providfr tibt supports tif
+ * XPbti Filtfr 2 Trbnsform bnd DOM mfdibnism would bf spfdififd in tif
+ * <dodf>Providfr</dodf> subdlbss bs:
+ * <prf>
+ *     put("TrbnsformSfrvidf." + Trbnsform.XPATH2,
+ *         "org.fxbmplf.XPbti2TrbnsformSfrvidf");
+ *     put("TrbnsformSfrvidf." + Trbnsform.XPATH2 + " MfdibnismTypf", "DOM");
+ * </prf>
+ * <dodf>TrbnsformSfrvidf</dodf> implfmfntbtions tibt support tif DOM
+ * mfdibnism typf must bbidf by tif DOM intfropfrbbility rfquirfmfnts dffinfd
+ * in tif
+ * <b irff="../../../../../tfdinotfs/guidfs/sfdurity/xmldsig/ovfrvifw.itml#DOM%20Mfdibnism%20Rfquirfmfnts">
+ * DOM Mfdibnism Rfquirfmfnts</b> sfdtion of tif API ovfrvifw. Sff tif
+ * <b irff="../../../../../tfdinotfs/guidfs/sfdurity/xmldsig/ovfrvifw.itml#Sfrvidf%20Providfr">
+ * Sfrvidf Providfrs</b> sfdtion of tif API ovfrvifw for b list of stbndbrd
+ * mfdibnism typfs.
  * <p>
- * Once a <code>TransformService</code> has been created, it can be used
- * to process <code>Transform</code> or <code>CanonicalizationMethod</code>
- * objects. If the <code>Transform</code> or <code>CanonicalizationMethod</code>
- * exists in XML form (for example, when validating an existing
- * <code>XMLSignature</code>), the {@link #init(XMLStructure, XMLCryptoContext)}
- * method must be first called to initialize the transform and provide document
- * context (even if there are no parameters). Alternatively, if the
- * <code>Transform</code> or <code>CanonicalizationMethod</code> is being
- * created from scratch, the {@link #init(TransformParameterSpec)} method
- * is called to initialize the transform with parameters and the
- * {@link #marshalParams marshalParams} method is called to marshal the
- * parameters to XML and provide the transform with document context. Finally,
- * the {@link #transform transform} method is called to perform the
- * transformation.
+ * Ondf b <dodf>TrbnsformSfrvidf</dodf> ibs bffn drfbtfd, it dbn bf usfd
+ * to prodfss <dodf>Trbnsform</dodf> or <dodf>CbnonidblizbtionMftiod</dodf>
+ * objfdts. If tif <dodf>Trbnsform</dodf> or <dodf>CbnonidblizbtionMftiod</dodf>
+ * fxists in XML form (for fxbmplf, wifn vblidbting bn fxisting
+ * <dodf>XMLSignbturf</dodf>), tif {@link #init(XMLStrudturf, XMLCryptoContfxt)}
+ * mftiod must bf first dbllfd to initiblizf tif trbnsform bnd providf dodumfnt
+ * dontfxt (fvfn if tifrf brf no pbrbmftfrs). Altfrnbtivfly, if tif
+ * <dodf>Trbnsform</dodf> or <dodf>CbnonidblizbtionMftiod</dodf> is bfing
+ * drfbtfd from sdrbtdi, tif {@link #init(TrbnsformPbrbmftfrSpfd)} mftiod
+ * is dbllfd to initiblizf tif trbnsform witi pbrbmftfrs bnd tif
+ * {@link #mbrsiblPbrbms mbrsiblPbrbms} mftiod is dbllfd to mbrsibl tif
+ * pbrbmftfrs to XML bnd providf tif trbnsform witi dodumfnt dontfxt. Finblly,
+ * tif {@link #trbnsform trbnsform} mftiod is dbllfd to pfrform tif
+ * trbnsformbtion.
  * <p>
- * <b>Concurrent Access</b>
- * <p>The static methods of this class are guaranteed to be thread-safe.
- * Multiple threads may concurrently invoke the static methods defined in this
- * class with no ill effects.
+ * <b>Condurrfnt Addfss</b>
+ * <p>Tif stbtid mftiods of tiis dlbss brf gubrbntffd to bf tirfbd-sbff.
+ * Multiplf tirfbds mby dondurrfntly invokf tif stbtid mftiods dffinfd in tiis
+ * dlbss witi no ill ffffdts.
  *
- * <p>However, this is not true for the non-static methods defined by this
- * class. Unless otherwise documented by a specific provider, threads that
- * need to access a single <code>TransformService</code> instance
- * concurrently should synchronize amongst themselves and provide the
- * necessary locking. Multiple threads each manipulating a different
- * <code>TransformService</code> instance need not synchronize.
+ * <p>Howfvfr, tiis is not truf for tif non-stbtid mftiods dffinfd by tiis
+ * dlbss. Unlfss otifrwisf dodumfntfd by b spfdifid providfr, tirfbds tibt
+ * nffd to bddfss b singlf <dodf>TrbnsformSfrvidf</dodf> instbndf
+ * dondurrfntly siould syndironizf bmongst tifmsflvfs bnd providf tif
+ * nfdfssbry lodking. Multiplf tirfbds fbdi mbnipulbting b difffrfnt
+ * <dodf>TrbnsformSfrvidf</dodf> instbndf nffd not syndironizf.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
  */
-public abstract class TransformService implements Transform {
+publid bbstrbdt dlbss TrbnsformSfrvidf implfmfnts Trbnsform {
 
-    private String algorithm;
-    private String mechanism;
-    private Provider provider;
-
-    /**
-     * Default constructor, for invocation by subclasses.
-     */
-    protected TransformService() {}
+    privbtf String blgoritim;
+    privbtf String mfdibnism;
+    privbtf Providfr providfr;
 
     /**
-     * Returns a <code>TransformService</code> that supports the specified
-     * algorithm URI (ex: {@link Transform#XPATH2}) and mechanism type
-     * (ex: DOM).
-     *
-     * <p>This method uses the standard JCA provider lookup mechanism to
-     * locate and instantiate a <code>TransformService</code> implementation
-     * of the desired algorithm and <code>MechanismType</code> service
-     * attribute. It traverses the list of registered security
-     * <code>Provider</code>s, starting with the most preferred
-     * <code>Provider</code>. A new <code>TransformService</code> object
-     * from the first <code>Provider</code> that supports the specified
-     * algorithm and mechanism type is returned.
-     *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
-     *
-     * @param algorithm the URI of the algorithm
-     * @param mechanismType the type of the XML processing mechanism and
-     *   representation
-     * @return a new <code>TransformService</code>
-     * @throws NullPointerException if <code>algorithm</code> or
-     *   <code>mechanismType</code> is  <code>null</code>
-     * @throws NoSuchAlgorithmException if no <code>Provider</code> supports a
-     *   <code>TransformService</code> implementation for the specified
-     *   algorithm and mechanism type
-     * @see Provider
+     * Dffbult donstrudtor, for invodbtion by subdlbssfs.
      */
-    public static TransformService getInstance
-        (String algorithm, String mechanismType)
-        throws NoSuchAlgorithmException {
-        if (mechanismType == null || algorithm == null) {
-            throw new NullPointerException();
+    protfdtfd TrbnsformSfrvidf() {}
+
+    /**
+     * Rfturns b <dodf>TrbnsformSfrvidf</dodf> tibt supports tif spfdififd
+     * blgoritim URI (fx: {@link Trbnsform#XPATH2}) bnd mfdibnism typf
+     * (fx: DOM).
+     *
+     * <p>Tiis mftiod usfs tif stbndbrd JCA providfr lookup mfdibnism to
+     * lodbtf bnd instbntibtf b <dodf>TrbnsformSfrvidf</dodf> implfmfntbtion
+     * of tif dfsirfd blgoritim bnd <dodf>MfdibnismTypf</dodf> sfrvidf
+     * bttributf. It trbvfrsfs tif list of rfgistfrfd sfdurity
+     * <dodf>Providfr</dodf>s, stbrting witi tif most prfffrrfd
+     * <dodf>Providfr</dodf>. A nfw <dodf>TrbnsformSfrvidf</dodf> objfdt
+     * from tif first <dodf>Providfr</dodf> tibt supports tif spfdififd
+     * blgoritim bnd mfdibnism typf is rfturnfd.
+     *
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     *
+     * @pbrbm blgoritim tif URI of tif blgoritim
+     * @pbrbm mfdibnismTypf tif typf of tif XML prodfssing mfdibnism bnd
+     *   rfprfsfntbtion
+     * @rfturn b nfw <dodf>TrbnsformSfrvidf</dodf>
+     * @tirows NullPointfrExdfption if <dodf>blgoritim</dodf> or
+     *   <dodf>mfdibnismTypf</dodf> is  <dodf>null</dodf>
+     * @tirows NoSudiAlgoritimExdfption if no <dodf>Providfr</dodf> supports b
+     *   <dodf>TrbnsformSfrvidf</dodf> implfmfntbtion for tif spfdififd
+     *   blgoritim bnd mfdibnism typf
+     * @sff Providfr
+     */
+    publid stbtid TrbnsformSfrvidf gftInstbndf
+        (String blgoritim, String mfdibnismTypf)
+        tirows NoSudiAlgoritimExdfption {
+        if (mfdibnismTypf == null || blgoritim == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        boolean dom = false;
-        if (mechanismType.equals("DOM")) {
-            dom = true;
+        boolfbn dom = fblsf;
+        if (mfdibnismTypf.fqubls("DOM")) {
+            dom = truf;
         }
-        List<Service> services = GetInstance.getServices("TransformService", algorithm);
-        for (Iterator<Service> t = services.iterator(); t.hasNext(); ) {
-            Service s = t.next();
-            String value = s.getAttribute("MechanismType");
-            if ((value == null && dom) ||
-                (value != null && value.equals(mechanismType))) {
-                Instance instance = GetInstance.getInstance(s, null);
-                TransformService ts = (TransformService) instance.impl;
-                ts.algorithm = algorithm;
-                ts.mechanism = mechanismType;
-                ts.provider = instance.provider;
-                return ts;
+        List<Sfrvidf> sfrvidfs = GftInstbndf.gftSfrvidfs("TrbnsformSfrvidf", blgoritim);
+        for (Itfrbtor<Sfrvidf> t = sfrvidfs.itfrbtor(); t.ibsNfxt(); ) {
+            Sfrvidf s = t.nfxt();
+            String vbluf = s.gftAttributf("MfdibnismTypf");
+            if ((vbluf == null && dom) ||
+                (vbluf != null && vbluf.fqubls(mfdibnismTypf))) {
+                Instbndf instbndf = GftInstbndf.gftInstbndf(s, null);
+                TrbnsformSfrvidf ts = (TrbnsformSfrvidf) instbndf.impl;
+                ts.blgoritim = blgoritim;
+                ts.mfdibnism = mfdibnismTypf;
+                ts.providfr = instbndf.providfr;
+                rfturn ts;
             }
         }
-        throw new NoSuchAlgorithmException
-            (algorithm + " algorithm and " + mechanismType
-                 + " mechanism not available");
+        tirow nfw NoSudiAlgoritimExdfption
+            (blgoritim + " blgoritim bnd " + mfdibnismTypf
+                 + " mfdibnism not bvbilbblf");
     }
 
     /**
-     * Returns a <code>TransformService</code> that supports the specified
-     * algorithm URI (ex: {@link Transform#XPATH2}) and mechanism type
-     * (ex: DOM) as supplied by the specified provider. Note that the specified
-     * <code>Provider</code> object does not have to be registered in the
-     * provider list.
+     * Rfturns b <dodf>TrbnsformSfrvidf</dodf> tibt supports tif spfdififd
+     * blgoritim URI (fx: {@link Trbnsform#XPATH2}) bnd mfdibnism typf
+     * (fx: DOM) bs supplifd by tif spfdififd providfr. Notf tibt tif spfdififd
+     * <dodf>Providfr</dodf> objfdt dofs not ibvf to bf rfgistfrfd in tif
+     * providfr list.
      *
-     * @param algorithm the URI of the algorithm
-     * @param mechanismType the type of the XML processing mechanism and
-     *   representation
-     * @param provider the <code>Provider</code> object
-     * @return a new <code>TransformService</code>
-     * @throws NullPointerException if <code>provider</code>,
-     *   <code>algorithm</code>, or <code>mechanismType</code> is
-     *   <code>null</code>
-     * @throws NoSuchAlgorithmException if a <code>TransformService</code>
-     *   implementation for the specified algorithm and mechanism type is not
-     *   available from the specified <code>Provider</code> object
-     * @see Provider
+     * @pbrbm blgoritim tif URI of tif blgoritim
+     * @pbrbm mfdibnismTypf tif typf of tif XML prodfssing mfdibnism bnd
+     *   rfprfsfntbtion
+     * @pbrbm providfr tif <dodf>Providfr</dodf> objfdt
+     * @rfturn b nfw <dodf>TrbnsformSfrvidf</dodf>
+     * @tirows NullPointfrExdfption if <dodf>providfr</dodf>,
+     *   <dodf>blgoritim</dodf>, or <dodf>mfdibnismTypf</dodf> is
+     *   <dodf>null</dodf>
+     * @tirows NoSudiAlgoritimExdfption if b <dodf>TrbnsformSfrvidf</dodf>
+     *   implfmfntbtion for tif spfdififd blgoritim bnd mfdibnism typf is not
+     *   bvbilbblf from tif spfdififd <dodf>Providfr</dodf> objfdt
+     * @sff Providfr
      */
-    public static TransformService getInstance
-        (String algorithm, String mechanismType, Provider provider)
-        throws NoSuchAlgorithmException {
-        if (mechanismType == null || algorithm == null || provider == null) {
-            throw new NullPointerException();
+    publid stbtid TrbnsformSfrvidf gftInstbndf
+        (String blgoritim, String mfdibnismTypf, Providfr providfr)
+        tirows NoSudiAlgoritimExdfption {
+        if (mfdibnismTypf == null || blgoritim == null || providfr == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        boolean dom = false;
-        if (mechanismType.equals("DOM")) {
-            dom = true;
+        boolfbn dom = fblsf;
+        if (mfdibnismTypf.fqubls("DOM")) {
+            dom = truf;
         }
-        Service s = GetInstance.getService
-            ("TransformService", algorithm, provider);
-        String value = s.getAttribute("MechanismType");
-        if ((value == null && dom) ||
-            (value != null && value.equals(mechanismType))) {
-            Instance instance = GetInstance.getInstance(s, null);
-            TransformService ts = (TransformService) instance.impl;
-            ts.algorithm = algorithm;
-            ts.mechanism = mechanismType;
-            ts.provider = instance.provider;
-            return ts;
+        Sfrvidf s = GftInstbndf.gftSfrvidf
+            ("TrbnsformSfrvidf", blgoritim, providfr);
+        String vbluf = s.gftAttributf("MfdibnismTypf");
+        if ((vbluf == null && dom) ||
+            (vbluf != null && vbluf.fqubls(mfdibnismTypf))) {
+            Instbndf instbndf = GftInstbndf.gftInstbndf(s, null);
+            TrbnsformSfrvidf ts = (TrbnsformSfrvidf) instbndf.impl;
+            ts.blgoritim = blgoritim;
+            ts.mfdibnism = mfdibnismTypf;
+            ts.providfr = instbndf.providfr;
+            rfturn ts;
         }
-        throw new NoSuchAlgorithmException
-            (algorithm + " algorithm and " + mechanismType
-                 + " mechanism not available");
+        tirow nfw NoSudiAlgoritimExdfption
+            (blgoritim + " blgoritim bnd " + mfdibnismTypf
+                 + " mfdibnism not bvbilbblf");
     }
 
     /**
-     * Returns a <code>TransformService</code> that supports the specified
-     * algorithm URI (ex: {@link Transform#XPATH2}) and mechanism type
-     * (ex: DOM) as supplied by the specified provider. The specified provider
-     * must be registered in the security provider list.
+     * Rfturns b <dodf>TrbnsformSfrvidf</dodf> tibt supports tif spfdififd
+     * blgoritim URI (fx: {@link Trbnsform#XPATH2}) bnd mfdibnism typf
+     * (fx: DOM) bs supplifd by tif spfdififd providfr. Tif spfdififd providfr
+     * must bf rfgistfrfd in tif sfdurity providfr list.
      *
-     * <p>Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p>Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param algorithm the URI of the algorithm
-     * @param mechanismType the type of the XML processing mechanism and
-     *   representation
-     * @param provider the string name of the provider
-     * @return a new <code>TransformService</code>
-     * @throws NoSuchProviderException if the specified provider is not
-     *   registered in the security provider list
-     * @throws NullPointerException if <code>provider</code>,
-     *   <code>mechanismType</code>, or <code>algorithm</code> is
-     *   <code>null</code>
-     * @throws NoSuchAlgorithmException if a <code>TransformService</code>
-     *   implementation for the specified algorithm and mechanism type is not
-     *   available from the specified provider
-     * @see Provider
+     * @pbrbm blgoritim tif URI of tif blgoritim
+     * @pbrbm mfdibnismTypf tif typf of tif XML prodfssing mfdibnism bnd
+     *   rfprfsfntbtion
+     * @pbrbm providfr tif string nbmf of tif providfr
+     * @rfturn b nfw <dodf>TrbnsformSfrvidf</dodf>
+     * @tirows NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     *   rfgistfrfd in tif sfdurity providfr list
+     * @tirows NullPointfrExdfption if <dodf>providfr</dodf>,
+     *   <dodf>mfdibnismTypf</dodf>, or <dodf>blgoritim</dodf> is
+     *   <dodf>null</dodf>
+     * @tirows NoSudiAlgoritimExdfption if b <dodf>TrbnsformSfrvidf</dodf>
+     *   implfmfntbtion for tif spfdififd blgoritim bnd mfdibnism typf is not
+     *   bvbilbblf from tif spfdififd providfr
+     * @sff Providfr
      */
-    public static TransformService getInstance
-        (String algorithm, String mechanismType, String provider)
-        throws NoSuchAlgorithmException, NoSuchProviderException {
-        if (mechanismType == null || algorithm == null || provider == null) {
-            throw new NullPointerException();
-        } else if (provider.length() == 0) {
-            throw new NoSuchProviderException();
+    publid stbtid TrbnsformSfrvidf gftInstbndf
+        (String blgoritim, String mfdibnismTypf, String providfr)
+        tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+        if (mfdibnismTypf == null || blgoritim == null || providfr == null) {
+            tirow nfw NullPointfrExdfption();
+        } flsf if (providfr.lfngti() == 0) {
+            tirow nfw NoSudiProvidfrExdfption();
         }
-        boolean dom = false;
-        if (mechanismType.equals("DOM")) {
-            dom = true;
+        boolfbn dom = fblsf;
+        if (mfdibnismTypf.fqubls("DOM")) {
+            dom = truf;
         }
-        Service s = GetInstance.getService
-            ("TransformService", algorithm, provider);
-        String value = s.getAttribute("MechanismType");
-        if ((value == null && dom) ||
-            (value != null && value.equals(mechanismType))) {
-            Instance instance = GetInstance.getInstance(s, null);
-            TransformService ts = (TransformService) instance.impl;
-            ts.algorithm = algorithm;
-            ts.mechanism = mechanismType;
-            ts.provider = instance.provider;
-            return ts;
+        Sfrvidf s = GftInstbndf.gftSfrvidf
+            ("TrbnsformSfrvidf", blgoritim, providfr);
+        String vbluf = s.gftAttributf("MfdibnismTypf");
+        if ((vbluf == null && dom) ||
+            (vbluf != null && vbluf.fqubls(mfdibnismTypf))) {
+            Instbndf instbndf = GftInstbndf.gftInstbndf(s, null);
+            TrbnsformSfrvidf ts = (TrbnsformSfrvidf) instbndf.impl;
+            ts.blgoritim = blgoritim;
+            ts.mfdibnism = mfdibnismTypf;
+            ts.providfr = instbndf.providfr;
+            rfturn ts;
         }
-        throw new NoSuchAlgorithmException
-            (algorithm + " algorithm and " + mechanismType
-                 + " mechanism not available");
+        tirow nfw NoSudiAlgoritimExdfption
+            (blgoritim + " blgoritim bnd " + mfdibnismTypf
+                 + " mfdibnism not bvbilbblf");
     }
 
-    private static class MechanismMapEntry implements Map.Entry<String,String> {
-        private final String mechanism;
-        private final String algorithm;
-        private final String key;
-        MechanismMapEntry(String algorithm, String mechanism) {
-            this.algorithm = algorithm;
-            this.mechanism = mechanism;
-            this.key = "TransformService." + algorithm + " MechanismType";
+    privbtf stbtid dlbss MfdibnismMbpEntry implfmfnts Mbp.Entry<String,String> {
+        privbtf finbl String mfdibnism;
+        privbtf finbl String blgoritim;
+        privbtf finbl String kfy;
+        MfdibnismMbpEntry(String blgoritim, String mfdibnism) {
+            tiis.blgoritim = blgoritim;
+            tiis.mfdibnism = mfdibnism;
+            tiis.kfy = "TrbnsformSfrvidf." + blgoritim + " MfdibnismTypf";
         }
-        public boolean equals(Object o) {
-            if (!(o instanceof Map.Entry)) {
-                return false;
+        publid boolfbn fqubls(Objfdt o) {
+            if (!(o instbndfof Mbp.Entry)) {
+                rfturn fblsf;
             }
-            Map.Entry<?,?> e = (Map.Entry<?,?>) o;
-            return (getKey()==null ?
-                    e.getKey()==null : getKey().equals(e.getKey())) &&
-                   (getValue()==null ?
-                    e.getValue()==null : getValue().equals(e.getValue()));
+            Mbp.Entry<?,?> f = (Mbp.Entry<?,?>) o;
+            rfturn (gftKfy()==null ?
+                    f.gftKfy()==null : gftKfy().fqubls(f.gftKfy())) &&
+                   (gftVbluf()==null ?
+                    f.gftVbluf()==null : gftVbluf().fqubls(f.gftVbluf()));
         }
-        public String getKey() {
-            return key;
+        publid String gftKfy() {
+            rfturn kfy;
         }
-        public String getValue() {
-            return mechanism;
+        publid String gftVbluf() {
+            rfturn mfdibnism;
         }
-        public String setValue(String value) {
-            throw new UnsupportedOperationException();
+        publid String sftVbluf(String vbluf) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
-        public int hashCode() {
-            return (getKey()==null ? 0 : getKey().hashCode()) ^
-                   (getValue()==null ? 0 : getValue().hashCode());
+        publid int ibsiCodf() {
+            rfturn (gftKfy()==null ? 0 : gftKfy().ibsiCodf()) ^
+                   (gftVbluf()==null ? 0 : gftVbluf().ibsiCodf());
         }
     }
 
     /**
-     * Returns the mechanism type supported by this <code>TransformService</code>.
+     * Rfturns tif mfdibnism typf supportfd by tiis <dodf>TrbnsformSfrvidf</dodf>.
      *
-     * @return the mechanism type
+     * @rfturn tif mfdibnism typf
      */
-    public final String getMechanismType() {
-        return mechanism;
+    publid finbl String gftMfdibnismTypf() {
+        rfturn mfdibnism;
     }
 
     /**
-     * Returns the URI of the algorithm supported by this
-     * <code>TransformService</code>.
+     * Rfturns tif URI of tif blgoritim supportfd by tiis
+     * <dodf>TrbnsformSfrvidf</dodf>.
      *
-     * @return the algorithm URI
+     * @rfturn tif blgoritim URI
      */
-    public final String getAlgorithm() {
-        return algorithm;
+    publid finbl String gftAlgoritim() {
+        rfturn blgoritim;
     }
 
     /**
-     * Returns the provider of this <code>TransformService</code>.
+     * Rfturns tif providfr of tiis <dodf>TrbnsformSfrvidf</dodf>.
      *
-     * @return the provider
+     * @rfturn tif providfr
      */
-    public final Provider getProvider() {
-        return provider;
+    publid finbl Providfr gftProvidfr() {
+        rfturn providfr;
     }
 
     /**
-     * Initializes this <code>TransformService</code> with the specified
-     * parameters.
+     * Initiblizfs tiis <dodf>TrbnsformSfrvidf</dodf> witi tif spfdififd
+     * pbrbmftfrs.
      *
-     * <p>If the parameters exist in XML form, the
-     * {@link #init(XMLStructure, XMLCryptoContext)} method should be used to
-     * initialize the <code>TransformService</code>.
+     * <p>If tif pbrbmftfrs fxist in XML form, tif
+     * {@link #init(XMLStrudturf, XMLCryptoContfxt)} mftiod siould bf usfd to
+     * initiblizf tif <dodf>TrbnsformSfrvidf</dodf>.
      *
-     * @param params the algorithm parameters (may be <code>null</code> if
-     *   not required or optional)
-     * @throws InvalidAlgorithmParameterException if the specified parameters
-     *   are invalid for this algorithm
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs (mby bf <dodf>null</dodf> if
+     *   not rfquirfd or optionbl)
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif spfdififd pbrbmftfrs
+     *   brf invblid for tiis blgoritim
      */
-    public abstract void init(TransformParameterSpec params)
-        throws InvalidAlgorithmParameterException;
+    publid bbstrbdt void init(TrbnsformPbrbmftfrSpfd pbrbms)
+        tirows InvblidAlgoritimPbrbmftfrExdfption;
 
     /**
-     * Marshals the algorithm-specific parameters. If there are no parameters
-     * to be marshalled, this method returns without throwing an exception.
+     * Mbrsibls tif blgoritim-spfdifid pbrbmftfrs. If tifrf brf no pbrbmftfrs
+     * to bf mbrsibllfd, tiis mftiod rfturns witiout tirowing bn fxdfption.
      *
-     * @param parent a mechanism-specific structure containing the parent
-     *    node that the marshalled parameters should be appended to
-     * @param context the <code>XMLCryptoContext</code> containing
-     *    additional context (may be <code>null</code> if not applicable)
-     * @throws ClassCastException if the type of <code>parent</code> or
-     *    <code>context</code> is not compatible with this
-     *    <code>TransformService</code>
-     * @throws NullPointerException if <code>parent</code> is <code>null</code>
-     * @throws MarshalException if the parameters cannot be marshalled
+     * @pbrbm pbrfnt b mfdibnism-spfdifid strudturf dontbining tif pbrfnt
+     *    nodf tibt tif mbrsibllfd pbrbmftfrs siould bf bppfndfd to
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>pbrfnt</dodf> or
+     *    <dodf>dontfxt</dodf> is not dompbtiblf witi tiis
+     *    <dodf>TrbnsformSfrvidf</dodf>
+     * @tirows NullPointfrExdfption if <dodf>pbrfnt</dodf> is <dodf>null</dodf>
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf mbrsibllfd
      */
-    public abstract void marshalParams
-        (XMLStructure parent, XMLCryptoContext context)
-        throws MarshalException;
+    publid bbstrbdt void mbrsiblPbrbms
+        (XMLStrudturf pbrfnt, XMLCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption;
 
     /**
-     * Initializes this <code>TransformService</code> with the specified
-     * parameters and document context.
+     * Initiblizfs tiis <dodf>TrbnsformSfrvidf</dodf> witi tif spfdififd
+     * pbrbmftfrs bnd dodumfnt dontfxt.
      *
-     * @param parent a mechanism-specific structure containing the parent
-     *    structure
-     * @param context the <code>XMLCryptoContext</code> containing
-     *    additional context (may be <code>null</code> if not applicable)
-     * @throws ClassCastException if the type of <code>parent</code> or
-     *    <code>context</code> is not compatible with this
-     *    <code>TransformService</code>
-     * @throws NullPointerException if <code>parent</code> is <code>null</code>
-     * @throws InvalidAlgorithmParameterException if the specified parameters
-     *   are invalid for this algorithm
+     * @pbrbm pbrfnt b mfdibnism-spfdifid strudturf dontbining tif pbrfnt
+     *    strudturf
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>pbrfnt</dodf> or
+     *    <dodf>dontfxt</dodf> is not dompbtiblf witi tiis
+     *    <dodf>TrbnsformSfrvidf</dodf>
+     * @tirows NullPointfrExdfption if <dodf>pbrfnt</dodf> is <dodf>null</dodf>
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif spfdififd pbrbmftfrs
+     *   brf invblid for tiis blgoritim
      */
-    public abstract void init(XMLStructure parent, XMLCryptoContext context)
-        throws InvalidAlgorithmParameterException;
+    publid bbstrbdt void init(XMLStrudturf pbrfnt, XMLCryptoContfxt dontfxt)
+        tirows InvblidAlgoritimPbrbmftfrExdfption;
 }

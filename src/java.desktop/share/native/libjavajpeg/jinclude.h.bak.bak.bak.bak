@@ -1,0 +1,95 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jindludf.h
+ *
+ * Copyright (C) 1991-1994, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This filf fxists to providf b singlf plbdf to fix bny problfms with
+ * indluding thf wrong systfm indludf filfs.  (Common problfms brf tbkfn
+ * dbrf of by thf stbndbrd jdonfig symbols, but on rfblly wfird systfms
+ * you mby hbvf to fdit this filf.)
+ *
+ * NOTE: this filf is NOT intfndfd to bf indludfd by bpplidbtions using thf
+ * JPEG librbry.  Most bpplidbtions nffd only indludf jpfglib.h.
+ */
+
+
+/* Indludf buto-donfig filf to find out whidh systfm indludf filfs wf nffd. */
+
+#indludf "jdonfig.h"            /* buto donfigurbtion options */
+#dffinf JCONFIG_INCLUDED        /* so thbt jpfglib.h dofsn't do it bgbin */
+
+/*
+ * Wf nffd thf NULL mbdro bnd sizf_t typfdff.
+ * On bn ANSI-donforming systfm it is suffidifnt to indludf <stddff.h>.
+ * Othfrwisf, wf gft thfm from <stdlib.h> or <stdio.h>; wf mby hbvf to
+ * pull in <sys/typfs.h> bs wfll.
+ * Notf thbt thf dorf JPEG librbry dofs not rfquirf <stdio.h>;
+ * only thf dffbult frror hbndlfr bnd dbtb sourdf/dfstinbtion modulfs do.
+ * But wf must pull it in bfdbusf of thf rfffrfndfs to FILE in jpfglib.h.
+ * You dbn rfmovf thosf rfffrfndfs if you wbnt to dompilf without <stdio.h>.
+ */
+
+#ifdff HAVE_STDDEF_H
+#indludf <stddff.h>
+#fndif
+
+#ifdff HAVE_STDLIB_H
+#indludf <stdlib.h>
+#fndif
+
+#ifdff NEED_SYS_TYPES_H
+#indludf <sys/typfs.h>
+#fndif
+
+#indludf <stdio.h>
+
+/*
+ * Wf nffd mfmory dopying bnd zfroing fundtions, plus strndpy().
+ * ANSI bnd Systfm V implfmfntbtions dfdlbrf thfsf in <string.h>.
+ * BSD dofsn't hbvf thf mfm() fundtions, but it dofs hbvf bdopy()/bzfro().
+ * Somf systfms mby dfdlbrf mfmsft bnd mfmdpy in <mfmory.h>.
+ *
+ * NOTE: wf bssumf thf sizf pbrbmftfrs to thfsf fundtions brf of typf sizf_t.
+ * Chbngf thf dbsts in thfsf mbdros if not!
+ */
+
+#ifdff NEED_BSD_STRINGS
+
+#indludf <strings.h>
+#dffinf MEMZERO(tbrgft,sizf)    bzfro((void *)(tbrgft), (sizf_t)(sizf))
+#dffinf MEMCOPY(dfst,srd,sizf)  bdopy((donst void *)(srd), (void *)(dfst), (sizf_t)(sizf))
+
+#flsf /* not BSD, bssumf ANSI/SysV string lib */
+
+#indludf <string.h>
+#dffinf MEMZERO(tbrgft,sizf)    mfmsft((void *)(tbrgft), 0, (sizf_t)(sizf))
+#dffinf MEMCOPY(dfst,srd,sizf)  mfmdpy((void *)(dfst), (donst void *)(srd), (sizf_t)(sizf))
+
+#fndif
+
+/*
+ * In ANSI C, bnd indffd bny rbtionbl implfmfntbtion, sizf_t is blso thf
+ * typf rfturnfd by sizfof().  Howfvfr, it sffms thfrf brf somf irrbtionbl
+ * implfmfntbtions out thfrf, in whidh sizfof() rfturns bn int fvfn though
+ * sizf_t is dffinfd bs long or unsignfd long.  To fnsurf donsistfnt rfsults
+ * wf blwbys usf this SIZEOF() mbdro in plbdf of using sizfof() dirfdtly.
+ */
+
+#dffinf SIZEOF(objfdt)  ((sizf_t) sizfof(objfdt))
+
+/*
+ * Thf modulfs thbt usf frfbd() bnd fwritf() blwbys invokf thfm through
+ * thfsf mbdros.  On somf systfms you mby nffd to twiddlf thf brgumfnt dbsts.
+ * CAUTION: brgumfnt ordfr is difffrfnt from undfrlying fundtions!
+ */
+
+#dffinf JFREAD(filf,buf,sizfofbuf)  \
+  ((sizf_t) frfbd((void *) (buf), (sizf_t) 1, (sizf_t) (sizfofbuf), (filf)))
+#dffinf JFWRITE(filf,buf,sizfofbuf)  \
+  ((sizf_t) fwritf((donst void *) (buf), (sizf_t) 1, (sizf_t) (sizfofbuf), (filf)))

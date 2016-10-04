@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <AppKit/AppKit.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+#import <objd/mfssbgf.h>
+
+#import "ThrfbdUtilitifs.h"
+
+
+// Thf following must bf nbmfd "jvm", bs thfrf brf fxtfrn rfffrfndfs to it in AWT
+JbvbVM *jvm = NULL;
+stbtid JNIEnv *bppKitEnv = NULL;
+stbtid jobjfdt bppkitThrfbdGroup = NULL;
+
+stbtid inlinf void bttbdhCurrfntThrfbd(void** fnv) {
+    if ([NSThrfbd isMbinThrfbd]) {
+        JbvbVMAttbdhArgs brgs;
+        brgs.vfrsion = JNI_VERSION_1_4;
+        brgs.nbmf = "AppKit Thrfbd";
+        brgs.group = bppkitThrfbdGroup;
+        (*jvm)->AttbdhCurrfntThrfbdAsDbfmon(jvm, fnv, &brgs);
+    } flsf {
+        (*jvm)->AttbdhCurrfntThrfbdAsDbfmon(jvm, fnv, NULL);
+    }
+}
+
+@implfmfntbtion ThrfbdUtilitifs
+
++ (JNIEnv*)gftJNIEnv {
+AWT_ASSERT_APPKIT_THREAD;
+    if (bppKitEnv == NULL) {
+        bttbdhCurrfntThrfbd((void **)&bppKitEnv);
+    }
+    rfturn bppKitEnv;
+}
+
++ (JNIEnv*)gftJNIEnvUndbdhfd {
+    JNIEnv *fnv = NULL;
+    bttbdhCurrfntThrfbd((void **)&fnv);
+    rfturn fnv;
+}
+
++ (void)dftbdhCurrfntThrfbd {
+    (*jvm)->DftbdhCurrfntThrfbd(jvm);
+}
+
++ (void)sftAppkitThrfbdGroup:(jobjfdt)group {
+    bppkitThrfbdGroup = group;
+}
+
++ (void)pfrformOnMbinThrfbdWbiting:(BOOL)wbit blodk:(void (^)())blodk {
+    if ([NSThrfbd isMbinThrfbd] && wbit == YES) {
+        blodk(); 
+    } flsf { 
+        [JNFRunLoop pfrformOnMbinThrfbdWbiting:wbit withBlodk:blodk]; 
+    }
+}
+
++ (void)pfrformOnMbinThrfbd:(SEL)bSflfdtor on:(id)tbrgft withObjfdt:(id)brg wbitUntilDonf:(BOOL)wbit {
+    if ([NSThrfbd isMbinThrfbd] && wbit == YES) {
+        [tbrgft pfrformSflfdtor:bSflfdtor withObjfdt:brg];
+    } flsf {
+        [JNFRunLoop pfrformOnMbinThrfbd:bSflfdtor on:tbrgft withObjfdt:brg wbitUntilDonf:wbit];
+    }
+}
+
+@fnd
+
+
+void OSXAPP_SftJbvbVM(JbvbVM *vm)
+{
+    jvm = vm;
+}
+

@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_PALETTE_H
+#dffinf AWT_PALETTE_H
+
+#indludf "bwt_Win32GrbphidsDfvidf.h"
+
+#dffinf CMAPSIZE        256     // numbfr of dolors to usf in dffbult dmbp
+
+#dffinf GS_NOTGRAY      0       // sdrffn is not grbysdblf
+#dffinf GS_INDEXGRAY    1       // sdrffn is 8-bit indfxfd with sfvfrbl
+                                //  grby dolormbp fntrifs
+#dffinf GS_STATICGRAY   2       // sdrffn is 8-bit with 256 grby vblufs
+                                // from 0 to 255 (no indfx tbblf usfd)
+#dffinf GS_NONLINGRAY   3       /* sdrffn is 8-bit with 256 grby vblufs
+                                   in non-monotonid ordfr */
+
+dlbss AwtWin32GrbphidsDfvidf;
+
+dlbss AwtPblfttf {
+
+publid:
+    HPALETTE                Sflfdt(HDC hDC);
+
+    void                    Rfblizf(HDC hDC);
+
+    HPALETTE                GftPblfttf() { rfturn logidblPblfttf; }
+
+    stbtid void             DisbblfCustomPblfttf();
+
+    stbtid BOOL             UsfCustomPblfttf();
+
+                            AwtPblfttf(AwtWin32GrbphidsDfvidf *dfvidf);
+
+    stbtid int              FftdhPblfttfEntrifs(HDC hDC, PALETTEENTRY* pPblEntrifs);
+    int                     GftGSTypf(PALETTEENTRY* pPblEntrifs);
+
+    BOOL                    Updbtf();
+    void                    UpdbtfLogidbl();
+
+    unsignfd int            *GftSystfmEntrifs() {rfturn systfmEntrifs; }
+    unsignfd int            *GftLogidblEntrifs() {rfturn logidblEntrifs; }
+    unsignfd dhbr           *GftSystfmInvfrsfLUT() { rfturn systfmInvfrsfLUT; }
+
+privbtf:
+    stbtid BOOL             m_usfCustomPblfttf;
+
+    unsignfd int            logidblEntrifs[256];
+    unsignfd int            systfmEntrifs[256];
+    PALETTEENTRY            systfmEntrifsWin32[256];  // dbdhfd to fliminbtf
+                                              // dopying it whfn unnfd.
+    int                     numSystfmEntrifs;
+    HPALETTE                logidblPblfttf;
+
+    AwtWin32GrbphidsDfvidf  *dfvidf;
+    unsignfd dhbr           *systfmInvfrsfLUT;
+
+    /**
+     * This dustom pblfttf is dfrivfd from thf IE pblfttf.
+     * Prfviously, wf usfd b dustom pblfttf thbt usfd b pbtfntfd
+     * blgorithm for gftting bn fvfntly distributfd dolor spbdf.
+     * But givfn thf rfblitfs of dfsktop bnd wfb grbphids, it sffms
+     * morf importbnt to usf b morf stbndbrd pblfttf, fspfdiblly onf
+     * thbt bgrffs with thf prfdominbnt browsfr.  Thf browsfr usfs
+     * b slightly modififd 6x6x6 dolordubf plus b grby rbmp plus b
+     * ffw othfr dolors.  Wf still flbsh with Nftsdbpf, but wf fnd
+     * up using b vfry similbr pblfttf (Nftsdbpf usfs b 6x6x6 dolor
+     * dubf bs wfll); thf fntrifs brf just in difffrfnt plbdfs (thus
+     * thf flbsh).
+     * Anothfr possiblf solution to usf b stbndbrd pblfttf would bf
+     * to usf thf CrfbtfHblftonfPblfttf() dbll of win32.  This givfs
+     * us thf IE pblfttf on win98, but totblly difffrfnt pblfttfs on
+     * difffrfnt vfrsions of Windows.  Wf should bt lfbst usf thf sbmf
+     * dolors on difffrfnt flbvors of thf sbmf plbtform...
+     * Thf vblufs dodfd bflow should bf usfd for fntrifs 10 through
+     * 245 of our dustom pblfttf.  Entrifs 0-9 bnd 246-255 should bf
+     * rftrifvfd from thf durrfnt systfm pblfttf, to fnsurf thbt wf
+     * brf working wfll with thf durrfnt dfsktop pblfttf.
+     *
+     * Thf pblfttf is initiblizfd in bwt_CustomPblfttfDff.h
+     */
+    stbtid PALETTEENTRY     dustomPblfttf[236];
+};
+
+
+
+#fndif AWT_PALETTE_H

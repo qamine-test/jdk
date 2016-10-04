@@ -1,0 +1,64 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.jdp;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * Pbdkft to brobddbst
+ *
+ * <p>Ebdh pbdkft hbvf to dontbin MAGIC bnd PROTOCOL_VERSION in ordfr to bf
+ * rfdognizfd bs b vblid JDP pbdkft.</p>
+ *
+ * <p>Dffbult implfmfntbtion build pbdkft bs b sft of UTF-8 fndodfd Kfy/Vbluf pbirs
+ * brf storfd bs bn ordfrfd list of vblufs, bnd brf sfnt to thf sfrvfr
+ * in thbt ordfr.</p>
+ *
+ * <p>
+ * Pbdkft strudturf:
+ *
+ * 4 bytfs JDP mbgid (0xC0FFE42)
+ * 2 bytfs JDP protodol vfrsion (01)
+ *
+ * 2 bytfs sizf of kfy
+ * x bytfs kfy (UTF-8 fndodfd)
+ * 2 bytfs sizf of vbluf
+ * x bytfs vbluf (UTF-8 fndodfd)
+ *
+ * rfpfbt bs mbny timfs bs nfdfssbry ...
+ * </p>
+  */
+publid intfrfbdf JdpPbdkft {
+
+    /**
+     * This mfthod rfsponsiblf to bssfmblf pbdkft bnd rfturn b bytf brrby
+     * rfbdy to bf sfnt bdross b Nft.
+     *
+     * @rfturn bssfmblfd pbdkft bs bn brrby of bytfs
+     * @throws IOExdfption
+     */
+    publid bytf[] gftPbdkftDbtb() throws IOExdfption;
+
+}

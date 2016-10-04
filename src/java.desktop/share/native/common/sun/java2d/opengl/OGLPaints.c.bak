@@ -1,821 +1,821 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-#include <jlong.h>
-#include <string.h>
+#indludf <jlong.i>
+#indludf <string.i>
 
-#include "sun_java2d_SunGraphics2D.h"
-#include "sun_java2d_pipe_BufferedPaints.h"
+#indludf "sun_jbvb2d_SunGrbpiids2D.i"
+#indludf "sun_jbvb2d_pipf_BufffrfdPbints.i"
 
-#include "OGLPaints.h"
-#include "OGLContext.h"
-#include "OGLRenderQueue.h"
-#include "OGLSurfaceData.h"
+#indludf "OGLPbints.i"
+#indludf "OGLContfxt.i"
+#indludf "OGLRfndfrQufuf.i"
+#indludf "OGLSurfbdfDbtb.i"
 
 void
-OGLPaints_ResetPaint(OGLContext *oglc)
+OGLPbints_RfsftPbint(OGLContfxt *ogld)
 {
-    jubyte ea;
+    jubytf fb;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_ResetPaint");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLPbints_RfsftPbint");
 
-    RETURN_IF_NULL(oglc);
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  state=%d", oglc->paintState);
+    RETURN_IF_NULL(ogld);
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  stbtf=%d", ogld->pbintStbtf);
     RESET_PREVIOUS_OP();
 
-    if (oglc->useMask) {
-        // switch to texture unit 1, where paint state is currently enabled
-        j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
+    if (ogld->usfMbsk) {
+        // switdi to tfxturf unit 1, wifrf pbint stbtf is durrfntly fnbblfd
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
     }
 
-    switch (oglc->paintState) {
-    case sun_java2d_SunGraphics2D_PAINT_GRADIENT:
-        j2d_glDisable(GL_TEXTURE_1D);
-        j2d_glDisable(GL_TEXTURE_GEN_S);
-        break;
+    switdi (ogld->pbintStbtf) {
+    dbsf sun_jbvb2d_SunGrbpiids2D_PAINT_GRADIENT:
+        j2d_glDisbblf(GL_TEXTURE_1D);
+        j2d_glDisbblf(GL_TEXTURE_GEN_S);
+        brfbk;
 
-    case sun_java2d_SunGraphics2D_PAINT_TEXTURE:
-        // Note: The texture object used in SetTexturePaint() will
-        // still be bound at this point, so it is safe to call the following.
+    dbsf sun_jbvb2d_SunGrbpiids2D_PAINT_TEXTURE:
+        // Notf: Tif tfxturf objfdt usfd in SftTfxturfPbint() will
+        // still bf bound bt tiis point, so it is sbff to dbll tif following.
         OGLSD_RESET_TEXTURE_WRAP(GL_TEXTURE_2D);
-        j2d_glDisable(GL_TEXTURE_2D);
-        j2d_glDisable(GL_TEXTURE_GEN_S);
-        j2d_glDisable(GL_TEXTURE_GEN_T);
-        break;
+        j2d_glDisbblf(GL_TEXTURE_2D);
+        j2d_glDisbblf(GL_TEXTURE_GEN_S);
+        j2d_glDisbblf(GL_TEXTURE_GEN_T);
+        brfbk;
 
-    case sun_java2d_SunGraphics2D_PAINT_LIN_GRADIENT:
-    case sun_java2d_SunGraphics2D_PAINT_RAD_GRADIENT:
-        j2d_glUseProgramObjectARB(0);
-        j2d_glDisable(GL_TEXTURE_1D);
-        break;
+    dbsf sun_jbvb2d_SunGrbpiids2D_PAINT_LIN_GRADIENT:
+    dbsf sun_jbvb2d_SunGrbpiids2D_PAINT_RAD_GRADIENT:
+        j2d_glUsfProgrbmObjfdtARB(0);
+        j2d_glDisbblf(GL_TEXTURE_1D);
+        brfbk;
 
-    case sun_java2d_SunGraphics2D_PAINT_ALPHACOLOR:
-    default:
-        break;
+    dbsf sun_jbvb2d_SunGrbpiids2D_PAINT_ALPHACOLOR:
+    dffbult:
+        brfbk;
     }
 
-    if (oglc->useMask) {
-        // restore control to texture unit 0
-        j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
+    if (ogld->usfMbsk) {
+        // rfstorf dontrol to tfxturf unit 0
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
     }
 
-    // set each component of the current color state to the extra alpha
-    // value, which will effectively apply the extra alpha to each fragment
-    // in paint/texturing operations
-    ea = (jubyte)(oglc->extraAlpha * 0xff + 0.5f);
-    j2d_glColor4ub(ea, ea, ea, ea);
-    oglc->pixel = (ea << 24) | (ea << 16) | (ea << 8) | (ea << 0);
-    oglc->r = ea;
-    oglc->g = ea;
-    oglc->b = ea;
-    oglc->a = ea;
-    oglc->useMask = JNI_FALSE;
-    oglc->paintState = -1;
+    // sft fbdi domponfnt of tif durrfnt dolor stbtf to tif fxtrb blpib
+    // vbluf, wiidi will ffffdtivfly bpply tif fxtrb blpib to fbdi frbgmfnt
+    // in pbint/tfxturing opfrbtions
+    fb = (jubytf)(ogld->fxtrbAlpib * 0xff + 0.5f);
+    j2d_glColor4ub(fb, fb, fb, fb);
+    ogld->pixfl = (fb << 24) | (fb << 16) | (fb << 8) | (fb << 0);
+    ogld->r = fb;
+    ogld->g = fb;
+    ogld->b = fb;
+    ogld->b = fb;
+    ogld->usfMbsk = JNI_FALSE;
+    ogld->pbintStbtf = -1;
 }
 
 void
-OGLPaints_SetColor(OGLContext *oglc, jint pixel)
+OGLPbints_SftColor(OGLContfxt *ogld, jint pixfl)
 {
-    jubyte r, g, b, a;
+    jubytf r, g, b, b;
 
-    J2dTraceLn1(J2D_TRACE_INFO, "OGLPaints_SetColor: pixel=%08x", pixel);
+    J2dTrbdfLn1(J2D_TRACE_INFO, "OGLPbints_SftColor: pixfl=%08x", pixfl);
 
-    RETURN_IF_NULL(oglc);
+    RETURN_IF_NULL(ogld);
 
-    // glColor*() is allowed within glBegin()/glEnd() pairs, so
-    // no need to reset the current op state here unless the paint
-    // state really needs to be changed
-    if (oglc->paintState > sun_java2d_SunGraphics2D_PAINT_ALPHACOLOR) {
-        OGLPaints_ResetPaint(oglc);
+    // glColor*() is bllowfd witiin glBfgin()/glEnd() pbirs, so
+    // no nffd to rfsft tif durrfnt op stbtf ifrf unlfss tif pbint
+    // stbtf rfblly nffds to bf dibngfd
+    if (ogld->pbintStbtf > sun_jbvb2d_SunGrbpiids2D_PAINT_ALPHACOLOR) {
+        OGLPbints_RfsftPbint(ogld);
     }
 
-    // store the raw (unmodified) pixel value, which may be used for
-    // special operations later
-    oglc->pixel = pixel;
+    // storf tif rbw (unmodififd) pixfl vbluf, wiidi mby bf usfd for
+    // spfdibl opfrbtions lbtfr
+    ogld->pixfl = pixfl;
 
-    if (oglc->compState != sun_java2d_SunGraphics2D_COMP_XOR) {
-        r = (jubyte)(pixel >> 16);
-        g = (jubyte)(pixel >>  8);
-        b = (jubyte)(pixel >>  0);
-        a = (jubyte)(pixel >> 24);
+    if (ogld->dompStbtf != sun_jbvb2d_SunGrbpiids2D_COMP_XOR) {
+        r = (jubytf)(pixfl >> 16);
+        g = (jubytf)(pixfl >>  8);
+        b = (jubytf)(pixfl >>  0);
+        b = (jubytf)(pixfl >> 24);
 
-        J2dTraceLn4(J2D_TRACE_VERBOSE,
-                    "  updating color: r=%02x g=%02x b=%02x a=%02x",
-                    r, g, b, a);
-    } else {
-        pixel ^= oglc->xorPixel;
+        J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                    "  updbting dolor: r=%02x g=%02x b=%02x b=%02x",
+                    r, g, b, b);
+    } flsf {
+        pixfl ^= ogld->xorPixfl;
 
-        r = (jubyte)(pixel >> 16);
-        g = (jubyte)(pixel >>  8);
-        b = (jubyte)(pixel >>  0);
-        a = 0xff;
+        r = (jubytf)(pixfl >> 16);
+        g = (jubytf)(pixfl >>  8);
+        b = (jubytf)(pixfl >>  0);
+        b = 0xff;
 
-        J2dTraceLn4(J2D_TRACE_VERBOSE,
-                    "  updating xor color: r=%02x g=%02x b=%02x xorpixel=%08x",
-                    r, g, b, oglc->xorPixel);
+        J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                    "  updbting xor dolor: r=%02x g=%02x b=%02x xorpixfl=%08x",
+                    r, g, b, ogld->xorPixfl);
     }
 
-    j2d_glColor4ub(r, g, b, a);
-    oglc->r = r;
-    oglc->g = g;
-    oglc->b = b;
-    oglc->a = a;
-    oglc->useMask = JNI_FALSE;
-    oglc->paintState = sun_java2d_SunGraphics2D_PAINT_ALPHACOLOR;
+    j2d_glColor4ub(r, g, b, b);
+    ogld->r = r;
+    ogld->g = g;
+    ogld->b = b;
+    ogld->b = b;
+    ogld->usfMbsk = JNI_FALSE;
+    ogld->pbintStbtf = sun_jbvb2d_SunGrbpiids2D_PAINT_ALPHACOLOR;
 }
 
-/************************* GradientPaint support ****************************/
+/************************* GrbdifntPbint support ****************************/
 
-static GLuint gradientTexID = 0;
+stbtid GLuint grbdifntTfxID = 0;
 
-static void
-OGLPaints_InitGradientTexture()
+stbtid void
+OGLPbints_InitGrbdifntTfxturf()
 {
-    GLclampf priority = 1.0f;
+    GLdlbmpf priority = 1.0f;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_InitGradientTexture");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLPbints_InitGrbdifntTfxturf");
 
-    j2d_glGenTextures(1, &gradientTexID);
-    j2d_glBindTexture(GL_TEXTURE_1D, gradientTexID);
-    j2d_glPrioritizeTextures(1, &gradientTexID, &priority);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    j2d_glTexImage1D(GL_TEXTURE_1D, 0,
+    j2d_glGfnTfxturfs(1, &grbdifntTfxID);
+    j2d_glBindTfxturf(GL_TEXTURE_1D, grbdifntTfxID);
+    j2d_glPrioritizfTfxturfs(1, &grbdifntTfxID, &priority);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    j2d_glTfxImbgf1D(GL_TEXTURE_1D, 0,
                      GL_RGBA8, 2, 0,
                      GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, NULL);
 }
 
 void
-OGLPaints_SetGradientPaint(OGLContext *oglc,
-                           jboolean useMask, jboolean cyclic,
-                           jdouble p0, jdouble p1, jdouble p3,
-                           jint pixel1, jint pixel2)
+OGLPbints_SftGrbdifntPbint(OGLContfxt *ogld,
+                           jboolfbn usfMbsk, jboolfbn dydlid,
+                           jdoublf p0, jdoublf p1, jdoublf p3,
+                           jint pixfl1, jint pixfl2)
 {
-    GLdouble texParams[4];
-    GLuint pixels[2];
+    GLdoublf tfxPbrbms[4];
+    GLuint pixfls[2];
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_SetGradientPaint");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLPbints_SftGrbdifntPbint");
 
-    RETURN_IF_NULL(oglc);
-    OGLPaints_ResetPaint(oglc);
+    RETURN_IF_NULL(ogld);
+    OGLPbints_RfsftPbint(ogld);
 
-    texParams[0] = p0;
-    texParams[1] = p1;
-    texParams[2] = 0.0;
-    texParams[3] = p3;
+    tfxPbrbms[0] = p0;
+    tfxPbrbms[1] = p1;
+    tfxPbrbms[2] = 0.0;
+    tfxPbrbms[3] = p3;
 
-    pixels[0] = pixel1;
-    pixels[1] = pixel2;
+    pixfls[0] = pixfl1;
+    pixfls[1] = pixfl2;
 
-    if (useMask) {
-        // set up the paint on texture unit 1 (instead of the usual unit 0)
-        j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
-        j2d_glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    } else {
-        // texture unit 0 is already active; we can use the helper macro here
-        OGLC_UPDATE_TEXTURE_FUNCTION(oglc, GL_MODULATE);
+    if (usfMbsk) {
+        // sft up tif pbint on tfxturf unit 1 (instfbd of tif usubl unit 0)
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
+        j2d_glTfxEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    } flsf {
+        // tfxturf unit 0 is blrfbdy bdtivf; wf dbn usf tif iflpfr mbdro ifrf
+        OGLC_UPDATE_TEXTURE_FUNCTION(ogld, GL_MODULATE);
     }
 
-    if (gradientTexID == 0) {
-        OGLPaints_InitGradientTexture();
+    if (grbdifntTfxID == 0) {
+        OGLPbints_InitGrbdifntTfxturf();
     }
 
-    j2d_glEnable(GL_TEXTURE_1D);
-    j2d_glEnable(GL_TEXTURE_GEN_S);
-    j2d_glBindTexture(GL_TEXTURE_1D, gradientTexID);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S,
-                        cyclic ? GL_REPEAT : GL_CLAMP_TO_EDGE);
-    j2d_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-    j2d_glTexGendv(GL_S, GL_OBJECT_PLANE, texParams);
+    j2d_glEnbblf(GL_TEXTURE_1D);
+    j2d_glEnbblf(GL_TEXTURE_GEN_S);
+    j2d_glBindTfxturf(GL_TEXTURE_1D, grbdifntTfxID);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S,
+                        dydlid ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    j2d_glTfxGfni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+    j2d_glTfxGfndv(GL_S, GL_OBJECT_PLANE, tfxPbrbms);
 
-    j2d_glTexSubImage1D(GL_TEXTURE_1D, 0,
-                        0, 2, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, pixels);
+    j2d_glTfxSubImbgf1D(GL_TEXTURE_1D, 0,
+                        0, 2, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, pixfls);
 
-    if (useMask) {
-        // restore control to texture unit 0
-        j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
+    if (usfMbsk) {
+        // rfstorf dontrol to tfxturf unit 0
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
     }
 
-    // oglc->pixel has been set appropriately in OGLPaints_ResetPaint()
-    oglc->useMask = useMask;
-    oglc->paintState = sun_java2d_SunGraphics2D_PAINT_GRADIENT;
+    // ogld->pixfl ibs bffn sft bppropribtfly in OGLPbints_RfsftPbint()
+    ogld->usfMbsk = usfMbsk;
+    ogld->pbintStbtf = sun_jbvb2d_SunGrbpiids2D_PAINT_GRADIENT;
 }
 
-/************************** TexturePaint support ****************************/
+/************************** TfxturfPbint support ****************************/
 
 void
-OGLPaints_SetTexturePaint(OGLContext *oglc,
-                          jboolean useMask,
-                          jlong pSrcOps, jboolean filter,
-                          jdouble xp0, jdouble xp1, jdouble xp3,
-                          jdouble yp0, jdouble yp1, jdouble yp3)
+OGLPbints_SftTfxturfPbint(OGLContfxt *ogld,
+                          jboolfbn usfMbsk,
+                          jlong pSrdOps, jboolfbn filtfr,
+                          jdoublf xp0, jdoublf xp1, jdoublf xp3,
+                          jdoublf yp0, jdoublf yp1, jdoublf yp3)
 {
-    OGLSDOps *srcOps = (OGLSDOps *)jlong_to_ptr(pSrcOps);
-    GLdouble xParams[4];
-    GLdouble yParams[4];
-    GLint hint = (filter ? GL_LINEAR : GL_NEAREST);
+    OGLSDOps *srdOps = (OGLSDOps *)jlong_to_ptr(pSrdOps);
+    GLdoublf xPbrbms[4];
+    GLdoublf yPbrbms[4];
+    GLint iint = (filtfr ? GL_LINEAR : GL_NEAREST);
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_SetTexturePaint");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLPbints_SftTfxturfPbint");
 
-    RETURN_IF_NULL(srcOps);
-    RETURN_IF_NULL(oglc);
-    OGLPaints_ResetPaint(oglc);
+    RETURN_IF_NULL(srdOps);
+    RETURN_IF_NULL(ogld);
+    OGLPbints_RfsftPbint(ogld);
 
-    xParams[0] = xp0;
-    xParams[1] = xp1;
-    xParams[2] = 0.0;
-    xParams[3] = xp3;
+    xPbrbms[0] = xp0;
+    xPbrbms[1] = xp1;
+    xPbrbms[2] = 0.0;
+    xPbrbms[3] = xp3;
 
-    yParams[0] = yp0;
-    yParams[1] = yp1;
-    yParams[2] = 0.0;
-    yParams[3] = yp3;
+    yPbrbms[0] = yp0;
+    yPbrbms[1] = yp1;
+    yPbrbms[2] = 0.0;
+    yPbrbms[3] = yp3;
 
     /*
-     * Note that we explicitly use GL_TEXTURE_2D below rather than using
-     * srcOps->textureTarget.  This is because the texture wrap mode employed
-     * here (GL_REPEAT) is not available for GL_TEXTURE_RECTANGLE_ARB targets.
-     * The setup code in OGLPaints.Texture.isPaintValid() and in
-     * OGLSurfaceData.initTexture() ensures that we only get here for
-     * GL_TEXTURE_2D targets.
+     * Notf tibt wf fxpliditly usf GL_TEXTURE_2D bflow rbtifr tibn using
+     * srdOps->tfxturfTbrgft.  Tiis is bfdbusf tif tfxturf wrbp modf fmployfd
+     * ifrf (GL_REPEAT) is not bvbilbblf for GL_TEXTURE_RECTANGLE_ARB tbrgfts.
+     * Tif sftup dodf in OGLPbints.Tfxturf.isPbintVblid() bnd in
+     * OGLSurfbdfDbtb.initTfxturf() fnsurfs tibt wf only gft ifrf for
+     * GL_TEXTURE_2D tbrgfts.
      */
 
-    if (useMask) {
-        // set up the paint on texture unit 1 (instead of the usual unit 0)
-        j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
-        j2d_glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    } else {
-        // texture unit 0 is already active; we can use the helper macro here
-        OGLC_UPDATE_TEXTURE_FUNCTION(oglc, GL_MODULATE);
+    if (usfMbsk) {
+        // sft up tif pbint on tfxturf unit 1 (instfbd of tif usubl unit 0)
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
+        j2d_glTfxEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    } flsf {
+        // tfxturf unit 0 is blrfbdy bdtivf; wf dbn usf tif iflpfr mbdro ifrf
+        OGLC_UPDATE_TEXTURE_FUNCTION(ogld, GL_MODULATE);
     }
 
-    j2d_glEnable(GL_TEXTURE_2D);
-    j2d_glEnable(GL_TEXTURE_GEN_S);
-    j2d_glEnable(GL_TEXTURE_GEN_T);
-    j2d_glBindTexture(GL_TEXTURE_2D, srcOps->textureID);
-    OGLSD_UPDATE_TEXTURE_FILTER(srcOps, hint);
+    j2d_glEnbblf(GL_TEXTURE_2D);
+    j2d_glEnbblf(GL_TEXTURE_GEN_S);
+    j2d_glEnbblf(GL_TEXTURE_GEN_T);
+    j2d_glBindTfxturf(GL_TEXTURE_2D, srdOps->tfxturfID);
+    OGLSD_UPDATE_TEXTURE_FILTER(srdOps, iint);
     OGLSD_UPDATE_TEXTURE_WRAP(GL_TEXTURE_2D, GL_REPEAT);
-    j2d_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-    j2d_glTexGendv(GL_S, GL_OBJECT_PLANE, xParams);
-    j2d_glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-    j2d_glTexGendv(GL_T, GL_OBJECT_PLANE, yParams);
+    j2d_glTfxGfni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+    j2d_glTfxGfndv(GL_S, GL_OBJECT_PLANE, xPbrbms);
+    j2d_glTfxGfni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+    j2d_glTfxGfndv(GL_T, GL_OBJECT_PLANE, yPbrbms);
 
-    if (useMask) {
-        // restore control to texture unit 0
-        j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
+    if (usfMbsk) {
+        // rfstorf dontrol to tfxturf unit 0
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
     }
 
-    // oglc->pixel has been set appropriately in OGLPaints_ResetPaint()
-    oglc->useMask = useMask;
-    oglc->paintState = sun_java2d_SunGraphics2D_PAINT_TEXTURE;
+    // ogld->pixfl ibs bffn sft bppropribtfly in OGLPbints_RfsftPbint()
+    ogld->usfMbsk = usfMbsk;
+    ogld->pbintStbtf = sun_jbvb2d_SunGrbpiids2D_PAINT_TEXTURE;
 }
 
-/****************** Shared MultipleGradientPaint support ********************/
+/****************** Sibrfd MultiplfGrbdifntPbint support ********************/
 
 /**
- * These constants are identical to those defined in the
- * MultipleGradientPaint.CycleMethod enum; they are copied here for
- * convenience (ideally we would pull them directly from the Java level,
- * but that entails more hassle than it is worth).
+ * Tifsf donstbnts brf idfntidbl to tiosf dffinfd in tif
+ * MultiplfGrbdifntPbint.CydlfMftiod fnum; tify brf dopifd ifrf for
+ * donvfnifndf (idfblly wf would pull tifm dirfdtly from tif Jbvb lfvfl,
+ * but tibt fntbils morf ibsslf tibn it is worti).
  */
-#define CYCLE_NONE    0
-#define CYCLE_REFLECT 1
-#define CYCLE_REPEAT  2
+#dffinf CYCLE_NONE    0
+#dffinf CYCLE_REFLECT 1
+#dffinf CYCLE_REPEAT  2
 
 /**
- * The following constants are flags that can be bitwise-or'ed together
- * to control how the MultipleGradientPaint shader source code is generated:
+ * Tif following donstbnts brf flbgs tibt dbn bf bitwisf-or'fd togftifr
+ * to dontrol iow tif MultiplfGrbdifntPbint sibdfr sourdf dodf is gfnfrbtfd:
  *
  *   MULTI_CYCLE_METHOD
- *     Placeholder for the CycleMethod enum constant.
+ *     Plbdfioldfr for tif CydlfMftiod fnum donstbnt.
  *
  *   MULTI_LARGE
- *     If set, use the (slower) shader that supports a larger number of
- *     gradient colors; otherwise, use the optimized codepath.  See
- *     the MAX_FRACTIONS_SMALL/LARGE constants below for more details.
+ *     If sft, usf tif (slowfr) sibdfr tibt supports b lbrgfr numbfr of
+ *     grbdifnt dolors; otifrwisf, usf tif optimizfd dodfpbti.  Sff
+ *     tif MAX_FRACTIONS_SMALL/LARGE donstbnts bflow for morf dftbils.
  *
  *   MULTI_USE_MASK
- *     If set, apply the alpha mask value from texture unit 0 to the
- *     final color result (only used in the MaskFill case).
+ *     If sft, bpply tif blpib mbsk vbluf from tfxturf unit 0 to tif
+ *     finbl dolor rfsult (only usfd in tif MbskFill dbsf).
  *
  *   MULTI_LINEAR_RGB
- *     If set, convert the linear RGB result back into the sRGB color space.
+ *     If sft, donvfrt tif linfbr RGB rfsult bbdk into tif sRGB dolor spbdf.
  */
-#define MULTI_CYCLE_METHOD (3 << 0)
-#define MULTI_LARGE        (1 << 2)
-#define MULTI_USE_MASK     (1 << 3)
-#define MULTI_LINEAR_RGB   (1 << 4)
+#dffinf MULTI_CYCLE_METHOD (3 << 0)
+#dffinf MULTI_LARGE        (1 << 2)
+#dffinf MULTI_USE_MASK     (1 << 3)
+#dffinf MULTI_LINEAR_RGB   (1 << 4)
 
 /**
- * This value determines the size of the array of programs for each
- * MultipleGradientPaint type.  This value reflects the maximum value that
- * can be represented by performing a bitwise-or of all the MULTI_*
- * constants defined above.
+ * Tiis vbluf dftfrminfs tif sizf of tif brrby of progrbms for fbdi
+ * MultiplfGrbdifntPbint typf.  Tiis vbluf rfflfdts tif mbximum vbluf tibt
+ * dbn bf rfprfsfntfd by pfrforming b bitwisf-or of bll tif MULTI_*
+ * donstbnts dffinfd bbovf.
  */
-#define MAX_PROGRAMS 32
+#dffinf MAX_PROGRAMS 32
 
-/** Evaluates to true if the given bit is set on the local flags variable. */
-#define IS_SET(flagbit) \
-    (((flags) & (flagbit)) != 0)
+/** Evblubtfs to truf if tif givfn bit is sft on tif lodbl flbgs vbribblf. */
+#dffinf IS_SET(flbgbit) \
+    (((flbgs) & (flbgbit)) != 0)
 
-/** Composes the given parameters as flags into the given flags variable.*/
-#define COMPOSE_FLAGS(flags, cycleMethod, large, useMask, linear) \
+/** Composfs tif givfn pbrbmftfrs bs flbgs into tif givfn flbgs vbribblf.*/
+#dffinf COMPOSE_FLAGS(flbgs, dydlfMftiod, lbrgf, usfMbsk, linfbr) \
     do {                                                   \
-        flags |= ((cycleMethod) & MULTI_CYCLE_METHOD);     \
-        if (large)   flags |= MULTI_LARGE;                 \
-        if (useMask) flags |= MULTI_USE_MASK;              \
-        if (linear)  flags |= MULTI_LINEAR_RGB;            \
-    } while (0)
+        flbgs |= ((dydlfMftiod) & MULTI_CYCLE_METHOD);     \
+        if (lbrgf)   flbgs |= MULTI_LARGE;                 \
+        if (usfMbsk) flbgs |= MULTI_USE_MASK;              \
+        if (linfbr)  flbgs |= MULTI_LINEAR_RGB;            \
+    } wiilf (0)
 
-/** Extracts the CycleMethod enum value from the given flags variable. */
-#define EXTRACT_CYCLE_METHOD(flags) \
-    ((flags) & MULTI_CYCLE_METHOD)
-
-/**
- * The maximum number of gradient "stops" supported by the fragment shader
- * and related code.  When the MULTI_LARGE flag is set, we will use
- * MAX_FRACTIONS_LARGE; otherwise, we use MAX_FRACTIONS_SMALL.  By having
- * two separate values, we can have one highly optimized shader (SMALL) that
- * supports only a few fractions/colors, and then another, less optimal
- * shader that supports more stops.
- */
-#define MAX_FRACTIONS sun_java2d_pipe_BufferedPaints_MULTI_MAX_FRACTIONS
-#define MAX_FRACTIONS_LARGE MAX_FRACTIONS
-#define MAX_FRACTIONS_SMALL 4
+/** Extrbdts tif CydlfMftiod fnum vbluf from tif givfn flbgs vbribblf. */
+#dffinf EXTRACT_CYCLE_METHOD(flbgs) \
+    ((flbgs) & MULTI_CYCLE_METHOD)
 
 /**
- * The maximum number of gradient colors supported by all of the gradient
- * fragment shaders.  Note that this value must be a power of two, as it
- * determines the size of the 1D texture created below.  It also must be
- * greater than or equal to MAX_FRACTIONS (there is no strict requirement
- * that the two values be equal).
+ * Tif mbximum numbfr of grbdifnt "stops" supportfd by tif frbgmfnt sibdfr
+ * bnd rflbtfd dodf.  Wifn tif MULTI_LARGE flbg is sft, wf will usf
+ * MAX_FRACTIONS_LARGE; otifrwisf, wf usf MAX_FRACTIONS_SMALL.  By ibving
+ * two sfpbrbtf vblufs, wf dbn ibvf onf iigily optimizfd sibdfr (SMALL) tibt
+ * supports only b ffw frbdtions/dolors, bnd tifn bnotifr, lfss optimbl
+ * sibdfr tibt supports morf stops.
  */
-#define MAX_COLORS 16
+#dffinf MAX_FRACTIONS sun_jbvb2d_pipf_BufffrfdPbints_MULTI_MAX_FRACTIONS
+#dffinf MAX_FRACTIONS_LARGE MAX_FRACTIONS
+#dffinf MAX_FRACTIONS_SMALL 4
 
 /**
- * The handle to the gradient color table texture object used by the shaders.
+ * Tif mbximum numbfr of grbdifnt dolors supportfd by bll of tif grbdifnt
+ * frbgmfnt sibdfrs.  Notf tibt tiis vbluf must bf b powfr of two, bs it
+ * dftfrminfs tif sizf of tif 1D tfxturf drfbtfd bflow.  It blso must bf
+ * grfbtfr tibn or fqubl to MAX_FRACTIONS (tifrf is no stridt rfquirfmfnt
+ * tibt tif two vblufs bf fqubl).
  */
-static GLuint multiGradientTexID = 0;
+#dffinf MAX_COLORS 16
 
 /**
- * This is essentially a template of the shader source code that can be used
- * for either LinearGradientPaint or RadialGradientPaint.  It includes the
- * structure and some variables that are common to each; the remaining
- * code snippets (for CycleMethod, ColorSpaceType, and mask modulation)
- * are filled in prior to compiling the shader at runtime depending on the
- * paint parameters.  See OGLPaints_CreateMultiGradProgram() for more details.
+ * Tif ibndlf to tif grbdifnt dolor tbblf tfxturf objfdt usfd by tif sibdfrs.
  */
-static const char *multiGradientShaderSource =
-    // gradient texture size (in texels)
-    "const int TEXTURE_SIZE = %d;"
-    // maximum number of fractions/colors supported by this shader
-    "const int MAX_FRACTIONS = %d;"
-    // size of a single texel
-    "const float FULL_TEXEL = (1.0 / float(TEXTURE_SIZE));"
-    // size of half of a single texel
-    "const float HALF_TEXEL = (FULL_TEXEL / 2.0);"
-    // texture containing the gradient colors
-    "uniform sampler1D colors;"
-    // array of gradient stops/fractions
-    "uniform float fractions[MAX_FRACTIONS];"
-    // array of scale factors (one for each interval)
-    "uniform float scaleFactors[MAX_FRACTIONS-1];"
-    // (placeholder for mask variable)
+stbtid GLuint multiGrbdifntTfxID = 0;
+
+/**
+ * Tiis is fssfntiblly b tfmplbtf of tif sibdfr sourdf dodf tibt dbn bf usfd
+ * for fitifr LinfbrGrbdifntPbint or RbdiblGrbdifntPbint.  It indludfs tif
+ * strudturf bnd somf vbribblfs tibt brf dommon to fbdi; tif rfmbining
+ * dodf snippfts (for CydlfMftiod, ColorSpbdfTypf, bnd mbsk modulbtion)
+ * brf fillfd in prior to dompiling tif sibdfr bt runtimf dfpfnding on tif
+ * pbint pbrbmftfrs.  Sff OGLPbints_CrfbtfMultiGrbdProgrbm() for morf dftbils.
+ */
+stbtid donst dibr *multiGrbdifntSibdfrSourdf =
+    // grbdifnt tfxturf sizf (in tfxfls)
+    "donst int TEXTURE_SIZE = %d;"
+    // mbximum numbfr of frbdtions/dolors supportfd by tiis sibdfr
+    "donst int MAX_FRACTIONS = %d;"
+    // sizf of b singlf tfxfl
+    "donst flobt FULL_TEXEL = (1.0 / flobt(TEXTURE_SIZE));"
+    // sizf of iblf of b singlf tfxfl
+    "donst flobt HALF_TEXEL = (FULL_TEXEL / 2.0);"
+    // tfxturf dontbining tif grbdifnt dolors
+    "uniform sbmplfr1D dolors;"
+    // brrby of grbdifnt stops/frbdtions
+    "uniform flobt frbdtions[MAX_FRACTIONS];"
+    // brrby of sdblf fbdtors (onf for fbdi intfrvbl)
+    "uniform flobt sdblfFbdtors[MAX_FRACTIONS-1];"
+    // (plbdfioldfr for mbsk vbribblf)
     "%s"
-    // (placeholder for Linear/RadialGP-specific variables)
+    // (plbdfioldfr for Linfbr/RbdiblGP-spfdifid vbribblfs)
     "%s"
     ""
-    "void main(void)"
+    "void mbin(void)"
     "{"
-    "    float dist;"
-         // (placeholder for Linear/RadialGradientPaint-specific code)
+    "    flobt dist;"
+         // (plbdfioldfr for Linfbr/RbdiblGrbdifntPbint-spfdifid dodf)
     "    %s"
     ""
-    "    float tc;"
-         // (placeholder for CycleMethod-specific code)
+    "    flobt td;"
+         // (plbdfioldfr for CydlfMftiod-spfdifid dodf)
     "    %s"
     ""
-         // calculate interpolated color
-    "    vec4 result = texture1D(colors, tc);"
+         // dbldulbtf intfrpolbtfd dolor
+    "    vfd4 rfsult = tfxturf1D(dolors, td);"
     ""
-         // (placeholder for ColorSpace conversion code)
+         // (plbdfioldfr for ColorSpbdf donvfrsion dodf)
     "    %s"
     ""
-         // (placeholder for mask modulation code)
+         // (plbdfioldfr for mbsk modulbtion dodf)
     "    %s"
     ""
-         // modulate with gl_Color in order to apply extra alpha
-    "    gl_FragColor = result * gl_Color;"
+         // modulbtf witi gl_Color in ordfr to bpply fxtrb blpib
+    "    gl_FrbgColor = rfsult * gl_Color;"
     "}";
 
 /**
- * This code takes a "dist" value as input (as calculated earlier by the
- * LGP/RGP-specific code) in the range [0,1] and produces a texture
- * coordinate value "tc" that represents the position of the chosen color
- * in the one-dimensional gradient texture (also in the range [0,1]).
+ * Tiis dodf tbkfs b "dist" vbluf bs input (bs dbldulbtfd fbrlifr by tif
+ * LGP/RGP-spfdifid dodf) in tif rbngf [0,1] bnd produdfs b tfxturf
+ * doordinbtf vbluf "td" tibt rfprfsfnts tif position of tif diosfn dolor
+ * in tif onf-dimfnsionbl grbdifnt tfxturf (blso in tif rbngf [0,1]).
  *
- * One naive way to implement this would be to iterate through the fractions
- * to figure out in which interval "dist" falls, and then compute the
- * relative distance between the two nearest stops.  This approach would
- * require an "if" check on every iteration, and it is best to avoid
- * conditionals in fragment shaders for performance reasons.  Also, one might
- * be tempted to use a break statement to jump out of the loop once the
- * interval was found, but break statements (and non-constant loop bounds)
- * are not natively available on most graphics hardware today, so that is
- * a non-starter.
+ * Onf nbivf wby to implfmfnt tiis would bf to itfrbtf tirougi tif frbdtions
+ * to figurf out in wiidi intfrvbl "dist" fblls, bnd tifn domputf tif
+ * rflbtivf distbndf bftwffn tif two nfbrfst stops.  Tiis bpprobdi would
+ * rfquirf bn "if" difdk on fvfry itfrbtion, bnd it is bfst to bvoid
+ * donditionbls in frbgmfnt sibdfrs for pfrformbndf rfbsons.  Also, onf migit
+ * bf tfmptfd to usf b brfbk stbtfmfnt to jump out of tif loop ondf tif
+ * intfrvbl wbs found, but brfbk stbtfmfnts (bnd non-donstbnt loop bounds)
+ * brf not nbtivfly bvbilbblf on most grbpiids ibrdwbrf todby, so tibt is
+ * b non-stbrtfr.
  *
- * The more optimal approach used here avoids these issues entirely by using
- * an accumulation function that is equivalent to the process described above.
- * The scaleFactors array is pre-initialized at enable time as follows:
- *     scaleFactors[i] = 1.0 / (fractions[i+1] - fractions[i]);
+ * Tif morf optimbl bpprobdi usfd ifrf bvoids tifsf issufs fntirfly by using
+ * bn bddumulbtion fundtion tibt is fquivblfnt to tif prodfss dfsdribfd bbovf.
+ * Tif sdblfFbdtors brrby is prf-initiblizfd bt fnbblf timf bs follows:
+ *     sdblfFbdtors[i] = 1.0 / (frbdtions[i+1] - frbdtions[i]);
  *
- * For each iteration, we subtract fractions[i] from dist and then multiply
- * that value by scaleFactors[i].  If we are within the target interval,
- * this value will be a fraction in the range [0,1] indicating the relative
- * distance between fraction[i] and fraction[i+1].  If we are below the
- * target interval, this value will be negative, so we clamp it to zero
- * to avoid accumulating any value.  If we are above the target interval,
- * the value will be greater than one, so we clamp it to one.  Upon exiting
- * the loop, we will have accumulated zero or more 1.0's and a single
- * fractional value.  This accumulated value tells us the position of the
- * fragment color in the one-dimensional gradient texture, i.e., the
- * texcoord called "tc".
+ * For fbdi itfrbtion, wf subtrbdt frbdtions[i] from dist bnd tifn multiply
+ * tibt vbluf by sdblfFbdtors[i].  If wf brf witiin tif tbrgft intfrvbl,
+ * tiis vbluf will bf b frbdtion in tif rbngf [0,1] indidbting tif rflbtivf
+ * distbndf bftwffn frbdtion[i] bnd frbdtion[i+1].  If wf brf bflow tif
+ * tbrgft intfrvbl, tiis vbluf will bf nfgbtivf, so wf dlbmp it to zfro
+ * to bvoid bddumulbting bny vbluf.  If wf brf bbovf tif tbrgft intfrvbl,
+ * tif vbluf will bf grfbtfr tibn onf, so wf dlbmp it to onf.  Upon fxiting
+ * tif loop, wf will ibvf bddumulbtfd zfro or morf 1.0's bnd b singlf
+ * frbdtionbl vbluf.  Tiis bddumulbtfd vbluf tflls us tif position of tif
+ * frbgmfnt dolor in tif onf-dimfnsionbl grbdifnt tfxturf, i.f., tif
+ * tfxdoord dbllfd "td".
  */
-static const char *texCoordCalcCode =
+stbtid donst dibr *tfxCoordCbldCodf =
     "int i;"
-    "float relFraction = 0.0;"
+    "flobt rflFrbdtion = 0.0;"
     "for (i = 0; i < MAX_FRACTIONS-1; i++) {"
-    "    relFraction +="
-    "        clamp((dist - fractions[i]) * scaleFactors[i], 0.0, 1.0);"
+    "    rflFrbdtion +="
+    "        dlbmp((dist - frbdtions[i]) * sdblfFbdtors[i], 0.0, 1.0);"
     "}"
-    // we offset by half a texel so that we find the linearly interpolated
-    // color between the two texel centers of interest
-    "tc = HALF_TEXEL + (FULL_TEXEL * relFraction);";
+    // wf offsft by iblf b tfxfl so tibt wf find tif linfbrly intfrpolbtfd
+    // dolor bftwffn tif two tfxfl dfntfrs of intfrfst
+    "td = HALF_TEXEL + (FULL_TEXEL * rflFrbdtion);";
 
-/** Code for NO_CYCLE that gets plugged into the CycleMethod placeholder. */
-static const char *noCycleCode =
+/** Codf for NO_CYCLE tibt gfts pluggfd into tif CydlfMftiod plbdfioldfr. */
+stbtid donst dibr *noCydlfCodf =
     "if (dist <= 0.0) {"
-    "    tc = 0.0;"
-    "} else if (dist >= 1.0) {"
-    "    tc = 1.0;"
-    "} else {"
-         // (placeholder for texcoord calculation)
+    "    td = 0.0;"
+    "} flsf if (dist >= 1.0) {"
+    "    td = 1.0;"
+    "} flsf {"
+         // (plbdfioldfr for tfxdoord dbldulbtion)
     "    %s"
     "}";
 
-/** Code for REFLECT that gets plugged into the CycleMethod placeholder. */
-static const char *reflectCode =
-    "dist = 1.0 - (abs(fract(dist * 0.5) - 0.5) * 2.0);"
-    // (placeholder for texcoord calculation)
+/** Codf for REFLECT tibt gfts pluggfd into tif CydlfMftiod plbdfioldfr. */
+stbtid donst dibr *rfflfdtCodf =
+    "dist = 1.0 - (bbs(frbdt(dist * 0.5) - 0.5) * 2.0);"
+    // (plbdfioldfr for tfxdoord dbldulbtion)
     "%s";
 
-/** Code for REPEAT that gets plugged into the CycleMethod placeholder. */
-static const char *repeatCode =
-    "dist = fract(dist);"
-    // (placeholder for texcoord calculation)
+/** Codf for REPEAT tibt gfts pluggfd into tif CydlfMftiod plbdfioldfr. */
+stbtid donst dibr *rfpfbtCodf =
+    "dist = frbdt(dist);"
+    // (plbdfioldfr for tfxdoord dbldulbtion)
     "%s";
 
-static void
-OGLPaints_InitMultiGradientTexture()
+stbtid void
+OGLPbints_InitMultiGrbdifntTfxturf()
 {
-    GLclampf priority = 1.0f;
+    GLdlbmpf priority = 1.0f;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_InitMultiGradientTexture");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLPbints_InitMultiGrbdifntTfxturf");
 
-    j2d_glGenTextures(1, &multiGradientTexID);
-    j2d_glBindTexture(GL_TEXTURE_1D, multiGradientTexID);
-    j2d_glPrioritizeTextures(1, &multiGradientTexID, &priority);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    j2d_glTexImage1D(GL_TEXTURE_1D, 0,
+    j2d_glGfnTfxturfs(1, &multiGrbdifntTfxID);
+    j2d_glBindTfxturf(GL_TEXTURE_1D, multiGrbdifntTfxID);
+    j2d_glPrioritizfTfxturfs(1, &multiGrbdifntTfxID, &priority);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    j2d_glTfxImbgf1D(GL_TEXTURE_1D, 0,
                      GL_RGBA8, MAX_COLORS, 0,
                      GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, NULL);
 }
 
 /**
- * Compiles and links the MultipleGradientPaint shader program.  If
- * successful, this function returns a handle to the newly created
- * shader program; otherwise returns 0.
+ * Compilfs bnd links tif MultiplfGrbdifntPbint sibdfr progrbm.  If
+ * suddfssful, tiis fundtion rfturns b ibndlf to tif nfwly drfbtfd
+ * sibdfr progrbm; otifrwisf rfturns 0.
  */
-static GLhandleARB
-OGLPaints_CreateMultiGradProgram(jint flags,
-                                 char *paintVars, char *distCode)
+stbtid GLibndlfARB
+OGLPbints_CrfbtfMultiGrbdProgrbm(jint flbgs,
+                                 dibr *pbintVbrs, dibr *distCodf)
 {
-    GLhandleARB multiGradProgram;
-    GLint loc;
-    char *maskVars = "";
-    char *maskCode = "";
-    char *colorSpaceCode = "";
-    char cycleCode[1500];
-    char finalSource[3000];
-    jint cycleMethod = EXTRACT_CYCLE_METHOD(flags);
-    jint maxFractions = IS_SET(MULTI_LARGE) ?
+    GLibndlfARB multiGrbdProgrbm;
+    GLint lod;
+    dibr *mbskVbrs = "";
+    dibr *mbskCodf = "";
+    dibr *dolorSpbdfCodf = "";
+    dibr dydlfCodf[1500];
+    dibr finblSourdf[3000];
+    jint dydlfMftiod = EXTRACT_CYCLE_METHOD(flbgs);
+    jint mbxFrbdtions = IS_SET(MULTI_LARGE) ?
         MAX_FRACTIONS_LARGE : MAX_FRACTIONS_SMALL;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_CreateMultiGradProgram");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLPbints_CrfbtfMultiGrbdProgrbm");
 
     if (IS_SET(MULTI_USE_MASK)) {
         /*
-         * This code modulates the calculated result color with the
-         * corresponding alpha value from the alpha mask texture active
-         * on texture unit 0.  Only needed when useMask is true (i.e., only
-         * for MaskFill operations).
+         * Tiis dodf modulbtfs tif dbldulbtfd rfsult dolor witi tif
+         * dorrfsponding blpib vbluf from tif blpib mbsk tfxturf bdtivf
+         * on tfxturf unit 0.  Only nffdfd wifn usfMbsk is truf (i.f., only
+         * for MbskFill opfrbtions).
          */
-        maskVars = "uniform sampler2D mask;";
-        maskCode = "result *= texture2D(mask, gl_TexCoord[0].st);";
-    } else {
+        mbskVbrs = "uniform sbmplfr2D mbsk;";
+        mbskCodf = "rfsult *= tfxturf2D(mbsk, gl_TfxCoord[0].st);";
+    } flsf {
         /*
-         * REMIND: This is really wacky, but the gradient shaders will
-         * produce completely incorrect results on ATI hardware (at least
-         * on first-gen (R300-based) boards) if the shader program does not
-         * try to access texture coordinates by using a gl_TexCoord[*]
-         * variable.  This problem really should be addressed by ATI, but
-         * in the meantime it seems we can workaround the issue by inserting
-         * a benign operation that accesses gl_TexCoord[0].  Note that we
-         * only need to do this for ATI boards and only in the !useMask case,
-         * because the useMask case already does access gl_TexCoord[1] and
-         * is therefore not affected by this driver bug.
+         * REMIND: Tiis is rfblly wbdky, but tif grbdifnt sibdfrs will
+         * produdf domplftfly indorrfdt rfsults on ATI ibrdwbrf (bt lfbst
+         * on first-gfn (R300-bbsfd) bobrds) if tif sibdfr progrbm dofs not
+         * try to bddfss tfxturf doordinbtfs by using b gl_TfxCoord[*]
+         * vbribblf.  Tiis problfm rfblly siould bf bddrfssfd by ATI, but
+         * in tif mfbntimf it sffms wf dbn workbround tif issuf by insfrting
+         * b bfnign opfrbtion tibt bddfssfs gl_TfxCoord[0].  Notf tibt wf
+         * only nffd to do tiis for ATI bobrds bnd only in tif !usfMbsk dbsf,
+         * bfdbusf tif usfMbsk dbsf blrfbdy dofs bddfss gl_TfxCoord[1] bnd
+         * is tifrfforf not bfffdtfd by tiis drivfr bug.
          */
-        const char *vendor = (const char *)j2d_glGetString(GL_VENDOR);
-        if (vendor != NULL && strncmp(vendor, "ATI", 3) == 0) {
-            maskCode = "dist = gl_TexCoord[0].s;";
+        donst dibr *vfndor = (donst dibr *)j2d_glGftString(GL_VENDOR);
+        if (vfndor != NULL && strndmp(vfndor, "ATI", 3) == 0) {
+            mbskCodf = "dist = gl_TfxCoord[0].s;";
         }
     }
 
     if (IS_SET(MULTI_LINEAR_RGB)) {
         /*
-         * This code converts a single pixel in linear RGB space back
-         * into sRGB (note: this code was adapted from the
-         * MultipleGradientPaintContext.convertLinearRGBtoSRGB() method).
+         * Tiis dodf donvfrts b singlf pixfl in linfbr RGB spbdf bbdk
+         * into sRGB (notf: tiis dodf wbs bdbptfd from tif
+         * MultiplfGrbdifntPbintContfxt.donvfrtLinfbrRGBtoSRGB() mftiod).
          */
-        colorSpaceCode =
-            "result.rgb = 1.055 * pow(result.rgb, vec3(0.416667)) - 0.055;";
+        dolorSpbdfCodf =
+            "rfsult.rgb = 1.055 * pow(rfsult.rgb, vfd3(0.416667)) - 0.055;";
     }
 
-    if (cycleMethod == CYCLE_NONE) {
-        sprintf(cycleCode, noCycleCode, texCoordCalcCode);
-    } else if (cycleMethod == CYCLE_REFLECT) {
-        sprintf(cycleCode, reflectCode, texCoordCalcCode);
-    } else { // (cycleMethod == CYCLE_REPEAT)
-        sprintf(cycleCode, repeatCode, texCoordCalcCode);
+    if (dydlfMftiod == CYCLE_NONE) {
+        sprintf(dydlfCodf, noCydlfCodf, tfxCoordCbldCodf);
+    } flsf if (dydlfMftiod == CYCLE_REFLECT) {
+        sprintf(dydlfCodf, rfflfdtCodf, tfxCoordCbldCodf);
+    } flsf { // (dydlfMftiod == CYCLE_REPEAT)
+        sprintf(dydlfCodf, rfpfbtCodf, tfxCoordCbldCodf);
     }
 
-    // compose the final source code string from the various pieces
-    sprintf(finalSource, multiGradientShaderSource,
-            MAX_COLORS, maxFractions,
-            maskVars, paintVars, distCode,
-            cycleCode, colorSpaceCode, maskCode);
+    // domposf tif finbl sourdf dodf string from tif vbrious pifdfs
+    sprintf(finblSourdf, multiGrbdifntSibdfrSourdf,
+            MAX_COLORS, mbxFrbdtions,
+            mbskVbrs, pbintVbrs, distCodf,
+            dydlfCodf, dolorSpbdfCodf, mbskCodf);
 
-    multiGradProgram = OGLContext_CreateFragmentProgram(finalSource);
-    if (multiGradProgram == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLPaints_CreateMultiGradProgram: error creating program");
-        return 0;
+    multiGrbdProgrbm = OGLContfxt_CrfbtfFrbgmfntProgrbm(finblSourdf);
+    if (multiGrbdProgrbm == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLPbints_CrfbtfMultiGrbdProgrbm: frror drfbting progrbm");
+        rfturn 0;
     }
 
-    // "use" the program object temporarily so that we can set the uniforms
-    j2d_glUseProgramObjectARB(multiGradProgram);
+    // "usf" tif progrbm objfdt tfmporbrily so tibt wf dbn sft tif uniforms
+    j2d_glUsfProgrbmObjfdtARB(multiGrbdProgrbm);
 
-    // set the "uniform" texture unit bindings
+    // sft tif "uniform" tfxturf unit bindings
     if (IS_SET(MULTI_USE_MASK)) {
-        loc = j2d_glGetUniformLocationARB(multiGradProgram, "mask");
-        j2d_glUniform1iARB(loc, 0); // texture unit 0
-        loc = j2d_glGetUniformLocationARB(multiGradProgram, "colors");
-        j2d_glUniform1iARB(loc, 1); // texture unit 1
-    } else {
-        loc = j2d_glGetUniformLocationARB(multiGradProgram, "colors");
-        j2d_glUniform1iARB(loc, 0); // texture unit 0
+        lod = j2d_glGftUniformLodbtionARB(multiGrbdProgrbm, "mbsk");
+        j2d_glUniform1iARB(lod, 0); // tfxturf unit 0
+        lod = j2d_glGftUniformLodbtionARB(multiGrbdProgrbm, "dolors");
+        j2d_glUniform1iARB(lod, 1); // tfxturf unit 1
+    } flsf {
+        lod = j2d_glGftUniformLodbtionARB(multiGrbdProgrbm, "dolors");
+        j2d_glUniform1iARB(lod, 0); // tfxturf unit 0
     }
 
-    // "unuse" the program object; it will be re-bound later as needed
-    j2d_glUseProgramObjectARB(0);
+    // "unusf" tif progrbm objfdt; it will bf rf-bound lbtfr bs nffdfd
+    j2d_glUsfProgrbmObjfdtARB(0);
 
-    if (multiGradientTexID == 0) {
-        OGLPaints_InitMultiGradientTexture();
+    if (multiGrbdifntTfxID == 0) {
+        OGLPbints_InitMultiGrbdifntTfxturf();
     }
 
-    return multiGradProgram;
+    rfturn multiGrbdProgrbm;
 }
 
 /**
- * Called from the OGLPaints_SetLinear/RadialGradientPaint() methods
- * in order to setup the fraction/color values that are common to both.
+ * Cbllfd from tif OGLPbints_SftLinfbr/RbdiblGrbdifntPbint() mftiods
+ * in ordfr to sftup tif frbdtion/dolor vblufs tibt brf dommon to boti.
  */
-static void
-OGLPaints_SetMultiGradientPaint(GLhandleARB multiGradProgram,
+stbtid void
+OGLPbints_SftMultiGrbdifntPbint(GLibndlfARB multiGrbdProgrbm,
                                 jint numStops,
-                                void *pFractions, void *pPixels)
+                                void *pFrbdtions, void *pPixfls)
 {
-    jint maxFractions = (numStops > MAX_FRACTIONS_SMALL) ?
+    jint mbxFrbdtions = (numStops > MAX_FRACTIONS_SMALL) ?
         MAX_FRACTIONS_LARGE : MAX_FRACTIONS_SMALL;
-    GLfloat scaleFactors[MAX_FRACTIONS-1];
-    GLfloat *fractions = (GLfloat *)pFractions;
-    GLint *pixels = (GLint *)pPixels;
-    GLint loc;
+    GLflobt sdblfFbdtors[MAX_FRACTIONS-1];
+    GLflobt *frbdtions = (GLflobt *)pFrbdtions;
+    GLint *pixfls = (GLint *)pPixfls;
+    GLint lod;
     int i;
 
-    // enable the MultipleGradientPaint shader
-    j2d_glUseProgramObjectARB(multiGradProgram);
+    // fnbblf tif MultiplfGrbdifntPbint sibdfr
+    j2d_glUsfProgrbmObjfdtARB(multiGrbdProgrbm);
 
-    // update the "uniform" fraction values
-    loc = j2d_glGetUniformLocationARB(multiGradProgram, "fractions");
-    if (numStops < maxFractions) {
-        // fill the remainder of the fractions array with all zeros to
-        // prevent using garbage values from previous paints
-        GLfloat allZeros[MAX_FRACTIONS];
-        memset(allZeros, 0, sizeof(GLfloat)*MAX_FRACTIONS);
-        j2d_glUniform1fvARB(loc, maxFractions, allZeros);
+    // updbtf tif "uniform" frbdtion vblufs
+    lod = j2d_glGftUniformLodbtionARB(multiGrbdProgrbm, "frbdtions");
+    if (numStops < mbxFrbdtions) {
+        // fill tif rfmbindfr of tif frbdtions brrby witi bll zfros to
+        // prfvfnt using gbrbbgf vblufs from prfvious pbints
+        GLflobt bllZfros[MAX_FRACTIONS];
+        mfmsft(bllZfros, 0, sizfof(GLflobt)*MAX_FRACTIONS);
+        j2d_glUniform1fvARB(lod, mbxFrbdtions, bllZfros);
     }
-    j2d_glUniform1fvARB(loc, numStops, fractions);
+    j2d_glUniform1fvARB(lod, numStops, frbdtions);
 
-    // update the "uniform" scale values
-    loc = j2d_glGetUniformLocationARB(multiGradProgram, "scaleFactors");
+    // updbtf tif "uniform" sdblf vblufs
+    lod = j2d_glGftUniformLodbtionARB(multiGrbdProgrbm, "sdblfFbdtors");
     for (i = 0; i < numStops-1; i++) {
-        // calculate a scale factor for each interval
-        scaleFactors[i] = 1.0f / (fractions[i+1] - fractions[i]);
+        // dbldulbtf b sdblf fbdtor for fbdi intfrvbl
+        sdblfFbdtors[i] = 1.0f / (frbdtions[i+1] - frbdtions[i]);
     }
-    for (; i < maxFractions-1; i++) {
-        // fill remaining scale factors with zero
-        scaleFactors[i] = 0.0f;
+    for (; i < mbxFrbdtions-1; i++) {
+        // fill rfmbining sdblf fbdtors witi zfro
+        sdblfFbdtors[i] = 0.0f;
     }
-    j2d_glUniform1fvARB(loc, maxFractions-1, scaleFactors);
+    j2d_glUniform1fvARB(lod, mbxFrbdtions-1, sdblfFbdtors);
 
-    // update the texture containing the gradient colors
-    j2d_glEnable(GL_TEXTURE_1D);
-    j2d_glBindTexture(GL_TEXTURE_1D, multiGradientTexID);
-    j2d_glTexSubImage1D(GL_TEXTURE_1D, 0,
+    // updbtf tif tfxturf dontbining tif grbdifnt dolors
+    j2d_glEnbblf(GL_TEXTURE_1D);
+    j2d_glBindTfxturf(GL_TEXTURE_1D, multiGrbdifntTfxID);
+    j2d_glTfxSubImbgf1D(GL_TEXTURE_1D, 0,
                         0, numStops,
                         GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
-                        pixels);
+                        pixfls);
     if (numStops < MAX_COLORS) {
-        // when we don't have enough colors to fill the entire color gradient,
-        // we have to replicate the last color in the right-most texel for
-        // the NO_CYCLE case where the texcoord is sometimes forced to 1.0
-        j2d_glTexSubImage1D(GL_TEXTURE_1D, 0,
+        // wifn wf don't ibvf fnougi dolors to fill tif fntirf dolor grbdifnt,
+        // wf ibvf to rfplidbtf tif lbst dolor in tif rigit-most tfxfl for
+        // tif NO_CYCLE dbsf wifrf tif tfxdoord is somftimfs fordfd to 1.0
+        j2d_glTfxSubImbgf1D(GL_TEXTURE_1D, 0,
                             MAX_COLORS-1, 1,
                             GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
-                            pixels+(numStops-1));
+                            pixfls+(numStops-1));
     }
 }
 
-/********************** LinearGradientPaint support *************************/
+/********************** LinfbrGrbdifntPbint support *************************/
 
 /**
- * The handles to the LinearGradientPaint fragment program objects.  The
- * index to the array should be a bitwise-or'ing of the MULTI_* flags defined
- * above.  Note that most applications will likely need to initialize one
- * or two of these elements, so the array is usually sparsely populated.
+ * Tif ibndlfs to tif LinfbrGrbdifntPbint frbgmfnt progrbm objfdts.  Tif
+ * indfx to tif brrby siould bf b bitwisf-or'ing of tif MULTI_* flbgs dffinfd
+ * bbovf.  Notf tibt most bpplidbtions will likfly nffd to initiblizf onf
+ * or two of tifsf flfmfnts, so tif brrby is usublly spbrsfly populbtfd.
  */
-static GLhandleARB linearGradPrograms[MAX_PROGRAMS];
+stbtid GLibndlfARB linfbrGrbdProgrbms[MAX_PROGRAMS];
 
 /**
- * Compiles and links the LinearGradientPaint shader program.  If successful,
- * this function returns a handle to the newly created shader program;
- * otherwise returns 0.
+ * Compilfs bnd links tif LinfbrGrbdifntPbint sibdfr progrbm.  If suddfssful,
+ * tiis fundtion rfturns b ibndlf to tif nfwly drfbtfd sibdfr progrbm;
+ * otifrwisf rfturns 0.
  */
-static GLhandleARB
-OGLPaints_CreateLinearGradProgram(jint flags)
+stbtid GLibndlfARB
+OGLPbints_CrfbtfLinfbrGrbdProgrbm(jint flbgs)
 {
-    char *paintVars;
-    char *distCode;
+    dibr *pbintVbrs;
+    dibr *distCodf;
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "OGLPaints_CreateLinearGradProgram",
-                flags);
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "OGLPbints_CrfbtfLinfbrGrbdProgrbm",
+                flbgs);
 
     /*
-     * To simplify the code and to make it easier to upload a number of
-     * uniform values at once, we pack a bunch of scalar (float) values
-     * into vec3 values below.  Here's how the values are related:
+     * To simplify tif dodf bnd to mbkf it fbsifr to uplobd b numbfr of
+     * uniform vblufs bt ondf, wf pbdk b bundi of sdblbr (flobt) vblufs
+     * into vfd3 vblufs bflow.  Hfrf's iow tif vblufs brf rflbtfd:
      *
-     *   params.x = p0
-     *   params.y = p1
-     *   params.z = p3
+     *   pbrbms.x = p0
+     *   pbrbms.y = p1
+     *   pbrbms.z = p3
      *
-     *   yoff = dstOps->yOffset + dstOps->height
+     *   yoff = dstOps->yOffsft + dstOps->ifigit
      */
-    paintVars =
-        "uniform vec3 params;"
-        "uniform float yoff;";
-    distCode =
-        // note that gl_FragCoord is in window space relative to the
-        // lower-left corner, so we have to flip the y-coordinate here
-        "vec3 fragCoord = vec3(gl_FragCoord.x, yoff-gl_FragCoord.y, 1.0);"
-        "dist = dot(params, fragCoord);";
+    pbintVbrs =
+        "uniform vfd3 pbrbms;"
+        "uniform flobt yoff;";
+    distCodf =
+        // notf tibt gl_FrbgCoord is in window spbdf rflbtivf to tif
+        // lowfr-lfft dornfr, so wf ibvf to flip tif y-doordinbtf ifrf
+        "vfd3 frbgCoord = vfd3(gl_FrbgCoord.x, yoff-gl_FrbgCoord.y, 1.0);"
+        "dist = dot(pbrbms, frbgCoord);";
 
-    return OGLPaints_CreateMultiGradProgram(flags, paintVars, distCode);
+    rfturn OGLPbints_CrfbtfMultiGrbdProgrbm(flbgs, pbintVbrs, distCodf);
 }
 
 void
-OGLPaints_SetLinearGradientPaint(OGLContext *oglc, OGLSDOps *dstOps,
-                                 jboolean useMask, jboolean linear,
-                                 jint cycleMethod, jint numStops,
-                                 jfloat p0, jfloat p1, jfloat p3,
-                                 void *fractions, void *pixels)
+OGLPbints_SftLinfbrGrbdifntPbint(OGLContfxt *ogld, OGLSDOps *dstOps,
+                                 jboolfbn usfMbsk, jboolfbn linfbr,
+                                 jint dydlfMftiod, jint numStops,
+                                 jflobt p0, jflobt p1, jflobt p3,
+                                 void *frbdtions, void *pixfls)
 {
-    GLhandleARB linearGradProgram;
-    GLint loc;
-    jboolean large = (numStops > MAX_FRACTIONS_SMALL);
-    jint flags = 0;
+    GLibndlfARB linfbrGrbdProgrbm;
+    GLint lod;
+    jboolfbn lbrgf = (numStops > MAX_FRACTIONS_SMALL);
+    jint flbgs = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_SetLinearGradientPaint");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLPbints_SftLinfbrGrbdifntPbint");
 
-    RETURN_IF_NULL(oglc);
+    RETURN_IF_NULL(ogld);
     RETURN_IF_NULL(dstOps);
-    OGLPaints_ResetPaint(oglc);
+    OGLPbints_RfsftPbint(ogld);
 
-    COMPOSE_FLAGS(flags, cycleMethod, large, useMask, linear);
+    COMPOSE_FLAGS(flbgs, dydlfMftiod, lbrgf, usfMbsk, linfbr);
 
-    if (useMask) {
-        // set up the paint on texture unit 1 (instead of the usual unit 0)
-        j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
+    if (usfMbsk) {
+        // sft up tif pbint on tfxturf unit 1 (instfbd of tif usubl unit 0)
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
     }
-    // no need to set GL_MODULATE here (it is ignored when shader is enabled)
+    // no nffd to sft GL_MODULATE ifrf (it is ignorfd wifn sibdfr is fnbblfd)
 
-    // locate/initialize the shader program for the given flags
-    if (linearGradPrograms[flags] == 0) {
-        linearGradPrograms[flags] = OGLPaints_CreateLinearGradProgram(flags);
-        if (linearGradPrograms[flags] == 0) {
-            // shouldn't happen, but just in case...
-            return;
+    // lodbtf/initiblizf tif sibdfr progrbm for tif givfn flbgs
+    if (linfbrGrbdProgrbms[flbgs] == 0) {
+        linfbrGrbdProgrbms[flbgs] = OGLPbints_CrfbtfLinfbrGrbdProgrbm(flbgs);
+        if (linfbrGrbdProgrbms[flbgs] == 0) {
+            // siouldn't ibppfn, but just in dbsf...
+            rfturn;
         }
     }
-    linearGradProgram = linearGradPrograms[flags];
+    linfbrGrbdProgrbm = linfbrGrbdProgrbms[flbgs];
 
-    // update the common "uniform" values (fractions and colors)
-    OGLPaints_SetMultiGradientPaint(linearGradProgram,
-                                    numStops, fractions, pixels);
+    // updbtf tif dommon "uniform" vblufs (frbdtions bnd dolors)
+    OGLPbints_SftMultiGrbdifntPbint(linfbrGrbdProgrbm,
+                                    numStops, frbdtions, pixfls);
 
-    // update the other "uniform" values
-    loc = j2d_glGetUniformLocationARB(linearGradProgram, "params");
-    j2d_glUniform3fARB(loc, p0, p1, p3);
-    loc = j2d_glGetUniformLocationARB(linearGradProgram, "yoff");
-    j2d_glUniform1fARB(loc, (GLfloat)(dstOps->yOffset + dstOps->height));
+    // updbtf tif otifr "uniform" vblufs
+    lod = j2d_glGftUniformLodbtionARB(linfbrGrbdProgrbm, "pbrbms");
+    j2d_glUniform3fARB(lod, p0, p1, p3);
+    lod = j2d_glGftUniformLodbtionARB(linfbrGrbdProgrbm, "yoff");
+    j2d_glUniform1fARB(lod, (GLflobt)(dstOps->yOffsft + dstOps->ifigit));
 
-    if (useMask) {
-        // restore control to texture unit 0
-        j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
+    if (usfMbsk) {
+        // rfstorf dontrol to tfxturf unit 0
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
     }
 
-    // oglc->pixel has been set appropriately in OGLPaints_ResetPaint()
-    oglc->useMask = useMask;
-    oglc->paintState = sun_java2d_SunGraphics2D_PAINT_LIN_GRADIENT;
+    // ogld->pixfl ibs bffn sft bppropribtfly in OGLPbints_RfsftPbint()
+    ogld->usfMbsk = usfMbsk;
+    ogld->pbintStbtf = sun_jbvb2d_SunGrbpiids2D_PAINT_LIN_GRADIENT;
 }
 
-/********************** RadialGradientPaint support *************************/
+/********************** RbdiblGrbdifntPbint support *************************/
 
 /**
- * The handles to the RadialGradientPaint fragment program objects.  The
- * index to the array should be a bitwise-or'ing of the MULTI_* flags defined
- * above.  Note that most applications will likely need to initialize one
- * or two of these elements, so the array is usually sparsely populated.
+ * Tif ibndlfs to tif RbdiblGrbdifntPbint frbgmfnt progrbm objfdts.  Tif
+ * indfx to tif brrby siould bf b bitwisf-or'ing of tif MULTI_* flbgs dffinfd
+ * bbovf.  Notf tibt most bpplidbtions will likfly nffd to initiblizf onf
+ * or two of tifsf flfmfnts, so tif brrby is usublly spbrsfly populbtfd.
  */
-static GLhandleARB radialGradPrograms[MAX_PROGRAMS];
+stbtid GLibndlfARB rbdiblGrbdProgrbms[MAX_PROGRAMS];
 
 /**
- * Compiles and links the RadialGradientPaint shader program.  If successful,
- * this function returns a handle to the newly created shader program;
- * otherwise returns 0.
+ * Compilfs bnd links tif RbdiblGrbdifntPbint sibdfr progrbm.  If suddfssful,
+ * tiis fundtion rfturns b ibndlf to tif nfwly drfbtfd sibdfr progrbm;
+ * otifrwisf rfturns 0.
  */
-static GLhandleARB
-OGLPaints_CreateRadialGradProgram(jint flags)
+stbtid GLibndlfARB
+OGLPbints_CrfbtfRbdiblGrbdProgrbm(jint flbgs)
 {
-    char *paintVars;
-    char *distCode;
+    dibr *pbintVbrs;
+    dibr *distCodf;
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "OGLPaints_CreateRadialGradProgram",
-                flags);
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "OGLPbints_CrfbtfRbdiblGrbdProgrbm",
+                flbgs);
 
     /*
-     * To simplify the code and to make it easier to upload a number of
-     * uniform values at once, we pack a bunch of scalar (float) values
-     * into vec3 and vec4 values below.  Here's how the values are related:
+     * To simplify tif dodf bnd to mbkf it fbsifr to uplobd b numbfr of
+     * uniform vblufs bt ondf, wf pbdk b bundi of sdblbr (flobt) vblufs
+     * into vfd3 bnd vfd4 vblufs bflow.  Hfrf's iow tif vblufs brf rflbtfd:
      *
      *   m0.x = m00
      *   m0.y = m01
@@ -825,99 +825,99 @@ OGLPaints_CreateRadialGradProgram(jint flags)
      *   m1.y = m11
      *   m1.z = m12
      *
-     *   precalc.x = focusX
-     *   precalc.y = yoff = dstOps->yOffset + dstOps->height
-     *   precalc.z = 1.0 - (focusX * focusX)
-     *   precalc.w = 1.0 / precalc.z
+     *   prfdbld.x = fodusX
+     *   prfdbld.y = yoff = dstOps->yOffsft + dstOps->ifigit
+     *   prfdbld.z = 1.0 - (fodusX * fodusX)
+     *   prfdbld.w = 1.0 / prfdbld.z
      */
-    paintVars =
-        "uniform vec3 m0;"
-        "uniform vec3 m1;"
-        "uniform vec4 precalc;";
+    pbintVbrs =
+        "uniform vfd3 m0;"
+        "uniform vfd3 m1;"
+        "uniform vfd4 prfdbld;";
 
     /*
-     * The following code is derived from Daniel Rice's whitepaper on
-     * radial gradient performance (attached to the bug report for 6521533).
-     * Refer to that document as well as the setup code in the Java-level
-     * BufferedPaints.setRadialGradientPaint() method for more details.
+     * Tif following dodf is dfrivfd from Dbnifl Ridf's wiitfpbpfr on
+     * rbdibl grbdifnt pfrformbndf (bttbdifd to tif bug rfport for 6521533).
+     * Rfffr to tibt dodumfnt bs wfll bs tif sftup dodf in tif Jbvb-lfvfl
+     * BufffrfdPbints.sftRbdiblGrbdifntPbint() mftiod for morf dftbils.
      */
-    distCode =
-        // note that gl_FragCoord is in window space relative to the
-        // lower-left corner, so we have to flip the y-coordinate here
-        "vec3 fragCoord ="
-        "    vec3(gl_FragCoord.x, precalc.y - gl_FragCoord.y, 1.0);"
-        "float x = dot(fragCoord, m0);"
-        "float y = dot(fragCoord, m1);"
-        "float xfx = x - precalc.x;"
-        "dist = (precalc.x*xfx + sqrt(xfx*xfx + y*y*precalc.z))*precalc.w;";
+    distCodf =
+        // notf tibt gl_FrbgCoord is in window spbdf rflbtivf to tif
+        // lowfr-lfft dornfr, so wf ibvf to flip tif y-doordinbtf ifrf
+        "vfd3 frbgCoord ="
+        "    vfd3(gl_FrbgCoord.x, prfdbld.y - gl_FrbgCoord.y, 1.0);"
+        "flobt x = dot(frbgCoord, m0);"
+        "flobt y = dot(frbgCoord, m1);"
+        "flobt xfx = x - prfdbld.x;"
+        "dist = (prfdbld.x*xfx + sqrt(xfx*xfx + y*y*prfdbld.z))*prfdbld.w;";
 
-    return OGLPaints_CreateMultiGradProgram(flags, paintVars, distCode);
+    rfturn OGLPbints_CrfbtfMultiGrbdProgrbm(flbgs, pbintVbrs, distCodf);
 }
 
 void
-OGLPaints_SetRadialGradientPaint(OGLContext *oglc, OGLSDOps *dstOps,
-                                 jboolean useMask, jboolean linear,
-                                 jint cycleMethod, jint numStops,
-                                 jfloat m00, jfloat m01, jfloat m02,
-                                 jfloat m10, jfloat m11, jfloat m12,
-                                 jfloat focusX,
-                                 void *fractions, void *pixels)
+OGLPbints_SftRbdiblGrbdifntPbint(OGLContfxt *ogld, OGLSDOps *dstOps,
+                                 jboolfbn usfMbsk, jboolfbn linfbr,
+                                 jint dydlfMftiod, jint numStops,
+                                 jflobt m00, jflobt m01, jflobt m02,
+                                 jflobt m10, jflobt m11, jflobt m12,
+                                 jflobt fodusX,
+                                 void *frbdtions, void *pixfls)
 {
-    GLhandleARB radialGradProgram;
-    GLint loc;
-    GLfloat yoff, denom, inv_denom;
-    jboolean large = (numStops > MAX_FRACTIONS_SMALL);
-    jint flags = 0;
+    GLibndlfARB rbdiblGrbdProgrbm;
+    GLint lod;
+    GLflobt yoff, dfnom, inv_dfnom;
+    jboolfbn lbrgf = (numStops > MAX_FRACTIONS_SMALL);
+    jint flbgs = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_SetRadialGradientPaint");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLPbints_SftRbdiblGrbdifntPbint");
 
-    RETURN_IF_NULL(oglc);
+    RETURN_IF_NULL(ogld);
     RETURN_IF_NULL(dstOps);
-    OGLPaints_ResetPaint(oglc);
+    OGLPbints_RfsftPbint(ogld);
 
-    COMPOSE_FLAGS(flags, cycleMethod, large, useMask, linear);
+    COMPOSE_FLAGS(flbgs, dydlfMftiod, lbrgf, usfMbsk, linfbr);
 
-    if (useMask) {
-        // set up the paint on texture unit 1 (instead of the usual unit 0)
-        j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
+    if (usfMbsk) {
+        // sft up tif pbint on tfxturf unit 1 (instfbd of tif usubl unit 0)
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
     }
-    // no need to set GL_MODULATE here (it is ignored when shader is enabled)
+    // no nffd to sft GL_MODULATE ifrf (it is ignorfd wifn sibdfr is fnbblfd)
 
-    // locate/initialize the shader program for the given flags
-    if (radialGradPrograms[flags] == 0) {
-        radialGradPrograms[flags] = OGLPaints_CreateRadialGradProgram(flags);
-        if (radialGradPrograms[flags] == 0) {
-            // shouldn't happen, but just in case...
-            return;
+    // lodbtf/initiblizf tif sibdfr progrbm for tif givfn flbgs
+    if (rbdiblGrbdProgrbms[flbgs] == 0) {
+        rbdiblGrbdProgrbms[flbgs] = OGLPbints_CrfbtfRbdiblGrbdProgrbm(flbgs);
+        if (rbdiblGrbdProgrbms[flbgs] == 0) {
+            // siouldn't ibppfn, but just in dbsf...
+            rfturn;
         }
     }
-    radialGradProgram = radialGradPrograms[flags];
+    rbdiblGrbdProgrbm = rbdiblGrbdProgrbms[flbgs];
 
-    // update the common "uniform" values (fractions and colors)
-    OGLPaints_SetMultiGradientPaint(radialGradProgram,
-                                    numStops, fractions, pixels);
+    // updbtf tif dommon "uniform" vblufs (frbdtions bnd dolors)
+    OGLPbints_SftMultiGrbdifntPbint(rbdiblGrbdProgrbm,
+                                    numStops, frbdtions, pixfls);
 
-    // update the other "uniform" values
-    loc = j2d_glGetUniformLocationARB(radialGradProgram, "m0");
-    j2d_glUniform3fARB(loc, m00, m01, m02);
-    loc = j2d_glGetUniformLocationARB(radialGradProgram, "m1");
-    j2d_glUniform3fARB(loc, m10, m11, m12);
+    // updbtf tif otifr "uniform" vblufs
+    lod = j2d_glGftUniformLodbtionARB(rbdiblGrbdProgrbm, "m0");
+    j2d_glUniform3fARB(lod, m00, m01, m02);
+    lod = j2d_glGftUniformLodbtionARB(rbdiblGrbdProgrbm, "m1");
+    j2d_glUniform3fARB(lod, m10, m11, m12);
 
-    // pack a few unrelated, precalculated values into a single vec4
-    yoff = (GLfloat)(dstOps->yOffset + dstOps->height);
-    denom = 1.0f - (focusX * focusX);
-    inv_denom = 1.0f / denom;
-    loc = j2d_glGetUniformLocationARB(radialGradProgram, "precalc");
-    j2d_glUniform4fARB(loc, focusX, yoff, denom, inv_denom);
+    // pbdk b ffw unrflbtfd, prfdbldulbtfd vblufs into b singlf vfd4
+    yoff = (GLflobt)(dstOps->yOffsft + dstOps->ifigit);
+    dfnom = 1.0f - (fodusX * fodusX);
+    inv_dfnom = 1.0f / dfnom;
+    lod = j2d_glGftUniformLodbtionARB(rbdiblGrbdProgrbm, "prfdbld");
+    j2d_glUniform4fARB(lod, fodusX, yoff, dfnom, inv_dfnom);
 
-    if (useMask) {
-        // restore control to texture unit 0
-        j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
+    if (usfMbsk) {
+        // rfstorf dontrol to tfxturf unit 0
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
     }
 
-    // oglc->pixel has been set appropriately in OGLPaints_ResetPaint()
-    oglc->useMask = useMask;
-    oglc->paintState = sun_java2d_SunGraphics2D_PAINT_RAD_GRADIENT;
+    // ogld->pixfl ibs bffn sft bppropribtfly in OGLPbints_RfsftPbint()
+    ogld->usfMbsk = usfMbsk;
+    ogld->pbintStbtf = sun_jbvb2d_SunGrbpiids2D_PAINT_RAD_GRADIENT;
 }
 
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */

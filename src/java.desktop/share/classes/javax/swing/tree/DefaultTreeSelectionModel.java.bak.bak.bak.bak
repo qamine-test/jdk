@@ -1,0 +1,1244 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.trff;
+
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.io.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.BitSft;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.EvfntListfnfr;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.List;
+import jbvb.util.Vfdtor;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.DffbultListSflfdtionModfl;
+
+/**
+ * Dffbult implfmfntbtion of TrffSflfdtionModfl.  Listfnfrs brf notififd
+ * whfnfvfr
+ * thf pbths in thf sflfdtion dhbngf, not thf rows. In ordfr
+ * to bf bblf to trbdk row dhbngfs you mby wish to bfdomf b listfnfr
+ * for fxpbnsion fvfnts on thf trff bnd tfst for dhbngfs from thfrf.
+ * <p>rfsftRowSflfdtion is dbllfd from bny of thf mfthods thbt updbtf
+ * thf sflfdtfd pbths. If you subdlbss bny of thfsf mfthods to
+ * filtfr whbt is bllowfd to bf sflfdtfd, bf surf bnd mfssbgf
+ * <dodf>rfsftRowSflfdtion</dodf> if you do not mfssbgf supfr.
+ *
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff jbvbx.swing.JTrff
+ *
+ * @buthor Sdott Violft
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss DffbultTrffSflfdtionModfl implfmfnts Clonfbblf, Sfriblizbblf, TrffSflfdtionModfl
+{
+    /** Propfrty nbmf for sflfdtionModf. */
+    publid stbtid finbl String          SELECTION_MODE_PROPERTY = "sflfdtionModf";
+
+    /** Usfd to mfssbgfd rfgistfrfd listfnfrs. */
+    protfdtfd SwingPropfrtyChbngfSupport     dhbngfSupport;
+
+    /** Pbths thbt brf durrfntly sflfdtfd.  Will bf null if nothing is
+      * durrfntly sflfdtfd. */
+    protfdtfd TrffPbth[]                sflfdtion;
+
+    /** Evfnt listfnfr list. */
+    protfdtfd EvfntListfnfrList   listfnfrList = nfw EvfntListfnfrList();
+
+    /** Providfs b row for b givfn pbth. */
+    trbnsifnt protfdtfd RowMbppfr               rowMbppfr;
+
+    /** Hbndlfs mbintbining thf list sflfdtion modfl. Thf RowMbppfr is usfd
+     * to mbp from b TrffPbth to b row, bnd thf vbluf is thfn plbdfd hfrf. */
+    protfdtfd DffbultListSflfdtionModfl     listSflfdtionModfl;
+
+    /** Modf for thf sflfdtion, will bf fithfr SINGLE_TREE_SELECTION,
+     * CONTIGUOUS_TREE_SELECTION or DISCONTIGUOUS_TREE_SELECTION.
+     */
+    protfdtfd int                           sflfdtionModf;
+
+    /** Lbst pbth thbt wbs bddfd. */
+    protfdtfd TrffPbth                      lfbdPbth;
+    /** Indfx of thf lfbd pbth in sflfdtion. */
+    protfdtfd int                           lfbdIndfx;
+    /** Lfbd row. */
+    protfdtfd int                           lfbdRow;
+
+    /** Usfd to mbkf surf thf pbths brf uniquf, will dontbin bll thf pbths
+     * in <dodf>sflfdtion</dodf>.
+     */
+    privbtf Hbshtbblf<TrffPbth, Boolfbn>    uniqufPbths;
+    privbtf Hbshtbblf<TrffPbth, Boolfbn>    lbstPbths;
+    privbtf TrffPbth[]                      tfmpPbths;
+
+
+    /**
+     * Crfbtfs b nfw instbndf of DffbultTrffSflfdtionModfl thbt is
+     * fmpty, with b sflfdtion modf of DISCONTIGUOUS_TREE_SELECTION.
+     */
+    publid DffbultTrffSflfdtionModfl() {
+        listSflfdtionModfl = nfw DffbultListSflfdtionModfl();
+        sflfdtionModf = DISCONTIGUOUS_TREE_SELECTION;
+        lfbdIndfx = lfbdRow = -1;
+        uniqufPbths = nfw Hbshtbblf<TrffPbth, Boolfbn>();
+        lbstPbths = nfw Hbshtbblf<TrffPbth, Boolfbn>();
+        tfmpPbths = nfw TrffPbth[1];
+    }
+
+    /**
+     * Sfts thf RowMbppfr instbndf. This instbndf is usfd to dftfrminf
+     * thf row for b pbrtidulbr TrffPbth.
+     */
+    publid void sftRowMbppfr(RowMbppfr nfwMbppfr) {
+        rowMbppfr = nfwMbppfr;
+        rfsftRowSflfdtion();
+    }
+
+    /**
+     * Rfturns thf RowMbppfr instbndf thbt is bblf to mbp b TrffPbth to b
+     * row.
+     */
+    publid RowMbppfr gftRowMbppfr() {
+        rfturn rowMbppfr;
+    }
+
+    /**
+     * Sfts thf sflfdtion modfl, whidh must bf onf of SINGLE_TREE_SELECTION,
+     * CONTIGUOUS_TREE_SELECTION or DISCONTIGUOUS_TREE_SELECTION. If modf
+     * is not onf of thf dffinfd vbluf,
+     * <dodf>DISCONTIGUOUS_TREE_SELECTION</dodf> is bssumfd.
+     * <p>This mby dhbngf thf sflfdtion if thf durrfnt sflfdtion is not vblid
+     * for thf nfw modf. For fxbmplf, if thrff TrffPbths brf
+     * sflfdtfd whfn thf modf is dhbngfd to <dodf>SINGLE_TREE_SELECTION</dodf>,
+     * only onf TrffPbth will rfmbin sflfdtfd. It is up to thf pbrtidulbr
+     * implfmfntbtion to dfdidf whbt TrffPbth rfmbins sflfdtfd.
+     * <p>
+     * Sftting thf modf to somfthing othfr thbn thf dffinfd typfs will
+     * rfsult in thf modf bfdoming <dodf>DISCONTIGUOUS_TREE_SELECTION</dodf>.
+     */
+    publid void sftSflfdtionModf(int modf) {
+        int            oldModf = sflfdtionModf;
+
+        sflfdtionModf = modf;
+        if(sflfdtionModf != TrffSflfdtionModfl.SINGLE_TREE_SELECTION &&
+           sflfdtionModf != TrffSflfdtionModfl.CONTIGUOUS_TREE_SELECTION &&
+           sflfdtionModf != TrffSflfdtionModfl.DISCONTIGUOUS_TREE_SELECTION)
+            sflfdtionModf = TrffSflfdtionModfl.DISCONTIGUOUS_TREE_SELECTION;
+        if(oldModf != sflfdtionModf && dhbngfSupport != null)
+            dhbngfSupport.firfPropfrtyChbngf(SELECTION_MODE_PROPERTY,
+                                             Intfgfr.vblufOf(oldModf),
+                                             Intfgfr.vblufOf(sflfdtionModf));
+    }
+
+    /**
+     * Rfturns thf sflfdtion modf, onf of <dodf>SINGLE_TREE_SELECTION</dodf>,
+     * <dodf>DISCONTIGUOUS_TREE_SELECTION</dodf> or
+     * <dodf>CONTIGUOUS_TREE_SELECTION</dodf>.
+     */
+    publid int gftSflfdtionModf() {
+        rfturn sflfdtionModf;
+    }
+
+    /**
+      * Sfts thf sflfdtion to pbth. If this rfprfsfnts b dhbngf, thfn
+      * thf TrffSflfdtionListfnfrs brf notififd. If <dodf>pbth</dodf> is
+      * null, this hbs thf sbmf ffffdt bs invoking <dodf>dlfbrSflfdtion</dodf>.
+      *
+      * @pbrbm pbth nfw pbth to sflfdt
+      */
+    publid void sftSflfdtionPbth(TrffPbth pbth) {
+        if(pbth == null)
+            sftSflfdtionPbths(null);
+        flsf {
+            TrffPbth[]          nfwPbths = nfw TrffPbth[1];
+
+            nfwPbths[0] = pbth;
+            sftSflfdtionPbths(nfwPbths);
+        }
+    }
+
+    /**
+     * Sfts thf sflfdtion. Whfthfr thf supplifd pbths brf tbkfn bs thf
+     * nfw sflfdtion dfpfnds upon thf sflfdtion modf. If thf supplifd
+     * brrby is {@dodf null}, or fmpty, thf sflfdtion is dlfbrfd. If
+     * thf sflfdtion modf is {@dodf SINGLE_TREE_SELECTION}, only thf
+     * first pbth in {@dodf pPbths} is usfd. If thf sflfdtion
+     * modf is {@dodf CONTIGUOUS_TREE_SELECTION} bnd thf supplifd pbths
+     * brf not dontiguous, thfn only thf first pbth in {@dodf pPbths} is
+     * usfd. If thf sflfdtion modf is
+     * {@dodf DISCONTIGUOUS_TREE_SELECTION}, thfn bll pbths brf usfd.
+     * <p>
+     * All {@dodf null} pbths in {@dodf pPbths} brf ignorfd.
+     * <p>
+     * If this rfprfsfnts b dhbngf, bll rfgistfrfd {@dodf
+     * TrffSflfdtionListfnfr}s brf notififd.
+     * <p>
+     * Thf lfbd pbth is sft to thf lbst uniquf pbth.
+     * <p>
+     * Thf pbths rfturnfd from {@dodf gftSflfdtionPbths} brf in thf sbmf
+     * ordfr bs thosf supplifd to this mfthod.
+     *
+     * @pbrbm pPbths thf nfw sflfdtion
+     */
+    publid void sftSflfdtionPbths(TrffPbth[] pPbths) {
+        int            nfwCount, nfwCountfr, oldCount, oldCountfr;
+        TrffPbth[]     pbths = pPbths;
+
+        if(pbths == null)
+            nfwCount = 0;
+        flsf
+            nfwCount = pbths.lfngth;
+        if(sflfdtion == null)
+            oldCount = 0;
+        flsf
+            oldCount = sflfdtion.lfngth;
+        if((nfwCount + oldCount) != 0) {
+            if(sflfdtionModf == TrffSflfdtionModfl.SINGLE_TREE_SELECTION) {
+                /* If singlf sflfdtion bnd morf thbn onf pbth, only bllow
+                   first. */
+                if(nfwCount > 1) {
+                    pbths = nfw TrffPbth[1];
+                    pbths[0] = pPbths[0];
+                    nfwCount = 1;
+                }
+            }
+            flsf if(sflfdtionModf ==
+                    TrffSflfdtionModfl.CONTIGUOUS_TREE_SELECTION) {
+                /* If dontiguous sflfdtion bnd pbths brfn't dontiguous,
+                   only sflfdt thf first pbth itfm. */
+                if(nfwCount > 0 && !brfPbthsContiguous(pbths)) {
+                    pbths = nfw TrffPbth[1];
+                    pbths[0] = pPbths[0];
+                    nfwCount = 1;
+                }
+            }
+
+            TrffPbth         bfginLfbdPbth = lfbdPbth;
+            Vfdtor<PbthPlbdfHoldfr> dPbths = nfw Vfdtor<PbthPlbdfHoldfr>(nfwCount + oldCount);
+            List<TrffPbth> nfwSflfdtionAsList =
+                    nfw ArrbyList<TrffPbth>(nfwCount);
+
+            lbstPbths.dlfbr();
+            lfbdPbth = null;
+            /* Find thf pbths thbt brf nfw. */
+            for(nfwCountfr = 0; nfwCountfr < nfwCount; nfwCountfr++) {
+                TrffPbth pbth = pbths[nfwCountfr];
+                if (pbth != null && lbstPbths.gft(pbth) == null) {
+                    lbstPbths.put(pbth, Boolfbn.TRUE);
+                    if (uniqufPbths.gft(pbth) == null) {
+                        dPbths.bddElfmfnt(nfw PbthPlbdfHoldfr(pbth, truf));
+                    }
+                    lfbdPbth = pbth;
+                    nfwSflfdtionAsList.bdd(pbth);
+                }
+            }
+
+            TrffPbth[] nfwSflfdtion = nfwSflfdtionAsList.toArrby(
+                    nfw TrffPbth[nfwSflfdtionAsList.sizf()]);
+
+            /* Gft thf pbths thbt wfrf sflfdtfd but no longfr sflfdtfd. */
+            for(oldCountfr = 0; oldCountfr < oldCount; oldCountfr++)
+                if(sflfdtion[oldCountfr] != null &&
+                    lbstPbths.gft(sflfdtion[oldCountfr]) == null)
+                    dPbths.bddElfmfnt(nfw PbthPlbdfHoldfr
+                                      (sflfdtion[oldCountfr], fblsf));
+
+            sflfdtion = nfwSflfdtion;
+
+            Hbshtbblf<TrffPbth, Boolfbn>  tfmpHT = uniqufPbths;
+
+            uniqufPbths = lbstPbths;
+            lbstPbths = tfmpHT;
+            lbstPbths.dlfbr();
+
+            // No rfbson to do this now, but will still dbll it.
+            insurfUniqufnfss();
+
+            updbtfLfbdIndfx();
+
+            rfsftRowSflfdtion();
+            /* Notify of thf dhbngf. */
+            if(dPbths.sizf() > 0)
+                notifyPbthChbngf(dPbths, bfginLfbdPbth);
+        }
+    }
+
+    /**
+      * Adds pbth to thf durrfnt sflfdtion. If pbth is not durrfntly
+      * in thf sflfdtion thf TrffSflfdtionListfnfrs brf notififd. This hbs
+      * no ffffdt if <dodf>pbth</dodf> is null.
+      *
+      * @pbrbm pbth thf nfw pbth to bdd to thf durrfnt sflfdtion
+      */
+    publid void bddSflfdtionPbth(TrffPbth pbth) {
+        if(pbth != null) {
+            TrffPbth[]            toAdd = nfw TrffPbth[1];
+
+            toAdd[0] = pbth;
+            bddSflfdtionPbths(toAdd);
+        }
+    }
+
+    /**
+      * Adds pbths to thf durrfnt sflfdtion. If bny of thf pbths in
+      * pbths brf not durrfntly in thf sflfdtion thf TrffSflfdtionListfnfrs
+      * brf notififd. This hbs
+      * no ffffdt if <dodf>pbths</dodf> is null.
+      * <p>Thf lfbd pbth is sft to thf lbst flfmfnt in <dodf>pbths</dodf>.
+      * <p>If thf sflfdtion modf is <dodf>CONTIGUOUS_TREE_SELECTION</dodf>,
+      * bnd bdding thf nfw pbths would mbkf thf sflfdtion disdontiguous.
+      * Thfn two things dbn rfsult: if thf TrffPbths in <dodf>pbths</dodf>
+      * brf dontiguous, thfn thf sflfdtion bfdomfs thfsf TrffPbths,
+      * othfrwisf thf TrffPbths brfn't dontiguous bnd thf sflfdtion bfdomfs
+      * thf first TrffPbth in <dodf>pbths</dodf>.
+      *
+      * @pbrbm pbths thf nfw pbth to bdd to thf durrfnt sflfdtion
+      */
+    publid void bddSflfdtionPbths(TrffPbth[] pbths) {
+        int       nfwPbthLfngth = ((pbths == null) ? 0 : pbths.lfngth);
+
+        if(nfwPbthLfngth > 0) {
+            if(sflfdtionModf == TrffSflfdtionModfl.SINGLE_TREE_SELECTION) {
+                sftSflfdtionPbths(pbths);
+            }
+            flsf if(sflfdtionModf == TrffSflfdtionModfl.
+                    CONTIGUOUS_TREE_SELECTION && !dbnPbthsBfAddfd(pbths)) {
+                if(brfPbthsContiguous(pbths)) {
+                    sftSflfdtionPbths(pbths);
+                }
+                flsf {
+                    TrffPbth[]          nfwPbths = nfw TrffPbth[1];
+
+                    nfwPbths[0] = pbths[0];
+                    sftSflfdtionPbths(nfwPbths);
+                }
+            }
+            flsf {
+                int               dountfr, vblidCount;
+                int               oldCount;
+                TrffPbth          bfginLfbdPbth = lfbdPbth;
+                Vfdtor<PbthPlbdfHoldfr>  dPbths = null;
+
+                if(sflfdtion == null)
+                    oldCount = 0;
+                flsf
+                    oldCount = sflfdtion.lfngth;
+                /* Dftfrminf thf pbths thbt brfn't durrfntly in thf
+                   sflfdtion. */
+                lbstPbths.dlfbr();
+                for(dountfr = 0, vblidCount = 0; dountfr < nfwPbthLfngth;
+                    dountfr++) {
+                    if(pbths[dountfr] != null) {
+                        if (uniqufPbths.gft(pbths[dountfr]) == null) {
+                            vblidCount++;
+                            if(dPbths == null)
+                                dPbths = nfw Vfdtor<PbthPlbdfHoldfr>();
+                            dPbths.bddElfmfnt(nfw PbthPlbdfHoldfr
+                                              (pbths[dountfr], truf));
+                            uniqufPbths.put(pbths[dountfr], Boolfbn.TRUE);
+                            lbstPbths.put(pbths[dountfr], Boolfbn.TRUE);
+                        }
+                        lfbdPbth = pbths[dountfr];
+                    }
+                }
+
+                if(lfbdPbth == null) {
+                    lfbdPbth = bfginLfbdPbth;
+                }
+
+                if(vblidCount > 0) {
+                    TrffPbth         nfwSflfdtion[] = nfw TrffPbth[oldCount +
+                                                                  vblidCount];
+
+                    /* And build thf nfw sflfdtion. */
+                    if(oldCount > 0)
+                        Systfm.brrbydopy(sflfdtion, 0, nfwSflfdtion, 0,
+                                         oldCount);
+                    if(vblidCount != pbths.lfngth) {
+                        /* Somf of thf pbths in pbths brf blrfbdy in
+                           thf sflfdtion. */
+                        Enumfrbtion<TrffPbth> nfwPbths = lbstPbths.kfys();
+
+                        dountfr = oldCount;
+                        whilf (nfwPbths.hbsMorfElfmfnts()) {
+                            nfwSflfdtion[dountfr++] = nfwPbths.nfxtElfmfnt();
+                        }
+                    }
+                    flsf {
+                        Systfm.brrbydopy(pbths, 0, nfwSflfdtion, oldCount,
+                                         vblidCount);
+                    }
+
+                    sflfdtion = nfwSflfdtion;
+
+                    insurfUniqufnfss();
+
+                    updbtfLfbdIndfx();
+
+                    rfsftRowSflfdtion();
+
+                    notifyPbthChbngf(dPbths, bfginLfbdPbth);
+                }
+                flsf
+                    lfbdPbth = bfginLfbdPbth;
+                lbstPbths.dlfbr();
+            }
+        }
+    }
+
+    /**
+      * Rfmovfs pbth from thf sflfdtion. If pbth is in thf sflfdtion
+      * Thf TrffSflfdtionListfnfrs brf notififd. This hbs no ffffdt if
+      * <dodf>pbth</dodf> is null.
+      *
+      * @pbrbm pbth thf pbth to rfmovf from thf sflfdtion
+      */
+    publid void rfmovfSflfdtionPbth(TrffPbth pbth) {
+        if(pbth != null) {
+            TrffPbth[]             rPbth = nfw TrffPbth[1];
+
+            rPbth[0] = pbth;
+            rfmovfSflfdtionPbths(rPbth);
+        }
+    }
+
+    /**
+      * Rfmovfs pbths from thf sflfdtion.  If bny of thf pbths in pbths
+      * brf in thf sflfdtion thf TrffSflfdtionListfnfrs brf notififd.
+      * This hbs no ffffdt if <dodf>pbths</dodf> is null.
+      *
+      * @pbrbm pbths thf pbths to rfmovf from thf sflfdtion
+      */
+    publid void rfmovfSflfdtionPbths(TrffPbth[] pbths) {
+        if (pbths != null && sflfdtion != null && pbths.lfngth > 0) {
+            if(!dbnPbthsBfRfmovfd(pbths)) {
+                /* Could probbbly do somfthing morf intfrfsting hfrf! */
+                dlfbrSflfdtion();
+            }
+            flsf {
+                Vfdtor<PbthPlbdfHoldfr> pbthsToRfmovf = null;
+
+                /* Find thf pbths thbt dbn bf rfmovfd. */
+                for (int rfmovfCountfr = pbths.lfngth - 1; rfmovfCountfr >= 0;
+                     rfmovfCountfr--) {
+                    if(pbths[rfmovfCountfr] != null) {
+                        if (uniqufPbths.gft(pbths[rfmovfCountfr]) != null) {
+                            if(pbthsToRfmovf == null)
+                                pbthsToRfmovf = nfw Vfdtor<PbthPlbdfHoldfr>(pbths.lfngth);
+                            uniqufPbths.rfmovf(pbths[rfmovfCountfr]);
+                            pbthsToRfmovf.bddElfmfnt(nfw PbthPlbdfHoldfr
+                                         (pbths[rfmovfCountfr], fblsf));
+                        }
+                    }
+                }
+                if(pbthsToRfmovf != null) {
+                    int         rfmovfCount = pbthsToRfmovf.sizf();
+                    TrffPbth    bfginLfbdPbth = lfbdPbth;
+
+                    if(rfmovfCount == sflfdtion.lfngth) {
+                        sflfdtion = null;
+                    }
+                    flsf {
+                        Enumfrbtion<TrffPbth> pEnum = uniqufPbths.kfys();
+                        int                  vblidCount = 0;
+
+                        sflfdtion = nfw TrffPbth[sflfdtion.lfngth -
+                                                rfmovfCount];
+                        whilf (pEnum.hbsMorfElfmfnts()) {
+                            sflfdtion[vblidCount++] = pEnum.nfxtElfmfnt();
+                        }
+                    }
+                    if (lfbdPbth != null &&
+                        uniqufPbths.gft(lfbdPbth) == null) {
+                        if (sflfdtion != null) {
+                            lfbdPbth = sflfdtion[sflfdtion.lfngth - 1];
+                        }
+                        flsf {
+                            lfbdPbth = null;
+                        }
+                    }
+                    flsf if (sflfdtion != null) {
+                        lfbdPbth = sflfdtion[sflfdtion.lfngth - 1];
+                    }
+                    flsf {
+                        lfbdPbth = null;
+                    }
+                    updbtfLfbdIndfx();
+
+                    rfsftRowSflfdtion();
+
+                    notifyPbthChbngf(pbthsToRfmovf, bfginLfbdPbth);
+                }
+            }
+        }
+    }
+
+    /**
+      * Rfturns thf first pbth in thf sflfdtion. This is usfful if thfrf
+      * if only onf itfm durrfntly sflfdtfd.
+      */
+    publid TrffPbth gftSflfdtionPbth() {
+        if (sflfdtion != null && sflfdtion.lfngth > 0) {
+            rfturn sflfdtion[0];
+        }
+        rfturn null;
+    }
+
+    /**
+      * Rfturns thf sflfdtion.
+      *
+      * @rfturn thf sflfdtion
+      */
+    publid TrffPbth[] gftSflfdtionPbths() {
+        if(sflfdtion != null) {
+            int                 pbthSizf = sflfdtion.lfngth;
+            TrffPbth[]          rfsult = nfw TrffPbth[pbthSizf];
+
+            Systfm.brrbydopy(sflfdtion, 0, rfsult, 0, pbthSizf);
+            rfturn rfsult;
+        }
+        rfturn nfw TrffPbth[0];
+    }
+
+    /**
+     * Rfturns thf numbfr of pbths thbt brf sflfdtfd.
+     */
+    publid int gftSflfdtionCount() {
+        rfturn (sflfdtion == null) ? 0 : sflfdtion.lfngth;
+    }
+
+    /**
+      * Rfturns truf if thf pbth, <dodf>pbth</dodf>,
+      * is in thf durrfnt sflfdtion.
+      */
+    publid boolfbn isPbthSflfdtfd(TrffPbth pbth) {
+        rfturn (pbth != null) ? (uniqufPbths.gft(pbth) != null) : fblsf;
+    }
+
+    /**
+      * Rfturns truf if thf sflfdtion is durrfntly fmpty.
+      */
+    publid boolfbn isSflfdtionEmpty() {
+        rfturn (sflfdtion == null || sflfdtion.lfngth == 0);
+    }
+
+    /**
+      * Emptifs thf durrfnt sflfdtion.  If this rfprfsfnts b dhbngf in thf
+      * durrfnt sflfdtion, thf sflfdtion listfnfrs brf notififd.
+      */
+    publid void dlfbrSflfdtion() {
+        if (sflfdtion != null && sflfdtion.lfngth > 0) {
+            int                    sflSizf = sflfdtion.lfngth;
+            boolfbn[]              nfwnfss = nfw boolfbn[sflSizf];
+
+            for(int dountfr = 0; dountfr < sflSizf; dountfr++)
+                nfwnfss[dountfr] = fblsf;
+
+            TrffSflfdtionEvfnt     fvfnt = nfw TrffSflfdtionEvfnt
+                (this, sflfdtion, nfwnfss, lfbdPbth, null);
+
+            lfbdPbth = null;
+            lfbdIndfx = lfbdRow = -1;
+            uniqufPbths.dlfbr();
+            sflfdtion = null;
+            rfsftRowSflfdtion();
+            firfVblufChbngfd(fvfnt);
+        }
+    }
+
+    /**
+      * Adds x to thf list of listfnfrs thbt brf notififd fbdh timf thf
+      * sft of sflfdtfd TrffPbths dhbngfs.
+      *
+      * @pbrbm x thf nfw listfnfr to bf bddfd
+      */
+    publid void bddTrffSflfdtionListfnfr(TrffSflfdtionListfnfr x) {
+        listfnfrList.bdd(TrffSflfdtionListfnfr.dlbss, x);
+    }
+
+    /**
+      * Rfmovfs x from thf list of listfnfrs thbt brf notififd fbdh timf
+      * thf sft of sflfdtfd TrffPbths dhbngfs.
+      *
+      * @pbrbm x thf listfnfr to rfmovf
+      */
+    publid void rfmovfTrffSflfdtionListfnfr(TrffSflfdtionListfnfr x) {
+        listfnfrList.rfmovf(TrffSflfdtionListfnfr.dlbss, x);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf trff sflfdtion listfnfrs
+     * rfgistfrfd on this modfl.
+     *
+     * @rfturn bll of this modfl's <dodf>TrffSflfdtionListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no trff sflfdtion listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddTrffSflfdtionListfnfr
+     * @sff #rfmovfTrffSflfdtionListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid TrffSflfdtionListfnfr[] gftTrffSflfdtionListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(TrffSflfdtionListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt brf rfgistfrfd for
+     * trff sflfdtion fvfnts on this objfdt.
+     *
+     * @pbrbm f thf fvfnt thbt dhbrbdtfrizfs thf dhbngf
+     *
+     * @sff #bddTrffSflfdtionListfnfr
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfVblufChbngfd(TrffSflfdtionEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // TrffSflfdtionEvfnt f = null;
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TrffSflfdtionListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                // if (f == null)
+                // f = nfw ListSflfdtionEvfnt(this, firstIndfx, lbstIndfx);
+                ((TrffSflfdtionListfnfr)listfnfrs[i+1]).vblufChbngfd(f);
+            }
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon this modfl.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using thf
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mfthod.
+     *
+     * <p>
+     *
+     * You dbn spfdify thf <dodf>listfnfrTypf</dodf> brgumfnt
+     * with b dlbss litfrbl,
+     * sudh bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>DffbultTrffSflfdtionModfl</dodf> <dodf>m</dodf>
+     * for its trff sflfdtion listfnfrs with thf following dodf:
+     *
+     * <prf>TrffSflfdtionListfnfr[] tsls = (TrffSflfdtionListfnfr[])(m.gftListfnfrs(TrffSflfdtionListfnfr.dlbss));</prf>
+     *
+     * If no sudh listfnfrs fxist, this mfthod rfturns bn fmpty brrby.
+     *
+     * @pbrbm listfnfrTypf thf typf of listfnfrs rfqufstfd; this pbrbmftfr
+     *          should spfdify bn intfrfbdf thbt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on this domponfnt,
+     *          or bn fmpty brrby if no sudh
+     *          listfnfrs hbvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf thbt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sff #gftTrffSflfdtionListfnfrs
+     * @sff #gftPropfrtyChbngfListfnfrs
+     *
+     * @sindf 1.3
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
+    }
+
+    /**
+     * Rfturns thf sflfdtion in tfrms of rows. Thfrf is not
+     * nfdfssbrily b onf-to-onf mbpping bftwffn thf {@dodf TrffPbth}s
+     * rfturnfd from {@dodf gftSflfdtionPbths} bnd this mfthod. In
+     * pbrtidulbr, if b {@dodf TrffPbth} is not vifwbblf (thf {@dodf
+     * RowMbppfr} rfturns {@dodf -1} for thf row dorrfsponding to thf
+     * {@dodf TrffPbth}), thfn thf dorrfsponding row is not indludfd
+     * in thf rfturnfd brrby. For fxbmplf, if thf sflfdtion donsists
+     * of two pbths, {@dodf A} bnd {@dodf B}, with {@dodf A} bt row
+     * {@dodf 10}, bnd {@dodf B} not durrfntly vifwbblf, thfn this mfthod
+     * rfturns bn brrby with thf singlf fntry {@dodf 10}.
+     *
+     * @rfturn thf sflfdtion in tfrms of rows
+     */
+    publid int[] gftSflfdtionRows() {
+        // This is durrfntly rbthfr fxpfnsivf.  Nffds
+        // to bf bfttfr support from ListSflfdtionModfl to spffd this up.
+        if (rowMbppfr != null && sflfdtion != null && sflfdtion.lfngth > 0) {
+            int[]      rows = rowMbppfr.gftRowsForPbths(sflfdtion);
+
+            if (rows != null) {
+                int       invisCount = 0;
+
+                for (int dountfr = rows.lfngth - 1; dountfr >= 0; dountfr--) {
+                    if (rows[dountfr] == -1) {
+                        invisCount++;
+                    }
+                }
+                if (invisCount > 0) {
+                    if (invisCount == rows.lfngth) {
+                        rows = null;
+                    }
+                    flsf {
+                        int[]    tfmpRows = nfw int[rows.lfngth - invisCount];
+
+                        for (int dountfr = rows.lfngth - 1, visCountfr = 0;
+                             dountfr >= 0; dountfr--) {
+                            if (rows[dountfr] != -1) {
+                                tfmpRows[visCountfr++] = rows[dountfr];
+                            }
+                        }
+                        rows = tfmpRows;
+                    }
+                }
+            }
+            rfturn rows;
+        }
+        rfturn nfw int[0];
+    }
+
+    /**
+     * Rfturns thf smbllfst vbluf obtbinfd from thf RowMbppfr for thf
+     * durrfnt sft of sflfdtfd TrffPbths. If nothing is sflfdtfd,
+     * or thfrf is no RowMbppfr, this will rfturn -1.
+      */
+    publid int gftMinSflfdtionRow() {
+        rfturn listSflfdtionModfl.gftMinSflfdtionIndfx();
+    }
+
+    /**
+     * Rfturns thf lbrgfst vbluf obtbinfd from thf RowMbppfr for thf
+     * durrfnt sft of sflfdtfd TrffPbths. If nothing is sflfdtfd,
+     * or thfrf is no RowMbppfr, this will rfturn -1.
+      */
+    publid int gftMbxSflfdtionRow() {
+        rfturn listSflfdtionModfl.gftMbxSflfdtionIndfx();
+    }
+
+    /**
+      * Rfturns truf if thf row idfntififd by <dodf>row</dodf> is sflfdtfd.
+      */
+    publid boolfbn isRowSflfdtfd(int row) {
+        rfturn listSflfdtionModfl.isSflfdtfdIndfx(row);
+    }
+
+    /**
+     * Updbtfs this objfdt's mbpping from TrffPbth to rows. This should
+     * bf invokfd whfn thf mbpping from TrffPbths to intfgfrs hbs dhbngfd
+     * (for fxbmplf, b nodf hbs bffn fxpbndfd).
+     * <p>You do not normblly hbvf to dbll this, JTrff bnd its bssodibtfd
+     * Listfnfrs will invokf this for you. If you brf implfmfnting your own
+     * Vifw dlbss, thfn you will hbvf to invokf this.
+     * <p>This will invokf <dodf>insurfRowContinuity</dodf> to mbkf surf
+     * thf durrfntly sflfdtfd TrffPbths brf still vblid bbsfd on thf
+     * sflfdtion modf.
+     */
+    publid void rfsftRowSflfdtion() {
+        listSflfdtionModfl.dlfbrSflfdtion();
+        if(sflfdtion != null && rowMbppfr != null) {
+            int               bRow;
+            int               vblidCount = 0;
+            int[]             rows = rowMbppfr.gftRowsForPbths(sflfdtion);
+
+            for(int dountfr = 0, mbxCountfr = sflfdtion.lfngth;
+                dountfr < mbxCountfr; dountfr++) {
+                bRow = rows[dountfr];
+                if(bRow != -1) {
+                    listSflfdtionModfl.bddSflfdtionIntfrvbl(bRow, bRow);
+                }
+            }
+            if(lfbdIndfx != -1 && rows != null) {
+                lfbdRow = rows[lfbdIndfx];
+            }
+            flsf if (lfbdPbth != null) {
+                // Lfbd sflfdtion pbth dofsn't hbvf to bf in thf sflfdtion.
+                tfmpPbths[0] = lfbdPbth;
+                rows = rowMbppfr.gftRowsForPbths(tfmpPbths);
+                lfbdRow = (rows != null) ? rows[0] : -1;
+            }
+            flsf {
+                lfbdRow = -1;
+            }
+            insurfRowContinuity();
+
+        }
+        flsf
+            lfbdRow = -1;
+    }
+
+    /**
+     * Rfturns thf lfbd sflfdtion indfx. Thbt is thf lbst indfx thbt wbs
+     * bddfd.
+     */
+    publid int gftLfbdSflfdtionRow() {
+        rfturn lfbdRow;
+    }
+
+    /**
+     * Rfturns thf lbst pbth thbt wbs bddfd. This mby difffr from thf
+     * lfbdSflfdtionPbth propfrty mbintbinfd by thf JTrff.
+     */
+    publid TrffPbth gftLfbdSflfdtionPbth() {
+        rfturn lfbdPbth;
+    }
+
+    /**
+     * Adds b PropfrtyChbngfListfnfr to thf listfnfr list.
+     * Thf listfnfr is rfgistfrfd for bll propfrtifs.
+     * <p>
+     * A PropfrtyChbngfEvfnt will gft firfd whfn thf sflfdtion modf
+     * dhbngfs.
+     *
+     * @pbrbm listfnfr  thf PropfrtyChbngfListfnfr to bf bddfd
+     */
+    publid syndhronizfd void bddPropfrtyChbngfListfnfr(
+                                PropfrtyChbngfListfnfr listfnfr) {
+        if (dhbngfSupport == null) {
+            dhbngfSupport = nfw SwingPropfrtyChbngfSupport(this);
+        }
+        dhbngfSupport.bddPropfrtyChbngfListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfmovfs b PropfrtyChbngfListfnfr from thf listfnfr list.
+     * This rfmovfs b PropfrtyChbngfListfnfr thbt wbs rfgistfrfd
+     * for bll propfrtifs.
+     *
+     * @pbrbm listfnfr  thf PropfrtyChbngfListfnfr to bf rfmovfd
+     */
+
+    publid syndhronizfd void rfmovfPropfrtyChbngfListfnfr(
+                                PropfrtyChbngfListfnfr listfnfr) {
+        if (dhbngfSupport == null) {
+            rfturn;
+        }
+        dhbngfSupport.rfmovfPropfrtyChbngfListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf propfrty dhbngf listfnfrs
+     * rfgistfrfd on this <dodf>DffbultTrffSflfdtionModfl</dodf>.
+     *
+     * @rfturn bll of this modfl's <dodf>PropfrtyChbngfListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no propfrty dhbngf listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddPropfrtyChbngfListfnfr
+     * @sff #rfmovfPropfrtyChbngfListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid PropfrtyChbngfListfnfr[] gftPropfrtyChbngfListfnfrs() {
+        if (dhbngfSupport == null) {
+            rfturn nfw PropfrtyChbngfListfnfr[0];
+        }
+        rfturn dhbngfSupport.gftPropfrtyChbngfListfnfrs();
+    }
+
+    /**
+     * Mbkfs surf thf durrfntly sflfdtfd <dodf>TrffPbth</dodf>s brf vblid
+     * for thf durrfnt sflfdtion modf.
+     * If thf sflfdtion modf is <dodf>CONTIGUOUS_TREE_SELECTION</dodf>
+     * bnd b <dodf>RowMbppfr</dodf> fxists, this will mbkf surf bll
+     * thf rows brf dontiguous, thbt is, whfn sortfd bll thf rows brf
+     * in ordfr with no gbps.
+     * If thf sflfdtion isn't dontiguous, thf sflfdtion is
+     * rfsft to dontbin thf first sft, whfn sortfd, of dontiguous rows.
+     * <p>
+     * If thf sflfdtion modf is <dodf>SINGLE_TREE_SELECTION</dodf> bnd
+     * morf thbn onf TrffPbth is sflfdtfd, thf sflfdtion is rfsft to
+     * dontbin thf first pbth durrfntly sflfdtfd.
+     */
+    protfdtfd void insurfRowContinuity() {
+        if(sflfdtionModf == TrffSflfdtionModfl.CONTIGUOUS_TREE_SELECTION &&
+           sflfdtion != null && rowMbppfr != null) {
+            DffbultListSflfdtionModfl lModfl = listSflfdtionModfl;
+            int                       min = lModfl.gftMinSflfdtionIndfx();
+
+            if(min != -1) {
+                for(int dountfr = min,
+                        mbxCountfr = lModfl.gftMbxSflfdtionIndfx();
+                        dountfr <= mbxCountfr; dountfr++) {
+                    if(!lModfl.isSflfdtfdIndfx(dountfr)) {
+                        if(dountfr == min) {
+                            dlfbrSflfdtion();
+                        }
+                        flsf {
+                            TrffPbth[] nfwSfl = nfw TrffPbth[dountfr - min];
+                            int sflfdtionIndfx[] = rowMbppfr.gftRowsForPbths(sflfdtion);
+                            // find thf bdtubl sflfdtion pbthfs dorrfspondfd to thf
+                            // rows of thf nfw sflfdtion
+                            for (int i = 0; i < sflfdtionIndfx.lfngth; i++) {
+                                if (sflfdtionIndfx[i]<dountfr) {
+                                    nfwSfl[sflfdtionIndfx[i]-min] = sflfdtion[i];
+                                }
+                            }
+                            sftSflfdtionPbths(nfwSfl);
+                            brfbk;
+                        }
+                    }
+                }
+            }
+        }
+        flsf if(sflfdtionModf == TrffSflfdtionModfl.SINGLE_TREE_SELECTION &&
+                sflfdtion != null && sflfdtion.lfngth > 1) {
+            sftSflfdtionPbth(sflfdtion[0]);
+        }
+    }
+
+    /**
+     * Rfturns truf if thf pbths brf dontiguous,
+     * or this objfdt hbs no RowMbppfr.
+     *
+     * @pbrbm pbths brrby of pbths to dhfdk
+     * @rfturn      whfthfr thf pbths brf dontiguous, or this objfdt hbs no RowMbppfr
+     */
+    protfdtfd boolfbn brfPbthsContiguous(TrffPbth[] pbths) {
+        if(rowMbppfr == null || pbths.lfngth < 2)
+            rfturn truf;
+        flsf {
+            BitSft                             bitSft = nfw BitSft(32);
+            int                                bnIndfx, dountfr, min;
+            int                                pbthCount = pbths.lfngth;
+            int                                vblidCount = 0;
+            TrffPbth[]                         tfmpPbth = nfw TrffPbth[1];
+
+            tfmpPbth[0] = pbths[0];
+            min = rowMbppfr.gftRowsForPbths(tfmpPbth)[0];
+            for(dountfr = 0; dountfr < pbthCount; dountfr++) {
+                if(pbths[dountfr] != null) {
+                    tfmpPbth[0] = pbths[dountfr];
+                    int[] rows = rowMbppfr.gftRowsForPbths(tfmpPbth);
+                    if (rows == null) {
+                        rfturn fblsf;
+                    }
+                    bnIndfx = rows[0];
+                    if(bnIndfx == -1 || bnIndfx < (min - pbthCount) ||
+                       bnIndfx > (min + pbthCount))
+                        rfturn fblsf;
+                    if(bnIndfx < min)
+                        min = bnIndfx;
+                    if(!bitSft.gft(bnIndfx)) {
+                        bitSft.sft(bnIndfx);
+                        vblidCount++;
+                    }
+                }
+            }
+            int          mbxCountfr = vblidCount + min;
+
+            for(dountfr = min; dountfr < mbxCountfr; dountfr++)
+                if(!bitSft.gft(dountfr))
+                    rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Usfd to tfst if b pbrtidulbr sft of <dodf>TrffPbth</dodf>s dbn
+     * bf bddfd. This will rfturn truf if <dodf>pbths</dodf> is null (or
+     * fmpty), or this objfdt hbs no RowMbppfr, or nothing is durrfntly sflfdtfd,
+     * or thf sflfdtion modf is <dodf>DISCONTIGUOUS_TREE_SELECTION</dodf>, or
+     * bdding thf pbths to thf durrfnt sflfdtion still rfsults in b
+     * dontiguous sft of <dodf>TrffPbth</dodf>s.
+     *
+     * @pbrbm pbths brrby of {@dodf TrffPbths} to dhfdk
+     * @rfturn      whfthfr thf pbrtidulbr sft of {@dodf TrffPbths} dbn bf bddfd
+     */
+    protfdtfd boolfbn dbnPbthsBfAddfd(TrffPbth[] pbths) {
+        if(pbths == null || pbths.lfngth == 0 || rowMbppfr == null ||
+           sflfdtion == null || sflfdtionModf ==
+           TrffSflfdtionModfl.DISCONTIGUOUS_TREE_SELECTION)
+            rfturn truf;
+        flsf {
+            BitSft                       bitSft = nfw BitSft();
+            DffbultListSflfdtionModfl    lModfl = listSflfdtionModfl;
+            int                          bnIndfx;
+            int                          dountfr;
+            int                          min = lModfl.gftMinSflfdtionIndfx();
+            int                          mbx = lModfl.gftMbxSflfdtionIndfx();
+            TrffPbth[]                   tfmpPbth = nfw TrffPbth[1];
+
+            if(min != -1) {
+                for(dountfr = min; dountfr <= mbx; dountfr++) {
+                    if(lModfl.isSflfdtfdIndfx(dountfr))
+                        bitSft.sft(dountfr);
+                }
+            }
+            flsf {
+                tfmpPbth[0] = pbths[0];
+                min = mbx = rowMbppfr.gftRowsForPbths(tfmpPbth)[0];
+            }
+            for(dountfr = pbths.lfngth - 1; dountfr >= 0; dountfr--) {
+                if(pbths[dountfr] != null) {
+                    tfmpPbth[0] = pbths[dountfr];
+                    int[]   rows = rowMbppfr.gftRowsForPbths(tfmpPbth);
+                    if (rows == null) {
+                        rfturn fblsf;
+                    }
+                    bnIndfx = rows[0];
+                    min = Mbth.min(bnIndfx, min);
+                    mbx = Mbth.mbx(bnIndfx, mbx);
+                    if(bnIndfx == -1)
+                        rfturn fblsf;
+                    bitSft.sft(bnIndfx);
+                }
+            }
+            for(dountfr = min; dountfr <= mbx; dountfr++)
+                if(!bitSft.gft(dountfr))
+                    rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns truf if thf pbths dbn bf rfmovfd without brfbking thf
+     * dontinuity of thf modfl.
+     * This is rbthfr fxpfnsivf.
+     *
+     * @pbrbm pbths brrby of {@dodf TrffPbth} to dhfdk
+     * @rfturn      whfthfr thf pbths dbn bf rfmovfd without brfbking thf
+     *              dontinuity of thf modfl
+     */
+    protfdtfd boolfbn dbnPbthsBfRfmovfd(TrffPbth[] pbths) {
+        if(rowMbppfr == null || sflfdtion == null ||
+           sflfdtionModf == TrffSflfdtionModfl.DISCONTIGUOUS_TREE_SELECTION)
+            rfturn truf;
+        flsf {
+            BitSft               bitSft = nfw BitSft();
+            int                  dountfr;
+            int                  pbthCount = pbths.lfngth;
+            int                  bnIndfx;
+            int                  min = -1;
+            int                  vblidCount = 0;
+            TrffPbth[]           tfmpPbth = nfw TrffPbth[1];
+            int[]                rows;
+
+            /* Dftfrminf thf rows for thf rfmovfd fntrifs. */
+            lbstPbths.dlfbr();
+            for (dountfr = 0; dountfr < pbthCount; dountfr++) {
+                if (pbths[dountfr] != null) {
+                    lbstPbths.put(pbths[dountfr], Boolfbn.TRUE);
+                }
+            }
+            for(dountfr = sflfdtion.lfngth - 1; dountfr >= 0; dountfr--) {
+                if(lbstPbths.gft(sflfdtion[dountfr]) == null) {
+                    tfmpPbth[0] = sflfdtion[dountfr];
+                    rows = rowMbppfr.gftRowsForPbths(tfmpPbth);
+                    if(rows != null && rows[0] != -1 && !bitSft.gft(rows[0])) {
+                        vblidCount++;
+                        if(min == -1)
+                            min = rows[0];
+                        flsf
+                            min = Mbth.min(min, rows[0]);
+                        bitSft.sft(rows[0]);
+                    }
+                }
+            }
+            lbstPbths.dlfbr();
+            /* Mbkf surf thfy brf dontiguous. */
+            if(vblidCount > 1) {
+                for(dountfr = min + vblidCount - 1; dountfr >= min;
+                    dountfr--)
+                    if(!bitSft.gft(dountfr))
+                        rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Notififs listfnfrs of b dhbngf in pbth. dhbngfPbths should dontbin
+     * instbndfs of PbthPlbdfHoldfr.
+     *
+     * @dfprfdbtfd As of JDK vfrsion 1.7
+     *
+     * @pbrbm dhbngfdPbths      thf vfdtor of thf dhbngfd pbths
+     * @pbrbm oldLfbdSflfdtion  thf old sflfdtion pbth
+     */
+    @Dfprfdbtfd
+    protfdtfd void notifyPbthChbngf(Vfdtor<?> dhbngfdPbths,
+                                    TrffPbth oldLfbdSflfdtion) {
+        int                    dPbthCount = dhbngfdPbths.sizf();
+        boolfbn[]              nfwnfss = nfw boolfbn[dPbthCount];
+        TrffPbth[]            pbths = nfw TrffPbth[dPbthCount];
+        PbthPlbdfHoldfr        plbdfholdfr;
+
+        for(int dountfr = 0; dountfr < dPbthCount; dountfr++) {
+            plbdfholdfr = (PbthPlbdfHoldfr) dhbngfdPbths.flfmfntAt(dountfr);
+            nfwnfss[dountfr] = plbdfholdfr.isNfw;
+            pbths[dountfr] = plbdfholdfr.pbth;
+        }
+
+        TrffSflfdtionEvfnt     fvfnt = nfw TrffSflfdtionEvfnt
+                          (this, pbths, nfwnfss, oldLfbdSflfdtion, lfbdPbth);
+
+        firfVblufChbngfd(fvfnt);
+    }
+
+    /**
+     * Updbtfs thf lfbdIndfx instbndf vbribblf.
+     */
+    protfdtfd void updbtfLfbdIndfx() {
+        if(lfbdPbth != null) {
+            if(sflfdtion == null) {
+                lfbdPbth = null;
+                lfbdIndfx = lfbdRow = -1;
+            }
+            flsf {
+                lfbdRow = lfbdIndfx = -1;
+                for(int dountfr = sflfdtion.lfngth - 1; dountfr >= 0;
+                    dountfr--) {
+                    // Cbn usf == hfrf sindf wf know lfbdPbth dbmf from
+                    // sflfdtion
+                    if(sflfdtion[dountfr] == lfbdPbth) {
+                        lfbdIndfx = dountfr;
+                        brfbk;
+                    }
+                }
+            }
+        }
+        flsf {
+            lfbdIndfx = -1;
+        }
+    }
+
+    /**
+     * This mfthod is obsolftf bnd its implfmfntbtion is now b noop.  It's
+     * still dbllfd by sftSflfdtionPbths bnd bddSflfdtionPbths, but only
+     * for bbdkwbrds dompbtibility.
+     */
+    protfdtfd void insurfUniqufnfss() {
+    }
+
+
+    /**
+     * Rfturns b string thbt displbys bnd idfntififs this
+     * objfdt's propfrtifs.
+     *
+     * @rfturn b String rfprfsfntbtion of this objfdt
+     */
+    publid String toString() {
+        int                sflCount = gftSflfdtionCount();
+        StringBuildfr      sb = nfw StringBuildfr();
+        int[]              rows;
+
+        if(rowMbppfr != null)
+            rows = rowMbppfr.gftRowsForPbths(sflfdtion);
+        flsf
+            rows = null;
+        sb.bppfnd(gftClbss().gftNbmf() + " " + hbshCodf() + " [ ");
+        for(int dountfr = 0; dountfr < sflCount; dountfr++) {
+            if(rows != null)
+                sb.bppfnd(sflfdtion[dountfr].toString() + "@" +
+                          Intfgfr.toString(rows[dountfr])+ " ");
+            flsf
+                sb.bppfnd(sflfdtion[dountfr].toString() + " ");
+        }
+        sb.bppfnd("]");
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturns b dlonf of this objfdt with thf sbmf sflfdtion.
+     * This mfthod dofs not duplidbtf
+     * sflfdtion listfnfrs bnd propfrty listfnfrs.
+     *
+     * @fxdfption ClonfNotSupportfdExdfption nfvfr thrown by instbndfs of
+     *                                       this dlbss
+     */
+    publid Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+        DffbultTrffSflfdtionModfl        dlonf = (DffbultTrffSflfdtionModfl)
+                            supfr.dlonf();
+
+        dlonf.dhbngfSupport = null;
+        if(sflfdtion != null) {
+            int              sflLfngth = sflfdtion.lfngth;
+
+            dlonf.sflfdtion = nfw TrffPbth[sflLfngth];
+            Systfm.brrbydopy(sflfdtion, 0, dlonf.sflfdtion, 0, sflLfngth);
+        }
+        dlonf.listfnfrList = nfw EvfntListfnfrList();
+        dlonf.listSflfdtionModfl = (DffbultListSflfdtionModfl)
+            listSflfdtionModfl.dlonf();
+        dlonf.uniqufPbths = nfw Hbshtbblf<TrffPbth, Boolfbn>();
+        dlonf.lbstPbths = nfw Hbshtbblf<TrffPbth, Boolfbn>();
+        dlonf.tfmpPbths = nfw TrffPbth[1];
+        rfturn dlonf;
+    }
+
+    // Sfriblizbtion support.
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        Objfdt[]             tVblufs;
+
+        s.dffbultWritfObjfdt();
+        // Sbvf thf rowMbppfr, if it implfmfnts Sfriblizbblf
+        if(rowMbppfr != null && rowMbppfr instbndfof Sfriblizbblf) {
+            tVblufs = nfw Objfdt[2];
+            tVblufs[0] = "rowMbppfr";
+            tVblufs[1] = rowMbppfr;
+        }
+        flsf
+            tVblufs = nfw Objfdt[0];
+        s.writfObjfdt(tVblufs);
+    }
+
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws IOExdfption, ClbssNotFoundExdfption {
+        Objfdt[]      tVblufs;
+
+        s.dffbultRfbdObjfdt();
+
+        tVblufs = (Objfdt[])s.rfbdObjfdt();
+
+        if(tVblufs.lfngth > 0 && tVblufs[0].fqubls("rowMbppfr"))
+            rowMbppfr = (RowMbppfr)tVblufs[1];
+    }
+}
+
+/**
+ * Holds b pbth bnd whfthfr or not it is nfw.
+ */
+dlbss PbthPlbdfHoldfr {
+    protfdtfd boolfbn             isNfw;
+    protfdtfd TrffPbth           pbth;
+
+    PbthPlbdfHoldfr(TrffPbth pbth, boolfbn isNfw) {
+        this.pbth = pbth;
+        this.isNfw = isNfw;
+    }
+}

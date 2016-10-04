@@ -1,0 +1,887 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.*;
+import jbvb.util.Vfdtor;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.SizfRfquirfmfnts;
+
+/**
+ * A Vifw thbt trifs to flow it's dhildrfn into somf
+ * pbrtiblly donstrbinfd spbdf.  This dbn bf usfd to
+ * build things likf pbrbgrbphs, pbgfs, ftd.  Thf
+ * flow is mbdf up of thf following pifdfs of fundtionblity.
+ * <ul>
+ * <li>A logidbl sft of dhild vifws, whidh bs usfd bs b
+ * lbyout pool from whidh b physidbl vifw is formfd.
+ * <li>A strbtfgy for trbnslbting thf logidbl vifw to
+ * b physidbl (flowfd) vifw.
+ * <li>Constrbints for thf strbtfgy to work bgbinst.
+ * <li>A physidbl strudturf, thbt rfprfsfnts thf flow.
+ * Thf dhildrfn of this vifw brf whfrf thf pifdfs of
+ * of thf logidbl vifws brf plbdfd to drfbtf thf flow.
+ * </ul>
+ *
+ * @buthor  Timothy Prinzing
+ * @sff     Vifw
+ * @sindf 1.3
+ */
+publid bbstrbdt dlbss FlowVifw fxtfnds BoxVifw {
+
+    /**
+     * Construdts b FlowVifw for thf givfn flfmfnt.
+     *
+     * @pbrbm flfm thf flfmfnt thbt this vifw is rfsponsiblf for
+     * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
+     */
+    publid FlowVifw(Elfmfnt flfm, int bxis) {
+        supfr(flfm, bxis);
+        lbyoutSpbn = Intfgfr.MAX_VALUE;
+        strbtfgy = nfw FlowStrbtfgy();
+    }
+
+    /**
+     * Fftdhfs thf bxis blong whidh vifws should bf
+     * flowfd.  By dffbult, this will bf thf bxis
+     * orthogonbl to thf bxis blong whidh thf flow
+     * rows brf tilfd (thf bxis of thf dffbult flow
+     * rows thfmsflvfs).  This is typidblly usfd
+     * by thf <dodf>FlowStrbtfgy</dodf>.
+     */
+    publid int gftFlowAxis() {
+        if (gftAxis() == Y_AXIS) {
+            rfturn X_AXIS;
+        }
+        rfturn Y_AXIS;
+    }
+
+    /**
+     * Fftdh thf donstrbining spbn to flow bgbinst for
+     * thf givfn dhild indfx.  This is dbllfd by thf
+     * FlowStrbtfgy whilf it is updbting thf flow.
+     * A flow dbn bf shbpfd by providing difffrfnt vblufs
+     * for thf row donstrbints.  By dffbult, thf fntirf
+     * spbn insidf of thf insfts blong thf flow bxis
+     * is rfturnfd.
+     *
+     * @pbrbm indfx thf indfx of thf row bfing updbtfd.
+     *   This should bf b vbluf &gt;= 0 bnd &lt; gftVifwCount().
+     * @sff #gftFlowStbrt
+     */
+    publid int gftFlowSpbn(int indfx) {
+        rfturn lbyoutSpbn;
+    }
+
+    /**
+     * Fftdh thf lodbtion blong thf flow bxis thbt thf
+     * flow spbn will stbrt bt.  This is dbllfd by thf
+     * FlowStrbtfgy whilf it is updbting thf flow.
+     * A flow dbn bf shbpfd by providing difffrfnt vblufs
+     * for thf row donstrbints.
+
+     * @pbrbm indfx thf indfx of thf row bfing updbtfd.
+     *   This should bf b vbluf &gt;= 0 bnd &lt; gftVifwCount().
+     * @sff #gftFlowSpbn
+     */
+    publid int gftFlowStbrt(int indfx) {
+        rfturn 0;
+    }
+
+    /**
+     * Crfbtf b Vifw thbt should bf usfd to hold b
+     * b rows worth of dhildrfn in b flow.  This is
+     * dbllfd by thf FlowStrbtfgy whfn nfw dhildrfn
+     * brf bddfd or rfmovfd (i.f. rows brf bddfd or
+     * rfmovfd) in thf prodfss of updbting thf flow.
+     */
+    protfdtfd bbstrbdt Vifw drfbtfRow();
+
+    // ---- BoxVifw mfthods -------------------------------------
+
+    /**
+     * Lobds bll of thf dhildrfn to initiblizf thf vifw.
+     * This is dbllfd by thf <dodf>sftPbrfnt</dodf> mfthod.
+     * This is rfimplfmfntfd to not lobd bny dhildrfn dirfdtly
+     * (bs thfy brf drfbtfd in thf prodfss of formbtting).
+     * If thf lbyoutPool vbribblf is null, bn instbndf of
+     * LogidblVifw is drfbtfd to rfprfsfnt thf logidbl vifw
+     * thbt is usfd in thf prodfss of formbtting.
+     *
+     * @pbrbm f thf vifw fbdtory
+     */
+    protfdtfd void lobdChildrfn(VifwFbdtory f) {
+        if (lbyoutPool == null) {
+            lbyoutPool = nfw LogidblVifw(gftElfmfnt());
+        }
+        lbyoutPool.sftPbrfnt(this);
+
+        // This synthftid insfrtUpdbtf dbll givfs thf strbtfgy b dhbndf
+        // to initiblizf.
+        strbtfgy.insfrtUpdbtf(this, null, null);
+    }
+
+    /**
+     * Fftdhfs thf dhild vifw indfx rfprfsfnting thf givfn position in
+     * thf modfl.
+     *
+     * @pbrbm pos thf position &gt;= 0
+     * @rfturn  indfx of thf vifw rfprfsfnting thf givfn position, or
+     *   -1 if no vifw rfprfsfnts thbt position
+     */
+    protfdtfd int gftVifwIndfxAtPosition(int pos) {
+        if (pos >= gftStbrtOffsft() && (pos < gftEndOffsft())) {
+            for (int dountfr = 0; dountfr < gftVifwCount(); dountfr++) {
+                Vifw v = gftVifw(dountfr);
+                if(pos >= v.gftStbrtOffsft() &&
+                   pos < v.gftEndOffsft()) {
+                    rfturn dountfr;
+                }
+            }
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Lbys out thf dhildrfn.  If thf spbn blong thf flow
+     * bxis hbs dhbngfd, lbyout is mbrkfd bs invblid whidh
+     * whidh will dbusf thf supfrdlbss bfhbvior to rfdbldulbtf
+     * thf lbyout blong thf box bxis.  Thf FlowStrbtfgy.lbyout
+     * mfthod will bf dbllfd to rfbuild thf flow rows bs
+     * bppropribtf.  If thf hfight of this vifw dhbngfs
+     * (dftfrminfd by thf prfffrrfd sizf blong thf box bxis),
+     * b prfffrfndfChbngfd is dbllfd.  Following bll of thbt,
+     * thf normbl box lbyout of thf supfrdlbss is pfrformfd.
+     *
+     * @pbrbm width  thf width to lby out bgbinst &gt;= 0.  This is
+     *   thf width insidf of thf insft brfb.
+     * @pbrbm hfight thf hfight to lby out bgbinst &gt;= 0 This
+     *   is thf hfight insidf of thf insft brfb.
+     */
+    protfdtfd void lbyout(int width, int hfight) {
+        finbl int fbxis = gftFlowAxis();
+        int nfwSpbn;
+        if (fbxis == X_AXIS) {
+            nfwSpbn = width;
+        } flsf {
+            nfwSpbn = hfight;
+        }
+        if (lbyoutSpbn != nfwSpbn) {
+            lbyoutChbngfd(fbxis);
+            lbyoutChbngfd(gftAxis());
+            lbyoutSpbn = nfwSpbn;
+        }
+
+        // rfpbir thf flow if nfdfssbry
+        if (! isLbyoutVblid(fbxis)) {
+            finbl int hfightAxis = gftAxis();
+            int oldFlowHfight = (hfightAxis == X_AXIS)? gftWidth() : gftHfight();
+            strbtfgy.lbyout(this);
+            int nfwFlowHfight = (int) gftPrfffrrfdSpbn(hfightAxis);
+            if (oldFlowHfight != nfwFlowHfight) {
+                Vifw p = gftPbrfnt();
+                if (p != null) {
+                    p.prfffrfndfChbngfd(this, (hfightAxis == X_AXIS), (hfightAxis == Y_AXIS));
+                }
+
+                // PENDING(shbnnonh)
+                // Tfmporbry fix for 4250847
+                // Cbn bf rfmovfd whfn TrbvfrsblContfxt is bddfd
+                Componfnt host = gftContbinfr();
+                if (host != null) {
+                    //nb idk 12/12/2001 host should not bf fqubl to null. Wf nffd to bdd bssfrtion hfrf
+                    host.rfpbint();
+                }
+            }
+        }
+
+        supfr.lbyout(width, hfight);
+    }
+
+    /**
+     * Cbldulbtf rfquirfmfnts blong thf minor bxis.  This
+     * is implfmfntfd to forwbrd thf rfqufst to thf logidbl
+     * vifw by dblling gftMinimumSpbn, gftPrfffrrfdSpbn, bnd
+     * gftMbximumSpbn on it.
+     */
+    protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis, SizfRfquirfmfnts r) {
+        if (r == null) {
+            r = nfw SizfRfquirfmfnts();
+        }
+        flobt prff = lbyoutPool.gftPrfffrrfdSpbn(bxis);
+        flobt min = lbyoutPool.gftMinimumSpbn(bxis);
+        // Don't indludf insfts, Box.gftXXXSpbn will indludf thfm.
+        r.minimum = (int)min;
+        r.prfffrrfd = Mbth.mbx(r.minimum, (int) prff);
+        r.mbximum = Intfgfr.MAX_VALUE;
+        r.blignmfnt = 0.5f;
+        rfturn r;
+    }
+
+    // ---- Vifw mfthods ----------------------------------------------------
+
+    /**
+     * Givfs notifidbtion thbt somfthing wbs insfrtfd into thf dodumfnt
+     * in b lodbtion thbt this vifw is rfsponsiblf for.
+     *
+     * @pbrbm dhbngfs thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sff Vifw#insfrtUpdbtf
+     */
+    publid void insfrtUpdbtf(DodumfntEvfnt dhbngfs, Shbpf b, VifwFbdtory f) {
+        lbyoutPool.insfrtUpdbtf(dhbngfs, b, f);
+        strbtfgy.insfrtUpdbtf(this, dhbngfs, gftInsidfAllodbtion(b));
+    }
+
+    /**
+     * Givfs notifidbtion thbt somfthing wbs rfmovfd from thf dodumfnt
+     * in b lodbtion thbt this vifw is rfsponsiblf for.
+     *
+     * @pbrbm dhbngfs thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sff Vifw#rfmovfUpdbtf
+     */
+    publid void rfmovfUpdbtf(DodumfntEvfnt dhbngfs, Shbpf b, VifwFbdtory f) {
+        lbyoutPool.rfmovfUpdbtf(dhbngfs, b, f);
+        strbtfgy.rfmovfUpdbtf(this, dhbngfs, gftInsidfAllodbtion(b));
+    }
+
+    /**
+     * Givfs notifidbtion from thf dodumfnt thbt bttributfs wfrf dhbngfd
+     * in b lodbtion thbt this vifw is rfsponsiblf for.
+     *
+     * @pbrbm dhbngfs thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sff Vifw#dhbngfdUpdbtf
+     */
+    publid void dhbngfdUpdbtf(DodumfntEvfnt dhbngfs, Shbpf b, VifwFbdtory f) {
+        lbyoutPool.dhbngfdUpdbtf(dhbngfs, b, f);
+        strbtfgy.dhbngfdUpdbtf(this, dhbngfs, gftInsidfAllodbtion(b));
+    }
+
+    /** {@inhfritDod} */
+    publid void sftPbrfnt(Vifw pbrfnt) {
+        supfr.sftPbrfnt(pbrfnt);
+        if (pbrfnt == null
+                && lbyoutPool != null ) {
+            lbyoutPool.sftPbrfnt(null);
+        }
+    }
+
+    // --- vbribblfs -----------------------------------------------
+
+    /**
+     * Dffbult donstrbint bgbinst whidh thf flow is
+     * drfbtfd bgbinst.
+     */
+    protfdtfd int lbyoutSpbn;
+
+    /**
+     * Thfsf brf thf vifws thbt rfprfsfnt thf dhild flfmfnts
+     * of thf flfmfnt this vifw rfprfsfnts (Thf logidbl vifw
+     * to trbnslbtf to b physidbl vifw).  Thfsf brf not
+     * dirfdtly dhildrfn of this vifw.  Thfsf brf fithfr
+     * plbdfd into thf rows dirfdtly or usfd for thf purposf
+     * of brfbking into smbllfr dhunks, to form thf physidbl
+     * vifw.
+     */
+    protfdtfd Vifw lbyoutPool;
+
+    /**
+     * Thf bfhbvior for kffping thf flow updbtfd.  By
+     * dffbult this is b singlfton shbrfd by bll instbndfs
+     * of FlowVifw (FlowStrbtfgy is stbtflfss).  Subdlbssfs
+     * dbn drfbtf bn bltfrnbtivf strbtfgy, whidh might kffp
+     * stbtf.
+     */
+    protfdtfd FlowStrbtfgy strbtfgy;
+
+    /**
+     * Strbtfgy for mbintbining thf physidbl form
+     * of thf flow.  Thf dffbult implfmfntbtion is
+     * domplftfly stbtflfss, bnd rfdbldulbtfs thf
+     * fntirf flow if thf lbyout is invblid on thf
+     * givfn FlowVifw.  Altfrnbtivf strbtfgifs dbn
+     * bf implfmfntfd by subdlbssing, bnd might
+     * pfrform indrfmfntbl rfpbir to thf lbyout
+     * or bltfrnbtivf brfbking bfhbvior.
+     * @sindf 1.3
+     */
+    publid stbtid dlbss FlowStrbtfgy {
+        Position dbmbgfStbrt = null;
+        Vfdtor<Vifw> vifwBufffr;
+
+        void bddDbmbgf(FlowVifw fv, int offsft) {
+            if (offsft >= fv.gftStbrtOffsft() && offsft < fv.gftEndOffsft()) {
+                if (dbmbgfStbrt == null || offsft < dbmbgfStbrt.gftOffsft()) {
+                    try {
+                        dbmbgfStbrt = fv.gftDodumfnt().drfbtfPosition(offsft);
+                    } dbtdh (BbdLodbtionExdfption f) {
+                        // shouldn't hbppfn sindf offsft is insidf vifw bounds
+                        bssfrt(fblsf);
+                    }
+                }
+            }
+        }
+
+        void unsftDbmbgf() {
+            dbmbgfStbrt = null;
+        }
+
+        /**
+         * Givfs notifidbtion thbt somfthing wbs insfrtfd into thf dodumfnt
+         * in b lodbtion thbt thf givfn flow vifw is rfsponsiblf for.  Thf
+         * strbtfgy should updbtf thf bppropribtf dhbngfd rfgion (whidh
+         * dfpfnds upon thf strbtfgy usfd for rfpbir).
+         *
+         * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+         * @pbrbm bllod thf durrfnt bllodbtion of thf vifw insidf of thf insfts.
+         *   This vbluf will bf null if thf vifw hbs not yft bffn displbyfd.
+         * @sff Vifw#insfrtUpdbtf
+         */
+        publid void insfrtUpdbtf(FlowVifw fv, DodumfntEvfnt f, Rfdtbnglf bllod) {
+            // FlowVifw.lobdChildrfn() mbkfs b synthftid dbll into this,
+            // pbssing null bs f
+            if (f != null) {
+                bddDbmbgf(fv, f.gftOffsft());
+            }
+
+            if (bllod != null) {
+                Componfnt host = fv.gftContbinfr();
+                if (host != null) {
+                    host.rfpbint(bllod.x, bllod.y, bllod.width, bllod.hfight);
+                }
+            } flsf {
+                fv.prfffrfndfChbngfd(null, truf, truf);
+            }
+        }
+
+        /**
+         * Givfs notifidbtion thbt somfthing wbs rfmovfd from thf dodumfnt
+         * in b lodbtion thbt thf givfn flow vifw is rfsponsiblf for.
+         *
+         * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+         * @pbrbm bllod thf durrfnt bllodbtion of thf vifw insidf of thf insfts.
+         * @sff Vifw#rfmovfUpdbtf
+         */
+        publid void rfmovfUpdbtf(FlowVifw fv, DodumfntEvfnt f, Rfdtbnglf bllod) {
+            bddDbmbgf(fv, f.gftOffsft());
+            if (bllod != null) {
+                Componfnt host = fv.gftContbinfr();
+                if (host != null) {
+                    host.rfpbint(bllod.x, bllod.y, bllod.width, bllod.hfight);
+                }
+            } flsf {
+                fv.prfffrfndfChbngfd(null, truf, truf);
+            }
+        }
+
+        /**
+         * Givfs notifidbtion from thf dodumfnt thbt bttributfs wfrf dhbngfd
+         * in b lodbtion thbt this vifw is rfsponsiblf for.
+         *
+         * @pbrbm fv     thf <dodf>FlowVifw</dodf> dontbining thf dhbngfs
+         * @pbrbm f      thf <dodf>DodumfntEvfnt</dodf> dfsdribing thf dhbngfs
+         *               donf to thf Dodumfnt
+         * @pbrbm bllod  Bounds of thf Vifw
+         * @sff Vifw#dhbngfdUpdbtf
+         */
+        publid void dhbngfdUpdbtf(FlowVifw fv, DodumfntEvfnt f, Rfdtbnglf bllod) {
+            bddDbmbgf(fv, f.gftOffsft());
+            if (bllod != null) {
+                Componfnt host = fv.gftContbinfr();
+                if (host != null) {
+                    host.rfpbint(bllod.x, bllod.y, bllod.width, bllod.hfight);
+                }
+            } flsf {
+                fv.prfffrfndfChbngfd(null, truf, truf);
+            }
+        }
+
+        /**
+         * This mfthod givfs flow strbtfgifs bddfss to thf logidbl
+         * vifw of thf FlowVifw.
+         */
+        protfdtfd Vifw gftLogidblVifw(FlowVifw fv) {
+            rfturn fv.lbyoutPool;
+        }
+
+        /**
+         * Updbtf thf flow on thf givfn FlowVifw.  By dffbult, this dbusfs
+         * bll of thf rows (dhild vifws) to bf rfbuilt to mbtdh thf givfn
+         * donstrbints for fbdh row.  This is dbllfd by b FlowVifw.lbyout
+         * to updbtf thf dhild vifws in thf flow.
+         *
+         * @pbrbm fv thf vifw to rfflow
+         */
+        publid void lbyout(FlowVifw fv) {
+            Vifw pool = gftLogidblVifw(fv);
+            int rowIndfx, p0;
+            int p1 = fv.gftEndOffsft();
+
+            if (fv.mbjorAllodVblid) {
+                if (dbmbgfStbrt == null) {
+                    rfturn;
+                }
+                // In somf dbsfs thfrf's no vifw bt position dbmbgfStbrt, so
+                // stfp bbdk bnd sfbrdh bgbin. Sff 6452106 for dftbils.
+                int offsft = dbmbgfStbrt.gftOffsft();
+                whilf ((rowIndfx = fv.gftVifwIndfxAtPosition(offsft)) < 0) {
+                    offsft--;
+                }
+                if (rowIndfx > 0) {
+                    rowIndfx--;
+                }
+                p0 = fv.gftVifw(rowIndfx).gftStbrtOffsft();
+            } flsf {
+                rowIndfx = 0;
+                p0 = fv.gftStbrtOffsft();
+            }
+            rfpbrfntVifws(pool, p0);
+
+            vifwBufffr = nfw Vfdtor<Vifw>(10, 10);
+            int rowCount = fv.gftVifwCount();
+            whilf (p0 < p1) {
+                Vifw row;
+                if (rowIndfx >= rowCount) {
+                    row = fv.drfbtfRow();
+                    fv.bppfnd(row);
+                } flsf {
+                    row = fv.gftVifw(rowIndfx);
+                }
+                p0 = lbyoutRow(fv, rowIndfx, p0);
+                rowIndfx++;
+            }
+            vifwBufffr = null;
+
+            if (rowIndfx < rowCount) {
+                fv.rfplbdf(rowIndfx, rowCount - rowIndfx, null);
+            }
+            unsftDbmbgf();
+        }
+
+        /**
+         * Crfbtfs b row of vifws thbt will fit within thf
+         * lbyout spbn of thf row.  This is dbllfd by thf lbyout mfthod.
+         * This is implfmfntfd to fill thf row by rfpfbtfdly dblling
+         * thf drfbtfVifw mfthod until thf bvbilbblf spbn hbs bffn
+         * fxhbustfd, b fordfd brfbk wbs fndountfrfd, or thf drfbtfVifw
+         * mfthod rfturnfd null.  If thf rfmbining spbn wbs fxhbustfd,
+         * thf bdjustRow mfthod will bf dbllfd to pfrform bdjustmfnts
+         * to thf row to try bnd mbkf it fit into thf givfn spbn.
+         *
+         * @pbrbm rowIndfx thf indfx of thf row to fill in with vifws.  Thf
+         *   row is bssumfd to bf fmpty on fntry.
+         * @pbrbm pos  Thf durrfnt position in thf dhildrfn of
+         *   this vifws flfmfnt from whidh to stbrt.
+         * @rfturn thf position to stbrt thf nfxt row
+         */
+        protfdtfd int lbyoutRow(FlowVifw fv, int rowIndfx, int pos) {
+            Vifw row = fv.gftVifw(rowIndfx);
+            flobt x = fv.gftFlowStbrt(rowIndfx);
+            flobt spbnLfft = fv.gftFlowSpbn(rowIndfx);
+            int fnd = fv.gftEndOffsft();
+            TbbExpbndfr tf = (fv instbndfof TbbExpbndfr) ? (TbbExpbndfr)fv : null;
+            finbl int flowAxis = fv.gftFlowAxis();
+
+            int brfbkWfight = BbdBrfbkWfight;
+            flobt brfbkX = 0f;
+            flobt brfbkSpbn = 0f;
+            int brfbkIndfx = -1;
+            int n = 0;
+
+            vifwBufffr.dlfbr();
+            whilf (pos < fnd && spbnLfft >= 0) {
+                Vifw v = drfbtfVifw(fv, pos, (int)spbnLfft, rowIndfx);
+                if (v == null) {
+                    brfbk;
+                }
+
+                int bw = v.gftBrfbkWfight(flowAxis, x, spbnLfft);
+                if (bw >= FordfdBrfbkWfight) {
+                    Vifw w = v.brfbkVifw(flowAxis, pos, x, spbnLfft);
+                    if (w != null) {
+                        vifwBufffr.bdd(w);
+                    } flsf if (n == 0) {
+                        // if thf vifw dofs not brfbk, bnd it is thf only vifw
+                        // in b row, usf thf wholf vifw
+                        vifwBufffr.bdd(v);
+                    }
+                    brfbk;
+                } flsf if (bw >= brfbkWfight && bw > BbdBrfbkWfight) {
+                    brfbkWfight = bw;
+                    brfbkX = x;
+                    brfbkSpbn = spbnLfft;
+                    brfbkIndfx = n;
+                }
+
+                flobt dhunkSpbn;
+                if (flowAxis == X_AXIS && v instbndfof TbbbblfVifw) {
+                    dhunkSpbn = ((TbbbblfVifw)v).gftTbbbfdSpbn(x, tf);
+                } flsf {
+                    dhunkSpbn = v.gftPrfffrrfdSpbn(flowAxis);
+                }
+
+                if (dhunkSpbn > spbnLfft && brfbkIndfx >= 0) {
+                    // row is too long, bnd wf mby brfbk
+                    if (brfbkIndfx < n) {
+                        v = vifwBufffr.gft(brfbkIndfx);
+                    }
+                    for (int i = n - 1; i >= brfbkIndfx; i--) {
+                        vifwBufffr.rfmovf(i);
+                    }
+                    v = v.brfbkVifw(flowAxis, v.gftStbrtOffsft(), brfbkX, brfbkSpbn);
+                }
+
+                spbnLfft -= dhunkSpbn;
+                x += dhunkSpbn;
+                vifwBufffr.bdd(v);
+                pos = v.gftEndOffsft();
+                n++;
+            }
+
+            Vifw[] vifws = nfw Vifw[vifwBufffr.sizf()];
+            vifwBufffr.toArrby(vifws);
+            row.rfplbdf(0, row.gftVifwCount(), vifws);
+            rfturn (vifws.lfngth > 0 ? row.gftEndOffsft() : pos);
+        }
+
+        /**
+         * Adjusts thf givfn row if possiblf to fit within thf
+         * lbyout spbn.  By dffbult this will try to find thf
+         * highfst brfbk wfight possiblf nfbrfst thf fnd of
+         * thf row.  If b fordfd brfbk is fndountfrfd, thf
+         * brfbk will bf positionfd thfrf.
+         *
+         * @pbrbm rowIndfx thf row to bdjust to thf durrfnt lbyout
+         *  spbn.
+         * @pbrbm dfsirfdSpbn thf durrfnt lbyout spbn &gt;= 0
+         * @pbrbm x thf lodbtion r stbrts bt.
+         */
+        protfdtfd void bdjustRow(FlowVifw fv, int rowIndfx, int dfsirfdSpbn, int x) {
+            finbl int flowAxis = fv.gftFlowAxis();
+            Vifw r = fv.gftVifw(rowIndfx);
+            int n = r.gftVifwCount();
+            int spbn = 0;
+            int bfstWfight = BbdBrfbkWfight;
+            int bfstSpbn = 0;
+            int bfstIndfx = -1;
+            Vifw v;
+            for (int i = 0; i < n; i++) {
+                v = r.gftVifw(i);
+                int spbnLfft = dfsirfdSpbn - spbn;
+
+                int w = v.gftBrfbkWfight(flowAxis, x + spbn, spbnLfft);
+                if ((w >= bfstWfight) && (w > BbdBrfbkWfight)) {
+                    bfstWfight = w;
+                    bfstIndfx = i;
+                    bfstSpbn = spbn;
+                    if (w >= FordfdBrfbkWfight) {
+                        // it's b fordfd brfbk, so thfrf is
+                        // no point in sfbrdhing furthfr.
+                        brfbk;
+                    }
+                }
+                spbn += v.gftPrfffrrfdSpbn(flowAxis);
+            }
+            if (bfstIndfx < 0) {
+                // thfrf is nothing thbt dbn bf brokfn, lfbvf
+                // it in it's durrfnt stbtf.
+                rfturn;
+            }
+
+            // Brfbk thf bfst dbndidbtf vifw, bnd pbtdh up thf row.
+            int spbnLfft = dfsirfdSpbn - bfstSpbn;
+            v = r.gftVifw(bfstIndfx);
+            v = v.brfbkVifw(flowAxis, v.gftStbrtOffsft(), x + bfstSpbn, spbnLfft);
+            Vifw[] vb = nfw Vifw[1];
+            vb[0] = v;
+            Vifw lv = gftLogidblVifw(fv);
+            int p0 = r.gftVifw(bfstIndfx).gftStbrtOffsft();
+            int p1 = r.gftEndOffsft();
+            for (int i = 0; i < lv.gftVifwCount(); i++) {
+                Vifw tmpVifw = lv.gftVifw(i);
+                if (tmpVifw.gftEndOffsft() > p1) {
+                    brfbk;
+                }
+                if (tmpVifw.gftStbrtOffsft() >= p0) {
+                    tmpVifw.sftPbrfnt(lv);
+                }
+            }
+            r.rfplbdf(bfstIndfx, n - bfstIndfx, vb);
+        }
+
+        void rfpbrfntVifws(Vifw pool, int stbrtPos) {
+            int n = pool.gftVifwIndfx(stbrtPos, Position.Bibs.Forwbrd);
+            if (n >= 0) {
+                for (int i = n; i < pool.gftVifwCount(); i++) {
+                    pool.gftVifw(i).sftPbrfnt(pool);
+                }
+            }
+        }
+
+        /**
+         * Crfbtfs b vifw thbt dbn bf usfd to rfprfsfnt thf durrfnt pifdf
+         * of thf flow.  This dbn bf fithfr bn fntirf vifw from thf
+         * logidbl vifw, or b frbgmfnt of thf logidbl vifw.
+         *
+         * @pbrbm fv thf vifw holding thf flow
+         * @pbrbm stbrtOffsft thf stbrt lodbtion for thf vifw bfing drfbtfd
+         * @pbrbm spbnLfft thf bbout of spbn lfft to fill in thf row
+         * @pbrbm rowIndfx thf row thf vifw will bf plbdfd into
+         */
+        protfdtfd Vifw drfbtfVifw(FlowVifw fv, int stbrtOffsft, int spbnLfft, int rowIndfx) {
+            // Gft thf dhild vifw thbt dontbins thf givfn stbrting position
+            Vifw lv = gftLogidblVifw(fv);
+            int dhildIndfx = lv.gftVifwIndfx(stbrtOffsft, Position.Bibs.Forwbrd);
+            Vifw v = lv.gftVifw(dhildIndfx);
+            if (stbrtOffsft==v.gftStbrtOffsft()) {
+                // rfturn thf fntirf vifw
+                rfturn v;
+            }
+
+            // rfturn b frbgmfnt.
+            v = v.drfbtfFrbgmfnt(stbrtOffsft, v.gftEndOffsft());
+            rfturn v;
+        }
+    }
+
+    /**
+     * This dlbss dbn bf usfd to rfprfsfnt b logidbl vifw for
+     * b flow.  It kffps thf dhildrfn updbtfd to rfflfdt thf stbtf
+     * of thf modfl, givfs thf logidbl dhild vifws bddfss to thf
+     * vifw hifrbrdhy, bnd dbldulbtfs b prfffrrfd spbn.  It dofsn't
+     * do bny rfndfring, lbyout, or modfl/vifw trbnslbtion.
+     */
+    stbtid dlbss LogidblVifw fxtfnds CompositfVifw {
+
+        LogidblVifw(Elfmfnt flfm) {
+            supfr(flfm);
+        }
+
+        protfdtfd int gftVifwIndfxAtPosition(int pos) {
+            Elfmfnt flfm = gftElfmfnt();
+            if (flfm.isLfbf()) {
+                rfturn 0;
+            }
+            rfturn supfr.gftVifwIndfxAtPosition(pos);
+        }
+
+        protfdtfd void lobdChildrfn(VifwFbdtory f) {
+            Elfmfnt flfm = gftElfmfnt();
+            if (flfm.isLfbf()) {
+                Vifw v = nfw LbbflVifw(flfm);
+                bppfnd(v);
+            } flsf {
+                supfr.lobdChildrfn(f);
+            }
+        }
+
+        /**
+         * Fftdhfs thf bttributfs to usf whfn rfndfring.  This vifw
+         * isn't dirfdtly rfsponsiblf for bn flfmfnt so it rfturns
+         * thf outfr dlbssfs bttributfs.
+         */
+        publid AttributfSft gftAttributfs() {
+            Vifw p = gftPbrfnt();
+            rfturn (p != null) ? p.gftAttributfs() : null;
+        }
+
+        /**
+         * Dftfrminfs thf prfffrrfd spbn for this vifw blong bn
+         * bxis.
+         *
+         * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
+         * @rfturn   thf spbn thf vifw would likf to bf rfndfrfd into.
+         *           Typidblly thf vifw is told to rfndfr into thf spbn
+         *           thbt is rfturnfd, blthough thfrf is no gubrbntff.
+         *           Thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw.
+         * @sff Vifw#gftPrfffrrfdSpbn
+         */
+        publid flobt gftPrfffrrfdSpbn(int bxis) {
+            flobt mbxprff = 0;
+            flobt prff = 0;
+            int n = gftVifwCount();
+            for (int i = 0; i < n; i++) {
+                Vifw v = gftVifw(i);
+                prff += v.gftPrfffrrfdSpbn(bxis);
+                if (v.gftBrfbkWfight(bxis, 0, Intfgfr.MAX_VALUE) >= FordfdBrfbkWfight) {
+                    mbxprff = Mbth.mbx(mbxprff, prff);
+                    prff = 0;
+                }
+            }
+            mbxprff = Mbth.mbx(mbxprff, prff);
+            rfturn mbxprff;
+        }
+
+        /**
+         * Dftfrminfs thf minimum spbn for this vifw blong bn
+         * bxis.  Thf is implfmfntfd to find thf minimum unbrfbkbblf
+         * spbn.
+         *
+         * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
+         * @rfturn  thf spbn thf vifw would likf to bf rfndfrfd into.
+         *           Typidblly thf vifw is told to rfndfr into thf spbn
+         *           thbt is rfturnfd, blthough thfrf is no gubrbntff.
+         *           Thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw.
+         * @sff Vifw#gftPrfffrrfdSpbn
+         */
+        publid flobt gftMinimumSpbn(int bxis) {
+            flobt mbxmin = 0;
+            flobt min = 0;
+            boolfbn nowrbp = fblsf;
+            int n = gftVifwCount();
+            for (int i = 0; i < n; i++) {
+                Vifw v = gftVifw(i);
+                if (v.gftBrfbkWfight(bxis, 0, Intfgfr.MAX_VALUE) == BbdBrfbkWfight) {
+                    min += v.gftPrfffrrfdSpbn(bxis);
+                    nowrbp = truf;
+                } flsf if (nowrbp) {
+                    mbxmin = Mbth.mbx(min, mbxmin);
+                    nowrbp = fblsf;
+                    min = 0;
+                }
+                if (v instbndfof ComponfntVifw) {
+                    mbxmin = Mbth.mbx(mbxmin, v.gftMinimumSpbn(bxis));
+                }
+            }
+            mbxmin = Mbth.mbx(mbxmin, min);
+            rfturn mbxmin;
+        }
+
+        /**
+         * Forwbrd thf DodumfntEvfnt to thf givfn dhild vifw.  This
+         * is implfmfntfd to rfpbrfnt thf dhild to thf logidbl vifw
+         * (thf dhildrfn mby hbvf bffn pbrfntfd by b row in thf flow
+         * if thfy fit without brfbking) bnd thfn fxfdutf thf supfrdlbss
+         * bfhbvior.
+         *
+         * @pbrbm v thf dhild vifw to forwbrd thf fvfnt to.
+         * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+         * @pbrbm b thf durrfnt bllodbtion of thf vifw
+         * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+         * @sff #forwbrdUpdbtf
+         * @sindf 1.3
+         */
+        protfdtfd void forwbrdUpdbtfToVifw(Vifw v, DodumfntEvfnt f,
+                                           Shbpf b, VifwFbdtory f) {
+            Vifw pbrfnt = v.gftPbrfnt();
+            v.sftPbrfnt(this);
+            supfr.forwbrdUpdbtfToVifw(v, f, b, f);
+            v.sftPbrfnt(pbrfnt);
+        }
+
+        /** {@inhfritDod} */
+        @Ovfrridf
+        protfdtfd void forwbrdUpdbtf(DodumfntEvfnt.ElfmfntChbngf fd,
+                                          DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+            dbldulbtfUpdbtfIndfxfs(f);
+            // Sfnd updbtf fvfnt to bll vifws followfd by thf dhbngfd plbdf.
+            lbstUpdbtfIndfx = Mbth.mbx((gftVifwCount() - 1), 0);
+            for (int i = firstUpdbtfIndfx; i <= lbstUpdbtfIndfx; i++) {
+                Vifw v = gftVifw(i);
+                if (v != null) {
+                    Shbpf dhildAllod = gftChildAllodbtion(i, b);
+                    forwbrdUpdbtfToVifw(v, f, dhildAllod, f);
+                }
+            }
+        }
+
+        // Thf following mfthods don't do bnything usfful, thfy
+        // simply kffp thf dlbss from bfing bbstrbdt.
+
+        /**
+         * Rfndfrs using thf givfn rfndfring surfbdf bnd brfb on thbt
+         * surfbdf.  This is implfmfntfd to do nothing, thf logidbl
+         * vifw is nfvfr visiblf.
+         *
+         * @pbrbm g thf rfndfring surfbdf to usf
+         * @pbrbm bllodbtion thf bllodbtfd rfgion to rfndfr into
+         * @sff Vifw#pbint
+         */
+        publid void pbint(Grbphids g, Shbpf bllodbtion) {
+        }
+
+        /**
+         * Tfsts whfthfr b point lifs bfforf thf rfdtbnglf rbngf.
+         * Implfmfntfd to rfturn fblsf, bs hit dftfdtion is not
+         * pfrformfd on thf logidbl vifw.
+         *
+         * @pbrbm x thf X doordinbtf &gt;= 0
+         * @pbrbm y thf Y doordinbtf &gt;= 0
+         * @pbrbm bllod thf rfdtbnglf
+         * @rfturn truf if thf point is bfforf thf spfdififd rbngf
+         */
+        protfdtfd boolfbn isBfforf(int x, int y, Rfdtbnglf bllod) {
+            rfturn fblsf;
+        }
+
+        /**
+         * Tfsts whfthfr b point lifs bftfr thf rfdtbnglf rbngf.
+         * Implfmfntfd to rfturn fblsf, bs hit dftfdtion is not
+         * pfrformfd on thf logidbl vifw.
+         *
+         * @pbrbm x thf X doordinbtf &gt;= 0
+         * @pbrbm y thf Y doordinbtf &gt;= 0
+         * @pbrbm bllod thf rfdtbnglf
+         * @rfturn truf if thf point is bftfr thf spfdififd rbngf
+         */
+        protfdtfd boolfbn isAftfr(int x, int y, Rfdtbnglf bllod) {
+            rfturn fblsf;
+        }
+
+        /**
+         * Fftdhfs thf dhild vifw bt thf givfn point.
+         * Implfmfntfd to rfturn null, bs hit dftfdtion is not
+         * pfrformfd on thf logidbl vifw.
+         *
+         * @pbrbm x thf X doordinbtf &gt;= 0
+         * @pbrbm y thf Y doordinbtf &gt;= 0
+         * @pbrbm bllod thf pbrfnt's bllodbtion on fntry, whidh should
+         *   bf dhbngfd to thf dhild's bllodbtion on fxit
+         * @rfturn thf dhild vifw
+         */
+        protfdtfd Vifw gftVifwAtPoint(int x, int y, Rfdtbnglf bllod) {
+            rfturn null;
+        }
+
+        /**
+         * Rfturns thf bllodbtion for b givfn dhild.
+         * Implfmfntfd to do nothing, bs thf logidbl vifw dofsn't
+         * pfrform lbyout on thf dhildrfn.
+         *
+         * @pbrbm indfx thf indfx of thf dhild, &gt;= 0 &bmp;&bmp; &lt; gftVifwCount()
+         * @pbrbm b  thf bllodbtion to thf intfrior of thf box on fntry,
+         *   bnd thf bllodbtion of thf dhild vifw bt thf indfx on fxit.
+         */
+        protfdtfd void dhildAllodbtion(int indfx, Rfdtbnglf b) {
+        }
+    }
+
+
+}

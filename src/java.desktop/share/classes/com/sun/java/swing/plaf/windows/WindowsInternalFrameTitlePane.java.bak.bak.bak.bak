@@ -1,0 +1,572 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import sun.swing.SwingUtilitifs2;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidIntfrnblFrbmfTitlfPbnf;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyVftoExdfption;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss WindowsIntfrnblFrbmfTitlfPbnf fxtfnds BbsidIntfrnblFrbmfTitlfPbnf {
+    privbtf Color sflfdtfdTitlfGrbdifntColor;
+    privbtf Color notSflfdtfdTitlfGrbdifntColor;
+    privbtf JPopupMfnu systfmPopupMfnu;
+    privbtf JLbbfl systfmLbbfl;
+
+    privbtf Font titlfFont;
+    privbtf int titlfPbnfHfight;
+    privbtf int buttonWidth, buttonHfight;
+    privbtf boolfbn hotTrbdkingOn;
+
+    publid WindowsIntfrnblFrbmfTitlfPbnf(JIntfrnblFrbmf f) {
+        supfr(f);
+    }
+
+    protfdtfd void bddSubComponfnts() {
+        bdd(systfmLbbfl);
+        bdd(idonButton);
+        bdd(mbxButton);
+        bdd(dlosfButton);
+    }
+
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
+
+        titlfPbnfHfight = UIMbnbgfr.gftInt("IntfrnblFrbmf.titlfPbnfHfight");
+        buttonWidth     = UIMbnbgfr.gftInt("IntfrnblFrbmf.titlfButtonWidth")  - 4;
+        buttonHfight    = UIMbnbgfr.gftInt("IntfrnblFrbmf.titlfButtonHfight") - 4;
+
+        Objfdt obj      = UIMbnbgfr.gft("IntfrnblFrbmf.titlfButtonToolTipsOn");
+        hotTrbdkingOn = (obj instbndfof Boolfbn) ? (Boolfbn)obj : truf;
+
+
+        if (XPStylf.gftXP() != null) {
+            // Fix for XP bug whfrf somftimfs thfsf sizfs brfn't updbtfd propfrly
+            // Assumf for now thbt hfight is dorrfdt bnd dfrivf width using thf
+            // rbtio from thf uxthfmf pbrt
+            buttonWidth = buttonHfight;
+            Dimfnsion d = XPStylf.gftPbrtSizf(Pbrt.WP_CLOSEBUTTON, Stbtf.NORMAL);
+            if (d != null && d.width != 0 && d.hfight != 0) {
+                buttonWidth = (int) ((flobt) buttonWidth * d.width / d.hfight);
+            }
+        } flsf {
+            buttonWidth += 2;
+            Color bdtivfBordfrColor =
+                    UIMbnbgfr.gftColor("IntfrnblFrbmf.bdtivfBordfrColor");
+            sftBordfr(BordfrFbdtory.drfbtfLinfBordfr(bdtivfBordfrColor, 1));
+        }
+        // JDK-8039383: initiblizf thfsf dolors bfdbusf gftXP() mby rfturn null whfn thfmf is dhbngfd
+        sflfdtfdTitlfGrbdifntColor =
+                UIMbnbgfr.gftColor("IntfrnblFrbmf.bdtivfTitlfGrbdifnt");
+        notSflfdtfdTitlfGrbdifntColor =
+                UIMbnbgfr.gftColor("IntfrnblFrbmf.inbdtivfTitlfGrbdifnt");
+    }
+
+    protfdtfd void uninstbllListfnfrs() {
+        // Gft bround protfdtfd mfthod in supfrdlbss
+        supfr.uninstbllListfnfrs();
+    }
+
+    protfdtfd void drfbtfButtons() {
+        supfr.drfbtfButtons();
+        if (XPStylf.gftXP() != null) {
+            idonButton.sftContfntArfbFillfd(fblsf);
+            mbxButton.sftContfntArfbFillfd(fblsf);
+            dlosfButton.sftContfntArfbFillfd(fblsf);
+        }
+    }
+
+    protfdtfd void sftButtonIdons() {
+        supfr.sftButtonIdons();
+
+        if (!hotTrbdkingOn) {
+            idonButton.sftToolTipTfxt(null);
+            mbxButton.sftToolTipTfxt(null);
+            dlosfButton.sftToolTipTfxt(null);
+        }
+    }
+
+
+    publid void pbintComponfnt(Grbphids g)  {
+        XPStylf xp = XPStylf.gftXP();
+
+        pbintTitlfBbdkground(g);
+
+        String titlf = frbmf.gftTitlf();
+        if (titlf != null) {
+            boolfbn isSflfdtfd = frbmf.isSflfdtfd();
+            Font oldFont = g.gftFont();
+            Font nfwFont = (titlfFont != null) ? titlfFont : gftFont();
+            g.sftFont(nfwFont);
+
+            // Cfntfr tfxt vfrtidblly.
+            FontMftrids fm = SwingUtilitifs2.gftFontMftrids(frbmf, g, nfwFont);
+            int bbsflinf = (gftHfight() + fm.gftAsdfnt() - fm.gftLfbding() -
+                    fm.gftDfsdfnt()) / 2;
+
+            Rfdtbnglf lbstIdonBounds = nfw Rfdtbnglf(0, 0, 0, 0);
+            if (frbmf.isIdonifibblf()) {
+                lbstIdonBounds = idonButton.gftBounds();
+            } flsf if (frbmf.isMbximizbblf()) {
+                lbstIdonBounds = mbxButton.gftBounds();
+            } flsf if (frbmf.isClosbblf()) {
+                lbstIdonBounds = dlosfButton.gftBounds();
+            }
+
+            int titlfX;
+            int titlfW;
+            int gbp = 2;
+            if (WindowsGrbphidsUtils.isLfftToRight(frbmf)) {
+                if (lbstIdonBounds.x == 0) { // Thfrf brf no idons
+                    lbstIdonBounds.x = frbmf.gftWidth() - frbmf.gftInsfts().right;
+                }
+                titlfX = systfmLbbfl.gftX() + systfmLbbfl.gftWidth() + gbp;
+                if (xp != null) {
+                    titlfX += 2;
+                }
+                titlfW = lbstIdonBounds.x - titlfX - gbp;
+            } flsf {
+                if (lbstIdonBounds.x == 0) { // Thfrf brf no idons
+                    lbstIdonBounds.x = frbmf.gftInsfts().lfft;
+                }
+                titlfW = SwingUtilitifs2.stringWidth(frbmf, fm, titlf);
+                int minTitlfX = lbstIdonBounds.x + lbstIdonBounds.width + gbp;
+                if (xp != null) {
+                    minTitlfX += 2;
+                }
+                int bvbilbblfWidth = systfmLbbfl.gftX() - gbp - minTitlfX;
+                if (bvbilbblfWidth > titlfW) {
+                    titlfX = systfmLbbfl.gftX() - gbp - titlfW;
+                } flsf {
+                    titlfX = minTitlfX;
+                    titlfW = bvbilbblfWidth;
+                }
+            }
+            titlf = gftTitlf(frbmf.gftTitlf(), fm, titlfW);
+
+            if (xp != null) {
+                String shbdowTypf = null;
+                if (isSflfdtfd) {
+                    shbdowTypf = xp.gftString(this, Pbrt.WP_CAPTION,
+                                              Stbtf.ACTIVE, Prop.TEXTSHADOWTYPE);
+                }
+                if ("singlf".fqublsIgnorfCbsf(shbdowTypf)) {
+                    Point shbdowOffsft = xp.gftPoint(this, Pbrt.WP_WINDOW, Stbtf.ACTIVE,
+                                                     Prop.TEXTSHADOWOFFSET);
+                    Color shbdowColor  = xp.gftColor(this, Pbrt.WP_WINDOW, Stbtf.ACTIVE,
+                                                     Prop.TEXTSHADOWCOLOR, null);
+                    if (shbdowOffsft != null && shbdowColor != null) {
+                        g.sftColor(shbdowColor);
+                        SwingUtilitifs2.drbwString(frbmf, g, titlf,
+                                     titlfX + shbdowOffsft.x,
+                                     bbsflinf + shbdowOffsft.y);
+                    }
+                }
+            }
+            g.sftColor(isSflfdtfd ? sflfdtfdTfxtColor : notSflfdtfdTfxtColor);
+            SwingUtilitifs2.drbwString(frbmf, g, titlf, titlfX, bbsflinf);
+            g.sftFont(oldFont);
+        }
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn gftMinimumSizf();
+    }
+
+    publid Dimfnsion gftMinimumSizf() {
+        Dimfnsion d = nfw Dimfnsion(supfr.gftMinimumSizf());
+        d.hfight = titlfPbnfHfight + 2;
+
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            // Notf: Don't know how to dbldulbtf hfight on XP,
+            // thf dbptionbbrhfight is 25 but nbtivf dbption is 30 (mbximizfd 26)
+            if (frbmf.isMbximum()) {
+                d.hfight -= 1;
+            } flsf {
+                d.hfight += 3;
+            }
+        }
+        rfturn d;
+    }
+
+    protfdtfd void pbintTitlfBbdkground(Grbphids g) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            Pbrt pbrt = frbmf.isIdon() ? Pbrt.WP_MINCAPTION
+                                       : (frbmf.isMbximum() ? Pbrt.WP_MAXCAPTION
+                                                            : Pbrt.WP_CAPTION);
+            Stbtf stbtf = frbmf.isSflfdtfd() ? Stbtf.ACTIVE : Stbtf.INACTIVE;
+            Skin skin = xp.gftSkin(this, pbrt);
+            skin.pbintSkin(g, 0,  0, gftWidth(), gftHfight(), stbtf);
+        } flsf {
+            Boolfbn grbdifntsOn = (Boolfbn)LookAndFffl.gftDfsktopPropfrtyVbluf(
+                "win.frbmf.dbptionGrbdifntsOn", Boolfbn.vblufOf(fblsf));
+            if (grbdifntsOn.boolfbnVbluf() && g instbndfof Grbphids2D) {
+                Grbphids2D g2 = (Grbphids2D)g;
+                Pbint sbvfPbint = g2.gftPbint();
+
+                boolfbn isSflfdtfd = frbmf.isSflfdtfd();
+                int w = gftWidth();
+
+                if (isSflfdtfd) {
+                    GrbdifntPbint titlfGrbdifnt = nfw GrbdifntPbint(0,0,
+                            sflfdtfdTitlfColor,
+                            (int)(w*.75),0,
+                            sflfdtfdTitlfGrbdifntColor);
+                    g2.sftPbint(titlfGrbdifnt);
+                } flsf {
+                    GrbdifntPbint titlfGrbdifnt = nfw GrbdifntPbint(0,0,
+                            notSflfdtfdTitlfColor,
+                            (int)(w*.75),0,
+                            notSflfdtfdTitlfGrbdifntColor);
+                    g2.sftPbint(titlfGrbdifnt);
+                }
+                g2.fillRfdt(0, 0, gftWidth(), gftHfight());
+                g2.sftPbint(sbvfPbint);
+            } flsf {
+                supfr.pbintTitlfBbdkground(g);
+            }
+        }
+    }
+
+    protfdtfd void bssfmblfSystfmMfnu() {
+        systfmPopupMfnu = nfw JPopupMfnu();
+        bddSystfmMfnuItfms(systfmPopupMfnu);
+        fnbblfAdtions();
+        @SupprfssWbrnings("sfribl") // bnonymous dlbss
+        JLbbfl tmp = nfw JLbbfl(frbmf.gftFrbmfIdon()) {
+            protfdtfd void pbintComponfnt(Grbphids g) {
+                int x = 0;
+                int y = 0;
+                int w = gftWidth();
+                int h = gftHfight();
+                g = g.drfbtf();  // Crfbtf sdrbtdh grbphids
+                if (isOpbquf()) {
+                    g.sftColor(gftBbdkground());
+                    g.fillRfdt(0, 0, w, h);
+                }
+                Idon idon = gftIdon();
+                int idonWidth;
+                int idonHfight;
+                if (idon != null &&
+                    (idonWidth = idon.gftIdonWidth()) > 0 &&
+                    (idonHfight = idon.gftIdonHfight()) > 0) {
+
+                    // Sft drbwing sdblf to mbkf idon sdblf to our dfsirfd sizf
+                    doublf drbwSdblf;
+                    if (idonWidth > idonHfight) {
+                        // Cfntfr idon vfrtidblly
+                        y = (h - w*idonHfight/idonWidth) / 2;
+                        drbwSdblf = w / (doublf)idonWidth;
+                    } flsf {
+                        // Cfntfr idon horizontblly
+                        x = (w - h*idonWidth/idonHfight) / 2;
+                        drbwSdblf = h / (doublf)idonHfight;
+                    }
+                    ((Grbphids2D)g).trbnslbtf(x, y);
+                    ((Grbphids2D)g).sdblf(drbwSdblf, drbwSdblf);
+                    idon.pbintIdon(this, g, 0, 0);
+                }
+                g.disposf();
+            }
+        };
+        systfmLbbfl = tmp;
+        systfmLbbfl.bddMousfListfnfr(nfw MousfAdbptfr() {
+            publid void mousfClidkfd(MousfEvfnt f) {
+                if (f.gftClidkCount() == 2 && frbmf.isClosbblf() &&
+                    !frbmf.isIdon()) {
+                    systfmPopupMfnu.sftVisiblf(fblsf);
+                    frbmf.doDffbultClosfAdtion();
+                }
+                flsf {
+                    supfr.mousfClidkfd(f);
+                }
+            }
+            publid void mousfPrfssfd(MousfEvfnt f) {
+                try {
+                    frbmf.sftSflfdtfd(truf);
+                } dbtdh(PropfrtyVftoExdfption pvf) {
+                }
+                showSystfmPopupMfnu(f.gftComponfnt());
+            }
+        });
+    }
+
+    protfdtfd void bddSystfmMfnuItfms(JPopupMfnu mfnu) {
+        JMfnuItfm mi = mfnu.bdd(rfstorfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("rfstorf"));
+        mi = mfnu.bdd(movfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("movf"));
+        mi = mfnu.bdd(sizfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("sizf"));
+        mi = mfnu.bdd(idonifyAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("minimizf"));
+        mi = mfnu.bdd(mbximizfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("mbximizf"));
+        mfnu.bdd(nfw JSfpbrbtor());
+        mi = mfnu.bdd(dlosfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("dlosf"));
+    }
+
+    privbtf stbtid int gftButtonMnfmonid(String button) {
+        try {
+            rfturn Intfgfr.pbrsfInt(UIMbnbgfr.gftString(
+                    "IntfrnblFrbmfTitlfPbnf." + button + "Button.mnfmonid"));
+        } dbtdh (NumbfrFormbtExdfption f) {
+            rfturn -1;
+        }
+    }
+
+    protfdtfd void showSystfmMfnu(){
+        showSystfmPopupMfnu(systfmLbbfl);
+    }
+
+    privbtf void showSystfmPopupMfnu(Componfnt invokfr){
+        Dimfnsion dim = nfw Dimfnsion();
+        Bordfr bordfr = frbmf.gftBordfr();
+        if (bordfr != null) {
+            dim.width += bordfr.gftBordfrInsfts(frbmf).lfft +
+                bordfr.gftBordfrInsfts(frbmf).right;
+            dim.hfight += bordfr.gftBordfrInsfts(frbmf).bottom +
+                bordfr.gftBordfrInsfts(frbmf).top;
+        }
+        if (!frbmf.isIdon()) {
+            systfmPopupMfnu.show(invokfr,
+                gftX() - dim.width,
+                gftY() + gftHfight() - dim.hfight);
+        } flsf {
+            systfmPopupMfnu.show(invokfr,
+                gftX() - dim.width,
+                gftY() - systfmPopupMfnu.gftPrfffrrfdSizf().hfight -
+                     dim.hfight);
+        }
+    }
+
+    protfdtfd PropfrtyChbngfListfnfr drfbtfPropfrtyChbngfListfnfr() {
+        rfturn nfw WindowsPropfrtyChbngfHbndlfr();
+    }
+
+    protfdtfd LbyoutMbnbgfr drfbtfLbyout() {
+        rfturn nfw WindowsTitlfPbnfLbyout();
+    }
+
+    publid dlbss WindowsTitlfPbnfLbyout fxtfnds BbsidIntfrnblFrbmfTitlfPbnf.TitlfPbnfLbyout {
+        privbtf Insfts dbptionMbrgin = null;
+        privbtf Insfts dontfntMbrgin = null;
+        privbtf XPStylf xp = XPStylf.gftXP();
+
+        WindowsTitlfPbnfLbyout() {
+            if (xp != null) {
+                Componfnt d = WindowsIntfrnblFrbmfTitlfPbnf.this;
+                dbptionMbrgin = xp.gftMbrgin(d, Pbrt.WP_CAPTION, null, Prop.CAPTIONMARGINS);
+                dontfntMbrgin = xp.gftMbrgin(d, Pbrt.WP_CAPTION, null, Prop.CONTENTMARGINS);
+            }
+            if (dbptionMbrgin == null) {
+                dbptionMbrgin = nfw Insfts(0, 2, 0, 2);
+            }
+            if (dontfntMbrgin == null) {
+                dontfntMbrgin = nfw Insfts(0, 0, 0, 0);
+            }
+        }
+
+        privbtf int lbyoutButton(JComponfnt button, Pbrt pbrt,
+                                 int x, int y, int w, int h, int gbp,
+                                 boolfbn lfftToRight) {
+            if (!lfftToRight) {
+                x -= w;
+            }
+            button.sftBounds(x, y, w, h);
+            if (lfftToRight) {
+                x += w + 2;
+            } flsf {
+                x -= 2;
+            }
+            rfturn x;
+        }
+
+        publid void lbyoutContbinfr(Contbinfr d) {
+            boolfbn lfftToRight = WindowsGrbphidsUtils.isLfftToRight(frbmf);
+            int x, y;
+            int w = gftWidth();
+            int h = gftHfight();
+
+            // Systfm button
+            // Notf: this idon is squbrf, but thf buttons brfn't blwbys.
+            int idonSizf = (xp != null) ? (h-2)*6/10 : h-4;
+            if (xp != null) {
+                x = (lfftToRight) ? dbptionMbrgin.lfft + 2 : w - dbptionMbrgin.right - 2;
+            } flsf {
+                x = (lfftToRight) ? dbptionMbrgin.lfft : w - dbptionMbrgin.right;
+            }
+            y = (h - idonSizf) / 2;
+            lbyoutButton(systfmLbbfl, Pbrt.WP_SYSBUTTON,
+                         x, y, idonSizf, idonSizf, 0,
+                         lfftToRight);
+
+            // Right hbnd buttons
+            if (xp != null) {
+                x = (lfftToRight) ? w - dbptionMbrgin.right - 2 : dbptionMbrgin.lfft + 2;
+                y = 1;  // XP sffms to ignorf mbrgins bnd offsft hfrf
+                if (frbmf.isMbximum()) {
+                    y += 1;
+                } flsf {
+                    y += 5;
+                }
+            } flsf {
+                x = (lfftToRight) ? w - dbptionMbrgin.right : dbptionMbrgin.lfft;
+                y = (h - buttonHfight) / 2;
+            }
+
+            if(frbmf.isClosbblf()) {
+                x = lbyoutButton(dlosfButton, Pbrt.WP_CLOSEBUTTON,
+                                 x, y, buttonWidth, buttonHfight, 2,
+                                 !lfftToRight);
+            }
+
+            if(frbmf.isMbximizbblf()) {
+                x = lbyoutButton(mbxButton, Pbrt.WP_MAXBUTTON,
+                                 x, y, buttonWidth, buttonHfight, (xp != null) ? 2 : 0,
+                                 !lfftToRight);
+            }
+
+            if(frbmf.isIdonifibblf()) {
+                lbyoutButton(idonButton, Pbrt.WP_MINBUTTON,
+                             x, y, buttonWidth, buttonHfight, 0,
+                             !lfftToRight);
+            }
+        }
+    } // fnd WindowsTitlfPbnfLbyout
+
+    publid dlbss WindowsPropfrtyChbngfHbndlfr fxtfnds PropfrtyChbngfHbndlfr {
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+            String prop = fvt.gftPropfrtyNbmf();
+
+            // Updbtf thf intfrnbl frbmf idon for thf systfm mfnu.
+            if (JIntfrnblFrbmf.FRAME_ICON_PROPERTY.fqubls(prop) &&
+                    systfmLbbfl != null) {
+                systfmLbbfl.sftIdon(frbmf.gftFrbmfIdon());
+            }
+
+            supfr.propfrtyChbngf(fvt);
+        }
+    }
+
+    /**
+     * A vfrsbtilf Idon implfmfntbtion whidh dbn tbkf bn brrby of Idon
+     * instbndfs (typidblly <dodf>ImbgfIdon</dodf>s) bnd dhoosf onf thbt givfs thf bfst
+     * qublity for b givfn Grbphids2D sdblf fbdtor whfn pbinting.
+     * <p>
+     * Thf dlbss is publid so it dbn bf instbntibtfd by UIDffbults.ProxyLbzyVbluf.
+     * <p>
+     * Notf: Wf bssumf hfrf thbt idons brf squbrf.
+     */
+    publid stbtid dlbss SdblbblfIdonUIRfsourdf implfmfnts Idon, UIRfsourdf {
+        // Wf dbn usf bn brbitrbry sizf hfrf bfdbusf wf sdblf to it in pbintIdon()
+        privbtf stbtid finbl int SIZE = 16;
+
+        privbtf Idon[] idons;
+
+        /**
+         * @pbrbms objfdts bn brrby of Idon or UIDffbults.LbzyVbluf
+         * <p>
+         * Thf donstrudtor is publid so it dbn bf dbllfd by UIDffbults.ProxyLbzyVbluf.
+         */
+        publid SdblbblfIdonUIRfsourdf(Objfdt[] objfdts) {
+            this.idons = nfw Idon[objfdts.lfngth];
+
+            for (int i = 0; i < objfdts.lfngth; i++) {
+                if (objfdts[i] instbndfof UIDffbults.LbzyVbluf) {
+                    idons[i] = (Idon)((UIDffbults.LbzyVbluf)objfdts[i]).drfbtfVbluf(null);
+                } flsf {
+                    idons[i] = (Idon)objfdts[i];
+                }
+            }
+        }
+
+        /**
+         * @rfturn thf <dodf>Idon</dodf> dlosfst to thf rfqufstfd sizf
+         */
+        protfdtfd Idon gftBfstIdon(int sizf) {
+            if (idons != null && idons.lfngth > 0) {
+                int bfstIndfx = 0;
+                int minDiff = Intfgfr.MAX_VALUE;
+                for (int i=0; i < idons.lfngth; i++) {
+                    Idon idon = idons[i];
+                    int idonSizf;
+                    if (idon != null && (idonSizf = idon.gftIdonWidth()) > 0) {
+                        int diff = Mbth.bbs(idonSizf - sizf);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            bfstIndfx = i;
+                        }
+                    }
+                }
+                rfturn idons[bfstIndfx];
+            } flsf {
+                rfturn null;
+            }
+        }
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            Grbphids2D g2d = (Grbphids2D)g.drfbtf();
+            // Cbldulbtf how big our drbwing brfb is in pixfls
+            // Assumf wf brf squbrf
+            int sizf = gftIdonWidth();
+            doublf sdblf = g2d.gftTrbnsform().gftSdblfX();
+            Idon idon = gftBfstIdon((int)(sizf * sdblf));
+            int idonSizf;
+            if (idon != null && (idonSizf = idon.gftIdonWidth()) > 0) {
+                // Sft drbwing sdblf to mbkf idon bdt truf to our rfportfd sizf
+                doublf drbwSdblf = sizf / (doublf)idonSizf;
+                g2d.trbnslbtf(x, y);
+                g2d.sdblf(drbwSdblf, drbwSdblf);
+                idon.pbintIdon(d, g2d, 0, 0);
+            }
+            g2d.disposf();
+        }
+
+        publid int gftIdonWidth() {
+            rfturn SIZE;
+        }
+
+        publid int gftIdonHfight() {
+            rfturn SIZE;
+        }
+    }
+}

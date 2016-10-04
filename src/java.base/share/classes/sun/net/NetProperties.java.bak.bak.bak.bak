@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft;
+
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Propfrtifs;
+
+/*
+ * This dlbss bllows for dfntrblizfd bddfss to Nftworking propfrtifs.
+ * Dffbult vblufs brf lobdfd from thf filf jrf/lib/nft.propfrtifs
+ *
+ *
+ * @buthor Jfbn-Christophf Collft
+ *
+ */
+
+publid dlbss NftPropfrtifs {
+    stbtid privbtf Propfrtifs props = nfw Propfrtifs();
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    lobdDffbultPropfrtifs();
+                    rfturn null;
+                }});
+    }
+
+    privbtf NftPropfrtifs() { };
+
+
+    /*
+     * Lobds thf dffbult nftworking systfm propfrtifs
+     * thf filf is in jrf/lib/nft.propfrtifs
+     */
+    stbtid privbtf void lobdDffbultPropfrtifs() {
+        String fnbmf = Systfm.gftPropfrty("jbvb.homf");
+        if (fnbmf == null) {
+            throw nfw Error("Cbn't find jbvb.homf ??");
+        }
+        try {
+            Filf f = nfw Filf(fnbmf, "lib");
+            f = nfw Filf(f, "nft.propfrtifs");
+            fnbmf = f.gftCbnonidblPbth();
+            InputStrfbm in = nfw FilfInputStrfbm(fnbmf);
+            BufffrfdInputStrfbm bin = nfw BufffrfdInputStrfbm(in);
+            props.lobd(bin);
+            bin.dlosf();
+        } dbtdh (Exdfption f) {
+            // Do nothing. Wf douldn't find or bddfss thf filf
+            // so wf won't hbvf dffbult propfrtifs...
+        }
+    }
+
+    /**
+     * Gft b nftworking systfm propfrty. If no systfm propfrty wbs dffinfd
+     * rfturns thf dffbult vbluf, if it fxists, othfrwisf rfturns
+     * <dodf>null</dodf>.
+     * @pbrbm      kfy  thf propfrty nbmf.
+     * @throws  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *          <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *          to thf systfm propfrtifs.
+     * @rfturn thf <dodf>String</dodf> vbluf for thf propfrty,
+     *         or <dodf>null</dodf>
+     */
+    stbtid publid String gft(String kfy) {
+        String dff = props.gftPropfrty(kfy);
+        try {
+            rfturn Systfm.gftPropfrty(kfy, dff);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+        } dbtdh (NullPointfrExdfption f) {
+        }
+        rfturn null;
+    }
+
+    /**
+     * Gft bn Intfgfr nftworking systfm propfrty. If no systfm propfrty wbs
+     * dffinfd rfturns thf dffbult vbluf, if it fxists, othfrwisf rfturns
+     * <dodf>null</dodf>.
+     * @pbrbm   kfy     thf propfrty nbmf.
+     * @pbrbm   dffvbl  thf dffbult vbluf to usf if thf propfrty is not found
+     * @throws  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *          <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *          to thf systfm propfrtifs.
+     * @rfturn thf <dodf>Intfgfr</dodf> vbluf for thf propfrty,
+     *         or <dodf>null</dodf>
+     */
+    stbtid publid Intfgfr gftIntfgfr(String kfy, int dffvbl) {
+        String vbl = null;
+
+        try {
+            vbl = Systfm.gftPropfrty(kfy, props.gftPropfrty(kfy));
+        } dbtdh (IllfgblArgumfntExdfption f) {
+        } dbtdh (NullPointfrExdfption f) {
+        }
+
+        if (vbl != null) {
+            try {
+                rfturn Intfgfr.dfdodf(vbl);
+            } dbtdh (NumbfrFormbtExdfption fx) {
+            }
+        }
+        rfturn dffvbl;
+    }
+
+    /**
+     * Gft b Boolfbn nftworking systfm propfrty. If no systfm propfrty wbs
+     * dffinfd rfturns thf dffbult vbluf, if it fxists, othfrwisf rfturns
+     * <dodf>null</dodf>.
+     * @pbrbm   kfy     thf propfrty nbmf.
+     * @throws  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *          <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *          to thf systfm propfrtifs.
+     * @rfturn thf <dodf>Boolfbn</dodf> vbluf for thf propfrty,
+     *         or <dodf>null</dodf>
+     */
+    stbtid publid Boolfbn gftBoolfbn(String kfy) {
+        String vbl = null;
+
+        try {
+            vbl = Systfm.gftPropfrty(kfy, props.gftPropfrty(kfy));
+        } dbtdh (IllfgblArgumfntExdfption f) {
+        } dbtdh (NullPointfrExdfption f) {
+        }
+
+        if (vbl != null) {
+            try {
+                rfturn Boolfbn.vblufOf(vbl);
+            } dbtdh (NumbfrFormbtExdfption fx) {
+            }
+        }
+        rfturn null;
+    }
+
+}

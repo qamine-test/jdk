@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+import jbvbx.nbming.NbmingExdfption;
+
+/**
+  * This intfrfbdf is for rfturning dontrols with objfdts rfturnfd
+  * in NbmingEnumfrbtions.
+  * For fxbmplf, supposf b sfrvfr sfnds bbdk dontrols with thf rfsults
+  * of b sfbrdh opfrbtion, thf sfrvidf providfr would rfturn b NbmingEnumfrbtion of
+  * objfdts thbt brf both SfbrdhRfsult bnd implfmfnt HbsControls.
+  *<blodkquotf><prf>
+  *   NbmingEnumfrbtion flts = fdtx.sfbrdh((Nbmf)nbmf, filtfr, sdtls);
+  *   whilf (flts.hbsMorf()) {
+  *     Objfdt fntry = flts.nfxt();
+  *
+  *     // Gft sfbrdh rfsult
+  *     SfbrdhRfsult rfs = (SfbrdhRfsult)fntry;
+  *     // do somfthing with it
+  *
+  *     // Gft fntry dontrols
+  *     if (fntry instbndfof HbsControls) {
+  *         Control[] fntryCtls = ((HbsControls)fntry).gftControls();
+  *         // do somfthing with dontrols
+  *     }
+  *   }
+  *</prf></blodkquotf>
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  * @buthor Vindfnt Rybn
+  * @sindf 1.3
+  *
+  */
+
+publid intfrfbdf HbsControls {
+
+    /**
+      * Rftrifvfs bn brrby of <tt>Control</tt>s from thf objfdt thbt
+      * implfmfnts this intfrfbdf. It is null if thfrf brf no dontrols.
+      *
+      * @rfturn A possibly null brrby of <tt>Control</tt> objfdts.
+      * @throws NbmingExdfption If dbnnot rfturn dontrols duf to bn frror.
+      */
+    publid Control[] gftControls() throws NbmingExdfption;
+}

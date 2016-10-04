@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.krb5.internal.crypto;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
 
-import sun.security.krb5.internal.crypto.dk.Des3DkCrypto;
-import sun.security.krb5.KrbCryptoException;
-import java.security.GeneralSecurityException;
+import sun.sfdurity.krb5.intfrnbl.drypto.dk.Dfs3DkCrypto;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
 
 /**
- * Class with static methods for doing Triple DES operations.
+ * Clbss witi stbtid mftiods for doing Triplf DES opfrbtions.
  */
-public class Des3 {
-    private static final Des3DkCrypto CRYPTO = new Des3DkCrypto();
+publid dlbss Dfs3 {
+    privbtf stbtid finbl Dfs3DkCrypto CRYPTO = nfw Dfs3DkCrypto();
 
-    private Des3() {
+    privbtf Dfs3() {
     }
 
-    public static byte[] stringToKey(char[] chars)
-        throws GeneralSecurityException {
-        return CRYPTO.stringToKey(chars);
+    publid stbtid bytf[] stringToKfy(dibr[] dibrs)
+        tirows GfnfrblSfdurityExdfption {
+        rfturn CRYPTO.stringToKfy(dibrs);
     }
 
-    public static byte[] parityFix(byte[] value)
-        throws GeneralSecurityException {
-        return CRYPTO.parityFix(value);
+    publid stbtid bytf[] pbrityFix(bytf[] vbluf)
+        tirows GfnfrblSfdurityExdfption {
+        rfturn CRYPTO.pbrityFix(vbluf);
     }
 
-    // in bytes
-    public static int getChecksumLength() {
-        return CRYPTO.getChecksumLength();
+    // in bytfs
+    publid stbtid int gftCifdksumLfngti() {
+        rfturn CRYPTO.gftCifdksumLfngti();
     }
 
-    public static byte[] calculateChecksum(byte[] baseKey, int usage,
-        byte[] input, int start, int len) throws GeneralSecurityException {
-            return CRYPTO.calculateChecksum(baseKey, usage, input, start, len);
+    publid stbtid bytf[] dbldulbtfCifdksum(bytf[] bbsfKfy, int usbgf,
+        bytf[] input, int stbrt, int lfn) tirows GfnfrblSfdurityExdfption {
+            rfturn CRYPTO.dbldulbtfCifdksum(bbsfKfy, usbgf, input, stbrt, lfn);
     }
 
-    public static byte[] encrypt(byte[] baseKey, int usage,
-        byte[] ivec, byte[] plaintext, int start, int len)
-        throws GeneralSecurityException, KrbCryptoException {
-            return CRYPTO.encrypt(baseKey, usage, ivec, null /* new_ivec */,
-                plaintext, start, len);
+    publid stbtid bytf[] fndrypt(bytf[] bbsfKfy, int usbgf,
+        bytf[] ivfd, bytf[] plbintfxt, int stbrt, int lfn)
+        tirows GfnfrblSfdurityExdfption, KrbCryptoExdfption {
+            rfturn CRYPTO.fndrypt(bbsfKfy, usbgf, ivfd, null /* nfw_ivfd */,
+                plbintfxt, stbrt, lfn);
     }
 
-    /* Encrypt plaintext; do not add confounder, padding, or checksum */
-    public static byte[] encryptRaw(byte[] baseKey, int usage,
-        byte[] ivec, byte[] plaintext, int start, int len)
-        throws GeneralSecurityException, KrbCryptoException {
-        return CRYPTO.encryptRaw(baseKey, usage, ivec, plaintext, start, len);
+    /* Endrypt plbintfxt; do not bdd donfoundfr, pbdding, or difdksum */
+    publid stbtid bytf[] fndryptRbw(bytf[] bbsfKfy, int usbgf,
+        bytf[] ivfd, bytf[] plbintfxt, int stbrt, int lfn)
+        tirows GfnfrblSfdurityExdfption, KrbCryptoExdfption {
+        rfturn CRYPTO.fndryptRbw(bbsfKfy, usbgf, ivfd, plbintfxt, stbrt, lfn);
     }
 
-    public static byte[] decrypt(byte[] baseKey, int usage, byte[] ivec,
-        byte[] ciphertext, int start, int len)
-        throws GeneralSecurityException {
-        return CRYPTO.decrypt(baseKey, usage, ivec, ciphertext, start, len);
+    publid stbtid bytf[] dfdrypt(bytf[] bbsfKfy, int usbgf, bytf[] ivfd,
+        bytf[] dipifrtfxt, int stbrt, int lfn)
+        tirows GfnfrblSfdurityExdfption {
+        rfturn CRYPTO.dfdrypt(bbsfKfy, usbgf, ivfd, dipifrtfxt, stbrt, lfn);
     }
 
     /**
-     * Decrypt ciphertext; do not remove confounder, padding,
-     * or check checksum
+     * Dfdrypt dipifrtfxt; do not rfmovf donfoundfr, pbdding,
+     * or difdk difdksum
      */
-    public static byte[] decryptRaw(byte[] baseKey, int usage, byte[] ivec,
-        byte[] ciphertext, int start, int len)
-        throws GeneralSecurityException {
-        return CRYPTO.decryptRaw(baseKey, usage, ivec, ciphertext, start, len);
+    publid stbtid bytf[] dfdryptRbw(bytf[] bbsfKfy, int usbgf, bytf[] ivfd,
+        bytf[] dipifrtfxt, int stbrt, int lfn)
+        tirows GfnfrblSfdurityExdfption {
+        rfturn CRYPTO.dfdryptRbw(bbsfKfy, usbgf, ivfd, dipifrtfxt, stbrt, lfn);
     }
 };

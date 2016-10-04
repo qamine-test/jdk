@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import com.sun.management.VMOption;
-import com.sun.management.VMOption.Origin;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
+import dom.sun.mbnbgfmfnt.VMOption;
+import dom.sun.mbnbgfmfnt.VMOption.Origin;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
 
 /**
- * A CompositeData for VMOption for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositfDbtb for VMOption for tif lodbl mbnbgfmfnt support.
+ * Tiis dlbss bvoids tif pfrformbndf pfnblty pbid to tif
+ * donstrudtion of b CompositfDbtb usf in tif lodbl dbsf.
  */
-public class VMOptionCompositeData extends LazyCompositeData {
-    private final VMOption option;
+publid dlbss VMOptionCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl VMOption option;
 
-    private VMOptionCompositeData(VMOption option) {
-        this.option = option;
+    privbtf VMOptionCompositfDbtb(VMOption option) {
+        tiis.option = option;
     }
 
-    public VMOption getVMOption() {
-        return option;
+    publid VMOption gftVMOption() {
+        rfturn option;
     }
 
-    public static CompositeData toCompositeData(VMOption option) {
-        VMOptionCompositeData vcd = new VMOptionCompositeData(option);
-        return vcd.getCompositeData();
+    publid stbtid CompositfDbtb toCompositfDbtb(VMOption option) {
+        VMOptionCompositfDbtb vdd = nfw VMOptionCompositfDbtb(option);
+        rfturn vdd.gftCompositfDbtb();
     }
 
-    protected CompositeData getCompositeData() {
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // vmOptionItemNames!
-        final Object[] vmOptionItemValues = {
-            option.getName(),
-            option.getValue(),
-            option.isWriteable(),
-            option.getOrigin().toString(),
+        // vmOptionItfmNbmfs!
+        finbl Objfdt[] vmOptionItfmVblufs = {
+            option.gftNbmf(),
+            option.gftVbluf(),
+            option.isWritfbblf(),
+            option.gftOrigin().toString(),
         };
 
         try {
-            return new CompositeDataSupport(vmOptionCompositeType,
-                                            vmOptionItemNames,
-                                            vmOptionItemValues);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            rfturn nfw CompositfDbtbSupport(vmOptionCompositfTypf,
+                                            vmOptionItfmNbmfs,
+                                            vmOptionItfmVblufs);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    private static final CompositeType vmOptionCompositeType;
-    static {
+    privbtf stbtid finbl CompositfTypf vmOptionCompositfTypf;
+    stbtid {
         try {
-            vmOptionCompositeType = (CompositeType)
-                MappedMXBeanType.toOpenType(VMOption.class);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            vmOptionCompositfTypf = (CompositfTypf)
+                MbppfdMXBfbnTypf.toOpfnTypf(VMOption.dlbss);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    static CompositeType getVMOptionCompositeType() {
-        return vmOptionCompositeType;
+    stbtid CompositfTypf gftVMOptionCompositfTypf() {
+        rfturn vmOptionCompositfTypf;
     }
 
-    private static final String NAME      = "name";
-    private static final String VALUE     = "value";
-    private static final String WRITEABLE = "writeable";
-    private static final String ORIGIN    = "origin";
+    privbtf stbtid finbl String NAME      = "nbmf";
+    privbtf stbtid finbl String VALUE     = "vbluf";
+    privbtf stbtid finbl String WRITEABLE = "writfbblf";
+    privbtf stbtid finbl String ORIGIN    = "origin";
 
-    private static final String[] vmOptionItemNames = {
+    privbtf stbtid finbl String[] vmOptionItfmNbmfs = {
         NAME,
         VALUE,
         WRITEABLE,
         ORIGIN,
     };
 
-    public static String getName(CompositeData cd) {
-        return getString(cd, NAME);
+    publid stbtid String gftNbmf(CompositfDbtb dd) {
+        rfturn gftString(dd, NAME);
     }
-    public static String getValue(CompositeData cd) {
-        return getString(cd, VALUE);
+    publid stbtid String gftVbluf(CompositfDbtb dd) {
+        rfturn gftString(dd, VALUE);
     }
-    public static Origin getOrigin(CompositeData cd) {
-        String o = getString(cd, ORIGIN);
-        return Enum.valueOf(Origin.class, o);
+    publid stbtid Origin gftOrigin(CompositfDbtb dd) {
+        String o = gftString(dd, ORIGIN);
+        rfturn Enum.vblufOf(Origin.dlbss, o);
     }
-    public static boolean isWriteable(CompositeData cd) {
-        return getBoolean(cd, WRITEABLE);
+    publid stbtid boolfbn isWritfbblf(CompositfDbtb dd) {
+        rfturn gftBoolfbn(dd, WRITEABLE);
     }
 
-    /** Validate if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).
+    /** Vblidbtf if tif input CompositfDbtb ibs tif fxpfdtfd
+     * CompositfTypf (i.f. dontbin bll bttributfs witi fxpfdtfd
+     * nbmfs bnd typfs).
      */
-    public static void validateCompositeData(CompositeData cd) {
-        if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+    publid stbtid void vblidbtfCompositfDbtb(CompositfDbtb dd) {
+        if (dd == null) {
+            tirow nfw NullPointfrExdfption("Null CompositfDbtb");
         }
 
-        if (!isTypeMatched(vmOptionCompositeType, cd.getCompositeType())) {
-            throw new IllegalArgumentException(
-                "Unexpected composite type for VMOption");
+        if (!isTypfMbtdifd(vmOptionCompositfTypf, dd.gftCompositfTypf())) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Unfxpfdtfd dompositf typf for VMOption");
         }
     }
 
-    private static final long serialVersionUID = -2395573975093578470L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2395573975093578470L;
 }

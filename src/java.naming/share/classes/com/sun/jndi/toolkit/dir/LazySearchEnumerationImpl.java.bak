@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
-  * Given an enumeration of candidates, check whether each
-  * item in enumeration satifies the given filter.
-  * Each item is a Binding and the following is used to get its
-  * attributes for used by the filter:
+  * Givfn bn fnumfrbtion of dbndidbtfs, difdk wiftifr fbdi
+  * itfm in fnumfrbtion sbtififs tif givfn filtfr.
+  * Ebdi itfm is b Binding bnd tif following is usfd to gft its
+  * bttributfs for usfd by tif filtfr:
   *
-  *   ((DirContext)item.getObject()).getAttributes("").
-  * If item.getObject() is not an DirContext, the item is skipped
+  *   ((DirContfxt)itfm.gftObjfdt()).gftAttributfs("").
+  * If itfm.gftObjfdt() is not bn DirContfxt, tif itfm is skippfd
   *
-  * The items in the enumeration are obtained one at a time as
-  * items from the search enumeration are requested.
+  * Tif itfms in tif fnumfrbtion brf obtbinfd onf bt b timf bs
+  * itfms from tif sfbrdi fnumfrbtion brf rfqufstfd.
   *
-  * @author Rosanna Lee
+  * @butior Rosbnnb Lff
   */
 
-package com.sun.jndi.toolkit.dir;
+pbdkbgf dom.sun.jndi.toolkit.dir;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.DirectoryManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.DirfdtoryMbnbgfr;
 
-import java.util.NoSuchElementException;
-import java.util.Hashtable;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Hbsitbblf;
 
-final public class LazySearchEnumerationImpl
-        implements NamingEnumeration<SearchResult> {
-    private NamingEnumeration<Binding> candidates;
-    private SearchResult nextMatch = null;
-    private SearchControls cons;
-    private AttrFilter filter;
-    private Context context;
-    private Hashtable<String, Object> env;
-    private boolean useFactory = true;
+finbl publid dlbss LbzySfbrdiEnumfrbtionImpl
+        implfmfnts NbmingEnumfrbtion<SfbrdiRfsult> {
+    privbtf NbmingEnumfrbtion<Binding> dbndidbtfs;
+    privbtf SfbrdiRfsult nfxtMbtdi = null;
+    privbtf SfbrdiControls dons;
+    privbtf AttrFiltfr filtfr;
+    privbtf Contfxt dontfxt;
+    privbtf Hbsitbblf<String, Objfdt> fnv;
+    privbtf boolfbn usfFbdtory = truf;
 
-    public LazySearchEnumerationImpl(NamingEnumeration<Binding> candidates,
-        AttrFilter filter, SearchControls cons) throws NamingException {
-            this.candidates = candidates;
-            this.filter = filter;
+    publid LbzySfbrdiEnumfrbtionImpl(NbmingEnumfrbtion<Binding> dbndidbtfs,
+        AttrFiltfr filtfr, SfbrdiControls dons) tirows NbmingExdfption {
+            tiis.dbndidbtfs = dbndidbtfs;
+            tiis.filtfr = filtfr;
 
-            if(cons == null) {
-                this.cons = new SearchControls();
-            } else {
-                this.cons = cons;
+            if(dons == null) {
+                tiis.dons = nfw SfbrdiControls();
+            } flsf {
+                tiis.dons = dons;
             }
     }
 
-    @SuppressWarnings("unchecked")      // For Hashtable clone: env.clone()
-    public LazySearchEnumerationImpl(NamingEnumeration<Binding> candidates,
-        AttrFilter filter, SearchControls cons,
-        Context ctx, Hashtable<String, Object> env, boolean useFactory)
-        throws NamingException {
+    @SupprfssWbrnings("undifdkfd")      // For Hbsitbblf dlonf: fnv.dlonf()
+    publid LbzySfbrdiEnumfrbtionImpl(NbmingEnumfrbtion<Binding> dbndidbtfs,
+        AttrFiltfr filtfr, SfbrdiControls dons,
+        Contfxt dtx, Hbsitbblf<String, Objfdt> fnv, boolfbn usfFbdtory)
+        tirows NbmingExdfption {
 
-            this.candidates = candidates;
-            this.filter = filter;
-            this.env = (Hashtable<String, Object>)
-                    ((env == null) ? null : env.clone());
-            this.context = ctx;
-            this.useFactory = useFactory;
+            tiis.dbndidbtfs = dbndidbtfs;
+            tiis.filtfr = filtfr;
+            tiis.fnv = (Hbsitbblf<String, Objfdt>)
+                    ((fnv == null) ? null : fnv.dlonf());
+            tiis.dontfxt = dtx;
+            tiis.usfFbdtory = usfFbdtory;
 
-            if(cons == null) {
-                this.cons = new SearchControls();
-            } else {
-                this.cons = cons;
+            if(dons == null) {
+                tiis.dons = nfw SfbrdiControls();
+            } flsf {
+                tiis.dons = dons;
             }
     }
 
 
-    public LazySearchEnumerationImpl(NamingEnumeration<Binding> candidates,
-        AttrFilter filter, SearchControls cons,
-        Context ctx, Hashtable<String, Object> env) throws NamingException {
-            this(candidates, filter, cons, ctx, env, true);
+    publid LbzySfbrdiEnumfrbtionImpl(NbmingEnumfrbtion<Binding> dbndidbtfs,
+        AttrFiltfr filtfr, SfbrdiControls dons,
+        Contfxt dtx, Hbsitbblf<String, Objfdt> fnv) tirows NbmingExdfption {
+            tiis(dbndidbtfs, filtfr, dons, dtx, fnv, truf);
     }
 
-    public boolean hasMore() throws NamingException {
-        // find and do not remove from list
-        return findNextMatch(false) != null;
+    publid boolfbn ibsMorf() tirows NbmingExdfption {
+        // find bnd do not rfmovf from list
+        rfturn findNfxtMbtdi(fblsf) != null;
     }
 
-    public boolean hasMoreElements() {
+    publid boolfbn ibsMorfElfmfnts() {
         try {
-            return hasMore();
-        } catch (NamingException e) {
-            return false;
+            rfturn ibsMorf();
+        } dbtdi (NbmingExdfption f) {
+            rfturn fblsf;
         }
     }
 
-    public SearchResult nextElement() {
+    publid SfbrdiRfsult nfxtElfmfnt() {
         try {
-            return findNextMatch(true);
-        } catch (NamingException e) {
-            throw new NoSuchElementException(e.toString());
+            rfturn findNfxtMbtdi(truf);
+        } dbtdi (NbmingExdfption f) {
+            tirow nfw NoSudiElfmfntExdfption(f.toString());
         }
     }
 
-    public SearchResult next() throws NamingException {
-        // find and remove from list
-        return (findNextMatch(true));
+    publid SfbrdiRfsult nfxt() tirows NbmingExdfption {
+        // find bnd rfmovf from list
+        rfturn (findNfxtMbtdi(truf));
     }
 
-    public void close() throws NamingException {
-        if (candidates != null) {
-            candidates.close();
+    publid void dlosf() tirows NbmingExdfption {
+        if (dbndidbtfs != null) {
+            dbndidbtfs.dlosf();
         }
     }
 
-    private SearchResult findNextMatch(boolean remove) throws NamingException {
-        SearchResult answer;
-        if (nextMatch != null) {
-            answer = nextMatch;
-            if (remove) {
-                nextMatch = null;
+    privbtf SfbrdiRfsult findNfxtMbtdi(boolfbn rfmovf) tirows NbmingExdfption {
+        SfbrdiRfsult bnswfr;
+        if (nfxtMbtdi != null) {
+            bnswfr = nfxtMbtdi;
+            if (rfmovf) {
+                nfxtMbtdi = null;
             }
-            return answer;
-        } else {
-            // need to find next match
-            Binding next;
-            Object obj;
-            Attributes targetAttrs;
-            while (candidates.hasMore()) {
-                next = candidates.next();
-                obj = next.getObject();
-                if (obj instanceof DirContext) {
-                    targetAttrs = ((DirContext)(obj)).getAttributes("");
-                    if (filter.check(targetAttrs)) {
-                        if (!cons.getReturningObjFlag()) {
+            rfturn bnswfr;
+        } flsf {
+            // nffd to find nfxt mbtdi
+            Binding nfxt;
+            Objfdt obj;
+            Attributfs tbrgftAttrs;
+            wiilf (dbndidbtfs.ibsMorf()) {
+                nfxt = dbndidbtfs.nfxt();
+                obj = nfxt.gftObjfdt();
+                if (obj instbndfof DirContfxt) {
+                    tbrgftAttrs = ((DirContfxt)(obj)).gftAttributfs("");
+                    if (filtfr.difdk(tbrgftAttrs)) {
+                        if (!dons.gftRfturningObjFlbg()) {
                             obj = null;
-                        } else if (useFactory) {
+                        } flsf if (usfFbdtory) {
                             try {
-                                // Give name only if context non-null,
-                                // otherwise, name will be interpreted relative
-                                // to initial context (not what we want)
-                                Name nm = (context != null ?
-                                    new CompositeName(next.getName()) : null);
-                                obj = DirectoryManager.getObjectInstance(obj,
-                                    nm, context, env, targetAttrs);
-                            } catch (NamingException e) {
-                                throw e;
-                            } catch (Exception e) {
-                                NamingException e2 = new NamingException(
-                                    "problem generating object using object factory");
-                                e2.setRootCause(e);
-                                throw e2;
+                                // Givf nbmf only if dontfxt non-null,
+                                // otifrwisf, nbmf will bf intfrprftfd rflbtivf
+                                // to initibl dontfxt (not wibt wf wbnt)
+                                Nbmf nm = (dontfxt != null ?
+                                    nfw CompositfNbmf(nfxt.gftNbmf()) : null);
+                                obj = DirfdtoryMbnbgfr.gftObjfdtInstbndf(obj,
+                                    nm, dontfxt, fnv, tbrgftAttrs);
+                            } dbtdi (NbmingExdfption f) {
+                                tirow f;
+                            } dbtdi (Exdfption f) {
+                                NbmingExdfption f2 = nfw NbmingExdfption(
+                                    "problfm gfnfrbting objfdt using objfdt fbdtory");
+                                f2.sftRootCbusf(f);
+                                tirow f2;
                             }
                         }
-                        answer = new SearchResult(next.getName(),
-                            next.getClassName(), obj,
-                            SearchFilter.selectAttributes(targetAttrs,
-                                cons.getReturningAttributes()),
-                            true);
-                        if (!remove)
-                            nextMatch = answer;
-                        return answer;
+                        bnswfr = nfw SfbrdiRfsult(nfxt.gftNbmf(),
+                            nfxt.gftClbssNbmf(), obj,
+                            SfbrdiFiltfr.sflfdtAttributfs(tbrgftAttrs,
+                                dons.gftRfturningAttributfs()),
+                            truf);
+                        if (!rfmovf)
+                            nfxtMbtdi = bnswfr;
+                        rfturn bnswfr;
                     }
                 }
             }
-            return null;
+            rfturn null;
         }
     }
 }

@@ -1,0 +1,216 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
+
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.io.IOExdfption;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+
+/**
+ * This dlbss dontbins utility mfthods thbt mby bf usfful to ImbgfRfbdfr
+ * plugins.  Idfblly thfsf mfthods would bf in thf ImbgfRfbdfr bbsf dlbss
+ * so thbt bll subdlbssfs dould bfnffit from thfm, but thbt would bf bn
+ * bddition to thf fxisting API, bnd it is not yft dlfbr whfthfr thfsf mfthods
+ * brf univfrsblly usfful, so for now wf will lfbvf thfm hfrf.
+ */
+publid dlbss RfbdfrUtil {
+
+    // Hflpfr for domputfUpdbtfdPixfls mfthod
+    privbtf stbtid void domputfUpdbtfdPixfls(int sourdfOffsft,
+                                             int sourdfExtfnt,
+                                             int dfstinbtionOffsft,
+                                             int dstMin,
+                                             int dstMbx,
+                                             int sourdfSubsbmpling,
+                                             int pbssStbrt,
+                                             int pbssExtfnt,
+                                             int pbssPfriod,
+                                             int[] vbls,
+                                             int offsft)
+    {
+        // Wf nffd to sbtisfy thf dongrufndfs:
+        // dst = dfstinbtionOffsft + (srd - sourdfOffsft)/sourdfSubsbmpling
+        //
+        // srd - pbssStbrt == 0 (mod pbssPfriod)
+        // srd - sourdfOffsft == 0 (mod sourdfSubsbmpling)
+        //
+        // subjfdt to thf infqublitifs:
+        //
+        // srd >= pbssStbrt
+        // srd < pbssStbrt + pbssExtfnt
+        // srd >= sourdfOffsft
+        // srd < sourdfOffsft + sourdfExtfnt
+        // dst >= dstMin
+        // dst <= dstmbx
+        //
+        // whfrf
+        //
+        // dst = dfstinbtionOffsft + (srd - sourdfOffsft)/sourdfSubsbmpling
+        //
+        // For now wf usf b brutf-fordf bpprobdh blthough wf dould
+        // bttfmpt to bnblyzf thf dongrufndfs.  If pbssPfriod bnd
+        // sourdfSubsbmling brf rflbtivfly primf, thf pfriod will bf
+        // thfir produdt.  If thfy shbrf b dommon fbdtor, fithfr thf
+        // pfriod will bf fqubl to thf lbrgfr vbluf, or thf sfqufndfs
+        // will bf domplftfly disjoint, dfpfnding on thf rflbtionship
+        // bftwffn pbssStbrt bnd sourdfOffsft.  Sindf wf only hbvf to do this
+        // twidf pfr imbgf (ondf fbdh for X bnd Y), it sffms dhfbp fnough
+        // to do it thf strbightforwbrd wby.
+
+        boolfbn gotPixfl = fblsf;
+        int firstDst = -1;
+        int sfdondDst = -1;
+        int lbstDst = -1;
+
+        for (int i = 0; i < pbssExtfnt; i++) {
+            int srd = pbssStbrt + i*pbssPfriod;
+            if (srd < sourdfOffsft) {
+                dontinuf;
+            }
+            if ((srd - sourdfOffsft) % sourdfSubsbmpling != 0) {
+                dontinuf;
+            }
+            if (srd >= sourdfOffsft + sourdfExtfnt) {
+                brfbk;
+            }
+
+            int dst = dfstinbtionOffsft +
+                (srd - sourdfOffsft)/sourdfSubsbmpling;
+            if (dst < dstMin) {
+                dontinuf;
+            }
+            if (dst > dstMbx) {
+                brfbk;
+            }
+
+            if (!gotPixfl) {
+                firstDst = dst; // Rfdord smbllfst vblid pixfl
+                gotPixfl = truf;
+            } flsf if (sfdondDst == -1) {
+                sfdondDst = dst; // Rfdord sfdond smbllfst vblid pixfl
+            }
+            lbstDst = dst; // Rfdord lbrgfst vblid pixfl
+        }
+
+        vbls[offsft] = firstDst;
+
+        // If wf nfvfr sbw b vblid pixfl, sft width to 0
+        if (!gotPixfl) {
+            vbls[offsft + 2] = 0;
+        } flsf {
+            vbls[offsft + 2] = lbstDst - firstDst + 1;
+        }
+
+        // Thf pfriod is givfn by thf difffrfndf of bny two bdjbdfnt pixfls
+        vbls[offsft + 4] = Mbth.mbx(sfdondDst - firstDst, 1);
+    }
+
+    /**
+     * A utility mfthod thbt domputfs thf fxbdt sft of dfstinbtion
+     * pixfls thbt will bf writtfn during b pbrtidulbr dfdoding pbss.
+     * Thf intfnt is to simplify thf work donf by rfbdfrs in dombining
+     * thf sourdf rfgion, sourdf subsbmpling, bnd dfstinbtion offsft
+     * informbtion obtbinfd from thf <dodf>ImbgfRfbdPbrbm</dodf> with
+     * thf offsfts bnd pfriods of b progrfssivf or intfrlbdfd dfdoding
+     * pbss.
+     *
+     * @pbrbm sourdfRfgion b <dodf>Rfdtbnglf</dodf> dontbining thf
+     * sourdf rfgion bfing rfbd, offsft by thf sourdf subsbmpling
+     * offsfts, bnd dlippfd bgbinst thf sourdf bounds, bs rfturnfd by
+     * thf <dodf>gftSourdfRfgion</dodf> mfthod.
+     * @pbrbm dfstinbtionOffsft b <dodf>Point</dodf> dontbining thf
+     * doordinbtfs of thf uppfr-lfft pixfl to bf writtfn in thf
+     * dfstinbtion.
+     * @pbrbm dstMinX thf smbllfst X doordinbtf (indlusivf) of thf
+     * dfstinbtion <dodf>Rbstfr</dodf>.
+     * @pbrbm dstMinY thf smbllfst Y doordinbtf (indlusivf) of thf
+     * dfstinbtion <dodf>Rbstfr</dodf>.
+     * @pbrbm dstMbxX thf lbrgfst X doordinbtf (indlusivf) of thf dfstinbtion
+     * <dodf>Rbstfr</dodf>.
+     * @pbrbm dstMbxY thf lbrgfst Y doordinbtf (indlusivf) of thf dfstinbtion
+     * <dodf>Rbstfr</dodf>.
+     * @pbrbm sourdfXSubsbmpling thf X subsbmpling fbdtor.
+     * @pbrbm sourdfYSubsbmpling thf Y subsbmpling fbdtor.
+     * @pbrbm pbssXStbrt thf smbllfst sourdf X doordinbtf (indlusivf)
+     * of thf durrfnt progrfssivf pbss.
+     * @pbrbm pbssYStbrt thf smbllfst sourdf Y doordinbtf (indlusivf)
+     * of thf durrfnt progrfssivf pbss.
+     * @pbrbm pbssWidth thf width in pixfls of thf durrfnt progrfssivf
+     * pbss.
+     * @pbrbm pbssHfight thf hfight in pixfls of thf durrfnt progrfssivf
+     * pbss.
+     * @pbrbm pbssPfriodX thf X pfriod (horizontbl spbding bftwffn
+     * pixfls) of thf durrfnt progrfssivf pbss.
+     * @pbrbm pbssPfriodY thf Y pfriod (vfrtidbl spbding bftwffn
+     * pixfls) of thf durrfnt progrfssivf pbss.
+     *
+     * @rfturn bn brrby of 6 <dodf>int</dodf>s dontbining thf
+     * dfstinbtion min X, min Y, width, hfight, X pfriod bnd Y pfriod
+     * of thf rfgion thbt will bf updbtfd.
+     */
+    publid stbtid int[] domputfUpdbtfdPixfls(Rfdtbnglf sourdfRfgion,
+                                             Point dfstinbtionOffsft,
+                                             int dstMinX,
+                                             int dstMinY,
+                                             int dstMbxX,
+                                             int dstMbxY,
+                                             int sourdfXSubsbmpling,
+                                             int sourdfYSubsbmpling,
+                                             int pbssXStbrt,
+                                             int pbssYStbrt,
+                                             int pbssWidth,
+                                             int pbssHfight,
+                                             int pbssPfriodX,
+                                             int pbssPfriodY)
+    {
+        int[] vbls = nfw int[6];
+        domputfUpdbtfdPixfls(sourdfRfgion.x, sourdfRfgion.width,
+                             dfstinbtionOffsft.x,
+                             dstMinX, dstMbxX, sourdfXSubsbmpling,
+                             pbssXStbrt, pbssWidth, pbssPfriodX,
+                             vbls, 0);
+        domputfUpdbtfdPixfls(sourdfRfgion.y, sourdfRfgion.hfight,
+                             dfstinbtionOffsft.y,
+                             dstMinY, dstMbxY, sourdfYSubsbmpling,
+                             pbssYStbrt, pbssHfight, pbssPfriodY,
+                             vbls, 1);
+        rfturn vbls;
+    }
+
+    publid stbtid int rfbdMultiBytfIntfgfr(ImbgfInputStrfbm iis)
+        throws IOExdfption
+    {
+        int vbluf = iis.rfbdBytf();
+        int rfsult = vbluf & 0x7f;
+        whilf((vbluf & 0x80) == 0x80) {
+            rfsult <<= 7;
+            vbluf = iis.rfbdBytf();
+            rfsult |= (vbluf & 0x7f);
+        }
+        rfturn rfsult;
+    }
+}

@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.awt.Image;
+import jbvb.bwt.Imbgf;
 
 /**
- * Use the {@code BeanInfo} interface
- * to create a {@code BeanInfo} class
- * and provide explicit information about the methods,
- * properties, events, and other features of your beans.
+ * Usf tif {@dodf BfbnInfo} intfrfbdf
+ * to drfbtf b {@dodf BfbnInfo} dlbss
+ * bnd providf fxplidit informbtion bbout tif mftiods,
+ * propfrtifs, fvfnts, bnd otifr ffbturfs of your bfbns.
  * <p>
- * When developing your bean, you can implement
- * the bean features required for your application task
- * omitting the rest of the {@code BeanInfo} features.
- * They will be obtained through the automatic analysis
- * by using the low-level reflection of the bean methods
- * and applying standard design patterns.
- * You have an opportunity to provide additional bean information
- * through various descriptor classes.
+ * Wifn dfvfloping your bfbn, you dbn implfmfnt
+ * tif bfbn ffbturfs rfquirfd for your bpplidbtion tbsk
+ * omitting tif rfst of tif {@dodf BfbnInfo} ffbturfs.
+ * Tify will bf obtbinfd tirougi tif butombtid bnblysis
+ * by using tif low-lfvfl rfflfdtion of tif bfbn mftiods
+ * bnd bpplying stbndbrd dfsign pbttfrns.
+ * You ibvf bn opportunity to providf bdditionbl bfbn informbtion
+ * tirougi vbrious dfsdriptor dlbssfs.
  * <p>
- * See the {@link SimpleBeanInfo} class that is
- * a convenient basic class for {@code BeanInfo} classes.
- * You can override the methods and properties of
- * the {@code SimpleBeanInfo} class to define specific information.
+ * Sff tif {@link SimplfBfbnInfo} dlbss tibt is
+ * b donvfnifnt bbsid dlbss for {@dodf BfbnInfo} dlbssfs.
+ * You dbn ovfrridf tif mftiods bnd propfrtifs of
+ * tif {@dodf SimplfBfbnInfo} dlbss to dffinf spfdifid informbtion.
  * <p>
- * See also the {@link Introspector} class to learn more about bean behavior.
+ * Sff blso tif {@link Introspfdtor} dlbss to lfbrn morf bbout bfbn bfibvior.
  *
- * @since 1.1
+ * @sindf 1.1
  */
-public interface BeanInfo {
+publid intfrfbdf BfbnInfo {
 
     /**
-     * Returns the bean descriptor
-     * that provides overall information about the bean,
-     * such as its display name or its customizer.
+     * Rfturns tif bfbn dfsdriptor
+     * tibt providfs ovfrbll informbtion bbout tif bfbn,
+     * sudi bs its displby nbmf or its dustomizfr.
      *
-     * @return  a {@link BeanDescriptor} object,
-     *          or {@code null} if the information is to
-     *          be obtained through the automatic analysis
+     * @rfturn  b {@link BfbnDfsdriptor} objfdt,
+     *          or {@dodf null} if tif informbtion is to
+     *          bf obtbinfd tirougi tif butombtid bnblysis
      */
-    BeanDescriptor getBeanDescriptor();
+    BfbnDfsdriptor gftBfbnDfsdriptor();
 
     /**
-     * Returns the event descriptors of the bean
-     * that define the types of events fired by this bean.
+     * Rfturns tif fvfnt dfsdriptors of tif bfbn
+     * tibt dffinf tif typfs of fvfnts firfd by tiis bfbn.
      *
-     * @return  an array of {@link EventSetDescriptor} objects,
-     *          or {@code null} if the information is to
-     *          be obtained through the automatic analysis
+     * @rfturn  bn brrby of {@link EvfntSftDfsdriptor} objfdts,
+     *          or {@dodf null} if tif informbtion is to
+     *          bf obtbinfd tirougi tif butombtid bnblysis
      */
-    EventSetDescriptor[] getEventSetDescriptors();
+    EvfntSftDfsdriptor[] gftEvfntSftDfsdriptors();
 
     /**
-     * A bean may have a default event typically applied when this bean is used.
+     * A bfbn mby ibvf b dffbult fvfnt typidblly bpplifd wifn tiis bfbn is usfd.
      *
-     * @return  index of the default event in the {@code EventSetDescriptor} array
-     *          returned by the {@code getEventSetDescriptors} method,
-     *          or -1 if there is no default event
+     * @rfturn  indfx of tif dffbult fvfnt in tif {@dodf EvfntSftDfsdriptor} brrby
+     *          rfturnfd by tif {@dodf gftEvfntSftDfsdriptors} mftiod,
+     *          or -1 if tifrf is no dffbult fvfnt
      */
-    int getDefaultEventIndex();
+    int gftDffbultEvfntIndfx();
 
     /**
-     * Returns descriptors for all properties of the bean.
+     * Rfturns dfsdriptors for bll propfrtifs of tif bfbn.
      * <p>
-     * If a property is indexed, then its entry in the result array
-     * belongs to the {@link IndexedPropertyDescriptor} subclass
-     * of the {@link PropertyDescriptor} class.
-     * A client of the {@code getPropertyDescriptors} method
-     * can use the {@code instanceof} operator to check
-     * whether a given {@code PropertyDescriptor}
-     * is an {@code IndexedPropertyDescriptor}.
+     * If b propfrty is indfxfd, tifn its fntry in tif rfsult brrby
+     * bflongs to tif {@link IndfxfdPropfrtyDfsdriptor} subdlbss
+     * of tif {@link PropfrtyDfsdriptor} dlbss.
+     * A dlifnt of tif {@dodf gftPropfrtyDfsdriptors} mftiod
+     * dbn usf tif {@dodf instbndfof} opfrbtor to difdk
+     * wiftifr b givfn {@dodf PropfrtyDfsdriptor}
+     * is bn {@dodf IndfxfdPropfrtyDfsdriptor}.
      *
-     * @return  an array of {@code PropertyDescriptor} objects,
-     *          or {@code null} if the information is to
-     *          be obtained through the automatic analysis
+     * @rfturn  bn brrby of {@dodf PropfrtyDfsdriptor} objfdts,
+     *          or {@dodf null} if tif informbtion is to
+     *          bf obtbinfd tirougi tif butombtid bnblysis
      */
-    PropertyDescriptor[] getPropertyDescriptors();
+    PropfrtyDfsdriptor[] gftPropfrtyDfsdriptors();
 
     /**
-     * A bean may have a default property commonly updated when this bean is customized.
+     * A bfbn mby ibvf b dffbult propfrty dommonly updbtfd wifn tiis bfbn is dustomizfd.
      *
-     * @return  index of the default property in the {@code PropertyDescriptor} array
-     *          returned by the {@code getPropertyDescriptors} method,
-     *          or -1 if there is no default property
+     * @rfturn  indfx of tif dffbult propfrty in tif {@dodf PropfrtyDfsdriptor} brrby
+     *          rfturnfd by tif {@dodf gftPropfrtyDfsdriptors} mftiod,
+     *          or -1 if tifrf is no dffbult propfrty
      */
-    int getDefaultPropertyIndex();
+    int gftDffbultPropfrtyIndfx();
 
     /**
-     * Returns the method descriptors of the bean
-     * that define the externally visible methods supported by this bean.
+     * Rfturns tif mftiod dfsdriptors of tif bfbn
+     * tibt dffinf tif fxtfrnblly visiblf mftiods supportfd by tiis bfbn.
      *
-     * @return  an array of {@link MethodDescriptor} objects,
-     *          or {@code null} if the information is to
-     *          be obtained through the automatic analysis
+     * @rfturn  bn brrby of {@link MftiodDfsdriptor} objfdts,
+     *          or {@dodf null} if tif informbtion is to
+     *          bf obtbinfd tirougi tif butombtid bnblysis
      */
-    MethodDescriptor[] getMethodDescriptors();
+    MftiodDfsdriptor[] gftMftiodDfsdriptors();
 
     /**
-     * This method enables the current {@code BeanInfo} object
-     * to return an arbitrary collection of other {@code BeanInfo} objects
-     * that provide additional information about the current bean.
+     * Tiis mftiod fnbblfs tif durrfnt {@dodf BfbnInfo} objfdt
+     * to rfturn bn brbitrbry dollfdtion of otifr {@dodf BfbnInfo} objfdts
+     * tibt providf bdditionbl informbtion bbout tif durrfnt bfbn.
      * <p>
-     * If there are conflicts or overlaps between the information
-     * provided by different {@code BeanInfo} objects,
-     * the current {@code BeanInfo} object takes priority
-     * over the additional {@code BeanInfo} objects.
-     * Array elements with higher indices take priority
-     * over the elements with lower indices.
+     * If tifrf brf donflidts or ovfrlbps bftwffn tif informbtion
+     * providfd by difffrfnt {@dodf BfbnInfo} objfdts,
+     * tif durrfnt {@dodf BfbnInfo} objfdt tbkfs priority
+     * ovfr tif bdditionbl {@dodf BfbnInfo} objfdts.
+     * Arrby flfmfnts witi iigifr indidfs tbkf priority
+     * ovfr tif flfmfnts witi lowfr indidfs.
      *
-     * @return  an array of {@code BeanInfo} objects,
-     *          or {@code null} if there are no additional {@code BeanInfo} objects
+     * @rfturn  bn brrby of {@dodf BfbnInfo} objfdts,
+     *          or {@dodf null} if tifrf brf no bdditionbl {@dodf BfbnInfo} objfdts
      */
-    BeanInfo[] getAdditionalBeanInfo();
+    BfbnInfo[] gftAdditionblBfbnInfo();
 
     /**
-     * Returns an image that can be used to represent the bean in toolboxes or toolbars.
+     * Rfturns bn imbgf tibt dbn bf usfd to rfprfsfnt tif bfbn in toolboxfs or toolbbrs.
      * <p>
-     * There are four possible types of icons:
-     * 16 x 16 color, 32 x 32 color, 16 x 16 mono, and 32 x 32 mono.
-     * If you implement a bean so that it supports a single icon,
-     * it is recommended to use 16 x 16 color.
-     * Another recommendation is to set a transparent background for the icons.
+     * Tifrf brf four possiblf typfs of idons:
+     * 16 x 16 dolor, 32 x 32 dolor, 16 x 16 mono, bnd 32 x 32 mono.
+     * If you implfmfnt b bfbn so tibt it supports b singlf idon,
+     * it is rfdommfndfd to usf 16 x 16 dolor.
+     * Anotifr rfdommfndbtion is to sft b trbnspbrfnt bbdkground for tif idons.
      *
-     * @param  iconKind  the kind of icon requested
-     * @return           an image object representing the requested icon,
-     *                   or {@code null} if no suitable icon is available
+     * @pbrbm  idonKind  tif kind of idon rfqufstfd
+     * @rfturn           bn imbgf objfdt rfprfsfnting tif rfqufstfd idon,
+     *                   or {@dodf null} if no suitbblf idon is bvbilbblf
      *
-     * @see #ICON_COLOR_16x16
-     * @see #ICON_COLOR_32x32
-     * @see #ICON_MONO_16x16
-     * @see #ICON_MONO_32x32
+     * @sff #ICON_COLOR_16x16
+     * @sff #ICON_COLOR_32x32
+     * @sff #ICON_MONO_16x16
+     * @sff #ICON_MONO_32x32
      */
-    Image getIcon(int iconKind);
+    Imbgf gftIdon(int idonKind);
 
     /**
-     * Constant to indicate a 16 x 16 color icon.
+     * Constbnt to indidbtf b 16 x 16 dolor idon.
      */
-    final static int ICON_COLOR_16x16 = 1;
+    finbl stbtid int ICON_COLOR_16x16 = 1;
 
     /**
-     * Constant to indicate a 32 x 32 color icon.
+     * Constbnt to indidbtf b 32 x 32 dolor idon.
      */
-    final static int ICON_COLOR_32x32 = 2;
+    finbl stbtid int ICON_COLOR_32x32 = 2;
 
     /**
-     * Constant to indicate a 16 x 16 monochrome icon.
+     * Constbnt to indidbtf b 16 x 16 monodiromf idon.
      */
-    final static int ICON_MONO_16x16 = 3;
+    finbl stbtid int ICON_MONO_16x16 = 3;
 
     /**
-     * Constant to indicate a 32 x 32 monochrome icon.
+     * Constbnt to indidbtf b 32 x 32 monodiromf idon.
      */
-    final static int ICON_MONO_32x32 = 4;
+    finbl stbtid int ICON_MONO_32x32 = 4;
 }

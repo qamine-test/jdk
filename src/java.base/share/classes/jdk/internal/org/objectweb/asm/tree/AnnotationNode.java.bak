@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,204 +56,204 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
+import jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
 
 /**
- * A node that represents an annotationn.
+ * A nodf tibt rfprfsfnts bn bnnotbtionn.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class AnnotationNode extends AnnotationVisitor {
+publid dlbss AnnotbtionNodf fxtfnds AnnotbtionVisitor {
 
     /**
-     * The class descriptor of the annotation class.
+     * Tif dlbss dfsdriptor of tif bnnotbtion dlbss.
      */
-    public String desc;
+    publid String dfsd;
 
     /**
-     * The name value pairs of this annotation. Each name value pair is stored
-     * as two consecutive elements in the list. The name is a {@link String},
-     * and the value may be a {@link Byte}, {@link Boolean}, {@link Character},
-     * {@link Short}, {@link Integer}, {@link Long}, {@link Float},
-     * {@link Double}, {@link String} or {@link jdk.internal.org.objectweb.asm.Type}, or an
-     * two elements String array (for enumeration values), a
-     * {@link AnnotationNode}, or a {@link List} of values of one of the
-     * preceding types. The list may be <tt>null</tt> if there is no name value
-     * pair.
+     * Tif nbmf vbluf pbirs of tiis bnnotbtion. Ebdi nbmf vbluf pbir is storfd
+     * bs two donsfdutivf flfmfnts in tif list. Tif nbmf is b {@link String},
+     * bnd tif vbluf mby bf b {@link Bytf}, {@link Boolfbn}, {@link Cibrbdtfr},
+     * {@link Siort}, {@link Intfgfr}, {@link Long}, {@link Flobt},
+     * {@link Doublf}, {@link String} or {@link jdk.intfrnbl.org.objfdtwfb.bsm.Typf}, or bn
+     * two flfmfnts String brrby (for fnumfrbtion vblufs), b
+     * {@link AnnotbtionNodf}, or b {@link List} of vblufs of onf of tif
+     * prfdfding typfs. Tif list mby bf <tt>null</tt> if tifrf is no nbmf vbluf
+     * pbir.
      */
-    public List<Object> values;
+    publid List<Objfdt> vblufs;
 
     /**
-     * Constructs a new {@link AnnotationNode}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #AnnotationNode(int, String)} version.
+     * Construdts b nfw {@link AnnotbtionNodf}. <i>Subdlbssfs must not usf tiis
+     * donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #AnnotbtionNodf(int, String)} vfrsion.
      *
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm dfsd
+     *            tif dlbss dfsdriptor of tif bnnotbtion dlbss.
+     * @tirows IllfgblStbtfExdfption
+     *             If b subdlbss dblls tiis donstrudtor.
      */
-    public AnnotationNode(final String desc) {
-        this(Opcodes.ASM5, desc);
-        if (getClass() != AnnotationNode.class) {
-            throw new IllegalStateException();
+    publid AnnotbtionNodf(finbl String dfsd) {
+        tiis(Opdodfs.ASM5, dfsd);
+        if (gftClbss() != AnnotbtionNodf.dlbss) {
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * Constructs a new {@link AnnotationNode}.
+     * Construdts b nfw {@link AnnotbtionNodf}.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param desc
-     *            the class descriptor of the annotation class.
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm dfsd
+     *            tif dlbss dfsdriptor of tif bnnotbtion dlbss.
      */
-    public AnnotationNode(final int api, final String desc) {
-        super(api);
-        this.desc = desc;
+    publid AnnotbtionNodf(finbl int bpi, finbl String dfsd) {
+        supfr(bpi);
+        tiis.dfsd = dfsd;
     }
 
     /**
-     * Constructs a new {@link AnnotationNode} to visit an array value.
+     * Construdts b nfw {@link AnnotbtionNodf} to visit bn brrby vbluf.
      *
-     * @param values
-     *            where the visited values must be stored.
+     * @pbrbm vblufs
+     *            wifrf tif visitfd vblufs must bf storfd.
      */
-    AnnotationNode(final List<Object> values) {
-        super(Opcodes.ASM5);
-        this.values = values;
+    AnnotbtionNodf(finbl List<Objfdt> vblufs) {
+        supfr(Opdodfs.ASM5);
+        tiis.vblufs = vblufs;
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the AnnotationVisitor abstract class
+    // Implfmfntbtion of tif AnnotbtionVisitor bbstrbdt dlbss
     // ------------------------------------------------------------------------
 
-    @Override
-    public void visit(final String name, final Object value) {
-        if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+    @Ovfrridf
+    publid void visit(finbl String nbmf, finbl Objfdt vbluf) {
+        if (vblufs == null) {
+            vblufs = nfw ArrbyList<Objfdt>(tiis.dfsd != null ? 2 : 1);
         }
-        if (this.desc != null) {
-            values.add(name);
+        if (tiis.dfsd != null) {
+            vblufs.bdd(nbmf);
         }
-        values.add(value);
+        vblufs.bdd(vbluf);
     }
 
-    @Override
-    public void visitEnum(final String name, final String desc,
-            final String value) {
-        if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+    @Ovfrridf
+    publid void visitEnum(finbl String nbmf, finbl String dfsd,
+            finbl String vbluf) {
+        if (vblufs == null) {
+            vblufs = nfw ArrbyList<Objfdt>(tiis.dfsd != null ? 2 : 1);
         }
-        if (this.desc != null) {
-            values.add(name);
+        if (tiis.dfsd != null) {
+            vblufs.bdd(nbmf);
         }
-        values.add(new String[] { desc, value });
+        vblufs.bdd(nfw String[] { dfsd, vbluf });
     }
 
-    @Override
-    public AnnotationVisitor visitAnnotation(final String name,
-            final String desc) {
-        if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtion(finbl String nbmf,
+            finbl String dfsd) {
+        if (vblufs == null) {
+            vblufs = nfw ArrbyList<Objfdt>(tiis.dfsd != null ? 2 : 1);
         }
-        if (this.desc != null) {
-            values.add(name);
+        if (tiis.dfsd != null) {
+            vblufs.bdd(nbmf);
         }
-        AnnotationNode annotation = new AnnotationNode(desc);
-        values.add(annotation);
-        return annotation;
+        AnnotbtionNodf bnnotbtion = nfw AnnotbtionNodf(dfsd);
+        vblufs.bdd(bnnotbtion);
+        rfturn bnnotbtion;
     }
 
-    @Override
-    public AnnotationVisitor visitArray(final String name) {
-        if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitArrby(finbl String nbmf) {
+        if (vblufs == null) {
+            vblufs = nfw ArrbyList<Objfdt>(tiis.dfsd != null ? 2 : 1);
         }
-        if (this.desc != null) {
-            values.add(name);
+        if (tiis.dfsd != null) {
+            vblufs.bdd(nbmf);
         }
-        List<Object> array = new ArrayList<Object>();
-        values.add(array);
-        return new AnnotationNode(array);
+        List<Objfdt> brrby = nfw ArrbyList<Objfdt>();
+        vblufs.bdd(brrby);
+        rfturn nfw AnnotbtionNodf(brrby);
     }
 
-    @Override
-    public void visitEnd() {
+    @Ovfrridf
+    publid void visitEnd() {
     }
 
     // ------------------------------------------------------------------------
-    // Accept methods
+    // Addfpt mftiods
     // ------------------------------------------------------------------------
 
     /**
-     * Checks that this annotation node is compatible with the given ASM API
-     * version. This methods checks that this node, and all its nodes
-     * recursively, do not contain elements that were introduced in more recent
-     * versions of the ASM API than the given version.
+     * Cifdks tibt tiis bnnotbtion nodf is dompbtiblf witi tif givfn ASM API
+     * vfrsion. Tiis mftiods difdks tibt tiis nodf, bnd bll its nodfs
+     * rfdursivfly, do not dontbin flfmfnts tibt wfrf introdudfd in morf rfdfnt
+     * vfrsions of tif ASM API tibn tif givfn vfrsion.
      *
-     * @param api
-     *            an ASM API version. Must be one of {@link Opcodes#ASM4} or
-     *            {@link Opcodes#ASM5}.
+     * @pbrbm bpi
+     *            bn ASM API vfrsion. Must bf onf of {@link Opdodfs#ASM4} or
+     *            {@link Opdodfs#ASM5}.
      */
-    public void check(final int api) {
-        // nothing to do
+    publid void difdk(finbl int bpi) {
+        // notiing to do
     }
 
     /**
-     * Makes the given visitor visit this annotation.
+     * Mbkfs tif givfn visitor visit tiis bnnotbtion.
      *
-     * @param av
-     *            an annotation visitor. Maybe <tt>null</tt>.
+     * @pbrbm bv
+     *            bn bnnotbtion visitor. Mbybf <tt>null</tt>.
      */
-    public void accept(final AnnotationVisitor av) {
-        if (av != null) {
-            if (values != null) {
-                for (int i = 0; i < values.size(); i += 2) {
-                    String name = (String) values.get(i);
-                    Object value = values.get(i + 1);
-                    accept(av, name, value);
+    publid void bddfpt(finbl AnnotbtionVisitor bv) {
+        if (bv != null) {
+            if (vblufs != null) {
+                for (int i = 0; i < vblufs.sizf(); i += 2) {
+                    String nbmf = (String) vblufs.gft(i);
+                    Objfdt vbluf = vblufs.gft(i + 1);
+                    bddfpt(bv, nbmf, vbluf);
                 }
             }
-            av.visitEnd();
+            bv.visitEnd();
         }
     }
 
     /**
-     * Makes the given visitor visit a given annotation value.
+     * Mbkfs tif givfn visitor visit b givfn bnnotbtion vbluf.
      *
-     * @param av
-     *            an annotation visitor. Maybe <tt>null</tt>.
-     * @param name
-     *            the value name.
-     * @param value
-     *            the actual value.
+     * @pbrbm bv
+     *            bn bnnotbtion visitor. Mbybf <tt>null</tt>.
+     * @pbrbm nbmf
+     *            tif vbluf nbmf.
+     * @pbrbm vbluf
+     *            tif bdtubl vbluf.
      */
-    static void accept(final AnnotationVisitor av, final String name,
-            final Object value) {
-        if (av != null) {
-            if (value instanceof String[]) {
-                String[] typeconst = (String[]) value;
-                av.visitEnum(name, typeconst[0], typeconst[1]);
-            } else if (value instanceof AnnotationNode) {
-                AnnotationNode an = (AnnotationNode) value;
-                an.accept(av.visitAnnotation(name, an.desc));
-            } else if (value instanceof List) {
-                AnnotationVisitor v = av.visitArray(name);
-                List<?> array = (List<?>) value;
-                for (int j = 0; j < array.size(); ++j) {
-                    accept(v, null, array.get(j));
+    stbtid void bddfpt(finbl AnnotbtionVisitor bv, finbl String nbmf,
+            finbl Objfdt vbluf) {
+        if (bv != null) {
+            if (vbluf instbndfof String[]) {
+                String[] typfdonst = (String[]) vbluf;
+                bv.visitEnum(nbmf, typfdonst[0], typfdonst[1]);
+            } flsf if (vbluf instbndfof AnnotbtionNodf) {
+                AnnotbtionNodf bn = (AnnotbtionNodf) vbluf;
+                bn.bddfpt(bv.visitAnnotbtion(nbmf, bn.dfsd));
+            } flsf if (vbluf instbndfof List) {
+                AnnotbtionVisitor v = bv.visitArrby(nbmf);
+                List<?> brrby = (List<?>) vbluf;
+                for (int j = 0; j < brrby.sizf(); ++j) {
+                    bddfpt(v, null, brrby.gft(j));
                 }
                 v.visitEnd();
-            } else {
-                av.visit(name, value);
+            } flsf {
+                bv.visit(nbmf, vbluf);
             }
         }
     }

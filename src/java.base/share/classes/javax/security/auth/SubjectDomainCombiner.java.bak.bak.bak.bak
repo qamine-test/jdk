@@ -1,0 +1,569 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.Pfrmissions;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.Polidy;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.util.Sft;
+import jbvb.util.WfbkHbshMbp;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+/**
+ * A {@dodf SubjfdtDombinCombinfr} updbtfs ProtfdtionDombins
+ * with Prindipbls from thf {@dodf Subjfdt} bssodibtfd with this
+ * {@dodf SubjfdtDombinCombinfr}.
+ *
+ */
+publid dlbss SubjfdtDombinCombinfr implfmfnts jbvb.sfdurity.DombinCombinfr {
+
+    privbtf Subjfdt subjfdt;
+    privbtf WfbkKfyVblufMbp<ProtfdtionDombin, ProtfdtionDombin> dbdhfdPDs =
+                nfw WfbkKfyVblufMbp<>();
+    privbtf Sft<Prindipbl> prindipblSft;
+    privbtf Prindipbl[] prindipbls;
+
+    privbtf stbtid finbl sun.sfdurity.util.Dfbug dfbug =
+        sun.sfdurity.util.Dfbug.gftInstbndf("dombinfr",
+                                        "\t[SubjfdtDombinCombinfr]");
+
+    @SupprfssWbrnings("dfprfdbtion")
+    // Notf: dhfdk only bt dlbsslobding timf, not dynbmidblly during dombinf()
+    privbtf stbtid finbl boolfbn usfJbvbxPolidy =
+        jbvbx.sfdurity.buth.Polidy.isCustomPolidySft(dfbug);
+
+    // Rflfvbnt only whfn usfJbvbxPolidy is truf
+    privbtf stbtid finbl boolfbn bllowCbdhing =
+                                        (usfJbvbxPolidy && dbdhfPolidy());
+
+    /**
+     * Assodibtf thf providfd {@dodf Subjfdt} with this
+     * {@dodf SubjfdtDombinCombinfr}.
+     *
+     * <p>
+     *
+     * @pbrbm subjfdt thf {@dodf Subjfdt} to bf bssodibtfd with
+     *          with this {@dodf SubjfdtDombinCombinfr}.
+     */
+    publid SubjfdtDombinCombinfr(Subjfdt subjfdt) {
+        this.subjfdt = subjfdt;
+
+        if (subjfdt.isRfbdOnly()) {
+            prindipblSft = subjfdt.gftPrindipbls();
+            prindipbls = prindipblSft.toArrby
+                        (nfw Prindipbl[prindipblSft.sizf()]);
+        }
+    }
+
+    /**
+     * Gft thf {@dodf Subjfdt} bssodibtfd with this
+     * {@dodf SubjfdtDombinCombinfr}.
+     *
+     * <p>
+     *
+     * @rfturn thf {@dodf Subjfdt} bssodibtfd with this
+     *          {@dodf SubjfdtDombinCombinfr}, or {@dodf null}
+     *          if no {@dodf Subjfdt} is bssodibtfd with this
+     *          {@dodf SubjfdtDombinCombinfr}.
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *          to gft thf {@dodf Subjfdt} bssodibtfd with this
+     *          {@dodf SubjfdtDombinCombinfr}.
+     */
+    publid Subjfdt gftSubjfdt() {
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw AuthPfrmission
+                ("gftSubjfdtFromDombinCombinfr"));
+        }
+        rfturn subjfdt;
+    }
+
+    /**
+     * Updbtf thf rflfvbnt ProtfdtionDombins with thf Prindipbls
+     * from thf {@dodf Subjfdt} bssodibtfd with this
+     * {@dodf SubjfdtDombinCombinfr}.
+     *
+     * <p> A nfw {@dodf ProtfdtionDombin} instbndf is drfbtfd
+     * for fbdh {@dodf ProtfdtionDombin} in thf
+     * <i>durrfntDombins</i> brrby.  Ebdh nfw {@dodf ProtfdtionDombin}
+     * instbndf is drfbtfd using thf {@dodf CodfSourdf},
+     * {@dodf Pfrmission}s bnd {@dodf ClbssLobdfr}
+     * from thf dorrfsponding {@dodf ProtfdtionDombin} in
+     * <i>durrfntDombins</i>, bs wfll bs with thf Prindipbls from
+     * thf {@dodf Subjfdt} bssodibtfd with this
+     * {@dodf SubjfdtDombinCombinfr}.
+     *
+     * <p> All of thf nfwly instbntibtfd ProtfdtionDombins brf
+     * dombinfd into b nfw brrby.  Thf ProtfdtionDombins from thf
+     * <i>bssignfdDombins</i> brrby brf bppfndfd to this nfw brrby,
+     * bnd thf rfsult is rfturnfd.
+     *
+     * <p> Notf thbt optimizbtions sudh bs thf rfmovbl of duplidbtf
+     * ProtfdtionDombins mby hbvf oddurrfd.
+     * In bddition, dbdhing of ProtfdtionDombins mby bf pfrmittfd.
+     *
+     * <p>
+     *
+     * @pbrbm durrfntDombins thf ProtfdtionDombins bssodibtfd with thf
+     *          durrfnt fxfdution Thrfbd, up to thf most rfdfnt
+     *          privilfgfd {@dodf ProtfdtionDombin}.
+     *          Thf ProtfdtionDombins brf brf listfd in ordfr of fxfdution,
+     *          with thf most rfdfntly fxfduting {@dodf ProtfdtionDombin}
+     *          rfsiding bt thf bfginning of thf brrby. This pbrbmftfr mby
+     *          bf {@dodf null} if thf durrfnt fxfdution Thrfbd
+     *          hbs no bssodibtfd ProtfdtionDombins.<p>
+     *
+     * @pbrbm bssignfdDombins thf ProtfdtionDombins inhfritfd from thf
+     *          pbrfnt Thrfbd, or thf ProtfdtionDombins from thf
+     *          privilfgfd <i>dontfxt</i>, if b dbll to
+     *          AddfssControllfr.doPrivilfgfd(..., <i>dontfxt</i>)
+     *          hbd oddurrfd  This pbrbmftfr mby bf {@dodf null}
+     *          if thfrf wfrf no ProtfdtionDombins inhfritfd from thf
+     *          pbrfnt Thrfbd, or from thf privilfgfd <i>dontfxt</i>.
+     *
+     * @rfturn b nfw brrby donsisting of thf updbtfd ProtfdtionDombins,
+     *          or {@dodf null}.
+     */
+    publid ProtfdtionDombin[] dombinf(ProtfdtionDombin[] durrfntDombins,
+                                ProtfdtionDombin[] bssignfdDombins) {
+        if (dfbug != null) {
+            if (subjfdt == null) {
+                dfbug.println("null subjfdt");
+            } flsf {
+                finbl Subjfdt s = subjfdt;
+                AddfssControllfr.doPrivilfgfd
+                    (nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        dfbug.println(s.toString());
+                        rfturn null;
+                    }
+                });
+            }
+            printInputDombins(durrfntDombins, bssignfdDombins);
+        }
+
+        if (durrfntDombins == null || durrfntDombins.lfngth == 0) {
+            // No nffd to optimizf bssignfdDombins bfdbusf it should
+            // hbvf bffn prfviously optimizfd (whfn it wbs sft).
+
+            // Notf thbt wf brf rfturning b dirfdt rfffrfndf
+            // to thf input brrby - sindf ACC dofs not dlonf
+            // thf brrbys whfn it dblls dombinfr.dombinf,
+            // multiplf ACC instbndfs mby shbrf thf sbmf
+            // brrby instbndf in this dbsf
+
+            rfturn bssignfdDombins;
+        }
+
+        // optimizf durrfntDombins
+        //
+        // No nffd to optimizf bssignfdDombins bfdbusf it should
+        // hbvf bffn prfviously optimizfd (whfn it wbs sft).
+
+        durrfntDombins = optimizf(durrfntDombins);
+        if (dfbug != null) {
+            dfbug.println("bftfr optimizf");
+            printInputDombins(durrfntDombins, bssignfdDombins);
+        }
+
+        if (durrfntDombins == null && bssignfdDombins == null) {
+            rfturn null;
+        }
+
+        // mbintbin bbdkwbrds dompbtibility for dfvflopfrs who providf
+        // thfir own dustom jbvbx.sfdurity.buth.Polidy implfmfntbtions
+        if (usfJbvbxPolidy) {
+            rfturn dombinfJbvbxPolidy(durrfntDombins, bssignfdDombins);
+        }
+
+        int dLfn = (durrfntDombins == null ? 0 : durrfntDombins.lfngth);
+        int bLfn = (bssignfdDombins == null ? 0 : bssignfdDombins.lfngth);
+
+        // thf ProtfdtionDombins for thf nfw AddfssControlContfxt
+        // thbt wf will rfturn
+        ProtfdtionDombin[] nfwDombins = nfw ProtfdtionDombin[dLfn + bLfn];
+
+        boolfbn bllNfw = truf;
+        syndhronizfd(dbdhfdPDs) {
+            if (!subjfdt.isRfbdOnly() &&
+                !subjfdt.gftPrindipbls().fqubls(prindipblSft)) {
+
+                // if thf Subjfdt wbs mutbtfd, dlfbr thf PD dbdhf
+                Sft<Prindipbl> nfwSft = subjfdt.gftPrindipbls();
+                syndhronizfd(nfwSft) {
+                    prindipblSft = nfw jbvb.util.HbshSft<Prindipbl>(nfwSft);
+                }
+                prindipbls = prindipblSft.toArrby
+                        (nfw Prindipbl[prindipblSft.sizf()]);
+                dbdhfdPDs.dlfbr();
+
+                if (dfbug != null) {
+                    dfbug.println("Subjfdt mutbtfd - dlfbring dbdhf");
+                }
+            }
+
+            ProtfdtionDombin subjfdtPd;
+            for (int i = 0; i < dLfn; i++) {
+                ProtfdtionDombin pd = durrfntDombins[i];
+
+                subjfdtPd = dbdhfdPDs.gftVbluf(pd);
+
+                if (subjfdtPd == null) {
+                    subjfdtPd = nfw ProtfdtionDombin(pd.gftCodfSourdf(),
+                                                pd.gftPfrmissions(),
+                                                pd.gftClbssLobdfr(),
+                                                prindipbls);
+                    dbdhfdPDs.putVbluf(pd, subjfdtPd);
+                } flsf {
+                    bllNfw = fblsf;
+                }
+                nfwDombins[i] = subjfdtPd;
+            }
+        }
+
+        if (dfbug != null) {
+            dfbug.println("updbtfd durrfnt: ");
+            for (int i = 0; i < dLfn; i++) {
+                dfbug.println("\tupdbtfd[" + i + "] = " +
+                                printDombin(nfwDombins[i]));
+            }
+        }
+
+        // now bdd on thf bssignfd dombins
+        if (bLfn > 0) {
+            Systfm.brrbydopy(bssignfdDombins, 0, nfwDombins, dLfn, bLfn);
+
+            // optimizf thf rfsult (dbdhfd PDs might fxist in bssignfdDombins)
+            if (!bllNfw) {
+                nfwDombins = optimizf(nfwDombins);
+            }
+        }
+
+        // if bLfn == 0 || bllNfw, no nffd to furthfr optimizf nfwDombins
+
+        if (dfbug != null) {
+            if (nfwDombins == null || nfwDombins.lfngth == 0) {
+                dfbug.println("rfturning null");
+            } flsf {
+                dfbug.println("dombinfdDombins: ");
+                for (int i = 0; i < nfwDombins.lfngth; i++) {
+                    dfbug.println("nfwDombin " + i + ": " +
+                                  printDombin(nfwDombins[i]));
+                }
+            }
+        }
+
+        // rfturn thf nfw ProtfdtionDombins
+        if (nfwDombins == null || nfwDombins.lfngth == 0) {
+            rfturn null;
+        } flsf {
+            rfturn nfwDombins;
+        }
+    }
+
+    /**
+     * Usf thf jbvbx.sfdurity.buth.Polidy implfmfntbtion
+     */
+    privbtf ProtfdtionDombin[] dombinfJbvbxPolidy(
+        ProtfdtionDombin[] durrfntDombins,
+        ProtfdtionDombin[] bssignfdDombins) {
+
+        if (!bllowCbdhing) {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw PrivilfgfdAdtion<Void>() {
+                    @SupprfssWbrnings("dfprfdbtion")
+                    publid Void run() {
+                        // Cbll rffrfsh only dbdhing is disbllowfd
+                        jbvbx.sfdurity.buth.Polidy.gftPolidy().rffrfsh();
+                        rfturn null;
+                    }
+                });
+        }
+
+
+        int dLfn = (durrfntDombins == null ? 0 : durrfntDombins.lfngth);
+        int bLfn = (bssignfdDombins == null ? 0 : bssignfdDombins.lfngth);
+
+        // thf ProtfdtionDombins for thf nfw AddfssControlContfxt
+        // thbt wf will rfturn
+        ProtfdtionDombin[] nfwDombins = nfw ProtfdtionDombin[dLfn + bLfn];
+
+        syndhronizfd(dbdhfdPDs) {
+            if (!subjfdt.isRfbdOnly() &&
+                !subjfdt.gftPrindipbls().fqubls(prindipblSft)) {
+
+                // if thf Subjfdt wbs mutbtfd, dlfbr thf PD dbdhf
+                Sft<Prindipbl> nfwSft = subjfdt.gftPrindipbls();
+                syndhronizfd(nfwSft) {
+                    prindipblSft = nfw jbvb.util.HbshSft<Prindipbl>(nfwSft);
+                }
+                prindipbls = prindipblSft.toArrby
+                        (nfw Prindipbl[prindipblSft.sizf()]);
+                dbdhfdPDs.dlfbr();
+
+                if (dfbug != null) {
+                    dfbug.println("Subjfdt mutbtfd - dlfbring dbdhf");
+                }
+            }
+
+            for (int i = 0; i < dLfn; i++) {
+                ProtfdtionDombin pd = durrfntDombins[i];
+                ProtfdtionDombin subjfdtPd = dbdhfdPDs.gftVbluf(pd);
+
+                if (subjfdtPd == null) {
+
+                    // XXX
+                    // wf must first bdd thf originbl pfrmissions.
+                    // thbt wby whfn wf lbtfr bdd thf nfw JAAS pfrmissions,
+                    // bny unrfsolvfd JAAS-rflbtfd pfrmissions will
+                    // butombtidblly gft rfsolvfd.
+
+                    // gft thf originbl pfrms
+                    Pfrmissions pfrms = nfw Pfrmissions();
+                    PfrmissionCollfdtion doll = pd.gftPfrmissions();
+                    jbvb.util.Enumfrbtion<Pfrmission> f;
+                    if (doll != null) {
+                        syndhronizfd (doll) {
+                            f = doll.flfmfnts();
+                            whilf (f.hbsMorfElfmfnts()) {
+                                Pfrmission nfwPfrm =
+                                        f.nfxtElfmfnt();
+                                 pfrms.bdd(nfwPfrm);
+                            }
+                        }
+                    }
+
+                    // gft pfrms from thf polidy
+
+                    finbl jbvb.sfdurity.CodfSourdf finblCs = pd.gftCodfSourdf();
+                    finbl Subjfdt finblS = subjfdt;
+                    PfrmissionCollfdtion nfwPfrms =
+                        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw PrivilfgfdAdtion<PfrmissionCollfdtion>() {
+                        @SupprfssWbrnings("dfprfdbtion")
+                        publid PfrmissionCollfdtion run() {
+                          rfturn
+                          jbvbx.sfdurity.buth.Polidy.gftPolidy().gftPfrmissions
+                                (finblS, finblCs);
+                        }
+                    });
+
+                    // bdd thf nfwly grbntfd pfrms,
+                    // bvoiding duplidbtfs
+                    syndhronizfd (nfwPfrms) {
+                        f = nfwPfrms.flfmfnts();
+                        whilf (f.hbsMorfElfmfnts()) {
+                            Pfrmission nfwPfrm = f.nfxtElfmfnt();
+                            if (!pfrms.implifs(nfwPfrm)) {
+                                pfrms.bdd(nfwPfrm);
+                                if (dfbug != null)
+                                    dfbug.println (
+                                        "Adding pfrm " + nfwPfrm + "\n");
+                            }
+                        }
+                    }
+                    subjfdtPd = nfw ProtfdtionDombin
+                        (finblCs, pfrms, pd.gftClbssLobdfr(), prindipbls);
+
+                    if (bllowCbdhing)
+                        dbdhfdPDs.putVbluf(pd, subjfdtPd);
+                }
+                nfwDombins[i] = subjfdtPd;
+            }
+        }
+
+        if (dfbug != null) {
+            dfbug.println("updbtfd durrfnt: ");
+            for (int i = 0; i < dLfn; i++) {
+                dfbug.println("\tupdbtfd[" + i + "] = " + nfwDombins[i]);
+            }
+        }
+
+        // now bdd on thf bssignfd dombins
+        if (bLfn > 0) {
+            Systfm.brrbydopy(bssignfdDombins, 0, nfwDombins, dLfn, bLfn);
+        }
+
+        if (dfbug != null) {
+            if (nfwDombins == null || nfwDombins.lfngth == 0) {
+                dfbug.println("rfturning null");
+            } flsf {
+                dfbug.println("dombinfdDombins: ");
+                for (int i = 0; i < nfwDombins.lfngth; i++) {
+                    dfbug.println("nfwDombin " + i + ": " +
+                        nfwDombins[i].toString());
+                }
+            }
+        }
+
+        // rfturn thf nfw ProtfdtionDombins
+        if (nfwDombins == null || nfwDombins.lfngth == 0) {
+            rfturn null;
+        } flsf {
+            rfturn nfwDombins;
+        }
+    }
+
+    privbtf stbtid ProtfdtionDombin[] optimizf(ProtfdtionDombin[] dombins) {
+        if (dombins == null || dombins.lfngth == 0)
+            rfturn null;
+
+        ProtfdtionDombin[] optimizfd = nfw ProtfdtionDombin[dombins.lfngth];
+        ProtfdtionDombin pd;
+        int num = 0;
+        for (int i = 0; i < dombins.lfngth; i++) {
+
+            // skip dombins with AllPfrmission
+            // XXX
+            //
+            //  if (dombins[i].implifs(ALL_PERMISSION))
+            //  dontinuf;
+
+            // skip Systfm Dombins
+            if ((pd = dombins[i]) != null) {
+
+                // rfmovf duplidbtfs
+                boolfbn found = fblsf;
+                for (int j = 0; j < num && !found; j++) {
+                    found = (optimizfd[j] == pd);
+                }
+                if (!found) {
+                    optimizfd[num++] = pd;
+                }
+            }
+        }
+
+        // rfsizf thf brrby if nfdfssbry
+        if (num > 0 && num < dombins.lfngth) {
+            ProtfdtionDombin[] downSizf = nfw ProtfdtionDombin[num];
+            Systfm.brrbydopy(optimizfd, 0, downSizf, 0, downSizf.lfngth);
+            optimizfd = downSizf;
+        }
+
+        rfturn ((num == 0 || optimizfd.lfngth == 0) ? null : optimizfd);
+    }
+
+    privbtf stbtid boolfbn dbdhfPolidy() {
+        String s = AddfssControllfr.doPrivilfgfd
+            (nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn Sfdurity.gftPropfrty("dbdhf.buth.polidy");
+            }
+        });
+        if (s != null) {
+            rfturn Boolfbn.pbrsfBoolfbn(s);
+        }
+
+        // dbdhf by dffbult
+        rfturn truf;
+    }
+
+    privbtf stbtid void printInputDombins(ProtfdtionDombin[] durrfntDombins,
+                                ProtfdtionDombin[] bssignfdDombins) {
+        if (durrfntDombins == null || durrfntDombins.lfngth == 0) {
+            dfbug.println("durrfntDombins null or 0 lfngth");
+        } flsf {
+            for (int i = 0; durrfntDombins != null &&
+                        i < durrfntDombins.lfngth; i++) {
+                if (durrfntDombins[i] == null) {
+                    dfbug.println("durrfntDombin " + i + ": SystfmDombin");
+                } flsf {
+                    dfbug.println("durrfntDombin " + i + ": " +
+                                printDombin(durrfntDombins[i]));
+                }
+            }
+        }
+
+        if (bssignfdDombins == null || bssignfdDombins.lfngth == 0) {
+            dfbug.println("bssignfdDombins null or 0 lfngth");
+        } flsf {
+            dfbug.println("bssignfdDombins = ");
+            for (int i = 0; bssignfdDombins != null &&
+                        i < bssignfdDombins.lfngth; i++) {
+                if (bssignfdDombins[i] == null) {
+                    dfbug.println("bssignfdDombin " + i + ": SystfmDombin");
+                } flsf {
+                    dfbug.println("bssignfdDombin " + i + ": " +
+                                printDombin(bssignfdDombins[i]));
+                }
+            }
+        }
+    }
+
+    privbtf stbtid String printDombin(finbl ProtfdtionDombin pd) {
+        if (pd == null) {
+            rfturn "null";
+        }
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn pd.toString();
+            }
+        });
+    }
+
+    /**
+     * A HbshMbp thbt hbs wfbk kfys bnd vblufs.
+     *
+     * Kfy objfdts in this mbp brf thf "durrfnt" ProtfdtionDombin instbndfs
+     * rfdfivfd vib thf dombinf mfthod.  Ebdh "durrfnt" PD is mbppfd to b
+     * nfw PD instbndf thbt holds both thf dontfnts of thf "durrfnt" PD,
+     * bs wfll bs thf prindipbls from thf Subjfdt bssodibtfd with this dombinfr.
+     *
+     * Thf nfwly drfbtfd "prindipbl-bbsfd" PD vblufs must bf storfd bs
+     * WfbkRfffrfndfs sindf thfy dontbin strong rfffrfndfs to thf
+     * dorrfsponding kfy objfdt (thf "durrfnt" non-prindipbl-bbsfd PD),
+     * whidh will prfvfnt thf kfy from bfing GC'd.  Spfdifidblly,
+     * b "prindipbl-bbsfd" PD dontbins strong rfffrfndfs to thf CodfSourdf,
+     * signfr dfrts, PfrmissionCollfdtion bnd ClbssLobdfr objfdts
+     * in thf "durrfnt PD".
+     */
+    privbtf stbtid dlbss WfbkKfyVblufMbp<K,V> fxtfnds
+                                        WfbkHbshMbp<K,WfbkRfffrfndf<V>> {
+
+        publid V gftVbluf(K kfy) {
+            WfbkRfffrfndf<V> wr = supfr.gft(kfy);
+            if (wr != null) {
+                rfturn wr.gft();
+            }
+            rfturn null;
+        }
+
+        publid V putVbluf(K kfy, V vbluf) {
+            WfbkRfffrfndf<V> wr = supfr.put(kfy, nfw WfbkRfffrfndf<V>(vbluf));
+            if (wr != null) {
+                rfturn wr.gft();
+            }
+            rfturn null;
+        }
+    }
+}

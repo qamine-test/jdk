@@ -1,240 +1,240 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-	<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+	<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6465 $"/>
-		<generation date="$Date: 2012-01-28 02:47:35 +0900 (Sat, 28 Jan 2012) $"/>
-		<language type="en"/>
-		<territory type="NZ"/>
-	</identity>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/MM/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd" draft="contributed">d MMMM</dateFormatItem>
-						<dateFormatItem id="yMd">d/MM/yy</dateFormatItem>
-						<dateFormatItem id="yMEd">E, dd/MM/yyyy</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
-						<dateFormatItem id="yyyyMM" draft="contributed">MM/yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="contributed">MMMM y</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatFallback draft="contributed">{0} - {1}</intervalFormatFallback>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d" draft="contributed">d-d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="a" draft="contributed">h a - h a</greatestDifference>
-							<greatestDifference id="h" draft="contributed">h-h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="a" draft="contributed">h:mm a - h:mm a</greatestDifference>
-							<greatestDifference id="h" draft="contributed">h:mm-h:mm a</greatestDifference>
-							<greatestDifference id="m" draft="contributed">h:mm-h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="a" draft="contributed">h:mm a - h:mm a v</greatestDifference>
-							<greatestDifference id="h" draft="contributed">h:mm-h:mm a v</greatestDifference>
-							<greatestDifference id="m" draft="contributed">h:mm-h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="a" draft="contributed">h a - h a v</greatestDifference>
-							<greatestDifference id="h" draft="contributed">h-h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M" draft="contributed">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d" draft="contributed">d/MM - d/MM</greatestDifference>
-							<greatestDifference id="M" draft="contributed">d/MM - d/MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d" draft="contributed">E, d/MM - E, d/MM</greatestDifference>
-							<greatestDifference id="M" draft="contributed">E, d/MM - E, d/MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M" draft="contributed">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d" draft="contributed">d-d MMM</greatestDifference>
-							<greatestDifference id="M" draft="contributed">d MMM - d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d" draft="contributed">E, d - E, d MMM</greatestDifference>
-							<greatestDifference id="M" draft="contributed">E, d MMM - E, d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y" draft="contributed">y-y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M" draft="contributed">MM/yy - MM/yy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">MM/yy - MM/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="contributed">d/MM/yy - d/MM/yy</greatestDifference>
-							<greatestDifference id="M" draft="contributed">d/MM/yy - d/MM/yy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">d/MM/yy - d/MM/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="contributed">E, d/MM/yy - E, d/MM/yy</greatestDifference>
-							<greatestDifference id="M" draft="contributed">E, d/MM/yy - E, d/MM/yy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">E, d/MM/yy - E, d/MM/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M" draft="contributed">MMM-MMM y</greatestDifference>
-							<greatestDifference id="y" draft="contributed">MMM y - MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d" draft="contributed">d-d MMM y</greatestDifference>
-							<greatestDifference id="M" draft="contributed">d MMM - d MMM y</greatestDifference>
-							<greatestDifference id="y" draft="contributed">d MMM y - d MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d" draft="contributed">E, d - E, d MMM y</greatestDifference>
-							<greatestDifference id="M" draft="contributed">E, d MMM - E, d MMM y</greatestDifference>
-							<greatestDifference id="y" draft="contributed">E, d MMM y - E, d MMM y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<metazone type="Atlantic">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="Australia_Central">
-				<short>
-					<generic>ACT</generic>
-					<standard>ACST</standard>
-					<daylight>ACDT</daylight>
-				</short>
-			</metazone>
-			<metazone type="Australia_CentralWestern">
-				<short>
-					<generic>ACWT</generic>
-					<standard>ACWST</standard>
-					<daylight>ACWDT</daylight>
-				</short>
-			</metazone>
-			<metazone type="Australia_Eastern">
-				<short>
-					<generic>AET</generic>
-					<standard>AEST</standard>
-					<daylight>AEDT</daylight>
-				</short>
-			</metazone>
-			<metazone type="Australia_Western">
-				<short>
-					<generic>AWT</generic>
-					<standard>AWST</standard>
-					<daylight>AWDT</daylight>
-				</short>
-			</metazone>
-			<metazone type="Chatham">
-				<short>
-					<generic>CHAT</generic>
-					<standard>CHAST</standard>
-					<daylight>CHADT</daylight>
-				</short>
-			</metazone>
-			<metazone type="Europe_Central">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="Europe_Eastern">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="Europe_Western">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="Lord_Howe">
-				<short>
-					<generic>LHT</generic>
-					<standard>LHST</standard>
-					<daylight>LHDT</daylight>
-				</short>
-			</metazone>
-			<metazone type="New_Zealand">
-				<short>
-					<generic>NZT</generic>
-					<standard>NZST</standard>
-					<daylight>NZDT</daylight>
-				</short>
-			</metazone>
-		</timeZoneNames>
-	</dates>
-	<numbers>
-		<currencies>
-			<currency type="NZD">
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6465 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-01-28 02:47:35 +0900 (Sbt, 28 Jbn 2012) $"/>
+		<lbngubgf typf="fn"/>
+		<tfrritory typf="NZ"/>
+	</idfntity>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d/MM/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>d/MM/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>i:mm b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd" drbft="dontributfd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/MM/yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, dd/MM/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMM" drbft="dontributfd">MM/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM" drbft="dontributfd">MMMM y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk drbft="dontributfd">{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="i">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">i b - i b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i-i b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="im">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">i:mm b - i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="dontributfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="imv">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">i:mm b - i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="dontributfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="iv">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">i b - i b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i-i b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">M-M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">d/MM - d/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">d/MM - d/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">E, d/MM - E, d/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">E, d/MM - E, d/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">MMM-MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">d-d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">d MMM - d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">E, d - E, d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">E, d MMM - E, d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">MM/yy - MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">MM/yy - MM/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">d/MM/yy - d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">d/MM/yy - d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">d/MM/yy - d/MM/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">E, d/MM/yy - E, d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">E, d/MM/yy - E, d/MM/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">E, d/MM/yy - E, d/MM/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">MMM-MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">MMM y - MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">d-d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">d MMM - d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">d MMM y - d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">E, d - E, d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">E, d MMM - E, d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">E, d MMM y - E, d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<mftbzonf typf="Atlbntid">
+				<siort>
+					<gfnfrid>∅∅∅</gfnfrid>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbyligit>∅∅∅</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Cfntrbl">
+				<siort>
+					<gfnfrid>ACT</gfnfrid>
+					<stbndbrd>ACST</stbndbrd>
+					<dbyligit>ACDT</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_CfntrblWfstfrn">
+				<siort>
+					<gfnfrid>ACWT</gfnfrid>
+					<stbndbrd>ACWST</stbndbrd>
+					<dbyligit>ACWDT</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Ebstfrn">
+				<siort>
+					<gfnfrid>AET</gfnfrid>
+					<stbndbrd>AEST</stbndbrd>
+					<dbyligit>AEDT</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Wfstfrn">
+				<siort>
+					<gfnfrid>AWT</gfnfrid>
+					<stbndbrd>AWST</stbndbrd>
+					<dbyligit>AWDT</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Cibtibm">
+				<siort>
+					<gfnfrid>CHAT</gfnfrid>
+					<stbndbrd>CHAST</stbndbrd>
+					<dbyligit>CHADT</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<siort>
+					<gfnfrid>∅∅∅</gfnfrid>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbyligit>∅∅∅</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<siort>
+					<gfnfrid>∅∅∅</gfnfrid>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbyligit>∅∅∅</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Wfstfrn">
+				<siort>
+					<gfnfrid>∅∅∅</gfnfrid>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbyligit>∅∅∅</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Lord_Howf">
+				<siort>
+					<gfnfrid>LHT</gfnfrid>
+					<stbndbrd>LHST</stbndbrd>
+					<dbyligit>LHDT</dbyligit>
+				</siort>
+			</mftbzonf>
+			<mftbzonf typf="Nfw_Zfblbnd">
+				<siort>
+					<gfnfrid>NZT</gfnfrid>
+					<stbndbrd>NZST</stbndbrd>
+					<dbyligit>NZDT</dbyligit>
+				</siort>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<durrfndifs>
+			<durrfndy typf="NZD">
 				<symbol>$</symbol>
-			</currency>
-			<currency type="USD">
+			</durrfndy>
+			<durrfndy typf="USD">
 				<symbol>US$</symbol>
-			</currency>
-		</currencies>
-	</numbers>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 </ldml>

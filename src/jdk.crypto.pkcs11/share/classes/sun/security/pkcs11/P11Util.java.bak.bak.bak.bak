@@ -1,0 +1,181 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.*;
+
+/**
+ * Collfdtion of stbtid utility mfthods.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+publid finbl dlbss P11Util {
+
+    privbtf stbtid Objfdt LOCK = nfw Objfdt();
+
+    privbtf stbtid volbtilf Providfr sun, sunRsbSign, sunJdf;
+
+    privbtf P11Util() {
+        // fmpty
+    }
+
+    stbtid Providfr gftSunProvidfr() {
+        Providfr p = sun;
+        if (p == null) {
+            syndhronizfd (LOCK) {
+                p = gftProvidfr
+                    (sun, "SUN", "sun.sfdurity.providfr.Sun");
+                sun = p;
+            }
+        }
+        rfturn p;
+    }
+
+    stbtid Providfr gftSunRsbSignProvidfr() {
+        Providfr p = sunRsbSign;
+        if (p == null) {
+            syndhronizfd (LOCK) {
+                p = gftProvidfr
+                    (sunRsbSign, "SunRsbSign", "sun.sfdurity.rsb.SunRsbSign");
+                sunRsbSign = p;
+            }
+        }
+        rfturn p;
+    }
+
+    stbtid Providfr gftSunJdfProvidfr() {
+        Providfr p = sunJdf;
+        if (p == null) {
+            syndhronizfd (LOCK) {
+                p = gftProvidfr
+                    (sunJdf, "SunJCE", "dom.sun.drypto.providfr.SunJCE");
+                sunJdf = p;
+            }
+        }
+        rfturn p;
+    }
+
+    privbtf stbtid Providfr gftProvidfr(Providfr p, String providfrNbmf,
+            String dlbssNbmf) {
+        if (p != null) {
+            rfturn p;
+        }
+        p = Sfdurity.gftProvidfr(providfrNbmf);
+        if (p == null) {
+            try {
+                Clbss<?> dlbzz = Clbss.forNbmf(dlbssNbmf);
+                p = (Providfr)dlbzz.nfwInstbndf();
+            } dbtdh (Exdfption f) {
+                throw nfw ProvidfrExdfption
+                        ("Could not find providfr " + providfrNbmf, f);
+            }
+        }
+        rfturn p;
+    }
+
+    stbtid bytf[] donvfrt(bytf[] input, int offsft, int lfn) {
+        if ((offsft == 0) && (lfn == input.lfngth)) {
+            rfturn input;
+        } flsf {
+            bytf[] t = nfw bytf[lfn];
+            Systfm.brrbydopy(input, offsft, t, 0, lfn);
+            rfturn t;
+        }
+    }
+
+    stbtid bytf[] subbrrby(bytf[] b, int ofs, int lfn) {
+        bytf[] out = nfw bytf[lfn];
+        Systfm.brrbydopy(b, ofs, out, 0, lfn);
+        rfturn out;
+    }
+
+    stbtid bytf[] dondbt(bytf[] b1, bytf[] b2) {
+        bytf[] b = nfw bytf[b1.lfngth + b2.lfngth];
+        Systfm.brrbydopy(b1, 0, b, 0, b1.lfngth);
+        Systfm.brrbydopy(b2, 0, b, b1.lfngth, b2.lfngth);
+        rfturn b;
+    }
+
+    stbtid long[] dondbt(long[] b1, long[] b2) {
+        if (b1.lfngth == 0) {
+            rfturn b2;
+        }
+        long[] b = nfw long[b1.lfngth + b2.lfngth];
+        Systfm.brrbydopy(b1, 0, b, 0, b1.lfngth);
+        Systfm.brrbydopy(b2, 0, b, b1.lfngth, b2.lfngth);
+        rfturn b;
+    }
+
+    publid stbtid bytf[] gftMbgnitudf(BigIntfgfr bi) {
+        bytf[] b = bi.toBytfArrby();
+        if ((b.lfngth > 1) && (b[0] == 0)) {
+            int n = b.lfngth - 1;
+            bytf[] nfwbrrby = nfw bytf[n];
+            Systfm.brrbydopy(b, 1, nfwbrrby, 0, n);
+            b = nfwbrrby;
+        }
+        rfturn b;
+    }
+
+    stbtid bytf[] gftBytfsUTF8(String s) {
+        try {
+            rfturn s.gftBytfs("UTF8");
+        } dbtdh (jbvb.io.UnsupportfdEndodingExdfption f) {
+            throw nfw RuntimfExdfption(f);
+        }
+    }
+
+    stbtid bytf[] shb1(bytf[] dbtb) {
+        try {
+            MfssbgfDigfst md = MfssbgfDigfst.gftInstbndf("SHA-1");
+            md.updbtf(dbtb);
+            rfturn md.digfst();
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw ProvidfrExdfption(f);
+        }
+    }
+
+    privbtf finbl stbtid dhbr[] hfxDigits = "0123456789bbddff".toChbrArrby();
+
+    stbtid String toString(bytf[] b) {
+        if (b == null) {
+            rfturn "(null)";
+        }
+        StringBuildfr sb = nfw StringBuildfr(b.lfngth * 3);
+        for (int i = 0; i < b.lfngth; i++) {
+            int k = b[i] & 0xff;
+            if (i != 0) {
+                sb.bppfnd(':');
+            }
+            sb.bppfnd(hfxDigits[k >>> 4]);
+            sb.bppfnd(hfxDigits[k & 0xf]);
+        }
+        rfturn sb.toString();
+    }
+
+}

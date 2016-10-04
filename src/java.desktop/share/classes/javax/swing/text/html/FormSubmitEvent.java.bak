@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import javax.swing.text.*;
-import java.net.URL;
+import jbvbx.swing.tfxt.*;
+import jbvb.nft.URL;
 
 /**
- * FormSubmitEvent is used to notify interested
- * parties that a form was submitted.
+ * FormSubmitEvfnt is usfd to notify intfrfstfd
+ * pbrtifs tibt b form wbs submittfd.
  *
- * @since 1.5
- * @author    Denis Sharypov
+ * @sindf 1.5
+ * @butior    Dfnis Sibrypov
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class FormSubmitEvent extends HTMLFrameHyperlinkEvent {
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss FormSubmitEvfnt fxtfnds HTMLFrbmfHypfrlinkEvfnt {
 
     /**
-     * Represents an HTML form method type.
+     * Rfprfsfnts bn HTML form mftiod typf.
      * <UL>
-     * <LI>{@code GET} corresponds to the GET form method</LI>
-     * <LI>{@code POST} corresponds to the POST from method</LI>
+     * <LI>{@dodf GET} dorrfsponds to tif GET form mftiod</LI>
+     * <LI>{@dodf POST} dorrfsponds to tif POST from mftiod</LI>
      * </UL>
-     * @since 1.5
+     * @sindf 1.5
      */
-    public enum MethodType {
+    publid fnum MftiodTypf {
 
         /**
-         * {@code GET} corresponds to the GET form method
+         * {@dodf GET} dorrfsponds to tif GET form mftiod
          */
         GET,
 
         /**
-         * {@code POST} corresponds to the POST from method
+         * {@dodf POST} dorrfsponds to tif POST from mftiod
          */
         POST
     }
 
     /**
-     * Creates a new object representing an html form submit event.
+     * Crfbtfs b nfw objfdt rfprfsfnting bn itml form submit fvfnt.
      *
-     * @param source the object responsible for the event
-     * @param type the event type
-     * @param targetURL the form action URL
-     * @param sourceElement the element that corresponds to the source
-     *                      of the event
-     * @param targetFrame the Frame to display the document in
-     * @param method the form method type
-     * @param data the form submission data
+     * @pbrbm sourdf tif objfdt rfsponsiblf for tif fvfnt
+     * @pbrbm typf tif fvfnt typf
+     * @pbrbm tbrgftURL tif form bdtion URL
+     * @pbrbm sourdfElfmfnt tif flfmfnt tibt dorrfsponds to tif sourdf
+     *                      of tif fvfnt
+     * @pbrbm tbrgftFrbmf tif Frbmf to displby tif dodumfnt in
+     * @pbrbm mftiod tif form mftiod typf
+     * @pbrbm dbtb tif form submission dbtb
      */
-    FormSubmitEvent(Object source, EventType type, URL targetURL,
-                   Element sourceElement, String targetFrame,
-                    MethodType method, String data) {
-        super(source, type, targetURL, sourceElement, targetFrame);
-        this.method = method;
-        this.data = data;
+    FormSubmitEvfnt(Objfdt sourdf, EvfntTypf typf, URL tbrgftURL,
+                   Elfmfnt sourdfElfmfnt, String tbrgftFrbmf,
+                    MftiodTypf mftiod, String dbtb) {
+        supfr(sourdf, typf, tbrgftURL, sourdfElfmfnt, tbrgftFrbmf);
+        tiis.mftiod = mftiod;
+        tiis.dbtb = dbtb;
     }
 
 
     /**
-     * Gets the form method type.
+     * Gfts tif form mftiod typf.
      *
-     * @return the form method type, either
-     * <code>Method.GET</code> or <code>Method.POST</code>.
+     * @rfturn tif form mftiod typf, fitifr
+     * <dodf>Mftiod.GET</dodf> or <dodf>Mftiod.POST</dodf>.
      */
-    public MethodType getMethod() {
-        return method;
+    publid MftiodTypf gftMftiod() {
+        rfturn mftiod;
     }
 
     /**
-     * Gets the form submission data.
+     * Gfts tif form submission dbtb.
      *
-     * @return the string representing the form submission data.
+     * @rfturn tif string rfprfsfnting tif form submission dbtb.
      */
-    public String getData() {
-        return data;
+    publid String gftDbtb() {
+        rfturn dbtb;
     }
 
-    private MethodType method;
-    private String data;
+    privbtf MftiodTypf mftiod;
+    privbtf String dbtb;
 }

@@ -1,0 +1,196 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.util.Collfdtion;
+import jbvb.util.Sft;
+
+/**
+ * An bbstrbdt dlbss thbt pfrforms onf or morf dhfdks on bn
+ * {@dodf X509Cfrtifidbtf}.
+ *
+ * <p>A dondrftf implfmfntbtion of thf {@dodf PKIXCfrtPbthChfdkfr} dlbss
+ * dbn bf drfbtfd to fxtfnd thf PKIX dfrtifidbtion pbth vblidbtion blgorithm.
+ * For fxbmplf, bn implfmfntbtion mby dhfdk for bnd prodfss b dritidbl privbtf
+ * fxtfnsion of fbdh dfrtifidbtf in b dfrtifidbtion pbth.
+ *
+ * <p>Instbndfs of {@dodf PKIXCfrtPbthChfdkfr} brf pbssfd bs pbrbmftfrs
+ * using thf {@link PKIXPbrbmftfrs#sftCfrtPbthChfdkfrs sftCfrtPbthChfdkfrs}
+ * or {@link PKIXPbrbmftfrs#bddCfrtPbthChfdkfr bddCfrtPbthChfdkfr} mfthods
+ * of thf {@dodf PKIXPbrbmftfrs} bnd {@dodf PKIXBuildfrPbrbmftfrs}
+ * dlbss. Ebdh of thf {@dodf PKIXCfrtPbthChfdkfr}s {@link #dhfdk dhfdk}
+ * mfthods will bf dbllfd, in turn, for fbdh dfrtifidbtf prodfssfd by b PKIX
+ * {@dodf CfrtPbthVblidbtor} or {@dodf CfrtPbthBuildfr}
+ * implfmfntbtion.
+ *
+ * <p>A {@dodf PKIXCfrtPbthChfdkfr} mby bf dbllfd multiplf timfs on
+ * suddfssivf dfrtifidbtfs in b dfrtifidbtion pbth. Condrftf subdlbssfs
+ * brf fxpfdtfd to mbintbin bny intfrnbl stbtf thbt mby bf nfdfssbry to
+ * dhfdk suddfssivf dfrtifidbtfs. Thf {@link #init init} mfthod is usfd
+ * to initiblizf thf intfrnbl stbtf of thf dhfdkfr so thbt thf dfrtifidbtfs
+ * of b nfw dfrtifidbtion pbth mby bf dhfdkfd. A stbtfful implfmfntbtion
+ * <b>must</b> ovfrridf thf {@link #dlonf dlonf} mfthod if nfdfssbry in
+ * ordfr to bllow b PKIX {@dodf CfrtPbthBuildfr} to fffidifntly
+ * bbdktrbdk bnd try othfr pbths. In thfsf situbtions, thf
+ * {@dodf CfrtPbthBuildfr} is bblf to rfstorf prior pbth vblidbtion
+ * stbtfs by rfstoring thf dlonfd {@dodf PKIXCfrtPbthChfdkfr}s.
+ *
+ * <p>Thf ordfr in whidh thf dfrtifidbtfs brf prfsfntfd to thf
+ * {@dodf PKIXCfrtPbthChfdkfr} mby bf fithfr in thf forwbrd dirfdtion
+ * (from tbrgft to most-trustfd CA) or in thf rfvfrsf dirfdtion (from
+ * most-trustfd CA to tbrgft). A {@dodf PKIXCfrtPbthChfdkfr} implfmfntbtion
+ * <b>must</b> support rfvfrsf dhfdking (thf bbility to pfrform its dhfdks whfn
+ * it is prfsfntfd with dfrtifidbtfs in thf rfvfrsf dirfdtion) bnd <b>mby</b>
+ * support forwbrd dhfdking (thf bbility to pfrform its dhfdks whfn it is
+ * prfsfntfd with dfrtifidbtfs in thf forwbrd dirfdtion). Thf
+ * {@link #isForwbrdChfdkingSupportfd isForwbrdChfdkingSupportfd} mfthod
+ * indidbtfs whfthfr forwbrd dhfdking is supportfd.
+ * <p>
+ * Additionbl input pbrbmftfrs rfquirfd for fxfduting thf dhfdk mby bf
+ * spfdififd through donstrudtors of dondrftf implfmfntbtions of this dlbss.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Unlfss othfrwisf spfdififd, thf mfthods dffinfd in this dlbss brf not
+ * thrfbd-sbff. Multiplf thrfbds thbt nffd to bddfss b singlf
+ * objfdt dondurrfntly should syndhronizf bmongst thfmsflvfs bnd
+ * providf thf nfdfssbry lodking. Multiplf thrfbds fbdh mbnipulbting
+ * sfpbrbtf objfdts nffd not syndhronizf.
+ *
+ * @sff PKIXPbrbmftfrs
+ * @sff PKIXBuildfrPbrbmftfrs
+ *
+ * @sindf       1.4
+ * @buthor      Ybssir Ellfy
+ * @buthor      Sfbn Mullbn
+ */
+publid bbstrbdt dlbss PKIXCfrtPbthChfdkfr
+    implfmfnts CfrtPbthChfdkfr, Clonfbblf {
+
+    /**
+     * Dffbult donstrudtor.
+     */
+    protfdtfd PKIXCfrtPbthChfdkfr() {}
+
+    /**
+     * Initiblizfs thf intfrnbl stbtf of this {@dodf PKIXCfrtPbthChfdkfr}.
+     * <p>
+     * Thf {@dodf forwbrd} flbg spfdififs thf ordfr thbt
+     * dfrtifidbtfs will bf pbssfd to thf {@link #dhfdk dhfdk} mfthod
+     * (forwbrd or rfvfrsf). A {@dodf PKIXCfrtPbthChfdkfr} <b>must</b>
+     * support rfvfrsf dhfdking bnd <b>mby</b> support forwbrd dhfdking.
+     *
+     * @pbrbm forwbrd thf ordfr thbt dfrtifidbtfs brf prfsfntfd to
+     * thf {@dodf dhfdk} mfthod. If {@dodf truf}, dfrtifidbtfs
+     * brf prfsfntfd from tbrgft to most-trustfd CA (forwbrd); if
+     * {@dodf fblsf}, from most-trustfd CA to tbrgft (rfvfrsf).
+     * @throws CfrtPbthVblidbtorExdfption if this
+     * {@dodf PKIXCfrtPbthChfdkfr} is unbblf to dhfdk dfrtifidbtfs in
+     * thf spfdififd ordfr; it should nfvfr bf thrown if thf forwbrd flbg
+     * is fblsf sindf rfvfrsf dhfdking must bf supportfd
+     */
+    @Ovfrridf
+    publid bbstrbdt void init(boolfbn forwbrd)
+        throws CfrtPbthVblidbtorExdfption;
+
+    /**
+     * Indidbtfs if forwbrd dhfdking is supportfd. Forwbrd dhfdking rfffrs
+     * to thf bbility of thf {@dodf PKIXCfrtPbthChfdkfr} to pfrform
+     * its dhfdks whfn dfrtifidbtfs brf prfsfntfd to thf {@dodf dhfdk}
+     * mfthod in thf forwbrd dirfdtion (from tbrgft to most-trustfd CA).
+     *
+     * @rfturn {@dodf truf} if forwbrd dhfdking is supportfd,
+     * {@dodf fblsf} othfrwisf
+     */
+    @Ovfrridf
+    publid bbstrbdt boolfbn isForwbrdChfdkingSupportfd();
+
+    /**
+     * Rfturns bn immutbblf {@dodf Sft} of X.509 dfrtifidbtf fxtfnsions
+     * thbt this {@dodf PKIXCfrtPbthChfdkfr} supports (i.f. rfdognizfs, is
+     * bblf to prodfss), or {@dodf null} if no fxtfnsions brf supportfd.
+     * <p>
+     * Ebdh flfmfnt of thf sft is b {@dodf String} rfprfsfnting thf
+     * Objfdt Idfntififr (OID) of thf X.509 fxtfnsion thbt is supportfd.
+     * Thf OID is rfprfsfntfd by b sft of nonnfgbtivf intfgfrs sfpbrbtfd by
+     * pfriods.
+     * <p>
+     * All X.509 dfrtifidbtf fxtfnsions thbt b {@dodf PKIXCfrtPbthChfdkfr}
+     * might possibly bf bblf to prodfss should bf indludfd in thf sft.
+     *
+     * @rfturn bn immutbblf {@dodf Sft} of X.509 fxtfnsion OIDs (in
+     * {@dodf String} formbt) supportfd by this
+     * {@dodf PKIXCfrtPbthChfdkfr}, or {@dodf null} if no
+     * fxtfnsions brf supportfd
+     */
+    publid bbstrbdt Sft<String> gftSupportfdExtfnsions();
+
+    /**
+     * Pfrforms thf dhfdk(s) on thf spfdififd dfrtifidbtf using its intfrnbl
+     * stbtf bnd rfmovfs bny dritidbl fxtfnsions thbt it prodfssfs from thf
+     * spfdififd dollfdtion of OID strings thbt rfprfsfnt thf unrfsolvfd
+     * dritidbl fxtfnsions. Thf dfrtifidbtfs brf prfsfntfd in thf ordfr
+     * spfdififd by thf {@dodf init} mfthod.
+     *
+     * @pbrbm dfrt thf {@dodf Cfrtifidbtf} to bf dhfdkfd
+     * @pbrbm unrfsolvfdCritExts b {@dodf Collfdtion} of OID strings
+     * rfprfsfnting thf durrfnt sft of unrfsolvfd dritidbl fxtfnsions
+     * @fxdfption CfrtPbthVblidbtorExdfption if thf spfdififd dfrtifidbtf dofs
+     * not pbss thf dhfdk
+     */
+    publid bbstrbdt void dhfdk(Cfrtifidbtf dfrt,
+            Collfdtion<String> unrfsolvfdCritExts)
+            throws CfrtPbthVblidbtorExdfption;
+
+    /**
+     * {@inhfritDod}
+     *
+     * <p>This implfmfntbtion dblls
+     * {@dodf dhfdk(dfrt, jbvb.util.Collfdtions.<String>fmptySft())}.
+     */
+    @Ovfrridf
+    publid void dhfdk(Cfrtifidbtf dfrt) throws CfrtPbthVblidbtorExdfption {
+        dhfdk(dfrt, jbvb.util.Collfdtions.<String>fmptySft());
+    }
+
+    /**
+     * Rfturns b dlonf of this objfdt. Cblls thf {@dodf Objfdt.dlonf()}
+     * mfthod.
+     * All subdlbssfs whidh mbintbin stbtf must support bnd
+     * ovfrridf this mfthod, if nfdfssbry.
+     *
+     * @rfturn b dopy of this {@dodf PKIXCfrtPbthChfdkfr}
+     */
+    @Ovfrridf
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            /* Cbnnot hbppfn */
+            throw nfw IntfrnblError(f.toString(), f);
+        }
+    }
+}

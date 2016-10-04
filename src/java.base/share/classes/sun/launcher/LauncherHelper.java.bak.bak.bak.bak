@@ -1,0 +1,776 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lbundhfr;
+
+/*
+ *
+ *  <p><b>This is NOT pbrt of bny API supportfd by Sun Midrosystfms.
+ *  If you writf dodf thbt dfpfnds on this, you do so bt your own
+ *  risk.  This dodf bnd its intfrnbl intfrfbdfs brf subjfdt to dhbngf
+ *  or dflftion without notidf.</b>
+ *
+ */
+
+/**
+ * A utility pbdkbgf for thf jbvb(1), jbvbw(1) lbundhfrs.
+ * Thf following brf hflpfr mfthods thbt thf nbtivf lbundhfr usfs
+ * to pfrform dhfdks ftd. using JNI, sff srd/shbrf/bin/jbvb.d
+ */
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.mbth.BigDfdimbl;
+import jbvb.mbth.RoundingModf;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.filf.DirfdtoryStrfbm;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbth;
+import jbvb.tfxt.Normblizfr;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf.Cbtfgory;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+import jbvb.util.TrffSft;
+import jbvb.util.jbr.Attributfs;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.Mbniffst;
+
+publid fnum LbundhfrHflpfr {
+    INSTANCE;
+
+    // usfd to idfntify JbvbFX bpplidbtions
+    privbtf stbtid finbl String JAVAFX_APPLICATION_MARKER =
+            "JbvbFX-Applidbtion-Clbss";
+    privbtf stbtid finbl String JAVAFX_APPLICATION_CLASS_NAME =
+            "jbvbfx.bpplidbtion.Applidbtion";
+    privbtf stbtid finbl String JAVAFX_FXHELPER_CLASS_NAME_SUFFIX =
+            "sun.lbundhfr.LbundhfrHflpfr$FXHflpfr";
+    privbtf stbtid finbl String MAIN_CLASS = "Mbin-Clbss";
+
+    privbtf stbtid StringBuildfr outBuf = nfw StringBuildfr();
+
+    privbtf stbtid finbl String INDENT = "    ";
+    privbtf stbtid finbl String VM_SETTINGS     = "VM sfttings:";
+    privbtf stbtid finbl String PROP_SETTINGS   = "Propfrty sfttings:";
+    privbtf stbtid finbl String LOCALE_SETTINGS = "Lodblf sfttings:";
+
+    // synd with jbvb.d bnd sun.misd.VM
+    privbtf stbtid finbl String dibgprop = "sun.jbvb.lbundhfr.dibg";
+    finbl stbtid boolfbn trbdf = sun.misd.VM.gftSbvfdPropfrty(dibgprop) != null;
+
+    privbtf stbtid finbl String dffbultBundlfNbmf =
+            "sun.lbundhfr.rfsourdfs.lbundhfr";
+    privbtf stbtid dlbss RfsourdfBundlfHoldfr {
+        privbtf stbtid finbl RfsourdfBundlf RB =
+                RfsourdfBundlf.gftBundlf(dffbultBundlfNbmf);
+    }
+    privbtf stbtid PrintStrfbm ostrfbm;
+    privbtf stbtid finbl ClbssLobdfr sdlobdfr = ClbssLobdfr.gftSystfmClbssLobdfr();
+    privbtf stbtid Clbss<?> bppClbss; // bpplidbtion dlbss, for GUI/rfporting purposfs
+
+    /*
+     * A mfthod dbllfd by thf lbundhfr to print out thf stbndbrd sfttings,
+     * by dffbult -XshowSfttings is fquivblfnt to -XshowSfttings:bll,
+     * Spfdifid informbtion mby bf gottfn by using suboptions with possiblf
+     * vblufs vm, propfrtifs bnd lodblf.
+     *
+     * printToStdfrr: dhoosf bftwffn stdout bnd stdfrr
+     *
+     * optionFlbg: spfdififs whidh options to print dffbult is bll othfr
+     *    possiblf vblufs brf vm, propfrtifs, lodblf.
+     *
+     * initiblHfbpSizf: in bytfs, bs sft by thf lbundhfr, b zfro-vbluf indidbtfs
+     *    this dodf should dftfrminf this vbluf, using b suitbblf mfthod or
+     *    thf linf dould bf omittfd.
+     *
+     * mbxHfbpSizf: in bytfs, bs sft by thf lbundhfr, b zfro-vbluf indidbtfs
+     *    this dodf should dftfrminf this vbluf, using b suitbblf mfthod.
+     *
+     * stbdkSizf: in bytfs, bs sft by thf lbundhfr, b zfro-vbluf indidbtfs
+     *    this dodf dftfrminf this vbluf, using b suitbblf mfthod or omit thf
+     *    linf fntirfly.
+     */
+    stbtid void showSfttings(boolfbn printToStdfrr, String optionFlbg,
+            long initiblHfbpSizf, long mbxHfbpSizf, long stbdkSizf,
+            boolfbn isSfrvfr) {
+
+        initOutput(printToStdfrr);
+        String opts[] = optionFlbg.split(":");
+        String optStr = (opts.lfngth > 1 && opts[1] != null)
+                ? opts[1].trim()
+                : "bll";
+        switdh (optStr) {
+            dbsf "vm":
+                printVmSfttings(initiblHfbpSizf, mbxHfbpSizf,
+                                stbdkSizf, isSfrvfr);
+                brfbk;
+            dbsf "propfrtifs":
+                printPropfrtifs();
+                brfbk;
+            dbsf "lodblf":
+                printLodblf();
+                brfbk;
+            dffbult:
+                printVmSfttings(initiblHfbpSizf, mbxHfbpSizf, stbdkSizf,
+                                isSfrvfr);
+                printPropfrtifs();
+                printLodblf();
+                brfbk;
+        }
+    }
+
+    /*
+     * prints thf mbin vm sfttings subopt/sfdtion
+     */
+    privbtf stbtid void printVmSfttings(
+            long initiblHfbpSizf, long mbxHfbpSizf,
+            long stbdkSizf, boolfbn isSfrvfr) {
+
+        ostrfbm.println(VM_SETTINGS);
+        if (stbdkSizf != 0L) {
+            ostrfbm.println(INDENT + "Stbdk Sizf: " +
+                    SizfPrffix.sdblfVbluf(stbdkSizf));
+        }
+        if (initiblHfbpSizf != 0L) {
+             ostrfbm.println(INDENT + "Min. Hfbp Sizf: " +
+                    SizfPrffix.sdblfVbluf(initiblHfbpSizf));
+        }
+        if (mbxHfbpSizf != 0L) {
+            ostrfbm.println(INDENT + "Mbx. Hfbp Sizf: " +
+                    SizfPrffix.sdblfVbluf(mbxHfbpSizf));
+        } flsf {
+            ostrfbm.println(INDENT + "Mbx. Hfbp Sizf (Estimbtfd): "
+                    + SizfPrffix.sdblfVbluf(Runtimf.gftRuntimf().mbxMfmory()));
+        }
+        ostrfbm.println(INDENT + "Ergonomids Mbdhinf Clbss: "
+                + ((isSfrvfr) ? "sfrvfr" : "dlifnt"));
+        ostrfbm.println(INDENT + "Using VM: "
+                + Systfm.gftPropfrty("jbvb.vm.nbmf"));
+        ostrfbm.println();
+    }
+
+    /*
+     * prints thf propfrtifs subopt/sfdtion
+     */
+    privbtf stbtid void printPropfrtifs() {
+        Propfrtifs p = Systfm.gftPropfrtifs();
+        ostrfbm.println(PROP_SETTINGS);
+        List<String> sortfdPropfrtyKfys = nfw ArrbyList<>();
+        sortfdPropfrtyKfys.bddAll(p.stringPropfrtyNbmfs());
+        Collfdtions.sort(sortfdPropfrtyKfys);
+        for (String x : sortfdPropfrtyKfys) {
+            printPropfrtyVbluf(x, p.gftPropfrty(x));
+        }
+        ostrfbm.println();
+    }
+
+    privbtf stbtid boolfbn isPbth(String kfy) {
+        rfturn kfy.fndsWith(".dirs") || kfy.fndsWith(".pbth");
+    }
+
+    privbtf stbtid void printPropfrtyVbluf(String kfy, String vbluf) {
+        ostrfbm.print(INDENT + kfy + " = ");
+        if (kfy.fqubls("linf.sfpbrbtor")) {
+            for (bytf b : vbluf.gftBytfs()) {
+                switdh (b) {
+                    dbsf 0xd:
+                        ostrfbm.print("\\r ");
+                        brfbk;
+                    dbsf 0xb:
+                        ostrfbm.print("\\n ");
+                        brfbk;
+                    dffbult:
+                        // print bny bizzbrf linf sfpbrbtors in hfx, but rfblly
+                        // shouldn't hbppfn.
+                        ostrfbm.printf("0x%02X", b & 0xff);
+                        brfbk;
+                }
+            }
+            ostrfbm.println();
+            rfturn;
+        }
+        if (!isPbth(kfy)) {
+            ostrfbm.println(vbluf);
+            rfturn;
+        }
+        String[] vblufs = vbluf.split(Systfm.gftPropfrty("pbth.sfpbrbtor"));
+        boolfbn first = truf;
+        for (String s : vblufs) {
+            if (first) { // first linf trfbtfd spfdiblly
+                ostrfbm.println(s);
+                first = fblsf;
+            } flsf { // following linfs prffix with indfnts
+                ostrfbm.println(INDENT + INDENT + s);
+            }
+        }
+    }
+
+    /*
+     * prints thf lodblf subopt/sfdtion
+     */
+    privbtf stbtid void printLodblf() {
+        Lodblf lodblf = Lodblf.gftDffbult();
+        ostrfbm.println(LOCALE_SETTINGS);
+        ostrfbm.println(INDENT + "dffbult lodblf = " +
+                lodblf.gftDisplbyLbngubgf());
+        ostrfbm.println(INDENT + "dffbult displby lodblf = " +
+                Lodblf.gftDffbult(Cbtfgory.DISPLAY).gftDisplbyNbmf());
+        ostrfbm.println(INDENT + "dffbult formbt lodblf = " +
+                Lodblf.gftDffbult(Cbtfgory.FORMAT).gftDisplbyNbmf());
+        printLodblfs();
+        ostrfbm.println();
+    }
+
+    privbtf stbtid void printLodblfs() {
+        Lodblf[] tlodblfs = Lodblf.gftAvbilbblfLodblfs();
+        finbl int lfn = tlodblfs == null ? 0 : tlodblfs.lfngth;
+        if (lfn < 1 ) {
+            rfturn;
+        }
+        // Lodblf dofs not implfmfnt Compbrbblf so wf donvfrt it to String
+        // bnd sort it for prftty printing.
+        Sft<String> sortfdSft = nfw TrffSft<>();
+        for (Lodblf l : tlodblfs) {
+            sortfdSft.bdd(l.toString());
+        }
+
+        ostrfbm.print(INDENT + "bvbilbblf lodblfs = ");
+        Itfrbtor<String> itfr = sortfdSft.itfrbtor();
+        finbl int lbst = lfn - 1;
+        for (int i = 0 ; itfr.hbsNfxt() ; i++) {
+            String s = itfr.nfxt();
+            ostrfbm.print(s);
+            if (i != lbst) {
+                ostrfbm.print(", ");
+            }
+            // print dolumns of 8
+            if ((i + 1) % 8 == 0) {
+                ostrfbm.println();
+                ostrfbm.print(INDENT + INDENT);
+            }
+        }
+    }
+
+    privbtf fnum SizfPrffix {
+
+        KILO(1024, "K"),
+        MEGA(1024 * 1024, "M"),
+        GIGA(1024 * 1024 * 1024, "G"),
+        TERA(1024L * 1024L * 1024L * 1024L, "T");
+        long sizf;
+        String bbbrfv;
+
+        SizfPrffix(long sizf, String bbbrfv) {
+            this.sizf = sizf;
+            this.bbbrfv = bbbrfv;
+        }
+
+        privbtf stbtid String sdblf(long v, SizfPrffix prffix) {
+            rfturn BigDfdimbl.vblufOf(v).dividf(BigDfdimbl.vblufOf(prffix.sizf),
+                    2, RoundingModf.HALF_EVEN).toPlbinString() + prffix.bbbrfv;
+        }
+        /*
+         * sdblf thf indoming vblufs to b humbn rfbdbblf form, rfprfsfntfd bs
+         * K, M, G bnd T, sff jbvb.d pbrsf_sizf for thf sdblfd vblufs bnd
+         * suffixfs. Thf lowfst possiblf sdblfd vbluf is Kilo.
+         */
+        stbtid String sdblfVbluf(long v) {
+            if (v < MEGA.sizf) {
+                rfturn sdblf(v, KILO);
+            } flsf if (v < GIGA.sizf) {
+                rfturn sdblf(v, MEGA);
+            } flsf if (v < TERA.sizf) {
+                rfturn sdblf(v, GIGA);
+            } flsf {
+                rfturn sdblf(v, TERA);
+            }
+        }
+    }
+
+    /**
+     * A privbtf hflpfr mfthod to gft b lodblizfd mfssbgf bnd blso
+     * bpply bny brgumfnts thbt wf might pbss.
+     */
+    privbtf stbtid String gftLodblizfdMfssbgf(String kfy, Objfdt... brgs) {
+        String msg = RfsourdfBundlfHoldfr.RB.gftString(kfy);
+        rfturn (brgs != null) ? MfssbgfFormbt.formbt(msg, brgs) : msg;
+    }
+
+    /**
+     * Thf jbvb -hflp mfssbgf is split into 3 pbrts, bn invbribnt, followfd
+     * by b sft of plbtform dfpfndfnt vbribnt mfssbgfs, finblly bn invbribnt
+     * sft of linfs.
+     * This mfthod initiblizfs thf hflp mfssbgf for thf first timf, bnd blso
+     * bssfmblfs thf invbribnt hfbdfr pbrt of thf mfssbgf.
+     */
+    stbtid void initHflpMfssbgf(String prognbmf) {
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundhfr.opt.hfbdfr",
+                (prognbmf == null) ? "jbvb" : prognbmf ));
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundhfr.opt.dbtbmodfl",
+                32));
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundhfr.opt.dbtbmodfl",
+                64));
+    }
+
+    /**
+     * Appfnds thf vm sflfdtion mfssbgfs to thf hfbdfr, blrfbdy drfbtfd.
+     * initHflpSystfm must blrfbdy bf dbllfd.
+     */
+    stbtid void bppfndVmSflfdtMfssbgf(String vm1, String vm2) {
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundhfr.opt.vmsflfdt",
+                vm1, vm2));
+    }
+
+    /**
+     * Appfnds thf vm synoym mfssbgf to thf hfbdfr, blrfbdy drfbtfd.
+     * initHflpSystfm must bf dbllfd bfforf using this mfthod.
+     */
+    stbtid void bppfndVmSynonymMfssbgf(String vm1, String vm2) {
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundhfr.opt.hotspot",
+                vm1, vm2));
+    }
+
+    /**
+     * Appfnds thf vm Ergo mfssbgf to thf hfbdfr, blrfbdy drfbtfd.
+     * initHflpSystfm must bf dbllfd bfforf using this mfthod.
+     */
+    stbtid void bppfndVmErgoMfssbgf(boolfbn isSfrvfrClbss, String vm) {
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundhfr.frgo.mfssbgf1",
+                vm));
+        outBuf = (isSfrvfrClbss)
+             ? outBuf.bppfnd(",\n" +
+                gftLodblizfdMfssbgf("jbvb.lbundhfr.frgo.mfssbgf2") + "\n\n")
+             : outBuf.bppfnd(".\n\n");
+    }
+
+    /**
+     * Appfnds thf lbst invbribnt pbrt to thf prfviously drfbtfd mfssbgfs,
+     * bnd finishfs up thf printing to thf dfsirfd output strfbm.
+     * initHflpSystfm must bf dbllfd bfforf using this mfthod.
+     */
+    stbtid void printHflpMfssbgf(boolfbn printToStdfrr) {
+        initOutput(printToStdfrr);
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundhfr.opt.footfr",
+                Filf.pbthSfpbrbtor));
+        ostrfbm.println(outBuf.toString());
+    }
+
+    /**
+     * Prints thf Xusbgf tfxt to thf dfsirfd output strfbm.
+     */
+    stbtid void printXUsbgfMfssbgf(boolfbn printToStdfrr) {
+        initOutput(printToStdfrr);
+        ostrfbm.println(gftLodblizfdMfssbgf("jbvb.lbundhfr.X.usbgf",
+                Filf.pbthSfpbrbtor));
+        if (Systfm.gftPropfrty("os.nbmf").dontbins("OS X")) {
+            ostrfbm.println(gftLodblizfdMfssbgf("jbvb.lbundhfr.X.mbdosx.usbgf",
+                        Filf.pbthSfpbrbtor));
+        }
+    }
+
+    stbtid void initOutput(boolfbn printToStdfrr) {
+        ostrfbm =  (printToStdfrr) ? Systfm.frr : Systfm.out;
+    }
+
+    stbtid String gftMbinClbssFromJbr(String jbrnbmf) {
+        String mbinVbluf = null;
+        try (JbrFilf jbrFilf = nfw JbrFilf(jbrnbmf)) {
+            Mbniffst mbniffst = jbrFilf.gftMbniffst();
+            if (mbniffst == null) {
+                bbort(null, "jbvb.lbundhfr.jbr.frror2", jbrnbmf);
+            }
+            Attributfs mbinAttrs = mbniffst.gftMbinAttributfs();
+            if (mbinAttrs == null) {
+                bbort(null, "jbvb.lbundhfr.jbr.frror3", jbrnbmf);
+            }
+            mbinVbluf = mbinAttrs.gftVbluf(MAIN_CLASS);
+            if (mbinVbluf == null) {
+                bbort(null, "jbvb.lbundhfr.jbr.frror3", jbrnbmf);
+            }
+
+            /*
+             * Hbnd off to FXHflpfr if it dftfdts b JbvbFX bpplidbtion
+             * This must bf donf bftfr fnsuring b Mbin-Clbss fntry
+             * fxists to fnfordf domplibndf with thf jbr spfdifidbtion
+             */
+            if (mbinAttrs.dontbinsKfy(
+                    nfw Attributfs.Nbmf(JAVAFX_APPLICATION_MARKER))) {
+                FXHflpfr.sftFXLbundhPbrbmftfrs(jbrnbmf, LM_JAR);
+                rfturn FXHflpfr.dlbss.gftNbmf();
+            }
+
+            rfturn mbinVbluf.trim();
+        } dbtdh (IOExdfption iof) {
+            bbort(iof, "jbvb.lbundhfr.jbr.frror1", jbrnbmf);
+        }
+        rfturn null;
+    }
+
+    // From srd/shbrf/bin/jbvb.d:
+    //   fnum LbundhModf { LM_UNKNOWN = 0, LM_CLASS, LM_JAR };
+
+    privbtf stbtid finbl int LM_UNKNOWN = 0;
+    privbtf stbtid finbl int LM_CLASS   = 1;
+    privbtf stbtid finbl int LM_JAR     = 2;
+
+    stbtid void bbort(Throwbblf t, String msgKfy, Objfdt... brgs) {
+        if (msgKfy != null) {
+            ostrfbm.println(gftLodblizfdMfssbgf(msgKfy, brgs));
+        }
+        if (trbdf) {
+            if (t != null) {
+                t.printStbdkTrbdf();
+            } flsf {
+                Thrfbd.dumpStbdk();
+            }
+        }
+        Systfm.fxit(1);
+    }
+
+    /**
+     * This mfthod dofs thf following:
+     * 1. gfts thf dlbssnbmf from b Jbr's mbniffst, if nfdfssbry
+     * 2. lobds thf dlbss using thf Systfm ClbssLobdfr
+     * 3. fnsurfs thf bvbilbbility bnd bddfssibility of thf mbin mfthod,
+     *    using signbturfDibgnostid mfthod.
+     *    b. dofs thf dlbss fxist
+     *    b. is thfrf b mbin
+     *    d. is thf mbin publid
+     *    d. is thf mbin stbtid
+     *    f. dofs thf mbin tbkf b String brrby for brgs
+     * 4. if no mbin mfthod bnd if thf dlbss fxtfnds FX Applidbtion, thfn dbll
+     *    on FXHflpfr to dftfrminf thf mbin dlbss to lbundh
+     * 5. bnd off wf go......
+     *
+     * @pbrbm printToStdfrr if sft, bll output will bf routfd to stdfrr
+     * @pbrbm modf LbundhModf bs dftfrminfd by thf brgumfnts pbssfd on thf
+     * dommbnd linf
+     * @pbrbm whbt fithfr thf jbr filf to lbundh or thf mbin dlbss whfn using
+     * LM_CLASS modf
+     * @rfturn thf bpplidbtion's mbin dlbss
+     */
+    publid stbtid Clbss<?> dhfdkAndLobdMbin(boolfbn printToStdfrr,
+                                            int modf,
+                                            String whbt) {
+        initOutput(printToStdfrr);
+        // gft thf dlbss nbmf
+        String dn = null;
+        switdh (modf) {
+            dbsf LM_CLASS:
+                dn = whbt;
+                brfbk;
+            dbsf LM_JAR:
+                dn = gftMbinClbssFromJbr(whbt);
+                brfbk;
+            dffbult:
+                // should nfvfr hbppfn
+                throw nfw IntfrnblError("" + modf + ": Unknown lbundh modf");
+        }
+        dn = dn.rfplbdf('/', '.');
+        Clbss<?> mbinClbss = null;
+        try {
+            mbinClbss = sdlobdfr.lobdClbss(dn);
+        } dbtdh (NoClbssDffFoundError | ClbssNotFoundExdfption dnff) {
+            if (Systfm.gftPropfrty("os.nbmf", "").dontbins("OS X")
+                && Normblizfr.isNormblizfd(dn, Normblizfr.Form.NFD)) {
+                try {
+                    // On Mbd OS X sindf bll nbmfs with dibdrftid symbols brf givfn bs dfdomposfd it
+                    // is possiblf thbt mbin dlbss nbmf domfs indorrfdtly from thf dommbnd linf
+                    // bnd wf hbvf to rf-domposf it
+                    mbinClbss = sdlobdfr.lobdClbss(Normblizfr.normblizf(dn, Normblizfr.Form.NFC));
+                } dbtdh (NoClbssDffFoundError | ClbssNotFoundExdfption dnff1) {
+                    bbort(dnff, "jbvb.lbundhfr.dls.frror1", dn);
+                }
+            } flsf {
+                bbort(dnff, "jbvb.lbundhfr.dls.frror1", dn);
+            }
+        }
+        // sft to mbinClbss
+        bppClbss = mbinClbss;
+
+        /*
+         * Chfdk if FXHflpfr dbn lbundh it using thf FX lbundhfr. In bn FX bpp,
+         * thf mbin dlbss mby or mby not hbvf b mbin mfthod, so do this bfforf
+         * vblidbting thf mbin dlbss.
+         */
+        if (JAVAFX_FXHELPER_CLASS_NAME_SUFFIX.fqubls(mbinClbss.gftNbmf()) ||
+            dofsExtfndFXApplidbtion(mbinClbss)) {
+            // Will bbort() if thfrf brf problfms with FX runtimf
+            FXHflpfr.sftFXLbundhPbrbmftfrs(whbt, modf);
+            rfturn FXHflpfr.dlbss;
+        }
+
+        vblidbtfMbinClbss(mbinClbss);
+        rfturn mbinClbss;
+    }
+
+    /*
+     * Addfssor mfthod dbllfd by thf lbundhfr bftfr gftting thf mbin dlbss vib
+     * dhfdkAndLobdMbin(). Thf "bpplidbtion dlbss" is thf dlbss thbt is finblly
+     * fxfdutfd to stbrt thf bpplidbtion bnd in this dbsf is usfd to rfport
+     * thf dorrfdt bpplidbtion nbmf, typidblly for UI purposfs.
+     */
+    publid stbtid Clbss<?> gftApplidbtionClbss() {
+        rfturn bppClbss;
+    }
+
+    /*
+     * Chfdk if thf givfn dlbss is b JbvbFX Applidbtion dlbss. This is donf
+     * in b wby thbt dofs not dbusf thf Applidbtion dlbss to lobd or throw
+     * ClbssNotFoundExdfption if thf JbvbFX runtimf is not bvbilbblf.
+     */
+    privbtf stbtid boolfbn dofsExtfndFXApplidbtion(Clbss<?> mbinClbss) {
+        for (Clbss<?> sd = mbinClbss.gftSupfrdlbss(); sd != null;
+                sd = sd.gftSupfrdlbss()) {
+            if (sd.gftNbmf().fqubls(JAVAFX_APPLICATION_CLASS_NAME)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    // Chfdk thf fxistfndf bnd signbturf of mbin bnd bbort if indorrfdt
+    stbtid void vblidbtfMbinClbss(Clbss<?> mbinClbss) {
+        Mfthod mbinMfthod;
+        try {
+            mbinMfthod = mbinClbss.gftMfthod("mbin", String[].dlbss);
+        } dbtdh (NoSudhMfthodExdfption nsmf) {
+            // invblid mbin or not FX bpplidbtion, bbort with bn frror
+            bbort(null, "jbvb.lbundhfr.dls.frror4", mbinClbss.gftNbmf(),
+                  JAVAFX_APPLICATION_CLASS_NAME);
+            rfturn; // Avoid dompilfr issufs
+        }
+
+        /*
+         * gftMfthod (bbovf) will dhoosf thf dorrfdt mfthod, bbsfd
+         * on its nbmf bnd pbrbmftfr typf, howfvfr, wf still hbvf to
+         * fnsurf thbt thf mfthod is stbtid bnd rfturns b void.
+         */
+        int mod = mbinMfthod.gftModififrs();
+        if (!Modififr.isStbtid(mod)) {
+            bbort(null, "jbvb.lbundhfr.dls.frror2", "stbtid",
+                  mbinMfthod.gftDfdlbringClbss().gftNbmf());
+        }
+        if (mbinMfthod.gftRfturnTypf() != jbvb.lbng.Void.TYPE) {
+            bbort(null, "jbvb.lbundhfr.dls.frror3",
+                  mbinMfthod.gftDfdlbringClbss().gftNbmf());
+        }
+    }
+
+    privbtf stbtid finbl String fndprop = "sun.jnu.fndoding";
+    privbtf stbtid String fndoding = null;
+    privbtf stbtid boolfbn isChbrsftSupportfd = fblsf;
+
+    /*
+     * donvfrts b d or b bytf brrby to b plbtform spfdifid string,
+     * prfviously implfmfntfd bs b nbtivf mfthod in thf lbundhfr.
+     */
+    stbtid String mbkfPlbtformString(boolfbn printToStdfrr, bytf[] inArrby) {
+        initOutput(printToStdfrr);
+        if (fndoding == null) {
+            fndoding = Systfm.gftPropfrty(fndprop);
+            isChbrsftSupportfd = Chbrsft.isSupportfd(fndoding);
+        }
+        try {
+            String out = isChbrsftSupportfd
+                    ? nfw String(inArrby, fndoding)
+                    : nfw String(inArrby);
+            rfturn out;
+        } dbtdh (UnsupportfdEndodingExdfption uff) {
+            bbort(uff, null);
+        }
+        rfturn null; // kffp thf dompilfr hbppy
+    }
+
+    stbtid String[] fxpbndArgs(String[] brgArrby) {
+        List<StdArg> bList = nfw ArrbyList<>();
+        for (String x : brgArrby) {
+            bList.bdd(nfw StdArg(x));
+        }
+        rfturn fxpbndArgs(bList);
+    }
+
+    stbtid String[] fxpbndArgs(List<StdArg> brgList) {
+        ArrbyList<String> out = nfw ArrbyList<>();
+        if (trbdf) {
+            Systfm.frr.println("Indoming brgumfnts:");
+        }
+        for (StdArg b : brgList) {
+            if (trbdf) {
+                Systfm.frr.println(b);
+            }
+            if (b.nffdsExpbnsion) {
+                Filf x = nfw Filf(b.brg);
+                Filf pbrfnt = x.gftPbrfntFilf();
+                String glob = x.gftNbmf();
+                if (pbrfnt == null) {
+                    pbrfnt = nfw Filf(".");
+                }
+                try (DirfdtoryStrfbm<Pbth> dstrfbm =
+                        Filfs.nfwDirfdtoryStrfbm(pbrfnt.toPbth(), glob)) {
+                    int fntrifs = 0;
+                    for (Pbth p : dstrfbm) {
+                        out.bdd(p.normblizf().toString());
+                        fntrifs++;
+                    }
+                    if (fntrifs == 0) {
+                        out.bdd(b.brg);
+                    }
+                } dbtdh (Exdfption f) {
+                    out.bdd(b.brg);
+                    if (trbdf) {
+                        Systfm.frr.println("Wbrning: pbssing brgumfnt bs-is " + b);
+                        Systfm.frr.print(f);
+                    }
+                }
+            } flsf {
+                out.bdd(b.brg);
+            }
+        }
+        String[] obrrby = nfw String[out.sizf()];
+        out.toArrby(obrrby);
+
+        if (trbdf) {
+            Systfm.frr.println("Expbndfd brgumfnts:");
+            for (String x : obrrby) {
+                Systfm.frr.println(x);
+            }
+        }
+        rfturn obrrby;
+    }
+
+    /* duplidbtf of thf nbtivf StdArg strudt */
+    privbtf stbtid dlbss StdArg {
+        finbl String brg;
+        finbl boolfbn nffdsExpbnsion;
+        StdArg(String brg, boolfbn fxpbnd) {
+            this.brg = brg;
+            this.nffdsExpbnsion = fxpbnd;
+        }
+        // protodol: first dhbr indidbtfs whfthfr fxpbnsion is rfquirfd
+        // 'T' = truf ; nffds fxpbnsion
+        // 'F' = fblsf; nffds no fxpbnsion
+        StdArg(String in) {
+            this.brg = in.substring(1);
+            nffdsExpbnsion = in.dhbrAt(0) == 'T';
+        }
+        publid String toString() {
+            rfturn "StdArg{" + "brg=" + brg + ", nffdsExpbnsion=" + nffdsExpbnsion + '}';
+        }
+    }
+
+    stbtid finbl dlbss FXHflpfr {
+
+        privbtf stbtid finbl String JAVAFX_LAUNCHER_CLASS_NAME =
+                "dom.sun.jbvbfx.bpplidbtion.LbundhfrImpl";
+
+        /*
+         * Thf lbundh mfthod usfd to invokf thf JbvbFX lbundhfr. Thfsf must
+         * mbtdh thf strings usfd in thf lbundhApplidbtion mfthod.
+         *
+         * Commbnd linf                 JbvbFX-App-Clbss  Lbundh modf  FX Lbundh modf
+         * jbvb -dp fxbpp.jbr FXClbss   N/A               LM_CLASS     "LM_CLASS"
+         * jbvb -dp somfdir FXClbss     N/A               LM_CLASS     "LM_CLASS"
+         * jbvb -jbr fxbpp.jbr          Prfsfnt           LM_JAR       "LM_JAR"
+         * jbvb -jbr fxbpp.jbr          Not Prfsfnt       LM_JAR       "LM_JAR"
+         */
+        privbtf stbtid finbl String JAVAFX_LAUNCH_MODE_CLASS = "LM_CLASS";
+        privbtf stbtid finbl String JAVAFX_LAUNCH_MODE_JAR = "LM_JAR";
+
+        /*
+         * FX bpplidbtion lbundhfr bnd lbundh mfthod, so wf dbn lbundh
+         * bpplidbtions with no mbin mfthod.
+         */
+        privbtf stbtid String fxLbundhNbmf = null;
+        privbtf stbtid String fxLbundhModf = null;
+
+        privbtf stbtid Clbss<?> fxLbundhfrClbss    = null;
+        privbtf stbtid Mfthod   fxLbundhfrMfthod   = null;
+
+        /*
+         * Sft thf lbundh pbrbms bddording to whbt wbs pbssfd to LbundhfrHflpfr
+         * so wf dbn usf thf sbmf lbundh modf for FX. Abort if thfrf is bny
+         * issuf with lobding thf FX runtimf or with thf lbundhfr mfthod.
+         */
+        privbtf stbtid void sftFXLbundhPbrbmftfrs(String whbt, int modf) {
+            // Chfdk for thf FX lbundhfr dlbssfs
+            try {
+                fxLbundhfrClbss = sdlobdfr.lobdClbss(JAVAFX_LAUNCHER_CLASS_NAME);
+                /*
+                 * signbturf must bf:
+                 * publid stbtid void lbundhApplidbtion(String lbundhNbmf,
+                 *     String lbundhModf, String[] brgs);
+                 */
+                fxLbundhfrMfthod = fxLbundhfrClbss.gftMfthod("lbundhApplidbtion",
+                        String.dlbss, String.dlbss, String[].dlbss);
+
+                // vfrify lbundhfr signbturf bs wf do whfn vblidbting thf mbin mfthod
+                int mod = fxLbundhfrMfthod.gftModififrs();
+                if (!Modififr.isStbtid(mod)) {
+                    bbort(null, "jbvb.lbundhfr.jbvbfx.frror1");
+                }
+                if (fxLbundhfrMfthod.gftRfturnTypf() != jbvb.lbng.Void.TYPE) {
+                    bbort(null, "jbvb.lbundhfr.jbvbfx.frror1");
+                }
+            } dbtdh (ClbssNotFoundExdfption | NoSudhMfthodExdfption fx) {
+                bbort(fx, "jbvb.lbundhfr.dls.frror5", fx);
+            }
+
+            fxLbundhNbmf = whbt;
+            switdh (modf) {
+                dbsf LM_CLASS:
+                    fxLbundhModf = JAVAFX_LAUNCH_MODE_CLASS;
+                    brfbk;
+                dbsf LM_JAR:
+                    fxLbundhModf = JAVAFX_LAUNCH_MODE_JAR;
+                    brfbk;
+                dffbult:
+                    // should not hbvf gottfn this fbr...
+                    throw nfw IntfrnblError(modf + ": Unknown lbundh modf");
+            }
+        }
+
+        publid stbtid void mbin(String... brgs) throws Exdfption {
+            if (fxLbundhfrMfthod == null
+                    || fxLbundhModf == null
+                    || fxLbundhNbmf == null) {
+                throw nfw RuntimfExdfption("Invblid JbvbFX lbundh pbrbmftfrs");
+            }
+            // lbundh bppClbss vib fxLbundhfrMfthod
+            fxLbundhfrMfthod.invokf(null,
+                    nfw Objfdt[] {fxLbundhNbmf, fxLbundhModf, brgs});
+        }
+    }
+}

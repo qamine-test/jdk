@@ -1,0 +1,305 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+
+/**
+ * A <dodf>MidiFilfFormbt</dodf> objfdt fndbpsulbtfs b MIDI filf's
+ * typf, bs wfll bs its lfngth bnd timing informbtion.
+ *
+ * <p>A <dodf>MidiFilfFormbt</dodf> objfdt dbn
+ * indludf b sft of propfrtifs. A propfrty is b pbir of kfy bnd vbluf:
+ * thf kfy is of typf <dodf>String</dodf>, thf bssodibtfd propfrty
+ * vbluf is bn brbitrbry objfdt.
+ * Propfrtifs spfdify bdditionbl informbtionbl
+ * mftb dbtb (likf b buthor, or dopyright).
+ * Propfrtifs brf optionbl informbtion, bnd filf rfbdfr bnd filf
+ * writfr implfmfntbtions brf not rfquirfd to providf or
+ * rfdognizf propfrtifs.
+ *
+ * <p>Thf following tbblf lists somf dommon propfrtifs thbt should
+ * bf usfd in implfmfntbtions:
+ *
+ * <tbblf bordfr=1>
+    <dbption>MIDI Filf Formbt Propfrtifs</dbption>
+ *  <tr>
+ *   <th>Propfrty kfy</th>
+ *   <th>Vbluf typf</th>
+ *   <th>Dfsdription</th>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;buthor&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>nbmf of thf buthor of this filf</td>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;titlf&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>titlf of this filf</td>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;dopyright&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>dopyright mfssbgf</td>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;dbtf&quot;</td>
+ *   <td>{@link jbvb.util.Dbtf Dbtf}</td>
+ *   <td>dbtf of thf rfdording or rflfbsf</td>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;dommfnt&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>bn brbitrbry tfxt</td>
+ *  </tr>
+ * </tbblf>
+ *
+ * @sff MidiSystfm#gftMidiFilfFormbt(jbvb.io.Filf)
+ * @sff Sfqufndfr#sftSfqufndf(jbvb.io.InputStrfbm strfbm)
+ *
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ */
+
+publid dlbss MidiFilfFormbt {
+
+
+    /**
+     * Rfprfsfnts unknown lfngth.
+     * @sff #gftBytfLfngth
+     * @sff #gftMidrosfdondLfngth
+     */
+    publid stbtid finbl int UNKNOWN_LENGTH = -1;
+
+
+    /**
+     * Thf typf of MIDI filf.
+     */
+    protfdtfd int typf;
+
+    /**
+     * Thf division typf of thf MIDI filf.
+     *
+     * @sff Sfqufndf#PPQ
+     * @sff Sfqufndf#SMPTE_24
+     * @sff Sfqufndf#SMPTE_25
+     * @sff Sfqufndf#SMPTE_30DROP
+     * @sff Sfqufndf#SMPTE_30
+     */
+    protfdtfd flobt divisionTypf;
+
+    /**
+     * Thf timing rfsolution of thf MIDI filf.
+     */
+    protfdtfd int rfsolution;
+
+    /**
+     * Thf lfngth of thf MIDI filf in bytfs.
+     */
+    protfdtfd int bytfLfngth;
+
+    /**
+     * Thf durbtion of thf MIDI filf in midrosfdonds.
+     */
+    protfdtfd long midrosfdondLfngth;
+
+
+    /** Thf sft of propfrtifs */
+    privbtf HbshMbp<String, Objfdt> propfrtifs;
+
+
+    /**
+     * Construdts b <dodf>MidiFilfFormbt</dodf>.
+     *
+     * @pbrbm typf thf MIDI filf typf (0, 1, or 2)
+     * @pbrbm divisionTypf thf timing division typf (PPQ or onf of thf SMPTE typfs)
+     * @pbrbm rfsolution thf timing rfsolution
+     * @pbrbm bytfs thf lfngth of thf MIDI filf in bytfs, or UNKNOWN_LENGTH if not known
+     * @pbrbm midrosfdonds thf durbtion of thf filf in midrosfdonds, or UNKNOWN_LENGTH if not known
+     * @sff #UNKNOWN_LENGTH
+     * @sff Sfqufndf#PPQ
+     * @sff Sfqufndf#SMPTE_24
+     * @sff Sfqufndf#SMPTE_25
+     * @sff Sfqufndf#SMPTE_30DROP
+     * @sff Sfqufndf#SMPTE_30
+     */
+    publid MidiFilfFormbt(int typf, flobt divisionTypf, int rfsolution, int bytfs, long midrosfdonds) {
+
+        this.typf = typf;
+        this.divisionTypf = divisionTypf;
+        this.rfsolution = rfsolution;
+        this.bytfLfngth = bytfs;
+        this.midrosfdondLfngth = midrosfdonds;
+        this.propfrtifs = null;
+    }
+
+
+    /**
+     * Construdt b <dodf>MidiFilfFormbt</dodf> with b sft of propfrtifs.
+     *
+     * @pbrbm typf         thf MIDI filf typf (0, 1, or 2)
+     * @pbrbm divisionTypf thf timing division typf
+     *      (PPQ or onf of thf SMPTE typfs)
+     * @pbrbm rfsolution   thf timing rfsolution
+     * @pbrbm bytfs thf lfngth of thf MIDI filf in bytfs,
+     *      or UNKNOWN_LENGTH if not known
+     * @pbrbm midrosfdonds thf durbtion of thf filf in midrosfdonds,
+     *      or UNKNOWN_LENGTH if not known
+     * @pbrbm propfrtifs  b <dodf>Mbp&lt;String,Objfdt&gt;</dodf> objfdt
+     *        with propfrtifs
+     *
+     * @sff #UNKNOWN_LENGTH
+     * @sff Sfqufndf#PPQ
+     * @sff Sfqufndf#SMPTE_24
+     * @sff Sfqufndf#SMPTE_25
+     * @sff Sfqufndf#SMPTE_30DROP
+     * @sff Sfqufndf#SMPTE_30
+     * @sindf 1.5
+     */
+    publid MidiFilfFormbt(int typf, flobt divisionTypf,
+                          int rfsolution, int bytfs,
+                          long midrosfdonds, Mbp<String, Objfdt> propfrtifs) {
+        this(typf, divisionTypf, rfsolution, bytfs, midrosfdonds);
+        this.propfrtifs = nfw HbshMbp<String, Objfdt>(propfrtifs);
+    }
+
+
+
+    /**
+     * Obtbins thf MIDI filf typf.
+     * @rfturn thf filf's typf (0, 1, or 2)
+     */
+    publid int gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Obtbins thf timing division typf for thf MIDI filf.
+     *
+     * @rfturn thf division typf (PPQ or onf of thf SMPTE typfs)
+     *
+     * @sff Sfqufndf#Sfqufndf(flobt, int)
+     * @sff Sfqufndf#PPQ
+     * @sff Sfqufndf#SMPTE_24
+     * @sff Sfqufndf#SMPTE_25
+     * @sff Sfqufndf#SMPTE_30DROP
+     * @sff Sfqufndf#SMPTE_30
+     * @sff Sfqufndf#gftDivisionTypf()
+     */
+    publid flobt gftDivisionTypf() {
+        rfturn divisionTypf;
+    }
+
+
+    /**
+     * Obtbins thf timing rfsolution for thf MIDI filf.
+     * If thf division typf is PPQ, thf rfsolution is spfdififd in tidks pfr bfbt.
+     * For SMTPE timing, thf rfsolution is spfdififd in tidks pfr frbmf.
+     *
+     * @rfturn thf numbfr of tidks pfr bfbt (PPQ) or pfr frbmf (SMPTE)
+     * @sff #gftDivisionTypf
+     * @sff Sfqufndf#gftRfsolution()
+     */
+    publid int gftRfsolution() {
+        rfturn rfsolution;
+    }
+
+
+    /**
+     * Obtbins thf lfngth of thf MIDI filf, fxprfssfd in 8-bit bytfs.
+     * @rfturn thf numbfr of bytfs in thf filf, or UNKNOWN_LENGTH if not known
+     * @sff #UNKNOWN_LENGTH
+     */
+    publid int gftBytfLfngth() {
+        rfturn bytfLfngth;
+    }
+
+    /**
+     * Obtbins thf lfngth of thf MIDI filf, fxprfssfd in midrosfdonds.
+     * @rfturn thf filf's durbtion in midrosfdonds, or UNKNOWN_LENGTH if not known
+     * @sff Sfqufndf#gftMidrosfdondLfngth()
+     * @sff #gftBytfLfngth
+     * @sff #UNKNOWN_LENGTH
+     */
+    publid long gftMidrosfdondLfngth() {
+        rfturn midrosfdondLfngth;
+    }
+
+    /**
+     * Obtbin bn unmodifibblf mbp of propfrtifs.
+     * Thf dondfpt of propfrtifs is furthfr fxplbinfd in
+     * thf {@link MidiFilfFormbt dlbss dfsdription}.
+     *
+     * @rfturn b <dodf>Mbp&lt;String,Objfdt&gt;</dodf> objfdt dontbining
+     *         bll propfrtifs. If no propfrtifs brf rfdognizfd, bn fmpty mbp is
+     *         rfturnfd.
+     *
+     * @sff #gftPropfrty(String)
+     * @sindf 1.5
+     */
+    @SupprfssWbrnings("undhfdkfd") // Cbst of rfsult of dlonf
+    publid Mbp<String,Objfdt> propfrtifs() {
+        Mbp<String,Objfdt> rft;
+        if (propfrtifs == null) {
+            rft = nfw HbshMbp<String,Objfdt>(0);
+        } flsf {
+            rft = (Mbp<String,Objfdt>) (propfrtifs.dlonf());
+        }
+        rfturn Collfdtions.unmodifibblfMbp(rft);
+    }
+
+
+    /**
+     * Obtbin thf propfrty vbluf spfdififd by thf kfy.
+     * Thf dondfpt of propfrtifs is furthfr fxplbinfd in
+     * thf {@link MidiFilfFormbt dlbss dfsdription}.
+     *
+     * <p>If thf spfdififd propfrty is not dffinfd for b
+     * pbrtidulbr filf formbt, this mfthod rfturns
+     * <dodf>null</dodf>.
+     *
+     * @pbrbm kfy thf kfy of thf dfsirfd propfrty
+     * @rfturn thf vbluf of thf propfrty with thf spfdififd kfy,
+     *         or <dodf>null</dodf> if thf propfrty dofs not fxist.
+     *
+     * @sff #propfrtifs()
+     * @sindf 1.5
+     */
+    publid Objfdt gftPropfrty(String kfy) {
+        if (propfrtifs == null) {
+            rfturn null;
+        }
+        rfturn propfrtifs.gft(kfy);
+    }
+
+
+}

@@ -1,0 +1,214 @@
+'\" t
+.\"  Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     Titlf: orbd.1
+.\"
+.if n .pl 99999
+.TH orbd 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+orbd \- Enbblfs dlifnts to lodbtf bnd dbll pfrsistfnt objfdts on sfrvfrs in thf CORBA fnvironmfnt\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBorbd\fR [ \fIoptions\fR ]
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Commbnd-linf options\&. Sff Options\&.
+.SH DESCRIPTION    
+Thf \f3orbd\fR dommbnd fnbblfs dlifnts to trbnspbrfntly lodbtf bnd dbll pfrsistfnt objfdts on sfrvfrs in thf CORBA fnvironmfnt\&. Thf Sfrvfr Mbnbgfr indludfd with thf orbd tool is usfd to fnbblf dlifnts to trbnspbrfntly lodbtf bnd dbll pfrsistfnt objfdts on sfrvfrs in thf CORBA fnvironmfnt\&. Thf pfrsistfnt sfrvfrs, whilf publishing thf pfrsistfnt objfdt rfffrfndfs in thf nbming sfrvidf, indludf thf port numbfr of thf ORBD in thf objfdt rfffrfndf instfbd of thf port numbfr of thf sfrvfr\&. Thf indlusion of bn ORBD port numbfr in thf objfdt rfffrfndf for pfrsistfnt objfdt rfffrfndfs hbs thf following bdvbntbgfs:
+.TP 0.2i    
+\(bu
+Thf objfdt rfffrfndf in thf nbming sfrvidf rfmbins indfpfndfnt of thf sfrvfr liff dydlf\&. For fxbmplf, thf objfdt rfffrfndf dould bf publishfd by thf sfrvfr in thf Nbming Sfrvidf whfn it is first instbllfd, bnd thfn, indfpfndfnt of how mbny timfs thf sfrvfr is stbrtfd or shut down, thf ORBD rfturns thf dorrfdt objfdt rfffrfndf to thf dblling dlifnt\&.
+.TP 0.2i    
+\(bu
+Thf dlifnt nffds to look up thf objfdt rfffrfndf in thf nbming sfrvidf only ondf, bnd dbn kffp rfusing this rfffrfndf indfpfndfnt of thf dhbngfs introdudfd duf to sfrvfr liff dydlf\&.
+.PP
+To bddfss thf ORBD Sfrvfr Mbnbgfr, thf sfrvfr must bf stbrtfd using \f3sfrvfrtool\fR, whidh is b dommbnd-linf intfrfbdf for bpplidbtion progrbmmfrs to rfgistfr, unrfgistfr, stbrt up, bnd shut down b pfrsistfnt sfrvfr\&. For morf informbtion on thf Sfrvfr Mbnbgfr, sff Sfrvfr Mbnbgfr\&.
+.PP
+Whfn \f3orbd\fR stbrts, it blso stbrts b nbming sfrvidf\&. For morf informbtion bbout thf nbming sfrvidf\&. Sff Stbrt bnd Stop thf Nbming Sfrvidf\&.
+.SH OPTIONS    
+.TP
+-ORBInitiblPort \fInbmfsfrvfrport\fR
+.br
+Rfquirfd\&. Spfdififs thf port on whidh thf nbmf sfrvfr should bf stbrtfd\&. Aftfr it is stbrtfd, \f3orbd\fR listfns for indoming rfqufsts on this port\&. On Orbdlf Solbris softwbrf, you must bfdomf thf root usfr to stbrt b prodfss on b port bflow 1024\&. For this rfbson, Orbdlf rfdommfnds thbt you usf b port numbfr bbovf or fqubl to 1024\&.
+.SS NONREQUIRED\ OPTIONS    
+.TP
+-port \fIport\fR
+.br
+Spfdififs thf bdtivbtion port whfrf ORBD should bf stbrtfd, bnd whfrf ORBD will bf bddfpting rfqufsts for pfrsistfnt objfdts\&. Thf dffbult vbluf for this port is 1049\&. This port numbfr is bddfd to thf port fifld of thf pfrsistfnt Intfropfrbblf Objfdt Rfffrfndfs (IOR)\&.
+.TP
+-dffbultdb \fIdirfdtory\fR
+.br
+Spfdififs thf bbsf whfrf thf ORBD pfrsistfnt storbgf dirfdtory, \f3orb\&.db\fR, is drfbtfd\&. If this option is not spfdififd, thfn thf dffbult vbluf is \f3\&./orb\&.db\fR\&.
+.TP
+-sfrvfrPollingTimf \fImillisfdonds\fR
+.br
+Spfdififs how oftfn ORBD dhfdks for thf hfblth of pfrsistfnt sfrvfrs rfgistfrfd through \f3sfrvfrtool\fR\&. Thf dffbult vbluf is 1000 ms\&. Thf vbluf spfdififd for \f3millisfdonds\fR must bf b vblid positivf intfgfr\&.
+.TP
+-sfrvfrStbrtupDflby millisfdonds
+.br
+Spfdififs how long ORBD wbits bfforf sfnding b lodbtion forwbrd fxdfption bftfr b pfrsistfnt sfrvfr thbt is rfgistfrfd through \f3sfrvfrtool\fR is rfstbrtfd\&. Thf dffbult vbluf is 1000 ms\&. Thf vbluf spfdififd for \f3millisfdonds\fR must bf b vblid positivf intfgfr\&.
+.TP
+-J\fIoption\fR
+.br
+Pbssfs \f3option\fR to thf Jbvb Virtubl Mbdhinf, whfrf \f3option\fR is onf of thf options dfsdribfd on thf rfffrfndf pbgf for thf Jbvb bpplidbtion lbundhfr\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SS START\ AND\ STOP\ THE\ NAMING\ SERVICE    
+A nbming sfrvidf is b CORBA sfrvidf thbt bllows CORBA objfdts to bf nbmfd by mfbns of binding b nbmf to bn objfdt rfffrfndf\&. Thf nbmf binding dbn bf storfd in thf nbming sfrvidf, bnd b dlifnt dbn supply thf nbmf to obtbin thf dfsirfd objfdt rfffrfndf\&.
+.PP
+Bfforf running b dlifnt or b sfrvfr, you will stbrt ORBD\&. ORBD indludfs b pfrsistfnt nbming sfrvidf bnd b trbnsifnt nbming sfrvidf, both of whidh brf bn implfmfntbtion of thf COS Nbming Sfrvidf\&.
+.PP
+Thf Pfrsistfnt Nbming Sfrvidf providfs pfrsistfndf for nbming dontfxts\&. This mfbns thbt this informbtion is pfrsistfnt bdross sfrvidf shutdowns bnd stbrtups, bnd is rfdovfrbblf in thf fvfnt of b sfrvidf fbilurf\&. If ORBD is rfstbrtfd, thfn thf Pfrsistfnt Nbming Sfrvidf rfstorfs thf nbming dontfxt grbph, so thbt thf binding of bll dlifnts\&' bnd sfrvfrs\&' nbmfs rfmbins intbdt (pfrsistfnt)\&.
+.PP
+For bbdkwbrd dompbtibility, \f3tnbmfsfrv\fR, b Trbnsifnt Nbming Sfrvidf thbt shippfd with fbrlifr rflfbsfs of thf JDK, is blso indludfd in this rflfbsf of Jbvb SE\&. A trbnsifnt nbming sfrvidf rftbins nbming dontfxts bs long bs it is running\&. If thfrf is b sfrvidf intfrruption, thfn thf nbming dontfxt grbph is lost\&.
+.PP
+Thf \f3-ORBInitiblPort\fR brgumfnt is b rfquirfd dommbnd-linf brgumfnt for \f3orbd\fR, bnd is usfd to sft thf port numbfr on whidh thf nbming sfrvidf runs\&. Thf following instrudtions bssumf you dbn usf port 1050 for thf Jbvb IDL Objfdt Rfqufst Brokfr Dbfmon\&. Whfn using Orbdlf Solbris softwbrf, you must bfdomf b root usfr to stbrt b prodfss on b port lowfr thbn 1024\&. For this rfbson, it is rfdommfndfd thbt you usf b port numbfr bbovf or fqubl to 1024\&. You dbn substitutf b difffrfnt port whfn nfdfssbry\&.
+.PP
+To stbrt \f3orbd\fR from b UNIX dommbnd shfll, fntfr:
+.sp     
+.nf     
+\f3orbd \-ORBInitiblPort 1050&\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+From bn MS-DOS systfm prompt (Windows), fntfr:
+.sp     
+.nf     
+\f3stbrt orbd \-ORBInitiblPort 1050\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Now thbt ORBD is running, you dbn run your sfrvfr bnd dlifnt bpplidbtions\&. Whfn running thf dlifnt bnd sfrvfr bpplidbtions, thfy must bf mbdf bwbrf of thf port numbfr (bnd mbdhinf nbmf, whfn bpplidbblf) whfrf thf Nbming Sfrvidf is running\&. Onf wby to do this is to bdd thf following dodf to your bpplidbtion:
+.sp     
+.nf     
+\f3Propfrtifs props = nfw Propfrtifs();\fP
+.fi     
+.nf     
+\f3props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+.fi     
+.nf     
+\f3props\&.put("org\&.omg\&.CORBA\&.ORBInitiblHost", "MyHost");\fP
+.fi     
+.nf     
+\f3ORB orb = ORB\&.init(brgs, props);\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+In this fxbmplf, thf nbming sfrvidf is running on port 1050 on host \f3MyHost\fR\&. Anothfr wby is to spfdify thf port numbfr bnd/or mbdhinf nbmf whfn running thf sfrvfr or dlifnt bpplidbtion from thf dommbnd linf\&. For fxbmplf, you would stbrt your \f3HflloApplidbtion\fR with thf following dommbnd linf:
+.sp     
+.nf     
+\f3jbvb HflloApplidbtion \-ORBInitiblPort 1050 \-ORBInitiblHost MyHost\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+To stop thf nbming sfrvidf, usf thf rflfvbnt opfrbting systfm dommbnd, sudh bs \f3pkill\fR\f3orbd\fR on Orbdlf Solbris, or \fICtrl+C\fR in thf DOS window in whidh \f3orbd\fR is running\&. Notf thbt nbmfs rfgistfrfd with thf nbming sfrvidf dbn disbppfbr whfn thf sfrvidf is tfrminbtfd bfdbusf of b trbnsifnt nbming sfrvidf\&. Thf Jbvb IDL nbming sfrvidf will run until it is fxpliditly stoppfd\&.
+.PP
+For morf informbtion bbout thf nbming sfrvidf indludfd with ORBD, sff Nbming Sfrvidf bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/idl/jidlNbming\&.html
+.SH SERVER\ MANAGER    
+To bddfss thf ORBD Sfrvfr Mbnbgfr bnd run b pfrsistfnt sfrvfr, thf sfrvfr must bf stbrtfd with \f3sfrvfrtool\fR, whidh is b dommbnd-linf intfrfbdf for bpplidbtion progrbmmfrs to rfgistfr, unrfgistfr, stbrt up, bnd shut down b pfrsistfnt sfrvfr\&. Whfn b sfrvfr is stbrtfd using \f3sfrvfrtool\fR, it must bf stbrtfd on thf sbmf host bnd port on whidh \f3orbd\fR is fxfduting\&. If thf sfrvfr is run on b difffrfnt port, thfn thf informbtion storfd in thf dbtbbbsf for lodbl dontfxts will bf invblid bnd thf sfrvidf will not work propfrly\&.
+.PP
+Sff Jbvb IDL: Thf "Hfllo World" Exbmplf bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/idl/jidlExbmplf\&.html
+.PP
+In this fxbmplf, you run thf \f3idlj\fR dompilfr bnd \f3jbvbd\fR dompilfr bs shown in thf tutoribl\&. To run thf ORBD Sfrvfr Mbnbgfr, follow thfsf stfps for running thf bpplidbtion:
+.PP
+Stbrt \f3orbd\fR\&.
+.PP
+UNIX dommbnd shfll, fntfr: \f3orbd -ORBInitiblPort 1050\fR\&.
+.PP
+MS-DOS systfm prompt (Windows), fntfr: \f3s\fR\f3tbrt orbd -ORBInitiblPort 105\fR\f30\fR\&.
+.PP
+Port 1050 is thf port on whidh you wbnt thf nbmf sfrvfr to run\&. Thf \f3-ORBInitiblPort\fR option is b rfquirfd dommbnd-linf brgumfnt\&. Whfn using Orbdlf Solbris softwbrf, you must bfdomf b root usfr to stbrt b prodfss on b port bflow 1024\&. For this rfbson, it is rfdommfndfd thbt you usf b port numbfr bbovf or fqubl to 1024\&.
+.PP
+Stbrt thf \f3sfrvfrtool\fR: \f3sfrvfrtool -ORBInitiblPort 1050\fR\&.
+.PP
+Mbkf surf thf nbmf sfrvfr (\f3orbd\fR) port is thf sbmf bs in thf prfvious stfp, for fxbmplf, \f3-ORBInitiblPort 1050\&.\fR Thf \f3sfrvfrtool\fR must bf stbrtfd on thf sbmf port bs thf nbmf sfrvfr\&.
+.PP
+In thf \f3sfrvfrtool\fR dommbnd linf intfrfbdf, stbrt thf \f3Hfllo\fR sfrvfr from thf \f3sfrvfrtool\fR prompt:
+.sp     
+.nf     
+\f3sfrvfrtool  > rfgistfr \-sfrvfr HflloSfrvfr \-dlbsspbth \&. \-bpplidbtionNbmf\fP
+.fi     
+.nf     
+\f3                HflloSfrvfrApNbmf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf \f3sfrvfrtool\fR rfgistfrs thf sfrvfr, bssigns it thf nbmf \f3HflloSfrvfrApNbmf\fR, bnd displbys its sfrvfr ID with b listing of bll rfgistfrfd sfrvfrs\&.Run thf dlifnt bpplidbtion from bnothfr tfrminbl window or prompt:
+.sp     
+.nf     
+\f3jbvb HflloClifnt \-ORBInitiblPort 1050 \-ORBInitiblHost lodblhost\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+For this fxbmplf, you dbn omit \f3-ORBInitiblHost lodblhost\fR bfdbusf thf nbmf sfrvfr is running on thf sbmf host bs thf \f3Hfllo\fR dlifnt\&. If thf nbmf sfrvfr is running on b difffrfnt host, thfn usf thf -\f3ORBInitiblHost nbmfsfrvfrhost\fR option to spfdify thf host on whidh thf IDL nbmf sfrvfr is running\&.Spfdify thf nbmf sfrvfr (\f3orbd\fR) port bs donf in thf prfvious stfp, for fxbmplf, \f3-ORBInitiblPort 1050\fR\&. Whfn you finish fxpfrimfnting with thf ORBD Sfrvfr Mbnbgfr, bf surf to shut down or tfrminbtf thf nbmf sfrvfr (\f3orbd\fR) bnd \f3sfrvfrtool\fR\&. To shut down \f3orbd\fR from bm MS-DOS prompt, sflfdt thf window thbt is running thf sfrvfr bnd fntfr \fICtrl+C\fR to shut it down\&.
+.PP
+To shut down \f3orbd\fR from bn Orbdlf Solbris shfll, find thf prodfss, bnd tfrminbtf with thf \f3kill\fR dommbnd\&. Thf sfrvfr dontinufs to wbit for invodbtions until it is fxpliditly stoppfd\&. To shut down thf \f3sfrvfrtool\fR, typf \fIquit\fR bnd prfss thf \fIEntfr\fR kfy\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+sfrvfrtool(1)
+.TP 0.2i    
+\(bu
+Nbming Sfrvidf bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/idl/jidlNbming\&.html
+.RE
+.br
+'pl 8.5i
+'bp

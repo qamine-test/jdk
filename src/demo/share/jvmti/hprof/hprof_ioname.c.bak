@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,42 +30,42 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* Used to store strings written out to the binary format (see hprof_io.c) */
+/* Usfd to storf strings writtfn out to tif binbry formbt (sff iprof_io.d) */
 
 
-/* Probably could have used the basic string table, however, some strings
- *   would only be in this table, so it was isolated as a separate table
+/* Probbbly dould ibvf usfd tif bbsid string tbblf, iowfvfr, somf strings
+ *   would only bf in tiis tbblf, so it wbs isolbtfd bs b sfpbrbtf tbblf
  *   of strings.
  */
 
-#include "hprof.h"
-#include "hprof_ioname.h"
+#indludf "iprof.i"
+#indludf "iprof_ionbmf.i"
 
 void
-ioname_init(void)
+ionbmf_init(void)
 {
-    HPROF_ASSERT(gdata->ioname_table==NULL);
-    gdata->ioname_table = table_initialize("IoNames", 512, 512, 511, 0);
+    HPROF_ASSERT(gdbtb->ionbmf_tbblf==NULL);
+    gdbtb->ionbmf_tbblf = tbblf_initiblizf("IoNbmfs", 512, 512, 511, 0);
 }
 
-IoNameIndex
-ioname_find_or_create(const char *name, jboolean *pnew_entry)
+IoNbmfIndfx
+ionbmf_find_or_drfbtf(donst dibr *nbmf, jboolfbn *pnfw_fntry)
 {
-    return table_find_or_create_entry(gdata->ioname_table,
-                        (void*)name, (int)strlen(name)+1, pnew_entry, NULL);
+    rfturn tbblf_find_or_drfbtf_fntry(gdbtb->ionbmf_tbblf,
+                        (void*)nbmf, (int)strlfn(nbmf)+1, pnfw_fntry, NULL);
 }
 
 void
-ioname_cleanup(void)
+ionbmf_dlfbnup(void)
 {
-    table_cleanup(gdata->ioname_table, NULL, NULL);
-    gdata->ioname_table = NULL;
+    tbblf_dlfbnup(gdbtb->ionbmf_tbblf, NULL, NULL);
+    gdbtb->ionbmf_tbblf = NULL;
 }

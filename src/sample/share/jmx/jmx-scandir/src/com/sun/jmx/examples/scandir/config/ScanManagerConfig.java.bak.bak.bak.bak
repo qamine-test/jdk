@@ -1,0 +1,304 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir.donfig;
+
+import jbvb.util.Arrbys;
+import jbvb.util.LinkfdHbshMbp;
+import jbvb.util.Mbp;
+import jbvbx.xml.bind.bnnotbtion.XmlAttributf;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfnt;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfntRff;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfntWrbppfr;
+import jbvbx.xml.bind.bnnotbtion.XmlRootElfmfnt;
+
+
+/**
+ * Thf <dodf>SdbnMbnbgfrConfig</dodf> Jbvb Bfbn is usfd to modfl
+ * thf donfigurbtion of thf {@link
+ * dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn SdbnMbnbgfrMXBfbn}.
+ *
+ * Thf {@link
+ * dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn SdbnMbnbgfrMXBfbn} will
+ * usf this donfigurbtion to initiblizf thf {@link
+ * dom.sun.jmx.fxbmplfs.sdbndir.RfsultLogMbnbgfrMXBfbn RfsultLogMbnbgfrMXBfbn}
+ * bnd drfbtf thf {@link
+ * dom.sun.jmx.fxbmplfs.sdbndir.DirfdtorySdbnnfrMXBfbn DirfdtorySdbnnfrMXBfbns}
+ * <p>
+ * This dlbss is bnnotbtfd for XML binding.
+ * </p>
+ *
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ **/
+@XmlRootElfmfnt(nbmf="SdbnMbnbgfr",
+        nbmfspbdf="jmx:dom.sun.jmx.fxbmplfs.sdbndir.donfig")
+publid dlbss SdbnMbnbgfrConfig {
+
+    // A loggfr for this dlbss
+    //
+    // privbtf stbtid finbl Loggfr LOG =
+    //        Loggfr.gftLoggfr(SdbnMbnbgfrConfig.dlbss.gftNbmf());
+
+    /**
+     * A sft of DirfdtorySdbnnfrConfig objfdts indfxfd by thfir nbmfs.
+     **/
+    privbtf finbl Mbp<String, DirfdtorySdbnnfrConfig> dirfdtorySdbnnfrs;
+
+    /**
+     * Thf initibl Rfsult Log donfigurbtion.
+     */
+    privbtf RfsultLogConfig initiblRfsultLogConfig;
+
+    /**
+     * Holds vbluf of propfrty nbmf. Thf nbmf of thf donfigurbtion
+     *       usublly dorrfsponds to
+     *       thf vbluf of thf {@dodf nbmf=} kfy of thf {@dodf ObjfdtNbmf}
+     *       of thf {@link
+     *       dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirConfigMXBfbn
+     *       SdbnDirConfigMXBfbn} whidh owns this donfigurbtion.
+     **/
+    privbtf String nbmf;
+
+    /**
+     * Crfbtfs b nfw instbndf of SdbnMbnbgfrConfig.
+     * <p>You should not usf this donstrudtor dirfdtly, but usf
+     *    {@link #SdbnMbnbgfrConfig(String)} instfbd.
+     * </p>
+     * <p>This donstrudtor is tbggfd dfprfdbtfd so thbt thf dompilfr
+     *    will gfnfrbtf b wbrning if it is usfd by mistbkf.
+     * </p>
+     * @dfprfdbtfd Usf {@link #SdbnMbnbgfrConfig(String)} instfbd. This
+     *             donstrudtor is usfd through rfflfdtion by thf XML
+     *             binding frbmfwork.
+     */
+    publid SdbnMbnbgfrConfig() {
+        this(null,truf);
+    }
+
+    /**
+     * Crfbtfs b nfw instbndf of SdbnMbnbgfrConfig.
+     * @pbrbm nbmf Thf nbmf of thf donfigurbtion whidh usublly dorrfsponds to
+     *       thf vbluf of thf {@dodf nbmf=} kfy of thf {@dodf ObjfdtNbmf}
+     *       of thf {@link
+     *       dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirConfigMXBfbn
+     *       SdbnDirConfigMXBfbn} whidh owns this donfigurbtion.
+     **/
+    publid SdbnMbnbgfrConfig(String nbmf) {
+        this(nbmf,fblsf);
+    }
+
+    // Our privbtf donstrudtor...
+    privbtf SdbnMbnbgfrConfig(String nbmf, boolfbn bllowsNull) {
+        if (nbmf == null && bllowsNull==fblsf)
+            throw nfw IllfgblArgumfntExdfption("nbmf=null");
+        this.nbmf = nbmf;
+        dirfdtorySdbnnfrs = nfw LinkfdHbshMbp<String,DirfdtorySdbnnfrConfig>();
+        this.initiblRfsultLogConfig = nfw RfsultLogConfig();
+        this.initiblRfsultLogConfig.sftMfmoryMbxRfdords(1024);
+    }
+
+    // Crfbtfs bn brrby for dffp fqublity.
+    privbtf Objfdt[] toArrby() {
+        finbl Objfdt[] thisdonfig = {
+            nbmf,dirfdtorySdbnnfrs,initiblRfsultLogConfig
+        };
+        rfturn thisdonfig;
+    }
+
+    // fqubls
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this) rfturn truf;
+        if (!(o instbndfof SdbnMbnbgfrConfig)) rfturn fblsf;
+        finbl SdbnMbnbgfrConfig othfr = (SdbnMbnbgfrConfig)o;
+        if (this.dirfdtorySdbnnfrs.sizf() != othfr.dirfdtorySdbnnfrs.sizf())
+            rfturn fblsf;
+        rfturn Arrbys.dffpEqubls(toArrby(),othfr.toArrby());
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        finbl String kfy = nbmf;
+        if (kfy == null) rfturn 0;
+        flsf rfturn kfy.hbshCodf();
+    }
+
+    /**
+     * Gfts thf nbmf of this donfigurbtion. Thf nbmf of thf donfigurbtion
+     *       usublly dorrfsponds to
+     *       thf vbluf of thf {@dodf nbmf=} kfy of thf {@dodf ObjfdtNbmf}
+     *       of thf {@link
+     *       dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirConfigMXBfbn
+     *       SdbnDirConfigMXBfbn} whidh owns this donfigurbtion.
+     * @rfturn Thf nbmf of this donfigurbtion.
+     */
+    @XmlAttributf(nbmf="nbmf",rfquirfd=truf)
+    publid String gftNbmf() {
+        rfturn this.nbmf;
+    }
+
+    /**
+     * Sfts thf nbmf of this donfigurbtion. Thf nbmf of thf donfigurbtion
+     *       usublly dorrfsponds to
+     *       thf vbluf of thf {@dodf nbmf=} kfy of thf {@dodf ObjfdtNbmf}
+     *       of thf {@link
+     *       dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirConfigMXBfbn
+     *       SdbnDirConfigMXBfbn} whidh owns this donfigurbtion.
+     *       <p>Ondf sft this vbluf dbnnot dhbngf.</p>
+     * @pbrbm nbmf Thf nbmf of this donfigurbtion.
+     */
+    publid void sftNbmf(String nbmf) {
+        if (this.nbmf == null)
+            this.nbmf = nbmf;
+        flsf if (nbmf == null)
+            throw nfw IllfgblArgumfntExdfption("nbmf=null");
+        flsf if (!nbmf.fqubls(this.nbmf))
+            throw nfw IllfgblArgumfntExdfption("nbmf="+nbmf);
+    }
+
+   /**
+    * Gfts thf list of Dirfdtory Sdbnnfr donfigurfd by this
+    * donfigurbtion. From fbdh flfmfnt in this list, thf
+    * {@link dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn SdbnMbnbgfrMXBfbn}
+    * will drfbtf, initiblizf, bnd rfgistfr b {@link
+    * dom.sun.jmx.fxbmplfs.sdbndir.DirfdtorySdbnnfrMXBfbn}.
+    * @rfturn Thf list of Dirfdtory Sdbnnfr donfigurfd by this donfigurbtion.
+    */
+    @XmlElfmfntWrbppfr(nbmf="DirfdtorySdbnnfrList",
+            nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    @XmlElfmfntRff
+    publid DirfdtorySdbnnfrConfig[] gftSdbnList() {
+        rfturn dirfdtorySdbnnfrs.vblufs().toArrby(nfw DirfdtorySdbnnfrConfig[0]);
+    }
+
+   /**
+    * Sfts thf list of Dirfdtory Sdbnnfr donfigurfd by this
+    * donfigurbtion. From fbdh flfmfnt in this list, thf
+    * {@link dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn SdbnMbnbgfrMXBfbn}
+    * will drfbtf, initiblizf, bnd rfgistfr b {@link
+    * dom.sun.jmx.fxbmplfs.sdbndir.DirfdtorySdbnnfrMXBfbn}.
+    * @pbrbm sdbns Thf list of Dirfdtory Sdbnnfr donfigurfd by this donfigurbtion.
+    */
+    publid void sftSdbnList(DirfdtorySdbnnfrConfig[] sdbns) {
+        dirfdtorySdbnnfrs.dlfbr();
+        for (DirfdtorySdbnnfrConfig sdbn : sdbns)
+            dirfdtorySdbnnfrs.put(sdbn.gftNbmf(),sdbn);
+    }
+
+    /**
+     * Gft b dirfdtory sdbnnfr by its nbmf.
+     *
+     * @pbrbm nbmf Thf nbmf of thf dirfdtory sdbnnfr. This is thf
+     *             vbluf rfturnfd by {@link
+     *             DirfdtorySdbnnfrConfig#gftNbmf()}.
+     * @rfturn Thf nbmfd {@dodf DirfdtorySdbnnfrConfig}
+     */
+    publid DirfdtorySdbnnfrConfig gftSdbn(String nbmf) {
+        rfturn dirfdtorySdbnnfrs.gft(nbmf);
+    }
+
+    /**
+     * Adds b dirfdtory sdbnnfr to thf list.
+     * <p>If b dirfdtory sdbnnfr
+     * donfigurbtion by thbt nbmf blrfbdy fxists in thf list, it will
+     * bf rfplbdfd by thf givfn <vbr>sdbn</vbr>.
+     * </p>
+     * @pbrbm sdbn Thf {@dodf DirfdtorySdbnnfrConfig} to bdd to thf list.
+     * @rfturn Thf rfplbdfd {@dodf DirfdtorySdbnnfrConfig}, or {@dodf null}
+     *         if thfrf wbs no {@dodf DirfdtorySdbnnfrConfig} by thbt nbmf
+     *         in thf list.
+     */
+    publid DirfdtorySdbnnfrConfig putSdbn(DirfdtorySdbnnfrConfig sdbn) {
+        rfturn this.dirfdtorySdbnnfrs.put(sdbn.gftNbmf(),sdbn);
+    }
+
+    // XML vbluf of  this objfdt.
+    publid String toString() {
+        rfturn XmlConfigUtils.toString(this);
+    }
+
+    /**
+     * Rfmovfs thf nbmfd dirfdtory sdbnnfr from thf list.
+     *
+     * @pbrbm nbmf Thf nbmf of thf dirfdtory sdbnnfr. This is thf
+     *             vbluf rfturnfd by {@link
+     *             DirfdtorySdbnnfrConfig#gftNbmf()}.
+     * @rfturn Thf rfmovfd {@dodf DirfdtorySdbnnfrConfig}, or {@dodf null}
+     *         if thfrf wbs no dirfdtory sdbnnfr by thbt nbmf in thf list.
+     */
+    publid DirfdtorySdbnnfrConfig rfmovfSdbn(String nbmf) {
+       rfturn this.dirfdtorySdbnnfrs.rfmovf(nbmf);
+    }
+
+    /**
+     * Gfts thf initibl Rfsult Log Configurbtion.
+     * @rfturn Thf initibl Rfsult Log Configurbtion.
+     */
+    @XmlElfmfnt(nbmf="InitiblRfsultLogConfig",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid RfsultLogConfig gftInitiblRfsultLogConfig() {
+        rfturn this.initiblRfsultLogConfig;
+    }
+
+    /**
+     * Sfts thf initibl Rfsult Log Configurbtion.
+     * @pbrbm initiblLogConfig Thf initibl Rfsult Log Configurbtion.
+     */
+    publid void sftInitiblRfsultLogConfig(RfsultLogConfig initiblLogConfig) {
+        this.initiblRfsultLogConfig = initiblLogConfig;
+    }
+
+    /**
+     * Crfbtfs b dopy of this objfdt, with thf spfdififd nbmf.
+     * @pbrbm nfwnbmf thf nbmf of thf dopy.
+     * @rfturn A dopy of this objfdt.
+     **/
+    publid SdbnMbnbgfrConfig dopy(String nfwnbmf) {
+        rfturn dopy(nfwnbmf,this);
+    }
+
+    // Copy by XML dloning, thfn dhbngf thf nbmf.
+    //
+    privbtf stbtid SdbnMbnbgfrConfig
+            dopy(String nfwnbmf, SdbnMbnbgfrConfig othfr) {
+        SdbnMbnbgfrConfig nfwbfbn = XmlConfigUtils.xmlClonf(othfr);
+        nfwbfbn.nbmf = nfwnbmf;
+        rfturn nfwbfbn;
+    }
+}

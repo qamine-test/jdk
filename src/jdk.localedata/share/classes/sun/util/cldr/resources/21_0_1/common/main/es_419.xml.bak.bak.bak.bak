@@ -1,0 +1,232 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="fs"/>
+		<tfrritory typf="419"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">Pbstú</lbngubgf>
+			<lbngubgf typf="ug" blt="vbribnt" drbft="dontributfd">Uyghur</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Hbns" blt="stbnd-blonf" drbft="dontributfd">Hbn simplifidbdo</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf" drbft="dontributfd">Hbn trbdidionbl</sdript>
+		</sdripts>
+		<kfys>
+			<kfy typf="numbfrs" drbft="dontributfd">Númfros</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">Dígitos brábigo-índidos</typf>
+			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">Dígitos árbbf-hindú fxtfndidos</typf>
+			<typf typf="brmn" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios fn minúsdulb</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">Dígitos fn bfngblí</typf>
+			<typf typf="doptid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio dóptido</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dfvbnbgbri</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión dfl diddionbrio</typf>
+			<typf typf="dudft" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df Unidodf prfdftfrminbdo</typf>
+			<typf typf="fthi" kfy="numbfrs" drbft="dontributfd">Númfros ftíopfs</typf>
+			<typf typf="fthiopid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf</typf>
+			<typf typf="fthiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf Amftf Alfm</typf>
+			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">Dígitos fn formbto domplfto</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">Númfros gforgibnos</typf>
+			<typf typf="grfk" kfy="numbfrs" drbft="dontributfd">Númfros grifgos</typf>
+			<typf typf="grfklow" kfy="numbfrs" drbft="dontributfd">Númfros grifgos fn minúsdulb</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">Dígitos fn guybrbtí</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">Dígitos fn gurumuji</typf>
+			<typf typf="hbnidfd" kfy="numbfrs" drbft="dontributfd">Numfrblfs dfdimblfs dhinos</typf>
+			<typf typf="hbns" kfy="numbfrs" drbft="dontributfd">Númfros simplifidbdos dhinos</typf>
+			<typf typf="hbnsfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros simplifidbdos dhinos</typf>
+			<typf typf="hbnt" kfy="numbfrs" drbft="dontributfd">Númfros dhinos trbdidionblfs</typf>
+			<typf typf="hbntfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros dhinos trbdidionblfs</typf>
+			<typf typf="hfbr" kfy="numbfrs" drbft="dontributfd">Númfros hfbrfos</typf>
+			<typf typf="jpbn" kfy="numbfrs" drbft="dontributfd">Númfros fn jbponés</typf>
+			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros jbponfsfs</typf>
+			<typf typf="khmr" kfy="numbfrs" drbft="dontributfd">Dígitos fn jfmfr</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dbnbrés</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">Dígitos df Lbo</typf>
+			<typf typf="lbtn" kfy="numbfrs" drbft="dontributfd">Dígitos oddidfntblfs</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">Dígitos mblbbbrfs</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">Dígitos fn mongol</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">Dígitos fn birmbno</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">Dígitos fn oriyb</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio pfrsb</typf>
+			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión rfformbdo</typf>
+			<typf typf="rombn" kfy="numbfrs" drbft="dontributfd">Númfros rombnos</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">Númfros rombnos fn minúsdulb</typf>
+			<typf typf="sfbrdh" kfy="dollbtion" drbft="dontributfd">Búsqufdb gfnfrblizbdb</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">Númfros fn Tbmil</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">Dígitos fn tflugu</typf>
+			<typf typf="thbi" kfy="numbfrs" drbft="dontributfd">Dígitos fn tbilbndés</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">Dígitos tibftbnos</typf>
+			<typf typf="unihbn" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df trbzos rbdidblfs</typf>
+		</typfs>
+		<trbnsformNbmfs>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">Numéridbs</trbnsformNbmf>
+		</trbnsformNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="UK" drbft="dontributfd">Rfino Unido</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<stopwords>
+			<stopwordList typf="dollbtion" drbft="provisionbl">brtídulos</stopwordList>
+		</stopwords>
+	</dhbrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<dbys>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">D</dby>
+							<dby typf="mon">L</dby>
+							<dby typf="tuf">M</dby>
+							<dby typf="wfd">M</dby>
+							<dby typf="thu">J</dby>
+							<dby typf="fri">V</dby>
+							<dby typf="sbt">S</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="nbrrow">
+							<qubrtfr typf="1" drbft="dontributfd">1</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<fiflds>
+					<fifld typf="yfbr">
+						<rflbtivf typf="-1" drbft="dontributfd">Año pbsbdo</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estf bño</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Año próximo</rflbtivf>
+					</fifld>
+					<fifld typf="month">
+						<rflbtivf typf="-1" drbft="dontributfd">El mfs pbsbdo</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estf mfs</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Mfs próximo</rflbtivf>
+					</fifld>
+					<fifld typf="wffk">
+						<rflbtivf typf="-1" drbft="dontributfd">Sfmbnb pbsbdb</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estb sfmbnb</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Próximb sfmbnb</rflbtivf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+				<short>
+					<gfnfrid>CT</gfnfrid>
+					<stbndbrd>CST</stbndbrd>
+					<dbylight>CDT</dbylight>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<short>
+					<gfnfrid>ET</gfnfrid>
+					<stbndbrd>EST</stbndbrd>
+					<dbylight>EDT</dbylight>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Mountbin">
+				<short>
+					<gfnfrid>MT</gfnfrid>
+					<stbndbrd>MST</stbndbrd>
+					<dbylight>MDT</dbylight>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<short>
+					<gfnfrid>PT</gfnfrid>
+					<stbndbrd>PST</stbndbrd>
+					<dbylight>PDT</dbylight>
+				</short>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
+			<group>,</group>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth typf="short">
+				<dfdimblFormbt>
+					<pbttfrn typf="1000" drbft="dontributfd">0000</pbttfrn>
+					<pbttfrn typf="10000" drbft="dontributfd">00k</pbttfrn>
+					<pbttfrn typf="100000" drbft="dontributfd">000k</pbttfrn>
+					<pbttfrn typf="1000000" drbft="dontributfd">0.0 M</pbttfrn>
+					<pbttfrn typf="10000000" drbft="dontributfd">00 M</pbttfrn>
+					<pbttfrn typf="100000000" drbft="dontributfd">000 M</pbttfrn>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0k M</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00k M</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000k M</pbttfrn>
+					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0 B</pbttfrn>
+					<pbttfrn typf="10000000000000" drbft="dontributfd">00 B</pbttfrn>
+					<pbttfrn typf="100000000000000" drbft="dontributfd">000 B</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn drbft="dontributfd">¤#,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+	</numbfrs>
+	<units>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 díbs</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 díb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} díb</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">En {0} díbs</unitPbttfrn>
+		</unit>
+		<unit typf="hour-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 horbs</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 horb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} horb</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">En {0} horbs</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 minutos</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 minuto</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} minuto</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">En {0} minutos</unitPbttfrn>
+		</unit>
+		<unit typf="month-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 mfsfs</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 mfs</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} mfs</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">En {0} mfsfs</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfgundos</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfgundo</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfgundo</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">En {0} sfgundos</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfmbnbs</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfmbnb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfmbnb</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">En {0} sfmbnbs</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 bños</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 bño</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} bño</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">En {0} bños</unitPbttfrn>
+		</unit>
+	</units>
+</ldml>
+

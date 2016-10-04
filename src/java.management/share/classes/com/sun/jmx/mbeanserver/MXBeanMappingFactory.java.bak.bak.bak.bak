@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import jbvbx.mbnbgfmfnt.opfnmbfbn.*;
+import dom.sun.jmx.mbfbnsfrvfr.MXBfbnMbpping;
+import dom.sun.jmx.mbfbnsfrvfr.DffbultMXBfbnMbppingFbdtory;
+import jbvb.lbng.rfflfdt.Typf;
+
+/**
+ * <p>Dffinfs how typfs brf mbppfd for b givfn MXBfbn or sft of MXBfbns.
+ * An {@dodf MXBfbnMbppingFbdtory} dbn bf spfdififd fithfr through thf
+ * {@link MXBfbnMbppingFbdtoryClbss} bnnotbtion, or through thf
+ * {@link jbvbx.mbnbgfmfnt.JMX.MBfbnOptions JMX.MBfbnOptions} brgumfnt to b
+ * {@link jbvbx.mbnbgfmfnt.StbndbrdMBfbn StbndbrdMBfbn} donstrudtor or MXBfbn
+ * proxy.</p>
+ *
+ * <p>An {@dodf MXBfbnMbppingFbdtory} must rfturn bn {@dodf MXBfbnMbpping}
+ * for bny Jbvb typf thbt bppfbrs in thf MXBfbns thbt thf fbdtory is bfing
+ * usfd for.  Usublly it dofs thbt by hbndling bny dustom typfs, bnd
+ * forwbrding fvfrything flsf to thf {@linkplbin #DEFAULT dffbult mbpping
+ * fbdtory}.</p>
+ *
+ * <p>Considfr thf {@dodf MyLinkfdList} fxbmplf from thf {@link MXBfbnMbpping}
+ * dodumfntbtion.  If wf brf unbblf to dhbngf thf {@dodf MyLinkfdList} dlbss
+ * to bdd bn {@link MXBfbnMbppingClbss} bnnotbtion, wf dould bdhifvf thf sbmf
+ * ffffdt by dffining {@dodf MyLinkfdListMbppingFbdtory} bs follows:</p>
+ *
+ * <prf>
+ * publid dlbss MyLinkfdListMbppingFbdtory fxtfnds MXBfbnMbppingFbdtory {
+ *     publid MyLinkfdListMbppingFbdtory() {}
+ *
+ *     publid MXBfbnMbpping mbppingForTypf(Typf t, MXBfbnMbppingFbdtory f)
+ *     throws OpfnDbtbExdfption {
+ *         if (t == MyLinkfdList.dlbss)
+ *             rfturn nfw MyLinkfdListMbpping(t);
+ *         flsf
+ *             rfturn MXBfbnMbppingFbdtory.DEFAULT.mbppingForTypf(t, f);
+ *     }
+ * }
+ * </prf>
+ *
+ * <p>Thf mbpping fbdtory hbndlfs only thf {@dodf MyLinkfdList} dlbss.
+ * Evfry othfr typf is forwbrdfd to thf dffbult mbpping fbdtory.
+ * This indludfs typfs sudh bs {@dodf MyLinkfdList[]} bnd
+ * {@dodf List<MyLinkfdList>}; thf dffbult mbpping fbdtory will rfdursivfly
+ * invokf {@dodf MyLinkfdListMbppingFbdtory} to mbp thf dontbinfd
+ * {@dodf MyLinkfdList} typf.</p>
+ *
+ * <p>Ondf wf hbvf dffinfd {@dodf MyLinkfdListMbppingFbdtory}, wf dbn usf
+ * it in bn MXBfbn intfrfbdf likf this:</p>
+ *
+ * <prf>
+ * {@litfrbl @MXBfbnMbppingFbdtoryClbss}(MyLinkfdListMbppingFbdtory.dlbss)
+ * publid intfrfbdf SomfthingMXBfbn {
+ *     publid MyLinkfdList gftSomfthing();
+ * }
+ * </prf>
+ *
+ * <p>Altfrnbtivfly wf dbn bnnotbtf thf pbdkbgf thbt {@dodf SomfthingMXBfbn}
+ * bppfbrs in, or wf dbn supply thf fbdtory to b {@link
+ * jbvbx.mbnbgfmfnt.StbndbrdMBfbn StbndbrdMBfbn} donstrudtor or MXBfbn
+ * proxy.</p>
+ *
+ * @sff <b hrff="../MXBfbn.html#dustom">MXBfbn spfdifidbtion, sfdtion
+ * "Custom MXBfbn typf mbppings"</b>
+ */
+publid bbstrbdt dlbss MXBfbnMbppingFbdtory {
+    /**
+     * <p>Construdt bn instbndf of this dlbss.</p>
+     */
+    protfdtfd MXBfbnMbppingFbdtory() {}
+
+    /**
+     * <p>Mbpping fbdtory thbt bpplifs thf dffbult rulfs for MXBfbn
+     * mbppings, bs dfsdribfd in thf <b
+     * hrff="../MXBfbn.html#MXBfbn-spfd">MXBfbn spfdifidbtion</b>.</p>
+     */
+    publid stbtid finbl MXBfbnMbppingFbdtory DEFAULT =
+            nfw DffbultMXBfbnMbppingFbdtory();
+
+    /**
+     * <p>Rfturn thf mbpping for thf givfn Jbvb typf.  Typidblly, b
+     * mbpping fbdtory will rfturn mbppings for typfs it hbndlfs, bnd
+     * forwbrd othfr typfs to bnothfr mbpping fbdtory, most oftfn
+     * thf {@linkplbin #DEFAULT dffbult onf}.</p>
+     * @pbrbm t thf Jbvb typf to bf mbppfd.
+     * @pbrbm f thf originbl mbpping fbdtory thbt wbs donsultfd to do
+     * thf mbpping.  A mbpping fbdtory should pbss this pbrbmftfr intbdt
+     * if it forwbrds b typf to bnothfr mbpping fbdtory.  In thf fxbmplf,
+     * this is how {@dodf MyLinkfdListMbppingFbdtory} works for typfs
+     * likf {@dodf MyLinkfdList[]} bnd {@dodf List<MyLinkfdList>}.
+     * @rfturn thf mbpping for thf givfn typf.
+     * @throws OpfnDbtbExdfption if this typf dbnnot bf mbppfd.  This
+     * fxdfption is bppropribtf if thf fbdtory is supposfd to hbndlf
+     * bll typfs of this sort (for fxbmplf, bll linkfd lists), but
+     * dbnnot hbndlf this pbrtidulbr typf.
+     */
+    publid bbstrbdt MXBfbnMbpping mbppingForTypf(Typf t, MXBfbnMbppingFbdtory f)
+    throws OpfnDbtbExdfption;
+}

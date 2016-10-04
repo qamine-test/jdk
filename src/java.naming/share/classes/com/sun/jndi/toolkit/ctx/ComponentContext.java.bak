@@ -1,805 +1,805 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.toolkit.ctx;
+pbdkbgf dom.sun.jndi.toolkit.dtx;
 
-import javax.naming.*;
-import javax.naming.spi.ResolveResult;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.RfsolvfRfsult;
 
 /**
-  * Provides implementation of p_* operations using
-  * c_* operations provided by subclasses.
+  * Providfs implfmfntbtion of p_* opfrbtions using
+  * d_* opfrbtions providfd by subdlbssfs.
   *
-  * Clients: deal only with names for its own naming service.  Must
-  * provide implementations for c_* methods, and for p_parseComponent()
-  * and the c_*_nns methods if the defaults are not appropriate.
+  * Clifnts: dfbl only witi nbmfs for its own nbming sfrvidf.  Must
+  * providf implfmfntbtions for d_* mftiods, bnd for p_pbrsfComponfnt()
+  * bnd tif d_*_nns mftiods if tif dffbults brf not bppropribtf.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   */
 
-public abstract class ComponentContext extends PartialCompositeContext {
-    private static int debug = 0;
+publid bbstrbdt dlbss ComponfntContfxt fxtfnds PbrtiblCompositfContfxt {
+    privbtf stbtid int dfbug = 0;
 
-    protected ComponentContext() {
-        _contextType = _COMPONENT;
+    protfdtfd ComponfntContfxt() {
+        _dontfxtTypf = _COMPONENT;
     }
 
-// ------ Abstract methods whose implementation are provided by subclass
+// ------ Abstrbdt mftiods wiosf implfmfntbtion brf providfd by subdlbss
 
-    /* Equivalent methods in Context interface */
-    protected abstract Object c_lookup(Name name, Continuation cont)
-        throws NamingException;
-    protected abstract Object c_lookupLink(Name name, Continuation cont)
-        throws NamingException;
+    /* Equivblfnt mftiods in Contfxt intfrfbdf */
+    protfdtfd bbstrbdt Objfdt d_lookup(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption;
+    protfdtfd bbstrbdt Objfdt d_lookupLink(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption;
 
-    protected abstract NamingEnumeration<NameClassPair> c_list(Name name,
-        Continuation cont) throws NamingException;
-    protected abstract NamingEnumeration<Binding> c_listBindings(Name name,
-        Continuation cont) throws NamingException;
-    protected abstract void c_bind(Name name, Object obj, Continuation cont)
-        throws NamingException;
-    protected abstract void c_rebind(Name name, Object obj, Continuation cont)
-        throws NamingException;
-    protected abstract void c_unbind(Name name, Continuation cont)
-        throws NamingException;
-    protected abstract void c_destroySubcontext(Name name, Continuation cont)
-        throws NamingException;
-    protected abstract Context c_createSubcontext(Name name,
-        Continuation cont) throws NamingException;
-    protected abstract void c_rename(Name oldname, Name newname,
-        Continuation cont) throws NamingException;
-    protected abstract NameParser c_getNameParser(Name name, Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt NbmingEnumfrbtion<NbmfClbssPbir> d_list(Nbmf nbmf,
+        Continubtion dont) tirows NbmingExdfption;
+    protfdtfd bbstrbdt NbmingEnumfrbtion<Binding> d_listBindings(Nbmf nbmf,
+        Continubtion dont) tirows NbmingExdfption;
+    protfdtfd bbstrbdt void d_bind(Nbmf nbmf, Objfdt obj, Continubtion dont)
+        tirows NbmingExdfption;
+    protfdtfd bbstrbdt void d_rfbind(Nbmf nbmf, Objfdt obj, Continubtion dont)
+        tirows NbmingExdfption;
+    protfdtfd bbstrbdt void d_unbind(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption;
+    protfdtfd bbstrbdt void d_dfstroySubdontfxt(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption;
+    protfdtfd bbstrbdt Contfxt d_drfbtfSubdontfxt(Nbmf nbmf,
+        Continubtion dont) tirows NbmingExdfption;
+    protfdtfd bbstrbdt void d_rfnbmf(Nbmf oldnbmf, Nbmf nfwnbmf,
+        Continubtion dont) tirows NbmingExdfption;
+    protfdtfd bbstrbdt NbmfPbrsfr d_gftNbmfPbrsfr(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption;
 
-// ------ Methods that may need to be overridden by subclass
+// ------ Mftiods tibt mby nffd to bf ovfrriddfn by subdlbss
 
-    /* Parsing method */
+    /* Pbrsing mftiod */
     /**
-      * Determines which of the first components of 'name' belong
-      * to this naming system.
-      * If no components belong to this naming system, return
-      * the empty name (new CompositeName()) as the head,
-      * and the entire name as the tail.
+      * Dftfrminfs wiidi of tif first domponfnts of 'nbmf' bflong
+      * to tiis nbming systfm.
+      * If no domponfnts bflong to tiis nbming systfm, rfturn
+      * tif fmpty nbmf (nfw CompositfNbmf()) bs tif ifbd,
+      * bnd tif fntirf nbmf bs tif tbil.
       *
-      * The default implementation supports strong separation.
-      * If the name is empty or if the first component is empty,
-      * head is the empty name and tail is the entire name.
-      * (This means that this context does not have any name to work with).
-      * Otherwise, it returns the first component as head, and the rest of
-      * the components as tail.
+      * Tif dffbult implfmfntbtion supports strong sfpbrbtion.
+      * If tif nbmf is fmpty or if tif first domponfnt is fmpty,
+      * ifbd is tif fmpty nbmf bnd tbil is tif fntirf nbmf.
+      * (Tiis mfbns tibt tiis dontfxt dofs not ibvf bny nbmf to work witi).
+      * Otifrwisf, it rfturns tif first domponfnt bs ifbd, bnd tif rfst of
+      * tif domponfnts bs tbil.
       *
-      * Subclass should override this method according its own policies.
+      * Subdlbss siould ovfrridf tiis mftiod bddording its own polidifs.
       *
-      * For example, a weakly separated system with dynamic boundary
-      * determination would simply return as head 'name'.
-      * A weakly separated with static boundary
-      * determination would select the components in the front of 'name'
-      * that conform to some syntax rules.  (e.g. in X.500 syntax, perhaps
-      * select front components that have a equal sign).
-      * If none conforms, return an empty name.
+      * For fxbmplf, b wfbkly sfpbrbtfd systfm witi dynbmid boundbry
+      * dftfrminbtion would simply rfturn bs ifbd 'nbmf'.
+      * A wfbkly sfpbrbtfd witi stbtid boundbry
+      * dftfrminbtion would sflfdt tif domponfnts in tif front of 'nbmf'
+      * tibt donform to somf syntbx rulfs.  (f.g. in X.500 syntbx, pfribps
+      * sflfdt front domponfnts tibt ibvf b fqubl sign).
+      * If nonf donforms, rfturn bn fmpty nbmf.
       */
-    protected HeadTail p_parseComponent(Name name, Continuation cont)
-        throws NamingException {
-        int separator;
-        // if no name to parse, or if we're already at boundary
-        if (name.isEmpty() ||  name.get(0).equals("")) {
-            separator = 0;
-        } else {
-            separator = 1;
+    protfdtfd HfbdTbil p_pbrsfComponfnt(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+        int sfpbrbtor;
+        // if no nbmf to pbrsf, or if wf'rf blrfbdy bt boundbry
+        if (nbmf.isEmpty() ||  nbmf.gft(0).fqubls("")) {
+            sfpbrbtor = 0;
+        } flsf {
+            sfpbrbtor = 1;
         }
-        Name head, tail;
+        Nbmf ifbd, tbil;
 
-        if (name instanceof CompositeName) {
-            head = name.getPrefix(separator);
-            tail = name.getSuffix(separator);
-        } else {
-            // treat like compound name
-            head = new CompositeName().add(name.toString());
-            tail = null;
+        if (nbmf instbndfof CompositfNbmf) {
+            ifbd = nbmf.gftPrffix(sfpbrbtor);
+            tbil = nbmf.gftSuffix(sfpbrbtor);
+        } flsf {
+            // trfbt likf dompound nbmf
+            ifbd = nfw CompositfNbmf().bdd(nbmf.toString());
+            tbil = null;
         }
 
-        if (debug > 2) {
-            System.err.println("ORIG: " + name);
-            System.err.println("PREFIX: " + name);
-            System.err.println("SUFFIX: " + null);
+        if (dfbug > 2) {
+            Systfm.frr.println("ORIG: " + nbmf);
+            Systfm.frr.println("PREFIX: " + nbmf);
+            Systfm.frr.println("SUFFIX: " + null);
         }
-        return new HeadTail(head, tail);
+        rfturn nfw HfbdTbil(ifbd, tbil);
     }
 
 
-    /* Resolution method for supporting federation */
+    /* Rfsolution mftiod for supporting ffdfrbtion */
 
     /**
-      * Resolves the nns for 'name' when the named context is acting
-      * as an intermediate context.
+      * Rfsolvfs tif nns for 'nbmf' wifn tif nbmfd dontfxt is bdting
+      * bs bn intfrmfdibtf dontfxt.
       *
-      * For a system that supports only junctions, this would be
-      * equivalent to
-      *         c_lookup(name, cont);
-      * because for junctions, an intermediate slash simply signifies
-      * a syntactic separator.
+      * For b systfm tibt supports only jundtions, tiis would bf
+      * fquivblfnt to
+      *         d_lookup(nbmf, dont);
+      * bfdbusf for jundtions, bn intfrmfdibtf slbsi simply signififs
+      * b syntbdtid sfpbrbtor.
       *
-      * For a system that supports only implicit nns, this would be
-      * equivalent to
-      *         c_lookup_nns(name, cont);
-      * because for implicit nns, a slash always signifies the implicit nns,
-      * regardless of whether it is intermediate or trailing.
+      * For b systfm tibt supports only implidit nns, tiis would bf
+      * fquivblfnt to
+      *         d_lookup_nns(nbmf, dont);
+      * bfdbusf for implidit nns, b slbsi blwbys signififs tif implidit nns,
+      * rfgbrdlfss of wiftifr it is intfrmfdibtf or trbiling.
       *
-      * By default this method supports junctions, and also allows for an
-      * implicit nns to be dynamically determined through the use of the
-      * "nns" reference (see c_processJunction_nns()).
-      * Contexts that implement implicit nns directly should provide an
-      * appropriate override.
+      * By dffbult tiis mftiod supports jundtions, bnd blso bllows for bn
+      * implidit nns to bf dynbmidblly dftfrminfd tirougi tif usf of tif
+      * "nns" rfffrfndf (sff d_prodfssJundtion_nns()).
+      * Contfxts tibt implfmfnt implidit nns dirfdtly siould providf bn
+      * bppropribtf ovfrridf.
       *
-      * A junction, by definition, is a binding of a name in one
-      * namespace to an object in another.  The default implementation
-      * of this method detects the crossover into another namespace
-      * using the following heuristic:  there is a junction when "name"
-      * resolves to a context that is not an instance of
-      * this.getClass().  Contexts supporting junctions for which this
-      * heuristic is inappropriate should override this method.
+      * A jundtion, by dffinition, is b binding of b nbmf in onf
+      * nbmfspbdf to bn objfdt in bnotifr.  Tif dffbult implfmfntbtion
+      * of tiis mftiod dftfdts tif drossovfr into bnotifr nbmfspbdf
+      * using tif following ifuristid:  tifrf is b jundtion wifn "nbmf"
+      * rfsolvfs to b dontfxt tibt is not bn instbndf of
+      * tiis.gftClbss().  Contfxts supporting jundtions for wiidi tiis
+      * ifuristid is inbppropribtf siould ovfrridf tiis mftiod.
       */
-    protected Object c_resolveIntermediate_nns(Name name, Continuation cont)
-        throws NamingException {
+    protfdtfd Objfdt d_rfsolvfIntfrmfdibtf_nns(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption {
             try {
-                final Object obj = c_lookup(name, cont);
+                finbl Objfdt obj = d_lookup(nbmf, dont);
 
-                // Do not append "" to Continuation 'cont' even if set
-                // because the intention is to ignore the nns
+                // Do not bppfnd "" to Continubtion 'dont' fvfn if sft
+                // bfdbusf tif intfntion is to ignorf tif nns
 
-                if (obj != null && getClass().isInstance(obj)) {
-                    // If "obj" is in the same type as this object, it must
-                    // not be a junction. Continue the lookup with "/".
+                if (obj != null && gftClbss().isInstbndf(obj)) {
+                    // If "obj" is in tif sbmf typf bs tiis objfdt, it must
+                    // not bf b jundtion. Continuf tif lookup witi "/".
 
-                    cont.setContinueNNS(obj, name, this);
-                    return null;
+                    dont.sftContinufNNS(obj, nbmf, tiis);
+                    rfturn null;
 
-                } else if (obj != null && !(obj instanceof Context)) {
-                    // obj is not even a context, so try to find its nns
-                    // dynamically by constructing a Reference containing obj.
-                    RefAddr addr = new RefAddr("nns") {
-                        public Object getContent() {
-                            return obj;
+                } flsf if (obj != null && !(obj instbndfof Contfxt)) {
+                    // obj is not fvfn b dontfxt, so try to find its nns
+                    // dynbmidblly by donstrudting b Rfffrfndf dontbining obj.
+                    RffAddr bddr = nfw RffAddr("nns") {
+                        publid Objfdt gftContfnt() {
+                            rfturn obj;
                         }
-                        private static final long serialVersionUID =
+                        privbtf stbtid finbl long sfriblVfrsionUID =
                             -8831204798861786362L;
                     };
-                    Reference ref = new Reference("java.lang.Object", addr);
+                    Rfffrfndf rff = nfw Rfffrfndf("jbvb.lbng.Objfdt", bddr);
 
-                    // Resolved name has trailing slash to indicate nns
-                    CompositeName resName = (CompositeName)name.clone();
-                    resName.add(""); // add trailing slash
+                    // Rfsolvfd nbmf ibs trbiling slbsi to indidbtf nns
+                    CompositfNbmf rfsNbmf = (CompositfNbmf)nbmf.dlonf();
+                    rfsNbmf.bdd(""); // bdd trbiling slbsi
 
-                    // Set continuation leave it to
-                    // PartialCompositeContext.getPCContext() to throw CPE.
-                    // Do not use setContinueNNS() because we've already
-                    // consumed "/" (i.e., moved it to resName).
+                    // Sft dontinubtion lfbvf it to
+                    // PbrtiblCompositfContfxt.gftPCContfxt() to tirow CPE.
+                    // Do not usf sftContinufNNS() bfdbusf wf'vf blrfbdy
+                    // donsumfd "/" (i.f., movfd it to rfsNbmf).
 
-                    cont.setContinue(ref, resName, this);
-                    return null;
-                } else {
-                    // Consume "/" and continue
-                    return obj;
+                    dont.sftContinuf(rff, rfsNbmf, tiis);
+                    rfturn null;
+                } flsf {
+                    // Consumf "/" bnd dontinuf
+                    rfturn obj;
                 }
 
-            } catch (NamingException e) {
-                e.appendRemainingComponent(""); // add nns back
-                throw e;
+            } dbtdi (NbmingExdfption f) {
+                f.bppfndRfmbiningComponfnt(""); // bdd nns bbdk
+                tirow f;
             }
         }
 
-    /* Equivalent of Context Methods for supporting nns */
+    /* Equivblfnt of Contfxt Mftiods for supporting nns */
 
-    // The following methods are called when the Context methods
-    // are invoked with a name that has a trailing slash.
-    // For naming systems that support implicit nns,
-    // the trailing slash signifies the implicit nns.
-    // For such naming systems, override these c_*_nns methods.
+    // Tif following mftiods brf dbllfd wifn tif Contfxt mftiods
+    // brf invokfd witi b nbmf tibt ibs b trbiling slbsi.
+    // For nbming systfms tibt support implidit nns,
+    // tif trbiling slbsi signififs tif implidit nns.
+    // For sudi nbming systfms, ovfrridf tifsf d_*_nns mftiods.
     //
-    // For naming systems that do not support implicit nns, the
-    // default implementations here throw an exception.  See
-    // c_processJunction_nns() for details.
+    // For nbming systfms tibt do not support implidit nns, tif
+    // dffbult implfmfntbtions ifrf tirow bn fxdfption.  Sff
+    // d_prodfssJundtion_nns() for dftbils.
 
-    protected Object c_lookup_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
-            return null;
+    protfdtfd Objfdt d_lookup_nns(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
         }
 
-    protected Object c_lookupLink_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
-            return null;
+    protfdtfd Objfdt d_lookupLink_nns(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
         }
 
-    protected NamingEnumeration<NameClassPair> c_list_nns(Name name,
-        Continuation cont) throws NamingException {
-            c_processJunction_nns(name, cont);
-            return null;
+    protfdtfd NbmingEnumfrbtion<NbmfClbssPbir> d_list_nns(Nbmf nbmf,
+        Continubtion dont) tirows NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
         }
 
-    protected NamingEnumeration<Binding> c_listBindings_nns(Name name,
-        Continuation cont) throws NamingException {
-            c_processJunction_nns(name, cont);
-            return null;
+    protfdtfd NbmingEnumfrbtion<Binding> d_listBindings_nns(Nbmf nbmf,
+        Continubtion dont) tirows NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
         }
 
-    protected void c_bind_nns(Name name, Object obj, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protfdtfd void d_bind_nns(Nbmf nbmf, Objfdt obj, Continubtion dont)
+        tirows NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
         }
 
-    protected void c_rebind_nns(Name name, Object obj, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protfdtfd void d_rfbind_nns(Nbmf nbmf, Objfdt obj, Continubtion dont)
+        tirows NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
         }
 
-    protected void c_unbind_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protfdtfd void d_unbind_nns(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
         }
 
-    protected Context c_createSubcontext_nns(Name name,
-        Continuation cont) throws NamingException {
-            c_processJunction_nns(name, cont);
-            return null;
+    protfdtfd Contfxt d_drfbtfSubdontfxt_nns(Nbmf nbmf,
+        Continubtion dont) tirows NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
         }
 
-    protected void c_destroySubcontext_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protfdtfd void d_dfstroySubdontfxt_nns(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
         }
 
 
-    protected void c_rename_nns(Name oldname, Name newname, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(oldname, cont);
+    protfdtfd void d_rfnbmf_nns(Nbmf oldnbmf, Nbmf nfwnbmf, Continubtion dont)
+        tirows NbmingExdfption {
+            d_prodfssJundtion_nns(oldnbmf, dont);
         }
 
-    protected NameParser c_getNameParser_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
-            return null;
+    protfdtfd NbmfPbrsfr d_gftNbmfPbrsfr_nns(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
         }
 
-// ------ internal method used by ComponentContext
+// ------ intfrnbl mftiod usfd by ComponfntContfxt
 
     /**
-     * Locates the nns using the default policy.  This policy fully
-     * handles junctions, but otherwise throws an exception when an
-     * attempt is made to resolve an implicit nns.
+     * Lodbtfs tif nns using tif dffbult polidy.  Tiis polidy fully
+     * ibndlfs jundtions, but otifrwisf tirows bn fxdfption wifn bn
+     * bttfmpt is mbdf to rfsolvf bn implidit nns.
      *
-     * The default policy is as follows:  If there is a junction in
-     * the namespace, then resolve to the junction and continue the
-     * operation there (thus deferring to that context to find its own
-     * nns).  Otherwise, resolve as far as possible and then throw
-     * CannotProceedException with the resolved object being a reference:
-     * the address type is "nns", and the address contents is this
-     * context.
+     * Tif dffbult polidy is bs follows:  If tifrf is b jundtion in
+     * tif nbmfspbdf, tifn rfsolvf to tif jundtion bnd dontinuf tif
+     * opfrbtion tifrf (tius dfffrring to tibt dontfxt to find its own
+     * nns).  Otifrwisf, rfsolvf bs fbr bs possiblf bnd tifn tirow
+     * CbnnotProdffdExdfption witi tif rfsolvfd objfdt bfing b rfffrfndf:
+     * tif bddrfss typf is "nns", bnd tif bddrfss dontfnts is tiis
+     * dontfxt.
      *
-     * For example, when c_bind_nns(name, obj, ...) is invoked, the
-     * caller is attempting to bind the object "obj" to the nns of
-     * "name".  If "name" is a junction, it names an object in another
-     * naming system that (presumably) has an nns.  c_bind_nns() will
-     * first resolve "name" to a context and then attempt to continue
-     * the bind operation there, (thus binding to the nns of the
-     * context named by "name").  If "name" is empty then throw an
-     * exception, since this context does not by default support an
-     * implicit nns.
+     * For fxbmplf, wifn d_bind_nns(nbmf, obj, ...) is invokfd, tif
+     * dbllfr is bttfmpting to bind tif objfdt "obj" to tif nns of
+     * "nbmf".  If "nbmf" is b jundtion, it nbmfs bn objfdt in bnotifr
+     * nbming systfm tibt (prfsumbbly) ibs bn nns.  d_bind_nns() will
+     * first rfsolvf "nbmf" to b dontfxt bnd tifn bttfmpt to dontinuf
+     * tif bind opfrbtion tifrf, (tius binding to tif nns of tif
+     * dontfxt nbmfd by "nbmf").  If "nbmf" is fmpty tifn tirow bn
+     * fxdfption, sindf tiis dontfxt dofs not by dffbult support bn
+     * implidit nns.
      *
-     * To implement a context that does support an implicit nns, it is
-     * necessary to override this default policy.  This is done by
-     * overriding the c_*_nns() methods (which each call this method
-     * by default).
+     * To implfmfnt b dontfxt tibt dofs support bn implidit nns, it is
+     * nfdfssbry to ovfrridf tiis dffbult polidy.  Tiis is donf by
+     * ovfrriding tif d_*_nns() mftiods (wiidi fbdi dbll tiis mftiod
+     * by dffbult).
      */
-    protected void c_processJunction_nns(Name name, Continuation cont)
-            throws NamingException
+    protfdtfd void d_prodfssJundtion_nns(Nbmf nbmf, Continubtion dont)
+            tirows NbmingExdfption
     {
-        if (name.isEmpty()) {
-            // Construct a new Reference that contains this context.
-            RefAddr addr = new RefAddr("nns") {
-                public Object getContent() {
-                    return ComponentContext.this;
+        if (nbmf.isEmpty()) {
+            // Construdt b nfw Rfffrfndf tibt dontbins tiis dontfxt.
+            RffAddr bddr = nfw RffAddr("nns") {
+                publid Objfdt gftContfnt() {
+                    rfturn ComponfntContfxt.tiis;
                 }
-                private static final long serialVersionUID =
+                privbtf stbtid finbl long sfriblVfrsionUID =
                     -1389472957988053402L;
             };
-            Reference ref = new Reference("java.lang.Object", addr);
+            Rfffrfndf rff = nfw Rfffrfndf("jbvb.lbng.Objfdt", bddr);
 
-            // Set continuation leave it to PartialCompositeContext.getPCContext()
-            // to throw the exception.
-            // Do not use setContinueNNS() because we've are
-            // setting relativeResolvedName to "/".
-            cont.setContinue(ref, _NNS_NAME, this);
-            return;
+            // Sft dontinubtion lfbvf it to PbrtiblCompositfContfxt.gftPCContfxt()
+            // to tirow tif fxdfption.
+            // Do not usf sftContinufNNS() bfdbusf wf'vf brf
+            // sftting rflbtivfRfsolvfdNbmf to "/".
+            dont.sftContinuf(rff, _NNS_NAME, tiis);
+            rfturn;
         }
 
         try {
-            // lookup name to continue operation in nns
-            Object target = c_lookup(name, cont);
-            if (cont.isContinue())
-                cont.appendRemainingComponent("");
-            else {
-                cont.setContinueNNS(target, name, this);
+            // lookup nbmf to dontinuf opfrbtion in nns
+            Objfdt tbrgft = d_lookup(nbmf, dont);
+            if (dont.isContinuf())
+                dont.bppfndRfmbiningComponfnt("");
+            flsf {
+                dont.sftContinufNNS(tbrgft, nbmf, tiis);
             }
-        } catch (NamingException e) {
-            e.appendRemainingComponent(""); // add nns back
-            throw e;
+        } dbtdi (NbmingExdfption f) {
+            f.bppfndRfmbiningComponfnt(""); // bdd nns bbdk
+            tirow f;
         }
     }
 
-    protected static final byte USE_CONTINUATION = 1;
-    protected static final byte TERMINAL_COMPONENT = 2;
-    protected static final byte TERMINAL_NNS_COMPONENT = 3;
+    protfdtfd stbtid finbl bytf USE_CONTINUATION = 1;
+    protfdtfd stbtid finbl bytf TERMINAL_COMPONENT = 2;
+    protfdtfd stbtid finbl bytf TERMINAL_NNS_COMPONENT = 3;
 
     /**
-      * Determine whether 'name' is a terminal component in
-      * this naming system.
-      * If so, return status indicating so, so that caller
-      * can perform context operation on this name.
+      * Dftfrminf wiftifr 'nbmf' is b tfrminbl domponfnt in
+      * tiis nbming systfm.
+      * If so, rfturn stbtus indidbting so, so tibt dbllfr
+      * dbn pfrform dontfxt opfrbtion on tiis nbmf.
       *
-      * If not, then the first component(s) of 'name' names
-      * an intermediate context.  In that case, resolve these components
-      * and set Continuation to be the object named.
+      * If not, tifn tif first domponfnt(s) of 'nbmf' nbmfs
+      * bn intfrmfdibtf dontfxt.  In tibt dbsf, rfsolvf tifsf domponfnts
+      * bnd sft Continubtion to bf tif objfdt nbmfd.
       *
-      * see test cases at bottom of file.
+      * sff tfst dbsfs bt bottom of filf.
       */
 
-    protected HeadTail p_resolveIntermediate(Name name, Continuation cont)
-        throws NamingException {
-        int ret = USE_CONTINUATION;
-        cont.setSuccess();      // initialize
-        HeadTail p = p_parseComponent(name, cont);
-        Name tail = p.getTail();
-        Name head = p.getHead();
+    protfdtfd HfbdTbil p_rfsolvfIntfrmfdibtf(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+        int rft = USE_CONTINUATION;
+        dont.sftSuddfss();      // initiblizf
+        HfbdTbil p = p_pbrsfComponfnt(nbmf, dont);
+        Nbmf tbil = p.gftTbil();
+        Nbmf ifbd = p.gftHfbd();
 
-        if (tail == null || tail.isEmpty()) {
-//System.out.println("terminal : " + head);
-            ret = TERMINAL_COMPONENT;
-        } else if (!tail.get(0).equals("")) {
-            // tail does not begin with "/"
+        if (tbil == null || tbil.isEmpty()) {
+//Systfm.out.println("tfrminbl : " + ifbd);
+            rft = TERMINAL_COMPONENT;
+        } flsf if (!tbil.gft(0).fqubls("")) {
+            // tbil dofs not bfgin witi "/"
 /*
-            if (head.isEmpty()) {
-                // Context could not find name that it can use
-                // illegal syntax error or name not found
-//System.out.println("nnf exception : " + head);
-                NamingException e = new NameNotFoundException();
-                cont.setError(this, name);
-                throw cont.fillInException(e);
-            } else  {
+            if (ifbd.isEmpty()) {
+                // Contfxt dould not find nbmf tibt it dbn usf
+                // illfgbl syntbx frror or nbmf not found
+//Systfm.out.println("nnf fxdfption : " + ifbd);
+                NbmingExdfption f = nfw NbmfNotFoundExdfption();
+                dont.sftError(tiis, nbmf);
+                tirow dont.fillInExdfption(f);
+            } flsf  {
 */
-                // head is being used as intermediate context,
-                // resolve head and set Continuation with tail
+                // ifbd is bfing usfd bs intfrmfdibtf dontfxt,
+                // rfsolvf ifbd bnd sft Continubtion witi tbil
                 try {
-                    Object obj = c_resolveIntermediate_nns(head, cont);
-//System.out.println("resInter : " + head + "=" + obj);
+                    Objfdt obj = d_rfsolvfIntfrmfdibtf_nns(ifbd, dont);
+//Systfm.out.println("rfsIntfr : " + ifbd + "=" + obj);
                     if (obj != null)
-                        cont.setContinue(obj, head, this, tail);
-                    else if (cont.isContinue()) {
-                        checkAndAdjustRemainingName(cont.getRemainingName());
-                        cont.appendRemainingName(tail);
+                        dont.sftContinuf(obj, ifbd, tiis, tbil);
+                    flsf if (dont.isContinuf()) {
+                        difdkAndAdjustRfmbiningNbmf(dont.gftRfmbiningNbmf());
+                        dont.bppfndRfmbiningNbmf(tbil);
                     }
-                } catch (NamingException e) {
-                    checkAndAdjustRemainingName(e.getRemainingName());
-                    e.appendRemainingName(tail);
-                    throw e;
+                } dbtdi (NbmingExdfption f) {
+                    difdkAndAdjustRfmbiningNbmf(f.gftRfmbiningNbmf());
+                    f.bppfndRfmbiningNbmf(tbil);
+                    tirow f;
                 }
 /*
             }
 */
-        } else {
-            // tail begins with "/"
-            if (tail.size() == 1) {
-                ret = TERMINAL_NNS_COMPONENT;
-//System.out.println("terminal_nns : " + head);
-            } else if (head.isEmpty() || isAllEmpty(tail)) {
-                // resolve nns of head and continue with tail.getSuffix(1)
-                Name newTail = tail.getSuffix(1);
+        } flsf {
+            // tbil bfgins witi "/"
+            if (tbil.sizf() == 1) {
+                rft = TERMINAL_NNS_COMPONENT;
+//Systfm.out.println("tfrminbl_nns : " + ifbd);
+            } flsf if (ifbd.isEmpty() || isAllEmpty(tbil)) {
+                // rfsolvf nns of ifbd bnd dontinuf witi tbil.gftSuffix(1)
+                Nbmf nfwTbil = tbil.gftSuffix(1);
                 try {
-                    Object obj = c_lookup_nns(head, cont);
-//System.out.println("lookup_nns : " + head + "=" + obj);
+                    Objfdt obj = d_lookup_nns(ifbd, dont);
+//Systfm.out.println("lookup_nns : " + ifbd + "=" + obj);
                     if (obj != null)
-                        cont.setContinue(obj, head, this, newTail);
-                    else if (cont.isContinue()) {
-                        cont.appendRemainingName(newTail);
-//                      Name rname = cont.getRemainingName();
-//System.out.println("cont.rname" + rname);
+                        dont.sftContinuf(obj, ifbd, tiis, nfwTbil);
+                    flsf if (dont.isContinuf()) {
+                        dont.bppfndRfmbiningNbmf(nfwTbil);
+//                      Nbmf rnbmf = dont.gftRfmbiningNbmf();
+//Systfm.out.println("dont.rnbmf" + rnbmf);
                     }
-                } catch (NamingException e) {
-                    e.appendRemainingName(newTail);
-                    throw e;
+                } dbtdi (NbmingExdfption f) {
+                    f.bppfndRfmbiningNbmf(nfwTbil);
+                    tirow f;
                 }
-            } else {
-                // head is being used as intermediate context
-                // resolve and set continuation to tail
+            } flsf {
+                // ifbd is bfing usfd bs intfrmfdibtf dontfxt
+                // rfsolvf bnd sft dontinubtion to tbil
                 try {
-                    Object obj = c_resolveIntermediate_nns(head, cont);
-//System.out.println("resInter2 : " + head + "=" + obj);
+                    Objfdt obj = d_rfsolvfIntfrmfdibtf_nns(ifbd, dont);
+//Systfm.out.println("rfsIntfr2 : " + ifbd + "=" + obj);
                     if (obj != null)
-                        cont.setContinue(obj, head, this, tail);
-                    else if (cont.isContinue()) {
-                        checkAndAdjustRemainingName(cont.getRemainingName());
-                        cont.appendRemainingName(tail);
+                        dont.sftContinuf(obj, ifbd, tiis, tbil);
+                    flsf if (dont.isContinuf()) {
+                        difdkAndAdjustRfmbiningNbmf(dont.gftRfmbiningNbmf());
+                        dont.bppfndRfmbiningNbmf(tbil);
                     }
-                } catch (NamingException e) {
-                    checkAndAdjustRemainingName(e.getRemainingName());
-                    e.appendRemainingName(tail);
-                    throw e;
+                } dbtdi (NbmingExdfption f) {
+                    difdkAndAdjustRfmbiningNbmf(f.gftRfmbiningNbmf());
+                    f.bppfndRfmbiningNbmf(tbil);
+                    tirow f;
                 }
             }
         }
 
-        p.setStatus(ret);
-        return p;
+        p.sftStbtus(rft);
+        rfturn p;
     }
 
-    // When c_resolveIntermediate_nns() or c_lookup_nns() sets up
-    // its continuation, to indicate "nns", it appends an empty
-    // component to the remaining name (e.g. "eng/"). If last
-    // component of remaining name is empty; delete empty component
-    // before appending tail so that composition of the names work
-    // correctly. For example, when merging "eng/" and "c.b.a", we want
-    // the result to be "eng/c.b.a" because the trailing slash in eng
-    // is extraneous.  When merging "" and "c.b.a", we want the result
-    // to be "/c.b.a" and so must keep the trailing slash (empty name).
-    void checkAndAdjustRemainingName(Name rname) throws InvalidNameException {
-        int count;
-        if (rname != null && (count=rname.size()) > 1 &&
-            rname.get(count-1).equals("")) {
-            rname.remove(count-1);
+    // Wifn d_rfsolvfIntfrmfdibtf_nns() or d_lookup_nns() sfts up
+    // its dontinubtion, to indidbtf "nns", it bppfnds bn fmpty
+    // domponfnt to tif rfmbining nbmf (f.g. "fng/"). If lbst
+    // domponfnt of rfmbining nbmf is fmpty; dflftf fmpty domponfnt
+    // bfforf bppfnding tbil so tibt domposition of tif nbmfs work
+    // dorrfdtly. For fxbmplf, wifn mfrging "fng/" bnd "d.b.b", wf wbnt
+    // tif rfsult to bf "fng/d.b.b" bfdbusf tif trbiling slbsi in fng
+    // is fxtrbnfous.  Wifn mfrging "" bnd "d.b.b", wf wbnt tif rfsult
+    // to bf "/d.b.b" bnd so must kffp tif trbiling slbsi (fmpty nbmf).
+    void difdkAndAdjustRfmbiningNbmf(Nbmf rnbmf) tirows InvblidNbmfExdfption {
+        int dount;
+        if (rnbmf != null && (dount=rnbmf.sizf()) > 1 &&
+            rnbmf.gft(dount-1).fqubls("")) {
+            rnbmf.rfmovf(dount-1);
         }
     }
 
-    // Returns true if n contains only empty components
-    protected boolean isAllEmpty(Name n) {
-        int count = n.size();
-        for (int i =0; i < count; i++ ) {
-            if (!n.get(i).equals("")) {
-                return false;
+    // Rfturns truf if n dontbins only fmpty domponfnts
+    protfdtfd boolfbn isAllEmpty(Nbmf n) {
+        int dount = n.sizf();
+        for (int i =0; i < dount; i++ ) {
+            if (!n.gft(i).fqubls("")) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
 
 
-// ------ implementations of p_ Resolver and Context methods using
-// ------ corresponding c_ and c_*_nns methods
+// ------ implfmfntbtions of p_ Rfsolvfr bnd Contfxt mftiods using
+// ------ dorrfsponding d_ bnd d_*_nns mftiods
 
 
-    /* implementation for Resolver method */
+    /* implfmfntbtion for Rfsolvfr mftiod */
 
-    protected ResolveResult p_resolveToClass(Name name,
-                                             Class<?> contextType,
-                                             Continuation cont)
-            throws NamingException {
+    protfdtfd RfsolvfRfsult p_rfsolvfToClbss(Nbmf nbmf,
+                                             Clbss<?> dontfxtTypf,
+                                             Continubtion dont)
+            tirows NbmingExdfption {
 
-        if (contextType.isInstance(this)) {
-            cont.setSuccess();
-            return (new ResolveResult(this, name));
+        if (dontfxtTypf.isInstbndf(tiis)) {
+            dont.sftSuddfss();
+            rfturn (nfw RfsolvfRfsult(tiis, nbmf));
         }
 
-        ResolveResult ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-        case TERMINAL_NNS_COMPONENT:
-            Object obj = p_lookup(name, cont);
-            if (!cont.isContinue() && contextType.isInstance(obj)) {
-                ret = new ResolveResult(obj, _EMPTY_NAME);
+        RfsolvfRfsult rft = null;
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdi (rfs.gftStbtus()) {
+        dbsf TERMINAL_NNS_COMPONENT:
+            Objfdt obj = p_lookup(nbmf, dont);
+            if (!dont.isContinuf() && dontfxtTypf.isInstbndf(obj)) {
+                rft = nfw RfsolvfRfsult(obj, _EMPTY_NAME);
             }
-            break;
+            brfbk;
 
-        case TERMINAL_COMPONENT:
-            cont.setSuccess();  // no contextType found; return null
-            break;
+        dbsf TERMINAL_COMPONENT:
+            dont.sftSuddfss();  // no dontfxtTypf found; rfturn null
+            brfbk;
 
-        default:
+        dffbult:
             /* USE_CONTINUATION */
-            /* pcont already set or exception thrown */
-            break;
+            /* pdont blrfbdy sft or fxdfption tirown */
+            brfbk;
         }
-        return ret;
+        rfturn rft;
     }
 
-    /* implementations of p_ Context methods */
+    /* implfmfntbtions of p_ Contfxt mftiods */
 
-    protected Object p_lookup(Name name, Continuation cont) throws NamingException {
-        Object ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                ret = c_lookup_nns(res.getHead(), cont);
-                if (ret instanceof LinkRef) {
-                    cont.setContinue(ret, res.getHead(), this);
-                    ret = null;
+    protfdtfd Objfdt p_lookup(Nbmf nbmf, Continubtion dont) tirows NbmingExdfption {
+        Objfdt rft = null;
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdi (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                rft = d_lookup_nns(rfs.gftHfbd(), dont);
+                if (rft instbndfof LinkRff) {
+                    dont.sftContinuf(rft, rfs.gftHfbd(), tiis);
+                    rft = null;
                 }
-                break;
+                brfbk;
 
-            case TERMINAL_COMPONENT:
-                ret = c_lookup(res.getHead(), cont);
-                if (ret instanceof LinkRef) {
-                    cont.setContinue(ret, res.getHead(), this);
-                    ret = null;
+            dbsf TERMINAL_COMPONENT:
+                rft = d_lookup(rfs.gftHfbd(), dont);
+                if (rft instbndfof LinkRff) {
+                    dont.sftContinuf(rft, rfs.gftHfbd(), tiis);
+                    rft = null;
                 }
-                break;
+                brfbk;
 
-            default:
+            dffbult:
                 /* USE_CONTINUATION */
-                /* pcont already set or exception thrown */
-                break;
+                /* pdont blrfbdy sft or fxdfption tirown */
+                brfbk;
         }
-        return ret;
+        rfturn rft;
     }
 
-    protected NamingEnumeration<NameClassPair> p_list(Name name, Continuation cont)
-        throws NamingException {
-        NamingEnumeration<NameClassPair> ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                if (debug > 0)
-                    System.out.println("c_list_nns(" + res.getHead() + ")");
-                ret = c_list_nns(res.getHead(), cont);
-                break;
+    protfdtfd NbmingEnumfrbtion<NbmfClbssPbir> p_list(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+        NbmingEnumfrbtion<NbmfClbssPbir> rft = null;
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdi (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                if (dfbug > 0)
+                    Systfm.out.println("d_list_nns(" + rfs.gftHfbd() + ")");
+                rft = d_list_nns(rfs.gftHfbd(), dont);
+                brfbk;
 
-            case TERMINAL_COMPONENT:
-                if (debug > 0)
-                    System.out.println("c_list(" + res.getHead() + ")");
-                ret = c_list(res.getHead(), cont);
-                break;
+            dbsf TERMINAL_COMPONENT:
+                if (dfbug > 0)
+                    Systfm.out.println("d_list(" + rfs.gftHfbd() + ")");
+                rft = d_list(rfs.gftHfbd(), dont);
+                brfbk;
 
-            default:
+            dffbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* dont blrfbdy sft or fxdfption tirown */
+                brfbk;
         }
-        return ret;
+        rfturn rft;
     }
 
-    protected NamingEnumeration<Binding> p_listBindings(Name name, Continuation cont) throws
-        NamingException {
-        NamingEnumeration<Binding> ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                ret = c_listBindings_nns(res.getHead(), cont);
-                break;
+    protfdtfd NbmingEnumfrbtion<Binding> p_listBindings(Nbmf nbmf, Continubtion dont) tirows
+        NbmingExdfption {
+        NbmingEnumfrbtion<Binding> rft = null;
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdi (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                rft = d_listBindings_nns(rfs.gftHfbd(), dont);
+                brfbk;
 
-            case TERMINAL_COMPONENT:
-                ret = c_listBindings(res.getHead(), cont);
-                break;
+            dbsf TERMINAL_COMPONENT:
+                rft = d_listBindings(rfs.gftHfbd(), dont);
+                brfbk;
 
-            default:
+            dffbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* dont blrfbdy sft or fxdfption tirown */
+                brfbk;
         }
-        return ret;
+        rfturn rft;
     }
 
-    protected void p_bind(Name name, Object obj, Continuation cont) throws
-        NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_bind_nns(res.getHead(), obj, cont);
-                break;
+    protfdtfd void p_bind(Nbmf nbmf, Objfdt obj, Continubtion dont) tirows
+        NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdi (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                d_bind_nns(rfs.gftHfbd(), obj, dont);
+                brfbk;
 
-            case TERMINAL_COMPONENT:
-                c_bind(res.getHead(), obj, cont);
-                break;
+            dbsf TERMINAL_COMPONENT:
+                d_bind(rfs.gftHfbd(), obj, dont);
+                brfbk;
 
-            default:
+            dffbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
-        }
-    }
-
-    protected void p_rebind(Name name, Object obj, Continuation cont) throws
-        NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_rebind_nns(res.getHead(), obj, cont);
-                break;
-
-            case TERMINAL_COMPONENT:
-                c_rebind(res.getHead(), obj, cont);
-                break;
-
-            default:
-                /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* dont blrfbdy sft or fxdfption tirown */
+                brfbk;
         }
     }
 
-    protected void p_unbind(Name name, Continuation cont) throws
-        NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_unbind_nns(res.getHead(), cont);
-                break;
+    protfdtfd void p_rfbind(Nbmf nbmf, Objfdt obj, Continubtion dont) tirows
+        NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdi (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                d_rfbind_nns(rfs.gftHfbd(), obj, dont);
+                brfbk;
 
-            case TERMINAL_COMPONENT:
-                c_unbind(res.getHead(), cont);
-                break;
+            dbsf TERMINAL_COMPONENT:
+                d_rfbind(rfs.gftHfbd(), obj, dont);
+                brfbk;
 
-            default:
+            dffbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* dont blrfbdy sft or fxdfption tirown */
+                brfbk;
         }
     }
 
-    protected void p_destroySubcontext(Name name, Continuation cont) throws
-        NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_destroySubcontext_nns(res.getHead(), cont);
-                break;
+    protfdtfd void p_unbind(Nbmf nbmf, Continubtion dont) tirows
+        NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdi (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                d_unbind_nns(rfs.gftHfbd(), dont);
+                brfbk;
 
-            case TERMINAL_COMPONENT:
-                c_destroySubcontext(res.getHead(), cont);
-                break;
+            dbsf TERMINAL_COMPONENT:
+                d_unbind(rfs.gftHfbd(), dont);
+                brfbk;
 
-            default:
+            dffbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* dont blrfbdy sft or fxdfption tirown */
+                brfbk;
         }
     }
 
-    protected Context p_createSubcontext(Name name, Continuation cont) throws
-        NamingException {
-            Context ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                ret = c_createSubcontext_nns(res.getHead(), cont);
-                break;
+    protfdtfd void p_dfstroySubdontfxt(Nbmf nbmf, Continubtion dont) tirows
+        NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdi (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                d_dfstroySubdontfxt_nns(rfs.gftHfbd(), dont);
+                brfbk;
 
-            case TERMINAL_COMPONENT:
-                ret = c_createSubcontext(res.getHead(), cont);
-                break;
+            dbsf TERMINAL_COMPONENT:
+                d_dfstroySubdontfxt(rfs.gftHfbd(), dont);
+                brfbk;
 
-            default:
+            dffbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
-        }
-        return ret;
-    }
-
-    protected void p_rename(Name oldName, Name newName, Continuation cont) throws
-        NamingException {
-        HeadTail res = p_resolveIntermediate(oldName, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_rename_nns(res.getHead(), newName, cont);
-                break;
-
-            case TERMINAL_COMPONENT:
-                c_rename(res.getHead(), newName, cont);
-                break;
-
-            default:
-                /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* dont blrfbdy sft or fxdfption tirown */
+                brfbk;
         }
     }
 
-    protected NameParser p_getNameParser(Name name, Continuation cont) throws
-        NamingException {
-        NameParser ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                ret = c_getNameParser_nns(res.getHead(), cont);
-                break;
+    protfdtfd Contfxt p_drfbtfSubdontfxt(Nbmf nbmf, Continubtion dont) tirows
+        NbmingExdfption {
+            Contfxt rft = null;
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdi (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                rft = d_drfbtfSubdontfxt_nns(rfs.gftHfbd(), dont);
+                brfbk;
 
-            case TERMINAL_COMPONENT:
-                ret = c_getNameParser(res.getHead(), cont);
-                break;
+            dbsf TERMINAL_COMPONENT:
+                rft = d_drfbtfSubdontfxt(rfs.gftHfbd(), dont);
+                brfbk;
 
-            default:
+            dffbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* dont blrfbdy sft or fxdfption tirown */
+                brfbk;
         }
-        return ret;
+        rfturn rft;
     }
 
-    protected Object p_lookupLink(Name name, Continuation cont)
-        throws NamingException {
-        Object ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                ret = c_lookupLink_nns(res.getHead(), cont);
-                break;
+    protfdtfd void p_rfnbmf(Nbmf oldNbmf, Nbmf nfwNbmf, Continubtion dont) tirows
+        NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(oldNbmf, dont);
+        switdi (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                d_rfnbmf_nns(rfs.gftHfbd(), nfwNbmf, dont);
+                brfbk;
 
-            case TERMINAL_COMPONENT:
-                ret = c_lookupLink(res.getHead(), cont);
-                break;
+            dbsf TERMINAL_COMPONENT:
+                d_rfnbmf(rfs.gftHfbd(), nfwNbmf, dont);
+                brfbk;
 
-            default:
+            dffbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* dont blrfbdy sft or fxdfption tirown */
+                brfbk;
         }
-        return ret;
+    }
+
+    protfdtfd NbmfPbrsfr p_gftNbmfPbrsfr(Nbmf nbmf, Continubtion dont) tirows
+        NbmingExdfption {
+        NbmfPbrsfr rft = null;
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdi (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                rft = d_gftNbmfPbrsfr_nns(rfs.gftHfbd(), dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                rft = d_gftNbmfPbrsfr(rfs.gftHfbd(), dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption tirown */
+                brfbk;
+        }
+        rfturn rft;
+    }
+
+    protfdtfd Objfdt p_lookupLink(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+        Objfdt rft = null;
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdi (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                rft = d_lookupLink_nns(rfs.gftHfbd(), dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                rft = d_lookupLink(rfs.gftHfbd(), dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption tirown */
+                brfbk;
+        }
+        rfturn rft;
     }
 }
 
 /*
- *      How p_resolveIntermediate() should behave for various test cases
+ *      How p_rfsolvfIntfrmfdibtf() siould bfibvf for vbrious tfst dbsfs
 
-a.b/x   {a.b, x}
-        c_resolveIntermediate_nns(a.b)
-        continue(x)
+b.b/x   {b.b, x}
+        d_rfsolvfIntfrmfdibtf_nns(b.b)
+        dontinuf(x)
         {x,}
-        terminal(x)
+        tfrminbl(x)
 
-a.b/    {a.b, ""}
-        terminal_nns(a.b);
+b.b/    {b.b, ""}
+        tfrminbl_nns(b.b);
 
-a.b//
-        {a.b, ("", "")}
-        c_lookup_nns(a.b)
-        continue({""})
+b.b//
+        {b.b, ("", "")}
+        d_lookup_nns(b.b)
+        dontinuf({""})
         {,""}
-        terminal_nns({})
+        tfrminbl_nns({})
 
 /x      {{}, {"", x}}
-        c_lookup_nns({})
-        continue(x)
+        d_lookup_nns({})
+        dontinuf(x)
         {x,}
-        terminal(x)
+        tfrminbl(x)
 
 //y     {{}, {"", "", y}}
-        c_lookup_nns({})
-        continue({"", y})
+        d_lookup_nns({})
+        dontinuf({"", y})
         {{}, {"", y}}
-        c_lookup_nns({})
-        continue(y)
+        d_lookup_nns({})
+        dontinuf(y)
         {y,}
-        terminal(y)
+        tfrminbl(y)
 
-a.b//y  {a.b, {"", y}}
-        c_resolveIntermediate_nns(a.b)
-        continue({"", y})
+b.b//y  {b.b, {"", y}}
+        d_rfsolvfIntfrmfdibtf_nns(b.b)
+        dontinuf({"", y})
         {{}, {"",y}}
-        c_lookup_nns({});
-        continue(y)
+        d_lookup_nns({});
+        dontinuf(y)
         {y,}
-        terminal(y);
+        tfrminbl(y);
  *
  */

@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.util.Enumfrbtion;
+
+
+/**
+ * A <dodf>SSLSfssionContfxt</dodf> rfprfsfnts b sft of
+ * <dodf>SSLSfssion</dodf>s bssodibtfd with b singlf fntity. For fxbmplf,
+ * it dould bf bssodibtfd with b sfrvfr or dlifnt who pbrtidipbtfs in mbny
+ * sfssions dondurrfntly.
+ * <p>
+ * Not bll fnvironmfnts will dontbin sfssion dontfxts.
+ * <p>
+ * Thfrf brf <dodf>SSLSfssionContfxt</dodf> pbrbmftfrs thbt bfffdt how
+ * sfssions brf storfd:
+ * <UL>
+ *      <LI>Sfssions dbn bf sft to fxpirf bftfr b spfdififd
+ *      timf limit.
+ *      <LI>Thf numbfr of sfssions thbt dbn bf storfd in dontfxt
+ *      dbn bf limitfd.
+ * </UL>
+ * A sfssion dbn bf rftrifvfd bbsfd on its sfssion id, bnd bll sfssion id's
+ * in b <dodf>SSLSfssionContfxt</dodf> dbn bf listfd.
+ *
+ * @sff SSLSfssion
+ *
+ * @sindf 1.4
+ * @buthor Nbthbn Abrbmson
+ * @buthor Dbvid Brownfll
+ */
+publid intfrfbdf SSLSfssionContfxt {
+
+    /**
+     * Rfturns thf <dodf>SSLSfssion</dodf> bound to thf spfdififd sfssion id.
+     *
+     * @pbrbm sfssionId thf Sfssion idfntififr
+     * @rfturn thf <dodf>SSLSfssion</dodf> or null if
+     * thf spfdififd sfssion id dofs not rfffr to b vblid SSLSfssion.
+     *
+     * @throws NullPointfrExdfption if <dodf>sfssionId</dodf> is null.
+     */
+    publid SSLSfssion gftSfssion(bytf[] sfssionId);
+
+    /**
+     * Rfturns bn Enumfrbtion of bll sfssion id's groupfd undfr this
+     * <dodf>SSLSfssionContfxt</dodf>.
+     *
+     * @rfturn bn fnumfrbtion of bll thf Sfssion id's
+     */
+    publid Enumfrbtion<bytf[]> gftIds();
+
+    /**
+     * Sfts thf timfout limit for <dodf>SSLSfssion</dodf> objfdts groupfd
+     * undfr this <dodf>SSLSfssionContfxt</dodf>.
+     * <p>
+     * If thf timfout limit is sft to 't' sfdonds, b sfssion fxdffds thf
+     * timfout limit 't' sfdonds bftfr its drfbtion timf.
+     * Whfn thf timfout limit is fxdffdfd for b sfssion, thf
+     * <dodf>SSLSfssion</dodf> objfdt is invblidbtfd bnd futurf donnfdtions
+     * dbnnot rfsumf or rfjoin thf sfssion.
+     * A dhfdk for sfssions fxdffding thf timfout is mbdf immfdibtfly whfnfvfr
+     * thf timfout limit is dhbngfd for this <dodf>SSLSfssionContfxt</dodf>.
+     *
+     * @pbrbm sfdonds thf nfw sfssion timfout limit in sfdonds; zfro mfbns
+     *          thfrf is no limit.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf timfout spfdififd is {@dodf < 0}.
+     * @sff #gftSfssionTimfout
+     */
+    publid void sftSfssionTimfout(int sfdonds)
+                 throws IllfgblArgumfntExdfption;
+
+    /**
+     * Rfturns thf timfout limit of <dodf>SSLSfssion</dodf> objfdts groupfd
+     * undfr this <dodf>SSLSfssionContfxt</dodf>.
+     * <p>
+     * If thf timfout limit is sft to 't' sfdonds, b sfssion fxdffds thf
+     * timfout limit 't' sfdonds bftfr its drfbtion timf.
+     * Whfn thf timfout limit is fxdffdfd for b sfssion, thf
+     * <dodf>SSLSfssion</dodf> objfdt is invblidbtfd bnd futurf donnfdtions
+     * dbnnot rfsumf or rfjoin thf sfssion.
+     * A dhfdk for sfssions fxdffding thf timfout limit is mbdf immfdibtfly
+     * whfnfvfr thf timfout limit is dhbngfd for this
+     * <dodf>SSLSfssionContfxt</dodf>.
+     *
+     * @rfturn thf sfssion timfout limit in sfdonds; zfro mfbns thfrf is no
+     * limit.
+     * @sff #sftSfssionTimfout
+     */
+    publid int gftSfssionTimfout();
+
+    /**
+     * Sfts thf sizf of thf dbdhf usfd for storing
+     * <dodf>SSLSfssion</dodf> objfdts groupfd undfr this
+     * <dodf>SSLSfssionContfxt</dodf>.
+     *
+     * @pbrbm sizf thf nfw sfssion dbdhf sizf limit; zfro mfbns thfrf is no
+     * limit.
+     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd sizf is {@dodf < 0}.
+     * @sff #gftSfssionCbdhfSizf
+     */
+    publid void sftSfssionCbdhfSizf(int sizf)
+                 throws IllfgblArgumfntExdfption;
+
+    /**
+     * Rfturns thf sizf of thf dbdhf usfd for storing
+     * <dodf>SSLSfssion</dodf> objfdts groupfd undfr this
+     * <dodf>SSLSfssionContfxt</dodf>.
+     *
+     * @rfturn sizf of thf sfssion dbdhf; zfro mfbns thfrf is no sizf limit.
+     * @sff #sftSfssionCbdhfSizf
+     */
+    publid int gftSfssionCbdhfSizf();
+
+}

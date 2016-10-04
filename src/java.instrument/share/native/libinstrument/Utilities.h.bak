@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright 2003 Wily Technology, Inc.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
  */
 
-#ifndef _UTILITIES_H_
-#define _UTILITIES_H_
+#ifndff _UTILITIES_H_
+#dffinf _UTILITIES_H_
 
-#include    <jni.h>
-#include    <jvmti.h>
+#indludf    <jni.i>
+#indludf    <jvmti.i>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
 /*
- *  This module provides various simple JNI and JVMTI utility functionality.
+ *  Tiis modulf providfs vbrious simplf JNI bnd JVMTI utility fundtionblity.
  */
 
 /*
- *  This allocate must be paired with this deallocate. Used for our own working buffers.
- *  Implementation may vary.
+ *  Tiis bllodbtf must bf pbirfd witi tiis dfbllodbtf. Usfd for our own working bufffrs.
+ *  Implfmfntbtion mby vbry.
  */
-extern void *
-allocate(jvmtiEnv * jvmtienv, size_t bytecount);
+fxtfrn void *
+bllodbtf(jvmtiEnv * jvmtifnv, sizf_t bytfdount);
 
-extern void
-deallocate(jvmtiEnv * jvmtienv, void * buffer);
+fxtfrn void
+dfbllodbtf(jvmtiEnv * jvmtifnv, void * bufffr);
 
 
 /*
- *  Misc. JNI support
+ *  Misd. JNI support
  */
-/* convenience wrapper around JNI instanceOf */
-extern jboolean
-isInstanceofClassName(  JNIEnv*     jnienv,
-                        jobject     instance,
-                        const char* className);
+/* donvfnifndf wrbppfr bround JNI instbndfOf */
+fxtfrn jboolfbn
+isInstbndfofClbssNbmf(  JNIEnv*     jnifnv,
+                        jobjfdt     instbndf,
+                        donst dibr* dlbssNbmf);
 
 
-/* calling this stops the JVM and does not return */
-extern void
-abortJVM(   JNIEnv *        jnienv,
-            const char *    message);
+/* dblling tiis stops tif JVM bnd dofs not rfturn */
+fxtfrn void
+bbortJVM(   JNIEnv *        jnifnv,
+            donst dibr *    mfssbgf);
 
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
 
 
-#endif
+#fndif

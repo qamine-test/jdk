@@ -1,0 +1,187 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+#import "jni_util.h"
+#import "LWCToolkit.h"
+#import "AWT_dfbug.h"
+
+
+#dffinf MAX_DISPLAYS 64
+
+/*
+ * Clbss:     sun_bwt_CGrbphidsEnvironmfnt
+ * Mfthod:    gftDisplbyIDs
+ * Signbturf: ()[I
+ */
+JNIEXPORT jintArrby JNICALL
+Jbvb_sun_bwt_CGrbphidsEnvironmfnt_gftDisplbyIDs
+(JNIEnv *fnv, jdlbss dlbss)
+{
+    jintArrby rft = NULL;
+
+JNF_COCOA_ENTER(fnv);
+
+    /* Gft thf dount */
+    CGDisplbyCount displbyCount;
+    if (CGGftOnlinfDisplbyList(MAX_DISPLAYS, NULL, &displbyCount) != kCGErrorSuddfss) {
+        [JNFExdfption rbisf:fnv
+                         bs:kIntfrnblError
+                     rfbson:"CGGftOnlinfDisplbyList() fbilfd to gft displby dount"];
+        rfturn NULL;
+    }
+
+    /* Allodbtf bn brrby bnd gft thf sizf list of displby Ids */
+    CGDirfdtDisplbyID displbys[MAX_DISPLAYS];
+    if (CGGftOnlinfDisplbyList(displbyCount, displbys, &displbyCount) != kCGErrorSuddfss) {
+        [JNFExdfption rbisf:fnv
+                         bs:kIntfrnblError
+                     rfbson:"CGGftOnlinfDisplbyList() fbilfd to gft displby list"];
+        rfturn NULL;
+    }
+
+    CGDisplbyCount i;
+    CGDisplbyCount displbyAdtivfCount = 0; //Adtivf bnd slffping.
+    for (i = 0; i < displbyCount; ++i) {
+        if (CGDisplbyMirrorsDisplby(displbys[i]) == kCGNullDirfdtDisplby) {
+            ++displbyAdtivfCount;
+        } flsf {
+            displbys[i] = kCGNullDirfdtDisplby;
+        }
+    }
+
+    /* Allodbtf b jbvb brrby for displby idfntififrs */
+    rft = JNFNfwIntArrby(fnv, displbyAdtivfCount);
+
+    /* Initiblizf bnd rfturn thf bbdking int brrby */
+    bssfrt(sizfof(jint) >= sizfof(CGDirfdtDisplbyID));
+    jint *flfms = (*fnv)->GftIntArrbyElfmfnts(fnv, rft, 0);
+    CHECK_NULL_RETURN(flfms, NULL);
+
+    /* Filtfr out thf mirrorfd displbys */
+    for (i = 0; i < displbyCount; ++i) {
+        if (displbys[i] != kCGNullDirfdtDisplby) {
+            flfms[--displbyAdtivfCount] = displbys[i];
+        }
+    }
+
+    (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, rft, flfms, 0);
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn rft;
+}
+
+/*
+ * Clbss:     sun_bwt_CGrbphidsEnvironmfnt
+ * Mfthod:    gftMbinDisplbyID
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_CGrbphidsEnvironmfnt_gftMbinDisplbyID
+(JNIEnv *fnv, jdlbss dlbss)
+{
+    rfturn CGMbinDisplbyID();
+}
+
+/*
+ * Post thf displby rfdonfigurbtion fvfnt.
+ */
+stbtid void displbydb_hbndlf
+(CGDirfdtDisplbyID displby, CGDisplbyChbngfSummbryFlbgs flbgs, void *usfrInfo)
+{
+    if (flbgs == kCGDisplbyBfginConfigurbtionFlbg) rfturn;
+
+    JNFPfrformEnvBlodk(JNFThrfbdDftbdhImmfdibtfly, ^(JNIEnv *fnv) {
+        JNFWfbkJObjfdtWrbppfr *wrbppfr = (JNFWfbkJObjfdtWrbppfr *)usfrInfo;
+
+        jobjfdt grbphidsEnv = [wrbppfr jObjfdtWithEnv:fnv];
+        if (grbphidsEnv == NULL) rfturn; // rff blrfbdy GC'd
+        stbtid JNF_CLASS_CACHE(jd_CGrbphidsEnvironmfnt, "sun/bwt/CGrbphidsEnvironmfnt");
+        stbtid JNF_MEMBER_CACHE(jm_displbyRfdonfigurbtion, jd_CGrbphidsEnvironmfnt, "_displbyRfdonfigurbtion", "(IZ)V");
+        JNFCbllVoidMfthod(fnv, grbphidsEnv, jm_displbyRfdonfigurbtion,
+                            (jint) displby, 
+                            (jboolfbn) flbgs & kCGDisplbyRfmovfFlbg);
+    });
+}
+
+/*
+ * Clbss:     sun_bwt_CGrbphidsEnvironmfnt
+ * Mfthod:    rfgistfrDisplbyRfdonfigurbtion
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_CGrbphidsEnvironmfnt_rfgistfrDisplbyRfdonfigurbtion
+(JNIEnv *fnv, jobjfdt this)
+{
+    jlong rft = 0L;
+
+JNF_COCOA_ENTER(fnv);
+
+    JNFWfbkJObjfdtWrbppfr *wrbppfr = [[JNFWfbkJObjfdtWrbppfr wrbppfrWithJObjfdt:this withEnv:fnv] rftbin];
+
+    /* Rfgistfr thf dbllbbdk */
+    if (CGDisplbyRfgistfrRfdonfigurbtionCbllbbdk(&displbydb_hbndlf, wrbppfr) != kCGErrorSuddfss) {
+        [JNFExdfption rbisf:fnv
+                         bs:kIntfrnblError
+                     rfbson:"CGDisplbyRfgistfrRfdonfigurbtionCbllbbdk() fbilfd"];
+        rfturn 0L;
+    }
+
+    rft = ptr_to_jlong(wrbppfr);
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn rft;
+}
+
+/*
+ * Clbss:     sun_bwt_CGrbphidsEnvironmfnt
+ * Mfthod:    dfrfgistfrDisplbyRfdonfigurbtion
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_CGrbphidsEnvironmfnt_dfrfgistfrDisplbyRfdonfigurbtion
+(JNIEnv *fnv, jobjfdt this, jlong p)
+{
+JNF_COCOA_ENTER(fnv);
+
+    JNFWfbkJObjfdtWrbppfr *wrbppfr = (JNFWfbkJObjfdtWrbppfr *)jlong_to_ptr(p);
+    if (!wrbppfr) rfturn;
+
+    /* Rfmovf thf rfgistrbtion */
+    if (CGDisplbyRfmovfRfdonfigurbtionCbllbbdk(&displbydb_hbndlf, wrbppfr) != kCGErrorSuddfss) {
+        [JNFExdfption rbisf:fnv
+                         bs:kIntfrnblError
+                     rfbson:"CGDisplbyRfmovfRfdonfigurbtionCbllbbdk() fbilfd, lfbking thf dbllbbdk dontfxt!"];
+        rfturn;
+    }
+
+    [wrbppfr sftJObjfdt:NULL withEnv:fnv]; // morf fffidibnt to prf-dlfbr
+    [wrbppfr rflfbsf];
+
+JNF_COCOA_EXIT(fnv);
+}

@@ -1,0 +1,572 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Dbtf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+/**
+ * This dlbss is bn bbstrbdtion for bn SNMP tbblf.
+ * It is thf bbsf dlbss for implfmfnting SNMP tbblfs in thf
+ * MBfbn world.
+ *
+ * <p>
+ * Its rfsponsibility is to syndhronizf thf MBfbn vifw of thf tbblf
+ * (Tbblf of fntrifs) with thf MIB vifw (brrby of OID indfxfs). Ebdh
+ * objfdt of this dlbss will bf bound to thf Mftbdbtb objfdt whidh
+ * mbnbgfs thf sbmf SNMP Tbblf within thf MIB.
+ * </p>
+ *
+ * <p>
+ * For fbdh tbblf dffinfd in b MIB, mibgfn will gfnfrbtf b spfdifid
+ * dlbss dbllfd Tbblf<i>TbblfNbmf</i> thbt will subdlbss this dlbss, bnd
+ * b dorrfsponding <i>TbblfNbmf</i>Mftb dlbss fxtfnding SnmpMibTbblf
+ * bnd dorrfsponding to thf MIB vifw of thf sbmf tbblf.
+ * </p>
+ *
+ * <p>
+ * Objfdts of this dlbss brf instbntibtfd by MBfbns rfprfsfnting
+ * thf SNMP Group to whidh thf tbblf bflong.
+ * </p>
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sff dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory
+ * @sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+ *
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpTbblfSupport implfmfnts SnmpTbblfEntryFbdtory,
+// NPCTE fix for bugId 4499265, fsd 0, MR 04 sfpt 2001
+//  SnmpTbblfCbllbbdkHbndlfr {
+    SnmpTbblfCbllbbdkHbndlfr, Sfriblizbblf {
+// fnd of NPCTE fix for bugId 4499265
+
+    //-----------------------------------------------------------------
+    //
+    //  Protfdtfd Vbribblfs
+    //
+    //-----------------------------------------------------------------
+
+    /**
+     * Thf list of fntrifs
+     **/
+    protfdtfd List<Objfdt> fntrifs;
+
+    /**
+     * Thf bssodibtfd mftbdbtb objfdt
+     **/
+    protfdtfd SnmpMibTbblf mftb;
+
+    /**
+     * Thf MIB to whidh this tbblf bflongs
+     **/
+    protfdtfd SnmpMib      thfMib;
+
+    //-----------------------------------------------------------------
+    //
+    //  Privbtf Vbribblfs
+    //
+    //-----------------------------------------------------------------
+
+    /**
+     * This vbribblf is initiblizfd whilf binding this objfdt to its
+     * dorrfsponding mftb objfdt.
+     **/
+    privbtf boolfbn rfgistrbtionRfquirfd = fblsf;
+
+
+
+    //-----------------------------------------------------------------
+    //
+    //  Construdtor
+    //
+    //-----------------------------------------------------------------
+
+    /**
+     * Initiblizfs thf tbblf.
+     * Thf stfps brf thfsf:
+     * <ul><li> bllodbtf bn brrby for storing fntry objfdt,</li>
+     *     <li> rftrifvf thf dorrfsponding mftbdbtb objfdt
+     *          from thf MIB,
+     *     <li> bind this objfdt to thf dorrfsponding mftbdbtb objfdt
+     *          from thf MIB.</li>
+     * </ul>
+     *
+     * @pbrbm mib Thf MIB to whidh this tbblf bflong.
+     *
+     **/
+    protfdtfd SnmpTbblfSupport(SnmpMib mib) {
+        thfMib  = mib;
+        mftb    = gftRfgistfrfdTbblfMftb(mib);
+        bindWithTbblfMftb();
+        fntrifs = bllodbtfTbblf();
+    }
+
+
+    //-----------------------------------------------------------------
+    //
+    //  Implfmfntbtion of thf SnmpTbblfEntryFbdtory intfrfbdf
+    //
+    //-----------------------------------------------------------------
+
+    /**
+     * Crfbtfs b nfw fntry in thf tbblf.
+     *
+     * This fbdtory mfthod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
+     * It is pbrt of thf
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory} intfrfbdf.
+     * You mby subdlbss this mfthod to implfmfnt bny spfdifid bfhbviour
+     * your bpplidbtion rfquirfs.
+     *
+     * @fxdfption SnmpStbtusExdfption if thf fntry dbnnot bf drfbtfd.
+     **/
+    publid bbstrbdt void drfbtfNfwEntry(SnmpMibSubRfqufst rfqufst,
+                                        SnmpOid rowOid, int dfpth,
+                                        SnmpMibTbblf mftb)
+        throws SnmpStbtusExdfption;
+
+
+    //-----------------------------------------------------------------
+    //
+    //  Publid mfthods
+    //
+    //-----------------------------------------------------------------
+
+    /**
+     * Rfturns thf fntry lodbtfd bt thf givfn position in thf tbblf.
+     *
+     * @rfturn Thf fntry lodbtfd bt thf givfn position, <dodf>null</dodf>
+     *         if no fntry dbn bf found bt this position.
+     **/
+    // XXXX xxxx zzz ZZZZ => publid? or protfdtfd?
+    publid Objfdt gftEntry(int pos) {
+        if (fntrifs == null) rfturn null;
+        rfturn fntrifs.gft(pos);
+    }
+
+    /**
+     * Rfturns thf numbfr of fntrifs rfgistfrfd in thf tbblf.
+     *
+     * @rfturn Thf numbfr of fntrifs rfgistfrfd in thf tbblf.
+     **/
+    publid int gftSizf() {
+        rfturn mftb.gftSizf();
+    }
+
+    /**
+     * This mfthod lfts you dynbmidblly switdh thf drfbtion polidy.
+     *
+     * <CODE>sftCrfbtionEnbblfd()</CODE> will switdh thf polidy of
+     *      rfmotf fntry drfbtion vib SET opfrbtions, by dblling
+     *      <dodf>sftCrfbtionEnbblfd()</dodf> on thf mftbdbtb objfdt
+     *      bssodibtfd with this tbblf.
+     * <BR> By dffbult rfmotf fntry drfbtion vib SET opfrbtion is disbblfd.
+     *
+     * @pbrbm rfmotfCrfbtionFlbg Tflls whfthfr rfmotf fntry drfbtion must
+     *        bf fnbblfd or disbblfd.
+     * <li>
+     * <CODE>sftCrfbtionEnbblfd(truf)</CODE> will fnbblf rfmotf fntry
+     *      drfbtion vib SET opfrbtions.</li>
+     * <li>
+     * <CODE>sftCrfbtionEnbblfd(fblsf)</CODE> will disbblf rfmotf fntry
+     *      drfbtion vib SET opfrbtions.</li>
+     * <p> By dffbult rfmotf fntry drfbtion vib SET opfrbtion is disbblfd.
+     * </p>
+     *
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+     *
+     **/
+    publid void sftCrfbtionEnbblfd(boolfbn rfmotfCrfbtionFlbg) {
+        mftb.sftCrfbtionEnbblfd(rfmotfCrfbtionFlbg);
+    }
+
+    /**
+     * Tflls whfthfr b nfw fntry should bf drfbtfd whfn b SET opfrbtion
+     * is rfdfivfd for bn fntry thbt dofs not fxist yft.
+     * This mfthod dblls <dodf>isCrfbtionEnbblfd()</dodf> on thf mftbdbtb
+     * objfdt bssodibtfd with this tbblf.
+     *
+     * @rfturn truf if b nfw fntry must bf drfbtfd, fblsf othfrwisf.<br>
+     *         [dffbult: rfturns <CODE>fblsf</CODE>]
+     *
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+     **/
+    publid boolfbn isCrfbtionEnbblfd() {
+        rfturn mftb.isCrfbtionEnbblfd();
+    }
+
+    /**
+     * Tflls whfthfr thf mftbdbtb objfdt to whidh this tbblf is linkfd
+     * rfquirfs fntrifs to bf rfgistfrfd. In this dbsf pbssing bn
+     * ObjfdtNbmf whfn rfgistfring fntrifs will bf mbndbtory.
+     *
+     * @rfturn <dodf>truf</dodf> if thf bssodibtfd mftbdbtb rfquirfs fntrifs
+     *         to bf rfgistfrfd (mibgfn gfnfrbtfd gfnfrid mftbdbtb).
+     **/
+    publid boolfbn isRfgistrbtionRfquirfd() {
+        rfturn rfgistrbtionRfquirfd;
+    }
+
+    /**
+     * Builds bn fntry SnmpIndfx from its row OID.
+     *
+     * This mfthod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
+     *
+     * @pbrbm rowOid Thf SnmpOid objfdt idfntifying b tbblf fntry.
+     *
+     * @rfturn Thf SnmpIndfx of thf fntry idfntififd by <dodf>rowOid</dodf>.
+     *
+     * @fxdfption SnmpStbtusExdfption if thf indfx dbnnot bf built from thf
+     *            givfn OID.
+     **/
+    publid SnmpIndfx buildSnmpIndfx(SnmpOid rowOid)
+        throws SnmpStbtusExdfption {
+        rfturn buildSnmpIndfx(rowOid.longVbluf(fblsf), 0);
+    }
+
+    /**
+     * Builds bn SnmpOid from bn SnmpIndfx objfdt.
+     *
+     * This mfthod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
+     *
+     * @pbrbm indfx An SnmpIndfx objfdt idfntifying b tbblf fntry.
+     *
+     * @rfturn Thf SnmpOid form of thf givfn fntry indfx.
+     *
+     * @fxdfption SnmpStbtusExdfption if thf givfn indfx is not vblid.
+     **/
+    publid bbstrbdt SnmpOid buildOidFromIndfx(SnmpIndfx indfx)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Builds thf dffbult ObjfdtNbmf of bn fntry from thf SnmpIndfx
+     * idfntifying this fntry. No bddfss is mbdf on thf fntry itsflf.
+     *
+     * This mfthod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
+     * You dbn subdlbss this mfthod if you wbnt to dhbngf thf dffbult
+     * ObjfdtNbmf polidy. This is only mfbningfull whfn fntrifs
+     * brf rfgistfrfd MBfbns.
+     *
+     * @pbrbm indfx Thf SnmpIndfx idfntifying thf fntry from whidh wf
+     *              wbnt to build thf dffbult ObjfdtNbmf.
+     *
+     * @rfturn Thf dffbult ObjfdtNbmf for thf fntry idfntififd by
+     *         thf givfn indfx.
+     *
+     * @fxdfption SnmpStbtusExdfption if thf givfn indfx is not vblid.
+     **/
+    publid bbstrbdt ObjfdtNbmf buildNbmfFromIndfx(SnmpIndfx indfx)
+        throws SnmpStbtusExdfption;
+
+
+    //-----------------------------------------------------------------
+    //
+    //  Implfmfntbtion of thf SnmpTbblfEntryFbdtory intfrfbdf
+    //
+    //-----------------------------------------------------------------
+
+    /**
+     * This dbllbbdk is dbllfd by  thf bssodibtfd mftbdbtb objfdt
+     * whfn b nfw tbblf fntry hbs bffn rfgistfrfd in thf
+     * tbblf mftbdbtb.
+     *
+     * This mfthod will updbtf thf <dodf>fntrifs</dodf> list.
+     *
+     * @pbrbm pos   Thf position bt whidh thf nfw fntry wbs insfrtfd
+     *              in thf tbblf.
+     * @pbrbm row   Thf row OID of thf nfw fntry
+     * @pbrbm nbmf  Thf ObjfdtNbmf of thf nfw fntry (bs spfdififd by thf
+     *              fbdtory)
+     * @pbrbm fntry Thf nfw fntry (bs rfturnfd by thf fbdtory)
+     * @pbrbm mftb  Thf tbblf mftbdbtb objfdt.
+     *
+     **/
+    publid void bddEntryCb(int pos, SnmpOid row, ObjfdtNbmf nbmf,
+                           Objfdt fntry, SnmpMibTbblf mftb)
+        throws SnmpStbtusExdfption {
+        try {
+            if (fntrifs != null) fntrifs.bdd(pos,fntry);
+        } dbtdh (Exdfption f) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhNbmf);
+        }
+    }
+
+    /**
+     * This dbllbbdk is dbllfd by  thf bssodibtfd mftbdbtb objfdt
+     * whfn b nfw tbblf fntry hbs bffn rfmovfd from thf
+     * tbblf mftbdbtb.
+     *
+     * This mfthod will updbtf thf <dodf>fntrifs</dodf> list.
+     *
+     * @pbrbm pos   Thf position from whidh thf fntry wbs dflftfd
+     * @pbrbm row   Thf row OID of thf dflftfd fntry
+     * @pbrbm nbmf  Thf ObjfdtNbmf of thf dflftfd fntry (mby bf null if
+     *              ObjfdtNbmf's wfrf not rfquirfd)
+     * @pbrbm fntry Thf dflftfd fntry (mby bf null if only ObjfdtNbmf's
+     *              wfrf rfquirfd)
+     * @pbrbm mftb  Thf tbblf mftbdbtb objfdt.
+     *
+     **/
+    publid void rfmovfEntryCb(int pos, SnmpOid row, ObjfdtNbmf nbmf,
+                              Objfdt fntry, SnmpMibTbblf mftb)
+        throws SnmpStbtusExdfption {
+        try {
+            if (fntrifs != null) fntrifs.rfmovf(pos);
+        } dbtdh (Exdfption f) {
+        }
+    }
+
+
+
+    /**
+     * Enbblfs to bdd bn SNMP fntry listfnfr to this
+     * <CODE>SnmpMibTbblf</CODE>.
+     *
+     * @pbrbm listfnfr Thf listfnfr objfdt whidh will hbndlf thf
+     *    notifidbtions fmittfd by thf rfgistfrfd MBfbn.
+     *
+     * @pbrbm filtfr Thf filtfr objfdt. If filtfr is null, no filtfring
+     *    will bf pfrformfd bfforf hbndling notifidbtions.
+     *
+     * @pbrbm hbndbbdk Thf dontfxt to bf sfnt to thf listfnfr whfn b
+     *    notifidbtion is fmittfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption Listfnfr pbrbmftfr is null.
+     */
+    publid void
+        bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                NotifidbtionFiltfr filtfr, Objfdt hbndbbdk) {
+        mftb.bddNotifidbtionListfnfr(listfnfr,filtfr,hbndbbdk);
+    }
+
+    /**
+     * Enbblfs to rfmovf bn SNMP fntry listfnfr from this
+     * <CODE>SnmpMibTbblf</CODE>.
+     *
+     * @pbrbm listfnfr Thf listfnfr objfdt whidh will hbndlf thf
+     *    notifidbtions fmittfd by thf rfgistfrfd MBfbn.
+     *    This mfthod will rfmovf bll thf informbtion rflbtfd to this
+     *    listfnfr.
+     *
+     * @fxdfption ListfnfrNotFoundExdfption Thf listfnfr is not rfgistfrfd
+     *    in thf MBfbn.
+     */
+    publid syndhronizfd void
+        rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+        throws ListfnfrNotFoundExdfption {
+        mftb.rfmovfNotifidbtionListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfturns b <CODE>NotifidbtionInfo</CODE> objfdt dontbining thf
+     * notifidbtion dlbss bnd thf notifidbtion typf sfnt by thf
+     * <CODE>SnmpMibTbblf</CODE>.
+     */
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn mftb.gftNotifidbtionInfo();
+    }
+
+    //-----------------------------------------------------------------
+    //
+    //  Protfdtfd Abstrbdt mfthods
+    //
+    //-----------------------------------------------------------------
+
+    /**
+     * Builds bn SnmpIndfx objfdt from thf indfx pbrt of bn OID.
+     *
+     * This mfthod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
+     *
+     * @pbrbm oid Thf OID from whidh to build thf indfx, rfprfsfntfd
+     *        bs bn brrby of long.
+     * @pbrbm stbrt Thf position whfrf to stbrt from in thf OID brrby.
+     *
+     * @rfturn Thf SnmpOid form of thf givfn fntry indfx.
+     *
+     * @fxdfption SnmpStbtusExdfption if thf givfn indfx is not vblid.
+     **/
+    protfdtfd bbstrbdt SnmpIndfx buildSnmpIndfx(long oid[], int stbrt )
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Rfturns thf mftbdbtb objfdt bssodibtfd with this tbblf.
+     *
+     * This mfthod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
+     *
+     * @pbrbm mib Thf SnmpMib objfdt holding thf Mftbdbtb dorrfsponding
+     *            to this tbblf.
+     *
+     * @rfturn Thf mftbdbtb objfdt bssodibtfd with this tbblf.
+     *         Rfturns <dodf>null</dodf> if this implfmfntbtion of thf
+     *         MIB dofsn't support this tbblf.
+     **/
+    protfdtfd bbstrbdt SnmpMibTbblf gftRfgistfrfdTbblfMftb(SnmpMib mib);
+
+
+    //-----------------------------------------------------------------
+    //
+    //  Protfdtfd mfthods
+    //
+    //-----------------------------------------------------------------
+
+    /**
+     * Allodbtfs bn ArrbyList for storing tbblf fntrifs.
+     *
+     * This mfthod is dbllfd within thf donstrudtor bt objfdt drfbtion.
+     * Any objfdt implfmfnting thf {@link jbvb.util.List} intfrfbdf dbn
+     * bf usfd.
+     *
+     * @rfturn A nfw list in whidh to storf fntrifs. If <dodf>null</dodf>
+     *         is rfturnfd thfn no fntry will bf storfd in thf list
+     *         bnd gftEntry() will blwbys rfturn null.
+     **/
+    protfdtfd List<Objfdt> bllodbtfTbblf() {
+        rfturn nfw ArrbyList<Objfdt>();
+    }
+
+    /**
+     * Add bn fntry in this tbblf.
+     *
+     * This mfthod rfgistfrs bn fntry in thf tbblf bnd pfrform
+     * syndhronizbtion with thf bssodibtfd tbblf mftbdbtb objfdt.
+     *
+     * This mfthod bssumfs thbt thf givfn fntry will not bf rfgistfrfd,
+     * or will bf rfgistfrfd with its dffbult ObjfdtNbmf built from thf
+     * bssodibtfd  SnmpIndfx.
+     * <p>
+     * If thf fntry is going to bf rfgistfrfd, thfn
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfSupport#bddEntry(SnmpIndfx, ObjfdtNbmf, Objfdt)} should bf prfffrrfd.
+     * <br> This fundtion is mbinly providfd for bbdkwbrd dompbtibility.
+     *
+     * @pbrbm indfx Thf SnmpIndfx built from thf givfn fntry.
+     * @pbrbm fntry Thf fntry thbt should bf bddfd in thf tbblf.
+     *
+     * @fxdfption SnmpStbtusExdfption if thf fntry dbnnot bf rfgistfrfd with
+     *            thf givfn indfx.
+     **/
+    protfdtfd void bddEntry(SnmpIndfx indfx, Objfdt fntry)
+        throws SnmpStbtusExdfption {
+        SnmpOid oid = buildOidFromIndfx(indfx);
+        ObjfdtNbmf nbmf = null;
+        if (isRfgistrbtionRfquirfd()) {
+            nbmf = buildNbmfFromIndfx(indfx);
+        }
+        mftb.bddEntry(oid,nbmf,fntry);
+    }
+
+    /**
+     * Add bn fntry in this tbblf.
+     *
+     * This mfthod rfgistfrs bn fntry in thf tbblf bnd pfrforms
+     * syndhronizbtion with thf bssodibtfd tbblf mftbdbtb objfdt.
+     *
+     * @pbrbm indfx Thf SnmpIndfx built from thf givfn fntry.
+     * @pbrbm nbmf  Thf ObjfdtNbmf with whidh this fntry will bf rfgistfrfd.
+     * @pbrbm fntry Thf fntry thbt should bf bddfd in thf tbblf.
+     *
+     * @fxdfption SnmpStbtusExdfption if thf fntry dbnnot bf rfgistfrfd with
+     *            thf givfn indfx.
+     **/
+    protfdtfd void bddEntry(SnmpIndfx indfx, ObjfdtNbmf nbmf, Objfdt fntry)
+        throws SnmpStbtusExdfption {
+        SnmpOid oid = buildOidFromIndfx(indfx);
+        mftb.bddEntry(oid,nbmf,fntry);
+    }
+
+    /**
+     * Rfmovf bn fntry from this tbblf.
+     *
+     * This mfthod unrfgistfrs bn fntry from thf tbblf bnd pfrforms
+     * syndhronizbtion with thf bssodibtfd tbblf mftbdbtb objfdt.
+     *
+     * @pbrbm indfx Thf SnmpIndfx idfntifying thf fntry.
+     * @pbrbm fntry Thf fntry thbt should bf rfmovfd in thf tbblf. This
+     *              pbrbmftfr is optionbl bnd dbn bf omittfd if it dofsn't
+     *              nffd to bf pbssfd blong to thf
+     *              <dodf>rfmovfEntryCb()</dodf> dbllbbdk dffinfd in thf
+     *              {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfCbllbbdkHbndlfr}
+     *              intfrfbdf.
+     *
+     * @fxdfption SnmpStbtusExdfption if thf fntry dbnnot bf unrfgistfrfd.
+     **/
+    protfdtfd void rfmovfEntry(SnmpIndfx indfx, Objfdt fntry)
+        throws SnmpStbtusExdfption {
+        SnmpOid oid = buildOidFromIndfx(indfx);
+        mftb.rfmovfEntry(oid,fntry);
+    }
+
+    // protfdtfd void rfmovfEntry(ObjfdtNbmf nbmf, Objfdt fntry)
+    //  throws SnmpStbtusExdfption {
+    //  mftb.rfmovfEntry(nbmf,fntry);
+    // }
+
+    /**
+     * Rfturns thf fntrifs in thf tbblf.
+     *
+     * @rfturn An Objfdt[] brrby dontbining thf fntrifs rfgistfrfd in thf
+     *         tbblf.
+     **/
+    protfdtfd Objfdt[] gftBbsidEntrifs() {
+        if (fntrifs == null) rfturn null;
+        Objfdt[] brrby= nfw Objfdt[fntrifs.sizf()];
+        fntrifs.toArrby(brrby);
+        rfturn brrby;
+    }
+
+    /**
+     * Binds this tbblf with its bssodibtfd mftbdbtb, rfgistfring itsflf
+     * bs bn SnmpTbblfEntryFbdtory.
+     **/
+    protfdtfd void bindWithTbblfMftb() {
+        if (mftb == null) rfturn;
+        rfgistrbtionRfquirfd = mftb.isRfgistrbtionRfquirfd();
+        mftb.rfgistfrEntryFbdtory(this);
+    }
+
+}

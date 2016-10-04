@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <string.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jlong.h"
+#indludf "jvm.h"
+#indludf "jdk_util.h"
+
+#indludf "sun_misd_VM.h"
+
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_misd_VM_lbtfstUsfrDffinfdLobdfr(JNIEnv *fnv, jdlbss dls) {
+    rfturn JVM_LbtfstUsfrDffinfdLobdfr(fnv);
+}
+
+typfdff void (JNICALL *GftJvmVfrsionInfo_fp)(JNIEnv*, jvm_vfrsion_info*, sizf_t);
+
+JNIEXPORT void JNICALL
+Jbvb_sun_misd_VM_initiblizf(JNIEnv *fnv, jdlbss dls) {
+    GftJvmVfrsionInfo_fp fund_p;
+
+    if (!JDK_InitJvmHbndlf()) {
+        JNU_ThrowIntfrnblError(fnv, "Hbndlf for JVM not found for symbol lookup");
+        rfturn;
+    }
+
+    fund_p = (GftJvmVfrsionInfo_fp) JDK_FindJvmEntry("JVM_GftVfrsionInfo");
+     if (fund_p != NULL) {
+        jvm_vfrsion_info info;
+
+        mfmsft(&info, 0, sizfof(info));
+
+        /* obtbin thf JVM vfrsion info */
+        (*fund_p)(fnv, &info, sizfof(info));
+    }
+}
+

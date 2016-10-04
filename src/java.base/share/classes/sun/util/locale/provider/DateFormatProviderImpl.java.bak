@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.text.spi.DateFormatProvider;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.Set;
+import jbvb.tfxt.DbtfFormbt;
+import jbvb.tfxt.SimplfDbtfFormbt;
+import jbvb.tfxt.spi.DbtfFormbtProvidfr;
+import jbvb.util.Cblfndbr;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.Sft;
 
 /**
- * Concrete implementation of the  {@link java.text.spi.DateFormatProvider
- * DateFormatProvider} class for the JRE LocaleProviderAdapter.
+ * Condrftf implfmfntbtion of tif  {@link jbvb.tfxt.spi.DbtfFormbtProvidfr
+ * DbtfFormbtProvidfr} dlbss for tif JRE LodblfProvidfrAdbptfr.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @butior Nboto Sbto
+ * @butior Mbsbyosii Okutsu
  */
-public class DateFormatProviderImpl extends DateFormatProvider implements AvailableLanguageTags {
-    private final LocaleProviderAdapter.Type type;
-    private final Set<String> langtags;
+publid dlbss DbtfFormbtProvidfrImpl fxtfnds DbtfFormbtProvidfr implfmfnts AvbilbblfLbngubgfTbgs {
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+    privbtf finbl Sft<String> lbngtbgs;
 
-    public DateFormatProviderImpl(LocaleProviderAdapter.Type type, Set<String> langtags) {
-        this.type = type;
-        this.langtags = langtags;
+    publid DbtfFormbtProvidfrImpl(LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        tiis.typf = typf;
+        tiis.lbngtbgs = lbngtbgs;
     }
 
     /**
-     * Returns an array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * Rfturns bn brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
      *
-     * @return An array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * @rfturn An brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
      */
-    @Override
-    public Locale[] getAvailableLocales() {
-        return LocaleProviderAdapter.toLocaleArray(langtags);
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn LodblfProvidfrAdbptfr.toLodblfArrby(lbngtbgs);
     }
 
-    @Override
-    public boolean isSupportedLocale(Locale locale) {
-        return LocaleProviderAdapter.isSupportedLocale(locale, type, langtags);
+    @Ovfrridf
+    publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+        rfturn LodblfProvidfrAdbptfr.isSupportfdLodblf(lodblf, typf, lbngtbgs);
     }
 
     /**
-     * Returns a new <code>DateFormat</code> instance which formats time
-     * with the given formatting style for the specified locale.
-     * @param style the given formatting style.  Either one of
-     *     {@link java.text.DateFormat#SHORT DateFormat.SHORT},
-     *     {@link java.text.DateFormat#MEDIUM DateFormat.MEDIUM},
-     *     {@link java.text.DateFormat#LONG DateFormat.LONG}, or
-     *     {@link java.text.DateFormat#FULL DateFormat.FULL}.
-     * @param locale the desired locale.
-     * @exception IllegalArgumentException if <code>style</code> is invalid,
-     *     or if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @exception NullPointerException if <code>locale</code> is null
-     * @return a time formatter.
-     * @see java.text.DateFormat#getTimeInstance(int, java.util.Locale)
+     * Rfturns b nfw <dodf>DbtfFormbt</dodf> instbndf wiidi formbts timf
+     * witi tif givfn formbtting stylf for tif spfdififd lodblf.
+     * @pbrbm stylf tif givfn formbtting stylf.  Eitifr onf of
+     *     {@link jbvb.tfxt.DbtfFormbt#SHORT DbtfFormbt.SHORT},
+     *     {@link jbvb.tfxt.DbtfFormbt#MEDIUM DbtfFormbt.MEDIUM},
+     *     {@link jbvb.tfxt.DbtfFormbt#LONG DbtfFormbt.LONG}, or
+     *     {@link jbvb.tfxt.DbtfFormbt#FULL DbtfFormbt.FULL}.
+     * @pbrbm lodblf tif dfsirfd lodblf.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     *     or if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @rfturn b timf formbttfr.
+     * @sff jbvb.tfxt.DbtfFormbt#gftTimfInstbndf(int, jbvb.util.Lodblf)
      */
-    @Override
-    public DateFormat getTimeInstance(int style, Locale locale) {
-        return getInstance(-1, style, locale);
+    @Ovfrridf
+    publid DbtfFormbt gftTimfInstbndf(int stylf, Lodblf lodblf) {
+        rfturn gftInstbndf(-1, stylf, lodblf);
     }
 
     /**
-     * Returns a new <code>DateFormat</code> instance which formats date
-     * with the given formatting style for the specified locale.
-     * @param style the given formatting style.  Either one of
-     *     {@link java.text.DateFormat#SHORT DateFormat.SHORT},
-     *     {@link java.text.DateFormat#MEDIUM DateFormat.MEDIUM},
-     *     {@link java.text.DateFormat#LONG DateFormat.LONG}, or
-     *     {@link java.text.DateFormat#FULL DateFormat.FULL}.
-     * @param locale the desired locale.
-     * @exception IllegalArgumentException if <code>style</code> is invalid,
-     *     or if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @exception NullPointerException if <code>locale</code> is null
-     * @return a date formatter.
-     * @see java.text.DateFormat#getDateInstance(int, java.util.Locale)
+     * Rfturns b nfw <dodf>DbtfFormbt</dodf> instbndf wiidi formbts dbtf
+     * witi tif givfn formbtting stylf for tif spfdififd lodblf.
+     * @pbrbm stylf tif givfn formbtting stylf.  Eitifr onf of
+     *     {@link jbvb.tfxt.DbtfFormbt#SHORT DbtfFormbt.SHORT},
+     *     {@link jbvb.tfxt.DbtfFormbt#MEDIUM DbtfFormbt.MEDIUM},
+     *     {@link jbvb.tfxt.DbtfFormbt#LONG DbtfFormbt.LONG}, or
+     *     {@link jbvb.tfxt.DbtfFormbt#FULL DbtfFormbt.FULL}.
+     * @pbrbm lodblf tif dfsirfd lodblf.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     *     or if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @rfturn b dbtf formbttfr.
+     * @sff jbvb.tfxt.DbtfFormbt#gftDbtfInstbndf(int, jbvb.util.Lodblf)
      */
-    @Override
-    public DateFormat getDateInstance(int style, Locale locale) {
-        return getInstance(style, -1, locale);
+    @Ovfrridf
+    publid DbtfFormbt gftDbtfInstbndf(int stylf, Lodblf lodblf) {
+        rfturn gftInstbndf(stylf, -1, lodblf);
     }
 
     /**
-     * Returns a new <code>DateFormat</code> instance which formats date and time
-     * with the given formatting style for the specified locale.
-     * @param dateStyle the given date formatting style.  Either one of
-     *     {@link java.text.DateFormat#SHORT DateFormat.SHORT},
-     *     {@link java.text.DateFormat#MEDIUM DateFormat.MEDIUM},
-     *     {@link java.text.DateFormat#LONG DateFormat.LONG}, or
-     *     {@link java.text.DateFormat#FULL DateFormat.FULL}.
-     * @param timeStyle the given time formatting style.  Either one of
-     *     {@link java.text.DateFormat#SHORT DateFormat.SHORT},
-     *     {@link java.text.DateFormat#MEDIUM DateFormat.MEDIUM},
-     *     {@link java.text.DateFormat#LONG DateFormat.LONG}, or
-     *     {@link java.text.DateFormat#FULL DateFormat.FULL}.
-     * @param locale the desired locale.
-     * @exception IllegalArgumentException if <code>dateStyle</code> or
-     *     <code>timeStyle</code> is invalid,
-     *     or if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @exception NullPointerException if <code>locale</code> is null
-     * @return a date/time formatter.
-     * @see java.text.DateFormat#getDateTimeInstance(int, int, java.util.Locale)
+     * Rfturns b nfw <dodf>DbtfFormbt</dodf> instbndf wiidi formbts dbtf bnd timf
+     * witi tif givfn formbtting stylf for tif spfdififd lodblf.
+     * @pbrbm dbtfStylf tif givfn dbtf formbtting stylf.  Eitifr onf of
+     *     {@link jbvb.tfxt.DbtfFormbt#SHORT DbtfFormbt.SHORT},
+     *     {@link jbvb.tfxt.DbtfFormbt#MEDIUM DbtfFormbt.MEDIUM},
+     *     {@link jbvb.tfxt.DbtfFormbt#LONG DbtfFormbt.LONG}, or
+     *     {@link jbvb.tfxt.DbtfFormbt#FULL DbtfFormbt.FULL}.
+     * @pbrbm timfStylf tif givfn timf formbtting stylf.  Eitifr onf of
+     *     {@link jbvb.tfxt.DbtfFormbt#SHORT DbtfFormbt.SHORT},
+     *     {@link jbvb.tfxt.DbtfFormbt#MEDIUM DbtfFormbt.MEDIUM},
+     *     {@link jbvb.tfxt.DbtfFormbt#LONG DbtfFormbt.LONG}, or
+     *     {@link jbvb.tfxt.DbtfFormbt#FULL DbtfFormbt.FULL}.
+     * @pbrbm lodblf tif dfsirfd lodblf.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtfStylf</dodf> or
+     *     <dodf>timfStylf</dodf> is invblid,
+     *     or if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @rfturn b dbtf/timf formbttfr.
+     * @sff jbvb.tfxt.DbtfFormbt#gftDbtfTimfInstbndf(int, int, jbvb.util.Lodblf)
      */
-    @Override
-    public DateFormat getDateTimeInstance(int dateStyle, int timeStyle,
-                                          Locale locale) {
-        return getInstance(dateStyle, timeStyle, locale);
+    @Ovfrridf
+    publid DbtfFormbt gftDbtfTimfInstbndf(int dbtfStylf, int timfStylf,
+                                          Lodblf lodblf) {
+        rfturn gftInstbndf(dbtfStylf, timfStylf, lodblf);
     }
 
-    private DateFormat getInstance(int dateStyle, int timeStyle, Locale locale) {
-        if (locale == null) {
-            throw new NullPointerException();
+    privbtf DbtfFormbt gftInstbndf(int dbtfStylf, int timfStylf, Lodblf lodblf) {
+        if (lodblf == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("", locale);
-        Calendar cal = sdf.getCalendar();
+        SimplfDbtfFormbt sdf = nfw SimplfDbtfFormbt("", lodblf);
+        Cblfndbr dbl = sdf.gftCblfndbr();
         try {
-            String pattern = LocaleProviderAdapter.forType(type)
-                .getLocaleResources(locale).getDateTimePattern(timeStyle, dateStyle,
-                                                               cal);
-            sdf.applyPattern(pattern);
-        } catch (MissingResourceException mre) {
-            // Specify the fallback pattern
-            sdf.applyPattern("M/d/yy h:mm a");
+            String pbttfrn = LodblfProvidfrAdbptfr.forTypf(typf)
+                .gftLodblfRfsourdfs(lodblf).gftDbtfTimfPbttfrn(timfStylf, dbtfStylf,
+                                                               dbl);
+            sdf.bpplyPbttfrn(pbttfrn);
+        } dbtdi (MissingRfsourdfExdfption mrf) {
+            // Spfdify tif fbllbbdk pbttfrn
+            sdf.bpplyPbttfrn("M/d/yy i:mm b");
         }
 
-        return sdf;
+        rfturn sdf;
     }
 
-    @Override
-    public Set<String> getAvailableLanguageTags() {
-        return langtags;
+    @Ovfrridf
+    publid Sft<String> gftAvbilbblfLbngubgfTbgs() {
+        rfturn lbngtbgs;
     }
 }

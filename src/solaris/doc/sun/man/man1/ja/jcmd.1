@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
-.\" Title: jcmd
-.\" Lbngubge: English
-.\" Dbte: 2013年11月21日
-.\" SectDesc: トラブルシューティング・ツール
-.\" Softwbre: JDK 8
-.\" Arch: 汎用
+.\" Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jdmd
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
-.TH "jcmd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jdmd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jcmd \- 実行中のJbvb仮想マシン(JVM)に診断コマンド・リクエストを送信します。
+jdmd \- 実行中のJbvb仮想マシン(JVM)に診断コマンド・リクエストを送信します。
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIjcmd\fR [\fI\-l\fR|\fI\-h\fR|\fI\-help\fR]
+\fIjdmd\fR [\fI\-l\fR|\fI\-i\fR|\fI\-iflp\fR]
 .fi
 .if n \{\
 .RE
@@ -66,7 +66,7 @@ jcmd \- 実行中のJbvb仮想マシン(JVM)に診断コマンド・リクエストを送信します。
 .RS 4
 .\}
 .nf
-\fIjcmd\fR \fIpid\fR|\fImbin\-clbss\fR \fIPerfCounter\&.print\fR
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIPfrfCountfr\&.print\fR
 .fi
 .if n \{\
 .RE
@@ -76,7 +76,7 @@ jcmd \- 実行中のJbvb仮想マシン(JVM)に診断コマンド・リクエストを送信します。
 .RS 4
 .\}
 .nf
-\fIjcmd\fR \fIpid\fR|\fImbin\-clbss\fR \fI\-f\fR \fIfilenbme\fR
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fI\-f\fR \fIfilfnbmf\fR
 .fi
 .if n \{\
 .RE
@@ -86,49 +86,49 @@ jcmd \- 実行中のJbvb仮想マシン(JVM)に診断コマンド・リクエストを送信します。
 .RS 4
 .\}
 .nf
-\fIjcmd\fR \fIpid\fR|\fImbin\-clbss\fR \fIcommbnd\fR[ \fIbrguments\fR]
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
 .fi
 .if n \{\
 .RE
 .\}
 .SH "説明"
 .PP
-\fIjcmd\fRユーティリティは、JVMに診断コマンド・リクエストを送信するために使用されます。これはJVMが稼働しているのと同じマシンで使用し、JVMの起動に使用したものと同じ有効ユーザーおよびグループ識別子を持っている必要があります。
+\fIjdmd\fRユーティリティは、JVMに診断コマンド・リクエストを送信するために使用されます。これはJVMが稼働しているのと同じマシンで使用し、JVMの起動に使用したものと同じ有効ユーザーおよびグループ識別子を持っている必要があります。
 .PP
 \fB注意:\fR
-リモート・マシンから、または別の識別子で診断コマンドを起動するには、\fIcom\&.sun\&.mbnbgement\&.DibgnosticCommbndMBebn\fRインタフェースを使用できます。\fIDibgnosticCommbndMBebn\fRインタフェースの詳細は、http://downlobd\&.jbvb\&.net/jdk8/docs/jre/bpi/mbnbgement/extension/com/sun/mbnbgement/DibgnosticCommbndMBebn\&.htmlにあるAPIドキュメントを参照してください。
+リモート・マシンから、または別の識別子で診断コマンドを起動するには、\fIdom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fRインタフェースを使用できます。\fIDibgnostidCommbndMBfbn\fRインタフェースの詳細は、ittp://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.itmlにあるAPIドキュメントを参照してください。
 .PP
-\fIjcmd\fRを引数なしまたは\fI\- l\fRオプションを指定して実行した場合は、実行中のJbvbプロセス識別子のリストが、メイン・クラスおよびプロセスの起動に使用されたコマンドライン引数とともに出力されます。\fI\-h\fRまたは\fI\-help\fRオプションを指定して\fIjcmd\fRを実行すると、ツールのヘルプ・メッセージが出力されます。
+\fIjdmd\fRを引数なしまたは\fI\- l\fRオプションを指定して実行した場合は、実行中のJbvbプロセス識別子のリストが、メイン・クラスおよびプロセスの起動に使用されたコマンドライン引数とともに出力されます。\fI\-i\fRまたは\fI\-iflp\fRオプションを指定して\fIjdmd\fRを実行すると、ツールのヘルプ・メッセージが出力されます。
 .PP
-プロセス識別子(\fIpid\fR)またはメイン・クラス(\fImbin\-clbss\fR)を最初の引数として指定した場合、\fIjcmd\fRは、識別子を指定した場合はJbvbプロセスに、メイン・クラスの名前を指定した場合はすべてのJbvbプロセスに診断コマンド・リクエストを送信します。プロセス識別子として\fI0\fRを指定して、すべての使用可能なJbvbプロセスに診断コマンド・リクエストを送信することもできます。診断コマンド・リクエストとして、次のいずれかを使用します。
+プロセス識別子(\fIpid\fR)またはメイン・クラス(\fImbin\-dlbss\fR)を最初の引数として指定した場合、\fIjdmd\fRは、識別子を指定した場合はJbvbプロセスに、メイン・クラスの名前を指定した場合はすべてのJbvbプロセスに診断コマンド・リクエストを送信します。プロセス識別子として\fI0\fRを指定して、すべての使用可能なJbvbプロセスに診断コマンド・リクエストを送信することもできます。診断コマンド・リクエストとして、次のいずれかを使用します。
 .PP
-Perfcounter\&.print
+Pfrfdountfr\&.print
 .RS 4
 指定したJbvbプロセスで使用可能なパフォーマンス・カウンタが出力されます。パフォーマンス・カウンタのリストはJbvbプロセスによって異なる場合があります。
 .RE
 .PP
-\-f \fIfilenbme\fR
+\-f \fIfilfnbmf\fR
 .RS 4
 診断コマンドを読み取り、指定したJbvbプロセスに送信するファイルの名前。\fI\-f\fRオプションでのみ使用します。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
 .RE
 .PP
-\fIcommbnd\fR [\fIbrguments\fR]
+\fIdommbnd\fR [\fIbrgumfnts\fR]
 .RS 4
-指定されたJbvbプロセスに送信するコマンド。指定したプロセスで使用できる診断コマンドのリストは、このプロセスに対して\fIhelp\fRコマンドを送信すれば表示されます。各診断コマンドに独自の引数セットがあります。コマンドの説明、構文および使用可能な引数のリストを表示するには、\fIhelp\fRコマンドの引数としてコマンド名を使用します。
+指定されたJbvbプロセスに送信するコマンド。指定したプロセスで使用できる診断コマンドのリストは、このプロセスに対して\fIiflp\fRコマンドを送信すれば表示されます。各診断コマンドに独自の引数セットがあります。コマンドの説明、構文および使用可能な引数のリストを表示するには、\fIiflp\fRコマンドの引数としてコマンド名を使用します。
 .sp
 \fB注意:\fR
-引数にスペースが含まれている場合は、一重引用符または二重引用符(\fI\*(Aq\fRまたは\fI"\fR)で囲む必要があります。加えて、オペレーティング・システム・シェルが引用符を処理しないように、バックスラッシュ(\fI\e\fR)で一重引用符または二重引用符をエスケープする必要があります。または、これらの引数を一重引用符で囲んでから、二重引用符で囲むこともできます(または二重引用符で囲んでから、一重引用符で囲む)。
+引数にスペースが含まれている場合は、一重引用符または二重引用符(\fI\*(Aq\fRまたは\fI"\fR)で囲む必要があります。加えて、オペレーティング・システム・シェルが引用符を処理しないように、バックスラッシュ(\fI\f\fR)で一重引用符または二重引用符をエスケープする必要があります。または、これらの引数を一重引用符で囲んでから、二重引用符で囲むこともできます(または二重引用符で囲んでから、一重引用符で囲む)。
 .RE
 .SH "オプション"
 .PP
 各オプションは互いに排他的です。
 .PP
-\-f \fIfilenbme\fR
+\-f \fIfilfnbmf\fR
 .RS 4
 指定されたファイルからコマンドを読み取ります。このオプションは、最初の引数としてプロセス識別子またはメイン・クラスを指定する場合にのみ使用できます。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
 .RE
 .PP
-\-h, \-help
+\-i, \-iflp
 .RS 4
 ヘルプ・メッセージが出力されます。
 .RE
@@ -140,10 +140,10 @@ Perfcounter\&.print
 .SH "関連項目"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}

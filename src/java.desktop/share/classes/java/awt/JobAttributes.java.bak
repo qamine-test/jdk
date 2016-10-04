@@ -1,1065 +1,1065 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
 /**
- * A set of attributes which control a print job.
+ * A sft of bttributfs wiidi dontrol b print job.
  * <p>
- * Instances of this class control the number of copies, default selection,
- * destination, print dialog, file and printer names, page ranges, multiple
- * document handling (including collation), and multi-page imposition (such
- * as duplex) of every print job which uses the instance. Attribute names are
- * compliant with the Internet Printing Protocol (IPP) 1.1 where possible.
- * Attribute values are partially compliant where possible.
+ * Instbndfs of tiis dlbss dontrol tif numbfr of dopifs, dffbult sflfdtion,
+ * dfstinbtion, print diblog, filf bnd printfr nbmfs, pbgf rbngfs, multiplf
+ * dodumfnt ibndling (indluding dollbtion), bnd multi-pbgf imposition (sudi
+ * bs duplfx) of fvfry print job wiidi usfs tif instbndf. Attributf nbmfs brf
+ * domplibnt witi tif Intfrnft Printing Protodol (IPP) 1.1 wifrf possiblf.
+ * Attributf vblufs brf pbrtiblly domplibnt wifrf possiblf.
  * <p>
- * To use a method which takes an inner class type, pass a reference to
- * one of the constant fields of the inner class. Client code cannot create
- * new instances of the inner class types because none of those classes
- * has a public constructor. For example, to set the print dialog type to
- * the cross-platform, pure Java print dialog, use the following code:
- * <pre>
- * import java.awt.JobAttributes;
+ * To usf b mftiod wiidi tbkfs bn innfr dlbss typf, pbss b rfffrfndf to
+ * onf of tif donstbnt fiflds of tif innfr dlbss. Clifnt dodf dbnnot drfbtf
+ * nfw instbndfs of tif innfr dlbss typfs bfdbusf nonf of tiosf dlbssfs
+ * ibs b publid donstrudtor. For fxbmplf, to sft tif print diblog typf to
+ * tif dross-plbtform, purf Jbvb print diblog, usf tif following dodf:
+ * <prf>
+ * import jbvb.bwt.JobAttributfs;
  *
- * public class PureJavaPrintDialogExample {
- *     public void setPureJavaPrintDialog(JobAttributes jobAttributes) {
- *         jobAttributes.setDialog(JobAttributes.DialogType.COMMON);
+ * publid dlbss PurfJbvbPrintDiblogExbmplf {
+ *     publid void sftPurfJbvbPrintDiblog(JobAttributfs jobAttributfs) {
+ *         jobAttributfs.sftDiblog(JobAttributfs.DiblogTypf.COMMON);
  *     }
  * }
- * </pre>
+ * </prf>
  * <p>
- * Every IPP attribute which supports an <i>attributeName</i>-default value
- * has a corresponding <code>set<i>attributeName</i>ToDefault</code> method.
- * Default value fields are not provided.
+ * Evfry IPP bttributf wiidi supports bn <i>bttributfNbmf</i>-dffbult vbluf
+ * ibs b dorrfsponding <dodf>sft<i>bttributfNbmf</i>ToDffbult</dodf> mftiod.
+ * Dffbult vbluf fiflds brf not providfd.
  *
- * @author      David Mendenhall
- * @since 1.3
+ * @butior      Dbvid Mfndfnibll
+ * @sindf 1.3
  */
-public final class JobAttributes implements Cloneable {
+publid finbl dlbss JobAttributfs implfmfnts Clonfbblf {
     /**
-     * A type-safe enumeration of possible default selection states.
-     * @since 1.3
+     * A typf-sbff fnumfrbtion of possiblf dffbult sflfdtion stbtfs.
+     * @sindf 1.3
      */
-    public static final class DefaultSelectionType extends AttributeValue {
-        private static final int I_ALL = 0;
-        private static final int I_RANGE = 1;
-        private static final int I_SELECTION = 2;
+    publid stbtid finbl dlbss DffbultSflfdtionTypf fxtfnds AttributfVbluf {
+        privbtf stbtid finbl int I_ALL = 0;
+        privbtf stbtid finbl int I_RANGE = 1;
+        privbtf stbtid finbl int I_SELECTION = 2;
 
-        private static final String NAMES[] = {
-            "all", "range", "selection"
+        privbtf stbtid finbl String NAMES[] = {
+            "bll", "rbngf", "sflfdtion"
         };
 
         /**
-         * The <code>DefaultSelectionType</code> instance to use for
-         * specifying that all pages of the job should be printed.
+         * Tif <dodf>DffbultSflfdtionTypf</dodf> instbndf to usf for
+         * spfdifying tibt bll pbgfs of tif job siould bf printfd.
          */
-        public static final DefaultSelectionType ALL =
-           new DefaultSelectionType(I_ALL);
+        publid stbtid finbl DffbultSflfdtionTypf ALL =
+           nfw DffbultSflfdtionTypf(I_ALL);
         /**
-         * The <code>DefaultSelectionType</code> instance to use for
-         * specifying that a range of pages of the job should be printed.
+         * Tif <dodf>DffbultSflfdtionTypf</dodf> instbndf to usf for
+         * spfdifying tibt b rbngf of pbgfs of tif job siould bf printfd.
          */
-        public static final DefaultSelectionType RANGE =
-           new DefaultSelectionType(I_RANGE);
+        publid stbtid finbl DffbultSflfdtionTypf RANGE =
+           nfw DffbultSflfdtionTypf(I_RANGE);
         /**
-         * The <code>DefaultSelectionType</code> instance to use for
-         * specifying that the current selection should be printed.
+         * Tif <dodf>DffbultSflfdtionTypf</dodf> instbndf to usf for
+         * spfdifying tibt tif durrfnt sflfdtion siould bf printfd.
          */
-        public static final DefaultSelectionType SELECTION =
-           new DefaultSelectionType(I_SELECTION);
+        publid stbtid finbl DffbultSflfdtionTypf SELECTION =
+           nfw DffbultSflfdtionTypf(I_SELECTION);
 
-        private DefaultSelectionType(int type) {
-            super(type, NAMES);
+        privbtf DffbultSflfdtionTypf(int typf) {
+            supfr(typf, NAMES);
         }
     }
 
     /**
-     * A type-safe enumeration of possible job destinations.
-     * @since 1.3
+     * A typf-sbff fnumfrbtion of possiblf job dfstinbtions.
+     * @sindf 1.3
      */
-    public static final class DestinationType extends AttributeValue {
-        private static final int I_FILE = 0;
-        private static final int I_PRINTER = 1;
+    publid stbtid finbl dlbss DfstinbtionTypf fxtfnds AttributfVbluf {
+        privbtf stbtid finbl int I_FILE = 0;
+        privbtf stbtid finbl int I_PRINTER = 1;
 
-        private static final String NAMES[] = {
-            "file", "printer"
+        privbtf stbtid finbl String NAMES[] = {
+            "filf", "printfr"
         };
 
         /**
-         * The <code>DestinationType</code> instance to use for
-         * specifying print to file.
+         * Tif <dodf>DfstinbtionTypf</dodf> instbndf to usf for
+         * spfdifying print to filf.
          */
-        public static final DestinationType FILE =
-            new DestinationType(I_FILE);
+        publid stbtid finbl DfstinbtionTypf FILE =
+            nfw DfstinbtionTypf(I_FILE);
         /**
-         * The <code>DestinationType</code> instance to use for
-         * specifying print to printer.
+         * Tif <dodf>DfstinbtionTypf</dodf> instbndf to usf for
+         * spfdifying print to printfr.
          */
-        public static final DestinationType PRINTER =
-            new DestinationType(I_PRINTER);
+        publid stbtid finbl DfstinbtionTypf PRINTER =
+            nfw DfstinbtionTypf(I_PRINTER);
 
-        private DestinationType(int type) {
-            super(type, NAMES);
+        privbtf DfstinbtionTypf(int typf) {
+            supfr(typf, NAMES);
         }
     }
 
     /**
-     * A type-safe enumeration of possible dialogs to display to the user.
-     * @since 1.3
+     * A typf-sbff fnumfrbtion of possiblf diblogs to displby to tif usfr.
+     * @sindf 1.3
      */
-    public static final class DialogType extends AttributeValue {
-        private static final int I_COMMON = 0;
-        private static final int I_NATIVE = 1;
-        private static final int I_NONE = 2;
+    publid stbtid finbl dlbss DiblogTypf fxtfnds AttributfVbluf {
+        privbtf stbtid finbl int I_COMMON = 0;
+        privbtf stbtid finbl int I_NATIVE = 1;
+        privbtf stbtid finbl int I_NONE = 2;
 
-        private static final String NAMES[] = {
-            "common", "native", "none"
+        privbtf stbtid finbl String NAMES[] = {
+            "dommon", "nbtivf", "nonf"
         };
 
         /**
-         * The <code>DialogType</code> instance to use for
-         * specifying the cross-platform, pure Java print dialog.
+         * Tif <dodf>DiblogTypf</dodf> instbndf to usf for
+         * spfdifying tif dross-plbtform, purf Jbvb print diblog.
          */
-        public static final DialogType COMMON = new DialogType(I_COMMON);
+        publid stbtid finbl DiblogTypf COMMON = nfw DiblogTypf(I_COMMON);
         /**
-         * The <code>DialogType</code> instance to use for
-         * specifying the platform's native print dialog.
+         * Tif <dodf>DiblogTypf</dodf> instbndf to usf for
+         * spfdifying tif plbtform's nbtivf print diblog.
          */
-        public static final DialogType NATIVE = new DialogType(I_NATIVE);
+        publid stbtid finbl DiblogTypf NATIVE = nfw DiblogTypf(I_NATIVE);
         /**
-         * The <code>DialogType</code> instance to use for
-         * specifying no print dialog.
+         * Tif <dodf>DiblogTypf</dodf> instbndf to usf for
+         * spfdifying no print diblog.
          */
-        public static final DialogType NONE = new DialogType(I_NONE);
+        publid stbtid finbl DiblogTypf NONE = nfw DiblogTypf(I_NONE);
 
-        private DialogType(int type) {
-            super(type, NAMES);
+        privbtf DiblogTypf(int typf) {
+            supfr(typf, NAMES);
         }
     }
 
     /**
-     * A type-safe enumeration of possible multiple copy handling states.
-     * It is used to control how the sheets of multiple copies of a single
-     * document are collated.
-     * @since 1.3
+     * A typf-sbff fnumfrbtion of possiblf multiplf dopy ibndling stbtfs.
+     * It is usfd to dontrol iow tif siffts of multiplf dopifs of b singlf
+     * dodumfnt brf dollbtfd.
+     * @sindf 1.3
      */
-    public static final class MultipleDocumentHandlingType extends
-                                                               AttributeValue {
-        private static final int I_SEPARATE_DOCUMENTS_COLLATED_COPIES = 0;
-        private static final int I_SEPARATE_DOCUMENTS_UNCOLLATED_COPIES = 1;
+    publid stbtid finbl dlbss MultiplfDodumfntHbndlingTypf fxtfnds
+                                                               AttributfVbluf {
+        privbtf stbtid finbl int I_SEPARATE_DOCUMENTS_COLLATED_COPIES = 0;
+        privbtf stbtid finbl int I_SEPARATE_DOCUMENTS_UNCOLLATED_COPIES = 1;
 
-        private static final String NAMES[] = {
-            "separate-documents-collated-copies",
-            "separate-documents-uncollated-copies"
+        privbtf stbtid finbl String NAMES[] = {
+            "sfpbrbtf-dodumfnts-dollbtfd-dopifs",
+            "sfpbrbtf-dodumfnts-undollbtfd-dopifs"
         };
 
         /**
-         * The <code>MultipleDocumentHandlingType</code> instance to use for specifying
-         * that the job should be divided into separate, collated copies.
+         * Tif <dodf>MultiplfDodumfntHbndlingTypf</dodf> instbndf to usf for spfdifying
+         * tibt tif job siould bf dividfd into sfpbrbtf, dollbtfd dopifs.
          */
-        public static final MultipleDocumentHandlingType
+        publid stbtid finbl MultiplfDodumfntHbndlingTypf
             SEPARATE_DOCUMENTS_COLLATED_COPIES =
-                new MultipleDocumentHandlingType(
+                nfw MultiplfDodumfntHbndlingTypf(
                     I_SEPARATE_DOCUMENTS_COLLATED_COPIES);
         /**
-         * The <code>MultipleDocumentHandlingType</code> instance to use for specifying
-         * that the job should be divided into separate, uncollated copies.
+         * Tif <dodf>MultiplfDodumfntHbndlingTypf</dodf> instbndf to usf for spfdifying
+         * tibt tif job siould bf dividfd into sfpbrbtf, undollbtfd dopifs.
          */
-        public static final MultipleDocumentHandlingType
+        publid stbtid finbl MultiplfDodumfntHbndlingTypf
             SEPARATE_DOCUMENTS_UNCOLLATED_COPIES =
-                new MultipleDocumentHandlingType(
+                nfw MultiplfDodumfntHbndlingTypf(
                     I_SEPARATE_DOCUMENTS_UNCOLLATED_COPIES);
 
-        private MultipleDocumentHandlingType(int type) {
-            super(type, NAMES);
+        privbtf MultiplfDodumfntHbndlingTypf(int typf) {
+            supfr(typf, NAMES);
         }
     }
 
     /**
-     * A type-safe enumeration of possible multi-page impositions. These
-     * impositions are in compliance with IPP 1.1.
-     * @since 1.3
+     * A typf-sbff fnumfrbtion of possiblf multi-pbgf impositions. Tifsf
+     * impositions brf in domplibndf witi IPP 1.1.
+     * @sindf 1.3
      */
-    public static final class SidesType extends AttributeValue {
-        private static final int I_ONE_SIDED = 0;
-        private static final int I_TWO_SIDED_LONG_EDGE = 1;
-        private static final int I_TWO_SIDED_SHORT_EDGE = 2;
+    publid stbtid finbl dlbss SidfsTypf fxtfnds AttributfVbluf {
+        privbtf stbtid finbl int I_ONE_SIDED = 0;
+        privbtf stbtid finbl int I_TWO_SIDED_LONG_EDGE = 1;
+        privbtf stbtid finbl int I_TWO_SIDED_SHORT_EDGE = 2;
 
-        private static final String NAMES[] = {
-            "one-sided", "two-sided-long-edge", "two-sided-short-edge"
+        privbtf stbtid finbl String NAMES[] = {
+            "onf-sidfd", "two-sidfd-long-fdgf", "two-sidfd-siort-fdgf"
         };
 
         /**
-         * The <code>SidesType</code> instance to use for specifying that
-         * consecutive job pages should be printed upon the same side of
-         * consecutive media sheets.
+         * Tif <dodf>SidfsTypf</dodf> instbndf to usf for spfdifying tibt
+         * donsfdutivf job pbgfs siould bf printfd upon tif sbmf sidf of
+         * donsfdutivf mfdib siffts.
          */
-        public static final SidesType ONE_SIDED = new SidesType(I_ONE_SIDED);
+        publid stbtid finbl SidfsTypf ONE_SIDED = nfw SidfsTypf(I_ONE_SIDED);
         /**
-         * The <code>SidesType</code> instance to use for specifying that
-         * consecutive job pages should be printed upon front and back sides
-         * of consecutive media sheets, such that the orientation of each pair
-         * of pages on the medium would be correct for the reader as if for
-         * binding on the long edge.
+         * Tif <dodf>SidfsTypf</dodf> instbndf to usf for spfdifying tibt
+         * donsfdutivf job pbgfs siould bf printfd upon front bnd bbdk sidfs
+         * of donsfdutivf mfdib siffts, sudi tibt tif orifntbtion of fbdi pbir
+         * of pbgfs on tif mfdium would bf dorrfdt for tif rfbdfr bs if for
+         * binding on tif long fdgf.
          */
-        public static final SidesType TWO_SIDED_LONG_EDGE =
-            new SidesType(I_TWO_SIDED_LONG_EDGE);
+        publid stbtid finbl SidfsTypf TWO_SIDED_LONG_EDGE =
+            nfw SidfsTypf(I_TWO_SIDED_LONG_EDGE);
         /**
-         * The <code>SidesType</code> instance to use for specifying that
-         * consecutive job pages should be printed upon front and back sides
-         * of consecutive media sheets, such that the orientation of each pair
-         * of pages on the medium would be correct for the reader as if for
-         * binding on the short edge.
+         * Tif <dodf>SidfsTypf</dodf> instbndf to usf for spfdifying tibt
+         * donsfdutivf job pbgfs siould bf printfd upon front bnd bbdk sidfs
+         * of donsfdutivf mfdib siffts, sudi tibt tif orifntbtion of fbdi pbir
+         * of pbgfs on tif mfdium would bf dorrfdt for tif rfbdfr bs if for
+         * binding on tif siort fdgf.
          */
-        public static final SidesType TWO_SIDED_SHORT_EDGE =
-            new SidesType(I_TWO_SIDED_SHORT_EDGE);
+        publid stbtid finbl SidfsTypf TWO_SIDED_SHORT_EDGE =
+            nfw SidfsTypf(I_TWO_SIDED_SHORT_EDGE);
 
-        private SidesType(int type) {
-            super(type, NAMES);
+        privbtf SidfsTypf(int typf) {
+            supfr(typf, NAMES);
         }
     }
 
-    private int copies;
-    private DefaultSelectionType defaultSelection;
-    private DestinationType destination;
-    private DialogType dialog;
-    private String fileName;
-    private int fromPage;
-    private int maxPage;
-    private int minPage;
-    private MultipleDocumentHandlingType multipleDocumentHandling;
-    private int[][] pageRanges;
-    private int prFirst;
-    private int prLast;
-    private String printer;
-    private SidesType sides;
-    private int toPage;
+    privbtf int dopifs;
+    privbtf DffbultSflfdtionTypf dffbultSflfdtion;
+    privbtf DfstinbtionTypf dfstinbtion;
+    privbtf DiblogTypf diblog;
+    privbtf String filfNbmf;
+    privbtf int fromPbgf;
+    privbtf int mbxPbgf;
+    privbtf int minPbgf;
+    privbtf MultiplfDodumfntHbndlingTypf multiplfDodumfntHbndling;
+    privbtf int[][] pbgfRbngfs;
+    privbtf int prFirst;
+    privbtf int prLbst;
+    privbtf String printfr;
+    privbtf SidfsTypf sidfs;
+    privbtf int toPbgf;
 
     /**
-     * Constructs a <code>JobAttributes</code> instance with default
-     * values for every attribute.  The dialog defaults to
-     * <code>DialogType.NATIVE</code>.  Min page defaults to
-     * <code>1</code>.  Max page defaults to <code>Integer.MAX_VALUE</code>.
-     * Destination defaults to <code>DestinationType.PRINTER</code>.
-     * Selection defaults to <code>DefaultSelectionType.ALL</code>.
-     * Number of copies defaults to <code>1</code>. Multiple document handling defaults
-     * to <code>MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</code>.
-     * Sides defaults to <code>SidesType.ONE_SIDED</code>. File name defaults
-     * to <code>null</code>.
+     * Construdts b <dodf>JobAttributfs</dodf> instbndf witi dffbult
+     * vblufs for fvfry bttributf.  Tif diblog dffbults to
+     * <dodf>DiblogTypf.NATIVE</dodf>.  Min pbgf dffbults to
+     * <dodf>1</dodf>.  Mbx pbgf dffbults to <dodf>Intfgfr.MAX_VALUE</dodf>.
+     * Dfstinbtion dffbults to <dodf>DfstinbtionTypf.PRINTER</dodf>.
+     * Sflfdtion dffbults to <dodf>DffbultSflfdtionTypf.ALL</dodf>.
+     * Numbfr of dopifs dffbults to <dodf>1</dodf>. Multiplf dodumfnt ibndling dffbults
+     * to <dodf>MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</dodf>.
+     * Sidfs dffbults to <dodf>SidfsTypf.ONE_SIDED</dodf>. Filf nbmf dffbults
+     * to <dodf>null</dodf>.
      */
-    public JobAttributes() {
-        setCopiesToDefault();
-        setDefaultSelection(DefaultSelectionType.ALL);
-        setDestination(DestinationType.PRINTER);
-        setDialog(DialogType.NATIVE);
-        setMaxPage(Integer.MAX_VALUE);
-        setMinPage(1);
-        setMultipleDocumentHandlingToDefault();
-        setSidesToDefault();
+    publid JobAttributfs() {
+        sftCopifsToDffbult();
+        sftDffbultSflfdtion(DffbultSflfdtionTypf.ALL);
+        sftDfstinbtion(DfstinbtionTypf.PRINTER);
+        sftDiblog(DiblogTypf.NATIVE);
+        sftMbxPbgf(Intfgfr.MAX_VALUE);
+        sftMinPbgf(1);
+        sftMultiplfDodumfntHbndlingToDffbult();
+        sftSidfsToDffbult();
     }
 
     /**
-     * Constructs a <code>JobAttributes</code> instance which is a copy
-     * of the supplied <code>JobAttributes</code>.
+     * Construdts b <dodf>JobAttributfs</dodf> instbndf wiidi is b dopy
+     * of tif supplifd <dodf>JobAttributfs</dodf>.
      *
-     * @param   obj the <code>JobAttributes</code> to copy
+     * @pbrbm   obj tif <dodf>JobAttributfs</dodf> to dopy
      */
-    public JobAttributes(JobAttributes obj) {
-        set(obj);
+    publid JobAttributfs(JobAttributfs obj) {
+        sft(obj);
     }
 
     /**
-     * Constructs a <code>JobAttributes</code> instance with the
-     * specified values for every attribute.
+     * Construdts b <dodf>JobAttributfs</dodf> instbndf witi tif
+     * spfdififd vblufs for fvfry bttributf.
      *
-     * @param   copies an integer greater than 0
-     * @param   defaultSelection <code>DefaultSelectionType.ALL</code>,
-     *          <code>DefaultSelectionType.RANGE</code>, or
-     *          <code>DefaultSelectionType.SELECTION</code>
-     * @param   destination <code>DesintationType.FILE</code> or
-     *          <code>DesintationType.PRINTER</code>
-     * @param   dialog <code>DialogType.COMMON</code>,
-     *          <code>DialogType.NATIVE</code>, or
-     *          <code>DialogType.NONE</code>
-     * @param   fileName the possibly <code>null</code> file name
-     * @param   maxPage an integer greater than zero and greater than or equal
-     *          to <i>minPage</i>
-     * @param   minPage an integer greater than zero and less than or equal
-     *          to <i>maxPage</i>
-     * @param   multipleDocumentHandling
-     *     <code>MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_COLLATED_COPIES</code> or
-     *     <code>MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</code>
-     * @param   pageRanges an array of integer arrays of two elements; an array
-     *          is interpreted as a range spanning all pages including and
-     *          between the specified pages; ranges must be in ascending
-     *          order and must not overlap; specified page numbers cannot be
-     *          less than <i>minPage</i> nor greater than <i>maxPage</i>;
-     *          for example:
-     *          <pre>
-     *          (new int[][] { new int[] { 1, 3 }, new int[] { 5, 5 },
-     *                         new int[] { 15, 19 } }),
-     *          </pre>
-     *          specifies pages 1, 2, 3, 5, 15, 16, 17, 18, and 19. Note that
-     *          (<code>new int[][] { new int[] { 1, 1 }, new int[] { 1, 2 } }</code>),
-     *          is an invalid set of page ranges because the two ranges
-     *          overlap
-     * @param   printer the possibly <code>null</code> printer name
-     * @param   sides <code>SidesType.ONE_SIDED</code>,
-     *          <code>SidesType.TWO_SIDED_LONG_EDGE</code>, or
-     *          <code>SidesType.TWO_SIDED_SHORT_EDGE</code>
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated
+     * @pbrbm   dopifs bn intfgfr grfbtfr tibn 0
+     * @pbrbm   dffbultSflfdtion <dodf>DffbultSflfdtionTypf.ALL</dodf>,
+     *          <dodf>DffbultSflfdtionTypf.RANGE</dodf>, or
+     *          <dodf>DffbultSflfdtionTypf.SELECTION</dodf>
+     * @pbrbm   dfstinbtion <dodf>DfsintbtionTypf.FILE</dodf> or
+     *          <dodf>DfsintbtionTypf.PRINTER</dodf>
+     * @pbrbm   diblog <dodf>DiblogTypf.COMMON</dodf>,
+     *          <dodf>DiblogTypf.NATIVE</dodf>, or
+     *          <dodf>DiblogTypf.NONE</dodf>
+     * @pbrbm   filfNbmf tif possibly <dodf>null</dodf> filf nbmf
+     * @pbrbm   mbxPbgf bn intfgfr grfbtfr tibn zfro bnd grfbtfr tibn or fqubl
+     *          to <i>minPbgf</i>
+     * @pbrbm   minPbgf bn intfgfr grfbtfr tibn zfro bnd lfss tibn or fqubl
+     *          to <i>mbxPbgf</i>
+     * @pbrbm   multiplfDodumfntHbndling
+     *     <dodf>MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_COLLATED_COPIES</dodf> or
+     *     <dodf>MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</dodf>
+     * @pbrbm   pbgfRbngfs bn brrby of intfgfr brrbys of two flfmfnts; bn brrby
+     *          is intfrprftfd bs b rbngf spbnning bll pbgfs indluding bnd
+     *          bftwffn tif spfdififd pbgfs; rbngfs must bf in bsdfnding
+     *          ordfr bnd must not ovfrlbp; spfdififd pbgf numbfrs dbnnot bf
+     *          lfss tibn <i>minPbgf</i> nor grfbtfr tibn <i>mbxPbgf</i>;
+     *          for fxbmplf:
+     *          <prf>
+     *          (nfw int[][] { nfw int[] { 1, 3 }, nfw int[] { 5, 5 },
+     *                         nfw int[] { 15, 19 } }),
+     *          </prf>
+     *          spfdififs pbgfs 1, 2, 3, 5, 15, 16, 17, 18, bnd 19. Notf tibt
+     *          (<dodf>nfw int[][] { nfw int[] { 1, 1 }, nfw int[] { 1, 2 } }</dodf>),
+     *          is bn invblid sft of pbgf rbngfs bfdbusf tif two rbngfs
+     *          ovfrlbp
+     * @pbrbm   printfr tif possibly <dodf>null</dodf> printfr nbmf
+     * @pbrbm   sidfs <dodf>SidfsTypf.ONE_SIDED</dodf>,
+     *          <dodf>SidfsTypf.TWO_SIDED_LONG_EDGE</dodf>, or
+     *          <dodf>SidfsTypf.TWO_SIDED_SHORT_EDGE</dodf>
+     * @tirows  IllfgblArgumfntExdfption if onf or morf of tif bbovf
+     *          donditions is violbtfd
      */
-    public JobAttributes(int copies, DefaultSelectionType defaultSelection,
-                         DestinationType destination, DialogType dialog,
-                         String fileName, int maxPage, int minPage,
-                         MultipleDocumentHandlingType multipleDocumentHandling,
-                         int[][] pageRanges, String printer, SidesType sides) {
-        setCopies(copies);
-        setDefaultSelection(defaultSelection);
-        setDestination(destination);
-        setDialog(dialog);
-        setFileName(fileName);
-        setMaxPage(maxPage);
-        setMinPage(minPage);
-        setMultipleDocumentHandling(multipleDocumentHandling);
-        setPageRanges(pageRanges);
-        setPrinter(printer);
-        setSides(sides);
+    publid JobAttributfs(int dopifs, DffbultSflfdtionTypf dffbultSflfdtion,
+                         DfstinbtionTypf dfstinbtion, DiblogTypf diblog,
+                         String filfNbmf, int mbxPbgf, int minPbgf,
+                         MultiplfDodumfntHbndlingTypf multiplfDodumfntHbndling,
+                         int[][] pbgfRbngfs, String printfr, SidfsTypf sidfs) {
+        sftCopifs(dopifs);
+        sftDffbultSflfdtion(dffbultSflfdtion);
+        sftDfstinbtion(dfstinbtion);
+        sftDiblog(diblog);
+        sftFilfNbmf(filfNbmf);
+        sftMbxPbgf(mbxPbgf);
+        sftMinPbgf(minPbgf);
+        sftMultiplfDodumfntHbndling(multiplfDodumfntHbndling);
+        sftPbgfRbngfs(pbgfRbngfs);
+        sftPrintfr(printfr);
+        sftSidfs(sidfs);
     }
 
     /**
-     * Creates and returns a copy of this <code>JobAttributes</code>.
+     * Crfbtfs bnd rfturns b dopy of tiis <dodf>JobAttributfs</dodf>.
      *
-     * @return  the newly created copy; it is safe to cast this Object into
-     *          a <code>JobAttributes</code>
+     * @rfturn  tif nfwly drfbtfd dopy; it is sbff to dbst tiis Objfdt into
+     *          b <dodf>JobAttributfs</dodf>
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // Since we implement Cloneable, this should never happen
-            throw new InternalError(e);
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // Sindf wf implfmfnt Clonfbblf, tiis siould nfvfr ibppfn
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /**
-     * Sets all of the attributes of this <code>JobAttributes</code> to
-     * the same values as the attributes of obj.
+     * Sfts bll of tif bttributfs of tiis <dodf>JobAttributfs</dodf> to
+     * tif sbmf vblufs bs tif bttributfs of obj.
      *
-     * @param   obj the <code>JobAttributes</code> to copy
+     * @pbrbm   obj tif <dodf>JobAttributfs</dodf> to dopy
      */
-    public void set(JobAttributes obj) {
-        copies = obj.copies;
-        defaultSelection = obj.defaultSelection;
-        destination = obj.destination;
-        dialog = obj.dialog;
-        fileName = obj.fileName;
-        fromPage = obj.fromPage;
-        maxPage = obj.maxPage;
-        minPage = obj.minPage;
-        multipleDocumentHandling = obj.multipleDocumentHandling;
-        // okay because we never modify the contents of pageRanges
-        pageRanges = obj.pageRanges;
+    publid void sft(JobAttributfs obj) {
+        dopifs = obj.dopifs;
+        dffbultSflfdtion = obj.dffbultSflfdtion;
+        dfstinbtion = obj.dfstinbtion;
+        diblog = obj.diblog;
+        filfNbmf = obj.filfNbmf;
+        fromPbgf = obj.fromPbgf;
+        mbxPbgf = obj.mbxPbgf;
+        minPbgf = obj.minPbgf;
+        multiplfDodumfntHbndling = obj.multiplfDodumfntHbndling;
+        // okby bfdbusf wf nfvfr modify tif dontfnts of pbgfRbngfs
+        pbgfRbngfs = obj.pbgfRbngfs;
         prFirst = obj.prFirst;
-        prLast = obj.prLast;
-        printer = obj.printer;
-        sides = obj.sides;
-        toPage = obj.toPage;
+        prLbst = obj.prLbst;
+        printfr = obj.printfr;
+        sidfs = obj.sidfs;
+        toPbgf = obj.toPbgf;
     }
 
     /**
-     * Returns the number of copies the application should render for jobs
-     * using these attributes. This attribute is updated to the value chosen
-     * by the user.
+     * Rfturns tif numbfr of dopifs tif bpplidbtion siould rfndfr for jobs
+     * using tifsf bttributfs. Tiis bttributf is updbtfd to tif vbluf diosfn
+     * by tif usfr.
      *
-     * @return  an integer greater than 0.
+     * @rfturn  bn intfgfr grfbtfr tibn 0.
      */
-    public int getCopies() {
-        return copies;
+    publid int gftCopifs() {
+        rfturn dopifs;
     }
 
     /**
-     * Specifies the number of copies the application should render for jobs
-     * using these attributes. Not specifying this attribute is equivalent to
-     * specifying <code>1</code>.
+     * Spfdififs tif numbfr of dopifs tif bpplidbtion siould rfndfr for jobs
+     * using tifsf bttributfs. Not spfdifying tiis bttributf is fquivblfnt to
+     * spfdifying <dodf>1</dodf>.
      *
-     * @param   copies an integer greater than 0
-     * @throws  IllegalArgumentException if <code>copies</code> is less than
-     *      or equal to 0
+     * @pbrbm   dopifs bn intfgfr grfbtfr tibn 0
+     * @tirows  IllfgblArgumfntExdfption if <dodf>dopifs</dodf> is lfss tibn
+     *      or fqubl to 0
      */
-    public void setCopies(int copies) {
-        if (copies <= 0) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "copies");
+    publid void sftCopifs(int dopifs) {
+        if (dopifs <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "dopifs");
         }
-        this.copies = copies;
+        tiis.dopifs = dopifs;
     }
 
     /**
-     * Sets the number of copies the application should render for jobs using
-     * these attributes to the default. The default number of copies is 1.
+     * Sfts tif numbfr of dopifs tif bpplidbtion siould rfndfr for jobs using
+     * tifsf bttributfs to tif dffbult. Tif dffbult numbfr of dopifs is 1.
      */
-    public void setCopiesToDefault() {
-        setCopies(1);
+    publid void sftCopifsToDffbult() {
+        sftCopifs(1);
     }
 
     /**
-     * Specifies whether, for jobs using these attributes, the application
-     * should print all pages, the range specified by the return value of
-     * <code>getPageRanges</code>, or the current selection. This attribute
-     * is updated to the value chosen by the user.
+     * Spfdififs wiftifr, for jobs using tifsf bttributfs, tif bpplidbtion
+     * siould print bll pbgfs, tif rbngf spfdififd by tif rfturn vbluf of
+     * <dodf>gftPbgfRbngfs</dodf>, or tif durrfnt sflfdtion. Tiis bttributf
+     * is updbtfd to tif vbluf diosfn by tif usfr.
      *
-     * @return  DefaultSelectionType.ALL, DefaultSelectionType.RANGE, or
-     *          DefaultSelectionType.SELECTION
+     * @rfturn  DffbultSflfdtionTypf.ALL, DffbultSflfdtionTypf.RANGE, or
+     *          DffbultSflfdtionTypf.SELECTION
      */
-    public DefaultSelectionType getDefaultSelection() {
-        return defaultSelection;
+    publid DffbultSflfdtionTypf gftDffbultSflfdtion() {
+        rfturn dffbultSflfdtion;
     }
 
     /**
-     * Specifies whether, for jobs using these attributes, the application
-     * should print all pages, the range specified by the return value of
-     * <code>getPageRanges</code>, or the current selection. Not specifying
-     * this attribute is equivalent to specifying DefaultSelectionType.ALL.
+     * Spfdififs wiftifr, for jobs using tifsf bttributfs, tif bpplidbtion
+     * siould print bll pbgfs, tif rbngf spfdififd by tif rfturn vbluf of
+     * <dodf>gftPbgfRbngfs</dodf>, or tif durrfnt sflfdtion. Not spfdifying
+     * tiis bttributf is fquivblfnt to spfdifying DffbultSflfdtionTypf.ALL.
      *
-     * @param   defaultSelection DefaultSelectionType.ALL,
-     *          DefaultSelectionType.RANGE, or DefaultSelectionType.SELECTION.
-     * @throws  IllegalArgumentException if defaultSelection is <code>null</code>
+     * @pbrbm   dffbultSflfdtion DffbultSflfdtionTypf.ALL,
+     *          DffbultSflfdtionTypf.RANGE, or DffbultSflfdtionTypf.SELECTION.
+     * @tirows  IllfgblArgumfntExdfption if dffbultSflfdtion is <dodf>null</dodf>
      */
-    public void setDefaultSelection(DefaultSelectionType defaultSelection) {
-        if (defaultSelection == null) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "defaultSelection");
+    publid void sftDffbultSflfdtion(DffbultSflfdtionTypf dffbultSflfdtion) {
+        if (dffbultSflfdtion == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "dffbultSflfdtion");
         }
-        this.defaultSelection = defaultSelection;
+        tiis.dffbultSflfdtion = dffbultSflfdtion;
     }
 
     /**
-     * Specifies whether output will be to a printer or a file for jobs using
-     * these attributes. This attribute is updated to the value chosen by the
-     * user.
+     * Spfdififs wiftifr output will bf to b printfr or b filf for jobs using
+     * tifsf bttributfs. Tiis bttributf is updbtfd to tif vbluf diosfn by tif
+     * usfr.
      *
-     * @return  DesintationType.FILE or DesintationType.PRINTER
+     * @rfturn  DfsintbtionTypf.FILE or DfsintbtionTypf.PRINTER
      */
-    public DestinationType getDestination() {
-        return destination;
+    publid DfstinbtionTypf gftDfstinbtion() {
+        rfturn dfstinbtion;
     }
 
     /**
-     * Specifies whether output will be to a printer or a file for jobs using
-     * these attributes. Not specifying this attribute is equivalent to
-     * specifying DesintationType.PRINTER.
+     * Spfdififs wiftifr output will bf to b printfr or b filf for jobs using
+     * tifsf bttributfs. Not spfdifying tiis bttributf is fquivblfnt to
+     * spfdifying DfsintbtionTypf.PRINTER.
      *
-     * @param   destination DesintationType.FILE or DesintationType.PRINTER.
-     * @throws  IllegalArgumentException if destination is null.
+     * @pbrbm   dfstinbtion DfsintbtionTypf.FILE or DfsintbtionTypf.PRINTER.
+     * @tirows  IllfgblArgumfntExdfption if dfstinbtion is null.
      */
-    public void setDestination(DestinationType destination) {
-        if (destination == null) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "destination");
+    publid void sftDfstinbtion(DfstinbtionTypf dfstinbtion) {
+        if (dfstinbtion == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "dfstinbtion");
         }
-        this.destination = destination;
+        tiis.dfstinbtion = dfstinbtion;
     }
 
     /**
-     * Returns whether, for jobs using these attributes, the user should see
-     * a print dialog in which to modify the print settings, and which type of
-     * print dialog should be displayed. DialogType.COMMON denotes a cross-
-     * platform, pure Java print dialog. DialogType.NATIVE denotes the
-     * platform's native print dialog. If a platform does not support a native
-     * print dialog, the pure Java print dialog is displayed instead.
-     * DialogType.NONE specifies no print dialog (i.e., background printing).
-     * This attribute cannot be modified by, and is not subject to any
-     * limitations of, the implementation or the target printer.
+     * Rfturns wiftifr, for jobs using tifsf bttributfs, tif usfr siould sff
+     * b print diblog in wiidi to modify tif print sfttings, bnd wiidi typf of
+     * print diblog siould bf displbyfd. DiblogTypf.COMMON dfnotfs b dross-
+     * plbtform, purf Jbvb print diblog. DiblogTypf.NATIVE dfnotfs tif
+     * plbtform's nbtivf print diblog. If b plbtform dofs not support b nbtivf
+     * print diblog, tif purf Jbvb print diblog is displbyfd instfbd.
+     * DiblogTypf.NONE spfdififs no print diblog (i.f., bbdkground printing).
+     * Tiis bttributf dbnnot bf modififd by, bnd is not subjfdt to bny
+     * limitbtions of, tif implfmfntbtion or tif tbrgft printfr.
      *
-     * @return  <code>DialogType.COMMON</code>, <code>DialogType.NATIVE</code>, or
-     *          <code>DialogType.NONE</code>
+     * @rfturn  <dodf>DiblogTypf.COMMON</dodf>, <dodf>DiblogTypf.NATIVE</dodf>, or
+     *          <dodf>DiblogTypf.NONE</dodf>
      */
-    public DialogType getDialog() {
-        return dialog;
+    publid DiblogTypf gftDiblog() {
+        rfturn diblog;
     }
 
     /**
-     * Specifies whether, for jobs using these attributes, the user should see
-     * a print dialog in which to modify the print settings, and which type of
-     * print dialog should be displayed. DialogType.COMMON denotes a cross-
-     * platform, pure Java print dialog. DialogType.NATIVE denotes the
-     * platform's native print dialog. If a platform does not support a native
-     * print dialog, the pure Java print dialog is displayed instead.
-     * DialogType.NONE specifies no print dialog (i.e., background printing).
-     * Not specifying this attribute is equivalent to specifying
-     * DialogType.NATIVE.
+     * Spfdififs wiftifr, for jobs using tifsf bttributfs, tif usfr siould sff
+     * b print diblog in wiidi to modify tif print sfttings, bnd wiidi typf of
+     * print diblog siould bf displbyfd. DiblogTypf.COMMON dfnotfs b dross-
+     * plbtform, purf Jbvb print diblog. DiblogTypf.NATIVE dfnotfs tif
+     * plbtform's nbtivf print diblog. If b plbtform dofs not support b nbtivf
+     * print diblog, tif purf Jbvb print diblog is displbyfd instfbd.
+     * DiblogTypf.NONE spfdififs no print diblog (i.f., bbdkground printing).
+     * Not spfdifying tiis bttributf is fquivblfnt to spfdifying
+     * DiblogTypf.NATIVE.
      *
-     * @param   dialog DialogType.COMMON, DialogType.NATIVE, or
-     *          DialogType.NONE.
-     * @throws  IllegalArgumentException if dialog is null.
+     * @pbrbm   diblog DiblogTypf.COMMON, DiblogTypf.NATIVE, or
+     *          DiblogTypf.NONE.
+     * @tirows  IllfgblArgumfntExdfption if diblog is null.
      */
-    public void setDialog(DialogType dialog) {
-        if (dialog == null) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "dialog");
+    publid void sftDiblog(DiblogTypf diblog) {
+        if (diblog == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "diblog");
         }
-        this.dialog = dialog;
+        tiis.diblog = diblog;
     }
 
     /**
-     * Specifies the file name for the output file for jobs using these
-     * attributes. This attribute is updated to the value chosen by the user.
+     * Spfdififs tif filf nbmf for tif output filf for jobs using tifsf
+     * bttributfs. Tiis bttributf is updbtfd to tif vbluf diosfn by tif usfr.
      *
-     * @return  the possibly <code>null</code> file name
+     * @rfturn  tif possibly <dodf>null</dodf> filf nbmf
      */
-    public String getFileName() {
-        return fileName;
+    publid String gftFilfNbmf() {
+        rfturn filfNbmf;
     }
 
     /**
-     * Specifies the file name for the output file for jobs using these
-     * attributes. Default is platform-dependent and implementation-defined.
+     * Spfdififs tif filf nbmf for tif output filf for jobs using tifsf
+     * bttributfs. Dffbult is plbtform-dfpfndfnt bnd implfmfntbtion-dffinfd.
      *
-     * @param   fileName the possibly null file name.
+     * @pbrbm   filfNbmf tif possibly null filf nbmf.
      */
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    publid void sftFilfNbmf(String filfNbmf) {
+        tiis.filfNbmf = filfNbmf;
     }
 
     /**
-     * Returns, for jobs using these attributes, the first page to be
-     * printed, if a range of pages is to be printed. This attribute is
-     * updated to the value chosen by the user. An application should ignore
-     * this attribute on output, unless the return value of the <code>
-     * getDefaultSelection</code> method is DefaultSelectionType.RANGE. An
-     * application should honor the return value of <code>getPageRanges</code>
-     * over the return value of this method, if possible.
+     * Rfturns, for jobs using tifsf bttributfs, tif first pbgf to bf
+     * printfd, if b rbngf of pbgfs is to bf printfd. Tiis bttributf is
+     * updbtfd to tif vbluf diosfn by tif usfr. An bpplidbtion siould ignorf
+     * tiis bttributf on output, unlfss tif rfturn vbluf of tif <dodf>
+     * gftDffbultSflfdtion</dodf> mftiod is DffbultSflfdtionTypf.RANGE. An
+     * bpplidbtion siould ionor tif rfturn vbluf of <dodf>gftPbgfRbngfs</dodf>
+     * ovfr tif rfturn vbluf of tiis mftiod, if possiblf.
      *
-     * @return  an integer greater than zero and less than or equal to
-     *          <i>toPage</i> and greater than or equal to <i>minPage</i> and
-     *          less than or equal to <i>maxPage</i>.
+     * @rfturn  bn intfgfr grfbtfr tibn zfro bnd lfss tibn or fqubl to
+     *          <i>toPbgf</i> bnd grfbtfr tibn or fqubl to <i>minPbgf</i> bnd
+     *          lfss tibn or fqubl to <i>mbxPbgf</i>.
      */
-    public int getFromPage() {
-        if (fromPage != 0) {
-            return fromPage;
-        } else if (toPage != 0) {
-            return getMinPage();
-        } else if (pageRanges != null) {
-            return prFirst;
-        } else {
-            return getMinPage();
+    publid int gftFromPbgf() {
+        if (fromPbgf != 0) {
+            rfturn fromPbgf;
+        } flsf if (toPbgf != 0) {
+            rfturn gftMinPbgf();
+        } flsf if (pbgfRbngfs != null) {
+            rfturn prFirst;
+        } flsf {
+            rfturn gftMinPbgf();
         }
     }
 
     /**
-     * Specifies, for jobs using these attributes, the first page to be
-     * printed, if a range of pages is to be printed. If this attribute is not
-     * specified, then the values from the pageRanges attribute are used. If
-     * pageRanges and either or both of fromPage and toPage are specified,
-     * pageRanges takes precedence. Specifying none of pageRanges, fromPage,
-     * or toPage is equivalent to calling
-     * setPageRanges(new int[][] { new int[] { <i>minPage</i> } });
+     * Spfdififs, for jobs using tifsf bttributfs, tif first pbgf to bf
+     * printfd, if b rbngf of pbgfs is to bf printfd. If tiis bttributf is not
+     * spfdififd, tifn tif vblufs from tif pbgfRbngfs bttributf brf usfd. If
+     * pbgfRbngfs bnd fitifr or boti of fromPbgf bnd toPbgf brf spfdififd,
+     * pbgfRbngfs tbkfs prfdfdfndf. Spfdifying nonf of pbgfRbngfs, fromPbgf,
+     * or toPbgf is fquivblfnt to dblling
+     * sftPbgfRbngfs(nfw int[][] { nfw int[] { <i>minPbgf</i> } });
      *
-     * @param   fromPage an integer greater than zero and less than or equal to
-     *          <i>toPage</i> and greater than or equal to <i>minPage</i> and
-     *          less than or equal to <i>maxPage</i>.
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated.
+     * @pbrbm   fromPbgf bn intfgfr grfbtfr tibn zfro bnd lfss tibn or fqubl to
+     *          <i>toPbgf</i> bnd grfbtfr tibn or fqubl to <i>minPbgf</i> bnd
+     *          lfss tibn or fqubl to <i>mbxPbgf</i>.
+     * @tirows  IllfgblArgumfntExdfption if onf or morf of tif bbovf
+     *          donditions is violbtfd.
      */
-    public void setFromPage(int fromPage) {
-        if (fromPage <= 0 ||
-            (toPage != 0 && fromPage > toPage) ||
-            fromPage < minPage ||
-            fromPage > maxPage) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "fromPage");
+    publid void sftFromPbgf(int fromPbgf) {
+        if (fromPbgf <= 0 ||
+            (toPbgf != 0 && fromPbgf > toPbgf) ||
+            fromPbgf < minPbgf ||
+            fromPbgf > mbxPbgf) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "fromPbgf");
         }
-        this.fromPage = fromPage;
+        tiis.fromPbgf = fromPbgf;
     }
 
     /**
-     * Specifies the maximum value the user can specify as the last page to
-     * be printed for jobs using these attributes. This attribute cannot be
-     * modified by, and is not subject to any limitations of, the
-     * implementation or the target printer.
+     * Spfdififs tif mbximum vbluf tif usfr dbn spfdify bs tif lbst pbgf to
+     * bf printfd for jobs using tifsf bttributfs. Tiis bttributf dbnnot bf
+     * modififd by, bnd is not subjfdt to bny limitbtions of, tif
+     * implfmfntbtion or tif tbrgft printfr.
      *
-     * @return  an integer greater than zero and greater than or equal
-     *          to <i>minPage</i>.
+     * @rfturn  bn intfgfr grfbtfr tibn zfro bnd grfbtfr tibn or fqubl
+     *          to <i>minPbgf</i>.
      */
-    public int getMaxPage() {
-        return maxPage;
+    publid int gftMbxPbgf() {
+        rfturn mbxPbgf;
     }
 
     /**
-     * Specifies the maximum value the user can specify as the last page to
-     * be printed for jobs using these attributes. Not specifying this
-     * attribute is equivalent to specifying <code>Integer.MAX_VALUE</code>.
+     * Spfdififs tif mbximum vbluf tif usfr dbn spfdify bs tif lbst pbgf to
+     * bf printfd for jobs using tifsf bttributfs. Not spfdifying tiis
+     * bttributf is fquivblfnt to spfdifying <dodf>Intfgfr.MAX_VALUE</dodf>.
      *
-     * @param   maxPage an integer greater than zero and greater than or equal
-     *          to <i>minPage</i>
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated
+     * @pbrbm   mbxPbgf bn intfgfr grfbtfr tibn zfro bnd grfbtfr tibn or fqubl
+     *          to <i>minPbgf</i>
+     * @tirows  IllfgblArgumfntExdfption if onf or morf of tif bbovf
+     *          donditions is violbtfd
      */
-    public void setMaxPage(int maxPage) {
-        if (maxPage <= 0 || maxPage < minPage) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "maxPage");
+    publid void sftMbxPbgf(int mbxPbgf) {
+        if (mbxPbgf <= 0 || mbxPbgf < minPbgf) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "mbxPbgf");
         }
-        this.maxPage = maxPage;
+        tiis.mbxPbgf = mbxPbgf;
     }
 
     /**
-     * Specifies the minimum value the user can specify as the first page to
-     * be printed for jobs using these attributes. This attribute cannot be
-     * modified by, and is not subject to any limitations of, the
-     * implementation or the target printer.
+     * Spfdififs tif minimum vbluf tif usfr dbn spfdify bs tif first pbgf to
+     * bf printfd for jobs using tifsf bttributfs. Tiis bttributf dbnnot bf
+     * modififd by, bnd is not subjfdt to bny limitbtions of, tif
+     * implfmfntbtion or tif tbrgft printfr.
      *
-     * @return  an integer greater than zero and less than or equal
-     *          to <i>maxPage</i>.
+     * @rfturn  bn intfgfr grfbtfr tibn zfro bnd lfss tibn or fqubl
+     *          to <i>mbxPbgf</i>.
      */
-    public int getMinPage() {
-        return minPage;
+    publid int gftMinPbgf() {
+        rfturn minPbgf;
     }
 
     /**
-     * Specifies the minimum value the user can specify as the first page to
-     * be printed for jobs using these attributes. Not specifying this
-     * attribute is equivalent to specifying <code>1</code>.
+     * Spfdififs tif minimum vbluf tif usfr dbn spfdify bs tif first pbgf to
+     * bf printfd for jobs using tifsf bttributfs. Not spfdifying tiis
+     * bttributf is fquivblfnt to spfdifying <dodf>1</dodf>.
      *
-     * @param   minPage an integer greater than zero and less than or equal
-     *          to <i>maxPage</i>.
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated.
+     * @pbrbm   minPbgf bn intfgfr grfbtfr tibn zfro bnd lfss tibn or fqubl
+     *          to <i>mbxPbgf</i>.
+     * @tirows  IllfgblArgumfntExdfption if onf or morf of tif bbovf
+     *          donditions is violbtfd.
      */
-    public void setMinPage(int minPage) {
-        if (minPage <= 0 || minPage > maxPage) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "minPage");
+    publid void sftMinPbgf(int minPbgf) {
+        if (minPbgf <= 0 || minPbgf > mbxPbgf) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "minPbgf");
         }
-        this.minPage = minPage;
+        tiis.minPbgf = minPbgf;
     }
 
     /**
-     * Specifies the handling of multiple copies, including collation, for
-     * jobs using these attributes. This attribute is updated to the value
-     * chosen by the user.
+     * Spfdififs tif ibndling of multiplf dopifs, indluding dollbtion, for
+     * jobs using tifsf bttributfs. Tiis bttributf is updbtfd to tif vbluf
+     * diosfn by tif usfr.
      *
-     * @return
-     *     MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_COLLATED_COPIES or
-     *     MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     * @rfturn
+     *     MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_COLLATED_COPIES or
+     *     MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
      */
-    public MultipleDocumentHandlingType getMultipleDocumentHandling() {
-        return multipleDocumentHandling;
+    publid MultiplfDodumfntHbndlingTypf gftMultiplfDodumfntHbndling() {
+        rfturn multiplfDodumfntHbndling;
     }
 
     /**
-     * Specifies the handling of multiple copies, including collation, for
-     * jobs using these attributes. Not specifying this attribute is equivalent
-     * to specifying
-     * MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     * Spfdififs tif ibndling of multiplf dopifs, indluding dollbtion, for
+     * jobs using tifsf bttributfs. Not spfdifying tiis bttributf is fquivblfnt
+     * to spfdifying
+     * MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
      *
-     * @param   multipleDocumentHandling
-     *     MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_COLLATED_COPIES or
-     *     MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
-     * @throws  IllegalArgumentException if multipleDocumentHandling is null.
+     * @pbrbm   multiplfDodumfntHbndling
+     *     MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_COLLATED_COPIES or
+     *     MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     * @tirows  IllfgblArgumfntExdfption if multiplfDodumfntHbndling is null.
      */
-    public void setMultipleDocumentHandling(MultipleDocumentHandlingType
-                                            multipleDocumentHandling) {
-        if (multipleDocumentHandling == null) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "multipleDocumentHandling");
+    publid void sftMultiplfDodumfntHbndling(MultiplfDodumfntHbndlingTypf
+                                            multiplfDodumfntHbndling) {
+        if (multiplfDodumfntHbndling == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "multiplfDodumfntHbndling");
         }
-        this.multipleDocumentHandling = multipleDocumentHandling;
+        tiis.multiplfDodumfntHbndling = multiplfDodumfntHbndling;
     }
 
     /**
-     * Sets the handling of multiple copies, including collation, for jobs
-     * using these attributes to the default. The default handling is
-     * MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     * Sfts tif ibndling of multiplf dopifs, indluding dollbtion, for jobs
+     * using tifsf bttributfs to tif dffbult. Tif dffbult ibndling is
+     * MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
      */
-    public void setMultipleDocumentHandlingToDefault() {
-        setMultipleDocumentHandling(
-            MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES);
+    publid void sftMultiplfDodumfntHbndlingToDffbult() {
+        sftMultiplfDodumfntHbndling(
+            MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES);
     }
 
     /**
-     * Specifies, for jobs using these attributes, the ranges of pages to be
-     * printed, if a range of pages is to be printed. All range numbers are
-     * inclusive. This attribute is updated to the value chosen by the user.
-     * An application should ignore this attribute on output, unless the
-     * return value of the <code>getDefaultSelection</code> method is
-     * DefaultSelectionType.RANGE.
+     * Spfdififs, for jobs using tifsf bttributfs, tif rbngfs of pbgfs to bf
+     * printfd, if b rbngf of pbgfs is to bf printfd. All rbngf numbfrs brf
+     * indlusivf. Tiis bttributf is updbtfd to tif vbluf diosfn by tif usfr.
+     * An bpplidbtion siould ignorf tiis bttributf on output, unlfss tif
+     * rfturn vbluf of tif <dodf>gftDffbultSflfdtion</dodf> mftiod is
+     * DffbultSflfdtionTypf.RANGE.
      *
-     * @return  an array of integer arrays of 2 elements. An array
-     *          is interpreted as a range spanning all pages including and
-     *          between the specified pages. Ranges must be in ascending
-     *          order and must not overlap. Specified page numbers cannot be
-     *          less than <i>minPage</i> nor greater than <i>maxPage</i>.
-     *          For example:
-     *          (new int[][] { new int[] { 1, 3 }, new int[] { 5, 5 },
-     *                         new int[] { 15, 19 } }),
-     *          specifies pages 1, 2, 3, 5, 15, 16, 17, 18, and 19.
+     * @rfturn  bn brrby of intfgfr brrbys of 2 flfmfnts. An brrby
+     *          is intfrprftfd bs b rbngf spbnning bll pbgfs indluding bnd
+     *          bftwffn tif spfdififd pbgfs. Rbngfs must bf in bsdfnding
+     *          ordfr bnd must not ovfrlbp. Spfdififd pbgf numbfrs dbnnot bf
+     *          lfss tibn <i>minPbgf</i> nor grfbtfr tibn <i>mbxPbgf</i>.
+     *          For fxbmplf:
+     *          (nfw int[][] { nfw int[] { 1, 3 }, nfw int[] { 5, 5 },
+     *                         nfw int[] { 15, 19 } }),
+     *          spfdififs pbgfs 1, 2, 3, 5, 15, 16, 17, 18, bnd 19.
      */
-    public int[][] getPageRanges() {
-        if (pageRanges != null) {
-            // Return a copy because otherwise client code could circumvent the
-            // the checks made in setPageRanges by modifying the returned
-            // array.
-            int[][] copy = new int[pageRanges.length][2];
-            for (int i = 0; i < pageRanges.length; i++) {
-                copy[i][0] = pageRanges[i][0];
-                copy[i][1] = pageRanges[i][1];
+    publid int[][] gftPbgfRbngfs() {
+        if (pbgfRbngfs != null) {
+            // Rfturn b dopy bfdbusf otifrwisf dlifnt dodf dould dirdumvfnt tif
+            // tif difdks mbdf in sftPbgfRbngfs by modifying tif rfturnfd
+            // brrby.
+            int[][] dopy = nfw int[pbgfRbngfs.lfngti][2];
+            for (int i = 0; i < pbgfRbngfs.lfngti; i++) {
+                dopy[i][0] = pbgfRbngfs[i][0];
+                dopy[i][1] = pbgfRbngfs[i][1];
             }
-            return copy;
-        } else if (fromPage != 0 || toPage != 0) {
-            int fromPage = getFromPage();
-            int toPage = getToPage();
-            return new int[][] { new int[] { fromPage, toPage } };
-        } else {
-            int minPage = getMinPage();
-            return new int[][] { new int[] { minPage, minPage } };
+            rfturn dopy;
+        } flsf if (fromPbgf != 0 || toPbgf != 0) {
+            int fromPbgf = gftFromPbgf();
+            int toPbgf = gftToPbgf();
+            rfturn nfw int[][] { nfw int[] { fromPbgf, toPbgf } };
+        } flsf {
+            int minPbgf = gftMinPbgf();
+            rfturn nfw int[][] { nfw int[] { minPbgf, minPbgf } };
         }
     }
 
     /**
-     * Specifies, for jobs using these attributes, the ranges of pages to be
-     * printed, if a range of pages is to be printed. All range numbers are
-     * inclusive. If this attribute is not specified, then the values from the
-     * fromPage and toPages attributes are used. If pageRanges and either or
-     * both of fromPage and toPage are specified, pageRanges takes precedence.
-     * Specifying none of pageRanges, fromPage, or toPage is equivalent to
-     * calling setPageRanges(new int[][] { new int[] { <i>minPage</i>,
-     *                                                 <i>minPage</i> } });
+     * Spfdififs, for jobs using tifsf bttributfs, tif rbngfs of pbgfs to bf
+     * printfd, if b rbngf of pbgfs is to bf printfd. All rbngf numbfrs brf
+     * indlusivf. If tiis bttributf is not spfdififd, tifn tif vblufs from tif
+     * fromPbgf bnd toPbgfs bttributfs brf usfd. If pbgfRbngfs bnd fitifr or
+     * boti of fromPbgf bnd toPbgf brf spfdififd, pbgfRbngfs tbkfs prfdfdfndf.
+     * Spfdifying nonf of pbgfRbngfs, fromPbgf, or toPbgf is fquivblfnt to
+     * dblling sftPbgfRbngfs(nfw int[][] { nfw int[] { <i>minPbgf</i>,
+     *                                                 <i>minPbgf</i> } });
      *
-     * @param   pageRanges an array of integer arrays of 2 elements. An array
-     *          is interpreted as a range spanning all pages including and
-     *          between the specified pages. Ranges must be in ascending
-     *          order and must not overlap. Specified page numbers cannot be
-     *          less than <i>minPage</i> nor greater than <i>maxPage</i>.
-     *          For example:
-     *          (new int[][] { new int[] { 1, 3 }, new int[] { 5, 5 },
-     *                         new int[] { 15, 19 } }),
-     *          specifies pages 1, 2, 3, 5, 15, 16, 17, 18, and 19. Note that
-     *          (new int[][] { new int[] { 1, 1 }, new int[] { 1, 2 } }),
-     *          is an invalid set of page ranges because the two ranges
-     *          overlap.
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated.
+     * @pbrbm   pbgfRbngfs bn brrby of intfgfr brrbys of 2 flfmfnts. An brrby
+     *          is intfrprftfd bs b rbngf spbnning bll pbgfs indluding bnd
+     *          bftwffn tif spfdififd pbgfs. Rbngfs must bf in bsdfnding
+     *          ordfr bnd must not ovfrlbp. Spfdififd pbgf numbfrs dbnnot bf
+     *          lfss tibn <i>minPbgf</i> nor grfbtfr tibn <i>mbxPbgf</i>.
+     *          For fxbmplf:
+     *          (nfw int[][] { nfw int[] { 1, 3 }, nfw int[] { 5, 5 },
+     *                         nfw int[] { 15, 19 } }),
+     *          spfdififs pbgfs 1, 2, 3, 5, 15, 16, 17, 18, bnd 19. Notf tibt
+     *          (nfw int[][] { nfw int[] { 1, 1 }, nfw int[] { 1, 2 } }),
+     *          is bn invblid sft of pbgf rbngfs bfdbusf tif two rbngfs
+     *          ovfrlbp.
+     * @tirows  IllfgblArgumfntExdfption if onf or morf of tif bbovf
+     *          donditions is violbtfd.
      */
-    public void setPageRanges(int[][] pageRanges) {
-        String xcp = "Invalid value for attribute pageRanges";
+    publid void sftPbgfRbngfs(int[][] pbgfRbngfs) {
+        String xdp = "Invblid vbluf for bttributf pbgfRbngfs";
         int first = 0;
-        int last = 0;
+        int lbst = 0;
 
-        if (pageRanges == null) {
-            throw new IllegalArgumentException(xcp);
+        if (pbgfRbngfs == null) {
+            tirow nfw IllfgblArgumfntExdfption(xdp);
         }
 
-        for (int i = 0; i < pageRanges.length; i++) {
-            if (pageRanges[i] == null ||
-                pageRanges[i].length != 2 ||
-                pageRanges[i][0] <= last ||
-                pageRanges[i][1] < pageRanges[i][0]) {
-                    throw new IllegalArgumentException(xcp);
+        for (int i = 0; i < pbgfRbngfs.lfngti; i++) {
+            if (pbgfRbngfs[i] == null ||
+                pbgfRbngfs[i].lfngti != 2 ||
+                pbgfRbngfs[i][0] <= lbst ||
+                pbgfRbngfs[i][1] < pbgfRbngfs[i][0]) {
+                    tirow nfw IllfgblArgumfntExdfption(xdp);
             }
-            last = pageRanges[i][1];
+            lbst = pbgfRbngfs[i][1];
             if (first == 0) {
-                first = pageRanges[i][0];
+                first = pbgfRbngfs[i][0];
             }
         }
 
-        if (first < minPage || last > maxPage) {
-            throw new IllegalArgumentException(xcp);
+        if (first < minPbgf || lbst > mbxPbgf) {
+            tirow nfw IllfgblArgumfntExdfption(xdp);
         }
 
-        // Store a copy because otherwise client code could circumvent the
-        // the checks made above by holding a reference to the array and
-        // modifying it after calling setPageRanges.
-        int[][] copy = new int[pageRanges.length][2];
-        for (int i = 0; i < pageRanges.length; i++) {
-            copy[i][0] = pageRanges[i][0];
-            copy[i][1] = pageRanges[i][1];
+        // Storf b dopy bfdbusf otifrwisf dlifnt dodf dould dirdumvfnt tif
+        // tif difdks mbdf bbovf by iolding b rfffrfndf to tif brrby bnd
+        // modifying it bftfr dblling sftPbgfRbngfs.
+        int[][] dopy = nfw int[pbgfRbngfs.lfngti][2];
+        for (int i = 0; i < pbgfRbngfs.lfngti; i++) {
+            dopy[i][0] = pbgfRbngfs[i][0];
+            dopy[i][1] = pbgfRbngfs[i][1];
         }
-        this.pageRanges = copy;
-        this.prFirst = first;
-        this.prLast = last;
+        tiis.pbgfRbngfs = dopy;
+        tiis.prFirst = first;
+        tiis.prLbst = lbst;
     }
 
     /**
-     * Returns the destination printer for jobs using these attributes. This
-     * attribute is updated to the value chosen by the user.
+     * Rfturns tif dfstinbtion printfr for jobs using tifsf bttributfs. Tiis
+     * bttributf is updbtfd to tif vbluf diosfn by tif usfr.
      *
-     * @return  the possibly null printer name.
+     * @rfturn  tif possibly null printfr nbmf.
      */
-    public String getPrinter() {
-        return printer;
+    publid String gftPrintfr() {
+        rfturn printfr;
     }
 
     /**
-     * Specifies the destination printer for jobs using these attributes.
-     * Default is platform-dependent and implementation-defined.
+     * Spfdififs tif dfstinbtion printfr for jobs using tifsf bttributfs.
+     * Dffbult is plbtform-dfpfndfnt bnd implfmfntbtion-dffinfd.
      *
-     * @param   printer the possibly null printer name.
+     * @pbrbm   printfr tif possibly null printfr nbmf.
      */
-    public void setPrinter(String printer) {
-        this.printer = printer;
+    publid void sftPrintfr(String printfr) {
+        tiis.printfr = printfr;
     }
 
     /**
-     * Returns how consecutive pages should be imposed upon the sides of the
-     * print medium for jobs using these attributes. SidesType.ONE_SIDED
-     * imposes each consecutive page upon the same side of consecutive media
-     * sheets. This imposition is sometimes called <i>simplex</i>.
-     * SidesType.TWO_SIDED_LONG_EDGE imposes each consecutive pair of pages
-     * upon front and back sides of consecutive media sheets, such that the
-     * orientation of each pair of pages on the medium would be correct for
-     * the reader as if for binding on the long edge. This imposition is
-     * sometimes called <i>duplex</i>. SidesType.TWO_SIDED_SHORT_EDGE imposes
-     * each consecutive pair of pages upon front and back sides of consecutive
-     * media sheets, such that the orientation of each pair of pages on the
-     * medium would be correct for the reader as if for binding on the short
-     * edge. This imposition is sometimes called <i>tumble</i>. This attribute
-     * is updated to the value chosen by the user.
+     * Rfturns iow donsfdutivf pbgfs siould bf imposfd upon tif sidfs of tif
+     * print mfdium for jobs using tifsf bttributfs. SidfsTypf.ONE_SIDED
+     * imposfs fbdi donsfdutivf pbgf upon tif sbmf sidf of donsfdutivf mfdib
+     * siffts. Tiis imposition is somftimfs dbllfd <i>simplfx</i>.
+     * SidfsTypf.TWO_SIDED_LONG_EDGE imposfs fbdi donsfdutivf pbir of pbgfs
+     * upon front bnd bbdk sidfs of donsfdutivf mfdib siffts, sudi tibt tif
+     * orifntbtion of fbdi pbir of pbgfs on tif mfdium would bf dorrfdt for
+     * tif rfbdfr bs if for binding on tif long fdgf. Tiis imposition is
+     * somftimfs dbllfd <i>duplfx</i>. SidfsTypf.TWO_SIDED_SHORT_EDGE imposfs
+     * fbdi donsfdutivf pbir of pbgfs upon front bnd bbdk sidfs of donsfdutivf
+     * mfdib siffts, sudi tibt tif orifntbtion of fbdi pbir of pbgfs on tif
+     * mfdium would bf dorrfdt for tif rfbdfr bs if for binding on tif siort
+     * fdgf. Tiis imposition is somftimfs dbllfd <i>tumblf</i>. Tiis bttributf
+     * is updbtfd to tif vbluf diosfn by tif usfr.
      *
-     * @return  SidesType.ONE_SIDED, SidesType.TWO_SIDED_LONG_EDGE, or
-     *          SidesType.TWO_SIDED_SHORT_EDGE.
+     * @rfturn  SidfsTypf.ONE_SIDED, SidfsTypf.TWO_SIDED_LONG_EDGE, or
+     *          SidfsTypf.TWO_SIDED_SHORT_EDGE.
      */
-    public SidesType getSides() {
-        return sides;
+    publid SidfsTypf gftSidfs() {
+        rfturn sidfs;
     }
 
     /**
-     * Specifies how consecutive pages should be imposed upon the sides of the
-     * print medium for jobs using these attributes. SidesType.ONE_SIDED
-     * imposes each consecutive page upon the same side of consecutive media
-     * sheets. This imposition is sometimes called <i>simplex</i>.
-     * SidesType.TWO_SIDED_LONG_EDGE imposes each consecutive pair of pages
-     * upon front and back sides of consecutive media sheets, such that the
-     * orientation of each pair of pages on the medium would be correct for
-     * the reader as if for binding on the long edge. This imposition is
-     * sometimes called <i>duplex</i>. SidesType.TWO_SIDED_SHORT_EDGE imposes
-     * each consecutive pair of pages upon front and back sides of consecutive
-     * media sheets, such that the orientation of each pair of pages on the
-     * medium would be correct for the reader as if for binding on the short
-     * edge. This imposition is sometimes called <i>tumble</i>. Not specifying
-     * this attribute is equivalent to specifying SidesType.ONE_SIDED.
+     * Spfdififs iow donsfdutivf pbgfs siould bf imposfd upon tif sidfs of tif
+     * print mfdium for jobs using tifsf bttributfs. SidfsTypf.ONE_SIDED
+     * imposfs fbdi donsfdutivf pbgf upon tif sbmf sidf of donsfdutivf mfdib
+     * siffts. Tiis imposition is somftimfs dbllfd <i>simplfx</i>.
+     * SidfsTypf.TWO_SIDED_LONG_EDGE imposfs fbdi donsfdutivf pbir of pbgfs
+     * upon front bnd bbdk sidfs of donsfdutivf mfdib siffts, sudi tibt tif
+     * orifntbtion of fbdi pbir of pbgfs on tif mfdium would bf dorrfdt for
+     * tif rfbdfr bs if for binding on tif long fdgf. Tiis imposition is
+     * somftimfs dbllfd <i>duplfx</i>. SidfsTypf.TWO_SIDED_SHORT_EDGE imposfs
+     * fbdi donsfdutivf pbir of pbgfs upon front bnd bbdk sidfs of donsfdutivf
+     * mfdib siffts, sudi tibt tif orifntbtion of fbdi pbir of pbgfs on tif
+     * mfdium would bf dorrfdt for tif rfbdfr bs if for binding on tif siort
+     * fdgf. Tiis imposition is somftimfs dbllfd <i>tumblf</i>. Not spfdifying
+     * tiis bttributf is fquivblfnt to spfdifying SidfsTypf.ONE_SIDED.
      *
-     * @param   sides SidesType.ONE_SIDED, SidesType.TWO_SIDED_LONG_EDGE, or
-     *          SidesType.TWO_SIDED_SHORT_EDGE.
-     * @throws  IllegalArgumentException if sides is null.
+     * @pbrbm   sidfs SidfsTypf.ONE_SIDED, SidfsTypf.TWO_SIDED_LONG_EDGE, or
+     *          SidfsTypf.TWO_SIDED_SHORT_EDGE.
+     * @tirows  IllfgblArgumfntExdfption if sidfs is null.
      */
-    public void setSides(SidesType sides) {
-        if (sides == null) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "sides");
+    publid void sftSidfs(SidfsTypf sidfs) {
+        if (sidfs == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "sidfs");
         }
-        this.sides = sides;
+        tiis.sidfs = sidfs;
     }
 
     /**
-     * Sets how consecutive pages should be imposed upon the sides of the
-     * print medium for jobs using these attributes to the default. The
-     * default imposition is SidesType.ONE_SIDED.
+     * Sfts iow donsfdutivf pbgfs siould bf imposfd upon tif sidfs of tif
+     * print mfdium for jobs using tifsf bttributfs to tif dffbult. Tif
+     * dffbult imposition is SidfsTypf.ONE_SIDED.
      */
-    public void setSidesToDefault() {
-        setSides(SidesType.ONE_SIDED);
+    publid void sftSidfsToDffbult() {
+        sftSidfs(SidfsTypf.ONE_SIDED);
     }
 
     /**
-     * Returns, for jobs using these attributes, the last page (inclusive)
-     * to be printed, if a range of pages is to be printed. This attribute is
-     * updated to the value chosen by the user. An application should ignore
-     * this attribute on output, unless the return value of the <code>
-     * getDefaultSelection</code> method is DefaultSelectionType.RANGE. An
-     * application should honor the return value of <code>getPageRanges</code>
-     * over the return value of this method, if possible.
+     * Rfturns, for jobs using tifsf bttributfs, tif lbst pbgf (indlusivf)
+     * to bf printfd, if b rbngf of pbgfs is to bf printfd. Tiis bttributf is
+     * updbtfd to tif vbluf diosfn by tif usfr. An bpplidbtion siould ignorf
+     * tiis bttributf on output, unlfss tif rfturn vbluf of tif <dodf>
+     * gftDffbultSflfdtion</dodf> mftiod is DffbultSflfdtionTypf.RANGE. An
+     * bpplidbtion siould ionor tif rfturn vbluf of <dodf>gftPbgfRbngfs</dodf>
+     * ovfr tif rfturn vbluf of tiis mftiod, if possiblf.
      *
-     * @return  an integer greater than zero and greater than or equal
-     *          to <i>toPage</i> and greater than or equal to <i>minPage</i>
-     *          and less than or equal to <i>maxPage</i>.
+     * @rfturn  bn intfgfr grfbtfr tibn zfro bnd grfbtfr tibn or fqubl
+     *          to <i>toPbgf</i> bnd grfbtfr tibn or fqubl to <i>minPbgf</i>
+     *          bnd lfss tibn or fqubl to <i>mbxPbgf</i>.
      */
-    public int getToPage() {
-        if (toPage != 0) {
-            return toPage;
-        } else if (fromPage != 0) {
-            return fromPage;
-        } else if (pageRanges != null) {
-            return prLast;
-        } else {
-            return getMinPage();
+    publid int gftToPbgf() {
+        if (toPbgf != 0) {
+            rfturn toPbgf;
+        } flsf if (fromPbgf != 0) {
+            rfturn fromPbgf;
+        } flsf if (pbgfRbngfs != null) {
+            rfturn prLbst;
+        } flsf {
+            rfturn gftMinPbgf();
         }
     }
 
     /**
-     * Specifies, for jobs using these attributes, the last page (inclusive)
-     * to be printed, if a range of pages is to be printed.
-     * If this attribute is not specified, then the values from the pageRanges
-     * attribute are used. If pageRanges and either or both of fromPage and
-     * toPage are specified, pageRanges takes precedence. Specifying none of
-     * pageRanges, fromPage, or toPage is equivalent to calling
-     * setPageRanges(new int[][] { new int[] { <i>minPage</i> } });
+     * Spfdififs, for jobs using tifsf bttributfs, tif lbst pbgf (indlusivf)
+     * to bf printfd, if b rbngf of pbgfs is to bf printfd.
+     * If tiis bttributf is not spfdififd, tifn tif vblufs from tif pbgfRbngfs
+     * bttributf brf usfd. If pbgfRbngfs bnd fitifr or boti of fromPbgf bnd
+     * toPbgf brf spfdififd, pbgfRbngfs tbkfs prfdfdfndf. Spfdifying nonf of
+     * pbgfRbngfs, fromPbgf, or toPbgf is fquivblfnt to dblling
+     * sftPbgfRbngfs(nfw int[][] { nfw int[] { <i>minPbgf</i> } });
      *
-     * @param   toPage an integer greater than zero and greater than or equal
-     *          to <i>fromPage</i> and greater than or equal to <i>minPage</i>
-     *          and less than or equal to <i>maxPage</i>.
-     * @throws  IllegalArgumentException if one or more of the above
-     *          conditions is violated.
+     * @pbrbm   toPbgf bn intfgfr grfbtfr tibn zfro bnd grfbtfr tibn or fqubl
+     *          to <i>fromPbgf</i> bnd grfbtfr tibn or fqubl to <i>minPbgf</i>
+     *          bnd lfss tibn or fqubl to <i>mbxPbgf</i>.
+     * @tirows  IllfgblArgumfntExdfption if onf or morf of tif bbovf
+     *          donditions is violbtfd.
      */
-    public void setToPage(int toPage) {
-        if (toPage <= 0 ||
-            (fromPage != 0 && toPage < fromPage) ||
-            toPage < minPage ||
-            toPage > maxPage) {
-            throw new IllegalArgumentException("Invalid value for attribute "+
-                                               "toPage");
+    publid void sftToPbgf(int toPbgf) {
+        if (toPbgf <= 0 ||
+            (fromPbgf != 0 && toPbgf < fromPbgf) ||
+            toPbgf < minPbgf ||
+            toPbgf > mbxPbgf) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "toPbgf");
         }
-        this.toPage = toPage;
+        tiis.toPbgf = toPbgf;
     }
 
     /**
-     * Determines whether two JobAttributes are equal to each other.
+     * Dftfrminfs wiftifr two JobAttributfs brf fqubl to fbdi otifr.
      * <p>
-     * Two JobAttributes are equal if and only if each of their attributes are
-     * equal. Attributes of enumeration type are equal if and only if the
-     * fields refer to the same unique enumeration object. A set of page
-     * ranges is equal if and only if the sets are of equal length, each range
-     * enumerates the same pages, and the ranges are in the same order.
+     * Two JobAttributfs brf fqubl if bnd only if fbdi of tifir bttributfs brf
+     * fqubl. Attributfs of fnumfrbtion typf brf fqubl if bnd only if tif
+     * fiflds rfffr to tif sbmf uniquf fnumfrbtion objfdt. A sft of pbgf
+     * rbngfs is fqubl if bnd only if tif sfts brf of fqubl lfngti, fbdi rbngf
+     * fnumfrbtfs tif sbmf pbgfs, bnd tif rbngfs brf in tif sbmf ordfr.
      *
-     * @param   obj the object whose equality will be checked.
-     * @return  whether obj is equal to this JobAttribute according to the
-     *          above criteria.
+     * @pbrbm   obj tif objfdt wiosf fqublity will bf difdkfd.
+     * @rfturn  wiftifr obj is fqubl to tiis JobAttributf bddording to tif
+     *          bbovf dritfrib.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof JobAttributes)) {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof JobAttributfs)) {
+            rfturn fblsf;
         }
-        JobAttributes rhs = (JobAttributes)obj;
+        JobAttributfs ris = (JobAttributfs)obj;
 
-        if (fileName == null) {
-            if (rhs.fileName != null) {
-                return false;
+        if (filfNbmf == null) {
+            if (ris.filfNbmf != null) {
+                rfturn fblsf;
             }
-        } else {
-            if (!fileName.equals(rhs.fileName)) {
-                return false;
+        } flsf {
+            if (!filfNbmf.fqubls(ris.filfNbmf)) {
+                rfturn fblsf;
             }
         }
 
-        if (pageRanges == null) {
-            if (rhs.pageRanges != null) {
-                return false;
+        if (pbgfRbngfs == null) {
+            if (ris.pbgfRbngfs != null) {
+                rfturn fblsf;
             }
-        } else {
-            if (rhs.pageRanges == null ||
-                    pageRanges.length != rhs.pageRanges.length) {
-                return false;
+        } flsf {
+            if (ris.pbgfRbngfs == null ||
+                    pbgfRbngfs.lfngti != ris.pbgfRbngfs.lfngti) {
+                rfturn fblsf;
             }
-            for (int i = 0; i < pageRanges.length; i++) {
-                if (pageRanges[i][0] != rhs.pageRanges[i][0] ||
-                    pageRanges[i][1] != rhs.pageRanges[i][1]) {
-                    return false;
+            for (int i = 0; i < pbgfRbngfs.lfngti; i++) {
+                if (pbgfRbngfs[i][0] != ris.pbgfRbngfs[i][0] ||
+                    pbgfRbngfs[i][1] != ris.pbgfRbngfs[i][1]) {
+                    rfturn fblsf;
                 }
             }
         }
 
-        if (printer == null) {
-            if (rhs.printer != null) {
-                return false;
+        if (printfr == null) {
+            if (ris.printfr != null) {
+                rfturn fblsf;
             }
-        } else {
-            if (!printer.equals(rhs.printer)) {
-                return false;
+        } flsf {
+            if (!printfr.fqubls(ris.printfr)) {
+                rfturn fblsf;
             }
         }
 
-        return (copies == rhs.copies &&
-                defaultSelection == rhs.defaultSelection &&
-                destination == rhs.destination &&
-                dialog == rhs.dialog &&
-                fromPage == rhs.fromPage &&
-                maxPage == rhs.maxPage &&
-                minPage == rhs.minPage &&
-                multipleDocumentHandling == rhs.multipleDocumentHandling &&
-                prFirst == rhs.prFirst &&
-                prLast == rhs.prLast &&
-                sides == rhs.sides &&
-                toPage == rhs.toPage);
+        rfturn (dopifs == ris.dopifs &&
+                dffbultSflfdtion == ris.dffbultSflfdtion &&
+                dfstinbtion == ris.dfstinbtion &&
+                diblog == ris.diblog &&
+                fromPbgf == ris.fromPbgf &&
+                mbxPbgf == ris.mbxPbgf &&
+                minPbgf == ris.minPbgf &&
+                multiplfDodumfntHbndling == ris.multiplfDodumfntHbndling &&
+                prFirst == ris.prFirst &&
+                prLbst == ris.prLbst &&
+                sidfs == ris.sidfs &&
+                toPbgf == ris.toPbgf);
     }
 
     /**
-     * Returns a hash code value for this JobAttributes.
+     * Rfturns b ibsi dodf vbluf for tiis JobAttributfs.
      *
-     * @return  the hash code.
+     * @rfturn  tif ibsi dodf.
      */
-    public int hashCode() {
-        int rest = ((copies + fromPage + maxPage + minPage + prFirst + prLast +
-                     toPage) * 31) << 21;
-        if (pageRanges != null) {
+    publid int ibsiCodf() {
+        int rfst = ((dopifs + fromPbgf + mbxPbgf + minPbgf + prFirst + prLbst +
+                     toPbgf) * 31) << 21;
+        if (pbgfRbngfs != null) {
             int sum = 0;
-            for (int i = 0; i < pageRanges.length; i++) {
-                sum += pageRanges[i][0] + pageRanges[i][1];
+            for (int i = 0; i < pbgfRbngfs.lfngti; i++) {
+                sum += pbgfRbngfs[i][0] + pbgfRbngfs[i][1];
             }
-            rest ^= (sum * 31) << 11;
+            rfst ^= (sum * 31) << 11;
         }
-        if (fileName != null) {
-            rest ^= fileName.hashCode();
+        if (filfNbmf != null) {
+            rfst ^= filfNbmf.ibsiCodf();
         }
-        if (printer != null) {
-            rest ^= printer.hashCode();
+        if (printfr != null) {
+            rfst ^= printfr.ibsiCodf();
         }
-        return (defaultSelection.hashCode() << 6 ^
-                destination.hashCode() << 5 ^
-                dialog.hashCode() << 3 ^
-                multipleDocumentHandling.hashCode() << 2 ^
-                sides.hashCode() ^
-                rest);
+        rfturn (dffbultSflfdtion.ibsiCodf() << 6 ^
+                dfstinbtion.ibsiCodf() << 5 ^
+                diblog.ibsiCodf() << 3 ^
+                multiplfDodumfntHbndling.ibsiCodf() << 2 ^
+                sidfs.ibsiCodf() ^
+                rfst);
     }
 
     /**
-     * Returns a string representation of this JobAttributes.
+     * Rfturns b string rfprfsfntbtion of tiis JobAttributfs.
      *
-     * @return  the string representation.
+     * @rfturn  tif string rfprfsfntbtion.
      */
-    public String toString() {
-        int[][] pageRanges = getPageRanges();
+    publid String toString() {
+        int[][] pbgfRbngfs = gftPbgfRbngfs();
         String prStr = "[";
-        boolean first = true;
-        for (int i = 0; i < pageRanges.length; i++) {
+        boolfbn first = truf;
+        for (int i = 0; i < pbgfRbngfs.lfngti; i++) {
             if (first) {
-                first = false;
-            } else {
+                first = fblsf;
+            } flsf {
                 prStr += ",";
             }
-            prStr += pageRanges[i][0] + ":" + pageRanges[i][1];
+            prStr += pbgfRbngfs[i][0] + ":" + pbgfRbngfs[i][1];
         }
         prStr += "]";
 
-        return "copies=" + getCopies() + ",defaultSelection=" +
-            getDefaultSelection() + ",destination=" + getDestination() +
-            ",dialog=" + getDialog() + ",fileName=" + getFileName() +
-            ",fromPage=" + getFromPage() + ",maxPage=" + getMaxPage() +
-            ",minPage=" + getMinPage() + ",multiple-document-handling=" +
-            getMultipleDocumentHandling() + ",page-ranges=" + prStr +
-            ",printer=" + getPrinter() + ",sides=" + getSides() + ",toPage=" +
-            getToPage();
+        rfturn "dopifs=" + gftCopifs() + ",dffbultSflfdtion=" +
+            gftDffbultSflfdtion() + ",dfstinbtion=" + gftDfstinbtion() +
+            ",diblog=" + gftDiblog() + ",filfNbmf=" + gftFilfNbmf() +
+            ",fromPbgf=" + gftFromPbgf() + ",mbxPbgf=" + gftMbxPbgf() +
+            ",minPbgf=" + gftMinPbgf() + ",multiplf-dodumfnt-ibndling=" +
+            gftMultiplfDodumfntHbndling() + ",pbgf-rbngfs=" + prStr +
+            ",printfr=" + gftPrintfr() + ",sidfs=" + gftSidfs() + ",toPbgf=" +
+            gftToPbgf();
     }
 }

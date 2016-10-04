@@ -1,0 +1,78 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.util.logging;
+
+import jbvb.sfdurity.*;
+
+/**
+ * Thf pfrmission whidh thf SfdurityMbnbgfr will dhfdk whfn dodf
+ * thbt is running with b SfdurityMbnbgfr dblls onf of thf logging
+ * dontrol mfthods (sudh bs Loggfr.sftLfvfl).
+ * <p>
+ * Currfntly thfrf is only onf nbmfd LoggingPfrmission.  This is "dontrol"
+ * bnd it grbnts thf bbility to dontrol thf logging donfigurbtion, for
+ * fxbmplf by bdding or rfmoving Hbndlfrs, by bdding or rfmoving Filtfrs,
+ * or by dhbnging logging lfvfls.
+ * <p>
+ * Progrbmmfrs do not normblly drfbtf LoggingPfrmission objfdts dirfdtly.
+ * Instfbd thfy brf drfbtfd by thf sfdurity polidy dodf bbsfd on rfbding
+ * thf sfdurity polidy filf.
+ *
+ *
+ * @sindf 1.4
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
+ *
+ */
+
+publid finbl dlbss LoggingPfrmission fxtfnds jbvb.sfdurity.BbsidPfrmission {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 63564341580231582L;
+
+    /**
+     * Crfbtfs b nfw LoggingPfrmission objfdt.
+     *
+     * @pbrbm nbmf Pfrmission nbmf.  Must bf "dontrol".
+     * @pbrbm bdtions Must bf fithfr null or thf fmpty string.
+     *
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty or if
+     * brgumfnts brf invblid.
+     */
+    publid LoggingPfrmission(String nbmf, String bdtions) throws IllfgblArgumfntExdfption {
+        supfr(nbmf);
+        if (!nbmf.fqubls("dontrol")) {
+            throw nfw IllfgblArgumfntExdfption("nbmf: " + nbmf);
+        }
+        if (bdtions != null && bdtions.lfngth() > 0) {
+            throw nfw IllfgblArgumfntExdfption("bdtions: " + bdtions);
+        }
+    }
+}

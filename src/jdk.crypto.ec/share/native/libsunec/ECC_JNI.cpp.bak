@@ -1,470 +1,470 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <jni.h>
-#include "impl/ecc_impl.h"
+#indludf <jni.i>
+#indludf "impl/fdd_impl.i"
 
-#define ILLEGAL_STATE_EXCEPTION "java/lang/IllegalStateException"
-#define INVALID_ALGORITHM_PARAMETER_EXCEPTION \
-        "java/security/InvalidAlgorithmParameterException"
-#define INVALID_PARAMETER_EXCEPTION \
-        "java/security/InvalidParameterException"
-#define KEY_EXCEPTION   "java/security/KeyException"
+#dffinf ILLEGAL_STATE_EXCEPTION "jbvb/lbng/IllfgblStbtfExdfption"
+#dffinf INVALID_ALGORITHM_PARAMETER_EXCEPTION \
+        "jbvb/sfdurity/InvblidAlgoritimPbrbmftfrExdfption"
+#dffinf INVALID_PARAMETER_EXCEPTION \
+        "jbvb/sfdurity/InvblidPbrbmftfrExdfption"
+#dffinf KEY_EXCEPTION   "jbvb/sfdurity/KfyExdfption"
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Throws an arbitrary Java exception.
+ * Tirows bn brbitrbry Jbvb fxdfption.
  */
-void ThrowException(JNIEnv *env, const char *exceptionName)
+void TirowExdfption(JNIEnv *fnv, donst dibr *fxdfptionNbmf)
 {
-    jclass exceptionClazz = env->FindClass(exceptionName);
-    if (exceptionClazz != NULL) {
-        env->ThrowNew(exceptionClazz, NULL);
+    jdlbss fxdfptionClbzz = fnv->FindClbss(fxdfptionNbmf);
+    if (fxdfptionClbzz != NULL) {
+        fnv->TirowNfw(fxdfptionClbzz, NULL);
     }
 }
 
 /*
- * Deep free of the ECParams struct
+ * Dffp frff of tif ECPbrbms strudt
  */
-void FreeECParams(ECParams *ecparams, jboolean freeStruct)
+void FrffECPbrbms(ECPbrbms *fdpbrbms, jboolfbn frffStrudt)
 {
-    // Use B_FALSE to free the SECItem->data element, but not the SECItem itself
-    // Use B_TRUE to free both
+    // Usf B_FALSE to frff tif SECItfm->dbtb flfmfnt, but not tif SECItfm itsflf
+    // Usf B_TRUE to frff boti
 
-    SECITEM_FreeItem(&ecparams->fieldID.u.prime, B_FALSE);
-    SECITEM_FreeItem(&ecparams->curve.a, B_FALSE);
-    SECITEM_FreeItem(&ecparams->curve.b, B_FALSE);
-    SECITEM_FreeItem(&ecparams->curve.seed, B_FALSE);
-    SECITEM_FreeItem(&ecparams->base, B_FALSE);
-    SECITEM_FreeItem(&ecparams->order, B_FALSE);
-    SECITEM_FreeItem(&ecparams->DEREncoding, B_FALSE);
-    SECITEM_FreeItem(&ecparams->curveOID, B_FALSE);
-    if (freeStruct)
-        free(ecparams);
+    SECITEM_FrffItfm(&fdpbrbms->fifldID.u.primf, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->durvf.b, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->durvf.b, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->durvf.sffd, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->bbsf, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->ordfr, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->DEREndoding, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->durvfOID, B_FALSE);
+    if (frffStrudt)
+        frff(fdpbrbms);
 }
 
-jbyteArray getEncodedBytes(JNIEnv *env, SECItem *hSECItem)
+jbytfArrby gftEndodfdBytfs(JNIEnv *fnv, SECItfm *iSECItfm)
 {
-    SECItem *s = (SECItem *)hSECItem;
+    SECItfm *s = (SECItfm *)iSECItfm;
 
-    jbyteArray jEncodedBytes = env->NewByteArray(s->len);
-    if (jEncodedBytes == NULL) {
-        return NULL;
+    jbytfArrby jEndodfdBytfs = fnv->NfwBytfArrby(s->lfn);
+    if (jEndodfdBytfs == NULL) {
+        rfturn NULL;
     }
-    // Copy bytes from a native SECItem buffer to Java byte array
-    env->SetByteArrayRegion(jEncodedBytes, 0, s->len, (jbyte *)s->data);
-    if (env->ExceptionCheck()) { // should never happen
-        return NULL;
+    // Copy bytfs from b nbtivf SECItfm bufffr to Jbvb bytf brrby
+    fnv->SftBytfArrbyRfgion(jEndodfdBytfs, 0, s->lfn, (jbytf *)s->dbtb);
+    if (fnv->ExdfptionCifdk()) { // siould nfvfr ibppfn
+        rfturn NULL;
     }
-    return jEncodedBytes;
+    rfturn jEndodfdBytfs;
 }
 
 /*
- * Class:     sun_security_ec_ECKeyPairGenerator
- * Method:    generateECKeyPair
- * Signature: (I[B[B)[[B
+ * Clbss:     sun_sfdurity_fd_ECKfyPbirGfnfrbtor
+ * Mftiod:    gfnfrbtfECKfyPbir
+ * Signbturf: (I[B[B)[[B
  */
-JNIEXPORT jobjectArray
-JNICALL Java_sun_security_ec_ECKeyPairGenerator_generateECKeyPair
-  (JNIEnv *env, jclass clazz, jint keySize, jbyteArray encodedParams, jbyteArray seed)
+JNIEXPORT jobjfdtArrby
+JNICALL Jbvb_sun_sfdurity_fd_ECKfyPbirGfnfrbtor_gfnfrbtfECKfyPbir
+  (JNIEnv *fnv, jdlbss dlbzz, jint kfySizf, jbytfArrby fndodfdPbrbms, jbytfArrby sffd)
 {
-    ECPrivateKey *privKey = NULL; // contains both public and private values
-    ECParams *ecparams = NULL;
-    SECKEYECParams params_item;
-    jint jSeedLength;
-    jbyte* pSeedBuffer = NULL;
-    jobjectArray result = NULL;
-    jclass baCls = NULL;
-    jbyteArray jba;
+    ECPrivbtfKfy *privKfy = NULL; // dontbins boti publid bnd privbtf vblufs
+    ECPbrbms *fdpbrbms = NULL;
+    SECKEYECPbrbms pbrbms_itfm;
+    jint jSffdLfngti;
+    jbytf* pSffdBufffr = NULL;
+    jobjfdtArrby rfsult = NULL;
+    jdlbss bbCls = NULL;
+    jbytfArrby jbb;
 
-    // Initialize the ECParams struct
-    params_item.len = env->GetArrayLength(encodedParams);
-    params_item.data =
-        (unsigned char *) env->GetByteArrayElements(encodedParams, 0);
-    if (params_item.data == NULL) {
-        goto cleanup;
-    }
-
-    // Fill a new ECParams using the supplied OID
-    if (EC_DecodeParams(&params_item, &ecparams, 0) != SECSuccess) {
-        /* bad curve OID */
-        ThrowException(env, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
-        goto cleanup;
+    // Initiblizf tif ECPbrbms strudt
+    pbrbms_itfm.lfn = fnv->GftArrbyLfngti(fndodfdPbrbms);
+    pbrbms_itfm.dbtb =
+        (unsignfd dibr *) fnv->GftBytfArrbyElfmfnts(fndodfdPbrbms, 0);
+    if (pbrbms_itfm.dbtb == NULL) {
+        goto dlfbnup;
     }
 
-    // Copy seed from Java to native buffer
-    jSeedLength = env->GetArrayLength(seed);
-    pSeedBuffer = new jbyte[jSeedLength];
-    env->GetByteArrayRegion(seed, 0, jSeedLength, pSeedBuffer);
-
-    // Generate the new keypair (using the supplied seed)
-    if (EC_NewKey(ecparams, &privKey, (unsigned char *) pSeedBuffer,
-        jSeedLength, 0) != SECSuccess) {
-        ThrowException(env, KEY_EXCEPTION);
-        goto cleanup;
+    // Fill b nfw ECPbrbms using tif supplifd OID
+    if (EC_DfdodfPbrbms(&pbrbms_itfm, &fdpbrbms, 0) != SECSuddfss) {
+        /* bbd durvf OID */
+        TirowExdfption(fnv, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
+        goto dlfbnup;
     }
 
-    jboolean isCopy;
-    baCls = env->FindClass("[B");
-    if (baCls == NULL) {
-        goto cleanup;
-    }
-    result = env->NewObjectArray(2, baCls, NULL);
-    if (result == NULL) {
-        goto cleanup;
-    }
-    jba = getEncodedBytes(env, &(privKey->privateValue));
-    if (jba == NULL) {
-        result = NULL;
-        goto cleanup;
-    }
-    env->SetObjectArrayElement(result, 0, jba); // big integer
-    if (env->ExceptionCheck()) { // should never happen
-        result = NULL;
-        goto cleanup;
+    // Copy sffd from Jbvb to nbtivf bufffr
+    jSffdLfngti = fnv->GftArrbyLfngti(sffd);
+    pSffdBufffr = nfw jbytf[jSffdLfngti];
+    fnv->GftBytfArrbyRfgion(sffd, 0, jSffdLfngti, pSffdBufffr);
+
+    // Gfnfrbtf tif nfw kfypbir (using tif supplifd sffd)
+    if (EC_NfwKfy(fdpbrbms, &privKfy, (unsignfd dibr *) pSffdBufffr,
+        jSffdLfngti, 0) != SECSuddfss) {
+        TirowExdfption(fnv, KEY_EXCEPTION);
+        goto dlfbnup;
     }
 
-    jba = getEncodedBytes(env, &(privKey->publicValue));
-    if (jba == NULL) {
-        result = NULL;
-        goto cleanup;
+    jboolfbn isCopy;
+    bbCls = fnv->FindClbss("[B");
+    if (bbCls == NULL) {
+        goto dlfbnup;
     }
-    env->SetObjectArrayElement(result, 1, jba); // encoded ec point
-    if (env->ExceptionCheck()) { // should never happen
-        result = NULL;
-        goto cleanup;
+    rfsult = fnv->NfwObjfdtArrby(2, bbCls, NULL);
+    if (rfsult == NULL) {
+        goto dlfbnup;
+    }
+    jbb = gftEndodfdBytfs(fnv, &(privKfy->privbtfVbluf));
+    if (jbb == NULL) {
+        rfsult = NULL;
+        goto dlfbnup;
+    }
+    fnv->SftObjfdtArrbyElfmfnt(rfsult, 0, jbb); // big intfgfr
+    if (fnv->ExdfptionCifdk()) { // siould nfvfr ibppfn
+        rfsult = NULL;
+        goto dlfbnup;
     }
 
-cleanup:
+    jbb = gftEndodfdBytfs(fnv, &(privKfy->publidVbluf));
+    if (jbb == NULL) {
+        rfsult = NULL;
+        goto dlfbnup;
+    }
+    fnv->SftObjfdtArrbyElfmfnt(rfsult, 1, jbb); // fndodfd fd point
+    if (fnv->ExdfptionCifdk()) { // siould nfvfr ibppfn
+        rfsult = NULL;
+        goto dlfbnup;
+    }
+
+dlfbnup:
     {
-        if (params_item.data) {
-            env->ReleaseByteArrayElements(encodedParams,
-                (jbyte *) params_item.data, JNI_ABORT);
+        if (pbrbms_itfm.dbtb) {
+            fnv->RflfbsfBytfArrbyElfmfnts(fndodfdPbrbms,
+                (jbytf *) pbrbms_itfm.dbtb, JNI_ABORT);
         }
-        if (ecparams) {
-            FreeECParams(ecparams, true);
+        if (fdpbrbms) {
+            FrffECPbrbms(fdpbrbms, truf);
         }
-        if (privKey) {
-            FreeECParams(&privKey->ecParams, false);
-            SECITEM_FreeItem(&privKey->version, B_FALSE);
-            SECITEM_FreeItem(&privKey->privateValue, B_FALSE);
-            SECITEM_FreeItem(&privKey->publicValue, B_FALSE);
-            free(privKey);
+        if (privKfy) {
+            FrffECPbrbms(&privKfy->fdPbrbms, fblsf);
+            SECITEM_FrffItfm(&privKfy->vfrsion, B_FALSE);
+            SECITEM_FrffItfm(&privKfy->privbtfVbluf, B_FALSE);
+            SECITEM_FrffItfm(&privKfy->publidVbluf, B_FALSE);
+            frff(privKfy);
         }
 
-        if (pSeedBuffer) {
-            delete [] pSeedBuffer;
+        if (pSffdBufffr) {
+            dflftf [] pSffdBufffr;
         }
     }
 
-    return result;
+    rfturn rfsult;
 }
 
 /*
- * Class:     sun_security_ec_ECDSASignature
- * Method:    signDigest
- * Signature: ([B[B[B[B)[B
+ * Clbss:     sun_sfdurity_fd_ECDSASignbturf
+ * Mftiod:    signDigfst
+ * Signbturf: ([B[B[B[B)[B
  */
-JNIEXPORT jbyteArray
-JNICALL Java_sun_security_ec_ECDSASignature_signDigest
-  (JNIEnv *env, jclass clazz, jbyteArray digest, jbyteArray privateKey, jbyteArray encodedParams, jbyteArray seed)
+JNIEXPORT jbytfArrby
+JNICALL Jbvb_sun_sfdurity_fd_ECDSASignbturf_signDigfst
+  (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby digfst, jbytfArrby privbtfKfy, jbytfArrby fndodfdPbrbms, jbytfArrby sffd)
 {
-    jbyte* pDigestBuffer = NULL;
-    jint jDigestLength = env->GetArrayLength(digest);
-    jbyteArray jSignedDigest = NULL;
+    jbytf* pDigfstBufffr = NULL;
+    jint jDigfstLfngti = fnv->GftArrbyLfngti(digfst);
+    jbytfArrby jSignfdDigfst = NULL;
 
-    SECItem signature_item;
-    jbyte* pSignedDigestBuffer = NULL;
-    jbyteArray temp;
+    SECItfm signbturf_itfm;
+    jbytf* pSignfdDigfstBufffr = NULL;
+    jbytfArrby tfmp;
 
-    jint jSeedLength = env->GetArrayLength(seed);
-    jbyte* pSeedBuffer = NULL;
+    jint jSffdLfngti = fnv->GftArrbyLfngti(sffd);
+    jbytf* pSffdBufffr = NULL;
 
-    // Copy digest from Java to native buffer
-    pDigestBuffer = new jbyte[jDigestLength];
-    env->GetByteArrayRegion(digest, 0, jDigestLength, pDigestBuffer);
-    SECItem digest_item;
-    digest_item.data = (unsigned char *) pDigestBuffer;
-    digest_item.len = jDigestLength;
+    // Copy digfst from Jbvb to nbtivf bufffr
+    pDigfstBufffr = nfw jbytf[jDigfstLfngti];
+    fnv->GftBytfArrbyRfgion(digfst, 0, jDigfstLfngti, pDigfstBufffr);
+    SECItfm digfst_itfm;
+    digfst_itfm.dbtb = (unsignfd dibr *) pDigfstBufffr;
+    digfst_itfm.lfn = jDigfstLfngti;
 
-    ECPrivateKey privKey;
+    ECPrivbtfKfy privKfy;
 
-    // Initialize the ECParams struct
-    ECParams *ecparams = NULL;
-    SECKEYECParams params_item;
-    params_item.len = env->GetArrayLength(encodedParams);
-    params_item.data =
-        (unsigned char *) env->GetByteArrayElements(encodedParams, 0);
-    if (params_item.data == NULL) {
-        goto cleanup;
+    // Initiblizf tif ECPbrbms strudt
+    ECPbrbms *fdpbrbms = NULL;
+    SECKEYECPbrbms pbrbms_itfm;
+    pbrbms_itfm.lfn = fnv->GftArrbyLfngti(fndodfdPbrbms);
+    pbrbms_itfm.dbtb =
+        (unsignfd dibr *) fnv->GftBytfArrbyElfmfnts(fndodfdPbrbms, 0);
+    if (pbrbms_itfm.dbtb == NULL) {
+        goto dlfbnup;
     }
 
-    // Fill a new ECParams using the supplied OID
-    if (EC_DecodeParams(&params_item, &ecparams, 0) != SECSuccess) {
-        /* bad curve OID */
-        ThrowException(env, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
-        goto cleanup;
+    // Fill b nfw ECPbrbms using tif supplifd OID
+    if (EC_DfdodfPbrbms(&pbrbms_itfm, &fdpbrbms, 0) != SECSuddfss) {
+        /* bbd durvf OID */
+        TirowExdfption(fnv, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
+        goto dlfbnup;
     }
 
-    // Extract private key data
-    privKey.ecParams = *ecparams; // struct assignment
-    privKey.privateValue.len = env->GetArrayLength(privateKey);
-    privKey.privateValue.data =
-        (unsigned char *) env->GetByteArrayElements(privateKey, 0);
-    if (privKey.privateValue.data == NULL) {
-        goto cleanup;
+    // Extrbdt privbtf kfy dbtb
+    privKfy.fdPbrbms = *fdpbrbms; // strudt bssignmfnt
+    privKfy.privbtfVbluf.lfn = fnv->GftArrbyLfngti(privbtfKfy);
+    privKfy.privbtfVbluf.dbtb =
+        (unsignfd dibr *) fnv->GftBytfArrbyElfmfnts(privbtfKfy, 0);
+    if (privKfy.privbtfVbluf.dbtb == NULL) {
+        goto dlfbnup;
     }
 
-    // Prepare a buffer for the signature (twice the key length)
-    pSignedDigestBuffer = new jbyte[ecparams->order.len * 2];
-    signature_item.data = (unsigned char *) pSignedDigestBuffer;
-    signature_item.len = ecparams->order.len * 2;
+    // Prfpbrf b bufffr for tif signbturf (twidf tif kfy lfngti)
+    pSignfdDigfstBufffr = nfw jbytf[fdpbrbms->ordfr.lfn * 2];
+    signbturf_itfm.dbtb = (unsignfd dibr *) pSignfdDigfstBufffr;
+    signbturf_itfm.lfn = fdpbrbms->ordfr.lfn * 2;
 
-    // Copy seed from Java to native buffer
-    pSeedBuffer = new jbyte[jSeedLength];
-    env->GetByteArrayRegion(seed, 0, jSeedLength, pSeedBuffer);
+    // Copy sffd from Jbvb to nbtivf bufffr
+    pSffdBufffr = nfw jbytf[jSffdLfngti];
+    fnv->GftBytfArrbyRfgion(sffd, 0, jSffdLfngti, pSffdBufffr);
 
-    // Sign the digest (using the supplied seed)
-    if (ECDSA_SignDigest(&privKey, &signature_item, &digest_item,
-        (unsigned char *) pSeedBuffer, jSeedLength, 0) != SECSuccess) {
-        ThrowException(env, KEY_EXCEPTION);
-        goto cleanup;
+    // Sign tif digfst (using tif supplifd sffd)
+    if (ECDSA_SignDigfst(&privKfy, &signbturf_itfm, &digfst_itfm,
+        (unsignfd dibr *) pSffdBufffr, jSffdLfngti, 0) != SECSuddfss) {
+        TirowExdfption(fnv, KEY_EXCEPTION);
+        goto dlfbnup;
     }
 
-    // Create new byte array
-    temp = env->NewByteArray(signature_item.len);
-    if (temp == NULL) {
-        goto cleanup;
+    // Crfbtf nfw bytf brrby
+    tfmp = fnv->NfwBytfArrby(signbturf_itfm.lfn);
+    if (tfmp == NULL) {
+        goto dlfbnup;
     }
 
-    // Copy data from native buffer
-    env->SetByteArrayRegion(temp, 0, signature_item.len, pSignedDigestBuffer);
-    jSignedDigest = temp;
+    // Copy dbtb from nbtivf bufffr
+    fnv->SftBytfArrbyRfgion(tfmp, 0, signbturf_itfm.lfn, pSignfdDigfstBufffr);
+    jSignfdDigfst = tfmp;
 
-cleanup:
+dlfbnup:
     {
-        if (params_item.data) {
-            env->ReleaseByteArrayElements(encodedParams,
-                (jbyte *) params_item.data, JNI_ABORT);
+        if (pbrbms_itfm.dbtb) {
+            fnv->RflfbsfBytfArrbyElfmfnts(fndodfdPbrbms,
+                (jbytf *) pbrbms_itfm.dbtb, JNI_ABORT);
         }
-        if (privKey.privateValue.data) {
-            env->ReleaseByteArrayElements(privateKey,
-                (jbyte *) privKey.privateValue.data, JNI_ABORT);
+        if (privKfy.privbtfVbluf.dbtb) {
+            fnv->RflfbsfBytfArrbyElfmfnts(privbtfKfy,
+                (jbytf *) privKfy.privbtfVbluf.dbtb, JNI_ABORT);
         }
-        if (pDigestBuffer) {
-            delete [] pDigestBuffer;
+        if (pDigfstBufffr) {
+            dflftf [] pDigfstBufffr;
         }
-        if (pSignedDigestBuffer) {
-            delete [] pSignedDigestBuffer;
+        if (pSignfdDigfstBufffr) {
+            dflftf [] pSignfdDigfstBufffr;
         }
-        if (pSeedBuffer) {
-            delete [] pSeedBuffer;
+        if (pSffdBufffr) {
+            dflftf [] pSffdBufffr;
         }
-        if (ecparams) {
-            FreeECParams(ecparams, true);
+        if (fdpbrbms) {
+            FrffECPbrbms(fdpbrbms, truf);
         }
     }
 
-    return jSignedDigest;
+    rfturn jSignfdDigfst;
 }
 
 /*
- * Class:     sun_security_ec_ECDSASignature
- * Method:    verifySignedDigest
- * Signature: ([B[B[B[B)Z
+ * Clbss:     sun_sfdurity_fd_ECDSASignbturf
+ * Mftiod:    vfrifySignfdDigfst
+ * Signbturf: ([B[B[B[B)Z
  */
-JNIEXPORT jboolean
-JNICALL Java_sun_security_ec_ECDSASignature_verifySignedDigest
-  (JNIEnv *env, jclass clazz, jbyteArray signedDigest, jbyteArray digest, jbyteArray publicKey, jbyteArray encodedParams)
+JNIEXPORT jboolfbn
+JNICALL Jbvb_sun_sfdurity_fd_ECDSASignbturf_vfrifySignfdDigfst
+  (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby signfdDigfst, jbytfArrby digfst, jbytfArrby publidKfy, jbytfArrby fndodfdPbrbms)
 {
-    jboolean isValid = false;
+    jboolfbn isVblid = fblsf;
 
-    // Copy signedDigest from Java to native buffer
-    jbyte* pSignedDigestBuffer = NULL;
-    jint jSignedDigestLength = env->GetArrayLength(signedDigest);
-    pSignedDigestBuffer = new jbyte[jSignedDigestLength];
-    env->GetByteArrayRegion(signedDigest, 0, jSignedDigestLength,
-        pSignedDigestBuffer);
-    SECItem signature_item;
-    signature_item.data = (unsigned char *) pSignedDigestBuffer;
-    signature_item.len = jSignedDigestLength;
+    // Copy signfdDigfst from Jbvb to nbtivf bufffr
+    jbytf* pSignfdDigfstBufffr = NULL;
+    jint jSignfdDigfstLfngti = fnv->GftArrbyLfngti(signfdDigfst);
+    pSignfdDigfstBufffr = nfw jbytf[jSignfdDigfstLfngti];
+    fnv->GftBytfArrbyRfgion(signfdDigfst, 0, jSignfdDigfstLfngti,
+        pSignfdDigfstBufffr);
+    SECItfm signbturf_itfm;
+    signbturf_itfm.dbtb = (unsignfd dibr *) pSignfdDigfstBufffr;
+    signbturf_itfm.lfn = jSignfdDigfstLfngti;
 
-    // Copy digest from Java to native buffer
-    jbyte* pDigestBuffer = NULL;
-    jint jDigestLength = env->GetArrayLength(digest);
-    pDigestBuffer = new jbyte[jDigestLength];
-    env->GetByteArrayRegion(digest, 0, jDigestLength, pDigestBuffer);
-    SECItem digest_item;
-    digest_item.data = (unsigned char *) pDigestBuffer;
-    digest_item.len = jDigestLength;
+    // Copy digfst from Jbvb to nbtivf bufffr
+    jbytf* pDigfstBufffr = NULL;
+    jint jDigfstLfngti = fnv->GftArrbyLfngti(digfst);
+    pDigfstBufffr = nfw jbytf[jDigfstLfngti];
+    fnv->GftBytfArrbyRfgion(digfst, 0, jDigfstLfngti, pDigfstBufffr);
+    SECItfm digfst_itfm;
+    digfst_itfm.dbtb = (unsignfd dibr *) pDigfstBufffr;
+    digfst_itfm.lfn = jDigfstLfngti;
 
-    // Extract public key data
-    ECPublicKey pubKey;
-    pubKey.publicValue.data = NULL;
-    ECParams *ecparams = NULL;
-    SECKEYECParams params_item;
+    // Extrbdt publid kfy dbtb
+    ECPublidKfy pubKfy;
+    pubKfy.publidVbluf.dbtb = NULL;
+    ECPbrbms *fdpbrbms = NULL;
+    SECKEYECPbrbms pbrbms_itfm;
 
-    // Initialize the ECParams struct
-    params_item.len = env->GetArrayLength(encodedParams);
-    params_item.data =
-        (unsigned char *) env->GetByteArrayElements(encodedParams, 0);
-    if (params_item.data == NULL) {
-        goto cleanup;
+    // Initiblizf tif ECPbrbms strudt
+    pbrbms_itfm.lfn = fnv->GftArrbyLfngti(fndodfdPbrbms);
+    pbrbms_itfm.dbtb =
+        (unsignfd dibr *) fnv->GftBytfArrbyElfmfnts(fndodfdPbrbms, 0);
+    if (pbrbms_itfm.dbtb == NULL) {
+        goto dlfbnup;
     }
 
-    // Fill a new ECParams using the supplied OID
-    if (EC_DecodeParams(&params_item, &ecparams, 0) != SECSuccess) {
-        /* bad curve OID */
-        ThrowException(env, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
-        goto cleanup;
+    // Fill b nfw ECPbrbms using tif supplifd OID
+    if (EC_DfdodfPbrbms(&pbrbms_itfm, &fdpbrbms, 0) != SECSuddfss) {
+        /* bbd durvf OID */
+        TirowExdfption(fnv, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
+        goto dlfbnup;
     }
-    pubKey.ecParams = *ecparams; // struct assignment
-    pubKey.publicValue.len = env->GetArrayLength(publicKey);
-    pubKey.publicValue.data =
-        (unsigned char *) env->GetByteArrayElements(publicKey, 0);
+    pubKfy.fdPbrbms = *fdpbrbms; // strudt bssignmfnt
+    pubKfy.publidVbluf.lfn = fnv->GftArrbyLfngti(publidKfy);
+    pubKfy.publidVbluf.dbtb =
+        (unsignfd dibr *) fnv->GftBytfArrbyElfmfnts(publidKfy, 0);
 
-    if (ECDSA_VerifyDigest(&pubKey, &signature_item, &digest_item, 0)
-            != SECSuccess) {
-        goto cleanup;
+    if (ECDSA_VfrifyDigfst(&pubKfy, &signbturf_itfm, &digfst_itfm, 0)
+            != SECSuddfss) {
+        goto dlfbnup;
     }
 
-    isValid = true;
+    isVblid = truf;
 
-cleanup:
+dlfbnup:
     {
-        if (params_item.data)
-            env->ReleaseByteArrayElements(encodedParams,
-                (jbyte *) params_item.data, JNI_ABORT);
+        if (pbrbms_itfm.dbtb)
+            fnv->RflfbsfBytfArrbyElfmfnts(fndodfdPbrbms,
+                (jbytf *) pbrbms_itfm.dbtb, JNI_ABORT);
 
-        if (pubKey.publicValue.data)
-            env->ReleaseByteArrayElements(publicKey,
-                (jbyte *) pubKey.publicValue.data, JNI_ABORT);
+        if (pubKfy.publidVbluf.dbtb)
+            fnv->RflfbsfBytfArrbyElfmfnts(publidKfy,
+                (jbytf *) pubKfy.publidVbluf.dbtb, JNI_ABORT);
 
-        if (ecparams)
-            FreeECParams(ecparams, true);
+        if (fdpbrbms)
+            FrffECPbrbms(fdpbrbms, truf);
 
-        if (pSignedDigestBuffer)
-            delete [] pSignedDigestBuffer;
+        if (pSignfdDigfstBufffr)
+            dflftf [] pSignfdDigfstBufffr;
 
-        if (pDigestBuffer)
-            delete [] pDigestBuffer;
+        if (pDigfstBufffr)
+            dflftf [] pDigfstBufffr;
     }
 
-    return isValid;
+    rfturn isVblid;
 }
 
 /*
- * Class:     sun_security_ec_ECDHKeyAgreement
- * Method:    deriveKey
- * Signature: ([B[B[B)[B
+ * Clbss:     sun_sfdurity_fd_ECDHKfyAgrffmfnt
+ * Mftiod:    dfrivfKfy
+ * Signbturf: ([B[B[B)[B
  */
-JNIEXPORT jbyteArray
-JNICALL Java_sun_security_ec_ECDHKeyAgreement_deriveKey
-  (JNIEnv *env, jclass clazz, jbyteArray privateKey, jbyteArray publicKey, jbyteArray encodedParams)
+JNIEXPORT jbytfArrby
+JNICALL Jbvb_sun_sfdurity_fd_ECDHKfyAgrffmfnt_dfrivfKfy
+  (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby privbtfKfy, jbytfArrby publidKfy, jbytfArrby fndodfdPbrbms)
 {
-    jbyteArray jSecret = NULL;
-    ECParams *ecparams = NULL;
+    jbytfArrby jSfdrft = NULL;
+    ECPbrbms *fdpbrbms = NULL;
 
-    // Extract private key value
-    SECItem privateValue_item;
-    privateValue_item.len = env->GetArrayLength(privateKey);
-    privateValue_item.data =
-            (unsigned char *) env->GetByteArrayElements(privateKey, 0);
-    if (privateValue_item.data == NULL) {
-        goto cleanup;
+    // Extrbdt privbtf kfy vbluf
+    SECItfm privbtfVbluf_itfm;
+    privbtfVbluf_itfm.lfn = fnv->GftArrbyLfngti(privbtfKfy);
+    privbtfVbluf_itfm.dbtb =
+            (unsignfd dibr *) fnv->GftBytfArrbyElfmfnts(privbtfKfy, 0);
+    if (privbtfVbluf_itfm.dbtb == NULL) {
+        goto dlfbnup;
     }
 
-    // Extract public key value
-    SECItem publicValue_item;
-    publicValue_item.len = env->GetArrayLength(publicKey);
-    publicValue_item.data =
-        (unsigned char *) env->GetByteArrayElements(publicKey, 0);
-    if (publicValue_item.data == NULL) {
-        goto cleanup;
+    // Extrbdt publid kfy vbluf
+    SECItfm publidVbluf_itfm;
+    publidVbluf_itfm.lfn = fnv->GftArrbyLfngti(publidKfy);
+    publidVbluf_itfm.dbtb =
+        (unsignfd dibr *) fnv->GftBytfArrbyElfmfnts(publidKfy, 0);
+    if (publidVbluf_itfm.dbtb == NULL) {
+        goto dlfbnup;
     }
 
-    // Initialize the ECParams struct
-    SECKEYECParams params_item;
-    params_item.len = env->GetArrayLength(encodedParams);
-    params_item.data =
-        (unsigned char *) env->GetByteArrayElements(encodedParams, 0);
-    if (params_item.data == NULL) {
-        goto cleanup;
+    // Initiblizf tif ECPbrbms strudt
+    SECKEYECPbrbms pbrbms_itfm;
+    pbrbms_itfm.lfn = fnv->GftArrbyLfngti(fndodfdPbrbms);
+    pbrbms_itfm.dbtb =
+        (unsignfd dibr *) fnv->GftBytfArrbyElfmfnts(fndodfdPbrbms, 0);
+    if (pbrbms_itfm.dbtb == NULL) {
+        goto dlfbnup;
     }
 
-    // Fill a new ECParams using the supplied OID
-    if (EC_DecodeParams(&params_item, &ecparams, 0) != SECSuccess) {
-        /* bad curve OID */
-        ThrowException(env, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
-        goto cleanup;
+    // Fill b nfw ECPbrbms using tif supplifd OID
+    if (EC_DfdodfPbrbms(&pbrbms_itfm, &fdpbrbms, 0) != SECSuddfss) {
+        /* bbd durvf OID */
+        TirowExdfption(fnv, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
+        goto dlfbnup;
     }
 
-    // Prepare a buffer for the secret
-    SECItem secret_item;
-    secret_item.data = NULL;
-    secret_item.len = ecparams->order.len * 2;
+    // Prfpbrf b bufffr for tif sfdrft
+    SECItfm sfdrft_itfm;
+    sfdrft_itfm.dbtb = NULL;
+    sfdrft_itfm.lfn = fdpbrbms->ordfr.lfn * 2;
 
-    if (ECDH_Derive(&publicValue_item, ecparams, &privateValue_item, B_FALSE,
-        &secret_item, 0) != SECSuccess) {
-        ThrowException(env, ILLEGAL_STATE_EXCEPTION);
-        goto cleanup;
+    if (ECDH_Dfrivf(&publidVbluf_itfm, fdpbrbms, &privbtfVbluf_itfm, B_FALSE,
+        &sfdrft_itfm, 0) != SECSuddfss) {
+        TirowExdfption(fnv, ILLEGAL_STATE_EXCEPTION);
+        goto dlfbnup;
     }
 
-    // Create new byte array
-    jSecret = env->NewByteArray(secret_item.len);
-    if (jSecret == NULL) {
-        goto cleanup;
+    // Crfbtf nfw bytf brrby
+    jSfdrft = fnv->NfwBytfArrby(sfdrft_itfm.lfn);
+    if (jSfdrft == NULL) {
+        goto dlfbnup;
     }
 
-    // Copy bytes from the SECItem buffer to a Java byte array
-    env->SetByteArrayRegion(jSecret, 0, secret_item.len,
-        (jbyte *)secret_item.data);
+    // Copy bytfs from tif SECItfm bufffr to b Jbvb bytf brrby
+    fnv->SftBytfArrbyRfgion(jSfdrft, 0, sfdrft_itfm.lfn,
+        (jbytf *)sfdrft_itfm.dbtb);
 
-    // Free the SECItem data buffer
-    SECITEM_FreeItem(&secret_item, B_FALSE);
+    // Frff tif SECItfm dbtb bufffr
+    SECITEM_FrffItfm(&sfdrft_itfm, B_FALSE);
 
-cleanup:
+dlfbnup:
     {
-        if (privateValue_item.data)
-            env->ReleaseByteArrayElements(privateKey,
-                (jbyte *) privateValue_item.data, JNI_ABORT);
+        if (privbtfVbluf_itfm.dbtb)
+            fnv->RflfbsfBytfArrbyElfmfnts(privbtfKfy,
+                (jbytf *) privbtfVbluf_itfm.dbtb, JNI_ABORT);
 
-        if (publicValue_item.data)
-            env->ReleaseByteArrayElements(publicKey,
-                (jbyte *) publicValue_item.data, JNI_ABORT);
+        if (publidVbluf_itfm.dbtb)
+            fnv->RflfbsfBytfArrbyElfmfnts(publidKfy,
+                (jbytf *) publidVbluf_itfm.dbtb, JNI_ABORT);
 
-        if (params_item.data)
-            env->ReleaseByteArrayElements(encodedParams,
-                (jbyte *) params_item.data, JNI_ABORT);
+        if (pbrbms_itfm.dbtb)
+            fnv->RflfbsfBytfArrbyElfmfnts(fndodfdPbrbms,
+                (jbytf *) pbrbms_itfm.dbtb, JNI_ABORT);
 
-        if (ecparams)
-            FreeECParams(ecparams, true);
+        if (fdpbrbms)
+            FrffECPbrbms(fdpbrbms, truf);
     }
 
-    return jSecret;
+    rfturn jSfdrft;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */

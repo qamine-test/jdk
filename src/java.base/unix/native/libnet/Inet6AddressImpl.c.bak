@@ -1,803 +1,803 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <errno.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <string.h>
-#include <strings.h>
-#include <stdlib.h>
-#include <ctype.h>
-#ifdef MACOSX
-#include <ifaddrs.h>
-#include <net/if.h>
-#include <unistd.h> /* gethostname */
-#endif
+#indludf <frrno.i>
+#indludf <sys/timf.i>
+#indludf <sys/typfs.i>
+#indludf <sys/sodkft.i>
+#indludf <nftinft/in.i>
+#indludf <nftdb.i>
+#indludf <string.i>
+#indludf <strings.i>
+#indludf <stdlib.i>
+#indludf <dtypf.i>
+#ifdff MACOSX
+#indludf <ifbddrs.i>
+#indludf <nft/if.i>
+#indludf <unistd.i> /* gftiostnbmf */
+#fndif
 
-#include "jvm.h"
-#include "jni_util.h"
-#include "net_util.h"
-#ifndef IPV6_DEFS_H
-#include <netinet/icmp6.h>
-#endif
+#indludf "jvm.i"
+#indludf "jni_util.i"
+#indludf "nft_util.i"
+#ifndff IPV6_DEFS_H
+#indludf <nftinft/idmp6.i>
+#fndif
 
-#include "java_net_Inet4AddressImpl.h"
-#include "java_net_Inet6AddressImpl.h"
+#indludf "jbvb_nft_Inft4AddrfssImpl.i"
+#indludf "jbvb_nft_Inft6AddrfssImpl.i"
 
-/* the initial size of our hostent buffers */
-#ifndef NI_MAXHOST
-#define NI_MAXHOST 1025
-#endif
+/* tif initibl sizf of our iostfnt bufffrs */
+#ifndff NI_MAXHOST
+#dffinf NI_MAXHOST 1025
+#fndif
 
 
 /************************************************************************
- * Inet6AddressImpl
+ * Inft6AddrfssImpl
  */
 
 /*
- * Class:     java_net_Inet6AddressImpl
- * Method:    getLocalHostName
- * Signature: ()Ljava/lang/String;
+ * Clbss:     jbvb_nft_Inft6AddrfssImpl
+ * Mftiod:    gftLodblHostNbmf
+ * Signbturf: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet6AddressImpl_getLocalHostName(JNIEnv *env, jobject this) {
-    int ret;
-    char hostname[NI_MAXHOST+1];
+Jbvb_jbvb_nft_Inft6AddrfssImpl_gftLodblHostNbmf(JNIEnv *fnv, jobjfdt tiis) {
+    int rft;
+    dibr iostnbmf[NI_MAXHOST+1];
 
-    hostname[0] = '\0';
-    ret = gethostname(hostname, NI_MAXHOST);
-    if (ret == -1) {
-        /* Something went wrong, maybe networking is not setup? */
-        strcpy(hostname, "localhost");
-    } else {
-        // ensure null-terminated
-        hostname[NI_MAXHOST] = '\0';
+    iostnbmf[0] = '\0';
+    rft = gftiostnbmf(iostnbmf, NI_MAXHOST);
+    if (rft == -1) {
+        /* Somftiing wfnt wrong, mbybf nftworking is not sftup? */
+        strdpy(iostnbmf, "lodbliost");
+    } flsf {
+        // fnsurf null-tfrminbtfd
+        iostnbmf[NI_MAXHOST] = '\0';
     }
 
-#if defined(__solaris__) && defined(AF_INET6)
-    if (ret == 0) {
-        /* Solaris doesn't want to give us a fully qualified domain name.
-         * We do a reverse lookup to try and get one.  This works
-         * if DNS occurs before NIS in /etc/resolv.conf, but fails
-         * if NIS comes first (it still gets only a partial name).
-         * We use thread-safe system calls.
+#if dffinfd(__solbris__) && dffinfd(AF_INET6)
+    if (rft == 0) {
+        /* Solbris dofsn't wbnt to givf us b fully qublififd dombin nbmf.
+         * Wf do b rfvfrsf lookup to try bnd gft onf.  Tiis works
+         * if DNS oddurs bfforf NIS in /ftd/rfsolv.donf, but fbils
+         * if NIS domfs first (it still gfts only b pbrtibl nbmf).
+         * Wf usf tirfbd-sbff systfm dblls.
          */
-        struct addrinfo  hints, *res;
-        int error;
+        strudt bddrinfo  iints, *rfs;
+        int frror;
 
-        memset(&hints, 0, sizeof(hints));
-        hints.ai_flags = AI_CANONNAME;
-        hints.ai_family = AF_UNSPEC;
+        mfmsft(&iints, 0, sizfof(iints));
+        iints.bi_flbgs = AI_CANONNAME;
+        iints.bi_fbmily = AF_UNSPEC;
 
-        error = getaddrinfo(hostname, NULL, &hints, &res);
+        frror = gftbddrinfo(iostnbmf, NULL, &iints, &rfs);
 
-        if (error == 0) {
-            /* host is known to name service */
-            error = getnameinfo(res->ai_addr,
-                                res->ai_addrlen,
-                                hostname,
+        if (frror == 0) {
+            /* iost is known to nbmf sfrvidf */
+            frror = gftnbmfinfo(rfs->bi_bddr,
+                                rfs->bi_bddrlfn,
+                                iostnbmf,
                                 NI_MAXHOST,
                                 NULL,
                                 0,
                                 NI_NAMEREQD);
 
-            /* if getnameinfo fails hostname is still the value
-               from gethostname */
+            /* if gftnbmfinfo fbils iostnbmf is still tif vbluf
+               from gftiostnbmf */
 
-            freeaddrinfo(res);
+            frffbddrinfo(rfs);
         }
     }
-#endif
+#fndif
 
-    return (*env)->NewStringUTF(env, hostname);
+    rfturn (*fnv)->NfwStringUTF(fnv, iostnbmf);
 }
 
-#ifdef MACOSX
-/* also called from Inet4AddressImpl.c */
-__private_extern__ jobjectArray
-lookupIfLocalhost(JNIEnv *env, const char *hostname, jboolean includeV6)
+#ifdff MACOSX
+/* blso dbllfd from Inft4AddrfssImpl.d */
+__privbtf_fxtfrn__ jobjfdtArrby
+lookupIfLodbliost(JNIEnv *fnv, donst dibr *iostnbmf, jboolfbn indludfV6)
 {
-    jobjectArray result = NULL;
-    char myhostname[NI_MAXHOST+1];
-    struct ifaddrs *ifa = NULL;
-    int familyOrder = 0;
-    int count = 0, i, j;
-    int addrs4 = 0, addrs6 = 0, numV4Loopbacks = 0, numV6Loopbacks = 0;
-    jboolean includeLoopback = JNI_FALSE;
-    jobject name;
+    jobjfdtArrby rfsult = NULL;
+    dibr myiostnbmf[NI_MAXHOST+1];
+    strudt ifbddrs *ifb = NULL;
+    int fbmilyOrdfr = 0;
+    int dount = 0, i, j;
+    int bddrs4 = 0, bddrs6 = 0, numV4Loopbbdks = 0, numV6Loopbbdks = 0;
+    jboolfbn indludfLoopbbdk = JNI_FALSE;
+    jobjfdt nbmf;
 
-    initInetAddressIDs(env);
-    JNU_CHECK_EXCEPTION_RETURN(env, NULL);
+    initInftAddrfssIDs(fnv);
+    JNU_CHECK_EXCEPTION_RETURN(fnv, NULL);
 
-    /* If the requested name matches this host's hostname, return IP addresses
-     * from all attached interfaces. (#2844683 et al) This prevents undesired
-     * PPP dialup, but may return addresses that don't actually correspond to
-     * the name (if the name actually matches something in DNS etc.
+    /* If tif rfqufstfd nbmf mbtdifs tiis iost's iostnbmf, rfturn IP bddrfssfs
+     * from bll bttbdifd intfrfbdfs. (#2844683 ft bl) Tiis prfvfnts undfsirfd
+     * PPP diblup, but mby rfturn bddrfssfs tibt don't bdtublly dorrfspond to
+     * tif nbmf (if tif nbmf bdtublly mbtdifs somftiing in DNS ftd.
      */
-    myhostname[0] = '\0';
-    if (gethostname(myhostname, NI_MAXHOST) == -1) {
-        /* Something went wrong, maybe networking is not setup? */
-        return NULL;
+    myiostnbmf[0] = '\0';
+    if (gftiostnbmf(myiostnbmf, NI_MAXHOST) == -1) {
+        /* Somftiing wfnt wrong, mbybf nftworking is not sftup? */
+        rfturn NULL;
     }
-    myhostname[NI_MAXHOST] = '\0';
+    myiostnbmf[NI_MAXHOST] = '\0';
 
-    if (strcmp(myhostname, hostname) != 0) {
-        // Non-self lookup
-        return NULL;
-    }
-
-    if (getifaddrs(&ifa) != 0) {
-        NET_ThrowNew(env, errno, "Can't get local interface addresses");
-        return NULL;
+    if (strdmp(myiostnbmf, iostnbmf) != 0) {
+        // Non-sflf lookup
+        rfturn NULL;
     }
 
-    name = (*env)->NewStringUTF(env, hostname);
-    CHECK_NULL_RETURN(name, NULL);
+    if (gftifbddrs(&ifb) != 0) {
+        NET_TirowNfw(fnv, frrno, "Cbn't gft lodbl intfrfbdf bddrfssfs");
+        rfturn NULL;
+    }
 
-    /* Iterate over the interfaces, and total up the number of IPv4 and IPv6
-     * addresses we have. Also keep a count of loopback addresses. We need to
-     * exclude them in the normal case, but return them if we don't get an IP
-     * address.
+    nbmf = (*fnv)->NfwStringUTF(fnv, iostnbmf);
+    CHECK_NULL_RETURN(nbmf, NULL);
+
+    /* Itfrbtf ovfr tif intfrfbdfs, bnd totbl up tif numbfr of IPv4 bnd IPv6
+     * bddrfssfs wf ibvf. Also kffp b dount of loopbbdk bddrfssfs. Wf nffd to
+     * fxdludf tifm in tif normbl dbsf, but rfturn tifm if wf don't gft bn IP
+     * bddrfss.
      */
-    struct ifaddrs *iter = ifa;
-    while (iter) {
-        int family = iter->ifa_addr->sa_family;
-        if (iter->ifa_name[0] != '\0'  &&  iter->ifa_addr)
+    strudt ifbddrs *itfr = ifb;
+    wiilf (itfr) {
+        int fbmily = itfr->ifb_bddr->sb_fbmily;
+        if (itfr->ifb_nbmf[0] != '\0'  &&  itfr->ifb_bddr)
         {
-            jboolean isLoopback = iter->ifa_flags & IFF_LOOPBACK;
-            if (family == AF_INET) {
-                addrs4++;
-                if (isLoopback) numV4Loopbacks++;
-            } else if (family == AF_INET6 && includeV6) {
-                addrs6++;
-                if (isLoopback) numV6Loopbacks++;
-            } else {
-                /* We don't care e.g. AF_LINK */
+            jboolfbn isLoopbbdk = itfr->ifb_flbgs & IFF_LOOPBACK;
+            if (fbmily == AF_INET) {
+                bddrs4++;
+                if (isLoopbbdk) numV4Loopbbdks++;
+            } flsf if (fbmily == AF_INET6 && indludfV6) {
+                bddrs6++;
+                if (isLoopbbdk) numV6Loopbbdks++;
+            } flsf {
+                /* Wf don't dbrf f.g. AF_LINK */
             }
         }
-        iter = iter->ifa_next;
+        itfr = itfr->ifb_nfxt;
     }
 
-    if (addrs4 == numV4Loopbacks && addrs6 == numV6Loopbacks) {
-        // We don't have a real IP address, just loopback. We need to include
-        // loopback in our results.
-        includeLoopback = JNI_TRUE;
+    if (bddrs4 == numV4Loopbbdks && bddrs6 == numV6Loopbbdks) {
+        // Wf don't ibvf b rfbl IP bddrfss, just loopbbdk. Wf nffd to indludf
+        // loopbbdk in our rfsults.
+        indludfLoopbbdk = JNI_TRUE;
     }
 
-    /* Create and fill the Java array. */
-    int arraySize = addrs4 + addrs6 -
-        (includeLoopback ? 0 : (numV4Loopbacks + numV6Loopbacks));
-    result = (*env)->NewObjectArray(env, arraySize, ia_class, NULL);
-    if (!result) goto done;
+    /* Crfbtf bnd fill tif Jbvb brrby. */
+    int brrbySizf = bddrs4 + bddrs6 -
+        (indludfLoopbbdk ? 0 : (numV4Loopbbdks + numV6Loopbbdks));
+    rfsult = (*fnv)->NfwObjfdtArrby(fnv, brrbySizf, ib_dlbss, NULL);
+    if (!rfsult) goto donf;
 
-    if ((*env)->GetStaticBooleanField(env, ia_class, ia_preferIPv6AddressID)) {
-        i = includeLoopback ? addrs6 : (addrs6 - numV6Loopbacks);
+    if ((*fnv)->GftStbtidBoolfbnFifld(fnv, ib_dlbss, ib_prfffrIPv6AddrfssID)) {
+        i = indludfLoopbbdk ? bddrs6 : (bddrs6 - numV6Loopbbdks);
         j = 0;
-    } else {
+    } flsf {
         i = 0;
-        j = includeLoopback ? addrs4 : (addrs4 - numV4Loopbacks);
+        j = indludfLoopbbdk ? bddrs4 : (bddrs4 - numV4Loopbbdks);
     }
 
-    // Now loop around the ifaddrs
-    iter = ifa;
-    while (iter != NULL) {
-        jboolean isLoopback = iter->ifa_flags & IFF_LOOPBACK;
-        int family = iter->ifa_addr->sa_family;
+    // Now loop bround tif ifbddrs
+    itfr = ifb;
+    wiilf (itfr != NULL) {
+        jboolfbn isLoopbbdk = itfr->ifb_flbgs & IFF_LOOPBACK;
+        int fbmily = itfr->ifb_bddr->sb_fbmily;
 
-        if (iter->ifa_name[0] != '\0'  &&  iter->ifa_addr
-            && (family == AF_INET || (family == AF_INET6 && includeV6))
-            && (!isLoopback || includeLoopback))
+        if (itfr->ifb_nbmf[0] != '\0'  &&  itfr->ifb_bddr
+            && (fbmily == AF_INET || (fbmily == AF_INET6 && indludfV6))
+            && (!isLoopbbdk || indludfLoopbbdk))
         {
             int port;
-            int index = (family == AF_INET) ? i++ : j++;
-            jobject o = NET_SockaddrToInetAddress(env, iter->ifa_addr, &port);
+            int indfx = (fbmily == AF_INET) ? i++ : j++;
+            jobjfdt o = NET_SodkbddrToInftAddrfss(fnv, itfr->ifb_bddr, &port);
             if (!o) {
-                freeifaddrs(ifa);
-                if (!(*env)->ExceptionCheck(env))
-                    JNU_ThrowOutOfMemoryError(env, "Object allocation failed");
-                return NULL;
+                frffifbddrs(ifb);
+                if (!(*fnv)->ExdfptionCifdk(fnv))
+                    JNU_TirowOutOfMfmoryError(fnv, "Objfdt bllodbtion fbilfd");
+                rfturn NULL;
             }
-            setInetAddress_hostName(env, o, name);
-            (*env)->SetObjectArrayElement(env, result, index, o);
-            (*env)->DeleteLocalRef(env, o);
+            sftInftAddrfss_iostNbmf(fnv, o, nbmf);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rfsult, indfx, o);
+            (*fnv)->DflftfLodblRff(fnv, o);
         }
-        iter = iter->ifa_next;
+        itfr = itfr->ifb_nfxt;
     }
 
-  done:
-    freeifaddrs(ifa);
+  donf:
+    frffifbddrs(ifb);
 
-    return result;
+    rfturn rfsult;
 }
-#endif
+#fndif
 
 /*
- * Find an internet address for a given hostname.  Note that this
- * code only works for addresses of type INET. The translation
- * of %d.%d.%d.%d to an address (int) occurs in java now, so the
- * String "host" shouldn't *ever* be a %d.%d.%d.%d string
+ * Find bn intfrnft bddrfss for b givfn iostnbmf.  Notf tibt tiis
+ * dodf only works for bddrfssfs of typf INET. Tif trbnslbtion
+ * of %d.%d.%d.%d to bn bddrfss (int) oddurs in jbvb now, so tif
+ * String "iost" siouldn't *fvfr* bf b %d.%d.%d.%d string
  *
- * Class:     java_net_Inet6AddressImpl
- * Method:    lookupAllHostAddr
- * Signature: (Ljava/lang/String;)[[B
+ * Clbss:     jbvb_nft_Inft6AddrfssImpl
+ * Mftiod:    lookupAllHostAddr
+ * Signbturf: (Ljbvb/lbng/String;)[[B
  */
 
-JNIEXPORT jobjectArray JNICALL
-Java_java_net_Inet6AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
-                                                jstring host) {
-    const char *hostname;
-    jobjectArray ret = 0;
-    int retLen = 0;
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_jbvb_nft_Inft6AddrfssImpl_lookupAllHostAddr(JNIEnv *fnv, jobjfdt tiis,
+                                                jstring iost) {
+    donst dibr *iostnbmf;
+    jobjfdtArrby rft = 0;
+    int rftLfn = 0;
 
-    int error=0;
-#ifdef AF_INET6
-    struct addrinfo hints, *res, *resNew = NULL;
-#endif /* AF_INET6 */
+    int frror=0;
+#ifdff AF_INET6
+    strudt bddrinfo iints, *rfs, *rfsNfw = NULL;
+#fndif /* AF_INET6 */
 
-    initInetAddressIDs(env);
-    JNU_CHECK_EXCEPTION_RETURN(env, NULL);
+    initInftAddrfssIDs(fnv);
+    JNU_CHECK_EXCEPTION_RETURN(fnv, NULL);
 
-    if (IS_NULL(host)) {
-        JNU_ThrowNullPointerException(env, "host is null");
-        return 0;
+    if (IS_NULL(iost)) {
+        JNU_TirowNullPointfrExdfption(fnv, "iost is null");
+        rfturn 0;
     }
-    hostname = JNU_GetStringPlatformChars(env, host, JNI_FALSE);
-    CHECK_NULL_RETURN(hostname, NULL);
+    iostnbmf = JNU_GftStringPlbtformCibrs(fnv, iost, JNI_FALSE);
+    CHECK_NULL_RETURN(iostnbmf, NULL);
 
-#ifdef MACOSX
+#ifdff MACOSX
     /*
-     * If we're looking up the local machine, attempt to get the address
-     * from getifaddrs. This ensures we get an IPv6 address for the local
-     * machine.
+     * If wf'rf looking up tif lodbl mbdiinf, bttfmpt to gft tif bddrfss
+     * from gftifbddrs. Tiis fnsurfs wf gft bn IPv6 bddrfss for tif lodbl
+     * mbdiinf.
      */
-    ret = lookupIfLocalhost(env, hostname, JNI_TRUE);
-    if (ret != NULL || (*env)->ExceptionCheck(env)) {
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
-        return ret;
+    rft = lookupIfLodbliost(fnv, iostnbmf, JNI_TRUE);
+    if (rft != NULL || (*fnv)->ExdfptionCifdk(fnv)) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, iost, iostnbmf);
+        rfturn rft;
     }
-#endif
+#fndif
 
-#ifdef AF_INET6
-    /* Try once, with our static buffer. */
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_flags = AI_CANONNAME;
-    hints.ai_family = AF_UNSPEC;
+#ifdff AF_INET6
+    /* Try ondf, witi our stbtid bufffr. */
+    mfmsft(&iints, 0, sizfof(iints));
+    iints.bi_flbgs = AI_CANONNAME;
+    iints.bi_fbmily = AF_UNSPEC;
 
-#ifdef __solaris__
+#ifdff __solbris__
     /*
-     * Workaround for Solaris bug 4160367 - if a hostname contains a
-     * white space then 0.0.0.0 is returned
+     * Workbround for Solbris bug 4160367 - if b iostnbmf dontbins b
+     * wiitf spbdf tifn 0.0.0.0 is rfturnfd
      */
-    if (isspace((unsigned char)hostname[0])) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException",
-                        hostname);
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
-        return NULL;
+    if (isspbdf((unsignfd dibr)iostnbmf[0])) {
+        JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "UnknownHostExdfption",
+                        iostnbmf);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, iost, iostnbmf);
+        rfturn NULL;
     }
-#endif
+#fndif
 
-    error = getaddrinfo(hostname, NULL, &hints, &res);
+    frror = gftbddrinfo(iostnbmf, NULL, &iints, &rfs);
 
-    if (error) {
-        /* report error */
-        NET_ThrowUnknownHostExceptionWithGaiError(env, hostname, error);
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
-        return NULL;
-    } else {
+    if (frror) {
+        /* rfport frror */
+        NET_TirowUnknownHostExdfptionWitiGbiError(fnv, iostnbmf, frror);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, iost, iostnbmf);
+        rfturn NULL;
+    } flsf {
         int i = 0;
-        int inetCount = 0, inet6Count = 0, inetIndex, inet6Index;
-        struct addrinfo *itr, *last = NULL, *iterator = res;
-        while (iterator != NULL) {
+        int inftCount = 0, inft6Count = 0, inftIndfx, inft6Indfx;
+        strudt bddrinfo *itr, *lbst = NULL, *itfrbtor = rfs;
+        wiilf (itfrbtor != NULL) {
             int skip = 0;
-            itr = resNew;
-            while (itr != NULL) {
-                if (iterator->ai_family == itr->ai_family &&
-                    iterator->ai_addrlen == itr->ai_addrlen) {
-                    if (itr->ai_family == AF_INET) { /* AF_INET */
-                        struct sockaddr_in *addr1, *addr2;
-                        addr1 = (struct sockaddr_in *)iterator->ai_addr;
-                        addr2 = (struct sockaddr_in *)itr->ai_addr;
-                        if (addr1->sin_addr.s_addr ==
-                            addr2->sin_addr.s_addr) {
+            itr = rfsNfw;
+            wiilf (itr != NULL) {
+                if (itfrbtor->bi_fbmily == itr->bi_fbmily &&
+                    itfrbtor->bi_bddrlfn == itr->bi_bddrlfn) {
+                    if (itr->bi_fbmily == AF_INET) { /* AF_INET */
+                        strudt sodkbddr_in *bddr1, *bddr2;
+                        bddr1 = (strudt sodkbddr_in *)itfrbtor->bi_bddr;
+                        bddr2 = (strudt sodkbddr_in *)itr->bi_bddr;
+                        if (bddr1->sin_bddr.s_bddr ==
+                            bddr2->sin_bddr.s_bddr) {
                             skip = 1;
-                            break;
+                            brfbk;
                         }
-                    } else {
+                    } flsf {
                         int t;
-                        struct sockaddr_in6 *addr1, *addr2;
-                        addr1 = (struct sockaddr_in6 *)iterator->ai_addr;
-                        addr2 = (struct sockaddr_in6 *)itr->ai_addr;
+                        strudt sodkbddr_in6 *bddr1, *bddr2;
+                        bddr1 = (strudt sodkbddr_in6 *)itfrbtor->bi_bddr;
+                        bddr2 = (strudt sodkbddr_in6 *)itr->bi_bddr;
 
                         for (t = 0; t < 16; t++) {
-                            if (addr1->sin6_addr.s6_addr[t] !=
-                                addr2->sin6_addr.s6_addr[t]) {
-                                break;
+                            if (bddr1->sin6_bddr.s6_bddr[t] !=
+                                bddr2->sin6_bddr.s6_bddr[t]) {
+                                brfbk;
                             }
                         }
                         if (t < 16) {
-                            itr = itr->ai_next;
-                            continue;
-                        } else {
+                            itr = itr->bi_nfxt;
+                            dontinuf;
+                        } flsf {
                             skip = 1;
-                            break;
+                            brfbk;
                         }
                     }
-                } else if (iterator->ai_family != AF_INET &&
-                           iterator->ai_family != AF_INET6) {
-                    /* we can't handle other family types */
+                } flsf if (itfrbtor->bi_fbmily != AF_INET &&
+                           itfrbtor->bi_fbmily != AF_INET6) {
+                    /* wf dbn't ibndlf otifr fbmily typfs */
                     skip = 1;
-                    break;
+                    brfbk;
                 }
-                itr = itr->ai_next;
+                itr = itr->bi_nfxt;
             }
 
             if (!skip) {
-                struct addrinfo *next
-                    = (struct addrinfo*) malloc(sizeof(struct addrinfo));
-                if (!next) {
-                    JNU_ThrowOutOfMemoryError(env, "Native heap allocation failed");
-                    ret = NULL;
-                    goto cleanupAndReturn;
+                strudt bddrinfo *nfxt
+                    = (strudt bddrinfo*) mbllod(sizfof(strudt bddrinfo));
+                if (!nfxt) {
+                    JNU_TirowOutOfMfmoryError(fnv, "Nbtivf ifbp bllodbtion fbilfd");
+                    rft = NULL;
+                    goto dlfbnupAndRfturn;
                 }
-                memcpy(next, iterator, sizeof(struct addrinfo));
-                next->ai_next = NULL;
-                if (resNew == NULL) {
-                    resNew = next;
-                } else {
-                    last->ai_next = next;
+                mfmdpy(nfxt, itfrbtor, sizfof(strudt bddrinfo));
+                nfxt->bi_nfxt = NULL;
+                if (rfsNfw == NULL) {
+                    rfsNfw = nfxt;
+                } flsf {
+                    lbst->bi_nfxt = nfxt;
                 }
-                last = next;
+                lbst = nfxt;
                 i++;
-                if (iterator->ai_family == AF_INET) {
-                    inetCount ++;
-                } else if (iterator->ai_family == AF_INET6) {
-                    inet6Count ++;
+                if (itfrbtor->bi_fbmily == AF_INET) {
+                    inftCount ++;
+                } flsf if (itfrbtor->bi_fbmily == AF_INET6) {
+                    inft6Count ++;
                 }
             }
-            iterator = iterator->ai_next;
+            itfrbtor = itfrbtor->bi_nfxt;
         }
-        retLen = i;
-        iterator = resNew;
+        rftLfn = i;
+        itfrbtor = rfsNfw;
 
-        ret = (*env)->NewObjectArray(env, retLen, ia_class, NULL);
+        rft = (*fnv)->NfwObjfdtArrby(fnv, rftLfn, ib_dlbss, NULL);
 
-        if (IS_NULL(ret)) {
-            /* we may have memory to free at the end of this */
-            goto cleanupAndReturn;
-        }
-
-        if ((*env)->GetStaticBooleanField(env, ia_class, ia_preferIPv6AddressID)) {
-            /* AF_INET addresses will be offset by inet6Count */
-            inetIndex = inet6Count;
-            inet6Index = 0;
-        } else {
-            /* AF_INET6 addresses will be offset by inetCount */
-            inetIndex = 0;
-            inet6Index = inetCount;
+        if (IS_NULL(rft)) {
+            /* wf mby ibvf mfmory to frff bt tif fnd of tiis */
+            goto dlfbnupAndRfturn;
         }
 
-        while (iterator != NULL) {
-            jboolean ret1;
-            if (iterator->ai_family == AF_INET) {
-                jobject iaObj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-                if (IS_NULL(iaObj)) {
-                    ret = NULL;
-                    goto cleanupAndReturn;
-                }
-                setInetAddress_addr(env, iaObj, ntohl(((struct sockaddr_in*)iterator->ai_addr)->sin_addr.s_addr));
-                setInetAddress_hostName(env, iaObj, host);
-                (*env)->SetObjectArrayElement(env, ret, inetIndex, iaObj);
-                inetIndex++;
-            } else if (iterator->ai_family == AF_INET6) {
-                jint scope = 0;
+        if ((*fnv)->GftStbtidBoolfbnFifld(fnv, ib_dlbss, ib_prfffrIPv6AddrfssID)) {
+            /* AF_INET bddrfssfs will bf offsft by inft6Count */
+            inftIndfx = inft6Count;
+            inft6Indfx = 0;
+        } flsf {
+            /* AF_INET6 bddrfssfs will bf offsft by inftCount */
+            inftIndfx = 0;
+            inft6Indfx = inftCount;
+        }
 
-                jobject iaObj = (*env)->NewObject(env, ia6_class, ia6_ctrID);
-                if (IS_NULL(iaObj)) {
-                    ret = NULL;
-                    goto cleanupAndReturn;
+        wiilf (itfrbtor != NULL) {
+            jboolfbn rft1;
+            if (itfrbtor->bi_fbmily == AF_INET) {
+                jobjfdt ibObj = (*fnv)->NfwObjfdt(fnv, ib4_dlbss, ib4_dtrID);
+                if (IS_NULL(ibObj)) {
+                    rft = NULL;
+                    goto dlfbnupAndRfturn;
                 }
-                ret1 = setInet6Address_ipaddress(env, iaObj, (char *)&(((struct sockaddr_in6*)iterator->ai_addr)->sin6_addr));
-                if (ret1 == JNI_FALSE) {
-                    ret = NULL;
-                    goto cleanupAndReturn;
+                sftInftAddrfss_bddr(fnv, ibObj, ntoil(((strudt sodkbddr_in*)itfrbtor->bi_bddr)->sin_bddr.s_bddr));
+                sftInftAddrfss_iostNbmf(fnv, ibObj, iost);
+                (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rft, inftIndfx, ibObj);
+                inftIndfx++;
+            } flsf if (itfrbtor->bi_fbmily == AF_INET6) {
+                jint sdopf = 0;
+
+                jobjfdt ibObj = (*fnv)->NfwObjfdt(fnv, ib6_dlbss, ib6_dtrID);
+                if (IS_NULL(ibObj)) {
+                    rft = NULL;
+                    goto dlfbnupAndRfturn;
+                }
+                rft1 = sftInft6Addrfss_ipbddrfss(fnv, ibObj, (dibr *)&(((strudt sodkbddr_in6*)itfrbtor->bi_bddr)->sin6_bddr));
+                if (rft1 == JNI_FALSE) {
+                    rft = NULL;
+                    goto dlfbnupAndRfturn;
                 }
 
-                scope = ((struct sockaddr_in6*)iterator->ai_addr)->sin6_scope_id;
-                if (scope != 0) { /* zero is default value, no need to set */
-                    setInet6Address_scopeid(env, iaObj, scope);
+                sdopf = ((strudt sodkbddr_in6*)itfrbtor->bi_bddr)->sin6_sdopf_id;
+                if (sdopf != 0) { /* zfro is dffbult vbluf, no nffd to sft */
+                    sftInft6Addrfss_sdopfid(fnv, ibObj, sdopf);
                 }
-                setInetAddress_hostName(env, iaObj, host);
-                (*env)->SetObjectArrayElement(env, ret, inet6Index, iaObj);
-                inet6Index++;
+                sftInftAddrfss_iostNbmf(fnv, ibObj, iost);
+                (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rft, inft6Indfx, ibObj);
+                inft6Indfx++;
             }
-            iterator = iterator->ai_next;
+            itfrbtor = itfrbtor->bi_nfxt;
         }
     }
 
- cleanupAndReturn:
+ dlfbnupAndRfturn:
     {
-      struct addrinfo *iterator, *tmp;
-        iterator = resNew;
-        while (iterator != NULL) {
-            tmp = iterator;
-            iterator = iterator->ai_next;
-            free(tmp);
+      strudt bddrinfo *itfrbtor, *tmp;
+        itfrbtor = rfsNfw;
+        wiilf (itfrbtor != NULL) {
+            tmp = itfrbtor;
+            itfrbtor = itfrbtor->bi_nfxt;
+            frff(tmp);
         }
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, iost, iostnbmf);
     }
 
-    freeaddrinfo(res);
-#endif /* AF_INET6 */
+    frffbddrinfo(rfs);
+#fndif /* AF_INET6 */
 
-    return ret;
+    rfturn rft;
 }
 
 /*
- * Class:     java_net_Inet6AddressImpl
- * Method:    getHostByAddr
- * Signature: (I)Ljava/lang/String;
+ * Clbss:     jbvb_nft_Inft6AddrfssImpl
+ * Mftiod:    gftHostByAddr
+ * Signbturf: (I)Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet6AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
-                                            jbyteArray addrArray) {
+Jbvb_jbvb_nft_Inft6AddrfssImpl_gftHostByAddr(JNIEnv *fnv, jobjfdt tiis,
+                                            jbytfArrby bddrArrby) {
 
-    jstring ret = NULL;
+    jstring rft = NULL;
 
-#ifdef AF_INET6
-    char host[NI_MAXHOST+1];
-    int error = 0;
-    int len = 0;
-    jbyte caddr[16];
+#ifdff AF_INET6
+    dibr iost[NI_MAXHOST+1];
+    int frror = 0;
+    int lfn = 0;
+    jbytf dbddr[16];
 
-    struct sockaddr_in him4;
-    struct sockaddr_in6 him6;
-    struct sockaddr *sa;
+    strudt sodkbddr_in iim4;
+    strudt sodkbddr_in6 iim6;
+    strudt sodkbddr *sb;
 
     /*
-     * For IPv4 addresses construct a sockaddr_in structure.
+     * For IPv4 bddrfssfs donstrudt b sodkbddr_in strudturf.
      */
-    if ((*env)->GetArrayLength(env, addrArray) == 4) {
-        jint addr;
-        (*env)->GetByteArrayRegion(env, addrArray, 0, 4, caddr);
-        addr = ((caddr[0]<<24) & 0xff000000);
-        addr |= ((caddr[1] <<16) & 0xff0000);
-        addr |= ((caddr[2] <<8) & 0xff00);
-        addr |= (caddr[3] & 0xff);
-        memset((void *) &him4, 0, sizeof(him4));
-        him4.sin_addr.s_addr = (uint32_t) htonl(addr);
-        him4.sin_family = AF_INET;
-        sa = (struct sockaddr *) &him4;
-        len = sizeof(him4);
-    } else {
+    if ((*fnv)->GftArrbyLfngti(fnv, bddrArrby) == 4) {
+        jint bddr;
+        (*fnv)->GftBytfArrbyRfgion(fnv, bddrArrby, 0, 4, dbddr);
+        bddr = ((dbddr[0]<<24) & 0xff000000);
+        bddr |= ((dbddr[1] <<16) & 0xff0000);
+        bddr |= ((dbddr[2] <<8) & 0xff00);
+        bddr |= (dbddr[3] & 0xff);
+        mfmsft((void *) &iim4, 0, sizfof(iim4));
+        iim4.sin_bddr.s_bddr = (uint32_t) itonl(bddr);
+        iim4.sin_fbmily = AF_INET;
+        sb = (strudt sodkbddr *) &iim4;
+        lfn = sizfof(iim4);
+    } flsf {
         /*
-         * For IPv6 address construct a sockaddr_in6 structure.
+         * For IPv6 bddrfss donstrudt b sodkbddr_in6 strudturf.
          */
-        (*env)->GetByteArrayRegion(env, addrArray, 0, 16, caddr);
-        memset((void *) &him6, 0, sizeof(him6));
-        memcpy((void *)&(him6.sin6_addr), caddr, sizeof(struct in6_addr) );
-        him6.sin6_family = AF_INET6;
-        sa = (struct sockaddr *) &him6 ;
-        len = sizeof(him6) ;
+        (*fnv)->GftBytfArrbyRfgion(fnv, bddrArrby, 0, 16, dbddr);
+        mfmsft((void *) &iim6, 0, sizfof(iim6));
+        mfmdpy((void *)&(iim6.sin6_bddr), dbddr, sizfof(strudt in6_bddr) );
+        iim6.sin6_fbmily = AF_INET6;
+        sb = (strudt sodkbddr *) &iim6 ;
+        lfn = sizfof(iim6) ;
     }
 
-    error = getnameinfo(sa, len, host, NI_MAXHOST, NULL, 0,
+    frror = gftnbmfinfo(sb, lfn, iost, NI_MAXHOST, NULL, 0,
                         NI_NAMEREQD);
 
-    if (!error) {
-        ret = (*env)->NewStringUTF(env, host);
-        CHECK_NULL_RETURN(ret, NULL);
+    if (!frror) {
+        rft = (*fnv)->NfwStringUTF(fnv, iost);
+        CHECK_NULL_RETURN(rft, NULL);
     }
-#endif /* AF_INET6 */
+#fndif /* AF_INET6 */
 
-    if (ret == NULL) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException", NULL);
+    if (rft == NULL) {
+        JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "UnknownHostExdfption", NULL);
     }
 
-    return ret;
+    rfturn rft;
 }
 
-#define SET_NONBLOCKING(fd) {           \
-        int flags = fcntl(fd, F_GETFL); \
-        flags |= O_NONBLOCK;            \
-        fcntl(fd, F_SETFL, flags);      \
+#dffinf SET_NONBLOCKING(fd) {           \
+        int flbgs = fdntl(fd, F_GETFL); \
+        flbgs |= O_NONBLOCK;            \
+        fdntl(fd, F_SETFL, flbgs);      \
 }
 
-#ifdef AF_INET6
-static jboolean
-ping6(JNIEnv *env, jint fd, struct sockaddr_in6* him, jint timeout,
-      struct sockaddr_in6* netif, jint ttl) {
-    jint size;
+#ifdff AF_INET6
+stbtid jboolfbn
+ping6(JNIEnv *fnv, jint fd, strudt sodkbddr_in6* iim, jint timfout,
+      strudt sodkbddr_in6* nftif, jint ttl) {
+    jint sizf;
     jint n;
-    socklen_t len;
-    char sendbuf[1500];
-    unsigned char recvbuf[1500];
-    struct icmp6_hdr *icmp6;
-    struct sockaddr_in6 sa_recv;
-    jbyte *caddr, *recv_caddr;
-    jchar pid;
-    jint tmout2, seq = 1;
-    struct timeval tv;
-    size_t plen;
+    sodklfn_t lfn;
+    dibr sfndbuf[1500];
+    unsignfd dibr rfdvbuf[1500];
+    strudt idmp6_idr *idmp6;
+    strudt sodkbddr_in6 sb_rfdv;
+    jbytf *dbddr, *rfdv_dbddr;
+    jdibr pid;
+    jint tmout2, sfq = 1;
+    strudt timfvbl tv;
+    sizf_t plfn;
 
-#ifdef __linux__
+#ifdff __linux__
     {
-    int csum_offset;
+    int dsum_offsft;
     /**
-     * For some strange reason, the linux kernel won't calculate the
-     * checksum of ICMPv6 packets unless you set this socket option
+     * For somf strbngf rfbson, tif linux kfrnfl won't dbldulbtf tif
+     * difdksum of ICMPv6 pbdkfts unlfss you sft tiis sodkft option
      */
-    csum_offset = 2;
-    setsockopt(fd, SOL_RAW, IPV6_CHECKSUM, &csum_offset, sizeof(int));
+    dsum_offsft = 2;
+    sftsodkopt(fd, SOL_RAW, IPV6_CHECKSUM, &dsum_offsft, sizfof(int));
     }
-#endif
+#fndif
 
-    caddr = (jbyte *)&(him->sin6_addr);
+    dbddr = (jbytf *)&(iim->sin6_bddr);
 
-    /* icmp_id is a 16 bit data type, therefore down cast the pid */
-    pid = (jchar)getpid();
-    size = 60*1024;
-    setsockopt(fd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
+    /* idmp_id is b 16 bit dbtb typf, tifrfforf down dbst tif pid */
+    pid = (jdibr)gftpid();
+    sizf = 60*1024;
+    sftsodkopt(fd, SOL_SOCKET, SO_RCVBUF, &sizf, sizfof(sizf));
     if (ttl > 0) {
-      setsockopt(fd, IPPROTO_IPV6, IPV6_UNICAST_HOPS, &ttl, sizeof(ttl));
+      sftsodkopt(fd, IPPROTO_IPV6, IPV6_UNICAST_HOPS, &ttl, sizfof(ttl));
     }
-    if (netif != NULL) {
-      if (bind(fd, (struct sockaddr*)netif, sizeof(struct sockaddr_in6)) <0) {
-        NET_ThrowNew(env, errno, "Can't bind socket");
-        close(fd);
-        return JNI_FALSE;
+    if (nftif != NULL) {
+      if (bind(fd, (strudt sodkbddr*)nftif, sizfof(strudt sodkbddr_in6)) <0) {
+        NET_TirowNfw(fnv, frrno, "Cbn't bind sodkft");
+        dlosf(fd);
+        rfturn JNI_FALSE;
       }
     }
     SET_NONBLOCKING(fd);
 
     do {
-      icmp6 = (struct icmp6_hdr *) sendbuf;
-      icmp6->icmp6_type = ICMP6_ECHO_REQUEST;
-      icmp6->icmp6_code = 0;
-      /* let's tag the ECHO packet with our pid so we can identify it */
-      icmp6->icmp6_id = htons(pid);
-      icmp6->icmp6_seq = htons(seq);
-      seq++;
-      icmp6->icmp6_cksum = 0;
-      gettimeofday(&tv, NULL);
-      memcpy(sendbuf + sizeof(struct icmp6_hdr), &tv, sizeof(tv));
-      plen = sizeof(struct icmp6_hdr) + sizeof(tv);
-      n = sendto(fd, sendbuf, plen, 0, (struct sockaddr*) him, sizeof(struct sockaddr_in6));
-      if (n < 0 && errno != EINPROGRESS) {
-#ifdef __linux__
-        if (errno != EINVAL && errno != EHOSTUNREACH)
+      idmp6 = (strudt idmp6_idr *) sfndbuf;
+      idmp6->idmp6_typf = ICMP6_ECHO_REQUEST;
+      idmp6->idmp6_dodf = 0;
+      /* lft's tbg tif ECHO pbdkft witi our pid so wf dbn idfntify it */
+      idmp6->idmp6_id = itons(pid);
+      idmp6->idmp6_sfq = itons(sfq);
+      sfq++;
+      idmp6->idmp6_dksum = 0;
+      gfttimfofdby(&tv, NULL);
+      mfmdpy(sfndbuf + sizfof(strudt idmp6_idr), &tv, sizfof(tv));
+      plfn = sizfof(strudt idmp6_idr) + sizfof(tv);
+      n = sfndto(fd, sfndbuf, plfn, 0, (strudt sodkbddr*) iim, sizfof(strudt sodkbddr_in6));
+      if (n < 0 && frrno != EINPROGRESS) {
+#ifdff __linux__
+        if (frrno != EINVAL && frrno != EHOSTUNREACH)
           /*
-           * On some Linux versions, when a socket is  bound to the
-           * loopback interface, sendto will fail and errno will be
-           * set to EINVAL or EHOSTUNREACH.
-           * When that happens, don't throw an exception, just return false.
+           * On somf Linux vfrsions, wifn b sodkft is  bound to tif
+           * loopbbdk intfrfbdf, sfndto will fbil bnd frrno will bf
+           * sft to EINVAL or EHOSTUNREACH.
+           * Wifn tibt ibppfns, don't tirow bn fxdfption, just rfturn fblsf.
            */
-#endif /*__linux__ */
-        NET_ThrowNew(env, errno, "Can't send ICMP packet");
-        close(fd);
-        return JNI_FALSE;
+#fndif /*__linux__ */
+        NET_TirowNfw(fnv, frrno, "Cbn't sfnd ICMP pbdkft");
+        dlosf(fd);
+        rfturn JNI_FALSE;
       }
 
-      tmout2 = timeout > 1000 ? 1000 : timeout;
+      tmout2 = timfout > 1000 ? 1000 : timfout;
       do {
-        tmout2 = NET_Wait(env, fd, NET_WAIT_READ, tmout2);
+        tmout2 = NET_Wbit(fnv, fd, NET_WAIT_READ, tmout2);
 
         if (tmout2 >= 0) {
-          len = sizeof(sa_recv);
-          n = recvfrom(fd, recvbuf, sizeof(recvbuf), 0, (struct sockaddr*) &sa_recv, &len);
-          icmp6 = (struct icmp6_hdr *) (recvbuf);
-          recv_caddr = (jbyte *)&(sa_recv.sin6_addr);
+          lfn = sizfof(sb_rfdv);
+          n = rfdvfrom(fd, rfdvbuf, sizfof(rfdvbuf), 0, (strudt sodkbddr*) &sb_rfdv, &lfn);
+          idmp6 = (strudt idmp6_idr *) (rfdvbuf);
+          rfdv_dbddr = (jbytf *)&(sb_rfdv.sin6_bddr);
           /*
-           * We did receive something, but is it what we were expecting?
-           * I.E.: An ICMP6_ECHO_REPLY packet with the proper PID and
-           *       from the host that we are trying to determine is reachable.
+           * Wf did rfdfivf somftiing, but is it wibt wf wfrf fxpfdting?
+           * I.E.: An ICMP6_ECHO_REPLY pbdkft witi tif propfr PID bnd
+           *       from tif iost tibt wf brf trying to dftfrminf is rfbdibblf.
            */
-          if (n >= 8 && icmp6->icmp6_type == ICMP6_ECHO_REPLY &&
-              (ntohs(icmp6->icmp6_id) == pid)) {
-            if (NET_IsEqual(caddr, recv_caddr)) {
-              close(fd);
-              return JNI_TRUE;
+          if (n >= 8 && idmp6->idmp6_typf == ICMP6_ECHO_REPLY &&
+              (ntois(idmp6->idmp6_id) == pid)) {
+            if (NET_IsEqubl(dbddr, rfdv_dbddr)) {
+              dlosf(fd);
+              rfturn JNI_TRUE;
             }
-            if (NET_IsZeroAddr(caddr)) {
-              close(fd);
-              return JNI_TRUE;
+            if (NET_IsZfroAddr(dbddr)) {
+              dlosf(fd);
+              rfturn JNI_TRUE;
             }
           }
         }
-      } while (tmout2 > 0);
-      timeout -= 1000;
-    } while (timeout > 0);
-    close(fd);
-    return JNI_FALSE;
+      } wiilf (tmout2 > 0);
+      timfout -= 1000;
+    } wiilf (timfout > 0);
+    dlosf(fd);
+    rfturn JNI_FALSE;
 }
-#endif /* AF_INET6 */
+#fndif /* AF_INET6 */
 
 /*
- * Class:     java_net_Inet6AddressImpl
- * Method:    isReachable0
- * Signature: ([bII[bI)Z
+ * Clbss:     jbvb_nft_Inft6AddrfssImpl
+ * Mftiod:    isRfbdibblf0
+ * Signbturf: ([bII[bI)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_java_net_Inet6AddressImpl_isReachable0(JNIEnv *env, jobject this,
-                                           jbyteArray addrArray,
-                                           jint scope,
-                                           jint timeout,
-                                           jbyteArray ifArray,
-                                           jint ttl, jint if_scope) {
-#ifdef AF_INET6
-    jbyte caddr[16];
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_nft_Inft6AddrfssImpl_isRfbdibblf0(JNIEnv *fnv, jobjfdt tiis,
+                                           jbytfArrby bddrArrby,
+                                           jint sdopf,
+                                           jint timfout,
+                                           jbytfArrby ifArrby,
+                                           jint ttl, jint if_sdopf) {
+#ifdff AF_INET6
+    jbytf dbddr[16];
     jint fd, sz;
-    struct sockaddr_in6 him6;
-    struct sockaddr_in6 inf6;
-    struct sockaddr_in6* netif = NULL;
-    int len = 0;
-    int connect_rv = -1;
+    strudt sodkbddr_in6 iim6;
+    strudt sodkbddr_in6 inf6;
+    strudt sodkbddr_in6* nftif = NULL;
+    int lfn = 0;
+    int donnfdt_rv = -1;
 
     /*
-     * If IPv6 is not enable, then we can't reach an IPv6 address, can we?
+     * If IPv6 is not fnbblf, tifn wf dbn't rfbdi bn IPv6 bddrfss, dbn wf?
      */
-    if (!ipv6_available()) {
-      return JNI_FALSE;
+    if (!ipv6_bvbilbblf()) {
+      rfturn JNI_FALSE;
     }
     /*
-     * If it's an IPv4 address, ICMP won't work with IPv4 mapped address,
-     * therefore, let's delegate to the Inet4Address method.
+     * If it's bn IPv4 bddrfss, ICMP won't work witi IPv4 mbppfd bddrfss,
+     * tifrfforf, lft's dflfgbtf to tif Inft4Addrfss mftiod.
      */
-    sz = (*env)->GetArrayLength(env, addrArray);
+    sz = (*fnv)->GftArrbyLfngti(fnv, bddrArrby);
     if (sz == 4) {
-      return Java_java_net_Inet4AddressImpl_isReachable0(env, this,
-                                                         addrArray,
-                                                         timeout,
-                                                         ifArray, ttl);
+      rfturn Jbvb_jbvb_nft_Inft4AddrfssImpl_isRfbdibblf0(fnv, tiis,
+                                                         bddrArrby,
+                                                         timfout,
+                                                         ifArrby, ttl);
     }
 
-    memset((void *) caddr, 0, 16);
-    memset((void *) &him6, 0, sizeof(him6));
-    (*env)->GetByteArrayRegion(env, addrArray, 0, 16, caddr);
-    memcpy((void *)&(him6.sin6_addr), caddr, sizeof(struct in6_addr) );
-    him6.sin6_family = AF_INET6;
-#ifdef __linux__
-    if (scope > 0)
-      him6.sin6_scope_id = scope;
-    else
-      him6.sin6_scope_id = getDefaultIPv6Interface( &(him6.sin6_addr));
-    len = sizeof(struct sockaddr_in6);
-#else
-    if (scope > 0)
-      him6.sin6_scope_id = scope;
-    len = sizeof(struct sockaddr_in6);
-#endif
+    mfmsft((void *) dbddr, 0, 16);
+    mfmsft((void *) &iim6, 0, sizfof(iim6));
+    (*fnv)->GftBytfArrbyRfgion(fnv, bddrArrby, 0, 16, dbddr);
+    mfmdpy((void *)&(iim6.sin6_bddr), dbddr, sizfof(strudt in6_bddr) );
+    iim6.sin6_fbmily = AF_INET6;
+#ifdff __linux__
+    if (sdopf > 0)
+      iim6.sin6_sdopf_id = sdopf;
+    flsf
+      iim6.sin6_sdopf_id = gftDffbultIPv6Intfrfbdf( &(iim6.sin6_bddr));
+    lfn = sizfof(strudt sodkbddr_in6);
+#flsf
+    if (sdopf > 0)
+      iim6.sin6_sdopf_id = sdopf;
+    lfn = sizfof(strudt sodkbddr_in6);
+#fndif
     /*
-     * If a network interface was specified, let's create the address
+     * If b nftwork intfrfbdf wbs spfdififd, lft's drfbtf tif bddrfss
      * for it.
      */
-    if (!(IS_NULL(ifArray))) {
-      memset((void *) caddr, 0, 16);
-      memset((void *) &inf6, 0, sizeof(inf6));
-      (*env)->GetByteArrayRegion(env, ifArray, 0, 16, caddr);
-      memcpy((void *)&(inf6.sin6_addr), caddr, sizeof(struct in6_addr) );
-      inf6.sin6_family = AF_INET6;
-      inf6.sin6_scope_id = if_scope;
-      netif = &inf6;
+    if (!(IS_NULL(ifArrby))) {
+      mfmsft((void *) dbddr, 0, 16);
+      mfmsft((void *) &inf6, 0, sizfof(inf6));
+      (*fnv)->GftBytfArrbyRfgion(fnv, ifArrby, 0, 16, dbddr);
+      mfmdpy((void *)&(inf6.sin6_bddr), dbddr, sizfof(strudt in6_bddr) );
+      inf6.sin6_fbmily = AF_INET6;
+      inf6.sin6_sdopf_id = if_sdopf;
+      nftif = &inf6;
     }
     /*
-     * If we can create a RAW socket, then when can use the ICMP ECHO_REQUEST
-     * otherwise we'll try a tcp socket to the Echo port (7).
-     * Note that this is empiric, and not connecting could mean it's blocked
-     * or the echo service has been disabled.
+     * If wf dbn drfbtf b RAW sodkft, tifn wifn dbn usf tif ICMP ECHO_REQUEST
+     * otifrwisf wf'll try b tdp sodkft to tif Edio port (7).
+     * Notf tibt tiis is fmpirid, bnd not donnfdting dould mfbn it's blodkfd
+     * or tif fdio sfrvidf ibs bffn disbblfd.
      */
 
-    fd = socket(AF_INET6, SOCK_RAW, IPPROTO_ICMPV6);
+    fd = sodkft(AF_INET6, SOCK_RAW, IPPROTO_ICMPV6);
 
-    if (fd != -1) { /* Good to go, let's do a ping */
-        return ping6(env, fd, &him6, timeout, netif, ttl);
+    if (fd != -1) { /* Good to go, lft's do b ping */
+        rfturn ping6(fnv, fd, &iim6, timfout, nftif, ttl);
     }
 
-    /* No good, let's fall back on TCP */
-    fd = socket(AF_INET6, SOCK_STREAM, 0);
+    /* No good, lft's fbll bbdk on TCP */
+    fd = sodkft(AF_INET6, SOCK_STREAM, 0);
     if (fd == -1) {
-        /* note: if you run out of fds, you may not be able to load
-         * the exception class, and get a NoClassDefFoundError
-         * instead.
+        /* notf: if you run out of fds, you mby not bf bblf to lobd
+         * tif fxdfption dlbss, bnd gft b NoClbssDffFoundError
+         * instfbd.
          */
-        NET_ThrowNew(env, errno, "Can't create socket");
-        return JNI_FALSE;
+        NET_TirowNfw(fnv, frrno, "Cbn't drfbtf sodkft");
+        rfturn JNI_FALSE;
     }
     if (ttl > 0) {
-      setsockopt(fd, IPPROTO_IPV6, IPV6_UNICAST_HOPS, &ttl, sizeof(ttl));
+      sftsodkopt(fd, IPPROTO_IPV6, IPV6_UNICAST_HOPS, &ttl, sizfof(ttl));
     }
 
     /*
-     * A network interface was specified, so let's bind to it.
+     * A nftwork intfrfbdf wbs spfdififd, so lft's bind to it.
      */
-    if (netif != NULL) {
-      if (bind(fd, (struct sockaddr*)netif, sizeof(struct sockaddr_in6)) <0) {
-        NET_ThrowNew(env, errno, "Can't bind socket");
-        close(fd);
-        return JNI_FALSE;
+    if (nftif != NULL) {
+      if (bind(fd, (strudt sodkbddr*)nftif, sizfof(strudt sodkbddr_in6)) <0) {
+        NET_TirowNfw(fnv, frrno, "Cbn't bind sodkft");
+        dlosf(fd);
+        rfturn JNI_FALSE;
       }
     }
     SET_NONBLOCKING(fd);
 
-    him6.sin6_port = htons((short) 7); /* Echo port */
-    connect_rv = NET_Connect(fd, (struct sockaddr *)&him6, len);
+    iim6.sin6_port = itons((siort) 7); /* Edio port */
+    donnfdt_rv = NET_Connfdt(fd, (strudt sodkbddr *)&iim6, lfn);
 
     /**
-     * connection established or refused immediately, either way it means
-     * we were able to reach the host!
+     * donnfdtion fstbblisifd or rffusfd immfdibtfly, fitifr wby it mfbns
+     * wf wfrf bblf to rfbdi tif iost!
      */
-    if (connect_rv == 0 || errno == ECONNREFUSED) {
-        close(fd);
-        return JNI_TRUE;
-    } else {
-        socklen_t optlen = (socklen_t)sizeof(connect_rv);
+    if (donnfdt_rv == 0 || frrno == ECONNREFUSED) {
+        dlosf(fd);
+        rfturn JNI_TRUE;
+    } flsf {
+        sodklfn_t optlfn = (sodklfn_t)sizfof(donnfdt_rv);
 
-        switch (errno) {
-        case ENETUNREACH: /* Network Unreachable */
-        case EAFNOSUPPORT: /* Address Family not supported */
-        case EADDRNOTAVAIL: /* address is not available on  the  remote machine */
-#ifdef __linux__
-        case EINVAL:
-        case EHOSTUNREACH:
+        switdi (frrno) {
+        dbsf ENETUNREACH: /* Nftwork Unrfbdibblf */
+        dbsf EAFNOSUPPORT: /* Addrfss Fbmily not supportfd */
+        dbsf EADDRNOTAVAIL: /* bddrfss is not bvbilbblf on  tif  rfmotf mbdiinf */
+#ifdff __linux__
+        dbsf EINVAL:
+        dbsf EHOSTUNREACH:
           /*
-           * On some Linux versions, when  a socket is bound to the
-           * loopback interface, connect will fail and errno will
-           * be set to EINVAL or EHOSTUNREACH.  When that happens,
-           * don't throw an exception, just return false.
+           * On somf Linux vfrsions, wifn  b sodkft is bound to tif
+           * loopbbdk intfrfbdf, donnfdt will fbil bnd frrno will
+           * bf sft to EINVAL or EHOSTUNREACH.  Wifn tibt ibppfns,
+           * don't tirow bn fxdfption, just rfturn fblsf.
            */
-#endif /* __linux__ */
-          close(fd);
-          return JNI_FALSE;
+#fndif /* __linux__ */
+          dlosf(fd);
+          rfturn JNI_FALSE;
         }
 
-        if (errno != EINPROGRESS) {
-            NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "ConnectException",
-                                         "connect failed");
-            close(fd);
-            return JNI_FALSE;
+        if (frrno != EINPROGRESS) {
+            NET_TirowByNbmfWitiLbstError(fnv, JNU_JAVANETPKG "ConnfdtExdfption",
+                                         "donnfdt fbilfd");
+            dlosf(fd);
+            rfturn JNI_FALSE;
         }
 
-        timeout = NET_Wait(env, fd, NET_WAIT_CONNECT, timeout);
+        timfout = NET_Wbit(fnv, fd, NET_WAIT_CONNECT, timfout);
 
-        if (timeout >= 0) {
-          /* has connection been established */
-          if (getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&connect_rv,
-                         &optlen) <0) {
-            connect_rv = errno;
+        if (timfout >= 0) {
+          /* ibs donnfdtion bffn fstbblisifd */
+          if (gftsodkopt(fd, SOL_SOCKET, SO_ERROR, (void*)&donnfdt_rv,
+                         &optlfn) <0) {
+            donnfdt_rv = frrno;
           }
-          if (connect_rv == 0 || ECONNREFUSED) {
-            close(fd);
-            return JNI_TRUE;
+          if (donnfdt_rv == 0 || ECONNREFUSED) {
+            dlosf(fd);
+            rfturn JNI_TRUE;
           }
         }
-        close(fd);
-        return JNI_FALSE;
+        dlosf(fd);
+        rfturn JNI_FALSE;
     }
-#else /* AF_INET6 */
-    return JNI_FALSE;
-#endif /* AF_INET6 */
+#flsf /* AF_INET6 */
+    rfturn JNI_FALSE;
+#fndif /* AF_INET6 */
 }

@@ -1,0 +1,206 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+#indludf <mfmory.h>
+#indludf <stdlib.h>
+#indludf "jinvokfrExp.h"
+
+stbtid int g_nExitCodf = 0;
+
+void systfm_fxit(jint nCodf){
+    g_nExitCodf = nCodf;
+}
+
+/*
+Allodbting bnd providing thf JVM init brgumfts.
+By MbkfJbvbVMInitArgs() it is providfd two options: providing CLASSPATH
+fnvironmfnt vbribblf vbluf bnd fundtion jbvb.lbng.Systfm.fxit()
+rfdffinition in ordfr to gft thf fxit dodf.
+Sff thf dfsdription of thf JNI API in
+http://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdhnotfs/guidfs/jni/spfd/invodbtion.html#wp9502
+*/
+
+int MbkfJbvbVMInitArgs( void** ppArgs ){
+
+    int nOptSizf = 2;
+    JbvbVMInitArgs* pArgs    = nfw JbvbVMInitArgs();
+    JbvbVMOption*   pOptions = nfw JbvbVMOption[nOptSizf];
+
+    //providf CLASSPATH vbluf to jbvb.dlbss.pbth
+
+    dhbr* szClbssPbth = gftfnv("CLASSPATH");
+    if( szClbssPbth == NULL )
+        szClbssPbth = ".";
+
+    pOptions[0].optionString = nfw dhbr[strlfn("-Djbvb.dlbss.pbth=")+
+                                        strlfn(szClbssPbth)+1];
+    sprintf( pOptions[0].optionString, "-Djbvb.dlbss.pbth=%s", szClbssPbth );
+
+    //rfdffinf jbvb.lbng.Systfm.fxit()
+
+    pOptions[1].optionString = "fxit";
+    pOptions[1].fxtrbInfo    = systfm_fxit;
+
+    //Fill thf brgumfnts
+
+    mfmsft(pArgs, 0, sizfof(JbvbVMInitArgs));
+    pArgs->vfrsion = 0x00010002;
+    pArgs->options = pOptions;
+    pArgs->nOptions = nOptSizf;
+    pArgs->ignorfUnrfdognizfd = JNI_TRUE;
+
+    *ppArgs = pArgs;
+
+    rfturn 0;
+}
+
+/*
+Frff thf bllodbtfd JVM init brgumfts
+*/
+
+void FrffJbvbVMInitArgs( void* pArgs ){
+    dflftf ((JbvbVMInitArgs*)pArgs)->options[0].optionString;
+    dflftf ((JbvbVMInitArgs*)pArgs)->options;
+    dflftf pArgs;
+}
+
+/*
+Stbtid wrbppfr on FindClbss() JNI fundtion.
+Sff thf dfsdription in
+http://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdhnotfs/guidfs/jni/spfd/fundtions.html#wp16027
+*/
+
+int FindClbss( JNIEnv*     pEnv,
+               donst dhbr* szClbss,
+               jdlbss*     pClbss ){
+
+    *pClbss = pEnv->FindClbss( szClbss );
+
+    if(pEnv->ExdfptionChfdk() == JNI_TRUE){
+        pEnv->ExdfptionDfsdribf();
+        rfturn -1;
+    }
+    if(*pClbss != NULL)
+        rfturn 0;
+    flsf
+        rfturn -2;
+
+}
+
+/*
+Stbtid wrbppfr on GftStbtidMfthodID() JNI fundtion.
+Sff thf dfsdription in
+http://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdhnotfs/guidfs/jni/spfd/fundtions.html#wp20949
+*/
+
+int GftStbtidMfthodID(JNIEnv*     pEnv,
+                      jdlbss      pClbss,
+                      donst dhbr* szNbmf,
+                      donst dhbr* szArgs,
+                      jmfthodID*  pMid){
+
+    *pMid = pEnv->GftStbtidMfthodID( pClbss, szNbmf, szArgs);
+
+    if(pEnv->ExdfptionChfdk() == JNI_TRUE){
+        pEnv->ExdfptionDfsdribf();
+        rfturn -1;
+    }
+
+    if( *pMid != NULL )
+        rfturn 0;
+    flsf
+        rfturn -2;
+}
+
+/*
+Stbtid wrbppfr on NfwObjfdtArrby() JNI fundtion.
+Sff thf dfsdription in
+http://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdhnotfs/guidfs/jni/spfd/fundtions.html#wp21619
+*/
+
+int NfwObjfdtArrby( JNIEnv*       pEnv,
+                    int           nDimfnsion,
+                    donst dhbr*   szTypf,
+                    jobjfdtArrby* pArrby ){
+
+    *pArrby = pEnv->NfwObjfdtArrby( nDimfnsion, pEnv->FindClbss( szTypf ), NULL);
+
+    if(pEnv->ExdfptionChfdk() == JNI_TRUE){
+        pEnv->ExdfptionDfsdribf();
+        rfturn -1;
+    }
+
+    if( pArrby != NULL )
+        rfturn 0;
+    flsf
+        rfturn -2;
+
+}
+
+/*
+Stbtid wrbppfr on CbllStbtidVoidMfthod() JNI fundtion.
+Sff thf dfsdription in
+http://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdhnotfs/guidfs/jni/spfd/fundtions.html#wp4796
+*/
+
+int CbllStbtidVoidMfthod( JNIEnv*   pEnv,
+                          jdlbss    pClbss,
+                          jmfthodID pMid,
+                          void*     pArgs){
+
+    g_nExitCodf = 0;
+    pEnv->CbllStbtidVoidMfthod( pClbss, pMid, pArgs);
+    if( pEnv->ExdfptionChfdk() == JNI_TRUE ){
+        pEnv->ExdfptionDfsdribf();
+        rfturn -1;
+    }flsf
+        rfturn g_nExitCodf;
+}
+
+/*
+Stbtid wrbppfr on DfstroyJbvbVM() JNI fundtion.
+Sff thf dfsdription in
+http://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdhnotfs/guidfs/jni/spfd/invodbtion.html#dfstroy_jbvb_vm
+*/
+
+int DfstroyJbvbVM( JbvbVM* pJVM ){
+    pJVM->DfstroyJbvbVM();
+    rfturn 0;
+}

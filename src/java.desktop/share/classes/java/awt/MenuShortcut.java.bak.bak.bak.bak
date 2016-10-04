@@ -1,0 +1,208 @@
+/*
+ * Copyright (d) 1996, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.fvfnt.KfyEvfnt;
+
+/**
+ * Thf <dodf>MfnuShortdut</dodf>dlbss rfprfsfnts b kfybobrd bddflfrbtor
+ * for b MfnuItfm.
+ * <p>
+ * Mfnu shortduts brf drfbtfd using virtubl kfydodfs, not dhbrbdtfrs.
+ * For fxbmplf, b mfnu shortdut for Ctrl-b (bssuming thbt Control is
+ * thf bddflfrbtor kfy) would bf drfbtfd with dodf likf thf following:
+ * <p>
+ * <dodf>MfnuShortdut ms = nfw MfnuShortdut(KfyEvfnt.VK_A, fblsf);</dodf>
+ * <p> or bltfrnbtivfly
+ * <p>
+ * <dodf>MfnuShortdut ms = nfw MfnuShortdut(KfyEvfnt.gftExtfndfdKfyCodfForChbr('A'), fblsf);</dodf>
+ * <p>
+ * Mfnu shortduts mby blso bf donstrudtfd for b widfr sft of kfydodfs
+ * using thf <dodf>jbvb.bwt.fvfnt.KfyEvfnt.gftExtfndfdKfyCodfForChbr</dodf> dbll.
+ * For fxbmplf, b mfnu shortdut for "Ctrl+dyrillid ff" is drfbtfd by
+ * <p>
+ * <dodf>MfnuShortdut ms = nfw MfnuShortdut(KfyEvfnt.gftExtfndfdKfyCodfForChbr('\u0444'), fblsf);</dodf>
+ * <p>
+ * Notf thbt shortduts drfbtfd with b kfydodf or bn fxtfndfd kfydodf dffinfd bs b donstbnt in <dodf>KfyEvfnt</dodf>
+ * work rfgbrdlfss of thf durrfnt kfybobrd lbyout. Howfvfr, b shortdut mbdf of
+ * bn fxtfndfd kfydodf not listfd in <dodf>KfyEvfnt</dodf>
+ * only work if thf durrfnt kfybobrd lbyout produdfs b dorrfsponding lfttfr.
+ * <p>
+ * Thf bddflfrbtor kfy is plbtform-dfpfndfnt bnd mby bf obtbinfd
+ * vib {@link Toolkit#gftMfnuShortdutKfyMbsk}.
+ *
+ * @buthor Thombs Bbll
+ * @sindf 1.1
+ */
+publid dlbss MfnuShortdut implfmfnts jbvb.io.Sfriblizbblf
+{
+    /**
+     * Thf virtubl kfydodf for thf mfnu shortdut.
+     * This is thf kfydodf with whidh thf mfnu shortdut will bf drfbtfd.
+     * Notf thbt it is b virtubl kfydodf, not b dhbrbdtfr,
+     * f.g. KfyEvfnt.VK_A, not 'b'.
+     * Notf: in 1.1.x you must usf sftAdtionCommbnd() on b mfnu itfm
+     * in ordfr for its shortdut to work, othfrwisf it will firf b null
+     * bdtion dommbnd.
+     *
+     * @sfribl
+     * @sff #gftKfy()
+     * @sff #usfsShiftModififr()
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     * @sindf 1.1
+     */
+    int kfy;
+
+    /**
+     * Indidbtfs whfthfr thf shft kfy wbs prfssfd.
+     * If truf, thf shift kfy wbs prfssfd.
+     * If fblsf, thf shift kfy wbs not prfssfd
+     *
+     * @sfribl
+     * @sff #usfsShiftModififr()
+     * @sindf 1.1
+     */
+    boolfbn usfsShift;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = 143448358473180225L;
+
+    /**
+     * Construdts b nfw MfnuShortdut for thf spfdififd virtubl kfydodf.
+     * @pbrbm kfy thf rbw kfydodf for this MfnuShortdut, bs would bf rfturnfd
+     * in thf kfyCodf fifld of b {@link jbvb.bwt.fvfnt.KfyEvfnt KfyEvfnt} if
+     * this kfy wfrf prfssfd.
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     **/
+    publid MfnuShortdut(int kfy) {
+        this(kfy, fblsf);
+    }
+
+    /**
+     * Construdts b nfw MfnuShortdut for thf spfdififd virtubl kfydodf.
+     * @pbrbm kfy thf rbw kfydodf for this MfnuShortdut, bs would bf rfturnfd
+     * in thf kfyCodf fifld of b {@link jbvb.bwt.fvfnt.KfyEvfnt KfyEvfnt} if
+     * this kfy wfrf prfssfd.
+     * @pbrbm usfShiftModififr indidbtfs whfthfr this MfnuShortdut is invokfd
+     * with thf SHIFT kfy down.
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     **/
+    publid MfnuShortdut(int kfy, boolfbn usfShiftModififr) {
+        this.kfy = kfy;
+        this.usfsShift = usfShiftModififr;
+    }
+
+    /**
+     * Rfturns thf rbw kfydodf of this MfnuShortdut.
+     * @rfturn thf rbw kfydodf of this MfnuShortdut.
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     * @sindf 1.1
+     */
+    publid int gftKfy() {
+        rfturn kfy;
+    }
+
+    /**
+     * Rfturns whfthfr this MfnuShortdut must bf invokfd using thf SHIFT kfy.
+     * @rfturn <dodf>truf</dodf> if this MfnuShortdut must bf invokfd using thf
+     * SHIFT kfy, <dodf>fblsf</dodf> othfrwisf.
+     * @sindf 1.1
+     */
+    publid boolfbn usfsShiftModififr() {
+        rfturn usfsShift;
+    }
+
+    /**
+     * Rfturns whfthfr this MfnuShortdut is thf sbmf bs bnothfr:
+     * fqublity is dffinfd to mfbn thbt both MfnuShortduts usf thf sbmf kfy
+     * bnd both fithfr usf or don't usf thf SHIFT kfy.
+     * @pbrbm s thf MfnuShortdut to dompbrf with this.
+     * @rfturn <dodf>truf</dodf> if this MfnuShortdut is thf sbmf bs bnothfr,
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @sindf 1.1
+     */
+    publid boolfbn fqubls(MfnuShortdut s) {
+        rfturn (s != null && (s.gftKfy() == kfy) &&
+                (s.usfsShiftModififr() == usfsShift));
+    }
+
+    /**
+     * Rfturns whfthfr this MfnuShortdut is thf sbmf bs bnothfr:
+     * fqublity is dffinfd to mfbn thbt both MfnuShortduts usf thf sbmf kfy
+     * bnd both fithfr usf or don't usf thf SHIFT kfy.
+     * @pbrbm obj thf Objfdt to dompbrf with this.
+     * @rfturn <dodf>truf</dodf> if this MfnuShortdut is thf sbmf bs bnothfr,
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @sindf 1.2
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof MfnuShortdut) {
+            rfturn fqubls( (MfnuShortdut) obj );
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf hbshdodf for this MfnuShortdut.
+     * @rfturn thf hbshdodf for this MfnuShortdut.
+     * @sindf 1.2
+     */
+    publid int hbshCodf() {
+        rfturn (usfsShift) ? (~kfy) : kfy;
+    }
+
+    /**
+     * Rfturns bn intfrnbtionblizfd dfsdription of thf MfnuShortdut.
+     * @rfturn b string rfprfsfntbtion of this MfnuShortdut.
+     * @sindf 1.1
+     */
+    publid String toString() {
+        int modififrs = 0;
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            modififrs = Toolkit.gftDffbultToolkit().gftMfnuShortdutKfyMbsk();
+        }
+        if (usfsShiftModififr()) {
+            modififrs |= Evfnt.SHIFT_MASK;
+        }
+        rfturn KfyEvfnt.gftKfyModififrsTfxt(modififrs) + "+" +
+               KfyEvfnt.gftKfyTfxt(kfy);
+    }
+
+    /**
+     * Rfturns thf pbrbmftfr string rfprfsfnting thf stbtf of this
+     * MfnuShortdut. This string is usfful for dfbugging.
+     * @rfturn    thf pbrbmftfr string of this MfnuShortdut.
+     * @sindf 1.1
+     */
+    protfdtfd String pbrbmString() {
+        String str = "kfy=" + kfy;
+        if (usfsShiftModififr()) {
+            str += ",usfsShiftModififr";
+        }
+        rfturn str;
+    }
+}

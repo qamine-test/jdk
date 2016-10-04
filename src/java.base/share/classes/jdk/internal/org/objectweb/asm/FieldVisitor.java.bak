@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,122 +56,122 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
 
 /**
- * A visitor to visit a Java field. The methods of this class must be called in
- * the following order: ( <tt>visitAnnotation</tt> |
- * <tt>visitTypeAnnotation</tt> | <tt>visitAttribute</tt> )* <tt>visitEnd</tt>.
+ * A visitor to visit b Jbvb fifld. Tif mftiods of tiis dlbss must bf dbllfd in
+ * tif following ordfr: ( <tt>visitAnnotbtion</tt> |
+ * <tt>visitTypfAnnotbtion</tt> | <tt>visitAttributf</tt> )* <tt>visitEnd</tt>.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public abstract class FieldVisitor {
+publid bbstrbdt dlbss FifldVisitor {
 
     /**
-     * The ASM API version implemented by this visitor. The value of this field
-     * must be one of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
+     * Tif ASM API vfrsion implfmfntfd by tiis visitor. Tif vbluf of tiis fifld
+     * must bf onf of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
      */
-    protected final int api;
+    protfdtfd finbl int bpi;
 
     /**
-     * The field visitor to which this visitor must delegate method calls. May
-     * be null.
+     * Tif fifld visitor to wiidi tiis visitor must dflfgbtf mftiod dblls. Mby
+     * bf null.
      */
-    protected FieldVisitor fv;
+    protfdtfd FifldVisitor fv;
 
     /**
-     * Constructs a new {@link FieldVisitor}.
+     * Construdts b nfw {@link FifldVisitor}.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
      */
-    public FieldVisitor(final int api) {
-        this(api, null);
+    publid FifldVisitor(finbl int bpi) {
+        tiis(bpi, null);
     }
 
     /**
-     * Constructs a new {@link FieldVisitor}.
+     * Construdts b nfw {@link FifldVisitor}.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param fv
-     *            the field visitor to which this visitor must delegate method
-     *            calls. May be null.
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm fv
+     *            tif fifld visitor to wiidi tiis visitor must dflfgbtf mftiod
+     *            dblls. Mby bf null.
      */
-    public FieldVisitor(final int api, final FieldVisitor fv) {
-        if (api != Opcodes.ASM4 && api != Opcodes.ASM5) {
-            throw new IllegalArgumentException();
+    publid FifldVisitor(finbl int bpi, finbl FifldVisitor fv) {
+        if (bpi != Opdodfs.ASM4 && bpi != Opdodfs.ASM5) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        this.api = api;
-        this.fv = fv;
+        tiis.bpi = bpi;
+        tiis.fv = fv;
     }
 
     /**
-     * Visits an annotation of the field.
+     * Visits bn bnnotbtion of tif fifld.
      *
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
-     * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
+     * @pbrbm dfsd
+     *            tif dlbss dfsdriptor of tif bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if tif bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit tif bnnotbtion vblufs, or <tt>null</tt> if
+     *         tiis visitor is not intfrfstfd in visiting tiis bnnotbtion.
      */
-    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+    publid AnnotbtionVisitor visitAnnotbtion(String dfsd, boolfbn visiblf) {
         if (fv != null) {
-            return fv.visitAnnotation(desc, visible);
+            rfturn fv.visitAnnotbtion(dfsd, visiblf);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Visits an annotation on the type of the field.
+     * Visits bn bnnotbtion on tif typf of tif fifld.
      *
-     * @param typeRef
-     *            a reference to the annotated type. The sort of this type
-     *            reference must be {@link TypeReference#FIELD FIELD}. See
-     *            {@link TypeReference}.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
-     * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
+     * @pbrbm typfRff
+     *            b rfffrfndf to tif bnnotbtfd typf. Tif sort of tiis typf
+     *            rfffrfndf must bf {@link TypfRfffrfndf#FIELD FIELD}. Sff
+     *            {@link TypfRfffrfndf}.
+     * @pbrbm typfPbti
+     *            tif pbti to tif bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf witiin 'typfRff'. Mby bf
+     *            <tt>null</tt> if tif bnnotbtion tbrgfts 'typfRff' bs b wiolf.
+     * @pbrbm dfsd
+     *            tif dlbss dfsdriptor of tif bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if tif bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit tif bnnotbtion vblufs, or <tt>null</tt> if
+     *         tiis visitor is not intfrfstfd in visiting tiis bnnotbtion.
      */
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        if (api < Opcodes.ASM5) {
-            throw new RuntimeException();
+    publid AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        if (bpi < Opdodfs.ASM5) {
+            tirow nfw RuntimfExdfption();
         }
         if (fv != null) {
-            return fv.visitTypeAnnotation(typeRef, typePath, desc, visible);
+            rfturn fv.visitTypfAnnotbtion(typfRff, typfPbti, dfsd, visiblf);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Visits a non standard attribute of the field.
+     * Visits b non stbndbrd bttributf of tif fifld.
      *
-     * @param attr
-     *            an attribute.
+     * @pbrbm bttr
+     *            bn bttributf.
      */
-    public void visitAttribute(Attribute attr) {
+    publid void visitAttributf(Attributf bttr) {
         if (fv != null) {
-            fv.visitAttribute(attr);
+            fv.visitAttributf(bttr);
         }
     }
 
     /**
-     * Visits the end of the field. This method, which is the last one to be
-     * called, is used to inform the visitor that all the annotations and
-     * attributes of the field have been visited.
+     * Visits tif fnd of tif fifld. Tiis mftiod, wiidi is tif lbst onf to bf
+     * dbllfd, is usfd to inform tif visitor tibt bll tif bnnotbtions bnd
+     * bttributfs of tif fifld ibvf bffn visitfd.
      */
-    public void visitEnd() {
+    publid void visitEnd() {
         if (fv != null) {
             fv.visitEnd();
         }

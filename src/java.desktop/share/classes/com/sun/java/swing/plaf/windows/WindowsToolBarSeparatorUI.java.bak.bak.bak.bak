@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.*;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.Pbrt;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+
+
+/**
+ * Drbws Windows toolbbr sfpbrbtors.
+ * <p>
+ *
+ * @buthor Mbrk Dbvidson
+ */
+publid dlbss WindowsToolBbrSfpbrbtorUI fxtfnds BbsidToolBbrSfpbrbtorUI {
+
+    publid stbtid ComponfntUI drfbtfUI( JComponfnt d ) {
+        rfturn nfw WindowsToolBbrSfpbrbtorUI();
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        Dimfnsion sizf = ((JToolBbr.Sfpbrbtor)d).gftSfpbrbtorSizf();
+
+        if (sizf != null) {
+            sizf = sizf.gftSizf();
+        } flsf {
+            sizf = nfw Dimfnsion(6, 6);
+            XPStylf xp = XPStylf.gftXP();
+            if (xp != null) {
+                boolfbn vfrtidbl = ((JSfpbrbtor)d).gftOrifntbtion() == SwingConstbnts.VERTICAL;
+                Pbrt pbrt = vfrtidbl ? Pbrt.TP_SEPARATOR : Pbrt.TP_SEPARATORVERT;
+                Skin skin = xp.gftSkin(d, pbrt);
+                sizf.width = skin.gftWidth();
+                sizf.hfight = skin.gftHfight();
+            }
+
+            if (((JSfpbrbtor)d).gftOrifntbtion() == SwingConstbnts.VERTICAL) {
+                sizf.hfight = 0;
+            } flsf {
+                sizf.width = 0;
+            }
+        }
+        rfturn sizf;
+    }
+
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        Dimfnsion prff = gftPrfffrrfdSizf(d);
+        if (((JSfpbrbtor)d).gftOrifntbtion() == SwingConstbnts.VERTICAL) {
+            rfturn nfw Dimfnsion(prff.width, Short.MAX_VALUE);
+        } flsf {
+            rfturn nfw Dimfnsion(Short.MAX_VALUE, prff.hfight);
+        }
+    }
+
+    publid void pbint( Grbphids g, JComponfnt d ) {
+        boolfbn vfrtidbl = ((JSfpbrbtor)d).gftOrifntbtion() == SwingConstbnts.VERTICAL;
+        Dimfnsion sizf = d.gftSizf();
+
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            Pbrt pbrt = vfrtidbl ? Pbrt.TP_SEPARATOR : Pbrt.TP_SEPARATORVERT;
+            Skin skin = xp.gftSkin(d, pbrt);
+
+            int dx = vfrtidbl ? (sizf.width - skin.gftWidth()) / 2 : 0;
+            int dy = vfrtidbl ? 0 : (sizf.hfight - skin.gftHfight()) / 2;
+            int dw = vfrtidbl ? skin.gftWidth() : sizf.width;
+            int dh = vfrtidbl ? sizf.hfight : skin.gftHfight();
+            skin.pbintSkin(g, dx, dy, dw, dh, null);
+        } flsf {
+
+        Color tfmp = g.gftColor();
+
+        UIDffbults tbblf = UIMbnbgfr.gftLookAndFfflDffbults();
+
+        Color shbdow = tbblf.gftColor("ToolBbr.shbdow");
+        Color highlight = tbblf.gftColor("ToolBbr.highlight");
+
+        if (vfrtidbl) {
+            int x = (sizf.width / 2) - 1;
+            g.sftColor(shbdow);
+            g.drbwLinf(x, 2, x, sizf.hfight - 2);
+
+            g.sftColor(highlight);
+            g.drbwLinf(x + 1, 2, x + 1, sizf.hfight - 2);
+        } flsf {
+            int y = (sizf.hfight / 2) - 1;
+            g.sftColor(shbdow);
+            g.drbwLinf(2, y, sizf.width - 2, y);
+            g.sftColor(highlight);
+            g.drbwLinf(2, y + 1, sizf.width - 2, y + 1);
+        }
+        g.sftColor(tfmp);
+        }
+    }
+}

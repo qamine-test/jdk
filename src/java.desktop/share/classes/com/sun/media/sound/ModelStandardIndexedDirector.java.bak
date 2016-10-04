@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * A standard indexed director who chooses performers
- * by there keyfrom,keyto,velfrom,velto properties.
+ * A stbndbrd indfxfd dirfdtor wio dioosfs pfrformfrs
+ * by tifrf kfyfrom,kfyto,vflfrom,vflto propfrtifs.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class ModelStandardIndexedDirector implements ModelDirector {
+publid finbl dlbss ModflStbndbrdIndfxfdDirfdtor implfmfnts ModflDirfdtor {
 
-    private final ModelPerformer[] performers;
-    private final ModelDirectedPlayer player;
-    private boolean noteOnUsed = false;
-    private boolean noteOffUsed = false;
+    privbtf finbl ModflPfrformfr[] pfrformfrs;
+    privbtf finbl ModflDirfdtfdPlbyfr plbyfr;
+    privbtf boolfbn notfOnUsfd = fblsf;
+    privbtf boolfbn notfOffUsfd = fblsf;
 
-    // Variables needed for index
-    private byte[][] trantables;
-    private int[] counters;
-    private int[][] mat;
+    // Vbribblfs nffdfd for indfx
+    privbtf bytf[][] trbntbblfs;
+    privbtf int[] dountfrs;
+    privbtf int[][] mbt;
 
-    public ModelStandardIndexedDirector(final ModelPerformer[] performers,
-                                        final ModelDirectedPlayer player) {
-        this.performers = Arrays.copyOf(performers, performers.length);
-        this.player = player;
-        for (final ModelPerformer p : this.performers) {
-            if (p.isReleaseTriggered()) {
-                noteOffUsed = true;
-            } else {
-                noteOnUsed = true;
+    publid ModflStbndbrdIndfxfdDirfdtor(finbl ModflPfrformfr[] pfrformfrs,
+                                        finbl ModflDirfdtfdPlbyfr plbyfr) {
+        tiis.pfrformfrs = Arrbys.dopyOf(pfrformfrs, pfrformfrs.lfngti);
+        tiis.plbyfr = plbyfr;
+        for (finbl ModflPfrformfr p : tiis.pfrformfrs) {
+            if (p.isRflfbsfTriggfrfd()) {
+                notfOffUsfd = truf;
+            } flsf {
+                notfOnUsfd = truf;
             }
         }
-        buildindex();
+        buildindfx();
     }
 
-    private int[] lookupIndex(int x, int y) {
+    privbtf int[] lookupIndfx(int x, int y) {
         if ((x >= 0) && (x < 128) && (y >= 0) && (y < 128)) {
-            int xt = trantables[0][x];
-            int yt = trantables[1][y];
+            int xt = trbntbblfs[0][x];
+            int yt = trbntbblfs[1][y];
             if (xt != -1 && yt != -1) {
-                return mat[xt + yt * counters[0]];
+                rfturn mbt[xt + yt * dountfrs[0]];
             }
         }
-        return null;
+        rfturn null;
     }
 
-    private int restrict(int value) {
-        if(value < 0) return 0;
-        if(value > 127) return 127;
-        return value;
+    privbtf int rfstridt(int vbluf) {
+        if(vbluf < 0) rfturn 0;
+        if(vbluf > 127) rfturn 127;
+        rfturn vbluf;
     }
 
-    private void buildindex() {
-        trantables = new byte[2][129];
-        counters = new int[trantables.length];
-        for (ModelPerformer performer : performers) {
-            int keyFrom = performer.getKeyFrom();
-            int keyTo = performer.getKeyTo();
-            int velFrom = performer.getVelFrom();
-            int velTo = performer.getVelTo();
-            if (keyFrom > keyTo) continue;
-            if (velFrom > velTo) continue;
-            keyFrom = restrict(keyFrom);
-            keyTo = restrict(keyTo);
-            velFrom = restrict(velFrom);
-            velTo = restrict(velTo);
-            trantables[0][keyFrom] = 1;
-            trantables[0][keyTo + 1] = 1;
-            trantables[1][velFrom] = 1;
-            trantables[1][velTo + 1] = 1;
+    privbtf void buildindfx() {
+        trbntbblfs = nfw bytf[2][129];
+        dountfrs = nfw int[trbntbblfs.lfngti];
+        for (ModflPfrformfr pfrformfr : pfrformfrs) {
+            int kfyFrom = pfrformfr.gftKfyFrom();
+            int kfyTo = pfrformfr.gftKfyTo();
+            int vflFrom = pfrformfr.gftVflFrom();
+            int vflTo = pfrformfr.gftVflTo();
+            if (kfyFrom > kfyTo) dontinuf;
+            if (vflFrom > vflTo) dontinuf;
+            kfyFrom = rfstridt(kfyFrom);
+            kfyTo = rfstridt(kfyTo);
+            vflFrom = rfstridt(vflFrom);
+            vflTo = rfstridt(vflTo);
+            trbntbblfs[0][kfyFrom] = 1;
+            trbntbblfs[0][kfyTo + 1] = 1;
+            trbntbblfs[1][vflFrom] = 1;
+            trbntbblfs[1][vflTo + 1] = 1;
         }
-        for (int d = 0; d < trantables.length; d++) {
-            byte[] trantable = trantables[d];
-            int transize = trantable.length;
-            for (int i = transize - 1; i >= 0; i--) {
-                if (trantable[i] == 1) {
-                    trantable[i] = -1;
-                    break;
+        for (int d = 0; d < trbntbblfs.lfngti; d++) {
+            bytf[] trbntbblf = trbntbblfs[d];
+            int trbnsizf = trbntbblf.lfngti;
+            for (int i = trbnsizf - 1; i >= 0; i--) {
+                if (trbntbblf[i] == 1) {
+                    trbntbblf[i] = -1;
+                    brfbk;
                 }
-                trantable[i] = -1;
+                trbntbblf[i] = -1;
             }
-            int counter = -1;
-            for (int i = 0; i < transize; i++) {
-                if (trantable[i] != 0) {
-                    counter++;
-                    if (trantable[i] == -1)
-                        break;
+            int dountfr = -1;
+            for (int i = 0; i < trbnsizf; i++) {
+                if (trbntbblf[i] != 0) {
+                    dountfr++;
+                    if (trbntbblf[i] == -1)
+                        brfbk;
                 }
-                trantable[i] = (byte) counter;
+                trbntbblf[i] = (bytf) dountfr;
             }
-            counters[d] = counter;
+            dountfrs[d] = dountfr;
         }
-        mat = new int[counters[0] * counters[1]][];
+        mbt = nfw int[dountfrs[0] * dountfrs[1]][];
         int ix = 0;
-        for (ModelPerformer performer : performers) {
-            int keyFrom = performer.getKeyFrom();
-            int keyTo = performer.getKeyTo();
-            int velFrom = performer.getVelFrom();
-            int velTo = performer.getVelTo();
-            if (keyFrom > keyTo) continue;
-            if (velFrom > velTo) continue;
-            keyFrom = restrict(keyFrom);
-            keyTo = restrict(keyTo);
-            velFrom = restrict(velFrom);
-            velTo = restrict(velTo);
-            int x_from = trantables[0][keyFrom];
-            int x_to = trantables[0][keyTo + 1];
-            int y_from = trantables[1][velFrom];
-            int y_to = trantables[1][velTo + 1];
+        for (ModflPfrformfr pfrformfr : pfrformfrs) {
+            int kfyFrom = pfrformfr.gftKfyFrom();
+            int kfyTo = pfrformfr.gftKfyTo();
+            int vflFrom = pfrformfr.gftVflFrom();
+            int vflTo = pfrformfr.gftVflTo();
+            if (kfyFrom > kfyTo) dontinuf;
+            if (vflFrom > vflTo) dontinuf;
+            kfyFrom = rfstridt(kfyFrom);
+            kfyTo = rfstridt(kfyTo);
+            vflFrom = rfstridt(vflFrom);
+            vflTo = rfstridt(vflTo);
+            int x_from = trbntbblfs[0][kfyFrom];
+            int x_to = trbntbblfs[0][kfyTo + 1];
+            int y_from = trbntbblfs[1][vflFrom];
+            int y_to = trbntbblfs[1][vflTo + 1];
             if (x_to == -1)
-                x_to = counters[0];
+                x_to = dountfrs[0];
             if (y_to == -1)
-                y_to = counters[1];
+                y_to = dountfrs[1];
             for (int y = y_from; y < y_to; y++) {
-                int i = x_from + y * counters[0];
+                int i = x_from + y * dountfrs[0];
                 for (int x = x_from; x < x_to; x++) {
-                    int[] mprev = mat[i];
-                    if (mprev == null) {
-                        mat[i] = new int[] { ix };
-                    } else {
-                        int[] mnew = new int[mprev.length + 1];
-                        mnew[mnew.length - 1] = ix;
-                        for (int k = 0; k < mprev.length; k++)
-                            mnew[k] = mprev[k];
-                        mat[i] = mnew;
+                    int[] mprfv = mbt[i];
+                    if (mprfv == null) {
+                        mbt[i] = nfw int[] { ix };
+                    } flsf {
+                        int[] mnfw = nfw int[mprfv.lfngti + 1];
+                        mnfw[mnfw.lfngti - 1] = ix;
+                        for (int k = 0; k < mprfv.lfngti; k++)
+                            mnfw[k] = mprfv[k];
+                        mbt[i] = mnfw;
                     }
                     i++;
                 }
@@ -156,31 +156,31 @@ public final class ModelStandardIndexedDirector implements ModelDirector {
         }
     }
 
-    public void close() {
+    publid void dlosf() {
     }
 
-    public void noteOff(int noteNumber, int velocity) {
-        if (!noteOffUsed)
-            return;
-        int[] plist = lookupIndex(noteNumber, velocity);
-        if(plist == null) return;
+    publid void notfOff(int notfNumbfr, int vflodity) {
+        if (!notfOffUsfd)
+            rfturn;
+        int[] plist = lookupIndfx(notfNumbfr, vflodity);
+        if(plist == null) rfturn;
         for (int i : plist) {
-            ModelPerformer p = performers[i];
-            if (p.isReleaseTriggered()) {
-                player.play(i, null);
+            ModflPfrformfr p = pfrformfrs[i];
+            if (p.isRflfbsfTriggfrfd()) {
+                plbyfr.plby(i, null);
             }
         }
     }
 
-    public void noteOn(int noteNumber, int velocity) {
-        if (!noteOnUsed)
-            return;
-        int[] plist = lookupIndex(noteNumber, velocity);
-        if(plist == null) return;
+    publid void notfOn(int notfNumbfr, int vflodity) {
+        if (!notfOnUsfd)
+            rfturn;
+        int[] plist = lookupIndfx(notfNumbfr, vflodity);
+        if(plist == null) rfturn;
         for (int i : plist) {
-            ModelPerformer p = performers[i];
-            if (!p.isReleaseTriggered()) {
-                player.play(i, null);
+            ModflPfrformfr p = pfrformfrs[i];
+            if (!p.isRflfbsfTriggfrfd()) {
+                plbyfr.plby(i, null);
             }
         }
     }

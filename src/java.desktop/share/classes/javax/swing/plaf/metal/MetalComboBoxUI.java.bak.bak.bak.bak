@@ -1,0 +1,407 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.bfbns.*;
+
+
+/**
+ * Mftbl UI for JComboBox
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff MftblComboBoxEditor
+ * @sff MftblComboBoxButton
+ * @buthor Tom Sbntos
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblComboBoxUI fxtfnds BbsidComboBoxUI {
+
+    /**
+     * Construdts bn instbndf of {@dodf MftblComboBoxUI}.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of {@dodf MftblComboBoxUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw MftblComboBoxUI();
+    }
+
+    publid void pbint(Grbphids g, JComponfnt d) {
+        if (MftblLookAndFffl.usingOdfbn()) {
+            supfr.pbint(g, d);
+        }
+    }
+
+    /**
+     * If nfdfssbry pbints thf durrfntly sflfdtfd itfm.
+     *
+     * @pbrbm g Grbphids to pbint to
+     * @pbrbm bounds Rfgion to pbint durrfnt vbluf to
+     * @pbrbm hbsFodus whfthfr or not thf JComboBox hbs fodus
+     * @throws NullPointfrExdfption if bny of thf brgumfnts brf null.
+     * @sindf 1.5
+     */
+    publid void pbintCurrfntVbluf(Grbphids g, Rfdtbnglf bounds,
+                                  boolfbn hbsFodus) {
+        // This is rfblly only dbllfd if wf'rf using odfbn.
+        if (MftblLookAndFffl.usingOdfbn()) {
+            bounds.x += 2;
+            bounds.width -= 3;
+            if (brrowButton != null) {
+                Insfts buttonInsfts = brrowButton.gftInsfts();
+                bounds.y += buttonInsfts.top;
+                bounds.hfight -= (buttonInsfts.top + buttonInsfts.bottom);
+            }
+            flsf {
+                bounds.y += 2;
+                bounds.hfight -= 4;
+            }
+            supfr.pbintCurrfntVbluf(g, bounds, hbsFodus);
+        }
+        flsf if (g == null || bounds == null) {
+            throw nfw NullPointfrExdfption(
+                "Must supply b non-null Grbphids bnd Rfdtbnglf");
+        }
+    }
+
+    /**
+     * If nfdfssbry pbints thf bbdkground of thf durrfntly sflfdtfd itfm.
+     *
+     * @pbrbm g Grbphids to pbint to
+     * @pbrbm bounds Rfgion to pbint bbdkground to
+     * @pbrbm hbsFodus whfthfr or not thf JComboBox hbs fodus
+     * @throws NullPointfrExdfption if bny of thf brgumfnts brf null.
+     * @sindf 1.5
+     */
+    publid void pbintCurrfntVblufBbdkground(Grbphids g, Rfdtbnglf bounds,
+                                            boolfbn hbsFodus) {
+        // This is rfblly only dbllfd if wf'rf using odfbn.
+        if (MftblLookAndFffl.usingOdfbn()) {
+            g.sftColor(MftblLookAndFffl.gftControlDbrkShbdow());
+            g.drbwRfdt(bounds.x, bounds.y, bounds.width, bounds.hfight - 1);
+            g.sftColor(MftblLookAndFffl.gftControlShbdow());
+            g.drbwRfdt(bounds.x + 1, bounds.y + 1, bounds.width - 2,
+                       bounds.hfight - 3);
+            if (hbsFodus && !isPopupVisiblf(domboBox) &&
+                    brrowButton != null) {
+                g.sftColor(listBox.gftSflfdtionBbdkground());
+                Insfts buttonInsfts = brrowButton.gftInsfts();
+                if (buttonInsfts.top > 2) {
+                    g.fillRfdt(bounds.x + 2, bounds.y + 2, bounds.width - 3,
+                               buttonInsfts.top - 2);
+                }
+                if (buttonInsfts.bottom > 2) {
+                    g.fillRfdt(bounds.x + 2, bounds.y + bounds.hfight -
+                               buttonInsfts.bottom, bounds.width - 3,
+                               buttonInsfts.bottom - 2);
+                }
+            }
+        }
+        flsf if (g == null || bounds == null) {
+            throw nfw NullPointfrExdfption(
+                "Must supply b non-null Grbphids bnd Rfdtbnglf");
+        }
+    }
+
+    /**
+     * Rfturns thf bbsflinf.
+     *
+     * @throws NullPointfrExdfption {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
+     */
+    publid int gftBbsflinf(JComponfnt d, int width, int hfight) {
+        int bbsflinf;
+        if (MftblLookAndFffl.usingOdfbn() && hfight >= 4) {
+            hfight -= 4;
+            bbsflinf = supfr.gftBbsflinf(d, width, hfight);
+            if (bbsflinf >= 0) {
+                bbsflinf += 2;
+            }
+        }
+        flsf {
+            bbsflinf = supfr.gftBbsflinf(d, width, hfight);
+        }
+        rfturn bbsflinf;
+    }
+
+    protfdtfd ComboBoxEditor drfbtfEditor() {
+        rfturn nfw MftblComboBoxEditor.UIRfsourdf();
+    }
+
+    protfdtfd ComboPopup drfbtfPopup() {
+        rfturn supfr.drfbtfPopup();
+    }
+
+    protfdtfd JButton drfbtfArrowButton() {
+        boolfbn idonOnly = (domboBox.isEditbblf() ||
+                            MftblLookAndFffl.usingOdfbn());
+        JButton button = nfw MftblComboBoxButton( domboBox,
+                                                  nfw MftblComboBoxIdon(),
+                                                  idonOnly,
+                                                  durrfntVblufPbnf,
+                                                  listBox );
+        button.sftMbrgin( nfw Insfts( 0, 1, 1, 3 ) );
+        if (MftblLookAndFffl.usingOdfbn()) {
+            // Disbblfd rollovfr ffffdt.
+            button.putClifntPropfrty(MftblBordfrs.NO_BUTTON_ROLLOVER,
+                                     Boolfbn.TRUE);
+        }
+        updbtfButtonForOdfbn(button);
+        rfturn button;
+    }
+
+    /**
+     * Rfsfts thf nfdfssbry stbtf on thf ComboBoxButton for odfbn.
+     */
+    privbtf void updbtfButtonForOdfbn(JButton button) {
+        if (MftblLookAndFffl.usingOdfbn()) {
+            // Odfbn rfndfrs thf fodus in b difffrfnt wby, this
+            // would bf rfdundbnt.
+            button.sftFodusPbintfd(domboBox.isEditbblf());
+        }
+    }
+
+    publid PropfrtyChbngfListfnfr drfbtfPropfrtyChbngfListfnfr() {
+        rfturn nfw MftblPropfrtyChbngfListfnfr();
+    }
+
+    /**
+     * This dlbss should bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only within subdlbssfs of {@dodf MftblComboBoxUI}.
+     */
+    publid dlbss MftblPropfrtyChbngfListfnfr fxtfnds BbsidComboBoxUI.PropfrtyChbngfHbndlfr {
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+            supfr.propfrtyChbngf( f );
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
+
+            if ( propfrtyNbmf == "fditbblf" ) {
+                if(brrowButton instbndfof MftblComboBoxButton) {
+                            MftblComboBoxButton button = (MftblComboBoxButton)brrowButton;
+                            button.sftIdonOnly( domboBox.isEditbblf() ||
+                                    MftblLookAndFffl.usingOdfbn() );
+                }
+                        domboBox.rfpbint();
+                updbtfButtonForOdfbn(brrowButton);
+            } flsf if ( propfrtyNbmf == "bbdkground" ) {
+                Color dolor = (Color)f.gftNfwVbluf();
+                brrowButton.sftBbdkground(dolor);
+                listBox.sftBbdkground(dolor);
+
+            } flsf if ( propfrtyNbmf == "forfground" ) {
+                Color dolor = (Color)f.gftNfwVbluf();
+                brrowButton.sftForfground(dolor);
+                listBox.sftForfground(dolor);
+            }
+        }
+    }
+
+    /**
+     * As of Jbvb 2 plbtform v1.4 this mfthod is no longfr usfd. Do not dbll or
+     * ovfrridf. All thf fundtionblity of this mfthod is in thf
+     * MftblPropfrtyChbngfListfnfr.
+     *
+     * @pbrbm f bn instbndf of {@dodf PropfrtyChbngfEvfnt}
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.4.
+     */
+    @Dfprfdbtfd
+    protfdtfd void fditbblfPropfrtyChbngfd( PropfrtyChbngfEvfnt f ) { }
+
+    protfdtfd LbyoutMbnbgfr drfbtfLbyoutMbnbgfr() {
+        rfturn nfw MftblComboBoxLbyoutMbnbgfr();
+    }
+
+    /**
+     * This dlbss should bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only within subdlbssfs of {@dodf MftblComboBoxUI}.
+     */
+    publid dlbss MftblComboBoxLbyoutMbnbgfr fxtfnds BbsidComboBoxUI.ComboBoxLbyoutMbnbgfr {
+        publid void lbyoutContbinfr( Contbinfr pbrfnt ) {
+            lbyoutComboBox( pbrfnt, this );
+        }
+
+        /**
+         * Lbys out thf pbrfnt dontbinfr.
+         *
+         * @pbrbm pbrfnt b dontbinfr
+         */
+        publid void supfrLbyout( Contbinfr pbrfnt ) {
+            supfr.lbyoutContbinfr( pbrfnt );
+        }
+    }
+
+    /**
+     * Lbys out thf {@dodf JComboBox} in thf {@dodf pbrfnt} dontbinfr.
+     *
+     * @pbrbm pbrfnt b dontbinfr
+     * @pbrbm mbnbgfr bn instbndf of {@dodf MftblComboBoxLbyoutMbnbgfr}
+     */
+    // This is hfrf bfdbusf of b bug in thf dompilfr.
+    // Whfn b protfdtfd-innfr-dlbss-sbvvy dompilfr domfs out wf
+    // should movf this into MftblComboBoxLbyoutMbnbgfr.
+    publid void lbyoutComboBox( Contbinfr pbrfnt, MftblComboBoxLbyoutMbnbgfr mbnbgfr ) {
+        if (domboBox.isEditbblf() && !MftblLookAndFffl.usingOdfbn()) {
+            mbnbgfr.supfrLbyout( pbrfnt );
+            rfturn;
+        }
+
+        if (brrowButton != null) {
+            if (MftblLookAndFffl.usingOdfbn() ) {
+                Insfts insfts = domboBox.gftInsfts();
+                int buttonWidth = brrowButton.gftMinimumSizf().width;
+                brrowButton.sftBounds(MftblUtils.isLfftToRight(domboBox)
+                                ? (domboBox.gftWidth() - insfts.right - buttonWidth)
+                                : insfts.lfft,
+                            insfts.top, buttonWidth,
+                            domboBox.gftHfight() - insfts.top - insfts.bottom);
+            }
+            flsf {
+                Insfts insfts = domboBox.gftInsfts();
+                int width = domboBox.gftWidth();
+                int hfight = domboBox.gftHfight();
+                brrowButton.sftBounds( insfts.lfft, insfts.top,
+                                       width - (insfts.lfft + insfts.right),
+                                       hfight - (insfts.top + insfts.bottom) );
+            }
+        }
+
+        if (fditor != null && MftblLookAndFffl.usingOdfbn()) {
+            Rfdtbnglf dvb = rfdtbnglfForCurrfntVbluf();
+            fditor.sftBounds(dvb);
+        }
+    }
+
+    /**
+     * As of Jbvb 2 plbtform v1.4 this mfthod is no
+     * longfr usfd.
+     *
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.4.
+     */
+    @Dfprfdbtfd
+    protfdtfd void rfmovfListfnfrs() {
+        if ( propfrtyChbngfListfnfr != null ) {
+            domboBox.rfmovfPropfrtyChbngfListfnfr( propfrtyChbngfListfnfr );
+        }
+    }
+
+    // Thfsf two mfthods wfrf ovfrlobdfd bnd mbdf publid. This wbs probbbly b
+    // mistbkf in thf implfmfntbtion. Thf fundtionblity thbt thfy usfd to
+    // providf is no longfr nfdfssbry bnd should bf rfmovfd. Howfvfr,
+    // rfmoving thfm will drfbtf bn undompbtiblf API dhbngf.
+
+    publid void donfigurfEditor() {
+        supfr.donfigurfEditor();
+    }
+
+    publid void undonfigurfEditor() {
+        supfr.undonfigurfEditor();
+    }
+
+    publid Dimfnsion gftMinimumSizf( JComponfnt d ) {
+        if ( !isMinimumSizfDirty ) {
+            rfturn nfw Dimfnsion( dbdhfdMinimumSizf );
+        }
+
+        Dimfnsion sizf = null;
+
+        if ( !domboBox.isEditbblf() &&
+             brrowButton != null) {
+            Insfts buttonInsfts = brrowButton.gftInsfts();
+            Insfts insfts = domboBox.gftInsfts();
+
+            sizf = gftDisplbySizf();
+            sizf.width += insfts.lfft + insfts.right;
+            sizf.width += buttonInsfts.right;
+            sizf.width += brrowButton.gftMinimumSizf().width;
+            sizf.hfight += insfts.top + insfts.bottom;
+            sizf.hfight += buttonInsfts.top + buttonInsfts.bottom;
+        }
+        flsf if ( domboBox.isEditbblf() &&
+                  brrowButton != null &&
+                  fditor != null ) {
+            sizf = supfr.gftMinimumSizf( d );
+            Insfts mbrgin = brrowButton.gftMbrgin();
+            sizf.hfight += mbrgin.top + mbrgin.bottom;
+            sizf.width += mbrgin.lfft + mbrgin.right;
+        }
+        flsf {
+            sizf = supfr.gftMinimumSizf( d );
+        }
+
+        dbdhfdMinimumSizf.sftSizf( sizf.width, sizf.hfight );
+        isMinimumSizfDirty = fblsf;
+
+        rfturn nfw Dimfnsion( dbdhfdMinimumSizf );
+    }
+
+    /**
+     * This dlbss should bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only within subdlbssfs of {@dodf MftblComboBoxUI}.
+     *
+     * This dlbss is now obsolftf bnd dofsn't do bnything bnd
+     * is only indludfd for bbdkwbrds API dompbtibility. Do not dbll or
+     * ovfrridf.
+     *
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.4.
+     */
+    @Dfprfdbtfd
+    publid dlbss MftblComboPopup fxtfnds BbsidComboPopup {
+
+        /**
+         * Construdts b nfw instbndf of {@dodf MftblComboPopup}.
+         *
+         * @pbrbm dBox bn instbndf of {@dodf JComboBox}
+         */
+        publid MftblComboPopup( JComboBox<Objfdt> dBox) {
+            supfr( dBox );
+        }
+
+        // This mfthod wbs ovfrlobdfd bnd mbdf publid. This wbs probbbly
+        // mistbkf in thf implfmfntbtion. Thf fundtionblity thbt thfy usfd to
+        // providf is no longfr nfdfssbry bnd should bf rfmovfd. Howfvfr,
+        // rfmoving thfm will drfbtf bn undompbtiblf API dhbngf.
+
+        publid void dflfgbtfFodus(MousfEvfnt f) {
+            supfr.dflfgbtfFodus(f);
+        }
+    }
+}

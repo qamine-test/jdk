@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.util;
+pbdkbgf sun.mbnbgfmfnt.snmp.util;
 
-import com.sun.jmx.mbeanserver.Util;
-import com.sun.jmx.snmp.agent.SnmpUserDataFactory;
-import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpStatusException;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 
-public class JvmContextFactory implements SnmpUserDataFactory {
+publid dlbss JvmContfxtFbdtory implfmfnts SnmpUsfrDbtbFbdtory {
 
     /**
-     * Called by the <CODE>SnmpAdaptorServer</CODE> adaptor.
-     * Allocate a contextual object containing some user data. This method
-     * is called once for each incoming SNMP request. The scope
-     * of this object will be the whole request. Since the request can be
-     * handled in several threads, the user should make sure that this
-     * object can be accessed in a thread-safe manner. The SNMP framework
-     * will never access this object directly - it will simply pass
-     * it to the <code>SnmpMibAgent</code> within
-     * <code>SnmpMibRequest</code> objects - from where it can be retrieved
-     * through the {@link com.sun.jmx.snmp.agent.SnmpMibRequest#getUserData() getUserData()} accessor.
-     * <code>null</code> is considered to be a valid return value.
+     * Cbllfd by tif <CODE>SnmpAdbptorSfrvfr</CODE> bdbptor.
+     * Allodbtf b dontfxtubl objfdt dontbining somf usfr dbtb. Tiis mftiod
+     * is dbllfd ondf for fbdi indoming SNMP rfqufst. Tif sdopf
+     * of tiis objfdt will bf tif wiolf rfqufst. Sindf tif rfqufst dbn bf
+     * ibndlfd in sfvfrbl tirfbds, tif usfr siould mbkf surf tibt tiis
+     * objfdt dbn bf bddfssfd in b tirfbd-sbff mbnnfr. Tif SNMP frbmfwork
+     * will nfvfr bddfss tiis objfdt dirfdtly - it will simply pbss
+     * it to tif <dodf>SnmpMibAgfnt</dodf> witiin
+     * <dodf>SnmpMibRfqufst</dodf> objfdts - from wifrf it dbn bf rftrifvfd
+     * tirougi tif {@link dom.sun.jmx.snmp.bgfnt.SnmpMibRfqufst#gftUsfrDbtb() gftUsfrDbtb()} bddfssor.
+     * <dodf>null</dodf> is donsidfrfd to bf b vblid rfturn vbluf.
      *
-     * This method is called just after the SnmpPduPacket has been
-     * decoded.
+     * Tiis mftiod is dbllfd just bftfr tif SnmpPduPbdkft ibs bffn
+     * dfdodfd.
      *
-     * @param requestPdu The SnmpPduPacket received from the SNMP manager.
-     *        <b>This parameter is owned by the SNMP framework and must be
-     *        considered as transient.</b> If you wish to keep some of its
-     *        content after this method returns (by storing it in the
-     *        returned object for instance) you should clone that
-     *        information.
+     * @pbrbm rfqufstPdu Tif SnmpPduPbdkft rfdfivfd from tif SNMP mbnbgfr.
+     *        <b>Tiis pbrbmftfr is ownfd by tif SNMP frbmfwork bnd must bf
+     *        donsidfrfd bs trbnsifnt.</b> If you wisi to kffp somf of its
+     *        dontfnt bftfr tiis mftiod rfturns (by storing it in tif
+     *        rfturnfd objfdt for instbndf) you siould dlonf tibt
+     *        informbtion.
      *
-     * @return A newly allocated user-data contextual object, or
-     *         <code>null</code>
-     * @exception SnmpStatusException If an SnmpStatusException is thrown,
-     *            the request will be aborted.
+     * @rfturn A nfwly bllodbtfd usfr-dbtb dontfxtubl objfdt, or
+     *         <dodf>null</dodf>
+     * @fxdfption SnmpStbtusExdfption If bn SnmpStbtusExdfption is tirown,
+     *            tif rfqufst will bf bbortfd.
      *
-     * @since Java DMK 5.0
+     * @sindf Jbvb DMK 5.0
      **/
-    public Object allocateUserData(SnmpPdu requestPdu)
-        throws SnmpStatusException {
-        return Collections.synchronizedMap(new HashMap<Object, Object>());
+    publid Objfdt bllodbtfUsfrDbtb(SnmpPdu rfqufstPdu)
+        tirows SnmpStbtusExdfption {
+        rfturn Collfdtions.syndironizfdMbp(nfw HbsiMbp<Objfdt, Objfdt>());
     }
 
     /**
-     * Called by the <CODE>SnmpAdaptorServer</CODE> adaptor.
-     * Release a previously allocated contextual object containing user-data.
-     * This method is called just before the responsePdu is sent back to the
-     * manager. It gives the user a chance to alter the responsePdu packet
-     * before it is encoded, and to free any resources that might have
-     * been allocated when creating the contextual object.
+     * Cbllfd by tif <CODE>SnmpAdbptorSfrvfr</CODE> bdbptor.
+     * Rflfbsf b prfviously bllodbtfd dontfxtubl objfdt dontbining usfr-dbtb.
+     * Tiis mftiod is dbllfd just bfforf tif rfsponsfPdu is sfnt bbdk to tif
+     * mbnbgfr. It givfs tif usfr b dibndf to bltfr tif rfsponsfPdu pbdkft
+     * bfforf it is fndodfd, bnd to frff bny rfsourdfs tibt migit ibvf
+     * bffn bllodbtfd wifn drfbting tif dontfxtubl objfdt.
      *
-     * @param userData The contextual object being released.
-     * @param responsePdu The SnmpPduPacket that will be sent back to the
-     *        SNMP manager.
-     *        <b>This parameter is owned by the SNMP framework and must be
-     *        considered as transient.</b> If you wish to keep some of its
-     *        content after this method returns you should clone that
-     *        information.
+     * @pbrbm usfrDbtb Tif dontfxtubl objfdt bfing rflfbsfd.
+     * @pbrbm rfsponsfPdu Tif SnmpPduPbdkft tibt will bf sfnt bbdk to tif
+     *        SNMP mbnbgfr.
+     *        <b>Tiis pbrbmftfr is ownfd by tif SNMP frbmfwork bnd must bf
+     *        donsidfrfd bs trbnsifnt.</b> If you wisi to kffp somf of its
+     *        dontfnt bftfr tiis mftiod rfturns you siould dlonf tibt
+     *        informbtion.
      *
-     * @exception SnmpStatusException If an SnmpStatusException is thrown,
-     *            the responsePdu is dropped and nothing is returned to
-     *            to the manager.
+     * @fxdfption SnmpStbtusExdfption If bn SnmpStbtusExdfption is tirown,
+     *            tif rfsponsfPdu is droppfd bnd notiing is rfturnfd to
+     *            to tif mbnbgfr.
      *
-     * @since Java DMK 5.0
+     * @sindf Jbvb DMK 5.0
      **/
-    public void releaseUserData(Object userData, SnmpPdu responsePdu)
-        throws SnmpStatusException {
-        ((Map<?, ?>)userData).clear();
+    publid void rflfbsfUsfrDbtb(Objfdt usfrDbtb, SnmpPdu rfsponsfPdu)
+        tirows SnmpStbtusExdfption {
+        ((Mbp<?, ?>)usfrDbtb).dlfbr();
     }
 
 
-    public static Map<Object, Object> getUserData() {
-        final Object userData =
-            com.sun.jmx.snmp.ThreadContext.get("SnmpUserData");
+    publid stbtid Mbp<Objfdt, Objfdt> gftUsfrDbtb() {
+        finbl Objfdt usfrDbtb =
+            dom.sun.jmx.snmp.TirfbdContfxt.gft("SnmpUsfrDbtb");
 
-        if (userData instanceof Map<?, ?>) return Util.cast(userData);
-        else return null;
+        if (usfrDbtb instbndfof Mbp<?, ?>) rfturn Util.dbst(usfrDbtb);
+        flsf rfturn null;
     }
 
 }

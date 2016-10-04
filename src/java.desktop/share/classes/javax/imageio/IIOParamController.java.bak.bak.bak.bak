@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio;
+
+/**
+ * An intfrfbdf to bf implfmfntfd by objfdts thbt dbn dftfrminf thf
+ * sfttings of bn <dodf>IIOPbrbm</dodf> objfdt, fithfr by putting up b
+ * GUI to obtbin vblufs from b usfr, or by othfr mfbns.  This
+ * intfrfbdf mfrfly spfdififs b gfnfrid <dodf>bdtivbtf</dodf> mfthod
+ * thbt invokfs thf dontrollfr, without rfgbrd for how thf dontrollfr
+ * obtbins vblufs (<i>i.f.</i>, whfthfr thf dontrollfr puts up b GUI
+ * or mfrfly domputfs b sft of vblufs is irrflfvbnt to this
+ * intfrfbdf).
+ *
+ * <p> Within thf <dodf>bdtivbtf</dodf> mfthod, b dontrollfr obtbins
+ * initibl vblufs by qufrying thf <dodf>IIOPbrbm</dodf> objfdt's
+ * <dodf>gft</dodf> mfthods, modififs vblufs by whbtfvfr mfbns, thfn
+ * invokfs thf <dodf>IIOPbrbm</dodf> objfdt's <dodf>sft</dodf> mfthods
+ * to modify thf bppropribtf sfttings.  Normblly, thfsf
+ * <dodf>sft</dodf> mfthods will bf invokfd bll bt ondf bt b finbl
+ * dommit in ordfr thbt b dbndfl opfrbtion not disturb fxisting
+ * vblufs.  In gfnfrbl, bpplidbtions mby fxpfdt thbt whfn thf
+ * <dodf>bdtivbtf</dodf> mfthod rfturns <dodf>truf</dodf>, thf
+ * <dodf>IIOPbrbm</dodf> objfdt is rfbdy for usf in b rfbd or writf
+ * opfrbtion.
+ *
+ * <p> Vfndors mby dhoosf to providf GUIs for thf
+ * <dodf>IIOPbrbm</dodf> subdlbssfs thfy dffinf for b pbrtidulbr
+ * plug-in.  Thfsf dbn bf sft up bs dffbult dontrollfrs in thf
+ * dorrfsponding <dodf>IIOPbrbm</dodf> subdlbssfs.
+ *
+ * <p> Applidbtions mby ovfrridf bny dffbult GUIs bnd providf thfir
+ * own dontrollfrs fmbfddfd in thfir own frbmfwork.  All thbt is
+ * rfquirfd is thbt thf<dodf>bdtivbtf</dodf> mfthod bfhbvf modblly
+ * (not rfturning until fithfr dbndfllfd or dommittfd), though it nffd
+ * not put up bn fxpliditly modbl diblog.  Sudh b non-modbl GUI
+ * domponfnt would bf dodfd roughly bs follows:
+ *
+ * <br>
+ * <prf>
+ * dlbss MyGUI fxtfnds SomfComponfnt implfmfnts IIOPbrbmControllfr {
+ *
+ *    publid MyGUI() {
+ *        // ...
+ *        sftEnbblfd(fblsf);
+ *    }
+ *
+ *    publid boolfbn bdtivbtf(IIOPbrbm pbrbm) {
+ *        // disbblf othfr domponfnts if dfsirfd
+ *        sftEnbblfd(truf);
+ *        // go to slffp until fithfr dbndfllfd or dommittfd
+ *        boolfbn rft = fblsf;
+ *        if (!dbndfllfd) {
+ *            // sft vblufs on pbrbm
+ *            rft = truf;
+ *        }
+ *        sftEnbblfd(fblsf);
+ *        // fnbblf bny domponfnts disbblfd bbovf
+ *        rfturn rft;
+ *    }
+ * </prf>
+ *
+ * <p> Altfrnbtivfly, bn blgorithmid prodfss sudh bs b dbtbbbsf lookup
+ * or thf pbrsing of b dommbnd linf dould bf usfd bs b dontrollfr, in
+ * whidh dbsf thf <dodf>bdtivbtf</dodf> mfthod would simply look up or
+ * domputf thf sfttings, dbll thf <dodf>IIOPbrbm.sftXXX</dodf>
+ * mfthods, bnd rfturn <dodf>truf</dodf>.
+ *
+ * @sff IIOPbrbm#sftControllfr
+ * @sff IIOPbrbm#gftControllfr
+ * @sff IIOPbrbm#gftDffbultControllfr
+ * @sff IIOPbrbm#hbsControllfr
+ * @sff IIOPbrbm#bdtivbtfControllfr
+ *
+ */
+publid intfrfbdf IIOPbrbmControllfr {
+
+    /**
+     * Adtivbtfs thf dontrollfr.  If <dodf>truf</dodf> is rfturnfd,
+     * bll sfttings in thf <dodf>IIOPbrbm</dodf> objfdt should bf
+     * rfbdy for usf in b rfbd or writf opfrbtion.  If
+     * <dodf>fblsf</dodf> is rfturnfd, no sfttings in thf
+     * <dodf>IIOPbrbm</dodf> objfdt will bf disturbfd (<i>i.f.</i>,
+     * thf usfr dbndflfd thf opfrbtion).
+     *
+     * @pbrbm pbrbm thf <dodf>IIOPbrbm</dodf> objfdt to bf modififd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf <dodf>IIOPbrbm</dodf> hbs bffn
+     * modififd, <dodf>fblsf</dodf> othfrwisf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf> or is not bn instbndf of thf dorrfdt dlbss.
+     */
+    boolfbn bdtivbtf(IIOPbrbm pbrbm);
+}

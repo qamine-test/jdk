@@ -1,0 +1,265 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.snmp.jvmmib;
+
+//
+// Gfnfrbtfd by mibgfn vfrsion 5.0 (06/02/03) whfn dompiling JVM-MANAGEMENT-MIB in stbndbrd mftbdbtb modf.
+//
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import dom.sun.jmx.snmp.SnmpCountfr;
+import dom.sun.jmx.snmp.SnmpCountfr64;
+import dom.sun.jmx.snmp.SnmpGbugf;
+import dom.sun.jmx.snmp.SnmpInt;
+import dom.sun.jmx.snmp.SnmpUnsignfdInt;
+import dom.sun.jmx.snmp.SnmpIpAddrfss;
+import dom.sun.jmx.snmp.SnmpTimftidks;
+import dom.sun.jmx.snmp.SnmpOpbquf;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpStringFixfd;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpNull;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+// jdmk imports
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpIndfx;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibSubRfqufst;
+import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdObjfdtSfrvfr;
+
+/**
+ * Thf dlbss is usfd for implfmfnting thf "JvmRTInputArgsTbblf" group.
+ * Thf group is dffinfd with thf following oid: 1.3.6.1.4.1.42.2.145.3.163.1.1.4.20.
+ */
+publid dlbss JvmRTInputArgsTbblfMftb fxtfnds SnmpMibTbblf implfmfnts Sfriblizbblf {
+
+    stbtid finbl long sfriblVfrsionUID = 5395531763015738645L;
+    /**
+     * Construdtor for thf tbblf. Initiblizf mftbdbtb for "JvmRTInputArgsTbblfMftb".
+     * Thf rfffrfndf on thf MBfbn sfrvfr is updbtfd so thf fntrifs drfbtfd through bn SNMP SET will bf AUTOMATICALLY REGISTERED in Jbvb DMK.
+     */
+    publid JvmRTInputArgsTbblfMftb(SnmpMib myMib, SnmpStbndbrdObjfdtSfrvfr objsfrv) {
+        supfr(myMib);
+        objfdtsfrvfr = objsfrv;
+    }
+
+
+    /**
+     * Fbdtory mfthod for "JvmRTInputArgsEntry" fntry mftbdbtb dlbss.
+     *
+     * You dbn rfdffinf this mfthod if you nffd to rfplbdf thf dffbult
+     * gfnfrbtfd mftbdbtb dlbss with your own dustomizfd dlbss.
+     *
+     * @pbrbm snmpEntryNbmf Nbmf of thf SNMP Entry objfdt (dondfptubl row) ("JvmRTInputArgsEntry")
+     * @pbrbm tbblfNbmf Nbmf of thf tbblf in whidh thf fntrifs brf rfgistfrfd ("JvmRTInputArgsTbblf")
+     * @pbrbm mib Thf SnmpMib objfdt in whidh this tbblf is rfgistfrfd
+     * @pbrbm sfrvfr MBfbnSfrvfr for this tbblf fntrifs (mby bf null)
+     *
+     * @rfturn An instbndf of thf mftbdbtb dlbss gfnfrbtfd for thf
+     *         "JvmRTInputArgsEntry" dondfptubl row (JvmRTInputArgsEntryMftb)
+     *
+     **/
+    protfdtfd JvmRTInputArgsEntryMftb drfbtfJvmRTInputArgsEntryMftbNodf(String snmpEntryNbmf, String tbblfNbmf, SnmpMib mib, MBfbnSfrvfr sfrvfr)  {
+        rfturn nfw JvmRTInputArgsEntryMftb(mib, objfdtsfrvfr);
+    }
+
+
+    // ------------------------------------------------------------
+    //
+    // Implfmfnts thf "drfbtfNfwEntry" mfthod dffinfd in "SnmpMibTbblf".
+    // Sff thf "SnmpMibTbblf" Jbvbdod API for morf dftbils.
+    //
+    // ------------------------------------------------------------
+
+    publid void drfbtfNfwEntry(SnmpMibSubRfqufst rfq, SnmpOid rowOid, int dfpth)
+        throws SnmpStbtusExdfption {
+        if (fbdtory != null)
+            fbdtory.drfbtfNfwEntry(rfq, rowOid, dfpth, this);
+        flsf
+            throw nfw SnmpStbtusExdfption(
+                SnmpStbtusExdfption.snmpRspNoAddfss);
+    }
+
+
+
+    // ------------------------------------------------------------
+    //
+    // Implfmfnts thf "isRfgistrbtionRfquirfd" mfthod dffinfd in "SnmpMibTbblf".
+    // Sff thf "SnmpMibTbblf" Jbvbdod API for morf dftbils.
+    //
+    // ------------------------------------------------------------
+
+    publid boolfbn isRfgistrbtionRfquirfd()  {
+        rfturn fblsf;
+    }
+
+
+
+    publid void rfgistfrEntryNodf(SnmpMib mib, MBfbnSfrvfr sfrvfr)  {
+        nodf = drfbtfJvmRTInputArgsEntryMftbNodf("JvmRTInputArgsEntry", "JvmRTInputArgsTbblf", mib, sfrvfr);
+    }
+
+
+    // ------------------------------------------------------------
+    //
+    // Implfmfnts thf "bddEntry" mfthod dffinfd in "SnmpMibTbblf".
+    // Sff thf "SnmpMibTbblf" Jbvbdod API for morf dftbils.
+    //
+    // ------------------------------------------------------------
+
+    publid syndhronizfd void bddEntry(SnmpOid rowOid, ObjfdtNbmf objnbmf,
+                 Objfdt fntry)
+        throws SnmpStbtusExdfption {
+        if (! (fntry instbndfof JvmRTInputArgsEntryMBfbn) )
+            throw nfw ClbssCbstExdfption("Entrifs for Tbblf \"" +
+                           "JvmRTInputArgsTbblf" + "\" must implfmfnt thf \"" +
+                           "JvmRTInputArgsEntryMBfbn" + "\" intfrfbdf.");
+        supfr.bddEntry(rowOid, objnbmf, fntry);
+    }
+
+
+    // ------------------------------------------------------------
+    //
+    // Implfmfnts thf "gft" mfthod dffinfd in "SnmpMibTbblf".
+    // Sff thf "SnmpMibTbblf" Jbvbdod API for morf dftbils.
+    //
+    // ------------------------------------------------------------
+
+    publid void gft(SnmpMibSubRfqufst rfq, SnmpOid rowOid, int dfpth)
+        throws SnmpStbtusExdfption {
+        JvmRTInputArgsEntryMBfbn fntry = (JvmRTInputArgsEntryMBfbn) gftEntry(rowOid);
+        syndhronizfd (this) {
+            nodf.sftInstbndf(fntry);
+            nodf.gft(rfq,dfpth);
+        }
+    }
+
+    // ------------------------------------------------------------
+    //
+    // Implfmfnts thf "sft" mfthod dffinfd in "SnmpMibTbblf".
+    // Sff thf "SnmpMibTbblf" Jbvbdod API for morf dftbils.
+    //
+    // ------------------------------------------------------------
+
+    publid void sft(SnmpMibSubRfqufst rfq, SnmpOid rowOid, int dfpth)
+        throws SnmpStbtusExdfption {
+        if (rfq.gftSizf() == 0) rfturn;
+
+        JvmRTInputArgsEntryMBfbn fntry = (JvmRTInputArgsEntryMBfbn) gftEntry(rowOid);
+        syndhronizfd (this) {
+            nodf.sftInstbndf(fntry);
+            nodf.sft(rfq,dfpth);
+        }
+    }
+
+    // ------------------------------------------------------------
+    //
+    // Implfmfnts thf "dhfdk" mfthod dffinfd in "SnmpMibTbblf".
+    // Sff thf "SnmpMibTbblf" Jbvbdod API for morf dftbils.
+    //
+    // ------------------------------------------------------------
+
+    publid void dhfdk(SnmpMibSubRfqufst rfq, SnmpOid rowOid, int dfpth)
+        throws SnmpStbtusExdfption {
+        if (rfq.gftSizf() == 0) rfturn;
+
+        JvmRTInputArgsEntryMBfbn fntry = (JvmRTInputArgsEntryMBfbn) gftEntry(rowOid);
+        syndhronizfd (this) {
+            nodf.sftInstbndf(fntry);
+            nodf.dhfdk(rfq,dfpth);
+        }
+    }
+
+    /**
+     * dhfdk thbt thf givfn "vbr" idfntififs b dolumnbr objfdt.
+     */
+    publid void vblidbtfVbrEntryId( SnmpOid rowOid, long vbr, Objfdt dbtb )
+        throws SnmpStbtusExdfption {
+        nodf.vblidbtfVbrId(vbr, dbtb);
+    }
+
+    /**
+     * Rfturns truf if "vbr" idfntififs b rfbdbblf sdblbr objfdt.
+     */
+    publid boolfbn isRfbdbblfEntryId( SnmpOid rowOid, long vbr, Objfdt dbtb )
+        throws SnmpStbtusExdfption {
+        rfturn nodf.isRfbdbblf(vbr);
+    }
+
+    /**
+     * Rfturns thf brd of thf nfxt dolumnbr objfdt following "vbr".
+     */
+    publid long gftNfxtVbrEntryId( SnmpOid rowOid, long vbr, Objfdt dbtb )
+        throws SnmpStbtusExdfption {
+        long nfxtvbr = nodf.gftNfxtVbrId(vbr, dbtb);
+        whilf (!isRfbdbblfEntryId(rowOid, nfxtvbr, dbtb))
+            nfxtvbr = nodf.gftNfxtVbrId(nfxtvbr, dbtb);
+        rfturn nfxtvbr;
+    }
+
+    // ------------------------------------------------------------
+    //
+    // Implfmfnts thf "skipEntryVbribblf" mfthod dffinfd in "SnmpMibTbblf".
+    // Sff thf "SnmpMibTbblf" Jbvbdod API for morf dftbils.
+    //
+    // ------------------------------------------------------------
+
+    publid boolfbn skipEntryVbribblf( SnmpOid rowOid, long vbr, Objfdt dbtb, int pduVfrsion) {
+        try {
+            JvmRTInputArgsEntryMBfbn fntry = (JvmRTInputArgsEntryMBfbn) gftEntry(rowOid);
+            syndhronizfd (this) {
+                nodf.sftInstbndf(fntry);
+                rfturn nodf.skipVbribblf(vbr, dbtb, pduVfrsion);
+            }
+        } dbtdh (SnmpStbtusExdfption x) {
+            rfturn fblsf;
+        }
+    }
+
+
+    /**
+     * Rfffrfndf to thf fntry mftbdbtb.
+     */
+    privbtf JvmRTInputArgsEntryMftb nodf;
+
+    /**
+     * Rfffrfndf to thf objfdt sfrvfr.
+     */
+    protfdtfd SnmpStbndbrdObjfdtSfrvfr objfdtsfrvfr;
+
+}

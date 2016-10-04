@@ -1,0 +1,186 @@
+/*
+ * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
+
+import jbvb.nft.URL;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.util.Enumfrbtion;
+
+import jbvbx.mbnbgfmfnt.*;
+
+
+
+/**
+ * Exposfs thf rfmotf mbnbgfmfnt intfrfbdf of thf MLft
+ * MBfbn.
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf MLftMBfbn   {
+
+
+    /**
+     * Lobds b tfxt filf dontbining MLET tbgs thbt dffinf thf MBfbns
+     * to bf bddfd to thf MBfbn sfrvfr. Thf lodbtion of thf tfxt filf is
+     * spfdififd by b URL. Thf tfxt filf is rfbd using thf UTF-8
+     * fndoding. Thf MBfbns spfdififd in thf MLET filf will bf
+     * instbntibtfd bnd rfgistfrfd in thf MBfbn sfrvfr.
+     *
+     * @pbrbm url Thf URL of thf tfxt filf to bf lobdfd bs String objfdt.
+     *
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in thf m-lft
+     * tfxt filf lobdfd.  Ebdh fntry spfdififs fithfr thf
+     * ObjfdtInstbndf for thf drfbtfd MBfbn, or b throwbblf objfdt
+     * (thbt is, bn frror or bn fxdfption) if thf MBfbn dould not bf
+     * drfbtfd.
+     *
+     * @fxdfption SfrvidfNotFoundExdfption Onf of thf following frrors
+     * hbs oddurrfd: Thf m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * thf m-lft tfxt filf is not found, b mbndbtory bttributf of thf
+     * MLET tbg is not spfdififd, thf vbluf of url is mblformfd.
+     */
+    publid Sft<Objfdt> gftMBfbnsFromURL(String url)
+            throws SfrvidfNotFoundExdfption;
+
+    /**
+     * Lobds b tfxt filf dontbining MLET tbgs thbt dffinf thf MBfbns
+     * to bf bddfd to thf MBfbn sfrvfr. Thf lodbtion of thf tfxt filf is
+     * spfdififd by b URL. Thf tfxt filf is rfbd using thf UTF-8
+     * fndoding. Thf MBfbns spfdififd in thf MLET filf will bf
+     * instbntibtfd bnd rfgistfrfd in thf MBfbn sfrvfr.
+     *
+     * @pbrbm url Thf URL of thf tfxt filf to bf lobdfd bs URL objfdt.
+     *
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in thf m-lft
+     * tfxt filf lobdfd.  Ebdh fntry spfdififs fithfr thf
+     * ObjfdtInstbndf for thf drfbtfd MBfbn, or b throwbblf objfdt
+     * (thbt is, bn frror or bn fxdfption) if thf MBfbn dould not bf
+     * drfbtfd.
+     *
+     * @fxdfption SfrvidfNotFoundExdfption Onf of thf following frrors
+     * hbs oddurrfd: Thf m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * thf m-lft tfxt filf is not found, b mbndbtory bttributf of thf
+     * MLET tbg is not spfdififd, thf vbluf of url is null.
+     */
+    publid Sft<Objfdt> gftMBfbnsFromURL(URL url)
+            throws SfrvidfNotFoundExdfption;
+
+    /**
+     * Appfnds thf spfdififd URL to thf list of URLs to sfbrdh for dlbssfs bnd
+     * rfsourdfs.
+     *
+     * @pbrbm url thf URL to bdd.
+     */
+    publid void bddURL(URL url) ;
+
+    /**
+     * Appfnds thf spfdififd URL to thf list of URLs to sfbrdh for dlbssfs bnd
+     * rfsourdfs.
+     *
+     * @pbrbm url thf URL to bdd.
+     *
+     * @fxdfption SfrvidfNotFoundExdfption Thf spfdififd URL is mblformfd.
+     */
+    publid void bddURL(String url) throws SfrvidfNotFoundExdfption;
+
+    /**
+     * Rfturns thf sfbrdh pbth of URLs for lobding dlbssfs bnd rfsourdfs.
+     * This indludfs thf originbl list of URLs spfdififd to thf donstrudtor,
+     * blong with bny URLs subsfqufntly bppfndfd by thf bddURL() mfthod.
+     *
+     * @rfturn thf list of URLs.
+     */
+    publid URL[] gftURLs();
+
+    /** Finds thf rfsourdf with thf givfn nbmf.
+     * A rfsourdf is somf dbtb (imbgfs, budio, tfxt, ftd) thbt dbn bf bddfssfd by dlbss dodf in b wby thbt is
+     *   indfpfndfnt of thf lodbtion of thf dodf.
+     *   Thf nbmf of b rfsourdf is b "/"-sfpbrbtfd pbth nbmf thbt idfntififs thf rfsourdf.
+     *
+     * @pbrbm nbmf Thf rfsourdf nbmf
+     *
+     * @rfturn  An URL for rfbding thf rfsourdf, or null if thf rfsourdf dould not bf found or thf dbllfr dofsn't hbvf bdfqubtf privilfgfs to gft thf
+     * rfsourdf.
+     */
+    publid URL gftRfsourdf(String nbmf);
+
+    /** Rfturns bn input strfbm for rfbding thf spfdififd rfsourdf. Thf sfbrdh ordfr is dfsdribfd in thf dodumfntbtion for
+     *  gftRfsourdf(String).
+     *
+     * @pbrbm nbmf  Thf rfsourdf nbmf
+     *
+     * @rfturn An input strfbm for rfbding thf rfsourdf, or null if thf rfsourdf dould not bf found
+     *
+     */
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf);
+
+    /**
+     * Finds bll thf rfsourdfs with thf givfn nbmf. A rfsourdf is somf
+     * dbtb (imbgfs, budio, tfxt, ftd) thbt dbn bf bddfssfd by dlbss
+     * dodf in b wby thbt is indfpfndfnt of thf lodbtion of thf dodf.
+     * Thf nbmf of b rfsourdf is b "/"-sfpbrbtfd pbth nbmf thbt
+     * idfntififs thf rfsourdf.
+     *
+     * @pbrbm nbmf Thf  rfsourdf nbmf.
+     *
+     * @rfturn An fnumfrbtion of URL to thf rfsourdf. If no rfsourdfs
+     * dould bf found, thf fnumfrbtion will bf fmpty. Rfsourdfs thbt
+     * dbnnot bf bddfssfd will not bf in thf fnumfrbtion.
+     *
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs whfn
+     * sfbrdhing for rfsourdfs.
+     */
+    publid Enumfrbtion<URL> gftRfsourdfs(String nbmf) throws IOExdfption;
+
+    /**
+     * Gfts thf durrfnt dirfdtory usfd by thf librbry lobdfr for
+     * storing nbtivf librbrifs bfforf thfy brf lobdfd into mfmory.
+     *
+     * @rfturn Thf durrfnt dirfdtory usfd by thf librbry lobdfr.
+     *
+     * @sff #sftLibrbryDirfdtory
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if this implfmfntbtion
+     * dofs not support storing nbtivf librbrifs in this wby.
+     */
+    publid String gftLibrbryDirfdtory();
+
+    /**
+     * Sfts thf dirfdtory usfd by thf librbry lobdfr for storing
+     * nbtivf librbrifs bfforf thfy brf lobdfd into mfmory.
+     *
+     * @pbrbm libdir Thf dirfdtory usfd by thf librbry lobdfr.
+     *
+     * @sff #gftLibrbryDirfdtory
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if this implfmfntbtion
+     * dofs not support storing nbtivf librbrifs in this wby.
+     */
+    publid void sftLibrbryDirfdtory(String libdir);
+
+ }

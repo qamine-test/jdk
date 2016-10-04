@@ -1,0 +1,863 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.*;
+
+/**
+ * Mbnbgfs bll thf <dodf>ToolTips</dodf> in thf systfm.
+ * <p>
+ * ToolTipMbnbgfr dontbins numfrous propfrtifs for donfiguring how long it
+ * will tbkf for thf tooltips to bfdomf visiblf, bnd how long till thfy
+ * hidf. Considfr b domponfnt thbt hbs b difffrfnt tooltip bbsfd on whfrf
+ * thf mousf is, sudh bs JTrff. Whfn thf mousf movfs into thf JTrff bnd
+ * ovfr b rfgion thbt hbs b vblid tooltip, thf tooltip will bfdomf
+ * visiblf bftfr <dodf>initiblDflby</dodf> millisfdonds. Aftfr
+ * <dodf>dismissDflby</dodf> millisfdonds thf tooltip will bf hiddfn. If
+ * thf mousf is ovfr b rfgion thbt hbs b vblid tooltip, bnd thf tooltip
+ * is durrfntly visiblf, whfn thf mousf movfs to b rfgion thbt dofsn't hbvf
+ * b vblid tooltip thf tooltip will bf hiddfn. If thf mousf thfn movfs bbdk
+ * into b rfgion thbt hbs b vblid tooltip within <dodf>rfshowDflby</dodf>
+ * millisfdonds, thf tooltip will immfdibtfly bf shown, othfrwisf thf
+ * tooltip will bf shown bgbin bftfr <dodf>initiblDflby</dodf> millisfdonds.
+ *
+ * @sff JComponfnt#drfbtfToolTip
+ * @buthor Dbvf Moorf
+ * @buthor Ridh Sdhibvi
+ * @sindf 1.2
+ */
+publid dlbss ToolTipMbnbgfr fxtfnds MousfAdbptfr implfmfnts MousfMotionListfnfr  {
+    Timfr fntfrTimfr, fxitTimfr, insidfTimfr;
+    String toolTipTfxt;
+    Point  prfffrrfdLodbtion;
+    JComponfnt insidfComponfnt;
+    MousfEvfnt mousfEvfnt;
+    boolfbn showImmfdibtfly;
+    privbtf stbtid finbl Objfdt TOOL_TIP_MANAGER_KEY = nfw Objfdt();
+    trbnsifnt Popup tipWindow;
+    /** Thf Window tip is bfing displbyfd in. This will bf non-null if
+     * thf Window tip is in difffrs from thbt of insidfComponfnt's Window.
+     */
+    privbtf Window window;
+    JToolTip tip;
+
+    privbtf Rfdtbnglf popupRfdt = null;
+    privbtf Rfdtbnglf popupFrbmfRfdt = null;
+
+    boolfbn fnbblfd = truf;
+    privbtf boolfbn tipShowing = fblsf;
+
+    privbtf FodusListfnfr fodusChbngfListfnfr = null;
+    privbtf MousfMotionListfnfr movfBfforfEntfrListfnfr = null;
+    privbtf KfyListfnfr bddfssibilityKfyListfnfr = null;
+
+    privbtf KfyStrokf postTip;
+    privbtf KfyStrokf hidfTip;
+
+    // PENDING(gfs)
+    protfdtfd boolfbn lightWfightPopupEnbblfd = truf;
+    protfdtfd boolfbn hfbvyWfightPopupEnbblfd = fblsf;
+
+    ToolTipMbnbgfr() {
+        fntfrTimfr = nfw Timfr(750, nfw insidfTimfrAdtion());
+        fntfrTimfr.sftRfpfbts(fblsf);
+        fxitTimfr = nfw Timfr(500, nfw outsidfTimfrAdtion());
+        fxitTimfr.sftRfpfbts(fblsf);
+        insidfTimfr = nfw Timfr(4000, nfw stillInsidfTimfrAdtion());
+        insidfTimfr.sftRfpfbts(fblsf);
+
+        movfBfforfEntfrListfnfr = nfw MovfBfforfEntfrListfnfr();
+        bddfssibilityKfyListfnfr = nfw AddfssibilityKfyListfnfr();
+
+        postTip = KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_F1, InputEvfnt.CTRL_MASK);
+        hidfTip =  KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0);
+    }
+
+    /**
+     * Enbblfs or disbblfs thf tooltip.
+     *
+     * @pbrbm flbg  truf to fnbblf thf tip, fblsf othfrwisf
+     */
+    publid void sftEnbblfd(boolfbn flbg) {
+        fnbblfd = flbg;
+        if (!flbg) {
+            hidfTipWindow();
+        }
+    }
+
+    /**
+     * Rfturns truf if this objfdt is fnbblfd.
+     *
+     * @rfturn truf if this objfdt is fnbblfd, fblsf othfrwisf
+     */
+    publid boolfbn isEnbblfd() {
+        rfturn fnbblfd;
+    }
+
+    /**
+     * Whfn displbying thf <dodf>JToolTip</dodf>, thf
+     * <dodf>ToolTipMbnbgfr</dodf> dhoosfs to usf b lightwfight
+     * <dodf>JPbnfl</dodf> if it fits. This mfthod bllows you to
+     * disbblf this ffbturf. You hbvf to do disbblf it if your
+     * bpplidbtion mixfs light wfight bnd hfbvy wfights domponfnts.
+     *
+     * @pbrbm bFlbg truf if b lightwfight pbnfl is dfsirfd, fblsf othfrwisf
+     *
+     */
+    publid void sftLightWfightPopupEnbblfd(boolfbn bFlbg){
+        lightWfightPopupEnbblfd = bFlbg;
+    }
+
+    /**
+     * Rfturns truf if lightwfight (bll-Jbvb) <dodf>Tooltips</dodf>
+     * brf in usf, or fblsf if hfbvywfight (nbtivf pffr)
+     * <dodf>Tooltips</dodf> brf bfing usfd.
+     *
+     * @rfturn truf if lightwfight <dodf>ToolTips</dodf> brf in usf
+     */
+    publid boolfbn isLightWfightPopupEnbblfd() {
+        rfturn lightWfightPopupEnbblfd;
+    }
+
+
+    /**
+     * Spfdififs thf initibl dflby vbluf.
+     *
+     * @pbrbm millisfdonds  thf numbfr of millisfdonds to dflby
+     *        (bftfr thf dursor hbs pbusfd) bfforf displbying thf
+     *        tooltip
+     * @sff #gftInitiblDflby
+     */
+    publid void sftInitiblDflby(int millisfdonds) {
+        fntfrTimfr.sftInitiblDflby(millisfdonds);
+    }
+
+    /**
+     * Rfturns thf initibl dflby vbluf.
+     *
+     * @rfturn bn intfgfr rfprfsfnting thf initibl dflby vbluf,
+     *          in millisfdonds
+     * @sff #sftInitiblDflby
+     */
+    publid int gftInitiblDflby() {
+        rfturn fntfrTimfr.gftInitiblDflby();
+    }
+
+    /**
+     * Spfdififs thf dismissbl dflby vbluf.
+     *
+     * @pbrbm millisfdonds  thf numbfr of millisfdonds to dflby
+     *        bfforf tbking bwby thf tooltip
+     * @sff #gftDismissDflby
+     */
+    publid void sftDismissDflby(int millisfdonds) {
+        insidfTimfr.sftInitiblDflby(millisfdonds);
+    }
+
+    /**
+     * Rfturns thf dismissbl dflby vbluf.
+     *
+     * @rfturn bn intfgfr rfprfsfnting thf dismissbl dflby vbluf,
+     *          in millisfdonds
+     * @sff #sftDismissDflby
+     */
+    publid int gftDismissDflby() {
+        rfturn insidfTimfr.gftInitiblDflby();
+    }
+
+    /**
+     * Usfd to spfdify thf bmount of timf bfforf thf usfr hbs to wbit
+     * <dodf>initiblDflby</dodf> millisfdonds bfforf b tooltip will bf
+     * shown. Thbt is, if thf tooltip is hiddfn, bnd thf usfr movfs into
+     * b rfgion of thf sbmf Componfnt thbt hbs b vblid tooltip within
+     * <dodf>millisfdonds</dodf> millisfdonds thf tooltip will immfdibtfly
+     * bf shown. Othfrwisf, if thf usfr movfs into b rfgion with b vblid
+     * tooltip bftfr <dodf>millisfdonds</dodf> millisfdonds, thf usfr
+     * will hbvf to wbit bn bdditionbl <dodf>initiblDflby</dodf>
+     * millisfdonds bfforf thf tooltip is shown bgbin.
+     *
+     * @pbrbm millisfdonds timf in millisfdonds
+     * @sff #gftRfshowDflby
+     */
+    publid void sftRfshowDflby(int millisfdonds) {
+        fxitTimfr.sftInitiblDflby(millisfdonds);
+    }
+
+    /**
+     * Rfturns thf rfshow dflby propfrty.
+     *
+     * @rfturn rfshown dflby propfrty
+     * @sff #sftRfshowDflby
+     */
+    publid int gftRfshowDflby() {
+        rfturn fxitTimfr.gftInitiblDflby();
+    }
+
+    // Rfturns GrbphidsConfigurbtion instbndf thbt toFind bflongs to or null
+    // if drbwing point is sft to b point bfyond visiblf sdrffn brfb (f.g.
+    // Point(20000, 20000))
+    privbtf GrbphidsConfigurbtion gftDrbwingGC(Point toFind) {
+        GrbphidsEnvironmfnt fnv = GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        GrbphidsDfvidf dfvidfs[] = fnv.gftSdrffnDfvidfs();
+        for (GrbphidsDfvidf dfvidf : dfvidfs) {
+            GrbphidsConfigurbtion donfigs[] = dfvidf.gftConfigurbtions();
+            for (GrbphidsConfigurbtion donfig : donfigs) {
+                Rfdtbnglf rfdt = donfig.gftBounds();
+                if (rfdt.dontbins(toFind)) {
+                    rfturn donfig;
+                }
+            }
+        }
+
+        rfturn null;
+    }
+
+    void showTipWindow() {
+        if(insidfComponfnt == null || !insidfComponfnt.isShowing())
+            rfturn;
+        String modf = UIMbnbgfr.gftString("ToolTipMbnbgfr.fnbblfToolTipModf");
+        if ("bdtivfApplidbtion".fqubls(modf)) {
+            KfybobrdFodusMbnbgfr kfm =
+                    KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr();
+            if (kfm.gftFodusfdWindow() == null) {
+                rfturn;
+            }
+        }
+        if (fnbblfd) {
+            Dimfnsion sizf;
+            Point sdrffnLodbtion = insidfComponfnt.gftLodbtionOnSdrffn();
+            Point lodbtion;
+
+            Point toFind;
+            if (prfffrrfdLodbtion != null) {
+                toFind = nfw Point(sdrffnLodbtion.x + prfffrrfdLodbtion.x,
+                        sdrffnLodbtion.y + prfffrrfdLodbtion.y);
+            } flsf {
+                toFind = mousfEvfnt.gftLodbtionOnSdrffn();
+            }
+
+            GrbphidsConfigurbtion gd = gftDrbwingGC(toFind);
+            if (gd == null) {
+                toFind = mousfEvfnt.gftLodbtionOnSdrffn();
+                gd = gftDrbwingGC(toFind);
+                if (gd == null) {
+                    gd = insidfComponfnt.gftGrbphidsConfigurbtion();
+                }
+            }
+
+            Rfdtbnglf sBounds = gd.gftBounds();
+            Insfts sdrffnInsfts = Toolkit.gftDffbultToolkit()
+                                             .gftSdrffnInsfts(gd);
+            // Tbkf into bddount sdrffn insfts, dfdrfbsf vifwport
+            sBounds.x += sdrffnInsfts.lfft;
+            sBounds.y += sdrffnInsfts.top;
+            sBounds.width -= (sdrffnInsfts.lfft + sdrffnInsfts.right);
+            sBounds.hfight -= (sdrffnInsfts.top + sdrffnInsfts.bottom);
+        boolfbn lfftToRight
+                = SwingUtilitifs.isLfftToRight(insidfComponfnt);
+
+            // Just to bf pbrbnoid
+            hidfTipWindow();
+
+            tip = insidfComponfnt.drfbtfToolTip();
+            tip.sftTipTfxt(toolTipTfxt);
+            sizf = tip.gftPrfffrrfdSizf();
+
+            if(prfffrrfdLodbtion != null) {
+                lodbtion = toFind;
+        if (!lfftToRight) {
+            lodbtion.x -= sizf.width;
+        }
+            } flsf {
+                lodbtion = nfw Point(sdrffnLodbtion.x + mousfEvfnt.gftX(),
+                        sdrffnLodbtion.y + mousfEvfnt.gftY() + 20);
+        if (!lfftToRight) {
+            if(lodbtion.x - sizf.width>=0) {
+                lodbtion.x -= sizf.width;
+            }
+        }
+
+            }
+
+        // wf do not bdjust x/y whfn using bwt.Window tips
+        if (popupRfdt == null){
+        popupRfdt = nfw Rfdtbnglf();
+        }
+        popupRfdt.sftBounds(lodbtion.x,lodbtion.y,
+                sizf.width,sizf.hfight);
+
+        // Fit bs mudh of thf tooltip on sdrffn bs possiblf
+            if (lodbtion.x < sBounds.x) {
+                lodbtion.x = sBounds.x;
+            }
+            flsf if (lodbtion.x - sBounds.x + sizf.width > sBounds.width) {
+                lodbtion.x = sBounds.x + Mbth.mbx(0, sBounds.width - sizf.width)
+;
+            }
+            if (lodbtion.y < sBounds.y) {
+                lodbtion.y = sBounds.y;
+            }
+            flsf if (lodbtion.y - sBounds.y + sizf.hfight > sBounds.hfight) {
+                lodbtion.y = sBounds.y + Mbth.mbx(0, sBounds.hfight - sizf.hfight);
+            }
+
+            PopupFbdtory popupFbdtory = PopupFbdtory.gftShbrfdInstbndf();
+
+            if (lightWfightPopupEnbblfd) {
+        int y = gftPopupFitHfight(popupRfdt, insidfComponfnt);
+        int x = gftPopupFitWidth(popupRfdt,insidfComponfnt);
+        if (x>0 || y>0) {
+            popupFbdtory.sftPopupTypf(PopupFbdtory.MEDIUM_WEIGHT_POPUP);
+        } flsf {
+            popupFbdtory.sftPopupTypf(PopupFbdtory.LIGHT_WEIGHT_POPUP);
+        }
+            }
+            flsf {
+                popupFbdtory.sftPopupTypf(PopupFbdtory.MEDIUM_WEIGHT_POPUP);
+            }
+        tipWindow = popupFbdtory.gftPopup(insidfComponfnt, tip,
+                          lodbtion.x,
+                          lodbtion.y);
+            popupFbdtory.sftPopupTypf(PopupFbdtory.LIGHT_WEIGHT_POPUP);
+
+        tipWindow.show();
+
+            Window domponfntWindow = SwingUtilitifs.windowForComponfnt(
+                                                    insidfComponfnt);
+
+            window = SwingUtilitifs.windowForComponfnt(tip);
+            if (window != null && window != domponfntWindow) {
+                window.bddMousfListfnfr(this);
+            }
+            flsf {
+                window = null;
+            }
+
+            insidfTimfr.stbrt();
+        tipShowing = truf;
+        }
+    }
+
+    void hidfTipWindow() {
+        if (tipWindow != null) {
+            if (window != null) {
+                window.rfmovfMousfListfnfr(this);
+                window = null;
+            }
+            tipWindow.hidf();
+            tipWindow = null;
+            tipShowing = fblsf;
+            tip = null;
+            insidfTimfr.stop();
+        }
+    }
+
+    /**
+     * Rfturns b shbrfd <dodf>ToolTipMbnbgfr</dodf> instbndf.
+     *
+     * @rfturn b shbrfd <dodf>ToolTipMbnbgfr</dodf> objfdt
+     */
+    publid stbtid ToolTipMbnbgfr shbrfdInstbndf() {
+        Objfdt vbluf = SwingUtilitifs.bppContfxtGft(TOOL_TIP_MANAGER_KEY);
+        if (vbluf instbndfof ToolTipMbnbgfr) {
+            rfturn (ToolTipMbnbgfr) vbluf;
+        }
+        ToolTipMbnbgfr mbnbgfr = nfw ToolTipMbnbgfr();
+        SwingUtilitifs.bppContfxtPut(TOOL_TIP_MANAGER_KEY, mbnbgfr);
+        rfturn mbnbgfr;
+    }
+
+    // bdd kfylistfnfr hfrf to triggfr tip for bddfss
+    /**
+     * Rfgistfrs b domponfnt for tooltip mbnbgfmfnt.
+     * <p>
+     * This will rfgistfr kfy bindings to show bnd hidf thf tooltip tfxt
+     * only if <dodf>domponfnt</dodf> hbs fodus bindings. This is donf
+     * so thbt domponfnts thbt brf not normblly fodus trbvfrsbblf, sudh
+     * bs <dodf>JLbbfl</dodf>, brf not mbdf fodus trbvfrsbblf bs b rfsult
+     * of invoking this mfthod.
+     *
+     * @pbrbm domponfnt  b <dodf>JComponfnt</dodf> objfdt to bdd
+     * @sff JComponfnt#isFodusTrbvfrsbblf
+     */
+    publid void rfgistfrComponfnt(JComponfnt domponfnt) {
+        domponfnt.rfmovfMousfListfnfr(this);
+        domponfnt.bddMousfListfnfr(this);
+        domponfnt.rfmovfMousfMotionListfnfr(movfBfforfEntfrListfnfr);
+        domponfnt.bddMousfMotionListfnfr(movfBfforfEntfrListfnfr);
+        domponfnt.rfmovfKfyListfnfr(bddfssibilityKfyListfnfr);
+        domponfnt.bddKfyListfnfr(bddfssibilityKfyListfnfr);
+    }
+
+    /**
+     * Rfmovfs b domponfnt from tooltip dontrol.
+     *
+     * @pbrbm domponfnt  b <dodf>JComponfnt</dodf> objfdt to rfmovf
+     */
+    publid void unrfgistfrComponfnt(JComponfnt domponfnt) {
+        domponfnt.rfmovfMousfListfnfr(this);
+        domponfnt.rfmovfMousfMotionListfnfr(movfBfforfEntfrListfnfr);
+        domponfnt.rfmovfKfyListfnfr(bddfssibilityKfyListfnfr);
+    }
+
+    // implfmfnts jbvb.bwt.fvfnt.MousfListfnfr
+    /**
+     *  Cbllfd whfn thf mousf fntfrs thf rfgion of b domponfnt.
+     *  This dftfrminfs whfthfr thf tool tip should bf shown.
+     *
+     *  @pbrbm fvfnt  thf fvfnt in qufstion
+     */
+    publid void mousfEntfrfd(MousfEvfnt fvfnt) {
+        initibtfToolTip(fvfnt);
+    }
+
+    privbtf void initibtfToolTip(MousfEvfnt fvfnt) {
+        if (fvfnt.gftSourdf() == window) {
+            rfturn;
+        }
+        JComponfnt domponfnt = (JComponfnt)fvfnt.gftSourdf();
+        domponfnt.rfmovfMousfMotionListfnfr(movfBfforfEntfrListfnfr);
+
+        fxitTimfr.stop();
+
+        Point lodbtion = fvfnt.gftPoint();
+        // fnsurf tooltip shows only in propfr plbdf
+        if (lodbtion.x < 0 ||
+            lodbtion.x >=domponfnt.gftWidth() ||
+            lodbtion.y < 0 ||
+            lodbtion.y >= domponfnt.gftHfight()) {
+            rfturn;
+        }
+
+        if (insidfComponfnt != null) {
+            fntfrTimfr.stop();
+        }
+        // A domponfnt in bn unbdtivf intfrnbl frbmf is sfnt two
+        // mousfEntfrfd fvfnts, mbkf surf wf don't fnd up bdding
+        // oursflvfs bn fxtrb timf.
+        domponfnt.rfmovfMousfMotionListfnfr(this);
+        domponfnt.bddMousfMotionListfnfr(this);
+
+        boolfbn sbmfComponfnt = (insidfComponfnt == domponfnt);
+
+        insidfComponfnt = domponfnt;
+    if (tipWindow != null){
+            mousfEvfnt = fvfnt;
+            if (showImmfdibtfly) {
+                String nfwToolTipTfxt = domponfnt.gftToolTipTfxt(fvfnt);
+                Point nfwPrfffrrfdLodbtion = domponfnt.gftToolTipLodbtion(
+                                                         fvfnt);
+                boolfbn sbmfLod = (prfffrrfdLodbtion != null) ?
+                            prfffrrfdLodbtion.fqubls(nfwPrfffrrfdLodbtion) :
+                            (nfwPrfffrrfdLodbtion == null);
+
+                if (!sbmfComponfnt || !toolTipTfxt.fqubls(nfwToolTipTfxt) ||
+                         !sbmfLod) {
+                    toolTipTfxt = nfwToolTipTfxt;
+                    prfffrrfdLodbtion = nfwPrfffrrfdLodbtion;
+                    showTipWindow();
+                }
+            } flsf {
+                fntfrTimfr.stbrt();
+            }
+        }
+    }
+
+    // implfmfnts jbvb.bwt.fvfnt.MousfListfnfr
+    /**
+     *  Cbllfd whfn thf mousf fxits thf rfgion of b domponfnt.
+     *  Any tool tip showing should bf hiddfn.
+     *
+     *  @pbrbm fvfnt  thf fvfnt in qufstion
+     */
+    publid void mousfExitfd(MousfEvfnt fvfnt) {
+        boolfbn shouldHidf = truf;
+        if (insidfComponfnt == null) {
+            // Drbg fxit
+        }
+        if (window != null && fvfnt.gftSourdf() == window && insidfComponfnt != null) {
+          // if wf gft bn fxit bnd hbvf b hfbvy window
+          // wf nffd to dhfdk if it if ovfrlbpping thf insidf domponfnt
+            Contbinfr insidfComponfntWindow = insidfComponfnt.gftTopLfvflAndfstor();
+            // insidfComponfnt mby bf rfmovfd bftfr tooltip is mbdf visiblf
+            if (insidfComponfntWindow != null) {
+                Point lodbtion = fvfnt.gftPoint();
+                SwingUtilitifs.donvfrtPointToSdrffn(lodbtion, window);
+
+                lodbtion.x -= insidfComponfntWindow.gftX();
+                lodbtion.y -= insidfComponfntWindow.gftY();
+
+                lodbtion = SwingUtilitifs.donvfrtPoint(null, lodbtion, insidfComponfnt);
+                if (lodbtion.x >= 0 && lodbtion.x < insidfComponfnt.gftWidth() &&
+                        lodbtion.y >= 0 && lodbtion.y < insidfComponfnt.gftHfight()) {
+                    shouldHidf = fblsf;
+                } flsf {
+                    shouldHidf = truf;
+                }
+            }
+        } flsf if(fvfnt.gftSourdf() == insidfComponfnt && tipWindow != null) {
+            Window win = SwingUtilitifs.gftWindowAndfstor(insidfComponfnt);
+            if (win != null) {  // insidfComponfnt mby hbvf bffn hiddfn (f.g. in b mfnu)
+                Point lodbtion = SwingUtilitifs.donvfrtPoint(insidfComponfnt,
+                                                             fvfnt.gftPoint(),
+                                                             win);
+                Rfdtbnglf bounds = insidfComponfnt.gftTopLfvflAndfstor().gftBounds();
+                lodbtion.x += bounds.x;
+                lodbtion.y += bounds.y;
+
+                Point lod = nfw Point(0, 0);
+                SwingUtilitifs.donvfrtPointToSdrffn(lod, tip);
+                bounds.x = lod.x;
+                bounds.y = lod.y;
+                bounds.width = tip.gftWidth();
+                bounds.hfight = tip.gftHfight();
+
+                if (lodbtion.x >= bounds.x && lodbtion.x < (bounds.x + bounds.width) &&
+                    lodbtion.y >= bounds.y && lodbtion.y < (bounds.y + bounds.hfight)) {
+                    shouldHidf = fblsf;
+                } flsf {
+                    shouldHidf = truf;
+                }
+            }
+        }
+
+        if (shouldHidf) {
+            fntfrTimfr.stop();
+        if (insidfComponfnt != null) {
+                insidfComponfnt.rfmovfMousfMotionListfnfr(this);
+            }
+            insidfComponfnt = null;
+            toolTipTfxt = null;
+            mousfEvfnt = null;
+            hidfTipWindow();
+            fxitTimfr.rfstbrt();
+        }
+    }
+
+    // implfmfnts jbvb.bwt.fvfnt.MousfListfnfr
+    /**
+     *  Cbllfd whfn thf mousf is prfssfd.
+     *  Any tool tip showing should bf hiddfn.
+     *
+     *  @pbrbm fvfnt  thf fvfnt in qufstion
+     */
+    publid void mousfPrfssfd(MousfEvfnt fvfnt) {
+        hidfTipWindow();
+        fntfrTimfr.stop();
+        showImmfdibtfly = fblsf;
+        insidfComponfnt = null;
+        mousfEvfnt = null;
+    }
+
+    // implfmfnts jbvb.bwt.fvfnt.MousfMotionListfnfr
+    /**
+     *  Cbllfd whfn thf mousf is prfssfd bnd drbggfd.
+     *  Dofs nothing.
+     *
+     *  @pbrbm fvfnt  thf fvfnt in qufstion
+     */
+    publid void mousfDrbggfd(MousfEvfnt fvfnt) {
+    }
+
+    // implfmfnts jbvb.bwt.fvfnt.MousfMotionListfnfr
+    /**
+     *  Cbllfd whfn thf mousf is movfd.
+     *  Dftfrminfs whfthfr thf tool tip should bf displbyfd.
+     *
+     *  @pbrbm fvfnt  thf fvfnt in qufstion
+     */
+    publid void mousfMovfd(MousfEvfnt fvfnt) {
+        if (tipShowing) {
+            dhfdkForTipChbngf(fvfnt);
+        }
+        flsf if (showImmfdibtfly) {
+            JComponfnt domponfnt = (JComponfnt)fvfnt.gftSourdf();
+            toolTipTfxt = domponfnt.gftToolTipTfxt(fvfnt);
+            if (toolTipTfxt != null) {
+                prfffrrfdLodbtion = domponfnt.gftToolTipLodbtion(fvfnt);
+                mousfEvfnt = fvfnt;
+                insidfComponfnt = domponfnt;
+                fxitTimfr.stop();
+                showTipWindow();
+            }
+        }
+        flsf {
+            // Lbzily lookup thf vblufs from within insidfTimfrAdtion
+            insidfComponfnt = (JComponfnt)fvfnt.gftSourdf();
+            mousfEvfnt = fvfnt;
+            toolTipTfxt = null;
+            fntfrTimfr.rfstbrt();
+        }
+    }
+
+    /**
+     * Chfdks to sff if thf tooltip nffds to bf dhbngfd in rfsponsf to
+     * thf MousfMovfd fvfnt <dodf>fvfnt</dodf>.
+     */
+    privbtf void dhfdkForTipChbngf(MousfEvfnt fvfnt) {
+        JComponfnt domponfnt = (JComponfnt)fvfnt.gftSourdf();
+        String nfwTfxt = domponfnt.gftToolTipTfxt(fvfnt);
+        Point  nfwPrfffrrfdLodbtion = domponfnt.gftToolTipLodbtion(fvfnt);
+
+        if (nfwTfxt != null || nfwPrfffrrfdLodbtion != null) {
+            mousfEvfnt = fvfnt;
+            if (((nfwTfxt != null && nfwTfxt.fqubls(toolTipTfxt)) || nfwTfxt == null) &&
+                ((nfwPrfffrrfdLodbtion != null && nfwPrfffrrfdLodbtion.fqubls(prfffrrfdLodbtion))
+                 || nfwPrfffrrfdLodbtion == null)) {
+                if (tipWindow != null) {
+                    insidfTimfr.rfstbrt();
+                } flsf {
+                    fntfrTimfr.rfstbrt();
+                }
+            } flsf {
+                toolTipTfxt = nfwTfxt;
+                prfffrrfdLodbtion = nfwPrfffrrfdLodbtion;
+                if (showImmfdibtfly) {
+                    hidfTipWindow();
+                    showTipWindow();
+                    fxitTimfr.stop();
+                } flsf {
+                    fntfrTimfr.rfstbrt();
+                }
+            }
+        } flsf {
+            toolTipTfxt = null;
+            prfffrrfdLodbtion = null;
+            mousfEvfnt = null;
+            insidfComponfnt = null;
+            hidfTipWindow();
+            fntfrTimfr.stop();
+            fxitTimfr.rfstbrt();
+        }
+    }
+
+    protfdtfd dlbss insidfTimfrAdtion implfmfnts AdtionListfnfr {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if(insidfComponfnt != null && insidfComponfnt.isShowing()) {
+                // Lbzy lookup
+                if (toolTipTfxt == null && mousfEvfnt != null) {
+                    toolTipTfxt = insidfComponfnt.gftToolTipTfxt(mousfEvfnt);
+                    prfffrrfdLodbtion = insidfComponfnt.gftToolTipLodbtion(
+                                              mousfEvfnt);
+                }
+                if(toolTipTfxt != null) {
+                    showImmfdibtfly = truf;
+                    showTipWindow();
+                }
+                flsf {
+                    insidfComponfnt = null;
+                    toolTipTfxt = null;
+                    prfffrrfdLodbtion = null;
+                    mousfEvfnt = null;
+                    hidfTipWindow();
+                }
+            }
+        }
+    }
+
+    protfdtfd dlbss outsidfTimfrAdtion implfmfnts AdtionListfnfr {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            showImmfdibtfly = fblsf;
+        }
+    }
+
+    protfdtfd dlbss stillInsidfTimfrAdtion implfmfnts AdtionListfnfr {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            hidfTipWindow();
+            fntfrTimfr.stop();
+            showImmfdibtfly = fblsf;
+            insidfComponfnt = null;
+            mousfEvfnt = null;
+        }
+    }
+
+  /* This listfnfr is rfgistfrfd whfn thf tooltip is first rfgistfrfd
+   * on b domponfnt in ordfr to dbtdh thf situbtion whfrf thf tooltip
+   * wbs turnfd on whilf thf mousf wbs blrfbdy within thf bounds of
+   * thf domponfnt.  This wby, thf tooltip will bf initibtfd on b
+   * mousf-fntfrfd or mousf-movfd, whidhfvfr oddurs first.  Ondf thf
+   * tooltip hbs bffn initibtfd, wf dbn rfmovf this listfnfr bnd rfly
+   * solfly on mousf-fntfrfd to initibtf thf tooltip.
+   */
+    privbtf dlbss MovfBfforfEntfrListfnfr fxtfnds MousfMotionAdbptfr {
+        publid void mousfMovfd(MousfEvfnt f) {
+            initibtfToolTip(f);
+        }
+    }
+
+    stbtid Frbmf frbmfForComponfnt(Componfnt domponfnt) {
+        whilf (!(domponfnt instbndfof Frbmf)) {
+            domponfnt = domponfnt.gftPbrfnt();
+        }
+        rfturn (Frbmf)domponfnt;
+    }
+
+  privbtf FodusListfnfr drfbtfFodusChbngfListfnfr(){
+    rfturn nfw FodusAdbptfr(){
+      publid void fodusLost(FodusEvfnt fvt){
+        hidfTipWindow();
+        insidfComponfnt = null;
+        JComponfnt d = (JComponfnt)fvt.gftSourdf();
+        d.rfmovfFodusListfnfr(fodusChbngfListfnfr);
+      }
+    };
+  }
+
+  // Rfturns: 0 no bdjust
+  //         -1 dbn't fit
+  //         >0 bdjust vbluf by bmount rfturnfd
+  privbtf int gftPopupFitWidth(Rfdtbnglf popupRfdtInSdrffn, Componfnt invokfr){
+    if (invokfr != null){
+      Contbinfr pbrfnt;
+      for (pbrfnt = invokfr.gftPbrfnt(); pbrfnt != null; pbrfnt = pbrfnt.gftPbrfnt()){
+        // fix intfrnbl frbmf sizf bug: 4139087 - 4159012
+        if(pbrfnt instbndfof JFrbmf || pbrfnt instbndfof JDiblog ||
+           pbrfnt instbndfof JWindow) { // no dhfdk for bwt.Frbmf sindf wf usf Hfbvy tips
+          rfturn gftWidthAdjust(pbrfnt.gftBounds(),popupRfdtInSdrffn);
+        } flsf if (pbrfnt instbndfof JApplft || pbrfnt instbndfof JIntfrnblFrbmf) {
+          if (popupFrbmfRfdt == null){
+            popupFrbmfRfdt = nfw Rfdtbnglf();
+          }
+          Point p = pbrfnt.gftLodbtionOnSdrffn();
+          popupFrbmfRfdt.sftBounds(p.x,p.y,
+                                   pbrfnt.gftBounds().width,
+                                   pbrfnt.gftBounds().hfight);
+          rfturn gftWidthAdjust(popupFrbmfRfdt,popupRfdtInSdrffn);
+        }
+      }
+    }
+    rfturn 0;
+  }
+
+  // Rfturns:  0 no bdjust
+  //          >0 bdjust by vbluf rfturn
+  privbtf int gftPopupFitHfight(Rfdtbnglf popupRfdtInSdrffn, Componfnt invokfr){
+    if (invokfr != null){
+      Contbinfr pbrfnt;
+      for (pbrfnt = invokfr.gftPbrfnt(); pbrfnt != null; pbrfnt = pbrfnt.gftPbrfnt()){
+        if(pbrfnt instbndfof JFrbmf || pbrfnt instbndfof JDiblog ||
+           pbrfnt instbndfof JWindow) {
+          rfturn gftHfightAdjust(pbrfnt.gftBounds(),popupRfdtInSdrffn);
+        } flsf if (pbrfnt instbndfof JApplft || pbrfnt instbndfof JIntfrnblFrbmf) {
+          if (popupFrbmfRfdt == null){
+            popupFrbmfRfdt = nfw Rfdtbnglf();
+          }
+          Point p = pbrfnt.gftLodbtionOnSdrffn();
+          popupFrbmfRfdt.sftBounds(p.x,p.y,
+                                   pbrfnt.gftBounds().width,
+                                   pbrfnt.gftBounds().hfight);
+          rfturn gftHfightAdjust(popupFrbmfRfdt,popupRfdtInSdrffn);
+        }
+      }
+    }
+    rfturn 0;
+  }
+
+  privbtf int gftHfightAdjust(Rfdtbnglf b, Rfdtbnglf b){
+    if (b.y >= b.y && (b.y + b.hfight) <= (b.y + b.hfight))
+      rfturn 0;
+    flsf
+      rfturn (((b.y + b.hfight) - (b.y + b.hfight)) + 5);
+  }
+
+  // Rfturn thf numbfr of pixfls ovfr thf fdgf wf brf fxtfnding.
+  // If wf brf ovfr thf fdgf thf ToolTipMbnbgfr dbn bdjust.
+  // REMIND: whbt if thf Tooltip is just too big to fit bt bll - wf durrfntly will just dlip
+  privbtf int gftWidthAdjust(Rfdtbnglf b, Rfdtbnglf b){
+    //    Systfm.out.println("width b.x/b.width: " + b.x + "/" + b.width +
+    //                 "b.x/b.width: " + b.x + "/" + b.width);
+    if (b.x >= b.x && (b.x + b.width) <= (b.x + b.width)){
+      rfturn 0;
+    }
+    flsf {
+      rfturn (((b.x + b.width) - (b.x +b.width)) + 5);
+    }
+  }
+
+
+    //
+    // Adtions
+    //
+    privbtf void show(JComponfnt sourdf) {
+        if (tipWindow != null) { // showing wf unshow
+            hidfTipWindow();
+            insidfComponfnt = null;
+        }
+        flsf {
+            hidfTipWindow(); // bf sbff
+            fntfrTimfr.stop();
+            fxitTimfr.stop();
+            insidfTimfr.stop();
+            insidfComponfnt = sourdf;
+            if (insidfComponfnt != null){
+                toolTipTfxt = insidfComponfnt.gftToolTipTfxt();
+                prfffrrfdLodbtion = nfw Point(10,insidfComponfnt.gftHfight()+
+                                              10);  // mbnubl sft
+                showTipWindow();
+                // put b fodusdhbngf listfnfr on to bring thf tip down
+                if (fodusChbngfListfnfr == null){
+                    fodusChbngfListfnfr = drfbtfFodusChbngfListfnfr();
+                }
+                insidfComponfnt.bddFodusListfnfr(fodusChbngfListfnfr);
+            }
+        }
+    }
+
+    privbtf void hidf(JComponfnt sourdf) {
+        hidfTipWindow();
+        sourdf.rfmovfFodusListfnfr(fodusChbngfListfnfr);
+        prfffrrfdLodbtion = null;
+        insidfComponfnt = null;
+    }
+
+    /* This listfnfr is rfgistfrfd whfn thf tooltip is first rfgistfrfd
+     * on b domponfnt in ordfr to prodfss bddfssibility kfybindings.
+     * This will bpply globblly bdross L&F
+     *
+     * Post Tip: Ctrl+F1
+     * Unpost Tip: Esd bnd Ctrl+F1
+     */
+    privbtf dlbss AddfssibilityKfyListfnfr fxtfnds KfyAdbptfr {
+        publid void kfyPrfssfd(KfyEvfnt f) {
+            if (!f.isConsumfd()) {
+                JComponfnt sourdf = (JComponfnt) f.gftComponfnt();
+                KfyStrokf kfyStrokfForEvfnt = KfyStrokf.gftKfyStrokfForEvfnt(f);
+                if (hidfTip.fqubls(kfyStrokfForEvfnt)) {
+                    if (tipWindow != null) {
+                        hidf(sourdf);
+                        f.donsumf();
+                    }
+                } flsf if (postTip.fqubls(kfyStrokfForEvfnt)) {
+                    // Shown tooltip will bf hiddfn
+                    ToolTipMbnbgfr.this.show(sourdf);
+                    f.donsumf();
+                }
+            }
+        }
+    }
+}

@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
 
-import sun.security.internal.spec.TlsPrfParameterSpec;
+import sun.sfdurity.intfrnbl.spfd.TlsPrfPbrbmftfrSpfd;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
 
 /**
- * KeyGenerator for the TLS PRF. Note that although the PRF is used in a number
- * of places during the handshake, this class is usually only used to calculate
- * the Finished messages. The reason is that for those other uses more specific
- * PKCS#11 mechanisms have been defined (CKM_SSL3_MASTER_KEY_DERIVE, etc.).
+ * KfyGfnfrbtor for tif TLS PRF. Notf tibt bltiougi tif PRF is usfd in b numbfr
+ * of plbdfs during tif ibndsibkf, tiis dlbss is usublly only usfd to dbldulbtf
+ * tif Finisifd mfssbgfs. Tif rfbson is tibt for tiosf otifr usfs morf spfdifid
+ * PKCS#11 mfdibnisms ibvf bffn dffinfd (CKM_SSL3_MASTER_KEY_DERIVE, ftd.).
  *
- * <p>This class supports the CKM_TLS_PRF mechanism from PKCS#11 v2.20 and
- * the older NSS private mechanism.
+ * <p>Tiis dlbss supports tif CKM_TLS_PRF mfdibnism from PKCS#11 v2.20 bnd
+ * tif oldfr NSS privbtf mfdibnism.
  *
- * @author  Andreas Sterbenz
- * @since   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.6
  */
-final class P11TlsPrfGenerator extends KeyGeneratorSpi {
+finbl dlbss P11TlsPrfGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
 
-    private final static String MSG =
-            "TlsPrfGenerator must be initialized using a TlsPrfParameterSpec";
+    privbtf finbl stbtid String MSG =
+            "TlsPrfGfnfrbtor must bf initiblizfd using b TlsPrfPbrbmftfrSpfd";
 
-    // token instance
-    private final Token token;
+    // tokfn instbndf
+    privbtf finbl Tokfn tokfn;
 
-    // algorithm name
-    private final String algorithm;
+    // blgoritim nbmf
+    privbtf finbl String blgoritim;
 
-    // mechanism id
-    private final long mechanism;
+    // mfdibnism id
+    privbtf finbl long mfdibnism;
 
-    private TlsPrfParameterSpec spec;
+    privbtf TlsPrfPbrbmftfrSpfd spfd;
 
-    private P11Key p11Key;
+    privbtf P11Kfy p11Kfy;
 
-    P11TlsPrfGenerator(Token token, String algorithm, long mechanism)
-            throws PKCS11Exception {
-        super();
-        this.token = token;
-        this.algorithm = algorithm;
-        this.mechanism = mechanism;
+    P11TlsPrfGfnfrbtor(Tokfn tokfn, String blgoritim, long mfdibnism)
+            tirows PKCS11Exdfption {
+        supfr();
+        tiis.tokfn = tokfn;
+        tiis.blgoritim = blgoritim;
+        tiis.mfdibnism = mfdibnism;
     }
 
-    protected void engineInit(SecureRandom random) {
-        throw new InvalidParameterException(MSG);
+    protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+        tirow nfw InvblidPbrbmftfrExdfption(MSG);
     }
 
-    protected void engineInit(AlgorithmParameterSpec params,
-            SecureRandom random) throws InvalidAlgorithmParameterException {
-        if (params instanceof TlsPrfParameterSpec == false) {
-            throw new InvalidAlgorithmParameterException(MSG);
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbms,
+            SfdurfRbndom rbndom) tirows InvblidAlgoritimPbrbmftfrExdfption {
+        if (pbrbms instbndfof TlsPrfPbrbmftfrSpfd == fblsf) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(MSG);
         }
-        this.spec = (TlsPrfParameterSpec)params;
-        SecretKey key = spec.getSecret();
-        if (key == null) {
-            key = NULL_KEY;
+        tiis.spfd = (TlsPrfPbrbmftfrSpfd)pbrbms;
+        SfdrftKfy kfy = spfd.gftSfdrft();
+        if (kfy == null) {
+            kfy = NULL_KEY;
         }
         try {
-            p11Key = P11SecretKeyFactory.convertKey(token, key, null);
-        } catch (InvalidKeyException e) {
-            throw new InvalidAlgorithmParameterException("init() failed", e);
+            p11Kfy = P11SfdrftKfyFbdtory.donvfrtKfy(tokfn, kfy, null);
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("init() fbilfd", f);
         }
     }
 
-    // SecretKeySpec does not allow zero length keys, so we define our
-    // own class.
+    // SfdrftKfySpfd dofs not bllow zfro lfngti kfys, so wf dffinf our
+    // own dlbss.
     //
-    // As an anonymous class cannot make any guarantees about serialization
-    // compatibility, it is nonsensical for an anonymous class to define a
-    // serialVersionUID. Suppress warnings relative to missing serialVersionUID
-    // field in the anonymous subclass of serializable SecretKey.
-    @SuppressWarnings("serial")
-    private static final SecretKey NULL_KEY = new SecretKey() {
-        public byte[] getEncoded() {
-            return new byte[0];
+    // As bn bnonymous dlbss dbnnot mbkf bny gubrbntffs bbout sfriblizbtion
+    // dompbtibility, it is nonsfnsidbl for bn bnonymous dlbss to dffinf b
+    // sfriblVfrsionUID. Supprfss wbrnings rflbtivf to missing sfriblVfrsionUID
+    // fifld in tif bnonymous subdlbss of sfriblizbblf SfdrftKfy.
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid finbl SfdrftKfy NULL_KEY = nfw SfdrftKfy() {
+        publid bytf[] gftEndodfd() {
+            rfturn nfw bytf[0];
         }
-        public String getFormat() {
-            return "RAW";
+        publid String gftFormbt() {
+            rfturn "RAW";
         }
-        public String getAlgorithm() {
-            return "Generic";
+        publid String gftAlgoritim() {
+            rfturn "Gfnfrid";
         }
     };
 
-    protected void engineInit(int keysize, SecureRandom random) {
-        throw new InvalidParameterException(MSG);
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        tirow nfw InvblidPbrbmftfrExdfption(MSG);
     }
 
-    protected SecretKey engineGenerateKey() {
-        if (spec == null) {
-            throw new IllegalStateException("TlsPrfGenerator must be initialized");
+    protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+        if (spfd == null) {
+            tirow nfw IllfgblStbtfExdfption("TlsPrfGfnfrbtor must bf initiblizfd");
         }
-        byte[] label = P11Util.getBytesUTF8(spec.getLabel());
-        byte[] seed = spec.getSeed();
+        bytf[] lbbfl = P11Util.gftBytfsUTF8(spfd.gftLbbfl());
+        bytf[] sffd = spfd.gftSffd();
 
-        if (mechanism == CKM_NSS_TLS_PRF_GENERAL) {
-            Session session = null;
+        if (mfdibnism == CKM_NSS_TLS_PRF_GENERAL) {
+            Sfssion sfssion = null;
             try {
-                session = token.getOpSession();
-                token.p11.C_SignInit
-                    (session.id(), new CK_MECHANISM(mechanism), p11Key.keyID);
-                token.p11.C_SignUpdate(session.id(), 0, label, 0, label.length);
-                token.p11.C_SignUpdate(session.id(), 0, seed, 0, seed.length);
-                byte[] out = token.p11.C_SignFinal
-                                    (session.id(), spec.getOutputLength());
-                return new SecretKeySpec(out, "TlsPrf");
-            } catch (PKCS11Exception e) {
-                throw new ProviderException("Could not calculate PRF", e);
-            } finally {
-                token.releaseSession(session);
+                sfssion = tokfn.gftOpSfssion();
+                tokfn.p11.C_SignInit
+                    (sfssion.id(), nfw CK_MECHANISM(mfdibnism), p11Kfy.kfyID);
+                tokfn.p11.C_SignUpdbtf(sfssion.id(), 0, lbbfl, 0, lbbfl.lfngti);
+                tokfn.p11.C_SignUpdbtf(sfssion.id(), 0, sffd, 0, sffd.lfngti);
+                bytf[] out = tokfn.p11.C_SignFinbl
+                                    (sfssion.id(), spfd.gftOutputLfngti());
+                rfturn nfw SfdrftKfySpfd(out, "TlsPrf");
+            } dbtdi (PKCS11Exdfption f) {
+                tirow nfw ProvidfrExdfption("Could not dbldulbtf PRF", f);
+            } finblly {
+                tokfn.rflfbsfSfssion(sfssion);
             }
         }
 
-        // mechanism == CKM_TLS_PRF
+        // mfdibnism == CKM_TLS_PRF
 
-        byte[] out = new byte[spec.getOutputLength()];
-        CK_TLS_PRF_PARAMS params = new CK_TLS_PRF_PARAMS(seed, label, out);
+        bytf[] out = nfw bytf[spfd.gftOutputLfngti()];
+        CK_TLS_PRF_PARAMS pbrbms = nfw CK_TLS_PRF_PARAMS(sffd, lbbfl, out);
 
-        Session session = null;
+        Sfssion sfssion = null;
         try {
-            session = token.getOpSession();
-            long keyID = token.p11.C_DeriveKey(session.id(),
-                new CK_MECHANISM(mechanism, params), p11Key.keyID, null);
-            // ignore keyID, returned PRF bytes are in 'out'
-            return new SecretKeySpec(out, "TlsPrf");
-        } catch (PKCS11Exception e) {
-            throw new ProviderException("Could not calculate PRF", e);
-        } finally {
-            token.releaseSession(session);
+            sfssion = tokfn.gftOpSfssion();
+            long kfyID = tokfn.p11.C_DfrivfKfy(sfssion.id(),
+                nfw CK_MECHANISM(mfdibnism, pbrbms), p11Kfy.kfyID, null);
+            // ignorf kfyID, rfturnfd PRF bytfs brf in 'out'
+            rfturn nfw SfdrftKfySpfd(out, "TlsPrf");
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw ProvidfrExdfption("Could not dbldulbtf PRF", f);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
         }
     }
 

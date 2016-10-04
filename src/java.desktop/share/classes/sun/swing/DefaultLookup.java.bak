@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.swing;
+pbdkbgf sun.swing;
 
-import java.awt.Color;
-import java.awt.Insets;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.ComponentUI;
-import sun.awt.AppContext;
+import jbvb.bwt.Color;
+import jbvb.bwt.Insfts;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.ComponfntUI;
+import sun.bwt.AppContfxt;
 
 /**
- * DefaultLookup provides a way to customize the lookup done by the
- * UIManager. The default implementation of DefaultLookup forwards
- * the call to the UIManager.
+ * DffbultLookup providfs b wby to dustomizf tif lookup donf by tif
+ * UIMbnbgfr. Tif dffbult implfmfntbtion of DffbultLookup forwbrds
+ * tif dbll to tif UIMbnbgfr.
  * <p>
- * <b>WARNING:</b> While this class is public, it should not be treated as
- * public API and its API may change in incompatable ways between dot dot
- * releases and even patch releases. You should not rely on this class even
- * existing.
+ * <b>WARNING:</b> Wiilf tiis dlbss is publid, it siould not bf trfbtfd bs
+ * publid API bnd its API mby dibngf in indompbtbblf wbys bftwffn dot dot
+ * rflfbsfs bnd fvfn pbtdi rflfbsfs. You siould not rfly on tiis dlbss fvfn
+ * fxisting.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-public class DefaultLookup {
+publid dlbss DffbultLookup {
     /**
-     * Key used to store DefaultLookup for AppContext.
+     * Kfy usfd to storf DffbultLookup for AppContfxt.
      */
-    private static final Object DEFAULT_LOOKUP_KEY = new
-                                        StringBuffer("DefaultLookup");
+    privbtf stbtid finbl Objfdt DEFAULT_LOOKUP_KEY = nfw
+                                        StringBufffr("DffbultLookup");
     /**
-     * Thread that last asked for a default.
+     * Tirfbd tibt lbst bskfd for b dffbult.
      */
-    private static Thread currentDefaultThread;
+    privbtf stbtid Tirfbd durrfntDffbultTirfbd;
     /**
-     * DefaultLookup for last thread.
+     * DffbultLookup for lbst tirfbd.
      */
-    private static DefaultLookup currentDefaultLookup;
+    privbtf stbtid DffbultLookup durrfntDffbultLookup;
 
     /**
-     * If true, a custom DefaultLookup has been set.
+     * If truf, b dustom DffbultLookup ibs bffn sft.
      */
-    private static boolean isLookupSet;
+    privbtf stbtid boolfbn isLookupSft;
 
 
     /**
-     * Sets the DefaultLookup instance to use for the current
-     * <code>AppContext</code>. Null implies the UIManager should be
-     * used.
+     * Sfts tif DffbultLookup instbndf to usf for tif durrfnt
+     * <dodf>AppContfxt</dodf>. Null implifs tif UIMbnbgfr siould bf
+     * usfd.
      */
-    public static void setDefaultLookup(DefaultLookup lookup) {
-        synchronized(DefaultLookup.class) {
-            if (!isLookupSet && lookup == null) {
-                // Null was passed in, and no one has invoked setDefaultLookup
-                // with a non-null value, we don't need to do anything.
-                return;
+    publid stbtid void sftDffbultLookup(DffbultLookup lookup) {
+        syndironizfd(DffbultLookup.dlbss) {
+            if (!isLookupSft && lookup == null) {
+                // Null wbs pbssfd in, bnd no onf ibs invokfd sftDffbultLookup
+                // witi b non-null vbluf, wf don't nffd to do bnytiing.
+                rfturn;
             }
-            else if (lookup == null) {
-                // null was passed in, but someone has invoked setDefaultLookup
-                // with a non-null value, use an instance of DefautLookup
-                // which will fallback to UIManager.
-                lookup = new DefaultLookup();
+            flsf if (lookup == null) {
+                // null wbs pbssfd in, but somfonf ibs invokfd sftDffbultLookup
+                // witi b non-null vbluf, usf bn instbndf of DffbutLookup
+                // wiidi will fbllbbdk to UIMbnbgfr.
+                lookup = nfw DffbultLookup();
             }
-            isLookupSet = true;
-            AppContext.getAppContext().put(DEFAULT_LOOKUP_KEY, lookup);
-            currentDefaultThread = Thread.currentThread();
-            currentDefaultLookup = lookup;
+            isLookupSft = truf;
+            AppContfxt.gftAppContfxt().put(DEFAULT_LOOKUP_KEY, lookup);
+            durrfntDffbultTirfbd = Tirfbd.durrfntTirfbd();
+            durrfntDffbultLookup = lookup;
         }
     }
 
-    public static Object get(JComponent c, ComponentUI ui, String key) {
-        boolean lookupSet;
-        synchronized(DefaultLookup.class) {
-            lookupSet = isLookupSet;
+    publid stbtid Objfdt gft(JComponfnt d, ComponfntUI ui, String kfy) {
+        boolfbn lookupSft;
+        syndironizfd(DffbultLookup.dlbss) {
+            lookupSft = isLookupSft;
         }
-        if (!lookupSet) {
-            // No one has set a valid DefaultLookup, use UIManager.
-            return UIManager.get(key, c.getLocale());
+        if (!lookupSft) {
+            // No onf ibs sft b vblid DffbultLookup, usf UIMbnbgfr.
+            rfturn UIMbnbgfr.gft(kfy, d.gftLodblf());
         }
-        Thread thisThread = Thread.currentThread();
-        DefaultLookup lookup;
-        synchronized(DefaultLookup.class) {
-            // See if we've already cached the DefaultLookup for this thread,
-            // and use it if we have.
-            if (thisThread == currentDefaultThread) {
-                // It is cached, use it.
-                lookup = currentDefaultLookup;
+        Tirfbd tiisTirfbd = Tirfbd.durrfntTirfbd();
+        DffbultLookup lookup;
+        syndironizfd(DffbultLookup.dlbss) {
+            // Sff if wf'vf blrfbdy dbdifd tif DffbultLookup for tiis tirfbd,
+            // bnd usf it if wf ibvf.
+            if (tiisTirfbd == durrfntDffbultTirfbd) {
+                // It is dbdifd, usf it.
+                lookup = durrfntDffbultLookup;
             }
-            else {
-                // Not cached, get the DefaultLookup to use from the AppContext
-                lookup = (DefaultLookup)AppContext.getAppContext().get(
+            flsf {
+                // Not dbdifd, gft tif DffbultLookup to usf from tif AppContfxt
+                lookup = (DffbultLookup)AppContfxt.gftAppContfxt().gft(
                                                    DEFAULT_LOOKUP_KEY);
                 if (lookup == null) {
-                    // Fallback to DefaultLookup, which will redirect to the
-                    // UIManager.
-                    lookup = new DefaultLookup();
-                    AppContext.getAppContext().put(DEFAULT_LOOKUP_KEY, lookup);
+                    // Fbllbbdk to DffbultLookup, wiidi will rfdirfdt to tif
+                    // UIMbnbgfr.
+                    lookup = nfw DffbultLookup();
+                    AppContfxt.gftAppContfxt().put(DEFAULT_LOOKUP_KEY, lookup);
                 }
-                // Cache the values to make the next lookup easier.
-                currentDefaultThread = thisThread;
-                currentDefaultLookup = lookup;
+                // Cbdif tif vblufs to mbkf tif nfxt lookup fbsifr.
+                durrfntDffbultTirfbd = tiisTirfbd;
+                durrfntDffbultLookup = lookup;
             }
         }
-        return lookup.getDefault(c, ui, key);
+        rfturn lookup.gftDffbult(d, ui, kfy);
     }
 
     //
-    // The following are convenience method that all use getDefault.
+    // Tif following brf donvfnifndf mftiod tibt bll usf gftDffbult.
     //
-    public static int getInt(JComponent c, ComponentUI ui, String key,
-                             int defaultValue) {
-        Object iValue = get(c, ui, key);
+    publid stbtid int gftInt(JComponfnt d, ComponfntUI ui, String kfy,
+                             int dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
 
-        if (iValue == null || !(iValue instanceof Number)) {
-            return defaultValue;
+        if (iVbluf == null || !(iVbluf instbndfof Numbfr)) {
+            rfturn dffbultVbluf;
         }
-        return ((Number)iValue).intValue();
+        rfturn ((Numbfr)iVbluf).intVbluf();
     }
 
-    public static int getInt(JComponent c, ComponentUI ui, String key) {
-        return getInt(c, ui, key, -1);
+    publid stbtid int gftInt(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftInt(d, ui, kfy, -1);
     }
 
-    public static Insets getInsets(JComponent c, ComponentUI ui, String key,
-                                   Insets defaultValue) {
-        Object iValue = get(c, ui, key);
+    publid stbtid Insfts gftInsfts(JComponfnt d, ComponfntUI ui, String kfy,
+                                   Insfts dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
 
-        if (iValue == null || !(iValue instanceof Insets)) {
-            return defaultValue;
+        if (iVbluf == null || !(iVbluf instbndfof Insfts)) {
+            rfturn dffbultVbluf;
         }
-        return (Insets)iValue;
+        rfturn (Insfts)iVbluf;
     }
 
-    public static Insets getInsets(JComponent c, ComponentUI ui, String key) {
-        return getInsets(c, ui, key, null);
+    publid stbtid Insfts gftInsfts(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftInsfts(d, ui, kfy, null);
     }
 
-    public static boolean getBoolean(JComponent c, ComponentUI ui, String key,
-                                     boolean defaultValue) {
-        Object iValue = get(c, ui, key);
+    publid stbtid boolfbn gftBoolfbn(JComponfnt d, ComponfntUI ui, String kfy,
+                                     boolfbn dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
 
-        if (iValue == null || !(iValue instanceof Boolean)) {
-            return defaultValue;
+        if (iVbluf == null || !(iVbluf instbndfof Boolfbn)) {
+            rfturn dffbultVbluf;
         }
-        return ((Boolean)iValue).booleanValue();
+        rfturn ((Boolfbn)iVbluf).boolfbnVbluf();
     }
 
-    public static boolean getBoolean(JComponent c, ComponentUI ui, String key) {
-        return getBoolean(c, ui, key, false);
+    publid stbtid boolfbn gftBoolfbn(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftBoolfbn(d, ui, kfy, fblsf);
     }
 
-    public static Color getColor(JComponent c, ComponentUI ui, String key,
-                                 Color defaultValue) {
-        Object iValue = get(c, ui, key);
+    publid stbtid Color gftColor(JComponfnt d, ComponfntUI ui, String kfy,
+                                 Color dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
 
-        if (iValue == null || !(iValue instanceof Color)) {
-            return defaultValue;
+        if (iVbluf == null || !(iVbluf instbndfof Color)) {
+            rfturn dffbultVbluf;
         }
-        return (Color)iValue;
+        rfturn (Color)iVbluf;
     }
 
-    public static Color getColor(JComponent c, ComponentUI ui, String key) {
-        return getColor(c, ui, key, null);
+    publid stbtid Color gftColor(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftColor(d, ui, kfy, null);
     }
 
-    public static Icon getIcon(JComponent c, ComponentUI ui, String key,
-            Icon defaultValue) {
-        Object iValue = get(c, ui, key);
-        if (iValue == null || !(iValue instanceof Icon)) {
-            return defaultValue;
+    publid stbtid Idon gftIdon(JComponfnt d, ComponfntUI ui, String kfy,
+            Idon dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
+        if (iVbluf == null || !(iVbluf instbndfof Idon)) {
+            rfturn dffbultVbluf;
         }
-        return (Icon)iValue;
+        rfturn (Idon)iVbluf;
     }
 
-    public static Icon getIcon(JComponent c, ComponentUI ui, String key) {
-        return getIcon(c, ui, key, null);
+    publid stbtid Idon gftIdon(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftIdon(d, ui, kfy, null);
     }
 
-    public static Border getBorder(JComponent c, ComponentUI ui, String key,
-            Border defaultValue) {
-        Object iValue = get(c, ui, key);
-        if (iValue == null || !(iValue instanceof Border)) {
-            return defaultValue;
+    publid stbtid Bordfr gftBordfr(JComponfnt d, ComponfntUI ui, String kfy,
+            Bordfr dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
+        if (iVbluf == null || !(iVbluf instbndfof Bordfr)) {
+            rfturn dffbultVbluf;
         }
-        return (Border)iValue;
+        rfturn (Bordfr)iVbluf;
     }
 
-    public static Border getBorder(JComponent c, ComponentUI ui, String key) {
-        return getBorder(c, ui, key, null);
+    publid stbtid Bordfr gftBordfr(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftBordfr(d, ui, kfy, null);
     }
 
-    public Object getDefault(JComponent c, ComponentUI ui, String key) {
-        // basic
-        return UIManager.get(key, c.getLocale());
+    publid Objfdt gftDffbult(JComponfnt d, ComponfntUI ui, String kfy) {
+        // bbsid
+        rfturn UIMbnbgfr.gft(kfy, d.gftLodblf());
     }
 }

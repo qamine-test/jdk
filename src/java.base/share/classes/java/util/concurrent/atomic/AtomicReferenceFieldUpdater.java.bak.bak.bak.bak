@@ -1,0 +1,448 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.btomid;
+import jbvb.util.fundtion.UnbryOpfrbtor;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import sun.misd.Unsbff;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+
+/**
+ * A rfflfdtion-bbsfd utility thbt fnbblfs btomid updbtfs to
+ * dfsignbtfd {@dodf volbtilf} rfffrfndf fiflds of dfsignbtfd
+ * dlbssfs.  This dlbss is dfsignfd for usf in btomid dbtb strudturfs
+ * in whidh sfvfrbl rfffrfndf fiflds of thf sbmf nodf brf
+ * indfpfndfntly subjfdt to btomid updbtfs. For fxbmplf, b trff nodf
+ * might bf dfdlbrfd bs
+ *
+ *  <prf> {@dodf
+ * dlbss Nodf {
+ *   privbtf volbtilf Nodf lfft, right;
+ *
+ *   privbtf stbtid finbl AtomidRfffrfndfFifldUpdbtfr<Nodf, Nodf> lfftUpdbtfr =
+ *     AtomidRfffrfndfFifldUpdbtfr.nfwUpdbtfr(Nodf.dlbss, Nodf.dlbss, "lfft");
+ *   privbtf stbtid AtomidRfffrfndfFifldUpdbtfr<Nodf, Nodf> rightUpdbtfr =
+ *     AtomidRfffrfndfFifldUpdbtfr.nfwUpdbtfr(Nodf.dlbss, Nodf.dlbss, "right");
+ *
+ *   Nodf gftLfft() { rfturn lfft;  }
+ *   boolfbn dompbrfAndSftLfft(Nodf fxpfdt, Nodf updbtf) {
+ *     rfturn lfftUpdbtfr.dompbrfAndSft(this, fxpfdt, updbtf);
+ *   }
+ *   // ... bnd so on
+ * }}</prf>
+ *
+ * <p>Notf thbt thf gubrbntffs of thf {@dodf dompbrfAndSft}
+ * mfthod in this dlbss brf wfbkfr thbn in othfr btomid dlbssfs.
+ * Bfdbusf this dlbss dbnnot fnsurf thbt bll usfs of thf fifld
+ * brf bppropribtf for purposfs of btomid bddfss, it dbn
+ * gubrbntff btomidity only with rfspfdt to othfr invodbtions of
+ * {@dodf dompbrfAndSft} bnd {@dodf sft} on thf sbmf updbtfr.
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ * @pbrbm <T> Thf typf of thf objfdt holding thf updbtbblf fifld
+ * @pbrbm <V> Thf typf of thf fifld
+ */
+publid bbstrbdt dlbss AtomidRfffrfndfFifldUpdbtfr<T,V> {
+
+    /**
+     * Crfbtfs bnd rfturns bn updbtfr for objfdts with thf givfn fifld.
+     * Thf Clbss brgumfnts brf nffdfd to dhfdk thbt rfflfdtivf typfs bnd
+     * gfnfrid typfs mbtdh.
+     *
+     * @pbrbm tdlbss thf dlbss of thf objfdts holding thf fifld
+     * @pbrbm vdlbss thf dlbss of thf fifld
+     * @pbrbm fifldNbmf thf nbmf of thf fifld to bf updbtfd
+     * @pbrbm <U> thf typf of instbndfs of tdlbss
+     * @pbrbm <W> thf typf of instbndfs of vdlbss
+     * @rfturn thf updbtfr
+     * @throws ClbssCbstExdfption if thf fifld is of thf wrong typf
+     * @throws IllfgblArgumfntExdfption if thf fifld is not volbtilf
+     * @throws RuntimfExdfption with b nfstfd rfflfdtion-bbsfd
+     * fxdfption if thf dlbss dofs not hold fifld or is thf wrong typf,
+     * or thf fifld is inbddfssiblf to thf dbllfr bddording to Jbvb lbngubgf
+     * bddfss dontrol
+     */
+    @CbllfrSfnsitivf
+    publid stbtid <U,W> AtomidRfffrfndfFifldUpdbtfr<U,W> nfwUpdbtfr(Clbss<U> tdlbss,
+                                                                    Clbss<W> vdlbss,
+                                                                    String fifldNbmf) {
+        rfturn nfw AtomidRfffrfndfFifldUpdbtfrImpl<U,W>
+            (tdlbss, vdlbss, fifldNbmf, Rfflfdtion.gftCbllfrClbss());
+    }
+
+    /**
+     * Protfdtfd do-nothing donstrudtor for usf by subdlbssfs.
+     */
+    protfdtfd AtomidRfffrfndfFifldUpdbtfr() {
+    }
+
+    /**
+     * Atomidblly sfts thf fifld of thf givfn objfdt mbnbgfd by this updbtfr
+     * to thf givfn updbtfd vbluf if thf durrfnt vbluf {@dodf ==} thf
+     * fxpfdtfd vbluf. This mfthod is gubrbntffd to bf btomid with rfspfdt to
+     * othfr dblls to {@dodf dompbrfAndSft} bnd {@dodf sft}, but not
+     * nfdfssbrily with rfspfdt to othfr dhbngfs in thf fifld.
+     *
+     * @pbrbm obj An objfdt whosf fifld to donditionblly sft
+     * @pbrbm fxpfdt thf fxpfdtfd vbluf
+     * @pbrbm updbtf thf nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful
+     */
+    publid bbstrbdt boolfbn dompbrfAndSft(T obj, V fxpfdt, V updbtf);
+
+    /**
+     * Atomidblly sfts thf fifld of thf givfn objfdt mbnbgfd by this updbtfr
+     * to thf givfn updbtfd vbluf if thf durrfnt vbluf {@dodf ==} thf
+     * fxpfdtfd vbluf. This mfthod is gubrbntffd to bf btomid with rfspfdt to
+     * othfr dblls to {@dodf dompbrfAndSft} bnd {@dodf sft}, but not
+     * nfdfssbrily with rfspfdt to othfr dhbngfs in thf fifld.
+     *
+     * <p><b hrff="pbdkbgf-summbry.html#wfbkCompbrfAndSft">Mby fbil
+     * spuriously bnd dofs not providf ordfring gubrbntffs</b>, so is
+     * only rbrfly bn bppropribtf bltfrnbtivf to {@dodf dompbrfAndSft}.
+     *
+     * @pbrbm obj An objfdt whosf fifld to donditionblly sft
+     * @pbrbm fxpfdt thf fxpfdtfd vbluf
+     * @pbrbm updbtf thf nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful
+     */
+    publid bbstrbdt boolfbn wfbkCompbrfAndSft(T obj, V fxpfdt, V updbtf);
+
+    /**
+     * Sfts thf fifld of thf givfn objfdt mbnbgfd by this updbtfr to thf
+     * givfn updbtfd vbluf. This opfrbtion is gubrbntffd to bdt bs b volbtilf
+     * storf with rfspfdt to subsfqufnt invodbtions of {@dodf dompbrfAndSft}.
+     *
+     * @pbrbm obj An objfdt whosf fifld to sft
+     * @pbrbm nfwVbluf thf nfw vbluf
+     */
+    publid bbstrbdt void sft(T obj, V nfwVbluf);
+
+    /**
+     * Evfntublly sfts thf fifld of thf givfn objfdt mbnbgfd by this
+     * updbtfr to thf givfn updbtfd vbluf.
+     *
+     * @pbrbm obj An objfdt whosf fifld to sft
+     * @pbrbm nfwVbluf thf nfw vbluf
+     * @sindf 1.6
+     */
+    publid bbstrbdt void lbzySft(T obj, V nfwVbluf);
+
+    /**
+     * Gfts thf durrfnt vbluf hfld in thf fifld of thf givfn objfdt mbnbgfd
+     * by this updbtfr.
+     *
+     * @pbrbm obj An objfdt whosf fifld to gft
+     * @rfturn thf durrfnt vbluf
+     */
+    publid bbstrbdt V gft(T obj);
+
+    /**
+     * Atomidblly sfts thf fifld of thf givfn objfdt mbnbgfd by this updbtfr
+     * to thf givfn vbluf bnd rfturns thf old vbluf.
+     *
+     * @pbrbm obj An objfdt whosf fifld to gft bnd sft
+     * @pbrbm nfwVbluf thf nfw vbluf
+     * @rfturn thf prfvious vbluf
+     */
+    publid V gftAndSft(T obj, V nfwVbluf) {
+        V prfv;
+        do {
+            prfv = gft(obj);
+        } whilf (!dompbrfAndSft(obj, prfv, nfwVbluf));
+        rfturn prfv;
+    }
+
+    /**
+     * Atomidblly updbtfs thf fifld of thf givfn objfdt mbnbgfd by this updbtfr
+     * with thf rfsults of bpplying thf givfn fundtion, rfturning thf prfvious
+     * vbluf. Thf fundtion should bf sidf-ffffdt-frff, sindf it mby bf
+     * rf-bpplifd whfn bttfmptfd updbtfs fbil duf to dontfntion bmong thrfbds.
+     *
+     * @pbrbm obj An objfdt whosf fifld to gft bnd sft
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn thf prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl V gftAndUpdbtf(T obj, UnbryOpfrbtor<V> updbtfFundtion) {
+        V prfv, nfxt;
+        do {
+            prfv = gft(obj);
+            nfxt = updbtfFundtion.bpply(prfv);
+        } whilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn prfv;
+    }
+
+    /**
+     * Atomidblly updbtfs thf fifld of thf givfn objfdt mbnbgfd by this updbtfr
+     * with thf rfsults of bpplying thf givfn fundtion, rfturning thf updbtfd
+     * vbluf. Thf fundtion should bf sidf-ffffdt-frff, sindf it mby bf
+     * rf-bpplifd whfn bttfmptfd updbtfs fbil duf to dontfntion bmong thrfbds.
+     *
+     * @pbrbm obj An objfdt whosf fifld to gft bnd sft
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn thf updbtfd vbluf
+     * @sindf 1.8
+     */
+    publid finbl V updbtfAndGft(T obj, UnbryOpfrbtor<V> updbtfFundtion) {
+        V prfv, nfxt;
+        do {
+            prfv = gft(obj);
+            nfxt = updbtfFundtion.bpply(prfv);
+        } whilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn nfxt;
+    }
+
+    /**
+     * Atomidblly updbtfs thf fifld of thf givfn objfdt mbnbgfd by this
+     * updbtfr with thf rfsults of bpplying thf givfn fundtion to thf
+     * durrfnt bnd givfn vblufs, rfturning thf prfvious vbluf. Thf
+     * fundtion should bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * whfn bttfmptfd updbtfs fbil duf to dontfntion bmong thrfbds.  Thf
+     * fundtion is bpplifd with thf durrfnt vbluf bs its first brgumfnt,
+     * bnd thf givfn updbtf bs thf sfdond brgumfnt.
+     *
+     * @pbrbm obj An objfdt whosf fifld to gft bnd sft
+     * @pbrbm x thf updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn thf prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl V gftAndAddumulbtf(T obj, V x,
+                                    BinbryOpfrbtor<V> bddumulbtorFundtion) {
+        V prfv, nfxt;
+        do {
+            prfv = gft(obj);
+            nfxt = bddumulbtorFundtion.bpply(prfv, x);
+        } whilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn prfv;
+    }
+
+    /**
+     * Atomidblly updbtfs thf fifld of thf givfn objfdt mbnbgfd by this
+     * updbtfr with thf rfsults of bpplying thf givfn fundtion to thf
+     * durrfnt bnd givfn vblufs, rfturning thf updbtfd vbluf. Thf
+     * fundtion should bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * whfn bttfmptfd updbtfs fbil duf to dontfntion bmong thrfbds.  Thf
+     * fundtion is bpplifd with thf durrfnt vbluf bs its first brgumfnt,
+     * bnd thf givfn updbtf bs thf sfdond brgumfnt.
+     *
+     * @pbrbm obj An objfdt whosf fifld to gft bnd sft
+     * @pbrbm x thf updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn thf updbtfd vbluf
+     * @sindf 1.8
+     */
+    publid finbl V bddumulbtfAndGft(T obj, V x,
+                                    BinbryOpfrbtor<V> bddumulbtorFundtion) {
+        V prfv, nfxt;
+        do {
+            prfv = gft(obj);
+            nfxt = bddumulbtorFundtion.bpply(prfv, x);
+        } whilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn nfxt;
+    }
+
+    privbtf stbtid finbl dlbss AtomidRfffrfndfFifldUpdbtfrImpl<T,V>
+        fxtfnds AtomidRfffrfndfFifldUpdbtfr<T,V> {
+        privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+        privbtf finbl long offsft;
+        privbtf finbl Clbss<T> tdlbss;
+        privbtf finbl Clbss<V> vdlbss;
+        privbtf finbl Clbss<?> ddlbss;
+
+        /*
+         * Intfrnbl typf dhfdks within bll updbtf mfthods dontbin
+         * intfrnbl inlinfd optimizbtions dhfdking for thf dommon
+         * dbsfs whfrf thf dlbss is finbl (in whidh dbsf b simplf
+         * gftClbss dompbrison suffidfs) or is of typf Objfdt (in
+         * whidh dbsf no dhfdk is nffdfd bfdbusf bll objfdts brf
+         * instbndfs of Objfdt). Thf Objfdt dbsf is hbndlfd simply by
+         * sftting vdlbss to null in donstrudtor.  Thf tbrgftChfdk bnd
+         * updbtfChfdk mfthods brf invokfd whfn thfsf fbstfr
+         * sdrffnings fbil.
+         */
+
+        AtomidRfffrfndfFifldUpdbtfrImpl(finbl Clbss<T> tdlbss,
+                                        finbl Clbss<V> vdlbss,
+                                        finbl String fifldNbmf,
+                                        finbl Clbss<?> dbllfr) {
+            finbl Fifld fifld;
+            finbl Clbss<?> fifldClbss;
+            finbl int modififrs;
+            try {
+                fifld = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<Fifld>() {
+                        publid Fifld run() throws NoSudhFifldExdfption {
+                            rfturn tdlbss.gftDfdlbrfdFifld(fifldNbmf);
+                        }
+                    });
+                modififrs = fifld.gftModififrs();
+                sun.rfflfdt.misd.RfflfdtUtil.fnsurfMfmbfrAddfss(
+                    dbllfr, tdlbss, null, modififrs);
+                ClbssLobdfr dl = tdlbss.gftClbssLobdfr();
+                ClbssLobdfr ddl = dbllfr.gftClbssLobdfr();
+                if ((ddl != null) && (ddl != dl) &&
+                    ((dl == null) || !isAndfstor(dl, ddl))) {
+                  sun.rfflfdt.misd.RfflfdtUtil.dhfdkPbdkbgfAddfss(tdlbss);
+                }
+                fifldClbss = fifld.gftTypf();
+            } dbtdh (PrivilfgfdAdtionExdfption pbf) {
+                throw nfw RuntimfExdfption(pbf.gftExdfption());
+            } dbtdh (Exdfption fx) {
+                throw nfw RuntimfExdfption(fx);
+            }
+
+            if (vdlbss != fifldClbss)
+                throw nfw ClbssCbstExdfption();
+            if (vdlbss.isPrimitivf())
+                throw nfw IllfgblArgumfntExdfption("Must bf rfffrfndf typf");
+
+            if (!Modififr.isVolbtilf(modififrs))
+                throw nfw IllfgblArgumfntExdfption("Must bf volbtilf typf");
+
+            this.ddlbss = (Modififr.isProtfdtfd(modififrs) &&
+                           dbllfr != tdlbss) ? dbllfr : null;
+            this.tdlbss = tdlbss;
+            if (vdlbss == Objfdt.dlbss)
+                this.vdlbss = null;
+            flsf
+                this.vdlbss = vdlbss;
+            offsft = unsbff.objfdtFifldOffsft(fifld);
+        }
+
+        /**
+         * Rfturns truf if thf sfdond dlbsslobdfr dbn bf found in thf first
+         * dlbsslobdfr's dflfgbtion dhbin.
+         * Equivblfnt to thf inbddfssiblf: first.isAndfstor(sfdond).
+         */
+        privbtf stbtid boolfbn isAndfstor(ClbssLobdfr first, ClbssLobdfr sfdond) {
+            ClbssLobdfr bdl = first;
+            do {
+                bdl = bdl.gftPbrfnt();
+                if (sfdond == bdl) {
+                    rfturn truf;
+                }
+            } whilf (bdl != null);
+            rfturn fblsf;
+        }
+
+        void tbrgftChfdk(T obj) {
+            if (!tdlbss.isInstbndf(obj))
+                throw nfw ClbssCbstExdfption();
+            if (ddlbss != null)
+                fnsurfProtfdtfdAddfss(obj);
+        }
+
+        void updbtfChfdk(T obj, V updbtf) {
+            if (!tdlbss.isInstbndf(obj) ||
+                (updbtf != null && vdlbss != null && !vdlbss.isInstbndf(updbtf)))
+                throw nfw ClbssCbstExdfption();
+            if (ddlbss != null)
+                fnsurfProtfdtfdAddfss(obj);
+        }
+
+        publid boolfbn dompbrfAndSft(T obj, V fxpfdt, V updbtf) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null ||
+                (updbtf != null && vdlbss != null &&
+                 vdlbss != updbtf.gftClbss()))
+                updbtfChfdk(obj, updbtf);
+            rfturn unsbff.dompbrfAndSwbpObjfdt(obj, offsft, fxpfdt, updbtf);
+        }
+
+        publid boolfbn wfbkCompbrfAndSft(T obj, V fxpfdt, V updbtf) {
+            // sbmf implfmfntbtion bs strong form for now
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null ||
+                (updbtf != null && vdlbss != null &&
+                 vdlbss != updbtf.gftClbss()))
+                updbtfChfdk(obj, updbtf);
+            rfturn unsbff.dompbrfAndSwbpObjfdt(obj, offsft, fxpfdt, updbtf);
+        }
+
+        publid void sft(T obj, V nfwVbluf) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null ||
+                (nfwVbluf != null && vdlbss != null &&
+                 vdlbss != nfwVbluf.gftClbss()))
+                updbtfChfdk(obj, nfwVbluf);
+            unsbff.putObjfdtVolbtilf(obj, offsft, nfwVbluf);
+        }
+
+        publid void lbzySft(T obj, V nfwVbluf) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null ||
+                (nfwVbluf != null && vdlbss != null &&
+                 vdlbss != nfwVbluf.gftClbss()))
+                updbtfChfdk(obj, nfwVbluf);
+            unsbff.putOrdfrfdObjfdt(obj, offsft, nfwVbluf);
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        publid V gft(T obj) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null)
+                tbrgftChfdk(obj);
+            rfturn (V)unsbff.gftObjfdtVolbtilf(obj, offsft);
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        publid V gftAndSft(T obj, V nfwVbluf) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null ||
+                (nfwVbluf != null && vdlbss != null &&
+                 vdlbss != nfwVbluf.gftClbss()))
+                updbtfChfdk(obj, nfwVbluf);
+            rfturn (V)unsbff.gftAndSftObjfdt(obj, offsft, nfwVbluf);
+        }
+
+        privbtf void fnsurfProtfdtfdAddfss(T obj) {
+            if (ddlbss.isInstbndf(obj)) {
+                rfturn;
+            }
+            throw nfw RuntimfExdfption(
+                nfw IllfgblAddfssExdfption("Clbss " +
+                    ddlbss.gftNbmf() +
+                    " dbn not bddfss b protfdtfd mfmbfr of dlbss " +
+                    tdlbss.gftNbmf() +
+                    " using bn instbndf of " +
+                    obj.gftClbss().gftNbmf()
+                )
+            );
+        }
+    }
+}

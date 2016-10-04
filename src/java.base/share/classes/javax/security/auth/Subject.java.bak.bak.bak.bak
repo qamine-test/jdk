@@ -1,0 +1,1571 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth;
+
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.DombinCombinfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.ProtfdtionDombin;
+import sun.sfdurity.util.RfsourdfsMgr;
+
+/**
+ * <p> A {@dodf Subjfdt} rfprfsfnts b grouping of rflbtfd informbtion
+ * for b singlf fntity, sudh bs b pfrson.
+ * Sudh informbtion indludfs thf Subjfdt's idfntitifs bs wfll bs
+ * its sfdurity-rflbtfd bttributfs
+ * (pbsswords bnd dryptogrbphid kfys, for fxbmplf).
+ *
+ * <p> Subjfdts mby potfntiblly hbvf multiplf idfntitifs.
+ * Ebdh idfntity is rfprfsfntfd bs b {@dodf Prindipbl}
+ * within thf {@dodf Subjfdt}.  Prindipbls simply bind nbmfs to b
+ * {@dodf Subjfdt}.  For fxbmplf, b {@dodf Subjfdt} thbt hbppfns
+ * to bf b pfrson, Alidf, might hbvf two Prindipbls:
+ * onf whidh binds "Alidf Bbr", thf nbmf on hfr drivfr lidfnsf,
+ * to thf {@dodf Subjfdt}, bnd bnothfr whidh binds,
+ * "999-99-9999", thf numbfr on hfr studfnt idfntifidbtion dbrd,
+ * to thf {@dodf Subjfdt}.  Both Prindipbls rfffr to thf sbmf
+ * {@dodf Subjfdt} fvfn though fbdh hbs b difffrfnt nbmf.
+ *
+ * <p> A {@dodf Subjfdt} mby blso own sfdurity-rflbtfd bttributfs,
+ * whidh brf rfffrrfd to bs drfdfntibls.
+ * Sfnsitivf drfdfntibls thbt rfquirf spfdibl protfdtion, sudh bs
+ * privbtf dryptogrbphid kfys, brf storfd within b privbtf drfdfntibl
+ * {@dodf Sft}.  Crfdfntibls intfndfd to bf shbrfd, sudh bs
+ * publid kfy dfrtifidbtfs or Kfrbfros sfrvfr tidkfts brf storfd
+ * within b publid drfdfntibl {@dodf Sft}.  Difffrfnt pfrmissions
+ * brf rfquirfd to bddfss bnd modify thf difffrfnt drfdfntibl Sfts.
+ *
+ * <p> To rftrifvf bll thf Prindipbls bssodibtfd with b {@dodf Subjfdt},
+ * invokf thf {@dodf gftPrindipbls} mfthod.  To rftrifvf
+ * bll thf publid or privbtf drfdfntibls bflonging to b {@dodf Subjfdt},
+ * invokf thf {@dodf gftPublidCrfdfntibls} mfthod or
+ * {@dodf gftPrivbtfCrfdfntibls} mfthod, rfspfdtivfly.
+ * To modify thf rfturnfd {@dodf Sft} of Prindipbls bnd drfdfntibls,
+ * usf thf mfthods dffinfd in thf {@dodf Sft} dlbss.
+ * For fxbmplf:
+ * <prf>
+ *      Subjfdt subjfdt;
+ *      Prindipbl prindipbl;
+ *      Objfdt drfdfntibl;
+ *
+ *      // bdd b Prindipbl bnd drfdfntibl to thf Subjfdt
+ *      subjfdt.gftPrindipbls().bdd(prindipbl);
+ *      subjfdt.gftPublidCrfdfntibls().bdd(drfdfntibl);
+ * </prf>
+ *
+ * <p> This {@dodf Subjfdt} dlbss implfmfnts {@dodf Sfriblizbblf}.
+ * Whilf thf Prindipbls bssodibtfd with thf {@dodf Subjfdt} brf sfriblizfd,
+ * thf drfdfntibls bssodibtfd with thf {@dodf Subjfdt} brf not.
+ * Notf thbt thf {@dodf jbvb.sfdurity.Prindipbl} dlbss
+ * dofs not implfmfnt {@dodf Sfriblizbblf}.  Thfrfforf bll dondrftf
+ * {@dodf Prindipbl} implfmfntbtions bssodibtfd with Subjfdts
+ * must implfmfnt {@dodf Sfriblizbblf}.
+ *
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvb.sfdurity.DombinCombinfr
+ */
+publid finbl dlbss Subjfdt implfmfnts jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -8308522755600156056L;
+
+    /**
+     * A {@dodf Sft} thbt providfs b vifw of bll of this
+     * Subjfdt's Prindipbls
+     *
+     * <p>
+     *
+     * @sfribl Ebdh flfmfnt in this sft is b
+     *          {@dodf jbvb.sfdurity.Prindipbl}.
+     *          Thf sft is b {@dodf Subjfdt.SfdurfSft}.
+     */
+    Sft<Prindipbl> prindipbls;
+
+    /**
+     * Sfts thbt providf b vifw of bll of this
+     * Subjfdt's Crfdfntibls
+     */
+    trbnsifnt Sft<Objfdt> pubCrfdfntibls;
+    trbnsifnt Sft<Objfdt> privCrfdfntibls;
+
+    /**
+     * Whfthfr this Subjfdt is rfbd-only
+     *
+     * @sfribl
+     */
+    privbtf volbtilf boolfbn rfbdOnly = fblsf;
+
+    privbtf stbtid finbl int PRINCIPAL_SET = 1;
+    privbtf stbtid finbl int PUB_CREDENTIAL_SET = 2;
+    privbtf stbtid finbl int PRIV_CREDENTIAL_SET = 3;
+
+    privbtf stbtid finbl ProtfdtionDombin[] NULL_PD_ARRAY
+        = nfw ProtfdtionDombin[0];
+
+    /**
+     * Crfbtf bn instbndf of b {@dodf Subjfdt}
+     * with bn fmpty {@dodf Sft} of Prindipbls bnd fmpty
+     * Sfts of publid bnd privbtf drfdfntibls.
+     *
+     * <p> Thf nfwly donstrudtfd Sfts dhfdk whfthfr this {@dodf Subjfdt}
+     * hbs bffn sft rfbd-only bfforf pfrmitting subsfqufnt modifidbtions.
+     * Thf nfwly drfbtfd Sfts blso prfvfnt illfgbl modifidbtions
+     * by fnsuring thbt dbllfrs hbvf suffidifnt pfrmissions.  Thfsf Sfts
+     * blso prohibit null flfmfnts, bnd bttfmpts to bdd or qufry b null
+     * flfmfnt will rfsult in b {@dodf NullPointfrExdfption}.
+     *
+     * <p> To modify thf Prindipbls Sft, thf dbllfr must hbvf
+     * {@dodf AuthPfrmission("modifyPrindipbls")}.
+     * To modify thf publid drfdfntibl Sft, thf dbllfr must hbvf
+     * {@dodf AuthPfrmission("modifyPublidCrfdfntibls")}.
+     * To modify thf privbtf drfdfntibl Sft, thf dbllfr must hbvf
+     * {@dodf AuthPfrmission("modifyPrivbtfCrfdfntibls")}.
+     */
+    publid Subjfdt() {
+
+        this.prindipbls = Collfdtions.syndhronizfdSft
+                        (nfw SfdurfSft<Prindipbl>(this, PRINCIPAL_SET));
+        this.pubCrfdfntibls = Collfdtions.syndhronizfdSft
+                        (nfw SfdurfSft<Objfdt>(this, PUB_CREDENTIAL_SET));
+        this.privCrfdfntibls = Collfdtions.syndhronizfdSft
+                        (nfw SfdurfSft<Objfdt>(this, PRIV_CREDENTIAL_SET));
+    }
+
+    /**
+     * Crfbtf bn instbndf of b {@dodf Subjfdt} with
+     * Prindipbls bnd drfdfntibls.
+     *
+     * <p> Thf Prindipbls bnd drfdfntibls from thf spfdififd Sfts
+     * brf dopifd into nfwly donstrudtfd Sfts.
+     * Thfsf nfwly drfbtfd Sfts dhfdk whfthfr this {@dodf Subjfdt}
+     * hbs bffn sft rfbd-only bfforf pfrmitting subsfqufnt modifidbtions.
+     * Thf nfwly drfbtfd Sfts blso prfvfnt illfgbl modifidbtions
+     * by fnsuring thbt dbllfrs hbvf suffidifnt pfrmissions.  Thfsf Sfts
+     * blso prohibit null flfmfnts, bnd bttfmpts to bdd or qufry b null
+     * flfmfnt will rfsult in b {@dodf NullPointfrExdfption}.
+     *
+     * <p> To modify thf Prindipbls Sft, thf dbllfr must hbvf
+     * {@dodf AuthPfrmission("modifyPrindipbls")}.
+     * To modify thf publid drfdfntibl Sft, thf dbllfr must hbvf
+     * {@dodf AuthPfrmission("modifyPublidCrfdfntibls")}.
+     * To modify thf privbtf drfdfntibl Sft, thf dbllfr must hbvf
+     * {@dodf AuthPfrmission("modifyPrivbtfCrfdfntibls")}.
+     * <p>
+     *
+     * @pbrbm rfbdOnly truf if thf {@dodf Subjfdt} is to bf rfbd-only,
+     *          bnd fblsf othfrwisf. <p>
+     *
+     * @pbrbm prindipbls thf {@dodf Sft} of Prindipbls
+     *          to bf bssodibtfd with this {@dodf Subjfdt}. <p>
+     *
+     * @pbrbm pubCrfdfntibls thf {@dodf Sft} of publid drfdfntibls
+     *          to bf bssodibtfd with this {@dodf Subjfdt}. <p>
+     *
+     * @pbrbm privCrfdfntibls thf {@dodf Sft} of privbtf drfdfntibls
+     *          to bf bssodibtfd with this {@dodf Subjfdt}.
+     *
+     * @fxdfption NullPointfrExdfption if thf spfdififd
+     *          {@dodf prindipbls}, {@dodf pubCrfdfntibls},
+     *          or {@dodf privCrfdfntibls} brf {@dodf null},
+     *          or b null vbluf fxists within bny of thfsf thrff
+     *          Sfts.
+     */
+    publid Subjfdt(boolfbn rfbdOnly, Sft<? fxtfnds Prindipbl> prindipbls,
+                   Sft<?> pubCrfdfntibls, Sft<?> privCrfdfntibls)
+    {
+        dollfdtionNullClfbn(prindipbls);
+        dollfdtionNullClfbn(pubCrfdfntibls);
+        dollfdtionNullClfbn(privCrfdfntibls);
+
+        this.prindipbls = Collfdtions.syndhronizfdSft(nfw SfdurfSft<Prindipbl>
+                                (this, PRINCIPAL_SET, prindipbls));
+        this.pubCrfdfntibls = Collfdtions.syndhronizfdSft(nfw SfdurfSft<Objfdt>
+                                (this, PUB_CREDENTIAL_SET, pubCrfdfntibls));
+        this.privCrfdfntibls = Collfdtions.syndhronizfdSft(nfw SfdurfSft<Objfdt>
+                                (this, PRIV_CREDENTIAL_SET, privCrfdfntibls));
+        this.rfbdOnly = rfbdOnly;
+    }
+
+    /**
+     * Sft this {@dodf Subjfdt} to bf rfbd-only.
+     *
+     * <p> Modifidbtions (bdditions bnd rfmovbls) to this Subjfdt's
+     * {@dodf Prindipbl} {@dodf Sft} bnd
+     * drfdfntibl Sfts will bf disbllowfd.
+     * Thf {@dodf dfstroy} opfrbtion on this Subjfdt's drfdfntibls will
+     * still bf pfrmittfd.
+     *
+     * <p> Subsfqufnt bttfmpts to modify thf Subjfdt's {@dodf Prindipbl}
+     * bnd drfdfntibl Sfts will rfsult in bn
+     * {@dodf IllfgblStbtfExdfption} bfing thrown.
+     * Also, ondf b {@dodf Subjfdt} is rfbd-only,
+     * it dbn not bf rfsft to bfing writbblf bgbin.
+     *
+     * <p>
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *          to sft this {@dodf Subjfdt} to bf rfbd-only.
+     */
+    publid void sftRfbdOnly() {
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(AuthPfrmissionHoldfr.SET_READ_ONLY_PERMISSION);
+        }
+
+        this.rfbdOnly = truf;
+    }
+
+    /**
+     * Qufry whfthfr this {@dodf Subjfdt} is rfbd-only.
+     *
+     * <p>
+     *
+     * @rfturn truf if this {@dodf Subjfdt} is rfbd-only, fblsf othfrwisf.
+     */
+    publid boolfbn isRfbdOnly() {
+        rfturn this.rfbdOnly;
+    }
+
+    /**
+     * Gft thf {@dodf Subjfdt} bssodibtfd with thf providfd
+     * {@dodf AddfssControlContfxt}.
+     *
+     * <p> Thf {@dodf AddfssControlContfxt} mby dontbin mbny
+     * Subjfdts (from nfstfd {@dodf doAs} dblls).
+     * In this situbtion, thf most rfdfnt {@dodf Subjfdt} bssodibtfd
+     * with thf {@dodf AddfssControlContfxt} is rfturnfd.
+     *
+     * <p>
+     *
+     * @pbrbm  bdd thf {@dodf AddfssControlContfxt} from whidh to rftrifvf
+     *          thf {@dodf Subjfdt}.
+     *
+     * @rfturn  thf {@dodf Subjfdt} bssodibtfd with thf providfd
+     *          {@dodf AddfssControlContfxt}, or {@dodf null}
+     *          if no {@dodf Subjfdt} is bssodibtfd
+     *          with thf providfd {@dodf AddfssControlContfxt}.
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *          to gft thf {@dodf Subjfdt}. <p>
+     *
+     * @fxdfption NullPointfrExdfption if thf providfd
+     *          {@dodf AddfssControlContfxt} is {@dodf null}.
+     */
+    publid stbtid Subjfdt gftSubjfdt(finbl AddfssControlContfxt bdd) {
+
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(AuthPfrmissionHoldfr.GET_SUBJECT_PERMISSION);
+        }
+
+        Objfdts.rfquirfNonNull(bdd, RfsourdfsMgr.gftString
+                ("invblid.null.AddfssControlContfxt.providfd"));
+
+        // rfturn thf Subjfdt from thf DombinCombinfr of thf providfd dontfxt
+        rfturn AddfssControllfr.doPrivilfgfd
+            (nfw jbvb.sfdurity.PrivilfgfdAdtion<Subjfdt>() {
+            publid Subjfdt run() {
+                DombinCombinfr dd = bdd.gftDombinCombinfr();
+                if (!(dd instbndfof SubjfdtDombinCombinfr)) {
+                    rfturn null;
+                }
+                SubjfdtDombinCombinfr sdd = (SubjfdtDombinCombinfr)dd;
+                rfturn sdd.gftSubjfdt();
+            }
+        });
+    }
+
+    /**
+     * Pfrform work bs b pbrtidulbr {@dodf Subjfdt}.
+     *
+     * <p> This mfthod first rftrifvfs thf durrfnt Thrfbd's
+     * {@dodf AddfssControlContfxt} vib
+     * {@dodf AddfssControllfr.gftContfxt},
+     * bnd thfn instbntibtfs b nfw {@dodf AddfssControlContfxt}
+     * using thf rftrifvfd dontfxt blong with b nfw
+     * {@dodf SubjfdtDombinCombinfr} (donstrudtfd using
+     * thf providfd {@dodf Subjfdt}).
+     * Finblly, this mfthod invokfs {@dodf AddfssControllfr.doPrivilfgfd},
+     * pbssing it thf providfd {@dodf PrivilfgfdAdtion},
+     * bs wfll bs thf nfwly donstrudtfd {@dodf AddfssControlContfxt}.
+     *
+     * <p>
+     *
+     * @pbrbm subjfdt thf {@dodf Subjfdt} thbt thf spfdififd
+     *                  {@dodf bdtion} will run bs.  This pbrbmftfr
+     *                  mby bf {@dodf null}. <p>
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf PrivilfgfdAdtion's
+     *                  {@dodf run} mfthod.
+     *
+     * @pbrbm bdtion thf dodf to bf run bs thf spfdififd
+     *                  {@dodf Subjfdt}. <p>
+     *
+     * @rfturn thf vbluf rfturnfd by thf PrivilfgfdAdtion's
+     *                  {@dodf run} mfthod.
+     *
+     * @fxdfption NullPointfrExdfption if thf {@dodf PrivilfgfdAdtion}
+     *                  is {@dodf null}. <p>
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *                  to invokf this mfthod.
+     */
+    publid stbtid <T> T doAs(finbl Subjfdt subjfdt,
+                        finbl jbvb.sfdurity.PrivilfgfdAdtion<T> bdtion) {
+
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(AuthPfrmissionHoldfr.DO_AS_PERMISSION);
+        }
+
+        Objfdts.rfquirfNonNull(bdtion,
+                RfsourdfsMgr.gftString("invblid.null.bdtion.providfd"));
+
+        // sft up thf nfw Subjfdt-bbsfd AddfssControlContfxt
+        // for doPrivilfgfd
+        finbl AddfssControlContfxt durrfntAdd = AddfssControllfr.gftContfxt();
+
+        // dbll doPrivilfgfd bnd push this nfw dontfxt on thf stbdk
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                                        (bdtion,
+                                        drfbtfContfxt(subjfdt, durrfntAdd));
+    }
+
+    /**
+     * Pfrform work bs b pbrtidulbr {@dodf Subjfdt}.
+     *
+     * <p> This mfthod first rftrifvfs thf durrfnt Thrfbd's
+     * {@dodf AddfssControlContfxt} vib
+     * {@dodf AddfssControllfr.gftContfxt},
+     * bnd thfn instbntibtfs b nfw {@dodf AddfssControlContfxt}
+     * using thf rftrifvfd dontfxt blong with b nfw
+     * {@dodf SubjfdtDombinCombinfr} (donstrudtfd using
+     * thf providfd {@dodf Subjfdt}).
+     * Finblly, this mfthod invokfs {@dodf AddfssControllfr.doPrivilfgfd},
+     * pbssing it thf providfd {@dodf PrivilfgfdExdfptionAdtion},
+     * bs wfll bs thf nfwly donstrudtfd {@dodf AddfssControlContfxt}.
+     *
+     * <p>
+     *
+     * @pbrbm subjfdt thf {@dodf Subjfdt} thbt thf spfdififd
+     *                  {@dodf bdtion} will run bs.  This pbrbmftfr
+     *                  mby bf {@dodf null}. <p>
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mfthod.
+     *
+     * @pbrbm bdtion thf dodf to bf run bs thf spfdififd
+     *                  {@dodf Subjfdt}. <p>
+     *
+     * @rfturn thf vbluf rfturnfd by thf
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mfthod.
+     *
+     * @fxdfption PrivilfgfdAdtionExdfption if thf
+     *                  {@dodf PrivilfgfdExdfptionAdtion.run}
+     *                  mfthod throws b dhfdkfd fxdfption. <p>
+     *
+     * @fxdfption NullPointfrExdfption if thf spfdififd
+     *                  {@dodf PrivilfgfdExdfptionAdtion} is
+     *                  {@dodf null}. <p>
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *                  to invokf this mfthod.
+     */
+    publid stbtid <T> T doAs(finbl Subjfdt subjfdt,
+                        finbl jbvb.sfdurity.PrivilfgfdExdfptionAdtion<T> bdtion)
+                        throws jbvb.sfdurity.PrivilfgfdAdtionExdfption {
+
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(AuthPfrmissionHoldfr.DO_AS_PERMISSION);
+        }
+
+        Objfdts.rfquirfNonNull(bdtion,
+                RfsourdfsMgr.gftString("invblid.null.bdtion.providfd"));
+
+        // sft up thf nfw Subjfdt-bbsfd AddfssControlContfxt for doPrivilfgfd
+        finbl AddfssControlContfxt durrfntAdd = AddfssControllfr.gftContfxt();
+
+        // dbll doPrivilfgfd bnd push this nfw dontfxt on thf stbdk
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                                        (bdtion,
+                                        drfbtfContfxt(subjfdt, durrfntAdd));
+    }
+
+    /**
+     * Pfrform privilfgfd work bs b pbrtidulbr {@dodf Subjfdt}.
+     *
+     * <p> This mfthod bfhbvfs fxbdtly bs {@dodf Subjfdt.doAs},
+     * fxdfpt thbt instfbd of rftrifving thf durrfnt Thrfbd's
+     * {@dodf AddfssControlContfxt}, it usfs thf providfd
+     * {@dodf AddfssControlContfxt}.  If thf providfd
+     * {@dodf AddfssControlContfxt} is {@dodf null},
+     * this mfthod instbntibtfs b nfw {@dodf AddfssControlContfxt}
+     * with bn fmpty dollfdtion of ProtfdtionDombins.
+     *
+     * <p>
+     *
+     * @pbrbm subjfdt thf {@dodf Subjfdt} thbt thf spfdififd
+     *                  {@dodf bdtion} will run bs.  This pbrbmftfr
+     *                  mby bf {@dodf null}. <p>
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf PrivilfgfdAdtion's
+     *                  {@dodf run} mfthod.
+     *
+     * @pbrbm bdtion thf dodf to bf run bs thf spfdififd
+     *                  {@dodf Subjfdt}. <p>
+     *
+     * @pbrbm bdd thf {@dodf AddfssControlContfxt} to bf tifd to thf
+     *                  spfdififd <i>subjfdt</i> bnd <i>bdtion</i>. <p>
+     *
+     * @rfturn thf vbluf rfturnfd by thf PrivilfgfdAdtion's
+     *                  {@dodf run} mfthod.
+     *
+     * @fxdfption NullPointfrExdfption if thf {@dodf PrivilfgfdAdtion}
+     *                  is {@dodf null}. <p>
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *                  to invokf this mfthod.
+     */
+    publid stbtid <T> T doAsPrivilfgfd(finbl Subjfdt subjfdt,
+                        finbl jbvb.sfdurity.PrivilfgfdAdtion<T> bdtion,
+                        finbl jbvb.sfdurity.AddfssControlContfxt bdd) {
+
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(AuthPfrmissionHoldfr.DO_AS_PRIVILEGED_PERMISSION);
+        }
+
+        Objfdts.rfquirfNonNull(bdtion,
+                RfsourdfsMgr.gftString("invblid.null.bdtion.providfd"));
+
+        // sft up thf nfw Subjfdt-bbsfd AddfssControlContfxt
+        // for doPrivilfgfd
+        finbl AddfssControlContfxt dbllfrAdd =
+                (bdd == null ?
+                nfw AddfssControlContfxt(NULL_PD_ARRAY) :
+                bdd);
+
+        // dbll doPrivilfgfd bnd push this nfw dontfxt on thf stbdk
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                                        (bdtion,
+                                        drfbtfContfxt(subjfdt, dbllfrAdd));
+    }
+
+    /**
+     * Pfrform privilfgfd work bs b pbrtidulbr {@dodf Subjfdt}.
+     *
+     * <p> This mfthod bfhbvfs fxbdtly bs {@dodf Subjfdt.doAs},
+     * fxdfpt thbt instfbd of rftrifving thf durrfnt Thrfbd's
+     * {@dodf AddfssControlContfxt}, it usfs thf providfd
+     * {@dodf AddfssControlContfxt}.  If thf providfd
+     * {@dodf AddfssControlContfxt} is {@dodf null},
+     * this mfthod instbntibtfs b nfw {@dodf AddfssControlContfxt}
+     * with bn fmpty dollfdtion of ProtfdtionDombins.
+     *
+     * <p>
+     *
+     * @pbrbm subjfdt thf {@dodf Subjfdt} thbt thf spfdififd
+     *                  {@dodf bdtion} will run bs.  This pbrbmftfr
+     *                  mby bf {@dodf null}. <p>
+     *
+     * @pbrbm <T> thf typf of thf vbluf rfturnfd by thf
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mfthod.
+     *
+     * @pbrbm bdtion thf dodf to bf run bs thf spfdififd
+     *                  {@dodf Subjfdt}. <p>
+     *
+     * @pbrbm bdd thf {@dodf AddfssControlContfxt} to bf tifd to thf
+     *                  spfdififd <i>subjfdt</i> bnd <i>bdtion</i>. <p>
+     *
+     * @rfturn thf vbluf rfturnfd by thf
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mfthod.
+     *
+     * @fxdfption PrivilfgfdAdtionExdfption if thf
+     *                  {@dodf PrivilfgfdExdfptionAdtion.run}
+     *                  mfthod throws b dhfdkfd fxdfption. <p>
+     *
+     * @fxdfption NullPointfrExdfption if thf spfdififd
+     *                  {@dodf PrivilfgfdExdfptionAdtion} is
+     *                  {@dodf null}. <p>
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *                  to invokf this mfthod.
+     */
+    publid stbtid <T> T doAsPrivilfgfd(finbl Subjfdt subjfdt,
+                        finbl jbvb.sfdurity.PrivilfgfdExdfptionAdtion<T> bdtion,
+                        finbl jbvb.sfdurity.AddfssControlContfxt bdd)
+                        throws jbvb.sfdurity.PrivilfgfdAdtionExdfption {
+
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(AuthPfrmissionHoldfr.DO_AS_PRIVILEGED_PERMISSION);
+        }
+
+        Objfdts.rfquirfNonNull(bdtion,
+                RfsourdfsMgr.gftString("invblid.null.bdtion.providfd"));
+
+        // sft up thf nfw Subjfdt-bbsfd AddfssControlContfxt for doPrivilfgfd
+        finbl AddfssControlContfxt dbllfrAdd =
+                (bdd == null ?
+                nfw AddfssControlContfxt(NULL_PD_ARRAY) :
+                bdd);
+
+        // dbll doPrivilfgfd bnd push this nfw dontfxt on thf stbdk
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                                        (bdtion,
+                                        drfbtfContfxt(subjfdt, dbllfrAdd));
+    }
+
+    privbtf stbtid AddfssControlContfxt drfbtfContfxt(finbl Subjfdt subjfdt,
+                                        finbl AddfssControlContfxt bdd) {
+
+
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+            (nfw jbvb.sfdurity.PrivilfgfdAdtion<AddfssControlContfxt>() {
+            publid AddfssControlContfxt run() {
+                if (subjfdt == null) {
+                    rfturn nfw AddfssControlContfxt(bdd, null);
+                } flsf {
+                    rfturn nfw AddfssControlContfxt
+                                        (bdd,
+                                        nfw SubjfdtDombinCombinfr(subjfdt));
+            }
+            }
+        });
+    }
+
+    /**
+     * Rfturn thf {@dodf Sft} of Prindipbls bssodibtfd with this
+     * {@dodf Subjfdt}.  Ebdh {@dodf Prindipbl} rfprfsfnts
+     * bn idfntity for this {@dodf Subjfdt}.
+     *
+     * <p> Thf rfturnfd {@dodf Sft} is bbdkfd by this Subjfdt's
+     * intfrnbl {@dodf Prindipbl} {@dodf Sft}.  Any modifidbtion
+     * to thf rfturnfd {@dodf Sft} bfffdts thf intfrnbl
+     * {@dodf Prindipbl} {@dodf Sft} bs wfll.
+     *
+     * <p>
+     *
+     * @rfturn  Thf {@dodf Sft} of Prindipbls bssodibtfd with this
+     *          {@dodf Subjfdt}.
+     */
+    publid Sft<Prindipbl> gftPrindipbls() {
+
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to thf Sft if nfdfssbry
+        rfturn prindipbls;
+    }
+
+    /**
+     * Rfturn b {@dodf Sft} of Prindipbls bssodibtfd with this
+     * {@dodf Subjfdt} thbt brf instbndfs or subdlbssfs of thf spfdififd
+     * {@dodf Clbss}.
+     *
+     * <p> Thf rfturnfd {@dodf Sft} is not bbdkfd by this Subjfdt's
+     * intfrnbl {@dodf Prindipbl} {@dodf Sft}.  A nfw
+     * {@dodf Sft} is drfbtfd bnd rfturnfd for fbdh mfthod invodbtion.
+     * Modifidbtions to thf rfturnfd {@dodf Sft}
+     * will not bfffdt thf intfrnbl {@dodf Prindipbl} {@dodf Sft}.
+     *
+     * <p>
+     *
+     * @pbrbm <T> thf typf of thf dlbss modflfd by {@dodf d}
+     *
+     * @pbrbm d thf rfturnfd {@dodf Sft} of Prindipbls will bll bf
+     *          instbndfs of this dlbss.
+     *
+     * @rfturn b {@dodf Sft} of Prindipbls thbt brf instbndfs of thf
+     *          spfdififd {@dodf Clbss}.
+     *
+     * @fxdfption NullPointfrExdfption if thf spfdififd {@dodf Clbss}
+     *                  is {@dodf null}.
+     */
+    publid <T fxtfnds Prindipbl> Sft<T> gftPrindipbls(Clbss<T> d) {
+
+        Objfdts.rfquirfNonNull(d,
+                RfsourdfsMgr.gftString("invblid.null.Clbss.providfd"));
+
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to thf Sft if nfdfssbry
+        rfturn nfw ClbssSft<T>(PRINCIPAL_SET, d);
+    }
+
+    /**
+     * Rfturn thf {@dodf Sft} of publid drfdfntibls hfld by this
+     * {@dodf Subjfdt}.
+     *
+     * <p> Thf rfturnfd {@dodf Sft} is bbdkfd by this Subjfdt's
+     * intfrnbl publid Crfdfntibl {@dodf Sft}.  Any modifidbtion
+     * to thf rfturnfd {@dodf Sft} bfffdts thf intfrnbl publid
+     * Crfdfntibl {@dodf Sft} bs wfll.
+     *
+     * <p>
+     *
+     * @rfturn  A {@dodf Sft} of publid drfdfntibls hfld by this
+     *          {@dodf Subjfdt}.
+     */
+    publid Sft<Objfdt> gftPublidCrfdfntibls() {
+
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to thf Sft if nfdfssbry
+        rfturn pubCrfdfntibls;
+    }
+
+    /**
+     * Rfturn thf {@dodf Sft} of privbtf drfdfntibls hfld by this
+     * {@dodf Subjfdt}.
+     *
+     * <p> Thf rfturnfd {@dodf Sft} is bbdkfd by this Subjfdt's
+     * intfrnbl privbtf Crfdfntibl {@dodf Sft}.  Any modifidbtion
+     * to thf rfturnfd {@dodf Sft} bfffdts thf intfrnbl privbtf
+     * Crfdfntibl {@dodf Sft} bs wfll.
+     *
+     * <p> A dbllfr rfquirfs pfrmissions to bddfss thf Crfdfntibls
+     * in thf rfturnfd {@dodf Sft}, or to modify thf
+     * {@dodf Sft} itsflf.  A {@dodf SfdurityExdfption}
+     * is thrown if thf dbllfr dofs not hbvf thf propfr pfrmissions.
+     *
+     * <p> Whilf itfrbting through thf {@dodf Sft},
+     * b {@dodf SfdurityExdfption} is thrown
+     * if thf dbllfr dofs not hbvf pfrmission to bddfss b
+     * pbrtidulbr Crfdfntibl.  Thf {@dodf Itfrbtor}
+     * is nfvfrthflfss bdvbndfd to nfxt flfmfnt in thf {@dodf Sft}.
+     *
+     * <p>
+     *
+     * @rfturn  A {@dodf Sft} of privbtf drfdfntibls hfld by this
+     *          {@dodf Subjfdt}.
+     */
+    publid Sft<Objfdt> gftPrivbtfCrfdfntibls() {
+
+        // XXX
+        // wf do not nffd b sfdurity dhfdk for
+        // AuthPfrmission(gftPrivbtfCrfdfntibls)
+        // bfdbusf wf blrfbdy rfstridt bddfss to privbtf drfdfntibls
+        // vib thf PrivbtfCrfdfntiblPfrmission.  bll thf fxtrb AuthPfrmission
+        // would do is protfdt thf sft opfrbtions thfmsflvfs
+        // (likf sizf()), whidh don't sffm sfdurity-sfnsitivf.
+
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to thf Sft if nfdfssbry
+        rfturn privCrfdfntibls;
+    }
+
+    /**
+     * Rfturn b {@dodf Sft} of publid drfdfntibls bssodibtfd with this
+     * {@dodf Subjfdt} thbt brf instbndfs or subdlbssfs of thf spfdififd
+     * {@dodf Clbss}.
+     *
+     * <p> Thf rfturnfd {@dodf Sft} is not bbdkfd by this Subjfdt's
+     * intfrnbl publid Crfdfntibl {@dodf Sft}.  A nfw
+     * {@dodf Sft} is drfbtfd bnd rfturnfd for fbdh mfthod invodbtion.
+     * Modifidbtions to thf rfturnfd {@dodf Sft}
+     * will not bfffdt thf intfrnbl publid Crfdfntibl {@dodf Sft}.
+     *
+     * <p>
+     *
+     * @pbrbm <T> thf typf of thf dlbss modflfd by {@dodf d}
+     *
+     * @pbrbm d thf rfturnfd {@dodf Sft} of publid drfdfntibls will bll bf
+     *          instbndfs of this dlbss.
+     *
+     * @rfturn b {@dodf Sft} of publid drfdfntibls thbt brf instbndfs
+     *          of thf  spfdififd {@dodf Clbss}.
+     *
+     * @fxdfption NullPointfrExdfption if thf spfdififd {@dodf Clbss}
+     *          is {@dodf null}.
+     */
+    publid <T> Sft<T> gftPublidCrfdfntibls(Clbss<T> d) {
+
+        Objfdts.rfquirfNonNull(d,
+                RfsourdfsMgr.gftString("invblid.null.Clbss.providfd"));
+
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to thf Sft if nfdfssbry
+        rfturn nfw ClbssSft<T>(PUB_CREDENTIAL_SET, d);
+    }
+
+    /**
+     * Rfturn b {@dodf Sft} of privbtf drfdfntibls bssodibtfd with this
+     * {@dodf Subjfdt} thbt brf instbndfs or subdlbssfs of thf spfdififd
+     * {@dodf Clbss}.
+     *
+     * <p> Thf dbllfr must hbvf pfrmission to bddfss bll of thf
+     * rfqufstfd Crfdfntibls, or b {@dodf SfdurityExdfption}
+     * will bf thrown.
+     *
+     * <p> Thf rfturnfd {@dodf Sft} is not bbdkfd by this Subjfdt's
+     * intfrnbl privbtf Crfdfntibl {@dodf Sft}.  A nfw
+     * {@dodf Sft} is drfbtfd bnd rfturnfd for fbdh mfthod invodbtion.
+     * Modifidbtions to thf rfturnfd {@dodf Sft}
+     * will not bfffdt thf intfrnbl privbtf Crfdfntibl {@dodf Sft}.
+     *
+     * <p>
+     *
+     * @pbrbm <T> thf typf of thf dlbss modflfd by {@dodf d}
+     *
+     * @pbrbm d thf rfturnfd {@dodf Sft} of privbtf drfdfntibls will bll bf
+     *          instbndfs of this dlbss.
+     *
+     * @rfturn b {@dodf Sft} of privbtf drfdfntibls thbt brf instbndfs
+     *          of thf  spfdififd {@dodf Clbss}.
+     *
+     * @fxdfption NullPointfrExdfption if thf spfdififd {@dodf Clbss}
+     *          is {@dodf null}.
+     */
+    publid <T> Sft<T> gftPrivbtfCrfdfntibls(Clbss<T> d) {
+
+        // XXX
+        // wf do not nffd b sfdurity dhfdk for
+        // AuthPfrmission(gftPrivbtfCrfdfntibls)
+        // bfdbusf wf blrfbdy rfstridt bddfss to privbtf drfdfntibls
+        // vib thf PrivbtfCrfdfntiblPfrmission.  bll thf fxtrb AuthPfrmission
+        // would do is protfdt thf sft opfrbtions thfmsflvfs
+        // (likf sizf()), whidh don't sffm sfdurity-sfnsitivf.
+
+        Objfdts.rfquirfNonNull(d,
+                RfsourdfsMgr.gftString("invblid.null.Clbss.providfd"));
+
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to thf Sft if nfdfssbry
+        rfturn nfw ClbssSft<T>(PRIV_CREDENTIAL_SET, d);
+    }
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this {@dodf Subjfdt}
+     * for fqublity.  Rfturns truf if thf givfn objfdt is blso b Subjfdt
+     * bnd thf two {@dodf Subjfdt} instbndfs brf fquivblfnt.
+     * Morf formblly, two {@dodf Subjfdt} instbndfs brf
+     * fqubl if thfir {@dodf Prindipbl} bnd {@dodf Crfdfntibl}
+     * Sfts brf fqubl.
+     *
+     * <p>
+     *
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity with this
+     *          {@dodf Subjfdt}.
+     *
+     * @rfturn truf if thf spfdififd Objfdt is fqubl to this
+     *          {@dodf Subjfdt}.
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *          to bddfss thf privbtf drfdfntibls for this {@dodf Subjfdt},
+     *          or if thf dbllfr dofs not hbvf pfrmission to bddfss thf
+     *          privbtf drfdfntibls for thf providfd {@dodf Subjfdt}.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+
+        if (o == null) {
+            rfturn fblsf;
+        }
+
+        if (this == o) {
+            rfturn truf;
+        }
+
+        if (o instbndfof Subjfdt) {
+
+            finbl Subjfdt thbt = (Subjfdt)o;
+
+            // dhfdk thf prindipbl bnd drfdfntibl sfts
+            Sft<Prindipbl> thbtPrindipbls;
+            syndhronizfd(thbt.prindipbls) {
+                // bvoid dfbdlodk from dubl lodks
+                thbtPrindipbls = nfw HbshSft<Prindipbl>(thbt.prindipbls);
+            }
+            if (!prindipbls.fqubls(thbtPrindipbls)) {
+                rfturn fblsf;
+            }
+
+            Sft<Objfdt> thbtPubCrfdfntibls;
+            syndhronizfd(thbt.pubCrfdfntibls) {
+                // bvoid dfbdlodk from dubl lodks
+                thbtPubCrfdfntibls = nfw HbshSft<Objfdt>(thbt.pubCrfdfntibls);
+            }
+            if (!pubCrfdfntibls.fqubls(thbtPubCrfdfntibls)) {
+                rfturn fblsf;
+            }
+
+            Sft<Objfdt> thbtPrivCrfdfntibls;
+            syndhronizfd(thbt.privCrfdfntibls) {
+                // bvoid dfbdlodk from dubl lodks
+                thbtPrivCrfdfntibls = nfw HbshSft<Objfdt>(thbt.privCrfdfntibls);
+            }
+            if (!privCrfdfntibls.fqubls(thbtPrivCrfdfntibls)) {
+                rfturn fblsf;
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturn thf String rfprfsfntbtion of this {@dodf Subjfdt}.
+     *
+     * <p>
+     *
+     * @rfturn thf String rfprfsfntbtion of this {@dodf Subjfdt}.
+     */
+    publid String toString() {
+        rfturn toString(truf);
+    }
+
+    /**
+     * pbdkbgf privbtf donvfnifndf mfthod to print out thf Subjfdt
+     * without firing off b sfdurity dhfdk whfn trying to bddfss
+     * thf Privbtf Crfdfntibls
+     */
+    String toString(boolfbn indludfPrivbtfCrfdfntibls) {
+
+        String s = RfsourdfsMgr.gftString("Subjfdt.");
+        String suffix = "";
+
+        syndhronizfd(prindipbls) {
+            Itfrbtor<Prindipbl> pI = prindipbls.itfrbtor();
+            whilf (pI.hbsNfxt()) {
+                Prindipbl p = pI.nfxt();
+                suffix = suffix + RfsourdfsMgr.gftString(".Prindipbl.") +
+                        p.toString() + RfsourdfsMgr.gftString("NEWLINE");
+            }
+        }
+
+        syndhronizfd(pubCrfdfntibls) {
+            Itfrbtor<Objfdt> pI = pubCrfdfntibls.itfrbtor();
+            whilf (pI.hbsNfxt()) {
+                Objfdt o = pI.nfxt();
+                suffix = suffix +
+                        RfsourdfsMgr.gftString(".Publid.Crfdfntibl.") +
+                        o.toString() + RfsourdfsMgr.gftString("NEWLINE");
+            }
+        }
+
+        if (indludfPrivbtfCrfdfntibls) {
+            syndhronizfd(privCrfdfntibls) {
+                Itfrbtor<Objfdt> pI = privCrfdfntibls.itfrbtor();
+                whilf (pI.hbsNfxt()) {
+                    try {
+                        Objfdt o = pI.nfxt();
+                        suffix += RfsourdfsMgr.gftString
+                                        (".Privbtf.Crfdfntibl.") +
+                                        o.toString() +
+                                        RfsourdfsMgr.gftString("NEWLINE");
+                    } dbtdh (SfdurityExdfption sf) {
+                        suffix += RfsourdfsMgr.gftString
+                                (".Privbtf.Crfdfntibl.inbddfssiblf.");
+                        brfbk;
+                    }
+                }
+            }
+        }
+        rfturn s + suffix;
+    }
+
+    /**
+     * Rfturns b hbshdodf for this {@dodf Subjfdt}.
+     *
+     * <p>
+     *
+     * @rfturn b hbshdodf for this {@dodf Subjfdt}.
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *          to bddfss this Subjfdt's privbtf drfdfntibls.
+     */
+    publid int hbshCodf() {
+
+        /**
+         * Thf hbshdodf is dfrivfd fxdlusivf or-ing thf
+         * hbshdodfs of this Subjfdt's Prindipbls bnd drfdfntibls.
+         *
+         * If b pbrtidulbr drfdfntibl wbs dfstroyfd
+         * ({@dodf drfdfntibl.hbshCodf()} throws bn
+         * {@dodf IllfgblStbtfExdfption}),
+         * thf hbshdodf for thbt drfdfntibl is dfrivfd vib:
+         * {@dodf drfdfntibl.gftClbss().toString().hbshCodf()}.
+         */
+
+        int hbshCodf = 0;
+
+        syndhronizfd(prindipbls) {
+            Itfrbtor<Prindipbl> pItfrbtor = prindipbls.itfrbtor();
+            whilf (pItfrbtor.hbsNfxt()) {
+                Prindipbl p = pItfrbtor.nfxt();
+                hbshCodf ^= p.hbshCodf();
+            }
+        }
+
+        syndhronizfd(pubCrfdfntibls) {
+            Itfrbtor<Objfdt> pubCItfrbtor = pubCrfdfntibls.itfrbtor();
+            whilf (pubCItfrbtor.hbsNfxt()) {
+                hbshCodf ^= gftCrfdHbshCodf(pubCItfrbtor.nfxt());
+            }
+        }
+        rfturn hbshCodf;
+    }
+
+    /**
+     * gft b drfdfntibl's hbshdodf
+     */
+    privbtf int gftCrfdHbshCodf(Objfdt o) {
+        try {
+            rfturn o.hbshCodf();
+        } dbtdh (IllfgblStbtfExdfption isf) {
+            rfturn o.gftClbss().toString().hbshCodf();
+        }
+    }
+
+    /**
+     * Writfs this objfdt out to b strfbm (i.f., sfriblizfs it).
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm oos)
+                throws jbvb.io.IOExdfption {
+        syndhronizfd(prindipbls) {
+            oos.dffbultWritfObjfdt();
+        }
+    }
+
+    /**
+     * Rfbds this objfdt from b strfbm (i.f., dfsfriblizfs it)
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+                throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+
+        ObjfdtInputStrfbm.GftFifld gf = s.rfbdFiflds();
+
+        rfbdOnly = gf.gft("rfbdOnly", fblsf);
+
+        Sft<Prindipbl> inputPrinds = (Sft<Prindipbl>)gf.gft("prindipbls", null);
+
+        Objfdts.rfquirfNonNull(inputPrinds,
+                RfsourdfsMgr.gftString("invblid.null.input.s."));
+
+        // Rfwrbp thf prindipbls into b SfdurfSft
+        try {
+            prindipbls = Collfdtions.syndhronizfdSft(nfw SfdurfSft<Prindipbl>
+                                (this, PRINCIPAL_SET, inputPrinds));
+        } dbtdh (NullPointfrExdfption npf) {
+            // Somftimfs pfoplf dfsfriblizf thf prindipbls sft only.
+            // Subjfdt is not bddfssiblf, so just don't fbil.
+            prindipbls = Collfdtions.syndhronizfdSft
+                        (nfw SfdurfSft<Prindipbl>(this, PRINCIPAL_SET));
+        }
+
+        // Thf Crfdfntibl {@dodf Sft} is not sfriblizfd, but wf do not
+        // wbnt thf dffbult dfsfriblizbtion routinf to sft it to null.
+        this.pubCrfdfntibls = Collfdtions.syndhronizfdSft
+                        (nfw SfdurfSft<Objfdt>(this, PUB_CREDENTIAL_SET));
+        this.privCrfdfntibls = Collfdtions.syndhronizfdSft
+                        (nfw SfdurfSft<Objfdt>(this, PRIV_CREDENTIAL_SET));
+    }
+
+    /**
+     * Tfsts for null-dlfbn dollfdtions (both non-null rfffrfndf bnd
+     * no null flfmfnts)
+     *
+     * @pbrbm doll A {@dodf Collfdtion} to bf tfstfd for null rfffrfndfs
+     *
+     * @fxdfption NullPointfrExdfption if thf spfdififd dollfdtion is fithfr
+     *            {@dodf null} or dontbins b {@dodf null} flfmfnt
+     */
+    privbtf stbtid void dollfdtionNullClfbn(Collfdtion<?> doll) {
+        boolfbn hbsNullElfmfnts = fblsf;
+
+        Objfdts.rfquirfNonNull(doll,
+                RfsourdfsMgr.gftString("invblid.null.input.s."));
+
+        try {
+            hbsNullElfmfnts = doll.dontbins(null);
+        } dbtdh (NullPointfrExdfption npf) {
+            // A null-hostilf dollfdtion mby dhoosf to throw
+            // NullPointfrExdfption if dontbins(null) is dbllfd on it
+            // rbthfr thbn rfturning fblsf.
+            // If this hbppfns wf know thf dollfdtion is null-dlfbn.
+            hbsNullElfmfnts = fblsf;
+        } finblly {
+            if (hbsNullElfmfnts) {
+                throw nfw NullPointfrExdfption
+                    (RfsourdfsMgr.gftString("invblid.null.input.s."));
+            }
+        }
+    }
+
+    /**
+     * Prfvfnt modifidbtions unlfss dbllfr hbs pfrmission.
+     *
+     * @sfribl indludf
+     */
+    privbtf stbtid dlbss SfdurfSft<E>
+        implfmfnts Sft<E>, jbvb.io.Sfriblizbblf {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = 7911754171111800359L;
+
+        /**
+         * @sfriblFifld this$0 Subjfdt Thf outfr Subjfdt instbndf.
+         * @sfriblFifld flfmfnts LinkfdList Thf flfmfnts in this sft.
+         */
+        privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+            nfw ObjfdtStrfbmFifld("this$0", Subjfdt.dlbss),
+            nfw ObjfdtStrfbmFifld("flfmfnts", LinkfdList.dlbss),
+            nfw ObjfdtStrfbmFifld("whidh", int.dlbss)
+        };
+
+        Subjfdt subjfdt;
+        LinkfdList<E> flfmfnts;
+
+        /**
+         * @sfribl An intfgfr idfntifying thf typf of objfdts dontbinfd
+         *      in this sft.  If {@dodf whidh == 1},
+         *      this is b Prindipbl sft bnd bll thf flfmfnts brf
+         *      of typf {@dodf jbvb.sfdurity.Prindipbl}.
+         *      If {@dodf whidh == 2}, this is b publid drfdfntibl
+         *      sft bnd bll thf flfmfnts brf of typf {@dodf Objfdt}.
+         *      If {@dodf whidh == 3}, this is b privbtf drfdfntibl
+         *      sft bnd bll thf flfmfnts brf of typf {@dodf Objfdt}.
+         */
+        privbtf int whidh;
+
+        SfdurfSft(Subjfdt subjfdt, int whidh) {
+            this.subjfdt = subjfdt;
+            this.whidh = whidh;
+            this.flfmfnts = nfw LinkfdList<E>();
+        }
+
+        SfdurfSft(Subjfdt subjfdt, int whidh, Sft<? fxtfnds E> sft) {
+            this.subjfdt = subjfdt;
+            this.whidh = whidh;
+            this.flfmfnts = nfw LinkfdList<E>(sft);
+        }
+
+        publid int sizf() {
+            rfturn flfmfnts.sizf();
+        }
+
+        publid Itfrbtor<E> itfrbtor() {
+            finbl LinkfdList<E> list = flfmfnts;
+            rfturn nfw Itfrbtor<E>() {
+                ListItfrbtor<E> i = list.listItfrbtor(0);
+
+                publid boolfbn hbsNfxt() {rfturn i.hbsNfxt();}
+
+                publid E nfxt() {
+                    if (whidh != Subjfdt.PRIV_CREDENTIAL_SET) {
+                        rfturn i.nfxt();
+                    }
+
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                    if (sm != null) {
+                        try {
+                            sm.dhfdkPfrmission(nfw PrivbtfCrfdfntiblPfrmission
+                                (list.gft(i.nfxtIndfx()).gftClbss().gftNbmf(),
+                                subjfdt.gftPrindipbls()));
+                        } dbtdh (SfdurityExdfption sf) {
+                            i.nfxt();
+                            throw (sf);
+                        }
+                    }
+                    rfturn i.nfxt();
+                }
+
+                publid void rfmovf() {
+
+                    if (subjfdt.isRfbdOnly()) {
+                        throw nfw IllfgblStbtfExdfption(RfsourdfsMgr.gftString
+                                ("Subjfdt.is.rfbd.only"));
+                    }
+
+                    jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                    if (sm != null) {
+                        switdh (whidh) {
+                        dbsf Subjfdt.PRINCIPAL_SET:
+                            sm.dhfdkPfrmission(AuthPfrmissionHoldfr.MODIFY_PRINCIPALS_PERMISSION);
+                            brfbk;
+                        dbsf Subjfdt.PUB_CREDENTIAL_SET:
+                            sm.dhfdkPfrmission(AuthPfrmissionHoldfr.MODIFY_PUBLIC_CREDENTIALS_PERMISSION);
+                            brfbk;
+                        dffbult:
+                            sm.dhfdkPfrmission(AuthPfrmissionHoldfr.MODIFY_PRIVATE_CREDENTIALS_PERMISSION);
+                            brfbk;
+                        }
+                    }
+                    i.rfmovf();
+                }
+            };
+        }
+
+        publid boolfbn bdd(E o) {
+
+            Objfdts.rfquirfNonNull(o,
+                    RfsourdfsMgr.gftString("invblid.null.input.s."));
+
+            if (subjfdt.isRfbdOnly()) {
+                throw nfw IllfgblStbtfExdfption
+                        (RfsourdfsMgr.gftString("Subjfdt.is.rfbd.only"));
+            }
+
+            jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                switdh (whidh) {
+                dbsf Subjfdt.PRINCIPAL_SET:
+                    sm.dhfdkPfrmission(AuthPfrmissionHoldfr.MODIFY_PRINCIPALS_PERMISSION);
+                    brfbk;
+                dbsf Subjfdt.PUB_CREDENTIAL_SET:
+                    sm.dhfdkPfrmission(AuthPfrmissionHoldfr.MODIFY_PUBLIC_CREDENTIALS_PERMISSION);
+                    brfbk;
+                dffbult:
+                    sm.dhfdkPfrmission(AuthPfrmissionHoldfr.MODIFY_PRIVATE_CREDENTIALS_PERMISSION);
+                    brfbk;
+                }
+            }
+
+            switdh (whidh) {
+            dbsf Subjfdt.PRINCIPAL_SET:
+                if (!(o instbndfof Prindipbl)) {
+                    throw nfw SfdurityExdfption(RfsourdfsMgr.gftString
+                        ("bttfmpting.to.bdd.bn.objfdt.whidh.is.not.bn.instbndf.of.jbvb.sfdurity.Prindipbl.to.b.Subjfdt.s.Prindipbl.Sft"));
+                }
+                brfbk;
+            dffbult:
+                // ok to bdd Objfdts of bny kind to drfdfntibl sfts
+                brfbk;
+            }
+
+            // dhfdk for duplidbtfs
+            if (!flfmfnts.dontbins(o))
+                rfturn flfmfnts.bdd(o);
+            flsf {
+                rfturn fblsf;
+        }
+        }
+
+        publid boolfbn rfmovf(Objfdt o) {
+
+            Objfdts.rfquirfNonNull(o,
+                    RfsourdfsMgr.gftString("invblid.null.input.s."));
+
+            finbl Itfrbtor<E> f = itfrbtor();
+            whilf (f.hbsNfxt()) {
+                E nfxt;
+                if (whidh != Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = f.nfxt();
+                } flsf {
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<E>() {
+                        publid E run() {
+                            rfturn f.nfxt();
+                        }
+                    });
+                }
+
+                if (nfxt.fqubls(o)) {
+                    f.rfmovf();
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+
+        publid boolfbn dontbins(Objfdt o) {
+
+            Objfdts.rfquirfNonNull(o,
+                    RfsourdfsMgr.gftString("invblid.null.input.s."));
+
+            finbl Itfrbtor<E> f = itfrbtor();
+            whilf (f.hbsNfxt()) {
+                E nfxt;
+                if (whidh != Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = f.nfxt();
+                } flsf {
+
+                    // For privbtf drfdfntibls:
+                    // If thf dbllfr dofs not hbvf rfbd pfrmission for
+                    // for o.gftClbss(), wf throw b SfdurityExdfption.
+                    // Othfrwisf wf dhfdk thf privbtf drfd sft to sff whfthfr
+                    // it dontbins thf Objfdt
+
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                    if (sm != null) {
+                        sm.dhfdkPfrmission(nfw PrivbtfCrfdfntiblPfrmission
+                                                (o.gftClbss().gftNbmf(),
+                                                subjfdt.gftPrindipbls()));
+                    }
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<E>() {
+                        publid E run() {
+                            rfturn f.nfxt();
+                        }
+                    });
+                }
+
+                if (nfxt.fqubls(o)) {
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+
+        publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+            boolfbn rfsult = fblsf;
+
+            dollfdtionNullClfbn(d);
+
+            for (E itfm : d) {
+                rfsult |= this.bdd(itfm);
+            }
+
+            rfturn rfsult;
+        }
+
+        publid boolfbn rfmovfAll(Collfdtion<?> d) {
+            dollfdtionNullClfbn(d);
+
+            boolfbn modififd = fblsf;
+            finbl Itfrbtor<E> f = itfrbtor();
+            whilf (f.hbsNfxt()) {
+                E nfxt;
+                if (whidh != Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = f.nfxt();
+                } flsf {
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<E>() {
+                        publid E run() {
+                            rfturn f.nfxt();
+                        }
+                    });
+                }
+
+                Itfrbtor<?> df = d.itfrbtor();
+                whilf (df.hbsNfxt()) {
+                    if (nfxt.fqubls(df.nfxt())) {
+                            f.rfmovf();
+                            modififd = truf;
+                            brfbk;
+                        }
+                }
+            }
+            rfturn modififd;
+        }
+
+        publid boolfbn dontbinsAll(Collfdtion<?> d) {
+            dollfdtionNullClfbn(d);
+
+            for (Objfdt itfm : d) {
+                if (this.dontbins(itfm) == fblsf) {
+                    rfturn fblsf;
+                }
+            }
+
+            rfturn truf;
+        }
+
+        publid boolfbn rftbinAll(Collfdtion<?> d) {
+            dollfdtionNullClfbn(d);
+
+            boolfbn modififd = fblsf;
+            finbl Itfrbtor<E> f = itfrbtor();
+            whilf (f.hbsNfxt()) {
+                E nfxt;
+                if (whidh != Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = f.nfxt();
+                } flsf {
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<E>() {
+                        publid E run() {
+                            rfturn f.nfxt();
+                        }
+                    });
+                }
+
+                if (d.dontbins(nfxt) == fblsf) {
+                    f.rfmovf();
+                    modififd = truf;
+                    }
+                }
+
+            rfturn modififd;
+        }
+
+        publid void dlfbr() {
+            finbl Itfrbtor<E> f = itfrbtor();
+            whilf (f.hbsNfxt()) {
+                E nfxt;
+                if (whidh != Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = f.nfxt();
+                } flsf {
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<E>() {
+                        publid E run() {
+                            rfturn f.nfxt();
+                        }
+                    });
+                }
+                f.rfmovf();
+            }
+        }
+
+        publid boolfbn isEmpty() {
+            rfturn flfmfnts.isEmpty();
+        }
+
+        publid Objfdt[] toArrby() {
+            finbl Itfrbtor<E> f = itfrbtor();
+            whilf (f.hbsNfxt()) {
+                // Thf nfxt() mfthod pfrforms b sfdurity mbnbgfr dhfdk
+                // on fbdh flfmfnt in thf SfdurfSft.  If wf mbkf it bll
+                // thf wby through wf should bf bblf to simply rfturn
+                // flfmfnt's toArrby rfsults.  Othfrwisf wf'll lft
+                // thf SfdurityExdfption pbss up thf dbll stbdk.
+                f.nfxt();
+            }
+
+            rfturn flfmfnts.toArrby();
+        }
+
+        publid <T> T[] toArrby(T[] b) {
+            finbl Itfrbtor<E> f = itfrbtor();
+            whilf (f.hbsNfxt()) {
+                // Thf nfxt() mfthod pfrforms b sfdurity mbnbgfr dhfdk
+                // on fbdh flfmfnt in thf SfdurfSft.  If wf mbkf it bll
+                // thf wby through wf should bf bblf to simply rfturn
+                // flfmfnt's toArrby rfsults.  Othfrwisf wf'll lft
+                // thf SfdurityExdfption pbss up thf dbll stbdk.
+                f.nfxt();
+            }
+
+            rfturn flfmfnts.toArrby(b);
+        }
+
+        publid boolfbn fqubls(Objfdt o) {
+            if (o == this) {
+                rfturn truf;
+            }
+
+            if (!(o instbndfof Sft)) {
+                rfturn fblsf;
+            }
+
+            Collfdtion<?> d = (Collfdtion<?>) o;
+            if (d.sizf() != sizf()) {
+                rfturn fblsf;
+            }
+
+            try {
+                rfturn dontbinsAll(d);
+            } dbtdh (ClbssCbstExdfption unusfd)   {
+                rfturn fblsf;
+            } dbtdh (NullPointfrExdfption unusfd) {
+                rfturn fblsf;
+            }
+        }
+
+        publid int hbshCodf() {
+            int h = 0;
+            Itfrbtor<E> i = itfrbtor();
+            whilf (i.hbsNfxt()) {
+                E obj = i.nfxt();
+                if (obj != null) {
+                    h += obj.hbshCodf();
+                }
+            }
+            rfturn h;
+        }
+
+        /**
+         * Writfs this objfdt out to b strfbm (i.f., sfriblizfs it).
+         *
+         * <p>
+         *
+         * @sfriblDbtb If this is b privbtf drfdfntibl sft,
+         *      b sfdurity dhfdk is pfrformfd to fnsurf thbt
+         *      thf dbllfr hbs pfrmission to bddfss fbdh drfdfntibl
+         *      in thf sft.  If thf sfdurity dhfdk pbssfs,
+         *      thf sft is sfriblizfd.
+         */
+        privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm oos)
+                throws jbvb.io.IOExdfption {
+
+            if (whidh == Subjfdt.PRIV_CREDENTIAL_SET) {
+                // dhfdk pfrmissions bfforf sfriblizing
+                Itfrbtor<E> i = itfrbtor();
+                whilf (i.hbsNfxt()) {
+                    i.nfxt();
+                }
+            }
+            ObjfdtOutputStrfbm.PutFifld fiflds = oos.putFiflds();
+            fiflds.put("this$0", subjfdt);
+            fiflds.put("flfmfnts", flfmfnts);
+            fiflds.put("whidh", whidh);
+            oos.writfFiflds();
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+            throws IOExdfption, ClbssNotFoundExdfption
+        {
+            ObjfdtInputStrfbm.GftFifld fiflds = ois.rfbdFiflds();
+            subjfdt = (Subjfdt) fiflds.gft("this$0", null);
+            whidh = fiflds.gft("whidh", 0);
+
+            LinkfdList<E> tmp = (LinkfdList<E>) fiflds.gft("flfmfnts", null);
+
+            Subjfdt.dollfdtionNullClfbn(tmp);
+
+            if (tmp.gftClbss() != LinkfdList.dlbss) {
+                flfmfnts = nfw LinkfdList<E>(tmp);
+            } flsf {
+                flfmfnts = tmp;
+            }
+        }
+
+    }
+
+    /**
+     * This dlbss implfmfnts b {@dodf Sft} whidh rfturns only
+     * mfmbfrs thbt brf bn instbndf of b spfdififd Clbss.
+     */
+    privbtf dlbss ClbssSft<T> fxtfnds AbstrbdtSft<T> {
+
+        privbtf int whidh;
+        privbtf Clbss<T> d;
+        privbtf Sft<T> sft;
+
+        ClbssSft(int whidh, Clbss<T> d) {
+            this.whidh = whidh;
+            this.d = d;
+            sft = nfw HbshSft<T>();
+
+            switdh (whidh) {
+            dbsf Subjfdt.PRINCIPAL_SET:
+                syndhronizfd(prindipbls) { populbtfSft(); }
+                brfbk;
+            dbsf Subjfdt.PUB_CREDENTIAL_SET:
+                syndhronizfd(pubCrfdfntibls) { populbtfSft(); }
+                brfbk;
+            dffbult:
+                syndhronizfd(privCrfdfntibls) { populbtfSft(); }
+                brfbk;
+            }
+        }
+
+        @SupprfssWbrnings("undhfdkfd")     /*To supprfss wbrning from linf 1374*/
+        privbtf void populbtfSft() {
+            finbl Itfrbtor<?> itfrbtor;
+            switdh(whidh) {
+            dbsf Subjfdt.PRINCIPAL_SET:
+                itfrbtor = Subjfdt.this.prindipbls.itfrbtor();
+                brfbk;
+            dbsf Subjfdt.PUB_CREDENTIAL_SET:
+                itfrbtor = Subjfdt.this.pubCrfdfntibls.itfrbtor();
+                brfbk;
+            dffbult:
+                itfrbtor = Subjfdt.this.privCrfdfntibls.itfrbtor();
+                brfbk;
+            }
+
+            // Chfdk whfthfr thf dbllfr hbs pfrmisson to gft
+            // drfdfntibls of Clbss d
+
+            whilf (itfrbtor.hbsNfxt()) {
+                Objfdt nfxt;
+                if (whidh == Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                        publid Objfdt run() {
+                            rfturn itfrbtor.nfxt();
+                        }
+                    });
+                } flsf {
+                    nfxt = itfrbtor.nfxt();
+                }
+                if (d.isAssignbblfFrom(nfxt.gftClbss())) {
+                    if (whidh != Subjfdt.PRIV_CREDENTIAL_SET) {
+                        sft.bdd((T)nfxt);
+                    } flsf {
+                        // Chfdk pfrmission for privbtf drfds
+                        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                        if (sm != null) {
+                            sm.dhfdkPfrmission(nfw PrivbtfCrfdfntiblPfrmission
+                                                (nfxt.gftClbss().gftNbmf(),
+                                                Subjfdt.this.gftPrindipbls()));
+                        }
+                        sft.bdd((T)nfxt);
+                    }
+                }
+            }
+        }
+
+        publid int sizf() {
+            rfturn sft.sizf();
+        }
+
+        publid Itfrbtor<T> itfrbtor() {
+            rfturn sft.itfrbtor();
+        }
+
+        publid boolfbn bdd(T o) {
+
+            if (!o.gftClbss().isAssignbblfFrom(d)) {
+                MfssbgfFormbt form = nfw MfssbgfFormbt(RfsourdfsMgr.gftString
+                        ("bttfmpting.to.bdd.bn.objfdt.whidh.is.not.bn.instbndf.of.dlbss"));
+                Objfdt[] sourdf = {d.toString()};
+                throw nfw SfdurityExdfption(form.formbt(sourdf));
+            }
+
+            rfturn sft.bdd(o);
+        }
+    }
+
+    stbtid dlbss AuthPfrmissionHoldfr {
+        stbtid finbl AuthPfrmission DO_AS_PERMISSION =
+            nfw AuthPfrmission("doAs");
+
+        stbtid finbl AuthPfrmission DO_AS_PRIVILEGED_PERMISSION =
+            nfw AuthPfrmission("doAsPrivilfgfd");
+
+        stbtid finbl AuthPfrmission SET_READ_ONLY_PERMISSION =
+            nfw AuthPfrmission("sftRfbdOnly");
+
+        stbtid finbl AuthPfrmission GET_SUBJECT_PERMISSION =
+            nfw AuthPfrmission("gftSubjfdt");
+
+        stbtid finbl AuthPfrmission MODIFY_PRINCIPALS_PERMISSION =
+            nfw AuthPfrmission("modifyPrindipbls");
+
+        stbtid finbl AuthPfrmission MODIFY_PUBLIC_CREDENTIALS_PERMISSION =
+            nfw AuthPfrmission("modifyPublidCrfdfntibls");
+
+        stbtid finbl AuthPfrmission MODIFY_PRIVATE_CREDENTIALS_PERMISSION =
+            nfw AuthPfrmission("modifyPrivbtfCrfdfntibls");
+    }
+}

@@ -1,244 +1,244 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: DOMCryptoContext.java,v 1.3 2005/05/09 18:33:26 mullan Exp $
+ * $Id: DOMCryptoContfxt.jbvb,v 1.3 2005/05/09 18:33:26 mullbn Exp $
  */
-package javax.xml.crypto.dom;
+pbdkbgf jbvbx.xml.drypto.dom;
 
-import javax.xml.crypto.KeySelector;
-import javax.xml.crypto.URIDereferencer;
-import javax.xml.crypto.XMLCryptoContext;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import org.w3c.dom.Element;
+import jbvbx.xml.drypto.KfySflfdtor;
+import jbvbx.xml.drypto.URIDfrfffrfndfr;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * This class provides a DOM-specific implementation of the
- * {@link XMLCryptoContext} interface. It also includes additional
- * methods that are specific to a DOM-based implementation for registering
- * and retrieving elements that contain attributes of type ID.
+ * Tiis dlbss providfs b DOM-spfdifid implfmfntbtion of tif
+ * {@link XMLCryptoContfxt} intfrfbdf. It blso indludfs bdditionbl
+ * mftiods tibt brf spfdifid to b DOM-bbsfd implfmfntbtion for rfgistfring
+ * bnd rftrifving flfmfnts tibt dontbin bttributfs of typf ID.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
  */
-public class DOMCryptoContext implements XMLCryptoContext {
+publid dlbss DOMCryptoContfxt implfmfnts XMLCryptoContfxt {
 
-    private HashMap<String,String> nsMap = new HashMap<>();
-    private HashMap<String,Element> idMap = new HashMap<>();
-    private HashMap<Object,Object> objMap = new HashMap<>();
-    private String baseURI;
-    private KeySelector ks;
-    private URIDereferencer dereferencer;
-    private HashMap<String,Object> propMap = new HashMap<>();
-    private String defaultPrefix;
+    privbtf HbsiMbp<String,String> nsMbp = nfw HbsiMbp<>();
+    privbtf HbsiMbp<String,Elfmfnt> idMbp = nfw HbsiMbp<>();
+    privbtf HbsiMbp<Objfdt,Objfdt> objMbp = nfw HbsiMbp<>();
+    privbtf String bbsfURI;
+    privbtf KfySflfdtor ks;
+    privbtf URIDfrfffrfndfr dfrfffrfndfr;
+    privbtf HbsiMbp<String,Objfdt> propMbp = nfw HbsiMbp<>();
+    privbtf String dffbultPrffix;
 
     /**
-     * Default constructor. (For invocation by subclass constructors).
+     * Dffbult donstrudtor. (For invodbtion by subdlbss donstrudtors).
      */
-    protected DOMCryptoContext() {}
+    protfdtfd DOMCryptoContfxt() {}
 
     /**
-     * This implementation uses an internal {@link HashMap} to get the prefix
-     * that the specified URI maps to. It returns the <code>defaultPrefix</code>
-     * if it maps to <code>null</code>.
+     * Tiis implfmfntbtion usfs bn intfrnbl {@link HbsiMbp} to gft tif prffix
+     * tibt tif spfdififd URI mbps to. It rfturns tif <dodf>dffbultPrffix</dodf>
+     * if it mbps to <dodf>null</dodf>.
      *
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public String getNamespacePrefix(String namespaceURI,
-        String defaultPrefix) {
-        if (namespaceURI == null) {
-            throw new NullPointerException("namespaceURI cannot be null");
+    publid String gftNbmfspbdfPrffix(String nbmfspbdfURI,
+        String dffbultPrffix) {
+        if (nbmfspbdfURI == null) {
+            tirow nfw NullPointfrExdfption("nbmfspbdfURI dbnnot bf null");
         }
-        String prefix = nsMap.get(namespaceURI);
-        return (prefix != null ? prefix : defaultPrefix);
+        String prffix = nsMbp.gft(nbmfspbdfURI);
+        rfturn (prffix != null ? prffix : dffbultPrffix);
     }
 
     /**
-     * This implementation uses an internal {@link HashMap} to map the URI
-     * to the specified prefix.
+     * Tiis implfmfntbtion usfs bn intfrnbl {@link HbsiMbp} to mbp tif URI
+     * to tif spfdififd prffix.
      *
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public String putNamespacePrefix(String namespaceURI, String prefix) {
-        if (namespaceURI == null) {
-            throw new NullPointerException("namespaceURI is null");
+    publid String putNbmfspbdfPrffix(String nbmfspbdfURI, String prffix) {
+        if (nbmfspbdfURI == null) {
+            tirow nfw NullPointfrExdfption("nbmfspbdfURI is null");
         }
-        return nsMap.put(namespaceURI, prefix);
+        rfturn nsMbp.put(nbmfspbdfURI, prffix);
     }
 
-    public String getDefaultNamespacePrefix() {
-        return defaultPrefix;
+    publid String gftDffbultNbmfspbdfPrffix() {
+        rfturn dffbultPrffix;
     }
 
-    public void setDefaultNamespacePrefix(String defaultPrefix) {
-        this.defaultPrefix = defaultPrefix;
+    publid void sftDffbultNbmfspbdfPrffix(String dffbultPrffix) {
+        tiis.dffbultPrffix = dffbultPrffix;
     }
 
-    public String getBaseURI() {
-        return baseURI;
+    publid String gftBbsfURI() {
+        rfturn bbsfURI;
     }
 
     /**
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    public void setBaseURI(String baseURI) {
-        if (baseURI != null) {
-            java.net.URI.create(baseURI);
+    publid void sftBbsfURI(String bbsfURI) {
+        if (bbsfURI != null) {
+            jbvb.nft.URI.drfbtf(bbsfURI);
         }
-        this.baseURI = baseURI;
+        tiis.bbsfURI = bbsfURI;
     }
 
-    public URIDereferencer getURIDereferencer() {
-        return dereferencer;
+    publid URIDfrfffrfndfr gftURIDfrfffrfndfr() {
+        rfturn dfrfffrfndfr;
     }
 
-    public void setURIDereferencer(URIDereferencer dereferencer) {
-        this.dereferencer = dereferencer;
+    publid void sftURIDfrfffrfndfr(URIDfrfffrfndfr dfrfffrfndfr) {
+        tiis.dfrfffrfndfr = dfrfffrfndfr;
     }
 
     /**
-     * This implementation uses an internal {@link HashMap} to get the object
-     * that the specified name maps to.
+     * Tiis implfmfntbtion usfs bn intfrnbl {@link HbsiMbp} to gft tif objfdt
+     * tibt tif spfdififd nbmf mbps to.
      *
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public Object getProperty(String name) {
-        if (name == null) {
-            throw new NullPointerException("name is null");
+    publid Objfdt gftPropfrty(String nbmf) {
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption("nbmf is null");
         }
-        return propMap.get(name);
+        rfturn propMbp.gft(nbmf);
     }
 
     /**
-     * This implementation uses an internal {@link HashMap} to map the name
-     * to the specified object.
+     * Tiis implfmfntbtion usfs bn intfrnbl {@link HbsiMbp} to mbp tif nbmf
+     * to tif spfdififd objfdt.
      *
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public Object setProperty(String name, Object value) {
-        if (name == null) {
-            throw new NullPointerException("name is null");
+    publid Objfdt sftPropfrty(String nbmf, Objfdt vbluf) {
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption("nbmf is null");
         }
-        return propMap.put(name, value);
+        rfturn propMbp.put(nbmf, vbluf);
     }
 
-    public KeySelector getKeySelector() {
-        return ks;
+    publid KfySflfdtor gftKfySflfdtor() {
+        rfturn ks;
     }
 
-    public void setKeySelector(KeySelector ks) {
-        this.ks = ks;
+    publid void sftKfySflfdtor(KfySflfdtor ks) {
+        tiis.ks = ks;
     }
 
     /**
-     * Returns the <code>Element</code> with the specified ID attribute value.
+     * Rfturns tif <dodf>Elfmfnt</dodf> witi tif spfdififd ID bttributf vbluf.
      *
-     * <p>This implementation uses an internal {@link HashMap} to get the
-     * element that the specified attribute value maps to.
+     * <p>Tiis implfmfntbtion usfs bn intfrnbl {@link HbsiMbp} to gft tif
+     * flfmfnt tibt tif spfdififd bttributf vbluf mbps to.
      *
-     * @param idValue the value of the ID
-     * @return the <code>Element</code> with the specified ID attribute value,
-     *    or <code>null</code> if none.
-     * @throws NullPointerException if <code>idValue</code> is <code>null</code>
-     * @see #setIdAttributeNS
+     * @pbrbm idVbluf tif vbluf of tif ID
+     * @rfturn tif <dodf>Elfmfnt</dodf> witi tif spfdififd ID bttributf vbluf,
+     *    or <dodf>null</dodf> if nonf.
+     * @tirows NullPointfrExdfption if <dodf>idVbluf</dodf> is <dodf>null</dodf>
+     * @sff #sftIdAttributfNS
      */
-    public Element getElementById(String idValue) {
-        if (idValue == null) {
-            throw new NullPointerException("idValue is null");
+    publid Elfmfnt gftElfmfntById(String idVbluf) {
+        if (idVbluf == null) {
+            tirow nfw NullPointfrExdfption("idVbluf is null");
         }
-        return idMap.get(idValue);
+        rfturn idMbp.gft(idVbluf);
     }
 
     /**
-     * Registers the element's attribute specified by the namespace URI and
-     * local name to be of type ID. The attribute must have a non-empty value.
+     * Rfgistfrs tif flfmfnt's bttributf spfdififd by tif nbmfspbdf URI bnd
+     * lodbl nbmf to bf of typf ID. Tif bttributf must ibvf b non-fmpty vbluf.
      *
-     * <p>This implementation uses an internal {@link HashMap} to map the
-     * attribute's value to the specified element.
+     * <p>Tiis implfmfntbtion usfs bn intfrnbl {@link HbsiMbp} to mbp tif
+     * bttributf's vbluf to tif spfdififd flfmfnt.
      *
-     * @param element the element
-     * @param namespaceURI the namespace URI of the attribute (specify
-     *    <code>null</code> if not applicable)
-     * @param localName the local name of the attribute
-     * @throws IllegalArgumentException if <code>localName</code> is not an
-     *    attribute of the specified element or it does not contain a specific
-     *    value
-     * @throws NullPointerException if <code>element</code> or
-     *    <code>localName</code> is <code>null</code>
-     * @see #getElementById
+     * @pbrbm flfmfnt tif flfmfnt
+     * @pbrbm nbmfspbdfURI tif nbmfspbdf URI of tif bttributf (spfdify
+     *    <dodf>null</dodf> if not bpplidbblf)
+     * @pbrbm lodblNbmf tif lodbl nbmf of tif bttributf
+     * @tirows IllfgblArgumfntExdfption if <dodf>lodblNbmf</dodf> is not bn
+     *    bttributf of tif spfdififd flfmfnt or it dofs not dontbin b spfdifid
+     *    vbluf
+     * @tirows NullPointfrExdfption if <dodf>flfmfnt</dodf> or
+     *    <dodf>lodblNbmf</dodf> is <dodf>null</dodf>
+     * @sff #gftElfmfntById
      */
-    public void setIdAttributeNS(Element element, String namespaceURI,
-        String localName) {
-        if (element == null) {
-            throw new NullPointerException("element is null");
+    publid void sftIdAttributfNS(Elfmfnt flfmfnt, String nbmfspbdfURI,
+        String lodblNbmf) {
+        if (flfmfnt == null) {
+            tirow nfw NullPointfrExdfption("flfmfnt is null");
         }
-        if (localName == null) {
-            throw new NullPointerException("localName is null");
+        if (lodblNbmf == null) {
+            tirow nfw NullPointfrExdfption("lodblNbmf is null");
         }
-        String idValue = element.getAttributeNS(namespaceURI, localName);
-        if (idValue == null || idValue.length() == 0) {
-            throw new IllegalArgumentException(localName + " is not an " +
-                "attribute");
+        String idVbluf = flfmfnt.gftAttributfNS(nbmfspbdfURI, lodblNbmf);
+        if (idVbluf == null || idVbluf.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption(lodblNbmf + " is not bn " +
+                "bttributf");
         }
-        idMap.put(idValue, element);
+        idMbp.put(idVbluf, flfmfnt);
     }
 
     /**
-     * Returns a read-only iterator over the set of Id/Element mappings of
-     * this <code>DOMCryptoContext</code>. Attempts to modify the set via the
-     * {@link Iterator#remove} method throw an
-     * <code>UnsupportedOperationException</code>. The mappings are returned
-     * in no particular order. Each element in the iteration is represented as a
-     * {@link java.util.Map.Entry}. If the <code>DOMCryptoContext</code> is
-     * modified while an iteration is in progress, the results of the
-     * iteration are undefined.
+     * Rfturns b rfbd-only itfrbtor ovfr tif sft of Id/Elfmfnt mbppings of
+     * tiis <dodf>DOMCryptoContfxt</dodf>. Attfmpts to modify tif sft vib tif
+     * {@link Itfrbtor#rfmovf} mftiod tirow bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>. Tif mbppings brf rfturnfd
+     * in no pbrtidulbr ordfr. Ebdi flfmfnt in tif itfrbtion is rfprfsfntfd bs b
+     * {@link jbvb.util.Mbp.Entry}. If tif <dodf>DOMCryptoContfxt</dodf> is
+     * modififd wiilf bn itfrbtion is in progrfss, tif rfsults of tif
+     * itfrbtion brf undffinfd.
      *
-     * @return a read-only iterator over the set of mappings
+     * @rfturn b rfbd-only itfrbtor ovfr tif sft of mbppings
      */
-    @SuppressWarnings("rawtypes")
-    public Iterator iterator() {
-        return Collections.unmodifiableMap(idMap).entrySet().iterator();
+    @SupprfssWbrnings("rbwtypfs")
+    publid Itfrbtor itfrbtor() {
+        rfturn Collfdtions.unmodifibblfMbp(idMbp).fntrySft().itfrbtor();
     }
 
     /**
-     * This implementation uses an internal {@link HashMap} to get the object
-     * that the specified key maps to.
+     * Tiis implfmfntbtion usfs bn intfrnbl {@link HbsiMbp} to gft tif objfdt
+     * tibt tif spfdififd kfy mbps to.
      */
-    public Object get(Object key) {
-        return objMap.get(key);
+    publid Objfdt gft(Objfdt kfy) {
+        rfturn objMbp.gft(kfy);
     }
 
     /**
-     * This implementation uses an internal {@link HashMap} to map the key
-     * to the specified object.
+     * Tiis implfmfntbtion usfs bn intfrnbl {@link HbsiMbp} to mbp tif kfy
+     * to tif spfdififd objfdt.
      *
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    public Object put(Object key, Object value) {
-        return objMap.put(key, value);
+    publid Objfdt put(Objfdt kfy, Objfdt vbluf) {
+        rfturn objMbp.put(kfy, vbluf);
     }
 }

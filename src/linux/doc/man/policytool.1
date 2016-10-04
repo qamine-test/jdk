@@ -1,114 +1,114 @@
 '\" t
-.\"  Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Security Tools
-.\"     Title: policytool.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Sfdurity Tools
+.\"     Titlf: polidytool.1
 .\"
 .if n .pl 99999
-.TH policytool 1 "21 November 2013" "JDK 8" "Security Tools"
+.TH polidytool 1 "21 Novfmbfr 2013" "JDK 8" "Sfdurity Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-policytool \- Rebds bnd writes b plbin text policy file bbsed on user input through the utility GUI\&.
+polidytool \- Rfbds bnd writfs b plbin tfxt polidy filf bbsfd on usfr input tirougi tif utility GUI\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBpolicytool\fR [ \fB\-file\fR ] [ \fIfilenbme\fR ] 
+\fBpolidytool\fR [ \fB\-filf\fR ] [ \fIfilfnbmf\fR ] 
 .fi     
 .sp     
 .TP
--file
+-filf
 .br
-Directs the \f3policytool\fR commbnd to lobd b policy file\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
 .TP     
-\fIfilenbme\fR
-The nbme of the file to be lobded\&.
+\fIfilfnbmf\fR
+Tif nbmf of tif filf to bf lobdfd\&.
 .PP
-\fIExbmples\fR:
+\fIExbmplfs\fR:
 .PP
-Run the policy tool bdministrbtor utility:
+Run tif polidy tool bdministrbtor utility:
 .sp     
 .nf     
-\f3policytool\fP
+\f3polidytool\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Run the \f3policytool\fR commbnd bnd lobd the specified file:
+Run tif \f3polidytool\fR dommbnd bnd lobd tif spfdififd filf:
 .sp     
 .nf     
-\f3policytool\-file mypolicyfile\fP
+\f3polidytool\-filf mypolidyfilf\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SH DESCRIPTION    
-The \f3policytool\fR commbnd cblls bn bdministrbtor\&'s GUI thbt enbbles system bdministrbtors to mbnbge the contents of locbl policy files\&. A policy file is b plbin-text file with b \f3\&.policy\fR extension, thbt mbps remote requestors by dombin, to permission objects\&. For detbils, see Defbult Policy Implementbtion bnd Policy File Syntbx bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/PolicyFiles\&.html
+Tif \f3polidytool\fR dommbnd dblls bn bdministrbtor\&'s GUI tibt fnbblfs systfm bdministrbtors to mbnbgf tif dontfnts of lodbl polidy filfs\&. A polidy filf is b plbin-tfxt filf witi b \f3\&.polidy\fR fxtfnsion, tibt mbps rfmotf rfqufstors by dombin, to pfrmission objfdts\&. For dftbils, sff Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
 .SH OPTIONS    
 .TP
--file
+-filf
 .br
-Directs the \f3policytool\fR commbnd to lobd b policy file\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-Defbult Policy Implementbtion bnd Policy File Syntbx bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/PolicyFiles\&.html
+Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
 .TP 0.2i    
 \(bu
-Policy File Crebtion bnd Mbnbgement bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/PolicyGuide\&.html
+Polidy Filf Crfbtion bnd Mbnbgfmfnt bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml
 .TP 0.2i    
 \(bu
-Permissions in Jbvb SE Development Kit (JDK) bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/permissions\&.html
+Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml
 .TP 0.2i    
 \(bu
-Jbvb Security Overview bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/overview/jsoverview\&.html
+Jbvb Sfdurity Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml
 .TP 0.2i    
 \(bu
-Jbvb Cryptogrbphy Architecture (JCA) Reference Guide bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html
+Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml
 .RE
 .br
 'pl 8.5i

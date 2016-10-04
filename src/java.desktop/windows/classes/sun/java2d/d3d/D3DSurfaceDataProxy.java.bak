@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.d3d;
+pbdkbgf sun.jbvb2d.d3d;
 
-import java.awt.Color;
-import java.awt.Transparency;
+import jbvb.bwt.Color;
+import jbvb.bwt.Trbnspbrfndy;
 
-import sun.java2d.InvalidPipeException;
-import sun.java2d.SurfaceData;
-import sun.java2d.SurfaceDataProxy;
-import sun.java2d.loops.CompositeType;
+import sun.jbvb2d.InvblidPipfExdfption;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.SurfbdfDbtbProxy;
+import sun.jbvb2d.loops.CompositfTypf;
 
 /**
- * The proxy class contains the logic for when to replace a
- * SurfaceData with a cached D3D Texture and the code to create
- * the accelerated surfaces.
+ * Tif proxy dlbss dontbins tif logid for wifn to rfplbdf b
+ * SurfbdfDbtb witi b dbdifd D3D Tfxturf bnd tif dodf to drfbtf
+ * tif bddflfrbtfd surfbdfs.
  */
-public class D3DSurfaceDataProxy extends SurfaceDataProxy {
+publid dlbss D3DSurfbdfDbtbProxy fxtfnds SurfbdfDbtbProxy {
 
-    public static SurfaceDataProxy createProxy(SurfaceData srcData,
-                                               D3DGraphicsConfig dstConfig)
+    publid stbtid SurfbdfDbtbProxy drfbtfProxy(SurfbdfDbtb srdDbtb,
+                                               D3DGrbpiidsConfig dstConfig)
     {
-        if (srcData instanceof D3DSurfaceData) {
-            // srcData must be a VolatileImage which either matches
-            // our pixel format or not - either way we do not cache it...
-            return UNCACHED;
+        if (srdDbtb instbndfof D3DSurfbdfDbtb) {
+            // srdDbtb must bf b VolbtilfImbgf wiidi fitifr mbtdifs
+            // our pixfl formbt or not - fitifr wby wf do not dbdif it...
+            rfturn UNCACHED;
         }
 
-        return new D3DSurfaceDataProxy(dstConfig, srcData.getTransparency());
+        rfturn nfw D3DSurfbdfDbtbProxy(dstConfig, srdDbtb.gftTrbnspbrfndy());
     }
 
-    D3DGraphicsConfig d3dgc;
-    int transparency;
+    D3DGrbpiidsConfig d3dgd;
+    int trbnspbrfndy;
 
-    public D3DSurfaceDataProxy(D3DGraphicsConfig d3dgc, int transparency) {
-        this.d3dgc = d3dgc;
-        this.transparency = transparency;
-        // REMIND: we may want to change this for the d3d pipeline, it's not
-        // necessary to invalidate them all at once on display change
-        activateDisplayListener();
+    publid D3DSurfbdfDbtbProxy(D3DGrbpiidsConfig d3dgd, int trbnspbrfndy) {
+        tiis.d3dgd = d3dgd;
+        tiis.trbnspbrfndy = trbnspbrfndy;
+        // REMIND: wf mby wbnt to dibngf tiis for tif d3d pipflinf, it's not
+        // nfdfssbry to invblidbtf tifm bll bt ondf on displby dibngf
+        bdtivbtfDisplbyListfnfr();
     }
 
-    @Override
-    public SurfaceData validateSurfaceData(SurfaceData srcData,
-                                           SurfaceData cachedData,
-                                           int w, int h)
+    @Ovfrridf
+    publid SurfbdfDbtb vblidbtfSurfbdfDbtb(SurfbdfDbtb srdDbtb,
+                                           SurfbdfDbtb dbdifdDbtb,
+                                           int w, int i)
     {
-        if (cachedData == null || cachedData.isSurfaceLost()) {
+        if (dbdifdDbtb == null || dbdifdDbtb.isSurfbdfLost()) {
             try {
-                cachedData = d3dgc.createManagedSurface(w, h, transparency);
-            } catch (InvalidPipeException e) {
-                if (!D3DGraphicsDevice.isD3DAvailable()) {
-                    invalidate();
-                    flush();
-                    return null;
+                dbdifdDbtb = d3dgd.drfbtfMbnbgfdSurfbdf(w, i, trbnspbrfndy);
+            } dbtdi (InvblidPipfExdfption f) {
+                if (!D3DGrbpiidsDfvidf.isD3DAvbilbblf()) {
+                    invblidbtf();
+                    flusi();
+                    rfturn null;
                 }
             }
         }
-        return cachedData;
+        rfturn dbdifdDbtb;
     }
 
-    @Override
-    public boolean isSupportedOperation(SurfaceData srcData,
-                                        int txtype,
-                                        CompositeType comp,
+    @Ovfrridf
+    publid boolfbn isSupportfdOpfrbtion(SurfbdfDbtb srdDbtb,
+                                        int txtypf,
+                                        CompositfTypf domp,
                                         Color bgColor)
     {
-        return (bgColor == null || transparency == Transparency.OPAQUE);
+        rfturn (bgColor == null || trbnspbrfndy == Trbnspbrfndy.OPAQUE);
     }
 }

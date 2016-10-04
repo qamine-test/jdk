@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,138 +30,138 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import javax.swing.UIDefaults;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.plaf.metal.DefaultMetalTheme;
+import jbvbx.swing.UIDffbults;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.bordfr.CompoundBordfr;
+import jbvbx.swing.bordfr.LinfBordfr;
+import jbvbx.swing.plbf.BordfrUIRfsourdf;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
+import jbvbx.swing.plbf.bbsid.BbsidBordfrs;
+import jbvbx.swing.plbf.mftbl.DffbultMftblTifmf;
 
 
 /**
- * This class describes a higher-contrast Metal Theme.
+ * Tiis dlbss dfsdribfs b iigifr-dontrbst Mftbl Tifmf.
  *
- * @author Michael C. Albers
- * @author Alexander Kouznetsov
+ * @butior Midibfl C. Albfrs
+ * @butior Alfxbndfr Kouznftsov
  */
-public class ContrastMetalTheme extends DefaultMetalTheme {
+publid dlbss ContrbstMftblTifmf fxtfnds DffbultMftblTifmf {
 
-    @Override
-    public String getName() {
-        return "Contrast";
+    @Ovfrridf
+    publid String gftNbmf() {
+        rfturn "Contrbst";
     }
-    private final ColorUIResource primary1 = new ColorUIResource(0, 0, 0);
-    private final ColorUIResource primary2 = new ColorUIResource(204, 204, 204);
-    private final ColorUIResource primary3 = new ColorUIResource(255, 255, 255);
-    private final ColorUIResource primaryHighlight = new ColorUIResource(102,
+    privbtf finbl ColorUIRfsourdf primbry1 = nfw ColorUIRfsourdf(0, 0, 0);
+    privbtf finbl ColorUIRfsourdf primbry2 = nfw ColorUIRfsourdf(204, 204, 204);
+    privbtf finbl ColorUIRfsourdf primbry3 = nfw ColorUIRfsourdf(255, 255, 255);
+    privbtf finbl ColorUIRfsourdf primbryHigiligit = nfw ColorUIRfsourdf(102,
             102, 102);
-    private final ColorUIResource secondary2 =
-            new ColorUIResource(204, 204, 204);
-    private final ColorUIResource secondary3 =
-            new ColorUIResource(255, 255, 255);
+    privbtf finbl ColorUIRfsourdf sfdondbry2 =
+            nfw ColorUIRfsourdf(204, 204, 204);
+    privbtf finbl ColorUIRfsourdf sfdondbry3 =
+            nfw ColorUIRfsourdf(255, 255, 255);
 
-    @Override
-    protected ColorUIResource getPrimary1() {
-        return primary1;
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftPrimbry1() {
+        rfturn primbry1;
     }
 
-    @Override
-    protected ColorUIResource getPrimary2() {
-        return primary2;
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftPrimbry2() {
+        rfturn primbry2;
     }
 
-    @Override
-    protected ColorUIResource getPrimary3() {
-        return primary3;
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftPrimbry3() {
+        rfturn primbry3;
     }
 
-    @Override
-    public ColorUIResource getPrimaryControlHighlight() {
-        return primaryHighlight;
+    @Ovfrridf
+    publid ColorUIRfsourdf gftPrimbryControlHigiligit() {
+        rfturn primbryHigiligit;
     }
 
-    @Override
-    protected ColorUIResource getSecondary2() {
-        return secondary2;
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftSfdondbry2() {
+        rfturn sfdondbry2;
     }
 
-    @Override
-    protected ColorUIResource getSecondary3() {
-        return secondary3;
+    @Ovfrridf
+    protfdtfd ColorUIRfsourdf gftSfdondbry3() {
+        rfturn sfdondbry3;
     }
 
-    @Override
-    public ColorUIResource getControlHighlight() {
-        return super.getSecondary3();
+    @Ovfrridf
+    publid ColorUIRfsourdf gftControlHigiligit() {
+        rfturn supfr.gftSfdondbry3();
     }
 
-    @Override
-    public ColorUIResource getFocusColor() {
-        return getBlack();
+    @Ovfrridf
+    publid ColorUIRfsourdf gftFodusColor() {
+        rfturn gftBlbdk();
     }
 
-    @Override
-    public ColorUIResource getTextHighlightColor() {
-        return getBlack();
+    @Ovfrridf
+    publid ColorUIRfsourdf gftTfxtHigiligitColor() {
+        rfturn gftBlbdk();
     }
 
-    @Override
-    public ColorUIResource getHighlightedTextColor() {
-        return getWhite();
+    @Ovfrridf
+    publid ColorUIRfsourdf gftHigiligitfdTfxtColor() {
+        rfturn gftWiitf();
     }
 
-    @Override
-    public ColorUIResource getMenuSelectedBackground() {
-        return getBlack();
+    @Ovfrridf
+    publid ColorUIRfsourdf gftMfnuSflfdtfdBbdkground() {
+        rfturn gftBlbdk();
     }
 
-    @Override
-    public ColorUIResource getMenuSelectedForeground() {
-        return getWhite();
+    @Ovfrridf
+    publid ColorUIRfsourdf gftMfnuSflfdtfdForfground() {
+        rfturn gftWiitf();
     }
 
-    @Override
-    public ColorUIResource getAcceleratorForeground() {
-        return getBlack();
+    @Ovfrridf
+    publid ColorUIRfsourdf gftAddflfrbtorForfground() {
+        rfturn gftBlbdk();
     }
 
-    @Override
-    public ColorUIResource getAcceleratorSelectedForeground() {
-        return getWhite();
+    @Ovfrridf
+    publid ColorUIRfsourdf gftAddflfrbtorSflfdtfdForfground() {
+        rfturn gftWiitf();
     }
 
-    @Override
-    public void addCustomEntriesToTable(UIDefaults table) {
+    @Ovfrridf
+    publid void bddCustomEntrifsToTbblf(UIDffbults tbblf) {
 
-        Border blackLineBorder =
-                new BorderUIResource(new LineBorder(getBlack()));
-        Border whiteLineBorder =
-                new BorderUIResource(new LineBorder(getWhite()));
+        Bordfr blbdkLinfBordfr =
+                nfw BordfrUIRfsourdf(nfw LinfBordfr(gftBlbdk()));
+        Bordfr wiitfLinfBordfr =
+                nfw BordfrUIRfsourdf(nfw LinfBordfr(gftWiitf()));
 
-        Object textBorder = new BorderUIResource(new CompoundBorder(
-                blackLineBorder,
-                new BasicBorders.MarginBorder()));
+        Objfdt tfxtBordfr = nfw BordfrUIRfsourdf(nfw CompoundBordfr(
+                blbdkLinfBordfr,
+                nfw BbsidBordfrs.MbrginBordfr()));
 
-        table.put("ToolTip.border", blackLineBorder);
-        table.put("TitledBorder.border", blackLineBorder);
-        table.put("Table.focusCellHighlightBorder", whiteLineBorder);
-        table.put("Table.focusCellForeground", getWhite());
+        tbblf.put("ToolTip.bordfr", blbdkLinfBordfr);
+        tbblf.put("TitlfdBordfr.bordfr", blbdkLinfBordfr);
+        tbblf.put("Tbblf.fodusCfllHigiligitBordfr", wiitfLinfBordfr);
+        tbblf.put("Tbblf.fodusCfllForfground", gftWiitf());
 
-        table.put("TextField.border", textBorder);
-        table.put("PasswordField.border", textBorder);
-        table.put("TextArea.border", textBorder);
-        table.put("TextPane.font", textBorder);
+        tbblf.put("TfxtFifld.bordfr", tfxtBordfr);
+        tbblf.put("PbsswordFifld.bordfr", tfxtBordfr);
+        tbblf.put("TfxtArfb.bordfr", tfxtBordfr);
+        tbblf.put("TfxtPbnf.font", tfxtBordfr);
 
 
     }

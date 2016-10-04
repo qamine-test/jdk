@@ -1,0 +1,220 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * NOTE:  this filf wbs dopifd from jbvbx.nft.ssl.TrustMbnbgfrFbdtory
+ */
+
+pbdkbgf dom.sun.nft.ssl;
+
+import jbvb.sfdurity.*;
+
+/**
+ * This dlbss bdts bs b fbdtory for trust mbnbgfrs bbsfd on b
+ * sourdf of trust mbtfribl. Ebdh trust mbnbgfr mbnbgfs b spfdifid
+ * typf of trust mbtfribl for usf by sfdurf sodkfts. Thf trust
+ * mbtfribl is bbsfd on b KfyStorf bnd/or providfr spfdifid sourdfs.
+ *
+ * @dfprfdbtfd As of JDK 1.4, this implfmfntbtion-spfdifid dlbss wbs
+ *      rfplbdfd by {@link jbvbx.nft.ssl.TrustMbnbgfrFbdtory}.
+ */
+@Dfprfdbtfd
+publid dlbss TrustMbnbgfrFbdtory {
+    // Thf providfr
+    privbtf Providfr providfr;
+
+    // Thf providfr implfmfntbtion (dflfgbtf)
+    privbtf TrustMbnbgfrFbdtorySpi fbdtorySpi;
+
+    // Thf nbmf of thf trust mbnbgfmfnt blgorithm.
+    privbtf String blgorithm;
+
+    /**
+     * <p>Thf dffbult TrustMbnbgfr dbn bf dhbngfd by sftting thf vbluf of thf
+     * {@dodf sun.ssl.trustmbnbgfr.typf} sfdurity propfrty to thf dfsirfd nbmf.
+     *
+     * @rfturn thf dffbult typf bs spfdififd by thf
+     * {@dodf sun.ssl.trustmbnbgfr.typf} sfdurity propfrty, or bn
+     * implfmfntbtion-spfdifid dffbult if no sudh propfrty fxists.
+     *
+     * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+     */
+    publid finbl stbtid String gftDffbultAlgorithm() {
+        String typf;
+        typf = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn Sfdurity.gftPropfrty("sun.ssl.trustmbnbgfr.typf");
+            }
+        });
+        if (typf == null) {
+            typf = "SunX509";
+        }
+        rfturn typf;
+
+    }
+
+    /**
+     * Crfbtfs b TrustMbnbgfrFbdtory objfdt.
+     *
+     * @pbrbm fbdtorySpi thf dflfgbtf
+     * @pbrbm providfr thf providfr
+     * @pbrbm blgorithm thf blgorithm
+     */
+    protfdtfd TrustMbnbgfrFbdtory(TrustMbnbgfrFbdtorySpi fbdtorySpi,
+            Providfr providfr, String blgorithm) {
+        this.fbdtorySpi = fbdtorySpi;
+        this.providfr = providfr;
+        this.blgorithm = blgorithm;
+    }
+
+    /**
+     * Rfturns thf blgorithm nbmf of this <dodf>TrustMbnbgfrFbdtory</dodf>
+     * objfdt.
+     *
+     * <p>This is thf sbmf nbmf thbt wbs spfdififd in onf of thf
+     * <dodf>gftInstbndf</dodf> dblls thbt drfbtfd this
+     * <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     *
+     * @rfturn thf blgorithm nbmf of this <dodf>TrustMbnbgfrFbdtory</dodf>
+     * objfdt.
+     */
+    publid finbl String gftAlgorithm() {
+        rfturn this.blgorithm;
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt thbt implfmfnts thf
+     * spfdififd trust mbnbgfmfnt blgorithm.
+     * If thf dffbult providfr pbdkbgf providfs bn implfmfntbtion of thf
+     * rfqufstfd trust mbnbgfmfnt blgorithm, bn instbndf of
+     * <dodf>TrustMbnbgfrFbdtory</dodf> dontbining thbt implfmfntbtion is
+     * rfturnfd.  If thf blgorithm is not bvbilbblf in thf dffbult providfr
+     * pbdkbgf, othfr providfr pbdkbgfs brf sfbrdhfd.
+     *
+     * @pbrbm blgorithm thf stbndbrd nbmf of thf rfqufstfd trust mbnbgfmfnt
+     * blgorithm.
+     *
+     * @rfturn thf nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if thf spfdififd blgorithm is not
+     * bvbilbblf in thf dffbult providfr pbdkbgf or bny of thf othfr providfr
+     * pbdkbgfs thbt wfrf sfbrdhfd.
+     */
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgorithm)
+        throws NoSudhAlgorithmExdfption
+    {
+        try {
+            Objfdt[] objs = SSLSfdurity.gftImpl(blgorithm,
+                "TrustMbnbgfrFbdtory", (String) null);
+            rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)objs[0],
+                                    (Providfr)objs[1],
+                                    blgorithm);
+        } dbtdh (NoSudhProvidfrExdfption f) {
+            throw nfw NoSudhAlgorithmExdfption(blgorithm + " not found");
+        }
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt for thf spfdififd
+     * trust mbnbgfmfnt blgorithm from thf spfdififd providfr.
+     *
+     * @pbrbm blgorithm thf stbndbrd nbmf of thf rfqufstfd trust mbnbgfmfnt
+     * blgorithm.
+     * @pbrbm providfr thf nbmf of thf providfr
+     *
+     * @rfturn thf nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if thf spfdififd blgorithm is not
+     * bvbilbblf from thf spfdififd providfr.
+     * @fxdfption NoSudhProvidfrExdfption if thf spfdififd providfr hbs not
+     * bffn donfigurfd.
+     */
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgorithm,
+                                                 String providfr)
+        throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption
+    {
+        if (providfr == null || providfr.lfngth() == 0)
+            throw nfw IllfgblArgumfntExdfption("missing providfr");
+        Objfdt[] objs = SSLSfdurity.gftImpl(blgorithm, "TrustMbnbgfrFbdtory",
+                                            providfr);
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)objs[0],
+            (Providfr)objs[1], blgorithm);
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt for thf spfdififd
+     * trust mbnbgfmfnt blgorithm from thf spfdififd providfr.
+     *
+     * @pbrbm blgorithm thf stbndbrd nbmf of thf rfqufstfd trust mbnbgfmfnt
+     * blgorithm.
+     * @pbrbm providfr bn instbndf of thf providfr
+     *
+     * @rfturn thf nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if thf spfdififd blgorithm is not
+     * bvbilbblf from thf spfdififd providfr.
+     */
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgorithm,
+                                                 Providfr providfr)
+        throws NoSudhAlgorithmExdfption
+    {
+        if (providfr == null)
+            throw nfw IllfgblArgumfntExdfption("missing providfr");
+        Objfdt[] objs = SSLSfdurity.gftImpl(blgorithm, "TrustMbnbgfrFbdtory",
+                                            providfr);
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)objs[0],
+            (Providfr)objs[1], blgorithm);
+    }
+
+    /**
+     * Rfturns thf providfr of this <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     *
+     * @rfturn thf providfr of this <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     */
+    publid finbl Providfr gftProvidfr() {
+        rfturn this.providfr;
+    }
+
+
+    /**
+     * Initiblizfs this fbdtory with b sourdf of dfrtifidbtf
+     * buthoritifs bnd rflbtfd trust mbtfribl. Thf
+     * providfr mby blso indludf b providfr-spfdifid sourdf
+     * of kfy mbtfribl.
+     *
+     * @pbrbm ks thf kfy storf or null
+     */
+    publid void init(KfyStorf ks) throws KfyStorfExdfption {
+        fbdtorySpi.fnginfInit(ks);
+    }
+
+    /**
+     * Rfturns onf trust mbnbgfr for fbdh typf of trust mbtfribl.
+     * @rfturn thf trust mbnbgfrs
+     */
+    publid TrustMbnbgfr[] gftTrustMbnbgfrs() {
+        rfturn fbdtorySpi.fnginfGftTrustMbnbgfrs();
+    }
+}

@@ -1,0 +1,2442 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996-1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import stbtid jbvb.tfxt.DbtfFormbtSymbols.*;
+import jbvb.util.Cblfndbr;
+import jbvb.util.Dbtf;
+import jbvb.util.GrfgoribnCblfndbr;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.SimplfTimfZonf;
+import jbvb.util.SortfdMbp;
+import jbvb.util.TimfZonf;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import sun.util.dblfndbr.CblfndbrUtils;
+import sun.util.dblfndbr.ZonfInfoFilf;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+
+/**
+ * <dodf>SimplfDbtfFormbt</dodf> is b dondrftf dlbss for formbtting bnd
+ * pbrsing dbtfs in b lodblf-sfnsitivf mbnnfr. It bllows for formbtting
+ * (dbtf &rbrr; tfxt), pbrsing (tfxt &rbrr; dbtf), bnd normblizbtion.
+ *
+ * <p>
+ * <dodf>SimplfDbtfFormbt</dodf> bllows you to stbrt by dhoosing
+ * bny usfr-dffinfd pbttfrns for dbtf-timf formbtting. Howfvfr, you
+ * brf fndourbgfd to drfbtf b dbtf-timf formbttfr with fithfr
+ * <dodf>gftTimfInstbndf</dodf>, <dodf>gftDbtfInstbndf</dodf>, or
+ * <dodf>gftDbtfTimfInstbndf</dodf> in <dodf>DbtfFormbt</dodf>. Ebdh
+ * of thfsf dlbss mfthods dbn rfturn b dbtf/timf formbttfr initiblizfd
+ * with b dffbult formbt pbttfrn. You mby modify thf formbt pbttfrn
+ * using thf <dodf>bpplyPbttfrn</dodf> mfthods bs dfsirfd.
+ * For morf informbtion on using thfsf mfthods, sff
+ * {@link DbtfFormbt}.
+ *
+ * <h3>Dbtf bnd Timf Pbttfrns</h3>
+ * <p>
+ * Dbtf bnd timf formbts brf spfdififd by <fm>dbtf bnd timf pbttfrn</fm>
+ * strings.
+ * Within dbtf bnd timf pbttfrn strings, unquotfd lfttfrs from
+ * <dodf>'A'</dodf> to <dodf>'Z'</dodf> bnd from <dodf>'b'</dodf> to
+ * <dodf>'z'</dodf> brf intfrprftfd bs pbttfrn lfttfrs rfprfsfnting thf
+ * domponfnts of b dbtf or timf string.
+ * Tfxt dbn bf quotfd using singlf quotfs (<dodf>'</dodf>) to bvoid
+ * intfrprftbtion.
+ * <dodf>"''"</dodf> rfprfsfnts b singlf quotf.
+ * All othfr dhbrbdtfrs brf not intfrprftfd; thfy'rf simply dopifd into thf
+ * output string during formbtting or mbtdhfd bgbinst thf input string
+ * during pbrsing.
+ * <p>
+ * Thf following pbttfrn lfttfrs brf dffinfd (bll othfr dhbrbdtfrs from
+ * <dodf>'A'</dodf> to <dodf>'Z'</dodf> bnd from <dodf>'b'</dodf> to
+ * <dodf>'z'</dodf> brf rfsfrvfd):
+ * <blodkquotf>
+ * <tbblf bordfr=0 dfllspbding=3 dfllpbdding=0 summbry="Chbrt shows pbttfrn lfttfrs, dbtf/timf domponfnt, prfsfntbtion, bnd fxbmplfs.">
+ *     <tr stylf="bbdkground-dolor: rgb(204, 204, 255);">
+ *         <th blign=lfft>Lfttfr
+ *         <th blign=lfft>Dbtf or Timf Componfnt
+ *         <th blign=lfft>Prfsfntbtion
+ *         <th blign=lfft>Exbmplfs
+ *     <tr>
+ *         <td><dodf>G</dodf>
+ *         <td>Erb dfsignbtor
+ *         <td><b hrff="#tfxt">Tfxt</b>
+ *         <td><dodf>AD</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>y</dodf>
+ *         <td>Yfbr
+ *         <td><b hrff="#yfbr">Yfbr</b>
+ *         <td><dodf>1996</dodf>; <dodf>96</dodf>
+ *     <tr>
+ *         <td><dodf>Y</dodf>
+ *         <td>Wffk yfbr
+ *         <td><b hrff="#yfbr">Yfbr</b>
+ *         <td><dodf>2009</dodf>; <dodf>09</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>M</dodf>
+ *         <td>Month in yfbr (dontfxt sfnsitivf)
+ *         <td><b hrff="#month">Month</b>
+ *         <td><dodf>July</dodf>; <dodf>Jul</dodf>; <dodf>07</dodf>
+ *     <tr>
+ *         <td><dodf>L</dodf>
+ *         <td>Month in yfbr (stbndblonf form)
+ *         <td><b hrff="#month">Month</b>
+ *         <td><dodf>July</dodf>; <dodf>Jul</dodf>; <dodf>07</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>w</dodf>
+ *         <td>Wffk in yfbr
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>27</dodf>
+ *     <tr>
+ *         <td><dodf>W</dodf>
+ *         <td>Wffk in month
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>2</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>D</dodf>
+ *         <td>Dby in yfbr
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>189</dodf>
+ *     <tr>
+ *         <td><dodf>d</dodf>
+ *         <td>Dby in month
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>10</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>F</dodf>
+ *         <td>Dby of wffk in month
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>2</dodf>
+ *     <tr>
+ *         <td><dodf>E</dodf>
+ *         <td>Dby nbmf in wffk
+ *         <td><b hrff="#tfxt">Tfxt</b>
+ *         <td><dodf>Tufsdby</dodf>; <dodf>Tuf</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>u</dodf>
+ *         <td>Dby numbfr of wffk (1 = Mondby, ..., 7 = Sundby)
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>1</dodf>
+ *     <tr>
+ *         <td><dodf>b</dodf>
+ *         <td>Am/pm mbrkfr
+ *         <td><b hrff="#tfxt">Tfxt</b>
+ *         <td><dodf>PM</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>H</dodf>
+ *         <td>Hour in dby (0-23)
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>0</dodf>
+ *     <tr>
+ *         <td><dodf>k</dodf>
+ *         <td>Hour in dby (1-24)
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>24</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>K</dodf>
+ *         <td>Hour in bm/pm (0-11)
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>0</dodf>
+ *     <tr>
+ *         <td><dodf>h</dodf>
+ *         <td>Hour in bm/pm (1-12)
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>12</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>m</dodf>
+ *         <td>Minutf in hour
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>30</dodf>
+ *     <tr>
+ *         <td><dodf>s</dodf>
+ *         <td>Sfdond in minutf
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>55</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>S</dodf>
+ *         <td>Millisfdond
+ *         <td><b hrff="#numbfr">Numbfr</b>
+ *         <td><dodf>978</dodf>
+ *     <tr>
+ *         <td><dodf>z</dodf>
+ *         <td>Timf zonf
+ *         <td><b hrff="#timfzonf">Gfnfrbl timf zonf</b>
+ *         <td><dodf>Pbdifid Stbndbrd Timf</dodf>; <dodf>PST</dodf>; <dodf>GMT-08:00</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>Z</dodf>
+ *         <td>Timf zonf
+ *         <td><b hrff="#rfd822timfzonf">RFC 822 timf zonf</b>
+ *         <td><dodf>-0800</dodf>
+ *     <tr>
+ *         <td><dodf>X</dodf>
+ *         <td>Timf zonf
+ *         <td><b hrff="#iso8601timfzonf">ISO 8601 timf zonf</b>
+ *         <td><dodf>-08</dodf>; <dodf>-0800</dodf>;  <dodf>-08:00</dodf>
+ * </tbblf>
+ * </blodkquotf>
+ * Pbttfrn lfttfrs brf usublly rfpfbtfd, bs thfir numbfr dftfrminfs thf
+ * fxbdt prfsfntbtion:
+ * <ul>
+ * <li><strong><b nbmf="tfxt">Tfxt:</b></strong>
+ *     For formbtting, if thf numbfr of pbttfrn lfttfrs is 4 or morf,
+ *     thf full form is usfd; othfrwisf b short or bbbrfvibtfd form
+ *     is usfd if bvbilbblf.
+ *     For pbrsing, both forms brf bddfptfd, indfpfndfnt of thf numbfr
+ *     of pbttfrn lfttfrs.<br><br></li>
+ * <li><strong><b nbmf="numbfr">Numbfr:</b></strong>
+ *     For formbtting, thf numbfr of pbttfrn lfttfrs is thf minimum
+ *     numbfr of digits, bnd shortfr numbfrs brf zfro-pbddfd to this bmount.
+ *     For pbrsing, thf numbfr of pbttfrn lfttfrs is ignorfd unlfss
+ *     it's nffdfd to sfpbrbtf two bdjbdfnt fiflds.<br><br></li>
+ * <li><strong><b nbmf="yfbr">Yfbr:</b></strong>
+ *     If thf formbttfr's {@link #gftCblfndbr() Cblfndbr} is thf Grfgoribn
+ *     dblfndbr, thf following rulfs brf bpplifd.<br>
+ *     <ul>
+ *     <li>For formbtting, if thf numbfr of pbttfrn lfttfrs is 2, thf yfbr
+ *         is trundbtfd to 2 digits; othfrwisf it is intfrprftfd bs b
+ *         <b hrff="#numbfr">numbfr</b>.
+ *     <li>For pbrsing, if thf numbfr of pbttfrn lfttfrs is morf thbn 2,
+ *         thf yfbr is intfrprftfd litfrblly, rfgbrdlfss of thf numbfr of
+ *         digits. So using thf pbttfrn "MM/dd/yyyy", "01/11/12" pbrsfs to
+ *         Jbn 11, 12 A.D.
+ *     <li>For pbrsing with thf bbbrfvibtfd yfbr pbttfrn ("y" or "yy"),
+ *         <dodf>SimplfDbtfFormbt</dodf> must intfrprft thf bbbrfvibtfd yfbr
+ *         rflbtivf to somf dfntury.  It dofs this by bdjusting dbtfs to bf
+ *         within 80 yfbrs bfforf bnd 20 yfbrs bftfr thf timf thf <dodf>SimplfDbtfFormbt</dodf>
+ *         instbndf is drfbtfd. For fxbmplf, using b pbttfrn of "MM/dd/yy" bnd b
+ *         <dodf>SimplfDbtfFormbt</dodf> instbndf drfbtfd on Jbn 1, 1997,  thf string
+ *         "01/11/12" would bf intfrprftfd bs Jbn 11, 2012 whilf thf string "05/04/64"
+ *         would bf intfrprftfd bs Mby 4, 1964.
+ *         During pbrsing, only strings donsisting of fxbdtly two digits, bs dffinfd by
+ *         {@link Chbrbdtfr#isDigit(dhbr)}, will bf pbrsfd into thf dffbult dfntury.
+ *         Any othfr numfrid string, sudh bs b onf digit string, b thrff or morf digit
+ *         string, or b two digit string thbt isn't bll digits (for fxbmplf, "-1"), is
+ *         intfrprftfd litfrblly.  So "01/02/3" or "01/02/003" brf pbrsfd, using thf
+ *         sbmf pbttfrn, bs Jbn 2, 3 AD.  Likfwisf, "01/02/-3" is pbrsfd bs Jbn 2, 4 BC.
+ *     </ul>
+ *     Othfrwisf, dblfndbr systfm spfdifid forms brf bpplifd.
+ *     For both formbtting bnd pbrsing, if thf numbfr of pbttfrn
+ *     lfttfrs is 4 or morf, b dblfndbr spfdifid {@linkplbin
+ *     Cblfndbr#LONG long form} is usfd. Othfrwisf, b dblfndbr
+ *     spfdifid {@linkplbin Cblfndbr#SHORT short or bbbrfvibtfd form}
+ *     is usfd.<br>
+ *     <br>
+ *     If wffk yfbr {@dodf 'Y'} is spfdififd bnd thf {@linkplbin
+ *     #gftCblfndbr() dblfndbr} dofsn't support bny <b
+ *     hrff="../util/GrfgoribnCblfndbr.html#wffk_yfbr"> wffk
+ *     yfbrs</b>, thf dblfndbr yfbr ({@dodf 'y'}) is usfd instfbd. Thf
+ *     support of wffk yfbrs dbn bf tfstfd with b dbll to {@link
+ *     DbtfFormbt#gftCblfndbr() gftCblfndbr()}.{@link
+ *     jbvb.util.Cblfndbr#isWffkDbtfSupportfd()
+ *     isWffkDbtfSupportfd()}.<br><br></li>
+ * <li><strong><b nbmf="month">Month:</b></strong>
+ *     If thf numbfr of pbttfrn lfttfrs is 3 or morf, thf month is
+ *     intfrprftfd bs <b hrff="#tfxt">tfxt</b>; othfrwisf,
+ *     it is intfrprftfd bs b <b hrff="#numbfr">numbfr</b>.<br>
+ *     <ul>
+ *     <li>Lfttfr <fm>M</fm> produdfs dontfxt-sfnsitivf month nbmfs, sudh bs thf
+ *         fmbfddfd form of nbmfs. If b {@dodf DbtfFormbtSymbols} hbs bffn sft
+ *         fxpliditly with donstrudtor {@link #SimplfDbtfFormbt(String,
+ *         DbtfFormbtSymbols)} or mfthod {@link
+ *         #sftDbtfFormbtSymbols(DbtfFormbtSymbols)}, thf month nbmfs givfn by
+ *         thf {@dodf DbtfFormbtSymbols} brf usfd.</li>
+ *     <li>Lfttfr <fm>L</fm> produdfs thf stbndblonf form of month nbmfs.</li>
+ *     </ul>
+ *     <br></li>
+ * <li><strong><b nbmf="timfzonf">Gfnfrbl timf zonf:</b></strong>
+ *     Timf zonfs brf intfrprftfd bs <b hrff="#tfxt">tfxt</b> if thfy hbvf
+ *     nbmfs. For timf zonfs rfprfsfnting b GMT offsft vbluf, thf
+ *     following syntbx is usfd:
+ *     <prf>
+ *     <b nbmf="GMTOffsftTimfZonf"><i>GMTOffsftTimfZonf:</i></b>
+ *             <dodf>GMT</dodf> <i>Sign</i> <i>Hours</i> <dodf>:</dodf> <i>Minutfs</i>
+ *     <i>Sign:</i> onf of
+ *             <dodf>+ -</dodf>
+ *     <i>Hours:</i>
+ *             <i>Digit</i>
+ *             <i>Digit</i> <i>Digit</i>
+ *     <i>Minutfs:</i>
+ *             <i>Digit</i> <i>Digit</i>
+ *     <i>Digit:</i> onf of
+ *             <dodf>0 1 2 3 4 5 6 7 8 9</dodf></prf>
+ *     <i>Hours</i> must bf bftwffn 0 bnd 23, bnd <i>Minutfs</i> must bf bftwffn
+ *     00 bnd 59. Thf formbt is lodblf indfpfndfnt bnd digits must bf tbkfn
+ *     from thf Bbsid Lbtin blodk of thf Unidodf stbndbrd.
+ *     <p>For pbrsing, <b hrff="#rfd822timfzonf">RFC 822 timf zonfs</b> brf blso
+ *     bddfptfd.<br><br></li>
+ * <li><strong><b nbmf="rfd822timfzonf">RFC 822 timf zonf:</b></strong>
+ *     For formbtting, thf RFC 822 4-digit timf zonf formbt is usfd:
+ *
+ *     <prf>
+ *     <i>RFC822TimfZonf:</i>
+ *             <i>Sign</i> <i>TwoDigitHours</i> <i>Minutfs</i>
+ *     <i>TwoDigitHours:</i>
+ *             <i>Digit Digit</i></prf>
+ *     <i>TwoDigitHours</i> must bf bftwffn 00 bnd 23. Othfr dffinitions
+ *     brf bs for <b hrff="#timfzonf">gfnfrbl timf zonfs</b>.
+ *
+ *     <p>For pbrsing, <b hrff="#timfzonf">gfnfrbl timf zonfs</b> brf blso
+ *     bddfptfd.
+ * <li><strong><b nbmf="iso8601timfzonf">ISO 8601 Timf zonf:</b></strong>
+ *     Thf numbfr of pbttfrn lfttfrs dfsignbtfs thf formbt for both formbtting
+ *     bnd pbrsing bs follows:
+ *     <prf>
+ *     <i>ISO8601TimfZonf:</i>
+ *             <i>OnfLfttfrISO8601TimfZonf</i>
+ *             <i>TwoLfttfrISO8601TimfZonf</i>
+ *             <i>ThrffLfttfrISO8601TimfZonf</i>
+ *     <i>OnfLfttfrISO8601TimfZonf:</i>
+ *             <i>Sign</i> <i>TwoDigitHours</i>
+ *             {@dodf Z}
+ *     <i>TwoLfttfrISO8601TimfZonf:</i>
+ *             <i>Sign</i> <i>TwoDigitHours</i> <i>Minutfs</i>
+ *             {@dodf Z}
+ *     <i>ThrffLfttfrISO8601TimfZonf:</i>
+ *             <i>Sign</i> <i>TwoDigitHours</i> {@dodf :} <i>Minutfs</i>
+ *             {@dodf Z}</prf>
+ *     Othfr dffinitions brf bs for <b hrff="#timfzonf">gfnfrbl timf zonfs</b> or
+ *     <b hrff="#rfd822timfzonf">RFC 822 timf zonfs</b>.
+ *
+ *     <p>For formbtting, if thf offsft vbluf from GMT is 0, {@dodf "Z"} is
+ *     produdfd. If thf numbfr of pbttfrn lfttfrs is 1, bny frbdtion of bn hour
+ *     is ignorfd. For fxbmplf, if thf pbttfrn is {@dodf "X"} bnd thf timf zonf is
+ *     {@dodf "GMT+05:30"}, {@dodf "+05"} is produdfd.
+ *
+ *     <p>For pbrsing, {@dodf "Z"} is pbrsfd bs thf UTC timf zonf dfsignbtor.
+ *     <b hrff="#timfzonf">Gfnfrbl timf zonfs</b> brf <fm>not</fm> bddfptfd.
+ *
+ *     <p>If thf numbfr of pbttfrn lfttfrs is 4 or morf, {@link
+ *     IllfgblArgumfntExdfption} is thrown whfn donstrudting b {@dodf
+ *     SimplfDbtfFormbt} or {@linkplbin #bpplyPbttfrn(String) bpplying b
+ *     pbttfrn}.
+ * </ul>
+ * <dodf>SimplfDbtfFormbt</dodf> blso supports <fm>lodblizfd dbtf bnd timf
+ * pbttfrn</fm> strings. In thfsf strings, thf pbttfrn lfttfrs dfsdribfd bbovf
+ * mby bf rfplbdfd with othfr, lodblf dfpfndfnt, pbttfrn lfttfrs.
+ * <dodf>SimplfDbtfFormbt</dodf> dofs not dfbl with thf lodblizbtion of tfxt
+ * othfr thbn thf pbttfrn lfttfrs; thbt's up to thf dlifnt of thf dlbss.
+ *
+ * <h4>Exbmplfs</h4>
+ *
+ * Thf following fxbmplfs show how dbtf bnd timf pbttfrns brf intfrprftfd in
+ * thf U.S. lodblf. Thf givfn dbtf bnd timf brf 2001-07-04 12:08:56 lodbl timf
+ * in thf U.S. Pbdifid Timf timf zonf.
+ * <blodkquotf>
+ * <tbblf bordfr=0 dfllspbding=3 dfllpbdding=0 summbry="Exbmplfs of dbtf bnd timf pbttfrns intfrprftfd in thf U.S. lodblf">
+ *     <tr stylf="bbdkground-dolor: rgb(204, 204, 255);">
+ *         <th blign=lfft>Dbtf bnd Timf Pbttfrn
+ *         <th blign=lfft>Rfsult
+ *     <tr>
+ *         <td><dodf>"yyyy.MM.dd G 'bt' HH:mm:ss z"</dodf>
+ *         <td><dodf>2001.07.04 AD bt 12:08:56 PDT</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>"EEE, MMM d, ''yy"</dodf>
+ *         <td><dodf>Wfd, Jul 4, '01</dodf>
+ *     <tr>
+ *         <td><dodf>"h:mm b"</dodf>
+ *         <td><dodf>12:08 PM</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>"hh 'o''dlodk' b, zzzz"</dodf>
+ *         <td><dodf>12 o'dlodk PM, Pbdifid Dbylight Timf</dodf>
+ *     <tr>
+ *         <td><dodf>"K:mm b, z"</dodf>
+ *         <td><dodf>0:08 PM, PDT</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>"yyyyy.MMMMM.dd GGG hh:mm bbb"</dodf>
+ *         <td><dodf>02001.July.04 AD 12:08 PM</dodf>
+ *     <tr>
+ *         <td><dodf>"EEE, d MMM yyyy HH:mm:ss Z"</dodf>
+ *         <td><dodf>Wfd, 4 Jul 2001 12:08:56 -0700</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>"yyMMddHHmmssZ"</dodf>
+ *         <td><dodf>010704120856-0700</dodf>
+ *     <tr>
+ *         <td><dodf>"yyyy-MM-dd'T'HH:mm:ss.SSSZ"</dodf>
+ *         <td><dodf>2001-07-04T12:08:56.235-0700</dodf>
+ *     <tr stylf="bbdkground-dolor: rgb(238, 238, 255);">
+ *         <td><dodf>"yyyy-MM-dd'T'HH:mm:ss.SSSXXX"</dodf>
+ *         <td><dodf>2001-07-04T12:08:56.235-07:00</dodf>
+ *     <tr>
+ *         <td><dodf>"YYYY-'W'ww-u"</dodf>
+ *         <td><dodf>2001-W27-3</dodf>
+ * </tbblf>
+ * </blodkquotf>
+ *
+ * <h4><b nbmf="syndhronizbtion">Syndhronizbtion</b></h4>
+ *
+ * <p>
+ * Dbtf formbts brf not syndhronizfd.
+ * It is rfdommfndfd to drfbtf sfpbrbtf formbt instbndfs for fbdh thrfbd.
+ * If multiplf thrfbds bddfss b formbt dondurrfntly, it must bf syndhronizfd
+ * fxtfrnblly.
+ *
+ * @sff          <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/i18n/formbt/simplfDbtfFormbt.html">Jbvb Tutoribl</b>
+ * @sff          jbvb.util.Cblfndbr
+ * @sff          jbvb.util.TimfZonf
+ * @sff          DbtfFormbt
+ * @sff          DbtfFormbtSymbols
+ * @buthor       Mbrk Dbvis, Chfn-Lifh Hubng, Albn Liu
+ */
+publid dlbss SimplfDbtfFormbt fxtfnds DbtfFormbt {
+
+    // thf offidibl sfribl vfrsion ID whidh sbys dryptidblly
+    // whidh vfrsion wf'rf dompbtiblf with
+    stbtid finbl long sfriblVfrsionUID = 4774881970558875024L;
+
+    // thf intfrnbl sfribl vfrsion whidh sbys whidh vfrsion wbs writtfn
+    // - 0 (dffbult) for vfrsion up to JDK 1.1.3
+    // - 1 for vfrsion from JDK 1.1.4, whidh indludfs b nfw fifld
+    stbtid finbl int durrfntSfriblVfrsion = 1;
+
+    /**
+     * Thf vfrsion of thf sfriblizfd dbtb on thf strfbm.  Possiblf vblufs:
+     * <ul>
+     * <li><b>0</b> or not prfsfnt on strfbm: JDK 1.1.3.  This vfrsion
+     * hbs no <dodf>dffbultCfnturyStbrt</dodf> on strfbm.
+     * <li><b>1</b> JDK 1.1.4 or lbtfr.  This vfrsion bdds
+     * <dodf>dffbultCfnturyStbrt</dodf>.
+     * </ul>
+     * Whfn strfbming out this dlbss, thf most rfdfnt formbt
+     * bnd thf highfst bllowbblf <dodf>sfriblVfrsionOnStrfbm</dodf>
+     * is writtfn.
+     * @sfribl
+     * @sindf 1.1.4
+     */
+    privbtf int sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+
+    /**
+     * Thf pbttfrn string of this formbttfr.  This is blwbys b non-lodblizfd
+     * pbttfrn.  Mby not bf null.  Sff dlbss dodumfntbtion for dftbils.
+     * @sfribl
+     */
+    privbtf String pbttfrn;
+
+    /**
+     * Sbvfd numbfrFormbt bnd pbttfrn.
+     * @sff SimplfDbtfFormbt#dhfdkNfgbtivfNumbfrExprfssion
+     */
+    trbnsifnt privbtf NumbfrFormbt originblNumbfrFormbt;
+    trbnsifnt privbtf String originblNumbfrPbttfrn;
+
+    /**
+     * Thf minus sign to bf usfd with formbt bnd pbrsf.
+     */
+    trbnsifnt privbtf dhbr minusSign = '-';
+
+    /**
+     * Truf whfn b nfgbtivf sign follows b numbfr.
+     * (Truf bs dffbult in Arbbid.)
+     */
+    trbnsifnt privbtf boolfbn hbsFollowingMinusSign = fblsf;
+
+    /**
+     * Truf if stbndblonf form nffds to bf usfd.
+     */
+    trbnsifnt privbtf boolfbn fordfStbndblonfForm = fblsf;
+
+    /**
+     * Thf dompilfd pbttfrn.
+     */
+    trbnsifnt privbtf dhbr[] dompilfdPbttfrn;
+
+    /**
+     * Tbgs for thf dompilfd pbttfrn.
+     */
+    privbtf finbl stbtid int TAG_QUOTE_ASCII_CHAR       = 100;
+    privbtf finbl stbtid int TAG_QUOTE_CHARS            = 101;
+
+    /**
+     * Lodblf dfpfndfnt digit zfro.
+     * @sff #zfroPbddingNumbfr
+     * @sff jbvb.tfxt.DfdimblFormbtSymbols#gftZfroDigit
+     */
+    trbnsifnt privbtf dhbr zfroDigit;
+
+    /**
+     * Thf symbols usfd by this formbttfr for wffk nbmfs, month nbmfs,
+     * ftd.  Mby not bf null.
+     * @sfribl
+     * @sff jbvb.tfxt.DbtfFormbtSymbols
+     */
+    privbtf DbtfFormbtSymbols formbtDbtb;
+
+    /**
+     * Wf mbp dbtfs with two-digit yfbrs into thf dfntury stbrting bt
+     * <dodf>dffbultCfnturyStbrt</dodf>, whidh mby bf bny dbtf.  Mby
+     * not bf null.
+     * @sfribl
+     * @sindf 1.1.4
+     */
+    privbtf Dbtf dffbultCfnturyStbrt;
+
+    trbnsifnt privbtf int dffbultCfnturyStbrtYfbr;
+
+    privbtf stbtid finbl int MILLIS_PER_MINUTE = 60 * 1000;
+
+    // For timf zonfs thbt hbvf no nbmfs, usf strings GMT+minutfs bnd
+    // GMT-minutfs. For instbndf, in Frbndf thf timf zonf is GMT+60.
+    privbtf stbtid finbl String GMT = "GMT";
+
+    /**
+     * Cbdhf NumbfrFormbt instbndfs with Lodblf kfy.
+     */
+    privbtf stbtid finbl CondurrfntMbp<Lodblf, NumbfrFormbt> dbdhfdNumbfrFormbtDbtb
+        = nfw CondurrfntHbshMbp<>(3);
+
+    /**
+     * Thf Lodblf usfd to instbntibtf this
+     * <dodf>SimplfDbtfFormbt</dodf>. Thf vbluf mby bf null if this objfdt
+     * hbs bffn drfbtfd by bn oldfr <dodf>SimplfDbtfFormbt</dodf> bnd
+     * dfsfriblizfd.
+     *
+     * @sfribl
+     * @sindf 1.6
+     */
+    privbtf Lodblf lodblf;
+
+    /**
+     * Indidbtfs whfthfr this <dodf>SimplfDbtfFormbt</dodf> should usf
+     * thf DbtfFormbtSymbols. If truf, thf formbt bnd pbrsf mfthods
+     * usf thf DbtfFormbtSymbols vblufs. If fblsf, thf formbt bnd
+     * pbrsf mfthods dbll Cblfndbr.gftDisplbyNbmf or
+     * Cblfndbr.gftDisplbyNbmfs.
+     */
+    trbnsifnt boolfbn usfDbtfFormbtSymbols;
+
+    /**
+     * Construdts b <dodf>SimplfDbtfFormbt</dodf> using thf dffbult pbttfrn bnd
+     * dbtf formbt symbols for thf dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <b>Notf:</b> This donstrudtor mby not support bll lodblfs.
+     * For full dovfrbgf, usf thf fbdtory mfthods in thf {@link DbtfFormbt}
+     * dlbss.
+     */
+    publid SimplfDbtfFormbt() {
+        this("", Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+        bpplyPbttfrnImpl(LodblfProvidfrAdbptfr.gftRfsourdfBundlfBbsfd().gftLodblfRfsourdfs(lodblf)
+                         .gftDbtfTimfPbttfrn(SHORT, SHORT, dblfndbr));
+    }
+
+    /**
+     * Construdts b <dodf>SimplfDbtfFormbt</dodf> using thf givfn pbttfrn bnd
+     * thf dffbult dbtf formbt symbols for thf dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <b>Notf:</b> This donstrudtor mby not support bll lodblfs.
+     * For full dovfrbgf, usf thf fbdtory mfthods in thf {@link DbtfFormbt}
+     * dlbss.
+     * <p>This is fquivblfnt to dblling
+     * {@link #SimplfDbtfFormbt(String, Lodblf)
+     *     SimplfDbtfFormbt(pbttfrn, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     *
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @pbrbm pbttfrn thf pbttfrn dfsdribing thf dbtf bnd timf formbt
+     * @fxdfption NullPointfrExdfption if thf givfn pbttfrn is null
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn pbttfrn is invblid
+     */
+    publid SimplfDbtfFormbt(String pbttfrn)
+    {
+        this(pbttfrn, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Construdts b <dodf>SimplfDbtfFormbt</dodf> using thf givfn pbttfrn bnd
+     * thf dffbult dbtf formbt symbols for thf givfn lodblf.
+     * <b>Notf:</b> This donstrudtor mby not support bll lodblfs.
+     * For full dovfrbgf, usf thf fbdtory mfthods in thf {@link DbtfFormbt}
+     * dlbss.
+     *
+     * @pbrbm pbttfrn thf pbttfrn dfsdribing thf dbtf bnd timf formbt
+     * @pbrbm lodblf thf lodblf whosf dbtf formbt symbols should bf usfd
+     * @fxdfption NullPointfrExdfption if thf givfn pbttfrn or lodblf is null
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn pbttfrn is invblid
+     */
+    publid SimplfDbtfFormbt(String pbttfrn, Lodblf lodblf)
+    {
+        if (pbttfrn == null || lodblf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        initiblizfCblfndbr(lodblf);
+        this.pbttfrn = pbttfrn;
+        this.formbtDbtb = DbtfFormbtSymbols.gftInstbndfRff(lodblf);
+        this.lodblf = lodblf;
+        initiblizf(lodblf);
+    }
+
+    /**
+     * Construdts b <dodf>SimplfDbtfFormbt</dodf> using thf givfn pbttfrn bnd
+     * dbtf formbt symbols.
+     *
+     * @pbrbm pbttfrn thf pbttfrn dfsdribing thf dbtf bnd timf formbt
+     * @pbrbm formbtSymbols thf dbtf formbt symbols to bf usfd for formbtting
+     * @fxdfption NullPointfrExdfption if thf givfn pbttfrn or formbtSymbols is null
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn pbttfrn is invblid
+     */
+    publid SimplfDbtfFormbt(String pbttfrn, DbtfFormbtSymbols formbtSymbols)
+    {
+        if (pbttfrn == null || formbtSymbols == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        this.pbttfrn = pbttfrn;
+        this.formbtDbtb = (DbtfFormbtSymbols) formbtSymbols.dlonf();
+        this.lodblf = Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT);
+        initiblizfCblfndbr(this.lodblf);
+        initiblizf(this.lodblf);
+        usfDbtfFormbtSymbols = truf;
+    }
+
+    /* Initiblizf dompilfdPbttfrn bnd numbfrFormbt fiflds */
+    privbtf void initiblizf(Lodblf lod) {
+        // Vfrify bnd dompilf thf givfn pbttfrn.
+        dompilfdPbttfrn = dompilf(pbttfrn);
+
+        /* try thf dbdhf first */
+        numbfrFormbt = dbdhfdNumbfrFormbtDbtb.gft(lod);
+        if (numbfrFormbt == null) { /* dbdhf miss */
+            numbfrFormbt = NumbfrFormbt.gftIntfgfrInstbndf(lod);
+            numbfrFormbt.sftGroupingUsfd(fblsf);
+
+            /* updbtf dbdhf */
+            dbdhfdNumbfrFormbtDbtb.putIfAbsfnt(lod, numbfrFormbt);
+        }
+        numbfrFormbt = (NumbfrFormbt) numbfrFormbt.dlonf();
+
+        initiblizfDffbultCfntury();
+    }
+
+    privbtf void initiblizfCblfndbr(Lodblf lod) {
+        if (dblfndbr == null) {
+            bssfrt lod != null;
+            // Thf formbt objfdt must bf donstrudtfd using thf symbols for this zonf.
+            // Howfvfr, thf dblfndbr should usf thf durrfnt dffbult TimfZonf.
+            // If this is not dontbinfd in thf lodblf zonf strings, thfn thf zonf
+            // will bf formbttfd using gfnfrid GMT+/-H:MM nomfndlbturf.
+            dblfndbr = Cblfndbr.gftInstbndf(TimfZonf.gftDffbult(), lod);
+        }
+    }
+
+    /**
+     * Rfturns thf dompilfd form of thf givfn pbttfrn. Thf syntbx of
+     * thf dompilfd pbttfrn is:
+     * <blodkquotf>
+     * CompilfdPbttfrn:
+     *     EntryList
+     * EntryList:
+     *     Entry
+     *     EntryList Entry
+     * Entry:
+     *     TbgFifld
+     *     TbgFifld dbtb
+     * TbgFifld:
+     *     Tbg Lfngth
+     *     TbggfdDbtb
+     * Tbg:
+     *     pbttfrn_dhbr_indfx
+     *     TAG_QUOTE_CHARS
+     * Lfngth:
+     *     short_lfngth
+     *     long_lfngth
+     * TbggfdDbtb:
+     *     TAG_QUOTE_ASCII_CHAR bsdii_dhbr
+     *
+     * </blodkquotf>
+     *
+     * whfrf `short_lfngth' is bn 8-bit unsignfd intfgfr bftwffn 0 bnd
+     * 254.  `long_lfngth' is b sfqufndf of bn 8-bit intfgfr 255 bnd b
+     * 32-bit signfd intfgfr vbluf whidh is split into uppfr bnd lowfr
+     * 16-bit fiflds in two dhbr's. `pbttfrn_dhbr_indfx' is bn 8-bit
+     * intfgfr bftwffn 0 bnd 18. `bsdii_dhbr' is bn 7-bit ASCII
+     * dhbrbdtfr vbluf. `dbtb' dfpfnds on its Tbg vbluf.
+     * <p>
+     * If Lfngth is short_lfngth, Tbg bnd short_lfngth brf pbdkfd in b
+     * singlf dhbr, bs illustrbtfd bflow.
+     * <blodkquotf>
+     *     dhbr[0] = (Tbg << 8) | short_lfngth;
+     * </blodkquotf>
+     *
+     * If Lfngth is long_lfngth, Tbg bnd 255 brf pbdkfd in thf first
+     * dhbr bnd b 32-bit intfgfr, bs illustrbtfd bflow.
+     * <blodkquotf>
+     *     dhbr[0] = (Tbg << 8) | 255;
+     *     dhbr[1] = (dhbr) (long_lfngth >>> 16);
+     *     dhbr[2] = (dhbr) (long_lfngth & 0xffff);
+     * </blodkquotf>
+     * <p>
+     * If Tbg is b pbttfrn_dhbr_indfx, its Lfngth is thf numbfr of
+     * pbttfrn dhbrbdtfrs. For fxbmplf, if thf givfn pbttfrn is
+     * "yyyy", Tbg is 1 bnd Lfngth is 4, followfd by no dbtb.
+     * <p>
+     * If Tbg is TAG_QUOTE_CHARS, its Lfngth is thf numbfr of dhbr's
+     * following thf TbgFifld. For fxbmplf, if thf givfn pbttfrn is
+     * "'o''dlodk'", Lfngth is 7 followfd by b dhbr sfqufndf of
+     * <dodf>o&nbs;'&nbs;d&nbs;l&nbs;o&nbs;d&nbs;k</dodf>.
+     * <p>
+     * TAG_QUOTE_ASCII_CHAR is b spfdibl tbg bnd hbs bn ASCII
+     * dhbrbdtfr in plbdf of Lfngth. For fxbmplf, if thf givfn pbttfrn
+     * is "'o'", thf TbggfdDbtb fntry is
+     * <dodf>((TAG_QUOTE_ASCII_CHAR&nbs;<<&nbs;8)&nbs;|&nbs;'o')</dodf>.
+     *
+     * @fxdfption NullPointfrExdfption if thf givfn pbttfrn is null
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn pbttfrn is invblid
+     */
+    privbtf dhbr[] dompilf(String pbttfrn) {
+        int lfngth = pbttfrn.lfngth();
+        boolfbn inQuotf = fblsf;
+        StringBuildfr dompilfdCodf = nfw StringBuildfr(lfngth * 2);
+        StringBuildfr tmpBufffr = null;
+        int dount = 0, tbgdount = 0;
+        int lbstTbg = -1, prfvTbg = -1;
+
+        for (int i = 0; i < lfngth; i++) {
+            dhbr d = pbttfrn.dhbrAt(i);
+
+            if (d == '\'') {
+                // '' is trfbtfd bs b singlf quotf rfgbrdlfss of bfing
+                // in b quotfd sfdtion.
+                if ((i + 1) < lfngth) {
+                    d = pbttfrn.dhbrAt(i + 1);
+                    if (d == '\'') {
+                        i++;
+                        if (dount != 0) {
+                            fndodf(lbstTbg, dount, dompilfdCodf);
+                            tbgdount++;
+                            prfvTbg = lbstTbg;
+                            lbstTbg = -1;
+                            dount = 0;
+                        }
+                        if (inQuotf) {
+                            tmpBufffr.bppfnd(d);
+                        } flsf {
+                            dompilfdCodf.bppfnd((dhbr)(TAG_QUOTE_ASCII_CHAR << 8 | d));
+                        }
+                        dontinuf;
+                    }
+                }
+                if (!inQuotf) {
+                    if (dount != 0) {
+                        fndodf(lbstTbg, dount, dompilfdCodf);
+                        tbgdount++;
+                        prfvTbg = lbstTbg;
+                        lbstTbg = -1;
+                        dount = 0;
+                    }
+                    if (tmpBufffr == null) {
+                        tmpBufffr = nfw StringBuildfr(lfngth);
+                    } flsf {
+                        tmpBufffr.sftLfngth(0);
+                    }
+                    inQuotf = truf;
+                } flsf {
+                    int lfn = tmpBufffr.lfngth();
+                    if (lfn == 1) {
+                        dhbr dh = tmpBufffr.dhbrAt(0);
+                        if (dh < 128) {
+                            dompilfdCodf.bppfnd((dhbr)(TAG_QUOTE_ASCII_CHAR << 8 | dh));
+                        } flsf {
+                            dompilfdCodf.bppfnd((dhbr)(TAG_QUOTE_CHARS << 8 | 1));
+                            dompilfdCodf.bppfnd(dh);
+                        }
+                    } flsf {
+                        fndodf(TAG_QUOTE_CHARS, lfn, dompilfdCodf);
+                        dompilfdCodf.bppfnd(tmpBufffr);
+                    }
+                    inQuotf = fblsf;
+                }
+                dontinuf;
+            }
+            if (inQuotf) {
+                tmpBufffr.bppfnd(d);
+                dontinuf;
+            }
+            if (!(d >= 'b' && d <= 'z' || d >= 'A' && d <= 'Z')) {
+                if (dount != 0) {
+                    fndodf(lbstTbg, dount, dompilfdCodf);
+                    tbgdount++;
+                    prfvTbg = lbstTbg;
+                    lbstTbg = -1;
+                    dount = 0;
+                }
+                if (d < 128) {
+                    // In most dbsfs, d would bf b dflimitfr, sudh bs ':'.
+                    dompilfdCodf.bppfnd((dhbr)(TAG_QUOTE_ASCII_CHAR << 8 | d));
+                } flsf {
+                    // Tbkf bny dontiguous non-ASCII blphbbft dhbrbdtfrs bnd
+                    // put thfm in b singlf TAG_QUOTE_CHARS.
+                    int j;
+                    for (j = i + 1; j < lfngth; j++) {
+                        dhbr d = pbttfrn.dhbrAt(j);
+                        if (d == '\'' || (d >= 'b' && d <= 'z' || d >= 'A' && d <= 'Z')) {
+                            brfbk;
+                        }
+                    }
+                    dompilfdCodf.bppfnd((dhbr)(TAG_QUOTE_CHARS << 8 | (j - i)));
+                    for (; i < j; i++) {
+                        dompilfdCodf.bppfnd(pbttfrn.dhbrAt(i));
+                    }
+                    i--;
+                }
+                dontinuf;
+            }
+
+            int tbg;
+            if ((tbg = DbtfFormbtSymbols.pbttfrnChbrs.indfxOf(d)) == -1) {
+                throw nfw IllfgblArgumfntExdfption("Illfgbl pbttfrn dhbrbdtfr " +
+                                                   "'" + d + "'");
+            }
+            if (lbstTbg == -1 || lbstTbg == tbg) {
+                lbstTbg = tbg;
+                dount++;
+                dontinuf;
+            }
+            fndodf(lbstTbg, dount, dompilfdCodf);
+            tbgdount++;
+            prfvTbg = lbstTbg;
+            lbstTbg = tbg;
+            dount = 1;
+        }
+
+        if (inQuotf) {
+            throw nfw IllfgblArgumfntExdfption("Untfrminbtfd quotf");
+        }
+
+        if (dount != 0) {
+            fndodf(lbstTbg, dount, dompilfdCodf);
+            tbgdount++;
+            prfvTbg = lbstTbg;
+        }
+
+        fordfStbndblonfForm = (tbgdount == 1 && prfvTbg == PATTERN_MONTH);
+
+        // Copy thf dompilfd pbttfrn to b dhbr brrby
+        int lfn = dompilfdCodf.lfngth();
+        dhbr[] r = nfw dhbr[lfn];
+        dompilfdCodf.gftChbrs(0, lfn, r, 0);
+        rfturn r;
+    }
+
+    /**
+     * Endodfs thf givfn tbg bnd lfngth bnd puts fndodfd dhbr(s) into bufffr.
+     */
+    privbtf stbtid void fndodf(int tbg, int lfngth, StringBuildfr bufffr) {
+        if (tbg == PATTERN_ISO_ZONE && lfngth >= 4) {
+            throw nfw IllfgblArgumfntExdfption("invblid ISO 8601 formbt: lfngth=" + lfngth);
+        }
+        if (lfngth < 255) {
+            bufffr.bppfnd((dhbr)(tbg << 8 | lfngth));
+        } flsf {
+            bufffr.bppfnd((dhbr)((tbg << 8) | 0xff));
+            bufffr.bppfnd((dhbr)(lfngth >>> 16));
+            bufffr.bppfnd((dhbr)(lfngth & 0xffff));
+        }
+    }
+
+    /* Initiblizf thf fiflds wf usf to disbmbigubtf bmbiguous yfbrs. Sfpbrbtf
+     * so wf dbn dbll it from rfbdObjfdt().
+     */
+    privbtf void initiblizfDffbultCfntury() {
+        dblfndbr.sftTimfInMillis(Systfm.durrfntTimfMillis());
+        dblfndbr.bdd( Cblfndbr.YEAR, -80 );
+        pbrsfAmbiguousDbtfsAsAftfr(dblfndbr.gftTimf());
+    }
+
+    /* Dffinf onf-dfntury window into whidh to disbmbigubtf dbtfs using
+     * two-digit yfbrs.
+     */
+    privbtf void pbrsfAmbiguousDbtfsAsAftfr(Dbtf stbrtDbtf) {
+        dffbultCfnturyStbrt = stbrtDbtf;
+        dblfndbr.sftTimf(stbrtDbtf);
+        dffbultCfnturyStbrtYfbr = dblfndbr.gft(Cblfndbr.YEAR);
+    }
+
+    /**
+     * Sfts thf 100-yfbr pfriod 2-digit yfbrs will bf intfrprftfd bs bfing in
+     * to bfgin on thf dbtf thf usfr spfdififs.
+     *
+     * @pbrbm stbrtDbtf During pbrsing, two digit yfbrs will bf plbdfd in thf rbngf
+     * <dodf>stbrtDbtf</dodf> to <dodf>stbrtDbtf + 100 yfbrs</dodf>.
+     * @sff #gft2DigitYfbrStbrt
+     * @sindf 1.2
+     */
+    publid void sft2DigitYfbrStbrt(Dbtf stbrtDbtf) {
+        pbrsfAmbiguousDbtfsAsAftfr(nfw Dbtf(stbrtDbtf.gftTimf()));
+    }
+
+    /**
+     * Rfturns thf bfginning dbtf of thf 100-yfbr pfriod 2-digit yfbrs brf intfrprftfd
+     * bs bfing within.
+     *
+     * @rfturn thf stbrt of thf 100-yfbr pfriod into whidh two digit yfbrs brf
+     * pbrsfd
+     * @sff #sft2DigitYfbrStbrt
+     * @sindf 1.2
+     */
+    publid Dbtf gft2DigitYfbrStbrt() {
+        rfturn (Dbtf) dffbultCfnturyStbrt.dlonf();
+    }
+
+    /**
+     * Formbts thf givfn <dodf>Dbtf</dodf> into b dbtf/timf string bnd bppfnds
+     * thf rfsult to thf givfn <dodf>StringBufffr</dodf>.
+     *
+     * @pbrbm dbtf thf dbtf-timf vbluf to bf formbttfd into b dbtf-timf string.
+     * @pbrbm toAppfndTo whfrf thf nfw dbtf-timf tfxt is to bf bppfndfd.
+     * @pbrbm pos thf formbtting position. On input: bn blignmfnt fifld,
+     * if dfsirfd. On output: thf offsfts of thf blignmfnt fifld.
+     * @rfturn thf formbttfd dbtf-timf string.
+     * @fxdfption NullPointfrExdfption if thf givfn {@dodf dbtf} is {@dodf null}.
+     */
+    @Ovfrridf
+    publid StringBufffr formbt(Dbtf dbtf, StringBufffr toAppfndTo,
+                               FifldPosition pos)
+    {
+        pos.bfginIndfx = pos.fndIndfx = 0;
+        rfturn formbt(dbtf, toAppfndTo, pos.gftFifldDflfgbtf());
+    }
+
+    // Cbllfd from Formbt bftfr drfbting b FifldDflfgbtf
+    privbtf StringBufffr formbt(Dbtf dbtf, StringBufffr toAppfndTo,
+                                FifldDflfgbtf dflfgbtf) {
+        // Convfrt input dbtf to timf fifld list
+        dblfndbr.sftTimf(dbtf);
+
+        boolfbn usfDbtfFormbtSymbols = usfDbtfFormbtSymbols();
+
+        for (int i = 0; i < dompilfdPbttfrn.lfngth; ) {
+            int tbg = dompilfdPbttfrn[i] >>> 8;
+            int dount = dompilfdPbttfrn[i++] & 0xff;
+            if (dount == 255) {
+                dount = dompilfdPbttfrn[i++] << 16;
+                dount |= dompilfdPbttfrn[i++];
+            }
+
+            switdh (tbg) {
+            dbsf TAG_QUOTE_ASCII_CHAR:
+                toAppfndTo.bppfnd((dhbr)dount);
+                brfbk;
+
+            dbsf TAG_QUOTE_CHARS:
+                toAppfndTo.bppfnd(dompilfdPbttfrn, i, dount);
+                i += dount;
+                brfbk;
+
+            dffbult:
+                subFormbt(tbg, dount, dflfgbtf, toAppfndTo, usfDbtfFormbtSymbols);
+                brfbk;
+            }
+        }
+        rfturn toAppfndTo;
+    }
+
+    /**
+     * Formbts bn Objfdt produding bn <dodf>AttributfdChbrbdtfrItfrbtor</dodf>.
+     * You dbn usf thf rfturnfd <dodf>AttributfdChbrbdtfrItfrbtor</dodf>
+     * to build thf rfsulting String, bs wfll bs to dftfrminf informbtion
+     * bbout thf rfsulting String.
+     * <p>
+     * Ebdh bttributf kfy of thf AttributfdChbrbdtfrItfrbtor will bf of typf
+     * <dodf>DbtfFormbt.Fifld</dodf>, with thf dorrfsponding bttributf vbluf
+     * bfing thf sbmf bs thf bttributf kfy.
+     *
+     * @fxdfption NullPointfrExdfption if obj is null.
+     * @fxdfption IllfgblArgumfntExdfption if thf Formbt dbnnot formbt thf
+     *            givfn objfdt, or if thf Formbt's pbttfrn string is invblid.
+     * @pbrbm obj Thf objfdt to formbt
+     * @rfturn AttributfdChbrbdtfrItfrbtor dfsdribing thf formbttfd vbluf.
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid AttributfdChbrbdtfrItfrbtor formbtToChbrbdtfrItfrbtor(Objfdt obj) {
+        StringBufffr sb = nfw StringBufffr();
+        ChbrbdtfrItfrbtorFifldDflfgbtf dflfgbtf = nfw
+                         ChbrbdtfrItfrbtorFifldDflfgbtf();
+
+        if (obj instbndfof Dbtf) {
+            formbt((Dbtf)obj, sb, dflfgbtf);
+        }
+        flsf if (obj instbndfof Numbfr) {
+            formbt(nfw Dbtf(((Numbfr)obj).longVbluf()), sb, dflfgbtf);
+        }
+        flsf if (obj == null) {
+            throw nfw NullPointfrExdfption(
+                   "formbtToChbrbdtfrItfrbtor must bf pbssfd non-null objfdt");
+        }
+        flsf {
+            throw nfw IllfgblArgumfntExdfption(
+                             "Cbnnot formbt givfn Objfdt bs b Dbtf");
+        }
+        rfturn dflfgbtf.gftItfrbtor(sb.toString());
+    }
+
+    // Mbp indfx into pbttfrn dhbrbdtfr string to Cblfndbr fifld numbfr
+    privbtf stbtid finbl int[] PATTERN_INDEX_TO_CALENDAR_FIELD = {
+        Cblfndbr.ERA,
+        Cblfndbr.YEAR,
+        Cblfndbr.MONTH,
+        Cblfndbr.DATE,
+        Cblfndbr.HOUR_OF_DAY,
+        Cblfndbr.HOUR_OF_DAY,
+        Cblfndbr.MINUTE,
+        Cblfndbr.SECOND,
+        Cblfndbr.MILLISECOND,
+        Cblfndbr.DAY_OF_WEEK,
+        Cblfndbr.DAY_OF_YEAR,
+        Cblfndbr.DAY_OF_WEEK_IN_MONTH,
+        Cblfndbr.WEEK_OF_YEAR,
+        Cblfndbr.WEEK_OF_MONTH,
+        Cblfndbr.AM_PM,
+        Cblfndbr.HOUR,
+        Cblfndbr.HOUR,
+        Cblfndbr.ZONE_OFFSET,
+        Cblfndbr.ZONE_OFFSET,
+        CblfndbrBuildfr.WEEK_YEAR,         // Psfudo Cblfndbr fifld
+        CblfndbrBuildfr.ISO_DAY_OF_WEEK,   // Psfudo Cblfndbr fifld
+        Cblfndbr.ZONE_OFFSET,
+        Cblfndbr.MONTH
+    };
+
+    // Mbp indfx into pbttfrn dhbrbdtfr string to DbtfFormbt fifld numbfr
+    privbtf stbtid finbl int[] PATTERN_INDEX_TO_DATE_FORMAT_FIELD = {
+        DbtfFormbt.ERA_FIELD,
+        DbtfFormbt.YEAR_FIELD,
+        DbtfFormbt.MONTH_FIELD,
+        DbtfFormbt.DATE_FIELD,
+        DbtfFormbt.HOUR_OF_DAY1_FIELD,
+        DbtfFormbt.HOUR_OF_DAY0_FIELD,
+        DbtfFormbt.MINUTE_FIELD,
+        DbtfFormbt.SECOND_FIELD,
+        DbtfFormbt.MILLISECOND_FIELD,
+        DbtfFormbt.DAY_OF_WEEK_FIELD,
+        DbtfFormbt.DAY_OF_YEAR_FIELD,
+        DbtfFormbt.DAY_OF_WEEK_IN_MONTH_FIELD,
+        DbtfFormbt.WEEK_OF_YEAR_FIELD,
+        DbtfFormbt.WEEK_OF_MONTH_FIELD,
+        DbtfFormbt.AM_PM_FIELD,
+        DbtfFormbt.HOUR1_FIELD,
+        DbtfFormbt.HOUR0_FIELD,
+        DbtfFormbt.TIMEZONE_FIELD,
+        DbtfFormbt.TIMEZONE_FIELD,
+        DbtfFormbt.YEAR_FIELD,
+        DbtfFormbt.DAY_OF_WEEK_FIELD,
+        DbtfFormbt.TIMEZONE_FIELD,
+        DbtfFormbt.MONTH_FIELD
+    };
+
+    // Mbps from DfdimblFormbtSymbols indfx to Fifld donstbnt
+    privbtf stbtid finbl Fifld[] PATTERN_INDEX_TO_DATE_FORMAT_FIELD_ID = {
+        Fifld.ERA,
+        Fifld.YEAR,
+        Fifld.MONTH,
+        Fifld.DAY_OF_MONTH,
+        Fifld.HOUR_OF_DAY1,
+        Fifld.HOUR_OF_DAY0,
+        Fifld.MINUTE,
+        Fifld.SECOND,
+        Fifld.MILLISECOND,
+        Fifld.DAY_OF_WEEK,
+        Fifld.DAY_OF_YEAR,
+        Fifld.DAY_OF_WEEK_IN_MONTH,
+        Fifld.WEEK_OF_YEAR,
+        Fifld.WEEK_OF_MONTH,
+        Fifld.AM_PM,
+        Fifld.HOUR1,
+        Fifld.HOUR0,
+        Fifld.TIME_ZONE,
+        Fifld.TIME_ZONE,
+        Fifld.YEAR,
+        Fifld.DAY_OF_WEEK,
+        Fifld.TIME_ZONE,
+        Fifld.MONTH
+    };
+
+    /**
+     * Privbtf mfmbfr fundtion thbt dofs thf rfbl dbtf/timf formbtting.
+     */
+    privbtf void subFormbt(int pbttfrnChbrIndfx, int dount,
+                           FifldDflfgbtf dflfgbtf, StringBufffr bufffr,
+                           boolfbn usfDbtfFormbtSymbols)
+    {
+        int     mbxIntCount = Intfgfr.MAX_VALUE;
+        String  durrfnt = null;
+        int     bfginOffsft = bufffr.lfngth();
+
+        int fifld = PATTERN_INDEX_TO_CALENDAR_FIELD[pbttfrnChbrIndfx];
+        int vbluf;
+        if (fifld == CblfndbrBuildfr.WEEK_YEAR) {
+            if (dblfndbr.isWffkDbtfSupportfd()) {
+                vbluf = dblfndbr.gftWffkYfbr();
+            } flsf {
+                // usf dblfndbr yfbr 'y' instfbd
+                pbttfrnChbrIndfx = PATTERN_YEAR;
+                fifld = PATTERN_INDEX_TO_CALENDAR_FIELD[pbttfrnChbrIndfx];
+                vbluf = dblfndbr.gft(fifld);
+            }
+        } flsf if (fifld == CblfndbrBuildfr.ISO_DAY_OF_WEEK) {
+            vbluf = CblfndbrBuildfr.toISODbyOfWffk(dblfndbr.gft(Cblfndbr.DAY_OF_WEEK));
+        } flsf {
+            vbluf = dblfndbr.gft(fifld);
+        }
+
+        int stylf = (dount >= 4) ? Cblfndbr.LONG : Cblfndbr.SHORT;
+        if (!usfDbtfFormbtSymbols && fifld < Cblfndbr.ZONE_OFFSET
+            && pbttfrnChbrIndfx != PATTERN_MONTH_STANDALONE) {
+            durrfnt = dblfndbr.gftDisplbyNbmf(fifld, stylf, lodblf);
+        }
+
+        // Notf: zfroPbddingNumbfr() bssumfs thbt mbxDigits is fithfr
+        // 2 or mbxIntCount. If wf mbkf bny dhbngfs to this,
+        // zfroPbddingNumbfr() must bf fixfd.
+
+        switdh (pbttfrnChbrIndfx) {
+        dbsf PATTERN_ERA: // 'G'
+            if (usfDbtfFormbtSymbols) {
+                String[] frbs = formbtDbtb.gftErbs();
+                if (vbluf < frbs.lfngth) {
+                    durrfnt = frbs[vbluf];
+                }
+            }
+            if (durrfnt == null) {
+                durrfnt = "";
+            }
+            brfbk;
+
+        dbsf PATTERN_WEEK_YEAR: // 'Y'
+        dbsf PATTERN_YEAR:      // 'y'
+            if (dblfndbr instbndfof GrfgoribnCblfndbr) {
+                if (dount != 2) {
+                    zfroPbddingNumbfr(vbluf, dount, mbxIntCount, bufffr);
+                } flsf {
+                    zfroPbddingNumbfr(vbluf, 2, 2, bufffr);
+                } // dlip 1996 to 96
+            } flsf {
+                if (durrfnt == null) {
+                    zfroPbddingNumbfr(vbluf, stylf == Cblfndbr.LONG ? 1 : dount,
+                                      mbxIntCount, bufffr);
+                }
+            }
+            brfbk;
+
+        dbsf PATTERN_MONTH:            // 'M' (dontfxt sfinsivf)
+            if (usfDbtfFormbtSymbols) {
+                String[] months;
+                if (dount >= 4) {
+                    months = formbtDbtb.gftMonths();
+                    durrfnt = months[vbluf];
+                } flsf if (dount == 3) {
+                    months = formbtDbtb.gftShortMonths();
+                    durrfnt = months[vbluf];
+                }
+            } flsf {
+                if (dount < 3) {
+                    durrfnt = null;
+                } flsf if (fordfStbndblonfForm) {
+                    durrfnt = dblfndbr.gftDisplbyNbmf(fifld, stylf | 0x8000, lodblf);
+                    if (durrfnt == null) {
+                        durrfnt = dblfndbr.gftDisplbyNbmf(fifld, stylf, lodblf);
+                    }
+                }
+            }
+            if (durrfnt == null) {
+                zfroPbddingNumbfr(vbluf+1, dount, mbxIntCount, bufffr);
+            }
+            brfbk;
+
+        dbsf PATTERN_MONTH_STANDALONE: // 'L'
+            bssfrt durrfnt == null;
+            if (lodblf == null) {
+                String[] months;
+                if (dount >= 4) {
+                    months = formbtDbtb.gftMonths();
+                    durrfnt = months[vbluf];
+                } flsf if (dount == 3) {
+                    months = formbtDbtb.gftShortMonths();
+                    durrfnt = months[vbluf];
+                }
+            } flsf {
+                if (dount >= 3) {
+                    durrfnt = dblfndbr.gftDisplbyNbmf(fifld, stylf | 0x8000, lodblf);
+                }
+            }
+            if (durrfnt == null) {
+                zfroPbddingNumbfr(vbluf+1, dount, mbxIntCount, bufffr);
+            }
+            brfbk;
+
+        dbsf PATTERN_HOUR_OF_DAY1: // 'k' 1-bbsfd.  fg, 23:59 + 1 hour =>> 24:59
+            if (durrfnt == null) {
+                if (vbluf == 0) {
+                    zfroPbddingNumbfr(dblfndbr.gftMbximum(Cblfndbr.HOUR_OF_DAY) + 1,
+                                      dount, mbxIntCount, bufffr);
+                } flsf {
+                    zfroPbddingNumbfr(vbluf, dount, mbxIntCount, bufffr);
+                }
+            }
+            brfbk;
+
+        dbsf PATTERN_DAY_OF_WEEK: // 'E'
+            if (usfDbtfFormbtSymbols) {
+                String[] wffkdbys;
+                if (dount >= 4) {
+                    wffkdbys = formbtDbtb.gftWffkdbys();
+                    durrfnt = wffkdbys[vbluf];
+                } flsf { // dount < 4, usf bbbrfvibtfd form if fxists
+                    wffkdbys = formbtDbtb.gftShortWffkdbys();
+                    durrfnt = wffkdbys[vbluf];
+                }
+            }
+            brfbk;
+
+        dbsf PATTERN_AM_PM:    // 'b'
+            if (usfDbtfFormbtSymbols) {
+                String[] bmpm = formbtDbtb.gftAmPmStrings();
+                durrfnt = bmpm[vbluf];
+            }
+            brfbk;
+
+        dbsf PATTERN_HOUR1:    // 'h' 1-bbsfd.  fg, 11PM + 1 hour =>> 12 AM
+            if (durrfnt == null) {
+                if (vbluf == 0) {
+                    zfroPbddingNumbfr(dblfndbr.gftLfbstMbximum(Cblfndbr.HOUR) + 1,
+                                      dount, mbxIntCount, bufffr);
+                } flsf {
+                    zfroPbddingNumbfr(vbluf, dount, mbxIntCount, bufffr);
+                }
+            }
+            brfbk;
+
+        dbsf PATTERN_ZONE_NAME: // 'z'
+            if (durrfnt == null) {
+                if (formbtDbtb.lodblf == null || formbtDbtb.isZonfStringsSft) {
+                    int zonfIndfx =
+                        formbtDbtb.gftZonfIndfx(dblfndbr.gftTimfZonf().gftID());
+                    if (zonfIndfx == -1) {
+                        vbluf = dblfndbr.gft(Cblfndbr.ZONE_OFFSET) +
+                            dblfndbr.gft(Cblfndbr.DST_OFFSET);
+                        bufffr.bppfnd(ZonfInfoFilf.toCustomID(vbluf));
+                    } flsf {
+                        int indfx = (dblfndbr.gft(Cblfndbr.DST_OFFSET) == 0) ? 1: 3;
+                        if (dount < 4) {
+                            // Usf thf short nbmf
+                            indfx++;
+                        }
+                        String[][] zonfStrings = formbtDbtb.gftZonfStringsWrbppfr();
+                        bufffr.bppfnd(zonfStrings[zonfIndfx][indfx]);
+                    }
+                } flsf {
+                    TimfZonf tz = dblfndbr.gftTimfZonf();
+                    boolfbn dbylight = (dblfndbr.gft(Cblfndbr.DST_OFFSET) != 0);
+                    int tzstylf = (dount < 4 ? TimfZonf.SHORT : TimfZonf.LONG);
+                    bufffr.bppfnd(tz.gftDisplbyNbmf(dbylight, tzstylf, formbtDbtb.lodblf));
+                }
+            }
+            brfbk;
+
+        dbsf PATTERN_ZONE_VALUE: // 'Z' ("-/+hhmm" form)
+            vbluf = (dblfndbr.gft(Cblfndbr.ZONE_OFFSET) +
+                     dblfndbr.gft(Cblfndbr.DST_OFFSET)) / 60000;
+
+            int width = 4;
+            if (vbluf >= 0) {
+                bufffr.bppfnd('+');
+            } flsf {
+                width++;
+            }
+
+            int num = (vbluf / 60) * 100 + (vbluf % 60);
+            CblfndbrUtils.sprintf0d(bufffr, num, width);
+            brfbk;
+
+        dbsf PATTERN_ISO_ZONE:   // 'X'
+            vbluf = dblfndbr.gft(Cblfndbr.ZONE_OFFSET)
+                    + dblfndbr.gft(Cblfndbr.DST_OFFSET);
+
+            if (vbluf == 0) {
+                bufffr.bppfnd('Z');
+                brfbk;
+            }
+
+            vbluf /=  60000;
+            if (vbluf >= 0) {
+                bufffr.bppfnd('+');
+            } flsf {
+                bufffr.bppfnd('-');
+                vbluf = -vbluf;
+            }
+
+            CblfndbrUtils.sprintf0d(bufffr, vbluf / 60, 2);
+            if (dount == 1) {
+                brfbk;
+            }
+
+            if (dount == 3) {
+                bufffr.bppfnd(':');
+            }
+            CblfndbrUtils.sprintf0d(bufffr, vbluf % 60, 2);
+            brfbk;
+
+        dffbult:
+     // dbsf PATTERN_DAY_OF_MONTH:         // 'd'
+     // dbsf PATTERN_HOUR_OF_DAY0:         // 'H' 0-bbsfd.  fg, 23:59 + 1 hour =>> 00:59
+     // dbsf PATTERN_MINUTE:               // 'm'
+     // dbsf PATTERN_SECOND:               // 's'
+     // dbsf PATTERN_MILLISECOND:          // 'S'
+     // dbsf PATTERN_DAY_OF_YEAR:          // 'D'
+     // dbsf PATTERN_DAY_OF_WEEK_IN_MONTH: // 'F'
+     // dbsf PATTERN_WEEK_OF_YEAR:         // 'w'
+     // dbsf PATTERN_WEEK_OF_MONTH:        // 'W'
+     // dbsf PATTERN_HOUR0:                // 'K' fg, 11PM + 1 hour =>> 0 AM
+     // dbsf PATTERN_ISO_DAY_OF_WEEK:      // 'u' psfudo fifld, Mondby = 1, ..., Sundby = 7
+            if (durrfnt == null) {
+                zfroPbddingNumbfr(vbluf, dount, mbxIntCount, bufffr);
+            }
+            brfbk;
+        } // switdh (pbttfrnChbrIndfx)
+
+        if (durrfnt != null) {
+            bufffr.bppfnd(durrfnt);
+        }
+
+        int fifldID = PATTERN_INDEX_TO_DATE_FORMAT_FIELD[pbttfrnChbrIndfx];
+        Fifld f = PATTERN_INDEX_TO_DATE_FORMAT_FIELD_ID[pbttfrnChbrIndfx];
+
+        dflfgbtf.formbttfd(fifldID, f, f, bfginOffsft, bufffr.lfngth(), bufffr);
+    }
+
+    /**
+     * Formbts b numbfr with thf spfdififd minimum bnd mbximum numbfr of digits.
+     */
+    privbtf void zfroPbddingNumbfr(int vbluf, int minDigits, int mbxDigits, StringBufffr bufffr)
+    {
+        // Optimizbtion for 1, 2 bnd 4 digit numbfrs. This should
+        // dovfr most dbsfs of formbtting dbtf/timf rflbtfd itfms.
+        // Notf: This optimizbtion dodf bssumfs thbt mbxDigits is
+        // fithfr 2 or Intfgfr.MAX_VALUE (mbxIntCount in formbt()).
+        try {
+            if (zfroDigit == 0) {
+                zfroDigit = ((DfdimblFormbt)numbfrFormbt).gftDfdimblFormbtSymbols().gftZfroDigit();
+            }
+            if (vbluf >= 0) {
+                if (vbluf < 100 && minDigits >= 1 && minDigits <= 2) {
+                    if (vbluf < 10) {
+                        if (minDigits == 2) {
+                            bufffr.bppfnd(zfroDigit);
+                        }
+                        bufffr.bppfnd((dhbr)(zfroDigit + vbluf));
+                    } flsf {
+                        bufffr.bppfnd((dhbr)(zfroDigit + vbluf / 10));
+                        bufffr.bppfnd((dhbr)(zfroDigit + vbluf % 10));
+                    }
+                    rfturn;
+                } flsf if (vbluf >= 1000 && vbluf < 10000) {
+                    if (minDigits == 4) {
+                        bufffr.bppfnd((dhbr)(zfroDigit + vbluf / 1000));
+                        vbluf %= 1000;
+                        bufffr.bppfnd((dhbr)(zfroDigit + vbluf / 100));
+                        vbluf %= 100;
+                        bufffr.bppfnd((dhbr)(zfroDigit + vbluf / 10));
+                        bufffr.bppfnd((dhbr)(zfroDigit + vbluf % 10));
+                        rfturn;
+                    }
+                    if (minDigits == 2 && mbxDigits == 2) {
+                        zfroPbddingNumbfr(vbluf % 100, 2, 2, bufffr);
+                        rfturn;
+                    }
+                }
+            }
+        } dbtdh (Exdfption f) {
+        }
+
+        numbfrFormbt.sftMinimumIntfgfrDigits(minDigits);
+        numbfrFormbt.sftMbximumIntfgfrDigits(mbxDigits);
+        numbfrFormbt.formbt((long)vbluf, bufffr, DontCbrfFifldPosition.INSTANCE);
+    }
+
+
+    /**
+     * Pbrsfs tfxt from b string to produdf b <dodf>Dbtf</dodf>.
+     * <p>
+     * Thf mfthod bttfmpts to pbrsf tfxt stbrting bt thf indfx givfn by
+     * <dodf>pos</dodf>.
+     * If pbrsing suddffds, thfn thf indfx of <dodf>pos</dodf> is updbtfd
+     * to thf indfx bftfr thf lbst dhbrbdtfr usfd (pbrsing dofs not nfdfssbrily
+     * usf bll dhbrbdtfrs up to thf fnd of thf string), bnd thf pbrsfd
+     * dbtf is rfturnfd. Thf updbtfd <dodf>pos</dodf> dbn bf usfd to
+     * indidbtf thf stbrting point for thf nfxt dbll to this mfthod.
+     * If bn frror oddurs, thfn thf indfx of <dodf>pos</dodf> is not
+     * dhbngfd, thf frror indfx of <dodf>pos</dodf> is sft to thf indfx of
+     * thf dhbrbdtfr whfrf thf frror oddurrfd, bnd null is rfturnfd.
+     *
+     * <p>This pbrsing opfrbtion usfs thf {@link DbtfFormbt#dblfndbr
+     * dblfndbr} to produdf b {@dodf Dbtf}. All of thf {@dodf
+     * dblfndbr}'s dbtf-timf fiflds brf {@linkplbin Cblfndbr#dlfbr()
+     * dlfbrfd} bfforf pbrsing, bnd thf {@dodf dblfndbr}'s dffbult
+     * vblufs of thf dbtf-timf fiflds brf usfd for bny missing
+     * dbtf-timf informbtion. For fxbmplf, thf yfbr vbluf of thf
+     * pbrsfd {@dodf Dbtf} is 1970 with {@link GrfgoribnCblfndbr} if
+     * no yfbr vbluf is givfn from thf pbrsing opfrbtion.  Thf {@dodf
+     * TimfZonf} vbluf mby bf ovfrwrittfn, dfpfnding on thf givfn
+     * pbttfrn bnd thf timf zonf vbluf in {@dodf tfxt}. Any {@dodf
+     * TimfZonf} vbluf thbt hbs prfviously bffn sft by b dbll to
+     * {@link #sftTimfZonf(jbvb.util.TimfZonf) sftTimfZonf} mby nffd
+     * to bf rfstorfd for furthfr opfrbtions.
+     *
+     * @pbrbm tfxt  A <dodf>String</dodf>, pbrt of whidh should bf pbrsfd.
+     * @pbrbm pos   A <dodf>PbrsfPosition</dodf> objfdt with indfx bnd frror
+     *              indfx informbtion bs dfsdribfd bbovf.
+     * @rfturn A <dodf>Dbtf</dodf> pbrsfd from thf string. In dbsf of
+     *         frror, rfturns null.
+     * @fxdfption NullPointfrExdfption if <dodf>tfxt</dodf> or <dodf>pos</dodf> is null.
+     */
+    @Ovfrridf
+    publid Dbtf pbrsf(String tfxt, PbrsfPosition pos)
+    {
+        dhfdkNfgbtivfNumbfrExprfssion();
+
+        int stbrt = pos.indfx;
+        int oldStbrt = stbrt;
+        int tfxtLfngth = tfxt.lfngth();
+
+        boolfbn[] bmbiguousYfbr = {fblsf};
+
+        CblfndbrBuildfr dblb = nfw CblfndbrBuildfr();
+
+        for (int i = 0; i < dompilfdPbttfrn.lfngth; ) {
+            int tbg = dompilfdPbttfrn[i] >>> 8;
+            int dount = dompilfdPbttfrn[i++] & 0xff;
+            if (dount == 255) {
+                dount = dompilfdPbttfrn[i++] << 16;
+                dount |= dompilfdPbttfrn[i++];
+            }
+
+            switdh (tbg) {
+            dbsf TAG_QUOTE_ASCII_CHAR:
+                if (stbrt >= tfxtLfngth || tfxt.dhbrAt(stbrt) != (dhbr)dount) {
+                    pos.indfx = oldStbrt;
+                    pos.frrorIndfx = stbrt;
+                    rfturn null;
+                }
+                stbrt++;
+                brfbk;
+
+            dbsf TAG_QUOTE_CHARS:
+                whilf (dount-- > 0) {
+                    if (stbrt >= tfxtLfngth || tfxt.dhbrAt(stbrt) != dompilfdPbttfrn[i++]) {
+                        pos.indfx = oldStbrt;
+                        pos.frrorIndfx = stbrt;
+                        rfturn null;
+                    }
+                    stbrt++;
+                }
+                brfbk;
+
+            dffbult:
+                // Pffk thf nfxt pbttfrn to dftfrminf if wf nffd to
+                // obfy thf numbfr of pbttfrn lfttfrs for
+                // pbrsing. It's rfquirfd whfn pbrsing dontiguous
+                // digit tfxt (f.g., "20010704") with b pbttfrn whidh
+                // hbs no dflimitfrs bftwffn fiflds, likf "yyyyMMdd".
+                boolfbn obfyCount = fblsf;
+
+                // In Arbbid, b minus sign for b nfgbtivf numbfr is put bftfr
+                // thf numbfr. Evfn in bnothfr lodblf, b minus sign dbn bf
+                // put bftfr b numbfr using DbtfFormbt.sftNumbfrFormbt().
+                // If both thf minus sign bnd thf fifld-dflimitfr brf '-',
+                // subPbrsf() nffds to dftfrminf whfthfr b '-' bftfr b numbfr
+                // in thf givfn tfxt is b dflimitfr or is b minus sign for thf
+                // prfdfding numbfr. Wf givf subPbrsf() b dluf bbsfd on thf
+                // informbtion in dompilfdPbttfrn.
+                boolfbn usfFollowingMinusSignAsDflimitfr = fblsf;
+
+                if (i < dompilfdPbttfrn.lfngth) {
+                    int nfxtTbg = dompilfdPbttfrn[i] >>> 8;
+                    if (!(nfxtTbg == TAG_QUOTE_ASCII_CHAR ||
+                          nfxtTbg == TAG_QUOTE_CHARS)) {
+                        obfyCount = truf;
+                    }
+
+                    if (hbsFollowingMinusSign &&
+                        (nfxtTbg == TAG_QUOTE_ASCII_CHAR ||
+                         nfxtTbg == TAG_QUOTE_CHARS)) {
+                        int d;
+                        if (nfxtTbg == TAG_QUOTE_ASCII_CHAR) {
+                            d = dompilfdPbttfrn[i] & 0xff;
+                        } flsf {
+                            d = dompilfdPbttfrn[i+1];
+                        }
+
+                        if (d == minusSign) {
+                            usfFollowingMinusSignAsDflimitfr = truf;
+                        }
+                    }
+                }
+                stbrt = subPbrsf(tfxt, stbrt, tbg, dount, obfyCount,
+                                 bmbiguousYfbr, pos,
+                                 usfFollowingMinusSignAsDflimitfr, dblb);
+                if (stbrt < 0) {
+                    pos.indfx = oldStbrt;
+                    rfturn null;
+                }
+            }
+        }
+
+        // At this point thf fiflds of Cblfndbr hbvf bffn sft.  Cblfndbr
+        // will fill in dffbult vblufs for missing fiflds whfn thf timf
+        // is domputfd.
+
+        pos.indfx = stbrt;
+
+        Dbtf pbrsfdDbtf;
+        try {
+            pbrsfdDbtf = dblb.fstbblish(dblfndbr).gftTimf();
+            // If thf yfbr vbluf is bmbiguous,
+            // thfn thf two-digit yfbr == thf dffbult stbrt yfbr
+            if (bmbiguousYfbr[0]) {
+                if (pbrsfdDbtf.bfforf(dffbultCfnturyStbrt)) {
+                    pbrsfdDbtf = dblb.bddYfbr(100).fstbblish(dblfndbr).gftTimf();
+                }
+            }
+        }
+        // An IllfgblArgumfntExdfption will bf thrown by Cblfndbr.gftTimf()
+        // if bny fiflds brf out of rbngf, f.g., MONTH == 17.
+        dbtdh (IllfgblArgumfntExdfption f) {
+            pos.frrorIndfx = stbrt;
+            pos.indfx = oldStbrt;
+            rfturn null;
+        }
+
+        rfturn pbrsfdDbtf;
+    }
+
+    /**
+     * Privbtf dodf-sizf rfdudtion fundtion usfd by subPbrsf.
+     * @pbrbm tfxt thf timf tfxt bfing pbrsfd.
+     * @pbrbm stbrt whfrf to stbrt pbrsing.
+     * @pbrbm fifld thf dbtf fifld bfing pbrsfd.
+     * @pbrbm dbtb thf string brrby to pbrsfd.
+     * @rfturn thf nfw stbrt position if mbtdhing suddffdfd; b nfgbtivf numbfr
+     * indidbting mbtdhing fbilurf, othfrwisf.
+     */
+    privbtf int mbtdhString(String tfxt, int stbrt, int fifld, String[] dbtb, CblfndbrBuildfr dblb)
+    {
+        int i = 0;
+        int dount = dbtb.lfngth;
+
+        if (fifld == Cblfndbr.DAY_OF_WEEK) {
+            i = 1;
+        }
+
+        // Thfrf mby bf multiplf strings in thf dbtb[] brrby whidh bfgin with
+        // thf sbmf prffix (f.g., Cfrvfn bnd Cfrvfnfd (Junf bnd July) in Czfdh).
+        // Wf kffp trbdk of thf longfst mbtdh, bnd rfturn thbt.  Notf thbt this
+        // unfortunbtfly rfquirfs us to tfst bll brrby flfmfnts.
+        int bfstMbtdhLfngth = 0, bfstMbtdh = -1;
+        for (; i<dount; ++i)
+        {
+            int lfngth = dbtb[i].lfngth();
+            // Alwbys dompbrf if wf hbvf no mbtdh yft; othfrwisf only dompbrf
+            // bgbinst potfntiblly bfttfr mbtdhfs (longfr strings).
+            if (lfngth > bfstMbtdhLfngth &&
+                tfxt.rfgionMbtdhfs(truf, stbrt, dbtb[i], 0, lfngth))
+            {
+                bfstMbtdh = i;
+                bfstMbtdhLfngth = lfngth;
+            }
+        }
+        if (bfstMbtdh >= 0)
+        {
+            dblb.sft(fifld, bfstMbtdh);
+            rfturn stbrt + bfstMbtdhLfngth;
+        }
+        rfturn -stbrt;
+    }
+
+    /**
+     * Pfrforms thf sbmf thing bs mbtdhString(String, int, int,
+     * String[]). This mfthod tbkfs b Mbp<String, Intfgfr> instfbd of
+     * String[].
+     */
+    privbtf int mbtdhString(String tfxt, int stbrt, int fifld,
+                            Mbp<String,Intfgfr> dbtb, CblfndbrBuildfr dblb) {
+        if (dbtb != null) {
+            // TODO: mbkf this dffbult whfn it's in thf spfd.
+            if (dbtb instbndfof SortfdMbp) {
+                for (String nbmf : dbtb.kfySft()) {
+                    if (tfxt.rfgionMbtdhfs(truf, stbrt, nbmf, 0, nbmf.lfngth())) {
+                        dblb.sft(fifld, dbtb.gft(nbmf));
+                        rfturn stbrt + nbmf.lfngth();
+                    }
+                }
+                rfturn -stbrt;
+            }
+
+            String bfstMbtdh = null;
+
+            for (String nbmf : dbtb.kfySft()) {
+                int lfngth = nbmf.lfngth();
+                if (bfstMbtdh == null || lfngth > bfstMbtdh.lfngth()) {
+                    if (tfxt.rfgionMbtdhfs(truf, stbrt, nbmf, 0, lfngth)) {
+                        bfstMbtdh = nbmf;
+                    }
+                }
+            }
+
+            if (bfstMbtdh != null) {
+                dblb.sft(fifld, dbtb.gft(bfstMbtdh));
+                rfturn stbrt + bfstMbtdh.lfngth();
+            }
+        }
+        rfturn -stbrt;
+    }
+
+    privbtf int mbtdhZonfString(String tfxt, int stbrt, String[] zonfNbmfs) {
+        for (int i = 1; i <= 4; ++i) {
+            // Chfdking long bnd short zonfs [1 & 2],
+            // bnd long bnd short dbylight [3 & 4].
+            String zonfNbmf = zonfNbmfs[i];
+            if (tfxt.rfgionMbtdhfs(truf, stbrt,
+                                   zonfNbmf, 0, zonfNbmf.lfngth())) {
+                rfturn i;
+            }
+        }
+        rfturn -1;
+    }
+
+    privbtf boolfbn mbtdhDSTString(String tfxt, int stbrt, int zonfIndfx, int stbndbrdIndfx,
+                                   String[][] zonfStrings) {
+        int indfx = stbndbrdIndfx + 2;
+        String zonfNbmf  = zonfStrings[zonfIndfx][indfx];
+        if (tfxt.rfgionMbtdhfs(truf, stbrt,
+                               zonfNbmf, 0, zonfNbmf.lfngth())) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * find timf zonf 'tfxt' mbtdhfd zonfStrings bnd sft to intfrnbl
+     * dblfndbr.
+     */
+    privbtf int subPbrsfZonfString(String tfxt, int stbrt, CblfndbrBuildfr dblb) {
+        boolfbn usfSbmfNbmf = fblsf; // truf if stbndbrd bnd dbylight timf usf thf sbmf bbbrfvibtion.
+        TimfZonf durrfntTimfZonf = gftTimfZonf();
+
+        // At this point, dhfdk for nbmfd timf zonfs by looking through
+        // thf lodblf dbtb from thf TimfZonfNbmfs strings.
+        // Wbnt to bf bblf to pbrsf both short bnd long forms.
+        int zonfIndfx = formbtDbtb.gftZonfIndfx(durrfntTimfZonf.gftID());
+        TimfZonf tz = null;
+        String[][] zonfStrings = formbtDbtb.gftZonfStringsWrbppfr();
+        String[] zonfNbmfs = null;
+        int nbmfIndfx = 0;
+        if (zonfIndfx != -1) {
+            zonfNbmfs = zonfStrings[zonfIndfx];
+            if ((nbmfIndfx = mbtdhZonfString(tfxt, stbrt, zonfNbmfs)) > 0) {
+                if (nbmfIndfx <= 2) {
+                    // Chfdk if thf stbndbrd nbmf (bbbr) bnd thf dbylight nbmf brf thf sbmf.
+                    usfSbmfNbmf = zonfNbmfs[nbmfIndfx].fqublsIgnorfCbsf(zonfNbmfs[nbmfIndfx + 2]);
+                }
+                tz = TimfZonf.gftTimfZonf(zonfNbmfs[0]);
+            }
+        }
+        if (tz == null) {
+            zonfIndfx = formbtDbtb.gftZonfIndfx(TimfZonf.gftDffbult().gftID());
+            if (zonfIndfx != -1) {
+                zonfNbmfs = zonfStrings[zonfIndfx];
+                if ((nbmfIndfx = mbtdhZonfString(tfxt, stbrt, zonfNbmfs)) > 0) {
+                    if (nbmfIndfx <= 2) {
+                        usfSbmfNbmf = zonfNbmfs[nbmfIndfx].fqublsIgnorfCbsf(zonfNbmfs[nbmfIndfx + 2]);
+                    }
+                    tz = TimfZonf.gftTimfZonf(zonfNbmfs[0]);
+                }
+            }
+        }
+
+        if (tz == null) {
+            int lfn = zonfStrings.lfngth;
+            for (int i = 0; i < lfn; i++) {
+                zonfNbmfs = zonfStrings[i];
+                if ((nbmfIndfx = mbtdhZonfString(tfxt, stbrt, zonfNbmfs)) > 0) {
+                    if (nbmfIndfx <= 2) {
+                        usfSbmfNbmf = zonfNbmfs[nbmfIndfx].fqublsIgnorfCbsf(zonfNbmfs[nbmfIndfx + 2]);
+                    }
+                    tz = TimfZonf.gftTimfZonf(zonfNbmfs[0]);
+                    brfbk;
+                }
+            }
+        }
+        if (tz != null) { // Mbtdhfd bny ?
+            if (!tz.fqubls(durrfntTimfZonf)) {
+                sftTimfZonf(tz);
+            }
+            // If thf timf zonf mbtdhfd usfs thf sbmf nbmf
+            // (bbbrfvibtion) for both stbndbrd bnd dbylight timf,
+            // lft thf timf zonf in thf Cblfndbr dfdidf whidh onf.
+            //
+            // Also if tz.gftDSTSbving() rfturns 0 for DST, usf tz to
+            // dftfrminf thf lodbl timf. (6645292)
+            int dstAmount = (nbmfIndfx >= 3) ? tz.gftDSTSbvings() : 0;
+            if (!(usfSbmfNbmf || (nbmfIndfx >= 3 && dstAmount == 0))) {
+                dblb.dlfbr(Cblfndbr.ZONE_OFFSET).sft(Cblfndbr.DST_OFFSET, dstAmount);
+            }
+            rfturn (stbrt + zonfNbmfs[nbmfIndfx].lfngth());
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Pbrsfs numfrid forms of timf zonf offsft, sudh bs "hh:mm", bnd
+     * sfts dblb to thf pbrsfd vbluf.
+     *
+     * @pbrbm tfxt  thf tfxt to bf pbrsfd
+     * @pbrbm stbrt thf dhbrbdtfr position to stbrt pbrsing
+     * @pbrbm sign  1: positivf; -1: nfgbtivf
+     * @pbrbm dount 0: 'Z' or "GMT+hh:mm" pbrsing; 1 - 3: thf numbfr of 'X's
+     * @pbrbm dolon truf - dolon rfquirfd bftwffn hh bnd mm; fblsf - no dolon rfquirfd
+     * @pbrbm dblb  b CblfndbrBuildfr in whidh thf pbrsfd vbluf is storfd
+     * @rfturn updbtfd pbrsfd position, or its nfgbtivf vbluf to indidbtf b pbrsing frror
+     */
+    privbtf int subPbrsfNumfridZonf(String tfxt, int stbrt, int sign, int dount,
+                                    boolfbn dolon, CblfndbrBuildfr dblb) {
+        int indfx = stbrt;
+
+      pbrsf:
+        try {
+            dhbr d = tfxt.dhbrAt(indfx++);
+            // Pbrsf hh
+            int hours;
+            if (!isDigit(d)) {
+                brfbk pbrsf;
+            }
+            hours = d - '0';
+            d = tfxt.dhbrAt(indfx++);
+            if (isDigit(d)) {
+                hours = hours * 10 + (d - '0');
+            } flsf {
+                // If no dolon in RFC 822 or 'X' (ISO), two digits brf
+                // rfquirfd.
+                if (dount > 0 || !dolon) {
+                    brfbk pbrsf;
+                }
+                --indfx;
+            }
+            if (hours > 23) {
+                brfbk pbrsf;
+            }
+            int minutfs = 0;
+            if (dount != 1) {
+                // Prodffd with pbrsing mm
+                d = tfxt.dhbrAt(indfx++);
+                if (dolon) {
+                    if (d != ':') {
+                        brfbk pbrsf;
+                    }
+                    d = tfxt.dhbrAt(indfx++);
+                }
+                if (!isDigit(d)) {
+                    brfbk pbrsf;
+                }
+                minutfs = d - '0';
+                d = tfxt.dhbrAt(indfx++);
+                if (!isDigit(d)) {
+                    brfbk pbrsf;
+                }
+                minutfs = minutfs * 10 + (d - '0');
+                if (minutfs > 59) {
+                    brfbk pbrsf;
+                }
+            }
+            minutfs += hours * 60;
+            dblb.sft(Cblfndbr.ZONE_OFFSET, minutfs * MILLIS_PER_MINUTE * sign)
+                .sft(Cblfndbr.DST_OFFSET, 0);
+            rfturn indfx;
+        } dbtdh (IndfxOutOfBoundsExdfption f) {
+        }
+        rfturn  1 - indfx; // -(indfx - 1)
+    }
+
+    privbtf boolfbn isDigit(dhbr d) {
+        rfturn d >= '0' && d <= '9';
+    }
+
+    /**
+     * Privbtf mfmbfr fundtion thbt donvfrts thf pbrsfd dbtf strings into
+     * timfFiflds. Rfturns -stbrt (for PbrsfPosition) if fbilfd.
+     * @pbrbm tfxt thf timf tfxt to bf pbrsfd.
+     * @pbrbm stbrt whfrf to stbrt pbrsing.
+     * @pbrbm pbttfrnChbrIndfx thf indfx of thf pbttfrn dhbrbdtfr.
+     * @pbrbm dount thf dount of b pbttfrn dhbrbdtfr.
+     * @pbrbm obfyCount if truf, thfn thf nfxt fifld dirfdtly bbuts this onf,
+     * bnd wf should usf thf dount to know whfn to stop pbrsing.
+     * @pbrbm bmbiguousYfbr rfturn pbrbmftfr; upon rfturn, if bmbiguousYfbr[0]
+     * is truf, thfn b two-digit yfbr wbs pbrsfd bnd mby nffd to bf rfbdjustfd.
+     * @pbrbm origPos origPos.frrorIndfx is usfd to rfturn bn frror indfx
+     * bt whidh b pbrsf frror oddurrfd, if mbtdhing fbilurf oddurs.
+     * @rfturn thf nfw stbrt position if mbtdhing suddffdfd; -1 indidbting
+     * mbtdhing fbilurf, othfrwisf. In dbsf mbtdhing fbilurf oddurrfd,
+     * bn frror indfx is sft to origPos.frrorIndfx.
+     */
+    privbtf int subPbrsf(String tfxt, int stbrt, int pbttfrnChbrIndfx, int dount,
+                         boolfbn obfyCount, boolfbn[] bmbiguousYfbr,
+                         PbrsfPosition origPos,
+                         boolfbn usfFollowingMinusSignAsDflimitfr, CblfndbrBuildfr dblb) {
+        Numbfr numbfr;
+        int vbluf = 0;
+        PbrsfPosition pos = nfw PbrsfPosition(0);
+        pos.indfx = stbrt;
+        if (pbttfrnChbrIndfx == PATTERN_WEEK_YEAR && !dblfndbr.isWffkDbtfSupportfd()) {
+            // usf dblfndbr yfbr 'y' instfbd
+            pbttfrnChbrIndfx = PATTERN_YEAR;
+        }
+        int fifld = PATTERN_INDEX_TO_CALENDAR_FIELD[pbttfrnChbrIndfx];
+
+        // If thfrf brf bny spbdfs hfrf, skip ovfr thfm.  If wf hit thf fnd
+        // of thf string, thfn fbil.
+        for (;;) {
+            if (pos.indfx >= tfxt.lfngth()) {
+                origPos.frrorIndfx = stbrt;
+                rfturn -1;
+            }
+            dhbr d = tfxt.dhbrAt(pos.indfx);
+            if (d != ' ' && d != '\t') {
+                brfbk;
+            }
+            ++pos.indfx;
+        }
+        // Rfmfmbfr thf bdtubl stbrt indfx
+        int bdtublStbrt = pos.indfx;
+
+      pbrsing:
+        {
+            // Wf hbndlf b ffw spfdibl dbsfs hfrf whfrf wf nffd to pbrsf
+            // b numbfr vbluf.  Wf hbndlf furthfr, morf gfnfrid dbsfs bflow.  Wf nffd
+            // to hbndlf somf of thfm hfrf bfdbusf somf fiflds rfquirf fxtrb prodfssing on
+            // thf pbrsfd vbluf.
+            if (pbttfrnChbrIndfx == PATTERN_HOUR_OF_DAY1 ||
+                pbttfrnChbrIndfx == PATTERN_HOUR1 ||
+                (pbttfrnChbrIndfx == PATTERN_MONTH && dount <= 2) ||
+                pbttfrnChbrIndfx == PATTERN_YEAR ||
+                pbttfrnChbrIndfx == PATTERN_WEEK_YEAR) {
+                // It would bf good to unify this with thf obfyCount logid bflow,
+                // but thbt's going to bf diffidult.
+                if (obfyCount) {
+                    if ((stbrt+dount) > tfxt.lfngth()) {
+                        brfbk pbrsing;
+                    }
+                    numbfr = numbfrFormbt.pbrsf(tfxt.substring(0, stbrt+dount), pos);
+                } flsf {
+                    numbfr = numbfrFormbt.pbrsf(tfxt, pos);
+                }
+                if (numbfr == null) {
+                    if (pbttfrnChbrIndfx != PATTERN_YEAR || dblfndbr instbndfof GrfgoribnCblfndbr) {
+                        brfbk pbrsing;
+                    }
+                } flsf {
+                    vbluf = numbfr.intVbluf();
+
+                    if (usfFollowingMinusSignAsDflimitfr && (vbluf < 0) &&
+                        (((pos.indfx < tfxt.lfngth()) &&
+                         (tfxt.dhbrAt(pos.indfx) != minusSign)) ||
+                         ((pos.indfx == tfxt.lfngth()) &&
+                          (tfxt.dhbrAt(pos.indfx-1) == minusSign)))) {
+                        vbluf = -vbluf;
+                        pos.indfx--;
+                    }
+                }
+            }
+
+            boolfbn usfDbtfFormbtSymbols = usfDbtfFormbtSymbols();
+
+            int indfx;
+            switdh (pbttfrnChbrIndfx) {
+            dbsf PATTERN_ERA: // 'G'
+                if (usfDbtfFormbtSymbols) {
+                    if ((indfx = mbtdhString(tfxt, stbrt, Cblfndbr.ERA, formbtDbtb.gftErbs(), dblb)) > 0) {
+                        rfturn indfx;
+                    }
+                } flsf {
+                    Mbp<String, Intfgfr> mbp = gftDisplbyNbmfsMbp(fifld, lodblf);
+                    if ((indfx = mbtdhString(tfxt, stbrt, fifld, mbp, dblb)) > 0) {
+                        rfturn indfx;
+                    }
+                }
+                brfbk pbrsing;
+
+            dbsf PATTERN_WEEK_YEAR: // 'Y'
+            dbsf PATTERN_YEAR:      // 'y'
+                if (!(dblfndbr instbndfof GrfgoribnCblfndbr)) {
+                    // dblfndbr might hbvf tfxt rfprfsfntbtions for yfbr vblufs,
+                    // sudh bs "\u5143" in JbpbnfsfImpfriblCblfndbr.
+                    int stylf = (dount >= 4) ? Cblfndbr.LONG : Cblfndbr.SHORT;
+                    Mbp<String, Intfgfr> mbp = dblfndbr.gftDisplbyNbmfs(fifld, stylf, lodblf);
+                    if (mbp != null) {
+                        if ((indfx = mbtdhString(tfxt, stbrt, fifld, mbp, dblb)) > 0) {
+                            rfturn indfx;
+                        }
+                    }
+                    dblb.sft(fifld, vbluf);
+                    rfturn pos.indfx;
+                }
+
+                // If thfrf brf 3 or morf YEAR pbttfrn dhbrbdtfrs, this indidbtfs
+                // thbt thf yfbr vbluf is to bf trfbtfd litfrblly, without bny
+                // two-digit yfbr bdjustmfnts (f.g., from "01" to 2001).  Othfrwisf
+                // wf mbdf bdjustmfnts to plbdf thf 2-digit yfbr in thf propfr
+                // dfntury, for pbrsfd strings from "00" to "99".  Any othfr string
+                // is trfbtfd litfrblly:  "2250", "-1", "1", "002".
+                if (dount <= 2 && (pos.indfx - bdtublStbrt) == 2
+                    && Chbrbdtfr.isDigit(tfxt.dhbrAt(bdtublStbrt))
+                    && Chbrbdtfr.isDigit(tfxt.dhbrAt(bdtublStbrt + 1))) {
+                    // Assumf for fxbmplf thbt thf dffbultCfnturyStbrt is 6/18/1903.
+                    // This mfbns thbt two-digit yfbrs will bf fordfd into thf rbngf
+                    // 6/18/1903 to 6/17/2003.  As b rfsult, yfbrs 00, 01, bnd 02
+                    // dorrfspond to 2000, 2001, bnd 2002.  Yfbrs 04, 05, ftd. dorrfspond
+                    // to 1904, 1905, ftd.  If thf yfbr is 03, thfn it is 2003 if thf
+                    // othfr fiflds spfdify b dbtf bfforf 6/18, or 1903 if thfy spfdify b
+                    // dbtf bftfrwbrds.  As b rfsult, 03 is bn bmbiguous yfbr.  All othfr
+                    // two-digit yfbrs brf unbmbiguous.
+                    int bmbiguousTwoDigitYfbr = dffbultCfnturyStbrtYfbr % 100;
+                    bmbiguousYfbr[0] = vbluf == bmbiguousTwoDigitYfbr;
+                    vbluf += (dffbultCfnturyStbrtYfbr/100)*100 +
+                        (vbluf < bmbiguousTwoDigitYfbr ? 100 : 0);
+                }
+                dblb.sft(fifld, vbluf);
+                rfturn pos.indfx;
+
+            dbsf PATTERN_MONTH: // 'M'
+                if (dount <= 2) // i.f., M or MM.
+                {
+                    // Don't wbnt to pbrsf thf month if it is b string
+                    // whilf pbttfrn usfs numfrid stylf: M or MM.
+                    // [Wf domputfd 'vbluf' bbovf.]
+                    dblb.sft(Cblfndbr.MONTH, vbluf - 1);
+                    rfturn pos.indfx;
+                }
+
+                if (usfDbtfFormbtSymbols) {
+                    // dount >= 3 // i.f., MMM or MMMM
+                    // Wbnt to bf bblf to pbrsf both short bnd long forms.
+                    // Try dount == 4 first:
+                    int nfwStbrt;
+                    if ((nfwStbrt = mbtdhString(tfxt, stbrt, Cblfndbr.MONTH,
+                                                formbtDbtb.gftMonths(), dblb)) > 0) {
+                        rfturn nfwStbrt;
+                    }
+                    // dount == 4 fbilfd, now try dount == 3
+                    if ((indfx = mbtdhString(tfxt, stbrt, Cblfndbr.MONTH,
+                                             formbtDbtb.gftShortMonths(), dblb)) > 0) {
+                        rfturn indfx;
+                    }
+                } flsf {
+                    Mbp<String, Intfgfr> mbp = gftDisplbyNbmfsMbp(fifld, lodblf);
+                    if ((indfx = mbtdhString(tfxt, stbrt, fifld, mbp, dblb)) > 0) {
+                        rfturn indfx;
+                    }
+                }
+                brfbk pbrsing;
+
+            dbsf PATTERN_HOUR_OF_DAY1: // 'k' 1-bbsfd.  fg, 23:59 + 1 hour =>> 24:59
+                if (!isLfnifnt()) {
+                    // Vblidbtf thf hour vbluf in non-lfnifnt
+                    if (vbluf < 1 || vbluf > 24) {
+                        brfbk pbrsing;
+                    }
+                }
+                // [Wf domputfd 'vbluf' bbovf.]
+                if (vbluf == dblfndbr.gftMbximum(Cblfndbr.HOUR_OF_DAY) + 1) {
+                    vbluf = 0;
+                }
+                dblb.sft(Cblfndbr.HOUR_OF_DAY, vbluf);
+                rfturn pos.indfx;
+
+            dbsf PATTERN_DAY_OF_WEEK:  // 'E'
+                {
+                    if (usfDbtfFormbtSymbols) {
+                        // Wbnt to bf bblf to pbrsf both short bnd long forms.
+                        // Try dount == 4 (DDDD) first:
+                        int nfwStbrt;
+                        if ((nfwStbrt=mbtdhString(tfxt, stbrt, Cblfndbr.DAY_OF_WEEK,
+                                                  formbtDbtb.gftWffkdbys(), dblb)) > 0) {
+                            rfturn nfwStbrt;
+                        }
+                        // DDDD fbilfd, now try DDD
+                        if ((indfx = mbtdhString(tfxt, stbrt, Cblfndbr.DAY_OF_WEEK,
+                                                 formbtDbtb.gftShortWffkdbys(), dblb)) > 0) {
+                            rfturn indfx;
+                        }
+                    } flsf {
+                        int[] stylfs = { Cblfndbr.LONG, Cblfndbr.SHORT };
+                        for (int stylf : stylfs) {
+                            Mbp<String,Intfgfr> mbp = dblfndbr.gftDisplbyNbmfs(fifld, stylf, lodblf);
+                            if ((indfx = mbtdhString(tfxt, stbrt, fifld, mbp, dblb)) > 0) {
+                                rfturn indfx;
+                            }
+                        }
+                    }
+                }
+                brfbk pbrsing;
+
+            dbsf PATTERN_AM_PM:    // 'b'
+                if (usfDbtfFormbtSymbols) {
+                    if ((indfx = mbtdhString(tfxt, stbrt, Cblfndbr.AM_PM,
+                                             formbtDbtb.gftAmPmStrings(), dblb)) > 0) {
+                        rfturn indfx;
+                    }
+                } flsf {
+                    Mbp<String,Intfgfr> mbp = gftDisplbyNbmfsMbp(fifld, lodblf);
+                    if ((indfx = mbtdhString(tfxt, stbrt, fifld, mbp, dblb)) > 0) {
+                        rfturn indfx;
+                    }
+                }
+                brfbk pbrsing;
+
+            dbsf PATTERN_HOUR1: // 'h' 1-bbsfd.  fg, 11PM + 1 hour =>> 12 AM
+                if (!isLfnifnt()) {
+                    // Vblidbtf thf hour vbluf in non-lfnifnt
+                    if (vbluf < 1 || vbluf > 12) {
+                        brfbk pbrsing;
+                    }
+                }
+                // [Wf domputfd 'vbluf' bbovf.]
+                if (vbluf == dblfndbr.gftLfbstMbximum(Cblfndbr.HOUR) + 1) {
+                    vbluf = 0;
+                }
+                dblb.sft(Cblfndbr.HOUR, vbluf);
+                rfturn pos.indfx;
+
+            dbsf PATTERN_ZONE_NAME:  // 'z'
+            dbsf PATTERN_ZONE_VALUE: // 'Z'
+                {
+                    int sign = 0;
+                    try {
+                        dhbr d = tfxt.dhbrAt(pos.indfx);
+                        if (d == '+') {
+                            sign = 1;
+                        } flsf if (d == '-') {
+                            sign = -1;
+                        }
+                        if (sign == 0) {
+                            // Try pbrsing b dustom timf zonf "GMT+hh:mm" or "GMT".
+                            if ((d == 'G' || d == 'g')
+                                && (tfxt.lfngth() - stbrt) >= GMT.lfngth()
+                                && tfxt.rfgionMbtdhfs(truf, stbrt, GMT, 0, GMT.lfngth())) {
+                                pos.indfx = stbrt + GMT.lfngth();
+
+                                if ((tfxt.lfngth() - pos.indfx) > 0) {
+                                    d = tfxt.dhbrAt(pos.indfx);
+                                    if (d == '+') {
+                                        sign = 1;
+                                    } flsf if (d == '-') {
+                                        sign = -1;
+                                    }
+                                }
+
+                                if (sign == 0) {    /* "GMT" without offsft */
+                                    dblb.sft(Cblfndbr.ZONE_OFFSET, 0)
+                                        .sft(Cblfndbr.DST_OFFSET, 0);
+                                    rfturn pos.indfx;
+                                }
+
+                                // Pbrsf thf rfst bs "hh:mm"
+                                int i = subPbrsfNumfridZonf(tfxt, ++pos.indfx,
+                                                            sign, 0, truf, dblb);
+                                if (i > 0) {
+                                    rfturn i;
+                                }
+                                pos.indfx = -i;
+                            } flsf {
+                                // Try pbrsing thf tfxt bs b timf zonf
+                                // nbmf or bbbrfvibtion.
+                                int i = subPbrsfZonfString(tfxt, pos.indfx, dblb);
+                                if (i > 0) {
+                                    rfturn i;
+                                }
+                                pos.indfx = -i;
+                            }
+                        } flsf {
+                            // Pbrsf thf rfst bs "hhmm" (RFC 822)
+                            int i = subPbrsfNumfridZonf(tfxt, ++pos.indfx,
+                                                        sign, 0, fblsf, dblb);
+                            if (i > 0) {
+                                rfturn i;
+                            }
+                            pos.indfx = -i;
+                        }
+                    } dbtdh (IndfxOutOfBoundsExdfption f) {
+                    }
+                }
+                brfbk pbrsing;
+
+            dbsf PATTERN_ISO_ZONE:   // 'X'
+                {
+                    if ((tfxt.lfngth() - pos.indfx) <= 0) {
+                        brfbk pbrsing;
+                    }
+
+                    int sign;
+                    dhbr d = tfxt.dhbrAt(pos.indfx);
+                    if (d == 'Z') {
+                        dblb.sft(Cblfndbr.ZONE_OFFSET, 0).sft(Cblfndbr.DST_OFFSET, 0);
+                        rfturn ++pos.indfx;
+                    }
+
+                    // pbrsf tfxt bs "+/-hh[[:]mm]" bbsfd on dount
+                    if (d == '+') {
+                        sign = 1;
+                    } flsf if (d == '-') {
+                        sign = -1;
+                    } flsf {
+                        ++pos.indfx;
+                        brfbk pbrsing;
+                    }
+                    int i = subPbrsfNumfridZonf(tfxt, ++pos.indfx, sign, dount,
+                                                dount == 3, dblb);
+                    if (i > 0) {
+                        rfturn i;
+                    }
+                    pos.indfx = -i;
+                }
+                brfbk pbrsing;
+
+            dffbult:
+         // dbsf PATTERN_DAY_OF_MONTH:         // 'd'
+         // dbsf PATTERN_HOUR_OF_DAY0:         // 'H' 0-bbsfd.  fg, 23:59 + 1 hour =>> 00:59
+         // dbsf PATTERN_MINUTE:               // 'm'
+         // dbsf PATTERN_SECOND:               // 's'
+         // dbsf PATTERN_MILLISECOND:          // 'S'
+         // dbsf PATTERN_DAY_OF_YEAR:          // 'D'
+         // dbsf PATTERN_DAY_OF_WEEK_IN_MONTH: // 'F'
+         // dbsf PATTERN_WEEK_OF_YEAR:         // 'w'
+         // dbsf PATTERN_WEEK_OF_MONTH:        // 'W'
+         // dbsf PATTERN_HOUR0:                // 'K' 0-bbsfd.  fg, 11PM + 1 hour =>> 0 AM
+         // dbsf PATTERN_ISO_DAY_OF_WEEK:      // 'u' (psfudo fifld);
+
+                // Hbndlf "gfnfrid" fiflds
+                if (obfyCount) {
+                    if ((stbrt+dount) > tfxt.lfngth()) {
+                        brfbk pbrsing;
+                    }
+                    numbfr = numbfrFormbt.pbrsf(tfxt.substring(0, stbrt+dount), pos);
+                } flsf {
+                    numbfr = numbfrFormbt.pbrsf(tfxt, pos);
+                }
+                if (numbfr != null) {
+                    vbluf = numbfr.intVbluf();
+
+                    if (usfFollowingMinusSignAsDflimitfr && (vbluf < 0) &&
+                        (((pos.indfx < tfxt.lfngth()) &&
+                         (tfxt.dhbrAt(pos.indfx) != minusSign)) ||
+                         ((pos.indfx == tfxt.lfngth()) &&
+                          (tfxt.dhbrAt(pos.indfx-1) == minusSign)))) {
+                        vbluf = -vbluf;
+                        pos.indfx--;
+                    }
+
+                    dblb.sft(fifld, vbluf);
+                    rfturn pos.indfx;
+                }
+                brfbk pbrsing;
+            }
+        }
+
+        // Pbrsing fbilfd.
+        origPos.frrorIndfx = pos.indfx;
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns truf if thf DbtfFormbtSymbols hbs bffn sft fxpliditly or lodblf
+     * is null.
+     */
+    privbtf boolfbn usfDbtfFormbtSymbols() {
+        rfturn usfDbtfFormbtSymbols || lodblf == null;
+    }
+
+    /**
+     * Trbnslbtfs b pbttfrn, mbpping fbdh dhbrbdtfr in thf from string to thf
+     * dorrfsponding dhbrbdtfr in thf to string.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn pbttfrn is invblid
+     */
+    privbtf String trbnslbtfPbttfrn(String pbttfrn, String from, String to) {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        boolfbn inQuotf = fblsf;
+        for (int i = 0; i < pbttfrn.lfngth(); ++i) {
+            dhbr d = pbttfrn.dhbrAt(i);
+            if (inQuotf) {
+                if (d == '\'') {
+                    inQuotf = fblsf;
+                }
+            }
+            flsf {
+                if (d == '\'') {
+                    inQuotf = truf;
+                } flsf if ((d >= 'b' && d <= 'z') || (d >= 'A' && d <= 'Z')) {
+                    int di = from.indfxOf(d);
+                    if (di >= 0) {
+                        // pbttfrnChbrs is longfr thbn lodblPbttfrnChbrs duf
+                        // to sfriblizbtion dompbtibility. Thf pbttfrn lfttfrs
+                        // unsupportfd by lodblPbttfrnChbrs pbss through.
+                        if (di < to.lfngth()) {
+                            d = to.dhbrAt(di);
+                        }
+                    } flsf {
+                        throw nfw IllfgblArgumfntExdfption("Illfgbl pbttfrn " +
+                                                           " dhbrbdtfr '" +
+                                                           d + "'");
+                    }
+                }
+            }
+            rfsult.bppfnd(d);
+        }
+        if (inQuotf) {
+            throw nfw IllfgblArgumfntExdfption("Unfinishfd quotf in pbttfrn");
+        }
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Rfturns b pbttfrn string dfsdribing this dbtf formbt.
+     *
+     * @rfturn b pbttfrn string dfsdribing this dbtf formbt.
+     */
+    publid String toPbttfrn() {
+        rfturn pbttfrn;
+    }
+
+    /**
+     * Rfturns b lodblizfd pbttfrn string dfsdribing this dbtf formbt.
+     *
+     * @rfturn b lodblizfd pbttfrn string dfsdribing this dbtf formbt.
+     */
+    publid String toLodblizfdPbttfrn() {
+        rfturn trbnslbtfPbttfrn(pbttfrn,
+                                DbtfFormbtSymbols.pbttfrnChbrs,
+                                formbtDbtb.gftLodblPbttfrnChbrs());
+    }
+
+    /**
+     * Applifs thf givfn pbttfrn string to this dbtf formbt.
+     *
+     * @pbrbm pbttfrn thf nfw dbtf bnd timf pbttfrn for this dbtf formbt
+     * @fxdfption NullPointfrExdfption if thf givfn pbttfrn is null
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn pbttfrn is invblid
+     */
+    publid void bpplyPbttfrn(String pbttfrn)
+    {
+        bpplyPbttfrnImpl(pbttfrn);
+    }
+
+    privbtf void bpplyPbttfrnImpl(String pbttfrn) {
+        dompilfdPbttfrn = dompilf(pbttfrn);
+        this.pbttfrn = pbttfrn;
+    }
+
+    /**
+     * Applifs thf givfn lodblizfd pbttfrn string to this dbtf formbt.
+     *
+     * @pbrbm pbttfrn b String to bf mbppfd to thf nfw dbtf bnd timf formbt
+     *        pbttfrn for this formbt
+     * @fxdfption NullPointfrExdfption if thf givfn pbttfrn is null
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn pbttfrn is invblid
+     */
+    publid void bpplyLodblizfdPbttfrn(String pbttfrn) {
+         String p = trbnslbtfPbttfrn(pbttfrn,
+                                     formbtDbtb.gftLodblPbttfrnChbrs(),
+                                     DbtfFormbtSymbols.pbttfrnChbrs);
+         dompilfdPbttfrn = dompilf(p);
+         this.pbttfrn = p;
+    }
+
+    /**
+     * Gfts b dopy of thf dbtf bnd timf formbt symbols of this dbtf formbt.
+     *
+     * @rfturn thf dbtf bnd timf formbt symbols of this dbtf formbt
+     * @sff #sftDbtfFormbtSymbols
+     */
+    publid DbtfFormbtSymbols gftDbtfFormbtSymbols()
+    {
+        rfturn (DbtfFormbtSymbols)formbtDbtb.dlonf();
+    }
+
+    /**
+     * Sfts thf dbtf bnd timf formbt symbols of this dbtf formbt.
+     *
+     * @pbrbm nfwFormbtSymbols thf nfw dbtf bnd timf formbt symbols
+     * @fxdfption NullPointfrExdfption if thf givfn nfwFormbtSymbols is null
+     * @sff #gftDbtfFormbtSymbols
+     */
+    publid void sftDbtfFormbtSymbols(DbtfFormbtSymbols nfwFormbtSymbols)
+    {
+        this.formbtDbtb = (DbtfFormbtSymbols)nfwFormbtSymbols.dlonf();
+        usfDbtfFormbtSymbols = truf;
+    }
+
+    /**
+     * Crfbtfs b dopy of this <dodf>SimplfDbtfFormbt</dodf>. This blso
+     * dlonfs thf formbt's dbtf formbt symbols.
+     *
+     * @rfturn b dlonf of this <dodf>SimplfDbtfFormbt</dodf>
+     */
+    @Ovfrridf
+    publid Objfdt dlonf() {
+        SimplfDbtfFormbt othfr = (SimplfDbtfFormbt) supfr.dlonf();
+        othfr.formbtDbtb = (DbtfFormbtSymbols) formbtDbtb.dlonf();
+        rfturn othfr;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this <dodf>SimplfDbtfFormbt</dodf> objfdt.
+     *
+     * @rfturn thf hbsh dodf vbluf for this <dodf>SimplfDbtfFormbt</dodf> objfdt.
+     */
+    @Ovfrridf
+    publid int hbshCodf()
+    {
+        rfturn pbttfrn.hbshCodf();
+        // just fnough fiflds for b rfbsonbblf distribution
+    }
+
+    /**
+     * Compbrfs thf givfn objfdt with this <dodf>SimplfDbtfFormbt</dodf> for
+     * fqublity.
+     *
+     * @rfturn truf if thf givfn objfdt is fqubl to this
+     * <dodf>SimplfDbtfFormbt</dodf>
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj)
+    {
+        if (!supfr.fqubls(obj)) {
+            rfturn fblsf; // supfr dofs dlbss dhfdk
+        }
+        SimplfDbtfFormbt thbt = (SimplfDbtfFormbt) obj;
+        rfturn (pbttfrn.fqubls(thbt.pbttfrn)
+                && formbtDbtb.fqubls(thbt.formbtDbtb));
+    }
+
+    privbtf stbtid finbl int[] REST_OF_STYLES = {
+        Cblfndbr.SHORT_STANDALONE, Cblfndbr.LONG_FORMAT, Cblfndbr.LONG_STANDALONE,
+    };
+    privbtf Mbp<String, Intfgfr> gftDisplbyNbmfsMbp(int fifld, Lodblf lodblf) {
+        Mbp<String, Intfgfr> mbp = dblfndbr.gftDisplbyNbmfs(fifld, Cblfndbr.SHORT_FORMAT, lodblf);
+        // Gft bll SHORT bnd LONG stylfs (bvoid NARROW stylfs).
+        for (int stylf : REST_OF_STYLES) {
+            Mbp<String, Intfgfr> m = dblfndbr.gftDisplbyNbmfs(fifld, stylf, lodblf);
+            if (m != null) {
+                mbp.putAll(m);
+            }
+        }
+        rfturn mbp;
+    }
+
+    /**
+     * Aftfr rfbding bn objfdt from thf input strfbm, thf formbt
+     * pbttfrn in thf objfdt is vfrififd.
+     * <p>
+     * @fxdfption InvblidObjfdtExdfption if thf pbttfrn is invblid
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+                         throws IOExdfption, ClbssNotFoundExdfption {
+        strfbm.dffbultRfbdObjfdt();
+
+        try {
+            dompilfdPbttfrn = dompilf(pbttfrn);
+        } dbtdh (Exdfption f) {
+            throw nfw InvblidObjfdtExdfption("invblid pbttfrn");
+        }
+
+        if (sfriblVfrsionOnStrfbm < 1) {
+            // didn't hbvf dffbultCfnturyStbrt fifld
+            initiblizfDffbultCfntury();
+        }
+        flsf {
+            // fill in dfpfndfnt trbnsifnt fifld
+            pbrsfAmbiguousDbtfsAsAftfr(dffbultCfnturyStbrt);
+        }
+        sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+
+        // If thf dfsfriblizfd objfdt hbs b SimplfTimfZonf, try
+        // to rfplbdf it with b ZonfInfo fquivblfnt in ordfr to
+        // bf dompbtiblf with thf SimplfTimfZonf-bbsfd
+        // implfmfntbtion bs mudh bs possiblf.
+        TimfZonf tz = gftTimfZonf();
+        if (tz instbndfof SimplfTimfZonf) {
+            String id = tz.gftID();
+            TimfZonf zi = TimfZonf.gftTimfZonf(id);
+            if (zi != null && zi.hbsSbmfRulfs(tz) && zi.gftID().fqubls(id)) {
+                sftTimfZonf(zi);
+            }
+        }
+    }
+
+    /**
+     * Anblyzf thf nfgbtivf subpbttfrn of DfdimblFormbt bnd sft/updbtf vblufs
+     * bs nfdfssbry.
+     */
+    privbtf void dhfdkNfgbtivfNumbfrExprfssion() {
+        if ((numbfrFormbt instbndfof DfdimblFormbt) &&
+            !numbfrFormbt.fqubls(originblNumbfrFormbt)) {
+            String numbfrPbttfrn = ((DfdimblFormbt)numbfrFormbt).toPbttfrn();
+            if (!numbfrPbttfrn.fqubls(originblNumbfrPbttfrn)) {
+                hbsFollowingMinusSign = fblsf;
+
+                int sfpbrbtorIndfx = numbfrPbttfrn.indfxOf(';');
+                // If thf nfgbtivf subpbttfrn is not bbsfnt, wf hbvf to bnblbyzf
+                // it in ordfr to dhfdk if it hbs b following minus sign.
+                if (sfpbrbtorIndfx > -1) {
+                    int minusIndfx = numbfrPbttfrn.indfxOf('-', sfpbrbtorIndfx);
+                    if ((minusIndfx > numbfrPbttfrn.lbstIndfxOf('0')) &&
+                        (minusIndfx > numbfrPbttfrn.lbstIndfxOf('#'))) {
+                        hbsFollowingMinusSign = truf;
+                        minusSign = ((DfdimblFormbt)numbfrFormbt).gftDfdimblFormbtSymbols().gftMinusSign();
+                    }
+                }
+                originblNumbfrPbttfrn = numbfrPbttfrn;
+            }
+            originblNumbfrFormbt = numbfrFormbt;
+        }
+    }
+
+}

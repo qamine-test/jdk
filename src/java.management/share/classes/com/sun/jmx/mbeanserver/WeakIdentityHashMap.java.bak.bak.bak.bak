@@ -1,0 +1,137 @@
+/*
+ * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.*;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+import jbvb.util.Mbp;
+
+
+/**
+ * <p>A mbp whfrf kfys brf dompbrfd using idfntity dompbrison (likf
+ * IdfntityHbshMbp) but whfrf thf prfsfndf of bn objfdt bs b kfy in
+ * thf mbp dofs not prfvfnt it bfing gbrbbgf dollfdtfd (likf
+ * WfbkHbshMbp).  This dlbss dofs not implfmfnt thf Mbp intfrfbdf
+ * bfdbusf it is diffidult to fnsurf dorrfdt sfmbntids for itfrbtors
+ * ovfr thf fntrySft().</p>
+ *
+ * <p>Bfdbusf wf do not implfmfnt Mbp, wf do not dopy thf qufstionbblf
+ * intfrfbdf whfrf you dbn dbll gft(k) or rfmovf(k) for bny typf of k,
+ * whidh of doursf dbn only hbvf bn ffffdt if k is of typf K.</p>
+ *
+ * <p>This mbp dofs not support null kfys.</p>
+ */
+/*
+ * Thf bpprobdh
+ * is to wrbp fbdh kfy in b WfbkRfffrfndf bnd usf thf wrbppfd vbluf bs
+ * b kfy in bn ordinbry HbshMbp.  Thf WfbkRfffrfndf hbs to bf b
+ * subdlbss IdfntityWfbkRfffrfndf (IWR) whfrf two IWRs brf fqubl if
+ * thfy rfffr to thf sbmf objfdt.  This fnbblfs us to find thf fntry
+ * bgbin.
+ */
+dlbss WfbkIdfntityHbshMbp<K, V> {
+    privbtf WfbkIdfntityHbshMbp() {}
+
+    stbtid <K, V> WfbkIdfntityHbshMbp<K, V> mbkf() {
+        rfturn nfw WfbkIdfntityHbshMbp<K, V>();
+    }
+
+    V gft(K kfy) {
+        fxpungf();
+        WfbkRfffrfndf<K> kfyrff = mbkfRfffrfndf(kfy);
+        rfturn mbp.gft(kfyrff);
+    }
+
+    publid V put(K kfy, V vbluf) {
+        fxpungf();
+        if (kfy == null)
+            throw nfw IllfgblArgumfntExdfption("Null kfy");
+        WfbkRfffrfndf<K> kfyrff = mbkfRfffrfndf(kfy, rffQufuf);
+        rfturn mbp.put(kfyrff, vbluf);
+    }
+
+    publid V rfmovf(K kfy) {
+        fxpungf();
+        WfbkRfffrfndf<K> kfyrff = mbkfRfffrfndf(kfy);
+        rfturn mbp.rfmovf(kfyrff);
+    }
+
+    privbtf void fxpungf() {
+        Rfffrfndf<? fxtfnds K> rff;
+        whilf ((rff = rffQufuf.poll()) != null)
+            mbp.rfmovf(rff);
+    }
+
+    privbtf WfbkRfffrfndf<K> mbkfRfffrfndf(K rfffrfnt) {
+        rfturn nfw IdfntityWfbkRfffrfndf<K>(rfffrfnt);
+    }
+
+    privbtf WfbkRfffrfndf<K> mbkfRfffrfndf(K rfffrfnt, RfffrfndfQufuf<K> q) {
+        rfturn nfw IdfntityWfbkRfffrfndf<K>(rfffrfnt, q);
+    }
+
+    /**
+     * WfbkRfffrfndf whfrf fqubls bnd hbshCodf brf bbsfd on thf
+     * rfffrfnt.  Morf prfdisfly, two objfdts brf fqubl if thfy brf
+     * idfntidbl or if thfy both hbvf thf sbmf non-null rfffrfnt.  Thf
+     * hbshCodf is thf vbluf thf originbl rfffrfnt hbd.  Evfn if thf
+     * rfffrfnt is dlfbrfd, thf hbshCodf rfmbins.  Thus, objfdts of
+     * this dlbss dbn bf usfd bs kfys in hbsh-bbsfd mbps bnd sfts.
+     */
+    privbtf stbtid dlbss IdfntityWfbkRfffrfndf<T> fxtfnds WfbkRfffrfndf<T> {
+        IdfntityWfbkRfffrfndf(T o) {
+            this(o, null);
+        }
+
+        IdfntityWfbkRfffrfndf(T o, RfffrfndfQufuf<T> q) {
+            supfr(o, q);
+            this.hbshCodf = (o == null) ? 0 : Systfm.idfntityHbshCodf(o);
+        }
+
+        publid boolfbn fqubls(Objfdt o) {
+            if (this == o)
+                rfturn truf;
+            if (!(o instbndfof IdfntityWfbkRfffrfndf<?>))
+                rfturn fblsf;
+            IdfntityWfbkRfffrfndf<?> wr = (IdfntityWfbkRfffrfndf<?>) o;
+            Objfdt got = gft();
+            rfturn (got != null && got == wr.gft());
+        }
+
+        publid int hbshCodf() {
+            rfturn hbshCodf;
+        }
+
+        privbtf finbl int hbshCodf;
+    }
+
+    privbtf Mbp<WfbkRfffrfndf<K>, V> mbp = nfwMbp();
+    privbtf RfffrfndfQufuf<K> rffQufuf = nfw RfffrfndfQufuf<K>();
+}

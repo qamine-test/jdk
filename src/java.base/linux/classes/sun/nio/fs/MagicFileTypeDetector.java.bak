@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.IOExdfption;
+import jbvb.nio.filf.Pbti;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * File type detector that uses the libmagic to guess the MIME type of a file.
+ * Filf typf dftfdtor tibt usfs tif libmbgid to gufss tif MIME typf of b filf.
  */
 
-class MagicFileTypeDetector extends AbstractFileTypeDetector {
+dlbss MbgidFilfTypfDftfdtor fxtfnds AbstrbdtFilfTypfDftfdtor {
 
-    private static final String UNKNOWN_MIME_TYPE = "application/octet-stream";
+    privbtf stbtid finbl String UNKNOWN_MIME_TYPE = "bpplidbtion/odtft-strfbm";
 
-    // true if libmagic is available and successfully loaded
-    private final boolean libmagicAvailable;
+    // truf if libmbgid is bvbilbblf bnd suddfssfully lobdfd
+    privbtf finbl boolfbn libmbgidAvbilbblf;
 
-    public MagicFileTypeDetector() {
-        libmagicAvailable = initialize0();
+    publid MbgidFilfTypfDftfdtor() {
+        libmbgidAvbilbblf = initiblizf0();
     }
 
-    @Override
-    protected String implProbeContentType(Path obj) throws IOException {
-        if (!libmagicAvailable || !(obj instanceof UnixPath))
-            return null;
+    @Ovfrridf
+    protfdtfd String implProbfContfntTypf(Pbti obj) tirows IOExdfption {
+        if (!libmbgidAvbilbblf || !(obj instbndfof UnixPbti))
+            rfturn null;
 
-        UnixPath path = (UnixPath) obj;
-        path.checkRead();
+        UnixPbti pbti = (UnixPbti) obj;
+        pbti.difdkRfbd();
 
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(path.getByteArrayForSysCalls());
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(pbti.gftBytfArrbyForSysCblls());
         try {
-            byte[] type = probe0(buffer.address());
-            String mimeType = (type == null) ? null : new String(type);
-            return UNKNOWN_MIME_TYPE.equals(mimeType) ? null : mimeType;
-        } finally {
-            buffer.release();
+            bytf[] typf = probf0(bufffr.bddrfss());
+            String mimfTypf = (typf == null) ? null : nfw String(typf);
+            rfturn UNKNOWN_MIME_TYPE.fqubls(mimfTypf) ? null : mimfTypf;
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
 
-    private static native boolean initialize0();
+    privbtf stbtid nbtivf boolfbn initiblizf0();
 
-    private static native byte[] probe0(long pathAddress);
+    privbtf stbtid nbtivf bytf[] probf0(long pbtiAddrfss);
 
-    static {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            @Override
-            public Void run() {
-                System.loadLibrary("nio");
-                return null;
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
             }
         });
     }

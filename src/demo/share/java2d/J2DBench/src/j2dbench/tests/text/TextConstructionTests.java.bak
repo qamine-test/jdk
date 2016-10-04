@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,464 +30,464 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /*
- * (C) Copyright IBM Corp. 2003, All Rights Reserved.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * (C) Copyrigit IBM Corp. 2003, All Rigits Rfsfrvfd.
+ * Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to IBM mby not bf rfmovfd.
  */
 
-package j2dbench.tests.text;
+pbdkbgf j2dbfndi.tfsts.tfxt;
 
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
-import java.text.Bidi;
-import java.text.CharacterIterator;
-import java.util.Map;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.GlypiVfdtor;
+import jbvb.bwt.font.TfxtLbyout;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
+import jbvb.tfxt.AttributfdString;
+import jbvb.tfxt.Bidi;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.util.Mbp;
 
-import j2dbench.Group;
-import j2dbench.Result;
-import j2dbench.TestEnvironment;
+import j2dbfndi.Group;
+import j2dbfndi.Rfsult;
+import j2dbfndi.TfstEnvironmfnt;
 
-public abstract class TextConstructionTests extends TextTests {
-    static Group constructroot;
-    static Group constructtestroot;
+publid bbstrbdt dlbss TfxtConstrudtionTfsts fxtfnds TfxtTfsts {
+    stbtid Group donstrudtroot;
+    stbtid Group donstrudttfstroot;
 
-    public static void init() {
-      // don't even bother with this at all if we don't have Java2 APIs.
-      if (hasGraphics2D) {
-        constructroot = new Group(textroot, "construction", "Construction Benchmarks");
-        constructtestroot = new Group(constructroot, "tests", "Construction Tests");
+    publid stbtid void init() {
+      // don't fvfn botifr witi tiis bt bll if wf don't ibvf Jbvb2 APIs.
+      if (ibsGrbpiids2D) {
+        donstrudtroot = nfw Group(tfxtroot, "donstrudtion", "Construdtion Bfndimbrks");
+        donstrudttfstroot = nfw Group(donstrudtroot, "tfsts", "Construdtion Tfsts");
 
-        new GVFromFontString();
-        new GVFromFontChars();
-        new GVFromFontCI();
-        new GVFromFontGlyphs();
-        new GVFromFontLayout();
-        //  new GVClone(); // not public API!
+        nfw GVFromFontString();
+        nfw GVFromFontCibrs();
+        nfw GVFromFontCI();
+        nfw GVFromFontGlypis();
+        nfw GVFromFontLbyout();
+        //  nfw GVClonf(); // not publid API!
 
-        new TLFromFont();
-        new TLFromMap();
+        nfw TLFromFont();
+        nfw TLFromMbp();
         /*
-        new TLFromACI();
-        new TLClone();
-        new TLJustify();
-        new TLFromLBM();
+        nfw TLFromACI();
+        nfw TLClonf();
+        nfw TLJustify();
+        nfw TLFromLBM();
         */
       }
     }
 
-    public TextConstructionTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    publid TfxtConstrudtionTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
     }
 
-    public static class TCContext extends G2DContext {
-        char[] chars1;
-        CharacterIterator ci;
-        GlyphVector gv;
-        int[] glyphs;
-        int flags;
+    publid stbtid dlbss TCContfxt fxtfnds G2DContfxt {
+        dibr[] dibrs1;
+        CibrbdtfrItfrbtor di;
+        GlypiVfdtor gv;
+        int[] glypis;
+        int flbgs;
 
-        public void init(TestEnvironment env, Result results) {
-            super.init(env, results);
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults) {
+            supfr.init(fnv, rfsults);
 
-            chars1 = new char[chars.length + 2];
-            System.arraycopy(chars, 0, chars1, 1, chars.length);
-            ci = new ArrayCI(chars1, 1, chars.length);
-            gv = font.createGlyphVector(frc, text);
-            glyphs = gv.getGlyphCodes(0, gv.getNumGlyphs(), null);
-            flags = Bidi.requiresBidi(chars, 0, chars.length)
+            dibrs1 = nfw dibr[dibrs.lfngti + 2];
+            Systfm.brrbydopy(dibrs, 0, dibrs1, 1, dibrs.lfngti);
+            di = nfw ArrbyCI(dibrs1, 1, dibrs.lfngti);
+            gv = font.drfbtfGlypiVfdtor(frd, tfxt);
+            glypis = gv.gftGlypiCodfs(0, gv.gftNumGlypis(), null);
+            flbgs = Bidi.rfquirfsBidi(dibrs, 0, dibrs.lfngti)
                 ? Font.LAYOUT_LEFT_TO_RIGHT
                 : Font.LAYOUT_RIGHT_TO_LEFT;
         }
     }
 
-    public Context createContext() {
-        return new TCContext();
+    publid Contfxt drfbtfContfxt() {
+        rfturn nfw TCContfxt();
     }
 
-    public static class GVFromFontString extends TextConstructionTests {
-        public GVFromFontString() {
-            super(constructtestroot, "gvfromfontstring", "Call Font.createGlyphVector(FRC, String)");
+    publid stbtid dlbss GVFromFontString fxtfnds TfxtConstrudtionTfsts {
+        publid GVFromFontString() {
+            supfr(donstrudttfstroot, "gvfromfontstring", "Cbll Font.drfbtfGlypiVfdtor(FRC, String)");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
-            GlyphVector gv;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TCContfxt tddtx = (TCContfxt)dtx;
+            finbl Font font = tddtx.font;
+            finbl String tfxt = tddtx.tfxt;
+            finbl FontRfndfrContfxt frd = tddtx.frd;
+            GlypiVfdtor gv;
             do {
-                gv = font.createGlyphVector(frc, text);
-            } while (--numReps >= 0);
-        }
-    }
-
-    public static class GVFromFontChars extends TextConstructionTests {
-        public GVFromFontChars() {
-            super(constructtestroot, "gvfromfontchars", "Call Font.createGlyphVector(FRC, char[])");
-        }
-
-        public void runTest(Object ctx, int numReps) {
-            TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final char[] chars = tcctx.chars;
-            final FontRenderContext frc = tcctx.frc;
-            GlyphVector gv;
-            do {
-                gv = font.createGlyphVector(frc, chars);
-            } while (--numReps >= 0);
+                gv = font.drfbtfGlypiVfdtor(frd, tfxt);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVFromFontCI extends TextConstructionTests {
-        public GVFromFontCI() {
-            super(constructtestroot, "gvfromfontci", "Call Font.createGlyphVector(FRC, CharacterIterator)");
+    publid stbtid dlbss GVFromFontCibrs fxtfnds TfxtConstrudtionTfsts {
+        publid GVFromFontCibrs() {
+            supfr(donstrudttfstroot, "gvfromfontdibrs", "Cbll Font.drfbtfGlypiVfdtor(FRC, dibr[])");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final CharacterIterator ci = tcctx.ci;
-            final FontRenderContext frc = tcctx.frc;
-            GlyphVector gv;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TCContfxt tddtx = (TCContfxt)dtx;
+            finbl Font font = tddtx.font;
+            finbl dibr[] dibrs = tddtx.dibrs;
+            finbl FontRfndfrContfxt frd = tddtx.frd;
+            GlypiVfdtor gv;
             do {
-                gv = font.createGlyphVector(frc, ci);
-            } while (--numReps >= 0);
+                gv = font.drfbtfGlypiVfdtor(frd, dibrs);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVFromFontGlyphs extends TextConstructionTests {
-        public GVFromFontGlyphs() {
-            super(constructtestroot, "gvfromfontglyphs", "Call Font.createGlyphVector(FRC, int[])");
+    publid stbtid dlbss GVFromFontCI fxtfnds TfxtConstrudtionTfsts {
+        publid GVFromFontCI() {
+            supfr(donstrudttfstroot, "gvfromfontdi", "Cbll Font.drfbtfGlypiVfdtor(FRC, CibrbdtfrItfrbtor)");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final int[] glyphs = tcctx.glyphs;
-            final FontRenderContext frc = tcctx.frc;
-            GlyphVector gv;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TCContfxt tddtx = (TCContfxt)dtx;
+            finbl Font font = tddtx.font;
+            finbl CibrbdtfrItfrbtor di = tddtx.di;
+            finbl FontRfndfrContfxt frd = tddtx.frd;
+            GlypiVfdtor gv;
             do {
-                gv = font.createGlyphVector(frc, glyphs);
-            } while (--numReps >= 0);
+                gv = font.drfbtfGlypiVfdtor(frd, di);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVFromFontLayout extends TextConstructionTests {
-        public GVFromFontLayout() {
-            super(constructtestroot, "gvfromfontlayout", "Call Font.layoutGlyphVector(...)");
+    publid stbtid dlbss GVFromFontGlypis fxtfnds TfxtConstrudtionTfsts {
+        publid GVFromFontGlypis() {
+            supfr(donstrudttfstroot, "gvfromfontglypis", "Cbll Font.drfbtfGlypiVfdtor(FRC, int[])");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final char[] chars = tcctx.chars1;
-            final int start = 1;
-            final int limit = chars.length - 1;
-            final FontRenderContext frc = tcctx.frc;
-            final int flags = tcctx.flags;
-            GlyphVector gv;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TCContfxt tddtx = (TCContfxt)dtx;
+            finbl Font font = tddtx.font;
+            finbl int[] glypis = tddtx.glypis;
+            finbl FontRfndfrContfxt frd = tddtx.frd;
+            GlypiVfdtor gv;
             do {
-                gv = font.layoutGlyphVector(frc, chars, start, limit, flags);
-            } while (--numReps >= 0);
+                gv = font.drfbtfGlypiVfdtor(frd, glypis);
+            } wiilf (--numRfps >= 0);
+        }
+    }
+
+    publid stbtid dlbss GVFromFontLbyout fxtfnds TfxtConstrudtionTfsts {
+        publid GVFromFontLbyout() {
+            supfr(donstrudttfstroot, "gvfromfontlbyout", "Cbll Font.lbyoutGlypiVfdtor(...)");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TCContfxt tddtx = (TCContfxt)dtx;
+            finbl Font font = tddtx.font;
+            finbl dibr[] dibrs = tddtx.dibrs1;
+            finbl int stbrt = 1;
+            finbl int limit = dibrs.lfngti - 1;
+            finbl FontRfndfrContfxt frd = tddtx.frd;
+            finbl int flbgs = tddtx.flbgs;
+            GlypiVfdtor gv;
+            do {
+                gv = font.lbyoutGlypiVfdtor(frd, dibrs, stbrt, limit, flbgs);
+            } wiilf (--numRfps >= 0);
         }
     }
 
     /*
-     * my bad, clone is not public in GlyphVector!
+     * my bbd, dlonf is not publid in GlypiVfdtor!
 
-    public static class GVClone extends TextConstructionTests {
-        public GVClone() {
-            super(constructtestroot, "gvclone", "Call GV.clone");
+    publid stbtid dlbss GVClonf fxtfnds TfxtConstrudtionTfsts {
+        publid GVClonf() {
+            supfr(donstrudttfstroot, "gvdlonf", "Cbll GV.dlonf");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TCContext tcctx = (TCContext)ctx;
-            final GlyphVector origGV = tcctx.gv;
-            GlyphVector gv;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TCContfxt tddtx = (TCContfxt)dtx;
+            finbl GlypiVfdtor origGV = tddtx.gv;
+            GlypiVfdtor gv;
             do {
-                gv = (GlyphVector)origGV.clone();
-            } while (--numReps >= 0);
+                gv = (GlypiVfdtor)origGV.dlonf();
+            } wiilf (--numRfps >= 0);
         }
     }
     */
 
-    public static class TLFromFont extends TextConstructionTests {
-        public TLFromFont() {
-            super(constructtestroot, "tlfromfont", "TextLayout(String, Font, FRC)");
+    publid stbtid dlbss TLFromFont fxtfnds TfxtConstrudtionTfsts {
+        publid TLFromFont() {
+            supfr(donstrudttfstroot, "tlfromfont", "TfxtLbyout(String, Font, FRC)");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
-            TextLayout tl;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TCContfxt tddtx = (TCContfxt)dtx;
+            finbl Font font = tddtx.font;
+            finbl String tfxt = tddtx.tfxt;
+            finbl FontRfndfrContfxt frd = tddtx.frd;
+            TfxtLbyout tl;
             do {
-                tl = new TextLayout(text, font, frc);
-            } while (--numReps >= 0);
+                tl = nfw TfxtLbyout(tfxt, font, frd);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class TLMapContext extends G2DContext {
-        Map map;
+    publid stbtid dlbss TLMbpContfxt fxtfnds G2DContfxt {
+        Mbp mbp;
 
-        public void init(TestEnvironment env, Result results) {
-            super.init(env, results);
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults) {
+            supfr.init(fnv, rfsults);
 
-            map = (Map)env.getModifier(tlmapList);
+            mbp = (Mbp)fnv.gftModififr(tlmbpList);
         }
 
     }
 
-    public static class TLFromMap extends TextConstructionTests {
-        public TLFromMap() {
-            super(constructtestroot, "tlfrommap", "TextLayout(String, Map, FRC)");
+    publid stbtid dlbss TLFromMbp fxtfnds TfxtConstrudtionTfsts {
+        publid TLFromMbp() {
+            supfr(donstrudttfstroot, "tlfrommbp", "TfxtLbyout(String, Mbp, FRC)");
         }
 
-        public Context createContext() {
-            return new TLMapContext();
+        publid Contfxt drfbtfContfxt() {
+            rfturn nfw TLMbpContfxt();
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLMapContext tlmctx = (TLMapContext)ctx;
-            final String text = tlmctx.text;
-            final FontRenderContext frc = tlmctx.frc;
-            final Map map = tlmctx.map;
-            TextLayout tl;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLMbpContfxt tlmdtx = (TLMbpContfxt)dtx;
+            finbl String tfxt = tlmdtx.tfxt;
+            finbl FontRfndfrContfxt frd = tlmdtx.frd;
+            finbl Mbp mbp = tlmdtx.mbp;
+            TfxtLbyout tl;
             do {
-                tl = new TextLayout(text, map, frc);
-            } while (--numReps >= 0);
+                tl = nfw TfxtLbyout(tfxt, mbp, frd);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class ACIContext extends G2DContext {
-        AttributedCharacterIterator aci;
+    publid stbtid dlbss ACIContfxt fxtfnds G2DContfxt {
+        AttributfdCibrbdtfrItfrbtor bdi;
 
-        public void init(TestEnvironment env, Result results) {
-            super.init(env, results);
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults) {
+            supfr.init(fnv, rfsults);
 
-            AttributedString astr = new AttributedString(text);
+            AttributfdString bstr = nfw AttributfdString(tfxt);
 
         }
     }
 
-    public class TLFromACI extends TextConstructionTests {
-        public TLFromACI() {
-            super(constructtestroot, "tlfromaci", "TextLayout(ACI, FRC)");
+    publid dlbss TLFromACI fxtfnds TfxtConstrudtionTfsts {
+        publid TLFromACI() {
+            supfr(donstrudttfstroot, "tlfrombdi", "TfxtLbyout(ACI, FRC)");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
-            TextLayout tl;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TCContfxt tddtx = (TCContfxt)dtx;
+            finbl Font font = tddtx.font;
+            finbl String tfxt = tddtx.tfxt;
+            finbl FontRfndfrContfxt frd = tddtx.frd;
+            TfxtLbyout tl;
             do {
-                tl = new TextLayout(text, font, frc);
-            } while (--numReps >= 0);
+                tl = nfw TfxtLbyout(tfxt, font, frd);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public class TLClone extends TextConstructionTests {
-        public TLClone() {
-            super(constructtestroot, "tlclone", "call TextLayout.clone()");
+    publid dlbss TLClonf fxtfnds TfxtConstrudtionTfsts {
+        publid TLClonf() {
+            supfr(donstrudttfstroot, "tldlonf", "dbll TfxtLbyout.dlonf()");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
-            TextLayout tl;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TCContfxt tddtx = (TCContfxt)dtx;
+            finbl Font font = tddtx.font;
+            finbl String tfxt = tddtx.tfxt;
+            finbl FontRfndfrContfxt frd = tddtx.frd;
+            TfxtLbyout tl;
             do {
-                tl = new TextLayout(text, font, frc);
-            } while (--numReps >= 0);
+                tl = nfw TfxtLbyout(tfxt, font, frd);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public class TLJustify extends TextConstructionTests {
-        public TLJustify() {
-            super(constructtestroot, "tljustify", "call TextLayout.getJustifiedLayout(...)");
+    publid dlbss TLJustify fxtfnds TfxtConstrudtionTfsts {
+        publid TLJustify() {
+            supfr(donstrudttfstroot, "tljustify", "dbll TfxtLbyout.gftJustififdLbyout(...)");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
-            TextLayout tl;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TCContfxt tddtx = (TCContfxt)dtx;
+            finbl Font font = tddtx.font;
+            finbl String tfxt = tddtx.tfxt;
+            finbl FontRfndfrContfxt frd = tddtx.frd;
+            TfxtLbyout tl;
             do {
-                tl = new TextLayout(text, font, frc);
-            } while (--numReps >= 0);
+                tl = nfw TfxtLbyout(tfxt, font, frd);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public class TLFromLBM extends TextConstructionTests {
-        public TLFromLBM() {
-            super(constructtestroot, "tlfromlbm", "call LineBreakMeasurer.next()");
+    publid dlbss TLFromLBM fxtfnds TfxtConstrudtionTfsts {
+        publid TLFromLBM() {
+            supfr(donstrudttfstroot, "tlfromlbm", "dbll LinfBrfbkMfbsurfr.nfxt()");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
-            TextLayout tl;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TCContfxt tddtx = (TCContfxt)dtx;
+            finbl Font font = tddtx.font;
+            finbl String tfxt = tddtx.tfxt;
+            finbl FontRfndfrContfxt frd = tddtx.frd;
+            TfxtLbyout tl;
             do {
-                tl = new TextLayout(text, font, frc);
-            } while (--numReps >= 0);
+                tl = nfw TfxtLbyout(tfxt, font, frd);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static final class ArrayCI implements CharacterIterator {
-        char[] chars;
+    publid stbtid finbl dlbss ArrbyCI implfmfnts CibrbdtfrItfrbtor {
+        dibr[] dibrs;
         int off;
-        int max;
+        int mbx;
         int pos;
 
-        ArrayCI(char[] chars, int off, int len) {
-            if (off < 0 || len < 0 || (len > 0 && (chars == null || chars.length - off < len))) {
-                throw new InternalError("bad ArrayCI params");
+        ArrbyCI(dibr[] dibrs, int off, int lfn) {
+            if (off < 0 || lfn < 0 || (lfn > 0 && (dibrs == null || dibrs.lfngti - off < lfn))) {
+                tirow nfw IntfrnblError("bbd ArrbyCI pbrbms");
             }
-            this.chars = chars;
-            this.off = off;
-            this.max = off + len;
-            this.pos = off;
+            tiis.dibrs = dibrs;
+            tiis.off = off;
+            tiis.mbx = off + lfn;
+            tiis.pos = off;
         }
 
     /**
-     * Sets the position to getBeginIndex() and returns the character at that
+     * Sfts tif position to gftBfginIndfx() bnd rfturns tif dibrbdtfr bt tibt
      * position.
-     * @return the first character in the text, or DONE if the text is empty
-     * @see #getBeginIndex()
+     * @rfturn tif first dibrbdtfr in tif tfxt, or DONE if tif tfxt is fmpty
+     * @sff #gftBfginIndfx()
      */
-        public char first() {
-            if (max > off) {
-                return chars[pos = off];
+        publid dibr first() {
+            if (mbx > off) {
+                rfturn dibrs[pos = off];
             }
-            return DONE;
+            rfturn DONE;
         }
 
     /**
-     * Sets the position to getEndIndex()-1 (getEndIndex() if the text is empty)
-     * and returns the character at that position.
-     * @return the last character in the text, or DONE if the text is empty
-     * @see #getEndIndex()
+     * Sfts tif position to gftEndIndfx()-1 (gftEndIndfx() if tif tfxt is fmpty)
+     * bnd rfturns tif dibrbdtfr bt tibt position.
+     * @rfturn tif lbst dibrbdtfr in tif tfxt, or DONE if tif tfxt is fmpty
+     * @sff #gftEndIndfx()
      */
-        public char last() {
-            if (max > off) {
-                return chars[pos = max - 1];
+        publid dibr lbst() {
+            if (mbx > off) {
+                rfturn dibrs[pos = mbx - 1];
             }
-            pos = max;
-            return DONE;
+            pos = mbx;
+            rfturn DONE;
         }
 
     /**
-     * Gets the character at the current position (as returned by getIndex()).
-     * @return the character at the current position or DONE if the current
-     * position is off the end of the text.
-     * @see #getIndex()
+     * Gfts tif dibrbdtfr bt tif durrfnt position (bs rfturnfd by gftIndfx()).
+     * @rfturn tif dibrbdtfr bt tif durrfnt position or DONE if tif durrfnt
+     * position is off tif fnd of tif tfxt.
+     * @sff #gftIndfx()
      */
-        public char current() {
-            return pos == max ? DONE : chars[pos];
+        publid dibr durrfnt() {
+            rfturn pos == mbx ? DONE : dibrs[pos];
         }
 
 
     /**
-     * Increments the iterator's index by one and returns the character
-     * at the new index.  If the resulting index is greater or equal
-     * to getEndIndex(), the current index is reset to getEndIndex() and
-     * a value of DONE is returned.
-     * @return the character at the new position or DONE if the new
-     * position is off the end of the text range.
+     * Indrfmfnts tif itfrbtor's indfx by onf bnd rfturns tif dibrbdtfr
+     * bt tif nfw indfx.  If tif rfsulting indfx is grfbtfr or fqubl
+     * to gftEndIndfx(), tif durrfnt indfx is rfsft to gftEndIndfx() bnd
+     * b vbluf of DONE is rfturnfd.
+     * @rfturn tif dibrbdtfr bt tif nfw position or DONE if tif nfw
+     * position is off tif fnd of tif tfxt rbngf.
      */
-        public char next() {
-            if (++pos < max) {
-                return chars[pos];
+        publid dibr nfxt() {
+            if (++pos < mbx) {
+                rfturn dibrs[pos];
             }
-            pos = max;
-            return DONE;
+            pos = mbx;
+            rfturn DONE;
         }
 
 
     /**
-     * Decrements the iterator's index by one and returns the character
-     * at the new index. If the current index is getBeginIndex(), the index
-     * remains at getBeginIndex() and a value of DONE is returned.
-     * @return the character at the new position or DONE if the current
-     * position is equal to getBeginIndex().
+     * Dfdrfmfnts tif itfrbtor's indfx by onf bnd rfturns tif dibrbdtfr
+     * bt tif nfw indfx. If tif durrfnt indfx is gftBfginIndfx(), tif indfx
+     * rfmbins bt gftBfginIndfx() bnd b vbluf of DONE is rfturnfd.
+     * @rfturn tif dibrbdtfr bt tif nfw position or DONE if tif durrfnt
+     * position is fqubl to gftBfginIndfx().
      */
-        public char previous() {
+        publid dibr prfvious() {
             if (--pos >= off) {
-                return chars[pos];
+                rfturn dibrs[pos];
             }
             pos = off;
-            return DONE;
+            rfturn DONE;
         }
 
     /**
-     * Sets the position to the specified position in the text and returns that
-     * character.
-     * @param position the position within the text.  Valid values range from
-     * getBeginIndex() to getEndIndex().  An IllegalArgumentException is thrown
-     * if an invalid value is supplied.
-     * @return the character at the specified position or DONE if the specified position is equal to getEndIndex()
+     * Sfts tif position to tif spfdififd position in tif tfxt bnd rfturns tibt
+     * dibrbdtfr.
+     * @pbrbm position tif position witiin tif tfxt.  Vblid vblufs rbngf from
+     * gftBfginIndfx() to gftEndIndfx().  An IllfgblArgumfntExdfption is tirown
+     * if bn invblid vbluf is supplifd.
+     * @rfturn tif dibrbdtfr bt tif spfdififd position or DONE if tif spfdififd position is fqubl to gftEndIndfx()
      */
-        public char setIndex(int position) {
-            if (position < off || position > max) {
-                throw new IllegalArgumentException("pos: " + position + " off: " + off + " len: " + (max - off));
+        publid dibr sftIndfx(int position) {
+            if (position < off || position > mbx) {
+                tirow nfw IllfgblArgumfntExdfption("pos: " + position + " off: " + off + " lfn: " + (mbx - off));
             }
-            return ((pos = position) < max) ? chars[position] : DONE;
+            rfturn ((pos = position) < mbx) ? dibrs[position] : DONE;
         }
 
     /**
-     * Returns the start index of the text.
-     * @return the index at which the text begins.
+     * Rfturns tif stbrt indfx of tif tfxt.
+     * @rfturn tif indfx bt wiidi tif tfxt bfgins.
      */
-        public int getBeginIndex() {
-            return off;
+        publid int gftBfginIndfx() {
+            rfturn off;
         }
 
     /**
-     * Returns the end index of the text.  This index is the index of the first
-     * character following the end of the text.
-     * @return the index after the last character in the text
+     * Rfturns tif fnd indfx of tif tfxt.  Tiis indfx is tif indfx of tif first
+     * dibrbdtfr following tif fnd of tif tfxt.
+     * @rfturn tif indfx bftfr tif lbst dibrbdtfr in tif tfxt
      */
-        public int getEndIndex() {
-            return max;
+        publid int gftEndIndfx() {
+            rfturn mbx;
         }
 
     /**
-     * Returns the current index.
-     * @return the current index.
+     * Rfturns tif durrfnt indfx.
+     * @rfturn tif durrfnt indfx.
      */
-        public int getIndex() {
-            return pos;
+        publid int gftIndfx() {
+            rfturn pos;
         }
 
     /**
-     * Create a copy of this iterator
-     * @return A copy of this
+     * Crfbtf b dopy of tiis itfrbtor
+     * @rfturn A dopy of tiis
      */
-        public Object clone() {
+        publid Objfdt dlonf() {
             try {
-                return super.clone();
+                rfturn supfr.dlonf();
             }
-            catch (Exception e) {
-                return new InternalError();
+            dbtdi (Exdfption f) {
+                rfturn nfw IntfrnblError();
             }
         }
     }

@@ -1,637 +1,637 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.AWTPermission;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.DisplayMode;
-import java.awt.EventQueue;
-import java.awt.Frame;
-import java.awt.Rectangle;
-import java.awt.Window;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.image.ColorModel;
-import java.util.ArrayList;
-import java.util.Vector;
-import java.awt.peer.WindowPeer;
-import sun.awt.windows.WWindowPeer;
-import sun.java2d.opengl.WGLGraphicsConfig;
-import sun.java2d.windows.WindowsFlags;
+import jbvb.bwt.AWTPfrmission;
+import jbvb.bwt.GrbpiidsDfvidf;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.DisplbyModf;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Window;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowListfnfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.util.ArrbyList;
+import jbvb.util.Vfdtor;
+import jbvb.bwt.pffr.WindowPffr;
+import sun.bwt.windows.WWindowPffr;
+import sun.jbvb2d.opfngl.WGLGrbpiidsConfig;
+import sun.jbvb2d.windows.WindowsFlbgs;
 
 /**
- * This is an implementation of a GraphicsDevice object for a single
- * Win32 screen.
+ * Tiis is bn implfmfntbtion of b GrbpiidsDfvidf objfdt for b singlf
+ * Win32 sdrffn.
  *
- * @see GraphicsEnvironment
- * @see GraphicsConfiguration
+ * @sff GrbpiidsEnvironmfnt
+ * @sff GrbpiidsConfigurbtion
  */
-public class Win32GraphicsDevice extends GraphicsDevice implements
- DisplayChangedListener {
-    int screen;
-    ColorModel dynamicColorModel;   // updated with dev changes
-    ColorModel colorModel;          // static for device
-    protected GraphicsConfiguration[] configs;
-    protected GraphicsConfiguration defaultConfig;
+publid dlbss Win32GrbpiidsDfvidf fxtfnds GrbpiidsDfvidf implfmfnts
+ DisplbyCibngfdListfnfr {
+    int sdrffn;
+    ColorModfl dynbmidColorModfl;   // updbtfd witi dfv dibngfs
+    ColorModfl dolorModfl;          // stbtid for dfvidf
+    protfdtfd GrbpiidsConfigurbtion[] donfigs;
+    protfdtfd GrbpiidsConfigurbtion dffbultConfig;
 
-    private final String idString;
-    protected String descString;
-    // Note that we do not synchronize access to this variable - it doesn't
-    // really matter if a thread does an operation on graphics device which is
-    // about to become invalid (or already become) - we are prepared to deal
-    // with this on the native level.
-    private boolean valid;
+    privbtf finbl String idString;
+    protfdtfd String dfsdString;
+    // Notf tibt wf do not syndironizf bddfss to tiis vbribblf - it dofsn't
+    // rfblly mbttfr if b tirfbd dofs bn opfrbtion on grbpiids dfvidf wiidi is
+    // bbout to bfdomf invblid (or blrfbdy bfdomf) - wf brf prfpbrfd to dfbl
+    // witi tiis on tif nbtivf lfvfl.
+    privbtf boolfbn vblid;
 
-    // keep track of top-level windows on this display
-    private SunDisplayChanger topLevels = new SunDisplayChanger();
-    // REMIND: we may disable the use of pixel formats for some accelerated
-    // pipelines which are mutually exclusive with opengl, for which
-    // pixel formats were added in the first place
-    protected static boolean pfDisabled;
-    private static AWTPermission fullScreenExclusivePermission;
-    // the original display mode we had before entering the fullscreen
-    // mode
-    private DisplayMode defaultDisplayMode;
-    // activation/deactivation listener for the full-screen window
-    private WindowListener fsWindowListener;
+    // kffp trbdk of top-lfvfl windows on tiis displby
+    privbtf SunDisplbyCibngfr topLfvfls = nfw SunDisplbyCibngfr();
+    // REMIND: wf mby disbblf tif usf of pixfl formbts for somf bddflfrbtfd
+    // pipflinfs wiidi brf mutublly fxdlusivf witi opfngl, for wiidi
+    // pixfl formbts wfrf bddfd in tif first plbdf
+    protfdtfd stbtid boolfbn pfDisbblfd;
+    privbtf stbtid AWTPfrmission fullSdrffnExdlusivfPfrmission;
+    // tif originbl displby modf wf ibd bfforf fntfring tif fullsdrffn
+    // modf
+    privbtf DisplbyModf dffbultDisplbyModf;
+    // bdtivbtion/dfbdtivbtion listfnfr for tif full-sdrffn window
+    privbtf WindowListfnfr fsWindowListfnfr;
 
-    static {
+    stbtid {
 
-        // 4455041 - Even when ddraw is disabled, ddraw.dll is loaded when
-        // pixel format calls are made.  This causes problems when a Java app
-        // is run as an NT service.  To prevent the loading of ddraw.dll
-        // completely, sun.awt.nopixfmt should be set as well.  Apps which use
-        // OpenGL w/ Java probably don't want to set this.
-        String nopixfmt = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("sun.awt.nopixfmt"));
-        pfDisabled = (nopixfmt != null);
+        // 4455041 - Evfn wifn ddrbw is disbblfd, ddrbw.dll is lobdfd wifn
+        // pixfl formbt dblls brf mbdf.  Tiis dbusfs problfms wifn b Jbvb bpp
+        // is run bs bn NT sfrvidf.  To prfvfnt tif lobding of ddrbw.dll
+        // domplftfly, sun.bwt.nopixfmt siould bf sft bs wfll.  Apps wiidi usf
+        // OpfnGL w/ Jbvb probbbly don't wbnt to sft tiis.
+        String nopixfmt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.bwt.nopixfmt"));
+        pfDisbblfd = (nopixfmt != null);
         initIDs();
     }
 
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    native void initDevice(int screen);
+    nbtivf void initDfvidf(int sdrffn);
 
-    public Win32GraphicsDevice(int screennum) {
-        this.screen = screennum;
-        // we cache the strings because we want toString() and getIDstring
-        // to reflect the original screen number (which may change if the
-        // device is removed)
-        idString = "\\Display"+screen;
-        // REMIND: may be should use class name?
-        descString = "Win32GraphicsDevice[screen=" + screen;
-        valid = true;
+    publid Win32GrbpiidsDfvidf(int sdrffnnum) {
+        tiis.sdrffn = sdrffnnum;
+        // wf dbdif tif strings bfdbusf wf wbnt toString() bnd gftIDstring
+        // to rfflfdt tif originbl sdrffn numbfr (wiidi mby dibngf if tif
+        // dfvidf is rfmovfd)
+        idString = "\\Displby"+sdrffn;
+        // REMIND: mby bf siould usf dlbss nbmf?
+        dfsdString = "Win32GrbpiidsDfvidf[sdrffn=" + sdrffn;
+        vblid = truf;
 
-        initDevice(screennum);
+        initDfvidf(sdrffnnum);
     }
 
     /**
-     * Returns the type of the graphics device.
-     * @see #TYPE_RASTER_SCREEN
-     * @see #TYPE_PRINTER
-     * @see #TYPE_IMAGE_BUFFER
+     * Rfturns tif typf of tif grbpiids dfvidf.
+     * @sff #TYPE_RASTER_SCREEN
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_IMAGE_BUFFER
      */
-    public int getType() {
-        return TYPE_RASTER_SCREEN;
+    publid int gftTypf() {
+        rfturn TYPE_RASTER_SCREEN;
     }
 
     /**
-     * Returns the Win32 screen of the device.
+     * Rfturns tif Win32 sdrffn of tif dfvidf.
      */
-    public int getScreen() {
-        return screen;
+    publid int gftSdrffn() {
+        rfturn sdrffn;
     }
 
     /**
-     * Returns whether this is a valid devicie. Device can become
-     * invalid as a result of device removal event.
+     * Rfturns wiftifr tiis is b vblid dfvidif. Dfvidf dbn bfdomf
+     * invblid bs b rfsult of dfvidf rfmovbl fvfnt.
      */
-    public boolean isValid() {
-        return valid;
+    publid boolfbn isVblid() {
+        rfturn vblid;
     }
 
     /**
-     * Called from native code when the device was removed.
+     * Cbllfd from nbtivf dodf wifn tif dfvidf wbs rfmovfd.
      *
-     * @param defaultScreen the current default screen
+     * @pbrbm dffbultSdrffn tif durrfnt dffbult sdrffn
      */
-    protected void invalidate(int defaultScreen) {
-        valid = false;
-        screen = defaultScreen;
+    protfdtfd void invblidbtf(int dffbultSdrffn) {
+        vblid = fblsf;
+        sdrffn = dffbultSdrffn;
     }
 
     /**
-     * Returns the identification string associated with this graphics
-     * device.
+     * Rfturns tif idfntifidbtion string bssodibtfd witi tiis grbpiids
+     * dfvidf.
      */
-    public String getIDstring() {
-        return idString;
+    publid String gftIDstring() {
+        rfturn idString;
     }
 
 
     /**
-     * Returns all of the graphics
-     * configurations associated with this graphics device.
+     * Rfturns bll of tif grbpiids
+     * donfigurbtions bssodibtfd witi tiis grbpiids dfvidf.
      */
-    public GraphicsConfiguration[] getConfigurations() {
-        if (configs==null) {
-            if (WindowsFlags.isOGLEnabled() && isDefaultDevice()) {
-                defaultConfig = getDefaultConfiguration();
-                if (defaultConfig != null) {
-                    configs = new GraphicsConfiguration[1];
-                    configs[0] = defaultConfig;
-                    return configs.clone();
+    publid GrbpiidsConfigurbtion[] gftConfigurbtions() {
+        if (donfigs==null) {
+            if (WindowsFlbgs.isOGLEnbblfd() && isDffbultDfvidf()) {
+                dffbultConfig = gftDffbultConfigurbtion();
+                if (dffbultConfig != null) {
+                    donfigs = nfw GrbpiidsConfigurbtion[1];
+                    donfigs[0] = dffbultConfig;
+                    rfturn donfigs.dlonf();
                 }
             }
 
-            int max = getMaxConfigs(screen);
-            int defaultPixID = getDefaultPixID(screen);
-            Vector<GraphicsConfiguration> v = new Vector<>( max );
-            if (defaultPixID == 0) {
-                // Workaround for failing GDI calls
-                defaultConfig = Win32GraphicsConfig.getConfig(this,
-                                                              defaultPixID);
-                v.addElement(defaultConfig);
+            int mbx = gftMbxConfigs(sdrffn);
+            int dffbultPixID = gftDffbultPixID(sdrffn);
+            Vfdtor<GrbpiidsConfigurbtion> v = nfw Vfdtor<>( mbx );
+            if (dffbultPixID == 0) {
+                // Workbround for fbiling GDI dblls
+                dffbultConfig = Win32GrbpiidsConfig.gftConfig(tiis,
+                                                              dffbultPixID);
+                v.bddElfmfnt(dffbultConfig);
             }
-            else {
-                for (int i = 1; i <= max; i++) {
-                    if (isPixFmtSupported(i, screen)) {
-                        if (i == defaultPixID) {
-                            defaultConfig = Win32GraphicsConfig.getConfig(
-                             this, i);
-                            v.addElement(defaultConfig);
+            flsf {
+                for (int i = 1; i <= mbx; i++) {
+                    if (isPixFmtSupportfd(i, sdrffn)) {
+                        if (i == dffbultPixID) {
+                            dffbultConfig = Win32GrbpiidsConfig.gftConfig(
+                             tiis, i);
+                            v.bddElfmfnt(dffbultConfig);
                         }
-                        else {
-                            v.addElement(Win32GraphicsConfig.getConfig(
-                             this, i));
+                        flsf {
+                            v.bddElfmfnt(Win32GrbpiidsConfig.gftConfig(
+                             tiis, i));
                         }
                     }
                 }
             }
-            configs = new GraphicsConfiguration[v.size()];
-            v.copyInto(configs);
+            donfigs = nfw GrbpiidsConfigurbtion[v.sizf()];
+            v.dopyInto(donfigs);
         }
-        return configs.clone();
+        rfturn donfigs.dlonf();
     }
 
     /**
-     * Returns the maximum number of graphics configurations available, or 1
-     * if PixelFormat calls fail or are disabled.
-     * This number is less than or equal to the number of graphics
-     * configurations supported.
+     * Rfturns tif mbximum numbfr of grbpiids donfigurbtions bvbilbblf, or 1
+     * if PixflFormbt dblls fbil or brf disbblfd.
+     * Tiis numbfr is lfss tibn or fqubl to tif numbfr of grbpiids
+     * donfigurbtions supportfd.
      */
-    protected int getMaxConfigs(int screen) {
-        if (pfDisabled) {
-            return 1;
-        } else {
-            return getMaxConfigsImpl(screen);
+    protfdtfd int gftMbxConfigs(int sdrffn) {
+        if (pfDisbblfd) {
+            rfturn 1;
+        } flsf {
+            rfturn gftMbxConfigsImpl(sdrffn);
         }
     }
 
-    private native int getMaxConfigsImpl(int screen);
+    privbtf nbtivf int gftMbxConfigsImpl(int sdrffn);
 
     /**
-     * Returns whether or not the PixelFormat indicated by index is
-     * supported.  Supported PixelFormats support drawing to a Window
-     * (PFD_DRAW_TO_WINDOW), support GDI (PFD_SUPPORT_GDI), and in the
-     * case of an 8-bit format (cColorBits <= 8) uses indexed colors
-     * (iPixelType == PFD_TYPE_COLORINDEX).
-     * We use the index 0 to indicate that PixelFormat calls don't work, or
-     * are disabled.  Do not call this function with an index of 0.
-     * @param index a PixelFormat index
+     * Rfturns wiftifr or not tif PixflFormbt indidbtfd by indfx is
+     * supportfd.  Supportfd PixflFormbts support drbwing to b Window
+     * (PFD_DRAW_TO_WINDOW), support GDI (PFD_SUPPORT_GDI), bnd in tif
+     * dbsf of bn 8-bit formbt (dColorBits <= 8) usfs indfxfd dolors
+     * (iPixflTypf == PFD_TYPE_COLORINDEX).
+     * Wf usf tif indfx 0 to indidbtf tibt PixflFormbt dblls don't work, or
+     * brf disbblfd.  Do not dbll tiis fundtion witi bn indfx of 0.
+     * @pbrbm indfx b PixflFormbt indfx
      */
-    protected native boolean isPixFmtSupported(int index, int screen);
+    protfdtfd nbtivf boolfbn isPixFmtSupportfd(int indfx, int sdrffn);
 
     /**
-     * Returns the PixelFormatID of the default graphics configuration
-     * associated with this graphics device, or 0 if PixelFormats calls fail or
-     * are disabled.
+     * Rfturns tif PixflFormbtID of tif dffbult grbpiids donfigurbtion
+     * bssodibtfd witi tiis grbpiids dfvidf, or 0 if PixflFormbts dblls fbil or
+     * brf disbblfd.
      */
-    protected int getDefaultPixID(int screen) {
-        if (pfDisabled) {
-            return 0;
-        } else {
-            return getDefaultPixIDImpl(screen);
+    protfdtfd int gftDffbultPixID(int sdrffn) {
+        if (pfDisbblfd) {
+            rfturn 0;
+        } flsf {
+            rfturn gftDffbultPixIDImpl(sdrffn);
         }
     }
 
     /**
-     * Returns the default PixelFormat ID from GDI.  Do not call if PixelFormats
-     * are disabled.
+     * Rfturns tif dffbult PixflFormbt ID from GDI.  Do not dbll if PixflFormbts
+     * brf disbblfd.
      */
-    private native int getDefaultPixIDImpl(int screen);
+    privbtf nbtivf int gftDffbultPixIDImpl(int sdrffn);
 
     /**
-     * Returns the default graphics configuration
-     * associated with this graphics device.
+     * Rfturns tif dffbult grbpiids donfigurbtion
+     * bssodibtfd witi tiis grbpiids dfvidf.
      */
-    public GraphicsConfiguration getDefaultConfiguration() {
-        if (defaultConfig == null) {
-            // first try to create a WGLGraphicsConfig if OGL is enabled
-            // REMIND: the WGL code does not yet work properly in multimon
-            // situations, so we will fallback on GDI if we are not on the
-            // default device...
-            if (WindowsFlags.isOGLEnabled() && isDefaultDevice()) {
-                int defPixID = WGLGraphicsConfig.getDefaultPixFmt(screen);
-                defaultConfig = WGLGraphicsConfig.getConfig(this, defPixID);
-                if (WindowsFlags.isOGLVerbose()) {
-                    if (defaultConfig != null) {
-                        System.out.print("OpenGL pipeline enabled");
-                    } else {
-                        System.out.print("Could not enable OpenGL pipeline");
+    publid GrbpiidsConfigurbtion gftDffbultConfigurbtion() {
+        if (dffbultConfig == null) {
+            // first try to drfbtf b WGLGrbpiidsConfig if OGL is fnbblfd
+            // REMIND: tif WGL dodf dofs not yft work propfrly in multimon
+            // situbtions, so wf will fbllbbdk on GDI if wf brf not on tif
+            // dffbult dfvidf...
+            if (WindowsFlbgs.isOGLEnbblfd() && isDffbultDfvidf()) {
+                int dffPixID = WGLGrbpiidsConfig.gftDffbultPixFmt(sdrffn);
+                dffbultConfig = WGLGrbpiidsConfig.gftConfig(tiis, dffPixID);
+                if (WindowsFlbgs.isOGLVfrbosf()) {
+                    if (dffbultConfig != null) {
+                        Systfm.out.print("OpfnGL pipflinf fnbblfd");
+                    } flsf {
+                        Systfm.out.print("Could not fnbblf OpfnGL pipflinf");
                     }
-                    System.out.println(" for default config on screen " +
-                                       screen);
+                    Systfm.out.println(" for dffbult donfig on sdrffn " +
+                                       sdrffn);
                 }
             }
 
-            // Fix for 4669614.  Most apps are not concerned with PixelFormats,
-            // yet we ALWAYS used them for determining ColorModels and such.
-            // By passing in 0 as the PixelFormatID here, we signal that
-            // PixelFormats should not be used, thus avoid loading the opengl
-            // library.  Apps concerned with PixelFormats can still use
-            // GraphicsConfiguration.getConfigurations().
-            // Note that calling native pixel format functions tends to cause
-            // problems between those functions (which are OpenGL-related)
-            // and our use of DirectX.  For example, some Matrox boards will
-            // crash or hang calling these functions when any app is running
-            // in DirectX fullscreen mode.  So avoiding these calls unless
-            // absolutely necessary is preferable.
-            if (defaultConfig == null) {
-                defaultConfig = Win32GraphicsConfig.getConfig(this, 0);
+            // Fix for 4669614.  Most bpps brf not dondfrnfd witi PixflFormbts,
+            // yft wf ALWAYS usfd tifm for dftfrmining ColorModfls bnd sudi.
+            // By pbssing in 0 bs tif PixflFormbtID ifrf, wf signbl tibt
+            // PixflFormbts siould not bf usfd, tius bvoid lobding tif opfngl
+            // librbry.  Apps dondfrnfd witi PixflFormbts dbn still usf
+            // GrbpiidsConfigurbtion.gftConfigurbtions().
+            // Notf tibt dblling nbtivf pixfl formbt fundtions tfnds to dbusf
+            // problfms bftwffn tiosf fundtions (wiidi brf OpfnGL-rflbtfd)
+            // bnd our usf of DirfdtX.  For fxbmplf, somf Mbtrox bobrds will
+            // drbsi or ibng dblling tifsf fundtions wifn bny bpp is running
+            // in DirfdtX fullsdrffn modf.  So bvoiding tifsf dblls unlfss
+            // bbsolutfly nfdfssbry is prfffrbblf.
+            if (dffbultConfig == null) {
+                dffbultConfig = Win32GrbpiidsConfig.gftConfig(tiis, 0);
             }
         }
-        return defaultConfig;
+        rfturn dffbultConfig;
     }
 
-    public String toString() {
-        return valid ? descString + "]" : descString + ", removed]";
+    publid String toString() {
+        rfturn vblid ? dfsdString + "]" : dfsdString + ", rfmovfd]";
     }
 
     /**
-     * Returns true if this is the default GraphicsDevice for the
-     * GraphicsEnvironment.
+     * Rfturns truf if tiis is tif dffbult GrbpiidsDfvidf for tif
+     * GrbpiidsEnvironmfnt.
      */
-    private boolean isDefaultDevice() {
-        return (this ==
-                GraphicsEnvironment.
-                    getLocalGraphicsEnvironment().getDefaultScreenDevice());
+    privbtf boolfbn isDffbultDfvidf() {
+        rfturn (tiis ==
+                GrbpiidsEnvironmfnt.
+                    gftLodblGrbpiidsEnvironmfnt().gftDffbultSdrffnDfvidf());
     }
 
-    private static boolean isFSExclusiveModeAllowed() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            if (fullScreenExclusivePermission == null) {
-                fullScreenExclusivePermission =
-                    new AWTPermission("fullScreenExclusive");
+    privbtf stbtid boolfbn isFSExdlusivfModfAllowfd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            if (fullSdrffnExdlusivfPfrmission == null) {
+                fullSdrffnExdlusivfPfrmission =
+                    nfw AWTPfrmission("fullSdrffnExdlusivf");
             }
             try {
-                security.checkPermission(fullScreenExclusivePermission);
-            } catch (SecurityException e) {
-                return false;
+                sfdurity.difdkPfrmission(fullSdrffnExdlusivfPfrmission);
+            } dbtdi (SfdurityExdfption f) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * returns true unless we're not allowed to use fullscreen mode.
+     * rfturns truf unlfss wf'rf not bllowfd to usf fullsdrffn modf.
      */
-    @Override
-    public boolean isFullScreenSupported() {
-        return isFSExclusiveModeAllowed();
+    @Ovfrridf
+    publid boolfbn isFullSdrffnSupportfd() {
+        rfturn isFSExdlusivfModfAllowfd();
     }
 
-    @Override
-    public synchronized void setFullScreenWindow(Window w) {
-        Window old = getFullScreenWindow();
+    @Ovfrridf
+    publid syndironizfd void sftFullSdrffnWindow(Window w) {
+        Window old = gftFullSdrffnWindow();
         if (w == old) {
-            return;
+            rfturn;
         }
-        if (!isFullScreenSupported()) {
-            super.setFullScreenWindow(w);
-            return;
+        if (!isFullSdrffnSupportfd()) {
+            supfr.sftFullSdrffnWindow(w);
+            rfturn;
         }
 
-        // Enter windowed mode.
+        // Entfr windowfd modf.
         if (old != null) {
-            // restore the original display mode
-            if (defaultDisplayMode != null) {
-                setDisplayMode(defaultDisplayMode);
-                // we set the default display mode to null here
-                // because the default mode could change during
-                // the life of the application (user can change it through
-                // the desktop properties dialog, for example), so
-                // we need to record it every time prior to
-                // entering the fullscreen mode.
-                defaultDisplayMode = null;
+            // rfstorf tif originbl displby modf
+            if (dffbultDisplbyModf != null) {
+                sftDisplbyModf(dffbultDisplbyModf);
+                // wf sft tif dffbult displby modf to null ifrf
+                // bfdbusf tif dffbult modf dould dibngf during
+                // tif liff of tif bpplidbtion (usfr dbn dibngf it tirougi
+                // tif dfsktop propfrtifs diblog, for fxbmplf), so
+                // wf nffd to rfdord it fvfry timf prior to
+                // fntfring tif fullsdrffn modf.
+                dffbultDisplbyModf = null;
             }
-            WWindowPeer peer = (WWindowPeer)old.getPeer();
-            if (peer != null) {
-                peer.setFullScreenExclusiveModeState(false);
-                // we used to destroy the buffers on exiting fs mode, this
-                // is no longer needed since fs change will cause a surface
-                // data replacement
-                synchronized(peer) {
-                    exitFullScreenExclusive(screen, peer);
+            WWindowPffr pffr = (WWindowPffr)old.gftPffr();
+            if (pffr != null) {
+                pffr.sftFullSdrffnExdlusivfModfStbtf(fblsf);
+                // wf usfd to dfstroy tif bufffrs on fxiting fs modf, tiis
+                // is no longfr nffdfd sindf fs dibngf will dbusf b surfbdf
+                // dbtb rfplbdfmfnt
+                syndironizfd(pffr) {
+                    fxitFullSdrffnExdlusivf(sdrffn, pffr);
                 }
             }
-            removeFSWindowListener(old);
+            rfmovfFSWindowListfnfr(old);
         }
-        super.setFullScreenWindow(w);
+        supfr.sftFullSdrffnWindow(w);
         if (w != null) {
-            // always record the default display mode prior to going
-            // fullscreen
-            defaultDisplayMode = getDisplayMode();
-            addFSWindowListener(w);
-            // Enter full screen exclusive mode.
-            WWindowPeer peer = (WWindowPeer)w.getPeer();
-            if (peer != null) {
-                synchronized(peer) {
-                    enterFullScreenExclusive(screen, peer);
-                    // Note: removed replaceSurfaceData() call because
-                    // changing the window size or making it visible
-                    // will cause this anyway, and both of these events happen
-                    // as part of switching into fullscreen mode.
+            // blwbys rfdord tif dffbult displby modf prior to going
+            // fullsdrffn
+            dffbultDisplbyModf = gftDisplbyModf();
+            bddFSWindowListfnfr(w);
+            // Entfr full sdrffn fxdlusivf modf.
+            WWindowPffr pffr = (WWindowPffr)w.gftPffr();
+            if (pffr != null) {
+                syndironizfd(pffr) {
+                    fntfrFullSdrffnExdlusivf(sdrffn, pffr);
+                    // Notf: rfmovfd rfplbdfSurfbdfDbtb() dbll bfdbusf
+                    // dibnging tif window sizf or mbking it visiblf
+                    // will dbusf tiis bnywby, bnd boti of tifsf fvfnts ibppfn
+                    // bs pbrt of switdiing into fullsdrffn modf.
                 }
-                peer.setFullScreenExclusiveModeState(true);
+                pffr.sftFullSdrffnExdlusivfModfStbtf(truf);
             }
 
             // fix for 4868278
-            peer.updateGC();
+            pffr.updbtfGC();
         }
     }
 
-    // Entering and exiting full-screen mode are done within a
-    // tree-lock and should never lock on any resources which are
-    // required by other threads which may have them and may require
-    // the tree-lock.
-    // REMIND: in the future these methods may need to become protected so that
-    // subclasses could override them and use appropriate api other than GDI
-    // for implementing these functions.
-    protected native void enterFullScreenExclusive(int screen, WindowPeer w);
-    protected native void exitFullScreenExclusive(int screen, WindowPeer w);
+    // Entfring bnd fxiting full-sdrffn modf brf donf witiin b
+    // trff-lodk bnd siould nfvfr lodk on bny rfsourdfs wiidi brf
+    // rfquirfd by otifr tirfbds wiidi mby ibvf tifm bnd mby rfquirf
+    // tif trff-lodk.
+    // REMIND: in tif futurf tifsf mftiods mby nffd to bfdomf protfdtfd so tibt
+    // subdlbssfs dould ovfrridf tifm bnd usf bppropribtf bpi otifr tibn GDI
+    // for implfmfnting tifsf fundtions.
+    protfdtfd nbtivf void fntfrFullSdrffnExdlusivf(int sdrffn, WindowPffr w);
+    protfdtfd nbtivf void fxitFullSdrffnExdlusivf(int sdrffn, WindowPffr w);
 
-    @Override
-    public boolean isDisplayChangeSupported() {
-        return (isFullScreenSupported() && getFullScreenWindow() != null);
+    @Ovfrridf
+    publid boolfbn isDisplbyCibngfSupportfd() {
+        rfturn (isFullSdrffnSupportfd() && gftFullSdrffnWindow() != null);
     }
 
-    @Override
-    public synchronized void setDisplayMode(DisplayMode dm) {
-        if (!isDisplayChangeSupported()) {
-            super.setDisplayMode(dm);
-            return;
+    @Ovfrridf
+    publid syndironizfd void sftDisplbyModf(DisplbyModf dm) {
+        if (!isDisplbyCibngfSupportfd()) {
+            supfr.sftDisplbyModf(dm);
+            rfturn;
         }
-        if (dm == null || (dm = getMatchingDisplayMode(dm)) == null) {
-            throw new IllegalArgumentException("Invalid display mode");
+        if (dm == null || (dm = gftMbtdiingDisplbyModf(dm)) == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid displby modf");
         }
-        if (getDisplayMode().equals(dm)) {
-            return;
+        if (gftDisplbyModf().fqubls(dm)) {
+            rfturn;
         }
-        Window w = getFullScreenWindow();
+        Window w = gftFullSdrffnWindow();
         if (w != null) {
-            WWindowPeer peer = (WWindowPeer)w.getPeer();
-            configDisplayMode(screen, peer, dm.getWidth(), dm.getHeight(),
-                dm.getBitDepth(), dm.getRefreshRate());
-            // resize the fullscreen window to the dimensions of the new
-            // display mode
-            Rectangle screenBounds = getDefaultConfiguration().getBounds();
-            w.setBounds(screenBounds.x, screenBounds.y,
-                        dm.getWidth(), dm.getHeight());
-            // Note: no call to replaceSurfaceData is required here since
-            // replacement will be caused by an upcoming display change event
-        } else {
-            throw new IllegalStateException("Must be in fullscreen mode " +
-                                            "in order to set display mode");
+            WWindowPffr pffr = (WWindowPffr)w.gftPffr();
+            donfigDisplbyModf(sdrffn, pffr, dm.gftWidti(), dm.gftHfigit(),
+                dm.gftBitDfpti(), dm.gftRffrfsiRbtf());
+            // rfsizf tif fullsdrffn window to tif dimfnsions of tif nfw
+            // displby modf
+            Rfdtbnglf sdrffnBounds = gftDffbultConfigurbtion().gftBounds();
+            w.sftBounds(sdrffnBounds.x, sdrffnBounds.y,
+                        dm.gftWidti(), dm.gftHfigit());
+            // Notf: no dbll to rfplbdfSurfbdfDbtb is rfquirfd ifrf sindf
+            // rfplbdfmfnt will bf dbusfd by bn updoming displby dibngf fvfnt
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption("Must bf in fullsdrffn modf " +
+                                            "in ordfr to sft displby modf");
         }
     }
 
-    protected native DisplayMode getCurrentDisplayMode(int screen);
-    protected native void configDisplayMode(int screen, WindowPeer w, int width,
-                                          int height, int bitDepth,
-                                          int refreshRate);
-    protected native void enumDisplayModes(int screen, ArrayList<DisplayMode> modes);
+    protfdtfd nbtivf DisplbyModf gftCurrfntDisplbyModf(int sdrffn);
+    protfdtfd nbtivf void donfigDisplbyModf(int sdrffn, WindowPffr w, int widti,
+                                          int ifigit, int bitDfpti,
+                                          int rffrfsiRbtf);
+    protfdtfd nbtivf void fnumDisplbyModfs(int sdrffn, ArrbyList<DisplbyModf> modfs);
 
-    @Override
-    public synchronized DisplayMode getDisplayMode() {
-        DisplayMode res = getCurrentDisplayMode(screen);
-        return res;
+    @Ovfrridf
+    publid syndironizfd DisplbyModf gftDisplbyModf() {
+        DisplbyModf rfs = gftCurrfntDisplbyModf(sdrffn);
+        rfturn rfs;
     }
 
-    @Override
-    public synchronized DisplayMode[] getDisplayModes() {
-        ArrayList<DisplayMode> modes = new ArrayList<>();
-        enumDisplayModes(screen, modes);
-        int listSize = modes.size();
-        DisplayMode[] retArray = new DisplayMode[listSize];
-        for (int i = 0; i < listSize; i++) {
-            retArray[i] = modes.get(i);
+    @Ovfrridf
+    publid syndironizfd DisplbyModf[] gftDisplbyModfs() {
+        ArrbyList<DisplbyModf> modfs = nfw ArrbyList<>();
+        fnumDisplbyModfs(sdrffn, modfs);
+        int listSizf = modfs.sizf();
+        DisplbyModf[] rftArrby = nfw DisplbyModf[listSizf];
+        for (int i = 0; i < listSizf; i++) {
+            rftArrby[i] = modfs.gft(i);
         }
-        return retArray;
+        rfturn rftArrby;
     }
 
-    protected synchronized DisplayMode getMatchingDisplayMode(DisplayMode dm) {
-        if (!isDisplayChangeSupported()) {
-            return null;
+    protfdtfd syndironizfd DisplbyModf gftMbtdiingDisplbyModf(DisplbyModf dm) {
+        if (!isDisplbyCibngfSupportfd()) {
+            rfturn null;
         }
-        DisplayMode[] modes = getDisplayModes();
-        for (DisplayMode mode : modes) {
-            if (dm.equals(mode) ||
-                (dm.getRefreshRate() == DisplayMode.REFRESH_RATE_UNKNOWN &&
-                 dm.getWidth() == mode.getWidth() &&
-                 dm.getHeight() == mode.getHeight() &&
-                 dm.getBitDepth() == mode.getBitDepth()))
+        DisplbyModf[] modfs = gftDisplbyModfs();
+        for (DisplbyModf modf : modfs) {
+            if (dm.fqubls(modf) ||
+                (dm.gftRffrfsiRbtf() == DisplbyModf.REFRESH_RATE_UNKNOWN &&
+                 dm.gftWidti() == modf.gftWidti() &&
+                 dm.gftHfigit() == modf.gftHfigit() &&
+                 dm.gftBitDfpti() == modf.gftBitDfpti()))
             {
-                return mode;
+                rfturn modf;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /*
-     * From the DisplayChangeListener interface.
-     * Called from Win32GraphicsEnvironment when the display settings have
-     * changed.
+     * From tif DisplbyCibngfListfnfr intfrfbdf.
+     * Cbllfd from Win32GrbpiidsEnvironmfnt wifn tif displby sfttings ibvf
+     * dibngfd.
      */
-    public void displayChanged() {
-        dynamicColorModel = null;
-        defaultConfig = null;
-        configs = null;
-        // pass on to all top-level windows on this display
-        topLevels.notifyListeners();
+    publid void displbyCibngfd() {
+        dynbmidColorModfl = null;
+        dffbultConfig = null;
+        donfigs = null;
+        // pbss on to bll top-lfvfl windows on tiis displby
+        topLfvfls.notifyListfnfrs();
     }
 
     /**
-     * Part of the DisplayChangedListener interface: devices
-     * do not need to react to this event
+     * Pbrt of tif DisplbyCibngfdListfnfr intfrfbdf: dfvidfs
+     * do not nffd to rfbdt to tiis fvfnt
      */
-    public void paletteChanged() {
+    publid void pblfttfCibngfd() {
     }
 
     /*
-     * Add a DisplayChangeListener to be notified when the display settings
-     * are changed.  Typically, only top-level containers need to be added
-     * to Win32GraphicsDevice.
+     * Add b DisplbyCibngfListfnfr to bf notififd wifn tif displby sfttings
+     * brf dibngfd.  Typidblly, only top-lfvfl dontbinfrs nffd to bf bddfd
+     * to Win32GrbpiidsDfvidf.
      */
-    public void addDisplayChangedListener(DisplayChangedListener client) {
-        topLevels.add(client);
+    publid void bddDisplbyCibngfdListfnfr(DisplbyCibngfdListfnfr dlifnt) {
+        topLfvfls.bdd(dlifnt);
     }
 
     /*
-     * Remove a DisplayChangeListener from this Win32GraphicsDevice
+     * Rfmovf b DisplbyCibngfListfnfr from tiis Win32GrbpiidsDfvidf
      */
-     public void removeDisplayChangedListener(DisplayChangedListener client) {
-        topLevels.remove(client);
+     publid void rfmovfDisplbyCibngfdListfnfr(DisplbyCibngfdListfnfr dlifnt) {
+        topLfvfls.rfmovf(dlifnt);
     }
 
     /**
-     * Creates and returns the color model associated with this device
+     * Crfbtfs bnd rfturns tif dolor modfl bssodibtfd witi tiis dfvidf
      */
-    private native ColorModel makeColorModel (int screen,
-                                              boolean dynamic);
+    privbtf nbtivf ColorModfl mbkfColorModfl (int sdrffn,
+                                              boolfbn dynbmid);
 
     /**
-     * Returns a dynamic ColorModel which is updated when there
-     * are any changes (e.g., palette changes) in the device
+     * Rfturns b dynbmid ColorModfl wiidi is updbtfd wifn tifrf
+     * brf bny dibngfs (f.g., pblfttf dibngfs) in tif dfvidf
      */
-    public ColorModel getDynamicColorModel() {
-        if (dynamicColorModel == null) {
-            dynamicColorModel = makeColorModel(screen, true);
+    publid ColorModfl gftDynbmidColorModfl() {
+        if (dynbmidColorModfl == null) {
+            dynbmidColorModfl = mbkfColorModfl(sdrffn, truf);
         }
-        return dynamicColorModel;
+        rfturn dynbmidColorModfl;
     }
 
     /**
-     * Returns the non-dynamic ColorModel associated with this device
+     * Rfturns tif non-dynbmid ColorModfl bssodibtfd witi tiis dfvidf
      */
-    public ColorModel getColorModel() {
-        if (colorModel == null)  {
-            colorModel = makeColorModel(screen, false);
+    publid ColorModfl gftColorModfl() {
+        if (dolorModfl == null)  {
+            dolorModfl = mbkfColorModfl(sdrffn, fblsf);
         }
-        return colorModel;
+        rfturn dolorModfl;
     }
 
     /**
-     * WindowAdapter class responsible for de/iconifying full-screen window
-     * of this device.
+     * WindowAdbptfr dlbss rfsponsiblf for df/idonifying full-sdrffn window
+     * of tiis dfvidf.
      *
-     * The listener restores the default display mode when window is iconified
-     * and sets it back to the one set by the user on de-iconification.
+     * Tif listfnfr rfstorfs tif dffbult displby modf wifn window is idonififd
+     * bnd sfts it bbdk to tif onf sft by tif usfr on df-idonifidbtion.
      */
-    private static class Win32FSWindowAdapter extends WindowAdapter {
-        private Win32GraphicsDevice device;
-        private DisplayMode dm;
+    privbtf stbtid dlbss Win32FSWindowAdbptfr fxtfnds WindowAdbptfr {
+        privbtf Win32GrbpiidsDfvidf dfvidf;
+        privbtf DisplbyModf dm;
 
-        Win32FSWindowAdapter(Win32GraphicsDevice device) {
-            this.device = device;
+        Win32FSWindowAdbptfr(Win32GrbpiidsDfvidf dfvidf) {
+            tiis.dfvidf = dfvidf;
         }
 
-        private void setFSWindowsState(Window other, int state) {
-            GraphicsDevice gds[] =
-                    GraphicsEnvironment.getLocalGraphicsEnvironment().
-                    getScreenDevices();
-            // check if the de/activation was caused by other
-            // fs window and ignore the event if that's the case
-            if (other != null) {
-                for (GraphicsDevice gd : gds) {
-                    if (other == gd.getFullScreenWindow()) {
-                        return;
+        privbtf void sftFSWindowsStbtf(Window otifr, int stbtf) {
+            GrbpiidsDfvidf gds[] =
+                    GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt().
+                    gftSdrffnDfvidfs();
+            // difdk if tif df/bdtivbtion wbs dbusfd by otifr
+            // fs window bnd ignorf tif fvfnt if tibt's tif dbsf
+            if (otifr != null) {
+                for (GrbpiidsDfvidf gd : gds) {
+                    if (otifr == gd.gftFullSdrffnWindow()) {
+                        rfturn;
                     }
                 }
             }
-            // otherwise apply state to all fullscreen windows
-            for (GraphicsDevice gd : gds) {
-                Window fsw = gd.getFullScreenWindow();
-                if (fsw instanceof Frame) {
-                    ((Frame)fsw).setExtendedState(state);
+            // otifrwisf bpply stbtf to bll fullsdrffn windows
+            for (GrbpiidsDfvidf gd : gds) {
+                Window fsw = gd.gftFullSdrffnWindow();
+                if (fsw instbndfof Frbmf) {
+                    ((Frbmf)fsw).sftExtfndfdStbtf(stbtf);
                 }
             }
         }
 
-        @Override
-        public void windowDeactivated(WindowEvent e) {
-            setFSWindowsState(e.getOppositeWindow(), Frame.ICONIFIED);
+        @Ovfrridf
+        publid void windowDfbdtivbtfd(WindowEvfnt f) {
+            sftFSWindowsStbtf(f.gftOppositfWindow(), Frbmf.ICONIFIED);
         }
 
-        @Override
-        public void windowActivated(WindowEvent e) {
-            setFSWindowsState(e.getOppositeWindow(), Frame.NORMAL);
+        @Ovfrridf
+        publid void windowAdtivbtfd(WindowEvfnt f) {
+            sftFSWindowsStbtf(f.gftOppositfWindow(), Frbmf.NORMAL);
         }
 
-        @Override
-        public void windowIconified(WindowEvent e) {
-            // restore the default display mode for this device
-            DisplayMode ddm = device.defaultDisplayMode;
+        @Ovfrridf
+        publid void windowIdonififd(WindowEvfnt f) {
+            // rfstorf tif dffbult displby modf for tiis dfvidf
+            DisplbyModf ddm = dfvidf.dffbultDisplbyModf;
             if (ddm != null) {
-                dm = device.getDisplayMode();
-                device.setDisplayMode(ddm);
+                dm = dfvidf.gftDisplbyModf();
+                dfvidf.sftDisplbyModf(ddm);
             }
         }
 
-        @Override
-        public void windowDeiconified(WindowEvent e) {
-            // restore the user-set display mode for this device
+        @Ovfrridf
+        publid void windowDfidonififd(WindowEvfnt f) {
+            // rfstorf tif usfr-sft displby modf for tiis dfvidf
             if (dm != null) {
-                device.setDisplayMode(dm);
+                dfvidf.sftDisplbyModf(dm);
                 dm = null;
             }
         }
     }
 
     /**
-     * Adds a WindowListener to be used as
-     * activation/deactivation listener for the current full-screen window.
+     * Adds b WindowListfnfr to bf usfd bs
+     * bdtivbtion/dfbdtivbtion listfnfr for tif durrfnt full-sdrffn window.
      *
-     * @param w full-screen window
+     * @pbrbm w full-sdrffn window
      */
-    protected void addFSWindowListener(final Window w) {
-        // Note: even though we create a listener for Window instances of
-        // fs windows they will not receive window events.
-        fsWindowListener = new Win32FSWindowAdapter(this);
+    protfdtfd void bddFSWindowListfnfr(finbl Window w) {
+        // Notf: fvfn tiougi wf drfbtf b listfnfr for Window instbndfs of
+        // fs windows tify will not rfdfivf window fvfnts.
+        fsWindowListfnfr = nfw Win32FSWindowAdbptfr(tiis);
 
-        // Fix for 6709453. Using invokeLater to avoid listening
-        // for the events already posted to the queue.
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                w.addWindowListener(fsWindowListener);
+        // Fix for 6709453. Using invokfLbtfr to bvoid listfning
+        // for tif fvfnts blrfbdy postfd to tif qufuf.
+        EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                w.bddWindowListfnfr(fsWindowListfnfr);
             }
         });
     }
 
     /**
-     * Removes the fs window listener.
+     * Rfmovfs tif fs window listfnfr.
      *
-     * @param w full-screen window
+     * @pbrbm w full-sdrffn window
      */
-    protected void removeFSWindowListener(Window w) {
-        w.removeWindowListener(fsWindowListener);
-        fsWindowListener = null;
+    protfdtfd void rfmovfFSWindowListfnfr(Window w) {
+        w.rfmovfWindowListfnfr(fsWindowListfnfr);
+        fsWindowListfnfr = null;
     }
 }

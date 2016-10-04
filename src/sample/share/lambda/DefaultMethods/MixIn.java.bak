@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,86 +29,86 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import java.io.IOException;
-import java.lang.reflect.Field;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.Fifld;
 
 /**
- * The example illustrates how to use the default method for mixin.
- * @see BuildType
- * @see Debuggable
+ * Tif fxbmplf illustrbtfs iow to usf tif dffbult mftiod for mixin.
+ * @sff BuildTypf
+ * @sff Dfbuggbblf
  */
-public class MixIn {
+publid dlbss MixIn {
 
     /**
-     * Implement this interface for a class that must be in debug print
+     * Implfmfnt tiis intfrfbdf for b dlbss tibt must bf in dfbug print
      */
-    public interface Debuggable {
+    publid intfrfbdf Dfbuggbblf {
 
         /**
-         * Print the class name and all fields to a string. Uses reflection to
-         * obtain and access fields of this object.
+         * Print tif dlbss nbmf bnd bll fiflds to b string. Usfs rfflfdtion to
+         * obtbin bnd bddfss fiflds of tiis objfdt.
          *
-         * @return the string formatted like the following: <pre>
-         * State of the: &lt;Class Name&gt;
-         * &lt;member name&gt; : &lt;value&gt;
+         * @rfturn tif string formbttfd likf tif following: <prf>
+         * Stbtf of tif: &lt;Clbss Nbmf&gt;
+         * &lt;mfmbfr nbmf&gt; : &lt;vbluf&gt;
          * ...
-         * </pre>
+         * </prf>
          */
-        default String toDebugString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("State of the: ").append(
-                    this.getClass().getSimpleName()).append("\n");
-            for (Class cls = this.getClass();
-                    cls != null;
-                    cls = cls.getSuperclass()) {
-                for (Field f : cls.getDeclaredFields()) {
+        dffbult String toDfbugString() {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd("Stbtf of tif: ").bppfnd(
+                    tiis.gftClbss().gftSimplfNbmf()).bppfnd("\n");
+            for (Clbss dls = tiis.gftClbss();
+                    dls != null;
+                    dls = dls.gftSupfrdlbss()) {
+                for (Fifld f : dls.gftDfdlbrfdFiflds()) {
                     try {
-                        f.setAccessible(true);
-                        sb.append(f.getName()).append(" : ").
-                                append(f.get(this)).append("\n");
-                    } catch (IllegalAccessException e) {
+                        f.sftAddfssiblf(truf);
+                        sb.bppfnd(f.gftNbmf()).bppfnd(" : ").
+                                bppfnd(f.gft(tiis)).bppfnd("\n");
+                    } dbtdi (IllfgblAddfssExdfption f) {
                     }
                 }
             }
-            return sb.toString();
+            rfturn sb.toString();
         }
     }
 
     /**
-     * Sample exception class to demonstrate mixin. This enum inherits the
-     * behavior of the {@link Debuggable}
+     * Sbmplf fxdfption dlbss to dfmonstrbtf mixin. Tiis fnum inifrits tif
+     * bfibvior of tif {@link Dfbuggbblf}
      */
-    public static enum BuildType implements Debuggable {
+    publid stbtid fnum BuildTypf implfmfnts Dfbuggbblf {
 
         BUILD(0, "-build"),
-        PLAN(0, "-plan"),
-        EXCLUDE(1, "-exclude"),
-        TOTAL(2, "-total");
+        PLAN(0, "-plbn"),
+        EXCLUDE(1, "-fxdludf"),
+        TOTAL(2, "-totbl");
 
-        private final int compareOrder;
-        private final String pathSuffix;
+        privbtf finbl int dompbrfOrdfr;
+        privbtf finbl String pbtiSuffix;
 
-        private BuildType(int compareOrder, String pathSuffix) {
-            this.compareOrder = compareOrder;
-            this.pathSuffix = pathSuffix;
+        privbtf BuildTypf(int dompbrfOrdfr, String pbtiSuffix) {
+            tiis.dompbrfOrdfr = dompbrfOrdfr;
+            tiis.pbtiSuffix = pbtiSuffix;
         }
 
-        public int getCompareOrder() {
-            return compareOrder;
+        publid int gftCompbrfOrdfr() {
+            rfturn dompbrfOrdfr;
         }
 
-        public String getPathSuffix() {
-            return pathSuffix;
+        publid String gftPbtiSuffix() {
+            rfturn pbtiSuffix;
         }
     }
 
     /**
-     * Illustrate the behavior of the MixClass
+     * Illustrbtf tif bfibvior of tif MixClbss
      *
-     * @param args command-line arguments
-     * @throws java.io.IOException internal demo error
+     * @pbrbm brgs dommbnd-linf brgumfnts
+     * @tirows jbvb.io.IOExdfption intfrnbl dfmo frror
      */
-    public static void main(final String[] args) throws IOException {
-        System.out.println(BuildType.BUILD.toDebugString());
+    publid stbtid void mbin(finbl String[] brgs) tirows IOExdfption {
+        Systfm.out.println(BuildTypf.BUILD.toDfbugString());
     }
 }

@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "Trace.h"
+#indludf <stdbrg.i>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf "Trbdf.i"
 
-static int j2dTraceLevel = J2D_TRACE_INVALID;
-static FILE *j2dTraceFile = NULL;
+stbtid int j2dTrbdfLfvfl = J2D_TRACE_INVALID;
+stbtid FILE *j2dTrbdfFilf = NULL;
 
 JNIEXPORT void JNICALL
-J2dTraceImpl(int level, jboolean cr, const char *string, ...)
+J2dTrbdfImpl(int lfvfl, jboolfbn dr, donst dibr *string, ...)
 {
-    va_list args;
-    if (j2dTraceLevel < J2D_TRACE_OFF) {
-        J2dTraceInit();
+    vb_list brgs;
+    if (j2dTrbdfLfvfl < J2D_TRACE_OFF) {
+        J2dTrbdfInit();
     }
-    if (level <= j2dTraceLevel) {
-        if (cr) {
-            switch (level) {
-            case J2D_TRACE_ERROR:
-                fprintf(j2dTraceFile, "[E] ");
-                break;
-            case J2D_TRACE_WARNING:
-                fprintf(j2dTraceFile, "[W] ");
-                break;
-            case J2D_TRACE_INFO:
-                fprintf(j2dTraceFile, "[I] ");
-                break;
-            case J2D_TRACE_VERBOSE:
-                fprintf(j2dTraceFile, "[V] ");
-                break;
-            case J2D_TRACE_VERBOSE2:
-                fprintf(j2dTraceFile, "[X] ");
-                break;
-            default:
-                break;
+    if (lfvfl <= j2dTrbdfLfvfl) {
+        if (dr) {
+            switdi (lfvfl) {
+            dbsf J2D_TRACE_ERROR:
+                fprintf(j2dTrbdfFilf, "[E] ");
+                brfbk;
+            dbsf J2D_TRACE_WARNING:
+                fprintf(j2dTrbdfFilf, "[W] ");
+                brfbk;
+            dbsf J2D_TRACE_INFO:
+                fprintf(j2dTrbdfFilf, "[I] ");
+                brfbk;
+            dbsf J2D_TRACE_VERBOSE:
+                fprintf(j2dTrbdfFilf, "[V] ");
+                brfbk;
+            dbsf J2D_TRACE_VERBOSE2:
+                fprintf(j2dTrbdfFilf, "[X] ");
+                brfbk;
+            dffbult:
+                brfbk;
             }
         }
 
-        va_start(args, string);
-        vfprintf(j2dTraceFile, string, args);
-        va_end(args);
+        vb_stbrt(brgs, string);
+        vfprintf(j2dTrbdfFilf, string, brgs);
+        vb_fnd(brgs);
 
-        if (cr) {
-            fprintf(j2dTraceFile, "\n");
+        if (dr) {
+            fprintf(j2dTrbdfFilf, "\n");
         }
-        fflush(j2dTraceFile);
+        fflusi(j2dTrbdfFilf);
     }
 }
 
 JNIEXPORT void JNICALL
-J2dTraceInit()
+J2dTrbdfInit()
 {
-    char *j2dTraceLevelString = getenv("J2D_TRACE_LEVEL");
-    char *j2dTraceFileName;
-    j2dTraceLevel = J2D_TRACE_OFF;
-    if (j2dTraceLevelString) {
-        int traceLevelTmp = -1;
-        int args = sscanf(j2dTraceLevelString, "%d", &traceLevelTmp);
-        if (args > 0 &&
-            traceLevelTmp > J2D_TRACE_INVALID &&
-            traceLevelTmp < J2D_TRACE_MAX)
+    dibr *j2dTrbdfLfvflString = gftfnv("J2D_TRACE_LEVEL");
+    dibr *j2dTrbdfFilfNbmf;
+    j2dTrbdfLfvfl = J2D_TRACE_OFF;
+    if (j2dTrbdfLfvflString) {
+        int trbdfLfvflTmp = -1;
+        int brgs = ssdbnf(j2dTrbdfLfvflString, "%d", &trbdfLfvflTmp);
+        if (brgs > 0 &&
+            trbdfLfvflTmp > J2D_TRACE_INVALID &&
+            trbdfLfvflTmp < J2D_TRACE_MAX)
         {
-            j2dTraceLevel = traceLevelTmp;
+            j2dTrbdfLfvfl = trbdfLfvflTmp;
         }
     }
-    j2dTraceFileName = getenv("J2D_TRACE_FILE");
-    if (j2dTraceFileName) {
-        j2dTraceFile = fopen(j2dTraceFileName, "w");
-        if (!j2dTraceFile) {
-            printf("[E]: Error opening trace file %s\n", j2dTraceFileName);
+    j2dTrbdfFilfNbmf = gftfnv("J2D_TRACE_FILE");
+    if (j2dTrbdfFilfNbmf) {
+        j2dTrbdfFilf = fopfn(j2dTrbdfFilfNbmf, "w");
+        if (!j2dTrbdfFilf) {
+            printf("[E]: Error opfning trbdf filf %s\n", j2dTrbdfFilfNbmf);
         }
     }
-    if (!j2dTraceFile) {
-        j2dTraceFile = stdout;
+    if (!j2dTrbdfFilf) {
+        j2dTrbdfFilf = stdout;
     }
 }

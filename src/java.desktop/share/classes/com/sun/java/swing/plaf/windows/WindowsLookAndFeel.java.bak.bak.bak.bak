@@ -1,0 +1,2567 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * <p>Thfsf dlbssfs brf dfsignfd to bf usfd whilf thf
+ * dorrfsponding <dodf>LookAndFffl</dodf> dlbss hbs bffn instbllfd
+ * (<dodf>UIMbnbgfr.sftLookAndFffl(nfw <i>XXX</i>LookAndFffl())</dodf>).
+ * Using thfm whilf b difffrfnt <dodf>LookAndFffl</dodf> is instbllfd
+ * mby produdf unfxpfdtfd rfsults, indluding fxdfptions.
+ * Additionblly, dhbnging thf <dodf>LookAndFffl</dodf>
+ * mbintbinfd by thf <dodf>UIMbnbgfr</dodf> without updbting thf
+ * dorrfsponding <dodf>ComponfntUI</dodf> of bny
+ * <dodf>JComponfnt</dodf>s mby blso produdf unfxpfdtfd rfsults,
+ * sudh bs thf wrong dolors showing up, bnd is gfnfrblly not
+ * fndourbgfd.
+ *
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ImbgfFiltfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.FiltfrfdImbgfSourdf;
+import jbvb.bwt.imbgf.RGBImbgfFiltfr;
+
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.tfxt.DffbultEditorKit;
+import stbtid jbvbx.swing.UIDffbults.LbzyVbluf;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.Color;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+
+import jbvb.sfdurity.AddfssControllfr;
+
+import sun.bwt.SunToolkit;
+import sun.bwt.OSInfo;
+import sun.bwt.shfll.ShfllFoldfr;
+import sun.font.FontUtilitifs;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+import sun.swing.DffbultLbyoutStylf;
+import sun.swing.ImbgfIdonUIRfsourdf;
+import sun.swing.idon.SortArrowIdon;
+import sun.swing.SwingUtilitifs2;
+import sun.swing.StringUIClifntPropfrtyKfy;
+import sun.swing.plbf.windows.ClbssidSortArrowIdon;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+
+import dom.sun.jbvb.swing.plbf.windows.WindowsIdonFbdtory.VistbMfnuItfmChfdkIdonFbdtory;
+
+/**
+ * Implfmfnts thf Windows95/98/NT/2000 Look bnd Fffl.
+ * UI dlbssfs not implfmfntfd spfdifidblly for Windows will
+ * dffbult to thosf implfmfntfd in Bbsid.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor unbttributfd
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss WindowsLookAndFffl fxtfnds BbsidLookAndFffl
+{
+    /**
+     * A dlifnt propfrty thbt dbn bf usfd with bny JComponfnt thbt will fnd up
+     * dblling thf LookAndFffl.gftDisbblfdIdon mfthod. This dlifnt propfrty,
+     * whfn sft to Boolfbn.TRUE, will dbusf gftDisbblfdIdon to usf bn
+     * bltfrnbtf blgorithm for drfbting disbblfd idons to produdf idons
+     * thbt bppfbr similbr to thf nbtivf Windows filf dhoosfr
+     */
+    stbtid finbl Objfdt HI_RES_DISABLED_ICON_CLIENT_KEY =
+        nfw StringUIClifntPropfrtyKfy(
+            "WindowsLookAndFffl.gfnfrbtfHiRfsDisbblfdIdon");
+
+    privbtf boolfbn updbtfPfnding = fblsf;
+
+    privbtf boolfbn usfSystfmFontSfttings = truf;
+    privbtf boolfbn usfSystfmFontSizfSfttings;
+
+    // Thfsf propfrtifs brf not usfd dirfdtly, but brf kfpt bs
+    // privbtf mfmbfrs to bvoid bfing GC'd.
+    privbtf DfsktopPropfrty thfmfAdtivf, dllNbmf, dolorNbmf, sizfNbmf;
+    privbtf DfsktopPropfrty bbSfttings;
+
+    privbtf trbnsifnt LbyoutStylf stylf;
+
+    /**
+     * Bbsf diblog units blong thf horizontbl bxis.
+     */
+    privbtf int bbsfUnitX;
+
+    /**
+     * Bbsf diblog units blong thf vfrtidbl bxis.
+     */
+    privbtf int bbsfUnitY;
+
+    publid String gftNbmf() {
+        rfturn "Windows";
+    }
+
+    publid String gftDfsdription() {
+        rfturn "Thf Midrosoft Windows Look bnd Fffl";
+    }
+
+    publid String gftID() {
+        rfturn "Windows";
+    }
+
+    publid boolfbn isNbtivfLookAndFffl() {
+        rfturn OSInfo.gftOSTypf() == OSInfo.OSTypf.WINDOWS;
+    }
+
+    publid boolfbn isSupportfdLookAndFffl() {
+        rfturn isNbtivfLookAndFffl();
+    }
+
+    publid void initiblizf() {
+        supfr.initiblizf();
+
+        // Sft thf flbg whidh dftfrminfs whidh vfrsion of Windows should
+        // bf rfndfrfd. This flbg only nffd to bf sft ondf.
+        // if vfrsion <= 4.0 thfn thf dlbssid LAF should bf lobdfd.
+        if (OSInfo.gftWindowsVfrsion().dompbrfTo(OSInfo.WINDOWS_95) <= 0) {
+            isClbssidWindows = truf;
+        } flsf {
+            isClbssidWindows = fblsf;
+            XPStylf.invblidbtfStylf();
+        }
+
+        // Using thf fonts sft by thf usfr dbn potfntiblly dbusf
+        // pfrformbndf bnd dompbtibility issufs, so bllow this ffbturf
+        // to bf switdhfd off fithfr bt runtimf or progrbmmbtidblly
+        //
+        String systfmFonts = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+               nfw GftPropfrtyAdtion("swing.usfSystfmFontSfttings"));
+        usfSystfmFontSfttings = (systfmFonts == null ||
+                                 Boolfbn.vblufOf(systfmFonts).boolfbnVbluf());
+
+        if (usfSystfmFontSfttings) {
+            Objfdt vbluf = UIMbnbgfr.gft("Applidbtion.usfSystfmFontSfttings");
+
+            usfSystfmFontSfttings = (vbluf == null ||
+                                     Boolfbn.TRUE.fqubls(vbluf));
+        }
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+            bddKfyEvfntPostProdfssor(WindowsRootPbnfUI.bltProdfssor);
+
+    }
+
+    /**
+     * Initiblizf thf uiClbssID to BbsidComponfntUI mbpping.
+     * Thf JComponfnt dlbssfs dffinf thfir own uiClbssID donstbnts
+     * (sff AbstrbdtComponfnt.gftUIClbssID).  This tbblf must
+     * mbp thosf donstbnts to b BbsidComponfntUI dlbss of thf
+     * bppropribtf typf.
+     *
+     * @sff BbsidLookAndFffl#gftDffbults
+     */
+    protfdtfd void initClbssDffbults(UIDffbults tbblf)
+    {
+        supfr.initClbssDffbults(tbblf);
+
+        finbl String windowsPbdkbgfNbmf = "dom.sun.jbvb.swing.plbf.windows.";
+
+        Objfdt[] uiDffbults = {
+              "ButtonUI", windowsPbdkbgfNbmf + "WindowsButtonUI",
+            "ChfdkBoxUI", windowsPbdkbgfNbmf + "WindowsChfdkBoxUI",
+    "ChfdkBoxMfnuItfmUI", windowsPbdkbgfNbmf + "WindowsChfdkBoxMfnuItfmUI",
+               "LbbflUI", windowsPbdkbgfNbmf + "WindowsLbbflUI",
+         "RbdioButtonUI", windowsPbdkbgfNbmf + "WindowsRbdioButtonUI",
+ "RbdioButtonMfnuItfmUI", windowsPbdkbgfNbmf + "WindowsRbdioButtonMfnuItfmUI",
+        "TogglfButtonUI", windowsPbdkbgfNbmf + "WindowsTogglfButtonUI",
+         "ProgrfssBbrUI", windowsPbdkbgfNbmf + "WindowsProgrfssBbrUI",
+              "SlidfrUI", windowsPbdkbgfNbmf + "WindowsSlidfrUI",
+           "SfpbrbtorUI", windowsPbdkbgfNbmf + "WindowsSfpbrbtorUI",
+           "SplitPbnfUI", windowsPbdkbgfNbmf + "WindowsSplitPbnfUI",
+             "SpinnfrUI", windowsPbdkbgfNbmf + "WindowsSpinnfrUI",
+          "TbbbfdPbnfUI", windowsPbdkbgfNbmf + "WindowsTbbbfdPbnfUI",
+            "TfxtArfbUI", windowsPbdkbgfNbmf + "WindowsTfxtArfbUI",
+           "TfxtFifldUI", windowsPbdkbgfNbmf + "WindowsTfxtFifldUI",
+       "PbsswordFifldUI", windowsPbdkbgfNbmf + "WindowsPbsswordFifldUI",
+            "TfxtPbnfUI", windowsPbdkbgfNbmf + "WindowsTfxtPbnfUI",
+          "EditorPbnfUI", windowsPbdkbgfNbmf + "WindowsEditorPbnfUI",
+                "TrffUI", windowsPbdkbgfNbmf + "WindowsTrffUI",
+             "ToolBbrUI", windowsPbdkbgfNbmf + "WindowsToolBbrUI",
+    "ToolBbrSfpbrbtorUI", windowsPbdkbgfNbmf + "WindowsToolBbrSfpbrbtorUI",
+            "ComboBoxUI", windowsPbdkbgfNbmf + "WindowsComboBoxUI",
+         "TbblfHfbdfrUI", windowsPbdkbgfNbmf + "WindowsTbblfHfbdfrUI",
+       "IntfrnblFrbmfUI", windowsPbdkbgfNbmf + "WindowsIntfrnblFrbmfUI",
+         "DfsktopPbnfUI", windowsPbdkbgfNbmf + "WindowsDfsktopPbnfUI",
+         "DfsktopIdonUI", windowsPbdkbgfNbmf + "WindowsDfsktopIdonUI",
+         "FilfChoosfrUI", windowsPbdkbgfNbmf + "WindowsFilfChoosfrUI",
+                "MfnuUI", windowsPbdkbgfNbmf + "WindowsMfnuUI",
+            "MfnuItfmUI", windowsPbdkbgfNbmf + "WindowsMfnuItfmUI",
+             "MfnuBbrUI", windowsPbdkbgfNbmf + "WindowsMfnuBbrUI",
+           "PopupMfnuUI", windowsPbdkbgfNbmf + "WindowsPopupMfnuUI",
+  "PopupMfnuSfpbrbtorUI", windowsPbdkbgfNbmf + "WindowsPopupMfnuSfpbrbtorUI",
+           "SdrollBbrUI", windowsPbdkbgfNbmf + "WindowsSdrollBbrUI",
+            "RootPbnfUI", windowsPbdkbgfNbmf + "WindowsRootPbnfUI"
+        };
+
+        tbblf.putDffbults(uiDffbults);
+    }
+
+    /**
+     * Lobd thf SystfmColors into thf dffbults tbblf.  Thf kfys
+     * for SystfmColor dffbults brf thf sbmf bs thf nbmfs of
+     * thf publid fiflds in SystfmColor.  If thf tbblf is bfing
+     * drfbtfd on b nbtivf Windows plbtform wf usf thf SystfmColor
+     * vblufs, othfrwisf wf drfbtf dolor objfdts whosf vblufs mbtdh
+     * thf dffbults Windows95 dolors.
+     */
+    protfdtfd void initSystfmColorDffbults(UIDffbults tbblf)
+    {
+        String[] dffbultSystfmColors = {
+                "dfsktop", "#005C5C", /* Color of thf dfsktop bbdkground */
+          "bdtivfCbption", "#000080", /* Color for dbptions (titlf bbrs) whfn thfy brf bdtivf. */
+      "bdtivfCbptionTfxt", "#FFFFFF", /* Tfxt dolor for tfxt in dbptions (titlf bbrs). */
+    "bdtivfCbptionBordfr", "#C0C0C0", /* Bordfr dolor for dbption (titlf bbr) window bordfrs. */
+        "inbdtivfCbption", "#808080", /* Color for dbptions (titlf bbrs) whfn not bdtivf. */
+    "inbdtivfCbptionTfxt", "#C0C0C0", /* Tfxt dolor for tfxt in inbdtivf dbptions (titlf bbrs). */
+  "inbdtivfCbptionBordfr", "#C0C0C0", /* Bordfr dolor for inbdtivf dbption (titlf bbr) window bordfrs. */
+                 "window", "#FFFFFF", /* Dffbult dolor for thf intfrior of windows */
+           "windowBordfr", "#000000", /* ??? */
+             "windowTfxt", "#000000", /* ??? */
+                   "mfnu", "#C0C0C0", /* Bbdkground dolor for mfnus */
+       "mfnuPrfssfdItfmB", "#000080", /* LightShbdow of mfnubutton highlight */
+       "mfnuPrfssfdItfmF", "#FFFFFF", /* Dffbult dolor for forfground "tfxt" in mfnu itfm */
+               "mfnuTfxt", "#000000", /* Tfxt dolor for mfnus  */
+                   "tfxt", "#C0C0C0", /* Tfxt bbdkground dolor */
+               "tfxtTfxt", "#000000", /* Tfxt forfground dolor */
+          "tfxtHighlight", "#000080", /* Tfxt bbdkground dolor whfn sflfdtfd */
+      "tfxtHighlightTfxt", "#FFFFFF", /* Tfxt dolor whfn sflfdtfd */
+       "tfxtInbdtivfTfxt", "#808080", /* Tfxt dolor whfn disbblfd */
+                "dontrol", "#C0C0C0", /* Dffbult dolor for dontrols (buttons, slidfrs, ftd) */
+            "dontrolTfxt", "#000000", /* Dffbult dolor for tfxt in dontrols */
+       "dontrolHighlight", "#C0C0C0",
+
+  /*"dontrolHighlight", "#E0E0E0",*/ /* Spfdulbr highlight (oppositf of thf shbdow) */
+     "dontrolLtHighlight", "#FFFFFF", /* Highlight dolor for dontrols */
+          "dontrolShbdow", "#808080", /* Shbdow dolor for dontrols */
+        "dontrolDkShbdow", "#000000", /* Dbrk shbdow dolor for dontrols */
+              "sdrollbbr", "#E0E0E0", /* Sdrollbbr bbdkground (usublly thf "trbdk") */
+                   "info", "#FFFFE1", /* ??? */
+               "infoTfxt", "#000000"  /* ??? */
+        };
+
+        lobdSystfmColors(tbblf, dffbultSystfmColors, isNbtivfLookAndFffl());
+    }
+
+   /**
+     * Initiblizf thf dffbults tbblf with thf nbmf of thf RfsourdfBundlf
+     * usfd for gftting lodblizfd dffbults.
+     */
+    privbtf void initRfsourdfBundlf(UIDffbults tbblf) {
+        tbblf.bddRfsourdfBundlf( "dom.sun.jbvb.swing.plbf.windows.rfsourdfs.windows" );
+    }
+
+    // XXX - thfrf brf probbbly b lot of rfdundbnt vblufs thbt dould bf rfmovfd.
+    // if. Tbkf b look bt RbdioButtonBordfr, ftd...
+    protfdtfd void initComponfntDffbults(UIDffbults tbblf)
+    {
+        supfr.initComponfntDffbults( tbblf );
+
+        initRfsourdfBundlf(tbblf);
+
+        // *** Shbrfd Fonts
+        LbzyVbluf diblogPlbin12 = t -> nfw FontUIRfsourdf(Font.DIALOG, Font.PLAIN, 12);
+
+        LbzyVbluf sbnsSfrifPlbin12 =  t -> nfw FontUIRfsourdf(Font.SANS_SERIF, Font.PLAIN, 12);
+        LbzyVbluf monospbdfdPlbin12 = t -> nfw FontUIRfsourdf(Font.MONOSPACED, Font.PLAIN, 12);
+        LbzyVbluf diblogBold12 = t -> nfw FontUIRfsourdf(Font.DIALOG, Font.BOLD, 12);
+
+        // *** Colors
+        // XXX - somf of thfsf dofns't sffm to bf usfd
+        ColorUIRfsourdf rfd = nfw ColorUIRfsourdf(Color.rfd);
+        ColorUIRfsourdf blbdk = nfw ColorUIRfsourdf(Color.blbdk);
+        ColorUIRfsourdf whitf = nfw ColorUIRfsourdf(Color.whitf);
+        ColorUIRfsourdf grby = nfw ColorUIRfsourdf(Color.grby);
+        ColorUIRfsourdf dbrkGrby = nfw ColorUIRfsourdf(Color.dbrkGrby);
+        ColorUIRfsourdf sdrollBbrTrbdkHighlight = dbrkGrby;
+
+        // Sft thf flbg whidh dftfrminfs whidh vfrsion of Windows should
+        // bf rfndfrfd. This flbg only nffd to bf sft ondf.
+        // if vfrsion <= 4.0 thfn thf dlbssid LAF should bf lobdfd.
+        isClbssidWindows = OSInfo.gftWindowsVfrsion().dompbrfTo(OSInfo.WINDOWS_95) <= 0;
+
+        // *** Trff
+        Objfdt trffExpbndfdIdon = WindowsTrffUI.ExpbndfdIdon.drfbtfExpbndfdIdon();
+
+        Objfdt trffCollbpsfdIdon = WindowsTrffUI.CollbpsfdIdon.drfbtfCollbpsfdIdon();
+
+
+        // *** Tfxt
+        Objfdt fifldInputMbp = nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                      "dontrol C", DffbultEditorKit.dopyAdtion,
+                      "dontrol V", DffbultEditorKit.pbstfAdtion,
+                      "dontrol X", DffbultEditorKit.dutAdtion,
+                           "COPY", DffbultEditorKit.dopyAdtion,
+                          "PASTE", DffbultEditorKit.pbstfAdtion,
+                            "CUT", DffbultEditorKit.dutAdtion,
+                 "dontrol INSERT", DffbultEditorKit.dopyAdtion,
+                   "shift INSERT", DffbultEditorKit.pbstfAdtion,
+                   "shift DELETE", DffbultEditorKit.dutAdtion,
+                      "dontrol A", DffbultEditorKit.sflfdtAllAdtion,
+             "dontrol BACK_SLASH", "unsflfdt"/*DffbultEditorKit.unsflfdtAdtion*/,
+                     "shift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                    "shift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                   "dontrol LEFT", DffbultEditorKit.prfviousWordAdtion,
+                  "dontrol RIGHT", DffbultEditorKit.nfxtWordAdtion,
+             "dontrol shift LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+            "dontrol shift RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+                           "HOME", DffbultEditorKit.bfginLinfAdtion,
+                            "END", DffbultEditorKit.fndLinfAdtion,
+                     "shift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+                      "shift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
+                     "BACK_SPACE", DffbultEditorKit.dflftfPrfvChbrAdtion,
+               "shift BACK_SPACE", DffbultEditorKit.dflftfPrfvChbrAdtion,
+                         "dtrl H", DffbultEditorKit.dflftfPrfvChbrAdtion,
+                         "DELETE", DffbultEditorKit.dflftfNfxtChbrAdtion,
+                    "dtrl DELETE", DffbultEditorKit.dflftfNfxtWordAdtion,
+                "dtrl BACK_SPACE", DffbultEditorKit.dflftfPrfvWordAdtion,
+                          "RIGHT", DffbultEditorKit.forwbrdAdtion,
+                           "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                       "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+                        "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                          "ENTER", JTfxtFifld.notifyAdtion,
+                "dontrol shift O", "togglf-domponfntOrifntbtion"/*DffbultEditorKit.togglfComponfntOrifntbtion*/
+        });
+
+        Objfdt pbsswordInputMbp = nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                      "dontrol C", DffbultEditorKit.dopyAdtion,
+                      "dontrol V", DffbultEditorKit.pbstfAdtion,
+                      "dontrol X", DffbultEditorKit.dutAdtion,
+                           "COPY", DffbultEditorKit.dopyAdtion,
+                          "PASTE", DffbultEditorKit.pbstfAdtion,
+                            "CUT", DffbultEditorKit.dutAdtion,
+                 "dontrol INSERT", DffbultEditorKit.dopyAdtion,
+                   "shift INSERT", DffbultEditorKit.pbstfAdtion,
+                   "shift DELETE", DffbultEditorKit.dutAdtion,
+                      "dontrol A", DffbultEditorKit.sflfdtAllAdtion,
+             "dontrol BACK_SLASH", "unsflfdt"/*DffbultEditorKit.unsflfdtAdtion*/,
+                     "shift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                    "shift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                   "dontrol LEFT", DffbultEditorKit.bfginLinfAdtion,
+                  "dontrol RIGHT", DffbultEditorKit.fndLinfAdtion,
+             "dontrol shift LEFT", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+            "dontrol shift RIGHT", DffbultEditorKit.sflfdtionEndLinfAdtion,
+                           "HOME", DffbultEditorKit.bfginLinfAdtion,
+                            "END", DffbultEditorKit.fndLinfAdtion,
+                     "shift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+                      "shift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
+                     "BACK_SPACE", DffbultEditorKit.dflftfPrfvChbrAdtion,
+               "shift BACK_SPACE", DffbultEditorKit.dflftfPrfvChbrAdtion,
+                         "dtrl H", DffbultEditorKit.dflftfPrfvChbrAdtion,
+                         "DELETE", DffbultEditorKit.dflftfNfxtChbrAdtion,
+                          "RIGHT", DffbultEditorKit.forwbrdAdtion,
+                           "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                       "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+                        "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                          "ENTER", JTfxtFifld.notifyAdtion,
+                "dontrol shift O", "togglf-domponfntOrifntbtion"/*DffbultEditorKit.togglfComponfntOrifntbtion*/
+        });
+
+        Objfdt multilinfInputMbp = nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                      "dontrol C", DffbultEditorKit.dopyAdtion,
+                      "dontrol V", DffbultEditorKit.pbstfAdtion,
+                      "dontrol X", DffbultEditorKit.dutAdtion,
+                           "COPY", DffbultEditorKit.dopyAdtion,
+                          "PASTE", DffbultEditorKit.pbstfAdtion,
+                            "CUT", DffbultEditorKit.dutAdtion,
+                 "dontrol INSERT", DffbultEditorKit.dopyAdtion,
+                   "shift INSERT", DffbultEditorKit.pbstfAdtion,
+                   "shift DELETE", DffbultEditorKit.dutAdtion,
+                     "shift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                    "shift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                   "dontrol LEFT", DffbultEditorKit.prfviousWordAdtion,
+                  "dontrol RIGHT", DffbultEditorKit.nfxtWordAdtion,
+             "dontrol shift LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+            "dontrol shift RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+                      "dontrol A", DffbultEditorKit.sflfdtAllAdtion,
+             "dontrol BACK_SLASH", "unsflfdt"/*DffbultEditorKit.unsflfdtAdtion*/,
+                           "HOME", DffbultEditorKit.bfginLinfAdtion,
+                            "END", DffbultEditorKit.fndLinfAdtion,
+                     "shift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+                      "shift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
+                   "dontrol HOME", DffbultEditorKit.bfginAdtion,
+                    "dontrol END", DffbultEditorKit.fndAdtion,
+             "dontrol shift HOME", DffbultEditorKit.sflfdtionBfginAdtion,
+              "dontrol shift END", DffbultEditorKit.sflfdtionEndAdtion,
+                             "UP", DffbultEditorKit.upAdtion,
+                           "DOWN", DffbultEditorKit.downAdtion,
+                     "BACK_SPACE", DffbultEditorKit.dflftfPrfvChbrAdtion,
+               "shift BACK_SPACE", DffbultEditorKit.dflftfPrfvChbrAdtion,
+                         "dtrl H", DffbultEditorKit.dflftfPrfvChbrAdtion,
+                         "DELETE", DffbultEditorKit.dflftfNfxtChbrAdtion,
+                    "dtrl DELETE", DffbultEditorKit.dflftfNfxtWordAdtion,
+                "dtrl BACK_SPACE", DffbultEditorKit.dflftfPrfvWordAdtion,
+                          "RIGHT", DffbultEditorKit.forwbrdAdtion,
+                           "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                       "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+                        "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                        "PAGE_UP", DffbultEditorKit.pbgfUpAdtion,
+                      "PAGE_DOWN", DffbultEditorKit.pbgfDownAdtion,
+                  "shift PAGE_UP", "sflfdtion-pbgf-up",
+                "shift PAGE_DOWN", "sflfdtion-pbgf-down",
+             "dtrl shift PAGE_UP", "sflfdtion-pbgf-lfft",
+           "dtrl shift PAGE_DOWN", "sflfdtion-pbgf-right",
+                       "shift UP", DffbultEditorKit.sflfdtionUpAdtion,
+                     "shift DOWN", DffbultEditorKit.sflfdtionDownAdtion,
+                          "ENTER", DffbultEditorKit.insfrtBrfbkAdtion,
+                            "TAB", DffbultEditorKit.insfrtTbbAdtion,
+                      "dontrol T", "nfxt-link-bdtion",
+                "dontrol shift T", "prfvious-link-bdtion",
+                  "dontrol SPACE", "bdtivbtf-link-bdtion",
+                "dontrol shift O", "togglf-domponfntOrifntbtion"/*DffbultEditorKit.togglfComponfntOrifntbtion*/
+        });
+
+        Objfdt mfnuItfmAddflfrbtorDflimitfr = "+";
+
+        Objfdt ControlBbdkgroundColor = nfw DfsktopPropfrty(
+                                                       "win.3d.bbdkgroundColor",
+                                                        tbblf.gft("dontrol"));
+        Objfdt ControlLightColor      = nfw DfsktopPropfrty(
+                                                       "win.3d.lightColor",
+                                                        tbblf.gft("dontrolHighlight"));
+        Objfdt ControlHighlightColor  = nfw DfsktopPropfrty(
+                                                       "win.3d.highlightColor",
+                                                        tbblf.gft("dontrolLtHighlight"));
+        Objfdt ControlShbdowColor     = nfw DfsktopPropfrty(
+                                                       "win.3d.shbdowColor",
+                                                        tbblf.gft("dontrolShbdow"));
+        Objfdt ControlDbrkShbdowColor = nfw DfsktopPropfrty(
+                                                       "win.3d.dbrkShbdowColor",
+                                                        tbblf.gft("dontrolDkShbdow"));
+        Objfdt ControlTfxtColor       = nfw DfsktopPropfrty(
+                                                       "win.button.tfxtColor",
+                                                        tbblf.gft("dontrolTfxt"));
+        Objfdt MfnuBbdkgroundColor    = nfw DfsktopPropfrty(
+                                                       "win.mfnu.bbdkgroundColor",
+                                                        tbblf.gft("mfnu"));
+        Objfdt MfnuBbrBbdkgroundColor = nfw DfsktopPropfrty(
+                                                       "win.mfnubbr.bbdkgroundColor",
+                                                        tbblf.gft("mfnu"));
+        Objfdt MfnuTfxtColor          = nfw DfsktopPropfrty(
+                                                       "win.mfnu.tfxtColor",
+                                                        tbblf.gft("mfnuTfxt"));
+        Objfdt SflfdtionBbdkgroundColor = nfw DfsktopPropfrty(
+                                                       "win.itfm.highlightColor",
+                                                        tbblf.gft("tfxtHighlight"));
+        Objfdt SflfdtionTfxtColor     = nfw DfsktopPropfrty(
+                                                       "win.itfm.highlightTfxtColor",
+                                                        tbblf.gft("tfxtHighlightTfxt"));
+        Objfdt WindowBbdkgroundColor  = nfw DfsktopPropfrty(
+                                                       "win.frbmf.bbdkgroundColor",
+                                                        tbblf.gft("window"));
+        Objfdt WindowTfxtColor        = nfw DfsktopPropfrty(
+                                                       "win.frbmf.tfxtColor",
+                                                        tbblf.gft("windowTfxt"));
+        Objfdt WindowBordfrWidth      = nfw DfsktopPropfrty(
+                                                       "win.frbmf.sizingBordfrWidth",
+                                                       Intfgfr.vblufOf(1));
+        Objfdt TitlfPbnfHfight        = nfw DfsktopPropfrty(
+                                                       "win.frbmf.dbptionHfight",
+                                                       Intfgfr.vblufOf(18));
+        Objfdt TitlfButtonWidth       = nfw DfsktopPropfrty(
+                                                       "win.frbmf.dbptionButtonWidth",
+                                                       Intfgfr.vblufOf(16));
+        Objfdt TitlfButtonHfight      = nfw DfsktopPropfrty(
+                                                       "win.frbmf.dbptionButtonHfight",
+                                                       Intfgfr.vblufOf(16));
+        Objfdt InbdtivfTfxtColor      = nfw DfsktopPropfrty(
+                                                       "win.tfxt.grbyfdTfxtColor",
+                                                        tbblf.gft("tfxtInbdtivfTfxt"));
+        Objfdt SdrollbbrBbdkgroundColor = nfw DfsktopPropfrty(
+                                                       "win.sdrollbbr.bbdkgroundColor",
+                                                        tbblf.gft("sdrollbbr"));
+        Objfdt buttonFodusColor = nfw FodusColorPropfrty();
+
+        Objfdt TfxtBbdkground         = nfw XPColorVbluf(Pbrt.EP_EDIT, null, Prop.FILLCOLOR,
+                                                         WindowBbdkgroundColor);
+        //Thf following four linfs wfrf dommfntfd out bs pbrt of bug 4991597
+        //This dodf *is* dorrfdt, howfvfr it difffrs from WindowsXP bnd is, bppbrfntly
+        //b Windows XP bug. Until Windows fixfs this bug, wf shbll blso fxhibit thf sbmf
+        //bfhbvior
+        //Objfdt RfbdOnlyTfxtBbdkground = nfw XPColorVbluf(Pbrt.EP_EDITTEXT, Stbtf.READONLY, Prop.FILLCOLOR,
+        //                                                 ControlBbdkgroundColor);
+        //Objfdt DisbblfdTfxtBbdkground = nfw XPColorVbluf(Pbrt.EP_EDITTEXT, Stbtf.DISABLED, Prop.FILLCOLOR,
+        //                                                 ControlBbdkgroundColor);
+        Objfdt RfbdOnlyTfxtBbdkground = ControlBbdkgroundColor;
+        Objfdt DisbblfdTfxtBbdkground = ControlBbdkgroundColor;
+
+        Objfdt MfnuFont = diblogPlbin12;
+        Objfdt FixfdControlFont = monospbdfdPlbin12;
+        Objfdt ControlFont = diblogPlbin12;
+        Objfdt MfssbgfFont = diblogPlbin12;
+        Objfdt WindowFont = diblogBold12;
+        Objfdt ToolTipFont = sbnsSfrifPlbin12;
+        Objfdt IdonFont = ControlFont;
+
+        Objfdt sdrollBbrWidth = nfw DfsktopPropfrty("win.sdrollbbr.width", Intfgfr.vblufOf(16));
+
+        Objfdt mfnuBbrHfight = nfw DfsktopPropfrty("win.mfnu.hfight", null);
+
+        Objfdt hotTrbdkingOn = nfw DfsktopPropfrty("win.itfm.hotTrbdkingOn", truf);
+
+        Objfdt showMnfmonids = nfw DfsktopPropfrty("win.mfnu.kfybobrdCufsOn", Boolfbn.TRUE);
+
+        if (usfSystfmFontSfttings) {
+            MfnuFont = gftDfsktopFontVbluf("win.mfnu.font", MfnuFont);
+            FixfdControlFont = gftDfsktopFontVbluf("win.bnsiFixfd.font", FixfdControlFont);
+            ControlFont = gftDfsktopFontVbluf("win.dffbultGUI.font", ControlFont);
+            MfssbgfFont = gftDfsktopFontVbluf("win.mfssbgfbox.font", MfssbgfFont);
+            WindowFont = gftDfsktopFontVbluf("win.frbmf.dbptionFont", WindowFont);
+            IdonFont    = gftDfsktopFontVbluf("win.idon.font", IdonFont);
+            ToolTipFont = gftDfsktopFontVbluf("win.tooltip.font", ToolTipFont);
+
+            /* Put thf dfsktop AA sfttings in thf dffbults.
+             * JComponfnt.sftUI() rftrifvfs this bnd mbkfs it bvbilbblf
+             * bs b dlifnt propfrty on thf JComponfnt. Usf thf sbmf kfy nbmf
+             * for both dlifnt propfrty bnd UIDffbults.
+             * Also nffd to sft up listfnfrs for dhbngfs in thfsf sfttings.
+             */
+            Objfdt bbTfxtInfo = SwingUtilitifs2.AATfxtInfo.gftAATfxtInfo(truf);
+            tbblf.put(SwingUtilitifs2.AA_TEXT_PROPERTY_KEY, bbTfxtInfo);
+            this.bbSfttings =
+                nfw FontDfsktopPropfrty(SunToolkit.DESKTOPFONTHINTS);
+        }
+        if (usfSystfmFontSizfSfttings) {
+            MfnuFont = nfw WindowsFontSizfPropfrty("win.mfnu.font.hfight", Font.DIALOG, Font.PLAIN, 12);
+            FixfdControlFont = nfw WindowsFontSizfPropfrty("win.bnsiFixfd.font.hfight", Font.MONOSPACED,
+                       Font.PLAIN, 12);
+            ControlFont = nfw WindowsFontSizfPropfrty("win.dffbultGUI.font.hfight", Font.DIALOG, Font.PLAIN, 12);
+            MfssbgfFont = nfw WindowsFontSizfPropfrty("win.mfssbgfbox.font.hfight", Font.DIALOG, Font.PLAIN, 12);
+            WindowFont = nfw WindowsFontSizfPropfrty("win.frbmf.dbptionFont.hfight", Font.DIALOG, Font.BOLD, 12);
+            ToolTipFont = nfw WindowsFontSizfPropfrty("win.tooltip.font.hfight", Font.SANS_SERIF, Font.PLAIN, 12);
+            IdonFont    = nfw WindowsFontSizfPropfrty("win.idon.font.hfight", Font.DIALOG, Font.PLAIN, 12);
+        }
+
+
+        if (!(this instbndfof WindowsClbssidLookAndFffl) &&
+            (OSInfo.gftOSTypf() == OSInfo.OSTypf.WINDOWS &&
+             OSInfo.gftWindowsVfrsion().dompbrfTo(OSInfo.WINDOWS_XP) >= 0) &&
+            AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("swing.noxp")) == null) {
+
+            // Thfsf dfsktop propfrtifs brf not usfd dirfdtly, but brf nffdfd to
+            // triggfr rfblobding of UI's.
+            this.thfmfAdtivf = nfw TriggfrDfsktopPropfrty("win.xpstylf.thfmfAdtivf");
+            this.dllNbmf     = nfw TriggfrDfsktopPropfrty("win.xpstylf.dllNbmf");
+            this.dolorNbmf   = nfw TriggfrDfsktopPropfrty("win.xpstylf.dolorNbmf");
+            this.sizfNbmf    = nfw TriggfrDfsktopPropfrty("win.xpstylf.sizfNbmf");
+        }
+
+
+        Objfdt[] dffbults = {
+            // *** Auditory Fffdbbdk
+            // this kfy dffinfs whidh of thf vbrious dufs to rfndfr
+            // Ovfrriddfn from BbsidL&F. This L&F should plby bll sounds
+            // bll thf timf. Thf infrbstrudturf dfdidfs whbt to plby.
+            // This is disbblfd until sound bugs dbn bf rfsolvfd.
+            "AuditoryCufs.plbyList", null, // tbblf.gft("AuditoryCufs.dufList"),
+
+            "Applidbtion.usfSystfmFontSfttings", Boolfbn.vblufOf(usfSystfmFontSfttings),
+
+            "TfxtFifld.fodusInputMbp", fifldInputMbp,
+            "PbsswordFifld.fodusInputMbp", pbsswordInputMbp,
+            "TfxtArfb.fodusInputMbp", multilinfInputMbp,
+            "TfxtPbnf.fodusInputMbp", multilinfInputMbp,
+            "EditorPbnf.fodusInputMbp", multilinfInputMbp,
+
+            // Buttons
+            "Button.font", ControlFont,
+            "Button.bbdkground", ControlBbdkgroundColor,
+            // Button.forfground, Button.shbdow, Button.dbrkShbdow,
+            // Button.disbblfdForground, bnd Button.disbblfdShbdow brf only
+            // usfd for Windows Clbssid. Windows XP will usf dolors
+            // from thf durrfnt visubl stylf.
+            "Button.forfground", ControlTfxtColor,
+            "Button.shbdow", ControlShbdowColor,
+            "Button.dbrkShbdow", ControlDbrkShbdowColor,
+            "Button.light", ControlLightColor,
+            "Button.highlight", ControlHighlightColor,
+            "Button.disbblfdForfground", InbdtivfTfxtColor,
+            "Button.disbblfdShbdow", ControlHighlightColor,
+            "Button.fodus", buttonFodusColor,
+            "Button.dbshfdRfdtGbpX", nfw XPVbluf(Intfgfr.vblufOf(3), Intfgfr.vblufOf(5)),
+            "Button.dbshfdRfdtGbpY", nfw XPVbluf(Intfgfr.vblufOf(3), Intfgfr.vblufOf(4)),
+            "Button.dbshfdRfdtGbpWidth", nfw XPVbluf(Intfgfr.vblufOf(6), Intfgfr.vblufOf(10)),
+            "Button.dbshfdRfdtGbpHfight", nfw XPVbluf(Intfgfr.vblufOf(6), Intfgfr.vblufOf(8)),
+            "Button.tfxtShiftOffsft", nfw XPVbluf(Intfgfr.vblufOf(0),
+                                                  Intfgfr.vblufOf(1)),
+            // W2K kfybobrd nbvigbtion hidding.
+            "Button.showMnfmonids", showMnfmonids,
+            "Button.fodusInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                            "SPACE", "prfssfd",
+                   "rflfbsfd SPACE", "rflfbsfd"
+                 }),
+
+            "Cbrft.width",
+                  nfw DfsktopPropfrty("win.dbrft.width", null),
+
+            "ChfdkBox.font", ControlFont,
+            "ChfdkBox.intfriorBbdkground", WindowBbdkgroundColor,
+            "ChfdkBox.bbdkground", ControlBbdkgroundColor,
+            "ChfdkBox.forfground", WindowTfxtColor,
+            "ChfdkBox.shbdow", ControlShbdowColor,
+            "ChfdkBox.dbrkShbdow", ControlDbrkShbdowColor,
+            "ChfdkBox.light", ControlLightColor,
+            "ChfdkBox.highlight", ControlHighlightColor,
+            "ChfdkBox.fodus", buttonFodusColor,
+            "ChfdkBox.fodusInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                            "SPACE", "prfssfd",
+                   "rflfbsfd SPACE", "rflfbsfd"
+                 }),
+            // mbrgin is 2 bll thf wby bround, BbsidBordfrs.RbdioButtonBordfr
+            // (dhfdkbox usfs RbdioButtonBordfr) is 2 bll thf wby bround too.
+            "ChfdkBox.totblInsfts", nfw Insfts(4, 4, 4, 4),
+
+            "ChfdkBoxMfnuItfm.font", MfnuFont,
+            "ChfdkBoxMfnuItfm.bbdkground", MfnuBbdkgroundColor,
+            "ChfdkBoxMfnuItfm.forfground", MfnuTfxtColor,
+            "ChfdkBoxMfnuItfm.sflfdtionForfground", SflfdtionTfxtColor,
+            "ChfdkBoxMfnuItfm.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "ChfdkBoxMfnuItfm.bddflfrbtorForfground", MfnuTfxtColor,
+            "ChfdkBoxMfnuItfm.bddflfrbtorSflfdtionForfground", SflfdtionTfxtColor,
+            "ChfdkBoxMfnuItfm.dommbndSound", "win.sound.mfnuCommbnd",
+
+            "ComboBox.font", ControlFont,
+            "ComboBox.bbdkground", WindowBbdkgroundColor,
+            "ComboBox.forfground", WindowTfxtColor,
+            "ComboBox.buttonBbdkground", ControlBbdkgroundColor,
+            "ComboBox.buttonShbdow", ControlShbdowColor,
+            "ComboBox.buttonDbrkShbdow", ControlDbrkShbdowColor,
+            "ComboBox.buttonHighlight", ControlHighlightColor,
+            "ComboBox.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "ComboBox.sflfdtionForfground", SflfdtionTfxtColor,
+            "ComboBox.fditorBordfr", nfw XPVbluf(nfw EmptyBordfr(1,2,1,1),
+                                                 nfw EmptyBordfr(1,4,1,4)),
+            "ComboBox.disbblfdBbdkground",
+                        nfw XPColorVbluf(Pbrt.CP_COMBOBOX, Stbtf.DISABLED,
+                        Prop.FILLCOLOR, DisbblfdTfxtBbdkground),
+            "ComboBox.disbblfdForfground",
+                        nfw XPColorVbluf(Pbrt.CP_COMBOBOX, Stbtf.DISABLED,
+                        Prop.TEXTCOLOR, InbdtivfTfxtColor),
+            "ComboBox.bndfstorInputMbp", nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                   "ESCAPE", "hidfPopup",
+                  "PAGE_UP", "pbgfUpPbssThrough",
+                "PAGE_DOWN", "pbgfDownPbssThrough",
+                     "HOME", "homfPbssThrough",
+                      "END", "fndPbssThrough",
+                     "DOWN", "sflfdtNfxt2",
+                  "KP_DOWN", "sflfdtNfxt2",
+                       "UP", "sflfdtPrfvious2",
+                    "KP_UP", "sflfdtPrfvious2",
+                    "ENTER", "fntfrPrfssfd",
+                       "F4", "togglfPopup",
+                 "blt DOWN", "togglfPopup",
+              "blt KP_DOWN", "togglfPopup",
+                   "blt UP", "togglfPopup",
+                "blt KP_UP", "togglfPopup"
+              }),
+
+            // DfskTop.
+            "Dfsktop.bbdkground", nfw DfsktopPropfrty(
+                                                 "win.dfsktop.bbdkgroundColor",
+                                                  tbblf.gft("dfsktop")),
+            "Dfsktop.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                   "dtrl F5", "rfstorf",
+                   "dtrl F4", "dlosf",
+                   "dtrl F7", "movf",
+                   "dtrl F8", "rfsizf",
+                   "RIGHT", "right",
+                   "KP_RIGHT", "right",
+                   "LEFT", "lfft",
+                   "KP_LEFT", "lfft",
+                   "UP", "up",
+                   "KP_UP", "up",
+                   "DOWN", "down",
+                   "KP_DOWN", "down",
+                   "ESCAPE", "fsdbpf",
+                   "dtrl F9", "minimizf",
+                   "dtrl F10", "mbximizf",
+                   "dtrl F6", "sflfdtNfxtFrbmf",
+                   "dtrl TAB", "sflfdtNfxtFrbmf",
+                   "dtrl blt F6", "sflfdtNfxtFrbmf",
+                   "shift dtrl blt F6", "sflfdtPrfviousFrbmf",
+                   "dtrl F12", "nbvigbtfNfxt",
+                   "shift dtrl F12", "nbvigbtfPrfvious"
+               }),
+
+            // DfsktopIdon
+            "DfsktopIdon.width", Intfgfr.vblufOf(160),
+
+            "EditorPbnf.font", ControlFont,
+            "EditorPbnf.bbdkground", WindowBbdkgroundColor,
+            "EditorPbnf.forfground", WindowTfxtColor,
+            "EditorPbnf.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "EditorPbnf.sflfdtionForfground", SflfdtionTfxtColor,
+            "EditorPbnf.dbrftForfground", WindowTfxtColor,
+            "EditorPbnf.inbdtivfForfground", InbdtivfTfxtColor,
+            "EditorPbnf.inbdtivfBbdkground", WindowBbdkgroundColor,
+            "EditorPbnf.disbblfdBbdkground", DisbblfdTfxtBbdkground,
+
+            "FilfChoosfr.homfFoldfrIdon",  nfw LbzyWindowsIdon(null,
+                                                               "idons/HomfFoldfr.gif"),
+            "FilfChoosfr.listFont", IdonFont,
+            "FilfChoosfr.listVifwBbdkground", nfw XPColorVbluf(Pbrt.LVP_LISTVIEW, null, Prop.FILLCOLOR,
+                                                               WindowBbdkgroundColor),
+            "FilfChoosfr.listVifwBordfr", nfw XPBordfrVbluf(Pbrt.LVP_LISTVIEW,
+               (LbzyVbluf) t -> BordfrUIRfsourdf.gftLowfrfdBfvflBordfrUIRfsourdf()),
+            "FilfChoosfr.listVifwIdon",    nfw LbzyWindowsIdon("filfChoosfrIdon ListVifw",
+                                                               "idons/ListVifw.gif"),
+            "FilfChoosfr.listVifwWindowsStylf", Boolfbn.TRUE,
+            "FilfChoosfr.dftbilsVifwIdon", nfw LbzyWindowsIdon("filfChoosfrIdon DftbilsVifw",
+                                                               "idons/DftbilsVifw.gif"),
+            "FilfChoosfr.vifwMfnuIdon", nfw LbzyWindowsIdon("filfChoosfrIdon VifwMfnu",
+                                                            "idons/ListVifw.gif"),
+            "FilfChoosfr.upFoldfrIdon",    nfw LbzyWindowsIdon("filfChoosfrIdon UpFoldfr",
+                                                               "idons/UpFoldfr.gif"),
+            "FilfChoosfr.nfwFoldfrIdon",   nfw LbzyWindowsIdon("filfChoosfrIdon NfwFoldfr",
+                                                               "idons/NfwFoldfr.gif"),
+            "FilfChoosfr.usfSystfmExtfnsionHiding", Boolfbn.TRUE,
+
+            "FilfChoosfr.usfsSinglfFilfPbnf", Boolfbn.TRUE,
+            "FilfChoosfr.noPlbdfsBbr", nfw DfsktopPropfrty("win.domdlg.noPlbdfsBbr",
+                                                           Boolfbn.FALSE),
+            "FilfChoosfr.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                     "ESCAPE", "dbndflSflfdtion",
+                     "F2", "fditFilfNbmf",
+                     "F5", "rffrfsh",
+                     "BACK_SPACE", "Go Up"
+                 }),
+
+            "FilfVifw.dirfdtoryIdon", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                               WindowsLookAndFffl.dlbss,
+                                                               "idons/Dirfdtory.gif"),
+            "FilfVifw.filfIdon", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                          WindowsLookAndFffl.dlbss,
+                                                          "idons/Filf.gif"),
+            "FilfVifw.domputfrIdon", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                              WindowsLookAndFffl.dlbss,
+                                                              "idons/Computfr.gif"),
+            "FilfVifw.hbrdDrivfIdon", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                               WindowsLookAndFffl.dlbss,
+                                                               "idons/HbrdDrivf.gif"),
+            "FilfVifw.floppyDrivfIdon", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                                 WindowsLookAndFffl.dlbss,
+                                                                 "idons/FloppyDrivf.gif"),
+
+            "FormbttfdTfxtFifld.font", ControlFont,
+            "IntfrnblFrbmf.titlfFont", WindowFont,
+            "IntfrnblFrbmf.titlfPbnfHfight",   TitlfPbnfHfight,
+            "IntfrnblFrbmf.titlfButtonWidth",  TitlfButtonWidth,
+            "IntfrnblFrbmf.titlfButtonHfight", TitlfButtonHfight,
+            "IntfrnblFrbmf.titlfButtonToolTipsOn", hotTrbdkingOn,
+            "IntfrnblFrbmf.bordfrColor", ControlBbdkgroundColor,
+            "IntfrnblFrbmf.bordfrShbdow", ControlShbdowColor,
+            "IntfrnblFrbmf.bordfrDbrkShbdow", ControlDbrkShbdowColor,
+            "IntfrnblFrbmf.bordfrHighlight", ControlHighlightColor,
+            "IntfrnblFrbmf.bordfrLight", ControlLightColor,
+            "IntfrnblFrbmf.bordfrWidth", WindowBordfrWidth,
+            "IntfrnblFrbmf.minimizfIdonBbdkground", ControlBbdkgroundColor,
+            "IntfrnblFrbmf.rfsizfIdonHighlight", ControlLightColor,
+            "IntfrnblFrbmf.rfsizfIdonShbdow", ControlShbdowColor,
+            "IntfrnblFrbmf.bdtivfBordfrColor", nfw DfsktopPropfrty(
+                                                       "win.frbmf.bdtivfBordfrColor",
+                                                       tbblf.gft("windowBordfr")),
+            "IntfrnblFrbmf.inbdtivfBordfrColor", nfw DfsktopPropfrty(
+                                                       "win.frbmf.inbdtivfBordfrColor",
+                                                       tbblf.gft("windowBordfr")),
+            "IntfrnblFrbmf.bdtivfTitlfBbdkground", nfw DfsktopPropfrty(
+                                                        "win.frbmf.bdtivfCbptionColor",
+                                                         tbblf.gft("bdtivfCbption")),
+            "IntfrnblFrbmf.bdtivfTitlfGrbdifnt", nfw DfsktopPropfrty(
+                                                        "win.frbmf.bdtivfCbptionGrbdifntColor",
+                                                         tbblf.gft("bdtivfCbption")),
+            "IntfrnblFrbmf.bdtivfTitlfForfground", nfw DfsktopPropfrty(
+                                                        "win.frbmf.dbptionTfxtColor",
+                                                         tbblf.gft("bdtivfCbptionTfxt")),
+            "IntfrnblFrbmf.inbdtivfTitlfBbdkground", nfw DfsktopPropfrty(
+                                                        "win.frbmf.inbdtivfCbptionColor",
+                                                         tbblf.gft("inbdtivfCbption")),
+            "IntfrnblFrbmf.inbdtivfTitlfGrbdifnt", nfw DfsktopPropfrty(
+                                                        "win.frbmf.inbdtivfCbptionGrbdifntColor",
+                                                         tbblf.gft("inbdtivfCbption")),
+            "IntfrnblFrbmf.inbdtivfTitlfForfground", nfw DfsktopPropfrty(
+                                                        "win.frbmf.inbdtivfCbptionTfxtColor",
+                                                         tbblf.gft("inbdtivfCbptionTfxt")),
+
+            "IntfrnblFrbmf.mbximizfIdon",
+                WindowsIdonFbdtory.drfbtfFrbmfMbximizfIdon(),
+            "IntfrnblFrbmf.minimizfIdon",
+                WindowsIdonFbdtory.drfbtfFrbmfMinimizfIdon(),
+            "IntfrnblFrbmf.idonifyIdon",
+                WindowsIdonFbdtory.drfbtfFrbmfIdonifyIdon(),
+            "IntfrnblFrbmf.dlosfIdon",
+                WindowsIdonFbdtory.drfbtfFrbmfClosfIdon(),
+            "IntfrnblFrbmf.idon",
+               (LbzyVbluf) t -> nfw Objfdt[]{
+                    // Thf donstrudtor tbkfs onf brg: bn brrby of UIDffbults.LbzyVbluf
+                    // rfprfsfnting thf idons
+                        SwingUtilitifs2.mbkfIdon(gftClbss(), BbsidLookAndFffl.dlbss, "idons/JbvbCup16.png"),
+                        SwingUtilitifs2.mbkfIdon(gftClbss(), WindowsLookAndFffl.dlbss, "idons/JbvbCup32.png")
+                },
+            // Intfrnbl Frbmf Auditory Cuf Mbppings
+            "IntfrnblFrbmf.dlosfSound", "win.sound.dlosf",
+            "IntfrnblFrbmf.mbximizfSound", "win.sound.mbximizf",
+            "IntfrnblFrbmf.minimizfSound", "win.sound.minimizf",
+            "IntfrnblFrbmf.rfstorfDownSound", "win.sound.rfstorfDown",
+            "IntfrnblFrbmf.rfstorfUpSound", "win.sound.rfstorfUp",
+
+            "IntfrnblFrbmf.windowBindings", nfw Objfdt[] {
+                "shift ESCAPE", "showSystfmMfnu",
+                  "dtrl SPACE", "showSystfmMfnu",
+                      "ESCAPE", "hidfSystfmMfnu"},
+
+            // Lbbfl
+            "Lbbfl.font", ControlFont,
+            "Lbbfl.bbdkground", ControlBbdkgroundColor,
+            "Lbbfl.forfground", WindowTfxtColor,
+            "Lbbfl.disbblfdForfground", InbdtivfTfxtColor,
+            "Lbbfl.disbblfdShbdow", ControlHighlightColor,
+
+            // List.
+            "List.font", ControlFont,
+            "List.bbdkground", WindowBbdkgroundColor,
+            "List.forfground", WindowTfxtColor,
+            "List.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "List.sflfdtionForfground", SflfdtionTfxtColor,
+            "List.lodkToPositionOnSdroll", Boolfbn.TRUE,
+            "List.fodusInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                           "dtrl C", "dopy",
+                           "dtrl V", "pbstf",
+                           "dtrl X", "dut",
+                             "COPY", "dopy",
+                            "PASTE", "pbstf",
+                              "CUT", "dut",
+                   "dontrol INSERT", "dopy",
+                     "shift INSERT", "pbstf",
+                     "shift DELETE", "dut",
+                               "UP", "sflfdtPrfviousRow",
+                            "KP_UP", "sflfdtPrfviousRow",
+                         "shift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                      "shift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                    "dtrl shift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                 "dtrl shift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                          "dtrl UP", "sflfdtPrfviousRowChbngfLfbd",
+                       "dtrl KP_UP", "sflfdtPrfviousRowChbngfLfbd",
+                             "DOWN", "sflfdtNfxtRow",
+                          "KP_DOWN", "sflfdtNfxtRow",
+                       "shift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                    "shift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                  "dtrl shift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+               "dtrl shift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                        "dtrl DOWN", "sflfdtNfxtRowChbngfLfbd",
+                     "dtrl KP_DOWN", "sflfdtNfxtRowChbngfLfbd",
+                             "LEFT", "sflfdtPrfviousColumn",
+                          "KP_LEFT", "sflfdtPrfviousColumn",
+                       "shift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                    "shift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                  "dtrl shift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+               "dtrl shift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                        "dtrl LEFT", "sflfdtPrfviousColumnChbngfLfbd",
+                     "dtrl KP_LEFT", "sflfdtPrfviousColumnChbngfLfbd",
+                            "RIGHT", "sflfdtNfxtColumn",
+                         "KP_RIGHT", "sflfdtNfxtColumn",
+                      "shift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                   "shift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                 "dtrl shift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+              "dtrl shift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                       "dtrl RIGHT", "sflfdtNfxtColumnChbngfLfbd",
+                    "dtrl KP_RIGHT", "sflfdtNfxtColumnChbngfLfbd",
+                             "HOME", "sflfdtFirstRow",
+                       "shift HOME", "sflfdtFirstRowExtfndSflfdtion",
+                  "dtrl shift HOME", "sflfdtFirstRowExtfndSflfdtion",
+                        "dtrl HOME", "sflfdtFirstRowChbngfLfbd",
+                              "END", "sflfdtLbstRow",
+                        "shift END", "sflfdtLbstRowExtfndSflfdtion",
+                   "dtrl shift END", "sflfdtLbstRowExtfndSflfdtion",
+                         "dtrl END", "sflfdtLbstRowChbngfLfbd",
+                          "PAGE_UP", "sdrollUp",
+                    "shift PAGE_UP", "sdrollUpExtfndSflfdtion",
+               "dtrl shift PAGE_UP", "sdrollUpExtfndSflfdtion",
+                     "dtrl PAGE_UP", "sdrollUpChbngfLfbd",
+                        "PAGE_DOWN", "sdrollDown",
+                  "shift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+             "dtrl shift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+                   "dtrl PAGE_DOWN", "sdrollDownChbngfLfbd",
+                           "dtrl A", "sflfdtAll",
+                       "dtrl SLASH", "sflfdtAll",
+                  "dtrl BACK_SLASH", "dlfbrSflfdtion",
+                            "SPACE", "bddToSflfdtion",
+                       "dtrl SPACE", "togglfAndAndhor",
+                      "shift SPACE", "fxtfndTo",
+                 "dtrl shift SPACE", "movfSflfdtionTo"
+                 }),
+
+            // PopupMfnu
+            "PopupMfnu.font", MfnuFont,
+            "PopupMfnu.bbdkground", MfnuBbdkgroundColor,
+            "PopupMfnu.forfground", MfnuTfxtColor,
+            "PopupMfnu.popupSound", "win.sound.mfnuPopup",
+            "PopupMfnu.donsumfEvfntOnClosf", Boolfbn.TRUE,
+
+            // Mfnus
+            "Mfnu.font", MfnuFont,
+            "Mfnu.forfground", MfnuTfxtColor,
+            "Mfnu.bbdkground", MfnuBbdkgroundColor,
+            "Mfnu.usfMfnuBbrBbdkgroundForTopLfvfl", Boolfbn.TRUE,
+            "Mfnu.sflfdtionForfground", SflfdtionTfxtColor,
+            "Mfnu.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "Mfnu.bddflfrbtorForfground", MfnuTfxtColor,
+            "Mfnu.bddflfrbtorSflfdtionForfground", SflfdtionTfxtColor,
+            "Mfnu.mfnuPopupOffsftX", Intfgfr.vblufOf(0),
+            "Mfnu.mfnuPopupOffsftY", Intfgfr.vblufOf(0),
+            "Mfnu.submfnuPopupOffsftX", Intfgfr.vblufOf(-4),
+            "Mfnu.submfnuPopupOffsftY", Intfgfr.vblufOf(-3),
+            "Mfnu.drossMfnuMnfmonid", Boolfbn.FALSE,
+            "Mfnu.prfsfrvfTopLfvflSflfdtion", Boolfbn.TRUE,
+
+            // MfnuBbr.
+            "MfnuBbr.font", MfnuFont,
+            "MfnuBbr.bbdkground", nfw XPVbluf(MfnuBbrBbdkgroundColor,
+                                              MfnuBbdkgroundColor),
+            "MfnuBbr.forfground", MfnuTfxtColor,
+            "MfnuBbr.shbdow", ControlShbdowColor,
+            "MfnuBbr.highlight", ControlHighlightColor,
+            "MfnuBbr.hfight", mfnuBbrHfight,
+            "MfnuBbr.rollovfrEnbblfd", hotTrbdkingOn,
+            "MfnuBbr.windowBindings", nfw Objfdt[] {
+                "F10", "tbkfFodus" },
+
+            "MfnuItfm.font", MfnuFont,
+            "MfnuItfm.bddflfrbtorFont", MfnuFont,
+            "MfnuItfm.forfground", MfnuTfxtColor,
+            "MfnuItfm.bbdkground", MfnuBbdkgroundColor,
+            "MfnuItfm.sflfdtionForfground", SflfdtionTfxtColor,
+            "MfnuItfm.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "MfnuItfm.disbblfdForfground", InbdtivfTfxtColor,
+            "MfnuItfm.bddflfrbtorForfground", MfnuTfxtColor,
+            "MfnuItfm.bddflfrbtorSflfdtionForfground", SflfdtionTfxtColor,
+            "MfnuItfm.bddflfrbtorDflimitfr", mfnuItfmAddflfrbtorDflimitfr,
+                 // Mfnu Itfm Auditory Cuf Mbpping
+            "MfnuItfm.dommbndSound", "win.sound.mfnuCommbnd",
+             // indidbtfs thbt kfybobrd nbvigbtion won't skip disbblfd mfnu itfms
+            "MfnuItfm.disbblfdArfNbvigbblf", Boolfbn.TRUE,
+
+            "RbdioButton.font", ControlFont,
+            "RbdioButton.intfriorBbdkground", WindowBbdkgroundColor,
+            "RbdioButton.bbdkground", ControlBbdkgroundColor,
+            "RbdioButton.forfground", WindowTfxtColor,
+            "RbdioButton.shbdow", ControlShbdowColor,
+            "RbdioButton.dbrkShbdow", ControlDbrkShbdowColor,
+            "RbdioButton.light", ControlLightColor,
+            "RbdioButton.highlight", ControlHighlightColor,
+            "RbdioButton.fodus", buttonFodusColor,
+            "RbdioButton.fodusInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                          "SPACE", "prfssfd",
+                 "rflfbsfd SPACE", "rflfbsfd"
+              }),
+            // mbrgin is 2 bll thf wby bround, BbsidBordfrs.RbdioButtonBordfr
+            // is 2 bll thf wby bround too.
+            "RbdioButton.totblInsfts", nfw Insfts(4, 4, 4, 4),
+
+
+            "RbdioButtonMfnuItfm.font", MfnuFont,
+            "RbdioButtonMfnuItfm.forfground", MfnuTfxtColor,
+            "RbdioButtonMfnuItfm.bbdkground", MfnuBbdkgroundColor,
+            "RbdioButtonMfnuItfm.sflfdtionForfground", SflfdtionTfxtColor,
+            "RbdioButtonMfnuItfm.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "RbdioButtonMfnuItfm.disbblfdForfground", InbdtivfTfxtColor,
+            "RbdioButtonMfnuItfm.bddflfrbtorForfground", MfnuTfxtColor,
+            "RbdioButtonMfnuItfm.bddflfrbtorSflfdtionForfground", SflfdtionTfxtColor,
+            "RbdioButtonMfnuItfm.dommbndSound", "win.sound.mfnuCommbnd",
+
+            // OptionPbnf.
+            "OptionPbnf.font", MfssbgfFont,
+            "OptionPbnf.mfssbgfFont", MfssbgfFont,
+            "OptionPbnf.buttonFont", MfssbgfFont,
+            "OptionPbnf.bbdkground", ControlBbdkgroundColor,
+            "OptionPbnf.forfground", WindowTfxtColor,
+            "OptionPbnf.buttonMinimumWidth", nfw XPDLUVbluf(50, 50, SwingConstbnts.EAST),
+            "OptionPbnf.mfssbgfForfground", ControlTfxtColor,
+            "OptionPbnf.frrorIdon",       nfw LbzyWindowsIdon("optionPbnfIdon Error",
+                                                              "idons/Error.gif"),
+            "OptionPbnf.informbtionIdon", nfw LbzyWindowsIdon("optionPbnfIdon Informbtion",
+                                                              "idons/Inform.gif"),
+            "OptionPbnf.qufstionIdon",    nfw LbzyWindowsIdon("optionPbnfIdon Qufstion",
+                                                              "idons/Qufstion.gif"),
+            "OptionPbnf.wbrningIdon",     nfw LbzyWindowsIdon("optionPbnfIdon Wbrning",
+                                                              "idons/Wbrn.gif"),
+            "OptionPbnf.windowBindings", nfw Objfdt[] {
+                "ESCAPE", "dlosf" },
+                 // Option Pbnf Auditory Cuf Mbppings
+            "OptionPbnf.frrorSound", "win.sound.hbnd", // Error
+            "OptionPbnf.informbtionSound", "win.sound.bstfrisk", // Info Plbin
+            "OptionPbnf.qufstionSound", "win.sound.qufstion", // Qufstion
+            "OptionPbnf.wbrningSound", "win.sound.fxdlbmbtion", // Wbrning
+
+            "FormbttfdTfxtFifld.fodusInputMbp",
+              nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                           "dtrl C", DffbultEditorKit.dopyAdtion,
+                           "dtrl V", DffbultEditorKit.pbstfAdtion,
+                           "dtrl X", DffbultEditorKit.dutAdtion,
+                             "COPY", DffbultEditorKit.dopyAdtion,
+                            "PASTE", DffbultEditorKit.pbstfAdtion,
+                              "CUT", DffbultEditorKit.dutAdtion,
+                   "dontrol INSERT", DffbultEditorKit.dopyAdtion,
+                     "shift INSERT", DffbultEditorKit.pbstfAdtion,
+                     "shift DELETE", DffbultEditorKit.dutAdtion,
+                       "shift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                    "shift KP_LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                      "shift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                   "shift KP_RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                        "dtrl LEFT", DffbultEditorKit.prfviousWordAdtion,
+                     "dtrl KP_LEFT", DffbultEditorKit.prfviousWordAdtion,
+                       "dtrl RIGHT", DffbultEditorKit.nfxtWordAdtion,
+                    "dtrl KP_RIGHT", DffbultEditorKit.nfxtWordAdtion,
+                  "dtrl shift LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+               "dtrl shift KP_LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+                 "dtrl shift RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+              "dtrl shift KP_RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+                           "dtrl A", DffbultEditorKit.sflfdtAllAdtion,
+                             "HOME", DffbultEditorKit.bfginLinfAdtion,
+                              "END", DffbultEditorKit.fndLinfAdtion,
+                       "shift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+                        "shift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
+                       "BACK_SPACE", DffbultEditorKit.dflftfPrfvChbrAdtion,
+                 "shift BACK_SPACE", DffbultEditorKit.dflftfPrfvChbrAdtion,
+                           "dtrl H", DffbultEditorKit.dflftfPrfvChbrAdtion,
+                           "DELETE", DffbultEditorKit.dflftfNfxtChbrAdtion,
+                      "dtrl DELETE", DffbultEditorKit.dflftfNfxtWordAdtion,
+                  "dtrl BACK_SPACE", DffbultEditorKit.dflftfPrfvWordAdtion,
+                            "RIGHT", DffbultEditorKit.forwbrdAdtion,
+                             "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                         "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+                          "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                            "ENTER", JTfxtFifld.notifyAdtion,
+                  "dtrl BACK_SLASH", "unsflfdt",
+                   "dontrol shift O", "togglf-domponfntOrifntbtion",
+                           "ESCAPE", "rfsft-fifld-fdit",
+                               "UP", "indrfmfnt",
+                            "KP_UP", "indrfmfnt",
+                             "DOWN", "dfdrfmfnt",
+                          "KP_DOWN", "dfdrfmfnt",
+              }),
+            "FormbttfdTfxtFifld.inbdtivfBbdkground", RfbdOnlyTfxtBbdkground,
+            "FormbttfdTfxtFifld.disbblfdBbdkground", DisbblfdTfxtBbdkground,
+
+            // *** Pbnfl
+            "Pbnfl.font", ControlFont,
+            "Pbnfl.bbdkground", ControlBbdkgroundColor,
+            "Pbnfl.forfground", WindowTfxtColor,
+
+            // *** PbsswordFifld
+            "PbsswordFifld.font", ControlFont,
+            "PbsswordFifld.bbdkground", TfxtBbdkground,
+            "PbsswordFifld.forfground", WindowTfxtColor,
+            "PbsswordFifld.inbdtivfForfground", InbdtivfTfxtColor,      // for disbblfd
+            "PbsswordFifld.inbdtivfBbdkground", RfbdOnlyTfxtBbdkground, // for rfbdonly
+            "PbsswordFifld.disbblfdBbdkground", DisbblfdTfxtBbdkground, // for disbblfd
+            "PbsswordFifld.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "PbsswordFifld.sflfdtionForfground", SflfdtionTfxtColor,
+            "PbsswordFifld.dbrftForfground",WindowTfxtColor,
+            "PbsswordFifld.fdhoChbr", nfw XPVbluf((dhbr)0x25CF, '*'),
+
+            // *** ProgrfssBbr
+            "ProgrfssBbr.font", ControlFont,
+            "ProgrfssBbr.forfground",  SflfdtionBbdkgroundColor,
+            "ProgrfssBbr.bbdkground", ControlBbdkgroundColor,
+            "ProgrfssBbr.shbdow", ControlShbdowColor,
+            "ProgrfssBbr.highlight", ControlHighlightColor,
+            "ProgrfssBbr.sflfdtionForfground", ControlBbdkgroundColor,
+            "ProgrfssBbr.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "ProgrfssBbr.dfllLfngth", Intfgfr.vblufOf(7),
+            "ProgrfssBbr.dfllSpbding", Intfgfr.vblufOf(2),
+            "ProgrfssBbr.indftfrminbtfInsfts", nfw Insfts(3, 3, 3, 3),
+
+            // *** RootPbnf.
+            // Thfsf bindings brf only fnbblfd whfn thfrf is b dffbult
+            // button sft on thf rootpbnf.
+            "RootPbnf.dffbultButtonWindowKfyBindings", nfw Objfdt[] {
+                             "ENTER", "prfss",
+                    "rflfbsfd ENTER", "rflfbsf",
+                        "dtrl ENTER", "prfss",
+               "dtrl rflfbsfd ENTER", "rflfbsf"
+              },
+
+            // *** SdrollBbr.
+            "SdrollBbr.bbdkground", SdrollbbrBbdkgroundColor,
+            "SdrollBbr.forfground", ControlBbdkgroundColor,
+            "SdrollBbr.trbdk", whitf,
+            "SdrollBbr.trbdkForfground", SdrollbbrBbdkgroundColor,
+            "SdrollBbr.trbdkHighlight", blbdk,
+            "SdrollBbr.trbdkHighlightForfground", sdrollBbrTrbdkHighlight,
+            "SdrollBbr.thumb", ControlBbdkgroundColor,
+            "SdrollBbr.thumbHighlight", ControlHighlightColor,
+            "SdrollBbr.thumbDbrkShbdow", ControlDbrkShbdowColor,
+            "SdrollBbr.thumbShbdow", ControlShbdowColor,
+            "SdrollBbr.width", sdrollBbrWidth,
+            "SdrollBbr.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                       "RIGHT", "positivfUnitIndrfmfnt",
+                    "KP_RIGHT", "positivfUnitIndrfmfnt",
+                        "DOWN", "positivfUnitIndrfmfnt",
+                     "KP_DOWN", "positivfUnitIndrfmfnt",
+                   "PAGE_DOWN", "positivfBlodkIndrfmfnt",
+              "dtrl PAGE_DOWN", "positivfBlodkIndrfmfnt",
+                        "LEFT", "nfgbtivfUnitIndrfmfnt",
+                     "KP_LEFT", "nfgbtivfUnitIndrfmfnt",
+                          "UP", "nfgbtivfUnitIndrfmfnt",
+                       "KP_UP", "nfgbtivfUnitIndrfmfnt",
+                     "PAGE_UP", "nfgbtivfBlodkIndrfmfnt",
+                "dtrl PAGE_UP", "nfgbtivfBlodkIndrfmfnt",
+                        "HOME", "minSdroll",
+                         "END", "mbxSdroll"
+                 }),
+
+            // *** SdrollPbnf.
+            "SdrollPbnf.font", ControlFont,
+            "SdrollPbnf.bbdkground", ControlBbdkgroundColor,
+            "SdrollPbnf.forfground", ControlTfxtColor,
+            "SdrollPbnf.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                           "RIGHT", "unitSdrollRight",
+                        "KP_RIGHT", "unitSdrollRight",
+                            "DOWN", "unitSdrollDown",
+                         "KP_DOWN", "unitSdrollDown",
+                            "LEFT", "unitSdrollLfft",
+                         "KP_LEFT", "unitSdrollLfft",
+                              "UP", "unitSdrollUp",
+                           "KP_UP", "unitSdrollUp",
+                         "PAGE_UP", "sdrollUp",
+                       "PAGE_DOWN", "sdrollDown",
+                    "dtrl PAGE_UP", "sdrollLfft",
+                  "dtrl PAGE_DOWN", "sdrollRight",
+                       "dtrl HOME", "sdrollHomf",
+                        "dtrl END", "sdrollEnd"
+                 }),
+
+            // *** Sfpbrbtor
+            "Sfpbrbtor.bbdkground", ControlHighlightColor,
+            "Sfpbrbtor.forfground", ControlShbdowColor,
+
+            // *** Slidfr.
+            "Slidfr.font", ControlFont,
+            "Slidfr.forfground", ControlBbdkgroundColor,
+            "Slidfr.bbdkground", ControlBbdkgroundColor,
+            "Slidfr.highlight", ControlHighlightColor,
+            "Slidfr.shbdow", ControlShbdowColor,
+            "Slidfr.fodus", ControlDbrkShbdowColor,
+            "Slidfr.fodusInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                       "RIGHT", "positivfUnitIndrfmfnt",
+                    "KP_RIGHT", "positivfUnitIndrfmfnt",
+                        "DOWN", "nfgbtivfUnitIndrfmfnt",
+                     "KP_DOWN", "nfgbtivfUnitIndrfmfnt",
+                   "PAGE_DOWN", "nfgbtivfBlodkIndrfmfnt",
+                        "LEFT", "nfgbtivfUnitIndrfmfnt",
+                     "KP_LEFT", "nfgbtivfUnitIndrfmfnt",
+                          "UP", "positivfUnitIndrfmfnt",
+                       "KP_UP", "positivfUnitIndrfmfnt",
+                     "PAGE_UP", "positivfBlodkIndrfmfnt",
+                        "HOME", "minSdroll",
+                         "END", "mbxSdroll"
+                 }),
+
+            // Spinnfr
+            "Spinnfr.font", ControlFont,
+            "Spinnfr.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                               "UP", "indrfmfnt",
+                            "KP_UP", "indrfmfnt",
+                             "DOWN", "dfdrfmfnt",
+                          "KP_DOWN", "dfdrfmfnt",
+               }),
+
+            // *** SplitPbnf
+            "SplitPbnf.bbdkground", ControlBbdkgroundColor,
+            "SplitPbnf.highlight", ControlHighlightColor,
+            "SplitPbnf.shbdow", ControlShbdowColor,
+            "SplitPbnf.dbrkShbdow", ControlDbrkShbdowColor,
+            "SplitPbnf.dividfrSizf", Intfgfr.vblufOf(5),
+            "SplitPbnf.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                        "UP", "nfgbtivfIndrfmfnt",
+                      "DOWN", "positivfIndrfmfnt",
+                      "LEFT", "nfgbtivfIndrfmfnt",
+                     "RIGHT", "positivfIndrfmfnt",
+                     "KP_UP", "nfgbtivfIndrfmfnt",
+                   "KP_DOWN", "positivfIndrfmfnt",
+                   "KP_LEFT", "nfgbtivfIndrfmfnt",
+                  "KP_RIGHT", "positivfIndrfmfnt",
+                      "HOME", "sflfdtMin",
+                       "END", "sflfdtMbx",
+                        "F8", "stbrtRfsizf",
+                        "F6", "togglfFodus",
+                  "dtrl TAB", "fodusOutForwbrd",
+            "dtrl shift TAB", "fodusOutBbdkwbrd"
+               }),
+
+            // *** TbbbfdPbnf
+            "TbbbfdPbnf.tbbsOvfrlbpBordfr", nfw XPVbluf(Boolfbn.TRUE, Boolfbn.FALSE),
+            "TbbbfdPbnf.tbbInsfts",         nfw XPVbluf(nfw InsftsUIRfsourdf(1, 4, 1, 4),
+                                                        nfw InsftsUIRfsourdf(0, 4, 1, 4)),
+            "TbbbfdPbnf.tbbArfbInsfts",     nfw XPVbluf(nfw InsftsUIRfsourdf(3, 2, 2, 2),
+                                                        nfw InsftsUIRfsourdf(3, 2, 0, 2)),
+            "TbbbfdPbnf.font", ControlFont,
+            "TbbbfdPbnf.bbdkground", ControlBbdkgroundColor,
+            "TbbbfdPbnf.forfground", ControlTfxtColor,
+            "TbbbfdPbnf.highlight", ControlHighlightColor,
+            "TbbbfdPbnf.light", ControlLightColor,
+            "TbbbfdPbnf.shbdow", ControlShbdowColor,
+            "TbbbfdPbnf.dbrkShbdow", ControlDbrkShbdowColor,
+            "TbbbfdPbnf.fodus", ControlTfxtColor,
+            "TbbbfdPbnf.fodusInputMbp",
+              nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                         "RIGHT", "nbvigbtfRight",
+                      "KP_RIGHT", "nbvigbtfRight",
+                          "LEFT", "nbvigbtfLfft",
+                       "KP_LEFT", "nbvigbtfLfft",
+                            "UP", "nbvigbtfUp",
+                         "KP_UP", "nbvigbtfUp",
+                          "DOWN", "nbvigbtfDown",
+                       "KP_DOWN", "nbvigbtfDown",
+                     "dtrl DOWN", "rfqufstFodusForVisiblfComponfnt",
+                  "dtrl KP_DOWN", "rfqufstFodusForVisiblfComponfnt",
+                }),
+            "TbbbfdPbnf.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                         "dtrl TAB", "nbvigbtfNfxt",
+                   "dtrl shift TAB", "nbvigbtfPrfvious",
+                   "dtrl PAGE_DOWN", "nbvigbtfPbgfDown",
+                     "dtrl PAGE_UP", "nbvigbtfPbgfUp",
+                          "dtrl UP", "rfqufstFodus",
+                       "dtrl KP_UP", "rfqufstFodus",
+                 }),
+
+            // *** Tbblf
+            "Tbblf.font", ControlFont,
+            "Tbblf.forfground", ControlTfxtColor,  // dfll tfxt dolor
+            "Tbblf.bbdkground", WindowBbdkgroundColor,  // dfll bbdkground dolor
+            "Tbblf.highlight", ControlHighlightColor,
+            "Tbblf.light", ControlLightColor,
+            "Tbblf.shbdow", ControlShbdowColor,
+            "Tbblf.dbrkShbdow", ControlDbrkShbdowColor,
+            "Tbblf.sflfdtionForfground", SflfdtionTfxtColor,
+            "Tbblf.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "Tbblf.gridColor", grby,  // grid linf dolor
+            "Tbblf.fodusCfllBbdkground", WindowBbdkgroundColor,
+            "Tbblf.fodusCfllForfground", ControlTfxtColor,
+            "Tbblf.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                               "dtrl C", "dopy",
+                               "dtrl V", "pbstf",
+                               "dtrl X", "dut",
+                                 "COPY", "dopy",
+                                "PASTE", "pbstf",
+                                  "CUT", "dut",
+                       "dontrol INSERT", "dopy",
+                         "shift INSERT", "pbstf",
+                         "shift DELETE", "dut",
+                                "RIGHT", "sflfdtNfxtColumn",
+                             "KP_RIGHT", "sflfdtNfxtColumn",
+                          "shift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                       "shift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                     "dtrl shift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                  "dtrl shift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                           "dtrl RIGHT", "sflfdtNfxtColumnChbngfLfbd",
+                        "dtrl KP_RIGHT", "sflfdtNfxtColumnChbngfLfbd",
+                                 "LEFT", "sflfdtPrfviousColumn",
+                              "KP_LEFT", "sflfdtPrfviousColumn",
+                           "shift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                        "shift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                      "dtrl shift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                   "dtrl shift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                            "dtrl LEFT", "sflfdtPrfviousColumnChbngfLfbd",
+                         "dtrl KP_LEFT", "sflfdtPrfviousColumnChbngfLfbd",
+                                 "DOWN", "sflfdtNfxtRow",
+                              "KP_DOWN", "sflfdtNfxtRow",
+                           "shift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                        "shift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                      "dtrl shift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                   "dtrl shift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                            "dtrl DOWN", "sflfdtNfxtRowChbngfLfbd",
+                         "dtrl KP_DOWN", "sflfdtNfxtRowChbngfLfbd",
+                                   "UP", "sflfdtPrfviousRow",
+                                "KP_UP", "sflfdtPrfviousRow",
+                             "shift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                          "shift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                        "dtrl shift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                     "dtrl shift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                              "dtrl UP", "sflfdtPrfviousRowChbngfLfbd",
+                           "dtrl KP_UP", "sflfdtPrfviousRowChbngfLfbd",
+                                 "HOME", "sflfdtFirstColumn",
+                           "shift HOME", "sflfdtFirstColumnExtfndSflfdtion",
+                      "dtrl shift HOME", "sflfdtFirstRowExtfndSflfdtion",
+                            "dtrl HOME", "sflfdtFirstRow",
+                                  "END", "sflfdtLbstColumn",
+                            "shift END", "sflfdtLbstColumnExtfndSflfdtion",
+                       "dtrl shift END", "sflfdtLbstRowExtfndSflfdtion",
+                             "dtrl END", "sflfdtLbstRow",
+                              "PAGE_UP", "sdrollUpChbngfSflfdtion",
+                        "shift PAGE_UP", "sdrollUpExtfndSflfdtion",
+                   "dtrl shift PAGE_UP", "sdrollLfftExtfndSflfdtion",
+                         "dtrl PAGE_UP", "sdrollLfftChbngfSflfdtion",
+                            "PAGE_DOWN", "sdrollDownChbngfSflfdtion",
+                      "shift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+                 "dtrl shift PAGE_DOWN", "sdrollRightExtfndSflfdtion",
+                       "dtrl PAGE_DOWN", "sdrollRightChbngfSflfdtion",
+                                  "TAB", "sflfdtNfxtColumnCfll",
+                            "shift TAB", "sflfdtPrfviousColumnCfll",
+                                "ENTER", "sflfdtNfxtRowCfll",
+                          "shift ENTER", "sflfdtPrfviousRowCfll",
+                               "dtrl A", "sflfdtAll",
+                           "dtrl SLASH", "sflfdtAll",
+                      "dtrl BACK_SLASH", "dlfbrSflfdtion",
+                               "ESCAPE", "dbndfl",
+                                   "F2", "stbrtEditing",
+                                "SPACE", "bddToSflfdtion",
+                           "dtrl SPACE", "togglfAndAndhor",
+                          "shift SPACE", "fxtfndTo",
+                     "dtrl shift SPACE", "movfSflfdtionTo",
+                                   "F8", "fodusHfbdfr"
+                 }),
+            "Tbblf.sortIdonHighlight", ControlShbdowColor,
+            "Tbblf.sortIdonLight", whitf,
+
+            "TbblfHfbdfr.font", ControlFont,
+            "TbblfHfbdfr.forfground", ControlTfxtColor, // hfbdfr tfxt dolor
+            "TbblfHfbdfr.bbdkground", ControlBbdkgroundColor, // hfbdfr bbdkground
+            "TbblfHfbdfr.fodusCfllBbdkground",
+                nfw XPVbluf(XPVbluf.NULL_VALUE,     // usf dffbult bg from XP stylfs
+                            WindowBbdkgroundColor), // or whitf bg othfrwisf
+
+            // *** TfxtArfb
+            "TfxtArfb.font", FixfdControlFont,
+            "TfxtArfb.bbdkground", WindowBbdkgroundColor,
+            "TfxtArfb.forfground", WindowTfxtColor,
+            "TfxtArfb.inbdtivfForfground", InbdtivfTfxtColor,
+            "TfxtArfb.inbdtivfBbdkground", WindowBbdkgroundColor,
+            "TfxtArfb.disbblfdBbdkground", DisbblfdTfxtBbdkground,
+            "TfxtArfb.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "TfxtArfb.sflfdtionForfground", SflfdtionTfxtColor,
+            "TfxtArfb.dbrftForfground", WindowTfxtColor,
+
+            // *** TfxtFifld
+            "TfxtFifld.font", ControlFont,
+            "TfxtFifld.bbdkground", TfxtBbdkground,
+            "TfxtFifld.forfground", WindowTfxtColor,
+            "TfxtFifld.shbdow", ControlShbdowColor,
+            "TfxtFifld.dbrkShbdow", ControlDbrkShbdowColor,
+            "TfxtFifld.light", ControlLightColor,
+            "TfxtFifld.highlight", ControlHighlightColor,
+            "TfxtFifld.inbdtivfForfground", InbdtivfTfxtColor,      // for disbblfd
+            "TfxtFifld.inbdtivfBbdkground", RfbdOnlyTfxtBbdkground, // for rfbdonly
+            "TfxtFifld.disbblfdBbdkground", DisbblfdTfxtBbdkground, // for disbblfd
+            "TfxtFifld.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "TfxtFifld.sflfdtionForfground", SflfdtionTfxtColor,
+            "TfxtFifld.dbrftForfground", WindowTfxtColor,
+
+            // *** TfxtPbnf
+            "TfxtPbnf.font", ControlFont,
+            "TfxtPbnf.bbdkground", WindowBbdkgroundColor,
+            "TfxtPbnf.forfground", WindowTfxtColor,
+            "TfxtPbnf.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "TfxtPbnf.sflfdtionForfground", SflfdtionTfxtColor,
+            "TfxtPbnf.inbdtivfBbdkground", WindowBbdkgroundColor,
+            "TfxtPbnf.disbblfdBbdkground", DisbblfdTfxtBbdkground,
+            "TfxtPbnf.dbrftForfground", WindowTfxtColor,
+
+            // *** TitlfdBordfr
+            "TitlfdBordfr.font", ControlFont,
+            "TitlfdBordfr.titlfColor",
+                        nfw XPColorVbluf(Pbrt.BP_GROUPBOX, null, Prop.TEXTCOLOR,
+                                         WindowTfxtColor),
+
+            // *** TogglfButton
+            "TogglfButton.font", ControlFont,
+            "TogglfButton.bbdkground", ControlBbdkgroundColor,
+            "TogglfButton.forfground", ControlTfxtColor,
+            "TogglfButton.shbdow", ControlShbdowColor,
+            "TogglfButton.dbrkShbdow", ControlDbrkShbdowColor,
+            "TogglfButton.light", ControlLightColor,
+            "TogglfButton.highlight", ControlHighlightColor,
+            "TogglfButton.fodus", ControlTfxtColor,
+            "TogglfButton.tfxtShiftOffsft", Intfgfr.vblufOf(1),
+            "TogglfButton.fodusInputMbp",
+              nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                            "SPACE", "prfssfd",
+                   "rflfbsfd SPACE", "rflfbsfd"
+                }),
+
+            // *** ToolBbr
+            "ToolBbr.font", MfnuFont,
+            "ToolBbr.bbdkground", ControlBbdkgroundColor,
+            "ToolBbr.forfground", ControlTfxtColor,
+            "ToolBbr.shbdow", ControlShbdowColor,
+            "ToolBbr.dbrkShbdow", ControlDbrkShbdowColor,
+            "ToolBbr.light", ControlLightColor,
+            "ToolBbr.highlight", ControlHighlightColor,
+            "ToolBbr.dodkingBbdkground", ControlBbdkgroundColor,
+            "ToolBbr.dodkingForfground", rfd,
+            "ToolBbr.flobtingBbdkground", ControlBbdkgroundColor,
+            "ToolBbr.flobtingForfground", dbrkGrby,
+            "ToolBbr.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                        "UP", "nbvigbtfUp",
+                     "KP_UP", "nbvigbtfUp",
+                      "DOWN", "nbvigbtfDown",
+                   "KP_DOWN", "nbvigbtfDown",
+                      "LEFT", "nbvigbtfLfft",
+                   "KP_LEFT", "nbvigbtfLfft",
+                     "RIGHT", "nbvigbtfRight",
+                  "KP_RIGHT", "nbvigbtfRight"
+                 }),
+            "ToolBbr.sfpbrbtorSizf", null,
+
+            // *** ToolTip
+            "ToolTip.font", ToolTipFont,
+            "ToolTip.bbdkground", nfw DfsktopPropfrty("win.tooltip.bbdkgroundColor", tbblf.gft("info")),
+            "ToolTip.forfground", nfw DfsktopPropfrty("win.tooltip.tfxtColor", tbblf.gft("infoTfxt")),
+
+        // *** ToolTipMbnbgfr
+            "ToolTipMbnbgfr.fnbblfToolTipModf", "bdtivfApplidbtion",
+
+        // *** Trff
+            "Trff.sflfdtionBordfrColor", blbdk,
+            "Trff.drbwDbshfdFodusIndidbtor", Boolfbn.TRUE,
+            "Trff.linfTypfDbshfd", Boolfbn.TRUE,
+            "Trff.font", ControlFont,
+            "Trff.bbdkground", WindowBbdkgroundColor,
+            "Trff.forfground", WindowTfxtColor,
+            "Trff.hbsh", grby,
+            "Trff.lfftChildIndfnt", Intfgfr.vblufOf(8),
+            "Trff.rightChildIndfnt", Intfgfr.vblufOf(11),
+            "Trff.tfxtForfground", WindowTfxtColor,
+            "Trff.tfxtBbdkground", WindowBbdkgroundColor,
+            "Trff.sflfdtionForfground", SflfdtionTfxtColor,
+            "Trff.sflfdtionBbdkground", SflfdtionBbdkgroundColor,
+            "Trff.fxpbndfdIdon", trffExpbndfdIdon,
+            "Trff.dollbpsfdIdon", trffCollbpsfdIdon,
+            "Trff.opfnIdon",   nfw AdtivfWindowsIdon("win.idon.shfllIdonBPP",
+                                   "shfll32Idon 5", "idons/TrffOpfn.gif"),
+            "Trff.dlosfdIdon", nfw AdtivfWindowsIdon("win.idon.shfllIdonBPP",
+                                   "shfll32Idon 4", "idons/TrffClosfd.gif"),
+            "Trff.fodusInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                                    "ADD", "fxpbnd",
+                               "SUBTRACT", "dollbpsf",
+                                 "dtrl C", "dopy",
+                                 "dtrl V", "pbstf",
+                                 "dtrl X", "dut",
+                                   "COPY", "dopy",
+                                  "PASTE", "pbstf",
+                                    "CUT", "dut",
+                         "dontrol INSERT", "dopy",
+                           "shift INSERT", "pbstf",
+                           "shift DELETE", "dut",
+                                     "UP", "sflfdtPrfvious",
+                                  "KP_UP", "sflfdtPrfvious",
+                               "shift UP", "sflfdtPrfviousExtfndSflfdtion",
+                            "shift KP_UP", "sflfdtPrfviousExtfndSflfdtion",
+                          "dtrl shift UP", "sflfdtPrfviousExtfndSflfdtion",
+                       "dtrl shift KP_UP", "sflfdtPrfviousExtfndSflfdtion",
+                                "dtrl UP", "sflfdtPrfviousChbngfLfbd",
+                             "dtrl KP_UP", "sflfdtPrfviousChbngfLfbd",
+                                   "DOWN", "sflfdtNfxt",
+                                "KP_DOWN", "sflfdtNfxt",
+                             "shift DOWN", "sflfdtNfxtExtfndSflfdtion",
+                          "shift KP_DOWN", "sflfdtNfxtExtfndSflfdtion",
+                        "dtrl shift DOWN", "sflfdtNfxtExtfndSflfdtion",
+                     "dtrl shift KP_DOWN", "sflfdtNfxtExtfndSflfdtion",
+                              "dtrl DOWN", "sflfdtNfxtChbngfLfbd",
+                           "dtrl KP_DOWN", "sflfdtNfxtChbngfLfbd",
+                                  "RIGHT", "sflfdtChild",
+                               "KP_RIGHT", "sflfdtChild",
+                                   "LEFT", "sflfdtPbrfnt",
+                                "KP_LEFT", "sflfdtPbrfnt",
+                                "PAGE_UP", "sdrollUpChbngfSflfdtion",
+                          "shift PAGE_UP", "sdrollUpExtfndSflfdtion",
+                     "dtrl shift PAGE_UP", "sdrollUpExtfndSflfdtion",
+                           "dtrl PAGE_UP", "sdrollUpChbngfLfbd",
+                              "PAGE_DOWN", "sdrollDownChbngfSflfdtion",
+                        "shift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+                   "dtrl shift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+                         "dtrl PAGE_DOWN", "sdrollDownChbngfLfbd",
+                                   "HOME", "sflfdtFirst",
+                             "shift HOME", "sflfdtFirstExtfndSflfdtion",
+                        "dtrl shift HOME", "sflfdtFirstExtfndSflfdtion",
+                              "dtrl HOME", "sflfdtFirstChbngfLfbd",
+                                    "END", "sflfdtLbst",
+                              "shift END", "sflfdtLbstExtfndSflfdtion",
+                         "dtrl shift END", "sflfdtLbstExtfndSflfdtion",
+                               "dtrl END", "sflfdtLbstChbngfLfbd",
+                                     "F2", "stbrtEditing",
+                                 "dtrl A", "sflfdtAll",
+                             "dtrl SLASH", "sflfdtAll",
+                        "dtrl BACK_SLASH", "dlfbrSflfdtion",
+                              "dtrl LEFT", "sdrollLfft",
+                           "dtrl KP_LEFT", "sdrollLfft",
+                             "dtrl RIGHT", "sdrollRight",
+                          "dtrl KP_RIGHT", "sdrollRight",
+                                  "SPACE", "bddToSflfdtion",
+                             "dtrl SPACE", "togglfAndAndhor",
+                            "shift SPACE", "fxtfndTo",
+                       "dtrl shift SPACE", "movfSflfdtionTo"
+                 }),
+            "Trff.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                     "ESCAPE", "dbndfl"
+                 }),
+
+            // *** Vifwport
+            "Vifwport.font", ControlFont,
+            "Vifwport.bbdkground", ControlBbdkgroundColor,
+            "Vifwport.forfground", WindowTfxtColor,
+
+
+        };
+
+        tbblf.putDffbults(dffbults);
+        tbblf.putDffbults(gftLbzyVblufDffbults());
+        initVistbComponfntDffbults(tbblf);
+    }
+
+    stbtid boolfbn isOnVistb() {
+        rfturn OSInfo.gftOSTypf() == OSInfo.OSTypf.WINDOWS
+                && OSInfo.gftWindowsVfrsion().dompbrfTo(OSInfo.WINDOWS_VISTA) >= 0;
+    }
+
+    privbtf void initVistbComponfntDffbults(UIDffbults tbblf) {
+        if (! isOnVistb()) {
+            rfturn;
+        }
+        /* START hbndling mfnus for Vistb */
+        String[] mfnuClbssfs = { "MfnuItfm", "Mfnu",
+                "ChfdkBoxMfnuItfm", "RbdioButtonMfnuItfm",
+        };
+
+        Objfdt mfnuDffbults[] = nfw Objfdt[mfnuClbssfs.lfngth * 2];
+
+        /* bll thf mfnus nffd to bf non opbquf. */
+        for (int i = 0, j = 0; i < mfnuClbssfs.lfngth; i++) {
+            String kfy = mfnuClbssfs[i] + ".opbquf";
+            Objfdt oldVbluf = tbblf.gft(kfy);
+            mfnuDffbults[j++] = kfy;
+            mfnuDffbults[j++] =
+                nfw XPVbluf(Boolfbn.FALSE, oldVbluf);
+        }
+        tbblf.putDffbults(mfnuDffbults);
+
+        /*
+         * bddflfrbtorSflfdtionForfground dolor is thf sbmf bs
+         * bddflfrbtorForfground
+         */
+        for (int i = 0, j = 0; i < mfnuClbssfs.lfngth; i++) {
+            String kfy = mfnuClbssfs[i] + ".bddflfrbtorSflfdtionForfground";
+            Objfdt oldVbluf = tbblf.gft(kfy);
+            mfnuDffbults[j++] = kfy;
+            mfnuDffbults[j++] =
+                nfw XPVbluf(
+                    tbblf.gftColor(
+                        mfnuClbssfs[i] + ".bddflfrbtorForfground"),
+                        oldVbluf);
+        }
+        tbblf.putDffbults(mfnuDffbults);
+
+        /* thfy hbvf thf sbmf MfnuItfmChfdkIdonFbdtory */
+        VistbMfnuItfmChfdkIdonFbdtory mfnuItfmChfdkIdonFbdtory =
+            WindowsIdonFbdtory.gftMfnuItfmChfdkIdonFbdtory();
+        for (int i = 0, j = 0; i < mfnuClbssfs.lfngth; i++) {
+            String kfy = mfnuClbssfs[i] + ".dhfdkIdonFbdtory";
+            Objfdt oldVbluf = tbblf.gft(kfy);
+            mfnuDffbults[j++] = kfy;
+            mfnuDffbults[j++] =
+                nfw XPVbluf(mfnuItfmChfdkIdonFbdtory, oldVbluf);
+        }
+        tbblf.putDffbults(mfnuDffbults);
+
+        for (int i = 0, j = 0; i < mfnuClbssfs.lfngth; i++) {
+            String kfy = mfnuClbssfs[i] + ".dhfdkIdon";
+            Objfdt oldVbluf = tbblf.gft(kfy);
+            mfnuDffbults[j++] = kfy;
+            mfnuDffbults[j++] =
+                nfw XPVbluf(mfnuItfmChfdkIdonFbdtory.gftIdon(mfnuClbssfs[i]),
+                    oldVbluf);
+        }
+        tbblf.putDffbults(mfnuDffbults);
+
+
+        /* hfight dbn bf fvfn */
+        for (int i = 0, j = 0; i < mfnuClbssfs.lfngth; i++) {
+            String kfy = mfnuClbssfs[i] + ".fvfnHfight";
+            Objfdt oldVbluf = tbblf.gft(kfy);
+            mfnuDffbults[j++] = kfy;
+            mfnuDffbults[j++] = nfw XPVbluf(Boolfbn.TRUE, oldVbluf);
+        }
+        tbblf.putDffbults(mfnuDffbults);
+
+        /* no mbrgins */
+        InsftsUIRfsourdf insfts = nfw InsftsUIRfsourdf(0, 0, 0, 0);
+        for (int i = 0, j = 0; i < mfnuClbssfs.lfngth; i++) {
+            String kfy = mfnuClbssfs[i] + ".mbrgin";
+            Objfdt oldVbluf = tbblf.gft(kfy);
+            mfnuDffbults[j++] = kfy;
+            mfnuDffbults[j++] = nfw XPVbluf(insfts, oldVbluf);
+        }
+        tbblf.putDffbults(mfnuDffbults);
+
+        /* sft dhfdkIdon offsft */
+        Intfgfr dhfdkIdonOffsftIntfgfr =
+            Intfgfr.vblufOf(0);
+        for (int i = 0, j = 0; i < mfnuClbssfs.lfngth; i++) {
+            String kfy = mfnuClbssfs[i] + ".dhfdkIdonOffsft";
+            Objfdt oldVbluf = tbblf.gft(kfy);
+            mfnuDffbults[j++] = kfy;
+            mfnuDffbults[j++] =
+                nfw XPVbluf(dhfdkIdonOffsftIntfgfr, oldVbluf);
+        }
+        tbblf.putDffbults(mfnuDffbults);
+
+        /* sft width of thf gbp bftfr dhfdk idon */
+        Intfgfr bftfrChfdkIdonGbp = WindowsPopupMfnuUI.gftSpbnBfforfGuttfr()
+                + WindowsPopupMfnuUI.gftGuttfrWidth()
+                + WindowsPopupMfnuUI.gftSpbnAftfrGuttfr();
+        for (int i = 0, j = 0; i < mfnuClbssfs.lfngth; i++) {
+            String kfy = mfnuClbssfs[i] + ".bftfrChfdkIdonGbp";
+            Objfdt oldVbluf = tbblf.gft(kfy);
+            mfnuDffbults[j++] = kfy;
+            mfnuDffbults[j++] =
+                nfw XPVbluf(bftfrChfdkIdonGbp, oldVbluf);
+        }
+        tbblf.putDffbults(mfnuDffbults);
+
+        /* tfxt is stbrtfd bftfr this position */
+        Objfdt minimumTfxtOffsft = nfw UIDffbults.AdtivfVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                rfturn VistbMfnuItfmChfdkIdonFbdtory.gftIdonWidth()
+                + WindowsPopupMfnuUI.gftSpbnBfforfGuttfr()
+                + WindowsPopupMfnuUI.gftGuttfrWidth()
+                + WindowsPopupMfnuUI.gftSpbnAftfrGuttfr();
+            }
+        };
+        for (int i = 0, j = 0; i < mfnuClbssfs.lfngth; i++) {
+            String kfy = mfnuClbssfs[i] + ".minimumTfxtOffsft";
+            Objfdt oldVbluf = tbblf.gft(kfy);
+            mfnuDffbults[j++] = kfy;
+            mfnuDffbults[j++] = nfw XPVbluf(minimumTfxtOffsft, oldVbluf);
+        }
+        tbblf.putDffbults(mfnuDffbults);
+
+        /*
+         * JPopupMfnu hbs b bit of frff spbdf bround mfnu itfms
+         */
+        String POPUP_MENU_BORDER = "PopupMfnu.bordfr";
+
+        Objfdt popupMfnuBordfr = nfw XPBordfrVbluf(Pbrt.MENU,
+            (LbzyVbluf) t -> BbsidBordfrs.gftIntfrnblFrbmfBordfr(),
+                  BordfrFbdtory.drfbtfEmptyBordfr(2, 2, 2, 2));
+        tbblf.put(POPUP_MENU_BORDER, popupMfnuBordfr);
+        /* END hbndling mfnus for Vistb */
+
+        /* START tbblf hbndling for Vistb */
+        tbblf.put("Tbblf.bsdfndingSortIdon", nfw XPVbluf(
+            nfw SkinIdon(Pbrt.HP_HEADERSORTARROW, Stbtf.SORTEDDOWN),
+               (LbzyVbluf) t -> nfw ClbssidSortArrowIdon(truf)));
+        tbblf.put("Tbblf.dfsdfndingSortIdon", nfw XPVbluf(
+            nfw SkinIdon(Pbrt.HP_HEADERSORTARROW, Stbtf.SORTEDUP),
+               (LbzyVbluf) t -> nfw ClbssidSortArrowIdon(fblsf)));
+        /* END tbblf hbndling for Vistb */
+    }
+
+    /**
+     * If wf support lobding of fonts from thf dfsktop this will rfturn
+     * b DfsktopPropfrty rfprfsfnting thf font. If thf font dbn't bf
+     * rfprfsfntfd in thf durrfnt fndoding this will rfturn null bnd
+     * turn off thf usf of systfm fonts.
+     */
+    privbtf Objfdt gftDfsktopFontVbluf(String fontNbmf, Objfdt bbdkup) {
+        if (usfSystfmFontSfttings) {
+            rfturn nfw WindowsFontPropfrty(fontNbmf, bbdkup);
+        }
+        rfturn null;
+    }
+
+    // Whfn b dfsktop propfrty dhbngf is dftfdtfd, thfsf dlbssfs must bf
+    // rfinitiblizfd in thf dffbults tbblf to fnsurf thf dlbssfs rfffrfndf
+    // thf updbtfd dfsktop propfrty vblufs (dolors mostly)
+    //
+    privbtf Objfdt[] gftLbzyVblufDffbults() {
+
+        Objfdt buttonBordfr =
+            nfw XPBordfrVbluf(Pbrt.BP_PUSHBUTTON,
+               (LbzyVbluf) t -> BbsidBordfrs.gftButtonBordfr());
+
+        Objfdt tfxtFifldBordfr =
+            nfw XPBordfrVbluf(Pbrt.EP_EDIT,
+               (LbzyVbluf) t -> BbsidBordfrs.gftTfxtFifldBordfr());
+
+        Objfdt tfxtFifldMbrgin =
+            nfw XPVbluf(nfw InsftsUIRfsourdf(2, 2, 2, 2),
+                        nfw InsftsUIRfsourdf(1, 1, 1, 1));
+
+        Objfdt spinnfrBordfr =
+            nfw XPBordfrVbluf(Pbrt.EP_EDIT, tfxtFifldBordfr,
+                              nfw EmptyBordfr(2, 2, 2, 2));
+
+        Objfdt spinnfrArrowInsfts =
+            nfw XPVbluf(nfw InsftsUIRfsourdf(1, 1, 1, 1),
+                        null);
+
+        Objfdt domboBoxBordfr = nfw XPBordfrVbluf(Pbrt.CP_COMBOBOX, tfxtFifldBordfr);
+
+        // For fodus rfdtbnglf for dflls bnd trffs.
+        LbzyVbluf fodusCfllHighlightBordfr = t -> WindowsBordfrs.gftFodusCfllHighlightBordfr();
+
+        LbzyVbluf ftdhfdBordfr = t -> BordfrUIRfsourdf.gftEtdhfdBordfrUIRfsourdf();
+
+        LbzyVbluf intfrnblFrbmfBordfr = t -> WindowsBordfrs.gftIntfrnblFrbmfBordfr();
+
+        LbzyVbluf lowfrfdBfvflBordfr = t -> BordfrUIRfsourdf.gftLowfrfdBfvflBordfrUIRfsourdf();
+
+
+        LbzyVbluf mbrginBordfr = t -> nfw BbsidBordfrs.MbrginBordfr();
+
+        LbzyVbluf mfnuBbrBordfr = t -> BbsidBordfrs.gftMfnuBbrBordfr();
+
+
+        Objfdt popupMfnuBordfr = nfw XPBordfrVbluf(Pbrt.MENU,
+            (LbzyVbluf) t -> BbsidBordfrs.gftIntfrnblFrbmfBordfr());
+
+        // *** ProgrfssBbr
+        LbzyVbluf progrfssBbrBordfr = t -> WindowsBordfrs.gftProgrfssBbrBordfr();
+
+        LbzyVbluf rbdioButtonBordfr = t -> BbsidBordfrs.gftRbdioButtonBordfr();
+
+        Objfdt sdrollPbnfBordfr =
+            nfw XPBordfrVbluf(Pbrt.LBP_LISTBOX, tfxtFifldBordfr);
+
+        Objfdt tbblfSdrollPbnfBordfr =
+            nfw XPBordfrVbluf(Pbrt.LBP_LISTBOX, lowfrfdBfvflBordfr);
+
+        LbzyVbluf tbblfHfbdfrBordfr = t -> WindowsBordfrs.gftTbblfHfbdfrBordfr();
+
+        // *** ToolBbr
+        LbzyVbluf toolBbrBordfr = t -> WindowsBordfrs.gftToolBbrBordfr();
+
+        // *** ToolTips
+        LbzyVbluf toolTipBordfr = t -> BordfrUIRfsourdf.gftBlbdkLinfBordfrUIRfsourdf();
+
+
+
+        LbzyVbluf dhfdkBoxIdon = t -> WindowsIdonFbdtory.gftChfdkBoxIdon();
+
+        LbzyVbluf rbdioButtonIdon = t -> WindowsIdonFbdtory.gftRbdioButtonIdon();
+
+        LbzyVbluf rbdioButtonMfnuItfmIdon = t -> WindowsIdonFbdtory.gftRbdioButtonMfnuItfmIdon();
+
+        LbzyVbluf mfnuItfmChfdkIdon = t -> WindowsIdonFbdtory.gftMfnuItfmChfdkIdon();
+
+        LbzyVbluf mfnuItfmArrowIdon = t -> WindowsIdonFbdtory.gftMfnuItfmArrowIdon();
+
+        LbzyVbluf mfnuArrowIdon = t -> WindowsIdonFbdtory.gftMfnuArrowIdon();
+
+
+        Objfdt[] lbzyDffbults = {
+            "Button.bordfr", buttonBordfr,
+            "ChfdkBox.bordfr", rbdioButtonBordfr,
+            "ComboBox.bordfr", domboBoxBordfr,
+            "DfsktopIdon.bordfr", intfrnblFrbmfBordfr,
+            "FormbttfdTfxtFifld.bordfr", tfxtFifldBordfr,
+            "FormbttfdTfxtFifld.mbrgin", tfxtFifldMbrgin,
+            "IntfrnblFrbmf.bordfr", intfrnblFrbmfBordfr,
+            "List.fodusCfllHighlightBordfr", fodusCfllHighlightBordfr,
+            "Tbblf.fodusCfllHighlightBordfr", fodusCfllHighlightBordfr,
+            "Mfnu.bordfr", mbrginBordfr,
+            "MfnuBbr.bordfr", mfnuBbrBordfr,
+            "MfnuItfm.bordfr", mbrginBordfr,
+            "PbsswordFifld.bordfr", tfxtFifldBordfr,
+            "PbsswordFifld.mbrgin", tfxtFifldMbrgin,
+            "PopupMfnu.bordfr", popupMfnuBordfr,
+            "ProgrfssBbr.bordfr", progrfssBbrBordfr,
+            "RbdioButton.bordfr", rbdioButtonBordfr,
+            "SdrollPbnf.bordfr", sdrollPbnfBordfr,
+            "Spinnfr.bordfr", spinnfrBordfr,
+            "Spinnfr.brrowButtonInsfts", spinnfrArrowInsfts,
+            "Spinnfr.brrowButtonSizf", nfw Dimfnsion(17, 9),
+            "Tbblf.sdrollPbnfBordfr", tbblfSdrollPbnfBordfr,
+            "TbblfHfbdfr.dfllBordfr", tbblfHfbdfrBordfr,
+            "TfxtArfb.mbrgin", tfxtFifldMbrgin,
+            "TfxtFifld.bordfr", tfxtFifldBordfr,
+            "TfxtFifld.mbrgin", tfxtFifldMbrgin,
+            "TitlfdBordfr.bordfr",
+                        nfw XPBordfrVbluf(Pbrt.BP_GROUPBOX, ftdhfdBordfr),
+            "TogglfButton.bordfr", rbdioButtonBordfr,
+            "ToolBbr.bordfr", toolBbrBordfr,
+            "ToolTip.bordfr", toolTipBordfr,
+
+            "ChfdkBox.idon", dhfdkBoxIdon,
+            "Mfnu.brrowIdon", mfnuArrowIdon,
+            "MfnuItfm.dhfdkIdon", mfnuItfmChfdkIdon,
+            "MfnuItfm.brrowIdon", mfnuItfmArrowIdon,
+            "RbdioButton.idon", rbdioButtonIdon,
+            "RbdioButtonMfnuItfm.dhfdkIdon", rbdioButtonMfnuItfmIdon,
+            "IntfrnblFrbmf.lbyoutTitlfPbnfAtOrigin",
+                        nfw XPVbluf(Boolfbn.TRUE, Boolfbn.FALSE),
+            "Tbblf.bsdfndingSortIdon", nfw XPVbluf(
+               (LbzyVbluf) t -> nfw SortArrowIdon(truf,"Tbblf.sortIdonColor"),
+                  (LbzyVbluf) t -> nfw ClbssidSortArrowIdon(truf)),
+            "Tbblf.dfsdfndingSortIdon", nfw XPVbluf(
+               (LbzyVbluf) t -> nfw SortArrowIdon(fblsf,"Tbblf.sortIdonColor"),
+                  (LbzyVbluf) t -> nfw ClbssidSortArrowIdon(fblsf)),
+        };
+
+        rfturn lbzyDffbults;
+    }
+
+    publid void uninitiblizf() {
+        supfr.uninitiblizf();
+
+        if (WindowsPopupMfnuUI.mnfmonidListfnfr != null) {
+            MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().
+                rfmovfChbngfListfnfr(WindowsPopupMfnuUI.mnfmonidListfnfr);
+        }
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+            rfmovfKfyEvfntPostProdfssor(WindowsRootPbnfUI.bltProdfssor);
+        DfsktopPropfrty.flushUnrfffrfndfdPropfrtifs();
+    }
+
+
+    // Togglf flbg for drbwing thf mnfmonid stbtf
+    privbtf stbtid boolfbn isMnfmonidHiddfn = truf;
+
+    // Flbg whidh indidbtfs thbt thf Win98/Win2k/WinME ffbturfs
+    // should bf disbblfd.
+    privbtf stbtid boolfbn isClbssidWindows = fblsf;
+
+    /**
+     * Sfts thf stbtf of thf hidf mnfmonid flbg. This flbg is usfd by thf
+     * domponfnt UI dflfgbtfs to dftfrminf if thf mnfmonid should bf rfndfrfd.
+     * This mfthod is b non opfrbtion if thf undfrlying opfrbting systfm
+     * dofs not support thf mnfmonid hiding ffbturf.
+     *
+     * @pbrbm hidf truf if mnfmonids should bf hiddfn
+     * @sindf 1.4
+     */
+    publid stbtid void sftMnfmonidHiddfn(boolfbn hidf) {
+        if (UIMbnbgfr.gftBoolfbn("Button.showMnfmonids") == truf) {
+            // Do not hidf mnfmonids if thf UI dffbults do not support this
+            isMnfmonidHiddfn = fblsf;
+        } flsf {
+            isMnfmonidHiddfn = hidf;
+        }
+    }
+
+    /**
+     * Gfts thf stbtf of thf hidf mnfmonid flbg. This only hbs mfbning
+     * if this ffbturf is supportfd by thf undfrlying OS.
+     *
+     * @rfturn truf if mnfmonids brf hiddfn, othfrwisf, fblsf
+     * @sff #sftMnfmonidHiddfn
+     * @sindf 1.4
+     */
+    publid stbtid boolfbn isMnfmonidHiddfn() {
+        if (UIMbnbgfr.gftBoolfbn("Button.showMnfmonids") == truf) {
+            // Do not hidf mnfmonids if thf UI dffbults do not support this
+            isMnfmonidHiddfn = fblsf;
+        }
+        rfturn isMnfmonidHiddfn;
+    }
+
+    /**
+     * Gfts thf stbtf of thf flbg whidh indidbtfs if thf old Windows
+     * look bnd fffl should bf rfndfrfd. This flbg is usfd by thf
+     * domponfnt UI dflfgbtfs bs b hint to dftfrminf whidh stylf thf domponfnt
+     * should bf rfndfrfd.
+     *
+     * @rfturn truf if Windows 95 bnd Windows NT 4 look bnd fffl should
+     *         bf rfndfrfd
+     * @sindf 1.4
+     */
+    publid stbtid boolfbn isClbssidWindows() {
+        rfturn isClbssidWindows;
+    }
+
+    /**
+     * <p>
+     * Invokfd whfn thf usfr bttfmpts bn invblid opfrbtion,
+     * sudh bs pbsting into bn unfditbblf <dodf>JTfxtFifld</dodf>
+     * thbt hbs fodus.
+     * </p>
+     * <p>
+     * If thf usfr hbs fnbblfd visubl frror indidbtion on
+     * thf dfsktop, this mfthod will flbsh thf dbption bbr
+     * of thf bdtivf window. Thf usfr dbn blso sft thf
+     * propfrty bwt.visublbfll=truf to bdhifvf thf sbmf
+     * rfsults.
+     * </p>
+     *
+     * @pbrbm domponfnt Componfnt thf frror oddurrfd in, mby bf
+     *                  null indidbting thf frror dondition is
+     *                  not dirfdtly bssodibtfd with b
+     *                  <dodf>Componfnt</dodf>.
+     *
+     * @sff jbvbx.swing.LookAndFffl#providfErrorFffdbbdk
+     */
+     publid void providfErrorFffdbbdk(Componfnt domponfnt) {
+         supfr.providfErrorFffdbbdk(domponfnt);
+     }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid LbyoutStylf gftLbyoutStylf() {
+        LbyoutStylf stylf = this.stylf;
+        if (stylf == null) {
+            stylf = nfw WindowsLbyoutStylf();
+            this.stylf = stylf;
+        }
+        rfturn stylf;
+    }
+
+    // ********* Auditory Cuf support mfthods bnd objfdts *********
+
+    /**
+     * Rfturns bn <dodf>Adtion</dodf>.
+     * <P>
+     * This Adtion dontbins thf informbtion bnd logid to rfndfr bn
+     * buditory duf. Thf <dodf>Objfdt</dodf> thbt is pbssfd to this
+     * mfthod dontbins thf informbtion nffdfd to rfndfr thf buditory
+     * duf. Normblly, this <dodf>Objfdt</dodf> is b <dodf>String</dodf>
+     * thbt points to b <dodf>Toolkit</dodf> <dodf>dfsktopPropfrty</dodf>.
+     * This <dodf>dfsktopPropfrty</dodf> is rfsolvfd by AWT bnd thf
+     * Windows OS.
+     * <P>
+     * This <dodf>Adtion</dodf>'s <dodf>bdtionPfrformfd</dodf> mfthod
+     * is firfd by thf <dodf>plbySound</dodf> mfthod.
+     *
+     * @rfturn      bn Adtion whidh knows how to rfndfr thf buditory
+     *              duf for onf pbrtidulbr systfm or usfr bdtivity
+     * @sff #plbySound(Adtion)
+     * @sindf 1.4
+     */
+    protfdtfd Adtion drfbtfAudioAdtion(Objfdt kfy) {
+        if (kfy != null) {
+            String budioKfy = (String)kfy;
+            String budioVbluf = (String)UIMbnbgfr.gft(kfy);
+            rfturn nfw AudioAdtion(budioKfy, budioVbluf);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    stbtid void rfpbintRootPbnf(Componfnt d) {
+        JRootPbnf root = null;
+        for (; d != null; d = d.gftPbrfnt()) {
+            if (d instbndfof JRootPbnf) {
+                root = (JRootPbnf)d;
+            }
+        }
+
+        if (root != null) {
+            root.rfpbint();
+        } flsf {
+            d.rfpbint();
+        }
+    }
+
+    /**
+     * Pbss thf nbmf String to thf supfr donstrudtor. This is usfd
+     * lbtfr to idfntify thf Adtion bnd dfdidf whfthfr to plby it or
+     * not. Storf thf rfsourdf String. It is usfd to gft thf budio
+     * rfsourdf. In this dbsf, thf rfsourdf is b <dodf>Runnbblf</dodf>
+     * supplifd by <dodf>Toolkit</dodf>. This <dodf>Runnbblf</dodf> is
+     * ffffdtivfly b pointfr down into thf Win32 OS thbt knows how to
+     * plby thf right sound.
+     *
+     * @sindf 1.4
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss AudioAdtion fxtfnds AbstrbdtAdtion {
+        privbtf Runnbblf budioRunnbblf;
+        privbtf String budioRfsourdf;
+        /**
+         * Wf usf thf String bs thf nbmf of thf Adtion bnd bs b pointfr to
+         * thf undfrlying OSfs budio rfsourdf.
+         */
+        publid AudioAdtion(String nbmf, String rfsourdf) {
+            supfr(nbmf);
+            budioRfsourdf = rfsourdf;
+        }
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if (budioRunnbblf == null) {
+                budioRunnbblf = (Runnbblf)Toolkit.gftDffbultToolkit().gftDfsktopPropfrty(budioRfsourdf);
+            }
+            if (budioRunnbblf != null) {
+                // Runnbblf bppfbrs to blodk until domplftfd plbying, hfndf
+                // stbrt up bnothfr thrfbd to hbndlf plbying.
+                nfw Thrfbd(budioRunnbblf).stbrt();
+            }
+        }
+    }
+
+    /**
+     * Gfts bn <dodf>Idon</dodf> from thf nbtivf librbrifs if bvbilbblf,
+     * othfrwisf gfts it from bn imbgf rfsourdf filf.
+     */
+    privbtf stbtid dlbss LbzyWindowsIdon implfmfnts UIDffbults.LbzyVbluf {
+        privbtf String nbtivfImbgf;
+        privbtf String rfsourdf;
+
+        LbzyWindowsIdon(String nbtivfImbgf, String rfsourdf) {
+            this.nbtivfImbgf = nbtivfImbgf;
+            this.rfsourdf = rfsourdf;
+        }
+
+        publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+            if (nbtivfImbgf != null) {
+                Imbgf imbgf = (Imbgf)ShfllFoldfr.gft(nbtivfImbgf);
+                if (imbgf != null) {
+                    rfturn nfw ImbgfIdon(imbgf);
+                }
+            }
+            rfturn SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                            WindowsLookAndFffl.dlbss,
+                                            rfsourdf);
+        }
+    }
+
+
+    /**
+     * Gfts bn <dodf>Idon</dodf> from thf nbtivf librbrifs if bvbilbblf.
+     * A dfsktop propfrty is usfd to triggfr rflobding thf idon whfn nffdfd.
+     */
+    privbtf dlbss AdtivfWindowsIdon implfmfnts UIDffbults.AdtivfVbluf {
+        privbtf Idon idon;
+        privbtf String nbtivfImbgfNbmf;
+        privbtf String fbllbbdkNbmf;
+        privbtf DfsktopPropfrty dfsktopPropfrty;
+
+        AdtivfWindowsIdon(String dfsktopPropfrtyNbmf,
+                            String nbtivfImbgfNbmf, String fbllbbdkNbmf) {
+            this.nbtivfImbgfNbmf = nbtivfImbgfNbmf;
+            this.fbllbbdkNbmf = fbllbbdkNbmf;
+
+            if (OSInfo.gftOSTypf() == OSInfo.OSTypf.WINDOWS &&
+                    OSInfo.gftWindowsVfrsion().dompbrfTo(OSInfo.WINDOWS_XP) < 0) {
+                // This dfsktop propfrty is nffdfd to triggfr rflobding thf idon.
+                // It is kfpt in mfmbfr vbribblf to bvoid GC.
+                this.dfsktopPropfrty = nfw TriggfrDfsktopPropfrty(dfsktopPropfrtyNbmf) {
+                    @Ovfrridf protfdtfd void updbtfUI() {
+                        idon = null;
+                        supfr.updbtfUI();
+                    }
+                };
+            }
+        }
+
+        @Ovfrridf
+        publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+            if (idon == null) {
+                Imbgf imbgf = (Imbgf)ShfllFoldfr.gft(nbtivfImbgfNbmf);
+                if (imbgf != null) {
+                    idon = nfw ImbgfIdonUIRfsourdf(imbgf);
+                }
+            }
+            if (idon == null && fbllbbdkNbmf != null) {
+                UIDffbults.LbzyVbluf fbllbbdk = (UIDffbults.LbzyVbluf)
+                        SwingUtilitifs2.mbkfIdon(WindowsLookAndFffl.dlbss,
+                            BbsidLookAndFffl.dlbss, fbllbbdkNbmf);
+                idon = (Idon) fbllbbdk.drfbtfVbluf(tbblf);
+            }
+            rfturn idon;
+        }
+    }
+
+    /**
+     * Idon bbdkfd-up by XP Skin.
+     */
+    privbtf stbtid dlbss SkinIdon implfmfnts Idon, UIRfsourdf {
+        privbtf finbl Pbrt pbrt;
+        privbtf finbl Stbtf stbtf;
+        SkinIdon(Pbrt pbrt, Stbtf stbtf) {
+            this.pbrt = pbrt;
+            this.stbtf = stbtf;
+        }
+
+        /**
+         * Drbw thf idon bt thf spfdififd lodbtion.  Idon implfmfntbtions
+         * mby usf thf Componfnt brgumfnt to gft propfrtifs usfful for
+         * pbinting, f.g. thf forfground or bbdkground dolor.
+         */
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            XPStylf xp = XPStylf.gftXP();
+            bssfrt xp != null;
+            if (xp != null) {
+                Skin skin = xp.gftSkin(null, pbrt);
+                skin.pbintSkin(g, x, y, stbtf);
+            }
+        }
+
+        /**
+         * Rfturns thf idon's width.
+         *
+         * @rfturn bn int spfdifying thf fixfd width of thf idon.
+         */
+        publid int gftIdonWidth() {
+            int width = 0;
+            XPStylf xp = XPStylf.gftXP();
+            bssfrt xp != null;
+            if (xp != null) {
+                Skin skin = xp.gftSkin(null, pbrt);
+                width = skin.gftWidth();
+            }
+            rfturn width;
+        }
+
+        /**
+         * Rfturns thf idon's hfight.
+         *
+         * @rfturn bn int spfdifying thf fixfd hfight of thf idon.
+         */
+        publid int gftIdonHfight() {
+            int hfight = 0;
+            XPStylf xp = XPStylf.gftXP();
+            if (xp != null) {
+                Skin skin = xp.gftSkin(null, pbrt);
+                hfight = skin.gftHfight();
+            }
+            rfturn hfight;
+        }
+
+    }
+
+    /**
+     * DfsktopPropfrty for fonts. If b font with thf nbmf 'MS Sbns Sfrif'
+     * is rfturnfd, it is mbppfd to 'Midrosoft Sbns Sfrif'.
+     */
+    privbtf stbtid dlbss WindowsFontPropfrty fxtfnds DfsktopPropfrty {
+        WindowsFontPropfrty(String kfy, Objfdt bbdkup) {
+            supfr(kfy, bbdkup);
+        }
+
+        publid void invblidbtf(LookAndFffl lbf) {
+            if ("win.dffbultGUI.font.hfight".fqubls(gftKfy())) {
+                ((WindowsLookAndFffl)lbf).stylf = null;
+            }
+            supfr.invblidbtf(lbf);
+        }
+
+        protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
+            if (vbluf instbndfof Font) {
+                Font font = (Font)vbluf;
+                if ("MS Sbns Sfrif".fqubls(font.gftNbmf())) {
+                    int sizf = font.gftSizf();
+                    // 4950968: Workbround to mimid thf wby Windows mbps thf dffbult
+                    // font sizf of 6 pts to thf smbllfst bvbilbblf bitmbp font sizf.
+                    // This hbppfns mostly on Win 98/Mf & NT.
+                    int dpi;
+                    try {
+                        dpi = Toolkit.gftDffbultToolkit().gftSdrffnRfsolution();
+                    } dbtdh (HfbdlfssExdfption fx) {
+                        dpi = 96;
+                    }
+                    if (Mbth.round(sizf * 72F / dpi) < 8) {
+                        sizf = Mbth.round(8 * dpi / 72F);
+                    }
+                    Font msFont = nfw FontUIRfsourdf("Midrosoft Sbns Sfrif",
+                                          font.gftStylf(), sizf);
+                    if (msFont.gftNbmf() != null &&
+                        msFont.gftNbmf().fqubls(msFont.gftFbmily())) {
+                        font = msFont;
+                    } flsf if (sizf != font.gftSizf()) {
+                        font = nfw FontUIRfsourdf("MS Sbns Sfrif",
+                                                  font.gftStylf(), sizf);
+                    }
+                }
+
+                if (FontUtilitifs.fontSupportsDffbultEndoding(font)) {
+                    if (!(font instbndfof UIRfsourdf)) {
+                        font = nfw FontUIRfsourdf(font);
+                    }
+                }
+                flsf {
+                    font = FontUtilitifs.gftCompositfFontUIRfsourdf(font);
+                }
+                rfturn font;
+
+            }
+            rfturn supfr.donfigurfVbluf(vbluf);
+        }
+    }
+
+
+    /**
+     * DfsktopPropfrty for fonts thbt only gfts sizfs from thf dfsktop,
+     * font nbmf bnd stylf brf pbssfd into thf donstrudtor
+     */
+    privbtf stbtid dlbss WindowsFontSizfPropfrty fxtfnds DfsktopPropfrty {
+        privbtf String fontNbmf;
+        privbtf int fontSizf;
+        privbtf int fontStylf;
+
+        WindowsFontSizfPropfrty(String kfy, String fontNbmf,
+                                int fontStylf, int fontSizf) {
+            supfr(kfy, null);
+            this.fontNbmf = fontNbmf;
+            this.fontSizf = fontSizf;
+            this.fontStylf = fontStylf;
+        }
+
+        protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
+            if (vbluf == null) {
+                vbluf = nfw FontUIRfsourdf(fontNbmf, fontStylf, fontSizf);
+            }
+            flsf if (vbluf instbndfof Intfgfr) {
+                vbluf = nfw FontUIRfsourdf(fontNbmf, fontStylf,
+                                           ((Intfgfr)vbluf).intVbluf());
+            }
+            rfturn vbluf;
+        }
+    }
+
+
+    /**
+     * A vbluf wrbppfr thbt bdtivfly rftrifvfs vblufs from xp or fblls bbdk
+     * to thf dlbssid vbluf if not running XP stylfs.
+     */
+    privbtf stbtid dlbss XPVbluf implfmfnts UIDffbults.AdtivfVbluf {
+        protfdtfd Objfdt dlbssidVbluf, xpVbluf;
+
+        // A donstbnt thbt lfts you spfdify null whfn using XP stylfs.
+        privbtf finbl stbtid Objfdt NULL_VALUE = nfw Objfdt();
+
+        XPVbluf(Objfdt xpVbluf, Objfdt dlbssidVbluf) {
+            this.xpVbluf = xpVbluf;
+            this.dlbssidVbluf = dlbssidVbluf;
+        }
+
+        publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+            Objfdt vbluf = null;
+            if (XPStylf.gftXP() != null) {
+                vbluf = gftXPVbluf(tbblf);
+            }
+
+            if (vbluf == null) {
+                vbluf = gftClbssidVbluf(tbblf);
+            } flsf if (vbluf == NULL_VALUE) {
+                vbluf = null;
+            }
+
+            rfturn vbluf;
+        }
+
+        protfdtfd Objfdt gftXPVbluf(UIDffbults tbblf) {
+            rfturn rfdursivfCrfbtfVbluf(xpVbluf, tbblf);
+        }
+
+        protfdtfd Objfdt gftClbssidVbluf(UIDffbults tbblf) {
+            rfturn rfdursivfCrfbtfVbluf(dlbssidVbluf, tbblf);
+        }
+
+        privbtf Objfdt rfdursivfCrfbtfVbluf(Objfdt vbluf, UIDffbults tbblf) {
+            if (vbluf instbndfof UIDffbults.LbzyVbluf) {
+                vbluf = ((UIDffbults.LbzyVbluf)vbluf).drfbtfVbluf(tbblf);
+            }
+            if (vbluf instbndfof UIDffbults.AdtivfVbluf) {
+                rfturn ((UIDffbults.AdtivfVbluf)vbluf).drfbtfVbluf(tbblf);
+            } flsf {
+                rfturn vbluf;
+            }
+        }
+    }
+
+    privbtf stbtid dlbss XPBordfrVbluf fxtfnds XPVbluf {
+        privbtf finbl Bordfr fxtrbMbrgin;
+
+        XPBordfrVbluf(Pbrt xpVbluf, Objfdt dlbssidVbluf) {
+            this(xpVbluf, dlbssidVbluf, null);
+        }
+
+        XPBordfrVbluf(Pbrt xpVbluf, Objfdt dlbssidVbluf, Bordfr fxtrbMbrgin) {
+            supfr(xpVbluf, dlbssidVbluf);
+            this.fxtrbMbrgin = fxtrbMbrgin;
+        }
+
+        publid Objfdt gftXPVbluf(UIDffbults tbblf) {
+            XPStylf xp = XPStylf.gftXP();
+            Bordfr xpBordfr = xp != null ? xp.gftBordfr(null, (Pbrt)xpVbluf) : null;
+            if (xpBordfr != null && fxtrbMbrgin != null) {
+                rfturn nfw BordfrUIRfsourdf.
+                        CompoundBordfrUIRfsourdf(xpBordfr, fxtrbMbrgin);
+            } flsf {
+                rfturn xpBordfr;
+            }
+        }
+    }
+
+    privbtf stbtid dlbss XPColorVbluf fxtfnds XPVbluf {
+        XPColorVbluf(Pbrt pbrt, Stbtf stbtf, Prop prop, Objfdt dlbssidVbluf) {
+            supfr(nfw XPColorVblufKfy(pbrt, stbtf, prop), dlbssidVbluf);
+        }
+
+        publid Objfdt gftXPVbluf(UIDffbults tbblf) {
+            XPColorVblufKfy kfy = (XPColorVblufKfy)xpVbluf;
+            XPStylf xp = XPStylf.gftXP();
+            rfturn xp != null ? xp.gftColor(kfy.skin, kfy.prop, null) : null;
+        }
+
+        privbtf stbtid dlbss XPColorVblufKfy {
+            Skin skin;
+            Prop prop;
+
+            XPColorVblufKfy(Pbrt pbrt, Stbtf stbtf, Prop prop) {
+                this.skin = nfw Skin(pbrt, stbtf);
+                this.prop = prop;
+            }
+        }
+    }
+
+    privbtf dlbss XPDLUVbluf fxtfnds XPVbluf {
+        privbtf int dirfdtion;
+
+        XPDLUVbluf(int xpdlu, int dlbssiddlu, int dirfdtion) {
+            supfr(Intfgfr.vblufOf(xpdlu), Intfgfr.vblufOf(dlbssiddlu));
+            this.dirfdtion = dirfdtion;
+        }
+
+        publid Objfdt gftXPVbluf(UIDffbults tbblf) {
+            int px = dluToPixfls(((Intfgfr)xpVbluf).intVbluf(), dirfdtion);
+            rfturn Intfgfr.vblufOf(px);
+        }
+
+        publid Objfdt gftClbssidVbluf(UIDffbults tbblf) {
+            int px = dluToPixfls(((Intfgfr)dlbssidVbluf).intVbluf(), dirfdtion);
+            rfturn Intfgfr.vblufOf(px);
+        }
+    }
+
+    privbtf dlbss TriggfrDfsktopPropfrty fxtfnds DfsktopPropfrty {
+        TriggfrDfsktopPropfrty(String kfy) {
+            supfr(kfy, null);
+            // This dbll bdds b propfrty dhbngf listfnfr for thf propfrty,
+            // whidh triggfrs b dbll to updbtfUI(). Thf vbluf rfturnfd
+            // is not intfrfsting hfrf.
+            gftVblufFromDfsktop();
+        }
+
+        protfdtfd void updbtfUI() {
+            supfr.updbtfUI();
+
+            // Mbkf surf propfrty dhbngf listfnfr is rfbddfd fbdh timf
+            gftVblufFromDfsktop();
+        }
+    }
+
+    privbtf dlbss FontDfsktopPropfrty fxtfnds TriggfrDfsktopPropfrty {
+        FontDfsktopPropfrty(String kfy) {
+            supfr(kfy);
+        }
+
+        protfdtfd void updbtfUI() {
+            Objfdt bbTfxtInfo = SwingUtilitifs2.AATfxtInfo.gftAATfxtInfo(truf);
+            UIDffbults dffbults = UIMbnbgfr.gftLookAndFfflDffbults();
+            dffbults.put(SwingUtilitifs2.AA_TEXT_PROPERTY_KEY, bbTfxtInfo);
+            supfr.updbtfUI();
+        }
+    }
+
+    // Windows LbyoutStylf.  From:
+    // http://msdn.midrosoft.dom/librbry/dffbult.bsp?url=/librbry/fn-us/dnwuf/html/dh14f.bsp
+    @SupprfssWbrnings("fbllthrough")
+    privbtf dlbss WindowsLbyoutStylf fxtfnds DffbultLbyoutStylf {
+        @Ovfrridf
+        publid int gftPrfffrrfdGbp(JComponfnt domponfnt1,
+                JComponfnt domponfnt2, ComponfntPlbdfmfnt typf, int position,
+                Contbinfr pbrfnt) {
+            // Chfdks brgs
+            supfr.gftPrfffrrfdGbp(domponfnt1, domponfnt2, typf, position,
+                                  pbrfnt);
+
+            switdh(typf) {
+            dbsf INDENT:
+                // Windows dofsn't spfd this
+                if (position == SwingConstbnts.EAST ||
+                        position == SwingConstbnts.WEST) {
+                    int indfnt = gftIndfnt(domponfnt1, position);
+                    if (indfnt > 0) {
+                        rfturn indfnt;
+                    }
+                    rfturn 10;
+                }
+                // Fbll through to rflbtfd.
+            dbsf RELATED:
+                if (isLbbflAndNonlbbfl(domponfnt1, domponfnt2, position)) {
+                    // Bftwffn tfxt lbbfls bnd thfir bssodibtfd dontrols (for
+                    // fxbmplf, tfxt boxfs bnd list boxfs): 3
+                    // NOTE: Wf'rf not honoring:
+                    // 'Tfxt lbbfl bfsidf b button 3 down from thf top of
+                    // thf button,' but I suspfdt thbt is bn bttfmpt to
+                    // fnfordf b bbsflinf lbyout whidh will bf hbndlfd
+                    // sfpbrbtfly.  In ordfr to fnfordf this wf would nffd
+                    // this API to rfturn b morf domplidbtfd typf (Insfts,
+                    // or somfthing flsf).
+                    rfturn gftButtonGbp(domponfnt1, domponfnt2, position,
+                                        dluToPixfls(3, position));
+                }
+                // Bftwffn rflbtfd dontrols: 4
+                rfturn gftButtonGbp(domponfnt1, domponfnt2, position,
+                                    dluToPixfls(4, position));
+            dbsf UNRELATED:
+                // Bftwffn unrflbtfd dontrols: 7
+                rfturn gftButtonGbp(domponfnt1, domponfnt2, position,
+                                    dluToPixfls(7, position));
+            }
+            rfturn 0;
+        }
+
+        @Ovfrridf
+        publid int gftContbinfrGbp(JComponfnt domponfnt, int position,
+                                   Contbinfr pbrfnt) {
+            // Chfdks brgs
+            supfr.gftContbinfrGbp(domponfnt, position, pbrfnt);
+            rfturn gftButtonGbp(domponfnt, position, dluToPixfls(7, position));
+        }
+
+    }
+
+    /**
+     * Convfrts thf diblog unit brgumfnt to pixfls blong thf spfdififd
+     * bxis.
+     */
+    privbtf int dluToPixfls(int dlu, int dirfdtion) {
+        if (bbsfUnitX == 0) {
+            dbldulbtfBbsfUnits();
+        }
+        if (dirfdtion == SwingConstbnts.EAST ||
+            dirfdtion == SwingConstbnts.WEST) {
+            rfturn dlu * bbsfUnitX / 4;
+        }
+        bssfrt (dirfdtion == SwingConstbnts.NORTH ||
+                dirfdtion == SwingConstbnts.SOUTH);
+        rfturn dlu * bbsfUnitY / 8;
+    }
+
+    /**
+     * Cbldulbtfs thf diblog unit mbpping.
+     */
+    privbtf void dbldulbtfBbsfUnits() {
+        // This dbldulbtion domfs from:
+        // http://support.midrosoft.dom/dffbult.bspx?sdid=kb;EN-US;125681
+        FontMftrids mftrids = Toolkit.gftDffbultToolkit().gftFontMftrids(
+                UIMbnbgfr.gftFont("Button.font"));
+        bbsfUnitX = mftrids.stringWidth(
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZbbddffghijklmnopqrstuvwxyz");
+        bbsfUnitX = (bbsfUnitX / 26 + 1) / 2;
+        // Thf -1 domfs from fxpfrimfntbtion.
+        bbsfUnitY = mftrids.gftAsdfnt() + mftrids.gftDfsdfnt() - 1;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @sindf 1.6
+     */
+    publid Idon gftDisbblfdIdon(JComponfnt domponfnt, Idon idon) {
+        // if thf domponfnt hbs b HI_RES_DISABLED_ICON_CLIENT_KEY
+        // dlifnt propfrty sft to Boolfbn.TRUE, thfn usf thf nfw
+        // hi rfs blgorithm for drfbting thf disbblfd idon (usfd
+        // in pbrtidulbr by thf WindowsFilfChoosfrUI dlbss)
+        if (idon != null
+                && domponfnt != null
+                && Boolfbn.TRUE.fqubls(domponfnt.gftClifntPropfrty(HI_RES_DISABLED_ICON_CLIENT_KEY))
+                && idon.gftIdonWidth() > 0
+                && idon.gftIdonHfight() > 0) {
+            BufffrfdImbgf img = nfw BufffrfdImbgf(idon.gftIdonWidth(),
+                    idon.gftIdonWidth(), BufffrfdImbgf.TYPE_INT_ARGB);
+            idon.pbintIdon(domponfnt, img.gftGrbphids(), 0, 0);
+            ImbgfFiltfr filtfr = nfw RGBGrbyFiltfr();
+            ImbgfProdudfr produdfr = nfw FiltfrfdImbgfSourdf(img.gftSourdf(), filtfr);
+            Imbgf rfsultImbgf = domponfnt.drfbtfImbgf(produdfr);
+            rfturn nfw ImbgfIdonUIRfsourdf(rfsultImbgf);
+        }
+        rfturn supfr.gftDisbblfdIdon(domponfnt, idon);
+    }
+
+    privbtf stbtid dlbss RGBGrbyFiltfr fxtfnds RGBImbgfFiltfr {
+        publid RGBGrbyFiltfr() {
+            dbnFiltfrIndfxColorModfl = truf;
+        }
+        publid int filtfrRGB(int x, int y, int rgb) {
+            // find thf bvfrbgf of rfd, grffn, bnd bluf
+            flobt bvg = (((rgb >> 16) & 0xff) / 255f +
+                          ((rgb >>  8) & 0xff) / 255f +
+                           (rgb        & 0xff) / 255f) / 3;
+            // pull out thf blphb dhbnnfl
+            flobt blphb = (((rgb>>24)&0xff)/255f);
+            // dbld thf bvfrbgf
+            bvg = Mbth.min(1.0f, (1f-bvg)/(100.0f/35.0f) + bvg);
+            // turn bbdk into rgb
+            int rgbvbl = (int)(blphb * 255f) << 24 |
+                         (int)(bvg   * 255f) << 16 |
+                         (int)(bvg   * 255f) <<  8 |
+                         (int)(bvg   * 255f);
+            rfturn rgbvbl;
+        }
+    }
+
+    privbtf stbtid dlbss FodusColorPropfrty fxtfnds DfsktopPropfrty {
+        publid FodusColorPropfrty () {
+            // Fbllbbdk vbluf is nfvfr usfd bfdbusf of thf donfigurfVbluf mfthod dofsn't rfturn null
+            supfr("win.3d.bbdkgroundColor", Color.BLACK);
+        }
+
+        @Ovfrridf
+        protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
+            Objfdt highContrbstOn = Toolkit.gftDffbultToolkit().
+                    gftDfsktopPropfrty("win.highContrbst.on");
+            if (highContrbstOn == null || !((Boolfbn) highContrbstOn).boolfbnVbluf()) {
+                rfturn Color.BLACK;
+            }
+            rfturn Color.BLACK.fqubls(vbluf) ? Color.WHITE : Color.BLACK;
+        }
+    }
+
+}

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,177 +30,177 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.awt.Graphics;
-import java.awt.Font;
-import java.applet.Applet;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Font;
+import jbvb.bpplft.Applft;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfListfnfr;
 
 
 /**
- * An applet that displays jittering text on the screen.
+ * An bpplft tibt displbys jittfring tfxt on tif sdrffn.
  *
- * @author Daniel Wyszynski 04/12/95
- * @author 05/09/95 kwalrath Changed string; added thread suspension
- * @author 02/06/98 madbot removed use of suspend and resume and cleaned up
+ * @butior Dbnifl Wyszynski 04/12/95
+ * @butior 05/09/95 kwblrbti Cibngfd string; bddfd tirfbd suspfnsion
+ * @butior 02/06/98 mbdbot rfmovfd usf of suspfnd bnd rfsumf bnd dlfbnfd up
  */
-@SuppressWarnings("serial")
-public class NervousText extends Applet implements Runnable, MouseListener {
+@SupprfssWbrnings("sfribl")
+publid dlbss NfrvousTfxt fxtfnds Applft implfmfnts Runnbblf, MousfListfnfr {
 
-    String banner;              // The text to be displayed
-    char bannerChars[];         // The same text as an array of characters
-    char attributes[];          // Character attributes ('^' for superscript)
-    Thread runner = null;       // The thread that is displaying the text
-    boolean threadSuspended;    // True when thread suspended (via mouse click)
-    static final int REGULAR_WD = 15;
-    static final int REGULAR_HT = 36;
-    static final int SMALL_WD = 12;
-    static final int SMALL_HT = 24;
-    Font regularFont = new Font("Serif", Font.BOLD, REGULAR_HT);
-    Font smallFont = new Font("Serif", Font.BOLD, SMALL_HT);
+    String bbnnfr;              // Tif tfxt to bf displbyfd
+    dibr bbnnfrCibrs[];         // Tif sbmf tfxt bs bn brrby of dibrbdtfrs
+    dibr bttributfs[];          // Cibrbdtfr bttributfs ('^' for supfrsdript)
+    Tirfbd runnfr = null;       // Tif tirfbd tibt is displbying tif tfxt
+    boolfbn tirfbdSuspfndfd;    // Truf wifn tirfbd suspfndfd (vib mousf dlidk)
+    stbtid finbl int REGULAR_WD = 15;
+    stbtid finbl int REGULAR_HT = 36;
+    stbtid finbl int SMALL_WD = 12;
+    stbtid finbl int SMALL_HT = 24;
+    Font rfgulbrFont = nfw Font("Sfrif", Font.BOLD, REGULAR_HT);
+    Font smbllFont = nfw Font("Sfrif", Font.BOLD, SMALL_HT);
 
-    @Override
-    public void init() {
-        banner = getParameter("text");
-        if (banner == null) {
-            banner = "HotJava";
+    @Ovfrridf
+    publid void init() {
+        bbnnfr = gftPbrbmftfr("tfxt");
+        if (bbnnfr == null) {
+            bbnnfr = "HotJbvb";
         }
 
-        int bannerLength = banner.length();
-        StringBuilder bc = new StringBuilder(bannerLength);
-        StringBuilder attrs = new StringBuilder(bannerLength);
+        int bbnnfrLfngti = bbnnfr.lfngti();
+        StringBuildfr bd = nfw StringBuildfr(bbnnfrLfngti);
+        StringBuildfr bttrs = nfw StringBuildfr(bbnnfrLfngti);
         int wd = 0;
-        for (int i = 0; i < bannerLength; i++) {
-            char c = banner.charAt(i);
-            char a = 0;
-            if (c == '^') {
+        for (int i = 0; i < bbnnfrLfngti; i++) {
+            dibr d = bbnnfr.dibrAt(i);
+            dibr b = 0;
+            if (d == '^') {
                 i++;
-                if (i < bannerLength) {
-                    c = banner.charAt(i);
-                    a = '^';
+                if (i < bbnnfrLfngti) {
+                    d = bbnnfr.dibrAt(i);
+                    b = '^';
                     wd += SMALL_WD - REGULAR_WD;
-                } else {
-                    break;
+                } flsf {
+                    brfbk;
                 }
             }
-            bc.append(c);
-            attrs.append(a);
+            bd.bppfnd(d);
+            bttrs.bppfnd(b);
             wd += REGULAR_WD;
         }
 
-        bannerLength = bc.length();
-        bannerChars = new char[bannerLength];
-        attributes = new char[bannerLength];
-        bc.getChars(0, bannerLength, bannerChars, 0);
-        attrs.getChars(0, bannerLength, attributes, 0);
+        bbnnfrLfngti = bd.lfngti();
+        bbnnfrCibrs = nfw dibr[bbnnfrLfngti];
+        bttributfs = nfw dibr[bbnnfrLfngti];
+        bd.gftCibrs(0, bbnnfrLfngti, bbnnfrCibrs, 0);
+        bttrs.gftCibrs(0, bbnnfrLfngti, bttributfs, 0);
 
-        threadSuspended = false;
-        resize(wd + 10, 50);
-        addMouseListener(this);
+        tirfbdSuspfndfd = fblsf;
+        rfsizf(wd + 10, 50);
+        bddMousfListfnfr(tiis);
     }
 
-    @Override
-    public void destroy() {
-        removeMouseListener(this);
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovfMousfListfnfr(tiis);
     }
 
-    @Override
-    public void start() {
-        runner = new Thread(this);
-        runner.start();
+    @Ovfrridf
+    publid void stbrt() {
+        runnfr = nfw Tirfbd(tiis);
+        runnfr.stbrt();
     }
 
-    @Override
-    public synchronized void stop() {
-        runner = null;
-        if (threadSuspended) {
-            threadSuspended = false;
+    @Ovfrridf
+    publid syndironizfd void stop() {
+        runnfr = null;
+        if (tirfbdSuspfndfd) {
+            tirfbdSuspfndfd = fblsf;
             notify();
         }
     }
 
-    @Override
-    public void run() {
-        Thread me = Thread.currentThread();
-        while (runner == me) {
+    @Ovfrridf
+    publid void run() {
+        Tirfbd mf = Tirfbd.durrfntTirfbd();
+        wiilf (runnfr == mf) {
             try {
-                Thread.sleep(100);
-                synchronized (this) {
-                    while (threadSuspended) {
-                        wait();
+                Tirfbd.slffp(100);
+                syndironizfd (tiis) {
+                    wiilf (tirfbdSuspfndfd) {
+                        wbit();
                     }
                 }
-            } catch (InterruptedException e) {
+            } dbtdi (IntfrruptfdExdfption f) {
             }
-            repaint();
+            rfpbint();
         }
     }
 
-    @Override
-    public void paint(Graphics g) {
-        int length = bannerChars.length;
-        for (int i = 0, x = 0; i < length; i++) {
-            int wd, ht;
-            if (attributes[i] == '^') {
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
+        int lfngti = bbnnfrCibrs.lfngti;
+        for (int i = 0, x = 0; i < lfngti; i++) {
+            int wd, it;
+            if (bttributfs[i] == '^') {
                 wd = SMALL_WD;
-                ht = SMALL_HT;
-                g.setFont(smallFont);
-            } else {
+                it = SMALL_HT;
+                g.sftFont(smbllFont);
+            } flsf {
                 wd = REGULAR_WD;
-                ht = REGULAR_HT;
-                g.setFont(regularFont);
+                it = REGULAR_HT;
+                g.sftFont(rfgulbrFont);
             }
-            int px = (int) (10 * Math.random() + x);
-            int py = (int) (10 * Math.random() + ht);
-            g.drawChars(bannerChars, i, 1, px, py);
+            int px = (int) (10 * Mbti.rbndom() + x);
+            int py = (int) (10 * Mbti.rbndom() + it);
+            g.drbwCibrs(bbnnfrCibrs, i, 1, px, py);
             x += wd;
         }
     }
 
-    @Override
-    public synchronized void mousePressed(MouseEvent e) {
-        e.consume();
-        threadSuspended = !threadSuspended;
-        if (!threadSuspended) {
+    @Ovfrridf
+    publid syndironizfd void mousfPrfssfd(MousfEvfnt f) {
+        f.donsumf();
+        tirfbdSuspfndfd = !tirfbdSuspfndfd;
+        if (!tirfbdSuspfndfd) {
             notify();
         }
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfRflfbsfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfEntfrfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseExited(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfExitfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfClidkfd(MousfEvfnt f) {
     }
 
-    @Override
-    public String getAppletInfo() {
-        return "Title: NervousText\nAuthor: Daniel Wyszynski\n"
-                + "Displays a text banner that jitters.";
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "Titlf: NfrvousTfxt\nAutior: Dbnifl Wyszynski\n"
+                + "Displbys b tfxt bbnnfr tibt jittfrs.";
     }
 
-    @Override
-    public String[][] getParameterInfo() {
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
         String pinfo[][] = {
-            { "text", "string", "Text to display" }, };
-        return pinfo;
+            { "tfxt", "string", "Tfxt to displby" }, };
+        rfturn pinfo;
     }
 }

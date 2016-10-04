@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "D3DPipeline.h"
+#indludf "D3DPipflinf.i"
 
-#include "sun_java2d_d3d_D3DRenderer.h"
+#indludf "sun_jbvb2d_d3d_D3DRfndfrfr.i"
 
-#include "D3DContext.h"
-#include "D3DRenderer.h"
-#include "D3DRenderQueue.h"
+#indludf "D3DContfxt.i"
+#indludf "D3DRfndfrfr.i"
+#indludf "D3DRfndfrQufuf.i"
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawLine(D3DContext *d3dc,
+D3DRfndfrfr_DrbwLinf(D3DContfxt *d3dd,
                      jint x1, jint y1, jint x2, jint y2)
 {
-    J2dTraceLn4(J2D_TRACE_INFO,
-                "D3DRenderer_doDrawLineD3D x1=%-4d y1=%-4d x2=%-4d y2=%-4d",
+    J2dTrbdfLn4(J2D_TRACE_INFO,
+                "D3DRfndfrfr_doDrbwLinfD3D x1=%-4d y1=%-4d x2=%-4d y2=%-4d",
                 x1, y1, x2, y2);
-    d3dc->BeginScene(STATE_RENDEROP);
-    return d3dc->pVCacher->DrawLine(x1, y1, x2, y2);
+    d3dd->BfginSdfnf(STATE_RENDEROP);
+    rfturn d3dd->pVCbdifr->DrbwLinf(x1, y1, x2, y2);
 }
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawRect(D3DContext *d3dc,
-                     jint x, jint y, jint w, jint h)
+D3DRfndfrfr_DrbwRfdt(D3DContfxt *d3dd,
+                     jint x, jint y, jint w, jint i)
 {
-    J2dTraceLn4(J2D_TRACE_INFO,
-                "D3DRenderer_DrawRect x=%-4d y=%-4d w=%-4d h=%-4d",
-                x, y, w, h);
+    J2dTrbdfLn4(J2D_TRACE_INFO,
+                "D3DRfndfrfr_DrbwRfdt x=%-4d y=%-4d w=%-4d i=%-4d",
+                x, y, w, i);
 
-    d3dc->BeginScene(STATE_RENDEROP);
-    return d3dc->pVCacher->DrawRect(x, y, x + w, y + h);
+    d3dd->BfginSdfnf(STATE_RENDEROP);
+    rfturn d3dd->pVCbdifr->DrbwRfdt(x, y, x + w, y + i);
 }
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_FillRect(D3DContext *d3dc,
-                     jint x, jint y, jint w, jint h)
+D3DRfndfrfr_FillRfdt(D3DContfxt *d3dd,
+                     jint x, jint y, jint w, jint i)
 {
-    J2dTraceLn4(J2D_TRACE_INFO,
-               "D3DRenderer_FillRect x=%-4d y=%-4d w=%-4d h=%-4d",
-                x, y, w, h);
+    J2dTrbdfLn4(J2D_TRACE_INFO,
+               "D3DRfndfrfr_FillRfdt x=%-4d y=%-4d w=%-4d i=%-4d",
+                x, y, w, i);
 
-    d3dc->BeginScene(STATE_RENDEROP);
-    return d3dc->pVCacher->FillRect(x, y, x + w, y + h);
+    d3dd->BfginSdfnf(STATE_RENDEROP);
+    rfturn d3dd->pVCbdifr->FillRfdt(x, y, x + w, y + i);
 }
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawPoly(D3DContext *d3dc,
-                     jint nPoints, jboolean isClosed,
-                     jint transX, jint transY,
+D3DRfndfrfr_DrbwPoly(D3DContfxt *d3dd,
+                     jint nPoints, jboolfbn isClosfd,
+                     jint trbnsX, jint trbnsY,
                      jint *xPoints, jint *yPoints)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRenderer_DrawPoly");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DRfndfrfr_DrbwPoly");
 
-    if (d3dc == NULL || xPoints == NULL || yPoints == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "D3DRenderer_DrawPoly: d3dc, xPoints or yPoints is NULL");
-        return E_FAIL;
+    if (d3dd == NULL || xPoints == NULL || yPoints == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "D3DRfndfrfr_DrbwPoly: d3dd, xPoints or yPoints is NULL");
+        rfturn E_FAIL;
     }
 
-    d3dc->BeginScene(STATE_RENDEROP);
-    return d3dc->pVCacher->DrawPoly(nPoints, isClosed, transX, transY,
+    d3dd->BfginSdfnf(STATE_RENDEROP);
+    rfturn d3dd->pVCbdifr->DrbwPoly(nPoints, isClosfd, trbnsX, trbnsY,
                                     xPoints, yPoints);
 }
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawScanlines(D3DContext *d3dc,
-                          jint scanlineCount, jint *scanlines)
+D3DRfndfrfr_DrbwSdbnlinfs(D3DContfxt *d3dd,
+                          jint sdbnlinfCount, jint *sdbnlinfs)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRenderer_DrawScanlines");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DRfndfrfr_DrbwSdbnlinfs");
 
-    if (d3dc == NULL) {
-       return E_FAIL;
+    if (d3dd == NULL) {
+       rfturn E_FAIL;
     }
-    if (scanlines == NULL || scanlineCount <= 0) {
-        return D3D_OK;
+    if (sdbnlinfs == NULL || sdbnlinfCount <= 0) {
+        rfturn D3D_OK;
     }
 
-    d3dc->BeginScene(STATE_RENDEROP);
-    return d3dc->pVCacher->DrawScanlines(scanlineCount, scanlines);
+    d3dd->BfginSdfnf(STATE_RENDEROP);
+    rfturn d3dd->pVCbdifr->DrbwSdbnlinfs(sdbnlinfCount, sdbnlinfs);
 }
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_FillSpans(D3DContext *d3dc, jint spanCount, jint *spans)
+D3DRfndfrfr_FillSpbns(D3DContfxt *d3dd, jint spbnCount, jint *spbns)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRenderer_FillSpans");
-    if (d3dc == NULL) {
-        return E_FAIL;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DRfndfrfr_FillSpbns");
+    if (d3dd == NULL) {
+        rfturn E_FAIL;
     }
 
-    d3dc->BeginScene(STATE_RENDEROP);
-    return d3dc->pVCacher->FillSpans(spanCount, spans);
+    d3dd->BfginSdfnf(STATE_RENDEROP);
+    rfturn d3dd->pVCbdifr->FillSpbns(spbnCount, spbns);
 }
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_FillParallelogram(D3DContext *d3dc,
-                              jfloat fx11, jfloat fy11,
-                              jfloat dx21, jfloat dy21,
-                              jfloat dx12, jfloat dy12)
+D3DRfndfrfr_FillPbrbllflogrbm(D3DContfxt *d3dd,
+                              jflobt fx11, jflobt fy11,
+                              jflobt dx21, jflobt dy21,
+                              jflobt dx12, jflobt dy12)
 {
-    J2dTraceLn6(J2D_TRACE_INFO,
-                "D3DRenderer_FillParallelogram "
+    J2dTrbdfLn6(J2D_TRACE_INFO,
+                "D3DRfndfrfr_FillPbrbllflogrbm "
                 "x=%6.2f y=%6.2f "
                 "dx1=%6.2f dy1=%6.2f "
                 "dx2=%6.2f dy2=%6.2f ",
@@ -129,23 +129,23 @@ D3DRenderer_FillParallelogram(D3DContext *d3dc,
                 dx21, dy21,
                 dx12, dy12);
 
-    d3dc->BeginScene(STATE_RENDEROP);
-    return d3dc->pVCacher->FillParallelogram(fx11, fy11,
+    d3dd->BfginSdfnf(STATE_RENDEROP);
+    rfturn d3dd->pVCbdifr->FillPbrbllflogrbm(fx11, fy11,
                                              dx21, dy21,
                                              dx12, dy12);
 }
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawParallelogram(D3DContext *d3dc,
-                              jfloat fx11, jfloat fy11,
-                              jfloat dx21, jfloat dy21,
-                              jfloat dx12, jfloat dy12,
-                              jfloat lwr21, jfloat lwr12)
+D3DRfndfrfr_DrbwPbrbllflogrbm(D3DContfxt *d3dd,
+                              jflobt fx11, jflobt fy11,
+                              jflobt dx21, jflobt dy21,
+                              jflobt dx12, jflobt dy12,
+                              jflobt lwr21, jflobt lwr12)
 {
-    HRESULT res;
+    HRESULT rfs;
 
-    J2dTraceLn8(J2D_TRACE_INFO,
-                "D3DRenderer_DrawParallelogram "
+    J2dTrbdfLn8(J2D_TRACE_INFO,
+                "D3DRfndfrfr_DrbwPbrbllflogrbm "
                 "x=%6.2f y=%6.2f "
                 "dx1=%6.2f dy1=%6.2f lwr1=%6.2f "
                 "dx2=%6.2f dy2=%6.2f lwr2=%6.2f ",
@@ -153,38 +153,38 @@ D3DRenderer_DrawParallelogram(D3DContext *d3dc,
                 dx21, dy21, lwr21,
                 dx12, dy12, lwr12);
 
-    // dx,dy for line width in the "21" and "12" directions.
-    jfloat ldx21 = dx21 * lwr21;
-    jfloat ldy21 = dy21 * lwr21;
-    jfloat ldx12 = dx12 * lwr12;
-    jfloat ldy12 = dy12 * lwr12;
+    // dx,dy for linf widti in tif "21" bnd "12" dirfdtions.
+    jflobt ldx21 = dx21 * lwr21;
+    jflobt ldy21 = dy21 * lwr21;
+    jflobt ldx12 = dx12 * lwr12;
+    jflobt ldy12 = dy12 * lwr12;
 
-    // calculate origin of the outer parallelogram
-    jfloat ox11 = fx11 - (ldx21 + ldx12) / 2.0f;
-    jfloat oy11 = fy11 - (ldy21 + ldy12) / 2.0f;
+    // dbldulbtf origin of tif outfr pbrbllflogrbm
+    jflobt ox11 = fx11 - (ldx21 + ldx12) / 2.0f;
+    jflobt oy11 = fy11 - (ldy21 + ldy12) / 2.0f;
 
-    res = d3dc->BeginScene(STATE_RENDEROP);
-    RETURN_STATUS_IF_FAILED(res);
+    rfs = d3dd->BfginSdfnf(STATE_RENDEROP);
+    RETURN_STATUS_IF_FAILED(rfs);
 
-    // Only need to generate 4 quads if the interior still
-    // has a hole in it (i.e. if the line width ratio was
-    // less than 1.0)
+    // Only nffd to gfnfrbtf 4 qubds if tif intfrior still
+    // ibs b iolf in it (i.f. if tif linf widti rbtio wbs
+    // lfss tibn 1.0)
     if (lwr21 < 1.0f && lwr12 < 1.0f) {
-        // Note: "TOP", "BOTTOM", "LEFT" and "RIGHT" here are
-        // relative to whether the dxNN variables are positive
-        // and negative.  The math works fine regardless of
-        // their signs, but for conceptual simplicity the
-        // comments will refer to the sides as if the dxNN
-        // were all positive.  "TOP" and "BOTTOM" segments
-        // are defined by the dxy21 deltas.  "LEFT" and "RIGHT"
-        // segments are defined by the dxy12 deltas.
+        // Notf: "TOP", "BOTTOM", "LEFT" bnd "RIGHT" ifrf brf
+        // rflbtivf to wiftifr tif dxNN vbribblfs brf positivf
+        // bnd nfgbtivf.  Tif mbti works finf rfgbrdlfss of
+        // tifir signs, but for dondfptubl simplidity tif
+        // dommfnts will rfffr to tif sidfs bs if tif dxNN
+        // wfrf bll positivf.  "TOP" bnd "BOTTOM" sfgmfnts
+        // brf dffinfd by tif dxy21 dfltbs.  "LEFT" bnd "RIGHT"
+        // sfgmfnts brf dffinfd by tif dxy12 dfltbs.
 
-        // Each segment includes its starting corner and comes
-        // to just short of the following corner.  Thus, each
-        // corner is included just once and the only lengths
-        // needed are the original parallelogram delta lengths
-        // and the "line width deltas".  The sides will cover
-        // the following relative territories:
+        // Ebdi sfgmfnt indludfs its stbrting dornfr bnd domfs
+        // to just siort of tif following dornfr.  Tius, fbdi
+        // dornfr is indludfd just ondf bnd tif only lfngtis
+        // nffdfd brf tif originbl pbrbllflogrbm dfltb lfngtis
+        // bnd tif "linf widti dfltbs".  Tif sidfs will dovfr
+        // tif following rflbtivf tfrritorifs:
         //
         //     T T T T T R
         //      L         R
@@ -193,66 +193,66 @@ D3DRenderer_DrawParallelogram(D3DContext *d3dc,
         //         L         R
         //          L B B B B B
 
-        // TOP segment, to left side of RIGHT edge
-        // "width" of original pgram, "height" of hor. line size
+        // TOP sfgmfnt, to lfft sidf of RIGHT fdgf
+        // "widti" of originbl pgrbm, "ifigit" of ior. linf sizf
         fx11 = ox11;
         fy11 = oy11;
-        res = d3dc->pVCacher->FillParallelogram(fx11, fy11,
+        rfs = d3dd->pVCbdifr->FillPbrbllflogrbm(fx11, fy11,
                                                 dx21, dy21,
                                                 ldx12, ldy12);
 
-        // RIGHT segment, to top of BOTTOM edge
-        // "width" of vert. line size , "height" of original pgram
+        // RIGHT sfgmfnt, to top of BOTTOM fdgf
+        // "widti" of vfrt. linf sizf , "ifigit" of originbl pgrbm
         fx11 = ox11 + dx21;
         fy11 = oy11 + dy21;
-        res = d3dc->pVCacher->FillParallelogram(fx11, fy11,
+        rfs = d3dd->pVCbdifr->FillPbrbllflogrbm(fx11, fy11,
                                                 ldx21, ldy21,
                                                 dx12, dy12);
 
-        // BOTTOM segment, from right side of LEFT edge
-        // "width" of original pgram, "height" of hor. line size
+        // BOTTOM sfgmfnt, from rigit sidf of LEFT fdgf
+        // "widti" of originbl pgrbm, "ifigit" of ior. linf sizf
         fx11 = ox11 + dx12 + ldx21;
         fy11 = oy11 + dy12 + ldy21;
-        res = d3dc->pVCacher->FillParallelogram(fx11, fy11,
+        rfs = d3dd->pVCbdifr->FillPbrbllflogrbm(fx11, fy11,
                                                 dx21, dy21,
                                                 ldx12, ldy12);
 
-        // LEFT segment, from bottom of TOP edge
-        // "width" of vert. line size , "height" of inner pgram
+        // LEFT sfgmfnt, from bottom of TOP fdgf
+        // "widti" of vfrt. linf sizf , "ifigit" of innfr pgrbm
         fx11 = ox11 + ldx12;
         fy11 = oy11 + ldy12;
-        res = d3dc->pVCacher->FillParallelogram(fx11, fy11,
+        rfs = d3dd->pVCbdifr->FillPbrbllflogrbm(fx11, fy11,
                                                 ldx21, ldy21,
                                                 dx12, dy12);
-    } else {
-        // The line width ratios were large enough to consume
-        // the entire hole in the middle of the parallelogram
-        // so we can just issue one large quad for the outer
-        // parallelogram.
+    } flsf {
+        // Tif linf widti rbtios wfrf lbrgf fnougi to donsumf
+        // tif fntirf iolf in tif middlf of tif pbrbllflogrbm
+        // so wf dbn just issuf onf lbrgf qubd for tif outfr
+        // pbrbllflogrbm.
         dx21 += ldx21;
         dy21 += ldy21;
         dx12 += ldx12;
         dy12 += ldy12;
 
-        res = d3dc->pVCacher->FillParallelogram(ox11, oy11,
+        rfs = d3dd->pVCbdifr->FillPbrbllflogrbm(ox11, oy11,
                                                 dx21, dy21,
                                                 dx12, dy12);
     }
 
-    return res;
+    rfturn rfs;
 }
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_FillAAParallelogram(D3DContext *d3dc,
-                                jfloat fx11, jfloat fy11,
-                                jfloat dx21, jfloat dy21,
-                                jfloat dx12, jfloat dy12)
+D3DRfndfrfr_FillAAPbrbllflogrbm(D3DContfxt *d3dd,
+                                jflobt fx11, jflobt fy11,
+                                jflobt dx21, jflobt dy21,
+                                jflobt dx12, jflobt dy12)
 {
-    IDirect3DDevice9 *pd3dDevice;
-    HRESULT res;
+    IDirfdt3DDfvidf9 *pd3dDfvidf;
+    HRESULT rfs;
 
-    J2dTraceLn6(J2D_TRACE_INFO,
-                "D3DRenderer_FillAAParallelogram "
+    J2dTrbdfLn6(J2D_TRACE_INFO,
+                "D3DRfndfrfr_FillAAPbrbllflogrbm "
                 "x=%6.2f y=%6.2f "
                 "dx1=%6.2f dy1=%6.2f "
                 "dx2=%6.2f dy2=%6.2f ",
@@ -260,38 +260,38 @@ D3DRenderer_FillAAParallelogram(D3DContext *d3dc,
                 dx21, dy21,
                 dx12, dy12);
 
-    res = d3dc->BeginScene(STATE_AAPGRAMOP);
-    RETURN_STATUS_IF_FAILED(res);
+    rfs = d3dd->BfginSdfnf(STATE_AAPGRAMOP);
+    RETURN_STATUS_IF_FAILED(rfs);
 
-    pd3dDevice = d3dc->Get3DDevice();
-    if (pd3dDevice == NULL) {
-        return E_FAIL;
+    pd3dDfvidf = d3dd->Gft3DDfvidf();
+    if (pd3dDfvidf == NULL) {
+        rfturn E_FAIL;
     }
 
-    res = d3dc->pVCacher->FillParallelogramAA(fx11, fy11,
+    rfs = d3dd->pVCbdifr->FillPbrbllflogrbmAA(fx11, fy11,
                                               dx21, dy21,
                                               dx12, dy12);
-    return res;
+    rfturn rfs;
 }
 
 HRESULT D3DPIPELINE_API
-D3DRenderer_DrawAAParallelogram(D3DContext *d3dc,
-                                jfloat fx11, jfloat fy11,
-                                jfloat dx21, jfloat dy21,
-                                jfloat dx12, jfloat dy12,
-                                jfloat lwr21, jfloat lwr12)
+D3DRfndfrfr_DrbwAAPbrbllflogrbm(D3DContfxt *d3dd,
+                                jflobt fx11, jflobt fy11,
+                                jflobt dx21, jflobt dy21,
+                                jflobt dx12, jflobt dy12,
+                                jflobt lwr21, jflobt lwr12)
 {
-    IDirect3DDevice9 *pd3dDevice;
-    // dx,dy for line width in the "21" and "12" directions.
-    jfloat ldx21, ldy21, ldx12, ldy12;
-    // parameters for "outer" parallelogram
-    jfloat ofx11, ofy11, odx21, ody21, odx12, ody12;
-    // parameters for "inner" parallelogram
-    jfloat ifx11, ify11, idx21, idy21, idx12, idy12;
-    HRESULT res;
+    IDirfdt3DDfvidf9 *pd3dDfvidf;
+    // dx,dy for linf widti in tif "21" bnd "12" dirfdtions.
+    jflobt ldx21, ldy21, ldx12, ldy12;
+    // pbrbmftfrs for "outfr" pbrbllflogrbm
+    jflobt ofx11, ofy11, odx21, ody21, odx12, ody12;
+    // pbrbmftfrs for "innfr" pbrbllflogrbm
+    jflobt ifx11, ify11, idx21, idy21, idx12, idy12;
+    HRESULT rfs;
 
-    J2dTraceLn8(J2D_TRACE_INFO,
-                "D3DRenderer_DrawAAParallelogram "
+    J2dTrbdfLn8(J2D_TRACE_INFO,
+                "D3DRfndfrfr_DrbwAAPbrbllflogrbm "
                 "x=%6.2f y=%6.2f "
                 "dx1=%6.2f dy1=%6.2f lwr1=%6.2f "
                 "dx2=%6.2f dy2=%6.2f lwr2=%6.2f ",
@@ -299,21 +299,21 @@ D3DRenderer_DrawAAParallelogram(D3DContext *d3dc,
                 dx21, dy21, lwr21,
                 dx12, dy12, lwr12);
 
-    res = d3dc->BeginScene(STATE_AAPGRAMOP);
-    RETURN_STATUS_IF_FAILED(res);
+    rfs = d3dd->BfginSdfnf(STATE_AAPGRAMOP);
+    RETURN_STATUS_IF_FAILED(rfs);
 
-    pd3dDevice = d3dc->Get3DDevice();
-    if (pd3dDevice == NULL) {
-        return E_FAIL;
+    pd3dDfvidf = d3dd->Gft3DDfvidf();
+    if (pd3dDfvidf == NULL) {
+        rfturn E_FAIL;
     }
 
-    // calculate true dx,dy for line widths from the "line width ratios"
+    // dbldulbtf truf dx,dy for linf widtis from tif "linf widti rbtios"
     ldx21 = dx21 * lwr21;
     ldy21 = dy21 * lwr21;
     ldx12 = dx12 * lwr12;
     ldy12 = dy12 * lwr12;
 
-    // calculate coordinates of the outer parallelogram
+    // dbldulbtf doordinbtfs of tif outfr pbrbllflogrbm
     ofx11 = fx11 - (ldx21 + ldx12) / 2.0f;
     ofy11 = fy11 - (ldy21 + ldy12) / 2.0f;
     odx21 = dx21 + ldx21;
@@ -321,11 +321,11 @@ D3DRenderer_DrawAAParallelogram(D3DContext *d3dc,
     odx12 = dx12 + ldx12;
     ody12 = dy12 + ldy12;
 
-    // Only process the inner parallelogram if the line width ratio
-    // did not consume the entire interior of the parallelogram
-    // (i.e. if the width ratio was less than 1.0)
+    // Only prodfss tif innfr pbrbllflogrbm if tif linf widti rbtio
+    // did not donsumf tif fntirf intfrior of tif pbrbllflogrbm
+    // (i.f. if tif widti rbtio wbs lfss tibn 1.0)
     if (lwr21 < 1.0f && lwr12 < 1.0f) {
-        // calculate coordinates of the inner parallelogram
+        // dbldulbtf doordinbtfs of tif innfr pbrbllflogrbm
         ifx11 = fx11 + (ldx21 + ldx12) / 2.0f;
         ify11 = fy11 + (ldy21 + ldy12) / 2.0f;
         idx21 = dx21 - ldx21;
@@ -333,60 +333,60 @@ D3DRenderer_DrawAAParallelogram(D3DContext *d3dc,
         idx12 = dx12 - ldx12;
         idy12 = dy12 - ldy12;
 
-        res = d3dc->pVCacher->DrawParallelogramAA(ofx11, ofy11,
+        rfs = d3dd->pVCbdifr->DrbwPbrbllflogrbmAA(ofx11, ofy11,
                                                   odx21, ody21,
                                                   odx12, ody12,
                                                   ifx11, ify11,
                                                   idx21, idy21,
                                                   idx12, idy12);
-    } else {
-        // Just invoke a regular fill on the outer parallelogram
-        res = d3dc->pVCacher->FillParallelogramAA(ofx11, ofy11,
+    } flsf {
+        // Just invokf b rfgulbr fill on tif outfr pbrbllflogrbm
+        rfs = d3dd->pVCbdifr->FillPbrbllflogrbmAA(ofx11, ofy11,
                                                   odx21, ody21,
                                                   odx12, ody12);
     }
 
-    return res;
+    rfturn rfs;
 }
 
-#ifndef D3D_PPL_DLL
+#ifndff D3D_PPL_DLL
 
-extern "C"
+fxtfrn "C"
 {
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_d3d_D3DRenderer_drawPoly
-    (JNIEnv *env, jobject d3dr,
-     jintArray xpointsArray, jintArray ypointsArray,
-     jint nPoints, jboolean isClosed,
-     jint transX, jint transY)
+Jbvb_sun_jbvb2d_d3d_D3DRfndfrfr_drbwPoly
+    (JNIEnv *fnv, jobjfdt d3dr,
+     jintArrby xpointsArrby, jintArrby ypointsArrby,
+     jint nPoints, jboolfbn isClosfd,
+     jint trbnsX, jint trbnsY)
 {
     jint *xPoints, *yPoints;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRenderer_drawPoly");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DRfndfrfr_drbwPoly");
 
-    xPoints = (jint *)env->GetPrimitiveArrayCritical(xpointsArray, NULL);
+    xPoints = (jint *)fnv->GftPrimitivfArrbyCritidbl(xpointsArrby, NULL);
     if (xPoints != NULL) {
-        yPoints = (jint *)env->GetPrimitiveArrayCritical(ypointsArray, NULL);
+        yPoints = (jint *)fnv->GftPrimitivfArrbyCritidbl(ypointsArrby, NULL);
         if (yPoints != NULL) {
-            D3DContext *d3dc = D3DRQ_GetCurrentContext();
+            D3DContfxt *d3dd = D3DRQ_GftCurrfntContfxt();
 
-            D3DRenderer_DrawPoly(d3dc,
-                                 nPoints, isClosed,
-                                 transX, transY,
+            D3DRfndfrfr_DrbwPoly(d3dd,
+                                 nPoints, isClosfd,
+                                 trbnsX, trbnsY,
                                  xPoints, yPoints);
 
-            if (d3dc != NULL) {
-                HRESULT res = d3dc->EndScene();
-                D3DRQ_MarkLostIfNeeded(res,
-                    D3DRQ_GetCurrentDestination());
+            if (d3dd != NULL) {
+                HRESULT rfs = d3dd->EndSdfnf();
+                D3DRQ_MbrkLostIfNffdfd(rfs,
+                    D3DRQ_GftCurrfntDfstinbtion());
             }
-            env->ReleasePrimitiveArrayCritical(ypointsArray, yPoints, JNI_ABORT);
+            fnv->RflfbsfPrimitivfArrbyCritidbl(ypointsArrby, yPoints, JNI_ABORT);
         }
-        env->ReleasePrimitiveArrayCritical(xpointsArray, xPoints, JNI_ABORT);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(xpointsArrby, xPoints, JNI_ABORT);
     }
 }
 
 }
 
-#endif // D3D_PPL_DLL
+#fndif // D3D_PPL_DLL

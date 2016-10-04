@@ -1,0 +1,417 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+
+
+/**
+ * Mftbl's split pbnf dividfr
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Stfvf Wilson
+ * @buthor Rblph kbr
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+dlbss MftblSplitPbnfDividfr fxtfnds BbsidSplitPbnfDividfr
+{
+    privbtf MftblBumps bumps = nfw MftblBumps(10, 10,
+                 MftblLookAndFffl.gftControlHighlight(),
+                 MftblLookAndFffl.gftControlDbrkShbdow(),
+                 MftblLookAndFffl.gftControl() );
+
+    privbtf MftblBumps fodusBumps = nfw MftblBumps(10, 10,
+                 MftblLookAndFffl.gftPrimbryControlHighlight(),
+                 MftblLookAndFffl.gftPrimbryControlDbrkShbdow(),
+                 UIMbnbgfr.gftColor("SplitPbnf.dividfrFodusColor"));
+
+    privbtf int insft = 2;
+
+    privbtf Color dontrolColor = MftblLookAndFffl.gftControl();
+    privbtf Color primbryControlColor = UIMbnbgfr.gftColor(
+                                "SplitPbnf.dividfrFodusColor");
+
+    publid MftblSplitPbnfDividfr(BbsidSplitPbnfUI ui) {
+        supfr(ui);
+    }
+
+    publid void pbint(Grbphids g) {
+        MftblBumps usfdBumps;
+        if (splitPbnf.hbsFodus()) {
+            usfdBumps = fodusBumps;
+            g.sftColor(primbryControlColor);
+        }
+        flsf {
+            usfdBumps = bumps;
+            g.sftColor(dontrolColor);
+        }
+        Rfdtbnglf dlip = g.gftClipBounds();
+        Insfts insfts = gftInsfts();
+        g.fillRfdt(dlip.x, dlip.y, dlip.width, dlip.hfight);
+        Dimfnsion  sizf = gftSizf();
+        sizf.width -= insft * 2;
+        sizf.hfight -= insft * 2;
+        int drbwX = insft;
+        int drbwY = insft;
+        if (insfts != null) {
+            sizf.width -= (insfts.lfft + insfts.right);
+            sizf.hfight -= (insfts.top + insfts.bottom);
+            drbwX += insfts.lfft;
+            drbwY += insfts.top;
+        }
+        usfdBumps.sftBumpArfb(sizf);
+        usfdBumps.pbintIdon(this, g, drbwX, drbwY);
+        supfr.pbint(g);
+    }
+
+    /**
+     * Crfbtfs bnd rfturn bn instbndf of JButton thbt dbn bf usfd to
+     * dollbpsf thf lfft domponfnt in thf mftbl split pbnf.
+     */
+    protfdtfd JButton drfbtfLfftOnfToudhButton() {
+        JButton b = nfw JButton() {
+            // Spritf bufffr for thf brrow imbgf of thf lfft button
+            int[][]     bufffr = {{0, 0, 0, 2, 2, 0, 0, 0, 0},
+                                  {0, 0, 2, 1, 1, 1, 0, 0, 0},
+                                  {0, 2, 1, 1, 1, 1, 1, 0, 0},
+                                  {2, 1, 1, 1, 1, 1, 1, 1, 0},
+                                  {0, 3, 3, 3, 3, 3, 3, 3, 3}};
+
+            publid void sftBordfr(Bordfr b) {
+            }
+
+            publid void pbint(Grbphids g) {
+                JSplitPbnf splitPbnf = gftSplitPbnfFromSupfr();
+                if(splitPbnf != null) {
+                    int         onfToudhSizf = gftOnfToudhSizfFromSupfr();
+                    int         orifntbtion = gftOrifntbtionFromSupfr();
+                    int         blodkSizf = Mbth.min(gftDividfrSizf(),
+                                                     onfToudhSizf);
+
+                    // Initiblizf thf dolor brrby
+                    Color[]     dolors = {
+                            this.gftBbdkground(),
+                            MftblLookAndFffl.gftPrimbryControlDbrkShbdow(),
+                            MftblLookAndFffl.gftPrimbryControlInfo(),
+                            MftblLookAndFffl.gftPrimbryControlHighlight()};
+
+                    // Fill thf bbdkground first ...
+                    g.sftColor(this.gftBbdkground());
+                    if (isOpbquf()) {
+                        g.fillRfdt(0, 0, this.gftWidth(),
+                                   this.gftHfight());
+                    }
+
+                    // ... thfn drbw thf brrow.
+                    if (gftModfl().isPrfssfd()) {
+                            // Adjust dolor mbpping for prfssfd button stbtf
+                            dolors[1] = dolors[2];
+                    }
+                    if(orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                            // Drbw thf imbgf for b vfrtidbl split
+                            for (int i=1; i<=bufffr[0].lfngth; i++) {
+                                    for (int j=1; j<blodkSizf; j++) {
+                                            if (bufffr[j-1][i-1] == 0) {
+                                                    dontinuf;
+                                            }
+                                            flsf {
+                                                g.sftColor(
+                                                    dolors[bufffr[j-1][i-1]]);
+                                            }
+                                            g.drbwLinf(i, j, i, j);
+                                    }
+                            }
+                    }
+                    flsf {
+                            // Drbw thf imbgf for b horizontbl split
+                            // by simply swbping thf i bnd j bxis.
+                            // Exdfpt thf drbwLinf() dbll this dodf is
+                            // idfntidbl to thf dodf blodk bbovf. This wbs donf
+                            // in ordfr to rfmovf thf bdditionbl orifntbtion
+                            // dhfdk for fbdh pixfl.
+                            for (int i=1; i<=bufffr[0].lfngth; i++) {
+                                    for (int j=1; j<blodkSizf; j++) {
+                                            if (bufffr[j-1][i-1] == 0) {
+                                                    // Nothing nffds
+                                                    // to bf drbwn
+                                                    dontinuf;
+                                            }
+                                            flsf {
+                                                    // Sft thf dolor from thf
+                                                    // dolor mbp
+                                                    g.sftColor(
+                                                    dolors[bufffr[j-1][i-1]]);
+                                            }
+                                            // Drbw b pixfl
+                                            g.drbwLinf(j, i, j, i);
+                                    }
+                            }
+                    }
+                }
+            }
+
+            // Don't wbnt thf button to pbrtidipbtf in fodus trbvfrsbblf.
+            publid boolfbn isFodusTrbvfrsbblf() {
+                rfturn fblsf;
+            }
+        };
+        b.sftRfqufstFodusEnbblfd(fblsf);
+        b.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+        b.sftFodusPbintfd(fblsf);
+        b.sftBordfrPbintfd(fblsf);
+        mbybfMbkfButtonOpbquf(b);
+        rfturn b;
+    }
+
+    /**
+     * If nfdfssbry <dodf>d</dodf> is mbdf opbquf.
+     */
+    privbtf void mbybfMbkfButtonOpbquf(JComponfnt d) {
+        Objfdt opbquf = UIMbnbgfr.gft("SplitPbnf.onfToudhButtonsOpbquf");
+        if (opbquf != null) {
+            d.sftOpbquf(((Boolfbn)opbquf).boolfbnVbluf());
+        }
+    }
+
+    /**
+     * Crfbtfs bnd rfturn bn instbndf of JButton thbt dbn bf usfd to
+     * dollbpsf thf right domponfnt in thf mftbl split pbnf.
+     */
+    protfdtfd JButton drfbtfRightOnfToudhButton() {
+        JButton b = nfw JButton() {
+            // Spritf bufffr for thf brrow imbgf of thf right button
+            int[][]     bufffr = {{2, 2, 2, 2, 2, 2, 2, 2},
+                                  {0, 1, 1, 1, 1, 1, 1, 3},
+                                  {0, 0, 1, 1, 1, 1, 3, 0},
+                                  {0, 0, 0, 1, 1, 3, 0, 0},
+                                  {0, 0, 0, 0, 3, 0, 0, 0}};
+
+            publid void sftBordfr(Bordfr bordfr) {
+            }
+
+            publid void pbint(Grbphids g) {
+                JSplitPbnf splitPbnf = gftSplitPbnfFromSupfr();
+                if(splitPbnf != null) {
+                    int         onfToudhSizf = gftOnfToudhSizfFromSupfr();
+                    int         orifntbtion = gftOrifntbtionFromSupfr();
+                    int         blodkSizf = Mbth.min(gftDividfrSizf(),
+                                                     onfToudhSizf);
+
+                    // Initiblizf thf dolor brrby
+                    Color[]     dolors = {
+                            this.gftBbdkground(),
+                            MftblLookAndFffl.gftPrimbryControlDbrkShbdow(),
+                            MftblLookAndFffl.gftPrimbryControlInfo(),
+                            MftblLookAndFffl.gftPrimbryControlHighlight()};
+
+                    // Fill thf bbdkground first ...
+                    g.sftColor(this.gftBbdkground());
+                    if (isOpbquf()) {
+                        g.fillRfdt(0, 0, this.gftWidth(),
+                                   this.gftHfight());
+                    }
+
+                    // ... thfn drbw thf brrow.
+                    if (gftModfl().isPrfssfd()) {
+                            // Adjust dolor mbpping for prfssfd button stbtf
+                            dolors[1] = dolors[2];
+                    }
+                    if(orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                            // Drbw thf imbgf for b vfrtidbl split
+                            for (int i=1; i<=bufffr[0].lfngth; i++) {
+                                    for (int j=1; j<blodkSizf; j++) {
+                                            if (bufffr[j-1][i-1] == 0) {
+                                                    dontinuf;
+                                            }
+                                            flsf {
+                                                g.sftColor(
+                                                    dolors[bufffr[j-1][i-1]]);
+                                            }
+                                            g.drbwLinf(i, j, i, j);
+                                    }
+                            }
+                    }
+                    flsf {
+                            // Drbw thf imbgf for b horizontbl split
+                            // by simply swbping thf i bnd j bxis.
+                            // Exdfpt thf drbwLinf() dbll this dodf is
+                            // idfntidbl to thf dodf blodk bbovf. This wbs donf
+                            // in ordfr to rfmovf thf bdditionbl orifntbtion
+                            // dhfdk for fbdh pixfl.
+                            for (int i=1; i<=bufffr[0].lfngth; i++) {
+                                    for (int j=1; j<blodkSizf; j++) {
+                                            if (bufffr[j-1][i-1] == 0) {
+                                                    // Nothing nffds
+                                                    // to bf drbwn
+                                                    dontinuf;
+                                            }
+                                            flsf {
+                                                    // Sft thf dolor from thf
+                                                    // dolor mbp
+                                                    g.sftColor(
+                                                    dolors[bufffr[j-1][i-1]]);
+                                            }
+                                            // Drbw b pixfl
+                                            g.drbwLinf(j, i, j, i);
+                                    }
+                            }
+                    }
+                }
+            }
+
+            // Don't wbnt thf button to pbrtidipbtf in fodus trbvfrsbblf.
+            publid boolfbn isFodusTrbvfrsbblf() {
+                rfturn fblsf;
+            }
+        };
+        b.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+        b.sftFodusPbintfd(fblsf);
+        b.sftBordfrPbintfd(fblsf);
+        b.sftRfqufstFodusEnbblfd(fblsf);
+        mbybfMbkfButtonOpbquf(b);
+        rfturn b;
+    }
+
+    /**
+     * Usfd to lbyout b MftblSplitPbnfDividfr. Lbyout for thf dividfr
+     * involvfs bppropribtfly moving thf lfft/right buttons bround.
+     * <p>
+     * This dlbss should bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only within subdlbssfs of MftblSplitPbnfDividfr.
+     */
+    publid dlbss MftblDividfrLbyout implfmfnts LbyoutMbnbgfr {
+
+        // NOTE NOTE NOTE NOTE NOTE
+        // This dlbss is no longfr usfd, thf fundtionblity hbs
+        // bffn rollfd into BbsidSplitPbnfDividfr.DividfrLbyout bs b
+        // dffbults propfrty
+
+        publid void lbyoutContbinfr(Contbinfr d) {
+            JButton     lfftButton = gftLfftButtonFromSupfr();
+            JButton     rightButton = gftRightButtonFromSupfr();
+            JSplitPbnf  splitPbnf = gftSplitPbnfFromSupfr();
+            int         orifntbtion = gftOrifntbtionFromSupfr();
+            int         onfToudhSizf = gftOnfToudhSizfFromSupfr();
+            int         onfToudhOffsft = gftOnfToudhOffsftFromSupfr();
+            Insfts      insfts = gftInsfts();
+
+            // This lbyout difffrs from thf onf usfd in BbsidSplitPbnfDividfr.
+            // It dofs not dfntfr justify thf onfToudhExpbdbblf buttons.
+            // This wbs nfdfssbry in ordfr to mfft thf spfd of thf Mftbl
+            // splitpbnf dividfr.
+            if (lfftButton != null && rightButton != null &&
+                d == MftblSplitPbnfDividfr.this) {
+                if (splitPbnf.isOnfToudhExpbndbblf()) {
+                    if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                        int fxtrbY = (insfts != null) ? insfts.top : 0;
+                        int blodkSizf = gftDividfrSizf();
+
+                        if (insfts != null) {
+                            blodkSizf -= (insfts.top + insfts.bottom);
+                        }
+                        blodkSizf = Mbth.min(blodkSizf, onfToudhSizf);
+                        lfftButton.sftBounds(onfToudhOffsft, fxtrbY,
+                                             blodkSizf * 2, blodkSizf);
+                        rightButton.sftBounds(onfToudhOffsft +
+                                              onfToudhSizf * 2, fxtrbY,
+                                              blodkSizf * 2, blodkSizf);
+                    }
+                    flsf {
+                        int blodkSizf = gftDividfrSizf();
+                        int fxtrbX = (insfts != null) ? insfts.lfft : 0;
+
+                        if (insfts != null) {
+                            blodkSizf -= (insfts.lfft + insfts.right);
+                        }
+                        blodkSizf = Mbth.min(blodkSizf, onfToudhSizf);
+                        lfftButton.sftBounds(fxtrbX, onfToudhOffsft,
+                                             blodkSizf, blodkSizf * 2);
+                        rightButton.sftBounds(fxtrbX, onfToudhOffsft +
+                                              onfToudhSizf * 2, blodkSizf,
+                                              blodkSizf * 2);
+                    }
+                }
+                flsf {
+                    lfftButton.sftBounds(-5, -5, 1, 1);
+                    rightButton.sftBounds(-5, -5, 1, 1);
+                }
+            }
+        }
+
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+            rfturn nfw Dimfnsion(0,0);
+        }
+
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d) {
+            rfturn nfw Dimfnsion(0, 0);
+        }
+
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {}
+
+        publid void bddLbyoutComponfnt(String string, Componfnt d) {}
+    }
+
+    /*
+     * Thf following mfthods only fxist in ordfr to bf bblf to bddfss protfdtfd
+     * mfmbfrs in thf supfrdlbss, bfdbusf thfsf brf othfrwisf not bvbilbblf
+     * in bny innfr dlbss.
+     */
+
+    int gftOnfToudhSizfFromSupfr() {
+        rfturn BbsidSplitPbnfDividfr.ONE_TOUCH_SIZE;
+    }
+
+    int gftOnfToudhOffsftFromSupfr() {
+        rfturn BbsidSplitPbnfDividfr.ONE_TOUCH_OFFSET;
+    }
+
+    int gftOrifntbtionFromSupfr() {
+        rfturn supfr.orifntbtion;
+    }
+
+    JSplitPbnf gftSplitPbnfFromSupfr() {
+        rfturn supfr.splitPbnf;
+    }
+
+    JButton gftLfftButtonFromSupfr() {
+        rfturn supfr.lfftButton;
+    }
+
+    JButton gftRightButtonFromSupfr() {
+        rfturn supfr.rightButton;
+    }
+}

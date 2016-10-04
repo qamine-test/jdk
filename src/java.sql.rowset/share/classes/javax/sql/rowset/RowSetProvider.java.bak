@@ -1,323 +1,323 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset;
+pbdkbgf jbvbx.sql.rowsft;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.sql.SQLException;
-import java.util.PropertyPermission;
-import java.util.ServiceConfigurationError;
-import java.util.ServiceLoader;
-import javax.sql.rowset.spi.SyncFactoryException;
-import sun.reflect.misc.ReflectUtil;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sql.SQLExdfption;
+import jbvb.util.PropfrtyPfrmission;
+import jbvb.util.SfrvidfConfigurbtionError;
+import jbvb.util.SfrvidfLobdfr;
+import jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * A factory API that enables applications to obtain a
- * {@code RowSetFactory} implementation  that can be used to create different
- * types of {@code RowSet} implementations.
+ * A fbdtory API tibt fnbblfs bpplidbtions to obtbin b
+ * {@dodf RowSftFbdtory} implfmfntbtion  tibt dbn bf usfd to drfbtf difffrfnt
+ * typfs of {@dodf RowSft} implfmfntbtions.
  * <p>
- * Example:
+ * Exbmplf:
  * </p>
- * <pre>
- * RowSetFactory aFactory = RowSetProvider.newFactory();
- * CachedRowSet crs = aFactory.createCachedRowSet();
+ * <prf>
+ * RowSftFbdtory bFbdtory = RowSftProvidfr.nfwFbdtory();
+ * CbdifdRowSft drs = bFbdtory.drfbtfCbdifdRowSft();
  * ...
- * RowSetFactory rsf = RowSetProvider.newFactory("com.sun.rowset.RowSetFactoryImpl", null);
- * WebRowSet wrs = rsf.createWebRowSet();
- * </pre>
+ * RowSftFbdtory rsf = RowSftProvidfr.nfwFbdtory("dom.sun.rowsft.RowSftFbdtoryImpl", null);
+ * WfbRowSft wrs = rsf.drfbtfWfbRowSft();
+ * </prf>
  *<p>
- * Tracing of this class may be enabled by setting the System property
- * {@code javax.sql.rowset.RowSetFactory.debug} to any value but {@code false}.
+ * Trbding of tiis dlbss mby bf fnbblfd by sftting tif Systfm propfrty
+ * {@dodf jbvbx.sql.rowsft.RowSftFbdtory.dfbug} to bny vbluf but {@dodf fblsf}.
  * </p>
  *
- * @author Lance Andersen
- * @since 1.7
+ * @butior Lbndf Andfrsfn
+ * @sindf 1.7
  */
-public class RowSetProvider {
+publid dlbss RowSftProvidfr {
 
-    private static final String ROWSET_DEBUG_PROPERTY = "javax.sql.rowset.RowSetProvider.debug";
-    private static final String ROWSET_FACTORY_IMPL = "com.sun.rowset.RowSetFactoryImpl";
-    private static final String ROWSET_FACTORY_NAME = "javax.sql.rowset.RowSetFactory";
+    privbtf stbtid finbl String ROWSET_DEBUG_PROPERTY = "jbvbx.sql.rowsft.RowSftProvidfr.dfbug";
+    privbtf stbtid finbl String ROWSET_FACTORY_IMPL = "dom.sun.rowsft.RowSftFbdtoryImpl";
+    privbtf stbtid finbl String ROWSET_FACTORY_NAME = "jbvbx.sql.rowsft.RowSftFbdtory";
     /**
-     * Internal debug flag.
+     * Intfrnbl dfbug flbg.
      */
-    private static boolean debug = true;
+    privbtf stbtid boolfbn dfbug = truf;
 
 
-    static {
-        // Check to see if the debug property is set
-        String val = getSystemProperty(ROWSET_DEBUG_PROPERTY);
-        // Allow simply setting the prop to turn on debug
-        debug = val != null && !"false".equals(val);
+    stbtid {
+        // Cifdk to sff if tif dfbug propfrty is sft
+        String vbl = gftSystfmPropfrty(ROWSET_DEBUG_PROPERTY);
+        // Allow simply sftting tif prop to turn on dfbug
+        dfbug = vbl != null && !"fblsf".fqubls(vbl);
     }
 
     /**
-     * RowSetProvider constructor
+     * RowSftProvidfr donstrudtor
      */
-    protected RowSetProvider () {
+    protfdtfd RowSftProvidfr () {
     }
 
     /**
-     * <p>Creates a new instance of a <code>RowSetFactory</code>
-     * implementation.  This method uses the following
-     * look up order to determine
-     * the <code>RowSetFactory</code> implementation class to load:</p>
+     * <p>Crfbtfs b nfw instbndf of b <dodf>RowSftFbdtory</dodf>
+     * implfmfntbtion.  Tiis mftiod usfs tif following
+     * look up ordfr to dftfrminf
+     * tif <dodf>RowSftFbdtory</dodf> implfmfntbtion dlbss to lobd:</p>
      * <ul>
      * <li>
-     * The System property {@code javax.sql.rowset.RowSetFactory}.  For example:
+     * Tif Systfm propfrty {@dodf jbvbx.sql.rowsft.RowSftFbdtory}.  For fxbmplf:
      * <ul>
      * <li>
-     * -Djavax.sql.rowset.RowSetFactory=com.sun.rowset.RowSetFactoryImpl
+     * -Djbvbx.sql.rowsft.RowSftFbdtory=dom.sun.rowsft.RowSftFbdtoryImpl
      * </li>
      * </ul>
      * <li>
-     * The {@link ServiceLoader} API. The {@code ServiceLoader} API will look
-     * for a class name in the file
-     * {@code META-INF/services/javax.sql.rowset.RowSetFactory}
-     * in jars available to the runtime. For example, to have the the RowSetFactory
-     * implementation {@code com.sun.rowset.RowSetFactoryImpl } loaded, the
-     * entry in {@code META-INF/services/javax.sql.rowset.RowSetFactory} would be:
+     * Tif {@link SfrvidfLobdfr} API. Tif {@dodf SfrvidfLobdfr} API will look
+     * for b dlbss nbmf in tif filf
+     * {@dodf META-INF/sfrvidfs/jbvbx.sql.rowsft.RowSftFbdtory}
+     * in jbrs bvbilbblf to tif runtimf. For fxbmplf, to ibvf tif tif RowSftFbdtory
+     * implfmfntbtion {@dodf dom.sun.rowsft.RowSftFbdtoryImpl } lobdfd, tif
+     * fntry in {@dodf META-INF/sfrvidfs/jbvbx.sql.rowsft.RowSftFbdtory} would bf:
      *  <ul>
      * <li>
-     * {@code com.sun.rowset.RowSetFactoryImpl }
+     * {@dodf dom.sun.rowsft.RowSftFbdtoryImpl }
      * </li>
      * </ul>
      * </li>
      * <li>
-     * Platform default <code>RowSetFactory</code> instance.
+     * Plbtform dffbult <dodf>RowSftFbdtory</dodf> instbndf.
      * </li>
      * </ul>
      *
-     * <p>Once an application has obtained a reference to a {@code RowSetFactory},
-     * it can use the factory to obtain RowSet instances.</p>
+     * <p>Ondf bn bpplidbtion ibs obtbinfd b rfffrfndf to b {@dodf RowSftFbdtory},
+     * it dbn usf tif fbdtory to obtbin RowSft instbndfs.</p>
      *
-     * @return New instance of a <code>RowSetFactory</code>
+     * @rfturn Nfw instbndf of b <dodf>RowSftFbdtory</dodf>
      *
-     * @throws SQLException if the default factory class cannot be loaded,
-     * instantiated. The cause will be set to actual Exception
+     * @tirows SQLExdfption if tif dffbult fbdtory dlbss dbnnot bf lobdfd,
+     * instbntibtfd. Tif dbusf will bf sft to bdtubl Exdfption
      *
-     * @see ServiceLoader
-     * @since 1.7
+     * @sff SfrvidfLobdfr
+     * @sindf 1.7
      */
-    public static RowSetFactory newFactory()
-            throws SQLException {
-        // Use the system property first
-        RowSetFactory factory = null;
-        String factoryClassName = null;
+    publid stbtid RowSftFbdtory nfwFbdtory()
+            tirows SQLExdfption {
+        // Usf tif systfm propfrty first
+        RowSftFbdtory fbdtory = null;
+        String fbdtoryClbssNbmf = null;
         try {
-            trace("Checking for Rowset System Property...");
-            factoryClassName = getSystemProperty(ROWSET_FACTORY_NAME);
-            if (factoryClassName != null) {
-                trace("Found system property, value=" + factoryClassName);
-                factory = (RowSetFactory) ReflectUtil.newInstance(getFactoryClass(factoryClassName, null, true));
+            trbdf("Cifdking for Rowsft Systfm Propfrty...");
+            fbdtoryClbssNbmf = gftSystfmPropfrty(ROWSET_FACTORY_NAME);
+            if (fbdtoryClbssNbmf != null) {
+                trbdf("Found systfm propfrty, vbluf=" + fbdtoryClbssNbmf);
+                fbdtory = (RowSftFbdtory) RfflfdtUtil.nfwInstbndf(gftFbdtoryClbss(fbdtoryClbssNbmf, null, truf));
             }
-        }  catch (Exception e) {
-            throw new SQLException( "RowSetFactory: " + factoryClassName +
-                    " could not be instantiated: ", e);
+        }  dbtdi (Exdfption f) {
+            tirow nfw SQLExdfption( "RowSftFbdtory: " + fbdtoryClbssNbmf +
+                    " dould not bf instbntibtfd: ", f);
         }
 
-        // Check to see if we found the RowSetFactory via a System property
-        if (factory == null) {
-            // If the RowSetFactory is not found via a System Property, now
-            // look it up via the ServiceLoader API and if not found, use the
-            // Java SE default.
-            factory = loadViaServiceLoader();
-            factory =
-                    factory == null ? newFactory(ROWSET_FACTORY_IMPL, null) : factory;
+        // Cifdk to sff if wf found tif RowSftFbdtory vib b Systfm propfrty
+        if (fbdtory == null) {
+            // If tif RowSftFbdtory is not found vib b Systfm Propfrty, now
+            // look it up vib tif SfrvidfLobdfr API bnd if not found, usf tif
+            // Jbvb SE dffbult.
+            fbdtory = lobdVibSfrvidfLobdfr();
+            fbdtory =
+                    fbdtory == null ? nfwFbdtory(ROWSET_FACTORY_IMPL, null) : fbdtory;
         }
-        return (factory);
+        rfturn (fbdtory);
     }
 
     /**
-     * <p>Creates  a new instance of a <code>RowSetFactory</code> from the
-     * specified factory class name.
-     * This function is useful when there are multiple providers in the classpath.
-     * It gives more control to the application as it can specify which provider
-     * should be loaded.</p>
+     * <p>Crfbtfs  b nfw instbndf of b <dodf>RowSftFbdtory</dodf> from tif
+     * spfdififd fbdtory dlbss nbmf.
+     * Tiis fundtion is usfful wifn tifrf brf multiplf providfrs in tif dlbsspbti.
+     * It givfs morf dontrol to tif bpplidbtion bs it dbn spfdify wiidi providfr
+     * siould bf lobdfd.</p>
      *
-     * <p>Once an application has obtained a reference to a <code>RowSetFactory</code>
-     * it can use the factory to obtain RowSet instances.</p>
+     * <p>Ondf bn bpplidbtion ibs obtbinfd b rfffrfndf to b <dodf>RowSftFbdtory</dodf>
+     * it dbn usf tif fbdtory to obtbin RowSft instbndfs.</p>
      *
-     * @param factoryClassName fully qualified factory class name that
-     * provides  an implementation of <code>javax.sql.rowset.RowSetFactory</code>.
+     * @pbrbm fbdtoryClbssNbmf fully qublififd fbdtory dlbss nbmf tibt
+     * providfs  bn implfmfntbtion of <dodf>jbvbx.sql.rowsft.RowSftFbdtory</dodf>.
      *
-     * @param cl <code>ClassLoader</code> used to load the factory
-     * class. If <code>null</code> current <code>Thread</code>'s context
-     * classLoader is used to load the factory class.
+     * @pbrbm dl <dodf>ClbssLobdfr</dodf> usfd to lobd tif fbdtory
+     * dlbss. If <dodf>null</dodf> durrfnt <dodf>Tirfbd</dodf>'s dontfxt
+     * dlbssLobdfr is usfd to lobd tif fbdtory dlbss.
      *
-     * @return New instance of a <code>RowSetFactory</code>
+     * @rfturn Nfw instbndf of b <dodf>RowSftFbdtory</dodf>
      *
-     * @throws SQLException if <code>factoryClassName</code> is
-     * <code>null</code>, or the factory class cannot be loaded, instantiated.
+     * @tirows SQLExdfption if <dodf>fbdtoryClbssNbmf</dodf> is
+     * <dodf>null</dodf>, or tif fbdtory dlbss dbnnot bf lobdfd, instbntibtfd.
      *
-     * @see #newFactory()
+     * @sff #nfwFbdtory()
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static RowSetFactory newFactory(String factoryClassName, ClassLoader cl)
-            throws SQLException {
+    publid stbtid RowSftFbdtory nfwFbdtory(String fbdtoryClbssNbmf, ClbssLobdfr dl)
+            tirows SQLExdfption {
 
-        trace("***In newInstance()");
+        trbdf("***In nfwInstbndf()");
 
-        if(factoryClassName == null) {
-            throw new SQLException("Error: factoryClassName cannot be null");
+        if(fbdtoryClbssNbmf == null) {
+            tirow nfw SQLExdfption("Error: fbdtoryClbssNbmf dbnnot bf null");
         }
         try {
-            ReflectUtil.checkPackageAccess(factoryClassName);
-        } catch (java.security.AccessControlException e) {
-            throw new SQLException("Access Exception",e);
+            RfflfdtUtil.difdkPbdkbgfAddfss(fbdtoryClbssNbmf);
+        } dbtdi (jbvb.sfdurity.AddfssControlExdfption f) {
+            tirow nfw SQLExdfption("Addfss Exdfption",f);
         }
 
         try {
-            Class<?> providerClass = getFactoryClass(factoryClassName, cl, false);
-            RowSetFactory instance = (RowSetFactory) providerClass.newInstance();
-            if (debug) {
-                trace("Created new instance of " + providerClass +
-                        " using ClassLoader: " + cl);
+            Clbss<?> providfrClbss = gftFbdtoryClbss(fbdtoryClbssNbmf, dl, fblsf);
+            RowSftFbdtory instbndf = (RowSftFbdtory) providfrClbss.nfwInstbndf();
+            if (dfbug) {
+                trbdf("Crfbtfd nfw instbndf of " + providfrClbss +
+                        " using ClbssLobdfr: " + dl);
             }
-            return instance;
-        } catch (ClassNotFoundException x) {
-            throw new SQLException(
-                    "Provider " + factoryClassName + " not found", x);
-        } catch (Exception x) {
-            throw new SQLException(
-                    "Provider " + factoryClassName + " could not be instantiated: " + x,
+            rfturn instbndf;
+        } dbtdi (ClbssNotFoundExdfption x) {
+            tirow nfw SQLExdfption(
+                    "Providfr " + fbdtoryClbssNbmf + " not found", x);
+        } dbtdi (Exdfption x) {
+            tirow nfw SQLExdfption(
+                    "Providfr " + fbdtoryClbssNbmf + " dould not bf instbntibtfd: " + x,
                     x);
         }
     }
 
     /*
-     * Returns the class loader to be used.
-     * @return The ClassLoader to use.
+     * Rfturns tif dlbss lobdfr to bf usfd.
+     * @rfturn Tif ClbssLobdfr to usf.
      *
      */
-    static private ClassLoader getContextClassLoader() throws SecurityException {
-        return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+    stbtid privbtf ClbssLobdfr gftContfxtClbssLobdfr() tirows SfdurityExdfption {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<ClbssLobdfr>() {
 
-            public ClassLoader run() {
-                ClassLoader cl = null;
+            publid ClbssLobdfr run() {
+                ClbssLobdfr dl = null;
 
-                cl = Thread.currentThread().getContextClassLoader();
+                dl = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
 
-                if (cl == null) {
-                    cl = ClassLoader.getSystemClassLoader();
+                if (dl == null) {
+                    dl = ClbssLobdfr.gftSystfmClbssLobdfr();
                 }
 
-                return cl;
+                rfturn dl;
             }
         });
     }
 
     /**
-     * Attempt to load a class using the class loader supplied. If that fails
-     * and fall back is enabled, the current (i.e. bootstrap) class loader is
-     * tried.
+     * Attfmpt to lobd b dlbss using tif dlbss lobdfr supplifd. If tibt fbils
+     * bnd fbll bbdk is fnbblfd, tif durrfnt (i.f. bootstrbp) dlbss lobdfr is
+     * trifd.
      *
-     * If the class loader supplied is <code>null</code>, first try using the
-     * context class loader followed by the current class loader.
-     *  @return The class which was loaded
+     * If tif dlbss lobdfr supplifd is <dodf>null</dodf>, first try using tif
+     * dontfxt dlbss lobdfr followfd by tif durrfnt dlbss lobdfr.
+     *  @rfturn Tif dlbss wiidi wbs lobdfd
      */
-    static private Class<?> getFactoryClass(String factoryClassName, ClassLoader cl,
-            boolean doFallback) throws ClassNotFoundException {
+    stbtid privbtf Clbss<?> gftFbdtoryClbss(String fbdtoryClbssNbmf, ClbssLobdfr dl,
+            boolfbn doFbllbbdk) tirows ClbssNotFoundExdfption {
         try {
-            if (cl == null) {
-                cl = getContextClassLoader();
-                if (cl == null) {
-                    throw new ClassNotFoundException();
-                } else {
-                    return cl.loadClass(factoryClassName);
+            if (dl == null) {
+                dl = gftContfxtClbssLobdfr();
+                if (dl == null) {
+                    tirow nfw ClbssNotFoundExdfption();
+                } flsf {
+                    rfturn dl.lobdClbss(fbdtoryClbssNbmf);
                 }
-            } else {
-                return cl.loadClass(factoryClassName);
+            } flsf {
+                rfturn dl.lobdClbss(fbdtoryClbssNbmf);
             }
-        } catch (ClassNotFoundException e) {
-            if (doFallback) {
-                // Use current class loader
-                return Class.forName(factoryClassName, true, RowSetFactory.class.getClassLoader());
-            } else {
-                throw e;
+        } dbtdi (ClbssNotFoundExdfption f) {
+            if (doFbllbbdk) {
+                // Usf durrfnt dlbss lobdfr
+                rfturn Clbss.forNbmf(fbdtoryClbssNbmf, truf, RowSftFbdtory.dlbss.gftClbssLobdfr());
+            } flsf {
+                tirow f;
             }
         }
     }
 
     /**
-     * Use the ServiceLoader mechanism to load  the default RowSetFactory
-     * @return default RowSetFactory Implementation
+     * Usf tif SfrvidfLobdfr mfdibnism to lobd  tif dffbult RowSftFbdtory
+     * @rfturn dffbult RowSftFbdtory Implfmfntbtion
      */
-    static private RowSetFactory loadViaServiceLoader() throws SQLException {
-        RowSetFactory theFactory = null;
+    stbtid privbtf RowSftFbdtory lobdVibSfrvidfLobdfr() tirows SQLExdfption {
+        RowSftFbdtory tifFbdtory = null;
         try {
-            trace("***in loadViaServiceLoader():");
-            for (RowSetFactory factory : ServiceLoader.load(javax.sql.rowset.RowSetFactory.class)) {
-                trace(" Loading done by the java.util.ServiceLoader :" + factory.getClass().getName());
-                theFactory = factory;
-                break;
+            trbdf("***in lobdVibSfrvidfLobdfr():");
+            for (RowSftFbdtory fbdtory : SfrvidfLobdfr.lobd(jbvbx.sql.rowsft.RowSftFbdtory.dlbss)) {
+                trbdf(" Lobding donf by tif jbvb.util.SfrvidfLobdfr :" + fbdtory.gftClbss().gftNbmf());
+                tifFbdtory = fbdtory;
+                brfbk;
             }
-        } catch (ServiceConfigurationError e) {
-            throw new SQLException(
-                    "RowSetFactory: Error locating RowSetFactory using Service "
-                    + "Loader API: " + e, e);
+        } dbtdi (SfrvidfConfigurbtionError f) {
+            tirow nfw SQLExdfption(
+                    "RowSftFbdtory: Error lodbting RowSftFbdtory using Sfrvidf "
+                    + "Lobdfr API: " + f, f);
         }
-        return theFactory;
+        rfturn tifFbdtory;
 
     }
 
     /**
-     * Returns the requested System Property.  If a {@code SecurityException}
-     * occurs, just return NULL
-     * @param propName - System property to retrieve
-     * @return The System property value or NULL if the property does not exist
-     * or a {@code SecurityException} occurs.
+     * Rfturns tif rfqufstfd Systfm Propfrty.  If b {@dodf SfdurityExdfption}
+     * oddurs, just rfturn NULL
+     * @pbrbm propNbmf - Systfm propfrty to rftrifvf
+     * @rfturn Tif Systfm propfrty vbluf or NULL if tif propfrty dofs not fxist
+     * or b {@dodf SfdurityExdfption} oddurs.
      */
-    static private String getSystemProperty(final String propName) {
-        String property = null;
+    stbtid privbtf String gftSystfmPropfrty(finbl String propNbmf) {
+        String propfrty = null;
         try {
-            property = AccessController.doPrivileged(new PrivilegedAction<String>() {
+            propfrty = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
 
-                public String run() {
-                    return System.getProperty(propName);
+                publid String run() {
+                    rfturn Systfm.gftPropfrty(propNbmf);
                 }
-            }, null, new PropertyPermission(propName, "read"));
-        } catch (SecurityException se) {
-            trace("error getting " + propName + ":  "+ se);
-            if (debug) {
-                se.printStackTrace();
+            }, null, nfw PropfrtyPfrmission(propNbmf, "rfbd"));
+        } dbtdi (SfdurityExdfption sf) {
+            trbdf("frror gftting " + propNbmf + ":  "+ sf);
+            if (dfbug) {
+                sf.printStbdkTrbdf();
             }
         }
-        return property;
+        rfturn propfrty;
     }
 
     /**
-     * Debug routine which will output tracing if the System Property
-     * -Djavax.sql.rowset.RowSetFactory.debug is set
-     * @param msg - The debug message to display
+     * Dfbug routinf wiidi will output trbding if tif Systfm Propfrty
+     * -Djbvbx.sql.rowsft.RowSftFbdtory.dfbug is sft
+     * @pbrbm msg - Tif dfbug mfssbgf to displby
      */
-    private static void trace(String msg) {
-        if (debug) {
-            System.err.println("###RowSets: " + msg);
+    privbtf stbtid void trbdf(String msg) {
+        if (dfbug) {
+            Systfm.frr.println("###RowSfts: " + msg);
         }
     }
 }

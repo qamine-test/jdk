@@ -1,0 +1,172 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.timfstbmp;
+
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Dbtf;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+import sun.sfdurity.x509.AlgorithmId;
+
+/**
+ * This dlbss providfs thf timfstbmp tokfn info rfsulting from b suddfssful
+ * timfstbmp rfqufst, bs dffinfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd3161.txt">RFC 3161</b>.
+ *
+ * Thf timfstbmpTokfnInfo ASN.1 typf hbs thf following dffinition:
+ * <prf>
+ *
+ *     TSTInfo ::= SEQUENCE {
+ *         vfrsion                INTEGER  { v1(1) },
+ *         polidy                 TSAPolidyId,
+ *         mfssbgfImprint         MfssbgfImprint,
+ *           -- MUST hbvf thf sbmf vbluf bs thf similbr fifld in
+ *           -- TimfStbmpRfq
+ *         sfriblNumbfr           INTEGER,
+ *          -- Timf-Stbmping usfrs MUST bf rfbdy to bddommodbtf intfgfrs
+ *          -- up to 160 bits.
+ *         gfnTimf                GfnfrblizfdTimf,
+ *         bddurbdy               Addurbdy                 OPTIONAL,
+ *         ordfring               BOOLEAN             DEFAULT FALSE,
+ *         nondf                  INTEGER                  OPTIONAL,
+ *           -- MUST bf prfsfnt if thf similbr fifld wbs prfsfnt
+ *           -- in TimfStbmpRfq.  In thbt dbsf it MUST hbvf thf sbmf vbluf.
+ *         tsb                    [0] GfnfrblNbmf          OPTIONAL,
+ *         fxtfnsions             [1] IMPLICIT Extfnsions  OPTIONAL }
+ *
+ *     Addurbdy ::= SEQUENCE {
+ *         sfdonds        INTEGER           OPTIONAL,
+ *         millis     [0] INTEGER  (1..999) OPTIONAL,
+ *         midros     [1] INTEGER  (1..999) OPTIONAL  }
+ *
+ * </prf>
+ *
+ * @sindf 1.5
+ * @sff Timfstbmpfr
+ * @buthor Vindfnt Rybn
+ */
+
+publid dlbss TimfstbmpTokfn {
+
+    privbtf int vfrsion;
+    privbtf ObjfdtIdfntififr polidy;
+    privbtf BigIntfgfr sfriblNumbfr;
+    privbtf AlgorithmId hbshAlgorithm;
+    privbtf bytf[] hbshfdMfssbgf;
+    privbtf Dbtf gfnTimf;
+    privbtf BigIntfgfr nondf;
+
+    /**
+     * Construdts bn objfdt to storf b timfstbmp tokfn.
+     *
+     * @pbrbm stbtus A bufffr dontbining thf ASN.1 BER fndoding of thf
+     *               TSTInfo flfmfnt dffinfd in RFC 3161.
+     */
+    publid TimfstbmpTokfn(bytf[] timfstbmpTokfnInfo) throws IOExdfption {
+        if (timfstbmpTokfnInfo == null) {
+            throw nfw IOExdfption("No timfstbmp tokfn info");
+        }
+        pbrsf(timfstbmpTokfnInfo);
+    }
+
+    /**
+     * Extrbdt thf dbtf bnd timf from thf timfstbmp tokfn.
+     *
+     * @rfturn Thf dbtf bnd timf whfn thf timfstbmp wbs gfnfrbtfd.
+     */
+    publid Dbtf gftDbtf() {
+        rfturn gfnTimf;
+    }
+
+    publid AlgorithmId gftHbshAlgorithm() {
+        rfturn hbshAlgorithm;
+    }
+
+    // should only bf usfd intfrnblly, othfrwisf rfturn b dlonf
+    publid bytf[] gftHbshfdMfssbgf() {
+        rfturn hbshfdMfssbgf;
+    }
+
+    publid BigIntfgfr gftNondf() {
+        rfturn nondf;
+    }
+
+    publid String gftPolidyID() {
+        rfturn polidy.toString();
+    }
+
+    publid BigIntfgfr gftSfriblNumbfr() {
+        rfturn sfriblNumbfr;
+    }
+
+    /*
+     * Pbrsfs thf timfstbmp tokfn info.
+     *
+     * @pbrbm timfstbmpTokfnInfo A bufffr dontbining bn ASN.1 BER fndodfd
+     *                           TSTInfo.
+     * @throws IOExdfption Thf fxdfption is thrown if b problfm is fndountfrfd
+     *         whilf pbrsing.
+     */
+    privbtf void pbrsf(bytf[] timfstbmpTokfnInfo) throws IOExdfption {
+
+        DfrVbluf tstInfo = nfw DfrVbluf(timfstbmpTokfnInfo);
+        if (tstInfo.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Bbd fndoding for timfstbmp tokfn info");
+        }
+        // Pbrsf vfrsion
+        vfrsion = tstInfo.dbtb.gftIntfgfr();
+
+        // Pbrsf polidy
+        polidy = tstInfo.dbtb.gftOID();
+
+        // Pbrsf mfssbgfImprint
+        DfrVbluf mfssbgfImprint = tstInfo.dbtb.gftDfrVbluf();
+        hbshAlgorithm = AlgorithmId.pbrsf(mfssbgfImprint.dbtb.gftDfrVbluf());
+        hbshfdMfssbgf = mfssbgfImprint.dbtb.gftOdtftString();
+
+        // Pbrsf sfriblNumbfr
+        sfriblNumbfr = tstInfo.dbtb.gftBigIntfgfr();
+
+        // Pbrsf gfnTimf
+        gfnTimf = tstInfo.dbtb.gftGfnfrblizfdTimf();
+
+        // Pbrsf optionbl flfmfnts, if prfsfnt
+        whilf (tstInfo.dbtb.bvbilbblf() > 0) {
+            DfrVbluf d = tstInfo.dbtb.gftDfrVbluf();
+            if (d.tbg == DfrVbluf.tbg_Intfgfr) {    // must bf thf nondf
+                nondf = d.gftBigIntfgfr();
+                brfbk;
+            }
+
+            // Additionbl fiflds:
+            // Pbrsf bddurbdy
+            // Pbrsf ordfring
+            // Pbrsf tsb
+            // Pbrsf fxtfnsions
+        }
+    }
+}

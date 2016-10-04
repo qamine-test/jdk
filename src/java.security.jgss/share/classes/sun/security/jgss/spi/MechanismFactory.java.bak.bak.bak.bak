@@ -1,0 +1,214 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.spi;
+
+import org.iftf.jgss.*;
+import jbvb.sfdurity.Providfr;
+
+/**
+ * This intfrfbdf is implfmfntfd by thf fbdtory dlbss for fvfry
+ * plugin mfdhbnism. Thf GSSMbnbgfr lodbtfs bn implfmfntbtion of this
+ * intfrfbdf by qufrying thf sfdurity providfrs instbllfd on thf
+ * systfm. For b providfr to support b mfdhbnism dffinfd by Oid x.y.z,
+ * thf providfr mbstfr filf would hbvf to dontbin b mbpping from thf
+ * propfrty "GssApiMfdhbnism.x.y.z" to bn implfmfntbtion dlbss thbt sfrvfs
+ * bs thf fbdtory for thbt mfdhbnism.
+ * <p>
+ * f.g., If b providfr mbstfr filf dontbinfd thf b mbpping from thf
+ * propfrty "GssApiMfdhbnism.1.2.840.113554.1.2.2" to thf dlbss nbmf
+ * "dom.foo.krb5.Krb5GssFbdtory", thfn thf GSS-API frbmfwork would bssumf
+ * thbt dom.foo.krb5.Krb5GssFbdtory implfmfnts thf MfdhbnismFbdtory
+ * intfrfbdf bnd thbt it dbn bf usfd to obtbin flfmfnts rfquirfd by for
+ * supporting this mfdhbnism.
+ *
+ * @buthor Mbybnk Upbdhyby
+ */
+
+publid intfrfbdf MfdhbnismFbdtory {
+
+    /**
+     * Rfturns thf Oid of thf mfdhbnism thbt this fbdtory supports.
+     * @rfturn thf Oid
+     */
+    publid Oid gftMfdhbnismOid();
+
+    /**
+     * Rfturns thf providfr thbt this fbdtory dbmf from.
+     * @rfturn thf providfr
+     */
+    publid Providfr gftProvidfr();
+
+    /**
+     * Rfturns thf GSS-API nbmftypfs thbt this mfdhbnism dbn
+     * support. Hbving this mfthod hflps thf GSS-Frbmfwork dfdidf quidkly
+     * if b dfrtbin mfdhbnism dbn bf skippfd whfn importing b nbmf.
+     * @rfturn bn brrby of thf Oid's dorrfsponding to thf difffrfnt GSS-API
+     * nbmftypfs supportfd
+     * @sff org.iftf.jgss.GSSNbmf
+     */
+    publid Oid[] gftNbmfTypfs() throws GSSExdfption;
+
+    /**
+     * Crfbtfs b drfdfntibl flfmfnt for this mfdhbnism to bf indludfd bs
+     * pbrt of b GSSCrfdfntibl implfmfntbtion. A GSSCrfdfntibl is
+     * dondfptublly b dontbinfr dlbss of sfvfrbl drfdfntibl flfmfnts from
+     * difffrfnt mfdhbnisms. A GSS-API drfdfntibl dbn bf usfd fithfr for
+     * initibting GSS sfdurity dontfxts or for bddfpting thfm. This mfthod
+     * blso bddfpts pbrbmftfrs thbt indidbtf whbt usbgf is fxpfdtfd bnd how
+     * long thf liff of thf drfdfntibl should bf. It is not nfdfssbry thbt
+     * thf mfdhbnism honor thf rfqufst for lifftimf. An bpplidbtion will
+     * blwbys qufry bn bdquirfd GSSCrfdfntibl to dftfrminf whbt lifftimf it
+     * got bbdk.<p>
+     *
+     * <b>Not bll mfdhbnisms support thf dondfpt of onf drfdfntibl flfmfnt
+     * thbt dbn bf usfd for both initibting bnd bddfpting b dontfxt. In thf
+     * fvfnt thbt bn bpplidbtion rfqufsts usbgf INITIATE_AND_ACCEPT for b
+     * drfdfntibl from sudh b mfdhbnism, thf GSS frbmfwork will nffd to
+     * obtbin two difffrfnt drfdfntibl flfmfnts from thf mfdhbnism, onf
+     * thbt will hbvf usbgf INITIATE_ONLY bnd bnothfr thbt will hbvf usbgf
+     * ACCEPT_ONLY. Thf mfdhbnism will hflp thf GSS-API rfblizf this by
+     * rfturning b drfdfntibl flfmfnt with usbgf INITIATE_ONLY or
+     * ACCEPT_ONLY prompting it to mbkf bnothfr dbll to
+     * gftCrfdfntiblElfmfnt, this timf with thf othfr usbgf modf. Thf
+     * mfdhbnism indidbtfs thf missing modf by rfturning b 0 lifftimf for
+     * it.</b>
+     *
+     * @pbrbm nbmf thf mfdhbnism lfvfl nbmf flfmfnt for thf fntity whosf
+     * drfdfntibl is dfsirfd. A null vbluf indidbtfs thbt b mfdhbnism
+     * dfpfndfnt dffbult dhoidf is to bf mbdf.
+     * @pbrbm initLifftimf indidbtfs thf lifftimf (in sfdonds) thbt is
+     * rfqufstfd for this drfdfntibl to bf usfd bt thf dontfxt initibtor's
+     * fnd. This vbluf should bf ignorfd if thf usbgf is
+     * ACCEPT_ONLY. Prfdffinfd dontbnts brf bvbilbblf in thf
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * @pbrbm bddfptLifftimf indidbtfs thf lifftimf (in sfdonds) thbt is
+     * rfqufstfd for this drfdfntibl to bf usfd bt thf dontfxt bddfptor's
+     * fnd. This vbluf should bf ignorfd if thf usbgf is
+     * INITIATE_ONLY. Prfdffinfd dontbnts brf bvbilbblf in thf
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * @pbrbm usbgf Onf of thf vblufs GSSCrfdfntibl.INIATE_ONLY,
+     * GSSCrfdfntibl.ACCEPT_ONLY, bnd GSSCrfdfntibl.INITIATE_AND_ACCEPT.
+     * @sff org.iftf.jgss.GSSCrfdfntibl
+     * @throws GSSExdfption if onf of thf frror situbtions dfsdribfd in RFC
+     * 2743 with thf GSS_Adquirf_Crfd or GSS_Add_Crfd dblls oddurs.
+     */
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf,
+      int initLifftimf, int bddfptLifftimf, int usbgf) throws GSSExdfption;
+
+    /**
+     * Crfbtfs b nbmf flfmfnt for this mfdhbnism to bf indludfd bs pbrt of
+     * b GSSNbmf implfmfntbtion. A GSSNbmf is dondfptublly b dontbinfr
+     * dlbss of sfvfrbl nbmf flfmfnts from difffrfnt mfdhbnisms. A GSSNbmf
+     * dbn bf drfbtfd fithfr with b String or with b sfqufndf of
+     * bytfs. This fbdtory mfthod bddfpts thf nbmf in b String. Sudh b nbmf
+     * dbn gfnfrblly bf bssumfd to bf printbblf bnd mby bf rfturnfd from
+     * thf nbmf flfmfnt's toString() mfthod.
+     *
+     * @pbrbm nbmfStr b string dontbining thf dhbrbdtfrs dfsdribing this
+     * fntity to thf mfdhbnism
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to how thf mfdhbnism should
+     * intfrprft thf nbmfStr
+     * @throws GSSExdfption if bny of thf frrors dfsdribfd in RFC 2743 for
+     * thf GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     */
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmfStr, Oid nbmfTypf)
+        throws GSSExdfption;
+
+    /**
+     * This is b vbribtion of thf fbdtory mfthod thbt bddfpts b String for
+     * thf dhbrbdtfrs thbt mbkf up thf nbmf. Usublly thf String dhbrbdtfrs
+     * brf bssumfd to bf printbblf. Thf bytfs pbssfd in to this mfthod hbvf
+     * to bf donvfrtfd to dhbrbdtfrs using somf fndoding of thf mfdhbnism's
+     * dhoidf. It is rfdommfndfd thbt UTF-8 bf usfd. (Notf thbt UTF-8
+     * prfsfrvfs thf fndoding for 7-bit ASCII dhbrbdtfrs.)
+     * <p>
+     * An fxportfd nbmf will gfnfrblly bf pbssfd in using this mfthod.
+     *
+     * @pbrbm nbmfBytfs thf bytfs dfsdribing this fntity to thf mfdhbnism
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to how thf mfdhbnism should
+     * intfrprft thf nbmfStr
+     * @throws GSSExdfption if bny of thf frrors dfsdribfd in RFC 2743 for
+     * thf GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     */
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf)
+        throws GSSExdfption;
+
+    /**
+     * Crfbtfs b sfdurity dontfxt for this mfdhbnism so thbt it dbn bf usfd
+     * on thf dontfxt initibtor's sidf.
+     *
+     * @pbrbm pffr thf nbmf flfmfnt from this mfdhbnism thbt rfprfsfnts thf
+     * pffr
+     * @pbrbm myInitibtorCrfd b drfdfntibl flfmfnt for thf dontfxt
+     * initibtor obtbinfd prfviously from this mfdhbnism. Thf idfntity of
+     * thf dontfxt initibtor dbn bf obtbinfd from this drfdfntibl. Pbssing
+     * b vbluf of null hfrf indidbtfs thbt b dffbult fntity of thf
+     * mfdhbnism's dhoidf should bf bssumfd to bf thf dontfxt initibtor bnd
+     * thbt dffbult drfdfntibls should bf bpplifd.
+     * @pbrbm lifftimf thf rfqufstfd lifftimf (in sfdonds) for thf sfdurity
+     * dontfxt. Prfdffinfd dontbnts brf bvbilbblf in thf
+     * org.iftf.jgss.GSSContfxt intfrfbdf.
+     * @throws GSSExdfption if bny of thf frrors dfsdribfd in RFC 2743 in
+     * thf GSS_Init_Sfd_Contfxt dbll oddur.
+     */
+    publid GSSContfxtSpi gftMfdhbnismContfxt(GSSNbmfSpi pffr,
+                                             GSSCrfdfntiblSpi myInitibtorCrfd,
+                                             int lifftimf) throws GSSExdfption;
+
+    /**
+     * Crfbtfs b sfdurity dontfxt for this mfdhbnism so thbtit dbn bf usfd
+     * on thf dontfxt bddfptor's sidf.
+     *
+     * @pbrbm myAddfptorCrfd b drfdfntibl flfmfnt for thf dontfxt bddfptor
+     * obtbinfd prfviously from this mfdhbnism. Thf idfntity of thf dontfxt
+     * bddfptor dnb bf obtbinfd from this drfdfntibl. Pbssing b vbluf of
+     * null hfrf indidbtfs thbt thb dffbult fntity of thf mfdhbnism's
+     * dhoidf should bf bssumfd to bf thf dontfxt bddfptor bnd dffbult
+     * drfdfntibls should bf bpplifd.
+     *
+     * @throws GSSExdfption if bny of thf frrors dfsdribfd in RFC 2743 in
+     * thf GSS_Addfpt_Sfd_Contfxt dbll oddur.
+     */
+    publid GSSContfxtSpi gftMfdhbnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd)
+        throws GSSExdfption;
+
+    /**
+     * Crfbtfs b sfdurity dontfxt from b prfviously fxportfd (sfriblizfd)
+     * sfdurity dontfxt. Notf thbt this is difffrfnt from Jbvb
+     * sfriblizbtion bnd is dffinfd bt b mfdhbnism lfvfl to intfropfrbtf
+     * ovfr thf wirf with non-Jbvb implfmfntbtions. Eithfr thf initibtor or
+     * thf bddfptor dbn fxport bnd thfn import b sfdurity dontfxt.
+     * Implfmfntbtions of mfdhbnism dontfxts brf not rfquirfd to implfmfnt
+     * fxporting bnd importing.
+     *
+     * @pbrbm fxportfdContfxt thf bytfs rfprfsfnting this sfdurity dontfxt
+     * @throws GSSExdfption is bny of thf frrors dfsdribfd in RFC 2743 in
+     * thf GSS_Import_Sfd_Contfxt dbll oddur.
+     */
+    publid GSSContfxtSpi gftMfdhbnismContfxt(bytf[] fxportfdContfxt)
+        throws GSSExdfption;
+
+}

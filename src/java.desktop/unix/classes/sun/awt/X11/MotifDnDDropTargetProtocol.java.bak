@@ -1,1077 +1,1077 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.Point;
+import jbvb.bwt.Point;
 
-import java.awt.dnd.DnDConstants;
+import jbvb.bwt.dnd.DnDConstbnts;
 
-import java.awt.event.MouseEvent;
+import jbvb.bwt.fvfnt.MousfEvfnt;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import sun.misc.Unsafe;
+import sun.misd.Unsbff;
 
 /**
- * XDropTargetProtocol implementation for Motif DnD protocol.
+ * XDropTbrgftProtodol implfmfntbtion for Motif DnD protodol.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-class MotifDnDDropTargetProtocol extends XDropTargetProtocol {
-    private static final Unsafe unsafe = XlibWrapper.unsafe;
+dlbss MotifDnDDropTbrgftProtodol fxtfnds XDropTbrgftProtodol {
+    privbtf stbtid finbl Unsbff unsbff = XlibWrbppfr.unsbff;
 
-    private long sourceWindow = 0;
-    private long sourceWindowMask = 0;
-    private int sourceProtocolVersion = 0;
-    private int sourceActions = DnDConstants.ACTION_NONE;
-    private long[] sourceFormats = null;
-    private long sourceAtom = 0;
-    private int userAction = DnDConstants.ACTION_NONE;
-    private int sourceX = 0;
-    private int sourceY = 0;
-    private XWindow targetXWindow = null;
-    private boolean topLevelLeavePostponed = false;
+    privbtf long sourdfWindow = 0;
+    privbtf long sourdfWindowMbsk = 0;
+    privbtf int sourdfProtodolVfrsion = 0;
+    privbtf int sourdfAdtions = DnDConstbnts.ACTION_NONE;
+    privbtf long[] sourdfFormbts = null;
+    privbtf long sourdfAtom = 0;
+    privbtf int usfrAdtion = DnDConstbnts.ACTION_NONE;
+    privbtf int sourdfX = 0;
+    privbtf int sourdfY = 0;
+    privbtf XWindow tbrgftXWindow = null;
+    privbtf boolfbn topLfvflLfbvfPostponfd = fblsf;
 
-    protected MotifDnDDropTargetProtocol(XDropTargetProtocolListener listener) {
-        super(listener);
+    protfdtfd MotifDnDDropTbrgftProtodol(XDropTbrgftProtodolListfnfr listfnfr) {
+        supfr(listfnfr);
     }
 
     /**
-     * Creates an instance associated with the specified listener.
+     * Crfbtfs bn instbndf bssodibtfd witi tif spfdififd listfnfr.
      *
-     * @throws NullPointerException if listener is <code>null</code>.
+     * @tirows NullPointfrExdfption if listfnfr is <dodf>null</dodf>.
      */
-    static XDropTargetProtocol createInstance(XDropTargetProtocolListener listener) {
-        return new MotifDnDDropTargetProtocol(listener);
+    stbtid XDropTbrgftProtodol drfbtfInstbndf(XDropTbrgftProtodolListfnfr listfnfr) {
+        rfturn nfw MotifDnDDropTbrgftProtodol(listfnfr);
     }
 
-    public String getProtocolName() {
-        return XDragAndDropProtocols.MotifDnD;
+    publid String gftProtodolNbmf() {
+        rfturn XDrbgAndDropProtodols.MotifDnD;
     }
 
-    public void registerDropTarget(long window) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    publid void rfgistfrDropTbrgft(long window) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        MotifDnDConstants.writeDragReceiverInfoStruct(window);
+        MotifDnDConstbnts.writfDrbgRfdfivfrInfoStrudt(window);
     }
 
-    public void unregisterDropTarget(long window) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    publid void unrfgistfrDropTbrgft(long window) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        MotifDnDConstants.XA_MOTIF_ATOM_0.DeleteProperty(window);
+        MotifDnDConstbnts.XA_MOTIF_ATOM_0.DflftfPropfrty(window);
     }
 
-    public void registerEmbedderDropSite(long embedder) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    publid void rfgistfrEmbfddfrDropSitf(long fmbfddfr) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        boolean overriden = false;
-        int version = 0;
+        boolfbn ovfrridfn = fblsf;
+        int vfrsion = 0;
         long proxy = 0;
-        long newProxy = XDropTargetRegistry.getDnDProxyWindow();
-        int status = 0;
-        long data = 0;
-        int dataSize = MotifDnDConstants.MOTIF_RECEIVER_INFO_SIZE;
+        long nfwProxy = XDropTbrgftRfgistry.gftDnDProxyWindow();
+        int stbtus = 0;
+        long dbtb = 0;
+        int dbtbSizf = MotifDnDConstbnts.MOTIF_RECEIVER_INFO_SIZE;
 
-        WindowPropertyGetter wpg =
-            new WindowPropertyGetter(embedder,
-                                     MotifDnDConstants.XA_MOTIF_DRAG_RECEIVER_INFO,
-                                     0, 0xFFFF, false,
-                                     XConstants.AnyPropertyType);
+        WindowPropfrtyGfttfr wpg =
+            nfw WindowPropfrtyGfttfr(fmbfddfr,
+                                     MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO,
+                                     0, 0xFFFF, fblsf,
+                                     XConstbnts.AnyPropfrtyTypf);
 
         try {
-            status = wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+            stbtus = wpg.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
 
             /*
-             * DragICCI.h:
+             * DrbgICCI.i:
              *
-             * typedef struct _xmDragReceiverInfoStruct{
-             *     BYTE byte_order;
-             *     BYTE protocol_version;
-             *     BYTE drag_protocol_style;
-             *     BYTE pad1;
+             * typfdff strudt _xmDrbgRfdfivfrInfoStrudt{
+             *     BYTE bytf_ordfr;
+             *     BYTE protodol_vfrsion;
+             *     BYTE drbg_protodol_stylf;
+             *     BYTE pbd1;
              *     CARD32       proxy_window B32;
-             *     CARD16       num_drop_sites B16;
-             *     CARD16       pad2 B16;
-             *     CARD32       heap_offset B32;
-             * } xmDragReceiverInfoStruct;
+             *     CARD16       num_drop_sitfs B16;
+             *     CARD16       pbd2 B16;
+             *     CARD32       ifbp_offsft B32;
+             * } xmDrbgRfdfivfrInfoStrudt;
              */
-            if (status == XConstants.Success && wpg.getData() != 0 &&
-                wpg.getActualType() != 0 && wpg.getActualFormat() == 8 &&
-                wpg.getNumberOfItems() >=
-                MotifDnDConstants.MOTIF_RECEIVER_INFO_SIZE) {
+            if (stbtus == XConstbnts.Suddfss && wpg.gftDbtb() != 0 &&
+                wpg.gftAdtublTypf() != 0 && wpg.gftAdtublFormbt() == 8 &&
+                wpg.gftNumbfrOfItfms() >=
+                MotifDnDConstbnts.MOTIF_RECEIVER_INFO_SIZE) {
 
-                overriden = true;
-                data = wpg.getData();
-                dataSize = wpg.getNumberOfItems();
+                ovfrridfn = truf;
+                dbtb = wpg.gftDbtb();
+                dbtbSizf = wpg.gftNumbfrOfItfms();
 
-                byte byteOrderByte = unsafe.getByte(data);
+                bytf bytfOrdfrBytf = unsbff.gftBytf(dbtb);
 
                 {
-                    int tproxy = unsafe.getInt(data + 4);
-                    if (byteOrderByte != MotifDnDConstants.getByteOrderByte()) {
-                        tproxy = MotifDnDConstants.Swapper.swap(tproxy);
+                    int tproxy = unsbff.gftInt(dbtb + 4);
+                    if (bytfOrdfrBytf != MotifDnDConstbnts.gftBytfOrdfrBytf()) {
+                        tproxy = MotifDnDConstbnts.Swbppfr.swbp(tproxy);
                     }
                     proxy = tproxy;
                 }
 
-                if (proxy == newProxy) {
-                    // Embedder already registered.
-                    return;
+                if (proxy == nfwProxy) {
+                    // Embfddfr blrfbdy rfgistfrfd.
+                    rfturn;
                 }
 
                 {
-                    int tproxy = (int)newProxy;
-                    if (byteOrderByte != MotifDnDConstants.getByteOrderByte()) {
-                        tproxy = MotifDnDConstants.Swapper.swap(tproxy);
+                    int tproxy = (int)nfwProxy;
+                    if (bytfOrdfrBytf != MotifDnDConstbnts.gftBytfOrdfrBytf()) {
+                        tproxy = MotifDnDConstbnts.Swbppfr.swbp(tproxy);
                     }
-                    unsafe.putInt(data + 4, tproxy);
+                    unsbff.putInt(dbtb + 4, tproxy);
                 }
-            } else {
-                data = unsafe.allocateMemory(dataSize);
+            } flsf {
+                dbtb = unsbff.bllodbtfMfmory(dbtbSizf);
 
-                unsafe.putByte(data, MotifDnDConstants.getByteOrderByte()); /* byte order */
-                unsafe.putByte(data + 1, MotifDnDConstants.MOTIF_DND_PROTOCOL_VERSION); /* protocol version */
-                unsafe.putByte(data + 2, (byte)MotifDnDConstants.MOTIF_DYNAMIC_STYLE); /* protocol style */
-                unsafe.putByte(data + 3, (byte)0); /* pad */
-                unsafe.putInt(data + 4, (int)newProxy); /* proxy window */
-                unsafe.putShort(data + 8, (short)0); /* num_drop_sites */
-                unsafe.putShort(data + 10, (short)0); /* pad */
-                unsafe.putInt(data + 12, dataSize);
+                unsbff.putBytf(dbtb, MotifDnDConstbnts.gftBytfOrdfrBytf()); /* bytf ordfr */
+                unsbff.putBytf(dbtb + 1, MotifDnDConstbnts.MOTIF_DND_PROTOCOL_VERSION); /* protodol vfrsion */
+                unsbff.putBytf(dbtb + 2, (bytf)MotifDnDConstbnts.MOTIF_DYNAMIC_STYLE); /* protodol stylf */
+                unsbff.putBytf(dbtb + 3, (bytf)0); /* pbd */
+                unsbff.putInt(dbtb + 4, (int)nfwProxy); /* proxy window */
+                unsbff.putSiort(dbtb + 8, (siort)0); /* num_drop_sitfs */
+                unsbff.putSiort(dbtb + 10, (siort)0); /* pbd */
+                unsbff.putInt(dbtb + 12, dbtbSizf);
             }
 
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-            XlibWrapper.XChangeProperty(XToolkit.getDisplay(), embedder,
-                                        MotifDnDConstants.XA_MOTIF_DRAG_RECEIVER_INFO.getAtom(),
-                                        MotifDnDConstants.XA_MOTIF_DRAG_RECEIVER_INFO.getAtom(),
-                                        8, XConstants.PropModeReplace,
-                                        data, dataSize);
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyCibngfPropfrtyHbndlfr.gftInstbndf());
+            XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(), fmbfddfr,
+                                        MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO.gftAtom(),
+                                        MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO.gftAtom(),
+                                        8, XConstbnts.PropModfRfplbdf,
+                                        dbtb, dbtbSizf);
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-            if ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                throw new XException("Cannot write Motif receiver info property");
+            if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                tirow nfw XExdfption("Cbnnot writf Motif rfdfivfr info propfrty");
             }
-        } finally {
-            if (!overriden) {
-                unsafe.freeMemory(data);
-                data = 0;
+        } finblly {
+            if (!ovfrridfn) {
+                unsbff.frffMfmory(dbtb);
+                dbtb = 0;
             }
-            wpg.dispose();
+            wpg.disposf();
         }
 
-        putEmbedderRegistryEntry(embedder, overriden, version, proxy);
+        putEmbfddfrRfgistryEntry(fmbfddfr, ovfrridfn, vfrsion, proxy);
     }
 
-    public void unregisterEmbedderDropSite(long embedder) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    publid void unrfgistfrEmbfddfrDropSitf(long fmbfddfr) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        EmbedderRegistryEntry entry = getEmbedderRegistryEntry(embedder);
+        EmbfddfrRfgistryEntry fntry = gftEmbfddfrRfgistryEntry(fmbfddfr);
 
-        if (entry == null) {
-            return;
+        if (fntry == null) {
+            rfturn;
         }
 
-        if (entry.isOverriden()) {
-            int status = 0;
+        if (fntry.isOvfrridfn()) {
+            int stbtus = 0;
 
-            WindowPropertyGetter wpg =
-                new WindowPropertyGetter(embedder,
-                                         MotifDnDConstants.XA_MOTIF_DRAG_RECEIVER_INFO,
-                                         0, 0xFFFF, false,
-                                         XConstants.AnyPropertyType);
+            WindowPropfrtyGfttfr wpg =
+                nfw WindowPropfrtyGfttfr(fmbfddfr,
+                                         MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO,
+                                         0, 0xFFFF, fblsf,
+                                         XConstbnts.AnyPropfrtyTypf);
 
             try {
-                status = wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                stbtus = wpg.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
 
                 /*
-                 * DragICCI.h:
+                 * DrbgICCI.i:
                  *
-                 * typedef struct _xmDragReceiverInfoStruct{
-                 *     BYTE     byte_order;
-                 *     BYTE     protocol_version;
-                 *     BYTE     drag_protocol_style;
-                 *     BYTE     pad1;
+                 * typfdff strudt _xmDrbgRfdfivfrInfoStrudt{
+                 *     BYTE     bytf_ordfr;
+                 *     BYTE     protodol_vfrsion;
+                 *     BYTE     drbg_protodol_stylf;
+                 *     BYTE     pbd1;
                  *     CARD32   proxy_window B32;
-                 *     CARD16   num_drop_sites B16;
-                 *     CARD16   pad2 B16;
-                 *     CARD32   heap_offset B32;
-                 * } xmDragReceiverInfoStruct;
+                 *     CARD16   num_drop_sitfs B16;
+                 *     CARD16   pbd2 B16;
+                 *     CARD32   ifbp_offsft B32;
+                 * } xmDrbgRfdfivfrInfoStrudt;
                  */
-                if (status == XConstants.Success && wpg.getData() != 0 &&
-                    wpg.getActualType() != 0 && wpg.getActualFormat() == 8 &&
-                    wpg.getNumberOfItems() >=
-                    MotifDnDConstants.MOTIF_RECEIVER_INFO_SIZE) {
+                if (stbtus == XConstbnts.Suddfss && wpg.gftDbtb() != 0 &&
+                    wpg.gftAdtublTypf() != 0 && wpg.gftAdtublFormbt() == 8 &&
+                    wpg.gftNumbfrOfItfms() >=
+                    MotifDnDConstbnts.MOTIF_RECEIVER_INFO_SIZE) {
 
-                    int dataSize = MotifDnDConstants.MOTIF_RECEIVER_INFO_SIZE;
-                    long data = wpg.getData();
-                    byte byteOrderByte = unsafe.getByte(data);
+                    int dbtbSizf = MotifDnDConstbnts.MOTIF_RECEIVER_INFO_SIZE;
+                    long dbtb = wpg.gftDbtb();
+                    bytf bytfOrdfrBytf = unsbff.gftBytf(dbtb);
 
-                    int tproxy = (int)entry.getProxy();
-                    if (MotifDnDConstants.getByteOrderByte() != byteOrderByte) {
-                        tproxy = MotifDnDConstants.Swapper.swap(tproxy);
+                    int tproxy = (int)fntry.gftProxy();
+                    if (MotifDnDConstbnts.gftBytfOrdfrBytf() != bytfOrdfrBytf) {
+                        tproxy = MotifDnDConstbnts.Swbppfr.swbp(tproxy);
                     }
 
-                    unsafe.putInt(data + 4, tproxy);
+                    unsbff.putInt(dbtb + 4, tproxy);
 
-                    XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-                    XlibWrapper.XChangeProperty(XToolkit.getDisplay(), embedder,
-                                                MotifDnDConstants.XA_MOTIF_DRAG_RECEIVER_INFO.getAtom(),
-                                                MotifDnDConstants.XA_MOTIF_DRAG_RECEIVER_INFO.getAtom(),
-                                                8, XConstants.PropModeReplace,
-                                                data, dataSize);
-                    XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+                    XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyCibngfPropfrtyHbndlfr.gftInstbndf());
+                    XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(), fmbfddfr,
+                                                MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO.gftAtom(),
+                                                MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO.gftAtom(),
+                                                8, XConstbnts.PropModfRfplbdf,
+                                                dbtb, dbtbSizf);
+                    XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-                    if ((XErrorHandlerUtil.saved_error != null) &&
-                        (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                        throw new XException("Cannot write Motif receiver info property");
+                    if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                        (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                        tirow nfw XExdfption("Cbnnot writf Motif rfdfivfr info propfrty");
                     }
                 }
-            } finally {
-                wpg.dispose();
+            } finblly {
+                wpg.disposf();
             }
-        } else {
-            MotifDnDConstants.XA_MOTIF_DRAG_RECEIVER_INFO.DeleteProperty(embedder);
+        } flsf {
+            MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO.DflftfPropfrty(fmbfddfr);
         }
     }
 
     /*
-     * Gets and stores in the registry the embedder's Motif DnD drop site info
-     * from the embedded.
+     * Gfts bnd storfs in tif rfgistry tif fmbfddfr's Motif DnD drop sitf info
+     * from tif fmbfddfd.
      */
-    public void registerEmbeddedDropSite(long embedded) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    publid void rfgistfrEmbfddfdDropSitf(long fmbfddfd) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        boolean overriden = false;
-        int version = 0;
+        boolfbn ovfrridfn = fblsf;
+        int vfrsion = 0;
         long proxy = 0;
-        int status = 0;
+        int stbtus = 0;
 
-        WindowPropertyGetter wpg =
-            new WindowPropertyGetter(embedded,
-                                     MotifDnDConstants.XA_MOTIF_DRAG_RECEIVER_INFO,
-                                     0, 0xFFFF, false,
-                                     XConstants.AnyPropertyType);
+        WindowPropfrtyGfttfr wpg =
+            nfw WindowPropfrtyGfttfr(fmbfddfd,
+                                     MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO,
+                                     0, 0xFFFF, fblsf,
+                                     XConstbnts.AnyPropfrtyTypf);
 
         try {
-            status = wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+            stbtus = wpg.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
 
             /*
-             * DragICCI.h:
+             * DrbgICCI.i:
              *
-             * typedef struct _xmDragReceiverInfoStruct{
-             *     BYTE byte_order;
-             *     BYTE protocol_version;
-             *     BYTE drag_protocol_style;
-             *     BYTE pad1;
+             * typfdff strudt _xmDrbgRfdfivfrInfoStrudt{
+             *     BYTE bytf_ordfr;
+             *     BYTE protodol_vfrsion;
+             *     BYTE drbg_protodol_stylf;
+             *     BYTE pbd1;
              *     CARD32       proxy_window B32;
-             *     CARD16       num_drop_sites B16;
-             *     CARD16       pad2 B16;
-             *     CARD32       heap_offset B32;
-             * } xmDragReceiverInfoStruct;
+             *     CARD16       num_drop_sitfs B16;
+             *     CARD16       pbd2 B16;
+             *     CARD32       ifbp_offsft B32;
+             * } xmDrbgRfdfivfrInfoStrudt;
              */
-            if (status == XConstants.Success && wpg.getData() != 0 &&
-                wpg.getActualType() != 0 && wpg.getActualFormat() == 8 &&
-                wpg.getNumberOfItems() >=
-                MotifDnDConstants.MOTIF_RECEIVER_INFO_SIZE) {
+            if (stbtus == XConstbnts.Suddfss && wpg.gftDbtb() != 0 &&
+                wpg.gftAdtublTypf() != 0 && wpg.gftAdtublFormbt() == 8 &&
+                wpg.gftNumbfrOfItfms() >=
+                MotifDnDConstbnts.MOTIF_RECEIVER_INFO_SIZE) {
 
-                overriden = true;
-                long data = wpg.getData();
+                ovfrridfn = truf;
+                long dbtb = wpg.gftDbtb();
 
-                byte byteOrderByte = unsafe.getByte(data);
+                bytf bytfOrdfrBytf = unsbff.gftBytf(dbtb);
 
                 {
-                    int tproxy = unsafe.getInt(data + 4);
-                    if (byteOrderByte != MotifDnDConstants.getByteOrderByte()) {
-                        tproxy = MotifDnDConstants.Swapper.swap(tproxy);
+                    int tproxy = unsbff.gftInt(dbtb + 4);
+                    if (bytfOrdfrBytf != MotifDnDConstbnts.gftBytfOrdfrBytf()) {
+                        tproxy = MotifDnDConstbnts.Swbppfr.swbp(tproxy);
                     }
                     proxy = tproxy;
                 }
             }
-        } finally {
-            wpg.dispose();
+        } finblly {
+            wpg.disposf();
         }
 
-        putEmbedderRegistryEntry(embedded, overriden, version, proxy);
+        putEmbfddfrRfgistryEntry(fmbfddfd, ovfrridfn, vfrsion, proxy);
     }
 
-    public boolean isProtocolSupported(long window) {
-        WindowPropertyGetter wpg =
-            new WindowPropertyGetter(window,
-                                     MotifDnDConstants.XA_MOTIF_DRAG_RECEIVER_INFO,
-                                     0, 0xFFFF, false,
-                                     XConstants.AnyPropertyType);
+    publid boolfbn isProtodolSupportfd(long window) {
+        WindowPropfrtyGfttfr wpg =
+            nfw WindowPropfrtyGfttfr(window,
+                                     MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO,
+                                     0, 0xFFFF, fblsf,
+                                     XConstbnts.AnyPropfrtyTypf);
 
         try {
-            int status = wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+            int stbtus = wpg.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
 
-            if (status == XConstants.Success && wpg.getData() != 0 &&
-                wpg.getActualType() != 0 && wpg.getActualFormat() == 8 &&
-                wpg.getNumberOfItems() >=
-                MotifDnDConstants.MOTIF_RECEIVER_INFO_SIZE) {
-                return true;
-            } else {
-                return false;
+            if (stbtus == XConstbnts.Suddfss && wpg.gftDbtb() != 0 &&
+                wpg.gftAdtublTypf() != 0 && wpg.gftAdtublFormbt() == 8 &&
+                wpg.gftNumbfrOfItfms() >=
+                MotifDnDConstbnts.MOTIF_RECEIVER_INFO_SIZE) {
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
             }
-        } finally {
-            wpg.dispose();
+        } finblly {
+            wpg.disposf();
         }
     }
 
-    private boolean processTopLevelEnter(XClientMessageEvent xclient) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbtf boolfbn prodfssTopLfvflEntfr(XClifntMfssbgfEvfnt xdlifnt) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        if (targetXWindow != null || sourceWindow != 0) {
-            return false;
+        if (tbrgftXWindow != null || sourdfWindow != 0) {
+            rfturn fblsf;
         }
 
-        if (!(XToolkit.windowToXWindow(xclient.get_window()) instanceof XWindow)
-            && getEmbedderRegistryEntry(xclient.get_window()) == null) {
-            return false;
+        if (!(XToolkit.windowToXWindow(xdlifnt.gft_window()) instbndfof XWindow)
+            && gftEmbfddfrRfgistryEntry(xdlifnt.gft_window()) == null) {
+            rfturn fblsf;
         }
 
-        long source_win = 0;
-        long source_win_mask = 0;
-        int protocol_version = 0;
-        long property_atom = 0;
-        long[] formats = null;
+        long sourdf_win = 0;
+        long sourdf_win_mbsk = 0;
+        int protodol_vfrsion = 0;
+        long propfrty_btom = 0;
+        long[] formbts = null;
 
         {
-            long data = xclient.get_data();
-            byte eventByteOrder = unsafe.getByte(data + 1);
-            source_win = MotifDnDConstants.Swapper.getInt(data + 8, eventByteOrder);
-            property_atom = MotifDnDConstants.Swapper.getInt(data + 12, eventByteOrder);
+            long dbtb = xdlifnt.gft_dbtb();
+            bytf fvfntBytfOrdfr = unsbff.gftBytf(dbtb + 1);
+            sourdf_win = MotifDnDConstbnts.Swbppfr.gftInt(dbtb + 8, fvfntBytfOrdfr);
+            propfrty_btom = MotifDnDConstbnts.Swbppfr.gftInt(dbtb + 12, fvfntBytfOrdfr);
         }
 
-        /* Extract the available data types. */
+        /* Extrbdt tif bvbilbblf dbtb typfs. */
         {
-            WindowPropertyGetter wpg =
-                new WindowPropertyGetter(source_win,
-                                         XAtom.get(property_atom),
+            WindowPropfrtyGfttfr wpg =
+                nfw WindowPropfrtyGfttfr(sourdf_win,
+                                         XAtom.gft(propfrty_btom),
                                          0, 0xFFFF,
-                                         false,
-                                         MotifDnDConstants.XA_MOTIF_DRAG_INITIATOR_INFO.getAtom());
+                                         fblsf,
+                                         MotifDnDConstbnts.XA_MOTIF_DRAG_INITIATOR_INFO.gftAtom());
 
             try {
-                int status = wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                int stbtus = wpg.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
 
-                if (status == XConstants.Success && wpg.getData() != 0 &&
-                    wpg.getActualType() ==
-                    MotifDnDConstants.XA_MOTIF_DRAG_INITIATOR_INFO.getAtom() &&
-                    wpg.getActualFormat() == 8 &&
-                    wpg.getNumberOfItems() ==
-                    MotifDnDConstants.MOTIF_INITIATOR_INFO_SIZE) {
+                if (stbtus == XConstbnts.Suddfss && wpg.gftDbtb() != 0 &&
+                    wpg.gftAdtublTypf() ==
+                    MotifDnDConstbnts.XA_MOTIF_DRAG_INITIATOR_INFO.gftAtom() &&
+                    wpg.gftAdtublFormbt() == 8 &&
+                    wpg.gftNumbfrOfItfms() ==
+                    MotifDnDConstbnts.MOTIF_INITIATOR_INFO_SIZE) {
 
-                    long data = wpg.getData();
-                    byte propertyByteOrder = unsafe.getByte(data);
+                    long dbtb = wpg.gftDbtb();
+                    bytf propfrtyBytfOrdfr = unsbff.gftBytf(dbtb);
 
-                    protocol_version = unsafe.getByte(data + 1);
+                    protodol_vfrsion = unsbff.gftBytf(dbtb + 1);
 
-                    if (protocol_version !=
-                        MotifDnDConstants.MOTIF_DND_PROTOCOL_VERSION) {
-                        return false;
+                    if (protodol_vfrsion !=
+                        MotifDnDConstbnts.MOTIF_DND_PROTOCOL_VERSION) {
+                        rfturn fblsf;
                     }
 
-                    int index =
-                        MotifDnDConstants.Swapper.getShort(data + 2, propertyByteOrder);
+                    int indfx =
+                        MotifDnDConstbnts.Swbppfr.gftSiort(dbtb + 2, propfrtyBytfOrdfr);
 
-                    formats = MotifDnDConstants.getTargetListForIndex(index);
-                } else {
-                    formats = new long[0];
+                    formbts = MotifDnDConstbnts.gftTbrgftListForIndfx(indfx);
+                } flsf {
+                    formbts = nfw long[0];
                 }
-            } finally {
-                wpg.dispose();
+            } finblly {
+                wpg.disposf();
             }
         }
 
         /*
-         * Select for StructureNotifyMask to receive DestroyNotify in case of source
-         * crash.
+         * Sflfdt for StrudturfNotifyMbsk to rfdfivf DfstroyNotify in dbsf of sourdf
+         * drbsi.
          */
-        XWindowAttributes wattr = new XWindowAttributes();
+        XWindowAttributfs wbttr = nfw XWindowAttributfs();
         try {
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-            int status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                          source_win, wattr.pData);
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+            int stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                          sourdf_win, wbttr.pDbtb);
 
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-            if ((status == 0) ||
-                ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success))) {
-                throw new XException("XGetWindowAttributes failed");
+            if ((stbtus == 0) ||
+                ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss))) {
+                tirow nfw XExdfption("XGftWindowAttributfs fbilfd");
             }
 
-            source_win_mask = wattr.get_your_event_mask();
-        } finally {
-            wattr.dispose();
+            sourdf_win_mbsk = wbttr.gft_your_fvfnt_mbsk();
+        } finblly {
+            wbttr.disposf();
         }
 
-        XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-        XlibWrapper.XSelectInput(XToolkit.getDisplay(), source_win,
-                                 source_win_mask |
-                                 XConstants.StructureNotifyMask);
+        XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+        XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), sourdf_win,
+                                 sourdf_win_mbsk |
+                                 XConstbnts.StrudturfNotifyMbsk);
 
-        XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+        XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-        if ((XErrorHandlerUtil.saved_error != null) &&
-            (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-            throw new XException("XSelectInput failed");
+        if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+            (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+            tirow nfw XExdfption("XSflfdtInput fbilfd");
         }
 
-        sourceWindow = source_win;
-        sourceWindowMask = source_win_mask;
-        sourceProtocolVersion = protocol_version;
+        sourdfWindow = sourdf_win;
+        sourdfWindowMbsk = sourdf_win_mbsk;
+        sourdfProtodolVfrsion = protodol_vfrsion;
         /*
-         * TOP_LEVEL_ENTER doesn't communicate the list of supported actions
-         * They are provided in DRAG_MOTION.
+         * TOP_LEVEL_ENTER dofsn't dommunidbtf tif list of supportfd bdtions
+         * Tify brf providfd in DRAG_MOTION.
          */
-        sourceActions = DnDConstants.ACTION_NONE;
-        sourceFormats = formats;
-        sourceAtom = property_atom;
+        sourdfAdtions = DnDConstbnts.ACTION_NONE;
+        sourdfFormbts = formbts;
+        sourdfAtom = propfrty_btom;
 
-        return true;
+        rfturn truf;
     }
 
-    private boolean processDragMotion(XClientMessageEvent xclient) {
-        long data = xclient.get_data();
-        byte eventByteOrder = unsafe.getByte(data + 1);
-        byte eventReason = (byte)(unsafe.getByte(data) &
-                                  MotifDnDConstants.MOTIF_MESSAGE_REASON_MASK);
+    privbtf boolfbn prodfssDrbgMotion(XClifntMfssbgfEvfnt xdlifnt) {
+        long dbtb = xdlifnt.gft_dbtb();
+        bytf fvfntBytfOrdfr = unsbff.gftBytf(dbtb + 1);
+        bytf fvfntRfbson = (bytf)(unsbff.gftBytf(dbtb) &
+                                  MotifDnDConstbnts.MOTIF_MESSAGE_REASON_MASK);
         int x = 0;
         int y = 0;
 
-        short flags = MotifDnDConstants.Swapper.getShort(data + 2, eventByteOrder);
+        siort flbgs = MotifDnDConstbnts.Swbppfr.gftSiort(dbtb + 2, fvfntBytfOrdfr);
 
-        int motif_action = (flags & MotifDnDConstants.MOTIF_DND_ACTION_MASK) >>
-            MotifDnDConstants.MOTIF_DND_ACTION_SHIFT;
-        int motif_actions = (flags & MotifDnDConstants.MOTIF_DND_ACTIONS_MASK) >>
-            MotifDnDConstants.MOTIF_DND_ACTIONS_SHIFT;
+        int motif_bdtion = (flbgs & MotifDnDConstbnts.MOTIF_DND_ACTION_MASK) >>
+            MotifDnDConstbnts.MOTIF_DND_ACTION_SHIFT;
+        int motif_bdtions = (flbgs & MotifDnDConstbnts.MOTIF_DND_ACTIONS_MASK) >>
+            MotifDnDConstbnts.MOTIF_DND_ACTIONS_SHIFT;
 
-        int java_action = MotifDnDConstants.getJavaActionsForMotifActions(motif_action);
-        int java_actions = MotifDnDConstants.getJavaActionsForMotifActions(motif_actions);
+        int jbvb_bdtion = MotifDnDConstbnts.gftJbvbAdtionsForMotifAdtions(motif_bdtion);
+        int jbvb_bdtions = MotifDnDConstbnts.gftJbvbAdtionsForMotifAdtions(motif_bdtions);
 
-        /* Append source window id to the event data, so that we can send the
-           response properly. */
+        /* Appfnd sourdf window id to tif fvfnt dbtb, so tibt wf dbn sfnd tif
+           rfsponsf propfrly. */
         {
-            int win = (int)sourceWindow;
-            if (eventByteOrder != MotifDnDConstants.getByteOrderByte()) {
-                win = MotifDnDConstants.Swapper.swap(win);
+            int win = (int)sourdfWindow;
+            if (fvfntBytfOrdfr != MotifDnDConstbnts.gftBytfOrdfrBytf()) {
+                win = MotifDnDConstbnts.Swbppfr.swbp(win);
             }
-            unsafe.putInt(data + 12, win);
+            unsbff.putInt(dbtb + 12, win);
         }
 
         XWindow xwindow = null;
         {
-            XBaseWindow xbasewindow = XToolkit.windowToXWindow(xclient.get_window());
-            if (xbasewindow instanceof XWindow) {
-                xwindow = (XWindow)xbasewindow;
+            XBbsfWindow xbbsfwindow = XToolkit.windowToXWindow(xdlifnt.gft_window());
+            if (xbbsfwindow instbndfof XWindow) {
+                xwindow = (XWindow)xbbsfwindow;
             }
         }
 
-        if (eventReason == MotifDnDConstants.OPERATION_CHANGED) {
-            /* OPERATION_CHANGED event doesn't provide coordinates, so we use
-               previously stored position and component ref. */
-            x = sourceX;
-            y = sourceY;
+        if (fvfntRfbson == MotifDnDConstbnts.OPERATION_CHANGED) {
+            /* OPERATION_CHANGED fvfnt dofsn't providf doordinbtfs, so wf usf
+               prfviously storfd position bnd domponfnt rff. */
+            x = sourdfX;
+            y = sourdfY;
 
             if (xwindow == null) {
-                xwindow = targetXWindow;
+                xwindow = tbrgftXWindow;
             }
-        } else {
-            x = MotifDnDConstants.Swapper.getShort(data + 8, eventByteOrder);
-            y = MotifDnDConstants.Swapper.getShort(data + 10, eventByteOrder);
+        } flsf {
+            x = MotifDnDConstbnts.Swbppfr.gftSiort(dbtb + 8, fvfntBytfOrdfr);
+            y = MotifDnDConstbnts.Swbppfr.gftSiort(dbtb + 10, fvfntBytfOrdfr);
 
             if (xwindow == null) {
-                long receiver =
-                    XDropTargetRegistry.getRegistry().getEmbeddedDropSite(
-                        xclient.get_window(), x, y);
+                long rfdfivfr =
+                    XDropTbrgftRfgistry.gftRfgistry().gftEmbfddfdDropSitf(
+                        xdlifnt.gft_window(), x, y);
 
-                if (receiver != 0) {
-                    XBaseWindow xbasewindow = XToolkit.windowToXWindow(receiver);
-                    if (xbasewindow instanceof XWindow) {
-                        xwindow = (XWindow)xbasewindow;
+                if (rfdfivfr != 0) {
+                    XBbsfWindow xbbsfwindow = XToolkit.windowToXWindow(rfdfivfr);
+                    if (xbbsfwindow instbndfof XWindow) {
+                        xwindow = (XWindow)xbbsfwindow;
                     }
                 }
             }
 
             if (xwindow != null) {
-                Point p = xwindow.toLocal(x, y);
+                Point p = xwindow.toLodbl(x, y);
                 x = p.x;
                 y = p.y;
             }
         }
 
         if (xwindow == null) {
-            if (targetXWindow != null) {
-                notifyProtocolListener(targetXWindow, x, y,
-                                       DnDConstants.ACTION_NONE, java_actions,
-                                       xclient, MouseEvent.MOUSE_EXITED);
+            if (tbrgftXWindow != null) {
+                notifyProtodolListfnfr(tbrgftXWindow, x, y,
+                                       DnDConstbnts.ACTION_NONE, jbvb_bdtions,
+                                       xdlifnt, MousfEvfnt.MOUSE_EXITED);
             }
-        } else {
-            int java_event_id = 0;
+        } flsf {
+            int jbvb_fvfnt_id = 0;
 
-            if (targetXWindow == null) {
-                java_event_id = MouseEvent.MOUSE_ENTERED;
-            } else {
-                java_event_id = MouseEvent.MOUSE_DRAGGED;
+            if (tbrgftXWindow == null) {
+                jbvb_fvfnt_id = MousfEvfnt.MOUSE_ENTERED;
+            } flsf {
+                jbvb_fvfnt_id = MousfEvfnt.MOUSE_DRAGGED;
             }
 
-            notifyProtocolListener(xwindow, x, y, java_action, java_actions,
-                                   xclient, java_event_id);
+            notifyProtodolListfnfr(xwindow, x, y, jbvb_bdtion, jbvb_bdtions,
+                                   xdlifnt, jbvb_fvfnt_id);
         }
 
-        sourceActions = java_actions;
-        userAction = java_action;
-        sourceX = x;
-        sourceY = y;
-        targetXWindow = xwindow;
+        sourdfAdtions = jbvb_bdtions;
+        usfrAdtion = jbvb_bdtion;
+        sourdfX = x;
+        sourdfY = y;
+        tbrgftXWindow = xwindow;
 
-        return true;
+        rfturn truf;
     }
 
-    private boolean processTopLevelLeave(XClientMessageEvent xclient) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbtf boolfbn prodfssTopLfvflLfbvf(XClifntMfssbgfEvfnt xdlifnt) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        long data = xclient.get_data();
-        byte eventByteOrder = unsafe.getByte(data + 1);
+        long dbtb = xdlifnt.gft_dbtb();
+        bytf fvfntBytfOrdfr = unsbff.gftBytf(dbtb + 1);
 
-        long source_win = MotifDnDConstants.Swapper.getInt(data + 8, eventByteOrder);
+        long sourdf_win = MotifDnDConstbnts.Swbppfr.gftInt(dbtb + 8, fvfntBytfOrdfr);
 
-        /* Ignore Motif DnD messages from all other windows. */
-        if (source_win != sourceWindow) {
-            return false;
+        /* Ignorf Motif DnD mfssbgfs from bll otifr windows. */
+        if (sourdf_win != sourdfWindow) {
+            rfturn fblsf;
         }
 
         /*
-         * Postpone upcall to java, so that we can abort it in case
-         * if drop immediatelly follows (see BugTraq ID 4395290).
-         * Send a dummy ClientMessage event to guarantee that a postponed java
-         * upcall will be processed.
+         * Postponf updbll to jbvb, so tibt wf dbn bbort it in dbsf
+         * if drop immfdibtflly follows (sff BugTrbq ID 4395290).
+         * Sfnd b dummy ClifntMfssbgf fvfnt to gubrbntff tibt b postponfd jbvb
+         * updbll will bf prodfssfd.
          */
-        topLevelLeavePostponed = true;
+        topLfvflLfbvfPostponfd = truf;
         {
             long proxy;
 
             /*
-             * If this is an embedded drop site, the event should go to the
-             * awt_root_window as this is a proxy for all embedded drop sites.
-             * Otherwise the event should go to the event->window, as we don't use
-             * proxies for normal drop sites.
+             * If tiis is bn fmbfddfd drop sitf, tif fvfnt siould go to tif
+             * bwt_root_window bs tiis is b proxy for bll fmbfddfd drop sitfs.
+             * Otifrwisf tif fvfnt siould go to tif fvfnt->window, bs wf don't usf
+             * proxifs for normbl drop sitfs.
              */
-            if (getEmbedderRegistryEntry(xclient.get_window()) != null) {
-                proxy = XDropTargetRegistry.getDnDProxyWindow();
-            } else {
-                proxy = xclient.get_window();
+            if (gftEmbfddfrRfgistryEntry(xdlifnt.gft_window()) != null) {
+                proxy = XDropTbrgftRfgistry.gftDnDProxyWindow();
+            } flsf {
+                proxy = xdlifnt.gft_window();
             }
 
-            XClientMessageEvent dummy = new XClientMessageEvent();
+            XClifntMfssbgfEvfnt dummy = nfw XClifntMfssbgfEvfnt();
 
             try {
-                dummy.set_type(XConstants.ClientMessage);
-                dummy.set_window(xclient.get_window());
-                dummy.set_format(32);
-                dummy.set_message_type(0);
-                dummy.set_data(0, 0);
-                dummy.set_data(1, 0);
-                dummy.set_data(2, 0);
-                dummy.set_data(3, 0);
-                dummy.set_data(4, 0);
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(),
-                                       proxy, false, XConstants.NoEventMask,
-                                       dummy.pData);
-            } finally {
-                dummy.dispose();
+                dummy.sft_typf(XConstbnts.ClifntMfssbgf);
+                dummy.sft_window(xdlifnt.gft_window());
+                dummy.sft_formbt(32);
+                dummy.sft_mfssbgf_typf(0);
+                dummy.sft_dbtb(0, 0);
+                dummy.sft_dbtb(1, 0);
+                dummy.sft_dbtb(2, 0);
+                dummy.sft_dbtb(3, 0);
+                dummy.sft_dbtb(4, 0);
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(),
+                                       proxy, fblsf, XConstbnts.NoEvfntMbsk,
+                                       dummy.pDbtb);
+            } finblly {
+                dummy.disposf();
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    private boolean processDropStart(XClientMessageEvent xclient) {
-        long data = xclient.get_data();
-        byte eventByteOrder = unsafe.getByte(data + 1);
+    privbtf boolfbn prodfssDropStbrt(XClifntMfssbgfEvfnt xdlifnt) {
+        long dbtb = xdlifnt.gft_dbtb();
+        bytf fvfntBytfOrdfr = unsbff.gftBytf(dbtb + 1);
 
-        long source_win =
-            MotifDnDConstants.Swapper.getInt(data + 16, eventByteOrder);
+        long sourdf_win =
+            MotifDnDConstbnts.Swbppfr.gftInt(dbtb + 16, fvfntBytfOrdfr);
 
-        /* Ignore Motif DnD messages from all other windows. */
-        if (source_win != sourceWindow) {
-            return false;
+        /* Ignorf Motif DnD mfssbgfs from bll otifr windows. */
+        if (sourdf_win != sourdfWindow) {
+            rfturn fblsf;
         }
 
-        long property_atom =
-            MotifDnDConstants.Swapper.getInt(data + 12, eventByteOrder);
+        long propfrty_btom =
+            MotifDnDConstbnts.Swbppfr.gftInt(dbtb + 12, fvfntBytfOrdfr);
 
-        short flags =
-            MotifDnDConstants.Swapper.getShort(data + 2, eventByteOrder);
+        siort flbgs =
+            MotifDnDConstbnts.Swbppfr.gftSiort(dbtb + 2, fvfntBytfOrdfr);
 
-        int motif_action = (flags & MotifDnDConstants.MOTIF_DND_ACTION_MASK) >>
-            MotifDnDConstants.MOTIF_DND_ACTION_SHIFT;
-        int motif_actions = (flags & MotifDnDConstants.MOTIF_DND_ACTIONS_MASK) >>
-            MotifDnDConstants.MOTIF_DND_ACTIONS_SHIFT;
+        int motif_bdtion = (flbgs & MotifDnDConstbnts.MOTIF_DND_ACTION_MASK) >>
+            MotifDnDConstbnts.MOTIF_DND_ACTION_SHIFT;
+        int motif_bdtions = (flbgs & MotifDnDConstbnts.MOTIF_DND_ACTIONS_MASK) >>
+            MotifDnDConstbnts.MOTIF_DND_ACTIONS_SHIFT;
 
-        int java_action = MotifDnDConstants.getJavaActionsForMotifActions(motif_action);
-        int java_actions = MotifDnDConstants.getJavaActionsForMotifActions(motif_actions);
+        int jbvb_bdtion = MotifDnDConstbnts.gftJbvbAdtionsForMotifAdtions(motif_bdtion);
+        int jbvb_bdtions = MotifDnDConstbnts.gftJbvbAdtionsForMotifAdtions(motif_bdtions);
 
-        int x = MotifDnDConstants.Swapper.getShort(data + 8, eventByteOrder);
-        int y = MotifDnDConstants.Swapper.getShort(data + 10, eventByteOrder);
+        int x = MotifDnDConstbnts.Swbppfr.gftSiort(dbtb + 8, fvfntBytfOrdfr);
+        int y = MotifDnDConstbnts.Swbppfr.gftSiort(dbtb + 10, fvfntBytfOrdfr);
 
         XWindow xwindow = null;
         {
-            XBaseWindow xbasewindow = XToolkit.windowToXWindow(xclient.get_window());
-            if (xbasewindow instanceof XWindow) {
-                xwindow = (XWindow)xbasewindow;
+            XBbsfWindow xbbsfwindow = XToolkit.windowToXWindow(xdlifnt.gft_window());
+            if (xbbsfwindow instbndfof XWindow) {
+                xwindow = (XWindow)xbbsfwindow;
             }
         }
 
         if (xwindow == null) {
-            long receiver =
-                XDropTargetRegistry.getRegistry().getEmbeddedDropSite(
-                    xclient.get_window(), x, y);
+            long rfdfivfr =
+                XDropTbrgftRfgistry.gftRfgistry().gftEmbfddfdDropSitf(
+                    xdlifnt.gft_window(), x, y);
 
-            if (receiver != 0) {
-                XBaseWindow xbasewindow = XToolkit.windowToXWindow(receiver);
-                if (xbasewindow instanceof XWindow) {
-                    xwindow = (XWindow)xbasewindow;
+            if (rfdfivfr != 0) {
+                XBbsfWindow xbbsfwindow = XToolkit.windowToXWindow(rfdfivfr);
+                if (xbbsfwindow instbndfof XWindow) {
+                    xwindow = (XWindow)xbbsfwindow;
                 }
             }
         }
 
         if (xwindow != null) {
-            Point p = xwindow.toLocal(x, y);
+            Point p = xwindow.toLodbl(x, y);
             x = p.x;
             y = p.y;
         }
 
         if (xwindow != null) {
-            notifyProtocolListener(xwindow, x, y, java_action, java_actions,
-                                   xclient, MouseEvent.MOUSE_RELEASED);
-        } else if (targetXWindow != null) {
-            notifyProtocolListener(targetXWindow, x, y,
-                                   DnDConstants.ACTION_NONE, java_actions,
-                                   xclient, MouseEvent.MOUSE_EXITED);
+            notifyProtodolListfnfr(xwindow, x, y, jbvb_bdtion, jbvb_bdtions,
+                                   xdlifnt, MousfEvfnt.MOUSE_RELEASED);
+        } flsf if (tbrgftXWindow != null) {
+            notifyProtodolListfnfr(tbrgftXWindow, x, y,
+                                   DnDConstbnts.ACTION_NONE, jbvb_bdtions,
+                                   xdlifnt, MousfEvfnt.MOUSE_EXITED);
         }
 
-        return true;
+        rfturn truf;
     }
 
-    public int getMessageType(XClientMessageEvent xclient) {
-        if (xclient.get_message_type() !=
-            MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom()) {
+    publid int gftMfssbgfTypf(XClifntMfssbgfEvfnt xdlifnt) {
+        if (xdlifnt.gft_mfssbgf_typf() !=
+            MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.gftAtom()) {
 
-            return UNKNOWN_MESSAGE;
+            rfturn UNKNOWN_MESSAGE;
         }
 
-        long data = xclient.get_data();
-        byte reason = (byte)(unsafe.getByte(data) &
-                             MotifDnDConstants.MOTIF_MESSAGE_REASON_MASK);
+        long dbtb = xdlifnt.gft_dbtb();
+        bytf rfbson = (bytf)(unsbff.gftBytf(dbtb) &
+                             MotifDnDConstbnts.MOTIF_MESSAGE_REASON_MASK);
 
-        switch (reason) {
-        case MotifDnDConstants.TOP_LEVEL_ENTER :
-            return ENTER_MESSAGE;
-        case MotifDnDConstants.DRAG_MOTION :
-        case MotifDnDConstants.OPERATION_CHANGED :
-            return MOTION_MESSAGE;
-        case MotifDnDConstants.TOP_LEVEL_LEAVE :
-            return LEAVE_MESSAGE;
-        case MotifDnDConstants.DROP_START :
-            return DROP_MESSAGE;
-        default:
-            return UNKNOWN_MESSAGE;
+        switdi (rfbson) {
+        dbsf MotifDnDConstbnts.TOP_LEVEL_ENTER :
+            rfturn ENTER_MESSAGE;
+        dbsf MotifDnDConstbnts.DRAG_MOTION :
+        dbsf MotifDnDConstbnts.OPERATION_CHANGED :
+            rfturn MOTION_MESSAGE;
+        dbsf MotifDnDConstbnts.TOP_LEVEL_LEAVE :
+            rfturn LEAVE_MESSAGE;
+        dbsf MotifDnDConstbnts.DROP_START :
+            rfturn DROP_MESSAGE;
+        dffbult:
+            rfturn UNKNOWN_MESSAGE;
         }
     }
 
-    protected boolean processClientMessageImpl(XClientMessageEvent xclient) {
-        if (xclient.get_message_type() !=
-            MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom()) {
-            if (topLevelLeavePostponed) {
-                topLevelLeavePostponed = false;
-                cleanup();
+    protfdtfd boolfbn prodfssClifntMfssbgfImpl(XClifntMfssbgfEvfnt xdlifnt) {
+        if (xdlifnt.gft_mfssbgf_typf() !=
+            MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.gftAtom()) {
+            if (topLfvflLfbvfPostponfd) {
+                topLfvflLfbvfPostponfd = fblsf;
+                dlfbnup();
             }
 
-            return false;
+            rfturn fblsf;
         }
 
-        long data = xclient.get_data();
-        byte reason = (byte)(unsafe.getByte(data) &
-            MotifDnDConstants.MOTIF_MESSAGE_REASON_MASK);
-        byte origin = (byte)(unsafe.getByte(data) &
-            MotifDnDConstants.MOTIF_MESSAGE_SENDER_MASK);
+        long dbtb = xdlifnt.gft_dbtb();
+        bytf rfbson = (bytf)(unsbff.gftBytf(dbtb) &
+            MotifDnDConstbnts.MOTIF_MESSAGE_REASON_MASK);
+        bytf origin = (bytf)(unsbff.gftBytf(dbtb) &
+            MotifDnDConstbnts.MOTIF_MESSAGE_SENDER_MASK);
 
-        if (topLevelLeavePostponed) {
-            topLevelLeavePostponed = false;
-            if (reason != MotifDnDConstants.DROP_START) {
-                cleanup();
+        if (topLfvflLfbvfPostponfd) {
+            topLfvflLfbvfPostponfd = fblsf;
+            if (rfbson != MotifDnDConstbnts.DROP_START) {
+                dlfbnup();
             }
         }
 
-        /* Only initiator messages should be handled. */
-        if (origin != MotifDnDConstants.MOTIF_MESSAGE_FROM_INITIATOR) {
-            return false;
+        /* Only initibtor mfssbgfs siould bf ibndlfd. */
+        if (origin != MotifDnDConstbnts.MOTIF_MESSAGE_FROM_INITIATOR) {
+            rfturn fblsf;
         }
 
-        switch (reason) {
-        case MotifDnDConstants.TOP_LEVEL_ENTER :
-            return processTopLevelEnter(xclient);
-        case MotifDnDConstants.DRAG_MOTION :
-        case MotifDnDConstants.OPERATION_CHANGED :
-            return processDragMotion(xclient);
-        case MotifDnDConstants.TOP_LEVEL_LEAVE :
-            return processTopLevelLeave(xclient);
-        case MotifDnDConstants.DROP_START :
-            return processDropStart(xclient);
-        default:
-            return false;
+        switdi (rfbson) {
+        dbsf MotifDnDConstbnts.TOP_LEVEL_ENTER :
+            rfturn prodfssTopLfvflEntfr(xdlifnt);
+        dbsf MotifDnDConstbnts.DRAG_MOTION :
+        dbsf MotifDnDConstbnts.OPERATION_CHANGED :
+            rfturn prodfssDrbgMotion(xdlifnt);
+        dbsf MotifDnDConstbnts.TOP_LEVEL_LEAVE :
+            rfturn prodfssTopLfvflLfbvf(xdlifnt);
+        dbsf MotifDnDConstbnts.DROP_START :
+            rfturn prodfssDropStbrt(xdlifnt);
+        dffbult:
+            rfturn fblsf;
         }
     }
 
     /*
-     * Currently we don't synthesize enter/leave messages for Motif DnD
-     * protocol. See comments in XDropTargetProtocol.postProcessClientMessage.
+     * Currfntly wf don't syntifsizf fntfr/lfbvf mfssbgfs for Motif DnD
+     * protodol. Sff dommfnts in XDropTbrgftProtodol.postProdfssClifntMfssbgf.
      */
-    protected void sendEnterMessageToToplevel(long win,
-                                              XClientMessageEvent xclient) {
-        throw new Error("UNIMPLEMENTED");
+    protfdtfd void sfndEntfrMfssbgfToToplfvfl(long win,
+                                              XClifntMfssbgfEvfnt xdlifnt) {
+        tirow nfw Error("UNIMPLEMENTED");
     }
 
-    protected void sendLeaveMessageToToplevel(long win,
-                                              XClientMessageEvent xclient) {
-        throw new Error("UNIMPLEMENTED");
+    protfdtfd void sfndLfbvfMfssbgfToToplfvfl(long win,
+                                              XClifntMfssbgfEvfnt xdlifnt) {
+        tirow nfw Error("UNIMPLEMENTED");
     }
 
-    public boolean forwardEventToEmbedded(long embedded, long ctxt,
-                                          int eventID) {
+    publid boolfbn forwbrdEvfntToEmbfddfd(long fmbfddfd, long dtxt,
+                                          int fvfntID) {
         // UNIMPLEMENTED.
-        return false;
+        rfturn fblsf;
     }
 
-    public boolean isXEmbedSupported() {
-        return false;
+    publid boolfbn isXEmbfdSupportfd() {
+        rfturn fblsf;
     }
 
-    public boolean sendResponse(long ctxt, int eventID, int action) {
-        XClientMessageEvent xclient = new XClientMessageEvent(ctxt);
-        if (xclient.get_message_type() !=
-            MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom()) {
-            return false;
+    publid boolfbn sfndRfsponsf(long dtxt, int fvfntID, int bdtion) {
+        XClifntMfssbgfEvfnt xdlifnt = nfw XClifntMfssbgfEvfnt(dtxt);
+        if (xdlifnt.gft_mfssbgf_typf() !=
+            MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.gftAtom()) {
+            rfturn fblsf;
         }
 
-        long data = xclient.get_data();
-        byte reason = (byte)(unsafe.getByte(data) &
-            MotifDnDConstants.MOTIF_MESSAGE_REASON_MASK);
-        byte origin = (byte)(unsafe.getByte(data) &
-            MotifDnDConstants.MOTIF_MESSAGE_SENDER_MASK);
-        byte eventByteOrder = unsafe.getByte(data + 1);
-        byte response_reason = (byte)0;
+        long dbtb = xdlifnt.gft_dbtb();
+        bytf rfbson = (bytf)(unsbff.gftBytf(dbtb) &
+            MotifDnDConstbnts.MOTIF_MESSAGE_REASON_MASK);
+        bytf origin = (bytf)(unsbff.gftBytf(dbtb) &
+            MotifDnDConstbnts.MOTIF_MESSAGE_SENDER_MASK);
+        bytf fvfntBytfOrdfr = unsbff.gftBytf(dbtb + 1);
+        bytf rfsponsf_rfbson = (bytf)0;
 
-        /* Only initiator messages should be handled. */
-        if (origin != MotifDnDConstants.MOTIF_MESSAGE_FROM_INITIATOR) {
-            return false;
+        /* Only initibtor mfssbgfs siould bf ibndlfd. */
+        if (origin != MotifDnDConstbnts.MOTIF_MESSAGE_FROM_INITIATOR) {
+            rfturn fblsf;
         }
 
-        switch (reason) {
-        case MotifDnDConstants.TOP_LEVEL_ENTER:
-        case MotifDnDConstants.TOP_LEVEL_LEAVE:
-            /* Receiver shouldn't rely to these messages. */
-            return false;
-        case MotifDnDConstants.DRAG_MOTION:
-            switch (eventID) {
-            case MouseEvent.MOUSE_ENTERED:
-                response_reason = MotifDnDConstants.DROP_SITE_ENTER;
-                break;
-            case MouseEvent.MOUSE_DRAGGED:
-                response_reason = MotifDnDConstants.DRAG_MOTION;
-                break;
-            case MouseEvent.MOUSE_EXITED:
-                response_reason = MotifDnDConstants.DROP_SITE_LEAVE;
-                break;
+        switdi (rfbson) {
+        dbsf MotifDnDConstbnts.TOP_LEVEL_ENTER:
+        dbsf MotifDnDConstbnts.TOP_LEVEL_LEAVE:
+            /* Rfdfivfr siouldn't rfly to tifsf mfssbgfs. */
+            rfturn fblsf;
+        dbsf MotifDnDConstbnts.DRAG_MOTION:
+            switdi (fvfntID) {
+            dbsf MousfEvfnt.MOUSE_ENTERED:
+                rfsponsf_rfbson = MotifDnDConstbnts.DROP_SITE_ENTER;
+                brfbk;
+            dbsf MousfEvfnt.MOUSE_DRAGGED:
+                rfsponsf_rfbson = MotifDnDConstbnts.DRAG_MOTION;
+                brfbk;
+            dbsf MousfEvfnt.MOUSE_EXITED:
+                rfsponsf_rfbson = MotifDnDConstbnts.DROP_SITE_LEAVE;
+                brfbk;
             }
-            break;
-        case MotifDnDConstants.OPERATION_CHANGED:
-        case MotifDnDConstants.DROP_START:
-            response_reason = reason;
-            break;
-        default:
-            // Unknown reason. Shouldn't get here.
-            assert false;
+            brfbk;
+        dbsf MotifDnDConstbnts.OPERATION_CHANGED:
+        dbsf MotifDnDConstbnts.DROP_START:
+            rfsponsf_rfbson = rfbson;
+            brfbk;
+        dffbult:
+            // Unknown rfbson. Siouldn't gft ifrf.
+            bssfrt fblsf;
         }
 
-        XClientMessageEvent msg = new XClientMessageEvent();
+        XClifntMfssbgfEvfnt msg = nfw XClifntMfssbgfEvfnt();
 
         try {
-            msg.set_type(XConstants.ClientMessage);
-            msg.set_window(MotifDnDConstants.Swapper.getInt(data + 12, eventByteOrder));
-            msg.set_format(8);
-            msg.set_message_type(MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom());
+            msg.sft_typf(XConstbnts.ClifntMfssbgf);
+            msg.sft_window(MotifDnDConstbnts.Swbppfr.gftInt(dbtb + 12, fvfntBytfOrdfr));
+            msg.sft_formbt(8);
+            msg.sft_mfssbgf_typf(MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.gftAtom());
 
-            long responseData = msg.get_data();
+            long rfsponsfDbtb = msg.gft_dbtb();
 
-            unsafe.putByte(responseData, (byte)(response_reason |
-                           MotifDnDConstants.MOTIF_MESSAGE_FROM_RECEIVER));
-            unsafe.putByte(responseData + 1, MotifDnDConstants.getByteOrderByte());
+            unsbff.putBytf(rfsponsfDbtb, (bytf)(rfsponsf_rfbson |
+                           MotifDnDConstbnts.MOTIF_MESSAGE_FROM_RECEIVER));
+            unsbff.putBytf(rfsponsfDbtb + 1, MotifDnDConstbnts.gftBytfOrdfrBytf());
 
-            int response_flags = 0;
+            int rfsponsf_flbgs = 0;
 
-            if (response_reason != MotifDnDConstants.DROP_SITE_LEAVE) {
-                short flags = MotifDnDConstants.Swapper.getShort(data + 2,
-                                                                 eventByteOrder);
-                byte dropSiteStatus = (action == DnDConstants.ACTION_NONE) ?
-                    MotifDnDConstants.MOTIF_INVALID_DROP_SITE :
-                    MotifDnDConstants.MOTIF_VALID_DROP_SITE;
+            if (rfsponsf_rfbson != MotifDnDConstbnts.DROP_SITE_LEAVE) {
+                siort flbgs = MotifDnDConstbnts.Swbppfr.gftSiort(dbtb + 2,
+                                                                 fvfntBytfOrdfr);
+                bytf dropSitfStbtus = (bdtion == DnDConstbnts.ACTION_NONE) ?
+                    MotifDnDConstbnts.MOTIF_INVALID_DROP_SITE :
+                    MotifDnDConstbnts.MOTIF_VALID_DROP_SITE;
 
-                /* Clear action and drop site status bits. */
-                response_flags = flags &
-                    ~MotifDnDConstants.MOTIF_DND_ACTION_MASK &
-                    ~MotifDnDConstants.MOTIF_DND_STATUS_MASK;
-                /* Fill in new action and drop site status. */
-                response_flags |=
-                    MotifDnDConstants.getMotifActionsForJavaActions(action) <<
-                    MotifDnDConstants.MOTIF_DND_ACTION_SHIFT;
-                response_flags |=
-                    dropSiteStatus << MotifDnDConstants.MOTIF_DND_STATUS_SHIFT;
-            } else {
-                response_flags = 0;
+                /* Clfbr bdtion bnd drop sitf stbtus bits. */
+                rfsponsf_flbgs = flbgs &
+                    ~MotifDnDConstbnts.MOTIF_DND_ACTION_MASK &
+                    ~MotifDnDConstbnts.MOTIF_DND_STATUS_MASK;
+                /* Fill in nfw bdtion bnd drop sitf stbtus. */
+                rfsponsf_flbgs |=
+                    MotifDnDConstbnts.gftMotifAdtionsForJbvbAdtions(bdtion) <<
+                    MotifDnDConstbnts.MOTIF_DND_ACTION_SHIFT;
+                rfsponsf_flbgs |=
+                    dropSitfStbtus << MotifDnDConstbnts.MOTIF_DND_STATUS_SHIFT;
+            } flsf {
+                rfsponsf_flbgs = 0;
             }
 
-            unsafe.putShort(responseData + 2, (short)response_flags);
+            unsbff.putSiort(rfsponsfDbtb + 2, (siort)rfsponsf_flbgs);
 
-            /* Write time stamp. */
-            int time = MotifDnDConstants.Swapper.getInt(data + 4, eventByteOrder);
-            unsafe.putInt(responseData + 4, time);
+            /* Writf timf stbmp. */
+            int timf = MotifDnDConstbnts.Swbppfr.gftInt(dbtb + 4, fvfntBytfOrdfr);
+            unsbff.putInt(rfsponsfDbtb + 4, timf);
 
-            /* Write coordinates. */
-            if (response_reason != MotifDnDConstants.DROP_SITE_LEAVE) {
-                short x = MotifDnDConstants.Swapper.getShort(data + 8,
-                                                             eventByteOrder);
-                short y = MotifDnDConstants.Swapper.getShort(data + 10,
-                                                             eventByteOrder);
-                unsafe.putShort(responseData + 8, x); // x
-                unsafe.putShort(responseData + 10, y); // y
-            } else {
-                unsafe.putShort(responseData + 8, (short)0); // x
-                unsafe.putShort(responseData + 10, (short)0); // y
+            /* Writf doordinbtfs. */
+            if (rfsponsf_rfbson != MotifDnDConstbnts.DROP_SITE_LEAVE) {
+                siort x = MotifDnDConstbnts.Swbppfr.gftSiort(dbtb + 8,
+                                                             fvfntBytfOrdfr);
+                siort y = MotifDnDConstbnts.Swbppfr.gftSiort(dbtb + 10,
+                                                             fvfntBytfOrdfr);
+                unsbff.putSiort(rfsponsfDbtb + 8, x); // x
+                unsbff.putSiort(rfsponsfDbtb + 10, y); // y
+            } flsf {
+                unsbff.putSiort(rfsponsfDbtb + 8, (siort)0); // x
+                unsbff.putSiort(rfsponsfDbtb + 10, (siort)0); // y
             }
 
-            XToolkit.awtLock();
+            XToolkit.bwtLodk();
             try {
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(),
-                                       msg.get_window(),
-                                       false, XConstants.NoEventMask,
-                                       msg.pData);
-            } finally {
-                XToolkit.awtUnlock();
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(),
+                                       msg.gft_window(),
+                                       fblsf, XConstbnts.NoEvfntMbsk,
+                                       msg.pDbtb);
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
-        } finally {
-            msg.dispose();
+        } finblly {
+            msg.disposf();
         }
 
-        return true;
+        rfturn truf;
     }
 
-    public Object getData(long ctxt, long format)
-      throws IllegalArgumentException, IOException {
-        XClientMessageEvent xclient = new XClientMessageEvent(ctxt);
+    publid Objfdt gftDbtb(long dtxt, long formbt)
+      tirows IllfgblArgumfntExdfption, IOExdfption {
+        XClifntMfssbgfEvfnt xdlifnt = nfw XClifntMfssbgfEvfnt(dtxt);
 
-        if (xclient.get_message_type() !=
-            MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom()) {
-            throw new IllegalArgumentException();
+        if (xdlifnt.gft_mfssbgf_typf() !=
+            MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.gftAtom()) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        long data = xclient.get_data();
-        byte reason = (byte)(unsafe.getByte(data) &
-            MotifDnDConstants.MOTIF_MESSAGE_REASON_MASK);
-        byte origin = (byte)(unsafe.getByte(data) &
-            MotifDnDConstants.MOTIF_MESSAGE_SENDER_MASK);
-        byte eventByteOrder = unsafe.getByte(data + 1);
+        long dbtb = xdlifnt.gft_dbtb();
+        bytf rfbson = (bytf)(unsbff.gftBytf(dbtb) &
+            MotifDnDConstbnts.MOTIF_MESSAGE_REASON_MASK);
+        bytf origin = (bytf)(unsbff.gftBytf(dbtb) &
+            MotifDnDConstbnts.MOTIF_MESSAGE_SENDER_MASK);
+        bytf fvfntBytfOrdfr = unsbff.gftBytf(dbtb + 1);
 
-        if (origin != MotifDnDConstants.MOTIF_MESSAGE_FROM_INITIATOR) {
-            throw new IOException("Cannot get data: corrupted context");
+        if (origin != MotifDnDConstbnts.MOTIF_MESSAGE_FROM_INITIATOR) {
+            tirow nfw IOExdfption("Cbnnot gft dbtb: dorruptfd dontfxt");
         }
 
-        long selatom = 0;
+        long sflbtom = 0;
 
-        switch (reason) {
-        case MotifDnDConstants.DRAG_MOTION :
-        case MotifDnDConstants.OPERATION_CHANGED :
-            selatom = sourceAtom;
-            break;
-        case MotifDnDConstants.DROP_START :
-            selatom = MotifDnDConstants.Swapper.getInt(data + 12, eventByteOrder);
-            break;
-        default:
-            throw new IOException("Cannot get data: invalid message reason");
+        switdi (rfbson) {
+        dbsf MotifDnDConstbnts.DRAG_MOTION :
+        dbsf MotifDnDConstbnts.OPERATION_CHANGED :
+            sflbtom = sourdfAtom;
+            brfbk;
+        dbsf MotifDnDConstbnts.DROP_START :
+            sflbtom = MotifDnDConstbnts.Swbppfr.gftInt(dbtb + 12, fvfntBytfOrdfr);
+            brfbk;
+        dffbult:
+            tirow nfw IOExdfption("Cbnnot gft dbtb: invblid mfssbgf rfbson");
         }
 
-        if (selatom == 0) {
-            throw new IOException("Cannot get data: drag source property atom unavailable");
+        if (sflbtom == 0) {
+            tirow nfw IOExdfption("Cbnnot gft dbtb: drbg sourdf propfrty btom unbvbilbblf");
         }
 
-        long time_stamp = MotifDnDConstants.Swapper.getInt(data + 4, eventByteOrder) & 0xffffffffL;
-                          // with correction of (32-bit unsigned to 64-bit signed) implicit conversion.
+        long timf_stbmp = MotifDnDConstbnts.Swbppfr.gftInt(dbtb + 4, fvfntBytfOrdfr) & 0xffffffffL;
+                          // witi dorrfdtion of (32-bit unsignfd to 64-bit signfd) implidit donvfrsion.
 
-        XAtom selectionAtom = XAtom.get(selatom);
+        XAtom sflfdtionAtom = XAtom.gft(sflbtom);
 
-        XSelection selection = XSelection.getSelection(selectionAtom);
-        if (selection == null) {
-            selection = new XSelection(selectionAtom);
+        XSflfdtion sflfdtion = XSflfdtion.gftSflfdtion(sflfdtionAtom);
+        if (sflfdtion == null) {
+            sflfdtion = nfw XSflfdtion(sflfdtionAtom);
         }
 
-        return selection.getData(format, time_stamp);
+        rfturn sflfdtion.gftDbtb(formbt, timf_stbmp);
     }
 
-    public boolean sendDropDone(long ctxt, boolean success, int dropAction) {
-        XClientMessageEvent xclient = new XClientMessageEvent(ctxt);
+    publid boolfbn sfndDropDonf(long dtxt, boolfbn suddfss, int dropAdtion) {
+        XClifntMfssbgfEvfnt xdlifnt = nfw XClifntMfssbgfEvfnt(dtxt);
 
-        if (xclient.get_message_type() !=
-            MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom()) {
-            return false;
+        if (xdlifnt.gft_mfssbgf_typf() !=
+            MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.gftAtom()) {
+            rfturn fblsf;
         }
 
-        long data = xclient.get_data();
-        byte reason = (byte)(unsafe.getByte(data) &
-            MotifDnDConstants.MOTIF_MESSAGE_REASON_MASK);
-        byte origin = (byte)(unsafe.getByte(data) &
-            MotifDnDConstants.MOTIF_MESSAGE_SENDER_MASK);
-        byte eventByteOrder = unsafe.getByte(data + 1);
+        long dbtb = xdlifnt.gft_dbtb();
+        bytf rfbson = (bytf)(unsbff.gftBytf(dbtb) &
+            MotifDnDConstbnts.MOTIF_MESSAGE_REASON_MASK);
+        bytf origin = (bytf)(unsbff.gftBytf(dbtb) &
+            MotifDnDConstbnts.MOTIF_MESSAGE_SENDER_MASK);
+        bytf fvfntBytfOrdfr = unsbff.gftBytf(dbtb + 1);
 
-        if (origin != MotifDnDConstants.MOTIF_MESSAGE_FROM_INITIATOR) {
-            return false;
+        if (origin != MotifDnDConstbnts.MOTIF_MESSAGE_FROM_INITIATOR) {
+            rfturn fblsf;
         }
 
-        if (reason != MotifDnDConstants.DROP_START) {
-            return false;
+        if (rfbson != MotifDnDConstbnts.DROP_START) {
+            rfturn fblsf;
         }
 
-        long time_stamp = MotifDnDConstants.Swapper.getInt(data + 4, eventByteOrder) & 0xffffffffL;
-                          // with correction of (32-bit unsigned to 64-bit signed) implicit conversion.
+        long timf_stbmp = MotifDnDConstbnts.Swbppfr.gftInt(dbtb + 4, fvfntBytfOrdfr) & 0xffffffffL;
+                          // witi dorrfdtion of (32-bit unsignfd to 64-bit signfd) implidit donvfrsion.
 
-        long sel_atom = MotifDnDConstants.Swapper.getInt(data + 12, eventByteOrder);
+        long sfl_btom = MotifDnDConstbnts.Swbppfr.gftInt(dbtb + 12, fvfntBytfOrdfr);
 
-        long status_atom = 0;
+        long stbtus_btom = 0;
 
-        if (success) {
-            status_atom = MotifDnDConstants.XA_XmTRANSFER_SUCCESS.getAtom();
-        } else {
-            status_atom = MotifDnDConstants.XA_XmTRANSFER_FAILURE.getAtom();
+        if (suddfss) {
+            stbtus_btom = MotifDnDConstbnts.XA_XmTRANSFER_SUCCESS.gftAtom();
+        } flsf {
+            stbtus_btom = MotifDnDConstbnts.XA_XmTRANSFER_FAILURE.gftAtom();
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            XlibWrapper.XConvertSelection(XToolkit.getDisplay(),
-                                          sel_atom,
-                                          status_atom,
-                                          MotifDnDConstants.XA_MOTIF_ATOM_0.getAtom(),
-                                          XWindow.getXAWTRootWindow().getWindow(),
-                                          time_stamp);
+            XlibWrbppfr.XConvfrtSflfdtion(XToolkit.gftDisplby(),
+                                          sfl_btom,
+                                          stbtus_btom,
+                                          MotifDnDConstbnts.XA_MOTIF_ATOM_0.gftAtom(),
+                                          XWindow.gftXAWTRootWindow().gftWindow(),
+                                          timf_stbmp);
 
             /*
-             * Flush the buffer to guarantee that the drop completion event is sent
-             * to the source before the method returns.
+             * Flusi tif bufffr to gubrbntff tibt tif drop domplftion fvfnt is sfnt
+             * to tif sourdf bfforf tif mftiod rfturns.
              */
-            XlibWrapper.XFlush(XToolkit.getDisplay());
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbppfr.XFlusi(XToolkit.gftDisplby());
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
 
-        /* Trick to prevent cleanup() from posting dragExit */
-        targetXWindow = null;
+        /* Tridk to prfvfnt dlfbnup() from posting drbgExit */
+        tbrgftXWindow = null;
 
-        /* Cannot do cleanup before the drop finishes as we may need
-           source protocol version to send drop finished message. */
-        cleanup();
-        return true;
+        /* Cbnnot do dlfbnup bfforf tif drop finisifs bs wf mby nffd
+           sourdf protodol vfrsion to sfnd drop finisifd mfssbgf. */
+        dlfbnup();
+        rfturn truf;
     }
 
-    public final long getSourceWindow() {
-        return sourceWindow;
+    publid finbl long gftSourdfWindow() {
+        rfturn sourdfWindow;
     }
 
     /**
-     * Reset the state of the object.
+     * Rfsft tif stbtf of tif objfdt.
      */
-    public void cleanup() {
-        // Clear the reference to this protocol.
-        XDropTargetEventProcessor.reset();
+    publid void dlfbnup() {
+        // Clfbr tif rfffrfndf to tiis protodol.
+        XDropTbrgftEvfntProdfssor.rfsft();
 
-        if (targetXWindow != null) {
-            notifyProtocolListener(targetXWindow, 0, 0,
-                                   DnDConstants.ACTION_NONE, sourceActions,
-                                   null, MouseEvent.MOUSE_EXITED);
+        if (tbrgftXWindow != null) {
+            notifyProtodolListfnfr(tbrgftXWindow, 0, 0,
+                                   DnDConstbnts.ACTION_NONE, sourdfAdtions,
+                                   null, MousfEvfnt.MOUSE_EXITED);
         }
 
-        if (sourceWindow != 0) {
-            XToolkit.awtLock();
+        if (sourdfWindow != 0) {
+            XToolkit.bwtLodk();
             try {
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                XlibWrapper.XSelectInput(XToolkit.getDisplay(), sourceWindow,
-                                         sourceWindowMask);
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
-            } finally {
-                XToolkit.awtUnlock();
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), sourdfWindow,
+                                         sourdfWindowMbsk);
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
         }
 
-        sourceWindow = 0;
-        sourceWindowMask = 0;
-        sourceProtocolVersion = 0;
-        sourceActions = DnDConstants.ACTION_NONE;
-        sourceFormats = null;
-        sourceAtom = 0;
-        userAction = DnDConstants.ACTION_NONE;
-        sourceX = 0;
-        sourceY = 0;
-        targetXWindow = null;
-        topLevelLeavePostponed = false;
+        sourdfWindow = 0;
+        sourdfWindowMbsk = 0;
+        sourdfProtodolVfrsion = 0;
+        sourdfAdtions = DnDConstbnts.ACTION_NONE;
+        sourdfFormbts = null;
+        sourdfAtom = 0;
+        usfrAdtion = DnDConstbnts.ACTION_NONE;
+        sourdfX = 0;
+        sourdfY = 0;
+        tbrgftXWindow = null;
+        topLfvflLfbvfPostponfd = fblsf;
     }
 
-    public boolean isDragOverComponent() {
-        return targetXWindow != null;
+    publid boolfbn isDrbgOvfrComponfnt() {
+        rfturn tbrgftXWindow != null;
     }
 
-    private void notifyProtocolListener(XWindow xwindow, int x, int y,
-                                        int dropAction, int actions,
-                                        XClientMessageEvent xclient,
-                                        int eventID) {
-        long nativeCtxt = 0;
+    privbtf void notifyProtodolListfnfr(XWindow xwindow, int x, int y,
+                                        int dropAdtion, int bdtions,
+                                        XClifntMfssbgfEvfnt xdlifnt,
+                                        int fvfntID) {
+        long nbtivfCtxt = 0;
 
-        // Make a copy of the passed XClientMessageEvent structure, since
-        // the original structure can be freed before this
-        // SunDropTargetEvent is dispatched.
-        if (xclient != null) {
-            int size = XClientMessageEvent.getSize();
+        // Mbkf b dopy of tif pbssfd XClifntMfssbgfEvfnt strudturf, sindf
+        // tif originbl strudturf dbn bf frffd bfforf tiis
+        // SunDropTbrgftEvfnt is dispbtdifd.
+        if (xdlifnt != null) {
+            int sizf = XClifntMfssbgfEvfnt.gftSizf();
 
-            nativeCtxt = unsafe.allocateMemory(size + 4 * Native.getLongSize());
+            nbtivfCtxt = unsbff.bllodbtfMfmory(sizf + 4 * Nbtivf.gftLongSizf());
 
-            unsafe.copyMemory(xclient.pData, nativeCtxt, size);
+            unsbff.dopyMfmory(xdlifnt.pDbtb, nbtivfCtxt, sizf);
         }
 
-        getProtocolListener().handleDropTargetNotification(xwindow, x, y,
-                                                           dropAction,
-                                                           actions,
-                                                           sourceFormats,
-                                                           nativeCtxt,
-                                                           eventID);
+        gftProtodolListfnfr().ibndlfDropTbrgftNotifidbtion(xwindow, x, y,
+                                                           dropAdtion,
+                                                           bdtions,
+                                                           sourdfFormbts,
+                                                           nbtivfCtxt,
+                                                           fvfntID);
     }
 }

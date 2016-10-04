@@ -1,0 +1,68 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.lbng.bnnotbtion.*;
+
+/**
+ * An informbtivf bnnotbtion typf usfd to indidbtf thbt bn intfrfbdf
+ * typf dfdlbrbtion is intfndfd to bf b <i>fundtionbl intfrfbdf</i> bs
+ * dffinfd by thf Jbvb Lbngubgf Spfdifidbtion.
+ *
+ * Condfptublly, b fundtionbl intfrfbdf hbs fxbdtly onf bbstrbdt
+ * mfthod.  Sindf {@linkplbin jbvb.lbng.rfflfdt.Mfthod#isDffbult()
+ * dffbult mfthods} hbvf bn implfmfntbtion, thfy brf not bbstrbdt.  If
+ * bn intfrfbdf dfdlbrfs bn bbstrbdt mfthod ovfrriding onf of thf
+ * publid mfthods of {@dodf jbvb.lbng.Objfdt}, thbt blso dofs
+ * <fm>not</fm> dount towbrd thf intfrfbdf's bbstrbdt mfthod dount
+ * sindf bny implfmfntbtion of thf intfrfbdf will hbvf bn
+ * implfmfntbtion from {@dodf jbvb.lbng.Objfdt} or flsfwhfrf.
+ *
+ * <p>Notf thbt instbndfs of fundtionbl intfrfbdfs dbn bf drfbtfd with
+ * lbmbdb fxprfssions, mfthod rfffrfndfs, or donstrudtor rfffrfndfs.
+ *
+ * <p>If b typf is bnnotbtfd with this bnnotbtion typf, dompilfrs brf
+ * rfquirfd to gfnfrbtf bn frror mfssbgf unlfss:
+ *
+ * <ul>
+ * <li> Thf typf is bn intfrfbdf typf bnd not bn bnnotbtion typf, fnum, or dlbss.
+ * <li> Thf bnnotbtfd typf sbtisfifs thf rfquirfmfnts of b fundtionbl intfrfbdf.
+ * </ul>
+ *
+ * <p>Howfvfr, thf dompilfr will trfbt bny intfrfbdf mffting thf
+ * dffinition of b fundtionbl intfrfbdf bs b fundtionbl intfrfbdf
+ * rfgbrdlfss of whfthfr or not b {@dodf FundtionblIntfrfbdf}
+ * bnnotbtion is prfsfnt on thf intfrfbdf dfdlbrbtion.
+ *
+ * @jls 4.3.2. Thf Clbss Objfdt
+ * @jls 9.8 Fundtionbl Intfrfbdfs
+ * @jls 9.4.3 Intfrfbdf Mfthod Body
+ * @sindf 1.8
+ */
+@Dodumfntfd
+@Rftfntion(RftfntionPolidy.RUNTIME)
+@Tbrgft(ElfmfntTypf.TYPE)
+publid @intfrfbdf FundtionblIntfrfbdf {}

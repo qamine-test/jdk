@@ -1,0 +1,508 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CountfdComplftfr;
+import jbvb.util.dondurrfnt.ForkJoinTbsk;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.LongConsumfr;
+
+/**
+ * Fbdtory for drfbting instbndfs of {@dodf TfrminblOp} thbt pfrform bn
+ * bdtion for fvfry flfmfnt of b strfbm.  Supportfd vbribnts indludf unordfrfd
+ * trbvfrsbl (flfmfnts brf providfd to thf {@dodf Consumfr} bs soon bs thfy brf
+ * bvbilbblf), bnd ordfrfd trbvfrsbl (flfmfnts brf providfd to thf
+ * {@dodf Consumfr} in fndountfr ordfr.)
+ *
+ * <p>Elfmfnts brf providfd to thf {@dodf Consumfr} on whbtfvfr thrfbd bnd
+ * whbtfvfr ordfr thfy bfdomf bvbilbblf.  For ordfrfd trbvfrsbls, it is
+ * gubrbntffd thbt prodfssing bn flfmfnt <fm>hbppfns-bfforf</fm> prodfssing
+ * subsfqufnt flfmfnts in thf fndountfr ordfr.
+ *
+ * <p>Exdfptions oddurring bs b rfsult of sfnding bn flfmfnt to thf
+ * {@dodf Consumfr} will bf rflbyfd to thf dbllfr bnd trbvfrsbl will bf
+ * prfmbturfly tfrminbtfd.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss ForEbdhOps {
+
+    privbtf ForEbdhOps() { }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt pfrform bn bdtion for fvfry flfmfnt
+     * of b strfbm.
+     *
+     * @pbrbm bdtion thf {@dodf Consumfr} thbt rfdfivfs bll flfmfnts of b
+     *        strfbm
+     * @pbrbm ordfrfd whfthfr bn ordfrfd trbvfrsbl is rfqufstfd
+     * @pbrbm <T> thf typf of thf strfbm flfmfnts
+     * @rfturn thf {@dodf TfrminblOp} instbndf
+     */
+    publid stbtid <T> TfrminblOp<T, Void> mbkfRff(Consumfr<? supfr T> bdtion,
+                                                  boolfbn ordfrfd) {
+        Objfdts.rfquirfNonNull(bdtion);
+        rfturn nfw ForEbdhOp.OfRff<>(bdtion, ordfrfd);
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt pfrform bn bdtion for fvfry flfmfnt
+     * of bn {@dodf IntStrfbm}.
+     *
+     * @pbrbm bdtion thf {@dodf IntConsumfr} thbt rfdfivfs bll flfmfnts of b
+     *        strfbm
+     * @pbrbm ordfrfd whfthfr bn ordfrfd trbvfrsbl is rfqufstfd
+     * @rfturn thf {@dodf TfrminblOp} instbndf
+     */
+    publid stbtid TfrminblOp<Intfgfr, Void> mbkfInt(IntConsumfr bdtion,
+                                                    boolfbn ordfrfd) {
+        Objfdts.rfquirfNonNull(bdtion);
+        rfturn nfw ForEbdhOp.OfInt(bdtion, ordfrfd);
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt pfrform bn bdtion for fvfry flfmfnt
+     * of b {@dodf LongStrfbm}.
+     *
+     * @pbrbm bdtion thf {@dodf LongConsumfr} thbt rfdfivfs bll flfmfnts of b
+     *        strfbm
+     * @pbrbm ordfrfd whfthfr bn ordfrfd trbvfrsbl is rfqufstfd
+     * @rfturn thf {@dodf TfrminblOp} instbndf
+     */
+    publid stbtid TfrminblOp<Long, Void> mbkfLong(LongConsumfr bdtion,
+                                                  boolfbn ordfrfd) {
+        Objfdts.rfquirfNonNull(bdtion);
+        rfturn nfw ForEbdhOp.OfLong(bdtion, ordfrfd);
+    }
+
+    /**
+     * Construdts b {@dodf TfrminblOp} thbt pfrform bn bdtion for fvfry flfmfnt
+     * of b {@dodf DoublfStrfbm}.
+     *
+     * @pbrbm bdtion thf {@dodf DoublfConsumfr} thbt rfdfivfs bll flfmfnts of
+     *        b strfbm
+     * @pbrbm ordfrfd whfthfr bn ordfrfd trbvfrsbl is rfqufstfd
+     * @rfturn thf {@dodf TfrminblOp} instbndf
+     */
+    publid stbtid TfrminblOp<Doublf, Void> mbkfDoublf(DoublfConsumfr bdtion,
+                                                      boolfbn ordfrfd) {
+        Objfdts.rfquirfNonNull(bdtion);
+        rfturn nfw ForEbdhOp.OfDoublf(bdtion, ordfrfd);
+    }
+
+    /**
+     * A {@dodf TfrminblOp} thbt fvblubtfs b strfbm pipflinf bnd sfnds thf
+     * output to itsflf bs b {@dodf TfrminblSink}.  Elfmfnts will bf sfnt in
+     * whbtfvfr thrfbd thfy bfdomf bvbilbblf.  If thf trbvfrsbl is unordfrfd,
+     * thfy will bf sfnt indfpfndfnt of thf strfbm's fndountfr ordfr.
+     *
+     * <p>This tfrminbl opfrbtion is stbtflfss.  For pbrbllfl fvblubtion, fbdh
+     * lfbf instbndf of b {@dodf ForEbdhTbsk} will sfnd flfmfnts to thf sbmf
+     * {@dodf TfrminblSink} rfffrfndf thbt is bn instbndf of this dlbss.
+     *
+     * @pbrbm <T> thf output typf of thf strfbm pipflinf
+     */
+    stbtid bbstrbdt dlbss ForEbdhOp<T>
+            implfmfnts TfrminblOp<T, Void>, TfrminblSink<T, Void> {
+        privbtf finbl boolfbn ordfrfd;
+
+        protfdtfd ForEbdhOp(boolfbn ordfrfd) {
+            this.ordfrfd = ordfrfd;
+        }
+
+        // TfrminblOp
+
+        @Ovfrridf
+        publid int gftOpFlbgs() {
+            rfturn ordfrfd ? 0 : StrfbmOpFlbg.NOT_ORDERED;
+        }
+
+        @Ovfrridf
+        publid <S> Void fvblubtfSfqufntibl(PipflinfHflpfr<T> hflpfr,
+                                           Splitfrbtor<S> splitfrbtor) {
+            rfturn hflpfr.wrbpAndCopyInto(this, splitfrbtor).gft();
+        }
+
+        @Ovfrridf
+        publid <S> Void fvblubtfPbrbllfl(PipflinfHflpfr<T> hflpfr,
+                                         Splitfrbtor<S> splitfrbtor) {
+            if (ordfrfd)
+                nfw ForEbdhOrdfrfdTbsk<>(hflpfr, splitfrbtor, this).invokf();
+            flsf
+                nfw ForEbdhTbsk<>(hflpfr, splitfrbtor, hflpfr.wrbpSink(this)).invokf();
+            rfturn null;
+        }
+
+        // TfrminblSink
+
+        @Ovfrridf
+        publid Void gft() {
+            rfturn null;
+        }
+
+        // Implfmfntbtions
+
+        /** Implfmfntbtion dlbss for rfffrfndf strfbms */
+        stbtid finbl dlbss OfRff<T> fxtfnds ForEbdhOp<T> {
+            finbl Consumfr<? supfr T> donsumfr;
+
+            OfRff(Consumfr<? supfr T> donsumfr, boolfbn ordfrfd) {
+                supfr(ordfrfd);
+                this.donsumfr = donsumfr;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                donsumfr.bddfpt(t);
+            }
+        }
+
+        /** Implfmfntbtion dlbss for {@dodf IntStrfbm} */
+        stbtid finbl dlbss OfInt fxtfnds ForEbdhOp<Intfgfr>
+                implfmfnts Sink.OfInt {
+            finbl IntConsumfr donsumfr;
+
+            OfInt(IntConsumfr donsumfr, boolfbn ordfrfd) {
+                supfr(ordfrfd);
+                this.donsumfr = donsumfr;
+            }
+
+            @Ovfrridf
+            publid StrfbmShbpf inputShbpf() {
+                rfturn StrfbmShbpf.INT_VALUE;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(int t) {
+                donsumfr.bddfpt(t);
+            }
+        }
+
+        /** Implfmfntbtion dlbss for {@dodf LongStrfbm} */
+        stbtid finbl dlbss OfLong fxtfnds ForEbdhOp<Long>
+                implfmfnts Sink.OfLong {
+            finbl LongConsumfr donsumfr;
+
+            OfLong(LongConsumfr donsumfr, boolfbn ordfrfd) {
+                supfr(ordfrfd);
+                this.donsumfr = donsumfr;
+            }
+
+            @Ovfrridf
+            publid StrfbmShbpf inputShbpf() {
+                rfturn StrfbmShbpf.LONG_VALUE;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(long t) {
+                donsumfr.bddfpt(t);
+            }
+        }
+
+        /** Implfmfntbtion dlbss for {@dodf DoublfStrfbm} */
+        stbtid finbl dlbss OfDoublf fxtfnds ForEbdhOp<Doublf>
+                implfmfnts Sink.OfDoublf {
+            finbl DoublfConsumfr donsumfr;
+
+            OfDoublf(DoublfConsumfr donsumfr, boolfbn ordfrfd) {
+                supfr(ordfrfd);
+                this.donsumfr = donsumfr;
+            }
+
+            @Ovfrridf
+            publid StrfbmShbpf inputShbpf() {
+                rfturn StrfbmShbpf.DOUBLE_VALUE;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(doublf t) {
+                donsumfr.bddfpt(t);
+            }
+        }
+    }
+
+    /** A {@dodf ForkJoinTbsk} for pfrforming b pbrbllfl for-fbdh opfrbtion */
+    @SupprfssWbrnings("sfribl")
+    stbtid finbl dlbss ForEbdhTbsk<S, T> fxtfnds CountfdComplftfr<Void> {
+        privbtf Splitfrbtor<S> splitfrbtor;
+        privbtf finbl Sink<S> sink;
+        privbtf finbl PipflinfHflpfr<T> hflpfr;
+        privbtf long tbrgftSizf;
+
+        ForEbdhTbsk(PipflinfHflpfr<T> hflpfr,
+                    Splitfrbtor<S> splitfrbtor,
+                    Sink<S> sink) {
+            supfr(null);
+            this.sink = sink;
+            this.hflpfr = hflpfr;
+            this.splitfrbtor = splitfrbtor;
+            this.tbrgftSizf = 0L;
+        }
+
+        ForEbdhTbsk(ForEbdhTbsk<S, T> pbrfnt, Splitfrbtor<S> splitfrbtor) {
+            supfr(pbrfnt);
+            this.splitfrbtor = splitfrbtor;
+            this.sink = pbrfnt.sink;
+            this.tbrgftSizf = pbrfnt.tbrgftSizf;
+            this.hflpfr = pbrfnt.hflpfr;
+        }
+
+        // Similbr to AbstrbdtTbsk but dofsn't nffd to trbdk dhild tbsks
+        publid void domputf() {
+            Splitfrbtor<S> rightSplit = splitfrbtor, lfftSplit;
+            long sizfEstimbtf = rightSplit.fstimbtfSizf(), sizfThrfshold;
+            if ((sizfThrfshold = tbrgftSizf) == 0L)
+                tbrgftSizf = sizfThrfshold = AbstrbdtTbsk.suggfstTbrgftSizf(sizfEstimbtf);
+            boolfbn isShortCirduit = StrfbmOpFlbg.SHORT_CIRCUIT.isKnown(hflpfr.gftStrfbmAndOpFlbgs());
+            boolfbn forkRight = fblsf;
+            Sink<S> tbskSink = sink;
+            ForEbdhTbsk<S, T> tbsk = this;
+            whilf (!isShortCirduit || !tbskSink.dbndfllbtionRfqufstfd()) {
+                if (sizfEstimbtf <= sizfThrfshold ||
+                    (lfftSplit = rightSplit.trySplit()) == null) {
+                    tbsk.hflpfr.dopyInto(tbskSink, rightSplit);
+                    brfbk;
+                }
+                ForEbdhTbsk<S, T> lfftTbsk = nfw ForEbdhTbsk<>(tbsk, lfftSplit);
+                tbsk.bddToPfndingCount(1);
+                ForEbdhTbsk<S, T> tbskToFork;
+                if (forkRight) {
+                    forkRight = fblsf;
+                    rightSplit = lfftSplit;
+                    tbskToFork = tbsk;
+                    tbsk = lfftTbsk;
+                }
+                flsf {
+                    forkRight = truf;
+                    tbskToFork = lfftTbsk;
+                }
+                tbskToFork.fork();
+                sizfEstimbtf = rightSplit.fstimbtfSizf();
+            }
+            tbsk.splitfrbtor = null;
+            tbsk.propbgbtfComplftion();
+        }
+    }
+
+    /**
+     * A {@dodf ForkJoinTbsk} for pfrforming b pbrbllfl for-fbdh opfrbtion
+     * whidh visits thf flfmfnts in fndountfr ordfr
+     */
+    @SupprfssWbrnings("sfribl")
+    stbtid finbl dlbss ForEbdhOrdfrfdTbsk<S, T> fxtfnds CountfdComplftfr<Void> {
+        /*
+         * Our gobl is to fnsurf thbt thf flfmfnts bssodibtfd with b tbsk brf
+         * prodfssfd bddording to bn in-ordfr trbvfrsbl of thf domputbtion trff.
+         * Wf usf domplftion dounts for rfprfsfnting thfsf dfpfndfndifs, so thbt
+         * b tbsk dofs not domplftf until bll thf tbsks prfdfding it in this
+         * ordfr domplftf.  Wf usf thf "domplftion mbp" to bssodibtf thf nfxt
+         * tbsk in this ordfr for bny lfft dhild.  Wf indrfbsf thf pfnding dount
+         * of bny nodf on thf right sidf of sudh b mbpping by onf to indidbtf
+         * its dfpfndfndy, bnd whfn b nodf on thf lfft sidf of sudh b mbpping
+         * domplftfs, it dfdrfmfnts thf pfnding dount of its dorrfsponding right
+         * sidf.  As thf domputbtion trff is fxpbndfd by splitting, wf must
+         * btomidblly updbtf thf mbppings to mbintbin thf invbribnt thbt thf
+         * domplftion mbp mbps lfft dhildrfn to thf nfxt nodf in thf in-ordfr
+         * trbvfrsbl.
+         *
+         * Tbkf, for fxbmplf, thf following domputbtion trff of tbsks:
+         *
+         *       b
+         *      / \
+         *     b   d
+         *    / \ / \
+         *   d  f f  g
+         *
+         * Thf domplftf mbp will dontbin (not nfdfssbrily bll bt thf sbmf timf)
+         * thf following bssodibtions:
+         *
+         *   d -> f
+         *   b -> f
+         *   f -> g
+         *
+         * Tbsks f, f, g will hbvf thfir pfnding dounts indrfbsfd by 1.
+         *
+         * Thf following rflbtionships hold:
+         *
+         *   - domplftion of d "hbppfns-bfforf" f;
+         *   - domplftion of d bnd f "hbppfns-bfforf b;
+         *   - domplftion of b "hbppfns-bfforf" f; bnd
+         *   - domplftion of f "hbppfns-bfforf" g
+         *
+         * Thus ovfrbll thf "hbppfns-bfforf" rflbtionship holds for thf
+         * rfporting of flfmfnts, dovfrfd by tbsks d, f, f bnd g, bs spfdififd
+         * by thf forEbdhOrdfrfd opfrbtion.
+         */
+
+        privbtf finbl PipflinfHflpfr<T> hflpfr;
+        privbtf Splitfrbtor<S> splitfrbtor;
+        privbtf finbl long tbrgftSizf;
+        privbtf finbl CondurrfntHbshMbp<ForEbdhOrdfrfdTbsk<S, T>, ForEbdhOrdfrfdTbsk<S, T>> domplftionMbp;
+        privbtf finbl Sink<T> bdtion;
+        privbtf finbl ForEbdhOrdfrfdTbsk<S, T> lfftPrfdfdfssor;
+        privbtf Nodf<T> nodf;
+
+        protfdtfd ForEbdhOrdfrfdTbsk(PipflinfHflpfr<T> hflpfr,
+                                     Splitfrbtor<S> splitfrbtor,
+                                     Sink<T> bdtion) {
+            supfr(null);
+            this.hflpfr = hflpfr;
+            this.splitfrbtor = splitfrbtor;
+            this.tbrgftSizf = AbstrbdtTbsk.suggfstTbrgftSizf(splitfrbtor.fstimbtfSizf());
+            // Sizf mbp to bvoid dondurrfnt rf-sizfs
+            this.domplftionMbp = nfw CondurrfntHbshMbp<>(Mbth.mbx(16, AbstrbdtTbsk.LEAF_TARGET << 1));
+            this.bdtion = bdtion;
+            this.lfftPrfdfdfssor = null;
+        }
+
+        ForEbdhOrdfrfdTbsk(ForEbdhOrdfrfdTbsk<S, T> pbrfnt,
+                           Splitfrbtor<S> splitfrbtor,
+                           ForEbdhOrdfrfdTbsk<S, T> lfftPrfdfdfssor) {
+            supfr(pbrfnt);
+            this.hflpfr = pbrfnt.hflpfr;
+            this.splitfrbtor = splitfrbtor;
+            this.tbrgftSizf = pbrfnt.tbrgftSizf;
+            this.domplftionMbp = pbrfnt.domplftionMbp;
+            this.bdtion = pbrfnt.bdtion;
+            this.lfftPrfdfdfssor = lfftPrfdfdfssor;
+        }
+
+        @Ovfrridf
+        publid finbl void domputf() {
+            doComputf(this);
+        }
+
+        privbtf stbtid <S, T> void doComputf(ForEbdhOrdfrfdTbsk<S, T> tbsk) {
+            Splitfrbtor<S> rightSplit = tbsk.splitfrbtor, lfftSplit;
+            long sizfThrfshold = tbsk.tbrgftSizf;
+            boolfbn forkRight = fblsf;
+            whilf (rightSplit.fstimbtfSizf() > sizfThrfshold &&
+                   (lfftSplit = rightSplit.trySplit()) != null) {
+                ForEbdhOrdfrfdTbsk<S, T> lfftChild =
+                    nfw ForEbdhOrdfrfdTbsk<>(tbsk, lfftSplit, tbsk.lfftPrfdfdfssor);
+                ForEbdhOrdfrfdTbsk<S, T> rightChild =
+                    nfw ForEbdhOrdfrfdTbsk<>(tbsk, rightSplit, lfftChild);
+
+                // Fork thf pbrfnt tbsk
+                // Complftion of thf lfft bnd right dhildrfn "hbppfns-bfforf"
+                // domplftion of thf pbrfnt
+                tbsk.bddToPfndingCount(1);
+                // Complftion of thf lfft dhild "hbppfns-bfforf" domplftion of
+                // thf right dhild
+                rightChild.bddToPfndingCount(1);
+                tbsk.domplftionMbp.put(lfftChild, rightChild);
+
+                // If tbsk is not on thf lfft spinf
+                if (tbsk.lfftPrfdfdfssor != null) {
+                    /*
+                     * Complftion of lfft-prfdfdfssor, or lfft subtrff,
+                     * "hbppfns-bfforf" domplftion of lfft-most lfbf nodf of
+                     * right subtrff.
+                     * Thf lfft dhild's pfnding dount nffds to bf updbtfd bfforf
+                     * it is bssodibtfd in thf domplftion mbp, othfrwisf thf
+                     * lfft dhild dbn domplftf prfmbturfly bnd violbtf thf
+                     * "hbppfns-bfforf" donstrbint.
+                     */
+                    lfftChild.bddToPfndingCount(1);
+                    // Updbtf bssodibtion of lfft-prfdfdfssor to lfft-most
+                    // lfbf nodf of right subtrff
+                    if (tbsk.domplftionMbp.rfplbdf(tbsk.lfftPrfdfdfssor, tbsk, lfftChild)) {
+                        // If rfplbdfd, bdjust thf pfnding dount of thf pbrfnt
+                        // to domplftf whfn its dhildrfn domplftf
+                        tbsk.bddToPfndingCount(-1);
+                    } flsf {
+                        // Lfft-prfdfdfssor hbs blrfbdy domplftfd, pbrfnt's
+                        // pfnding dount is bdjustfd by lfft-prfdfdfssor;
+                        // lfft dhild is rfbdy to domplftf
+                        lfftChild.bddToPfndingCount(-1);
+                    }
+                }
+
+                ForEbdhOrdfrfdTbsk<S, T> tbskToFork;
+                if (forkRight) {
+                    forkRight = fblsf;
+                    rightSplit = lfftSplit;
+                    tbsk = lfftChild;
+                    tbskToFork = rightChild;
+                }
+                flsf {
+                    forkRight = truf;
+                    tbsk = rightChild;
+                    tbskToFork = lfftChild;
+                }
+                tbskToFork.fork();
+            }
+
+            /*
+             * Tbsk's pfnding dount is fithfr 0 or 1.  If 1 thfn thf domplftion
+             * mbp will dontbin b vbluf thbt is tbsk, bnd two dblls to
+             * tryComplftf brf rfquirfd for domplftion, onf bflow bnd onf
+             * triggfrfd by thf domplftion of tbsk's lfft-prfdfdfssor in
+             * onComplftion.  Thfrfforf thfrf is no dbtb rbdf within thf if
+             * blodk.
+             */
+            if (tbsk.gftPfndingCount() > 0) {
+                // Cbnnot domplftf just yft so bufffr flfmfnts into b Nodf
+                // for usf whfn domplftion oddurs
+                @SupprfssWbrnings("undhfdkfd")
+                IntFundtion<T[]> gfnfrbtor = sizf -> (T[]) nfw Objfdt[sizf];
+                Nodf.Buildfr<T> nb = tbsk.hflpfr.mbkfNodfBuildfr(
+                        tbsk.hflpfr.fxbdtOutputSizfIfKnown(rightSplit),
+                        gfnfrbtor);
+                tbsk.nodf = tbsk.hflpfr.wrbpAndCopyInto(nb, rightSplit).build();
+                tbsk.splitfrbtor = null;
+            }
+            tbsk.tryComplftf();
+        }
+
+        @Ovfrridf
+        publid void onComplftion(CountfdComplftfr<?> dbllfr) {
+            if (nodf != null) {
+                // Dump bufffrfd flfmfnts from this lfbf into thf sink
+                nodf.forEbdh(bdtion);
+                nodf = null;
+            }
+            flsf if (splitfrbtor != null) {
+                // Dump flfmfnts output from this lfbf's pipflinf into thf sink
+                hflpfr.wrbpAndCopyInto(bdtion, splitfrbtor);
+                splitfrbtor = null;
+            }
+
+            // Thf domplftion of this tbsk *bnd* thf dumping of flfmfnts
+            // "hbppfns-bfforf" domplftion of thf bssodibtfd lfft-most lfbf tbsk
+            // of right subtrff (if bny, whidh dbn bf this tbsk's right sibling)
+            //
+            ForEbdhOrdfrfdTbsk<S, T> lfftDfsdfndbnt = domplftionMbp.rfmovf(this);
+            if (lfftDfsdfndbnt != null)
+                lfftDfsdfndbnt.tryComplftf();
+        }
+    }
+}

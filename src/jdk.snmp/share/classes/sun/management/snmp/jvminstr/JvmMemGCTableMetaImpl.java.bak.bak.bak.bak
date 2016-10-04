@@ -1,0 +1,362 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.TrffMbp;
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+// jdmk imports
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdObjfdtSfrvfr;
+
+import jbvb.lbng.mbnbgfmfnt.MfmoryMbnbgfrMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmGCTbblfMftb;
+import sun.mbnbgfmfnt.snmp.util.SnmpCbdhfdDbtb;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfCbdhf;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfHbndlfr;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
+
+/**
+ * Thf dlbss is usfd for implfmfnting thf "JvmMfmGCTbblf" tbblf.
+ */
+publid dlbss JvmMfmGCTbblfMftbImpl fxtfnds  JvmMfmGCTbblfMftb {
+
+    stbtid finbl long sfriblVfrsionUID = 8250461197108867607L;
+
+    /**
+     * This dlbss bdts bs b filtfr ovfr thf SnmpTbblfHbndlfr
+     * usfd for thf JvmMfmoryMbnbgfrTbblf. It filtfrs out
+     * (skip) bll MfmoryMbnbgfrMXBfbn thbt brf not instbndfs of
+     * GbrbbgfCollfdtorMXBfbn so thbt only Gbrbbgf Collfdtors brf
+     * sffn. This is b bfttfr solution thbn rflying on
+     * MbnbgfmfntFbdtory.gftGbrbbgfCollfdtorMXBfbns() bfdbusf it mbkfs it
+     * possiblf to gubrbntff thf donsistfndy bftwfn thf MfmoryMbnbgfr tbblf
+     * bnd thf GCTbblf sindf both will bf shbring thf sbmf dbdhf.
+     **/
+    protfdtfd stbtid dlbss GCTbblfFiltfr {
+
+        /**
+         * Rfturns thf indfx thbt immfdibtfly follows thf givfn
+         * <vbr>indfx</vbr>. Thf rfturnfd indfx is stridtly grfbtfr
+         * thbn thf givfn <vbr>indfx</vbr>, bnd is dontbinfd in thf tbblf.
+         * <br>If thf givfn <vbr>indfx</vbr> is null, rfturns thf first
+         * indfx in thf tbblf.
+         * <br>If thfrf brf no indfx bftfr thf givfn <vbr>indfx</vbr>,
+         * rfturns null.
+         * This mfthod is bn optimizbtion for thf dbsf whfrf thf
+         * SnmpTbblfHbndlfr is in fbdt bn instbndf of SnmpCbdhfdDbtb.
+         **/
+        publid SnmpOid gftNfxt(SnmpCbdhfdDbtb dbtbs, SnmpOid indfx) {
+
+            finbl boolfbn dbg = log.isDfbugOn();
+
+            // Wf'rf going to loop until wf find bn instbndf of
+            // GbrbbgfCollfdtorMXBfbn. First wf bttfmpt to find
+            // thf nfxt flfmfnt whosf OID follows thf givfn indfx.
+            // If `indfx' is null, thf insfrtion point is -1
+            // (thf nfxt is 0 = -insfrtion - 1)
+            //
+            finbl int insfrtion = (indfx==null)?-1:dbtbs.find(indfx);
+            if (dbg) log.dfbug("GCTbblfFiltfr","oid="+indfx+
+                               " bt insfrtion="+insfrtion);
+
+            int nfxt;
+            if (insfrtion > -1) nfxt = insfrtion+1;
+            flsf nfxt = -insfrtion -1;
+
+            // Now `nfxt' points to thf flfmfnt thbt imfdibtfly
+            // follows thf givfn `indfx'. Wf'rf going to loop
+            // through thf tbblf, stbrting bt `nfxt' (indludfd),
+            // bnd rfturn thf first flfmfnt whidh is bn instbndf
+            // of GbrbbgfCollfdtorMXBfbn.
+            //
+            for (;nfxt<dbtbs.indfxfs.lfngth;nfxt++) {
+                if (dbg) log.dfbug("GCTbblfFiltfr","nfxt="+nfxt);
+                finbl Objfdt vbluf = dbtbs.dbtbs[nfxt];
+                if (dbg) log.dfbug("GCTbblfFiltfr","vbluf["+nfxt+"]=" +
+                      ((MfmoryMbnbgfrMXBfbn)vbluf).gftNbmf());
+                if (vbluf instbndfof GbrbbgfCollfdtorMXBfbn) {
+                    // Thbt's thf nfxt: rfturn it.
+                    if (dbg) log.dfbug("GCTbblfFiltfr",
+                          ((MfmoryMbnbgfrMXBfbn)vbluf).gftNbmf() +
+                          " is b  GbrbbgfCollfdtorMXBfbn.");
+                    rfturn dbtbs.indfxfs[nfxt];
+                }
+                if (dbg) log.dfbug("GCTbblfFiltfr",
+                      ((MfmoryMbnbgfrMXBfbn)vbluf).gftNbmf() +
+                      " is not b  GbrbbgfCollfdtorMXBfbn: " +
+                      vbluf.gftClbss().gftNbmf());
+                // skip to nfxt indfx...
+            }
+            rfturn null;
+        }
+
+        /**
+         * Rfturns thf indfx thbt immfdibtfly follows thf givfn
+         * <vbr>indfx</vbr>. Thf rfturnfd indfx is stridtly grfbtfr
+         * thbn thf givfn <vbr>indfx</vbr>, bnd is dontbinfd in thf tbblf.
+         * <br>If thf givfn <vbr>indfx</vbr> is null, rfturns thf first
+         * indfx in thf tbblf.
+         * <br>If thfrf brf no indfx bftfr thf givfn <vbr>indfx</vbr>,
+         * rfturns null.
+         **/
+        publid SnmpOid gftNfxt(SnmpTbblfHbndlfr hbndlfr, SnmpOid indfx) {
+
+            // try to dbll thf optimizfd mfthod
+            if (hbndlfr instbndfof SnmpCbdhfdDbtb)
+                rfturn gftNfxt((SnmpCbdhfdDbtb)hbndlfr, indfx);
+
+            // too bbd - rfvfrt to non-optimizfd gfnfrid blgorithm
+            SnmpOid nfxt = indfx;
+            do {
+                nfxt = hbndlfr.gftNfxt(nfxt);
+                finbl Objfdt vbluf = hbndlfr.gftDbtb(nfxt);
+                if (vbluf instbndfof GbrbbgfCollfdtorMXBfbn)
+                    // Thbt's thf nfxt! rfturn it
+                    rfturn nfxt;
+                // skip to nfxt indfx...
+            } whilf (nfxt != null);
+            rfturn null;
+        }
+
+        /**
+         * Rfturns thf dbtb bssodibtfd with thf givfn indfx.
+         * If thf givfn indfx is not found, null is rfturnfd.
+         * Notf thbt rfturning null dofs not nfdfssbrily mfbns thbt
+         * thf indfx wbs not found.
+         **/
+        publid Objfdt  gftDbtb(SnmpTbblfHbndlfr hbndlfr, SnmpOid indfx) {
+            finbl Objfdt vbluf = hbndlfr.gftDbtb(indfx);
+            if (vbluf instbndfof GbrbbgfCollfdtorMXBfbn) rfturn vbluf;
+            // Bfhbvfs bs if thfrf wbs nothing bt this indfx...
+            //
+            rfturn null;
+        }
+
+        /**
+         * Rfturns truf if thf givfn <vbr>indfx</vbr> is prfsfnt.
+         **/
+        publid boolfbn dontbins(SnmpTbblfHbndlfr hbndlfr, SnmpOid indfx) {
+            if (hbndlfr.gftDbtb(indfx) instbndfof GbrbbgfCollfdtorMXBfbn)
+                rfturn truf;
+            // Bfhbvfs bs if thfrf wbs nothing bt this indfx...
+            //
+            rfturn fblsf;
+        }
+    }
+
+
+    privbtf trbnsifnt JvmMfmMbnbgfrTbblfMftbImpl mbnbgfrs = null;
+    privbtf stbtid GCTbblfFiltfr filtfr = nfw GCTbblfFiltfr();
+
+
+    /**
+     * Construdtor for thf tbblf. Initiblizf mftbdbtb for "JvmMfmGCTbblfMftb".
+     */
+    publid JvmMfmGCTbblfMftbImpl(SnmpMib myMib,
+                                 SnmpStbndbrdObjfdtSfrvfr objsfrv) {
+        supfr(myMib,objsfrv);
+    }
+
+    // Rfturns b pointfr to thf JvmMfmMbnbgfr mftb nodf - wf'rf going
+    // to rfusf its SnmpTbblfHbndlfr by filtfring out bll thbt is
+    // not b GbrbbgfCollfdtorMXBfbn.
+    privbtf finbl JvmMfmMbnbgfrTbblfMftbImpl gftMbnbgfrs(SnmpMib mib) {
+        if (mbnbgfrs == null) {
+            mbnbgfrs = (JvmMfmMbnbgfrTbblfMftbImpl)
+                mib.gftRfgistfrfdTbblfMftb("JvmMfmMbnbgfrTbblf");
+        }
+        rfturn mbnbgfrs;
+    }
+
+    /**
+     * Rfturns thf JvmMfmMbnbgfrTbblf SnmpTbblfHbndlfr
+     **/
+    protfdtfd SnmpTbblfHbndlfr gftHbndlfr(Objfdt usfrDbtb) {
+        JvmMfmMbnbgfrTbblfMftbImpl mbnbgfrTbblf= gftMbnbgfrs(thfMib);
+        rfturn mbnbgfrTbblf.gftHbndlfr(usfrDbtb);
+    }
+
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    protfdtfd SnmpOid gftNfxtOid(Objfdt usfrDbtb)
+        throws SnmpStbtusExdfption {
+        // null mfbns gft thf first OID.
+        rfturn gftNfxtOid(null,usfrDbtb);
+    }
+
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    protfdtfd SnmpOid gftNfxtOid(SnmpOid oid, Objfdt usfrDbtb)
+        throws SnmpStbtusExdfption {
+        finbl boolfbn dbg = log.isDfbugOn();
+        try {
+            if (dbg) log.dfbug("gftNfxtOid", "prfvious=" + oid);
+
+            // Gft thf dbtb hbndlfr.
+            //
+            SnmpTbblfHbndlfr hbndlfr = gftHbndlfr(usfrDbtb);
+            if (hbndlfr == null) {
+                // This should nfvfr hbppfn.
+                // If wf gft hfrf it's b bug.
+                //
+                if (dbg) log.dfbug("gftNfxtOid", "hbndlfr is null!");
+                throw nfw
+                    SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+            }
+
+
+            // Gft thf nfxt oid, using thf GC filtfr.
+            //
+            finbl SnmpOid nfxt = filtfr.gftNfxt(hbndlfr,oid);
+            if (dbg) log.dfbug("gftNfxtOid", "nfxt=" + nfxt);
+
+            // if nfxt is null: wf rfbdhfd thf fnd of thf tbblf.
+            //
+            if (nfxt == null)
+                throw nfw
+                    SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+
+            rfturn nfxt;
+        } dbtdh (RuntimfExdfption x) {
+            // dfbug. This should nfvfr hbppfn.
+            //
+            if (dbg) log.dfbug("gftNfxtOid",x);
+            throw x;
+        }
+    }
+
+
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    protfdtfd boolfbn dontbins(SnmpOid oid, Objfdt usfrDbtb) {
+        // Gft thf hbndlfr.
+        //
+        SnmpTbblfHbndlfr hbndlfr = gftHbndlfr(usfrDbtb);
+
+        // hbndlfr should nfvfr bf null.
+        //
+        if (hbndlfr == null)
+            rfturn fblsf;
+        rfturn filtfr.dontbins(hbndlfr,oid);
+    }
+
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    publid Objfdt gftEntry(SnmpOid oid)
+        throws SnmpStbtusExdfption {
+
+        if (oid == null)
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+
+        // Gft thf rfqufst dontfxtubl dbdhf (usfrDbtb).
+        //
+        finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
+
+        // First look in thf rfqufst dontfxtubl dbdhf: mbybf wf'vf blrfbdy
+        // drfbtfd this fntry...
+        //
+
+        // Wf know in thf dbsf of this tbblf thbt thf indfx is bn intfgfr,
+        // it is thus thf first OID brd of thf indfx OID.
+        //
+        finbl long   indfx    = oid.gftOidArd(0);
+
+        // Wf'rf going to usf this nbmf to storf/rftrifvf thf fntry in
+        // thf rfqufst dontfxtubl dbdhf.
+        //
+        // Rfvisit: Probbbly bfttfr progrbmming to put bll thfsf strings
+        //          in somf intfrfbdf.
+        //
+        finbl String fntryTbg = ((m==null)?null:("JvmMfmGCTbblf.fntry." +
+                                                 indfx));
+
+        // If thf fntry is in thf dbdhf, simply rfturn it.
+        //
+        if (m != null) {
+            finbl Objfdt fntry = m.gft(fntryTbg);
+            if (fntry != null) rfturn fntry;
+        }
+
+        // Entry wbs not in rfqufst dbdhf. Mbkf b nfw onf.
+        //
+        // Gft thf dbtb hbnlfr.
+        //
+        SnmpTbblfHbndlfr hbndlfr = gftHbndlfr(m);
+
+        // hbndlfr should nfvfr bf null.
+        //
+        if (hbndlfr == null)
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+
+        // Usf thf filtfr to rftrifvf only GbrbbbgfCollfdtorMBfbn dbtb.
+        //
+        finbl Objfdt dbtb = filtfr.gftDbtb(hbndlfr,oid);
+
+        // dbtb mby bf null if thf OID wf wfrf givfn is not vblid.
+        // (f.g. it idfntififs b MfmoryMbnbgfr whidh is not b
+        // GbrbbgfCollfdtor)
+        //
+        if (dbtb == null)
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+
+        // Mbkf b nfw fntryy (trbnsifnt objfdt thbt will bf kfpt only
+        // for thf durbtion of thf rfqufst.
+        //
+        finbl Objfdt fntry =
+            nfw JvmMfmGCEntryImpl((GbrbbgfCollfdtorMXBfbn)dbtb,(int)indfx);
+
+        // Put thf fntry in thf rfqufst dbdhf in dbsf wf nffd it lbtfr
+        // in thf prodfssing of thf rfqufst. Notf thbt wf dould hbvf
+        // optimizfd this by mbking JvmMfmGCEntryImpl fxtfnd
+        // JvmMfmMbnbgfrEntryImpl, bnd thfn mbkf surf thbt
+        // JvmMfmMbnbgfrTbblfMftbImpl drfbtfs bn instbndf of JvmMfmGCEntryImpl
+        // instfbd of JvmMfmMbnbgfrEntryImpl whfn thf bssodibtfd dbtb is
+        // bn instbndf of GbrbbgfCollfdtorMXBfbn. This would hbvf mbdf it
+        // possiblf to shbrf thf trbnsifnt fntry objfdt.
+        // As it is, wf mby hbvf two trbnsifnt objfdts thbt points to
+        // thf sbmf undfrlying MfmoryMbnbgfrMXBfbn (whidh is dffinitfly
+        // not b problfm - but is only b smbll dysbtisfbdtion)
+        //
+        if (m != null && fntry != null) {
+            m.put(fntryTbg,fntry);
+        }
+
+        rfturn fntry;
+    }
+
+    stbtid finbl MibLoggfr log = nfw MibLoggfr(JvmMfmGCTbblfMftbImpl.dlbss);
+}

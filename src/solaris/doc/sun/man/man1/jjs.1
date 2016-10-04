@@ -1,85 +1,85 @@
 '\" t
-.\"  Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Bbsic Tools
-.\"     Title: jjs.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jjs.1
 .\"
 .if n .pl 99999
-.TH jjs 1 "21 November 2013" "JDK 8" "Bbsic Tools"
+.TH jjs 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jjs \- Invokes the Nbshorn engine\&.
+jjs \- Invokfs tif Nbsiorn fnginf\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
-\f3\fBjjs\fR [\fIoptions\fR] [\fIscript\-files\fR] [\-\- \fIbrguments\fR]\fP
+\f3\fBjjs\fR [\fIoptions\fR] [\fIsdript\-filfs\fR] [\-\- \fIbrgumfnts\fR]\fP
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-One or more options of the \f3jjs\fR commbnd, sepbrbted by spbces\&. For more informbtion, see Options\&.
+Onf or morf options of tif \f3jjs\fR dommbnd, sfpbrbtfd by spbdfs\&. For morf informbtion, sff Options\&.
 .TP     
-\fIscript-files\fR
-One or more script files which you wbnt to interpret using Nbshorn, sepbrbted by spbces\&. If no files bre specified, bn interbctive shell is stbrted\&.
+\fIsdript-filfs\fR
+Onf or morf sdript filfs wiidi you wbnt to intfrprft using Nbsiorn, sfpbrbtfd by spbdfs\&. If no filfs brf spfdififd, bn intfrbdtivf sifll is stbrtfd\&.
 .TP     
-\fIbrguments\fR
-All vblues bfter the double hyphen mbrker (\f3--\fR) bre pbssed through to the script or the interbctive shell bs brguments\&. These vblues cbn be bccessed by using the \f3brguments\fR property (see )\&.
+\fIbrgumfnts\fR
+All vblufs bftfr tif doublf iypifn mbrkfr (\f3--\fR) brf pbssfd tirougi to tif sdript or tif intfrbdtivf sifll bs brgumfnts\&. Tifsf vblufs dbn bf bddfssfd by using tif \f3brgumfnts\fR propfrty (sff )\&.
 .SH DESCRIPTION    
-The \f3jjs\fR commbnd-line tool is used to invoke the Nbshorn engine\&. You cbn use it to interpret one or severbl script files, or to run bn interbctive shell\&.
+Tif \f3jjs\fR dommbnd-linf tool is usfd to invokf tif Nbsiorn fnginf\&. You dbn usf it to intfrprft onf or sfvfrbl sdript filfs, or to run bn intfrbdtivf sifll\&.
 .SH OPTIONS    
-The options of the \f3jjs\fR commbnd control the conditions under which scripts bre interpreted by Nbshorn\&.
+Tif options of tif \f3jjs\fR dommbnd dontrol tif donditions undfr wiidi sdripts brf intfrprftfd by Nbsiorn\&.
 .TP
--ccs=\fIsize\fR , --clbss-cbche-size=\fIsize\fR
+-dds=\fIsizf\fR , --dlbss-dbdif-sizf=\fIsizf\fR
 .br
-Sets the clbss cbche size (in bytes)\&. Append the letter \f3k\fR or \f3K\fR to indicbte kilobytes (KB), \f3m\fR or \f3M\fR to indicbte megbbytes (MB), \f3g\fR or \f3G\fR to indicbte gigbbytes (GB)\&. By defbult, the clbss cbche size is set to 50 bytes\&. The following exbmple shows how to set it to 1024 bytes (1 KB):
+Sfts tif dlbss dbdif sizf (in bytfs)\&. Appfnd tif lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs (KB), \f3m\fR or \f3M\fR to indidbtf mfgbbytfs (MB), \f3g\fR or \f3G\fR to indidbtf gigbbytfs (GB)\&. By dffbult, tif dlbss dbdif sizf is sft to 50 bytfs\&. Tif following fxbmplf siows iow to sft it to 1024 bytfs (1 KB):
 .sp     
 .nf     
-\f3\-css=100\fP
+\f3\-dss=100\fP
 .fi     
 .nf     
-\f3\-css=1k\fP
+\f3\-dss=1k\fP
 .fi     
 .nf     
 \f3\fR
@@ -87,26 +87,26 @@ Sets the clbss cbche size (in bytes)\&. Append the letter \f3k\fR or \f3K\fR to 
 .sp     
 
 .TP
--co, --compile-only
+-do, --dompilf-only
 .br
-Compiles the script without running it\&.
+Compilfs tif sdript witiout running it\&.
 .TP
--cp \fIpbth\fR , --clbsspbth \fIpbth\fR
+-dp \fIpbti\fR , --dlbsspbti \fIpbti\fR
 .br
-Specifies the pbth to the supporting clbss files To set multiple pbths, the option cbn be repebted, or you cbn sepbrbte ebch pbth with b colon (:)\&.
+Spfdififs tif pbti to tif supporting dlbss filfs To sft multiplf pbtis, tif option dbn bf rfpfbtfd, or you dbn sfpbrbtf fbdi pbti witi b dolon (:)\&.
 .TP
--D\fInbme\fR=\fIvblue\fR
+-D\fInbmf\fR=\fIvbluf\fR
 .br
-Sets b system property to be pbssed to the script by bssigning b vblue to b property nbme\&. The following exbmple shows how to invoke Nbshorn in interbctive mode bnd bssign \f3myVblue\fR to the property nbmed \f3myKey\fR:
+Sfts b systfm propfrty to bf pbssfd to tif sdript by bssigning b vbluf to b propfrty nbmf\&. Tif following fxbmplf siows iow to invokf Nbsiorn in intfrbdtivf modf bnd bssign \f3myVbluf\fR to tif propfrty nbmfd \f3myKfy\fR:
 .sp     
 .nf     
-\f3>> \fIjjs \-DmyKey=myVblue\fR\fP
+\f3>> \fIjjs \-DmyKfy=myVbluf\fR\fP
 .fi     
 .nf     
-\f3jjs> \fIjbvb\&.lbng\&.System\&.getProperty("myKey")\fR\fP
+\f3jjs> \fIjbvb\&.lbng\&.Systfm\&.gftPropfrty("myKfy")\fR\fP
 .fi     
 .nf     
-\f3myVblue\fP
+\f3myVbluf\fP
 .fi     
 .nf     
 \f3jjs>\fP
@@ -117,61 +117,61 @@ Sets b system property to be pbssed to the script by bssigning b vblue to b prop
 .sp     
 
 
-This option cbn be repebted to set multiple properties\&.
+Tiis option dbn bf rfpfbtfd to sft multiplf propfrtifs\&.
 .TP
--d=\fIpbth\fR , --dump-debug-dir=\fIpbth\fR
+-d=\fIpbti\fR , --dump-dfbug-dir=\fIpbti\fR
 .br
-Specifies the pbth to the directory where clbss files bre dumped\&.
+Spfdififs tif pbti to tif dirfdtory wifrf dlbss filfs brf dumpfd\&.
 .TP
---debug-lines
+--dfbug-linfs
 .br
-Generbtes b line number tbble in the clbss file\&. By defbult, this option is enbbled\&. To disbble it, specify \f3--debug-lines=fblse\fR\&.
+Gfnfrbtfs b linf numbfr tbblf in tif dlbss filf\&. By dffbult, tiis option is fnbblfd\&. To disbblf it, spfdify \f3--dfbug-linfs=fblsf\fR\&.
 .TP
---debug-locbls
+--dfbug-lodbls
 .br
-Generbtes b locbl vbribble tbble in the clbss file\&.
+Gfnfrbtfs b lodbl vbribblf tbblf in tif dlbss filf\&.
 .TP
--doe, --dump-on-error
+-dof, --dump-on-frror
 .br
-Provides b full stbck trbce when bn brror occurs\&. By defbult, only b brief error messbge is printed\&.
+Providfs b full stbdk trbdf wifn bn brror oddurs\&. By dffbult, only b briff frror mfssbgf is printfd\&.
 .TP
---ebrly-lvblue-error
+--fbrly-lvbluf-frror
 .br
-Reports invblid lvblue expressions bs ebrly errors (thbt is, when the code is pbrsed)\&. By defbult, this option is enbbled\&. To disbble it, specify \f3--ebrly-lvblue-error=fblse\fR\&. When disbbled, invblid lvblue expressions will not be reported until the code is executed\&.
+Rfports invblid lvbluf fxprfssions bs fbrly frrors (tibt is, wifn tif dodf is pbrsfd)\&. By dffbult, tiis option is fnbblfd\&. To disbblf it, spfdify \f3--fbrly-lvbluf-frror=fblsf\fR\&. Wifn disbblfd, invblid lvbluf fxprfssions will not bf rfportfd until tif dodf is fxfdutfd\&.
 .TP
---empty-stbtements
+--fmpty-stbtfmfnts
 .br
-Preserves empty stbtements in the Jbvb bbstrbct syntbx tree\&.
+Prfsfrvfs fmpty stbtfmfnts in tif Jbvb bbstrbdt syntbx trff\&.
 .TP
--fv, --fullversion
+-fv, --fullvfrsion
 .br
-Prints the full Nbshorn version string\&.
+Prints tif full Nbsiorn vfrsion string\&.
 .TP
---function-stbtement-error
+--fundtion-stbtfmfnt-frror
 .br
-Prints bn error messbge when b function declbrbtion is used bs b stbtement\&.
+Prints bn frror mfssbgf wifn b fundtion dfdlbrbtion is usfd bs b stbtfmfnt\&.
 .TP
---function-stbtement-wbrning
+--fundtion-stbtfmfnt-wbrning
 .br
-Prints b wbrning messbge when b function declbrbtion is used bs b stbtement\&.
+Prints b wbrning mfssbgf wifn b fundtion dfdlbrbtion is usfd bs b stbtfmfnt\&.
 .TP
 -fx
 .br
-Lbunches the script bs b JbvbFX bpplicbtion\&.
+Lbundifs tif sdript bs b JbvbFX bpplidbtion\&.
 .TP
--h, -help
+-i, -iflp
 .br
-Prints the list of options bnd their descriptions\&.
+Prints tif list of options bnd tifir dfsdriptions\&.
 .TP
 -J\fIoption\fR
 .br
-Pbsses the specified \f3jbvb\fR lbuncher option to the JVM\&. The following exbmple shows how to invoke Nbshorn in interbctive mode bnd set the mbximum memory used by the JVM to 4 GB:
+Pbssfs tif spfdififd \f3jbvb\fR lbundifr option to tif JVM\&. Tif following fxbmplf siows iow to invokf Nbsiorn in intfrbdtivf modf bnd sft tif mbximum mfmory usfd by tif JVM to 4 GB:
 .sp     
 .nf     
 \f3>> \fIjjs \-J\-Xmx4g\fR\fP
 .fi     
 .nf     
-\f3jjs> \fIjbvb\&.lbng\&.Runtime\&.getRuntime()\&.mbxMemory()\fR\fP
+\f3jjs> \fIjbvb\&.lbng\&.Runtimf\&.gftRuntimf()\&.mbxMfmory()\fR\fP
 .fi     
 .nf     
 \f33817799680\fP
@@ -185,22 +185,22 @@ Pbsses the specified \f3jbvb\fR lbuncher option to the JVM\&. The following exbm
 .sp     
 
 
-This option cbn be repebted to pbss multiple \f3jbvb\fR commbnd options\&.
+Tiis option dbn bf rfpfbtfd to pbss multiplf \f3jbvb\fR dommbnd options\&.
 .TP
---lbzy-compilbtion
+--lbzy-dompilbtion
 .br
-Enbbles lbzy code generbtion strbtegies (thbt is, the entire script is not compiled bt once)\&. This option is experimentbl\&.
+Enbblfs lbzy dodf gfnfrbtion strbtfgifs (tibt is, tif fntirf sdript is not dompilfd bt ondf)\&. Tiis option is fxpfrimfntbl\&.
 .TP
---lobder-per-compile
+--lobdfr-pfr-dompilf
 .br
-Crebtes b new clbss lobder per compile\&. By defbult, this option is enbbled\&. To disbble it, specify \f3--lobder-per-compile=fblse\fR\&.
+Crfbtfs b nfw dlbss lobdfr pfr dompilf\&. By dffbult, tiis option is fnbblfd\&. To disbblf it, spfdify \f3--lobdfr-pfr-dompilf=fblsf\fR\&.
 .TP
---log=\fIsubsystem\fR:\fIlevel\fR
+--log=\fIsubsystfm\fR:\fIlfvfl\fR
 .br
-Performs logging bt b given level for the specified subsystems\&. You cbn specify logging levels for multiple subsystems sepbrbting them with commbs\&. For exbmple:
+Pfrforms logging bt b givfn lfvfl for tif spfdififd subsystfms\&. You dbn spfdify logging lfvfls for multiplf subsystfms sfpbrbting tifm witi dommbs\&. For fxbmplf:
 .sp     
 .nf     
-\f3\-\-log=fields:finest,codegen:info\fP
+\f3\-\-log=fiflds:finfst,dodfgfn:info\fP
 .fi     
 .nf     
 \f3\fR
@@ -208,113 +208,113 @@ Performs logging bt b given level for the specified subsystems\&. You cbn specif
 .sp     
 
 .TP
---pbckbge=\fInbme\fR
+--pbdkbgf=\fInbmf\fR
 .br
-Specifies the pbckbge to which generbted clbss files bre bdded\&.
+Spfdififs tif pbdkbgf to wiidi gfnfrbtfd dlbss filfs brf bddfd\&.
 .TP
---pbrse-only
+--pbrsf-only
 .br
-Pbrses the code without compiling\&.
+Pbrsfs tif dodf witiout dompiling\&.
 .TP
 --print-bst
 .br
-Prints the bbstrbct syntbx tree\&.
+Prints tif bbstrbdt syntbx trff\&.
 .TP
---print-code
+--print-dodf
 .br
-Prints bytecode\&.
+Prints bytfdodf\&.
 .TP
---print-lower-bst
+--print-lowfr-bst
 .br
-Prints the lowered bbstrbct syntbx tree\&.
+Prints tif lowfrfd bbstrbdt syntbx trff\&.
 .TP
---print-lower-pbrse
+--print-lowfr-pbrsf
 .br
-Prints the lowered pbrse tree\&.
+Prints tif lowfrfd pbrsf trff\&.
 .TP
---print-no-newline
+--print-no-nfwlinf
 .br
-Forces other \f3--print*\fR options to print the output on one line\&.
+Fordfs otifr \f3--print*\fR options to print tif output on onf linf\&.
 .TP
---print-pbrse
+--print-pbrsf
 .br
-Prints the pbrse tree\&.
+Prints tif pbrsf trff\&.
 .TP
 --print-symbols
 .br
-Prints the symbol tbble\&.
+Prints tif symbol tbblf\&.
 .TP
--pcs, --profile-cbllsites
+-pds, --profilf-dbllsitfs
 .br
-Dumps cbllsite profile dbtb\&.
+Dumps dbllsitf profilf dbtb\&.
 .TP
--scripting
+-sdripting
 .br
-Enbbles shell scripting febtures\&.
+Enbblfs sifll sdripting ffbturfs\&.
 .TP
---stderr=\fIfilenbme\fR|\fIstrebm\fR|\fItty\fR
+--stdfrr=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
 .br
-Redirects the stbndbrd error strebm to the specified file, strebm (for exbmple, to \f3stdout\fR), or text terminbl\&.
+Rfdirfdts tif stbndbrd frror strfbm to tif spfdififd filf, strfbm (for fxbmplf, to \f3stdout\fR), or tfxt tfrminbl\&.
 .TP
---stdout=\fIfilenbme\fR|\fIstrebm\fR|\fItty\fR
+--stdout=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
 .br
-Redirects the stbndbrd output strebm to the specified file, strebm (for exbmple, to \f3stderr\fR), or text terminbl\&.
+Rfdirfdts tif stbndbrd output strfbm to tif spfdififd filf, strfbm (for fxbmplf, to \f3stdfrr\fR), or tfxt tfrminbl\&.
 .TP
--strict
+-stridt
 .br
-Enbbles strict mode, which enforces stronger bdherence to the stbndbrd (ECMAScript Edition 5\&.1), mbking it ebsier to detect common coding errors\&.
+Enbblfs stridt modf, wiidi fnfordfs strongfr bdifrfndf to tif stbndbrd (ECMASdript Edition 5\&.1), mbking it fbsifr to dftfdt dommon doding frrors\&.
 .TP
--t=\fIzone\fR , -timezone=\fIzone\fR
+-t=\fIzonf\fR , -timfzonf=\fIzonf\fR
 .br
-Sets the specified time zone for script execution\&. It overrides the time zone set in the OS bnd used by the \f3Dbte\fR object\&.
+Sfts tif spfdififd timf zonf for sdript fxfdution\&. It ovfrridfs tif timf zonf sft in tif OS bnd usfd by tif \f3Dbtf\fR objfdt\&.
 .TP
--tcs=\fIpbrbmeter\fR , --trbce-cbllsites=\fIpbrbmeter\fR
+-tds=\fIpbrbmftfr\fR , --trbdf-dbllsitfs=\fIpbrbmftfr\fR
 .br
-Enbbles cbllsite trbce mode\&. Possible pbrbmeters bre the following:
+Enbblfs dbllsitf trbdf modf\&. Possiblf pbrbmftfrs brf tif following:
 .RS     
 .TP     
 miss
-Trbce cbllsite misses\&.
+Trbdf dbllsitf missfs\&.
 .TP     
-enterexit
-Trbce cbllsite enter/exit\&.
+fntfrfxit
+Trbdf dbllsitf fntfr/fxit\&.
 .TP     
-objects
-Print object properties\&.
+objfdts
+Print objfdt propfrtifs\&.
 .RE     
 
 .TP
---verify-code
+--vfrify-dodf
 .br
-Verifies bytecode before running\&.
+Vfrififs bytfdodf bfforf running\&.
 .TP
--v, -version
+-v, -vfrsion
 .br
-Prints the Nbshorn version string\&.
+Prints tif Nbsiorn vfrsion string\&.
 .TP
--xhelp
+-xiflp
 .br
-Prints extended help for commbnd-line options\&.
+Prints fxtfndfd iflp for dommbnd-linf options\&.
 .SH EXAMPLES    
-\f3Exbmple 1 Running b Script with Nbshorn\fR
+\f3Exbmplf 1 Running b Sdript witi Nbsiorn\fR
 .sp     
 .nf     
-\f3jjs script\&.js\fP
+\f3jjs sdript\&.js\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-\f3Exbmple 2 Running Nbshorn in Interbctive Mode\fR
+\f3Exbmplf 2 Running Nbsiorn in Intfrbdtivf Modf\fR
 .sp     
 .nf     
 \f3>> \fIjjs\fR\fP
 .fi     
 .nf     
-\f3jjs> \fIprintln("Hello, World!")\fR\fP
+\f3jjs> \fIprintln("Hfllo, World!")\fR\fP
 .fi     
 .nf     
-\f3Hello, World!\fP
+\f3Hfllo, World!\fP
 .fi     
 .nf     
 \f3jjs> \fIquit()\fR\fP
@@ -326,16 +326,16 @@ Prints extended help for commbnd-line options\&.
 \f3\fR
 .fi     
 .sp     
-\f3Exbmple 3 Pbssing Arguments to Nbshorn\fR
+\f3Exbmplf 3 Pbssing Argumfnts to Nbsiorn\fR
 .sp     
 .nf     
-\f3>> \fIjjs \-\- b b c\fR\fP
+\f3>> \fIjjs \-\- b b d\fR\fP
 .fi     
 .nf     
-\f3jjs> \fIbrguments\&.join(", ")\fR\fP
+\f3jjs> \fIbrgumfnts\&.join(", ")\fR\fP
 .fi     
 .nf     
-\f3b, b, c\fP
+\f3b, b, d\fP
 .fi     
 .nf     
 \f3jjs>\fP
@@ -345,7 +345,7 @@ Prints extended help for commbnd-line options\&.
 .fi     
 .sp     
 .SH SEE\ ALSO    
-\f3jrunscript\fR
+\f3jrunsdript\fR
 .RE
 .br
 'pl 8.5i

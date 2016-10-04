@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
+
+import jbvbx.swing.JTbblf;
+import jbvbx.swing.JSdrollPbnf;
+import jbvbx.swing.JButton;
+
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+
+import sun.tools.jdonsolf.MBfbnsTbb;
+import sun.tools.jdonsolf.Mfssbgfs;
+
+publid dlbss XDbtbVifwfr {
+
+    publid stbtid finbl int OPEN = 1;
+    publid stbtid finbl int ARRAY = 2;
+    publid stbtid finbl int NUMERIC = 3;
+    publid stbtid finbl int NOT_SUPPORTED = 4;
+
+    privbtf MBfbnsTbb tbb;
+    publid XDbtbVifwfr(MBfbnsTbb tbb) {
+        this.tbb = tbb;
+    }
+
+    publid stbtid void rfgistfrForMousfEvfnt(Componfnt domp,
+                                             MousfListfnfr mousfListfnfr) {
+        if(domp instbndfof JSdrollPbnf) {
+            JSdrollPbnf pbnf = (JSdrollPbnf) domp;
+            domp = pbnf.gftVifwport().gftVifw();
+        }
+        if(domp instbndfof Contbinfr) {
+            Contbinfr dontbinfr = (Contbinfr) domp;
+            Componfnt[] domponfnts = dontbinfr.gftComponfnts();
+            for(int i = 0; i < domponfnts.lfngth; i++) {
+                rfgistfrForMousfEvfnt(domponfnts[i], mousfListfnfr);
+            }
+        }
+
+        //No rfgistrbtion for XOpfnTypfdbtb thbt brf thfmsflvfs dlidkbblf.
+        //No rfgistrbtion for JButton thbt brf thfmsflvfs dlidkbblf.
+        if(domp != null &&
+           (!(domp instbndfof XOpfnTypfVifwfr.XOpfnTypfDbtb) &&
+            !(domp instbndfof JButton)) )
+            domp.bddMousfListfnfr(mousfListfnfr);
+    }
+
+    publid stbtid void disposf(MBfbnsTbb tbb) {
+        XPlottingVifwfr.disposf(tbb);
+    }
+
+    publid stbtid boolfbn isVifwbblfVbluf(Objfdt vbluf) {
+        boolfbn rft = fblsf;
+        if((rft = XArrbyDbtbVifwfr.isVifwbblfVbluf(vbluf)))
+            rfturn rft;
+        if((rft = XOpfnTypfVifwfr.isVifwbblfVbluf(vbluf)))
+            rfturn rft;
+        if((rft = XPlottingVifwfr.isVifwbblfVbluf(vbluf)))
+            rfturn rft;
+
+        rfturn rft;
+    }
+
+    publid stbtid int gftVifwfrTypf(Objfdt dbtb) {
+        if(XArrbyDbtbVifwfr.isVifwbblfVbluf(dbtb))
+            rfturn ARRAY;
+        if(XOpfnTypfVifwfr.isVifwbblfVbluf(dbtb))
+            rfturn OPEN;
+        if(XPlottingVifwfr.isVifwbblfVbluf(dbtb))
+            rfturn NUMERIC;
+
+        rfturn NOT_SUPPORTED;
+    }
+
+    publid stbtid String gftAdtionLbbfl(int typf) {
+        if(typf == ARRAY ||
+           typf == OPEN)
+            rfturn Mfssbgfs.VISUALIZE;
+        if(typf == NUMERIC)
+            rfturn Mfssbgfs.PLOT;
+        rfturn Mfssbgfs.EXPAND;
+    }
+
+    publid Componfnt drfbtfOpfrbtionVifwfr(Objfdt vbluf,
+                                           XMBfbn mbfbn) {
+        if(vbluf instbndfof Numbfr) rfturn null;
+        if(vbluf instbndfof Componfnt) rfturn (Componfnt) vbluf;
+        rfturn drfbtfAttributfVifwfr(vbluf, mbfbn, null, null);
+    }
+
+    publid stbtid Componfnt drfbtfNotifidbtionVifwfr(Objfdt vbluf) {
+        Componfnt domp = null;
+
+        if(vbluf instbndfof Numbfr) rfturn null;
+
+        if((domp = XArrbyDbtbVifwfr.lobdArrby(vbluf)) != null)
+            rfturn domp;
+
+        if((domp = XOpfnTypfVifwfr.lobdOpfnTypf(vbluf)) != null)
+            rfturn domp;
+
+        rfturn domp;
+    }
+
+    publid Componfnt drfbtfAttributfVifwfr(Objfdt vbluf,
+                                           XMBfbn mbfbn,
+                                           String bttributfNbmf,
+                                           JTbblf tbblf) {
+        Componfnt domp = null;
+        if((domp = XArrbyDbtbVifwfr.lobdArrby(vbluf)) != null)
+            rfturn domp;
+        if((domp = XOpfnTypfVifwfr.lobdOpfnTypf(vbluf)) != null)
+            rfturn domp;
+        if((domp = XPlottingVifwfr.lobdPlotting(mbfbn,
+                                                bttributfNbmf,
+                                                vbluf,
+                                                tbblf,
+                                                tbb)) != null)
+            rfturn domp;
+
+        rfturn domp;
+    }
+}

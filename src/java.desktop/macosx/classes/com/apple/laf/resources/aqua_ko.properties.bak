@@ -1,183 +1,183 @@
 #
-# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-# This properties file is used to create a PropertyResourceBundle
-# It contains Locale specific strings used in Swing
-# Currently, it contains the additional strings needed for the Aqua versions of these components:
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd in Swing
+# Currfntly, it dontbins tif bdditionbl strings nffdfd for tif Aqub vfrsions of tifsf domponfnts:
 #
-#    FileChooser
+#    FilfCioosfr
 #
-# When this file is read in, the strings are put into the
-# defaults table.  This is an implementation detail of the current
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.
-# This may change in future versions of Swing as we improve localization
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
 # support.
 
 ############ FILE CHOOSER STRINGS #############
-FileChooser.fileDescription.textAndMnemonic=\uC77C\uBC18 \uD30C\uC77C
-FileChooser.directoryDescription.textAndMnemonic=\uB514\uB809\uD1A0\uB9AC
-FileChooser.newFolderError.textAndMnemonic=\uD3F4\uB354 \uC0DD\uC131 \uC911 \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4.
-FileChooser.newFolderErrorSeparator= :
-FileChooser.acceptAllFileFilter.textAndMnemonic=\uBAA8\uB4E0 \uD30C\uC77C
-FileChooser.cancelButton.textAndMnemonic=\uCDE8\uC18C
-FileChooser.saveButton.textAndMnemonic=\uC800\uC7A5
-FileChooser.openButton.textAndMnemonic=\uC5F4\uAE30
-FileChooser.saveDialogTitle.textAndMnemonic=\uC800\uC7A5
-FileChooser.openDialogTitle.textAndMnemonic=\uC5F4\uAE30
-FileChooser.updateButton.textAndMnemonic=\uC5C5\uB370\uC774\uD2B8
-FileChooser.helpButton.textAndMnemonic=\uB3C4\uC6C0\uB9D0
-FileChooser.directoryOpenButton.textAndMnemonic=\uC5F4\uAE30
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=\uC77C\uBC18 \uD30C\uC77C
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=\uB514\uB809\uD1A0\uB9AC
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=\uD3F4\uB354 \uC0DD\uC131 \uC911 \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4.
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=\uBAA8\uB4E0 \uD30C\uC77C
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=\uC5C5\uB370\uC774\uD2B8
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=\uB3C4\uC6C0\uB9D0
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
 
-# File Size Units
-FileChooser.fileSizeKiloBytes={0} KB
-FileChooser.fileSizeMegaBytes={0} MB
-FileChooser.fileSizeGigaBytes={0} GB
+# Filf Sizf Units
+FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
 
-# Mac-specific strings
-FileChooser.saveTitle.textAndMnemonic=\uC800\uC7A5
-FileChooser.openTitle.textAndMnemonic=\uC5F4\uAE30
-FileChooser.newFolderExistsError.textAndMnemonic=\uD574\uB2F9 \uC774\uB984\uC740 \uC774\uBBF8 \uC0AC\uC6A9 \uC911\uC785\uB2C8\uB2E4.
-FileChooser.chooseButton.textAndMnemonic=\uC120\uD0DD
+# Mbd-spfdifid strings
+FilfCioosfr.sbvfTitlf.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.opfnTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.nfwFoldfrExistsError.tfxtAndMnfmonid=\uD574\uB2F9 \uC774\uB984\uC740 \uC774\uBBF8 \uC0AC\uC6A9 \uC911\uC785\uB2C8\uB2E4.
+FilfCioosfr.dioosfButton.tfxtAndMnfmonid=\uC120\uD0DD
 
-FileChooser.newFolderButton.textAndMnemonic=\uC0C8 \uD3F4\uB354
-FileChooser.newFolderTitle.textAndMnemonic=\uC0C8 \uD3F4\uB354
-FileChooser.fileNameLabel.textAndMnemonic=\uD30C\uC77C:
-FileChooser.saveDialogFileNameLabel.textAndMnemonic=\uB2E4\uB978 \uC774\uB984\uC73C\uB85C \uC800\uC7A5:
-FileChooser.filesOfTypeLabel.textAndMnemonic=\uD30C\uC77C \uD615\uC2DD:
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrTitlf.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C:
+FilfCioosfr.sbvfDiblogFilfNbmfLbbfl.tfxtAndMnfmonid=\uB2E4\uB978 \uC774\uB984\uC73C\uB85C \uC800\uC7A5:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uD615\uC2DD:
 
-FileChooser.desktopName=\uB370\uC2A4\uD06C\uD1B1
-FileChooser.newFolderPrompt.textAndMnemonic=\uC0C8 \uD3F4\uB354\uC758 \uC774\uB984:
-FileChooser.untitledFolderName=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
-FileChooser.untitledFileName=\uC81C\uBAA9 \uC5C6\uC74C
-FileChooser.createButton.textAndMnemonic=\uC0DD\uC131
+FilfCioosfr.dfsktopNbmf=\uB370\uC2A4\uD06C\uD1B1
+FilfCioosfr.nfwFoldfrPrompt.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354\uC758 \uC774\uB984:
+FilfCioosfr.untitlfdFoldfrNbmf=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.untitlfdFilfNbmf=\uC81C\uBAA9 \uC5C6\uC74C
+FilfCioosfr.drfbtfButton.tfxtAndMnfmonid=\uC0DD\uC131
 
-FileChooser.byDate.textAndMnemonic=\uC218\uC815\uB41C \uB0A0\uC9DC
-FileChooser.by.textAndMnemonic=\uC774\uB984
-FileChooser.newFolderAccessibleName=\uC0C8 \uD3F4\uB354
+FilfCioosfr.byDbtf.tfxtAndMnfmonid=\uC218\uC815\uB41C \uB0A0\uC9DC
+FilfCioosfr.by.tfxtAndMnfmonid=\uC774\uB984
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=\uC0C8 \uD3F4\uB354
 
-FileChooser.mac.newFolder=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
-FileChooser.mac.newFolder.subsequent=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354 {0}
+FilfCioosfr.mbd.nfwFoldfr=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.mbd.nfwFoldfr.subsfqufnt=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354 {0}
 
 
 ############ COLOR CHOOSER STRINGS #############
-ColorChooser.preview.textAndMnemonic=\uBBF8\uB9AC\uBCF4\uAE30
-ColorChooser.ok.textAndMnemonic=\uD655\uC778
-ColorChooser.cancel.textAndMnemonic=\uCDE8\uC18C
-ColorChooser.reset.textAndMnemonic=\uC7AC\uC124\uC815(&R)
-ColorChooser.sample.textAndMnemonic=\uC0D8\uD50C \uD14D\uC2A4\uD2B8  \uC0D8\uD50C \uD14D\uC2A4\uD2B8
-ColorChooser.swatches.textAndMnemonic=\uACAC\uBCF8(&S)
-ColorChooser.swatchesRecent.textAndMnemonic=\uCD5C\uADFC \uBAA9\uB85D:
-ColorChooser.hsb.textAndMnemonic=HSB(&H)
-ColorChooser.hsbHue.textAndMnemonic=H
-ColorChooser.hsbSaturation.textAndMnemonic=S
-ColorChooser.hsbBrightness.textAndMnemonic=B
-ColorChooser.hsbRed.textAndMnemonic=R
-ColorChooser.hsbGreen.textAndMnemonic=G
-ColorChooser.hsbBlue.textAndMnemonic=B
-ColorChooser.rgb.textAndMnemonic=RGB(&G)
-ColorChooser.rgbRed.textAndMnemonic=\uBE68\uAC04\uC0C9(&D)
-ColorChooser.rgbGreen.textAndMnemonic=\uB179\uC0C9(&N)
-ColorChooser.rgbBlue.textAndMnemonic=\uD30C\uB780\uC0C9(&B)
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=\uBBF8\uB9AC\uBCF4\uAE30
+ColorCioosfr.ok.tfxtAndMnfmonid=\uD655\uC778
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=\uCDE8\uC18C
+ColorCioosfr.rfsft.tfxtAndMnfmonid=\uC7AC\uC124\uC815(&R)
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=\uC0D8\uD50C \uD14D\uC2A4\uD2B8  \uC0D8\uD50C \uD14D\uC2A4\uD2B8
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=\uACAC\uBCF8(&S)
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=\uCD5C\uADFC \uBAA9\uB85D:
+ColorCioosfr.isb.tfxtAndMnfmonid=HSB(&H)
+ColorCioosfr.isbHuf.tfxtAndMnfmonid=H
+ColorCioosfr.isbSbturbtion.tfxtAndMnfmonid=S
+ColorCioosfr.isbBrigitnfss.tfxtAndMnfmonid=B
+ColorCioosfr.isbRfd.tfxtAndMnfmonid=R
+ColorCioosfr.isbGrffn.tfxtAndMnfmonid=G
+ColorCioosfr.isbBluf.tfxtAndMnfmonid=B
+ColorCioosfr.rgb.tfxtAndMnfmonid=RGB(&G)
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=\uBE68\uAC04\uC0C9(&D)
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=\uB179\uC0C9(&N)
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=\uD30C\uB780\uC0C9(&B)
 
 ############ OPTION PANE STRINGS #############
-# We only define mnemonics for YES/NO, but for completeness you can
-# define mnemonics for any of the buttons.
-OptionPane.yesButton.textAndMnemonic=\uC608(&Y)
-OptionPane.noButton.textAndMnemonic=\uC544\uB2C8\uC624(&N)
-OptionPane.okButton.textAndMnemonic=\uD655\uC778
-OptionPane.cancelButton.textAndMnemonic=\uCDE8\uC18C
-OptionPane.title.textAndMnemonic=\uC635\uC158 \uC120\uD0DD
-# Title for the dialog for the showInputDialog methods. Only used if
-# the developer uses one of the variants that doesn't take a title.
-OptionPane.inputDialog.titleAndMnemonic=\uC785\uB825
-# Title for the dialog for the showMessageDialog methods. Only used if
-# the developer uses one of the variants that doesn't take a title.
-OptionPane.messageDialog.titleAndMnemonic=\uBA54\uC2DC\uC9C0
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# dffinf mnfmonids for bny of tif buttons.
+OptionPbnf.yfsButton.tfxtAndMnfmonid=\uC608(&Y)
+OptionPbnf.noButton.tfxtAndMnfmonid=\uC544\uB2C8\uC624(&N)
+OptionPbnf.okButton.tfxtAndMnfmonid=\uD655\uC778
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+OptionPbnf.titlf.tfxtAndMnfmonid=\uC635\uC158 \uC120\uD0DD
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+OptionPbnf.inputDiblog.titlfAndMnfmonid=\uC785\uB825
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=\uBA54\uC2DC\uC9C0
 
-############ Printing Dialog Strings ############
-PrintingDialog.titleProgress.textAndMnemonic=\uC778\uC1C4
-PrintingDialog.titleAborting.textAndMnemonic=\uC778\uC1C4(\uC911\uB2E8 \uC911)
+############ Printing Diblog Strings ############
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=\uC778\uC1C4
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=\uC778\uC1C4(\uC911\uB2E8 \uC911)
 
-PrintingDialog.contentInitial.textAndMnemonic=\uC778\uC1C4 \uC9C4\uD589 \uC911...
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=\uC778\uC1C4 \uC9C4\uD589 \uC911...
 
-# The following string will be formatted by a MessageFormat
-# and {0} will be replaced by page number being printed
-PrintingDialog.contentProgress.textAndMnemonic=\uC778\uC1C4\uB41C \uD398\uC774\uC9C0 {0}...
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=\uC778\uC1C4\uB41C \uD398\uC774\uC9C0 {0}...
 
-PrintingDialog.contentAborting.textAndMnemonic=\uC778\uC1C4 \uC911\uB2E8 \uC911...
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8 \uC911...
 
-PrintingDialog.abortButton.textAndMnemonic=\uC911\uB2E8(&A)
-PrintingDialog.abortButtonToolTip.textAndMnemonic=\uC778\uC1C4 \uC911\uB2E8
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=\uC911\uB2E8(&A)
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8
 
-############ Internal Frame Strings ############
-InternalFrame.iconButtonToolTip=\uCD5C\uC18C\uD654
-InternalFrame.maxButtonToolTip=\uCD5C\uB300\uD654
-InternalFrame.restoreButtonToolTip=\uBCF5\uC6D0
-InternalFrame.closeButtonToolTip=\uB2EB\uAE30
+############ Intfrnbl Frbmf Strings ############
+IntfrnblFrbmf.idonButtonToolTip=\uCD5C\uC18C\uD654
+IntfrnblFrbmf.mbxButtonToolTip=\uCD5C\uB300\uD654
+IntfrnblFrbmf.rfstorfButtonToolTip=\uBCF5\uC6D0
+IntfrnblFrbmf.dlosfButtonToolTip=\uB2EB\uAE30
 
-############ Internal Frame Title Pane Strings ############
-InternalFrameTitlePane.restoreButton.textAndMnemonic=\uBCF5\uC6D0
-InternalFrameTitlePane.moveButton.textAndMnemonic=\uC774\uB3D9
-InternalFrameTitlePane.sizeButton.textAndMnemonic=\uD06C\uAE30
-InternalFrameTitlePane.minimizeButton.textAndMnemonic=\uCD5C\uC18C\uD654
-InternalFrameTitlePane.maximizeButton.textAndMnemonic=\uCD5C\uB300\uD654
-InternalFrameTitlePane.closeButton.textAndMnemonic=\uB2EB\uAE30
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=\uBCF5\uC6D0
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=\uC774\uB3D9
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=\uD06C\uAE30
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=\uCD5C\uC18C\uD654
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=\uB2EB\uAE30
 
-############ Text strings #############
-# Used for html forms
-FormView.submitButton.textAndMnemonic=\uC9C8\uC758 \uC81C\uCD9C
-FormView.resetButton.textAndMnemonic=\uC7AC\uC124\uC815
-FormView.browseFileButton.textAndMnemonic=\uCC3E\uC544\uBCF4\uAE30...
+############ Tfxt strings #############
+# Usfd for itml forms
+FormVifw.submitButton.tfxtAndMnfmonid=\uC9C8\uC758 \uC81C\uCD9C
+FormVifw.rfsftButton.tfxtAndMnfmonid=\uC7AC\uC124\uC815
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=\uCC3E\uC544\uBCF4\uAE30...
 
-############ Abstract Document Strings ############
-AbstractDocument.styleChange.textAndMnemonic=\uC2A4\uD0C0\uC77C \uBCC0\uACBD
-AbstractDocument.addition.textAndMnemonic=\uCD94\uAC00
-AbstractDocument.deletion.textAndMnemonic=\uC0AD\uC81C
-AbstractDocument.undo.textAndMnemonic=\uC2E4\uD589 \uCDE8\uC18C
-AbstractDocument.redo.textAndMnemonic=\uC7AC\uC2E4\uD589
+############ Abstrbdt Dodumfnt Strings ############
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=\uC2A4\uD0C0\uC77C \uBCC0\uACBD
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=\uCD94\uAC00
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=\uC0AD\uC81C
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
 
-############ Abstract Button Strings ############
-AbstractButton.click.textAndMnemonic=\uB204\uB974\uAE30
+############ Abstrbdt Button Strings ############
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=\uB204\uB974\uAE30
 
-############ Abstract Undoable Edit Strings ############
-AbstractUndoableEdit.undo.textAndMnemonic=\uC2E4\uD589 \uCDE8\uC18C
-AbstractUndoableEdit.redo.textAndMnemonic=\uC7AC\uC2E4\uD589
+############ Abstrbdt Undobblf Edit Strings ############
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
 
 ############ Combo Box Strings ############
-ComboBox.togglePopup.textAndMnemonic=togglePopup
+ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
 
-############ Progress Monitor Strings ############
-ProgressMonitor.progress.textAndMnemonic=\uC9C4\uD589...
+############ Progrfss Monitor Strings ############
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=\uC9C4\uD589...
 
-############ Split Pane Strings ############
-SplitPane.leftButton.textAndMnemonic=\uC67C\uCABD \uB2E8\uCD94
-SplitPane.rightButton.textAndMnemonic=\uC624\uB978\uCABD \uB2E8\uCD94
-# Used for Isindex
-IsindexView.prompt=\uB2E4\uC74C\uC740 \uAC80\uC0C9 \uAC00\uB2A5\uD55C \uC778\uB371\uC2A4\uC785\uB2C8\uB2E4. \uAC80\uC0C9 \uD0A4\uC6CC\uB4DC \uC785\uB825:
+############ Split Pbnf Strings ############
+SplitPbnf.lfftButton.tfxtAndMnfmonid=\uC67C\uCABD \uB2E8\uCD94
+SplitPbnf.rigitButton.tfxtAndMnfmonid=\uC624\uB978\uCABD \uB2E8\uCD94
+# Usfd for Isindfx
+IsindfxVifw.prompt=\uB2E4\uC74C\uC740 \uAC80\uC0C9 \uAC00\uB2A5\uD55C \uC778\uB371\uC2A4\uC785\uB2C8\uB2E4. \uAC80\uC0C9 \uD0A4\uC6CC\uB4DC \uC785\uB825:
 
-############ InternalFrameTitlePane Strings ############
-InternalFrameTitlePane.iconifyButtonAccessibleName=\uC544\uC774\uCF58\uD654
-InternalFrameTitlePane.maximizeButtonAccessibleName=\uCD5C\uB300\uD654
-InternalFrameTitlePane.closeButtonAccessibleName=\uB2EB\uAE30
+############ IntfrnblFrbmfTitlfPbnf Strings ############
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=\uC544\uC774\uCF58\uD654
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=\uB2EB\uAE30

@@ -1,345 +1,345 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.*;
-import java.security.PrivilegedAction;
+import jbvb.io.*;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /*
- * This class PlainSocketImpl simply delegates to the appropriate real
- * SocketImpl. We do this because PlainSocketImpl is already extended
- * by SocksSocketImpl.
+ * Tiis dlbss PlbinSodkftImpl simply dflfgbtfs to tif bppropribtf rfbl
+ * SodkftImpl. Wf do tiis bfdbusf PlbinSodkftImpl is blrfbdy fxtfndfd
+ * by SodksSodkftImpl.
  * <p>
- * There are two possibilities for the real SocketImpl,
- * TwoStacksPlainSocketImpl or DualStackPlainSocketImpl. We use
- * DualStackPlainSocketImpl on systems that have a dual stack
- * TCP implementation. Otherwise we create an instance of
- * TwoStacksPlainSocketImpl and delegate to it.
+ * Tifrf brf two possibilitifs for tif rfbl SodkftImpl,
+ * TwoStbdksPlbinSodkftImpl or DublStbdkPlbinSodkftImpl. Wf usf
+ * DublStbdkPlbinSodkftImpl on systfms tibt ibvf b dubl stbdk
+ * TCP implfmfntbtion. Otifrwisf wf drfbtf bn instbndf of
+ * TwoStbdksPlbinSodkftImpl bnd dflfgbtf to it.
  *
- * @author Chris Hegarty
+ * @butior Ciris Hfgbrty
  */
 
-class PlainSocketImpl extends AbstractPlainSocketImpl
+dlbss PlbinSodkftImpl fxtfnds AbstrbdtPlbinSodkftImpl
 {
-    private AbstractPlainSocketImpl impl;
+    privbtf AbstrbdtPlbinSodkftImpl impl;
 
-    /* the windows version. */
-    private static float version;
+    /* tif windows vfrsion. */
+    privbtf stbtid flobt vfrsion;
 
-    /* java.net.preferIPv4Stack */
-    private static boolean preferIPv4Stack = false;
+    /* jbvb.nft.prfffrIPv4Stbdk */
+    privbtf stbtid boolfbn prfffrIPv4Stbdk = fblsf;
 
-    /* If the version supports a dual stack TCP implementation */
-    private static boolean useDualStackImpl = false;
+    /* If tif vfrsion supports b dubl stbdk TCP implfmfntbtion */
+    privbtf stbtid boolfbn usfDublStbdkImpl = fblsf;
 
-    /* sun.net.useExclusiveBind */
-    private static String exclBindProp;
+    /* sun.nft.usfExdlusivfBind */
+    privbtf stbtid String fxdlBindProp;
 
-    /* True if exclusive binding is on for Windows */
-    private static boolean exclusiveBind = true;
+    /* Truf if fxdlusivf binding is on for Windows */
+    privbtf stbtid boolfbn fxdlusivfBind = truf;
 
-    static {
-        java.security.AccessController.doPrivileged( new PrivilegedAction<Object>() {
-                public Object run() {
-                    version = 0;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd( nfw PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+                    vfrsion = 0;
                     try {
-                        version = Float.parseFloat(System.getProperties().getProperty("os.version"));
-                        preferIPv4Stack = Boolean.parseBoolean(
-                                          System.getProperties().getProperty("java.net.preferIPv4Stack"));
-                        exclBindProp = System.getProperty("sun.net.useExclusiveBind");
-                    } catch (NumberFormatException e ) {
-                        assert false : e;
+                        vfrsion = Flobt.pbrsfFlobt(Systfm.gftPropfrtifs().gftPropfrty("os.vfrsion"));
+                        prfffrIPv4Stbdk = Boolfbn.pbrsfBoolfbn(
+                                          Systfm.gftPropfrtifs().gftPropfrty("jbvb.nft.prfffrIPv4Stbdk"));
+                        fxdlBindProp = Systfm.gftPropfrty("sun.nft.usfExdlusivfBind");
+                    } dbtdi (NumbfrFormbtExdfption f ) {
+                        bssfrt fblsf : f;
                     }
-                    return null; // nothing to return
+                    rfturn null; // notiing to rfturn
                 } });
 
-        // (version >= 6.0) implies Vista or greater.
-        if (version >= 6.0 && !preferIPv4Stack) {
-                useDualStackImpl = true;
+        // (vfrsion >= 6.0) implifs Vistb or grfbtfr.
+        if (vfrsion >= 6.0 && !prfffrIPv4Stbdk) {
+                usfDublStbdkImpl = truf;
         }
 
-        if (exclBindProp != null) {
-            // sun.net.useExclusiveBind is true
-            exclusiveBind = exclBindProp.length() == 0 ? true
-                    : Boolean.parseBoolean(exclBindProp);
-        } else if (version < 6.0) {
-            exclusiveBind = false;
-        }
-    }
-
-    /**
-     * Constructs an empty instance.
-     */
-    PlainSocketImpl() {
-        if (useDualStackImpl) {
-            impl = new DualStackPlainSocketImpl(exclusiveBind);
-        } else {
-            impl = new TwoStacksPlainSocketImpl(exclusiveBind);
+        if (fxdlBindProp != null) {
+            // sun.nft.usfExdlusivfBind is truf
+            fxdlusivfBind = fxdlBindProp.lfngti() == 0 ? truf
+                    : Boolfbn.pbrsfBoolfbn(fxdlBindProp);
+        } flsf if (vfrsion < 6.0) {
+            fxdlusivfBind = fblsf;
         }
     }
 
     /**
-     * Constructs an instance with the given file descriptor.
+     * Construdts bn fmpty instbndf.
      */
-    PlainSocketImpl(FileDescriptor fd) {
-        if (useDualStackImpl) {
-            impl = new DualStackPlainSocketImpl(fd, exclusiveBind);
-        } else {
-            impl = new TwoStacksPlainSocketImpl(fd, exclusiveBind);
+    PlbinSodkftImpl() {
+        if (usfDublStbdkImpl) {
+            impl = nfw DublStbdkPlbinSodkftImpl(fxdlusivfBind);
+        } flsf {
+            impl = nfw TwoStbdksPlbinSodkftImpl(fxdlusivfBind);
         }
     }
 
-    // Override methods in SocketImpl that access impl's fields.
-
-    protected FileDescriptor getFileDescriptor() {
-        return impl.getFileDescriptor();
+    /**
+     * Construdts bn instbndf witi tif givfn filf dfsdriptor.
+     */
+    PlbinSodkftImpl(FilfDfsdriptor fd) {
+        if (usfDublStbdkImpl) {
+            impl = nfw DublStbdkPlbinSodkftImpl(fd, fxdlusivfBind);
+        } flsf {
+            impl = nfw TwoStbdksPlbinSodkftImpl(fd, fxdlusivfBind);
+        }
     }
 
-    protected InetAddress getInetAddress() {
-        return impl.getInetAddress();
+    // Ovfrridf mftiods in SodkftImpl tibt bddfss impl's fiflds.
+
+    protfdtfd FilfDfsdriptor gftFilfDfsdriptor() {
+        rfturn impl.gftFilfDfsdriptor();
     }
 
-    protected int getPort() {
-        return impl.getPort();
+    protfdtfd InftAddrfss gftInftAddrfss() {
+        rfturn impl.gftInftAddrfss();
     }
 
-    protected int getLocalPort() {
-        return impl.getLocalPort();
+    protfdtfd int gftPort() {
+        rfturn impl.gftPort();
     }
 
-    void setSocket(Socket soc) {
-        impl.setSocket(soc);
+    protfdtfd int gftLodblPort() {
+        rfturn impl.gftLodblPort();
     }
 
-    Socket getSocket() {
-        return impl.getSocket();
+    void sftSodkft(Sodkft sod) {
+        impl.sftSodkft(sod);
     }
 
-    void setServerSocket(ServerSocket soc) {
-        impl.setServerSocket(soc);
+    Sodkft gftSodkft() {
+        rfturn impl.gftSodkft();
     }
 
-    ServerSocket getServerSocket() {
-        return impl.getServerSocket();
+    void sftSfrvfrSodkft(SfrvfrSodkft sod) {
+        impl.sftSfrvfrSodkft(sod);
     }
 
-    public String toString() {
-        return impl.toString();
+    SfrvfrSodkft gftSfrvfrSodkft() {
+        rfturn impl.gftSfrvfrSodkft();
     }
 
-    // Override methods in AbstractPlainSocketImpl that access impl's fields.
-
-    protected synchronized void create(boolean stream) throws IOException {
-        impl.create(stream);
-
-        // set fd to delegate's fd to be compatible with older releases
-        this.fd = impl.fd;
+    publid String toString() {
+        rfturn impl.toString();
     }
 
-    protected void connect(String host, int port)
-        throws UnknownHostException, IOException
+    // Ovfrridf mftiods in AbstrbdtPlbinSodkftImpl tibt bddfss impl's fiflds.
+
+    protfdtfd syndironizfd void drfbtf(boolfbn strfbm) tirows IOExdfption {
+        impl.drfbtf(strfbm);
+
+        // sft fd to dflfgbtf's fd to bf dompbtiblf witi oldfr rflfbsfs
+        tiis.fd = impl.fd;
+    }
+
+    protfdtfd void donnfdt(String iost, int port)
+        tirows UnknownHostExdfption, IOExdfption
     {
-        impl.connect(host, port);
+        impl.donnfdt(iost, port);
     }
 
-    protected void connect(InetAddress address, int port) throws IOException {
-        impl.connect(address, port);
+    protfdtfd void donnfdt(InftAddrfss bddrfss, int port) tirows IOExdfption {
+        impl.donnfdt(bddrfss, port);
     }
 
-    protected void connect(SocketAddress address, int timeout) throws IOException {
-        impl.connect(address, timeout);
+    protfdtfd void donnfdt(SodkftAddrfss bddrfss, int timfout) tirows IOExdfption {
+        impl.donnfdt(bddrfss, timfout);
     }
 
-    public void setOption(int opt, Object val) throws SocketException {
-        impl.setOption(opt, val);
+    publid void sftOption(int opt, Objfdt vbl) tirows SodkftExdfption {
+        impl.sftOption(opt, vbl);
     }
 
-    public Object getOption(int opt) throws SocketException {
-        return impl.getOption(opt);
+    publid Objfdt gftOption(int opt) tirows SodkftExdfption {
+        rfturn impl.gftOption(opt);
     }
 
-    synchronized void doConnect(InetAddress address, int port, int timeout) throws IOException {
-        impl.doConnect(address, port, timeout);
+    syndironizfd void doConnfdt(InftAddrfss bddrfss, int port, int timfout) tirows IOExdfption {
+        impl.doConnfdt(bddrfss, port, timfout);
     }
 
-    protected synchronized void bind(InetAddress address, int lport)
-        throws IOException
+    protfdtfd syndironizfd void bind(InftAddrfss bddrfss, int lport)
+        tirows IOExdfption
     {
-        impl.bind(address, lport);
+        impl.bind(bddrfss, lport);
     }
 
-    protected synchronized void accept(SocketImpl s) throws IOException {
-        if (s instanceof PlainSocketImpl) {
-            // pass in the real impl not the wrapper.
-            SocketImpl delegate = ((PlainSocketImpl)s).impl;
-            delegate.address = new InetAddress();
-            delegate.fd = new FileDescriptor();
-            impl.accept(delegate);
-            // set fd to delegate's fd to be compatible with older releases
-            s.fd = delegate.fd;
-        } else {
-            impl.accept(s);
+    protfdtfd syndironizfd void bddfpt(SodkftImpl s) tirows IOExdfption {
+        if (s instbndfof PlbinSodkftImpl) {
+            // pbss in tif rfbl impl not tif wrbppfr.
+            SodkftImpl dflfgbtf = ((PlbinSodkftImpl)s).impl;
+            dflfgbtf.bddrfss = nfw InftAddrfss();
+            dflfgbtf.fd = nfw FilfDfsdriptor();
+            impl.bddfpt(dflfgbtf);
+            // sft fd to dflfgbtf's fd to bf dompbtiblf witi oldfr rflfbsfs
+            s.fd = dflfgbtf.fd;
+        } flsf {
+            impl.bddfpt(s);
         }
     }
 
-    void setFileDescriptor(FileDescriptor fd) {
-        impl.setFileDescriptor(fd);
+    void sftFilfDfsdriptor(FilfDfsdriptor fd) {
+        impl.sftFilfDfsdriptor(fd);
     }
 
-    void setAddress(InetAddress address) {
-        impl.setAddress(address);
+    void sftAddrfss(InftAddrfss bddrfss) {
+        impl.sftAddrfss(bddrfss);
     }
 
-    void setPort(int port) {
-        impl.setPort(port);
+    void sftPort(int port) {
+        impl.sftPort(port);
     }
 
-    void setLocalPort(int localPort) {
-        impl.setLocalPort(localPort);
+    void sftLodblPort(int lodblPort) {
+        impl.sftLodblPort(lodblPort);
     }
 
-    protected synchronized InputStream getInputStream() throws IOException {
-        return impl.getInputStream();
+    protfdtfd syndironizfd InputStrfbm gftInputStrfbm() tirows IOExdfption {
+        rfturn impl.gftInputStrfbm();
     }
 
-    void setInputStream(SocketInputStream in) {
-        impl.setInputStream(in);
+    void sftInputStrfbm(SodkftInputStrfbm in) {
+        impl.sftInputStrfbm(in);
     }
 
-    protected synchronized OutputStream getOutputStream() throws IOException {
-        return impl.getOutputStream();
+    protfdtfd syndironizfd OutputStrfbm gftOutputStrfbm() tirows IOExdfption {
+        rfturn impl.gftOutputStrfbm();
     }
 
-    protected void close() throws IOException {
+    protfdtfd void dlosf() tirows IOExdfption {
         try {
-            impl.close();
-        } finally {
-            // set fd to delegate's fd to be compatible with older releases
-            this.fd = null;
+            impl.dlosf();
+        } finblly {
+            // sft fd to dflfgbtf's fd to bf dompbtiblf witi oldfr rflfbsfs
+            tiis.fd = null;
         }
     }
 
-    void reset() throws IOException {
+    void rfsft() tirows IOExdfption {
         try {
-            impl.reset();
-        } finally {
-            // set fd to delegate's fd to be compatible with older releases
-            this.fd = null;
+            impl.rfsft();
+        } finblly {
+            // sft fd to dflfgbtf's fd to bf dompbtiblf witi oldfr rflfbsfs
+            tiis.fd = null;
         }
     }
 
-    protected void shutdownInput() throws IOException {
-        impl.shutdownInput();
+    protfdtfd void siutdownInput() tirows IOExdfption {
+        impl.siutdownInput();
     }
 
-    protected void shutdownOutput() throws IOException {
-        impl.shutdownOutput();
+    protfdtfd void siutdownOutput() tirows IOExdfption {
+        impl.siutdownOutput();
     }
 
-    protected void sendUrgentData(int data) throws IOException {
-        impl.sendUrgentData(data);
+    protfdtfd void sfndUrgfntDbtb(int dbtb) tirows IOExdfption {
+        impl.sfndUrgfntDbtb(dbtb);
     }
 
-    FileDescriptor acquireFD() {
-        return impl.acquireFD();
+    FilfDfsdriptor bdquirfFD() {
+        rfturn impl.bdquirfFD();
     }
 
-    void releaseFD() {
-        impl.releaseFD();
+    void rflfbsfFD() {
+        impl.rflfbsfFD();
     }
 
-    public boolean isConnectionReset() {
-        return impl.isConnectionReset();
+    publid boolfbn isConnfdtionRfsft() {
+        rfturn impl.isConnfdtionRfsft();
     }
 
-    public boolean isConnectionResetPending() {
-        return impl.isConnectionResetPending();
+    publid boolfbn isConnfdtionRfsftPfnding() {
+        rfturn impl.isConnfdtionRfsftPfnding();
     }
 
-    public void setConnectionReset() {
-        impl.setConnectionReset();
+    publid void sftConnfdtionRfsft() {
+        impl.sftConnfdtionRfsft();
     }
 
-    public void setConnectionResetPending() {
-        impl.setConnectionResetPending();
+    publid void sftConnfdtionRfsftPfnding() {
+        impl.sftConnfdtionRfsftPfnding();
     }
 
-    public boolean isClosedOrPending() {
-        return impl.isClosedOrPending();
+    publid boolfbn isClosfdOrPfnding() {
+        rfturn impl.isClosfdOrPfnding();
     }
 
-    public int getTimeout() {
-        return impl.getTimeout();
+    publid int gftTimfout() {
+        rfturn impl.gftTimfout();
     }
 
-    // Override methods in AbstractPlainSocketImpl that need to be implemented.
+    // Ovfrridf mftiods in AbstrbdtPlbinSodkftImpl tibt nffd to bf implfmfntfd.
 
-    void socketCreate(boolean isServer) throws IOException {
-        impl.socketCreate(isServer);
+    void sodkftCrfbtf(boolfbn isSfrvfr) tirows IOExdfption {
+        impl.sodkftCrfbtf(isSfrvfr);
     }
 
-    void socketConnect(InetAddress address, int port, int timeout)
-        throws IOException {
-        impl.socketConnect(address, port, timeout);
+    void sodkftConnfdt(InftAddrfss bddrfss, int port, int timfout)
+        tirows IOExdfption {
+        impl.sodkftConnfdt(bddrfss, port, timfout);
     }
 
-    void socketBind(InetAddress address, int port)
-        throws IOException {
-        impl.socketBind(address, port);
+    void sodkftBind(InftAddrfss bddrfss, int port)
+        tirows IOExdfption {
+        impl.sodkftBind(bddrfss, port);
     }
 
-    void socketListen(int count) throws IOException {
-        impl.socketListen(count);
+    void sodkftListfn(int dount) tirows IOExdfption {
+        impl.sodkftListfn(dount);
     }
 
-    void socketAccept(SocketImpl s) throws IOException {
-        impl.socketAccept(s);
+    void sodkftAddfpt(SodkftImpl s) tirows IOExdfption {
+        impl.sodkftAddfpt(s);
     }
 
-    int socketAvailable() throws IOException {
-        return impl.socketAvailable();
+    int sodkftAvbilbblf() tirows IOExdfption {
+        rfturn impl.sodkftAvbilbblf();
     }
 
-    void socketClose0(boolean useDeferredClose) throws IOException {
-        impl.socketClose0(useDeferredClose);
+    void sodkftClosf0(boolfbn usfDfffrrfdClosf) tirows IOExdfption {
+        impl.sodkftClosf0(usfDfffrrfdClosf);
     }
 
-    void socketShutdown(int howto) throws IOException {
-        impl.socketShutdown(howto);
+    void sodkftSiutdown(int iowto) tirows IOExdfption {
+        impl.sodkftSiutdown(iowto);
     }
 
-    void socketSetOption(int cmd, boolean on, Object value)
-        throws SocketException {
-        impl.socketSetOption(cmd, on, value);
+    void sodkftSftOption(int dmd, boolfbn on, Objfdt vbluf)
+        tirows SodkftExdfption {
+        impl.sodkftSftOption(dmd, on, vbluf);
     }
 
-    int socketGetOption(int opt, Object iaContainerObj) throws SocketException {
-        return impl.socketGetOption(opt, iaContainerObj);
+    int sodkftGftOption(int opt, Objfdt ibContbinfrObj) tirows SodkftExdfption {
+        rfturn impl.sodkftGftOption(opt, ibContbinfrObj);
     }
 
-    void socketSendUrgentData(int data) throws IOException {
-        impl.socketSendUrgentData(data);
+    void sodkftSfndUrgfntDbtb(int dbtb) tirows IOExdfption {
+        impl.sodkftSfndUrgfntDbtb(dbtb);
     }
 }

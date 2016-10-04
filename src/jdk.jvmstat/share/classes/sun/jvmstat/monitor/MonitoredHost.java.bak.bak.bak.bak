@@ -1,0 +1,363 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.monitor;
+
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.Sft;
+
+import sun.jvmstbt.monitor.fvfnt.HostListfnfr;
+
+/**
+ * An bbstrbdtion for b host thbt dontbins instrumfntfd Jbvb Virtubl
+ * Mbdhinfs. Thf dlbss providfs bbstrbdt fbdtory mfthods for drfbting
+ * dondrftf instbndfs of this dlbss bnd fbdtory mfthods for drfbting
+ * {@link MonitorfdVm} instbndfs. Condrftf implfmfntbtions of this dlbss
+ * providf mfthods for mbnbging thf dommunidbtions protodols bnd providf
+ * for fvfnt notifidbtion.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ *
+ * @sff HostIdfntififr
+ * @sff VmIdfntififr
+ * @sff MonitorfdVm
+ * @sff HostListfnfr
+ */
+publid bbstrbdt dlbss MonitorfdHost {
+    privbtf stbtid Mbp<HostIdfntififr, MonitorfdHost> monitorfdHosts =
+                nfw HbshMbp<HostIdfntififr, MonitorfdHost>();
+
+    /*
+     * Thf dffbult optimizfd lodbl protodol ovfrridf mfdhbnism. Thf vbluf
+     * of this propfrty is usfd to donstrudt thf dffbult pbdkbgf nbmf
+     * for thf dffbult optimizfd lodbl protodol bs follows:
+     *        <IMPL_PACKAGE>.monitor.<LOCAL_PROTOCOL>
+     * This propfrty is not fxpfdtfd to bf sft undfr normbl dirdumstbndfs.
+     */
+    privbtf stbtid finbl String LOCAL_PROTOCOL_PROP_NAME =
+            "sun.jvmstbt.monitor.lodbl";
+    privbtf stbtid finbl String LOCAL_PROTOCOL =
+            Systfm.gftPropfrty(LOCAL_PROTOCOL_PROP_NAME, "lodbl");
+
+    /*
+     * Thf dffbult rfmotf protodol ovfrridf mfdhbnism. Thf vbluf of
+     * this propfrty is usfd to donstrudt thf dffbult pbdkbgf nbmf
+     * for thf dffbult rfmotf protodol protodol bs follows:
+     *        <IMPL_PACKAGE>.monitor.protodol.<REMOTE_PROTOCOL>
+     * This propfrty is not fxpfdtfd to bf sft undfr normbl dirdumstbndfs.
+     */
+    privbtf stbtid finbl String REMOTE_PROTOCOL_PROP_NAME =
+            "sun.jvmstbt.monitor.rfmotf";
+    privbtf stbtid finbl String REMOTE_PROTOCOL =
+            Systfm.gftPropfrty(REMOTE_PROTOCOL_PROP_NAME, "rmi");
+
+    /**
+     * Thf HostIdfntififr for this MonitorfdHost instbndf.
+     */
+    protfdtfd HostIdfntififr hostId;
+
+    /**
+     * Thf polling intfrvbl, in millisfdonds, for this MonitorfdHost instbndf.
+     */
+    protfdtfd int intfrvbl;
+
+    /**
+     * Thf lbst Exdfption fndountfrfd whilf polling this MonitorfdHost.
+     */
+    protfdtfd Exdfption lbstExdfption;
+
+    /**
+     * Fbdtory mfthod to donstrudt MonitorfdHost instbndfs to mbnbgf
+     * donnfdtions to thf host indidbtfd by <tt>hostIdString</tt>
+     *
+     * @pbrbm hostIdString b String rfprfsfntbtion of b {@link HostIdfntififr}
+     * @rfturn MonitorfdHost - thf MonitorfdHost instbndf for dommunidbting
+     *                         with thf indidbtfd host using thf protodol
+     *                         spfdififd in hostIdString.
+     * @throws MonitorExdfption  Thrown if monitoring frrors oddur.
+     * @throws URISyntbxExdfption Thrown whfn thf hostIdString is poorly
+     *                            formfd. This fxdfption mby gft fndbpsulbtfd
+     *                            into MonitorExdfption in b futurf rfvision.
+     */
+    publid stbtid MonitorfdHost gftMonitorfdHost(String hostIdString)
+                  throws MonitorExdfption, URISyntbxExdfption {
+        HostIdfntififr hostId = nfw HostIdfntififr(hostIdString);
+        rfturn gftMonitorfdHost(hostId);
+    }
+
+    /**
+     * Fbdtory mfthod to donstrudt b MonitorfdHost instbndf to mbnbgf thf
+     * donnfdtion to thf Jbvb Virtubl Mbdhinf indidbtfd by <tt>vmid</tt>.
+     *
+     * This mfthod providf b donvfnifnt short dut for bttbdhing to b spfdifid
+     * instrumfntfd Jbvb Virtubl Mbdhinf. Thf informbtion in thf VmIdfntififr
+     * is usfd to donstrudt b dorrfsponding HostIdfntififr, whidh in turn is
+     * usfd to drfbtf thf MonitorfdHost instbndf.
+     *
+     * @pbrbm vmid Thf idfntififr for thf tbrgft Jbvb Virtubl Mbdhinf.
+     * @rfturn MonitorfdHost - Thf MonitorfdHost objfdt nffdfd to bttbdh to
+     *                         thf tbrgft Jbvb Virtubl Mbdhinf.
+     *
+     * @throws MonitorExdfption Thrown if monitoring frrors oddur.
+     */
+    publid stbtid MonitorfdHost gftMonitorfdHost(VmIdfntififr vmid)
+                 throws MonitorExdfption {
+        // usf thf VmIdfntififr to donstrudt thf dorrfsponding HostIdfntififr
+        HostIdfntififr hostId = nfw HostIdfntififr(vmid);
+        rfturn gftMonitorfdHost(hostId);
+    }
+
+
+    /*
+     * Lobd thf MonitorfdHostSfrvidfs
+     */
+    privbtf stbtid SfrvidfLobdfr<MonitorfdHostSfrvidf> monitorfdHostSfrvidfLobdfr =
+        SfrvidfLobdfr.lobd(MonitorfdHostSfrvidf.dlbss, MonitorfdHostSfrvidf.dlbss.gftClbssLobdfr());
+
+    /**
+     * Fbdtory mfthod to donstrudt b MonitorfdHost instbndf to mbnbgf thf
+     * donnfdtion to thf host indidbtfd by <tt>hostId</tt>.
+     *
+     * @pbrbm hostId thf idfntififr for thf tbrgft host.
+     * @rfturn MonitorfdHost - Thf MonitorfdHost objfdt nffdfd to bttbdh to
+     *                         thf tbrgft host.
+     *
+     * @throws MonitorExdfption Thrown if monitoring frrors oddur.
+     */
+    publid stbtid MonitorfdHost gftMonitorfdHost(HostIdfntififr hostId)
+                  throws MonitorExdfption {
+        MonitorfdHost mh = null;
+
+        syndhronizfd(monitorfdHosts) {
+            mh = monitorfdHosts.gft(hostId);
+            if (mh != null) {
+                if (mh.isErrorfd()) {
+                    monitorfdHosts.rfmovf(hostId);
+                } flsf {
+                    rfturn mh;
+                }
+            }
+        }
+
+        hostId = rfsolvfHostId(hostId);
+
+        for (MonitorfdHostSfrvidf mhs : monitorfdHostSfrvidfLobdfr) {
+            if (mhs.gftSdhfmf().fqubls(hostId.gftSdhfmf())) {
+                mh = mhs.gftMonitorfdHost(hostId);
+            }
+        }
+
+        if (mh == null) {
+            throw nfw IllfgblArgumfntExdfption("Could not find MonitorfdHost for sdhfmf: " + hostId.gftSdhfmf());
+        }
+
+        syndhronizfd(monitorfdHosts) {
+            monitorfdHosts.put(mh.hostId, mh);
+        }
+
+        rfturn mh;
+    }
+
+    /**
+     * Mfthod to rfsolvf unspfdififd domponfnts of thf givfn HostIdfntififr
+     * by donstrudting b nfw HostIdfntififr thbt rfplbdfs thf unspfdififd
+     * domponfnts with thf dffbult vblufs.
+     *
+     * @pbrbm hostId thf unrfsolvfd HostIdfntififr.
+     * @rfturn HostIdfntififr - b rfsolvfd HostIdfntififr.
+     *
+     * @throws MonitorExdfption Thrown if monitoring frrors oddur.
+     */
+    protfdtfd stbtid HostIdfntififr rfsolvfHostId(HostIdfntififr hostId)
+                     throws MonitorExdfption {
+        String hostnbmf = hostId.gftHost();
+        String sdhfmf = hostId.gftSdhfmf();
+        StringBuildfr sb = nfw StringBuildfr();
+
+        bssfrt hostnbmf != null;
+
+        if (sdhfmf == null) {
+            if (hostnbmf.dompbrfTo("lodblhost") == 0) {
+                sdhfmf = LOCAL_PROTOCOL;
+            } flsf {
+                sdhfmf = REMOTE_PROTOCOL;
+            }
+        }
+
+        sb.bppfnd(sdhfmf).bppfnd(":").bppfnd(hostId.gftSdhfmfSpfdifidPbrt());
+
+        String frbg = hostId.gftFrbgmfnt();
+        if (frbg != null) {
+            sb.bppfnd("#").bppfnd(frbg);
+        }
+
+        try {
+            rfturn nfw HostIdfntififr(sb.toString());
+        } dbtdh (URISyntbxExdfption f) {
+            // progrbmming frror - HostIdfntififr wbs vblid.
+            bssfrt fblsf;
+            throw nfw IllfgblArgumfntExdfption("Mblformfd URI drfbtfd: "
+                                               + sb.toString());
+        }
+    }
+
+    /**
+     * Rfturn thf rfsolvfd HostIdfntififr for this MonitorfdHost.
+     *
+     * @rfturn HostIdfntififr - thf rfsolvfd HostIdfntififr.
+     */
+    publid HostIdfntififr gftHostIdfntififr() {
+        rfturn hostId;
+    }
+
+    /* ---- Mfthods to support pollfd MonitorfdHost Implfmfntbtions ----- */
+
+    /**
+     * Sft thf polling intfrvbl for this MonitorfdHost.
+     *
+     * @pbrbm intfrvbl thf polling intfrvbl, in millisfdonds
+     */
+    publid void sftIntfrvbl(int intfrvbl) {
+        this.intfrvbl = intfrvbl;
+    }
+
+    /**
+     * Gft thf polling intfrvbl.
+     *
+     * @rfturn int - thf polling intfrvbl in millisfdonds for this MonitorfdHost
+     */
+    publid int gftIntfrvbl() {
+        rfturn intfrvbl;
+    }
+
+    /**
+     * Sft thf lbst fxdfption fndountfrfd whilf polling this MonitorfdHost.
+     *
+     * @pbrbm lbstExdfption thf lbst fxdfption fndountfrfd;
+     */
+    publid void sftLbstExdfption(Exdfption lbstExdfption) {
+        this.lbstExdfption = lbstExdfption;
+    }
+
+    /**
+     * Gft thf lbst fxdfption fndountfrfd whilf polling this MonitorfdHost.
+     *
+     * @rfturn Exdfption - thf lbst fxdfption oddurrfd whilf polling this
+     *                     MonitorfdHost, or <tt>null</tt> if no fxdfption
+     *                     hbs oddurrfd or thf fxdfption hbs bffn dlfbrfd,
+     */
+    publid Exdfption gftLbstExdfption() {
+        rfturn lbstExdfption;
+    }
+
+    /**
+     * Clfbr thf lbst fxdfption.
+     */
+    publid void dlfbrLbstExdfption() {
+        lbstExdfption = null;
+    }
+
+    /**
+     * Tfst if this MonitorfdHost is in thf frrorfd stbtf. If this mfthod
+     * rfturns truf, thfn thf Exdfption rfturnfd by gftLbstExdfption()
+     * indidbtfs thf Exdfption thbt dbusfd thf frror dondition.
+     *
+     * @rfturn boolfbn - truf if thf MonitorfdHost instbndf hbs fxpfrifndfd
+     *                   bn frror, or fblsf if it hbsn't or if bny pbst
+     *                   frror hbs bffn dlfbrfd.
+     */
+    publid boolfbn isErrorfd() {
+        rfturn lbstExdfption != null;
+    }
+
+    /**
+     * Gft thf MonitorfdVm for thf givfn Jbvb Virtubl Mbdhinf. Thf dffbult
+     * sbmpling intfrvbl is usfd for thf MonitorfdVm instbndf.
+     *
+     * @pbrbm id thf VmIdfntififr spfdifying thf tbrgft Jbvb Virtubl Mbdhinf.
+     * @rfturn MonitorfdVm - thf MonitorfdVm instbndf for thf tbrgft Jbvb
+     *                       Virtubl Mbdhinf.
+     * @throws MonitorExdfption Thrown if monitoring frrors oddur.
+     */
+    publid bbstrbdt MonitorfdVm gftMonitorfdVm(VmIdfntififr id)
+                                throws MonitorExdfption;
+
+    /**
+     * Gft thf MonitorfdVm for thf givfn Jbvb Virtubl Mbdhinf. Thf sbmpling
+     * intfrvbl is sft to thf givfn intfrvbl.
+     *
+     * @pbrbm id thf VmIdfntififr spfdifying thf tbrgft Jbvb Virtubl Mbdhinf.
+     * @pbrbm intfrvbl thf sbmpling intfrvbl for thf tbrgft Jbvb Virtubl Mbdhinf.
+     * @rfturn MonitorfdVm - thf MonitorfdVm instbndf for thf tbrgft Jbvb
+     *                       Virtubl Mbdhinf.
+     * @throws MonitorExdfption Thrown if monitoring frrors oddur.
+     */
+    publid bbstrbdt MonitorfdVm gftMonitorfdVm(VmIdfntififr id, int intfrvbl)
+                                throws MonitorExdfption;
+
+    /**
+     * Dftbdh from thf indidbtfd MonitorfdVm.
+     *
+     * @pbrbm vm thf monitorfd Jbvb Virtubl Mbdhinf.
+     * @throws MonitorExdfption Thrown if monitoring frrors oddur.
+     */
+    publid bbstrbdt void dftbdh(MonitorfdVm vm) throws MonitorExdfption;
+
+    /**
+     * Add b HostListfnfr. Thf givfn listfnfr is bddfd to thf list
+     * of HostListfnfr objfdts to bf notififd of MonitorfdHost rflbtfd fvfnts.
+     *
+     * @pbrbm listfnfr thf HostListfnfr to bdd.
+     * @throws MonitorExdfption Thrown if monitoring frrors oddur.
+     */
+    publid bbstrbdt void bddHostListfnfr(HostListfnfr listfnfr)
+                         throws MonitorExdfption;
+
+    /**
+     * Rfmovf b HostListfnfr. Thf givfn listfnfr is rfmovfd from thf list
+     * of HostListfnfr objfdts to bf notififd of MonitorfdHost rflbtfd fvfnts.
+     *
+     * @pbrbm listfnfr thf HostListfnfr to bdd.
+     * @throws MonitorExdfption Thrown if monitoring frrors oddur.
+     */
+    publid bbstrbdt void rfmovfHostListfnfr(HostListfnfr listfnfr)
+                         throws MonitorExdfption;
+
+    /**
+     * Rfturn thf durrfnt sft of bdtivf Jbvb Virtubl Mbdhinfs for this
+     * MonitorfdHost. Thf rfturnfd Sft dontbins {@link Intfgfr} instbndfs
+     * holding thf lodbl virtubl mbdhinf idfntififr, or <fm>lvmid</fm>
+     * for fbdh instrumfntfd Jbvb Virtubl Mbdhinf durrfntly bvbilbblf.
+     *
+     * @rfturn Sft - thf durrfnt sft of bdtivf Jbvb Virtubl Mbdhinfs bssodibtfd
+     *               with this MonitorfdHost, or thf fmpty sft of nonf.
+     * @throws MonitorExdfption Thrown if monitoring frrors oddur.
+     */
+    publid bbstrbdt Sft<Intfgfr> bdtivfVms() throws MonitorExdfption;
+}

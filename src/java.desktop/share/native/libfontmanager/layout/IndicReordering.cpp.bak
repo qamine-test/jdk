@@ -1,1260 +1,1260 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2009 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2009 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "OpenTypeUtilities.h"
-#include "IndicReordering.h"
-#include "LEGlyphStorage.h"
-#include "MPreFixups.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "OpfnTypfUtilitifs.i"
+#indludf "IndidRfordfring.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "MPrfFixups.i"
 
 U_NAMESPACE_BEGIN
 
-#define loclFeatureTag LE_LOCL_FEATURE_TAG
-#define initFeatureTag LE_INIT_FEATURE_TAG
-#define nuktFeatureTag LE_NUKT_FEATURE_TAG
-#define akhnFeatureTag LE_AKHN_FEATURE_TAG
-#define rphfFeatureTag LE_RPHF_FEATURE_TAG
-#define rkrfFeatureTag LE_RKRF_FEATURE_TAG
-#define blwfFeatureTag LE_BLWF_FEATURE_TAG
-#define halfFeatureTag LE_HALF_FEATURE_TAG
-#define pstfFeatureTag LE_PSTF_FEATURE_TAG
-#define vatuFeatureTag LE_VATU_FEATURE_TAG
-#define presFeatureTag LE_PRES_FEATURE_TAG
-#define blwsFeatureTag LE_BLWS_FEATURE_TAG
-#define abvsFeatureTag LE_ABVS_FEATURE_TAG
-#define pstsFeatureTag LE_PSTS_FEATURE_TAG
-#define halnFeatureTag LE_HALN_FEATURE_TAG
-#define cjctFeatureTag LE_CJCT_FEATURE_TAG
-#define blwmFeatureTag LE_BLWM_FEATURE_TAG
-#define abvmFeatureTag LE_ABVM_FEATURE_TAG
-#define distFeatureTag LE_DIST_FEATURE_TAG
-#define caltFeatureTag LE_CALT_FEATURE_TAG
-#define kernFeatureTag LE_KERN_FEATURE_TAG
+#dffinf lodlFfbturfTbg LE_LOCL_FEATURE_TAG
+#dffinf initFfbturfTbg LE_INIT_FEATURE_TAG
+#dffinf nuktFfbturfTbg LE_NUKT_FEATURE_TAG
+#dffinf bkinFfbturfTbg LE_AKHN_FEATURE_TAG
+#dffinf rpifFfbturfTbg LE_RPHF_FEATURE_TAG
+#dffinf rkrfFfbturfTbg LE_RKRF_FEATURE_TAG
+#dffinf blwfFfbturfTbg LE_BLWF_FEATURE_TAG
+#dffinf iblfFfbturfTbg LE_HALF_FEATURE_TAG
+#dffinf pstfFfbturfTbg LE_PSTF_FEATURE_TAG
+#dffinf vbtuFfbturfTbg LE_VATU_FEATURE_TAG
+#dffinf prfsFfbturfTbg LE_PRES_FEATURE_TAG
+#dffinf blwsFfbturfTbg LE_BLWS_FEATURE_TAG
+#dffinf bbvsFfbturfTbg LE_ABVS_FEATURE_TAG
+#dffinf pstsFfbturfTbg LE_PSTS_FEATURE_TAG
+#dffinf iblnFfbturfTbg LE_HALN_FEATURE_TAG
+#dffinf djdtFfbturfTbg LE_CJCT_FEATURE_TAG
+#dffinf blwmFfbturfTbg LE_BLWM_FEATURE_TAG
+#dffinf bbvmFfbturfTbg LE_ABVM_FEATURE_TAG
+#dffinf distFfbturfTbg LE_DIST_FEATURE_TAG
+#dffinf dbltFfbturfTbg LE_CALT_FEATURE_TAG
+#dffinf kfrnFfbturfTbg LE_KERN_FEATURE_TAG
 
-#define loclFeatureMask 0x80000000UL
-#define rphfFeatureMask 0x40000000UL
-#define blwfFeatureMask 0x20000000UL
-#define halfFeatureMask 0x10000000UL
-#define pstfFeatureMask 0x08000000UL
-#define nuktFeatureMask 0x04000000UL
-#define akhnFeatureMask 0x02000000UL
-#define vatuFeatureMask 0x01000000UL
-#define presFeatureMask 0x00800000UL
-#define blwsFeatureMask 0x00400000UL
-#define abvsFeatureMask 0x00200000UL
-#define pstsFeatureMask 0x00100000UL
-#define halnFeatureMask 0x00080000UL
-#define blwmFeatureMask 0x00040000UL
-#define abvmFeatureMask 0x00020000UL
-#define distFeatureMask 0x00010000UL
-#define initFeatureMask 0x00008000UL
-#define cjctFeatureMask 0x00004000UL
-#define rkrfFeatureMask 0x00002000UL
-#define caltFeatureMask 0x00001000UL
-#define kernFeatureMask 0x00000800UL
+#dffinf lodlFfbturfMbsk 0x80000000UL
+#dffinf rpifFfbturfMbsk 0x40000000UL
+#dffinf blwfFfbturfMbsk 0x20000000UL
+#dffinf iblfFfbturfMbsk 0x10000000UL
+#dffinf pstfFfbturfMbsk 0x08000000UL
+#dffinf nuktFfbturfMbsk 0x04000000UL
+#dffinf bkinFfbturfMbsk 0x02000000UL
+#dffinf vbtuFfbturfMbsk 0x01000000UL
+#dffinf prfsFfbturfMbsk 0x00800000UL
+#dffinf blwsFfbturfMbsk 0x00400000UL
+#dffinf bbvsFfbturfMbsk 0x00200000UL
+#dffinf pstsFfbturfMbsk 0x00100000UL
+#dffinf iblnFfbturfMbsk 0x00080000UL
+#dffinf blwmFfbturfMbsk 0x00040000UL
+#dffinf bbvmFfbturfMbsk 0x00020000UL
+#dffinf distFfbturfMbsk 0x00010000UL
+#dffinf initFfbturfMbsk 0x00008000UL
+#dffinf djdtFfbturfMbsk 0x00004000UL
+#dffinf rkrfFfbturfMbsk 0x00002000UL
+#dffinf dbltFfbturfMbsk 0x00001000UL
+#dffinf kfrnFfbturfMbsk 0x00000800UL
 
-// Syllable structure bits
-#define baseConsonantMask       0x00000400UL
-#define consonantMask           0x00000200UL
-#define halfConsonantMask       0x00000100UL
-#define rephConsonantMask       0x00000080UL
-#define matraMask               0x00000040UL
-#define vowelModifierMask       0x00000020UL
-#define markPositionMask        0x00000018UL
+// Syllbblf strudturf bits
+#dffinf bbsfConsonbntMbsk       0x00000400UL
+#dffinf donsonbntMbsk           0x00000200UL
+#dffinf iblfConsonbntMbsk       0x00000100UL
+#dffinf rfpiConsonbntMbsk       0x00000080UL
+#dffinf mbtrbMbsk               0x00000040UL
+#dffinf vowflModififrMbsk       0x00000020UL
+#dffinf mbrkPositionMbsk        0x00000018UL
 
-#define postBasePosition        0x00000000UL
-#define preBasePosition         0x00000008UL
-#define aboveBasePosition       0x00000010UL
-#define belowBasePosition       0x00000018UL
+#dffinf postBbsfPosition        0x00000000UL
+#dffinf prfBbsfPosition         0x00000008UL
+#dffinf bbovfBbsfPosition       0x00000010UL
+#dffinf bflowBbsfPosition       0x00000018UL
 
-#define repositionedGlyphMask   0x00000002UL
+#dffinf rfpositionfdGlypiMbsk   0x00000002UL
 
-#define basicShapingFormsMask ( loclFeatureMask | nuktFeatureMask | akhnFeatureMask | rkrfFeatureMask | blwfFeatureMask | halfFeatureMask | vatuFeatureMask | cjctFeatureMask )
-#define positioningFormsMask ( kernFeatureMask | distFeatureMask | abvmFeatureMask | blwmFeatureMask )
-#define presentationFormsMask ( presFeatureMask | abvsFeatureMask | blwsFeatureMask | pstsFeatureMask | halnFeatureMask | caltFeatureMask )
+#dffinf bbsidSibpingFormsMbsk ( lodlFfbturfMbsk | nuktFfbturfMbsk | bkinFfbturfMbsk | rkrfFfbturfMbsk | blwfFfbturfMbsk | iblfFfbturfMbsk | vbtuFfbturfMbsk | djdtFfbturfMbsk )
+#dffinf positioningFormsMbsk ( kfrnFfbturfMbsk | distFfbturfMbsk | bbvmFfbturfMbsk | blwmFfbturfMbsk )
+#dffinf prfsfntbtionFormsMbsk ( prfsFfbturfMbsk | bbvsFfbturfMbsk | blwsFfbturfMbsk | pstsFfbturfMbsk | iblnFfbturfMbsk | dbltFfbturfMbsk )
 
 
-#define C_MALAYALAM_VOWEL_SIGN_U 0x0D41
-#define C_DOTTED_CIRCLE 0x25CC
-#define NO_GLYPH 0xFFFF
+#dffinf C_MALAYALAM_VOWEL_SIGN_U 0x0D41
+#dffinf C_DOTTED_CIRCLE 0x25CC
+#dffinf NO_GLYPH 0xFFFF
 
-// Some level of debate as to the proper value for MAX_CONSONANTS_PER_SYLLABLE.  Ticket 5588 states that 4
-// is the magic number according to ISCII, but 5 seems to be the more consistent with XP.
-#define MAX_CONSONANTS_PER_SYLLABLE 5
+// Somf lfvfl of dfbbtf bs to tif propfr vbluf for MAX_CONSONANTS_PER_SYLLABLE.  Tidkft 5588 stbtfs tibt 4
+// is tif mbgid numbfr bddording to ISCII, but 5 sffms to bf tif morf donsistfnt witi XP.
+#dffinf MAX_CONSONANTS_PER_SYLLABLE 5
 
-#define INDIC_BLOCK_SIZE 0x7F
+#dffinf INDIC_BLOCK_SIZE 0x7F
 
-class IndicReorderingOutput : public UMemory {
-private:
-    le_int32   fSyllableCount;
-    le_int32   fOutIndex;
-    LEUnicode *fOutChars;
+dlbss IndidRfordfringOutput : publid UMfmory {
+privbtf:
+    lf_int32   fSyllbblfCount;
+    lf_int32   fOutIndfx;
+    LEUnidodf *fOutCibrs;
 
-    LEGlyphStorage &fGlyphStorage;
+    LEGlypiStorbgf &fGlypiStorbgf;
 
-    LEUnicode   fMpre;
-    le_int32    fMpreIndex;
+    LEUnidodf   fMprf;
+    lf_int32    fMprfIndfx;
 
-    LEUnicode   fMbelow;
-    le_int32    fMbelowIndex;
+    LEUnidodf   fMbflow;
+    lf_int32    fMbflowIndfx;
 
-    LEUnicode   fMabove;
-    le_int32    fMaboveIndex;
+    LEUnidodf   fMbbovf;
+    lf_int32    fMbbovfIndfx;
 
-    LEUnicode   fMpost;
-    le_int32    fMpostIndex;
+    LEUnidodf   fMpost;
+    lf_int32    fMpostIndfx;
 
-    LEUnicode   fLengthMark;
-    le_int32    fLengthMarkIndex;
+    LEUnidodf   fLfngtiMbrk;
+    lf_int32    fLfngtiMbrkIndfx;
 
-    LEUnicode   fAlLakuna;
-    le_int32    fAlLakunaIndex;
+    LEUnidodf   fAlLbkunb;
+    lf_int32    fAlLbkunbIndfx;
 
-    FeatureMask fMatraFeatures;
+    FfbturfMbsk fMbtrbFfbturfs;
 
-    le_int32    fMPreOutIndex;
-    MPreFixups *fMPreFixups;
+    lf_int32    fMPrfOutIndfx;
+    MPrfFixups *fMPrfFixups;
 
-    LEUnicode   fVMabove;
-    LEUnicode   fVMpost;
-    le_int32    fVMIndex;
-    FeatureMask fVMFeatures;
+    LEUnidodf   fVMbbovf;
+    LEUnidodf   fVMpost;
+    lf_int32    fVMIndfx;
+    FfbturfMbsk fVMFfbturfs;
 
-    LEUnicode   fSMabove;
-    LEUnicode   fSMbelow;
-    le_int32    fSMIndex;
-    FeatureMask fSMFeatures;
+    LEUnidodf   fSMbbovf;
+    LEUnidodf   fSMbflow;
+    lf_int32    fSMIndfx;
+    FfbturfMbsk fSMFfbturfs;
 
-    LEUnicode   fPreBaseConsonant;
-    LEUnicode   fPreBaseVirama;
-    le_int32    fPBCIndex;
-    FeatureMask fPBCFeatures;
+    LEUnidodf   fPrfBbsfConsonbnt;
+    LEUnidodf   fPrfBbsfVirbmb;
+    lf_int32    fPBCIndfx;
+    FfbturfMbsk fPBCFfbturfs;
 
-    void saveMatra(LEUnicode matra, le_int32 matraIndex, IndicClassTable::CharClass matraClass)
+    void sbvfMbtrb(LEUnidodf mbtrb, lf_int32 mbtrbIndfx, IndidClbssTbblf::CibrClbss mbtrbClbss)
     {
-        // FIXME: check if already set, or if not a matra...
-        if (IndicClassTable::isLengthMark(matraClass)) {
-            fLengthMark = matra;
-            fLengthMarkIndex = matraIndex;
-        } else if (IndicClassTable::isAlLakuna(matraClass)) {
-            fAlLakuna = matra;
-            fAlLakunaIndex = matraIndex;
-        } else {
-            switch (matraClass & CF_POS_MASK) {
-            case CF_POS_BEFORE:
-                fMpre = matra;
-                fMpreIndex = matraIndex;
-                break;
+        // FIXME: difdk if blrfbdy sft, or if not b mbtrb...
+        if (IndidClbssTbblf::isLfngtiMbrk(mbtrbClbss)) {
+            fLfngtiMbrk = mbtrb;
+            fLfngtiMbrkIndfx = mbtrbIndfx;
+        } flsf if (IndidClbssTbblf::isAlLbkunb(mbtrbClbss)) {
+            fAlLbkunb = mbtrb;
+            fAlLbkunbIndfx = mbtrbIndfx;
+        } flsf {
+            switdi (mbtrbClbss & CF_POS_MASK) {
+            dbsf CF_POS_BEFORE:
+                fMprf = mbtrb;
+                fMprfIndfx = mbtrbIndfx;
+                brfbk;
 
-            case CF_POS_BELOW:
-                fMbelow = matra;
-                fMbelowIndex = matraIndex;
-                break;
+            dbsf CF_POS_BELOW:
+                fMbflow = mbtrb;
+                fMbflowIndfx = mbtrbIndfx;
+                brfbk;
 
-            case CF_POS_ABOVE:
-                fMabove = matra;
-                fMaboveIndex = matraIndex;
-                break;
+            dbsf CF_POS_ABOVE:
+                fMbbovf = mbtrb;
+                fMbbovfIndfx = mbtrbIndfx;
+                brfbk;
 
-            case CF_POS_AFTER:
-                fMpost = matra;
-                fMpostIndex = matraIndex;
-                break;
+            dbsf CF_POS_AFTER:
+                fMpost = mbtrb;
+                fMpostIndfx = mbtrbIndfx;
+                brfbk;
 
-            default:
-                // can't get here...
-                break;
+            dffbult:
+                // dbn't gft ifrf...
+                brfbk;
            }
         }
     }
 
-public:
-    IndicReorderingOutput(LEUnicode *outChars, LEGlyphStorage &glyphStorage, MPreFixups *mpreFixups)
-        : fSyllableCount(0), fOutIndex(0), fOutChars(outChars), fGlyphStorage(glyphStorage),
-          fMpre(0), fMpreIndex(0), fMbelow(0), fMbelowIndex(0), fMabove(0), fMaboveIndex(0),
-          fMpost(0), fMpostIndex(0), fLengthMark(0), fLengthMarkIndex(0), fAlLakuna(0), fAlLakunaIndex(0),
-          fMatraFeatures(0), fMPreOutIndex(-1), fMPreFixups(mpreFixups),
-          fVMabove(0), fVMpost(0), fVMIndex(0), fVMFeatures(0),
-          fSMabove(0), fSMbelow(0), fSMIndex(0), fSMFeatures(0),
-          fPreBaseConsonant(0), fPreBaseVirama(0), fPBCIndex(0), fPBCFeatures(0)
+publid:
+    IndidRfordfringOutput(LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf, MPrfFixups *mprfFixups)
+        : fSyllbblfCount(0), fOutIndfx(0), fOutCibrs(outCibrs), fGlypiStorbgf(glypiStorbgf),
+          fMprf(0), fMprfIndfx(0), fMbflow(0), fMbflowIndfx(0), fMbbovf(0), fMbbovfIndfx(0),
+          fMpost(0), fMpostIndfx(0), fLfngtiMbrk(0), fLfngtiMbrkIndfx(0), fAlLbkunb(0), fAlLbkunbIndfx(0),
+          fMbtrbFfbturfs(0), fMPrfOutIndfx(-1), fMPrfFixups(mprfFixups),
+          fVMbbovf(0), fVMpost(0), fVMIndfx(0), fVMFfbturfs(0),
+          fSMbbovf(0), fSMbflow(0), fSMIndfx(0), fSMFfbturfs(0),
+          fPrfBbsfConsonbnt(0), fPrfBbsfVirbmb(0), fPBCIndfx(0), fPBCFfbturfs(0)
     {
-        // nothing else to do...
+        // notiing flsf to do...
     }
 
-    ~IndicReorderingOutput()
+    ~IndidRfordfringOutput()
     {
-        // nothing to do here...
+        // notiing to do ifrf...
     }
 
-    void reset()
+    void rfsft()
     {
-        fSyllableCount += 1;
+        fSyllbblfCount += 1;
 
-        fMpre = fMbelow = fMabove = fMpost = fLengthMark = fAlLakuna = 0;
-        fMPreOutIndex = -1;
+        fMprf = fMbflow = fMbbovf = fMpost = fLfngtiMbrk = fAlLbkunb = 0;
+        fMPrfOutIndfx = -1;
 
-        fVMabove = fVMpost  = 0;
-        fSMabove = fSMbelow = 0;
+        fVMbbovf = fVMpost  = 0;
+        fSMbbovf = fSMbflow = 0;
 
-        fPreBaseConsonant = fPreBaseVirama = 0;
+        fPrfBbsfConsonbnt = fPrfBbsfVirbmb = 0;
     }
 
-    void writeChar(LEUnicode ch, le_uint32 charIndex, FeatureMask charFeatures)
+    void writfCibr(LEUnidodf di, lf_uint32 dibrIndfx, FfbturfMbsk dibrFfbturfs)
     {
-        LEErrorCode success = LE_NO_ERROR;
+        LEErrorCodf suddfss = LE_NO_ERROR;
 
-        fOutChars[fOutIndex] = ch;
+        fOutCibrs[fOutIndfx] = di;
 
-        fGlyphStorage.setCharIndex(fOutIndex, charIndex, success);
-        fGlyphStorage.setAuxData(fOutIndex, charFeatures | (fSyllableCount & LE_GLYPH_GROUP_MASK), success);
+        fGlypiStorbgf.sftCibrIndfx(fOutIndfx, dibrIndfx, suddfss);
+        fGlypiStorbgf.sftAuxDbtb(fOutIndfx, dibrFfbturfs | (fSyllbblfCount & LE_GLYPH_GROUP_MASK), suddfss);
 
-        fOutIndex += 1;
+        fOutIndfx += 1;
     }
 
-    void setFeatures ( le_uint32 charIndex, FeatureMask charFeatures)
+    void sftFfbturfs ( lf_uint32 dibrIndfx, FfbturfMbsk dibrFfbturfs)
     {
-        LEErrorCode success = LE_NO_ERROR;
+        LEErrorCodf suddfss = LE_NO_ERROR;
 
-        fGlyphStorage.setAuxData( charIndex, charFeatures, success );
+        fGlypiStorbgf.sftAuxDbtb( dibrIndfx, dibrFfbturfs, suddfss );
 
     }
 
-    FeatureMask getFeatures ( le_uint32 charIndex )
+    FfbturfMbsk gftFfbturfs ( lf_uint32 dibrIndfx )
     {
-        LEErrorCode success = LE_NO_ERROR;
-        return fGlyphStorage.getAuxData(charIndex,success);
+        LEErrorCodf suddfss = LE_NO_ERROR;
+        rfturn fGlypiStorbgf.gftAuxDbtb(dibrIndfx,suddfss);
     }
 
-    void decomposeReorderMatras ( const IndicClassTable *classTable, le_int32 beginSyllable, le_int32 nextSyllable, le_int32 inv_count ) {
-        le_int32 i;
-        LEErrorCode success = LE_NO_ERROR;
+    void dfdomposfRfordfrMbtrbs ( donst IndidClbssTbblf *dlbssTbblf, lf_int32 bfginSyllbblf, lf_int32 nfxtSyllbblf, lf_int32 inv_dount ) {
+        lf_int32 i;
+        LEErrorCodf suddfss = LE_NO_ERROR;
 
-                for ( i = beginSyllable ; i < nextSyllable ; i++ ) {
-                        if ( classTable->isMatra(fOutChars[i+inv_count])) {
-                                IndicClassTable::CharClass matraClass = classTable->getCharClass(fOutChars[i+inv_count]);
-                                if ( classTable->isSplitMatra(matraClass)) {
-                                        le_int32 saveIndex = fGlyphStorage.getCharIndex(i+inv_count,success);
-                                        le_uint32 saveAuxData = fGlyphStorage.getAuxData(i+inv_count,success);
-                    const SplitMatra *splitMatra = classTable->getSplitMatra(matraClass);
+                for ( i = bfginSyllbblf ; i < nfxtSyllbblf ; i++ ) {
+                        if ( dlbssTbblf->isMbtrb(fOutCibrs[i+inv_dount])) {
+                                IndidClbssTbblf::CibrClbss mbtrbClbss = dlbssTbblf->gftCibrClbss(fOutCibrs[i+inv_dount]);
+                                if ( dlbssTbblf->isSplitMbtrb(mbtrbClbss)) {
+                                        lf_int32 sbvfIndfx = fGlypiStorbgf.gftCibrIndfx(i+inv_dount,suddfss);
+                                        lf_uint32 sbvfAuxDbtb = fGlypiStorbgf.gftAuxDbtb(i+inv_dount,suddfss);
+                    donst SplitMbtrb *splitMbtrb = dlbssTbblf->gftSplitMbtrb(mbtrbClbss);
                     int j;
-                    for (j = 0 ; j < SM_MAX_PIECES && *(splitMatra)[j] != 0 ; j++) {
-                        LEUnicode piece = (*splitMatra)[j];
+                    for (j = 0 ; j < SM_MAX_PIECES && *(splitMbtrb)[j] != 0 ; j++) {
+                        LEUnidodf pifdf = (*splitMbtrb)[j];
                                                 if ( j == 0 ) {
-                                                        fOutChars[i+inv_count] = piece;
-                                                        matraClass = classTable->getCharClass(piece);
-                                                } else {
-                                                        insertCharacter(piece,i+1+inv_count,saveIndex,saveAuxData);
-                                                        nextSyllable++;
+                                                        fOutCibrs[i+inv_dount] = pifdf;
+                                                        mbtrbClbss = dlbssTbblf->gftCibrClbss(pifdf);
+                                                } flsf {
+                                                        insfrtCibrbdtfr(pifdf,i+1+inv_dount,sbvfIndfx,sbvfAuxDbtb);
+                                                        nfxtSyllbblf++;
                                                 }
                                     }
                                 }
 
-                                if ((matraClass & CF_POS_MASK) == CF_POS_BEFORE) {
-                    moveCharacter(i+inv_count,beginSyllable+inv_count);
+                                if ((mbtrbClbss & CF_POS_MASK) == CF_POS_BEFORE) {
+                    movfCibrbdtfr(i+inv_dount,bfginSyllbblf+inv_dount);
                                 }
                         }
                 }
         }
 
-        void moveCharacter( le_int32 fromPosition, le_int32 toPosition ) {
-                le_int32 i,saveIndex;
-                le_uint32 saveAuxData;
-                LEUnicode saveChar = fOutChars[fromPosition];
-            LEErrorCode success = LE_NO_ERROR;
-                LEErrorCode success2 = LE_NO_ERROR;
-                saveIndex = fGlyphStorage.getCharIndex(fromPosition,success);
-        saveAuxData = fGlyphStorage.getAuxData(fromPosition,success);
+        void movfCibrbdtfr( lf_int32 fromPosition, lf_int32 toPosition ) {
+                lf_int32 i,sbvfIndfx;
+                lf_uint32 sbvfAuxDbtb;
+                LEUnidodf sbvfCibr = fOutCibrs[fromPosition];
+            LEErrorCodf suddfss = LE_NO_ERROR;
+                LEErrorCodf suddfss2 = LE_NO_ERROR;
+                sbvfIndfx = fGlypiStorbgf.gftCibrIndfx(fromPosition,suddfss);
+        sbvfAuxDbtb = fGlypiStorbgf.gftAuxDbtb(fromPosition,suddfss);
 
                 if ( fromPosition > toPosition ) {
                         for ( i = fromPosition ; i > toPosition ; i-- ) {
-                                fOutChars[i] = fOutChars[i-1];
-                                fGlyphStorage.setCharIndex(i,fGlyphStorage.getCharIndex(i-1,success2),success);
-                                fGlyphStorage.setAuxData(i,fGlyphStorage.getAuxData(i-1,success2), success);
+                                fOutCibrs[i] = fOutCibrs[i-1];
+                                fGlypiStorbgf.sftCibrIndfx(i,fGlypiStorbgf.gftCibrIndfx(i-1,suddfss2),suddfss);
+                                fGlypiStorbgf.sftAuxDbtb(i,fGlypiStorbgf.gftAuxDbtb(i-1,suddfss2), suddfss);
 
                         }
-                } else {
+                } flsf {
                         for ( i = fromPosition ; i < toPosition ; i++ ) {
-                                fOutChars[i] = fOutChars[i+1];
-                                fGlyphStorage.setCharIndex(i,fGlyphStorage.getCharIndex(i+1,success2),success);
-                                fGlyphStorage.setAuxData(i,fGlyphStorage.getAuxData(i+1,success2), success);
+                                fOutCibrs[i] = fOutCibrs[i+1];
+                                fGlypiStorbgf.sftCibrIndfx(i,fGlypiStorbgf.gftCibrIndfx(i+1,suddfss2),suddfss);
+                                fGlypiStorbgf.sftAuxDbtb(i,fGlypiStorbgf.gftAuxDbtb(i+1,suddfss2), suddfss);
                         }
 
                 }
-                fOutChars[toPosition] = saveChar;
-                fGlyphStorage.setCharIndex(toPosition,saveIndex,success);
-                fGlyphStorage.setAuxData(toPosition,saveAuxData,success);
+                fOutCibrs[toPosition] = sbvfCibr;
+                fGlypiStorbgf.sftCibrIndfx(toPosition,sbvfIndfx,suddfss);
+                fGlypiStorbgf.sftAuxDbtb(toPosition,sbvfAuxDbtb,suddfss);
 
         }
-        void insertCharacter( LEUnicode ch, le_int32 toPosition, le_int32 charIndex, le_uint32 auxData ) {
-            LEErrorCode success = LE_NO_ERROR;
-        le_int32 i;
-                fOutIndex += 1;
+        void insfrtCibrbdtfr( LEUnidodf di, lf_int32 toPosition, lf_int32 dibrIndfx, lf_uint32 buxDbtb ) {
+            LEErrorCodf suddfss = LE_NO_ERROR;
+        lf_int32 i;
+                fOutIndfx += 1;
 
-                for ( i = fOutIndex ; i > toPosition ; i--) {
-                                fOutChars[i] = fOutChars[i-1];
-                                fGlyphStorage.setCharIndex(i,fGlyphStorage.getCharIndex(i-1,success),success);
-                                fGlyphStorage.setAuxData(i,fGlyphStorage.getAuxData(i-1,success), success);
+                for ( i = fOutIndfx ; i > toPosition ; i--) {
+                                fOutCibrs[i] = fOutCibrs[i-1];
+                                fGlypiStorbgf.sftCibrIndfx(i,fGlypiStorbgf.gftCibrIndfx(i-1,suddfss),suddfss);
+                                fGlypiStorbgf.sftAuxDbtb(i,fGlypiStorbgf.gftAuxDbtb(i-1,suddfss), suddfss);
                 }
 
-                fOutChars[toPosition] = ch;
-                fGlyphStorage.setCharIndex(toPosition,charIndex,success);
-                fGlyphStorage.setAuxData(toPosition,auxData,success);
+                fOutCibrs[toPosition] = di;
+                fGlypiStorbgf.sftCibrIndfx(toPosition,dibrIndfx,suddfss);
+                fGlypiStorbgf.sftAuxDbtb(toPosition,buxDbtb,suddfss);
 
         }
-        void removeCharacter( le_int32 fromPosition ) {
-            LEErrorCode success = LE_NO_ERROR;
-        le_int32 i;
-                fOutIndex -= 1;
+        void rfmovfCibrbdtfr( lf_int32 fromPosition ) {
+            LEErrorCodf suddfss = LE_NO_ERROR;
+        lf_int32 i;
+                fOutIndfx -= 1;
 
-                for ( i = fromPosition ; i < fOutIndex ; i--) {
-                                fOutChars[i] = fOutChars[i+1];
-                                fGlyphStorage.setCharIndex(i,fGlyphStorage.getCharIndex(i+1,success),success);
-                                fGlyphStorage.setAuxData(i,fGlyphStorage.getAuxData(i+1,success), success);
+                for ( i = fromPosition ; i < fOutIndfx ; i--) {
+                                fOutCibrs[i] = fOutCibrs[i+1];
+                                fGlypiStorbgf.sftCibrIndfx(i,fGlypiStorbgf.gftCibrIndfx(i+1,suddfss),suddfss);
+                                fGlypiStorbgf.sftAuxDbtb(i,fGlypiStorbgf.gftAuxDbtb(i+1,suddfss), suddfss);
                 }
         }
 
-    le_bool noteMatra(const IndicClassTable *classTable, LEUnicode matra, le_uint32 matraIndex, FeatureMask matraFeatures, le_bool wordStart)
+    lf_bool notfMbtrb(donst IndidClbssTbblf *dlbssTbblf, LEUnidodf mbtrb, lf_uint32 mbtrbIndfx, FfbturfMbsk mbtrbFfbturfs, lf_bool wordStbrt)
     {
-        IndicClassTable::CharClass matraClass = classTable->getCharClass(matra);
+        IndidClbssTbblf::CibrClbss mbtrbClbss = dlbssTbblf->gftCibrClbss(mbtrb);
 
-        fMatraFeatures  = matraFeatures;
+        fMbtrbFfbturfs  = mbtrbFfbturfs;
 
-        if (wordStart) {
-            fMatraFeatures |= initFeatureMask;
+        if (wordStbrt) {
+            fMbtrbFfbturfs |= initFfbturfMbsk;
         }
 
-        if (IndicClassTable::isMatra(matraClass)) {
-            if (IndicClassTable::isSplitMatra(matraClass)) {
-                const SplitMatra *splitMatra = classTable->getSplitMatra(matraClass);
+        if (IndidClbssTbblf::isMbtrb(mbtrbClbss)) {
+            if (IndidClbssTbblf::isSplitMbtrb(mbtrbClbss)) {
+                donst SplitMbtrb *splitMbtrb = dlbssTbblf->gftSplitMbtrb(mbtrbClbss);
                 int i;
 
-                for (i = 0; i < SM_MAX_PIECES && (*splitMatra)[i] != 0; i += 1) {
-                    LEUnicode piece = (*splitMatra)[i];
-                    IndicClassTable::CharClass pieceClass = classTable->getCharClass(piece);
+                for (i = 0; i < SM_MAX_PIECES && (*splitMbtrb)[i] != 0; i += 1) {
+                    LEUnidodf pifdf = (*splitMbtrb)[i];
+                    IndidClbssTbblf::CibrClbss pifdfClbss = dlbssTbblf->gftCibrClbss(pifdf);
 
-                    saveMatra(piece, matraIndex, pieceClass);
+                    sbvfMbtrb(pifdf, mbtrbIndfx, pifdfClbss);
                 }
-            } else {
-                saveMatra(matra, matraIndex, matraClass);
+            } flsf {
+                sbvfMbtrb(mbtrb, mbtrbIndfx, mbtrbClbss);
             }
 
-            return TRUE;
+            rfturn TRUE;
         }
 
-        return FALSE;
+        rfturn FALSE;
     }
 
-    void noteVowelModifier(const IndicClassTable *classTable, LEUnicode vowelModifier, le_uint32 vowelModifierIndex, FeatureMask vowelModifierFeatures)
+    void notfVowflModififr(donst IndidClbssTbblf *dlbssTbblf, LEUnidodf vowflModififr, lf_uint32 vowflModififrIndfx, FfbturfMbsk vowflModififrFfbturfs)
     {
-        IndicClassTable::CharClass vmClass = classTable->getCharClass(vowelModifier);
+        IndidClbssTbblf::CibrClbss vmClbss = dlbssTbblf->gftCibrClbss(vowflModififr);
 
-        fVMIndex = vowelModifierIndex;
-        fVMFeatures  = vowelModifierFeatures;
+        fVMIndfx = vowflModififrIndfx;
+        fVMFfbturfs  = vowflModififrFfbturfs;
 
-        if (IndicClassTable::isVowelModifier(vmClass)) {
-           switch (vmClass & CF_POS_MASK) {
-           case CF_POS_ABOVE:
-               fVMabove = vowelModifier;
-               break;
+        if (IndidClbssTbblf::isVowflModififr(vmClbss)) {
+           switdi (vmClbss & CF_POS_MASK) {
+           dbsf CF_POS_ABOVE:
+               fVMbbovf = vowflModififr;
+               brfbk;
 
-           case CF_POS_AFTER:
-               fVMpost = vowelModifier;
-               break;
+           dbsf CF_POS_AFTER:
+               fVMpost = vowflModififr;
+               brfbk;
 
-           default:
-               // FIXME: this is an error...
-               break;
+           dffbult:
+               // FIXME: tiis is bn frror...
+               brfbk;
            }
         }
     }
 
-    void noteStressMark(const IndicClassTable *classTable, LEUnicode stressMark, le_uint32 stressMarkIndex, FeatureMask stressMarkFeatures)
+    void notfStrfssMbrk(donst IndidClbssTbblf *dlbssTbblf, LEUnidodf strfssMbrk, lf_uint32 strfssMbrkIndfx, FfbturfMbsk strfssMbrkFfbturfs)
     {
-       IndicClassTable::CharClass smClass = classTable->getCharClass(stressMark);
+       IndidClbssTbblf::CibrClbss smClbss = dlbssTbblf->gftCibrClbss(strfssMbrk);
 
-        fSMIndex = stressMarkIndex;
-        fSMFeatures  = stressMarkFeatures;
+        fSMIndfx = strfssMbrkIndfx;
+        fSMFfbturfs  = strfssMbrkFfbturfs;
 
-        if (IndicClassTable::isStressMark(smClass)) {
-            switch (smClass & CF_POS_MASK) {
-            case CF_POS_ABOVE:
-                fSMabove = stressMark;
-                break;
+        if (IndidClbssTbblf::isStrfssMbrk(smClbss)) {
+            switdi (smClbss & CF_POS_MASK) {
+            dbsf CF_POS_ABOVE:
+                fSMbbovf = strfssMbrk;
+                brfbk;
 
-            case CF_POS_BELOW:
-                fSMbelow = stressMark;
-                break;
+            dbsf CF_POS_BELOW:
+                fSMbflow = strfssMbrk;
+                brfbk;
 
-            default:
-                // FIXME: this is an error...
-                break;
+            dffbult:
+                // FIXME: tiis is bn frror...
+                brfbk;
            }
         }
     }
 
-    void notePreBaseConsonant(le_uint32 index,LEUnicode PBConsonant, LEUnicode PBVirama, FeatureMask features)
+    void notfPrfBbsfConsonbnt(lf_uint32 indfx,LEUnidodf PBConsonbnt, LEUnidodf PBVirbmb, FfbturfMbsk ffbturfs)
     {
-        fPBCIndex = index;
-        fPreBaseConsonant = PBConsonant;
-        fPreBaseVirama = PBVirama;
-        fPBCFeatures = features;
+        fPBCIndfx = indfx;
+        fPrfBbsfConsonbnt = PBConsonbnt;
+        fPrfBbsfVirbmb = PBVirbmb;
+        fPBCFfbturfs = ffbturfs;
     }
 
-    void noteBaseConsonant()
+    void notfBbsfConsonbnt()
     {
-        if (fMPreFixups != NULL && fMPreOutIndex >= 0) {
-            fMPreFixups->add(fOutIndex, fMPreOutIndex);
+        if (fMPrfFixups != NULL && fMPrfOutIndfx >= 0) {
+            fMPrfFixups->bdd(fOutIndfx, fMPrfOutIndfx);
         }
     }
 
-    // Handles Al-Lakuna in Sinhala split vowels.
-    void writeAlLakuna()
+    // Hbndlfs Al-Lbkunb in Siniblb split vowfls.
+    void writfAlLbkunb()
     {
-        if (fAlLakuna != 0) {
-            writeChar(fAlLakuna, fAlLakunaIndex, fMatraFeatures);
+        if (fAlLbkunb != 0) {
+            writfCibr(fAlLbkunb, fAlLbkunbIndfx, fMbtrbFfbturfs);
         }
     }
 
-    void writeMpre()
+    void writfMprf()
     {
-        if (fMpre != 0) {
-            fMPreOutIndex = fOutIndex;
-            writeChar(fMpre, fMpreIndex, fMatraFeatures);
+        if (fMprf != 0) {
+            fMPrfOutIndfx = fOutIndfx;
+            writfCibr(fMprf, fMprfIndfx, fMbtrbFfbturfs);
         }
     }
 
-    void writeMbelow()
+    void writfMbflow()
     {
-        if (fMbelow != 0) {
-            writeChar(fMbelow, fMbelowIndex, fMatraFeatures);
+        if (fMbflow != 0) {
+            writfCibr(fMbflow, fMbflowIndfx, fMbtrbFfbturfs);
         }
     }
 
-    void writeMabove()
+    void writfMbbovf()
     {
-        if (fMabove != 0) {
-            writeChar(fMabove, fMaboveIndex, fMatraFeatures);
+        if (fMbbovf != 0) {
+            writfCibr(fMbbovf, fMbbovfIndfx, fMbtrbFfbturfs);
         }
     }
 
-    void writeMpost()
+    void writfMpost()
     {
         if (fMpost != 0) {
-            writeChar(fMpost, fMpostIndex, fMatraFeatures);
+            writfCibr(fMpost, fMpostIndfx, fMbtrbFfbturfs);
         }
     }
 
-    void writeLengthMark()
+    void writfLfngtiMbrk()
     {
-        if (fLengthMark != 0) {
-            writeChar(fLengthMark, fLengthMarkIndex, fMatraFeatures);
+        if (fLfngtiMbrk != 0) {
+            writfCibr(fLfngtiMbrk, fLfngtiMbrkIndfx, fMbtrbFfbturfs);
         }
     }
 
-    void writeVMabove()
+    void writfVMbbovf()
     {
-        if (fVMabove != 0) {
-            writeChar(fVMabove, fVMIndex, fVMFeatures);
+        if (fVMbbovf != 0) {
+            writfCibr(fVMbbovf, fVMIndfx, fVMFfbturfs);
         }
     }
 
-    void writeVMpost()
+    void writfVMpost()
     {
         if (fVMpost != 0) {
-            writeChar(fVMpost, fVMIndex, fVMFeatures);
+            writfCibr(fVMpost, fVMIndfx, fVMFfbturfs);
         }
     }
 
-    void writeSMabove()
+    void writfSMbbovf()
     {
-        if (fSMabove != 0) {
-            writeChar(fSMabove, fSMIndex, fSMFeatures);
+        if (fSMbbovf != 0) {
+            writfCibr(fSMbbovf, fSMIndfx, fSMFfbturfs);
         }
     }
 
-    void writeSMbelow()
+    void writfSMbflow()
     {
-        if (fSMbelow != 0) {
-            writeChar(fSMbelow, fSMIndex, fSMFeatures);
+        if (fSMbflow != 0) {
+            writfCibr(fSMbflow, fSMIndfx, fSMFfbturfs);
         }
     }
 
-    void writePreBaseConsonant()
+    void writfPrfBbsfConsonbnt()
     {
-        // The TDIL spec says that consonant + virama + RRA should produce a rakar in Malayalam.  However,
-        // it seems that almost none of the fonts for Malayalam are set up to handle this.
-        // So, we're going to force the issue here by using the rakar as defined with RA in most fonts.
+        // Tif TDIL spfd sbys tibt donsonbnt + virbmb + RRA siould produdf b rbkbr in Mblbyblbm.  Howfvfr,
+        // it sffms tibt blmost nonf of tif fonts for Mblbyblbm brf sft up to ibndlf tiis.
+        // So, wf'rf going to fordf tif issuf ifrf by using tif rbkbr bs dffinfd witi RA in most fonts.
 
-        if (fPreBaseConsonant == 0x0d31) { // RRA
-            fPreBaseConsonant = 0x0d30; // RA
+        if (fPrfBbsfConsonbnt == 0x0d31) { // RRA
+            fPrfBbsfConsonbnt = 0x0d30; // RA
         }
 
-        if (fPreBaseConsonant != 0) {
-            writeChar(fPreBaseConsonant, fPBCIndex, fPBCFeatures);
-            writeChar(fPreBaseVirama,fPBCIndex-1,fPBCFeatures);
+        if (fPrfBbsfConsonbnt != 0) {
+            writfCibr(fPrfBbsfConsonbnt, fPBCIndfx, fPBCFfbturfs);
+            writfCibr(fPrfBbsfVirbmb,fPBCIndfx-1,fPBCFfbturfs);
         }
     }
 
-    le_int32 getOutputIndex()
+    lf_int32 gftOutputIndfx()
     {
-        return fOutIndex;
+        rfturn fOutIndfx;
     }
 };
 
 
 
-// TODO: Find better names for these!
-#define tagArray4 (loclFeatureMask | nuktFeatureMask | akhnFeatureMask | vatuFeatureMask | presFeatureMask | blwsFeatureMask | abvsFeatureMask | pstsFeatureMask | halnFeatureMask | blwmFeatureMask | abvmFeatureMask | distFeatureMask)
-#define tagArray3 (pstfFeatureMask | tagArray4)
-#define tagArray2 (halfFeatureMask | tagArray3)
-#define tagArray1 (blwfFeatureMask | tagArray2)
-#define tagArray0 (rphfFeatureMask | tagArray1)
+// TODO: Find bfttfr nbmfs for tifsf!
+#dffinf tbgArrby4 (lodlFfbturfMbsk | nuktFfbturfMbsk | bkinFfbturfMbsk | vbtuFfbturfMbsk | prfsFfbturfMbsk | blwsFfbturfMbsk | bbvsFfbturfMbsk | pstsFfbturfMbsk | iblnFfbturfMbsk | blwmFfbturfMbsk | bbvmFfbturfMbsk | distFfbturfMbsk)
+#dffinf tbgArrby3 (pstfFfbturfMbsk | tbgArrby4)
+#dffinf tbgArrby2 (iblfFfbturfMbsk | tbgArrby3)
+#dffinf tbgArrby1 (blwfFfbturfMbsk | tbgArrby2)
+#dffinf tbgArrby0 (rpifFfbturfMbsk | tbgArrby1)
 
-static const FeatureMap featureMap[] = {
-    {loclFeatureTag, loclFeatureMask},
-    {initFeatureTag, initFeatureMask},
-    {nuktFeatureTag, nuktFeatureMask},
-    {akhnFeatureTag, akhnFeatureMask},
-    {rphfFeatureTag, rphfFeatureMask},
-    {blwfFeatureTag, blwfFeatureMask},
-    {halfFeatureTag, halfFeatureMask},
-    {pstfFeatureTag, pstfFeatureMask},
-    {vatuFeatureTag, vatuFeatureMask},
-    {presFeatureTag, presFeatureMask},
-    {blwsFeatureTag, blwsFeatureMask},
-    {abvsFeatureTag, abvsFeatureMask},
-    {pstsFeatureTag, pstsFeatureMask},
-    {halnFeatureTag, halnFeatureMask},
-    {blwmFeatureTag, blwmFeatureMask},
-    {abvmFeatureTag, abvmFeatureMask},
-    {distFeatureTag, distFeatureMask}
+stbtid donst FfbturfMbp ffbturfMbp[] = {
+    {lodlFfbturfTbg, lodlFfbturfMbsk},
+    {initFfbturfTbg, initFfbturfMbsk},
+    {nuktFfbturfTbg, nuktFfbturfMbsk},
+    {bkinFfbturfTbg, bkinFfbturfMbsk},
+    {rpifFfbturfTbg, rpifFfbturfMbsk},
+    {blwfFfbturfTbg, blwfFfbturfMbsk},
+    {iblfFfbturfTbg, iblfFfbturfMbsk},
+    {pstfFfbturfTbg, pstfFfbturfMbsk},
+    {vbtuFfbturfTbg, vbtuFfbturfMbsk},
+    {prfsFfbturfTbg, prfsFfbturfMbsk},
+    {blwsFfbturfTbg, blwsFfbturfMbsk},
+    {bbvsFfbturfTbg, bbvsFfbturfMbsk},
+    {pstsFfbturfTbg, pstsFfbturfMbsk},
+    {iblnFfbturfTbg, iblnFfbturfMbsk},
+    {blwmFfbturfTbg, blwmFfbturfMbsk},
+    {bbvmFfbturfTbg, bbvmFfbturfMbsk},
+    {distFfbturfTbg, distFfbturfMbsk}
 };
 
-static const le_int32 featureCount = LE_ARRAY_SIZE(featureMap);
+stbtid donst lf_int32 ffbturfCount = LE_ARRAY_SIZE(ffbturfMbp);
 
-static const FeatureMap v2FeatureMap[] = {
-        {loclFeatureTag, loclFeatureMask},
-    {nuktFeatureTag, nuktFeatureMask},
-    {akhnFeatureTag, akhnFeatureMask},
-    {rphfFeatureTag, rphfFeatureMask},
-        {rkrfFeatureTag, rkrfFeatureMask},
-        {blwfFeatureTag, blwfFeatureMask},
-    {halfFeatureTag, halfFeatureMask},
-    {vatuFeatureTag, vatuFeatureMask},
-    {cjctFeatureTag, cjctFeatureMask},
-    {presFeatureTag, presFeatureMask},
-    {abvsFeatureTag, abvsFeatureMask},
-    {blwsFeatureTag, blwsFeatureMask},
-    {pstsFeatureTag, pstsFeatureMask},
-        {halnFeatureTag, halnFeatureMask},
-        {caltFeatureTag, caltFeatureMask},
-    {kernFeatureTag, kernFeatureMask},
-    {distFeatureTag, distFeatureMask},
-    {abvmFeatureTag, abvmFeatureMask},
-    {blwmFeatureTag, blwmFeatureMask}
+stbtid donst FfbturfMbp v2FfbturfMbp[] = {
+        {lodlFfbturfTbg, lodlFfbturfMbsk},
+    {nuktFfbturfTbg, nuktFfbturfMbsk},
+    {bkinFfbturfTbg, bkinFfbturfMbsk},
+    {rpifFfbturfTbg, rpifFfbturfMbsk},
+        {rkrfFfbturfTbg, rkrfFfbturfMbsk},
+        {blwfFfbturfTbg, blwfFfbturfMbsk},
+    {iblfFfbturfTbg, iblfFfbturfMbsk},
+    {vbtuFfbturfTbg, vbtuFfbturfMbsk},
+    {djdtFfbturfTbg, djdtFfbturfMbsk},
+    {prfsFfbturfTbg, prfsFfbturfMbsk},
+    {bbvsFfbturfTbg, bbvsFfbturfMbsk},
+    {blwsFfbturfTbg, blwsFfbturfMbsk},
+    {pstsFfbturfTbg, pstsFfbturfMbsk},
+        {iblnFfbturfTbg, iblnFfbturfMbsk},
+        {dbltFfbturfTbg, dbltFfbturfMbsk},
+    {kfrnFfbturfTbg, kfrnFfbturfMbsk},
+    {distFfbturfTbg, distFfbturfMbsk},
+    {bbvmFfbturfTbg, bbvmFfbturfMbsk},
+    {blwmFfbturfTbg, blwmFfbturfMbsk}
 };
 
-static const le_int32 v2FeatureMapCount = LE_ARRAY_SIZE(v2FeatureMap);
+stbtid donst lf_int32 v2FfbturfMbpCount = LE_ARRAY_SIZE(v2FfbturfMbp);
 
-static const le_int8 stateTable[][CC_COUNT] =
+stbtid donst lf_int8 stbtfTbblf[][CC_COUNT] =
 {
-//   xx  vm  sm  iv  i2  i3  ct  cn  nu  dv  s1  s2  s3  vr  zw  al
-    { 1,  6,  1,  5,  8, 11,  3,  2,  1,  5,  9,  5,  5,  1,  1,  1}, //  0 - ground state
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  1 - exit state
-    {-1,  6,  1, -1, -1, -1, -1, -1, -1,  5,  9,  5,  5,  4, 12, -1}, //  2 - consonant with nukta
-    {-1,  6,  1, -1, -1, -1, -1, -1,  2,  5,  9,  5,  5,  4, 12, 13}, //  3 - consonant
-    {-1, -1, -1, -1, -1, -1,  3,  2, -1, -1, -1, -1, -1, -1,  7, -1}, //  4 - consonant virama
-    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  5 - dependent vowels
-    {-1, -1,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  6 - vowel mark
-    {-1, -1, -1, -1, -1, -1,  3,  2, -1, -1, -1, -1, -1, -1, -1, -1}, //  7 - consonant virama ZWJ, consonant ZWJ virama
-    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  4, -1, -1}, //  8 - independent vowels that can take a virama
-    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, 10,  5, -1, -1, -1}, //  9 - first part of split vowel
-    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  5, -1, -1, -1}, // 10 - second part of split vowel
-    {-1,  6,  1, -1, -1, -1, -1, -1, -1,  5,  9,  5,  5,  4, -1, -1}, // 11 - independent vowels that can take an iv
-    {-1, -1,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  7, -1,  7}, // 12 - consonant ZWJ (TODO: Take everything else that can be after a consonant?)
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  7, -1}  // 13 - consonant al-lakuna ZWJ consonant
+//   xx  vm  sm  iv  i2  i3  dt  dn  nu  dv  s1  s2  s3  vr  zw  bl
+    { 1,  6,  1,  5,  8, 11,  3,  2,  1,  5,  9,  5,  5,  1,  1,  1}, //  0 - ground stbtf
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  1 - fxit stbtf
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1,  5,  9,  5,  5,  4, 12, -1}, //  2 - donsonbnt witi nuktb
+    {-1,  6,  1, -1, -1, -1, -1, -1,  2,  5,  9,  5,  5,  4, 12, 13}, //  3 - donsonbnt
+    {-1, -1, -1, -1, -1, -1,  3,  2, -1, -1, -1, -1, -1, -1,  7, -1}, //  4 - donsonbnt virbmb
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  5 - dfpfndfnt vowfls
+    {-1, -1,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  6 - vowfl mbrk
+    {-1, -1, -1, -1, -1, -1,  3,  2, -1, -1, -1, -1, -1, -1, -1, -1}, //  7 - donsonbnt virbmb ZWJ, donsonbnt ZWJ virbmb
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  4, -1, -1}, //  8 - indfpfndfnt vowfls tibt dbn tbkf b virbmb
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, 10,  5, -1, -1, -1}, //  9 - first pbrt of split vowfl
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  5, -1, -1, -1}, // 10 - sfdond pbrt of split vowfl
+    {-1,  6,  1, -1, -1, -1, -1, -1, -1,  5,  9,  5,  5,  4, -1, -1}, // 11 - indfpfndfnt vowfls tibt dbn tbkf bn iv
+    {-1, -1,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  7, -1,  7}, // 12 - donsonbnt ZWJ (TODO: Tbkf fvfrytiing flsf tibt dbn bf bftfr b donsonbnt?)
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  7, -1}  // 13 - donsonbnt bl-lbkunb ZWJ donsonbnt
 };
 
 
-const FeatureMap *IndicReordering::getFeatureMap(le_int32 &count)
+donst FfbturfMbp *IndidRfordfring::gftFfbturfMbp(lf_int32 &dount)
 {
-    count = featureCount;
+    dount = ffbturfCount;
 
-    return featureMap;
+    rfturn ffbturfMbp;
 }
 
-const FeatureMap *IndicReordering::getv2FeatureMap(le_int32 &count)
+donst FfbturfMbp *IndidRfordfring::gftv2FfbturfMbp(lf_int32 &dount)
 {
-    count = v2FeatureMapCount;
+    dount = v2FfbturfMbpCount;
 
-    return v2FeatureMap;
+    rfturn v2FfbturfMbp;
 }
 
-le_int32 IndicReordering::findSyllable(const IndicClassTable *classTable, const LEUnicode *chars, le_int32 prev, le_int32 charCount)
+lf_int32 IndidRfordfring::findSyllbblf(donst IndidClbssTbblf *dlbssTbblf, donst LEUnidodf *dibrs, lf_int32 prfv, lf_int32 dibrCount)
 {
-    le_int32 cursor = prev;
-    le_int8 state = 0;
-    le_int8 consonant_count = 0;
+    lf_int32 dursor = prfv;
+    lf_int8 stbtf = 0;
+    lf_int8 donsonbnt_dount = 0;
 
-    while (cursor < charCount) {
-        IndicClassTable::CharClass charClass = classTable->getCharClass(chars[cursor]);
+    wiilf (dursor < dibrCount) {
+        IndidClbssTbblf::CibrClbss dibrClbss = dlbssTbblf->gftCibrClbss(dibrs[dursor]);
 
-        if ( IndicClassTable::isConsonant(charClass) ) {
-            consonant_count++;
-            if ( consonant_count > MAX_CONSONANTS_PER_SYLLABLE ) {
-                break;
+        if ( IndidClbssTbblf::isConsonbnt(dibrClbss) ) {
+            donsonbnt_dount++;
+            if ( donsonbnt_dount > MAX_CONSONANTS_PER_SYLLABLE ) {
+                brfbk;
             }
         }
 
-        state = stateTable[state][charClass & CF_CLASS_MASK];
+        stbtf = stbtfTbblf[stbtf][dibrClbss & CF_CLASS_MASK];
 
-        if (state < 0) {
-            break;
+        if (stbtf < 0) {
+            brfbk;
         }
 
-        cursor += 1;
+        dursor += 1;
     }
 
-    return cursor;
+    rfturn dursor;
 }
 
-le_int32 IndicReordering::reorder(const LEUnicode *chars, le_int32 charCount, le_int32 scriptCode,
-                                  LEUnicode *outChars, LEGlyphStorage &glyphStorage,
-                                  MPreFixups **outMPreFixups, LEErrorCode& success)
+lf_int32 IndidRfordfring::rfordfr(donst LEUnidodf *dibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+                                  LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf,
+                                  MPrfFixups **outMPrfFixups, LEErrorCodf& suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return 0;
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
     }
 
-    MPreFixups *mpreFixups = NULL;
-    const IndicClassTable *classTable = IndicClassTable::getScriptClassTable(scriptCode);
+    MPrfFixups *mprfFixups = NULL;
+    donst IndidClbssTbblf *dlbssTbblf = IndidClbssTbblf::gftSdriptClbssTbblf(sdriptCodf);
 
-    if(classTable==NULL) {
-      success = LE_MEMORY_ALLOCATION_ERROR;
-      return 0;
+    if(dlbssTbblf==NULL) {
+      suddfss = LE_MEMORY_ALLOCATION_ERROR;
+      rfturn 0;
     }
 
-    if (classTable->scriptFlags & SF_MPRE_FIXUP) {
-        mpreFixups = new MPreFixups(charCount);
-        if (mpreFixups == NULL) {
-            success = LE_MEMORY_ALLOCATION_ERROR;
-            return 0;
+    if (dlbssTbblf->sdriptFlbgs & SF_MPRE_FIXUP) {
+        mprfFixups = nfw MPrfFixups(dibrCount);
+        if (mprfFixups == NULL) {
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            rfturn 0;
     }
     }
 
-    IndicReorderingOutput output(outChars, glyphStorage, mpreFixups);
-    le_int32 i, prev = 0;
-    le_bool lastInWord = FALSE;
+    IndidRfordfringOutput output(outCibrs, glypiStorbgf, mprfFixups);
+    lf_int32 i, prfv = 0;
+    lf_bool lbstInWord = FALSE;
 
-    while (prev < charCount) {
-        le_int32 syllable = findSyllable(classTable, chars, prev, charCount);
-        le_int32 matra, markStart = syllable;
+    wiilf (prfv < dibrCount) {
+        lf_int32 syllbblf = findSyllbblf(dlbssTbblf, dibrs, prfv, dibrCount);
+        lf_int32 mbtrb, mbrkStbrt = syllbblf;
 
-        output.reset();
+        output.rfsft();
 
-        if (classTable->isStressMark(chars[markStart - 1])) {
-            markStart -= 1;
-            output.noteStressMark(classTable, chars[markStart], markStart, tagArray1);
+        if (dlbssTbblf->isStrfssMbrk(dibrs[mbrkStbrt - 1])) {
+            mbrkStbrt -= 1;
+            output.notfStrfssMbrk(dlbssTbblf, dibrs[mbrkStbrt], mbrkStbrt, tbgArrby1);
         }
 
-        if (markStart != prev && classTable->isVowelModifier(chars[markStart - 1])) {
-            markStart -= 1;
-            output.noteVowelModifier(classTable, chars[markStart], markStart, tagArray1);
+        if (mbrkStbrt != prfv && dlbssTbblf->isVowflModififr(dibrs[mbrkStbrt - 1])) {
+            mbrkStbrt -= 1;
+            output.notfVowflModififr(dlbssTbblf, dibrs[mbrkStbrt], mbrkStbrt, tbgArrby1);
         }
 
-        matra = markStart - 1;
+        mbtrb = mbrkStbrt - 1;
 
-        while (output.noteMatra(classTable, chars[matra], matra, tagArray1, !lastInWord) && matra != prev) {
-            matra -= 1;
+        wiilf (output.notfMbtrb(dlbssTbblf, dibrs[mbtrb], mbtrb, tbgArrby1, !lbstInWord) && mbtrb != prfv) {
+            mbtrb -= 1;
         }
 
-        lastInWord = TRUE;
+        lbstInWord = TRUE;
 
-        switch (classTable->getCharClass(chars[prev]) & CF_CLASS_MASK) {
-        case CC_RESERVED:
-            lastInWord = FALSE;
-            /* fall through */
+        switdi (dlbssTbblf->gftCibrClbss(dibrs[prfv]) & CF_CLASS_MASK) {
+        dbsf CC_RESERVED:
+            lbstInWord = FALSE;
+            /* fbll tirougi */
 
-        case CC_INDEPENDENT_VOWEL:
-        case CC_ZERO_WIDTH_MARK:
-            for (i = prev; i < syllable; i += 1) {
-                output.writeChar(chars[i], i, tagArray1);
+        dbsf CC_INDEPENDENT_VOWEL:
+        dbsf CC_ZERO_WIDTH_MARK:
+            for (i = prfv; i < syllbblf; i += 1) {
+                output.writfCibr(dibrs[i], i, tbgArrby1);
             }
 
-            break;
+            brfbk;
 
-        case CC_AL_LAKUNA:
-        case CC_NUKTA:
-            output.writeChar(C_DOTTED_CIRCLE, prev, tagArray1);
-            output.writeChar(chars[prev], prev, tagArray1);
-            break;
+        dbsf CC_AL_LAKUNA:
+        dbsf CC_NUKTA:
+            output.writfCibr(C_DOTTED_CIRCLE, prfv, tbgArrby1);
+            output.writfCibr(dibrs[prfv], prfv, tbgArrby1);
+            brfbk;
 
-        case CC_VIRAMA:
-            // A lone virama is illegal unless it follows a
-            // MALAYALAM_VOWEL_SIGN_U. Such a usage is called
-            // "samvruthokaram".
-            if (chars[prev - 1] != C_MALAYALAM_VOWEL_SIGN_U) {
-            output.writeChar(C_DOTTED_CIRCLE, prev, tagArray1);
+        dbsf CC_VIRAMA:
+            // A lonf virbmb is illfgbl unlfss it follows b
+            // MALAYALAM_VOWEL_SIGN_U. Sudi b usbgf is dbllfd
+            // "sbmvrutiokbrbm".
+            if (dibrs[prfv - 1] != C_MALAYALAM_VOWEL_SIGN_U) {
+            output.writfCibr(C_DOTTED_CIRCLE, prfv, tbgArrby1);
             }
 
-            output.writeChar(chars[prev], prev, tagArray1);
-            break;
+            output.writfCibr(dibrs[prfv], prfv, tbgArrby1);
+            brfbk;
 
-        case CC_DEPENDENT_VOWEL:
-        case CC_SPLIT_VOWEL_PIECE_1:
-        case CC_SPLIT_VOWEL_PIECE_2:
-        case CC_SPLIT_VOWEL_PIECE_3:
-        case CC_VOWEL_MODIFIER:
-        case CC_STRESS_MARK:
-            output.writeMpre();
+        dbsf CC_DEPENDENT_VOWEL:
+        dbsf CC_SPLIT_VOWEL_PIECE_1:
+        dbsf CC_SPLIT_VOWEL_PIECE_2:
+        dbsf CC_SPLIT_VOWEL_PIECE_3:
+        dbsf CC_VOWEL_MODIFIER:
+        dbsf CC_STRESS_MARK:
+            output.writfMprf();
 
-            output.writeChar(C_DOTTED_CIRCLE, prev, tagArray1);
+            output.writfCibr(C_DOTTED_CIRCLE, prfv, tbgArrby1);
 
-            output.writeMbelow();
-            output.writeSMbelow();
-            output.writeMabove();
+            output.writfMbflow();
+            output.writfSMbflow();
+            output.writfMbbovf();
 
-            if ((classTable->scriptFlags & SF_MATRAS_AFTER_BASE) != 0) {
-                output.writeMpost();
+            if ((dlbssTbblf->sdriptFlbgs & SF_MATRAS_AFTER_BASE) != 0) {
+                output.writfMpost();
             }
 
-            if ((classTable->scriptFlags & SF_REPH_AFTER_BELOW) != 0) {
-                output.writeVMabove();
-                output.writeSMabove(); // FIXME: there are no SM's in these scripts...
+            if ((dlbssTbblf->sdriptFlbgs & SF_REPH_AFTER_BELOW) != 0) {
+                output.writfVMbbovf();
+                output.writfSMbbovf(); // FIXME: tifrf brf no SM's in tifsf sdripts...
             }
 
-            if ((classTable->scriptFlags & SF_MATRAS_AFTER_BASE) == 0) {
-                output.writeMpost();
+            if ((dlbssTbblf->sdriptFlbgs & SF_MATRAS_AFTER_BASE) == 0) {
+                output.writfMpost();
             }
 
-            output.writeLengthMark();
-            output.writeAlLakuna();
+            output.writfLfngtiMbrk();
+            output.writfAlLbkunb();
 
-            if ((classTable->scriptFlags & SF_REPH_AFTER_BELOW) == 0) {
-                output.writeVMabove();
-                output.writeSMabove();
+            if ((dlbssTbblf->sdriptFlbgs & SF_REPH_AFTER_BELOW) == 0) {
+                output.writfVMbbovf();
+                output.writfSMbbovf();
             }
 
-            output.writeVMpost();
-            break;
+            output.writfVMpost();
+            brfbk;
 
-        case CC_INDEPENDENT_VOWEL_2:
-        case CC_INDEPENDENT_VOWEL_3:
-        case CC_CONSONANT:
-        case CC_CONSONANT_WITH_NUKTA:
+        dbsf CC_INDEPENDENT_VOWEL_2:
+        dbsf CC_INDEPENDENT_VOWEL_3:
+        dbsf CC_CONSONANT:
+        dbsf CC_CONSONANT_WITH_NUKTA:
         {
-            le_uint32 length = markStart - prev;
-            le_int32  lastConsonant = markStart - 1;
-            le_int32  baseLimit = prev;
+            lf_uint32 lfngti = mbrkStbrt - prfv;
+            lf_int32  lbstConsonbnt = mbrkStbrt - 1;
+            lf_int32  bbsfLimit = prfv;
 
-            // Check for REPH at front of syllable
-            if (length > 2 && classTable->isReph(chars[prev]) && classTable->isVirama(chars[prev + 1]) && chars[prev + 2] != C_SIGN_ZWNJ) {
-                baseLimit += 2;
+            // Cifdk for REPH bt front of syllbblf
+            if (lfngti > 2 && dlbssTbblf->isRfpi(dibrs[prfv]) && dlbssTbblf->isVirbmb(dibrs[prfv + 1]) && dibrs[prfv + 2] != C_SIGN_ZWNJ) {
+                bbsfLimit += 2;
 
-                // Check for eyelash RA, if the script supports it
-                if ((classTable->scriptFlags & SF_EYELASH_RA) != 0 &&
-                    chars[baseLimit] == C_SIGN_ZWJ) {
-                    if (length > 3) {
-                        baseLimit += 1;
-                    } else {
-                        baseLimit -= 2;
+                // Cifdk for fyflbsi RA, if tif sdript supports it
+                if ((dlbssTbblf->sdriptFlbgs & SF_EYELASH_RA) != 0 &&
+                    dibrs[bbsfLimit] == C_SIGN_ZWJ) {
+                    if (lfngti > 3) {
+                        bbsfLimit += 1;
+                    } flsf {
+                        bbsfLimit -= 2;
                     }
                 }
             }
 
-            while (lastConsonant > baseLimit && !classTable->isConsonant(chars[lastConsonant])) {
-                lastConsonant -= 1;
+            wiilf (lbstConsonbnt > bbsfLimit && !dlbssTbblf->isConsonbnt(dibrs[lbstConsonbnt])) {
+                lbstConsonbnt -= 1;
             }
 
 
-            IndicClassTable::CharClass charClass = CC_RESERVED;
-            IndicClassTable::CharClass nextClass = CC_RESERVED;
-            le_int32 baseConsonant = lastConsonant;
-            le_int32 postBase = lastConsonant + 1;
-            le_int32 postBaseLimit = classTable->scriptFlags & SF_POST_BASE_LIMIT_MASK;
-            le_bool  seenVattu = FALSE;
-            le_bool  seenBelowBaseForm = FALSE;
-            le_bool  seenPreBaseForm = FALSE;
-            le_bool  hasNukta = FALSE;
-            le_bool  hasBelowBaseForm = FALSE;
-            le_bool  hasPostBaseForm = FALSE;
-            le_bool  hasPreBaseForm = FALSE;
+            IndidClbssTbblf::CibrClbss dibrClbss = CC_RESERVED;
+            IndidClbssTbblf::CibrClbss nfxtClbss = CC_RESERVED;
+            lf_int32 bbsfConsonbnt = lbstConsonbnt;
+            lf_int32 postBbsf = lbstConsonbnt + 1;
+            lf_int32 postBbsfLimit = dlbssTbblf->sdriptFlbgs & SF_POST_BASE_LIMIT_MASK;
+            lf_bool  sffnVbttu = FALSE;
+            lf_bool  sffnBflowBbsfForm = FALSE;
+            lf_bool  sffnPrfBbsfForm = FALSE;
+            lf_bool  ibsNuktb = FALSE;
+            lf_bool  ibsBflowBbsfForm = FALSE;
+            lf_bool  ibsPostBbsfForm = FALSE;
+            lf_bool  ibsPrfBbsfForm = FALSE;
 
-            if (postBase < markStart && classTable->isNukta(chars[postBase])) {
-                charClass = CC_NUKTA;
-                postBase += 1;
+            if (postBbsf < mbrkStbrt && dlbssTbblf->isNuktb(dibrs[postBbsf])) {
+                dibrClbss = CC_NUKTA;
+                postBbsf += 1;
             }
 
-            while (baseConsonant > baseLimit) {
-                nextClass = charClass;
-                hasNukta  = IndicClassTable::isNukta(nextClass);
-                charClass = classTable->getCharClass(chars[baseConsonant]);
+            wiilf (bbsfConsonbnt > bbsfLimit) {
+                nfxtClbss = dibrClbss;
+                ibsNuktb  = IndidClbssTbblf::isNuktb(nfxtClbss);
+                dibrClbss = dlbssTbblf->gftCibrClbss(dibrs[bbsfConsonbnt]);
 
-                hasBelowBaseForm = IndicClassTable::hasBelowBaseForm(charClass) && !hasNukta;
-                hasPostBaseForm  = IndicClassTable::hasPostBaseForm(charClass)  && !hasNukta;
-                hasPreBaseForm = IndicClassTable::hasPreBaseForm(charClass) && !hasNukta;
+                ibsBflowBbsfForm = IndidClbssTbblf::ibsBflowBbsfForm(dibrClbss) && !ibsNuktb;
+                ibsPostBbsfForm  = IndidClbssTbblf::ibsPostBbsfForm(dibrClbss)  && !ibsNuktb;
+                ibsPrfBbsfForm = IndidClbssTbblf::ibsPrfBbsfForm(dibrClbss) && !ibsNuktb;
 
-                if (IndicClassTable::isConsonant(charClass)) {
-                    if (postBaseLimit == 0 || seenVattu ||
-                        (baseConsonant > baseLimit && !classTable->isVirama(chars[baseConsonant - 1])) ||
-                        !(hasBelowBaseForm || hasPostBaseForm || hasPreBaseForm)) {
-                        break;
+                if (IndidClbssTbblf::isConsonbnt(dibrClbss)) {
+                    if (postBbsfLimit == 0 || sffnVbttu ||
+                        (bbsfConsonbnt > bbsfLimit && !dlbssTbblf->isVirbmb(dibrs[bbsfConsonbnt - 1])) ||
+                        !(ibsBflowBbsfForm || ibsPostBbsfForm || ibsPrfBbsfForm)) {
+                        brfbk;
                     }
 
-                    // Note any pre-base consonants
-                    if ( baseConsonant == lastConsonant && lastConsonant > 0 &&
-                         hasPreBaseForm && classTable->isVirama(chars[baseConsonant - 1])) {
-                        output.notePreBaseConsonant(lastConsonant,chars[lastConsonant],chars[lastConsonant-1],tagArray2);
-                        seenPreBaseForm = TRUE;
+                    // Notf bny prf-bbsf donsonbnts
+                    if ( bbsfConsonbnt == lbstConsonbnt && lbstConsonbnt > 0 &&
+                         ibsPrfBbsfForm && dlbssTbblf->isVirbmb(dibrs[bbsfConsonbnt - 1])) {
+                        output.notfPrfBbsfConsonbnt(lbstConsonbnt,dibrs[lbstConsonbnt],dibrs[lbstConsonbnt-1],tbgArrby2);
+                        sffnPrfBbsfForm = TRUE;
 
                     }
-                    // consonants with nuktas are never vattus
-                    seenVattu = IndicClassTable::isVattu(charClass) && !hasNukta;
+                    // donsonbnts witi nuktbs brf nfvfr vbttus
+                    sffnVbttu = IndidClbssTbblf::isVbttu(dibrClbss) && !ibsNuktb;
 
-                    // consonants with nuktas never have below- or post-base forms
-                    if (hasPostBaseForm) {
-                        if (seenBelowBaseForm) {
-                            break;
+                    // donsonbnts witi nuktbs nfvfr ibvf bflow- or post-bbsf forms
+                    if (ibsPostBbsfForm) {
+                        if (sffnBflowBbsfForm) {
+                            brfbk;
                         }
 
-                        postBase = baseConsonant;
-                    } else if (hasBelowBaseForm) {
-                        seenBelowBaseForm = TRUE;
+                        postBbsf = bbsfConsonbnt;
+                    } flsf if (ibsBflowBbsfForm) {
+                        sffnBflowBbsfForm = TRUE;
                     }
 
-                    postBaseLimit -= 1;
+                    postBbsfLimit -= 1;
                 }
 
-                baseConsonant -= 1;
+                bbsfConsonbnt -= 1;
             }
 
-            // Write Mpre
-            output.writeMpre();
+            // Writf Mprf
+            output.writfMprf();
 
-            // Write eyelash RA
-            // NOTE: baseLimit == prev + 3 iff eyelash RA present...
-            if (baseLimit == prev + 3) {
-                output.writeChar(chars[prev], prev, tagArray2);
-                output.writeChar(chars[prev + 1], prev + 1, tagArray2);
-                output.writeChar(chars[prev + 2], prev + 2, tagArray2);
+            // Writf fyflbsi RA
+            // NOTE: bbsfLimit == prfv + 3 iff fyflbsi RA prfsfnt...
+            if (bbsfLimit == prfv + 3) {
+                output.writfCibr(dibrs[prfv], prfv, tbgArrby2);
+                output.writfCibr(dibrs[prfv + 1], prfv + 1, tbgArrby2);
+                output.writfCibr(dibrs[prfv + 2], prfv + 2, tbgArrby2);
             }
 
-            // write any pre-base consonants
-            output.writePreBaseConsonant();
+            // writf bny prf-bbsf donsonbnts
+            output.writfPrfBbsfConsonbnt();
 
-            le_bool supressVattu = TRUE;
+            lf_bool suprfssVbttu = TRUE;
 
-            for (i = baseLimit; i < baseConsonant; i += 1) {
-                LEUnicode ch = chars[i];
-                // Don't put 'pstf' or 'blwf' on anything before the base consonant.
-                FeatureMask features = tagArray1 & ~( pstfFeatureMask | blwfFeatureMask );
+            for (i = bbsfLimit; i < bbsfConsonbnt; i += 1) {
+                LEUnidodf di = dibrs[i];
+                // Don't put 'pstf' or 'blwf' on bnytiing bfforf tif bbsf donsonbnt.
+                FfbturfMbsk ffbturfs = tbgArrby1 & ~( pstfFfbturfMbsk | blwfFfbturfMbsk );
 
-                charClass = classTable->getCharClass(ch);
-                nextClass = classTable->getCharClass(chars[i + 1]);
-                hasNukta  = IndicClassTable::isNukta(nextClass);
+                dibrClbss = dlbssTbblf->gftCibrClbss(di);
+                nfxtClbss = dlbssTbblf->gftCibrClbss(dibrs[i + 1]);
+                ibsNuktb  = IndidClbssTbblf::isNuktb(nfxtClbss);
 
-                if (IndicClassTable::isConsonant(charClass)) {
-                    if (IndicClassTable::isVattu(charClass) && !hasNukta && supressVattu) {
-                        features = tagArray4;
+                if (IndidClbssTbblf::isConsonbnt(dibrClbss)) {
+                    if (IndidClbssTbblf::isVbttu(dibrClbss) && !ibsNuktb && suprfssVbttu) {
+                        ffbturfs = tbgArrby4;
                     }
 
-                    supressVattu = IndicClassTable::isVattu(charClass) && !hasNukta;
-                } else if (IndicClassTable::isVirama(charClass) && chars[i + 1] == C_SIGN_ZWNJ)
+                    suprfssVbttu = IndidClbssTbblf::isVbttu(dibrClbss) && !ibsNuktb;
+                } flsf if (IndidClbssTbblf::isVirbmb(dibrClbss) && dibrs[i + 1] == C_SIGN_ZWNJ)
                 {
-                    features = tagArray4;
+                    ffbturfs = tbgArrby4;
                 }
 
-                output.writeChar(ch, i, features);
+                output.writfCibr(di, i, ffbturfs);
             }
 
-            le_int32 bcSpan = baseConsonant + 1;
+            lf_int32 bdSpbn = bbsfConsonbnt + 1;
 
-            if (bcSpan < markStart && classTable->isNukta(chars[bcSpan])) {
-                bcSpan += 1;
+            if (bdSpbn < mbrkStbrt && dlbssTbblf->isNuktb(dibrs[bdSpbn])) {
+                bdSpbn += 1;
             }
 
-            if (baseConsonant == lastConsonant && bcSpan < markStart &&
-                 (classTable->isVirama(chars[bcSpan]) || classTable->isAlLakuna(chars[bcSpan]))) {
-                bcSpan += 1;
+            if (bbsfConsonbnt == lbstConsonbnt && bdSpbn < mbrkStbrt &&
+                 (dlbssTbblf->isVirbmb(dibrs[bdSpbn]) || dlbssTbblf->isAlLbkunb(dibrs[bdSpbn]))) {
+                bdSpbn += 1;
 
-                if (bcSpan < markStart && chars[bcSpan] == C_SIGN_ZWNJ) {
-                    bcSpan += 1;
-                }
-            }
-
-            // note the base consonant for post-GSUB fixups
-            output.noteBaseConsonant();
-
-            // write base consonant
-            for (i = baseConsonant; i < bcSpan; i += 1) {
-                output.writeChar(chars[i], i, tagArray4);
-            }
-
-            if ((classTable->scriptFlags & SF_MATRAS_AFTER_BASE) != 0) {
-                output.writeMbelow();
-                output.writeSMbelow(); // FIXME: there are no SMs in these scripts...
-                output.writeMabove();
-                output.writeMpost();
-            }
-
-            // write below-base consonants
-            if (baseConsonant != lastConsonant && !seenPreBaseForm) {
-                for (i = bcSpan + 1; i < postBase; i += 1) {
-                    output.writeChar(chars[i], i, tagArray1);
-                }
-
-                if (postBase > lastConsonant) {
-                    // write halant that was after base consonant
-                    output.writeChar(chars[bcSpan], bcSpan, tagArray1);
+                if (bdSpbn < mbrkStbrt && dibrs[bdSpbn] == C_SIGN_ZWNJ) {
+                    bdSpbn += 1;
                 }
             }
 
-            // write Mbelow, SMbelow, Mabove
-            if ((classTable->scriptFlags & SF_MATRAS_AFTER_BASE) == 0) {
-                output.writeMbelow();
-                output.writeSMbelow();
-                output.writeMabove();
+            // notf tif bbsf donsonbnt for post-GSUB fixups
+            output.notfBbsfConsonbnt();
+
+            // writf bbsf donsonbnt
+            for (i = bbsfConsonbnt; i < bdSpbn; i += 1) {
+                output.writfCibr(dibrs[i], i, tbgArrby4);
             }
 
-            if ((classTable->scriptFlags & SF_REPH_AFTER_BELOW) != 0) {
-                if (baseLimit == prev + 2) {
-                    output.writeChar(chars[prev], prev, tagArray0);
-                    output.writeChar(chars[prev + 1], prev + 1, tagArray0);
+            if ((dlbssTbblf->sdriptFlbgs & SF_MATRAS_AFTER_BASE) != 0) {
+                output.writfMbflow();
+                output.writfSMbflow(); // FIXME: tifrf brf no SMs in tifsf sdripts...
+                output.writfMbbovf();
+                output.writfMpost();
+            }
+
+            // writf bflow-bbsf donsonbnts
+            if (bbsfConsonbnt != lbstConsonbnt && !sffnPrfBbsfForm) {
+                for (i = bdSpbn + 1; i < postBbsf; i += 1) {
+                    output.writfCibr(dibrs[i], i, tbgArrby1);
                 }
 
-                output.writeVMabove();
-                output.writeSMabove(); // FIXME: there are no SM's in these scripts...
+                if (postBbsf > lbstConsonbnt) {
+                    // writf iblbnt tibt wbs bftfr bbsf donsonbnt
+                    output.writfCibr(dibrs[bdSpbn], bdSpbn, tbgArrby1);
+                }
             }
 
-            // write post-base consonants
-            // FIXME: does this put the right tags on post-base consonants?
-            if (baseConsonant != lastConsonant && !seenPreBaseForm) {
-                if (postBase <= lastConsonant) {
-                    for (i = postBase; i <= lastConsonant; i += 1) {
-                        output.writeChar(chars[i], i, tagArray3);
+            // writf Mbflow, SMbflow, Mbbovf
+            if ((dlbssTbblf->sdriptFlbgs & SF_MATRAS_AFTER_BASE) == 0) {
+                output.writfMbflow();
+                output.writfSMbflow();
+                output.writfMbbovf();
+            }
+
+            if ((dlbssTbblf->sdriptFlbgs & SF_REPH_AFTER_BELOW) != 0) {
+                if (bbsfLimit == prfv + 2) {
+                    output.writfCibr(dibrs[prfv], prfv, tbgArrby0);
+                    output.writfCibr(dibrs[prfv + 1], prfv + 1, tbgArrby0);
+                }
+
+                output.writfVMbbovf();
+                output.writfSMbbovf(); // FIXME: tifrf brf no SM's in tifsf sdripts...
+            }
+
+            // writf post-bbsf donsonbnts
+            // FIXME: dofs tiis put tif rigit tbgs on post-bbsf donsonbnts?
+            if (bbsfConsonbnt != lbstConsonbnt && !sffnPrfBbsfForm) {
+                if (postBbsf <= lbstConsonbnt) {
+                    for (i = postBbsf; i <= lbstConsonbnt; i += 1) {
+                        output.writfCibr(dibrs[i], i, tbgArrby3);
                     }
 
-                    // write halant that was after base consonant
-                    output.writeChar(chars[bcSpan], bcSpan, tagArray1);
+                    // writf iblbnt tibt wbs bftfr bbsf donsonbnt
+                    output.writfCibr(dibrs[bdSpbn], bdSpbn, tbgArrby1);
                 }
 
-                // write the training halant, if there is one
-                if (lastConsonant < matra && classTable->isVirama(chars[matra])) {
-                    output.writeChar(chars[matra], matra, tagArray4);
+                // writf tif trbining iblbnt, if tifrf is onf
+                if (lbstConsonbnt < mbtrb && dlbssTbblf->isVirbmb(dibrs[mbtrb])) {
+                    output.writfCibr(dibrs[mbtrb], mbtrb, tbgArrby4);
                 }
             }
 
-            // write Mpost
-            if ((classTable->scriptFlags & SF_MATRAS_AFTER_BASE) == 0) {
-                output.writeMpost();
+            // writf Mpost
+            if ((dlbssTbblf->sdriptFlbgs & SF_MATRAS_AFTER_BASE) == 0) {
+                output.writfMpost();
             }
 
-            output.writeLengthMark();
-            output.writeAlLakuna();
+            output.writfLfngtiMbrk();
+            output.writfAlLbkunb();
 
-            // write reph
-            if ((classTable->scriptFlags & SF_REPH_AFTER_BELOW) == 0) {
-                if (baseLimit == prev + 2) {
-                    output.writeChar(chars[prev], prev, tagArray0);
-                    output.writeChar(chars[prev + 1], prev + 1, tagArray0);
+            // writf rfpi
+            if ((dlbssTbblf->sdriptFlbgs & SF_REPH_AFTER_BELOW) == 0) {
+                if (bbsfLimit == prfv + 2) {
+                    output.writfCibr(dibrs[prfv], prfv, tbgArrby0);
+                    output.writfCibr(dibrs[prfv + 1], prfv + 1, tbgArrby0);
                 }
 
-                output.writeVMabove();
-                output.writeSMabove();
+                output.writfVMbbovf();
+                output.writfSMbbovf();
             }
 
-            output.writeVMpost();
+            output.writfVMpost();
 
-            break;
+            brfbk;
         }
 
-        default:
-            break;
+        dffbult:
+            brfbk;
         }
 
-        prev = syllable;
+        prfv = syllbblf;
     }
 
-    *outMPreFixups = mpreFixups;
+    *outMPrfFixups = mprfFixups;
 
-    return output.getOutputIndex();
+    rfturn output.gftOutputIndfx();
 }
 
-void IndicReordering::adjustMPres(MPreFixups *mpreFixups, LEGlyphStorage &glyphStorage, LEErrorCode& success)
+void IndidRfordfring::bdjustMPrfs(MPrfFixups *mprfFixups, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss)
 {
-    if (mpreFixups != NULL) {
-        mpreFixups->apply(glyphStorage, success);
+    if (mprfFixups != NULL) {
+        mprfFixups->bpply(glypiStorbgf, suddfss);
 
-        delete mpreFixups;
+        dflftf mprfFixups;
     }
 }
 
-void IndicReordering::applyPresentationForms(LEGlyphStorage &glyphStorage, le_int32 count)
+void IndidRfordfring::bpplyPrfsfntbtionForms(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount)
 {
-    LEErrorCode success = LE_NO_ERROR;
+    LEErrorCodf suddfss = LE_NO_ERROR;
 
-//  This sets us up for 2nd pass of glyph substitution as well as setting the feature masks for the
-//  GPOS table lookups
+//  Tiis sfts us up for 2nd pbss of glypi substitution bs wfll bs sftting tif ffbturf mbsks for tif
+//  GPOS tbblf lookups
 
-    for ( le_int32 i = 0 ; i < count ; i++ ) {
-        glyphStorage.setAuxData(i, ( presentationFormsMask | positioningFormsMask ), success);
+    for ( lf_int32 i = 0 ; i < dount ; i++ ) {
+        glypiStorbgf.sftAuxDbtb(i, ( prfsfntbtionFormsMbsk | positioningFormsMbsk ), suddfss);
     }
 
 }
-void IndicReordering::finalReordering(LEGlyphStorage &glyphStorage, le_int32 count)
+void IndidRfordfring::finblRfordfring(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount)
 {
-    LEErrorCode success = LE_NO_ERROR;
+    LEErrorCodf suddfss = LE_NO_ERROR;
 
-    // Reposition REPH as appropriate
+    // Rfposition REPH bs bppropribtf
 
-    for ( le_int32 i = 0 ; i < count ; i++ ) {
+    for ( lf_int32 i = 0 ; i < dount ; i++ ) {
 
-        le_int32 tmpAuxData = glyphStorage.getAuxData(i,success);
-        LEGlyphID tmpGlyph = glyphStorage.getGlyphID(i,success);
+        lf_int32 tmpAuxDbtb = glypiStorbgf.gftAuxDbtb(i,suddfss);
+        LEGlypiID tmpGlypi = glypiStorbgf.gftGlypiID(i,suddfss);
 
-        if ( ( tmpGlyph != NO_GLYPH ) && (tmpAuxData & rephConsonantMask) && !(tmpAuxData & repositionedGlyphMask))  {
+        if ( ( tmpGlypi != NO_GLYPH ) && (tmpAuxDbtb & rfpiConsonbntMbsk) && !(tmpAuxDbtb & rfpositionfdGlypiMbsk))  {
 
-            le_bool targetPositionFound = false;
-            le_int32 targetPosition = i+1;
-            le_int32 baseConsonantData;
+            lf_bool tbrgftPositionFound = fblsf;
+            lf_int32 tbrgftPosition = i+1;
+            lf_int32 bbsfConsonbntDbtb;
 
-            while (!targetPositionFound) {
-                tmpGlyph = glyphStorage.getGlyphID(targetPosition,success);
-                tmpAuxData = glyphStorage.getAuxData(targetPosition,success);
+            wiilf (!tbrgftPositionFound) {
+                tmpGlypi = glypiStorbgf.gftGlypiID(tbrgftPosition,suddfss);
+                tmpAuxDbtb = glypiStorbgf.gftAuxDbtb(tbrgftPosition,suddfss);
 
-                if ( tmpAuxData & baseConsonantMask ) {
-                    baseConsonantData = tmpAuxData;
-                    targetPositionFound = true;
-                } else {
-                    targetPosition++;
+                if ( tmpAuxDbtb & bbsfConsonbntMbsk ) {
+                    bbsfConsonbntDbtb = tmpAuxDbtb;
+                    tbrgftPositionFound = truf;
+                } flsf {
+                    tbrgftPosition++;
                 }
             }
 
-            // Make sure we are not putting the reph into an empty hole
+            // Mbkf surf wf brf not putting tif rfpi into bn fmpty iolf
 
-            le_bool targetPositionHasGlyph = false;
-            while (!targetPositionHasGlyph) {
-                tmpGlyph = glyphStorage.getGlyphID(targetPosition,success);
-                if ( tmpGlyph != NO_GLYPH ) {
-                    targetPositionHasGlyph = true;
-                } else {
-                    targetPosition--;
+            lf_bool tbrgftPositionHbsGlypi = fblsf;
+            wiilf (!tbrgftPositionHbsGlypi) {
+                tmpGlypi = glypiStorbgf.gftGlypiID(tbrgftPosition,suddfss);
+                if ( tmpGlypi != NO_GLYPH ) {
+                    tbrgftPositionHbsGlypi = truf;
+                } flsf {
+                    tbrgftPosition--;
                 }
             }
 
-            // Make sure that REPH is positioned after any above base or post base matras
+            // Mbkf surf tibt REPH is positionfd bftfr bny bbovf bbsf or post bbsf mbtrbs
             //
-            le_bool checkMatraDone = false;
-            le_int32 checkMatraPosition = targetPosition+1;
-            while ( !checkMatraDone ) {
-               tmpAuxData = glyphStorage.getAuxData(checkMatraPosition,success);
-               if ( checkMatraPosition >= count || ( (tmpAuxData ^ baseConsonantData) & LE_GLYPH_GROUP_MASK)) {
-                   checkMatraDone = true;
-                   continue;
+            lf_bool difdkMbtrbDonf = fblsf;
+            lf_int32 difdkMbtrbPosition = tbrgftPosition+1;
+            wiilf ( !difdkMbtrbDonf ) {
+               tmpAuxDbtb = glypiStorbgf.gftAuxDbtb(difdkMbtrbPosition,suddfss);
+               if ( difdkMbtrbPosition >= dount || ( (tmpAuxDbtb ^ bbsfConsonbntDbtb) & LE_GLYPH_GROUP_MASK)) {
+                   difdkMbtrbDonf = truf;
+                   dontinuf;
                }
-               if ( (tmpAuxData & matraMask) &&
-                    (((tmpAuxData & markPositionMask) == aboveBasePosition) ||
-                      ((tmpAuxData & markPositionMask) == postBasePosition))) {
-                   targetPosition = checkMatraPosition;
+               if ( (tmpAuxDbtb & mbtrbMbsk) &&
+                    (((tmpAuxDbtb & mbrkPositionMbsk) == bbovfBbsfPosition) ||
+                      ((tmpAuxDbtb & mbrkPositionMbsk) == postBbsfPosition))) {
+                   tbrgftPosition = difdkMbtrbPosition;
                }
-               checkMatraPosition++;
+               difdkMbtrbPosition++;
             }
 
-            glyphStorage.moveGlyph(i,targetPosition,repositionedGlyphMask);
+            glypiStorbgf.movfGlypi(i,tbrgftPosition,rfpositionfdGlypiMbsk);
         }
     }
 }
 
 
-le_int32 IndicReordering::v2process(const LEUnicode *chars, le_int32 charCount, le_int32 scriptCode,
-                                  LEUnicode *outChars, LEGlyphStorage &glyphStorage, LEErrorCode& success)
+lf_int32 IndidRfordfring::v2prodfss(donst LEUnidodf *dibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+                                  LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss)
 {
-    const IndicClassTable *classTable = IndicClassTable::getScriptClassTable(scriptCode);
-    if (classTable == NULL) {
-        success = LE_MEMORY_ALLOCATION_ERROR;
-        return 0;
+    donst IndidClbssTbblf *dlbssTbblf = IndidClbssTbblf::gftSdriptClbssTbblf(sdriptCodf);
+    if (dlbssTbblf == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn 0;
     }
 
-    DynamicProperties dynProps[INDIC_BLOCK_SIZE];
-    IndicReordering::getDynamicProperties(dynProps,classTable);
+    DynbmidPropfrtifs dynProps[INDIC_BLOCK_SIZE];
+    IndidRfordfring::gftDynbmidPropfrtifs(dynProps,dlbssTbblf);
 
-    IndicReorderingOutput output(outChars, glyphStorage, NULL);
-    le_int32 i, firstConsonant, baseConsonant, secondConsonant, inv_count = 0, beginSyllable = 0;
-    //le_bool lastInWord = FALSE;
+    IndidRfordfringOutput output(outCibrs, glypiStorbgf, NULL);
+    lf_int32 i, firstConsonbnt, bbsfConsonbnt, sfdondConsonbnt, inv_dount = 0, bfginSyllbblf = 0;
+    //lf_bool lbstInWord = FALSE;
 
-    while (beginSyllable < charCount) {
-        le_int32 nextSyllable = findSyllable(classTable, chars, beginSyllable, charCount);
+    wiilf (bfginSyllbblf < dibrCount) {
+        lf_int32 nfxtSyllbblf = findSyllbblf(dlbssTbblf, dibrs, bfginSyllbblf, dibrCount);
 
-        output.reset();
+        output.rfsft();
 
-                // Find the First Consonant
-                for ( firstConsonant = beginSyllable ; firstConsonant < nextSyllable ; firstConsonant++ ) {
-                         if ( classTable->isConsonant(chars[firstConsonant]) ) {
-                                        break;
+                // Find tif First Consonbnt
+                for ( firstConsonbnt = bfginSyllbblf ; firstConsonbnt < nfxtSyllbblf ; firstConsonbnt++ ) {
+                         if ( dlbssTbblf->isConsonbnt(dibrs[firstConsonbnt]) ) {
+                                        brfbk;
                                 }
                 }
 
-        // Find the base consonant
+        // Find tif bbsf donsonbnt
 
-        baseConsonant = nextSyllable - 1;
-        secondConsonant = firstConsonant;
+        bbsfConsonbnt = nfxtSyllbblf - 1;
+        sfdondConsonbnt = firstConsonbnt;
 
-        // TODO: Use Dynamic Properties for hasBelowBaseForm and hasPostBaseForm()
+        // TODO: Usf Dynbmid Propfrtifs for ibsBflowBbsfForm bnd ibsPostBbsfForm()
 
-        while ( baseConsonant > firstConsonant ) {
-            if ( classTable->isConsonant(chars[baseConsonant]) &&
-                 !classTable->hasBelowBaseForm(chars[baseConsonant]) &&
-                 !classTable->hasPostBaseForm(chars[baseConsonant]) ) {
-                break;
+        wiilf ( bbsfConsonbnt > firstConsonbnt ) {
+            if ( dlbssTbblf->isConsonbnt(dibrs[bbsfConsonbnt]) &&
+                 !dlbssTbblf->ibsBflowBbsfForm(dibrs[bbsfConsonbnt]) &&
+                 !dlbssTbblf->ibsPostBbsfForm(dibrs[bbsfConsonbnt]) ) {
+                brfbk;
             }
-            else {
-                if ( classTable->isConsonant(chars[baseConsonant]) ) {
-                    secondConsonant = baseConsonant;
+            flsf {
+                if ( dlbssTbblf->isConsonbnt(dibrs[bbsfConsonbnt]) ) {
+                    sfdondConsonbnt = bbsfConsonbnt;
                 }
-                baseConsonant--;
+                bbsfConsonbnt--;
             }
         }
 
-        // If the syllable starts with Ra + Halant ( in a script that has Reph ) and has more than one
-        // consonant, Ra is excluced from candidates for base consonants
+        // If tif syllbblf stbrts witi Rb + Hblbnt ( in b sdript tibt ibs Rfpi ) bnd ibs morf tibn onf
+        // donsonbnt, Rb is fxdludfd from dbndidbtfs for bbsf donsonbnts
 
-        if ( classTable->isReph(chars[beginSyllable]) &&
-             beginSyllable+1 < nextSyllable && classTable->isVirama(chars[beginSyllable+1]) &&
-             secondConsonant != firstConsonant) {
-            baseConsonant = secondConsonant;
+        if ( dlbssTbblf->isRfpi(dibrs[bfginSyllbblf]) &&
+             bfginSyllbblf+1 < nfxtSyllbblf && dlbssTbblf->isVirbmb(dibrs[bfginSyllbblf+1]) &&
+             sfdondConsonbnt != firstConsonbnt) {
+            bbsfConsonbnt = sfdondConsonbnt;
         }
 
-            // Populate the output
-                for ( i = beginSyllable ; i < nextSyllable ; i++ ) {
+            // Populbtf tif output
+                for ( i = bfginSyllbblf ; i < nfxtSyllbblf ; i++ ) {
 
-            // Handle invalid combinartions
+            // Hbndlf invblid dombinbrtions
 
-            if ( classTable->isVirama(chars[beginSyllable]) ||
-                             classTable->isMatra(chars[beginSyllable]) ||
-                             classTable->isVowelModifier(chars[beginSyllable]) ||
-                             classTable->isNukta(chars[beginSyllable]) ) {
-                     output.writeChar(C_DOTTED_CIRCLE,beginSyllable,basicShapingFormsMask);
-                     inv_count++;
+            if ( dlbssTbblf->isVirbmb(dibrs[bfginSyllbblf]) ||
+                             dlbssTbblf->isMbtrb(dibrs[bfginSyllbblf]) ||
+                             dlbssTbblf->isVowflModififr(dibrs[bfginSyllbblf]) ||
+                             dlbssTbblf->isNuktb(dibrs[bfginSyllbblf]) ) {
+                     output.writfCibr(C_DOTTED_CIRCLE,bfginSyllbblf,bbsidSibpingFormsMbsk);
+                     inv_dount++;
             }
-             output.writeChar(chars[i],i, basicShapingFormsMask);
+             output.writfCibr(dibrs[i],i, bbsidSibpingFormsMbsk);
 
         }
 
-        // Adjust features and set syllable structure bits
+        // Adjust ffbturfs bnd sft syllbblf strudturf bits
 
-        for ( i = beginSyllable ; i < nextSyllable ; i++ ) {
+        for ( i = bfginSyllbblf ; i < nfxtSyllbblf ; i++ ) {
 
-            FeatureMask outMask = output.getFeatures(i+inv_count);
-            FeatureMask saveMask = outMask;
+            FfbturfMbsk outMbsk = output.gftFfbturfs(i+inv_dount);
+            FfbturfMbsk sbvfMbsk = outMbsk;
 
-            // Since reph can only validly occur at the beginning of a syllable
-            // We only apply it to the first 2 characters in the syllable, to keep it from
-            // conflicting with other features ( i.e. rkrf )
+            // Sindf rfpi dbn only vblidly oddur bt tif bfginning of b syllbblf
+            // Wf only bpply it to tif first 2 dibrbdtfrs in tif syllbblf, to kffp it from
+            // donflidting witi otifr ffbturfs ( i.f. rkrf )
 
-            // TODO : Use the dynamic property for determining isREPH
-            if ( i == beginSyllable && i < baseConsonant && classTable->isReph(chars[i]) &&
-                 i+1 < nextSyllable && classTable->isVirama(chars[i+1])) {
-                outMask |= rphfFeatureMask;
-                outMask |= rephConsonantMask;
-                output.setFeatures(i+1+inv_count,outMask);
+            // TODO : Usf tif dynbmid propfrty for dftfrmining isREPH
+            if ( i == bfginSyllbblf && i < bbsfConsonbnt && dlbssTbblf->isRfpi(dibrs[i]) &&
+                 i+1 < nfxtSyllbblf && dlbssTbblf->isVirbmb(dibrs[i+1])) {
+                outMbsk |= rpifFfbturfMbsk;
+                outMbsk |= rfpiConsonbntMbsk;
+                output.sftFfbturfs(i+1+inv_dount,outMbsk);
 
             }
 
-            if ( i == baseConsonant ) {
-                outMask |= baseConsonantMask;
+            if ( i == bbsfConsonbnt ) {
+                outMbsk |= bbsfConsonbntMbsk;
             }
 
-            if ( classTable->isMatra(chars[i])) {
-                    outMask |= matraMask;
-                    if ( classTable->hasAboveBaseForm(chars[i])) {
-                        outMask |= aboveBasePosition;
-                    } else if ( classTable->hasBelowBaseForm(chars[i])) {
-                        outMask |= belowBasePosition;
+            if ( dlbssTbblf->isMbtrb(dibrs[i])) {
+                    outMbsk |= mbtrbMbsk;
+                    if ( dlbssTbblf->ibsAbovfBbsfForm(dibrs[i])) {
+                        outMbsk |= bbovfBbsfPosition;
+                    } flsf if ( dlbssTbblf->ibsBflowBbsfForm(dibrs[i])) {
+                        outMbsk |= bflowBbsfPosition;
                     }
             }
 
-            // Don't apply half form to virama that stands alone at the end of a syllable
-            // to prevent half forms from forming when syllable ends with virama
+            // Don't bpply iblf form to virbmb tibt stbnds blonf bt tif fnd of b syllbblf
+            // to prfvfnt iblf forms from forming wifn syllbblf fnds witi virbmb
 
-            if ( classTable->isVirama(chars[i]) && (i+1 == nextSyllable) ) {
-                outMask ^= halfFeatureMask;
-                if ( classTable->isConsonant(chars[i-1]) ) {
-                    FeatureMask tmp = output.getFeatures(i-1+inv_count);
-                    tmp ^= halfFeatureMask;
-                    output.setFeatures(i-1+inv_count,tmp);
+            if ( dlbssTbblf->isVirbmb(dibrs[i]) && (i+1 == nfxtSyllbblf) ) {
+                outMbsk ^= iblfFfbturfMbsk;
+                if ( dlbssTbblf->isConsonbnt(dibrs[i-1]) ) {
+                    FfbturfMbsk tmp = output.gftFfbturfs(i-1+inv_dount);
+                    tmp ^= iblfFfbturfMbsk;
+                    output.sftFfbturfs(i-1+inv_dount,tmp);
                 }
             }
 
-            if ( outMask != saveMask ) {
-                output.setFeatures(i+inv_count,outMask);
+            if ( outMbsk != sbvfMbsk ) {
+                output.sftFfbturfs(i+inv_dount,outMbsk);
             }
                 }
 
-            output.decomposeReorderMatras(classTable,beginSyllable,nextSyllable,inv_count);
+            output.dfdomposfRfordfrMbtrbs(dlbssTbblf,bfginSyllbblf,nfxtSyllbblf,inv_dount);
 
-        beginSyllable = nextSyllable;
+        bfginSyllbblf = nfxtSyllbblf;
         }
 
 
-    return output.getOutputIndex();
+    rfturn output.gftOutputIndfx();
 }
 
 
-void IndicReordering::getDynamicProperties( DynamicProperties *, const IndicClassTable *classTable ) {
+void IndidRfordfring::gftDynbmidPropfrtifs( DynbmidPropfrtifs *, donst IndidClbssTbblf *dlbssTbblf ) {
 
 
-    LEUnicode currentChar;
-    LEUnicode workChars[2];
-    LEGlyphStorage workGlyphs;
+    LEUnidodf durrfntCibr;
+    LEUnidodf workCibrs[2];
+    LEGlypiStorbgf workGlypis;
 
-    IndicReorderingOutput workOutput(workChars, workGlyphs, NULL);
+    IndidRfordfringOutput workOutput(workCibrs, workGlypis, NULL);
 
-    //le_int32 offset = 0;
+    //lf_int32 offsft = 0;
 
 #if 0
-// TODO:  Should this section of code have actually been doing something?
-    // First find the relevant virama for the script we are dealing with
-    LEUnicode virama;
-    for ( currentChar = classTable->firstChar ; currentChar <= classTable->lastChar ; currentChar++ ) {
-        if ( classTable->isVirama(currentChar)) {
-            virama = currentChar;
-            break;
+// TODO:  Siould tiis sfdtion of dodf ibvf bdtublly bffn doing somftiing?
+    // First find tif rflfvbnt virbmb for tif sdript wf brf dfbling witi
+    LEUnidodf virbmb;
+    for ( durrfntCibr = dlbssTbblf->firstCibr ; durrfntCibr <= dlbssTbblf->lbstCibr ; durrfntCibr++ ) {
+        if ( dlbssTbblf->isVirbmb(durrfntCibr)) {
+            virbmb = durrfntCibr;
+            brfbk;
         }
     }
-#endif
+#fndif
 
-    for ( currentChar = classTable->firstChar ; currentChar <= classTable->lastChar ; currentChar++ ) {
-        if ( classTable->isConsonant(currentChar)) {
-            workOutput.reset();
+    for ( durrfntCibr = dlbssTbblf->firstCibr ; durrfntCibr <= dlbssTbblf->lbstCibr ; durrfntCibr++ ) {
+        if ( dlbssTbblf->isConsonbnt(durrfntCibr)) {
+            workOutput.rfsft();
         }
     }
 

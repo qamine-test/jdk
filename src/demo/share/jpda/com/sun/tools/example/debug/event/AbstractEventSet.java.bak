@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.event;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fvfnt;
 
-import com.sun.jdi.*;
-import com.sun.jdi.event.*;
-import com.sun.jdi.request.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.fvfnt.*;
+import dom.sun.jdi.rfqufst.*;
 
-import java.util.*;
+import jbvb.util.*;
 
-public abstract class AbstractEventSet extends EventObject implements EventSet {
+publid bbstrbdt dlbss AbstrbdtEvfntSft fxtfnds EvfntObjfdt implfmfnts EvfntSft {
 
-    private static final long serialVersionUID = 2772717574222076977L;
-    private final EventSet jdiEventSet;
-    final Event oneEvent;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2772717574222076977L;
+    privbtf finbl EvfntSft jdiEvfntSft;
+    finbl Evfnt onfEvfnt;
 
     /**
      */
-    AbstractEventSet(EventSet jdiEventSet) {
-        super(jdiEventSet.virtualMachine());
-        this.jdiEventSet = jdiEventSet;
-        this.oneEvent = eventIterator().nextEvent();
+    AbstrbdtEvfntSft(EvfntSft jdiEvfntSft) {
+        supfr(jdiEvfntSft.virtublMbdiinf());
+        tiis.jdiEvfntSft = jdiEvfntSft;
+        tiis.onfEvfnt = fvfntItfrbtor().nfxtEvfnt();
     }
 
-    public static AbstractEventSet toSpecificEventSet(EventSet jdiEventSet) {
-        Event evt = jdiEventSet.eventIterator().nextEvent();
-        if (evt instanceof LocatableEvent) {
-            if (evt instanceof ExceptionEvent) {
-                return new ExceptionEventSet(jdiEventSet);
-            } else if (evt instanceof WatchpointEvent) {
-                if (evt instanceof AccessWatchpointEvent) {
-                    return new AccessWatchpointEventSet(jdiEventSet);
-                } else {
-                    return new ModificationWatchpointEventSet(jdiEventSet);
+    publid stbtid AbstrbdtEvfntSft toSpfdifidEvfntSft(EvfntSft jdiEvfntSft) {
+        Evfnt fvt = jdiEvfntSft.fvfntItfrbtor().nfxtEvfnt();
+        if (fvt instbndfof LodbtbblfEvfnt) {
+            if (fvt instbndfof ExdfptionEvfnt) {
+                rfturn nfw ExdfptionEvfntSft(jdiEvfntSft);
+            } flsf if (fvt instbndfof WbtdipointEvfnt) {
+                if (fvt instbndfof AddfssWbtdipointEvfnt) {
+                    rfturn nfw AddfssWbtdipointEvfntSft(jdiEvfntSft);
+                } flsf {
+                    rfturn nfw ModifidbtionWbtdipointEvfntSft(jdiEvfntSft);
                 }
-            } else {
-                return new LocationTriggerEventSet(jdiEventSet);
+            } flsf {
+                rfturn nfw LodbtionTriggfrEvfntSft(jdiEvfntSft);
             }
-        } else if (evt instanceof ClassPrepareEvent) {
-            return new ClassPrepareEventSet(jdiEventSet);
-        } else if (evt instanceof ClassUnloadEvent) {
-            return new ClassUnloadEventSet(jdiEventSet);
-        } else if (evt instanceof ThreadDeathEvent) {
-            return new ThreadDeathEventSet(jdiEventSet);
-        } else if (evt instanceof ThreadStartEvent) {
-            return new ThreadStartEventSet(jdiEventSet);
-        } else if (evt instanceof VMDeathEvent) {
-            return new VMDeathEventSet(jdiEventSet);
-        } else if (evt instanceof VMDisconnectEvent) {
-            return new VMDisconnectEventSet(jdiEventSet);
-        } else if (evt instanceof VMStartEvent) {
-            return new VMStartEventSet(jdiEventSet);
-        } else {
-            throw new IllegalArgumentException("Unknown event " + evt);
+        } flsf if (fvt instbndfof ClbssPrfpbrfEvfnt) {
+            rfturn nfw ClbssPrfpbrfEvfntSft(jdiEvfntSft);
+        } flsf if (fvt instbndfof ClbssUnlobdEvfnt) {
+            rfturn nfw ClbssUnlobdEvfntSft(jdiEvfntSft);
+        } flsf if (fvt instbndfof TirfbdDfbtiEvfnt) {
+            rfturn nfw TirfbdDfbtiEvfntSft(jdiEvfntSft);
+        } flsf if (fvt instbndfof TirfbdStbrtEvfnt) {
+            rfturn nfw TirfbdStbrtEvfntSft(jdiEvfntSft);
+        } flsf if (fvt instbndfof VMDfbtiEvfnt) {
+            rfturn nfw VMDfbtiEvfntSft(jdiEvfntSft);
+        } flsf if (fvt instbndfof VMDisdonnfdtEvfnt) {
+            rfturn nfw VMDisdonnfdtEvfntSft(jdiEvfntSft);
+        } flsf if (fvt instbndfof VMStbrtEvfnt) {
+            rfturn nfw VMStbrtEvfntSft(jdiEvfntSft);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Unknown fvfnt " + fvt);
         }
     }
 
-    public abstract void notify(JDIListener listener);
+    publid bbstrbdt void notify(JDIListfnfr listfnfr);
 
-    // Implement Mirror
+    // Implfmfnt Mirror
 
-    @Override
-    public VirtualMachine virtualMachine() {
-        return jdiEventSet.virtualMachine();
+    @Ovfrridf
+    publid VirtublMbdiinf virtublMbdiinf() {
+        rfturn jdiEvfntSft.virtublMbdiinf();
     }
 
-    public VirtualMachine getVirtualMachine() {
-        return jdiEventSet.virtualMachine();
+    publid VirtublMbdiinf gftVirtublMbdiinf() {
+        rfturn jdiEvfntSft.virtublMbdiinf();
     }
 
-    // Implement EventSet
+    // Implfmfnt EvfntSft
 
     /**
-     * Returns the policy used to suspend threads in the target VM
-     * for this event set. This policy is selected from the suspend
-     * policies for each event's request. The one that suspends the
-     * most threads is chosen when the event occurs in the target VM
-     * and that policy is returned here. See
-     * com.sun.jdi.request.EventRequest for the possible policy values.
+     * Rfturns tif polidy usfd to suspfnd tirfbds in tif tbrgft VM
+     * for tiis fvfnt sft. Tiis polidy is sflfdtfd from tif suspfnd
+     * polidifs for fbdi fvfnt's rfqufst. Tif onf tibt suspfnds tif
+     * most tirfbds is diosfn wifn tif fvfnt oddurs in tif tbrgft VM
+     * bnd tibt polidy is rfturnfd ifrf. Sff
+     * dom.sun.jdi.rfqufst.EvfntRfqufst for tif possiblf polidy vblufs.
      *
-     * @return the integer suspendPolicy
+     * @rfturn tif intfgfr suspfndPolidy
      */
-    public int getSuspendPolicy() {
-        return jdiEventSet.suspendPolicy();
+    publid int gftSuspfndPolidy() {
+        rfturn jdiEvfntSft.suspfndPolidy();
     }
 
-    @Override
-    public void resume() {
-        jdiEventSet.resume();
+    @Ovfrridf
+    publid void rfsumf() {
+        jdiEvfntSft.rfsumf();
     }
 
-    @Override
-    public int suspendPolicy() {
-        return jdiEventSet.suspendPolicy();
+    @Ovfrridf
+    publid int suspfndPolidy() {
+        rfturn jdiEvfntSft.suspfndPolidy();
     }
 
-    public boolean suspendedAll() {
-        return jdiEventSet.suspendPolicy() == EventRequest.SUSPEND_ALL;
+    publid boolfbn suspfndfdAll() {
+        rfturn jdiEvfntSft.suspfndPolidy() == EvfntRfqufst.SUSPEND_ALL;
     }
 
-    public boolean suspendedEventThread() {
-        return jdiEventSet.suspendPolicy() == EventRequest.SUSPEND_EVENT_THREAD;
+    publid boolfbn suspfndfdEvfntTirfbd() {
+        rfturn jdiEvfntSft.suspfndPolidy() == EvfntRfqufst.SUSPEND_EVENT_THREAD;
     }
 
-    public boolean suspendedNone() {
-        return jdiEventSet.suspendPolicy() == EventRequest.SUSPEND_NONE;
+    publid boolfbn suspfndfdNonf() {
+        rfturn jdiEvfntSft.suspfndPolidy() == EvfntRfqufst.SUSPEND_NONE;
     }
 
     /**
-     * Return an iterator specific to {@link Event} objects.
+     * Rfturn bn itfrbtor spfdifid to {@link Evfnt} objfdts.
      */
-    @Override
-    public EventIterator eventIterator() {
-        return jdiEventSet.eventIterator();
+    @Ovfrridf
+    publid EvfntItfrbtor fvfntItfrbtor() {
+        rfturn jdiEvfntSft.fvfntItfrbtor();
     }
 
 
-    // Implement java.util.Set (by pass through)
+    // Implfmfnt jbvb.util.Sft (by pbss tirougi)
 
     /**
-     * Returns the number of elements in this set (its cardinality).  If this
-     * set contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
-     * <tt>Integer.MAX_VALUE</tt>.
+     * Rfturns tif numbfr of flfmfnts in tiis sft (its dbrdinblity).  If tiis
+     * sft dontbins morf tibn <tt>Intfgfr.MAX_VALUE</tt> flfmfnts, rfturns
+     * <tt>Intfgfr.MAX_VALUE</tt>.
      *
-     * @return the number of elements in this set (its cardinality).
+     * @rfturn tif numbfr of flfmfnts in tiis sft (its dbrdinblity).
      */
-    @Override
-    public int size() {
-        return jdiEventSet.size();
+    @Ovfrridf
+    publid int sizf() {
+        rfturn jdiEvfntSft.sizf();
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains no elements.
+     * Rfturns <tt>truf</tt> if tiis sft dontbins no flfmfnts.
      *
-     * @return <tt>true</tt> if this set contains no elements.
+     * @rfturn <tt>truf</tt> if tiis sft dontbins no flfmfnts.
      */
-    @Override
-    public boolean isEmpty() {
-        return jdiEventSet.isEmpty();
+    @Ovfrridf
+    publid boolfbn isEmpty() {
+        rfturn jdiEvfntSft.isEmpty();
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains the specified element.  More
-     * formally, returns <tt>true</tt> if and only if this set contains an
-     * element <code>e</code> such that <code>(o==null ? e==null :
-     * o.equals(e))</code>.
+     * Rfturns <tt>truf</tt> if tiis sft dontbins tif spfdififd flfmfnt.  Morf
+     * formblly, rfturns <tt>truf</tt> if bnd only if tiis sft dontbins bn
+     * flfmfnt <dodf>f</dodf> sudi tibt <dodf>(o==null ? f==null :
+     * o.fqubls(f))</dodf>.
      *
-     * @return <tt>true</tt> if this set contains the specified element.
+     * @rfturn <tt>truf</tt> if tiis sft dontbins tif spfdififd flfmfnt.
      */
-    @Override
-    public boolean contains(Object o) {
-        return jdiEventSet.contains(o);
+    @Ovfrridf
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn jdiEvfntSft.dontbins(o);
     }
 
     /**
-     * Returns an iterator over the elements in this set.  The elements are
-     * returned in no particular order (unless this set is an instance of some
-     * class that provides a guarantee).
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis sft.  Tif flfmfnts brf
+     * rfturnfd in no pbrtidulbr ordfr (unlfss tiis sft is bn instbndf of somf
+     * dlbss tibt providfs b gubrbntff).
      *
-     * @return an iterator over the elements in this set.
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis sft.
      */
-    @Override
-    public Iterator<Event> iterator() {
-        return jdiEventSet.iterator();
+    @Ovfrridf
+    publid Itfrbtor<Evfnt> itfrbtor() {
+        rfturn jdiEvfntSft.itfrbtor();
     }
 
     /**
-     * Returns an array containing all of the elements in this set.
-     * Obeys the general contract of the <tt>Collection.toArray</tt> method.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis sft.
+     * Obfys tif gfnfrbl dontrbdt of tif <tt>Collfdtion.toArrby</tt> mftiod.
      *
-     * @return an array containing all of the elements in this set.
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis sft.
      */
-    @Override
-    public Object[] toArray() {
-        return jdiEventSet.toArray();
+    @Ovfrridf
+    publid Objfdt[] toArrby() {
+        rfturn jdiEvfntSft.toArrby();
     }
 
     /**
-     * Returns an array containing all of the elements in this set whose
-     * runtime type is that of the specified array.  Obeys the general
-     * contract of the <tt>Collection.toArray(Object[])</tt> method.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis sft wiosf
+     * runtimf typf is tibt of tif spfdififd brrby.  Obfys tif gfnfrbl
+     * dontrbdt of tif <tt>Collfdtion.toArrby(Objfdt[])</tt> mftiod.
      *
-     * @param a the array into which the elements of this set are to
-     *          be stored, if it is big enough {
-        return jdiEventSet.XXX();
-    } otherwise, a new array of the
-     *          same runtime type is allocated for this purpose.
-     * @return an array containing the elements of this set.
-     * @throws    ArrayStoreException the runtime type of a is not a supertype
-     * of the runtime type of every element in this set.
+     * @pbrbm b tif brrby into wiidi tif flfmfnts of tiis sft brf to
+     *          bf storfd, if it is big fnougi {
+        rfturn jdiEvfntSft.XXX();
+    } otifrwisf, b nfw brrby of tif
+     *          sbmf runtimf typf is bllodbtfd for tiis purposf.
+     * @rfturn bn brrby dontbining tif flfmfnts of tiis sft.
+     * @tirows    ArrbyStorfExdfption tif runtimf typf of b is not b supfrtypf
+     * of tif runtimf typf of fvfry flfmfnt in tiis sft.
      */
-    @Override
-    public <T> T[] toArray(T a[]) {
-        return jdiEventSet.toArray(a);
+    @Ovfrridf
+    publid <T> T[] toArrby(T b[]) {
+        rfturn jdiEvfntSft.toArrby(b);
     }
 
-    // Bulk Operations
+    // Bulk Opfrbtions
 
     /**
-     * Returns <tt>true</tt> if this set contains all of the elements of the
-     * specified collection.  If the specified collection is also a set, this
-     * method returns <tt>true</tt> if it is a <i>subset</i> of this set.
+     * Rfturns <tt>truf</tt> if tiis sft dontbins bll of tif flfmfnts of tif
+     * spfdififd dollfdtion.  If tif spfdififd dollfdtion is blso b sft, tiis
+     * mftiod rfturns <tt>truf</tt> if it is b <i>subsft</i> of tiis sft.
      *
-     * @param c collection to be checked for containment in this set.
-     * @return <tt>true</tt> if this set contains all of the elements of the
-     *         specified collection.
+     * @pbrbm d dollfdtion to bf difdkfd for dontbinmfnt in tiis sft.
+     * @rfturn <tt>truf</tt> if tiis sft dontbins bll of tif flfmfnts of tif
+     *         spfdififd dollfdtion.
      */
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        return jdiEventSet.containsAll(c);
+    @Ovfrridf
+    publid boolfbn dontbinsAll(Collfdtion<?> d) {
+        rfturn jdiEvfntSft.dontbinsAll(d);
     }
 
 
-    // Make the rest of Set unmodifiable
+    // Mbkf tif rfst of Sft unmodifibblf
 
-    @Override
-    public boolean add(Event e){
-        throw new UnsupportedOperationException();
+    @Ovfrridf
+    publid boolfbn bdd(Evfnt f){
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
-    @Override
-    public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+    @Ovfrridf
+    publid boolfbn rfmovf(Objfdt o) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
-    @Override
-    public boolean addAll(Collection<? extends Event> coll) {
-        throw new UnsupportedOperationException();
+    @Ovfrridf
+    publid boolfbn bddAll(Collfdtion<? fxtfnds Evfnt> doll) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
-    @Override
-    public boolean removeAll(Collection<?> coll) {
-        throw new UnsupportedOperationException();
+    @Ovfrridf
+    publid boolfbn rfmovfAll(Collfdtion<?> doll) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
-    @Override
-    public boolean retainAll(Collection<?> coll) {
-        throw new UnsupportedOperationException();
+    @Ovfrridf
+    publid boolfbn rftbinAll(Collfdtion<?> doll) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
-    @Override
-    public void clear() {
-        throw new UnsupportedOperationException();
+    @Ovfrridf
+    publid void dlfbr() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 }

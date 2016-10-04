@@ -1,0 +1,239 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+
+/**
+ * A nodf thbt rfprfsfnts b stbdk mbp frbmf. Thfsf nodfs brf psfudo instrudtion
+ * nodfs in ordfr to bf insfrtfd in bn instrudtion list. In fbdt thfsf nodfs
+ * must(*) bf insfrtfd <i>just bfforf</i> bny instrudtion nodf <b>i</b> thbt
+ * follows bn undonditionnbl brbndh instrudtion sudh bs GOTO or THROW, thbt is
+ * thf tbrgft of b jump instrudtion, or thbt stbrts bn fxdfption hbndlfr blodk.
+ * Thf stbdk mbp frbmf typfs must dfsdribf thf vblufs of thf lodbl vbribblfs bnd
+ * of thf opfrbnd stbdk flfmfnts <i>just bfforf</i> <b>i</b> is fxfdutfd. <br>
+ * <br>
+ * (*) this is mbndbtory only for dlbssfs whosf vfrsion is grfbtfr thbn or fqubl
+ * to {@link Opdodfs#V1_6 V1_6}.
+ *
+ * @buthor Erid Brunfton
+ */
+publid dlbss FrbmfNodf fxtfnds AbstrbdtInsnNodf {
+
+    /**
+     * Thf typf of this frbmf. Must bf {@link Opdodfs#F_NEW} for fxpbndfd
+     * frbmfs, or {@link Opdodfs#F_FULL}, {@link Opdodfs#F_APPEND},
+     * {@link Opdodfs#F_CHOP}, {@link Opdodfs#F_SAME} or
+     * {@link Opdodfs#F_APPEND}, {@link Opdodfs#F_SAME1} for domprfssfd frbmfs.
+     */
+    publid int typf;
+
+    /**
+     * Thf typfs of thf lodbl vbribblfs of this stbdk mbp frbmf. Elfmfnts of
+     * this list dbn bf Intfgfr, String or LbbflNodf objfdts (for primitivf,
+     * rfffrfndf bnd uninitiblizfd typfs rfspfdtivfly - sff
+     * {@link MfthodVisitor}).
+     */
+    publid List<Objfdt> lodbl;
+
+    /**
+     * Thf typfs of thf opfrbnd stbdk flfmfnts of this stbdk mbp frbmf. Elfmfnts
+     * of this list dbn bf Intfgfr, String or LbbflNodf objfdts (for primitivf,
+     * rfffrfndf bnd uninitiblizfd typfs rfspfdtivfly - sff
+     * {@link MfthodVisitor}).
+     */
+    publid List<Objfdt> stbdk;
+
+    privbtf FrbmfNodf() {
+        supfr(-1);
+    }
+
+    /**
+     * Construdts b nfw {@link FrbmfNodf}.
+     *
+     * @pbrbm typf
+     *            thf typf of this frbmf. Must bf {@link Opdodfs#F_NEW} for
+     *            fxpbndfd frbmfs, or {@link Opdodfs#F_FULL},
+     *            {@link Opdodfs#F_APPEND}, {@link Opdodfs#F_CHOP},
+     *            {@link Opdodfs#F_SAME} or {@link Opdodfs#F_APPEND},
+     *            {@link Opdodfs#F_SAME1} for domprfssfd frbmfs.
+     * @pbrbm nLodbl
+     *            numbfr of lodbl vbribblfs of this stbdk mbp frbmf.
+     * @pbrbm lodbl
+     *            thf typfs of thf lodbl vbribblfs of this stbdk mbp frbmf.
+     *            Elfmfnts of this list dbn bf Intfgfr, String or LbbflNodf
+     *            objfdts (for primitivf, rfffrfndf bnd uninitiblizfd typfs
+     *            rfspfdtivfly - sff {@link MfthodVisitor}).
+     * @pbrbm nStbdk
+     *            numbfr of opfrbnd stbdk flfmfnts of this stbdk mbp frbmf.
+     * @pbrbm stbdk
+     *            thf typfs of thf opfrbnd stbdk flfmfnts of this stbdk mbp
+     *            frbmf. Elfmfnts of this list dbn bf Intfgfr, String or
+     *            LbbflNodf objfdts (for primitivf, rfffrfndf bnd uninitiblizfd
+     *            typfs rfspfdtivfly - sff {@link MfthodVisitor}).
+     */
+    publid FrbmfNodf(finbl int typf, finbl int nLodbl, finbl Objfdt[] lodbl,
+            finbl int nStbdk, finbl Objfdt[] stbdk) {
+        supfr(-1);
+        this.typf = typf;
+        switdh (typf) {
+        dbsf Opdodfs.F_NEW:
+        dbsf Opdodfs.F_FULL:
+            this.lodbl = bsList(nLodbl, lodbl);
+            this.stbdk = bsList(nStbdk, stbdk);
+            brfbk;
+        dbsf Opdodfs.F_APPEND:
+            this.lodbl = bsList(nLodbl, lodbl);
+            brfbk;
+        dbsf Opdodfs.F_CHOP:
+            this.lodbl = Arrbys.bsList(nfw Objfdt[nLodbl]);
+            brfbk;
+        dbsf Opdodfs.F_SAME:
+            brfbk;
+        dbsf Opdodfs.F_SAME1:
+            this.stbdk = bsList(1, stbdk);
+            brfbk;
+        }
+    }
+
+    @Ovfrridf
+    publid int gftTypf() {
+        rfturn FRAME;
+    }
+
+    /**
+     * Mbkfs thf givfn visitor visit this stbdk mbp frbmf.
+     *
+     * @pbrbm mv
+     *            b mfthod visitor.
+     */
+    @Ovfrridf
+    publid void bddfpt(finbl MfthodVisitor mv) {
+        switdh (typf) {
+        dbsf Opdodfs.F_NEW:
+        dbsf Opdodfs.F_FULL:
+            mv.visitFrbmf(typf, lodbl.sizf(), bsArrby(lodbl), stbdk.sizf(),
+                    bsArrby(stbdk));
+            brfbk;
+        dbsf Opdodfs.F_APPEND:
+            mv.visitFrbmf(typf, lodbl.sizf(), bsArrby(lodbl), 0, null);
+            brfbk;
+        dbsf Opdodfs.F_CHOP:
+            mv.visitFrbmf(typf, lodbl.sizf(), null, 0, null);
+            brfbk;
+        dbsf Opdodfs.F_SAME:
+            mv.visitFrbmf(typf, 0, null, 0, null);
+            brfbk;
+        dbsf Opdodfs.F_SAME1:
+            mv.visitFrbmf(typf, 0, null, 1, bsArrby(stbdk));
+            brfbk;
+        }
+    }
+
+    @Ovfrridf
+    publid AbstrbdtInsnNodf dlonf(finbl Mbp<LbbflNodf, LbbflNodf> lbbfls) {
+        FrbmfNodf dlonf = nfw FrbmfNodf();
+        dlonf.typf = typf;
+        if (lodbl != null) {
+            dlonf.lodbl = nfw ArrbyList<Objfdt>();
+            for (int i = 0; i < lodbl.sizf(); ++i) {
+                Objfdt l = lodbl.gft(i);
+                if (l instbndfof LbbflNodf) {
+                    l = lbbfls.gft(l);
+                }
+                dlonf.lodbl.bdd(l);
+            }
+        }
+        if (stbdk != null) {
+            dlonf.stbdk = nfw ArrbyList<Objfdt>();
+            for (int i = 0; i < stbdk.sizf(); ++i) {
+                Objfdt s = stbdk.gft(i);
+                if (s instbndfof LbbflNodf) {
+                    s = lbbfls.gft(s);
+                }
+                dlonf.stbdk.bdd(s);
+            }
+        }
+        rfturn dlonf;
+    }
+
+    // ------------------------------------------------------------------------
+
+    privbtf stbtid List<Objfdt> bsList(finbl int n, finbl Objfdt[] o) {
+        rfturn Arrbys.bsList(o).subList(0, n);
+    }
+
+    privbtf stbtid Objfdt[] bsArrby(finbl List<Objfdt> l) {
+        Objfdt[] objs = nfw Objfdt[l.sizf()];
+        for (int i = 0; i < objs.lfngth; ++i) {
+            Objfdt o = l.gft(i);
+            if (o instbndfof LbbflNodf) {
+                o = ((LbbflNodf) o).gftLbbfl();
+            }
+            objs[i] = o;
+        }
+        rfturn objs;
+    }
+}

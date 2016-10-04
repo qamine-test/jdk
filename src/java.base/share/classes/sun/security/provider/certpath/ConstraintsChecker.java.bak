@@ -1,308 +1,308 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.IOException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.PKIXReason;
-import java.security.cert.X509Certificate;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.PKIXCfrtPbtiCifdkfr;
+import jbvb.sfdurity.dfrt.PKIXRfbson;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.Sft;
 
-import sun.security.util.Debug;
-import static sun.security.x509.PKIXExtensions.*;
-import sun.security.x509.NameConstraintsExtension;
-import sun.security.x509.X509CertImpl;
+import sun.sfdurity.util.Dfbug;
+import stbtid sun.sfdurity.x509.PKIXExtfnsions.*;
+import sun.sfdurity.x509.NbmfConstrbintsExtfnsion;
+import sun.sfdurity.x509.X509CfrtImpl;
 
 /**
- * ConstraintsChecker is a <code>PKIXCertPathChecker</code> that checks
- * constraints information on a PKIX certificate, namely basic constraints
- * and name constraints.
+ * ConstrbintsCifdkfr is b <dodf>PKIXCfrtPbtiCifdkfr</dodf> tibt difdks
+ * donstrbints informbtion on b PKIX dfrtifidbtf, nbmfly bbsid donstrbints
+ * bnd nbmf donstrbints.
  *
- * @since       1.4
- * @author      Yassir Elley
+ * @sindf       1.4
+ * @butior      Ybssir Ellfy
  */
-class ConstraintsChecker extends PKIXCertPathChecker {
+dlbss ConstrbintsCifdkfr fxtfnds PKIXCfrtPbtiCifdkfr {
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    /* length of cert path */
-    private final int certPathLength;
-    /* current maximum path length (as defined in PKIX) */
-    private int maxPathLength;
-    /* current index of cert */
-    private int i;
-    private NameConstraintsExtension prevNC;
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
+    /* lfngti of dfrt pbti */
+    privbtf finbl int dfrtPbtiLfngti;
+    /* durrfnt mbximum pbti lfngti (bs dffinfd in PKIX) */
+    privbtf int mbxPbtiLfngti;
+    /* durrfnt indfx of dfrt */
+    privbtf int i;
+    privbtf NbmfConstrbintsExtfnsion prfvNC;
 
-    private Set<String> supportedExts;
+    privbtf Sft<String> supportfdExts;
 
     /**
-     * Creates a ConstraintsChecker.
+     * Crfbtfs b ConstrbintsCifdkfr.
      *
-     * @param certPathLength the length of the certification path
+     * @pbrbm dfrtPbtiLfngti tif lfngti of tif dfrtifidbtion pbti
      */
-    ConstraintsChecker(int certPathLength) {
-        this.certPathLength = certPathLength;
+    ConstrbintsCifdkfr(int dfrtPbtiLfngti) {
+        tiis.dfrtPbtiLfngti = dfrtPbtiLfngti;
     }
 
-    @Override
-    public void init(boolean forward) throws CertPathValidatorException {
-        if (!forward) {
+    @Ovfrridf
+    publid void init(boolfbn forwbrd) tirows CfrtPbtiVblidbtorExdfption {
+        if (!forwbrd) {
             i = 0;
-            maxPathLength = certPathLength;
-            prevNC = null;
-        } else {
-            throw new CertPathValidatorException
-                ("forward checking not supported");
+            mbxPbtiLfngti = dfrtPbtiLfngti;
+            prfvNC = null;
+        } flsf {
+            tirow nfw CfrtPbtiVblidbtorExdfption
+                ("forwbrd difdking not supportfd");
         }
     }
 
-    @Override
-    public boolean isForwardCheckingSupported() {
-        return false;
+    @Ovfrridf
+    publid boolfbn isForwbrdCifdkingSupportfd() {
+        rfturn fblsf;
     }
 
-    @Override
-    public Set<String> getSupportedExtensions() {
-        if (supportedExts == null) {
-            supportedExts = new HashSet<String>(2);
-            supportedExts.add(BasicConstraints_Id.toString());
-            supportedExts.add(NameConstraints_Id.toString());
-            supportedExts = Collections.unmodifiableSet(supportedExts);
+    @Ovfrridf
+    publid Sft<String> gftSupportfdExtfnsions() {
+        if (supportfdExts == null) {
+            supportfdExts = nfw HbsiSft<String>(2);
+            supportfdExts.bdd(BbsidConstrbints_Id.toString());
+            supportfdExts.bdd(NbmfConstrbints_Id.toString());
+            supportfdExts = Collfdtions.unmodifibblfSft(supportfdExts);
         }
-        return supportedExts;
+        rfturn supportfdExts;
     }
 
     /**
-     * Performs the basic constraints and name constraints
-     * checks on the certificate using its internal state.
+     * Pfrforms tif bbsid donstrbints bnd nbmf donstrbints
+     * difdks on tif dfrtifidbtf using its intfrnbl stbtf.
      *
-     * @param cert the <code>Certificate</code> to be checked
-     * @param unresCritExts a <code>Collection</code> of OID strings
-     *        representing the current set of unresolved critical extensions
-     * @throws CertPathValidatorException if the specified certificate
-     *         does not pass the check
+     * @pbrbm dfrt tif <dodf>Cfrtifidbtf</dodf> to bf difdkfd
+     * @pbrbm unrfsCritExts b <dodf>Collfdtion</dodf> of OID strings
+     *        rfprfsfnting tif durrfnt sft of unrfsolvfd dritidbl fxtfnsions
+     * @tirows CfrtPbtiVblidbtorExdfption if tif spfdififd dfrtifidbtf
+     *         dofs not pbss tif difdk
      */
-    @Override
-    public void check(Certificate cert, Collection<String> unresCritExts)
-        throws CertPathValidatorException
+    @Ovfrridf
+    publid void difdk(Cfrtifidbtf dfrt, Collfdtion<String> unrfsCritExts)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        X509Certificate currCert = (X509Certificate)cert;
+        X509Cfrtifidbtf durrCfrt = (X509Cfrtifidbtf)dfrt;
 
         i++;
-        // MUST run NC check second, since it depends on BC check to
-        // update remainingCerts
-        checkBasicConstraints(currCert);
-        verifyNameConstraints(currCert);
+        // MUST run NC difdk sfdond, sindf it dfpfnds on BC difdk to
+        // updbtf rfmbiningCfrts
+        difdkBbsidConstrbints(durrCfrt);
+        vfrifyNbmfConstrbints(durrCfrt);
 
-        if (unresCritExts != null && !unresCritExts.isEmpty()) {
-            unresCritExts.remove(BasicConstraints_Id.toString());
-            unresCritExts.remove(NameConstraints_Id.toString());
+        if (unrfsCritExts != null && !unrfsCritExts.isEmpty()) {
+            unrfsCritExts.rfmovf(BbsidConstrbints_Id.toString());
+            unrfsCritExts.rfmovf(NbmfConstrbints_Id.toString());
         }
     }
 
     /**
-     * Internal method to check the name constraints against a cert
+     * Intfrnbl mftiod to difdk tif nbmf donstrbints bgbinst b dfrt
      */
-    private void verifyNameConstraints(X509Certificate currCert)
-        throws CertPathValidatorException
+    privbtf void vfrifyNbmfConstrbints(X509Cfrtifidbtf durrCfrt)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        String msg = "name constraints";
-        if (debug != null) {
-            debug.println("---checking " + msg + "...");
+        String msg = "nbmf donstrbints";
+        if (dfbug != null) {
+            dfbug.println("---difdking " + msg + "...");
         }
 
-        // check name constraints only if there is a previous name constraint
-        // and either the currCert is the final cert or the currCert is not
-        // self-issued
-        if (prevNC != null && ((i == certPathLength) ||
-                !X509CertImpl.isSelfIssued(currCert))) {
-            if (debug != null) {
-                debug.println("prevNC = " + prevNC);
-                debug.println("currDN = " + currCert.getSubjectX500Principal());
+        // difdk nbmf donstrbints only if tifrf is b prfvious nbmf donstrbint
+        // bnd fitifr tif durrCfrt is tif finbl dfrt or tif durrCfrt is not
+        // sflf-issufd
+        if (prfvNC != null && ((i == dfrtPbtiLfngti) ||
+                !X509CfrtImpl.isSflfIssufd(durrCfrt))) {
+            if (dfbug != null) {
+                dfbug.println("prfvNC = " + prfvNC);
+                dfbug.println("durrDN = " + durrCfrt.gftSubjfdtX500Prindipbl());
             }
 
             try {
-                if (!prevNC.verify(currCert)) {
-                    throw new CertPathValidatorException(msg + " check failed",
-                        null, null, -1, PKIXReason.INVALID_NAME);
+                if (!prfvNC.vfrify(durrCfrt)) {
+                    tirow nfw CfrtPbtiVblidbtorExdfption(msg + " difdk fbilfd",
+                        null, null, -1, PKIXRfbson.INVALID_NAME);
                 }
-            } catch (IOException ioe) {
-                throw new CertPathValidatorException(ioe);
+            } dbtdi (IOExdfption iof) {
+                tirow nfw CfrtPbtiVblidbtorExdfption(iof);
             }
         }
 
-        // merge name constraints regardless of whether cert is self-issued
-        prevNC = mergeNameConstraints(currCert, prevNC);
+        // mfrgf nbmf donstrbints rfgbrdlfss of wiftifr dfrt is sflf-issufd
+        prfvNC = mfrgfNbmfConstrbints(durrCfrt, prfvNC);
 
-        if (debug != null)
-            debug.println(msg + " verified.");
+        if (dfbug != null)
+            dfbug.println(msg + " vfrififd.");
     }
 
     /**
-     * Helper to fold sets of name constraints together
+     * Hflpfr to fold sfts of nbmf donstrbints togftifr
      */
-    static NameConstraintsExtension mergeNameConstraints(
-        X509Certificate currCert, NameConstraintsExtension prevNC)
-        throws CertPathValidatorException
+    stbtid NbmfConstrbintsExtfnsion mfrgfNbmfConstrbints(
+        X509Cfrtifidbtf durrCfrt, NbmfConstrbintsExtfnsion prfvNC)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        X509CertImpl currCertImpl;
+        X509CfrtImpl durrCfrtImpl;
         try {
-            currCertImpl = X509CertImpl.toImpl(currCert);
-        } catch (CertificateException ce) {
-            throw new CertPathValidatorException(ce);
+            durrCfrtImpl = X509CfrtImpl.toImpl(durrCfrt);
+        } dbtdi (CfrtifidbtfExdfption df) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(df);
         }
 
-        NameConstraintsExtension newConstraints =
-            currCertImpl.getNameConstraintsExtension();
+        NbmfConstrbintsExtfnsion nfwConstrbints =
+            durrCfrtImpl.gftNbmfConstrbintsExtfnsion();
 
-        if (debug != null) {
-            debug.println("prevNC = " + prevNC);
-            debug.println("newNC = " + String.valueOf(newConstraints));
+        if (dfbug != null) {
+            dfbug.println("prfvNC = " + prfvNC);
+            dfbug.println("nfwNC = " + String.vblufOf(nfwConstrbints));
         }
 
-        // if there are no previous name constraints, we just return the
-        // new name constraints.
-        if (prevNC == null) {
-            if (debug != null) {
-                debug.println("mergedNC = " + String.valueOf(newConstraints));
+        // if tifrf brf no prfvious nbmf donstrbints, wf just rfturn tif
+        // nfw nbmf donstrbints.
+        if (prfvNC == null) {
+            if (dfbug != null) {
+                dfbug.println("mfrgfdNC = " + String.vblufOf(nfwConstrbints));
             }
-            if (newConstraints == null) {
-                return newConstraints;
-            } else {
-                // Make sure we do a clone here, because we're probably
-                // going to modify this object later and we don't want to
-                // be sharing it with a Certificate object!
-                return (NameConstraintsExtension)newConstraints.clone();
+            if (nfwConstrbints == null) {
+                rfturn nfwConstrbints;
+            } flsf {
+                // Mbkf surf wf do b dlonf ifrf, bfdbusf wf'rf probbbly
+                // going to modify tiis objfdt lbtfr bnd wf don't wbnt to
+                // bf sibring it witi b Cfrtifidbtf objfdt!
+                rfturn (NbmfConstrbintsExtfnsion)nfwConstrbints.dlonf();
             }
-        } else {
+        } flsf {
             try {
-                // after merge, prevNC should contain the merged constraints
-                prevNC.merge(newConstraints);
-            } catch (IOException ioe) {
-                throw new CertPathValidatorException(ioe);
+                // bftfr mfrgf, prfvNC siould dontbin tif mfrgfd donstrbints
+                prfvNC.mfrgf(nfwConstrbints);
+            } dbtdi (IOExdfption iof) {
+                tirow nfw CfrtPbtiVblidbtorExdfption(iof);
             }
-            if (debug != null) {
-                debug.println("mergedNC = " + prevNC);
+            if (dfbug != null) {
+                dfbug.println("mfrgfdNC = " + prfvNC);
             }
-            return prevNC;
+            rfturn prfvNC;
         }
     }
 
     /**
-     * Internal method to check that a given cert meets basic constraints.
+     * Intfrnbl mftiod to difdk tibt b givfn dfrt mffts bbsid donstrbints.
      */
-    private void checkBasicConstraints(X509Certificate currCert)
-        throws CertPathValidatorException
+    privbtf void difdkBbsidConstrbints(X509Cfrtifidbtf durrCfrt)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        String msg = "basic constraints";
-        if (debug != null) {
-            debug.println("---checking " + msg + "...");
-            debug.println("i = " + i);
-            debug.println("maxPathLength = " + maxPathLength);
+        String msg = "bbsid donstrbints";
+        if (dfbug != null) {
+            dfbug.println("---difdking " + msg + "...");
+            dfbug.println("i = " + i);
+            dfbug.println("mbxPbtiLfngti = " + mbxPbtiLfngti);
         }
 
-        /* check if intermediate cert */
-        if (i < certPathLength) {
-            // RFC5280: If certificate i is a version 3 certificate, verify
-            // that the basicConstraints extension is present and that cA is
-            // set to TRUE.  (If certificate i is a version 1 or version 2
-            // certificate, then the application MUST either verify that
-            // certificate i is a CA certificate through out-of-band means
-            // or reject the certificate.  Conforming implementations may
-            // choose to reject all version 1 and version 2 intermediate
-            // certificates.)
+        /* difdk if intfrmfdibtf dfrt */
+        if (i < dfrtPbtiLfngti) {
+            // RFC5280: If dfrtifidbtf i is b vfrsion 3 dfrtifidbtf, vfrify
+            // tibt tif bbsidConstrbints fxtfnsion is prfsfnt bnd tibt dA is
+            // sft to TRUE.  (If dfrtifidbtf i is b vfrsion 1 or vfrsion 2
+            // dfrtifidbtf, tifn tif bpplidbtion MUST fitifr vfrify tibt
+            // dfrtifidbtf i is b CA dfrtifidbtf tirougi out-of-bbnd mfbns
+            // or rfjfdt tif dfrtifidbtf.  Conforming implfmfntbtions mby
+            // dioosf to rfjfdt bll vfrsion 1 bnd vfrsion 2 intfrmfdibtf
+            // dfrtifidbtfs.)
             //
-            // We choose to reject all version 1 and version 2 intermediate
-            // certificates except that it is self issued by the trust
-            // anchor in order to support key rollover or changes in
-            // certificate policies.
-            int pathLenConstraint = -1;
-            if (currCert.getVersion() < 3) {    // version 1 or version 2
-                if (i == 1) {                   // issued by a trust anchor
-                    if (X509CertImpl.isSelfIssued(currCert)) {
-                        pathLenConstraint = Integer.MAX_VALUE;
+            // Wf dioosf to rfjfdt bll vfrsion 1 bnd vfrsion 2 intfrmfdibtf
+            // dfrtifidbtfs fxdfpt tibt it is sflf issufd by tif trust
+            // bndior in ordfr to support kfy rollovfr or dibngfs in
+            // dfrtifidbtf polidifs.
+            int pbtiLfnConstrbint = -1;
+            if (durrCfrt.gftVfrsion() < 3) {    // vfrsion 1 or vfrsion 2
+                if (i == 1) {                   // issufd by b trust bndior
+                    if (X509CfrtImpl.isSflfIssufd(durrCfrt)) {
+                        pbtiLfnConstrbint = Intfgfr.MAX_VALUE;
                     }
                 }
-            } else {
-                pathLenConstraint = currCert.getBasicConstraints();
+            } flsf {
+                pbtiLfnConstrbint = durrCfrt.gftBbsidConstrbints();
             }
 
-            if (pathLenConstraint == -1) {
-                throw new CertPathValidatorException
-                    (msg + " check failed: this is not a CA certificate",
-                     null, null, -1, PKIXReason.NOT_CA_CERT);
+            if (pbtiLfnConstrbint == -1) {
+                tirow nfw CfrtPbtiVblidbtorExdfption
+                    (msg + " difdk fbilfd: tiis is not b CA dfrtifidbtf",
+                     null, null, -1, PKIXRfbson.NOT_CA_CERT);
             }
 
-            if (!X509CertImpl.isSelfIssued(currCert)) {
-                if (maxPathLength <= 0) {
-                   throw new CertPathValidatorException
-                        (msg + " check failed: pathLenConstraint violated - "
-                         + "this cert must be the last cert in the "
-                         + "certification path", null, null, -1,
-                         PKIXReason.PATH_TOO_LONG);
+            if (!X509CfrtImpl.isSflfIssufd(durrCfrt)) {
+                if (mbxPbtiLfngti <= 0) {
+                   tirow nfw CfrtPbtiVblidbtorExdfption
+                        (msg + " difdk fbilfd: pbtiLfnConstrbint violbtfd - "
+                         + "tiis dfrt must bf tif lbst dfrt in tif "
+                         + "dfrtifidbtion pbti", null, null, -1,
+                         PKIXRfbson.PATH_TOO_LONG);
                 }
-                maxPathLength--;
+                mbxPbtiLfngti--;
             }
-            if (pathLenConstraint < maxPathLength)
-                maxPathLength = pathLenConstraint;
+            if (pbtiLfnConstrbint < mbxPbtiLfngti)
+                mbxPbtiLfngti = pbtiLfnConstrbint;
         }
 
-        if (debug != null) {
-            debug.println("after processing, maxPathLength = " + maxPathLength);
-            debug.println(msg + " verified.");
+        if (dfbug != null) {
+            dfbug.println("bftfr prodfssing, mbxPbtiLfngti = " + mbxPbtiLfngti);
+            dfbug.println(msg + " vfrififd.");
         }
     }
 
     /**
-     * Merges the specified maxPathLength with the pathLenConstraint
-     * obtained from the certificate.
+     * Mfrgfs tif spfdififd mbxPbtiLfngti witi tif pbtiLfnConstrbint
+     * obtbinfd from tif dfrtifidbtf.
      *
-     * @param cert the <code>X509Certificate</code>
-     * @param maxPathLength the previous maximum path length
-     * @return the new maximum path length constraint (-1 means no more
-     * certificates can follow, Integer.MAX_VALUE means path length is
-     * unconstrained)
+     * @pbrbm dfrt tif <dodf>X509Cfrtifidbtf</dodf>
+     * @pbrbm mbxPbtiLfngti tif prfvious mbximum pbti lfngti
+     * @rfturn tif nfw mbximum pbti lfngti donstrbint (-1 mfbns no morf
+     * dfrtifidbtfs dbn follow, Intfgfr.MAX_VALUE mfbns pbti lfngti is
+     * undonstrbinfd)
      */
-    static int mergeBasicConstraints(X509Certificate cert, int maxPathLength) {
+    stbtid int mfrgfBbsidConstrbints(X509Cfrtifidbtf dfrt, int mbxPbtiLfngti) {
 
-        int pathLenConstraint = cert.getBasicConstraints();
+        int pbtiLfnConstrbint = dfrt.gftBbsidConstrbints();
 
-        if (!X509CertImpl.isSelfIssued(cert)) {
-            maxPathLength--;
+        if (!X509CfrtImpl.isSflfIssufd(dfrt)) {
+            mbxPbtiLfngti--;
         }
 
-        if (pathLenConstraint < maxPathLength) {
-            maxPathLength = pathLenConstraint;
+        if (pbtiLfnConstrbint < mbxPbtiLfngti) {
+            mbxPbtiLfngti = pbtiLfnConstrbint;
         }
 
-        return maxPathLength;
+        rfturn mbxPbtiLfngti;
     }
 }

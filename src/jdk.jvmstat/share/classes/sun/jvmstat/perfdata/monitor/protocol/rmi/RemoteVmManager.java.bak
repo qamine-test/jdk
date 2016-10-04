@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.rmi;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.rmi;
 
-import java.util.*;
-import java.util.regex.*;
-import java.io.*;
-import java.rmi.RemoteException;
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
-import sun.jvmstat.monitor.remote.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+import jbvb.io.*;
+import jbvb.rmi.RfmotfExdfption;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.*;
+import sun.jvmstbt.monitor.rfmotf.*;
 
 /**
- * Class for managing the RemoteMonitoredVm instances on a remote system.
+ * Clbss for mbnbging tif RfmotfMonitorfdVm instbndfs on b rfmotf systfm.
  * <p>
- * This class is responsible for the mechanism that detects the active
- * HotSpot Java Virtual Machines on the remote host and possibly for a
- * specific user. The ability to detect all possible HotSpot Java Virtual
- * Machines on the remote host may be limited by the permissions of the
- * principal running the RMI server application on the remote host.
+ * Tiis dlbss is rfsponsiblf for tif mfdibnism tibt dftfdts tif bdtivf
+ * HotSpot Jbvb Virtubl Mbdiinfs on tif rfmotf iost bnd possibly for b
+ * spfdifid usfr. Tif bbility to dftfdt bll possiblf HotSpot Jbvb Virtubl
+ * Mbdiinfs on tif rfmotf iost mby bf limitfd by tif pfrmissions of tif
+ * prindipbl running tif RMI sfrvfr bpplidbtion on tif rfmotf iost.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class RemoteVmManager {
+publid dlbss RfmotfVmMbnbgfr {
 
-    private RemoteHost remoteHost;
-    private String user;
+    privbtf RfmotfHost rfmotfHost;
+    privbtf String usfr;
 
     /**
-     * Creates a RemoteVmManager instance for the remote system.
+     * Crfbtfs b RfmotfVmMbnbgfr instbndf for tif rfmotf systfm.
      * <p>
-     * Manages RemoteMonitordVm instances for which the principal
-     * running the remote server has appropriate permissions.
+     * Mbnbgfs RfmotfMonitordVm instbndfs for wiidi tif prindipbl
+     * running tif rfmotf sfrvfr ibs bppropribtf pfrmissions.
      *
-     * @param remoteHost the remote proxy object to the RMI server on
-     *                   the remote system.
+     * @pbrbm rfmotfHost tif rfmotf proxy objfdt to tif RMI sfrvfr on
+     *                   tif rfmotf systfm.
      */
-    public RemoteVmManager(RemoteHost remoteHost) {
-        this(remoteHost, null);
+    publid RfmotfVmMbnbgfr(RfmotfHost rfmotfHost) {
+        tiis(rfmotfHost, null);
     }
 
     /**
-     * Creates a RemoteVmManager instance for the given user.
+     * Crfbtfs b RfmotfVmMbnbgfr instbndf for tif givfn usfr.
      * <p>
-     * Manages RemoteMonitoredVm instances for all remote Java Virtual
-     * machines owned by the specified user on the remote system. The
-     * RMI server on the remote system must have the appropriate permissions
-     * to access the named users Java Virtual Machines.
+     * Mbnbgfs RfmotfMonitorfdVm instbndfs for bll rfmotf Jbvb Virtubl
+     * mbdiinfs ownfd by tif spfdififd usfr on tif rfmotf systfm. Tif
+     * RMI sfrvfr on tif rfmotf systfm must ibvf tif bppropribtf pfrmissions
+     * to bddfss tif nbmfd usfrs Jbvb Virtubl Mbdiinfs.
      *
-     * @param remoteHost the remote proxy object to the RMI server on
-     *                   the remote system.
-     * @param user the name of the user
+     * @pbrbm rfmotfHost tif rfmotf proxy objfdt to tif RMI sfrvfr on
+     *                   tif rfmotf systfm.
+     * @pbrbm usfr tif nbmf of tif usfr
      */
-    public RemoteVmManager(RemoteHost remoteHost, String user) {
-        this.user = user;
-        this.remoteHost = remoteHost;
+    publid RfmotfVmMbnbgfr(RfmotfHost rfmotfHost, String usfr) {
+        tiis.usfr = usfr;
+        tiis.rfmotfHost = rfmotfHost;
     }
 
     /**
-     * Return the current set of monitorable Java Virtual Machines.
+     * Rfturn tif durrfnt sft of monitorbblf Jbvb Virtubl Mbdiinfs.
      * <p>
-     * The set returned by this method depends on the user name passed
-     * to the constructor. If no user name was specified, then this
-     * method will return all candidate JVMs on the system. Otherwise,
-     * only the JVMs for the given user will be returned. This assumes
-     * that the RMI server process has the appropriate permissions to
-     * access the target set of JVMs.
+     * Tif sft rfturnfd by tiis mftiod dfpfnds on tif usfr nbmf pbssfd
+     * to tif donstrudtor. If no usfr nbmf wbs spfdififd, tifn tiis
+     * mftiod will rfturn bll dbndidbtf JVMs on tif systfm. Otifrwisf,
+     * only tif JVMs for tif givfn usfr will bf rfturnfd. Tiis bssumfs
+     * tibt tif RMI sfrvfr prodfss ibs tif bppropribtf pfrmissions to
+     * bddfss tif tbrgft sft of JVMs.
      *
-     * @return Set - the Set of monitorable Java Virtual Machines
+     * @rfturn Sft - tif Sft of monitorbblf Jbvb Virtubl Mbdiinfs
      */
-    public Set<Integer> activeVms() throws MonitorException {
-        int[] active = null;
+    publid Sft<Intfgfr> bdtivfVms() tirows MonitorExdfption {
+        int[] bdtivf = null;
 
         try {
-            active = remoteHost.activeVms();
+            bdtivf = rfmotfHost.bdtivfVms();
 
-        } catch (RemoteException e) {
-            throw new MonitorException("Error communicating with remote host: "
-                                       + e.getMessage(), e);
+        } dbtdi (RfmotfExdfption f) {
+            tirow nfw MonitorExdfption("Error dommunidbting witi rfmotf iost: "
+                                       + f.gftMfssbgf(), f);
         }
 
-        Set<Integer> activeSet = new HashSet<Integer>(active.length);
+        Sft<Intfgfr> bdtivfSft = nfw HbsiSft<Intfgfr>(bdtivf.lfngti);
 
-        for (int i = 0; i < active.length; i++) {
-            activeSet.add(active[i]);
+        for (int i = 0; i < bdtivf.lfngti; i++) {
+            bdtivfSft.bdd(bdtivf[i]);
         }
 
-        return activeSet;
+        rfturn bdtivfSft;
     }
 }

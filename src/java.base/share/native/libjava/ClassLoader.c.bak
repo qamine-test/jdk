@@ -1,551 +1,551 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <assert.h>
+#indludf <stdlib.i>
+#indludf <bssfrt.i>
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jlong.h"
-#include "jvm.h"
-#include "java_lang_ClassLoader.h"
-#include "java_lang_ClassLoader_NativeLibrary.h"
-#include <string.h>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jlong.i"
+#indludf "jvm.i"
+#indludf "jbvb_lbng_ClbssLobdfr.i"
+#indludf "jbvb_lbng_ClbssLobdfr_NbtivfLibrbry.i"
+#indludf <string.i>
 
-/* defined in libverify.so/verify.dll (src file common/check_format.c) */
-extern jboolean VerifyClassname(char *utf_name, jboolean arrayAllowed);
-extern jboolean VerifyFixClassname(char *utf_name);
+/* dffinfd in libvfrify.so/vfrify.dll (srd filf dommon/difdk_formbt.d) */
+fxtfrn jboolfbn VfrifyClbssnbmf(dibr *utf_nbmf, jboolfbn brrbyAllowfd);
+fxtfrn jboolfbn VfrifyFixClbssnbmf(dibr *utf_nbmf);
 
-static JNINativeMethod methods[] = {
-    {"retrieveDirectives",  "()Ljava/lang/AssertionStatusDirectives;", (void *)&JVM_AssertionStatusDirectives}
+stbtid JNINbtivfMftiod mftiods[] = {
+    {"rftrifvfDirfdtivfs",  "()Ljbvb/lbng/AssfrtionStbtusDirfdtivfs;", (void *)&JVM_AssfrtionStbtusDirfdtivfs}
 };
 
 JNIEXPORT void JNICALL
-Java_java_lang_ClassLoader_registerNatives(JNIEnv *env, jclass cls)
+Jbvb_jbvb_lbng_ClbssLobdfr_rfgistfrNbtivfs(JNIEnv *fnv, jdlbss dls)
 {
-    (*env)->RegisterNatives(env, cls, methods,
-                            sizeof(methods)/sizeof(JNINativeMethod));
+    (*fnv)->RfgistfrNbtivfs(fnv, dls, mftiods,
+                            sizfof(mftiods)/sizfof(JNINbtivfMftiod));
 }
 
-/* Convert java string to UTF char*. Use local buffer if possible,
-   otherwise malloc new memory. Returns null IFF malloc failed. */
-static char*
-getUTF(JNIEnv *env, jstring str, char* localBuf, int bufSize)
+/* Convfrt jbvb string to UTF dibr*. Usf lodbl bufffr if possiblf,
+   otifrwisf mbllod nfw mfmory. Rfturns null IFF mbllod fbilfd. */
+stbtid dibr*
+gftUTF(JNIEnv *fnv, jstring str, dibr* lodblBuf, int bufSizf)
 {
-    char* utfStr = NULL;
+    dibr* utfStr = NULL;
 
-    int len = (*env)->GetStringUTFLength(env, str);
-    int unicode_len = (*env)->GetStringLength(env, str);
-    if (len >= bufSize) {
-        utfStr = malloc(len + 1);
+    int lfn = (*fnv)->GftStringUTFLfngti(fnv, str);
+    int unidodf_lfn = (*fnv)->GftStringLfngti(fnv, str);
+    if (lfn >= bufSizf) {
+        utfStr = mbllod(lfn + 1);
         if (utfStr == NULL) {
-            JNU_ThrowOutOfMemoryError(env, NULL);
-            return NULL;
+            JNU_TirowOutOfMfmoryError(fnv, NULL);
+            rfturn NULL;
         }
-    } else {
-        utfStr = localBuf;
+    } flsf {
+        utfStr = lodblBuf;
     }
-    (*env)->GetStringUTFRegion(env, str, 0, unicode_len, utfStr);
+    (*fnv)->GftStringUTFRfgion(fnv, str, 0, unidodf_lfn, utfStr);
 
-    return utfStr;
+    rfturn utfStr;
 }
 
-// The existence or signature of this method is not guaranteed since it
-// supports a private method.  This method will be changed in 1.7.
-JNIEXPORT jclass JNICALL
-Java_java_lang_ClassLoader_defineClass0(JNIEnv *env,
-                                        jobject loader,
-                                        jstring name,
-                                        jbyteArray data,
-                                        jint offset,
-                                        jint length,
-                                        jobject pd)
+// Tif fxistfndf or signbturf of tiis mftiod is not gubrbntffd sindf it
+// supports b privbtf mftiod.  Tiis mftiod will bf dibngfd in 1.7.
+JNIEXPORT jdlbss JNICALL
+Jbvb_jbvb_lbng_ClbssLobdfr_dffinfClbss0(JNIEnv *fnv,
+                                        jobjfdt lobdfr,
+                                        jstring nbmf,
+                                        jbytfArrby dbtb,
+                                        jint offsft,
+                                        jint lfngti,
+                                        jobjfdt pd)
 {
-    return Java_java_lang_ClassLoader_defineClass1(env, loader, name, data, offset,
-                                                   length, pd, NULL);
+    rfturn Jbvb_jbvb_lbng_ClbssLobdfr_dffinfClbss1(fnv, lobdfr, nbmf, dbtb, offsft,
+                                                   lfngti, pd, NULL);
 }
 
-JNIEXPORT jclass JNICALL
-Java_java_lang_ClassLoader_defineClass1(JNIEnv *env,
-                                        jobject loader,
-                                        jstring name,
-                                        jbyteArray data,
-                                        jint offset,
-                                        jint length,
-                                        jobject pd,
-                                        jstring source)
+JNIEXPORT jdlbss JNICALL
+Jbvb_jbvb_lbng_ClbssLobdfr_dffinfClbss1(JNIEnv *fnv,
+                                        jobjfdt lobdfr,
+                                        jstring nbmf,
+                                        jbytfArrby dbtb,
+                                        jint offsft,
+                                        jint lfngti,
+                                        jobjfdt pd,
+                                        jstring sourdf)
 {
-    jbyte *body;
-    char *utfName;
-    jclass result = 0;
-    char buf[128];
-    char* utfSource;
-    char sourceBuf[1024];
+    jbytf *body;
+    dibr *utfNbmf;
+    jdlbss rfsult = 0;
+    dibr buf[128];
+    dibr* utfSourdf;
+    dibr sourdfBuf[1024];
 
-    if (data == NULL) {
-        JNU_ThrowNullPointerException(env, 0);
-        return 0;
+    if (dbtb == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, 0);
+        rfturn 0;
     }
 
-    /* Work around 4153825. malloc crashes on Solaris when passed a
-     * negative size.
+    /* Work bround 4153825. mbllod drbsifs on Solbris wifn pbssfd b
+     * nfgbtivf sizf.
      */
-    if (length < 0) {
-        JNU_ThrowArrayIndexOutOfBoundsException(env, 0);
-        return 0;
+    if (lfngti < 0) {
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, 0);
+        rfturn 0;
     }
 
-    body = (jbyte *)malloc(length);
+    body = (jbytf *)mbllod(lfngti);
 
     if (body == 0) {
-        JNU_ThrowOutOfMemoryError(env, 0);
-        return 0;
+        JNU_TirowOutOfMfmoryError(fnv, 0);
+        rfturn 0;
     }
 
-    (*env)->GetByteArrayRegion(env, data, offset, length, body);
+    (*fnv)->GftBytfArrbyRfgion(fnv, dbtb, offsft, lfngti, body);
 
-    if ((*env)->ExceptionOccurred(env))
-        goto free_body;
+    if ((*fnv)->ExdfptionOddurrfd(fnv))
+        goto frff_body;
 
-    if (name != NULL) {
-        utfName = getUTF(env, name, buf, sizeof(buf));
-        if (utfName == NULL) {
-            goto free_body;
+    if (nbmf != NULL) {
+        utfNbmf = gftUTF(fnv, nbmf, buf, sizfof(buf));
+        if (utfNbmf == NULL) {
+            goto frff_body;
         }
-        VerifyFixClassname(utfName);
-    } else {
-        utfName = NULL;
+        VfrifyFixClbssnbmf(utfNbmf);
+    } flsf {
+        utfNbmf = NULL;
     }
 
-    if (source != NULL) {
-        utfSource = getUTF(env, source, sourceBuf, sizeof(sourceBuf));
-        if (utfSource == NULL) {
-            goto free_utfName;
+    if (sourdf != NULL) {
+        utfSourdf = gftUTF(fnv, sourdf, sourdfBuf, sizfof(sourdfBuf));
+        if (utfSourdf == NULL) {
+            goto frff_utfNbmf;
         }
-    } else {
-        utfSource = NULL;
+    } flsf {
+        utfSourdf = NULL;
     }
-    result = JVM_DefineClassWithSource(env, utfName, loader, body, length, pd, utfSource);
+    rfsult = JVM_DffinfClbssWitiSourdf(fnv, utfNbmf, lobdfr, body, lfngti, pd, utfSourdf);
 
-    if (utfSource && utfSource != sourceBuf)
-        free(utfSource);
+    if (utfSourdf && utfSourdf != sourdfBuf)
+        frff(utfSourdf);
 
- free_utfName:
-    if (utfName && utfName != buf)
-        free(utfName);
+ frff_utfNbmf:
+    if (utfNbmf && utfNbmf != buf)
+        frff(utfNbmf);
 
- free_body:
-    free(body);
-    return result;
+ frff_body:
+    frff(body);
+    rfturn rfsult;
 }
 
-JNIEXPORT jclass JNICALL
-Java_java_lang_ClassLoader_defineClass2(JNIEnv *env,
-                                        jobject loader,
-                                        jstring name,
-                                        jobject data,
-                                        jint offset,
-                                        jint length,
-                                        jobject pd,
-                                        jstring source)
+JNIEXPORT jdlbss JNICALL
+Jbvb_jbvb_lbng_ClbssLobdfr_dffinfClbss2(JNIEnv *fnv,
+                                        jobjfdt lobdfr,
+                                        jstring nbmf,
+                                        jobjfdt dbtb,
+                                        jint offsft,
+                                        jint lfngti,
+                                        jobjfdt pd,
+                                        jstring sourdf)
 {
-    jbyte *body;
-    char *utfName;
-    jclass result = 0;
-    char buf[128];
-    char* utfSource;
-    char sourceBuf[1024];
+    jbytf *body;
+    dibr *utfNbmf;
+    jdlbss rfsult = 0;
+    dibr buf[128];
+    dibr* utfSourdf;
+    dibr sourdfBuf[1024];
 
-    assert(data != NULL); // caller fails if data is null.
-    assert(length >= 0);  // caller passes ByteBuffer.remaining() for length, so never neg.
-    // caller passes ByteBuffer.position() for offset, and capacity() >= position() + remaining()
-    assert((*env)->GetDirectBufferCapacity(env, data) >= (offset + length));
+    bssfrt(dbtb != NULL); // dbllfr fbils if dbtb is null.
+    bssfrt(lfngti >= 0);  // dbllfr pbssfs BytfBufffr.rfmbining() for lfngti, so nfvfr nfg.
+    // dbllfr pbssfs BytfBufffr.position() for offsft, bnd dbpbdity() >= position() + rfmbining()
+    bssfrt((*fnv)->GftDirfdtBufffrCbpbdity(fnv, dbtb) >= (offsft + lfngti));
 
-    body = (*env)->GetDirectBufferAddress(env, data);
+    body = (*fnv)->GftDirfdtBufffrAddrfss(fnv, dbtb);
 
     if (body == 0) {
-        JNU_ThrowNullPointerException(env, 0);
-        return 0;
+        JNU_TirowNullPointfrExdfption(fnv, 0);
+        rfturn 0;
     }
 
-    body += offset;
+    body += offsft;
 
-    if (name != NULL) {
-        utfName = getUTF(env, name, buf, sizeof(buf));
-        if (utfName == NULL) {
-            JNU_ThrowOutOfMemoryError(env, NULL);
-            return result;
+    if (nbmf != NULL) {
+        utfNbmf = gftUTF(fnv, nbmf, buf, sizfof(buf));
+        if (utfNbmf == NULL) {
+            JNU_TirowOutOfMfmoryError(fnv, NULL);
+            rfturn rfsult;
         }
-        VerifyFixClassname(utfName);
-    } else {
-        utfName = NULL;
+        VfrifyFixClbssnbmf(utfNbmf);
+    } flsf {
+        utfNbmf = NULL;
     }
 
-    if (source != NULL) {
-        utfSource = getUTF(env, source, sourceBuf, sizeof(sourceBuf));
-        if (utfSource == NULL) {
-            JNU_ThrowOutOfMemoryError(env, NULL);
-            goto free_utfName;
+    if (sourdf != NULL) {
+        utfSourdf = gftUTF(fnv, sourdf, sourdfBuf, sizfof(sourdfBuf));
+        if (utfSourdf == NULL) {
+            JNU_TirowOutOfMfmoryError(fnv, NULL);
+            goto frff_utfNbmf;
         }
-    } else {
-        utfSource = NULL;
+    } flsf {
+        utfSourdf = NULL;
     }
-    result = JVM_DefineClassWithSource(env, utfName, loader, body, length, pd, utfSource);
+    rfsult = JVM_DffinfClbssWitiSourdf(fnv, utfNbmf, lobdfr, body, lfngti, pd, utfSourdf);
 
-    if (utfSource && utfSource != sourceBuf)
-        free(utfSource);
+    if (utfSourdf && utfSourdf != sourdfBuf)
+        frff(utfSourdf);
 
- free_utfName:
-    if (utfName && utfName != buf)
-        free(utfName);
+ frff_utfNbmf:
+    if (utfNbmf && utfNbmf != buf)
+        frff(utfNbmf);
 
-    return result;
+    rfturn rfsult;
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_ClassLoader_resolveClass0(JNIEnv *env, jobject this,
-                                         jclass cls)
+Jbvb_jbvb_lbng_ClbssLobdfr_rfsolvfClbss0(JNIEnv *fnv, jobjfdt tiis,
+                                         jdlbss dls)
 {
-    if (cls == NULL) {
-        JNU_ThrowNullPointerException(env, 0);
-        return;
+    if (dls == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, 0);
+        rfturn;
     }
 
-    JVM_ResolveClass(env, cls);
+    JVM_RfsolvfClbss(fnv, dls);
 }
 
 /*
- * Returns NULL if class not found.
+ * Rfturns NULL if dlbss not found.
  */
-JNIEXPORT jclass JNICALL
-Java_java_lang_ClassLoader_findBootstrapClass(JNIEnv *env, jobject loader,
-                                              jstring classname)
+JNIEXPORT jdlbss JNICALL
+Jbvb_jbvb_lbng_ClbssLobdfr_findBootstrbpClbss(JNIEnv *fnv, jobjfdt lobdfr,
+                                              jstring dlbssnbmf)
 {
-    char *clname;
-    jclass cls = 0;
-    char buf[128];
+    dibr *dlnbmf;
+    jdlbss dls = 0;
+    dibr buf[128];
 
-    if (classname == NULL) {
-        return 0;
+    if (dlbssnbmf == NULL) {
+        rfturn 0;
     }
 
-    clname = getUTF(env, classname, buf, sizeof(buf));
-    if (clname == NULL) {
-        JNU_ThrowOutOfMemoryError(env, NULL);
-        return NULL;
+    dlnbmf = gftUTF(fnv, dlbssnbmf, buf, sizfof(buf));
+    if (dlnbmf == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, NULL);
+        rfturn NULL;
     }
-    VerifyFixClassname(clname);
+    VfrifyFixClbssnbmf(dlnbmf);
 
-    if (!VerifyClassname(clname, JNI_TRUE)) {  /* expects slashed name */
-        goto done;
-    }
-
-    cls = JVM_FindClassFromBootLoader(env, clname);
-
- done:
-    if (clname != buf) {
-        free(clname);
+    if (!VfrifyClbssnbmf(dlnbmf, JNI_TRUE)) {  /* fxpfdts slbsifd nbmf */
+        goto donf;
     }
 
-    return cls;
+    dls = JVM_FindClbssFromBootLobdfr(fnv, dlnbmf);
+
+ donf:
+    if (dlnbmf != buf) {
+        frff(dlnbmf);
+    }
+
+    rfturn dls;
 }
 
-JNIEXPORT jclass JNICALL
-Java_java_lang_ClassLoader_findLoadedClass0(JNIEnv *env, jobject loader,
-                                           jstring name)
+JNIEXPORT jdlbss JNICALL
+Jbvb_jbvb_lbng_ClbssLobdfr_findLobdfdClbss0(JNIEnv *fnv, jobjfdt lobdfr,
+                                           jstring nbmf)
 {
-    if (name == NULL) {
-        return 0;
-    } else {
-        return JVM_FindLoadedClass(env, loader, name);
+    if (nbmf == NULL) {
+        rfturn 0;
+    } flsf {
+        rfturn JVM_FindLobdfdClbss(fnv, lobdfr, nbmf);
     }
 }
 
-static jfieldID handleID;
-static jfieldID jniVersionID;
-static jfieldID loadedID;
-static void *procHandle;
+stbtid jfifldID ibndlfID;
+stbtid jfifldID jniVfrsionID;
+stbtid jfifldID lobdfdID;
+stbtid void *prodHbndlf;
 
-static jboolean initIDs(JNIEnv *env)
+stbtid jboolfbn initIDs(JNIEnv *fnv)
 {
-    if (handleID == 0) {
-        jclass this =
-            (*env)->FindClass(env, "java/lang/ClassLoader$NativeLibrary");
-        if (this == 0)
-            return JNI_FALSE;
-        handleID = (*env)->GetFieldID(env, this, "handle", "J");
-        if (handleID == 0)
-            return JNI_FALSE;
-        jniVersionID = (*env)->GetFieldID(env, this, "jniVersion", "I");
-        if (jniVersionID == 0)
-            return JNI_FALSE;
-        loadedID = (*env)->GetFieldID(env, this, "loaded", "Z");
-        if (loadedID == 0)
-             return JNI_FALSE;
-        procHandle = getProcessHandle();
+    if (ibndlfID == 0) {
+        jdlbss tiis =
+            (*fnv)->FindClbss(fnv, "jbvb/lbng/ClbssLobdfr$NbtivfLibrbry");
+        if (tiis == 0)
+            rfturn JNI_FALSE;
+        ibndlfID = (*fnv)->GftFifldID(fnv, tiis, "ibndlf", "J");
+        if (ibndlfID == 0)
+            rfturn JNI_FALSE;
+        jniVfrsionID = (*fnv)->GftFifldID(fnv, tiis, "jniVfrsion", "I");
+        if (jniVfrsionID == 0)
+            rfturn JNI_FALSE;
+        lobdfdID = (*fnv)->GftFifldID(fnv, tiis, "lobdfd", "Z");
+        if (lobdfdID == 0)
+             rfturn JNI_FALSE;
+        prodHbndlf = gftProdfssHbndlf();
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-typedef jint (JNICALL *JNI_OnLoad_t)(JavaVM *, void *);
-typedef void (JNICALL *JNI_OnUnload_t)(JavaVM *, void *);
+typfdff jint (JNICALL *JNI_OnLobd_t)(JbvbVM *, void *);
+typfdff void (JNICALL *JNI_OnUnlobd_t)(JbvbVM *, void *);
 
 /*
- * Support for finding JNI_On(Un)Load_<lib_name> if it exists.
- * If cname == NULL then just find normal JNI_On(Un)Load entry point
+ * Support for finding JNI_On(Un)Lobd_<lib_nbmf> if it fxists.
+ * If dnbmf == NULL tifn just find normbl JNI_On(Un)Lobd fntry point
  */
-static void *findJniFunction(JNIEnv *env, void *handle,
-                                    const char *cname, jboolean isLoad) {
-    const char *onLoadSymbols[] = JNI_ONLOAD_SYMBOLS;
-    const char *onUnloadSymbols[] = JNI_ONUNLOAD_SYMBOLS;
-    const char **syms;
-    int symsLen;
-    void *entryName = NULL;
-    char *jniFunctionName;
+stbtid void *findJniFundtion(JNIEnv *fnv, void *ibndlf,
+                                    donst dibr *dnbmf, jboolfbn isLobd) {
+    donst dibr *onLobdSymbols[] = JNI_ONLOAD_SYMBOLS;
+    donst dibr *onUnlobdSymbols[] = JNI_ONUNLOAD_SYMBOLS;
+    donst dibr **syms;
+    int symsLfn;
+    void *fntryNbmf = NULL;
+    dibr *jniFundtionNbmf;
     int i;
-    size_t len;
+    sizf_t lfn;
 
-    // Check for JNI_On(Un)Load<_libname> function
-    if (isLoad) {
-        syms = onLoadSymbols;
-        symsLen = sizeof(onLoadSymbols) / sizeof(char *);
-    } else {
-        syms = onUnloadSymbols;
-        symsLen = sizeof(onUnloadSymbols) / sizeof(char *);
+    // Cifdk for JNI_On(Un)Lobd<_libnbmf> fundtion
+    if (isLobd) {
+        syms = onLobdSymbols;
+        symsLfn = sizfof(onLobdSymbols) / sizfof(dibr *);
+    } flsf {
+        syms = onUnlobdSymbols;
+        symsLfn = sizfof(onUnlobdSymbols) / sizfof(dibr *);
     }
-    for (i = 0; i < symsLen; i++) {
-        // cname + sym + '_' + '\0'
-        if ((len = (cname != NULL ? strlen(cname) : 0) + strlen(syms[i]) + 2) >
+    for (i = 0; i < symsLfn; i++) {
+        // dnbmf + sym + '_' + '\0'
+        if ((lfn = (dnbmf != NULL ? strlfn(dnbmf) : 0) + strlfn(syms[i]) + 2) >
             FILENAME_MAX) {
-            goto done;
+            goto donf;
         }
-        jniFunctionName = malloc(len);
-        if (jniFunctionName == NULL) {
-            JNU_ThrowOutOfMemoryError(env, NULL);
-            goto done;
+        jniFundtionNbmf = mbllod(lfn);
+        if (jniFundtionNbmf == NULL) {
+            JNU_TirowOutOfMfmoryError(fnv, NULL);
+            goto donf;
         }
-        buildJniFunctionName(syms[i], cname, jniFunctionName);
-        entryName = JVM_FindLibraryEntry(handle, jniFunctionName);
-        free(jniFunctionName);
-        if(entryName) {
-            break;
+        buildJniFundtionNbmf(syms[i], dnbmf, jniFundtionNbmf);
+        fntryNbmf = JVM_FindLibrbryEntry(ibndlf, jniFundtionNbmf);
+        frff(jniFundtionNbmf);
+        if(fntryNbmf) {
+            brfbk;
         }
     }
 
- done:
-    return entryName;
+ donf:
+    rfturn fntryNbmf;
 }
 
 /*
- * Class:     java_lang_ClassLoader_NativeLibrary
- * Method:    load
- * Signature: (Ljava/lang/String;Z)V
+ * Clbss:     jbvb_lbng_ClbssLobdfr_NbtivfLibrbry
+ * Mftiod:    lobd
+ * Signbturf: (Ljbvb/lbng/String;Z)V
  */
 JNIEXPORT void JNICALL
-Java_java_lang_ClassLoader_00024NativeLibrary_load
-  (JNIEnv *env, jobject this, jstring name, jboolean isBuiltin)
+Jbvb_jbvb_lbng_ClbssLobdfr_00024NbtivfLibrbry_lobd
+  (JNIEnv *fnv, jobjfdt tiis, jstring nbmf, jboolfbn isBuiltin)
 {
-    const char *cname;
-    jint jniVersion;
-    jthrowable cause;
-    void * handle;
+    donst dibr *dnbmf;
+    jint jniVfrsion;
+    jtirowbblf dbusf;
+    void * ibndlf;
 
-    if (!initIDs(env))
-        return;
+    if (!initIDs(fnv))
+        rfturn;
 
-    cname = JNU_GetStringPlatformChars(env, name, 0);
-    if (cname == 0)
-        return;
-    handle = isBuiltin ? procHandle : JVM_LoadLibrary(cname);
-    if (handle) {
-        JNI_OnLoad_t JNI_OnLoad;
-        JNI_OnLoad = (JNI_OnLoad_t)findJniFunction(env, handle,
-                                               isBuiltin ? cname : NULL,
+    dnbmf = JNU_GftStringPlbtformCibrs(fnv, nbmf, 0);
+    if (dnbmf == 0)
+        rfturn;
+    ibndlf = isBuiltin ? prodHbndlf : JVM_LobdLibrbry(dnbmf);
+    if (ibndlf) {
+        JNI_OnLobd_t JNI_OnLobd;
+        JNI_OnLobd = (JNI_OnLobd_t)findJniFundtion(fnv, ibndlf,
+                                               isBuiltin ? dnbmf : NULL,
                                                JNI_TRUE);
-        if (JNI_OnLoad) {
-            JavaVM *jvm;
-            (*env)->GetJavaVM(env, &jvm);
-            jniVersion = (*JNI_OnLoad)(jvm, NULL);
-        } else {
-            jniVersion = 0x00010001;
+        if (JNI_OnLobd) {
+            JbvbVM *jvm;
+            (*fnv)->GftJbvbVM(fnv, &jvm);
+            jniVfrsion = (*JNI_OnLobd)(jvm, NULL);
+        } flsf {
+            jniVfrsion = 0x00010001;
         }
 
-        cause = (*env)->ExceptionOccurred(env);
-        if (cause) {
-            (*env)->ExceptionClear(env);
-            (*env)->Throw(env, cause);
+        dbusf = (*fnv)->ExdfptionOddurrfd(fnv);
+        if (dbusf) {
+            (*fnv)->ExdfptionClfbr(fnv);
+            (*fnv)->Tirow(fnv, dbusf);
             if (!isBuiltin) {
-                JVM_UnloadLibrary(handle);
+                JVM_UnlobdLibrbry(ibndlf);
             }
-            goto done;
+            goto donf;
         }
 
-        if (!JVM_IsSupportedJNIVersion(jniVersion) ||
-            (isBuiltin && jniVersion < JNI_VERSION_1_8)) {
-            char msg[256];
-            jio_snprintf(msg, sizeof(msg),
-                         "unsupported JNI version 0x%08X required by %s",
-                         jniVersion, cname);
-            JNU_ThrowByName(env, "java/lang/UnsatisfiedLinkError", msg);
+        if (!JVM_IsSupportfdJNIVfrsion(jniVfrsion) ||
+            (isBuiltin && jniVfrsion < JNI_VERSION_1_8)) {
+            dibr msg[256];
+            jio_snprintf(msg, sizfof(msg),
+                         "unsupportfd JNI vfrsion 0x%08X rfquirfd by %s",
+                         jniVfrsion, dnbmf);
+            JNU_TirowByNbmf(fnv, "jbvb/lbng/UnsbtisfifdLinkError", msg);
             if (!isBuiltin) {
-                JVM_UnloadLibrary(handle);
+                JVM_UnlobdLibrbry(ibndlf);
             }
-            goto done;
+            goto donf;
         }
-        (*env)->SetIntField(env, this, jniVersionID, jniVersion);
-    } else {
-        cause = (*env)->ExceptionOccurred(env);
-        if (cause) {
-            (*env)->ExceptionClear(env);
-            (*env)->SetLongField(env, this, handleID, (jlong)0);
-            (*env)->Throw(env, cause);
+        (*fnv)->SftIntFifld(fnv, tiis, jniVfrsionID, jniVfrsion);
+    } flsf {
+        dbusf = (*fnv)->ExdfptionOddurrfd(fnv);
+        if (dbusf) {
+            (*fnv)->ExdfptionClfbr(fnv);
+            (*fnv)->SftLongFifld(fnv, tiis, ibndlfID, (jlong)0);
+            (*fnv)->Tirow(fnv, dbusf);
         }
-        goto done;
+        goto donf;
     }
-    (*env)->SetLongField(env, this, handleID, ptr_to_jlong(handle));
-    (*env)->SetBooleanField(env, this, loadedID, JNI_TRUE);
+    (*fnv)->SftLongFifld(fnv, tiis, ibndlfID, ptr_to_jlong(ibndlf));
+    (*fnv)->SftBoolfbnFifld(fnv, tiis, lobdfdID, JNI_TRUE);
 
- done:
-    JNU_ReleaseStringPlatformChars(env, name, cname);
+ donf:
+    JNU_RflfbsfStringPlbtformCibrs(fnv, nbmf, dnbmf);
 }
 
 /*
- * Class:     java_lang_ClassLoader_NativeLibrary
- * Method:    unload
- * Signature: (Z)V
+ * Clbss:     jbvb_lbng_ClbssLobdfr_NbtivfLibrbry
+ * Mftiod:    unlobd
+ * Signbturf: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_java_lang_ClassLoader_00024NativeLibrary_unload
-(JNIEnv *env, jobject this, jstring name, jboolean isBuiltin)
+Jbvb_jbvb_lbng_ClbssLobdfr_00024NbtivfLibrbry_unlobd
+(JNIEnv *fnv, jobjfdt tiis, jstring nbmf, jboolfbn isBuiltin)
 {
-    const char *onUnloadSymbols[] = JNI_ONUNLOAD_SYMBOLS;
-    void *handle;
-    JNI_OnUnload_t JNI_OnUnload;
-     const char *cname;
+    donst dibr *onUnlobdSymbols[] = JNI_ONUNLOAD_SYMBOLS;
+    void *ibndlf;
+    JNI_OnUnlobd_t JNI_OnUnlobd;
+     donst dibr *dnbmf;
 
-    if (!initIDs(env))
-        return;
-    cname = JNU_GetStringPlatformChars(env, name, 0);
-    if (cname == NULL) {
-        return;
+    if (!initIDs(fnv))
+        rfturn;
+    dnbmf = JNU_GftStringPlbtformCibrs(fnv, nbmf, 0);
+    if (dnbmf == NULL) {
+        rfturn;
     }
-    handle = jlong_to_ptr((*env)->GetLongField(env, this, handleID));
-    JNI_OnUnload = (JNI_OnUnload_t )findJniFunction(env, handle,
-                                                isBuiltin ? cname : NULL,
+    ibndlf = jlong_to_ptr((*fnv)->GftLongFifld(fnv, tiis, ibndlfID));
+    JNI_OnUnlobd = (JNI_OnUnlobd_t )findJniFundtion(fnv, ibndlf,
+                                                isBuiltin ? dnbmf : NULL,
                                                 JNI_FALSE);
-    if (JNI_OnUnload) {
-        JavaVM *jvm;
-        (*env)->GetJavaVM(env, &jvm);
-        (*JNI_OnUnload)(jvm, NULL);
+    if (JNI_OnUnlobd) {
+        JbvbVM *jvm;
+        (*fnv)->GftJbvbVM(fnv, &jvm);
+        (*JNI_OnUnlobd)(jvm, NULL);
     }
     if (!isBuiltin) {
-        JVM_UnloadLibrary(handle);
+        JVM_UnlobdLibrbry(ibndlf);
     }
-    JNU_ReleaseStringPlatformChars(env, name, cname);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, nbmf, dnbmf);
 }
 
 /*
- * Class:     java_lang_ClassLoader_NativeLibrary
- * Method:    find
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     jbvb_lbng_ClbssLobdfr_NbtivfLibrbry
+ * Mftiod:    find
+ * Signbturf: (Ljbvb/lbng/String;)J
  */
 JNIEXPORT jlong JNICALL
-Java_java_lang_ClassLoader_00024NativeLibrary_find
-  (JNIEnv *env, jobject this, jstring name)
+Jbvb_jbvb_lbng_ClbssLobdfr_00024NbtivfLibrbry_find
+  (JNIEnv *fnv, jobjfdt tiis, jstring nbmf)
 {
-    jlong handle;
-    const char *cname;
-    jlong res;
+    jlong ibndlf;
+    donst dibr *dnbmf;
+    jlong rfs;
 
-    if (!initIDs(env))
-        return jlong_zero;
+    if (!initIDs(fnv))
+        rfturn jlong_zfro;
 
-    handle = (*env)->GetLongField(env, this, handleID);
-    cname = (*env)->GetStringUTFChars(env, name, 0);
-    if (cname == 0)
-        return jlong_zero;
-    res = ptr_to_jlong(JVM_FindLibraryEntry(jlong_to_ptr(handle), cname));
-    (*env)->ReleaseStringUTFChars(env, name, cname);
-    return res;
+    ibndlf = (*fnv)->GftLongFifld(fnv, tiis, ibndlfID);
+    dnbmf = (*fnv)->GftStringUTFCibrs(fnv, nbmf, 0);
+    if (dnbmf == 0)
+        rfturn jlong_zfro;
+    rfs = ptr_to_jlong(JVM_FindLibrbryEntry(jlong_to_ptr(ibndlf), dnbmf));
+    (*fnv)->RflfbsfStringUTFCibrs(fnv, nbmf, dnbmf);
+    rfturn rfs;
 }
 /*
- * Class:     java_lang_ClassLoader_NativeLibrary
- * Method:    findBuiltinLib
- * Signature: (Ljava/lang/String;)Ljava/lang/String;
+ * Clbss:     jbvb_lbng_ClbssLobdfr_NbtivfLibrbry
+ * Mftiod:    findBuiltinLib
+ * Signbturf: (Ljbvb/lbng/String;)Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_lang_ClassLoader_00024NativeLibrary_findBuiltinLib
-  (JNIEnv *env, jclass cls, jstring name)
+Jbvb_jbvb_lbng_ClbssLobdfr_00024NbtivfLibrbry_findBuiltinLib
+  (JNIEnv *fnv, jdlbss dls, jstring nbmf)
 {
-    const char *cname;
-    char *libName;
-    size_t prefixLen = strlen(JNI_LIB_PREFIX);
-    size_t suffixLen = strlen(JNI_LIB_SUFFIX);
-    size_t len;
+    donst dibr *dnbmf;
+    dibr *libNbmf;
+    sizf_t prffixLfn = strlfn(JNI_LIB_PREFIX);
+    sizf_t suffixLfn = strlfn(JNI_LIB_SUFFIX);
+    sizf_t lfn;
     jstring lib;
-    void *ret;
-    const char *onLoadSymbols[] = JNI_ONLOAD_SYMBOLS;
+    void *rft;
+    donst dibr *onLobdSymbols[] = JNI_ONLOAD_SYMBOLS;
 
-    if (name == NULL) {
-        JNU_ThrowInternalError(env, "NULL filename for native library");
-        return NULL;
+    if (nbmf == NULL) {
+        JNU_TirowIntfrnblError(fnv, "NULL filfnbmf for nbtivf librbry");
+        rfturn NULL;
     }
-    // Can't call initIDs because it will recurse into NativeLibrary via
-    // FindClass to check context so set prochandle here as well.
-    procHandle = getProcessHandle();
-    cname = JNU_GetStringPlatformChars(env, name, 0);
-    if (cname == NULL) {
-        return NULL;
+    // Cbn't dbll initIDs bfdbusf it will rfdursf into NbtivfLibrbry vib
+    // FindClbss to difdk dontfxt so sft prodibndlf ifrf bs wfll.
+    prodHbndlf = gftProdfssHbndlf();
+    dnbmf = JNU_GftStringPlbtformCibrs(fnv, nbmf, 0);
+    if (dnbmf == NULL) {
+        rfturn NULL;
     }
-    // Copy name Skipping PREFIX
-    len = strlen(cname);
-    if (len <= (prefixLen+suffixLen)) {
-        JNU_ReleaseStringPlatformChars(env, name, cname);
-        return NULL;
+    // Copy nbmf Skipping PREFIX
+    lfn = strlfn(dnbmf);
+    if (lfn <= (prffixLfn+suffixLfn)) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, nbmf, dnbmf);
+        rfturn NULL;
     }
-    libName = malloc(len + 1); //+1 for null if prefix+suffix == 0
-    if (libName == NULL) {
-        JNU_ReleaseStringPlatformChars(env, name, cname);
-        JNU_ThrowOutOfMemoryError(env, NULL);
-        return NULL;
+    libNbmf = mbllod(lfn + 1); //+1 for null if prffix+suffix == 0
+    if (libNbmf == NULL) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, nbmf, dnbmf);
+        JNU_TirowOutOfMfmoryError(fnv, NULL);
+        rfturn NULL;
     }
-    if (len > prefixLen) {
-        strcpy(libName, cname+prefixLen);
+    if (lfn > prffixLfn) {
+        strdpy(libNbmf, dnbmf+prffixLfn);
     }
-    JNU_ReleaseStringPlatformChars(env, name, cname);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, nbmf, dnbmf);
 
     // Strip SUFFIX
-    libName[strlen(libName)-suffixLen] = '\0';
+    libNbmf[strlfn(libNbmf)-suffixLfn] = '\0';
 
-    // Check for JNI_OnLoad_libname function
-    ret = findJniFunction(env, procHandle, libName, JNI_TRUE);
-    if (ret != NULL) {
-        lib = JNU_NewStringPlatform(env, libName);
-        free(libName);
-        return lib;
+    // Cifdk for JNI_OnLobd_libnbmf fundtion
+    rft = findJniFundtion(fnv, prodHbndlf, libNbmf, JNI_TRUE);
+    if (rft != NULL) {
+        lib = JNU_NfwStringPlbtform(fnv, libNbmf);
+        frff(libNbmf);
+        rfturn lib;
     }
-    free(libName);
-    return NULL;
+    frff(libNbmf);
+    rfturn NULL;
 }

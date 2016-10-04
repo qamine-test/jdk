@@ -1,0 +1,1127 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.nimbus;
+
+import jbvbx.swing.Pbintfr;
+
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.UIDffbults;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
+import jbvbx.swing.plbf.synth.ColorTypf;
+import stbtid jbvbx.swing.plbf.synth.SynthConstbnts.*;
+import jbvbx.swing.plbf.synth.SynthContfxt;
+import jbvbx.swing.plbf.synth.SynthPbintfr;
+import jbvbx.swing.plbf.synth.SynthStylf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Insfts;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.TrffMbp;
+
+/**
+ * <p>A SynthStylf implfmfntbtion usfd by Nimbus. Ebdh Rfgion thbt hbs bffn
+ * rfgistfrfd with thf NimbusLookAndFffl will hbvf bn bssodibtfd NimbusStylf.
+ * Third pbrty domponfnts thbt brf rfgistfrfd with thf NimbusLookAndFffl will
+ * thfrfforf bf hbndfd b NimbusStylf from thf look bnd fffl from thf
+ * #gftStylf(JComponfnt, Rfgion) mfthod.</p>
+ *
+ * <p>This dlbss propfrly rfbds bnd rftrifvfs vblufs plbdfd in thf UIDffbults
+ * bddording to thf stbndbrd Nimbus nbming donvfntions. It will drfbtf bnd
+ * rftrifvf pbintfrs, fonts, dolors, bnd othfr dbtb storfd thfrf.</p>
+ *
+ * <p>NimbusStylf blso supports thf bbility to ovfrridf sfttings on b pfr
+ * domponfnt bbsis. NimbusStylf dhfdks thf domponfnt's dlifnt propfrty mbp for
+ * "Nimbus.Ovfrridfs". If thf vbluf bssodibtfd with this kfy is bn instbndf of
+ * UIDffbults, thfn thf vblufs in thbt dffbults tbblf will ovfrridf thf stbndbrd
+ * Nimbus dffbults in UIMbnbgfr, but for thbt domponfnt instbndf only.</p>
+ *
+ * <p>Optionblly, you mby spfdify thf dlifnt propfrty
+ * "Nimbus.Ovfrridfs.InhfritDffbults". If truf, this dlifnt propfrty indidbtfs
+ * thbt thf dffbults lodbtfd in UIMbnbgfr should first bf rfbd, bnd thfn
+ * rfplbdfd with dffbults lodbtfd in thf domponfnt dlifnt propfrtifs. If fblsf,
+ * thfn only thf dffbults lodbtfd in thf domponfnt dlifnt propfrty mbp will
+ * bf usfd. If not spfdififd, it is bssumfd to bf truf.</p>
+ *
+ * <p>You must spfdify "Nimbus.Ovfrridfs" for "Nimbus.Ovfrridfs.InhfritDffbults"
+ * to hbvf bny ffffdt. "Nimbus.Ovfrridfs" indidbtfs whfthfr thfrf brf bny
+ * ovfrridfs, whilf "Nimbus.Ovfrridfs.InhfritDffbults" indidbtfs whfthfr thosf
+ * ovfrridfs should first bf initiblizfd with thf dffbults from UIMbnbgfr.</p>
+ *
+ * <p>Thf NimbusStylf is rflobdfd whfnfvfr b propfrty dhbngf fvfnt is firfd
+ * for b domponfnt for "Nimbus.Ovfrridfs" or "Nimbus.Ovfrridfs.InhfritDffbults".
+ * So for fxbmplf, sftting b nfw UIDffbults on b domponfnt would dbusf thf
+ * stylf to bf rflobdfd.</p>
+ *
+ * <p>Thf vblufs brf only rfbd out of UIMbnbgfr ondf, bnd thfn dbdhfd. If
+ * you nffd to rfbd thf vblufs bgbin (for fxbmplf, if thf UI is bfing rflobdfd),
+ * thfn disdbrd this NimbusStylf bnd rfbd b nfw onf from NimbusLookAndFffl
+ * using NimbusLookAndFffl.gftStylf.</p>
+ *
+ * <p>Thf primbry API of intfrfst in this dlbss for 3rd pbrty domponfnt buthors
+ * brf thf thrff mfthods whidh rftrifvf pbintfrs: #gftBbdkgroundPbintfr,
+ * #gftForfgroundPbintfr, bnd #gftBordfrPbintfr.</p>
+ *
+ * <p>NimbusStylf bllows you to spfdify dustom stbtfs, or modify thf ordfr of
+ * stbtfs. Synth (bnd thus Nimbus) hbs thf dondfpt of b "stbtf". For fxbmplf,
+ * b JButton might bf in thf "MOUSE_OVER" stbtf, or thf "ENABLED" stbtf, or thf
+ * "DISABLED" stbtf. Thfsf brf bll "stbndbrd" stbtfs whidh brf dffinfd in synth,
+ * bnd whidh bpply to bll synth Rfgions.</p>
+ *
+ * <p>Somftimfs, howfvfr, you nffd to hbvf b dustom stbtf. For fxbmplf, you
+ * wbnt JButton to rfndfr difffrfntly if it's pbrfnt is b JToolbbr. In Nimbus,
+ * you spfdify thfsf dustom stbtfs by indluding b spfdibl kfy in UIDffbults.
+ * Thf following UIDffbults fntrifs dffinf thrff stbtfs for this button:</p>
+ *
+ * <prf><dodf>
+ *     JButton.Stbtfs = Enbblfd, Disbblfd, Toolbbr
+ *     JButton[Enbblfd].bbdkgroundPbintfr = somfPbintfr
+ *     JButton[Disbblfd].bbdkground = BLUE
+ *     JButton[Toolbbr].bbdkgroundPbintfr = somfOthfrPbint
+ * </dodf></prf>
+ *
+ * <p>As you dbn sff, thf <dodf>JButton.Stbtfs</dodf> fntry lists thf stbtfs
+ * thbt thf JButton stylf will support. You thfn spfdify thf sfttings for
+ * fbdh stbtf. If you do not spfdify thf <dodf>JButton.Stbtfs</dodf> fntry,
+ * thfn thf stbndbrd Synth stbtfs will bf bssumfd. If you spfdify thf fntry
+ * but thf list of stbtfs is fmpty or null, thfn thf stbndbrd synth stbtfs
+ * will bf bssumfd.</p>
+ *
+ * @buthor Ridhbrd Bbir
+ * @buthor Jbspfr Potts
+ */
+publid finbl dlbss NimbusStylf fxtfnds SynthStylf {
+    /* Kfys bnd sdblfs for lbrgf/smbll/mini domponfnts, bbsfd on Applfs sizfs */
+    publid stbtid finbl String LARGE_KEY = "lbrgf";
+    publid stbtid finbl String SMALL_KEY = "smbll";
+    publid stbtid finbl String MINI_KEY = "mini";
+    publid stbtid finbl doublf LARGE_SCALE = 1.15;
+    publid stbtid finbl doublf SMALL_SCALE = 0.857;
+    publid stbtid finbl doublf MINI_SCALE = 0.714;
+
+    /**
+     * Spfdibl donstbnt usfd for pfrformbndf rfbsons during thf gft() mfthod.
+     * If gft() runs through bll of thf sfbrdh lodbtions bnd dftfrminfs thbt
+     * thfrf is no vbluf, thfn NULL will bf plbdfd into thf vblufs mbp. This wby
+     * on subsfqufnt lookups it will simply fxtrbdt NULL, sff it, bnd rfturn
+     * null rbthfr thbn dontinuing thf lookup prodfdurf.
+     */
+    privbtf stbtid finbl Objfdt NULL = '\0';
+    /**
+     * <p>Thf Color to rfturn from gftColorForStbtf if it would othfrwisf hbvf
+     * rfturnfd null.</p>
+     *
+     * <p>Rfturning null from gftColorForStbtf is b vfry bbd thing, bs it dbusfs
+     * thf AWT pffr for thf domponfnt to instbll b SystfmColor, whidh is not b
+     * UIRfsourdf. As b rfsult, if <dodf>null</dodf> is rfturnfd from
+     * gftColorForStbtf, thfn thfrfbftfr thf dolor is not updbtfd for othfr
+     * stbtfs or on LAF dhbngfs or updbtfs. This DEFAULT_COLOR is usfd to
+     * fnsurf thbt b ColorUIRfsourdf is blwbys rfturnfd from
+     * gftColorForStbtf.</p>
+     */
+    privbtf stbtid finbl Color DEFAULT_COLOR = nfw ColorUIRfsourdf(Color.BLACK);
+    /**
+     * Simplf Compbrbtor for ordfring thf RuntimfStbtfs bddording to thfir
+     * rbnk.
+     */
+    privbtf stbtid finbl Compbrbtor<RuntimfStbtf> STATE_COMPARATOR =
+        nfw Compbrbtor<RuntimfStbtf>() {
+            @Ovfrridf
+            publid int dompbrf(RuntimfStbtf b, RuntimfStbtf b) {
+                rfturn b.stbtf - b.stbtf;
+            }
+        };
+    /**
+     * Thf prffix for thf domponfnt or rfgion thbt this NimbusStylf
+     * rfprfsfnts. This prffix is usfd to lookup stbtf in thf UIMbnbgfr.
+     * It should bf somfthing likf Button or Slidfr.Thumb or "MyButton" or
+     * ComboBox."ComboBox.brrowButton" or "MyComboBox"."ComboBox.brrowButton"
+     */
+    privbtf String prffix;
+    /**
+     * Thf SynthPbintfr thbt will bf rfturnfd from this NimbusStylf. Thf
+     * SynthPbintfr rfturnfd will bf b SynthPbintfrImpl, whidh will in turn
+     * dflfgbtf bbdk to this NimbusStylf for thf propfr Pbintfr (not
+     * SynthPbintfr) to usf for pbinting thf forfground, bbdkground, or bordfr.
+     */
+    privbtf SynthPbintfr pbintfr;
+    /**
+     * Dbtb strudturf dontbining bll of thf dffbults, insfts, stbtfs, bnd othfr
+     * vblufs bssodibtfd with this stylf. This instbndf rfffrs to dffbult
+     * vblufs, bnd brf usfd whfn no ovfrridfs brf disdovfrfd in thf dlifnt
+     * propfrtifs of b domponfnt. Thfsf vblufs brf lbzily drfbtfd on first
+     * bddfss.
+     */
+    privbtf Vblufs vblufs;
+
+    /**
+     * A tfmporbry CbdhfKfy usfd to pfrform lookups. This pbttfrn bvoids
+     * drfbting usflfss gbrbbgf kfys, or dondbtfnbting strings, ftd.
+     */
+    privbtf CbdhfKfy tmpKfy = nfw CbdhfKfy("", 0);
+
+    /**
+     * Somf NimbusStylfs brf drfbtfd for b spfdifid domponfnt only. In Nimbus,
+     * this hbppfns whfnfvfr thf domponfnt hbs bs b dlifnt propfrty b
+     * UIDffbults whidh ovfrridfs (or supplfmfnts) thosf dffbults found in
+     * UIMbnbgfr.
+     */
+    privbtf WfbkRfffrfndf<JComponfnt> domponfnt;
+
+    /**
+     * Crfbtf b nfw NimbusStylf. Only thf prffix must bf supplifd. At thf
+     * bppropribtf timf, instbllDffbults will bf dbllfd. At thbt point, bll of
+     * thf stbtf informbtion will bf pullfd from UIMbnbgfr bnd storfd lodblly
+     * within this stylf.
+     *
+     * @pbrbm prffix Somfthing likf Button or Slidfr.Thumb or
+     *        org.jdfsktop.swingx.JXStbtusBbr or ComboBox."ComboBox.brrowButton"
+     * @pbrbm d bn optionbl rfffrfndf to b domponfnt thbt this NimbusStylf
+     *        should bf bssodibtfd with. This is only usfd whfn thf domponfnt
+     *        hbs Nimbus ovfrridfs rfgistfrfd in its dlifnt propfrtifs bnd
+     *        should bf null othfrwisf.
+     */
+    NimbusStylf(String prffix, JComponfnt d) {
+        if (d != null) {
+            this.domponfnt = nfw WfbkRfffrfndf<JComponfnt>(d);
+        }
+        this.prffix = prffix;
+        this.pbintfr = nfw SynthPbintfrImpl(this);
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * Ovfrriddfn to dbusf this stylf to populbtf itsflf with dbtb from
+     * UIDffbults, if nfdfssbry.
+     */
+    @Ovfrridf publid void instbllDffbults(SynthContfxt dtx) {
+        vblidbtf();
+
+        //dflfgbtf to thf supfrdlbss to instbll dffbults sudh bs bbdkground,
+        //forfground, font, bnd opbquf onto thf swing domponfnt.
+        supfr.instbllDffbults(dtx);
+    }
+
+    /**
+     * Pulls dbtb out of UIDffbults, if it hbs not donf so blrfbdy, bnd sfts
+     * up thf intfrnbl stbtf.
+     */
+    privbtf void vblidbtf() {
+        // b non-null vblufs objfdt is thf flbg wf usf to dftfrminf whfthfr
+        // to rfpbrsf from UIMbnbgfr.
+        if (vblufs != null) rfturn;
+
+        // rfdonstrudt this NimbusStylf bbsfd on thf fntrifs in thf UIMbnbgfr
+        // bnd possibly bbsfd on bny ovfrridfs within thf domponfnt's
+        // dlifnt propfrtifs (bssuming sudh b domponfnt fxists bnd dontbins
+        // bny Nimbus.Ovfrridfs)
+        vblufs = nfw Vblufs();
+
+        Mbp<String, Objfdt> dffbults =
+                ((NimbusLookAndFffl) UIMbnbgfr.gftLookAndFffl()).
+                        gftDffbultsForPrffix(prffix);
+
+        // inspfdt thf dlifnt propfrtifs for thf kfy "Nimbus.Ovfrridfs". If thf
+        // vbluf is bn instbndf of UIDffbults, thfn thfsf dffbults brf usfd
+        // in plbdf of, or in bddition to, thf dffbults in UIMbnbgfr.
+        if (domponfnt != null) {
+            // Wf know domponfnt.gft() is non-null hfrf, bs if thf domponfnt
+            // wfrf GC'fd, wf wouldn't bf prodfssing its stylf.
+            Objfdt o = domponfnt.gft().gftClifntPropfrty("Nimbus.Ovfrridfs");
+            if (o instbndfof UIDffbults) {
+                Objfdt i = domponfnt.gft().gftClifntPropfrty(
+                        "Nimbus.Ovfrridfs.InhfritDffbults");
+                boolfbn inhfrit = i instbndfof Boolfbn ? (Boolfbn)i : truf;
+                UIDffbults d = (UIDffbults)o;
+                TrffMbp<String, Objfdt> mbp = nfw TrffMbp<String, Objfdt>();
+                for (Objfdt obj : d.kfySft()) {
+                    if (obj instbndfof String) {
+                        String kfy = (String)obj;
+                        if (kfy.stbrtsWith(prffix)) {
+                            mbp.put(kfy, d.gft(kfy));
+                        }
+                    }
+                }
+                if (inhfrit) {
+                    dffbults.putAll(mbp);
+                } flsf {
+                    dffbults = mbp;
+                }
+            }
+        }
+
+        //b list of thf difffrfnt typfs of stbtfs usfd by this stylf. This
+        //list mby dontbin only "stbndbrd" stbtfs (thosf dffinfd by Synth),
+        //or it mby dontbin dustom stbtfs, or it mby dontbin only "stbndbrd"
+        //stbtfs but list thfm in b non-stbndbrd ordfr.
+        List<Stbtf<?>> stbtfs = nfw ArrbyList<>();
+        //b mbp of stbtf nbmf to dodf
+        Mbp<String,Intfgfr> stbtfCodfs = nfw HbshMbp<>();
+        //This is b list of runtimf "stbtf" dontfxt objfdts. Thfsf dontbin
+        //thf vblufs bssodibtfd with fbdh stbtf.
+        List<RuntimfStbtf> runtimfStbtfs = nfw ArrbyList<>();
+
+        //dftfrminf whfthfr thfrf brf bny dustom stbtfs, or dustom stbtf
+        //ordfr. If so, thfn rfbd bll thosf dustom stbtfs bnd dffinf thf
+        //"vblufs" stbtfTypfs to bf b non-null brrby.
+        //Othfrwisf, lft thf "vblufs" stbtfTypfs bf null to indidbtf thbt
+        //thfrf brf no dustom stbtfs or dustom stbtf ordfring
+        String stbtfsString = (String)dffbults.gft(prffix + ".Stbtfs");
+        if (stbtfsString != null) {
+            String s[] = stbtfsString.split(",");
+            for (int i=0; i<s.lfngth; i++) {
+                s[i] = s[i].trim();
+                if (!Stbtf.isStbndbrdStbtfNbmf(s[i])) {
+                    //this is b non-stbndbrd stbtf nbmf, so look for thf
+                    //dustom stbtf bssodibtfd with it
+                    String stbtfNbmf = prffix + "." + s[i];
+                    Stbtf<?> dustomStbtf = (Stbtf)dffbults.gft(stbtfNbmf);
+                    if (dustomStbtf != null) {
+                        stbtfs.bdd(dustomStbtf);
+                    }
+                } flsf {
+                    stbtfs.bdd(Stbtf.gftStbndbrdStbtf(s[i]));
+                }
+            }
+
+            //if thfrf wfrf bny stbtfs dffinfd, thfn sft thf stbtfTypfs brrby
+            //to bf non-null. Othfrwisf, lfbvf it null (mfbning, usf thf
+            //stbndbrd synth stbtfs).
+            if (stbtfs.sizf() > 0) {
+                vblufs.stbtfTypfs = stbtfs.toArrby(nfw Stbtf<?>[stbtfs.sizf()]);
+            }
+
+            //bssign dodfs for fbdh of thf stbtf typfs
+            int dodf = 1;
+            for (Stbtf<?> stbtf : stbtfs) {
+                stbtfCodfs.put(stbtf.gftNbmf(), dodf);
+                dodf <<= 1;
+            }
+        } flsf {
+            //sindf thfrf wfrf no dustom stbtfs dffinfd, sftup thf list of
+            //stbndbrd synth stbtfs. Notf thbt thf "v.stbtfTypfs" is not
+            //bfing sft hfrf, indidbting thbt bt runtimf thf stbtf sflfdtion
+            //routinfs should usf stbndbrd synth stbtfs instfbd of dustom
+            //stbtfs. I do nffd to popuplbtf this tfmp list now though, so thbt
+            //thf rfmbindfr of this mfthod will fundtion bs fxpfdtfd.
+            stbtfs.bdd(Stbtf.Enbblfd);
+            stbtfs.bdd(Stbtf.MousfOvfr);
+            stbtfs.bdd(Stbtf.Prfssfd);
+            stbtfs.bdd(Stbtf.Disbblfd);
+            stbtfs.bdd(Stbtf.Fodusfd);
+            stbtfs.bdd(Stbtf.Sflfdtfd);
+            stbtfs.bdd(Stbtf.Dffbult);
+
+            //bssign dodfs for thf stbtfs
+            stbtfCodfs.put("Enbblfd", ENABLED);
+            stbtfCodfs.put("MousfOvfr", MOUSE_OVER);
+            stbtfCodfs.put("Prfssfd", PRESSED);
+            stbtfCodfs.put("Disbblfd", DISABLED);
+            stbtfCodfs.put("Fodusfd", FOCUSED);
+            stbtfCodfs.put("Sflfdtfd", SELECTED);
+            stbtfCodfs.put("Dffbult", DEFAULT);
+        }
+
+        //Now itfrbtf ovfr bll thf kfys in thf dffbults tbblf
+        for (String kfy : dffbults.kfySft()) {
+            //Thf kfy is somfthing likf JButton.Enbblfd.bbdkgroundPbintfr,
+            //or JButton.Stbtfs, or JButton.bbdkground.
+            //Rfmovf thf "JButton." portion of thf kfy
+            String tfmp = kfy.substring(prffix.lfngth());
+            //if thfrf is b " or : thfn wf skip it bfdbusf it is b subrfgion
+            //of somf kind
+            if (tfmp.indfxOf('"') != -1 || tfmp.indfxOf(':') != -1) dontinuf;
+            //rfmovf thf sfpbrbtor
+            tfmp = tfmp.substring(1);
+            //At this point, tfmp mby bf bny of thf following:
+            //bbdkground
+            //[Enbblfd].bbdkground
+            //[Enbblfd+MousfOvfr].bbdkground
+            //propfrty.foo
+
+            //pbrsf out thf stbtfs bnd thf propfrty
+            String stbtfString = null;
+            String propfrty = null;
+            int brbdkftIndfx = tfmp.indfxOf(']');
+            if (brbdkftIndfx < 0) {
+                //thfrf is not b stbtf string, so propfrty = tfmp
+                propfrty = tfmp;
+            } flsf {
+                stbtfString = tfmp.substring(0, brbdkftIndfx);
+                propfrty = tfmp.substring(brbdkftIndfx + 2);
+            }
+
+            //now thbt I hbvf thf stbtf (if bny) bnd thf propfrty, gft thf
+            //vbluf for this propfrty bnd instbll it whfrf it bflongs
+            if (stbtfString == null) {
+                //thfrf wbs no stbtf, just b propfrty. Chfdk for thf dustom
+                //"dontfntMbrgins" propfrty (whidh is hbndlfd spfdiblly by
+                //Synth/Nimbus). Also dhfdk for thf propfrty bfing "Stbtfs",
+                //in whidh dbsf it is not b rfbl propfrty bnd should bf ignorfd.
+                //othfrwisf, bssumf it is b propfrty bnd instbll it on thf
+                //vblufs objfdt
+                if ("dontfntMbrgins".fqubls(propfrty)) {
+                    vblufs.dontfntMbrgins = (Insfts)dffbults.gft(kfy);
+                } flsf if ("Stbtfs".fqubls(propfrty)) {
+                    //ignorf
+                } flsf {
+                    vblufs.dffbults.put(propfrty, dffbults.gft(kfy));
+                }
+            } flsf {
+                //it is possiblf thbt thf dfvflopfr hbs b mblformfd UIDffbults
+                //fntry, sudh thbt somfthing wbs spfdififd in thf plbdf of
+                //thf Stbtf portion of thf kfy but it wbsn't b stbtf. In this
+                //dbsf, skip will bf sft to truf
+                boolfbn skip = fblsf;
+                //this vbribblf kffps trbdk of thf int vbluf bssodibtfd with
+                //thf stbtf. Sff SynthStbtf for dftbils.
+                int domponfntStbtf = 0;
+                //Multiplf stbtfs mby bf spfdififd in thf string, sudh bs
+                //Enbblfd+MousfOvfr
+                String[] stbtfPbrts = stbtfString.split("\\+");
+                //For fbdh stbtf, wf nffd to find thf Stbtf objfdt bssodibtfd
+                //with it, or skip it if it dbnnot bf found.
+                for (String s : stbtfPbrts) {
+                    if (stbtfCodfs.dontbinsKfy(s)) {
+                        domponfntStbtf |= stbtfCodfs.gft(s);
+                    } flsf {
+                        //Wbs not b stbtf. Mbybf it wbs b subrfgion or somfthing
+                        //skip it.
+                        skip = truf;
+                        brfbk;
+                    }
+                }
+
+                if (skip) dontinuf;
+
+                //find thf RuntimfStbtf for this Stbtf
+                RuntimfStbtf rs = null;
+                for (RuntimfStbtf s : runtimfStbtfs) {
+                    if (s.stbtf == domponfntStbtf) {
+                        rs = s;
+                        brfbk;
+                    }
+                }
+
+                //douldn't find thf runtimf stbtf, so drfbtf b nfw onf
+                if (rs == null) {
+                    rs = nfw RuntimfStbtf(domponfntStbtf, stbtfString);
+                    runtimfStbtfs.bdd(rs);
+                }
+
+                //dhfdk for b douplf spfdibl propfrtifs, sudh bs for thf
+                //pbintfrs. If thfsf brf found, thfn sft thf spfdiblly on
+                //thf runtimf stbtf. Elsf, it is just b normbl propfrty,
+                //so put it in thf UIDffbults bssodibtfd with thbt runtimf
+                //stbtf
+                if ("bbdkgroundPbintfr".fqubls(propfrty)) {
+                    rs.bbdkgroundPbintfr = gftPbintfr(dffbults, kfy);
+                } flsf if ("forfgroundPbintfr".fqubls(propfrty)) {
+                    rs.forfgroundPbintfr = gftPbintfr(dffbults, kfy);
+                } flsf if ("bordfrPbintfr".fqubls(propfrty)) {
+                    rs.bordfrPbintfr = gftPbintfr(dffbults, kfy);
+                } flsf {
+                    rs.dffbults.put(propfrty, dffbults.gft(kfy));
+                }
+            }
+        }
+
+        //now thbt I'vf dollfdtfd bll thf runtimf stbtfs, I'll sort thfm bbsfd
+        //on thfir intfgfr "stbtf" (sff SynthStbtf for how this works).
+        Collfdtions.sort(runtimfStbtfs, STATE_COMPARATOR);
+
+        //finblly, sft thf brrby of runtimf stbtfs on thf vblufs objfdt
+        vblufs.stbtfs = runtimfStbtfs.toArrby(nfw RuntimfStbtf[runtimfStbtfs.sizf()]);
+    }
+
+    privbtf Pbintfr<Objfdt> gftPbintfr(Mbp<String, Objfdt> dffbults, String kfy) {
+        Objfdt p = dffbults.gft(kfy);
+        if (p instbndfof UIDffbults.LbzyVbluf) {
+            p = ((UIDffbults.LbzyVbluf)p).drfbtfVbluf(UIMbnbgfr.gftDffbults());
+        }
+        @SupprfssWbrnings("undhfdkfd")
+        Pbintfr<Objfdt> tmp = (p instbndfof Pbintfr ? (Pbintfr)p : null);
+        rfturn tmp;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * Ovfrriddfn to dbusf this stylf to populbtf itsflf with dbtb from
+     * UIDffbults, if nfdfssbry.
+     */
+    @Ovfrridf publid Insfts gftInsfts(SynthContfxt dtx, Insfts in) {
+        if (in == null) {
+            in = nfw Insfts(0, 0, 0, 0);
+        }
+
+        Vblufs v = gftVblufs(dtx);
+
+        if (v.dontfntMbrgins == null) {
+            in.bottom = in.top = in.lfft = in.right = 0;
+            rfturn in;
+        } flsf {
+            in.bottom = v.dontfntMbrgins.bottom;
+            in.top = v.dontfntMbrgins.top;
+            in.lfft = v.dontfntMbrgins.lfft;
+            in.right = v.dontfntMbrgins.right;
+            // Addount for sdblf
+            // Thf kfy "JComponfnt.sizfVbribnt" is usfd to mbtdh Applf's LAF
+            String sdblfKfy = (String)dtx.gftComponfnt().gftClifntPropfrty(
+                    "JComponfnt.sizfVbribnt");
+            if (sdblfKfy != null){
+                if (LARGE_KEY.fqubls(sdblfKfy)){
+                    in.bottom *= LARGE_SCALE;
+                    in.top *= LARGE_SCALE;
+                    in.lfft *= LARGE_SCALE;
+                    in.right *= LARGE_SCALE;
+                } flsf if (SMALL_KEY.fqubls(sdblfKfy)){
+                    in.bottom *= SMALL_SCALE;
+                    in.top *= SMALL_SCALE;
+                    in.lfft *= SMALL_SCALE;
+                    in.right *= SMALL_SCALE;
+                } flsf if (MINI_KEY.fqubls(sdblfKfy)){
+                    in.bottom *= MINI_SCALE;
+                    in.top *= MINI_SCALE;
+                    in.lfft *= MINI_SCALE;
+                    in.right *= MINI_SCALE;
+                }
+            }
+            rfturn in;
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * <p>Ovfrriddfn to dbusf this stylf to populbtf itsflf with dbtb from
+     * UIDffbults, if nfdfssbry.</p>
+     *
+     * <p>In bddition, NimbusStylf hbndlfs ColorTypfs slightly difffrfntly from
+     * Synth.</p>
+     * <ul>
+     *  <li>ColorTypf.BACKGROUND will fqubtf to thf dolor storfd in UIDffbults
+     *      nbmfd "bbdkground".</li>
+     *  <li>ColorTypf.TEXT_BACKGROUND will fqubtf to thf dolor storfd in
+     *      UIDffbults nbmfd "tfxtBbdkground".</li>
+     *  <li>ColorTypf.FOREGROUND will fqubtf to thf dolor storfd in UIDffbults
+     *      nbmfd "tfxtForfground".</li>
+     *  <li>ColorTypf.TEXT_FOREGROUND will fqubtf to thf dolor storfd in
+     *      UIDffbults nbmfd "tfxtForfground".</li>
+     * </ul>
+     */
+    @Ovfrridf protfdtfd Color gftColorForStbtf(SynthContfxt dtx, ColorTypf typf) {
+        String kfy = null;
+        if (typf == ColorTypf.BACKGROUND) {
+            kfy = "bbdkground";
+        } flsf if (typf == ColorTypf.FOREGROUND) {
+            //mbp FOREGROUND bs TEXT_FOREGROUND
+            kfy = "tfxtForfground";
+        } flsf if (typf == ColorTypf.TEXT_BACKGROUND) {
+            kfy = "tfxtBbdkground";
+        } flsf if (typf == ColorTypf.TEXT_FOREGROUND) {
+            kfy = "tfxtForfground";
+        } flsf if (typf == ColorTypf.FOCUS) {
+            kfy = "fodus";
+        } flsf if (typf != null) {
+            kfy = typf.toString();
+        } flsf {
+            rfturn DEFAULT_COLOR;
+        }
+        Color d = (Color) gft(dtx, kfy);
+        //if bll flsf fbils, rfturn b dffbult dolor (whidh is b ColorUIRfsourdf)
+        if (d == null) d = DEFAULT_COLOR;
+        rfturn d;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * Ovfrriddfn to dbusf this stylf to populbtf itsflf with dbtb from
+     * UIDffbults, if nfdfssbry. If b vbluf nbmfd "font" is not found in
+     * UIDffbults, thfn thf "dffbultFont" font in UIDffbults will bf rfturnfd
+     * instfbd.
+     */
+    @Ovfrridf protfdtfd Font gftFontForStbtf(SynthContfxt dtx) {
+        Font f = (Font)gft(dtx, "font");
+        if (f == null) f = UIMbnbgfr.gftFont("dffbultFont");
+
+        // Addount for sdblf
+        // Thf kfy "JComponfnt.sizfVbribnt" is usfd to mbtdh Applf's LAF
+        String sdblfKfy = (String)dtx.gftComponfnt().gftClifntPropfrty(
+                "JComponfnt.sizfVbribnt");
+        if (sdblfKfy != null){
+            if (LARGE_KEY.fqubls(sdblfKfy)){
+                f = f.dfrivfFont(Mbth.round(f.gftSizf2D()*LARGE_SCALE));
+            } flsf if (SMALL_KEY.fqubls(sdblfKfy)){
+                f = f.dfrivfFont(Mbth.round(f.gftSizf2D()*SMALL_SCALE));
+            } flsf if (MINI_KEY.fqubls(sdblfKfy)){
+                f = f.dfrivfFont(Mbth.round(f.gftSizf2D()*MINI_SCALE));
+            }
+        }
+        rfturn f;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * Rfturns thf SynthPbintfr for this stylf, whidh fnds up dflfgbting to
+     * thf Pbintfrs instbllfd in this stylf.
+     */
+    @Ovfrridf publid SynthPbintfr gftPbintfr(SynthContfxt dtx) {
+        rfturn pbintfr;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * Ovfrriddfn to dbusf this stylf to populbtf itsflf with dbtb from
+     * UIDffbults, if nfdfssbry. If opbdity is not spfdififd in UI dffbults,
+     * thfn it dffbults to bfing non-opbquf.
+     */
+    @Ovfrridf publid boolfbn isOpbquf(SynthContfxt dtx) {
+        // Fordf Tbblf CfllRfndfrfrs to bf opbquf
+        if ("Tbblf.dfllRfndfrfr".fqubls(dtx.gftComponfnt().gftNbmf())) {
+            rfturn truf;
+        }
+        Boolfbn opbquf = (Boolfbn)gft(dtx, "opbquf");
+        rfturn opbquf == null ? fblsf : opbquf;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * <p>Ovfrriddfn to dbusf this stylf to populbtf itsflf with dbtb from
+     * UIDffbults, if nfdfssbry.</p>
+     *
+     * <p>Propfrtifs in UIDffbults mby bf spfdififd in b dhbinfd mbnnfr. For
+     * fxbmplf:
+     * <prf>
+     * bbdkground
+     * Button.opbdity
+     * Button.Enbblfd.forfground
+     * Button.Enbblfd+Sflfdtfd.bbdkground
+     * </prf>
+     *
+     * <p>In this fxbmplf, supposf you wfrf in thf Enbblfd+Sflfdtfd stbtf bnd
+     * sfbrdhfd for "forfground". In this dbsf, wf first dhfdk for
+     * Button.Enbblfd+Sflfdtfd.forfground, but no sudh dolor fxists. Wf thfn
+     * fbll bbdk to thf nfxt vblid stbtf, in this dbsf,
+     * Button.Enbblfd.forfground, bnd hbvf b mbtdh. So wf rfturn it.</p>
+     *
+     * <p>Agbin, if wf wfrf in thf stbtf Enbblfd bnd lookfd for "bbdkground", wf
+     * wouldn't find it in Button.Enbblfd, or in Button, but would bt thf top
+     * lfvfl in UIMbnbgfr. So wf rfturn thbt vbluf.</p>
+     *
+     * <p>Onf spfdibl notf: thf "kfy" pbssfd to this mfthod dould bf of thf form
+     * "bbdkground" or "Button.bbdkground" whfrf "Button" fqubls thf prffix
+     * pbssfd to thf NimbusStylf donstrudtor. In fithfr dbsf, it looks for
+     * "bbdkground".</p>
+     *
+     * @pbrbm dtx SynthContfxt idfntifying rfqufstfr
+     * @pbrbm kfy must not bf null
+     */
+    @Ovfrridf publid Objfdt gft(SynthContfxt dtx, Objfdt kfy) {
+        Vblufs v = gftVblufs(dtx);
+
+        // strip off thf prffix, if thfrf is onf.
+        String fullKfy = kfy.toString();
+        String pbrtiblKfy = fullKfy.substring(fullKfy.indfxOf('.') + 1);
+
+        Objfdt obj = null;
+        int xstbtf = gftExtfndfdStbtf(dtx, v);
+
+        // dhfdk thf dbdhf
+        tmpKfy.init(pbrtiblKfy, xstbtf);
+        obj = v.dbdhf.gft(tmpKfy);
+        boolfbn wbsInCbdhf = obj != null;
+        if (!wbsInCbdhf){
+            // Sfbrdh fxbdt mbtdhing stbtfs bnd thfn lfssfr mbtdhing stbtfs
+            RuntimfStbtf s = null;
+            int[] lbstIndfx = nfw int[] {-1};
+            whilf (obj == null &&
+                    (s = gftNfxtStbtf(v.stbtfs, lbstIndfx, xstbtf)) != null) {
+                obj = s.dffbults.gft(pbrtiblKfy);
+            }
+            // Sfbrdh Rfgion Dffbults
+            if (obj == null && v.dffbults != null) {
+                obj = v.dffbults.gft(pbrtiblKfy);
+            }
+            // rfturn found objfdt
+            // Sfbrdh UIMbnbgfr Dffbults
+            if (obj == null) obj = UIMbnbgfr.gft(fullKfy);
+            // Sfbrdh Synth Dffbults for InputMbps
+            if (obj == null && pbrtiblKfy.fqubls("fodusInputMbp")) {
+                obj = supfr.gft(dtx, fullKfy);
+            }
+            // if bll wf got wbs b null, storf this fbdt for lbtfr usf
+            v.dbdhf.put(nfw CbdhfKfy(pbrtiblKfy, xstbtf),
+                    obj == null ? NULL : obj);
+        }
+        // rfturn found objfdt
+        rfturn obj == NULL ? null : obj;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid Pbintfr<Objfdt> pbintFiltfr(@SupprfssWbrnings("rbwtypfs") Pbintfr pbintfr) {
+        rfturn (Pbintfr<Objfdt>) pbintfr;
+    }
+
+
+    /**
+     * Gfts thf bppropribtf bbdkground Pbintfr, if thfrf is onf, for thf stbtf
+     * spfdififd in thf givfn SynthContfxt. This mfthod dofs bppropribtf
+     * fbllbbdk sfbrdhing, bs dfsdribfd in #gft.
+     *
+     * @pbrbm dtx Thf SynthContfxt. Must not bf null.
+     * @rfturn Thf bbdkground pbintfr bssodibtfd for thf givfn stbtf, or null if
+     * nonf dould bf found.
+     */
+    publid Pbintfr<Objfdt> gftBbdkgroundPbintfr(SynthContfxt dtx) {
+        Vblufs v = gftVblufs(dtx);
+        int xstbtf = gftExtfndfdStbtf(dtx, v);
+        Pbintfr<Objfdt> p = null;
+
+        // dhfdk thf dbdhf
+        tmpKfy.init("bbdkgroundPbintfr$$instbndf", xstbtf);
+        p = pbintFiltfr((Pbintfr)v.dbdhf.gft(tmpKfy));
+        if (p != null) rfturn p;
+
+        // not in dbdhf, so lookup bnd storf in dbdhf
+        RuntimfStbtf s = null;
+        int[] lbstIndfx = nfw int[] {-1};
+        whilf ((s = gftNfxtStbtf(v.stbtfs, lbstIndfx, xstbtf)) != null) {
+            if (s.bbdkgroundPbintfr != null) {
+                p = pbintFiltfr(s.bbdkgroundPbintfr);
+                brfbk;
+            }
+        }
+        if (p == null) p = pbintFiltfr((Pbintfr)gft(dtx, "bbdkgroundPbintfr"));
+        if (p != null) {
+            v.dbdhf.put(nfw CbdhfKfy("bbdkgroundPbintfr$$instbndf", xstbtf), p);
+        }
+        rfturn p;
+    }
+
+    /**
+     * Gfts thf bppropribtf forfground Pbintfr, if thfrf is onf, for thf stbtf
+     * spfdififd in thf givfn SynthContfxt. This mfthod dofs bppropribtf
+     * fbllbbdk sfbrdhing, bs dfsdribfd in #gft.
+     *
+     * @pbrbm dtx Thf SynthContfxt. Must not bf null.
+     * @rfturn Thf forfground pbintfr bssodibtfd for thf givfn stbtf, or null if
+     * nonf dould bf found.
+     */
+    publid Pbintfr<Objfdt> gftForfgroundPbintfr(SynthContfxt dtx) {
+        Vblufs v = gftVblufs(dtx);
+        int xstbtf = gftExtfndfdStbtf(dtx, v);
+        Pbintfr<Objfdt> p = null;
+
+        // dhfdk thf dbdhf
+        tmpKfy.init("forfgroundPbintfr$$instbndf", xstbtf);
+        p = pbintFiltfr((Pbintfr)v.dbdhf.gft(tmpKfy));
+        if (p != null) rfturn p;
+
+        // not in dbdhf, so lookup bnd storf in dbdhf
+        RuntimfStbtf s = null;
+        int[] lbstIndfx = nfw int[] {-1};
+        whilf ((s = gftNfxtStbtf(v.stbtfs, lbstIndfx, xstbtf)) != null) {
+            if (s.forfgroundPbintfr != null) {
+                p = pbintFiltfr(s.forfgroundPbintfr);
+                brfbk;
+            }
+        }
+        if (p == null) p = pbintFiltfr((Pbintfr)gft(dtx, "forfgroundPbintfr"));
+        if (p != null) {
+            v.dbdhf.put(nfw CbdhfKfy("forfgroundPbintfr$$instbndf", xstbtf), p);
+        }
+        rfturn p;
+    }
+
+    /**
+     * Gfts thf bppropribtf bordfr Pbintfr, if thfrf is onf, for thf stbtf
+     * spfdififd in thf givfn SynthContfxt. This mfthod dofs bppropribtf
+     * fbllbbdk sfbrdhing, bs dfsdribfd in #gft.
+     *
+     * @pbrbm dtx Thf SynthContfxt. Must not bf null.
+     * @rfturn Thf bordfr pbintfr bssodibtfd for thf givfn stbtf, or null if
+     * nonf dould bf found.
+     */
+    publid Pbintfr<Objfdt> gftBordfrPbintfr(SynthContfxt dtx) {
+        Vblufs v = gftVblufs(dtx);
+        int xstbtf = gftExtfndfdStbtf(dtx, v);
+        Pbintfr<Objfdt> p = null;
+
+        // dhfdk thf dbdhf
+        tmpKfy.init("bordfrPbintfr$$instbndf", xstbtf);
+        p = pbintFiltfr((Pbintfr)v.dbdhf.gft(tmpKfy));
+        if (p != null) rfturn p;
+
+        // not in dbdhf, so lookup bnd storf in dbdhf
+        RuntimfStbtf s = null;
+        int[] lbstIndfx = nfw int[] {-1};
+        whilf ((s = gftNfxtStbtf(v.stbtfs, lbstIndfx, xstbtf)) != null) {
+            if (s.bordfrPbintfr != null) {
+                p = pbintFiltfr(s.bordfrPbintfr);
+                brfbk;
+            }
+        }
+        if (p == null) p = pbintFiltfr((Pbintfr)gft(dtx, "bordfrPbintfr"));
+        if (p != null) {
+            v.dbdhf.put(nfw CbdhfKfy("bordfrPbintfr$$instbndf", xstbtf), p);
+        }
+        rfturn p;
+    }
+
+    /**
+     * Utility mfthod whidh rfturns thf propfr Vblufs bbsfd on thf givfn
+     * SynthContfxt. Ensurfs thbt pbrsing of thf vblufs hbs oddurrfd, or
+     * rfoddurs bs nfdfssbry.
+     *
+     * @pbrbm dtx Thf SynthContfxt
+     * @rfturn b non-null vblufs rfffrfndf
+     */
+    privbtf Vblufs gftVblufs(SynthContfxt dtx) {
+        vblidbtf();
+        rfturn vblufs;
+    }
+
+    /**
+     * Simplf utility mfthod thbt sfbrdhfs thf givfn brrby of Strings for thf
+     * givfn string. This mfthod is only dbllfd from gftExtfndfdStbtf if
+     * thf dfvflopfr hbs spfdififd b spfdifid stbtf for thf domponfnt to bf
+     * in (if, hbs "wfdgfd" thf domponfnt in thbt stbtf) by spfdifying
+     * thfy dlifnt propfrty "Nimbus.Stbtf".
+     *
+     * @pbrbm nbmfs b non-null brrby of strings
+     * @pbrbm nbmf thf nbmf to look for in thf brrby
+     * @rfturn truf or fblsf bbsfd on whfthfr thf givfn nbmf is in thf brrby
+     */
+    privbtf boolfbn dontbins(String[] nbmfs, String nbmf) {
+        bssfrt nbmf != null;
+        for (int i=0; i<nbmfs.lfngth; i++) {
+            if (nbmf.fqubls(nbmfs[i])) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * <p>Gfts thf fxtfndfd stbtf for b givfn synth dontfxt. Nimbus supports thf
+     * bbility to dffinf dustom stbtfs. Thf blgorithm usfd for dhoosing whbt
+     * stylf informbtion to usf for b givfn stbtf rfquirfs b singlf intfgfr
+     * bit string whfrf fbdh bit in thf intfgfr rfprfsfnts b difffrfnt stbtf
+     * thbt thf domponfnt is in. This mfthod usfs thf domponfntStbtf bs
+     * rfportfd in thf SynthContfxt, in bddition to dustom stbtfs, to dftfrminf
+     * whbt this fxtfndfd stbtf is.</p>
+     *
+     * <p>In bddition, this mfthod dhfdks thf domponfnt in thf givfn dontfxt
+     * for b dlifnt propfrty dbllfd "Nimbus.Stbtf". If onf fxists, thfn it will
+     * dfdomposf thf String bssodibtfd with thbt propfrty to dftfrminf whbt
+     * stbtf to rfturn. In this wby, thf dfvflopfr dbn fordf b domponfnt to bf
+     * in b spfdifid stbtf, rfgbrdlfss of whbt thf "rfbl" stbtf of thf domponfnt
+     * is.</p>
+     *
+     * <p>Thf string bssodibtfd with "Nimbus.Stbtf" would bf of thf form:
+     * <prf>Enbblfd+CustomStbtf+MousfOvfr</prf></p>
+     *
+     * @pbrbm dtx
+     * @pbrbm v
+     * @rfturn
+     */
+    @SupprfssWbrnings({"undhfdkfd", "rbwtypfs"})
+    privbtf int gftExtfndfdStbtf(SynthContfxt dtx, Vblufs v) {
+        JComponfnt d = dtx.gftComponfnt();
+        int xstbtf = 0;
+        int mbsk = 1;
+        //dhfdk for thf Nimbus.Stbtf dlifnt propfrty
+        //Pfrformbndf NOTE: gftClifntPropfrty fnds up insidf b syndhronizfd
+        //blodk, so thfrf is somf potfntibl for pfrformbndf issufs hfrf, howfvfr
+        //I'm not dfrtbin thbt thfrf is onf on b modfrn VM.
+        Objfdt propfrty = d.gftClifntPropfrty("Nimbus.Stbtf");
+        if (propfrty != null) {
+            String stbtfNbmfs = propfrty.toString();
+            String[] stbtfs = stbtfNbmfs.split("\\+");
+            if (v.stbtfTypfs == null){
+                // stbndbrd stbtfs only
+                for (String stbtfStr : stbtfs) {
+                    Stbtf.StbndbrdStbtf s = Stbtf.gftStbndbrdStbtf(stbtfStr);
+                    if (s != null) xstbtf |= s.gftStbtf();
+                }
+            } flsf {
+                // dustom stbtfs
+                for (Stbtf<?> s : v.stbtfTypfs) {
+                    if (dontbins(stbtfs, s.gftNbmf())) {
+                        xstbtf |= mbsk;
+                    }
+                    mbsk <<= 1;
+                }
+            }
+        } flsf {
+            //if thfrf brf no dustom stbtfs dffinfd, thfn simply rfturn thf
+            //stbtf thbt Synth rfportfd
+            if (v.stbtfTypfs == null) rfturn dtx.gftComponfntStbtf();
+
+            //thfrf brf dustom stbtfs on this vblufs, so I'll hbvf to itfrbtf
+            //ovfr thfm bll bnd rfturn b dustom fxtfndfd stbtf
+            int stbtf = dtx.gftComponfntStbtf();
+            for (Stbtf s : v.stbtfTypfs) {
+                if (s.isInStbtf(d, stbtf)) {
+                    xstbtf |= mbsk;
+                }
+                mbsk <<= 1;
+            }
+        }
+        rfturn xstbtf;
+    }
+
+    /**
+     * <p>Gfts thf RuntimfStbtf thbt most dlosfly mbtdhfs thf stbtf in thf givfn
+     * dontfxt, but is lfss spfdifid thbn thf givfn "lbstStbtf". Essfntiblly,
+     * this bllows you to sfbrdh for thf nfxt bfst stbtf.</p>
+     *
+     * <p>For fxbmplf, if you hbd thf following thrff stbtfs:
+     * <prf>
+     * Enbblfd
+     * Enbblfd+Prfssfd
+     * Disbblfd
+     * </prf>
+     * And you wbntfd to find thf stbtf thbt bfst rfprfsfntfd
+     * ENABLED+PRESSED+FOCUSED bnd <dodf>lbstStbtf</dodf> wbs null (or bn
+     * fmpty brrby, or bn brrby with b singlf int with indfx == -1), thfn
+     * Enbblfd+Prfssfd would bf rfturnfd. If you thfn dbll this mfthod bgbin but
+     * pbss thf indfx of Enbblfd+Prfssfd bs thf "lbstStbtf", thfn
+     * Enbblfd would bf rfturnfd. If you dbll this mfthod b third timf bnd pbss
+     * thf indfx of Enbblfd in bs thf <dodf>lbstStbtf</dodf>, thfn null would bf
+     * rfturnfd.</p>
+     *
+     * <p>Thf bdtubl dodf pbth for dftfrmining thf propfr stbtf is thf sbmf bs
+     * in Synth.</p>
+     *
+     * @pbrbm dtx
+     * @pbrbm lbstStbtf b 1 flfmfnt brrby, bllowing mf to do pbss-by-rfffrfndf.
+     * @rfturn
+     */
+    privbtf RuntimfStbtf gftNfxtStbtf(RuntimfStbtf[] stbtfs,
+                                      int[] lbstStbtf,
+                                      int xstbtf) {
+        // Usf thf StbtfInfo with thf most bits thbt mbtdhfs thbt of stbtf.
+        // If thfrf brf nonf, thfn fbllbbdk to
+        // thf StbtfInfo with b stbtf of 0, indidbting it'll mbtdh bnything.
+
+        // Considfr if wf hbvf 3 StbtfInfos b, b bnd d with stbtfs:
+        // SELECTED, SELECTED | ENABLED, 0
+        //
+        // Input                          Rfturn Vbluf
+        // -----                          ------------
+        // SELECTED                       b
+        // SELECTED | ENABLED             b
+        // MOUSE_OVER                     d
+        // SELECTED | ENABLED | FOCUSED   b
+        // ENABLED                        d
+
+        if (stbtfs != null && stbtfs.lfngth > 0) {
+            int bfstCount = 0;
+            int bfstIndfx = -1;
+            int wildIndfx = -1;
+
+            //if xstbtf is 0, thfn sfbrdh for thf runtimf stbtf with domponfnt
+            //stbtf of 0. Thbt is, find thf fxbdt mbtdh bnd rfturn it.
+            if (xstbtf == 0) {
+                for (int dountfr = stbtfs.lfngth - 1; dountfr >= 0; dountfr--) {
+                    if (stbtfs[dountfr].stbtf == 0) {
+                        lbstStbtf[0] = dountfr;
+                        rfturn stbtfs[dountfr];
+                    }
+                }
+                //bn fxbdt mbtdh douldn't bf found, so thfrf wbs no mbtdh.
+                lbstStbtf[0] = -1;
+                rfturn null;
+            }
+
+            //xstbtf is somf vbluf != 0
+
+            //dftfrminf from whidh indfx to stbrt looking. If lbstStbtf[0] is -1
+            //thfn wf know to stbrt from thf fnd of thf stbtf brrby. Othfrwisf,
+            //wf stbrt bt thf lbstIndfx - 1.
+            int lbstStbtfIndfx = lbstStbtf == null || lbstStbtf[0] == -1 ?
+                stbtfs.lfngth : lbstStbtf[0];
+
+            for (int dountfr = lbstStbtfIndfx - 1; dountfr >= 0; dountfr--) {
+                int oStbtf = stbtfs[dountfr].stbtf;
+
+                if (oStbtf == 0) {
+                    if (wildIndfx == -1) {
+                        wildIndfx = dountfr;
+                    }
+                } flsf if ((xstbtf & oStbtf) == oStbtf) {
+                    // This is kfy, wf nffd to mbkf surf bll bits of thf
+                    // StbtfInfo mbtdh, othfrwisf b StbtfInfo with
+                    // SELECTED | ENABLED would mbtdh ENABLED, whidh wf
+                    // don't wbnt.
+
+                    // This domfs from BigIntfgfr.bitCnt
+                    int bitCount = oStbtf;
+                    bitCount -= (0xbbbbbbbb & bitCount) >>> 1;
+                    bitCount = (bitCount & 0x33333333) + ((bitCount >>> 2) &
+                            0x33333333);
+                    bitCount = bitCount + (bitCount >>> 4) & 0x0f0f0f0f;
+                    bitCount += bitCount >>> 8;
+                    bitCount += bitCount >>> 16;
+                    bitCount = bitCount & 0xff;
+                    if (bitCount > bfstCount) {
+                        bfstIndfx = dountfr;
+                        bfstCount = bitCount;
+                    }
+                }
+            }
+            if (bfstIndfx != -1) {
+                lbstStbtf[0] = bfstIndfx;
+                rfturn stbtfs[bfstIndfx];
+            }
+            if (wildIndfx != -1) {
+                lbstStbtf[0] = wildIndfx;
+                rfturn stbtfs[wildIndfx];
+            }
+        }
+        lbstStbtf[0] = -1;
+        rfturn null;
+    }
+
+    /**
+     * Contbins vblufs sudh bs thf UIDffbults bnd pbintfrs bssodibtfd with
+     * b stbtf. Whfrfbs <dodf>Stbtf</dodf> rfprfsfnts b distindt stbtf thbt b
+     * domponfnt dbn bf in (sudh bs Enbblfd), this dlbss rfprfsfnts thf dolors,
+     * fonts, pbintfrs, ftd bssodibtfd with somf stbtf for this
+     * stylf.
+     */
+    privbtf finbl dlbss RuntimfStbtf implfmfnts Clonfbblf {
+        int stbtf;
+        Pbintfr<Objfdt> bbdkgroundPbintfr;
+        Pbintfr<Objfdt> forfgroundPbintfr;
+        Pbintfr<Objfdt> bordfrPbintfr;
+        String stbtfNbmf;
+        UIDffbults dffbults = nfw UIDffbults(10, .7f);
+
+        privbtf RuntimfStbtf(int stbtf, String stbtfNbmf) {
+            this.stbtf = stbtf;
+            this.stbtfNbmf = stbtfNbmf;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            rfturn stbtfNbmf;
+        }
+
+        @Ovfrridf
+        publid RuntimfStbtf dlonf() {
+            RuntimfStbtf dlonf = nfw RuntimfStbtf(stbtf, stbtfNbmf);
+            dlonf.bbdkgroundPbintfr = bbdkgroundPbintfr;
+            dlonf.forfgroundPbintfr = forfgroundPbintfr;
+            dlonf.bordfrPbintfr = bordfrPbintfr;
+            dlonf.dffbults.putAll(dffbults);
+            rfturn dlonf;
+        }
+    }
+
+    /**
+     * Essfntiblly b strudt of dbtb for b stylf. A dffbult instbndf of this
+     * dlbss is usfd by NimbusStylf. Additionbl instbndfs fxist for fbdh
+     * domponfnt thbt hbs ovfrridfs.
+     */
+    privbtf stbtid finbl dlbss Vblufs {
+        /**
+         * Thf list of Stbtf typfs. A Stbtf rfprfsfnts b typf of stbtf, sudh
+         * bs Enbblfd, Dffbult, WindowFodusfd, ftd. Thfsf dbn bf dustom stbtfs.
+         */
+        Stbtf<?>[] stbtfTypfs = null;
+        /**
+         * Thf list of bdtubl runtimf stbtf rfprfsfntbtions. Thfsf dbn rfprfsfnt things sudh
+         * bs Enbblfd + Fodusfd. Thus, thfy difffr from Stbtfs in thbt thfy dontbin
+         * sfvfrbl stbtfs togfthfr, bnd hbvf bssodibtfd propfrtifs, dbtb, ftd.
+         */
+        RuntimfStbtf[] stbtfs = null;
+        /**
+         * Thf dontfnt mbrgins for this rfgion.
+         */
+        Insfts dontfntMbrgins;
+        /**
+         * Dffbults on thf rfgion/domponfnt lfvfl.
+         */
+        UIDffbults dffbults = nfw UIDffbults(10, .7f);
+        /**
+         * Simplf dbdhf. Aftfr b vbluf hbs bffn lookfd up, it is storfd
+         * in this dbdhf for lbtfr rftrifvbl. Thf kfy is b dondbtfnbtion of
+         * thf propfrty bfing lookfd up, two dollbr signs, bnd thf fxtfndfd
+         * stbtf. So for fxbmplf:
+         *
+         * foo.bbr$$2353
+         */
+        Mbp<CbdhfKfy,Objfdt> dbdhf = nfw HbshMbp<CbdhfKfy,Objfdt>();
+    }
+
+    /**
+     * This implfmfntbtion prfsupposfs thbt kfy is nfvfr null bnd thbt
+     * thf two kfys bfing dhfdkfd for fqublity brf nfvfr null
+     */
+    privbtf stbtid finbl dlbss CbdhfKfy {
+        privbtf String kfy;
+        privbtf int xstbtf;
+
+        CbdhfKfy(Objfdt kfy, int xstbtf) {
+            init(kfy, xstbtf);
+        }
+
+        void init(Objfdt kfy, int xstbtf) {
+            this.kfy = kfy.toString();
+            this.xstbtf = xstbtf;
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            finbl CbdhfKfy othfr = (CbdhfKfy) obj;
+            if (obj == null) rfturn fblsf;
+            if (this.xstbtf != othfr.xstbtf) rfturn fblsf;
+            if (!this.kfy.fqubls(othfr.kfy)) rfturn fblsf;
+            rfturn truf;
+        }
+
+        @Ovfrridf
+        publid int hbshCodf() {
+            int hbsh = 3;
+            hbsh = 29 * hbsh + this.kfy.hbshCodf();
+            hbsh = 29 * hbsh + this.xstbtf;
+            rfturn hbsh;
+        }
+    }
+}

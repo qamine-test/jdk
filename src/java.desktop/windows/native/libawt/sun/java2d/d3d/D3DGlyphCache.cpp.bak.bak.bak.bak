@@ -1,0 +1,207 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "D3DGlyphCbdhf.h"
+#indludf "D3DTfxtRfndfrfr.h"
+#indludf "D3DRfndfrQufuf.h"
+
+void D3DGlyphCbdhf_FlushGlyphVfrtfxCbdhf();
+
+// stbtid
+HRESULT
+D3DGlyphCbdhf::CrfbtfInstbndf(D3DContfxt *pCtx, GlyphCbdhfTypf gdTypf,
+                              D3DGlyphCbdhf **ppGlyphCbdhf)
+{
+    HRESULT rfs;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGlyphCbdhf::CrfbtfInstbndf");
+
+    *ppGlyphCbdhf = nfw D3DGlyphCbdhf(gdTypf);
+    if (FAILED(rfs = (*ppGlyphCbdhf)->Init(pCtx))) {
+        dflftf *ppGlyphCbdhf;
+        *ppGlyphCbdhf = NULL;
+    }
+    rfturn rfs;
+}
+
+D3DGlyphCbdhf::D3DGlyphCbdhf(GlyphCbdhfTypf typf)
+{
+    J2dTrbdfLn1(J2D_TRACE_INFO, "D3DGlyphCbdhf::D3DGlyphCbdhf gdTypf=%d", typf);
+
+    pCtx = NULL;
+    gdTypf = typf;
+    pGlyphCbdhfRfs = NULL;
+    pGlyphCbdhf = NULL;
+    tilfFormbt = (gdTypf == CACHE_GRAY) ? TILEFMT_1BYTE_ALPHA : TILEFMT_UNKNOWN;
+    lbstRGBOrdfr = JNI_FALSE;
+}
+
+D3DGlyphCbdhf::~D3DGlyphCbdhf()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGlyphCbdhf::~D3DGlyphCbdhf");
+
+    RflfbsfDffPoolRfsourdfs();
+
+    pCtx = NULL;
+    if (pGlyphCbdhf != NULL) {
+        AddflGlyphCbdhf_Frff(pGlyphCbdhf);
+        pGlyphCbdhf = NULL;
+    }
+}
+
+void
+D3DGlyphCbdhf::RflfbsfDffPoolRfsourdfs()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGlyphCbdhf::RflfbsfDffPoolRfsourdfs");
+
+    AddflGlyphCbdhf_Invblidbtf(pGlyphCbdhf);
+    // REMIND: thf glyph dbdhf tfxturf is not in thf dffbult pool, so
+    // this dbn bf optimizfd not to rflfbsf thf tfxturf
+    pCtx->GftRfsourdfMbnbgfr()->RflfbsfRfsourdf(pGlyphCbdhfRfs);
+    pGlyphCbdhfRfs = NULL;
+}
+
+HRESULT
+D3DGlyphCbdhf::Init(D3DContfxt *pCtx)
+{
+    D3DFORMAT formbt;
+
+    RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
+
+    J2dTrbdfLn1(J2D_TRACE_INFO, "D3DGlyphCbdhf::Init pCtx=%x", pCtx);
+
+    this->pCtx = pCtx;
+
+    if (pGlyphCbdhf == NULL) {
+        // init glyph dbdhf dbtb strudturf
+        pGlyphCbdhf = AddflGlyphCbdhf_Init(D3DTR_CACHE_WIDTH,
+                                           D3DTR_CACHE_HEIGHT,
+                                           D3DTR_CACHE_CELL_WIDTH,
+                                           D3DTR_CACHE_CELL_HEIGHT,
+                                           D3DGlyphCbdhf_FlushGlyphVfrtfxCbdhf);
+        if (pGlyphCbdhf == NULL) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                          "D3DGlyphCbdhf::Init: "\
+                          "dould not init D3D glyph dbdhf");
+            rfturn E_FAIL;
+        }
+    }
+
+    if (gdTypf == CACHE_GRAY) {
+        formbt = pCtx->IsTfxturfFormbtSupportfd(D3DFMT_A8) ?
+            D3DFMT_A8 : D3DFMT_A8R8G8B8;
+    } flsf { // gdTypf == CACHE_LCD
+        formbt = pCtx->IsTfxturfFormbtSupportfd(D3DFMT_R8G8B8) ?
+            D3DFMT_R8G8B8 : D3DFMT_A8R8G8B8;
+    }
+
+    HRESULT rfs = pCtx->GftRfsourdfMbnbgfr()->
+        CrfbtfTfxturf(D3DTR_CACHE_WIDTH, D3DTR_CACHE_HEIGHT,
+                      FALSE/*isRTT*/, FALSE/*isOpbquf*/, &formbt, 0/*usbgf*/,
+                      &pGlyphCbdhfRfs);
+    if (FAILED(rfs)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "D3DGlyphCbdhf::Init: "\
+                      "dould not drfbtf glyph dbdhf tfxturf");
+    }
+
+    rfturn rfs;
+}
+
+HRESULT
+D3DGlyphCbdhf::AddGlyph(GlyphInfo *glyph)
+{
+    HRESULT rfs = S_OK;
+
+    RETURN_STATUS_IF_NULL(pGlyphCbdhfRfs, E_FAIL);
+
+    CbdhfCfllInfo *dfllInfo = AddflGlyphCbdhf_AddGlyph(pGlyphCbdhf, glyph);
+    if (dfllInfo != NULL) {
+        jint pixflsToudhfdL = 0, pixflsToudhfdR = 0;
+        // storf glyph imbgf in tfxturf dfll
+        rfs = pCtx->UplobdTilfToTfxturf(pGlyphCbdhfRfs,
+                                        glyph->imbgf,
+                                        dfllInfo->x, dfllInfo->y,
+                                        0, 0,
+                                        glyph->width, glyph->hfight,
+                                        glyph->rowBytfs, tilfFormbt,
+                                        &pixflsToudhfdL,
+                                        &pixflsToudhfdR);
+        // LCD tfxt rfndfring optimizbtion: if thf numbfr of pixfls toudhfd on
+        // thf first or lbst dolumn of thf glyph imbgf is lfss thbn 1/3 of thf
+        // hfight of thf glyph wf do not donsidfr thfm toudhfd.
+        // Sff D3DTfxtRfndfrfr.dpp:UpdbtfCbdhfdDfstinbtion for morf informbtion.
+        // Thf lfftOff/rightOff brf only usfd in LCD dbdhf dbsf.
+        if (gdTypf == CACHE_LCD) {
+            jint thrfshold = glyph->hfight/3;
+
+            dfllInfo->lfftOff  = pixflsToudhfdL < thrfshold ?  1 : 0;
+            dfllInfo->rightOff = pixflsToudhfdR < thrfshold ? -1 : 0;
+        } flsf {
+            dfllInfo->lfftOff  = 0;
+            dfllInfo->rightOff = 0;
+        }
+    }
+
+    rfturn rfs;
+}
+
+HRESULT
+D3DGlyphCbdhf::ChfdkGlyphCbdhfBytfOrdfr(jboolfbn rgbOrdfr)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGlyphCbdhf::ChfdkGlyphCbdhfBytfOrdfr");
+
+    if (gdTypf != CACHE_LCD) {
+        J2dTrbdfLn(J2D_TRACE_ERROR, "D3DGlyphCbdhf::ChfdkGlyphCbdhfBytfOrdfr"\
+                   " invokfd on CACHE_GRAY dbdhf typf instbndf!");
+        rfturn E_FAIL;
+    }
+
+    if (rgbOrdfr != lbstRGBOrdfr) {
+        // nffd to invblidbtf thf dbdhf in this dbsf; sff dommfnts
+        // for lbstRGBOrdfr
+        AddflGlyphCbdhf_Invblidbtf(pGlyphCbdhf);
+        lbstRGBOrdfr = rgbOrdfr;
+    }
+    tilfFormbt = rgbOrdfr ? TILEFMT_3BYTE_RGB : TILEFMT_3BYTE_BGR;
+
+    rfturn S_OK;
+}
+
+/**
+ * This mfthod is invokfd in thf (rflbtivfly rbrf) dbsf whfrf onf or
+ * morf glyphs is bbout to bf kidkfd out of thf glyph dbdhf tfxturf.
+ * Hfrf wf simply flush thf vfrtfx qufuf of thf durrfnt dontfxt in dbsf
+ * bny pfnding vfrtidfs brf dfpfndfnt upon thf durrfnt glyph dbdhf lbyout.
+ */
+stbtid void
+D3DGlyphCbdhf_FlushGlyphVfrtfxCbdhf()
+{
+    D3DContfxt *d3dd = D3DRQ_GftCurrfntContfxt();
+    if (d3dd != NULL) {
+        J2dTrbdfLn(J2D_TRACE_INFO, "D3DGlyphCbdhf_FlushGlyphVfrtfxCbdhf");
+        d3dd->FlushVfrtfxQufuf();
+    }
+}

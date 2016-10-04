@@ -1,0 +1,543 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import dom.sun.jmx.dffbults.JmxPropfrtifs;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.JMX_INITIAL_BUILDER;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MBEANSERVER_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.util.ArrbyList;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.lobding.ClbssLobdfrRfpository;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+
+/**
+ * <p>Providfs MBfbn sfrvfr rfffrfndfs.  Thfrf brf no instbndfs of
+ * this dlbss.</p>
+ *
+ * <p>Sindf JMX 1.2 this dlbss mbkfs it possiblf to rfplbdf thf dffbult
+ * MBfbnSfrvfr implfmfntbtion. This is donf using thf
+ * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr} dlbss.
+ * Thf dlbss of thf initibl MBfbnSfrvfrBuildfr to bf
+ * instbntibtfd dbn bf spfdififd through thf
+ * <b>jbvbx.mbnbgfmfnt.buildfr.initibl</b> systfm propfrty.
+ * Thf spfdififd dlbss must bf b publid subdlbss of
+ * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}, bnd must hbvf b publid
+ * fmpty donstrudtor.
+ * <p>By dffbult, if no vbluf for thbt propfrty is spfdififd, bn instbndf of
+ * {@link
+ * jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}
+ * is drfbtfd. Othfrwisf, thf MBfbnSfrvfrFbdtory bttfmpts to lobd thf
+ * spfdififd dlbss using
+ * {@link jbvb.lbng.Thrfbd#gftContfxtClbssLobdfr()
+ *   Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr()}, or if thbt is null,
+ * {@link jbvb.lbng.Clbss#forNbmf(jbvb.lbng.String) Clbss.forNbmf()}. Thfn
+ * it drfbtfs bn initibl instbndf of thbt Clbss using
+ * {@link jbvb.lbng.Clbss#nfwInstbndf()}. If bny dhfdkfd fxdfption
+ * is rbisfd during this prodfss (f.g.
+ * {@link jbvb.lbng.ClbssNotFoundExdfption},
+ * {@link jbvb.lbng.InstbntibtionExdfption}) thf MBfbnSfrvfrFbdtory
+ * will propbgbtf this fxdfption from within b RuntimfExdfption.</p>
+ *
+ * <p>Thf <b>jbvbx.mbnbgfmfnt.buildfr.initibl</b> systfm propfrty is
+ * donsultfd fvfry timf b nfw MBfbnSfrvfr nffds to bf drfbtfd, bnd thf
+ * dlbss pointfd to by thbt propfrty is lobdfd. If thbt dlbss is difffrfnt
+ * from thbt of thf durrfnt MBfbnSfrvfrBuildfr, thfn b nfw MBfbnSfrvfrBuildfr
+ * is drfbtfd. Othfrwisf, thf MBfbnSfrvfrFbdtory mby drfbtf b nfw
+ * MBfbnSfrvfrBuildfr or rfusf thf durrfnt onf.</p>
+ *
+ * <p>If thf dlbss pointfd to by thf propfrty dbnnot bf
+ * lobdfd, or dofs not dorrfspond to b vblid subdlbss of MBfbnSfrvfrBuildfr
+ * thfn bn fxdfption is propbgbtfd, bnd no MBfbnSfrvfr dbn bf drfbtfd until
+ * thf <b>jbvbx.mbnbgfmfnt.buildfr.initibl</b> systfm propfrty is rfsft to
+ * vblid vbluf.</p>
+ *
+ * <p>Thf MBfbnSfrvfrBuildfr mbkfs it possiblf to wrbp thf MBfbnSfrvfrs
+ * rfturnfd by thf dffbult MBfbnSfrvfrBuildfr implfmfntbtion, for thf purposf
+ * of f.g. bdding bn bdditionbl sfdurity lbyfr.</p>
+ *
+ * @sindf 1.5
+ */
+publid dlbss MBfbnSfrvfrFbdtory {
+
+    /*
+     * Thfrf brf no instbndfs of this dlbss so don't gfnfrbtf thf
+     * dffbult publid donstrudtor.
+     */
+    privbtf MBfbnSfrvfrFbdtory() {
+
+    }
+
+    /**
+     * Thf buildfr thbt will bf usfd to donstrudt MBfbnSfrvfrs.
+     *
+     **/
+    privbtf stbtid MBfbnSfrvfrBuildfr buildfr = null;
+
+    /**
+     * Providf b nfw {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}.
+     * @pbrbm buildfr Thf nfw MBfbnSfrvfrBuildfr thbt will bf usfd to
+     *        drfbtf {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr}s.
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn buildfr is null.
+     *
+     * @fxdfption SfdurityExdfption if thfrf is b SfdurityMbnbgfr bnd
+     * thf dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("sftMBfbnSfrvfrBuildfr")</dodf>.
+     *
+     **/
+    // publid stbtid syndhronizfd void
+    //    sftMBfbnSfrvfrBuildfr(MBfbnSfrvfrBuildfr buildfr) {
+    //    dhfdkPfrmission("sftMBfbnSfrvfrBuildfr");
+    //    MBfbnSfrvfrFbdtory.buildfr = buildfr;
+    // }
+
+    /**
+     * Gft thf durrfnt {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}.
+     *
+     * @rfturn thf durrfnt {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}.
+     *
+     * @fxdfption SfdurityExdfption if thfrf is b SfdurityMbnbgfr bnd
+     * thf dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("gftMBfbnSfrvfrBuildfr")</dodf>.
+     *
+     **/
+    // publid stbtid syndhronizfd MBfbnSfrvfrBuildfr gftMBfbnSfrvfrBuildfr() {
+    //     dhfdkPfrmission("gftMBfbnSfrvfrBuildfr");
+    //     rfturn buildfr;
+    // }
+
+    /**
+     * Rfmovf intfrnbl MBfbnSfrvfrFbdtory rfffrfndfs to b drfbtfd
+     * MBfbnSfrvfr. This bllows thf gbrbbgf dollfdtor to rfmovf thf
+     * MBfbnSfrvfr objfdt.
+     *
+     * @pbrbm mbfbnSfrvfr thf MBfbnSfrvfr objfdt to rfmovf.
+     *
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if
+     * <dodf>mbfbnSfrvfr</dodf> wbs not gfnfrbtfd by onf of thf
+     * <dodf>drfbtfMBfbnSfrvfr</dodf> mfthods, or if
+     * <dodf>rflfbsfMBfbnSfrvfr</dodf> wbs blrfbdy dbllfd on it.
+     *
+     * @fxdfption SfdurityExdfption if thfrf is b SfdurityMbnbgfr bnd
+     * thf dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("rflfbsfMBfbnSfrvfr")</dodf>.
+     */
+    publid stbtid void rflfbsfMBfbnSfrvfr(MBfbnSfrvfr mbfbnSfrvfr) {
+        dhfdkPfrmission("rflfbsfMBfbnSfrvfr");
+
+        rfmovfMBfbnSfrvfr(mbfbnSfrvfr);
+    }
+
+    /**
+     * <p>Rfturn b nfw objfdt implfmfnting thf MBfbnSfrvfr intfrfbdf
+     * with b stbndbrd dffbult dombin nbmf.  Thf dffbult dombin nbmf
+     * is usfd bs thf dombin pbrt in thf ObjfdtNbmf of MBfbns whfn thf
+     * dombin is spfdififd by thf usfr is null.</p>
+     *
+     * <p>Thf stbndbrd dffbult dombin nbmf is
+     * <dodf>DffbultDombin</dodf>.</p>
+     *
+     * <p>Thf MBfbnSfrvfr rfffrfndf is intfrnblly kfpt. This will
+     * bllow <CODE>findMBfbnSfrvfr</CODE> to rfturn b rfffrfndf to
+     * this MBfbnSfrvfr objfdt.</p>
+     *
+     * <p>This mfthod is fquivblfnt to <dodf>drfbtfMBfbnSfrvfr(null)</dodf>.
+     *
+     * @rfturn thf nfwly drfbtfd MBfbnSfrvfr.
+     *
+     * @fxdfption SfdurityExdfption if thfrf is b SfdurityMbnbgfr bnd thf
+     * dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("drfbtfMBfbnSfrvfr")</dodf>.
+     *
+     * @fxdfption JMRuntimfExdfption if thf propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists but thf
+     * dlbss it nbmfs dbnnot bf instbntibtfd through b publid
+     * no-brgumfnt donstrudtor; or if thf instbntibtfd buildfr rfturns
+     * null from its {@link MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfrDflfgbtf
+     * nfwMBfbnSfrvfrDflfgbtf} or {@link
+     * MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfr nfwMBfbnSfrvfr} mfthods.
+     *
+     * @fxdfption ClbssCbstExdfption if thf propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists bnd dbn bf
+     * instbntibtfd but is not bssignmfnt dompbtiblf with {@link
+     * MBfbnSfrvfrBuildfr}.
+     */
+    publid stbtid MBfbnSfrvfr drfbtfMBfbnSfrvfr() {
+        rfturn drfbtfMBfbnSfrvfr(null);
+    }
+
+    /**
+     * <p>Rfturn b nfw objfdt implfmfnting thf {@link MBfbnSfrvfr}
+     * intfrfbdf with thf spfdififd dffbult dombin nbmf.  Thf givfn
+     * dombin nbmf is usfd bs thf dombin pbrt in thf ObjfdtNbmf of
+     * MBfbns whfn thf dombin is spfdififd by thf usfr is null.</p>
+     *
+     * <p>Thf MBfbnSfrvfr rfffrfndf is intfrnblly kfpt. This will
+     * bllow <CODE>findMBfbnSfrvfr</CODE> to rfturn b rfffrfndf to
+     * this MBfbnSfrvfr objfdt.</p>
+     *
+     * @pbrbm dombin thf dffbult dombin nbmf for thf drfbtfd
+     * MBfbnSfrvfr.  This is thf vbluf thbt will bf rfturnfd by {@link
+     * MBfbnSfrvfr#gftDffbultDombin}.
+     *
+     * @rfturn thf nfwly drfbtfd MBfbnSfrvfr.
+     *
+     * @fxdfption SfdurityExdfption if thfrf is b SfdurityMbnbgfr bnd
+     * thf dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("drfbtfMBfbnSfrvfr")</dodf>.
+     *
+     * @fxdfption JMRuntimfExdfption if thf propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists but thf
+     * dlbss it nbmfs dbnnot bf instbntibtfd through b publid
+     * no-brgumfnt donstrudtor; or if thf instbntibtfd buildfr rfturns
+     * null from its {@link MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfrDflfgbtf
+     * nfwMBfbnSfrvfrDflfgbtf} or {@link
+     * MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfr nfwMBfbnSfrvfr} mfthods.
+     *
+     * @fxdfption ClbssCbstExdfption if thf propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists bnd dbn bf
+     * instbntibtfd but is not bssignmfnt dompbtiblf with {@link
+     * MBfbnSfrvfrBuildfr}.
+     */
+    publid stbtid MBfbnSfrvfr drfbtfMBfbnSfrvfr(String dombin)  {
+        dhfdkPfrmission("drfbtfMBfbnSfrvfr");
+
+        finbl MBfbnSfrvfr mBfbnSfrvfr = nfwMBfbnSfrvfr(dombin);
+        bddMBfbnSfrvfr(mBfbnSfrvfr);
+        rfturn mBfbnSfrvfr;
+    }
+
+    /**
+     * <p>Rfturn b nfw objfdt implfmfnting thf MBfbnSfrvfr intfrfbdf
+     * with b stbndbrd dffbult dombin nbmf, without kffping bn
+     * intfrnbl rfffrfndf to this nfw objfdt.  Thf dffbult dombin nbmf
+     * is usfd bs thf dombin pbrt in thf ObjfdtNbmf of MBfbns whfn thf
+     * dombin is spfdififd by thf usfr is null.</p>
+     *
+     * <p>Thf stbndbrd dffbult dombin nbmf is
+     * <dodf>DffbultDombin</dodf>.</p>
+     *
+     * <p>No rfffrfndf is kfpt. <CODE>findMBfbnSfrvfr</CODE> will not
+     * bf bblf to rfturn b rfffrfndf to this MBfbnSfrvfr objfdt, but
+     * thf gbrbbgf dollfdtor will bf bblf to rfmovf thf MBfbnSfrvfr
+     * objfdt whfn it is no longfr rfffrfndfd.</p>
+     *
+     * <p>This mfthod is fquivblfnt to <dodf>nfwMBfbnSfrvfr(null)</dodf>.</p>
+     *
+     * @rfturn thf nfwly drfbtfd MBfbnSfrvfr.
+     *
+     * @fxdfption SfdurityExdfption if thfrf is b SfdurityMbnbgfr bnd thf
+     * dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("nfwMBfbnSfrvfr")</dodf>.
+     *
+     * @fxdfption JMRuntimfExdfption if thf propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists but thf
+     * dlbss it nbmfs dbnnot bf instbntibtfd through b publid
+     * no-brgumfnt donstrudtor; or if thf instbntibtfd buildfr rfturns
+     * null from its {@link MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfrDflfgbtf
+     * nfwMBfbnSfrvfrDflfgbtf} or {@link
+     * MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfr nfwMBfbnSfrvfr} mfthods.
+     *
+     * @fxdfption ClbssCbstExdfption if thf propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists bnd dbn bf
+     * instbntibtfd but is not bssignmfnt dompbtiblf with {@link
+     * MBfbnSfrvfrBuildfr}.
+     */
+    publid stbtid MBfbnSfrvfr nfwMBfbnSfrvfr() {
+        rfturn nfwMBfbnSfrvfr(null);
+    }
+
+    /**
+     * <p>Rfturn b nfw objfdt implfmfnting thf MBfbnSfrvfr intfrfbdf
+     * with thf spfdififd dffbult dombin nbmf, without kffping bn
+     * intfrnbl rfffrfndf to this nfw objfdt.  Thf givfn dombin nbmf
+     * is usfd bs thf dombin pbrt in thf ObjfdtNbmf of MBfbns whfn thf
+     * dombin is spfdififd by thf usfr is null.</p>
+     *
+     * <p>No rfffrfndf is kfpt. <CODE>findMBfbnSfrvfr</CODE> will not
+     * bf bblf to rfturn b rfffrfndf to this MBfbnSfrvfr objfdt, but
+     * thf gbrbbgf dollfdtor will bf bblf to rfmovf thf MBfbnSfrvfr
+     * objfdt whfn it is no longfr rfffrfndfd.</p>
+     *
+     * @pbrbm dombin thf dffbult dombin nbmf for thf drfbtfd
+     * MBfbnSfrvfr.  This is thf vbluf thbt will bf rfturnfd by {@link
+     * MBfbnSfrvfr#gftDffbultDombin}.
+     *
+     * @rfturn thf nfwly drfbtfd MBfbnSfrvfr.
+     *
+     * @fxdfption SfdurityExdfption if thfrf is b SfdurityMbnbgfr bnd thf
+     * dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("nfwMBfbnSfrvfr")</dodf>.
+     *
+     * @fxdfption JMRuntimfExdfption if thf propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists but thf
+     * dlbss it nbmfs dbnnot bf instbntibtfd through b publid
+     * no-brgumfnt donstrudtor; or if thf instbntibtfd buildfr rfturns
+     * null from its {@link MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfrDflfgbtf
+     * nfwMBfbnSfrvfrDflfgbtf} or {@link
+     * MBfbnSfrvfrBuildfr#nfwMBfbnSfrvfr nfwMBfbnSfrvfr} mfthods.
+     *
+     * @fxdfption ClbssCbstExdfption if thf propfrty
+     * <dodf>jbvbx.mbnbgfmfnt.buildfr.initibl</dodf> fxists bnd dbn bf
+     * instbntibtfd but is not bssignmfnt dompbtiblf with {@link
+     * MBfbnSfrvfrBuildfr}.
+     */
+    publid stbtid MBfbnSfrvfr nfwMBfbnSfrvfr(String dombin)  {
+        dhfdkPfrmission("nfwMBfbnSfrvfr");
+
+        // Gft thf buildfr. Crfbtfs b nfw onf if nfdfssbry.
+        //
+        finbl MBfbnSfrvfrBuildfr mbsBuildfr = gftNfwMBfbnSfrvfrBuildfr();
+        // Rfturnfd vbluf dbnnot bf null.  NullPointfrExdfption if violbtfd.
+
+        syndhronizfd(mbsBuildfr) {
+            finbl MBfbnSfrvfrDflfgbtf dflfgbtf  =
+                    mbsBuildfr.nfwMBfbnSfrvfrDflfgbtf();
+            if (dflfgbtf == null) {
+                finbl String msg =
+                        "MBfbnSfrvfrBuildfr.nfwMBfbnSfrvfrDflfgbtf() " +
+                        "rfturnfd null";
+                throw nfw JMRuntimfExdfption(msg);
+            }
+            finbl MBfbnSfrvfr mbfbnSfrvfr =
+                    mbsBuildfr.nfwMBfbnSfrvfr(dombin,null,dflfgbtf);
+            if (mbfbnSfrvfr == null) {
+                finbl String msg =
+                        "MBfbnSfrvfrBuildfr.nfwMBfbnSfrvfr() rfturnfd null";
+                throw nfw JMRuntimfExdfption(msg);
+            }
+            rfturn mbfbnSfrvfr;
+        }
+    }
+
+    /**
+     * <p>Rfturn b list of rfgistfrfd MBfbnSfrvfr objfdts.  A
+     * rfgistfrfd MBfbnSfrvfr objfdt is onf thbt wbs drfbtfd by onf of
+     * thf <dodf>drfbtfMBfbnSfrvfr</dodf> mfthods bnd not subsfqufntly
+     * rflfbsfd with <dodf>rflfbsfMBfbnSfrvfr</dodf>.</p>
+     *
+     * @pbrbm bgfntId Thf bgfnt idfntififr of thf MBfbnSfrvfr to
+     * rftrifvf.  If this pbrbmftfr is null, bll rfgistfrfd
+     * MBfbnSfrvfrs in this JVM brf rfturnfd.  Othfrwisf, only
+     * MBfbnSfrvfrs whosf id is fqubl to <dodf>bgfntId</dodf> brf
+     * rfturnfd.  Thf id of bn MBfbnSfrvfr is thf
+     * <dodf>MBfbnSfrvfrId</dodf> bttributf of its dflfgbtf MBfbn.
+     *
+     * @rfturn A list of MBfbnSfrvfr objfdts.
+     *
+     * @fxdfption SfdurityExdfption if thfrf is b SfdurityMbnbgfr bnd thf
+     * dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnSfrvfrPfrmission}("findMBfbnSfrvfr")</dodf>.
+     */
+    publid syndhronizfd stbtid
+            ArrbyList<MBfbnSfrvfr> findMBfbnSfrvfr(String bgfntId) {
+
+        dhfdkPfrmission("findMBfbnSfrvfr");
+
+        if (bgfntId == null)
+            rfturn nfw ArrbyList<MBfbnSfrvfr>(mBfbnSfrvfrList);
+
+        ArrbyList<MBfbnSfrvfr> rfsult = nfw ArrbyList<MBfbnSfrvfr>();
+        for (MBfbnSfrvfr mbs : mBfbnSfrvfrList) {
+            String nbmf = mBfbnSfrvfrId(mbs);
+            if (bgfntId.fqubls(nbmf))
+                rfsult.bdd(mbs);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturn thf ClbssLobdfrRfpository usfd by thf givfn MBfbnSfrvfr.
+     * This mfthod is fquivblfnt to {@link
+     * MBfbnSfrvfr#gftClbssLobdfrRfpository() sfrvfr.gftClbssLobdfrRfpository()}.
+     * @pbrbm sfrvfr Thf MBfbnSfrvfr undfr fxbminbtion. Sindf JMX 1.2,
+     * if <dodf>sfrvfr</dodf> is <dodf>null</dodf>, thf rfsult is b
+     * {@link NullPointfrExdfption}.  This bfhbvior difffrs from whbt
+     * wbs implfmfntfd in JMX 1.1 - whfrf thf possibility to usf
+     * <dodf>null</dodf> wbs dfprfdbtfd.
+     * @rfturn Thf Clbss Lobdfr Rfpository usfd by thf givfn MBfbnSfrvfr.
+     * @fxdfption SfdurityExdfption if thfrf is b SfdurityMbnbgfr bnd
+     * thf dbllfr's pfrmissions do not indludf or imply <dodf>{@link
+     * MBfbnPfrmission}("gftClbssLobdfrRfpository")</dodf>.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>sfrvfr</dodf> is null.
+     *
+     **/
+    publid stbtid ClbssLobdfrRfpository gftClbssLobdfrRfpository(
+            MBfbnSfrvfr sfrvfr) {
+        rfturn sfrvfr.gftClbssLobdfrRfpository();
+    }
+
+    privbtf stbtid String mBfbnSfrvfrId(MBfbnSfrvfr mbs) {
+        try {
+            rfturn (String) mbs.gftAttributf(MBfbnSfrvfrDflfgbtf.DELEGATE_NAME,
+                    "MBfbnSfrvfrId");
+        } dbtdh (JMExdfption f) {
+            JmxPropfrtifs.MISC_LOGGER.finfst(
+                    "Ignoring fxdfption whilf gftting MBfbnSfrvfrId: "+f);
+            rfturn null;
+        }
+    }
+
+    privbtf stbtid void dhfdkPfrmission(String bdtion)
+    throws SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            Pfrmission pfrm = nfw MBfbnSfrvfrPfrmission(bdtion);
+            sm.dhfdkPfrmission(pfrm);
+        }
+    }
+
+    privbtf stbtid syndhronizfd void bddMBfbnSfrvfr(MBfbnSfrvfr mbs) {
+        mBfbnSfrvfrList.bdd(mbs);
+    }
+
+    privbtf stbtid syndhronizfd void rfmovfMBfbnSfrvfr(MBfbnSfrvfr mbs) {
+        boolfbn rfmovfd = mBfbnSfrvfrList.rfmovf(mbs);
+        if (!rfmovfd) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    MBfbnSfrvfrFbdtory.dlbss.gftNbmf(),
+                    "rfmovfMBfbnSfrvfr(MBfbnSfrvfr)",
+                    "MBfbnSfrvfr wbs not in list!");
+            throw nfw IllfgblArgumfntExdfption("MBfbnSfrvfr wbs not in list!");
+        }
+    }
+
+    privbtf stbtid finbl ArrbyList<MBfbnSfrvfr> mBfbnSfrvfrList =
+            nfw ArrbyList<MBfbnSfrvfr>();
+
+    /**
+     * Lobd thf buildfr dlbss through thf dontfxt dlbss lobdfr.
+     * @pbrbm buildfrClbssNbmf Thf nbmf of thf buildfr dlbss.
+     **/
+    privbtf stbtid Clbss<?> lobdBuildfrClbss(String buildfrClbssNbmf)
+    throws ClbssNotFoundExdfption {
+        finbl ClbssLobdfr lobdfr =
+                Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+
+        if (lobdfr != null) {
+            // Try with dontfxt dlbss lobdfr
+            rfturn lobdfr.lobdClbss(buildfrClbssNbmf);
+        }
+
+        // No dontfxt dlbss lobdfr? Try with Clbss.forNbmf()
+        rfturn RfflfdtUtil.forNbmf(buildfrClbssNbmf);
+    }
+
+    /**
+     * Crfbtfs thf initibl buildfr bddording to thf
+     * jbvbx.mbnbgfmfnt.buildfr.initibl Systfm propfrty - if spfdififd.
+     * If bny dhfdkfd fxdfption nffds to bf thrown, it is fmbfddfd in
+     * b JMRuntimfExdfption.
+     **/
+    privbtf stbtid MBfbnSfrvfrBuildfr nfwBuildfr(Clbss<?> buildfrClbss) {
+        try {
+            finbl Objfdt bbuildfr = buildfrClbss.nfwInstbndf();
+            rfturn (MBfbnSfrvfrBuildfr)bbuildfr;
+        } dbtdh (RuntimfExdfption x) {
+            throw x;
+        } dbtdh (Exdfption x) {
+            finbl String msg =
+                    "Fbilfd to instbntibtf b MBfbnSfrvfrBuildfr from " +
+                    buildfrClbss + ": " + x;
+            throw nfw JMRuntimfExdfption(msg, x);
+        }
+    }
+
+    /**
+     * Instbntibtf b nfw buildfr bddording to thf
+     * jbvbx.mbnbgfmfnt.buildfr.initibl Systfm propfrty - if nffdfd.
+     **/
+    privbtf stbtid syndhronizfd void dhfdkMBfbnSfrvfrBuildfr() {
+        try {
+            GftPropfrtyAdtion bdt =
+                    nfw GftPropfrtyAdtion(JMX_INITIAL_BUILDER);
+            String buildfrClbssNbmf = AddfssControllfr.doPrivilfgfd(bdt);
+
+            try {
+                finbl Clbss<?> nfwBuildfrClbss;
+                if (buildfrClbssNbmf == null || buildfrClbssNbmf.lfngth() == 0)
+                    nfwBuildfrClbss = MBfbnSfrvfrBuildfr.dlbss;
+                flsf
+                    nfwBuildfrClbss = lobdBuildfrClbss(buildfrClbssNbmf);
+
+                // Chfdk whfthfr b nfw buildfr nffds to bf drfbtfd
+                if (buildfr != null) {
+                    finbl Clbss<?> buildfrClbss = buildfr.gftClbss();
+                    if (nfwBuildfrClbss == buildfrClbss)
+                        rfturn; // no nffd to drfbtf b nfw buildfr...
+                }
+
+                // Crfbtf b nfw buildfr
+                buildfr = nfwBuildfr(nfwBuildfrClbss);
+            } dbtdh (ClbssNotFoundExdfption x) {
+                finbl String msg =
+                        "Fbilfd to lobd MBfbnSfrvfrBuildfr dlbss " +
+                        buildfrClbssNbmf + ": " + x;
+                throw nfw JMRuntimfExdfption(msg, x);
+            }
+        } dbtdh (RuntimfExdfption x) {
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                StringBuildfr strb = nfw StringBuildfr()
+                .bppfnd("Fbilfd to instbntibtf MBfbnSfrvfrBuildfr: ").bppfnd(x)
+                .bppfnd("\n\t\tChfdk thf vbluf of thf ")
+                .bppfnd(JMX_INITIAL_BUILDER).bppfnd(" propfrty.");
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINEST,
+                        MBfbnSfrvfrFbdtory.dlbss.gftNbmf(),
+                        "dhfdkMBfbnSfrvfrBuildfr",
+                        strb.toString());
+            }
+            throw x;
+        }
+    }
+
+    /**
+     * Gft thf durrfnt {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr},
+     * bs spfdififd by thf durrfnt vbluf of thf
+     * jbvbx.mbnbgfmfnt.buildfr.initibl propfrty.
+     *
+     * This mfthod donsults thf propfrty bnd instbntibtfs b nfw buildfr
+     * if nffdfd.
+     *
+     * @rfturn thf nfw durrfnt {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}.
+     *
+     * @fxdfption SfdurityExdfption if thfrf is b SfdurityMbnbgfr bnd
+     * thf dbllfr's pfrmissions do not mbkf it possiblf to instbntibtf
+     * b nfw buildfr.
+     * @fxdfption JMRuntimfExdfption if thf buildfr instbntibtion
+     *   fbils with b dhfdkfd fxdfption -
+     *   {@link jbvb.lbng.ClbssNotFoundExdfption} ftd...
+     *
+     **/
+    privbtf stbtid syndhronizfd MBfbnSfrvfrBuildfr gftNfwMBfbnSfrvfrBuildfr() {
+        dhfdkMBfbnSfrvfrBuildfr();
+        rfturn buildfr;
+    }
+
+}

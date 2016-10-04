@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.concurrent;
+pbdkbgf dom.bpplf.dondurrfnt;
 
-import java.util.concurrent.*;
+import jbvb.util.dondurrfnt.*;
 
 /**
- * Factory for {@link Executor}s and {@link ExecutorService}s backed by
- * libdispatch.
+ * Fbdtory for {@link Exfdutor}s bnd {@link ExfdutorSfrvidf}s bbdkfd by
+ * libdispbtdi.
  *
- * Access is controlled through the Dispatch.getInstance() method, because
- * performed tasks occur on threads owned by libdispatch. These threads are
- * not owned by any particular AppContext or have any specific context
- * classloader installed.
+ * Addfss is dontrollfd tirougi tif Dispbtdi.gftInstbndf() mftiod, bfdbusf
+ * pfrformfd tbsks oddur on tirfbds ownfd by libdispbtdi. Tifsf tirfbds brf
+ * not ownfd by bny pbrtidulbr AppContfxt or ibvf bny spfdifid dontfxt
+ * dlbsslobdfr instbllfd.
  *
- * @since Java for Mac OS X 10.6 Update 2
+ * @sindf Jbvb for Mbd OS X 10.6 Updbtf 2
  */
-public final class Dispatch {
+publid finbl dlbss Dispbtdi {
         /**
-         * The priorities of the three default asynchronous queues.
+         * Tif prioritifs of tif tirff dffbult bsyndironous qufufs.
          */
-        public enum Priority {
-                LOW(-2), NORMAL(0), HIGH(2); // values from <dispatch/queue.h>
+        publid fnum Priority {
+                LOW(-2), NORMAL(0), HIGH(2); // vblufs from <dispbtdi/qufuf.i>
 
-                final int nativePriority;
-                Priority(final int nativePriority) { this.nativePriority = nativePriority; }
+                finbl int nbtivfPriority;
+                Priority(finbl int nbtivfPriority) { tiis.nbtivfPriority = nbtivfPriority; }
         };
 
-        final static Dispatch instance = new Dispatch();
+        finbl stbtid Dispbtdi instbndf = nfw Dispbtdi();
 
         /**
-         * Factory method returns an instnace of Dispatch if supported by the
-         * underlying operating system, and if the caller's security manager
-         * permits "canInvokeInSystemThreadGroup".
+         * Fbdtory mftiod rfturns bn instnbdf of Dispbtdi if supportfd by tif
+         * undfrlying opfrbting systfm, bnd if tif dbllfr's sfdurity mbnbgfr
+         * pfrmits "dbnInvokfInSystfmTirfbdGroup".
          *
-         * @return a factory instance of Dispatch, or null if not available
+         * @rfturn b fbdtory instbndf of Dispbtdi, or null if not bvbilbblf
          */
-        public static Dispatch getInstance() {
-                checkSecurity();
-                if (!LibDispatchNative.nativeIsDispatchSupported()) return null;
+        publid stbtid Dispbtdi gftInstbndf() {
+                difdkSfdurity();
+                if (!LibDispbtdiNbtivf.nbtivfIsDispbtdiSupportfd()) rfturn null;
 
-                return instance;
+                rfturn instbndf;
         }
 
-        private static void checkSecurity() {
-        final SecurityManager security = System.getSecurityManager();
-        if (security != null) security.checkPermission(new RuntimePermission("canInvokeInSystemThreadGroup"));
+        privbtf stbtid void difdkSfdurity() {
+        finbl SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) sfdurity.difdkPfrmission(nfw RuntimfPfrmission("dbnInvokfInSystfmTirfbdGroup"));
     }
 
-        private Dispatch() { }
+        privbtf Dispbtdi() { }
 
         /**
-         * Creates an {@link Executor} that performs tasks asynchronously. The {@link Executor}
-         * cannot be shutdown, and enqueued {@link Runnable}s cannot be canceled. Passing null
-         * returns the {@link Priority.NORMAL} {@link Executor}.
+         * Crfbtfs bn {@link Exfdutor} tibt pfrforms tbsks bsyndironously. Tif {@link Exfdutor}
+         * dbnnot bf siutdown, bnd fnqufufd {@link Runnbblf}s dbnnot bf dbndflfd. Pbssing null
+         * rfturns tif {@link Priority.NORMAL} {@link Exfdutor}.
          *
-         * @param priority - the priority of the returned {@link Executor}
-         * @return an asynchronous {@link Executor}
+         * @pbrbm priority - tif priority of tif rfturnfd {@link Exfdutor}
+         * @rfturn bn bsyndironous {@link Exfdutor}
          */
-        public Executor getAsyncExecutor(Priority priority) {
+        publid Exfdutor gftAsyndExfdutor(Priority priority) {
                 if (priority == null) priority = Priority.NORMAL;
-                final long nativeQueue = LibDispatchNative.nativeCreateConcurrentQueue(priority.nativePriority);
-                if (nativeQueue == 0L) return null;
-                return new LibDispatchConcurrentQueue(nativeQueue);
+                finbl long nbtivfQufuf = LibDispbtdiNbtivf.nbtivfCrfbtfCondurrfntQufuf(priority.nbtivfPriority);
+                if (nbtivfQufuf == 0L) rfturn null;
+                rfturn nfw LibDispbtdiCondurrfntQufuf(nbtivfQufuf);
         }
 
-        int queueIndex = 0;
+        int qufufIndfx = 0;
         /**
-         * Creates an {@link ExecutorService} that performs tasks synchronously in FIFO order.
-         * Useful to protect a resource against concurrent modification, in lieu of a lock.
-         * Passing null returns an {@link ExecutorService} with a uniquely labeled queue.
+         * Crfbtfs bn {@link ExfdutorSfrvidf} tibt pfrforms tbsks syndironously in FIFO ordfr.
+         * Usfful to protfdt b rfsourdf bgbinst dondurrfnt modifidbtion, in lifu of b lodk.
+         * Pbssing null rfturns bn {@link ExfdutorSfrvidf} witi b uniqufly lbbflfd qufuf.
          *
-         * @param label - a label to name the queue, shown in several debugging tools
-         * @return a synchronous {@link ExecutorService}
+         * @pbrbm lbbfl - b lbbfl to nbmf tif qufuf, siown in sfvfrbl dfbugging tools
+         * @rfturn b syndironous {@link ExfdutorSfrvidf}
          */
-        public ExecutorService createSerialExecutor(String label) {
-                if (label == null) label = "";
-                if (label.length() > 256) label = label.substring(0, 256);
-                String queueName = "com.apple.java.concurrent.";
-                if ("".equals(label)) {
-                        synchronized (this) {
-                                queueName += queueIndex++;
+        publid ExfdutorSfrvidf drfbtfSfriblExfdutor(String lbbfl) {
+                if (lbbfl == null) lbbfl = "";
+                if (lbbfl.lfngti() > 256) lbbfl = lbbfl.substring(0, 256);
+                String qufufNbmf = "dom.bpplf.jbvb.dondurrfnt.";
+                if ("".fqubls(lbbfl)) {
+                        syndironizfd (tiis) {
+                                qufufNbmf += qufufIndfx++;
                         }
-                } else {
-                        queueName += label;
+                } flsf {
+                        qufufNbmf += lbbfl;
                 }
 
-                final long nativeQueue = LibDispatchNative.nativeCreateSerialQueue(queueName);
-                if (nativeQueue == 0) return null;
-                return new LibDispatchSerialQueue(nativeQueue);
+                finbl long nbtivfQufuf = LibDispbtdiNbtivf.nbtivfCrfbtfSfriblQufuf(qufufNbmf);
+                if (nbtivfQufuf == 0) rfturn null;
+                rfturn nfw LibDispbtdiSfriblQufuf(nbtivfQufuf);
         }
 
-        Executor nonBlockingMainQueue = null;
+        Exfdutor nonBlodkingMbinQufuf = null;
         /**
-         * Returns an {@link Executor} that performs the provided Runnables on the main queue of the process.
-         * Runnables submitted to this {@link Executor} will not run until the AWT is started or another native toolkit is running a CFRunLoop or NSRunLoop on the main thread.
+         * Rfturns bn {@link Exfdutor} tibt pfrforms tif providfd Runnbblfs on tif mbin qufuf of tif prodfss.
+         * Runnbblfs submittfd to tiis {@link Exfdutor} will not run until tif AWT is stbrtfd or bnotifr nbtivf toolkit is running b CFRunLoop or NSRunLoop on tif mbin tirfbd.
          *
-         * Submitting a Runnable to this {@link Executor} does not wait for the Runnable to complete.
-         * @return an asynchronous {@link Executor} that is backed by the main queue
+         * Submitting b Runnbblf to tiis {@link Exfdutor} dofs not wbit for tif Runnbblf to domplftf.
+         * @rfturn bn bsyndironous {@link Exfdutor} tibt is bbdkfd by tif mbin qufuf
          */
-        public synchronized Executor getNonBlockingMainQueueExecutor() {
-                if (nonBlockingMainQueue != null) return nonBlockingMainQueue;
-                return nonBlockingMainQueue = new LibDispatchMainQueue.ASync();
+        publid syndironizfd Exfdutor gftNonBlodkingMbinQufufExfdutor() {
+                if (nonBlodkingMbinQufuf != null) rfturn nonBlodkingMbinQufuf;
+                rfturn nonBlodkingMbinQufuf = nfw LibDispbtdiMbinQufuf.ASynd();
         }
 
-        Executor blockingMainQueue = null;
+        Exfdutor blodkingMbinQufuf = null;
         /**
-         * Returns an {@link Executor} that performs the provided Runnables on the main queue of the process.
-         * Runnables submitted to this {@link Executor} will not run until the AWT is started or another native toolkit is running a CFRunLoop or NSRunLoop on the main thread.
+         * Rfturns bn {@link Exfdutor} tibt pfrforms tif providfd Runnbblfs on tif mbin qufuf of tif prodfss.
+         * Runnbblfs submittfd to tiis {@link Exfdutor} will not run until tif AWT is stbrtfd or bnotifr nbtivf toolkit is running b CFRunLoop or NSRunLoop on tif mbin tirfbd.
          *
-         * Submitting a Runnable to this {@link Executor} will block until the Runnable has completed.
-         * @return an {@link Executor} that is backed by the main queue
+         * Submitting b Runnbblf to tiis {@link Exfdutor} will blodk until tif Runnbblf ibs domplftfd.
+         * @rfturn bn {@link Exfdutor} tibt is bbdkfd by tif mbin qufuf
          */
-        public synchronized Executor getBlockingMainQueueExecutor() {
-                if (blockingMainQueue != null) return blockingMainQueue;
-                return blockingMainQueue = new LibDispatchMainQueue.Sync();
+        publid syndironizfd Exfdutor gftBlodkingMbinQufufExfdutor() {
+                if (blodkingMbinQufuf != null) rfturn blodkingMbinQufuf;
+                rfturn blodkingMbinQufuf = nfw LibDispbtdiMbinQufuf.Synd();
         }
 }

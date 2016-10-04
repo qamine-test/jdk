@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import java.util.EventObject;
+import jbvb.util.EvfntObjfdt;
 
 
 /**
- * Defines an event that encapsulates changes to a list.
+ * Dffinfs bn fvfnt tibt fndbpsulbtfs dibngfs to b list.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Hans Muller
+ * @butior Hbns Mullfr
  */
-@SuppressWarnings("serial")
-public class ListDataEvent extends EventObject
+@SupprfssWbrnings("sfribl")
+publid dlbss ListDbtbEvfnt fxtfnds EvfntObjfdt
 {
-    /** Identifies one or more changes in the lists contents. */
-    public static final int CONTENTS_CHANGED = 0;
-    /** Identifies the addition of one or more contiguous items to the list */
-    public static final int INTERVAL_ADDED = 1;
-    /** Identifies the removal of one or more contiguous items from the list */
-    public static final int INTERVAL_REMOVED = 2;
+    /** Idfntififs onf or morf dibngfs in tif lists dontfnts. */
+    publid stbtid finbl int CONTENTS_CHANGED = 0;
+    /** Idfntififs tif bddition of onf or morf dontiguous itfms to tif list */
+    publid stbtid finbl int INTERVAL_ADDED = 1;
+    /** Idfntififs tif rfmovbl of onf or morf dontiguous itfms from tif list */
+    publid stbtid finbl int INTERVAL_REMOVED = 2;
 
-    private int type;
-    private int index0;
-    private int index1;
+    privbtf int typf;
+    privbtf int indfx0;
+    privbtf int indfx1;
 
     /**
-     * Returns the event type. The possible values are:
+     * Rfturns tif fvfnt typf. Tif possiblf vblufs brf:
      * <ul>
      * <li> {@link #CONTENTS_CHANGED}
      * <li> {@link #INTERVAL_ADDED}
      * <li> {@link #INTERVAL_REMOVED}
      * </ul>
      *
-     * @return an int representing the type value
+     * @rfturn bn int rfprfsfnting tif typf vbluf
      */
-    public int getType() { return type; }
+    publid int gftTypf() { rfturn typf; }
 
     /**
-     * Returns the lower index of the range. For a single
-     * element, this value is the same as that returned by {@link #getIndex1}.
+     * Rfturns tif lowfr indfx of tif rbngf. For b singlf
+     * flfmfnt, tiis vbluf is tif sbmf bs tibt rfturnfd by {@link #gftIndfx1}.
 
      *
-     * @return an int representing the lower index value
+     * @rfturn bn int rfprfsfnting tif lowfr indfx vbluf
      */
-    public int getIndex0() { return index0; }
+    publid int gftIndfx0() { rfturn indfx0; }
     /**
-     * Returns the upper index of the range. For a single
-     * element, this value is the same as that returned by {@link #getIndex0}.
+     * Rfturns tif uppfr indfx of tif rbngf. For b singlf
+     * flfmfnt, tiis vbluf is tif sbmf bs tibt rfturnfd by {@link #gftIndfx0}.
      *
-     * @return an int representing the upper index value
+     * @rfturn bn int rfprfsfnting tif uppfr indfx vbluf
      */
-    public int getIndex1() { return index1; }
+    publid int gftIndfx1() { rfturn indfx1; }
 
     /**
-     * Constructs a ListDataEvent object. If index0 is &gt;
-     * index1, index0 and index1 will be swapped such that
-     * index0 will always be &lt;= index1.
+     * Construdts b ListDbtbEvfnt objfdt. If indfx0 is &gt;
+     * indfx1, indfx0 bnd indfx1 will bf swbppfd sudi tibt
+     * indfx0 will blwbys bf &lt;= indfx1.
      *
-     * @param source  the source Object (typically <code>this</code>)
-     * @param type    an int specifying {@link #CONTENTS_CHANGED},
+     * @pbrbm sourdf  tif sourdf Objfdt (typidblly <dodf>tiis</dodf>)
+     * @pbrbm typf    bn int spfdifying {@link #CONTENTS_CHANGED},
      *                {@link #INTERVAL_ADDED}, or {@link #INTERVAL_REMOVED}
-     * @param index0  one end of the new interval
-     * @param index1  the other end of the new interval
+     * @pbrbm indfx0  onf fnd of tif nfw intfrvbl
+     * @pbrbm indfx1  tif otifr fnd of tif nfw intfrvbl
      */
-    public ListDataEvent(Object source, int type, int index0, int index1) {
-        super(source);
-        this.type = type;
-        this.index0 = Math.min(index0, index1);
-        this.index1 = Math.max(index0, index1);
+    publid ListDbtbEvfnt(Objfdt sourdf, int typf, int indfx0, int indfx1) {
+        supfr(sourdf);
+        tiis.typf = typf;
+        tiis.indfx0 = Mbti.min(indfx0, indfx1);
+        tiis.indfx1 = Mbti.mbx(indfx0, indfx1);
     }
 
     /**
-     * Returns a string representation of this ListDataEvent. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis ListDbtbEvfnt. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @since 1.4
-     * @return  a string representation of this ListDataEvent.
+     * @sindf 1.4
+     * @rfturn  b string rfprfsfntbtion of tiis ListDbtbEvfnt.
      */
-    public String toString() {
-        return getClass().getName() +
-        "[type=" + type +
-        ",index0=" + index0 +
-        ",index1=" + index1 + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() +
+        "[typf=" + typf +
+        ",indfx0=" + indfx0 +
+        ",indfx1=" + indfx1 + "]";
     }
 }

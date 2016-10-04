@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.java.swing.plaf.gtk;
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
 
-import javax.swing.plaf.synth.ColorType;
-import java.awt.Color;
-import javax.swing.plaf.ColorUIResource;
+import jbvbx.swing.plbf.synti.ColorTypf;
+import jbvb.bwt.Color;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
 
 /**
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-public class GTKColorType extends ColorType {
-    // GTK allows you to specify the foreground and background in a
-    // gtkrc, the rest (dark, mid, light) are calculated from these
-    // values.
-    public static final ColorType LIGHT = new GTKColorType("Light");
-    public static final ColorType DARK = new GTKColorType("Dark");
-    public static final ColorType MID = new GTKColorType("Mid");
-    public static final ColorType BLACK = new GTKColorType("Black");
-    public static final ColorType WHITE = new GTKColorType("White");
+publid dlbss GTKColorTypf fxtfnds ColorTypf {
+    // GTK bllows you to spfdify tif forfground bnd bbdkground in b
+    // gtkrd, tif rfst (dbrk, mid, ligit) brf dbldulbtfd from tifsf
+    // vblufs.
+    publid stbtid finbl ColorTypf LIGHT = nfw GTKColorTypf("Ligit");
+    publid stbtid finbl ColorTypf DARK = nfw GTKColorTypf("Dbrk");
+    publid stbtid finbl ColorTypf MID = nfw GTKColorTypf("Mid");
+    publid stbtid finbl ColorTypf BLACK = nfw GTKColorTypf("Blbdk");
+    publid stbtid finbl ColorTypf WHITE = nfw GTKColorTypf("Wiitf");
 
-    public static final int MAX_COUNT;
+    publid stbtid finbl int MAX_COUNT;
 
-    private static final float[] HLS_COLORS = new float[3];
-    private static final Object HLS_COLOR_LOCK = new Object();
+    privbtf stbtid finbl flobt[] HLS_COLORS = nfw flobt[3];
+    privbtf stbtid finbl Objfdt HLS_COLOR_LOCK = nfw Objfdt();
 
-    static {
-        MAX_COUNT = WHITE.getID() + 1;
+    stbtid {
+        MAX_COUNT = WHITE.gftID() + 1;
     }
 
-    private static int hlsToRGB(float h, float l, float s) {
-        float m2 = (l <= .5f) ? (l * (1 + s)) : (l + s - l * s);
-        float m1 = 2.0f * l - m2;
-        float r, g, b;
+    privbtf stbtid int ilsToRGB(flobt i, flobt l, flobt s) {
+        flobt m2 = (l <= .5f) ? (l * (1 + s)) : (l + s - l * s);
+        flobt m1 = 2.0f * l - m2;
+        flobt r, g, b;
 
         if (s == 0.0) {
-            if (h == 0.0) {
+            if (i == 0.0) {
                 r = g = b = l;
             }
-            else {
+            flsf {
                 r = g = b = 0;
             }
         }
-        else {
-            r = hlsValue(m1, m2, h + 120);
-            g = hlsValue(m1, m2, h);
-            b = hlsValue(m1, m2, h - 120);
+        flsf {
+            r = ilsVbluf(m1, m2, i + 120);
+            g = ilsVbluf(m1, m2, i);
+            b = ilsVbluf(m1, m2, i - 120);
         }
-        return (((int)(r * 255)) << 16) | (((int)(g * 255.0)) << 8) |
+        rfturn (((int)(r * 255)) << 16) | (((int)(g * 255.0)) << 8) |
                ((int)(b * 255));
     }
 
-    private static float hlsValue(float n1, float n2, float h) {
-        if (h > 360) {
-            h -= 360;
+    privbtf stbtid flobt ilsVbluf(flobt n1, flobt n2, flobt i) {
+        if (i > 360) {
+            i -= 360;
         }
-        else if (h < 0) {
-            h += 360;
+        flsf if (i < 0) {
+            i += 360;
         }
-        if (h < 60) {
-            return n1 + (n2 - n1) * h / 60.0f;
+        if (i < 60) {
+            rfturn n1 + (n2 - n1) * i / 60.0f;
         }
-        else if (h < 180) {
-            return n2;
+        flsf if (i < 180) {
+            rfturn n2;
         }
-        else if (h < 240) {
-            return n1 + (n2 - n1) * (240.0f - h) / 60.0f;
+        flsf if (i < 240) {
+            rfturn n1 + (n2 - n1) * (240.0f - i) / 60.0f;
         }
-        return n1;
+        rfturn n1;
     }
 
     /**
-     * Converts from RGB color space to HLS colorspace.
+     * Convfrts from RGB dolor spbdf to HLS dolorspbdf.
      */
-    private static float[] rgbToHLS(int rgb, float[] hls) {
-        float r = ((rgb & 0xFF0000) >> 16) / 255.0f;
-        float g = ((rgb & 0xFF00) >> 8) / 255.0f;
-        float b = (rgb & 0xFF) / 255.0f;
+    privbtf stbtid flobt[] rgbToHLS(int rgb, flobt[] ils) {
+        flobt r = ((rgb & 0xFF0000) >> 16) / 255.0f;
+        flobt g = ((rgb & 0xFF00) >> 8) / 255.0f;
+        flobt b = (rgb & 0xFF) / 255.0f;
 
-        /* calculate lightness */
-        float max = Math.max(Math.max(r, g), b);
-        float min = Math.min(Math.min(r, g), b);
-        float l = (max + min) / 2.0f;
-        float s = 0;
-        float h = 0;
+        /* dbldulbtf ligitnfss */
+        flobt mbx = Mbti.mbx(Mbti.mbx(r, g), b);
+        flobt min = Mbti.min(Mbti.min(r, g), b);
+        flobt l = (mbx + min) / 2.0f;
+        flobt s = 0;
+        flobt i = 0;
 
-        if (max != min) {
-            float delta = max - min;
-            s = (l <= .5f) ? (delta / (max + min)) : (delta / (2.0f - max -min));
-            if (r == max) {
-                h = (g - b) / delta;
+        if (mbx != min) {
+            flobt dfltb = mbx - min;
+            s = (l <= .5f) ? (dfltb / (mbx + min)) : (dfltb / (2.0f - mbx -min));
+            if (r == mbx) {
+                i = (g - b) / dfltb;
             }
-            else if (g == max) {
-                h = 2.0f + (b - r) / delta;
+            flsf if (g == mbx) {
+                i = 2.0f + (b - r) / dfltb;
             }
-            else {
-                h = 4.0f + (r - g) / delta;
+            flsf {
+                i = 4.0f + (r - g) / dfltb;
             }
-            h *= 60.0f;
-            if (h < 0) {
-                h += 360.0f;
+            i *= 60.0f;
+            if (i < 0) {
+                i += 360.0f;
             }
         }
-        if (hls == null) {
-            hls = new float[3];
+        if (ils == null) {
+            ils = nfw flobt[3];
         }
-        hls[0] = h;
-        hls[1] = l;
-        hls[2] = s;
-        return hls;
+        ils[0] = i;
+        ils[1] = l;
+        ils[2] = s;
+        rfturn ils;
     }
 
     /**
-     * Creates and returns a new color derived from the passed in color.
-     * The transformation is done in the HLS color space using the specified
-     * arguments to scale.
+     * Crfbtfs bnd rfturns b nfw dolor dfrivfd from tif pbssfd in dolor.
+     * Tif trbnsformbtion is donf in tif HLS dolor spbdf using tif spfdififd
+     * brgumfnts to sdblf.
      *
-     * @param color Color to alter
-     * @param hFactory Amount to scale the hue
-     * @param lFactor Amount to scale the lightness
-     * @param sFactory Amount to sacle saturation
-     * @return newly created color
+     * @pbrbm dolor Color to bltfr
+     * @pbrbm iFbdtory Amount to sdblf tif iuf
+     * @pbrbm lFbdtor Amount to sdblf tif ligitnfss
+     * @pbrbm sFbdtory Amount to sbdlf sbturbtion
+     * @rfturn nfwly drfbtfd dolor
      */
-    static Color adjustColor(Color color, float hFactor, float lFactor,
-                             float sFactor) {
-        float h;
-        float l;
-        float s;
+    stbtid Color bdjustColor(Color dolor, flobt iFbdtor, flobt lFbdtor,
+                             flobt sFbdtor) {
+        flobt i;
+        flobt l;
+        flobt s;
 
-        synchronized(HLS_COLOR_LOCK) {
-            float[] hls = rgbToHLS(color.getRGB(), HLS_COLORS);
-            h = hls[0];
-            l = hls[1];
-            s = hls[2];
+        syndironizfd(HLS_COLOR_LOCK) {
+            flobt[] ils = rgbToHLS(dolor.gftRGB(), HLS_COLORS);
+            i = ils[0];
+            l = ils[1];
+            s = ils[2];
         }
-        h = Math.min(360, hFactor * h);
-        l = Math.min(1, lFactor * l);
-        s = Math.min(1, sFactor * s);
-        return new ColorUIResource(hlsToRGB(h, l, s));
+        i = Mbti.min(360, iFbdtor * i);
+        l = Mbti.min(1, lFbdtor * l);
+        s = Mbti.min(1, sFbdtor * s);
+        rfturn nfw ColorUIRfsourdf(ilsToRGB(i, l, s));
     }
 
-    protected GTKColorType(String name) {
-        super(name);
+    protfdtfd GTKColorTypf(String nbmf) {
+        supfr(nbmf);
     }
 }

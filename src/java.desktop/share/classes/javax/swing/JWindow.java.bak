@@ -1,676 +1,676 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.util.Locale;
-import java.util.Vector;
-import java.io.Serializable;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.util.Lodblf;
+import jbvb.util.Vfdtor;
+import jbvb.io.Sfriblizbblf;
 
-import javax.accessibility.*;
+import jbvbx.bddfssibility.*;
 
 /**
- * A <code>JWindow</code> is a container that can be displayed anywhere on the
- * user's desktop. It does not have the title bar, window-management buttons,
- * or other trimmings associated with a <code>JFrame</code>, but it is still a
- * "first-class citizen" of the user's desktop, and can exist anywhere
+ * A <dodf>JWindow</dodf> is b dontbinfr tibt dbn bf displbyfd bnywifrf on tif
+ * usfr's dfsktop. It dofs not ibvf tif titlf bbr, window-mbnbgfmfnt buttons,
+ * or otifr trimmings bssodibtfd witi b <dodf>JFrbmf</dodf>, but it is still b
+ * "first-dlbss ditizfn" of tif usfr's dfsktop, bnd dbn fxist bnywifrf
  * on it.
  * <p>
- * The <code>JWindow</code> component contains a <code>JRootPane</code>
- * as its only child.  The <code>contentPane</code> should be the parent
- * of any children of the <code>JWindow</code>.
- * As a convenience, the {@code add}, {@code remove}, and {@code setLayout}
- * methods of this class are overridden, so that they delegate calls
- * to the corresponding methods of the {@code ContentPane}.
- * For example, you can add a child component to a window as follows:
- * <pre>
- *       window.add(child);
- * </pre>
- * And the child will be added to the contentPane.
- * The <code>contentPane</code> will always be non-<code>null</code>.
- * Attempting to set it to <code>null</code> will cause the <code>JWindow</code>
- * to throw an exception. The default <code>contentPane</code> will have a
- * <code>BorderLayout</code> manager set on it.
- * Refer to {@link javax.swing.RootPaneContainer}
- * for details on adding, removing and setting the <code>LayoutManager</code>
- * of a <code>JWindow</code>.
+ * Tif <dodf>JWindow</dodf> domponfnt dontbins b <dodf>JRootPbnf</dodf>
+ * bs its only diild.  Tif <dodf>dontfntPbnf</dodf> siould bf tif pbrfnt
+ * of bny diildrfn of tif <dodf>JWindow</dodf>.
+ * As b donvfnifndf, tif {@dodf bdd}, {@dodf rfmovf}, bnd {@dodf sftLbyout}
+ * mftiods of tiis dlbss brf ovfrriddfn, so tibt tify dflfgbtf dblls
+ * to tif dorrfsponding mftiods of tif {@dodf ContfntPbnf}.
+ * For fxbmplf, you dbn bdd b diild domponfnt to b window bs follows:
+ * <prf>
+ *       window.bdd(diild);
+ * </prf>
+ * And tif diild will bf bddfd to tif dontfntPbnf.
+ * Tif <dodf>dontfntPbnf</dodf> will blwbys bf non-<dodf>null</dodf>.
+ * Attfmpting to sft it to <dodf>null</dodf> will dbusf tif <dodf>JWindow</dodf>
+ * to tirow bn fxdfption. Tif dffbult <dodf>dontfntPbnf</dodf> will ibvf b
+ * <dodf>BordfrLbyout</dodf> mbnbgfr sft on it.
+ * Rfffr to {@link jbvbx.swing.RootPbnfContbinfr}
+ * for dftbils on bdding, rfmoving bnd sftting tif <dodf>LbyoutMbnbgfr</dodf>
+ * of b <dodf>JWindow</dodf>.
  * <p>
- * Please see the {@link JRootPane} documentation for a complete description of
- * the <code>contentPane</code>, <code>glassPane</code>, and
- * <code>layeredPane</code> components.
+ * Plfbsf sff tif {@link JRootPbnf} dodumfntbtion for b domplftf dfsdription of
+ * tif <dodf>dontfntPbnf</dodf>, <dodf>glbssPbnf</dodf>, bnd
+ * <dodf>lbyfrfdPbnf</dodf> domponfnts.
  * <p>
- * In a multi-screen environment, you can create a <code>JWindow</code>
- * on a different screen device.  See {@link java.awt.Window} for more
- * information.
+ * In b multi-sdrffn fnvironmfnt, you dbn drfbtf b <dodf>JWindow</dodf>
+ * on b difffrfnt sdrffn dfvidf.  Sff {@link jbvb.bwt.Window} for morf
+ * informbtion.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see JRootPane
+ * @sff JRootPbnf
  *
- * @beaninfo
- *      attribute: isContainer true
- *      attribute: containerDelegate getContentPane
- *    description: A toplevel window which has no system border or controls.
+ * @bfbninfo
+ *      bttributf: isContbinfr truf
+ *      bttributf: dontbinfrDflfgbtf gftContfntPbnf
+ *    dfsdription: A toplfvfl window wiidi ibs no systfm bordfr or dontrols.
  *
- * @author David Kloba
- * @since 1.2
+ * @butior Dbvid Klobb
+ * @sindf 1.2
  */
-@SuppressWarnings("serial")
-public class JWindow extends Window implements Accessible,
-                                               RootPaneContainer,
-                               TransferHandler.HasGetTransferHandler
+@SupprfssWbrnings("sfribl")
+publid dlbss JWindow fxtfnds Window implfmfnts Addfssiblf,
+                                               RootPbnfContbinfr,
+                               TrbnsffrHbndlfr.HbsGftTrbnsffrHbndlfr
 {
     /**
-     * The <code>JRootPane</code> instance that manages the
-     * <code>contentPane</code>
-     * and optional <code>menuBar</code> for this frame, as well as the
-     * <code>glassPane</code>.
+     * Tif <dodf>JRootPbnf</dodf> instbndf tibt mbnbgfs tif
+     * <dodf>dontfntPbnf</dodf>
+     * bnd optionbl <dodf>mfnuBbr</dodf> for tiis frbmf, bs wfll bs tif
+     * <dodf>glbssPbnf</dodf>.
      *
-     * @see #getRootPane
-     * @see #setRootPane
+     * @sff #gftRootPbnf
+     * @sff #sftRootPbnf
      */
-    protected JRootPane rootPane;
+    protfdtfd JRootPbnf rootPbnf;
 
     /**
-     * If true then calls to <code>add</code> and <code>setLayout</code>
-     * will be forwarded to the <code>contentPane</code>. This is initially
-     * false, but is set to true when the <code>JWindow</code> is constructed.
+     * If truf tifn dblls to <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     * will bf forwbrdfd to tif <dodf>dontfntPbnf</dodf>. Tiis is initiblly
+     * fblsf, but is sft to truf wifn tif <dodf>JWindow</dodf> is donstrudtfd.
      *
-     * @see #isRootPaneCheckingEnabled
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #isRootPbnfCifdkingEnbblfd
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected boolean rootPaneCheckingEnabled = false;
+    protfdtfd boolfbn rootPbnfCifdkingEnbblfd = fblsf;
 
     /**
-     * The <code>TransferHandler</code> for this window.
+     * Tif <dodf>TrbnsffrHbndlfr</dodf> for tiis window.
      */
-    private TransferHandler transferHandler;
+    privbtf TrbnsffrHbndlfr trbnsffrHbndlfr;
 
     /**
-     * Creates a window with no specified owner. This window will not be
-     * focusable.
+     * Crfbtfs b window witi no spfdififd ownfr. Tiis window will not bf
+     * fodusbblf.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by <dodf>JComponfnt.gftDffbultLodblf</dodf>.
      *
-     * @throws HeadlessException if
-     *         <code>GraphicsEnvironment.isHeadless()</code> returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #isFocusableWindow
-     * @see JComponent#getDefaultLocale
+     * @tirows HfbdlfssExdfption if
+     *         <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #isFodusbblfWindow
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JWindow() {
-        this((Frame)null);
+    publid JWindow() {
+        tiis((Frbmf)null);
     }
 
     /**
-     * Creates a window with the specified <code>GraphicsConfiguration</code>
-     * of a screen device. This window will not be focusable.
+     * Crfbtfs b window witi tif spfdififd <dodf>GrbpiidsConfigurbtion</dodf>
+     * of b sdrffn dfvidf. Tiis window will not bf fodusbblf.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by <dodf>JComponfnt.gftDffbultLodblf</dodf>.
      *
-     * @param gc the <code>GraphicsConfiguration</code> that is used
-     *          to construct the new window with; if gc is <code>null</code>,
-     *          the system default <code>GraphicsConfiguration</code>
-     *          is assumed
-     * @throws HeadlessException If
-     *         <code>GraphicsEnvironment.isHeadless()</code> returns true.
-     * @throws IllegalArgumentException if <code>gc</code> is not from
-     *         a screen device.
+     * @pbrbm gd tif <dodf>GrbpiidsConfigurbtion</dodf> tibt is usfd
+     *          to donstrudt tif nfw window witi; if gd is <dodf>null</dodf>,
+     *          tif systfm dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     *          is bssumfd
+     * @tirows HfbdlfssExdfption If
+     *         <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns truf.
+     * @tirows IllfgblArgumfntExdfption if <dodf>gd</dodf> is not from
+     *         b sdrffn dfvidf.
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #isFocusableWindow
-     * @see JComponent#getDefaultLocale
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #isFodusbblfWindow
+     * @sff JComponfnt#gftDffbultLodblf
      *
-     * @since  1.3
+     * @sindf  1.3
      */
-    public JWindow(GraphicsConfiguration gc) {
-        this(null, gc);
-        super.setFocusableWindowState(false);
+    publid JWindow(GrbpiidsConfigurbtion gd) {
+        tiis(null, gd);
+        supfr.sftFodusbblfWindowStbtf(fblsf);
     }
 
     /**
-     * Creates a window with the specified owner frame.
-     * If <code>owner</code> is <code>null</code>, the shared owner
-     * will be used and this window will not be focusable. Also,
-     * this window will not be focusable unless its owner is showing
-     * on the screen.
+     * Crfbtfs b window witi tif spfdififd ownfr frbmf.
+     * If <dodf>ownfr</dodf> is <dodf>null</dodf>, tif sibrfd ownfr
+     * will bf usfd bnd tiis window will not bf fodusbblf. Also,
+     * tiis window will not bf fodusbblf unlfss its ownfr is siowing
+     * on tif sdrffn.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by <dodf>JComponfnt.gftDffbultLodblf</dodf>.
      *
-     * @param owner the frame from which the window is displayed
-     * @throws HeadlessException if GraphicsEnvironment.isHeadless()
-     *            returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #isFocusableWindow
-     * @see JComponent#getDefaultLocale
+     * @pbrbm ownfr tif frbmf from wiidi tif window is displbyfd
+     * @tirows HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #isFodusbblfWindow
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JWindow(Frame owner) {
-        super(owner == null? SwingUtilities.getSharedOwnerFrame() : owner);
-        if (owner == null) {
-            WindowListener ownerShutdownListener =
-                    SwingUtilities.getSharedOwnerFrameShutdownListener();
-            addWindowListener(ownerShutdownListener);
+    publid JWindow(Frbmf ownfr) {
+        supfr(ownfr == null? SwingUtilitifs.gftSibrfdOwnfrFrbmf() : ownfr);
+        if (ownfr == null) {
+            WindowListfnfr ownfrSiutdownListfnfr =
+                    SwingUtilitifs.gftSibrfdOwnfrFrbmfSiutdownListfnfr();
+            bddWindowListfnfr(ownfrSiutdownListfnfr);
         }
         windowInit();
     }
 
     /**
-     * Creates a window with the specified owner window. This window
-     * will not be focusable unless its owner is showing on the screen.
-     * If <code>owner</code> is <code>null</code>, the shared owner
-     * will be used and this window will not be focusable.
+     * Crfbtfs b window witi tif spfdififd ownfr window. Tiis window
+     * will not bf fodusbblf unlfss its ownfr is siowing on tif sdrffn.
+     * If <dodf>ownfr</dodf> is <dodf>null</dodf>, tif sibrfd ownfr
+     * will bf usfd bnd tiis window will not bf fodusbblf.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by <dodf>JComponfnt.gftDffbultLodblf</dodf>.
      *
-     * @param owner the window from which the window is displayed
-     * @throws HeadlessException if
-     *         <code>GraphicsEnvironment.isHeadless()</code> returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #isFocusableWindow
-     * @see JComponent#getDefaultLocale
+     * @pbrbm ownfr tif window from wiidi tif window is displbyfd
+     * @tirows HfbdlfssExdfption if
+     *         <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #isFodusbblfWindow
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JWindow(Window owner) {
-        super(owner == null ? (Window)SwingUtilities.getSharedOwnerFrame() :
-              owner);
-        if (owner == null) {
-            WindowListener ownerShutdownListener =
-                    SwingUtilities.getSharedOwnerFrameShutdownListener();
-            addWindowListener(ownerShutdownListener);
+    publid JWindow(Window ownfr) {
+        supfr(ownfr == null ? (Window)SwingUtilitifs.gftSibrfdOwnfrFrbmf() :
+              ownfr);
+        if (ownfr == null) {
+            WindowListfnfr ownfrSiutdownListfnfr =
+                    SwingUtilitifs.gftSibrfdOwnfrFrbmfSiutdownListfnfr();
+            bddWindowListfnfr(ownfrSiutdownListfnfr);
         }
         windowInit();
     }
 
     /**
-     * Creates a window with the specified owner window and
-     * <code>GraphicsConfiguration</code> of a screen device. If
-     * <code>owner</code> is <code>null</code>, the shared owner will be used
-     * and this window will not be focusable.
+     * Crfbtfs b window witi tif spfdififd ownfr window bnd
+     * <dodf>GrbpiidsConfigurbtion</dodf> of b sdrffn dfvidf. If
+     * <dodf>ownfr</dodf> is <dodf>null</dodf>, tif sibrfd ownfr will bf usfd
+     * bnd tiis window will not bf fodusbblf.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by <dodf>JComponfnt.gftDffbultLodblf</dodf>.
      *
-     * @param owner the window from which the window is displayed
-     * @param gc the <code>GraphicsConfiguration</code> that is used
-     *          to construct the new window with; if gc is <code>null</code>,
-     *          the system default <code>GraphicsConfiguration</code>
-     *          is assumed, unless <code>owner</code> is also null, in which
-     *          case the <code>GraphicsConfiguration</code> from the
-     *          shared owner frame will be used.
-     * @throws HeadlessException if
-     *         <code>GraphicsEnvironment.isHeadless()</code> returns true.
-     * @throws IllegalArgumentException if <code>gc</code> is not from
-     *         a screen device.
+     * @pbrbm ownfr tif window from wiidi tif window is displbyfd
+     * @pbrbm gd tif <dodf>GrbpiidsConfigurbtion</dodf> tibt is usfd
+     *          to donstrudt tif nfw window witi; if gd is <dodf>null</dodf>,
+     *          tif systfm dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     *          is bssumfd, unlfss <dodf>ownfr</dodf> is blso null, in wiidi
+     *          dbsf tif <dodf>GrbpiidsConfigurbtion</dodf> from tif
+     *          sibrfd ownfr frbmf will bf usfd.
+     * @tirows HfbdlfssExdfption if
+     *         <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns truf.
+     * @tirows IllfgblArgumfntExdfption if <dodf>gd</dodf> is not from
+     *         b sdrffn dfvidf.
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #isFocusableWindow
-     * @see JComponent#getDefaultLocale
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #isFodusbblfWindow
+     * @sff JComponfnt#gftDffbultLodblf
      *
-     * @since  1.3
+     * @sindf  1.3
      */
-    public JWindow(Window owner, GraphicsConfiguration gc) {
-        super(owner == null ? (Window)SwingUtilities.getSharedOwnerFrame() :
-              owner, gc);
-        if (owner == null) {
-            WindowListener ownerShutdownListener =
-                    SwingUtilities.getSharedOwnerFrameShutdownListener();
-            addWindowListener(ownerShutdownListener);
+    publid JWindow(Window ownfr, GrbpiidsConfigurbtion gd) {
+        supfr(ownfr == null ? (Window)SwingUtilitifs.gftSibrfdOwnfrFrbmf() :
+              ownfr, gd);
+        if (ownfr == null) {
+            WindowListfnfr ownfrSiutdownListfnfr =
+                    SwingUtilitifs.gftSibrfdOwnfrFrbmfSiutdownListfnfr();
+            bddWindowListfnfr(ownfrSiutdownListfnfr);
         }
         windowInit();
     }
 
     /**
-     * Called by the constructors to init the <code>JWindow</code> properly.
+     * Cbllfd by tif donstrudtors to init tif <dodf>JWindow</dodf> propfrly.
      */
-    protected void windowInit() {
-        setLocale( JComponent.getDefaultLocale() );
-        setRootPane(createRootPane());
-        setRootPaneCheckingEnabled(true);
-        sun.awt.SunToolkit.checkAndSetPolicy(this);
+    protfdtfd void windowInit() {
+        sftLodblf( JComponfnt.gftDffbultLodblf() );
+        sftRootPbnf(drfbtfRootPbnf());
+        sftRootPbnfCifdkingEnbblfd(truf);
+        sun.bwt.SunToolkit.difdkAndSftPolidy(tiis);
     }
 
     /**
-     * Called by the constructor methods to create the default
-     * <code>rootPane</code>.
+     * Cbllfd by tif donstrudtor mftiods to drfbtf tif dffbult
+     * <dodf>rootPbnf</dodf>.
      *
-     * @return a new {@code JRootPane}
+     * @rfturn b nfw {@dodf JRootPbnf}
      */
-    protected JRootPane createRootPane() {
-        JRootPane rp = new JRootPane();
-        // NOTE: this uses setOpaque vs LookAndFeel.installProperty as there
-        // is NO reason for the RootPane not to be opaque. For painting to
-        // work the contentPane must be opaque, therefor the RootPane can
-        // also be opaque.
-        rp.setOpaque(true);
-        return rp;
+    protfdtfd JRootPbnf drfbtfRootPbnf() {
+        JRootPbnf rp = nfw JRootPbnf();
+        // NOTE: tiis usfs sftOpbquf vs LookAndFffl.instbllPropfrty bs tifrf
+        // is NO rfbson for tif RootPbnf not to bf opbquf. For pbinting to
+        // work tif dontfntPbnf must bf opbquf, tifrffor tif RootPbnf dbn
+        // blso bf opbquf.
+        rp.sftOpbquf(truf);
+        rfturn rp;
     }
 
     /**
-     * Returns whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Rfturns wiftifr dblls to <dodf>bdd</dodf> bnd
+     * <dodf>sftLbyout</dodf> brf forwbrdfd to tif <dodf>dontfntPbnf</dodf>.
      *
-     * @return true if <code>add</code> and <code>setLayout</code>
-     *         are forwarded; false otherwise
+     * @rfturn truf if <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     *         brf forwbrdfd; fblsf otifrwisf
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #bddImpl
+     * @sff #sftLbyout
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
+    protfdtfd boolfbn isRootPbnfCifdkingEnbblfd() {
+        rfturn rootPbnfCifdkingEnbblfd;
     }
 
     /**
-     * Sets the {@code transferHandler} property, which is a mechanism to
-     * support transfer of data into this component. Use {@code null}
-     * if the component does not support data transfer operations.
+     * Sfts tif {@dodf trbnsffrHbndlfr} propfrty, wiidi is b mfdibnism to
+     * support trbnsffr of dbtb into tiis domponfnt. Usf {@dodf null}
+     * if tif domponfnt dofs not support dbtb trbnsffr opfrbtions.
      * <p>
-     * If the system property {@code suppressSwingDropSupport} is {@code false}
-     * (the default) and the current drop target on this component is either
-     * {@code null} or not a user-set drop target, this method will change the
-     * drop target as follows: If {@code newHandler} is {@code null} it will
-     * clear the drop target. If not {@code null} it will install a new
-     * {@code DropTarget}.
+     * If tif systfm propfrty {@dodf supprfssSwingDropSupport} is {@dodf fblsf}
+     * (tif dffbult) bnd tif durrfnt drop tbrgft on tiis domponfnt is fitifr
+     * {@dodf null} or not b usfr-sft drop tbrgft, tiis mftiod will dibngf tif
+     * drop tbrgft bs follows: If {@dodf nfwHbndlfr} is {@dodf null} it will
+     * dlfbr tif drop tbrgft. If not {@dodf null} it will instbll b nfw
+     * {@dodf DropTbrgft}.
      * <p>
-     * Note: When used with {@code JWindow}, {@code TransferHandler} only
-     * provides data import capability, as the data export related methods
-     * are currently typed to {@code JComponent}.
+     * Notf: Wifn usfd witi {@dodf JWindow}, {@dodf TrbnsffrHbndlfr} only
+     * providfs dbtb import dbpbbility, bs tif dbtb fxport rflbtfd mftiods
+     * brf durrfntly typfd to {@dodf JComponfnt}.
      * <p>
-     * Please see
-     * <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
-     * How to Use Drag and Drop and Data Transfer</a>, a section in
-     * <em>The Java Tutorial</em>, for more information.
+     * Plfbsf sff
+     * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dnd/indfx.itml">
+     * How to Usf Drbg bnd Drop bnd Dbtb Trbnsffr</b>, b sfdtion in
+     * <fm>Tif Jbvb Tutoribl</fm>, for morf informbtion.
      *
-     * @param newHandler the new {@code TransferHandler}
+     * @pbrbm nfwHbndlfr tif nfw {@dodf TrbnsffrHbndlfr}
      *
-     * @see TransferHandler
-     * @see #getTransferHandler
-     * @see java.awt.Component#setDropTarget
-     * @since 1.6
+     * @sff TrbnsffrHbndlfr
+     * @sff #gftTrbnsffrHbndlfr
+     * @sff jbvb.bwt.Componfnt#sftDropTbrgft
+     * @sindf 1.6
      *
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *  description: Mechanism for transfer of data into the component
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *  dfsdription: Mfdibnism for trbnsffr of dbtb into tif domponfnt
      */
-    public void setTransferHandler(TransferHandler newHandler) {
-        TransferHandler oldHandler = transferHandler;
-        transferHandler = newHandler;
-        SwingUtilities.installSwingDropTargetAsNecessary(this, transferHandler);
-        firePropertyChange("transferHandler", oldHandler, newHandler);
+    publid void sftTrbnsffrHbndlfr(TrbnsffrHbndlfr nfwHbndlfr) {
+        TrbnsffrHbndlfr oldHbndlfr = trbnsffrHbndlfr;
+        trbnsffrHbndlfr = nfwHbndlfr;
+        SwingUtilitifs.instbllSwingDropTbrgftAsNfdfssbry(tiis, trbnsffrHbndlfr);
+        firfPropfrtyCibngf("trbnsffrHbndlfr", oldHbndlfr, nfwHbndlfr);
     }
 
     /**
-     * Gets the <code>transferHandler</code> property.
+     * Gfts tif <dodf>trbnsffrHbndlfr</dodf> propfrty.
      *
-     * @return the value of the <code>transferHandler</code> property
+     * @rfturn tif vbluf of tif <dodf>trbnsffrHbndlfr</dodf> propfrty
      *
-     * @see TransferHandler
-     * @see #setTransferHandler
-     * @since 1.6
+     * @sff TrbnsffrHbndlfr
+     * @sff #sftTrbnsffrHbndlfr
+     * @sindf 1.6
      */
-    public TransferHandler getTransferHandler() {
-        return transferHandler;
+    publid TrbnsffrHbndlfr gftTrbnsffrHbndlfr() {
+        rfturn trbnsffrHbndlfr;
     }
 
     /**
-     * Calls <code>paint(g)</code>.  This method was overridden to
-     * prevent an unnecessary call to clear the background.
+     * Cblls <dodf>pbint(g)</dodf>.  Tiis mftiod wbs ovfrriddfn to
+     * prfvfnt bn unnfdfssbry dbll to dlfbr tif bbdkground.
      *
-     * @param g  the <code>Graphics</code> context in which to paint
+     * @pbrbm g  tif <dodf>Grbpiids</dodf> dontfxt in wiidi to pbint
      */
-    public void update(Graphics g) {
-        paint(g);
+    publid void updbtf(Grbpiids g) {
+        pbint(g);
     }
 
     /**
-     * Sets whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Sfts wiftifr dblls to <dodf>bdd</dodf> bnd
+     * <dodf>sftLbyout</dodf> brf forwbrdfd to tif <dodf>dontfntPbnf</dodf>.
      *
-     * @param enabled  true if <code>add</code> and <code>setLayout</code>
-     *        are forwarded, false if they should operate directly on the
-     *        <code>JWindow</code>.
+     * @pbrbm fnbblfd  truf if <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     *        brf forwbrdfd, fblsf if tify siould opfrbtf dirfdtly on tif
+     *        <dodf>JWindow</dodf>.
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #isRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     * @beaninfo
-     *      hidden: true
-     * description: Whether the add and setLayout methods are forwarded
+     * @sff #bddImpl
+     * @sff #sftLbyout
+     * @sff #isRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
+     * @bfbninfo
+     *      iiddfn: truf
+     * dfsdription: Wiftifr tif bdd bnd sftLbyout mftiods brf forwbrdfd
      */
-    protected void setRootPaneCheckingEnabled(boolean enabled) {
-        rootPaneCheckingEnabled = enabled;
+    protfdtfd void sftRootPbnfCifdkingEnbblfd(boolfbn fnbblfd) {
+        rootPbnfCifdkingEnbblfd = fnbblfd;
     }
 
 
     /**
-     * Adds the specified child <code>Component</code>.
-     * This method is overridden to conditionally forward calls to the
-     * <code>contentPane</code>.
-     * By default, children are added to the <code>contentPane</code> instead
-     * of the frame, refer to {@link javax.swing.RootPaneContainer} for
-     * details.
+     * Adds tif spfdififd diild <dodf>Componfnt</dodf>.
+     * Tiis mftiod is ovfrriddfn to donditionblly forwbrd dblls to tif
+     * <dodf>dontfntPbnf</dodf>.
+     * By dffbult, diildrfn brf bddfd to tif <dodf>dontfntPbnf</dodf> instfbd
+     * of tif frbmf, rfffr to {@link jbvbx.swing.RootPbnfContbinfr} for
+     * dftbils.
      *
-     * @param comp the component to be enhanced
-     * @param constraints the constraints to be respected
-     * @param index the index
-     * @exception IllegalArgumentException if <code>index</code> is invalid
-     * @exception IllegalArgumentException if adding the container's parent
-     *                  to itself
-     * @exception IllegalArgumentException if adding a window to a container
+     * @pbrbm domp tif domponfnt to bf fnibndfd
+     * @pbrbm donstrbints tif donstrbints to bf rfspfdtfd
+     * @pbrbm indfx tif indfx
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>indfx</dodf> is invblid
+     * @fxdfption IllfgblArgumfntExdfption if bdding tif dontbinfr's pbrfnt
+     *                  to itsflf
+     * @fxdfption IllfgblArgumfntExdfption if bdding b window to b dontbinfr
      *
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected void addImpl(Component comp, Object constraints, int index)
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx)
     {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().add(comp, constraints, index);
+        if(isRootPbnfCifdkingEnbblfd()) {
+            gftContfntPbnf().bdd(domp, donstrbints, indfx);
         }
-        else {
-            super.addImpl(comp, constraints, index);
+        flsf {
+            supfr.bddImpl(domp, donstrbints, indfx);
         }
     }
 
     /**
-     * Removes the specified component from the container. If
-     * <code>comp</code> is not the <code>rootPane</code>, this will forward
-     * the call to the <code>contentPane</code>. This will do nothing if
-     * <code>comp</code> is not a child of the <code>JWindow</code> or
-     * <code>contentPane</code>.
+     * Rfmovfs tif spfdififd domponfnt from tif dontbinfr. If
+     * <dodf>domp</dodf> is not tif <dodf>rootPbnf</dodf>, tiis will forwbrd
+     * tif dbll to tif <dodf>dontfntPbnf</dodf>. Tiis will do notiing if
+     * <dodf>domp</dodf> is not b diild of tif <dodf>JWindow</dodf> or
+     * <dodf>dontfntPbnf</dodf>.
      *
-     * @param comp the component to be removed
-     * @throws NullPointerException if <code>comp</code> is null
-     * @see #add
-     * @see javax.swing.RootPaneContainer
+     * @pbrbm domp tif domponfnt to bf rfmovfd
+     * @tirows NullPointfrExdfption if <dodf>domp</dodf> is null
+     * @sff #bdd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    public void remove(Component comp) {
-        if (comp == rootPane) {
-            super.remove(comp);
-        } else {
-            getContentPane().remove(comp);
-        }
-    }
-
-
-    /**
-     * Sets the <code>LayoutManager</code>.
-     * Overridden to conditionally forward the call to the
-     * <code>contentPane</code>.
-     * Refer to {@link javax.swing.RootPaneContainer} for
-     * more information.
-     *
-     * @param manager the <code>LayoutManager</code>
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     */
-    public void setLayout(LayoutManager manager) {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().setLayout(manager);
-        }
-        else {
-            super.setLayout(manager);
+    publid void rfmovf(Componfnt domp) {
+        if (domp == rootPbnf) {
+            supfr.rfmovf(domp);
+        } flsf {
+            gftContfntPbnf().rfmovf(domp);
         }
     }
 
 
     /**
-     * Returns the <code>rootPane</code> object for this window.
-     * @return the <code>rootPane</code> property for this window
+     * Sfts tif <dodf>LbyoutMbnbgfr</dodf>.
+     * Ovfrriddfn to donditionblly forwbrd tif dbll to tif
+     * <dodf>dontfntPbnf</dodf>.
+     * Rfffr to {@link jbvbx.swing.RootPbnfContbinfr} for
+     * morf informbtion.
      *
-     * @see #setRootPane
-     * @see RootPaneContainer#getRootPane
+     * @pbrbm mbnbgfr tif <dodf>LbyoutMbnbgfr</dodf>
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    public JRootPane getRootPane() {
-        return rootPane;
+    publid void sftLbyout(LbyoutMbnbgfr mbnbgfr) {
+        if(isRootPbnfCifdkingEnbblfd()) {
+            gftContfntPbnf().sftLbyout(mbnbgfr);
+        }
+        flsf {
+            supfr.sftLbyout(mbnbgfr);
+        }
     }
 
 
     /**
-     * Sets the new <code>rootPane</code> object for this window.
-     * This method is called by the constructor.
+     * Rfturns tif <dodf>rootPbnf</dodf> objfdt for tiis window.
+     * @rfturn tif <dodf>rootPbnf</dodf> propfrty for tiis window
      *
-     * @param root the new <code>rootPane</code> property
-     * @see #getRootPane
-     *
-     * @beaninfo
-     *        hidden: true
-     *   description: the RootPane object for this window.
+     * @sff #sftRootPbnf
+     * @sff RootPbnfContbinfr#gftRootPbnf
      */
-    protected void setRootPane(JRootPane root) {
-        if(rootPane != null) {
-            remove(rootPane);
+    publid JRootPbnf gftRootPbnf() {
+        rfturn rootPbnf;
+    }
+
+
+    /**
+     * Sfts tif nfw <dodf>rootPbnf</dodf> objfdt for tiis window.
+     * Tiis mftiod is dbllfd by tif donstrudtor.
+     *
+     * @pbrbm root tif nfw <dodf>rootPbnf</dodf> propfrty
+     * @sff #gftRootPbnf
+     *
+     * @bfbninfo
+     *        iiddfn: truf
+     *   dfsdription: tif RootPbnf objfdt for tiis window.
+     */
+    protfdtfd void sftRootPbnf(JRootPbnf root) {
+        if(rootPbnf != null) {
+            rfmovf(rootPbnf);
         }
-        rootPane = root;
-        if(rootPane != null) {
-            boolean checkingEnabled = isRootPaneCheckingEnabled();
+        rootPbnf = root;
+        if(rootPbnf != null) {
+            boolfbn difdkingEnbblfd = isRootPbnfCifdkingEnbblfd();
             try {
-                setRootPaneCheckingEnabled(false);
-                add(rootPane, BorderLayout.CENTER);
+                sftRootPbnfCifdkingEnbblfd(fblsf);
+                bdd(rootPbnf, BordfrLbyout.CENTER);
             }
-            finally {
-                setRootPaneCheckingEnabled(checkingEnabled);
+            finblly {
+                sftRootPbnfCifdkingEnbblfd(difdkingEnbblfd);
             }
         }
     }
 
 
     /**
-     * Returns the <code>Container</code> which is the <code>contentPane</code>
-     * for this window.
+     * Rfturns tif <dodf>Contbinfr</dodf> wiidi is tif <dodf>dontfntPbnf</dodf>
+     * for tiis window.
      *
-     * @return the <code>contentPane</code> property
-     * @see #setContentPane
-     * @see RootPaneContainer#getContentPane
+     * @rfturn tif <dodf>dontfntPbnf</dodf> propfrty
+     * @sff #sftContfntPbnf
+     * @sff RootPbnfContbinfr#gftContfntPbnf
      */
-    public Container getContentPane() {
-        return getRootPane().getContentPane();
+    publid Contbinfr gftContfntPbnf() {
+        rfturn gftRootPbnf().gftContfntPbnf();
     }
 
     /**
-     * Sets the <code>contentPane</code> property for this window.
-     * This method is called by the constructor.
+     * Sfts tif <dodf>dontfntPbnf</dodf> propfrty for tiis window.
+     * Tiis mftiod is dbllfd by tif donstrudtor.
      *
-     * @param contentPane the new <code>contentPane</code>
+     * @pbrbm dontfntPbnf tif nfw <dodf>dontfntPbnf</dodf>
      *
-     * @exception IllegalComponentStateException (a runtime
-     *            exception) if the content pane parameter is <code>null</code>
-     * @see #getContentPane
-     * @see RootPaneContainer#setContentPane
+     * @fxdfption IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if tif dontfnt pbnf pbrbmftfr is <dodf>null</dodf>
+     * @sff #gftContfntPbnf
+     * @sff RootPbnfContbinfr#sftContfntPbnf
      *
-     * @beaninfo
-     *     hidden: true
-     *     description: The client area of the window where child
-     *                  components are normally inserted.
+     * @bfbninfo
+     *     iiddfn: truf
+     *     dfsdription: Tif dlifnt brfb of tif window wifrf diild
+     *                  domponfnts brf normblly insfrtfd.
      */
-    public void setContentPane(Container contentPane) {
-        getRootPane().setContentPane(contentPane);
+    publid void sftContfntPbnf(Contbinfr dontfntPbnf) {
+        gftRootPbnf().sftContfntPbnf(dontfntPbnf);
     }
 
     /**
-     * Returns the <code>layeredPane</code> object for this window.
+     * Rfturns tif <dodf>lbyfrfdPbnf</dodf> objfdt for tiis window.
      *
-     * @return the <code>layeredPane</code> property
-     * @see #setLayeredPane
-     * @see RootPaneContainer#getLayeredPane
+     * @rfturn tif <dodf>lbyfrfdPbnf</dodf> propfrty
+     * @sff #sftLbyfrfdPbnf
+     * @sff RootPbnfContbinfr#gftLbyfrfdPbnf
      */
-    public JLayeredPane getLayeredPane() {
-        return getRootPane().getLayeredPane();
+    publid JLbyfrfdPbnf gftLbyfrfdPbnf() {
+        rfturn gftRootPbnf().gftLbyfrfdPbnf();
     }
 
     /**
-     * Sets the <code>layeredPane</code> property.
-     * This method is called by the constructor.
+     * Sfts tif <dodf>lbyfrfdPbnf</dodf> propfrty.
+     * Tiis mftiod is dbllfd by tif donstrudtor.
      *
-     * @param layeredPane the new <code>layeredPane</code> object
+     * @pbrbm lbyfrfdPbnf tif nfw <dodf>lbyfrfdPbnf</dodf> objfdt
      *
-     * @exception IllegalComponentStateException (a runtime
-     *            exception) if the content pane parameter is <code>null</code>
-     * @see #getLayeredPane
-     * @see RootPaneContainer#setLayeredPane
+     * @fxdfption IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if tif dontfnt pbnf pbrbmftfr is <dodf>null</dodf>
+     * @sff #gftLbyfrfdPbnf
+     * @sff RootPbnfContbinfr#sftLbyfrfdPbnf
      *
-     * @beaninfo
-     *     hidden: true
-     *     description: The pane which holds the various window layers.
+     * @bfbninfo
+     *     iiddfn: truf
+     *     dfsdription: Tif pbnf wiidi iolds tif vbrious window lbyfrs.
      */
-    public void setLayeredPane(JLayeredPane layeredPane) {
-        getRootPane().setLayeredPane(layeredPane);
+    publid void sftLbyfrfdPbnf(JLbyfrfdPbnf lbyfrfdPbnf) {
+        gftRootPbnf().sftLbyfrfdPbnf(lbyfrfdPbnf);
     }
 
     /**
-     * Returns the <code>glassPane Component</code> for this window.
+     * Rfturns tif <dodf>glbssPbnf Componfnt</dodf> for tiis window.
      *
-     * @return the <code>glassPane</code> property
-     * @see #setGlassPane
-     * @see RootPaneContainer#getGlassPane
+     * @rfturn tif <dodf>glbssPbnf</dodf> propfrty
+     * @sff #sftGlbssPbnf
+     * @sff RootPbnfContbinfr#gftGlbssPbnf
      */
-    public Component getGlassPane() {
-        return getRootPane().getGlassPane();
+    publid Componfnt gftGlbssPbnf() {
+        rfturn gftRootPbnf().gftGlbssPbnf();
     }
 
     /**
-     * Sets the <code>glassPane</code> property.
-     * This method is called by the constructor.
-     * @param glassPane the <code>glassPane</code> object for this window
+     * Sfts tif <dodf>glbssPbnf</dodf> propfrty.
+     * Tiis mftiod is dbllfd by tif donstrudtor.
+     * @pbrbm glbssPbnf tif <dodf>glbssPbnf</dodf> objfdt for tiis window
      *
-     * @see #getGlassPane
-     * @see RootPaneContainer#setGlassPane
+     * @sff #gftGlbssPbnf
+     * @sff RootPbnfContbinfr#sftGlbssPbnf
      *
-     * @beaninfo
-     *     hidden: true
-     *     description: A transparent pane used for menu rendering.
+     * @bfbninfo
+     *     iiddfn: truf
+     *     dfsdription: A trbnspbrfnt pbnf usfd for mfnu rfndfring.
      */
-    public void setGlassPane(Component glassPane) {
-        getRootPane().setGlassPane(glassPane);
+    publid void sftGlbssPbnf(Componfnt glbssPbnf) {
+        gftRootPbnf().sftGlbssPbnf(glbssPbnf);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Graphics getGraphics() {
-        JComponent.getGraphicsInvoked(this);
-        return super.getGraphics();
+    publid Grbpiids gftGrbpiids() {
+        JComponfnt.gftGrbpiidsInvokfd(tiis);
+        rfturn supfr.gftGrbpiids();
     }
 
     /**
-     * Repaints the specified rectangle of this component within
-     * <code>time</code> milliseconds.  Refer to <code>RepaintManager</code>
-     * for details on how the repaint is handled.
+     * Rfpbints tif spfdififd rfdtbnglf of tiis domponfnt witiin
+     * <dodf>timf</dodf> millisfdonds.  Rfffr to <dodf>RfpbintMbnbgfr</dodf>
+     * for dftbils on iow tif rfpbint is ibndlfd.
      *
-     * @param     time   maximum time in milliseconds before update
-     * @param     x    the <i>x</i> coordinate
-     * @param     y    the <i>y</i> coordinate
-     * @param     width    the width
-     * @param     height   the height
-     * @see       RepaintManager
-     * @since     1.6
+     * @pbrbm     timf   mbximum timf in millisfdonds bfforf updbtf
+     * @pbrbm     x    tif <i>x</i> doordinbtf
+     * @pbrbm     y    tif <i>y</i> doordinbtf
+     * @pbrbm     widti    tif widti
+     * @pbrbm     ifigit   tif ifigit
+     * @sff       RfpbintMbnbgfr
+     * @sindf     1.6
      */
-    public void repaint(long time, int x, int y, int width, int height) {
-        if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
-            RepaintManager.currentManager(this).addDirtyRegion(
-                              this, x, y, width, height);
+    publid void rfpbint(long timf, int x, int y, int widti, int ifigit) {
+        if (RfpbintMbnbgfr.HANDLE_TOP_LEVEL_PAINT) {
+            RfpbintMbnbgfr.durrfntMbnbgfr(tiis).bddDirtyRfgion(
+                              tiis, x, y, widti, ifigit);
         }
-        else {
-            super.repaint(time, x, y, width, height);
+        flsf {
+            supfr.rfpbint(timf, x, y, widti, ifigit);
         }
     }
 
     /**
-     * Returns a string representation of this <code>JWindow</code>.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JWindow</dodf>.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JWindow</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JWindow</dodf>
      */
-    protected String paramString() {
-        String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
-                                                "true" : "false");
+    protfdtfd String pbrbmString() {
+        String rootPbnfCifdkingEnbblfdString = (rootPbnfCifdkingEnbblfd ?
+                                                "truf" : "fblsf");
 
-        return super.paramString() +
-        ",rootPaneCheckingEnabled=" + rootPaneCheckingEnabledString;
+        rfturn supfr.pbrbmString() +
+        ",rootPbnfCifdkingEnbblfd=" + rootPbnfCifdkingEnbblfdString;
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
-    /** The accessible context property. */
-    protected AccessibleContext accessibleContext = null;
+    /** Tif bddfssiblf dontfxt propfrty. */
+    protfdtfd AddfssiblfContfxt bddfssiblfContfxt = null;
 
     /**
-     * Gets the AccessibleContext associated with this JWindow.
-     * For JWindows, the AccessibleContext takes the form of an
-     * AccessibleJWindow.
-     * A new AccessibleJWindow instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JWindow.
+     * For JWindows, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJWindow.
+     * A nfw AddfssiblfJWindow instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJWindow that serves as the
-     *         AccessibleContext of this JWindow
+     * @rfturn bn AddfssiblfJWindow tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JWindow
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJWindow();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJWindow();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
 
     /**
-     * This class implements accessibility support for the
-     * <code>JWindow</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to window user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JWindow</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to window usfr-intfrfbdf
+     * flfmfnts.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJWindow extends AccessibleAWTWindow {
-        // everything is in the new parent, AccessibleAWTWindow
+    @SupprfssWbrnings("sfribl")
+    protfdtfd dlbss AddfssiblfJWindow fxtfnds AddfssiblfAWTWindow {
+        // fvfrytiing is in tif nfw pbrfnt, AddfssiblfAWTWindow
     }
 
 }

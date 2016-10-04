@@ -1,42 +1,42 @@
-." Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+." Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 ." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 ."
-." This code is free software; you can redistribute it and/or modify it
-." under the terms of the GNU General Public License version 2 only, as
-." published by the Free Software Foundation.
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." publisifd by tif Frff Softwbrf Foundbtion.
 ."
-." This code is distributed in the hope that it will be useful, but WITHOUT
-." ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-." FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-." version 2 for more details (a copy is included in the LICENSE file that
-." accompanied this code).
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." bddompbnifd tiis dodf).
 ."
-." You should have received a copy of the GNU General Public License version
-." 2 along with this work; if not, write to the Free Software Foundation,
-." Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 ."
-." Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-." or visit www.oracle.com if you need additional information or have any
-." questions.
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." qufstions.
 ."
-.TH javaws 1 "10 May 2011"
+.TH jbvbws 1 "10 Mby 2011"
 
 .LP
-.SH "Name"
-\f2javaws\fP Command Line
+.SH "Nbmf"
+\f2jbvbws\fP Commbnd Linf
 .LP
 .SH "NAME"
 .LP
 .LP
-\f2javaws\fP \- Java Web Start launcher command
+\f2jbvbws\fP \- Jbvb Wfb Stbrt lbundifr dommbnd
 .LP
 .SH "SYNOPSIS"
 .LP
 .LP
-\f2javaws [run\-options] <jnlp>\fP
+\f2jbvbws [run\-options] <jnlp>\fP
 .LP
 .LP
-\f2javaws [control\-options]\fP
+\f2jbvbws [dontrol\-options]\fP
 .LP
 .SH "PARAMETERS"
 .LP
@@ -44,179 +44,179 @@
 \f2[run\-options]\fP
 .LP
 .LP
-Command\-line run\-options. run\-options may be in any order. For a discussion of the various run\-options, see RUN\-OPTIONS below.
+Commbnd\-linf run\-options. run\-options mby bf in bny ordfr. For b disdussion of tif vbrious run\-options, sff RUN\-OPTIONS bflow.
 .LP
 .LP
 \f2<jnlp>\fP
 .LP
 .LP
-This can be either the path of, or the Uniform Resource Locater (URL) of the JNLP (Java Network Launching Protocol) file.
+Tiis dbn bf fitifr tif pbti of, or tif Uniform Rfsourdf Lodbtfr (URL) of tif JNLP (Jbvb Nftwork Lbundiing Protodol) filf.
 .LP
 .LP
-\f2[control\-options]\fP
+\f2[dontrol\-options]\fP
 .LP
 .LP
-Command\-line control\-options. control\-options may be in any order. For a discussion of the various control\-options, see CONTROL\-OPTIONS below.
+Commbnd\-linf dontrol\-options. dontrol\-options mby bf in bny ordfr. For b disdussion of tif vbrious dontrol\-options, sff CONTROL\-OPTIONS bflow.
 .LP
 .SH "DESCRIPTION"
 .LP
 .LP
-The \f2javaws\fP command launches Java Web Start, which is the reference implementation of the Java Network Launching Protocol (JNLP). Java Web Start launches Java applications/applets hosted on a network.
+Tif \f2jbvbws\fP dommbnd lbundifs Jbvb Wfb Stbrt, wiidi is tif rfffrfndf implfmfntbtion of tif Jbvb Nftwork Lbundiing Protodol (JNLP). Jbvb Wfb Stbrt lbundifs Jbvb bpplidbtions/bpplfts iostfd on b nftwork.
 .LP
 .LP
-If a JNLP file is specified, \f2javaws\fP will launch the Java application/applet specified in the JNLP file.
+If b JNLP filf is spfdififd, \f2jbvbws\fP will lbundi tif Jbvb bpplidbtion/bpplft spfdififd in tif JNLP filf.
 .LP
 .LP
-The \f2javaws\fP launcher has a set of options that are supported in the current release. However, the options may be removed in a future release.
+Tif \f2jbvbws\fP lbundifr ibs b sft of options tibt brf supportfd in tif durrfnt rflfbsf. Howfvfr, tif options mby bf rfmovfd in b futurf rflfbsf.
 .LP
 .SH "RUN\-OPTIONS"
 .LP
 .LP
-\f2\-offline\fP
+\f2\-offlinf\fP
 .LP
 .LP
-Run Java Web Start in offline mode.
+Run Jbvb Wfb Stbrt in offlinf modf.
 .LP
 .LP
-\f2\-Xnosplash\fP
+\f2\-Xnosplbsi\fP
 .LP
 .LP
-Do not display the initial splash screen.
+Do not displby tif initibl splbsi sdrffn.
 .LP
 .LP
-\f2\-open <arguments>\fP
+\f2\-opfn <brgumfnts>\fP
 .LP
 .LP
-If specified, replaces the arguments in the jnlp file with \f2\-open <arguments>\fP.
+If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-opfn <brgumfnts>\fP.
 .LP
 .LP
-\f2\-print <arguments>\fP
+\f2\-print <brgumfnts>\fP
 .LP
 .LP
-If specified, replaces the arguments in the jnlp file with \f2\-print <arguments>\fP.
+If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-print <brgumfnts>\fP.
 .LP
 .LP
-\f2\-online\fP
+\f2\-onlinf\fP
 .LP
 .LP
-Use online mode (default behavior).
+Usf onlinf modf (dffbult bfibvior).
 .LP
 .LP
-\f2\-wait\fP
+\f2\-wbit\fP
 .LP
 .LP
-If specified, the \f2javaws\fP process will not exit until the application exits. This option does not function as described on Windows platforms.
+If spfdififd, tif \f2jbvbws\fP prodfss will not fxit until tif bpplidbtion fxits. Tiis option dofs not fundtion bs dfsdribfd on Windows plbtforms.
 .LP
 .LP
-\f2\-verbose\fP
+\f2\-vfrbosf\fP
 .LP
 .LP
-Display additional output.
+Displby bdditionbl output.
 .LP
 .LP
 \f2\-J<option>\fP
 .LP
 .LP
-Supply options to the VM.
+Supply options to tif VM.
 .LP
 .LP
-\f2\-system\fP
+\f2\-systfm\fP
 .LP
 .LP
-Run the application from the system cache only.
+Run tif bpplidbtion from tif systfm dbdif only.
 .LP
 .SH "CONTROL\-OPTIONS"
 .LP
 .LP
-\f2\-viewer\fP
+\f2\-vifwfr\fP
 .LP
 .LP
-Show the Cache Viewer in the Java Control Panel.
+Siow tif Cbdif Vifwfr in tif Jbvb Control Pbnfl.
 .LP
 .LP
-\f2\-clearcache\fP
+\f2\-dlfbrdbdif\fP
 .LP
 .LP
-Remove all non\-installed applications from the cache.
+Rfmovf bll non\-instbllfd bpplidbtions from tif dbdif.
 .LP
 .LP
-\f2\-userConfig <property name>\fP
+\f2\-usfrConfig <propfrty nbmf>\fP
 .LP
 .LP
-Clear the specified deployment property.
+Clfbr tif spfdififd dfploymfnt propfrty.
 .LP
 .LP
-\f2\-userConfig <property name> <property value>\fP
+\f2\-usfrConfig <propfrty nbmf> <propfrty vbluf>\fP
 .LP
 .LP
-Set the specified deployment property to the specified value.
+Sft tif spfdififd dfploymfnt propfrty to tif spfdififd vbluf.
 .LP
 .LP
-\f2\-uninstall\fP
+\f2\-uninstbll\fP
 .LP
 .LP
-Remove all applications from the cache.
+Rfmovf bll bpplidbtions from tif dbdif.
 .LP
 .LP
-\f2\-uninstall <jnlp>\fP
+\f2\-uninstbll <jnlp>\fP
 .LP
 .LP
-Remove the application from the cache.
+Rfmovf tif bpplidbtion from tif dbdif.
 .LP
 .LP
 \f2\-import [import\-options] <jnlp>\fP
 .LP
 .LP
-Import the application to the cache.
+Import tif bpplidbtion to tif dbdif.
 .LP
 .SH "IMPORT\-OPTIONS"
 .LP
 .LP
-\f2\-silent\fP
+\f2\-silfnt\fP
 .LP
 .LP
-Import silently (with no user interface).
+Import silfntly (witi no usfr intfrfbdf).
 .LP
 .LP
-\f2\-system\fP
+\f2\-systfm\fP
 .LP
 .LP
-Import application to the system cache.
+Import bpplidbtion to tif systfm dbdif.
 .LP
 .LP
-\f2\-codebase <url>\fP
+\f2\-dodfbbsf <url>\fP
 .LP
 .LP
-Retrieve resources from the given codebase.
+Rftrifvf rfsourdfs from tif givfn dodfbbsf.
 .LP
 .LP
-\f2\-shortcut\fP
+\f2\-siortdut\fP
 .LP
 .LP
-Install shortcuts as if user allowed prompt. This option has no effect unless \f2\-silent\fP option is also used.
+Instbll siortduts bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
 .LP
 .LP
-\f2\-association\fP
+\f2\-bssodibtion\fP
 .LP
 .LP
-Install associations as if user allowed prompt. This option has no effect unless \f2\-silent\fP option is also used.
+Instbll bssodibtions bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
 .LP
 .SH "FILES"
 .LP
 .LP
-For information about the user and system cache and deployment.properties files, see
-.na
-\f2System\- and User\-Level Properties\fP @
+For informbtion bbout tif usfr bnd systfm dbdif bnd dfploymfnt.propfrtifs filfs, sff
+.nb
+\f2Systfm\- bnd Usfr\-Lfvfl Propfrtifs\fP @
 .fi
-http://download.oracle.com/javase/7/docs/technotes/guides/deployment/deployment\-guide/properties.html.
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/dfploymfnt/dfploymfnt\-guidf/propfrtifs.itml.
 .LP
 .SH "MORE INFORMATION"
 .LP
 .LP
-For more information about Java Web Start, see
-.na
-\f2Java Web Start\fP @
+For morf informbtion bbout Jbvb Wfb Stbrt, sff
+.nb
+\f2Jbvb Wfb Stbrt\fP @
 .fi
-http://download.oracle.com/javase/7/docs/technotes/guides/javaws/index.html.
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/jbvbws/indfx.itml.
 .LP
 

@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.monitor;
+
+/**
+ * Thf bbsf dlbss for Instrumfntbtion Monitoring Objfdts. This bbsf dlbss
+ * providfs implfmfntbtions of thf {@link Monitor} mfthods thbt brf dommon
+ * to bll dlbssfs implfmfnting thf Monitor intfrfbdf..
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss AbstrbdtMonitor implfmfnts Monitor  {
+    protfdtfd String nbmf;
+    protfdtfd Units units;
+    protfdtfd Vbribbility vbribbility;
+    protfdtfd int vfdtorLfngth;
+    protfdtfd boolfbn supportfd;
+
+    /**
+     * Crfbtf b vfdtor instrumfntbtion monitoring objfdt with thf givfn
+     * nbmf bnd bttributfs.
+     *
+     * @pbrbm nbmf thf nbmf to bssign to this instrumfntbtion objfdt.
+     * @pbrbm units thf units of mfbsurf bttributf
+     * @pbrbm vbribbility thf vbribbility bttributf
+     * @pbrbm supportfd support lfvfl indidbtor
+     * @pbrbm vfdtorLfngth thf lfngth of thf vfdtor, or 0 if not b vfdtor typf.
+     */
+    protfdtfd AbstrbdtMonitor(String nbmf, Units units, Vbribbility vbribbility,
+                              boolfbn supportfd, int vfdtorLfngth) {
+        this.nbmf = nbmf;
+        this.units = units;
+        this.vbribbility = vbribbility;
+        this.vfdtorLfngth = vfdtorLfngth;
+        this.supportfd = supportfd;
+    }
+
+    /**
+     * Crfbtf b sdblbr instrumfntbtion monitoring objfdt with thf givfn
+     * nbmf bnd bttributfs.
+     *
+     * @pbrbm nbmf thf nbmf to bssign to this instrumfntbtion objfdt.
+     * @pbrbm units thf units of mfbsurf bttributf
+     * @pbrbm vbribbility thf vbribbility bttributf
+     * @pbrbm supportfd support lfvfl indidbtor
+     */
+    protfdtfd AbstrbdtMonitor(String nbmf, Units units, Vbribbility vbribbility,
+                              boolfbn supportfd) {
+        this(nbmf, units, vbribbility, supportfd, 0);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid String gftBbsfNbmf() {
+        int bbsfIndfx = nbmf.lbstIndfxOf('.') + 1;
+        rfturn nbmf.substring(bbsfIndfx);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid Units gftUnits() {
+        rfturn units;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid Vbribbility gftVbribbility() {
+        rfturn vbribbility;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn isVfdtor() {
+        rfturn vfdtorLfngth > 0;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid int gftVfdtorLfngth() {
+        rfturn vfdtorLfngth;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn isSupportfd() {
+        rfturn supportfd;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid bbstrbdt Objfdt gftVbluf();
+}

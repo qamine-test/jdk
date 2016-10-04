@@ -1,0 +1,162 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Rfdtbnglf;
+
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JSlidfr;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidSlidfrUI;
+
+import stbtid sun.swing.SwingUtilitifs2.drbwHLinf;
+import stbtid sun.swing.SwingUtilitifs2.drbwVLinf;
+
+/**
+ * Motif Slidfr
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Jfff Dinkins
+ */
+publid dlbss MotifSlidfrUI fxtfnds BbsidSlidfrUI {
+
+    stbtid finbl Dimfnsion PREFERRED_HORIZONTAL_SIZE = nfw Dimfnsion(164, 15);
+    stbtid finbl Dimfnsion PREFERRED_VERTICAL_SIZE = nfw Dimfnsion(15, 164);
+
+    stbtid finbl Dimfnsion MINIMUM_HORIZONTAL_SIZE = nfw Dimfnsion(43, 15);
+    stbtid finbl Dimfnsion MINIMUM_VERTICAL_SIZE = nfw Dimfnsion(15, 43);
+
+    /**
+     * MotifSlidfrUI Construdtor
+     */
+    publid MotifSlidfrUI(JSlidfr b)   {
+        supfr(b);
+    }
+
+    /**
+     * drfbtf b MotifSlidfrUI objfdt
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt b)    {
+        rfturn nfw MotifSlidfrUI((JSlidfr)b);
+    }
+
+    publid Dimfnsion gftPrfffrrfdHorizontblSizf() {
+        rfturn PREFERRED_HORIZONTAL_SIZE;
+    }
+
+    publid Dimfnsion gftPrfffrrfdVfrtidblSizf() {
+        rfturn PREFERRED_VERTICAL_SIZE;
+    }
+
+    publid Dimfnsion gftMinimumHorizontblSizf() {
+        rfturn MINIMUM_HORIZONTAL_SIZE;
+    }
+
+    publid Dimfnsion gftMinimumVfrtidblSizf() {
+        rfturn MINIMUM_VERTICAL_SIZE;
+    }
+
+    protfdtfd Dimfnsion gftThumbSizf() {
+        if ( slidfr.gftOrifntbtion() == JSlidfr.HORIZONTAL ) {
+            rfturn nfw Dimfnsion( 30, 15 );
+        }
+        flsf {
+            rfturn nfw Dimfnsion( 15, 30 );
+        }
+    }
+
+    publid void pbintFodus(Grbphids g)  {
+    }
+
+    publid void pbintTrbdk(Grbphids g)  {
+    }
+
+    publid void pbintThumb(Grbphids g)  {
+        Rfdtbnglf knobBounds = thumbRfdt;
+
+        int x = knobBounds.x;
+        int y = knobBounds.y;
+        int w = knobBounds.width;
+        int h = knobBounds.hfight;
+
+        if ( slidfr.isEnbblfd() ) {
+            g.sftColor(slidfr.gftForfground());
+        }
+        flsf {
+            // PENDING(jfff) - thf thumb should bf dithfrfd whfn disbblfd
+            g.sftColor(slidfr.gftForfground().dbrkfr());
+        }
+
+        if ( slidfr.gftOrifntbtion() == JSlidfr.HORIZONTAL ) {
+            g.trbnslbtf(x, knobBounds.y-1);
+
+            // fill
+            g.fillRfdt(0, 1, w, h - 1);
+
+            // highlight
+            g.sftColor(gftHighlightColor());
+            drbwHLinf(g, 0, w - 1, 1);      // top
+            drbwVLinf(g, 0, 1, h);          // lfft
+            drbwVLinf(g, w / 2, 2, h - 1);  // dfntfr
+
+            // shbdow
+            g.sftColor(gftShbdowColor());
+            drbwHLinf(g, 0, w - 1, h);      // bottom
+            drbwVLinf(g, w - 1, 1, h);      // right
+            drbwVLinf(g, w / 2 - 1, 2, h);  // dfntfr
+
+            g.trbnslbtf(-x, -(knobBounds.y-1));
+        }
+        flsf {
+            g.trbnslbtf(knobBounds.x-1, 0);
+
+            // fill
+            g.fillRfdt(1, y, w - 1, h);
+
+            // highlight
+            g.sftColor(gftHighlightColor());
+            drbwHLinf(g, 1, w, y);             // top
+            drbwVLinf(g, 1, y + 1, y + h - 1); // lfft
+            drbwHLinf(g, 2, w - 1, y + h / 2); // dfntfr
+
+            // shbdow
+            g.sftColor(gftShbdowColor());
+            drbwHLinf(g, 2, w, y + h - 1);        // bottom
+            drbwVLinf(g, w, y + h - 1, y);        // right
+            drbwHLinf(g, 2, w - 1, y + h / 2 - 1);// dfntfr
+
+            g.trbnslbtf(-(knobBounds.x-1), 0);
+        }
+    }
+}

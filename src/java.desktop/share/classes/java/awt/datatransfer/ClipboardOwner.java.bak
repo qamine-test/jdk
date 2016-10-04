@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 1996, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.datatransfer;
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
 
 /**
- * Defines the interface for classes that will provide data to
- * a clipboard. An instance of this interface becomes the owner
- * of the contents of a clipboard (clipboard owner) if it is
- * passed as an argument to
- * {@link java.awt.datatransfer.Clipboard#setContents} method of
- * the clipboard and this method returns successfully.
- * The instance remains the clipboard owner until another application
- * or another object within this application asserts ownership
- * of this clipboard.
+ * Dffinfs tif intfrfbdf for dlbssfs tibt will providf dbtb to
+ * b dlipbobrd. An instbndf of tiis intfrfbdf bfdomfs tif ownfr
+ * of tif dontfnts of b dlipbobrd (dlipbobrd ownfr) if it is
+ * pbssfd bs bn brgumfnt to
+ * {@link jbvb.bwt.dbtbtrbnsffr.Clipbobrd#sftContfnts} mftiod of
+ * tif dlipbobrd bnd tiis mftiod rfturns suddfssfully.
+ * Tif instbndf rfmbins tif dlipbobrd ownfr until bnotifr bpplidbtion
+ * or bnotifr objfdt witiin tiis bpplidbtion bssfrts ownfrsiip
+ * of tiis dlipbobrd.
  *
- * @see java.awt.datatransfer.Clipboard
+ * @sff jbvb.bwt.dbtbtrbnsffr.Clipbobrd
  *
- * @author      Amy Fowler
+ * @butior      Amy Fowlfr
  */
 
-public interface ClipboardOwner {
+publid intfrfbdf ClipbobrdOwnfr {
 
     /**
-     * Notifies this object that it is no longer the clipboard owner.
-     * This method will be called when another application or another
-     * object within this application asserts ownership of the clipboard.
+     * Notififs tiis objfdt tibt it is no longfr tif dlipbobrd ownfr.
+     * Tiis mftiod will bf dbllfd wifn bnotifr bpplidbtion or bnotifr
+     * objfdt witiin tiis bpplidbtion bssfrts ownfrsiip of tif dlipbobrd.
      *
-     * @param clipboard the clipboard that is no longer owned
-     * @param contents the contents which this owner had placed on the clipboard
+     * @pbrbm dlipbobrd tif dlipbobrd tibt is no longfr ownfd
+     * @pbrbm dontfnts tif dontfnts wiidi tiis ownfr ibd plbdfd on tif dlipbobrd
      */
-    public void lostOwnership(Clipboard clipboard, Transferable contents);
+    publid void lostOwnfrsiip(Clipbobrd dlipbobrd, Trbnsffrbblf dontfnts);
 
 }

@@ -1,0 +1,143 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+
+/**
+ * A nodf thbt rfprfsfnts b TABLESWITCH instrudtion.
+ *
+ * @buthor Erid Brunfton
+ */
+publid dlbss TbblfSwitdhInsnNodf fxtfnds AbstrbdtInsnNodf {
+
+    /**
+     * Thf minimum kfy vbluf.
+     */
+    publid int min;
+
+    /**
+     * Thf mbximum kfy vbluf.
+     */
+    publid int mbx;
+
+    /**
+     * Bfginning of thf dffbult hbndlfr blodk.
+     */
+    publid LbbflNodf dflt;
+
+    /**
+     * Bfginnings of thf hbndlfr blodks. This list is b list of
+     * {@link LbbflNodf} objfdts.
+     */
+    publid List<LbbflNodf> lbbfls;
+
+    /**
+     * Construdts b nfw {@link TbblfSwitdhInsnNodf}.
+     *
+     * @pbrbm min
+     *            thf minimum kfy vbluf.
+     * @pbrbm mbx
+     *            thf mbximum kfy vbluf.
+     * @pbrbm dflt
+     *            bfginning of thf dffbult hbndlfr blodk.
+     * @pbrbm lbbfls
+     *            bfginnings of thf hbndlfr blodks. <tt>lbbfls[i]</tt> is thf
+     *            bfginning of thf hbndlfr blodk for thf <tt>min + i</tt> kfy.
+     */
+    publid TbblfSwitdhInsnNodf(finbl int min, finbl int mbx,
+            finbl LbbflNodf dflt, finbl LbbflNodf... lbbfls) {
+        supfr(Opdodfs.TABLESWITCH);
+        this.min = min;
+        this.mbx = mbx;
+        this.dflt = dflt;
+        this.lbbfls = nfw ArrbyList<LbbflNodf>();
+        if (lbbfls != null) {
+            this.lbbfls.bddAll(Arrbys.bsList(lbbfls));
+        }
+    }
+
+    @Ovfrridf
+    publid int gftTypf() {
+        rfturn TABLESWITCH_INSN;
+    }
+
+    @Ovfrridf
+    publid void bddfpt(finbl MfthodVisitor mv) {
+        Lbbfl[] lbbfls = nfw Lbbfl[this.lbbfls.sizf()];
+        for (int i = 0; i < lbbfls.lfngth; ++i) {
+            lbbfls[i] = this.lbbfls.gft(i).gftLbbfl();
+        }
+        mv.visitTbblfSwitdhInsn(min, mbx, dflt.gftLbbfl(), lbbfls);
+        bddfptAnnotbtions(mv);
+    }
+
+    @Ovfrridf
+    publid AbstrbdtInsnNodf dlonf(finbl Mbp<LbbflNodf, LbbflNodf> lbbfls) {
+        rfturn nfw TbblfSwitdhInsnNodf(min, mbx, dlonf(dflt, lbbfls), dlonf(
+                this.lbbfls, lbbfls)).dlonfAnnotbtions(this);
+    }
+}

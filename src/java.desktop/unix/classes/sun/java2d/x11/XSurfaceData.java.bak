@@ -1,40 +1,40 @@
-package sun.java2d.x11;
+pbdkbgf sun.jbvb2d.x11;
 
-import java.awt.image.*;
+import jbvb.bwt.imbgf.*;
 
-import sun.awt.*;
-import sun.java2d.*;
-import sun.java2d.loops.*;
-import sun.java2d.pipe.*;
+import sun.bwt.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipf.*;
 
-public abstract class XSurfaceData extends SurfaceData {
-    static boolean isX11SurfaceDataInitialized = false;
+publid bbstrbdt dlbss XSurfbdfDbtb fxtfnds SurfbdfDbtb {
+    stbtid boolfbn isX11SurfbdfDbtbInitiblizfd = fblsf;
 
-    public static boolean isX11SurfaceDataInitialized() {
-        return isX11SurfaceDataInitialized;
+    publid stbtid boolfbn isX11SurfbdfDbtbInitiblizfd() {
+        rfturn isX11SurfbdfDbtbInitiblizfd;
     }
 
-    public static void setX11SurfaceDataInitialized() {
-        isX11SurfaceDataInitialized = true;
+    publid stbtid void sftX11SurfbdfDbtbInitiblizfd() {
+        isX11SurfbdfDbtbInitiblizfd = truf;
     }
 
-    public XSurfaceData(SurfaceType surfaceType, ColorModel cm) {
-        super(surfaceType, cm);
+    publid XSurfbdfDbtb(SurfbdfTypf surfbdfTypf, ColorModfl dm) {
+        supfr(surfbdfTypf, dm);
     }
 
-    protected native void initOps(X11ComponentPeer peer, X11GraphicsConfig gc, int depth);
+    protfdtfd nbtivf void initOps(X11ComponfntPffr pffr, X11GrbpiidsConfig gd, int dfpti);
 
-    protected static native long XCreateGC(long pXSData);
+    protfdtfd stbtid nbtivf long XCrfbtfGC(long pXSDbtb);
 
-    protected static native void XResetClip(long xgc);
+    protfdtfd stbtid nbtivf void XRfsftClip(long xgd);
 
-    protected static native void XSetClip(long xgc, int lox, int loy, int hix, int hiy, Region complexclip);
+    protfdtfd stbtid nbtivf void XSftClip(long xgd, int lox, int loy, int iix, int iiy, Rfgion domplfxdlip);
 
-    protected native void flushNativeSurface();
+    protfdtfd nbtivf void flusiNbtivfSurfbdf();
 
-    protected native boolean isDrawableValid();
+    protfdtfd nbtivf boolfbn isDrbwbblfVblid();
 
-    protected native void setInvalid();
+    protfdtfd nbtivf void sftInvblid();
 
-    protected static native void XSetGraphicsExposures(long xgc, boolean needExposures);
+    protfdtfd stbtid nbtivf void XSftGrbpiidsExposurfs(long xgd, boolfbn nffdExposurfs);
 }

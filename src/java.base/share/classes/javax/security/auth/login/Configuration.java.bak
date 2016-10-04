@@ -1,620 +1,620 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth.login;
+pbdkbgf jbvbx.sfdurity.buti.login;
 
-import javax.security.auth.AuthPermission;
+import jbvbx.sfdurity.buti.AutiPfrmission;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.Provider;
-import java.security.Security;
-import java.util.Objects;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.util.Objfdts;
 
-import sun.security.jca.GetInstance;
+import sun.sfdurity.jdb.GftInstbndf;
 
 /**
- * A Configuration object is responsible for specifying which LoginModules
- * should be used for a particular application, and in what order the
- * LoginModules should be invoked.
+ * A Configurbtion objfdt is rfsponsiblf for spfdifying wiidi LoginModulfs
+ * siould bf usfd for b pbrtidulbr bpplidbtion, bnd in wibt ordfr tif
+ * LoginModulfs siould bf invokfd.
  *
- * <p> A login configuration contains the following information.
- * Note that this example only represents the default syntax for the
- * {@code Configuration}.  Subclass implementations of this class
- * may implement alternative syntaxes and may retrieve the
- * {@code Configuration} from any source such as files, databases,
- * or servers.
+ * <p> A login donfigurbtion dontbins tif following informbtion.
+ * Notf tibt tiis fxbmplf only rfprfsfnts tif dffbult syntbx for tif
+ * {@dodf Configurbtion}.  Subdlbss implfmfntbtions of tiis dlbss
+ * mby implfmfnt bltfrnbtivf syntbxfs bnd mby rftrifvf tif
+ * {@dodf Configurbtion} from bny sourdf sudi bs filfs, dbtbbbsfs,
+ * or sfrvfrs.
  *
- * <pre>
- *      Name {
- *            ModuleClass  Flag    ModuleOptions;
- *            ModuleClass  Flag    ModuleOptions;
- *            ModuleClass  Flag    ModuleOptions;
+ * <prf>
+ *      Nbmf {
+ *            ModulfClbss  Flbg    ModulfOptions;
+ *            ModulfClbss  Flbg    ModulfOptions;
+ *            ModulfClbss  Flbg    ModulfOptions;
  *      };
- *      Name {
- *            ModuleClass  Flag    ModuleOptions;
- *            ModuleClass  Flag    ModuleOptions;
+ *      Nbmf {
+ *            ModulfClbss  Flbg    ModulfOptions;
+ *            ModulfClbss  Flbg    ModulfOptions;
  *      };
- *      other {
- *            ModuleClass  Flag    ModuleOptions;
- *            ModuleClass  Flag    ModuleOptions;
+ *      otifr {
+ *            ModulfClbss  Flbg    ModulfOptions;
+ *            ModulfClbss  Flbg    ModulfOptions;
  *      };
- * </pre>
+ * </prf>
  *
- * <p> Each entry in the {@code Configuration} is indexed via an
- * application name, <i>Name</i>, and contains a list of
- * LoginModules configured for that application.  Each {@code LoginModule}
- * is specified via its fully qualified class name.
- * Authentication proceeds down the module list in the exact order specified.
- * If an application does not have a specific entry,
- * it defaults to the specific entry for "<i>other</i>".
+ * <p> Ebdi fntry in tif {@dodf Configurbtion} is indfxfd vib bn
+ * bpplidbtion nbmf, <i>Nbmf</i>, bnd dontbins b list of
+ * LoginModulfs donfigurfd for tibt bpplidbtion.  Ebdi {@dodf LoginModulf}
+ * is spfdififd vib its fully qublififd dlbss nbmf.
+ * Autifntidbtion prodffds down tif modulf list in tif fxbdt ordfr spfdififd.
+ * If bn bpplidbtion dofs not ibvf b spfdifid fntry,
+ * it dffbults to tif spfdifid fntry for "<i>otifr</i>".
  *
- * <p> The <i>Flag</i> value controls the overall behavior as authentication
- * proceeds down the stack.  The following represents a description of the
- * valid values for <i>Flag</i> and their respective semantics:
+ * <p> Tif <i>Flbg</i> vbluf dontrols tif ovfrbll bfibvior bs butifntidbtion
+ * prodffds down tif stbdk.  Tif following rfprfsfnts b dfsdription of tif
+ * vblid vblufs for <i>Flbg</i> bnd tifir rfspfdtivf sfmbntids:
  *
- * <pre>
- *      1) Required     - The {@code LoginModule} is required to succeed.
- *                      If it succeeds or fails, authentication still continues
- *                      to proceed down the {@code LoginModule} list.
+ * <prf>
+ *      1) Rfquirfd     - Tif {@dodf LoginModulf} is rfquirfd to suddffd.
+ *                      If it suddffds or fbils, butifntidbtion still dontinufs
+ *                      to prodffd down tif {@dodf LoginModulf} list.
  *
- *      2) Requisite    - The {@code LoginModule} is required to succeed.
- *                      If it succeeds, authentication continues down the
- *                      {@code LoginModule} list.  If it fails,
- *                      control immediately returns to the application
- *                      (authentication does not proceed down the
- *                      {@code LoginModule} list).
+ *      2) Rfquisitf    - Tif {@dodf LoginModulf} is rfquirfd to suddffd.
+ *                      If it suddffds, butifntidbtion dontinufs down tif
+ *                      {@dodf LoginModulf} list.  If it fbils,
+ *                      dontrol immfdibtfly rfturns to tif bpplidbtion
+ *                      (butifntidbtion dofs not prodffd down tif
+ *                      {@dodf LoginModulf} list).
  *
- *      3) Sufficient   - The {@code LoginModule} is not required to
- *                      succeed.  If it does succeed, control immediately
- *                      returns to the application (authentication does not
- *                      proceed down the {@code LoginModule} list).
- *                      If it fails, authentication continues down the
- *                      {@code LoginModule} list.
+ *      3) Suffidifnt   - Tif {@dodf LoginModulf} is not rfquirfd to
+ *                      suddffd.  If it dofs suddffd, dontrol immfdibtfly
+ *                      rfturns to tif bpplidbtion (butifntidbtion dofs not
+ *                      prodffd down tif {@dodf LoginModulf} list).
+ *                      If it fbils, butifntidbtion dontinufs down tif
+ *                      {@dodf LoginModulf} list.
  *
- *      4) Optional     - The {@code LoginModule} is not required to
- *                      succeed.  If it succeeds or fails,
- *                      authentication still continues to proceed down the
- *                      {@code LoginModule} list.
- * </pre>
+ *      4) Optionbl     - Tif {@dodf LoginModulf} is not rfquirfd to
+ *                      suddffd.  If it suddffds or fbils,
+ *                      butifntidbtion still dontinufs to prodffd down tif
+ *                      {@dodf LoginModulf} list.
+ * </prf>
  *
- * <p> The overall authentication succeeds only if all <i>Required</i> and
- * <i>Requisite</i> LoginModules succeed.  If a <i>Sufficient</i>
- * {@code LoginModule} is configured and succeeds,
- * then only the <i>Required</i> and <i>Requisite</i> LoginModules prior to
- * that <i>Sufficient</i> {@code LoginModule} need to have succeeded for
- * the overall authentication to succeed. If no <i>Required</i> or
- * <i>Requisite</i> LoginModules are configured for an application,
- * then at least one <i>Sufficient</i> or <i>Optional</i>
- * {@code LoginModule} must succeed.
+ * <p> Tif ovfrbll butifntidbtion suddffds only if bll <i>Rfquirfd</i> bnd
+ * <i>Rfquisitf</i> LoginModulfs suddffd.  If b <i>Suffidifnt</i>
+ * {@dodf LoginModulf} is donfigurfd bnd suddffds,
+ * tifn only tif <i>Rfquirfd</i> bnd <i>Rfquisitf</i> LoginModulfs prior to
+ * tibt <i>Suffidifnt</i> {@dodf LoginModulf} nffd to ibvf suddffdfd for
+ * tif ovfrbll butifntidbtion to suddffd. If no <i>Rfquirfd</i> or
+ * <i>Rfquisitf</i> LoginModulfs brf donfigurfd for bn bpplidbtion,
+ * tifn bt lfbst onf <i>Suffidifnt</i> or <i>Optionbl</i>
+ * {@dodf LoginModulf} must suddffd.
  *
- * <p> <i>ModuleOptions</i> is a space separated list of
- * {@code LoginModule}-specific values which are passed directly to
- * the underlying LoginModules.  Options are defined by the
- * {@code LoginModule} itself, and control the behavior within it.
- * For example, a {@code LoginModule} may define options to support
- * debugging/testing capabilities.  The correct way to specify options in the
- * {@code Configuration} is by using the following key-value pairing:
- * <i>debug="true"</i>.  The key and value should be separated by an
- * 'equals' symbol, and the value should be surrounded by double quotes.
- * If a String in the form, ${system.property}, occurs in the value,
- * it will be expanded to the value of the system property.
- * Note that there is no limit to the number of
- * options a {@code LoginModule} may define.
+ * <p> <i>ModulfOptions</i> is b spbdf sfpbrbtfd list of
+ * {@dodf LoginModulf}-spfdifid vblufs wiidi brf pbssfd dirfdtly to
+ * tif undfrlying LoginModulfs.  Options brf dffinfd by tif
+ * {@dodf LoginModulf} itsflf, bnd dontrol tif bfibvior witiin it.
+ * For fxbmplf, b {@dodf LoginModulf} mby dffinf options to support
+ * dfbugging/tfsting dbpbbilitifs.  Tif dorrfdt wby to spfdify options in tif
+ * {@dodf Configurbtion} is by using tif following kfy-vbluf pbiring:
+ * <i>dfbug="truf"</i>.  Tif kfy bnd vbluf siould bf sfpbrbtfd by bn
+ * 'fqubls' symbol, bnd tif vbluf siould bf surroundfd by doublf quotfs.
+ * If b String in tif form, ${systfm.propfrty}, oddurs in tif vbluf,
+ * it will bf fxpbndfd to tif vbluf of tif systfm propfrty.
+ * Notf tibt tifrf is no limit to tif numbfr of
+ * options b {@dodf LoginModulf} mby dffinf.
  *
- * <p> The following represents an example {@code Configuration} entry
- * based on the syntax above:
+ * <p> Tif following rfprfsfnts bn fxbmplf {@dodf Configurbtion} fntry
+ * bbsfd on tif syntbx bbovf:
  *
- * <pre>
+ * <prf>
  * Login {
- *   com.sun.security.auth.module.UnixLoginModule required;
- *   com.sun.security.auth.module.Krb5LoginModule optional
- *                   useTicketCache="true"
- *                   ticketCache="${user.home}${/}tickets";
+ *   dom.sun.sfdurity.buti.modulf.UnixLoginModulf rfquirfd;
+ *   dom.sun.sfdurity.buti.modulf.Krb5LoginModulf optionbl
+ *                   usfTidkftCbdif="truf"
+ *                   tidkftCbdif="${usfr.iomf}${/}tidkfts";
  * };
- * </pre>
+ * </prf>
  *
- * <p> This {@code Configuration} specifies that an application named,
- * "Login", requires users to first authenticate to the
- * <i>com.sun.security.auth.module.UnixLoginModule</i>, which is
- * required to succeed.  Even if the <i>UnixLoginModule</i>
- * authentication fails, the
- * <i>com.sun.security.auth.module.Krb5LoginModule</i>
- * still gets invoked.  This helps hide the source of failure.
- * Since the <i>Krb5LoginModule</i> is <i>Optional</i>, the overall
- * authentication succeeds only if the <i>UnixLoginModule</i>
- * (<i>Required</i>) succeeds.
+ * <p> Tiis {@dodf Configurbtion} spfdififs tibt bn bpplidbtion nbmfd,
+ * "Login", rfquirfs usfrs to first butifntidbtf to tif
+ * <i>dom.sun.sfdurity.buti.modulf.UnixLoginModulf</i>, wiidi is
+ * rfquirfd to suddffd.  Evfn if tif <i>UnixLoginModulf</i>
+ * butifntidbtion fbils, tif
+ * <i>dom.sun.sfdurity.buti.modulf.Krb5LoginModulf</i>
+ * still gfts invokfd.  Tiis iflps iidf tif sourdf of fbilurf.
+ * Sindf tif <i>Krb5LoginModulf</i> is <i>Optionbl</i>, tif ovfrbll
+ * butifntidbtion suddffds only if tif <i>UnixLoginModulf</i>
+ * (<i>Rfquirfd</i>) suddffds.
  *
- * <p> Also note that the LoginModule-specific options,
- * <i>useTicketCache="true"</i> and
- * <i>ticketCache=${user.home}${/}tickets"</i>,
- * are passed to the <i>Krb5LoginModule</i>.
- * These options instruct the <i>Krb5LoginModule</i> to
- * use the ticket cache at the specified location.
- * The system properties, <i>user.home</i> and <i>/</i>
- * (file.separator), are expanded to their respective values.
+ * <p> Also notf tibt tif LoginModulf-spfdifid options,
+ * <i>usfTidkftCbdif="truf"</i> bnd
+ * <i>tidkftCbdif=${usfr.iomf}${/}tidkfts"</i>,
+ * brf pbssfd to tif <i>Krb5LoginModulf</i>.
+ * Tifsf options instrudt tif <i>Krb5LoginModulf</i> to
+ * usf tif tidkft dbdif bt tif spfdififd lodbtion.
+ * Tif systfm propfrtifs, <i>usfr.iomf</i> bnd <i>/</i>
+ * (filf.sfpbrbtor), brf fxpbndfd to tifir rfspfdtivf vblufs.
  *
- * <p> There is only one Configuration object installed in the runtime at any
- * given time.  A Configuration object can be installed by calling the
- * {@code setConfiguration} method.  The installed Configuration object
- * can be obtained by calling the {@code getConfiguration} method.
+ * <p> Tifrf is only onf Configurbtion objfdt instbllfd in tif runtimf bt bny
+ * givfn timf.  A Configurbtion objfdt dbn bf instbllfd by dblling tif
+ * {@dodf sftConfigurbtion} mftiod.  Tif instbllfd Configurbtion objfdt
+ * dbn bf obtbinfd by dblling tif {@dodf gftConfigurbtion} mftiod.
  *
- * <p> If no Configuration object has been installed in the runtime, a call to
- * {@code getConfiguration} installs an instance of the default
- * Configuration implementation (a default subclass implementation of this
- * abstract class).
- * The default Configuration implementation can be changed by setting the value
- * of the {@code login.configuration.provider} security property to the fully
- * qualified name of the desired Configuration subclass implementation.
+ * <p> If no Configurbtion objfdt ibs bffn instbllfd in tif runtimf, b dbll to
+ * {@dodf gftConfigurbtion} instblls bn instbndf of tif dffbult
+ * Configurbtion implfmfntbtion (b dffbult subdlbss implfmfntbtion of tiis
+ * bbstrbdt dlbss).
+ * Tif dffbult Configurbtion implfmfntbtion dbn bf dibngfd by sftting tif vbluf
+ * of tif {@dodf login.donfigurbtion.providfr} sfdurity propfrty to tif fully
+ * qublififd nbmf of tif dfsirfd Configurbtion subdlbss implfmfntbtion.
  *
- * <p> Application code can directly subclass Configuration to provide a custom
- * implementation.  In addition, an instance of a Configuration object can be
- * constructed by invoking one of the {@code getInstance} factory methods
- * with a standard type.  The default policy type is "JavaLoginConfig".
- * See the Configuration section in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#Configuration">
- * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
- * for a list of standard Configuration types.
+ * <p> Applidbtion dodf dbn dirfdtly subdlbss Configurbtion to providf b dustom
+ * implfmfntbtion.  In bddition, bn instbndf of b Configurbtion objfdt dbn bf
+ * donstrudtfd by invoking onf of tif {@dodf gftInstbndf} fbdtory mftiods
+ * witi b stbndbrd typf.  Tif dffbult polidy typf is "JbvbLoginConfig".
+ * Sff tif Configurbtion sfdtion in tif <b irff=
+ * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Configurbtion">
+ * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+ * for b list of stbndbrd Configurbtion typfs.
  *
- * @see javax.security.auth.login.LoginContext
- * @see java.security.Security security properties
+ * @sff jbvbx.sfdurity.buti.login.LoginContfxt
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
  */
-public abstract class Configuration {
+publid bbstrbdt dlbss Configurbtion {
 
-    private static Configuration configuration;
+    privbtf stbtid Configurbtion donfigurbtion;
 
-    private final java.security.AccessControlContext acc =
-            java.security.AccessController.getContext();
+    privbtf finbl jbvb.sfdurity.AddfssControlContfxt bdd =
+            jbvb.sfdurity.AddfssControllfr.gftContfxt();
 
-    private static void checkPermission(String type) {
-        SecurityManager sm = System.getSecurityManager();
+    privbtf stbtid void difdkPfrmission(String typf) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new AuthPermission
-                                ("createLoginConfiguration." + type));
+            sm.difdkPfrmission(nfw AutiPfrmission
+                                ("drfbtfLoginConfigurbtion." + typf));
         }
     }
 
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
-     * implicit.)
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
      */
-    protected Configuration() { }
+    protfdtfd Configurbtion() { }
 
     /**
-     * Get the installed login Configuration.
+     * Gft tif instbllfd login Configurbtion.
      *
      * <p>
      *
-     * @return the login Configuration.  If a Configuration object was set
-     *          via the {@code Configuration.setConfiguration} method,
-     *          then that object is returned.  Otherwise, a default
-     *          Configuration object is returned.
+     * @rfturn tif login Configurbtion.  If b Configurbtion objfdt wbs sft
+     *          vib tif {@dodf Configurbtion.sftConfigurbtion} mftiod,
+     *          tifn tibt objfdt is rfturnfd.  Otifrwisf, b dffbult
+     *          Configurbtion objfdt is rfturnfd.
      *
-     * @exception SecurityException if the caller does not have permission
-     *                          to retrieve the Configuration.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *                          to rftrifvf tif Configurbtion.
      *
-     * @see #setConfiguration
+     * @sff #sftConfigurbtion
      */
-    public static Configuration getConfiguration() {
+    publid stbtid Configurbtion gftConfigurbtion() {
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null)
-            sm.checkPermission(new AuthPermission("getLoginConfiguration"));
+            sm.difdkPfrmission(nfw AutiPfrmission("gftLoginConfigurbtion"));
 
-        synchronized (Configuration.class) {
-            if (configuration == null) {
-                String config_class = null;
-                config_class = AccessController.doPrivileged
-                    (new PrivilegedAction<String>() {
-                    public String run() {
-                        return java.security.Security.getProperty
-                                    ("login.configuration.provider");
+        syndironizfd (Configurbtion.dlbss) {
+            if (donfigurbtion == null) {
+                String donfig_dlbss = null;
+                donfig_dlbss = AddfssControllfr.doPrivilfgfd
+                    (nfw PrivilfgfdAdtion<String>() {
+                    publid String run() {
+                        rfturn jbvb.sfdurity.Sfdurity.gftPropfrty
+                                    ("login.donfigurbtion.providfr");
                     }
                 });
-                if (config_class == null) {
-                    config_class = "sun.security.provider.ConfigFile";
+                if (donfig_dlbss == null) {
+                    donfig_dlbss = "sun.sfdurity.providfr.ConfigFilf";
                 }
 
                 try {
-                    final String finalClass = config_class;
-                    Configuration untrustedImpl = AccessController.doPrivileged(
-                            new PrivilegedExceptionAction<Configuration>() {
-                                public Configuration run() throws ClassNotFoundException,
-                                        InstantiationException,
-                                        IllegalAccessException {
-                                    Class<? extends Configuration> implClass = Class.forName(
-                                            finalClass, false,
-                                            Thread.currentThread().getContextClassLoader()
-                                    ).asSubclass(Configuration.class);
-                                    return implClass.newInstance();
+                    finbl String finblClbss = donfig_dlbss;
+                    Configurbtion untrustfdImpl = AddfssControllfr.doPrivilfgfd(
+                            nfw PrivilfgfdExdfptionAdtion<Configurbtion>() {
+                                publid Configurbtion run() tirows ClbssNotFoundExdfption,
+                                        InstbntibtionExdfption,
+                                        IllfgblAddfssExdfption {
+                                    Clbss<? fxtfnds Configurbtion> implClbss = Clbss.forNbmf(
+                                            finblClbss, fblsf,
+                                            Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr()
+                                    ).bsSubdlbss(Configurbtion.dlbss);
+                                    rfturn implClbss.nfwInstbndf();
                                 }
                             });
-                    AccessController.doPrivileged(
-                            new PrivilegedExceptionAction<Void>() {
-                                public Void run() {
-                                    setConfiguration(untrustedImpl);
-                                    return null;
+                    AddfssControllfr.doPrivilfgfd(
+                            nfw PrivilfgfdExdfptionAdtion<Void>() {
+                                publid Void run() {
+                                    sftConfigurbtion(untrustfdImpl);
+                                    rfturn null;
                                 }
-                            }, Objects.requireNonNull(untrustedImpl.acc)
+                            }, Objfdts.rfquirfNonNull(untrustfdImpl.bdd)
                     );
-                } catch (PrivilegedActionException e) {
-                    Exception ee = e.getException();
-                    if (ee instanceof InstantiationException) {
-                        throw (SecurityException) new
-                            SecurityException
-                                    ("Configuration error:" +
-                                     ee.getCause().getMessage() +
-                                     "\n").initCause(ee.getCause());
-                    } else {
-                        throw (SecurityException) new
-                            SecurityException
-                                    ("Configuration error: " +
-                                     ee.toString() +
-                                     "\n").initCause(ee);
+                } dbtdi (PrivilfgfdAdtionExdfption f) {
+                    Exdfption ff = f.gftExdfption();
+                    if (ff instbndfof InstbntibtionExdfption) {
+                        tirow (SfdurityExdfption) nfw
+                            SfdurityExdfption
+                                    ("Configurbtion frror:" +
+                                     ff.gftCbusf().gftMfssbgf() +
+                                     "\n").initCbusf(ff.gftCbusf());
+                    } flsf {
+                        tirow (SfdurityExdfption) nfw
+                            SfdurityExdfption
+                                    ("Configurbtion frror: " +
+                                     ff.toString() +
+                                     "\n").initCbusf(ff);
                     }
                 }
             }
-            return configuration;
+            rfturn donfigurbtion;
         }
     }
 
     /**
-     * Set the login {@code Configuration}.
+     * Sft tif login {@dodf Configurbtion}.
      *
      * <p>
      *
-     * @param configuration the new {@code Configuration}
+     * @pbrbm donfigurbtion tif nfw {@dodf Configurbtion}
      *
-     * @exception SecurityException if the current thread does not have
-     *                  Permission to set the {@code Configuration}.
+     * @fxdfption SfdurityExdfption if tif durrfnt tirfbd dofs not ibvf
+     *                  Pfrmission to sft tif {@dodf Configurbtion}.
      *
-     * @see #getConfiguration
+     * @sff #gftConfigurbtion
      */
-    public static void setConfiguration(Configuration configuration) {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid void sftConfigurbtion(Configurbtion donfigurbtion) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null)
-            sm.checkPermission(new AuthPermission("setLoginConfiguration"));
-        Configuration.configuration = configuration;
+            sm.difdkPfrmission(nfw AutiPfrmission("sftLoginConfigurbtion"));
+        Configurbtion.donfigurbtion = donfigurbtion;
     }
 
     /**
-     * Returns a Configuration object of the specified type.
+     * Rfturns b Configurbtion objfdt of tif spfdififd typf.
      *
-     * <p> This method traverses the list of registered security providers,
-     * starting with the most preferred Provider.
-     * A new Configuration object encapsulating the
-     * ConfigurationSpi implementation from the first
-     * Provider that supports the specified type is returned.
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw Configurbtion objfdt fndbpsulbting tif
+     * ConfigurbtionSpi implfmfntbtion from tif first
+     * Providfr tibt supports tif spfdififd typf is rfturnfd.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param type the specified Configuration type.  See the Configuration
-     *    section in the <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Configuration">
-     *    Java Cryptography Architecture Standard Algorithm Name
-     *    Documentation</a> for a list of standard Configuration types.
+     * @pbrbm typf tif spfdififd Configurbtion typf.  Sff tif Configurbtion
+     *    sfdtion in tif <b irff=
+     *    "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Configurbtion">
+     *    Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf
+     *    Dodumfntbtion</b> for b list of stbndbrd Configurbtion typfs.
      *
-     * @param params parameters for the Configuration, which may be null.
+     * @pbrbm pbrbms pbrbmftfrs for tif Configurbtion, wiidi mby bf null.
      *
-     * @return the new Configuration object.
+     * @rfturn tif nfw Configurbtion objfdt.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Configuration instance for the specified type.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *          to gft b Configurbtion instbndf for tif spfdififd typf.
      *
-     * @exception NullPointerException if the specified type is null.
+     * @fxdfption NullPointfrExdfption if tif spfdififd typf is null.
      *
-     * @exception IllegalArgumentException if the specified parameters
-     *          are not understood by the ConfigurationSpi implementation
-     *          from the selected Provider.
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd pbrbmftfrs
+     *          brf not undfrstood by tif ConfigurbtionSpi implfmfntbtion
+     *          from tif sflfdtfd Providfr.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          ConfigurationSpi implementation for the specified type.
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     *          ConfigurbtionSpi implfmfntbtion for tif spfdififd typf.
      *
-     * @see Provider
-     * @since 1.6
+     * @sff Providfr
+     * @sindf 1.6
      */
-    public static Configuration getInstance(String type,
-                                Configuration.Parameters params)
-                throws NoSuchAlgorithmException {
+    publid stbtid Configurbtion gftInstbndf(String typf,
+                                Configurbtion.Pbrbmftfrs pbrbms)
+                tirows NoSudiAlgoritimExdfption {
 
-        checkPermission(type);
+        difdkPfrmission(typf);
         try {
-            GetInstance.Instance instance = GetInstance.getInstance
-                                                        ("Configuration",
-                                                        ConfigurationSpi.class,
-                                                        type,
-                                                        params);
-            return new ConfigDelegate((ConfigurationSpi)instance.impl,
-                                                        instance.provider,
-                                                        type,
-                                                        params);
-        } catch (NoSuchAlgorithmException nsae) {
-            return handleException (nsae);
+            GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+                                                        ("Configurbtion",
+                                                        ConfigurbtionSpi.dlbss,
+                                                        typf,
+                                                        pbrbms);
+            rfturn nfw ConfigDflfgbtf((ConfigurbtionSpi)instbndf.impl,
+                                                        instbndf.providfr,
+                                                        typf,
+                                                        pbrbms);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            rfturn ibndlfExdfption (nsbf);
         }
     }
 
     /**
-     * Returns a Configuration object of the specified type.
+     * Rfturns b Configurbtion objfdt of tif spfdififd typf.
      *
-     * <p> A new Configuration object encapsulating the
-     * ConfigurationSpi implementation from the specified provider
-     * is returned.   The specified provider must be registered
-     * in the provider list.
+     * <p> A nfw Configurbtion objfdt fndbpsulbting tif
+     * ConfigurbtionSpi implfmfntbtion from tif spfdififd providfr
+     * is rfturnfd.   Tif spfdififd providfr must bf rfgistfrfd
+     * in tif providfr list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param type the specified Configuration type.  See the Configuration
-     *    section in the <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Configuration">
-     *    Java Cryptography Architecture Standard Algorithm Name
-     *    Documentation</a> for a list of standard Configuration types.
+     * @pbrbm typf tif spfdififd Configurbtion typf.  Sff tif Configurbtion
+     *    sfdtion in tif <b irff=
+     *    "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Configurbtion">
+     *    Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf
+     *    Dodumfntbtion</b> for b list of stbndbrd Configurbtion typfs.
      *
-     * @param params parameters for the Configuration, which may be null.
+     * @pbrbm pbrbms pbrbmftfrs for tif Configurbtion, wiidi mby bf null.
      *
-     * @param provider the provider.
+     * @pbrbm providfr tif providfr.
      *
-     * @return the new Configuration object.
+     * @rfturn tif nfw Configurbtion objfdt.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Configuration instance for the specified type.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *          to gft b Configurbtion instbndf for tif spfdififd typf.
      *
-     * @exception NullPointerException if the specified type is null.
+     * @fxdfption NullPointfrExdfption if tif spfdififd typf is null.
      *
-     * @exception IllegalArgumentException if the specified provider
-     *          is null or empty,
-     *          or if the specified parameters are not understood by
-     *          the ConfigurationSpi implementation from the specified provider.
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd providfr
+     *          is null or fmpty,
+     *          or if tif spfdififd pbrbmftfrs brf not undfrstood by
+     *          tif ConfigurbtionSpi implfmfntbtion from tif spfdififd providfr.
      *
-     * @exception NoSuchProviderException if the specified provider is not
-     *          registered in the security provider list.
+     * @fxdfption NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     *          rfgistfrfd in tif sfdurity providfr list.
      *
-     * @exception NoSuchAlgorithmException if the specified provider does not
-     *          support a ConfigurationSpi implementation for the specified
-     *          type.
+     * @fxdfption NoSudiAlgoritimExdfption if tif spfdififd providfr dofs not
+     *          support b ConfigurbtionSpi implfmfntbtion for tif spfdififd
+     *          typf.
      *
-     * @see Provider
-     * @since 1.6
+     * @sff Providfr
+     * @sindf 1.6
      */
-    public static Configuration getInstance(String type,
-                                Configuration.Parameters params,
-                                String provider)
-                throws NoSuchProviderException, NoSuchAlgorithmException {
+    publid stbtid Configurbtion gftInstbndf(String typf,
+                                Configurbtion.Pbrbmftfrs pbrbms,
+                                String providfr)
+                tirows NoSudiProvidfrExdfption, NoSudiAlgoritimExdfption {
 
-        if (provider == null || provider.length() == 0) {
-            throw new IllegalArgumentException("missing provider");
+        if (providfr == null || providfr.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("missing providfr");
         }
 
-        checkPermission(type);
+        difdkPfrmission(typf);
         try {
-            GetInstance.Instance instance = GetInstance.getInstance
-                                                        ("Configuration",
-                                                        ConfigurationSpi.class,
-                                                        type,
-                                                        params,
-                                                        provider);
-            return new ConfigDelegate((ConfigurationSpi)instance.impl,
-                                                        instance.provider,
-                                                        type,
-                                                        params);
-        } catch (NoSuchAlgorithmException nsae) {
-            return handleException (nsae);
+            GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+                                                        ("Configurbtion",
+                                                        ConfigurbtionSpi.dlbss,
+                                                        typf,
+                                                        pbrbms,
+                                                        providfr);
+            rfturn nfw ConfigDflfgbtf((ConfigurbtionSpi)instbndf.impl,
+                                                        instbndf.providfr,
+                                                        typf,
+                                                        pbrbms);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            rfturn ibndlfExdfption (nsbf);
         }
     }
 
     /**
-     * Returns a Configuration object of the specified type.
+     * Rfturns b Configurbtion objfdt of tif spfdififd typf.
      *
-     * <p> A new Configuration object encapsulating the
-     * ConfigurationSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A nfw Configurbtion objfdt fndbpsulbting tif
+     * ConfigurbtionSpi implfmfntbtion from tif spfdififd Providfr
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
      *
-     * @param type the specified Configuration type.  See the Configuration
-     *    section in the <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Configuration">
-     *    Java Cryptography Architecture Standard Algorithm Name
-     *    Documentation</a> for a list of standard Configuration types.
+     * @pbrbm typf tif spfdififd Configurbtion typf.  Sff tif Configurbtion
+     *    sfdtion in tif <b irff=
+     *    "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Configurbtion">
+     *    Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf
+     *    Dodumfntbtion</b> for b list of stbndbrd Configurbtion typfs.
      *
-     * @param params parameters for the Configuration, which may be null.
+     * @pbrbm pbrbms pbrbmftfrs for tif Configurbtion, wiidi mby bf null.
      *
-     * @param provider the Provider.
+     * @pbrbm providfr tif Providfr.
      *
-     * @return the new Configuration object.
+     * @rfturn tif nfw Configurbtion objfdt.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Configuration instance for the specified type.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *          to gft b Configurbtion instbndf for tif spfdififd typf.
      *
-     * @exception NullPointerException if the specified type is null.
+     * @fxdfption NullPointfrExdfption if tif spfdififd typf is null.
      *
-     * @exception IllegalArgumentException if the specified Provider is null,
-     *          or if the specified parameters are not understood by
-     *          the ConfigurationSpi implementation from the specified Provider.
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd Providfr is null,
+     *          or if tif spfdififd pbrbmftfrs brf not undfrstood by
+     *          tif ConfigurbtionSpi implfmfntbtion from tif spfdififd Providfr.
      *
-     * @exception NoSuchAlgorithmException if the specified Provider does not
-     *          support a ConfigurationSpi implementation for the specified
-     *          type.
+     * @fxdfption NoSudiAlgoritimExdfption if tif spfdififd Providfr dofs not
+     *          support b ConfigurbtionSpi implfmfntbtion for tif spfdififd
+     *          typf.
      *
-     * @see Provider
-     * @since 1.6
+     * @sff Providfr
+     * @sindf 1.6
      */
-    public static Configuration getInstance(String type,
-                                Configuration.Parameters params,
-                                Provider provider)
-                throws NoSuchAlgorithmException {
+    publid stbtid Configurbtion gftInstbndf(String typf,
+                                Configurbtion.Pbrbmftfrs pbrbms,
+                                Providfr providfr)
+                tirows NoSudiAlgoritimExdfption {
 
-        if (provider == null) {
-            throw new IllegalArgumentException("missing provider");
+        if (providfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("missing providfr");
         }
 
-        checkPermission(type);
+        difdkPfrmission(typf);
         try {
-            GetInstance.Instance instance = GetInstance.getInstance
-                                                        ("Configuration",
-                                                        ConfigurationSpi.class,
-                                                        type,
-                                                        params,
-                                                        provider);
-            return new ConfigDelegate((ConfigurationSpi)instance.impl,
-                                                        instance.provider,
-                                                        type,
-                                                        params);
-        } catch (NoSuchAlgorithmException nsae) {
-            return handleException (nsae);
+            GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+                                                        ("Configurbtion",
+                                                        ConfigurbtionSpi.dlbss,
+                                                        typf,
+                                                        pbrbms,
+                                                        providfr);
+            rfturn nfw ConfigDflfgbtf((ConfigurbtionSpi)instbndf.impl,
+                                                        instbndf.providfr,
+                                                        typf,
+                                                        pbrbms);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            rfturn ibndlfExdfption (nsbf);
         }
     }
 
-    private static Configuration handleException(NoSuchAlgorithmException nsae)
-                throws NoSuchAlgorithmException {
-        Throwable cause = nsae.getCause();
-        if (cause instanceof IllegalArgumentException) {
-            throw (IllegalArgumentException)cause;
+    privbtf stbtid Configurbtion ibndlfExdfption(NoSudiAlgoritimExdfption nsbf)
+                tirows NoSudiAlgoritimExdfption {
+        Tirowbblf dbusf = nsbf.gftCbusf();
+        if (dbusf instbndfof IllfgblArgumfntExdfption) {
+            tirow (IllfgblArgumfntExdfption)dbusf;
         }
-        throw nsae;
+        tirow nsbf;
     }
 
     /**
-     * Return the Provider of this Configuration.
+     * Rfturn tif Providfr of tiis Configurbtion.
      *
-     * <p> This Configuration instance will only have a Provider if it
-     * was obtained via a call to {@code Configuration.getInstance}.
-     * Otherwise this method returns null.
+     * <p> Tiis Configurbtion instbndf will only ibvf b Providfr if it
+     * wbs obtbinfd vib b dbll to {@dodf Configurbtion.gftInstbndf}.
+     * Otifrwisf tiis mftiod rfturns null.
      *
-     * @return the Provider of this Configuration, or null.
+     * @rfturn tif Providfr of tiis Configurbtion, or null.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Provider getProvider() {
-        return null;
+    publid Providfr gftProvidfr() {
+        rfturn null;
     }
 
     /**
-     * Return the type of this Configuration.
+     * Rfturn tif typf of tiis Configurbtion.
      *
-     * <p> This Configuration instance will only have a type if it
-     * was obtained via a call to {@code Configuration.getInstance}.
-     * Otherwise this method returns null.
+     * <p> Tiis Configurbtion instbndf will only ibvf b typf if it
+     * wbs obtbinfd vib b dbll to {@dodf Configurbtion.gftInstbndf}.
+     * Otifrwisf tiis mftiod rfturns null.
      *
-     * @return the type of this Configuration, or null.
+     * @rfturn tif typf of tiis Configurbtion, or null.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public String getType() {
-        return null;
+    publid String gftTypf() {
+        rfturn null;
     }
 
     /**
-     * Return Configuration parameters.
+     * Rfturn Configurbtion pbrbmftfrs.
      *
-     * <p> This Configuration instance will only have parameters if it
-     * was obtained via a call to {@code Configuration.getInstance}.
-     * Otherwise this method returns null.
+     * <p> Tiis Configurbtion instbndf will only ibvf pbrbmftfrs if it
+     * wbs obtbinfd vib b dbll to {@dodf Configurbtion.gftInstbndf}.
+     * Otifrwisf tiis mftiod rfturns null.
      *
-     * @return Configuration parameters, or null.
+     * @rfturn Configurbtion pbrbmftfrs, or null.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Configuration.Parameters getParameters() {
-        return null;
+    publid Configurbtion.Pbrbmftfrs gftPbrbmftfrs() {
+        rfturn null;
     }
 
     /**
-     * Retrieve the AppConfigurationEntries for the specified <i>name</i>
-     * from this Configuration.
+     * Rftrifvf tif AppConfigurbtionEntrifs for tif spfdififd <i>nbmf</i>
+     * from tiis Configurbtion.
      *
      * <p>
      *
-     * @param name the name used to index the Configuration.
+     * @pbrbm nbmf tif nbmf usfd to indfx tif Configurbtion.
      *
-     * @return an array of AppConfigurationEntries for the specified <i>name</i>
-     *          from this Configuration, or null if there are no entries
-     *          for the specified <i>name</i>
+     * @rfturn bn brrby of AppConfigurbtionEntrifs for tif spfdififd <i>nbmf</i>
+     *          from tiis Configurbtion, or null if tifrf brf no fntrifs
+     *          for tif spfdififd <i>nbmf</i>
      */
-    public abstract AppConfigurationEntry[] getAppConfigurationEntry
-                                                        (String name);
+    publid bbstrbdt AppConfigurbtionEntry[] gftAppConfigurbtionEntry
+                                                        (String nbmf);
 
     /**
-     * Refresh and reload the Configuration.
+     * Rffrfsi bnd rflobd tif Configurbtion.
      *
-     * <p> This method causes this Configuration object to refresh/reload its
-     * contents in an implementation-dependent manner.
-     * For example, if this Configuration object stores its entries in a file,
-     * calling {@code refresh} may cause the file to be re-read.
+     * <p> Tiis mftiod dbusfs tiis Configurbtion objfdt to rffrfsi/rflobd its
+     * dontfnts in bn implfmfntbtion-dfpfndfnt mbnnfr.
+     * For fxbmplf, if tiis Configurbtion objfdt storfs its fntrifs in b filf,
+     * dblling {@dodf rffrfsi} mby dbusf tif filf to bf rf-rfbd.
      *
-     * <p> The default implementation of this method does nothing.
-     * This method should be overridden if a refresh operation is supported
-     * by the implementation.
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod dofs notiing.
+     * Tiis mftiod siould bf ovfrriddfn if b rffrfsi opfrbtion is supportfd
+     * by tif implfmfntbtion.
      *
-     * @exception SecurityException if the caller does not have permission
-     *                          to refresh its Configuration.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *                          to rffrfsi its Configurbtion.
      */
-    public void refresh() { }
+    publid void rffrfsi() { }
 
     /**
-     * This subclass is returned by the getInstance calls.  All Configuration
-     * calls are delegated to the underlying ConfigurationSpi.
+     * Tiis subdlbss is rfturnfd by tif gftInstbndf dblls.  All Configurbtion
+     * dblls brf dflfgbtfd to tif undfrlying ConfigurbtionSpi.
      */
-    private static class ConfigDelegate extends Configuration {
+    privbtf stbtid dlbss ConfigDflfgbtf fxtfnds Configurbtion {
 
-        private ConfigurationSpi spi;
-        private Provider p;
-        private String type;
-        private Configuration.Parameters params;
+        privbtf ConfigurbtionSpi spi;
+        privbtf Providfr p;
+        privbtf String typf;
+        privbtf Configurbtion.Pbrbmftfrs pbrbms;
 
-        private ConfigDelegate(ConfigurationSpi spi, Provider p,
-                        String type, Configuration.Parameters params) {
-            this.spi = spi;
-            this.p = p;
-            this.type = type;
-            this.params = params;
+        privbtf ConfigDflfgbtf(ConfigurbtionSpi spi, Providfr p,
+                        String typf, Configurbtion.Pbrbmftfrs pbrbms) {
+            tiis.spi = spi;
+            tiis.p = p;
+            tiis.typf = typf;
+            tiis.pbrbms = pbrbms;
         }
 
-        public String getType() { return type; }
+        publid String gftTypf() { rfturn typf; }
 
-        public Configuration.Parameters getParameters() { return params; }
+        publid Configurbtion.Pbrbmftfrs gftPbrbmftfrs() { rfturn pbrbms; }
 
-        public Provider getProvider() { return p; }
+        publid Providfr gftProvidfr() { rfturn p; }
 
-        public AppConfigurationEntry[] getAppConfigurationEntry(String name) {
-            return spi.engineGetAppConfigurationEntry(name);
+        publid AppConfigurbtionEntry[] gftAppConfigurbtionEntry(String nbmf) {
+            rfturn spi.fnginfGftAppConfigurbtionEntry(nbmf);
         }
 
-        public void refresh() {
-            spi.engineRefresh();
+        publid void rffrfsi() {
+            spi.fnginfRffrfsi();
         }
     }
 
     /**
-     * This represents a marker interface for Configuration parameters.
+     * Tiis rfprfsfnts b mbrkfr intfrfbdf for Configurbtion pbrbmftfrs.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static interface Parameters { }
+    publid stbtid intfrfbdf Pbrbmftfrs { }
 }

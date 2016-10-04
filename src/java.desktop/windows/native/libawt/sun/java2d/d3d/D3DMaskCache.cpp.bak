@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "D3DMaskCache.h"
+#indludf "D3DMbskCbdif.i"
 
 HRESULT
-D3DMaskCache::CreateInstance(D3DContext *pCtx, D3DMaskCache **ppMaskCache)
+D3DMbskCbdif::CrfbtfInstbndf(D3DContfxt *pCtx, D3DMbskCbdif **ppMbskCbdif)
 {
-    HRESULT res;
+    HRESULT rfs;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DMaskCache::CreateInstance");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskCbdif::CrfbtfInstbndf");
 
-    *ppMaskCache = new D3DMaskCache();
-    if (FAILED(res = (*ppMaskCache)->Init(pCtx))) {
-        delete *ppMaskCache;
-        *ppMaskCache = NULL;
+    *ppMbskCbdif = nfw D3DMbskCbdif();
+    if (FAILED(rfs = (*ppMbskCbdif)->Init(pCtx))) {
+        dflftf *ppMbskCbdif;
+        *ppMbskCbdif = NULL;
     }
-    return res;
+    rfturn rfs;
 }
 
-D3DMaskCache::D3DMaskCache()
+D3DMbskCbdif::D3DMbskCbdif()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DMaskCache::D3DMaskCache");
-    this->pCtx = NULL;
-    maskCacheIndex = 0;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskCbdif::D3DMbskCbdif");
+    tiis->pCtx = NULL;
+    mbskCbdifIndfx = 0;
 }
 
-D3DMaskCache::~D3DMaskCache()
+D3DMbskCbdif::~D3DMbskCbdif()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DMaskCache::~D3DMaskCache");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskCbdif::~D3DMbskCbdif");
     pCtx = NULL;
-    maskCacheIndex = 0;
+    mbskCbdifIndfx = 0;
 }
 
 HRESULT
-D3DMaskCache::Init(D3DContext *pCtx)
+D3DMbskCbdif::Init(D3DContfxt *pCtx)
 {
-    J2dTraceLn1(J2D_TRACE_INFO, "D3DMaskCache::Init pCtx=%x", pCtx);
-    this->pCtx = pCtx;
-    this->maskCacheIndex = 0;
-    return S_OK;
+    J2dTrbdfLn1(J2D_TRACE_INFO, "D3DMbskCbdif::Init pCtx=%x", pCtx);
+    tiis->pCtx = pCtx;
+    tiis->mbskCbdifIndfx = 0;
+    rfturn S_OK;
 }
 
-HRESULT D3DMaskCache::Enable()
+HRESULT D3DMbskCbdif::Enbblf()
 {
-    HRESULT res;
+    HRESULT rfs;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DMaskCache::Enable");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskCbdif::Enbblf");
 
-    D3DResource *pMaskTexRes;
-    res = pCtx->GetResourceManager()->GetMaskTexture(&pMaskTexRes);
-    RETURN_STATUS_IF_FAILED(res);
+    D3DRfsourdf *pMbskTfxRfs;
+    rfs = pCtx->GftRfsourdfMbnbgfr()->GftMbskTfxturf(&pMbskTfxRfs);
+    RETURN_STATUS_IF_FAILED(rfs);
 
-    res = pCtx->SetTexture(pMaskTexRes->GetTexture(), 0);
+    rfs = pCtx->SftTfxturf(pMbskTfxRfs->GftTfxturf(), 0);
 
-    IDirect3DDevice9 *pd3dDevice = pCtx->Get3DDevice();
-    D3DTEXTUREFILTERTYPE fhint =
-        pCtx->IsTextureFilteringSupported(D3DTEXF_NONE) ?
+    IDirfdt3DDfvidf9 *pd3dDfvidf = pCtx->Gft3DDfvidf();
+    D3DTEXTUREFILTERTYPE fiint =
+        pCtx->IsTfxturfFiltfringSupportfd(D3DTEXF_NONE) ?
             D3DTEXF_NONE : D3DTEXF_POINT;
-    pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, fhint);
-    pd3dDevice->SetSamplerState(0, D3DSAMP_MINFILTER, fhint);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MAGFILTER, fiint);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MINFILTER, fiint);
 
-    return res;
+    rfturn rfs;
 }
 
-HRESULT D3DMaskCache::Disable()
+HRESULT D3DMbskCbdif::Disbblf()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DMaskCache::Disable");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskCbdif::Disbblf");
 
-    maskCacheIndex = 0;
+    mbskCbdifIndfx = 0;
 
-    return pCtx->SetTexture(NULL, 0);
+    rfturn pCtx->SftTfxturf(NULL, 0);
 }
 
-HRESULT D3DMaskCache::AddMaskQuad(int srcx, int srcy,
+HRESULT D3DMbskCbdif::AddMbskQubd(int srdx, int srdy,
                                   int dstx, int dsty,
-                                  int width, int height,
-                                  int maskscan, void *mask)
+                                  int widti, int ifigit,
+                                  int mbsksdbn, void *mbsk)
 {
-    HRESULT res;
-    float tx1, ty1, tx2, ty2;
-    float dx1, dy1, dx2, dy2;
+    HRESULT rfs;
+    flobt tx1, ty1, tx2, ty2;
+    flobt dx1, dy1, dx2, dy2;
 
-    J2dTraceLn1(J2D_TRACE_INFO, "D3DVertexCacher::AddMaskQuad: %d",
-                maskCacheIndex);
+    J2dTrbdfLn1(J2D_TRACE_INFO, "D3DVfrtfxCbdifr::AddMbskQubd: %d",
+                mbskCbdifIndfx);
 
-    if (maskCacheIndex >= D3D_MASK_CACHE_MAX_INDEX ||
-        pCtx->pVCacher->GetFreeVertices() < 6)
+    if (mbskCbdifIndfx >= D3D_MASK_CACHE_MAX_INDEX ||
+        pCtx->pVCbdifr->GftFrffVfrtidfs() < 6)
     {
-        res = pCtx->pVCacher->Render();
-        RETURN_STATUS_IF_FAILED(res);
-        maskCacheIndex = 0;
+        rfs = pCtx->pVCbdifr->Rfndfr();
+        RETURN_STATUS_IF_FAILED(rfs);
+        mbskCbdifIndfx = 0;
     }
 
-    if (mask != NULL) {
-        int texx = D3D_MASK_CACHE_TILE_WIDTH *
-            (maskCacheIndex % D3D_MASK_CACHE_WIDTH_IN_TILES);
-        int texy = D3D_MASK_CACHE_TILE_HEIGHT *
-            (maskCacheIndex / D3D_MASK_CACHE_WIDTH_IN_TILES);
-        D3DResource *pMaskTexRes;
+    if (mbsk != NULL) {
+        int tfxx = D3D_MASK_CACHE_TILE_WIDTH *
+            (mbskCbdifIndfx % D3D_MASK_CACHE_WIDTH_IN_TILES);
+        int tfxy = D3D_MASK_CACHE_TILE_HEIGHT *
+            (mbskCbdifIndfx / D3D_MASK_CACHE_WIDTH_IN_TILES);
+        D3DRfsourdf *pMbskTfxRfs;
 
-        res = pCtx->GetResourceManager()->GetMaskTexture(&pMaskTexRes);
-        RETURN_STATUS_IF_FAILED(res);
+        rfs = pCtx->GftRfsourdfMbnbgfr()->GftMbskTfxturf(&pMbskTfxRfs);
+        RETURN_STATUS_IF_FAILED(rfs);
 
-        // copy alpha mask into texture tile
-        pCtx->UploadTileToTexture(pMaskTexRes, mask,
-                                  texx, texy,
-                                  srcx, srcy,
-                                  width, height,
-                                  maskscan,
+        // dopy blpib mbsk into tfxturf tilf
+        pCtx->UplobdTilfToTfxturf(pMbskTfxRfs, mbsk,
+                                  tfxx, tfxy,
+                                  srdx, srdy,
+                                  widti, ifigit,
+                                  mbsksdbn,
                                   TILEFMT_1BYTE_ALPHA);
 
-        tx1 = ((float)texx) / D3D_MASK_CACHE_WIDTH_IN_TEXELS;
-        ty1 = ((float)texy) / D3D_MASK_CACHE_HEIGHT_IN_TEXELS;
+        tx1 = ((flobt)tfxx) / D3D_MASK_CACHE_WIDTH_IN_TEXELS;
+        ty1 = ((flobt)tfxy) / D3D_MASK_CACHE_HEIGHT_IN_TEXELS;
 
-        maskCacheIndex++;
-    } else {
-        // use special fully opaque tile
-        tx1 = ((float)D3D_MASK_CACHE_SPECIAL_TILE_X) /
+        mbskCbdifIndfx++;
+    } flsf {
+        // usf spfdibl fully opbquf tilf
+        tx1 = ((flobt)D3D_MASK_CACHE_SPECIAL_TILE_X) /
             D3D_MASK_CACHE_WIDTH_IN_TEXELS;
-        ty1 = ((float)D3D_MASK_CACHE_SPECIAL_TILE_Y) /
+        ty1 = ((flobt)D3D_MASK_CACHE_SPECIAL_TILE_Y) /
             D3D_MASK_CACHE_HEIGHT_IN_TEXELS;
     }
 
-    tx2 = tx1 + (((float)width) / D3D_MASK_CACHE_WIDTH_IN_TEXELS);
-    ty2 = ty1 + (((float)height) / D3D_MASK_CACHE_HEIGHT_IN_TEXELS);
+    tx2 = tx1 + (((flobt)widti) / D3D_MASK_CACHE_WIDTH_IN_TEXELS);
+    ty2 = ty1 + (((flobt)ifigit) / D3D_MASK_CACHE_HEIGHT_IN_TEXELS);
 
-    dx1 = (float)dstx;
-    dy1 = (float)dsty;
-    dx2 = dx1 + width;
-    dy2 = dy1 + height;
+    dx1 = (flobt)dstx;
+    dy1 = (flobt)dsty;
+    dx2 = dx1 + widti;
+    dy2 = dy1 + ifigit;
 
-    return pCtx->pVCacher->DrawTexture(dx1, dy1, dx2, dy2,
+    rfturn pCtx->pVCbdifr->DrbwTfxturf(dx1, dy1, dx2, dy2,
                                        tx1, ty1, tx2, ty2);
 }

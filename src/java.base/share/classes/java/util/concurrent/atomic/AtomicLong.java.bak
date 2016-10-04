@@ -1,350 +1,350 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.atomic;
-import java.util.function.LongUnaryOperator;
-import java.util.function.LongBinaryOperator;
-import sun.misc.Unsafe;
+pbdkbgf jbvb.util.dondurrfnt.btomid;
+import jbvb.util.fundtion.LongUnbryOpfrbtor;
+import jbvb.util.fundtion.LongBinbryOpfrbtor;
+import sun.misd.Unsbff;
 
 /**
- * A {@code long} value that may be updated atomically.  See the
- * {@link java.util.concurrent.atomic} package specification for
- * description of the properties of atomic variables. An
- * {@code AtomicLong} is used in applications such as atomically
- * incremented sequence numbers, and cannot be used as a replacement
- * for a {@link java.lang.Long}. However, this class does extend
- * {@code Number} to allow uniform access by tools and utilities that
- * deal with numerically-based classes.
+ * A {@dodf long} vbluf tibt mby bf updbtfd btomidblly.  Sff tif
+ * {@link jbvb.util.dondurrfnt.btomid} pbdkbgf spfdifidbtion for
+ * dfsdription of tif propfrtifs of btomid vbribblfs. An
+ * {@dodf AtomidLong} is usfd in bpplidbtions sudi bs btomidblly
+ * indrfmfntfd sfqufndf numbfrs, bnd dbnnot bf usfd bs b rfplbdfmfnt
+ * for b {@link jbvb.lbng.Long}. Howfvfr, tiis dlbss dofs fxtfnd
+ * {@dodf Numbfr} to bllow uniform bddfss by tools bnd utilitifs tibt
+ * dfbl witi numfridblly-bbsfd dlbssfs.
  *
- * @since 1.5
- * @author Doug Lea
+ * @sindf 1.5
+ * @butior Doug Lfb
  */
-public class AtomicLong extends Number implements java.io.Serializable {
-    private static final long serialVersionUID = 1927816293512124184L;
+publid dlbss AtomidLong fxtfnds Numbfr implfmfnts jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 1927816293512124184L;
 
-    // setup to use Unsafe.compareAndSwapLong for updates
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final long valueOffset;
-
-    /**
-     * Records whether the underlying JVM supports lockless
-     * compareAndSwap for longs. While the Unsafe.compareAndSwapLong
-     * method works in either case, some constructions should be
-     * handled at Java level to avoid locking user-visible locks.
-     */
-    static final boolean VM_SUPPORTS_LONG_CAS = VMSupportsCS8();
+    // sftup to usf Unsbff.dompbrfAndSwbpLong for updbtfs
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+    privbtf stbtid finbl long vblufOffsft;
 
     /**
-     * Returns whether underlying JVM supports lockless CompareAndSet
-     * for longs. Called only once and cached in VM_SUPPORTS_LONG_CAS.
+     * Rfdords wiftifr tif undfrlying JVM supports lodklfss
+     * dompbrfAndSwbp for longs. Wiilf tif Unsbff.dompbrfAndSwbpLong
+     * mftiod works in fitifr dbsf, somf donstrudtions siould bf
+     * ibndlfd bt Jbvb lfvfl to bvoid lodking usfr-visiblf lodks.
      */
-    private static native boolean VMSupportsCS8();
+    stbtid finbl boolfbn VM_SUPPORTS_LONG_CAS = VMSupportsCS8();
 
-    static {
+    /**
+     * Rfturns wiftifr undfrlying JVM supports lodklfss CompbrfAndSft
+     * for longs. Cbllfd only ondf bnd dbdifd in VM_SUPPORTS_LONG_CAS.
+     */
+    privbtf stbtid nbtivf boolfbn VMSupportsCS8();
+
+    stbtid {
         try {
-            valueOffset = unsafe.objectFieldOffset
-                (AtomicLong.class.getDeclaredField("value"));
-        } catch (Exception ex) { throw new Error(ex); }
+            vblufOffsft = unsbff.objfdtFifldOffsft
+                (AtomidLong.dlbss.gftDfdlbrfdFifld("vbluf"));
+        } dbtdi (Exdfption fx) { tirow nfw Error(fx); }
     }
 
-    private volatile long value;
+    privbtf volbtilf long vbluf;
 
     /**
-     * Creates a new AtomicLong with the given initial value.
+     * Crfbtfs b nfw AtomidLong witi tif givfn initibl vbluf.
      *
-     * @param initialValue the initial value
+     * @pbrbm initiblVbluf tif initibl vbluf
      */
-    public AtomicLong(long initialValue) {
-        value = initialValue;
-    }
-
-    /**
-     * Creates a new AtomicLong with initial value {@code 0}.
-     */
-    public AtomicLong() {
+    publid AtomidLong(long initiblVbluf) {
+        vbluf = initiblVbluf;
     }
 
     /**
-     * Gets the current value.
-     *
-     * @return the current value
+     * Crfbtfs b nfw AtomidLong witi initibl vbluf {@dodf 0}.
      */
-    public final long get() {
-        return value;
+    publid AtomidLong() {
     }
 
     /**
-     * Sets to the given value.
+     * Gfts tif durrfnt vbluf.
      *
-     * @param newValue the new value
+     * @rfturn tif durrfnt vbluf
      */
-    public final void set(long newValue) {
-        value = newValue;
+    publid finbl long gft() {
+        rfturn vbluf;
     }
 
     /**
-     * Eventually sets to the given value.
+     * Sfts to tif givfn vbluf.
      *
-     * @param newValue the new value
-     * @since 1.6
+     * @pbrbm nfwVbluf tif nfw vbluf
      */
-    public final void lazySet(long newValue) {
-        unsafe.putOrderedLong(this, valueOffset, newValue);
+    publid finbl void sft(long nfwVbluf) {
+        vbluf = nfwVbluf;
     }
 
     /**
-     * Atomically sets to the given value and returns the old value.
+     * Evfntublly sfts to tif givfn vbluf.
      *
-     * @param newValue the new value
-     * @return the previous value
+     * @pbrbm nfwVbluf tif nfw vbluf
+     * @sindf 1.6
      */
-    public final long getAndSet(long newValue) {
-        return unsafe.getAndSetLong(this, valueOffset, newValue);
+    publid finbl void lbzySft(long nfwVbluf) {
+        unsbff.putOrdfrfdLong(tiis, vblufOffsft, nfwVbluf);
     }
 
     /**
-     * Atomically sets the value to the given updated value
-     * if the current value {@code ==} the expected value.
+     * Atomidblly sfts to tif givfn vbluf bnd rfturns tif old vbluf.
      *
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful. False return indicates that
-     * the actual value was not equal to the expected value.
+     * @pbrbm nfwVbluf tif nfw vbluf
+     * @rfturn tif prfvious vbluf
      */
-    public final boolean compareAndSet(long expect, long update) {
-        return unsafe.compareAndSwapLong(this, valueOffset, expect, update);
+    publid finbl long gftAndSft(long nfwVbluf) {
+        rfturn unsbff.gftAndSftLong(tiis, vblufOffsft, nfwVbluf);
     }
 
     /**
-     * Atomically sets the value to the given updated value
-     * if the current value {@code ==} the expected value.
+     * Atomidblly sfts tif vbluf to tif givfn updbtfd vbluf
+     * if tif durrfnt vbluf {@dodf ==} tif fxpfdtfd vbluf.
      *
-     * <p><a href="package-summary.html#weakCompareAndSet">May fail
-     * spuriously and does not provide ordering guarantees</a>, so is
-     * only rarely an appropriate alternative to {@code compareAndSet}.
-     *
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful
+     * @pbrbm fxpfdt tif fxpfdtfd vbluf
+     * @pbrbm updbtf tif nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful. Fblsf rfturn indidbtfs tibt
+     * tif bdtubl vbluf wbs not fqubl to tif fxpfdtfd vbluf.
      */
-    public final boolean weakCompareAndSet(long expect, long update) {
-        return unsafe.compareAndSwapLong(this, valueOffset, expect, update);
+    publid finbl boolfbn dompbrfAndSft(long fxpfdt, long updbtf) {
+        rfturn unsbff.dompbrfAndSwbpLong(tiis, vblufOffsft, fxpfdt, updbtf);
     }
 
     /**
-     * Atomically increments by one the current value.
+     * Atomidblly sfts tif vbluf to tif givfn updbtfd vbluf
+     * if tif durrfnt vbluf {@dodf ==} tif fxpfdtfd vbluf.
      *
-     * @return the previous value
+     * <p><b irff="pbdkbgf-summbry.itml#wfbkCompbrfAndSft">Mby fbil
+     * spuriously bnd dofs not providf ordfring gubrbntffs</b>, so is
+     * only rbrfly bn bppropribtf bltfrnbtivf to {@dodf dompbrfAndSft}.
+     *
+     * @pbrbm fxpfdt tif fxpfdtfd vbluf
+     * @pbrbm updbtf tif nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful
      */
-    public final long getAndIncrement() {
-        return unsafe.getAndAddLong(this, valueOffset, 1L);
+    publid finbl boolfbn wfbkCompbrfAndSft(long fxpfdt, long updbtf) {
+        rfturn unsbff.dompbrfAndSwbpLong(tiis, vblufOffsft, fxpfdt, updbtf);
     }
 
     /**
-     * Atomically decrements by one the current value.
+     * Atomidblly indrfmfnts by onf tif durrfnt vbluf.
      *
-     * @return the previous value
+     * @rfturn tif prfvious vbluf
      */
-    public final long getAndDecrement() {
-        return unsafe.getAndAddLong(this, valueOffset, -1L);
+    publid finbl long gftAndIndrfmfnt() {
+        rfturn unsbff.gftAndAddLong(tiis, vblufOffsft, 1L);
     }
 
     /**
-     * Atomically adds the given value to the current value.
+     * Atomidblly dfdrfmfnts by onf tif durrfnt vbluf.
      *
-     * @param delta the value to add
-     * @return the previous value
+     * @rfturn tif prfvious vbluf
      */
-    public final long getAndAdd(long delta) {
-        return unsafe.getAndAddLong(this, valueOffset, delta);
+    publid finbl long gftAndDfdrfmfnt() {
+        rfturn unsbff.gftAndAddLong(tiis, vblufOffsft, -1L);
     }
 
     /**
-     * Atomically increments by one the current value.
+     * Atomidblly bdds tif givfn vbluf to tif durrfnt vbluf.
      *
-     * @return the updated value
+     * @pbrbm dfltb tif vbluf to bdd
+     * @rfturn tif prfvious vbluf
      */
-    public final long incrementAndGet() {
-        return unsafe.getAndAddLong(this, valueOffset, 1L) + 1L;
+    publid finbl long gftAndAdd(long dfltb) {
+        rfturn unsbff.gftAndAddLong(tiis, vblufOffsft, dfltb);
     }
 
     /**
-     * Atomically decrements by one the current value.
+     * Atomidblly indrfmfnts by onf tif durrfnt vbluf.
      *
-     * @return the updated value
+     * @rfturn tif updbtfd vbluf
      */
-    public final long decrementAndGet() {
-        return unsafe.getAndAddLong(this, valueOffset, -1L) - 1L;
+    publid finbl long indrfmfntAndGft() {
+        rfturn unsbff.gftAndAddLong(tiis, vblufOffsft, 1L) + 1L;
     }
 
     /**
-     * Atomically adds the given value to the current value.
+     * Atomidblly dfdrfmfnts by onf tif durrfnt vbluf.
      *
-     * @param delta the value to add
-     * @return the updated value
+     * @rfturn tif updbtfd vbluf
      */
-    public final long addAndGet(long delta) {
-        return unsafe.getAndAddLong(this, valueOffset, delta) + delta;
+    publid finbl long dfdrfmfntAndGft() {
+        rfturn unsbff.gftAndAddLong(tiis, vblufOffsft, -1L) - 1L;
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function, returning the previous value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.
+     * Atomidblly bdds tif givfn vbluf to tif durrfnt vbluf.
      *
-     * @param updateFunction a side-effect-free function
-     * @return the previous value
-     * @since 1.8
+     * @pbrbm dfltb tif vbluf to bdd
+     * @rfturn tif updbtfd vbluf
      */
-    public final long getAndUpdate(LongUnaryOperator updateFunction) {
-        long prev, next;
+    publid finbl long bddAndGft(long dfltb) {
+        rfturn unsbff.gftAndAddLong(tiis, vblufOffsft, dfltb) + dfltb;
+    }
+
+    /**
+     * Atomidblly updbtfs tif durrfnt vbluf witi tif rfsults of
+     * bpplying tif givfn fundtion, rfturning tif prfvious vbluf. Tif
+     * fundtion siould bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * wifn bttfmptfd updbtfs fbil duf to dontfntion bmong tirfbds.
+     *
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn tif prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl long gftAndUpdbtf(LongUnbryOpfrbtor updbtfFundtion) {
+        long prfv, nfxt;
         do {
-            prev = get();
-            next = updateFunction.applyAsLong(prev);
-        } while (!compareAndSet(prev, next));
-        return prev;
+            prfv = gft();
+            nfxt = updbtfFundtion.bpplyAsLong(prfv);
+        } wiilf (!dompbrfAndSft(prfv, nfxt));
+        rfturn prfv;
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function, returning the updated value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.
+     * Atomidblly updbtfs tif durrfnt vbluf witi tif rfsults of
+     * bpplying tif givfn fundtion, rfturning tif updbtfd vbluf. Tif
+     * fundtion siould bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * wifn bttfmptfd updbtfs fbil duf to dontfntion bmong tirfbds.
      *
-     * @param updateFunction a side-effect-free function
-     * @return the updated value
-     * @since 1.8
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn tif updbtfd vbluf
+     * @sindf 1.8
      */
-    public final long updateAndGet(LongUnaryOperator updateFunction) {
-        long prev, next;
+    publid finbl long updbtfAndGft(LongUnbryOpfrbtor updbtfFundtion) {
+        long prfv, nfxt;
         do {
-            prev = get();
-            next = updateFunction.applyAsLong(prev);
-        } while (!compareAndSet(prev, next));
-        return next;
+            prfv = gft();
+            nfxt = updbtfFundtion.bpplyAsLong(prfv);
+        } wiilf (!dompbrfAndSft(prfv, nfxt));
+        rfturn nfxt;
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function to the current and given values,
-     * returning the previous value. The function should be
-     * side-effect-free, since it may be re-applied when attempted
-     * updates fail due to contention among threads.  The function
-     * is applied with the current value as its first argument,
-     * and the given update as the second argument.
+     * Atomidblly updbtfs tif durrfnt vbluf witi tif rfsults of
+     * bpplying tif givfn fundtion to tif durrfnt bnd givfn vblufs,
+     * rfturning tif prfvious vbluf. Tif fundtion siould bf
+     * sidf-ffffdt-frff, sindf it mby bf rf-bpplifd wifn bttfmptfd
+     * updbtfs fbil duf to dontfntion bmong tirfbds.  Tif fundtion
+     * is bpplifd witi tif durrfnt vbluf bs its first brgumfnt,
+     * bnd tif givfn updbtf bs tif sfdond brgumfnt.
      *
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the previous value
-     * @since 1.8
+     * @pbrbm x tif updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn tif prfvious vbluf
+     * @sindf 1.8
      */
-    public final long getAndAccumulate(long x,
-                                       LongBinaryOperator accumulatorFunction) {
-        long prev, next;
+    publid finbl long gftAndAddumulbtf(long x,
+                                       LongBinbryOpfrbtor bddumulbtorFundtion) {
+        long prfv, nfxt;
         do {
-            prev = get();
-            next = accumulatorFunction.applyAsLong(prev, x);
-        } while (!compareAndSet(prev, next));
-        return prev;
+            prfv = gft();
+            nfxt = bddumulbtorFundtion.bpplyAsLong(prfv, x);
+        } wiilf (!dompbrfAndSft(prfv, nfxt));
+        rfturn prfv;
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function to the current and given values,
-     * returning the updated value. The function should be
-     * side-effect-free, since it may be re-applied when attempted
-     * updates fail due to contention among threads.  The function
-     * is applied with the current value as its first argument,
-     * and the given update as the second argument.
+     * Atomidblly updbtfs tif durrfnt vbluf witi tif rfsults of
+     * bpplying tif givfn fundtion to tif durrfnt bnd givfn vblufs,
+     * rfturning tif updbtfd vbluf. Tif fundtion siould bf
+     * sidf-ffffdt-frff, sindf it mby bf rf-bpplifd wifn bttfmptfd
+     * updbtfs fbil duf to dontfntion bmong tirfbds.  Tif fundtion
+     * is bpplifd witi tif durrfnt vbluf bs its first brgumfnt,
+     * bnd tif givfn updbtf bs tif sfdond brgumfnt.
      *
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the updated value
-     * @since 1.8
+     * @pbrbm x tif updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn tif updbtfd vbluf
+     * @sindf 1.8
      */
-    public final long accumulateAndGet(long x,
-                                       LongBinaryOperator accumulatorFunction) {
-        long prev, next;
+    publid finbl long bddumulbtfAndGft(long x,
+                                       LongBinbryOpfrbtor bddumulbtorFundtion) {
+        long prfv, nfxt;
         do {
-            prev = get();
-            next = accumulatorFunction.applyAsLong(prev, x);
-        } while (!compareAndSet(prev, next));
-        return next;
+            prfv = gft();
+            nfxt = bddumulbtorFundtion.bpplyAsLong(prfv, x);
+        } wiilf (!dompbrfAndSft(prfv, nfxt));
+        rfturn nfxt;
     }
 
     /**
-     * Returns the String representation of the current value.
-     * @return the String representation of the current value
+     * Rfturns tif String rfprfsfntbtion of tif durrfnt vbluf.
+     * @rfturn tif String rfprfsfntbtion of tif durrfnt vbluf
      */
-    public String toString() {
-        return Long.toString(get());
+    publid String toString() {
+        rfturn Long.toString(gft());
     }
 
     /**
-     * Returns the value of this {@code AtomicLong} as an {@code int}
-     * after a narrowing primitive conversion.
-     * @jls 5.1.3 Narrowing Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf AtomidLong} bs bn {@dodf int}
+     * bftfr b nbrrowing primitivf donvfrsion.
+     * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
      */
-    public int intValue() {
-        return (int)get();
+    publid int intVbluf() {
+        rfturn (int)gft();
     }
 
     /**
-     * Returns the value of this {@code AtomicLong} as a {@code long}.
+     * Rfturns tif vbluf of tiis {@dodf AtomidLong} bs b {@dodf long}.
      */
-    public long longValue() {
-        return get();
+    publid long longVbluf() {
+        rfturn gft();
     }
 
     /**
-     * Returns the value of this {@code AtomicLong} as a {@code float}
-     * after a widening primitive conversion.
-     * @jls 5.1.2 Widening Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf AtomidLong} bs b {@dodf flobt}
+     * bftfr b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public float floatValue() {
-        return (float)get();
+    publid flobt flobtVbluf() {
+        rfturn (flobt)gft();
     }
 
     /**
-     * Returns the value of this {@code AtomicLong} as a {@code double}
-     * after a widening primitive conversion.
-     * @jls 5.1.2 Widening Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf AtomidLong} bs b {@dodf doublf}
+     * bftfr b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public double doubleValue() {
-        return (double)get();
+    publid doublf doublfVbluf() {
+        rfturn (doublf)gft();
     }
 
 }

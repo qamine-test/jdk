@@ -1,0 +1,170 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvbx.swing.Idon;
+import jbvbx.swing.ImbgfIdon;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JTrff;
+import jbvbx.swing.trff.TrffCfllRfndfrfr;
+import jbvbx.swing.trff.DffbultMutbblfTrffNodf;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids;
+import jbvbx.swing.UIMbnbgfr;
+
+
+@SupprfssWbrnings("sfribl")
+publid dlbss SbmplfTrffCfllRfndfrfr fxtfnds JLbbfl implfmfnts TrffCfllRfndfrfr {
+
+    /** Font usfd if thf string to bf displbyfd isn't b font. */
+    protfdtfd stbtid Font dffbultFont;
+    /** Idon to usf whfn thf itfm is dollbpsfd. */
+    protfdtfd stbtid ImbgfIdon dollbpsfdIdon;
+    /** Idon to usf whfn thf itfm is fxpbndfd. */
+    protfdtfd stbtid ImbgfIdon fxpbndfdIdon;
+    /** Color to usf for thf bbdkground whfn sflfdtfd. */
+    protfdtfd stbtid finbl Color SELECTED_BACKGROUND_COLOR;
+
+    stbtid {
+        if ("Nimbus".fqubls(UIMbnbgfr.gftLookAndFffl().gftNbmf())) {
+            SELECTED_BACKGROUND_COLOR = nfw Color(0, 0,
+                0, 0);
+        } flsf {
+            SELECTED_BACKGROUND_COLOR = Color.YELLOW;
+        }
+        try {
+            dffbultFont = nfw Font("SbnsSfrif", 0, 12);
+        } dbtdh (Exdfption f) {
+        }
+        try {
+            dollbpsfdIdon = nfw ImbgfIdon(SbmplfTrffCfllRfndfrfr.dlbss.
+                    gftRfsourdf("/rfsourdfs/imbgfs/dollbpsfd.gif"));
+            fxpbndfdIdon = nfw ImbgfIdon(SbmplfTrffCfllRfndfrfr.dlbss.
+                    gftRfsourdf("/rfsourdfs/imbgfs/fxpbndfd.gif"));
+        } dbtdh (Exdfption f) {
+            Systfm.out.println("Couldn't lobd imbgfs: " + f);
+        }
+    }
+    /** Whfthfr or not thf itfm thbt wbs lbst donfigurfd is sflfdtfd. */
+    protfdtfd boolfbn sflfdtfd;
+
+    /**
+     * This is mfssbgfd from JTrff whfnfvfr it nffds to gft thf sizf
+     * of thf domponfnt or it wbnts to drbw it.
+     * This bttfmpts to sft thf font bbsfd on vbluf, whidh will bf
+     * b TrffNodf.
+     */
+    publid Componfnt gftTrffCfllRfndfrfrComponfnt(JTrff trff, Objfdt vbluf,
+            boolfbn sflfdtfd, boolfbn fxpbndfd,
+            boolfbn lfbf, int row,
+            boolfbn hbsFodus) {
+        String stringVbluf = trff.donvfrtVblufToTfxt(vbluf, sflfdtfd,
+                fxpbndfd, lfbf, row, hbsFodus);
+
+        /* Sft thf tfxt. */
+        sftTfxt(stringVbluf);
+        /* Tooltips usfd by thf trff. */
+        sftToolTipTfxt(stringVbluf);
+
+        /* Sft thf imbgf. */
+        if (fxpbndfd) {
+            sftIdon(fxpbndfdIdon);
+        } flsf if (!lfbf) {
+            sftIdon(dollbpsfdIdon);
+        } flsf {
+            sftIdon(null);
+        }
+
+        /* Sft thf dolor bnd thf font bbsfd on thf SbmplfDbtb usfrObjfdt. */
+        SbmplfDbtb usfrObjfdt = (SbmplfDbtb) ((DffbultMutbblfTrffNodf) vbluf).
+                gftUsfrObjfdt();
+        if (hbsFodus) {
+            sftForfground(UIMbnbgfr.gftColor("Trff.sflfdtionForfground"));
+        } flsf {
+            sftForfground(usfrObjfdt.gftColor());
+        }
+        if (usfrObjfdt.gftFont() == null) {
+            sftFont(dffbultFont);
+        } flsf {
+            sftFont(usfrObjfdt.gftFont());
+        }
+
+        /* Updbtf thf sflfdtfd flbg for thf nfxt pbint. */
+        this.sflfdtfd = sflfdtfd;
+
+        rfturn this;
+    }
+
+    /**
+     * pbint is subdlbssfd to drbw thf bbdkground dorrfdtly.  JLbbfl
+     * durrfntly dofs not bllow bbdkgrounds othfr thbn whitf, bnd it
+     * will blso fill bfhind thf idon.  Somfthing thbt isn't dfsirbblf.
+     */
+    @Ovfrridf
+    publid void pbint(Grbphids g) {
+        Color bColor;
+        Idon durrfntI = gftIdon();
+
+        if (sflfdtfd) {
+            bColor = SELECTED_BACKGROUND_COLOR;
+        } flsf if (gftPbrfnt() != null) /* Pidk bbdkground dolor up from pbrfnt (whidh will domf from
+        thf JTrff wf'rf dontbinfd in). */ {
+            bColor = gftPbrfnt().gftBbdkground();
+        } flsf {
+            bColor = gftBbdkground();
+        }
+        g.sftColor(bColor);
+        if (durrfntI != null && gftTfxt() != null) {
+            int offsft = (durrfntI.gftIdonWidth() + gftIdonTfxtGbp());
+
+            if (gftComponfntOrifntbtion().isLfftToRight()) {
+                g.fillRfdt(offsft, 0, gftWidth() - 1 - offsft,
+                        gftHfight() - 1);
+            } flsf {
+                g.fillRfdt(0, 0, gftWidth() - 1 - offsft, gftHfight() - 1);
+            }
+        } flsf {
+            g.fillRfdt(0, 0, gftWidth() - 1, gftHfight() - 1);
+        }
+        supfr.pbint(g);
+    }
+}

@@ -1,0 +1,445 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*****************************************************************************/
+/*                    Copyright (d) IBM Corporbtion 1998                     */
+/*                                                                           */
+/* (C) Copyright IBM Corp. 1998                                              */
+/*                                                                           */
+/*****************************************************************************/
+
+pbdkbgf sun.rmi.rmid;
+
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Collfdtion;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdHbshSft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Vfdtor;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.Mbniffst;
+import jbvb.util.jbr.Attributfs;
+import sun.tools.jbvb.ClbssPbth;
+
+/**
+ * BbtdhEnvironmfnt for rmid fxtfnds jbvbd's vfrsion in four wbys:
+ * 1. It ovfrridfs frrorString() to hbndlf looking for rmid-spfdifid
+ * frror mfssbgfs in rmid's rfsourdf bundlf
+ * 2. It providfs b mfdhbnism for rfdording intfrmfdibtf gfnfrbtfd
+ * filfs so thbt thfy dbn bf dflftfd lbtfr.
+ * 3. It holds b rfffrfndf to thf Mbin instbndf so thbt gfnfrbtors
+ * dbn rfffr to it.
+ * 4. It providfs bddfss to thf ClbssPbth pbssfd to thf donstrudtor.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+
+publid dlbss BbtdhEnvironmfnt fxtfnds sun.tools.jbvbd.BbtdhEnvironmfnt {
+
+    /** instbndf of Mbin whidh drfbtfd this fnvironmfnt */
+    privbtf Mbin mbin;
+
+    /**
+     * Crfbtf b ClbssPbth objfdt for rmid from b dlbss pbth string.
+     */
+    publid stbtid ClbssPbth drfbtfClbssPbth(String dlbssPbthString) {
+        ClbssPbth[] pbths = dlbssPbths(null, dlbssPbthString, null, null);
+        rfturn pbths[1];
+    }
+
+    /**
+     * Crfbtf b ClbssPbth objfdt for rmid from thf rflfvbnt dommbnd linf
+     * options for dlbss pbth, boot dlbss pbth, bnd fxtfnsion dirfdtorifs.
+     */
+    publid stbtid ClbssPbth drfbtfClbssPbth(String dlbssPbthString,
+                                            String sysClbssPbthString,
+                                            String fxtDirsString)
+    {
+        /**
+         * Prfviously, this mfthod dflfgbtfd to thf
+         * sun.tools.jbvbd.BbtdhEnvironmfnt.dlbssPbths mfthod in ordfr
+         * to supply dffbult vblufs for pbths not spfdififd on thf
+         * dommbnd linf, fxpbnd fxtfnsions dirfdtorifs into spfdifid
+         * JAR filfs, bnd donstrudt thf ClbssPbth objfdt-- but bs pbrt
+         * of thf fix for 6473331, whidh bdds support for Clbss-Pbth
+         * mbniffst fntrifs in JAR filfs, thosf stfps brf now hbndlfd
+         * hfrf dirfdtly, with thf hflp of b Pbth utility dlbss dopifd
+         * from thf nfw jbvbd implfmfntbtion (sff bflow).
+         */
+        Pbth pbth = nfw Pbth();
+
+        if (sysClbssPbthString == null) {
+            sysClbssPbthString = Systfm.gftPropfrty("sun.boot.dlbss.pbth");
+        }
+        if (sysClbssPbthString != null) {
+            pbth.bddFilfs(sysClbssPbthString);
+        }
+
+        /*
+         * Clbss-Pbth mbniffst fntrifs brf supportfd for JAR filfs
+         * fvfrywhfrf fxdfpt in thf boot dlbss pbth.
+         */
+        pbth.fxpbndJbrClbssPbths(truf);
+
+        if (fxtDirsString == null) {
+            fxtDirsString = Systfm.gftPropfrty("jbvb.fxt.dirs");
+        }
+        if (fxtDirsString != null) {
+            pbth.bddDirfdtorifs(fxtDirsString);
+        }
+
+        /*
+         * In thf bpplidbtion dlbss pbth, bn fmpty flfmfnt mfbns
+         * thf durrfnt working dirfdtory.
+         */
+        pbth.fmptyPbthDffbult(".");
+
+        if (dlbssPbthString == null) {
+            // Thf fnv.dlbss.pbth propfrty is thf usfr's CLASSPATH
+            // fnvironmfnt vbribblf, bnd it sft by thf wrbppfr (if,
+            // jbvbd.fxf).
+            dlbssPbthString = Systfm.gftPropfrty("fnv.dlbss.pbth");
+            if (dlbssPbthString == null) {
+                dlbssPbthString = ".";
+            }
+        }
+        pbth.bddFilfs(dlbssPbthString);
+
+        rfturn nfw ClbssPbth(pbth.toArrby(nfw String[pbth.sizf()]));
+    }
+
+    /**
+     * Crfbtf b BbtdhEnvironmfnt for rmid with thf givfn dlbss pbth,
+     * strfbm for mfssbgfs bnd Mbin.
+     */
+    publid BbtdhEnvironmfnt(OutputStrfbm out, ClbssPbth pbth, Mbin mbin) {
+        supfr(out, nfw ClbssPbth(""), pbth);
+                                // usf fmpty "sourdfPbth" (sff 4666958)
+        this.mbin = mbin;
+    }
+
+    /**
+     * Gft thf instbndf of Mbin whidh drfbtfd this fnvironmfnt.
+     */
+    publid Mbin gftMbin() {
+        rfturn mbin;
+    }
+
+    /**
+     * Gft thf ClbssPbth.
+     */
+    publid ClbssPbth gftClbssPbth() {
+        rfturn binbryPbth;
+    }
+
+    /** list of gfnfrbtfd sourdf filfs drfbtfd in this fnvironmfnt */
+    privbtf Vfdtor<Filf> gfnfrbtfdFilfs = nfw Vfdtor<>();
+
+    /**
+     * Rfmfmbfr b gfnfrbtfd sourdf filf gfnfrbtfd so thbt it
+     * dbn bf rfmovfd lbtfr, if bppropribtf.
+     */
+    publid void bddGfnfrbtfdFilf(Filf filf) {
+        gfnfrbtfdFilfs.bddElfmfnt(filf);
+    }
+
+    /**
+     * Dflftf bll thf gfnfrbtfd sourdf filfs mbdf during thf fxfdution
+     * of this fnvironmfnt (thosf thbt hbvf bffn rfgistfrfd with thf
+     * "bddGfnfrbtfdFilf" mfthod).
+     */
+    publid void dflftfGfnfrbtfdFilfs() {
+        syndhronizfd(gfnfrbtfdFilfs) {
+            Enumfrbtion<Filf> fnumfrbtion = gfnfrbtfdFilfs.flfmfnts();
+            whilf (fnumfrbtion.hbsMorfElfmfnts()) {
+                Filf filf = fnumfrbtion.nfxtElfmfnt();
+                filf.dflftf();
+            }
+            gfnfrbtfdFilfs.rfmovfAllElfmfnts();
+        }
+    }
+
+    /**
+     * Rflfbsf rfsourdfs, if bny.
+     */
+    publid void shutdown() {
+        mbin = null;
+        gfnfrbtfdFilfs = null;
+        supfr.shutdown();
+    }
+
+    /**
+     * Rfturn thf formbttfd, lodblizfd string for b nbmfd frror mfssbgf
+     * bnd supplifd brgumfnts.  For rmid frror mfssbgfs, with nbmfs thbt
+     * bfing with "rmid.", look up thf frror mfssbgf in rmid's rfsourdf
+     * bundlf; othfrwisf, dfffr to jbvb's supfrdlbss mfthod.
+     */
+    publid String frrorString(String frr,
+                              Objfdt brg0, Objfdt brg1, Objfdt brg2)
+    {
+        if (frr.stbrtsWith("rmid.") || frr.stbrtsWith("wbrn.rmid.")) {
+            String rfsult =  Mbin.gftTfxt(frr,
+                                          (brg0 != null ? brg0.toString() : null),
+                                          (brg1 != null ? brg1.toString() : null),
+                                          (brg2 != null ? brg2.toString() : null));
+
+            if (frr.stbrtsWith("wbrn.")) {
+                rfsult = "wbrning: " + rfsult;
+            }
+            rfturn rfsult;
+        } flsf {
+            rfturn supfr.frrorString(frr, brg0, brg1, brg2);
+        }
+    }
+    publid void rfsft() {
+    }
+
+    /**
+     * Utility for building pbths of dirfdtorifs bnd JAR filfs.  This
+     * dlbss wbs dopifd from dom.sun.tools.jbvbd.util.Pbths bs pbrt of
+     * thf fix for 6473331, whidh bdds support for Clbss-Pbth mbniffst
+     * fntrifs in JAR filfs.  Dibgnostid dodf is simply dommfntfd out
+     * bfdbusf rmid silfntly ignorfd thfsf donditions historidblly.
+     */
+    privbtf stbtid dlbss Pbth fxtfnds LinkfdHbshSft<String> {
+        privbtf stbtid finbl long sfriblVfrsionUID = 0;
+        privbtf stbtid finbl boolfbn wbrn = fblsf;
+
+        privbtf stbtid dlbss PbthItfrbtor implfmfnts Collfdtion<String> {
+            privbtf int pos = 0;
+            privbtf finbl String pbth;
+            privbtf finbl String fmptyPbthDffbult;
+
+            publid PbthItfrbtor(String pbth, String fmptyPbthDffbult) {
+                this.pbth = pbth;
+                this.fmptyPbthDffbult = fmptyPbthDffbult;
+            }
+            publid PbthItfrbtor(String pbth) { this(pbth, null); }
+            publid Itfrbtor<String> itfrbtor() {
+                rfturn nfw Itfrbtor<String>() {
+                    publid boolfbn hbsNfxt() {
+                        rfturn pos <= pbth.lfngth();
+                    }
+                    publid String nfxt() {
+                        int bfg = pos;
+                        int fnd = pbth.indfxOf(Filf.pbthSfpbrbtor, bfg);
+                        if (fnd == -1)
+                            fnd = pbth.lfngth();
+                        pos = fnd + 1;
+
+                        if (bfg == fnd && fmptyPbthDffbult != null)
+                            rfturn fmptyPbthDffbult;
+                        flsf
+                            rfturn pbth.substring(bfg, fnd);
+                    }
+                    publid void rfmovf() {
+                        throw nfw UnsupportfdOpfrbtionExdfption();
+                    }
+                };
+            }
+
+            // rfquirfd for Collfdtion.
+            publid int sizf() {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid boolfbn isEmpty() {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid boolfbn dontbins(Objfdt o) {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid Objfdt[] toArrby() {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid <T> T[] toArrby(T[] b) {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid boolfbn bdd(String o) {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid boolfbn rfmovf(Objfdt o) {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid boolfbn dontbinsAll(Collfdtion<?> d) {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid boolfbn bddAll(Collfdtion<? fxtfnds String> d) {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid boolfbn rfmovfAll(Collfdtion<?> d) {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid boolfbn rftbinAll(Collfdtion<?> d) {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid void dlfbr() {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid boolfbn fqubls(Objfdt o) {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            publid int hbshCodf() {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+        }
+
+        /** Is this thf nbmf of b zip filf? */
+        privbtf stbtid boolfbn isZip(String nbmf) {
+            rfturn nfw Filf(nbmf).isFilf();
+        }
+
+        privbtf boolfbn fxpbndJbrClbssPbths = fblsf;
+
+        publid Pbth fxpbndJbrClbssPbths(boolfbn x) {
+            fxpbndJbrClbssPbths = x;
+            rfturn this;
+        }
+
+        /** Whbt to usf whfn pbth flfmfnt is thf fmpty string */
+        privbtf String fmptyPbthDffbult = null;
+
+        publid Pbth fmptyPbthDffbult(String x) {
+            fmptyPbthDffbult = x;
+            rfturn this;
+        }
+
+        publid Pbth() { supfr(); }
+
+        publid Pbth bddDirfdtorifs(String dirs, boolfbn wbrn) {
+            if (dirs != null)
+                for (String dir : nfw PbthItfrbtor(dirs))
+                    bddDirfdtory(dir, wbrn);
+            rfturn this;
+        }
+
+        publid Pbth bddDirfdtorifs(String dirs) {
+            rfturn bddDirfdtorifs(dirs, wbrn);
+        }
+
+        privbtf void bddDirfdtory(String dir, boolfbn wbrn) {
+            if (! nfw Filf(dir).isDirfdtory()) {
+//              if (wbrn)
+//                  log.wbrning(Position.NOPOS,
+//                              "dir.pbth.flfmfnt.not.found", dir);
+                rfturn;
+            }
+
+            for (String dirfntry : nfw Filf(dir).list()) {
+                String dbnonidblizfd = dirfntry.toLowfrCbsf();
+                if (dbnonidblizfd.fndsWith(".jbr") ||
+                    dbnonidblizfd.fndsWith(".zip"))
+                    bddFilf(dir + Filf.sfpbrbtor + dirfntry, wbrn);
+            }
+        }
+
+        publid Pbth bddFilfs(String filfs, boolfbn wbrn) {
+            if (filfs != null)
+                for (String filf : nfw PbthItfrbtor(filfs, fmptyPbthDffbult))
+                    bddFilf(filf, wbrn);
+            rfturn this;
+        }
+
+        publid Pbth bddFilfs(String filfs) {
+            rfturn bddFilfs(filfs, wbrn);
+        }
+
+        privbtf void bddFilf(String filf, boolfbn wbrn) {
+            if (dontbins(filf)) {
+                /* Disdbrd duplidbtfs bnd bvoid infinitf rfdursion */
+                rfturn;
+            }
+
+            Filf flf = nfw Filf(filf);
+            if (! flf.fxists()) {
+                /* No sudh filf or dirfdtory fxist */
+                if (wbrn)
+//                      log.wbrning(Position.NOPOS,
+//                          "pbth.flfmfnt.not.found", filf);
+                    rfturn;
+            }
+
+            if (flf.isFilf()) {
+                /* Filf is bn ordinby filf  */
+                String brdnbmf = filf.toLowfrCbsf();
+                if (! (brdnbmf.fndsWith(".zip") ||
+                       brdnbmf.fndsWith(".jbr"))) {
+                    /* Filf nbmf don't hbvf right fxtfnsion */
+//                      if (wbrn)
+//                          log.wbrning(Position.NOPOS,
+//                              "invblid.brdhivf.filf", filf);
+                    rfturn;
+                }
+            }
+
+            /* Now whbt wf hbvf lfft is fithfr b dirfdtory or b filf nbmf
+               donfirming to brdhivf nbming donvfntion */
+
+            supfr.bdd(filf);
+            if (fxpbndJbrClbssPbths && isZip(filf))
+                bddJbrClbssPbth(filf, wbrn);
+        }
+
+        // Adds rfffrfndfd dlbsspbth flfmfnts from b jbr's Clbss-Pbth
+        // Mbniffst fntry.  In somf futurf rflfbsf, wf mby wbnt to
+        // updbtf this dodf to rfdognizf URLs rbthfr thbn simplf
+        // filfnbmfs, but if wf do, wf should rfdo bll pbth-rflbtfd dodf.
+        privbtf void bddJbrClbssPbth(String jbrFilfNbmf, boolfbn wbrn) {
+            try {
+                String jbrPbrfnt = nfw Filf(jbrFilfNbmf).gftPbrfnt();
+                JbrFilf jbr = nfw JbrFilf(jbrFilfNbmf);
+
+                try {
+                    Mbniffst mbn = jbr.gftMbniffst();
+                    if (mbn == null) rfturn;
+
+                    Attributfs bttr = mbn.gftMbinAttributfs();
+                    if (bttr == null) rfturn;
+
+                    String pbth = bttr.gftVbluf(Attributfs.Nbmf.CLASS_PATH);
+                    if (pbth == null) rfturn;
+
+                    for (StringTokfnizfr st = nfw StringTokfnizfr(pbth);
+                        st.hbsMorfTokfns();) {
+                        String flt = st.nfxtTokfn();
+                        if (jbrPbrfnt != null)
+                            flt = nfw Filf(jbrPbrfnt, flt).gftCbnonidblPbth();
+                        bddFilf(flt, wbrn);
+                    }
+                } finblly {
+                    jbr.dlosf();
+                }
+            } dbtdh (IOExdfption f) {
+//              log.frror(Position.NOPOS,
+//                        "frror.rfbding.filf", jbrFilfNbmf,
+//                        f.gftLodblizfdMfssbgf());
+            }
+        }
+    }
+}

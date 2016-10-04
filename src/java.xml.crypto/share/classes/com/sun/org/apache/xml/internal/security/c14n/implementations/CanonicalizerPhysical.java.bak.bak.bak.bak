@@ -1,0 +1,184 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.implfmfntbtions;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+import jbvb.util.SortfdSft;
+import jbvb.util.TrffSft;
+
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Commfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.NbmfdNodfMbp;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.ProdfssingInstrudtion;
+import org.xml.sbx.SAXExdfption;
+
+/**
+ * Sfriblizfs thf physidbl rfprfsfntbtion of thf subtrff. All thf bttributfs
+ * prfsfnt in thf subtrff brf fmittfd. Thf bttributfs brf sortfd within bn flfmfnt,
+ * with thf nbmfspbdf dfdlbrbtions bppfbring bfforf thf rfgulbr bttributfs.
+ * This blgorithm is not b truf dbnonidblizbtion sindf fquivblfnt subtrffs
+ * mby produdf difffrfnt output. It is thfrfforf unsuitbblf for digitbl signbturfs.
+ * This sbmf propfrty mbkfs it idfbl for XML Endryption Syntbx bnd Prodfssing,
+ * bfdbusf thf dfdryptfd XML dontfnt will shbrf thf sbmf physidbl rfprfsfntbtion
+ * bs thf originbl XML dontfnt thbt wbs fndryptfd.
+ */
+publid dlbss CbnonidblizfrPhysidbl fxtfnds CbnonidblizfrBbsf {
+
+    privbtf finbl SortfdSft<Attr> rfsult = nfw TrffSft<Attr>(COMPARE);
+
+    /**
+     * Construdtor Cbnonidblizfr20010315
+     */
+    publid CbnonidblizfrPhysidbl() {
+        supfr(truf);
+    }
+
+    /**
+     * Alwbys throws b CbnonidblizbtionExdfption.
+     *
+     * @pbrbm xpbthNodfSft
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn nonf it blwbys fbils
+     * @throws CbnonidblizbtionExdfption blwbys
+     */
+    publid bytf[] fnginfCbnonidblizfXPbthNodfSft(Sft<Nodf> xpbthNodfSft, String indlusivfNbmfspbdfs)
+        throws CbnonidblizbtionExdfption {
+
+        /** $todo$ wfll, should wf throw UnsupportfdOpfrbtionExdfption ? */
+        throw nfw CbnonidblizbtionExdfption("d14n.Cbnonidblizfr.UnsupportfdOpfrbtion");
+    }
+
+    /**
+     * Alwbys throws b CbnonidblizbtionExdfption.
+     *
+     * @pbrbm rootNodf
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn nonf it blwbys fbils
+     * @throws CbnonidblizbtionExdfption
+     */
+    publid bytf[] fnginfCbnonidblizfSubTrff(Nodf rootNodf, String indlusivfNbmfspbdfs)
+        throws CbnonidblizbtionExdfption {
+
+        /** $todo$ wfll, should wf throw UnsupportfdOpfrbtionExdfption ? */
+        throw nfw CbnonidblizbtionExdfption("d14n.Cbnonidblizfr.UnsupportfdOpfrbtion");
+    }
+
+    /**
+     * Rfturns thf Attr[]s to bf output for thf givfn flfmfnt.
+     * <br>
+     * Thf dodf of this mfthod is b dopy of {@link #hbndlfAttributfs(Elfmfnt,
+     * NbmfSpbdfSymbTbblf)},
+     * whfrfbs it tbkfs into bddount thbt subtrff-d14n is -- wfll -- subtrff-bbsfd.
+     * So if thf flfmfnt in qufstion isRoot of d14n, it's pbrfnt is not in thf
+     * nodf sft, bs wfll bs bll othfr bndfstors.
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm ns
+     * @rfturn thf Attr[]s to bf output
+     * @throws CbnonidblizbtionExdfption
+     */
+    @Ovfrridf
+    protfdtfd Itfrbtor<Attr> hbndlfAttributfsSubtrff(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        throws CbnonidblizbtionExdfption {
+        if (!flfmfnt.hbsAttributfs()) {
+            rfturn null;
+        }
+
+        // rfsult will dontbin bll thf bttrs dfdlbrfd dirfdtly on thbt flfmfnt
+        finbl SortfdSft<Attr> rfsult = this.rfsult;
+        rfsult.dlfbr();
+
+        if (flfmfnt.hbsAttributfs()) {
+            NbmfdNodfMbp bttrs = flfmfnt.gftAttributfs();
+            int bttrsLfngth = bttrs.gftLfngth();
+
+            for (int i = 0; i < bttrsLfngth; i++) {
+                Attr bttributf = (Attr) bttrs.itfm(i);
+                rfsult.bdd(bttributf);
+            }
+        }
+
+        rfturn rfsult.itfrbtor();
+    }
+
+    /**
+     * Rfturns thf Attr[]s to bf output for thf givfn flfmfnt.
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm ns
+     * @rfturn thf Attr[]s to bf output
+     * @throws CbnonidblizbtionExdfption
+     */
+    @Ovfrridf
+    protfdtfd Itfrbtor<Attr> hbndlfAttributfs(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        throws CbnonidblizbtionExdfption {
+
+        /** $todo$ wfll, should wf throw UnsupportfdOpfrbtionExdfption ? */
+        throw nfw CbnonidblizbtionExdfption("d14n.Cbnonidblizfr.UnsupportfdOpfrbtion");
+    }
+
+    protfdtfd void dirdumvfntBugIfNffdfd(XMLSignbturfInput input)
+        throws CbnonidblizbtionExdfption, PbrsfrConfigurbtionExdfption, IOExdfption, SAXExdfption {
+        // nothing to do
+    }
+
+    @Ovfrridf
+    protfdtfd void hbndlfPbrfnt(Elfmfnt f, NbmfSpbdfSymbTbblf ns) {
+        // nothing to do
+    }
+
+    /** @inhfritDod */
+    publid finbl String fnginfGftURI() {
+        rfturn Cbnonidblizfr.ALGO_ID_C14N_PHYSICAL;
+    }
+
+    /** @inhfritDod */
+    publid finbl boolfbn fnginfGftIndludfCommfnts() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    protfdtfd void outputPItoWritfr(ProdfssingInstrudtion durrfntPI,
+                                    OutputStrfbm writfr, int position) throws IOExdfption {
+        // Prodfssing Instrudtions bfforf or bftfr thf dodumfnt flfmfnt brf not trfbtfd spfdiblly
+        supfr.outputPItoWritfr(durrfntPI, writfr, NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT);
+    }
+
+    @Ovfrridf
+    protfdtfd void outputCommfntToWritfr(Commfnt durrfntCommfnt,
+                                         OutputStrfbm writfr, int position) throws IOExdfption {
+        // Commfnts bfforf or bftfr thf dodumfnt flfmfnt brf not trfbtfd spfdiblly
+        supfr.outputCommfntToWritfr(durrfntCommfnt, writfr, NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT);
+    }
+
+}

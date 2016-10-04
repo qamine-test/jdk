@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import java.awt.Font;
-import java.util.*;
-import java.util.regex.*;
-import sun.swing.plaf.synth.*;
-import sun.swing.BakedArrayList;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.FontUIRfsourdf;
+import jbvb.bwt.Font;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+import sun.swing.plbf.synti.*;
+import sun.swing.BbkfdArrbyList;
 
 /**
- * Factory used for obtaining styles. Supports associating a style based on
- * the name of the component as returned by <code>Component.getName()</code>,
- * and the <code>Region</code> associated with the <code>JComponent</code>.
- * Lookup is done using regular expressions.
+ * Fbdtory usfd for obtbining stylfs. Supports bssodibting b stylf bbsfd on
+ * tif nbmf of tif domponfnt bs rfturnfd by <dodf>Componfnt.gftNbmf()</dodf>,
+ * bnd tif <dodf>Rfgion</dodf> bssodibtfd witi tif <dodf>JComponfnt</dodf>.
+ * Lookup is donf using rfgulbr fxprfssions.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-class DefaultSynthStyleFactory extends SynthStyleFactory {
+dlbss DffbultSyntiStylfFbdtory fxtfnds SyntiStylfFbdtory {
     /**
-     * Used to indicate the lookup should be done based on Component name.
+     * Usfd to indidbtf tif lookup siould bf donf bbsfd on Componfnt nbmf.
      */
-    public static final int NAME = 0;
+    publid stbtid finbl int NAME = 0;
     /**
-     * Used to indicate the lookup should be done based on region.
+     * Usfd to indidbtf tif lookup siould bf donf bbsfd on rfgion.
      */
-    public static final int REGION = 1;
+    publid stbtid finbl int REGION = 1;
 
     /**
-     * List containing set of StyleAssociations used in determining matching
-     * styles.
+     * List dontbining sft of StylfAssodibtions usfd in dftfrmining mbtdiing
+     * stylfs.
      */
-    private List<StyleAssociation> _styles;
+    privbtf List<StylfAssodibtion> _stylfs;
     /**
-     * Used during lookup.
+     * Usfd during lookup.
      */
-    private BakedArrayList<SynthStyle> _tmpList;
-
-    /**
-     * Maps from a List (BakedArrayList to be precise) to the merged style.
-     */
-    private Map<BakedArrayList<SynthStyle>, SynthStyle> _resolvedStyles;
+    privbtf BbkfdArrbyList<SyntiStylf> _tmpList;
 
     /**
-     * Used if there are no styles matching a widget.
+     * Mbps from b List (BbkfdArrbyList to bf prfdisf) to tif mfrgfd stylf.
      */
-    private SynthStyle _defaultStyle;
+    privbtf Mbp<BbkfdArrbyList<SyntiStylf>, SyntiStylf> _rfsolvfdStylfs;
+
+    /**
+     * Usfd if tifrf brf no stylfs mbtdiing b widgft.
+     */
+    privbtf SyntiStylf _dffbultStylf;
 
 
-    DefaultSynthStyleFactory() {
-        _tmpList = new BakedArrayList<SynthStyle>(5);
-        _styles = new ArrayList<>();
-        _resolvedStyles = new HashMap<>();
+    DffbultSyntiStylfFbdtory() {
+        _tmpList = nfw BbkfdArrbyList<SyntiStylf>(5);
+        _stylfs = nfw ArrbyList<>();
+        _rfsolvfdStylfs = nfw HbsiMbp<>();
     }
 
-    public synchronized void addStyle(DefaultSynthStyle style,
-                         String path, int type) throws PatternSyntaxException {
-        if (path == null) {
-            // Make an empty path match all.
-            path = ".*";
+    publid syndironizfd void bddStylf(DffbultSyntiStylf stylf,
+                         String pbti, int typf) tirows PbttfrnSyntbxExdfption {
+        if (pbti == null) {
+            // Mbkf bn fmpty pbti mbtdi bll.
+            pbti = ".*";
         }
-        if (type == NAME) {
-            _styles.add(StyleAssociation.createStyleAssociation(
-                            path, style, type));
+        if (typf == NAME) {
+            _stylfs.bdd(StylfAssodibtion.drfbtfStylfAssodibtion(
+                            pbti, stylf, typf));
         }
-        else if (type == REGION) {
-            _styles.add(StyleAssociation.createStyleAssociation(
-                            path.toLowerCase(), style, type));
+        flsf if (typf == REGION) {
+            _stylfs.bdd(StylfAssodibtion.drfbtfStylfAssodibtion(
+                            pbti.toLowfrCbsf(), stylf, typf));
         }
     }
 
     /**
-     * Returns the style for the specified Component.
+     * Rfturns tif stylf for tif spfdififd Componfnt.
      *
-     * @param c Component asking for
-     * @param id ID of the Component
+     * @pbrbm d Componfnt bsking for
+     * @pbrbm id ID of tif Componfnt
      */
-    public synchronized SynthStyle getStyle(JComponent c, Region id) {
-        BakedArrayList<SynthStyle> matches = _tmpList;
+    publid syndironizfd SyntiStylf gftStylf(JComponfnt d, Rfgion id) {
+        BbkfdArrbyList<SyntiStylf> mbtdifs = _tmpList;
 
-        matches.clear();
-        getMatchingStyles(matches, c, id);
+        mbtdifs.dlfbr();
+        gftMbtdiingStylfs(mbtdifs, d, id);
 
-        if (matches.size() == 0) {
-            return getDefaultStyle();
+        if (mbtdifs.sizf() == 0) {
+            rfturn gftDffbultStylf();
         }
-        // Use a cached Style if possible, otherwise create a new one.
-        matches.cacheHashCode();
-        SynthStyle style = getCachedStyle(matches);
+        // Usf b dbdifd Stylf if possiblf, otifrwisf drfbtf b nfw onf.
+        mbtdifs.dbdifHbsiCodf();
+        SyntiStylf stylf = gftCbdifdStylf(mbtdifs);
 
-        if (style == null) {
-            style = mergeStyles(matches);
+        if (stylf == null) {
+            stylf = mfrgfStylfs(mbtdifs);
 
-            if (style != null) {
-                cacheStyle(matches, style);
+            if (stylf != null) {
+                dbdifStylf(mbtdifs, stylf);
             }
         }
-        return style;
+        rfturn stylf;
     }
 
     /**
-     * Returns the style to use if there are no matching styles.
+     * Rfturns tif stylf to usf if tifrf brf no mbtdiing stylfs.
      */
-    private SynthStyle getDefaultStyle() {
-        if (_defaultStyle == null) {
-            _defaultStyle = new DefaultSynthStyle();
-            ((DefaultSynthStyle)_defaultStyle).setFont(
-                new FontUIResource(Font.DIALOG, Font.PLAIN,12));
+    privbtf SyntiStylf gftDffbultStylf() {
+        if (_dffbultStylf == null) {
+            _dffbultStylf = nfw DffbultSyntiStylf();
+            ((DffbultSyntiStylf)_dffbultStylf).sftFont(
+                nfw FontUIRfsourdf(Font.DIALOG, Font.PLAIN,12));
         }
-        return _defaultStyle;
+        rfturn _dffbultStylf;
     }
 
     /**
-     * Fetches any styles that match the passed into arguments into
-     * <code>matches</code>.
+     * Fftdifs bny stylfs tibt mbtdi tif pbssfd into brgumfnts into
+     * <dodf>mbtdifs</dodf>.
      */
-    private void getMatchingStyles(List<SynthStyle> matches, JComponent c,
-                                   Region id) {
-        String idName = id.getLowerCaseName();
-        String cName = c.getName();
+    privbtf void gftMbtdiingStylfs(List<SyntiStylf> mbtdifs, JComponfnt d,
+                                   Rfgion id) {
+        String idNbmf = id.gftLowfrCbsfNbmf();
+        String dNbmf = d.gftNbmf();
 
-        if (cName == null) {
-            cName = "";
+        if (dNbmf == null) {
+            dNbmf = "";
         }
-        for (int counter = _styles.size() - 1; counter >= 0; counter--){
-            StyleAssociation sa = _styles.get(counter);
-            String path;
+        for (int dountfr = _stylfs.sizf() - 1; dountfr >= 0; dountfr--){
+            StylfAssodibtion sb = _stylfs.gft(dountfr);
+            String pbti;
 
-            if (sa.getID() == NAME) {
-                path = cName;
+            if (sb.gftID() == NAME) {
+                pbti = dNbmf;
             }
-            else {
-                path = idName;
+            flsf {
+                pbti = idNbmf;
             }
 
-            if (sa.matches(path) && matches.indexOf(sa.getStyle()) == -1) {
-                matches.add(sa.getStyle());
+            if (sb.mbtdifs(pbti) && mbtdifs.indfxOf(sb.gftStylf()) == -1) {
+                mbtdifs.bdd(sb.gftStylf());
             }
         }
     }
 
     /**
-     * Caches the specified style.
+     * Cbdifs tif spfdififd stylf.
      */
-    private void cacheStyle(List<SynthStyle> styles, SynthStyle style) {
-        BakedArrayList<SynthStyle> cachedStyles = new BakedArrayList<>(styles);
+    privbtf void dbdifStylf(List<SyntiStylf> stylfs, SyntiStylf stylf) {
+        BbkfdArrbyList<SyntiStylf> dbdifdStylfs = nfw BbkfdArrbyList<>(stylfs);
 
-        _resolvedStyles.put(cachedStyles, style);
+        _rfsolvfdStylfs.put(dbdifdStylfs, stylf);
     }
 
     /**
-     * Returns the cached style from the passed in arguments.
+     * Rfturns tif dbdifd stylf from tif pbssfd in brgumfnts.
      */
-    private SynthStyle getCachedStyle(List<SynthStyle> styles) { // ??
-        if (styles.size() == 0) {
-            return null;
+    privbtf SyntiStylf gftCbdifdStylf(List<SyntiStylf> stylfs) { // ??
+        if (stylfs.sizf() == 0) {
+            rfturn null;
         }
-        return _resolvedStyles.get(styles);
+        rfturn _rfsolvfdStylfs.gft(stylfs);
     }
 
     /**
-     * Creates a single Style from the passed in styles. The passed in List
-     * is reverse sorted, that is the most recently added style found to
-     * match will be first.
+     * Crfbtfs b singlf Stylf from tif pbssfd in stylfs. Tif pbssfd in List
+     * is rfvfrsf sortfd, tibt is tif most rfdfntly bddfd stylf found to
+     * mbtdi will bf first.
      */
-    private SynthStyle mergeStyles(List<SynthStyle> styles) {
-        int size = styles.size();
+    privbtf SyntiStylf mfrgfStylfs(List<SyntiStylf> stylfs) {
+        int sizf = stylfs.sizf();
 
-        if (size == 0) {
-            return null;
+        if (sizf == 0) {
+            rfturn null;
         }
-        else if (size == 1) {
-            return (SynthStyle)((DefaultSynthStyle)styles.get(0)).clone();
+        flsf if (sizf == 1) {
+            rfturn (SyntiStylf)((DffbultSyntiStylf)stylfs.gft(0)).dlonf();
         }
-        // NOTE: merging is done backwards as DefaultSynthStyleFactory reverses
-        // order, that is, the most specific style is first.
-        DefaultSynthStyle style = (DefaultSynthStyle)styles.get(size - 1);
+        // NOTE: mfrging is donf bbdkwbrds bs DffbultSyntiStylfFbdtory rfvfrsfs
+        // ordfr, tibt is, tif most spfdifid stylf is first.
+        DffbultSyntiStylf stylf = (DffbultSyntiStylf)stylfs.gft(sizf - 1);
 
-        style = (DefaultSynthStyle)style.clone();
-        for (int counter = size - 2; counter >= 0; counter--) {
-            style = ((DefaultSynthStyle)styles.get(counter)).addTo(style);
+        stylf = (DffbultSyntiStylf)stylf.dlonf();
+        for (int dountfr = sizf - 2; dountfr >= 0; dountfr--) {
+            stylf = ((DffbultSyntiStylf)stylfs.gft(dountfr)).bddTo(stylf);
         }
-        return style;
+        rfturn stylf;
     }
 }

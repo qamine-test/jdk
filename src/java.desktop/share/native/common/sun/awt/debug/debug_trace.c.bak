@@ -1,370 +1,370 @@
 /*
- * Copyright (c) 1999, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "debug_util.h"
+#indludf "dfbug_util.i"
 
-static void DTrace_PrintStdErr(const char *msg);
+stbtid void DTrbdf_PrintStdErr(donst dibr *msg);
 
-#if defined(DEBUG)
-enum {
-    MAX_TRACES = 200,           /* max number of defined trace points allowed */
-    MAX_TRACE_BUFFER = 512,     /* maximum size of a given trace output */
-    MAX_LINE = 100000,          /* reasonable upper limit on line number in source file */
-    MAX_ARGC = 8                /* maximum number of arguments to print functions */
+#if dffinfd(DEBUG)
+fnum {
+    MAX_TRACES = 200,           /* mbx numbfr of dffinfd trbdf points bllowfd */
+    MAX_TRACE_BUFFER = 512,     /* mbximum sizf of b givfn trbdf output */
+    MAX_LINE = 100000,          /* rfbsonbblf uppfr limit on linf numbfr in sourdf filf */
+    MAX_ARGC = 8                /* mbximum numbfr of brgumfnts to print fundtions */
 };
 
-typedef enum dtrace_scope {
+typfdff fnum dtrbdf_sdopf {
     DTRACE_FILE,
     DTRACE_LINE
-} dtrace_scope;
+} dtrbdf_sdopf;
 
-typedef struct dtrace_info {
-    char                file[FILENAME_MAX+1];
-    int                 line;
-    int                 enabled;
-    dtrace_scope        scope;
-} dtrace_info, * p_dtrace_info;
+typfdff strudt dtrbdf_info {
+    dibr                filf[FILENAME_MAX+1];
+    int                 linf;
+    int                 fnbblfd;
+    dtrbdf_sdopf        sdopf;
+} dtrbdf_info, * p_dtrbdf_info;
 
-static dtrace_info      DTraceInfo[MAX_TRACES];
-static char             DTraceBuffer[MAX_TRACE_BUFFER*2+1]; /* double the buffer size to catch overruns */
-static dmutex_t         DTraceMutex = NULL;
-static dbool_t          GlobalTracingEnabled = FALSE;
-static int              NumTraces = 0;
+stbtid dtrbdf_info      DTrbdfInfo[MAX_TRACES];
+stbtid dibr             DTrbdfBufffr[MAX_TRACE_BUFFER*2+1]; /* doublf tif bufffr sizf to dbtdi ovfrruns */
+stbtid dmutfx_t         DTrbdfMutfx = NULL;
+stbtid dbool_t          GlobblTrbdingEnbblfd = FALSE;
+stbtid int              NumTrbdfs = 0;
 
-static DTRACE_OUTPUT_CALLBACK   PfnTraceCallback = DTrace_PrintStdErr;
+stbtid DTRACE_OUTPUT_CALLBACK   PfnTrbdfCbllbbdk = DTrbdf_PrintStdErr;
 
-static p_dtrace_info DTrace_GetInfo(dtrace_id tid) {
+stbtid p_dtrbdf_info DTrbdf_GftInfo(dtrbdf_id tid) {
     DASSERT(tid < MAX_TRACES);
-    return &DTraceInfo[tid];
+    rfturn &DTrbdfInfo[tid];
 }
 
-static dtrace_id DTrace_CreateTraceId(const char * file, int line, dtrace_scope scope) {
-    dtrace_id           tid = NumTraces++;
-    p_dtrace_info       info = &DTraceInfo[tid];
-    DASSERT(NumTraces < MAX_TRACES);
+stbtid dtrbdf_id DTrbdf_CrfbtfTrbdfId(donst dibr * filf, int linf, dtrbdf_sdopf sdopf) {
+    dtrbdf_id           tid = NumTrbdfs++;
+    p_dtrbdf_info       info = &DTrbdfInfo[tid];
+    DASSERT(NumTrbdfs < MAX_TRACES);
 
-    strcpy(info->file, file);
-    info->line = line;
-    info->enabled = FALSE;
-    info->scope = scope;
-    return tid;
+    strdpy(info->filf, filf);
+    info->linf = linf;
+    info->fnbblfd = FALSE;
+    info->sdopf = sdopf;
+    rfturn tid;
 }
 
 /*
- * Compares the trailing characters in a filename to see if they match
- * e.g. "src\win32\foobar.c" and "foobar.c" would be considered equal
- * but "src\win32\foo.c" and "src\win32\bar.c" would not.
+ * Compbrfs tif trbiling dibrbdtfrs in b filfnbmf to sff if tify mbtdi
+ * f.g. "srd\win32\foobbr.d" bnd "foobbr.d" would bf donsidfrfd fqubl
+ * but "srd\win32\foo.d" bnd "srd\win32\bbr.d" would not.
  */
-static dbool_t FileNamesSame(const char * fileOne, const char * fileTwo) {
-    size_t      lengthOne = strlen(fileOne);
-    size_t      lengthTwo = strlen(fileTwo);
-    size_t      numCompareChars;
-    dbool_t     tailsEqual;
+stbtid dbool_t FilfNbmfsSbmf(donst dibr * filfOnf, donst dibr * filfTwo) {
+    sizf_t      lfngtiOnf = strlfn(filfOnf);
+    sizf_t      lfngtiTwo = strlfn(filfTwo);
+    sizf_t      numCompbrfCibrs;
+    dbool_t     tbilsEqubl;
 
-    if (fileOne == fileTwo) {
-        return TRUE;
-    } else if (fileOne == NULL || fileTwo == NULL) {
-        return FALSE;
+    if (filfOnf == filfTwo) {
+        rfturn TRUE;
+    } flsf if (filfOnf == NULL || filfTwo == NULL) {
+        rfturn FALSE;
     }
-    /* compare the tail ends of the strings for equality */
-    numCompareChars = lengthOne < lengthTwo ? lengthOne : lengthTwo;
-    tailsEqual = strcmp(fileOne + lengthOne - numCompareChars,
-                        fileTwo + lengthTwo - numCompareChars) == 0;
-    return tailsEqual;
+    /* dompbrf tif tbil fnds of tif strings for fqublity */
+    numCompbrfCibrs = lfngtiOnf < lfngtiTwo ? lfngtiOnf : lfngtiTwo;
+    tbilsEqubl = strdmp(filfOnf + lfngtiOnf - numCompbrfCibrs,
+                        filfTwo + lfngtiTwo - numCompbrfCibrs) == 0;
+    rfturn tbilsEqubl;
 }
 
 /*
- * Finds the trace id for a given file/line location or creates one
- * if it doesn't exist
+ * Finds tif trbdf id for b givfn filf/linf lodbtion or drfbtfs onf
+ * if it dofsn't fxist
  */
-static dtrace_id DTrace_GetTraceId(const char * file, int line, dtrace_scope scope) {
-    dtrace_id           tid;
-    p_dtrace_info       info;
+stbtid dtrbdf_id DTrbdf_GftTrbdfId(donst dibr * filf, int linf, dtrbdf_sdopf sdopf) {
+    dtrbdf_id           tid;
+    p_dtrbdf_info       info;
 
-    /* check to see if the trace point has already been created */
-    for ( tid = 0; tid < NumTraces; tid++ ) {
-        info = DTrace_GetInfo(tid);
-        if ( info->scope == scope ) {
-            dbool_t     sameFile = FileNamesSame(file, info->file);
-            dbool_t     sameLine = info->line == line;
+    /* difdk to sff if tif trbdf point ibs blrfbdy bffn drfbtfd */
+    for ( tid = 0; tid < NumTrbdfs; tid++ ) {
+        info = DTrbdf_GftInfo(tid);
+        if ( info->sdopf == sdopf ) {
+            dbool_t     sbmfFilf = FilfNbmfsSbmf(filf, info->filf);
+            dbool_t     sbmfLinf = info->linf == linf;
 
-            if ( (info->scope == DTRACE_FILE && sameFile) ||
-                 (info->scope == DTRACE_LINE && sameFile && sameLine) ) {
+            if ( (info->sdopf == DTRACE_FILE && sbmfFilf) ||
+                 (info->sdopf == DTRACE_LINE && sbmfFilf && sbmfLinf) ) {
                 goto Exit;
             }
         }
     }
 
-    /* trace point wasn't created, so force it's creation */
-    tid = DTrace_CreateTraceId(file, line, scope);
+    /* trbdf point wbsn't drfbtfd, so fordf it's drfbtion */
+    tid = DTrbdf_CrfbtfTrbdfId(filf, linf, sdopf);
 Exit:
-    return tid;
+    rfturn tid;
 }
 
 
-static dbool_t DTrace_IsEnabledAt(dtrace_id * pfileid, dtrace_id * plineid, const char * file, int line) {
-    DASSERT(pfileid != NULL && plineid != NULL);
+stbtid dbool_t DTrbdf_IsEnbblfdAt(dtrbdf_id * pfilfid, dtrbdf_id * plinfid, donst dibr * filf, int linf) {
+    DASSERT(pfilfid != NULL && plinfid != NULL);
 
-    if ( *pfileid == UNDEFINED_TRACE_ID ) {
-    /* first time calling the trace for this file, so obtain a trace id */
-         *pfileid = DTrace_GetTraceId(file, -1, DTRACE_FILE);
+    if ( *pfilfid == UNDEFINED_TRACE_ID ) {
+    /* first timf dblling tif trbdf for tiis filf, so obtbin b trbdf id */
+         *pfilfid = DTrbdf_GftTrbdfId(filf, -1, DTRACE_FILE);
     }
-    if ( *plineid == UNDEFINED_TRACE_ID ) {
-    /* first time calling the trace for this line, so obtain a trace id */
-         *plineid = DTrace_GetTraceId(file, line, DTRACE_LINE);
+    if ( *plinfid == UNDEFINED_TRACE_ID ) {
+    /* first timf dblling tif trbdf for tiis linf, so obtbin b trbdf id */
+         *plinfid = DTrbdf_GftTrbdfId(filf, linf, DTRACE_LINE);
     }
 
-    return GlobalTracingEnabled || DTraceInfo[*pfileid].enabled || DTraceInfo[*plineid].enabled;
+    rfturn GlobblTrbdingEnbblfd || DTrbdfInfo[*pfilfid].fnbblfd || DTrbdfInfo[*plinfid].fnbblfd;
 }
 
 /*
- * Initialize trace functionality. This MUST BE CALLED before any
- * tracing function is called.
+ * Initiblizf trbdf fundtionblity. Tiis MUST BE CALLED bfforf bny
+ * trbding fundtion is dbllfd.
  */
-void DTrace_Initialize() {
-    DTraceMutex = DMutex_Create();
+void DTrbdf_Initiblizf() {
+    DTrbdfMutfx = DMutfx_Crfbtf();
 }
 
 /*
- * Cleans up tracing system. Should be called when tracing functionality
- * is no longer needed.
+ * Clfbns up trbding systfm. Siould bf dbllfd wifn trbding fundtionblity
+ * is no longfr nffdfd.
  */
-void DTrace_Shutdown() {
-    DMutex_Destroy(DTraceMutex);
+void DTrbdf_Siutdown() {
+    DMutfx_Dfstroy(DTrbdfMutfx);
 }
 
-void DTrace_DisableMutex() {
-    DTraceMutex = NULL;
+void DTrbdf_DisbblfMutfx() {
+    DTrbdfMutfx = NULL;
 }
 
 /*
- * Enable tracing for all modules.
+ * Enbblf trbding for bll modulfs.
  */
-void DTrace_EnableAll(dbool_t enabled) {
-    DMutex_Enter(DTraceMutex);
-    GlobalTracingEnabled = enabled;
-    DMutex_Exit(DTraceMutex);
+void DTrbdf_EnbblfAll(dbool_t fnbblfd) {
+    DMutfx_Entfr(DTrbdfMutfx);
+    GlobblTrbdingEnbblfd = fnbblfd;
+    DMutfx_Exit(DTrbdfMutfx);
 }
 
 /*
- * Enable tracing for a specific module. Filename may
- * be fully or partially qualified.
- * e.g. awt_Component.cpp
+ * Enbblf trbding for b spfdifid modulf. Filfnbmf mby
+ * bf fully or pbrtiblly qublififd.
+ * f.g. bwt_Componfnt.dpp
  *              or
- *      src\win32\native\sun\windows\awt_Component.cpp
+ *      srd\win32\nbtivf\sun\windows\bwt_Componfnt.dpp
  */
-void DTrace_EnableFile(const char * file, dbool_t enabled) {
-    dtrace_id tid;
-    p_dtrace_info info;
+void DTrbdf_EnbblfFilf(donst dibr * filf, dbool_t fnbblfd) {
+    dtrbdf_id tid;
+    p_dtrbdf_info info;
 
-    DASSERT(file != NULL);
-    DMutex_Enter(DTraceMutex);
-    tid = DTrace_GetTraceId(file, -1, DTRACE_FILE);
-    info = DTrace_GetInfo(tid);
-    info->enabled = enabled;
-    DMutex_Exit(DTraceMutex);
+    DASSERT(filf != NULL);
+    DMutfx_Entfr(DTrbdfMutfx);
+    tid = DTrbdf_GftTrbdfId(filf, -1, DTRACE_FILE);
+    info = DTrbdf_GftInfo(tid);
+    info->fnbblfd = fnbblfd;
+    DMutfx_Exit(DTrbdfMutfx);
 }
 
 /*
- * Enable tracing for a specific line in a specific module.
- * See comments above regarding filename argument.
+ * Enbblf trbding for b spfdifid linf in b spfdifid modulf.
+ * Sff dommfnts bbovf rfgbrding filfnbmf brgumfnt.
  */
-void DTrace_EnableLine(const char * file, int line, dbool_t enabled) {
-    dtrace_id tid;
-    p_dtrace_info info;
+void DTrbdf_EnbblfLinf(donst dibr * filf, int linf, dbool_t fnbblfd) {
+    dtrbdf_id tid;
+    p_dtrbdf_info info;
 
-    DASSERT(file != NULL && (line > 0 && line < MAX_LINE));
-    DMutex_Enter(DTraceMutex);
-    tid = DTrace_GetTraceId(file, line, DTRACE_LINE);
-    info = DTrace_GetInfo(tid);
-    info->enabled = enabled;
-    DMutex_Exit(DTraceMutex);
+    DASSERT(filf != NULL && (linf > 0 && linf < MAX_LINE));
+    DMutfx_Entfr(DTrbdfMutfx);
+    tid = DTrbdf_GftTrbdfId(filf, linf, DTRACE_LINE);
+    info = DTrbdf_GftInfo(tid);
+    info->fnbblfd = fnbblfd;
+    DMutfx_Exit(DTrbdfMutfx);
 }
 
-static void DTrace_ClientPrint(const char * msg) {
-    DASSERT(msg != NULL && PfnTraceCallback != NULL);
-    (*PfnTraceCallback)(msg);
+stbtid void DTrbdf_ClifntPrint(donst dibr * msg) {
+    DASSERT(msg != NULL && PfnTrbdfCbllbbdk != NULL);
+    (*PfnTrbdfCbllbbdk)(msg);
 }
 
 /*
- * Print implementation for the use of client defined trace macros. Unsynchronized so it must
- * be used from within a DTRACE_PRINT_CALLBACK function.
+ * Print implfmfntbtion for tif usf of dlifnt dffinfd trbdf mbdros. Unsyndironizfd so it must
+ * bf usfd from witiin b DTRACE_PRINT_CALLBACK fundtion.
  */
-void DTrace_VPrintImpl(const char * fmt, va_list arglist) {
+void DTrbdf_VPrintImpl(donst dibr * fmt, vb_list brglist) {
     DASSERT(fmt != NULL);
 
-    /* format the trace message */
-    vsprintf(DTraceBuffer, fmt, arglist);
-    /* not a real great overflow check (memory would already be hammered) but better than nothing */
-    DASSERT(strlen(DTraceBuffer) < MAX_TRACE_BUFFER);
-    /* output the trace message */
-    DTrace_ClientPrint(DTraceBuffer);
+    /* formbt tif trbdf mfssbgf */
+    vsprintf(DTrbdfBufffr, fmt, brglist);
+    /* not b rfbl grfbt ovfrflow difdk (mfmory would blrfbdy bf ibmmfrfd) but bfttfr tibn notiing */
+    DASSERT(strlfn(DTrbdfBufffr) < MAX_TRACE_BUFFER);
+    /* output tif trbdf mfssbgf */
+    DTrbdf_ClifntPrint(DTrbdfBufffr);
 }
 
 /*
- * Print implementation for the use of client defined trace macros. Unsynchronized so it must
- * be used from within a DTRACE_PRINT_CALLBACK function.
+ * Print implfmfntbtion for tif usf of dlifnt dffinfd trbdf mbdros. Unsyndironizfd so it must
+ * bf usfd from witiin b DTRACE_PRINT_CALLBACK fundtion.
  */
-void DTrace_PrintImpl(const char * fmt, ...) {
-    va_list     arglist;
+void DTrbdf_PrintImpl(donst dibr * fmt, ...) {
+    vb_list     brglist;
 
-    va_start(arglist, fmt);
-    DTrace_VPrintImpl(fmt, arglist);
-    va_end(arglist);
+    vb_stbrt(brglist, fmt);
+    DTrbdf_VPrintImpl(fmt, brglist);
+    vb_fnd(brglist);
 }
 
 /*
- * Called via DTRACE_PRINT macro. Outputs printf style formatted text.
+ * Cbllfd vib DTRACE_PRINT mbdro. Outputs printf stylf formbttfd tfxt.
  */
-void DTrace_VPrint( const char * file, int line, int argc, const char * fmt, va_list arglist ) {
+void DTrbdf_VPrint( donst dibr * filf, int linf, int brgd, donst dibr * fmt, vb_list brglist ) {
     DASSERT(fmt != NULL);
-    DTrace_VPrintImpl(fmt, arglist);
+    DTrbdf_VPrintImpl(fmt, brglist);
 }
 
 /*
- * Called via DTRACE_PRINTLN macro. Outputs printf style formatted text with an automatic newline.
+ * Cbllfd vib DTRACE_PRINTLN mbdro. Outputs printf stylf formbttfd tfxt witi bn butombtid nfwlinf.
  */
-void DTrace_VPrintln( const char * file, int line, int argc, const char * fmt, va_list arglist ) {
-    DTrace_VPrintImpl(fmt, arglist);
-    DTrace_PrintImpl("\n");
+void DTrbdf_VPrintln( donst dibr * filf, int linf, int brgd, donst dibr * fmt, vb_list brglist ) {
+    DTrbdf_VPrintImpl(fmt, brglist);
+    DTrbdf_PrintImpl("\n");
 }
 
 /*
- * Called via DTRACE_ macros. If tracing is enabled at the given location, it enters
- * the trace mutex and invokes the callback function to output the trace.
+ * Cbllfd vib DTRACE_ mbdros. If trbding is fnbblfd bt tif givfn lodbtion, it fntfrs
+ * tif trbdf mutfx bnd invokfs tif dbllbbdk fundtion to output tif trbdf.
  */
-void DTrace_PrintFunction( DTRACE_PRINT_CALLBACK pfn, dtrace_id * pFileTraceId, dtrace_id * pLineTraceId,
-                           const char * file, int line,
-                           int argc, const char * fmt, ... ) {
-    va_list     arglist;
+void DTrbdf_PrintFundtion( DTRACE_PRINT_CALLBACK pfn, dtrbdf_id * pFilfTrbdfId, dtrbdf_id * pLinfTrbdfId,
+                           donst dibr * filf, int linf,
+                           int brgd, donst dibr * fmt, ... ) {
+    vb_list     brglist;
 
-    DASSERT(file != NULL);
-    DASSERT(line > 0 && line < MAX_LINE);
-    DASSERT(argc <= MAX_ARGC);
+    DASSERT(filf != NULL);
+    DASSERT(linf > 0 && linf < MAX_LINE);
+    DASSERT(brgd <= MAX_ARGC);
     DASSERT(fmt != NULL);
 
-    DMutex_Enter(DTraceMutex);
-    if ( DTrace_IsEnabledAt(pFileTraceId, pLineTraceId, file, line) ) {
-        va_start(arglist, fmt);
-        (*pfn)(file, line, argc, fmt, arglist);
-        va_end(arglist);
+    DMutfx_Entfr(DTrbdfMutfx);
+    if ( DTrbdf_IsEnbblfdAt(pFilfTrbdfId, pLinfTrbdfId, filf, linf) ) {
+        vb_stbrt(brglist, fmt);
+        (*pfn)(filf, linf, brgd, fmt, brglist);
+        vb_fnd(brglist);
     }
-    DMutex_Exit(DTraceMutex);
+    DMutfx_Exit(DTrbdfMutfx);
 }
 
 /*
- * Sets a callback function to be used to output
- * trace statements.
+ * Sfts b dbllbbdk fundtion to bf usfd to output
+ * trbdf stbtfmfnts.
  */
-void DTrace_SetOutputCallback(DTRACE_OUTPUT_CALLBACK pfn) {
+void DTrbdf_SftOutputCbllbbdk(DTRACE_OUTPUT_CALLBACK pfn) {
     DASSERT(pfn != NULL);
 
-    DMutex_Enter(DTraceMutex);
-    PfnTraceCallback = pfn;
-    DMutex_Exit(DTraceMutex);
+    DMutfx_Entfr(DTrbdfMutfx);
+    PfnTrbdfCbllbbdk = pfn;
+    DMutfx_Exit(DTrbdfMutfx);
 }
 
-#endif /* DEBUG */
+#fndif /* DEBUG */
 
 /**********************************************************************************
- * Support for Java tracing in release or debug mode builds
+ * Support for Jbvb trbding in rflfbsf or dfbug modf builds
  */
 
-static void DTrace_PrintStdErr(const char *msg) {
-    fprintf(stderr, "%s", msg);
-    fflush(stderr);
+stbtid void DTrbdf_PrintStdErr(donst dibr *msg) {
+    fprintf(stdfrr, "%s", msg);
+    fflusi(stdfrr);
 }
 
-static void DTrace_JavaPrint(const char * msg) {
-#if defined(DEBUG)
-    DMutex_Enter(DTraceMutex);
-    DTrace_ClientPrint(msg);
-    DMutex_Exit(DTraceMutex);
-#else
-    DTrace_PrintStdErr(msg);
-#endif
+stbtid void DTrbdf_JbvbPrint(donst dibr * msg) {
+#if dffinfd(DEBUG)
+    DMutfx_Entfr(DTrbdfMutfx);
+    DTrbdf_ClifntPrint(msg);
+    DMutfx_Exit(DTrbdfMutfx);
+#flsf
+    DTrbdf_PrintStdErr(msg);
+#fndif
 }
 
-static void DTrace_JavaPrintln(const char * msg) {
-#if defined(DEBUG)
-    DMutex_Enter(DTraceMutex);
-    DTrace_ClientPrint(msg);
-    DTrace_ClientPrint("\n");
-    DMutex_Exit(DTraceMutex);
-#else
-    DTrace_PrintStdErr(msg);
-    DTrace_PrintStdErr("\n");
-#endif
+stbtid void DTrbdf_JbvbPrintln(donst dibr * msg) {
+#if dffinfd(DEBUG)
+    DMutfx_Entfr(DTrbdfMutfx);
+    DTrbdf_ClifntPrint(msg);
+    DTrbdf_ClifntPrint("\n");
+    DMutfx_Exit(DTrbdfMutfx);
+#flsf
+    DTrbdf_PrintStdErr(msg);
+    DTrbdf_PrintStdErr("\n");
+#fndif
 }
 
 /*********************************************************************************
- * Native method implementations. Java print trace calls are functional in
- * release builds, but functions to enable/disable native tracing are not.
+ * Nbtivf mftiod implfmfntbtions. Jbvb print trbdf dblls brf fundtionbl in
+ * rflfbsf builds, but fundtions to fnbblf/disbblf nbtivf trbding brf not.
  */
 
-/* Implementation of DebugSettings.setCTracingOn*/
+/* Implfmfntbtion of DfbugSfttings.sftCTrbdingOn*/
 JNIEXPORT void JNICALL
-Java_sun_awt_DebugSettings_setCTracingOn__Z(JNIEnv *env, jobject self, jboolean enabled) {
-#if defined(DEBUG)
-    DTrace_EnableAll(enabled == JNI_TRUE);
-#endif
+Jbvb_sun_bwt_DfbugSfttings_sftCTrbdingOn__Z(JNIEnv *fnv, jobjfdt sflf, jboolfbn fnbblfd) {
+#if dffinfd(DEBUG)
+    DTrbdf_EnbblfAll(fnbblfd == JNI_TRUE);
+#fndif
 }
 
-/* Implementation of DebugSettings.setCTracingOn*/
+/* Implfmfntbtion of DfbugSfttings.sftCTrbdingOn*/
 JNIEXPORT void JNICALL
-Java_sun_awt_DebugSettings_setCTracingOn__ZLjava_lang_String_2(
-    JNIEnv *env,
-    jobject self,
-    jboolean enabled,
-    jstring file ) {
-#if defined(DEBUG)
-    const char *        cfile;
-    cfile = JNU_GetStringPlatformChars(env, file, NULL);
-    if ( cfile == NULL ) {
-        return;
+Jbvb_sun_bwt_DfbugSfttings_sftCTrbdingOn__ZLjbvb_lbng_String_2(
+    JNIEnv *fnv,
+    jobjfdt sflf,
+    jboolfbn fnbblfd,
+    jstring filf ) {
+#if dffinfd(DEBUG)
+    donst dibr *        dfilf;
+    dfilf = JNU_GftStringPlbtformCibrs(fnv, filf, NULL);
+    if ( dfilf == NULL ) {
+        rfturn;
     }
-    DTrace_EnableFile(cfile, enabled == JNI_TRUE);
-    JNU_ReleaseStringPlatformChars(env, file, cfile);
-#endif
+    DTrbdf_EnbblfFilf(dfilf, fnbblfd == JNI_TRUE);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, filf, dfilf);
+#fndif
 }
 
-/* Implementation of DebugSettings.setCTracingOn*/
+/* Implfmfntbtion of DfbugSfttings.sftCTrbdingOn*/
 JNIEXPORT void JNICALL
-Java_sun_awt_DebugSettings_setCTracingOn__ZLjava_lang_String_2I(
-    JNIEnv *env,
-    jobject self,
-    jboolean enabled,
-    jstring file,
-    jint line ) {
-#if defined(DEBUG)
-    const char *        cfile;
-    cfile = JNU_GetStringPlatformChars(env, file, NULL);
-    if ( cfile == NULL ) {
-        return;
+Jbvb_sun_bwt_DfbugSfttings_sftCTrbdingOn__ZLjbvb_lbng_String_2I(
+    JNIEnv *fnv,
+    jobjfdt sflf,
+    jboolfbn fnbblfd,
+    jstring filf,
+    jint linf ) {
+#if dffinfd(DEBUG)
+    donst dibr *        dfilf;
+    dfilf = JNU_GftStringPlbtformCibrs(fnv, filf, NULL);
+    if ( dfilf == NULL ) {
+        rfturn;
     }
-    DTrace_EnableLine(cfile, line, enabled == JNI_TRUE);
-    JNU_ReleaseStringPlatformChars(env, file, cfile);
-#endif
+    DTrbdf_EnbblfLinf(dfilf, linf, fnbblfd == JNI_TRUE);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, filf, dfilf);
+#fndif
 }

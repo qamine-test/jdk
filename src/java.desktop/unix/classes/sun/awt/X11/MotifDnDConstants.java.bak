@@ -1,618 +1,618 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.dnd.DnDConstants;
+import jbvb.bwt.dnd.DnDConstbnts;
 
-import java.nio.ByteOrder;
+import jbvb.nio.BytfOrdfr;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
-import sun.misc.Unsafe;
+import sun.misd.Unsbff;
 
 /**
- * Motif DnD protocol global constants and convenience routines.
+ * Motif DnD protodol globbl donstbnts bnd donvfnifndf routinfs.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-class MotifDnDConstants {
-    // utility class can not be instantiated
-    private MotifDnDConstants() {}
-    // Note that offsets in all native structures below do not depend on the
-    // architecture.
-    private static final Unsafe unsafe = XlibWrapper.unsafe;
-    static final XAtom XA_MOTIF_ATOM_0 = XAtom.get("_MOTIF_ATOM_0");
-    static final XAtom XA_MOTIF_DRAG_WINDOW = XAtom.get("_MOTIF_DRAG_WINDOW");
-    static final XAtom XA_MOTIF_DRAG_TARGETS = XAtom.get("_MOTIF_DRAG_TARGETS");
-    static final XAtom XA_MOTIF_DRAG_INITIATOR_INFO =
-        XAtom.get("_MOTIF_DRAG_INITIATOR_INFO");
-    static final XAtom XA_MOTIF_DRAG_RECEIVER_INFO =
-        XAtom.get("_MOTIF_DRAG_RECEIVER_INFO");
-    static final XAtom XA_MOTIF_DRAG_AND_DROP_MESSAGE =
-        XAtom.get("_MOTIF_DRAG_AND_DROP_MESSAGE");
-    static final XAtom XA_XmTRANSFER_SUCCESS =
-        XAtom.get("XmTRANSFER_SUCCESS");
-    static final XAtom XA_XmTRANSFER_FAILURE =
-        XAtom.get("XmTRANSFER_FAILURE");
-    static final XSelection MotifDnDSelection = new XSelection(XA_MOTIF_ATOM_0);
+dlbss MotifDnDConstbnts {
+    // utility dlbss dbn not bf instbntibtfd
+    privbtf MotifDnDConstbnts() {}
+    // Notf tibt offsfts in bll nbtivf strudturfs bflow do not dfpfnd on tif
+    // brdiitfdturf.
+    privbtf stbtid finbl Unsbff unsbff = XlibWrbppfr.unsbff;
+    stbtid finbl XAtom XA_MOTIF_ATOM_0 = XAtom.gft("_MOTIF_ATOM_0");
+    stbtid finbl XAtom XA_MOTIF_DRAG_WINDOW = XAtom.gft("_MOTIF_DRAG_WINDOW");
+    stbtid finbl XAtom XA_MOTIF_DRAG_TARGETS = XAtom.gft("_MOTIF_DRAG_TARGETS");
+    stbtid finbl XAtom XA_MOTIF_DRAG_INITIATOR_INFO =
+        XAtom.gft("_MOTIF_DRAG_INITIATOR_INFO");
+    stbtid finbl XAtom XA_MOTIF_DRAG_RECEIVER_INFO =
+        XAtom.gft("_MOTIF_DRAG_RECEIVER_INFO");
+    stbtid finbl XAtom XA_MOTIF_DRAG_AND_DROP_MESSAGE =
+        XAtom.gft("_MOTIF_DRAG_AND_DROP_MESSAGE");
+    stbtid finbl XAtom XA_XmTRANSFER_SUCCESS =
+        XAtom.gft("XmTRANSFER_SUCCESS");
+    stbtid finbl XAtom XA_XmTRANSFER_FAILURE =
+        XAtom.gft("XmTRANSFER_FAILURE");
+    stbtid finbl XSflfdtion MotifDnDSflfdtion = nfw XSflfdtion(XA_MOTIF_ATOM_0);
 
-    public static final byte MOTIF_DND_PROTOCOL_VERSION = 0;
+    publid stbtid finbl bytf MOTIF_DND_PROTOCOL_VERSION = 0;
 
-    /* Supported protocol styles */
-    public static final int MOTIF_PREFER_PREREGISTER_STYLE = 2;
-    public static final int MOTIF_PREFER_DYNAMIC_STYLE     = 4;
-    public static final int MOTIF_DYNAMIC_STYLE            = 5;
-    public static final int MOTIF_PREFER_RECEIVER_STYLE    = 6;
+    /* Supportfd protodol stylfs */
+    publid stbtid finbl int MOTIF_PREFER_PREREGISTER_STYLE = 2;
+    publid stbtid finbl int MOTIF_PREFER_DYNAMIC_STYLE     = 4;
+    publid stbtid finbl int MOTIF_DYNAMIC_STYLE            = 5;
+    publid stbtid finbl int MOTIF_PREFER_RECEIVER_STYLE    = 6;
 
-    /* Info structure sizes */
-    public static final int MOTIF_INITIATOR_INFO_SIZE      = 8;
-    public static final int MOTIF_RECEIVER_INFO_SIZE       = 16;
+    /* Info strudturf sizfs */
+    publid stbtid finbl int MOTIF_INITIATOR_INFO_SIZE      = 8;
+    publid stbtid finbl int MOTIF_RECEIVER_INFO_SIZE       = 16;
 
-    /* Sender/reason message masks */
-    public static final byte MOTIF_MESSAGE_REASON_MASK      = (byte)0x7F;
-    public static final byte MOTIF_MESSAGE_SENDER_MASK      = (byte)0x80;
-    public static final byte MOTIF_MESSAGE_FROM_RECEIVER    = (byte)0x80;
-    public static final byte MOTIF_MESSAGE_FROM_INITIATOR   = (byte)0;
+    /* Sfndfr/rfbson mfssbgf mbsks */
+    publid stbtid finbl bytf MOTIF_MESSAGE_REASON_MASK      = (bytf)0x7F;
+    publid stbtid finbl bytf MOTIF_MESSAGE_SENDER_MASK      = (bytf)0x80;
+    publid stbtid finbl bytf MOTIF_MESSAGE_FROM_RECEIVER    = (bytf)0x80;
+    publid stbtid finbl bytf MOTIF_MESSAGE_FROM_INITIATOR   = (bytf)0;
 
-    /* Message flags masks and shifts */
-    public static final int MOTIF_DND_ACTION_MASK   = 0x000F;
-    public static final int MOTIF_DND_ACTION_SHIFT  =      0;
-    public static final int MOTIF_DND_STATUS_MASK   = 0x00F0;
-    public static final int MOTIF_DND_STATUS_SHIFT  =      4;
-    public static final int MOTIF_DND_ACTIONS_MASK  = 0x0F00;
-    public static final int MOTIF_DND_ACTIONS_SHIFT =      8;
+    /* Mfssbgf flbgs mbsks bnd siifts */
+    publid stbtid finbl int MOTIF_DND_ACTION_MASK   = 0x000F;
+    publid stbtid finbl int MOTIF_DND_ACTION_SHIFT  =      0;
+    publid stbtid finbl int MOTIF_DND_STATUS_MASK   = 0x00F0;
+    publid stbtid finbl int MOTIF_DND_STATUS_SHIFT  =      4;
+    publid stbtid finbl int MOTIF_DND_ACTIONS_MASK  = 0x0F00;
+    publid stbtid finbl int MOTIF_DND_ACTIONS_SHIFT =      8;
 
-    /* message type constants */
-    public static final byte TOP_LEVEL_ENTER   = 0;
-    public static final byte TOP_LEVEL_LEAVE   = 1;
-    public static final byte DRAG_MOTION       = 2;
-    public static final byte DROP_SITE_ENTER   = 3;
-    public static final byte DROP_SITE_LEAVE   = 4;
-    public static final byte DROP_START        = 5;
-    public static final byte DROP_FINISH       = 6;
-    public static final byte DRAG_DROP_FINISH  = 7;
-    public static final byte OPERATION_CHANGED = 8;
+    /* mfssbgf typf donstbnts */
+    publid stbtid finbl bytf TOP_LEVEL_ENTER   = 0;
+    publid stbtid finbl bytf TOP_LEVEL_LEAVE   = 1;
+    publid stbtid finbl bytf DRAG_MOTION       = 2;
+    publid stbtid finbl bytf DROP_SITE_ENTER   = 3;
+    publid stbtid finbl bytf DROP_SITE_LEAVE   = 4;
+    publid stbtid finbl bytf DROP_START        = 5;
+    publid stbtid finbl bytf DROP_FINISH       = 6;
+    publid stbtid finbl bytf DRAG_DROP_FINISH  = 7;
+    publid stbtid finbl bytf OPERATION_CHANGED = 8;
 
-    /* drop action constants */
-    public static final int MOTIF_DND_NOOP = 0;
-    public static final int MOTIF_DND_MOVE = 1 << 0;
-    public static final int MOTIF_DND_COPY = 1 << 1;
-    public static final int MOTIF_DND_LINK = 1 << 2;
+    /* drop bdtion donstbnts */
+    publid stbtid finbl int MOTIF_DND_NOOP = 0;
+    publid stbtid finbl int MOTIF_DND_MOVE = 1 << 0;
+    publid stbtid finbl int MOTIF_DND_COPY = 1 << 1;
+    publid stbtid finbl int MOTIF_DND_LINK = 1 << 2;
 
-    /* drop site status constants */
-    public static final byte MOTIF_NO_DROP_SITE      = (byte)1;
-    public static final byte MOTIF_INVALID_DROP_SITE = (byte)2;
-    public static final byte MOTIF_VALID_DROP_SITE   = (byte)3;
+    /* drop sitf stbtus donstbnts */
+    publid stbtid finbl bytf MOTIF_NO_DROP_SITE      = (bytf)1;
+    publid stbtid finbl bytf MOTIF_INVALID_DROP_SITE = (bytf)2;
+    publid stbtid finbl bytf MOTIF_VALID_DROP_SITE   = (bytf)3;
 
-    private static long readMotifWindow() throws XException {
-        long defaultScreenNumber = XlibWrapper.DefaultScreen(XToolkit.getDisplay());
-        long defaultRootWindow =
-            XlibWrapper.RootWindow(XToolkit.getDisplay(), defaultScreenNumber);
+    privbtf stbtid long rfbdMotifWindow() tirows XExdfption {
+        long dffbultSdrffnNumbfr = XlibWrbppfr.DffbultSdrffn(XToolkit.gftDisplby());
+        long dffbultRootWindow =
+            XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), dffbultSdrffnNumbfr);
 
         long motifWindow = 0;
 
-        WindowPropertyGetter wpg = new WindowPropertyGetter(defaultRootWindow,
+        WindowPropfrtyGfttfr wpg = nfw WindowPropfrtyGfttfr(dffbultRootWindow,
                                                             XA_MOTIF_DRAG_WINDOW,
                                                             0, 1,
-                                                            false,
-                                                            XConstants.AnyPropertyType);
+                                                            fblsf,
+                                                            XConstbnts.AnyPropfrtyTypf);
         try {
-            int status = wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+            int stbtus = wpg.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
 
-            if (status == XConstants.Success &&
-                wpg.getData() != 0 &&
-                wpg.getActualType() == XAtom.XA_WINDOW &&
-                wpg.getActualFormat() == 32 &&
-                wpg.getNumberOfItems() == 1) {
-                long data = wpg.getData();
+            if (stbtus == XConstbnts.Suddfss &&
+                wpg.gftDbtb() != 0 &&
+                wpg.gftAdtublTypf() == XAtom.XA_WINDOW &&
+                wpg.gftAdtublFormbt() == 32 &&
+                wpg.gftNumbfrOfItfms() == 1) {
+                long dbtb = wpg.gftDbtb();
                 // XID is CARD32.
-                motifWindow = Native.getLong(data);
+                motifWindow = Nbtivf.gftLong(dbtb);
             }
 
-            return motifWindow;
-        } finally {
-            wpg.dispose();
+            rfturn motifWindow;
+        } finblly {
+            wpg.disposf();
         }
     }
 
-    private static long createMotifWindow() throws XException {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbtf stbtid long drfbtfMotifWindow() tirows XExdfption {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        long defaultScreenNumber =
-            XlibWrapper.DefaultScreen(XToolkit.getDisplay());
-        long defaultRootWindow =
-            XlibWrapper.RootWindow(XToolkit.getDisplay(), defaultScreenNumber);
+        long dffbultSdrffnNumbfr =
+            XlibWrbppfr.DffbultSdrffn(XToolkit.gftDisplby());
+        long dffbultRootWindow =
+            XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), dffbultSdrffnNumbfr);
 
         long motifWindow = 0;
 
-        long displayString = XlibWrapper.XDisplayString(XToolkit.getDisplay());
+        long displbyString = XlibWrbppfr.XDisplbyString(XToolkit.gftDisplby());
 
-        if (displayString == 0) {
-            throw new XException("XDisplayString returns NULL");
+        if (displbyString == 0) {
+            tirow nfw XExdfption("XDisplbyString rfturns NULL");
         }
 
-        long newDisplay = XlibWrapper.XOpenDisplay(displayString);
+        long nfwDisplby = XlibWrbppfr.XOpfnDisplby(displbyString);
 
-        if (newDisplay == 0) {
-            throw new XException("XOpenDisplay returns NULL");
+        if (nfwDisplby == 0) {
+            tirow nfw XExdfption("XOpfnDisplby rfturns NULL");
         }
 
-        XlibWrapper.XGrabServer(newDisplay);
+        XlibWrbppfr.XGrbbSfrvfr(nfwDisplby);
 
         try {
-            XlibWrapper.XSetCloseDownMode(newDisplay, XConstants.RetainPermanent);
+            XlibWrbppfr.XSftClosfDownModf(nfwDisplby, XConstbnts.RftbinPfrmbnfnt);
 
-            XSetWindowAttributes xwa = new XSetWindowAttributes();
+            XSftWindowAttributfs xwb = nfw XSftWindowAttributfs();
 
             try {
-                xwa.set_override_redirect(true);
-                xwa.set_event_mask(XConstants.PropertyChangeMask);
+                xwb.sft_ovfrridf_rfdirfdt(truf);
+                xwb.sft_fvfnt_mbsk(XConstbnts.PropfrtyCibngfMbsk);
 
-                motifWindow = XlibWrapper.XCreateWindow(newDisplay, defaultRootWindow,
+                motifWindow = XlibWrbppfr.XCrfbtfWindow(nfwDisplby, dffbultRootWindow,
                                                         -10, -10, 1, 1, 0, 0,
-                                                        XConstants.InputOnly,
-                                                        XConstants.CopyFromParent,
-                                                        (XConstants.CWOverrideRedirect |
-                                                         XConstants.CWEventMask),
-                                                        xwa.pData);
+                                                        XConstbnts.InputOnly,
+                                                        XConstbnts.CopyFromPbrfnt,
+                                                        (XConstbnts.CWOvfrridfRfdirfdt |
+                                                         XConstbnts.CWEvfntMbsk),
+                                                        xwb.pDbtb);
 
                 if (motifWindow == 0) {
-                    throw new XException("XCreateWindow returns NULL");
+                    tirow nfw XExdfption("XCrfbtfWindow rfturns NULL");
                 }
 
-                XlibWrapper.XMapWindow(newDisplay, motifWindow);
+                XlibWrbppfr.XMbpWindow(nfwDisplby, motifWindow);
 
-                long data = Native.allocateLongArray(1);
+                long dbtb = Nbtivf.bllodbtfLongArrby(1);
 
                 try {
-                    Native.putLong(data, motifWindow);
+                    Nbtivf.putLong(dbtb, motifWindow);
 
-                    XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-                    XlibWrapper.XChangeProperty(XToolkit.getDisplay(),
-                                                defaultRootWindow,
-                                                XA_MOTIF_DRAG_WINDOW.getAtom(),
+                    XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyCibngfPropfrtyHbndlfr.gftInstbndf());
+                    XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(),
+                                                dffbultRootWindow,
+                                                XA_MOTIF_DRAG_WINDOW.gftAtom(),
                                                 XAtom.XA_WINDOW, 32,
-                                                XConstants.PropModeReplace,
-                                                data, 1);
+                                                XConstbnts.PropModfRfplbdf,
+                                                dbtb, 1);
 
-                    XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+                    XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-                    if ((XErrorHandlerUtil.saved_error != null) &&
-                        (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                        throw new XException("Cannot write motif drag window handle.");
+                    if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                        (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                        tirow nfw XExdfption("Cbnnot writf motif drbg window ibndlf.");
                     }
 
-                    return motifWindow;
-                } finally {
-                    unsafe.freeMemory(data);
+                    rfturn motifWindow;
+                } finblly {
+                    unsbff.frffMfmory(dbtb);
                 }
-            } finally {
-                xwa.dispose();
+            } finblly {
+                xwb.disposf();
             }
-        } finally {
-            XlibWrapper.XUngrabServer(newDisplay);
-            XlibWrapper.XCloseDisplay(newDisplay);
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(nfwDisplby);
+            XlibWrbppfr.XClosfDisplby(nfwDisplby);
         }
     }
 
-    private static long getMotifWindow() throws XException {
+    privbtf stbtid long gftMotifWindow() tirows XExdfption {
         /*
-         * Note: it is unsafe to cache the motif drag window handle, as another
-         * client can change the _MOTIF_DRAG_WINDOW property on the root, the handle
-         * becomes out-of-sync and all subsequent drag operations will fail.
+         * Notf: it is unsbff to dbdif tif motif drbg window ibndlf, bs bnotifr
+         * dlifnt dbn dibngf tif _MOTIF_DRAG_WINDOW propfrty on tif root, tif ibndlf
+         * bfdomfs out-of-synd bnd bll subsfqufnt drbg opfrbtions will fbil.
          */
-        long motifWindow = readMotifWindow();
+        long motifWindow = rfbdMotifWindow();
         if (motifWindow == 0) {
-            motifWindow = createMotifWindow();
+            motifWindow = drfbtfMotifWindow();
         }
-        return motifWindow;
+        rfturn motifWindow;
     }
 
-    public static final class Swapper {
-        // utility class can not be instantiated
-        private Swapper() {}
+    publid stbtid finbl dlbss Swbppfr {
+        // utility dlbss dbn not bf instbntibtfd
+        privbtf Swbppfr() {}
 
-        public static short swap(short s) {
-            return (short)(((s & 0xFF00) >>> 8) | ((s & 0xFF) << 8));
+        publid stbtid siort swbp(siort s) {
+            rfturn (siort)(((s & 0xFF00) >>> 8) | ((s & 0xFF) << 8));
         }
-        public static int swap(int i) {
-            return ((i & 0xFF000000) >>> 24) | ((i & 0x00FF0000) >>> 8) |
+        publid stbtid int swbp(int i) {
+            rfturn ((i & 0xFF000000) >>> 24) | ((i & 0x00FF0000) >>> 8) |
                 ((i & 0x0000FF00) << 8) | ((i & 0x000000FF) << 24);
         }
 
-        public static short getShort(long data, byte order) {
-            short s = unsafe.getShort(data);
-            if (order != MotifDnDConstants.getByteOrderByte()) {
-                return swap(s);
-            } else {
-                return s;
+        publid stbtid siort gftSiort(long dbtb, bytf ordfr) {
+            siort s = unsbff.gftSiort(dbtb);
+            if (ordfr != MotifDnDConstbnts.gftBytfOrdfrBytf()) {
+                rfturn swbp(s);
+            } flsf {
+                rfturn s;
             }
         }
-        public static int getInt(long data, byte order) {
-            int i = unsafe.getInt(data);
-            if (order != MotifDnDConstants.getByteOrderByte()) {
-                return swap(i);
-            } else {
-                return i;
+        publid stbtid int gftInt(long dbtb, bytf ordfr) {
+            int i = unsbff.gftInt(dbtb);
+            if (ordfr != MotifDnDConstbnts.gftBytfOrdfrBytf()) {
+                rfturn swbp(i);
+            } flsf {
+                rfturn i;
             }
         }
     }
 
     /**
-     * DragBSI.h:
+     * DrbgBSI.i:
      *
-     * typedef struct {
-     *    BYTE          byte_order;
-     *    BYTE          protocol_version;
-     *    CARD16        num_target_lists B16;
-     *    CARD32        heap_offset B32;
-     * } xmMotifTargetsPropertyRec;
+     * typfdff strudt {
+     *    BYTE          bytf_ordfr;
+     *    BYTE          protodol_vfrsion;
+     *    CARD16        num_tbrgft_lists B16;
+     *    CARD32        ifbp_offsft B32;
+     * } xmMotifTbrgftsPropfrtyRfd;
      */
-    private static long[][] getTargetListTable(long motifWindow)
-      throws XException {
+    privbtf stbtid long[][] gftTbrgftListTbblf(long motifWindow)
+      tirows XExdfption {
 
-        WindowPropertyGetter wpg = new WindowPropertyGetter(motifWindow,
+        WindowPropfrtyGfttfr wpg = nfw WindowPropfrtyGfttfr(motifWindow,
                                                             XA_MOTIF_DRAG_TARGETS,
                                                             0, 100000L,
-                                                            false,
-                                                            XA_MOTIF_DRAG_TARGETS.getAtom());
+                                                            fblsf,
+                                                            XA_MOTIF_DRAG_TARGETS.gftAtom());
         try {
-            int status = wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+            int stbtus = wpg.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
 
-            if (status != XConstants.Success
-                || wpg.getActualType() != XA_MOTIF_DRAG_TARGETS.getAtom()
-                || wpg.getData() == 0) {
+            if (stbtus != XConstbnts.Suddfss
+                || wpg.gftAdtublTypf() != XA_MOTIF_DRAG_TARGETS.gftAtom()
+                || wpg.gftDbtb() == 0) {
 
-                return null;
+                rfturn null;
             }
 
-            long data = wpg.getData();
+            long dbtb = wpg.gftDbtb();
 
-            if (unsafe.getByte(data + 1) != MOTIF_DND_PROTOCOL_VERSION) {
-                return null;
+            if (unsbff.gftBytf(dbtb + 1) != MOTIF_DND_PROTOCOL_VERSION) {
+                rfturn null;
             }
 
-            boolean swapNeeded = unsafe.getByte(data + 0) != getByteOrderByte();
+            boolfbn swbpNffdfd = unsbff.gftBytf(dbtb + 0) != gftBytfOrdfrBytf();
 
-            short numTargetLists = unsafe.getShort(data + 2);
+            siort numTbrgftLists = unsbff.gftSiort(dbtb + 2);
 
-            if (swapNeeded) {
-                numTargetLists = Swapper.swap(numTargetLists);
+            if (swbpNffdfd) {
+                numTbrgftLists = Swbppfr.swbp(numTbrgftLists);
             }
 
-            long[][] table = new long[numTargetLists][];
-            ByteOrder byteOrder = ByteOrder.nativeOrder();
-            if (swapNeeded) {
-                byteOrder = (byteOrder == ByteOrder.LITTLE_ENDIAN) ?
-                    ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN;
+            long[][] tbblf = nfw long[numTbrgftLists][];
+            BytfOrdfr bytfOrdfr = BytfOrdfr.nbtivfOrdfr();
+            if (swbpNffdfd) {
+                bytfOrdfr = (bytfOrdfr == BytfOrdfr.LITTLE_ENDIAN) ?
+                    BytfOrdfr.BIG_ENDIAN : BytfOrdfr.LITTLE_ENDIAN;
             }
 
-            long bufptr = data + 8;
-            for (short i = 0; i < numTargetLists; i++) {
-                short numTargets = unsafe.getShort(bufptr);
+            long bufptr = dbtb + 8;
+            for (siort i = 0; i < numTbrgftLists; i++) {
+                siort numTbrgfts = unsbff.gftSiort(bufptr);
                 bufptr += 2;
-                if (swapNeeded) {
-                    numTargets = Swapper.swap(numTargets);
+                if (swbpNffdfd) {
+                    numTbrgfts = Swbppfr.swbp(numTbrgfts);
                 }
 
-                table[i] = new long[numTargets];
+                tbblf[i] = nfw long[numTbrgfts];
 
-                for (short j = 0; j < numTargets; j++) {
-                    // NOTE: cannot use Unsafe.getInt(), since it crashes on
-                    // Solaris/Sparc if the address is not a multiple of 4.
-                    int target = 0;
-                    if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
+                for (siort j = 0; j < numTbrgfts; j++) {
+                    // NOTE: dbnnot usf Unsbff.gftInt(), sindf it drbsifs on
+                    // Solbris/Spbrd if tif bddrfss is not b multiplf of 4.
+                    int tbrgft = 0;
+                    if (bytfOrdfr == BytfOrdfr.LITTLE_ENDIAN) {
                         for (int idx = 0; idx < 4; idx++) {
-                            target |= (unsafe.getByte(bufptr + idx) << 8*idx)
+                            tbrgft |= (unsbff.gftBytf(bufptr + idx) << 8*idx)
                                 & (0xFF << 8*idx);
                         }
-                    } else {
+                    } flsf {
                         for (int idx = 0; idx < 4; idx++) {
-                            target |= (unsafe.getByte(bufptr + idx) << 8*(3-idx))
+                            tbrgft |= (unsbff.gftBytf(bufptr + idx) << 8*(3-idx))
                                 & (0xFF << 8*(3-idx));
                         }
                     }
-                    // NOTE: don't need to swap, since we read it in the proper
-                    // order already.
-                    table[i][j] = target;
+                    // NOTE: don't nffd to swbp, sindf wf rfbd it in tif propfr
+                    // ordfr blrfbdy.
+                    tbblf[i][j] = tbrgft;
                     bufptr += 4;
                 }
             }
-            return table;
-        } finally {
-            wpg.dispose();
+            rfturn tbblf;
+        } finblly {
+            wpg.disposf();
         }
     }
 
-    private static void putTargetListTable(long motifWindow, long[][] table)
-      throws XException {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbtf stbtid void putTbrgftListTbblf(long motifWindow, long[][] tbblf)
+      tirows XExdfption {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        int tableSize = 8; /* The size of leading xmMotifTargetsPropertyRec. */
+        int tbblfSizf = 8; /* Tif sizf of lfbding xmMotifTbrgftsPropfrtyRfd. */
 
-        for (int i = 0; i < table.length; i++) {
-            tableSize += table[i].length * 4 + 2;
+        for (int i = 0; i < tbblf.lfngti; i++) {
+            tbblfSizf += tbblf[i].lfngti * 4 + 2;
         }
 
-        long data = unsafe.allocateMemory(tableSize);
+        long dbtb = unsbff.bllodbtfMfmory(tbblfSizf);
 
         try {
-            // BYTE          byte_order;
-            unsafe.putByte(data + 0, getByteOrderByte());
-            // BYTE          protocol_version;
-            unsafe.putByte(data + 1, MOTIF_DND_PROTOCOL_VERSION);
-            // CARD16        num_target_lists B16;
-            unsafe.putShort(data + 2, (short)table.length);
-            // CARD32        heap_offset B32;
-            unsafe.putInt(data + 4, tableSize);
+            // BYTE          bytf_ordfr;
+            unsbff.putBytf(dbtb + 0, gftBytfOrdfrBytf());
+            // BYTE          protodol_vfrsion;
+            unsbff.putBytf(dbtb + 1, MOTIF_DND_PROTOCOL_VERSION);
+            // CARD16        num_tbrgft_lists B16;
+            unsbff.putSiort(dbtb + 2, (siort)tbblf.lfngti);
+            // CARD32        ifbp_offsft B32;
+            unsbff.putInt(dbtb + 4, tbblfSizf);
 
-            long bufptr = data + 8;
+            long bufptr = dbtb + 8;
 
-            for (int i = 0; i < table.length; i++) {
-                unsafe.putShort(bufptr, (short)table[i].length);
+            for (int i = 0; i < tbblf.lfngti; i++) {
+                unsbff.putSiort(bufptr, (siort)tbblf[i].lfngti);
                 bufptr += 2;
 
-                for (int j = 0; j < table[i].length; j++) {
-                    int target = (int)table[i][j];
-                    // NOTE: cannot use Unsafe.putInt(), since it crashes on
-                    // Solaris/Sparc if the address is not a multiple of 4.
-                    if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN) {
+                for (int j = 0; j < tbblf[i].lfngti; j++) {
+                    int tbrgft = (int)tbblf[i][j];
+                    // NOTE: dbnnot usf Unsbff.putInt(), sindf it drbsifs on
+                    // Solbris/Spbrd if tif bddrfss is not b multiplf of 4.
+                    if (BytfOrdfr.nbtivfOrdfr() == BytfOrdfr.LITTLE_ENDIAN) {
                         for (int idx = 0; idx < 4; idx++) {
-                            byte b = (byte)((target & (0xFF << (8*idx))) >> (8*idx));
-                            unsafe.putByte(bufptr + idx, b);
+                            bytf b = (bytf)((tbrgft & (0xFF << (8*idx))) >> (8*idx));
+                            unsbff.putBytf(bufptr + idx, b);
                         }
-                    } else {
+                    } flsf {
                         for (int idx = 0; idx < 4; idx++) {
-                            byte b = (byte)((target & (0xFF << (8*idx))) >> (8*idx));
-                            unsafe.putByte(bufptr + (3-idx), b);
+                            bytf b = (bytf)((tbrgft & (0xFF << (8*idx))) >> (8*idx));
+                            unsbff.putBytf(bufptr + (3-idx), b);
                         }
                     }
                     bufptr += 4;
                 }
             }
 
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-            XlibWrapper.XChangeProperty(XToolkit.getDisplay(),
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyCibngfPropfrtyHbndlfr.gftInstbndf());
+            XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(),
                                         motifWindow,
-                                        XA_MOTIF_DRAG_TARGETS.getAtom(),
-                                        XA_MOTIF_DRAG_TARGETS.getAtom(), 8,
-                                        XConstants.PropModeReplace,
-                                        data, tableSize);
+                                        XA_MOTIF_DRAG_TARGETS.gftAtom(),
+                                        XA_MOTIF_DRAG_TARGETS.gftAtom(), 8,
+                                        XConstbnts.PropModfRfplbdf,
+                                        dbtb, tbblfSizf);
 
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-            if ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
+            if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
 
-                // Create a new motif window and retry.
-                motifWindow = createMotifWindow();
+                // Crfbtf b nfw motif window bnd rftry.
+                motifWindow = drfbtfMotifWindow();
 
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-                XlibWrapper.XChangeProperty(XToolkit.getDisplay(),
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyCibngfPropfrtyHbndlfr.gftInstbndf());
+                XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(),
                                             motifWindow,
-                                            XA_MOTIF_DRAG_TARGETS.getAtom(),
-                                            XA_MOTIF_DRAG_TARGETS.getAtom(), 8,
-                                            XConstants.PropModeReplace,
-                                            data, tableSize);
+                                            XA_MOTIF_DRAG_TARGETS.gftAtom(),
+                                            XA_MOTIF_DRAG_TARGETS.gftAtom(), 8,
+                                            XConstbnts.PropModfRfplbdf,
+                                            dbtb, tbblfSizf);
 
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-                if ((XErrorHandlerUtil.saved_error != null) &&
-                    (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                    throw new XException("Cannot write motif drag targets property.");
+                if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                    (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                    tirow nfw XExdfption("Cbnnot writf motif drbg tbrgfts propfrty.");
                 }
             }
-        } finally {
-            unsafe.freeMemory(data);
+        } finblly {
+            unsbff.frffMfmory(dbtb);
         }
     }
 
-    static int getIndexForTargetList(long[] formats) throws XException {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    stbtid int gftIndfxForTbrgftList(long[] formbts) tirows XExdfption {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        if (formats.length > 0) {
-            // Make a defensive copy.
-            formats = formats.clone();
+        if (formbts.lfngti > 0) {
+            // Mbkf b dfffnsivf dopy.
+            formbts = formbts.dlonf();
 
-            Arrays.sort(formats);
+            Arrbys.sort(formbts);
         }
 
-        // NOTE: getMotifWindow() should never be called if the server is
-        // grabbed. This will lock up the application as it grabs the server
-        // itself.
-        // Since we don't grab the server before getMotifWindow(), another
-        // client might replace motif window after we read it from the root, but
-        // before we grab the server.
-        // We cannot resolve this problem, but we believe that this scenario is
-        // very unlikely to happen.
-        long motifWindow = getMotifWindow();
+        // NOTE: gftMotifWindow() siould nfvfr bf dbllfd if tif sfrvfr is
+        // grbbbfd. Tiis will lodk up tif bpplidbtion bs it grbbs tif sfrvfr
+        // itsflf.
+        // Sindf wf don't grbb tif sfrvfr bfforf gftMotifWindow(), bnotifr
+        // dlifnt migit rfplbdf motif window bftfr wf rfbd it from tif root, but
+        // bfforf wf grbb tif sfrvfr.
+        // Wf dbnnot rfsolvf tiis problfm, but wf bflifvf tibt tiis sdfnbrio is
+        // vfry unlikfly to ibppfn.
+        long motifWindow = gftMotifWindow();
 
-        XlibWrapper.XGrabServer(XToolkit.getDisplay());
+        XlibWrbppfr.XGrbbSfrvfr(XToolkit.gftDisplby());
 
         try {
-            long[][] table = getTargetListTable(motifWindow);
+            long[][] tbblf = gftTbrgftListTbblf(motifWindow);
 
-            if (table != null) {
-                for (int i = 0; i < table.length; i++) {
-                    boolean equals = true;
-                    if (table[i].length == formats.length) {
-                        for (int j = 0; j < table[i].length; j++) {
-                            if (table[i][j] != formats[j]) {
-                                equals = false;
-                                break;
+            if (tbblf != null) {
+                for (int i = 0; i < tbblf.lfngti; i++) {
+                    boolfbn fqubls = truf;
+                    if (tbblf[i].lfngti == formbts.lfngti) {
+                        for (int j = 0; j < tbblf[i].lfngti; j++) {
+                            if (tbblf[i][j] != formbts[j]) {
+                                fqubls = fblsf;
+                                brfbk;
                             }
                         }
-                    } else {
-                        equals = false;
+                    } flsf {
+                        fqubls = fblsf;
                     }
 
-                    if (equals) {
-                        XlibWrapper.XUngrabServer(XToolkit.getDisplay());
-                        return i;
+                    if (fqubls) {
+                        XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
+                        rfturn i;
                     }
                 }
-            } else {
-                // Create a new table.
-                // The first two entries must always be the same.
-                // (see DragBS.c)
-                table = new long[2][];
-                table[0] = new long[] { 0 };
-                table[1] = new long[] { XAtom.XA_STRING };
+            } flsf {
+                // Crfbtf b nfw tbblf.
+                // Tif first two fntrifs must blwbys bf tif sbmf.
+                // (sff DrbgBS.d)
+                tbblf = nfw long[2][];
+                tbblf[0] = nfw long[] { 0 };
+                tbblf[1] = nfw long[] { XAtom.XA_STRING };
             }
 
-            /* Index not found - expand the targets table. */
-            long[][] new_table = new long[table.length + 1][];
+            /* Indfx not found - fxpbnd tif tbrgfts tbblf. */
+            long[][] nfw_tbblf = nfw long[tbblf.lfngti + 1][];
 
-            /* Copy the old contents to the new table. */
-            for (int i = 0; i < table.length; i++) {
-                new_table[i] = table[i];
+            /* Copy tif old dontfnts to tif nfw tbblf. */
+            for (int i = 0; i < tbblf.lfngti; i++) {
+                nfw_tbblf[i] = tbblf[i];
             }
 
-            /* Fill in the new entry */
-            new_table[new_table.length - 1] = formats;
+            /* Fill in tif nfw fntry */
+            nfw_tbblf[nfw_tbblf.lfngti - 1] = formbts;
 
-            putTargetListTable(motifWindow, new_table);
+            putTbrgftListTbblf(motifWindow, nfw_tbblf);
 
-            return new_table.length - 1;
-        } finally {
-            XlibWrapper.XUngrabServer(XToolkit.getDisplay());
+            rfturn nfw_tbblf.lfngti - 1;
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
         }
     }
 
-    static long[] getTargetListForIndex(int index) {
-        long motifWindow = getMotifWindow();
-        long[][] table = getTargetListTable(motifWindow);
+    stbtid long[] gftTbrgftListForIndfx(int indfx) {
+        long motifWindow = gftMotifWindow();
+        long[][] tbblf = gftTbrgftListTbblf(motifWindow);
 
-        if (index < 0 || index >= table.length) {
-            return new long[0];
-        } else {
-            return table[index];
+        if (indfx < 0 || indfx >= tbblf.lfngti) {
+            rfturn nfw long[0];
+        } flsf {
+            rfturn tbblf[indfx];
         }
     }
 
-    static byte getByteOrderByte() {
-        // 'l' - for little endian, 'B' - for big endian.
-        return ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN ?
-            (byte)0x6C : (byte)0x42;
+    stbtid bytf gftBytfOrdfrBytf() {
+        // 'l' - for littlf fndibn, 'B' - for big fndibn.
+        rfturn BytfOrdfr.nbtivfOrdfr() == BytfOrdfr.LITTLE_ENDIAN ?
+            (bytf)0x6C : (bytf)0x42;
     }
 
-    static void writeDragInitiatorInfoStruct(long window, int index) throws XException {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    stbtid void writfDrbgInitibtorInfoStrudt(long window, int indfx) tirows XExdfption {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        long structData = unsafe.allocateMemory(MOTIF_INITIATOR_INFO_SIZE);
+        long strudtDbtb = unsbff.bllodbtfMfmory(MOTIF_INITIATOR_INFO_SIZE);
 
         try {
-            // BYTE byte_order
-            unsafe.putByte(structData, getByteOrderByte());
-            // BYTE protocol_version
-            unsafe.putByte(structData + 1, MOTIF_DND_PROTOCOL_VERSION);
-            // CARD16 protocol_version
-            unsafe.putShort(structData + 2, (short)index);
-            // CARD32 icc_handle
-            unsafe.putInt(structData + 4, (int)XA_MOTIF_ATOM_0.getAtom());
+            // BYTE bytf_ordfr
+            unsbff.putBytf(strudtDbtb, gftBytfOrdfrBytf());
+            // BYTE protodol_vfrsion
+            unsbff.putBytf(strudtDbtb + 1, MOTIF_DND_PROTOCOL_VERSION);
+            // CARD16 protodol_vfrsion
+            unsbff.putSiort(strudtDbtb + 2, (siort)indfx);
+            // CARD32 idd_ibndlf
+            unsbff.putInt(strudtDbtb + 4, (int)XA_MOTIF_ATOM_0.gftAtom());
 
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-            XlibWrapper.XChangeProperty(XToolkit.getDisplay(), window,
-                                        XA_MOTIF_ATOM_0.getAtom(),
-                                        XA_MOTIF_DRAG_INITIATOR_INFO.getAtom(),
-                                        8, XConstants.PropModeReplace,
-                                        structData, MOTIF_INITIATOR_INFO_SIZE);
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyCibngfPropfrtyHbndlfr.gftInstbndf());
+            XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(), window,
+                                        XA_MOTIF_ATOM_0.gftAtom(),
+                                        XA_MOTIF_DRAG_INITIATOR_INFO.gftAtom(),
+                                        8, XConstbnts.PropModfRfplbdf,
+                                        strudtDbtb, MOTIF_INITIATOR_INFO_SIZE);
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-            if ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                throw new XException("Cannot write drag initiator info");
+            if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                tirow nfw XExdfption("Cbnnot writf drbg initibtor info");
             }
-        } finally {
-            unsafe.freeMemory(structData);
+        } finblly {
+            unsbff.frffMfmory(strudtDbtb);
         }
     }
 
-    static void writeDragReceiverInfoStruct(long window) throws XException {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    stbtid void writfDrbgRfdfivfrInfoStrudt(long window) tirows XExdfption {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        int dataSize = MotifDnDConstants.MOTIF_RECEIVER_INFO_SIZE;
-        long data = unsafe.allocateMemory(dataSize);
+        int dbtbSizf = MotifDnDConstbnts.MOTIF_RECEIVER_INFO_SIZE;
+        long dbtb = unsbff.bllodbtfMfmory(dbtbSizf);
 
         try {
-            unsafe.putByte(data, MotifDnDConstants.getByteOrderByte()); /* byte order */
-            unsafe.putByte(data + 1, MotifDnDConstants.MOTIF_DND_PROTOCOL_VERSION); /* protocol version */
-            unsafe.putByte(data + 2, (byte)MotifDnDConstants.MOTIF_DYNAMIC_STYLE); /* protocol style */
-            unsafe.putByte(data + 3, (byte)0); /* pad */
-            unsafe.putInt(data + 4, (int)window); /* proxy window */
-            unsafe.putShort(data + 8, (short)0); /* num_drop_sites */
-            unsafe.putShort(data + 10, (short)0); /* pad */
-            unsafe.putInt(data + 12, dataSize);
+            unsbff.putBytf(dbtb, MotifDnDConstbnts.gftBytfOrdfrBytf()); /* bytf ordfr */
+            unsbff.putBytf(dbtb + 1, MotifDnDConstbnts.MOTIF_DND_PROTOCOL_VERSION); /* protodol vfrsion */
+            unsbff.putBytf(dbtb + 2, (bytf)MotifDnDConstbnts.MOTIF_DYNAMIC_STYLE); /* protodol stylf */
+            unsbff.putBytf(dbtb + 3, (bytf)0); /* pbd */
+            unsbff.putInt(dbtb + 4, (int)window); /* proxy window */
+            unsbff.putSiort(dbtb + 8, (siort)0); /* num_drop_sitfs */
+            unsbff.putSiort(dbtb + 10, (siort)0); /* pbd */
+            unsbff.putInt(dbtb + 12, dbtbSizf);
 
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-            XlibWrapper.XChangeProperty(XToolkit.getDisplay(), window,
-                                        XA_MOTIF_DRAG_RECEIVER_INFO.getAtom(),
-                                        XA_MOTIF_DRAG_RECEIVER_INFO.getAtom(),
-                                        8, XConstants.PropModeReplace,
-                                        data, dataSize);
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyCibngfPropfrtyHbndlfr.gftInstbndf());
+            XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(), window,
+                                        XA_MOTIF_DRAG_RECEIVER_INFO.gftAtom(),
+                                        XA_MOTIF_DRAG_RECEIVER_INFO.gftAtom(),
+                                        8, XConstbnts.PropModfRfplbdf,
+                                        dbtb, dbtbSizf);
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-            if ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                throw new XException("Cannot write Motif receiver info property");
+            if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                tirow nfw XExdfption("Cbnnot writf Motif rfdfivfr info propfrty");
             }
-        } finally {
-            unsafe.freeMemory(data);
+        } finblly {
+            unsbff.frffMfmory(dbtb);
         }
     }
 
-    public static int getMotifActionsForJavaActions(int javaActions) {
-        int motifActions = MOTIF_DND_NOOP;
+    publid stbtid int gftMotifAdtionsForJbvbAdtions(int jbvbAdtions) {
+        int motifAdtions = MOTIF_DND_NOOP;
 
-        if ((javaActions & DnDConstants.ACTION_MOVE) != 0) {
-            motifActions |= MOTIF_DND_MOVE;
+        if ((jbvbAdtions & DnDConstbnts.ACTION_MOVE) != 0) {
+            motifAdtions |= MOTIF_DND_MOVE;
         }
-        if ((javaActions & DnDConstants.ACTION_COPY) != 0) {
-            motifActions |= MOTIF_DND_COPY;
+        if ((jbvbAdtions & DnDConstbnts.ACTION_COPY) != 0) {
+            motifAdtions |= MOTIF_DND_COPY;
         }
-        if ((javaActions & DnDConstants.ACTION_LINK) != 0) {
-            motifActions |= MOTIF_DND_LINK;
+        if ((jbvbAdtions & DnDConstbnts.ACTION_LINK) != 0) {
+            motifAdtions |= MOTIF_DND_LINK;
         }
 
-        return motifActions;
+        rfturn motifAdtions;
     }
 
-    public static int getJavaActionsForMotifActions(int motifActions) {
-        int javaActions = DnDConstants.ACTION_NONE;
+    publid stbtid int gftJbvbAdtionsForMotifAdtions(int motifAdtions) {
+        int jbvbAdtions = DnDConstbnts.ACTION_NONE;
 
-        if ((motifActions & MOTIF_DND_MOVE) != 0) {
-            javaActions |= DnDConstants.ACTION_MOVE;
+        if ((motifAdtions & MOTIF_DND_MOVE) != 0) {
+            jbvbAdtions |= DnDConstbnts.ACTION_MOVE;
         }
-        if ((motifActions & MOTIF_DND_COPY) != 0) {
-            javaActions |= DnDConstants.ACTION_COPY;
+        if ((motifAdtions & MOTIF_DND_COPY) != 0) {
+            jbvbAdtions |= DnDConstbnts.ACTION_COPY;
         }
-        if ((motifActions & MOTIF_DND_LINK) != 0) {
-            javaActions |= DnDConstants.ACTION_LINK;
+        if ((motifAdtions & MOTIF_DND_LINK) != 0) {
+            jbvbAdtions |= DnDConstbnts.ACTION_LINK;
         }
 
-        return javaActions;
+        rfturn jbvbAdtions;
     }
 }

@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * Hann windowed sinc interpolation resampler with anti-alias filtering.
+ * Hbnn windowfd sind intfrpolbtion rfsbmplfr witi bnti-blibs filtfring.
  *
- * Using 30 points for the interpolation.
+ * Using 30 points for tif intfrpolbtion.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SoftSincResampler extends SoftAbstractResampler {
+publid finbl dlbss SoftSindRfsbmplfr fxtfnds SoftAbstrbdtRfsbmplfr {
 
-    float[][][] sinc_table;
-    int sinc_scale_size = 100;
-    int sinc_table_fsize = 800;
-    int sinc_table_size = 30;
-    int sinc_table_center = sinc_table_size / 2;
+    flobt[][][] sind_tbblf;
+    int sind_sdblf_sizf = 100;
+    int sind_tbblf_fsizf = 800;
+    int sind_tbblf_sizf = 30;
+    int sind_tbblf_dfntfr = sind_tbblf_sizf / 2;
 
-    public SoftSincResampler() {
-        super();
-        sinc_table = new float[sinc_scale_size][sinc_table_fsize][];
-        for (int s = 0; s < sinc_scale_size; s++) {
-            float scale = (float) (1.0 / (1.0 + Math.pow(s, 1.1) / 10.0));
-            for (int i = 0; i < sinc_table_fsize; i++) {
-                sinc_table[s][i] = sincTable(sinc_table_size,
-                        -i / ((float)sinc_table_fsize), scale);
+    publid SoftSindRfsbmplfr() {
+        supfr();
+        sind_tbblf = nfw flobt[sind_sdblf_sizf][sind_tbblf_fsizf][];
+        for (int s = 0; s < sind_sdblf_sizf; s++) {
+            flobt sdblf = (flobt) (1.0 / (1.0 + Mbti.pow(s, 1.1) / 10.0));
+            for (int i = 0; i < sind_tbblf_fsizf; i++) {
+                sind_tbblf[s][i] = sindTbblf(sind_tbblf_sizf,
+                        -i / ((flobt)sind_tbblf_fsizf), sdblf);
             }
         }
     }
 
-    // Normalized sinc function
-    public static double sinc(double x) {
-        return (x == 0.0) ? 1.0 : Math.sin(Math.PI * x) / (Math.PI * x);
+    // Normblizfd sind fundtion
+    publid stbtid doublf sind(doublf x) {
+        rfturn (x == 0.0) ? 1.0 : Mbti.sin(Mbti.PI * x) / (Mbti.PI * x);
     }
 
-    // Generate hann window suitable for windowing sinc
-    public static float[] wHanning(int size, float offset) {
-        float[] window_table = new float[size];
-        for (int k = 0; k < size; k++) {
-            window_table[k] = (float)(-0.5
-                    * Math.cos(2.0 * Math.PI * (double)(k + offset)
-                        / (double) size) + 0.5);
+    // Gfnfrbtf ibnn window suitbblf for windowing sind
+    publid stbtid flobt[] wHbnning(int sizf, flobt offsft) {
+        flobt[] window_tbblf = nfw flobt[sizf];
+        for (int k = 0; k < sizf; k++) {
+            window_tbblf[k] = (flobt)(-0.5
+                    * Mbti.dos(2.0 * Mbti.PI * (doublf)(k + offsft)
+                        / (doublf) sizf) + 0.5);
         }
-        return window_table;
+        rfturn window_tbblf;
     }
 
-    // Generate sinc table
-    public static float[] sincTable(int size, float offset, float scale) {
-        int center = size / 2;
-        float[] w = wHanning(size, offset);
-        for (int k = 0; k < size; k++)
-            w[k] *= sinc((-center + k + offset) * scale) * scale;
-        return w;
+    // Gfnfrbtf sind tbblf
+    publid stbtid flobt[] sindTbblf(int sizf, flobt offsft, flobt sdblf) {
+        int dfntfr = sizf / 2;
+        flobt[] w = wHbnning(sizf, offsft);
+        for (int k = 0; k < sizf; k++)
+            w[k] *= sind((-dfntfr + k + offsft) * sdblf) * sdblf;
+        rfturn w;
     }
 
-    public int getPadding() // must be at least half of sinc_table_size
+    publid int gftPbdding() // must bf bt lfbst iblf of sind_tbblf_sizf
     {
-        return sinc_table_size / 2 + 2;
+        rfturn sind_tbblf_sizf / 2 + 2;
     }
 
-    public void interpolate(float[] in, float[] in_offset, float in_end,
-            float[] startpitch, float pitchstep, float[] out, int[] out_offset,
-            int out_end) {
-        float pitch = startpitch[0];
-        float ix = in_offset[0];
-        int ox = out_offset[0];
-        float ix_end = in_end;
-        int ox_end = out_end;
-        int max_p = sinc_scale_size - 1;
-        if (pitchstep == 0) {
+    publid void intfrpolbtf(flobt[] in, flobt[] in_offsft, flobt in_fnd,
+            flobt[] stbrtpitdi, flobt pitdistfp, flobt[] out, int[] out_offsft,
+            int out_fnd) {
+        flobt pitdi = stbrtpitdi[0];
+        flobt ix = in_offsft[0];
+        int ox = out_offsft[0];
+        flobt ix_fnd = in_fnd;
+        int ox_fnd = out_fnd;
+        int mbx_p = sind_sdblf_sizf - 1;
+        if (pitdistfp == 0) {
 
-            int p = (int) ((pitch - 1) * 10.0f);
+            int p = (int) ((pitdi - 1) * 10.0f);
             if (p < 0)
                 p = 0;
-            else if (p > max_p)
-                p = max_p;
-            float[][] sinc_table_f = this.sinc_table[p];
-            while (ix < ix_end && ox < ox_end) {
+            flsf if (p > mbx_p)
+                p = mbx_p;
+            flobt[][] sind_tbblf_f = tiis.sind_tbblf[p];
+            wiilf (ix < ix_fnd && ox < ox_fnd) {
                 int iix = (int) ix;
-                float[] sinc_table =
-                        sinc_table_f[(int)((ix - iix) * sinc_table_fsize)];
-                int xx = iix - sinc_table_center;
-                float y = 0;
-                for (int i = 0; i < sinc_table_size; i++, xx++)
-                    y += in[xx] * sinc_table[i];
+                flobt[] sind_tbblf =
+                        sind_tbblf_f[(int)((ix - iix) * sind_tbblf_fsizf)];
+                int xx = iix - sind_tbblf_dfntfr;
+                flobt y = 0;
+                for (int i = 0; i < sind_tbblf_sizf; i++, xx++)
+                    y += in[xx] * sind_tbblf[i];
                 out[ox++] = y;
-                ix += pitch;
+                ix += pitdi;
             }
-        } else {
-            while (ix < ix_end && ox < ox_end) {
+        } flsf {
+            wiilf (ix < ix_fnd && ox < ox_fnd) {
                 int iix = (int) ix;
-                int p = (int) ((pitch - 1) * 10.0f);
+                int p = (int) ((pitdi - 1) * 10.0f);
                 if (p < 0)
                     p = 0;
-                else if (p > max_p)
-                    p = max_p;
-                float[][] sinc_table_f = this.sinc_table[p];
+                flsf if (p > mbx_p)
+                    p = mbx_p;
+                flobt[][] sind_tbblf_f = tiis.sind_tbblf[p];
 
-                float[] sinc_table =
-                        sinc_table_f[(int)((ix - iix) * sinc_table_fsize)];
-                int xx = iix - sinc_table_center;
-                float y = 0;
-                for (int i = 0; i < sinc_table_size; i++, xx++)
-                    y += in[xx] * sinc_table[i];
+                flobt[] sind_tbblf =
+                        sind_tbblf_f[(int)((ix - iix) * sind_tbblf_fsizf)];
+                int xx = iix - sind_tbblf_dfntfr;
+                flobt y = 0;
+                for (int i = 0; i < sind_tbblf_sizf; i++, xx++)
+                    y += in[xx] * sind_tbblf[i];
                 out[ox++] = y;
 
-                ix += pitch;
-                pitch += pitchstep;
+                ix += pitdi;
+                pitdi += pitdistfp;
             }
         }
-        in_offset[0] = ix;
-        out_offset[0] = ox;
-        startpitch[0] = pitch;
+        in_offsft[0] = ix;
+        out_offsft[0] = ox;
+        stbrtpitdi[0] = pitdi;
 
     }
 }

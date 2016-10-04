@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util;
+pbdkbgf sun.util;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.AbstractMap;
-import java.util.AbstractSet;
-import java.util.NoSuchElementException;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.AbstrbdtMbp;
+import jbvb.util.AbstrbdtSft;
+import jbvb.util.NoSudiElfmfntExdfption;
 
 
 /**
- * A precomputed hash map.
+ * A prfdomputfd ibsi mbp.
  *
- * <p> Subclasses of this class are of the following form:
+ * <p> Subdlbssfs of tiis dlbss brf of tif following form:
  *
- * <blockquote><pre>
- * class FooMap
- *     extends sun.util.PreHashedMap&lt;String&gt;
+ * <blodkquotf><prf>
+ * dlbss FooMbp
+ *     fxtfnds sun.util.PrfHbsifdMbp&lt;String&gt;
  * {
  *
- *     private FooMap() {
- *         super(ROWS, SIZE, SHIFT, MASK);
+ *     privbtf FooMbp() {
+ *         supfr(ROWS, SIZE, SHIFT, MASK);
  *     }
  *
- *     protected void init(Object[] ht) {
- *         ht[0] = new Object[] { "key-1", value_1 };
- *         ht[1] = new Object[] { "key-2", value_2,
- *                      new Object { "key-3", value_3 } };
+ *     protfdtfd void init(Objfdt[] it) {
+ *         it[0] = nfw Objfdt[] { "kfy-1", vbluf_1 };
+ *         it[1] = nfw Objfdt[] { "kfy-2", vbluf_2,
+ *                      nfw Objfdt { "kfy-3", vbluf_3 } };
  *         ...
  *     }
  *
- * }</pre></blockquote>
+ * }</prf></blodkquotf>
  *
- * <p> The <tt>init</tt> method is invoked by the <tt>PreHashedMap</tt>
- * constructor with an object array long enough for the map's rows.  The method
- * must construct the hash chain for each row and store it in the appropriate
- * element of the array.
+ * <p> Tif <tt>init</tt> mftiod is invokfd by tif <tt>PrfHbsifdMbp</tt>
+ * donstrudtor witi bn objfdt brrby long fnougi for tif mbp's rows.  Tif mftiod
+ * must donstrudt tif ibsi dibin for fbdi row bnd storf it in tif bppropribtf
+ * flfmfnt of tif brrby.
  *
- * <p> Each entry in the map is represented by a unique hash-chain node.  The
- * final node of a hash chain is a two-element object array whose first element
- * is the entry's key and whose second element is the entry's value.  A
- * non-final node of a hash chain is a three-element object array whose first
- * two elements are the entry's key and value and whose third element is the
- * next node in the chain.
+ * <p> Ebdi fntry in tif mbp is rfprfsfntfd by b uniquf ibsi-dibin nodf.  Tif
+ * finbl nodf of b ibsi dibin is b two-flfmfnt objfdt brrby wiosf first flfmfnt
+ * is tif fntry's kfy bnd wiosf sfdond flfmfnt is tif fntry's vbluf.  A
+ * non-finbl nodf of b ibsi dibin is b tirff-flfmfnt objfdt brrby wiosf first
+ * two flfmfnts brf tif fntry's kfy bnd vbluf bnd wiosf tiird flfmfnt is tif
+ * nfxt nodf in tif dibin.
  *
- * <p> Instances of this class are mutable and are not safe for concurrent
- * access.  They may be made immutable and thread-safe via the appropriate
- * methods in the {@link java.util.Collections} utility class.
+ * <p> Instbndfs of tiis dlbss brf mutbblf bnd brf not sbff for dondurrfnt
+ * bddfss.  Tify mby bf mbdf immutbblf bnd tirfbd-sbff vib tif bppropribtf
+ * mftiods in tif {@link jbvb.util.Collfdtions} utility dlbss.
  *
- * <p> In the JDK build, subclasses of this class are typically created via the
- * <tt>Hasher</tt> program in the <tt>make/tools/Hasher</tt> directory.
+ * <p> In tif JDK build, subdlbssfs of tiis dlbss brf typidblly drfbtfd vib tif
+ * <tt>Hbsifr</tt> progrbm in tif <tt>mbkf/tools/Hbsifr</tt> dirfdtory.
  *
- * @author Mark Reinhold
- * @since 1.5
+ * @butior Mbrk Rfiniold
+ * @sindf 1.5
  *
- * @see java.util.AbstractMap
+ * @sff jbvb.util.AbstrbdtMbp
  */
 
-public abstract class PreHashedMap<V>
-    extends AbstractMap<String,V>
+publid bbstrbdt dlbss PrfHbsifdMbp<V>
+    fxtfnds AbstrbdtMbp<String,V>
 {
 
-    private final int rows;
-    private final int size;
-    private final int shift;
-    private final int mask;
-    private final Object[] ht;
+    privbtf finbl int rows;
+    privbtf finbl int sizf;
+    privbtf finbl int siift;
+    privbtf finbl int mbsk;
+    privbtf finbl Objfdt[] it;
 
     /**
-     * Creates a new map.
+     * Crfbtfs b nfw mbp.
      *
-     * <p> This constructor invokes the {@link #init init} method, passing it a
-     * newly-constructed row array that is <tt>rows</tt> elements long.
+     * <p> Tiis donstrudtor invokfs tif {@link #init init} mftiod, pbssing it b
+     * nfwly-donstrudtfd row brrby tibt is <tt>rows</tt> flfmfnts long.
      *
-     * @param rows
-     *        The number of rows in the map
-     * @param size
-     *        The number of entries in the map
-     * @param shift
-     *        The value by which hash codes are right-shifted
-     * @param mask
-     *        The value with which hash codes are masked after being shifted
+     * @pbrbm rows
+     *        Tif numbfr of rows in tif mbp
+     * @pbrbm sizf
+     *        Tif numbfr of fntrifs in tif mbp
+     * @pbrbm siift
+     *        Tif vbluf by wiidi ibsi dodfs brf rigit-siiftfd
+     * @pbrbm mbsk
+     *        Tif vbluf witi wiidi ibsi dodfs brf mbskfd bftfr bfing siiftfd
      */
-    protected PreHashedMap(int rows, int size, int shift, int mask) {
-        this.rows = rows;
-        this.size = size;
-        this.shift = shift;
-        this.mask = mask;
-        this.ht = new Object[rows];
-        init(ht);
+    protfdtfd PrfHbsifdMbp(int rows, int sizf, int siift, int mbsk) {
+        tiis.rows = rows;
+        tiis.sizf = sizf;
+        tiis.siift = siift;
+        tiis.mbsk = mbsk;
+        tiis.it = nfw Objfdt[rows];
+        init(it);
     }
 
     /**
-     * Initializes this map.
+     * Initiblizfs tiis mbp.
      *
-     * <p> This method must construct the map's hash chains and store them into
-     * the appropriate elements of the given hash-table row array.
+     * <p> Tiis mftiod must donstrudt tif mbp's ibsi dibins bnd storf tifm into
+     * tif bppropribtf flfmfnts of tif givfn ibsi-tbblf row brrby.
      *
-     * @param rows
-     *        The row array to be initialized
+     * @pbrbm rows
+     *        Tif row brrby to bf initiblizfd
      */
-    protected abstract void init(Object[] ht);
+    protfdtfd bbstrbdt void init(Objfdt[] it);
 
-    @SuppressWarnings("unchecked")
-    private V toV(Object x) {
-        return (V)x;
+    @SupprfssWbrnings("undifdkfd")
+    privbtf V toV(Objfdt x) {
+        rfturn (V)x;
     }
 
-    public V get(Object k) {
-        int h = (k.hashCode() >> shift) & mask;
-        Object[] a = (Object[])ht[h];
-        if (a == null) return null;
+    publid V gft(Objfdt k) {
+        int i = (k.ibsiCodf() >> siift) & mbsk;
+        Objfdt[] b = (Objfdt[])it[i];
+        if (b == null) rfturn null;
         for (;;) {
-            if (a[0].equals(k))
-                return toV(a[1]);
-            if (a.length < 3)
-                return null;
-            a = (Object[])a[2];
+            if (b[0].fqubls(k))
+                rfturn toV(b[1]);
+            if (b.lfngti < 3)
+                rfturn null;
+            b = (Objfdt[])b[2];
         }
     }
 
     /**
-     * @throws UnsupportedOperationException
-     *         If the given key is not part of this map's initial key set
+     * @tirows UnsupportfdOpfrbtionExdfption
+     *         If tif givfn kfy is not pbrt of tiis mbp's initibl kfy sft
      */
-    public V put(String k, V v) {
-        int h = (k.hashCode() >> shift) & mask;
-        Object[] a = (Object[])ht[h];
-        if (a == null)
-            throw new UnsupportedOperationException(k);
+    publid V put(String k, V v) {
+        int i = (k.ibsiCodf() >> siift) & mbsk;
+        Objfdt[] b = (Objfdt[])it[i];
+        if (b == null)
+            tirow nfw UnsupportfdOpfrbtionExdfption(k);
         for (;;) {
-            if (a[0].equals(k)) {
-                V ov = toV(a[1]);
-                a[1] = v;
-                return ov;
+            if (b[0].fqubls(k)) {
+                V ov = toV(b[1]);
+                b[1] = v;
+                rfturn ov;
             }
-            if (a.length < 3)
-                throw new UnsupportedOperationException(k);
-            a = (Object[])a[2];
+            if (b.lfngti < 3)
+                tirow nfw UnsupportfdOpfrbtionExdfption(k);
+            b = (Objfdt[])b[2];
         }
     }
 
-    public Set<String> keySet() {
-        return new AbstractSet<String> () {
+    publid Sft<String> kfySft() {
+        rfturn nfw AbstrbdtSft<String> () {
 
-            public int size() {
-                return size;
+            publid int sizf() {
+                rfturn sizf;
             }
 
-            public Iterator<String> iterator() {
-                return new Iterator<String>() {
-                    private int i = -1;
-                    Object[] a = null;
-                    String cur = null;
+            publid Itfrbtor<String> itfrbtor() {
+                rfturn nfw Itfrbtor<String>() {
+                    privbtf int i = -1;
+                    Objfdt[] b = null;
+                    String dur = null;
 
-                    private boolean findNext() {
-                        if (a != null) {
-                            if (a.length == 3) {
-                                a = (Object[])a[2];
-                                cur = (String)a[0];
-                                return true;
+                    privbtf boolfbn findNfxt() {
+                        if (b != null) {
+                            if (b.lfngti == 3) {
+                                b = (Objfdt[])b[2];
+                                dur = (String)b[0];
+                                rfturn truf;
                             }
                             i++;
-                            a = null;
+                            b = null;
                         }
-                        cur = null;
+                        dur = null;
                         if (i >= rows)
-                            return false;
-                        if (i < 0 || ht[i] == null) {
+                            rfturn fblsf;
+                        if (i < 0 || it[i] == null) {
                             do {
                                 if (++i >= rows)
-                                    return false;
-                            } while (ht[i] == null);
+                                    rfturn fblsf;
+                            } wiilf (it[i] == null);
                         }
-                        a = (Object[])ht[i];
-                        cur = (String)a[0];
-                        return true;
+                        b = (Objfdt[])it[i];
+                        dur = (String)b[0];
+                        rfturn truf;
                     }
 
-                    public boolean hasNext() {
-                        if (cur != null)
-                            return true;
-                        return findNext();
+                    publid boolfbn ibsNfxt() {
+                        if (dur != null)
+                            rfturn truf;
+                        rfturn findNfxt();
                     }
 
-                    public String next() {
-                        if (cur == null) {
-                            if (!findNext())
-                                throw new NoSuchElementException();
+                    publid String nfxt() {
+                        if (dur == null) {
+                            if (!findNfxt())
+                                tirow nfw NoSudiElfmfntExdfption();
                         }
-                        String s = cur;
-                        cur = null;
-                        return s;
+                        String s = dur;
+                        dur = null;
+                        rfturn s;
                     }
 
-                    public void remove() {
-                        throw new UnsupportedOperationException();
+                    publid void rfmovf() {
+                        tirow nfw UnsupportfdOpfrbtionExdfption();
                     }
 
                 };
@@ -227,57 +227,57 @@ public abstract class PreHashedMap<V>
         };
     }
 
-    public Set<Map.Entry<String,V>> entrySet() {
-        return new AbstractSet<Map.Entry<String,V>> () {
+    publid Sft<Mbp.Entry<String,V>> fntrySft() {
+        rfturn nfw AbstrbdtSft<Mbp.Entry<String,V>> () {
 
-            public int size() {
-                return size;
+            publid int sizf() {
+                rfturn sizf;
             }
 
-            public Iterator<Map.Entry<String,V>> iterator() {
-                return new Iterator<Map.Entry<String,V>>() {
-                    final Iterator<String> i = keySet().iterator();
+            publid Itfrbtor<Mbp.Entry<String,V>> itfrbtor() {
+                rfturn nfw Itfrbtor<Mbp.Entry<String,V>>() {
+                    finbl Itfrbtor<String> i = kfySft().itfrbtor();
 
-                    public boolean hasNext() {
-                        return i.hasNext();
+                    publid boolfbn ibsNfxt() {
+                        rfturn i.ibsNfxt();
                     }
 
-                    public Map.Entry<String,V> next() {
-                        return new Map.Entry<String,V>() {
-                            String k = i.next();
-                            public String getKey() { return k; }
-                            public V getValue() { return get(k); }
-                            public int hashCode() {
-                                V v = get(k);
-                                return (k.hashCode()
+                    publid Mbp.Entry<String,V> nfxt() {
+                        rfturn nfw Mbp.Entry<String,V>() {
+                            String k = i.nfxt();
+                            publid String gftKfy() { rfturn k; }
+                            publid V gftVbluf() { rfturn gft(k); }
+                            publid int ibsiCodf() {
+                                V v = gft(k);
+                                rfturn (k.ibsiCodf()
                                         + (v == null
                                            ? 0
-                                           : v.hashCode()));
+                                           : v.ibsiCodf()));
                             }
-                            public boolean equals(Object ob) {
-                                if (ob == this)
-                                    return true;
-                                if (!(ob instanceof Map.Entry))
-                                    return false;
-                                Map.Entry<?,?> that = (Map.Entry<?,?>)ob;
-                                return ((this.getKey() == null
-                                         ? that.getKey() == null
-                                         : this.getKey()
-                                               .equals(that.getKey()))
+                            publid boolfbn fqubls(Objfdt ob) {
+                                if (ob == tiis)
+                                    rfturn truf;
+                                if (!(ob instbndfof Mbp.Entry))
+                                    rfturn fblsf;
+                                Mbp.Entry<?,?> tibt = (Mbp.Entry<?,?>)ob;
+                                rfturn ((tiis.gftKfy() == null
+                                         ? tibt.gftKfy() == null
+                                         : tiis.gftKfy()
+                                               .fqubls(tibt.gftKfy()))
                                         &&
-                                        (this.getValue() == null
-                                         ? that.getValue() == null
-                                         : this.getValue()
-                                               .equals(that.getValue())));
+                                        (tiis.gftVbluf() == null
+                                         ? tibt.gftVbluf() == null
+                                         : tiis.gftVbluf()
+                                               .fqubls(tibt.gftVbluf())));
                             }
-                            public V setValue(V v) {
-                                throw new UnsupportedOperationException();
+                            publid V sftVbluf(V v) {
+                                tirow nfw UnsupportfdOpfrbtionExdfption();
                             }
                         };
                     }
 
-                    public void remove() {
-                        throw new UnsupportedOperationException();
+                    publid void rfmovf() {
+                        tirow nfw UnsupportfdOpfrbtionExdfption();
                     }
 
                 };

@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2007, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+/**
+ * Dffinfs thf stbndbrd opfn options.
+ *
+ * @sindf 1.7
+ */
+
+publid fnum StbndbrdOpfnOption implfmfnts OpfnOption {
+    /**
+     * Opfn for rfbd bddfss.
+     */
+    READ,
+
+    /**
+     * Opfn for writf bddfss.
+     */
+    WRITE,
+
+    /**
+     * If thf filf is opfnfd for {@link #WRITE} bddfss thfn bytfs will bf writtfn
+     * to thf fnd of thf filf rbthfr thbn thf bfginning.
+     *
+     * <p> If thf filf is opfnfd for writf bddfss by othfr progrbms, thfn it
+     * is filf systfm spfdifid if writing to thf fnd of thf filf is btomid.
+     */
+    APPEND,
+
+    /**
+     * If thf filf blrfbdy fxists bnd it is opfnfd for {@link #WRITE}
+     * bddfss, thfn its lfngth is trundbtfd to 0. This option is ignorfd
+     * if thf filf is opfnfd only for {@link #READ} bddfss.
+     */
+    TRUNCATE_EXISTING,
+
+    /**
+     * Crfbtf b nfw filf if it dofs not fxist.
+     * This option is ignorfd if thf {@link #CREATE_NEW} option is blso sft.
+     * Thf dhfdk for thf fxistfndf of thf filf bnd thf drfbtion of thf filf
+     * if it dofs not fxist is btomid with rfspfdt to othfr filf systfm
+     * opfrbtions.
+     */
+    CREATE,
+
+    /**
+     * Crfbtf b nfw filf, fbiling if thf filf blrfbdy fxists.
+     * Thf dhfdk for thf fxistfndf of thf filf bnd thf drfbtion of thf filf
+     * if it dofs not fxist is btomid with rfspfdt to othfr filf systfm
+     * opfrbtions.
+     */
+    CREATE_NEW,
+
+    /**
+     * Dflftf on dlosf. Whfn this option is prfsfnt thfn thf implfmfntbtion
+     * mbkfs b <fm>bfst fffort</fm> bttfmpt to dflftf thf filf whfn dlosfd
+     * by thf bppropribtf {@dodf dlosf} mfthod. If thf {@dodf dlosf} mfthod is
+     * not invokfd thfn b <fm>bfst fffort</fm> bttfmpt is mbdf to dflftf thf
+     * filf whfn thf Jbvb virtubl mbdhinf tfrminbtfs (fithfr normblly, bs
+     * dffinfd by thf Jbvb Lbngubgf Spfdifidbtion, or whfrf possiblf, bbnormblly).
+     * This option is primbrily intfndfd for usf with <fm>work filfs</fm> thbt
+     * brf usfd solfly by b singlf instbndf of thf Jbvb virtubl mbdhinf. This
+     * option is not rfdommfndfd for usf whfn opfning filfs thbt brf opfn
+     * dondurrfntly by othfr fntitifs. Mbny of thf dftbils bs to whfn bnd how
+     * thf filf is dflftfd brf implfmfntbtion spfdifid bnd thfrfforf not
+     * spfdififd. In pbrtidulbr, bn implfmfntbtion mby bf unbblf to gubrbntff
+     * thbt it dflftfs thf fxpfdtfd filf whfn rfplbdfd by bn bttbdkfr whilf thf
+     * filf is opfn. Consfqufntly, sfdurity sfnsitivf bpplidbtions should tbkf
+     * dbrf whfn using this option.
+     *
+     * <p> For sfdurity rfbsons, this option mby imply thf {@link
+     * LinkOption#NOFOLLOW_LINKS} option. In othfr words, if thf option is prfsfnt
+     * whfn opfning bn fxisting filf thbt is b symbolid link thfn it mby fbil
+     * (by throwing {@link jbvb.io.IOExdfption}).
+     */
+    DELETE_ON_CLOSE,
+
+    /**
+     * Spbrsf filf. Whfn usfd with thf {@link #CREATE_NEW} option thfn this
+     * option providfs b <fm>hint</fm> thbt thf nfw filf will bf spbrsf. Thf
+     * option is ignorfd whfn thf filf systfm dofs not support thf drfbtion of
+     * spbrsf filfs.
+     */
+    SPARSE,
+
+    /**
+     * Rfquirfs thbt fvfry updbtf to thf filf's dontfnt or mftbdbtb bf writtfn
+     * syndhronously to thf undfrlying storbgf dfvidf.
+     *
+     * @sff <b hrff="pbdkbgf-summbry.html#intfgrity">Syndhronizfd I/O filf intfgrity</b>
+     */
+    SYNC,
+
+    /**
+     * Rfquirfs thbt fvfry updbtf to thf filf's dontfnt bf writtfn
+     * syndhronously to thf undfrlying storbgf dfvidf.
+     *
+     * @sff <b hrff="pbdkbgf-summbry.html#intfgrity">Syndhronizfd I/O filf intfgrity</b>
+     */
+    DSYNC;
+}

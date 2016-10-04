@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,813 +56,813 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Attributf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfPbti;
 
 /**
- * A node that represents a method.
+ * A nodf tibt rfprfsfnts b mftiod.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class MethodNode extends MethodVisitor {
+publid dlbss MftiodNodf fxtfnds MftiodVisitor {
 
     /**
-     * The method's access flags (see {@link Opcodes}). This field also
-     * indicates if the method is synthetic and/or deprecated.
+     * Tif mftiod's bddfss flbgs (sff {@link Opdodfs}). Tiis fifld blso
+     * indidbtfs if tif mftiod is syntiftid bnd/or dfprfdbtfd.
      */
-    public int access;
+    publid int bddfss;
 
     /**
-     * The method's name.
+     * Tif mftiod's nbmf.
      */
-    public String name;
+    publid String nbmf;
 
     /**
-     * The method's descriptor (see {@link Type}).
+     * Tif mftiod's dfsdriptor (sff {@link Typf}).
      */
-    public String desc;
+    publid String dfsd;
 
     /**
-     * The method's signature. May be <tt>null</tt>.
+     * Tif mftiod's signbturf. Mby bf <tt>null</tt>.
      */
-    public String signature;
+    publid String signbturf;
 
     /**
-     * The internal names of the method's exception classes (see
-     * {@link Type#getInternalName() getInternalName}). This list is a list of
-     * {@link String} objects.
+     * Tif intfrnbl nbmfs of tif mftiod's fxdfption dlbssfs (sff
+     * {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). Tiis list is b list of
+     * {@link String} objfdts.
      */
-    public List<String> exceptions;
+    publid List<String> fxdfptions;
 
     /**
-     * The method parameter info (access flags and name)
+     * Tif mftiod pbrbmftfr info (bddfss flbgs bnd nbmf)
      */
-    public List<ParameterNode> parameters;
+    publid List<PbrbmftfrNodf> pbrbmftfrs;
 
     /**
-     * The runtime visible annotations of this method. This list is a list of
-     * {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * Tif runtimf visiblf bnnotbtions of tiis mftiod. Tiis list is b list of
+     * {@link AnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label visible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.AnnotbtionNodf
+     * @lbbfl visiblf
      */
-    public List<AnnotationNode> visibleAnnotations;
+    publid List<AnnotbtionNodf> visiblfAnnotbtions;
 
     /**
-     * The runtime invisible annotations of this method. This list is a list of
-     * {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * Tif runtimf invisiblf bnnotbtions of tiis mftiod. Tiis list is b list of
+     * {@link AnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label invisible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.AnnotbtionNodf
+     * @lbbfl invisiblf
      */
-    public List<AnnotationNode> invisibleAnnotations;
+    publid List<AnnotbtionNodf> invisiblfAnnotbtions;
 
     /**
-     * The runtime visible type annotations of this method. This list is a list
-     * of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
+     * Tif runtimf visiblf typf bnnotbtions of tiis mftiod. Tiis list is b list
+     * of {@link TypfAnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label visible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl visiblf
      */
-    public List<TypeAnnotationNode> visibleTypeAnnotations;
+    publid List<TypfAnnotbtionNodf> visiblfTypfAnnotbtions;
 
     /**
-     * The runtime invisible type annotations of this method. This list is a
-     * list of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
+     * Tif runtimf invisiblf typf bnnotbtions of tiis mftiod. Tiis list is b
+     * list of {@link TypfAnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label invisible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl invisiblf
      */
-    public List<TypeAnnotationNode> invisibleTypeAnnotations;
+    publid List<TypfAnnotbtionNodf> invisiblfTypfAnnotbtions;
 
     /**
-     * The non standard attributes of this method. This list is a list of
-     * {@link Attribute} objects. May be <tt>null</tt>.
+     * Tif non stbndbrd bttributfs of tiis mftiod. Tiis list is b list of
+     * {@link Attributf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.Attribute
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.Attributf
      */
-    public List<Attribute> attrs;
+    publid List<Attributf> bttrs;
 
     /**
-     * The default value of this annotation interface method. This field must be
-     * a {@link Byte}, {@link Boolean}, {@link Character}, {@link Short},
-     * {@link Integer}, {@link Long}, {@link Float}, {@link Double},
-     * {@link String} or {@link Type}, or an two elements String array (for
-     * enumeration values), a {@link AnnotationNode}, or a {@link List} of
-     * values of one of the preceding types. May be <tt>null</tt>.
+     * Tif dffbult vbluf of tiis bnnotbtion intfrfbdf mftiod. Tiis fifld must bf
+     * b {@link Bytf}, {@link Boolfbn}, {@link Cibrbdtfr}, {@link Siort},
+     * {@link Intfgfr}, {@link Long}, {@link Flobt}, {@link Doublf},
+     * {@link String} or {@link Typf}, or bn two flfmfnts String brrby (for
+     * fnumfrbtion vblufs), b {@link AnnotbtionNodf}, or b {@link List} of
+     * vblufs of onf of tif prfdfding typfs. Mby bf <tt>null</tt>.
      */
-    public Object annotationDefault;
+    publid Objfdt bnnotbtionDffbult;
 
     /**
-     * The runtime visible parameter annotations of this method. These lists are
-     * lists of {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * Tif runtimf visiblf pbrbmftfr bnnotbtions of tiis mftiod. Tifsf lists brf
+     * lists of {@link AnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label invisible parameters
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.AnnotbtionNodf
+     * @lbbfl invisiblf pbrbmftfrs
      */
-    public List<AnnotationNode>[] visibleParameterAnnotations;
+    publid List<AnnotbtionNodf>[] visiblfPbrbmftfrAnnotbtions;
 
     /**
-     * The runtime invisible parameter annotations of this method. These lists
-     * are lists of {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * Tif runtimf invisiblf pbrbmftfr bnnotbtions of tiis mftiod. Tifsf lists
+     * brf lists of {@link AnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label visible parameters
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.AnnotbtionNodf
+     * @lbbfl visiblf pbrbmftfrs
      */
-    public List<AnnotationNode>[] invisibleParameterAnnotations;
+    publid List<AnnotbtionNodf>[] invisiblfPbrbmftfrAnnotbtions;
 
     /**
-     * The instructions of this method. This list is a list of
-     * {@link AbstractInsnNode} objects.
+     * Tif instrudtions of tiis mftiod. Tiis list is b list of
+     * {@link AbstrbdtInsnNodf} objfdts.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AbstractInsnNode
-     * @label instructions
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf
+     * @lbbfl instrudtions
      */
-    public InsnList instructions;
+    publid InsnList instrudtions;
 
     /**
-     * The try catch blocks of this method. This list is a list of
-     * {@link TryCatchBlockNode} objects.
+     * Tif try dbtdi blodks of tiis mftiod. Tiis list is b list of
+     * {@link TryCbtdiBlodkNodf} objfdts.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TryCbtdiBlodkNodf
      */
-    public List<TryCatchBlockNode> tryCatchBlocks;
+    publid List<TryCbtdiBlodkNodf> tryCbtdiBlodks;
 
     /**
-     * The maximum stack size of this method.
+     * Tif mbximum stbdk sizf of tiis mftiod.
      */
-    public int maxStack;
+    publid int mbxStbdk;
 
     /**
-     * The maximum number of local variables of this method.
+     * Tif mbximum numbfr of lodbl vbribblfs of tiis mftiod.
      */
-    public int maxLocals;
+    publid int mbxLodbls;
 
     /**
-     * The local variables of this method. This list is a list of
-     * {@link LocalVariableNode} objects. May be <tt>null</tt>
+     * Tif lodbl vbribblfs of tiis mftiod. Tiis list is b list of
+     * {@link LodblVbribblfNodf} objfdts. Mby bf <tt>null</tt>
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.LocalVariableNode
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.LodblVbribblfNodf
      */
-    public List<LocalVariableNode> localVariables;
+    publid List<LodblVbribblfNodf> lodblVbribblfs;
 
     /**
-     * The visible local variable annotations of this method. This list is a
-     * list of {@link LocalVariableAnnotationNode} objects. May be <tt>null</tt>
+     * Tif visiblf lodbl vbribblf bnnotbtions of tiis mftiod. Tiis list is b
+     * list of {@link LodblVbribblfAnnotbtionNodf} objfdts. Mby bf <tt>null</tt>
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.LocalVariableAnnotationNode
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.LodblVbribblfAnnotbtionNodf
      */
-    public List<LocalVariableAnnotationNode> visibleLocalVariableAnnotations;
+    publid List<LodblVbribblfAnnotbtionNodf> visiblfLodblVbribblfAnnotbtions;
 
     /**
-     * The invisible local variable annotations of this method. This list is a
-     * list of {@link LocalVariableAnnotationNode} objects. May be <tt>null</tt>
+     * Tif invisiblf lodbl vbribblf bnnotbtions of tiis mftiod. Tiis list is b
+     * list of {@link LodblVbribblfAnnotbtionNodf} objfdts. Mby bf <tt>null</tt>
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.LocalVariableAnnotationNode
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.LodblVbribblfAnnotbtionNodf
      */
-    public List<LocalVariableAnnotationNode> invisibleLocalVariableAnnotations;
+    publid List<LodblVbribblfAnnotbtionNodf> invisiblfLodblVbribblfAnnotbtions;
 
     /**
-     * If the accept method has been called on this object.
+     * If tif bddfpt mftiod ibs bffn dbllfd on tiis objfdt.
      */
-    private boolean visited;
+    privbtf boolfbn visitfd;
 
     /**
-     * Constructs an uninitialized {@link MethodNode}. <i>Subclasses must not
-     * use this constructor</i>. Instead, they must use the
-     * {@link #MethodNode(int)} version.
+     * Construdts bn uninitiblizfd {@link MftiodNodf}. <i>Subdlbssfs must not
+     * usf tiis donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #MftiodNodf(int)} vfrsion.
      *
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @tirows IllfgblStbtfExdfption
+     *             If b subdlbss dblls tiis donstrudtor.
      */
-    public MethodNode() {
-        this(Opcodes.ASM5);
-        if (getClass() != MethodNode.class) {
-            throw new IllegalStateException();
+    publid MftiodNodf() {
+        tiis(Opdodfs.ASM5);
+        if (gftClbss() != MftiodNodf.dlbss) {
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * Constructs an uninitialized {@link MethodNode}.
+     * Construdts bn uninitiblizfd {@link MftiodNodf}.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
      */
-    public MethodNode(final int api) {
-        super(api);
-        this.instructions = new InsnList();
+    publid MftiodNodf(finbl int bpi) {
+        supfr(bpi);
+        tiis.instrudtions = nfw InsnList();
     }
 
     /**
-     * Constructs a new {@link MethodNode}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #MethodNode(int, int, String, String, String, String[])} version.
+     * Construdts b nfw {@link MftiodNodf}. <i>Subdlbssfs must not usf tiis
+     * donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #MftiodNodf(int, int, String, String, String, String[])} vfrsion.
      *
-     * @param access
-     *            the method's access flags (see {@link Opcodes}). This
-     *            parameter also indicates if the method is synthetic and/or
-     *            deprecated.
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type}).
-     * @param signature
-     *            the method's signature. May be <tt>null</tt>.
-     * @param exceptions
-     *            the internal names of the method's exception classes (see
-     *            {@link Type#getInternalName() getInternalName}). May be
+     * @pbrbm bddfss
+     *            tif mftiod's bddfss flbgs (sff {@link Opdodfs}). Tiis
+     *            pbrbmftfr blso indidbtfs if tif mftiod is syntiftid bnd/or
+     *            dfprfdbtfd.
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf}).
+     * @pbrbm signbturf
+     *            tif mftiod's signbturf. Mby bf <tt>null</tt>.
+     * @pbrbm fxdfptions
+     *            tif intfrnbl nbmfs of tif mftiod's fxdfption dlbssfs (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). Mby bf
      *            <tt>null</tt>.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @tirows IllfgblStbtfExdfption
+     *             If b subdlbss dblls tiis donstrudtor.
      */
-    public MethodNode(final int access, final String name, final String desc,
-            final String signature, final String[] exceptions) {
-        this(Opcodes.ASM5, access, name, desc, signature, exceptions);
-        if (getClass() != MethodNode.class) {
-            throw new IllegalStateException();
+    publid MftiodNodf(finbl int bddfss, finbl String nbmf, finbl String dfsd,
+            finbl String signbturf, finbl String[] fxdfptions) {
+        tiis(Opdodfs.ASM5, bddfss, nbmf, dfsd, signbturf, fxdfptions);
+        if (gftClbss() != MftiodNodf.dlbss) {
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * Constructs a new {@link MethodNode}.
+     * Construdts b nfw {@link MftiodNodf}.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}). This
-     *            parameter also indicates if the method is synthetic and/or
-     *            deprecated.
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type}).
-     * @param signature
-     *            the method's signature. May be <tt>null</tt>.
-     * @param exceptions
-     *            the internal names of the method's exception classes (see
-     *            {@link Type#getInternalName() getInternalName}). May be
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm bddfss
+     *            tif mftiod's bddfss flbgs (sff {@link Opdodfs}). Tiis
+     *            pbrbmftfr blso indidbtfs if tif mftiod is syntiftid bnd/or
+     *            dfprfdbtfd.
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf}).
+     * @pbrbm signbturf
+     *            tif mftiod's signbturf. Mby bf <tt>null</tt>.
+     * @pbrbm fxdfptions
+     *            tif intfrnbl nbmfs of tif mftiod's fxdfption dlbssfs (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). Mby bf
      *            <tt>null</tt>.
      */
-    public MethodNode(final int api, final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
-        super(api);
-        this.access = access;
-        this.name = name;
-        this.desc = desc;
-        this.signature = signature;
-        this.exceptions = new ArrayList<String>(exceptions == null ? 0
-                : exceptions.length);
-        boolean isAbstract = (access & Opcodes.ACC_ABSTRACT) != 0;
-        if (!isAbstract) {
-            this.localVariables = new ArrayList<LocalVariableNode>(5);
+    publid MftiodNodf(finbl int bpi, finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl String[] fxdfptions) {
+        supfr(bpi);
+        tiis.bddfss = bddfss;
+        tiis.nbmf = nbmf;
+        tiis.dfsd = dfsd;
+        tiis.signbturf = signbturf;
+        tiis.fxdfptions = nfw ArrbyList<String>(fxdfptions == null ? 0
+                : fxdfptions.lfngti);
+        boolfbn isAbstrbdt = (bddfss & Opdodfs.ACC_ABSTRACT) != 0;
+        if (!isAbstrbdt) {
+            tiis.lodblVbribblfs = nfw ArrbyList<LodblVbribblfNodf>(5);
         }
-        this.tryCatchBlocks = new ArrayList<TryCatchBlockNode>();
-        if (exceptions != null) {
-            this.exceptions.addAll(Arrays.asList(exceptions));
+        tiis.tryCbtdiBlodks = nfw ArrbyList<TryCbtdiBlodkNodf>();
+        if (fxdfptions != null) {
+            tiis.fxdfptions.bddAll(Arrbys.bsList(fxdfptions));
         }
-        this.instructions = new InsnList();
+        tiis.instrudtions = nfw InsnList();
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the MethodVisitor abstract class
+    // Implfmfntbtion of tif MftiodVisitor bbstrbdt dlbss
     // ------------------------------------------------------------------------
 
-    @Override
-    public void visitParameter(String name, int access) {
-        if (parameters == null) {
-            parameters = new ArrayList<ParameterNode>(5);
+    @Ovfrridf
+    publid void visitPbrbmftfr(String nbmf, int bddfss) {
+        if (pbrbmftfrs == null) {
+            pbrbmftfrs = nfw ArrbyList<PbrbmftfrNodf>(5);
         }
-        parameters.add(new ParameterNode(name, access));
+        pbrbmftfrs.bdd(nfw PbrbmftfrNodf(nbmf, bddfss));
     }
 
-    @Override
-    @SuppressWarnings("serial")
-    public AnnotationVisitor visitAnnotationDefault() {
-        return new AnnotationNode(new ArrayList<Object>(0) {
-            @Override
-            public boolean add(final Object o) {
-                annotationDefault = o;
-                return super.add(o);
+    @Ovfrridf
+    @SupprfssWbrnings("sfribl")
+    publid AnnotbtionVisitor visitAnnotbtionDffbult() {
+        rfturn nfw AnnotbtionNodf(nfw ArrbyList<Objfdt>(0) {
+            @Ovfrridf
+            publid boolfbn bdd(finbl Objfdt o) {
+                bnnotbtionDffbult = o;
+                rfturn supfr.bdd(o);
             }
         });
     }
 
-    @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        AnnotationNode an = new AnnotationNode(desc);
-        if (visible) {
-            if (visibleAnnotations == null) {
-                visibleAnnotations = new ArrayList<AnnotationNode>(1);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        AnnotbtionNodf bn = nfw AnnotbtionNodf(dfsd);
+        if (visiblf) {
+            if (visiblfAnnotbtions == null) {
+                visiblfAnnotbtions = nfw ArrbyList<AnnotbtionNodf>(1);
             }
-            visibleAnnotations.add(an);
-        } else {
-            if (invisibleAnnotations == null) {
-                invisibleAnnotations = new ArrayList<AnnotationNode>(1);
+            visiblfAnnotbtions.bdd(bn);
+        } flsf {
+            if (invisiblfAnnotbtions == null) {
+                invisiblfAnnotbtions = nfw ArrbyList<AnnotbtionNodf>(1);
             }
-            invisibleAnnotations.add(an);
+            invisiblfAnnotbtions.bdd(bn);
         }
-        return an;
+        rfturn bn;
     }
 
-    @Override
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        TypeAnnotationNode an = new TypeAnnotationNode(typeRef, typePath, desc);
-        if (visible) {
-            if (visibleTypeAnnotations == null) {
-                visibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(1);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        TypfAnnotbtionNodf bn = nfw TypfAnnotbtionNodf(typfRff, typfPbti, dfsd);
+        if (visiblf) {
+            if (visiblfTypfAnnotbtions == null) {
+                visiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>(1);
             }
-            visibleTypeAnnotations.add(an);
-        } else {
-            if (invisibleTypeAnnotations == null) {
-                invisibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(1);
+            visiblfTypfAnnotbtions.bdd(bn);
+        } flsf {
+            if (invisiblfTypfAnnotbtions == null) {
+                invisiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>(1);
             }
-            invisibleTypeAnnotations.add(an);
+            invisiblfTypfAnnotbtions.bdd(bn);
         }
-        return an;
+        rfturn bn;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public AnnotationVisitor visitParameterAnnotation(final int parameter,
-            final String desc, final boolean visible) {
-        AnnotationNode an = new AnnotationNode(desc);
-        if (visible) {
-            if (visibleParameterAnnotations == null) {
-                int params = Type.getArgumentTypes(this.desc).length;
-                visibleParameterAnnotations = (List<AnnotationNode>[]) new List<?>[params];
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid AnnotbtionVisitor visitPbrbmftfrAnnotbtion(finbl int pbrbmftfr,
+            finbl String dfsd, finbl boolfbn visiblf) {
+        AnnotbtionNodf bn = nfw AnnotbtionNodf(dfsd);
+        if (visiblf) {
+            if (visiblfPbrbmftfrAnnotbtions == null) {
+                int pbrbms = Typf.gftArgumfntTypfs(tiis.dfsd).lfngti;
+                visiblfPbrbmftfrAnnotbtions = (List<AnnotbtionNodf>[]) nfw List<?>[pbrbms];
             }
-            if (visibleParameterAnnotations[parameter] == null) {
-                visibleParameterAnnotations[parameter] = new ArrayList<AnnotationNode>(
+            if (visiblfPbrbmftfrAnnotbtions[pbrbmftfr] == null) {
+                visiblfPbrbmftfrAnnotbtions[pbrbmftfr] = nfw ArrbyList<AnnotbtionNodf>(
                         1);
             }
-            visibleParameterAnnotations[parameter].add(an);
-        } else {
-            if (invisibleParameterAnnotations == null) {
-                int params = Type.getArgumentTypes(this.desc).length;
-                invisibleParameterAnnotations = (List<AnnotationNode>[]) new List<?>[params];
+            visiblfPbrbmftfrAnnotbtions[pbrbmftfr].bdd(bn);
+        } flsf {
+            if (invisiblfPbrbmftfrAnnotbtions == null) {
+                int pbrbms = Typf.gftArgumfntTypfs(tiis.dfsd).lfngti;
+                invisiblfPbrbmftfrAnnotbtions = (List<AnnotbtionNodf>[]) nfw List<?>[pbrbms];
             }
-            if (invisibleParameterAnnotations[parameter] == null) {
-                invisibleParameterAnnotations[parameter] = new ArrayList<AnnotationNode>(
+            if (invisiblfPbrbmftfrAnnotbtions[pbrbmftfr] == null) {
+                invisiblfPbrbmftfrAnnotbtions[pbrbmftfr] = nfw ArrbyList<AnnotbtionNodf>(
                         1);
             }
-            invisibleParameterAnnotations[parameter].add(an);
+            invisiblfPbrbmftfrAnnotbtions[pbrbmftfr].bdd(bn);
         }
-        return an;
+        rfturn bn;
     }
 
-    @Override
-    public void visitAttribute(final Attribute attr) {
-        if (attrs == null) {
-            attrs = new ArrayList<Attribute>(1);
+    @Ovfrridf
+    publid void visitAttributf(finbl Attributf bttr) {
+        if (bttrs == null) {
+            bttrs = nfw ArrbyList<Attributf>(1);
         }
-        attrs.add(attr);
+        bttrs.bdd(bttr);
     }
 
-    @Override
-    public void visitCode() {
+    @Ovfrridf
+    publid void visitCodf() {
     }
 
-    @Override
-    public void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack) {
-        instructions.add(new FrameNode(type, nLocal, local == null ? null
-                : getLabelNodes(local), nStack, stack == null ? null
-                : getLabelNodes(stack)));
+    @Ovfrridf
+    publid void visitFrbmf(finbl int typf, finbl int nLodbl,
+            finbl Objfdt[] lodbl, finbl int nStbdk, finbl Objfdt[] stbdk) {
+        instrudtions.bdd(nfw FrbmfNodf(typf, nLodbl, lodbl == null ? null
+                : gftLbbflNodfs(lodbl), nStbdk, stbdk == null ? null
+                : gftLbbflNodfs(stbdk)));
     }
 
-    @Override
-    public void visitInsn(final int opcode) {
-        instructions.add(new InsnNode(opcode));
+    @Ovfrridf
+    publid void visitInsn(finbl int opdodf) {
+        instrudtions.bdd(nfw InsnNodf(opdodf));
     }
 
-    @Override
-    public void visitIntInsn(final int opcode, final int operand) {
-        instructions.add(new IntInsnNode(opcode, operand));
+    @Ovfrridf
+    publid void visitIntInsn(finbl int opdodf, finbl int opfrbnd) {
+        instrudtions.bdd(nfw IntInsnNodf(opdodf, opfrbnd));
     }
 
-    @Override
-    public void visitVarInsn(final int opcode, final int var) {
-        instructions.add(new VarInsnNode(opcode, var));
+    @Ovfrridf
+    publid void visitVbrInsn(finbl int opdodf, finbl int vbr) {
+        instrudtions.bdd(nfw VbrInsnNodf(opdodf, vbr));
     }
 
-    @Override
-    public void visitTypeInsn(final int opcode, final String type) {
-        instructions.add(new TypeInsnNode(opcode, type));
+    @Ovfrridf
+    publid void visitTypfInsn(finbl int opdodf, finbl String typf) {
+        instrudtions.bdd(nfw TypfInsnNodf(opdodf, typf));
     }
 
-    @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        instructions.add(new FieldInsnNode(opcode, owner, name, desc));
+    @Ovfrridf
+    publid void visitFifldInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        instrudtions.bdd(nfw FifldInsnNodf(opdodf, ownfr, nbmf, dfsd));
     }
 
-    @Deprecated
-    @Override
-    public void visitMethodInsn(int opcode, String owner, String name,
-            String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
-            return;
+    @Dfprfdbtfd
+    @Ovfrridf
+    publid void visitMftiodInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
         }
-        instructions.add(new MethodInsnNode(opcode, owner, name, desc));
+        instrudtions.bdd(nfw MftiodInsnNodf(opdodf, ownfr, nbmf, dfsd));
     }
 
-    @Override
-    public void visitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
-            return;
+    @Ovfrridf
+    publid void visitMftiodInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd, boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
         }
-        instructions.add(new MethodInsnNode(opcode, owner, name, desc, itf));
+        instrudtions.bdd(nfw MftiodInsnNodf(opdodf, ownfr, nbmf, dfsd, itf));
     }
 
-    @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
-            Object... bsmArgs) {
-        instructions.add(new InvokeDynamicInsnNode(name, desc, bsm, bsmArgs));
+    @Ovfrridf
+    publid void visitInvokfDynbmidInsn(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
+        instrudtions.bdd(nfw InvokfDynbmidInsnNodf(nbmf, dfsd, bsm, bsmArgs));
     }
 
-    @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
-        instructions.add(new JumpInsnNode(opcode, getLabelNode(label)));
+    @Ovfrridf
+    publid void visitJumpInsn(finbl int opdodf, finbl Lbbfl lbbfl) {
+        instrudtions.bdd(nfw JumpInsnNodf(opdodf, gftLbbflNodf(lbbfl)));
     }
 
-    @Override
-    public void visitLabel(final Label label) {
-        instructions.add(getLabelNode(label));
+    @Ovfrridf
+    publid void visitLbbfl(finbl Lbbfl lbbfl) {
+        instrudtions.bdd(gftLbbflNodf(lbbfl));
     }
 
-    @Override
-    public void visitLdcInsn(final Object cst) {
-        instructions.add(new LdcInsnNode(cst));
+    @Ovfrridf
+    publid void visitLddInsn(finbl Objfdt dst) {
+        instrudtions.bdd(nfw LddInsnNodf(dst));
     }
 
-    @Override
-    public void visitIincInsn(final int var, final int increment) {
-        instructions.add(new IincInsnNode(var, increment));
+    @Ovfrridf
+    publid void visitIindInsn(finbl int vbr, finbl int indrfmfnt) {
+        instrudtions.bdd(nfw IindInsnNodf(vbr, indrfmfnt));
     }
 
-    @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
-        instructions.add(new TableSwitchInsnNode(min, max, getLabelNode(dflt),
-                getLabelNodes(labels)));
+    @Ovfrridf
+    publid void visitTbblfSwitdiInsn(finbl int min, finbl int mbx,
+            finbl Lbbfl dflt, finbl Lbbfl... lbbfls) {
+        instrudtions.bdd(nfw TbblfSwitdiInsnNodf(min, mbx, gftLbbflNodf(dflt),
+                gftLbbflNodfs(lbbfls)));
     }
 
-    @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
-        instructions.add(new LookupSwitchInsnNode(getLabelNode(dflt), keys,
-                getLabelNodes(labels)));
+    @Ovfrridf
+    publid void visitLookupSwitdiInsn(finbl Lbbfl dflt, finbl int[] kfys,
+            finbl Lbbfl[] lbbfls) {
+        instrudtions.bdd(nfw LookupSwitdiInsnNodf(gftLbbflNodf(dflt), kfys,
+                gftLbbflNodfs(lbbfls)));
     }
 
-    @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
-        instructions.add(new MultiANewArrayInsnNode(desc, dims));
+    @Ovfrridf
+    publid void visitMultiANfwArrbyInsn(finbl String dfsd, finbl int dims) {
+        instrudtions.bdd(nfw MultiANfwArrbyInsnNodf(dfsd, dims));
     }
 
-    @Override
-    public AnnotationVisitor visitInsnAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        // Finds the last real instruction, i.e. the instruction targeted by
-        // this annotation.
-        AbstractInsnNode insn = instructions.getLast();
-        while (insn.getOpcode() == -1) {
-            insn = insn.getPrevious();
+    @Ovfrridf
+    publid AnnotbtionVisitor visitInsnAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        // Finds tif lbst rfbl instrudtion, i.f. tif instrudtion tbrgftfd by
+        // tiis bnnotbtion.
+        AbstrbdtInsnNodf insn = instrudtions.gftLbst();
+        wiilf (insn.gftOpdodf() == -1) {
+            insn = insn.gftPrfvious();
         }
-        // Adds the annotation to this instruction.
-        TypeAnnotationNode an = new TypeAnnotationNode(typeRef, typePath, desc);
-        if (visible) {
-            if (insn.visibleTypeAnnotations == null) {
-                insn.visibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(
+        // Adds tif bnnotbtion to tiis instrudtion.
+        TypfAnnotbtionNodf bn = nfw TypfAnnotbtionNodf(typfRff, typfPbti, dfsd);
+        if (visiblf) {
+            if (insn.visiblfTypfAnnotbtions == null) {
+                insn.visiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>(
                         1);
             }
-            insn.visibleTypeAnnotations.add(an);
-        } else {
-            if (insn.invisibleTypeAnnotations == null) {
-                insn.invisibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(
+            insn.visiblfTypfAnnotbtions.bdd(bn);
+        } flsf {
+            if (insn.invisiblfTypfAnnotbtions == null) {
+                insn.invisiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>(
                         1);
             }
-            insn.invisibleTypeAnnotations.add(an);
+            insn.invisiblfTypfAnnotbtions.bdd(bn);
         }
-        return an;
+        rfturn bn;
     }
 
-    @Override
-    public void visitTryCatchBlock(final Label start, final Label end,
-            final Label handler, final String type) {
-        tryCatchBlocks.add(new TryCatchBlockNode(getLabelNode(start),
-                getLabelNode(end), getLabelNode(handler), type));
+    @Ovfrridf
+    publid void visitTryCbtdiBlodk(finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl Lbbfl ibndlfr, finbl String typf) {
+        tryCbtdiBlodks.bdd(nfw TryCbtdiBlodkNodf(gftLbbflNodf(stbrt),
+                gftLbbflNodf(fnd), gftLbbflNodf(ibndlfr), typf));
     }
 
-    @Override
-    public AnnotationVisitor visitTryCatchAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        TryCatchBlockNode tcb = tryCatchBlocks.get((typeRef & 0x00FFFF00) >> 8);
-        TypeAnnotationNode an = new TypeAnnotationNode(typeRef, typePath, desc);
-        if (visible) {
-            if (tcb.visibleTypeAnnotations == null) {
-                tcb.visibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTryCbtdiAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        TryCbtdiBlodkNodf tdb = tryCbtdiBlodks.gft((typfRff & 0x00FFFF00) >> 8);
+        TypfAnnotbtionNodf bn = nfw TypfAnnotbtionNodf(typfRff, typfPbti, dfsd);
+        if (visiblf) {
+            if (tdb.visiblfTypfAnnotbtions == null) {
+                tdb.visiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>(
                         1);
             }
-            tcb.visibleTypeAnnotations.add(an);
-        } else {
-            if (tcb.invisibleTypeAnnotations == null) {
-                tcb.invisibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(
+            tdb.visiblfTypfAnnotbtions.bdd(bn);
+        } flsf {
+            if (tdb.invisiblfTypfAnnotbtions == null) {
+                tdb.invisiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>(
                         1);
             }
-            tcb.invisibleTypeAnnotations.add(an);
+            tdb.invisiblfTypfAnnotbtions.bdd(bn);
         }
-        return an;
+        rfturn bn;
     }
 
-    @Override
-    public void visitLocalVariable(final String name, final String desc,
-            final String signature, final Label start, final Label end,
-            final int index) {
-        localVariables.add(new LocalVariableNode(name, desc, signature,
-                getLabelNode(start), getLabelNode(end), index));
+    @Ovfrridf
+    publid void visitLodblVbribblf(finbl String nbmf, finbl String dfsd,
+            finbl String signbturf, finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl int indfx) {
+        lodblVbribblfs.bdd(nfw LodblVbribblfNodf(nbmf, dfsd, signbturf,
+                gftLbbflNodf(stbrt), gftLbbflNodf(fnd), indfx));
     }
 
-    @Override
-    public AnnotationVisitor visitLocalVariableAnnotation(int typeRef,
-            TypePath typePath, Label[] start, Label[] end, int[] index,
-            String desc, boolean visible) {
-        LocalVariableAnnotationNode an = new LocalVariableAnnotationNode(
-                typeRef, typePath, getLabelNodes(start), getLabelNodes(end),
-                index, desc);
-        if (visible) {
-            if (visibleLocalVariableAnnotations == null) {
-                visibleLocalVariableAnnotations = new ArrayList<LocalVariableAnnotationNode>(
+    @Ovfrridf
+    publid AnnotbtionVisitor visitLodblVbribblfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, Lbbfl[] stbrt, Lbbfl[] fnd, int[] indfx,
+            String dfsd, boolfbn visiblf) {
+        LodblVbribblfAnnotbtionNodf bn = nfw LodblVbribblfAnnotbtionNodf(
+                typfRff, typfPbti, gftLbbflNodfs(stbrt), gftLbbflNodfs(fnd),
+                indfx, dfsd);
+        if (visiblf) {
+            if (visiblfLodblVbribblfAnnotbtions == null) {
+                visiblfLodblVbribblfAnnotbtions = nfw ArrbyList<LodblVbribblfAnnotbtionNodf>(
                         1);
             }
-            visibleLocalVariableAnnotations.add(an);
-        } else {
-            if (invisibleLocalVariableAnnotations == null) {
-                invisibleLocalVariableAnnotations = new ArrayList<LocalVariableAnnotationNode>(
+            visiblfLodblVbribblfAnnotbtions.bdd(bn);
+        } flsf {
+            if (invisiblfLodblVbribblfAnnotbtions == null) {
+                invisiblfLodblVbribblfAnnotbtions = nfw ArrbyList<LodblVbribblfAnnotbtionNodf>(
                         1);
             }
-            invisibleLocalVariableAnnotations.add(an);
+            invisiblfLodblVbribblfAnnotbtions.bdd(bn);
         }
-        return an;
+        rfturn bn;
     }
 
-    @Override
-    public void visitLineNumber(final int line, final Label start) {
-        instructions.add(new LineNumberNode(line, getLabelNode(start)));
+    @Ovfrridf
+    publid void visitLinfNumbfr(finbl int linf, finbl Lbbfl stbrt) {
+        instrudtions.bdd(nfw LinfNumbfrNodf(linf, gftLbbflNodf(stbrt)));
     }
 
-    @Override
-    public void visitMaxs(final int maxStack, final int maxLocals) {
-        this.maxStack = maxStack;
-        this.maxLocals = maxLocals;
+    @Ovfrridf
+    publid void visitMbxs(finbl int mbxStbdk, finbl int mbxLodbls) {
+        tiis.mbxStbdk = mbxStbdk;
+        tiis.mbxLodbls = mbxLodbls;
     }
 
-    @Override
-    public void visitEnd() {
+    @Ovfrridf
+    publid void visitEnd() {
     }
 
     /**
-     * Returns the LabelNode corresponding to the given Label. Creates a new
-     * LabelNode if necessary. The default implementation of this method uses
-     * the {@link Label#info} field to store associations between labels and
-     * label nodes.
+     * Rfturns tif LbbflNodf dorrfsponding to tif givfn Lbbfl. Crfbtfs b nfw
+     * LbbflNodf if nfdfssbry. Tif dffbult implfmfntbtion of tiis mftiod usfs
+     * tif {@link Lbbfl#info} fifld to storf bssodibtions bftwffn lbbfls bnd
+     * lbbfl nodfs.
      *
-     * @param l
-     *            a Label.
-     * @return the LabelNode corresponding to l.
+     * @pbrbm l
+     *            b Lbbfl.
+     * @rfturn tif LbbflNodf dorrfsponding to l.
      */
-    protected LabelNode getLabelNode(final Label l) {
-        if (!(l.info instanceof LabelNode)) {
-            l.info = new LabelNode();
+    protfdtfd LbbflNodf gftLbbflNodf(finbl Lbbfl l) {
+        if (!(l.info instbndfof LbbflNodf)) {
+            l.info = nfw LbbflNodf();
         }
-        return (LabelNode) l.info;
+        rfturn (LbbflNodf) l.info;
     }
 
-    private LabelNode[] getLabelNodes(final Label[] l) {
-        LabelNode[] nodes = new LabelNode[l.length];
-        for (int i = 0; i < l.length; ++i) {
-            nodes[i] = getLabelNode(l[i]);
+    privbtf LbbflNodf[] gftLbbflNodfs(finbl Lbbfl[] l) {
+        LbbflNodf[] nodfs = nfw LbbflNodf[l.lfngti];
+        for (int i = 0; i < l.lfngti; ++i) {
+            nodfs[i] = gftLbbflNodf(l[i]);
         }
-        return nodes;
+        rfturn nodfs;
     }
 
-    private Object[] getLabelNodes(final Object[] objs) {
-        Object[] nodes = new Object[objs.length];
-        for (int i = 0; i < objs.length; ++i) {
-            Object o = objs[i];
-            if (o instanceof Label) {
-                o = getLabelNode((Label) o);
+    privbtf Objfdt[] gftLbbflNodfs(finbl Objfdt[] objs) {
+        Objfdt[] nodfs = nfw Objfdt[objs.lfngti];
+        for (int i = 0; i < objs.lfngti; ++i) {
+            Objfdt o = objs[i];
+            if (o instbndfof Lbbfl) {
+                o = gftLbbflNodf((Lbbfl) o);
             }
-            nodes[i] = o;
+            nodfs[i] = o;
         }
-        return nodes;
+        rfturn nodfs;
     }
 
     // ------------------------------------------------------------------------
-    // Accept method
+    // Addfpt mftiod
     // ------------------------------------------------------------------------
 
     /**
-     * Checks that this method node is compatible with the given ASM API
-     * version. This methods checks that this node, and all its nodes
-     * recursively, do not contain elements that were introduced in more recent
-     * versions of the ASM API than the given version.
+     * Cifdks tibt tiis mftiod nodf is dompbtiblf witi tif givfn ASM API
+     * vfrsion. Tiis mftiods difdks tibt tiis nodf, bnd bll its nodfs
+     * rfdursivfly, do not dontbin flfmfnts tibt wfrf introdudfd in morf rfdfnt
+     * vfrsions of tif ASM API tibn tif givfn vfrsion.
      *
-     * @param api
-     *            an ASM API version. Must be one of {@link Opcodes#ASM4} or
-     *            {@link Opcodes#ASM5}.
+     * @pbrbm bpi
+     *            bn ASM API vfrsion. Must bf onf of {@link Opdodfs#ASM4} or
+     *            {@link Opdodfs#ASM5}.
      */
-    public void check(final int api) {
-        if (api == Opcodes.ASM4) {
-            if (visibleTypeAnnotations != null
-                    && visibleTypeAnnotations.size() > 0) {
-                throw new RuntimeException();
+    publid void difdk(finbl int bpi) {
+        if (bpi == Opdodfs.ASM4) {
+            if (visiblfTypfAnnotbtions != null
+                    && visiblfTypfAnnotbtions.sizf() > 0) {
+                tirow nfw RuntimfExdfption();
             }
-            if (invisibleTypeAnnotations != null
-                    && invisibleTypeAnnotations.size() > 0) {
-                throw new RuntimeException();
+            if (invisiblfTypfAnnotbtions != null
+                    && invisiblfTypfAnnotbtions.sizf() > 0) {
+                tirow nfw RuntimfExdfption();
             }
-            int n = tryCatchBlocks == null ? 0 : tryCatchBlocks.size();
+            int n = tryCbtdiBlodks == null ? 0 : tryCbtdiBlodks.sizf();
             for (int i = 0; i < n; ++i) {
-                TryCatchBlockNode tcb = tryCatchBlocks.get(i);
-                if (tcb.visibleTypeAnnotations != null
-                        && tcb.visibleTypeAnnotations.size() > 0) {
-                    throw new RuntimeException();
+                TryCbtdiBlodkNodf tdb = tryCbtdiBlodks.gft(i);
+                if (tdb.visiblfTypfAnnotbtions != null
+                        && tdb.visiblfTypfAnnotbtions.sizf() > 0) {
+                    tirow nfw RuntimfExdfption();
                 }
-                if (tcb.invisibleTypeAnnotations != null
-                        && tcb.invisibleTypeAnnotations.size() > 0) {
-                    throw new RuntimeException();
+                if (tdb.invisiblfTypfAnnotbtions != null
+                        && tdb.invisiblfTypfAnnotbtions.sizf() > 0) {
+                    tirow nfw RuntimfExdfption();
                 }
             }
-            for (int i = 0; i < instructions.size(); ++i) {
-                AbstractInsnNode insn = instructions.get(i);
-                if (insn.visibleTypeAnnotations != null
-                        && insn.visibleTypeAnnotations.size() > 0) {
-                    throw new RuntimeException();
+            for (int i = 0; i < instrudtions.sizf(); ++i) {
+                AbstrbdtInsnNodf insn = instrudtions.gft(i);
+                if (insn.visiblfTypfAnnotbtions != null
+                        && insn.visiblfTypfAnnotbtions.sizf() > 0) {
+                    tirow nfw RuntimfExdfption();
                 }
-                if (insn.invisibleTypeAnnotations != null
-                        && insn.invisibleTypeAnnotations.size() > 0) {
-                    throw new RuntimeException();
+                if (insn.invisiblfTypfAnnotbtions != null
+                        && insn.invisiblfTypfAnnotbtions.sizf() > 0) {
+                    tirow nfw RuntimfExdfption();
                 }
-                if (insn instanceof MethodInsnNode) {
-                    boolean itf = ((MethodInsnNode) insn).itf;
-                    if (itf != (insn.opcode == Opcodes.INVOKEINTERFACE)) {
-                        throw new RuntimeException();
+                if (insn instbndfof MftiodInsnNodf) {
+                    boolfbn itf = ((MftiodInsnNodf) insn).itf;
+                    if (itf != (insn.opdodf == Opdodfs.INVOKEINTERFACE)) {
+                        tirow nfw RuntimfExdfption();
                     }
                 }
             }
-            if (visibleLocalVariableAnnotations != null
-                    && visibleLocalVariableAnnotations.size() > 0) {
-                throw new RuntimeException();
+            if (visiblfLodblVbribblfAnnotbtions != null
+                    && visiblfLodblVbribblfAnnotbtions.sizf() > 0) {
+                tirow nfw RuntimfExdfption();
             }
-            if (invisibleLocalVariableAnnotations != null
-                    && invisibleLocalVariableAnnotations.size() > 0) {
-                throw new RuntimeException();
+            if (invisiblfLodblVbribblfAnnotbtions != null
+                    && invisiblfLodblVbribblfAnnotbtions.sizf() > 0) {
+                tirow nfw RuntimfExdfption();
             }
         }
     }
 
     /**
-     * Makes the given class visitor visit this method.
+     * Mbkfs tif givfn dlbss visitor visit tiis mftiod.
      *
-     * @param cv
-     *            a class visitor.
+     * @pbrbm dv
+     *            b dlbss visitor.
      */
-    public void accept(final ClassVisitor cv) {
-        String[] exceptions = new String[this.exceptions.size()];
-        this.exceptions.toArray(exceptions);
-        MethodVisitor mv = cv.visitMethod(access, name, desc, signature,
-                exceptions);
+    publid void bddfpt(finbl ClbssVisitor dv) {
+        String[] fxdfptions = nfw String[tiis.fxdfptions.sizf()];
+        tiis.fxdfptions.toArrby(fxdfptions);
+        MftiodVisitor mv = dv.visitMftiod(bddfss, nbmf, dfsd, signbturf,
+                fxdfptions);
         if (mv != null) {
-            accept(mv);
+            bddfpt(mv);
         }
     }
 
     /**
-     * Makes the given method visitor visit this method.
+     * Mbkfs tif givfn mftiod visitor visit tiis mftiod.
      *
-     * @param mv
-     *            a method visitor.
+     * @pbrbm mv
+     *            b mftiod visitor.
      */
-    public void accept(final MethodVisitor mv) {
-        // visits the method parameters
+    publid void bddfpt(finbl MftiodVisitor mv) {
+        // visits tif mftiod pbrbmftfrs
         int i, j, n;
-        n = parameters == null ? 0 : parameters.size();
+        n = pbrbmftfrs == null ? 0 : pbrbmftfrs.sizf();
         for (i = 0; i < n; i++) {
-            ParameterNode parameter = parameters.get(i);
-            mv.visitParameter(parameter.name, parameter.access);
+            PbrbmftfrNodf pbrbmftfr = pbrbmftfrs.gft(i);
+            mv.visitPbrbmftfr(pbrbmftfr.nbmf, pbrbmftfr.bddfss);
         }
-        // visits the method attributes
-        if (annotationDefault != null) {
-            AnnotationVisitor av = mv.visitAnnotationDefault();
-            AnnotationNode.accept(av, null, annotationDefault);
-            if (av != null) {
-                av.visitEnd();
+        // visits tif mftiod bttributfs
+        if (bnnotbtionDffbult != null) {
+            AnnotbtionVisitor bv = mv.visitAnnotbtionDffbult();
+            AnnotbtionNodf.bddfpt(bv, null, bnnotbtionDffbult);
+            if (bv != null) {
+                bv.visitEnd();
             }
         }
-        n = visibleAnnotations == null ? 0 : visibleAnnotations.size();
+        n = visiblfAnnotbtions == null ? 0 : visiblfAnnotbtions.sizf();
         for (i = 0; i < n; ++i) {
-            AnnotationNode an = visibleAnnotations.get(i);
-            an.accept(mv.visitAnnotation(an.desc, true));
+            AnnotbtionNodf bn = visiblfAnnotbtions.gft(i);
+            bn.bddfpt(mv.visitAnnotbtion(bn.dfsd, truf));
         }
-        n = invisibleAnnotations == null ? 0 : invisibleAnnotations.size();
+        n = invisiblfAnnotbtions == null ? 0 : invisiblfAnnotbtions.sizf();
         for (i = 0; i < n; ++i) {
-            AnnotationNode an = invisibleAnnotations.get(i);
-            an.accept(mv.visitAnnotation(an.desc, false));
+            AnnotbtionNodf bn = invisiblfAnnotbtions.gft(i);
+            bn.bddfpt(mv.visitAnnotbtion(bn.dfsd, fblsf));
         }
-        n = visibleTypeAnnotations == null ? 0 : visibleTypeAnnotations.size();
+        n = visiblfTypfAnnotbtions == null ? 0 : visiblfTypfAnnotbtions.sizf();
         for (i = 0; i < n; ++i) {
-            TypeAnnotationNode an = visibleTypeAnnotations.get(i);
-            an.accept(mv.visitTypeAnnotation(an.typeRef, an.typePath, an.desc,
-                    true));
+            TypfAnnotbtionNodf bn = visiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(mv.visitTypfAnnotbtion(bn.typfRff, bn.typfPbti, bn.dfsd,
+                    truf));
         }
-        n = invisibleTypeAnnotations == null ? 0 : invisibleTypeAnnotations
-                .size();
+        n = invisiblfTypfAnnotbtions == null ? 0 : invisiblfTypfAnnotbtions
+                .sizf();
         for (i = 0; i < n; ++i) {
-            TypeAnnotationNode an = invisibleTypeAnnotations.get(i);
-            an.accept(mv.visitTypeAnnotation(an.typeRef, an.typePath, an.desc,
-                    false));
+            TypfAnnotbtionNodf bn = invisiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(mv.visitTypfAnnotbtion(bn.typfRff, bn.typfPbti, bn.dfsd,
+                    fblsf));
         }
-        n = visibleParameterAnnotations == null ? 0
-                : visibleParameterAnnotations.length;
+        n = visiblfPbrbmftfrAnnotbtions == null ? 0
+                : visiblfPbrbmftfrAnnotbtions.lfngti;
         for (i = 0; i < n; ++i) {
-            List<?> l = visibleParameterAnnotations[i];
+            List<?> l = visiblfPbrbmftfrAnnotbtions[i];
             if (l == null) {
-                continue;
+                dontinuf;
             }
-            for (j = 0; j < l.size(); ++j) {
-                AnnotationNode an = (AnnotationNode) l.get(j);
-                an.accept(mv.visitParameterAnnotation(i, an.desc, true));
+            for (j = 0; j < l.sizf(); ++j) {
+                AnnotbtionNodf bn = (AnnotbtionNodf) l.gft(j);
+                bn.bddfpt(mv.visitPbrbmftfrAnnotbtion(i, bn.dfsd, truf));
             }
         }
-        n = invisibleParameterAnnotations == null ? 0
-                : invisibleParameterAnnotations.length;
+        n = invisiblfPbrbmftfrAnnotbtions == null ? 0
+                : invisiblfPbrbmftfrAnnotbtions.lfngti;
         for (i = 0; i < n; ++i) {
-            List<?> l = invisibleParameterAnnotations[i];
+            List<?> l = invisiblfPbrbmftfrAnnotbtions[i];
             if (l == null) {
-                continue;
+                dontinuf;
             }
-            for (j = 0; j < l.size(); ++j) {
-                AnnotationNode an = (AnnotationNode) l.get(j);
-                an.accept(mv.visitParameterAnnotation(i, an.desc, false));
+            for (j = 0; j < l.sizf(); ++j) {
+                AnnotbtionNodf bn = (AnnotbtionNodf) l.gft(j);
+                bn.bddfpt(mv.visitPbrbmftfrAnnotbtion(i, bn.dfsd, fblsf));
             }
         }
-        if (visited) {
-            instructions.resetLabels();
+        if (visitfd) {
+            instrudtions.rfsftLbbfls();
         }
-        n = attrs == null ? 0 : attrs.size();
+        n = bttrs == null ? 0 : bttrs.sizf();
         for (i = 0; i < n; ++i) {
-            mv.visitAttribute(attrs.get(i));
+            mv.visitAttributf(bttrs.gft(i));
         }
-        // visits the method's code
-        if (instructions.size() > 0) {
-            mv.visitCode();
-            // visits try catch blocks
-            n = tryCatchBlocks == null ? 0 : tryCatchBlocks.size();
+        // visits tif mftiod's dodf
+        if (instrudtions.sizf() > 0) {
+            mv.visitCodf();
+            // visits try dbtdi blodks
+            n = tryCbtdiBlodks == null ? 0 : tryCbtdiBlodks.sizf();
             for (i = 0; i < n; ++i) {
-                tryCatchBlocks.get(i).updateIndex(i);
-                tryCatchBlocks.get(i).accept(mv);
+                tryCbtdiBlodks.gft(i).updbtfIndfx(i);
+                tryCbtdiBlodks.gft(i).bddfpt(mv);
             }
-            // visits instructions
-            instructions.accept(mv);
-            // visits local variables
-            n = localVariables == null ? 0 : localVariables.size();
+            // visits instrudtions
+            instrudtions.bddfpt(mv);
+            // visits lodbl vbribblfs
+            n = lodblVbribblfs == null ? 0 : lodblVbribblfs.sizf();
             for (i = 0; i < n; ++i) {
-                localVariables.get(i).accept(mv);
+                lodblVbribblfs.gft(i).bddfpt(mv);
             }
-            // visits local variable annotations
-            n = visibleLocalVariableAnnotations == null ? 0
-                    : visibleLocalVariableAnnotations.size();
+            // visits lodbl vbribblf bnnotbtions
+            n = visiblfLodblVbribblfAnnotbtions == null ? 0
+                    : visiblfLodblVbribblfAnnotbtions.sizf();
             for (i = 0; i < n; ++i) {
-                visibleLocalVariableAnnotations.get(i).accept(mv, true);
+                visiblfLodblVbribblfAnnotbtions.gft(i).bddfpt(mv, truf);
             }
-            n = invisibleLocalVariableAnnotations == null ? 0
-                    : invisibleLocalVariableAnnotations.size();
+            n = invisiblfLodblVbribblfAnnotbtions == null ? 0
+                    : invisiblfLodblVbribblfAnnotbtions.sizf();
             for (i = 0; i < n; ++i) {
-                invisibleLocalVariableAnnotations.get(i).accept(mv, false);
+                invisiblfLodblVbribblfAnnotbtions.gft(i).bddfpt(mv, fblsf);
             }
-            // visits maxs
-            mv.visitMaxs(maxStack, maxLocals);
-            visited = true;
+            // visits mbxs
+            mv.visitMbxs(mbxStbdk, mbxLodbls);
+            visitfd = truf;
         }
         mv.visitEnd();
     }

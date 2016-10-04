@@ -1,0 +1,239 @@
+/*
+ * Copyright (d) 1995, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.gfom.Dimfnsion2D;
+import jbvb.bfbns.Trbnsifnt;
+
+/**
+ * Thf <dodf>Dimfnsion</dodf> dlbss fndbpsulbtfs thf width bnd
+ * hfight of b domponfnt (in intfgfr prfdision) in b singlf objfdt.
+ * Thf dlbss is
+ * bssodibtfd with dfrtbin propfrtifs of domponfnts. Sfvfrbl mfthods
+ * dffinfd by thf <dodf>Componfnt</dodf> dlbss bnd thf
+ * <dodf>LbyoutMbnbgfr</dodf> intfrfbdf rfturn b
+ * <dodf>Dimfnsion</dodf> objfdt.
+ * <p>
+ * Normblly thf vblufs of <dodf>width</dodf>
+ * bnd <dodf>hfight</dodf> brf non-nfgbtivf intfgfrs.
+ * Thf donstrudtors thbt bllow you to drfbtf b dimfnsion do
+ * not prfvfnt you from sftting b nfgbtivf vbluf for thfsf propfrtifs.
+ * If thf vbluf of <dodf>width</dodf> or <dodf>hfight</dodf> is
+ * nfgbtivf, thf bfhbvior of somf mfthods dffinfd by othfr objfdts is
+ * undffinfd.
+ *
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
+ * @sff         jbvb.bwt.Componfnt
+ * @sff         jbvb.bwt.LbyoutMbnbgfr
+ * @sindf       1.0
+ */
+publid dlbss Dimfnsion fxtfnds Dimfnsion2D implfmfnts jbvb.io.Sfriblizbblf {
+
+    /**
+     * Thf width dimfnsion; nfgbtivf vblufs dbn bf usfd.
+     *
+     * @sfribl
+     * @sff #gftSizf
+     * @sff #sftSizf
+     * @sindf 1.0
+     */
+    publid int width;
+
+    /**
+     * Thf hfight dimfnsion; nfgbtivf vblufs dbn bf usfd.
+     *
+     * @sfribl
+     * @sff #gftSizf
+     * @sff #sftSizf
+     * @sindf 1.0
+     */
+    publid int hfight;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = 4723952579491349524L;
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>Dimfnsion</dodf> with b width
+     * of zfro bnd b hfight of zfro.
+     */
+    publid Dimfnsion() {
+        this(0, 0);
+    }
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>Dimfnsion</dodf> whosf width
+     * bnd hfight brf thf sbmf bs for thf spfdififd dimfnsion.
+     *
+     * @pbrbm    d   thf spfdififd dimfnsion for thf
+     *               <dodf>width</dodf> bnd
+     *               <dodf>hfight</dodf> vblufs
+     */
+    publid Dimfnsion(Dimfnsion d) {
+        this(d.width, d.hfight);
+    }
+
+    /**
+     * Construdts b <dodf>Dimfnsion</dodf> bnd initiblizfs
+     * it to thf spfdififd width bnd spfdififd hfight.
+     *
+     * @pbrbm width thf spfdififd width
+     * @pbrbm hfight thf spfdififd hfight
+     */
+    publid Dimfnsion(int width, int hfight) {
+        this.width = width;
+        this.hfight = hfight;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid doublf gftWidth() {
+        rfturn width;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid doublf gftHfight() {
+        rfturn hfight;
+    }
+
+    /**
+     * Sfts thf sizf of this <dodf>Dimfnsion</dodf> objfdt to
+     * thf spfdififd width bnd hfight in doublf prfdision.
+     * Notf thbt if <dodf>width</dodf> or <dodf>hfight</dodf>
+     * brf lbrgfr thbn <dodf>Intfgfr.MAX_VALUE</dodf>, thfy will
+     * bf rfsft to <dodf>Intfgfr.MAX_VALUE</dodf>.
+     *
+     * @pbrbm width  thf nfw width for thf <dodf>Dimfnsion</dodf> objfdt
+     * @pbrbm hfight thf nfw hfight for thf <dodf>Dimfnsion</dodf> objfdt
+     * @sindf 1.2
+     */
+    publid void sftSizf(doublf width, doublf hfight) {
+        this.width = (int) Mbth.dfil(width);
+        this.hfight = (int) Mbth.dfil(hfight);
+    }
+
+    /**
+     * Gfts thf sizf of this <dodf>Dimfnsion</dodf> objfdt.
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>gftSizf</dodf> mfthod dffinfd by <dodf>Componfnt</dodf>.
+     *
+     * @rfturn   thf sizf of this dimfnsion, b nfw instbndf of
+     *           <dodf>Dimfnsion</dodf> with thf sbmf width bnd hfight
+     * @sff      jbvb.bwt.Dimfnsion#sftSizf
+     * @sff      jbvb.bwt.Componfnt#gftSizf
+     * @sindf    1.1
+     */
+    @Trbnsifnt
+    publid Dimfnsion gftSizf() {
+        rfturn nfw Dimfnsion(width, hfight);
+    }
+
+    /**
+     * Sfts thf sizf of this <dodf>Dimfnsion</dodf> objfdt to thf spfdififd sizf.
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>sftSizf</dodf> mfthod dffinfd by <dodf>Componfnt</dodf>.
+     * @pbrbm    d  thf nfw sizf for this <dodf>Dimfnsion</dodf> objfdt
+     * @sff      jbvb.bwt.Dimfnsion#gftSizf
+     * @sff      jbvb.bwt.Componfnt#sftSizf
+     * @sindf    1.1
+     */
+    publid void sftSizf(Dimfnsion d) {
+        sftSizf(d.width, d.hfight);
+    }
+
+    /**
+     * Sfts thf sizf of this <dodf>Dimfnsion</dodf> objfdt
+     * to thf spfdififd width bnd hfight.
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>sftSizf</dodf> mfthod dffinfd by <dodf>Componfnt</dodf>.
+     *
+     * @pbrbm    width   thf nfw width for this <dodf>Dimfnsion</dodf> objfdt
+     * @pbrbm    hfight  thf nfw hfight for this <dodf>Dimfnsion</dodf> objfdt
+     * @sff      jbvb.bwt.Dimfnsion#gftSizf
+     * @sff      jbvb.bwt.Componfnt#sftSizf
+     * @sindf    1.1
+     */
+    publid void sftSizf(int width, int hfight) {
+        this.width = width;
+        this.hfight = hfight;
+    }
+
+    /**
+     * Chfdks whfthfr two dimfnsion objfdts hbvf fqubl vblufs.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Dimfnsion) {
+            Dimfnsion d = (Dimfnsion)obj;
+            rfturn (width == d.width) && (hfight == d.hfight);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf for this <dodf>Dimfnsion</dodf>.
+     *
+     * @rfturn    b hbsh dodf for this <dodf>Dimfnsion</dodf>
+     */
+    publid int hbshCodf() {
+        int sum = width + hfight;
+        rfturn sum * (sum + 1)/2 + width;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf vblufs of this
+     * <dodf>Dimfnsion</dodf> objfdt's <dodf>hfight</dodf> bnd
+     * <dodf>width</dodf> fiflds. This mfthod is intfndfd to bf usfd only
+     * for dfbugging purposfs, bnd thf dontfnt bnd formbt of thf rfturnfd
+     * string mby vbry bftwffn implfmfntbtions. Thf rfturnfd string mby bf
+     * fmpty but mby not bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>Dimfnsion</dodf>
+     *          objfdt
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[width=" + width + ",hfight=" + hfight + "]";
+    }
+}

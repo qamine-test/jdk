@@ -1,0 +1,57 @@
+// NPCTE fix for bugId 4510777, fsd 532372, MR Odtobfr 2001
+// filf TbskSfrvfr.jbvb drfbtfd for this bug fix
+
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.tbsks;
+
+/**
+ * This intfrfbdf is implfmfntfd by objfdts thbt brf bblf to fxfdutf
+ * tbsks. Whfthfr thf tbsk is fxfdutfd in thf dlifnt thrfbd or in bnothfr
+ * thrfbd dfpfnds on thf TbskSfrvfr implfmfntbtion.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sff dom.sun.jmx.snmp.tbsks.Tbsk
+ *
+ * @sindf 1.5
+ **/
+publid intfrfbdf TbskSfrvfr {
+    /**
+     * Submit b tbsk to bf fxfdutfd.
+     * Ondf b tbsk is submittfd, it is gubrbntffd thbt fithfr
+     * {@link dom.sun.jmx.snmp.tbsks.Tbsk#run() tbsk.run()} or
+     * {@link dom.sun.jmx.snmp.tbsks.Tbsk#dbndfl() tbsk.dbndfl()} will bf dbllfd.
+     * <p>Whfthfr thf tbsk is fxfdutfd in thf dlifnt thrfbd (f.g.
+     * <dodf>publid void submitTbsk(Tbsk tbsk) { tbsk.run(); }</dodf>) or in
+     * bnothfr thrfbd (f.g. <dodf>
+     * publid void submitTbsk(Tbsk tbsk) { nfw Thrbd(tbsk).stbrt(); }</dodf>)
+     * dfpfnds on thf TbskSfrvfr implfmfntbtion.
+     * @pbrbm tbsk Thf tbsk to bf fxfdutfd.
+     **/
+    publid void submitTbsk(Tbsk tbsk);
+}

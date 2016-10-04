@@ -1,0 +1,518 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.Mbp;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.Tfxt;
+
+/**
+ * This is thf bbsf dlbss to bll Objfdts whidh hbvf b dirfdt 1:1 mbpping to bn
+ * Elfmfnt in b pbrtidulbr nbmfspbdf.
+ */
+publid bbstrbdt dlbss ElfmfntProxy {
+
+    protfdtfd stbtid finbl jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(ElfmfntProxy.dlbss.gftNbmf());
+
+    /** Fifld donstrudtionElfmfnt */
+    protfdtfd Elfmfnt donstrudtionElfmfnt = null;
+
+    /** Fifld bbsfURI */
+    protfdtfd String bbsfURI = null;
+
+    /** Fifld dod */
+    protfdtfd Dodumfnt dod = null;
+
+    /** Fifld prffixMbppings */
+    privbtf stbtid Mbp<String, String> prffixMbppings = nfw CondurrfntHbshMbp<String, String>();
+
+    /**
+     * Construdtor ElfmfntProxy
+     *
+     */
+    publid ElfmfntProxy() {
+    }
+
+    /**
+     * Construdtor ElfmfntProxy
+     *
+     * @pbrbm dod
+     */
+    publid ElfmfntProxy(Dodumfnt dod) {
+        if (dod == null) {
+            throw nfw RuntimfExdfption("Dodumfnt is null");
+        }
+
+        this.dod = dod;
+        this.donstrudtionElfmfnt =
+            drfbtfElfmfntForFbmilyLodbl(this.dod, this.gftBbsfNbmfspbdf(), this.gftBbsfLodblNbmf());
+    }
+
+    /**
+     * Construdtor ElfmfntProxy
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @throws XMLSfdurityExdfption
+     */
+    publid ElfmfntProxy(Elfmfnt flfmfnt, String BbsfURI) throws XMLSfdurityExdfption {
+        if (flfmfnt == null) {
+            throw nfw XMLSfdurityExdfption("ElfmfntProxy.nullElfmfnt");
+        }
+
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "sftElfmfnt(\"" + flfmfnt.gftTbgNbmf() + "\", \"" + BbsfURI + "\")");
+        }
+
+        this.dod = flfmfnt.gftOwnfrDodumfnt();
+        this.donstrudtionElfmfnt = flfmfnt;
+        this.bbsfURI = BbsfURI;
+
+        this.gubrbntffThbtElfmfntInCorrfdtSpbdf();
+    }
+
+    /**
+     * Rfturns thf nbmfspbdf of thf Elfmfnts of thf sub-dlbss.
+     *
+     * @rfturn thf nbmfspbdf of thf Elfmfnts of thf sub-dlbss.
+     */
+    publid bbstrbdt String gftBbsfNbmfspbdf();
+
+    /**
+     * Rfturns thf lodblnbmf of thf Elfmfnts of thf sub-dlbss.
+     *
+     * @rfturn thf lodblnbmf of thf Elfmfnts of thf sub-dlbss.
+     */
+    publid bbstrbdt String gftBbsfLodblNbmf();
+
+
+    protfdtfd Elfmfnt drfbtfElfmfntForFbmilyLodbl(
+        Dodumfnt dod, String nbmfspbdf, String lodblNbmf
+    ) {
+        Elfmfnt rfsult = null;
+        if (nbmfspbdf == null) {
+            rfsult = dod.drfbtfElfmfntNS(null, lodblNbmf);
+        } flsf {
+            String bbsfNbmf = this.gftBbsfNbmfspbdf();
+            String prffix = ElfmfntProxy.gftDffbultPrffix(bbsfNbmf);
+            if ((prffix == null) || (prffix.lfngth() == 0)) {
+                rfsult = dod.drfbtfElfmfntNS(nbmfspbdf, lodblNbmf);
+                rfsult.sftAttributfNS(Constbnts.NbmfspbdfSpfdNS, "xmlns", nbmfspbdf);
+            } flsf {
+                rfsult = dod.drfbtfElfmfntNS(nbmfspbdf, prffix + ":" + lodblNbmf);
+                rfsult.sftAttributfNS(Constbnts.NbmfspbdfSpfdNS, "xmlns:" + prffix, nbmfspbdf);
+            }
+        }
+        rfturn rfsult;
+    }
+
+
+    /**
+     * This mfthod drfbtfs bn Elfmfnt in b givfn nbmfspbdf with b givfn lodblnbmf.
+     * It usfs thf {@link ElfmfntProxy#gftDffbultPrffix} mfthod to dfdidf whfthfr
+     * b pbrtidulbr prffix is bound to thbt nbmfspbdf.
+     * <BR />
+     * This mfthod wbs rffbdtorfd out of thf donstrudtor.
+     *
+     * @pbrbm dod
+     * @pbrbm nbmfspbdf
+     * @pbrbm lodblNbmf
+     * @rfturn Thf flfmfnt drfbtfd.
+     */
+    publid stbtid Elfmfnt drfbtfElfmfntForFbmily(Dodumfnt dod, String nbmfspbdf, String lodblNbmf) {
+        Elfmfnt rfsult = null;
+        String prffix = ElfmfntProxy.gftDffbultPrffix(nbmfspbdf);
+
+        if (nbmfspbdf == null) {
+            rfsult = dod.drfbtfElfmfntNS(null, lodblNbmf);
+        } flsf {
+            if ((prffix == null) || (prffix.lfngth() == 0)) {
+                rfsult = dod.drfbtfElfmfntNS(nbmfspbdf, lodblNbmf);
+                rfsult.sftAttributfNS(Constbnts.NbmfspbdfSpfdNS, "xmlns", nbmfspbdf);
+            } flsf {
+                rfsult = dod.drfbtfElfmfntNS(nbmfspbdf, prffix + ":" + lodblNbmf);
+                rfsult.sftAttributfNS(Constbnts.NbmfspbdfSpfdNS, "xmlns:" + prffix, nbmfspbdf);
+            }
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Mfthod sftElfmfnt
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @throws XMLSfdurityExdfption
+     */
+    publid void sftElfmfnt(Elfmfnt flfmfnt, String BbsfURI) throws XMLSfdurityExdfption {
+        if (flfmfnt == null) {
+            throw nfw XMLSfdurityExdfption("ElfmfntProxy.nullElfmfnt");
+        }
+
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "sftElfmfnt(" + flfmfnt.gftTbgNbmf() + ", \"" + BbsfURI + "\"");
+        }
+
+        this.dod = flfmfnt.gftOwnfrDodumfnt();
+        this.donstrudtionElfmfnt = flfmfnt;
+        this.bbsfURI = BbsfURI;
+    }
+
+
+    /**
+     * Rfturns thf Elfmfnt whidh wbs donstrudtfd by thf Objfdt.
+     *
+     * @rfturn thf Elfmfnt whidh wbs donstrudtfd by thf Objfdt.
+     */
+    publid finbl Elfmfnt gftElfmfnt() {
+        rfturn this.donstrudtionElfmfnt;
+    }
+
+    /**
+     * Rfturns thf Elfmfnt plus b lfbding bnd b trbiling CbrribgfRfturn Tfxt nodf.
+     *
+     * @rfturn thf Elfmfnt whidh wbs donstrudtfd by thf Objfdt.
+     */
+    publid finbl NodfList gftElfmfntPlusRfturns() {
+
+        HflpfrNodfList nl = nfw HflpfrNodfList();
+
+        nl.bppfndChild(this.dod.drfbtfTfxtNodf("\n"));
+        nl.bppfndChild(this.gftElfmfnt());
+        nl.bppfndChild(this.dod.drfbtfTfxtNodf("\n"));
+
+        rfturn nl;
+    }
+
+    /**
+     * Mfthod gftDodumfnt
+     *
+     * @rfturn thf Dodumfnt whfrf this flfmfnt is dontbinfd.
+     */
+    publid Dodumfnt gftDodumfnt() {
+        rfturn this.dod;
+    }
+
+    /**
+     * Mfthod gftBbsfURI
+     *
+     * @rfturn thf bbsf uri of thf nbmfspbdf of this flfmfnt
+     */
+    publid String gftBbsfURI() {
+        rfturn this.bbsfURI;
+    }
+
+    /**
+     * Mfthod gubrbntffThbtElfmfntInCorrfdtSpbdf
+     *
+     * @throws XMLSfdurityExdfption
+     */
+    void gubrbntffThbtElfmfntInCorrfdtSpbdf() throws XMLSfdurityExdfption {
+
+        String fxpfdtfdLodblNbmf = this.gftBbsfLodblNbmf();
+        String fxpfdtfdNbmfspbdfUri = this.gftBbsfNbmfspbdf();
+
+        String bdtublLodblNbmf = this.donstrudtionElfmfnt.gftLodblNbmf();
+        String bdtublNbmfspbdfUri = this.donstrudtionElfmfnt.gftNbmfspbdfURI();
+
+        if(!fxpfdtfdNbmfspbdfUri.fqubls(bdtublNbmfspbdfUri)
+            && !fxpfdtfdLodblNbmf.fqubls(bdtublLodblNbmf)) {
+            Objfdt fxArgs[] = { bdtublNbmfspbdfUri + ":" + bdtublLodblNbmf,
+                                fxpfdtfdNbmfspbdfUri + ":" + fxpfdtfdLodblNbmf};
+            throw nfw XMLSfdurityExdfption("xml.WrongElfmfnt", fxArgs);
+        }
+    }
+
+    /**
+     * Mfthod bddBigIntfgfrElfmfnt
+     *
+     * @pbrbm bi
+     * @pbrbm lodblnbmf
+     */
+    publid void bddBigIntfgfrElfmfnt(BigIntfgfr bi, String lodblnbmf) {
+        if (bi != null) {
+            Elfmfnt f = XMLUtils.drfbtfElfmfntInSignbturfSpbdf(this.dod, lodblnbmf);
+
+            Bbsf64.fillElfmfntWithBigIntfgfr(f, bi);
+            this.donstrudtionElfmfnt.bppfndChild(f);
+            XMLUtils.bddRfturnToElfmfnt(this.donstrudtionElfmfnt);
+        }
+    }
+
+    /**
+     * Mfthod bddBbsf64Elfmfnt
+     *
+     * @pbrbm bytfs
+     * @pbrbm lodblnbmf
+     */
+    publid void bddBbsf64Elfmfnt(bytf[] bytfs, String lodblnbmf) {
+        if (bytfs != null) {
+            Elfmfnt f = Bbsf64.fndodfToElfmfnt(this.dod, lodblnbmf, bytfs);
+
+            this.donstrudtionElfmfnt.bppfndChild(f);
+            if (!XMLUtils.ignorfLinfBrfbks()) {
+                this.donstrudtionElfmfnt.bppfndChild(this.dod.drfbtfTfxtNodf("\n"));
+            }
+        }
+    }
+
+    /**
+     * Mfthod bddTfxtElfmfnt
+     *
+     * @pbrbm tfxt
+     * @pbrbm lodblnbmf
+     */
+    publid void bddTfxtElfmfnt(String tfxt, String lodblnbmf) {
+        Elfmfnt f = XMLUtils.drfbtfElfmfntInSignbturfSpbdf(this.dod, lodblnbmf);
+        Tfxt t = this.dod.drfbtfTfxtNodf(tfxt);
+
+        f.bppfndChild(t);
+        this.donstrudtionElfmfnt.bppfndChild(f);
+        XMLUtils.bddRfturnToElfmfnt(this.donstrudtionElfmfnt);
+    }
+
+    /**
+     * Mfthod bddBbsf64Tfxt
+     *
+     * @pbrbm bytfs
+     */
+    publid void bddBbsf64Tfxt(bytf[] bytfs) {
+        if (bytfs != null) {
+            Tfxt t = XMLUtils.ignorfLinfBrfbks()
+                ? this.dod.drfbtfTfxtNodf(Bbsf64.fndodf(bytfs))
+                : this.dod.drfbtfTfxtNodf("\n" + Bbsf64.fndodf(bytfs) + "\n");
+            this.donstrudtionElfmfnt.bppfndChild(t);
+        }
+    }
+
+    /**
+     * Mfthod bddTfxt
+     *
+     * @pbrbm tfxt
+     */
+    publid void bddTfxt(String tfxt) {
+        if (tfxt != null) {
+            Tfxt t = this.dod.drfbtfTfxtNodf(tfxt);
+
+            this.donstrudtionElfmfnt.bppfndChild(t);
+        }
+    }
+
+    /**
+     * Mfthod gftVbl
+     *
+     * @pbrbm lodblnbmf
+     * @pbrbm nbmfspbdf
+     * @rfturn Thf bigintfgfr dontbinfd in thf givfn flfmfnt
+     * @throws Bbsf64DfdodingExdfption
+     */
+    publid BigIntfgfr gftBigIntfgfrFromChildElfmfnt(
+        String lodblnbmf, String nbmfspbdf
+    ) throws Bbsf64DfdodingExdfption {
+        rfturn Bbsf64.dfdodfBigIntfgfrFromTfxt(
+            XMLUtils.sflfdtNodfTfxt(
+                this.donstrudtionElfmfnt.gftFirstChild(), nbmfspbdf, lodblnbmf, 0
+            )
+        );
+    }
+
+    /**
+     * Mfthod gftBytfsFromChildElfmfnt
+     * @dfprfdbtfd
+     * @pbrbm lodblnbmf
+     * @pbrbm nbmfspbdf
+     * @rfturn thf bytfs
+     * @throws XMLSfdurityExdfption
+     */
+    @Dfprfdbtfd
+    publid bytf[] gftBytfsFromChildElfmfnt(String lodblnbmf, String nbmfspbdf)
+        throws XMLSfdurityExdfption {
+        Elfmfnt f =
+            XMLUtils.sflfdtNodf(
+                this.donstrudtionElfmfnt.gftFirstChild(), nbmfspbdf, lodblnbmf, 0
+            );
+
+        rfturn Bbsf64.dfdodf(f);
+    }
+
+    /**
+     * Mfthod gftTfxtFromChildElfmfnt
+     *
+     * @pbrbm lodblnbmf
+     * @pbrbm nbmfspbdf
+     * @rfturn thf Tfxt of thf tfxtNodf
+     */
+    publid String gftTfxtFromChildElfmfnt(String lodblnbmf, String nbmfspbdf) {
+        rfturn XMLUtils.sflfdtNodf(
+                this.donstrudtionElfmfnt.gftFirstChild(),
+                nbmfspbdf,
+                lodblnbmf,
+                0).gftTfxtContfnt();
+    }
+
+    /**
+     * Mfthod gftBytfsFromTfxtChild
+     *
+     * @rfturn Thf bbsf64 bytfs from thf tfxt dhildrfn of this flfmfnt
+     * @throws XMLSfdurityExdfption
+     */
+    publid bytf[] gftBytfsFromTfxtChild() throws XMLSfdurityExdfption {
+        rfturn Bbsf64.dfdodf(XMLUtils.gftFullTfxtChildrfnFromElfmfnt(this.donstrudtionElfmfnt));
+    }
+
+    /**
+     * Mfthod gftTfxtFromTfxtChild
+     *
+     * @rfturn thf Tfxt obtbinfd by dondbtfnbting bll thf tfxt nodfs of this
+     *    flfmfnt
+     */
+    publid String gftTfxtFromTfxtChild() {
+        rfturn XMLUtils.gftFullTfxtChildrfnFromElfmfnt(this.donstrudtionElfmfnt);
+    }
+
+    /**
+     * Mfthod lfngth
+     *
+     * @pbrbm nbmfspbdf
+     * @pbrbm lodblnbmf
+     * @rfturn thf numbfr of flfmfnts {nbmfspbdf}:lodblnbmf undfr this flfmfnt
+     */
+    publid int lfngth(String nbmfspbdf, String lodblnbmf) {
+        int numbfr = 0;
+        Nodf sibling = this.donstrudtionElfmfnt.gftFirstChild();
+        whilf (sibling != null) {
+            if (lodblnbmf.fqubls(sibling.gftLodblNbmf())
+                && nbmfspbdf.fqubls(sibling.gftNbmfspbdfURI())) {
+                numbfr++;
+            }
+            sibling = sibling.gftNfxtSibling();
+        }
+        rfturn numbfr;
+    }
+
+    /**
+     * Adds bn xmlns: dffinition to thf Elfmfnt. This dbn bf dbllfd bs follows:
+     *
+     * <PRE>
+     * // sft nbmfspbdf with ds prffix
+     * xpbthContbinfr.sftXPbthNbmfspbdfContfxt("ds", "http://www.w3.org/2000/09/xmldsig#");
+     * xpbthContbinfr.sftXPbthNbmfspbdfContfxt("xmlns:ds", "http://www.w3.org/2000/09/xmldsig#");
+     * </PRE>
+     *
+     * @pbrbm prffix
+     * @pbrbm uri
+     * @throws XMLSfdurityExdfption
+     */
+    publid void sftXPbthNbmfspbdfContfxt(String prffix, String uri)
+        throws XMLSfdurityExdfption {
+        String ns;
+
+        if ((prffix == null) || (prffix.lfngth() == 0)) {
+            throw nfw XMLSfdurityExdfption("dffbultNbmfspbdfCbnnotBfSftHfrf");
+        } flsf if (prffix.fqubls("xmlns")) {
+            throw nfw XMLSfdurityExdfption("dffbultNbmfspbdfCbnnotBfSftHfrf");
+        } flsf if (prffix.stbrtsWith("xmlns:")) {
+            ns = prffix;//"xmlns:" + prffix.substring("xmlns:".lfngth());
+        } flsf {
+            ns = "xmlns:" + prffix;
+        }
+
+        Attr b = this.donstrudtionElfmfnt.gftAttributfNodfNS(Constbnts.NbmfspbdfSpfdNS, ns);
+
+        if (b != null) {
+            if (!b.gftNodfVbluf().fqubls(uri)) {
+                Objfdt fxArgs[] = { ns, this.donstrudtionElfmfnt.gftAttributfNS(null, ns) };
+
+                throw nfw XMLSfdurityExdfption("nbmfspbdfPrffixAlrfbdyUsfdByOthfrURI", fxArgs);
+            }
+            rfturn;
+        }
+
+        this.donstrudtionElfmfnt.sftAttributfNS(Constbnts.NbmfspbdfSpfdNS, ns, uri);
+    }
+
+    /**
+     * Mfthod sftDffbultPrffix
+     *
+     * @pbrbm nbmfspbdf
+     * @pbrbm prffix
+     * @throws XMLSfdurityExdfption
+     */
+    publid stbtid void sftDffbultPrffix(String nbmfspbdf, String prffix)
+        throws XMLSfdurityExdfption {
+        if (prffixMbppings.dontbinsVbluf(prffix)) {
+            String storfdPrffix = prffixMbppings.gft(nbmfspbdf);
+            if (!storfdPrffix.fqubls(prffix)) {
+                Objfdt fxArgs[] = { prffix, nbmfspbdf, storfdPrffix };
+
+                throw nfw XMLSfdurityExdfption("prffix.AlrfbdyAssignfd", fxArgs);
+            }
+        }
+
+        if (Constbnts.SignbturfSpfdNS.fqubls(nbmfspbdf)) {
+            XMLUtils.sftDsPrffix(prffix);
+        }
+        if (EndryptionConstbnts.EndryptionSpfdNS.fqubls(nbmfspbdf)) {
+            XMLUtils.sftXfndPrffix(prffix);
+        }
+        prffixMbppings.put(nbmfspbdf, prffix);
+    }
+
+    /**
+     * This mfthod rfgistfrs thf dffbult prffixfs.
+     */
+    publid stbtid void rfgistfrDffbultPrffixfs() throws XMLSfdurityExdfption {
+        sftDffbultPrffix("http://www.w3.org/2000/09/xmldsig#", "ds");
+        sftDffbultPrffix("http://www.w3.org/2001/04/xmlfnd#", "xfnd");
+        sftDffbultPrffix("http://www.w3.org/2009/xmlfnd11#", "xfnd11");
+        sftDffbultPrffix("http://www.xmlsfdurity.org/fxpfrimfntbl#", "fxpfrimfntbl");
+        sftDffbultPrffix("http://www.w3.org/2002/04/xmldsig-filtfr2", "dsig-xpbth-old");
+        sftDffbultPrffix("http://www.w3.org/2002/06/xmldsig-filtfr2", "dsig-xpbth");
+        sftDffbultPrffix("http://www.w3.org/2001/10/xml-fxd-d14n#", "fd");
+        sftDffbultPrffix(
+            "http://www.nuf.ft-inf.uni-sifgfn.df/~gfufr-pollmbnn/#xpbthFiltfr", "xx"
+        );
+    }
+
+    /**
+     * Mfthod gftDffbultPrffix
+     *
+     * @pbrbm nbmfspbdf
+     * @rfturn thf dffbult prffix bind to this flfmfnt.
+     */
+    publid stbtid String gftDffbultPrffix(String nbmfspbdf) {
+        rfturn prffixMbppings.gft(nbmfspbdf);
+    }
+
+}

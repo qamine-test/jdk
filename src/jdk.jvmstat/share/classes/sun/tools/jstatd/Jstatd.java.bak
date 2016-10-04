@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstatd;
+pbdkbgf sun.tools.jstbtd;
 
-import java.rmi.*;
-import java.rmi.server.*;
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
-import java.net.MalformedURLException;
-import sun.jvmstat.monitor.remote.*;
+import jbvb.rmi.*;
+import jbvb.rmi.sfrvfr.*;
+import jbvb.rmi.rfgistry.Rfgistry;
+import jbvb.rmi.rfgistry.LodbtfRfgistry;
+import jbvb.nft.MblformfdURLExdfption;
+import sun.jvmstbt.monitor.rfmotf.*;
 
 /**
- * Application providing remote access to the jvmstat instrumentation
- * exported by local Java Virtual Machine processes. Remote access is
- * provided through an RMI interface.
+ * Applidbtion providing rfmotf bddfss to tif jvmstbt instrumfntbtion
+ * fxportfd by lodbl Jbvb Virtubl Mbdiinf prodfssfs. Rfmotf bddfss is
+ * providfd tirougi bn RMI intfrfbdf.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class Jstatd {
+publid dlbss Jstbtd {
 
-    private static Registry registry;
-    private static int port = -1;
-    private static boolean startRegistry = true;
+    privbtf stbtid Rfgistry rfgistry;
+    privbtf stbtid int port = -1;
+    privbtf stbtid boolfbn stbrtRfgistry = truf;
 
-    private static void printUsage() {
-        System.err.println("usage: jstatd [-nr] [-p port] [-n rminame]");
+    privbtf stbtid void printUsbgf() {
+        Systfm.frr.println("usbgf: jstbtd [-nr] [-p port] [-n rminbmf]");
     }
 
-    static void bind(String name, RemoteHostImpl remoteHost)
-                throws RemoteException, MalformedURLException, Exception {
+    stbtid void bind(String nbmf, RfmotfHostImpl rfmotfHost)
+                tirows RfmotfExdfption, MblformfdURLExdfption, Exdfption {
 
         try {
-            Naming.rebind(name, remoteHost);
-        } catch (java.rmi.ConnectException e) {
+            Nbming.rfbind(nbmf, rfmotfHost);
+        } dbtdi (jbvb.rmi.ConnfdtExdfption f) {
             /*
-             * either the registry is not running or we cannot contact it.
-             * start an internal registry if requested.
+             * fitifr tif rfgistry is not running or wf dbnnot dontbdt it.
+             * stbrt bn intfrnbl rfgistry if rfqufstfd.
              */
-            if (startRegistry && registry == null) {
-                int localport = (port < 0) ? Registry.REGISTRY_PORT : port;
-                registry = LocateRegistry.createRegistry(localport);
-                bind(name, remoteHost);
+            if (stbrtRfgistry && rfgistry == null) {
+                int lodblport = (port < 0) ? Rfgistry.REGISTRY_PORT : port;
+                rfgistry = LodbtfRfgistry.drfbtfRfgistry(lodblport);
+                bind(nbmf, rfmotfHost);
             }
-            else {
-                System.out.println("Could not contact registry\n"
-                                   + e.getMessage());
-                e.printStackTrace();
+            flsf {
+                Systfm.out.println("Could not dontbdt rfgistry\n"
+                                   + f.gftMfssbgf());
+                f.printStbdkTrbdf();
             }
-        } catch (RemoteException e) {
-            System.err.println("Could not bind " + name + " to RMI Registry");
-            e.printStackTrace();
+        } dbtdi (RfmotfExdfption f) {
+            Systfm.frr.println("Could not bind " + nbmf + " to RMI Rfgistry");
+            f.printStbdkTrbdf();
         }
     }
 
-    public static void main(String[] args) {
-        String rminame = null;
-        int argc = 0;
+    publid stbtid void mbin(String[] brgs) {
+        String rminbmf = null;
+        int brgd = 0;
 
-        for ( ; (argc < args.length) && (args[argc].startsWith("-")); argc++) {
-            String arg = args[argc];
+        for ( ; (brgd < brgs.lfngti) && (brgs[brgd].stbrtsWiti("-")); brgd++) {
+            String brg = brgs[brgd];
 
-            if (arg.compareTo("-nr") == 0) {
-                startRegistry = false;
-            } else if (arg.startsWith("-p")) {
-                if (arg.compareTo("-p") != 0) {
-                    port = Integer.parseInt(arg.substring(2));
-                } else {
-                  argc++;
-                  if (argc >= args.length) {
-                      printUsage();
-                      System.exit(1);
+            if (brg.dompbrfTo("-nr") == 0) {
+                stbrtRfgistry = fblsf;
+            } flsf if (brg.stbrtsWiti("-p")) {
+                if (brg.dompbrfTo("-p") != 0) {
+                    port = Intfgfr.pbrsfInt(brg.substring(2));
+                } flsf {
+                  brgd++;
+                  if (brgd >= brgs.lfngti) {
+                      printUsbgf();
+                      Systfm.fxit(1);
                   }
-                  port = Integer.parseInt(args[argc]);
+                  port = Intfgfr.pbrsfInt(brgs[brgd]);
                 }
-            } else if (arg.startsWith("-n")) {
-                if (arg.compareTo("-n") != 0) {
-                    rminame = arg.substring(2);
-                } else {
-                    argc++;
-                    if (argc >= args.length) {
-                        printUsage();
-                        System.exit(1);
+            } flsf if (brg.stbrtsWiti("-n")) {
+                if (brg.dompbrfTo("-n") != 0) {
+                    rminbmf = brg.substring(2);
+                } flsf {
+                    brgd++;
+                    if (brgd >= brgs.lfngti) {
+                        printUsbgf();
+                        Systfm.fxit(1);
                     }
-                    rminame = args[argc];
+                    rminbmf = brgs[brgd];
                 }
-            } else {
-                printUsage();
-                System.exit(1);
+            } flsf {
+                printUsbgf();
+                Systfm.fxit(1);
             }
         }
 
-        if (argc < args.length) {
-            printUsage();
-            System.exit(1);
+        if (brgd < brgs.lfngti) {
+            printUsbgf();
+            Systfm.fxit(1);
         }
 
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new RMISecurityManager());
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            Systfm.sftSfdurityMbnbgfr(nfw RMISfdurityMbnbgfr());
         }
 
-        StringBuilder name = new StringBuilder();
+        StringBuildfr nbmf = nfw StringBuildfr();
 
         if (port >= 0) {
-            name.append("//:").append(port);
+            nbmf.bppfnd("//:").bppfnd(port);
         }
 
-        if (rminame == null) {
-            rminame = "JStatRemoteHost";
+        if (rminbmf == null) {
+            rminbmf = "JStbtRfmotfHost";
         }
 
-        name.append("/").append(rminame);
+        nbmf.bppfnd("/").bppfnd(rminbmf);
 
         try {
-            // use 1.5.0 dynamically generated subs.
-            System.setProperty("java.rmi.server.ignoreSubClasses", "true");
-            RemoteHostImpl remoteHost = new RemoteHostImpl();
-            RemoteHost stub = (RemoteHost) UnicastRemoteObject.exportObject(
-                    remoteHost, 0);
-            bind(name.toString(), remoteHost);
-        } catch (MalformedURLException e) {
-            if (rminame != null) {
-                System.out.println("Bad RMI server name: " + rminame);
-            } else {
-                System.out.println("Bad RMI URL: " + name + " : "
-                                   + e.getMessage());
+            // usf 1.5.0 dynbmidblly gfnfrbtfd subs.
+            Systfm.sftPropfrty("jbvb.rmi.sfrvfr.ignorfSubClbssfs", "truf");
+            RfmotfHostImpl rfmotfHost = nfw RfmotfHostImpl();
+            RfmotfHost stub = (RfmotfHost) UnidbstRfmotfObjfdt.fxportObjfdt(
+                    rfmotfHost, 0);
+            bind(nbmf.toString(), rfmotfHost);
+        } dbtdi (MblformfdURLExdfption f) {
+            if (rminbmf != null) {
+                Systfm.out.println("Bbd RMI sfrvfr nbmf: " + rminbmf);
+            } flsf {
+                Systfm.out.println("Bbd RMI URL: " + nbmf + " : "
+                                   + f.gftMfssbgf());
             }
-            System.exit(1);
-        } catch (java.rmi.ConnectException e) {
-            // could not attach to or create a registry
-            System.out.println("Could not contact RMI registry\n"
-                               + e.getMessage());
-            System.exit(1);
-        } catch (Exception e) {
-            System.out.println("Could not create remote object\n"
-                               + e.getMessage());
-            e.printStackTrace();
-            System.exit(1);
+            Systfm.fxit(1);
+        } dbtdi (jbvb.rmi.ConnfdtExdfption f) {
+            // dould not bttbdi to or drfbtf b rfgistry
+            Systfm.out.println("Could not dontbdt RMI rfgistry\n"
+                               + f.gftMfssbgf());
+            Systfm.fxit(1);
+        } dbtdi (Exdfption f) {
+            Systfm.out.println("Could not drfbtf rfmotf objfdt\n"
+                               + f.gftMfssbgf());
+            f.printStbdkTrbdf();
+            Systfm.fxit(1);
         }
     }
 }

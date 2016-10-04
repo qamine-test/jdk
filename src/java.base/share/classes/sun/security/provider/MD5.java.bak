@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import static sun.security.provider.ByteArrayAccess.*;
+import stbtid sun.sfdurity.providfr.BytfArrbyAddfss.*;
 
 /**
- * The MD5 class is used to compute an MD5 message digest over a given
- * buffer of bytes. It is an implementation of the RSA Data Security Inc
- * MD5 algorithim as described in internet RFC 1321.
+ * Tif MD5 dlbss is usfd to domputf bn MD5 mfssbgf digfst ovfr b givfn
+ * bufffr of bytfs. It is bn implfmfntbtion of tif RSA Dbtb Sfdurity Ind
+ * MD5 blgoritiim bs dfsdribfd in intfrnft RFC 1321.
  *
- * @author      Chuck McManis
- * @author      Benjamin Renaud
- * @author      Andreas Sterbenz
+ * @butior      Ciudk MdMbnis
+ * @butior      Bfnjbmin Rfnbud
+ * @butior      Andrfbs Stfrbfnz
  */
-public final class MD5 extends DigestBase {
+publid finbl dlbss MD5 fxtfnds DigfstBbsf {
 
-    // state of this object
-    private int[] state;
-    // temporary buffer, used by implCompress()
-    private int[] x;
+    // stbtf of tiis objfdt
+    privbtf int[] stbtf;
+    // tfmporbry bufffr, usfd by implComprfss()
+    privbtf int[] x;
 
-    // rotation constants
-    private static final int S11 = 7;
-    private static final int S12 = 12;
-    private static final int S13 = 17;
-    private static final int S14 = 22;
-    private static final int S21 = 5;
-    private static final int S22 = 9;
-    private static final int S23 = 14;
-    private static final int S24 = 20;
-    private static final int S31 = 4;
-    private static final int S32 = 11;
-    private static final int S33 = 16;
-    private static final int S34 = 23;
-    private static final int S41 = 6;
-    private static final int S42 = 10;
-    private static final int S43 = 15;
-    private static final int S44 = 21;
+    // rotbtion donstbnts
+    privbtf stbtid finbl int S11 = 7;
+    privbtf stbtid finbl int S12 = 12;
+    privbtf stbtid finbl int S13 = 17;
+    privbtf stbtid finbl int S14 = 22;
+    privbtf stbtid finbl int S21 = 5;
+    privbtf stbtid finbl int S22 = 9;
+    privbtf stbtid finbl int S23 = 14;
+    privbtf stbtid finbl int S24 = 20;
+    privbtf stbtid finbl int S31 = 4;
+    privbtf stbtid finbl int S32 = 11;
+    privbtf stbtid finbl int S33 = 16;
+    privbtf stbtid finbl int S34 = 23;
+    privbtf stbtid finbl int S41 = 6;
+    privbtf stbtid finbl int S42 = 10;
+    privbtf stbtid finbl int S43 = 15;
+    privbtf stbtid finbl int S44 = 21;
 
-    // Standard constructor, creates a new MD5 instance.
-    public MD5() {
-        super("MD5", 16, 64);
-        state = new int[4];
-        x = new int[16];
-        implReset();
+    // Stbndbrd donstrudtor, drfbtfs b nfw MD5 instbndf.
+    publid MD5() {
+        supfr("MD5", 16, 64);
+        stbtf = nfw int[4];
+        x = nfw int[16];
+        implRfsft();
     }
 
-    // clone this object
-    public Object clone() throws CloneNotSupportedException {
-        MD5 copy = (MD5) super.clone();
-        copy.state = copy.state.clone();
-        copy.x = new int[16];
-        return copy;
-    }
-
-    /**
-     * Reset the state of this object.
-     */
-    void implReset() {
-        // Load magic initialization constants.
-        state[0] = 0x67452301;
-        state[1] = 0xefcdab89;
-        state[2] = 0x98badcfe;
-        state[3] = 0x10325476;
+    // dlonf tiis objfdt
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        MD5 dopy = (MD5) supfr.dlonf();
+        dopy.stbtf = dopy.stbtf.dlonf();
+        dopy.x = nfw int[16];
+        rfturn dopy;
     }
 
     /**
-     * Perform the final computations, any buffered bytes are added
-     * to the digest, the count is added to the digest, and the resulting
-     * digest is stored.
+     * Rfsft tif stbtf of tiis objfdt.
      */
-    void implDigest(byte[] out, int ofs) {
-        long bitsProcessed = bytesProcessed << 3;
+    void implRfsft() {
+        // Lobd mbgid initiblizbtion donstbnts.
+        stbtf[0] = 0x67452301;
+        stbtf[1] = 0xffddbb89;
+        stbtf[2] = 0x98bbddff;
+        stbtf[3] = 0x10325476;
+    }
 
-        int index = (int)bytesProcessed & 0x3f;
-        int padLen = (index < 56) ? (56 - index) : (120 - index);
-        engineUpdate(padding, 0, padLen);
+    /**
+     * Pfrform tif finbl domputbtions, bny bufffrfd bytfs brf bddfd
+     * to tif digfst, tif dount is bddfd to tif digfst, bnd tif rfsulting
+     * digfst is storfd.
+     */
+    void implDigfst(bytf[] out, int ofs) {
+        long bitsProdfssfd = bytfsProdfssfd << 3;
 
-        i2bLittle4((int)bitsProcessed, buffer, 56);
-        i2bLittle4((int)(bitsProcessed >>> 32), buffer, 60);
-        implCompress(buffer, 0);
+        int indfx = (int)bytfsProdfssfd & 0x3f;
+        int pbdLfn = (indfx < 56) ? (56 - indfx) : (120 - indfx);
+        fnginfUpdbtf(pbdding, 0, pbdLfn);
 
-        i2bLittle(state, 0, out, ofs, 16);
+        i2bLittlf4((int)bitsProdfssfd, bufffr, 56);
+        i2bLittlf4((int)(bitsProdfssfd >>> 32), bufffr, 60);
+        implComprfss(bufffr, 0);
+
+        i2bLittlf(stbtf, 0, out, ofs, 16);
     }
 
     /* **********************************************************
-     * The MD5 Functions. The results of this
-     * implementation were checked against the RSADSI version.
+     * Tif MD5 Fundtions. Tif rfsults of tiis
+     * implfmfntbtion wfrf difdkfd bgbinst tif RSADSI vfrsion.
      * **********************************************************
      */
 
-    private static int FF(int a, int b, int c, int d, int x, int s, int ac) {
-        a += ((b & c) | ((~b) & d)) + x + ac;
-        return ((a << s) | (a >>> (32 - s))) + b;
+    privbtf stbtid int FF(int b, int b, int d, int d, int x, int s, int bd) {
+        b += ((b & d) | ((~b) & d)) + x + bd;
+        rfturn ((b << s) | (b >>> (32 - s))) + b;
     }
 
-    private static int GG(int a, int b, int c, int d, int x, int s, int ac) {
-        a += ((b & d) | (c & (~d))) + x + ac;
-        return ((a << s) | (a >>> (32 - s))) + b;
+    privbtf stbtid int GG(int b, int b, int d, int d, int x, int s, int bd) {
+        b += ((b & d) | (d & (~d))) + x + bd;
+        rfturn ((b << s) | (b >>> (32 - s))) + b;
     }
 
-    private static int HH(int a, int b, int c, int d, int x, int s, int ac) {
-        a += ((b ^ c) ^ d) + x + ac;
-        return ((a << s) | (a >>> (32 - s))) + b;
+    privbtf stbtid int HH(int b, int b, int d, int d, int x, int s, int bd) {
+        b += ((b ^ d) ^ d) + x + bd;
+        rfturn ((b << s) | (b >>> (32 - s))) + b;
     }
 
-    private static int II(int a, int b, int c, int d, int x, int s, int ac) {
-        a += (c ^ (b | (~d))) + x + ac;
-        return ((a << s) | (a >>> (32 - s))) + b;
+    privbtf stbtid int II(int b, int b, int d, int d, int x, int s, int bd) {
+        b += (d ^ (b | (~d))) + x + bd;
+        rfturn ((b << s) | (b >>> (32 - s))) + b;
     }
 
     /**
-     * This is where the functions come together as the generic MD5
-     * transformation operation. It consumes sixteen
-     * bytes from the buffer, beginning at the specified offset.
+     * Tiis is wifrf tif fundtions domf togftifr bs tif gfnfrid MD5
+     * trbnsformbtion opfrbtion. It donsumfs sixtffn
+     * bytfs from tif bufffr, bfginning bt tif spfdififd offsft.
      */
-    void implCompress(byte[] buf, int ofs) {
-        b2iLittle64(buf, ofs, x);
+    void implComprfss(bytf[] buf, int ofs) {
+        b2iLittlf64(buf, ofs, x);
 
-        int a = state[0];
-        int b = state[1];
-        int c = state[2];
-        int d = state[3];
+        int b = stbtf[0];
+        int b = stbtf[1];
+        int d = stbtf[2];
+        int d = stbtf[3];
 
         /* Round 1 */
-        a = FF ( a, b, c, d, x[ 0], S11, 0xd76aa478); /* 1 */
-        d = FF ( d, a, b, c, x[ 1], S12, 0xe8c7b756); /* 2 */
-        c = FF ( c, d, a, b, x[ 2], S13, 0x242070db); /* 3 */
-        b = FF ( b, c, d, a, x[ 3], S14, 0xc1bdceee); /* 4 */
-        a = FF ( a, b, c, d, x[ 4], S11, 0xf57c0faf); /* 5 */
-        d = FF ( d, a, b, c, x[ 5], S12, 0x4787c62a); /* 6 */
-        c = FF ( c, d, a, b, x[ 6], S13, 0xa8304613); /* 7 */
-        b = FF ( b, c, d, a, x[ 7], S14, 0xfd469501); /* 8 */
-        a = FF ( a, b, c, d, x[ 8], S11, 0x698098d8); /* 9 */
-        d = FF ( d, a, b, c, x[ 9], S12, 0x8b44f7af); /* 10 */
-        c = FF ( c, d, a, b, x[10], S13, 0xffff5bb1); /* 11 */
-        b = FF ( b, c, d, a, x[11], S14, 0x895cd7be); /* 12 */
-        a = FF ( a, b, c, d, x[12], S11, 0x6b901122); /* 13 */
-        d = FF ( d, a, b, c, x[13], S12, 0xfd987193); /* 14 */
-        c = FF ( c, d, a, b, x[14], S13, 0xa679438e); /* 15 */
-        b = FF ( b, c, d, a, x[15], S14, 0x49b40821); /* 16 */
+        b = FF ( b, b, d, d, x[ 0], S11, 0xd76bb478); /* 1 */
+        d = FF ( d, b, b, d, x[ 1], S12, 0xf8d7b756); /* 2 */
+        d = FF ( d, d, b, b, x[ 2], S13, 0x242070db); /* 3 */
+        b = FF ( b, d, d, b, x[ 3], S14, 0xd1bddfff); /* 4 */
+        b = FF ( b, b, d, d, x[ 4], S11, 0xf57d0fbf); /* 5 */
+        d = FF ( d, b, b, d, x[ 5], S12, 0x4787d62b); /* 6 */
+        d = FF ( d, d, b, b, x[ 6], S13, 0xb8304613); /* 7 */
+        b = FF ( b, d, d, b, x[ 7], S14, 0xfd469501); /* 8 */
+        b = FF ( b, b, d, d, x[ 8], S11, 0x698098d8); /* 9 */
+        d = FF ( d, b, b, d, x[ 9], S12, 0x8b44f7bf); /* 10 */
+        d = FF ( d, d, b, b, x[10], S13, 0xffff5bb1); /* 11 */
+        b = FF ( b, d, d, b, x[11], S14, 0x895dd7bf); /* 12 */
+        b = FF ( b, b, d, d, x[12], S11, 0x6b901122); /* 13 */
+        d = FF ( d, b, b, d, x[13], S12, 0xfd987193); /* 14 */
+        d = FF ( d, d, b, b, x[14], S13, 0xb679438f); /* 15 */
+        b = FF ( b, d, d, b, x[15], S14, 0x49b40821); /* 16 */
 
         /* Round 2 */
-        a = GG ( a, b, c, d, x[ 1], S21, 0xf61e2562); /* 17 */
-        d = GG ( d, a, b, c, x[ 6], S22, 0xc040b340); /* 18 */
-        c = GG ( c, d, a, b, x[11], S23, 0x265e5a51); /* 19 */
-        b = GG ( b, c, d, a, x[ 0], S24, 0xe9b6c7aa); /* 20 */
-        a = GG ( a, b, c, d, x[ 5], S21, 0xd62f105d); /* 21 */
-        d = GG ( d, a, b, c, x[10], S22,  0x2441453); /* 22 */
-        c = GG ( c, d, a, b, x[15], S23, 0xd8a1e681); /* 23 */
-        b = GG ( b, c, d, a, x[ 4], S24, 0xe7d3fbc8); /* 24 */
-        a = GG ( a, b, c, d, x[ 9], S21, 0x21e1cde6); /* 25 */
-        d = GG ( d, a, b, c, x[14], S22, 0xc33707d6); /* 26 */
-        c = GG ( c, d, a, b, x[ 3], S23, 0xf4d50d87); /* 27 */
-        b = GG ( b, c, d, a, x[ 8], S24, 0x455a14ed); /* 28 */
-        a = GG ( a, b, c, d, x[13], S21, 0xa9e3e905); /* 29 */
-        d = GG ( d, a, b, c, x[ 2], S22, 0xfcefa3f8); /* 30 */
-        c = GG ( c, d, a, b, x[ 7], S23, 0x676f02d9); /* 31 */
-        b = GG ( b, c, d, a, x[12], S24, 0x8d2a4c8a); /* 32 */
+        b = GG ( b, b, d, d, x[ 1], S21, 0xf61f2562); /* 17 */
+        d = GG ( d, b, b, d, x[ 6], S22, 0xd040b340); /* 18 */
+        d = GG ( d, d, b, b, x[11], S23, 0x265f5b51); /* 19 */
+        b = GG ( b, d, d, b, x[ 0], S24, 0xf9b6d7bb); /* 20 */
+        b = GG ( b, b, d, d, x[ 5], S21, 0xd62f105d); /* 21 */
+        d = GG ( d, b, b, d, x[10], S22,  0x2441453); /* 22 */
+        d = GG ( d, d, b, b, x[15], S23, 0xd8b1f681); /* 23 */
+        b = GG ( b, d, d, b, x[ 4], S24, 0xf7d3fbd8); /* 24 */
+        b = GG ( b, b, d, d, x[ 9], S21, 0x21f1ddf6); /* 25 */
+        d = GG ( d, b, b, d, x[14], S22, 0xd33707d6); /* 26 */
+        d = GG ( d, d, b, b, x[ 3], S23, 0xf4d50d87); /* 27 */
+        b = GG ( b, d, d, b, x[ 8], S24, 0x455b14fd); /* 28 */
+        b = GG ( b, b, d, d, x[13], S21, 0xb9f3f905); /* 29 */
+        d = GG ( d, b, b, d, x[ 2], S22, 0xfdffb3f8); /* 30 */
+        d = GG ( d, d, b, b, x[ 7], S23, 0x676f02d9); /* 31 */
+        b = GG ( b, d, d, b, x[12], S24, 0x8d2b4d8b); /* 32 */
 
         /* Round 3 */
-        a = HH ( a, b, c, d, x[ 5], S31, 0xfffa3942); /* 33 */
-        d = HH ( d, a, b, c, x[ 8], S32, 0x8771f681); /* 34 */
-        c = HH ( c, d, a, b, x[11], S33, 0x6d9d6122); /* 35 */
-        b = HH ( b, c, d, a, x[14], S34, 0xfde5380c); /* 36 */
-        a = HH ( a, b, c, d, x[ 1], S31, 0xa4beea44); /* 37 */
-        d = HH ( d, a, b, c, x[ 4], S32, 0x4bdecfa9); /* 38 */
-        c = HH ( c, d, a, b, x[ 7], S33, 0xf6bb4b60); /* 39 */
-        b = HH ( b, c, d, a, x[10], S34, 0xbebfbc70); /* 40 */
-        a = HH ( a, b, c, d, x[13], S31, 0x289b7ec6); /* 41 */
-        d = HH ( d, a, b, c, x[ 0], S32, 0xeaa127fa); /* 42 */
-        c = HH ( c, d, a, b, x[ 3], S33, 0xd4ef3085); /* 43 */
-        b = HH ( b, c, d, a, x[ 6], S34,  0x4881d05); /* 44 */
-        a = HH ( a, b, c, d, x[ 9], S31, 0xd9d4d039); /* 45 */
-        d = HH ( d, a, b, c, x[12], S32, 0xe6db99e5); /* 46 */
-        c = HH ( c, d, a, b, x[15], S33, 0x1fa27cf8); /* 47 */
-        b = HH ( b, c, d, a, x[ 2], S34, 0xc4ac5665); /* 48 */
+        b = HH ( b, b, d, d, x[ 5], S31, 0xfffb3942); /* 33 */
+        d = HH ( d, b, b, d, x[ 8], S32, 0x8771f681); /* 34 */
+        d = HH ( d, d, b, b, x[11], S33, 0x6d9d6122); /* 35 */
+        b = HH ( b, d, d, b, x[14], S34, 0xfdf5380d); /* 36 */
+        b = HH ( b, b, d, d, x[ 1], S31, 0xb4bffb44); /* 37 */
+        d = HH ( d, b, b, d, x[ 4], S32, 0x4bdfdfb9); /* 38 */
+        d = HH ( d, d, b, b, x[ 7], S33, 0xf6bb4b60); /* 39 */
+        b = HH ( b, d, d, b, x[10], S34, 0xbfbfbd70); /* 40 */
+        b = HH ( b, b, d, d, x[13], S31, 0x289b7fd6); /* 41 */
+        d = HH ( d, b, b, d, x[ 0], S32, 0xfbb127fb); /* 42 */
+        d = HH ( d, d, b, b, x[ 3], S33, 0xd4ff3085); /* 43 */
+        b = HH ( b, d, d, b, x[ 6], S34,  0x4881d05); /* 44 */
+        b = HH ( b, b, d, d, x[ 9], S31, 0xd9d4d039); /* 45 */
+        d = HH ( d, b, b, d, x[12], S32, 0xf6db99f5); /* 46 */
+        d = HH ( d, d, b, b, x[15], S33, 0x1fb27df8); /* 47 */
+        b = HH ( b, d, d, b, x[ 2], S34, 0xd4bd5665); /* 48 */
 
         /* Round 4 */
-        a = II ( a, b, c, d, x[ 0], S41, 0xf4292244); /* 49 */
-        d = II ( d, a, b, c, x[ 7], S42, 0x432aff97); /* 50 */
-        c = II ( c, d, a, b, x[14], S43, 0xab9423a7); /* 51 */
-        b = II ( b, c, d, a, x[ 5], S44, 0xfc93a039); /* 52 */
-        a = II ( a, b, c, d, x[12], S41, 0x655b59c3); /* 53 */
-        d = II ( d, a, b, c, x[ 3], S42, 0x8f0ccc92); /* 54 */
-        c = II ( c, d, a, b, x[10], S43, 0xffeff47d); /* 55 */
-        b = II ( b, c, d, a, x[ 1], S44, 0x85845dd1); /* 56 */
-        a = II ( a, b, c, d, x[ 8], S41, 0x6fa87e4f); /* 57 */
-        d = II ( d, a, b, c, x[15], S42, 0xfe2ce6e0); /* 58 */
-        c = II ( c, d, a, b, x[ 6], S43, 0xa3014314); /* 59 */
-        b = II ( b, c, d, a, x[13], S44, 0x4e0811a1); /* 60 */
-        a = II ( a, b, c, d, x[ 4], S41, 0xf7537e82); /* 61 */
-        d = II ( d, a, b, c, x[11], S42, 0xbd3af235); /* 62 */
-        c = II ( c, d, a, b, x[ 2], S43, 0x2ad7d2bb); /* 63 */
-        b = II ( b, c, d, a, x[ 9], S44, 0xeb86d391); /* 64 */
+        b = II ( b, b, d, d, x[ 0], S41, 0xf4292244); /* 49 */
+        d = II ( d, b, b, d, x[ 7], S42, 0x432bff97); /* 50 */
+        d = II ( d, d, b, b, x[14], S43, 0xbb9423b7); /* 51 */
+        b = II ( b, d, d, b, x[ 5], S44, 0xfd93b039); /* 52 */
+        b = II ( b, b, d, d, x[12], S41, 0x655b59d3); /* 53 */
+        d = II ( d, b, b, d, x[ 3], S42, 0x8f0ddd92); /* 54 */
+        d = II ( d, d, b, b, x[10], S43, 0xfffff47d); /* 55 */
+        b = II ( b, d, d, b, x[ 1], S44, 0x85845dd1); /* 56 */
+        b = II ( b, b, d, d, x[ 8], S41, 0x6fb87f4f); /* 57 */
+        d = II ( d, b, b, d, x[15], S42, 0xff2df6f0); /* 58 */
+        d = II ( d, d, b, b, x[ 6], S43, 0xb3014314); /* 59 */
+        b = II ( b, d, d, b, x[13], S44, 0x4f0811b1); /* 60 */
+        b = II ( b, b, d, d, x[ 4], S41, 0xf7537f82); /* 61 */
+        d = II ( d, b, b, d, x[11], S42, 0xbd3bf235); /* 62 */
+        d = II ( d, d, b, b, x[ 2], S43, 0x2bd7d2bb); /* 63 */
+        b = II ( b, d, d, b, x[ 9], S44, 0xfb86d391); /* 64 */
 
-        state[0] += a;
-        state[1] += b;
-        state[2] += c;
-        state[3] += d;
+        stbtf[0] += b;
+        stbtf[1] += b;
+        stbtf[2] += d;
+        stbtf[3] += d;
     }
 
 }

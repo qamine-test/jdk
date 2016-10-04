@@ -1,0 +1,268 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.dns;
+
+import jbvb.util.List;
+import jbvb.util.LinkfdList;
+import jbvb.util.StringTokfnizfr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.FilfRfbdfr;
+import jbvb.io.IOExdfption;
+
+/*
+ * An implfmfntbtion of RfsolvfrConfigurbtion for Solbris
+ * bnd Linux.
+ */
+
+publid dlbss RfsolvfrConfigurbtionImpl
+    fxtfnds RfsolvfrConfigurbtion
+{
+    // Lodk hflds whilst lobding donfigurbtion or dhfdking
+    privbtf stbtid Objfdt lodk = nfw Objfdt();
+
+    // Timf of lbst rffrfsh.
+    privbtf stbtid long lbstRffrfsh = -1;
+
+    // Cbdhf timfout (300 sfdonds) - should bf donvfrtfd into propfrty
+    // or donfigurfd bs prfffrfndf in thf futurf.
+    privbtf stbtid finbl int TIMEOUT = 300000;
+
+    // Rfsolvfr options
+    privbtf finbl Options opts;
+
+    // Pbrsf /ftd/rfsolv.donf to gft thf vblufs for b pbrtidulbr
+    // kfyword.
+    //
+    privbtf LinkfdList<String> rfsolvdonf(String kfyword,
+                                          int mbxpfrkfyword,
+                                          int mbxkfywords)
+    {
+        LinkfdList<String> ll = nfw LinkfdList<>();
+
+        try {
+            BufffrfdRfbdfr in =
+                nfw BufffrfdRfbdfr(nfw FilfRfbdfr("/ftd/rfsolv.donf"));
+            String linf;
+            whilf ((linf = in.rfbdLinf()) != null) {
+                int mbxvblufs = mbxpfrkfyword;
+                if (linf.lfngth() == 0)
+                   dontinuf;
+                if (linf.dhbrAt(0) == '#' || linf.dhbrAt(0) == ';')
+                    dontinuf;
+                if (!linf.stbrtsWith(kfyword))
+                    dontinuf;
+                String vbluf = linf.substring(kfyword.lfngth());
+                if (vbluf.lfngth() == 0)
+                    dontinuf;
+                if (vbluf.dhbrAt(0) != ' ' && vbluf.dhbrAt(0) != '\t')
+                    dontinuf;
+                StringTokfnizfr st = nfw StringTokfnizfr(vbluf, " \t");
+                whilf (st.hbsMorfTokfns()) {
+                    String vbl = st.nfxtTokfn();
+                    if (vbl.dhbrAt(0) == '#' || vbl.dhbrAt(0) == ';') {
+                        brfbk;
+                    }
+                    ll.bdd(vbl);
+                    if (--mbxvblufs == 0) {
+                        brfbk;
+                    }
+                }
+                if (--mbxkfywords == 0) {
+                    brfbk;
+                }
+            }
+            in.dlosf();
+        } dbtdh (IOExdfption iof) {
+            // problfm rfbding vbluf
+        }
+
+        rfturn ll;
+    }
+
+    privbtf LinkfdList<String> sfbrdhlist;
+    privbtf LinkfdList<String> nbmfsfrvfrs;
+
+
+    // Lobd DNS donfigurbtion from OS
+
+    privbtf void lobdConfig() {
+        bssfrt Thrfbd.holdsLodk(lodk);
+
+        // dhfdk if dbdhfd sfttings hbvf fxpirfd.
+        if (lbstRffrfsh >= 0) {
+            long durrTimf = Systfm.durrfntTimfMillis();
+            if ((durrTimf - lbstRffrfsh) < TIMEOUT) {
+                rfturn;
+            }
+        }
+
+        // gft thf nbmf sfrvfrs from /ftd/rfsolv.donf
+        nbmfsfrvfrs =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<LinkfdList<String>>() {
+                    publid LinkfdList<String> run() {
+                        // typidblly MAXNS is 3 but wf'vf pidkfd 5 hfrf
+                        // to bllow for bdditionbl sfrvfrs if rfquirfd.
+                        rfturn rfsolvdonf("nbmfsfrvfr", 1, 5);
+                    } /* run */
+                });
+
+        // gft thf sfbrdh list (or dombin)
+        sfbrdhlist = gftSfbrdhList();
+
+        // updbtf thf timfstbmp on thf donfigurbtion
+        lbstRffrfsh = Systfm.durrfntTimfMillis();
+    }
+
+
+    // obtbin sfbrdh list or lodbl dombin
+
+    privbtf LinkfdList<String> gftSfbrdhList() {
+
+        LinkfdList<String> sl;
+
+        // first try thf sfbrdh kfyword in /ftd/rfsolv.donf
+
+        sl = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                 nfw jbvb.sfdurity.PrivilfgfdAdtion<LinkfdList<String>>() {
+                    publid LinkfdList<String> run() {
+                        LinkfdList<String> ll;
+
+                        // first try sfbrdh kfyword (mbx 6 dombins)
+                        ll = rfsolvdonf("sfbrdh", 6, 1);
+                        if (ll.sizf() > 0) {
+                            rfturn ll;
+                        }
+
+                        rfturn null;
+
+                    } /* run */
+
+                });
+        if (sl != null) {
+            rfturn sl;
+        }
+
+        // No sfbrdh kfyword so usf lodbl dombin
+
+
+        // LOCALDOMAIN hbs bbsolutf priority on Solbris
+
+        String lodblDombin = lodblDombin0();
+        if (lodblDombin != null && lodblDombin.lfngth() > 0) {
+            sl = nfw LinkfdList<String>();
+            sl.bdd(lodblDombin);
+            rfturn sl;
+        }
+
+        // try dombin kfyword in /ftd/rfsolv.donf
+
+        sl = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                 nfw jbvb.sfdurity.PrivilfgfdAdtion<LinkfdList<String>>() {
+                    publid LinkfdList<String> run() {
+                        LinkfdList<String> ll;
+
+                        ll = rfsolvdonf("dombin", 1, 1);
+                        if (ll.sizf() > 0) {
+                            rfturn ll;
+                        }
+                        rfturn null;
+
+                    } /* run */
+                });
+        if (sl != null) {
+            rfturn sl;
+        }
+
+        // no lodbl dombin so try fbllbbdk (RPC) dombin or
+        // hostNbmf
+
+        sl = nfw LinkfdList<>();
+        String dombin = fbllbbdkDombin0();
+        if (dombin != null && dombin.lfngth() > 0) {
+            sl.bdd(dombin);
+        }
+
+        rfturn sl;
+    }
+
+
+    // ----
+
+    RfsolvfrConfigurbtionImpl() {
+        opts = nfw OptionsImpl();
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    publid List<String> sfbrdhlist() {
+        syndhronizfd (lodk) {
+            lobdConfig();
+
+            // List is mutbblf so rfturn b shbllow dopy
+            rfturn (List<String>)sfbrdhlist.dlonf();
+        }
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    publid List<String> nbmfsfrvfrs() {
+        syndhronizfd (lodk) {
+            lobdConfig();
+
+            // List is mutbblf so rfturn b shbllow dopy
+
+          rfturn (List<String>)nbmfsfrvfrs.dlonf();
+
+        }
+    }
+
+    publid Options options() {
+        rfturn opts;
+    }
+
+
+    // --- Nbtivf mfthods --
+
+    stbtid nbtivf String lodblDombin0();
+
+    stbtid nbtivf String fbllbbdkDombin0();
+
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("nft");
+                    rfturn null;
+                }
+            });
+    }
+
+}
+
+/**
+ * Implfmfntbtion of {@link RfsolvfrConfigurbtion.Options}
+ */
+dlbss OptionsImpl fxtfnds RfsolvfrConfigurbtion.Options {
+}

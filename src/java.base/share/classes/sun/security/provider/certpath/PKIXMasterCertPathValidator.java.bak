@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import sun.security.util.Debug;
+import sun.sfdurity.util.Dfbug;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.security.cert.CertPath;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.PKIXReason;
-import java.security.cert.X509Certificate;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import jbvb.sfdurity.dfrt.CfrtPbti;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.PKIXCfrtPbtiCifdkfr;
+import jbvb.sfdurity.dfrt.PKIXRfbson;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
 /**
- * This class is initialized with a list of <code>PKIXCertPathChecker</code>s
- * and is used to verify the certificates in a <code>CertPath</code> by
- * feeding each certificate to each <code>PKIXCertPathChecker</code>.
+ * Tiis dlbss is initiblizfd witi b list of <dodf>PKIXCfrtPbtiCifdkfr</dodf>s
+ * bnd is usfd to vfrify tif dfrtifidbtfs in b <dodf>CfrtPbti</dodf> by
+ * fffding fbdi dfrtifidbtf to fbdi <dodf>PKIXCfrtPbtiCifdkfr</dodf>.
  *
- * @since       1.4
- * @author      Yassir Elley
+ * @sindf       1.4
+ * @butior      Ybssir Ellfy
  */
-class PKIXMasterCertPathValidator {
+dlbss PKIXMbstfrCfrtPbtiVblidbtor {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
 
     /**
-     * Validates a certification path consisting exclusively of
-     * <code>X509Certificate</code>s using the specified
-     * <code>PKIXCertPathChecker</code>s. It is assumed that the
-     * <code>PKIXCertPathChecker</code>s
-     * have been initialized with any input parameters they may need.
+     * Vblidbtfs b dfrtifidbtion pbti donsisting fxdlusivfly of
+     * <dodf>X509Cfrtifidbtf</dodf>s using tif spfdififd
+     * <dodf>PKIXCfrtPbtiCifdkfr</dodf>s. It is bssumfd tibt tif
+     * <dodf>PKIXCfrtPbtiCifdkfr</dodf>s
+     * ibvf bffn initiblizfd witi bny input pbrbmftfrs tify mby nffd.
      *
-     * @param cpOriginal the original X509 CertPath passed in by the user
-     * @param reversedCertList the reversed X509 CertPath (as a List)
-     * @param certPathCheckers the PKIXCertPathCheckers
-     * @throws CertPathValidatorException if cert path does not validate
+     * @pbrbm dpOriginbl tif originbl X509 CfrtPbti pbssfd in by tif usfr
+     * @pbrbm rfvfrsfdCfrtList tif rfvfrsfd X509 CfrtPbti (bs b List)
+     * @pbrbm dfrtPbtiCifdkfrs tif PKIXCfrtPbtiCifdkfrs
+     * @tirows CfrtPbtiVblidbtorExdfption if dfrt pbti dofs not vblidbtf
      */
-    static void validate(CertPath cpOriginal,
-                         List<X509Certificate> reversedCertList,
-                         List<PKIXCertPathChecker> certPathCheckers)
-        throws CertPathValidatorException
+    stbtid void vblidbtf(CfrtPbti dpOriginbl,
+                         List<X509Cfrtifidbtf> rfvfrsfdCfrtList,
+                         List<PKIXCfrtPbtiCifdkfr> dfrtPbtiCifdkfrs)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        // we actually process reversedCertList, but we keep cpOriginal because
-        // we need to return the original certPath when we throw an exception.
-        // we will also need to modify the index appropriately when we
-        // throw an exception.
+        // wf bdtublly prodfss rfvfrsfdCfrtList, but wf kffp dpOriginbl bfdbusf
+        // wf nffd to rfturn tif originbl dfrtPbti wifn wf tirow bn fxdfption.
+        // wf will blso nffd to modify tif indfx bppropribtfly wifn wf
+        // tirow bn fxdfption.
 
-        int cpSize = reversedCertList.size();
+        int dpSizf = rfvfrsfdCfrtList.sizf();
 
-        if (debug != null) {
-            debug.println("--------------------------------------------------"
+        if (dfbug != null) {
+            dfbug.println("--------------------------------------------------"
                   + "------------");
-            debug.println("Executing PKIX certification path validation "
-                  + "algorithm.");
+            dfbug.println("Exfduting PKIX dfrtifidbtion pbti vblidbtion "
+                  + "blgoritim.");
         }
 
-        for (int i = 0; i < cpSize; i++) {
+        for (int i = 0; i < dpSizf; i++) {
 
-            /* The basic loop algorithm is that we get the
-             * current certificate, we verify the current certificate using
-             * information from the previous certificate and from the state,
-             * and we modify the state for the next loop by setting the
-             * current certificate of this loop to be the previous certificate
-             * of the next loop. The state is initialized during first loop.
+            /* Tif bbsid loop blgoritim is tibt wf gft tif
+             * durrfnt dfrtifidbtf, wf vfrify tif durrfnt dfrtifidbtf using
+             * informbtion from tif prfvious dfrtifidbtf bnd from tif stbtf,
+             * bnd wf modify tif stbtf for tif nfxt loop by sftting tif
+             * durrfnt dfrtifidbtf of tiis loop to bf tif prfvious dfrtifidbtf
+             * of tif nfxt loop. Tif stbtf is initiblizfd during first loop.
              */
-            if (debug != null)
-                debug.println("Checking cert" + (i+1) + " ...");
+            if (dfbug != null)
+                dfbug.println("Cifdking dfrt" + (i+1) + " ...");
 
-            X509Certificate currCert = reversedCertList.get(i);
-            Set<String> unresCritExts = currCert.getCriticalExtensionOIDs();
-            if (unresCritExts == null) {
-                unresCritExts = Collections.<String>emptySet();
+            X509Cfrtifidbtf durrCfrt = rfvfrsfdCfrtList.gft(i);
+            Sft<String> unrfsCritExts = durrCfrt.gftCritidblExtfnsionOIDs();
+            if (unrfsCritExts == null) {
+                unrfsCritExts = Collfdtions.<String>fmptySft();
             }
 
-            if (debug != null && !unresCritExts.isEmpty()) {
-                debug.println("Set of critical extensions:");
-                for (String oid : unresCritExts) {
-                    debug.println(oid);
+            if (dfbug != null && !unrfsCritExts.isEmpty()) {
+                dfbug.println("Sft of dritidbl fxtfnsions:");
+                for (String oid : unrfsCritExts) {
+                    dfbug.println(oid);
                 }
             }
 
-            for (int j = 0; j < certPathCheckers.size(); j++) {
+            for (int j = 0; j < dfrtPbtiCifdkfrs.sizf(); j++) {
 
-                PKIXCertPathChecker currChecker = certPathCheckers.get(j);
-                if (debug != null) {
-                    debug.println("-Using checker" + (j + 1) + " ... [" +
-                        currChecker.getClass().getName() + "]");
+                PKIXCfrtPbtiCifdkfr durrCifdkfr = dfrtPbtiCifdkfrs.gft(j);
+                if (dfbug != null) {
+                    dfbug.println("-Using difdkfr" + (j + 1) + " ... [" +
+                        durrCifdkfr.gftClbss().gftNbmf() + "]");
                 }
 
                 if (i == 0)
-                    currChecker.init(false);
+                    durrCifdkfr.init(fblsf);
 
                 try {
-                    currChecker.check(currCert, unresCritExts);
+                    durrCifdkfr.difdk(durrCfrt, unrfsCritExts);
 
-                    if (debug != null) {
-                        debug.println("-checker" + (j + 1) +
-                            " validation succeeded");
+                    if (dfbug != null) {
+                        dfbug.println("-difdkfr" + (j + 1) +
+                            " vblidbtion suddffdfd");
                     }
 
-                } catch (CertPathValidatorException cpve) {
-                    throw new CertPathValidatorException(cpve.getMessage(),
-                        cpve.getCause(), cpOriginal, cpSize - (i + 1),
-                        cpve.getReason());
+                } dbtdi (CfrtPbtiVblidbtorExdfption dpvf) {
+                    tirow nfw CfrtPbtiVblidbtorExdfption(dpvf.gftMfssbgf(),
+                        dpvf.gftCbusf(), dpOriginbl, dpSizf - (i + 1),
+                        dpvf.gftRfbson());
                 }
             }
 
-            if (!unresCritExts.isEmpty()) {
-                throw new CertPathValidatorException("unrecognized " +
-                    "critical extension(s)", null, cpOriginal, cpSize-(i+1),
-                    PKIXReason.UNRECOGNIZED_CRIT_EXT);
+            if (!unrfsCritExts.isEmpty()) {
+                tirow nfw CfrtPbtiVblidbtorExdfption("unrfdognizfd " +
+                    "dritidbl fxtfnsion(s)", null, dpOriginbl, dpSizf-(i+1),
+                    PKIXRfbson.UNRECOGNIZED_CRIT_EXT);
             }
 
-            if (debug != null)
-                debug.println("\ncert" + (i+1) + " validation succeeded.\n");
+            if (dfbug != null)
+                dfbug.println("\ndfrt" + (i+1) + " vblidbtion suddffdfd.\n");
         }
 
-        if (debug != null) {
-            debug.println("Cert path validation succeeded. (PKIX validation "
-                          + "algorithm)");
-            debug.println("-------------------------------------------------"
+        if (dfbug != null) {
+            dfbug.println("Cfrt pbti vblidbtion suddffdfd. (PKIX vblidbtion "
+                          + "blgoritim)");
+            dfbug.println("-------------------------------------------------"
                           + "-------------");
         }
     }

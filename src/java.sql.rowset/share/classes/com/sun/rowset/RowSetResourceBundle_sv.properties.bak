@@ -1,170 +1,170 @@
 #
-# Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-# CacheRowSetImpl exceptions
-cachedrowsetimpl.populate = Ifyllningsmetoden fick ett ogiltigt ResultSet-objekt
-cachedrowsetimpl.invalidp = En ogiltig best\u00E4ndig leverant\u00F6r genererades
-cachedrowsetimpl.nullhash = Kan inte instansiera CachedRowSetImpl. Null-hashtabell skickades till konstruktor
-cachedrowsetimpl.invalidop = En ogiltig \u00E5tg\u00E4rd utf\u00F6rdes p\u00E5 infogad rad
-cachedrowsetimpl.accfailed = acceptChanges utf\u00F6rdes inte
-cachedrowsetimpl.invalidcp = Mark\u00F6rpositionen \u00E4r ogiltig
-cachedrowsetimpl.illegalop = En otill\u00E5ten \u00E5tg\u00E4rd utf\u00F6rdes p\u00E5 en icke infogad rad
-cachedrowsetimpl.clonefail = Kloningen utf\u00F6rdes inte: {0}
-cachedrowsetimpl.invalidcol = Kolumnindexet \u00E4r ogiltigt
-cachedrowsetimpl.invalcolnm = Kolumnnamnet \u00E4r ogiltigt
-cachedrowsetimpl.boolfail = getBoolen utf\u00F6rdes inte f\u00F6r v\u00E4rdet ({0}) i kolumnen {1}
-cachedrowsetimpl.bytefail = getByte utf\u00F6rdes inte f\u00F6r v\u00E4rdet ({0}) i kolumnen {1}
-cachedrowsetimpl.shortfail = getShort utf\u00F6rdes inte f\u00F6r v\u00E4rdet ({0}) i kolumnen {1}
-cachedrowsetimpl.intfail = getInt utf\u00F6rdes inte f\u00F6r v\u00E4rdet ({0}) i kolumnen {1}
-cachedrowsetimpl.longfail = getLong utf\u00F6rdes inte f\u00F6r v\u00E4rdet ({0}) i kolumnen {1}
-cachedrowsetimpl.floatfail = getFloat utf\u00F6rdes inte f\u00F6r v\u00E4rdet ({0}) i kolumnen {1}
-cachedrowsetimpl.doublefail = getDouble utf\u00F6rdes inte f\u00F6r v\u00E4rdet ({0}) i kolumnen {1}
-cachedrowsetimpl.dtypemismt = Inkompatibel datatyp 
-cachedrowsetimpl.datefail = getDate utf\u00F6rdes inte f\u00F6r v\u00E4rdet ({0}) i kolumnen {1}, ingen konvertering tillg\u00E4nglig
-cachedrowsetimpl.timefail = getTime utf\u00F6rdes inte f\u00F6r v\u00E4rdet ({0}) i kolumnen {1}, ingen konvertering tillg\u00E4nglig
-cachedrowsetimpl.posupdate = Det finns inte st\u00F6d f\u00F6r positionerad uppdatering
-cachedrowsetimpl.unableins = Kan inte instansiera {0}
-cachedrowsetimpl.beforefirst = beforeFirst: Ogiltig mark\u00F6r\u00E5tg\u00E4rd
-cachedrowsetimpl.first = First: Ogiltig mark\u00F6r\u00E5tg\u00E4rd
-cachedrowsetimpl.last = last: TYPE_FORWARD_ONLY
-cachedrowsetimpl.absolute = absolute: Mark\u00F6rpositionen \u00E4r ogiltig
-cachedrowsetimpl.relative = relative: Mark\u00F6rpositionen \u00E4r ogiltig
-cachedrowsetimpl.asciistream = kunde inte l\u00E4sa ASCII-str\u00F6mmen
-cachedrowsetimpl.binstream = kunde inte l\u00E4sa den bin\u00E4ra str\u00F6mmen
-cachedrowsetimpl.failedins = Kunde inte infoga rad
-cachedrowsetimpl.updateins = updateRow anropades fr\u00E5n infogad rad
-cachedrowsetimpl.movetoins = moveToInsertRow : CONCUR_READ_ONLY
-cachedrowsetimpl.movetoins1 = moveToInsertRow: inga metadata
-cachedrowsetimpl.movetoins2 = moveToInsertRow: ogiltigt antal kolumner
-cachedrowsetimpl.tablename = Tabellnamnet kan inte vara null
-cachedrowsetimpl.keycols = Ogiltiga nyckelkolumner
-cachedrowsetimpl.invalidcol = Kolumnindexet \u00E4r ogiltigt
-cachedrowsetimpl.opnotsupp = Databasen har inte st\u00F6d f\u00F6r denna \u00E5tg\u00E4rd
-cachedrowsetimpl.matchcols = Matchningskolumnerna \u00E4r inte samma som de som st\u00E4llts in
-cachedrowsetimpl.setmatchcols = St\u00E4ll in matchningskolumnerna innan du h\u00E4mtar dem
-cachedrowsetimpl.matchcols1 = Matchningskolumnerna m\u00E5ste vara st\u00F6rre \u00E4n 0
-cachedrowsetimpl.matchcols2 = Matchningskolumnerna m\u00E5ste vara tomma eller en null-str\u00E4ng
-cachedrowsetimpl.unsetmatch = Kolumnerna som \u00E5terst\u00E4lls \u00E4r inte samma som de som st\u00E4llts in
-cachedrowsetimpl.unsetmatch1 = Anv\u00E4nd kolumnnamn som argument f\u00F6r unsetMatchColumn
-cachedrowsetimpl.unsetmatch2 = Anv\u00E4nd kolumn-id som argument f\u00F6r unsetMatchColumn
-cachedrowsetimpl.numrows = Antalet rader understiger noll eller \u00E4r mindre \u00E4n h\u00E4mtningsstorleken
-cachedrowsetimpl.startpos = Startpositionen f\u00E5r inte vara negativ
-cachedrowsetimpl.nextpage = Fyll i data innan anrop 
-cachedrowsetimpl.pagesize = Sidstorleken f\u00E5r inte understiga noll
-cachedrowsetimpl.pagesize1 = Sidstorleken f\u00E5r inte \u00F6verstiga maxRows
-cachedrowsetimpl.fwdonly = ResultSet kan endast g\u00E5 fram\u00E5t
-cachedrowsetimpl.type = Typ: {0}
-cachedrowsetimpl.opnotysupp = Det finns \u00E4nnu inget st\u00F6d f\u00F6r denna \u00E5tg\u00E4rd
-cachedrowsetimpl.featnotsupp = Det finns inget st\u00F6d f\u00F6r denna funktion
+# CbdifRowSftImpl fxdfptions
+dbdifdrowsftimpl.populbtf = Ifyllningsmftodfn fidk ftt ogiltigt RfsultSft-objfkt
+dbdifdrowsftimpl.invblidp = En ogiltig bfst\u00E4ndig lfvfrbnt\u00F6r gfnfrfrbdfs
+dbdifdrowsftimpl.nullibsi = Kbn intf instbnsifrb CbdifdRowSftImpl. Null-ibsitbbfll skidkbdfs till konstruktor
+dbdifdrowsftimpl.invblidop = En ogiltig \u00E5tg\u00E4rd utf\u00F6rdfs p\u00E5 infogbd rbd
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs utf\u00F6rdfs intf
+dbdifdrowsftimpl.invbliddp = Mbrk\u00F6rpositionfn \u00E4r ogiltig
+dbdifdrowsftimpl.illfgblop = En otill\u00E5tfn \u00E5tg\u00E4rd utf\u00F6rdfs p\u00E5 fn idkf infogbd rbd
+dbdifdrowsftimpl.dlonffbil = Kloningfn utf\u00F6rdfs intf: {0}
+dbdifdrowsftimpl.invbliddol = Kolumnindfxft \u00E4r ogiltigt
+dbdifdrowsftimpl.invbldolnm = Kolumnnbmnft \u00E4r ogiltigt
+dbdifdrowsftimpl.boolfbil = gftBoolfn utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdifdrowsftimpl.bytffbil = gftBytf utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdifdrowsftimpl.siortfbil = gftSiort utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdifdrowsftimpl.intfbil = gftInt utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdifdrowsftimpl.longfbil = gftLong utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdifdrowsftimpl.flobtfbil = gftFlobt utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdifdrowsftimpl.doublffbil = gftDoublf utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdifdrowsftimpl.dtypfmismt = Inkompbtibfl dbtbtyp 
+dbdifdrowsftimpl.dbtffbil = gftDbtf utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}, ingfn konvfrtfring tillg\u00E4nglig
+dbdifdrowsftimpl.timffbil = gftTimf utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}, ingfn konvfrtfring tillg\u00E4nglig
+dbdifdrowsftimpl.posupdbtf = Dft finns intf st\u00F6d f\u00F6r positionfrbd uppdbtfring
+dbdifdrowsftimpl.unbblfins = Kbn intf instbnsifrb {0}
+dbdifdrowsftimpl.bfforffirst = bfforfFirst: Ogiltig mbrk\u00F6r\u00E5tg\u00E4rd
+dbdifdrowsftimpl.first = First: Ogiltig mbrk\u00F6r\u00E5tg\u00E4rd
+dbdifdrowsftimpl.lbst = lbst: TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.bbsolutf = bbsolutf: Mbrk\u00F6rpositionfn \u00E4r ogiltig
+dbdifdrowsftimpl.rflbtivf = rflbtivf: Mbrk\u00F6rpositionfn \u00E4r ogiltig
+dbdifdrowsftimpl.bsdiistrfbm = kundf intf l\u00E4sb ASCII-str\u00F6mmfn
+dbdifdrowsftimpl.binstrfbm = kundf intf l\u00E4sb dfn bin\u00E4rb str\u00F6mmfn
+dbdifdrowsftimpl.fbilfdins = Kundf intf infogb rbd
+dbdifdrowsftimpl.updbtfins = updbtfRow bnropbdfs fr\u00E5n infogbd rbd
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow : CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: ingb mftbdbtb
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: ogiltigt bntbl kolumnfr
+dbdifdrowsftimpl.tbblfnbmf = Tbbfllnbmnft kbn intf vbrb null
+dbdifdrowsftimpl.kfydols = Ogiltigb nydkflkolumnfr
+dbdifdrowsftimpl.invbliddol = Kolumnindfxft \u00E4r ogiltigt
+dbdifdrowsftimpl.opnotsupp = Dbtbbbsfn ibr intf st\u00F6d f\u00F6r dfnnb \u00E5tg\u00E4rd
+dbdifdrowsftimpl.mbtdidols = Mbtdiningskolumnfrnb \u00E4r intf sbmmb som df som st\u00E4llts in
+dbdifdrowsftimpl.sftmbtdidols = St\u00E4ll in mbtdiningskolumnfrnb innbn du i\u00E4mtbr dfm
+dbdifdrowsftimpl.mbtdidols1 = Mbtdiningskolumnfrnb m\u00E5stf vbrb st\u00F6rrf \u00E4n 0
+dbdifdrowsftimpl.mbtdidols2 = Mbtdiningskolumnfrnb m\u00E5stf vbrb tommb fllfr fn null-str\u00E4ng
+dbdifdrowsftimpl.unsftmbtdi = Kolumnfrnb som \u00E5tfrst\u00E4lls \u00E4r intf sbmmb som df som st\u00E4llts in
+dbdifdrowsftimpl.unsftmbtdi1 = Anv\u00E4nd kolumnnbmn som brgumfnt f\u00F6r unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi2 = Anv\u00E4nd kolumn-id som brgumfnt f\u00F6r unsftMbtdiColumn
+dbdifdrowsftimpl.numrows = Antblft rbdfr undfrstigfr noll fllfr \u00E4r mindrf \u00E4n i\u00E4mtningsstorlfkfn
+dbdifdrowsftimpl.stbrtpos = Stbrtpositionfn f\u00E5r intf vbrb nfgbtiv
+dbdifdrowsftimpl.nfxtpbgf = Fyll i dbtb innbn bnrop 
+dbdifdrowsftimpl.pbgfsizf = Sidstorlfkfn f\u00E5r intf undfrstigb noll
+dbdifdrowsftimpl.pbgfsizf1 = Sidstorlfkfn f\u00E5r intf \u00F6vfrstigb mbxRows
+dbdifdrowsftimpl.fwdonly = RfsultSft kbn fndbst g\u00E5 frbm\u00E5t
+dbdifdrowsftimpl.typf = Typ: {0}
+dbdifdrowsftimpl.opnotysupp = Dft finns \u00E4nnu ingft st\u00F6d f\u00F6r dfnnb \u00E5tg\u00E4rd
+dbdifdrowsftimpl.ffbtnotsupp = Dft finns ingft st\u00F6d f\u00F6r dfnnb funktion
 
-# WebRowSetImpl exceptions
-webrowsetimpl.nullhash = Kan inte instansiera WebRowSetImpl. Null-hashtabell skickades till konstruktor.
-webrowsetimpl.invalidwr = Ogiltig f\u00F6rfattare
-webrowsetimpl.invalidrd = Ogiltig l\u00E4sare
+# WfbRowSftImpl fxdfptions
+wfbrowsftimpl.nullibsi = Kbn intf instbnsifrb WfbRowSftImpl. Null-ibsitbbfll skidkbdfs till konstruktor.
+wfbrowsftimpl.invblidwr = Ogiltig f\u00F6rfbttbrf
+wfbrowsftimpl.invblidrd = Ogiltig l\u00E4sbrf
 
-#FilteredRowSetImpl exceptions
-filteredrowsetimpl.relative = relative: Ogiltig mark\u00F6r\u00E5tg\u00E4rd 
-filteredrowsetimpl.absolute = absolute: Ogiltig mark\u00F6r\u00E5tg\u00E4rd
-filteredrowsetimpl.notallowed = Detta v\u00E4rde kommer att filtreras bort
+#FiltfrfdRowSftImpl fxdfptions
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: Ogiltig mbrk\u00F6r\u00E5tg\u00E4rd 
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: Ogiltig mbrk\u00F6r\u00E5tg\u00E4rd
+filtfrfdrowsftimpl.notbllowfd = Dfttb v\u00E4rdf kommfr btt filtrfrbs bort
 
-#JoinRowSetImpl exceptions
-joinrowsetimpl.notinstance = Detta \u00E4r inte en instans av radupps\u00E4ttning
-joinrowsetimpl.matchnotset = Matchningskolumnen \u00E4r inte inst\u00E4lld p\u00E5 koppling
-joinrowsetimpl.numnotequal = Antal objekt i radupps\u00E4ttning st\u00E4mmer inte med matchningskolumnens
-joinrowsetimpl.notdefined = Detta \u00E4r inte n\u00E5gon definierad kopplingstyp
-joinrowsetimpl.notsupported = Det finns inget st\u00F6d f\u00F6r denna kopplingstyp
-joinrowsetimpl.initerror = Initieringsfel f\u00F6r JoinRowSet
-joinrowsetimpl.genericerr = Allm\u00E4nt initieringsfel f\u00F6r JoinRowSet
-joinrowsetimpl.emptyrowset = Tomma radupps\u00E4ttningar kan inte l\u00E4ggas till i denna JoinRowSet
+#JoinRowSftImpl fxdfptions
+joinrowsftimpl.notinstbndf = Dfttb \u00E4r intf fn instbns bv rbdupps\u00E4ttning
+joinrowsftimpl.mbtdinotsft = Mbtdiningskolumnfn \u00E4r intf inst\u00E4lld p\u00E5 koppling
+joinrowsftimpl.numnotfqubl = Antbl objfkt i rbdupps\u00E4ttning st\u00E4mmfr intf mfd mbtdiningskolumnfns
+joinrowsftimpl.notdffinfd = Dfttb \u00E4r intf n\u00E5gon dffinifrbd kopplingstyp
+joinrowsftimpl.notsupportfd = Dft finns ingft st\u00F6d f\u00F6r dfnnb kopplingstyp
+joinrowsftimpl.initfrror = Initifringsffl f\u00F6r JoinRowSft
+joinrowsftimpl.gfnfridfrr = Allm\u00E4nt initifringsffl f\u00F6r JoinRowSft
+joinrowsftimpl.fmptyrowsft = Tommb rbdupps\u00E4ttningbr kbn intf l\u00E4ggbs till i dfnnb JoinRowSft
 
-#JdbcRowSetImpl exceptions
-jdbcrowsetimpl.invalstate = Ogiltig status
-jdbcrowsetimpl.connect = JdbcRowSet (anslut) JNDI kan inte anslutas
-jdbcrowsetimpl.paramtype = Kan inte h\u00E4rleda parametertypen
-jdbcrowsetimpl.matchcols = Matchningskolumnerna \u00E4r inte samma som de som st\u00E4llts in
-jdbcrowsetimpl.setmatchcols = St\u00E4ll in matchningskolumnerna innan du h\u00E4mtar dem
-jdbcrowsetimpl.matchcols1 = Matchningskolumnerna m\u00E5ste vara st\u00F6rre \u00E4n 0
-jdbcrowsetimpl.matchcols2 = Matchningskolumnerna kan inte vara en null-str\u00E4ng eller tomma
-jdbcrowsetimpl.unsetmatch = Kolumnerna som \u00E5terst\u00E4lls \u00E4r inte samma som de som st\u00E4llts in
-jdbcrowsetimpl.usecolname = Anv\u00E4nd kolumnnamn som argument f\u00F6r unsetMatchColumn
-jdbcrowsetimpl.usecolid = Anv\u00E4nd kolumn-id som argument f\u00F6r unsetMatchColumn
-jdbcrowsetimpl.resnotupd = ResultSet \u00E4r inte uppdateringsbart
-jdbcrowsetimpl.opnotysupp = Det finns \u00E4nnu inget st\u00F6d f\u00F6r denna \u00E5tg\u00E4rd
-jdbcrowsetimpl.featnotsupp = Det finns inget st\u00F6d f\u00F6r denna funktion
+#JdbdRowSftImpl fxdfptions
+jdbdrowsftimpl.invblstbtf = Ogiltig stbtus
+jdbdrowsftimpl.donnfdt = JdbdRowSft (bnslut) JNDI kbn intf bnslutbs
+jdbdrowsftimpl.pbrbmtypf = Kbn intf i\u00E4rlfdb pbrbmftfrtypfn
+jdbdrowsftimpl.mbtdidols = Mbtdiningskolumnfrnb \u00E4r intf sbmmb som df som st\u00E4llts in
+jdbdrowsftimpl.sftmbtdidols = St\u00E4ll in mbtdiningskolumnfrnb innbn du i\u00E4mtbr dfm
+jdbdrowsftimpl.mbtdidols1 = Mbtdiningskolumnfrnb m\u00E5stf vbrb st\u00F6rrf \u00E4n 0
+jdbdrowsftimpl.mbtdidols2 = Mbtdiningskolumnfrnb kbn intf vbrb fn null-str\u00E4ng fllfr tommb
+jdbdrowsftimpl.unsftmbtdi = Kolumnfrnb som \u00E5tfrst\u00E4lls \u00E4r intf sbmmb som df som st\u00E4llts in
+jdbdrowsftimpl.usfdolnbmf = Anv\u00E4nd kolumnnbmn som brgumfnt f\u00F6r unsftMbtdiColumn
+jdbdrowsftimpl.usfdolid = Anv\u00E4nd kolumn-id som brgumfnt f\u00F6r unsftMbtdiColumn
+jdbdrowsftimpl.rfsnotupd = RfsultSft \u00E4r intf uppdbtfringsbbrt
+jdbdrowsftimpl.opnotysupp = Dft finns \u00E4nnu ingft st\u00F6d f\u00F6r dfnnb \u00E5tg\u00E4rd
+jdbdrowsftimpl.ffbtnotsupp = Dft finns ingft st\u00F6d f\u00F6r dfnnb funktion
 
-#CachedRowSetReader exceptions
-crsreader.connect = (JNDI) kan inte anslutas
-crsreader.paramtype = Kan inte h\u00E4rleda parametertypen
-crsreader.connecterr = Internt fel i RowSetReader: ingen anslutning eller inget kommando
-crsreader.datedetected = Ett datum har identifierats
-crsreader.caldetected = En kalender har identifierats
+#CbdifdRowSftRfbdfr fxdfptions
+drsrfbdfr.donnfdt = (JNDI) kbn intf bnslutbs
+drsrfbdfr.pbrbmtypf = Kbn intf i\u00E4rlfdb pbrbmftfrtypfn
+drsrfbdfr.donnfdtfrr = Intfrnt ffl i RowSftRfbdfr: ingfn bnslutning fllfr ingft kommbndo
+drsrfbdfr.dbtfdftfdtfd = Ett dbtum ibr idfntififrbts
+drsrfbdfr.dbldftfdtfd = En kblfndfr ibr idfntififrbts
 
-#CachedRowSetWriter exceptions
-crswriter.connect = Kan inte uppr\u00E4tta n\u00E5gon anslutning
-crswriter.tname = writeData kan inte fastst\u00E4lla tabellnamnet
-crswriter.params1 = Parameterv\u00E4rde1: {0} 
-crswriter.params2 = Parameterv\u00E4rde2: {0} 
-crswriter.conflictsno =  orsakar konflikt vid synkronisering 
+#CbdifdRowSftWritfr fxdfptions
+drswritfr.donnfdt = Kbn intf uppr\u00E4ttb n\u00E5gon bnslutning
+drswritfr.tnbmf = writfDbtb kbn intf fbstst\u00E4llb tbbfllnbmnft
+drswritfr.pbrbms1 = Pbrbmftfrv\u00E4rdf1: {0} 
+drswritfr.pbrbms2 = Pbrbmftfrv\u00E4rdf2: {0} 
+drswritfr.donflidtsno =  orsbkbr konflikt vid synkronisfring 
 
-#InsertRow exceptions
-insertrow.novalue = Inget v\u00E4rde har infogats
+#InsfrtRow fxdfptions
+insfrtrow.novbluf = Ingft v\u00E4rdf ibr infogbts
 
-#SyncResolverImpl exceptions
-syncrsimpl.indexval = Indexv\u00E4rdet ligger utanf\u00F6r intervallet  
-syncrsimpl.noconflict = Kolumnen orsakar ingen konflikt
-syncrsimpl.syncnotpos = Synkronisering \u00E4r inte m\u00F6jlig
-syncrsimpl.valtores = V\u00E4rdet som ska fastst\u00E4llas kan antingen finnas i databasen eller i cachedrowset
+#SyndRfsolvfrImpl fxdfptions
+syndrsimpl.indfxvbl = Indfxv\u00E4rdft liggfr utbnf\u00F6r intfrvbllft  
+syndrsimpl.nodonflidt = Kolumnfn orsbkbr ingfn konflikt
+syndrsimpl.syndnotpos = Synkronisfring \u00E4r intf m\u00F6jlig
+syndrsimpl.vbltorfs = V\u00E4rdft som skb fbstst\u00E4llbs kbn bntingfn finnbs i dbtbbbsfn fllfr i dbdifdrowsft
 
-#WebRowSetXmlReader exception
-wrsxmlreader.invalidcp = Slutet p\u00E5 RowSet har n\u00E5tts. Mark\u00F6rpositionen \u00E4r ogiltig.
-wrsxmlreader.readxml = readXML: {0}
-wrsxmlreader.parseerr = ** Tolkningsfel: {0}, rad: {1}, URI: {2}
+#WfbRowSftXmlRfbdfr fxdfption
+wrsxmlrfbdfr.invbliddp = Slutft p\u00E5 RowSft ibr n\u00E5tts. Mbrk\u00F6rpositionfn \u00E4r ogiltig.
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.pbrsffrr = ** Tolkningsffl: {0}, rbd: {1}, URI: {2}
 
-#WebRowSetXmlWriter exceptions
-wrsxmlwriter.ioex = IOException: {0}
-wrsxmlwriter.sqlex = SQLException: {0}
-wrsxmlwriter.failedwrite = Kunde inte skriva v\u00E4rdet
-wsrxmlwriter.notproper = Ingen riktig typ
+#WfbRowSftXmlWritfr fxdfptions
+wrsxmlwritfr.iofx = IOExdfption: {0}
+wrsxmlwritfr.sqlfx = SQLExdfption: {0}
+wrsxmlwritfr.fbilfdwritf = Kundf intf skrivb v\u00E4rdft
+wsrxmlwritfr.notpropfr = Ingfn riktig typ
 
-#XmlReaderContentHandler exceptions
-xmlrch.errmap = Fel uppstod vid inst\u00E4llning av mappning: {0}
-xmlrch.errmetadata = Fel uppstod vid inst\u00E4llning av metadata: {0}
-xmlrch.errinsertval = Fel uppstod vid infogning av v\u00E4rden: {0}
-xmlrch.errconstr = Fel uppstod vid konstruktion av rad: {0}
-xmlrch.errdel = Fel uppstod vid borttagning av rad: {0}
-xmlrch.errinsert = Fel uppstod vid konstruktion av infogad rad: {0}
-xmlrch.errinsdel = Fel uppstod vid konstruktion av insdel-rad: {0}
-xmlrch.errupdate = Fel uppstod vid konstruktion av uppdateringsrad: {0}
-xmlrch.errupdrow = Fel uppstod vid uppdatering av rad: {0}
-xmlrch.chars = tecken:
-xmlrch.badvalue = Felaktigt v\u00E4rde; egenskapen kan inte ha ett tomt v\u00E4rde
-xmlrch.badvalue1 = Felaktigt v\u00E4rde; metadatan kan inte ha ett tomt v\u00E4rde
-xmlrch.warning =  ** Varning! {0}, rad: {1}, URI: {2}
+#XmlRfbdfrContfntHbndlfr fxdfptions
+xmlrdi.frrmbp = Ffl uppstod vid inst\u00E4llning bv mbppning: {0}
+xmlrdi.frrmftbdbtb = Ffl uppstod vid inst\u00E4llning bv mftbdbtb: {0}
+xmlrdi.frrinsfrtvbl = Ffl uppstod vid infogning bv v\u00E4rdfn: {0}
+xmlrdi.frrdonstr = Ffl uppstod vid konstruktion bv rbd: {0}
+xmlrdi.frrdfl = Ffl uppstod vid borttbgning bv rbd: {0}
+xmlrdi.frrinsfrt = Ffl uppstod vid konstruktion bv infogbd rbd: {0}
+xmlrdi.frrinsdfl = Ffl uppstod vid konstruktion bv insdfl-rbd: {0}
+xmlrdi.frrupdbtf = Ffl uppstod vid konstruktion bv uppdbtfringsrbd: {0}
+xmlrdi.frrupdrow = Ffl uppstod vid uppdbtfring bv rbd: {0}
+xmlrdi.dibrs = tfdkfn:
+xmlrdi.bbdvbluf = Fflbktigt v\u00E4rdf; fgfnskbpfn kbn intf ib ftt tomt v\u00E4rdf
+xmlrdi.bbdvbluf1 = Fflbktigt v\u00E4rdf; mftbdbtbn kbn intf ib ftt tomt v\u00E4rdf
+xmlrdi.wbrning =  ** Vbrning! {0}, rbd: {1}, URI: {2}
 
-#RIOptimisticProvider Exceptions
-riop.locking = Det finns inte st\u00F6d f\u00F6r denna l\u00E5sningsklassificering
+#RIOptimistidProvidfr Exdfptions
+riop.lodking = Dft finns intf st\u00F6d f\u00F6r dfnnb l\u00E5sningsklbssifidfring
 
-#RIXMLProvider exceptions
-rixml.unsupp = RIXMLProvider har inte st\u00F6d f\u00F6r detta
+#RIXMLProvidfr fxdfptions
+rixml.unsupp = RIXMLProvidfr ibr intf st\u00F6d f\u00F6r dfttb

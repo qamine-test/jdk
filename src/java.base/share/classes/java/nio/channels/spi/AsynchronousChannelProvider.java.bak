@@ -1,245 +1,245 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels.spi;
+pbdkbgf jbvb.nio.dibnnfls.spi;
 
-import java.nio.channels.*;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
-import java.util.concurrent.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.nio.dibnnfls.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.Itfrbtor;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
+import jbvb.util.dondurrfnt.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * Service-provider class for asynchronous channels.
+ * Sfrvidf-providfr dlbss for bsyndironous dibnnfls.
  *
- * <p> An asynchronous channel provider is a concrete subclass of this class that
- * has a zero-argument constructor and implements the abstract methods specified
- * below.  A given invocation of the Java virtual machine maintains a single
- * system-wide default provider instance, which is returned by the {@link
- * #provider() provider} method.  The first invocation of that method will locate
- * the default provider as specified below.
+ * <p> An bsyndironous dibnnfl providfr is b dondrftf subdlbss of tiis dlbss tibt
+ * ibs b zfro-brgumfnt donstrudtor bnd implfmfnts tif bbstrbdt mftiods spfdififd
+ * bflow.  A givfn invodbtion of tif Jbvb virtubl mbdiinf mbintbins b singlf
+ * systfm-widf dffbult providfr instbndf, wiidi is rfturnfd by tif {@link
+ * #providfr() providfr} mftiod.  Tif first invodbtion of tibt mftiod will lodbtf
+ * tif dffbult providfr bs spfdififd bflow.
  *
- * <p> All of the methods in this class are safe for use by multiple concurrent
- * threads.  </p>
+ * <p> All of tif mftiods in tiis dlbss brf sbff for usf by multiplf dondurrfnt
+ * tirfbds.  </p>
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public abstract class AsynchronousChannelProvider {
-    private static Void checkPermission() {
-        SecurityManager sm = System.getSecurityManager();
+publid bbstrbdt dlbss AsyndironousCibnnflProvidfr {
+    privbtf stbtid Void difdkPfrmission() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null)
-            sm.checkPermission(new RuntimePermission("asynchronousChannelProvider"));
-        return null;
+            sm.difdkPfrmission(nfw RuntimfPfrmission("bsyndironousCibnnflProvidfr"));
+        rfturn null;
     }
-    private AsynchronousChannelProvider(Void ignore) { }
+    privbtf AsyndironousCibnnflProvidfr(Void ignorf) { }
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link RuntimePermission}<tt>("asynchronousChannelProvider")</tt>
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}<tt>("bsyndironousCibnnflProvidfr")</tt>
      */
-    protected AsynchronousChannelProvider() {
-        this(checkPermission());
+    protfdtfd AsyndironousCibnnflProvidfr() {
+        tiis(difdkPfrmission());
     }
 
-    // lazy initialization of default provider
-    private static class ProviderHolder {
-        static final AsynchronousChannelProvider provider = load();
+    // lbzy initiblizbtion of dffbult providfr
+    privbtf stbtid dlbss ProvidfrHoldfr {
+        stbtid finbl AsyndironousCibnnflProvidfr providfr = lobd();
 
-        private static AsynchronousChannelProvider load() {
-            return AccessController
-                .doPrivileged(new PrivilegedAction<AsynchronousChannelProvider>() {
-                    public AsynchronousChannelProvider run() {
-                        AsynchronousChannelProvider p;
-                        p = loadProviderFromProperty();
+        privbtf stbtid AsyndironousCibnnflProvidfr lobd() {
+            rfturn AddfssControllfr
+                .doPrivilfgfd(nfw PrivilfgfdAdtion<AsyndironousCibnnflProvidfr>() {
+                    publid AsyndironousCibnnflProvidfr run() {
+                        AsyndironousCibnnflProvidfr p;
+                        p = lobdProvidfrFromPropfrty();
                         if (p != null)
-                            return p;
-                        p = loadProviderAsService();
+                            rfturn p;
+                        p = lobdProvidfrAsSfrvidf();
                         if (p != null)
-                            return p;
-                        return sun.nio.ch.DefaultAsynchronousChannelProvider.create();
+                            rfturn p;
+                        rfturn sun.nio.di.DffbultAsyndironousCibnnflProvidfr.drfbtf();
                     }});
         }
 
-        private static AsynchronousChannelProvider loadProviderFromProperty() {
-            String cn = System.getProperty("java.nio.channels.spi.AsynchronousChannelProvider");
-            if (cn == null)
-                return null;
+        privbtf stbtid AsyndironousCibnnflProvidfr lobdProvidfrFromPropfrty() {
+            String dn = Systfm.gftPropfrty("jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr");
+            if (dn == null)
+                rfturn null;
             try {
-                Class<?> c = Class.forName(cn, true,
-                                           ClassLoader.getSystemClassLoader());
-                return (AsynchronousChannelProvider)c.newInstance();
-            } catch (ClassNotFoundException x) {
-                throw new ServiceConfigurationError(null, x);
-            } catch (IllegalAccessException x) {
-                throw new ServiceConfigurationError(null, x);
-            } catch (InstantiationException x) {
-                throw new ServiceConfigurationError(null, x);
-            } catch (SecurityException x) {
-                throw new ServiceConfigurationError(null, x);
+                Clbss<?> d = Clbss.forNbmf(dn, truf,
+                                           ClbssLobdfr.gftSystfmClbssLobdfr());
+                rfturn (AsyndironousCibnnflProvidfr)d.nfwInstbndf();
+            } dbtdi (ClbssNotFoundExdfption x) {
+                tirow nfw SfrvidfConfigurbtionError(null, x);
+            } dbtdi (IllfgblAddfssExdfption x) {
+                tirow nfw SfrvidfConfigurbtionError(null, x);
+            } dbtdi (InstbntibtionExdfption x) {
+                tirow nfw SfrvidfConfigurbtionError(null, x);
+            } dbtdi (SfdurityExdfption x) {
+                tirow nfw SfrvidfConfigurbtionError(null, x);
             }
         }
 
-        private static AsynchronousChannelProvider loadProviderAsService() {
-            ServiceLoader<AsynchronousChannelProvider> sl =
-                ServiceLoader.load(AsynchronousChannelProvider.class,
-                                   ClassLoader.getSystemClassLoader());
-            Iterator<AsynchronousChannelProvider> i = sl.iterator();
+        privbtf stbtid AsyndironousCibnnflProvidfr lobdProvidfrAsSfrvidf() {
+            SfrvidfLobdfr<AsyndironousCibnnflProvidfr> sl =
+                SfrvidfLobdfr.lobd(AsyndironousCibnnflProvidfr.dlbss,
+                                   ClbssLobdfr.gftSystfmClbssLobdfr());
+            Itfrbtor<AsyndironousCibnnflProvidfr> i = sl.itfrbtor();
             for (;;) {
                 try {
-                    return (i.hasNext()) ? i.next() : null;
-                } catch (ServiceConfigurationError sce) {
-                    if (sce.getCause() instanceof SecurityException) {
-                        // Ignore the security exception, try the next provider
-                        continue;
+                    rfturn (i.ibsNfxt()) ? i.nfxt() : null;
+                } dbtdi (SfrvidfConfigurbtionError sdf) {
+                    if (sdf.gftCbusf() instbndfof SfdurityExdfption) {
+                        // Ignorf tif sfdurity fxdfption, try tif nfxt providfr
+                        dontinuf;
                     }
-                    throw sce;
+                    tirow sdf;
                 }
             }
         }
     }
 
     /**
-     * Returns the system-wide default asynchronous channel provider for this
-     * invocation of the Java virtual machine.
+     * Rfturns tif systfm-widf dffbult bsyndironous dibnnfl providfr for tiis
+     * invodbtion of tif Jbvb virtubl mbdiinf.
      *
-     * <p> The first invocation of this method locates the default provider
-     * object as follows: </p>
+     * <p> Tif first invodbtion of tiis mftiod lodbtfs tif dffbult providfr
+     * objfdt bs follows: </p>
      *
      * <ol>
      *
-     *   <li><p> If the system property
-     *   <tt>java.nio.channels.spi.AsynchronousChannelProvider</tt> is defined
-     *   then it is taken to be the fully-qualified name of a concrete provider class.
-     *   The class is loaded and instantiated; if this process fails then an
-     *   unspecified error is thrown.  </p></li>
+     *   <li><p> If tif systfm propfrty
+     *   <tt>jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr</tt> is dffinfd
+     *   tifn it is tbkfn to bf tif fully-qublififd nbmf of b dondrftf providfr dlbss.
+     *   Tif dlbss is lobdfd bnd instbntibtfd; if tiis prodfss fbils tifn bn
+     *   unspfdififd frror is tirown.  </p></li>
      *
-     *   <li><p> If a provider class has been installed in a jar file that is
-     *   visible to the system class loader, and that jar file contains a
-     *   provider-configuration file named
-     *   <tt>java.nio.channels.spi.AsynchronousChannelProvider</tt> in the resource
-     *   directory <tt>META-INF/services</tt>, then the first class name
-     *   specified in that file is taken.  The class is loaded and
-     *   instantiated; if this process fails then an unspecified error is
-     *   thrown.  </p></li>
+     *   <li><p> If b providfr dlbss ibs bffn instbllfd in b jbr filf tibt is
+     *   visiblf to tif systfm dlbss lobdfr, bnd tibt jbr filf dontbins b
+     *   providfr-donfigurbtion filf nbmfd
+     *   <tt>jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr</tt> in tif rfsourdf
+     *   dirfdtory <tt>META-INF/sfrvidfs</tt>, tifn tif first dlbss nbmf
+     *   spfdififd in tibt filf is tbkfn.  Tif dlbss is lobdfd bnd
+     *   instbntibtfd; if tiis prodfss fbils tifn bn unspfdififd frror is
+     *   tirown.  </p></li>
      *
-     *   <li><p> Finally, if no provider has been specified by any of the above
-     *   means then the system-default provider class is instantiated and the
-     *   result is returned.  </p></li>
+     *   <li><p> Finblly, if no providfr ibs bffn spfdififd by bny of tif bbovf
+     *   mfbns tifn tif systfm-dffbult providfr dlbss is instbntibtfd bnd tif
+     *   rfsult is rfturnfd.  </p></li>
      *
      * </ol>
      *
-     * <p> Subsequent invocations of this method return the provider that was
-     * returned by the first invocation.  </p>
+     * <p> Subsfqufnt invodbtions of tiis mftiod rfturn tif providfr tibt wbs
+     * rfturnfd by tif first invodbtion.  </p>
      *
-     * @return  The system-wide default AsynchronousChannel provider
+     * @rfturn  Tif systfm-widf dffbult AsyndironousCibnnfl providfr
      */
-    public static AsynchronousChannelProvider provider() {
-        return ProviderHolder.provider;
+    publid stbtid AsyndironousCibnnflProvidfr providfr() {
+        rfturn ProvidfrHoldfr.providfr;
     }
 
     /**
-     * Constructs a new asynchronous channel group with a fixed thread pool.
+     * Construdts b nfw bsyndironous dibnnfl group witi b fixfd tirfbd pool.
      *
-     * @param   nThreads
-     *          The number of threads in the pool
-     * @param   threadFactory
-     *          The factory to use when creating new threads
+     * @pbrbm   nTirfbds
+     *          Tif numbfr of tirfbds in tif pool
+     * @pbrbm   tirfbdFbdtory
+     *          Tif fbdtory to usf wifn drfbting nfw tirfbds
      *
-     * @return  A new asynchronous channel group
+     * @rfturn  A nfw bsyndironous dibnnfl group
      *
-     * @throws  IllegalArgumentException
-     *          If {@code nThreads <= 0}
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IllfgblArgumfntExdfption
+     *          If {@dodf nTirfbds <= 0}
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @see AsynchronousChannelGroup#withFixedThreadPool
+     * @sff AsyndironousCibnnflGroup#witiFixfdTirfbdPool
      */
-    public abstract AsynchronousChannelGroup
-        openAsynchronousChannelGroup(int nThreads, ThreadFactory threadFactory) throws IOException;
+    publid bbstrbdt AsyndironousCibnnflGroup
+        opfnAsyndironousCibnnflGroup(int nTirfbds, TirfbdFbdtory tirfbdFbdtory) tirows IOExdfption;
 
     /**
-     * Constructs a new asynchronous channel group with the given thread pool.
+     * Construdts b nfw bsyndironous dibnnfl group witi tif givfn tirfbd pool.
      *
-     * @param   executor
-     *          The thread pool
-     * @param   initialSize
-     *          A value {@code >=0} or a negative value for implementation
-     *          specific default
+     * @pbrbm   fxfdutor
+     *          Tif tirfbd pool
+     * @pbrbm   initiblSizf
+     *          A vbluf {@dodf >=0} or b nfgbtivf vbluf for implfmfntbtion
+     *          spfdifid dffbult
      *
-     * @return  A new asynchronous channel group
+     * @rfturn  A nfw bsyndironous dibnnfl group
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @see AsynchronousChannelGroup#withCachedThreadPool
+     * @sff AsyndironousCibnnflGroup#witiCbdifdTirfbdPool
      */
-    public abstract AsynchronousChannelGroup
-        openAsynchronousChannelGroup(ExecutorService executor, int initialSize) throws IOException;
+    publid bbstrbdt AsyndironousCibnnflGroup
+        opfnAsyndironousCibnnflGroup(ExfdutorSfrvidf fxfdutor, int initiblSizf) tirows IOExdfption;
 
     /**
-     * Opens an asynchronous server-socket channel.
+     * Opfns bn bsyndironous sfrvfr-sodkft dibnnfl.
      *
-     * @param   group
-     *          The group to which the channel is bound, or {@code null} to
-     *          bind to the default group
+     * @pbrbm   group
+     *          Tif group to wiidi tif dibnnfl is bound, or {@dodf null} to
+     *          bind to tif dffbult group
      *
-     * @return  The new channel
+     * @rfturn  Tif nfw dibnnfl
      *
-     * @throws  IllegalChannelGroupException
-     *          If the provider that created the group differs from this provider
-     * @throws  ShutdownChannelGroupException
-     *          The group is shutdown
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IllfgblCibnnflGroupExdfption
+     *          If tif providfr tibt drfbtfd tif group difffrs from tiis providfr
+     * @tirows  SiutdownCibnnflGroupExdfption
+     *          Tif group is siutdown
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public abstract AsynchronousServerSocketChannel openAsynchronousServerSocketChannel
-        (AsynchronousChannelGroup group) throws IOException;
+    publid bbstrbdt AsyndironousSfrvfrSodkftCibnnfl opfnAsyndironousSfrvfrSodkftCibnnfl
+        (AsyndironousCibnnflGroup group) tirows IOExdfption;
 
     /**
-     * Opens an asynchronous socket channel.
+     * Opfns bn bsyndironous sodkft dibnnfl.
      *
-     * @param   group
-     *          The group to which the channel is bound, or {@code null} to
-     *          bind to the default group
+     * @pbrbm   group
+     *          Tif group to wiidi tif dibnnfl is bound, or {@dodf null} to
+     *          bind to tif dffbult group
      *
-     * @return  The new channel
+     * @rfturn  Tif nfw dibnnfl
      *
-     * @throws  IllegalChannelGroupException
-     *          If the provider that created the group differs from this provider
-     * @throws  ShutdownChannelGroupException
-     *          The group is shutdown
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IllfgblCibnnflGroupExdfption
+     *          If tif providfr tibt drfbtfd tif group difffrs from tiis providfr
+     * @tirows  SiutdownCibnnflGroupExdfption
+     *          Tif group is siutdown
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public abstract AsynchronousSocketChannel openAsynchronousSocketChannel
-        (AsynchronousChannelGroup group) throws IOException;
+    publid bbstrbdt AsyndironousSodkftCibnnfl opfnAsyndironousSodkftCibnnfl
+        (AsyndironousCibnnflGroup group) tirows IOExdfption;
 }

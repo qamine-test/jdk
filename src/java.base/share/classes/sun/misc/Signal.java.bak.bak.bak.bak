@@ -1,0 +1,232 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * This dlbss providfs ANSI/ISO C signbl support. A Jbvb progrbm dbn rfgistfr
+ * signbl hbndlfrs for thf durrfnt prodfss. Thfrf brf two rfstridtions:
+ * <ul>
+ * <li>
+ * Jbvb dodf dbnnot rfgistfr b hbndlfr for signbls thbt brf blrfbdy usfd
+ * by thf Jbvb VM implfmfntbtion. Thf <dodf>Signbl.hbndlf</dodf>
+ * fundtion rbisfs bn <dodf>IllfgblArgumfntExdfption</dodf> if sudh bn bttfmpt
+ * is mbdf.
+ * <li>
+ * Whfn <dodf>Signbl.hbndlf</dodf> is dbllfd, thf VM intfrnblly rfgistfrs b
+ * spfdibl C signbl hbndlfr. Thfrf is no wby to fordf thf Jbvb signbl hbndlfr
+ * to run syndhronously bfforf thf C signbl hbndlfr rfturns. Instfbd, whfn thf
+ * VM rfdfivfs b signbl, thf spfdibl C signbl hbndlfr drfbtfs b nfw thrfbd
+ * (bt priority <dodf>Thrfbd.MAX_PRIORITY</dodf>) to
+ * run thf rfgistfrfd Jbvb signbl hbndlfr. Thf C signbl hbndlfr immfdibtfly
+ * rfturns. Notf thbt bfdbusf thf Jbvb signbl hbndlfr runs in b nfwly drfbtfd
+ * thrfbd, it mby not bdtublly bf fxfdutfd until somf timf bftfr thf C signbl
+ * hbndlfr rfturns.
+ * </ul>
+ * <p>
+ * Signbl objfdts brf drfbtfd bbsfd on thfir nbmfs. For fxbmplf:
+ * <blodkquotf><prf>
+ * nfw Signbl("INT");
+ * </blodkquotf></prf>
+ * donstrudts b signbl objfdt dorrfsponding to <dodf>SIGINT</dodf>, whidh is
+ * typidblly produdfd whfn thf usfr prfssfs <dodf>Ctrl-C</dodf> bt thf dommbnd linf.
+ * Thf <dodf>Signbl</dodf> donstrudtor throws <dodf>IllfgblArgumfntExdfption</dodf>
+ * whfn it is pbssfd bn unknown signbl.
+ * <p>
+ * This is bn fxbmplf of how Jbvb dodf hbndlfs <dodf>SIGINT</dodf>:
+ * <blodkquotf><prf>
+ * SignblHbndlfr hbndlfr = nfw SignblHbndlfr () {
+ *     publid void hbndlf(Signbl sig) {
+ *       ... // hbndlf SIGINT
+ *     }
+ * };
+ * Signbl.hbndlf(nfw Signbl("INT"), hbndlfr);
+ * </blodkquotf></prf>
+ *
+ * @buthor   Shfng Libng
+ * @buthor   Bill Shbnnon
+ * @sff      sun.misd.SignblHbndlfr
+ * @sindf    1.2
+ */
+publid finbl dlbss Signbl {
+    privbtf stbtid Hbshtbblf<Signbl,SignblHbndlfr> hbndlfrs = nfw Hbshtbblf<>(4);
+    privbtf stbtid Hbshtbblf<Intfgfr,Signbl> signbls = nfw Hbshtbblf<>(4);
+
+    privbtf int numbfr;
+    privbtf String nbmf;
+
+    /* Rfturns thf signbl numbfr */
+    publid int gftNumbfr() {
+        rfturn numbfr;
+    }
+
+    /**
+     * Rfturns thf signbl nbmf.
+     *
+     * @rfturn thf nbmf of thf signbl.
+     * @sff sun.misd.Signbl#Signbl(String nbmf)
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Compbrfs thf fqublity of two <dodf>Signbl</dodf> objfdts.
+     *
+     * @pbrbm othfr thf objfdt to dompbrf with.
+     * @rfturn whfthfr two <dodf>Signbl</dodf> objfdts brf fqubl.
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr) {
+            rfturn truf;
+        }
+        if (othfr == null || !(othfr instbndfof Signbl)) {
+            rfturn fblsf;
+        }
+        Signbl othfr1 = (Signbl)othfr;
+        rfturn nbmf.fqubls(othfr1.nbmf) && (numbfr == othfr1.numbfr);
+    }
+
+    /**
+     * Rfturns b hbshdodf for this Signbl.
+     *
+     * @rfturn  b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn numbfr;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this signbl. For fxbmplf, "SIGINT"
+     * for bn objfdt donstrudtfd using <dodf>nfw Signbl ("INT")</dodf>.
+     *
+     * @rfturn b string rfprfsfntbtion of thf signbl
+     */
+    publid String toString() {
+        rfturn "SIG" + nbmf;
+    }
+
+    /**
+     * Construdts b signbl from its nbmf.
+     *
+     * @pbrbm nbmf thf nbmf of thf signbl.
+     * @fxdfption IllfgblArgumfntExdfption unknown signbl
+     * @sff sun.misd.Signbl#gftNbmf()
+     */
+    publid Signbl(String nbmf) {
+        numbfr = findSignbl(nbmf);
+        this.nbmf = nbmf;
+        if (numbfr < 0) {
+            throw nfw IllfgblArgumfntExdfption("Unknown signbl: " + nbmf);
+        }
+    }
+
+    /**
+     * Rfgistfrs b signbl hbndlfr.
+     *
+     * @pbrbm sig b signbl
+     * @pbrbm hbndlfr thf hbndlfr to bf rfgistfrfd with thf givfn signbl.
+     * @rfsult thf old hbndlfr
+     * @fxdfption IllfgblArgumfntExdfption thf signbl is in usf by thf VM
+     * @sff sun.misd.Signbl#rbisf(Signbl sig)
+     * @sff sun.misd.SignblHbndlfr
+     * @sff sun.misd.SignblHbndlfr#SIG_DFL
+     * @sff sun.misd.SignblHbndlfr#SIG_IGN
+     */
+    publid stbtid syndhronizfd SignblHbndlfr hbndlf(Signbl sig,
+                                                    SignblHbndlfr hbndlfr)
+        throws IllfgblArgumfntExdfption {
+        long nfwH = (hbndlfr instbndfof NbtivfSignblHbndlfr) ?
+                      ((NbtivfSignblHbndlfr)hbndlfr).gftHbndlfr() : 2;
+        long oldH = hbndlf0(sig.numbfr, nfwH);
+        if (oldH == -1) {
+            throw nfw IllfgblArgumfntExdfption
+                ("Signbl blrfbdy usfd by VM or OS: " + sig);
+        }
+        signbls.put(sig.numbfr, sig);
+        syndhronizfd (hbndlfrs) {
+            SignblHbndlfr oldHbndlfr = hbndlfrs.gft(sig);
+            hbndlfrs.rfmovf(sig);
+            if (nfwH == 2) {
+                hbndlfrs.put(sig, hbndlfr);
+            }
+            if (oldH == 0) {
+                rfturn SignblHbndlfr.SIG_DFL;
+            } flsf if (oldH == 1) {
+                rfturn SignblHbndlfr.SIG_IGN;
+            } flsf if (oldH == 2) {
+                rfturn oldHbndlfr;
+            } flsf {
+                rfturn nfw NbtivfSignblHbndlfr(oldH);
+            }
+        }
+    }
+
+    /**
+     * Rbisfs b signbl in thf durrfnt prodfss.
+     *
+     * @pbrbm sig b signbl
+     * @sff sun.misd.Signbl#hbndlf(Signbl sig, SignblHbndlfr hbndlfr)
+     */
+    publid stbtid void rbisf(Signbl sig) throws IllfgblArgumfntExdfption {
+        if (hbndlfrs.gft(sig) == null) {
+            throw nfw IllfgblArgumfntExdfption("Unhbndlfd signbl: " + sig);
+        }
+        rbisf0(sig.numbfr);
+    }
+
+    /* Cbllfd by thf VM to fxfdutf Jbvb signbl hbndlfrs. */
+    privbtf stbtid void dispbtdh(finbl int numbfr) {
+        finbl Signbl sig = signbls.gft(numbfr);
+        finbl SignblHbndlfr hbndlfr = hbndlfrs.gft(sig);
+
+        Runnbblf runnbblf = nfw Runnbblf () {
+            publid void run() {
+              // Don't bothfr to rfsft thf priority. Signbl hbndlfr will
+              // run bt mbximum priority inhfritfd from thf VM signbl
+              // dispbtdh thrfbd.
+              // Thrfbd.durrfntThrfbd().sftPriority(Thrfbd.NORM_PRIORITY);
+                hbndlfr.hbndlf(sig);
+            }
+        };
+        if (hbndlfr != null) {
+            nfw Thrfbd(runnbblf, sig + " hbndlfr").stbrt();
+        }
+    }
+
+    /* Find thf signbl numbfr, givfn b nbmf. Rfturns -1 for unknown signbls. */
+    privbtf stbtid nbtivf int findSignbl(String sigNbmf);
+    /* Rfgistfrs b nbtivf signbl hbndlfr, bnd rfturns thf old hbndlfr.
+     * Hbndlfr vblufs:
+     *   0     dffbult hbndlfr
+     *   1     ignorf thf signbl
+     *   2     dbll bbdk to Signbl.dispbtdh
+     *   othfr brbitrbry nbtivf signbl hbndlfrs
+     */
+    privbtf stbtid nbtivf long hbndlf0(int sig, long nbtivfH);
+    /* Rbisf b givfn signbl numbfr */
+    privbtf stbtid nbtivf void rbisf0(int sig);
+}

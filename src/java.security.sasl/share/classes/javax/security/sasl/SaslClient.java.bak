@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.sasl;
+pbdkbgf jbvbx.sfdurity.sbsl;
 
 /**
- * Performs SASL authentication as a client.
+ * Pfrforms SASL butifntidbtion bs b dlifnt.
  *<p>
- * A protocol library such as one for LDAP gets an instance of this
- * class in order to perform authentication defined by a specific SASL
- * mechanism. Invoking methods on the {@code SaslClient} instance
- * process challenges and create responses according to the SASL
- * mechanism implemented by the {@code SaslClient}.
- * As the authentication proceeds, the instance
- * encapsulates the state of a SASL client's authentication exchange.
+ * A protodol librbry sudi bs onf for LDAP gfts bn instbndf of tiis
+ * dlbss in ordfr to pfrform butifntidbtion dffinfd by b spfdifid SASL
+ * mfdibnism. Invoking mftiods on tif {@dodf SbslClifnt} instbndf
+ * prodfss dibllfngfs bnd drfbtf rfsponsfs bddording to tif SASL
+ * mfdibnism implfmfntfd by tif {@dodf SbslClifnt}.
+ * As tif butifntidbtion prodffds, tif instbndf
+ * fndbpsulbtfs tif stbtf of b SASL dlifnt's butifntidbtion fxdibngf.
  *<p>
- * Here's an example of how an LDAP library might use a {@code SaslClient}.
- * It first gets an instance of a {@code SaslClient}:
- *<blockquote><pre>{@code
- * SaslClient sc = Sasl.createSaslClient(mechanisms,
- *     authorizationId, protocol, serverName, props, callbackHandler);
- *}</pre></blockquote>
- * It can then proceed to use the client for authentication.
- * For example, an LDAP library might use the client as follows:
- *<blockquote><pre>{@code
- * // Get initial response and send to server
- * byte[] response = (sc.hasInitialResponse() ? sc.evaluateChallenge(new byte[0]) :
+ * Hfrf's bn fxbmplf of iow bn LDAP librbry migit usf b {@dodf SbslClifnt}.
+ * It first gfts bn instbndf of b {@dodf SbslClifnt}:
+ *<blodkquotf><prf>{@dodf
+ * SbslClifnt sd = Sbsl.drfbtfSbslClifnt(mfdibnisms,
+ *     butiorizbtionId, protodol, sfrvfrNbmf, props, dbllbbdkHbndlfr);
+ *}</prf></blodkquotf>
+ * It dbn tifn prodffd to usf tif dlifnt for butifntidbtion.
+ * For fxbmplf, bn LDAP librbry migit usf tif dlifnt bs follows:
+ *<blodkquotf><prf>{@dodf
+ * // Gft initibl rfsponsf bnd sfnd to sfrvfr
+ * bytf[] rfsponsf = (sd.ibsInitiblRfsponsf() ? sd.fvblubtfCibllfngf(nfw bytf[0]) :
  *     null);
- * LdapResult res = ldap.sendBindRequest(dn, sc.getName(), response);
- * while (!sc.isComplete() &&
- *     (res.status == SASL_BIND_IN_PROGRESS || res.status == SUCCESS)) {
- *     response = sc.evaluateChallenge(res.getBytes());
- *     if (res.status == SUCCESS) {
- *         // we're done; don't expect to send another BIND
- *         if (response != null) {
- *             throw new SaslException(
- *                 "Protocol error: attempting to send response after completion");
+ * LdbpRfsult rfs = ldbp.sfndBindRfqufst(dn, sd.gftNbmf(), rfsponsf);
+ * wiilf (!sd.isComplftf() &&
+ *     (rfs.stbtus == SASL_BIND_IN_PROGRESS || rfs.stbtus == SUCCESS)) {
+ *     rfsponsf = sd.fvblubtfCibllfngf(rfs.gftBytfs());
+ *     if (rfs.stbtus == SUCCESS) {
+ *         // wf'rf donf; don't fxpfdt to sfnd bnotifr BIND
+ *         if (rfsponsf != null) {
+ *             tirow nfw SbslExdfption(
+ *                 "Protodol frror: bttfmpting to sfnd rfsponsf bftfr domplftion");
  *         }
- *         break;
+ *         brfbk;
  *     }
- *     res = ldap.sendBindRequest(dn, sc.getName(), response);
+ *     rfs = ldbp.sfndBindRfqufst(dn, sd.gftNbmf(), rfsponsf);
  * }
- * if (sc.isComplete() && res.status == SUCCESS) {
- *    String qop = (String) sc.getNegotiatedProperty(Sasl.QOP);
+ * if (sd.isComplftf() && rfs.stbtus == SUCCESS) {
+ *    String qop = (String) sd.gftNfgotibtfdPropfrty(Sbsl.QOP);
  *    if (qop != null
- *        && (qop.equalsIgnoreCase("auth-int")
- *            || qop.equalsIgnoreCase("auth-conf"))) {
+ *        && (qop.fqublsIgnorfCbsf("buti-int")
+ *            || qop.fqublsIgnorfCbsf("buti-donf"))) {
  *
- *      // Use SaslClient.wrap() and SaslClient.unwrap() for future
- *      // communication with server
- *      ldap.in = new SecureInputStream(sc, ldap.in);
- *      ldap.out = new SecureOutputStream(sc, ldap.out);
+ *      // Usf SbslClifnt.wrbp() bnd SbslClifnt.unwrbp() for futurf
+ *      // dommunidbtion witi sfrvfr
+ *      ldbp.in = nfw SfdurfInputStrfbm(sd, ldbp.in);
+ *      ldbp.out = nfw SfdurfOutputStrfbm(sd, ldbp.out);
  *    }
  * }
- *}</pre></blockquote>
+ *}</prf></blodkquotf>
  *
- * If the mechanism has an initial response, the library invokes
- * {@code evaluateChallenge()} with an empty
- * challenge and to get initial response.
- * Protocols such as IMAP4, which do not include an initial response with
- * their first authentication command to the server, initiates the
- * authentication without first calling {@code hasInitialResponse()}
- * or {@code evaluateChallenge()}.
- * When the server responds to the command, it sends an initial challenge.
- * For a SASL mechanism in which the client sends data first, the server should
- * have issued a challenge with no data. This will then result in a call
- * (on the client) to {@code evaluateChallenge()} with an empty challenge.
+ * If tif mfdibnism ibs bn initibl rfsponsf, tif librbry invokfs
+ * {@dodf fvblubtfCibllfngf()} witi bn fmpty
+ * dibllfngf bnd to gft initibl rfsponsf.
+ * Protodols sudi bs IMAP4, wiidi do not indludf bn initibl rfsponsf witi
+ * tifir first butifntidbtion dommbnd to tif sfrvfr, initibtfs tif
+ * butifntidbtion witiout first dblling {@dodf ibsInitiblRfsponsf()}
+ * or {@dodf fvblubtfCibllfngf()}.
+ * Wifn tif sfrvfr rfsponds to tif dommbnd, it sfnds bn initibl dibllfngf.
+ * For b SASL mfdibnism in wiidi tif dlifnt sfnds dbtb first, tif sfrvfr siould
+ * ibvf issufd b dibllfngf witi no dbtb. Tiis will tifn rfsult in b dbll
+ * (on tif dlifnt) to {@dodf fvblubtfCibllfngf()} witi bn fmpty dibllfngf.
  *
- * @since 1.5
+ * @sindf 1.5
  *
- * @see Sasl
- * @see SaslClientFactory
+ * @sff Sbsl
+ * @sff SbslClifntFbdtory
  *
- * @author Rosanna Lee
- * @author Rob Weltman
+ * @butior Rosbnnb Lff
+ * @butior Rob Wfltmbn
  */
-public abstract interface SaslClient {
+publid bbstrbdt intfrfbdf SbslClifnt {
 
     /**
-     * Returns the IANA-registered mechanism name of this SASL client.
-     * (e.g. "CRAM-MD5", "GSSAPI").
-     * @return A non-null string representing the IANA-registered mechanism name.
+     * Rfturns tif IANA-rfgistfrfd mfdibnism nbmf of tiis SASL dlifnt.
+     * (f.g. "CRAM-MD5", "GSSAPI").
+     * @rfturn A non-null string rfprfsfnting tif IANA-rfgistfrfd mfdibnism nbmf.
      */
-    public abstract String getMechanismName();
+    publid bbstrbdt String gftMfdibnismNbmf();
 
     /**
-     * Determines whether this mechanism has an optional initial response.
-     * If true, caller should call {@code evaluateChallenge()} with an
-     * empty array to get the initial response.
+     * Dftfrminfs wiftifr tiis mfdibnism ibs bn optionbl initibl rfsponsf.
+     * If truf, dbllfr siould dbll {@dodf fvblubtfCibllfngf()} witi bn
+     * fmpty brrby to gft tif initibl rfsponsf.
      *
-     * @return true if this mechanism has an initial response.
+     * @rfturn truf if tiis mfdibnism ibs bn initibl rfsponsf.
      */
-    public abstract boolean hasInitialResponse();
+    publid bbstrbdt boolfbn ibsInitiblRfsponsf();
 
     /**
-     * Evaluates the challenge data and generates a response.
-     * If a challenge is received from the server during the authentication
-     * process, this method is called to prepare an appropriate next
-     * response to submit to the server.
+     * Evblubtfs tif dibllfngf dbtb bnd gfnfrbtfs b rfsponsf.
+     * If b dibllfngf is rfdfivfd from tif sfrvfr during tif butifntidbtion
+     * prodfss, tiis mftiod is dbllfd to prfpbrf bn bppropribtf nfxt
+     * rfsponsf to submit to tif sfrvfr.
      *
-     * @param challenge The non-null challenge sent from the server.
-     * The challenge array may have zero length.
+     * @pbrbm dibllfngf Tif non-null dibllfngf sfnt from tif sfrvfr.
+     * Tif dibllfngf brrby mby ibvf zfro lfngti.
      *
-     * @return The possibly null response to send to the server.
-     * It is null if the challenge accompanied a "SUCCESS" status and the challenge
-     * only contains data for the client to update its state and no response
-     * needs to be sent to the server. The response is a zero-length byte
-     * array if the client is to send a response with no data.
-     * @exception SaslException If an error occurred while processing
-     * the challenge or generating a response.
+     * @rfturn Tif possibly null rfsponsf to sfnd to tif sfrvfr.
+     * It is null if tif dibllfngf bddompbnifd b "SUCCESS" stbtus bnd tif dibllfngf
+     * only dontbins dbtb for tif dlifnt to updbtf its stbtf bnd no rfsponsf
+     * nffds to bf sfnt to tif sfrvfr. Tif rfsponsf is b zfro-lfngti bytf
+     * brrby if tif dlifnt is to sfnd b rfsponsf witi no dbtb.
+     * @fxdfption SbslExdfption If bn frror oddurrfd wiilf prodfssing
+     * tif dibllfngf or gfnfrbting b rfsponsf.
      */
-    public abstract byte[] evaluateChallenge(byte[] challenge)
-        throws SaslException;
+    publid bbstrbdt bytf[] fvblubtfCibllfngf(bytf[] dibllfngf)
+        tirows SbslExdfption;
 
     /**
-      * Determines whether the authentication exchange has completed.
-      * This method may be called at any time, but typically, it
-      * will not be called until the caller has received indication
-      * from the server
-      * (in a protocol-specific manner) that the exchange has completed.
+      * Dftfrminfs wiftifr tif butifntidbtion fxdibngf ibs domplftfd.
+      * Tiis mftiod mby bf dbllfd bt bny timf, but typidblly, it
+      * will not bf dbllfd until tif dbllfr ibs rfdfivfd indidbtion
+      * from tif sfrvfr
+      * (in b protodol-spfdifid mbnnfr) tibt tif fxdibngf ibs domplftfd.
       *
-      * @return true if the authentication exchange has completed; false otherwise.
+      * @rfturn truf if tif butifntidbtion fxdibngf ibs domplftfd; fblsf otifrwisf.
       */
-    public abstract boolean isComplete();
+    publid bbstrbdt boolfbn isComplftf();
 
     /**
-     * Unwraps a byte array received from the server.
-     * This method can be called only after the authentication exchange has
-     * completed (i.e., when {@code isComplete()} returns true) and only if
-     * the authentication exchange has negotiated integrity and/or privacy
-     * as the quality of protection; otherwise, an
-     * {@code IllegalStateException} is thrown.
+     * Unwrbps b bytf brrby rfdfivfd from tif sfrvfr.
+     * Tiis mftiod dbn bf dbllfd only bftfr tif butifntidbtion fxdibngf ibs
+     * domplftfd (i.f., wifn {@dodf isComplftf()} rfturns truf) bnd only if
+     * tif butifntidbtion fxdibngf ibs nfgotibtfd intfgrity bnd/or privbdy
+     * bs tif qublity of protfdtion; otifrwisf, bn
+     * {@dodf IllfgblStbtfExdfption} is tirown.
      *<p>
-     * {@code incoming} is the contents of the SASL buffer as defined in RFC 2222
-     * without the leading four octet field that represents the length.
-     * {@code offset} and {@code len} specify the portion of {@code incoming}
-     * to use.
+     * {@dodf indoming} is tif dontfnts of tif SASL bufffr bs dffinfd in RFC 2222
+     * witiout tif lfbding four odtft fifld tibt rfprfsfnts tif lfngti.
+     * {@dodf offsft} bnd {@dodf lfn} spfdify tif portion of {@dodf indoming}
+     * to usf.
      *
-     * @param incoming A non-null byte array containing the encoded bytes
-     *                from the server.
-     * @param offset The starting position at {@code incoming} of the bytes to use.
-     * @param len The number of bytes from {@code incoming} to use.
-     * @return A non-null byte array containing the decoded bytes.
-     * @exception SaslException if {@code incoming} cannot be successfully
-     * unwrapped.
-     * @exception IllegalStateException if the authentication exchange has
-     * not completed, or  if the negotiated quality of protection
-     * has neither integrity nor privacy.
+     * @pbrbm indoming A non-null bytf brrby dontbining tif fndodfd bytfs
+     *                from tif sfrvfr.
+     * @pbrbm offsft Tif stbrting position bt {@dodf indoming} of tif bytfs to usf.
+     * @pbrbm lfn Tif numbfr of bytfs from {@dodf indoming} to usf.
+     * @rfturn A non-null bytf brrby dontbining tif dfdodfd bytfs.
+     * @fxdfption SbslExdfption if {@dodf indoming} dbnnot bf suddfssfully
+     * unwrbppfd.
+     * @fxdfption IllfgblStbtfExdfption if tif butifntidbtion fxdibngf ibs
+     * not domplftfd, or  if tif nfgotibtfd qublity of protfdtion
+     * ibs nfitifr intfgrity nor privbdy.
      */
-    public abstract byte[] unwrap(byte[] incoming, int offset, int len)
-        throws SaslException;
+    publid bbstrbdt bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+        tirows SbslExdfption;
 
     /**
-     * Wraps a byte array to be sent to the server.
-     * This method can be called only after the authentication exchange has
-     * completed (i.e., when {@code isComplete()} returns true) and only if
-     * the authentication exchange has negotiated integrity and/or privacy
-     * as the quality of protection; otherwise, an
-     * {@code IllegalStateException} is thrown.
+     * Wrbps b bytf brrby to bf sfnt to tif sfrvfr.
+     * Tiis mftiod dbn bf dbllfd only bftfr tif butifntidbtion fxdibngf ibs
+     * domplftfd (i.f., wifn {@dodf isComplftf()} rfturns truf) bnd only if
+     * tif butifntidbtion fxdibngf ibs nfgotibtfd intfgrity bnd/or privbdy
+     * bs tif qublity of protfdtion; otifrwisf, bn
+     * {@dodf IllfgblStbtfExdfption} is tirown.
      *<p>
-     * The result of this method will make up the contents of the SASL buffer
-     * as defined in RFC 2222 without the leading four octet field that
-     * represents the length.
-     * {@code offset} and {@code len} specify the portion of {@code outgoing}
-     * to use.
+     * Tif rfsult of tiis mftiod will mbkf up tif dontfnts of tif SASL bufffr
+     * bs dffinfd in RFC 2222 witiout tif lfbding four odtft fifld tibt
+     * rfprfsfnts tif lfngti.
+     * {@dodf offsft} bnd {@dodf lfn} spfdify tif portion of {@dodf outgoing}
+     * to usf.
      *
-     * @param outgoing A non-null byte array containing the bytes to encode.
-     * @param offset The starting position at {@code outgoing} of the bytes to use.
-     * @param len The number of bytes from {@code outgoing} to use.
-     * @return A non-null byte array containing the encoded bytes.
-     * @exception SaslException if {@code outgoing} cannot be successfully
-     * wrapped.
-     * @exception IllegalStateException if the authentication exchange has
-     * not completed, or if the negotiated quality of protection
-     * has neither integrity nor privacy.
+     * @pbrbm outgoing A non-null bytf brrby dontbining tif bytfs to fndodf.
+     * @pbrbm offsft Tif stbrting position bt {@dodf outgoing} of tif bytfs to usf.
+     * @pbrbm lfn Tif numbfr of bytfs from {@dodf outgoing} to usf.
+     * @rfturn A non-null bytf brrby dontbining tif fndodfd bytfs.
+     * @fxdfption SbslExdfption if {@dodf outgoing} dbnnot bf suddfssfully
+     * wrbppfd.
+     * @fxdfption IllfgblStbtfExdfption if tif butifntidbtion fxdibngf ibs
+     * not domplftfd, or if tif nfgotibtfd qublity of protfdtion
+     * ibs nfitifr intfgrity nor privbdy.
      */
-    public abstract byte[] wrap(byte[] outgoing, int offset, int len)
-        throws SaslException;
+    publid bbstrbdt bytf[] wrbp(bytf[] outgoing, int offsft, int lfn)
+        tirows SbslExdfption;
 
     /**
-     * Retrieves the negotiated property.
-     * This method can be called only after the authentication exchange has
-     * completed (i.e., when {@code isComplete()} returns true); otherwise, an
-     * {@code IllegalStateException} is thrown.
+     * Rftrifvfs tif nfgotibtfd propfrty.
+     * Tiis mftiod dbn bf dbllfd only bftfr tif butifntidbtion fxdibngf ibs
+     * domplftfd (i.f., wifn {@dodf isComplftf()} rfturns truf); otifrwisf, bn
+     * {@dodf IllfgblStbtfExdfption} is tirown.
      * <p>
-     * The {@link Sasl} class includes several well-known property names
-     * (For example, {@link Sasl#QOP}). A SASL provider can support other
-     * properties which are specific to the vendor and/or a mechanism.
+     * Tif {@link Sbsl} dlbss indludfs sfvfrbl wfll-known propfrty nbmfs
+     * (For fxbmplf, {@link Sbsl#QOP}). A SASL providfr dbn support otifr
+     * propfrtifs wiidi brf spfdifid to tif vfndor bnd/or b mfdibnism.
      *
-     * @param propName The non-null property name.
-     * @return The value of the negotiated property. If null, the property was
-     * not negotiated or is not applicable to this mechanism.
-     * @exception IllegalStateException if this authentication exchange
-     * has not completed
+     * @pbrbm propNbmf Tif non-null propfrty nbmf.
+     * @rfturn Tif vbluf of tif nfgotibtfd propfrty. If null, tif propfrty wbs
+     * not nfgotibtfd or is not bpplidbblf to tiis mfdibnism.
+     * @fxdfption IllfgblStbtfExdfption if tiis butifntidbtion fxdibngf
+     * ibs not domplftfd
      */
 
-    public abstract Object getNegotiatedProperty(String propName);
+    publid bbstrbdt Objfdt gftNfgotibtfdPropfrty(String propNbmf);
 
      /**
-      * Disposes of any system resources or security-sensitive information
-      * the SaslClient might be using. Invoking this method invalidates
-      * the SaslClient instance. This method is idempotent.
-      * @throws SaslException If a problem was encountered while disposing
-      * the resources.
+      * Disposfs of bny systfm rfsourdfs or sfdurity-sfnsitivf informbtion
+      * tif SbslClifnt migit bf using. Invoking tiis mftiod invblidbtfs
+      * tif SbslClifnt instbndf. Tiis mftiod is idfmpotfnt.
+      * @tirows SbslExdfption If b problfm wbs fndountfrfd wiilf disposing
+      * tif rfsourdfs.
       */
-    public abstract void dispose() throws SaslException;
+    publid bbstrbdt void disposf() tirows SbslExdfption;
 }

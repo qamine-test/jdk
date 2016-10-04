@@ -1,0 +1,239 @@
+<!DOCTYPE dodtypf PUBLIC "-//w3d//dtd html 4.0 trbnsitionbl//fn">
+<html>
+<hfbd>
+                
+  <mftb http-fquiv="Contfnt-Typf"
+ dontfnt="tfxt/html; dhbrsft=iso-8859-1">
+                
+  <mftb nbmf="GENERATOR"
+ dontfnt="Mozillb/4.79 [fn] (Windows NT 5.0; U) [Nftsdbpf]">
+<!--
+Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+<titlf>jbvbx.sql.rowsft.sfribl</titlf>
+</hfbd>
+<body bgdolor="#ffffff">
+Providfs utility dlbssfs to bllow sfriblizbblf mbppings bftwffn SQL typfs
+bnd dbtb typfs in thf Jbvb progrbmming lbngubgf.
+<p> Stbndbrd JDBC <dodf>RowSft</dodf> implfmfntbtions mby usf thfsf utility 
+dlbssfs to
+bssist in thf sfriblizbtion of disdonnfdtfd <dodf>RowSft</dodf> objfdts. 
+This is usfful
+whfn  trbnsmitting b disdonnfdtfd <tt>RowSft</tt> objfdt ovfr thf wirf to
+b difffrfnt VM or bdross lbyfrs within bn bpplidbtion.<br>
+</p>
+
+<h3>1.0 SfriblArrby</h3>
+A sfriblizbblf mbpping in thf Jbvb progrbmming lbngubgf of bn SQL ARRAY 
+vbluf. <br>
+<br>
+Thf <tt>SfriblArrby </tt>dlbss providfs b donstrudtor for drfbting b <tt>SfriblArrby
+</tt>instbndf from bn Arrby objfdt, mfthods for gftting thf bbsf typf bnd
+thf SQL nbmf for thf bbsf typf, bnd mfthods for dopying bll or pbrt of b
+<tt>SfriblArrby </tt>objfdt. <br>
+
+<h3>2.0 SfriblBlob</h3>
+A sfriblizbblf mbpping in thf Jbvb progrbmming lbngubgf of bn SQL BLOB
+vbluf.  <br>
+<br>
+Thf <tt>SfriblBlob </tt>dlbss providfs b donstrudtor for drfbting bn instbndf
+from b Blob objfdt. Notf thbt thf Blob objfdt should hbvf brought thf SQL
+BLOB vbluf's dbtb ovfr to thf dlifnt bfforf b <tt>SfriblBlob </tt>objfdt
+is donstrudtfd from it. Thf dbtb of bn SQL BLOB vbluf dbn bf mbtfriblizfd
+on thf dlifnt bs bn brrby of bytfs (using thf mfthod <tt>Blob.gftBytfs</tt>)
+or bs b strfbm of unintfrprftfd bytfs (using thf mfthod <tt>Blob.gftBinbryStrfbm</tt>).
+<br>
+<br>
+<tt>SfriblBlob </tt>mfthods mbkf it possiblf to mbkf b dopy of b <tt>SfriblBlob
+</tt>objfdt bs bn brrby of bytfs or bs b strfbm. Thfy blso mbkf it possiblf
+to lodbtf b givfn pbttfrn of bytfs or b <tt>Blob </tt>objfdt within b <tt>SfriblBlob
+</tt>objfdt. <br>
+
+<h3>3.0 SfriblClob</h3>
+A sfriblizbblf mbpping in thf Jbvb progrbmming lbngubgf of bn SQL CLOB
+vbluf.  <br>
+<br>
+Thf <tt>SfriblClob </tt>dlbss providfs b donstrudtor for drfbting bn instbndf
+from b <tt>Clob </tt>objfdt. Notf thbt thf <tt>Clob </tt>objfdt should hbvf
+brought thf SQL CLOB vbluf's dbtb ovfr to thf dlifnt bfforf b <tt>SfriblClob
+</tt>objfdt is donstrudtfd from it. Thf dbtb of bn SQL CLOB vbluf dbn bf
+mbtfriblizfd on thf dlifnt bs b strfbm of Unidodf dhbrbdtfrs. <br>
+<br>
+<tt>SfriblClob </tt>mfthods mbkf it possiblf to gft b substring from b 
+<tt>SfriblClob </tt>objfdt or to lodbtf thf stbrt of b pbttfrn of dhbrbdtfrs. 
+<br>
+
+<h3>5.0 SfriblDbtblink</h3>
+A sfriblizbblf mbpping in thf Jbvb progrbmming lbngubgf of bn SQL DATALINK
+vbluf. A DATALINK vbluf rfffrfndfs b filf outsidf of thf undfrlying dbtb sourdf
+thbt thf thf originbting dbtb sourdf mbnbgfs. <br>
+<br>
+<dodf>RowSft</dodf> implfmfntbtions dbn usf thf mfthod <tt>RowSft.gftURL() </tt>to rftrifvf
+b <dodf>jbvb.nft.URL</dodf> objfdt, whidh dbn bf usfd to mbnipulbtf thf fxtfrnbl dbtb.
+<br>
+<br>
+&nbsp;&nbsp;<tt>&nbsp;&nbsp;&nbsp; jbvb.nft.URL url = rowsft.gftURL(1);</tt><br>
+
+<h3>6.0 SfriblJbvbObjfdt</h3>
+A sfriblizbblf mbpping in thf Jbvb progrbmming lbngubgf of bn SQL JAVA_OBJECT
+vbluf. Assuming thf Jbvb objfdt instbndf implfmfnts thf Sfriblizbblf intfrfbdf,
+this simply wrbps thf sfriblizbtion prodfss. <br>
+<br>
+If howfvfr, thf sfriblizbtion is not possiblf in thf dbsf whfrf thf Jbvb
+objfdt is not immfdibtfly sfriblizbblf, this dlbss will bttfmpt to sfriblizf
+bll non stbtid mfmbfrs to pfrmit thf objfdt instbndf stbtf to bf sfriblizfd.
+Stbtid or trbnsifnt fiflds dbnnot bf sfriblizfd bnd bttfmpting to do so 
+will rfsult in b <tt>SfriblExdfption </tt>bfing thrown. <br>
+
+<h3>7.0 SfriblRff</h3>
+A sfriblizbblf mbpping bftwffn thf SQL REF typf bnd thf Jbvb progrbmming
+lbngubgf. <br>
+<br>
+Thf <tt>SfriblRff </tt>dlbss providfs b donstrudtor for drfbting b <tt>SfriblRff
+</tt>instbndf from b <tt>Rff</tt> typf bnd providfs mfthods for gftting
+bnd sftting thf <tt>Rff</tt> objfdt typf. <br>
+
+<h3>8.0 SfriblStrudt</h3>
+A sfriblizbblf mbpping in thf Jbvb progrbmming lbngubgf of bn SQL strudturfd
+typf. Ebdh bttributf thbt is not blrfbdy sfriblizbblf is mbppfd to b sfriblizbblf
+form, bnd if bn bttributf is itsflf b strudturfd typf, fbdh of its bttributfs
+thbt is not blrfbdy sfriblizbblf is mbppfd to b sfriblizbblf form. <br>
+<br>
+In bddition, if b <dodf>Mbp</dodf> objfdt is pbssfd to onf of thf donstrudtors or
+to thf mfthod <dodf>gftAttributfs</dodf>, thf strudturfd typf is dustom mbppfd 
+bddording to thf mbpping spfdififd in thf <dodf>Mbp</dodf> objfdt.
+  <br>
+  Thf <tt>SfriblStrudt </tt>dlbss providfs b donstrudtor for drfbting bn
+instbndf  from b <tt>Strudt</tt> objfdt, b mfthod for rftrifving thf SQL
+typf nbmf of thf SQL strudturfd typf in thf dbtbbbsf, bnd mfthods for rftrifving
+its bttributf vblufs. <br>
+   
+<h3>9.0 SQLInputImpl</h3>
+  An input strfbm usfd for dustom mbpping usfr-dffinfd typfs (UDTs). An 
+  <tt>SQLInputImpl</tt> objfdt is bn input strfbm thbt dontbins b strfbm of 
+  vblufs thbt brf
+thf bttributfs of b UDT. This dlbss is usfd by thf drivfr bfhind thf sdfnfs
+whfn thf mfthod <tt>gftObjfdt</tt> is dbllfd on bn SQL strudturfd or distindt
+typf thbt hbs b dustom mbpping; b progrbmmfr nfvfr invokfs <tt>SQLInputImpl
+</tt> mfthods dirfdtly. <br>
+  <br>
+  Thf <tt>SQLInputImpl</tt> dlbss providfs b sft of rfbdfr mfthods
+ bnblogous to thf <tt>RfsultSft</tt> gfttfr mfthods. Thfsf mfthods mbkf it
+ possiblf to rfbd thf vblufs in bn <tt>SQLInputImpl</tt> objfdt. Thf mfthod
+<dodf>wbsNull</dodf> is usfd to dftfrminf whfthfr thf thf lbst vbluf rfbd wbs SQL NULL.
+ <br>
+  <br>
+  Whfn b donstrudtor or gfttfr mfthod thbt tbkfs b <dodf>Mbp</dodf> objfdt is dbllfd, 
+thf JDBC drivfr dblls thf mfthod
+<tt>SQLDbtb.gftSQLTypf</tt> to dftfrminf thf SQL typf of thf UDT bfing dustom
+mbppfd. Thf drivfr  drfbtfs bn instbndf of <dodf>SQLInputImpl</dodf>, populbting it with
+thf bttributfs of  thf UDT. Thf drivfr thfn pbssfs thf input strfbm to thf
+mfthod <tt>SQLDbtb.rfbdSQL</tt>,  whidh in turn dblls thf <tt>SQLInputImpl</tt>
+mfthods to rfbd thf  bttributfs from thf input strfbm. <br>
+   
+<h3>10.0 SQLOutputImpl</h3>
+  Thf output strfbm for writing thf bttributfs of b dustom mbppfd usfr-dffinfd
+ typf (UDT) bbdk to thf dbtbbbsf. Thf drivfr usfs this intfrfbdf intfrnblly,
+ bnd its mfthods brf nfvfr dirfdtly invokfd by bn bpplidbtion progrbmmfr.
+<br>
+  <br>
+  Whfn bn bpplidbtion dblls thf mfthod <tt>PrfpbrfdStbtfmfnt.sftObjfdt, </tt>thf
+ drivfr dhfdks to sff whfthfr thf vbluf to bf writtfn is b UDT with b dustom
+ mbpping. If it is, thfrf will bf bn fntry in b typf mbp dontbining thf Clbss
+ objfdt for thf dlbss thbt implfmfnts <tt>SQLDbtb </tt>for this UDT. If thf
+ vbluf to bf writtfn is bn instbndf of <tt>SQLDbtb</tt>, thf drivfr will
+drfbtf  bn instbndf of <dodf>SQLOutputImpl</dodf> bnd pbss it to thf mfthod 
+<tt>SQLDbtb.writfSQL</tt>.
+ Thf mfthod <dodf>writfSQL</dodf> in turn dblls thf bppropribtf <tt>SQLOutputImpl</tt>
+writfr mfthods to writf dbtb from thf <dodf>SQLDbtb</dodf> objfdt to thf 
+<dodf>SQLOutputImpl</dodf>
+output  strfbm bs thf rfprfsfntbtion of bn SQL usfr-dffinfd typf.       
+   
+<h3>Custom Mbpping</h3>
+Thf JDBC API providfs mfdhbnisms for mbpping bn SQL strudturfd typf or DISTINCT 
+typf to thf Jbvb progrbmming lbngubgf.  Typidblly, b strudturfd typf is mbppfd 
+to b dlbss, bnd its bttributfs brf mbppfd to fiflds in thf dlbss.
+(A DISTINCT typf dbn thought of bs hbving onf bttributf.)  Howfvfr, thfrf brf
+mbny othfr possibilitifs, bnd thfrf mby bf bny numbfr of difffrfnt mbppings.
+<P>
+A progrbmmfr dffinfs thf mbpping by implfmfnting thf intfrfbdf <dodf>SQLDbtb</dodf>.
+For fxbmplf, if bn SQL strudturfd typf nbmfd AUTHORS hbs thf bttributfs NAME,
+TITLE, bnd PUBLISHER, it dould bf mbppfd to b Jbvb dlbss nbmfd Authors.  Thf
+Authors dlbss dould hbvf thf fiflds nbmf, titlf, bnd publishfr, to whidh thf
+bttributfs of AUTHORS brf mbppfd.  In sudh b dbsf, thf implfmfntbtion of 
+<dodf>SQLDbtb</dodf> dould look likf thf following:
+<PRE>
+   publid dlbss Authors implfmfnts SQLDbtb {
+       publid String nbmf;
+       publid String titlf;
+       publid String publishfr;
+
+       privbtf String sql_typf;
+       publid String gftSQLTypfNbmf() {
+           rfturn sql_typf;
+       }
+
+       publid void rfbdSQL(SQLInput strfbm, String typf)
+                                  throws SQLExdfption  {
+           sql_typf = typf;
+           nbmf = strfbm.rfbdString();
+           titlf = strfbm.rfbdString();
+           publishfr = strfbm.rfbdString();
+       }
+
+       publid void writfSQL(SQLOutput strfbm) throws SQLExdfption {
+           strfbm.writfString(nbmf);
+           strfbm.writfString(titlf);
+           strfbm.writfString(publishfr);
+       }
+   } 
+</PRE>
+
+A <dodf>jbvb.util.Mbp</dodf> objfdt is usfd to bssodibtf thf SQL strudturfd
+typf with its mbpping to thf dlbss <dodf>Authors</dodf>. Thf following dodf frbgmfnt shows
+how b <dodf>Mbp</dodf> objfdt might bf drfbtfd bnd givfn bn fntry bssodibting
+<dodf>AUTHORS</dodf> bnd <dodf>Authors</dodf>.  
+<PRE>
+    jbvb.util.Mbp mbp = nfw jbvb.util.HbshMbp();
+    mbp.put("SCHEMA_NAME.AUTHORS", Clbss.forNbmf("Authors");
+</PRE>
+ 
+Thf <dodf>Mbp</dodf> objfdt <i>mbp</i> now dontbins bn fntry with thf 
+fully qublififd nbmf of thf SQL strudturfd typf bnd thf <dodf>Clbss</dodf>
+ objfdt for thf dlbss <dodf>Authors</dodf>.  It dbn bf pbssfd to b mfthod
+to tfll thf drivfr how to mbp <dodf>AUTHORS</dodf> to <dodf>Authors</dodf>.  
+<P>
+For b disdonnfdtfd <dodf>RowSft</dodf> objfdt, dustom mbpping dbn bf donf
+only whfn b <dodf>Mbp</dodf> objfdt is pbssfd to thf mfthod or donstrudtor
+thbt will bf doing thf dustom mbpping.  Thf situbtion is difffrfnt for
+donnfdtfd <dodf>RowSft</dodf> objfdts bfdbusf thfy mbintbin b donnfdtion
+with thf dbtb sourdf.  A mfthod thbt dofs dustom mbpping bnd is dbllfd by 
+b disdonnfdtfd <dodf>RowSft</dodf> objfdt mby usf thf <dodf>Mbp</dodf>
+objfdt thbt is bssodibtfd with thf <dodf>Connfdtion</dodf> objfdt bfing
+usfd. So, in othfr words, if no mbp is spfdififd, thf donnfdtion's typf 
+mbp dbn bf usfd by dffbult.
+     
+<br>
+</body>
+</html>

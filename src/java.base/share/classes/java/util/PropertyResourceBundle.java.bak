@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.IOException;
-import sun.util.ResourceBundleEnumeration;
+import jbvb.io.InputStrfbm;
+import jbvb.io.Rfbdfr;
+import jbvb.io.IOExdfption;
+import sun.util.RfsourdfBundlfEnumfrbtion;
 
 /**
- * <code>PropertyResourceBundle</code> is a concrete subclass of
- * <code>ResourceBundle</code> that manages resources for a locale
- * using a set of static strings from a property file. See
- * {@link ResourceBundle ResourceBundle} for more information about resource
- * bundles.
+ * <dodf>PropfrtyRfsourdfBundlf</dodf> is b dondrftf subdlbss of
+ * <dodf>RfsourdfBundlf</dodf> tibt mbnbgfs rfsourdfs for b lodblf
+ * using b sft of stbtid strings from b propfrty filf. Sff
+ * {@link RfsourdfBundlf RfsourdfBundlf} for morf informbtion bbout rfsourdf
+ * bundlfs.
  *
  * <p>
- * Unlike other types of resource bundle, you don't subclass
- * <code>PropertyResourceBundle</code>.  Instead, you supply properties
- * files containing the resource data.  <code>ResourceBundle.getBundle</code>
- * will automatically look for the appropriate properties file and create a
- * <code>PropertyResourceBundle</code> that refers to it. See
- * {@link ResourceBundle#getBundle(java.lang.String, java.util.Locale, java.lang.ClassLoader) ResourceBundle.getBundle}
- * for a complete description of the search and instantiation strategy.
+ * Unlikf otifr typfs of rfsourdf bundlf, you don't subdlbss
+ * <dodf>PropfrtyRfsourdfBundlf</dodf>.  Instfbd, you supply propfrtifs
+ * filfs dontbining tif rfsourdf dbtb.  <dodf>RfsourdfBundlf.gftBundlf</dodf>
+ * will butombtidblly look for tif bppropribtf propfrtifs filf bnd drfbtf b
+ * <dodf>PropfrtyRfsourdfBundlf</dodf> tibt rfffrs to it. Sff
+ * {@link RfsourdfBundlf#gftBundlf(jbvb.lbng.String, jbvb.util.Lodblf, jbvb.lbng.ClbssLobdfr) RfsourdfBundlf.gftBundlf}
+ * for b domplftf dfsdription of tif sfbrdi bnd instbntibtion strbtfgy.
  *
  * <p>
- * The following <a name="sample">example</a> shows a member of a resource
- * bundle family with the base name "MyResources".
- * The text defines the bundle "MyResources_de",
- * the German member of the bundle family.
- * This member is based on <code>PropertyResourceBundle</code>, and the text
- * therefore is the content of the file "MyResources_de.properties"
- * (a related <a href="ListResourceBundle.html#sample">example</a> shows
- * how you can add bundles to this family that are implemented as subclasses
- * of <code>ListResourceBundle</code>).
- * The keys in this example are of the form "s1" etc. The actual
- * keys are entirely up to your choice, so long as they are the same as
- * the keys you use in your program to retrieve the objects from the bundle.
- * Keys are case-sensitive.
- * <blockquote>
- * <pre>
- * # MessageFormat pattern
- * s1=Die Platte \"{1}\" enth&auml;lt {0}.
+ * Tif following <b nbmf="sbmplf">fxbmplf</b> siows b mfmbfr of b rfsourdf
+ * bundlf fbmily witi tif bbsf nbmf "MyRfsourdfs".
+ * Tif tfxt dffinfs tif bundlf "MyRfsourdfs_df",
+ * tif Gfrmbn mfmbfr of tif bundlf fbmily.
+ * Tiis mfmbfr is bbsfd on <dodf>PropfrtyRfsourdfBundlf</dodf>, bnd tif tfxt
+ * tifrfforf is tif dontfnt of tif filf "MyRfsourdfs_df.propfrtifs"
+ * (b rflbtfd <b irff="ListRfsourdfBundlf.itml#sbmplf">fxbmplf</b> siows
+ * iow you dbn bdd bundlfs to tiis fbmily tibt brf implfmfntfd bs subdlbssfs
+ * of <dodf>ListRfsourdfBundlf</dodf>).
+ * Tif kfys in tiis fxbmplf brf of tif form "s1" ftd. Tif bdtubl
+ * kfys brf fntirfly up to your dioidf, so long bs tify brf tif sbmf bs
+ * tif kfys you usf in your progrbm to rftrifvf tif objfdts from tif bundlf.
+ * Kfys brf dbsf-sfnsitivf.
+ * <blodkquotf>
+ * <prf>
+ * # MfssbgfFormbt pbttfrn
+ * s1=Dif Plbttf \"{1}\" fnti&buml;lt {0}.
  *
- * # location of {0} in pattern
+ * # lodbtion of {0} in pbttfrn
  * s2=1
  *
- * # sample disk name
- * s3=Meine Platte
+ * # sbmplf disk nbmf
+ * s3=Mfinf Plbttf
  *
- * # first ChoiceFormat choice
- * s4=keine Dateien
+ * # first CioidfFormbt dioidf
+ * s4=kfinf Dbtfifn
  *
- * # second ChoiceFormat choice
- * s5=eine Datei
+ * # sfdond CioidfFormbt dioidf
+ * s5=finf Dbtfi
  *
- * # third ChoiceFormat choice
- * s6={0,number} Dateien
+ * # tiird CioidfFormbt dioidf
+ * s6={0,numbfr} Dbtfifn
  *
- * # sample date
- * s7=3. M&auml;rz 1996
- * </pre>
- * </blockquote>
- *
- * <p>
- * The implementation of a {@code PropertyResourceBundle} subclass must be
- * thread-safe if it's simultaneously used by multiple threads. The default
- * implementations of the non-abstract methods in this class are thread-safe.
+ * # sbmplf dbtf
+ * s7=3. M&buml;rz 1996
+ * </prf>
+ * </blodkquotf>
  *
  * <p>
- * <strong>Note:</strong> PropertyResourceBundle can be constructed either
- * from an InputStream or a Reader, which represents a property file.
- * Constructing a PropertyResourceBundle instance from an InputStream requires
- * that the input stream be encoded in ISO-8859-1.  In that case, characters
- * that cannot be represented in ISO-8859-1 encoding must be represented by Unicode Escapes
- * as defined in section 3.3 of
- * <cite>The Java&trade; Language Specification</cite>
- * whereas the other constructor which takes a Reader does not have that limitation.
+ * Tif implfmfntbtion of b {@dodf PropfrtyRfsourdfBundlf} subdlbss must bf
+ * tirfbd-sbff if it's simultbnfously usfd by multiplf tirfbds. Tif dffbult
+ * implfmfntbtions of tif non-bbstrbdt mftiods in tiis dlbss brf tirfbd-sbff.
  *
- * @see ResourceBundle
- * @see ListResourceBundle
- * @see Properties
- * @since 1.1
+ * <p>
+ * <strong>Notf:</strong> PropfrtyRfsourdfBundlf dbn bf donstrudtfd fitifr
+ * from bn InputStrfbm or b Rfbdfr, wiidi rfprfsfnts b propfrty filf.
+ * Construdting b PropfrtyRfsourdfBundlf instbndf from bn InputStrfbm rfquirfs
+ * tibt tif input strfbm bf fndodfd in ISO-8859-1.  In tibt dbsf, dibrbdtfrs
+ * tibt dbnnot bf rfprfsfntfd in ISO-8859-1 fndoding must bf rfprfsfntfd by Unidodf Esdbpfs
+ * bs dffinfd in sfdtion 3.3 of
+ * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>
+ * wifrfbs tif otifr donstrudtor wiidi tbkfs b Rfbdfr dofs not ibvf tibt limitbtion.
+ *
+ * @sff RfsourdfBundlf
+ * @sff ListRfsourdfBundlf
+ * @sff Propfrtifs
+ * @sindf 1.1
  */
-public class PropertyResourceBundle extends ResourceBundle {
+publid dlbss PropfrtyRfsourdfBundlf fxtfnds RfsourdfBundlf {
     /**
-     * Creates a property resource bundle from an {@link java.io.InputStream
-     * InputStream}.  The property file read with this constructor
-     * must be encoded in ISO-8859-1.
+     * Crfbtfs b propfrty rfsourdf bundlf from bn {@link jbvb.io.InputStrfbm
+     * InputStrfbm}.  Tif propfrty filf rfbd witi tiis donstrudtor
+     * must bf fndodfd in ISO-8859-1.
      *
-     * @param stream an InputStream that represents a property file
-     *        to read from.
-     * @throws IOException if an I/O error occurs
-     * @throws NullPointerException if <code>stream</code> is null
-     * @throws IllegalArgumentException if {@code stream} contains a
-     *     malformed Unicode escape sequence.
+     * @pbrbm strfbm bn InputStrfbm tibt rfprfsfnts b propfrty filf
+     *        to rfbd from.
+     * @tirows IOExdfption if bn I/O frror oddurs
+     * @tirows NullPointfrExdfption if <dodf>strfbm</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if {@dodf strfbm} dontbins b
+     *     mblformfd Unidodf fsdbpf sfqufndf.
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public PropertyResourceBundle (InputStream stream) throws IOException {
-        Properties properties = new Properties();
-        properties.load(stream);
-        lookup = new HashMap(properties);
+    @SupprfssWbrnings({"undifdkfd", "rbwtypfs"})
+    publid PropfrtyRfsourdfBundlf (InputStrfbm strfbm) tirows IOExdfption {
+        Propfrtifs propfrtifs = nfw Propfrtifs();
+        propfrtifs.lobd(strfbm);
+        lookup = nfw HbsiMbp(propfrtifs);
     }
 
     /**
-     * Creates a property resource bundle from a {@link java.io.Reader
-     * Reader}.  Unlike the constructor
-     * {@link #PropertyResourceBundle(java.io.InputStream) PropertyResourceBundle(InputStream)},
-     * there is no limitation as to the encoding of the input property file.
+     * Crfbtfs b propfrty rfsourdf bundlf from b {@link jbvb.io.Rfbdfr
+     * Rfbdfr}.  Unlikf tif donstrudtor
+     * {@link #PropfrtyRfsourdfBundlf(jbvb.io.InputStrfbm) PropfrtyRfsourdfBundlf(InputStrfbm)},
+     * tifrf is no limitbtion bs to tif fndoding of tif input propfrty filf.
      *
-     * @param reader a Reader that represents a property file to
-     *        read from.
-     * @throws IOException if an I/O error occurs
-     * @throws NullPointerException if <code>reader</code> is null
-     * @throws IllegalArgumentException if a malformed Unicode escape sequence appears
-     *     from {@code reader}.
-     * @since 1.6
+     * @pbrbm rfbdfr b Rfbdfr tibt rfprfsfnts b propfrty filf to
+     *        rfbd from.
+     * @tirows IOExdfption if bn I/O frror oddurs
+     * @tirows NullPointfrExdfption if <dodf>rfbdfr</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if b mblformfd Unidodf fsdbpf sfqufndf bppfbrs
+     *     from {@dodf rfbdfr}.
+     * @sindf 1.6
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public PropertyResourceBundle (Reader reader) throws IOException {
-        Properties properties = new Properties();
-        properties.load(reader);
-        lookup = new HashMap(properties);
+    @SupprfssWbrnings({"undifdkfd", "rbwtypfs"})
+    publid PropfrtyRfsourdfBundlf (Rfbdfr rfbdfr) tirows IOExdfption {
+        Propfrtifs propfrtifs = nfw Propfrtifs();
+        propfrtifs.lobd(rfbdfr);
+        lookup = nfw HbsiMbp(propfrtifs);
     }
 
-    // Implements java.util.ResourceBundle.handleGetObject; inherits javadoc specification.
-    public Object handleGetObject(String key) {
-        if (key == null) {
-            throw new NullPointerException();
+    // Implfmfnts jbvb.util.RfsourdfBundlf.ibndlfGftObjfdt; inifrits jbvbdod spfdifidbtion.
+    publid Objfdt ibndlfGftObjfdt(String kfy) {
+        if (kfy == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return lookup.get(key);
+        rfturn lookup.gft(kfy);
     }
 
     /**
-     * Returns an <code>Enumeration</code> of the keys contained in
-     * this <code>ResourceBundle</code> and its parent bundles.
+     * Rfturns bn <dodf>Enumfrbtion</dodf> of tif kfys dontbinfd in
+     * tiis <dodf>RfsourdfBundlf</dodf> bnd its pbrfnt bundlfs.
      *
-     * @return an <code>Enumeration</code> of the keys contained in
-     *         this <code>ResourceBundle</code> and its parent bundles.
-     * @see #keySet()
+     * @rfturn bn <dodf>Enumfrbtion</dodf> of tif kfys dontbinfd in
+     *         tiis <dodf>RfsourdfBundlf</dodf> bnd its pbrfnt bundlfs.
+     * @sff #kfySft()
      */
-    public Enumeration<String> getKeys() {
-        ResourceBundle parent = this.parent;
-        return new ResourceBundleEnumeration(lookup.keySet(),
-                (parent != null) ? parent.getKeys() : null);
+    publid Enumfrbtion<String> gftKfys() {
+        RfsourdfBundlf pbrfnt = tiis.pbrfnt;
+        rfturn nfw RfsourdfBundlfEnumfrbtion(lookup.kfySft(),
+                (pbrfnt != null) ? pbrfnt.gftKfys() : null);
     }
 
     /**
-     * Returns a <code>Set</code> of the keys contained
-     * <em>only</em> in this <code>ResourceBundle</code>.
+     * Rfturns b <dodf>Sft</dodf> of tif kfys dontbinfd
+     * <fm>only</fm> in tiis <dodf>RfsourdfBundlf</dodf>.
      *
-     * @return a <code>Set</code> of the keys contained only in this
-     *         <code>ResourceBundle</code>
-     * @since 1.6
-     * @see #keySet()
+     * @rfturn b <dodf>Sft</dodf> of tif kfys dontbinfd only in tiis
+     *         <dodf>RfsourdfBundlf</dodf>
+     * @sindf 1.6
+     * @sff #kfySft()
      */
-    protected Set<String> handleKeySet() {
-        return lookup.keySet();
+    protfdtfd Sft<String> ibndlfKfySft() {
+        rfturn lookup.kfySft();
     }
 
-    // ==================privates====================
+    // ==================privbtfs====================
 
-    private Map<String,Object> lookup;
+    privbtf Mbp<String,Objfdt> lookup;
 }

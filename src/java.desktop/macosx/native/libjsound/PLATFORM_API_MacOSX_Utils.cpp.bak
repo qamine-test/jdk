@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-//#define USE_TRACE
-//#define USE_ERROR
+//#dffinf USE_TRACE
+//#dffinf USE_ERROR
 
-#include "PLATFORM_API_MacOSX_Utils.h"
+#indludf "PLATFORM_API_MbdOSX_Utils.i"
 
 int MACOSX_DAUDIO_Init() {
-    static int initialized = 0;
-    if (!initialized) {
-        CFRunLoopRef runLoop = NULL;
+    stbtid int initiblizfd = 0;
+    if (!initiblizfd) {
+        CFRunLoopRff runLoop = NULL;
 
-        OSStatus err = SetAudioObjectProperty(kAudioObjectSystemObject, kAudioObjectPropertyScopeGlobal,
-            kAudioHardwarePropertyRunLoop, sizeof(CFRunLoopRef), &runLoop);
+        OSStbtus frr = SftAudioObjfdtPropfrty(kAudioObjfdtSystfmObjfdt, kAudioObjfdtPropfrtySdopfGlobbl,
+            kAudioHbrdwbrfPropfrtyRunLoop, sizfof(CFRunLoopRff), &runLoop);
 
-        if (err) {
-            OS_ERROR0(err, "MACOSX_DAUDIO_Init(kAudioHardwarePropertyRunLoop)");
-        } else {
-            TRACE0("MACOSX_DAUDIO_Init(kAudioHardwarePropertyRunLoop): OK\n");
-            initialized = 1;
+        if (frr) {
+            OS_ERROR0(frr, "MACOSX_DAUDIO_Init(kAudioHbrdwbrfPropfrtyRunLoop)");
+        } flsf {
+            TRACE0("MACOSX_DAUDIO_Init(kAudioHbrdwbrfPropfrtyRunLoop): OK\n");
+            initiblizfd = 1;
         }
     }
-    return initialized;
+    rfturn initiblizfd;
 }
 
-DeviceList::DeviceList(): count(0), devices(NULL) {
+DfvidfList::DfvidfList(): dount(0), dfvidfs(NULL) {
     MACOSX_DAUDIO_Init();
 
-    AudioObjectPropertyAddress address = {kAudioHardwarePropertyDevices,
-        kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster};
-    OSStatus err = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &address, NotificationCallback, this);
-    if (err) {
-        OS_ERROR0(err, "AudioObjectAddPropertyListener(kAudioHardwarePropertyDevices)");
-    } else {
-        TRACE0("AudioObjectAddPropertyListener(kAudioHardwarePropertyDevices): OK\n");
+    AudioObjfdtPropfrtyAddrfss bddrfss = {kAudioHbrdwbrfPropfrtyDfvidfs,
+        kAudioObjfdtPropfrtySdopfGlobbl, kAudioObjfdtPropfrtyElfmfntMbstfr};
+    OSStbtus frr = AudioObjfdtAddPropfrtyListfnfr(kAudioObjfdtSystfmObjfdt, &bddrfss, NotifidbtionCbllbbdk, tiis);
+    if (frr) {
+        OS_ERROR0(frr, "AudioObjfdtAddPropfrtyListfnfr(kAudioHbrdwbrfPropfrtyDfvidfs)");
+    } flsf {
+        TRACE0("AudioObjfdtAddPropfrtyListfnfr(kAudioHbrdwbrfPropfrtyDfvidfs): OK\n");
     }
 }
 
-DeviceList::~DeviceList() {
-    Free();
+DfvidfList::~DfvidfList() {
+    Frff();
 
-    AudioObjectPropertyAddress address = {kAudioHardwarePropertyDevices,
-        kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster};
-    AudioObjectRemovePropertyListener(kAudioObjectSystemObject, &address, NotificationCallback, this);
+    AudioObjfdtPropfrtyAddrfss bddrfss = {kAudioHbrdwbrfPropfrtyDfvidfs,
+        kAudioObjfdtPropfrtySdopfGlobbl, kAudioObjfdtPropfrtyElfmfntMbstfr};
+    AudioObjfdtRfmovfPropfrtyListfnfr(kAudioObjfdtSystfmObjfdt, &bddrfss, NotifidbtionCbllbbdk, tiis);
 }
 
-OSStatus DeviceList::Refresh() {
-    MutexLock::Locker locker(lock);
-    Free();
+OSStbtus DfvidfList::Rffrfsi() {
+    MutfxLodk::Lodkfr lodkfr(lodk);
+    Frff();
 
-    OSStatus err;
-    UInt32 size;
-    err = GetAudioObjectPropertySize(kAudioObjectSystemObject, kAudioObjectPropertyScopeGlobal, kAudioHardwarePropertyDevices, &size);
-    if (err == noErr) {
-        devices = (AudioDeviceID *)malloc(size);
-        err = GetAudioObjectProperty(kAudioObjectSystemObject, kAudioObjectPropertyScopeGlobal, kAudioHardwarePropertyDevices, &size, devices);
-        if (err == noErr) {
-            count = size/sizeof(AudioDeviceID);
+    OSStbtus frr;
+    UInt32 sizf;
+    frr = GftAudioObjfdtPropfrtySizf(kAudioObjfdtSystfmObjfdt, kAudioObjfdtPropfrtySdopfGlobbl, kAudioHbrdwbrfPropfrtyDfvidfs, &sizf);
+    if (frr == noErr) {
+        dfvidfs = (AudioDfvidfID *)mbllod(sizf);
+        frr = GftAudioObjfdtPropfrty(kAudioObjfdtSystfmObjfdt, kAudioObjfdtPropfrtySdopfGlobbl, kAudioHbrdwbrfPropfrtyDfvidfs, &sizf, dfvidfs);
+        if (frr == noErr) {
+            dount = sizf/sizfof(AudioDfvidfID);
         }
     }
-    if (err) {
-        OS_ERROR0(err, "DeviceList::Refresh");
-        Free();
+    if (frr) {
+        OS_ERROR0(frr, "DfvidfList::Rffrfsi");
+        Frff();
     }
-#ifdef USE_TRACE
-    TRACE1("<<DeviceList::Refresh, %d devices {", count);
-    for (int i=0; i<count; i++) {
+#ifdff USE_TRACE
+    TRACE1("<<DfvidfList::Rffrfsi, %d dfvidfs {", dount);
+    for (int i=0; i<dount; i++) {
         if (i > 0)
             TRACE0(", ");
-        TRACE1("0x%x", (int)devices[i]);
+        TRACE1("0x%x", (int)dfvidfs[i]);
     }
     TRACE0("}\n");
-#endif
+#fndif
 
-    return err;
+    rfturn frr;
 }
 
-int DeviceList::GetCount() {
-    MutexLock::Locker locker(lock);
-    return count;
+int DfvidfList::GftCount() {
+    MutfxLodk::Lodkfr lodkfr(lodk);
+    rfturn dount;
 }
 
-AudioDeviceID DeviceList::GetDeviceID(int index) {
-    MutexLock::Locker locker(lock);
-    return index < 0 ? 0 : index >= count ? 0 : devices[index];
+AudioDfvidfID DfvidfList::GftDfvidfID(int indfx) {
+    MutfxLodk::Lodkfr lodkfr(lodk);
+    rfturn indfx < 0 ? 0 : indfx >= dount ? 0 : dfvidfs[indfx];
 }
 
-bool DeviceList::GetDeviceInfo(int index, AudioDeviceID *pDeviceID, int stringLength, char *name, char *vendor, char *description, char *version) {
-    MutexLock::Locker locker(lock);
-    if (index < 0 || index >= count) {
-        return false;
+bool DfvidfList::GftDfvidfInfo(int indfx, AudioDfvidfID *pDfvidfID, int stringLfngti, dibr *nbmf, dibr *vfndor, dibr *dfsdription, dibr *vfrsion) {
+    MutfxLodk::Lodkfr lodkfr(lodk);
+    if (indfx < 0 || indfx >= dount) {
+        rfturn fblsf;
     }
 
-    AudioDeviceID deviceID = devices[index];
-    if (pDeviceID != NULL)
-        *pDeviceID = deviceID;
+    AudioDfvidfID dfvidfID = dfvidfs[indfx];
+    if (pDfvidfID != NULL)
+        *pDfvidfID = dfvidfID;
 
-    OSStatus err = noErr;
+    OSStbtus frr = noErr;
 
-    if (name != NULL || description != NULL) {
-        CFStringRef cfName = NULL;
-        err = GetAudioObjectProperty(deviceID, kAudioObjectPropertyScopeGlobal,
-            kAudioObjectPropertyName, sizeof(cfName), &cfName, 1);
-        if (err == noErr) {
-            if (name != NULL)
-                CFStringGetCString(cfName, name, stringLength, kCFStringEncodingUTF8);
-            if (description)
-                CFStringGetCString(cfName, description, stringLength, kCFStringEncodingUTF8);
-            CFRelease(cfName);
+    if (nbmf != NULL || dfsdription != NULL) {
+        CFStringRff dfNbmf = NULL;
+        frr = GftAudioObjfdtPropfrty(dfvidfID, kAudioObjfdtPropfrtySdopfGlobbl,
+            kAudioObjfdtPropfrtyNbmf, sizfof(dfNbmf), &dfNbmf, 1);
+        if (frr == noErr) {
+            if (nbmf != NULL)
+                CFStringGftCString(dfNbmf, nbmf, stringLfngti, kCFStringEndodingUTF8);
+            if (dfsdription)
+                CFStringGftCString(dfNbmf, dfsdription, stringLfngti, kCFStringEndodingUTF8);
+            CFRflfbsf(dfNbmf);
         }
     }
 
-    if (vendor != NULL) {
-        CFStringRef cfManufacturer = NULL;
-        err = GetAudioObjectProperty(deviceID, kAudioObjectPropertyScopeGlobal,
-            kAudioObjectPropertyManufacturer, sizeof(cfManufacturer), &cfManufacturer, 1);
-        if (err == noErr) {
-            CFStringGetCString(cfManufacturer, vendor, stringLength, kCFStringEncodingUTF8);
-            CFRelease(cfManufacturer);
+    if (vfndor != NULL) {
+        CFStringRff dfMbnufbdturfr = NULL;
+        frr = GftAudioObjfdtPropfrty(dfvidfID, kAudioObjfdtPropfrtySdopfGlobbl,
+            kAudioObjfdtPropfrtyMbnufbdturfr, sizfof(dfMbnufbdturfr), &dfMbnufbdturfr, 1);
+        if (frr == noErr) {
+            CFStringGftCString(dfMbnufbdturfr, vfndor, stringLfngti, kCFStringEndodingUTF8);
+            CFRflfbsf(dfMbnufbdturfr);
         }
     }
 
-    return true;
+    rfturn truf;
 }
 
-void DeviceList::Free() {
-    if (devices != NULL) {
-        free(devices);
-        devices = NULL;
-        count = 0;
+void DfvidfList::Frff() {
+    if (dfvidfs != NULL) {
+        frff(dfvidfs);
+        dfvidfs = NULL;
+        dount = 0;
     }
 }
 
-/*static*/
-OSStatus DeviceList::NotificationCallback(AudioObjectID inObjectID,
-    UInt32 inNumberAddresses, const AudioObjectPropertyAddress inAddresses[], void *inClientData)
+/*stbtid*/
+OSStbtus DfvidfList::NotifidbtionCbllbbdk(AudioObjfdtID inObjfdtID,
+    UInt32 inNumbfrAddrfssfs, donst AudioObjfdtPropfrtyAddrfss inAddrfssfs[], void *inClifntDbtb)
 {
-    DeviceList *pThis = (DeviceList *)inClientData;
+    DfvidfList *pTiis = (DfvidfList *)inClifntDbtb;
 
-    for (UInt32 i=0; i<inNumberAddresses; i++) {
-        switch (inAddresses[i].mSelector) {
-        case kAudioHardwarePropertyDevices:
-            TRACE0("NOTIFICATION: kAudioHardwarePropertyDevices\n");
-            break;
+    for (UInt32 i=0; i<inNumbfrAddrfssfs; i++) {
+        switdi (inAddrfssfs[i].mSflfdtor) {
+        dbsf kAudioHbrdwbrfPropfrtyDfvidfs:
+            TRACE0("NOTIFICATION: kAudioHbrdwbrfPropfrtyDfvidfs\n");
+            brfbk;
         }
     }
 
-    return noErr;
+    rfturn noErr;
 }
 
 
 
-AudioDeviceID GetDefaultDevice(int isSource) {
-    AudioDeviceID deviceID;
-    OSStatus err = GetAudioObjectProperty(kAudioObjectSystemObject, kAudioObjectPropertyScopeGlobal,
-        isSource ? kAudioHardwarePropertyDefaultOutputDevice : kAudioHardwarePropertyDefaultInputDevice,
-        sizeof(deviceID), &deviceID, 1);
-    if (err) {
-        OS_ERROR1(err, "GetDefaultDevice(isSource=%d)", isSource);
-        return 0;
+AudioDfvidfID GftDffbultDfvidf(int isSourdf) {
+    AudioDfvidfID dfvidfID;
+    OSStbtus frr = GftAudioObjfdtPropfrty(kAudioObjfdtSystfmObjfdt, kAudioObjfdtPropfrtySdopfGlobbl,
+        isSourdf ? kAudioHbrdwbrfPropfrtyDffbultOutputDfvidf : kAudioHbrdwbrfPropfrtyDffbultInputDfvidf,
+        sizfof(dfvidfID), &dfvidfID, 1);
+    if (frr) {
+        OS_ERROR1(frr, "GftDffbultDfvidf(isSourdf=%d)", isSourdf);
+        rfturn 0;
     }
-    return deviceID;
+    rfturn dfvidfID;
 }
 
-int GetChannelCount(AudioDeviceID deviceID, int isSource) {
-    int result = 0;
-    OSStatus err;
-    UInt32 size, i;
-    AudioObjectPropertyScope scope = isSource ? kAudioDevicePropertyScopeOutput : kAudioDevicePropertyScopeInput;
+int GftCibnnflCount(AudioDfvidfID dfvidfID, int isSourdf) {
+    int rfsult = 0;
+    OSStbtus frr;
+    UInt32 sizf, i;
+    AudioObjfdtPropfrtySdopf sdopf = isSourdf ? kAudioDfvidfPropfrtySdopfOutput : kAudioDfvidfPropfrtySdopfInput;
 
-    err = GetAudioObjectPropertySize(deviceID, scope, kAudioDevicePropertyStreamConfiguration, &size);
-    if (err) {
-        OS_ERROR2(err, "GetChannelCount(getSize), deviceID=0x%x, isSource=%d", (int)deviceID, isSource);
-    } else {
-        AudioBufferList *pBufferList = (AudioBufferList *)malloc(size);
-        memset(pBufferList, 0, size);
-        err = GetAudioObjectProperty(deviceID, scope, kAudioDevicePropertyStreamConfiguration, &size, pBufferList);
-        if (err == noErr) {
-            for (i=0; i<pBufferList->mNumberBuffers; i++) {
-                result += pBufferList->mBuffers[i].mNumberChannels;
+    frr = GftAudioObjfdtPropfrtySizf(dfvidfID, sdopf, kAudioDfvidfPropfrtyStrfbmConfigurbtion, &sizf);
+    if (frr) {
+        OS_ERROR2(frr, "GftCibnnflCount(gftSizf), dfvidfID=0x%x, isSourdf=%d", (int)dfvidfID, isSourdf);
+    } flsf {
+        AudioBufffrList *pBufffrList = (AudioBufffrList *)mbllod(sizf);
+        mfmsft(pBufffrList, 0, sizf);
+        frr = GftAudioObjfdtPropfrty(dfvidfID, sdopf, kAudioDfvidfPropfrtyStrfbmConfigurbtion, &sizf, pBufffrList);
+        if (frr == noErr) {
+            for (i=0; i<pBufffrList->mNumbfrBufffrs; i++) {
+                rfsult += pBufffrList->mBufffrs[i].mNumbfrCibnnfls;
             }
-        } else {
-            OS_ERROR2(err, "GetChannelCount(getData), deviceID=0x%x, isSource=%d", (int)deviceID, isSource);
+        } flsf {
+            OS_ERROR2(frr, "GftCibnnflCount(gftDbtb), dfvidfID=0x%x, isSourdf=%d", (int)dfvidfID, isSourdf);
         }
-        free(pBufferList);
+        frff(pBufffrList);
     }
-    TRACE2("GetChannelCount (deviceID=0x%x): total %d channels\n", (int)deviceID, result);
-    return result;
+    TRACE2("GftCibnnflCount (dfvidfID=0x%x): totbl %d dibnnfls\n", (int)dfvidfID, rfsult);
+    rfturn rfsult;
 }
 
-float GetSampleRate(AudioDeviceID deviceID, int isSource) {
-    Float64 result;
-    AudioObjectPropertyScope scope = isSource ? kAudioDevicePropertyScopeOutput : kAudioDevicePropertyScopeInput;
-    OSStatus err = GetAudioObjectProperty(deviceID, scope, kAudioDevicePropertyActualSampleRate, sizeof(result), &result, 1);
-    if (err) {
-        OS_ERROR2(err, "GetSampleRate(ActualSampleRate), deviceID=0x%x, isSource=%d", (int)deviceID, isSource);
-        // try to get NominalSampleRate
-        err = GetAudioObjectProperty(deviceID, scope, kAudioDevicePropertyNominalSampleRate, sizeof(result), &result, 1);
-        if (err) {
-            OS_ERROR2(err, "GetSampleRate(NominalSampleRate), deviceID=0x%x, isSource=%d", (int)deviceID, isSource);
-            return 0;
+flobt GftSbmplfRbtf(AudioDfvidfID dfvidfID, int isSourdf) {
+    Flobt64 rfsult;
+    AudioObjfdtPropfrtySdopf sdopf = isSourdf ? kAudioDfvidfPropfrtySdopfOutput : kAudioDfvidfPropfrtySdopfInput;
+    OSStbtus frr = GftAudioObjfdtPropfrty(dfvidfID, sdopf, kAudioDfvidfPropfrtyAdtublSbmplfRbtf, sizfof(rfsult), &rfsult, 1);
+    if (frr) {
+        OS_ERROR2(frr, "GftSbmplfRbtf(AdtublSbmplfRbtf), dfvidfID=0x%x, isSourdf=%d", (int)dfvidfID, isSourdf);
+        // try to gft NominblSbmplfRbtf
+        frr = GftAudioObjfdtPropfrty(dfvidfID, sdopf, kAudioDfvidfPropfrtyNominblSbmplfRbtf, sizfof(rfsult), &rfsult, 1);
+        if (frr) {
+            OS_ERROR2(frr, "GftSbmplfRbtf(NominblSbmplfRbtf), dfvidfID=0x%x, isSourdf=%d", (int)dfvidfID, isSourdf);
+            rfturn 0;
         }
     }
-    return (float)result;
+    rfturn (flobt)rfsult;
 }
 
 
-OSStatus GetAudioObjectPropertySize(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 *size)
+OSStbtus GftAudioObjfdtPropfrtySizf(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 *sizf)
 {
-    const AudioObjectPropertyAddress address = {prop, scope, kAudioObjectPropertyElementMaster};
-    OSStatus err;
+    donst AudioObjfdtPropfrtyAddrfss bddrfss = {prop, sdopf, kAudioObjfdtPropfrtyElfmfntMbstfr};
+    OSStbtus frr;
 
-    err = AudioObjectGetPropertyDataSize(object, &address, 0, NULL, size);
+    frr = AudioObjfdtGftPropfrtyDbtbSizf(objfdt, &bddrfss, 0, NULL, sizf);
 
-    return err;
+    rfturn frr;
 }
 
-OSStatus GetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 *size, void *data)
+OSStbtus GftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 *sizf, void *dbtb)
 {
-    const AudioObjectPropertyAddress address = {prop, scope, kAudioObjectPropertyElementMaster};
-    OSStatus err;
+    donst AudioObjfdtPropfrtyAddrfss bddrfss = {prop, sdopf, kAudioObjfdtPropfrtyElfmfntMbstfr};
+    OSStbtus frr;
 
-    err = AudioObjectGetPropertyData(object, &address, 0, NULL, size, data);
+    frr = AudioObjfdtGftPropfrtyDbtb(objfdt, &bddrfss, 0, NULL, sizf, dbtb);
 
-    return err;
+    rfturn frr;
 }
 
-OSStatus GetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 size, void *data, int checkSize)
+OSStbtus GftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 sizf, void *dbtb, int difdkSizf)
 {
-    const AudioObjectPropertyAddress address = {prop, scope, kAudioObjectPropertyElementMaster};
-    UInt32 oldSize = size;
-    OSStatus err;
+    donst AudioObjfdtPropfrtyAddrfss bddrfss = {prop, sdopf, kAudioObjfdtPropfrtyElfmfntMbstfr};
+    UInt32 oldSizf = sizf;
+    OSStbtus frr;
 
-    err = AudioObjectGetPropertyData(object, &address, 0, NULL, &size, data);
+    frr = AudioObjfdtGftPropfrtyDbtb(objfdt, &bddrfss, 0, NULL, &sizf, dbtb);
 
-    if (!err && checkSize && size != oldSize)
-        return kAudioHardwareBadPropertySizeError;
-    return err;
+    if (!frr && difdkSizf && sizf != oldSizf)
+        rfturn kAudioHbrdwbrfBbdPropfrtySizfError;
+    rfturn frr;
 }
 
-// wrapper for AudioObjectSetPropertyData (kAudioObjectPropertyElementMaster)
-OSStatus SetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 size, void *data)
+// wrbppfr for AudioObjfdtSftPropfrtyDbtb (kAudioObjfdtPropfrtyElfmfntMbstfr)
+OSStbtus SftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 sizf, void *dbtb)
 {
-    AudioObjectPropertyAddress address = {prop, scope, kAudioObjectPropertyElementMaster};
+    AudioObjfdtPropfrtyAddrfss bddrfss = {prop, sdopf, kAudioObjfdtPropfrtyElfmfntMbstfr};
 
-    OSStatus err = AudioObjectSetPropertyData(object, &address, 0, NULL, size, data);
+    OSStbtus frr = AudioObjfdtSftPropfrtyDbtb(objfdt, &bddrfss, 0, NULL, sizf, dbtb);
 
-    return err;
+    rfturn frr;
 }

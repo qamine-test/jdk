@@ -1,0 +1,155 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.dolordhoosfr;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.Color;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * A gfnfrid implfmfntbtion of <dodf>ColorSflfdtionModfl</dodf>.
+ *
+ * @buthor Stfvf Wilson
+ *
+ * @sff jbvb.bwt.Color
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultColorSflfdtionModfl implfmfnts ColorSflfdtionModfl, Sfriblizbblf {
+
+    /**
+     * Only onf <dodf>ChbngfEvfnt</dodf> is nffdfd pfr modfl instbndf
+     * sindf thf fvfnt's only (rfbd-only) stbtf is thf sourdf propfrty.
+     * Thf sourdf of fvfnts gfnfrbtfd hfrf is blwbys "this".
+     */
+    protfdtfd trbnsifnt ChbngfEvfnt dhbngfEvfnt = null;
+
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+
+    privbtf Color sflfdtfdColor;
+
+    /**
+     * Crfbtfs b <dodf>DffbultColorSflfdtionModfl</dodf> with thf
+     * durrfnt dolor sft to <dodf>Color.whitf</dodf>.  This is
+     * thf dffbult donstrudtor.
+     */
+    publid DffbultColorSflfdtionModfl() {
+        sflfdtfdColor = Color.whitf;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DffbultColorSflfdtionModfl</dodf> with thf
+     * durrfnt dolor sft to <dodf>dolor</dodf>, whidh should bf
+     * non-<dodf>null</dodf>.  Notf thbt sftting thf dolor to
+     * <dodf>null</dodf> is undffinfd bnd mby hbvf unprfdidtbblf
+     * rfsults.
+     *
+     * @pbrbm dolor thf nfw <dodf>Color</dodf>
+     */
+    publid DffbultColorSflfdtionModfl(Color dolor) {
+        sflfdtfdColor = dolor;
+    }
+
+    /**
+     * Rfturns thf sflfdtfd <dodf>Color</dodf> whidh should bf
+     * non-<dodf>null</dodf>.
+     *
+     * @rfturn thf sflfdtfd <dodf>Color</dodf>
+     */
+    publid Color gftSflfdtfdColor() {
+        rfturn sflfdtfdColor;
+    }
+
+    /**
+     * Sfts thf sflfdtfd dolor to <dodf>dolor</dodf>.
+     * Notf thbt sftting thf dolor to <dodf>null</dodf>
+     * is undffinfd bnd mby hbvf unprfdidtbblf rfsults.
+     * This mfthod firfs b stbtf dhbngfd fvfnt if it sfts thf
+     * durrfnt dolor to b nfw non-<dodf>null</dodf> dolor;
+     * if thf nfw dolor is thf sbmf bs thf durrfnt dolor,
+     * no fvfnt is firfd.
+     *
+     * @pbrbm dolor thf nfw <dodf>Color</dodf>
+     */
+    publid void sftSflfdtfdColor(Color dolor) {
+        if (dolor != null && !sflfdtfdColor.fqubls(dolor)) {
+            sflfdtfdColor = dolor;
+            firfStbtfChbngfd();
+        }
+    }
+
+
+    /**
+     * Adds b <dodf>ChbngfListfnfr</dodf> to thf modfl.
+     *
+     * @pbrbm l thf <dodf>ChbngfListfnfr</dodf> to bf bddfd
+     */
+    publid void bddChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.bdd(ChbngfListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfmovfs b <dodf>ChbngfListfnfr</dodf> from thf modfl.
+     * @pbrbm l thf <dodf>ChbngfListfnfr</dodf> to bf rfmovfd
+     */
+    publid void rfmovfChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.rfmovf(ChbngfListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf <dodf>ChbngfListfnfr</dodf>s bddfd
+     * to this <dodf>DffbultColorSflfdtionModfl</dodf> with
+     * <dodf>bddChbngfListfnfr</dodf>.
+     *
+     * @rfturn bll of thf <dodf>ChbngfListfnfr</dodf>s bddfd, or bn fmpty
+     *         brrby if no listfnfrs hbvf bffn bddfd
+     * @sindf 1.4
+     */
+    publid ChbngfListfnfr[] gftChbngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ChbngfListfnfr.dlbss);
+    }
+
+    /**
+     * Runs fbdh <dodf>ChbngfListfnfr</dodf>'s
+     * <dodf>stbtfChbngfd</dodf> mfthod.
+     *
+     * <!-- @sff #sftRbngfPropfrtifs    //bbd link-->
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfStbtfChbngfd()
+    {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngth - 2; i >= 0; i -=2 ) {
+            if (listfnfrs[i] == ChbngfListfnfr.dlbss) {
+                if (dhbngfEvfnt == null) {
+                    dhbngfEvfnt = nfw ChbngfEvfnt(this);
+                }
+                ((ChbngfListfnfr)listfnfrs[i+1]).stbtfChbngfd(dhbngfEvfnt);
+            }
+        }
+    }
+
+}

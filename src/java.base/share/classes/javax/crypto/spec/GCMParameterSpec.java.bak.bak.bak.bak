@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.spfd;
+
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+/**
+ * Spfdififs thf sft of pbrbmftfrs rfquirfd by b {@link
+ * jbvbx.drypto.Ciphfr} using thf Gblois/Countfr Modf (GCM) modf.
+ * <p>
+ * Simplf blodk diphfr modfs (sudh bs CBC) gfnfrblly rfquirf only bn
+ * initiblizbtion vfdtor (sudh bs {@dodf IvPbrbmftfrSpfd}),
+ * but GCM nffds thfsf pbrbmftfrs:
+ * <ul>
+ * <li>{@dodf IV}: Initiblizbtion Vfdtor (IV) </li>
+ * <li>{@dodf tLfn}: lfngth (in bits) of buthfntidbtion tbg T</li>
+ * </ul>
+ * <p>
+ * In bddition to thf pbrbmftfrs dfsdribfd hfrf, othfr GCM inputs/output
+ * (Additionbl Authfntidbtfd Dbtb (AAD), Kfys, blodk diphfrs,
+ * plbin/diphfrtfxt bnd buthfntidbtion tbgs) brf hbndlfd in thf {@dodf
+ * Ciphfr} dlbss.
+ * <p>
+ * Plfbsf sff <b hrff="http://www.iftf.org/rfd/rfd5116.txt"> RFC 5116
+ * </b> for morf informbtion on thf Authfntidbtfd Endryption with
+ * Assodibtfd Dbtb (AEAD) blgorithm, bnd <b hrff=
+ * "http://dsrd.nist.gov/publidbtions/nistpubs/800-38D/SP-800-38D.pdf">
+ * NIST Spfdibl Publidbtion 800-38D</b>, "NIST Rfdommfndbtion for Blodk
+ * Ciphfr Modfs of Opfrbtion:  Gblois/Countfr Modf (GCM) bnd GMAC."
+ * <p>
+ * Thf GCM spfdifidbtion stbtfs thbt {@dodf tLfn} mby only hbvf thf
+ * vblufs {128, 120, 112, 104, 96}, or {64, 32} for dfrtbin
+ * bpplidbtions.  Othfr vblufs dbn bf spfdififd for this dlbss, but not
+ * bll CSP implfmfntbtions will support thfm.
+ *
+ * @sff jbvbx.drypto.Ciphfr
+ *
+ * @sindf 1.7
+ */
+publid dlbss GCMPbrbmftfrSpfd implfmfnts AlgorithmPbrbmftfrSpfd {
+
+    // Initiblizbtion Vfdtor.  Could usf IvPbrbmftfrSpfd, but thbt
+    // would bdd fxtrb dopifs.
+    privbtf bytf[] iv;
+
+    // Rfquirfd Tbg lfngth (in bits).
+    privbtf int tLfn;
+
+    /**
+     * Construdts b GCMPbrbmftfrSpfd using thf spfdififd buthfntidbtion
+     * tbg bit-lfngth bnd IV bufffr.
+     *
+     * @pbrbm tLfn thf buthfntidbtion tbg lfngth (in bits)
+     * @pbrbm srd thf IV sourdf bufffr.  Thf dontfnts of thf bufffr brf
+     * dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf tLfn} is nfgbtivf,
+     * or {@dodf srd} is null.
+     */
+    publid GCMPbrbmftfrSpfd(int tLfn, bytf[] srd) {
+        if (srd == null) {
+            throw nfw IllfgblArgumfntExdfption("srd brrby is null");
+        }
+
+        init(tLfn, srd, 0, srd.lfngth);
+    }
+
+    /**
+     * Construdts b GCMPbrbmftfrSpfd objfdt using thf spfdififd
+     * buthfntidbtion tbg bit-lfngth bnd b subsft of thf spfdififd
+     * bufffr bs thf IV.
+     *
+     * @pbrbm tLfn thf buthfntidbtion tbg lfngth (in bits)
+     * @pbrbm srd thf IV sourdf bufffr.  Thf dontfnts of thf
+     * bufffr brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm offsft thf offsft in {@dodf srd} whfrf thf IV stbrts
+     * @pbrbm lfn thf numbfr of IV bytfs
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf tLfn} is nfgbtivf,
+     * {@dodf srd} is null, {@dodf lfn} or {@dodf offsft} is nfgbtivf,
+     * or thf sum of {@dodf offsft} bnd {@dodf lfn} is grfbtfr thbn thf
+     * lfngth of thf {@dodf srd} bytf brrby.
+     */
+    publid GCMPbrbmftfrSpfd(int tLfn, bytf[] srd, int offsft, int lfn) {
+        init(tLfn, srd, offsft, lfn);
+    }
+
+    /*
+     * Chfdk input pbrbmftfrs.
+     */
+    privbtf void init(int tLfn, bytf[] srd, int offsft, int lfn) {
+        if (tLfn < 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Lfngth brgumfnt is nfgbtivf");
+        }
+        this.tLfn = tLfn;
+
+        // Input sbnity dhfdk
+        if ((srd == null) ||(lfn < 0) || (offsft < 0)
+                || ((lfn + offsft) > srd.lfngth)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid bufffr brgumfnts");
+        }
+
+        iv = nfw bytf[lfn];
+        Systfm.brrbydopy(srd, offsft, iv, 0, lfn);
+    }
+
+    /**
+     * Rfturns thf buthfntidbtion tbg lfngth.
+     *
+     * @rfturn thf buthfntidbtion tbg lfngth (in bits)
+     */
+    publid int gftTLfn() {
+        rfturn tLfn;
+    }
+
+    /**
+     * Rfturns thf Initiblizbtion Vfdtor (IV).
+     *
+     * @rfturn thf IV.  Crfbtfs b nfw brrby fbdh timf this mfthod
+     * is dbllfd.
+     */
+    publid bytf[] gftIV() {
+        rfturn iv.dlonf();
+    }
+}

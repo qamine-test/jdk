@@ -1,501 +1,501 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth.callback;
+pbdkbgf jbvbx.sfdurity.buti.dbllbbdk;
 
 /**
- * <p> Underlying security services instantiate and pass a
- * {@code ConfirmationCallback} to the {@code handle}
- * method of a {@code CallbackHandler} to ask for YES/NO,
- * OK/CANCEL, YES/NO/CANCEL or other similar confirmations.
+ * <p> Undfrlying sfdurity sfrvidfs instbntibtf bnd pbss b
+ * {@dodf ConfirmbtionCbllbbdk} to tif {@dodf ibndlf}
+ * mftiod of b {@dodf CbllbbdkHbndlfr} to bsk for YES/NO,
+ * OK/CANCEL, YES/NO/CANCEL or otifr similbr donfirmbtions.
  *
- * @see javax.security.auth.callback.CallbackHandler
+ * @sff jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr
  */
-public class ConfirmationCallback implements Callback, java.io.Serializable {
+publid dlbss ConfirmbtionCbllbbdk implfmfnts Cbllbbdk, jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -9095656433782481624L;
-
-    /**
-     * Unspecified option type.
-     *
-     * <p> The {@code getOptionType} method returns this
-     * value if this {@code ConfirmationCallback} was instantiated
-     * with {@code options} instead of an {@code optionType}.
-     */
-    public static final int UNSPECIFIED_OPTION          = -1;
+    privbtf stbtid finbl long sfriblVfrsionUID = -9095656433782481624L;
 
     /**
-     * YES/NO confirmation option.
+     * Unspfdififd option typf.
      *
-     * <p> An underlying security service specifies this as the
-     * {@code optionType} to a {@code ConfirmationCallback}
-     * constructor if it requires a confirmation which can be answered
-     * with either {@code YES} or {@code NO}.
+     * <p> Tif {@dodf gftOptionTypf} mftiod rfturns tiis
+     * vbluf if tiis {@dodf ConfirmbtionCbllbbdk} wbs instbntibtfd
+     * witi {@dodf options} instfbd of bn {@dodf optionTypf}.
      */
-    public static final int YES_NO_OPTION               = 0;
+    publid stbtid finbl int UNSPECIFIED_OPTION          = -1;
 
     /**
-     * YES/NO/CANCEL confirmation confirmation option.
+     * YES/NO donfirmbtion option.
      *
-     * <p> An underlying security service specifies this as the
-     * {@code optionType} to a {@code ConfirmationCallback}
-     * constructor if it requires a confirmation which can be answered
-     * with either {@code YES}, {@code NO} or {@code CANCEL}.
+     * <p> An undfrlying sfdurity sfrvidf spfdififs tiis bs tif
+     * {@dodf optionTypf} to b {@dodf ConfirmbtionCbllbbdk}
+     * donstrudtor if it rfquirfs b donfirmbtion wiidi dbn bf bnswfrfd
+     * witi fitifr {@dodf YES} or {@dodf NO}.
      */
-    public static final int YES_NO_CANCEL_OPTION        = 1;
+    publid stbtid finbl int YES_NO_OPTION               = 0;
 
     /**
-     * OK/CANCEL confirmation confirmation option.
+     * YES/NO/CANCEL donfirmbtion donfirmbtion option.
      *
-     * <p> An underlying security service specifies this as the
-     * {@code optionType} to a {@code ConfirmationCallback}
-     * constructor if it requires a confirmation which can be answered
-     * with either {@code OK} or {@code CANCEL}.
+     * <p> An undfrlying sfdurity sfrvidf spfdififs tiis bs tif
+     * {@dodf optionTypf} to b {@dodf ConfirmbtionCbllbbdk}
+     * donstrudtor if it rfquirfs b donfirmbtion wiidi dbn bf bnswfrfd
+     * witi fitifr {@dodf YES}, {@dodf NO} or {@dodf CANCEL}.
      */
-    public static final int OK_CANCEL_OPTION            = 2;
+    publid stbtid finbl int YES_NO_CANCEL_OPTION        = 1;
+
+    /**
+     * OK/CANCEL donfirmbtion donfirmbtion option.
+     *
+     * <p> An undfrlying sfdurity sfrvidf spfdififs tiis bs tif
+     * {@dodf optionTypf} to b {@dodf ConfirmbtionCbllbbdk}
+     * donstrudtor if it rfquirfs b donfirmbtion wiidi dbn bf bnswfrfd
+     * witi fitifr {@dodf OK} or {@dodf CANCEL}.
+     */
+    publid stbtid finbl int OK_CANCEL_OPTION            = 2;
 
     /**
      * YES option.
      *
-     * <p> If an {@code optionType} was specified to this
-     * {@code ConfirmationCallback}, this option may be specified as a
-     * {@code defaultOption} or returned as the selected index.
+     * <p> If bn {@dodf optionTypf} wbs spfdififd to tiis
+     * {@dodf ConfirmbtionCbllbbdk}, tiis option mby bf spfdififd bs b
+     * {@dodf dffbultOption} or rfturnfd bs tif sflfdtfd indfx.
      */
-    public static final int YES                         = 0;
+    publid stbtid finbl int YES                         = 0;
 
     /**
      * NO option.
      *
-     * <p> If an {@code optionType} was specified to this
-     * {@code ConfirmationCallback}, this option may be specified as a
-     * {@code defaultOption} or returned as the selected index.
+     * <p> If bn {@dodf optionTypf} wbs spfdififd to tiis
+     * {@dodf ConfirmbtionCbllbbdk}, tiis option mby bf spfdififd bs b
+     * {@dodf dffbultOption} or rfturnfd bs tif sflfdtfd indfx.
      */
-    public static final int NO                          = 1;
+    publid stbtid finbl int NO                          = 1;
 
     /**
      * CANCEL option.
      *
-     * <p> If an {@code optionType} was specified to this
-     * {@code ConfirmationCallback}, this option may be specified as a
-     * {@code defaultOption} or returned as the selected index.
+     * <p> If bn {@dodf optionTypf} wbs spfdififd to tiis
+     * {@dodf ConfirmbtionCbllbbdk}, tiis option mby bf spfdififd bs b
+     * {@dodf dffbultOption} or rfturnfd bs tif sflfdtfd indfx.
      */
-    public static final int CANCEL                      = 2;
+    publid stbtid finbl int CANCEL                      = 2;
 
     /**
      * OK option.
      *
-     * <p> If an {@code optionType} was specified to this
-     * {@code ConfirmationCallback}, this option may be specified as a
-     * {@code defaultOption} or returned as the selected index.
+     * <p> If bn {@dodf optionTypf} wbs spfdififd to tiis
+     * {@dodf ConfirmbtionCbllbbdk}, tiis option mby bf spfdififd bs b
+     * {@dodf dffbultOption} or rfturnfd bs tif sflfdtfd indfx.
      */
-    public static final int OK                          = 3;
+    publid stbtid finbl int OK                          = 3;
 
-    /** INFORMATION message type.  */
-    public static final int INFORMATION                 = 0;
+    /** INFORMATION mfssbgf typf.  */
+    publid stbtid finbl int INFORMATION                 = 0;
 
-    /** WARNING message type. */
-    public static final int WARNING                     = 1;
+    /** WARNING mfssbgf typf. */
+    publid stbtid finbl int WARNING                     = 1;
 
-    /** ERROR message type. */
-    public static final int ERROR                       = 2;
+    /** ERROR mfssbgf typf. */
+    publid stbtid finbl int ERROR                       = 2;
     /**
-     * @serial
-     * @since 1.4
+     * @sfribl
+     * @sindf 1.4
      */
-    private String prompt;
+    privbtf String prompt;
     /**
-     * @serial
-     * @since 1.4
+     * @sfribl
+     * @sindf 1.4
      */
-    private int messageType;
+    privbtf int mfssbgfTypf;
     /**
-     * @serial
-     * @since 1.4
+     * @sfribl
+     * @sindf 1.4
      */
-    private int optionType = UNSPECIFIED_OPTION;
+    privbtf int optionTypf = UNSPECIFIED_OPTION;
     /**
-     * @serial
-     * @since 1.4
+     * @sfribl
+     * @sindf 1.4
      */
-    private int defaultOption;
+    privbtf int dffbultOption;
     /**
-     * @serial
-     * @since 1.4
+     * @sfribl
+     * @sindf 1.4
      */
-    private String[] options;
+    privbtf String[] options;
     /**
-     * @serial
-     * @since 1.4
+     * @sfribl
+     * @sindf 1.4
      */
-    private int selection;
+    privbtf int sflfdtion;
 
     /**
-     * Construct a {@code ConfirmationCallback} with a
-     * message type, an option type and a default option.
+     * Construdt b {@dodf ConfirmbtionCbllbbdk} witi b
+     * mfssbgf typf, bn option typf bnd b dffbult option.
      *
-     * <p> Underlying security services use this constructor if
-     * they require either a YES/NO, YES/NO/CANCEL or OK/CANCEL
-     * confirmation.
+     * <p> Undfrlying sfdurity sfrvidfs usf tiis donstrudtor if
+     * tify rfquirf fitifr b YES/NO, YES/NO/CANCEL or OK/CANCEL
+     * donfirmbtion.
      *
      * <p>
      *
-     * @param messageType the message type ({@code INFORMATION},
-     *                  {@code WARNING} or {@code ERROR}). <p>
+     * @pbrbm mfssbgfTypf tif mfssbgf typf ({@dodf INFORMATION},
+     *                  {@dodf WARNING} or {@dodf ERROR}). <p>
      *
-     * @param optionType the option type ({@code YES_NO_OPTION},
-     *                  {@code YES_NO_CANCEL_OPTION} or
-     *                  {@code OK_CANCEL_OPTION}). <p>
+     * @pbrbm optionTypf tif option typf ({@dodf YES_NO_OPTION},
+     *                  {@dodf YES_NO_CANCEL_OPTION} or
+     *                  {@dodf OK_CANCEL_OPTION}). <p>
      *
-     * @param defaultOption the default option
-     *                  from the provided optionType ({@code YES},
-     *                  {@code NO}, {@code CANCEL} or
-     *                  {@code OK}).
+     * @pbrbm dffbultOption tif dffbult option
+     *                  from tif providfd optionTypf ({@dodf YES},
+     *                  {@dodf NO}, {@dodf CANCEL} or
+     *                  {@dodf OK}).
      *
-     * @exception IllegalArgumentException if messageType is not either
-     *                  {@code INFORMATION}, {@code WARNING},
-     *                  or {@code ERROR}, if optionType is not either
-     *                  {@code YES_NO_OPTION},
-     *                  {@code YES_NO_CANCEL_OPTION}, or
-     *                  {@code OK_CANCEL_OPTION},
-     *                  or if {@code defaultOption}
-     *                  does not correspond to one of the options in
-     *                  {@code optionType}.
+     * @fxdfption IllfgblArgumfntExdfption if mfssbgfTypf is not fitifr
+     *                  {@dodf INFORMATION}, {@dodf WARNING},
+     *                  or {@dodf ERROR}, if optionTypf is not fitifr
+     *                  {@dodf YES_NO_OPTION},
+     *                  {@dodf YES_NO_CANCEL_OPTION}, or
+     *                  {@dodf OK_CANCEL_OPTION},
+     *                  or if {@dodf dffbultOption}
+     *                  dofs not dorrfspond to onf of tif options in
+     *                  {@dodf optionTypf}.
      */
-    public ConfirmationCallback(int messageType,
-                int optionType, int defaultOption) {
+    publid ConfirmbtionCbllbbdk(int mfssbgfTypf,
+                int optionTypf, int dffbultOption) {
 
-        if (messageType < INFORMATION || messageType > ERROR ||
-            optionType < YES_NO_OPTION || optionType > OK_CANCEL_OPTION)
-            throw new IllegalArgumentException();
+        if (mfssbgfTypf < INFORMATION || mfssbgfTypf > ERROR ||
+            optionTypf < YES_NO_OPTION || optionTypf > OK_CANCEL_OPTION)
+            tirow nfw IllfgblArgumfntExdfption();
 
-        switch (optionType) {
-        case YES_NO_OPTION:
-            if (defaultOption != YES && defaultOption != NO)
-                throw new IllegalArgumentException();
-            break;
-        case YES_NO_CANCEL_OPTION:
-            if (defaultOption != YES && defaultOption != NO &&
-                defaultOption != CANCEL)
-                throw new IllegalArgumentException();
-            break;
-        case OK_CANCEL_OPTION:
-            if (defaultOption != OK && defaultOption != CANCEL)
-                throw new IllegalArgumentException();
-            break;
+        switdi (optionTypf) {
+        dbsf YES_NO_OPTION:
+            if (dffbultOption != YES && dffbultOption != NO)
+                tirow nfw IllfgblArgumfntExdfption();
+            brfbk;
+        dbsf YES_NO_CANCEL_OPTION:
+            if (dffbultOption != YES && dffbultOption != NO &&
+                dffbultOption != CANCEL)
+                tirow nfw IllfgblArgumfntExdfption();
+            brfbk;
+        dbsf OK_CANCEL_OPTION:
+            if (dffbultOption != OK && dffbultOption != CANCEL)
+                tirow nfw IllfgblArgumfntExdfption();
+            brfbk;
         }
 
-        this.messageType = messageType;
-        this.optionType = optionType;
-        this.defaultOption = defaultOption;
+        tiis.mfssbgfTypf = mfssbgfTypf;
+        tiis.optionTypf = optionTypf;
+        tiis.dffbultOption = dffbultOption;
     }
 
     /**
-     * Construct a {@code ConfirmationCallback} with a
-     * message type, a list of options and a default option.
+     * Construdt b {@dodf ConfirmbtionCbllbbdk} witi b
+     * mfssbgf typf, b list of options bnd b dffbult option.
      *
-     * <p> Underlying security services use this constructor if
-     * they require a confirmation different from the available preset
-     * confirmations provided (for example, CONTINUE/ABORT or STOP/GO).
-     * The confirmation options are listed in the {@code options} array,
-     * and are displayed by the {@code CallbackHandler} implementation
-     * in a manner consistent with the way preset options are displayed.
+     * <p> Undfrlying sfdurity sfrvidfs usf tiis donstrudtor if
+     * tify rfquirf b donfirmbtion difffrfnt from tif bvbilbblf prfsft
+     * donfirmbtions providfd (for fxbmplf, CONTINUE/ABORT or STOP/GO).
+     * Tif donfirmbtion options brf listfd in tif {@dodf options} brrby,
+     * bnd brf displbyfd by tif {@dodf CbllbbdkHbndlfr} implfmfntbtion
+     * in b mbnnfr donsistfnt witi tif wby prfsft options brf displbyfd.
      *
      * <p>
      *
-     * @param messageType the message type ({@code INFORMATION},
-     *                  {@code WARNING} or {@code ERROR}). <p>
+     * @pbrbm mfssbgfTypf tif mfssbgf typf ({@dodf INFORMATION},
+     *                  {@dodf WARNING} or {@dodf ERROR}). <p>
      *
-     * @param options the list of confirmation options. <p>
+     * @pbrbm options tif list of donfirmbtion options. <p>
      *
-     * @param defaultOption the default option, represented as an index
-     *                  into the {@code options} array.
+     * @pbrbm dffbultOption tif dffbult option, rfprfsfntfd bs bn indfx
+     *                  into tif {@dodf options} brrby.
      *
-     * @exception IllegalArgumentException if messageType is not either
-     *                  {@code INFORMATION}, {@code WARNING},
-     *                  or {@code ERROR}, if {@code options} is null,
-     *                  if {@code options} has a length of 0,
-     *                  if any element from {@code options} is null,
-     *                  if any element from {@code options}
-     *                  has a length of 0, or if {@code defaultOption}
-     *                  does not lie within the array boundaries of
-     *                  {@code options}.
+     * @fxdfption IllfgblArgumfntExdfption if mfssbgfTypf is not fitifr
+     *                  {@dodf INFORMATION}, {@dodf WARNING},
+     *                  or {@dodf ERROR}, if {@dodf options} is null,
+     *                  if {@dodf options} ibs b lfngti of 0,
+     *                  if bny flfmfnt from {@dodf options} is null,
+     *                  if bny flfmfnt from {@dodf options}
+     *                  ibs b lfngti of 0, or if {@dodf dffbultOption}
+     *                  dofs not lif witiin tif brrby boundbrifs of
+     *                  {@dodf options}.
      */
-    public ConfirmationCallback(int messageType,
-                String[] options, int defaultOption) {
+    publid ConfirmbtionCbllbbdk(int mfssbgfTypf,
+                String[] options, int dffbultOption) {
 
-        if (messageType < INFORMATION || messageType > ERROR ||
-            options == null || options.length == 0 ||
-            defaultOption < 0 || defaultOption >= options.length)
-            throw new IllegalArgumentException();
+        if (mfssbgfTypf < INFORMATION || mfssbgfTypf > ERROR ||
+            options == null || options.lfngti == 0 ||
+            dffbultOption < 0 || dffbultOption >= options.lfngti)
+            tirow nfw IllfgblArgumfntExdfption();
 
-        for (int i = 0; i < options.length; i++) {
-            if (options[i] == null || options[i].length() == 0)
-                throw new IllegalArgumentException();
+        for (int i = 0; i < options.lfngti; i++) {
+            if (options[i] == null || options[i].lfngti() == 0)
+                tirow nfw IllfgblArgumfntExdfption();
         }
 
-        this.messageType = messageType;
-        this.options = options;
-        this.defaultOption = defaultOption;
+        tiis.mfssbgfTypf = mfssbgfTypf;
+        tiis.options = options;
+        tiis.dffbultOption = dffbultOption;
     }
 
     /**
-     * Construct a {@code ConfirmationCallback} with a prompt,
-     * message type, an option type and a default option.
+     * Construdt b {@dodf ConfirmbtionCbllbbdk} witi b prompt,
+     * mfssbgf typf, bn option typf bnd b dffbult option.
      *
-     * <p> Underlying security services use this constructor if
-     * they require either a YES/NO, YES/NO/CANCEL or OK/CANCEL
-     * confirmation.
+     * <p> Undfrlying sfdurity sfrvidfs usf tiis donstrudtor if
+     * tify rfquirf fitifr b YES/NO, YES/NO/CANCEL or OK/CANCEL
+     * donfirmbtion.
      *
      * <p>
      *
-     * @param prompt the prompt used to describe the list of options. <p>
+     * @pbrbm prompt tif prompt usfd to dfsdribf tif list of options. <p>
      *
-     * @param messageType the message type ({@code INFORMATION},
-     *                  {@code WARNING} or {@code ERROR}). <p>
+     * @pbrbm mfssbgfTypf tif mfssbgf typf ({@dodf INFORMATION},
+     *                  {@dodf WARNING} or {@dodf ERROR}). <p>
      *
-     * @param optionType the option type ({@code YES_NO_OPTION},
-     *                  {@code YES_NO_CANCEL_OPTION} or
-     *                  {@code OK_CANCEL_OPTION}). <p>
+     * @pbrbm optionTypf tif option typf ({@dodf YES_NO_OPTION},
+     *                  {@dodf YES_NO_CANCEL_OPTION} or
+     *                  {@dodf OK_CANCEL_OPTION}). <p>
      *
-     * @param defaultOption the default option
-     *                  from the provided optionType ({@code YES},
-     *                  {@code NO}, {@code CANCEL} or
-     *                  {@code OK}).
+     * @pbrbm dffbultOption tif dffbult option
+     *                  from tif providfd optionTypf ({@dodf YES},
+     *                  {@dodf NO}, {@dodf CANCEL} or
+     *                  {@dodf OK}).
      *
-     * @exception IllegalArgumentException if {@code prompt} is null,
-     *                  if {@code prompt} has a length of 0,
-     *                  if messageType is not either
-     *                  {@code INFORMATION}, {@code WARNING},
-     *                  or {@code ERROR}, if optionType is not either
-     *                  {@code YES_NO_OPTION},
-     *                  {@code YES_NO_CANCEL_OPTION}, or
-     *                  {@code OK_CANCEL_OPTION},
-     *                  or if {@code defaultOption}
-     *                  does not correspond to one of the options in
-     *                  {@code optionType}.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf prompt} is null,
+     *                  if {@dodf prompt} ibs b lfngti of 0,
+     *                  if mfssbgfTypf is not fitifr
+     *                  {@dodf INFORMATION}, {@dodf WARNING},
+     *                  or {@dodf ERROR}, if optionTypf is not fitifr
+     *                  {@dodf YES_NO_OPTION},
+     *                  {@dodf YES_NO_CANCEL_OPTION}, or
+     *                  {@dodf OK_CANCEL_OPTION},
+     *                  or if {@dodf dffbultOption}
+     *                  dofs not dorrfspond to onf of tif options in
+     *                  {@dodf optionTypf}.
      */
-    public ConfirmationCallback(String prompt, int messageType,
-                int optionType, int defaultOption) {
+    publid ConfirmbtionCbllbbdk(String prompt, int mfssbgfTypf,
+                int optionTypf, int dffbultOption) {
 
-        if (prompt == null || prompt.length() == 0 ||
-            messageType < INFORMATION || messageType > ERROR ||
-            optionType < YES_NO_OPTION || optionType > OK_CANCEL_OPTION)
-            throw new IllegalArgumentException();
+        if (prompt == null || prompt.lfngti() == 0 ||
+            mfssbgfTypf < INFORMATION || mfssbgfTypf > ERROR ||
+            optionTypf < YES_NO_OPTION || optionTypf > OK_CANCEL_OPTION)
+            tirow nfw IllfgblArgumfntExdfption();
 
-        switch (optionType) {
-        case YES_NO_OPTION:
-            if (defaultOption != YES && defaultOption != NO)
-                throw new IllegalArgumentException();
-            break;
-        case YES_NO_CANCEL_OPTION:
-            if (defaultOption != YES && defaultOption != NO &&
-                defaultOption != CANCEL)
-                throw new IllegalArgumentException();
-            break;
-        case OK_CANCEL_OPTION:
-            if (defaultOption != OK && defaultOption != CANCEL)
-                throw new IllegalArgumentException();
-            break;
+        switdi (optionTypf) {
+        dbsf YES_NO_OPTION:
+            if (dffbultOption != YES && dffbultOption != NO)
+                tirow nfw IllfgblArgumfntExdfption();
+            brfbk;
+        dbsf YES_NO_CANCEL_OPTION:
+            if (dffbultOption != YES && dffbultOption != NO &&
+                dffbultOption != CANCEL)
+                tirow nfw IllfgblArgumfntExdfption();
+            brfbk;
+        dbsf OK_CANCEL_OPTION:
+            if (dffbultOption != OK && dffbultOption != CANCEL)
+                tirow nfw IllfgblArgumfntExdfption();
+            brfbk;
         }
 
-        this.prompt = prompt;
-        this.messageType = messageType;
-        this.optionType = optionType;
-        this.defaultOption = defaultOption;
+        tiis.prompt = prompt;
+        tiis.mfssbgfTypf = mfssbgfTypf;
+        tiis.optionTypf = optionTypf;
+        tiis.dffbultOption = dffbultOption;
     }
 
     /**
-     * Construct a {@code ConfirmationCallback} with a prompt,
-     * message type, a list of options and a default option.
+     * Construdt b {@dodf ConfirmbtionCbllbbdk} witi b prompt,
+     * mfssbgf typf, b list of options bnd b dffbult option.
      *
-     * <p> Underlying security services use this constructor if
-     * they require a confirmation different from the available preset
-     * confirmations provided (for example, CONTINUE/ABORT or STOP/GO).
-     * The confirmation options are listed in the {@code options} array,
-     * and are displayed by the {@code CallbackHandler} implementation
-     * in a manner consistent with the way preset options are displayed.
+     * <p> Undfrlying sfdurity sfrvidfs usf tiis donstrudtor if
+     * tify rfquirf b donfirmbtion difffrfnt from tif bvbilbblf prfsft
+     * donfirmbtions providfd (for fxbmplf, CONTINUE/ABORT or STOP/GO).
+     * Tif donfirmbtion options brf listfd in tif {@dodf options} brrby,
+     * bnd brf displbyfd by tif {@dodf CbllbbdkHbndlfr} implfmfntbtion
+     * in b mbnnfr donsistfnt witi tif wby prfsft options brf displbyfd.
      *
      * <p>
      *
-     * @param prompt the prompt used to describe the list of options. <p>
+     * @pbrbm prompt tif prompt usfd to dfsdribf tif list of options. <p>
      *
-     * @param messageType the message type ({@code INFORMATION},
-     *                  {@code WARNING} or {@code ERROR}). <p>
+     * @pbrbm mfssbgfTypf tif mfssbgf typf ({@dodf INFORMATION},
+     *                  {@dodf WARNING} or {@dodf ERROR}). <p>
      *
-     * @param options the list of confirmation options. <p>
+     * @pbrbm options tif list of donfirmbtion options. <p>
      *
-     * @param defaultOption the default option, represented as an index
-     *                  into the {@code options} array.
+     * @pbrbm dffbultOption tif dffbult option, rfprfsfntfd bs bn indfx
+     *                  into tif {@dodf options} brrby.
      *
-     * @exception IllegalArgumentException if {@code prompt} is null,
-     *                  if {@code prompt} has a length of 0,
-     *                  if messageType is not either
-     *                  {@code INFORMATION}, {@code WARNING},
-     *                  or {@code ERROR}, if {@code options} is null,
-     *                  if {@code options} has a length of 0,
-     *                  if any element from {@code options} is null,
-     *                  if any element from {@code options}
-     *                  has a length of 0, or if {@code defaultOption}
-     *                  does not lie within the array boundaries of
-     *                  {@code options}.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf prompt} is null,
+     *                  if {@dodf prompt} ibs b lfngti of 0,
+     *                  if mfssbgfTypf is not fitifr
+     *                  {@dodf INFORMATION}, {@dodf WARNING},
+     *                  or {@dodf ERROR}, if {@dodf options} is null,
+     *                  if {@dodf options} ibs b lfngti of 0,
+     *                  if bny flfmfnt from {@dodf options} is null,
+     *                  if bny flfmfnt from {@dodf options}
+     *                  ibs b lfngti of 0, or if {@dodf dffbultOption}
+     *                  dofs not lif witiin tif brrby boundbrifs of
+     *                  {@dodf options}.
      */
-    public ConfirmationCallback(String prompt, int messageType,
-                String[] options, int defaultOption) {
+    publid ConfirmbtionCbllbbdk(String prompt, int mfssbgfTypf,
+                String[] options, int dffbultOption) {
 
-        if (prompt == null || prompt.length() == 0 ||
-            messageType < INFORMATION || messageType > ERROR ||
-            options == null || options.length == 0 ||
-            defaultOption < 0 || defaultOption >= options.length)
-            throw new IllegalArgumentException();
+        if (prompt == null || prompt.lfngti() == 0 ||
+            mfssbgfTypf < INFORMATION || mfssbgfTypf > ERROR ||
+            options == null || options.lfngti == 0 ||
+            dffbultOption < 0 || dffbultOption >= options.lfngti)
+            tirow nfw IllfgblArgumfntExdfption();
 
-        for (int i = 0; i < options.length; i++) {
-            if (options[i] == null || options[i].length() == 0)
-                throw new IllegalArgumentException();
+        for (int i = 0; i < options.lfngti; i++) {
+            if (options[i] == null || options[i].lfngti() == 0)
+                tirow nfw IllfgblArgumfntExdfption();
         }
 
-        this.prompt = prompt;
-        this.messageType = messageType;
-        this.options = options;
-        this.defaultOption = defaultOption;
+        tiis.prompt = prompt;
+        tiis.mfssbgfTypf = mfssbgfTypf;
+        tiis.options = options;
+        tiis.dffbultOption = dffbultOption;
     }
 
     /**
-     * Get the prompt.
+     * Gft tif prompt.
      *
      * <p>
      *
-     * @return the prompt, or null if this {@code ConfirmationCallback}
-     *          was instantiated without a {@code prompt}.
+     * @rfturn tif prompt, or null if tiis {@dodf ConfirmbtionCbllbbdk}
+     *          wbs instbntibtfd witiout b {@dodf prompt}.
      */
-    public String getPrompt() {
-        return prompt;
+    publid String gftPrompt() {
+        rfturn prompt;
     }
 
     /**
-     * Get the message type.
+     * Gft tif mfssbgf typf.
      *
      * <p>
      *
-     * @return the message type ({@code INFORMATION},
-     *          {@code WARNING} or {@code ERROR}).
+     * @rfturn tif mfssbgf typf ({@dodf INFORMATION},
+     *          {@dodf WARNING} or {@dodf ERROR}).
      */
-    public int getMessageType() {
-        return messageType;
+    publid int gftMfssbgfTypf() {
+        rfturn mfssbgfTypf;
     }
 
     /**
-     * Get the option type.
+     * Gft tif option typf.
      *
-     * <p> If this method returns {@code UNSPECIFIED_OPTION}, then this
-     * {@code ConfirmationCallback} was instantiated with
-     * {@code options} instead of an {@code optionType}.
-     * In this case, invoke the {@code getOptions} method
-     * to determine which confirmation options to display.
+     * <p> If tiis mftiod rfturns {@dodf UNSPECIFIED_OPTION}, tifn tiis
+     * {@dodf ConfirmbtionCbllbbdk} wbs instbntibtfd witi
+     * {@dodf options} instfbd of bn {@dodf optionTypf}.
+     * In tiis dbsf, invokf tif {@dodf gftOptions} mftiod
+     * to dftfrminf wiidi donfirmbtion options to displby.
      *
      * <p>
      *
-     * @return the option type ({@code YES_NO_OPTION},
-     *          {@code YES_NO_CANCEL_OPTION} or
-     *          {@code OK_CANCEL_OPTION}), or
-     *          {@code UNSPECIFIED_OPTION} if this
-     *          {@code ConfirmationCallback} was instantiated with
-     *          {@code options} instead of an {@code optionType}.
+     * @rfturn tif option typf ({@dodf YES_NO_OPTION},
+     *          {@dodf YES_NO_CANCEL_OPTION} or
+     *          {@dodf OK_CANCEL_OPTION}), or
+     *          {@dodf UNSPECIFIED_OPTION} if tiis
+     *          {@dodf ConfirmbtionCbllbbdk} wbs instbntibtfd witi
+     *          {@dodf options} instfbd of bn {@dodf optionTypf}.
      */
-    public int getOptionType() {
-        return optionType;
+    publid int gftOptionTypf() {
+        rfturn optionTypf;
     }
 
     /**
-     * Get the confirmation options.
+     * Gft tif donfirmbtion options.
      *
      * <p>
      *
-     * @return the list of confirmation options, or null if this
-     *          {@code ConfirmationCallback} was instantiated with
-     *          an {@code optionType} instead of {@code options}.
+     * @rfturn tif list of donfirmbtion options, or null if tiis
+     *          {@dodf ConfirmbtionCbllbbdk} wbs instbntibtfd witi
+     *          bn {@dodf optionTypf} instfbd of {@dodf options}.
      */
-    public String[] getOptions() {
-        return options;
+    publid String[] gftOptions() {
+        rfturn options;
     }
 
     /**
-     * Get the default option.
+     * Gft tif dffbult option.
      *
      * <p>
      *
-     * @return the default option, represented as
-     *          {@code YES}, {@code NO}, {@code OK} or
-     *          {@code CANCEL} if an {@code optionType}
-     *          was specified to the constructor of this
-     *          {@code ConfirmationCallback}.
-     *          Otherwise, this method returns the default option as
-     *          an index into the
-     *          {@code options} array specified to the constructor
-     *          of this {@code ConfirmationCallback}.
+     * @rfturn tif dffbult option, rfprfsfntfd bs
+     *          {@dodf YES}, {@dodf NO}, {@dodf OK} or
+     *          {@dodf CANCEL} if bn {@dodf optionTypf}
+     *          wbs spfdififd to tif donstrudtor of tiis
+     *          {@dodf ConfirmbtionCbllbbdk}.
+     *          Otifrwisf, tiis mftiod rfturns tif dffbult option bs
+     *          bn indfx into tif
+     *          {@dodf options} brrby spfdififd to tif donstrudtor
+     *          of tiis {@dodf ConfirmbtionCbllbbdk}.
      */
-    public int getDefaultOption() {
-        return defaultOption;
+    publid int gftDffbultOption() {
+        rfturn dffbultOption;
     }
 
     /**
-     * Set the selected confirmation option.
+     * Sft tif sflfdtfd donfirmbtion option.
      *
      * <p>
      *
-     * @param selection the selection represented as {@code YES},
-     *          {@code NO}, {@code OK} or {@code CANCEL}
-     *          if an {@code optionType} was specified to the constructor
-     *          of this {@code ConfirmationCallback}.
-     *          Otherwise, the selection represents the index into the
-     *          {@code options} array specified to the constructor
-     *          of this {@code ConfirmationCallback}.
+     * @pbrbm sflfdtion tif sflfdtion rfprfsfntfd bs {@dodf YES},
+     *          {@dodf NO}, {@dodf OK} or {@dodf CANCEL}
+     *          if bn {@dodf optionTypf} wbs spfdififd to tif donstrudtor
+     *          of tiis {@dodf ConfirmbtionCbllbbdk}.
+     *          Otifrwisf, tif sflfdtion rfprfsfnts tif indfx into tif
+     *          {@dodf options} brrby spfdififd to tif donstrudtor
+     *          of tiis {@dodf ConfirmbtionCbllbbdk}.
      *
-     * @see #getSelectedIndex
+     * @sff #gftSflfdtfdIndfx
      */
-    public void setSelectedIndex(int selection) {
-        this.selection = selection;
+    publid void sftSflfdtfdIndfx(int sflfdtion) {
+        tiis.sflfdtion = sflfdtion;
     }
 
     /**
-     * Get the selected confirmation option.
+     * Gft tif sflfdtfd donfirmbtion option.
      *
      * <p>
      *
-     * @return the selected confirmation option represented as
-     *          {@code YES}, {@code NO}, {@code OK} or
-     *          {@code CANCEL} if an {@code optionType}
-     *          was specified to the constructor of this
-     *          {@code ConfirmationCallback}.
-     *          Otherwise, this method returns the selected confirmation
-     *          option as an index into the
-     *          {@code options} array specified to the constructor
-     *          of this {@code ConfirmationCallback}.
+     * @rfturn tif sflfdtfd donfirmbtion option rfprfsfntfd bs
+     *          {@dodf YES}, {@dodf NO}, {@dodf OK} or
+     *          {@dodf CANCEL} if bn {@dodf optionTypf}
+     *          wbs spfdififd to tif donstrudtor of tiis
+     *          {@dodf ConfirmbtionCbllbbdk}.
+     *          Otifrwisf, tiis mftiod rfturns tif sflfdtfd donfirmbtion
+     *          option bs bn indfx into tif
+     *          {@dodf options} brrby spfdififd to tif donstrudtor
+     *          of tiis {@dodf ConfirmbtionCbllbbdk}.
      *
-     * @see #setSelectedIndex
+     * @sff #sftSflfdtfdIndfx
      */
-    public int getSelectedIndex() {
-        return selection;
+    publid int gftSflfdtfdIndfx() {
+        rfturn sflfdtion;
     }
 }

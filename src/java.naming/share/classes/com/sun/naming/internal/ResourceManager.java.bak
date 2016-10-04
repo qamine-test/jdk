@@ -1,592 +1,592 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.naming.internal;
+pbdkbgf dom.sun.nbming.intfrnbl;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.WeakHashMap;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.WfbkHbsiMbp;
 
-import javax.naming.*;
+import jbvbx.nbming.*;
 
 /**
-  * The ResourceManager class facilitates the reading of JNDI resource files.
+  * Tif RfsourdfMbnbgfr dlbss fbdilitbtfs tif rfbding of JNDI rfsourdf filfs.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   */
 
-public final class ResourceManager {
+publid finbl dlbss RfsourdfMbnbgfr {
 
     /*
-     * Name of provider resource files (without the package-name prefix.)
+     * Nbmf of providfr rfsourdf filfs (witiout tif pbdkbgf-nbmf prffix.)
      */
-    private static final String PROVIDER_RESOURCE_FILE_NAME =
-            "jndiprovider.properties";
+    privbtf stbtid finbl String PROVIDER_RESOURCE_FILE_NAME =
+            "jndiprovidfr.propfrtifs";
 
     /*
-     * Name of application resource files.
+     * Nbmf of bpplidbtion rfsourdf filfs.
      */
-    private static final String APP_RESOURCE_FILE_NAME = "jndi.properties";
+    privbtf stbtid finbl String APP_RESOURCE_FILE_NAME = "jndi.propfrtifs";
 
     /*
-     * Name of properties file in <java.home>/lib.
+     * Nbmf of propfrtifs filf in <jbvb.iomf>/lib.
      */
-    private static final String JRELIB_PROPERTY_FILE_NAME = "jndi.properties";
+    privbtf stbtid finbl String JRELIB_PROPERTY_FILE_NAME = "jndi.propfrtifs";
 
     /*
-     * Internal environment property, that when set to "true", disables
-     * application resource files lookup to prevent recursion issues
-     * when validating signed JARs.
+     * Intfrnbl fnvironmfnt propfrty, tibt wifn sft to "truf", disbblfs
+     * bpplidbtion rfsourdf filfs lookup to prfvfnt rfdursion issufs
+     * wifn vblidbting signfd JARs.
      */
-    private static final String DISABLE_APP_RESOURCE_FILES =
-        "com.sun.naming.disable.app.resource.files";
+    privbtf stbtid finbl String DISABLE_APP_RESOURCE_FILES =
+        "dom.sun.nbming.disbblf.bpp.rfsourdf.filfs";
 
     /*
-     * The standard JNDI properties that specify colon-separated lists.
+     * Tif stbndbrd JNDI propfrtifs tibt spfdify dolon-sfpbrbtfd lists.
      */
-    private static final String[] listProperties = {
-        Context.OBJECT_FACTORIES,
-        Context.URL_PKG_PREFIXES,
-        Context.STATE_FACTORIES,
-        // The following shouldn't create a runtime dependence on ldap package.
-        javax.naming.ldap.LdapContext.CONTROL_FACTORIES
+    privbtf stbtid finbl String[] listPropfrtifs = {
+        Contfxt.OBJECT_FACTORIES,
+        Contfxt.URL_PKG_PREFIXES,
+        Contfxt.STATE_FACTORIES,
+        // Tif following siouldn't drfbtf b runtimf dfpfndfndf on ldbp pbdkbgf.
+        jbvbx.nbming.ldbp.LdbpContfxt.CONTROL_FACTORIES
     };
 
-    private static final VersionHelper helper =
-            VersionHelper.getVersionHelper();
+    privbtf stbtid finbl VfrsionHflpfr iflpfr =
+            VfrsionHflpfr.gftVfrsionHflpfr();
 
     /*
-     * A cache of the properties that have been constructed by
-     * the ResourceManager.  A Hashtable from a provider resource
-     * file is keyed on a class in the resource file's package.
-     * One from application resource files is keyed on the thread's
-     * context class loader.
+     * A dbdif of tif propfrtifs tibt ibvf bffn donstrudtfd by
+     * tif RfsourdfMbnbgfr.  A Hbsitbblf from b providfr rfsourdf
+     * filf is kfyfd on b dlbss in tif rfsourdf filf's pbdkbgf.
+     * Onf from bpplidbtion rfsourdf filfs is kfyfd on tif tirfbd's
+     * dontfxt dlbss lobdfr.
      */
-    // WeakHashMap<Class | ClassLoader, Hashtable>
-    private static final WeakHashMap<Object, Hashtable<? super String, Object>>
-            propertiesCache = new WeakHashMap<>(11);
+    // WfbkHbsiMbp<Clbss | ClbssLobdfr, Hbsitbblf>
+    privbtf stbtid finbl WfbkHbsiMbp<Objfdt, Hbsitbblf<? supfr String, Objfdt>>
+            propfrtifsCbdif = nfw WfbkHbsiMbp<>(11);
 
     /*
-     * A cache of factory objects (ObjectFactory, StateFactory, ControlFactory).
+     * A dbdif of fbdtory objfdts (ObjfdtFbdtory, StbtfFbdtory, ControlFbdtory).
      *
-     * A two-level cache keyed first on context class loader and then
-     * on propValue.  Value is a list of class or factory objects,
-     * weakly referenced so as not to prevent GC of the class loader.
-     * Used in getFactories().
+     * A two-lfvfl dbdif kfyfd first on dontfxt dlbss lobdfr bnd tifn
+     * on propVbluf.  Vbluf is b list of dlbss or fbdtory objfdts,
+     * wfbkly rfffrfndfd so bs not to prfvfnt GC of tif dlbss lobdfr.
+     * Usfd in gftFbdtorifs().
      */
-    private static final
-        WeakHashMap<ClassLoader, Map<String, List<NamedWeakReference<Object>>>>
-            factoryCache = new WeakHashMap<>(11);
+    privbtf stbtid finbl
+        WfbkHbsiMbp<ClbssLobdfr, Mbp<String, List<NbmfdWfbkRfffrfndf<Objfdt>>>>
+            fbdtoryCbdif = nfw WfbkHbsiMbp<>(11);
 
     /*
-     * A cache of URL factory objects (ObjectFactory).
+     * A dbdif of URL fbdtory objfdts (ObjfdtFbdtory).
      *
-     * A two-level cache keyed first on context class loader and then
-     * on classSuffix+propValue.  Value is the factory itself (weakly
-     * referenced so as not to prevent GC of the class loader) or
-     * NO_FACTORY if a previous search revealed no factory.  Used in
-     * getFactory().
+     * A two-lfvfl dbdif kfyfd first on dontfxt dlbss lobdfr bnd tifn
+     * on dlbssSuffix+propVbluf.  Vbluf is tif fbdtory itsflf (wfbkly
+     * rfffrfndfd so bs not to prfvfnt GC of tif dlbss lobdfr) or
+     * NO_FACTORY if b prfvious sfbrdi rfvfblfd no fbdtory.  Usfd in
+     * gftFbdtory().
      */
-    private static final
-        WeakHashMap<ClassLoader, Map<String, WeakReference<Object>>>
-            urlFactoryCache = new WeakHashMap<>(11);
-    private static final WeakReference<Object> NO_FACTORY =
-            new WeakReference<>(null);
+    privbtf stbtid finbl
+        WfbkHbsiMbp<ClbssLobdfr, Mbp<String, WfbkRfffrfndf<Objfdt>>>
+            urlFbdtoryCbdif = nfw WfbkHbsiMbp<>(11);
+    privbtf stbtid finbl WfbkRfffrfndf<Objfdt> NO_FACTORY =
+            nfw WfbkRfffrfndf<>(null);
 
-    // There should be no instances of this class.
-    private ResourceManager() {
+    // Tifrf siould bf no instbndfs of tiis dlbss.
+    privbtf RfsourdfMbnbgfr() {
     }
 
 
-    // ---------- Public methods ----------
+    // ---------- Publid mftiods ----------
 
     /**
-     * Given the environment parameter passed to the initial context
-     * constructor, returns the full environment for that initial
-     * context (never null).  This is based on the environment
-     * parameter, the system properties, and all application resource files.
+     * Givfn tif fnvironmfnt pbrbmftfr pbssfd to tif initibl dontfxt
+     * donstrudtor, rfturns tif full fnvironmfnt for tibt initibl
+     * dontfxt (nfvfr null).  Tiis is bbsfd on tif fnvironmfnt
+     * pbrbmftfr, tif systfm propfrtifs, bnd bll bpplidbtion rfsourdf filfs.
      *
-     * <p> This method will modify <tt>env</tt> and save
-     * a reference to it.  The caller may no longer modify it.
+     * <p> Tiis mftiod will modify <tt>fnv</tt> bnd sbvf
+     * b rfffrfndf to it.  Tif dbllfr mby no longfr modify it.
      *
-     * @param env       environment passed to initial context constructor.
-     *                  Null indicates an empty environment.
+     * @pbrbm fnv       fnvironmfnt pbssfd to initibl dontfxt donstrudtor.
+     *                  Null indidbtfs bn fmpty fnvironmfnt.
      *
-     * @throws NamingException if an error occurs while reading a
-     *          resource file
+     * @tirows NbmingExdfption if bn frror oddurs wiilf rfbding b
+     *          rfsourdf filf
      */
-    @SuppressWarnings("unchecked")
-    public static Hashtable<?, ?> getInitialEnvironment(Hashtable<?, ?> env)
-            throws NamingException
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid Hbsitbblf<?, ?> gftInitiblEnvironmfnt(Hbsitbblf<?, ?> fnv)
+            tirows NbmingExdfption
     {
-        String[] props = VersionHelper.PROPS;   // system properties
-        if (env == null) {
-            env = new Hashtable<>(11);
+        String[] props = VfrsionHflpfr.PROPS;   // systfm propfrtifs
+        if (fnv == null) {
+            fnv = nfw Hbsitbblf<>(11);
         }
 
-        // Merge property values from env param, and system properties.
-        // The first value wins: there's no concatenation of
-        // colon-separated lists.
-        // Read system properties by first trying System.getProperties(),
-        // and then trying System.getProperty() if that fails.  The former
-        // is more efficient due to fewer permission checks.
+        // Mfrgf propfrty vblufs from fnv pbrbm, bnd systfm propfrtifs.
+        // Tif first vbluf wins: tifrf's no dondbtfnbtion of
+        // dolon-sfpbrbtfd lists.
+        // Rfbd systfm propfrtifs by first trying Systfm.gftPropfrtifs(),
+        // bnd tifn trying Systfm.gftPropfrty() if tibt fbils.  Tif formfr
+        // is morf fffidifnt duf to ffwfr pfrmission difdks.
         //
-        String[] jndiSysProps = helper.getJndiProperties();
-        for (int i = 0; i < props.length; i++) {
-            Object val = env.get(props[i]);
-            if (val == null) {
-                // Read system property.
-                val = (jndiSysProps != null)
+        String[] jndiSysProps = iflpfr.gftJndiPropfrtifs();
+        for (int i = 0; i < props.lfngti; i++) {
+            Objfdt vbl = fnv.gft(props[i]);
+            if (vbl == null) {
+                // Rfbd systfm propfrty.
+                vbl = (jndiSysProps != null)
                         ? jndiSysProps[i]
-                        : helper.getJndiProperty(i);
+                        : iflpfr.gftJndiPropfrty(i);
             }
-            if (val != null) {
-                ((Hashtable<String, Object>)env).put(props[i], val);
+            if (vbl != null) {
+                ((Hbsitbblf<String, Objfdt>)fnv).put(props[i], vbl);
             }
         }
 
-        // Return without merging if application resource files lookup
-        // is disabled.
-        String disableAppRes = (String)env.get(DISABLE_APP_RESOURCE_FILES);
-        if (disableAppRes != null && disableAppRes.equalsIgnoreCase("true")) {
-            return env;
+        // Rfturn witiout mfrging if bpplidbtion rfsourdf filfs lookup
+        // is disbblfd.
+        String disbblfAppRfs = (String)fnv.gft(DISABLE_APP_RESOURCE_FILES);
+        if (disbblfAppRfs != null && disbblfAppRfs.fqublsIgnorfCbsf("truf")) {
+            rfturn fnv;
         }
 
-        // Merge the above with the values read from all application
-        // resource files.  Colon-separated lists are concatenated.
-        mergeTables((Hashtable<Object, Object>)env, getApplicationResources());
-        return env;
+        // Mfrgf tif bbovf witi tif vblufs rfbd from bll bpplidbtion
+        // rfsourdf filfs.  Colon-sfpbrbtfd lists brf dondbtfnbtfd.
+        mfrgfTbblfs((Hbsitbblf<Objfdt, Objfdt>)fnv, gftApplidbtionRfsourdfs());
+        rfturn fnv;
     }
 
     /**
-      * Retrieves the property from the environment, or from the provider
-      * resource file associated with the given context.  The environment
-      * may in turn contain values that come from system properties,
-      * or application resource files.
+      * Rftrifvfs tif propfrty from tif fnvironmfnt, or from tif providfr
+      * rfsourdf filf bssodibtfd witi tif givfn dontfxt.  Tif fnvironmfnt
+      * mby in turn dontbin vblufs tibt domf from systfm propfrtifs,
+      * or bpplidbtion rfsourdf filfs.
       *
-      * If <tt>concat</tt> is true and both the environment and the provider
-      * resource file contain the property, the two values are concatenated
-      * (with a ':' separator).
+      * If <tt>dondbt</tt> is truf bnd boti tif fnvironmfnt bnd tif providfr
+      * rfsourdf filf dontbin tif propfrty, tif two vblufs brf dondbtfnbtfd
+      * (witi b ':' sfpbrbtor).
       *
-      * Returns null if no value is found.
+      * Rfturns null if no vbluf is found.
       *
-      * @param propName The non-null property name
-      * @param env      The possibly null environment properties
-      * @param ctx      The possibly null context
-      * @param concat   True if multiple values should be concatenated
-      * @return the property value, or null is there is none.
-      * @throws NamingException if an error occurs while reading the provider
-      * resource file.
+      * @pbrbm propNbmf Tif non-null propfrty nbmf
+      * @pbrbm fnv      Tif possibly null fnvironmfnt propfrtifs
+      * @pbrbm dtx      Tif possibly null dontfxt
+      * @pbrbm dondbt   Truf if multiplf vblufs siould bf dondbtfnbtfd
+      * @rfturn tif propfrty vbluf, or null is tifrf is nonf.
+      * @tirows NbmingExdfption if bn frror oddurs wiilf rfbding tif providfr
+      * rfsourdf filf.
       */
-    public static String getProperty(String propName, Hashtable<?,?> env,
-        Context ctx, boolean concat)
-            throws NamingException {
+    publid stbtid String gftPropfrty(String propNbmf, Hbsitbblf<?,?> fnv,
+        Contfxt dtx, boolfbn dondbt)
+            tirows NbmingExdfption {
 
-        String val1 = (env != null) ? (String)env.get(propName) : null;
-        if ((ctx == null) ||
-            ((val1 != null) && !concat)) {
-            return val1;
+        String vbl1 = (fnv != null) ? (String)fnv.gft(propNbmf) : null;
+        if ((dtx == null) ||
+            ((vbl1 != null) && !dondbt)) {
+            rfturn vbl1;
         }
-        String val2 = (String)getProviderResource(ctx).get(propName);
-        if (val1 == null) {
-            return val2;
-        } else if ((val2 == null) || !concat) {
-            return val1;
-        } else {
-            return (val1 + ":" + val2);
+        String vbl2 = (String)gftProvidfrRfsourdf(dtx).gft(propNbmf);
+        if (vbl1 == null) {
+            rfturn vbl2;
+        } flsf if ((vbl2 == null) || !dondbt) {
+            rfturn vbl1;
+        } flsf {
+            rfturn (vbl1 + ":" + vbl2);
         }
     }
 
     /**
-     * Retrieves an enumeration of factory classes/object specified by a
-     * property.
+     * Rftrifvfs bn fnumfrbtion of fbdtory dlbssfs/objfdt spfdififd by b
+     * propfrty.
      *
-     * The property is gotten from the environment and the provider
-     * resource file associated with the given context and concatenated.
-     * See getProperty(). The resulting property value is a list of class names.
+     * Tif propfrty is gottfn from tif fnvironmfnt bnd tif providfr
+     * rfsourdf filf bssodibtfd witi tif givfn dontfxt bnd dondbtfnbtfd.
+     * Sff gftPropfrty(). Tif rfsulting propfrty vbluf is b list of dlbss nbmfs.
      *<p>
-     * This method then loads each class using the current thread's context
-     * class loader and keeps them in a list. Any class that cannot be loaded
-     * is ignored. The resulting list is then cached in a two-level
-     * hash table, keyed first by the context class loader and then by
-     * the property's value.
-     * The next time threads of the same context class loader call this
-     * method, they can use the cached list.
+     * Tiis mftiod tifn lobds fbdi dlbss using tif durrfnt tirfbd's dontfxt
+     * dlbss lobdfr bnd kffps tifm in b list. Any dlbss tibt dbnnot bf lobdfd
+     * is ignorfd. Tif rfsulting list is tifn dbdifd in b two-lfvfl
+     * ibsi tbblf, kfyfd first by tif dontfxt dlbss lobdfr bnd tifn by
+     * tif propfrty's vbluf.
+     * Tif nfxt timf tirfbds of tif sbmf dontfxt dlbss lobdfr dbll tiis
+     * mftiod, tify dbn usf tif dbdifd list.
      *<p>
-     * After obtaining the list either from the cache or by creating one from
-     * the property value, this method then creates and returns a
-     * FactoryEnumeration using the list. As the FactoryEnumeration is
-     * traversed, the cached Class object in the list is instantiated and
-     * replaced by an instance of the factory object itself.  Both class
-     * objects and factories are wrapped in weak references so as not to
-     * prevent GC of the class loader.
+     * Aftfr obtbining tif list fitifr from tif dbdif or by drfbting onf from
+     * tif propfrty vbluf, tiis mftiod tifn drfbtfs bnd rfturns b
+     * FbdtoryEnumfrbtion using tif list. As tif FbdtoryEnumfrbtion is
+     * trbvfrsfd, tif dbdifd Clbss objfdt in tif list is instbntibtfd bnd
+     * rfplbdfd by bn instbndf of tif fbdtory objfdt itsflf.  Boti dlbss
+     * objfdts bnd fbdtorifs brf wrbppfd in wfbk rfffrfndfs so bs not to
+     * prfvfnt GC of tif dlbss lobdfr.
      *<p>
-     * Note that multiple threads can be accessing the same cached list
-     * via FactoryEnumeration, which locks the list during each next().
-     * The size of the list will not change,
-     * but a cached Class object might be replaced by an instantiated factory
-     * object.
+     * Notf tibt multiplf tirfbds dbn bf bddfssing tif sbmf dbdifd list
+     * vib FbdtoryEnumfrbtion, wiidi lodks tif list during fbdi nfxt().
+     * Tif sizf of tif list will not dibngf,
+     * but b dbdifd Clbss objfdt migit bf rfplbdfd by bn instbntibtfd fbdtory
+     * objfdt.
      *
-     * @param propName  The non-null property name
-     * @param env       The possibly null environment properties
-     * @param ctx       The possibly null context
-     * @return An enumeration of factory classes/objects; null if none.
-     * @exception NamingException If encounter problem while reading the provider
-     * property file.
-     * @see javax.naming.spi.NamingManager#getObjectInstance
-     * @see javax.naming.spi.NamingManager#getStateToBind
-     * @see javax.naming.spi.DirectoryManager#getObjectInstance
-     * @see javax.naming.spi.DirectoryManager#getStateToBind
-     * @see javax.naming.ldap.ControlFactory#getControlInstance
+     * @pbrbm propNbmf  Tif non-null propfrty nbmf
+     * @pbrbm fnv       Tif possibly null fnvironmfnt propfrtifs
+     * @pbrbm dtx       Tif possibly null dontfxt
+     * @rfturn An fnumfrbtion of fbdtory dlbssfs/objfdts; null if nonf.
+     * @fxdfption NbmingExdfption If fndountfr problfm wiilf rfbding tif providfr
+     * propfrty filf.
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftObjfdtInstbndf
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftStbtfToBind
+     * @sff jbvbx.nbming.spi.DirfdtoryMbnbgfr#gftObjfdtInstbndf
+     * @sff jbvbx.nbming.spi.DirfdtoryMbnbgfr#gftStbtfToBind
+     * @sff jbvbx.nbming.ldbp.ControlFbdtory#gftControlInstbndf
      */
-    public static FactoryEnumeration getFactories(String propName,
-        Hashtable<?,?> env, Context ctx) throws NamingException {
+    publid stbtid FbdtoryEnumfrbtion gftFbdtorifs(String propNbmf,
+        Hbsitbblf<?,?> fnv, Contfxt dtx) tirows NbmingExdfption {
 
-        String facProp = getProperty(propName, env, ctx, true);
-        if (facProp == null)
-            return null;  // no classes specified; return null
+        String fbdProp = gftPropfrty(propNbmf, fnv, dtx, truf);
+        if (fbdProp == null)
+            rfturn null;  // no dlbssfs spfdififd; rfturn null
 
-        // Cache is based on context class loader and property val
-        ClassLoader loader = helper.getContextClassLoader();
+        // Cbdif is bbsfd on dontfxt dlbss lobdfr bnd propfrty vbl
+        ClbssLobdfr lobdfr = iflpfr.gftContfxtClbssLobdfr();
 
-        Map<String, List<NamedWeakReference<Object>>> perLoaderCache = null;
-        synchronized (factoryCache) {
-            perLoaderCache = factoryCache.get(loader);
-            if (perLoaderCache == null) {
-                perLoaderCache = new HashMap<>(11);
-                factoryCache.put(loader, perLoaderCache);
+        Mbp<String, List<NbmfdWfbkRfffrfndf<Objfdt>>> pfrLobdfrCbdif = null;
+        syndironizfd (fbdtoryCbdif) {
+            pfrLobdfrCbdif = fbdtoryCbdif.gft(lobdfr);
+            if (pfrLobdfrCbdif == null) {
+                pfrLobdfrCbdif = nfw HbsiMbp<>(11);
+                fbdtoryCbdif.put(lobdfr, pfrLobdfrCbdif);
             }
         }
 
-        synchronized (perLoaderCache) {
-            List<NamedWeakReference<Object>> factories =
-                    perLoaderCache.get(facProp);
-            if (factories != null) {
-                // Cached list
-                return factories.size() == 0 ? null
-                    : new FactoryEnumeration(factories, loader);
-            } else {
-                // Populate list with classes named in facProp; skipping
-                // those that we cannot load
-                StringTokenizer parser = new StringTokenizer(facProp, ":");
-                factories = new ArrayList<>(5);
-                while (parser.hasMoreTokens()) {
+        syndironizfd (pfrLobdfrCbdif) {
+            List<NbmfdWfbkRfffrfndf<Objfdt>> fbdtorifs =
+                    pfrLobdfrCbdif.gft(fbdProp);
+            if (fbdtorifs != null) {
+                // Cbdifd list
+                rfturn fbdtorifs.sizf() == 0 ? null
+                    : nfw FbdtoryEnumfrbtion(fbdtorifs, lobdfr);
+            } flsf {
+                // Populbtf list witi dlbssfs nbmfd in fbdProp; skipping
+                // tiosf tibt wf dbnnot lobd
+                StringTokfnizfr pbrsfr = nfw StringTokfnizfr(fbdProp, ":");
+                fbdtorifs = nfw ArrbyList<>(5);
+                wiilf (pbrsfr.ibsMorfTokfns()) {
                     try {
-                        // System.out.println("loading");
-                        String className = parser.nextToken();
-                        Class<?> c = helper.loadClass(className, loader);
-                        factories.add(new NamedWeakReference<Object>(c, className));
-                    } catch (Exception e) {
-                        // ignore ClassNotFoundException, IllegalArgumentException
+                        // Systfm.out.println("lobding");
+                        String dlbssNbmf = pbrsfr.nfxtTokfn();
+                        Clbss<?> d = iflpfr.lobdClbss(dlbssNbmf, lobdfr);
+                        fbdtorifs.bdd(nfw NbmfdWfbkRfffrfndf<Objfdt>(d, dlbssNbmf));
+                    } dbtdi (Exdfption f) {
+                        // ignorf ClbssNotFoundExdfption, IllfgblArgumfntExdfption
                     }
                 }
-                // System.out.println("adding to cache: " + factories);
-                perLoaderCache.put(facProp, factories);
-                return new FactoryEnumeration(factories, loader);
+                // Systfm.out.println("bdding to dbdif: " + fbdtorifs);
+                pfrLobdfrCbdif.put(fbdProp, fbdtorifs);
+                rfturn nfw FbdtoryEnumfrbtion(fbdtorifs, lobdfr);
             }
         }
     }
 
     /**
-     * Retrieves a factory from a list of packages specified in a
-     * property.
+     * Rftrifvfs b fbdtory from b list of pbdkbgfs spfdififd in b
+     * propfrty.
      *
-     * The property is gotten from the environment and the provider
-     * resource file associated with the given context and concatenated.
-     * classSuffix is added to the end of this list.
-     * See getProperty(). The resulting property value is a list of package
-     * prefixes.
+     * Tif propfrty is gottfn from tif fnvironmfnt bnd tif providfr
+     * rfsourdf filf bssodibtfd witi tif givfn dontfxt bnd dondbtfnbtfd.
+     * dlbssSuffix is bddfd to tif fnd of tiis list.
+     * Sff gftPropfrty(). Tif rfsulting propfrty vbluf is b list of pbdkbgf
+     * prffixfs.
      *<p>
-     * This method then constructs a list of class names by concatenating
-     * each package prefix with classSuffix and attempts to load and
-     * instantiate the class until one succeeds.
-     * Any class that cannot be loaded is ignored.
-     * The resulting object is then cached in a two-level hash table,
-     * keyed first by the context class loader and then by the property's
-     * value and classSuffix.
-     * The next time threads of the same context class loader call this
-     * method, they use the cached factory.
-     * If no factory can be loaded, NO_FACTORY is recorded in the table
-     * so that next time it'll return quickly.
+     * Tiis mftiod tifn donstrudts b list of dlbss nbmfs by dondbtfnbting
+     * fbdi pbdkbgf prffix witi dlbssSuffix bnd bttfmpts to lobd bnd
+     * instbntibtf tif dlbss until onf suddffds.
+     * Any dlbss tibt dbnnot bf lobdfd is ignorfd.
+     * Tif rfsulting objfdt is tifn dbdifd in b two-lfvfl ibsi tbblf,
+     * kfyfd first by tif dontfxt dlbss lobdfr bnd tifn by tif propfrty's
+     * vbluf bnd dlbssSuffix.
+     * Tif nfxt timf tirfbds of tif sbmf dontfxt dlbss lobdfr dbll tiis
+     * mftiod, tify usf tif dbdifd fbdtory.
+     * If no fbdtory dbn bf lobdfd, NO_FACTORY is rfdordfd in tif tbblf
+     * so tibt nfxt timf it'll rfturn quidkly.
      *
-     * @param propName  The non-null property name
-     * @param env       The possibly null environment properties
-     * @param ctx       The possibly null context
-     * @param classSuffix The non-null class name
-     *                  (e.g. ".ldap.ldapURLContextFactory).
-     * @param defaultPkgPrefix The non-null default package prefix.
-     *        (e.g., "com.sun.jndi.url").
-     * @return An factory object; null if none.
-     * @exception NamingException If encounter problem while reading the provider
-     * property file, or problem instantiating the factory.
+     * @pbrbm propNbmf  Tif non-null propfrty nbmf
+     * @pbrbm fnv       Tif possibly null fnvironmfnt propfrtifs
+     * @pbrbm dtx       Tif possibly null dontfxt
+     * @pbrbm dlbssSuffix Tif non-null dlbss nbmf
+     *                  (f.g. ".ldbp.ldbpURLContfxtFbdtory).
+     * @pbrbm dffbultPkgPrffix Tif non-null dffbult pbdkbgf prffix.
+     *        (f.g., "dom.sun.jndi.url").
+     * @rfturn An fbdtory objfdt; null if nonf.
+     * @fxdfption NbmingExdfption If fndountfr problfm wiilf rfbding tif providfr
+     * propfrty filf, or problfm instbntibting tif fbdtory.
      *
-     * @see javax.naming.spi.NamingManager#getURLContext
-     * @see javax.naming.spi.NamingManager#getURLObject
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftURLContfxt
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftURLObjfdt
      */
-    public static Object getFactory(String propName, Hashtable<?,?> env,
-            Context ctx, String classSuffix, String defaultPkgPrefix)
-            throws NamingException {
+    publid stbtid Objfdt gftFbdtory(String propNbmf, Hbsitbblf<?,?> fnv,
+            Contfxt dtx, String dlbssSuffix, String dffbultPkgPrffix)
+            tirows NbmingExdfption {
 
-        // Merge property with provider property and supplied default
-        String facProp = getProperty(propName, env, ctx, true);
-        if (facProp != null)
-            facProp += (":" + defaultPkgPrefix);
-        else
-            facProp = defaultPkgPrefix;
+        // Mfrgf propfrty witi providfr propfrty bnd supplifd dffbult
+        String fbdProp = gftPropfrty(propNbmf, fnv, dtx, truf);
+        if (fbdProp != null)
+            fbdProp += (":" + dffbultPkgPrffix);
+        flsf
+            fbdProp = dffbultPkgPrffix;
 
-        // Cache factory based on context class loader, class name, and
-        // property val
-        ClassLoader loader = helper.getContextClassLoader();
-        String key = classSuffix + " " + facProp;
+        // Cbdif fbdtory bbsfd on dontfxt dlbss lobdfr, dlbss nbmf, bnd
+        // propfrty vbl
+        ClbssLobdfr lobdfr = iflpfr.gftContfxtClbssLobdfr();
+        String kfy = dlbssSuffix + " " + fbdProp;
 
-        Map<String, WeakReference<Object>> perLoaderCache = null;
-        synchronized (urlFactoryCache) {
-            perLoaderCache = urlFactoryCache.get(loader);
-            if (perLoaderCache == null) {
-                perLoaderCache = new HashMap<>(11);
-                urlFactoryCache.put(loader, perLoaderCache);
+        Mbp<String, WfbkRfffrfndf<Objfdt>> pfrLobdfrCbdif = null;
+        syndironizfd (urlFbdtoryCbdif) {
+            pfrLobdfrCbdif = urlFbdtoryCbdif.gft(lobdfr);
+            if (pfrLobdfrCbdif == null) {
+                pfrLobdfrCbdif = nfw HbsiMbp<>(11);
+                urlFbdtoryCbdif.put(lobdfr, pfrLobdfrCbdif);
             }
         }
 
-        synchronized (perLoaderCache) {
-            Object factory = null;
+        syndironizfd (pfrLobdfrCbdif) {
+            Objfdt fbdtory = null;
 
-            WeakReference<Object> factoryRef = perLoaderCache.get(key);
-            if (factoryRef == NO_FACTORY) {
-                return null;
-            } else if (factoryRef != null) {
-                factory = factoryRef.get();
-                if (factory != null) {  // check if weak ref has been cleared
-                    return factory;
+            WfbkRfffrfndf<Objfdt> fbdtoryRff = pfrLobdfrCbdif.gft(kfy);
+            if (fbdtoryRff == NO_FACTORY) {
+                rfturn null;
+            } flsf if (fbdtoryRff != null) {
+                fbdtory = fbdtoryRff.gft();
+                if (fbdtory != null) {  // difdk if wfbk rff ibs bffn dlfbrfd
+                    rfturn fbdtory;
                 }
             }
 
-            // Not cached; find first factory and cache
-            StringTokenizer parser = new StringTokenizer(facProp, ":");
-            String className;
-            while (factory == null && parser.hasMoreTokens()) {
-                className = parser.nextToken() + classSuffix;
+            // Not dbdifd; find first fbdtory bnd dbdif
+            StringTokfnizfr pbrsfr = nfw StringTokfnizfr(fbdProp, ":");
+            String dlbssNbmf;
+            wiilf (fbdtory == null && pbrsfr.ibsMorfTokfns()) {
+                dlbssNbmf = pbrsfr.nfxtTokfn() + dlbssSuffix;
                 try {
-                    // System.out.println("loading " + className);
-                    factory = helper.loadClass(className, loader).newInstance();
-                } catch (InstantiationException e) {
-                    NamingException ne =
-                        new NamingException("Cannot instantiate " + className);
-                    ne.setRootCause(e);
-                    throw ne;
-                } catch (IllegalAccessException e) {
-                    NamingException ne =
-                        new NamingException("Cannot access " + className);
-                    ne.setRootCause(e);
-                    throw ne;
-                } catch (Exception e) {
-                    // ignore ClassNotFoundException, IllegalArgumentException,
-                    // etc.
+                    // Systfm.out.println("lobding " + dlbssNbmf);
+                    fbdtory = iflpfr.lobdClbss(dlbssNbmf, lobdfr).nfwInstbndf();
+                } dbtdi (InstbntibtionExdfption f) {
+                    NbmingExdfption nf =
+                        nfw NbmingExdfption("Cbnnot instbntibtf " + dlbssNbmf);
+                    nf.sftRootCbusf(f);
+                    tirow nf;
+                } dbtdi (IllfgblAddfssExdfption f) {
+                    NbmingExdfption nf =
+                        nfw NbmingExdfption("Cbnnot bddfss " + dlbssNbmf);
+                    nf.sftRootCbusf(f);
+                    tirow nf;
+                } dbtdi (Exdfption f) {
+                    // ignorf ClbssNotFoundExdfption, IllfgblArgumfntExdfption,
+                    // ftd.
                 }
             }
 
-            // Cache it.
-            perLoaderCache.put(key, (factory != null)
-                                        ? new WeakReference<>(factory)
+            // Cbdif it.
+            pfrLobdfrCbdif.put(kfy, (fbdtory != null)
+                                        ? nfw WfbkRfffrfndf<>(fbdtory)
                                         : NO_FACTORY);
-            return factory;
+            rfturn fbdtory;
         }
     }
 
 
-    // ---------- Private methods ----------
+    // ---------- Privbtf mftiods ----------
 
     /*
-     * Returns the properties contained in the provider resource file
-     * of an object's package.  Returns an empty hash table if the
-     * object is null or the resource file cannot be found.  The
-     * results are cached.
+     * Rfturns tif propfrtifs dontbinfd in tif providfr rfsourdf filf
+     * of bn objfdt's pbdkbgf.  Rfturns bn fmpty ibsi tbblf if tif
+     * objfdt is null or tif rfsourdf filf dbnnot bf found.  Tif
+     * rfsults brf dbdifd.
      *
-     * @throws NamingException if an error occurs while reading the file.
+     * @tirows NbmingExdfption if bn frror oddurs wiilf rfbding tif filf.
      */
-    private static Hashtable<? super String, Object>
-        getProviderResource(Object obj)
-            throws NamingException
+    privbtf stbtid Hbsitbblf<? supfr String, Objfdt>
+        gftProvidfrRfsourdf(Objfdt obj)
+            tirows NbmingExdfption
     {
         if (obj == null) {
-            return (new Hashtable<>(1));
+            rfturn (nfw Hbsitbblf<>(1));
         }
-        synchronized (propertiesCache) {
-            Class<?> c = obj.getClass();
+        syndironizfd (propfrtifsCbdif) {
+            Clbss<?> d = obj.gftClbss();
 
-            Hashtable<? super String, Object> props =
-                    propertiesCache.get(c);
+            Hbsitbblf<? supfr String, Objfdt> props =
+                    propfrtifsCbdif.gft(d);
             if (props != null) {
-                return props;
+                rfturn props;
             }
-            props = new Properties();
+            props = nfw Propfrtifs();
 
-            InputStream istream =
-                helper.getResourceAsStream(c, PROVIDER_RESOURCE_FILE_NAME);
+            InputStrfbm istrfbm =
+                iflpfr.gftRfsourdfAsStrfbm(d, PROVIDER_RESOURCE_FILE_NAME);
 
-            if (istream != null) {
+            if (istrfbm != null) {
                 try {
-                    ((Properties)props).load(istream);
-                } catch (IOException e) {
-                    NamingException ne = new ConfigurationException(
-                            "Error reading provider resource file for " + c);
-                    ne.setRootCause(e);
-                    throw ne;
+                    ((Propfrtifs)props).lobd(istrfbm);
+                } dbtdi (IOExdfption f) {
+                    NbmingExdfption nf = nfw ConfigurbtionExdfption(
+                            "Error rfbding providfr rfsourdf filf for " + d);
+                    nf.sftRootCbusf(f);
+                    tirow nf;
                 }
             }
-            propertiesCache.put(c, props);
-            return props;
+            propfrtifsCbdif.put(d, props);
+            rfturn props;
         }
     }
 
 
     /*
-     * Returns the Hashtable (never null) that results from merging
-     * all application resource files available to this thread's
-     * context class loader.  The properties file in <java.home>/lib
-     * is also merged in.  The results are cached.
+     * Rfturns tif Hbsitbblf (nfvfr null) tibt rfsults from mfrging
+     * bll bpplidbtion rfsourdf filfs bvbilbblf to tiis tirfbd's
+     * dontfxt dlbss lobdfr.  Tif propfrtifs filf in <jbvb.iomf>/lib
+     * is blso mfrgfd in.  Tif rfsults brf dbdifd.
      *
      * SECURITY NOTES:
-     * 1.  JNDI needs permission to read the application resource files.
-     * 2.  Any class will be able to use JNDI to view the contents of
-     * the application resource files in its own classpath.  Give
-     * careful consideration to this before storing sensitive
-     * information there.
+     * 1.  JNDI nffds pfrmission to rfbd tif bpplidbtion rfsourdf filfs.
+     * 2.  Any dlbss will bf bblf to usf JNDI to vifw tif dontfnts of
+     * tif bpplidbtion rfsourdf filfs in its own dlbsspbti.  Givf
+     * dbrfful donsidfrbtion to tiis bfforf storing sfnsitivf
+     * informbtion tifrf.
      *
-     * @throws NamingException if an error occurs while reading a resource
-     *  file.
+     * @tirows NbmingExdfption if bn frror oddurs wiilf rfbding b rfsourdf
+     *  filf.
      */
-    private static Hashtable<? super String, Object> getApplicationResources()
-            throws NamingException {
+    privbtf stbtid Hbsitbblf<? supfr String, Objfdt> gftApplidbtionRfsourdfs()
+            tirows NbmingExdfption {
 
-        ClassLoader cl = helper.getContextClassLoader();
+        ClbssLobdfr dl = iflpfr.gftContfxtClbssLobdfr();
 
-        synchronized (propertiesCache) {
-            Hashtable<? super String, Object> result = propertiesCache.get(cl);
-            if (result != null) {
-                return result;
+        syndironizfd (propfrtifsCbdif) {
+            Hbsitbblf<? supfr String, Objfdt> rfsult = propfrtifsCbdif.gft(dl);
+            if (rfsult != null) {
+                rfturn rfsult;
             }
 
             try {
-                NamingEnumeration<InputStream> resources =
-                    helper.getResources(cl, APP_RESOURCE_FILE_NAME);
+                NbmingEnumfrbtion<InputStrfbm> rfsourdfs =
+                    iflpfr.gftRfsourdfs(dl, APP_RESOURCE_FILE_NAME);
                 try {
-                    while (resources.hasMore()) {
-                        Properties props = new Properties();
-                        InputStream istream = resources.next();
+                    wiilf (rfsourdfs.ibsMorf()) {
+                        Propfrtifs props = nfw Propfrtifs();
+                        InputStrfbm istrfbm = rfsourdfs.nfxt();
                         try {
-                            props.load(istream);
-                        } finally {
-                            istream.close();
+                            props.lobd(istrfbm);
+                        } finblly {
+                            istrfbm.dlosf();
                         }
 
-                        if (result == null) {
-                            result = props;
-                        } else {
-                            mergeTables(result, props);
+                        if (rfsult == null) {
+                            rfsult = props;
+                        } flsf {
+                            mfrgfTbblfs(rfsult, props);
                         }
                     }
-                } finally {
-                    while (resources.hasMore()) {
-                        resources.next().close();
+                } finblly {
+                    wiilf (rfsourdfs.ibsMorf()) {
+                        rfsourdfs.nfxt().dlosf();
                     }
                 }
 
-                // Merge in properties from file in <java.home>/lib.
-                InputStream istream =
-                    helper.getJavaHomeLibStream(JRELIB_PROPERTY_FILE_NAME);
-                if (istream != null) {
+                // Mfrgf in propfrtifs from filf in <jbvb.iomf>/lib.
+                InputStrfbm istrfbm =
+                    iflpfr.gftJbvbHomfLibStrfbm(JRELIB_PROPERTY_FILE_NAME);
+                if (istrfbm != null) {
                     try {
-                        Properties props = new Properties();
-                        props.load(istream);
+                        Propfrtifs props = nfw Propfrtifs();
+                        props.lobd(istrfbm);
 
-                        if (result == null) {
-                            result = props;
-                        } else {
-                            mergeTables(result, props);
+                        if (rfsult == null) {
+                            rfsult = props;
+                        } flsf {
+                            mfrgfTbblfs(rfsult, props);
                         }
-                    } finally {
-                        istream.close();
+                    } finblly {
+                        istrfbm.dlosf();
                     }
                 }
 
-            } catch (IOException e) {
-                NamingException ne = new ConfigurationException(
-                        "Error reading application resource file");
-                ne.setRootCause(e);
-                throw ne;
+            } dbtdi (IOExdfption f) {
+                NbmingExdfption nf = nfw ConfigurbtionExdfption(
+                        "Error rfbding bpplidbtion rfsourdf filf");
+                nf.sftRootCbusf(f);
+                tirow nf;
             }
-            if (result == null) {
-                result = new Hashtable<>(11);
+            if (rfsult == null) {
+                rfsult = nfw Hbsitbblf<>(11);
             }
-            propertiesCache.put(cl, result);
-            return result;
+            propfrtifsCbdif.put(dl, rfsult);
+            rfturn rfsult;
         }
     }
 
     /*
-     * Merge the properties from one hash table into another.  Each
-     * property in props2 that is not in props1 is added to props1.
-     * For each property in both hash tables that is one of the
-     * standard JNDI properties that specify colon-separated lists,
-     * the values are concatenated and stored in props1.
+     * Mfrgf tif propfrtifs from onf ibsi tbblf into bnotifr.  Ebdi
+     * propfrty in props2 tibt is not in props1 is bddfd to props1.
+     * For fbdi propfrty in boti ibsi tbblfs tibt is onf of tif
+     * stbndbrd JNDI propfrtifs tibt spfdify dolon-sfpbrbtfd lists,
+     * tif vblufs brf dondbtfnbtfd bnd storfd in props1.
      */
-    private static void mergeTables(Hashtable<? super String, Object> props1,
-                                    Hashtable<? super String, Object> props2) {
-        for (Object key : props2.keySet()) {
-            String prop = (String)key;
-            Object val1 = props1.get(prop);
-            if (val1 == null) {
-                props1.put(prop, props2.get(prop));
-            } else if (isListProperty(prop)) {
-                String val2 = (String)props2.get(prop);
-                props1.put(prop, ((String)val1) + ":" + val2);
+    privbtf stbtid void mfrgfTbblfs(Hbsitbblf<? supfr String, Objfdt> props1,
+                                    Hbsitbblf<? supfr String, Objfdt> props2) {
+        for (Objfdt kfy : props2.kfySft()) {
+            String prop = (String)kfy;
+            Objfdt vbl1 = props1.gft(prop);
+            if (vbl1 == null) {
+                props1.put(prop, props2.gft(prop));
+            } flsf if (isListPropfrty(prop)) {
+                String vbl2 = (String)props2.gft(prop);
+                props1.put(prop, ((String)vbl1) + ":" + vbl2);
             }
         }
     }
 
     /*
-     * Is a property one of the standard JNDI properties that specify
-     * colon-separated lists?
+     * Is b propfrty onf of tif stbndbrd JNDI propfrtifs tibt spfdify
+     * dolon-sfpbrbtfd lists?
      */
-    private static boolean isListProperty(String prop) {
-        prop = prop.intern();
-        for (int i = 0; i < listProperties.length; i++) {
-            if (prop == listProperties[i]) {
-                return true;
+    privbtf stbtid boolfbn isListPropfrty(String prop) {
+        prop = prop.intfrn();
+        for (int i = 0; i < listPropfrtifs.lfngti; i++) {
+            if (prop == listPropfrtifs[i]) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 }

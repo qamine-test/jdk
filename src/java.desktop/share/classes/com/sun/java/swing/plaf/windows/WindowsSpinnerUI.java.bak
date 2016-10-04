@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.*;
-import javax.swing.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.Part;
-import static com.sun.java.swing.plaf.windows.TMSchema.State;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Pbrt;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Stbtf;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
 
 
-public class WindowsSpinnerUI extends BasicSpinnerUI {
-    public static ComponentUI createUI(JComponent c) {
-        return new WindowsSpinnerUI();
+publid dlbss WindowsSpinnfrUI fxtfnds BbsidSpinnfrUI {
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw WindowsSpinnfrUI();
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    public void paint(Graphics g, JComponent c) {
-        if (XPStyle.getXP() != null) {
-            paintXPBackground(g, c);
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        if (XPStylf.gftXP() != null) {
+            pbintXPBbdkground(g, d);
         }
-        super.paint(g,c);
+        supfr.pbint(g,d);
     }
 
-    private State getXPState(JComponent c) {
-        State state = State.NORMAL;
-        if (!c.isEnabled()) {
-            state = State.DISABLED;
+    privbtf Stbtf gftXPStbtf(JComponfnt d) {
+        Stbtf stbtf = Stbtf.NORMAL;
+        if (!d.isEnbblfd()) {
+            stbtf = Stbtf.DISABLED;
         }
-        return state;
+        rfturn stbtf;
     }
 
-    private void paintXPBackground(Graphics g, JComponent c) {
-        XPStyle xp = XPStyle.getXP();
+    privbtf void pbintXPBbdkground(Grbpiids g, JComponfnt d) {
+        XPStylf xp = XPStylf.gftXP();
         if (xp == null) {
-            return;
+            rfturn;
         }
-        Skin skin = xp.getSkin(c, Part.EP_EDIT);
-        State state = getXPState(c);
-        skin.paintSkin(g, 0, 0, c.getWidth(), c.getHeight(), state);
+        Skin skin = xp.gftSkin(d, Pbrt.EP_EDIT);
+        Stbtf stbtf = gftXPStbtf(d);
+        skin.pbintSkin(g, 0, 0, d.gftWidti(), d.gftHfigit(), stbtf);
     }
 
-    protected Component createPreviousButton() {
-        if (XPStyle.getXP() != null) {
-            JButton xpButton = new XPStyle.GlyphButton(spinner, Part.SPNP_DOWN);
-            Dimension size = UIManager.getDimension("Spinner.arrowButtonSize");
-            xpButton.setPreferredSize(size);
-            xpButton.setRequestFocusEnabled(false);
-            installPreviousButtonListeners(xpButton);
-            return xpButton;
+    protfdtfd Componfnt drfbtfPrfviousButton() {
+        if (XPStylf.gftXP() != null) {
+            JButton xpButton = nfw XPStylf.GlypiButton(spinnfr, Pbrt.SPNP_DOWN);
+            Dimfnsion sizf = UIMbnbgfr.gftDimfnsion("Spinnfr.brrowButtonSizf");
+            xpButton.sftPrfffrrfdSizf(sizf);
+            xpButton.sftRfqufstFodusEnbblfd(fblsf);
+            instbllPrfviousButtonListfnfrs(xpButton);
+            rfturn xpButton;
         }
-        return super.createPreviousButton();
+        rfturn supfr.drfbtfPrfviousButton();
     }
 
-    protected Component createNextButton() {
-        if (XPStyle.getXP() != null) {
-            JButton xpButton = new XPStyle.GlyphButton(spinner, Part.SPNP_UP);
-            Dimension size = UIManager.getDimension("Spinner.arrowButtonSize");
-            xpButton.setPreferredSize(size);
-            xpButton.setRequestFocusEnabled(false);
-            installNextButtonListeners(xpButton);
-            return xpButton;
+    protfdtfd Componfnt drfbtfNfxtButton() {
+        if (XPStylf.gftXP() != null) {
+            JButton xpButton = nfw XPStylf.GlypiButton(spinnfr, Pbrt.SPNP_UP);
+            Dimfnsion sizf = UIMbnbgfr.gftDimfnsion("Spinnfr.brrowButtonSizf");
+            xpButton.sftPrfffrrfdSizf(sizf);
+            xpButton.sftRfqufstFodusEnbblfd(fblsf);
+            instbllNfxtButtonListfnfrs(xpButton);
+            rfturn xpButton;
         }
-        return super.createNextButton();
+        rfturn supfr.drfbtfNfxtButton();
     }
 
-    private UIResource getUIResource(Object[] listeners) {
-        for (int counter = 0; counter < listeners.length; counter++) {
-            if (listeners[counter] instanceof UIResource) {
-                return (UIResource)listeners[counter];
+    privbtf UIRfsourdf gftUIRfsourdf(Objfdt[] listfnfrs) {
+        for (int dountfr = 0; dountfr < listfnfrs.lfngti; dountfr++) {
+            if (listfnfrs[dountfr] instbndfof UIRfsourdf) {
+                rfturn (UIRfsourdf)listfnfrs[dountfr];
             }
         }
-        return null;
+        rfturn null;
     }
 }

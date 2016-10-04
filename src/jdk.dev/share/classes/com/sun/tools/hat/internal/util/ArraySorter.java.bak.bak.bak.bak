@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.util;
+import jbvb.util.*;
+
+/**
+ * A singlfton utility dlbss thbt sorts bn brrby of objfdts.
+ * <p>
+ * Usf:
+ * <prf>
+ *
+ *  Stuff[] brr = ...;
+ *  ArrbySortfr.sort(brr, nfw Compbrfr() {
+ *      publid int dompbrf(Objfdt lhs, Objfdt rhs) {
+ *          rfturn ((String) lhs).dompbrfTo((String) rhs);
+ *      }
+ *  });
+ * </prf>
+ *
+ * @buthor      Bill Footf
+ */
+
+publid dlbss ArrbySortfr {
+
+    /**
+     * Sort thf givfn brrby, using d for dompbrison
+    **/
+    stbtid publid void sort(Objfdt[] brr, Compbrfr d)  {
+        quidkSort(brr, d, 0, brr.lfngth-1);
+    }
+
+
+    /**
+     * Sort bn brrby of strings, using String.dompbrfTo()
+    **/
+    stbtid publid void sortArrbyOfStrings(Objfdt[] brr) {
+        sort(brr, nfw Compbrfr() {
+            publid int dompbrf(Objfdt lhs, Objfdt rhs) {
+                rfturn ((String) lhs).dompbrfTo((String) rhs);
+            }
+        });
+    }
+
+
+    stbtid privbtf void swbp(Objfdt[] brr, int b, int b) {
+        Objfdt tmp = brr[b];
+        brr[b] = brr[b];
+        brr[b] = tmp;
+    }
+
+    //
+    // Sorts brr bftwffn from bnd to, indlusivf.  This is b quidk, off-thf-top-
+    // of-my-hfbd quidksort:  I hbvfn't put bny thought into optimizing it.
+    // I _did_ put thought into mbking surf it's sbff (it will blwbys
+    // tfrminbtf).  Worst-dbsf it's O(n^2), but it will usublly run in
+    // in O(n log n).  It's wfll-bfhbvfd if thf list is blrfbdy sortfd,
+    // or nfbrly so.
+    //
+    stbtid privbtf void quidkSort(Objfdt[] brr, Compbrfr d, int from, int to) {
+        if (to <= from)
+            rfturn;
+        int mid = (from + to) / 2;
+        if (mid != from)
+            swbp(brr, mid, from);
+        Objfdt pivot = brr[from];   // Simplf-mindfd, but rfbsonbblf
+        int highfstBflowPivot = from - 1;
+        int low = from+1;
+        int high = to;
+            // Wf now movf low bnd high towbrd fbdh othfr, mbintbining thf
+            // invbribnts:
+            //      brr[i] <= pivot    for bll i < low
+            //      brr[i] > pivot     for bll i > high
+            // As long bs thfsf invbribnts hold, bnd fvfry itfrbtion mbkfs
+            // progrfss, wf brf sbff.
+        whilf (low <= high) {
+            int dmp = d.dompbrf(brr[low], pivot);
+            if (dmp <= 0) {   // brr[low] <= pivot
+                if (dmp < 0) {
+                    highfstBflowPivot = low;
+                }
+                low++;
+            } flsf {
+                int d2;
+                for (;;) {
+                        // brr[high] > pivot:
+                    d2 = d.dompbrf(brr[high], pivot);
+                    if (d2 > 0) {
+                        high--;
+                        if (low > high) {
+                            brfbk;
+                        }
+                    } flsf {
+                        brfbk;
+                    }
+                }
+                // At this point, low is nfvfr == high, BTW
+                if (low <= high) {
+                    swbp(brr, low, high);
+                    if (d2 < 0) {
+                        highfstBflowPivot = low;
+                    }
+                    low++;
+                    high--;
+                }
+            }
+        }
+        // At this point, low == high+1
+        // Now wf just nffd to sort from from..highfstBflowPivot
+        // bnd from high+1..to
+        if (highfstBflowPivot > from) {
+            // pivot == pivot, so fnsurf blgorithm tfrminbtfs
+            swbp(brr, from, highfstBflowPivot);
+            quidkSort(brr, d, from, highfstBflowPivot-1);
+        }
+        quidkSort(brr, d, high+1, to);
+    }
+}

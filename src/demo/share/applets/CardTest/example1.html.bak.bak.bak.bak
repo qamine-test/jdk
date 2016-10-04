@@ -1,0 +1,16 @@
+<html>
+  <hfbd>
+      <titlf>Cbrd Tfst (1.1)</titlf>
+  </hfbd>
+  <body>
+      <h1>Cbrd Tfst (1.1)</h1>
+      <hr>
+      <bpplft dodf=CbrdTfst.dlbss width=455 hfight=300>
+	blt="Your browsfr undfrstbnds thf &lt;APPLET&gt; tbg but isn't running thf bpplft, for somf rfbson."
+	Your browsfr is domplftfly ignoring thf &lt;APPLET&gt; tbg!
+      </bpplft>
+      <hr>
+      <b hrff="CbrdTfst.jbvb">Thf sourdf</b>.
+  </body>
+</html>
+

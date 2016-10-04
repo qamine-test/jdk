@@ -1,278 +1,278 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
 
 /**
- * Represents an SNMP string.
+ * Rfprfsfnts bn SNMP string.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public class SnmpString extends SnmpValue {
-    private static final long serialVersionUID = -7011986973225194188L;
+publid dlbss SnmpString fxtfnds SnmpVbluf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -7011986973225194188L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new empty <CODE>SnmpString</CODE>.
+     * Construdts b nfw fmpty <CODE>SnmpString</CODE>.
      */
-    public SnmpString() {
-        value = new byte[0] ;
+    publid SnmpString() {
+        vbluf = nfw bytf[0] ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpString</CODE> from the specified bytes array.
-     * @param v The bytes composing the string value.
+     * Construdts b nfw <CODE>SnmpString</CODE> from tif spfdififd bytfs brrby.
+     * @pbrbm v Tif bytfs domposing tif string vbluf.
      */
-    public SnmpString(byte[] v) {
-        value = v.clone() ;
+    publid SnmpString(bytf[] v) {
+        vbluf = v.dlonf() ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpString</CODE> from the specified <CODE>Bytes</CODE> array.
-     * @param v The <CODE>Bytes</CODE> composing the string value.
+     * Construdts b nfw <CODE>SnmpString</CODE> from tif spfdififd <CODE>Bytfs</CODE> brrby.
+     * @pbrbm v Tif <CODE>Bytfs</CODE> domposing tif string vbluf.
      */
-    public SnmpString(Byte[] v) {
-        value = new byte[v.length] ;
-        for (int i = 0 ; i < v.length ; i++) {
-            value[i] = v[i].byteValue() ;
+    publid SnmpString(Bytf[] v) {
+        vbluf = nfw bytf[v.lfngti] ;
+        for (int i = 0 ; i < v.lfngti ; i++) {
+            vbluf[i] = v[i].bytfVbluf() ;
         }
     }
 
     /**
-     * Constructs a new <CODE>SnmpString</CODE> from the specified <CODE>String</CODE> value.
-     * @param v The initialization value.
+     * Construdts b nfw <CODE>SnmpString</CODE> from tif spfdififd <CODE>String</CODE> vbluf.
+     * @pbrbm v Tif initiblizbtion vbluf.
      */
-    public SnmpString(String v) {
-        value = v.getBytes() ;
+    publid SnmpString(String v) {
+        vbluf = v.gftBytfs() ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpString</CODE> from the specified <CODE> InetAddress </Code>.
-     * @param address The <CODE>InetAddress </CODE>.
+     * Construdts b nfw <CODE>SnmpString</CODE> from tif spfdififd <CODE> InftAddrfss </Codf>.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss </CODE>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpString(InetAddress address) {
-        value = address.getAddress();
+    publid SnmpString(InftAddrfss bddrfss) {
+        vbluf = bddrfss.gftAddrfss();
     }
 
     // PUBLIC METHODS
     //---------------
 
     /**
-     * Converts the string value to its <CODE> InetAddress </CODE> form.
-     * @return an {@link InetAddress} defined by the string value.
-     * @exception UnknownHostException If string value is not a legal address format.
+     * Convfrts tif string vbluf to its <CODE> InftAddrfss </CODE> form.
+     * @rfturn bn {@link InftAddrfss} dffinfd by tif string vbluf.
+     * @fxdfption UnknownHostExdfption If string vbluf is not b lfgbl bddrfss formbt.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public InetAddress inetAddressValue() throws UnknownHostException {
-        return InetAddress.getByAddress(value);
+    publid InftAddrfss inftAddrfssVbluf() tirows UnknownHostExdfption {
+        rfturn InftAddrfss.gftByAddrfss(vbluf);
     }
 
     /**
-     * Converts the specified binary string into a character string.
-     * @param bin The binary string value to convert.
-     * @return The character string representation.
+     * Convfrts tif spfdififd binbry string into b dibrbdtfr string.
+     * @pbrbm bin Tif binbry string vbluf to donvfrt.
+     * @rfturn Tif dibrbdtfr string rfprfsfntbtion.
      */
-    public static String BinToChar(String bin) {
-        char value[] = new char[bin.length()/8];
-        int binLength = value.length;
-        for (int i = 0; i < binLength; i++)
-            value[i] = (char)Integer.parseInt(bin.substring(8*i, 8*i+8), 2);
-        return new String(value);
+    publid stbtid String BinToCibr(String bin) {
+        dibr vbluf[] = nfw dibr[bin.lfngti()/8];
+        int binLfngti = vbluf.lfngti;
+        for (int i = 0; i < binLfngti; i++)
+            vbluf[i] = (dibr)Intfgfr.pbrsfInt(bin.substring(8*i, 8*i+8), 2);
+        rfturn nfw String(vbluf);
     }
 
     /**
-     * Converts the specified hexadecimal string into a character string.
-     * @param hex The hexadecimal string value to convert.
-     * @return The character string representation.
+     * Convfrts tif spfdififd ifxbdfdimbl string into b dibrbdtfr string.
+     * @pbrbm ifx Tif ifxbdfdimbl string vbluf to donvfrt.
+     * @rfturn Tif dibrbdtfr string rfprfsfntbtion.
      */
-    public static String HexToChar(String hex) {
-        char value[] = new char[hex.length()/2];
-        int hexLength = value.length;
-        for (int i = 0; i < hexLength; i++)
-            value[i] = (char)Integer.parseInt(hex.substring(2*i, 2*i+2), 16);
-        return new String(value);
+    publid stbtid String HfxToCibr(String ifx) {
+        dibr vbluf[] = nfw dibr[ifx.lfngti()/2];
+        int ifxLfngti = vbluf.lfngti;
+        for (int i = 0; i < ifxLfngti; i++)
+            vbluf[i] = (dibr)Intfgfr.pbrsfInt(ifx.substring(2*i, 2*i+2), 16);
+        rfturn nfw String(vbluf);
     }
 
     /**
-     * Returns the bytes array of this <CODE>SnmpString</CODE>.
-     * @return The value.
+     * Rfturns tif bytfs brrby of tiis <CODE>SnmpString</CODE>.
+     * @rfturn Tif vbluf.
      */
-    public byte[] byteValue() {
-        return value.clone() ;
+    publid bytf[] bytfVbluf() {
+        rfturn vbluf.dlonf() ;
     }
 
     /**
-     * Converts the string value to its array of <CODE>Bytes</CODE> form.
-     * @return The array of <CODE>Bytes</CODE> representation of the value.
+     * Convfrts tif string vbluf to its brrby of <CODE>Bytfs</CODE> form.
+     * @rfturn Tif brrby of <CODE>Bytfs</CODE> rfprfsfntbtion of tif vbluf.
      */
-    public Byte[] toByte() {
-        Byte[] result = new Byte[value.length] ;
-        for (int i = 0 ; i < value.length ; i++) {
-            result[i] = value[i];
+    publid Bytf[] toBytf() {
+        Bytf[] rfsult = nfw Bytf[vbluf.lfngti] ;
+        for (int i = 0 ; i < vbluf.lfngti ; i++) {
+            rfsult[i] = vbluf[i];
         }
-        return result ;
+        rfturn rfsult ;
     }
 
     /**
-     * Converts the string value to its <CODE>String</CODE> form.
-     * @return The <CODE>String</CODE> representation of the value.
+     * Convfrts tif string vbluf to its <CODE>String</CODE> form.
+     * @rfturn Tif <CODE>String</CODE> rfprfsfntbtion of tif vbluf.
      */
-    public String toString() {
-        return new String(value) ;
+    publid String toString() {
+        rfturn nfw String(vbluf) ;
     }
 
     /**
-     * Converts the string value to its <CODE>SnmpOid</CODE> form.
-     * @return The OID representation of the value.
+     * Convfrts tif string vbluf to its <CODE>SnmpOid</CODE> form.
+     * @rfturn Tif OID rfprfsfntbtion of tif vbluf.
      */
-    public SnmpOid toOid() {
-        long[] ids = new long[value.length] ;
-        for (int i = 0 ; i < value.length ; i++) {
-            ids[i] = (long)(value[i] & 0xFF) ;
+    publid SnmpOid toOid() {
+        long[] ids = nfw long[vbluf.lfngti] ;
+        for (int i = 0 ; i < vbluf.lfngti ; i++) {
+            ids[i] = (long)(vbluf[i] & 0xFF) ;
         }
-        return new SnmpOid(ids) ;
+        rfturn nfw SnmpOid(ids) ;
     }
 
     /**
-     * Extracts the string from an index OID and returns its
-     * value converted as an <CODE>SnmpOid</CODE>.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The OID representing the string value.
-     * @exception SnmpStatusException There is no string value
-     * available at the start position.
+     * Extrbdts tif string from bn indfx OID bnd rfturns its
+     * vbluf donvfrtfd bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm indfx Tif indfx brrby.
+     * @pbrbm stbrt Tif position in tif indfx brrby.
+     * @rfturn Tif OID rfprfsfnting tif string vbluf.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no string vbluf
+     * bvbilbblf bt tif stbrt position.
      */
-    public static SnmpOid toOid(long[] index, int start) throws SnmpStatusException {
+    publid stbtid SnmpOid toOid(long[] indfx, int stbrt) tirows SnmpStbtusExdfption {
         try {
-            if (index[start] > Integer.MAX_VALUE) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+            if (indfx[stbrt] > Intfgfr.MAX_VALUE) {
+                tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
             }
-            int strLen = (int)index[start++] ;
-            long[] ids = new long[strLen] ;
-            for (int i = 0 ; i < strLen ; i++) {
-                ids[i] = index[start + i] ;
+            int strLfn = (int)indfx[stbrt++] ;
+            long[] ids = nfw long[strLfn] ;
+            for (int i = 0 ; i < strLfn ; i++) {
+                ids[i] = indfx[stbrt + i] ;
             }
-            return new SnmpOid(ids) ;
+            rfturn nfw SnmpOid(ids) ;
         }
-        catch(IndexOutOfBoundsException e) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+        dbtdi(IndfxOutOfBoundsExdfption f) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
         }
     }
 
     /**
-     * Scans an index OID, skips the string value and returns the position
-     * of the next value.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The position of the next value.
-     * @exception SnmpStatusException There is no string value
-     * available at the start position.
+     * Sdbns bn indfx OID, skips tif string vbluf bnd rfturns tif position
+     * of tif nfxt vbluf.
+     * @pbrbm indfx Tif indfx brrby.
+     * @pbrbm stbrt Tif position in tif indfx brrby.
+     * @rfturn Tif position of tif nfxt vbluf.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no string vbluf
+     * bvbilbblf bt tif stbrt position.
      */
-    public static int nextOid(long[] index, int start) throws SnmpStatusException {
+    publid stbtid int nfxtOid(long[] indfx, int stbrt) tirows SnmpStbtusExdfption {
         try {
-            if (index[start] > Integer.MAX_VALUE) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+            if (indfx[stbrt] > Intfgfr.MAX_VALUE) {
+                tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
             }
-            int strLen = (int)index[start++] ;
-            start += strLen ;
-            if (start <= index.length) {
-                return start ;
+            int strLfn = (int)indfx[stbrt++] ;
+            stbrt += strLfn ;
+            if (stbrt <= indfx.lfngti) {
+                rfturn stbrt ;
             }
-            else {
-                throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+            flsf {
+                tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
             }
         }
-        catch(IndexOutOfBoundsException e) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+        dbtdi(IndfxOutOfBoundsExdfption f) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
         }
     }
 
     /**
-     * Appends an <CODE>SnmpOid</CODE> representing an <CODE>SnmpString</CODE> to another OID.
-     * @param source An OID representing an <CODE>SnmpString</CODE> value.
-     * @param dest Where source should be appended.
+     * Appfnds bn <CODE>SnmpOid</CODE> rfprfsfnting bn <CODE>SnmpString</CODE> to bnotifr OID.
+     * @pbrbm sourdf An OID rfprfsfnting bn <CODE>SnmpString</CODE> vbluf.
+     * @pbrbm dfst Wifrf sourdf siould bf bppfndfd.
      */
-    public static void appendToOid(SnmpOid source, SnmpOid dest) {
-        dest.append(source.getLength()) ;
-        dest.append(source) ;
+    publid stbtid void bppfndToOid(SnmpOid sourdf, SnmpOid dfst) {
+        dfst.bppfnd(sourdf.gftLfngti()) ;
+        dfst.bppfnd(sourdf) ;
     }
 
     /**
-     * Performs a clone action. This provides a workaround for the
-     * <CODE>SnmpValue</CODE> interface.
-     * @return The SnmpValue clone.
+     * Pfrforms b dlonf bdtion. Tiis providfs b workbround for tif
+     * <CODE>SnmpVbluf</CODE> intfrfbdf.
+     * @rfturn Tif SnmpVbluf dlonf.
      */
-    final synchronized public SnmpValue duplicate() {
-        return (SnmpValue) clone() ;
+    finbl syndironizfd publid SnmpVbluf duplidbtf() {
+        rfturn (SnmpVbluf) dlonf() ;
     }
 
     /**
-     * Clones the <CODE>SnmpString</CODE> object, making a copy of its data.
-     * @return The object clone.
+     * Clonfs tif <CODE>SnmpString</CODE> objfdt, mbking b dopy of its dbtb.
+     * @rfturn Tif objfdt dlonf.
      */
-    synchronized public Object clone() {
-        SnmpString newclone = null ;
+    syndironizfd publid Objfdt dlonf() {
+        SnmpString nfwdlonf = null ;
 
         try {
-            newclone = (SnmpString) super.clone() ;
-            newclone.value = new byte[value.length] ;
-            System.arraycopy(value, 0, newclone.value, 0, value.length) ;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e) ; // vm bug.
+            nfwdlonf = (SnmpString) supfr.dlonf() ;
+            nfwdlonf.vbluf = nfw bytf[vbluf.lfngti] ;
+            Systfm.brrbydopy(vbluf, 0, nfwdlonf.vbluf, 0, vbluf.lfngti) ;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f) ; // vm bug.
         }
-        return newclone ;
+        rfturn nfwdlonf ;
     }
 
     /**
-     * Returns a textual description of the type object.
-     * @return ASN.1 textual description.
+     * Rfturns b tfxtubl dfsdription of tif typf objfdt.
+     * @rfturn ASN.1 tfxtubl dfsdription.
      */
-    public String getTypeName() {
-        return name ;
+    publid String gftTypfNbmf() {
+        rfturn nbmf ;
     }
 
     // VARIABLES
     //----------
     /**
-     * Name of the type.
+     * Nbmf of tif typf.
      */
-    final static String name = "String" ;
+    finbl stbtid String nbmf = "String" ;
 
     /**
-     * This is the bytes array of the string value.
-     * @serial
+     * Tiis is tif bytfs brrby of tif string vbluf.
+     * @sfribl
      */
-    protected byte[] value = null ;
+    protfdtfd bytf[] vbluf = null ;
 }

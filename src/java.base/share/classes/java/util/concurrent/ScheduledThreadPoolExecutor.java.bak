@@ -1,1282 +1,1282 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.*;
+pbdkbgf jbvb.util.dondurrfnt;
+import stbtid jbvb.util.dondurrfnt.TimfUnit.NANOSECONDS;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.util.dondurrfnt.lodks.Condition;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+import jbvb.util.*;
 
 /**
- * A {@link ThreadPoolExecutor} that can additionally schedule
- * commands to run after a given delay, or to execute
- * periodically. This class is preferable to {@link java.util.Timer}
- * when multiple worker threads are needed, or when the additional
- * flexibility or capabilities of {@link ThreadPoolExecutor} (which
- * this class extends) are required.
+ * A {@link TirfbdPoolExfdutor} tibt dbn bdditionblly sdifdulf
+ * dommbnds to run bftfr b givfn dflby, or to fxfdutf
+ * pfriodidblly. Tiis dlbss is prfffrbblf to {@link jbvb.util.Timfr}
+ * wifn multiplf workfr tirfbds brf nffdfd, or wifn tif bdditionbl
+ * flfxibility or dbpbbilitifs of {@link TirfbdPoolExfdutor} (wiidi
+ * tiis dlbss fxtfnds) brf rfquirfd.
  *
- * <p>Delayed tasks execute no sooner than they are enabled, but
- * without any real-time guarantees about when, after they are
- * enabled, they will commence. Tasks scheduled for exactly the same
- * execution time are enabled in first-in-first-out (FIFO) order of
+ * <p>Dflbyfd tbsks fxfdutf no soonfr tibn tify brf fnbblfd, but
+ * witiout bny rfbl-timf gubrbntffs bbout wifn, bftfr tify brf
+ * fnbblfd, tify will dommfndf. Tbsks sdifdulfd for fxbdtly tif sbmf
+ * fxfdution timf brf fnbblfd in first-in-first-out (FIFO) ordfr of
  * submission.
  *
- * <p>When a submitted task is cancelled before it is run, execution
- * is suppressed. By default, such a cancelled task is not
- * automatically removed from the work queue until its delay
- * elapses. While this enables further inspection and monitoring, it
- * may also cause unbounded retention of cancelled tasks. To avoid
- * this, set {@link #setRemoveOnCancelPolicy} to {@code true}, which
- * causes tasks to be immediately removed from the work queue at
- * time of cancellation.
+ * <p>Wifn b submittfd tbsk is dbndfllfd bfforf it is run, fxfdution
+ * is supprfssfd. By dffbult, sudi b dbndfllfd tbsk is not
+ * butombtidblly rfmovfd from tif work qufuf until its dflby
+ * flbpsfs. Wiilf tiis fnbblfs furtifr inspfdtion bnd monitoring, it
+ * mby blso dbusf unboundfd rftfntion of dbndfllfd tbsks. To bvoid
+ * tiis, sft {@link #sftRfmovfOnCbndflPolidy} to {@dodf truf}, wiidi
+ * dbusfs tbsks to bf immfdibtfly rfmovfd from tif work qufuf bt
+ * timf of dbndfllbtion.
  *
- * <p>Successive executions of a task scheduled via
- * {@code scheduleAtFixedRate} or
- * {@code scheduleWithFixedDelay} do not overlap. While different
- * executions may be performed by different threads, the effects of
- * prior executions <a
- * href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * those of subsequent ones.
+ * <p>Suddfssivf fxfdutions of b tbsk sdifdulfd vib
+ * {@dodf sdifdulfAtFixfdRbtf} or
+ * {@dodf sdifdulfWitiFixfdDflby} do not ovfrlbp. Wiilf difffrfnt
+ * fxfdutions mby bf pfrformfd by difffrfnt tirfbds, tif ffffdts of
+ * prior fxfdutions <b
+ * irff="pbdkbgf-summbry.itml#MfmoryVisibility"><i>ibppfn-bfforf</i></b>
+ * tiosf of subsfqufnt onfs.
  *
- * <p>While this class inherits from {@link ThreadPoolExecutor}, a few
- * of the inherited tuning methods are not useful for it. In
- * particular, because it acts as a fixed-sized pool using
- * {@code corePoolSize} threads and an unbounded queue, adjustments
- * to {@code maximumPoolSize} have no useful effect. Additionally, it
- * is almost never a good idea to set {@code corePoolSize} to zero or
- * use {@code allowCoreThreadTimeOut} because this may leave the pool
- * without threads to handle tasks once they become eligible to run.
+ * <p>Wiilf tiis dlbss inifrits from {@link TirfbdPoolExfdutor}, b ffw
+ * of tif inifritfd tuning mftiods brf not usfful for it. In
+ * pbrtidulbr, bfdbusf it bdts bs b fixfd-sizfd pool using
+ * {@dodf dorfPoolSizf} tirfbds bnd bn unboundfd qufuf, bdjustmfnts
+ * to {@dodf mbximumPoolSizf} ibvf no usfful ffffdt. Additionblly, it
+ * is blmost nfvfr b good idfb to sft {@dodf dorfPoolSizf} to zfro or
+ * usf {@dodf bllowCorfTirfbdTimfOut} bfdbusf tiis mby lfbvf tif pool
+ * witiout tirfbds to ibndlf tbsks ondf tify bfdomf fligiblf to run.
  *
- * <p><b>Extension notes:</b> This class overrides the
- * {@link ThreadPoolExecutor#execute(Runnable) execute} and
- * {@link AbstractExecutorService#submit(Runnable) submit}
- * methods to generate internal {@link ScheduledFuture} objects to
- * control per-task delays and scheduling.  To preserve
- * functionality, any further overrides of these methods in
- * subclasses must invoke superclass versions, which effectively
- * disables additional task customization.  However, this class
- * provides alternative protected extension method
- * {@code decorateTask} (one version each for {@code Runnable} and
- * {@code Callable}) that can be used to customize the concrete task
- * types used to execute commands entered via {@code execute},
- * {@code submit}, {@code schedule}, {@code scheduleAtFixedRate},
- * and {@code scheduleWithFixedDelay}.  By default, a
- * {@code ScheduledThreadPoolExecutor} uses a task type extending
- * {@link FutureTask}. However, this may be modified or replaced using
- * subclasses of the form:
+ * <p><b>Extfnsion notfs:</b> Tiis dlbss ovfrridfs tif
+ * {@link TirfbdPoolExfdutor#fxfdutf(Runnbblf) fxfdutf} bnd
+ * {@link AbstrbdtExfdutorSfrvidf#submit(Runnbblf) submit}
+ * mftiods to gfnfrbtf intfrnbl {@link SdifdulfdFuturf} objfdts to
+ * dontrol pfr-tbsk dflbys bnd sdifduling.  To prfsfrvf
+ * fundtionblity, bny furtifr ovfrridfs of tifsf mftiods in
+ * subdlbssfs must invokf supfrdlbss vfrsions, wiidi ffffdtivfly
+ * disbblfs bdditionbl tbsk dustomizbtion.  Howfvfr, tiis dlbss
+ * providfs bltfrnbtivf protfdtfd fxtfnsion mftiod
+ * {@dodf dfdorbtfTbsk} (onf vfrsion fbdi for {@dodf Runnbblf} bnd
+ * {@dodf Cbllbblf}) tibt dbn bf usfd to dustomizf tif dondrftf tbsk
+ * typfs usfd to fxfdutf dommbnds fntfrfd vib {@dodf fxfdutf},
+ * {@dodf submit}, {@dodf sdifdulf}, {@dodf sdifdulfAtFixfdRbtf},
+ * bnd {@dodf sdifdulfWitiFixfdDflby}.  By dffbult, b
+ * {@dodf SdifdulfdTirfbdPoolExfdutor} usfs b tbsk typf fxtfnding
+ * {@link FuturfTbsk}. Howfvfr, tiis mby bf modififd or rfplbdfd using
+ * subdlbssfs of tif form:
  *
- *  <pre> {@code
- * public class CustomScheduledExecutor extends ScheduledThreadPoolExecutor {
+ *  <prf> {@dodf
+ * publid dlbss CustomSdifdulfdExfdutor fxtfnds SdifdulfdTirfbdPoolExfdutor {
  *
- *   static class CustomTask<V> implements RunnableScheduledFuture<V> { ... }
+ *   stbtid dlbss CustomTbsk<V> implfmfnts RunnbblfSdifdulfdFuturf<V> { ... }
  *
- *   protected <V> RunnableScheduledFuture<V> decorateTask(
- *                Runnable r, RunnableScheduledFuture<V> task) {
- *       return new CustomTask<V>(r, task);
+ *   protfdtfd <V> RunnbblfSdifdulfdFuturf<V> dfdorbtfTbsk(
+ *                Runnbblf r, RunnbblfSdifdulfdFuturf<V> tbsk) {
+ *       rfturn nfw CustomTbsk<V>(r, tbsk);
  *   }
  *
- *   protected <V> RunnableScheduledFuture<V> decorateTask(
- *                Callable<V> c, RunnableScheduledFuture<V> task) {
- *       return new CustomTask<V>(c, task);
+ *   protfdtfd <V> RunnbblfSdifdulfdFuturf<V> dfdorbtfTbsk(
+ *                Cbllbblf<V> d, RunnbblfSdifdulfdFuturf<V> tbsk) {
+ *       rfturn nfw CustomTbsk<V>(d, tbsk);
  *   }
- *   // ... add constructors, etc.
- * }}</pre>
+ *   // ... bdd donstrudtors, ftd.
+ * }}</prf>
  *
- * @since 1.5
- * @author Doug Lea
+ * @sindf 1.5
+ * @butior Doug Lfb
  */
-public class ScheduledThreadPoolExecutor
-        extends ThreadPoolExecutor
-        implements ScheduledExecutorService {
+publid dlbss SdifdulfdTirfbdPoolExfdutor
+        fxtfnds TirfbdPoolExfdutor
+        implfmfnts SdifdulfdExfdutorSfrvidf {
 
     /*
-     * This class specializes ThreadPoolExecutor implementation by
+     * Tiis dlbss spfdiblizfs TirfbdPoolExfdutor implfmfntbtion by
      *
-     * 1. Using a custom task type, ScheduledFutureTask for
-     *    tasks, even those that don't require scheduling (i.e.,
-     *    those submitted using ExecutorService execute, not
-     *    ScheduledExecutorService methods) which are treated as
-     *    delayed tasks with a delay of zero.
+     * 1. Using b dustom tbsk typf, SdifdulfdFuturfTbsk for
+     *    tbsks, fvfn tiosf tibt don't rfquirf sdifduling (i.f.,
+     *    tiosf submittfd using ExfdutorSfrvidf fxfdutf, not
+     *    SdifdulfdExfdutorSfrvidf mftiods) wiidi brf trfbtfd bs
+     *    dflbyfd tbsks witi b dflby of zfro.
      *
-     * 2. Using a custom queue (DelayedWorkQueue), a variant of
-     *    unbounded DelayQueue. The lack of capacity constraint and
-     *    the fact that corePoolSize and maximumPoolSize are
-     *    effectively identical simplifies some execution mechanics
-     *    (see delayedExecute) compared to ThreadPoolExecutor.
+     * 2. Using b dustom qufuf (DflbyfdWorkQufuf), b vbribnt of
+     *    unboundfd DflbyQufuf. Tif lbdk of dbpbdity donstrbint bnd
+     *    tif fbdt tibt dorfPoolSizf bnd mbximumPoolSizf brf
+     *    ffffdtivfly idfntidbl simplififs somf fxfdution mfdibnids
+     *    (sff dflbyfdExfdutf) dompbrfd to TirfbdPoolExfdutor.
      *
-     * 3. Supporting optional run-after-shutdown parameters, which
-     *    leads to overrides of shutdown methods to remove and cancel
-     *    tasks that should NOT be run after shutdown, as well as
-     *    different recheck logic when task (re)submission overlaps
-     *    with a shutdown.
+     * 3. Supporting optionbl run-bftfr-siutdown pbrbmftfrs, wiidi
+     *    lfbds to ovfrridfs of siutdown mftiods to rfmovf bnd dbndfl
+     *    tbsks tibt siould NOT bf run bftfr siutdown, bs wfll bs
+     *    difffrfnt rfdifdk logid wifn tbsk (rf)submission ovfrlbps
+     *    witi b siutdown.
      *
-     * 4. Task decoration methods to allow interception and
-     *    instrumentation, which are needed because subclasses cannot
-     *    otherwise override submit methods to get this effect. These
-     *    don't have any impact on pool control logic though.
+     * 4. Tbsk dfdorbtion mftiods to bllow intfrdfption bnd
+     *    instrumfntbtion, wiidi brf nffdfd bfdbusf subdlbssfs dbnnot
+     *    otifrwisf ovfrridf submit mftiods to gft tiis ffffdt. Tifsf
+     *    don't ibvf bny impbdt on pool dontrol logid tiougi.
      */
 
     /**
-     * False if should cancel/suppress periodic tasks on shutdown.
+     * Fblsf if siould dbndfl/supprfss pfriodid tbsks on siutdown.
      */
-    private volatile boolean continueExistingPeriodicTasksAfterShutdown;
+    privbtf volbtilf boolfbn dontinufExistingPfriodidTbsksAftfrSiutdown;
 
     /**
-     * False if should cancel non-periodic tasks on shutdown.
+     * Fblsf if siould dbndfl non-pfriodid tbsks on siutdown.
      */
-    private volatile boolean executeExistingDelayedTasksAfterShutdown = true;
+    privbtf volbtilf boolfbn fxfdutfExistingDflbyfdTbsksAftfrSiutdown = truf;
 
     /**
-     * True if ScheduledFutureTask.cancel should remove from queue
+     * Truf if SdifdulfdFuturfTbsk.dbndfl siould rfmovf from qufuf
      */
-    private volatile boolean removeOnCancel = false;
+    privbtf volbtilf boolfbn rfmovfOnCbndfl = fblsf;
 
     /**
-     * Sequence number to break scheduling ties, and in turn to
-     * guarantee FIFO order among tied entries.
+     * Sfqufndf numbfr to brfbk sdifduling tifs, bnd in turn to
+     * gubrbntff FIFO ordfr bmong tifd fntrifs.
      */
-    private static final AtomicLong sequencer = new AtomicLong();
+    privbtf stbtid finbl AtomidLong sfqufndfr = nfw AtomidLong();
 
     /**
-     * Returns current nanosecond time.
+     * Rfturns durrfnt nbnosfdond timf.
      */
-    final long now() {
-        return System.nanoTime();
+    finbl long now() {
+        rfturn Systfm.nbnoTimf();
     }
 
-    private class ScheduledFutureTask<V>
-            extends FutureTask<V> implements RunnableScheduledFuture<V> {
+    privbtf dlbss SdifdulfdFuturfTbsk<V>
+            fxtfnds FuturfTbsk<V> implfmfnts RunnbblfSdifdulfdFuturf<V> {
 
-        /** Sequence number to break ties FIFO */
-        private final long sequenceNumber;
+        /** Sfqufndf numbfr to brfbk tifs FIFO */
+        privbtf finbl long sfqufndfNumbfr;
 
-        /** The time the task is enabled to execute in nanoTime units */
-        private long time;
-
-        /**
-         * Period in nanoseconds for repeating tasks.  A positive
-         * value indicates fixed-rate execution.  A negative value
-         * indicates fixed-delay execution.  A value of 0 indicates a
-         * non-repeating task.
-         */
-        private final long period;
-
-        /** The actual task to be re-enqueued by reExecutePeriodic */
-        RunnableScheduledFuture<V> outerTask = this;
+        /** Tif timf tif tbsk is fnbblfd to fxfdutf in nbnoTimf units */
+        privbtf long timf;
 
         /**
-         * Index into delay queue, to support faster cancellation.
+         * Pfriod in nbnosfdonds for rfpfbting tbsks.  A positivf
+         * vbluf indidbtfs fixfd-rbtf fxfdution.  A nfgbtivf vbluf
+         * indidbtfs fixfd-dflby fxfdution.  A vbluf of 0 indidbtfs b
+         * non-rfpfbting tbsk.
          */
-        int heapIndex;
+        privbtf finbl long pfriod;
+
+        /** Tif bdtubl tbsk to bf rf-fnqufufd by rfExfdutfPfriodid */
+        RunnbblfSdifdulfdFuturf<V> outfrTbsk = tiis;
 
         /**
-         * Creates a one-shot action with given nanoTime-based trigger time.
+         * Indfx into dflby qufuf, to support fbstfr dbndfllbtion.
          */
-        ScheduledFutureTask(Runnable r, V result, long ns) {
-            super(r, result);
-            this.time = ns;
-            this.period = 0;
-            this.sequenceNumber = sequencer.getAndIncrement();
+        int ifbpIndfx;
+
+        /**
+         * Crfbtfs b onf-siot bdtion witi givfn nbnoTimf-bbsfd triggfr timf.
+         */
+        SdifdulfdFuturfTbsk(Runnbblf r, V rfsult, long ns) {
+            supfr(r, rfsult);
+            tiis.timf = ns;
+            tiis.pfriod = 0;
+            tiis.sfqufndfNumbfr = sfqufndfr.gftAndIndrfmfnt();
         }
 
         /**
-         * Creates a periodic action with given nano time and period.
+         * Crfbtfs b pfriodid bdtion witi givfn nbno timf bnd pfriod.
          */
-        ScheduledFutureTask(Runnable r, V result, long ns, long period) {
-            super(r, result);
-            this.time = ns;
-            this.period = period;
-            this.sequenceNumber = sequencer.getAndIncrement();
+        SdifdulfdFuturfTbsk(Runnbblf r, V rfsult, long ns, long pfriod) {
+            supfr(r, rfsult);
+            tiis.timf = ns;
+            tiis.pfriod = pfriod;
+            tiis.sfqufndfNumbfr = sfqufndfr.gftAndIndrfmfnt();
         }
 
         /**
-         * Creates a one-shot action with given nanoTime-based trigger time.
+         * Crfbtfs b onf-siot bdtion witi givfn nbnoTimf-bbsfd triggfr timf.
          */
-        ScheduledFutureTask(Callable<V> callable, long ns) {
-            super(callable);
-            this.time = ns;
-            this.period = 0;
-            this.sequenceNumber = sequencer.getAndIncrement();
+        SdifdulfdFuturfTbsk(Cbllbblf<V> dbllbblf, long ns) {
+            supfr(dbllbblf);
+            tiis.timf = ns;
+            tiis.pfriod = 0;
+            tiis.sfqufndfNumbfr = sfqufndfr.gftAndIndrfmfnt();
         }
 
-        public long getDelay(TimeUnit unit) {
-            return unit.convert(time - now(), NANOSECONDS);
+        publid long gftDflby(TimfUnit unit) {
+            rfturn unit.donvfrt(timf - now(), NANOSECONDS);
         }
 
-        public int compareTo(Delayed other) {
-            if (other == this) // compare zero if same object
-                return 0;
-            if (other instanceof ScheduledFutureTask) {
-                ScheduledFutureTask<?> x = (ScheduledFutureTask<?>)other;
-                long diff = time - x.time;
+        publid int dompbrfTo(Dflbyfd otifr) {
+            if (otifr == tiis) // dompbrf zfro if sbmf objfdt
+                rfturn 0;
+            if (otifr instbndfof SdifdulfdFuturfTbsk) {
+                SdifdulfdFuturfTbsk<?> x = (SdifdulfdFuturfTbsk<?>)otifr;
+                long diff = timf - x.timf;
                 if (diff < 0)
-                    return -1;
-                else if (diff > 0)
-                    return 1;
-                else if (sequenceNumber < x.sequenceNumber)
-                    return -1;
-                else
-                    return 1;
+                    rfturn -1;
+                flsf if (diff > 0)
+                    rfturn 1;
+                flsf if (sfqufndfNumbfr < x.sfqufndfNumbfr)
+                    rfturn -1;
+                flsf
+                    rfturn 1;
             }
-            long diff = getDelay(NANOSECONDS) - other.getDelay(NANOSECONDS);
-            return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+            long diff = gftDflby(NANOSECONDS) - otifr.gftDflby(NANOSECONDS);
+            rfturn (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
         }
 
         /**
-         * Returns {@code true} if this is a periodic (not a one-shot) action.
+         * Rfturns {@dodf truf} if tiis is b pfriodid (not b onf-siot) bdtion.
          *
-         * @return {@code true} if periodic
+         * @rfturn {@dodf truf} if pfriodid
          */
-        public boolean isPeriodic() {
-            return period != 0;
+        publid boolfbn isPfriodid() {
+            rfturn pfriod != 0;
         }
 
         /**
-         * Sets the next time to run for a periodic task.
+         * Sfts tif nfxt timf to run for b pfriodid tbsk.
          */
-        private void setNextRunTime() {
-            long p = period;
+        privbtf void sftNfxtRunTimf() {
+            long p = pfriod;
             if (p > 0)
-                time += p;
-            else
-                time = triggerTime(-p);
+                timf += p;
+            flsf
+                timf = triggfrTimf(-p);
         }
 
-        public boolean cancel(boolean mayInterruptIfRunning) {
-            boolean cancelled = super.cancel(mayInterruptIfRunning);
-            if (cancelled && removeOnCancel && heapIndex >= 0)
-                remove(this);
-            return cancelled;
+        publid boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning) {
+            boolfbn dbndfllfd = supfr.dbndfl(mbyIntfrruptIfRunning);
+            if (dbndfllfd && rfmovfOnCbndfl && ifbpIndfx >= 0)
+                rfmovf(tiis);
+            rfturn dbndfllfd;
         }
 
         /**
-         * Overrides FutureTask version so as to reset/requeue if periodic.
+         * Ovfrridfs FuturfTbsk vfrsion so bs to rfsft/rfqufuf if pfriodid.
          */
-        public void run() {
-            boolean periodic = isPeriodic();
-            if (!canRunInCurrentRunState(periodic))
-                cancel(false);
-            else if (!periodic)
-                ScheduledFutureTask.super.run();
-            else if (ScheduledFutureTask.super.runAndReset()) {
-                setNextRunTime();
-                reExecutePeriodic(outerTask);
+        publid void run() {
+            boolfbn pfriodid = isPfriodid();
+            if (!dbnRunInCurrfntRunStbtf(pfriodid))
+                dbndfl(fblsf);
+            flsf if (!pfriodid)
+                SdifdulfdFuturfTbsk.supfr.run();
+            flsf if (SdifdulfdFuturfTbsk.supfr.runAndRfsft()) {
+                sftNfxtRunTimf();
+                rfExfdutfPfriodid(outfrTbsk);
             }
         }
     }
 
     /**
-     * Returns true if can run a task given current run state
-     * and run-after-shutdown parameters.
+     * Rfturns truf if dbn run b tbsk givfn durrfnt run stbtf
+     * bnd run-bftfr-siutdown pbrbmftfrs.
      *
-     * @param periodic true if this task periodic, false if delayed
+     * @pbrbm pfriodid truf if tiis tbsk pfriodid, fblsf if dflbyfd
      */
-    boolean canRunInCurrentRunState(boolean periodic) {
-        return isRunningOrShutdown(periodic ?
-                                   continueExistingPeriodicTasksAfterShutdown :
-                                   executeExistingDelayedTasksAfterShutdown);
+    boolfbn dbnRunInCurrfntRunStbtf(boolfbn pfriodid) {
+        rfturn isRunningOrSiutdown(pfriodid ?
+                                   dontinufExistingPfriodidTbsksAftfrSiutdown :
+                                   fxfdutfExistingDflbyfdTbsksAftfrSiutdown);
     }
 
     /**
-     * Main execution method for delayed or periodic tasks.  If pool
-     * is shut down, rejects the task. Otherwise adds task to queue
-     * and starts a thread, if necessary, to run it.  (We cannot
-     * prestart the thread to run the task because the task (probably)
-     * shouldn't be run yet.)  If the pool is shut down while the task
-     * is being added, cancel and remove it if required by state and
-     * run-after-shutdown parameters.
+     * Mbin fxfdution mftiod for dflbyfd or pfriodid tbsks.  If pool
+     * is siut down, rfjfdts tif tbsk. Otifrwisf bdds tbsk to qufuf
+     * bnd stbrts b tirfbd, if nfdfssbry, to run it.  (Wf dbnnot
+     * prfstbrt tif tirfbd to run tif tbsk bfdbusf tif tbsk (probbbly)
+     * siouldn't bf run yft.)  If tif pool is siut down wiilf tif tbsk
+     * is bfing bddfd, dbndfl bnd rfmovf it if rfquirfd by stbtf bnd
+     * run-bftfr-siutdown pbrbmftfrs.
      *
-     * @param task the task
+     * @pbrbm tbsk tif tbsk
      */
-    private void delayedExecute(RunnableScheduledFuture<?> task) {
-        if (isShutdown())
-            reject(task);
-        else {
-            super.getQueue().add(task);
-            if (isShutdown() &&
-                !canRunInCurrentRunState(task.isPeriodic()) &&
-                remove(task))
-                task.cancel(false);
-            else
-                ensurePrestart();
+    privbtf void dflbyfdExfdutf(RunnbblfSdifdulfdFuturf<?> tbsk) {
+        if (isSiutdown())
+            rfjfdt(tbsk);
+        flsf {
+            supfr.gftQufuf().bdd(tbsk);
+            if (isSiutdown() &&
+                !dbnRunInCurrfntRunStbtf(tbsk.isPfriodid()) &&
+                rfmovf(tbsk))
+                tbsk.dbndfl(fblsf);
+            flsf
+                fnsurfPrfstbrt();
         }
     }
 
     /**
-     * Requeues a periodic task unless current run state precludes it.
-     * Same idea as delayedExecute except drops task rather than rejecting.
+     * Rfqufufs b pfriodid tbsk unlfss durrfnt run stbtf prfdludfs it.
+     * Sbmf idfb bs dflbyfdExfdutf fxdfpt drops tbsk rbtifr tibn rfjfdting.
      *
-     * @param task the task
+     * @pbrbm tbsk tif tbsk
      */
-    void reExecutePeriodic(RunnableScheduledFuture<?> task) {
-        if (canRunInCurrentRunState(true)) {
-            super.getQueue().add(task);
-            if (!canRunInCurrentRunState(true) && remove(task))
-                task.cancel(false);
-            else
-                ensurePrestart();
+    void rfExfdutfPfriodid(RunnbblfSdifdulfdFuturf<?> tbsk) {
+        if (dbnRunInCurrfntRunStbtf(truf)) {
+            supfr.gftQufuf().bdd(tbsk);
+            if (!dbnRunInCurrfntRunStbtf(truf) && rfmovf(tbsk))
+                tbsk.dbndfl(fblsf);
+            flsf
+                fnsurfPrfstbrt();
         }
     }
 
     /**
-     * Cancels and clears the queue of all tasks that should not be run
-     * due to shutdown policy.  Invoked within super.shutdown.
+     * Cbndfls bnd dlfbrs tif qufuf of bll tbsks tibt siould not bf run
+     * duf to siutdown polidy.  Invokfd witiin supfr.siutdown.
      */
-    @Override void onShutdown() {
-        BlockingQueue<Runnable> q = super.getQueue();
-        boolean keepDelayed =
-            getExecuteExistingDelayedTasksAfterShutdownPolicy();
-        boolean keepPeriodic =
-            getContinueExistingPeriodicTasksAfterShutdownPolicy();
-        if (!keepDelayed && !keepPeriodic) {
-            for (Object e : q.toArray())
-                if (e instanceof RunnableScheduledFuture<?>)
-                    ((RunnableScheduledFuture<?>) e).cancel(false);
-            q.clear();
+    @Ovfrridf void onSiutdown() {
+        BlodkingQufuf<Runnbblf> q = supfr.gftQufuf();
+        boolfbn kffpDflbyfd =
+            gftExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy();
+        boolfbn kffpPfriodid =
+            gftContinufExistingPfriodidTbsksAftfrSiutdownPolidy();
+        if (!kffpDflbyfd && !kffpPfriodid) {
+            for (Objfdt f : q.toArrby())
+                if (f instbndfof RunnbblfSdifdulfdFuturf<?>)
+                    ((RunnbblfSdifdulfdFuturf<?>) f).dbndfl(fblsf);
+            q.dlfbr();
         }
-        else {
-            // Traverse snapshot to avoid iterator exceptions
-            for (Object e : q.toArray()) {
-                if (e instanceof RunnableScheduledFuture) {
-                    RunnableScheduledFuture<?> t =
-                        (RunnableScheduledFuture<?>)e;
-                    if ((t.isPeriodic() ? !keepPeriodic : !keepDelayed) ||
-                        t.isCancelled()) { // also remove if already cancelled
-                        if (q.remove(t))
-                            t.cancel(false);
+        flsf {
+            // Trbvfrsf snbpsiot to bvoid itfrbtor fxdfptions
+            for (Objfdt f : q.toArrby()) {
+                if (f instbndfof RunnbblfSdifdulfdFuturf) {
+                    RunnbblfSdifdulfdFuturf<?> t =
+                        (RunnbblfSdifdulfdFuturf<?>)f;
+                    if ((t.isPfriodid() ? !kffpPfriodid : !kffpDflbyfd) ||
+                        t.isCbndfllfd()) { // blso rfmovf if blrfbdy dbndfllfd
+                        if (q.rfmovf(t))
+                            t.dbndfl(fblsf);
                     }
                 }
             }
         }
-        tryTerminate();
+        tryTfrminbtf();
     }
 
     /**
-     * Modifies or replaces the task used to execute a runnable.
-     * This method can be used to override the concrete
-     * class used for managing internal tasks.
-     * The default implementation simply returns the given task.
+     * Modififs or rfplbdfs tif tbsk usfd to fxfdutf b runnbblf.
+     * Tiis mftiod dbn bf usfd to ovfrridf tif dondrftf
+     * dlbss usfd for mbnbging intfrnbl tbsks.
+     * Tif dffbult implfmfntbtion simply rfturns tif givfn tbsk.
      *
-     * @param runnable the submitted Runnable
-     * @param task the task created to execute the runnable
-     * @param <V> the type of the task's result
-     * @return a task that can execute the runnable
-     * @since 1.6
+     * @pbrbm runnbblf tif submittfd Runnbblf
+     * @pbrbm tbsk tif tbsk drfbtfd to fxfdutf tif runnbblf
+     * @pbrbm <V> tif typf of tif tbsk's rfsult
+     * @rfturn b tbsk tibt dbn fxfdutf tif runnbblf
+     * @sindf 1.6
      */
-    protected <V> RunnableScheduledFuture<V> decorateTask(
-        Runnable runnable, RunnableScheduledFuture<V> task) {
-        return task;
+    protfdtfd <V> RunnbblfSdifdulfdFuturf<V> dfdorbtfTbsk(
+        Runnbblf runnbblf, RunnbblfSdifdulfdFuturf<V> tbsk) {
+        rfturn tbsk;
     }
 
     /**
-     * Modifies or replaces the task used to execute a callable.
-     * This method can be used to override the concrete
-     * class used for managing internal tasks.
-     * The default implementation simply returns the given task.
+     * Modififs or rfplbdfs tif tbsk usfd to fxfdutf b dbllbblf.
+     * Tiis mftiod dbn bf usfd to ovfrridf tif dondrftf
+     * dlbss usfd for mbnbging intfrnbl tbsks.
+     * Tif dffbult implfmfntbtion simply rfturns tif givfn tbsk.
      *
-     * @param callable the submitted Callable
-     * @param task the task created to execute the callable
-     * @param <V> the type of the task's result
-     * @return a task that can execute the callable
-     * @since 1.6
+     * @pbrbm dbllbblf tif submittfd Cbllbblf
+     * @pbrbm tbsk tif tbsk drfbtfd to fxfdutf tif dbllbblf
+     * @pbrbm <V> tif typf of tif tbsk's rfsult
+     * @rfturn b tbsk tibt dbn fxfdutf tif dbllbblf
+     * @sindf 1.6
      */
-    protected <V> RunnableScheduledFuture<V> decorateTask(
-        Callable<V> callable, RunnableScheduledFuture<V> task) {
-        return task;
+    protfdtfd <V> RunnbblfSdifdulfdFuturf<V> dfdorbtfTbsk(
+        Cbllbblf<V> dbllbblf, RunnbblfSdifdulfdFuturf<V> tbsk) {
+        rfturn tbsk;
     }
 
     /**
-     * Creates a new {@code ScheduledThreadPoolExecutor} with the
-     * given core pool size.
+     * Crfbtfs b nfw {@dodf SdifdulfdTirfbdPoolExfdutor} witi tif
+     * givfn dorf pool sizf.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
+     * @pbrbm dorfPoolSizf tif numbfr of tirfbds to kffp in tif pool, fvfn
+     *        if tify brf idlf, unlfss {@dodf bllowCorfTirfbdTimfOut} is sft
+     * @tirows IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
      */
-    public ScheduledThreadPoolExecutor(int corePoolSize) {
-        super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,
-              new DelayedWorkQueue());
+    publid SdifdulfdTirfbdPoolExfdutor(int dorfPoolSizf) {
+        supfr(dorfPoolSizf, Intfgfr.MAX_VALUE, 0, NANOSECONDS,
+              nfw DflbyfdWorkQufuf());
     }
 
     /**
-     * Creates a new {@code ScheduledThreadPoolExecutor} with the
-     * given initial parameters.
+     * Crfbtfs b nfw {@dodf SdifdulfdTirfbdPoolExfdutor} witi tif
+     * givfn initibl pbrbmftfrs.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @param threadFactory the factory to use when the executor
-     *        creates a new thread
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
-     * @throws NullPointerException if {@code threadFactory} is null
+     * @pbrbm dorfPoolSizf tif numbfr of tirfbds to kffp in tif pool, fvfn
+     *        if tify brf idlf, unlfss {@dodf bllowCorfTirfbdTimfOut} is sft
+     * @pbrbm tirfbdFbdtory tif fbdtory to usf wifn tif fxfdutor
+     *        drfbtfs b nfw tirfbd
+     * @tirows IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
+     * @tirows NullPointfrExdfption if {@dodf tirfbdFbdtory} is null
      */
-    public ScheduledThreadPoolExecutor(int corePoolSize,
-                                       ThreadFactory threadFactory) {
-        super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,
-              new DelayedWorkQueue(), threadFactory);
+    publid SdifdulfdTirfbdPoolExfdutor(int dorfPoolSizf,
+                                       TirfbdFbdtory tirfbdFbdtory) {
+        supfr(dorfPoolSizf, Intfgfr.MAX_VALUE, 0, NANOSECONDS,
+              nfw DflbyfdWorkQufuf(), tirfbdFbdtory);
     }
 
     /**
-     * Creates a new ScheduledThreadPoolExecutor with the given
-     * initial parameters.
+     * Crfbtfs b nfw SdifdulfdTirfbdPoolExfdutor witi tif givfn
+     * initibl pbrbmftfrs.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @param handler the handler to use when execution is blocked
-     *        because the thread bounds and queue capacities are reached
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
-     * @throws NullPointerException if {@code handler} is null
+     * @pbrbm dorfPoolSizf tif numbfr of tirfbds to kffp in tif pool, fvfn
+     *        if tify brf idlf, unlfss {@dodf bllowCorfTirfbdTimfOut} is sft
+     * @pbrbm ibndlfr tif ibndlfr to usf wifn fxfdution is blodkfd
+     *        bfdbusf tif tirfbd bounds bnd qufuf dbpbditifs brf rfbdifd
+     * @tirows IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
+     * @tirows NullPointfrExdfption if {@dodf ibndlfr} is null
      */
-    public ScheduledThreadPoolExecutor(int corePoolSize,
-                                       RejectedExecutionHandler handler) {
-        super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,
-              new DelayedWorkQueue(), handler);
+    publid SdifdulfdTirfbdPoolExfdutor(int dorfPoolSizf,
+                                       RfjfdtfdExfdutionHbndlfr ibndlfr) {
+        supfr(dorfPoolSizf, Intfgfr.MAX_VALUE, 0, NANOSECONDS,
+              nfw DflbyfdWorkQufuf(), ibndlfr);
     }
 
     /**
-     * Creates a new ScheduledThreadPoolExecutor with the given
-     * initial parameters.
+     * Crfbtfs b nfw SdifdulfdTirfbdPoolExfdutor witi tif givfn
+     * initibl pbrbmftfrs.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @param threadFactory the factory to use when the executor
-     *        creates a new thread
-     * @param handler the handler to use when execution is blocked
-     *        because the thread bounds and queue capacities are reached
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
-     * @throws NullPointerException if {@code threadFactory} or
-     *         {@code handler} is null
+     * @pbrbm dorfPoolSizf tif numbfr of tirfbds to kffp in tif pool, fvfn
+     *        if tify brf idlf, unlfss {@dodf bllowCorfTirfbdTimfOut} is sft
+     * @pbrbm tirfbdFbdtory tif fbdtory to usf wifn tif fxfdutor
+     *        drfbtfs b nfw tirfbd
+     * @pbrbm ibndlfr tif ibndlfr to usf wifn fxfdution is blodkfd
+     *        bfdbusf tif tirfbd bounds bnd qufuf dbpbditifs brf rfbdifd
+     * @tirows IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
+     * @tirows NullPointfrExdfption if {@dodf tirfbdFbdtory} or
+     *         {@dodf ibndlfr} is null
      */
-    public ScheduledThreadPoolExecutor(int corePoolSize,
-                                       ThreadFactory threadFactory,
-                                       RejectedExecutionHandler handler) {
-        super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,
-              new DelayedWorkQueue(), threadFactory, handler);
+    publid SdifdulfdTirfbdPoolExfdutor(int dorfPoolSizf,
+                                       TirfbdFbdtory tirfbdFbdtory,
+                                       RfjfdtfdExfdutionHbndlfr ibndlfr) {
+        supfr(dorfPoolSizf, Intfgfr.MAX_VALUE, 0, NANOSECONDS,
+              nfw DflbyfdWorkQufuf(), tirfbdFbdtory, ibndlfr);
     }
 
     /**
-     * Returns the trigger time of a delayed action.
+     * Rfturns tif triggfr timf of b dflbyfd bdtion.
      */
-    private long triggerTime(long delay, TimeUnit unit) {
-        return triggerTime(unit.toNanos((delay < 0) ? 0 : delay));
+    privbtf long triggfrTimf(long dflby, TimfUnit unit) {
+        rfturn triggfrTimf(unit.toNbnos((dflby < 0) ? 0 : dflby));
     }
 
     /**
-     * Returns the trigger time of a delayed action.
+     * Rfturns tif triggfr timf of b dflbyfd bdtion.
      */
-    long triggerTime(long delay) {
-        return now() +
-            ((delay < (Long.MAX_VALUE >> 1)) ? delay : overflowFree(delay));
+    long triggfrTimf(long dflby) {
+        rfturn now() +
+            ((dflby < (Long.MAX_VALUE >> 1)) ? dflby : ovfrflowFrff(dflby));
     }
 
     /**
-     * Constrains the values of all delays in the queue to be within
-     * Long.MAX_VALUE of each other, to avoid overflow in compareTo.
-     * This may occur if a task is eligible to be dequeued, but has
-     * not yet been, while some other task is added with a delay of
+     * Constrbins tif vblufs of bll dflbys in tif qufuf to bf witiin
+     * Long.MAX_VALUE of fbdi otifr, to bvoid ovfrflow in dompbrfTo.
+     * Tiis mby oddur if b tbsk is fligiblf to bf dfqufufd, but ibs
+     * not yft bffn, wiilf somf otifr tbsk is bddfd witi b dflby of
      * Long.MAX_VALUE.
      */
-    private long overflowFree(long delay) {
-        Delayed head = (Delayed) super.getQueue().peek();
-        if (head != null) {
-            long headDelay = head.getDelay(NANOSECONDS);
-            if (headDelay < 0 && (delay - headDelay < 0))
-                delay = Long.MAX_VALUE + headDelay;
+    privbtf long ovfrflowFrff(long dflby) {
+        Dflbyfd ifbd = (Dflbyfd) supfr.gftQufuf().pffk();
+        if (ifbd != null) {
+            long ifbdDflby = ifbd.gftDflby(NANOSECONDS);
+            if (ifbdDflby < 0 && (dflby - ifbdDflby < 0))
+                dflby = Long.MAX_VALUE + ifbdDflby;
         }
-        return delay;
+        rfturn dflby;
     }
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
-     * @throws NullPointerException       {@inheritDoc}
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
      */
-    public ScheduledFuture<?> schedule(Runnable command,
-                                       long delay,
-                                       TimeUnit unit) {
-        if (command == null || unit == null)
-            throw new NullPointerException();
-        RunnableScheduledFuture<?> t = decorateTask(command,
-            new ScheduledFutureTask<Void>(command, null,
-                                          triggerTime(delay, unit)));
-        delayedExecute(t);
-        return t;
+    publid SdifdulfdFuturf<?> sdifdulf(Runnbblf dommbnd,
+                                       long dflby,
+                                       TimfUnit unit) {
+        if (dommbnd == null || unit == null)
+            tirow nfw NullPointfrExdfption();
+        RunnbblfSdifdulfdFuturf<?> t = dfdorbtfTbsk(dommbnd,
+            nfw SdifdulfdFuturfTbsk<Void>(dommbnd, null,
+                                          triggfrTimf(dflby, unit)));
+        dflbyfdExfdutf(t);
+        rfturn t;
     }
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
-     * @throws NullPointerException       {@inheritDoc}
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
      */
-    public <V> ScheduledFuture<V> schedule(Callable<V> callable,
-                                           long delay,
-                                           TimeUnit unit) {
-        if (callable == null || unit == null)
-            throw new NullPointerException();
-        RunnableScheduledFuture<V> t = decorateTask(callable,
-            new ScheduledFutureTask<V>(callable,
-                                       triggerTime(delay, unit)));
-        delayedExecute(t);
-        return t;
+    publid <V> SdifdulfdFuturf<V> sdifdulf(Cbllbblf<V> dbllbblf,
+                                           long dflby,
+                                           TimfUnit unit) {
+        if (dbllbblf == null || unit == null)
+            tirow nfw NullPointfrExdfption();
+        RunnbblfSdifdulfdFuturf<V> t = dfdorbtfTbsk(dbllbblf,
+            nfw SdifdulfdFuturfTbsk<V>(dbllbblf,
+                                       triggfrTimf(dflby, unit)));
+        dflbyfdExfdutf(t);
+        rfturn t;
     }
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
-     * @throws NullPointerException       {@inheritDoc}
-     * @throws IllegalArgumentException   {@inheritDoc}
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption   {@inifritDod}
      */
-    public ScheduledFuture<?> scheduleAtFixedRate(Runnable command,
-                                                  long initialDelay,
-                                                  long period,
-                                                  TimeUnit unit) {
-        if (command == null || unit == null)
-            throw new NullPointerException();
-        if (period <= 0)
-            throw new IllegalArgumentException();
-        ScheduledFutureTask<Void> sft =
-            new ScheduledFutureTask<Void>(command,
+    publid SdifdulfdFuturf<?> sdifdulfAtFixfdRbtf(Runnbblf dommbnd,
+                                                  long initiblDflby,
+                                                  long pfriod,
+                                                  TimfUnit unit) {
+        if (dommbnd == null || unit == null)
+            tirow nfw NullPointfrExdfption();
+        if (pfriod <= 0)
+            tirow nfw IllfgblArgumfntExdfption();
+        SdifdulfdFuturfTbsk<Void> sft =
+            nfw SdifdulfdFuturfTbsk<Void>(dommbnd,
                                           null,
-                                          triggerTime(initialDelay, unit),
-                                          unit.toNanos(period));
-        RunnableScheduledFuture<Void> t = decorateTask(command, sft);
-        sft.outerTask = t;
-        delayedExecute(t);
-        return t;
+                                          triggfrTimf(initiblDflby, unit),
+                                          unit.toNbnos(pfriod));
+        RunnbblfSdifdulfdFuturf<Void> t = dfdorbtfTbsk(dommbnd, sft);
+        sft.outfrTbsk = t;
+        dflbyfdExfdutf(t);
+        rfturn t;
     }
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
-     * @throws NullPointerException       {@inheritDoc}
-     * @throws IllegalArgumentException   {@inheritDoc}
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption   {@inifritDod}
      */
-    public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command,
-                                                     long initialDelay,
-                                                     long delay,
-                                                     TimeUnit unit) {
-        if (command == null || unit == null)
-            throw new NullPointerException();
-        if (delay <= 0)
-            throw new IllegalArgumentException();
-        ScheduledFutureTask<Void> sft =
-            new ScheduledFutureTask<Void>(command,
+    publid SdifdulfdFuturf<?> sdifdulfWitiFixfdDflby(Runnbblf dommbnd,
+                                                     long initiblDflby,
+                                                     long dflby,
+                                                     TimfUnit unit) {
+        if (dommbnd == null || unit == null)
+            tirow nfw NullPointfrExdfption();
+        if (dflby <= 0)
+            tirow nfw IllfgblArgumfntExdfption();
+        SdifdulfdFuturfTbsk<Void> sft =
+            nfw SdifdulfdFuturfTbsk<Void>(dommbnd,
                                           null,
-                                          triggerTime(initialDelay, unit),
-                                          unit.toNanos(-delay));
-        RunnableScheduledFuture<Void> t = decorateTask(command, sft);
-        sft.outerTask = t;
-        delayedExecute(t);
-        return t;
+                                          triggfrTimf(initiblDflby, unit),
+                                          unit.toNbnos(-dflby));
+        RunnbblfSdifdulfdFuturf<Void> t = dfdorbtfTbsk(dommbnd, sft);
+        sft.outfrTbsk = t;
+        dflbyfdExfdutf(t);
+        rfturn t;
     }
 
     /**
-     * Executes {@code command} with zero required delay.
-     * This has effect equivalent to
-     * {@link #schedule(Runnable,long,TimeUnit) schedule(command, 0, anyUnit)}.
-     * Note that inspections of the queue and of the list returned by
-     * {@code shutdownNow} will access the zero-delayed
-     * {@link ScheduledFuture}, not the {@code command} itself.
+     * Exfdutfs {@dodf dommbnd} witi zfro rfquirfd dflby.
+     * Tiis ibs ffffdt fquivblfnt to
+     * {@link #sdifdulf(Runnbblf,long,TimfUnit) sdifdulf(dommbnd, 0, bnyUnit)}.
+     * Notf tibt inspfdtions of tif qufuf bnd of tif list rfturnfd by
+     * {@dodf siutdownNow} will bddfss tif zfro-dflbyfd
+     * {@link SdifdulfdFuturf}, not tif {@dodf dommbnd} itsflf.
      *
-     * <p>A consequence of the use of {@code ScheduledFuture} objects is
-     * that {@link ThreadPoolExecutor#afterExecute afterExecute} is always
-     * called with a null second {@code Throwable} argument, even if the
-     * {@code command} terminated abruptly.  Instead, the {@code Throwable}
-     * thrown by such a task can be obtained via {@link Future#get}.
+     * <p>A donsfqufndf of tif usf of {@dodf SdifdulfdFuturf} objfdts is
+     * tibt {@link TirfbdPoolExfdutor#bftfrExfdutf bftfrExfdutf} is blwbys
+     * dbllfd witi b null sfdond {@dodf Tirowbblf} brgumfnt, fvfn if tif
+     * {@dodf dommbnd} tfrminbtfd bbruptly.  Instfbd, tif {@dodf Tirowbblf}
+     * tirown by sudi b tbsk dbn bf obtbinfd vib {@link Futurf#gft}.
      *
-     * @throws RejectedExecutionException at discretion of
-     *         {@code RejectedExecutionHandler}, if the task
-     *         cannot be accepted for execution because the
-     *         executor has been shut down
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows RfjfdtfdExfdutionExdfption bt disdrftion of
+     *         {@dodf RfjfdtfdExfdutionHbndlfr}, if tif tbsk
+     *         dbnnot bf bddfptfd for fxfdution bfdbusf tif
+     *         fxfdutor ibs bffn siut down
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public void execute(Runnable command) {
-        schedule(command, 0, NANOSECONDS);
+    publid void fxfdutf(Runnbblf dommbnd) {
+        sdifdulf(dommbnd, 0, NANOSECONDS);
     }
 
-    // Override AbstractExecutorService methods
+    // Ovfrridf AbstrbdtExfdutorSfrvidf mftiods
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
-     * @throws NullPointerException       {@inheritDoc}
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
      */
-    public Future<?> submit(Runnable task) {
-        return schedule(task, 0, NANOSECONDS);
-    }
-
-    /**
-     * @throws RejectedExecutionException {@inheritDoc}
-     * @throws NullPointerException       {@inheritDoc}
-     */
-    public <T> Future<T> submit(Runnable task, T result) {
-        return schedule(Executors.callable(task, result), 0, NANOSECONDS);
+    publid Futurf<?> submit(Runnbblf tbsk) {
+        rfturn sdifdulf(tbsk, 0, NANOSECONDS);
     }
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
-     * @throws NullPointerException       {@inheritDoc}
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
      */
-    public <T> Future<T> submit(Callable<T> task) {
-        return schedule(task, 0, NANOSECONDS);
+    publid <T> Futurf<T> submit(Runnbblf tbsk, T rfsult) {
+        rfturn sdifdulf(Exfdutors.dbllbblf(tbsk, rfsult), 0, NANOSECONDS);
     }
 
     /**
-     * Sets the policy on whether to continue executing existing
-     * periodic tasks even when this executor has been {@code shutdown}.
-     * In this case, these tasks will only terminate upon
-     * {@code shutdownNow} or after setting the policy to
-     * {@code false} when already shutdown.
-     * This value is by default {@code false}.
-     *
-     * @param value if {@code true}, continue after shutdown, else don't
-     * @see #getContinueExistingPeriodicTasksAfterShutdownPolicy
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
      */
-    public void setContinueExistingPeriodicTasksAfterShutdownPolicy(boolean value) {
-        continueExistingPeriodicTasksAfterShutdown = value;
-        if (!value && isShutdown())
-            onShutdown();
+    publid <T> Futurf<T> submit(Cbllbblf<T> tbsk) {
+        rfturn sdifdulf(tbsk, 0, NANOSECONDS);
     }
 
     /**
-     * Gets the policy on whether to continue executing existing
-     * periodic tasks even when this executor has been {@code shutdown}.
-     * In this case, these tasks will only terminate upon
-     * {@code shutdownNow} or after setting the policy to
-     * {@code false} when already shutdown.
-     * This value is by default {@code false}.
+     * Sfts tif polidy on wiftifr to dontinuf fxfduting fxisting
+     * pfriodid tbsks fvfn wifn tiis fxfdutor ibs bffn {@dodf siutdown}.
+     * In tiis dbsf, tifsf tbsks will only tfrminbtf upon
+     * {@dodf siutdownNow} or bftfr sftting tif polidy to
+     * {@dodf fblsf} wifn blrfbdy siutdown.
+     * Tiis vbluf is by dffbult {@dodf fblsf}.
      *
-     * @return {@code true} if will continue after shutdown
-     * @see #setContinueExistingPeriodicTasksAfterShutdownPolicy
+     * @pbrbm vbluf if {@dodf truf}, dontinuf bftfr siutdown, flsf don't
+     * @sff #gftContinufExistingPfriodidTbsksAftfrSiutdownPolidy
      */
-    public boolean getContinueExistingPeriodicTasksAfterShutdownPolicy() {
-        return continueExistingPeriodicTasksAfterShutdown;
+    publid void sftContinufExistingPfriodidTbsksAftfrSiutdownPolidy(boolfbn vbluf) {
+        dontinufExistingPfriodidTbsksAftfrSiutdown = vbluf;
+        if (!vbluf && isSiutdown())
+            onSiutdown();
     }
 
     /**
-     * Sets the policy on whether to execute existing delayed
-     * tasks even when this executor has been {@code shutdown}.
-     * In this case, these tasks will only terminate upon
-     * {@code shutdownNow}, or after setting the policy to
-     * {@code false} when already shutdown.
-     * This value is by default {@code true}.
+     * Gfts tif polidy on wiftifr to dontinuf fxfduting fxisting
+     * pfriodid tbsks fvfn wifn tiis fxfdutor ibs bffn {@dodf siutdown}.
+     * In tiis dbsf, tifsf tbsks will only tfrminbtf upon
+     * {@dodf siutdownNow} or bftfr sftting tif polidy to
+     * {@dodf fblsf} wifn blrfbdy siutdown.
+     * Tiis vbluf is by dffbult {@dodf fblsf}.
      *
-     * @param value if {@code true}, execute after shutdown, else don't
-     * @see #getExecuteExistingDelayedTasksAfterShutdownPolicy
+     * @rfturn {@dodf truf} if will dontinuf bftfr siutdown
+     * @sff #sftContinufExistingPfriodidTbsksAftfrSiutdownPolidy
      */
-    public void setExecuteExistingDelayedTasksAfterShutdownPolicy(boolean value) {
-        executeExistingDelayedTasksAfterShutdown = value;
-        if (!value && isShutdown())
-            onShutdown();
+    publid boolfbn gftContinufExistingPfriodidTbsksAftfrSiutdownPolidy() {
+        rfturn dontinufExistingPfriodidTbsksAftfrSiutdown;
     }
 
     /**
-     * Gets the policy on whether to execute existing delayed
-     * tasks even when this executor has been {@code shutdown}.
-     * In this case, these tasks will only terminate upon
-     * {@code shutdownNow}, or after setting the policy to
-     * {@code false} when already shutdown.
-     * This value is by default {@code true}.
+     * Sfts tif polidy on wiftifr to fxfdutf fxisting dflbyfd
+     * tbsks fvfn wifn tiis fxfdutor ibs bffn {@dodf siutdown}.
+     * In tiis dbsf, tifsf tbsks will only tfrminbtf upon
+     * {@dodf siutdownNow}, or bftfr sftting tif polidy to
+     * {@dodf fblsf} wifn blrfbdy siutdown.
+     * Tiis vbluf is by dffbult {@dodf truf}.
      *
-     * @return {@code true} if will execute after shutdown
-     * @see #setExecuteExistingDelayedTasksAfterShutdownPolicy
+     * @pbrbm vbluf if {@dodf truf}, fxfdutf bftfr siutdown, flsf don't
+     * @sff #gftExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy
      */
-    public boolean getExecuteExistingDelayedTasksAfterShutdownPolicy() {
-        return executeExistingDelayedTasksAfterShutdown;
+    publid void sftExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy(boolfbn vbluf) {
+        fxfdutfExistingDflbyfdTbsksAftfrSiutdown = vbluf;
+        if (!vbluf && isSiutdown())
+            onSiutdown();
     }
 
     /**
-     * Sets the policy on whether cancelled tasks should be immediately
-     * removed from the work queue at time of cancellation.  This value is
-     * by default {@code false}.
+     * Gfts tif polidy on wiftifr to fxfdutf fxisting dflbyfd
+     * tbsks fvfn wifn tiis fxfdutor ibs bffn {@dodf siutdown}.
+     * In tiis dbsf, tifsf tbsks will only tfrminbtf upon
+     * {@dodf siutdownNow}, or bftfr sftting tif polidy to
+     * {@dodf fblsf} wifn blrfbdy siutdown.
+     * Tiis vbluf is by dffbult {@dodf truf}.
      *
-     * @param value if {@code true}, remove on cancellation, else don't
-     * @see #getRemoveOnCancelPolicy
-     * @since 1.7
+     * @rfturn {@dodf truf} if will fxfdutf bftfr siutdown
+     * @sff #sftExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy
      */
-    public void setRemoveOnCancelPolicy(boolean value) {
-        removeOnCancel = value;
+    publid boolfbn gftExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy() {
+        rfturn fxfdutfExistingDflbyfdTbsksAftfrSiutdown;
     }
 
     /**
-     * Gets the policy on whether cancelled tasks should be immediately
-     * removed from the work queue at time of cancellation.  This value is
-     * by default {@code false}.
+     * Sfts tif polidy on wiftifr dbndfllfd tbsks siould bf immfdibtfly
+     * rfmovfd from tif work qufuf bt timf of dbndfllbtion.  Tiis vbluf is
+     * by dffbult {@dodf fblsf}.
      *
-     * @return {@code true} if cancelled tasks are immediately removed
-     *         from the queue
-     * @see #setRemoveOnCancelPolicy
-     * @since 1.7
+     * @pbrbm vbluf if {@dodf truf}, rfmovf on dbndfllbtion, flsf don't
+     * @sff #gftRfmovfOnCbndflPolidy
+     * @sindf 1.7
      */
-    public boolean getRemoveOnCancelPolicy() {
-        return removeOnCancel;
+    publid void sftRfmovfOnCbndflPolidy(boolfbn vbluf) {
+        rfmovfOnCbndfl = vbluf;
     }
 
     /**
-     * Initiates an orderly shutdown in which previously submitted
-     * tasks are executed, but no new tasks will be accepted.
-     * Invocation has no additional effect if already shut down.
+     * Gfts tif polidy on wiftifr dbndfllfd tbsks siould bf immfdibtfly
+     * rfmovfd from tif work qufuf bt timf of dbndfllbtion.  Tiis vbluf is
+     * by dffbult {@dodf fblsf}.
      *
-     * <p>This method does not wait for previously submitted tasks to
-     * complete execution.  Use {@link #awaitTermination awaitTermination}
-     * to do that.
-     *
-     * <p>If the {@code ExecuteExistingDelayedTasksAfterShutdownPolicy}
-     * has been set {@code false}, existing delayed tasks whose delays
-     * have not yet elapsed are cancelled.  And unless the {@code
-     * ContinueExistingPeriodicTasksAfterShutdownPolicy} has been set
-     * {@code true}, future executions of existing periodic tasks will
-     * be cancelled.
-     *
-     * @throws SecurityException {@inheritDoc}
+     * @rfturn {@dodf truf} if dbndfllfd tbsks brf immfdibtfly rfmovfd
+     *         from tif qufuf
+     * @sff #sftRfmovfOnCbndflPolidy
+     * @sindf 1.7
      */
-    public void shutdown() {
-        super.shutdown();
+    publid boolfbn gftRfmovfOnCbndflPolidy() {
+        rfturn rfmovfOnCbndfl;
     }
 
     /**
-     * Attempts to stop all actively executing tasks, halts the
-     * processing of waiting tasks, and returns a list of the tasks
-     * that were awaiting execution.
+     * Initibtfs bn ordfrly siutdown in wiidi prfviously submittfd
+     * tbsks brf fxfdutfd, but no nfw tbsks will bf bddfptfd.
+     * Invodbtion ibs no bdditionbl ffffdt if blrfbdy siut down.
      *
-     * <p>This method does not wait for actively executing tasks to
-     * terminate.  Use {@link #awaitTermination awaitTermination} to
-     * do that.
+     * <p>Tiis mftiod dofs not wbit for prfviously submittfd tbsks to
+     * domplftf fxfdution.  Usf {@link #bwbitTfrminbtion bwbitTfrminbtion}
+     * to do tibt.
      *
-     * <p>There are no guarantees beyond best-effort attempts to stop
-     * processing actively executing tasks.  This implementation
-     * cancels tasks via {@link Thread#interrupt}, so any task that
-     * fails to respond to interrupts may never terminate.
+     * <p>If tif {@dodf ExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy}
+     * ibs bffn sft {@dodf fblsf}, fxisting dflbyfd tbsks wiosf dflbys
+     * ibvf not yft flbpsfd brf dbndfllfd.  And unlfss tif {@dodf
+     * ContinufExistingPfriodidTbsksAftfrSiutdownPolidy} ibs bffn sft
+     * {@dodf truf}, futurf fxfdutions of fxisting pfriodid tbsks will
+     * bf dbndfllfd.
      *
-     * @return list of tasks that never commenced execution.
-     *         Each element of this list is a {@link ScheduledFuture},
-     *         including those tasks submitted using {@code execute},
-     *         which are for scheduling purposes used as the basis of a
-     *         zero-delay {@code ScheduledFuture}.
-     * @throws SecurityException {@inheritDoc}
+     * @tirows SfdurityExdfption {@inifritDod}
      */
-    public List<Runnable> shutdownNow() {
-        return super.shutdownNow();
+    publid void siutdown() {
+        supfr.siutdown();
     }
 
     /**
-     * Returns the task queue used by this executor.  Each element of
-     * this queue is a {@link ScheduledFuture}, including those
-     * tasks submitted using {@code execute} which are for scheduling
-     * purposes used as the basis of a zero-delay
-     * {@code ScheduledFuture}.  Iteration over this queue is
-     * <em>not</em> guaranteed to traverse tasks in the order in
-     * which they will execute.
+     * Attfmpts to stop bll bdtivfly fxfduting tbsks, iblts tif
+     * prodfssing of wbiting tbsks, bnd rfturns b list of tif tbsks
+     * tibt wfrf bwbiting fxfdution.
      *
-     * @return the task queue
+     * <p>Tiis mftiod dofs not wbit for bdtivfly fxfduting tbsks to
+     * tfrminbtf.  Usf {@link #bwbitTfrminbtion bwbitTfrminbtion} to
+     * do tibt.
+     *
+     * <p>Tifrf brf no gubrbntffs bfyond bfst-fffort bttfmpts to stop
+     * prodfssing bdtivfly fxfduting tbsks.  Tiis implfmfntbtion
+     * dbndfls tbsks vib {@link Tirfbd#intfrrupt}, so bny tbsk tibt
+     * fbils to rfspond to intfrrupts mby nfvfr tfrminbtf.
+     *
+     * @rfturn list of tbsks tibt nfvfr dommfndfd fxfdution.
+     *         Ebdi flfmfnt of tiis list is b {@link SdifdulfdFuturf},
+     *         indluding tiosf tbsks submittfd using {@dodf fxfdutf},
+     *         wiidi brf for sdifduling purposfs usfd bs tif bbsis of b
+     *         zfro-dflby {@dodf SdifdulfdFuturf}.
+     * @tirows SfdurityExdfption {@inifritDod}
      */
-    public BlockingQueue<Runnable> getQueue() {
-        return super.getQueue();
+    publid List<Runnbblf> siutdownNow() {
+        rfturn supfr.siutdownNow();
     }
 
     /**
-     * Specialized delay queue. To mesh with TPE declarations, this
-     * class must be declared as a BlockingQueue<Runnable> even though
-     * it can only hold RunnableScheduledFutures.
+     * Rfturns tif tbsk qufuf usfd by tiis fxfdutor.  Ebdi flfmfnt of
+     * tiis qufuf is b {@link SdifdulfdFuturf}, indluding tiosf
+     * tbsks submittfd using {@dodf fxfdutf} wiidi brf for sdifduling
+     * purposfs usfd bs tif bbsis of b zfro-dflby
+     * {@dodf SdifdulfdFuturf}.  Itfrbtion ovfr tiis qufuf is
+     * <fm>not</fm> gubrbntffd to trbvfrsf tbsks in tif ordfr in
+     * wiidi tify will fxfdutf.
+     *
+     * @rfturn tif tbsk qufuf
      */
-    static class DelayedWorkQueue extends AbstractQueue<Runnable>
-        implements BlockingQueue<Runnable> {
+    publid BlodkingQufuf<Runnbblf> gftQufuf() {
+        rfturn supfr.gftQufuf();
+    }
+
+    /**
+     * Spfdiblizfd dflby qufuf. To mfsi witi TPE dfdlbrbtions, tiis
+     * dlbss must bf dfdlbrfd bs b BlodkingQufuf<Runnbblf> fvfn tiougi
+     * it dbn only iold RunnbblfSdifdulfdFuturfs.
+     */
+    stbtid dlbss DflbyfdWorkQufuf fxtfnds AbstrbdtQufuf<Runnbblf>
+        implfmfnts BlodkingQufuf<Runnbblf> {
 
         /*
-         * A DelayedWorkQueue is based on a heap-based data structure
-         * like those in DelayQueue and PriorityQueue, except that
-         * every ScheduledFutureTask also records its index into the
-         * heap array. This eliminates the need to find a task upon
-         * cancellation, greatly speeding up removal (down from O(n)
-         * to O(log n)), and reducing garbage retention that would
-         * otherwise occur by waiting for the element to rise to top
-         * before clearing. But because the queue may also hold
-         * RunnableScheduledFutures that are not ScheduledFutureTasks,
-         * we are not guaranteed to have such indices available, in
-         * which case we fall back to linear search. (We expect that
-         * most tasks will not be decorated, and that the faster cases
-         * will be much more common.)
+         * A DflbyfdWorkQufuf is bbsfd on b ifbp-bbsfd dbtb strudturf
+         * likf tiosf in DflbyQufuf bnd PriorityQufuf, fxdfpt tibt
+         * fvfry SdifdulfdFuturfTbsk blso rfdords its indfx into tif
+         * ifbp brrby. Tiis fliminbtfs tif nffd to find b tbsk upon
+         * dbndfllbtion, grfbtly spffding up rfmovbl (down from O(n)
+         * to O(log n)), bnd rfduding gbrbbgf rftfntion tibt would
+         * otifrwisf oddur by wbiting for tif flfmfnt to risf to top
+         * bfforf dlfbring. But bfdbusf tif qufuf mby blso iold
+         * RunnbblfSdifdulfdFuturfs tibt brf not SdifdulfdFuturfTbsks,
+         * wf brf not gubrbntffd to ibvf sudi indidfs bvbilbblf, in
+         * wiidi dbsf wf fbll bbdk to linfbr sfbrdi. (Wf fxpfdt tibt
+         * most tbsks will not bf dfdorbtfd, bnd tibt tif fbstfr dbsfs
+         * will bf mudi morf dommon.)
          *
-         * All heap operations must record index changes -- mainly
-         * within siftUp and siftDown. Upon removal, a task's
-         * heapIndex is set to -1. Note that ScheduledFutureTasks can
-         * appear at most once in the queue (this need not be true for
-         * other kinds of tasks or work queues), so are uniquely
-         * identified by heapIndex.
+         * All ifbp opfrbtions must rfdord indfx dibngfs -- mbinly
+         * witiin siftUp bnd siftDown. Upon rfmovbl, b tbsk's
+         * ifbpIndfx is sft to -1. Notf tibt SdifdulfdFuturfTbsks dbn
+         * bppfbr bt most ondf in tif qufuf (tiis nffd not bf truf for
+         * otifr kinds of tbsks or work qufufs), so brf uniqufly
+         * idfntififd by ifbpIndfx.
          */
 
-        private static final int INITIAL_CAPACITY = 16;
-        private RunnableScheduledFuture<?>[] queue =
-            new RunnableScheduledFuture<?>[INITIAL_CAPACITY];
-        private final ReentrantLock lock = new ReentrantLock();
-        private int size = 0;
-
-        /**
-         * Thread designated to wait for the task at the head of the
-         * queue.  This variant of the Leader-Follower pattern
-         * (http://www.cs.wustl.edu/~schmidt/POSA/POSA2/) serves to
-         * minimize unnecessary timed waiting.  When a thread becomes
-         * the leader, it waits only for the next delay to elapse, but
-         * other threads await indefinitely.  The leader thread must
-         * signal some other thread before returning from take() or
-         * poll(...), unless some other thread becomes leader in the
-         * interim.  Whenever the head of the queue is replaced with a
-         * task with an earlier expiration time, the leader field is
-         * invalidated by being reset to null, and some waiting
-         * thread, but not necessarily the current leader, is
-         * signalled.  So waiting threads must be prepared to acquire
-         * and lose leadership while waiting.
-         */
-        private Thread leader = null;
+        privbtf stbtid finbl int INITIAL_CAPACITY = 16;
+        privbtf RunnbblfSdifdulfdFuturf<?>[] qufuf =
+            nfw RunnbblfSdifdulfdFuturf<?>[INITIAL_CAPACITY];
+        privbtf finbl RffntrbntLodk lodk = nfw RffntrbntLodk();
+        privbtf int sizf = 0;
 
         /**
-         * Condition signalled when a newer task becomes available at the
-         * head of the queue or a new thread may need to become leader.
+         * Tirfbd dfsignbtfd to wbit for tif tbsk bt tif ifbd of tif
+         * qufuf.  Tiis vbribnt of tif Lfbdfr-Followfr pbttfrn
+         * (ittp://www.ds.wustl.fdu/~sdimidt/POSA/POSA2/) sfrvfs to
+         * minimizf unnfdfssbry timfd wbiting.  Wifn b tirfbd bfdomfs
+         * tif lfbdfr, it wbits only for tif nfxt dflby to flbpsf, but
+         * otifr tirfbds bwbit indffinitfly.  Tif lfbdfr tirfbd must
+         * signbl somf otifr tirfbd bfforf rfturning from tbkf() or
+         * poll(...), unlfss somf otifr tirfbd bfdomfs lfbdfr in tif
+         * intfrim.  Wifnfvfr tif ifbd of tif qufuf is rfplbdfd witi b
+         * tbsk witi bn fbrlifr fxpirbtion timf, tif lfbdfr fifld is
+         * invblidbtfd by bfing rfsft to null, bnd somf wbiting
+         * tirfbd, but not nfdfssbrily tif durrfnt lfbdfr, is
+         * signbllfd.  So wbiting tirfbds must bf prfpbrfd to bdquirf
+         * bnd losf lfbdfrsiip wiilf wbiting.
          */
-        private final Condition available = lock.newCondition();
+        privbtf Tirfbd lfbdfr = null;
 
         /**
-         * Sets f's heapIndex if it is a ScheduledFutureTask.
+         * Condition signbllfd wifn b nfwfr tbsk bfdomfs bvbilbblf bt tif
+         * ifbd of tif qufuf or b nfw tirfbd mby nffd to bfdomf lfbdfr.
          */
-        private void setIndex(RunnableScheduledFuture<?> f, int idx) {
-            if (f instanceof ScheduledFutureTask)
-                ((ScheduledFutureTask)f).heapIndex = idx;
+        privbtf finbl Condition bvbilbblf = lodk.nfwCondition();
+
+        /**
+         * Sfts f's ifbpIndfx if it is b SdifdulfdFuturfTbsk.
+         */
+        privbtf void sftIndfx(RunnbblfSdifdulfdFuturf<?> f, int idx) {
+            if (f instbndfof SdifdulfdFuturfTbsk)
+                ((SdifdulfdFuturfTbsk)f).ifbpIndfx = idx;
         }
 
         /**
-         * Sifts element added at bottom up to its heap-ordered spot.
-         * Call only when holding lock.
+         * Sifts flfmfnt bddfd bt bottom up to its ifbp-ordfrfd spot.
+         * Cbll only wifn iolding lodk.
          */
-        private void siftUp(int k, RunnableScheduledFuture<?> key) {
-            while (k > 0) {
-                int parent = (k - 1) >>> 1;
-                RunnableScheduledFuture<?> e = queue[parent];
-                if (key.compareTo(e) >= 0)
-                    break;
-                queue[k] = e;
-                setIndex(e, k);
-                k = parent;
+        privbtf void siftUp(int k, RunnbblfSdifdulfdFuturf<?> kfy) {
+            wiilf (k > 0) {
+                int pbrfnt = (k - 1) >>> 1;
+                RunnbblfSdifdulfdFuturf<?> f = qufuf[pbrfnt];
+                if (kfy.dompbrfTo(f) >= 0)
+                    brfbk;
+                qufuf[k] = f;
+                sftIndfx(f, k);
+                k = pbrfnt;
             }
-            queue[k] = key;
-            setIndex(key, k);
+            qufuf[k] = kfy;
+            sftIndfx(kfy, k);
         }
 
         /**
-         * Sifts element added at top down to its heap-ordered spot.
-         * Call only when holding lock.
+         * Sifts flfmfnt bddfd bt top down to its ifbp-ordfrfd spot.
+         * Cbll only wifn iolding lodk.
          */
-        private void siftDown(int k, RunnableScheduledFuture<?> key) {
-            int half = size >>> 1;
-            while (k < half) {
-                int child = (k << 1) + 1;
-                RunnableScheduledFuture<?> c = queue[child];
-                int right = child + 1;
-                if (right < size && c.compareTo(queue[right]) > 0)
-                    c = queue[child = right];
-                if (key.compareTo(c) <= 0)
-                    break;
-                queue[k] = c;
-                setIndex(c, k);
-                k = child;
+        privbtf void siftDown(int k, RunnbblfSdifdulfdFuturf<?> kfy) {
+            int iblf = sizf >>> 1;
+            wiilf (k < iblf) {
+                int diild = (k << 1) + 1;
+                RunnbblfSdifdulfdFuturf<?> d = qufuf[diild];
+                int rigit = diild + 1;
+                if (rigit < sizf && d.dompbrfTo(qufuf[rigit]) > 0)
+                    d = qufuf[diild = rigit];
+                if (kfy.dompbrfTo(d) <= 0)
+                    brfbk;
+                qufuf[k] = d;
+                sftIndfx(d, k);
+                k = diild;
             }
-            queue[k] = key;
-            setIndex(key, k);
+            qufuf[k] = kfy;
+            sftIndfx(kfy, k);
         }
 
         /**
-         * Resizes the heap array.  Call only when holding lock.
+         * Rfsizfs tif ifbp brrby.  Cbll only wifn iolding lodk.
          */
-        private void grow() {
-            int oldCapacity = queue.length;
-            int newCapacity = oldCapacity + (oldCapacity >> 1); // grow 50%
-            if (newCapacity < 0) // overflow
-                newCapacity = Integer.MAX_VALUE;
-            queue = Arrays.copyOf(queue, newCapacity);
+        privbtf void grow() {
+            int oldCbpbdity = qufuf.lfngti;
+            int nfwCbpbdity = oldCbpbdity + (oldCbpbdity >> 1); // grow 50%
+            if (nfwCbpbdity < 0) // ovfrflow
+                nfwCbpbdity = Intfgfr.MAX_VALUE;
+            qufuf = Arrbys.dopyOf(qufuf, nfwCbpbdity);
         }
 
         /**
-         * Finds index of given object, or -1 if absent.
+         * Finds indfx of givfn objfdt, or -1 if bbsfnt.
          */
-        private int indexOf(Object x) {
+        privbtf int indfxOf(Objfdt x) {
             if (x != null) {
-                if (x instanceof ScheduledFutureTask) {
-                    int i = ((ScheduledFutureTask) x).heapIndex;
-                    // Sanity check; x could conceivably be a
-                    // ScheduledFutureTask from some other pool.
-                    if (i >= 0 && i < size && queue[i] == x)
-                        return i;
-                } else {
-                    for (int i = 0; i < size; i++)
-                        if (x.equals(queue[i]))
-                            return i;
+                if (x instbndfof SdifdulfdFuturfTbsk) {
+                    int i = ((SdifdulfdFuturfTbsk) x).ifbpIndfx;
+                    // Sbnity difdk; x dould dondfivbbly bf b
+                    // SdifdulfdFuturfTbsk from somf otifr pool.
+                    if (i >= 0 && i < sizf && qufuf[i] == x)
+                        rfturn i;
+                } flsf {
+                    for (int i = 0; i < sizf; i++)
+                        if (x.fqubls(qufuf[i]))
+                            rfturn i;
                 }
             }
-            return -1;
+            rfturn -1;
         }
 
-        public boolean contains(Object x) {
-            final ReentrantLock lock = this.lock;
-            lock.lock();
+        publid boolfbn dontbins(Objfdt x) {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
             try {
-                return indexOf(x) != -1;
-            } finally {
-                lock.unlock();
+                rfturn indfxOf(x) != -1;
+            } finblly {
+                lodk.unlodk();
             }
         }
 
-        public boolean remove(Object x) {
-            final ReentrantLock lock = this.lock;
-            lock.lock();
+        publid boolfbn rfmovf(Objfdt x) {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
             try {
-                int i = indexOf(x);
+                int i = indfxOf(x);
                 if (i < 0)
-                    return false;
+                    rfturn fblsf;
 
-                setIndex(queue[i], -1);
-                int s = --size;
-                RunnableScheduledFuture<?> replacement = queue[s];
-                queue[s] = null;
+                sftIndfx(qufuf[i], -1);
+                int s = --sizf;
+                RunnbblfSdifdulfdFuturf<?> rfplbdfmfnt = qufuf[s];
+                qufuf[s] = null;
                 if (s != i) {
-                    siftDown(i, replacement);
-                    if (queue[i] == replacement)
-                        siftUp(i, replacement);
+                    siftDown(i, rfplbdfmfnt);
+                    if (qufuf[i] == rfplbdfmfnt)
+                        siftUp(i, rfplbdfmfnt);
                 }
-                return true;
-            } finally {
-                lock.unlock();
+                rfturn truf;
+            } finblly {
+                lodk.unlodk();
             }
         }
 
-        public int size() {
-            final ReentrantLock lock = this.lock;
-            lock.lock();
+        publid int sizf() {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
             try {
-                return size;
-            } finally {
-                lock.unlock();
+                rfturn sizf;
+            } finblly {
+                lodk.unlodk();
             }
         }
 
-        public boolean isEmpty() {
-            return size() == 0;
+        publid boolfbn isEmpty() {
+            rfturn sizf() == 0;
         }
 
-        public int remainingCapacity() {
-            return Integer.MAX_VALUE;
+        publid int rfmbiningCbpbdity() {
+            rfturn Intfgfr.MAX_VALUE;
         }
 
-        public RunnableScheduledFuture<?> peek() {
-            final ReentrantLock lock = this.lock;
-            lock.lock();
+        publid RunnbblfSdifdulfdFuturf<?> pffk() {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
             try {
-                return queue[0];
-            } finally {
-                lock.unlock();
+                rfturn qufuf[0];
+            } finblly {
+                lodk.unlodk();
             }
         }
 
-        public boolean offer(Runnable x) {
+        publid boolfbn offfr(Runnbblf x) {
             if (x == null)
-                throw new NullPointerException();
-            RunnableScheduledFuture<?> e = (RunnableScheduledFuture<?>)x;
-            final ReentrantLock lock = this.lock;
-            lock.lock();
+                tirow nfw NullPointfrExdfption();
+            RunnbblfSdifdulfdFuturf<?> f = (RunnbblfSdifdulfdFuturf<?>)x;
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
             try {
-                int i = size;
-                if (i >= queue.length)
+                int i = sizf;
+                if (i >= qufuf.lfngti)
                     grow();
-                size = i + 1;
+                sizf = i + 1;
                 if (i == 0) {
-                    queue[0] = e;
-                    setIndex(e, 0);
-                } else {
-                    siftUp(i, e);
+                    qufuf[0] = f;
+                    sftIndfx(f, 0);
+                } flsf {
+                    siftUp(i, f);
                 }
-                if (queue[0] == e) {
-                    leader = null;
-                    available.signal();
+                if (qufuf[0] == f) {
+                    lfbdfr = null;
+                    bvbilbblf.signbl();
                 }
-            } finally {
-                lock.unlock();
+            } finblly {
+                lodk.unlodk();
             }
-            return true;
+            rfturn truf;
         }
 
-        public void put(Runnable e) {
-            offer(e);
+        publid void put(Runnbblf f) {
+            offfr(f);
         }
 
-        public boolean add(Runnable e) {
-            return offer(e);
+        publid boolfbn bdd(Runnbblf f) {
+            rfturn offfr(f);
         }
 
-        public boolean offer(Runnable e, long timeout, TimeUnit unit) {
-            return offer(e);
+        publid boolfbn offfr(Runnbblf f, long timfout, TimfUnit unit) {
+            rfturn offfr(f);
         }
 
         /**
-         * Performs common bookkeeping for poll and take: Replaces
-         * first element with last and sifts it down.  Call only when
-         * holding lock.
-         * @param f the task to remove and return
+         * Pfrforms dommon bookkffping for poll bnd tbkf: Rfplbdfs
+         * first flfmfnt witi lbst bnd sifts it down.  Cbll only wifn
+         * iolding lodk.
+         * @pbrbm f tif tbsk to rfmovf bnd rfturn
          */
-        private RunnableScheduledFuture<?> finishPoll(RunnableScheduledFuture<?> f) {
-            int s = --size;
-            RunnableScheduledFuture<?> x = queue[s];
-            queue[s] = null;
+        privbtf RunnbblfSdifdulfdFuturf<?> finisiPoll(RunnbblfSdifdulfdFuturf<?> f) {
+            int s = --sizf;
+            RunnbblfSdifdulfdFuturf<?> x = qufuf[s];
+            qufuf[s] = null;
             if (s != 0)
                 siftDown(0, x);
-            setIndex(f, -1);
-            return f;
+            sftIndfx(f, -1);
+            rfturn f;
         }
 
-        public RunnableScheduledFuture<?> poll() {
-            final ReentrantLock lock = this.lock;
-            lock.lock();
+        publid RunnbblfSdifdulfdFuturf<?> poll() {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
             try {
-                RunnableScheduledFuture<?> first = queue[0];
-                if (first == null || first.getDelay(NANOSECONDS) > 0)
-                    return null;
-                else
-                    return finishPoll(first);
-            } finally {
-                lock.unlock();
+                RunnbblfSdifdulfdFuturf<?> first = qufuf[0];
+                if (first == null || first.gftDflby(NANOSECONDS) > 0)
+                    rfturn null;
+                flsf
+                    rfturn finisiPoll(first);
+            } finblly {
+                lodk.unlodk();
             }
         }
 
-        public RunnableScheduledFuture<?> take() throws InterruptedException {
-            final ReentrantLock lock = this.lock;
-            lock.lockInterruptibly();
+        publid RunnbblfSdifdulfdFuturf<?> tbkf() tirows IntfrruptfdExdfption {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodkIntfrruptibly();
             try {
                 for (;;) {
-                    RunnableScheduledFuture<?> first = queue[0];
+                    RunnbblfSdifdulfdFuturf<?> first = qufuf[0];
                     if (first == null)
-                        available.await();
-                    else {
-                        long delay = first.getDelay(NANOSECONDS);
-                        if (delay <= 0)
-                            return finishPoll(first);
-                        first = null; // don't retain ref while waiting
-                        if (leader != null)
-                            available.await();
-                        else {
-                            Thread thisThread = Thread.currentThread();
-                            leader = thisThread;
+                        bvbilbblf.bwbit();
+                    flsf {
+                        long dflby = first.gftDflby(NANOSECONDS);
+                        if (dflby <= 0)
+                            rfturn finisiPoll(first);
+                        first = null; // don't rftbin rff wiilf wbiting
+                        if (lfbdfr != null)
+                            bvbilbblf.bwbit();
+                        flsf {
+                            Tirfbd tiisTirfbd = Tirfbd.durrfntTirfbd();
+                            lfbdfr = tiisTirfbd;
                             try {
-                                available.awaitNanos(delay);
-                            } finally {
-                                if (leader == thisThread)
-                                    leader = null;
+                                bvbilbblf.bwbitNbnos(dflby);
+                            } finblly {
+                                if (lfbdfr == tiisTirfbd)
+                                    lfbdfr = null;
                             }
                         }
                     }
                 }
-            } finally {
-                if (leader == null && queue[0] != null)
-                    available.signal();
-                lock.unlock();
+            } finblly {
+                if (lfbdfr == null && qufuf[0] != null)
+                    bvbilbblf.signbl();
+                lodk.unlodk();
             }
         }
 
-        public RunnableScheduledFuture<?> poll(long timeout, TimeUnit unit)
-            throws InterruptedException {
-            long nanos = unit.toNanos(timeout);
-            final ReentrantLock lock = this.lock;
-            lock.lockInterruptibly();
+        publid RunnbblfSdifdulfdFuturf<?> poll(long timfout, TimfUnit unit)
+            tirows IntfrruptfdExdfption {
+            long nbnos = unit.toNbnos(timfout);
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodkIntfrruptibly();
             try {
                 for (;;) {
-                    RunnableScheduledFuture<?> first = queue[0];
+                    RunnbblfSdifdulfdFuturf<?> first = qufuf[0];
                     if (first == null) {
-                        if (nanos <= 0)
-                            return null;
-                        else
-                            nanos = available.awaitNanos(nanos);
-                    } else {
-                        long delay = first.getDelay(NANOSECONDS);
-                        if (delay <= 0)
-                            return finishPoll(first);
-                        if (nanos <= 0)
-                            return null;
-                        first = null; // don't retain ref while waiting
-                        if (nanos < delay || leader != null)
-                            nanos = available.awaitNanos(nanos);
-                        else {
-                            Thread thisThread = Thread.currentThread();
-                            leader = thisThread;
+                        if (nbnos <= 0)
+                            rfturn null;
+                        flsf
+                            nbnos = bvbilbblf.bwbitNbnos(nbnos);
+                    } flsf {
+                        long dflby = first.gftDflby(NANOSECONDS);
+                        if (dflby <= 0)
+                            rfturn finisiPoll(first);
+                        if (nbnos <= 0)
+                            rfturn null;
+                        first = null; // don't rftbin rff wiilf wbiting
+                        if (nbnos < dflby || lfbdfr != null)
+                            nbnos = bvbilbblf.bwbitNbnos(nbnos);
+                        flsf {
+                            Tirfbd tiisTirfbd = Tirfbd.durrfntTirfbd();
+                            lfbdfr = tiisTirfbd;
                             try {
-                                long timeLeft = available.awaitNanos(delay);
-                                nanos -= delay - timeLeft;
-                            } finally {
-                                if (leader == thisThread)
-                                    leader = null;
+                                long timfLfft = bvbilbblf.bwbitNbnos(dflby);
+                                nbnos -= dflby - timfLfft;
+                            } finblly {
+                                if (lfbdfr == tiisTirfbd)
+                                    lfbdfr = null;
                             }
                         }
                     }
                 }
-            } finally {
-                if (leader == null && queue[0] != null)
-                    available.signal();
-                lock.unlock();
+            } finblly {
+                if (lfbdfr == null && qufuf[0] != null)
+                    bvbilbblf.signbl();
+                lodk.unlodk();
             }
         }
 
-        public void clear() {
-            final ReentrantLock lock = this.lock;
-            lock.lock();
+        publid void dlfbr() {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
             try {
-                for (int i = 0; i < size; i++) {
-                    RunnableScheduledFuture<?> t = queue[i];
+                for (int i = 0; i < sizf; i++) {
+                    RunnbblfSdifdulfdFuturf<?> t = qufuf[i];
                     if (t != null) {
-                        queue[i] = null;
-                        setIndex(t, -1);
+                        qufuf[i] = null;
+                        sftIndfx(t, -1);
                     }
                 }
-                size = 0;
-            } finally {
-                lock.unlock();
+                sizf = 0;
+            } finblly {
+                lodk.unlodk();
             }
         }
 
         /**
-         * Returns first element only if it is expired.
-         * Used only by drainTo.  Call only when holding lock.
+         * Rfturns first flfmfnt only if it is fxpirfd.
+         * Usfd only by drbinTo.  Cbll only wifn iolding lodk.
          */
-        private RunnableScheduledFuture<?> peekExpired() {
-            // assert lock.isHeldByCurrentThread();
-            RunnableScheduledFuture<?> first = queue[0];
-            return (first == null || first.getDelay(NANOSECONDS) > 0) ?
+        privbtf RunnbblfSdifdulfdFuturf<?> pffkExpirfd() {
+            // bssfrt lodk.isHfldByCurrfntTirfbd();
+            RunnbblfSdifdulfdFuturf<?> first = qufuf[0];
+            rfturn (first == null || first.gftDflby(NANOSECONDS) > 0) ?
                 null : first;
         }
 
-        public int drainTo(Collection<? super Runnable> c) {
-            if (c == null)
-                throw new NullPointerException();
-            if (c == this)
-                throw new IllegalArgumentException();
-            final ReentrantLock lock = this.lock;
-            lock.lock();
+        publid int drbinTo(Collfdtion<? supfr Runnbblf> d) {
+            if (d == null)
+                tirow nfw NullPointfrExdfption();
+            if (d == tiis)
+                tirow nfw IllfgblArgumfntExdfption();
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
             try {
-                RunnableScheduledFuture<?> first;
+                RunnbblfSdifdulfdFuturf<?> first;
                 int n = 0;
-                while ((first = peekExpired()) != null) {
-                    c.add(first);   // In this order, in case add() throws.
-                    finishPoll(first);
+                wiilf ((first = pffkExpirfd()) != null) {
+                    d.bdd(first);   // In tiis ordfr, in dbsf bdd() tirows.
+                    finisiPoll(first);
                     ++n;
                 }
-                return n;
-            } finally {
-                lock.unlock();
+                rfturn n;
+            } finblly {
+                lodk.unlodk();
             }
         }
 
-        public int drainTo(Collection<? super Runnable> c, int maxElements) {
-            if (c == null)
-                throw new NullPointerException();
-            if (c == this)
-                throw new IllegalArgumentException();
-            if (maxElements <= 0)
-                return 0;
-            final ReentrantLock lock = this.lock;
-            lock.lock();
+        publid int drbinTo(Collfdtion<? supfr Runnbblf> d, int mbxElfmfnts) {
+            if (d == null)
+                tirow nfw NullPointfrExdfption();
+            if (d == tiis)
+                tirow nfw IllfgblArgumfntExdfption();
+            if (mbxElfmfnts <= 0)
+                rfturn 0;
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
             try {
-                RunnableScheduledFuture<?> first;
+                RunnbblfSdifdulfdFuturf<?> first;
                 int n = 0;
-                while (n < maxElements && (first = peekExpired()) != null) {
-                    c.add(first);   // In this order, in case add() throws.
-                    finishPoll(first);
+                wiilf (n < mbxElfmfnts && (first = pffkExpirfd()) != null) {
+                    d.bdd(first);   // In tiis ordfr, in dbsf bdd() tirows.
+                    finisiPoll(first);
                     ++n;
                 }
-                return n;
-            } finally {
-                lock.unlock();
+                rfturn n;
+            } finblly {
+                lodk.unlodk();
             }
         }
 
-        public Object[] toArray() {
-            final ReentrantLock lock = this.lock;
-            lock.lock();
+        publid Objfdt[] toArrby() {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
             try {
-                return Arrays.copyOf(queue, size, Object[].class);
-            } finally {
-                lock.unlock();
+                rfturn Arrbys.dopyOf(qufuf, sizf, Objfdt[].dlbss);
+            } finblly {
+                lodk.unlodk();
             }
         }
 
-        @SuppressWarnings("unchecked")
-        public <T> T[] toArray(T[] a) {
-            final ReentrantLock lock = this.lock;
-            lock.lock();
+        @SupprfssWbrnings("undifdkfd")
+        publid <T> T[] toArrby(T[] b) {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
             try {
-                if (a.length < size)
-                    return (T[]) Arrays.copyOf(queue, size, a.getClass());
-                System.arraycopy(queue, 0, a, 0, size);
-                if (a.length > size)
-                    a[size] = null;
-                return a;
-            } finally {
-                lock.unlock();
+                if (b.lfngti < sizf)
+                    rfturn (T[]) Arrbys.dopyOf(qufuf, sizf, b.gftClbss());
+                Systfm.brrbydopy(qufuf, 0, b, 0, sizf);
+                if (b.lfngti > sizf)
+                    b[sizf] = null;
+                rfturn b;
+            } finblly {
+                lodk.unlodk();
             }
         }
 
-        public Iterator<Runnable> iterator() {
-            return new Itr(Arrays.copyOf(queue, size));
+        publid Itfrbtor<Runnbblf> itfrbtor() {
+            rfturn nfw Itr(Arrbys.dopyOf(qufuf, sizf));
         }
 
         /**
-         * Snapshot iterator that works off copy of underlying q array.
+         * Snbpsiot itfrbtor tibt works off dopy of undfrlying q brrby.
          */
-        private class Itr implements Iterator<Runnable> {
-            final RunnableScheduledFuture<?>[] array;
-            int cursor = 0;     // index of next element to return
-            int lastRet = -1;   // index of last element, or -1 if no such
+        privbtf dlbss Itr implfmfnts Itfrbtor<Runnbblf> {
+            finbl RunnbblfSdifdulfdFuturf<?>[] brrby;
+            int dursor = 0;     // indfx of nfxt flfmfnt to rfturn
+            int lbstRft = -1;   // indfx of lbst flfmfnt, or -1 if no sudi
 
-            Itr(RunnableScheduledFuture<?>[] array) {
-                this.array = array;
+            Itr(RunnbblfSdifdulfdFuturf<?>[] brrby) {
+                tiis.brrby = brrby;
             }
 
-            public boolean hasNext() {
-                return cursor < array.length;
+            publid boolfbn ibsNfxt() {
+                rfturn dursor < brrby.lfngti;
             }
 
-            public Runnable next() {
-                if (cursor >= array.length)
-                    throw new NoSuchElementException();
-                lastRet = cursor;
-                return array[cursor++];
+            publid Runnbblf nfxt() {
+                if (dursor >= brrby.lfngti)
+                    tirow nfw NoSudiElfmfntExdfption();
+                lbstRft = dursor;
+                rfturn brrby[dursor++];
             }
 
-            public void remove() {
-                if (lastRet < 0)
-                    throw new IllegalStateException();
-                DelayedWorkQueue.this.remove(array[lastRet]);
-                lastRet = -1;
+            publid void rfmovf() {
+                if (lbstRft < 0)
+                    tirow nfw IllfgblStbtfExdfption();
+                DflbyfdWorkQufuf.tiis.rfmovf(brrby[lbstRft]);
+                lbstRft = -1;
             }
         }
     }

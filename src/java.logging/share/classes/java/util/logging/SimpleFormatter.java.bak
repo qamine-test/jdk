@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package java.util.logging;
+pbdkbgf jbvb.util.logging;
 
-import java.io.*;
-import java.text.*;
-import java.util.Date;
+import jbvb.io.*;
+import jbvb.tfxt.*;
+import jbvb.util.Dbtf;
 import sun.util.logging.LoggingSupport;
 
 /**
- * Print a brief summary of the {@code LogRecord} in a human readable
- * format.  The summary will typically be 1 or 2 lines.
+ * Print b briff summbry of tif {@dodf LogRfdord} in b iumbn rfbdbblf
+ * formbt.  Tif summbry will typidblly bf 1 or 2 linfs.
  *
  * <p>
- * <a name="formatting">
- * <b>Configuration:</b></a>
- * The {@code SimpleFormatter} is initialized with the
- * <a href="../Formatter.html#syntax">format string</a>
- * specified in the {@code java.util.logging.SimpleFormatter.format}
- * property to {@linkplain #format format} the log messages.
- * This property can be defined
- * in the {@linkplain LogManager#getProperty logging properties}
- * configuration file
- * or as a system property.  If this property is set in both
- * the logging properties and system properties,
- * the format string specified in the system property will be used.
- * If this property is not defined or the given format string
- * is {@linkplain java.util.IllegalFormatException illegal},
- * the default format is implementation-specific.
+ * <b nbmf="formbtting">
+ * <b>Configurbtion:</b></b>
+ * Tif {@dodf SimplfFormbttfr} is initiblizfd witi tif
+ * <b irff="../Formbttfr.itml#syntbx">formbt string</b>
+ * spfdififd in tif {@dodf jbvb.util.logging.SimplfFormbttfr.formbt}
+ * propfrty to {@linkplbin #formbt formbt} tif log mfssbgfs.
+ * Tiis propfrty dbn bf dffinfd
+ * in tif {@linkplbin LogMbnbgfr#gftPropfrty logging propfrtifs}
+ * donfigurbtion filf
+ * or bs b systfm propfrty.  If tiis propfrty is sft in boti
+ * tif logging propfrtifs bnd systfm propfrtifs,
+ * tif formbt string spfdififd in tif systfm propfrty will bf usfd.
+ * If tiis propfrty is not dffinfd or tif givfn formbt string
+ * is {@linkplbin jbvb.util.IllfgblFormbtExdfption illfgbl},
+ * tif dffbult formbt is implfmfntbtion-spfdifid.
  *
- * @since 1.4
- * @see java.util.Formatter
+ * @sindf 1.4
+ * @sff jbvb.util.Formbttfr
  */
 
-public class SimpleFormatter extends Formatter {
+publid dlbss SimplfFormbttfr fxtfnds Formbttfr {
 
-    // format string for printing the log record
-    private static final String format = LoggingSupport.getSimpleFormat();
-    private final Date dat = new Date();
+    // formbt string for printing tif log rfdord
+    privbtf stbtid finbl String formbt = LoggingSupport.gftSimplfFormbt();
+    privbtf finbl Dbtf dbt = nfw Dbtf();
 
     /**
-     * Format the given LogRecord.
+     * Formbt tif givfn LogRfdord.
      * <p>
-     * The formatting can be customized by specifying the
-     * <a href="../Formatter.html#syntax">format string</a>
-     * in the <a href="#formatting">
-     * {@code java.util.logging.SimpleFormatter.format}</a> property.
-     * The given {@code LogRecord} will be formatted as if by calling:
-     * <pre>
-     *    {@link String#format String.format}(format, date, source, logger, level, message, thrown);
-     * </pre>
-     * where the arguments are:<br>
+     * Tif formbtting dbn bf dustomizfd by spfdifying tif
+     * <b irff="../Formbttfr.itml#syntbx">formbt string</b>
+     * in tif <b irff="#formbtting">
+     * {@dodf jbvb.util.logging.SimplfFormbttfr.formbt}</b> propfrty.
+     * Tif givfn {@dodf LogRfdord} will bf formbttfd bs if by dblling:
+     * <prf>
+     *    {@link String#formbt String.formbt}(formbt, dbtf, sourdf, loggfr, lfvfl, mfssbgf, tirown);
+     * </prf>
+     * wifrf tif brgumfnts brf:<br>
      * <ol>
-     * <li>{@code format} - the {@link java.util.Formatter
-     *     java.util.Formatter} format string specified in the
-     *     {@code java.util.logging.SimpleFormatter.format} property
-     *     or the default format.</li>
-     * <li>{@code date} - a {@link Date} object representing
-     *     {@linkplain LogRecord#getMillis event time} of the log record.</li>
-     * <li>{@code source} - a string representing the caller, if available;
-     *     otherwise, the logger's name.</li>
-     * <li>{@code logger} - the logger's name.</li>
-     * <li>{@code level} - the {@linkplain Level#getLocalizedName
-     *     log level}.</li>
-     * <li>{@code message} - the formatted log message
-     *     returned from the {@link Formatter#formatMessage(LogRecord)}
-     *     method.  It uses {@link java.text.MessageFormat java.text}
-     *     formatting and does not use the {@code java.util.Formatter
-     *     format} argument.</li>
-     * <li>{@code thrown} - a string representing
-     *     the {@linkplain LogRecord#getThrown throwable}
-     *     associated with the log record and its backtrace
-     *     beginning with a newline character, if any;
-     *     otherwise, an empty string.</li>
+     * <li>{@dodf formbt} - tif {@link jbvb.util.Formbttfr
+     *     jbvb.util.Formbttfr} formbt string spfdififd in tif
+     *     {@dodf jbvb.util.logging.SimplfFormbttfr.formbt} propfrty
+     *     or tif dffbult formbt.</li>
+     * <li>{@dodf dbtf} - b {@link Dbtf} objfdt rfprfsfnting
+     *     {@linkplbin LogRfdord#gftMillis fvfnt timf} of tif log rfdord.</li>
+     * <li>{@dodf sourdf} - b string rfprfsfnting tif dbllfr, if bvbilbblf;
+     *     otifrwisf, tif loggfr's nbmf.</li>
+     * <li>{@dodf loggfr} - tif loggfr's nbmf.</li>
+     * <li>{@dodf lfvfl} - tif {@linkplbin Lfvfl#gftLodblizfdNbmf
+     *     log lfvfl}.</li>
+     * <li>{@dodf mfssbgf} - tif formbttfd log mfssbgf
+     *     rfturnfd from tif {@link Formbttfr#formbtMfssbgf(LogRfdord)}
+     *     mftiod.  It usfs {@link jbvb.tfxt.MfssbgfFormbt jbvb.tfxt}
+     *     formbtting bnd dofs not usf tif {@dodf jbvb.util.Formbttfr
+     *     formbt} brgumfnt.</li>
+     * <li>{@dodf tirown} - b string rfprfsfnting
+     *     tif {@linkplbin LogRfdord#gftTirown tirowbblf}
+     *     bssodibtfd witi tif log rfdord bnd its bbdktrbdf
+     *     bfginning witi b nfwlinf dibrbdtfr, if bny;
+     *     otifrwisf, bn fmpty string.</li>
      * </ol>
      *
-     * <p>Some example formats:<br>
+     * <p>Somf fxbmplf formbts:<br>
      * <ul>
-     * <li> {@code java.util.logging.SimpleFormatter.format="%4$s: %5$s [%1$tc]%n"}
-     *     <p>This prints 1 line with the log level ({@code 4$}),
-     *     the log message ({@code 5$}) and the timestamp ({@code 1$}) in
-     *     a square bracket.
-     *     <pre>
-     *     WARNING: warning message [Tue Mar 22 13:11:31 PDT 2011]
-     *     </pre></li>
-     * <li> {@code java.util.logging.SimpleFormatter.format="%1$tc %2$s%n%4$s: %5$s%6$s%n"}
-     *     <p>This prints 2 lines where the first line includes
-     *     the timestamp ({@code 1$}) and the source ({@code 2$});
-     *     the second line includes the log level ({@code 4$}) and
-     *     the log message ({@code 5$}) followed with the throwable
-     *     and its backtrace ({@code 6$}), if any:
-     *     <pre>
-     *     Tue Mar 22 13:11:31 PDT 2011 MyClass fatal
-     *     SEVERE: several message with an exception
-     *     java.lang.IllegalArgumentException: invalid argument
-     *             at MyClass.mash(MyClass.java:9)
-     *             at MyClass.crunch(MyClass.java:6)
-     *             at MyClass.main(MyClass.java:3)
-     *     </pre></li>
-     * <li> {@code java.util.logging.SimpleFormatter.format="%1$tb %1$td, %1$tY %1$tl:%1$tM:%1$tS %1$Tp %2$s%n%4$s: %5$s%n"}
-     *      <p>This prints 2 lines similar to the example above
-     *         with a different date/time formatting and does not print
-     *         the throwable and its backtrace:
-     *     <pre>
-     *     Mar 22, 2011 1:11:31 PM MyClass fatal
-     *     SEVERE: several message with an exception
-     *     </pre></li>
+     * <li> {@dodf jbvb.util.logging.SimplfFormbttfr.formbt="%4$s: %5$s [%1$td]%n"}
+     *     <p>Tiis prints 1 linf witi tif log lfvfl ({@dodf 4$}),
+     *     tif log mfssbgf ({@dodf 5$}) bnd tif timfstbmp ({@dodf 1$}) in
+     *     b squbrf brbdkft.
+     *     <prf>
+     *     WARNING: wbrning mfssbgf [Tuf Mbr 22 13:11:31 PDT 2011]
+     *     </prf></li>
+     * <li> {@dodf jbvb.util.logging.SimplfFormbttfr.formbt="%1$td %2$s%n%4$s: %5$s%6$s%n"}
+     *     <p>Tiis prints 2 linfs wifrf tif first linf indludfs
+     *     tif timfstbmp ({@dodf 1$}) bnd tif sourdf ({@dodf 2$});
+     *     tif sfdond linf indludfs tif log lfvfl ({@dodf 4$}) bnd
+     *     tif log mfssbgf ({@dodf 5$}) followfd witi tif tirowbblf
+     *     bnd its bbdktrbdf ({@dodf 6$}), if bny:
+     *     <prf>
+     *     Tuf Mbr 22 13:11:31 PDT 2011 MyClbss fbtbl
+     *     SEVERE: sfvfrbl mfssbgf witi bn fxdfption
+     *     jbvb.lbng.IllfgblArgumfntExdfption: invblid brgumfnt
+     *             bt MyClbss.mbsi(MyClbss.jbvb:9)
+     *             bt MyClbss.drundi(MyClbss.jbvb:6)
+     *             bt MyClbss.mbin(MyClbss.jbvb:3)
+     *     </prf></li>
+     * <li> {@dodf jbvb.util.logging.SimplfFormbttfr.formbt="%1$tb %1$td, %1$tY %1$tl:%1$tM:%1$tS %1$Tp %2$s%n%4$s: %5$s%n"}
+     *      <p>Tiis prints 2 linfs similbr to tif fxbmplf bbovf
+     *         witi b difffrfnt dbtf/timf formbtting bnd dofs not print
+     *         tif tirowbblf bnd its bbdktrbdf:
+     *     <prf>
+     *     Mbr 22, 2011 1:11:31 PM MyClbss fbtbl
+     *     SEVERE: sfvfrbl mfssbgf witi bn fxdfption
+     *     </prf></li>
      * </ul>
-     * <p>This method can also be overridden in a subclass.
-     * It is recommended to use the {@link Formatter#formatMessage}
-     * convenience method to localize and format the message field.
+     * <p>Tiis mftiod dbn blso bf ovfrriddfn in b subdlbss.
+     * It is rfdommfndfd to usf tif {@link Formbttfr#formbtMfssbgf}
+     * donvfnifndf mftiod to lodblizf bnd formbt tif mfssbgf fifld.
      *
-     * @param record the log record to be formatted.
-     * @return a formatted log record
+     * @pbrbm rfdord tif log rfdord to bf formbttfd.
+     * @rfturn b formbttfd log rfdord
      */
-    public synchronized String format(LogRecord record) {
-        dat.setTime(record.getMillis());
-        String source;
-        if (record.getSourceClassName() != null) {
-            source = record.getSourceClassName();
-            if (record.getSourceMethodName() != null) {
-               source += " " + record.getSourceMethodName();
+    publid syndironizfd String formbt(LogRfdord rfdord) {
+        dbt.sftTimf(rfdord.gftMillis());
+        String sourdf;
+        if (rfdord.gftSourdfClbssNbmf() != null) {
+            sourdf = rfdord.gftSourdfClbssNbmf();
+            if (rfdord.gftSourdfMftiodNbmf() != null) {
+               sourdf += " " + rfdord.gftSourdfMftiodNbmf();
             }
-        } else {
-            source = record.getLoggerName();
+        } flsf {
+            sourdf = rfdord.gftLoggfrNbmf();
         }
-        String message = formatMessage(record);
-        String throwable = "";
-        if (record.getThrown() != null) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
+        String mfssbgf = formbtMfssbgf(rfdord);
+        String tirowbblf = "";
+        if (rfdord.gftTirown() != null) {
+            StringWritfr sw = nfw StringWritfr();
+            PrintWritfr pw = nfw PrintWritfr(sw);
             pw.println();
-            record.getThrown().printStackTrace(pw);
-            pw.close();
-            throwable = sw.toString();
+            rfdord.gftTirown().printStbdkTrbdf(pw);
+            pw.dlosf();
+            tirowbblf = sw.toString();
         }
-        return String.format(format,
-                             dat,
-                             source,
-                             record.getLoggerName(),
-                             record.getLevel().getLocalizedLevelName(),
-                             message,
-                             throwable);
+        rfturn String.formbt(formbt,
+                             dbt,
+                             sourdf,
+                             rfdord.gftLoggfrNbmf(),
+                             rfdord.gftLfvfl().gftLodblizfdLfvflNbmf(),
+                             mfssbgf,
+                             tirowbblf);
     }
 }

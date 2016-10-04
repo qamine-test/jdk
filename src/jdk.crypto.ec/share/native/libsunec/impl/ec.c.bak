@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the Elliptic Curve Cryptography library.
+ * Tif Originbl Codf is tif Elliptid Curvf Cryptogrbpiy librbry.
  *
- * The Initial Developer of the Original Code is
- * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 2003
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Dr Vipul Gupta <vipul.gupta@sun.com> and
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Dr Vipul Guptb <vipul.guptb@sun.dom> bnd
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs
  *
  *********************************************************************** */
 
-#include "mplogic.h"
-#include "ec.h"
-#include "ecl.h"
+#indludf "mplogid.i"
+#indludf "fd.i"
+#indludf "fdl.i"
 
-#include <sys/types.h>
-#ifndef _KERNEL
-#include <stdlib.h>
-#include <string.h>
+#indludf <sys/typfs.i>
+#ifndff _KERNEL
+#indludf <stdlib.i>
+#indludf <string.i>
 
-#ifndef _WIN32
-#include <stdio.h>
-#include <strings.h>
-#endif /* _WIN32 */
+#ifndff _WIN32
+#indludf <stdio.i>
+#indludf <strings.i>
+#fndif /* _WIN32 */
 
-#endif
-#include "ecl-exp.h"
-#include "mpi.h"
-#include "ecc_impl.h"
+#fndif
+#indludf "fdl-fxp.i"
+#indludf "mpi.i"
+#indludf "fdd_impl.i"
 
-#ifdef _KERNEL
-#define PORT_ZFree(p, l)                bzero((p), (l)); kmem_free((p), (l))
-#else
-#ifndef _WIN32
-#define PORT_ZFree(p, l)                bzero((p), (l)); free((p))
-#else
-#define PORT_ZFree(p, l)                memset((p), 0, (l)); free((p))
-#endif /* _WIN32 */
-#endif
+#ifdff _KERNEL
+#dffinf PORT_ZFrff(p, l)                bzfro((p), (l)); kmfm_frff((p), (l))
+#flsf
+#ifndff _WIN32
+#dffinf PORT_ZFrff(p, l)                bzfro((p), (l)); frff((p))
+#flsf
+#dffinf PORT_ZFrff(p, l)                mfmsft((p), 0, (l)); frff((p))
+#fndif /* _WIN32 */
+#fndif
 
 /*
- * Returns true if pointP is the point at infinity, false otherwise
+ * Rfturns truf if pointP is tif point bt infinity, fblsf otifrwisf
  */
 PRBool
-ec_point_at_infinity(SECItem *pointP)
+fd_point_bt_infinity(SECItfm *pointP)
 {
-    unsigned int i;
+    unsignfd int i;
 
-    for (i = 1; i < pointP->len; i++) {
-        if (pointP->data[i] != 0x00) return PR_FALSE;
+    for (i = 1; i < pointP->lfn; i++) {
+        if (pointP->dbtb[i] != 0x00) rfturn PR_FALSE;
     }
 
-    return PR_TRUE;
+    rfturn PR_TRUE;
 }
 
 /*
- * Computes scalar point multiplication pointQ = k1 * G + k2 * pointP for
- * the curve whose parameters are encoded in params with base point G.
+ * Computfs sdblbr point multiplidbtion pointQ = k1 * G + k2 * pointP for
+ * tif durvf wiosf pbrbmftfrs brf fndodfd in pbrbms witi bbsf point G.
  */
-SECStatus
-ec_points_mul(const ECParams *params, const mp_int *k1, const mp_int *k2,
-             const SECItem *pointP, SECItem *pointQ, int kmflag)
+SECStbtus
+fd_points_mul(donst ECPbrbms *pbrbms, donst mp_int *k1, donst mp_int *k2,
+             donst SECItfm *pointP, SECItfm *pointQ, int kmflbg)
 {
     mp_int Px, Py, Qx, Qy;
-    mp_int Gx, Gy, order, irreducible, a, b;
-#if 0 /* currently don't support non-named curves */
-    unsigned int irr_arr[5];
-#endif
+    mp_int Gx, Gy, ordfr, irrfdudiblf, b, b;
+#if 0 /* durrfntly don't support non-nbmfd durvfs */
+    unsignfd int irr_brr[5];
+#fndif
     ECGroup *group = NULL;
-    SECStatus rv = SECFailure;
-    mp_err err = MP_OKAY;
-    unsigned int len;
+    SECStbtus rv = SECFbilurf;
+    mp_frr frr = MP_OKAY;
+    unsignfd int lfn;
 
 #if EC_DEBUG
     int i;
-    char mpstr[256];
+    dibr mpstr[256];
 
-    printf("ec_points_mul: params [len=%d]:", params->DEREncoding.len);
-    for (i = 0; i < params->DEREncoding.len; i++)
-            printf("%02x:", params->DEREncoding.data[i]);
+    printf("fd_points_mul: pbrbms [lfn=%d]:", pbrbms->DEREndoding.lfn);
+    for (i = 0; i < pbrbms->DEREndoding.lfn; i++)
+            printf("%02x:", pbrbms->DEREndoding.dbtb[i]);
     printf("\n");
 
         if (k1 != NULL) {
-                mp_tohex(k1, mpstr);
-                printf("ec_points_mul: scalar k1: %s\n", mpstr);
-                mp_todecimal(k1, mpstr);
-                printf("ec_points_mul: scalar k1: %s (dec)\n", mpstr);
+                mp_toifx(k1, mpstr);
+                printf("fd_points_mul: sdblbr k1: %s\n", mpstr);
+                mp_todfdimbl(k1, mpstr);
+                printf("fd_points_mul: sdblbr k1: %s (dfd)\n", mpstr);
         }
 
         if (k2 != NULL) {
-                mp_tohex(k2, mpstr);
-                printf("ec_points_mul: scalar k2: %s\n", mpstr);
-                mp_todecimal(k2, mpstr);
-                printf("ec_points_mul: scalar k2: %s (dec)\n", mpstr);
+                mp_toifx(k2, mpstr);
+                printf("fd_points_mul: sdblbr k2: %s\n", mpstr);
+                mp_todfdimbl(k2, mpstr);
+                printf("fd_points_mul: sdblbr k2: %s (dfd)\n", mpstr);
         }
 
         if (pointP != NULL) {
-                printf("ec_points_mul: pointP [len=%d]:", pointP->len);
-                for (i = 0; i < pointP->len; i++)
-                        printf("%02x:", pointP->data[i]);
+                printf("fd_points_mul: pointP [lfn=%d]:", pointP->lfn);
+                for (i = 0; i < pointP->lfn; i++)
+                        printf("%02x:", pointP->dbtb[i]);
                 printf("\n");
         }
-#endif
+#fndif
 
-        /* NOTE: We only support uncompressed points for now */
-        len = (params->fieldID.size + 7) >> 3;
+        /* NOTE: Wf only support undomprfssfd points for now */
+        lfn = (pbrbms->fifldID.sizf + 7) >> 3;
         if (pointP != NULL) {
-                if ((pointP->data[0] != EC_POINT_FORM_UNCOMPRESSED) ||
-                        (pointP->len != (2 * len + 1))) {
-                        return SECFailure;
+                if ((pointP->dbtb[0] != EC_POINT_FORM_UNCOMPRESSED) ||
+                        (pointP->lfn != (2 * lfn + 1))) {
+                        rfturn SECFbilurf;
                 };
         }
 
@@ -144,520 +144,520 @@ ec_points_mul(const ECParams *params, const mp_int *k1, const mp_int *k2,
         MP_DIGITS(&Qy) = 0;
         MP_DIGITS(&Gx) = 0;
         MP_DIGITS(&Gy) = 0;
-        MP_DIGITS(&order) = 0;
-        MP_DIGITS(&irreducible) = 0;
-        MP_DIGITS(&a) = 0;
+        MP_DIGITS(&ordfr) = 0;
+        MP_DIGITS(&irrfdudiblf) = 0;
         MP_DIGITS(&b) = 0;
-        CHECK_MPI_OK( mp_init(&Px, kmflag) );
-        CHECK_MPI_OK( mp_init(&Py, kmflag) );
-        CHECK_MPI_OK( mp_init(&Qx, kmflag) );
-        CHECK_MPI_OK( mp_init(&Qy, kmflag) );
-        CHECK_MPI_OK( mp_init(&Gx, kmflag) );
-        CHECK_MPI_OK( mp_init(&Gy, kmflag) );
-        CHECK_MPI_OK( mp_init(&order, kmflag) );
-        CHECK_MPI_OK( mp_init(&irreducible, kmflag) );
-        CHECK_MPI_OK( mp_init(&a, kmflag) );
-        CHECK_MPI_OK( mp_init(&b, kmflag) );
+        MP_DIGITS(&b) = 0;
+        CHECK_MPI_OK( mp_init(&Px, kmflbg) );
+        CHECK_MPI_OK( mp_init(&Py, kmflbg) );
+        CHECK_MPI_OK( mp_init(&Qx, kmflbg) );
+        CHECK_MPI_OK( mp_init(&Qy, kmflbg) );
+        CHECK_MPI_OK( mp_init(&Gx, kmflbg) );
+        CHECK_MPI_OK( mp_init(&Gy, kmflbg) );
+        CHECK_MPI_OK( mp_init(&ordfr, kmflbg) );
+        CHECK_MPI_OK( mp_init(&irrfdudiblf, kmflbg) );
+        CHECK_MPI_OK( mp_init(&b, kmflbg) );
+        CHECK_MPI_OK( mp_init(&b, kmflbg) );
 
         if ((k2 != NULL) && (pointP != NULL)) {
-                /* Initialize Px and Py */
-                CHECK_MPI_OK( mp_read_unsigned_octets(&Px, pointP->data + 1, (mp_size) len) );
-                CHECK_MPI_OK( mp_read_unsigned_octets(&Py, pointP->data + 1 + len, (mp_size) len) );
+                /* Initiblizf Px bnd Py */
+                CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&Px, pointP->dbtb + 1, (mp_sizf) lfn) );
+                CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&Py, pointP->dbtb + 1 + lfn, (mp_sizf) lfn) );
         }
 
-        /* construct from named params, if possible */
-        if (params->name != ECCurve_noName) {
-                group = ECGroup_fromName(params->name, kmflag);
+        /* donstrudt from nbmfd pbrbms, if possiblf */
+        if (pbrbms->nbmf != ECCurvf_noNbmf) {
+                group = ECGroup_fromNbmf(pbrbms->nbmf, kmflbg);
         }
 
-#if 0 /* currently don't support non-named curves */
+#if 0 /* durrfntly don't support non-nbmfd durvfs */
         if (group == NULL) {
-                /* Set up mp_ints containing the curve coefficients */
-                CHECK_MPI_OK( mp_read_unsigned_octets(&Gx, params->base.data + 1,
-                                                                                  (mp_size) len) );
-                CHECK_MPI_OK( mp_read_unsigned_octets(&Gy, params->base.data + 1 + len,
-                                                                                  (mp_size) len) );
-                SECITEM_TO_MPINT( params->order, &order );
-                SECITEM_TO_MPINT( params->curve.a, &a );
-                SECITEM_TO_MPINT( params->curve.b, &b );
-                if (params->fieldID.type == ec_field_GFp) {
-                        SECITEM_TO_MPINT( params->fieldID.u.prime, &irreducible );
-                        group = ECGroup_consGFp(&irreducible, &a, &b, &Gx, &Gy, &order, params->cofactor);
-                } else {
-                        SECITEM_TO_MPINT( params->fieldID.u.poly, &irreducible );
-                        irr_arr[0] = params->fieldID.size;
-                        irr_arr[1] = params->fieldID.k1;
-                        irr_arr[2] = params->fieldID.k2;
-                        irr_arr[3] = params->fieldID.k3;
-                        irr_arr[4] = 0;
-                        group = ECGroup_consGF2m(&irreducible, irr_arr, &a, &b, &Gx, &Gy, &order, params->cofactor);
+                /* Sft up mp_ints dontbining tif durvf dofffidifnts */
+                CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&Gx, pbrbms->bbsf.dbtb + 1,
+                                                                                  (mp_sizf) lfn) );
+                CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&Gy, pbrbms->bbsf.dbtb + 1 + lfn,
+                                                                                  (mp_sizf) lfn) );
+                SECITEM_TO_MPINT( pbrbms->ordfr, &ordfr );
+                SECITEM_TO_MPINT( pbrbms->durvf.b, &b );
+                SECITEM_TO_MPINT( pbrbms->durvf.b, &b );
+                if (pbrbms->fifldID.typf == fd_fifld_GFp) {
+                        SECITEM_TO_MPINT( pbrbms->fifldID.u.primf, &irrfdudiblf );
+                        group = ECGroup_donsGFp(&irrfdudiblf, &b, &b, &Gx, &Gy, &ordfr, pbrbms->dofbdtor);
+                } flsf {
+                        SECITEM_TO_MPINT( pbrbms->fifldID.u.poly, &irrfdudiblf );
+                        irr_brr[0] = pbrbms->fifldID.sizf;
+                        irr_brr[1] = pbrbms->fifldID.k1;
+                        irr_brr[2] = pbrbms->fifldID.k2;
+                        irr_brr[3] = pbrbms->fifldID.k3;
+                        irr_brr[4] = 0;
+                        group = ECGroup_donsGF2m(&irrfdudiblf, irr_brr, &b, &b, &Gx, &Gy, &ordfr, pbrbms->dofbdtor);
                 }
         }
-#endif
+#fndif
         if (group == NULL)
-                goto cleanup;
+                goto dlfbnup;
 
         if ((k2 != NULL) && (pointP != NULL)) {
                 CHECK_MPI_OK( ECPoints_mul(group, k1, k2, &Px, &Py, &Qx, &Qy) );
-        } else {
+        } flsf {
                 CHECK_MPI_OK( ECPoints_mul(group, k1, NULL, NULL, NULL, &Qx, &Qy) );
     }
 
-    /* Construct the SECItem representation of point Q */
-    pointQ->data[0] = EC_POINT_FORM_UNCOMPRESSED;
-    CHECK_MPI_OK( mp_to_fixlen_octets(&Qx, pointQ->data + 1,
-                                      (mp_size) len) );
-    CHECK_MPI_OK( mp_to_fixlen_octets(&Qy, pointQ->data + 1 + len,
-                                      (mp_size) len) );
+    /* Construdt tif SECItfm rfprfsfntbtion of point Q */
+    pointQ->dbtb[0] = EC_POINT_FORM_UNCOMPRESSED;
+    CHECK_MPI_OK( mp_to_fixlfn_odtfts(&Qx, pointQ->dbtb + 1,
+                                      (mp_sizf) lfn) );
+    CHECK_MPI_OK( mp_to_fixlfn_odtfts(&Qy, pointQ->dbtb + 1 + lfn,
+                                      (mp_sizf) lfn) );
 
-    rv = SECSuccess;
+    rv = SECSuddfss;
 
 #if EC_DEBUG
-    printf("ec_points_mul: pointQ [len=%d]:", pointQ->len);
-    for (i = 0; i < pointQ->len; i++)
-            printf("%02x:", pointQ->data[i]);
+    printf("fd_points_mul: pointQ [lfn=%d]:", pointQ->lfn);
+    for (i = 0; i < pointQ->lfn; i++)
+            printf("%02x:", pointQ->dbtb[i]);
     printf("\n");
-#endif
+#fndif
 
-cleanup:
-    ECGroup_free(group);
-    mp_clear(&Px);
-    mp_clear(&Py);
-    mp_clear(&Qx);
-    mp_clear(&Qy);
-    mp_clear(&Gx);
-    mp_clear(&Gy);
-    mp_clear(&order);
-    mp_clear(&irreducible);
-    mp_clear(&a);
-    mp_clear(&b);
-    if (err) {
-        MP_TO_SEC_ERROR(err);
-        rv = SECFailure;
+dlfbnup:
+    ECGroup_frff(group);
+    mp_dlfbr(&Px);
+    mp_dlfbr(&Py);
+    mp_dlfbr(&Qx);
+    mp_dlfbr(&Qy);
+    mp_dlfbr(&Gx);
+    mp_dlfbr(&Gy);
+    mp_dlfbr(&ordfr);
+    mp_dlfbr(&irrfdudiblf);
+    mp_dlfbr(&b);
+    mp_dlfbr(&b);
+    if (frr) {
+        MP_TO_SEC_ERROR(frr);
+        rv = SECFbilurf;
     }
 
-    return rv;
+    rfturn rv;
 }
 
-/* Generates a new EC key pair. The private key is a supplied
- * value and the public key is the result of performing a scalar
- * point multiplication of that value with the curve's base point.
+/* Gfnfrbtfs b nfw EC kfy pbir. Tif privbtf kfy is b supplifd
+ * vbluf bnd tif publid kfy is tif rfsult of pfrforming b sdblbr
+ * point multiplidbtion of tibt vbluf witi tif durvf's bbsf point.
  */
-SECStatus
-ec_NewKey(ECParams *ecParams, ECPrivateKey **privKey,
-    const unsigned char *privKeyBytes, int privKeyLen, int kmflag)
+SECStbtus
+fd_NfwKfy(ECPbrbms *fdPbrbms, ECPrivbtfKfy **privKfy,
+    donst unsignfd dibr *privKfyBytfs, int privKfyLfn, int kmflbg)
 {
-    SECStatus rv = SECFailure;
-    PRArenaPool *arena;
-    ECPrivateKey *key;
+    SECStbtus rv = SECFbilurf;
+    PRArfnbPool *brfnb;
+    ECPrivbtfKfy *kfy;
     mp_int k;
-    mp_err err = MP_OKAY;
-    int len;
+    mp_frr frr = MP_OKAY;
+    int lfn;
 
 #if EC_DEBUG
-    printf("ec_NewKey called\n");
-#endif
+    printf("fd_NfwKfy dbllfd\n");
+#fndif
 
-    if (!ecParams || !privKey || !privKeyBytes || (privKeyLen < 0)) {
-        PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        return SECFailure;
+    if (!fdPbrbms || !privKfy || !privKfyBytfs || (privKfyLfn < 0)) {
+        PORT_SftError(SEC_ERROR_INVALID_ARGS);
+        rfturn SECFbilurf;
     }
 
-    /* Initialize an arena for the EC key. */
-    if (!(arena = PORT_NewArena(NSS_FREEBL_DEFAULT_CHUNKSIZE)))
-        return SECFailure;
+    /* Initiblizf bn brfnb for tif EC kfy. */
+    if (!(brfnb = PORT_NfwArfnb(NSS_FREEBL_DEFAULT_CHUNKSIZE)))
+        rfturn SECFbilurf;
 
-    key = (ECPrivateKey *)PORT_ArenaZAlloc(arena, sizeof(ECPrivateKey),
-        kmflag);
-    if (!key) {
-        PORT_FreeArena(arena, PR_TRUE);
-        return SECFailure;
+    kfy = (ECPrivbtfKfy *)PORT_ArfnbZAllod(brfnb, sizfof(ECPrivbtfKfy),
+        kmflbg);
+    if (!kfy) {
+        PORT_FrffArfnb(brfnb, PR_TRUE);
+        rfturn SECFbilurf;
     }
 
-    /* Set the version number (SEC 1 section C.4 says it should be 1) */
-    SECITEM_AllocItem(arena, &key->version, 1, kmflag);
-    key->version.data[0] = 1;
+    /* Sft tif vfrsion numbfr (SEC 1 sfdtion C.4 sbys it siould bf 1) */
+    SECITEM_AllodItfm(brfnb, &kfy->vfrsion, 1, kmflbg);
+    kfy->vfrsion.dbtb[0] = 1;
 
-    /* Copy all of the fields from the ECParams argument to the
-     * ECParams structure within the private key.
+    /* Copy bll of tif fiflds from tif ECPbrbms brgumfnt to tif
+     * ECPbrbms strudturf witiin tif privbtf kfy.
      */
-    key->ecParams.arena = arena;
-    key->ecParams.type = ecParams->type;
-    key->ecParams.fieldID.size = ecParams->fieldID.size;
-    key->ecParams.fieldID.type = ecParams->fieldID.type;
-    if (ecParams->fieldID.type == ec_field_GFp) {
-        CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.fieldID.u.prime,
-            &ecParams->fieldID.u.prime, kmflag));
-    } else {
-        CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.fieldID.u.poly,
-            &ecParams->fieldID.u.poly, kmflag));
+    kfy->fdPbrbms.brfnb = brfnb;
+    kfy->fdPbrbms.typf = fdPbrbms->typf;
+    kfy->fdPbrbms.fifldID.sizf = fdPbrbms->fifldID.sizf;
+    kfy->fdPbrbms.fifldID.typf = fdPbrbms->fifldID.typf;
+    if (fdPbrbms->fifldID.typf == fd_fifld_GFp) {
+        CHECK_SEC_OK(SECITEM_CopyItfm(brfnb, &kfy->fdPbrbms.fifldID.u.primf,
+            &fdPbrbms->fifldID.u.primf, kmflbg));
+    } flsf {
+        CHECK_SEC_OK(SECITEM_CopyItfm(brfnb, &kfy->fdPbrbms.fifldID.u.poly,
+            &fdPbrbms->fifldID.u.poly, kmflbg));
     }
-    key->ecParams.fieldID.k1 = ecParams->fieldID.k1;
-    key->ecParams.fieldID.k2 = ecParams->fieldID.k2;
-    key->ecParams.fieldID.k3 = ecParams->fieldID.k3;
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.curve.a,
-        &ecParams->curve.a, kmflag));
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.curve.b,
-        &ecParams->curve.b, kmflag));
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.curve.seed,
-        &ecParams->curve.seed, kmflag));
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.base,
-        &ecParams->base, kmflag));
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.order,
-        &ecParams->order, kmflag));
-    key->ecParams.cofactor = ecParams->cofactor;
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.DEREncoding,
-        &ecParams->DEREncoding, kmflag));
-    key->ecParams.name = ecParams->name;
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.curveOID,
-        &ecParams->curveOID, kmflag));
+    kfy->fdPbrbms.fifldID.k1 = fdPbrbms->fifldID.k1;
+    kfy->fdPbrbms.fifldID.k2 = fdPbrbms->fifldID.k2;
+    kfy->fdPbrbms.fifldID.k3 = fdPbrbms->fifldID.k3;
+    CHECK_SEC_OK(SECITEM_CopyItfm(brfnb, &kfy->fdPbrbms.durvf.b,
+        &fdPbrbms->durvf.b, kmflbg));
+    CHECK_SEC_OK(SECITEM_CopyItfm(brfnb, &kfy->fdPbrbms.durvf.b,
+        &fdPbrbms->durvf.b, kmflbg));
+    CHECK_SEC_OK(SECITEM_CopyItfm(brfnb, &kfy->fdPbrbms.durvf.sffd,
+        &fdPbrbms->durvf.sffd, kmflbg));
+    CHECK_SEC_OK(SECITEM_CopyItfm(brfnb, &kfy->fdPbrbms.bbsf,
+        &fdPbrbms->bbsf, kmflbg));
+    CHECK_SEC_OK(SECITEM_CopyItfm(brfnb, &kfy->fdPbrbms.ordfr,
+        &fdPbrbms->ordfr, kmflbg));
+    kfy->fdPbrbms.dofbdtor = fdPbrbms->dofbdtor;
+    CHECK_SEC_OK(SECITEM_CopyItfm(brfnb, &kfy->fdPbrbms.DEREndoding,
+        &fdPbrbms->DEREndoding, kmflbg));
+    kfy->fdPbrbms.nbmf = fdPbrbms->nbmf;
+    CHECK_SEC_OK(SECITEM_CopyItfm(brfnb, &kfy->fdPbrbms.durvfOID,
+        &fdPbrbms->durvfOID, kmflbg));
 
-    len = (ecParams->fieldID.size + 7) >> 3;
-    SECITEM_AllocItem(arena, &key->publicValue, 2*len + 1, kmflag);
-    len = ecParams->order.len;
-    SECITEM_AllocItem(arena, &key->privateValue, len, kmflag);
+    lfn = (fdPbrbms->fifldID.sizf + 7) >> 3;
+    SECITEM_AllodItfm(brfnb, &kfy->publidVbluf, 2*lfn + 1, kmflbg);
+    lfn = fdPbrbms->ordfr.lfn;
+    SECITEM_AllodItfm(brfnb, &kfy->privbtfVbluf, lfn, kmflbg);
 
-    /* Copy private key */
-    if (privKeyLen >= len) {
-        memcpy(key->privateValue.data, privKeyBytes, len);
-    } else {
-        memset(key->privateValue.data, 0, (len - privKeyLen));
-        memcpy(key->privateValue.data + (len - privKeyLen), privKeyBytes, privKeyLen);
+    /* Copy privbtf kfy */
+    if (privKfyLfn >= lfn) {
+        mfmdpy(kfy->privbtfVbluf.dbtb, privKfyBytfs, lfn);
+    } flsf {
+        mfmsft(kfy->privbtfVbluf.dbtb, 0, (lfn - privKfyLfn));
+        mfmdpy(kfy->privbtfVbluf.dbtb + (lfn - privKfyLfn), privKfyBytfs, privKfyLfn);
     }
 
-    /* Compute corresponding public key */
+    /* Computf dorrfsponding publid kfy */
     MP_DIGITS(&k) = 0;
-    CHECK_MPI_OK( mp_init(&k, kmflag) );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&k, key->privateValue.data,
-        (mp_size) len) );
+    CHECK_MPI_OK( mp_init(&k, kmflbg) );
+    CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&k, kfy->privbtfVbluf.dbtb,
+        (mp_sizf) lfn) );
 
-    rv = ec_points_mul(ecParams, &k, NULL, NULL, &(key->publicValue), kmflag);
-    if (rv != SECSuccess) goto cleanup;
-    *privKey = key;
+    rv = fd_points_mul(fdPbrbms, &k, NULL, NULL, &(kfy->publidVbluf), kmflbg);
+    if (rv != SECSuddfss) goto dlfbnup;
+    *privKfy = kfy;
 
-cleanup:
-    mp_clear(&k);
+dlfbnup:
+    mp_dlfbr(&k);
     if (rv) {
-        PORT_FreeArena(arena, PR_TRUE);
+        PORT_FrffArfnb(brfnb, PR_TRUE);
     }
 
 #if EC_DEBUG
-    printf("ec_NewKey returning %s\n",
-        (rv == SECSuccess) ? "success" : "failure");
-#endif
+    printf("fd_NfwKfy rfturning %s\n",
+        (rv == SECSuddfss) ? "suddfss" : "fbilurf");
+#fndif
 
-    return rv;
+    rfturn rv;
 
 }
 
-/* Generates a new EC key pair. The private key is a supplied
- * random value (in seed) and the public key is the result of
- * performing a scalar point multiplication of that value with
- * the curve's base point.
+/* Gfnfrbtfs b nfw EC kfy pbir. Tif privbtf kfy is b supplifd
+ * rbndom vbluf (in sffd) bnd tif publid kfy is tif rfsult of
+ * pfrforming b sdblbr point multiplidbtion of tibt vbluf witi
+ * tif durvf's bbsf point.
  */
-SECStatus
-EC_NewKeyFromSeed(ECParams *ecParams, ECPrivateKey **privKey,
-    const unsigned char *seed, int seedlen, int kmflag)
+SECStbtus
+EC_NfwKfyFromSffd(ECPbrbms *fdPbrbms, ECPrivbtfKfy **privKfy,
+    donst unsignfd dibr *sffd, int sffdlfn, int kmflbg)
 {
-    SECStatus rv = SECFailure;
-    rv = ec_NewKey(ecParams, privKey, seed, seedlen, kmflag);
-    return rv;
+    SECStbtus rv = SECFbilurf;
+    rv = fd_NfwKfy(fdPbrbms, privKfy, sffd, sffdlfn, kmflbg);
+    rfturn rv;
 }
 
-/* Generate a random private key using the algorithm A.4.1 of ANSI X9.62,
- * modified a la FIPS 186-2 Change Notice 1 to eliminate the bias in the
- * random number generator.
+/* Gfnfrbtf b rbndom privbtf kfy using tif blgoritim A.4.1 of ANSI X9.62,
+ * modififd b lb FIPS 186-2 Cibngf Notidf 1 to fliminbtf tif bibs in tif
+ * rbndom numbfr gfnfrbtor.
  *
- * Parameters
- * - order: a buffer that holds the curve's group order
- * - len: the length in octets of the order buffer
- * - random: a buffer of 2 * len random bytes
- * - randomlen: the length in octets of the random buffer
+ * Pbrbmftfrs
+ * - ordfr: b bufffr tibt iolds tif durvf's group ordfr
+ * - lfn: tif lfngti in odtfts of tif ordfr bufffr
+ * - rbndom: b bufffr of 2 * lfn rbndom bytfs
+ * - rbndomlfn: tif lfngti in odtfts of tif rbndom bufffr
  *
- * Return Value
- * Returns a buffer of len octets that holds the private key. The caller
- * is responsible for freeing the buffer with PORT_ZFree.
+ * Rfturn Vbluf
+ * Rfturns b bufffr of lfn odtfts tibt iolds tif privbtf kfy. Tif dbllfr
+ * is rfsponsiblf for frffing tif bufffr witi PORT_ZFrff.
  */
-static unsigned char *
-ec_GenerateRandomPrivateKey(const unsigned char *order, int len,
-    const unsigned char *random, int randomlen, int kmflag)
+stbtid unsignfd dibr *
+fd_GfnfrbtfRbndomPrivbtfKfy(donst unsignfd dibr *ordfr, int lfn,
+    donst unsignfd dibr *rbndom, int rbndomlfn, int kmflbg)
 {
-    SECStatus rv = SECSuccess;
-    mp_err err;
-    unsigned char *privKeyBytes = NULL;
-    mp_int privKeyVal, order_1, one;
+    SECStbtus rv = SECSuddfss;
+    mp_frr frr;
+    unsignfd dibr *privKfyBytfs = NULL;
+    mp_int privKfyVbl, ordfr_1, onf;
 
-    MP_DIGITS(&privKeyVal) = 0;
-    MP_DIGITS(&order_1) = 0;
-    MP_DIGITS(&one) = 0;
-    CHECK_MPI_OK( mp_init(&privKeyVal, kmflag) );
-    CHECK_MPI_OK( mp_init(&order_1, kmflag) );
-    CHECK_MPI_OK( mp_init(&one, kmflag) );
+    MP_DIGITS(&privKfyVbl) = 0;
+    MP_DIGITS(&ordfr_1) = 0;
+    MP_DIGITS(&onf) = 0;
+    CHECK_MPI_OK( mp_init(&privKfyVbl, kmflbg) );
+    CHECK_MPI_OK( mp_init(&ordfr_1, kmflbg) );
+    CHECK_MPI_OK( mp_init(&onf, kmflbg) );
 
     /*
-     * Reduces the 2*len buffer of random bytes modulo the group order.
+     * Rfdudfs tif 2*lfn bufffr of rbndom bytfs modulo tif group ordfr.
      */
-    if ((privKeyBytes = PORT_Alloc(2*len, kmflag)) == NULL) goto cleanup;
-    if (randomlen != 2 * len) {
-        randomlen = 2 * len;
+    if ((privKfyBytfs = PORT_Allod(2*lfn, kmflbg)) == NULL) goto dlfbnup;
+    if (rbndomlfn != 2 * lfn) {
+        rbndomlfn = 2 * lfn;
     }
-    /* No need to generate - random bytes are now supplied */
-    /* CHECK_SEC_OK( RNG_GenerateGlobalRandomBytes(privKeyBytes, 2*len) );*/
-    memcpy(privKeyBytes, random, randomlen);
+    /* No nffd to gfnfrbtf - rbndom bytfs brf now supplifd */
+    /* CHECK_SEC_OK( RNG_GfnfrbtfGlobblRbndomBytfs(privKfyBytfs, 2*lfn) );*/
+    mfmdpy(privKfyBytfs, rbndom, rbndomlfn);
 
-    CHECK_MPI_OK( mp_read_unsigned_octets(&privKeyVal, privKeyBytes, 2*len) );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&order_1, order, len) );
-    CHECK_MPI_OK( mp_set_int(&one, 1) );
-    CHECK_MPI_OK( mp_sub(&order_1, &one, &order_1) );
-    CHECK_MPI_OK( mp_mod(&privKeyVal, &order_1, &privKeyVal) );
-    CHECK_MPI_OK( mp_add(&privKeyVal, &one, &privKeyVal) );
-    CHECK_MPI_OK( mp_to_fixlen_octets(&privKeyVal, privKeyBytes, len) );
-    memset(privKeyBytes+len, 0, len);
-cleanup:
-    mp_clear(&privKeyVal);
-    mp_clear(&order_1);
-    mp_clear(&one);
-    if (err < MP_OKAY) {
-        MP_TO_SEC_ERROR(err);
-        rv = SECFailure;
+    CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&privKfyVbl, privKfyBytfs, 2*lfn) );
+    CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&ordfr_1, ordfr, lfn) );
+    CHECK_MPI_OK( mp_sft_int(&onf, 1) );
+    CHECK_MPI_OK( mp_sub(&ordfr_1, &onf, &ordfr_1) );
+    CHECK_MPI_OK( mp_mod(&privKfyVbl, &ordfr_1, &privKfyVbl) );
+    CHECK_MPI_OK( mp_bdd(&privKfyVbl, &onf, &privKfyVbl) );
+    CHECK_MPI_OK( mp_to_fixlfn_odtfts(&privKfyVbl, privKfyBytfs, lfn) );
+    mfmsft(privKfyBytfs+lfn, 0, lfn);
+dlfbnup:
+    mp_dlfbr(&privKfyVbl);
+    mp_dlfbr(&ordfr_1);
+    mp_dlfbr(&onf);
+    if (frr < MP_OKAY) {
+        MP_TO_SEC_ERROR(frr);
+        rv = SECFbilurf;
     }
-    if (rv != SECSuccess && privKeyBytes) {
-#ifdef _KERNEL
-        kmem_free(privKeyBytes, 2*len);
-#else
-        free(privKeyBytes);
-#endif
-        privKeyBytes = NULL;
+    if (rv != SECSuddfss && privKfyBytfs) {
+#ifdff _KERNEL
+        kmfm_frff(privKfyBytfs, 2*lfn);
+#flsf
+        frff(privKfyBytfs);
+#fndif
+        privKfyBytfs = NULL;
     }
-    return privKeyBytes;
+    rfturn privKfyBytfs;
 }
 
-/* Generates a new EC key pair. The private key is a random value and
- * the public key is the result of performing a scalar point multiplication
- * of that value with the curve's base point.
+/* Gfnfrbtfs b nfw EC kfy pbir. Tif privbtf kfy is b rbndom vbluf bnd
+ * tif publid kfy is tif rfsult of pfrforming b sdblbr point multiplidbtion
+ * of tibt vbluf witi tif durvf's bbsf point.
  */
-SECStatus
-EC_NewKey(ECParams *ecParams, ECPrivateKey **privKey,
-    const unsigned char* random, int randomlen, int kmflag)
+SECStbtus
+EC_NfwKfy(ECPbrbms *fdPbrbms, ECPrivbtfKfy **privKfy,
+    donst unsignfd dibr* rbndom, int rbndomlfn, int kmflbg)
 {
-    SECStatus rv = SECFailure;
-    int len;
-    unsigned char *privKeyBytes = NULL;
+    SECStbtus rv = SECFbilurf;
+    int lfn;
+    unsignfd dibr *privKfyBytfs = NULL;
 
-    if (!ecParams) {
-        PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        return SECFailure;
+    if (!fdPbrbms) {
+        PORT_SftError(SEC_ERROR_INVALID_ARGS);
+        rfturn SECFbilurf;
     }
 
-    len = ecParams->order.len;
-    privKeyBytes = ec_GenerateRandomPrivateKey(ecParams->order.data, len,
-        random, randomlen, kmflag);
-    if (privKeyBytes == NULL) goto cleanup;
-    /* generate public key */
-    CHECK_SEC_OK( ec_NewKey(ecParams, privKey, privKeyBytes, len, kmflag) );
+    lfn = fdPbrbms->ordfr.lfn;
+    privKfyBytfs = fd_GfnfrbtfRbndomPrivbtfKfy(fdPbrbms->ordfr.dbtb, lfn,
+        rbndom, rbndomlfn, kmflbg);
+    if (privKfyBytfs == NULL) goto dlfbnup;
+    /* gfnfrbtf publid kfy */
+    CHECK_SEC_OK( fd_NfwKfy(fdPbrbms, privKfy, privKfyBytfs, lfn, kmflbg) );
 
-cleanup:
-    if (privKeyBytes) {
-        PORT_ZFree(privKeyBytes, len * 2);
+dlfbnup:
+    if (privKfyBytfs) {
+        PORT_ZFrff(privKfyBytfs, lfn * 2);
     }
 #if EC_DEBUG
-    printf("EC_NewKey returning %s\n",
-        (rv == SECSuccess) ? "success" : "failure");
-#endif
+    printf("EC_NfwKfy rfturning %s\n",
+        (rv == SECSuddfss) ? "suddfss" : "fbilurf");
+#fndif
 
-    return rv;
+    rfturn rv;
 }
 
-/* Validates an EC public key as described in Section 5.2.2 of
- * X9.62. The ECDH primitive when used without the cofactor does
- * not address small subgroup attacks, which may occur when the
- * public key is not valid. These attacks can be prevented by
- * validating the public key before using ECDH.
+/* Vblidbtfs bn EC publid kfy bs dfsdribfd in Sfdtion 5.2.2 of
+ * X9.62. Tif ECDH primitivf wifn usfd witiout tif dofbdtor dofs
+ * not bddrfss smbll subgroup bttbdks, wiidi mby oddur wifn tif
+ * publid kfy is not vblid. Tifsf bttbdks dbn bf prfvfntfd by
+ * vblidbting tif publid kfy bfforf using ECDH.
  */
-SECStatus
-EC_ValidatePublicKey(ECParams *ecParams, SECItem *publicValue, int kmflag)
+SECStbtus
+EC_VblidbtfPublidKfy(ECPbrbms *fdPbrbms, SECItfm *publidVbluf, int kmflbg)
 {
     mp_int Px, Py;
     ECGroup *group = NULL;
-    SECStatus rv = SECFailure;
-    mp_err err = MP_OKAY;
-    unsigned int len;
+    SECStbtus rv = SECFbilurf;
+    mp_frr frr = MP_OKAY;
+    unsignfd int lfn;
 
-    if (!ecParams || !publicValue) {
-        PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        return SECFailure;
+    if (!fdPbrbms || !publidVbluf) {
+        PORT_SftError(SEC_ERROR_INVALID_ARGS);
+        rfturn SECFbilurf;
     }
 
-    /* NOTE: We only support uncompressed points for now */
-    len = (ecParams->fieldID.size + 7) >> 3;
-    if (publicValue->data[0] != EC_POINT_FORM_UNCOMPRESSED) {
-        PORT_SetError(SEC_ERROR_UNSUPPORTED_EC_POINT_FORM);
-        return SECFailure;
-    } else if (publicValue->len != (2 * len + 1)) {
-        PORT_SetError(SEC_ERROR_BAD_KEY);
-        return SECFailure;
+    /* NOTE: Wf only support undomprfssfd points for now */
+    lfn = (fdPbrbms->fifldID.sizf + 7) >> 3;
+    if (publidVbluf->dbtb[0] != EC_POINT_FORM_UNCOMPRESSED) {
+        PORT_SftError(SEC_ERROR_UNSUPPORTED_EC_POINT_FORM);
+        rfturn SECFbilurf;
+    } flsf if (publidVbluf->lfn != (2 * lfn + 1)) {
+        PORT_SftError(SEC_ERROR_BAD_KEY);
+        rfturn SECFbilurf;
     }
 
     MP_DIGITS(&Px) = 0;
     MP_DIGITS(&Py) = 0;
-    CHECK_MPI_OK( mp_init(&Px, kmflag) );
-    CHECK_MPI_OK( mp_init(&Py, kmflag) );
+    CHECK_MPI_OK( mp_init(&Px, kmflbg) );
+    CHECK_MPI_OK( mp_init(&Py, kmflbg) );
 
-    /* Initialize Px and Py */
-    CHECK_MPI_OK( mp_read_unsigned_octets(&Px, publicValue->data + 1, (mp_size) len) );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&Py, publicValue->data + 1 + len, (mp_size) len) );
+    /* Initiblizf Px bnd Py */
+    CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&Px, publidVbluf->dbtb + 1, (mp_sizf) lfn) );
+    CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&Py, publidVbluf->dbtb + 1 + lfn, (mp_sizf) lfn) );
 
-    /* construct from named params */
-    group = ECGroup_fromName(ecParams->name, kmflag);
+    /* donstrudt from nbmfd pbrbms */
+    group = ECGroup_fromNbmf(fdPbrbms->nbmf, kmflbg);
     if (group == NULL) {
         /*
-         * ECGroup_fromName fails if ecParams->name is not a valid
-         * ECCurveName value, or if we run out of memory, or perhaps
-         * for other reasons.  Unfortunately if ecParams->name is a
-         * valid ECCurveName value, we don't know what the right error
-         * code should be because ECGroup_fromName doesn't return an
-         * error code to the caller.  Set err to MP_UNDEF because
-         * that's what ECGroup_fromName uses internally.
+         * ECGroup_fromNbmf fbils if fdPbrbms->nbmf is not b vblid
+         * ECCurvfNbmf vbluf, or if wf run out of mfmory, or pfribps
+         * for otifr rfbsons.  Unfortunbtfly if fdPbrbms->nbmf is b
+         * vblid ECCurvfNbmf vbluf, wf don't know wibt tif rigit frror
+         * dodf siould bf bfdbusf ECGroup_fromNbmf dofsn't rfturn bn
+         * frror dodf to tif dbllfr.  Sft frr to MP_UNDEF bfdbusf
+         * tibt's wibt ECGroup_fromNbmf usfs intfrnblly.
          */
-        if ((ecParams->name <= ECCurve_noName) ||
-            (ecParams->name >= ECCurve_pastLastCurve)) {
-            err = MP_BADARG;
-        } else {
-            err = MP_UNDEF;
+        if ((fdPbrbms->nbmf <= ECCurvf_noNbmf) ||
+            (fdPbrbms->nbmf >= ECCurvf_pbstLbstCurvf)) {
+            frr = MP_BADARG;
+        } flsf {
+            frr = MP_UNDEF;
         }
-        goto cleanup;
+        goto dlfbnup;
     }
 
-    /* validate public point */
-    if ((err = ECPoint_validate(group, &Px, &Py)) < MP_YES) {
-        if (err == MP_NO) {
-            PORT_SetError(SEC_ERROR_BAD_KEY);
-            rv = SECFailure;
-            err = MP_OKAY;  /* don't change the error code */
+    /* vblidbtf publid point */
+    if ((frr = ECPoint_vblidbtf(group, &Px, &Py)) < MP_YES) {
+        if (frr == MP_NO) {
+            PORT_SftError(SEC_ERROR_BAD_KEY);
+            rv = SECFbilurf;
+            frr = MP_OKAY;  /* don't dibngf tif frror dodf */
         }
-        goto cleanup;
+        goto dlfbnup;
     }
 
-    rv = SECSuccess;
+    rv = SECSuddfss;
 
-cleanup:
-    ECGroup_free(group);
-    mp_clear(&Px);
-    mp_clear(&Py);
-    if (err) {
-        MP_TO_SEC_ERROR(err);
-        rv = SECFailure;
+dlfbnup:
+    ECGroup_frff(group);
+    mp_dlfbr(&Px);
+    mp_dlfbr(&Py);
+    if (frr) {
+        MP_TO_SEC_ERROR(frr);
+        rv = SECFbilurf;
     }
-    return rv;
+    rfturn rv;
 }
 
 /*
-** Performs an ECDH key derivation by computing the scalar point
-** multiplication of privateValue and publicValue (with or without the
-** cofactor) and returns the x-coordinate of the resulting elliptic
-** curve point in derived secret.  If successful, derivedSecret->data
-** is set to the address of the newly allocated buffer containing the
-** derived secret, and derivedSecret->len is the size of the secret
-** produced. It is the caller's responsibility to free the allocated
-** buffer containing the derived secret.
+** Pfrforms bn ECDH kfy dfrivbtion by domputing tif sdblbr point
+** multiplidbtion of privbtfVbluf bnd publidVbluf (witi or witiout tif
+** dofbdtor) bnd rfturns tif x-doordinbtf of tif rfsulting flliptid
+** durvf point in dfrivfd sfdrft.  If suddfssful, dfrivfdSfdrft->dbtb
+** is sft to tif bddrfss of tif nfwly bllodbtfd bufffr dontbining tif
+** dfrivfd sfdrft, bnd dfrivfdSfdrft->lfn is tif sizf of tif sfdrft
+** produdfd. It is tif dbllfr's rfsponsibility to frff tif bllodbtfd
+** bufffr dontbining tif dfrivfd sfdrft.
 */
-SECStatus
-ECDH_Derive(SECItem  *publicValue,
-            ECParams *ecParams,
-            SECItem  *privateValue,
-            PRBool    withCofactor,
-            SECItem  *derivedSecret,
-            int kmflag)
+SECStbtus
+ECDH_Dfrivf(SECItfm  *publidVbluf,
+            ECPbrbms *fdPbrbms,
+            SECItfm  *privbtfVbluf,
+            PRBool    witiCofbdtor,
+            SECItfm  *dfrivfdSfdrft,
+            int kmflbg)
 {
-    SECStatus rv = SECFailure;
-    unsigned int len = 0;
-    SECItem pointQ = {siBuffer, NULL, 0};
-    mp_int k; /* to hold the private value */
-    mp_int cofactor;
-    mp_err err = MP_OKAY;
+    SECStbtus rv = SECFbilurf;
+    unsignfd int lfn = 0;
+    SECItfm pointQ = {siBufffr, NULL, 0};
+    mp_int k; /* to iold tif privbtf vbluf */
+    mp_int dofbdtor;
+    mp_frr frr = MP_OKAY;
 #if EC_DEBUG
     int i;
-#endif
+#fndif
 
-    if (!publicValue || !ecParams || !privateValue ||
-        !derivedSecret) {
-        PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        return SECFailure;
+    if (!publidVbluf || !fdPbrbms || !privbtfVbluf ||
+        !dfrivfdSfdrft) {
+        PORT_SftError(SEC_ERROR_INVALID_ARGS);
+        rfturn SECFbilurf;
     }
 
-    memset(derivedSecret, 0, sizeof *derivedSecret);
-    len = (ecParams->fieldID.size + 7) >> 3;
-    pointQ.len = 2*len + 1;
-    if ((pointQ.data = PORT_Alloc(2*len + 1, kmflag)) == NULL) goto cleanup;
+    mfmsft(dfrivfdSfdrft, 0, sizfof *dfrivfdSfdrft);
+    lfn = (fdPbrbms->fifldID.sizf + 7) >> 3;
+    pointQ.lfn = 2*lfn + 1;
+    if ((pointQ.dbtb = PORT_Allod(2*lfn + 1, kmflbg)) == NULL) goto dlfbnup;
 
     MP_DIGITS(&k) = 0;
-    CHECK_MPI_OK( mp_init(&k, kmflag) );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&k, privateValue->data,
-                                          (mp_size) privateValue->len) );
+    CHECK_MPI_OK( mp_init(&k, kmflbg) );
+    CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&k, privbtfVbluf->dbtb,
+                                          (mp_sizf) privbtfVbluf->lfn) );
 
-    if (withCofactor && (ecParams->cofactor != 1)) {
-            /* multiply k with the cofactor */
-            MP_DIGITS(&cofactor) = 0;
-            CHECK_MPI_OK( mp_init(&cofactor, kmflag) );
-            mp_set(&cofactor, ecParams->cofactor);
-            CHECK_MPI_OK( mp_mul(&k, &cofactor, &k) );
+    if (witiCofbdtor && (fdPbrbms->dofbdtor != 1)) {
+            /* multiply k witi tif dofbdtor */
+            MP_DIGITS(&dofbdtor) = 0;
+            CHECK_MPI_OK( mp_init(&dofbdtor, kmflbg) );
+            mp_sft(&dofbdtor, fdPbrbms->dofbdtor);
+            CHECK_MPI_OK( mp_mul(&k, &dofbdtor, &k) );
     }
 
-    /* Multiply our private key and peer's public point */
-    if ((ec_points_mul(ecParams, NULL, &k, publicValue, &pointQ, kmflag) != SECSuccess) ||
-        ec_point_at_infinity(&pointQ))
-        goto cleanup;
+    /* Multiply our privbtf kfy bnd pffr's publid point */
+    if ((fd_points_mul(fdPbrbms, NULL, &k, publidVbluf, &pointQ, kmflbg) != SECSuddfss) ||
+        fd_point_bt_infinity(&pointQ))
+        goto dlfbnup;
 
-    /* Allocate memory for the derived secret and copy
-     * the x co-ordinate of pointQ into it.
+    /* Allodbtf mfmory for tif dfrivfd sfdrft bnd dopy
+     * tif x do-ordinbtf of pointQ into it.
      */
-    SECITEM_AllocItem(NULL, derivedSecret, len, kmflag);
-    memcpy(derivedSecret->data, pointQ.data + 1, len);
+    SECITEM_AllodItfm(NULL, dfrivfdSfdrft, lfn, kmflbg);
+    mfmdpy(dfrivfdSfdrft->dbtb, pointQ.dbtb + 1, lfn);
 
-    rv = SECSuccess;
+    rv = SECSuddfss;
 
 #if EC_DEBUG
-    printf("derived_secret:\n");
-    for (i = 0; i < derivedSecret->len; i++)
-        printf("%02x:", derivedSecret->data[i]);
+    printf("dfrivfd_sfdrft:\n");
+    for (i = 0; i < dfrivfdSfdrft->lfn; i++)
+        printf("%02x:", dfrivfdSfdrft->dbtb[i]);
     printf("\n");
-#endif
+#fndif
 
-cleanup:
-    mp_clear(&k);
+dlfbnup:
+    mp_dlfbr(&k);
 
-    if (pointQ.data) {
-        PORT_ZFree(pointQ.data, 2*len + 1);
+    if (pointQ.dbtb) {
+        PORT_ZFrff(pointQ.dbtb, 2*lfn + 1);
     }
 
-    return rv;
+    rfturn rv;
 }
 
-/* Computes the ECDSA signature (a concatenation of two values r and s)
- * on the digest using the given key and the random value kb (used in
- * computing s).
+/* Computfs tif ECDSA signbturf (b dondbtfnbtion of two vblufs r bnd s)
+ * on tif digfst using tif givfn kfy bnd tif rbndom vbluf kb (usfd in
+ * domputing s).
  */
-SECStatus
-ECDSA_SignDigestWithSeed(ECPrivateKey *key, SECItem *signature,
-    const SECItem *digest, const unsigned char *kb, const int kblen, int kmflag)
+SECStbtus
+ECDSA_SignDigfstWitiSffd(ECPrivbtfKfy *kfy, SECItfm *signbturf,
+    donst SECItfm *digfst, donst unsignfd dibr *kb, donst int kblfn, int kmflbg)
 {
-    SECStatus rv = SECFailure;
+    SECStbtus rv = SECFbilurf;
     mp_int x1;
-    mp_int d, k;     /* private key, random integer */
-    mp_int r, s;     /* tuple (r, s) is the signature */
+    mp_int d, k;     /* privbtf kfy, rbndom intfgfr */
+    mp_int r, s;     /* tuplf (r, s) is tif signbturf */
     mp_int n;
-    mp_err err = MP_OKAY;
-    ECParams *ecParams = NULL;
-    SECItem kGpoint = { siBuffer, NULL, 0};
-    int flen = 0;    /* length in bytes of the field size */
-    unsigned olen;   /* length in bytes of the base point order */
+    mp_frr frr = MP_OKAY;
+    ECPbrbms *fdPbrbms = NULL;
+    SECItfm kGpoint = { siBufffr, NULL, 0};
+    int flfn = 0;    /* lfngti in bytfs of tif fifld sizf */
+    unsignfd olfn;   /* lfngti in bytfs of tif bbsf point ordfr */
 
 #if EC_DEBUG
-    char mpstr[256];
-#endif
+    dibr mpstr[256];
+#fndif
 
-    /* Initialize MPI integers. */
-    /* must happen before the first potential call to cleanup */
+    /* Initiblizf MPI intfgfrs. */
+    /* must ibppfn bfforf tif first potfntibl dbll to dlfbnup */
     MP_DIGITS(&x1) = 0;
     MP_DIGITS(&d) = 0;
     MP_DIGITS(&k) = 0;
@@ -665,413 +665,413 @@ ECDSA_SignDigestWithSeed(ECPrivateKey *key, SECItem *signature,
     MP_DIGITS(&s) = 0;
     MP_DIGITS(&n) = 0;
 
-    /* Check args */
-    if (!key || !signature || !digest || !kb || (kblen < 0)) {
-        PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        goto cleanup;
+    /* Cifdk brgs */
+    if (!kfy || !signbturf || !digfst || !kb || (kblfn < 0)) {
+        PORT_SftError(SEC_ERROR_INVALID_ARGS);
+        goto dlfbnup;
     }
 
-    ecParams = &(key->ecParams);
-    flen = (ecParams->fieldID.size + 7) >> 3;
-    olen = ecParams->order.len;
-    if (signature->data == NULL) {
-        /* a call to get the signature length only */
-        goto finish;
+    fdPbrbms = &(kfy->fdPbrbms);
+    flfn = (fdPbrbms->fifldID.sizf + 7) >> 3;
+    olfn = fdPbrbms->ordfr.lfn;
+    if (signbturf->dbtb == NULL) {
+        /* b dbll to gft tif signbturf lfngti only */
+        goto finisi;
     }
-    if (signature->len < 2*olen) {
-        PORT_SetError(SEC_ERROR_OUTPUT_LEN);
-        rv = SECBufferTooSmall;
-        goto cleanup;
+    if (signbturf->lfn < 2*olfn) {
+        PORT_SftError(SEC_ERROR_OUTPUT_LEN);
+        rv = SECBufffrTooSmbll;
+        goto dlfbnup;
     }
 
 
-    CHECK_MPI_OK( mp_init(&x1, kmflag) );
-    CHECK_MPI_OK( mp_init(&d, kmflag) );
-    CHECK_MPI_OK( mp_init(&k, kmflag) );
-    CHECK_MPI_OK( mp_init(&r, kmflag) );
-    CHECK_MPI_OK( mp_init(&s, kmflag) );
-    CHECK_MPI_OK( mp_init(&n, kmflag) );
+    CHECK_MPI_OK( mp_init(&x1, kmflbg) );
+    CHECK_MPI_OK( mp_init(&d, kmflbg) );
+    CHECK_MPI_OK( mp_init(&k, kmflbg) );
+    CHECK_MPI_OK( mp_init(&r, kmflbg) );
+    CHECK_MPI_OK( mp_init(&s, kmflbg) );
+    CHECK_MPI_OK( mp_init(&n, kmflbg) );
 
-    SECITEM_TO_MPINT( ecParams->order, &n );
-    SECITEM_TO_MPINT( key->privateValue, &d );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&k, kb, kblen) );
-    /* Make sure k is in the interval [1, n-1] */
-    if ((mp_cmp_z(&k) <= 0) || (mp_cmp(&k, &n) >= 0)) {
+    SECITEM_TO_MPINT( fdPbrbms->ordfr, &n );
+    SECITEM_TO_MPINT( kfy->privbtfVbluf, &d );
+    CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&k, kb, kblfn) );
+    /* Mbkf surf k is in tif intfrvbl [1, n-1] */
+    if ((mp_dmp_z(&k) <= 0) || (mp_dmp(&k, &n) >= 0)) {
 #if EC_DEBUG
-        printf("k is outside [1, n-1]\n");
-        mp_tohex(&k, mpstr);
+        printf("k is outsidf [1, n-1]\n");
+        mp_toifx(&k, mpstr);
         printf("k : %s \n", mpstr);
-        mp_tohex(&n, mpstr);
+        mp_toifx(&n, mpstr);
         printf("n : %s \n", mpstr);
-#endif
-        PORT_SetError(SEC_ERROR_NEED_RANDOM);
-        goto cleanup;
+#fndif
+        PORT_SftError(SEC_ERROR_NEED_RANDOM);
+        goto dlfbnup;
     }
 
     /*
-    ** ANSI X9.62, Section 5.3.2, Step 2
+    ** ANSI X9.62, Sfdtion 5.3.2, Stfp 2
     **
-    ** Compute kG
+    ** Computf kG
     */
-    kGpoint.len = 2*flen + 1;
-    kGpoint.data = PORT_Alloc(2*flen + 1, kmflag);
-    if ((kGpoint.data == NULL) ||
-        (ec_points_mul(ecParams, &k, NULL, NULL, &kGpoint, kmflag)
-            != SECSuccess))
-        goto cleanup;
+    kGpoint.lfn = 2*flfn + 1;
+    kGpoint.dbtb = PORT_Allod(2*flfn + 1, kmflbg);
+    if ((kGpoint.dbtb == NULL) ||
+        (fd_points_mul(fdPbrbms, &k, NULL, NULL, &kGpoint, kmflbg)
+            != SECSuddfss))
+        goto dlfbnup;
 
     /*
-    ** ANSI X9.62, Section 5.3.3, Step 1
+    ** ANSI X9.62, Sfdtion 5.3.3, Stfp 1
     **
-    ** Extract the x co-ordinate of kG into x1
+    ** Extrbdt tif x do-ordinbtf of kG into x1
     */
-    CHECK_MPI_OK( mp_read_unsigned_octets(&x1, kGpoint.data + 1,
-                                          (mp_size) flen) );
+    CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&x1, kGpoint.dbtb + 1,
+                                          (mp_sizf) flfn) );
 
     /*
-    ** ANSI X9.62, Section 5.3.3, Step 2
+    ** ANSI X9.62, Sfdtion 5.3.3, Stfp 2
     **
-    ** r = x1 mod n  NOTE: n is the order of the curve
+    ** r = x1 mod n  NOTE: n is tif ordfr of tif durvf
     */
     CHECK_MPI_OK( mp_mod(&x1, &n, &r) );
 
     /*
-    ** ANSI X9.62, Section 5.3.3, Step 3
+    ** ANSI X9.62, Sfdtion 5.3.3, Stfp 3
     **
-    ** verify r != 0
+    ** vfrify r != 0
     */
-    if (mp_cmp_z(&r) == 0) {
-        PORT_SetError(SEC_ERROR_NEED_RANDOM);
-        goto cleanup;
+    if (mp_dmp_z(&r) == 0) {
+        PORT_SftError(SEC_ERROR_NEED_RANDOM);
+        goto dlfbnup;
     }
 
     /*
-    ** ANSI X9.62, Section 5.3.3, Step 4
+    ** ANSI X9.62, Sfdtion 5.3.3, Stfp 4
     **
     ** s = (k**-1 * (HASH(M) + d*r)) mod n
     */
-    SECITEM_TO_MPINT(*digest, &s);        /* s = HASH(M)     */
+    SECITEM_TO_MPINT(*digfst, &s);        /* s = HASH(M)     */
 
-    /* In the definition of EC signing, digests are truncated
-     * to the length of n in bits.
-     * (see SEC 1 "Elliptic Curve Digit Signature Algorithm" section 4.1.*/
-    if (digest->len*8 > (unsigned int)ecParams->fieldID.size) {
-        mpl_rsh(&s,&s,digest->len*8 - ecParams->fieldID.size);
+    /* In tif dffinition of EC signing, digfsts brf trundbtfd
+     * to tif lfngti of n in bits.
+     * (sff SEC 1 "Elliptid Curvf Digit Signbturf Algoritim" sfdtion 4.1.*/
+    if (digfst->lfn*8 > (unsignfd int)fdPbrbms->fifldID.sizf) {
+        mpl_rsi(&s,&s,digfst->lfn*8 - fdPbrbms->fifldID.sizf);
     }
 
 #if EC_DEBUG
-    mp_todecimal(&n, mpstr);
-    printf("n : %s (dec)\n", mpstr);
-    mp_todecimal(&d, mpstr);
-    printf("d : %s (dec)\n", mpstr);
-    mp_tohex(&x1, mpstr);
+    mp_todfdimbl(&n, mpstr);
+    printf("n : %s (dfd)\n", mpstr);
+    mp_todfdimbl(&d, mpstr);
+    printf("d : %s (dfd)\n", mpstr);
+    mp_toifx(&x1, mpstr);
     printf("x1: %s\n", mpstr);
-    mp_todecimal(&s, mpstr);
-    printf("digest: %s (decimal)\n", mpstr);
-    mp_todecimal(&r, mpstr);
-    printf("r : %s (dec)\n", mpstr);
-    mp_tohex(&r, mpstr);
+    mp_todfdimbl(&s, mpstr);
+    printf("digfst: %s (dfdimbl)\n", mpstr);
+    mp_todfdimbl(&r, mpstr);
+    printf("r : %s (dfd)\n", mpstr);
+    mp_toifx(&r, mpstr);
     printf("r : %s\n", mpstr);
-#endif
+#fndif
 
     CHECK_MPI_OK( mp_invmod(&k, &n, &k) );      /* k = k**-1 mod n */
     CHECK_MPI_OK( mp_mulmod(&d, &r, &n, &d) );  /* d = d * r mod n */
-    CHECK_MPI_OK( mp_addmod(&s, &d, &n, &s) );  /* s = s + d mod n */
+    CHECK_MPI_OK( mp_bddmod(&s, &d, &n, &s) );  /* s = s + d mod n */
     CHECK_MPI_OK( mp_mulmod(&s, &k, &n, &s) );  /* s = s * k mod n */
 
 #if EC_DEBUG
-    mp_todecimal(&s, mpstr);
-    printf("s : %s (dec)\n", mpstr);
-    mp_tohex(&s, mpstr);
+    mp_todfdimbl(&s, mpstr);
+    printf("s : %s (dfd)\n", mpstr);
+    mp_toifx(&s, mpstr);
     printf("s : %s\n", mpstr);
-#endif
+#fndif
 
     /*
-    ** ANSI X9.62, Section 5.3.3, Step 5
+    ** ANSI X9.62, Sfdtion 5.3.3, Stfp 5
     **
-    ** verify s != 0
+    ** vfrify s != 0
     */
-    if (mp_cmp_z(&s) == 0) {
-        PORT_SetError(SEC_ERROR_NEED_RANDOM);
-        goto cleanup;
+    if (mp_dmp_z(&s) == 0) {
+        PORT_SftError(SEC_ERROR_NEED_RANDOM);
+        goto dlfbnup;
     }
 
    /*
     **
-    ** Signature is tuple (r, s)
+    ** Signbturf is tuplf (r, s)
     */
-    CHECK_MPI_OK( mp_to_fixlen_octets(&r, signature->data, olen) );
-    CHECK_MPI_OK( mp_to_fixlen_octets(&s, signature->data + olen, olen) );
-finish:
-    signature->len = 2*olen;
+    CHECK_MPI_OK( mp_to_fixlfn_odtfts(&r, signbturf->dbtb, olfn) );
+    CHECK_MPI_OK( mp_to_fixlfn_odtfts(&s, signbturf->dbtb + olfn, olfn) );
+finisi:
+    signbturf->lfn = 2*olfn;
 
-    rv = SECSuccess;
-    err = MP_OKAY;
-cleanup:
-    mp_clear(&x1);
-    mp_clear(&d);
-    mp_clear(&k);
-    mp_clear(&r);
-    mp_clear(&s);
-    mp_clear(&n);
+    rv = SECSuddfss;
+    frr = MP_OKAY;
+dlfbnup:
+    mp_dlfbr(&x1);
+    mp_dlfbr(&d);
+    mp_dlfbr(&k);
+    mp_dlfbr(&r);
+    mp_dlfbr(&s);
+    mp_dlfbr(&n);
 
-    if (kGpoint.data) {
-        PORT_ZFree(kGpoint.data, 2*flen + 1);
+    if (kGpoint.dbtb) {
+        PORT_ZFrff(kGpoint.dbtb, 2*flfn + 1);
     }
 
-    if (err) {
-        MP_TO_SEC_ERROR(err);
-        rv = SECFailure;
+    if (frr) {
+        MP_TO_SEC_ERROR(frr);
+        rv = SECFbilurf;
     }
 
 #if EC_DEBUG
-    printf("ECDSA signing with seed %s\n",
-        (rv == SECSuccess) ? "succeeded" : "failed");
-#endif
+    printf("ECDSA signing witi sffd %s\n",
+        (rv == SECSuddfss) ? "suddffdfd" : "fbilfd");
+#fndif
 
-   return rv;
+   rfturn rv;
 }
 
 /*
-** Computes the ECDSA signature on the digest using the given key
-** and a random seed.
+** Computfs tif ECDSA signbturf on tif digfst using tif givfn kfy
+** bnd b rbndom sffd.
 */
-SECStatus
-ECDSA_SignDigest(ECPrivateKey *key, SECItem *signature, const SECItem *digest,
-    const unsigned char* random, int randomLen, int kmflag)
+SECStbtus
+ECDSA_SignDigfst(ECPrivbtfKfy *kfy, SECItfm *signbturf, donst SECItfm *digfst,
+    donst unsignfd dibr* rbndom, int rbndomLfn, int kmflbg)
 {
-    SECStatus rv = SECFailure;
-    int len;
-    unsigned char *kBytes= NULL;
+    SECStbtus rv = SECFbilurf;
+    int lfn;
+    unsignfd dibr *kBytfs= NULL;
 
-    if (!key) {
-        PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        return SECFailure;
+    if (!kfy) {
+        PORT_SftError(SEC_ERROR_INVALID_ARGS);
+        rfturn SECFbilurf;
     }
 
-    /* Generate random value k */
-    len = key->ecParams.order.len;
-    kBytes = ec_GenerateRandomPrivateKey(key->ecParams.order.data, len,
-        random, randomLen, kmflag);
-    if (kBytes == NULL) goto cleanup;
+    /* Gfnfrbtf rbndom vbluf k */
+    lfn = kfy->fdPbrbms.ordfr.lfn;
+    kBytfs = fd_GfnfrbtfRbndomPrivbtfKfy(kfy->fdPbrbms.ordfr.dbtb, lfn,
+        rbndom, rbndomLfn, kmflbg);
+    if (kBytfs == NULL) goto dlfbnup;
 
-    /* Generate ECDSA signature with the specified k value */
-    rv = ECDSA_SignDigestWithSeed(key, signature, digest, kBytes, len, kmflag);
+    /* Gfnfrbtf ECDSA signbturf witi tif spfdififd k vbluf */
+    rv = ECDSA_SignDigfstWitiSffd(kfy, signbturf, digfst, kBytfs, lfn, kmflbg);
 
-cleanup:
-    if (kBytes) {
-        PORT_ZFree(kBytes, len * 2);
+dlfbnup:
+    if (kBytfs) {
+        PORT_ZFrff(kBytfs, lfn * 2);
     }
 
 #if EC_DEBUG
     printf("ECDSA signing %s\n",
-        (rv == SECSuccess) ? "succeeded" : "failed");
-#endif
+        (rv == SECSuddfss) ? "suddffdfd" : "fbilfd");
+#fndif
 
-    return rv;
+    rfturn rv;
 }
 
 /*
-** Checks the signature on the given digest using the key provided.
+** Cifdks tif signbturf on tif givfn digfst using tif kfy providfd.
 */
-SECStatus
-ECDSA_VerifyDigest(ECPublicKey *key, const SECItem *signature,
-                 const SECItem *digest, int kmflag)
+SECStbtus
+ECDSA_VfrifyDigfst(ECPublidKfy *kfy, donst SECItfm *signbturf,
+                 donst SECItfm *digfst, int kmflbg)
 {
-    SECStatus rv = SECFailure;
-    mp_int r_, s_;           /* tuple (r', s') is received signature) */
-    mp_int c, u1, u2, v;     /* intermediate values used in verification */
+    SECStbtus rv = SECFbilurf;
+    mp_int r_, s_;           /* tuplf (r', s') is rfdfivfd signbturf) */
+    mp_int d, u1, u2, v;     /* intfrmfdibtf vblufs usfd in vfrifidbtion */
     mp_int x1;
     mp_int n;
-    mp_err err = MP_OKAY;
-    ECParams *ecParams = NULL;
-    SECItem pointC = { siBuffer, NULL, 0 };
-    int slen;       /* length in bytes of a half signature (r or s) */
-    int flen;       /* length in bytes of the field size */
-    unsigned olen;  /* length in bytes of the base point order */
+    mp_frr frr = MP_OKAY;
+    ECPbrbms *fdPbrbms = NULL;
+    SECItfm pointC = { siBufffr, NULL, 0 };
+    int slfn;       /* lfngti in bytfs of b iblf signbturf (r or s) */
+    int flfn;       /* lfngti in bytfs of tif fifld sizf */
+    unsignfd olfn;  /* lfngti in bytfs of tif bbsf point ordfr */
 
 #if EC_DEBUG
-    char mpstr[256];
-    printf("ECDSA verification called\n");
-#endif
+    dibr mpstr[256];
+    printf("ECDSA vfrifidbtion dbllfd\n");
+#fndif
 
-    /* Initialize MPI integers. */
-    /* must happen before the first potential call to cleanup */
+    /* Initiblizf MPI intfgfrs. */
+    /* must ibppfn bfforf tif first potfntibl dbll to dlfbnup */
     MP_DIGITS(&r_) = 0;
     MP_DIGITS(&s_) = 0;
-    MP_DIGITS(&c) = 0;
+    MP_DIGITS(&d) = 0;
     MP_DIGITS(&u1) = 0;
     MP_DIGITS(&u2) = 0;
     MP_DIGITS(&x1) = 0;
     MP_DIGITS(&v)  = 0;
     MP_DIGITS(&n)  = 0;
 
-    /* Check args */
-    if (!key || !signature || !digest) {
-        PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        goto cleanup;
+    /* Cifdk brgs */
+    if (!kfy || !signbturf || !digfst) {
+        PORT_SftError(SEC_ERROR_INVALID_ARGS);
+        goto dlfbnup;
     }
 
-    ecParams = &(key->ecParams);
-    flen = (ecParams->fieldID.size + 7) >> 3;
-    olen = ecParams->order.len;
-    if (signature->len == 0 || signature->len%2 != 0 ||
-        signature->len > 2*olen) {
-        PORT_SetError(SEC_ERROR_INPUT_LEN);
-        goto cleanup;
+    fdPbrbms = &(kfy->fdPbrbms);
+    flfn = (fdPbrbms->fifldID.sizf + 7) >> 3;
+    olfn = fdPbrbms->ordfr.lfn;
+    if (signbturf->lfn == 0 || signbturf->lfn%2 != 0 ||
+        signbturf->lfn > 2*olfn) {
+        PORT_SftError(SEC_ERROR_INPUT_LEN);
+        goto dlfbnup;
     }
-    slen = signature->len/2;
+    slfn = signbturf->lfn/2;
 
-    SECITEM_AllocItem(NULL, &pointC, 2*flen + 1, kmflag);
-    if (pointC.data == NULL)
-        goto cleanup;
+    SECITEM_AllodItfm(NULL, &pointC, 2*flfn + 1, kmflbg);
+    if (pointC.dbtb == NULL)
+        goto dlfbnup;
 
-    CHECK_MPI_OK( mp_init(&r_, kmflag) );
-    CHECK_MPI_OK( mp_init(&s_, kmflag) );
-    CHECK_MPI_OK( mp_init(&c, kmflag)  );
-    CHECK_MPI_OK( mp_init(&u1, kmflag) );
-    CHECK_MPI_OK( mp_init(&u2, kmflag) );
-    CHECK_MPI_OK( mp_init(&x1, kmflag)  );
-    CHECK_MPI_OK( mp_init(&v, kmflag)  );
-    CHECK_MPI_OK( mp_init(&n, kmflag)  );
+    CHECK_MPI_OK( mp_init(&r_, kmflbg) );
+    CHECK_MPI_OK( mp_init(&s_, kmflbg) );
+    CHECK_MPI_OK( mp_init(&d, kmflbg)  );
+    CHECK_MPI_OK( mp_init(&u1, kmflbg) );
+    CHECK_MPI_OK( mp_init(&u2, kmflbg) );
+    CHECK_MPI_OK( mp_init(&x1, kmflbg)  );
+    CHECK_MPI_OK( mp_init(&v, kmflbg)  );
+    CHECK_MPI_OK( mp_init(&n, kmflbg)  );
 
     /*
-    ** Convert received signature (r', s') into MPI integers.
+    ** Convfrt rfdfivfd signbturf (r', s') into MPI intfgfrs.
     */
-    CHECK_MPI_OK( mp_read_unsigned_octets(&r_, signature->data, slen) );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&s_, signature->data + slen, slen) );
+    CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&r_, signbturf->dbtb, slfn) );
+    CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&s_, signbturf->dbtb + slfn, slfn) );
 
     /*
-    ** ANSI X9.62, Section 5.4.2, Steps 1 and 2
+    ** ANSI X9.62, Sfdtion 5.4.2, Stfps 1 bnd 2
     **
-    ** Verify that 0 < r' < n and 0 < s' < n
+    ** Vfrify tibt 0 < r' < n bnd 0 < s' < n
     */
-    SECITEM_TO_MPINT(ecParams->order, &n);
-    if (mp_cmp_z(&r_) <= 0 || mp_cmp_z(&s_) <= 0 ||
-        mp_cmp(&r_, &n) >= 0 || mp_cmp(&s_, &n) >= 0) {
-        PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
-        goto cleanup; /* will return rv == SECFailure */
+    SECITEM_TO_MPINT(fdPbrbms->ordfr, &n);
+    if (mp_dmp_z(&r_) <= 0 || mp_dmp_z(&s_) <= 0 ||
+        mp_dmp(&r_, &n) >= 0 || mp_dmp(&s_, &n) >= 0) {
+        PORT_SftError(SEC_ERROR_BAD_SIGNATURE);
+        goto dlfbnup; /* will rfturn rv == SECFbilurf */
     }
 
     /*
-    ** ANSI X9.62, Section 5.4.2, Step 3
+    ** ANSI X9.62, Sfdtion 5.4.2, Stfp 3
     **
-    ** c = (s')**-1 mod n
+    ** d = (s')**-1 mod n
     */
-    CHECK_MPI_OK( mp_invmod(&s_, &n, &c) );      /* c = (s')**-1 mod n */
+    CHECK_MPI_OK( mp_invmod(&s_, &n, &d) );      /* d = (s')**-1 mod n */
 
     /*
-    ** ANSI X9.62, Section 5.4.2, Step 4
+    ** ANSI X9.62, Sfdtion 5.4.2, Stfp 4
     **
-    ** u1 = ((HASH(M')) * c) mod n
+    ** u1 = ((HASH(M')) * d) mod n
     */
-    SECITEM_TO_MPINT(*digest, &u1);                  /* u1 = HASH(M)     */
+    SECITEM_TO_MPINT(*digfst, &u1);                  /* u1 = HASH(M)     */
 
-    /* In the definition of EC signing, digests are truncated
-     * to the length of n in bits.
-     * (see SEC 1 "Elliptic Curve Digit Signature Algorithm" section 4.1.*/
+    /* In tif dffinition of EC signing, digfsts brf trundbtfd
+     * to tif lfngti of n in bits.
+     * (sff SEC 1 "Elliptid Curvf Digit Signbturf Algoritim" sfdtion 4.1.*/
     /* u1 = HASH(M')     */
-    if (digest->len*8 > (unsigned int)ecParams->fieldID.size) {
-        mpl_rsh(&u1,&u1,digest->len*8- ecParams->fieldID.size);
+    if (digfst->lfn*8 > (unsignfd int)fdPbrbms->fifldID.sizf) {
+        mpl_rsi(&u1,&u1,digfst->lfn*8- fdPbrbms->fifldID.sizf);
     }
 
 #if EC_DEBUG
-    mp_todecimal(&r_, mpstr);
-    printf("r_: %s (dec)\n", mpstr);
-    mp_todecimal(&s_, mpstr);
-    printf("s_: %s (dec)\n", mpstr);
-    mp_todecimal(&c, mpstr);
-    printf("c : %s (dec)\n", mpstr);
-    mp_todecimal(&u1, mpstr);
-    printf("digest: %s (dec)\n", mpstr);
-#endif
+    mp_todfdimbl(&r_, mpstr);
+    printf("r_: %s (dfd)\n", mpstr);
+    mp_todfdimbl(&s_, mpstr);
+    printf("s_: %s (dfd)\n", mpstr);
+    mp_todfdimbl(&d, mpstr);
+    printf("d : %s (dfd)\n", mpstr);
+    mp_todfdimbl(&u1, mpstr);
+    printf("digfst: %s (dfd)\n", mpstr);
+#fndif
 
-    CHECK_MPI_OK( mp_mulmod(&u1, &c, &n, &u1) );  /* u1 = u1 * c mod n */
+    CHECK_MPI_OK( mp_mulmod(&u1, &d, &n, &u1) );  /* u1 = u1 * d mod n */
 
     /*
-    ** ANSI X9.62, Section 5.4.2, Step 4
+    ** ANSI X9.62, Sfdtion 5.4.2, Stfp 4
     **
-    ** u2 = ((r') * c) mod n
+    ** u2 = ((r') * d) mod n
     */
-    CHECK_MPI_OK( mp_mulmod(&r_, &c, &n, &u2) );
+    CHECK_MPI_OK( mp_mulmod(&r_, &d, &n, &u2) );
 
     /*
-    ** ANSI X9.62, Section 5.4.3, Step 1
+    ** ANSI X9.62, Sfdtion 5.4.3, Stfp 1
     **
-    ** Compute u1*G + u2*Q
-    ** Here, A = u1.G     B = u2.Q    and   C = A + B
-    ** If the result, C, is the point at infinity, reject the signature
+    ** Computf u1*G + u2*Q
+    ** Hfrf, A = u1.G     B = u2.Q    bnd   C = A + B
+    ** If tif rfsult, C, is tif point bt infinity, rfjfdt tif signbturf
     */
-    if (ec_points_mul(ecParams, &u1, &u2, &key->publicValue, &pointC, kmflag)
-        != SECSuccess) {
-        rv = SECFailure;
-        goto cleanup;
+    if (fd_points_mul(fdPbrbms, &u1, &u2, &kfy->publidVbluf, &pointC, kmflbg)
+        != SECSuddfss) {
+        rv = SECFbilurf;
+        goto dlfbnup;
     }
-    if (ec_point_at_infinity(&pointC)) {
-        PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
-        rv = SECFailure;
-        goto cleanup;
+    if (fd_point_bt_infinity(&pointC)) {
+        PORT_SftError(SEC_ERROR_BAD_SIGNATURE);
+        rv = SECFbilurf;
+        goto dlfbnup;
     }
 
-    CHECK_MPI_OK( mp_read_unsigned_octets(&x1, pointC.data + 1, flen) );
+    CHECK_MPI_OK( mp_rfbd_unsignfd_odtfts(&x1, pointC.dbtb + 1, flfn) );
 
     /*
-    ** ANSI X9.62, Section 5.4.4, Step 2
+    ** ANSI X9.62, Sfdtion 5.4.4, Stfp 2
     **
     ** v = x1 mod n
     */
     CHECK_MPI_OK( mp_mod(&x1, &n, &v) );
 
 #if EC_DEBUG
-    mp_todecimal(&r_, mpstr);
-    printf("r_: %s (dec)\n", mpstr);
-    mp_todecimal(&v, mpstr);
-    printf("v : %s (dec)\n", mpstr);
-#endif
+    mp_todfdimbl(&r_, mpstr);
+    printf("r_: %s (dfd)\n", mpstr);
+    mp_todfdimbl(&v, mpstr);
+    printf("v : %s (dfd)\n", mpstr);
+#fndif
 
     /*
-    ** ANSI X9.62, Section 5.4.4, Step 3
+    ** ANSI X9.62, Sfdtion 5.4.4, Stfp 3
     **
-    ** Verification:  v == r'
+    ** Vfrifidbtion:  v == r'
     */
-    if (mp_cmp(&v, &r_)) {
-        PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
-        rv = SECFailure; /* Signature failed to verify. */
-    } else {
-        rv = SECSuccess; /* Signature verified. */
+    if (mp_dmp(&v, &r_)) {
+        PORT_SftError(SEC_ERROR_BAD_SIGNATURE);
+        rv = SECFbilurf; /* Signbturf fbilfd to vfrify. */
+    } flsf {
+        rv = SECSuddfss; /* Signbturf vfrififd. */
     }
 
 #if EC_DEBUG
-    mp_todecimal(&u1, mpstr);
-    printf("u1: %s (dec)\n", mpstr);
-    mp_todecimal(&u2, mpstr);
-    printf("u2: %s (dec)\n", mpstr);
-    mp_tohex(&x1, mpstr);
+    mp_todfdimbl(&u1, mpstr);
+    printf("u1: %s (dfd)\n", mpstr);
+    mp_todfdimbl(&u2, mpstr);
+    printf("u2: %s (dfd)\n", mpstr);
+    mp_toifx(&x1, mpstr);
     printf("x1: %s\n", mpstr);
-    mp_todecimal(&v, mpstr);
-    printf("v : %s (dec)\n", mpstr);
-#endif
+    mp_todfdimbl(&v, mpstr);
+    printf("v : %s (dfd)\n", mpstr);
+#fndif
 
-cleanup:
-    mp_clear(&r_);
-    mp_clear(&s_);
-    mp_clear(&c);
-    mp_clear(&u1);
-    mp_clear(&u2);
-    mp_clear(&x1);
-    mp_clear(&v);
-    mp_clear(&n);
+dlfbnup:
+    mp_dlfbr(&r_);
+    mp_dlfbr(&s_);
+    mp_dlfbr(&d);
+    mp_dlfbr(&u1);
+    mp_dlfbr(&u2);
+    mp_dlfbr(&x1);
+    mp_dlfbr(&v);
+    mp_dlfbr(&n);
 
-    if (pointC.data) SECITEM_FreeItem(&pointC, PR_FALSE);
-    if (err) {
-        MP_TO_SEC_ERROR(err);
-        rv = SECFailure;
+    if (pointC.dbtb) SECITEM_FrffItfm(&pointC, PR_FALSE);
+    if (frr) {
+        MP_TO_SEC_ERROR(frr);
+        rv = SECFbilurf;
     }
 
 #if EC_DEBUG
-    printf("ECDSA verification %s\n",
-        (rv == SECSuccess) ? "succeeded" : "failed");
-#endif
+    printf("ECDSA vfrifidbtion %s\n",
+        (rv == SECSuddfss) ? "suddffdfd" : "fbilfd");
+#fndif
 
-    return rv;
+    rfturn rv;
 }

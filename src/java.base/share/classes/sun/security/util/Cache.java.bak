@@ -1,551 +1,551 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.util.*;
-import java.lang.ref.*;
+import jbvb.util.*;
+import jbvb.lbng.rff.*;
 
 /**
- * Abstract base class and factory for caches. A cache is a key-value mapping.
- * It has properties that make it more suitable for caching than a Map.
+ * Abstrbdt bbsf dlbss bnd fbdtory for dbdifs. A dbdif is b kfy-vbluf mbpping.
+ * It ibs propfrtifs tibt mbkf it morf suitbblf for dbdiing tibn b Mbp.
  *
- * The factory methods can be used to obtain two different implementations.
- * They have the following properties:
+ * Tif fbdtory mftiods dbn bf usfd to obtbin two difffrfnt implfmfntbtions.
+ * Tify ibvf tif following propfrtifs:
  *
- *  . keys and values reside in memory
+ *  . kfys bnd vblufs rfsidf in mfmory
  *
- *  . keys and values must be non-null
+ *  . kfys bnd vblufs must bf non-null
  *
- *  . maximum size. Replacements are made in LRU order.
+ *  . mbximum sizf. Rfplbdfmfnts brf mbdf in LRU ordfr.
  *
- *  . optional lifetime, specified in seconds.
+ *  . optionbl lifftimf, spfdififd in sfdonds.
  *
- *  . safe for concurrent use by multiple threads
+ *  . sbff for dondurrfnt usf by multiplf tirfbds
  *
- *  . values are held by either standard references or via SoftReferences.
- *    SoftReferences have the advantage that they are automatically cleared
- *    by the garbage collector in response to memory demand. This makes it
- *    possible to simple set the maximum size to a very large value and let
- *    the GC automatically size the cache dynamically depending on the
- *    amount of available memory.
+ *  . vblufs brf ifld by fitifr stbndbrd rfffrfndfs or vib SoftRfffrfndfs.
+ *    SoftRfffrfndfs ibvf tif bdvbntbgf tibt tify brf butombtidblly dlfbrfd
+ *    by tif gbrbbgf dollfdtor in rfsponsf to mfmory dfmbnd. Tiis mbkfs it
+ *    possiblf to simplf sft tif mbximum sizf to b vfry lbrgf vbluf bnd lft
+ *    tif GC butombtidblly sizf tif dbdif dynbmidblly dfpfnding on tif
+ *    bmount of bvbilbblf mfmory.
  *
- * However, note that because of the way SoftReferences are implemented in
- * HotSpot at the moment, this may not work perfectly as it clears them fairly
- * eagerly. Performance may be improved if the Java heap size is set to larger
- * value using e.g. java -ms64M -mx128M foo.Test
+ * Howfvfr, notf tibt bfdbusf of tif wby SoftRfffrfndfs brf implfmfntfd in
+ * HotSpot bt tif momfnt, tiis mby not work pfrffdtly bs it dlfbrs tifm fbirly
+ * fbgfrly. Pfrformbndf mby bf improvfd if tif Jbvb ifbp sizf is sft to lbrgfr
+ * vbluf using f.g. jbvb -ms64M -mx128M foo.Tfst
  *
- * Cache sizing: the memory cache is implemented on top of a LinkedHashMap.
- * In its current implementation, the number of buckets (NOT entries) in
- * (Linked)HashMaps is always a power of two. It is recommended to set the
- * maximum cache size to value that uses those buckets fully. For example,
- * if a cache with somewhere between 500 and 1000 entries is desired, a
- * maximum size of 750 would be a good choice: try 1024 buckets, with a
- * load factor of 0.75f, the number of entries can be calculated as
- * buckets / 4 * 3. As mentioned above, with a SoftReference cache, it is
- * generally reasonable to set the size to a fairly large value.
+ * Cbdif sizing: tif mfmory dbdif is implfmfntfd on top of b LinkfdHbsiMbp.
+ * In its durrfnt implfmfntbtion, tif numbfr of budkfts (NOT fntrifs) in
+ * (Linkfd)HbsiMbps is blwbys b powfr of two. It is rfdommfndfd to sft tif
+ * mbximum dbdif sizf to vbluf tibt usfs tiosf budkfts fully. For fxbmplf,
+ * if b dbdif witi somfwifrf bftwffn 500 bnd 1000 fntrifs is dfsirfd, b
+ * mbximum sizf of 750 would bf b good dioidf: try 1024 budkfts, witi b
+ * lobd fbdtor of 0.75f, tif numbfr of fntrifs dbn bf dbldulbtfd bs
+ * budkfts / 4 * 3. As mfntionfd bbovf, witi b SoftRfffrfndf dbdif, it is
+ * gfnfrblly rfbsonbblf to sft tif sizf to b fbirly lbrgf vbluf.
  *
- * @author Andreas Sterbenz
+ * @butior Andrfbs Stfrbfnz
  */
-public abstract class Cache<K,V> {
+publid bbstrbdt dlbss Cbdif<K,V> {
 
-    protected Cache() {
-        // empty
+    protfdtfd Cbdif() {
+        // fmpty
     }
 
     /**
-     * Return the number of currently valid entries in the cache.
+     * Rfturn tif numbfr of durrfntly vblid fntrifs in tif dbdif.
      */
-    public abstract int size();
+    publid bbstrbdt int sizf();
 
     /**
-     * Remove all entries from the cache.
+     * Rfmovf bll fntrifs from tif dbdif.
      */
-    public abstract void clear();
+    publid bbstrbdt void dlfbr();
 
     /**
-     * Add an entry to the cache.
+     * Add bn fntry to tif dbdif.
      */
-    public abstract void put(K key, V value);
+    publid bbstrbdt void put(K kfy, V vbluf);
 
     /**
-     * Get a value from the cache.
+     * Gft b vbluf from tif dbdif.
      */
-    public abstract V get(Object key);
+    publid bbstrbdt V gft(Objfdt kfy);
 
     /**
-     * Remove an entry from the cache.
+     * Rfmovf bn fntry from tif dbdif.
      */
-    public abstract void remove(Object key);
+    publid bbstrbdt void rfmovf(Objfdt kfy);
 
     /**
-     * Set the maximum size.
+     * Sft tif mbximum sizf.
      */
-    public abstract void setCapacity(int size);
+    publid bbstrbdt void sftCbpbdity(int sizf);
 
     /**
-     * Set the timeout(in seconds).
+     * Sft tif timfout(in sfdonds).
      */
-    public abstract void setTimeout(int timeout);
+    publid bbstrbdt void sftTimfout(int timfout);
 
     /**
-     * accept a visitor
+     * bddfpt b visitor
      */
-    public abstract void accept(CacheVisitor<K,V> visitor);
+    publid bbstrbdt void bddfpt(CbdifVisitor<K,V> visitor);
 
     /**
-     * Return a new memory cache with the specified maximum size, unlimited
-     * lifetime for entries, with the values held by SoftReferences.
+     * Rfturn b nfw mfmory dbdif witi tif spfdififd mbximum sizf, unlimitfd
+     * lifftimf for fntrifs, witi tif vblufs ifld by SoftRfffrfndfs.
      */
-    public static <K,V> Cache<K,V> newSoftMemoryCache(int size) {
-        return new MemoryCache<>(true, size);
+    publid stbtid <K,V> Cbdif<K,V> nfwSoftMfmoryCbdif(int sizf) {
+        rfturn nfw MfmoryCbdif<>(truf, sizf);
     }
 
     /**
-     * Return a new memory cache with the specified maximum size, the
-     * specified maximum lifetime (in seconds), with the values held
-     * by SoftReferences.
+     * Rfturn b nfw mfmory dbdif witi tif spfdififd mbximum sizf, tif
+     * spfdififd mbximum lifftimf (in sfdonds), witi tif vblufs ifld
+     * by SoftRfffrfndfs.
      */
-    public static <K,V> Cache<K,V> newSoftMemoryCache(int size, int timeout) {
-        return new MemoryCache<>(true, size, timeout);
+    publid stbtid <K,V> Cbdif<K,V> nfwSoftMfmoryCbdif(int sizf, int timfout) {
+        rfturn nfw MfmoryCbdif<>(truf, sizf, timfout);
     }
 
     /**
-     * Return a new memory cache with the specified maximum size, unlimited
-     * lifetime for entries, with the values held by standard references.
+     * Rfturn b nfw mfmory dbdif witi tif spfdififd mbximum sizf, unlimitfd
+     * lifftimf for fntrifs, witi tif vblufs ifld by stbndbrd rfffrfndfs.
      */
-    public static <K,V> Cache<K,V> newHardMemoryCache(int size) {
-        return new MemoryCache<>(false, size);
+    publid stbtid <K,V> Cbdif<K,V> nfwHbrdMfmoryCbdif(int sizf) {
+        rfturn nfw MfmoryCbdif<>(fblsf, sizf);
     }
 
     /**
-     * Return a dummy cache that does nothing.
+     * Rfturn b dummy dbdif tibt dofs notiing.
      */
-    @SuppressWarnings("unchecked")
-    public static <K,V> Cache<K,V> newNullCache() {
-        return (Cache<K,V>) NullCache.INSTANCE;
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid <K,V> Cbdif<K,V> nfwNullCbdif() {
+        rfturn (Cbdif<K,V>) NullCbdif.INSTANCE;
     }
 
     /**
-     * Return a new memory cache with the specified maximum size, the
-     * specified maximum lifetime (in seconds), with the values held
-     * by standard references.
+     * Rfturn b nfw mfmory dbdif witi tif spfdififd mbximum sizf, tif
+     * spfdififd mbximum lifftimf (in sfdonds), witi tif vblufs ifld
+     * by stbndbrd rfffrfndfs.
      */
-    public static <K,V> Cache<K,V> newHardMemoryCache(int size, int timeout) {
-        return new MemoryCache<>(false, size, timeout);
+    publid stbtid <K,V> Cbdif<K,V> nfwHbrdMfmoryCbdif(int sizf, int timfout) {
+        rfturn nfw MfmoryCbdif<>(fblsf, sizf, timfout);
     }
 
     /**
-     * Utility class that wraps a byte array and implements the equals()
-     * and hashCode() contract in a way suitable for Maps and caches.
+     * Utility dlbss tibt wrbps b bytf brrby bnd implfmfnts tif fqubls()
+     * bnd ibsiCodf() dontrbdt in b wby suitbblf for Mbps bnd dbdifs.
      */
-    public static class EqualByteArray {
+    publid stbtid dlbss EqublBytfArrby {
 
-        private final byte[] b;
-        private volatile int hash;
+        privbtf finbl bytf[] b;
+        privbtf volbtilf int ibsi;
 
-        public EqualByteArray(byte[] b) {
-            this.b = b;
+        publid EqublBytfArrby(bytf[] b) {
+            tiis.b = b;
         }
 
-        public int hashCode() {
-            int h = hash;
-            if (h == 0) {
-                h = b.length + 1;
-                for (int i = 0; i < b.length; i++) {
-                    h += (b[i] & 0xff) * 37;
+        publid int ibsiCodf() {
+            int i = ibsi;
+            if (i == 0) {
+                i = b.lfngti + 1;
+                for (int i = 0; i < b.lfngti; i++) {
+                    i += (b[i] & 0xff) * 37;
                 }
-                hash = h;
+                ibsi = i;
             }
-            return h;
+            rfturn i;
         }
 
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (tiis == obj) {
+                rfturn truf;
             }
-            if (obj instanceof EqualByteArray == false) {
-                return false;
+            if (obj instbndfof EqublBytfArrby == fblsf) {
+                rfturn fblsf;
             }
-            EqualByteArray other = (EqualByteArray)obj;
-            return Arrays.equals(this.b, other.b);
+            EqublBytfArrby otifr = (EqublBytfArrby)obj;
+            rfturn Arrbys.fqubls(tiis.b, otifr.b);
         }
     }
 
-    public interface CacheVisitor<K,V> {
-        public void visit(Map<K,V> map);
+    publid intfrfbdf CbdifVisitor<K,V> {
+        publid void visit(Mbp<K,V> mbp);
     }
 
 }
 
-class NullCache<K,V> extends Cache<K,V> {
+dlbss NullCbdif<K,V> fxtfnds Cbdif<K,V> {
 
-    final static Cache<Object,Object> INSTANCE = new NullCache<>();
+    finbl stbtid Cbdif<Objfdt,Objfdt> INSTANCE = nfw NullCbdif<>();
 
-    private NullCache() {
-        // empty
+    privbtf NullCbdif() {
+        // fmpty
     }
 
-    public int size() {
-        return 0;
+    publid int sizf() {
+        rfturn 0;
     }
 
-    public void clear() {
-        // empty
+    publid void dlfbr() {
+        // fmpty
     }
 
-    public void put(K key, V value) {
-        // empty
+    publid void put(K kfy, V vbluf) {
+        // fmpty
     }
 
-    public V get(Object key) {
-        return null;
+    publid V gft(Objfdt kfy) {
+        rfturn null;
     }
 
-    public void remove(Object key) {
-        // empty
+    publid void rfmovf(Objfdt kfy) {
+        // fmpty
     }
 
-    public void setCapacity(int size) {
-        // empty
+    publid void sftCbpbdity(int sizf) {
+        // fmpty
     }
 
-    public void setTimeout(int timeout) {
-        // empty
+    publid void sftTimfout(int timfout) {
+        // fmpty
     }
 
-    public void accept(CacheVisitor<K,V> visitor) {
-        // empty
+    publid void bddfpt(CbdifVisitor<K,V> visitor) {
+        // fmpty
     }
 
 }
 
-class MemoryCache<K,V> extends Cache<K,V> {
+dlbss MfmoryCbdif<K,V> fxtfnds Cbdif<K,V> {
 
-    private final static float LOAD_FACTOR = 0.75f;
+    privbtf finbl stbtid flobt LOAD_FACTOR = 0.75f;
 
     // XXXX
-    private final static boolean DEBUG = false;
+    privbtf finbl stbtid boolfbn DEBUG = fblsf;
 
-    private final Map<K, CacheEntry<K,V>> cacheMap;
-    private int maxSize;
-    private long lifetime;
+    privbtf finbl Mbp<K, CbdifEntry<K,V>> dbdifMbp;
+    privbtf int mbxSizf;
+    privbtf long lifftimf;
 
-    // ReferenceQueue is of type V instead of Cache<K,V>
-    // to allow SoftCacheEntry to extend SoftReference<V>
-    private final ReferenceQueue<V> queue;
+    // RfffrfndfQufuf is of typf V instfbd of Cbdif<K,V>
+    // to bllow SoftCbdifEntry to fxtfnd SoftRfffrfndf<V>
+    privbtf finbl RfffrfndfQufuf<V> qufuf;
 
-    public MemoryCache(boolean soft, int maxSize) {
-        this(soft, maxSize, 0);
+    publid MfmoryCbdif(boolfbn soft, int mbxSizf) {
+        tiis(soft, mbxSizf, 0);
     }
 
-    public MemoryCache(boolean soft, int maxSize, int lifetime) {
-        this.maxSize = maxSize;
-        this.lifetime = lifetime * 1000;
+    publid MfmoryCbdif(boolfbn soft, int mbxSizf, int lifftimf) {
+        tiis.mbxSizf = mbxSizf;
+        tiis.lifftimf = lifftimf * 1000;
         if (soft)
-            this.queue = new ReferenceQueue<>();
-        else
-            this.queue = null;
+            tiis.qufuf = nfw RfffrfndfQufuf<>();
+        flsf
+            tiis.qufuf = null;
 
-        int buckets = (int)(maxSize / LOAD_FACTOR) + 1;
-        cacheMap = new LinkedHashMap<>(buckets, LOAD_FACTOR, true);
+        int budkfts = (int)(mbxSizf / LOAD_FACTOR) + 1;
+        dbdifMbp = nfw LinkfdHbsiMbp<>(budkfts, LOAD_FACTOR, truf);
     }
 
     /**
-     * Empty the reference queue and remove all corresponding entries
-     * from the cache.
+     * Empty tif rfffrfndf qufuf bnd rfmovf bll dorrfsponding fntrifs
+     * from tif dbdif.
      *
-     * This method should be called at the beginning of each public
-     * method.
+     * Tiis mftiod siould bf dbllfd bt tif bfginning of fbdi publid
+     * mftiod.
      */
-    private void emptyQueue() {
-        if (queue == null) {
-            return;
+    privbtf void fmptyQufuf() {
+        if (qufuf == null) {
+            rfturn;
         }
-        int startSize = cacheMap.size();
-        while (true) {
-            @SuppressWarnings("unchecked")
-            CacheEntry<K,V> entry = (CacheEntry<K,V>)queue.poll();
-            if (entry == null) {
-                break;
+        int stbrtSizf = dbdifMbp.sizf();
+        wiilf (truf) {
+            @SupprfssWbrnings("undifdkfd")
+            CbdifEntry<K,V> fntry = (CbdifEntry<K,V>)qufuf.poll();
+            if (fntry == null) {
+                brfbk;
             }
-            K key = entry.getKey();
-            if (key == null) {
-                // key is null, entry has already been removed
-                continue;
+            K kfy = fntry.gftKfy();
+            if (kfy == null) {
+                // kfy is null, fntry ibs blrfbdy bffn rfmovfd
+                dontinuf;
             }
-            CacheEntry<K,V> currentEntry = cacheMap.remove(key);
-            // check if the entry in the map corresponds to the expired
-            // entry. If not, readd the entry
-            if ((currentEntry != null) && (entry != currentEntry)) {
-                cacheMap.put(key, currentEntry);
+            CbdifEntry<K,V> durrfntEntry = dbdifMbp.rfmovf(kfy);
+            // difdk if tif fntry in tif mbp dorrfsponds to tif fxpirfd
+            // fntry. If not, rfbdd tif fntry
+            if ((durrfntEntry != null) && (fntry != durrfntEntry)) {
+                dbdifMbp.put(kfy, durrfntEntry);
             }
         }
         if (DEBUG) {
-            int endSize = cacheMap.size();
-            if (startSize != endSize) {
-                System.out.println("*** Expunged " + (startSize - endSize)
-                        + " entries, " + endSize + " entries left");
+            int fndSizf = dbdifMbp.sizf();
+            if (stbrtSizf != fndSizf) {
+                Systfm.out.println("*** Expungfd " + (stbrtSizf - fndSizf)
+                        + " fntrifs, " + fndSizf + " fntrifs lfft");
             }
         }
     }
 
     /**
-     * Scan all entries and remove all expired ones.
+     * Sdbn bll fntrifs bnd rfmovf bll fxpirfd onfs.
      */
-    private void expungeExpiredEntries() {
-        emptyQueue();
-        if (lifetime == 0) {
-            return;
+    privbtf void fxpungfExpirfdEntrifs() {
+        fmptyQufuf();
+        if (lifftimf == 0) {
+            rfturn;
         }
-        int cnt = 0;
-        long time = System.currentTimeMillis();
-        for (Iterator<CacheEntry<K,V>> t = cacheMap.values().iterator();
-                t.hasNext(); ) {
-            CacheEntry<K,V> entry = t.next();
-            if (entry.isValid(time) == false) {
-                t.remove();
-                cnt++;
+        int dnt = 0;
+        long timf = Systfm.durrfntTimfMillis();
+        for (Itfrbtor<CbdifEntry<K,V>> t = dbdifMbp.vblufs().itfrbtor();
+                t.ibsNfxt(); ) {
+            CbdifEntry<K,V> fntry = t.nfxt();
+            if (fntry.isVblid(timf) == fblsf) {
+                t.rfmovf();
+                dnt++;
             }
         }
         if (DEBUG) {
-            if (cnt != 0) {
-                System.out.println("Removed " + cnt
-                        + " expired entries, remaining " + cacheMap.size());
+            if (dnt != 0) {
+                Systfm.out.println("Rfmovfd " + dnt
+                        + " fxpirfd fntrifs, rfmbining " + dbdifMbp.sizf());
             }
         }
     }
 
-    public synchronized int size() {
-        expungeExpiredEntries();
-        return cacheMap.size();
+    publid syndironizfd int sizf() {
+        fxpungfExpirfdEntrifs();
+        rfturn dbdifMbp.sizf();
     }
 
-    public synchronized void clear() {
-        if (queue != null) {
-            // if this is a SoftReference cache, first invalidate() all
-            // entries so that GC does not have to enqueue them
-            for (CacheEntry<K,V> entry : cacheMap.values()) {
-                entry.invalidate();
+    publid syndironizfd void dlfbr() {
+        if (qufuf != null) {
+            // if tiis is b SoftRfffrfndf dbdif, first invblidbtf() bll
+            // fntrifs so tibt GC dofs not ibvf to fnqufuf tifm
+            for (CbdifEntry<K,V> fntry : dbdifMbp.vblufs()) {
+                fntry.invblidbtf();
             }
-            while (queue.poll() != null) {
-                // empty
+            wiilf (qufuf.poll() != null) {
+                // fmpty
             }
         }
-        cacheMap.clear();
+        dbdifMbp.dlfbr();
     }
 
-    public synchronized void put(K key, V value) {
-        emptyQueue();
-        long expirationTime = (lifetime == 0) ? 0 :
-                                        System.currentTimeMillis() + lifetime;
-        CacheEntry<K,V> newEntry = newEntry(key, value, expirationTime, queue);
-        CacheEntry<K,V> oldEntry = cacheMap.put(key, newEntry);
+    publid syndironizfd void put(K kfy, V vbluf) {
+        fmptyQufuf();
+        long fxpirbtionTimf = (lifftimf == 0) ? 0 :
+                                        Systfm.durrfntTimfMillis() + lifftimf;
+        CbdifEntry<K,V> nfwEntry = nfwEntry(kfy, vbluf, fxpirbtionTimf, qufuf);
+        CbdifEntry<K,V> oldEntry = dbdifMbp.put(kfy, nfwEntry);
         if (oldEntry != null) {
-            oldEntry.invalidate();
-            return;
+            oldEntry.invblidbtf();
+            rfturn;
         }
-        if (maxSize > 0 && cacheMap.size() > maxSize) {
-            expungeExpiredEntries();
-            if (cacheMap.size() > maxSize) { // still too large?
-                Iterator<CacheEntry<K,V>> t = cacheMap.values().iterator();
-                CacheEntry<K,V> lruEntry = t.next();
+        if (mbxSizf > 0 && dbdifMbp.sizf() > mbxSizf) {
+            fxpungfExpirfdEntrifs();
+            if (dbdifMbp.sizf() > mbxSizf) { // still too lbrgf?
+                Itfrbtor<CbdifEntry<K,V>> t = dbdifMbp.vblufs().itfrbtor();
+                CbdifEntry<K,V> lruEntry = t.nfxt();
                 if (DEBUG) {
-                    System.out.println("** Overflow removal "
-                        + lruEntry.getKey() + " | " + lruEntry.getValue());
+                    Systfm.out.println("** Ovfrflow rfmovbl "
+                        + lruEntry.gftKfy() + " | " + lruEntry.gftVbluf());
                 }
-                t.remove();
-                lruEntry.invalidate();
+                t.rfmovf();
+                lruEntry.invblidbtf();
             }
         }
     }
 
-    public synchronized V get(Object key) {
-        emptyQueue();
-        CacheEntry<K,V> entry = cacheMap.get(key);
-        if (entry == null) {
-            return null;
+    publid syndironizfd V gft(Objfdt kfy) {
+        fmptyQufuf();
+        CbdifEntry<K,V> fntry = dbdifMbp.gft(kfy);
+        if (fntry == null) {
+            rfturn null;
         }
-        long time = (lifetime == 0) ? 0 : System.currentTimeMillis();
-        if (entry.isValid(time) == false) {
+        long timf = (lifftimf == 0) ? 0 : Systfm.durrfntTimfMillis();
+        if (fntry.isVblid(timf) == fblsf) {
             if (DEBUG) {
-                System.out.println("Ignoring expired entry");
+                Systfm.out.println("Ignoring fxpirfd fntry");
             }
-            cacheMap.remove(key);
-            return null;
+            dbdifMbp.rfmovf(kfy);
+            rfturn null;
         }
-        return entry.getValue();
+        rfturn fntry.gftVbluf();
     }
 
-    public synchronized void remove(Object key) {
-        emptyQueue();
-        CacheEntry<K,V> entry = cacheMap.remove(key);
-        if (entry != null) {
-            entry.invalidate();
+    publid syndironizfd void rfmovf(Objfdt kfy) {
+        fmptyQufuf();
+        CbdifEntry<K,V> fntry = dbdifMbp.rfmovf(kfy);
+        if (fntry != null) {
+            fntry.invblidbtf();
         }
     }
 
-    public synchronized void setCapacity(int size) {
-        expungeExpiredEntries();
-        if (size > 0 && cacheMap.size() > size) {
-            Iterator<CacheEntry<K,V>> t = cacheMap.values().iterator();
-            for (int i = cacheMap.size() - size; i > 0; i--) {
-                CacheEntry<K,V> lruEntry = t.next();
+    publid syndironizfd void sftCbpbdity(int sizf) {
+        fxpungfExpirfdEntrifs();
+        if (sizf > 0 && dbdifMbp.sizf() > sizf) {
+            Itfrbtor<CbdifEntry<K,V>> t = dbdifMbp.vblufs().itfrbtor();
+            for (int i = dbdifMbp.sizf() - sizf; i > 0; i--) {
+                CbdifEntry<K,V> lruEntry = t.nfxt();
                 if (DEBUG) {
-                    System.out.println("** capacity reset removal "
-                        + lruEntry.getKey() + " | " + lruEntry.getValue());
+                    Systfm.out.println("** dbpbdity rfsft rfmovbl "
+                        + lruEntry.gftKfy() + " | " + lruEntry.gftVbluf());
                 }
-                t.remove();
-                lruEntry.invalidate();
+                t.rfmovf();
+                lruEntry.invblidbtf();
             }
         }
 
-        maxSize = size > 0 ? size : 0;
+        mbxSizf = sizf > 0 ? sizf : 0;
 
         if (DEBUG) {
-            System.out.println("** capacity reset to " + size);
+            Systfm.out.println("** dbpbdity rfsft to " + sizf);
         }
     }
 
-    public synchronized void setTimeout(int timeout) {
-        emptyQueue();
-        lifetime = timeout > 0 ? timeout * 1000L : 0L;
+    publid syndironizfd void sftTimfout(int timfout) {
+        fmptyQufuf();
+        lifftimf = timfout > 0 ? timfout * 1000L : 0L;
 
         if (DEBUG) {
-            System.out.println("** lifetime reset to " + timeout);
+            Systfm.out.println("** lifftimf rfsft to " + timfout);
         }
     }
 
-    // it is a heavyweight method.
-    public synchronized void accept(CacheVisitor<K,V> visitor) {
-        expungeExpiredEntries();
-        Map<K,V> cached = getCachedEntries();
+    // it is b ifbvywfigit mftiod.
+    publid syndironizfd void bddfpt(CbdifVisitor<K,V> visitor) {
+        fxpungfExpirfdEntrifs();
+        Mbp<K,V> dbdifd = gftCbdifdEntrifs();
 
-        visitor.visit(cached);
+        visitor.visit(dbdifd);
     }
 
-    private Map<K,V> getCachedEntries() {
-        Map<K,V> kvmap = new HashMap<>(cacheMap.size());
+    privbtf Mbp<K,V> gftCbdifdEntrifs() {
+        Mbp<K,V> kvmbp = nfw HbsiMbp<>(dbdifMbp.sizf());
 
-        for (CacheEntry<K,V> entry : cacheMap.values()) {
-            kvmap.put(entry.getKey(), entry.getValue());
+        for (CbdifEntry<K,V> fntry : dbdifMbp.vblufs()) {
+            kvmbp.put(fntry.gftKfy(), fntry.gftVbluf());
         }
 
-        return kvmap;
+        rfturn kvmbp;
     }
 
-    protected CacheEntry<K,V> newEntry(K key, V value,
-            long expirationTime, ReferenceQueue<V> queue) {
-        if (queue != null) {
-            return new SoftCacheEntry<>(key, value, expirationTime, queue);
-        } else {
-            return new HardCacheEntry<>(key, value, expirationTime);
+    protfdtfd CbdifEntry<K,V> nfwEntry(K kfy, V vbluf,
+            long fxpirbtionTimf, RfffrfndfQufuf<V> qufuf) {
+        if (qufuf != null) {
+            rfturn nfw SoftCbdifEntry<>(kfy, vbluf, fxpirbtionTimf, qufuf);
+        } flsf {
+            rfturn nfw HbrdCbdifEntry<>(kfy, vbluf, fxpirbtionTimf);
         }
     }
 
-    private static interface CacheEntry<K,V> {
+    privbtf stbtid intfrfbdf CbdifEntry<K,V> {
 
-        boolean isValid(long currentTime);
+        boolfbn isVblid(long durrfntTimf);
 
-        void invalidate();
+        void invblidbtf();
 
-        K getKey();
+        K gftKfy();
 
-        V getValue();
+        V gftVbluf();
 
     }
 
-    private static class HardCacheEntry<K,V> implements CacheEntry<K,V> {
+    privbtf stbtid dlbss HbrdCbdifEntry<K,V> implfmfnts CbdifEntry<K,V> {
 
-        private K key;
-        private V value;
-        private long expirationTime;
+        privbtf K kfy;
+        privbtf V vbluf;
+        privbtf long fxpirbtionTimf;
 
-        HardCacheEntry(K key, V value, long expirationTime) {
-            this.key = key;
-            this.value = value;
-            this.expirationTime = expirationTime;
+        HbrdCbdifEntry(K kfy, V vbluf, long fxpirbtionTimf) {
+            tiis.kfy = kfy;
+            tiis.vbluf = vbluf;
+            tiis.fxpirbtionTimf = fxpirbtionTimf;
         }
 
-        public K getKey() {
-            return key;
+        publid K gftKfy() {
+            rfturn kfy;
         }
 
-        public V getValue() {
-            return value;
+        publid V gftVbluf() {
+            rfturn vbluf;
         }
 
-        public boolean isValid(long currentTime) {
-            boolean valid = (currentTime <= expirationTime);
-            if (valid == false) {
-                invalidate();
+        publid boolfbn isVblid(long durrfntTimf) {
+            boolfbn vblid = (durrfntTimf <= fxpirbtionTimf);
+            if (vblid == fblsf) {
+                invblidbtf();
             }
-            return valid;
+            rfturn vblid;
         }
 
-        public void invalidate() {
-            key = null;
-            value = null;
-            expirationTime = -1;
+        publid void invblidbtf() {
+            kfy = null;
+            vbluf = null;
+            fxpirbtionTimf = -1;
         }
     }
 
-    private static class SoftCacheEntry<K,V>
-            extends SoftReference<V>
-            implements CacheEntry<K,V> {
+    privbtf stbtid dlbss SoftCbdifEntry<K,V>
+            fxtfnds SoftRfffrfndf<V>
+            implfmfnts CbdifEntry<K,V> {
 
-        private K key;
-        private long expirationTime;
+        privbtf K kfy;
+        privbtf long fxpirbtionTimf;
 
-        SoftCacheEntry(K key, V value, long expirationTime,
-                ReferenceQueue<V> queue) {
-            super(value, queue);
-            this.key = key;
-            this.expirationTime = expirationTime;
+        SoftCbdifEntry(K kfy, V vbluf, long fxpirbtionTimf,
+                RfffrfndfQufuf<V> qufuf) {
+            supfr(vbluf, qufuf);
+            tiis.kfy = kfy;
+            tiis.fxpirbtionTimf = fxpirbtionTimf;
         }
 
-        public K getKey() {
-            return key;
+        publid K gftKfy() {
+            rfturn kfy;
         }
 
-        public V getValue() {
-            return get();
+        publid V gftVbluf() {
+            rfturn gft();
         }
 
-        public boolean isValid(long currentTime) {
-            boolean valid = (currentTime <= expirationTime) && (get() != null);
-            if (valid == false) {
-                invalidate();
+        publid boolfbn isVblid(long durrfntTimf) {
+            boolfbn vblid = (durrfntTimf <= fxpirbtionTimf) && (gft() != null);
+            if (vblid == fblsf) {
+                invblidbtf();
             }
-            return valid;
+            rfturn vblid;
         }
 
-        public void invalidate() {
-            clear();
-            key = null;
-            expirationTime = -1;
+        publid void invblidbtf() {
+            dlfbr();
+            kfy = null;
+            fxpirbtionTimf = -1;
         }
     }
 

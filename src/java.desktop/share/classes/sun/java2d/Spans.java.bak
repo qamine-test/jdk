@@ -1,389 +1,389 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import java.util.Comparator;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Vfdtor;
 
 /**
- * Maintains a list of half-open intervals, called Spans.
- * A Span can be tested against the list of Spans
- * for intersection.
+ * Mbintbins b list of iblf-opfn intfrvbls, dbllfd Spbns.
+ * A Spbn dbn bf tfstfd bgbinst tif list of Spbns
+ * for intfrsfdtion.
  */
-public class Spans {
+publid dlbss Spbns {
 
     /**
-     * This class will sort and collapse its span
-     * entries after this many span additions via
-     * the <code>add</code> method.
+     * Tiis dlbss will sort bnd dollbpsf its spbn
+     * fntrifs bftfr tiis mbny spbn bdditions vib
+     * tif <dodf>bdd</dodf> mftiod.
      */
-    private static final int kMaxAddsSinceSort = 256;
+    privbtf stbtid finbl int kMbxAddsSindfSort = 256;
 
     /**
-     * Holds a list of individual
-     * Span instances.
+     * Holds b list of individubl
+     * Spbn instbndfs.
      */
-    private List<Span> mSpans = new Vector<>(kMaxAddsSinceSort);
+    privbtf List<Spbn> mSpbns = nfw Vfdtor<>(kMbxAddsSindfSort);
 
     /**
-     * The number of <code>Span</code>
-     * instances that have been added
-     * to this object without a sort
-     * and collapse taking place.
+     * Tif numbfr of <dodf>Spbn</dodf>
+     * instbndfs tibt ibvf bffn bddfd
+     * to tiis objfdt witiout b sort
+     * bnd dollbpsf tbking plbdf.
      */
-    private int mAddsSinceSort = 0;
+    privbtf int mAddsSindfSort = 0;
 
-    public Spans() {
+    publid Spbns() {
 
     }
 
     /**
-     * Add a span covering the half open interval
-     * including <code>start</code> up to
-     * but not including <code>end</code>.
+     * Add b spbn dovfring tif iblf opfn intfrvbl
+     * indluding <dodf>stbrt</dodf> up to
+     * but not indluding <dodf>fnd</dodf>.
      */
-    public void add(float start, float end) {
+    publid void bdd(flobt stbrt, flobt fnd) {
 
-        if (mSpans != null) {
-            mSpans.add(new Span(start, end));
+        if (mSpbns != null) {
+            mSpbns.bdd(nfw Spbn(stbrt, fnd));
 
-            if (++mAddsSinceSort >= kMaxAddsSinceSort) {
-                sortAndCollapse();
+            if (++mAddsSindfSort >= kMbxAddsSindfSort) {
+                sortAndCollbpsf();
             }
         }
     }
 
     /**
-     * Add a span which covers the entire range.
-     * This call is logically equivalent to
-     * <code>add(Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY)</code>
-     * The result of making this call is that
-     * all future <code>add</code> calls are ignored
-     * and the <code>intersects</code> method always
-     * returns true.
+     * Add b spbn wiidi dovfrs tif fntirf rbngf.
+     * Tiis dbll is logidblly fquivblfnt to
+     * <dodf>bdd(Flobt.NEGATIVE_INFINITY, Flobt.POSITIVE_INFINITY)</dodf>
+     * Tif rfsult of mbking tiis dbll is tibt
+     * bll futurf <dodf>bdd</dodf> dblls brf ignorfd
+     * bnd tif <dodf>intfrsfdts</dodf> mftiod blwbys
+     * rfturns truf.
      */
-    public void addInfinite() {
-        mSpans = null;
+    publid void bddInfinitf() {
+        mSpbns = null;
     }
 
     /**
-     * Returns true if the span defined by the half-open
-     * interval from <code>start</code> up to,
-     * but not including, <code>end</code> intersects
-     * any of the spans defined by this instance.
+     * Rfturns truf if tif spbn dffinfd by tif iblf-opfn
+     * intfrvbl from <dodf>stbrt</dodf> up to,
+     * but not indluding, <dodf>fnd</dodf> intfrsfdts
+     * bny of tif spbns dffinfd by tiis instbndf.
      */
-    public boolean intersects(float start, float end) {
-        boolean doesIntersect;
+    publid boolfbn intfrsfdts(flobt stbrt, flobt fnd) {
+        boolfbn dofsIntfrsfdt;
 
-        if (mSpans != null) {
+        if (mSpbns != null) {
 
-            /* If we have added any spans since we last
-             * sorted and collapsed our list of spans
-             * then we need to resort and collapse.
+            /* If wf ibvf bddfd bny spbns sindf wf lbst
+             * sortfd bnd dollbpsfd our list of spbns
+             * tifn wf nffd to rfsort bnd dollbpsf.
              */
-            if (mAddsSinceSort > 0) {
-                sortAndCollapse();
+            if (mAddsSindfSort > 0) {
+                sortAndCollbpsf();
             }
 
-            /* The SpanIntersection comparator considers
-             * two spans equal if they intersect. If
-             * the search finds a match then we have an
-             * intersection.
+            /* Tif SpbnIntfrsfdtion dompbrbtor donsidfrs
+             * two spbns fqubl if tify intfrsfdt. If
+             * tif sfbrdi finds b mbtdi tifn wf ibvf bn
+             * intfrsfdtion.
              */
-            int found = Collections.binarySearch(mSpans,
-                                                 new Span(start, end),
-                                                 SpanIntersection.instance);
+            int found = Collfdtions.binbrySfbrdi(mSpbns,
+                                                 nfw Spbn(stbrt, fnd),
+                                                 SpbnIntfrsfdtion.instbndf);
 
-            doesIntersect = found >= 0;
+            dofsIntfrsfdt = found >= 0;
 
-        /* The addInfinite() method has been invoked so
-         * everything intersect this instance.
+        /* Tif bddInfinitf() mftiod ibs bffn invokfd so
+         * fvfrytiing intfrsfdt tiis instbndf.
          */
-        } else {
-           doesIntersect = true;
+        } flsf {
+           dofsIntfrsfdt = truf;
         }
 
-        return doesIntersect;
+        rfturn dofsIntfrsfdt;
     }
 
     /**
-     * Sort the spans in ascending order by their
-     * start position. After the spans are sorted
-     * collapse any spans that intersect into a
-     * single span. The result is a sorted,
-     * non-overlapping list of spans.
+     * Sort tif spbns in bsdfnding ordfr by tifir
+     * stbrt position. Aftfr tif spbns brf sortfd
+     * dollbpsf bny spbns tibt intfrsfdt into b
+     * singlf spbn. Tif rfsult is b sortfd,
+     * non-ovfrlbpping list of spbns.
      */
-    private void sortAndCollapse() {
+    privbtf void sortAndCollbpsf() {
 
-        Collections.sort(mSpans);
-        mAddsSinceSort = 0;
+        Collfdtions.sort(mSpbns);
+        mAddsSindfSort = 0;
 
-        Iterator<Span> iter = mSpans.iterator();
+        Itfrbtor<Spbn> itfr = mSpbns.itfrbtor();
 
-        /* Have 'span' start at the first span in
-         * the collection. The collection may be empty
-         * so we're careful.
+        /* Hbvf 'spbn' stbrt bt tif first spbn in
+         * tif dollfdtion. Tif dollfdtion mby bf fmpty
+         * so wf'rf dbrfful.
          */
-        Span span = null;
-        if (iter.hasNext()) {
-            span = iter.next();
+        Spbn spbn = null;
+        if (itfr.ibsNfxt()) {
+            spbn = itfr.nfxt();
         }
 
-        /* Loop over the spans collapsing those that intersect
-         * into a single span.
+        /* Loop ovfr tif spbns dollbpsing tiosf tibt intfrsfdt
+         * into b singlf spbn.
          */
-        while (iter.hasNext()) {
+        wiilf (itfr.ibsNfxt()) {
 
-            Span nextSpan = iter.next();
+            Spbn nfxtSpbn = itfr.nfxt();
 
-            /* The spans are in ascending start position
-             * order and so the next span's starting point
-             * is either in the span we are trying to grow
-             * or it is beyond the first span and thus the
-             * two spans do not intersect.
+            /* Tif spbns brf in bsdfnding stbrt position
+             * ordfr bnd so tif nfxt spbn's stbrting point
+             * is fitifr in tif spbn wf brf trying to grow
+             * or it is bfyond tif first spbn bnd tius tif
+             * two spbns do not intfrsfdt.
              *
-             * span:    <----------<
-             * nextSpan:        <------         (intersects)
-             * nextSpan:                <------ (doesn't intersect)
+             * spbn:    <----------<
+             * nfxtSpbn:        <------         (intfrsfdts)
+             * nfxtSpbn:                <------ (dofsn't intfrsfdt)
              *
-             * If the spans intersect then we'll remove
-             * nextSpan from the list. If nextSpan's
-             * ending was beyond the first's then
-             * we extend the first.
+             * If tif spbns intfrsfdt tifn wf'll rfmovf
+             * nfxtSpbn from tif list. If nfxtSpbn's
+             * fnding wbs bfyond tif first's tifn
+             * wf fxtfnd tif first.
              *
-             * span:    <----------<
-             * nextSpan:   <-----<              (don't change span)
-             * nextSpan:        <-----------<   (grow span)
+             * spbn:    <----------<
+             * nfxtSpbn:   <-----<              (don't dibngf spbn)
+             * nfxtSpbn:        <-----------<   (grow spbn)
              */
 
-            if (span.subsume(nextSpan)) {
-                iter.remove();
+            if (spbn.subsumf(nfxtSpbn)) {
+                itfr.rfmovf();
 
-            /* The next span did not intersect the current
-             * span and so it can not be collapsed. Instead
-             * it becomes the start of the next set of spans
-             * to be collapsed.
+            /* Tif nfxt spbn did not intfrsfdt tif durrfnt
+             * spbn bnd so it dbn not bf dollbpsfd. Instfbd
+             * it bfdomfs tif stbrt of tif nfxt sft of spbns
+             * to bf dollbpsfd.
              */
-            } else {
-                span = nextSpan;
+            } flsf {
+                spbn = nfxtSpbn;
             }
         }
     }
 
     /*
-    // For debugging.
+    // For dfbugging.
 
-    private void printSpans() {
-        System.out.println("----------");
-        if (mSpans != null) {
-            Iterator<Span> iter = mSpans.iterator();
-            while (iter.hasNext()) {
-                Span span = iter.next();
-                System.out.println(span);
+    privbtf void printSpbns() {
+        Systfm.out.println("----------");
+        if (mSpbns != null) {
+            Itfrbtor<Spbn> itfr = mSpbns.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                Spbn spbn = itfr.nfxt();
+                Systfm.out.println(spbn);
             }
         }
-        System.out.println("----------");
+        Systfm.out.println("----------");
 
     }
     */
 
     /**
-     * Holds a single half-open interval.
+     * Holds b singlf iblf-opfn intfrvbl.
      */
-    static class Span implements Comparable<Span> {
+    stbtid dlbss Spbn implfmfnts Compbrbblf<Spbn> {
 
         /**
-         * The span includes the starting point.
+         * Tif spbn indludfs tif stbrting point.
          */
-        private float mStart;
+        privbtf flobt mStbrt;
 
         /**
-         * The span goes up to but does not include
-         * the ending point.
+         * Tif spbn gofs up to but dofs not indludf
+         * tif fnding point.
          */
-        private float mEnd;
+        privbtf flobt mEnd;
 
         /**
-         * Create a half-open interval including
-         * <code>start</code> but not including
-         * <code>end</code>.
+         * Crfbtf b iblf-opfn intfrvbl indluding
+         * <dodf>stbrt</dodf> but not indluding
+         * <dodf>fnd</dodf>.
          */
-        Span(float start, float end) {
-            mStart = start;
-            mEnd = end;
+        Spbn(flobt stbrt, flobt fnd) {
+            mStbrt = stbrt;
+            mEnd = fnd;
         }
 
         /**
-         * Return the start of the <code>Span</code>.
-         * The start is considered part of the
-         * half-open interval.
+         * Rfturn tif stbrt of tif <dodf>Spbn</dodf>.
+         * Tif stbrt is donsidfrfd pbrt of tif
+         * iblf-opfn intfrvbl.
          */
-        final float getStart() {
-            return mStart;
+        finbl flobt gftStbrt() {
+            rfturn mStbrt;
         }
 
         /**
-         * Return the end of the <code>Span</code>.
-         * The end is not considered part of the
-         * half-open interval.
+         * Rfturn tif fnd of tif <dodf>Spbn</dodf>.
+         * Tif fnd is not donsidfrfd pbrt of tif
+         * iblf-opfn intfrvbl.
          */
-        final float getEnd() {
-            return mEnd;
+        finbl flobt gftEnd() {
+            rfturn mEnd;
         }
 
         /**
-         * Change the initial position of the
-         * <code>Span</code>.
+         * Cibngf tif initibl position of tif
+         * <dodf>Spbn</dodf>.
          */
-        final void setStart(float start) {
-            mStart = start;
+        finbl void sftStbrt(flobt stbrt) {
+            mStbrt = stbrt;
         }
 
         /**
-         * Change the terminal position of the
-         * <code>Span</code>.
+         * Cibngf tif tfrminbl position of tif
+         * <dodf>Spbn</dodf>.
          */
-        final void setEnd(float end) {
-            mEnd = end;
+        finbl void sftEnd(flobt fnd) {
+            mEnd = fnd;
         }
 
         /**
-         * Attempt to alter this <code>Span</code>
-         * to include <code>otherSpan</code> without
-         * altering this span's starting position.
-         * If <code>otherSpan</code> can be so consumed
-         * by this <code>Span</code> then <code>true</code>
-         * is returned.
+         * Attfmpt to bltfr tiis <dodf>Spbn</dodf>
+         * to indludf <dodf>otifrSpbn</dodf> witiout
+         * bltfring tiis spbn's stbrting position.
+         * If <dodf>otifrSpbn</dodf> dbn bf so donsumfd
+         * by tiis <dodf>Spbn</dodf> tifn <dodf>truf</dodf>
+         * is rfturnfd.
          */
-        boolean subsume(Span otherSpan) {
+        boolfbn subsumf(Spbn otifrSpbn) {
 
-            /* We can only subsume 'otherSpan' if
-             * its starting position lies in our
-             * interval.
+            /* Wf dbn only subsumf 'otifrSpbn' if
+             * its stbrting position lifs in our
+             * intfrvbl.
              */
-            boolean isSubsumed = contains(otherSpan.mStart);
+            boolfbn isSubsumfd = dontbins(otifrSpbn.mStbrt);
 
-            /* If the other span's starting position
-             * was in our interval and the other span
-             * was longer than this span, then we need
-             * to grow this span to cover the difference.
+            /* If tif otifr spbn's stbrting position
+             * wbs in our intfrvbl bnd tif otifr spbn
+             * wbs longfr tibn tiis spbn, tifn wf nffd
+             * to grow tiis spbn to dovfr tif difffrfndf.
              */
-            if (isSubsumed && otherSpan.mEnd > mEnd) {
-                mEnd = otherSpan.mEnd;
+            if (isSubsumfd && otifrSpbn.mEnd > mEnd) {
+                mEnd = otifrSpbn.mEnd;
             }
 
-            return isSubsumed;
+            rfturn isSubsumfd;
         }
 
         /**
-         * Return true if the passed in position
-         * lies in the half-open interval defined
-         * by this <code>Span</code>.
+         * Rfturn truf if tif pbssfd in position
+         * lifs in tif iblf-opfn intfrvbl dffinfd
+         * by tiis <dodf>Spbn</dodf>.
          */
-        boolean contains(float pos) {
-            return mStart <= pos && pos < mEnd;
+        boolfbn dontbins(flobt pos) {
+            rfturn mStbrt <= pos && pos < mEnd;
         }
 
         /**
-         * Rank spans according to their starting
-         * position. The end position is ignored
-         * in this ranking.
+         * Rbnk spbns bddording to tifir stbrting
+         * position. Tif fnd position is ignorfd
+         * in tiis rbnking.
          */
-        public int compareTo(Span otherSpan) {
-            float otherStart = otherSpan.getStart();
-            int result;
+        publid int dompbrfTo(Spbn otifrSpbn) {
+            flobt otifrStbrt = otifrSpbn.gftStbrt();
+            int rfsult;
 
-            if (mStart < otherStart) {
-                result = -1;
-            } else if (mStart > otherStart) {
-                result = 1;
-            } else {
-                result = 0;
+            if (mStbrt < otifrStbrt) {
+                rfsult = -1;
+            } flsf if (mStbrt > otifrStbrt) {
+                rfsult = 1;
+            } flsf {
+                rfsult = 0;
             }
 
-            return result;
+            rfturn rfsult;
         }
 
-        public String toString() {
-            return "Span: " + mStart + " to " + mEnd;
+        publid String toString() {
+            rfturn "Spbn: " + mStbrt + " to " + mEnd;
         }
 
     }
 
     /**
-     * This class ranks a pair of <code>Span</code>
-     * instances. If the instances intersect they
-     * are deemed equal otherwise they are ranked
-     * by their relative position. Use
-     * <code>SpanIntersection.instance</code> to
-     * get the single instance of this class.
+     * Tiis dlbss rbnks b pbir of <dodf>Spbn</dodf>
+     * instbndfs. If tif instbndfs intfrsfdt tify
+     * brf dffmfd fqubl otifrwisf tify brf rbnkfd
+     * by tifir rflbtivf position. Usf
+     * <dodf>SpbnIntfrsfdtion.instbndf</dodf> to
+     * gft tif singlf instbndf of tiis dlbss.
      */
-    static class SpanIntersection implements Comparator<Span> {
+    stbtid dlbss SpbnIntfrsfdtion implfmfnts Compbrbtor<Spbn> {
 
         /**
-         * This class is a Singleton and the following
-         * is the single instance.
+         * Tiis dlbss is b Singlfton bnd tif following
+         * is tif singlf instbndf.
          */
-        static final SpanIntersection instance =
-                                      new SpanIntersection();
+        stbtid finbl SpbnIntfrsfdtion instbndf =
+                                      nfw SpbnIntfrsfdtion();
 
         /**
-         * Only this class can create instances of itself.
+         * Only tiis dlbss dbn drfbtf instbndfs of itsflf.
          */
-        private SpanIntersection() {
+        privbtf SpbnIntfrsfdtion() {
 
         }
 
-        public int compare(Span span1, Span span2) {
-            int result;
+        publid int dompbrf(Spbn spbn1, Spbn spbn2) {
+            int rfsult;
 
-            /* Span 1 is entirely to the left of span2.
-             * span1:   <-----<
-             * span2:            <-----<
+            /* Spbn 1 is fntirfly to tif lfft of spbn2.
+             * spbn1:   <-----<
+             * spbn2:            <-----<
              */
-            if (span1.getEnd() <= span2.getStart()) {
-                result = -1;
+            if (spbn1.gftEnd() <= spbn2.gftStbrt()) {
+                rfsult = -1;
 
-            /* Span 2 is entirely to the right of span2.
-             * span1:                     <-----<
-             * span2:            <-----<
+            /* Spbn 2 is fntirfly to tif rigit of spbn2.
+             * spbn1:                     <-----<
+             * spbn2:            <-----<
              */
-            } else if (span1.getStart() >= span2.getEnd()) {
-                result = 1;
+            } flsf if (spbn1.gftStbrt() >= spbn2.gftEnd()) {
+                rfsult = 1;
 
-            /* Otherwise they intersect and we declare them equal.
+            /* Otifrwisf tify intfrsfdt bnd wf dfdlbrf tifm fqubl.
             */
-            } else {
-                result = 0;
+            } flsf {
+                rfsult = 0;
             }
 
-            return result;
+            rfturn rfsult;
         }
 
     }

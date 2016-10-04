@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * This class is used to identify destinations in connection blocks,
- * see ModelConnectionBlock.
+ * Tiis dlbss is usfd to idfntify dfstinbtions in donnfdtion blodks,
+ * sff ModflConnfdtionBlodk.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class ModelDestination {
+publid finbl dlbss ModflDfstinbtion {
 
-    public static final ModelIdentifier DESTINATION_NONE = null;
-    public static final ModelIdentifier DESTINATION_KEYNUMBER
-            = new ModelIdentifier("noteon", "keynumber");
-    public static final ModelIdentifier DESTINATION_VELOCITY
-            = new ModelIdentifier("noteon", "velocity");
-    public static final ModelIdentifier DESTINATION_PITCH
-            = new ModelIdentifier("osc", "pitch");   // cent
-    public static final ModelIdentifier DESTINATION_GAIN
-            = new ModelIdentifier("mixer", "gain");   // cB
-    public static final ModelIdentifier DESTINATION_PAN
-            = new ModelIdentifier("mixer", "pan");   // 0.1 %
-    public static final ModelIdentifier DESTINATION_REVERB
-            = new ModelIdentifier("mixer", "reverb");   // 0.1 %
-    public static final ModelIdentifier DESTINATION_CHORUS
-            = new ModelIdentifier("mixer", "chorus");   // 0.1 %
-    public static final ModelIdentifier DESTINATION_LFO1_DELAY
-            = new ModelIdentifier("lfo", "delay", 0); // timecent
-    public static final ModelIdentifier DESTINATION_LFO1_FREQ
-            = new ModelIdentifier("lfo", "freq", 0); // cent
-    public static final ModelIdentifier DESTINATION_LFO2_DELAY
-            = new ModelIdentifier("lfo", "delay", 1); // timecent
-    public static final ModelIdentifier DESTINATION_LFO2_FREQ
-            = new ModelIdentifier("lfo", "freq", 1); // cent
-    public static final ModelIdentifier DESTINATION_EG1_DELAY
-            = new ModelIdentifier("eg", "delay", 0); // timecent
-    public static final ModelIdentifier DESTINATION_EG1_ATTACK
-            = new ModelIdentifier("eg", "attack", 0); // timecent
-    public static final ModelIdentifier DESTINATION_EG1_HOLD
-            = new ModelIdentifier("eg", "hold", 0); // timecent
-    public static final ModelIdentifier DESTINATION_EG1_DECAY
-            = new ModelIdentifier("eg", "decay", 0); // timecent
-    public static final ModelIdentifier DESTINATION_EG1_SUSTAIN
-            = new ModelIdentifier("eg", "sustain", 0);
-                                        // 0.1 % (I want this to be value not %)
-    public static final ModelIdentifier DESTINATION_EG1_RELEASE
-            = new ModelIdentifier("eg", "release", 0); // timecent
-    public static final ModelIdentifier DESTINATION_EG1_SHUTDOWN
-            = new ModelIdentifier("eg", "shutdown", 0); // timecent
-    public static final ModelIdentifier DESTINATION_EG2_DELAY
-            = new ModelIdentifier("eg", "delay", 1); // timecent
-    public static final ModelIdentifier DESTINATION_EG2_ATTACK
-            = new ModelIdentifier("eg", "attack", 1); // timecent
-    public static final ModelIdentifier DESTINATION_EG2_HOLD
-            = new ModelIdentifier("eg", "hold", 1); // 0.1 %
-    public static final ModelIdentifier DESTINATION_EG2_DECAY
-            = new ModelIdentifier("eg", "decay", 1); // timecent
-    public static final ModelIdentifier DESTINATION_EG2_SUSTAIN
-            = new ModelIdentifier("eg", "sustain", 1);
-                                        // 0.1 % ( I want this to be value not %)
-    public static final ModelIdentifier DESTINATION_EG2_RELEASE
-            = new ModelIdentifier("eg", "release", 1); // timecent
-    public static final ModelIdentifier DESTINATION_EG2_SHUTDOWN
-            = new ModelIdentifier("eg", "shutdown", 1); // timecent
-    public static final ModelIdentifier DESTINATION_FILTER_FREQ
-            = new ModelIdentifier("filter", "freq", 0); // cent
-    public static final ModelIdentifier DESTINATION_FILTER_Q
-            = new ModelIdentifier("filter", "q", 0); // cB
-    private ModelIdentifier destination = DESTINATION_NONE;
-    private ModelTransform transform = new ModelStandardTransform();
+    publid stbtid finbl ModflIdfntififr DESTINATION_NONE = null;
+    publid stbtid finbl ModflIdfntififr DESTINATION_KEYNUMBER
+            = nfw ModflIdfntififr("notfon", "kfynumbfr");
+    publid stbtid finbl ModflIdfntififr DESTINATION_VELOCITY
+            = nfw ModflIdfntififr("notfon", "vflodity");
+    publid stbtid finbl ModflIdfntififr DESTINATION_PITCH
+            = nfw ModflIdfntififr("osd", "pitdi");   // dfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_GAIN
+            = nfw ModflIdfntififr("mixfr", "gbin");   // dB
+    publid stbtid finbl ModflIdfntififr DESTINATION_PAN
+            = nfw ModflIdfntififr("mixfr", "pbn");   // 0.1 %
+    publid stbtid finbl ModflIdfntififr DESTINATION_REVERB
+            = nfw ModflIdfntififr("mixfr", "rfvfrb");   // 0.1 %
+    publid stbtid finbl ModflIdfntififr DESTINATION_CHORUS
+            = nfw ModflIdfntififr("mixfr", "diorus");   // 0.1 %
+    publid stbtid finbl ModflIdfntififr DESTINATION_LFO1_DELAY
+            = nfw ModflIdfntififr("lfo", "dflby", 0); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_LFO1_FREQ
+            = nfw ModflIdfntififr("lfo", "frfq", 0); // dfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_LFO2_DELAY
+            = nfw ModflIdfntififr("lfo", "dflby", 1); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_LFO2_FREQ
+            = nfw ModflIdfntififr("lfo", "frfq", 1); // dfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG1_DELAY
+            = nfw ModflIdfntififr("fg", "dflby", 0); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG1_ATTACK
+            = nfw ModflIdfntififr("fg", "bttbdk", 0); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG1_HOLD
+            = nfw ModflIdfntififr("fg", "iold", 0); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG1_DECAY
+            = nfw ModflIdfntififr("fg", "dfdby", 0); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG1_SUSTAIN
+            = nfw ModflIdfntififr("fg", "sustbin", 0);
+                                        // 0.1 % (I wbnt tiis to bf vbluf not %)
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG1_RELEASE
+            = nfw ModflIdfntififr("fg", "rflfbsf", 0); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG1_SHUTDOWN
+            = nfw ModflIdfntififr("fg", "siutdown", 0); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG2_DELAY
+            = nfw ModflIdfntififr("fg", "dflby", 1); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG2_ATTACK
+            = nfw ModflIdfntififr("fg", "bttbdk", 1); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG2_HOLD
+            = nfw ModflIdfntififr("fg", "iold", 1); // 0.1 %
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG2_DECAY
+            = nfw ModflIdfntififr("fg", "dfdby", 1); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG2_SUSTAIN
+            = nfw ModflIdfntififr("fg", "sustbin", 1);
+                                        // 0.1 % ( I wbnt tiis to bf vbluf not %)
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG2_RELEASE
+            = nfw ModflIdfntififr("fg", "rflfbsf", 1); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_EG2_SHUTDOWN
+            = nfw ModflIdfntififr("fg", "siutdown", 1); // timfdfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_FILTER_FREQ
+            = nfw ModflIdfntififr("filtfr", "frfq", 0); // dfnt
+    publid stbtid finbl ModflIdfntififr DESTINATION_FILTER_Q
+            = nfw ModflIdfntififr("filtfr", "q", 0); // dB
+    privbtf ModflIdfntififr dfstinbtion = DESTINATION_NONE;
+    privbtf ModflTrbnsform trbnsform = nfw ModflStbndbrdTrbnsform();
 
-    public ModelDestination() {
+    publid ModflDfstinbtion() {
     }
 
-    public ModelDestination(ModelIdentifier id) {
-        destination = id;
+    publid ModflDfstinbtion(ModflIdfntififr id) {
+        dfstinbtion = id;
     }
 
-    public ModelIdentifier getIdentifier() {
-        return destination;
+    publid ModflIdfntififr gftIdfntififr() {
+        rfturn dfstinbtion;
     }
 
-    public void setIdentifier(ModelIdentifier destination) {
-        this.destination = destination;
+    publid void sftIdfntififr(ModflIdfntififr dfstinbtion) {
+        tiis.dfstinbtion = dfstinbtion;
     }
 
-    public ModelTransform getTransform() {
-        return transform;
+    publid ModflTrbnsform gftTrbnsform() {
+        rfturn trbnsform;
     }
 
-    public void setTransform(ModelTransform transform) {
-        this.transform = transform;
+    publid void sftTrbnsform(ModflTrbnsform trbnsform) {
+        tiis.trbnsform = trbnsform;
     }
 }

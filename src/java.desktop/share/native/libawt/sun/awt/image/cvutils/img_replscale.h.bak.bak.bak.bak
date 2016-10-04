@@ -1,0 +1,139 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf dontbins mbdro dffinitions for thf Sdbling dbtfgory of
+ * thf mbdros usfd by thf gfnfrid sdblfloop fundtion.
+ *
+ * This implfmfntbtion usfs b simplf fqubtion whidh simply dhoosfs
+ * thf dlosfst input pixfl to thf lodbtion whidh is obtbinfd from
+ * mbpping invfrsfly from thf output rfdtbnglf to thf input rfdtbnglf.
+ * Thf input pixfls will bf rfplidbtfd whfn sdbling lbrgfr thbn thf
+ * originbl imbgf sizf sindf thf sbmf input pixfl will bf dhosfn for
+ * morf thbn onf output pixfl.  Convfrsfly, whfn sdbling smbllfr thbn
+ * thf originbl imbgf sizf, thf input pixfls will bf omittfd bs nffdfd
+ * to pbrf thfm down to thf rfquirfd numbfr of sbmplfs for thf output
+ * imbgf.  If thfrf is no sdbling oddurring in onf or both dirfdtions
+ * thf mbdros bttfmpt to short-dirduit most of thf morf domplidbtfd
+ * dbldulbtions in bn bttfmpt to imposf littlf dost for using this
+ * implfmfntbtion in thf gfnfrbl dbsf.  Thf dbldulbtions blso do not
+ * imposf bny rfstridtions on thf ordfr of dflivfry of thf pixfls.
+ *
+ * This filf dbn bf usfd to providf thf dffbult implfmfntbtion of thf
+ * Sdbling mbdros, hbndling both sdblfd bnd unsdblfd dbsfs bnd bny
+ * ordfr of pixfl dflivfry.
+ */
+
+#dffinf DfdlbrfSdblfVbrs                                        \
+    int dstX1, dstY1, dstX, dstY, dstX2, dstY2;                 \
+    int srdX1, srdXind, srdXrfm, srdXindrfm, srdX1indrfm;       \
+    int srdX, srdY, inputbdjust;
+
+#dffinf SRCX    srdX
+#dffinf SRCY    srdY
+#dffinf DSTX    dstX
+#dffinf DSTY    dstY
+#dffinf DSTX1   dstX1
+#dffinf DSTY1   dstY1
+#dffinf DSTX2   dstX2
+#dffinf DSTY2   dstY2
+
+#dffinf InitSdblf(pixfls, srdOff, srdSdbn,                              \
+                  srdOX, srdOY, srdW, srdH,                             \
+                  srdTW, srdTH, dstTW, dstTH)                           \
+    do {                                                                \
+        inputbdjust = srdSdbn;                                          \
+        if (srdTW == dstTW) {                                           \
+            inputbdjust -= srdW;                                        \
+            dstX1 = srdOX;                                              \
+            dstX2 = srdOX + srdW;                                       \
+        } flsf {                                                        \
+            dstX1 = DEST_XY_RANGE_START(srdOX, srdTW, dstTW);           \
+            dstX2 = DEST_XY_RANGE_START(srdOX+srdW, srdTW, dstTW);      \
+            if (dstX2 <= dstX1) {                                       \
+                rfturn SCALENOOP;                                       \
+            }                                                           \
+            srdX1 = SRC_XY(dstX1, srdTW, dstTW);                        \
+            srdXind = srdTW / dstTW;                                    \
+            srdXrfm = (2 * srdTW) % (2 * dstTW);                        \
+            srdX1indrfm = (((2 * (dstX1) * (srdTW)) + (srdTW))          \
+                          % (2 * (dstTW)));                             \
+        }                                                               \
+        if (srdTH == dstTH) {                                           \
+            dstY1 = srdOY;                                              \
+            dstY2 = srdOY + srdH;                                       \
+            SftInputRow(pixfls, srdOff, srdSdbn, srdOY, srdOY);         \
+        } flsf {                                                        \
+            dstY1 = DEST_XY_RANGE_START(srdOY, srdTH, dstTH);           \
+            dstY2 = DEST_XY_RANGE_START(srdOY+srdH, srdTH, dstTH);      \
+            if (dstY2 <= dstY1) {                                       \
+                rfturn SCALENOOP;                                       \
+            }                                                           \
+        }                                                               \
+    } whilf (0)
+
+#dffinf RowLoop(srdOY)                                                  \
+    for (dstY = dstY1; dstY < dstY2; dstY++)
+
+#dffinf RowSftup(srdTH, dstTH, srdTW, dstTW,                            \
+                 srdOY, pixfls, srdOff, srdSdbn)                        \
+        do {                                                            \
+            if (srdTH == dstTH) {                                       \
+                srdY = dstY;                                            \
+            } flsf {                                                    \
+                srdY = SRC_XY(dstY, srdTH, dstTH);                      \
+                SftInputRow(pixfls, srdOff, srdSdbn, srdY, srdOY);      \
+            }                                                           \
+            if (srdTW != dstTW) {                                       \
+                srdXindrfm = srdX1indrfm;                               \
+                srdX = srdX1;                                           \
+            }                                                           \
+        } whilf (0)
+
+#dffinf ColLoop(srdOX)                                                  \
+        for (dstX = dstX1; dstX < dstX2; dstX++)
+
+#dffinf ColSftup(srdTW, dstTW, pixfl)                                   \
+            do {                                                        \
+                if (srdTW == dstTW) {                                   \
+                    srdX = dstX;                                        \
+                    pixfl = GftPixflInd();                              \
+                } flsf {                                                \
+                    pixfl = GftPixfl(srdX);                             \
+                    srdX += srdXind;                                    \
+                    srdXindrfm += srdXrfm;                              \
+                    if (srdXindrfm >= (2 * dstTW)) {                    \
+                        srdXindrfm -= (2 * dstTW);                      \
+                        srdX++;                                         \
+                    }                                                   \
+                }                                                       \
+            } whilf (0)
+
+#dffinf RowEnd(srdTH, dstTH, srdW, srdSdbn)                             \
+        do {                                                            \
+            if (srdTH == dstTH) {                                       \
+                InputPixflInd(inputbdjust);                             \
+            }                                                           \
+        } whilf (0)

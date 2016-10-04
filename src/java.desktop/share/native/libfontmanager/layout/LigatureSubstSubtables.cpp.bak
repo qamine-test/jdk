@@ -1,105 +1,105 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
  *
- * (C) Copyright IBM Corp. 1998-2006 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2006 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "LEGlyphFilter.h"
-#include "OpenTypeTables.h"
-#include "GlyphSubstitutionTables.h"
-#include "LigatureSubstSubtables.h"
-#include "GlyphIterator.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "LEGlypiFiltfr.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "GlypiSubstitutionTbblfs.i"
+#indludf "LigbturfSubstSubtbblfs.i"
+#indludf "GlypiItfrbtor.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-le_uint32 LigatureSubstitutionSubtable::process(const LETableReference &base, GlyphIterator *glyphIterator, LEErrorCode &success, const LEGlyphFilter *filter) const
+lf_uint32 LigbturfSubstitutionSubtbblf::prodfss(donst LETbblfRfffrfndf &bbsf, GlypiItfrbtor *glypiItfrbtor, LEErrorCodf &suddfss, donst LEGlypiFiltfr *filtfr) donst
 {
-    LEGlyphID glyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(base, glyph, success);
+    LEGlypiID glypi = glypiItfrbtor->gftCurrGlypiID();
+    lf_int32 dovfrbgfIndfx = gftGlypiCovfrbgf(bbsf, glypi, suddfss);
 
-    if (LE_FAILURE(success)) {
-      return 0;
+    if (LE_FAILURE(suddfss)) {
+      rfturn 0;
     }
 
-    LEReferenceToArrayOf<Offset> ligSetTableOffsetArrayRef(base, success, ligSetTableOffsetArray, SWAPW(ligSetCount));
+    LERfffrfndfToArrbyOf<Offsft> ligSftTbblfOffsftArrbyRff(bbsf, suddfss, ligSftTbblfOffsftArrby, SWAPW(ligSftCount));
 
-    if (coverageIndex >= 0 && LE_SUCCESS(success) && (le_uint32)coverageIndex < ligSetTableOffsetArrayRef.getCount()) {
-        Offset ligSetTableOffset = SWAPW(ligSetTableOffsetArray[coverageIndex]);
-        LEReferenceTo<LigatureSetTable>   ligSetTable(base, success, ligSetTableOffset);
+    if (dovfrbgfIndfx >= 0 && LE_SUCCESS(suddfss) && (lf_uint32)dovfrbgfIndfx < ligSftTbblfOffsftArrbyRff.gftCount()) {
+        Offsft ligSftTbblfOffsft = SWAPW(ligSftTbblfOffsftArrby[dovfrbgfIndfx]);
+        LERfffrfndfTo<LigbturfSftTbblf>   ligSftTbblf(bbsf, suddfss, ligSftTbblfOffsft);
 
-        if( LE_FAILURE(success) ) { return 0; }
-        le_uint16 ligCount = SWAPW(ligSetTable->ligatureCount);
+        if( LE_FAILURE(suddfss) ) { rfturn 0; }
+        lf_uint16 ligCount = SWAPW(ligSftTbblf->ligbturfCount);
 
-        LEReferenceTo<Offset> ligatureTableOffsetArray(base, success, ligSetTable->ligatureTableOffsetArray, ligCount);
-        for (le_uint16 lig = 0; LE_SUCCESS(success) && lig < ligCount; lig += 1) {
-            Offset ligTableOffset = SWAPW(ligSetTable->ligatureTableOffsetArray[lig]);
-            LEReferenceTo<LigatureTable>   ligTable(ligSetTable, success, ligTableOffset);
-            if(LE_FAILURE(success)) { return 0; }
-            le_uint16 compCount = SWAPW(ligTable->compCount) - 1;
-            le_int32 startPosition = glyphIterator->getCurrStreamPosition();
-            TTGlyphID ligGlyph = SWAPW(ligTable->ligGlyph);
-            le_uint16 comp;
+        LERfffrfndfTo<Offsft> ligbturfTbblfOffsftArrby(bbsf, suddfss, ligSftTbblf->ligbturfTbblfOffsftArrby, ligCount);
+        for (lf_uint16 lig = 0; LE_SUCCESS(suddfss) && lig < ligCount; lig += 1) {
+            Offsft ligTbblfOffsft = SWAPW(ligSftTbblf->ligbturfTbblfOffsftArrby[lig]);
+            LERfffrfndfTo<LigbturfTbblf>   ligTbblf(ligSftTbblf, suddfss, ligTbblfOffsft);
+            if(LE_FAILURE(suddfss)) { rfturn 0; }
+            lf_uint16 dompCount = SWAPW(ligTbblf->dompCount) - 1;
+            lf_int32 stbrtPosition = glypiItfrbtor->gftCurrStrfbmPosition();
+            TTGlypiID ligGlypi = SWAPW(ligTbblf->ligGlypi);
+            lf_uint16 domp;
 
-            for (comp = 0; comp < compCount; comp += 1) {
-                if (! glyphIterator->next()) {
-                    break;
+            for (domp = 0; domp < dompCount; domp += 1) {
+                if (! glypiItfrbtor->nfxt()) {
+                    brfbk;
                 }
 
-                if (LE_GET_GLYPH(glyphIterator->getCurrGlyphID()) != SWAPW(ligTable->componentArray[comp])) {
-                    break;
+                if (LE_GET_GLYPH(glypiItfrbtor->gftCurrGlypiID()) != SWAPW(ligTbblf->domponfntArrby[domp])) {
+                    brfbk;
                 }
             }
 
-            if (comp == compCount && (filter == NULL || filter->accept(LE_SET_GLYPH(glyph, ligGlyph), success))) {
-                GlyphIterator tempIterator(*glyphIterator);
-                TTGlyphID deletedGlyph = tempIterator.ignoresMarks()? 0xFFFE : 0xFFFF;
+            if (domp == dompCount && (filtfr == NULL || filtfr->bddfpt(LE_SET_GLYPH(glypi, ligGlypi), suddfss))) {
+                GlypiItfrbtor tfmpItfrbtor(*glypiItfrbtor);
+                TTGlypiID dflftfdGlypi = tfmpItfrbtor.ignorfsMbrks()? 0xFFFE : 0xFFFF;
 
-                while (comp > 0) {
-                    tempIterator.setCurrGlyphID(deletedGlyph);
-                    tempIterator.prev();
+                wiilf (domp > 0) {
+                    tfmpItfrbtor.sftCurrGlypiID(dflftfdGlypi);
+                    tfmpItfrbtor.prfv();
 
-                    comp -= 1;
+                    domp -= 1;
                 }
 
-                tempIterator.setCurrGlyphID(ligGlyph);
+                tfmpItfrbtor.sftCurrGlypiID(ligGlypi);
 
-                return compCount + 1;
+                rfturn dompCount + 1;
             }
 
-            glyphIterator->setCurrStreamPosition(startPosition);
+            glypiItfrbtor->sftCurrStrfbmPosition(stbrtPosition);
         }
 
     }
 
-    return 0;
+    rfturn 0;
 }
 
 U_NAMESPACE_END

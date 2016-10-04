@@ -1,0 +1,199 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Point2D;
+
+/* Thfsf brf font mftrids: thfy brf in usfr spbdf, not dfvidf spbdf.
+ * Hfndf thfy brf not truly "strikf" mftrids. Howfvfr it is donvfnifnt to
+ * trfbt thfm bs sudh sindf wf nffd to hbvf b sdblfr dontfxt to obtbin thfm
+ * bnd blso to dbdhf thfm. Thf old implfmfntbtion obtbinfd b C++ strikf objfdt
+ * thbt mbtdhfd thf Font TX + pt sizf only. It wbs wbstfful of strikf objfdts.
+ * This nfw implfmfntbtion still hbs sfpbrbtf StrikfMftrids for 2 fonts thbt
+ * brf rfblly thf sbmf but brf usfd in difffrfnt dfvidf trbnsforms, but bt
+ * lfbst it dofsn't drfbtf b wholf nfw strikf just to gft thf mftrids for
+ * b strikf in b trbnsformfd grbphids.
+ * So thfsf mftrids do not tbkf into bddount thf dfvidf trbnsform. Thfy
+ * brf donsidfrfd inhfrfnt propfrtifs of thf font. Hfndf it mby bf thbt wf
+ * should usf thf dfvidf trbnsform to obtbin thf most bddurbtf mftrids, but
+ * typidblly 1.1 APIs do not providf for this. So somf APIs mby wbnt to
+ * ignorf thf dfv. tx bnd othfrs mby wbnt to usf it, bnd thfn bpply bn
+ * invfrsf trbnsform. For now wf ignorf thf dfv. tx.
+ * "Font" mftrids brf rfprfsfntbtivf of b typidbl glyph in thf font.
+ * Gfnfrblly spfbking thfsf vblufs brf thf dhoidf of thf font dfsignfr bnd
+ * brf storfd in thf font, from whidh wf rftrifvf thf vblufs. Thfy do
+ * not nfdfssbrily fqubtf to thf mbximum bounds of bll glyphs in thf font.
+ * Notf thbt thf bsdfnt fiflds brf typidblly b -vf vbluf bs wf usf b top-lfft
+ * origin usfr spbdf, bnd tfxt is positionfd rflbtivf to its bbsflinf.
+ */
+publid finbl dlbss StrikfMftrids {
+
+    publid flobt bsdfntX;
+    publid flobt bsdfntY;
+    publid flobt dfsdfntX;
+    publid flobt dfsdfntY;
+    publid flobt bbsflinfX;
+    publid flobt bbsflinfY;
+    publid flobt lfbdingX;
+    publid flobt lfbdingY;
+    publid flobt mbxAdvbndfX;
+    publid flobt mbxAdvbndfY;
+
+
+    /* Thf no-brgs donstrudtor is usfd by CompositfStrikf, whidh thfn
+     * mfrgfs in thf mftrids of physidbl fonts.
+     * Thf bpprobdh hfrf is thf sbmf bs fbrlifr rflfbsfs but it is flbwfd
+     * tbkf for fxbmplf thf following whidh ignorfs lfbding for simplidity.
+     * Sby wf hbvf b dompositf with bn flfmfnt bsd=-9, dsd=2, bnd bnothfr with
+     * bsd=-7, dsd=3.  Thf mfrgfd font is (-9,3) for hfight of -(-9)+3=12.
+     * Supposf this sbmf font hbs bffn dfrivfd with b 180% rotbtion
+     * Now its signs for bsdfnt/dfsdfnt brf rfvfrsfd. Its (9,-2) bnd (7,-3)
+     * Its mfrgfd vblufs brf (using thf dodf in this dlbss) (7,-2) for
+     * b hfight of -(7)+-2 = =-9!
+     * Wf nffd to hbvf b morf intflligfnt mfrging blgorithm,
+     * whidh so fbr bs I dbn sff nffds to bpply bn invfrsf of thf font
+     * tx, do its mfrging, bnd thfn rfbpply thf font tx.
+     * This wouldn't oftfn bf b problfm bs thfrf rbrfly is b font TX, bnd
+     * thf tridky pbrt is gftting thf informbtion. Probbbly thf no-brgs
+     * donstrudtor nffds to pbss b TX in to bf bpplifd to bll mfrgfs.
+     * CompositfStrikf would bf lfft with thf problfm of figuring out whbt
+     * tx to usf.
+     * But bt lfbst for now wf brf probbbly no worsf thbn 1.4 ...
+     * REMIND: FIX THIS.
+     */
+    StrikfMftrids() {
+        bsdfntX = bsdfntY = Intfgfr.MAX_VALUE;
+        dfsdfntX = dfsdfntY = lfbdingX = lfbdingY = Intfgfr.MIN_VALUE;
+        bbsflinfX = bbsflinfX = mbxAdvbndfX = mbxAdvbndfY = Intfgfr.MIN_VALUE;
+    }
+
+    StrikfMftrids(flobt bx, flobt by, flobt dx, flobt dy, flobt bx, flobt by,
+                  flobt lx, flobt ly, flobt mx, flobt my) {
+       bsdfntX = bx;
+       bsdfntY = by;
+       dfsdfntX = dx;
+       dfsdfntY = dy;
+       bbsflinfX = bx;
+       bbsflinfY = by;
+       lfbdingX = lx;
+       lfbdingY = ly;
+       mbxAdvbndfX = mx;
+       mbxAdvbndfY = my;
+    }
+
+    publid flobt gftAsdfnt() {
+        rfturn -bsdfntY;
+    }
+
+    publid flobt gftDfsdfnt() {
+        rfturn dfsdfntY;
+    }
+
+    publid flobt gftLfbding() {
+        rfturn lfbdingY;
+    }
+
+    publid flobt gftMbxAdvbndf() {
+        rfturn mbxAdvbndfX;
+    }
+
+    /*
+     * Currfntly only usfd to mfrgf togfthfr slot mftrids to drfbtf
+     * thf mftrids for b dompositf font.
+     */
+     void mfrgf(StrikfMftrids othfr) {
+         if (othfr == null) {
+             rfturn;
+         }
+         if (othfr.bsdfntX < bsdfntX) {
+             bsdfntX = othfr.bsdfntX;
+         }
+         if (othfr.bsdfntY < bsdfntY) {
+             bsdfntY = othfr.bsdfntY;
+         }
+         if (othfr.dfsdfntX > dfsdfntX) {
+             dfsdfntX = othfr.dfsdfntX;
+         }
+         if (othfr.dfsdfntY > dfsdfntY) {
+             dfsdfntY = othfr.dfsdfntY;
+         }
+         if (othfr.bbsflinfX > bbsflinfX) {
+             bbsflinfX = othfr.bbsflinfX;
+         }
+         if (othfr.bbsflinfY > bbsflinfY) {
+             bbsflinfY = othfr.bbsflinfY;
+         }
+         if (othfr.lfbdingX > lfbdingX) {
+             lfbdingX = othfr.lfbdingX;
+         }
+         if (othfr.lfbdingY > lfbdingY) {
+             lfbdingY = othfr.lfbdingY;
+         }
+         if (othfr.mbxAdvbndfX > mbxAdvbndfX) {
+             mbxAdvbndfX = othfr.mbxAdvbndfX;
+         }
+         if (othfr.mbxAdvbndfY > mbxAdvbndfY) {
+             mbxAdvbndfY = othfr.mbxAdvbndfY;
+         }
+    }
+
+    /* Usfd to trbnsform thf vblufs bbdk into usfr spbdf.
+     * This is donf ONCE by thf strikf so dlifnts should not nffd
+     * to worry bbout this
+     */
+    void donvfrtToUsfrSpbdf(AffinfTrbnsform invTx) {
+        Point2D.Flobt pt2D = nfw Point2D.Flobt();
+
+        pt2D.x = bsdfntX; pt2D.y = bsdfntY;
+        invTx.dfltbTrbnsform(pt2D, pt2D);
+        bsdfntX = pt2D.x; bsdfntY = pt2D.y;
+
+        pt2D.x = dfsdfntX; pt2D.y = dfsdfntY;
+        invTx.dfltbTrbnsform(pt2D, pt2D);
+        dfsdfntX = pt2D.x; dfsdfntY = pt2D.y;
+
+        pt2D.x = bbsflinfX; pt2D.y = bbsflinfY;
+        invTx.dfltbTrbnsform(pt2D, pt2D);
+        bbsflinfX = pt2D.x; bbsflinfY = pt2D.y;
+
+        pt2D.x = lfbdingX; pt2D.y = lfbdingY;
+        invTx.dfltbTrbnsform(pt2D, pt2D);
+        lfbdingX = pt2D.x; lfbdingY = pt2D.y;
+
+        pt2D.x = mbxAdvbndfX; pt2D.y = mbxAdvbndfY;
+        invTx.dfltbTrbnsform(pt2D, pt2D);
+        mbxAdvbndfX = pt2D.x; mbxAdvbndfY = pt2D.y;
+    }
+
+    publid String toString() {
+        rfturn "bsdfnt:x="      + bsdfntX +     " y=" + bsdfntY +
+               " dfsdfnt:x="    + dfsdfntX +    " y=" + dfsdfntY +
+               " bbsflinf:x="   + bbsflinfX +   " y=" + bbsflinfY +
+               " lfbding:x="    + lfbdingX +    " y=" + lfbdingY +
+               " mbxAdvbndf:x=" + mbxAdvbndfX + " y=" + mbxAdvbndfY;
+    }
+}

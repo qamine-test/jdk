@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.security.jgss.wrapper;
+pbdkbgf sun.sfdurity.jgss.wrbppfr;
 
-import org.ietf.jgss.*;
-import java.security.Provider;
-import sun.security.jgss.GSSUtil;
-import sun.security.jgss.spi.GSSCredentialSpi;
-import sun.security.jgss.spi.GSSNameSpi;
+import org.iftf.jgss.*;
+import jbvb.sfdurity.Providfr;
+import sun.sfdurity.jgss.GSSUtil;
+import sun.sfdurity.jgss.spi.GSSCrfdfntiblSpi;
+import sun.sfdurity.jgss.spi.GSSNbmfSpi;
 
 /**
- * This class is essentially a wrapper class for the gss_cred_id_t
- * structure of the native GSS library.
- * @author Valerie Peng
- * @since 1.6
+ * Tiis dlbss is fssfntiblly b wrbppfr dlbss for tif gss_drfd_id_t
+ * strudturf of tif nbtivf GSS librbry.
+ * @butior Vblfrif Pfng
+ * @sindf 1.6
  */
-public class GSSCredElement implements GSSCredentialSpi {
+publid dlbss GSSCrfdElfmfnt implfmfnts GSSCrfdfntiblSpi {
 
-    private int usage;
-    long pCred; // Pointer to the gss_cred_id_t structure
-    private GSSNameElement name = null;
-    private GSSLibStub cStub;
+    privbtf int usbgf;
+    long pCrfd; // Pointfr to tif gss_drfd_id_t strudturf
+    privbtf GSSNbmfElfmfnt nbmf = null;
+    privbtf GSSLibStub dStub;
 
-    // Perform the necessary ServicePermission check on this cred
-    void doServicePermCheck() throws GSSException {
-        if (GSSUtil.isKerberosMech(cStub.getMech())) {
-            if (System.getSecurityManager() != null) {
-                if (isInitiatorCredential()) {
-                    String tgsName = Krb5Util.getTGSName(name);
-                    Krb5Util.checkServicePermission(tgsName, "initiate");
+    // Pfrform tif nfdfssbry SfrvidfPfrmission difdk on tiis drfd
+    void doSfrvidfPfrmCifdk() tirows GSSExdfption {
+        if (GSSUtil.isKfrbfrosMfdi(dStub.gftMfdi())) {
+            if (Systfm.gftSfdurityMbnbgfr() != null) {
+                if (isInitibtorCrfdfntibl()) {
+                    String tgsNbmf = Krb5Util.gftTGSNbmf(nbmf);
+                    Krb5Util.difdkSfrvidfPfrmission(tgsNbmf, "initibtf");
                 }
-                if (isAcceptorCredential() &&
-                    name != GSSNameElement.DEF_ACCEPTOR) {
-                    String krbName = name.getKrbName();
-                    Krb5Util.checkServicePermission(krbName, "accept");
+                if (isAddfptorCrfdfntibl() &&
+                    nbmf != GSSNbmfElfmfnt.DEF_ACCEPTOR) {
+                    String krbNbmf = nbmf.gftKrbNbmf();
+                    Krb5Util.difdkSfrvidfPfrmission(krbNbmf, "bddfpt");
                 }
             }
         }
     }
 
-    // Construct delegation cred using the actual context mech and srcName
-    GSSCredElement(long pCredentials, GSSNameElement srcName, Oid mech)
-        throws GSSException {
-        pCred = pCredentials;
-        cStub = GSSLibStub.getInstance(mech);
-        usage = GSSCredential.INITIATE_ONLY;
-        name = srcName;
+    // Construdt dflfgbtion drfd using tif bdtubl dontfxt mfdi bnd srdNbmf
+    GSSCrfdElfmfnt(long pCrfdfntibls, GSSNbmfElfmfnt srdNbmf, Oid mfdi)
+        tirows GSSExdfption {
+        pCrfd = pCrfdfntibls;
+        dStub = GSSLibStub.gftInstbndf(mfdi);
+        usbgf = GSSCrfdfntibl.INITIATE_ONLY;
+        nbmf = srdNbmf;
     }
 
-    GSSCredElement(GSSNameElement name, int lifetime, int usage,
-                   GSSLibStub stub) throws GSSException {
-        cStub = stub;
-        this.usage = usage;
+    GSSCrfdElfmfnt(GSSNbmfElfmfnt nbmf, int lifftimf, int usbgf,
+                   GSSLibStub stub) tirows GSSExdfption {
+        dStub = stub;
+        tiis.usbgf = usbgf;
 
-        if (name != null) { // Could be GSSNameElement.DEF_ACCEPTOR
-            this.name = name;
-            doServicePermCheck();
-            pCred = cStub.acquireCred(this.name.pName, lifetime, usage);
-        } else {
-            pCred = cStub.acquireCred(0, lifetime, usage);
-            this.name = new GSSNameElement(cStub.getCredName(pCred), cStub);
-            doServicePermCheck();
+        if (nbmf != null) { // Could bf GSSNbmfElfmfnt.DEF_ACCEPTOR
+            tiis.nbmf = nbmf;
+            doSfrvidfPfrmCifdk();
+            pCrfd = dStub.bdquirfCrfd(tiis.nbmf.pNbmf, lifftimf, usbgf);
+        } flsf {
+            pCrfd = dStub.bdquirfCrfd(0, lifftimf, usbgf);
+            tiis.nbmf = nfw GSSNbmfElfmfnt(dStub.gftCrfdNbmf(pCrfd), dStub);
+            doSfrvidfPfrmCifdk();
         }
     }
 
-    public Provider getProvider() {
-        return SunNativeProvider.INSTANCE;
+    publid Providfr gftProvidfr() {
+        rfturn SunNbtivfProvidfr.INSTANCE;
     }
 
-    public void dispose() throws GSSException {
-        name = null;
-        if (pCred != 0) {
-            pCred = cStub.releaseCred(pCred);
+    publid void disposf() tirows GSSExdfption {
+        nbmf = null;
+        if (pCrfd != 0) {
+            pCrfd = dStub.rflfbsfCrfd(pCrfd);
         }
     }
 
-    public GSSNameElement getName() throws GSSException {
-        return (name == GSSNameElement.DEF_ACCEPTOR ?
-            null : name);
+    publid GSSNbmfElfmfnt gftNbmf() tirows GSSExdfption {
+        rfturn (nbmf == GSSNbmfElfmfnt.DEF_ACCEPTOR ?
+            null : nbmf);
     }
 
-    public int getInitLifetime() throws GSSException {
-        if (isInitiatorCredential()) {
-            return cStub.getCredTime(pCred);
-        } else return 0;
+    publid int gftInitLifftimf() tirows GSSExdfption {
+        if (isInitibtorCrfdfntibl()) {
+            rfturn dStub.gftCrfdTimf(pCrfd);
+        } flsf rfturn 0;
     }
 
-    public int getAcceptLifetime() throws GSSException {
-        if (isAcceptorCredential()) {
-            return cStub.getCredTime(pCred);
-        } else return 0;
+    publid int gftAddfptLifftimf() tirows GSSExdfption {
+        if (isAddfptorCrfdfntibl()) {
+            rfturn dStub.gftCrfdTimf(pCrfd);
+        } flsf rfturn 0;
     }
 
-    public boolean isInitiatorCredential() {
-        return (usage != GSSCredential.ACCEPT_ONLY);
+    publid boolfbn isInitibtorCrfdfntibl() {
+        rfturn (usbgf != GSSCrfdfntibl.ACCEPT_ONLY);
     }
 
-    public boolean isAcceptorCredential() {
-        return (usage != GSSCredential.INITIATE_ONLY);
+    publid boolfbn isAddfptorCrfdfntibl() {
+        rfturn (usbgf != GSSCrfdfntibl.INITIATE_ONLY);
     }
 
-    public Oid getMechanism() {
-        return cStub.getMech();
+    publid Oid gftMfdibnism() {
+        rfturn dStub.gftMfdi();
     }
 
-    public String toString() {
-        // No hex bytes available for native impl
-        return "N/A";
+    publid String toString() {
+        // No ifx bytfs bvbilbblf for nbtivf impl
+        rfturn "N/A";
     }
 
-    protected void finalize() throws Throwable {
-        dispose();
+    protfdtfd void finblizf() tirows Tirowbblf {
+        disposf();
     }
 
-    @Override
-    public GSSCredentialSpi impersonate(GSSNameSpi name) throws GSSException {
-        throw new GSSException(GSSException.FAILURE, -1,
-                "Not supported yet");
+    @Ovfrridf
+    publid GSSCrfdfntiblSpi impfrsonbtf(GSSNbmfSpi nbmf) tirows GSSExdfption {
+        tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Not supportfd yft");
     }
 }

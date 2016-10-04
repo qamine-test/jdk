@@ -1,0 +1,632 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.bwt.pffr.MfnuPffr;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvbx.bddfssibility.*;
+import sun.bwt.AWTAddfssor;
+
+/**
+ * A <dodf>Mfnu</dodf> objfdt is b pull-down mfnu domponfnt
+ * thbt is dfployfd from b mfnu bbr.
+ * <p>
+ * A mfnu dbn optionblly bf b <i>tfbr-off</i> mfnu. A tfbr-off mfnu
+ * dbn bf opfnfd bnd drbggfd bwby from its pbrfnt mfnu bbr or mfnu.
+ * It rfmbins on thf sdrffn bftfr thf mousf button hbs bffn rflfbsfd.
+ * Thf mfdhbnism for tfbring off b mfnu is plbtform dfpfndfnt, sindf
+ * thf look bnd fffl of thf tfbr-off mfnu is dftfrminfd by its pffr.
+ * On plbtforms thbt do not support tfbr-off mfnus, thf tfbr-off
+ * propfrty is ignorfd.
+ * <p>
+ * Ebdh itfm in b mfnu must bflong to thf <dodf>MfnuItfm</dodf>
+ * dlbss. It dbn bf bn instbndf of <dodf>MfnuItfm</dodf>, b submfnu
+ * (bn instbndf of <dodf>Mfnu</dodf>), or b dhfdk box (bn instbndf of
+ * <dodf>ChfdkboxMfnuItfm</dodf>).
+ *
+ * @buthor Sbmi Shbio
+ * @sff     jbvb.bwt.MfnuItfm
+ * @sff     jbvb.bwt.ChfdkboxMfnuItfm
+ * @sindf   1.0
+ */
+publid dlbss Mfnu fxtfnds MfnuItfm implfmfnts MfnuContbinfr, Addfssiblf {
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+
+        AWTAddfssor.sftMfnuAddfssor(
+            nfw AWTAddfssor.MfnuAddfssor() {
+                publid Vfdtor<MfnuItfm> gftItfms(Mfnu mfnu) {
+                    rfturn mfnu.itfms;
+                }
+            });
+    }
+
+    /**
+     * A vfdtor of thf itfms thbt will bf pbrt of thf Mfnu.
+     *
+     * @sfribl
+     * @sff #dountItfms()
+     */
+    Vfdtor<MfnuItfm> itfms = nfw Vfdtor<>();
+
+    /**
+     * This fifld indidbtfs whfthfr thf mfnu hbs thf
+     * tfbr of propfrty or not.  It will bf sft to
+     * <dodf>truf</dodf> if thf mfnu hbs thf tfbr off
+     * propfrty bnd it will bf sft to <dodf>fblsf</dodf>
+     * if it dofs not.
+     * A torn off mfnu dbn bf dflftfd by b usfr whfn
+     * it is no longfr nffdfd.
+     *
+     * @sfribl
+     * @sff #isTfbrOff()
+     */
+    boolfbn             tfbrOff;
+
+    /**
+     * This fifld will bf sft to <dodf>truf</dodf>
+     * if thf Mfnu in qufstion is bdtublly b hflp
+     * mfnu.  Othfrwisf it will bf sft to <dodf>
+     * fblsf</dodf>.
+     *
+     * @sfribl
+     */
+    boolfbn             isHflpMfnu;
+
+    privbtf stbtid finbl String bbsf = "mfnu";
+    privbtf stbtid int nbmfCountfr = 0;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = -8809584163345499784L;
+
+    /**
+     * Construdts b nfw mfnu with bn fmpty lbbfl. This mfnu is not
+     * b tfbr-off mfnu.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf      1.1
+     */
+    publid Mfnu() throws HfbdlfssExdfption {
+        this("", fblsf);
+    }
+
+    /**
+     * Construdts b nfw mfnu with thf spfdififd lbbfl. This mfnu is not
+     * b tfbr-off mfnu.
+     * @pbrbm       lbbfl thf mfnu's lbbfl in thf mfnu bbr, or in
+     *                   bnothfr mfnu of whidh this mfnu is b submfnu.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid Mfnu(String lbbfl) throws HfbdlfssExdfption {
+        this(lbbfl, fblsf);
+    }
+
+    /**
+     * Construdts b nfw mfnu with thf spfdififd lbbfl,
+     * indidbting whfthfr thf mfnu dbn bf torn off.
+     * <p>
+     * Tfbr-off fundtionblity mby not bf supportfd by bll
+     * implfmfntbtions of AWT.  If b pbrtidulbr implfmfntbtion dofsn't
+     * support tfbr-off mfnus, this vbluf is silfntly ignorfd.
+     * @pbrbm       lbbfl thf mfnu's lbbfl in thf mfnu bbr, or in
+     *                   bnothfr mfnu of whidh this mfnu is b submfnu.
+     * @pbrbm       tfbrOff   if <dodf>truf</dodf>, thf mfnu
+     *                   is b tfbr-off mfnu.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid Mfnu(String lbbfl, boolfbn tfbrOff) throws HfbdlfssExdfption {
+        supfr(lbbfl);
+        this.tfbrOff = tfbrOff;
+    }
+
+    /**
+     * Construdt b nbmf for this MfnuComponfnt.  Cbllfd by gftNbmf() whfn
+     * thf nbmf is null.
+     */
+    String donstrudtComponfntNbmf() {
+        syndhronizfd (Mfnu.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
+        }
+    }
+
+    /**
+     * Crfbtfs thf mfnu's pffr.  Thf pffr bllows us to modify thf
+     * bppfbrbndf of thf mfnu without dhbnging its fundtionblity.
+     */
+    publid void bddNotify() {
+        syndhronizfd (gftTrffLodk()) {
+            if (pffr == null)
+                pffr = Toolkit.gftDffbultToolkit().drfbtfMfnu(this);
+            int nitfms = gftItfmCount();
+            for (int i = 0 ; i < nitfms ; i++) {
+                MfnuItfm mi = gftItfm(i);
+                mi.pbrfnt = this;
+                mi.bddNotify();
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs thf mfnu's pffr.  Thf pffr bllows us to modify thf bppfbrbndf
+     * of thf mfnu without dhbnging its fundtionblity.
+     */
+    publid void rfmovfNotify() {
+        syndhronizfd (gftTrffLodk()) {
+            int nitfms = gftItfmCount();
+            for (int i = 0 ; i < nitfms ; i++) {
+                gftItfm(i).rfmovfNotify();
+            }
+            supfr.rfmovfNotify();
+        }
+    }
+
+    /**
+     * Indidbtfs whfthfr this mfnu is b tfbr-off mfnu.
+     * <p>
+     * Tfbr-off fundtionblity mby not bf supportfd by bll
+     * implfmfntbtions of AWT.  If b pbrtidulbr implfmfntbtion dofsn't
+     * support tfbr-off mfnus, this vbluf is silfntly ignorfd.
+     * @rfturn      <dodf>truf</dodf> if this is b tfbr-off mfnu;
+     *                         <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isTfbrOff() {
+        rfturn tfbrOff;
+    }
+
+    /**
+      * Gft thf numbfr of itfms in this mfnu.
+      * @rfturn thf numbfr of itfms in this mfnu
+      * @sindf      1.1
+      */
+    publid int gftItfmCount() {
+        rfturn dountItfms();
+    }
+
+    /**
+     * Rfturns thf numbfr of itfms in this mfnu.
+     *
+     * @rfturn thf numbfr of itfms in this mfnu
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftItfmCount()</dodf>.
+     */
+    @Dfprfdbtfd
+    publid int dountItfms() {
+        rfturn dountItfmsImpl();
+    }
+
+    /*
+     * This is dbllfd by thf nbtivf dodf, so dlifnt dodf dbn't
+     * bf dbllfd on thf toolkit thrfbd.
+     */
+    finbl int dountItfmsImpl() {
+        rfturn itfms.sizf();
+    }
+
+    /**
+     * Gfts thf itfm lodbtfd bt thf spfdififd indfx of this mfnu.
+     * @pbrbm     indfx thf position of thf itfm to bf rfturnfd.
+     * @rfturn    thf itfm lodbtfd bt thf spfdififd indfx.
+     */
+    publid MfnuItfm gftItfm(int indfx) {
+        rfturn gftItfmImpl(indfx);
+    }
+
+    /*
+     * This is dbllfd by thf nbtivf dodf, so dlifnt dodf dbn't
+     * bf dbllfd on thf toolkit thrfbd.
+     */
+    finbl MfnuItfm gftItfmImpl(int indfx) {
+        rfturn itfms.flfmfntAt(indfx);
+    }
+
+    /**
+     * Adds thf spfdififd mfnu itfm to this mfnu. If thf
+     * mfnu itfm hbs bffn pbrt of bnothfr mfnu, rfmovfs it
+     * from thbt mfnu.
+     *
+     * @pbrbm       mi   thf mfnu itfm to bf bddfd
+     * @rfturn      thf mfnu itfm bddfd
+     * @sff         jbvb.bwt.Mfnu#insfrt(jbvb.lbng.String, int)
+     * @sff         jbvb.bwt.Mfnu#insfrt(jbvb.bwt.MfnuItfm, int)
+     */
+    publid MfnuItfm bdd(MfnuItfm mi) {
+        syndhronizfd (gftTrffLodk()) {
+            if (mi.pbrfnt != null) {
+                mi.pbrfnt.rfmovf(mi);
+            }
+            itfms.bddElfmfnt(mi);
+            mi.pbrfnt = this;
+            MfnuPffr pffr = (MfnuPffr)this.pffr;
+            if (pffr != null) {
+                mi.bddNotify();
+                pffr.bddItfm(mi);
+            }
+            rfturn mi;
+        }
+    }
+
+    /**
+     * Adds bn itfm with thf spfdififd lbbfl to this mfnu.
+     *
+     * @pbrbm       lbbfl   thf tfxt on thf itfm
+     * @sff         jbvb.bwt.Mfnu#insfrt(jbvb.lbng.String, int)
+     * @sff         jbvb.bwt.Mfnu#insfrt(jbvb.bwt.MfnuItfm, int)
+     */
+    publid void bdd(String lbbfl) {
+        bdd(nfw MfnuItfm(lbbfl));
+    }
+
+    /**
+     * Insfrts b mfnu itfm into this mfnu
+     * bt thf spfdififd position.
+     *
+     * @pbrbm         mfnuitfm  thf mfnu itfm to bf insfrtfd.
+     * @pbrbm         indfx     thf position bt whidh thf mfnu
+     *                          itfm should bf insfrtfd.
+     * @sff           jbvb.bwt.Mfnu#bdd(jbvb.lbng.String)
+     * @sff           jbvb.bwt.Mfnu#bdd(jbvb.bwt.MfnuItfm)
+     * @fxdfption     IllfgblArgumfntExdfption if thf vbluf of
+     *                    <dodf>indfx</dodf> is lfss thbn zfro
+     * @sindf         1.1
+     */
+
+    publid void insfrt(MfnuItfm mfnuitfm, int indfx) {
+        syndhronizfd (gftTrffLodk()) {
+            if (indfx < 0) {
+                throw nfw IllfgblArgumfntExdfption("indfx lfss thbn zfro.");
+            }
+
+            int nitfms = gftItfmCount();
+            Vfdtor<MfnuItfm> tfmpItfms = nfw Vfdtor<>();
+
+            /* Rfmovf thf itfm bt indfx, nitfms-indfx timfs
+               storing thfm in b tfmporbry vfdtor in thf
+               ordfr thfy bppfbr on thf mfnu.
+            */
+            for (int i = indfx ; i < nitfms; i++) {
+                tfmpItfms.bddElfmfnt(gftItfm(indfx));
+                rfmovf(indfx);
+            }
+
+            bdd(mfnuitfm);
+
+            /* Add thf rfmovfd itfms bbdk to thf mfnu, thfy brf
+               blrfbdy in thf dorrfdt ordfr in thf tfmp vfdtor.
+            */
+            for (int i = 0; i < tfmpItfms.sizf()  ; i++) {
+                bdd(tfmpItfms.flfmfntAt(i));
+            }
+        }
+    }
+
+    /**
+     * Insfrts b mfnu itfm with thf spfdififd lbbfl into this mfnu
+     * bt thf spfdififd position.  This is b donvfnifndf mfthod for
+     * <dodf>insfrt(mfnuItfm, indfx)</dodf>.
+     *
+     * @pbrbm       lbbfl thf tfxt on thf itfm
+     * @pbrbm       indfx thf position bt whidh thf mfnu itfm
+     *                      should bf insfrtfd
+     * @sff         jbvb.bwt.Mfnu#bdd(jbvb.lbng.String)
+     * @sff         jbvb.bwt.Mfnu#bdd(jbvb.bwt.MfnuItfm)
+     * @fxdfption     IllfgblArgumfntExdfption if thf vbluf of
+     *                    <dodf>indfx</dodf> is lfss thbn zfro
+     * @sindf       1.1
+     */
+
+    publid void insfrt(String lbbfl, int indfx) {
+        insfrt(nfw MfnuItfm(lbbfl), indfx);
+    }
+
+    /**
+     * Adds b sfpbrbtor linf, or b hypfn, to thf mfnu bt thf durrfnt position.
+     * @sff         jbvb.bwt.Mfnu#insfrtSfpbrbtor(int)
+     */
+    publid void bddSfpbrbtor() {
+        bdd("-");
+    }
+
+    /**
+     * Insfrts b sfpbrbtor bt thf spfdififd position.
+     * @pbrbm       indfx thf position bt whidh thf
+     *                       mfnu sfpbrbtor should bf insfrtfd.
+     * @fxdfption   IllfgblArgumfntExdfption if thf vbluf of
+     *                       <dodf>indfx</dodf> is lfss thbn 0.
+     * @sff         jbvb.bwt.Mfnu#bddSfpbrbtor
+     * @sindf       1.1
+     */
+
+    publid void insfrtSfpbrbtor(int indfx) {
+        syndhronizfd (gftTrffLodk()) {
+            if (indfx < 0) {
+                throw nfw IllfgblArgumfntExdfption("indfx lfss thbn zfro.");
+            }
+
+            int nitfms = gftItfmCount();
+            Vfdtor<MfnuItfm> tfmpItfms = nfw Vfdtor<>();
+
+            /* Rfmovf thf itfm bt indfx, nitfms-indfx timfs
+               storing thfm in b tfmporbry vfdtor in thf
+               ordfr thfy bppfbr on thf mfnu.
+            */
+            for (int i = indfx ; i < nitfms; i++) {
+                tfmpItfms.bddElfmfnt(gftItfm(indfx));
+                rfmovf(indfx);
+            }
+
+            bddSfpbrbtor();
+
+            /* Add thf rfmovfd itfms bbdk to thf mfnu, thfy brf
+               blrfbdy in thf dorrfdt ordfr in thf tfmp vfdtor.
+            */
+            for (int i = 0; i < tfmpItfms.sizf()  ; i++) {
+                bdd(tfmpItfms.flfmfntAt(i));
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs thf mfnu itfm bt thf spfdififd indfx from this mfnu.
+     * @pbrbm       indfx thf position of thf itfm to bf rfmovfd.
+     */
+    publid void rfmovf(int indfx) {
+        syndhronizfd (gftTrffLodk()) {
+            MfnuItfm mi = gftItfm(indfx);
+            itfms.rfmovfElfmfntAt(indfx);
+            MfnuPffr pffr = (MfnuPffr)this.pffr;
+            if (pffr != null) {
+                mi.rfmovfNotify();
+                mi.pbrfnt = null;
+                pffr.dflItfm(indfx);
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs thf spfdififd mfnu itfm from this mfnu.
+     * @pbrbm  itfm thf itfm to bf rfmovfd from thf mfnu.
+     *         If <dodf>itfm</dodf> is <dodf>null</dodf>
+     *         or is not in this mfnu, this mfthod dofs
+     *         nothing.
+     */
+    publid void rfmovf(MfnuComponfnt itfm) {
+        syndhronizfd (gftTrffLodk()) {
+            int indfx = itfms.indfxOf(itfm);
+            if (indfx >= 0) {
+                rfmovf(indfx);
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs bll itfms from this mfnu.
+     * @sindf       1.1
+     */
+    publid void rfmovfAll() {
+        syndhronizfd (gftTrffLodk()) {
+            int nitfms = gftItfmCount();
+            for (int i = nitfms-1 ; i >= 0 ; i--) {
+                rfmovf(i);
+            }
+        }
+    }
+
+    /*
+     * Post bn AdtionEvfnt to thf tbrgft of thf MfnuPffr
+     * bssodibtfd with thf spfdififd kfybobrd fvfnt (on
+     * kfydown).  Rfturns truf if thfrf is bn bssodibtfd
+     * kfybobrd fvfnt.
+     */
+    boolfbn hbndlfShortdut(KfyEvfnt f) {
+        int nitfms = gftItfmCount();
+        for (int i = 0 ; i < nitfms ; i++) {
+            MfnuItfm mi = gftItfm(i);
+            if (mi.hbndlfShortdut(f)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    MfnuItfm gftShortdutMfnuItfm(MfnuShortdut s) {
+        int nitfms = gftItfmCount();
+        for (int i = 0 ; i < nitfms ; i++) {
+            MfnuItfm mi = gftItfm(i).gftShortdutMfnuItfm(s);
+            if (mi != null) {
+                rfturn mi;
+            }
+        }
+        rfturn null;
+    }
+
+    syndhronizfd Enumfrbtion<MfnuShortdut> shortduts() {
+        Vfdtor<MfnuShortdut> shortduts = nfw Vfdtor<>();
+        int nitfms = gftItfmCount();
+        for (int i = 0 ; i < nitfms ; i++) {
+            MfnuItfm mi = gftItfm(i);
+            if (mi instbndfof Mfnu) {
+                Enumfrbtion<MfnuShortdut> f = ((Mfnu)mi).shortduts();
+                whilf (f.hbsMorfElfmfnts()) {
+                    shortduts.bddElfmfnt(f.nfxtElfmfnt());
+                }
+            } flsf {
+                MfnuShortdut ms = mi.gftShortdut();
+                if (ms != null) {
+                    shortduts.bddElfmfnt(ms);
+                }
+            }
+        }
+        rfturn shortduts.flfmfnts();
+    }
+
+    void dflftfShortdut(MfnuShortdut s) {
+        int nitfms = gftItfmCount();
+        for (int i = 0 ; i < nitfms ; i++) {
+            gftItfm(i).dflftfShortdut(s);
+        }
+    }
+
+
+    /* Sfriblizbtion support.  A MfnuContbinfr is rfsponsiblf for
+     * rfstoring thf pbrfnt fiflds of its dhildrfn.
+     */
+
+    /**
+     * Thf mfnu sfriblizfd Dbtb Vfrsion.
+     *
+     * @sfribl
+     */
+    privbtf int mfnuSfriblizfdDbtbVfrsion = 1;
+
+    /**
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.
+     *
+     * @pbrbm s thf <dodf>ObjfdtOutputStrfbm</dodf> to writf
+     * @sff AWTEvfntMultidbstfr#sbvf(ObjfdtOutputStrfbm, String, EvfntListfnfr)
+     * @sff #rfbdObjfdt(ObjfdtInputStrfbm)
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+      throws jbvb.io.IOExdfption
+    {
+      s.dffbultWritfObjfdt();
+    }
+
+    /**
+     * Rfbds thf <dodf>ObjfdtInputStrfbm</dodf>.
+     * Unrfdognizfd kfys or vblufs will bf ignorfd.
+     *
+     * @pbrbm s thf <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff #writfObjfdt(ObjfdtOutputStrfbm)
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      throws IOExdfption, ClbssNotFoundExdfption, HfbdlfssExdfption
+    {
+      // HfbdlfssExdfption will bf thrown from MfnuComponfnt's rfbdObjfdt
+      s.dffbultRfbdObjfdt();
+      for(int i = 0; i < itfms.sizf(); i++) {
+        MfnuItfm itfm = itfms.flfmfntAt(i);
+        itfm.pbrfnt = this;
+      }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting thf stbtf of this <dodf>Mfnu</dodf>.
+     * This mfthod is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     *
+     * @rfturn thf pbrbmftfr string of this mfnu
+     */
+    publid String pbrbmString() {
+        String str = ",tfbrOff=" + tfbrOff+",isHflpMfnu=" + isHflpMfnu;
+        rfturn supfr.pbrbmString() + str;
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this Mfnu.
+     * For mfnus, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfAWTMfnu.
+     * A nfw AddfssiblfAWTMfnu instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfAWTMfnu thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this Mfnu
+     * @sindf 1.3
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTMfnu();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * Dffinfd in MfnuComponfnt. Ovfrriddfn hfrf.
+     */
+    int gftAddfssiblfChildIndfx(MfnuComponfnt dhild) {
+        rfturn itfms.indfxOf(dhild);
+    }
+
+    /**
+     * Innfr dlbss of Mfnu usfd to providf dffbult support for
+     * bddfssibility.  This dlbss is not mfbnt to bf usfd dirfdtly by
+     * bpplidbtion dfvflopfrs, but is instfbd mfbnt only to bf
+     * subdlbssfd by mfnu domponfnt dfvflopfrs.
+     * <p>
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>Mfnu</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to mfnu usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
+     */
+    protfdtfd dlbss AddfssiblfAWTMfnu fxtfnds AddfssiblfAWTMfnuItfm
+    {
+        /*
+         * JDK 1.3 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 5228160894980069094L;
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.MENU;
+        }
+
+    } // dlbss AddfssiblfAWTMfnu
+
+}

@@ -1,193 +1,193 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.util.Enumeration;
+import jbvb.util.Enumfrbtion;
 
 /**
- * A collection of unique attributes.  This is a read-only,
- * immutable interface.  An attribute is basically a key and
- * a value assigned to the key.  The collection may represent
- * something like a style run, a logical style, etc.  These
- * are generally used to describe features that will contribute
- * to some graphical representation such as a font.  The
- * set of possible keys is unbounded and can be anything.
- * Typically View implementations will respond to attribute
- * definitions and render something to represent the attributes.
+ * A dollfdtion of uniquf bttributfs.  Tiis is b rfbd-only,
+ * immutbblf intfrfbdf.  An bttributf is bbsidblly b kfy bnd
+ * b vbluf bssignfd to tif kfy.  Tif dollfdtion mby rfprfsfnt
+ * somftiing likf b stylf run, b logidbl stylf, ftd.  Tifsf
+ * brf gfnfrblly usfd to dfsdribf ffbturfs tibt will dontributf
+ * to somf grbpiidbl rfprfsfntbtion sudi bs b font.  Tif
+ * sft of possiblf kfys is unboundfd bnd dbn bf bnytiing.
+ * Typidblly Vifw implfmfntbtions will rfspond to bttributf
+ * dffinitions bnd rfndfr somftiing to rfprfsfnt tif bttributfs.
  * <p>
- * Attributes can potentially resolve in a hierarchy.  If a
- * key doesn't resolve locally, and a resolving parent
- * exists, the key will be resolved through the parent.
+ * Attributfs dbn potfntiblly rfsolvf in b iifrbrdiy.  If b
+ * kfy dofsn't rfsolvf lodblly, bnd b rfsolving pbrfnt
+ * fxists, tif kfy will bf rfsolvfd tirougi tif pbrfnt.
  *
- * @author  Timothy Prinzing
- * @see MutableAttributeSet
+ * @butior  Timotiy Prinzing
+ * @sff MutbblfAttributfSft
  */
-public interface AttributeSet {
+publid intfrfbdf AttributfSft {
 
     /**
-     * This interface is the type signature that is expected
-     * to be present on any attribute key that contributes to
-     * the determination of what font to use to render some
-     * text.  This is not considered to be a closed set, the
-     * definition can change across version of the platform and can
-     * be amended by additional user added entries that
-     * correspond to logical settings that are specific to
-     * some type of content.
+     * Tiis intfrfbdf is tif typf signbturf tibt is fxpfdtfd
+     * to bf prfsfnt on bny bttributf kfy tibt dontributfs to
+     * tif dftfrminbtion of wibt font to usf to rfndfr somf
+     * tfxt.  Tiis is not donsidfrfd to bf b dlosfd sft, tif
+     * dffinition dbn dibngf bdross vfrsion of tif plbtform bnd dbn
+     * bf bmfndfd by bdditionbl usfr bddfd fntrifs tibt
+     * dorrfspond to logidbl sfttings tibt brf spfdifid to
+     * somf typf of dontfnt.
      */
-    public interface FontAttribute {
+    publid intfrfbdf FontAttributf {
     }
 
     /**
-     * This interface is the type signature that is expected
-     * to be present on any attribute key that contributes to
-     * presentation of color.
+     * Tiis intfrfbdf is tif typf signbturf tibt is fxpfdtfd
+     * to bf prfsfnt on bny bttributf kfy tibt dontributfs to
+     * prfsfntbtion of dolor.
      */
-    public interface ColorAttribute {
+    publid intfrfbdf ColorAttributf {
     }
 
     /**
-     * This interface is the type signature that is expected
-     * to be present on any attribute key that contributes to
-     * character level presentation.  This would be any attribute
-     * that applies to a so-called <i>run</i> of
-     * style.
+     * Tiis intfrfbdf is tif typf signbturf tibt is fxpfdtfd
+     * to bf prfsfnt on bny bttributf kfy tibt dontributfs to
+     * dibrbdtfr lfvfl prfsfntbtion.  Tiis would bf bny bttributf
+     * tibt bpplifs to b so-dbllfd <i>run</i> of
+     * stylf.
      */
-    public interface CharacterAttribute {
+    publid intfrfbdf CibrbdtfrAttributf {
     }
 
     /**
-     * This interface is the type signature that is expected
-     * to be present on any attribute key that contributes to
-     * the paragraph level presentation.
+     * Tiis intfrfbdf is tif typf signbturf tibt is fxpfdtfd
+     * to bf prfsfnt on bny bttributf kfy tibt dontributfs to
+     * tif pbrbgrbpi lfvfl prfsfntbtion.
      */
-    public interface ParagraphAttribute {
+    publid intfrfbdf PbrbgrbpiAttributf {
     }
 
     /**
-     * Returns the number of attributes that are defined locally in this set.
-     * Attributes that are defined in the parent set are not included.
+     * Rfturns tif numbfr of bttributfs tibt brf dffinfd lodblly in tiis sft.
+     * Attributfs tibt brf dffinfd in tif pbrfnt sft brf not indludfd.
      *
-     * @return the number of attributes &gt;= 0
+     * @rfturn tif numbfr of bttributfs &gt;= 0
      */
-    public int getAttributeCount();
+    publid int gftAttributfCount();
 
     /**
-     * Checks whether the named attribute has a value specified in
-     * the set without resolving through another attribute
-     * set.
+     * Cifdks wiftifr tif nbmfd bttributf ibs b vbluf spfdififd in
+     * tif sft witiout rfsolving tirougi bnotifr bttributf
+     * sft.
      *
-     * @param attrName the attribute name
-     * @return true if the attribute has a value specified
+     * @pbrbm bttrNbmf tif bttributf nbmf
+     * @rfturn truf if tif bttributf ibs b vbluf spfdififd
      */
-    public boolean isDefined(Object attrName);
+    publid boolfbn isDffinfd(Objfdt bttrNbmf);
 
     /**
-     * Determines if the two attribute sets are equivalent.
+     * Dftfrminfs if tif two bttributf sfts brf fquivblfnt.
      *
-     * @param attr an attribute set
-     * @return true if the sets are equivalent
+     * @pbrbm bttr bn bttributf sft
+     * @rfturn truf if tif sfts brf fquivblfnt
      */
-    public boolean isEqual(AttributeSet attr);
+    publid boolfbn isEqubl(AttributfSft bttr);
 
     /**
-     * Returns an attribute set that is guaranteed not
-     * to change over time.
+     * Rfturns bn bttributf sft tibt is gubrbntffd not
+     * to dibngf ovfr timf.
      *
-     * @return a copy of the attribute set
+     * @rfturn b dopy of tif bttributf sft
      */
-    public AttributeSet copyAttributes();
+    publid AttributfSft dopyAttributfs();
 
     /**
-     * Fetches the value of the given attribute. If the value is not found
-     * locally, the search is continued upward through the resolving
-     * parent (if one exists) until the value is either
-     * found or there are no more parents.  If the value is not found,
-     * null is returned.
+     * Fftdifs tif vbluf of tif givfn bttributf. If tif vbluf is not found
+     * lodblly, tif sfbrdi is dontinufd upwbrd tirougi tif rfsolving
+     * pbrfnt (if onf fxists) until tif vbluf is fitifr
+     * found or tifrf brf no morf pbrfnts.  If tif vbluf is not found,
+     * null is rfturnfd.
      *
-     * @param key the non-null key of the attribute binding
-     * @return the value of the attribute, or {@code null} if not found
+     * @pbrbm kfy tif non-null kfy of tif bttributf binding
+     * @rfturn tif vbluf of tif bttributf, or {@dodf null} if not found
      */
-    public Object getAttribute(Object key);
+    publid Objfdt gftAttributf(Objfdt kfy);
 
     /**
-     * Returns an enumeration over the names of the attributes that are
-     * defined locally in the set. Names of attributes defined in the
-     * resolving parent, if any, are not included. The values of the
-     * <code>Enumeration</code> may be anything and are not constrained to
-     * a particular <code>Object</code> type.
+     * Rfturns bn fnumfrbtion ovfr tif nbmfs of tif bttributfs tibt brf
+     * dffinfd lodblly in tif sft. Nbmfs of bttributfs dffinfd in tif
+     * rfsolving pbrfnt, if bny, brf not indludfd. Tif vblufs of tif
+     * <dodf>Enumfrbtion</dodf> mby bf bnytiing bnd brf not donstrbinfd to
+     * b pbrtidulbr <dodf>Objfdt</dodf> typf.
      * <p>
-     * This method never returns {@code null}. For a set with no attributes, it
-     * returns an empty {@code Enumeration}.
+     * Tiis mftiod nfvfr rfturns {@dodf null}. For b sft witi no bttributfs, it
+     * rfturns bn fmpty {@dodf Enumfrbtion}.
      *
-     * @return the names
+     * @rfturn tif nbmfs
      */
-    public Enumeration<?> getAttributeNames();
+    publid Enumfrbtion<?> gftAttributfNbmfs();
 
     /**
-     * Returns {@code true} if this set defines an attribute with the same
-     * name and an equal value. If such an attribute is not found locally,
-     * it is searched through in the resolving parent hierarchy.
+     * Rfturns {@dodf truf} if tiis sft dffinfs bn bttributf witi tif sbmf
+     * nbmf bnd bn fqubl vbluf. If sudi bn bttributf is not found lodblly,
+     * it is sfbrdifd tirougi in tif rfsolving pbrfnt iifrbrdiy.
      *
-     * @param name the non-null attribute name
-     * @param value the value
-     * @return {@code true} if the set defines the attribute with an
-     *     equal value, either locally or through its resolving parent
-     * @throws NullPointerException if either {@code name} or
-     *      {@code value} is {@code null}
+     * @pbrbm nbmf tif non-null bttributf nbmf
+     * @pbrbm vbluf tif vbluf
+     * @rfturn {@dodf truf} if tif sft dffinfs tif bttributf witi bn
+     *     fqubl vbluf, fitifr lodblly or tirougi its rfsolving pbrfnt
+     * @tirows NullPointfrExdfption if fitifr {@dodf nbmf} or
+     *      {@dodf vbluf} is {@dodf null}
      */
-    public boolean containsAttribute(Object name, Object value);
+    publid boolfbn dontbinsAttributf(Objfdt nbmf, Objfdt vbluf);
 
     /**
-     * Returns {@code true} if this set defines all the attributes from the
-     * given set with equal values. If an attribute is not found locally,
-     * it is searched through in the resolving parent hierarchy.
+     * Rfturns {@dodf truf} if tiis sft dffinfs bll tif bttributfs from tif
+     * givfn sft witi fqubl vblufs. If bn bttributf is not found lodblly,
+     * it is sfbrdifd tirougi in tif rfsolving pbrfnt iifrbrdiy.
      *
-     * @param attributes the set of attributes to check against
-     * @return {@code true} if this set defines all the attributes with equal
-     *              values, either locally or through its resolving parent
-     * @throws NullPointerException if {@code attributes} is {@code null}
+     * @pbrbm bttributfs tif sft of bttributfs to difdk bgbinst
+     * @rfturn {@dodf truf} if tiis sft dffinfs bll tif bttributfs witi fqubl
+     *              vblufs, fitifr lodblly or tirougi its rfsolving pbrfnt
+     * @tirows NullPointfrExdfption if {@dodf bttributfs} is {@dodf null}
      */
-    public boolean containsAttributes(AttributeSet attributes);
+    publid boolfbn dontbinsAttributfs(AttributfSft bttributfs);
 
     /**
-     * Gets the resolving parent.
+     * Gfts tif rfsolving pbrfnt.
      *
-     * @return the parent
+     * @rfturn tif pbrfnt
      */
-    public AttributeSet getResolveParent();
+    publid AttributfSft gftRfsolvfPbrfnt();
 
     /**
-     * Attribute name used to name the collection of
-     * attributes.
+     * Attributf nbmf usfd to nbmf tif dollfdtion of
+     * bttributfs.
      */
-    public static final Object NameAttribute = StyleConstants.NameAttribute;
+    publid stbtid finbl Objfdt NbmfAttributf = StylfConstbnts.NbmfAttributf;
 
     /**
-     * Attribute name used to identify the resolving parent
-     * set of attributes, if one is defined.
+     * Attributf nbmf usfd to idfntify tif rfsolving pbrfnt
+     * sft of bttributfs, if onf is dffinfd.
      */
-    public static final Object ResolveAttribute = StyleConstants.ResolveAttribute;
+    publid stbtid finbl Objfdt RfsolvfAttributf = StylfConstbnts.RfsolvfAttributf;
 
 }

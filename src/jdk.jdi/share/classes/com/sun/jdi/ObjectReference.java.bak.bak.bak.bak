@@ -1,0 +1,445 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+/**
+ * An objfdt thbt durrfntly fxists in thf tbrgft VM. An ObjfdtRfffrfndf
+ * mirrors only thf objfdt itsflf bnd is not spfdifid to bny
+ * {@link Fifld} or {@link LodblVbribblf} to whidh it is durrfntly
+ * bssignfd. An ObjfdtRfffrfndf dbn
+ * hbvf 0 or morf rfffrfndfs from fifld(s) bnd/or vbribblf(s).
+ * <p>
+ * Any mfthod on <dodf>ObjfdtRfffrfndf</dodf> whidh dirfdtly or
+ * indirfdtly tbkfs <dodf>ObjfdtRfffrfndf</dodf> bs bn pbrbmftfr mby throw
+ * {@link dom.sun.jdi.VMDisdonnfdtfdExdfption} if thf tbrgft VM is
+ * disdonnfdtfd bnd thf {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt} hbs bffn or is
+ * bvbilbblf to bf rfbd from thf {@link dom.sun.jdi.fvfnt.EvfntQufuf}.
+ * <p>
+ * Any mfthod on <dodf>ObjfdtRfffrfndf</dodf> whidh dirfdtly or
+ * indirfdtly tbkfs <dodf>ObjfdtRfffrfndf</dodf> bs bn pbrbmftfr mby throw
+ * {@link dom.sun.jdi.VMOutOfMfmoryExdfption} if thf tbrgft VM hbs run out of mfmory.
+ * <p>
+ * Any mfthod on <dodf>ObjfdtRfffrfndf</dodf> or whidh dirfdtly or indirfdtly tbkfs
+ * <dodf>ObjfdtRfffrfndf</dodf> bs pbrbmftfr mby throw
+ * {@link dom.sun.jdi.ObjfdtCollfdtfdExdfption} if thf mirrorfd objfdt hbs bffn
+ * gbrbbgf dollfdtfd.
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf ObjfdtRfffrfndf fxtfnds Vbluf {
+
+    /**
+     * Gfts thf {@link RfffrfndfTypf} thbt mirrors thf typf
+     * of this objfdt. Thf typf mby bf b subdlbss or implfmfntor of thf
+     * dfdlbrfd typf of bny fifld or vbribblf whidh durrfntly holds it.
+     * For fxbmplf, right bftfr thf following stbtfmfnt.
+     * <p>
+     * <dodf>Objfdt obj = nfw String("Hfllo, world!");</dodf>
+     * <p>
+     * Thf RfffrfndfTypf of obj will mirror jbvb.lbng.String bnd not
+     * jbvb.lbng.Objfdt.
+     * <p>
+     * Thf typf of bn objfdt nfvfr dhbngfs, so this mfthod will
+     * blwbys rfturn thf sbmf RfffrfndfTypf ovfr thf lifftimf of thf
+     * mirrorfd objfdt.
+     * <p>
+     * Thf rfturnfd RfffrfndfTypf will bf b {@link ClbssTypf} or
+     * {@link ArrbyTypf} bnd nfvfr bn {@link IntfrfbdfTypf}.
+     *
+     * @rfturn thf {@link RfffrfndfTypf} for this objfdt.
+     */
+    RfffrfndfTypf rfffrfndfTypf();
+
+    /**
+     * Gfts thf vbluf of b givfn instbndf or stbtid fifld in this objfdt.
+     * Thf Fifld must bf vblid for this ObjfdtRfffrfndf;
+     * thbt is, it must bf from
+     * thf mirrorfd objfdt's dlbss or b supfrdlbss of thbt dlbss.
+     *
+     * @pbrbm sig thf fifld dontbining thf rfqufstfd vbluf
+     * @rfturn thf {@link Vbluf} of thf instbndf fifld.
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if thf fifld is not vblid for
+     * this objfdt's dlbss.
+     */
+    Vbluf gftVbluf(Fifld sig);
+
+    /**
+     * Gfts thf vbluf of multiplf instbndf bnd/or stbtid fiflds in this objfdt.
+     * Thf Fiflds must bf vblid for this ObjfdtRfffrfndf;
+     * thbt is, thfy must bf from
+     * thf mirrorfd objfdt's dlbss or b supfrdlbss of thbt dlbss.
+     *
+     * @pbrbm fiflds b list of {@link Fifld} objfdts dontbining thf
+     * rfqufstfd vblufs.
+     * @rfturn b Mbp of thf rfqufstfd {@link Fifld} objfdts with
+     * thfir {@link Vbluf}.
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if bny fifld is not vblid for
+     * this objfdt's dlbss.
+     */
+    Mbp<Fifld,Vbluf> gftVblufs(List<? fxtfnds Fifld> fiflds);
+
+    /**
+     * Sfts thf vbluf of b givfn instbndf or stbtid fifld in this objfdt.
+     * Thf {@link Fifld} must bf vblid for this ObjfdtRfffrfndf; thbt is,
+     * it must bf from thf mirrorfd objfdt's dlbss or b supfrdlbss of thbt dlbss.
+     * If stbtid, thf fifld must not bf finbl.
+     * <p>
+     * Objfdt vblufs must bf bssignmfnt dompbtiblf with thf fifld typf
+     * (This implifs thbt thf fifld typf must bf lobdfd through thf
+     * fndlosing dlbss's dlbss lobdfr). Primitivf vblufs must bf
+     * fithfr bssignmfnt dompbtiblf with thf fifld typf or must bf
+     * donvfrtiblf to thf fifld typf without loss of informbtion.
+     * Sff sfdtion 5.2 of
+     * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>
+     * for morf informbtion on bssignmfnt
+     * dompbtibility.
+     *
+     * @pbrbm fifld thf fifld dontbining thf rfqufstfd vbluf
+     * @pbrbm vbluf thf nfw vbluf to bssign
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if thf fifld is not vblid for
+     * this objfdt's dlbss.
+     * @throws InvblidTypfExdfption if thf vbluf's typf dofs not mbtdh
+     * thf fifld's typf.
+     * @throws ClbssNotLobdfdExdfption if 'vbluf' is not null, bnd thf fifld
+     * typf hbs not yft bffn lobdfd through thf bppropribtf dlbss lobdfr.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    void sftVbluf(Fifld fifld, Vbluf vbluf)
+        throws InvblidTypfExdfption, ClbssNotLobdfdExdfption;
+
+    /** Pfrform mfthod invodbtion with only thf invoking thrfbd rfsumfd */
+    stbtid finbl int INVOKE_SINGLE_THREADED = 0x1;
+    /** Pfrform non-virtubl mfthod invodbtion */
+    stbtid finbl int INVOKE_NONVIRTUAL      = 0x2;
+
+    /**
+     * Invokfs thf spfdififd {@link Mfthod} on this objfdt in thf
+     * tbrgft VM. Thf
+     * spfdififd mfthod dbn bf dffinfd in this objfdt's dlbss,
+     * in b supfrdlbss of this objfdt's dlbss, or in bn intfrfbdf
+     * implfmfntfd by this objfdt. Thf mfthod mby bf b stbtid mfthod
+     * or bn instbndf mfthod, but not b stbtid initiblizfr or donstrudtor.
+     * Usf {@link ClbssTypf#nfwInstbndf} to drfbtf b nfw objfdt bnd
+     * run its donstrudtor.
+     * <p>
+     * Thf mfthod invodbtion will oddur in thf spfdififd thrfbd.
+     * Mfthod invodbtion dbn oddur only if thf spfdififd thrfbd
+     * hbs bffn suspfndfd by bn fvfnt whidh oddurrfd in thbt thrfbd.
+     * Mfthod invodbtion is not supportfd
+     * whfn thf tbrgft VM hbs bffn suspfndfd through
+     * {@link VirtublMbdhinf#suspfnd} or whfn thf spfdififd thrfbd
+     * is suspfndfd through {@link ThrfbdRfffrfndf#suspfnd}.
+     * <p>
+     * Thf spfdififd mfthod is invokfd with thf brgumfnts in thf spfdififd
+     * brgumfnt list.  Thf mfthod invodbtion is syndhronous; this mfthod
+     * dofs not rfturn until thf invokfd mfthod rfturns in thf tbrgft VM.
+     * If thf invokfd mfthod throws bn fxdfption, this mfthod
+     * will throw bn {@link InvodbtionExdfption} whidh dontbins
+     * b mirror to thf fxdfption objfdt thrown.
+     * <p>
+     * Objfdt brgumfnts must bf bssignmfnt dompbtiblf with thf brgumfnt typf
+     * (This implifs thbt thf brgumfnt typf must bf lobdfd through thf
+     * fndlosing dlbss's dlbss lobdfr). Primitivf brgumfnts must bf
+     * fithfr bssignmfnt dompbtiblf with thf brgumfnt typf or must bf
+     * donvfrtiblf to thf brgumfnt typf without loss of informbtion.
+     * If thf mfthod bfing dbllfd bddfpts b vbribblf numbfr of brgumfnts,
+     * thfn thf lbst brgumfnt typf is bn brrby of somf domponfnt typf.
+     * Thf brgumfnt in thf mbtdhing position dbn bf omittfd, or dbn bf null,
+     * bn brrby of thf sbmf domponfnt typf, or bn brgumfnt of thf
+     * domponfnt typf followfd by bny numbfr of othfr brgumfnts of thf sbmf
+     * typf. If thf brgumfnt is omittfd, thfn b 0 lfngth brrby of thf
+     * domponfnt typf is pbssfd.  Thf domponfnt typf dbn bf b primitivf typf.
+     * Autoboxing is not supportfd.
+     *
+     * Sff sfdtion 5.2 of
+     * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>
+     * for morf informbtion on bssignmfnt dompbtibility.
+     * <p>
+     * By dffbult, thf mfthod is invokfd using dynbmid lookup bs
+     * dodumfntfd in sfdtion 15.12.4.4 of
+     * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>
+     * in pbrtidulbr, ovfrriding bbsfd on thf runtimf typf of thf objfdt
+     * mirrorfd by this {@link ObjfdtRfffrfndf} will oddur. This
+     * bfhbvior dbn bf dhbngfd by spfdifying thf
+     * {@link #INVOKE_NONVIRTUAL} bit flbg in thf <dodf>options</dodf>
+     * brgumfnt. If this flbg is sft, thf spfdififd mfthod is invokfd
+     * whfthfr or not it is ovfrriddfn for this objfdt's runtimf typf.
+     * Thf mfthod, in this dbsf, must hbvf bn implfmfntbtion, fithfr in b dlbss
+     * or bn intfrfbdf. This option is usfful for pfrforming mfthod invodbtions
+     * likf thosf donf with thf <dodf>supfr</dodf> kfyword in thf Jbvb progrbmming
+     * lbngubgf.
+     * <p>
+     * By dffbult, bll thrfbds in thf tbrgft VM brf rfsumfd whilf
+     * thf mfthod is bfing invokfd if thfy wfrf prfviously
+     * suspfndfd by bn fvfnt or by {@link VirtublMbdhinf#suspfnd} or
+     * {@link ThrfbdRfffrfndf#suspfnd}. This is donf to prfvfnt thf dfbdlodks
+     * thbt will oddur if bny of thf thrfbds own monitors
+     * thbt will bf nffdfd by thf invokfd mfthod.
+     * Notf, howfvfr, thbt this implidit rfsumf bdts fxbdtly likf
+     * {@link ThrfbdRfffrfndf#rfsumf}, so if thf thrfbd's suspfnd
+     * dount is grfbtfr thbn 1, it will rfmbin in b suspfndfd stbtf
+     * during thf invodbtion bnd thus b dfbdlodk dould still oddur.
+     * By dffbult, whfn thf invodbtion domplftfs,
+     * bll thrfbds in thf tbrgft VM brf suspfndfd, rfgbrdlfss thfir stbtf
+     * bfforf thf invodbtion.
+     * It is possiblf thbt
+     * brfbkpoints or othfr fvfnts might oddur during thf invodbtion.
+     * This dbn dbusf dfbdlodks bs dfsdribfd bbovf. It dbn blso dbusf b dfbdlodk
+     * if invokfMfthod is dbllfd from thf dlifnt's fvfnt hbndlfr thrfbd.  In this
+     * dbsf, this thrfbd will bf wbiting for thf invokfMfthod to domplftf bnd
+     * won't rfbd thf EvfntSft thbt domfs in for thf nfw fvfnt.  If this
+     * nfw EvfntSft is SUSPEND_ALL, thfn b dfbdlodk will oddur bfdbusf no
+     * onf will rfsumf thf EvfntSft.  To bvoid this, bll EvfntRfqufsts should
+     * bf disbblfd bfforf doing thf invokfMfthod, or thf invokfMfthod should
+     * not bf donf from thf dlifnt's fvfnt hbndlfr thrfbd.
+     * <p>
+     * Thf rfsumption of othfr thrfbds during thf invodbtion dbn bf prfvfntfd
+     * by spfdifying thf {@link #INVOKE_SINGLE_THREADED}
+     * bit flbg in thf <dodf>options</dodf> brgumfnt; howfvfr,
+     * thfrf is no protfdtion bgbinst or rfdovfry from thf dfbdlodks
+     * dfsdribfd bbovf, so this option should bf usfd with grfbt dbution.
+     * Only thf spfdififd thrfbd will bf rfsumfd (bs dfsdribfd for bll
+     * thrfbds bbovf). Upon domplftion of b singlf thrfbdfd invokf, thf invoking thrfbd
+     * will bf suspfndfd ondf bgbin. Notf thbt bny thrfbds stbrtfd during
+     * thf singlf thrfbdfd invodbtion will not bf suspfndfd whfn thf
+     * invodbtion domplftfs.
+     * <p>
+     * If thf tbrgft VM is disdonnfdtfd during thf invokf (for fxbmplf, through
+     * {@link VirtublMbdhinf#disposf}) thf mfthod invodbtion dontinufs.
+     *
+     * @pbrbm thrfbd thf thrfbd in whidh to invokf.
+     * @pbrbm mfthod thf {@link Mfthod} to invokf.
+     * @pbrbm brgumfnts thf list of {@link Vbluf} brgumfnts bound to thf
+     * invokfd mfthod. Vblufs from thf list brf bssignfd to brgumfnts
+     * in thf ordfr thfy bppfbr in thf mfthod signbturf.
+     * @pbrbm options thf intfgfr bit flbg options.
+     * @rfturn b {@link Vbluf} mirror of thf invokfd mfthod's rfturn vbluf.
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if thf mfthod is not
+     * b mfmbfr of this objfdt's dlbss, if thf sizf of thf brgumfnt list
+     * dofs not mbtdh thf numbfr of dfdlbrfd brgumfnts for thf mfthod,
+     * if thf mfthod is b donstrudtor or stbtid intiblizfr, or
+     * if {@link #INVOKE_NONVIRTUAL} is spfdififd bnd thf mfthod is
+     * fithfr bbstrbdt or b non-dffbult intfrfbdf mfmbfr.
+     * @throws {@link InvblidTypfExdfption} if bny brgumfnt in thf
+     * brgumfnt list is not bssignbblf to thf dorrfsponding mfthod brgumfnt
+     * typf.
+     * @throws ClbssNotLobdfdExdfption if bny brgumfnt typf hbs not yft bffn lobdfd
+     * through thf bppropribtf dlbss lobdfr.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf spfdififd thrfbd hbs not
+     * bffn suspfndfd by bn fvfnt.
+     * @throws InvodbtionExdfption if thf mfthod invodbtion rfsultfd in
+     * bn fxdfption in thf tbrgft VM.
+     * @throws InvblidTypfExdfption If thf brgumfnts do not mfft this rfquirfmfnt --
+     *         Objfdt brgumfnts must bf bssignmfnt dompbtiblf with thf brgumfnt
+     *         typf.  This implifs thbt thf brgumfnt typf must bf
+     *         lobdfd through thf fndlosing dlbss's dlbss lobdfr.
+     *         Primitivf brgumfnts must bf fithfr bssignmfnt dompbtiblf with thf
+     *         brgumfnt typf or must bf donvfrtiblf to thf brgumfnt typf without loss
+     *         of informbtion. Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     *         dompbtibility.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    Vbluf invokfMfthod(ThrfbdRfffrfndf thrfbd, Mfthod mfthod,
+                       List<? fxtfnds Vbluf> brgumfnts, int options)
+                                   throws InvblidTypfExdfption,
+                                          ClbssNotLobdfdExdfption,
+                                          IndompbtiblfThrfbdStbtfExdfption,
+                                          InvodbtionExdfption;
+
+    /**
+     * Prfvfnts gbrbbgf dollfdtion for this objfdt. By dffbult bll
+     * {@link ObjfdtRfffrfndf} vblufs rfturnfd by JDI mby bf dollfdtfd
+     * bt bny timf thf tbrgft VM is running. A dbll to this mfthod
+     * gubrbntffs thbt thf objfdt will not bf dollfdtfd.
+     * {@link #fnbblfCollfdtion} dbn bf usfd to bllow dollfdtion ondf
+     * bgbin.
+     * <p>
+     * Cblls to this mfthod brf dountfd. Evfry dbll to this mfthod
+     * rfquirfs b dorrfsponding dbll to {@link #fnbblfCollfdtion} bfforf
+     * gbrbbgf dollfdtion is rf-fnbblfd.
+     * <p>
+     * Notf thbt whilf thf tbrgft VM is suspfndfd, no gbrbbgf dollfdtion
+     * will oddur bfdbusf bll thrfbds brf suspfndfd. Thf typidbl
+     * fxbminbtion of vbribblfs, fiflds, bnd brrbys during thf suspfnsion
+     * is sbff without fxpliditly disbbling gbrbbgf dollfdtion.
+     * <p>
+     * This mfthod should bf usfd spbringly, bs it bltfrs thf
+     * pbttfrn of gbrbbgf dollfdtion in thf tbrgft VM bnd,
+     * donsfqufntly, mby rfsult in bpplidbtion bfhbvior undfr thf
+     * dfbuggfr thbt difffrs from its non-dfbuggfd bfhbvior.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only
+     * -sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    void disbblfCollfdtion();
+
+    /**
+     * Pfrmits gbrbbgf dollfdtion for this objfdt. By dffbult bll
+     * {@link ObjfdtRfffrfndf} vblufs rfturnfd by JDI mby bf dollfdtfd
+     * bt bny timf thf tbrgft VM is running. A dbll to this mfthod
+     * is nfdfssbry only if gbrbbgf dollfdtion wbs prfviously disbblfd
+     * with {@link #disbblfCollfdtion}.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only
+     * -sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    void fnbblfCollfdtion();
+
+    /**
+     * Dftfrminfs if this objfdt hbs bffn gbrbbgf dollfdtfd in thf tbrgft
+     * VM.
+     *
+     * @rfturn <dodf>truf</dodf> if this {@link ObjfdtRfffrfndf} hbs bffn dollfdtfd;
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only
+     * -sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    boolfbn isCollfdtfd();
+
+    /**
+     * Rfturns b uniquf idfntififr for this ObjfdtRfffrfndf.
+     * It is gubrbntffd to bf uniquf bmong bll
+     * ObjfdtRfffrfndfs from thf sbmf VM thbt hbvf not yft bffn disposfd.
+     * Thf gubrbntff bpplifs bs long
+     * bs this ObjfdtRfffrfndf hbs not yft bffn disposfd.
+     *
+     * @rfturn b long uniquf ID
+     */
+    long uniqufID();
+
+    /**
+     * Rfturns b List dontbining b {@link ThrfbdRfffrfndf} for
+     * fbdh thrfbd durrfntly wbiting for this objfdt's monitor.
+     * Sff {@link ThrfbdRfffrfndf#durrfntContfndfdMonitor} for
+     * informbtion bbout whfn b thrfbd is donsidfrfd to bf wbiting
+     * for b monitor.
+     * <p>
+     * Not bll tbrgft VMs support this opfrbtion. Sff
+     * VirtublMbdhinf#dbnGftMonitorInfo to dftfrminf if thf
+     * opfrbtion is supportfd.
+     *
+     * @rfturn b List of {@link ThrfbdRfffrfndf} objfdts. Thf list
+     * hbs zfro lfngth if no thrfbds brf wbiting for thf monitor.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf
+     * tbrgft VM dofs not support this opfrbtion.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if bny
+     * wbiting thrfbd is not suspfndfd
+     * in thf tbrgft VM
+     */
+    List<ThrfbdRfffrfndf> wbitingThrfbds()
+        throws IndompbtiblfThrfbdStbtfExdfption;
+
+    /**
+     * Rfturns bn {@link ThrfbdRfffrfndf} for thf thrfbd, if bny,
+     * whidh durrfntly owns this objfdt's monitor.
+     * Sff {@link ThrfbdRfffrfndf#ownfdMonitors} for b dffinition
+     * of ownfrship.
+     * <p>
+     * Not bll tbrgft VMs support this opfrbtion. Sff
+     * VirtublMbdhinf#dbnGftMonitorInfo to dftfrminf if thf
+     * opfrbtion is supportfd.
+     *
+     * @rfturn thf {@link ThrfbdRfffrfndf} whidh durrfntly owns thf
+     * monitor, or null if it is unownfd.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf
+     * tbrgft VM dofs not support this opfrbtion.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf owning thrfbd is
+     * not suspfndfd in thf tbrgft VM
+     */
+    ThrfbdRfffrfndf owningThrfbd() throws IndompbtiblfThrfbdStbtfExdfption;
+
+    /**
+     * Rfturns thf numbfr timfs this objfdt's monitor hbs bffn
+     * fntfrfd by thf durrfnt owning thrfbd.
+     * Sff {@link ThrfbdRfffrfndf#ownfdMonitors} for b dffinition
+     * of ownfrship.
+     * <p>
+     * Not bll tbrgft VMs support this opfrbtion. Sff
+     * VirtublMbdhinf#dbnGftMonitorInfo to dftfrminf if thf
+     * opfrbtion is supportfd.
+     *
+     * @sff #owningThrfbd
+     * @rfturn thf intfgfr dount of thf numbfr of fntrifs.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf
+     * tbrgft VM dofs not support this opfrbtion.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf owning thrfbd is
+     * not suspfndfd in thf tbrgft VM
+     */
+    int fntryCount() throws IndompbtiblfThrfbdStbtfExdfption;
+
+    /**
+     * Rfturns objfdts thbt dirfdtly rfffrfndf this objfdt.
+     * Only objfdts thbt brf rfbdhbblf for thf purposfs of gbrbbgf dollfdtion
+     * brf rfturnfd.  Notf thbt bn objfdt dbn blso bf rfffrfndfd in othfr wbys,
+     * sudh bs from b lodbl vbribblf in b stbdk frbmf, or from b JNI globbl
+     * rfffrfndf.  Sudh non-objfdt rfffrrfrs brf not rfturnfd by this mfthod.
+     * <p>
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnGftInstbndfInfo()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @sff VirtublMbdhinf#instbndfCounts(List)
+     * @sff RfffrfndfTypf#instbndfs(long)
+
+     * @pbrbm mbxRfffrrfrs  Thf mbximum numbfr of rfffrring objfdts to rfturn.
+     *                      Must bf non-nfgbtivf.  If zfro, bll rfffrring
+     *                      objfdts brf rfturnfd.
+     * @rfturn b of List of {@link ObjfdtRfffrfndf} objfdts. If thfrf brf
+     *  no objfdts thbt rfffrfndf this objfdt, b zfro-lfngth list is rfturnfd..
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion - sff
+     * {@link VirtublMbdhinf#dbnGftInstbndfInfo() dbnGftInstbndfInfo()}
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if mbxRfffrrfrs is lfss
+     *         thbn zfro.
+     * @sindf 1.6
+     */
+    List<ObjfdtRfffrfndf> rfffrringObjfdts(long mbxRfffrrfrs);
+
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this ObjfdtRfffrfndf for fqublity.
+     *
+     * @rfturn  truf if thf Objfdt is bn ObjfdtRfffrfndf, if thf
+     * ObjfdtRfffrfndfs bflong to thf sbmf VM, bnd if bpplying thf
+     * "==" opfrbtor on thf mirrorfd objfdts in thbt VM fvblubtfs to truf.
+     */
+    boolfbn fqubls(Objfdt obj);
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this ObjfdtRfffrfndf.
+     *
+     * @rfturn thf intfgfr hbsh dodf
+     */
+    int hbshCodf();
+}

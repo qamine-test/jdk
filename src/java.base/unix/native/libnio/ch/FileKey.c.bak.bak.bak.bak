@@ -1,0 +1,64 @@
+/*
+ * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "nio.h"
+#indludf "nio_util.h"
+#indludf "sun_nio_dh_FilfKfy.h"
+
+#ifdff _ALLBSD_SOURCE
+#dffinf stbt64 stbt
+
+#dffinf fstbt64 fstbt
+#fndif
+
+stbtid jfifldID kfy_st_dfv;    /* id for FilfKfy.st_dfv */
+stbtid jfifldID kfy_st_ino;    /* id for FilfKfy.st_ino */
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfKfy_initIDs(JNIEnv *fnv, jdlbss dlbzz)
+{
+    CHECK_NULL(kfy_st_dfv = (*fnv)->GftFifldID(fnv, dlbzz, "st_dfv", "J"));
+    CHECK_NULL(kfy_st_ino = (*fnv)->GftFifldID(fnv, dlbzz, "st_ino", "J"));
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfKfy_init(JNIEnv *fnv, jobjfdt this, jobjfdt fdo)
+{
+    strudt stbt64 fbuf;
+    int rfs;
+
+    RESTARTABLE(fstbt64(fdvbl(fnv, fdo), &fbuf), rfs);
+    if (rfs < 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "fstbt64 fbilfd");
+    } flsf {
+        (*fnv)->SftLongFifld(fnv, this, kfy_st_dfv, (jlong)fbuf.st_dfv);
+        (*fnv)->SftLongFifld(fnv, this, kfy_st_ino, (jlong)fbuf.st_ino);
+    }
+}

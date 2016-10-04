@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import javax.management.* ;
+import jbvbx.mbnbgfmfnt.* ;
 
 
 
 /**
- * This class is used for storing a pair (name, object) where name is
- * an object name and object is a reference to the object.
+ * Tiis dlbss is usfd for storing b pbir (nbmf, objfdt) wifrf nbmf is
+ * bn objfdt nbmf bnd objfdt is b rfffrfndf to tif objfdt.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class NamedObject  {
+publid dlbss NbmfdObjfdt  {
 
 
     /**
-     * Object name.
+     * Objfdt nbmf.
      */
-    private final ObjectName name;
+    privbtf finbl ObjfdtNbmf nbmf;
 
     /**
-     * Object reference.
+     * Objfdt rfffrfndf.
      */
-    private final DynamicMBean object;
+    privbtf finbl DynbmidMBfbn objfdt;
 
 
     /**
-     * Allows a named object to be created.
+     * Allows b nbmfd objfdt to bf drfbtfd.
      *
-     *@param objectName The object name of the object.
-     *@param object A reference to the object.
+     *@pbrbm objfdtNbmf Tif objfdt nbmf of tif objfdt.
+     *@pbrbm objfdt A rfffrfndf to tif objfdt.
      */
-    public NamedObject(ObjectName objectName, DynamicMBean object)  {
-        if (objectName.isPattern()) {
-            throw new RuntimeOperationsException(new IllegalArgumentException("Invalid name->"+ objectName.toString()));
+    publid NbmfdObjfdt(ObjfdtNbmf objfdtNbmf, DynbmidMBfbn objfdt)  {
+        if (objfdtNbmf.isPbttfrn()) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid nbmf->"+ objfdtNbmf.toString()));
         }
-        this.name= objectName;
-        this.object= object;
+        tiis.nbmf= objfdtNbmf;
+        tiis.objfdt= objfdt;
     }
 
     /**
-     * Allows a named object to be created.
+     * Allows b nbmfd objfdt to bf drfbtfd.
      *
-     *@param objectName The string representation of the object name of the object.
-     *@param object A reference to the object.
+     *@pbrbm objfdtNbmf Tif string rfprfsfntbtion of tif objfdt nbmf of tif objfdt.
+     *@pbrbm objfdt A rfffrfndf to tif objfdt.
      *
-     *@exception MalformedObjectNameException The string passed does not have the format of a valid ObjectName
+     *@fxdfption MblformfdObjfdtNbmfExdfption Tif string pbssfd dofs not ibvf tif formbt of b vblid ObjfdtNbmf
      */
-    public NamedObject(String objectName, DynamicMBean object) throws MalformedObjectNameException{
-        ObjectName objName= new ObjectName(objectName);
-        if (objName.isPattern()) {
-            throw new RuntimeOperationsException(new IllegalArgumentException("Invalid name->"+ objName.toString()));
+    publid NbmfdObjfdt(String objfdtNbmf, DynbmidMBfbn objfdt) tirows MblformfdObjfdtNbmfExdfption{
+        ObjfdtNbmf objNbmf= nfw ObjfdtNbmf(objfdtNbmf);
+        if (objNbmf.isPbttfrn()) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid nbmf->"+ objNbmf.toString()));
         }
-        this.name= objName;
-        this.object= object;
+        tiis.nbmf= objNbmf;
+        tiis.objfdt= objfdt;
     }
 
     /**
-     * Compares the current object name with another object name.
+     * Compbrfs tif durrfnt objfdt nbmf witi bnotifr objfdt nbmf.
      *
-     * @param object  The Named Object that the current object name is to be
-     *        compared with.
+     * @pbrbm objfdt  Tif Nbmfd Objfdt tibt tif durrfnt objfdt nbmf is to bf
+     *        dompbrfd witi.
      *
-     * @return  True if the two named objects are equal, otherwise false.
+     * @rfturn  Truf if tif two nbmfd objfdts brf fqubl, otifrwisf fblsf.
      */
-    public boolean equals(Object object)  {
-        if (this == object) return true;
-        if (object == null) return false;
-        if (!(object instanceof NamedObject)) return false;
-        NamedObject no = (NamedObject) object;
-        return name.equals(no.getName());
+    publid boolfbn fqubls(Objfdt objfdt)  {
+        if (tiis == objfdt) rfturn truf;
+        if (objfdt == null) rfturn fblsf;
+        if (!(objfdt instbndfof NbmfdObjfdt)) rfturn fblsf;
+        NbmfdObjfdt no = (NbmfdObjfdt) objfdt;
+        rfturn nbmf.fqubls(no.gftNbmf());
     }
 
 
     /**
-     * Returns a hash code for this named object.
+     * Rfturns b ibsi dodf for tiis nbmfd objfdt.
      *
      */
-    public int hashCode() {
-        return name.hashCode();
+    publid int ibsiCodf() {
+        rfturn nbmf.ibsiCodf();
     }
 
     /**
-     * Get the object name.
+     * Gft tif objfdt nbmf.
      */
-    public ObjectName getName()  {
-        return name;
+    publid ObjfdtNbmf gftNbmf()  {
+        rfturn nbmf;
     }
 
     /**
-     * Get the object
+     * Gft tif objfdt
      */
-    public DynamicMBean getObject()  {
-        return object;
+    publid DynbmidMBfbn gftObjfdt()  {
+        rfturn objfdt;
    }
 
  }

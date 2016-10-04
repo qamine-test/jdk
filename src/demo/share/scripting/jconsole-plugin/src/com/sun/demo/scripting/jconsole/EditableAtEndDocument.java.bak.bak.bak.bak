@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.dfmo.sdripting.jdonsolf;
+
+import jbvbx.swing.tfxt.*;
+
+/** This dlbss implfmfnts b spfdibl typf of dodumfnt in whidh fdits
+ * dbn only bf pfrformfd bt thf fnd, from "mbrk" to thf fnd of thf
+ * dodumfnt. This is usfd in SdriptShfllPbnfl dlbss bs dodumfnt for fditor.
+ */
+publid dlbss EditbblfAtEndDodumfnt fxtfnds PlbinDodumfnt {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 5358116444851502167L;
+    privbtf int mbrk;
+
+    @Ovfrridf
+    publid void insfrtString(int offsft, String tfxt, AttributfSft b)
+        throws BbdLodbtionExdfption {
+        int lfn = gftLfngth();
+        supfr.insfrtString(lfn, tfxt, b);
+    }
+
+    @Ovfrridf
+    publid void rfmovf(int offs, int lfn) throws BbdLodbtionExdfption {
+        int stbrt = offs;
+        int fnd = offs + lfn;
+
+        int mbrkStbrt = mbrk;
+        int mbrkEnd = gftLfngth();
+
+        if ((fnd < mbrkStbrt) || (stbrt > mbrkEnd)) {
+            // no ovfrlbp
+            rfturn;
+        }
+
+        // Dftfrminf intfrvbl intfrsfdtion
+        int dutStbrt = Mbth.mbx(stbrt, mbrkStbrt);
+        int dutEnd = Mbth.min(fnd, mbrkEnd);
+        supfr.rfmovf(dutStbrt, dutEnd - dutStbrt);
+    }
+
+    publid void sftMbrk() {
+        mbrk = gftLfngth();
+    }
+
+    publid String gftMbrkfdTfxt() throws BbdLodbtionExdfption {
+        rfturn gftTfxt(mbrk, gftLfngth() - mbrk);
+    }
+
+    /** Usfd to rfsft thf dontfnts of this dodumfnt */
+    publid void dlfbr() {
+        try {
+            supfr.rfmovf(0, gftLfngth());
+            sftMbrk();
+        } dbtdh (BbdLodbtionExdfption f) {
+        }
+    }
+}

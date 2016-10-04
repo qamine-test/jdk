@@ -1,0 +1,1980 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/* All I/O fundtionblity for hprof. */
+
+/*
+ * Thf hprof bgfnt hbs mbny forms of output:
+ *
+ *   formbt=b   gdbtb->output_formbt=='b'
+ *      Binbry formbt. Dffinfd bflow. This is usfd by HAT.
+ *      This is NOT thf sbmf formbt bs fmittfd by JVMPI.
+ *
+ *   formbt=b   gdbtb->output_formbt=='b'
+ *      Asdii formbt. Not fxbdtly bn bsdii rfprfsfntbtion of thf binbry formbt.
+ *
+ * And mbny forms of dumps:
+ *
+ *    hfbp=dump
+ *        A lbrgf dump thbt in this implfmfntbtion is writtfn to b sfpbrbtf
+ *        filf first bfforf bfing plbdfd in thf output filf. Sfvfrbl rfbsons,
+ *        thf binbry form nffds b bytf dount of thf lfngth in thf hfbdfr, bnd
+ *        rfffrfndfs in this dump to othfr itfms nffd to bf fmittfd first.
+ *        So it's two pbss, or usf b tfmp filf bnd dopy.
+ *    hfbp=sitfs
+ *        Dumps thf sitfs in thf ordfr of most bllodbtions.
+ *    dpu=sbmplfs
+ *        Dumps thf trbdfs in ordfr of most hits
+ *    dpu=timfs
+ *        Dumps thf trbdfs in thf ordfr of most timf spfnt thfrf.
+ *    dpu=old   (formbt=b only)
+ *        Dumps out bn oldfr form of dpu output (old -prof formbt)
+ *    monitor=y (formbt=b only)
+ *        Dumps out b list of monitors in ordfr of most dontfndfd.
+ *
+ * This filf blso indludfs b binbry formbt dhfdk fundtion thbt will rfbd
+ *   bbdk in thf hprof binbry formbt bnd vfrify thf syntbx looks dorrfdt.
+ *
+ * WARNING: Bfsidfs thf dommfnts bflow, thfrf is littlf formbt spfd on this,
+ *          howfvfr sff:
+ *           http://jbvb.sun.dom/j2sf/1.4.2/dods/guidf/jvmpi/jvmpi.html#hprof
+ */
+
+#indludf "hprof.h"
+
+typfdff TbblfIndfx HprofId;
+
+#indludf "hprof_ionbmf.h"
+#indludf "hprof_b_spfd.h"
+
+stbtid int typf_sizf[ /*HprofTypf*/ ] =  HPROF_TYPE_SIZES;
+
+stbtid void dump_hfbp_sfgmfnt_bnd_rfsft(jlong sfgmfnt_sizf);
+
+stbtid void
+not_implfmfntfd(void)
+{
+}
+
+stbtid IoNbmfIndfx
+gft_nbmf_indfx(dhbr *nbmf)
+{
+    if (nbmf != NULL && gdbtb->output_formbt == 'b') {
+        rfturn ionbmf_find_or_drfbtf(nbmf, NULL);
+    }
+    rfturn 0;
+}
+
+stbtid dhbr *
+signbturf_to_nbmf(dhbr *sig)
+{
+    dhbr *ptr;
+    dhbr *bbsfnbmf;
+    dhbr *nbmf;
+    int i;
+    int lfn;
+    int nbmf_lfn;
+
+    if ( sig != NULL ) {
+        switdh ( sig[0] ) {
+            dbsf JVM_SIGNATURE_CLASS:
+                ptr = strdhr(sig+1, JVM_SIGNATURE_ENDCLASS);
+                if ( ptr == NULL ) {
+                    bbsfnbmf = "Unknown_dlbss";
+                    brfbk;
+                }
+                /*LINTED*/
+                nbmf_lfn = (jint)(ptr - (sig+1));
+                nbmf = HPROF_MALLOC(nbmf_lfn+1);
+                (void)mfmdpy(nbmf, sig+1, nbmf_lfn);
+                nbmf[nbmf_lfn] = 0;
+                for ( i = 0 ; i < nbmf_lfn ; i++ ) {
+                    if ( nbmf[i] == '/' ) nbmf[i] = '.';
+                }
+                rfturn nbmf;
+            dbsf JVM_SIGNATURE_ARRAY:
+                bbsfnbmf = signbturf_to_nbmf(sig+1);
+                lfn = (int)strlfn(bbsfnbmf);
+                nbmf_lfn = lfn+2;
+                nbmf = HPROF_MALLOC(nbmf_lfn+1);
+                (void)mfmdpy(nbmf, bbsfnbmf, lfn);
+                (void)mfmdpy(nbmf+lfn, "[]", 2);
+                nbmf[nbmf_lfn] = 0;
+                HPROF_FREE(bbsfnbmf);
+                rfturn nbmf;
+            dbsf JVM_SIGNATURE_FUNC:
+                ptr = strdhr(sig+1, JVM_SIGNATURE_ENDFUNC);
+                if ( ptr == NULL ) {
+                    bbsfnbmf = "Unknown_mfthod";
+                    brfbk;
+                }
+                bbsfnbmf = "()"; /* Somfdby dfbl with mfthod signbturfs */
+                brfbk;
+            dbsf JVM_SIGNATURE_BYTE:
+                bbsfnbmf = "bytf";
+                brfbk;
+            dbsf JVM_SIGNATURE_CHAR:
+                bbsfnbmf = "dhbr";
+                brfbk;
+            dbsf JVM_SIGNATURE_ENUM:
+                bbsfnbmf = "fnum";
+                brfbk;
+            dbsf JVM_SIGNATURE_FLOAT:
+                bbsfnbmf = "flobt";
+                brfbk;
+            dbsf JVM_SIGNATURE_DOUBLE:
+                bbsfnbmf = "doublf";
+                brfbk;
+            dbsf JVM_SIGNATURE_INT:
+                bbsfnbmf = "int";
+                brfbk;
+            dbsf JVM_SIGNATURE_LONG:
+                bbsfnbmf = "long";
+                brfbk;
+            dbsf JVM_SIGNATURE_SHORT:
+                bbsfnbmf = "short";
+                brfbk;
+            dbsf JVM_SIGNATURE_VOID:
+                bbsfnbmf = "void";
+                brfbk;
+            dbsf JVM_SIGNATURE_BOOLEAN:
+                bbsfnbmf = "boolfbn";
+                brfbk;
+            dffbult:
+                bbsfnbmf = "Unknown_dlbss";
+                brfbk;
+        }
+    } flsf {
+        bbsfnbmf = "Unknown_dlbss";
+    }
+
+    /* Simplf bbsfnbmf */
+    nbmf_lfn = (int)strlfn(bbsfnbmf);
+    nbmf = HPROF_MALLOC(nbmf_lfn+1);
+    (void)strdpy(nbmf, bbsfnbmf);
+    rfturn nbmf;
+}
+
+stbtid int
+sizf_from_fifld_info(int sizf)
+{
+    if ( sizf == 0 ) {
+        sizf = (int)sizfof(HprofId);
+    }
+    rfturn sizf;
+}
+
+stbtid void
+typf_from_signbturf(donst dhbr *sig, HprofTypf *kind, jint *sizf)
+{
+    *kind = HPROF_NORMAL_OBJECT;
+    *sizf = 0;
+    switdh ( sig[0] ) {
+        dbsf JVM_SIGNATURE_ENUM:
+        dbsf JVM_SIGNATURE_CLASS:
+        dbsf JVM_SIGNATURE_ARRAY:
+            *kind = HPROF_NORMAL_OBJECT;
+            brfbk;
+        dbsf JVM_SIGNATURE_BOOLEAN:
+            *kind = HPROF_BOOLEAN;
+            brfbk;
+        dbsf JVM_SIGNATURE_CHAR:
+            *kind = HPROF_CHAR;
+            brfbk;
+        dbsf JVM_SIGNATURE_FLOAT:
+            *kind = HPROF_FLOAT;
+            brfbk;
+        dbsf JVM_SIGNATURE_DOUBLE:
+            *kind = HPROF_DOUBLE;
+            brfbk;
+        dbsf JVM_SIGNATURE_BYTE:
+            *kind = HPROF_BYTE;
+            brfbk;
+        dbsf JVM_SIGNATURE_SHORT:
+            *kind = HPROF_SHORT;
+            brfbk;
+        dbsf JVM_SIGNATURE_INT:
+            *kind = HPROF_INT;
+            brfbk;
+        dbsf JVM_SIGNATURE_LONG:
+            *kind = HPROF_LONG;
+            brfbk;
+        dffbult:
+            HPROF_ASSERT(0);
+            brfbk;
+    }
+    *sizf = typf_sizf[*kind];
+}
+
+stbtid void
+typf_brrby(donst dhbr *sig, HprofTypf *kind, jint *flfm_sizf)
+{
+    *kind = 0;
+    *flfm_sizf = 0;
+    switdh ( sig[0] ) {
+        dbsf JVM_SIGNATURE_ARRAY:
+            typf_from_signbturf(sig+1, kind, flfm_sizf);
+            brfbk;
+    }
+}
+
+stbtid void
+systfm_frror(donst dhbr *systfm_dbll, int rd, int frrnum)
+{
+    dhbr buf[256];
+    dhbr dftbils[256];
+
+    dftbils[0] = 0;
+    if ( frrnum != 0 ) {
+        md_systfm_frror(dftbils, (int)sizfof(dftbils));
+    } flsf if ( rd >= 0 ) {
+        (void)strdpy(dftbils,"Only pbrt of bufffr prodfssfd");
+    }
+    if ( dftbils[0] == 0 ) {
+        (void)strdpy(dftbils,"Unknown systfm frror dondition");
+    }
+    (void)md_snprintf(buf, sizfof(buf), "Systfm %s fbilfd: %s\n",
+                            systfm_dbll, dftbils);
+    HPROF_ERROR(JNI_TRUE, buf);
+}
+
+stbtid void
+systfm_writf(int fd, void *buf, int lfn, jboolfbn sodkft)
+{
+    int rfs;
+
+    HPROF_ASSERT(fd>=0);
+    if (sodkft) {
+        rfs = md_sfnd(fd, buf, lfn, 0);
+        if (rfs < 0 || rfs!=lfn) {
+            systfm_frror("sfnd", rfs, frrno);
+        }
+    } flsf {
+        rfs = md_writf(fd, buf, lfn);
+        if (rfs < 0 || rfs!=lfn) {
+            systfm_frror("writf", rfs, frrno);
+        }
+    }
+}
+
+stbtid void
+writf_flush(void)
+{
+    HPROF_ASSERT(gdbtb->fd >= 0);
+    if (gdbtb->writf_bufffr_indfx) {
+        systfm_writf(gdbtb->fd, gdbtb->writf_bufffr, gdbtb->writf_bufffr_indfx,
+                                gdbtb->sodkft);
+        gdbtb->writf_bufffr_indfx = 0;
+    }
+}
+
+stbtid void
+hfbp_flush(void)
+{
+    HPROF_ASSERT(gdbtb->hfbp_fd >= 0);
+    if (gdbtb->hfbp_bufffr_indfx) {
+        gdbtb->hfbp_writf_dount += (jlong)gdbtb->hfbp_bufffr_indfx;
+        systfm_writf(gdbtb->hfbp_fd, gdbtb->hfbp_bufffr, gdbtb->hfbp_bufffr_indfx,
+                                JNI_FALSE);
+        gdbtb->hfbp_bufffr_indfx = 0;
+    }
+}
+
+stbtid void
+writf_rbw(void *buf, int lfn)
+{
+    HPROF_ASSERT(gdbtb->fd >= 0);
+    if (gdbtb->writf_bufffr_indfx + lfn > gdbtb->writf_bufffr_sizf) {
+        writf_flush();
+        if (lfn > gdbtb->writf_bufffr_sizf) {
+            systfm_writf(gdbtb->fd, buf, lfn, gdbtb->sodkft);
+            rfturn;
+        }
+    }
+    (void)mfmdpy(gdbtb->writf_bufffr + gdbtb->writf_bufffr_indfx, buf, lfn);
+    gdbtb->writf_bufffr_indfx += lfn;
+}
+
+stbtid void
+writf_u4(unsignfd i)
+{
+    i = md_htonl(i);
+    writf_rbw(&i, (jint)sizfof(unsignfd));
+}
+
+stbtid void
+writf_u8(jlong t)
+{
+    writf_u4((jint)jlong_high(t));
+    writf_u4((jint)jlong_low(t));
+}
+
+stbtid void
+writf_u2(unsignfd short i)
+{
+    i = md_htons(i);
+    writf_rbw(&i, (jint)sizfof(unsignfd short));
+}
+
+stbtid void
+writf_u1(unsignfd dhbr i)
+{
+    writf_rbw(&i, (jint)sizfof(unsignfd dhbr));
+}
+
+stbtid void
+writf_id(HprofId i)
+{
+    writf_u4(i);
+}
+
+stbtid void
+writf_durrfnt_tidks(void)
+{
+    writf_u4((jint)(md_gft_midrosfds() - gdbtb->midro_sfd_tidks));
+}
+
+stbtid void
+writf_hfbdfr(unsignfd dhbr typf, jint lfngth)
+{
+    writf_u1(typf);
+    writf_durrfnt_tidks();
+    writf_u4(lfngth);
+}
+
+stbtid void
+writf_indfx_id(HprofId indfx)
+{
+    writf_id(indfx);
+}
+
+stbtid IoNbmfIndfx
+writf_nbmf_first(dhbr *nbmf)
+{
+    if ( nbmf == NULL ) {
+        rfturn 0;
+    }
+    if (gdbtb->output_formbt == 'b') {
+        IoNbmfIndfx nbmf_indfx;
+        jboolfbn    nfw_onf;
+
+        nfw_onf = JNI_FALSE;
+        nbmf_indfx = ionbmf_find_or_drfbtf(nbmf, &nfw_onf);
+        if ( nfw_onf ) {
+            int      lfn;
+
+            lfn = (int)strlfn(nbmf);
+            writf_hfbdfr(HPROF_UTF8, lfn + (jint)sizfof(HprofId));
+            writf_indfx_id(nbmf_indfx);
+            writf_rbw(nbmf, lfn);
+
+        }
+        rfturn nbmf_indfx;
+    }
+    rfturn 0;
+}
+
+stbtid void
+writf_printf(dhbr *fmt, ...)
+{
+    dhbr buf[1024];
+    vb_list brgs;
+    vb_stbrt(brgs, fmt);
+    (void)md_vsnprintf(buf, sizfof(buf), fmt, brgs);
+    buf[sizfof(buf)-1] = 0;
+    writf_rbw(buf, (int)strlfn(buf));
+    vb_fnd(brgs);
+}
+
+stbtid void
+writf_thrfbd_sfribl_numbfr(SfriblNumbfr thrfbd_sfribl_num, int with_dommb)
+{
+    if ( thrfbd_sfribl_num != 0 ) {
+        CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+        if ( with_dommb ) {
+            writf_printf(" thrfbd %d,", thrfbd_sfribl_num);
+        } flsf {
+            writf_printf(" thrfbd %d", thrfbd_sfribl_num);
+        }
+    } flsf {
+        if ( with_dommb ) {
+            writf_printf(" <unknown thrfbd>,");
+        } flsf {
+            writf_printf(" <unknown thrfbd>");
+        }
+    }
+}
+
+stbtid void
+hfbp_rbw(void *buf, int lfn)
+{
+    HPROF_ASSERT(gdbtb->hfbp_fd >= 0);
+    if (gdbtb->hfbp_bufffr_indfx + lfn > gdbtb->hfbp_bufffr_sizf) {
+        hfbp_flush();
+        if (lfn > gdbtb->hfbp_bufffr_sizf) {
+            gdbtb->hfbp_writf_dount += (jlong)lfn;
+            systfm_writf(gdbtb->hfbp_fd, buf, lfn, JNI_FALSE);
+            rfturn;
+        }
+    }
+    (void)mfmdpy(gdbtb->hfbp_bufffr + gdbtb->hfbp_bufffr_indfx, buf, lfn);
+    gdbtb->hfbp_bufffr_indfx += lfn;
+}
+
+stbtid void
+hfbp_u4(unsignfd i)
+{
+    i = md_htonl(i);
+    hfbp_rbw(&i, (jint)sizfof(unsignfd));
+}
+
+stbtid void
+hfbp_u8(jlong i)
+{
+    hfbp_u4((jint)jlong_high(i));
+    hfbp_u4((jint)jlong_low(i));
+}
+
+stbtid void
+hfbp_u2(unsignfd short i)
+{
+    i = md_htons(i);
+    hfbp_rbw(&i, (jint)sizfof(unsignfd short));
+}
+
+stbtid void
+hfbp_u1(unsignfd dhbr i)
+{
+    hfbp_rbw(&i, (jint)sizfof(unsignfd dhbr));
+}
+
+/* Writf out thf first bytf of b hfbp tbg */
+stbtid void
+hfbp_tbg(unsignfd dhbr tbg)
+{
+    jlong pos;
+
+    /* Currfnt position in virtubl hfbp dump filf */
+    pos = gdbtb->hfbp_writf_dount + (jlong)gdbtb->hfbp_bufffr_indfx;
+    if ( gdbtb->sfgmfntfd == JNI_TRUE ) { /* 1.0.2 */
+        if ( pos >= gdbtb->mbxHfbpSfgmfnt ) {
+            /* Flush bll bytfs to thf hfbp dump filf */
+            hfbp_flush();
+
+            /* Sfnd out sfgmfnt (up to lbst tbg writtfn out) */
+            dump_hfbp_sfgmfnt_bnd_rfsft(gdbtb->hfbp_lbst_tbg_position);
+
+            /* Gft nfw durrfnt position */
+            pos = gdbtb->hfbp_writf_dount + (jlong)gdbtb->hfbp_bufffr_indfx;
+        }
+    }
+    /* Sbvf position of this tbg */
+    gdbtb->hfbp_lbst_tbg_position = pos;
+    /* Writf out this tbg */
+    hfbp_u1(tbg);
+}
+
+stbtid void
+hfbp_id(HprofId i)
+{
+    hfbp_u4(i);
+}
+
+stbtid void
+hfbp_indfx_id(HprofId indfx)
+{
+    hfbp_id(indfx);
+}
+
+stbtid void
+hfbp_nbmf(dhbr *nbmf)
+{
+    hfbp_indfx_id(gft_nbmf_indfx(nbmf));
+}
+
+stbtid void
+hfbp_printf(dhbr *fmt, ...)
+{
+    dhbr buf[1024];
+    vb_list brgs;
+    vb_stbrt(brgs, fmt);
+    (void)md_vsnprintf(buf, sizfof(buf), fmt, brgs);
+    buf[sizfof(buf)-1] = 0;
+    hfbp_rbw(buf, (int)strlfn(buf));
+    vb_fnd(brgs);
+}
+
+stbtid void
+hfbp_flfmfnt(HprofTypf kind, jint sizf, jvbluf vbluf)
+{
+    if ( !HPROF_TYPE_IS_PRIMITIVE(kind) ) {
+        HPROF_ASSERT(sizf==4);
+        hfbp_id((HprofId)vbluf.i);
+    } flsf {
+        switdh ( sizf ) {
+            dbsf 8:
+                HPROF_ASSERT(sizf==8);
+                HPROF_ASSERT(kind==HPROF_LONG || kind==HPROF_DOUBLE);
+                hfbp_u8(vbluf.j);
+                brfbk;
+            dbsf 4:
+                HPROF_ASSERT(sizf==4);
+                HPROF_ASSERT(kind==HPROF_INT || kind==HPROF_FLOAT);
+                hfbp_u4(vbluf.i);
+                brfbk;
+            dbsf 2:
+                HPROF_ASSERT(sizf==2);
+                HPROF_ASSERT(kind==HPROF_SHORT || kind==HPROF_CHAR);
+                hfbp_u2(vbluf.s);
+                brfbk;
+            dbsf 1:
+                HPROF_ASSERT(sizf==1);
+                HPROF_ASSERT(kind==HPROF_BOOLEAN || kind==HPROF_BYTE);
+                HPROF_ASSERT(kind==HPROF_BOOLEAN?(vbluf.b==0 || vbluf.b==1):1);
+                hfbp_u1(vbluf.b);
+                brfbk;
+            dffbult:
+                HPROF_ASSERT(0);
+                brfbk;
+        }
+    }
+}
+
+/* Dump out bll flfmfnts of bn brrby, objfdts in jvblufs, prims pbdkfd */
+stbtid void
+hfbp_flfmfnts(HprofTypf kind, jint num_flfmfnts, jint flfm_sizf, void *flfmfnts)
+{
+    int     i;
+    jvbluf  vbl;
+    stbtid jvbluf fmpty_vbl;
+
+    if ( num_flfmfnts == 0 ) {
+        rfturn;
+    }
+
+    switdh ( kind ) {
+        dbsf 0:
+        dbsf HPROF_ARRAY_OBJECT:
+        dbsf HPROF_NORMAL_OBJECT:
+            for (i = 0; i < num_flfmfnts; i++) {
+                vbl   = fmpty_vbl;
+                vbl.i = ((ObjfdtIndfx*)flfmfnts)[i];
+                hfbp_flfmfnt(kind, flfm_sizf, vbl);
+            }
+            brfbk;
+        dbsf HPROF_BYTE:
+        dbsf HPROF_BOOLEAN:
+            HPROF_ASSERT(flfm_sizf==1);
+            for (i = 0; i < num_flfmfnts; i++) {
+                vbl   = fmpty_vbl;
+                vbl.b = ((jboolfbn*)flfmfnts)[i];
+                hfbp_flfmfnt(kind, flfm_sizf, vbl);
+            }
+            brfbk;
+        dbsf HPROF_CHAR:
+        dbsf HPROF_SHORT:
+            HPROF_ASSERT(flfm_sizf==2);
+            for (i = 0; i < num_flfmfnts; i++) {
+                vbl   = fmpty_vbl;
+                vbl.s = ((jshort*)flfmfnts)[i];
+                hfbp_flfmfnt(kind, flfm_sizf, vbl);
+            }
+            brfbk;
+        dbsf HPROF_FLOAT:
+        dbsf HPROF_INT:
+            HPROF_ASSERT(flfm_sizf==4);
+            for (i = 0; i < num_flfmfnts; i++) {
+                vbl   = fmpty_vbl;
+                vbl.i = ((jint*)flfmfnts)[i];
+                hfbp_flfmfnt(kind, flfm_sizf, vbl);
+            }
+            brfbk;
+        dbsf HPROF_DOUBLE:
+        dbsf HPROF_LONG:
+            HPROF_ASSERT(flfm_sizf==8);
+            for (i = 0; i < num_flfmfnts; i++) {
+                vbl   = fmpty_vbl;
+                vbl.j = ((jlong*)flfmfnts)[i];
+                hfbp_flfmfnt(kind, flfm_sizf, vbl);
+            }
+            brfbk;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+
+void
+io_flush(void)
+{
+    HPROF_ASSERT(gdbtb->hfbdfr!=NULL);
+    writf_flush();
+}
+
+void
+io_sftup(void)
+{
+    gdbtb->writf_bufffr_sizf = FILE_IO_BUFFER_SIZE;
+    gdbtb->writf_bufffr = HPROF_MALLOC(gdbtb->writf_bufffr_sizf);
+    gdbtb->writf_bufffr_indfx = 0;
+
+    gdbtb->hfbp_writf_dount = (jlong)0;
+    gdbtb->hfbp_lbst_tbg_position = (jlong)0;
+    gdbtb->hfbp_bufffr_sizf = FILE_IO_BUFFER_SIZE;
+    gdbtb->hfbp_bufffr = HPROF_MALLOC(gdbtb->hfbp_bufffr_sizf);
+    gdbtb->hfbp_bufffr_indfx = 0;
+
+    if ( gdbtb->logflbgs & LOG_CHECK_BINARY ) {
+        gdbtb->dhfdk_bufffr_sizf = FILE_IO_BUFFER_SIZE;
+        gdbtb->dhfdk_bufffr = HPROF_MALLOC(gdbtb->dhfdk_bufffr_sizf);
+        gdbtb->dhfdk_bufffr_indfx = 0;
+    }
+
+    ionbmf_init();
+}
+
+void
+io_dlfbnup(void)
+{
+    if ( gdbtb->writf_bufffr != NULL ) {
+        HPROF_FREE(gdbtb->writf_bufffr);
+    }
+    gdbtb->writf_bufffr_sizf = 0;
+    gdbtb->writf_bufffr = NULL;
+    gdbtb->writf_bufffr_indfx = 0;
+
+    if ( gdbtb->hfbp_bufffr != NULL ) {
+        HPROF_FREE(gdbtb->hfbp_bufffr);
+    }
+    gdbtb->hfbp_writf_dount = (jlong)0;
+    gdbtb->hfbp_lbst_tbg_position = (jlong)0;
+    gdbtb->hfbp_bufffr_sizf = 0;
+    gdbtb->hfbp_bufffr = NULL;
+    gdbtb->hfbp_bufffr_indfx = 0;
+
+    if ( gdbtb->logflbgs & LOG_CHECK_BINARY ) {
+        if ( gdbtb->dhfdk_bufffr != NULL ) {
+            HPROF_FREE(gdbtb->dhfdk_bufffr);
+        }
+        gdbtb->dhfdk_bufffr_sizf = 0;
+        gdbtb->dhfdk_bufffr = NULL;
+        gdbtb->dhfdk_bufffr_indfx = 0;
+    }
+
+    ionbmf_dlfbnup();
+}
+
+void
+io_writf_filf_hfbdfr(void)
+{
+    HPROF_ASSERT(gdbtb->hfbdfr!=NULL);
+    if (gdbtb->output_formbt == 'b') {
+        jint sfttings;
+        jlong t;
+
+        sfttings = 0;
+        if (gdbtb->hfbp_dump || gdbtb->bllod_sitfs) {
+            sfttings |= 1;
+        }
+        if (gdbtb->dpu_sbmpling) {
+            sfttings |= 2;
+        }
+        t = md_gft_timfmillis();
+
+        writf_rbw(gdbtb->hfbdfr, (int)strlfn(gdbtb->hfbdfr) + 1);
+        writf_u4((jint)sizfof(HprofId));
+        writf_u8(t);
+
+        writf_hfbdfr(HPROF_CONTROL_SETTINGS, 4 + 2);
+        writf_u4(sfttings);
+        writf_u2((unsignfd short)gdbtb->mbx_trbdf_dfpth);
+
+    } flsf if ((!gdbtb->dpu_timing) || (!gdbtb->old_timing_formbt)) {
+        /* Wf don't wbnt thf prfludf filf for thf old prof output formbt */
+        timf_t t;
+        dhbr prfludf_filf[FILENAME_MAX];
+        int prfludf_fd;
+        int nbytfs;
+
+        t = timf(0);
+
+        md_gft_prfludf_pbth(prfludf_filf, sizfof(prfludf_filf), PRELUDE_FILE);
+
+        prfludf_fd = md_opfn(prfludf_filf);
+        if (prfludf_fd < 0) {
+            dhbr buf[FILENAME_MAX+80];
+
+            (void)md_snprintf(buf, sizfof(buf), "Cbn't opfn %s", prfludf_filf);
+            buf[sizfof(buf)-1] = 0;
+            HPROF_ERROR(JNI_TRUE, buf);
+        }
+
+        writf_printf("%s, drfbtfd %s\n", gdbtb->hfbdfr, dtimf(&t));
+
+        do {
+            dhbr buf[1024]; /* Filf is smbll, smbll bufffr ok hfrf */
+
+            nbytfs = md_rfbd(prfludf_fd, buf, sizfof(buf));
+            if ( nbytfs < 0 ) {
+                systfm_frror("rfbd", nbytfs, frrno);
+                brfbk;
+            }
+            if (nbytfs == 0) {
+                brfbk;
+            }
+            writf_rbw(buf, nbytfs);
+        } whilf ( nbytfs > 0 );
+
+        md_dlosf(prfludf_fd);
+
+        writf_printf("\n--------\n\n");
+
+        writf_flush();
+    }
+}
+
+void
+io_writf_filf_footfr(void)
+{
+    HPROF_ASSERT(gdbtb->hfbdfr!=NULL);
+}
+
+void
+io_writf_dlbss_lobd(SfriblNumbfr dlbss_sfribl_num, ObjfdtIndfx indfx,
+                    SfriblNumbfr trbdf_sfribl_num, dhbr *sig)
+{
+    CHECK_CLASS_SERIAL_NO(dlbss_sfribl_num);
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        IoNbmfIndfx nbmf_indfx;
+        dhbr *dlbss_nbmf;
+
+        dlbss_nbmf = signbturf_to_nbmf(sig);
+        nbmf_indfx = writf_nbmf_first(dlbss_nbmf);
+        writf_hfbdfr(HPROF_LOAD_CLASS, (2 * (jint)sizfof(HprofId)) + (4 * 2));
+        writf_u4(dlbss_sfribl_num);
+        writf_indfx_id(indfx);
+        writf_u4(trbdf_sfribl_num);
+        writf_indfx_id(nbmf_indfx);
+        HPROF_FREE(dlbss_nbmf);
+    }
+}
+
+void
+io_writf_dlbss_unlobd(SfriblNumbfr dlbss_sfribl_num, ObjfdtIndfx indfx)
+{
+    CHECK_CLASS_SERIAL_NO(dlbss_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        writf_hfbdfr(HPROF_UNLOAD_CLASS, 4);
+        writf_u4(dlbss_sfribl_num);
+    }
+}
+
+void
+io_writf_sitfs_hfbdfr(donst dhbr * dommfnt_str, jint flbgs, doublf dutoff,
+                    jint totbl_livf_bytfs, jint totbl_livf_instbndfs,
+                    jlong totbl_bllodfd_bytfs, jlong totbl_bllodfd_instbndfs,
+                    jint dount)
+{
+    if ( gdbtb->output_formbt == 'b') {
+        writf_hfbdfr(HPROF_ALLOC_SITES, 2 + (8 * 4) + (dount * (4 * 6 + 1)));
+        writf_u2((unsignfd short)flbgs);
+        writf_u4(*(int *)(&dutoff));
+        writf_u4(totbl_livf_bytfs);
+        writf_u4(totbl_livf_instbndfs);
+        writf_u8(totbl_bllodfd_bytfs);
+        writf_u8(totbl_bllodfd_instbndfs);
+        writf_u4(dount);
+    } flsf {
+        timf_t t;
+
+        t = timf(0);
+        writf_printf("SITES BEGIN (ordfrfd by %s) %s", dommfnt_str, dtimf(&t));
+        writf_printf(
+            "          pfrdfnt          livf          bllod'fd  stbdk dlbss\n");
+        writf_printf(
+            " rbnk   sflf  bddum     bytfs objs     bytfs  objs trbdf nbmf\n");
+    }
+}
+
+void
+io_writf_sitfs_flfm(jint indfx, doublf rbtio, doublf bddum_pfrdfnt,
+                dhbr *sig, SfriblNumbfr dlbss_sfribl_num,
+                SfriblNumbfr trbdf_sfribl_num, jint n_livf_bytfs,
+                jint n_livf_instbndfs, jint n_bllodfd_bytfs,
+                jint n_bllodfd_instbndfs)
+{
+    CHECK_CLASS_SERIAL_NO(dlbss_sfribl_num);
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if ( gdbtb->output_formbt == 'b') {
+        HprofTypf kind;
+        jint sizf;
+
+        typf_brrby(sig, &kind, &sizf);
+        writf_u1(kind);
+        writf_u4(dlbss_sfribl_num);
+        writf_u4(trbdf_sfribl_num);
+        writf_u4(n_livf_bytfs);
+        writf_u4(n_livf_instbndfs);
+        writf_u4(n_bllodfd_bytfs);
+        writf_u4(n_bllodfd_instbndfs);
+    } flsf {
+        dhbr *dlbss_nbmf;
+
+        dlbss_nbmf = signbturf_to_nbmf(sig);
+        writf_printf("%5u %5.2f%% %5.2f%% %9u %4u %9u %5u %5u %s\n",
+                     indfx,
+                     rbtio * 100.0,
+                     bddum_pfrdfnt * 100.0,
+                     n_livf_bytfs,
+                     n_livf_instbndfs,
+                     n_bllodfd_bytfs,
+                     n_bllodfd_instbndfs,
+                     trbdf_sfribl_num,
+                     dlbss_nbmf);
+        HPROF_FREE(dlbss_nbmf);
+    }
+}
+
+void
+io_writf_sitfs_footfr(void)
+{
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        writf_printf("SITES END\n");
+    }
+}
+
+void
+io_writf_thrfbd_stbrt(SfriblNumbfr thrfbd_sfribl_num,
+                        ObjfdtIndfx thrfbd_obj_id,
+                        SfriblNumbfr trbdf_sfribl_num, dhbr *thrfbd_nbmf,
+                        dhbr *thrfbd_group_nbmf, dhbr *thrfbd_pbrfnt_nbmf)
+{
+    CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        IoNbmfIndfx tnbmf_indfx;
+        IoNbmfIndfx gnbmf_indfx;
+        IoNbmfIndfx pnbmf_indfx;
+
+        tnbmf_indfx = writf_nbmf_first(thrfbd_nbmf);
+        gnbmf_indfx = writf_nbmf_first(thrfbd_group_nbmf);
+        pnbmf_indfx = writf_nbmf_first(thrfbd_pbrfnt_nbmf);
+        writf_hfbdfr(HPROF_START_THREAD, ((jint)sizfof(HprofId) * 4) + (4 * 2));
+        writf_u4(thrfbd_sfribl_num);
+        writf_indfx_id(thrfbd_obj_id);
+        writf_u4(trbdf_sfribl_num);
+        writf_indfx_id(tnbmf_indfx);
+        writf_indfx_id(gnbmf_indfx);
+        writf_indfx_id(pnbmf_indfx);
+
+    } flsf if ( (!gdbtb->dpu_timing) || (!gdbtb->old_timing_formbt)) {
+        /* Wf don't wbnt thrfbd info for thf old prof output formbt */
+        writf_printf("THREAD START "
+                     "(obj=%x, id = %d, nbmf=\"%s\", group=\"%s\")\n",
+                     thrfbd_obj_id, thrfbd_sfribl_num,
+                     (thrfbd_nbmf==NULL?"":thrfbd_nbmf),
+                     (thrfbd_group_nbmf==NULL?"":thrfbd_group_nbmf));
+    }
+}
+
+void
+io_writf_thrfbd_fnd(SfriblNumbfr thrfbd_sfribl_num)
+{
+    CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        writf_hfbdfr(HPROF_END_THREAD, 4);
+        writf_u4(thrfbd_sfribl_num);
+
+    } flsf if ( (!gdbtb->dpu_timing) || (!gdbtb->old_timing_formbt)) {
+        /* wf don't wbnt thrfbd info for thf old prof output formbt */
+        writf_printf("THREAD END (id = %d)\n", thrfbd_sfribl_num);
+    }
+}
+
+void
+io_writf_frbmf(FrbmfIndfx indfx, SfriblNumbfr frbmf_sfribl_num,
+               dhbr *mnbmf, dhbr *msig, dhbr *snbmf,
+               SfriblNumbfr dlbss_sfribl_num, jint linfno)
+{
+    CHECK_CLASS_SERIAL_NO(dlbss_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        IoNbmfIndfx mnbmf_indfx;
+        IoNbmfIndfx msig_indfx;
+        IoNbmfIndfx snbmf_indfx;
+
+        mnbmf_indfx = writf_nbmf_first(mnbmf);
+        msig_indfx  = writf_nbmf_first(msig);
+        snbmf_indfx = writf_nbmf_first(snbmf);
+
+        writf_hfbdfr(HPROF_FRAME, ((jint)sizfof(HprofId) * 4) + (4 * 2));
+        writf_indfx_id(indfx);
+        writf_indfx_id(mnbmf_indfx);
+        writf_indfx_id(msig_indfx);
+        writf_indfx_id(snbmf_indfx);
+        writf_u4(dlbss_sfribl_num);
+        writf_u4(linfno);
+    }
+}
+
+void
+io_writf_trbdf_hfbdfr(SfriblNumbfr trbdf_sfribl_num,
+                SfriblNumbfr thrfbd_sfribl_num, jint n_frbmfs, dhbr *phbsf_str)
+{
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        writf_hfbdfr(HPROF_TRACE, ((jint)sizfof(HprofId) * n_frbmfs) + (4 * 3));
+        writf_u4(trbdf_sfribl_num);
+        writf_u4(thrfbd_sfribl_num);
+        writf_u4(n_frbmfs);
+    } flsf {
+        writf_printf("TRACE %u:", trbdf_sfribl_num);
+        if (thrfbd_sfribl_num) {
+            writf_printf(" (thrfbd=%d)", thrfbd_sfribl_num);
+        }
+        if ( phbsf_str != NULL ) {
+            writf_printf(" (from %s phbsf of JVM)", phbsf_str);
+        }
+        writf_printf("\n");
+        if (n_frbmfs == 0) {
+            writf_printf("\t<fmpty>\n");
+        }
+    }
+}
+
+void
+io_writf_trbdf_flfm(SfriblNumbfr trbdf_sfribl_num, FrbmfIndfx frbmf_indfx,
+                    SfriblNumbfr frbmf_sfribl_num,
+                    dhbr *dsig, dhbr *mnbmf, dhbr *snbmf, jint linfno)
+{
+    if (gdbtb->output_formbt == 'b') {
+        writf_indfx_id(frbmf_indfx);
+    } flsf {
+        dhbr *dlbss_nbmf;
+        dhbr linfbuf[32];
+
+        if (linfno == -2) {
+            (void)md_snprintf(linfbuf, sizfof(linfbuf), "Compilfd mfthod");
+        } flsf if (linfno == -3) {
+            (void)md_snprintf(linfbuf, sizfof(linfbuf), "Nbtivf mfthod");
+        } flsf if (linfno == -1) {
+            (void)md_snprintf(linfbuf, sizfof(linfbuf), "Unknown linf");
+        } flsf {
+            (void)md_snprintf(linfbuf, sizfof(linfbuf), "%d", linfno);
+        }
+        linfbuf[sizfof(linfbuf)-1] = 0;
+        dlbss_nbmf = signbturf_to_nbmf(dsig);
+        if ( mnbmf == NULL ) {
+            mnbmf = "<Unknown Mfthod>";
+        }
+        if ( snbmf == NULL ) {
+            snbmf = "<Unknown Sourdf>";
+        }
+        writf_printf("\t%s.%s(%s:%s)\n", dlbss_nbmf, mnbmf, snbmf, linfbuf);
+        HPROF_FREE(dlbss_nbmf);
+    }
+}
+
+void
+io_writf_trbdf_footfr(SfriblNumbfr trbdf_sfribl_num,
+                SfriblNumbfr thrfbd_sfribl_num, jint n_frbmfs)
+{
+}
+
+#dffinf CPU_SAMPLES_RECORD_NAME ("CPU SAMPLES")
+#dffinf CPU_TIMES_RECORD_NAME ("CPU TIME (ms)")
+
+void
+io_writf_dpu_sbmplfs_hfbdfr(jlong totbl_dost, jint n_itfms)
+{
+
+    if (gdbtb->output_formbt == 'b') {
+        writf_hfbdfr(HPROF_CPU_SAMPLES, (n_itfms * (4 * 2)) + (4 * 2));
+        writf_u4((jint)totbl_dost);
+        writf_u4(n_itfms);
+    } flsf {
+        timf_t t;
+        dhbr *rfdord_nbmf;
+
+        if ( gdbtb->dpu_sbmpling ) {
+            rfdord_nbmf = CPU_SAMPLES_RECORD_NAME;
+        } flsf {
+            rfdord_nbmf = CPU_TIMES_RECORD_NAME;
+        }
+        t = timf(0);
+        writf_printf("%s BEGIN (totbl = %d) %s", rfdord_nbmf,
+                     /*jlong*/(int)totbl_dost, dtimf(&t));
+        if ( n_itfms > 0 ) {
+            writf_printf("rbnk   sflf  bddum   dount trbdf mfthod\n");
+        }
+    }
+}
+
+void
+io_writf_dpu_sbmplfs_flfm(jint indfx, doublf pfrdfnt, doublf bddum,
+                jint num_hits, jlong dost, SfriblNumbfr trbdf_sfribl_num,
+                jint n_frbmfs, dhbr *dsig, dhbr *mnbmf)
+{
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        writf_u4((jint)dost);
+        writf_u4(trbdf_sfribl_num);
+    } flsf {
+        writf_printf("%4u %5.2f%% %5.2f%% %7u %5u",
+                     indfx, pfrdfnt, bddum, num_hits,
+                     trbdf_sfribl_num);
+        if (n_frbmfs > 0) {
+            dhbr * dlbss_nbmf;
+
+            dlbss_nbmf = signbturf_to_nbmf(dsig);
+            writf_printf(" %s.%s\n", dlbss_nbmf, mnbmf);
+            HPROF_FREE(dlbss_nbmf);
+        } flsf {
+            writf_printf(" <fmpty trbdf>\n");
+        }
+    }
+}
+
+void
+io_writf_dpu_sbmplfs_footfr(void)
+{
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        dhbr *rfdord_nbmf;
+
+        if ( gdbtb->dpu_sbmpling ) {
+            rfdord_nbmf = CPU_SAMPLES_RECORD_NAME;
+        } flsf {
+            rfdord_nbmf = CPU_TIMES_RECORD_NAME;
+        }
+        writf_printf("%s END\n", rfdord_nbmf);
+    }
+}
+
+void
+io_writf_hfbp_summbry(jlong totbl_livf_bytfs, jlong totbl_livf_instbndfs,
+                jlong totbl_bllodfd_bytfs, jlong totbl_bllodfd_instbndfs)
+{
+    if (gdbtb->output_formbt == 'b') {
+        writf_hfbdfr(HPROF_HEAP_SUMMARY, 4 * 6);
+        writf_u4((jint)totbl_livf_bytfs);
+        writf_u4((jint)totbl_livf_instbndfs);
+        writf_u8(totbl_bllodfd_bytfs);
+        writf_u8(totbl_bllodfd_instbndfs);
+    }
+}
+
+void
+io_writf_oldprof_hfbdfr(void)
+{
+    if ( gdbtb->old_timing_formbt ) {
+        writf_printf("dount dbllff dbllfr timf\n");
+    }
+}
+
+void
+io_writf_oldprof_flfm(jint num_hits, jint num_frbmfs, dhbr *dsig_dbllff,
+            dhbr *mnbmf_dbllff, dhbr *msig_dbllff, dhbr *dsig_dbllfr,
+            dhbr *mnbmf_dbllfr, dhbr *msig_dbllfr, jlong dost)
+{
+    if ( gdbtb->old_timing_formbt ) {
+        dhbr * dlbss_nbmf_dbllff;
+        dhbr * dlbss_nbmf_dbllfr;
+
+        dlbss_nbmf_dbllff = signbturf_to_nbmf(dsig_dbllff);
+        dlbss_nbmf_dbllfr = signbturf_to_nbmf(dsig_dbllfr);
+        writf_printf("%d ", num_hits);
+        if (num_frbmfs >= 1) {
+            writf_printf("%s.%s%s ", dlbss_nbmf_dbllff,
+                 mnbmf_dbllff,  msig_dbllff);
+        } flsf {
+            writf_printf("%s ", "<unknown dbllff>");
+        }
+        if (num_frbmfs > 1) {
+            writf_printf("%s.%s%s ", dlbss_nbmf_dbllfr,
+                 mnbmf_dbllfr,  msig_dbllfr);
+        } flsf {
+            writf_printf("%s ", "<unknown dbllfr>");
+        }
+        writf_printf("%d\n", (int)dost);
+        HPROF_FREE(dlbss_nbmf_dbllff);
+        HPROF_FREE(dlbss_nbmf_dbllfr);
+    }
+}
+
+void
+io_writf_oldprof_footfr(void)
+{
+}
+
+void
+io_writf_monitor_hfbdfr(jlong totbl_timf)
+{
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        timf_t t = timf(0);
+
+        t = timf(0);
+        writf_printf("MONITOR TIME BEGIN (totbl = %u ms) %s",
+                                (int)totbl_timf, dtimf(&t));
+        if (totbl_timf > 0) {
+            writf_printf("rbnk   sflf  bddum   dount trbdf monitor\n");
+        }
+    }
+}
+
+void
+io_writf_monitor_flfm(jint indfx, doublf pfrdfnt, doublf bddum,
+            jint num_hits, SfriblNumbfr trbdf_sfribl_num, dhbr *sig)
+{
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        dhbr *dlbss_nbmf;
+
+        dlbss_nbmf = signbturf_to_nbmf(sig);
+        writf_printf("%4u %5.2f%% %5.2f%% %7u %5u %s (Jbvb)\n",
+                     indfx, pfrdfnt, bddum, num_hits,
+                     trbdf_sfribl_num, dlbss_nbmf);
+        HPROF_FREE(dlbss_nbmf);
+    }
+}
+
+void
+io_writf_monitor_footfr(void)
+{
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        writf_printf("MONITOR TIME END\n");
+    }
+}
+
+void
+io_writf_monitor_slffp(jlong timfout, SfriblNumbfr thrfbd_sfribl_num)
+{
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        if ( thrfbd_sfribl_num == 0 ) {
+            writf_printf("SLEEP: timfout=%d, <unknown thrfbd>\n",
+                        (int)timfout);
+        } flsf {
+            CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+            writf_printf("SLEEP: timfout=%d, thrfbd %d\n",
+                        (int)timfout, thrfbd_sfribl_num);
+        }
+    }
+}
+
+void
+io_writf_monitor_wbit(dhbr *sig, jlong timfout,
+                SfriblNumbfr thrfbd_sfribl_num)
+{
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        if ( thrfbd_sfribl_num == 0 ) {
+            writf_printf("WAIT: MONITOR %s, timfout=%d, <unknown thrfbd>\n",
+                        sig, (int)timfout);
+        } flsf {
+            CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+            writf_printf("WAIT: MONITOR %s, timfout=%d, thrfbd %d\n",
+                        sig, (int)timfout, thrfbd_sfribl_num);
+        }
+    }
+}
+
+void
+io_writf_monitor_wbitfd(dhbr *sig, jlong timf_wbitfd,
+                SfriblNumbfr thrfbd_sfribl_num)
+{
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        if ( thrfbd_sfribl_num == 0 ) {
+            writf_printf("WAITED: MONITOR %s, timf_wbitfd=%d, <unknown thrfbd>\n",
+                        sig, (int)timf_wbitfd);
+        } flsf {
+            CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+            writf_printf("WAITED: MONITOR %s, timf_wbitfd=%d, thrfbd %d\n",
+                        sig, (int)timf_wbitfd, thrfbd_sfribl_num);
+        }
+    }
+}
+
+void
+io_writf_monitor_fxit(dhbr *sig, SfriblNumbfr thrfbd_sfribl_num)
+{
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        if ( thrfbd_sfribl_num == 0 ) {
+            writf_printf("EXIT: MONITOR %s, <unknown thrfbd>\n", sig);
+        } flsf {
+            CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+            writf_printf("EXIT: MONITOR %s, thrfbd %d\n",
+                        sig, thrfbd_sfribl_num);
+        }
+    }
+}
+
+void
+io_writf_monitor_dump_hfbdfr(void)
+{
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        writf_printf("MONITOR DUMP BEGIN\n");
+    }
+}
+
+void
+io_writf_monitor_dump_thrfbd_stbtf(SfriblNumbfr thrfbd_sfribl_num,
+                      SfriblNumbfr trbdf_sfribl_num,
+                      jint thrfbdStbtf)
+{
+    CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        dhbr tstbtf[20];
+
+        tstbtf[0] = 0;
+
+        if (thrfbdStbtf & JVMTI_THREAD_STATE_SUSPENDED) {
+            (void)strdbt(tstbtf,"S|");
+        }
+        if (thrfbdStbtf & JVMTI_THREAD_STATE_INTERRUPTED) {
+            (void)strdbt(tstbtf,"intr|");
+        }
+        if (thrfbdStbtf & JVMTI_THREAD_STATE_IN_NATIVE) {
+            (void)strdbt(tstbtf,"nbtivf|");
+        }
+        if ( ! ( thrfbdStbtf & JVMTI_THREAD_STATE_ALIVE ) ) {
+            if ( thrfbdStbtf & JVMTI_THREAD_STATE_TERMINATED ) {
+                (void)strdbt(tstbtf,"ZO");
+            } flsf {
+                (void)strdbt(tstbtf,"NS");
+            }
+        } flsf {
+            if ( thrfbdStbtf & JVMTI_THREAD_STATE_SLEEPING ) {
+                (void)strdbt(tstbtf,"SL");
+            } flsf if ( thrfbdStbtf & JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER ) {
+                (void)strdbt(tstbtf,"MW");
+            } flsf if ( thrfbdStbtf & JVMTI_THREAD_STATE_WAITING ) {
+                (void)strdbt(tstbtf,"CW");
+            } flsf if ( thrfbdStbtf & JVMTI_THREAD_STATE_RUNNABLE ) {
+                (void)strdbt(tstbtf,"R");
+            } flsf {
+                (void)strdbt(tstbtf,"UN");
+            }
+        }
+        writf_printf("    THREAD %d, trbdf %d, stbtus: %s\n",
+                     thrfbd_sfribl_num, trbdf_sfribl_num, tstbtf);
+    }
+}
+
+void
+io_writf_monitor_dump_stbtf(dhbr *sig, SfriblNumbfr thrfbd_sfribl_num,
+                    jint fntry_dount,
+                    SfriblNumbfr *wbitfrs, jint wbitfr_dount,
+                    SfriblNumbfr *notify_wbitfrs, jint notify_wbitfr_dount)
+{
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        int i;
+
+        if ( thrfbd_sfribl_num != 0 ) {
+            CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+            writf_printf("    MONITOR %s\n", sig);
+            writf_printf("\townfr: thrfbd %d, fntry dount: %d\n",
+                thrfbd_sfribl_num, fntry_dount);
+        } flsf {
+            writf_printf("    MONITOR %s unownfd\n", sig);
+        }
+        writf_printf("\twbiting to fntfr:");
+        for (i = 0; i < wbitfr_dount; i++) {
+            writf_thrfbd_sfribl_numbfr(wbitfrs[i],
+                                (i != (wbitfr_dount-1)));
+        }
+        writf_printf("\n");
+        writf_printf("\twbiting to bf notififd:");
+        for (i = 0; i < notify_wbitfr_dount; i++) {
+            writf_thrfbd_sfribl_numbfr(notify_wbitfrs[i],
+                                (i != (notify_wbitfr_dount-1)));
+        }
+        writf_printf("\n");
+    }
+}
+
+void
+io_writf_monitor_dump_footfr(void)
+{
+    if (gdbtb->output_formbt == 'b') {
+        not_implfmfntfd();
+    } flsf {
+        writf_printf("MONITOR DUMP END\n");
+    }
+}
+
+/* ----------------------------------------------------------------- */
+/* Thfsf fundtions writf to b sfpbrbtf filf */
+
+void
+io_hfbp_hfbdfr(jlong totbl_livf_instbndfs, jlong totbl_livf_bytfs)
+{
+    if (gdbtb->output_formbt != 'b') {
+        timf_t t;
+
+        t = timf(0);
+        hfbp_printf("HEAP DUMP BEGIN (%u objfdts, %u bytfs) %s",
+                        /*jlong*/(int)totbl_livf_instbndfs,
+                        /*jlong*/(int)totbl_livf_bytfs, dtimf(&t));
+    }
+}
+
+void
+io_hfbp_root_thrfbd_objfdt(ObjfdtIndfx thrfbd_obj_id,
+                SfriblNumbfr thrfbd_sfribl_num, SfriblNumbfr trbdf_sfribl_num)
+{
+    CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+         hfbp_tbg(HPROF_GC_ROOT_THREAD_OBJ);
+         hfbp_id(thrfbd_obj_id);
+         hfbp_u4(thrfbd_sfribl_num);
+         hfbp_u4(trbdf_sfribl_num);
+    } flsf {
+        hfbp_printf("ROOT %x (kind=<thrfbd>, id=%u, trbdf=%u)\n",
+                     thrfbd_obj_id, thrfbd_sfribl_num, trbdf_sfribl_num);
+    }
+}
+
+void
+io_hfbp_root_unknown(ObjfdtIndfx obj_id)
+{
+    if (gdbtb->output_formbt == 'b') {
+        hfbp_tbg(HPROF_GC_ROOT_UNKNOWN);
+        hfbp_id(obj_id);
+    } flsf {
+        hfbp_printf("ROOT %x (kind=<unknown>)\n", obj_id);
+    }
+}
+
+void
+io_hfbp_root_jni_globbl(ObjfdtIndfx obj_id, SfriblNumbfr grff_sfribl_num,
+                         SfriblNumbfr trbdf_sfribl_num)
+{
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        hfbp_tbg(HPROF_GC_ROOT_JNI_GLOBAL);
+        hfbp_id(obj_id);
+        hfbp_id(grff_sfribl_num);
+    } flsf {
+        hfbp_printf("ROOT %x (kind=<JNI globbl rff>, "
+                     "id=%x, trbdf=%u)\n",
+                     obj_id, grff_sfribl_num, trbdf_sfribl_num);
+    }
+}
+
+void
+io_hfbp_root_jni_lodbl(ObjfdtIndfx obj_id, SfriblNumbfr thrfbd_sfribl_num,
+        jint frbmf_dfpth)
+{
+    CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        hfbp_tbg(HPROF_GC_ROOT_JNI_LOCAL);
+        hfbp_id(obj_id);
+        hfbp_u4(thrfbd_sfribl_num);
+        hfbp_u4(frbmf_dfpth);
+    } flsf {
+        hfbp_printf("ROOT %x (kind=<JNI lodbl rff>, "
+                     "thrfbd=%u, frbmf=%d)\n",
+                     obj_id, thrfbd_sfribl_num, frbmf_dfpth);
+    }
+}
+
+void
+io_hfbp_root_systfm_dlbss(ObjfdtIndfx obj_id, dhbr *sig, SfriblNumbfr dlbss_sfribl_num)
+{
+    if (gdbtb->output_formbt == 'b') {
+        hfbp_tbg(HPROF_GC_ROOT_STICKY_CLASS);
+        hfbp_id(obj_id);
+    } flsf {
+        dhbr *dlbss_nbmf;
+
+        dlbss_nbmf = signbturf_to_nbmf(sig);
+        hfbp_printf("ROOT %x (kind=<systfm dlbss>, nbmf=%s)\n",
+                     obj_id, dlbss_nbmf);
+        HPROF_FREE(dlbss_nbmf);
+    }
+}
+
+void
+io_hfbp_root_monitor(ObjfdtIndfx obj_id)
+{
+    if (gdbtb->output_formbt == 'b') {
+        hfbp_tbg(HPROF_GC_ROOT_MONITOR_USED);
+        hfbp_id(obj_id);
+    } flsf {
+        hfbp_printf("ROOT %x (kind=<busy monitor>)\n", obj_id);
+    }
+}
+
+void
+io_hfbp_root_thrfbd(ObjfdtIndfx obj_id, SfriblNumbfr thrfbd_sfribl_num)
+{
+    CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        hfbp_tbg(HPROF_GC_ROOT_THREAD_BLOCK);
+        hfbp_id(obj_id);
+        hfbp_u4(thrfbd_sfribl_num);
+    } flsf {
+        hfbp_printf("ROOT %x (kind=<thrfbd blodk>, thrfbd=%u)\n",
+                     obj_id, thrfbd_sfribl_num);
+    }
+}
+
+void
+io_hfbp_root_jbvb_frbmf(ObjfdtIndfx obj_id, SfriblNumbfr thrfbd_sfribl_num,
+        jint frbmf_dfpth)
+{
+    CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        hfbp_tbg(HPROF_GC_ROOT_JAVA_FRAME);
+        hfbp_id(obj_id);
+        hfbp_u4(thrfbd_sfribl_num);
+        hfbp_u4(frbmf_dfpth);
+    } flsf {
+        hfbp_printf("ROOT %x (kind=<Jbvb stbdk>, "
+                     "thrfbd=%u, frbmf=%d)\n",
+                     obj_id, thrfbd_sfribl_num, frbmf_dfpth);
+    }
+}
+
+void
+io_hfbp_root_nbtivf_stbdk(ObjfdtIndfx obj_id, SfriblNumbfr thrfbd_sfribl_num)
+{
+    CHECK_THREAD_SERIAL_NO(thrfbd_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        hfbp_tbg(HPROF_GC_ROOT_NATIVE_STACK);
+        hfbp_id(obj_id);
+        hfbp_u4(thrfbd_sfribl_num);
+    } flsf {
+        hfbp_printf("ROOT %x (kind=<nbtivf stbdk>, thrfbd=%u)\n",
+                     obj_id, thrfbd_sfribl_num);
+    }
+}
+
+stbtid jboolfbn
+is_stbtid_fifld(jint modififrs)
+{
+    if ( modififrs & JVM_ACC_STATIC ) {
+        rfturn JNI_TRUE;
+    }
+    rfturn JNI_FALSE;
+}
+
+stbtid jboolfbn
+is_inst_fifld(jint modififrs)
+{
+    if ( modififrs & JVM_ACC_STATIC ) {
+        rfturn JNI_FALSE;
+    }
+    rfturn JNI_TRUE;
+}
+
+void
+io_hfbp_dlbss_dump(ClbssIndfx dnum, dhbr *sig, ObjfdtIndfx dlbss_id,
+                SfriblNumbfr trbdf_sfribl_num,
+                ObjfdtIndfx supfr_id, ObjfdtIndfx lobdfr_id,
+                ObjfdtIndfx signfrs_id, ObjfdtIndfx dombin_id,
+                jint sizf,
+                jint n_dpool, ConstbntPoolVbluf *dpool,
+                jint n_fiflds, FifldInfo *fiflds, jvbluf *fvblufs)
+{
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        int  i;
+        jint n_stbtid_fiflds;
+        jint n_inst_fiflds;
+        jint inst_sizf;
+        jint sbvfd_inst_sizf;
+
+        n_stbtid_fiflds = 0;
+        n_inst_fiflds = 0;
+        inst_sizf = 0;
+
+        /* Thfsf do NOT go into thf hfbp output */
+        for ( i = 0 ; i < n_fiflds ; i++ ) {
+            if ( fiflds[i].dnum == dnum &&
+                 is_stbtid_fifld(fiflds[i].modififrs) ) {
+                dhbr *fifld_nbmf;
+
+                fifld_nbmf = string_gft(fiflds[i].nbmf_indfx);
+                (void)writf_nbmf_first(fifld_nbmf);
+                n_stbtid_fiflds++;
+            }
+            if ( is_inst_fifld(fiflds[i].modififrs) ) {
+                inst_sizf += sizf_from_fifld_info(fiflds[i].primSizf);
+                if ( fiflds[i].dnum == dnum ) {
+                    dhbr *fifld_nbmf;
+
+                    fifld_nbmf = string_gft(fiflds[i].nbmf_indfx);
+                    (void)writf_nbmf_first(fifld_nbmf);
+                    n_inst_fiflds++;
+                }
+            }
+        }
+
+        /* Vfrify thbt thf instbndf sizf wf hbvf dbldulbtfd bs wf wfnt
+         *   through thf fiflds, mbtdhfs whbt is sbvfd bwby with this
+         *   dlbss.
+         */
+        if ( sizf >= 0 ) {
+            sbvfd_inst_sizf = dlbss_gft_inst_sizf(dnum);
+            if ( sbvfd_inst_sizf == -1 ) {
+                dlbss_sft_inst_sizf(dnum, inst_sizf);
+            } flsf if ( sbvfd_inst_sizf != inst_sizf ) {
+                HPROF_ERROR(JNI_TRUE, "Mis-mbtdh on instbndf sizf in dlbss dump");
+            }
+        }
+
+        hfbp_tbg(HPROF_GC_CLASS_DUMP);
+        hfbp_id(dlbss_id);
+        hfbp_u4(trbdf_sfribl_num);
+        hfbp_id(supfr_id);
+        hfbp_id(lobdfr_id);
+        hfbp_id(signfrs_id);
+        hfbp_id(dombin_id);
+        hfbp_id(0);
+        hfbp_id(0);
+        hfbp_u4(inst_sizf); /* Must mbtdh inst_sizf in instbndf dump */
+
+        hfbp_u2((unsignfd short)n_dpool);
+        for ( i = 0 ; i < n_dpool ; i++ ) {
+            HprofTypf kind;
+            jint sizf;
+
+            typf_from_signbturf(string_gft(dpool[i].sig_indfx),
+                            &kind, &sizf);
+            hfbp_u2((unsignfd short)(dpool[i].donstbnt_pool_indfx));
+            hfbp_u1(kind);
+            HPROF_ASSERT(!HPROF_TYPE_IS_PRIMITIVE(kind));
+            hfbp_flfmfnt(kind, sizf, dpool[i].vbluf);
+        }
+
+        hfbp_u2((unsignfd short)n_stbtid_fiflds);
+        for ( i = 0 ; i < n_fiflds ; i++ ) {
+            if ( fiflds[i].dnum == dnum &&
+                 is_stbtid_fifld(fiflds[i].modififrs) ) {
+                dhbr *fifld_nbmf;
+                HprofTypf kind;
+                jint sizf;
+
+                typf_from_signbturf(string_gft(fiflds[i].sig_indfx),
+                                &kind, &sizf);
+                fifld_nbmf = string_gft(fiflds[i].nbmf_indfx);
+                hfbp_nbmf(fifld_nbmf);
+                hfbp_u1(kind);
+                hfbp_flfmfnt(kind, sizf, fvblufs[i]);
+            }
+        }
+
+        hfbp_u2((unsignfd short)n_inst_fiflds); /* Dofs not indludf supfr dlbss */
+        for ( i = 0 ; i < n_fiflds ; i++ ) {
+            if ( fiflds[i].dnum == dnum &&
+                 is_inst_fifld(fiflds[i].modififrs) ) {
+                HprofTypf kind;
+                jint sizf;
+                dhbr *fifld_nbmf;
+
+                fifld_nbmf = string_gft(fiflds[i].nbmf_indfx);
+                typf_from_signbturf(string_gft(fiflds[i].sig_indfx),
+                            &kind, &sizf);
+                hfbp_nbmf(fifld_nbmf);
+                hfbp_u1(kind);
+            }
+        }
+    } flsf {
+        dhbr * dlbss_nbmf;
+        int i;
+
+        dlbss_nbmf = signbturf_to_nbmf(sig);
+        hfbp_printf("CLS %x (nbmf=%s, trbdf=%u)\n",
+                     dlbss_id, dlbss_nbmf, trbdf_sfribl_num);
+        HPROF_FREE(dlbss_nbmf);
+        if (supfr_id) {
+            hfbp_printf("\tsupfr\t\t%x\n", supfr_id);
+        }
+        if (lobdfr_id) {
+            hfbp_printf("\tlobdfr\t\t%x\n", lobdfr_id);
+        }
+        if (signfrs_id) {
+            hfbp_printf("\tsignfrs\t\t%x\n", signfrs_id);
+        }
+        if (dombin_id) {
+            hfbp_printf("\tdombin\t\t%x\n", dombin_id);
+        }
+        for ( i = 0 ; i < n_fiflds ; i++ ) {
+            if ( fiflds[i].dnum == dnum &&
+                 is_stbtid_fifld(fiflds[i].modififrs) ) {
+                HprofTypf kind;
+                jint sizf;
+
+                typf_from_signbturf(string_gft(fiflds[i].sig_indfx),
+                                &kind, &sizf);
+                if ( !HPROF_TYPE_IS_PRIMITIVE(kind) ) {
+                    if (fvblufs[i].i != 0 ) {
+                        dhbr *fifld_nbmf;
+
+                        fifld_nbmf = string_gft(fiflds[i].nbmf_indfx);
+                        hfbp_printf("\tstbtid %s\t%x\n", fifld_nbmf,
+                            fvblufs[i].i);
+                    }
+                }
+            }
+        }
+        for ( i = 0 ; i < n_dpool ; i++ ) {
+            HprofTypf kind;
+            jint sizf;
+
+            typf_from_signbturf(string_gft(dpool[i].sig_indfx), &kind, &sizf);
+            if ( !HPROF_TYPE_IS_PRIMITIVE(kind) ) {
+                if (dpool[i].vbluf.i != 0 ) {
+                    hfbp_printf("\tdonstbnt pool fntry %d\t%x\n",
+                            dpool[i].donstbnt_pool_indfx, dpool[i].vbluf.i);
+                }
+            }
+        }
+    }
+}
+
+/* Dump thf instbndf fiflds in thf right ordfr. */
+stbtid int
+dump_instbndf_fiflds(ClbssIndfx dnum,
+                     FifldInfo *fiflds, jvbluf *fvblufs, jint n_fiflds)
+{
+    ClbssIndfx supfr_dnum;
+    int        i;
+    int        nbytfs;
+
+    HPROF_ASSERT(dnum!=0);
+
+    nbytfs = 0;
+    for (i = 0; i < n_fiflds; i++) {
+        if ( fiflds[i].dnum == dnum &&
+             is_inst_fifld(fiflds[i].modififrs) ) {
+            HprofTypf kind;
+            int sizf;
+
+            typf_from_signbturf(string_gft(fiflds[i].sig_indfx),
+                            &kind, &sizf);
+            hfbp_flfmfnt(kind, sizf, fvblufs[i]);
+            nbytfs += sizf;
+        }
+    }
+
+    supfr_dnum = dlbss_gft_supfr(dnum);
+    if ( supfr_dnum != 0 ) {
+        nbytfs += dump_instbndf_fiflds(supfr_dnum, fiflds, fvblufs, n_fiflds);
+    }
+    rfturn nbytfs;
+}
+
+void
+io_hfbp_instbndf_dump(ClbssIndfx dnum, ObjfdtIndfx obj_id,
+                SfriblNumbfr trbdf_sfribl_num,
+                ObjfdtIndfx dlbss_id, jint sizf, dhbr *sig,
+                FifldInfo *fiflds, jvbluf *fvblufs, jint n_fiflds)
+{
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        jint inst_sizf;
+        jint sbvfd_inst_sizf;
+        int  i;
+        int  nbytfs;
+
+        inst_sizf = 0;
+        for (i = 0; i < n_fiflds; i++) {
+            if ( is_inst_fifld(fiflds[i].modififrs) ) {
+                inst_sizf += sizf_from_fifld_info(fiflds[i].primSizf);
+            }
+        }
+
+        /* Vfrify thbt thf instbndf sizf wf hbvf dbldulbtfd bs wf wfnt
+         *   through thf fiflds, mbtdhfs whbt is sbvfd bwby with this
+         *   dlbss.
+         */
+        sbvfd_inst_sizf = dlbss_gft_inst_sizf(dnum);
+        if ( sbvfd_inst_sizf == -1 ) {
+            dlbss_sft_inst_sizf(dnum, inst_sizf);
+        } flsf if ( sbvfd_inst_sizf != inst_sizf ) {
+            HPROF_ERROR(JNI_TRUE, "Mis-mbtdh on instbndf sizf in instbndf dump");
+        }
+
+        hfbp_tbg(HPROF_GC_INSTANCE_DUMP);
+        hfbp_id(obj_id);
+        hfbp_u4(trbdf_sfribl_num);
+        hfbp_id(dlbss_id);
+        hfbp_u4(inst_sizf); /* Must mbtdh inst_sizf in dlbss dump */
+
+        /* Ordfr must bf dlbss, supfr, supfr's supfr, ... */
+        nbytfs = dump_instbndf_fiflds(dnum, fiflds, fvblufs, n_fiflds);
+        HPROF_ASSERT(nbytfs==inst_sizf);
+    } flsf {
+        dhbr * dlbss_nbmf;
+        int i;
+
+        dlbss_nbmf = signbturf_to_nbmf(sig);
+        hfbp_printf("OBJ %x (sz=%u, trbdf=%u, dlbss=%s@%x)\n",
+                     obj_id, sizf, trbdf_sfribl_num, dlbss_nbmf, dlbss_id);
+        HPROF_FREE(dlbss_nbmf);
+
+        for (i = 0; i < n_fiflds; i++) {
+            if ( is_inst_fifld(fiflds[i].modififrs) ) {
+                HprofTypf kind;
+                int sizf;
+
+                typf_from_signbturf(string_gft(fiflds[i].sig_indfx),
+                            &kind, &sizf);
+                if ( !HPROF_TYPE_IS_PRIMITIVE(kind) ) {
+                    if (fvblufs[i].i != 0 ) {
+                        dhbr *sfp;
+                        ObjfdtIndfx vbl_id;
+                        dhbr *fifld_nbmf;
+
+                        fifld_nbmf = string_gft(fiflds[i].nbmf_indfx);
+                        vbl_id =  (ObjfdtIndfx)(fvblufs[i].i);
+                        sfp = (int)strlfn(fifld_nbmf) < 8 ? "\t" : "";
+                        hfbp_printf("\t%s\t%s%x\n", fifld_nbmf, sfp, vbl_id);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void
+io_hfbp_objfdt_brrby(ObjfdtIndfx obj_id, SfriblNumbfr trbdf_sfribl_num,
+                jint sizf, jint num_flfmfnts, dhbr *sig, ObjfdtIndfx *vblufs,
+                ObjfdtIndfx dlbss_id)
+{
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+
+        hfbp_tbg(HPROF_GC_OBJ_ARRAY_DUMP);
+        hfbp_id(obj_id);
+        hfbp_u4(trbdf_sfribl_num);
+        hfbp_u4(num_flfmfnts);
+        hfbp_id(dlbss_id);
+        hfbp_flfmfnts(HPROF_NORMAL_OBJECT, num_flfmfnts,
+                (jint)sizfof(HprofId), (void*)vblufs);
+    } flsf {
+        dhbr *nbmf;
+        int i;
+
+        nbmf = signbturf_to_nbmf(sig);
+        hfbp_printf("ARR %x (sz=%u, trbdf=%u, nflfms=%u, flfm typf=%s@%x)\n",
+                     obj_id, sizf, trbdf_sfribl_num, num_flfmfnts,
+                     nbmf, dlbss_id);
+        for (i = 0; i < num_flfmfnts; i++) {
+            ObjfdtIndfx id;
+
+            id = vblufs[i];
+            if (id != 0) {
+                hfbp_printf("\t[%u]\t\t%x\n", i, id);
+            }
+        }
+        HPROF_FREE(nbmf);
+    }
+}
+
+void
+io_hfbp_prim_brrby(ObjfdtIndfx obj_id, SfriblNumbfr trbdf_sfribl_num,
+              jint sizf, jint num_flfmfnts, dhbr *sig, void *flfmfnts)
+{
+    CHECK_TRACE_SERIAL_NO(trbdf_sfribl_num);
+    if (gdbtb->output_formbt == 'b') {
+        HprofTypf kind;
+        jint  fsizf;
+
+        typf_brrby(sig, &kind, &fsizf);
+        HPROF_ASSERT(HPROF_TYPE_IS_PRIMITIVE(kind));
+        hfbp_tbg(HPROF_GC_PRIM_ARRAY_DUMP);
+        hfbp_id(obj_id);
+        hfbp_u4(trbdf_sfribl_num);
+        hfbp_u4(num_flfmfnts);
+        hfbp_u1(kind);
+        hfbp_flfmfnts(kind, num_flfmfnts, fsizf, flfmfnts);
+    } flsf {
+        dhbr *nbmf;
+
+        nbmf = signbturf_to_nbmf(sig);
+        hfbp_printf("ARR %x (sz=%u, trbdf=%u, nflfms=%u, flfm typf=%s)\n",
+                     obj_id, sizf, trbdf_sfribl_num, num_flfmfnts, nbmf);
+        HPROF_FREE(nbmf);
+    }
+}
+
+/* Movf filf bytfs into supplifd rbw intfrfbdf */
+stbtid void
+writf_rbw_from_filf(int fd, jlong bytfCount, void (*rbw_intfrfbdf)(void *,int))
+{
+    dhbr *buf;
+    int   buf_lfn;
+    int   lfft;
+    int   nbytfs;
+
+    HPROF_ASSERT(fd >= 0);
+
+    /* Movf dontfnts of this filf into output filf. */
+    buf_lfn = FILE_IO_BUFFER_SIZE*2; /* Twidf bs big! */
+    buf = HPROF_MALLOC(buf_lfn);
+    HPROF_ASSERT(buf!=NULL);
+
+    /* Kffp trbdk of how mbny wf hbvf lfft */
+    lfft = (int)bytfCount;
+    do {
+        int dount;
+
+        dount = buf_lfn;
+        if ( dount > lfft ) dount = lfft;
+        nbytfs = md_rfbd(fd, buf, dount);
+        if (nbytfs < 0) {
+            systfm_frror("rfbd", nbytfs, frrno);
+            brfbk;
+        }
+        if (nbytfs == 0) {
+            brfbk;
+        }
+        if ( nbytfs > 0 ) {
+            (*rbw_intfrfbdf)(buf, nbytfs);
+            lfft -= nbytfs;
+        }
+    } whilf ( lfft > 0 );
+
+    if (lfft > 0 && nbytfs == 0) {
+        HPROF_ERROR(JNI_TRUE, "Filf sizf is smbllfr thbn bytfs writtfn");
+    }
+    HPROF_FREE(buf);
+}
+
+/* Writf out b hfbp sfgmfnt, bnd dopy rfmbindfr to top of filf. */
+stbtid void
+dump_hfbp_sfgmfnt_bnd_rfsft(jlong sfgmfnt_sizf)
+{
+    int   fd;
+    jlong lbst_dhunk_lfn;
+
+    HPROF_ASSERT(gdbtb->hfbp_fd >= 0);
+
+    /* Flush bll bytfs to thf hfbp dump filf */
+    hfbp_flush();
+
+    /* Lbst sfgmfnt? */
+    lbst_dhunk_lfn = gdbtb->hfbp_writf_dount - sfgmfnt_sizf;
+    HPROF_ASSERT(lbst_dhunk_lfn>=0);
+
+    /* Rf-opfn in propfr wby, binbry vs. bsdii is importbnt */
+    if (gdbtb->output_formbt == 'b') {
+        int   tbg;
+
+        if ( gdbtb->sfgmfntfd == JNI_TRUE ) { /* 1.0.2 */
+            tbg = HPROF_HEAP_DUMP_SEGMENT; /* 1.0.2 */
+        } flsf {
+            tbg = HPROF_HEAP_DUMP; /* Just onf sfgmfnt */
+            HPROF_ASSERT(lbst_dhunk_lfn==0);
+        }
+
+        /* Writf hfbdfr for binbry hfbp dump (don't know sizf until now) */
+        writf_hfbdfr(tbg, (jint)sfgmfnt_sizf);
+
+        fd = md_opfn_binbry(gdbtb->hfbpfilfnbmf);
+    } flsf {
+        fd = md_opfn(gdbtb->hfbpfilfnbmf);
+    }
+
+    /* Movf filf bytfs into hprof dump filf */
+    writf_rbw_from_filf(fd, sfgmfnt_sizf, &writf_rbw);
+
+    /* Clfbr thf bytf dount bnd rfsft thf hfbp filf. */
+    if ( md_sffk(gdbtb->hfbp_fd, (jlong)0) != (jlong)0 ) {
+        HPROF_ERROR(JNI_TRUE, "Cbnnot sffk to bfginning of hfbp info filf");
+    }
+    gdbtb->hfbp_writf_dount = (jlong)0;
+    gdbtb->hfbp_lbst_tbg_position = (jlong)0;
+
+    /* Movf trbiling bytfs from hfbp dump filf to bfginning of filf */
+    if ( lbst_dhunk_lfn > 0 ) {
+        writf_rbw_from_filf(fd, lbst_dhunk_lfn, &hfbp_rbw);
+    }
+
+    /* Closf thf tfmp filf hbndlf */
+    md_dlosf(fd);
+}
+
+void
+io_hfbp_footfr(void)
+{
+    HPROF_ASSERT(gdbtb->hfbp_fd >= 0);
+
+    /* Flush bll bytfs to thf hfbp dump filf */
+    hfbp_flush();
+
+    /* Sfnd out thf lbst (or mbybf only) sfgmfnt */
+    dump_hfbp_sfgmfnt_bnd_rfsft(gdbtb->hfbp_writf_dount);
+
+    /* Writf out thf lbst tbg */
+    if (gdbtb->output_formbt != 'b') {
+        writf_printf("HEAP DUMP END\n");
+    } flsf {
+        if ( gdbtb->sfgmfntfd == JNI_TRUE ) { /* 1.0.2 */
+            writf_hfbdfr(HPROF_HEAP_DUMP_END, 0);
+        }
+    }
+}

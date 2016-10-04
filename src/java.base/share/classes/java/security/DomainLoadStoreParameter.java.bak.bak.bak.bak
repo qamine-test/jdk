@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.nft.URI;
+import jbvb.util.*;
+import stbtid jbvb.sfdurity.KfyStorf.*;
+
+/**
+ * Configurbtion dbtb thbt spfdififs thf kfystorfs in b kfystorf dombin.
+ * A kfystorf dombin is b dollfdtion of kfystorfs thbt brf prfsfntfd bs b
+ * singlf logidbl kfystorf. Thf donfigurbtion dbtb is usfd during
+ * {@dodf KfyStorf}
+ * {@link KfyStorf#lobd(KfyStorf.LobdStorfPbrbmftfr) lobd} bnd
+ * {@link KfyStorf#storf(KfyStorf.LobdStorfPbrbmftfr) storf} opfrbtions.
+ * <p>
+ * Thf following syntbx is supportfd for donfigurbtion dbtb:
+ * <prf>{@dodf
+ *     dombin <dombinNbmf> [<propfrty> ...] {
+ *         kfystorf <kfystorfNbmf> [<propfrty> ...] ;
+ *         ...
+ *     };
+ *     ...
+ * }</prf>
+ * whfrf {@dodf dombinNbmf} bnd {@dodf kfystorfNbmf} brf idfntififrs
+ * bnd {@dodf propfrty} is b kfy/vbluf pbiring. Thf kfy bnd vbluf brf
+ * sfpbrbtfd by bn 'fqubls' symbol bnd thf vbluf is fndlosfd in doublf
+ * quotfs. A propfrty vbluf mby bf fithfr b printbblf string or b binbry
+ * string of dolon-sfpbrbtfd pbirs of hfxbdfdimbl digits. Multi-vblufd
+ * propfrtifs brf rfprfsfntfd bs b dommb-sfpbrbtfd list of vblufs,
+ * fndlosfd in squbrf brbdkfts.
+ * Sff {@link Arrbys#toString(jbvb.lbng.Objfdt[])}.
+ * <p>
+ * To fnsurf thbt kfystorf fntrifs brf uniqufly idfntififd, fbdh
+ * fntry's blibs is prffixfd by its {@dodf kfystorfNbmf} followfd
+ * by thf fntry nbmf sfpbrbtor bnd fbdh {@dodf kfystorfNbmf} must bf
+ * uniquf within its dombin. Entry nbmf prffixfs brf omittfd whfn
+ * storing b kfystorf.
+ * <p>
+ * Propfrtifs brf dontfxt-sfnsitivf: propfrtifs thbt bpply to
+ * bll thf kfystorfs in b dombin brf lodbtfd in thf dombin dlbusf,
+ * bnd propfrtifs thbt bpply only to b spfdifid kfystorf brf lodbtfd
+ * in thbt kfystorf's dlbusf.
+ * Unlfss othfrwisf spfdififd, b propfrty in b kfystorf dlbusf ovfrridfs
+ * b propfrty of thf sbmf nbmf in thf dombin dlbusf. All propfrty nbmfs
+ * brf dbsf-insfnsitivf. Thf following propfrtifs brf supportfd:
+ * <dl>
+ * <dt> {@dodf kfystorfTypf="<typf>"} </dt>
+ *     <dd> Thf kfystorf typf. </dd>
+ * <dt> {@dodf kfystorfURI="<url>"} </dt>
+ *     <dd> Thf kfystorf lodbtion. </dd>
+ * <dt> {@dodf kfystorfProvidfrNbmf="<nbmf>"} </dt>
+ *     <dd> Thf nbmf of thf kfystorf's JCE providfr. </dd>
+ * <dt> {@dodf kfystorfPbsswordEnv="<fnvironmfnt-vbribblf>"} </dt>
+ *     <dd> Thf fnvironmfnt vbribblf thbt storfs b kfystorf pbssword.
+ *          Altfrnbtivfly, pbsswords mby bf supplifd to thf donstrudtor
+ *          mfthod in b {@dodf Mbp<String, ProtfdtionPbrbmftfr>}. </dd>
+ * <dt> {@dodf fntryNbmfSfpbrbtor="<sfpbrbtor>"} </dt>
+ *     <dd> Thf sfpbrbtor bftwffn b kfystorf nbmf prffix bnd bn fntry nbmf.
+ *          Whfn spfdififd, it bpplifs to bll thf fntrifs in b dombin.
+ *          Its dffbult vbluf is b spbdf. </dd>
+ * </dl>
+ * <p>
+ * For fxbmplf, donfigurbtion dbtb for b simplf kfystorf dombin
+ * domprising thrff kfystorfs is shown bflow:
+ * <prf>
+ *
+ * dombin bpp1 {
+ *     kfystorf bpp1-truststorf
+ *         kfystorfURI="filf:///bpp1/ftd/truststorf.jks";
+ *
+ *     kfystorf systfm-truststorf
+ *         kfystorfURI="${jbvb.homf}/lib/sfdurity/dbdfrts";
+ *
+ *     kfystorf bpp1-kfystorf
+ *         kfystorfTypf="PKCS12"
+ *         kfystorfURI="filf:///bpp1/ftd/kfystorf.p12";
+ * };
+ *
+ * </prf>
+ * @sindf 1.8
+ */
+publid finbl dlbss DombinLobdStorfPbrbmftfr implfmfnts LobdStorfPbrbmftfr {
+
+    privbtf finbl URI donfigurbtion;
+    privbtf finbl Mbp<String,ProtfdtionPbrbmftfr> protfdtionPbrbms;
+
+    /**
+     * Construdts b DombinLobdStorfPbrbmftfr for b kfystorf dombin with
+     * thf pbrbmftfrs usfd to protfdt kfystorf dbtb.
+     *
+     * @pbrbm donfigurbtion idfntififr for thf dombin donfigurbtion dbtb.
+     *     Thf nbmf of thf tbrgft dombin should bf spfdififd in thf
+     *     {@dodf jbvb.nft.URI} frbgmfnt domponfnt whfn it is nfdfssbry
+     *     to distinguish bftwffn sfvfrbl dombin donfigurbtions bt thf
+     *     sbmf lodbtion.
+     *
+     * @pbrbm protfdtionPbrbms thf mbp from kfystorf nbmf to thf pbrbmftfr
+     *     usfd to protfdt kfystorf dbtb.
+     *     A {@dodf jbvb.util.Collfdtions.EMPTY_MAP} should bf usfd
+     *     whfn protfdtion pbrbmftfrs brf not rfquirfd or whfn thfy hbvf
+     *     bffn spfdififd by propfrtifs in thf dombin donfigurbtion dbtb.
+     *     It is dlonfd to prfvfnt subsfqufnt modifidbtion.
+     *
+     * @fxdfption NullPointfrExdfption if {@dodf donfigurbtion} or
+     *     {@dodf protfdtionPbrbms} is {@dodf null}
+     */
+    publid DombinLobdStorfPbrbmftfr(URI donfigurbtion,
+        Mbp<String,ProtfdtionPbrbmftfr> protfdtionPbrbms) {
+        if (donfigurbtion == null || protfdtionPbrbms == null) {
+            throw nfw NullPointfrExdfption("invblid null input");
+        }
+        this.donfigurbtion = donfigurbtion;
+        this.protfdtionPbrbms =
+            Collfdtions.unmodifibblfMbp(nfw HbshMbp<>(protfdtionPbrbms));
+    }
+
+    /**
+     * Gfts thf idfntififr for thf dombin donfigurbtion dbtb.
+     *
+     * @rfturn thf idfntififr for thf donfigurbtion dbtb
+     */
+    publid URI gftConfigurbtion() {
+        rfturn donfigurbtion;
+    }
+
+    /**
+     * Gfts thf kfystorf protfdtion pbrbmftfrs for kfystorfs in this
+     * dombin.
+     *
+     * @rfturn bn unmodifibblf mbp of kfystorf nbmfs to protfdtion
+     *     pbrbmftfrs
+     */
+    publid Mbp<String,ProtfdtionPbrbmftfr> gftProtfdtionPbrbms() {
+        rfturn protfdtionPbrbms;
+    }
+
+    /**
+     * Gfts thf kfystorf protfdtion pbrbmftfrs for this dombin.
+     * Kfystorf dombins do not support b protfdtion pbrbmftfr.
+     *
+     * @rfturn blwbys rfturns {@dodf null}
+     */
+    @Ovfrridf
+    publid KfyStorf.ProtfdtionPbrbmftfr gftProtfdtionPbrbmftfr() {
+        rfturn null;
+    }
+}

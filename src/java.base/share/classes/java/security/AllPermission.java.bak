@@ -1,228 +1,228 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
-import sun.security.util.SecurityConstants;
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.StringTokfnizfr;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 /**
- * The AllPermission is a permission that implies all other permissions.
+ * Tif AllPfrmission is b pfrmission tibt implifs bll otifr pfrmissions.
  * <p>
- * <b>Note:</b> Granting AllPermission should be done with extreme care,
- * as it implies all other permissions. Thus, it grants code the ability
- * to run with security
- * disabled.  Extreme caution should be taken before granting such
- * a permission to code.  This permission should be used only during testing,
- * or in extremely rare cases where an application or applet is
- * completely trusted and adding the necessary permissions to the policy
- * is prohibitively cumbersome.
+ * <b>Notf:</b> Grbnting AllPfrmission siould bf donf witi fxtrfmf dbrf,
+ * bs it implifs bll otifr pfrmissions. Tius, it grbnts dodf tif bbility
+ * to run witi sfdurity
+ * disbblfd.  Extrfmf dbution siould bf tbkfn bfforf grbnting sudi
+ * b pfrmission to dodf.  Tiis pfrmission siould bf usfd only during tfsting,
+ * or in fxtrfmfly rbrf dbsfs wifrf bn bpplidbtion or bpplft is
+ * domplftfly trustfd bnd bdding tif nfdfssbry pfrmissions to tif polidy
+ * is proiibitivfly dumbfrsomf.
  *
- * @see java.security.Permission
- * @see java.security.AccessController
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.AddfssControllfr
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
  *
  *
- * @author Roland Schemers
+ * @butior Rolbnd Sdifmfrs
  *
- * @serial exclude
+ * @sfribl fxdludf
  */
 
-public final class AllPermission extends Permission {
+publid finbl dlbss AllPfrmission fxtfnds Pfrmission {
 
-    private static final long serialVersionUID = -2916474571451318075L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2916474571451318075L;
 
     /**
-     * Creates a new AllPermission object.
+     * Crfbtfs b nfw AllPfrmission objfdt.
      */
-    public AllPermission() {
-        super("<all permissions>");
+    publid AllPfrmission() {
+        supfr("<bll pfrmissions>");
     }
 
 
     /**
-     * Creates a new AllPermission object. This
-     * constructor exists for use by the {@code Policy} object
-     * to instantiate new Permission objects.
+     * Crfbtfs b nfw AllPfrmission objfdt. Tiis
+     * donstrudtor fxists for usf by tif {@dodf Polidy} objfdt
+     * to instbntibtf nfw Pfrmission objfdts.
      *
-     * @param name ignored
-     * @param actions ignored.
+     * @pbrbm nbmf ignorfd
+     * @pbrbm bdtions ignorfd.
      */
-    public AllPermission(String name, String actions) {
-        this();
+    publid AllPfrmission(String nbmf, String bdtions) {
+        tiis();
     }
 
     /**
-     * Checks if the specified permission is "implied" by
-     * this object. This method always returns true.
+     * Cifdks if tif spfdififd pfrmission is "implifd" by
+     * tiis objfdt. Tiis mftiod blwbys rfturns truf.
      *
-     * @param p the permission to check against.
+     * @pbrbm p tif pfrmission to difdk bgbinst.
      *
-     * @return return
+     * @rfturn rfturn
      */
-    public boolean implies(Permission p) {
-         return true;
+    publid boolfbn implifs(Pfrmission p) {
+         rfturn truf;
     }
 
     /**
-     * Checks two AllPermission objects for equality. Two AllPermission
-     * objects are always equal.
+     * Cifdks two AllPfrmission objfdts for fqublity. Two AllPfrmission
+     * objfdts brf blwbys fqubl.
      *
-     * @param obj the object we are testing for equality with this object.
-     * @return true if <i>obj</i> is an AllPermission, false otherwise.
+     * @pbrbm obj tif objfdt wf brf tfsting for fqublity witi tiis objfdt.
+     * @rfturn truf if <i>obj</i> is bn AllPfrmission, fblsf otifrwisf.
      */
-    public boolean equals(Object obj) {
-        return (obj instanceof AllPermission);
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (obj instbndfof AllPfrmission);
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Rfturns tif ibsi dodf vbluf for tiis objfdt.
      *
-     * @return a hash code value for this object.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
      */
 
-    public int hashCode() {
-        return 1;
+    publid int ibsiCodf() {
+        rfturn 1;
     }
 
     /**
-     * Returns the canonical string representation of the actions.
+     * Rfturns tif dbnonidbl string rfprfsfntbtion of tif bdtions.
      *
-     * @return the actions.
+     * @rfturn tif bdtions.
      */
-    public String getActions() {
-        return "<all actions>";
+    publid String gftAdtions() {
+        rfturn "<bll bdtions>";
     }
 
     /**
-     * Returns a new PermissionCollection object for storing AllPermission
-     * objects.
+     * Rfturns b nfw PfrmissionCollfdtion objfdt for storing AllPfrmission
+     * objfdts.
      * <p>
      *
-     * @return a new PermissionCollection object suitable for
-     * storing AllPermissions.
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for
+     * storing AllPfrmissions.
      */
-    public PermissionCollection newPermissionCollection() {
-        return new AllPermissionCollection();
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw AllPfrmissionCollfdtion();
     }
 
 }
 
 /**
- * A AllPermissionCollection stores a collection
- * of AllPermission permissions. AllPermission objects
- * must be stored in a manner that allows them to be inserted in any
- * order, but enable the implies function to evaluate the implies
- * method in an efficient (and consistent) manner.
+ * A AllPfrmissionCollfdtion storfs b dollfdtion
+ * of AllPfrmission pfrmissions. AllPfrmission objfdts
+ * must bf storfd in b mbnnfr tibt bllows tifm to bf insfrtfd in bny
+ * ordfr, but fnbblf tif implifs fundtion to fvblubtf tif implifs
+ * mftiod in bn fffidifnt (bnd donsistfnt) mbnnfr.
  *
- * @see java.security.Permission
- * @see java.security.Permissions
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
  *
  *
- * @author Roland Schemers
+ * @butior Rolbnd Sdifmfrs
  *
- * @serial include
+ * @sfribl indludf
  */
 
-final class AllPermissionCollection
-    extends PermissionCollection
-    implements java.io.Serializable
+finbl dlbss AllPfrmissionCollfdtion
+    fxtfnds PfrmissionCollfdtion
+    implfmfnts jbvb.io.Sfriblizbblf
 {
 
-    // use serialVersionUID from JDK 1.2.2 for interoperability
-    private static final long serialVersionUID = -4023755556366636806L;
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = -4023755556366636806L;
 
-    private boolean all_allowed; // true if any all permissions have been added
+    privbtf boolfbn bll_bllowfd; // truf if bny bll pfrmissions ibvf bffn bddfd
 
     /**
-     * Create an empty AllPermissions object.
+     * Crfbtf bn fmpty AllPfrmissions objfdt.
      *
      */
 
-    public AllPermissionCollection() {
-        all_allowed = false;
+    publid AllPfrmissionCollfdtion() {
+        bll_bllowfd = fblsf;
     }
 
     /**
-     * Adds a permission to the AllPermissions. The key for the hash is
-     * permission.path.
+     * Adds b pfrmission to tif AllPfrmissions. Tif kfy for tif ibsi is
+     * pfrmission.pbti.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
      *
-     * @exception IllegalArgumentException - if the permission is not a
-     *                                       AllPermission
+     * @fxdfption IllfgblArgumfntExdfption - if tif pfrmission is not b
+     *                                       AllPfrmission
      *
-     * @exception SecurityException - if this AllPermissionCollection object
-     *                                has been marked readonly
+     * @fxdfption SfdurityExdfption - if tiis AllPfrmissionCollfdtion objfdt
+     *                                ibs bffn mbrkfd rfbdonly
      */
 
-    public void add(Permission permission) {
-        if (! (permission instanceof AllPermission))
-            throw new IllegalArgumentException("invalid permission: "+
-                                               permission);
-        if (isReadOnly())
-            throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+    publid void bdd(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof AllPfrmission))
+            tirow nfw IllfgblArgumfntExdfption("invblid pfrmission: "+
+                                               pfrmission);
+        if (isRfbdOnly())
+            tirow nfw SfdurityExdfption("bttfmpt to bdd b Pfrmission to b rfbdonly PfrmissionCollfdtion");
 
-        all_allowed = true; // No sync; staleness OK
+        bll_bllowfd = truf; // No synd; stblfnfss OK
     }
 
     /**
-     * Check and see if this set of permissions implies the permissions
-     * expressed in "permission".
+     * Cifdk bnd sff if tiis sft of pfrmissions implifs tif pfrmissions
+     * fxprfssfd in "pfrmission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf
      *
-     * @return always returns true.
+     * @rfturn blwbys rfturns truf.
      */
 
-    public boolean implies(Permission permission) {
-        return all_allowed; // No sync; staleness OK
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        rfturn bll_bllowfd; // No synd; stblfnfss OK
     }
 
     /**
-     * Returns an enumeration of all the AllPermission objects in the
-     * container.
+     * Rfturns bn fnumfrbtion of bll tif AllPfrmission objfdts in tif
+     * dontbinfr.
      *
-     * @return an enumeration of all the AllPermission objects.
+     * @rfturn bn fnumfrbtion of bll tif AllPfrmission objfdts.
      */
-    public Enumeration<Permission> elements() {
-        return new Enumeration<Permission>() {
-            private boolean hasMore = all_allowed;
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        rfturn nfw Enumfrbtion<Pfrmission>() {
+            privbtf boolfbn ibsMorf = bll_bllowfd;
 
-            public boolean hasMoreElements() {
-                return hasMore;
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn ibsMorf;
             }
 
-            public Permission nextElement() {
-                hasMore = false;
-                return SecurityConstants.ALL_PERMISSION;
+            publid Pfrmission nfxtElfmfnt() {
+                ibsMorf = fblsf;
+                rfturn SfdurityConstbnts.ALL_PERMISSION;
             }
         };
     }

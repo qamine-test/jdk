@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.MemoryUsage;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
 
 /**
- * A CompositeData for MemoryUsage for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositfDbtb for MfmoryUsbgf for tif lodbl mbnbgfmfnt support.
+ * Tiis dlbss bvoids tif pfrformbndf pfnblty pbid to tif
+ * donstrudtion of b CompositfDbtb usf in tif lodbl dbsf.
  */
-public class MemoryUsageCompositeData extends LazyCompositeData {
-    private final MemoryUsage usage;
+publid dlbss MfmoryUsbgfCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl MfmoryUsbgf usbgf;
 
-    private MemoryUsageCompositeData(MemoryUsage u) {
-        this.usage = u;
+    privbtf MfmoryUsbgfCompositfDbtb(MfmoryUsbgf u) {
+        tiis.usbgf = u;
     }
 
-    public MemoryUsage getMemoryUsage() {
-        return usage;
+    publid MfmoryUsbgf gftMfmoryUsbgf() {
+        rfturn usbgf;
     }
 
-    public static CompositeData toCompositeData(MemoryUsage u) {
-        MemoryUsageCompositeData mucd = new MemoryUsageCompositeData(u);
-        return mucd.getCompositeData();
+    publid stbtid CompositfDbtb toCompositfDbtb(MfmoryUsbgf u) {
+        MfmoryUsbgfCompositfDbtb mudd = nfw MfmoryUsbgfCompositfDbtb(u);
+        rfturn mudd.gftCompositfDbtb();
     }
 
-    protected CompositeData getCompositeData() {
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // memoryUsageItemNames!
-        final Object[] memoryUsageItemValues = {
-            usage.getInit(),
-            usage.getUsed(),
-            usage.getCommitted(),
-            usage.getMax(),
+        // mfmoryUsbgfItfmNbmfs!
+        finbl Objfdt[] mfmoryUsbgfItfmVblufs = {
+            usbgf.gftInit(),
+            usbgf.gftUsfd(),
+            usbgf.gftCommittfd(),
+            usbgf.gftMbx(),
         };
 
         try {
-            return new CompositeDataSupport(memoryUsageCompositeType,
-                                            memoryUsageItemNames,
-                                            memoryUsageItemValues);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            rfturn nfw CompositfDbtbSupport(mfmoryUsbgfCompositfTypf,
+                                            mfmoryUsbgfItfmNbmfs,
+                                            mfmoryUsbgfItfmVblufs);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    private static final CompositeType memoryUsageCompositeType;
-    static {
+    privbtf stbtid finbl CompositfTypf mfmoryUsbgfCompositfTypf;
+    stbtid {
         try {
-            memoryUsageCompositeType = (CompositeType)
-                MappedMXBeanType.toOpenType(MemoryUsage.class);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            mfmoryUsbgfCompositfTypf = (CompositfTypf)
+                MbppfdMXBfbnTypf.toOpfnTypf(MfmoryUsbgf.dlbss);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    static CompositeType getMemoryUsageCompositeType() {
-        return memoryUsageCompositeType;
+    stbtid CompositfTypf gftMfmoryUsbgfCompositfTypf() {
+        rfturn mfmoryUsbgfCompositfTypf;
     }
 
-    private static final String INIT      = "init";
-    private static final String USED      = "used";
-    private static final String COMMITTED = "committed";
-    private static final String MAX       = "max";
+    privbtf stbtid finbl String INIT      = "init";
+    privbtf stbtid finbl String USED      = "usfd";
+    privbtf stbtid finbl String COMMITTED = "dommittfd";
+    privbtf stbtid finbl String MAX       = "mbx";
 
-    private static final String[] memoryUsageItemNames = {
+    privbtf stbtid finbl String[] mfmoryUsbgfItfmNbmfs = {
         INIT,
         USED,
         COMMITTED,
         MAX,
     };
 
-    public static long getInit(CompositeData cd) {
-        return getLong(cd, INIT);
+    publid stbtid long gftInit(CompositfDbtb dd) {
+        rfturn gftLong(dd, INIT);
     }
-    public static long getUsed(CompositeData cd) {
-        return getLong(cd, USED);
+    publid stbtid long gftUsfd(CompositfDbtb dd) {
+        rfturn gftLong(dd, USED);
     }
-    public static long getCommitted(CompositeData cd) {
-        return getLong(cd, COMMITTED);
+    publid stbtid long gftCommittfd(CompositfDbtb dd) {
+        rfturn gftLong(dd, COMMITTED);
     }
-    public static long getMax(CompositeData cd) {
-        return getLong(cd, MAX);
+    publid stbtid long gftMbx(CompositfDbtb dd) {
+        rfturn gftLong(dd, MAX);
     }
 
-    /** Validate if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).
+    /** Vblidbtf if tif input CompositfDbtb ibs tif fxpfdtfd
+     * CompositfTypf (i.f. dontbin bll bttributfs witi fxpfdtfd
+     * nbmfs bnd typfs).
      */
-    public static void validateCompositeData(CompositeData cd) {
-        if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+    publid stbtid void vblidbtfCompositfDbtb(CompositfDbtb dd) {
+        if (dd == null) {
+            tirow nfw NullPointfrExdfption("Null CompositfDbtb");
         }
 
-        if (!isTypeMatched(memoryUsageCompositeType, cd.getCompositeType())) {
-            throw new IllegalArgumentException(
-                "Unexpected composite type for MemoryUsage");
+        if (!isTypfMbtdifd(mfmoryUsbgfCompositfTypf, dd.gftCompositfTypf())) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Unfxpfdtfd dompositf typf for MfmoryUsbgf");
         }
     }
 
-    private static final long serialVersionUID = -8504291541083874143L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8504291541083874143L;
 }

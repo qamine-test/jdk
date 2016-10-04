@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.io.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtPbth;
+import jbvb.sfdurity.dfrt.X509Extfnsion;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
+
+/**
+ * This dlbss fndbpsulbtfs informbtion bbout b signfd timfstbmp.
+ * It is immutbblf.
+ * It indludfs thf timfstbmp's dbtf bnd timf bs wfll bs informbtion bbout thf
+ * Timfstbmping Authority (TSA) whidh gfnfrbtfd bnd signfd thf timfstbmp.
+ *
+ * @sindf 1.5
+ * @buthor Vindfnt Rybn
+ */
+
+publid finbl dlbss Timfstbmp implfmfnts Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -5502683707821851294L;
+
+    /**
+     * Thf timfstbmp's dbtf bnd timf
+     *
+     * @sfribl
+     */
+    privbtf Dbtf timfstbmp;
+
+    /**
+     * Thf TSA's dfrtifidbtf pbth.
+     *
+     * @sfribl
+     */
+    privbtf CfrtPbth signfrCfrtPbth;
+
+    /*
+     * Hbsh dodf for this timfstbmp.
+     */
+    privbtf trbnsifnt int myhbsh = -1;
+
+    /**
+     * Construdts b Timfstbmp.
+     *
+     * @pbrbm timfstbmp is thf timfstbmp's dbtf bnd timf. It must not bf null.
+     * @pbrbm signfrCfrtPbth is thf TSA's dfrtifidbtf pbth. It must not bf null.
+     * @throws NullPointfrExdfption if timfstbmp or signfrCfrtPbth is null.
+     */
+    publid Timfstbmp(Dbtf timfstbmp, CfrtPbth signfrCfrtPbth) {
+        if (timfstbmp == null || signfrCfrtPbth == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.timfstbmp = nfw Dbtf(timfstbmp.gftTimf()); // dlonf
+        this.signfrCfrtPbth = signfrCfrtPbth;
+    }
+
+    /**
+     * Rfturns thf dbtf bnd timf whfn thf timfstbmp wbs gfnfrbtfd.
+     *
+     * @rfturn Thf timfstbmp's dbtf bnd timf.
+     */
+    publid Dbtf gftTimfstbmp() {
+        rfturn nfw Dbtf(timfstbmp.gftTimf()); // dlonf
+    }
+
+    /**
+     * Rfturns thf dfrtifidbtf pbth for thf Timfstbmping Authority.
+     *
+     * @rfturn Thf TSA's dfrtifidbtf pbth.
+     */
+    publid CfrtPbth gftSignfrCfrtPbth() {
+        rfturn signfrCfrtPbth;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this timfstbmp.
+     * Thf hbsh dodf is gfnfrbtfd using thf dbtf bnd timf of thf timfstbmp
+     * bnd thf TSA's dfrtifidbtf pbth.
+     *
+     * @rfturn b hbsh dodf vbluf for this timfstbmp.
+     */
+    publid int hbshCodf() {
+        if (myhbsh == -1) {
+            myhbsh = timfstbmp.hbshCodf() + signfrCfrtPbth.hbshCodf();
+        }
+        rfturn myhbsh;
+    }
+
+    /**
+     * Tfsts for fqublity bftwffn thf spfdififd objfdt bnd this
+     * timfstbmp. Two timfstbmps brf donsidfrfd fqubl if thf dbtf bnd timf of
+     * thfir timfstbmp's bnd thfir signfr's dfrtifidbtf pbths brf fqubl.
+     *
+     * @pbrbm obj thf objfdt to tfst for fqublity with this timfstbmp.
+     *
+     * @rfturn truf if thf timfstbmp brf donsidfrfd fqubl, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null || (!(obj instbndfof Timfstbmp))) {
+            rfturn fblsf;
+        }
+        Timfstbmp thbt = (Timfstbmp)obj;
+
+        if (this == thbt) {
+            rfturn truf;
+        }
+        rfturn (timfstbmp.fqubls(thbt.gftTimfstbmp()) &&
+            signfrCfrtPbth.fqubls(thbt.gftSignfrCfrtPbth()));
+    }
+
+    /**
+     * Rfturns b string dfsdribing this timfstbmp.
+     *
+     * @rfturn A string domprising thf dbtf bnd timf of thf timfstbmp bnd
+     *         its signfr's dfrtifidbtf.
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("(");
+        sb.bppfnd("timfstbmp: " + timfstbmp);
+        List<? fxtfnds Cfrtifidbtf> dfrts = signfrCfrtPbth.gftCfrtifidbtfs();
+        if (!dfrts.isEmpty()) {
+            sb.bppfnd("TSA: " + dfrts.gft(0));
+        } flsf {
+            sb.bppfnd("TSA: <fmpty>");
+        }
+        sb.bppfnd(")");
+        rfturn sb.toString();
+    }
+
+    // Expliditly rfsft hbsh dodf vbluf to -1
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+        throws IOExdfption, ClbssNotFoundExdfption {
+        ois.dffbultRfbdObjfdt();
+        myhbsh = -1;
+        timfstbmp = nfw Dbtf(timfstbmp.gftTimf());
+    }
+}

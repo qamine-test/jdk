@@ -1,0 +1,268 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.util.logging;
+
+import jbvb.io.*;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.util.*;
+
+/**
+ * Formbt b LogRfdord into b stbndbrd XML formbt.
+ * <p>
+ * Thf DTD spfdifidbtion is providfd bs Appfndix A to thf
+ * Jbvb Logging APIs spfdifidbtion.
+ * <p>
+ * Thf XMLFormbttfr dbn bf usfd with brbitrbry dhbrbdtfr fndodings,
+ * but it is rfdommfndfd thbt it normblly bf usfd with UTF-8.  Thf
+ * dhbrbdtfr fndoding dbn bf sft on thf output Hbndlfr.
+ *
+ * @sindf 1.4
+ */
+
+publid dlbss XMLFormbttfr fxtfnds Formbttfr {
+    privbtf LogMbnbgfr mbnbgfr = LogMbnbgfr.gftLogMbnbgfr();
+
+    // Appfnd b two digit numbfr.
+    privbtf void b2(StringBuildfr sb, int x) {
+        if (x < 10) {
+            sb.bppfnd('0');
+        }
+        sb.bppfnd(x);
+    }
+
+    // Appfnd thf timf bnd dbtf in ISO 8601 formbt
+    privbtf void bppfndISO8601(StringBuildfr sb, long millis) {
+        GrfgoribnCblfndbr dbl = nfw GrfgoribnCblfndbr();
+        dbl.sftTimfInMillis(millis);
+        sb.bppfnd(dbl.gft(Cblfndbr.YEAR));
+        sb.bppfnd('-');
+        b2(sb, dbl.gft(Cblfndbr.MONTH) + 1);
+        sb.bppfnd('-');
+        b2(sb, dbl.gft(Cblfndbr.DAY_OF_MONTH));
+        sb.bppfnd('T');
+        b2(sb, dbl.gft(Cblfndbr.HOUR_OF_DAY));
+        sb.bppfnd(':');
+        b2(sb, dbl.gft(Cblfndbr.MINUTE));
+        sb.bppfnd(':');
+        b2(sb, dbl.gft(Cblfndbr.SECOND));
+    }
+
+    // Appfnd to thf givfn StringBuildfr bn fsdbpfd vfrsion of thf
+    // givfn tfxt string whfrf XML spfdibl dhbrbdtfrs hbvf bffn fsdbpfd.
+    // For b null string wf bppfnd "<null>"
+    privbtf void fsdbpf(StringBuildfr sb, String tfxt) {
+        if (tfxt == null) {
+            tfxt = "<null>";
+        }
+        for (int i = 0; i < tfxt.lfngth(); i++) {
+            dhbr dh = tfxt.dhbrAt(i);
+            if (dh == '<') {
+                sb.bppfnd("&lt;");
+            } flsf if (dh == '>') {
+                sb.bppfnd("&gt;");
+            } flsf if (dh == '&') {
+                sb.bppfnd("&bmp;");
+            } flsf {
+                sb.bppfnd(dh);
+            }
+        }
+    }
+
+    /**
+     * Formbt thf givfn mfssbgf to XML.
+     * <p>
+     * This mfthod dbn bf ovfrriddfn in b subdlbss.
+     * It is rfdommfndfd to usf thf {@link Formbttfr#formbtMfssbgf}
+     * donvfnifndf mfthod to lodblizf bnd formbt thf mfssbgf fifld.
+     *
+     * @pbrbm rfdord thf log rfdord to bf formbttfd.
+     * @rfturn b formbttfd log rfdord
+     */
+    publid String formbt(LogRfdord rfdord) {
+        StringBuildfr sb = nfw StringBuildfr(500);
+        sb.bppfnd("<rfdord>\n");
+
+        sb.bppfnd("  <dbtf>");
+        bppfndISO8601(sb, rfdord.gftMillis());
+        sb.bppfnd("</dbtf>\n");
+
+        sb.bppfnd("  <millis>");
+        sb.bppfnd(rfdord.gftMillis());
+        sb.bppfnd("</millis>\n");
+
+        sb.bppfnd("  <sfqufndf>");
+        sb.bppfnd(rfdord.gftSfqufndfNumbfr());
+        sb.bppfnd("</sfqufndf>\n");
+
+        String nbmf = rfdord.gftLoggfrNbmf();
+        if (nbmf != null) {
+            sb.bppfnd("  <loggfr>");
+            fsdbpf(sb, nbmf);
+            sb.bppfnd("</loggfr>\n");
+        }
+
+        sb.bppfnd("  <lfvfl>");
+        fsdbpf(sb, rfdord.gftLfvfl().toString());
+        sb.bppfnd("</lfvfl>\n");
+
+        if (rfdord.gftSourdfClbssNbmf() != null) {
+            sb.bppfnd("  <dlbss>");
+            fsdbpf(sb, rfdord.gftSourdfClbssNbmf());
+            sb.bppfnd("</dlbss>\n");
+        }
+
+        if (rfdord.gftSourdfMfthodNbmf() != null) {
+            sb.bppfnd("  <mfthod>");
+            fsdbpf(sb, rfdord.gftSourdfMfthodNbmf());
+            sb.bppfnd("</mfthod>\n");
+        }
+
+        sb.bppfnd("  <thrfbd>");
+        sb.bppfnd(rfdord.gftThrfbdID());
+        sb.bppfnd("</thrfbd>\n");
+
+        if (rfdord.gftMfssbgf() != null) {
+            // Formbt thf mfssbgf string bnd its bddompbnying pbrbmftfrs.
+            String mfssbgf = formbtMfssbgf(rfdord);
+            sb.bppfnd("  <mfssbgf>");
+            fsdbpf(sb, mfssbgf);
+            sb.bppfnd("</mfssbgf>");
+            sb.bppfnd("\n");
+        }
+
+        // If thf mfssbgf is bfing lodblizfd, output thf kfy, rfsourdf
+        // bundlf nbmf, bnd pbrbms.
+        RfsourdfBundlf bundlf = rfdord.gftRfsourdfBundlf();
+        try {
+            if (bundlf != null && bundlf.gftString(rfdord.gftMfssbgf()) != null) {
+                sb.bppfnd("  <kfy>");
+                fsdbpf(sb, rfdord.gftMfssbgf());
+                sb.bppfnd("</kfy>\n");
+                sb.bppfnd("  <dbtblog>");
+                fsdbpf(sb, rfdord.gftRfsourdfBundlfNbmf());
+                sb.bppfnd("</dbtblog>\n");
+            }
+        } dbtdh (Exdfption fx) {
+            // Thf mfssbgf is not in thf dbtblog.  Drop through.
+        }
+
+        Objfdt pbrbmftfrs[] = rfdord.gftPbrbmftfrs();
+        //  Chfdk to sff if thf pbrbmftfr wbs not b mfssbgftfxt formbt
+        //  or wbs not null or fmpty
+        if (pbrbmftfrs != null && pbrbmftfrs.lfngth != 0
+                && rfdord.gftMfssbgf().indfxOf('{') == -1 ) {
+            for (Objfdt pbrbmftfr : pbrbmftfrs) {
+                sb.bppfnd("  <pbrbm>");
+                try {
+                    fsdbpf(sb, pbrbmftfr.toString());
+                } dbtdh (Exdfption fx) {
+                    sb.bppfnd("???");
+                }
+                sb.bppfnd("</pbrbm>\n");
+            }
+        }
+
+        if (rfdord.gftThrown() != null) {
+            // Rfport on thf stbtf of thf throwbblf.
+            Throwbblf th = rfdord.gftThrown();
+            sb.bppfnd("  <fxdfption>\n");
+            sb.bppfnd("    <mfssbgf>");
+            fsdbpf(sb, th.toString());
+            sb.bppfnd("</mfssbgf>\n");
+            StbdkTrbdfElfmfnt trbdf[] = th.gftStbdkTrbdf();
+            for (StbdkTrbdfElfmfnt frbmf : trbdf) {
+                sb.bppfnd("    <frbmf>\n");
+                sb.bppfnd("      <dlbss>");
+                fsdbpf(sb, frbmf.gftClbssNbmf());
+                sb.bppfnd("</dlbss>\n");
+                sb.bppfnd("      <mfthod>");
+                fsdbpf(sb, frbmf.gftMfthodNbmf());
+                sb.bppfnd("</mfthod>\n");
+                // Chfdk for b linf numbfr.
+                if (frbmf.gftLinfNumbfr() >= 0) {
+                    sb.bppfnd("      <linf>");
+                    sb.bppfnd(frbmf.gftLinfNumbfr());
+                    sb.bppfnd("</linf>\n");
+                }
+                sb.bppfnd("    </frbmf>\n");
+            }
+            sb.bppfnd("  </fxdfption>\n");
+        }
+
+        sb.bppfnd("</rfdord>\n");
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturn thf hfbdfr string for b sft of XML formbttfd rfdords.
+     *
+     * @pbrbm   h  Thf tbrgft hbndlfr (dbn bf null)
+     * @rfturn  b vblid XML string
+     */
+    publid String gftHfbd(Hbndlfr h) {
+        StringBuildfr sb = nfw StringBuildfr();
+        String fndoding;
+        sb.bppfnd("<?xml vfrsion=\"1.0\"");
+
+        if (h != null) {
+            fndoding = h.gftEndoding();
+        } flsf {
+            fndoding = null;
+        }
+
+        if (fndoding == null) {
+            // Figurf out thf dffbult fndoding.
+            fndoding = jbvb.nio.dhbrsft.Chbrsft.dffbultChbrsft().nbmf();
+        }
+        // Try to mbp thf fndoding nbmf to b dbnonidbl nbmf.
+        try {
+            Chbrsft ds = Chbrsft.forNbmf(fndoding);
+            fndoding = ds.nbmf();
+        } dbtdh (Exdfption fx) {
+            // Wf hit problfms finding b dbnonidbl nbmf.
+            // Just usf thf rbw fndoding nbmf.
+        }
+
+        sb.bppfnd(" fndoding=\"");
+        sb.bppfnd(fndoding);
+        sb.bppfnd("\"");
+        sb.bppfnd(" stbndblonf=\"no\"?>\n");
+        sb.bppfnd("<!DOCTYPE log SYSTEM \"loggfr.dtd\">\n");
+        sb.bppfnd("<log>\n");
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturn thf tbil string for b sft of XML formbttfd rfdords.
+     *
+     * @pbrbm   h  Thf tbrgft hbndlfr (dbn bf null)
+     * @rfturn  b vblid XML string
+     */
+    publid String gftTbil(Hbndlfr h) {
+        rfturn "</log>\n";
+    }
+}

@@ -1,1351 +1,1351 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import javax.accessibility.AccessibleContext;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.io.Serializable;
+import jbvbx.bddfssibility.AddfssiblfContfxt;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.bordfr.LinfBordfr;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.io.Sfriblizbblf;
 
 
 /**
- * This is a basic implementation of the <code>ComboPopup</code> interface.
+ * Tiis is b bbsid implfmfntbtion of tif <dodf>ComboPopup</dodf> intfrfbdf.
  *
- * This class represents the ui for the popup portion of the combo box.
+ * Tiis dlbss rfprfsfnts tif ui for tif popup portion of tif dombo box.
  * <p>
- * All event handling is handled by listener classes created with the
- * <code>createxxxListener()</code> methods and internal classes.
- * You can change the behavior of this class by overriding the
- * <code>createxxxListener()</code> methods and supplying your own
- * event listeners or subclassing from the ones supplied in this class.
+ * All fvfnt ibndling is ibndlfd by listfnfr dlbssfs drfbtfd witi tif
+ * <dodf>drfbtfxxxListfnfr()</dodf> mftiods bnd intfrnbl dlbssfs.
+ * You dbn dibngf tif bfibvior of tiis dlbss by ovfrriding tif
+ * <dodf>drfbtfxxxListfnfr()</dodf> mftiods bnd supplying your own
+ * fvfnt listfnfrs or subdlbssing from tif onfs supplifd in tiis dlbss.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Tom Santos
- * @author Mark Davidson
+ * @butior Tom Sbntos
+ * @butior Mbrk Dbvidson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicComboPopup extends JPopupMenu implements ComboPopup {
-    // An empty ListMode, this is used when the UI changes to allow
-    // the JList to be gc'ed.
-    private static class EmptyListModelClass implements ListModel<Object>, Serializable {
-        public int getSize() { return 0; }
-        public Object getElementAt(int index) { return null; }
-        public void addListDataListener(ListDataListener l) {}
-        public void removeListDataListener(ListDataListener l) {}
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidComboPopup fxtfnds JPopupMfnu implfmfnts ComboPopup {
+    // An fmpty ListModf, tiis is usfd wifn tif UI dibngfs to bllow
+    // tif JList to bf gd'fd.
+    privbtf stbtid dlbss EmptyListModflClbss implfmfnts ListModfl<Objfdt>, Sfriblizbblf {
+        publid int gftSizf() { rfturn 0; }
+        publid Objfdt gftElfmfntAt(int indfx) { rfturn null; }
+        publid void bddListDbtbListfnfr(ListDbtbListfnfr l) {}
+        publid void rfmovfListDbtbListfnfr(ListDbtbListfnfr l) {}
     };
 
-    static final ListModel<Object> EmptyListModel = new EmptyListModelClass();
+    stbtid finbl ListModfl<Objfdt> EmptyListModfl = nfw EmptyListModflClbss();
 
-    private static Border LIST_BORDER = new LineBorder(Color.BLACK, 1);
+    privbtf stbtid Bordfr LIST_BORDER = nfw LinfBordfr(Color.BLACK, 1);
 
     /**
-     * The instance of {@code JComboBox}.
+     * Tif instbndf of {@dodf JComboBox}.
      */
-    protected JComboBox<Object>             comboBox;
+    protfdtfd JComboBox<Objfdt>             domboBox;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor mftiods instfbd.
      *
-     * @see #getList
-     * @see #createList
+     * @sff #gftList
+     * @sff #drfbtfList
      */
-    protected JList<Object>                 list;
+    protfdtfd JList<Objfdt>                 list;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif drfbtf mftiod instfbd
      *
-     * @see #createScroller
+     * @sff #drfbtfSdrollfr
      */
-    protected JScrollPane              scroller;
+    protfdtfd JSdrollPbnf              sdrollfr;
 
     /**
-     * As of Java 2 platform v1.4 this previously undocumented field is no
-     * longer used.
+     * As of Jbvb 2 plbtform v1.4 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
      */
-    protected boolean                  valueIsAdjusting = false;
+    protfdtfd boolfbn                  vblufIsAdjusting = fblsf;
 
-    // Listeners that are required by the ComboPopup interface
+    // Listfnfrs tibt brf rfquirfd by tif ComboPopup intfrfbdf
 
     /**
-     * Implementation of all the listener classes.
+     * Implfmfntbtion of bll tif listfnfr dlbssfs.
      */
-    private Handler handler;
+    privbtf Hbndlfr ibndlfr;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor or create methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor or drfbtf mftiods instfbd.
      *
-     * @see #getMouseMotionListener
-     * @see #createMouseMotionListener
+     * @sff #gftMousfMotionListfnfr
+     * @sff #drfbtfMousfMotionListfnfr
      */
-    protected MouseMotionListener      mouseMotionListener;
+    protfdtfd MousfMotionListfnfr      mousfMotionListfnfr;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor or create methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor or drfbtf mftiods instfbd.
      *
-     * @see #getMouseListener
-     * @see #createMouseListener
+     * @sff #gftMousfListfnfr
+     * @sff #drfbtfMousfListfnfr
      */
-    protected MouseListener            mouseListener;
+    protfdtfd MousfListfnfr            mousfListfnfr;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor or create methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor or drfbtf mftiods instfbd.
      *
-     * @see #getKeyListener
-     * @see #createKeyListener
+     * @sff #gftKfyListfnfr
+     * @sff #drfbtfKfyListfnfr
      */
-    protected KeyListener              keyListener;
+    protfdtfd KfyListfnfr              kfyListfnfr;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif drfbtf mftiod instfbd.
      *
-     * @see #createListSelectionListener
+     * @sff #drfbtfListSflfdtionListfnfr
      */
-    protected ListSelectionListener    listSelectionListener;
+    protfdtfd ListSflfdtionListfnfr    listSflfdtionListfnfr;
 
-    // Listeners that are attached to the list
+    // Listfnfrs tibt brf bttbdifd to tif list
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif drfbtf mftiod instfbd.
      *
-     * @see #createListMouseListener
+     * @sff #drfbtfListMousfListfnfr
      */
-    protected MouseListener            listMouseListener;
+    protfdtfd MousfListfnfr            listMousfListfnfr;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif drfbtf mftiod instfbd
      *
-     * @see #createListMouseMotionListener
+     * @sff #drfbtfListMousfMotionListfnfr
      */
-    protected MouseMotionListener      listMouseMotionListener;
+    protfdtfd MousfMotionListfnfr      listMousfMotionListfnfr;
 
-    // Added to the combo box for bound properties
+    // Addfd to tif dombo box for bound propfrtifs
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif drfbtf mftiod instfbd
      *
-     * @see #createPropertyChangeListener
+     * @sff #drfbtfPropfrtyCibngfListfnfr
      */
-    protected PropertyChangeListener   propertyChangeListener;
+    protfdtfd PropfrtyCibngfListfnfr   propfrtyCibngfListfnfr;
 
-    // Added to the combo box model
+    // Addfd to tif dombo box modfl
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif drfbtf mftiod instfbd
      *
-     * @see #createListDataListener
+     * @sff #drfbtfListDbtbListfnfr
      */
-    protected ListDataListener         listDataListener;
+    protfdtfd ListDbtbListfnfr         listDbtbListfnfr;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif drfbtf mftiod instfbd
      *
-     * @see #createItemListener
+     * @sff #drfbtfItfmListfnfr
      */
-    protected ItemListener             itemListener;
+    protfdtfd ItfmListfnfr             itfmListfnfr;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf.
      */
-    protected Timer                    autoscrollTimer;
+    protfdtfd Timfr                    butosdrollTimfr;
 
     /**
-     * {@code true} if the mouse cursor is in the popup.
+     * {@dodf truf} if tif mousf dursor is in tif popup.
      */
-    protected boolean                  hasEntered = false;
+    protfdtfd boolfbn                  ibsEntfrfd = fblsf;
 
     /**
-     * If {@code true} the auto-scrolling is enabled.
+     * If {@dodf truf} tif buto-sdrolling is fnbblfd.
      */
-    protected boolean                  isAutoScrolling = false;
+    protfdtfd boolfbn                  isAutoSdrolling = fblsf;
 
     /**
-     * The direction of scrolling.
+     * Tif dirfdtion of sdrolling.
      */
-    protected int                      scrollDirection = SCROLL_UP;
+    protfdtfd int                      sdrollDirfdtion = SCROLL_UP;
 
     /**
-     * The direction of scrolling up.
+     * Tif dirfdtion of sdrolling up.
      */
-    protected static final int         SCROLL_UP = 0;
+    protfdtfd stbtid finbl int         SCROLL_UP = 0;
 
     /**
-     * The direction of scrolling down.
+     * Tif dirfdtion of sdrolling down.
      */
-    protected static final int         SCROLL_DOWN = 1;
+    protfdtfd stbtid finbl int         SCROLL_DOWN = 1;
 
 
     //========================================
-    // begin ComboPopup method implementations
+    // bfgin ComboPopup mftiod implfmfntbtions
     //
 
     /**
-     * Implementation of ComboPopup.show().
+     * Implfmfntbtion of ComboPopup.siow().
      */
-    public void show() {
-        comboBox.firePopupMenuWillBecomeVisible();
-        setListSelection(comboBox.getSelectedIndex());
-        Point location = getPopupLocation();
-        show( comboBox, location.x, location.y );
+    publid void siow() {
+        domboBox.firfPopupMfnuWillBfdomfVisiblf();
+        sftListSflfdtion(domboBox.gftSflfdtfdIndfx());
+        Point lodbtion = gftPopupLodbtion();
+        siow( domboBox, lodbtion.x, lodbtion.y );
     }
 
 
     /**
-     * Implementation of ComboPopup.hide().
+     * Implfmfntbtion of ComboPopup.iidf().
      */
-    public void hide() {
-        MenuSelectionManager manager = MenuSelectionManager.defaultManager();
-        MenuElement [] selection = manager.getSelectedPath();
-        for ( int i = 0 ; i < selection.length ; i++ ) {
-            if ( selection[i] == this ) {
-                manager.clearSelectedPath();
-                break;
+    publid void iidf() {
+        MfnuSflfdtionMbnbgfr mbnbgfr = MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+        MfnuElfmfnt [] sflfdtion = mbnbgfr.gftSflfdtfdPbti();
+        for ( int i = 0 ; i < sflfdtion.lfngti ; i++ ) {
+            if ( sflfdtion[i] == tiis ) {
+                mbnbgfr.dlfbrSflfdtfdPbti();
+                brfbk;
             }
         }
-        if (selection.length > 0) {
-            comboBox.repaint();
+        if (sflfdtion.lfngti > 0) {
+            domboBox.rfpbint();
         }
     }
 
     /**
-     * Implementation of ComboPopup.getList().
+     * Implfmfntbtion of ComboPopup.gftList().
      */
-    public JList<Object> getList() {
-        return list;
+    publid JList<Objfdt> gftList() {
+        rfturn list;
     }
 
     /**
-     * Implementation of ComboPopup.getMouseListener().
+     * Implfmfntbtion of ComboPopup.gftMousfListfnfr().
      *
-     * @return a <code>MouseListener</code> or null
-     * @see ComboPopup#getMouseListener
+     * @rfturn b <dodf>MousfListfnfr</dodf> or null
+     * @sff ComboPopup#gftMousfListfnfr
      */
-    public MouseListener getMouseListener() {
-        if (mouseListener == null) {
-            mouseListener = createMouseListener();
+    publid MousfListfnfr gftMousfListfnfr() {
+        if (mousfListfnfr == null) {
+            mousfListfnfr = drfbtfMousfListfnfr();
         }
-        return mouseListener;
+        rfturn mousfListfnfr;
     }
 
     /**
-     * Implementation of ComboPopup.getMouseMotionListener().
+     * Implfmfntbtion of ComboPopup.gftMousfMotionListfnfr().
      *
-     * @return a <code>MouseMotionListener</code> or null
-     * @see ComboPopup#getMouseMotionListener
+     * @rfturn b <dodf>MousfMotionListfnfr</dodf> or null
+     * @sff ComboPopup#gftMousfMotionListfnfr
      */
-    public MouseMotionListener getMouseMotionListener() {
-        if (mouseMotionListener == null) {
-            mouseMotionListener = createMouseMotionListener();
+    publid MousfMotionListfnfr gftMousfMotionListfnfr() {
+        if (mousfMotionListfnfr == null) {
+            mousfMotionListfnfr = drfbtfMousfMotionListfnfr();
         }
-        return mouseMotionListener;
+        rfturn mousfMotionListfnfr;
     }
 
     /**
-     * Implementation of ComboPopup.getKeyListener().
+     * Implfmfntbtion of ComboPopup.gftKfyListfnfr().
      *
-     * @return a <code>KeyListener</code> or null
-     * @see ComboPopup#getKeyListener
+     * @rfturn b <dodf>KfyListfnfr</dodf> or null
+     * @sff ComboPopup#gftKfyListfnfr
      */
-    public KeyListener getKeyListener() {
-        if (keyListener == null) {
-            keyListener = createKeyListener();
+    publid KfyListfnfr gftKfyListfnfr() {
+        if (kfyListfnfr == null) {
+            kfyListfnfr = drfbtfKfyListfnfr();
         }
-        return keyListener;
+        rfturn kfyListfnfr;
     }
 
     /**
-     * Called when the UI is uninstalling.  Since this popup isn't in the component
-     * tree, it won't get it's uninstallUI() called.  It removes the listeners that
-     * were added in addComboBoxListeners().
+     * Cbllfd wifn tif UI is uninstblling.  Sindf tiis popup isn't in tif domponfnt
+     * trff, it won't gft it's uninstbllUI() dbllfd.  It rfmovfs tif listfnfrs tibt
+     * wfrf bddfd in bddComboBoxListfnfrs().
      */
-    public void uninstallingUI() {
-        if (propertyChangeListener != null) {
-            comboBox.removePropertyChangeListener( propertyChangeListener );
+    publid void uninstbllingUI() {
+        if (propfrtyCibngfListfnfr != null) {
+            domboBox.rfmovfPropfrtyCibngfListfnfr( propfrtyCibngfListfnfr );
         }
-        if (itemListener != null) {
-            comboBox.removeItemListener( itemListener );
+        if (itfmListfnfr != null) {
+            domboBox.rfmovfItfmListfnfr( itfmListfnfr );
         }
-        uninstallComboBoxModelListeners(comboBox.getModel());
-        uninstallKeyboardActions();
-        uninstallListListeners();
-        // We do this, otherwise the listener the ui installs on
-        // the model (the combobox model in this case) will keep a
-        // reference to the list, causing the list (and us) to never get gced.
-        list.setModel(EmptyListModel);
+        uninstbllComboBoxModflListfnfrs(domboBox.gftModfl());
+        uninstbllKfybobrdAdtions();
+        uninstbllListListfnfrs();
+        // Wf do tiis, otifrwisf tif listfnfr tif ui instblls on
+        // tif modfl (tif dombobox modfl in tiis dbsf) will kffp b
+        // rfffrfndf to tif list, dbusing tif list (bnd us) to nfvfr gft gdfd.
+        list.sftModfl(EmptyListModfl);
     }
 
     //
-    // end ComboPopup method implementations
+    // fnd ComboPopup mftiod implfmfntbtions
     //======================================
 
     /**
-     * Removes the listeners from the combo box model
+     * Rfmovfs tif listfnfrs from tif dombo box modfl
      *
-     * @param model The combo box model to install listeners
-     * @see #installComboBoxModelListeners
+     * @pbrbm modfl Tif dombo box modfl to instbll listfnfrs
+     * @sff #instbllComboBoxModflListfnfrs
      */
-    protected void uninstallComboBoxModelListeners( ComboBoxModel<?> model ) {
-        if (model != null && listDataListener != null) {
-            model.removeListDataListener(listDataListener);
+    protfdtfd void uninstbllComboBoxModflListfnfrs( ComboBoxModfl<?> modfl ) {
+        if (modfl != null && listDbtbListfnfr != null) {
+            modfl.rfmovfListDbtbListfnfr(listDbtbListfnfr);
         }
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unrfgistfrs kfybobrd bdtions.
      */
-    protected void uninstallKeyboardActions() {
-        // XXX - shouldn't call this method
-//        comboBox.unregisterKeyboardAction( KeyStroke.getKeyStroke( KeyEvent.VK_ENTER, 0 ) );
+    protfdtfd void uninstbllKfybobrdAdtions() {
+        // XXX - siouldn't dbll tiis mftiod
+//        domboBox.unrfgistfrKfybobrdAdtion( KfyStrokf.gftKfyStrokf( KfyEvfnt.VK_ENTER, 0 ) );
     }
 
 
 
     //===================================================================
-    // begin Initialization routines
+    // bfgin Initiblizbtion routinfs
     //
 
     /**
-     * Constructs a new instance of {@code BasicComboPopup}.
+     * Construdts b nfw instbndf of {@dodf BbsidComboPopup}.
      *
-     * @param combo an instance of {@code JComboBox}
+     * @pbrbm dombo bn instbndf of {@dodf JComboBox}
      */
-    public BasicComboPopup( JComboBox<Object> combo ) {
-        super();
-        setName("ComboPopup.popup");
-        comboBox = combo;
+    publid BbsidComboPopup( JComboBox<Objfdt> dombo ) {
+        supfr();
+        sftNbmf("ComboPopup.popup");
+        domboBox = dombo;
 
-        setLightWeightPopupEnabled( comboBox.isLightWeightPopupEnabled() );
+        sftLigitWfigitPopupEnbblfd( domboBox.isLigitWfigitPopupEnbblfd() );
 
-        // UI construction of the popup.
-        list = createList();
-        list.setName("ComboBox.list");
-        configureList();
-        scroller = createScroller();
-        scroller.setName("ComboBox.scrollPane");
-        configureScroller();
-        configurePopup();
+        // UI donstrudtion of tif popup.
+        list = drfbtfList();
+        list.sftNbmf("ComboBox.list");
+        donfigurfList();
+        sdrollfr = drfbtfSdrollfr();
+        sdrollfr.sftNbmf("ComboBox.sdrollPbnf");
+        donfigurfSdrollfr();
+        donfigurfPopup();
 
-        installComboBoxListeners();
-        installKeyboardActions();
+        instbllComboBoxListfnfrs();
+        instbllKfybobrdAdtions();
     }
 
-    // Overriden PopupMenuListener notification methods to inform combo box
-    // PopupMenuListeners.
+    // Ovfrridfn PopupMfnuListfnfr notifidbtion mftiods to inform dombo box
+    // PopupMfnuListfnfrs.
 
-    protected void firePopupMenuWillBecomeVisible() {
-        super.firePopupMenuWillBecomeVisible();
-        // comboBox.firePopupMenuWillBecomeVisible() is called from BasicComboPopup.show() method
-        // to let the user change the popup menu from the PopupMenuListener.popupMenuWillBecomeVisible()
+    protfdtfd void firfPopupMfnuWillBfdomfVisiblf() {
+        supfr.firfPopupMfnuWillBfdomfVisiblf();
+        // domboBox.firfPopupMfnuWillBfdomfVisiblf() is dbllfd from BbsidComboPopup.siow() mftiod
+        // to lft tif usfr dibngf tif popup mfnu from tif PopupMfnuListfnfr.popupMfnuWillBfdomfVisiblf()
     }
 
-    protected void firePopupMenuWillBecomeInvisible() {
-        super.firePopupMenuWillBecomeInvisible();
-        comboBox.firePopupMenuWillBecomeInvisible();
+    protfdtfd void firfPopupMfnuWillBfdomfInvisiblf() {
+        supfr.firfPopupMfnuWillBfdomfInvisiblf();
+        domboBox.firfPopupMfnuWillBfdomfInvisiblf();
     }
 
-    protected void firePopupMenuCanceled() {
-        super.firePopupMenuCanceled();
-        comboBox.firePopupMenuCanceled();
+    protfdtfd void firfPopupMfnuCbndflfd() {
+        supfr.firfPopupMfnuCbndflfd();
+        domboBox.firfPopupMfnuCbndflfd();
     }
 
     /**
-     * Creates a listener
-     * that will watch for mouse-press and release events on the combo box.
+     * Crfbtfs b listfnfr
+     * tibt will wbtdi for mousf-prfss bnd rflfbsf fvfnts on tif dombo box.
      *
-     * <strong>Warning:</strong>
-     * When overriding this method, make sure to maintain the existing
-     * behavior.
+     * <strong>Wbrning:</strong>
+     * Wifn ovfrriding tiis mftiod, mbkf surf to mbintbin tif fxisting
+     * bfibvior.
      *
-     * @return a <code>MouseListener</code> which will be added to
-     * the combo box or null
+     * @rfturn b <dodf>MousfListfnfr</dodf> wiidi will bf bddfd to
+     * tif dombo box or null
      */
-    protected MouseListener createMouseListener() {
-        return getHandler();
+    protfdtfd MousfListfnfr drfbtfMousfListfnfr() {
+        rfturn gftHbndlfr();
     }
 
     /**
-     * Creates the mouse motion listener which will be added to the combo
+     * Crfbtfs tif mousf motion listfnfr wiidi will bf bddfd to tif dombo
      * box.
      *
-     * <strong>Warning:</strong>
-     * When overriding this method, make sure to maintain the existing
-     * behavior.
+     * <strong>Wbrning:</strong>
+     * Wifn ovfrriding tiis mftiod, mbkf surf to mbintbin tif fxisting
+     * bfibvior.
      *
-     * @return a <code>MouseMotionListener</code> which will be added to
-     *         the combo box or null
+     * @rfturn b <dodf>MousfMotionListfnfr</dodf> wiidi will bf bddfd to
+     *         tif dombo box or null
      */
-    protected MouseMotionListener createMouseMotionListener() {
-        return getHandler();
+    protfdtfd MousfMotionListfnfr drfbtfMousfMotionListfnfr() {
+        rfturn gftHbndlfr();
     }
 
     /**
-     * Creates the key listener that will be added to the combo box. If
-     * this method returns null then it will not be added to the combo box.
+     * Crfbtfs tif kfy listfnfr tibt will bf bddfd to tif dombo box. If
+     * tiis mftiod rfturns null tifn it will not bf bddfd to tif dombo box.
      *
-     * @return a <code>KeyListener</code> or null
+     * @rfturn b <dodf>KfyListfnfr</dodf> or null
      */
-    protected KeyListener createKeyListener() {
-        return null;
+    protfdtfd KfyListfnfr drfbtfKfyListfnfr() {
+        rfturn null;
     }
 
     /**
-     * Creates a list selection listener that watches for selection changes in
-     * the popup's list.  If this method returns null then it will not
-     * be added to the popup list.
+     * Crfbtfs b list sflfdtion listfnfr tibt wbtdifs for sflfdtion dibngfs in
+     * tif popup's list.  If tiis mftiod rfturns null tifn it will not
+     * bf bddfd to tif popup list.
      *
-     * @return an instance of a <code>ListSelectionListener</code> or null
+     * @rfturn bn instbndf of b <dodf>ListSflfdtionListfnfr</dodf> or null
      */
-    protected ListSelectionListener createListSelectionListener() {
-        return null;
+    protfdtfd ListSflfdtionListfnfr drfbtfListSflfdtionListfnfr() {
+        rfturn null;
     }
 
     /**
-     * Creates a list data listener which will be added to the
-     * <code>ComboBoxModel</code>. If this method returns null then
-     * it will not be added to the combo box model.
+     * Crfbtfs b list dbtb listfnfr wiidi will bf bddfd to tif
+     * <dodf>ComboBoxModfl</dodf>. If tiis mftiod rfturns null tifn
+     * it will not bf bddfd to tif dombo box modfl.
      *
-     * @return an instance of a <code>ListDataListener</code> or null
+     * @rfturn bn instbndf of b <dodf>ListDbtbListfnfr</dodf> or null
      */
-    protected ListDataListener createListDataListener() {
-        return null;
+    protfdtfd ListDbtbListfnfr drfbtfListDbtbListfnfr() {
+        rfturn null;
     }
 
     /**
-     * Creates a mouse listener that watches for mouse events in
-     * the popup's list. If this method returns null then it will
-     * not be added to the combo box.
+     * Crfbtfs b mousf listfnfr tibt wbtdifs for mousf fvfnts in
+     * tif popup's list. If tiis mftiod rfturns null tifn it will
+     * not bf bddfd to tif dombo box.
      *
-     * @return an instance of a <code>MouseListener</code> or null
+     * @rfturn bn instbndf of b <dodf>MousfListfnfr</dodf> or null
      */
-    protected MouseListener createListMouseListener() {
-        return getHandler();
+    protfdtfd MousfListfnfr drfbtfListMousfListfnfr() {
+        rfturn gftHbndlfr();
     }
 
     /**
-     * Creates a mouse motion listener that watches for mouse motion
-     * events in the popup's list. If this method returns null then it will
-     * not be added to the combo box.
+     * Crfbtfs b mousf motion listfnfr tibt wbtdifs for mousf motion
+     * fvfnts in tif popup's list. If tiis mftiod rfturns null tifn it will
+     * not bf bddfd to tif dombo box.
      *
-     * @return an instance of a <code>MouseMotionListener</code> or null
+     * @rfturn bn instbndf of b <dodf>MousfMotionListfnfr</dodf> or null
      */
-    protected MouseMotionListener createListMouseMotionListener() {
-        return getHandler();
+    protfdtfd MousfMotionListfnfr drfbtfListMousfMotionListfnfr() {
+        rfturn gftHbndlfr();
     }
 
     /**
-     * Creates a <code>PropertyChangeListener</code> which will be added to
-     * the combo box. If this method returns null then it will not
-     * be added to the combo box.
+     * Crfbtfs b <dodf>PropfrtyCibngfListfnfr</dodf> wiidi will bf bddfd to
+     * tif dombo box. If tiis mftiod rfturns null tifn it will not
+     * bf bddfd to tif dombo box.
      *
-     * @return an instance of a <code>PropertyChangeListener</code> or null
+     * @rfturn bn instbndf of b <dodf>PropfrtyCibngfListfnfr</dodf> or null
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn gftHbndlfr();
     }
 
     /**
-     * Creates an <code>ItemListener</code> which will be added to the
-     * combo box. If this method returns null then it will not
-     * be added to the combo box.
+     * Crfbtfs bn <dodf>ItfmListfnfr</dodf> wiidi will bf bddfd to tif
+     * dombo box. If tiis mftiod rfturns null tifn it will not
+     * bf bddfd to tif dombo box.
      * <p>
-     * Subclasses may override this method to return instances of their own
-     * ItemEvent handlers.
+     * Subdlbssfs mby ovfrridf tiis mftiod to rfturn instbndfs of tifir own
+     * ItfmEvfnt ibndlfrs.
      *
-     * @return an instance of an <code>ItemListener</code> or null
+     * @rfturn bn instbndf of bn <dodf>ItfmListfnfr</dodf> or null
      */
-    protected ItemListener createItemListener() {
-        return getHandler();
+    protfdtfd ItfmListfnfr drfbtfItfmListfnfr() {
+        rfturn gftHbndlfr();
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
         }
-        return handler;
+        rfturn ibndlfr;
     }
 
     /**
-     * Creates the JList used in the popup to display
-     * the items in the combo box model. This method is called when the UI class
-     * is created.
+     * Crfbtfs tif JList usfd in tif popup to displby
+     * tif itfms in tif dombo box modfl. Tiis mftiod is dbllfd wifn tif UI dlbss
+     * is drfbtfd.
      *
-     * @return a <code>JList</code> used to display the combo box items
+     * @rfturn b <dodf>JList</dodf> usfd to displby tif dombo box itfms
      */
-    protected JList<Object> createList() {
-        return new JList<Object>( comboBox.getModel() ) {
-            public void processMouseEvent(MouseEvent e)  {
-                if (BasicGraphicsUtils.isMenuShortcutKeyDown(e))  {
-                    // Fix for 4234053. Filter out the Control Key from the list.
-                    // ie., don't allow CTRL key deselection.
-                    Toolkit toolkit = Toolkit.getDefaultToolkit();
-                    e = new MouseEvent((Component)e.getSource(), e.getID(), e.getWhen(),
-                                       e.getModifiers() ^ toolkit.getMenuShortcutKeyMask(),
-                                       e.getX(), e.getY(),
-                                       e.getXOnScreen(), e.getYOnScreen(),
-                                       e.getClickCount(),
-                                       e.isPopupTrigger(),
-                                       MouseEvent.NOBUTTON);
+    protfdtfd JList<Objfdt> drfbtfList() {
+        rfturn nfw JList<Objfdt>( domboBox.gftModfl() ) {
+            publid void prodfssMousfEvfnt(MousfEvfnt f)  {
+                if (BbsidGrbpiidsUtils.isMfnuSiortdutKfyDown(f))  {
+                    // Fix for 4234053. Filtfr out tif Control Kfy from tif list.
+                    // if., don't bllow CTRL kfy dfsflfdtion.
+                    Toolkit toolkit = Toolkit.gftDffbultToolkit();
+                    f = nfw MousfEvfnt((Componfnt)f.gftSourdf(), f.gftID(), f.gftWifn(),
+                                       f.gftModififrs() ^ toolkit.gftMfnuSiortdutKfyMbsk(),
+                                       f.gftX(), f.gftY(),
+                                       f.gftXOnSdrffn(), f.gftYOnSdrffn(),
+                                       f.gftClidkCount(),
+                                       f.isPopupTriggfr(),
+                                       MousfEvfnt.NOBUTTON);
                 }
-                super.processMouseEvent(e);
+                supfr.prodfssMousfEvfnt(f);
             }
         };
     }
 
     /**
-     * Configures the list which is used to hold the combo box items in the
-     * popup. This method is called when the UI class
-     * is created.
+     * Configurfs tif list wiidi is usfd to iold tif dombo box itfms in tif
+     * popup. Tiis mftiod is dbllfd wifn tif UI dlbss
+     * is drfbtfd.
      *
-     * @see #createList
+     * @sff #drfbtfList
      */
-    protected void configureList() {
-        list.setFont( comboBox.getFont() );
-        list.setForeground( comboBox.getForeground() );
-        list.setBackground( comboBox.getBackground() );
-        list.setSelectionForeground( UIManager.getColor( "ComboBox.selectionForeground" ) );
-        list.setSelectionBackground( UIManager.getColor( "ComboBox.selectionBackground" ) );
-        list.setBorder( null );
-        list.setCellRenderer( comboBox.getRenderer() );
-        list.setFocusable( false );
-        list.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        setListSelection( comboBox.getSelectedIndex() );
-        installListListeners();
+    protfdtfd void donfigurfList() {
+        list.sftFont( domboBox.gftFont() );
+        list.sftForfground( domboBox.gftForfground() );
+        list.sftBbdkground( domboBox.gftBbdkground() );
+        list.sftSflfdtionForfground( UIMbnbgfr.gftColor( "ComboBox.sflfdtionForfground" ) );
+        list.sftSflfdtionBbdkground( UIMbnbgfr.gftColor( "ComboBox.sflfdtionBbdkground" ) );
+        list.sftBordfr( null );
+        list.sftCfllRfndfrfr( domboBox.gftRfndfrfr() );
+        list.sftFodusbblf( fblsf );
+        list.sftSflfdtionModf( ListSflfdtionModfl.SINGLE_SELECTION );
+        sftListSflfdtion( domboBox.gftSflfdtfdIndfx() );
+        instbllListListfnfrs();
     }
 
     /**
-     * Adds the listeners to the list control.
+     * Adds tif listfnfrs to tif list dontrol.
      */
-    protected void installListListeners() {
-        if ((listMouseListener = createListMouseListener()) != null) {
-            list.addMouseListener( listMouseListener );
+    protfdtfd void instbllListListfnfrs() {
+        if ((listMousfListfnfr = drfbtfListMousfListfnfr()) != null) {
+            list.bddMousfListfnfr( listMousfListfnfr );
         }
-        if ((listMouseMotionListener = createListMouseMotionListener()) != null) {
-            list.addMouseMotionListener( listMouseMotionListener );
+        if ((listMousfMotionListfnfr = drfbtfListMousfMotionListfnfr()) != null) {
+            list.bddMousfMotionListfnfr( listMousfMotionListfnfr );
         }
-        if ((listSelectionListener = createListSelectionListener()) != null) {
-            list.addListSelectionListener( listSelectionListener );
+        if ((listSflfdtionListfnfr = drfbtfListSflfdtionListfnfr()) != null) {
+            list.bddListSflfdtionListfnfr( listSflfdtionListfnfr );
         }
     }
 
-    void uninstallListListeners() {
-        if (listMouseListener != null) {
-            list.removeMouseListener(listMouseListener);
-            listMouseListener = null;
+    void uninstbllListListfnfrs() {
+        if (listMousfListfnfr != null) {
+            list.rfmovfMousfListfnfr(listMousfListfnfr);
+            listMousfListfnfr = null;
         }
-        if (listMouseMotionListener != null) {
-            list.removeMouseMotionListener(listMouseMotionListener);
-            listMouseMotionListener = null;
+        if (listMousfMotionListfnfr != null) {
+            list.rfmovfMousfMotionListfnfr(listMousfMotionListfnfr);
+            listMousfMotionListfnfr = null;
         }
-        if (listSelectionListener != null) {
-            list.removeListSelectionListener(listSelectionListener);
-            listSelectionListener = null;
+        if (listSflfdtionListfnfr != null) {
+            list.rfmovfListSflfdtionListfnfr(listSflfdtionListfnfr);
+            listSflfdtionListfnfr = null;
         }
-        handler = null;
+        ibndlfr = null;
     }
 
     /**
-     * Creates the scroll pane which houses the scrollable list.
+     * Crfbtfs tif sdroll pbnf wiidi iousfs tif sdrollbblf list.
      *
-     * @return the scroll pane which houses the scrollable list
+     * @rfturn tif sdroll pbnf wiidi iousfs tif sdrollbblf list
      */
-    protected JScrollPane createScroller() {
-        JScrollPane sp = new JScrollPane( list,
-                                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
-        sp.setHorizontalScrollBar(null);
-        return sp;
+    protfdtfd JSdrollPbnf drfbtfSdrollfr() {
+        JSdrollPbnf sp = nfw JSdrollPbnf( list,
+                                SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_NEVER );
+        sp.sftHorizontblSdrollBbr(null);
+        rfturn sp;
     }
 
     /**
-     * Configures the scrollable portion which holds the list within
-     * the combo box popup. This method is called when the UI class
-     * is created.
+     * Configurfs tif sdrollbblf portion wiidi iolds tif list witiin
+     * tif dombo box popup. Tiis mftiod is dbllfd wifn tif UI dlbss
+     * is drfbtfd.
      */
-    protected void configureScroller() {
-        scroller.setFocusable( false );
-        scroller.getVerticalScrollBar().setFocusable( false );
-        scroller.setBorder( null );
+    protfdtfd void donfigurfSdrollfr() {
+        sdrollfr.sftFodusbblf( fblsf );
+        sdrollfr.gftVfrtidblSdrollBbr().sftFodusbblf( fblsf );
+        sdrollfr.sftBordfr( null );
     }
 
     /**
-     * Configures the popup portion of the combo box. This method is called
-     * when the UI class is created.
+     * Configurfs tif popup portion of tif dombo box. Tiis mftiod is dbllfd
+     * wifn tif UI dlbss is drfbtfd.
      */
-    protected void configurePopup() {
-        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-        setBorderPainted( true );
-        setBorder(LIST_BORDER);
-        setOpaque( false );
-        add( scroller );
-        setDoubleBuffered( true );
-        setFocusable( false );
+    protfdtfd void donfigurfPopup() {
+        sftLbyout( nfw BoxLbyout( tiis, BoxLbyout.Y_AXIS ) );
+        sftBordfrPbintfd( truf );
+        sftBordfr(LIST_BORDER);
+        sftOpbquf( fblsf );
+        bdd( sdrollfr );
+        sftDoublfBufffrfd( truf );
+        sftFodusbblf( fblsf );
     }
 
     /**
-     * This method adds the necessary listeners to the JComboBox.
+     * Tiis mftiod bdds tif nfdfssbry listfnfrs to tif JComboBox.
      */
-    protected void installComboBoxListeners() {
-        if ((propertyChangeListener = createPropertyChangeListener()) != null) {
-            comboBox.addPropertyChangeListener(propertyChangeListener);
+    protfdtfd void instbllComboBoxListfnfrs() {
+        if ((propfrtyCibngfListfnfr = drfbtfPropfrtyCibngfListfnfr()) != null) {
+            domboBox.bddPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
         }
-        if ((itemListener = createItemListener()) != null) {
-            comboBox.addItemListener(itemListener);
+        if ((itfmListfnfr = drfbtfItfmListfnfr()) != null) {
+            domboBox.bddItfmListfnfr(itfmListfnfr);
         }
-        installComboBoxModelListeners(comboBox.getModel());
+        instbllComboBoxModflListfnfrs(domboBox.gftModfl());
     }
 
     /**
-     * Installs the listeners on the combo box model. Any listeners installed
-     * on the combo box model should be removed in
-     * <code>uninstallComboBoxModelListeners</code>.
+     * Instblls tif listfnfrs on tif dombo box modfl. Any listfnfrs instbllfd
+     * on tif dombo box modfl siould bf rfmovfd in
+     * <dodf>uninstbllComboBoxModflListfnfrs</dodf>.
      *
-     * @param model The combo box model to install listeners
-     * @see #uninstallComboBoxModelListeners
+     * @pbrbm modfl Tif dombo box modfl to instbll listfnfrs
+     * @sff #uninstbllComboBoxModflListfnfrs
      */
-    protected void installComboBoxModelListeners( ComboBoxModel<?> model ) {
-        if (model != null && (listDataListener = createListDataListener()) != null) {
-            model.addListDataListener(listDataListener);
+    protfdtfd void instbllComboBoxModflListfnfrs( ComboBoxModfl<?> modfl ) {
+        if (modfl != null && (listDbtbListfnfr = drfbtfListDbtbListfnfr()) != null) {
+            modfl.bddListDbtbListfnfr(listDbtbListfnfr);
         }
     }
 
     /**
-     * Registers keyboard actions.
+     * Rfgistfrs kfybobrd bdtions.
      */
-    protected void installKeyboardActions() {
+    protfdtfd void instbllKfybobrdAdtions() {
 
-        /* XXX - shouldn't call this method. take it out for testing.
-        ActionListener action = new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+        /* XXX - siouldn't dbll tiis mftiod. tbkf it out for tfsting.
+        AdtionListfnfr bdtion = nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f){
             }
         };
 
-        comboBox.registerKeyboardAction( action,
-                                         KeyStroke.getKeyStroke( KeyEvent.VK_ENTER, 0 ),
-                                         JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ); */
+        domboBox.rfgistfrKfybobrdAdtion( bdtion,
+                                         KfyStrokf.gftKfyStrokf( KfyEvfnt.VK_ENTER, 0 ),
+                                         JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ); */
 
     }
 
     //
-    // end Initialization routines
+    // fnd Initiblizbtion routinfs
     //=================================================================
 
 
     //===================================================================
-    // begin Event Listenters
+    // bfgin Evfnt Listfntfrs
     //
 
     /**
-     * A listener to be registered upon the combo box
-     * (<em>not</em> its popup menu)
-     * to handle mouse events
-     * that affect the state of the popup menu.
-     * The main purpose of this listener is to make the popup menu
-     * appear and disappear.
-     * This listener also helps
-     * with click-and-drag scenarios by setting the selection if the mouse was
-     * released over the list during a drag.
+     * A listfnfr to bf rfgistfrfd upon tif dombo box
+     * (<fm>not</fm> its popup mfnu)
+     * to ibndlf mousf fvfnts
+     * tibt bfffdt tif stbtf of tif popup mfnu.
+     * Tif mbin purposf of tiis listfnfr is to mbkf tif popup mfnu
+     * bppfbr bnd disbppfbr.
+     * Tiis listfnfr blso iflps
+     * witi dlidk-bnd-drbg sdfnbrios by sftting tif sflfdtion if tif mousf wbs
+     * rflfbsfd ovfr tif list during b drbg.
      *
      * <p>
-     * <strong>Warning:</strong>
-     * We recommend that you <em>not</em>
-     * create subclasses of this class.
-     * If you absolutely must create a subclass,
-     * be sure to invoke the superclass
-     * version of each method.
+     * <strong>Wbrning:</strong>
+     * Wf rfdommfnd tibt you <fm>not</fm>
+     * drfbtf subdlbssfs of tiis dlbss.
+     * If you bbsolutfly must drfbtf b subdlbss,
+     * bf surf to invokf tif supfrdlbss
+     * vfrsion of fbdi mftiod.
      *
-     * @see BasicComboPopup#createMouseListener
+     * @sff BbsidComboPopup#drfbtfMousfListfnfr
      */
-    protected class InvocationMouseHandler extends MouseAdapter {
+    protfdtfd dlbss InvodbtionMousfHbndlfr fxtfnds MousfAdbptfr {
         /**
-         * Responds to mouse-pressed events on the combo box.
+         * Rfsponds to mousf-prfssfd fvfnts on tif dombo box.
          *
-         * @param e the mouse-press event to be handled
+         * @pbrbm f tif mousf-prfss fvfnt to bf ibndlfd
          */
-        public void mousePressed( MouseEvent e ) {
-            getHandler().mousePressed(e);
+        publid void mousfPrfssfd( MousfEvfnt f ) {
+            gftHbndlfr().mousfPrfssfd(f);
         }
 
         /**
-         * Responds to the user terminating
-         * a click or drag that began on the combo box.
+         * Rfsponds to tif usfr tfrminbting
+         * b dlidk or drbg tibt bfgbn on tif dombo box.
          *
-         * @param e the mouse-release event to be handled
+         * @pbrbm f tif mousf-rflfbsf fvfnt to bf ibndlfd
          */
-        public void mouseReleased( MouseEvent e ) {
-            getHandler().mouseReleased(e);
+        publid void mousfRflfbsfd( MousfEvfnt f ) {
+            gftHbndlfr().mousfRflfbsfd(f);
         }
     }
 
     /**
-     * This listener watches for dragging and updates the current selection in the
-     * list if it is dragging over the list.
+     * Tiis listfnfr wbtdifs for drbgging bnd updbtfs tif durrfnt sflfdtion in tif
+     * list if it is drbgging ovfr tif list.
      */
-    protected class InvocationMouseMotionHandler extends MouseMotionAdapter {
-        public void mouseDragged( MouseEvent e ) {
-            getHandler().mouseDragged(e);
+    protfdtfd dlbss InvodbtionMousfMotionHbndlfr fxtfnds MousfMotionAdbptfr {
+        publid void mousfDrbggfd( MousfEvfnt f ) {
+            gftHbndlfr().mousfDrbggfd(f);
         }
     }
 
     /**
-     * As of Java 2 platform v 1.4, this class is now obsolete and is only included for
-     * backwards API compatibility. Do not instantiate or subclass.
+     * As of Jbvb 2 plbtform v 1.4, tiis dlbss is now obsolftf bnd is only indludfd for
+     * bbdkwbrds API dompbtibility. Do not instbntibtf or subdlbss.
      * <p>
-     * All the functionality of this class has been included in
-     * BasicComboBoxUI ActionMap/InputMap methods.
+     * All tif fundtionblity of tiis dlbss ibs bffn indludfd in
+     * BbsidComboBoxUI AdtionMbp/InputMbp mftiods.
      */
-    public class InvocationKeyHandler extends KeyAdapter {
-        public void keyReleased( KeyEvent e ) {}
+    publid dlbss InvodbtionKfyHbndlfr fxtfnds KfyAdbptfr {
+        publid void kfyRflfbsfd( KfyEvfnt f ) {}
     }
 
     /**
-     * As of Java 2 platform v 1.4, this class is now obsolete, doesn't do anything, and
-     * is only included for backwards API compatibility. Do not call or
-     * override.
+     * As of Jbvb 2 plbtform v 1.4, tiis dlbss is now obsolftf, dofsn't do bnytiing, bnd
+     * is only indludfd for bbdkwbrds API dompbtibility. Do not dbll or
+     * ovfrridf.
      */
-    protected class ListSelectionHandler implements ListSelectionListener {
-        public void valueChanged( ListSelectionEvent e ) {}
+    protfdtfd dlbss ListSflfdtionHbndlfr implfmfnts ListSflfdtionListfnfr {
+        publid void vblufCibngfd( ListSflfdtionEvfnt f ) {}
     }
 
     /**
-     * As of 1.4, this class is now obsolete, doesn't do anything, and
-     * is only included for backwards API compatibility. Do not call or
-     * override.
+     * As of 1.4, tiis dlbss is now obsolftf, dofsn't do bnytiing, bnd
+     * is only indludfd for bbdkwbrds API dompbtibility. Do not dbll or
+     * ovfrridf.
      * <p>
-     * The functionality has been migrated into <code>ItemHandler</code>.
+     * Tif fundtionblity ibs bffn migrbtfd into <dodf>ItfmHbndlfr</dodf>.
      *
-     * @see #createItemListener
+     * @sff #drfbtfItfmListfnfr
      */
-    public class ListDataHandler implements ListDataListener {
-        public void contentsChanged( ListDataEvent e ) {}
+    publid dlbss ListDbtbHbndlfr implfmfnts ListDbtbListfnfr {
+        publid void dontfntsCibngfd( ListDbtbEvfnt f ) {}
 
-        public void intervalAdded( ListDataEvent e ) {
+        publid void intfrvblAddfd( ListDbtbEvfnt f ) {
         }
 
-        public void intervalRemoved( ListDataEvent e ) {
+        publid void intfrvblRfmovfd( ListDbtbEvfnt f ) {
         }
     }
 
     /**
-     * This listener hides the popup when the mouse is released in the list.
+     * Tiis listfnfr iidfs tif popup wifn tif mousf is rflfbsfd in tif list.
      */
-    protected class ListMouseHandler extends MouseAdapter {
-        public void mousePressed( MouseEvent e ) {
+    protfdtfd dlbss ListMousfHbndlfr fxtfnds MousfAdbptfr {
+        publid void mousfPrfssfd( MousfEvfnt f ) {
         }
-        public void mouseReleased(MouseEvent anEvent) {
-            getHandler().mouseReleased(anEvent);
+        publid void mousfRflfbsfd(MousfEvfnt bnEvfnt) {
+            gftHbndlfr().mousfRflfbsfd(bnEvfnt);
         }
     }
 
     /**
-     * This listener changes the selected item as you move the mouse over the list.
-     * The selection change is not committed to the model, this is for user feedback only.
+     * Tiis listfnfr dibngfs tif sflfdtfd itfm bs you movf tif mousf ovfr tif list.
+     * Tif sflfdtion dibngf is not dommittfd to tif modfl, tiis is for usfr fffdbbdk only.
      */
-    protected class ListMouseMotionHandler extends MouseMotionAdapter {
-        public void mouseMoved( MouseEvent anEvent ) {
-            getHandler().mouseMoved(anEvent);
+    protfdtfd dlbss ListMousfMotionHbndlfr fxtfnds MousfMotionAdbptfr {
+        publid void mousfMovfd( MousfEvfnt bnEvfnt ) {
+            gftHbndlfr().mousfMovfd(bnEvfnt);
         }
     }
 
     /**
-     * This listener watches for changes to the selection in the
-     * combo box.
+     * Tiis listfnfr wbtdifs for dibngfs to tif sflfdtion in tif
+     * dombo box.
      */
-    protected class ItemHandler implements ItemListener {
-        public void itemStateChanged( ItemEvent e ) {
-            getHandler().itemStateChanged(e);
+    protfdtfd dlbss ItfmHbndlfr implfmfnts ItfmListfnfr {
+        publid void itfmStbtfCibngfd( ItfmEvfnt f ) {
+            gftHbndlfr().itfmStbtfCibngfd(f);
         }
     }
 
     /**
-     * This listener watches for bound properties that have changed in the
-     * combo box.
+     * Tiis listfnfr wbtdifs for bound propfrtifs tibt ibvf dibngfd in tif
+     * dombo box.
      * <p>
-     * Subclasses which wish to listen to combo box property changes should
-     * call the superclass methods to ensure that the combo popup correctly
-     * handles property changes.
+     * Subdlbssfs wiidi wisi to listfn to dombo box propfrty dibngfs siould
+     * dbll tif supfrdlbss mftiods to fnsurf tibt tif dombo popup dorrfdtly
+     * ibndlfs propfrty dibngfs.
      *
-     * @see #createPropertyChangeListener
+     * @sff #drfbtfPropfrtyCibngfListfnfr
      */
-    protected class PropertyChangeHandler implements PropertyChangeListener {
-        public void propertyChange( PropertyChangeEvent e ) {
-            getHandler().propertyChange(e);
+    protfdtfd dlbss PropfrtyCibngfHbndlfr implfmfnts PropfrtyCibngfListfnfr {
+        publid void propfrtyCibngf( PropfrtyCibngfEvfnt f ) {
+            gftHbndlfr().propfrtyCibngf(f);
         }
     }
 
 
-    private class AutoScrollActionHandler implements ActionListener {
-        private int direction;
+    privbtf dlbss AutoSdrollAdtionHbndlfr implfmfnts AdtionListfnfr {
+        privbtf int dirfdtion;
 
-        AutoScrollActionHandler(int direction) {
-            this.direction = direction;
+        AutoSdrollAdtionHbndlfr(int dirfdtion) {
+            tiis.dirfdtion = dirfdtion;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            if (direction == SCROLL_UP) {
-                autoScrollUp();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if (dirfdtion == SCROLL_UP) {
+                butoSdrollUp();
             }
-            else {
-                autoScrollDown();
+            flsf {
+                butoSdrollDown();
             }
         }
     }
 
 
-    private class Handler implements ItemListener, MouseListener,
-                          MouseMotionListener, PropertyChangeListener,
-                          Serializable {
+    privbtf dlbss Hbndlfr implfmfnts ItfmListfnfr, MousfListfnfr,
+                          MousfMotionListfnfr, PropfrtyCibngfListfnfr,
+                          Sfriblizbblf {
         //
-        // MouseListener
-        // NOTE: this is added to both the JList and JComboBox
+        // MousfListfnfr
+        // NOTE: tiis is bddfd to boti tif JList bnd JComboBox
         //
-        public void mouseClicked(MouseEvent e) {
+        publid void mousfClidkfd(MousfEvfnt f) {
         }
 
-        public void mousePressed(MouseEvent e) {
-            if (e.getSource() == list) {
-                return;
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (f.gftSourdf() == list) {
+                rfturn;
             }
-            if (!SwingUtilities.isLeftMouseButton(e) || !comboBox.isEnabled())
-                return;
+            if (!SwingUtilitifs.isLfftMousfButton(f) || !domboBox.isEnbblfd())
+                rfturn;
 
-            if ( comboBox.isEditable() ) {
-                Component comp = comboBox.getEditor().getEditorComponent();
-                if ((!(comp instanceof JComponent)) || ((JComponent)comp).isRequestFocusEnabled()) {
-                    comp.requestFocus();
+            if ( domboBox.isEditbblf() ) {
+                Componfnt domp = domboBox.gftEditor().gftEditorComponfnt();
+                if ((!(domp instbndfof JComponfnt)) || ((JComponfnt)domp).isRfqufstFodusEnbblfd()) {
+                    domp.rfqufstFodus();
                 }
             }
-            else if (comboBox.isRequestFocusEnabled()) {
-                comboBox.requestFocus();
+            flsf if (domboBox.isRfqufstFodusEnbblfd()) {
+                domboBox.rfqufstFodus();
             }
-            togglePopup();
+            togglfPopup();
         }
 
-        public void mouseReleased(MouseEvent e) {
-            if (e.getSource() == list) {
-                if (list.getModel().getSize() > 0) {
-                    // JList mouse listener
-                    if (comboBox.getSelectedIndex() == list.getSelectedIndex()) {
-                        comboBox.getEditor().setItem(list.getSelectedValue());
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            if (f.gftSourdf() == list) {
+                if (list.gftModfl().gftSizf() > 0) {
+                    // JList mousf listfnfr
+                    if (domboBox.gftSflfdtfdIndfx() == list.gftSflfdtfdIndfx()) {
+                        domboBox.gftEditor().sftItfm(list.gftSflfdtfdVbluf());
                     }
-                    comboBox.setSelectedIndex(list.getSelectedIndex());
+                    domboBox.sftSflfdtfdIndfx(list.gftSflfdtfdIndfx());
                 }
-                comboBox.setPopupVisible(false);
-                // workaround for cancelling an edited item (bug 4530953)
-                if (comboBox.isEditable() && comboBox.getEditor() != null) {
-                    comboBox.configureEditor(comboBox.getEditor(),
-                                             comboBox.getSelectedItem());
+                domboBox.sftPopupVisiblf(fblsf);
+                // workbround for dbndflling bn fditfd itfm (bug 4530953)
+                if (domboBox.isEditbblf() && domboBox.gftEditor() != null) {
+                    domboBox.donfigurfEditor(domboBox.gftEditor(),
+                                             domboBox.gftSflfdtfdItfm());
                 }
-                return;
+                rfturn;
             }
-            // JComboBox mouse listener
-            Component source = (Component)e.getSource();
-            Dimension size = source.getSize();
-            Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
-            if ( !bounds.contains( e.getPoint() ) ) {
-                MouseEvent newEvent = convertMouseEvent( e );
-                Point location = newEvent.getPoint();
-                Rectangle r = new Rectangle();
-                list.computeVisibleRect( r );
-                if ( r.contains( location ) ) {
-                    if (comboBox.getSelectedIndex() == list.getSelectedIndex()) {
-                        comboBox.getEditor().setItem(list.getSelectedValue());
+            // JComboBox mousf listfnfr
+            Componfnt sourdf = (Componfnt)f.gftSourdf();
+            Dimfnsion sizf = sourdf.gftSizf();
+            Rfdtbnglf bounds = nfw Rfdtbnglf( 0, 0, sizf.widti - 1, sizf.ifigit - 1 );
+            if ( !bounds.dontbins( f.gftPoint() ) ) {
+                MousfEvfnt nfwEvfnt = donvfrtMousfEvfnt( f );
+                Point lodbtion = nfwEvfnt.gftPoint();
+                Rfdtbnglf r = nfw Rfdtbnglf();
+                list.domputfVisiblfRfdt( r );
+                if ( r.dontbins( lodbtion ) ) {
+                    if (domboBox.gftSflfdtfdIndfx() == list.gftSflfdtfdIndfx()) {
+                        domboBox.gftEditor().sftItfm(list.gftSflfdtfdVbluf());
                     }
-                    comboBox.setSelectedIndex(list.getSelectedIndex());
+                    domboBox.sftSflfdtfdIndfx(list.gftSflfdtfdIndfx());
                 }
-                comboBox.setPopupVisible(false);
+                domboBox.sftPopupVisiblf(fblsf);
             }
-            hasEntered = false;
-            stopAutoScrolling();
+            ibsEntfrfd = fblsf;
+            stopAutoSdrolling();
         }
 
-        public void mouseEntered(MouseEvent e) {
+        publid void mousfEntfrfd(MousfEvfnt f) {
         }
 
-        public void mouseExited(MouseEvent e) {
+        publid void mousfExitfd(MousfEvfnt f) {
         }
 
         //
-        // MouseMotionListener:
-        // NOTE: this is added to both the List and ComboBox
+        // MousfMotionListfnfr:
+        // NOTE: tiis is bddfd to boti tif List bnd ComboBox
         //
-        public void mouseMoved(MouseEvent anEvent) {
-            if (anEvent.getSource() == list) {
-                Point location = anEvent.getPoint();
-                Rectangle r = new Rectangle();
-                list.computeVisibleRect( r );
-                if ( r.contains( location ) ) {
-                    updateListBoxSelectionForEvent( anEvent, false );
+        publid void mousfMovfd(MousfEvfnt bnEvfnt) {
+            if (bnEvfnt.gftSourdf() == list) {
+                Point lodbtion = bnEvfnt.gftPoint();
+                Rfdtbnglf r = nfw Rfdtbnglf();
+                list.domputfVisiblfRfdt( r );
+                if ( r.dontbins( lodbtion ) ) {
+                    updbtfListBoxSflfdtionForEvfnt( bnEvfnt, fblsf );
                 }
             }
         }
 
-        public void mouseDragged( MouseEvent e ) {
-            if (e.getSource() == list) {
-                return;
+        publid void mousfDrbggfd( MousfEvfnt f ) {
+            if (f.gftSourdf() == list) {
+                rfturn;
             }
-            if ( isVisible() ) {
-                MouseEvent newEvent = convertMouseEvent( e );
-                Rectangle r = new Rectangle();
-                list.computeVisibleRect( r );
+            if ( isVisiblf() ) {
+                MousfEvfnt nfwEvfnt = donvfrtMousfEvfnt( f );
+                Rfdtbnglf r = nfw Rfdtbnglf();
+                list.domputfVisiblfRfdt( r );
 
-                if ( newEvent.getPoint().y >= r.y && newEvent.getPoint().y <= r.y + r.height - 1 ) {
-                    hasEntered = true;
-                    if ( isAutoScrolling ) {
-                        stopAutoScrolling();
+                if ( nfwEvfnt.gftPoint().y >= r.y && nfwEvfnt.gftPoint().y <= r.y + r.ifigit - 1 ) {
+                    ibsEntfrfd = truf;
+                    if ( isAutoSdrolling ) {
+                        stopAutoSdrolling();
                     }
-                    Point location = newEvent.getPoint();
-                    if ( r.contains( location ) ) {
-                        updateListBoxSelectionForEvent( newEvent, false );
+                    Point lodbtion = nfwEvfnt.gftPoint();
+                    if ( r.dontbins( lodbtion ) ) {
+                        updbtfListBoxSflfdtionForEvfnt( nfwEvfnt, fblsf );
                     }
                 }
-                else {
-                    if ( hasEntered ) {
-                        int directionToScroll = newEvent.getPoint().y < r.y ? SCROLL_UP : SCROLL_DOWN;
-                        if ( isAutoScrolling && scrollDirection != directionToScroll ) {
-                            stopAutoScrolling();
-                            startAutoScrolling( directionToScroll );
+                flsf {
+                    if ( ibsEntfrfd ) {
+                        int dirfdtionToSdroll = nfwEvfnt.gftPoint().y < r.y ? SCROLL_UP : SCROLL_DOWN;
+                        if ( isAutoSdrolling && sdrollDirfdtion != dirfdtionToSdroll ) {
+                            stopAutoSdrolling();
+                            stbrtAutoSdrolling( dirfdtionToSdroll );
                         }
-                        else if ( !isAutoScrolling ) {
-                            startAutoScrolling( directionToScroll );
-                        }
-                    }
-                    else {
-                        if ( e.getPoint().y < 0 ) {
-                            hasEntered = true;
-                            startAutoScrolling( SCROLL_UP );
+                        flsf if ( !isAutoSdrolling ) {
+                            stbrtAutoSdrolling( dirfdtionToSdroll );
                         }
                     }
+                    flsf {
+                        if ( f.gftPoint().y < 0 ) {
+                            ibsEntfrfd = truf;
+                            stbrtAutoSdrolling( SCROLL_UP );
+                        }
+                    }
                 }
             }
         }
 
         //
-        // PropertyChangeListener
+        // PropfrtyCibngfListfnfr
         //
-        public void propertyChange(PropertyChangeEvent e) {
-            @SuppressWarnings("unchecked")
-            JComboBox<Object> comboBox = (JComboBox)e.getSource();
-            String propertyName = e.getPropertyName();
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            @SupprfssWbrnings("undifdkfd")
+            JComboBox<Objfdt> domboBox = (JComboBox)f.gftSourdf();
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
 
-            if ( propertyName == "model" ) {
-                @SuppressWarnings("unchecked")
-                ComboBoxModel<Object> oldModel = (ComboBoxModel)e.getOldValue();
-                @SuppressWarnings("unchecked")
-                ComboBoxModel<Object> newModel = (ComboBoxModel)e.getNewValue();
-                uninstallComboBoxModelListeners(oldModel);
-                installComboBoxModelListeners(newModel);
+            if ( propfrtyNbmf == "modfl" ) {
+                @SupprfssWbrnings("undifdkfd")
+                ComboBoxModfl<Objfdt> oldModfl = (ComboBoxModfl)f.gftOldVbluf();
+                @SupprfssWbrnings("undifdkfd")
+                ComboBoxModfl<Objfdt> nfwModfl = (ComboBoxModfl)f.gftNfwVbluf();
+                uninstbllComboBoxModflListfnfrs(oldModfl);
+                instbllComboBoxModflListfnfrs(nfwModfl);
 
-                list.setModel(newModel);
+                list.sftModfl(nfwModfl);
 
-                if ( isVisible() ) {
-                    hide();
+                if ( isVisiblf() ) {
+                    iidf();
                 }
             }
-            else if ( propertyName == "renderer" ) {
-                list.setCellRenderer( comboBox.getRenderer() );
-                if ( isVisible() ) {
-                    hide();
+            flsf if ( propfrtyNbmf == "rfndfrfr" ) {
+                list.sftCfllRfndfrfr( domboBox.gftRfndfrfr() );
+                if ( isVisiblf() ) {
+                    iidf();
                 }
             }
-            else if (propertyName == "componentOrientation") {
-                // Pass along the new component orientation
-                // to the list and the scroller
+            flsf if (propfrtyNbmf == "domponfntOrifntbtion") {
+                // Pbss blong tif nfw domponfnt orifntbtion
+                // to tif list bnd tif sdrollfr
 
-                ComponentOrientation o =(ComponentOrientation)e.getNewValue();
+                ComponfntOrifntbtion o =(ComponfntOrifntbtion)f.gftNfwVbluf();
 
-                JList<?> list = getList();
-                if (list!=null && list.getComponentOrientation()!=o) {
-                    list.setComponentOrientation(o);
+                JList<?> list = gftList();
+                if (list!=null && list.gftComponfntOrifntbtion()!=o) {
+                    list.sftComponfntOrifntbtion(o);
                 }
 
-                if (scroller!=null && scroller.getComponentOrientation()!=o) {
-                    scroller.setComponentOrientation(o);
+                if (sdrollfr!=null && sdrollfr.gftComponfntOrifntbtion()!=o) {
+                    sdrollfr.sftComponfntOrifntbtion(o);
                 }
 
-                if (o!=getComponentOrientation()) {
-                    setComponentOrientation(o);
+                if (o!=gftComponfntOrifntbtion()) {
+                    sftComponfntOrifntbtion(o);
                 }
             }
-            else if (propertyName == "lightWeightPopupEnabled") {
-                setLightWeightPopupEnabled(comboBox.isLightWeightPopupEnabled());
+            flsf if (propfrtyNbmf == "ligitWfigitPopupEnbblfd") {
+                sftLigitWfigitPopupEnbblfd(domboBox.isLigitWfigitPopupEnbblfd());
             }
         }
 
         //
-        // ItemListener
+        // ItfmListfnfr
         //
-        public void itemStateChanged( ItemEvent e ) {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                @SuppressWarnings("unchecked")
-                JComboBox<Object> comboBox = (JComboBox)e.getSource();
-                setListSelection(comboBox.getSelectedIndex());
+        publid void itfmStbtfCibngfd( ItfmEvfnt f ) {
+            if (f.gftStbtfCibngf() == ItfmEvfnt.SELECTED) {
+                @SupprfssWbrnings("undifdkfd")
+                JComboBox<Objfdt> domboBox = (JComboBox)f.gftSourdf();
+                sftListSflfdtion(domboBox.gftSflfdtfdIndfx());
             }
         }
     }
 
     //
-    // end Event Listeners
+    // fnd Evfnt Listfnfrs
     //=================================================================
 
 
     /**
-     * Overridden to unconditionally return false.
+     * Ovfrriddfn to undonditionblly rfturn fblsf.
      */
-    public boolean isFocusTraversable() {
-        return false;
+    publid boolfbn isFodusTrbvfrsbblf() {
+        rfturn fblsf;
     }
 
     //===================================================================
-    // begin Autoscroll methods
+    // bfgin Autosdroll mftiods
     //
 
     /**
-     * This protected method is implementation specific and should be private.
-     * do not call or override.
+     * Tiis protfdtfd mftiod is implfmfntbtion spfdifid bnd siould bf privbtf.
+     * do not dbll or ovfrridf.
      *
-     * @param direction the direction of scrolling
+     * @pbrbm dirfdtion tif dirfdtion of sdrolling
      */
-    protected void startAutoScrolling( int direction ) {
-        // XXX - should be a private method within InvocationMouseMotionHandler
-        // if possible.
-        if ( isAutoScrolling ) {
-            autoscrollTimer.stop();
+    protfdtfd void stbrtAutoSdrolling( int dirfdtion ) {
+        // XXX - siould bf b privbtf mftiod witiin InvodbtionMousfMotionHbndlfr
+        // if possiblf.
+        if ( isAutoSdrolling ) {
+            butosdrollTimfr.stop();
         }
 
-        isAutoScrolling = true;
+        isAutoSdrolling = truf;
 
-        if ( direction == SCROLL_UP ) {
-            scrollDirection = SCROLL_UP;
-            Point convertedPoint = SwingUtilities.convertPoint( scroller, new Point( 1, 1 ), list );
-            int top = list.locationToIndex( convertedPoint );
-            list.setSelectedIndex( top );
+        if ( dirfdtion == SCROLL_UP ) {
+            sdrollDirfdtion = SCROLL_UP;
+            Point donvfrtfdPoint = SwingUtilitifs.donvfrtPoint( sdrollfr, nfw Point( 1, 1 ), list );
+            int top = list.lodbtionToIndfx( donvfrtfdPoint );
+            list.sftSflfdtfdIndfx( top );
 
-            autoscrollTimer = new Timer( 100, new AutoScrollActionHandler(
+            butosdrollTimfr = nfw Timfr( 100, nfw AutoSdrollAdtionHbndlfr(
                                              SCROLL_UP) );
         }
-        else if ( direction == SCROLL_DOWN ) {
-            scrollDirection = SCROLL_DOWN;
-            Dimension size = scroller.getSize();
-            Point convertedPoint = SwingUtilities.convertPoint( scroller,
-                                                                new Point( 1, (size.height - 1) - 2 ),
+        flsf if ( dirfdtion == SCROLL_DOWN ) {
+            sdrollDirfdtion = SCROLL_DOWN;
+            Dimfnsion sizf = sdrollfr.gftSizf();
+            Point donvfrtfdPoint = SwingUtilitifs.donvfrtPoint( sdrollfr,
+                                                                nfw Point( 1, (sizf.ifigit - 1) - 2 ),
                                                                 list );
-            int bottom = list.locationToIndex( convertedPoint );
-            list.setSelectedIndex( bottom );
+            int bottom = list.lodbtionToIndfx( donvfrtfdPoint );
+            list.sftSflfdtfdIndfx( bottom );
 
-            autoscrollTimer = new Timer(100, new AutoScrollActionHandler(
+            butosdrollTimfr = nfw Timfr(100, nfw AutoSdrollAdtionHbndlfr(
                                             SCROLL_DOWN));
         }
-        autoscrollTimer.start();
+        butosdrollTimfr.stbrt();
     }
 
     /**
-     * This protected method is implementation specific and should be private.
-     * do not call or override.
+     * Tiis protfdtfd mftiod is implfmfntbtion spfdifid bnd siould bf privbtf.
+     * do not dbll or ovfrridf.
      */
-    protected void stopAutoScrolling() {
-        isAutoScrolling = false;
+    protfdtfd void stopAutoSdrolling() {
+        isAutoSdrolling = fblsf;
 
-        if ( autoscrollTimer != null ) {
-            autoscrollTimer.stop();
-            autoscrollTimer = null;
+        if ( butosdrollTimfr != null ) {
+            butosdrollTimfr.stop();
+            butosdrollTimfr = null;
         }
     }
 
     /**
-     * This protected method is implementation specific and should be private.
-     * do not call or override.
+     * Tiis protfdtfd mftiod is implfmfntbtion spfdifid bnd siould bf privbtf.
+     * do not dbll or ovfrridf.
      */
-    protected void autoScrollUp() {
-        int index = list.getSelectedIndex();
-        if ( index > 0 ) {
-            list.setSelectedIndex( index - 1 );
-            list.ensureIndexIsVisible( index - 1 );
+    protfdtfd void butoSdrollUp() {
+        int indfx = list.gftSflfdtfdIndfx();
+        if ( indfx > 0 ) {
+            list.sftSflfdtfdIndfx( indfx - 1 );
+            list.fnsurfIndfxIsVisiblf( indfx - 1 );
         }
     }
 
     /**
-     * This protected method is implementation specific and should be private.
-     * do not call or override.
+     * Tiis protfdtfd mftiod is implfmfntbtion spfdifid bnd siould bf privbtf.
+     * do not dbll or ovfrridf.
      */
-    protected void autoScrollDown() {
-        int index = list.getSelectedIndex();
-        int lastItem = list.getModel().getSize() - 1;
-        if ( index < lastItem ) {
-            list.setSelectedIndex( index + 1 );
-            list.ensureIndexIsVisible( index + 1 );
+    protfdtfd void butoSdrollDown() {
+        int indfx = list.gftSflfdtfdIndfx();
+        int lbstItfm = list.gftModfl().gftSizf() - 1;
+        if ( indfx < lbstItfm ) {
+            list.sftSflfdtfdIndfx( indfx + 1 );
+            list.fnsurfIndfxIsVisiblf( indfx + 1 );
         }
     }
 
     //
-    // end Autoscroll methods
+    // fnd Autosdroll mftiods
     //=================================================================
 
 
     //===================================================================
-    // begin Utility methods
+    // bfgin Utility mftiods
     //
 
     /**
-     * Gets the AccessibleContext associated with this BasicComboPopup.
-     * The AccessibleContext will have its parent set to the ComboBox.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis BbsidComboPopup.
+     * Tif AddfssiblfContfxt will ibvf its pbrfnt sft to tif ComboBox.
      *
-     * @return an AccessibleContext for the BasicComboPopup
-     * @since 1.5
+     * @rfturn bn AddfssiblfContfxt for tif BbsidComboPopup
+     * @sindf 1.5
      */
-    public AccessibleContext getAccessibleContext() {
-        AccessibleContext context = super.getAccessibleContext();
-        context.setAccessibleParent(comboBox);
-        return context;
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        AddfssiblfContfxt dontfxt = supfr.gftAddfssiblfContfxt();
+        dontfxt.sftAddfssiblfPbrfnt(domboBox);
+        rfturn dontfxt;
     }
 
 
     /**
-     * This is is a utility method that helps event handlers figure out where to
-     * send the focus when the popup is brought up.  The standard implementation
-     * delegates the focus to the editor (if the combo box is editable) or to
-     * the JComboBox if it is not editable.
+     * Tiis is is b utility mftiod tibt iflps fvfnt ibndlfrs figurf out wifrf to
+     * sfnd tif fodus wifn tif popup is brougit up.  Tif stbndbrd implfmfntbtion
+     * dflfgbtfs tif fodus to tif fditor (if tif dombo box is fditbblf) or to
+     * tif JComboBox if it is not fditbblf.
      *
-     * @param e a mouse event
+     * @pbrbm f b mousf fvfnt
      */
-    protected void delegateFocus( MouseEvent e ) {
-        if ( comboBox.isEditable() ) {
-            Component comp = comboBox.getEditor().getEditorComponent();
-            if ((!(comp instanceof JComponent)) || ((JComponent)comp).isRequestFocusEnabled()) {
-                comp.requestFocus();
+    protfdtfd void dflfgbtfFodus( MousfEvfnt f ) {
+        if ( domboBox.isEditbblf() ) {
+            Componfnt domp = domboBox.gftEditor().gftEditorComponfnt();
+            if ((!(domp instbndfof JComponfnt)) || ((JComponfnt)domp).isRfqufstFodusEnbblfd()) {
+                domp.rfqufstFodus();
             }
         }
-        else if (comboBox.isRequestFocusEnabled()) {
-            comboBox.requestFocus();
+        flsf if (domboBox.isRfqufstFodusEnbblfd()) {
+            domboBox.rfqufstFodus();
         }
     }
 
     /**
-     * Makes the popup visible if it is hidden and makes it hidden if it is
-     * visible.
+     * Mbkfs tif popup visiblf if it is iiddfn bnd mbkfs it iiddfn if it is
+     * visiblf.
      */
-    protected void togglePopup() {
-        if ( isVisible() ) {
-            hide();
+    protfdtfd void togglfPopup() {
+        if ( isVisiblf() ) {
+            iidf();
         }
-        else {
-            show();
+        flsf {
+            siow();
         }
     }
 
     /**
-     * Sets the list selection index to the selectedIndex. This
-     * method is used to synchronize the list selection with the
-     * combo box selection.
+     * Sfts tif list sflfdtion indfx to tif sflfdtfdIndfx. Tiis
+     * mftiod is usfd to syndironizf tif list sflfdtion witi tif
+     * dombo box sflfdtion.
      *
-     * @param selectedIndex the index to set the list
+     * @pbrbm sflfdtfdIndfx tif indfx to sft tif list
      */
-    private void setListSelection(int selectedIndex) {
-        if ( selectedIndex == -1 ) {
-            list.clearSelection();
+    privbtf void sftListSflfdtion(int sflfdtfdIndfx) {
+        if ( sflfdtfdIndfx == -1 ) {
+            list.dlfbrSflfdtion();
         }
-        else {
-            list.setSelectedIndex( selectedIndex );
-            list.ensureIndexIsVisible( selectedIndex );
+        flsf {
+            list.sftSflfdtfdIndfx( sflfdtfdIndfx );
+            list.fnsurfIndfxIsVisiblf( sflfdtfdIndfx );
         }
     }
 
     /**
-     * Converts mouse event.
+     * Convfrts mousf fvfnt.
      *
-     * @param e a mouse event
-     * @return converted mouse event
+     * @pbrbm f b mousf fvfnt
+     * @rfturn donvfrtfd mousf fvfnt
      */
-    protected MouseEvent convertMouseEvent( MouseEvent e ) {
-        Point convertedPoint = SwingUtilities.convertPoint( (Component)e.getSource(),
-                                                            e.getPoint(), list );
-        MouseEvent newEvent = new MouseEvent( (Component)e.getSource(),
-                                              e.getID(),
-                                              e.getWhen(),
-                                              e.getModifiers(),
-                                              convertedPoint.x,
-                                              convertedPoint.y,
-                                              e.getXOnScreen(),
-                                              e.getYOnScreen(),
-                                              e.getClickCount(),
-                                              e.isPopupTrigger(),
-                                              MouseEvent.NOBUTTON );
-        return newEvent;
+    protfdtfd MousfEvfnt donvfrtMousfEvfnt( MousfEvfnt f ) {
+        Point donvfrtfdPoint = SwingUtilitifs.donvfrtPoint( (Componfnt)f.gftSourdf(),
+                                                            f.gftPoint(), list );
+        MousfEvfnt nfwEvfnt = nfw MousfEvfnt( (Componfnt)f.gftSourdf(),
+                                              f.gftID(),
+                                              f.gftWifn(),
+                                              f.gftModififrs(),
+                                              donvfrtfdPoint.x,
+                                              donvfrtfdPoint.y,
+                                              f.gftXOnSdrffn(),
+                                              f.gftYOnSdrffn(),
+                                              f.gftClidkCount(),
+                                              f.isPopupTriggfr(),
+                                              MousfEvfnt.NOBUTTON );
+        rfturn nfwEvfnt;
     }
 
 
     /**
-     * Retrieves the height of the popup based on the current
-     * ListCellRenderer and the maximum row count.
+     * Rftrifvfs tif ifigit of tif popup bbsfd on tif durrfnt
+     * ListCfllRfndfrfr bnd tif mbximum row dount.
      *
-     * @param maxRowCount the row count
-     * @return the height of the popup
+     * @pbrbm mbxRowCount tif row dount
+     * @rfturn tif ifigit of tif popup
      */
-    protected int getPopupHeightForRowCount(int maxRowCount) {
-        // Set the cached value of the minimum row count
-        int minRowCount = Math.min( maxRowCount, comboBox.getItemCount() );
-        int height = 0;
-        ListCellRenderer<Object> renderer = list.getCellRenderer();
-        Object value = null;
+    protfdtfd int gftPopupHfigitForRowCount(int mbxRowCount) {
+        // Sft tif dbdifd vbluf of tif minimum row dount
+        int minRowCount = Mbti.min( mbxRowCount, domboBox.gftItfmCount() );
+        int ifigit = 0;
+        ListCfllRfndfrfr<Objfdt> rfndfrfr = list.gftCfllRfndfrfr();
+        Objfdt vbluf = null;
 
         for ( int i = 0; i < minRowCount; ++i ) {
-            value = list.getModel().getElementAt( i );
-            Component c = renderer.getListCellRendererComponent( list, value, i, false, false );
-            height += c.getPreferredSize().height;
+            vbluf = list.gftModfl().gftElfmfntAt( i );
+            Componfnt d = rfndfrfr.gftListCfllRfndfrfrComponfnt( list, vbluf, i, fblsf, fblsf );
+            ifigit += d.gftPrfffrrfdSizf().ifigit;
         }
 
-        if (height == 0) {
-            height = comboBox.getHeight();
+        if (ifigit == 0) {
+            ifigit = domboBox.gftHfigit();
         }
 
-        Border border = scroller.getViewportBorder();
-        if (border != null) {
-            Insets insets = border.getBorderInsets(null);
-            height += insets.top + insets.bottom;
+        Bordfr bordfr = sdrollfr.gftVifwportBordfr();
+        if (bordfr != null) {
+            Insfts insfts = bordfr.gftBordfrInsfts(null);
+            ifigit += insfts.top + insfts.bottom;
         }
 
-        border = scroller.getBorder();
-        if (border != null) {
-            Insets insets = border.getBorderInsets(null);
-            height += insets.top + insets.bottom;
+        bordfr = sdrollfr.gftBordfr();
+        if (bordfr != null) {
+            Insfts insfts = bordfr.gftBordfrInsfts(null);
+            ifigit += insfts.top + insfts.bottom;
         }
 
-        return height;
+        rfturn ifigit;
     }
 
     /**
-     * Calculate the placement and size of the popup portion of the combo box based
-     * on the combo box location and the enclosing screen bounds. If
-     * no transformations are required, then the returned rectangle will
-     * have the same values as the parameters.
+     * Cbldulbtf tif plbdfmfnt bnd sizf of tif popup portion of tif dombo box bbsfd
+     * on tif dombo box lodbtion bnd tif fndlosing sdrffn bounds. If
+     * no trbnsformbtions brf rfquirfd, tifn tif rfturnfd rfdtbnglf will
+     * ibvf tif sbmf vblufs bs tif pbrbmftfrs.
      *
-     * @param px starting x location
-     * @param py starting y location
-     * @param pw starting width
-     * @param ph starting height
-     * @return a rectangle which represents the placement and size of the popup
+     * @pbrbm px stbrting x lodbtion
+     * @pbrbm py stbrting y lodbtion
+     * @pbrbm pw stbrting widti
+     * @pbrbm pi stbrting ifigit
+     * @rfturn b rfdtbnglf wiidi rfprfsfnts tif plbdfmfnt bnd sizf of tif popup
      */
-    protected Rectangle computePopupBounds(int px,int py,int pw,int ph) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Rectangle screenBounds;
+    protfdtfd Rfdtbnglf domputfPopupBounds(int px,int py,int pw,int pi) {
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+        Rfdtbnglf sdrffnBounds;
 
-        // Calculate the desktop dimensions relative to the combo box.
-        GraphicsConfiguration gc = comboBox.getGraphicsConfiguration();
-        Point p = new Point();
-        SwingUtilities.convertPointFromScreen(p, comboBox);
-        if (gc != null) {
-            Insets screenInsets = toolkit.getScreenInsets(gc);
-            screenBounds = gc.getBounds();
-            screenBounds.width -= (screenInsets.left + screenInsets.right);
-            screenBounds.height -= (screenInsets.top + screenInsets.bottom);
-            screenBounds.x += (p.x + screenInsets.left);
-            screenBounds.y += (p.y + screenInsets.top);
+        // Cbldulbtf tif dfsktop dimfnsions rflbtivf to tif dombo box.
+        GrbpiidsConfigurbtion gd = domboBox.gftGrbpiidsConfigurbtion();
+        Point p = nfw Point();
+        SwingUtilitifs.donvfrtPointFromSdrffn(p, domboBox);
+        if (gd != null) {
+            Insfts sdrffnInsfts = toolkit.gftSdrffnInsfts(gd);
+            sdrffnBounds = gd.gftBounds();
+            sdrffnBounds.widti -= (sdrffnInsfts.lfft + sdrffnInsfts.rigit);
+            sdrffnBounds.ifigit -= (sdrffnInsfts.top + sdrffnInsfts.bottom);
+            sdrffnBounds.x += (p.x + sdrffnInsfts.lfft);
+            sdrffnBounds.y += (p.y + sdrffnInsfts.top);
         }
-        else {
-            screenBounds = new Rectangle(p, toolkit.getScreenSize());
+        flsf {
+            sdrffnBounds = nfw Rfdtbnglf(p, toolkit.gftSdrffnSizf());
         }
 
-        Rectangle rect = new Rectangle(px,py,pw,ph);
-        if (py+ph > screenBounds.y+screenBounds.height
-            && ph < screenBounds.height) {
-            rect.y = -rect.height;
+        Rfdtbnglf rfdt = nfw Rfdtbnglf(px,py,pw,pi);
+        if (py+pi > sdrffnBounds.y+sdrffnBounds.ifigit
+            && pi < sdrffnBounds.ifigit) {
+            rfdt.y = -rfdt.ifigit;
         }
-        return rect;
+        rfturn rfdt;
     }
 
     /**
-     * Calculates the upper left location of the Popup.
+     * Cbldulbtfs tif uppfr lfft lodbtion of tif Popup.
      */
-    private Point getPopupLocation() {
-        Dimension popupSize = comboBox.getSize();
-        Insets insets = getInsets();
+    privbtf Point gftPopupLodbtion() {
+        Dimfnsion popupSizf = domboBox.gftSizf();
+        Insfts insfts = gftInsfts();
 
-        // reduce the width of the scrollpane by the insets so that the popup
-        // is the same width as the combo box.
-        popupSize.setSize(popupSize.width - (insets.right + insets.left),
-                          getPopupHeightForRowCount( comboBox.getMaximumRowCount()));
-        Rectangle popupBounds = computePopupBounds( 0, comboBox.getBounds().height,
-                                                    popupSize.width, popupSize.height);
-        Dimension scrollSize = popupBounds.getSize();
-        Point popupLocation = popupBounds.getLocation();
+        // rfdudf tif widti of tif sdrollpbnf by tif insfts so tibt tif popup
+        // is tif sbmf widti bs tif dombo box.
+        popupSizf.sftSizf(popupSizf.widti - (insfts.rigit + insfts.lfft),
+                          gftPopupHfigitForRowCount( domboBox.gftMbximumRowCount()));
+        Rfdtbnglf popupBounds = domputfPopupBounds( 0, domboBox.gftBounds().ifigit,
+                                                    popupSizf.widti, popupSizf.ifigit);
+        Dimfnsion sdrollSizf = popupBounds.gftSizf();
+        Point popupLodbtion = popupBounds.gftLodbtion();
 
-        scroller.setMaximumSize( scrollSize );
-        scroller.setPreferredSize( scrollSize );
-        scroller.setMinimumSize( scrollSize );
+        sdrollfr.sftMbximumSizf( sdrollSizf );
+        sdrollfr.sftPrfffrrfdSizf( sdrollSizf );
+        sdrollfr.sftMinimumSizf( sdrollSizf );
 
-        list.revalidate();
+        list.rfvblidbtf();
 
-        return popupLocation;
+        rfturn popupLodbtion;
     }
 
     /**
-     * A utility method used by the event listeners.  Given a mouse event, it changes
-     * the list selection to the list item below the mouse.
+     * A utility mftiod usfd by tif fvfnt listfnfrs.  Givfn b mousf fvfnt, it dibngfs
+     * tif list sflfdtion to tif list itfm bflow tif mousf.
      *
-     * @param anEvent a mouse event
-     * @param shouldScroll if {@code true} list should be scrolled.
+     * @pbrbm bnEvfnt b mousf fvfnt
+     * @pbrbm siouldSdroll if {@dodf truf} list siould bf sdrollfd.
      */
-    protected void updateListBoxSelectionForEvent(MouseEvent anEvent,boolean shouldScroll) {
-        // XXX - only seems to be called from this class. shouldScroll flag is
-        // never true
-        Point location = anEvent.getPoint();
+    protfdtfd void updbtfListBoxSflfdtionForEvfnt(MousfEvfnt bnEvfnt,boolfbn siouldSdroll) {
+        // XXX - only sffms to bf dbllfd from tiis dlbss. siouldSdroll flbg is
+        // nfvfr truf
+        Point lodbtion = bnEvfnt.gftPoint();
         if ( list == null )
-            return;
-        int index = list.locationToIndex(location);
-        if ( index == -1 ) {
-            if ( location.y < 0 )
-                index = 0;
-            else
-                index = comboBox.getModel().getSize() - 1;
+            rfturn;
+        int indfx = list.lodbtionToIndfx(lodbtion);
+        if ( indfx == -1 ) {
+            if ( lodbtion.y < 0 )
+                indfx = 0;
+            flsf
+                indfx = domboBox.gftModfl().gftSizf() - 1;
         }
-        if ( list.getSelectedIndex() != index ) {
-            list.setSelectedIndex(index);
-            if ( shouldScroll )
-                list.ensureIndexIsVisible(index);
+        if ( list.gftSflfdtfdIndfx() != indfx ) {
+            list.sftSflfdtfdIndfx(indfx);
+            if ( siouldSdroll )
+                list.fnsurfIndfxIsVisiblf(indfx);
         }
     }
 
     //
-    // end Utility methods
+    // fnd Utility mftiods
     //=================================================================
 }

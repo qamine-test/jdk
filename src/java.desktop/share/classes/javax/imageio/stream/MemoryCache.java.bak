@@ -1,364 +1,364 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.stream;
+pbdkbgf jbvbx.imbgfio.strfbm;
 
-import java.util.ArrayList;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * Package-visible class consolidating common code for
- * <code>MemoryCacheImageInputStream</code> and
- * <code>MemoryCacheImageOutputStream</code>.
- * This class keeps an <code>ArrayList</code> of 8K blocks,
- * loaded sequentially.  Blocks may only be disposed of
- * from the index 0 forward.  As blocks are freed, the
- * corresponding entries in the array list are set to
- * <code>null</code>, but no compacting is performed.
- * This allows the index for each block to never change,
- * and the length of the cache is always the same as the
- * total amount of data ever cached.  Cached data is
- * therefore always contiguous from the point of last
- * disposal to the current length.
+ * Pbdkbgf-visiblf dlbss donsolidbting dommon dodf for
+ * <dodf>MfmoryCbdifImbgfInputStrfbm</dodf> bnd
+ * <dodf>MfmoryCbdifImbgfOutputStrfbm</dodf>.
+ * Tiis dlbss kffps bn <dodf>ArrbyList</dodf> of 8K blodks,
+ * lobdfd sfqufntiblly.  Blodks mby only bf disposfd of
+ * from tif indfx 0 forwbrd.  As blodks brf frffd, tif
+ * dorrfsponding fntrifs in tif brrby list brf sft to
+ * <dodf>null</dodf>, but no dompbdting is pfrformfd.
+ * Tiis bllows tif indfx for fbdi blodk to nfvfr dibngf,
+ * bnd tif lfngti of tif dbdif is blwbys tif sbmf bs tif
+ * totbl bmount of dbtb fvfr dbdifd.  Cbdifd dbtb is
+ * tifrfforf blwbys dontiguous from tif point of lbst
+ * disposbl to tif durrfnt lfngti.
  *
- * <p> The total number of blocks resident in the cache must not
- * exceed <code>Integer.MAX_VALUE</code>.  In practice, the limit of
- * available memory will be exceeded long before this becomes an
- * issue, since a full cache would contain 8192*2^31 = 16 terabytes of
- * data.
+ * <p> Tif totbl numbfr of blodks rfsidfnt in tif dbdif must not
+ * fxdffd <dodf>Intfgfr.MAX_VALUE</dodf>.  In prbdtidf, tif limit of
+ * bvbilbblf mfmory will bf fxdffdfd long bfforf tiis bfdomfs bn
+ * issuf, sindf b full dbdif would dontbin 8192*2^31 = 16 tfrbbytfs of
+ * dbtb.
  *
- * A <code>MemoryCache</code> may be reused after a call
- * to <code>reset()</code>.
+ * A <dodf>MfmoryCbdif</dodf> mby bf rfusfd bftfr b dbll
+ * to <dodf>rfsft()</dodf>.
  */
-class MemoryCache {
+dlbss MfmoryCbdif {
 
-    private static final int BUFFER_LENGTH = 8192;
+    privbtf stbtid finbl int BUFFER_LENGTH = 8192;
 
-    private ArrayList<byte[]> cache = new ArrayList<>();
+    privbtf ArrbyList<bytf[]> dbdif = nfw ArrbyList<>();
 
-    private long cacheStart = 0L;
+    privbtf long dbdifStbrt = 0L;
 
     /**
-     * The largest position ever written to the cache.
+     * Tif lbrgfst position fvfr writtfn to tif dbdif.
      */
-    private long length = 0L;
+    privbtf long lfngti = 0L;
 
-    private byte[] getCacheBlock(long blockNum) throws IOException {
-        long blockOffset = blockNum - cacheStart;
-        if (blockOffset > Integer.MAX_VALUE) {
-            // This can only happen when the cache hits 16 terabytes of
-            // contiguous data...
-            throw new IOException("Cache addressing limit exceeded!");
+    privbtf bytf[] gftCbdifBlodk(long blodkNum) tirows IOExdfption {
+        long blodkOffsft = blodkNum - dbdifStbrt;
+        if (blodkOffsft > Intfgfr.MAX_VALUE) {
+            // Tiis dbn only ibppfn wifn tif dbdif iits 16 tfrbbytfs of
+            // dontiguous dbtb...
+            tirow nfw IOExdfption("Cbdif bddrfssing limit fxdffdfd!");
         }
-        return cache.get((int)blockOffset);
+        rfturn dbdif.gft((int)blodkOffsft);
     }
 
     /**
-     * Ensures that at least <code>pos</code> bytes are cached,
-     * or the end of the source is reached.  The return value
-     * is equal to the smaller of <code>pos</code> and the
-     * length of the source.
+     * Ensurfs tibt bt lfbst <dodf>pos</dodf> bytfs brf dbdifd,
+     * or tif fnd of tif sourdf is rfbdifd.  Tif rfturn vbluf
+     * is fqubl to tif smbllfr of <dodf>pos</dodf> bnd tif
+     * lfngti of tif sourdf.
      */
-    public long loadFromStream(InputStream stream, long pos)
-        throws IOException {
-        // We've already got enough data cached
-        if (pos < length) {
-            return pos;
+    publid long lobdFromStrfbm(InputStrfbm strfbm, long pos)
+        tirows IOExdfption {
+        // Wf'vf blrfbdy got fnougi dbtb dbdifd
+        if (pos < lfngti) {
+            rfturn pos;
         }
 
-        int offset = (int)(length % BUFFER_LENGTH);
-        byte [] buf = null;
+        int offsft = (int)(lfngti % BUFFER_LENGTH);
+        bytf [] buf = null;
 
-        long len = pos - length;
-        if (offset != 0) {
-            buf = getCacheBlock(length/BUFFER_LENGTH);
+        long lfn = pos - lfngti;
+        if (offsft != 0) {
+            buf = gftCbdifBlodk(lfngti/BUFFER_LENGTH);
         }
 
-        while (len > 0) {
+        wiilf (lfn > 0) {
             if (buf == null) {
                 try {
-                    buf = new byte[BUFFER_LENGTH];
-                } catch (OutOfMemoryError e) {
-                    throw new IOException("No memory left for cache!");
+                    buf = nfw bytf[BUFFER_LENGTH];
+                } dbtdi (OutOfMfmoryError f) {
+                    tirow nfw IOExdfption("No mfmory lfft for dbdif!");
                 }
-                offset = 0;
+                offsft = 0;
             }
 
-            int left = BUFFER_LENGTH - offset;
-            int nbytes = (int)Math.min(len, (long)left);
-            nbytes = stream.read(buf, offset, nbytes);
-            if (nbytes == -1) {
-                return length; // EOF
+            int lfft = BUFFER_LENGTH - offsft;
+            int nbytfs = (int)Mbti.min(lfn, (long)lfft);
+            nbytfs = strfbm.rfbd(buf, offsft, nbytfs);
+            if (nbytfs == -1) {
+                rfturn lfngti; // EOF
             }
 
-            if (offset == 0) {
-                cache.add(buf);
+            if (offsft == 0) {
+                dbdif.bdd(buf);
             }
 
-            len -= nbytes;
-            length += nbytes;
-            offset += nbytes;
+            lfn -= nbytfs;
+            lfngti += nbytfs;
+            offsft += nbytfs;
 
-            if (offset >= BUFFER_LENGTH) {
-                // we've filled the current buffer, so a new one will be
-                // allocated next time around (and offset will be reset to 0)
+            if (offsft >= BUFFER_LENGTH) {
+                // wf'vf fillfd tif durrfnt bufffr, so b nfw onf will bf
+                // bllodbtfd nfxt timf bround (bnd offsft will bf rfsft to 0)
                 buf = null;
             }
         }
 
-        return pos;
+        rfturn pos;
     }
 
     /**
-     * Writes out a portion of the cache to an <code>OutputStream</code>.
-     * This method preserves no state about the output stream, and does
-     * not dispose of any blocks containing bytes written.  To dispose
-     * blocks, use {@link #disposeBefore <code>disposeBefore()</code>}.
+     * Writfs out b portion of tif dbdif to bn <dodf>OutputStrfbm</dodf>.
+     * Tiis mftiod prfsfrvfs no stbtf bbout tif output strfbm, bnd dofs
+     * not disposf of bny blodks dontbining bytfs writtfn.  To disposf
+     * blodks, usf {@link #disposfBfforf <dodf>disposfBfforf()</dodf>}.
      *
-     * @exception IndexOutOfBoundsException if any portion of
-     * the requested data is not in the cache (including if <code>pos</code>
-     * is in a block already disposed), or if either <code>pos</code> or
-     * <code>len</code> is < 0.
+     * @fxdfption IndfxOutOfBoundsExdfption if bny portion of
+     * tif rfqufstfd dbtb is not in tif dbdif (indluding if <dodf>pos</dodf>
+     * is in b blodk blrfbdy disposfd), or if fitifr <dodf>pos</dodf> or
+     * <dodf>lfn</dodf> is < 0.
      */
-    public void writeToStream(OutputStream stream, long pos, long len)
-        throws IOException {
-        if (pos + len > length) {
-            throw new IndexOutOfBoundsException("Argument out of cache");
+    publid void writfToStrfbm(OutputStrfbm strfbm, long pos, long lfn)
+        tirows IOExdfption {
+        if (pos + lfn > lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption("Argumfnt out of dbdif");
         }
-        if ((pos < 0) || (len < 0)) {
-            throw new IndexOutOfBoundsException("Negative pos or len");
+        if ((pos < 0) || (lfn < 0)) {
+            tirow nfw IndfxOutOfBoundsExdfption("Nfgbtivf pos or lfn");
         }
-        if (len == 0) {
-            return;
+        if (lfn == 0) {
+            rfturn;
         }
 
-        long bufIndex = pos/BUFFER_LENGTH;
-        if (bufIndex < cacheStart) {
-            throw new IndexOutOfBoundsException("pos already disposed");
+        long bufIndfx = pos/BUFFER_LENGTH;
+        if (bufIndfx < dbdifStbrt) {
+            tirow nfw IndfxOutOfBoundsExdfption("pos blrfbdy disposfd");
         }
-        int offset = (int)(pos % BUFFER_LENGTH);
+        int offsft = (int)(pos % BUFFER_LENGTH);
 
-        byte[] buf = getCacheBlock(bufIndex++);
-        while (len > 0) {
+        bytf[] buf = gftCbdifBlodk(bufIndfx++);
+        wiilf (lfn > 0) {
             if (buf == null) {
-                buf = getCacheBlock(bufIndex++);
-                offset = 0;
+                buf = gftCbdifBlodk(bufIndfx++);
+                offsft = 0;
             }
-            int nbytes = (int)Math.min(len, (long)(BUFFER_LENGTH - offset));
-            stream.write(buf, offset, nbytes);
+            int nbytfs = (int)Mbti.min(lfn, (long)(BUFFER_LENGTH - offsft));
+            strfbm.writf(buf, offsft, nbytfs);
             buf = null;
-            len -= nbytes;
+            lfn -= nbytfs;
         }
     }
 
     /**
-     * Ensure that there is space to write a byte at the given position.
+     * Ensurf tibt tifrf is spbdf to writf b bytf bt tif givfn position.
      */
-    private void pad(long pos) throws IOException {
-        long currIndex = cacheStart + cache.size() - 1;
-        long lastIndex = pos/BUFFER_LENGTH;
-        long numNewBuffers = lastIndex - currIndex;
-        for (long i = 0; i < numNewBuffers; i++) {
+    privbtf void pbd(long pos) tirows IOExdfption {
+        long durrIndfx = dbdifStbrt + dbdif.sizf() - 1;
+        long lbstIndfx = pos/BUFFER_LENGTH;
+        long numNfwBufffrs = lbstIndfx - durrIndfx;
+        for (long i = 0; i < numNfwBufffrs; i++) {
             try {
-                cache.add(new byte[BUFFER_LENGTH]);
-            } catch (OutOfMemoryError e) {
-                throw new IOException("No memory left for cache!");
+                dbdif.bdd(nfw bytf[BUFFER_LENGTH]);
+            } dbtdi (OutOfMfmoryError f) {
+                tirow nfw IOExdfption("No mfmory lfft for dbdif!");
             }
         }
     }
 
     /**
-     * Overwrites and/or appends the cache from a byte array.
-     * The length of the cache will be extended as needed to hold
-     * the incoming data.
+     * Ovfrwritfs bnd/or bppfnds tif dbdif from b bytf brrby.
+     * Tif lfngti of tif dbdif will bf fxtfndfd bs nffdfd to iold
+     * tif indoming dbtb.
      *
-     * @param b an array of bytes containing data to be written.
-     * @param off the starting offset withing the data array.
-     * @param len the number of bytes to be written.
-     * @param pos the cache position at which to begin writing.
+     * @pbrbm b bn brrby of bytfs dontbining dbtb to bf writtfn.
+     * @pbrbm off tif stbrting offsft witiing tif dbtb brrby.
+     * @pbrbm lfn tif numbfr of bytfs to bf writtfn.
+     * @pbrbm pos tif dbdif position bt wiidi to bfgin writing.
      *
-     * @exception NullPointerException if <code>b</code> is <code>null</code>.
-     * @exception IndexOutOfBoundsException if <code>off</code>,
-     * <code>len</code>, or <code>pos</code> are negative,
-     * or if <code>off+len > b.length</code>.
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is <dodf>null</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf>,
+     * <dodf>lfn</dodf>, or <dodf>pos</dodf> brf nfgbtivf,
+     * or if <dodf>off+lfn > b.lfngti</dodf>.
      */
-    public void write(byte[] b, int off, int len, long pos)
-        throws IOException {
+    publid void writf(bytf[] b, int off, int lfn, long pos)
+        tirows IOExdfption {
         if (b == null) {
-            throw new NullPointerException("b == null!");
+            tirow nfw NullPointfrExdfption("b == null!");
         }
-        // Fix 4430357 - if off + len < 0, overflow occurred
-        if ((off < 0) || (len < 0) || (pos < 0) ||
-            (off + len > b.length) || (off + len < 0)) {
-            throw new IndexOutOfBoundsException();
-        }
-
-        // Ensure there is space for the incoming data
-        long lastPos = pos + len - 1;
-        if (lastPos >= length) {
-            pad(lastPos);
-            length = lastPos + 1;
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if ((off < 0) || (lfn < 0) || (pos < 0) ||
+            (off + lfn > b.lfngti) || (off + lfn < 0)) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
 
-        // Copy the data into the cache, block by block
-        int offset = (int)(pos % BUFFER_LENGTH);
-        while (len > 0) {
-            byte[] buf = getCacheBlock(pos/BUFFER_LENGTH);
-            int nbytes = Math.min(len, BUFFER_LENGTH - offset);
-            System.arraycopy(b, off, buf, offset, nbytes);
+        // Ensurf tifrf is spbdf for tif indoming dbtb
+        long lbstPos = pos + lfn - 1;
+        if (lbstPos >= lfngti) {
+            pbd(lbstPos);
+            lfngti = lbstPos + 1;
+        }
 
-            pos += nbytes;
-            off += nbytes;
-            len -= nbytes;
-            offset = 0; // Always after the first time
+        // Copy tif dbtb into tif dbdif, blodk by blodk
+        int offsft = (int)(pos % BUFFER_LENGTH);
+        wiilf (lfn > 0) {
+            bytf[] buf = gftCbdifBlodk(pos/BUFFER_LENGTH);
+            int nbytfs = Mbti.min(lfn, BUFFER_LENGTH - offsft);
+            Systfm.brrbydopy(b, off, buf, offsft, nbytfs);
+
+            pos += nbytfs;
+            off += nbytfs;
+            lfn -= nbytfs;
+            offsft = 0; // Alwbys bftfr tif first timf
         }
     }
 
     /**
-     * Overwrites or appends a single byte to the cache.
-     * The length of the cache will be extended as needed to hold
-     * the incoming data.
+     * Ovfrwritfs or bppfnds b singlf bytf to tif dbdif.
+     * Tif lfngti of tif dbdif will bf fxtfndfd bs nffdfd to iold
+     * tif indoming dbtb.
      *
-     * @param b an <code>int</code> whose 8 least significant bits
-     * will be written.
-     * @param pos the cache position at which to begin writing.
+     * @pbrbm b bn <dodf>int</dodf> wiosf 8 lfbst signifidbnt bits
+     * will bf writtfn.
+     * @pbrbm pos tif dbdif position bt wiidi to bfgin writing.
      *
-     * @exception IndexOutOfBoundsException if <code>pos</code> is negative.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>pos</dodf> is nfgbtivf.
      */
-    public void write(int b, long pos) throws IOException {
+    publid void writf(int b, long pos) tirows IOExdfption {
         if (pos < 0) {
-            throw new ArrayIndexOutOfBoundsException("pos < 0");
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption("pos < 0");
         }
 
-        // Ensure there is space for the incoming data
-        if (pos >= length) {
-            pad(pos);
-            length = pos + 1;
+        // Ensurf tifrf is spbdf for tif indoming dbtb
+        if (pos >= lfngti) {
+            pbd(pos);
+            lfngti = pos + 1;
         }
 
-        // Insert the data.
-        byte[] buf = getCacheBlock(pos/BUFFER_LENGTH);
-        int offset = (int)(pos % BUFFER_LENGTH);
-        buf[offset] = (byte)b;
+        // Insfrt tif dbtb.
+        bytf[] buf = gftCbdifBlodk(pos/BUFFER_LENGTH);
+        int offsft = (int)(pos % BUFFER_LENGTH);
+        buf[offsft] = (bytf)b;
     }
 
     /**
-     * Returns the total length of data that has been cached,
-     * regardless of whether any early blocks have been disposed.
-     * This value will only ever increase.
+     * Rfturns tif totbl lfngti of dbtb tibt ibs bffn dbdifd,
+     * rfgbrdlfss of wiftifr bny fbrly blodks ibvf bffn disposfd.
+     * Tiis vbluf will only fvfr indrfbsf.
      */
-    public long getLength() {
-        return length;
+    publid long gftLfngti() {
+        rfturn lfngti;
     }
 
     /**
-     * Returns the single byte at the given position, as an
-     * <code>int</code>.  Returns -1 if this position has
-     * not been cached or has been disposed.
+     * Rfturns tif singlf bytf bt tif givfn position, bs bn
+     * <dodf>int</dodf>.  Rfturns -1 if tiis position ibs
+     * not bffn dbdifd or ibs bffn disposfd.
      */
-    public int read(long pos) throws IOException {
-        if (pos >= length) {
-            return -1;
+    publid int rfbd(long pos) tirows IOExdfption {
+        if (pos >= lfngti) {
+            rfturn -1;
         }
 
-        byte[] buf = getCacheBlock(pos/BUFFER_LENGTH);
+        bytf[] buf = gftCbdifBlodk(pos/BUFFER_LENGTH);
         if (buf == null) {
-            return -1;
+            rfturn -1;
         }
 
-        return buf[(int)(pos % BUFFER_LENGTH)] & 0xff;
+        rfturn buf[(int)(pos % BUFFER_LENGTH)] & 0xff;
     }
 
     /**
-     * Copy <code>len</code> bytes from the cache, starting
-     * at cache position <code>pos</code>, into the array
-     * <code>b</code> at offset <code>off</code>.
+     * Copy <dodf>lfn</dodf> bytfs from tif dbdif, stbrting
+     * bt dbdif position <dodf>pos</dodf>, into tif brrby
+     * <dodf>b</dodf> bt offsft <dodf>off</dodf>.
      *
-     * @exception NullPointerException if b is <code>null</code>
-     * @exception IndexOutOfBoundsException if <code>off</code>,
-     * <code>len</code> or <code>pos</code> are negative or if
-     * <code>off + len > b.length</code> or if any portion of the
-     * requested data is not in the cache (including if
-     * <code>pos</code> is in a block that has already been disposed).
+     * @fxdfption NullPointfrExdfption if b is <dodf>null</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf>,
+     * <dodf>lfn</dodf> or <dodf>pos</dodf> brf nfgbtivf or if
+     * <dodf>off + lfn > b.lfngti</dodf> or if bny portion of tif
+     * rfqufstfd dbtb is not in tif dbdif (indluding if
+     * <dodf>pos</dodf> is in b blodk tibt ibs blrfbdy bffn disposfd).
      */
-    public void read(byte[] b, int off, int len, long pos)
-        throws IOException {
+    publid void rfbd(bytf[] b, int off, int lfn, long pos)
+        tirows IOExdfption {
         if (b == null) {
-            throw new NullPointerException("b == null!");
+            tirow nfw NullPointfrExdfption("b == null!");
         }
-        // Fix 4430357 - if off + len < 0, overflow occurred
-        if ((off < 0) || (len < 0) || (pos < 0) ||
-            (off + len > b.length) || (off + len < 0)) {
-            throw new IndexOutOfBoundsException();
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if ((off < 0) || (lfn < 0) || (pos < 0) ||
+            (off + lfn > b.lfngti) || (off + lfn < 0)) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
-        if (pos + len > length) {
-            throw new IndexOutOfBoundsException();
+        if (pos + lfn > lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
 
-        long index = pos/BUFFER_LENGTH;
-        int offset = (int)pos % BUFFER_LENGTH;
-        while (len > 0) {
-            int nbytes = Math.min(len, BUFFER_LENGTH - offset);
-            byte[] buf = getCacheBlock(index++);
-            System.arraycopy(buf, offset, b, off, nbytes);
+        long indfx = pos/BUFFER_LENGTH;
+        int offsft = (int)pos % BUFFER_LENGTH;
+        wiilf (lfn > 0) {
+            int nbytfs = Mbti.min(lfn, BUFFER_LENGTH - offsft);
+            bytf[] buf = gftCbdifBlodk(indfx++);
+            Systfm.brrbydopy(buf, offsft, b, off, nbytfs);
 
-            len -= nbytes;
-            off += nbytes;
-            offset = 0; // Always after the first time
+            lfn -= nbytfs;
+            off += nbytfs;
+            offsft = 0; // Alwbys bftfr tif first timf
         }
     }
 
     /**
-     * Free the blocks up to the position <code>pos</code>.
-     * The byte at <code>pos</code> remains available.
+     * Frff tif blodks up to tif position <dodf>pos</dodf>.
+     * Tif bytf bt <dodf>pos</dodf> rfmbins bvbilbblf.
      *
-     * @exception IndexOutOfBoundsException if <code>pos</code>
-     * is in a block that has already been disposed.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>pos</dodf>
+     * is in b blodk tibt ibs blrfbdy bffn disposfd.
      */
-    public void disposeBefore(long pos) {
-        long index = pos/BUFFER_LENGTH;
-        if (index < cacheStart) {
-            throw new IndexOutOfBoundsException("pos already disposed");
+    publid void disposfBfforf(long pos) {
+        long indfx = pos/BUFFER_LENGTH;
+        if (indfx < dbdifStbrt) {
+            tirow nfw IndfxOutOfBoundsExdfption("pos blrfbdy disposfd");
         }
-        long numBlocks = Math.min(index - cacheStart, cache.size());
-        for (long i = 0; i < numBlocks; i++) {
-            cache.remove(0);
+        long numBlodks = Mbti.min(indfx - dbdifStbrt, dbdif.sizf());
+        for (long i = 0; i < numBlodks; i++) {
+            dbdif.rfmovf(0);
         }
-        this.cacheStart = index;
+        tiis.dbdifStbrt = indfx;
     }
 
     /**
-     * Erase the entire cache contents and reset the length to 0.
-     * The cache object may subsequently be reused as though it had just
-     * been allocated.
+     * Erbsf tif fntirf dbdif dontfnts bnd rfsft tif lfngti to 0.
+     * Tif dbdif objfdt mby subsfqufntly bf rfusfd bs tiougi it ibd just
+     * bffn bllodbtfd.
      */
-    public void reset() {
-        cache.clear();
-        cacheStart = 0;
-        length = 0L;
+    publid void rfsft() {
+        dbdif.dlfbr();
+        dbdifStbrt = 0;
+        lfngti = 0L;
     }
  }

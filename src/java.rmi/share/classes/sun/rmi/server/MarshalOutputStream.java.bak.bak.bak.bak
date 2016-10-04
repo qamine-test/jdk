@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 1996, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.sfrvfr;
+
+import jbvb.io.*;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.sfrvfr.RfmotfStub;
+import sun.rmi.trbnsport.ObjfdtTbblf;
+import sun.rmi.trbnsport.Tbrgft;
+
+/**
+ * A MbrshblOutputStrfbm fxtfnds ObjfdtOutputStrfbm to bdd fundtions
+ * spfdifid to mbrshbling of rfmotf objfdt rfffrfndfs. If it is
+ * nfdfssbry to sfriblizf rfmotf objfdts or objfdts thbt dontbin
+ * rfffrfndfs to rfmotf objfdts b MbrshblOutputStrfbm must bf usfd
+ * instfbd of ObjfdtOutputStrfbm. <p>
+ *
+ * A nfw MbrshblOutputStrfbm is donstrudtfd to sfriblizf rfmotf
+ * objfdts or grbphs dontbining rfmotf objfdts. Objfdts brf writtfn to
+ * thf strfbm using thf ObjfdtOutputStrfbm.writfObjfdt mfthod. <p>
+ *
+ * MbrshblOutputStrfbm mbps rfmotf objfdts to thf dorrfsponding rfmotf
+ * stub bnd fmbfds thf lodbtion from whidh to lobd thf stub
+ * dlbssfs. Thf lodbtion mby bf ignorfd by thf dlifnt but is supplifd.
+ */
+publid dlbss MbrshblOutputStrfbm fxtfnds ObjfdtOutputStrfbm
+{
+    /**
+     * Crfbtfs b mbrshbl output strfbm with protodol vfrsion 1.
+     */
+    publid MbrshblOutputStrfbm(OutputStrfbm out) throws IOExdfption {
+        this(out, ObjfdtStrfbmConstbnts.PROTOCOL_VERSION_1);
+    }
+
+    /**
+     * Crfbtfs b mbrshbl output strfbm with thf givfn protodol vfrsion.
+     */
+    publid MbrshblOutputStrfbm(OutputStrfbm out, int protodolVfrsion)
+        throws IOExdfption
+    {
+        supfr(out);
+        this.usfProtodolVfrsion(protodolVfrsion);
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                fnbblfRfplbdfObjfdt(truf);
+                rfturn null;
+            }
+        });
+    }
+
+    /**
+     * Chfdks for objfdts thbt brf instbndfs of jbvb.rmi.Rfmotf
+     * thbt nffd to bf sfriblizfd bs proxy objfdts.
+     */
+    protfdtfd finbl Objfdt rfplbdfObjfdt(Objfdt obj) throws IOExdfption {
+        if ((obj instbndfof Rfmotf) && !(obj instbndfof RfmotfStub)) {
+            Tbrgft tbrgft = ObjfdtTbblf.gftTbrgft((Rfmotf) obj);
+            if (tbrgft != null) {
+                rfturn tbrgft.gftStub();
+            }
+        }
+        rfturn obj;
+    }
+
+    /**
+     * Sfriblizfs b lodbtion from whidh to lobd thf thf spfdififd dlbss.
+     */
+    protfdtfd void bnnotbtfClbss(Clbss<?> dl) throws IOExdfption {
+        writfLodbtion(jbvb.rmi.sfrvfr.RMIClbssLobdfr.gftClbssAnnotbtion(dl));
+    }
+
+    /**
+     * Sfriblizfs b lodbtion from whidh to lobd thf spfdififd dlbss.
+     */
+    protfdtfd void bnnotbtfProxyClbss(Clbss<?> dl) throws IOExdfption {
+        bnnotbtfClbss(dl);
+    }
+
+    /**
+     * Writfs thf lodbtion for thf dlbss into thf strfbm.  This mfthod dbn
+     * bf ovfrriddfn by subdlbssfs thbt storf this bnnotbtion somfwhfrf
+     * flsf thbn bs thf nfxt objfdt in thf strfbm, bs is donf by this dlbss.
+     */
+    protfdtfd void writfLodbtion(String lodbtion) throws IOExdfption {
+        writfObjfdt(lodbtion);
+    }
+}

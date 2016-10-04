@@ -1,0 +1,414 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * <p>Supfrdlbss of fvfry donnfdtor sfrvfr.  A donnfdtor sfrvfr is
+ * bttbdhfd to bn MBfbn sfrvfr.  It listfns for dlifnt donnfdtion
+ * rfqufsts bnd drfbtfs b donnfdtion for fbdh onf.</p>
+ *
+ * <p>A donnfdtor sfrvfr is bssodibtfd with bn MBfbn sfrvfr fithfr by
+ * rfgistfring it in thbt MBfbn sfrvfr, or by pbssing thf MBfbn sfrvfr
+ * to its donstrudtor.</p>
+ *
+ * <p>A donnfdtor sfrvfr is inbdtivf whfn drfbtfd.  It only stbrts
+ * listfning for dlifnt donnfdtions whfn thf {@link #stbrt() stbrt}
+ * mfthod is dbllfd.  A donnfdtor sfrvfr stops listfning for dlifnt
+ * donnfdtions whfn thf {@link #stop() stop} mfthod is dbllfd or whfn
+ * thf donnfdtor sfrvfr is unrfgistfrfd from its MBfbn sfrvfr.</p>
+ *
+ * <p>Stopping b donnfdtor sfrvfr dofs not unrfgistfr it from its
+ * MBfbn sfrvfr.  A donnfdtor sfrvfr ondf stoppfd dbnnot bf
+ * rfstbrtfd.</p>
+ *
+ * <p>Ebdh timf b dlifnt donnfdtion is mbdf or brokfn, b notifidbtion
+ * of dlbss {@link JMXConnfdtionNotifidbtion} is fmittfd.</p>
+ *
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss JMXConnfdtorSfrvfr
+        fxtfnds NotifidbtionBrobddbstfrSupport
+        implfmfnts JMXConnfdtorSfrvfrMBfbn, MBfbnRfgistrbtion, JMXAddrfssbblf {
+
+    /**
+     * <p>Nbmf of thf bttributf thbt spfdififs thf buthfntidbtor for b
+     * donnfdtor sfrvfr.  Thf vbluf bssodibtfd with this bttributf, if
+     * bny, must bf bn objfdt thbt implfmfnts thf intfrfbdf {@link
+     * JMXAuthfntidbtor}.</p>
+     */
+    publid stbtid finbl String AUTHENTICATOR =
+        "jmx.rfmotf.buthfntidbtor";
+
+    /**
+     * <p>Construdts b donnfdtor sfrvfr thbt will bf rfgistfrfd bs bn
+     * MBfbn in thf MBfbn sfrvfr it is bttbdhfd to.  This donstrudtor
+     * is typidblly dbllfd by onf of thf <dodf>drfbtfMBfbn</dodf>
+     * mfthods whfn drfbting, within bn MBfbn sfrvfr, b donnfdtor
+     * sfrvfr thbt mbkfs it bvbilbblf rfmotfly.</p>
+     */
+    publid JMXConnfdtorSfrvfr() {
+        this(null);
+    }
+
+    /**
+     * <p>Construdts b donnfdtor sfrvfr thbt is bttbdhfd to thf givfn
+     * MBfbn sfrvfr.  A donnfdtor sfrvfr thbt is drfbtfd in this wby
+     * dbn bf rfgistfrfd in b difffrfnt MBfbn sfrvfr, or not rfgistfrfd
+     * in bny MBfbn sfrvfr.</p>
+     *
+     * @pbrbm mbfbnSfrvfr thf MBfbn sfrvfr thbt this donnfdtor sfrvfr
+     * is bttbdhfd to.  Null if this donnfdtor sfrvfr will bf bttbdhfd
+     * to bn MBfbn sfrvfr by bfing rfgistfrfd in it.
+     */
+    publid JMXConnfdtorSfrvfr(MBfbnSfrvfr mbfbnSfrvfr) {
+        this.mbfbnSfrvfr = mbfbnSfrvfr;
+    }
+
+    /**
+     * <p>Rfturns thf MBfbn sfrvfr thbt this donnfdtor sfrvfr is
+     * bttbdhfd to.</p>
+     *
+     * @rfturn thf MBfbn sfrvfr thbt this donnfdtor sfrvfr is bttbdhfd
+     * to, or null if it is not yft bttbdhfd to bn MBfbn sfrvfr.
+     */
+    publid syndhronizfd MBfbnSfrvfr gftMBfbnSfrvfr() {
+        rfturn mbfbnSfrvfr;
+    }
+
+    publid syndhronizfd void sftMBfbnSfrvfrForwbrdfr(MBfbnSfrvfrForwbrdfr mbsf)
+    {
+        if (mbsf == null)
+            throw nfw IllfgblArgumfntExdfption("Invblid null brgumfnt: mbsf");
+
+        if (mbfbnSfrvfr !=  null) mbsf.sftMBfbnSfrvfr(mbfbnSfrvfr);
+        mbfbnSfrvfr = mbsf;
+    }
+
+    publid String[] gftConnfdtionIds() {
+        syndhronizfd (donnfdtionIds) {
+            rfturn donnfdtionIds.toArrby(nfw String[donnfdtionIds.sizf()]);
+        }
+    }
+
+    /**
+     * <p>Rfturns b dlifnt stub for this donnfdtor sfrvfr.  A dlifnt
+     * stub is b sfriblizbblf objfdt whosf {@link
+     * JMXConnfdtor#donnfdt(Mbp) donnfdt} mfthod dbn bf usfd to mbkf
+     * onf nfw donnfdtion to this donnfdtor sfrvfr.</p>
+     *
+     * <p>A givfn donnfdtor nffd not support thf gfnfrbtion of dlifnt
+     * stubs.  Howfvfr, thf donnfdtors spfdififd by thf JMX Rfmotf API do
+     * (JMXMP Connfdtor bnd RMI Connfdtor).</p>
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthod usfs {@link
+     * #gftAddrfss} bnd {@link JMXConnfdtorFbdtory} to gfnfrbtf thf
+     * stub, with dodf fquivblfnt to thf following:</p>
+     *
+     * <prf>
+     * JMXSfrvidfURL bddr = {@link #gftAddrfss() gftAddrfss()};
+     * rfturn {@link JMXConnfdtorFbdtory#nfwJMXConnfdtor(JMXSfrvidfURL, Mbp)
+     *          JMXConnfdtorFbdtory.nfwJMXConnfdtor(bddr, fnv)};
+     * </prf>
+     *
+     * <p>A donnfdtor sfrvfr for whidh this is inbppropribtf must
+     * ovfrridf this mfthod so thbt it fithfr implfmfnts thf
+     * bppropribtf logid or throws {@link
+     * UnsupportfdOpfrbtionExdfption}.</p>
+     *
+     * @pbrbm fnv dlifnt donnfdtion pbrbmftfrs of thf sbmf sort thbt
+     * dould bf providfd to {@link JMXConnfdtor#donnfdt(Mbp)
+     * JMXConnfdtor.donnfdt(Mbp)}.  Cbn bf null, whidh is fquivblfnt
+     * to bn fmpty mbp.
+     *
+     * @rfturn b dlifnt stub thbt dbn bf usfd to mbkf b nfw donnfdtion
+     * to this donnfdtor sfrvfr.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this donnfdtor
+     * sfrvfr dofs not support thf gfnfrbtion of dlifnt stubs.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf JMXConnfdtorSfrvfr is
+     * not stbrtfd (sff {@link JMXConnfdtorSfrvfrMBfbn#isAdtivf()}).
+     *
+     * @fxdfption IOExdfption if b dommunidbtions problfm mfbns thbt b
+     * stub dbnnot bf drfbtfd.
+     **/
+    publid JMXConnfdtor toJMXConnfdtor(Mbp<String,?> fnv)
+        throws IOExdfption
+    {
+        if (!isAdtivf()) throw nfw
+            IllfgblStbtfExdfption("Connfdtor is not bdtivf");
+        JMXSfrvidfURL bddr = gftAddrfss();
+        rfturn JMXConnfdtorFbdtory.nfwJMXConnfdtor(bddr, fnv);
+    }
+
+    /**
+     * <p>Rfturns bn brrby indidbting thf notifidbtions thbt this MBfbn
+     * sfnds. Thf implfmfntbtion in <dodf>JMXConnfdtorSfrvfr</dodf>
+     * rfturns bn brrby with onf flfmfnt, indidbting thbt it dbn fmit
+     * notifidbtions of dlbss {@link JMXConnfdtionNotifidbtion} with
+     * thf typfs dffinfd in thbt dlbss.  A subdlbss thbt dbn fmit othfr
+     * notifidbtions should rfturn bn brrby thbt dontbins this flfmfnt
+     * plus dfsdriptions of thf othfr notifidbtions.</p>
+     *
+     * @rfturn thf brrby of possiblf notifidbtions.
+     */
+    @Ovfrridf
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        finbl String[] typfs = {
+            JMXConnfdtionNotifidbtion.OPENED,
+            JMXConnfdtionNotifidbtion.CLOSED,
+            JMXConnfdtionNotifidbtion.FAILED,
+        };
+        finbl String dlbssNbmf = JMXConnfdtionNotifidbtion.dlbss.gftNbmf();
+        finbl String dfsdription =
+            "A dlifnt donnfdtion hbs bffn opfnfd or dlosfd";
+        rfturn nfw MBfbnNotifidbtionInfo[] {
+            nfw MBfbnNotifidbtionInfo(typfs, dlbssNbmf, dfsdription),
+        };
+    }
+
+    /**
+     * <p>Cbllfd by b subdlbss whfn b nfw dlifnt donnfdtion is opfnfd.
+     * Adds <dodf>donnfdtionId</dodf> to thf list rfturnfd by {@link
+     * #gftConnfdtionIds()}, thfn fmits b {@link
+     * JMXConnfdtionNotifidbtion} with typf {@link
+     * JMXConnfdtionNotifidbtion#OPENED}.</p>
+     *
+     * @pbrbm donnfdtionId thf ID of thf nfw donnfdtion.  This must bf
+     * difffrfnt from thf ID of bny donnfdtion prfviously opfnfd by
+     * this donnfdtor sfrvfr.
+     *
+     * @pbrbm mfssbgf thf mfssbgf for thf fmittfd {@link
+     * JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftMfssbgf()}.
+     *
+     * @pbrbm usfrDbtb thf <dodf>usfrDbtb</dodf> for thf fmittfd
+     * {@link JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftUsfrDbtb()}.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>donnfdtionId</dodf> is
+     * null.
+     */
+    protfdtfd void donnfdtionOpfnfd(String donnfdtionId,
+                                    String mfssbgf,
+                                    Objfdt usfrDbtb) {
+
+        if (donnfdtionId == null)
+            throw nfw NullPointfrExdfption("Illfgbl null brgumfnt");
+
+        syndhronizfd (donnfdtionIds) {
+            donnfdtionIds.bdd(donnfdtionId);
+        }
+
+        sfndNotifidbtion(JMXConnfdtionNotifidbtion.OPENED, donnfdtionId,
+                         mfssbgf, usfrDbtb);
+    }
+
+    /**
+     * <p>Cbllfd by b subdlbss whfn b dlifnt donnfdtion is dlosfd
+     * normblly.  Rfmovfs <dodf>donnfdtionId</dodf> from thf list rfturnfd
+     * by {@link #gftConnfdtionIds()}, thfn fmits b {@link
+     * JMXConnfdtionNotifidbtion} with typf {@link
+     * JMXConnfdtionNotifidbtion#CLOSED}.</p>
+     *
+     * @pbrbm donnfdtionId thf ID of thf dlosfd donnfdtion.
+     *
+     * @pbrbm mfssbgf thf mfssbgf for thf fmittfd {@link
+     * JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftMfssbgf()}.
+     *
+     * @pbrbm usfrDbtb thf <dodf>usfrDbtb</dodf> for thf fmittfd
+     * {@link JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftUsfrDbtb()}.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>donnfdtionId</dodf>
+     * is null.
+     */
+    protfdtfd void donnfdtionClosfd(String donnfdtionId,
+                                    String mfssbgf,
+                                    Objfdt usfrDbtb) {
+
+        if (donnfdtionId == null)
+            throw nfw NullPointfrExdfption("Illfgbl null brgumfnt");
+
+        syndhronizfd (donnfdtionIds) {
+            donnfdtionIds.rfmovf(donnfdtionId);
+        }
+
+        sfndNotifidbtion(JMXConnfdtionNotifidbtion.CLOSED, donnfdtionId,
+                         mfssbgf, usfrDbtb);
+    }
+
+    /**
+     * <p>Cbllfd by b subdlbss whfn b dlifnt donnfdtion fbils.
+     * Rfmovfs <dodf>donnfdtionId</dodf> from thf list rfturnfd by
+     * {@link #gftConnfdtionIds()}, thfn fmits b {@link
+     * JMXConnfdtionNotifidbtion} with typf {@link
+     * JMXConnfdtionNotifidbtion#FAILED}.</p>
+     *
+     * @pbrbm donnfdtionId thf ID of thf fbilfd donnfdtion.
+     *
+     * @pbrbm mfssbgf thf mfssbgf for thf fmittfd {@link
+     * JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftMfssbgf()}.
+     *
+     * @pbrbm usfrDbtb thf <dodf>usfrDbtb</dodf> for thf fmittfd
+     * {@link JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftUsfrDbtb()}.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>donnfdtionId</dodf> is
+     * null.
+     */
+    protfdtfd void donnfdtionFbilfd(String donnfdtionId,
+                                    String mfssbgf,
+                                    Objfdt usfrDbtb) {
+
+        if (donnfdtionId == null)
+            throw nfw NullPointfrExdfption("Illfgbl null brgumfnt");
+
+        syndhronizfd (donnfdtionIds) {
+            donnfdtionIds.rfmovf(donnfdtionId);
+        }
+
+        sfndNotifidbtion(JMXConnfdtionNotifidbtion.FAILED, donnfdtionId,
+                         mfssbgf, usfrDbtb);
+    }
+
+    privbtf void sfndNotifidbtion(String typf, String donnfdtionId,
+                                  String mfssbgf, Objfdt usfrDbtb) {
+        Notifidbtion notif =
+            nfw JMXConnfdtionNotifidbtion(typf,
+                                          gftNotifidbtionSourdf(),
+                                          donnfdtionId,
+                                          nfxtSfqufndfNumbfr(),
+                                          mfssbgf,
+                                          usfrDbtb);
+        sfndNotifidbtion(notif);
+    }
+
+    privbtf syndhronizfd Objfdt gftNotifidbtionSourdf() {
+        if (myNbmf != null)
+            rfturn myNbmf;
+        flsf
+            rfturn this;
+    }
+
+    privbtf stbtid long nfxtSfqufndfNumbfr() {
+        syndhronizfd (sfqufndfNumbfrLodk) {
+            rfturn sfqufndfNumbfr++;
+        }
+    }
+
+    // implfmfnts MBfbnRfgistrbtion
+    /**
+     * <p>Cbllfd by bn MBfbn sfrvfr whfn this donnfdtor sfrvfr is
+     * rfgistfrfd in thbt MBfbn sfrvfr.  This donnfdtor sfrvfr bfdomfs
+     * bttbdhfd to thf MBfbn sfrvfr bnd its {@link #gftMBfbnSfrvfr()}
+     * mfthod will rfturn <dodf>mbs</dodf>.</p>
+     *
+     * <p>If this donnfdtor sfrvfr is blrfbdy bttbdhfd to bn MBfbn
+     * sfrvfr, this mfthod hbs no ffffdt.  Thf MBfbn sfrvfr it is
+     * bttbdhfd to is not nfdfssbrily thf onf it is bfing rfgistfrfd
+     * in.</p>
+     *
+     * @pbrbm mbs thf MBfbn sfrvfr in whidh this donnfdtion sfrvfr is
+     * bfing rfgistfrfd.
+     *
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn.
+     *
+     * @rfturn Thf nbmf undfr whidh thf MBfbn is to bf rfgistfrfd.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>mbs</dodf> or
+     * <dodf>nbmf</dodf> is null.
+     */
+    publid syndhronizfd ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr mbs,
+                                               ObjfdtNbmf nbmf) {
+        if (mbs == null || nbmf == null)
+            throw nfw NullPointfrExdfption("Null MBfbnSfrvfr or ObjfdtNbmf");
+        if (mbfbnSfrvfr == null) {
+            mbfbnSfrvfr = mbs;
+            myNbmf = nbmf;
+        }
+        rfturn nbmf;
+    }
+
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        // do nothing
+    }
+
+    /**
+     * <p>Cbllfd by bn MBfbn sfrvfr whfn this donnfdtor sfrvfr is
+     * unrfgistfrfd from thbt MBfbn sfrvfr.  If this donnfdtor sfrvfr
+     * wbs bttbdhfd to thbt MBfbn sfrvfr by bfing rfgistfrfd in it,
+     * bnd if thf donnfdtor sfrvfr is still bdtivf,
+     * thfn unrfgistfring it will dbll thf {@link #stop stop} mfthod.
+     * If thf <dodf>stop</dodf> mfthod throws bn fxdfption, thf
+     * unrfgistrbtion bttfmpt will fbil.  It is rfdommfndfd to dbll
+     * thf <dodf>stop</dodf> mfthod fxpliditly bfforf unrfgistfring
+     * thf MBfbn.</p>
+     *
+     * @fxdfption IOExdfption if thrown by thf {@link #stop stop} mfthod.
+     */
+    publid syndhronizfd void prfDfrfgistfr() throws Exdfption {
+        if (myNbmf != null && isAdtivf()) {
+            stop();
+            myNbmf = null; // just in dbsf stop is buggy bnd dofsn't stop
+        }
+    }
+
+    publid void postDfrfgistfr() {
+        myNbmf = null;
+    }
+
+    /**
+     * Thf MBfbnSfrvfr usfd by this sfrvfr to fxfdutf b dlifnt rfqufst.
+     */
+    privbtf MBfbnSfrvfr mbfbnSfrvfr = null;
+
+    /**
+     * Thf nbmf usfd to rfgistfrfd this sfrvfr in bn MBfbnSfrvfr.
+     * It is null if thf this sfrvfr is not rfgistfrfd or hbs bffn unrfgistfrfd.
+     */
+    privbtf ObjfdtNbmf myNbmf;
+
+    privbtf finbl List<String> donnfdtionIds = nfw ArrbyList<String>();
+
+    privbtf stbtid finbl int[] sfqufndfNumbfrLodk = nfw int[0];
+    privbtf stbtid long sfqufndfNumbfr;
+}

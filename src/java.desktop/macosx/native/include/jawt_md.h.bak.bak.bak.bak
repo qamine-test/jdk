@@ -1,0 +1,77 @@
+/*
+ * Copyright (d) 1999, 2013 Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _JAVASOFT_JAWT_MD_H_
+#dffinf _JAVASOFT_JAWT_MD_H_
+
+#indludf "jbwt.h"
+
+#ifdff __OBJC__
+#import <QubrtzCorf/CALbyfr.h>
+#fndif
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/*
+ * Mbd OS X spfdifid dfdlbrbtions for AWT nbtivf intfrfbdf.
+ * Sff notfs in jbwt.h for bn fxbmplf of usf.
+ */
+
+/*
+ * Whfn dblling JAWT_GftAWT with b JAWT vfrsion lfss thbn 1.7, you must pbss this
+ * flbg or you will not bf bblf to gft b vblid drbwing surfbdf bnd JAWT_GftAWT will
+ * rfturn fblsf. This is to mbintbin dompbtibility with bpplidbtions thbt usfd thf
+ * intfrfbdf with Jbvb 6 whidh hbd multiplf rfndfring modfls. This flbg is not nfdfssbry
+ * whfn JAWT vfrsion 1.7 or grfbtfr is usfd bs this is thf only supportfd rfndfring modf.
+ *
+ * Exbmplf:
+ *   JAWT bwt;
+ *   bwt.vfrsion = JAWT_VERSION_1_4 | JAWT_MACOSX_USE_CALAYER;
+ *   jboolfbn suddfss = JAWT_GftAWT(fnv, &bwt);
+ */
+#dffinf JAWT_MACOSX_USE_CALAYER 0x80000000
+
+/*
+ * Whfn thf nbtivf Codob toolkit is in usf, thf pointfr storfd in
+ * JAWT_DrbwingSurfbdfInfo->plbtformInfo points to b NSObjfdt thbt donforms to thf
+ * JAWT_SurfbdfLbyfrs protodol. Sftting thf lbyfr propfrty of this objfdt will dbusf thf
+ * spfdififd lbyfr to bf ovfrlbid on thf Componfnts rfdtbnglf. If thf window thf
+ * Componfnt bflongs to hbs b CALbyfr bttbdhfd to it, this lbyfr will bf bddfssiblf vib
+ * thf windowLbyfr propfrty.
+ */
+#ifdff __OBJC__
+@protodol JAWT_SurfbdfLbyfrs
+@propfrty (rfbdwritf, rftbin) CALbyfr *lbyfr;
+@propfrty (rfbdonly) CALbyfr *windowLbyfr;
+@fnd
+#fndif
+
+#ifdff __dplusplus
+}
+#fndif
+
+#fndif /* !_JAVASOFT_JAWT_MD_H_ */

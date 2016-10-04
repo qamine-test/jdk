@@ -1,279 +1,279 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.undo;
+pbdkbgf jbvbx.swing.undo;
 
-import java.io.Serializable;
-import javax.swing.UIManager;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.UIMbnbgfr;
 
 /**
- * An abstract implementation of <code>UndoableEdit</code>,
- * implementing simple responses to all boolean methods in
- * that interface.
+ * An bbstrbdt implfmfntbtion of <dodf>UndobblfEdit</dodf>,
+ * implfmfnting simplf rfsponsfs to bll boolfbn mftiods in
+ * tibt intfrfbdf.
  *
- * @author Ray Ryan
+ * @butior Rby Rybn
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class AbstractUndoableEdit implements UndoableEdit, Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss AbstrbdtUndobblfEdit implfmfnts UndobblfEdit, Sfriblizbblf {
 
     /**
-     * String returned by <code>getUndoPresentationName</code>;
-     * as of Java 2 platform v1.3.1 this field is no longer used. This value
-     * is now localized and comes from the defaults table with key
-     * <code>AbstractUndoableEdit.undoText</code>.
+     * String rfturnfd by <dodf>gftUndoPrfsfntbtionNbmf</dodf>;
+     * bs of Jbvb 2 plbtform v1.3.1 tiis fifld is no longfr usfd. Tiis vbluf
+     * is now lodblizfd bnd domfs from tif dffbults tbblf witi kfy
+     * <dodf>AbstrbdtUndobblfEdit.undoTfxt</dodf>.
      *
-     * @see javax.swing.UIDefaults
+     * @sff jbvbx.swing.UIDffbults
      */
-    protected static final String UndoName = "Undo";
+    protfdtfd stbtid finbl String UndoNbmf = "Undo";
 
     /**
-     * String returned by <code>getRedoPresentationName</code>;
-     * as of Java 2 platform v1.3.1 this field is no longer used. This value
-     * is now localized and comes from the defaults table with key
-     * <code>AbstractUndoableEdit.redoText</code>.
+     * String rfturnfd by <dodf>gftRfdoPrfsfntbtionNbmf</dodf>;
+     * bs of Jbvb 2 plbtform v1.3.1 tiis fifld is no longfr usfd. Tiis vbluf
+     * is now lodblizfd bnd domfs from tif dffbults tbblf witi kfy
+     * <dodf>AbstrbdtUndobblfEdit.rfdoTfxt</dodf>.
      *
-     * @see javax.swing.UIDefaults
+     * @sff jbvbx.swing.UIDffbults
      */
-    protected static final String RedoName = "Redo";
+    protfdtfd stbtid finbl String RfdoNbmf = "Rfdo";
 
     /**
-     * Defaults to true; becomes false if this edit is undone, true
-     * again if it is redone.
+     * Dffbults to truf; bfdomfs fblsf if tiis fdit is undonf, truf
+     * bgbin if it is rfdonf.
      */
-    boolean hasBeenDone;
+    boolfbn ibsBffnDonf;
 
     /**
-     * True if this edit has not received <code>die</code>; defaults
-     * to <code>true</code>.
+     * Truf if tiis fdit ibs not rfdfivfd <dodf>dif</dodf>; dffbults
+     * to <dodf>truf</dodf>.
      */
-    boolean alive;
+    boolfbn blivf;
 
     /**
-     * Creates an <code>AbstractUndoableEdit</code> which defaults
-     * <code>hasBeenDone</code> and <code>alive</code> to <code>true</code>.
+     * Crfbtfs bn <dodf>AbstrbdtUndobblfEdit</dodf> wiidi dffbults
+     * <dodf>ibsBffnDonf</dodf> bnd <dodf>blivf</dodf> to <dodf>truf</dodf>.
      */
-    public AbstractUndoableEdit() {
-        super();
+    publid AbstrbdtUndobblfEdit() {
+        supfr();
 
-        hasBeenDone = true;
-        alive = true;
+        ibsBffnDonf = truf;
+        blivf = truf;
     }
 
     /**
-     * Sets <code>alive</code> to false. Note that this
-     * is a one way operation; dead edits cannot be resurrected.
-     * Sending <code>undo</code> or <code>redo</code> to
-     * a dead edit results in an exception being thrown.
+     * Sfts <dodf>blivf</dodf> to fblsf. Notf tibt tiis
+     * is b onf wby opfrbtion; dfbd fdits dbnnot bf rfsurrfdtfd.
+     * Sfnding <dodf>undo</dodf> or <dodf>rfdo</dodf> to
+     * b dfbd fdit rfsults in bn fxdfption bfing tirown.
      *
-     * <p>Typically an edit is killed when it is consolidated by
-     * another edit's <code>addEdit</code> or <code>replaceEdit</code>
-     * method, or when it is dequeued from an <code>UndoManager</code>.
+     * <p>Typidblly bn fdit is killfd wifn it is donsolidbtfd by
+     * bnotifr fdit's <dodf>bddEdit</dodf> or <dodf>rfplbdfEdit</dodf>
+     * mftiod, or wifn it is dfqufufd from bn <dodf>UndoMbnbgfr</dodf>.
      */
-    public void die() {
-        alive = false;
+    publid void dif() {
+        blivf = fblsf;
     }
 
     /**
-     * Throws <code>CannotUndoException</code> if <code>canUndo</code>
-     * returns <code>false</code>. Sets <code>hasBeenDone</code>
-     * to <code>false</code>. Subclasses should override to undo the
-     * operation represented by this edit. Override should begin with
-     * a call to super.
+     * Tirows <dodf>CbnnotUndoExdfption</dodf> if <dodf>dbnUndo</dodf>
+     * rfturns <dodf>fblsf</dodf>. Sfts <dodf>ibsBffnDonf</dodf>
+     * to <dodf>fblsf</dodf>. Subdlbssfs siould ovfrridf to undo tif
+     * opfrbtion rfprfsfntfd by tiis fdit. Ovfrridf siould bfgin witi
+     * b dbll to supfr.
      *
-     * @exception CannotUndoException if <code>canUndo</code>
-     *    returns <code>false</code>
-     * @see     #canUndo
+     * @fxdfption CbnnotUndoExdfption if <dodf>dbnUndo</dodf>
+     *    rfturns <dodf>fblsf</dodf>
+     * @sff     #dbnUndo
      */
-    public void undo() throws CannotUndoException {
-        if (!canUndo()) {
-            throw new CannotUndoException();
+    publid void undo() tirows CbnnotUndoExdfption {
+        if (!dbnUndo()) {
+            tirow nfw CbnnotUndoExdfption();
         }
-        hasBeenDone = false;
+        ibsBffnDonf = fblsf;
     }
 
     /**
-     * Returns true if this edit is <code>alive</code>
-     * and <code>hasBeenDone</code> is <code>true</code>.
+     * Rfturns truf if tiis fdit is <dodf>blivf</dodf>
+     * bnd <dodf>ibsBffnDonf</dodf> is <dodf>truf</dodf>.
      *
-     * @return true if this edit is <code>alive</code>
-     *    and <code>hasBeenDone</code> is <code>true</code>
+     * @rfturn truf if tiis fdit is <dodf>blivf</dodf>
+     *    bnd <dodf>ibsBffnDonf</dodf> is <dodf>truf</dodf>
      *
-     * @see     #die
-     * @see     #undo
-     * @see     #redo
+     * @sff     #dif
+     * @sff     #undo
+     * @sff     #rfdo
      */
-    public boolean canUndo() {
-        return alive && hasBeenDone;
+    publid boolfbn dbnUndo() {
+        rfturn blivf && ibsBffnDonf;
     }
 
     /**
-     * Throws <code>CannotRedoException</code> if <code>canRedo</code>
-     * returns false. Sets <code>hasBeenDone</code> to <code>true</code>.
-     * Subclasses should override to redo the operation represented by
-     * this edit. Override should begin with a call to super.
+     * Tirows <dodf>CbnnotRfdoExdfption</dodf> if <dodf>dbnRfdo</dodf>
+     * rfturns fblsf. Sfts <dodf>ibsBffnDonf</dodf> to <dodf>truf</dodf>.
+     * Subdlbssfs siould ovfrridf to rfdo tif opfrbtion rfprfsfntfd by
+     * tiis fdit. Ovfrridf siould bfgin witi b dbll to supfr.
      *
-     * @exception CannotRedoException if <code>canRedo</code>
-     *     returns <code>false</code>
-     * @see     #canRedo
+     * @fxdfption CbnnotRfdoExdfption if <dodf>dbnRfdo</dodf>
+     *     rfturns <dodf>fblsf</dodf>
+     * @sff     #dbnRfdo
      */
-    public void redo() throws CannotRedoException {
-        if (!canRedo()) {
-            throw new CannotRedoException();
+    publid void rfdo() tirows CbnnotRfdoExdfption {
+        if (!dbnRfdo()) {
+            tirow nfw CbnnotRfdoExdfption();
         }
-        hasBeenDone = true;
+        ibsBffnDonf = truf;
     }
 
     /**
-     * Returns <code>true</code> if this edit is <code>alive</code>
-     * and <code>hasBeenDone</code> is <code>false</code>.
+     * Rfturns <dodf>truf</dodf> if tiis fdit is <dodf>blivf</dodf>
+     * bnd <dodf>ibsBffnDonf</dodf> is <dodf>fblsf</dodf>.
      *
-     * @return <code>true</code> if this edit is <code>alive</code>
-     *   and <code>hasBeenDone</code> is <code>false</code>
-     * @see     #die
-     * @see     #undo
-     * @see     #redo
+     * @rfturn <dodf>truf</dodf> if tiis fdit is <dodf>blivf</dodf>
+     *   bnd <dodf>ibsBffnDonf</dodf> is <dodf>fblsf</dodf>
+     * @sff     #dif
+     * @sff     #undo
+     * @sff     #rfdo
      */
-    public boolean canRedo() {
-        return alive && !hasBeenDone;
+    publid boolfbn dbnRfdo() {
+        rfturn blivf && !ibsBffnDonf;
     }
 
     /**
-     * This default implementation returns false.
+     * Tiis dffbult implfmfntbtion rfturns fblsf.
      *
-     * @param anEdit the edit to be added
-     * @return false
+     * @pbrbm bnEdit tif fdit to bf bddfd
+     * @rfturn fblsf
      *
-     * @see UndoableEdit#addEdit
+     * @sff UndobblfEdit#bddEdit
      */
-    public boolean addEdit(UndoableEdit anEdit) {
-        return false;
+    publid boolfbn bddEdit(UndobblfEdit bnEdit) {
+        rfturn fblsf;
     }
 
     /**
-     * This default implementation returns false.
+     * Tiis dffbult implfmfntbtion rfturns fblsf.
      *
-     * @param anEdit the edit to replace
-     * @return false
+     * @pbrbm bnEdit tif fdit to rfplbdf
+     * @rfturn fblsf
      *
-     * @see UndoableEdit#replaceEdit
+     * @sff UndobblfEdit#rfplbdfEdit
      */
-    public boolean replaceEdit(UndoableEdit anEdit) {
-        return false;
+    publid boolfbn rfplbdfEdit(UndobblfEdit bnEdit) {
+        rfturn fblsf;
     }
 
     /**
-     * This default implementation returns true.
+     * Tiis dffbult implfmfntbtion rfturns truf.
      *
-     * @return true
-     * @see UndoableEdit#isSignificant
+     * @rfturn truf
+     * @sff UndobblfEdit#isSignifidbnt
      */
-    public boolean isSignificant() {
-        return true;
+    publid boolfbn isSignifidbnt() {
+        rfturn truf;
     }
 
     /**
-     * This default implementation returns "". Used by
-     * <code>getUndoPresentationName</code> and
-     * <code>getRedoPresentationName</code> to
-     * construct the strings they return. Subclasses should override to
-     * return an appropriate description of the operation this edit
-     * represents.
+     * Tiis dffbult implfmfntbtion rfturns "". Usfd by
+     * <dodf>gftUndoPrfsfntbtionNbmf</dodf> bnd
+     * <dodf>gftRfdoPrfsfntbtionNbmf</dodf> to
+     * donstrudt tif strings tify rfturn. Subdlbssfs siould ovfrridf to
+     * rfturn bn bppropribtf dfsdription of tif opfrbtion tiis fdit
+     * rfprfsfnts.
      *
-     * @return the empty string ""
+     * @rfturn tif fmpty string ""
      *
-     * @see     #getUndoPresentationName
-     * @see     #getRedoPresentationName
+     * @sff     #gftUndoPrfsfntbtionNbmf
+     * @sff     #gftRfdoPrfsfntbtionNbmf
      */
-    public String getPresentationName() {
-        return "";
+    publid String gftPrfsfntbtionNbmf() {
+        rfturn "";
     }
 
     /**
-     * Retreives the value from the defaults table with key
-     * <code>AbstractUndoableEdit.undoText</code> and returns
-     * that value followed by a space, followed by
-     * <code>getPresentationName</code>.
-     * If <code>getPresentationName</code> returns "",
-     * then the defaults value is returned alone.
+     * Rftrfivfs tif vbluf from tif dffbults tbblf witi kfy
+     * <dodf>AbstrbdtUndobblfEdit.undoTfxt</dodf> bnd rfturns
+     * tibt vbluf followfd by b spbdf, followfd by
+     * <dodf>gftPrfsfntbtionNbmf</dodf>.
+     * If <dodf>gftPrfsfntbtionNbmf</dodf> rfturns "",
+     * tifn tif dffbults vbluf is rfturnfd blonf.
      *
-     * @return the value from the defaults table with key
-     *    <code>AbstractUndoableEdit.undoText</code>, followed
-     *    by a space, followed by <code>getPresentationName</code>
-     *    unless <code>getPresentationName</code> is "" in which
-     *    case, the defaults value is returned alone.
-     * @see #getPresentationName
+     * @rfturn tif vbluf from tif dffbults tbblf witi kfy
+     *    <dodf>AbstrbdtUndobblfEdit.undoTfxt</dodf>, followfd
+     *    by b spbdf, followfd by <dodf>gftPrfsfntbtionNbmf</dodf>
+     *    unlfss <dodf>gftPrfsfntbtionNbmf</dodf> is "" in wiidi
+     *    dbsf, tif dffbults vbluf is rfturnfd blonf.
+     * @sff #gftPrfsfntbtionNbmf
      */
-    public String getUndoPresentationName() {
-        String name = getPresentationName();
-        if (!"".equals(name)) {
-            name = UIManager.getString("AbstractUndoableEdit.undoText") +
-                " " + name;
-        } else {
-            name = UIManager.getString("AbstractUndoableEdit.undoText");
-        }
-
-        return name;
-    }
-
-    /**
-     * Retreives the value from the defaults table with key
-     * <code>AbstractUndoableEdit.redoText</code> and returns
-     * that value followed by a space, followed by
-     * <code>getPresentationName</code>.
-     * If <code>getPresentationName</code> returns "",
-     * then the defaults value is returned alone.
-     *
-     * @return the value from the defaults table with key
-     *    <code>AbstractUndoableEdit.redoText</code>, followed
-     *    by a space, followed by <code>getPresentationName</code>
-     *    unless <code>getPresentationName</code> is "" in which
-     *    case, the defaults value is returned alone.
-     * @see #getPresentationName
-     */
-    public String getRedoPresentationName() {
-        String name = getPresentationName();
-        if (!"".equals(name)) {
-            name = UIManager.getString("AbstractUndoableEdit.redoText") +
-                " " + name;
-        } else {
-            name = UIManager.getString("AbstractUndoableEdit.redoText");
+    publid String gftUndoPrfsfntbtionNbmf() {
+        String nbmf = gftPrfsfntbtionNbmf();
+        if (!"".fqubls(nbmf)) {
+            nbmf = UIMbnbgfr.gftString("AbstrbdtUndobblfEdit.undoTfxt") +
+                " " + nbmf;
+        } flsf {
+            nbmf = UIMbnbgfr.gftString("AbstrbdtUndobblfEdit.undoTfxt");
         }
 
-        return name;
+        rfturn nbmf;
     }
 
     /**
-     * Returns a string that displays and identifies this
-     * object's properties.
+     * Rftrfivfs tif vbluf from tif dffbults tbblf witi kfy
+     * <dodf>AbstrbdtUndobblfEdit.rfdoTfxt</dodf> bnd rfturns
+     * tibt vbluf followfd by b spbdf, followfd by
+     * <dodf>gftPrfsfntbtionNbmf</dodf>.
+     * If <dodf>gftPrfsfntbtionNbmf</dodf> rfturns "",
+     * tifn tif dffbults vbluf is rfturnfd blonf.
      *
-     * @return a String representation of this object
+     * @rfturn tif vbluf from tif dffbults tbblf witi kfy
+     *    <dodf>AbstrbdtUndobblfEdit.rfdoTfxt</dodf>, followfd
+     *    by b spbdf, followfd by <dodf>gftPrfsfntbtionNbmf</dodf>
+     *    unlfss <dodf>gftPrfsfntbtionNbmf</dodf> is "" in wiidi
+     *    dbsf, tif dffbults vbluf is rfturnfd blonf.
+     * @sff #gftPrfsfntbtionNbmf
      */
-    public String toString()
+    publid String gftRfdoPrfsfntbtionNbmf() {
+        String nbmf = gftPrfsfntbtionNbmf();
+        if (!"".fqubls(nbmf)) {
+            nbmf = UIMbnbgfr.gftString("AbstrbdtUndobblfEdit.rfdoTfxt") +
+                " " + nbmf;
+        } flsf {
+            nbmf = UIMbnbgfr.gftString("AbstrbdtUndobblfEdit.rfdoTfxt");
+        }
+
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns b string tibt displbys bnd idfntififs tiis
+     * objfdt's propfrtifs.
+     *
+     * @rfturn b String rfprfsfntbtion of tiis objfdt
+     */
+    publid String toString()
     {
-        return super.toString()
-            + " hasBeenDone: " + hasBeenDone
-            + " alive: " + alive;
+        rfturn supfr.toString()
+            + " ibsBffnDonf: " + ibsBffnDonf
+            + " blivf: " + blivf;
     }
 }

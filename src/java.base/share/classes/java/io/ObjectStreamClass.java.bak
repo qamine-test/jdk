@@ -1,2349 +1,2349 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
-import java.security.AccessController;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import sun.misc.Unsafe;
-import sun.reflect.CallerSensitive;
-import sun.reflect.Reflection;
-import sun.reflect.ReflectionFactory;
-import sun.reflect.misc.ReflectUtil;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mfmbfr;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbsiSft;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import sun.misd.Unsbff;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.RfflfdtionFbdtory;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * Serialization's descriptor for classes.  It contains the name and
- * serialVersionUID of the class.  The ObjectStreamClass for a specific class
- * loaded in this Java VM can be found/created using the lookup method.
+ * Sfriblizbtion's dfsdriptor for dlbssfs.  It dontbins tif nbmf bnd
+ * sfriblVfrsionUID of tif dlbss.  Tif ObjfdtStrfbmClbss for b spfdifid dlbss
+ * lobdfd in tiis Jbvb VM dbn bf found/drfbtfd using tif lookup mftiod.
  *
- * <p>The algorithm to compute the SerialVersionUID is described in
- * <a href="../../../platform/serialization/spec/class.html#4100">Object
- * Serialization Specification, Section 4.6, Stream Unique Identifiers</a>.
+ * <p>Tif blgoritim to domputf tif SfriblVfrsionUID is dfsdribfd in
+ * <b irff="../../../plbtform/sfriblizbtion/spfd/dlbss.itml#4100">Objfdt
+ * Sfriblizbtion Spfdifidbtion, Sfdtion 4.6, Strfbm Uniquf Idfntififrs</b>.
  *
- * @author      Mike Warres
- * @author      Roger Riggs
- * @see ObjectStreamField
- * @see <a href="../../../platform/serialization/spec/class.html">Object Serialization Specification, Section 4, Class Descriptors</a>
- * @since   1.1
+ * @butior      Mikf Wbrrfs
+ * @butior      Rogfr Riggs
+ * @sff ObjfdtStrfbmFifld
+ * @sff <b irff="../../../plbtform/sfriblizbtion/spfd/dlbss.itml">Objfdt Sfriblizbtion Spfdifidbtion, Sfdtion 4, Clbss Dfsdriptors</b>
+ * @sindf   1.1
  */
-public class ObjectStreamClass implements Serializable {
+publid dlbss ObjfdtStrfbmClbss implfmfnts Sfriblizbblf {
 
-    /** serialPersistentFields value indicating no serializable fields */
-    public static final ObjectStreamField[] NO_FIELDS =
-        new ObjectStreamField[0];
+    /** sfriblPfrsistfntFiflds vbluf indidbting no sfriblizbblf fiflds */
+    publid stbtid finbl ObjfdtStrfbmFifld[] NO_FIELDS =
+        nfw ObjfdtStrfbmFifld[0];
 
-    private static final long serialVersionUID = -6120832682080437368L;
-    private static final ObjectStreamField[] serialPersistentFields =
+    privbtf stbtid finbl long sfriblVfrsionUID = -6120832682080437368L;
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds =
         NO_FIELDS;
 
-    /** reflection factory for obtaining serialization constructors */
-    private static final ReflectionFactory reflFactory =
-        AccessController.doPrivileged(
-            new ReflectionFactory.GetReflectionFactoryAction());
+    /** rfflfdtion fbdtory for obtbining sfriblizbtion donstrudtors */
+    privbtf stbtid finbl RfflfdtionFbdtory rfflFbdtory =
+        AddfssControllfr.doPrivilfgfd(
+            nfw RfflfdtionFbdtory.GftRfflfdtionFbdtoryAdtion());
 
-    private static class Caches {
-        /** cache mapping local classes -> descriptors */
-        static final ConcurrentMap<WeakClassKey,Reference<?>> localDescs =
-            new ConcurrentHashMap<>();
+    privbtf stbtid dlbss Cbdifs {
+        /** dbdif mbpping lodbl dlbssfs -> dfsdriptors */
+        stbtid finbl CondurrfntMbp<WfbkClbssKfy,Rfffrfndf<?>> lodblDfsds =
+            nfw CondurrfntHbsiMbp<>();
 
-        /** cache mapping field group/local desc pairs -> field reflectors */
-        static final ConcurrentMap<FieldReflectorKey,Reference<?>> reflectors =
-            new ConcurrentHashMap<>();
+        /** dbdif mbpping fifld group/lodbl dfsd pbirs -> fifld rfflfdtors */
+        stbtid finbl CondurrfntMbp<FifldRfflfdtorKfy,Rfffrfndf<?>> rfflfdtors =
+            nfw CondurrfntHbsiMbp<>();
 
-        /** queue for WeakReferences to local classes */
-        private static final ReferenceQueue<Class<?>> localDescsQueue =
-            new ReferenceQueue<>();
-        /** queue for WeakReferences to field reflectors keys */
-        private static final ReferenceQueue<Class<?>> reflectorsQueue =
-            new ReferenceQueue<>();
+        /** qufuf for WfbkRfffrfndfs to lodbl dlbssfs */
+        privbtf stbtid finbl RfffrfndfQufuf<Clbss<?>> lodblDfsdsQufuf =
+            nfw RfffrfndfQufuf<>();
+        /** qufuf for WfbkRfffrfndfs to fifld rfflfdtors kfys */
+        privbtf stbtid finbl RfffrfndfQufuf<Clbss<?>> rfflfdtorsQufuf =
+            nfw RfffrfndfQufuf<>();
     }
 
-    /** class associated with this descriptor (if any) */
-    private Class<?> cl;
-    /** name of class represented by this descriptor */
-    private String name;
-    /** serialVersionUID of represented class (null if not computed yet) */
-    private volatile Long suid;
+    /** dlbss bssodibtfd witi tiis dfsdriptor (if bny) */
+    privbtf Clbss<?> dl;
+    /** nbmf of dlbss rfprfsfntfd by tiis dfsdriptor */
+    privbtf String nbmf;
+    /** sfriblVfrsionUID of rfprfsfntfd dlbss (null if not domputfd yft) */
+    privbtf volbtilf Long suid;
 
-    /** true if represents dynamic proxy class */
-    private boolean isProxy;
-    /** true if represents enum type */
-    private boolean isEnum;
-    /** true if represented class implements Serializable */
-    private boolean serializable;
-    /** true if represented class implements Externalizable */
-    private boolean externalizable;
-    /** true if desc has data written by class-defined writeObject method */
-    private boolean hasWriteObjectData;
+    /** truf if rfprfsfnts dynbmid proxy dlbss */
+    privbtf boolfbn isProxy;
+    /** truf if rfprfsfnts fnum typf */
+    privbtf boolfbn isEnum;
+    /** truf if rfprfsfntfd dlbss implfmfnts Sfriblizbblf */
+    privbtf boolfbn sfriblizbblf;
+    /** truf if rfprfsfntfd dlbss implfmfnts Extfrnblizbblf */
+    privbtf boolfbn fxtfrnblizbblf;
+    /** truf if dfsd ibs dbtb writtfn by dlbss-dffinfd writfObjfdt mftiod */
+    privbtf boolfbn ibsWritfObjfdtDbtb;
     /**
-     * true if desc has externalizable data written in block data format; this
-     * must be true by default to accommodate ObjectInputStream subclasses which
-     * override readClassDescriptor() to return class descriptors obtained from
-     * ObjectStreamClass.lookup() (see 4461737)
+     * truf if dfsd ibs fxtfrnblizbblf dbtb writtfn in blodk dbtb formbt; tiis
+     * must bf truf by dffbult to bddommodbtf ObjfdtInputStrfbm subdlbssfs wiidi
+     * ovfrridf rfbdClbssDfsdriptor() to rfturn dlbss dfsdriptors obtbinfd from
+     * ObjfdtStrfbmClbss.lookup() (sff 4461737)
      */
-    private boolean hasBlockExternalData = true;
+    privbtf boolfbn ibsBlodkExtfrnblDbtb = truf;
 
     /**
-     * Contains information about InvalidClassException instances to be thrown
-     * when attempting operations on an invalid class. Note that instances of
-     * this class are immutable and are potentially shared among
-     * ObjectStreamClass instances.
+     * Contbins informbtion bbout InvblidClbssExdfption instbndfs to bf tirown
+     * wifn bttfmpting opfrbtions on bn invblid dlbss. Notf tibt instbndfs of
+     * tiis dlbss brf immutbblf bnd brf potfntiblly sibrfd bmong
+     * ObjfdtStrfbmClbss instbndfs.
      */
-    private static class ExceptionInfo {
-        private final String className;
-        private final String message;
+    privbtf stbtid dlbss ExdfptionInfo {
+        privbtf finbl String dlbssNbmf;
+        privbtf finbl String mfssbgf;
 
-        ExceptionInfo(String cn, String msg) {
-            className = cn;
-            message = msg;
+        ExdfptionInfo(String dn, String msg) {
+            dlbssNbmf = dn;
+            mfssbgf = msg;
         }
 
         /**
-         * Returns (does not throw) an InvalidClassException instance created
-         * from the information in this object, suitable for being thrown by
-         * the caller.
+         * Rfturns (dofs not tirow) bn InvblidClbssExdfption instbndf drfbtfd
+         * from tif informbtion in tiis objfdt, suitbblf for bfing tirown by
+         * tif dbllfr.
          */
-        InvalidClassException newInvalidClassException() {
-            return new InvalidClassException(className, message);
+        InvblidClbssExdfption nfwInvblidClbssExdfption() {
+            rfturn nfw InvblidClbssExdfption(dlbssNbmf, mfssbgf);
         }
     }
 
-    /** exception (if any) thrown while attempting to resolve class */
-    private ClassNotFoundException resolveEx;
-    /** exception (if any) to throw if non-enum deserialization attempted */
-    private ExceptionInfo deserializeEx;
-    /** exception (if any) to throw if non-enum serialization attempted */
-    private ExceptionInfo serializeEx;
-    /** exception (if any) to throw if default serialization attempted */
-    private ExceptionInfo defaultSerializeEx;
+    /** fxdfption (if bny) tirown wiilf bttfmpting to rfsolvf dlbss */
+    privbtf ClbssNotFoundExdfption rfsolvfEx;
+    /** fxdfption (if bny) to tirow if non-fnum dfsfriblizbtion bttfmptfd */
+    privbtf ExdfptionInfo dfsfriblizfEx;
+    /** fxdfption (if bny) to tirow if non-fnum sfriblizbtion bttfmptfd */
+    privbtf ExdfptionInfo sfriblizfEx;
+    /** fxdfption (if bny) to tirow if dffbult sfriblizbtion bttfmptfd */
+    privbtf ExdfptionInfo dffbultSfriblizfEx;
 
-    /** serializable fields */
-    private ObjectStreamField[] fields;
-    /** aggregate marshalled size of primitive fields */
-    private int primDataSize;
-    /** number of non-primitive fields */
-    private int numObjFields;
-    /** reflector for setting/getting serializable field values */
-    private FieldReflector fieldRefl;
-    /** data layout of serialized objects described by this class desc */
-    private volatile ClassDataSlot[] dataLayout;
+    /** sfriblizbblf fiflds */
+    privbtf ObjfdtStrfbmFifld[] fiflds;
+    /** bggrfgbtf mbrsibllfd sizf of primitivf fiflds */
+    privbtf int primDbtbSizf;
+    /** numbfr of non-primitivf fiflds */
+    privbtf int numObjFiflds;
+    /** rfflfdtor for sftting/gftting sfriblizbblf fifld vblufs */
+    privbtf FifldRfflfdtor fifldRffl;
+    /** dbtb lbyout of sfriblizfd objfdts dfsdribfd by tiis dlbss dfsd */
+    privbtf volbtilf ClbssDbtbSlot[] dbtbLbyout;
 
-    /** serialization-appropriate constructor, or null if none */
-    private Constructor<?> cons;
-    /** class-defined writeObject method, or null if none */
-    private Method writeObjectMethod;
-    /** class-defined readObject method, or null if none */
-    private Method readObjectMethod;
-    /** class-defined readObjectNoData method, or null if none */
-    private Method readObjectNoDataMethod;
-    /** class-defined writeReplace method, or null if none */
-    private Method writeReplaceMethod;
-    /** class-defined readResolve method, or null if none */
-    private Method readResolveMethod;
+    /** sfriblizbtion-bppropribtf donstrudtor, or null if nonf */
+    privbtf Construdtor<?> dons;
+    /** dlbss-dffinfd writfObjfdt mftiod, or null if nonf */
+    privbtf Mftiod writfObjfdtMftiod;
+    /** dlbss-dffinfd rfbdObjfdt mftiod, or null if nonf */
+    privbtf Mftiod rfbdObjfdtMftiod;
+    /** dlbss-dffinfd rfbdObjfdtNoDbtb mftiod, or null if nonf */
+    privbtf Mftiod rfbdObjfdtNoDbtbMftiod;
+    /** dlbss-dffinfd writfRfplbdf mftiod, or null if nonf */
+    privbtf Mftiod writfRfplbdfMftiod;
+    /** dlbss-dffinfd rfbdRfsolvf mftiod, or null if nonf */
+    privbtf Mftiod rfbdRfsolvfMftiod;
 
-    /** local class descriptor for represented class (may point to self) */
-    private ObjectStreamClass localDesc;
-    /** superclass descriptor appearing in stream */
-    private ObjectStreamClass superDesc;
+    /** lodbl dlbss dfsdriptor for rfprfsfntfd dlbss (mby point to sflf) */
+    privbtf ObjfdtStrfbmClbss lodblDfsd;
+    /** supfrdlbss dfsdriptor bppfbring in strfbm */
+    privbtf ObjfdtStrfbmClbss supfrDfsd;
 
     /**
-     * Initializes native code.
+     * Initiblizfs nbtivf dodf.
      */
-    private static native void initNative();
-    static {
-        initNative();
+    privbtf stbtid nbtivf void initNbtivf();
+    stbtid {
+        initNbtivf();
     }
 
     /**
-     * Find the descriptor for a class that can be serialized.  Creates an
-     * ObjectStreamClass instance if one does not exist yet for class. Null is
-     * returned if the specified class does not implement java.io.Serializable
-     * or java.io.Externalizable.
+     * Find tif dfsdriptor for b dlbss tibt dbn bf sfriblizfd.  Crfbtfs bn
+     * ObjfdtStrfbmClbss instbndf if onf dofs not fxist yft for dlbss. Null is
+     * rfturnfd if tif spfdififd dlbss dofs not implfmfnt jbvb.io.Sfriblizbblf
+     * or jbvb.io.Extfrnblizbblf.
      *
-     * @param   cl class for which to get the descriptor
-     * @return  the class descriptor for the specified class
+     * @pbrbm   dl dlbss for wiidi to gft tif dfsdriptor
+     * @rfturn  tif dlbss dfsdriptor for tif spfdififd dlbss
      */
-    public static ObjectStreamClass lookup(Class<?> cl) {
-        return lookup(cl, false);
+    publid stbtid ObjfdtStrfbmClbss lookup(Clbss<?> dl) {
+        rfturn lookup(dl, fblsf);
     }
 
     /**
-     * Returns the descriptor for any class, regardless of whether it
-     * implements {@link Serializable}.
+     * Rfturns tif dfsdriptor for bny dlbss, rfgbrdlfss of wiftifr it
+     * implfmfnts {@link Sfriblizbblf}.
      *
-     * @param        cl class for which to get the descriptor
-     * @return       the class descriptor for the specified class
-     * @since 1.6
+     * @pbrbm        dl dlbss for wiidi to gft tif dfsdriptor
+     * @rfturn       tif dlbss dfsdriptor for tif spfdififd dlbss
+     * @sindf 1.6
      */
-    public static ObjectStreamClass lookupAny(Class<?> cl) {
-        return lookup(cl, true);
+    publid stbtid ObjfdtStrfbmClbss lookupAny(Clbss<?> dl) {
+        rfturn lookup(dl, truf);
     }
 
     /**
-     * Returns the name of the class described by this descriptor.
-     * This method returns the name of the class in the format that
-     * is used by the {@link Class#getName} method.
+     * Rfturns tif nbmf of tif dlbss dfsdribfd by tiis dfsdriptor.
+     * Tiis mftiod rfturns tif nbmf of tif dlbss in tif formbt tibt
+     * is usfd by tif {@link Clbss#gftNbmf} mftiod.
      *
-     * @return a string representing the name of the class
+     * @rfturn b string rfprfsfnting tif nbmf of tif dlbss
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Return the serialVersionUID for this class.  The serialVersionUID
-     * defines a set of classes all with the same name that have evolved from a
-     * common root class and agree to be serialized and deserialized using a
-     * common format.  NonSerializable classes have a serialVersionUID of 0L.
+     * Rfturn tif sfriblVfrsionUID for tiis dlbss.  Tif sfriblVfrsionUID
+     * dffinfs b sft of dlbssfs bll witi tif sbmf nbmf tibt ibvf fvolvfd from b
+     * dommon root dlbss bnd bgrff to bf sfriblizfd bnd dfsfriblizfd using b
+     * dommon formbt.  NonSfriblizbblf dlbssfs ibvf b sfriblVfrsionUID of 0L.
      *
-     * @return  the SUID of the class described by this descriptor
+     * @rfturn  tif SUID of tif dlbss dfsdribfd by tiis dfsdriptor
      */
-    public long getSerialVersionUID() {
-        // REMIND: synchronize instead of relying on volatile?
+    publid long gftSfriblVfrsionUID() {
+        // REMIND: syndironizf instfbd of rflying on volbtilf?
         if (suid == null) {
-            suid = AccessController.doPrivileged(
-                new PrivilegedAction<Long>() {
-                    public Long run() {
-                        return computeDefaultSUID(cl);
+            suid = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<Long>() {
+                    publid Long run() {
+                        rfturn domputfDffbultSUID(dl);
                     }
                 }
             );
         }
-        return suid.longValue();
+        rfturn suid.longVbluf();
     }
 
     /**
-     * Return the class in the local VM that this version is mapped to.  Null
-     * is returned if there is no corresponding local class.
+     * Rfturn tif dlbss in tif lodbl VM tibt tiis vfrsion is mbppfd to.  Null
+     * is rfturnfd if tifrf is no dorrfsponding lodbl dlbss.
      *
-     * @return  the <code>Class</code> instance that this descriptor represents
+     * @rfturn  tif <dodf>Clbss</dodf> instbndf tibt tiis dfsdriptor rfprfsfnts
      */
-    @CallerSensitive
-    public Class<?> forClass() {
-        if (cl == null) {
-            return null;
+    @CbllfrSfnsitivf
+    publid Clbss<?> forClbss() {
+        if (dl == null) {
+            rfturn null;
         }
-        if (System.getSecurityManager() != null) {
-            Class<?> caller = Reflection.getCallerClass();
-            if (ReflectUtil.needsPackageAccessCheck(caller.getClassLoader(), cl.getClassLoader())) {
-                ReflectUtil.checkPackageAccess(cl);
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+            if (RfflfdtUtil.nffdsPbdkbgfAddfssCifdk(dbllfr.gftClbssLobdfr(), dl.gftClbssLobdfr())) {
+                RfflfdtUtil.difdkPbdkbgfAddfss(dl);
             }
         }
-        return cl;
+        rfturn dl;
     }
 
     /**
-     * Return an array of the fields of this serializable class.
+     * Rfturn bn brrby of tif fiflds of tiis sfriblizbblf dlbss.
      *
-     * @return  an array containing an element for each persistent field of
-     *          this class. Returns an array of length zero if there are no
-     *          fields.
-     * @since 1.2
+     * @rfturn  bn brrby dontbining bn flfmfnt for fbdi pfrsistfnt fifld of
+     *          tiis dlbss. Rfturns bn brrby of lfngti zfro if tifrf brf no
+     *          fiflds.
+     * @sindf 1.2
      */
-    public ObjectStreamField[] getFields() {
-        return getFields(true);
+    publid ObjfdtStrfbmFifld[] gftFiflds() {
+        rfturn gftFiflds(truf);
     }
 
     /**
-     * Get the field of this class by name.
+     * Gft tif fifld of tiis dlbss by nbmf.
      *
-     * @param   name the name of the data field to look for
-     * @return  The ObjectStreamField object of the named field or null if
-     *          there is no such named field.
+     * @pbrbm   nbmf tif nbmf of tif dbtb fifld to look for
+     * @rfturn  Tif ObjfdtStrfbmFifld objfdt of tif nbmfd fifld or null if
+     *          tifrf is no sudi nbmfd fifld.
      */
-    public ObjectStreamField getField(String name) {
-        return getField(name, null);
+    publid ObjfdtStrfbmFifld gftFifld(String nbmf) {
+        rfturn gftFifld(nbmf, null);
     }
 
     /**
-     * Return a string describing this ObjectStreamClass.
+     * Rfturn b string dfsdribing tiis ObjfdtStrfbmClbss.
      */
-    public String toString() {
-        return name + ": static final long serialVersionUID = " +
-            getSerialVersionUID() + "L;";
+    publid String toString() {
+        rfturn nbmf + ": stbtid finbl long sfriblVfrsionUID = " +
+            gftSfriblVfrsionUID() + "L;";
     }
 
     /**
-     * Looks up and returns class descriptor for given class, or null if class
-     * is non-serializable and "all" is set to false.
+     * Looks up bnd rfturns dlbss dfsdriptor for givfn dlbss, or null if dlbss
+     * is non-sfriblizbblf bnd "bll" is sft to fblsf.
      *
-     * @param   cl class to look up
-     * @param   all if true, return descriptors for all classes; if false, only
-     *          return descriptors for serializable classes
+     * @pbrbm   dl dlbss to look up
+     * @pbrbm   bll if truf, rfturn dfsdriptors for bll dlbssfs; if fblsf, only
+     *          rfturn dfsdriptors for sfriblizbblf dlbssfs
      */
-    static ObjectStreamClass lookup(Class<?> cl, boolean all) {
-        if (!(all || Serializable.class.isAssignableFrom(cl))) {
-            return null;
+    stbtid ObjfdtStrfbmClbss lookup(Clbss<?> dl, boolfbn bll) {
+        if (!(bll || Sfriblizbblf.dlbss.isAssignbblfFrom(dl))) {
+            rfturn null;
         }
-        processQueue(Caches.localDescsQueue, Caches.localDescs);
-        WeakClassKey key = new WeakClassKey(cl, Caches.localDescsQueue);
-        Reference<?> ref = Caches.localDescs.get(key);
-        Object entry = null;
-        if (ref != null) {
-            entry = ref.get();
+        prodfssQufuf(Cbdifs.lodblDfsdsQufuf, Cbdifs.lodblDfsds);
+        WfbkClbssKfy kfy = nfw WfbkClbssKfy(dl, Cbdifs.lodblDfsdsQufuf);
+        Rfffrfndf<?> rff = Cbdifs.lodblDfsds.gft(kfy);
+        Objfdt fntry = null;
+        if (rff != null) {
+            fntry = rff.gft();
         }
-        EntryFuture future = null;
-        if (entry == null) {
-            EntryFuture newEntry = new EntryFuture();
-            Reference<?> newRef = new SoftReference<>(newEntry);
+        EntryFuturf futurf = null;
+        if (fntry == null) {
+            EntryFuturf nfwEntry = nfw EntryFuturf();
+            Rfffrfndf<?> nfwRff = nfw SoftRfffrfndf<>(nfwEntry);
             do {
-                if (ref != null) {
-                    Caches.localDescs.remove(key, ref);
+                if (rff != null) {
+                    Cbdifs.lodblDfsds.rfmovf(kfy, rff);
                 }
-                ref = Caches.localDescs.putIfAbsent(key, newRef);
-                if (ref != null) {
-                    entry = ref.get();
+                rff = Cbdifs.lodblDfsds.putIfAbsfnt(kfy, nfwRff);
+                if (rff != null) {
+                    fntry = rff.gft();
                 }
-            } while (ref != null && entry == null);
-            if (entry == null) {
-                future = newEntry;
+            } wiilf (rff != null && fntry == null);
+            if (fntry == null) {
+                futurf = nfwEntry;
             }
         }
 
-        if (entry instanceof ObjectStreamClass) {  // check common case first
-            return (ObjectStreamClass) entry;
+        if (fntry instbndfof ObjfdtStrfbmClbss) {  // difdk dommon dbsf first
+            rfturn (ObjfdtStrfbmClbss) fntry;
         }
-        if (entry instanceof EntryFuture) {
-            future = (EntryFuture) entry;
-            if (future.getOwner() == Thread.currentThread()) {
+        if (fntry instbndfof EntryFuturf) {
+            futurf = (EntryFuturf) fntry;
+            if (futurf.gftOwnfr() == Tirfbd.durrfntTirfbd()) {
                 /*
-                 * Handle nested call situation described by 4803747: waiting
-                 * for future value to be set by a lookup() call further up the
-                 * stack will result in deadlock, so calculate and set the
-                 * future value here instead.
+                 * Hbndlf nfstfd dbll situbtion dfsdribfd by 4803747: wbiting
+                 * for futurf vbluf to bf sft by b lookup() dbll furtifr up tif
+                 * stbdk will rfsult in dfbdlodk, so dbldulbtf bnd sft tif
+                 * futurf vbluf ifrf instfbd.
                  */
-                entry = null;
-            } else {
-                entry = future.get();
+                fntry = null;
+            } flsf {
+                fntry = futurf.gft();
             }
         }
-        if (entry == null) {
+        if (fntry == null) {
             try {
-                entry = new ObjectStreamClass(cl);
-            } catch (Throwable th) {
-                entry = th;
+                fntry = nfw ObjfdtStrfbmClbss(dl);
+            } dbtdi (Tirowbblf ti) {
+                fntry = ti;
             }
-            if (future.set(entry)) {
-                Caches.localDescs.put(key, new SoftReference<Object>(entry));
-            } else {
-                // nested lookup call already set future
-                entry = future.get();
+            if (futurf.sft(fntry)) {
+                Cbdifs.lodblDfsds.put(kfy, nfw SoftRfffrfndf<Objfdt>(fntry));
+            } flsf {
+                // nfstfd lookup dbll blrfbdy sft futurf
+                fntry = futurf.gft();
             }
         }
 
-        if (entry instanceof ObjectStreamClass) {
-            return (ObjectStreamClass) entry;
-        } else if (entry instanceof RuntimeException) {
-            throw (RuntimeException) entry;
-        } else if (entry instanceof Error) {
-            throw (Error) entry;
-        } else {
-            throw new InternalError("unexpected entry: " + entry);
+        if (fntry instbndfof ObjfdtStrfbmClbss) {
+            rfturn (ObjfdtStrfbmClbss) fntry;
+        } flsf if (fntry instbndfof RuntimfExdfption) {
+            tirow (RuntimfExdfption) fntry;
+        } flsf if (fntry instbndfof Error) {
+            tirow (Error) fntry;
+        } flsf {
+            tirow nfw IntfrnblError("unfxpfdtfd fntry: " + fntry);
         }
     }
 
     /**
-     * Placeholder used in class descriptor and field reflector lookup tables
-     * for an entry in the process of being initialized.  (Internal) callers
-     * which receive an EntryFuture belonging to another thread as the result
-     * of a lookup should call the get() method of the EntryFuture; this will
-     * return the actual entry once it is ready for use and has been set().  To
-     * conserve objects, EntryFutures synchronize on themselves.
+     * Plbdfioldfr usfd in dlbss dfsdriptor bnd fifld rfflfdtor lookup tbblfs
+     * for bn fntry in tif prodfss of bfing initiblizfd.  (Intfrnbl) dbllfrs
+     * wiidi rfdfivf bn EntryFuturf bflonging to bnotifr tirfbd bs tif rfsult
+     * of b lookup siould dbll tif gft() mftiod of tif EntryFuturf; tiis will
+     * rfturn tif bdtubl fntry ondf it is rfbdy for usf bnd ibs bffn sft().  To
+     * donsfrvf objfdts, EntryFuturfs syndironizf on tifmsflvfs.
      */
-    private static class EntryFuture {
+    privbtf stbtid dlbss EntryFuturf {
 
-        private static final Object unset = new Object();
-        private final Thread owner = Thread.currentThread();
-        private Object entry = unset;
+        privbtf stbtid finbl Objfdt unsft = nfw Objfdt();
+        privbtf finbl Tirfbd ownfr = Tirfbd.durrfntTirfbd();
+        privbtf Objfdt fntry = unsft;
 
         /**
-         * Attempts to set the value contained by this EntryFuture.  If the
-         * EntryFuture's value has not been set already, then the value is
-         * saved, any callers blocked in the get() method are notified, and
-         * true is returned.  If the value has already been set, then no saving
-         * or notification occurs, and false is returned.
+         * Attfmpts to sft tif vbluf dontbinfd by tiis EntryFuturf.  If tif
+         * EntryFuturf's vbluf ibs not bffn sft blrfbdy, tifn tif vbluf is
+         * sbvfd, bny dbllfrs blodkfd in tif gft() mftiod brf notififd, bnd
+         * truf is rfturnfd.  If tif vbluf ibs blrfbdy bffn sft, tifn no sbving
+         * or notifidbtion oddurs, bnd fblsf is rfturnfd.
          */
-        synchronized boolean set(Object entry) {
-            if (this.entry != unset) {
-                return false;
+        syndironizfd boolfbn sft(Objfdt fntry) {
+            if (tiis.fntry != unsft) {
+                rfturn fblsf;
             }
-            this.entry = entry;
+            tiis.fntry = fntry;
             notifyAll();
-            return true;
+            rfturn truf;
         }
 
         /**
-         * Returns the value contained by this EntryFuture, blocking if
-         * necessary until a value is set.
+         * Rfturns tif vbluf dontbinfd by tiis EntryFuturf, blodking if
+         * nfdfssbry until b vbluf is sft.
          */
-        synchronized Object get() {
-            boolean interrupted = false;
-            while (entry == unset) {
+        syndironizfd Objfdt gft() {
+            boolfbn intfrruptfd = fblsf;
+            wiilf (fntry == unsft) {
                 try {
-                    wait();
-                } catch (InterruptedException ex) {
-                    interrupted = true;
+                    wbit();
+                } dbtdi (IntfrruptfdExdfption fx) {
+                    intfrruptfd = truf;
                 }
             }
-            if (interrupted) {
-                AccessController.doPrivileged(
-                    new PrivilegedAction<Void>() {
-                        public Void run() {
-                            Thread.currentThread().interrupt();
-                            return null;
+            if (intfrruptfd) {
+                AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            Tirfbd.durrfntTirfbd().intfrrupt();
+                            rfturn null;
                         }
                     }
                 );
             }
-            return entry;
+            rfturn fntry;
         }
 
         /**
-         * Returns the thread that created this EntryFuture.
+         * Rfturns tif tirfbd tibt drfbtfd tiis EntryFuturf.
          */
-        Thread getOwner() {
-            return owner;
+        Tirfbd gftOwnfr() {
+            rfturn ownfr;
         }
     }
 
     /**
-     * Creates local class descriptor representing given class.
+     * Crfbtfs lodbl dlbss dfsdriptor rfprfsfnting givfn dlbss.
      */
-    private ObjectStreamClass(final Class<?> cl) {
-        this.cl = cl;
-        name = cl.getName();
-        isProxy = Proxy.isProxyClass(cl);
-        isEnum = Enum.class.isAssignableFrom(cl);
-        serializable = Serializable.class.isAssignableFrom(cl);
-        externalizable = Externalizable.class.isAssignableFrom(cl);
+    privbtf ObjfdtStrfbmClbss(finbl Clbss<?> dl) {
+        tiis.dl = dl;
+        nbmf = dl.gftNbmf();
+        isProxy = Proxy.isProxyClbss(dl);
+        isEnum = Enum.dlbss.isAssignbblfFrom(dl);
+        sfriblizbblf = Sfriblizbblf.dlbss.isAssignbblfFrom(dl);
+        fxtfrnblizbblf = Extfrnblizbblf.dlbss.isAssignbblfFrom(dl);
 
-        Class<?> superCl = cl.getSuperclass();
-        superDesc = (superCl != null) ? lookup(superCl, false) : null;
-        localDesc = this;
+        Clbss<?> supfrCl = dl.gftSupfrdlbss();
+        supfrDfsd = (supfrCl != null) ? lookup(supfrCl, fblsf) : null;
+        lodblDfsd = tiis;
 
-        if (serializable) {
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
+        if (sfriblizbblf) {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
                     if (isEnum) {
-                        suid = Long.valueOf(0);
-                        fields = NO_FIELDS;
-                        return null;
+                        suid = Long.vblufOf(0);
+                        fiflds = NO_FIELDS;
+                        rfturn null;
                     }
-                    if (cl.isArray()) {
-                        fields = NO_FIELDS;
-                        return null;
+                    if (dl.isArrby()) {
+                        fiflds = NO_FIELDS;
+                        rfturn null;
                     }
 
-                    suid = getDeclaredSUID(cl);
+                    suid = gftDfdlbrfdSUID(dl);
                     try {
-                        fields = getSerialFields(cl);
-                        computeFieldOffsets();
-                    } catch (InvalidClassException e) {
-                        serializeEx = deserializeEx =
-                            new ExceptionInfo(e.classname, e.getMessage());
-                        fields = NO_FIELDS;
+                        fiflds = gftSfriblFiflds(dl);
+                        domputfFifldOffsfts();
+                    } dbtdi (InvblidClbssExdfption f) {
+                        sfriblizfEx = dfsfriblizfEx =
+                            nfw ExdfptionInfo(f.dlbssnbmf, f.gftMfssbgf());
+                        fiflds = NO_FIELDS;
                     }
 
-                    if (externalizable) {
-                        cons = getExternalizableConstructor(cl);
-                    } else {
-                        cons = getSerializableConstructor(cl);
-                        writeObjectMethod = getPrivateMethod(cl, "writeObject",
-                            new Class<?>[] { ObjectOutputStream.class },
+                    if (fxtfrnblizbblf) {
+                        dons = gftExtfrnblizbblfConstrudtor(dl);
+                    } flsf {
+                        dons = gftSfriblizbblfConstrudtor(dl);
+                        writfObjfdtMftiod = gftPrivbtfMftiod(dl, "writfObjfdt",
+                            nfw Clbss<?>[] { ObjfdtOutputStrfbm.dlbss },
                             Void.TYPE);
-                        readObjectMethod = getPrivateMethod(cl, "readObject",
-                            new Class<?>[] { ObjectInputStream.class },
+                        rfbdObjfdtMftiod = gftPrivbtfMftiod(dl, "rfbdObjfdt",
+                            nfw Clbss<?>[] { ObjfdtInputStrfbm.dlbss },
                             Void.TYPE);
-                        readObjectNoDataMethod = getPrivateMethod(
-                            cl, "readObjectNoData", null, Void.TYPE);
-                        hasWriteObjectData = (writeObjectMethod != null);
+                        rfbdObjfdtNoDbtbMftiod = gftPrivbtfMftiod(
+                            dl, "rfbdObjfdtNoDbtb", null, Void.TYPE);
+                        ibsWritfObjfdtDbtb = (writfObjfdtMftiod != null);
                     }
-                    writeReplaceMethod = getInheritableMethod(
-                        cl, "writeReplace", null, Object.class);
-                    readResolveMethod = getInheritableMethod(
-                        cl, "readResolve", null, Object.class);
-                    return null;
+                    writfRfplbdfMftiod = gftInifritbblfMftiod(
+                        dl, "writfRfplbdf", null, Objfdt.dlbss);
+                    rfbdRfsolvfMftiod = gftInifritbblfMftiod(
+                        dl, "rfbdRfsolvf", null, Objfdt.dlbss);
+                    rfturn null;
                 }
             });
-        } else {
-            suid = Long.valueOf(0);
-            fields = NO_FIELDS;
+        } flsf {
+            suid = Long.vblufOf(0);
+            fiflds = NO_FIELDS;
         }
 
         try {
-            fieldRefl = getReflector(fields, this);
-        } catch (InvalidClassException ex) {
-            // field mismatches impossible when matching local fields vs. self
-            throw new InternalError(ex);
+            fifldRffl = gftRfflfdtor(fiflds, tiis);
+        } dbtdi (InvblidClbssExdfption fx) {
+            // fifld mismbtdifs impossiblf wifn mbtdiing lodbl fiflds vs. sflf
+            tirow nfw IntfrnblError(fx);
         }
 
-        if (deserializeEx == null) {
+        if (dfsfriblizfEx == null) {
             if (isEnum) {
-                deserializeEx = new ExceptionInfo(name, "enum type");
-            } else if (cons == null) {
-                deserializeEx = new ExceptionInfo(name, "no valid constructor");
+                dfsfriblizfEx = nfw ExdfptionInfo(nbmf, "fnum typf");
+            } flsf if (dons == null) {
+                dfsfriblizfEx = nfw ExdfptionInfo(nbmf, "no vblid donstrudtor");
             }
         }
-        for (int i = 0; i < fields.length; i++) {
-            if (fields[i].getField() == null) {
-                defaultSerializeEx = new ExceptionInfo(
-                    name, "unmatched serializable field(s) declared");
+        for (int i = 0; i < fiflds.lfngti; i++) {
+            if (fiflds[i].gftFifld() == null) {
+                dffbultSfriblizfEx = nfw ExdfptionInfo(
+                    nbmf, "unmbtdifd sfriblizbblf fifld(s) dfdlbrfd");
             }
         }
     }
 
     /**
-     * Creates blank class descriptor which should be initialized via a
-     * subsequent call to initProxy(), initNonProxy() or readNonProxy().
+     * Crfbtfs blbnk dlbss dfsdriptor wiidi siould bf initiblizfd vib b
+     * subsfqufnt dbll to initProxy(), initNonProxy() or rfbdNonProxy().
      */
-    ObjectStreamClass() {
+    ObjfdtStrfbmClbss() {
     }
 
     /**
-     * Initializes class descriptor representing a proxy class.
+     * Initiblizfs dlbss dfsdriptor rfprfsfnting b proxy dlbss.
      */
-    void initProxy(Class<?> cl,
-                   ClassNotFoundException resolveEx,
-                   ObjectStreamClass superDesc)
-        throws InvalidClassException
+    void initProxy(Clbss<?> dl,
+                   ClbssNotFoundExdfption rfsolvfEx,
+                   ObjfdtStrfbmClbss supfrDfsd)
+        tirows InvblidClbssExdfption
     {
-        this.cl = cl;
-        this.resolveEx = resolveEx;
-        this.superDesc = superDesc;
-        isProxy = true;
-        serializable = true;
-        suid = Long.valueOf(0);
-        fields = NO_FIELDS;
+        tiis.dl = dl;
+        tiis.rfsolvfEx = rfsolvfEx;
+        tiis.supfrDfsd = supfrDfsd;
+        isProxy = truf;
+        sfriblizbblf = truf;
+        suid = Long.vblufOf(0);
+        fiflds = NO_FIELDS;
 
-        if (cl != null) {
-            localDesc = lookup(cl, true);
-            if (!localDesc.isProxy) {
-                throw new InvalidClassException(
-                    "cannot bind proxy descriptor to a non-proxy class");
+        if (dl != null) {
+            lodblDfsd = lookup(dl, truf);
+            if (!lodblDfsd.isProxy) {
+                tirow nfw InvblidClbssExdfption(
+                    "dbnnot bind proxy dfsdriptor to b non-proxy dlbss");
             }
-            name = localDesc.name;
-            externalizable = localDesc.externalizable;
-            cons = localDesc.cons;
-            writeReplaceMethod = localDesc.writeReplaceMethod;
-            readResolveMethod = localDesc.readResolveMethod;
-            deserializeEx = localDesc.deserializeEx;
+            nbmf = lodblDfsd.nbmf;
+            fxtfrnblizbblf = lodblDfsd.fxtfrnblizbblf;
+            dons = lodblDfsd.dons;
+            writfRfplbdfMftiod = lodblDfsd.writfRfplbdfMftiod;
+            rfbdRfsolvfMftiod = lodblDfsd.rfbdRfsolvfMftiod;
+            dfsfriblizfEx = lodblDfsd.dfsfriblizfEx;
         }
-        fieldRefl = getReflector(fields, localDesc);
+        fifldRffl = gftRfflfdtor(fiflds, lodblDfsd);
     }
 
     /**
-     * Initializes class descriptor representing a non-proxy class.
+     * Initiblizfs dlbss dfsdriptor rfprfsfnting b non-proxy dlbss.
      */
-    void initNonProxy(ObjectStreamClass model,
-                      Class<?> cl,
-                      ClassNotFoundException resolveEx,
-                      ObjectStreamClass superDesc)
-        throws InvalidClassException
+    void initNonProxy(ObjfdtStrfbmClbss modfl,
+                      Clbss<?> dl,
+                      ClbssNotFoundExdfption rfsolvfEx,
+                      ObjfdtStrfbmClbss supfrDfsd)
+        tirows InvblidClbssExdfption
     {
-        this.cl = cl;
-        this.resolveEx = resolveEx;
-        this.superDesc = superDesc;
-        name = model.name;
-        suid = Long.valueOf(model.getSerialVersionUID());
-        isProxy = false;
-        isEnum = model.isEnum;
-        serializable = model.serializable;
-        externalizable = model.externalizable;
-        hasBlockExternalData = model.hasBlockExternalData;
-        hasWriteObjectData = model.hasWriteObjectData;
-        fields = model.fields;
-        primDataSize = model.primDataSize;
-        numObjFields = model.numObjFields;
+        tiis.dl = dl;
+        tiis.rfsolvfEx = rfsolvfEx;
+        tiis.supfrDfsd = supfrDfsd;
+        nbmf = modfl.nbmf;
+        suid = Long.vblufOf(modfl.gftSfriblVfrsionUID());
+        isProxy = fblsf;
+        isEnum = modfl.isEnum;
+        sfriblizbblf = modfl.sfriblizbblf;
+        fxtfrnblizbblf = modfl.fxtfrnblizbblf;
+        ibsBlodkExtfrnblDbtb = modfl.ibsBlodkExtfrnblDbtb;
+        ibsWritfObjfdtDbtb = modfl.ibsWritfObjfdtDbtb;
+        fiflds = modfl.fiflds;
+        primDbtbSizf = modfl.primDbtbSizf;
+        numObjFiflds = modfl.numObjFiflds;
 
-        if (cl != null) {
-            localDesc = lookup(cl, true);
-            if (localDesc.isProxy) {
-                throw new InvalidClassException(
-                    "cannot bind non-proxy descriptor to a proxy class");
+        if (dl != null) {
+            lodblDfsd = lookup(dl, truf);
+            if (lodblDfsd.isProxy) {
+                tirow nfw InvblidClbssExdfption(
+                    "dbnnot bind non-proxy dfsdriptor to b proxy dlbss");
             }
-            if (isEnum != localDesc.isEnum) {
-                throw new InvalidClassException(isEnum ?
-                    "cannot bind enum descriptor to a non-enum class" :
-                    "cannot bind non-enum descriptor to an enum class");
+            if (isEnum != lodblDfsd.isEnum) {
+                tirow nfw InvblidClbssExdfption(isEnum ?
+                    "dbnnot bind fnum dfsdriptor to b non-fnum dlbss" :
+                    "dbnnot bind non-fnum dfsdriptor to bn fnum dlbss");
             }
 
-            if (serializable == localDesc.serializable &&
-                !cl.isArray() &&
-                suid.longValue() != localDesc.getSerialVersionUID())
+            if (sfriblizbblf == lodblDfsd.sfriblizbblf &&
+                !dl.isArrby() &&
+                suid.longVbluf() != lodblDfsd.gftSfriblVfrsionUID())
             {
-                throw new InvalidClassException(localDesc.name,
-                    "local class incompatible: " +
-                    "stream classdesc serialVersionUID = " + suid +
-                    ", local class serialVersionUID = " +
-                    localDesc.getSerialVersionUID());
+                tirow nfw InvblidClbssExdfption(lodblDfsd.nbmf,
+                    "lodbl dlbss indompbtiblf: " +
+                    "strfbm dlbssdfsd sfriblVfrsionUID = " + suid +
+                    ", lodbl dlbss sfriblVfrsionUID = " +
+                    lodblDfsd.gftSfriblVfrsionUID());
             }
 
-            if (!classNamesEqual(name, localDesc.name)) {
-                throw new InvalidClassException(localDesc.name,
-                    "local class name incompatible with stream class " +
-                    "name \"" + name + "\"");
+            if (!dlbssNbmfsEqubl(nbmf, lodblDfsd.nbmf)) {
+                tirow nfw InvblidClbssExdfption(lodblDfsd.nbmf,
+                    "lodbl dlbss nbmf indompbtiblf witi strfbm dlbss " +
+                    "nbmf \"" + nbmf + "\"");
             }
 
             if (!isEnum) {
-                if ((serializable == localDesc.serializable) &&
-                    (externalizable != localDesc.externalizable))
+                if ((sfriblizbblf == lodblDfsd.sfriblizbblf) &&
+                    (fxtfrnblizbblf != lodblDfsd.fxtfrnblizbblf))
                 {
-                    throw new InvalidClassException(localDesc.name,
-                        "Serializable incompatible with Externalizable");
+                    tirow nfw InvblidClbssExdfption(lodblDfsd.nbmf,
+                        "Sfriblizbblf indompbtiblf witi Extfrnblizbblf");
                 }
 
-                if ((serializable != localDesc.serializable) ||
-                    (externalizable != localDesc.externalizable) ||
-                    !(serializable || externalizable))
+                if ((sfriblizbblf != lodblDfsd.sfriblizbblf) ||
+                    (fxtfrnblizbblf != lodblDfsd.fxtfrnblizbblf) ||
+                    !(sfriblizbblf || fxtfrnblizbblf))
                 {
-                    deserializeEx = new ExceptionInfo(
-                        localDesc.name, "class invalid for deserialization");
+                    dfsfriblizfEx = nfw ExdfptionInfo(
+                        lodblDfsd.nbmf, "dlbss invblid for dfsfriblizbtion");
                 }
             }
 
-            cons = localDesc.cons;
-            writeObjectMethod = localDesc.writeObjectMethod;
-            readObjectMethod = localDesc.readObjectMethod;
-            readObjectNoDataMethod = localDesc.readObjectNoDataMethod;
-            writeReplaceMethod = localDesc.writeReplaceMethod;
-            readResolveMethod = localDesc.readResolveMethod;
-            if (deserializeEx == null) {
-                deserializeEx = localDesc.deserializeEx;
+            dons = lodblDfsd.dons;
+            writfObjfdtMftiod = lodblDfsd.writfObjfdtMftiod;
+            rfbdObjfdtMftiod = lodblDfsd.rfbdObjfdtMftiod;
+            rfbdObjfdtNoDbtbMftiod = lodblDfsd.rfbdObjfdtNoDbtbMftiod;
+            writfRfplbdfMftiod = lodblDfsd.writfRfplbdfMftiod;
+            rfbdRfsolvfMftiod = lodblDfsd.rfbdRfsolvfMftiod;
+            if (dfsfriblizfEx == null) {
+                dfsfriblizfEx = lodblDfsd.dfsfriblizfEx;
             }
         }
-        fieldRefl = getReflector(fields, localDesc);
-        // reassign to matched fields so as to reflect local unshared settings
-        fields = fieldRefl.getFields();
+        fifldRffl = gftRfflfdtor(fiflds, lodblDfsd);
+        // rfbssign to mbtdifd fiflds so bs to rfflfdt lodbl unsibrfd sfttings
+        fiflds = fifldRffl.gftFiflds();
     }
 
     /**
-     * Reads non-proxy class descriptor information from given input stream.
-     * The resulting class descriptor is not fully functional; it can only be
-     * used as input to the ObjectInputStream.resolveClass() and
-     * ObjectStreamClass.initNonProxy() methods.
+     * Rfbds non-proxy dlbss dfsdriptor informbtion from givfn input strfbm.
+     * Tif rfsulting dlbss dfsdriptor is not fully fundtionbl; it dbn only bf
+     * usfd bs input to tif ObjfdtInputStrfbm.rfsolvfClbss() bnd
+     * ObjfdtStrfbmClbss.initNonProxy() mftiods.
      */
-    void readNonProxy(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    void rfbdNonProxy(ObjfdtInputStrfbm in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        name = in.readUTF();
-        suid = Long.valueOf(in.readLong());
-        isProxy = false;
+        nbmf = in.rfbdUTF();
+        suid = Long.vblufOf(in.rfbdLong());
+        isProxy = fblsf;
 
-        byte flags = in.readByte();
-        hasWriteObjectData =
-            ((flags & ObjectStreamConstants.SC_WRITE_METHOD) != 0);
-        hasBlockExternalData =
-            ((flags & ObjectStreamConstants.SC_BLOCK_DATA) != 0);
-        externalizable =
-            ((flags & ObjectStreamConstants.SC_EXTERNALIZABLE) != 0);
-        boolean sflag =
-            ((flags & ObjectStreamConstants.SC_SERIALIZABLE) != 0);
-        if (externalizable && sflag) {
-            throw new InvalidClassException(
-                name, "serializable and externalizable flags conflict");
+        bytf flbgs = in.rfbdBytf();
+        ibsWritfObjfdtDbtb =
+            ((flbgs & ObjfdtStrfbmConstbnts.SC_WRITE_METHOD) != 0);
+        ibsBlodkExtfrnblDbtb =
+            ((flbgs & ObjfdtStrfbmConstbnts.SC_BLOCK_DATA) != 0);
+        fxtfrnblizbblf =
+            ((flbgs & ObjfdtStrfbmConstbnts.SC_EXTERNALIZABLE) != 0);
+        boolfbn sflbg =
+            ((flbgs & ObjfdtStrfbmConstbnts.SC_SERIALIZABLE) != 0);
+        if (fxtfrnblizbblf && sflbg) {
+            tirow nfw InvblidClbssExdfption(
+                nbmf, "sfriblizbblf bnd fxtfrnblizbblf flbgs donflidt");
         }
-        serializable = externalizable || sflag;
-        isEnum = ((flags & ObjectStreamConstants.SC_ENUM) != 0);
-        if (isEnum && suid.longValue() != 0L) {
-            throw new InvalidClassException(name,
-                "enum descriptor has non-zero serialVersionUID: " + suid);
+        sfriblizbblf = fxtfrnblizbblf || sflbg;
+        isEnum = ((flbgs & ObjfdtStrfbmConstbnts.SC_ENUM) != 0);
+        if (isEnum && suid.longVbluf() != 0L) {
+            tirow nfw InvblidClbssExdfption(nbmf,
+                "fnum dfsdriptor ibs non-zfro sfriblVfrsionUID: " + suid);
         }
 
-        int numFields = in.readShort();
-        if (isEnum && numFields != 0) {
-            throw new InvalidClassException(name,
-                "enum descriptor has non-zero field count: " + numFields);
+        int numFiflds = in.rfbdSiort();
+        if (isEnum && numFiflds != 0) {
+            tirow nfw InvblidClbssExdfption(nbmf,
+                "fnum dfsdriptor ibs non-zfro fifld dount: " + numFiflds);
         }
-        fields = (numFields > 0) ?
-            new ObjectStreamField[numFields] : NO_FIELDS;
-        for (int i = 0; i < numFields; i++) {
-            char tcode = (char) in.readByte();
-            String fname = in.readUTF();
-            String signature = ((tcode == 'L') || (tcode == '[')) ?
-                in.readTypeString() : new String(new char[] { tcode });
+        fiflds = (numFiflds > 0) ?
+            nfw ObjfdtStrfbmFifld[numFiflds] : NO_FIELDS;
+        for (int i = 0; i < numFiflds; i++) {
+            dibr tdodf = (dibr) in.rfbdBytf();
+            String fnbmf = in.rfbdUTF();
+            String signbturf = ((tdodf == 'L') || (tdodf == '[')) ?
+                in.rfbdTypfString() : nfw String(nfw dibr[] { tdodf });
             try {
-                fields[i] = new ObjectStreamField(fname, signature, false);
-            } catch (RuntimeException e) {
-                throw (IOException) new InvalidClassException(name,
-                    "invalid descriptor for field " + fname).initCause(e);
+                fiflds[i] = nfw ObjfdtStrfbmFifld(fnbmf, signbturf, fblsf);
+            } dbtdi (RuntimfExdfption f) {
+                tirow (IOExdfption) nfw InvblidClbssExdfption(nbmf,
+                    "invblid dfsdriptor for fifld " + fnbmf).initCbusf(f);
             }
         }
-        computeFieldOffsets();
+        domputfFifldOffsfts();
     }
 
     /**
-     * Writes non-proxy class descriptor information to given output stream.
+     * Writfs non-proxy dlbss dfsdriptor informbtion to givfn output strfbm.
      */
-    void writeNonProxy(ObjectOutputStream out) throws IOException {
-        out.writeUTF(name);
-        out.writeLong(getSerialVersionUID());
+    void writfNonProxy(ObjfdtOutputStrfbm out) tirows IOExdfption {
+        out.writfUTF(nbmf);
+        out.writfLong(gftSfriblVfrsionUID());
 
-        byte flags = 0;
-        if (externalizable) {
-            flags |= ObjectStreamConstants.SC_EXTERNALIZABLE;
-            int protocol = out.getProtocolVersion();
-            if (protocol != ObjectStreamConstants.PROTOCOL_VERSION_1) {
-                flags |= ObjectStreamConstants.SC_BLOCK_DATA;
+        bytf flbgs = 0;
+        if (fxtfrnblizbblf) {
+            flbgs |= ObjfdtStrfbmConstbnts.SC_EXTERNALIZABLE;
+            int protodol = out.gftProtodolVfrsion();
+            if (protodol != ObjfdtStrfbmConstbnts.PROTOCOL_VERSION_1) {
+                flbgs |= ObjfdtStrfbmConstbnts.SC_BLOCK_DATA;
             }
-        } else if (serializable) {
-            flags |= ObjectStreamConstants.SC_SERIALIZABLE;
+        } flsf if (sfriblizbblf) {
+            flbgs |= ObjfdtStrfbmConstbnts.SC_SERIALIZABLE;
         }
-        if (hasWriteObjectData) {
-            flags |= ObjectStreamConstants.SC_WRITE_METHOD;
+        if (ibsWritfObjfdtDbtb) {
+            flbgs |= ObjfdtStrfbmConstbnts.SC_WRITE_METHOD;
         }
         if (isEnum) {
-            flags |= ObjectStreamConstants.SC_ENUM;
+            flbgs |= ObjfdtStrfbmConstbnts.SC_ENUM;
         }
-        out.writeByte(flags);
+        out.writfBytf(flbgs);
 
-        out.writeShort(fields.length);
-        for (int i = 0; i < fields.length; i++) {
-            ObjectStreamField f = fields[i];
-            out.writeByte(f.getTypeCode());
-            out.writeUTF(f.getName());
-            if (!f.isPrimitive()) {
-                out.writeTypeString(f.getTypeString());
+        out.writfSiort(fiflds.lfngti);
+        for (int i = 0; i < fiflds.lfngti; i++) {
+            ObjfdtStrfbmFifld f = fiflds[i];
+            out.writfBytf(f.gftTypfCodf());
+            out.writfUTF(f.gftNbmf());
+            if (!f.isPrimitivf()) {
+                out.writfTypfString(f.gftTypfString());
             }
         }
     }
 
     /**
-     * Returns ClassNotFoundException (if any) thrown while attempting to
-     * resolve local class corresponding to this class descriptor.
+     * Rfturns ClbssNotFoundExdfption (if bny) tirown wiilf bttfmpting to
+     * rfsolvf lodbl dlbss dorrfsponding to tiis dlbss dfsdriptor.
      */
-    ClassNotFoundException getResolveException() {
-        return resolveEx;
+    ClbssNotFoundExdfption gftRfsolvfExdfption() {
+        rfturn rfsolvfEx;
     }
 
     /**
-     * Throws an InvalidClassException if object instances referencing this
-     * class descriptor should not be allowed to deserialize.  This method does
-     * not apply to deserialization of enum constants.
+     * Tirows bn InvblidClbssExdfption if objfdt instbndfs rfffrfnding tiis
+     * dlbss dfsdriptor siould not bf bllowfd to dfsfriblizf.  Tiis mftiod dofs
+     * not bpply to dfsfriblizbtion of fnum donstbnts.
      */
-    void checkDeserialize() throws InvalidClassException {
-        if (deserializeEx != null) {
-            throw deserializeEx.newInvalidClassException();
+    void difdkDfsfriblizf() tirows InvblidClbssExdfption {
+        if (dfsfriblizfEx != null) {
+            tirow dfsfriblizfEx.nfwInvblidClbssExdfption();
         }
     }
 
     /**
-     * Throws an InvalidClassException if objects whose class is represented by
-     * this descriptor should not be allowed to serialize.  This method does
-     * not apply to serialization of enum constants.
+     * Tirows bn InvblidClbssExdfption if objfdts wiosf dlbss is rfprfsfntfd by
+     * tiis dfsdriptor siould not bf bllowfd to sfriblizf.  Tiis mftiod dofs
+     * not bpply to sfriblizbtion of fnum donstbnts.
      */
-    void checkSerialize() throws InvalidClassException {
-        if (serializeEx != null) {
-            throw serializeEx.newInvalidClassException();
+    void difdkSfriblizf() tirows InvblidClbssExdfption {
+        if (sfriblizfEx != null) {
+            tirow sfriblizfEx.nfwInvblidClbssExdfption();
         }
     }
 
     /**
-     * Throws an InvalidClassException if objects whose class is represented by
-     * this descriptor should not be permitted to use default serialization
-     * (e.g., if the class declares serializable fields that do not correspond
-     * to actual fields, and hence must use the GetField API).  This method
-     * does not apply to deserialization of enum constants.
+     * Tirows bn InvblidClbssExdfption if objfdts wiosf dlbss is rfprfsfntfd by
+     * tiis dfsdriptor siould not bf pfrmittfd to usf dffbult sfriblizbtion
+     * (f.g., if tif dlbss dfdlbrfs sfriblizbblf fiflds tibt do not dorrfspond
+     * to bdtubl fiflds, bnd ifndf must usf tif GftFifld API).  Tiis mftiod
+     * dofs not bpply to dfsfriblizbtion of fnum donstbnts.
      */
-    void checkDefaultSerialize() throws InvalidClassException {
-        if (defaultSerializeEx != null) {
-            throw defaultSerializeEx.newInvalidClassException();
+    void difdkDffbultSfriblizf() tirows InvblidClbssExdfption {
+        if (dffbultSfriblizfEx != null) {
+            tirow dffbultSfriblizfEx.nfwInvblidClbssExdfption();
         }
     }
 
     /**
-     * Returns superclass descriptor.  Note that on the receiving side, the
-     * superclass descriptor may be bound to a class that is not a superclass
-     * of the subclass descriptor's bound class.
+     * Rfturns supfrdlbss dfsdriptor.  Notf tibt on tif rfdfiving sidf, tif
+     * supfrdlbss dfsdriptor mby bf bound to b dlbss tibt is not b supfrdlbss
+     * of tif subdlbss dfsdriptor's bound dlbss.
      */
-    ObjectStreamClass getSuperDesc() {
-        return superDesc;
+    ObjfdtStrfbmClbss gftSupfrDfsd() {
+        rfturn supfrDfsd;
     }
 
     /**
-     * Returns the "local" class descriptor for the class associated with this
-     * class descriptor (i.e., the result of
-     * ObjectStreamClass.lookup(this.forClass())) or null if there is no class
-     * associated with this descriptor.
+     * Rfturns tif "lodbl" dlbss dfsdriptor for tif dlbss bssodibtfd witi tiis
+     * dlbss dfsdriptor (i.f., tif rfsult of
+     * ObjfdtStrfbmClbss.lookup(tiis.forClbss())) or null if tifrf is no dlbss
+     * bssodibtfd witi tiis dfsdriptor.
      */
-    ObjectStreamClass getLocalDesc() {
-        return localDesc;
+    ObjfdtStrfbmClbss gftLodblDfsd() {
+        rfturn lodblDfsd;
     }
 
     /**
-     * Returns arrays of ObjectStreamFields representing the serializable
-     * fields of the represented class.  If copy is true, a clone of this class
-     * descriptor's field array is returned, otherwise the array itself is
-     * returned.
+     * Rfturns brrbys of ObjfdtStrfbmFiflds rfprfsfnting tif sfriblizbblf
+     * fiflds of tif rfprfsfntfd dlbss.  If dopy is truf, b dlonf of tiis dlbss
+     * dfsdriptor's fifld brrby is rfturnfd, otifrwisf tif brrby itsflf is
+     * rfturnfd.
      */
-    ObjectStreamField[] getFields(boolean copy) {
-        return copy ? fields.clone() : fields;
+    ObjfdtStrfbmFifld[] gftFiflds(boolfbn dopy) {
+        rfturn dopy ? fiflds.dlonf() : fiflds;
     }
 
     /**
-     * Looks up a serializable field of the represented class by name and type.
-     * A specified type of null matches all types, Object.class matches all
-     * non-primitive types, and any other non-null type matches assignable
-     * types only.  Returns matching field, or null if no match found.
+     * Looks up b sfriblizbblf fifld of tif rfprfsfntfd dlbss by nbmf bnd typf.
+     * A spfdififd typf of null mbtdifs bll typfs, Objfdt.dlbss mbtdifs bll
+     * non-primitivf typfs, bnd bny otifr non-null typf mbtdifs bssignbblf
+     * typfs only.  Rfturns mbtdiing fifld, or null if no mbtdi found.
      */
-    ObjectStreamField getField(String name, Class<?> type) {
-        for (int i = 0; i < fields.length; i++) {
-            ObjectStreamField f = fields[i];
-            if (f.getName().equals(name)) {
-                if (type == null ||
-                    (type == Object.class && !f.isPrimitive()))
+    ObjfdtStrfbmFifld gftFifld(String nbmf, Clbss<?> typf) {
+        for (int i = 0; i < fiflds.lfngti; i++) {
+            ObjfdtStrfbmFifld f = fiflds[i];
+            if (f.gftNbmf().fqubls(nbmf)) {
+                if (typf == null ||
+                    (typf == Objfdt.dlbss && !f.isPrimitivf()))
                 {
-                    return f;
+                    rfturn f;
                 }
-                Class<?> ftype = f.getType();
-                if (ftype != null && type.isAssignableFrom(ftype)) {
-                    return f;
+                Clbss<?> ftypf = f.gftTypf();
+                if (ftypf != null && typf.isAssignbblfFrom(ftypf)) {
+                    rfturn f;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns true if class descriptor represents a dynamic proxy class, false
-     * otherwise.
+     * Rfturns truf if dlbss dfsdriptor rfprfsfnts b dynbmid proxy dlbss, fblsf
+     * otifrwisf.
      */
-    boolean isProxy() {
-        return isProxy;
+    boolfbn isProxy() {
+        rfturn isProxy;
     }
 
     /**
-     * Returns true if class descriptor represents an enum type, false
-     * otherwise.
+     * Rfturns truf if dlbss dfsdriptor rfprfsfnts bn fnum typf, fblsf
+     * otifrwisf.
      */
-    boolean isEnum() {
-        return isEnum;
+    boolfbn isEnum() {
+        rfturn isEnum;
     }
 
     /**
-     * Returns true if represented class implements Externalizable, false
-     * otherwise.
+     * Rfturns truf if rfprfsfntfd dlbss implfmfnts Extfrnblizbblf, fblsf
+     * otifrwisf.
      */
-    boolean isExternalizable() {
-        return externalizable;
+    boolfbn isExtfrnblizbblf() {
+        rfturn fxtfrnblizbblf;
     }
 
     /**
-     * Returns true if represented class implements Serializable, false
-     * otherwise.
+     * Rfturns truf if rfprfsfntfd dlbss implfmfnts Sfriblizbblf, fblsf
+     * otifrwisf.
      */
-    boolean isSerializable() {
-        return serializable;
+    boolfbn isSfriblizbblf() {
+        rfturn sfriblizbblf;
     }
 
     /**
-     * Returns true if class descriptor represents externalizable class that
-     * has written its data in 1.2 (block data) format, false otherwise.
+     * Rfturns truf if dlbss dfsdriptor rfprfsfnts fxtfrnblizbblf dlbss tibt
+     * ibs writtfn its dbtb in 1.2 (blodk dbtb) formbt, fblsf otifrwisf.
      */
-    boolean hasBlockExternalData() {
-        return hasBlockExternalData;
+    boolfbn ibsBlodkExtfrnblDbtb() {
+        rfturn ibsBlodkExtfrnblDbtb;
     }
 
     /**
-     * Returns true if class descriptor represents serializable (but not
-     * externalizable) class which has written its data via a custom
-     * writeObject() method, false otherwise.
+     * Rfturns truf if dlbss dfsdriptor rfprfsfnts sfriblizbblf (but not
+     * fxtfrnblizbblf) dlbss wiidi ibs writtfn its dbtb vib b dustom
+     * writfObjfdt() mftiod, fblsf otifrwisf.
      */
-    boolean hasWriteObjectData() {
-        return hasWriteObjectData;
+    boolfbn ibsWritfObjfdtDbtb() {
+        rfturn ibsWritfObjfdtDbtb;
     }
 
     /**
-     * Returns true if represented class is serializable/externalizable and can
-     * be instantiated by the serialization runtime--i.e., if it is
-     * externalizable and defines a public no-arg constructor, or if it is
-     * non-externalizable and its first non-serializable superclass defines an
-     * accessible no-arg constructor.  Otherwise, returns false.
+     * Rfturns truf if rfprfsfntfd dlbss is sfriblizbblf/fxtfrnblizbblf bnd dbn
+     * bf instbntibtfd by tif sfriblizbtion runtimf--i.f., if it is
+     * fxtfrnblizbblf bnd dffinfs b publid no-brg donstrudtor, or if it is
+     * non-fxtfrnblizbblf bnd its first non-sfriblizbblf supfrdlbss dffinfs bn
+     * bddfssiblf no-brg donstrudtor.  Otifrwisf, rfturns fblsf.
      */
-    boolean isInstantiable() {
-        return (cons != null);
+    boolfbn isInstbntibblf() {
+        rfturn (dons != null);
     }
 
     /**
-     * Returns true if represented class is serializable (but not
-     * externalizable) and defines a conformant writeObject method.  Otherwise,
-     * returns false.
+     * Rfturns truf if rfprfsfntfd dlbss is sfriblizbblf (but not
+     * fxtfrnblizbblf) bnd dffinfs b donformbnt writfObjfdt mftiod.  Otifrwisf,
+     * rfturns fblsf.
      */
-    boolean hasWriteObjectMethod() {
-        return (writeObjectMethod != null);
+    boolfbn ibsWritfObjfdtMftiod() {
+        rfturn (writfObjfdtMftiod != null);
     }
 
     /**
-     * Returns true if represented class is serializable (but not
-     * externalizable) and defines a conformant readObject method.  Otherwise,
-     * returns false.
+     * Rfturns truf if rfprfsfntfd dlbss is sfriblizbblf (but not
+     * fxtfrnblizbblf) bnd dffinfs b donformbnt rfbdObjfdt mftiod.  Otifrwisf,
+     * rfturns fblsf.
      */
-    boolean hasReadObjectMethod() {
-        return (readObjectMethod != null);
+    boolfbn ibsRfbdObjfdtMftiod() {
+        rfturn (rfbdObjfdtMftiod != null);
     }
 
     /**
-     * Returns true if represented class is serializable (but not
-     * externalizable) and defines a conformant readObjectNoData method.
-     * Otherwise, returns false.
+     * Rfturns truf if rfprfsfntfd dlbss is sfriblizbblf (but not
+     * fxtfrnblizbblf) bnd dffinfs b donformbnt rfbdObjfdtNoDbtb mftiod.
+     * Otifrwisf, rfturns fblsf.
      */
-    boolean hasReadObjectNoDataMethod() {
-        return (readObjectNoDataMethod != null);
+    boolfbn ibsRfbdObjfdtNoDbtbMftiod() {
+        rfturn (rfbdObjfdtNoDbtbMftiod != null);
     }
 
     /**
-     * Returns true if represented class is serializable or externalizable and
-     * defines a conformant writeReplace method.  Otherwise, returns false.
+     * Rfturns truf if rfprfsfntfd dlbss is sfriblizbblf or fxtfrnblizbblf bnd
+     * dffinfs b donformbnt writfRfplbdf mftiod.  Otifrwisf, rfturns fblsf.
      */
-    boolean hasWriteReplaceMethod() {
-        return (writeReplaceMethod != null);
+    boolfbn ibsWritfRfplbdfMftiod() {
+        rfturn (writfRfplbdfMftiod != null);
     }
 
     /**
-     * Returns true if represented class is serializable or externalizable and
-     * defines a conformant readResolve method.  Otherwise, returns false.
+     * Rfturns truf if rfprfsfntfd dlbss is sfriblizbblf or fxtfrnblizbblf bnd
+     * dffinfs b donformbnt rfbdRfsolvf mftiod.  Otifrwisf, rfturns fblsf.
      */
-    boolean hasReadResolveMethod() {
-        return (readResolveMethod != null);
+    boolfbn ibsRfbdRfsolvfMftiod() {
+        rfturn (rfbdRfsolvfMftiod != null);
     }
 
     /**
-     * Creates a new instance of the represented class.  If the class is
-     * externalizable, invokes its public no-arg constructor; otherwise, if the
-     * class is serializable, invokes the no-arg constructor of the first
-     * non-serializable superclass.  Throws UnsupportedOperationException if
-     * this class descriptor is not associated with a class, if the associated
-     * class is non-serializable or if the appropriate no-arg constructor is
-     * inaccessible/unavailable.
+     * Crfbtfs b nfw instbndf of tif rfprfsfntfd dlbss.  If tif dlbss is
+     * fxtfrnblizbblf, invokfs its publid no-brg donstrudtor; otifrwisf, if tif
+     * dlbss is sfriblizbblf, invokfs tif no-brg donstrudtor of tif first
+     * non-sfriblizbblf supfrdlbss.  Tirows UnsupportfdOpfrbtionExdfption if
+     * tiis dlbss dfsdriptor is not bssodibtfd witi b dlbss, if tif bssodibtfd
+     * dlbss is non-sfriblizbblf or if tif bppropribtf no-brg donstrudtor is
+     * inbddfssiblf/unbvbilbblf.
      */
-    Object newInstance()
-        throws InstantiationException, InvocationTargetException,
-               UnsupportedOperationException
+    Objfdt nfwInstbndf()
+        tirows InstbntibtionExdfption, InvodbtionTbrgftExdfption,
+               UnsupportfdOpfrbtionExdfption
     {
-        if (cons != null) {
+        if (dons != null) {
             try {
-                return cons.newInstance();
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+                rfturn dons.nfwInstbndf();
+            } dbtdi (IllfgblAddfssExdfption fx) {
+                // siould not oddur, bs bddfss difdks ibvf bffn supprfssfd
+                tirow nfw IntfrnblError(fx);
             }
-        } else {
-            throw new UnsupportedOperationException();
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
     /**
-     * Invokes the writeObject method of the represented serializable class.
-     * Throws UnsupportedOperationException if this class descriptor is not
-     * associated with a class, or if the class is externalizable,
-     * non-serializable or does not define writeObject.
+     * Invokfs tif writfObjfdt mftiod of tif rfprfsfntfd sfriblizbblf dlbss.
+     * Tirows UnsupportfdOpfrbtionExdfption if tiis dlbss dfsdriptor is not
+     * bssodibtfd witi b dlbss, or if tif dlbss is fxtfrnblizbblf,
+     * non-sfriblizbblf or dofs not dffinf writfObjfdt.
      */
-    void invokeWriteObject(Object obj, ObjectOutputStream out)
-        throws IOException, UnsupportedOperationException
+    void invokfWritfObjfdt(Objfdt obj, ObjfdtOutputStrfbm out)
+        tirows IOExdfption, UnsupportfdOpfrbtionExdfption
     {
-        if (writeObjectMethod != null) {
+        if (writfObjfdtMftiod != null) {
             try {
-                writeObjectMethod.invoke(obj, new Object[]{ out });
-            } catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                if (th instanceof IOException) {
-                    throw (IOException) th;
-                } else {
-                    throwMiscException(th);
+                writfObjfdtMftiod.invokf(obj, nfw Objfdt[]{ out });
+            } dbtdi (InvodbtionTbrgftExdfption fx) {
+                Tirowbblf ti = fx.gftTbrgftExdfption();
+                if (ti instbndfof IOExdfption) {
+                    tirow (IOExdfption) ti;
+                } flsf {
+                    tirowMisdExdfption(ti);
                 }
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+            } dbtdi (IllfgblAddfssExdfption fx) {
+                // siould not oddur, bs bddfss difdks ibvf bffn supprfssfd
+                tirow nfw IntfrnblError(fx);
             }
-        } else {
-            throw new UnsupportedOperationException();
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
     /**
-     * Invokes the readObject method of the represented serializable class.
-     * Throws UnsupportedOperationException if this class descriptor is not
-     * associated with a class, or if the class is externalizable,
-     * non-serializable or does not define readObject.
+     * Invokfs tif rfbdObjfdt mftiod of tif rfprfsfntfd sfriblizbblf dlbss.
+     * Tirows UnsupportfdOpfrbtionExdfption if tiis dlbss dfsdriptor is not
+     * bssodibtfd witi b dlbss, or if tif dlbss is fxtfrnblizbblf,
+     * non-sfriblizbblf or dofs not dffinf rfbdObjfdt.
      */
-    void invokeReadObject(Object obj, ObjectInputStream in)
-        throws ClassNotFoundException, IOException,
-               UnsupportedOperationException
+    void invokfRfbdObjfdt(Objfdt obj, ObjfdtInputStrfbm in)
+        tirows ClbssNotFoundExdfption, IOExdfption,
+               UnsupportfdOpfrbtionExdfption
     {
-        if (readObjectMethod != null) {
+        if (rfbdObjfdtMftiod != null) {
             try {
-                readObjectMethod.invoke(obj, new Object[]{ in });
-            } catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                if (th instanceof ClassNotFoundException) {
-                    throw (ClassNotFoundException) th;
-                } else if (th instanceof IOException) {
-                    throw (IOException) th;
-                } else {
-                    throwMiscException(th);
+                rfbdObjfdtMftiod.invokf(obj, nfw Objfdt[]{ in });
+            } dbtdi (InvodbtionTbrgftExdfption fx) {
+                Tirowbblf ti = fx.gftTbrgftExdfption();
+                if (ti instbndfof ClbssNotFoundExdfption) {
+                    tirow (ClbssNotFoundExdfption) ti;
+                } flsf if (ti instbndfof IOExdfption) {
+                    tirow (IOExdfption) ti;
+                } flsf {
+                    tirowMisdExdfption(ti);
                 }
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+            } dbtdi (IllfgblAddfssExdfption fx) {
+                // siould not oddur, bs bddfss difdks ibvf bffn supprfssfd
+                tirow nfw IntfrnblError(fx);
             }
-        } else {
-            throw new UnsupportedOperationException();
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
     /**
-     * Invokes the readObjectNoData method of the represented serializable
-     * class.  Throws UnsupportedOperationException if this class descriptor is
-     * not associated with a class, or if the class is externalizable,
-     * non-serializable or does not define readObjectNoData.
+     * Invokfs tif rfbdObjfdtNoDbtb mftiod of tif rfprfsfntfd sfriblizbblf
+     * dlbss.  Tirows UnsupportfdOpfrbtionExdfption if tiis dlbss dfsdriptor is
+     * not bssodibtfd witi b dlbss, or if tif dlbss is fxtfrnblizbblf,
+     * non-sfriblizbblf or dofs not dffinf rfbdObjfdtNoDbtb.
      */
-    void invokeReadObjectNoData(Object obj)
-        throws IOException, UnsupportedOperationException
+    void invokfRfbdObjfdtNoDbtb(Objfdt obj)
+        tirows IOExdfption, UnsupportfdOpfrbtionExdfption
     {
-        if (readObjectNoDataMethod != null) {
+        if (rfbdObjfdtNoDbtbMftiod != null) {
             try {
-                readObjectNoDataMethod.invoke(obj, (Object[]) null);
-            } catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                if (th instanceof ObjectStreamException) {
-                    throw (ObjectStreamException) th;
-                } else {
-                    throwMiscException(th);
+                rfbdObjfdtNoDbtbMftiod.invokf(obj, (Objfdt[]) null);
+            } dbtdi (InvodbtionTbrgftExdfption fx) {
+                Tirowbblf ti = fx.gftTbrgftExdfption();
+                if (ti instbndfof ObjfdtStrfbmExdfption) {
+                    tirow (ObjfdtStrfbmExdfption) ti;
+                } flsf {
+                    tirowMisdExdfption(ti);
                 }
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+            } dbtdi (IllfgblAddfssExdfption fx) {
+                // siould not oddur, bs bddfss difdks ibvf bffn supprfssfd
+                tirow nfw IntfrnblError(fx);
             }
-        } else {
-            throw new UnsupportedOperationException();
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
     /**
-     * Invokes the writeReplace method of the represented serializable class and
-     * returns the result.  Throws UnsupportedOperationException if this class
-     * descriptor is not associated with a class, or if the class is
-     * non-serializable or does not define writeReplace.
+     * Invokfs tif writfRfplbdf mftiod of tif rfprfsfntfd sfriblizbblf dlbss bnd
+     * rfturns tif rfsult.  Tirows UnsupportfdOpfrbtionExdfption if tiis dlbss
+     * dfsdriptor is not bssodibtfd witi b dlbss, or if tif dlbss is
+     * non-sfriblizbblf or dofs not dffinf writfRfplbdf.
      */
-    Object invokeWriteReplace(Object obj)
-        throws IOException, UnsupportedOperationException
+    Objfdt invokfWritfRfplbdf(Objfdt obj)
+        tirows IOExdfption, UnsupportfdOpfrbtionExdfption
     {
-        if (writeReplaceMethod != null) {
+        if (writfRfplbdfMftiod != null) {
             try {
-                return writeReplaceMethod.invoke(obj, (Object[]) null);
-            } catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                if (th instanceof ObjectStreamException) {
-                    throw (ObjectStreamException) th;
-                } else {
-                    throwMiscException(th);
-                    throw new InternalError(th);  // never reached
+                rfturn writfRfplbdfMftiod.invokf(obj, (Objfdt[]) null);
+            } dbtdi (InvodbtionTbrgftExdfption fx) {
+                Tirowbblf ti = fx.gftTbrgftExdfption();
+                if (ti instbndfof ObjfdtStrfbmExdfption) {
+                    tirow (ObjfdtStrfbmExdfption) ti;
+                } flsf {
+                    tirowMisdExdfption(ti);
+                    tirow nfw IntfrnblError(ti);  // nfvfr rfbdifd
                 }
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+            } dbtdi (IllfgblAddfssExdfption fx) {
+                // siould not oddur, bs bddfss difdks ibvf bffn supprfssfd
+                tirow nfw IntfrnblError(fx);
             }
-        } else {
-            throw new UnsupportedOperationException();
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
     /**
-     * Invokes the readResolve method of the represented serializable class and
-     * returns the result.  Throws UnsupportedOperationException if this class
-     * descriptor is not associated with a class, or if the class is
-     * non-serializable or does not define readResolve.
+     * Invokfs tif rfbdRfsolvf mftiod of tif rfprfsfntfd sfriblizbblf dlbss bnd
+     * rfturns tif rfsult.  Tirows UnsupportfdOpfrbtionExdfption if tiis dlbss
+     * dfsdriptor is not bssodibtfd witi b dlbss, or if tif dlbss is
+     * non-sfriblizbblf or dofs not dffinf rfbdRfsolvf.
      */
-    Object invokeReadResolve(Object obj)
-        throws IOException, UnsupportedOperationException
+    Objfdt invokfRfbdRfsolvf(Objfdt obj)
+        tirows IOExdfption, UnsupportfdOpfrbtionExdfption
     {
-        if (readResolveMethod != null) {
+        if (rfbdRfsolvfMftiod != null) {
             try {
-                return readResolveMethod.invoke(obj, (Object[]) null);
-            } catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                if (th instanceof ObjectStreamException) {
-                    throw (ObjectStreamException) th;
-                } else {
-                    throwMiscException(th);
-                    throw new InternalError(th);  // never reached
+                rfturn rfbdRfsolvfMftiod.invokf(obj, (Objfdt[]) null);
+            } dbtdi (InvodbtionTbrgftExdfption fx) {
+                Tirowbblf ti = fx.gftTbrgftExdfption();
+                if (ti instbndfof ObjfdtStrfbmExdfption) {
+                    tirow (ObjfdtStrfbmExdfption) ti;
+                } flsf {
+                    tirowMisdExdfption(ti);
+                    tirow nfw IntfrnblError(ti);  // nfvfr rfbdifd
                 }
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+            } dbtdi (IllfgblAddfssExdfption fx) {
+                // siould not oddur, bs bddfss difdks ibvf bffn supprfssfd
+                tirow nfw IntfrnblError(fx);
             }
-        } else {
-            throw new UnsupportedOperationException();
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
     /**
-     * Class representing the portion of an object's serialized form allotted
-     * to data described by a given class descriptor.  If "hasData" is false,
-     * the object's serialized form does not contain data associated with the
-     * class descriptor.
+     * Clbss rfprfsfnting tif portion of bn objfdt's sfriblizfd form bllottfd
+     * to dbtb dfsdribfd by b givfn dlbss dfsdriptor.  If "ibsDbtb" is fblsf,
+     * tif objfdt's sfriblizfd form dofs not dontbin dbtb bssodibtfd witi tif
+     * dlbss dfsdriptor.
      */
-    static class ClassDataSlot {
+    stbtid dlbss ClbssDbtbSlot {
 
-        /** class descriptor "occupying" this slot */
-        final ObjectStreamClass desc;
-        /** true if serialized form includes data for this slot's descriptor */
-        final boolean hasData;
+        /** dlbss dfsdriptor "oddupying" tiis slot */
+        finbl ObjfdtStrfbmClbss dfsd;
+        /** truf if sfriblizfd form indludfs dbtb for tiis slot's dfsdriptor */
+        finbl boolfbn ibsDbtb;
 
-        ClassDataSlot(ObjectStreamClass desc, boolean hasData) {
-            this.desc = desc;
-            this.hasData = hasData;
+        ClbssDbtbSlot(ObjfdtStrfbmClbss dfsd, boolfbn ibsDbtb) {
+            tiis.dfsd = dfsd;
+            tiis.ibsDbtb = ibsDbtb;
         }
     }
 
     /**
-     * Returns array of ClassDataSlot instances representing the data layout
-     * (including superclass data) for serialized objects described by this
-     * class descriptor.  ClassDataSlots are ordered by inheritance with those
-     * containing "higher" superclasses appearing first.  The final
-     * ClassDataSlot contains a reference to this descriptor.
+     * Rfturns brrby of ClbssDbtbSlot instbndfs rfprfsfnting tif dbtb lbyout
+     * (indluding supfrdlbss dbtb) for sfriblizfd objfdts dfsdribfd by tiis
+     * dlbss dfsdriptor.  ClbssDbtbSlots brf ordfrfd by inifritbndf witi tiosf
+     * dontbining "iigifr" supfrdlbssfs bppfbring first.  Tif finbl
+     * ClbssDbtbSlot dontbins b rfffrfndf to tiis dfsdriptor.
      */
-    ClassDataSlot[] getClassDataLayout() throws InvalidClassException {
-        // REMIND: synchronize instead of relying on volatile?
-        if (dataLayout == null) {
-            dataLayout = getClassDataLayout0();
+    ClbssDbtbSlot[] gftClbssDbtbLbyout() tirows InvblidClbssExdfption {
+        // REMIND: syndironizf instfbd of rflying on volbtilf?
+        if (dbtbLbyout == null) {
+            dbtbLbyout = gftClbssDbtbLbyout0();
         }
-        return dataLayout;
+        rfturn dbtbLbyout;
     }
 
-    private ClassDataSlot[] getClassDataLayout0()
-        throws InvalidClassException
+    privbtf ClbssDbtbSlot[] gftClbssDbtbLbyout0()
+        tirows InvblidClbssExdfption
     {
-        ArrayList<ClassDataSlot> slots = new ArrayList<>();
-        Class<?> start = cl, end = cl;
+        ArrbyList<ClbssDbtbSlot> slots = nfw ArrbyList<>();
+        Clbss<?> stbrt = dl, fnd = dl;
 
-        // locate closest non-serializable superclass
-        while (end != null && Serializable.class.isAssignableFrom(end)) {
-            end = end.getSuperclass();
+        // lodbtf dlosfst non-sfriblizbblf supfrdlbss
+        wiilf (fnd != null && Sfriblizbblf.dlbss.isAssignbblfFrom(fnd)) {
+            fnd = fnd.gftSupfrdlbss();
         }
 
-        HashSet<String> oscNames = new HashSet<>(3);
+        HbsiSft<String> osdNbmfs = nfw HbsiSft<>(3);
 
-        for (ObjectStreamClass d = this; d != null; d = d.superDesc) {
-            if (oscNames.contains(d.name)) {
-                throw new InvalidClassException("Circular reference.");
-            } else {
-                oscNames.add(d.name);
+        for (ObjfdtStrfbmClbss d = tiis; d != null; d = d.supfrDfsd) {
+            if (osdNbmfs.dontbins(d.nbmf)) {
+                tirow nfw InvblidClbssExdfption("Cirdulbr rfffrfndf.");
+            } flsf {
+                osdNbmfs.bdd(d.nbmf);
             }
 
-            // search up inheritance hierarchy for class with matching name
-            String searchName = (d.cl != null) ? d.cl.getName() : d.name;
-            Class<?> match = null;
-            for (Class<?> c = start; c != end; c = c.getSuperclass()) {
-                if (searchName.equals(c.getName())) {
-                    match = c;
-                    break;
+            // sfbrdi up inifritbndf iifrbrdiy for dlbss witi mbtdiing nbmf
+            String sfbrdiNbmf = (d.dl != null) ? d.dl.gftNbmf() : d.nbmf;
+            Clbss<?> mbtdi = null;
+            for (Clbss<?> d = stbrt; d != fnd; d = d.gftSupfrdlbss()) {
+                if (sfbrdiNbmf.fqubls(d.gftNbmf())) {
+                    mbtdi = d;
+                    brfbk;
                 }
             }
 
-            // add "no data" slot for each unmatched class below match
-            if (match != null) {
-                for (Class<?> c = start; c != match; c = c.getSuperclass()) {
-                    slots.add(new ClassDataSlot(
-                        ObjectStreamClass.lookup(c, true), false));
+            // bdd "no dbtb" slot for fbdi unmbtdifd dlbss bflow mbtdi
+            if (mbtdi != null) {
+                for (Clbss<?> d = stbrt; d != mbtdi; d = d.gftSupfrdlbss()) {
+                    slots.bdd(nfw ClbssDbtbSlot(
+                        ObjfdtStrfbmClbss.lookup(d, truf), fblsf));
                 }
-                start = match.getSuperclass();
+                stbrt = mbtdi.gftSupfrdlbss();
             }
 
-            // record descriptor/class pairing
-            slots.add(new ClassDataSlot(d.getVariantFor(match), true));
+            // rfdord dfsdriptor/dlbss pbiring
+            slots.bdd(nfw ClbssDbtbSlot(d.gftVbribntFor(mbtdi), truf));
         }
 
-        // add "no data" slot for any leftover unmatched classes
-        for (Class<?> c = start; c != end; c = c.getSuperclass()) {
-            slots.add(new ClassDataSlot(
-                ObjectStreamClass.lookup(c, true), false));
+        // bdd "no dbtb" slot for bny lfftovfr unmbtdifd dlbssfs
+        for (Clbss<?> d = stbrt; d != fnd; d = d.gftSupfrdlbss()) {
+            slots.bdd(nfw ClbssDbtbSlot(
+                ObjfdtStrfbmClbss.lookup(d, truf), fblsf));
         }
 
-        // order slots from superclass -> subclass
-        Collections.reverse(slots);
-        return slots.toArray(new ClassDataSlot[slots.size()]);
+        // ordfr slots from supfrdlbss -> subdlbss
+        Collfdtions.rfvfrsf(slots);
+        rfturn slots.toArrby(nfw ClbssDbtbSlot[slots.sizf()]);
     }
 
     /**
-     * Returns aggregate size (in bytes) of marshalled primitive field values
-     * for represented class.
+     * Rfturns bggrfgbtf sizf (in bytfs) of mbrsibllfd primitivf fifld vblufs
+     * for rfprfsfntfd dlbss.
      */
-    int getPrimDataSize() {
-        return primDataSize;
+    int gftPrimDbtbSizf() {
+        rfturn primDbtbSizf;
     }
 
     /**
-     * Returns number of non-primitive serializable fields of represented
-     * class.
+     * Rfturns numbfr of non-primitivf sfriblizbblf fiflds of rfprfsfntfd
+     * dlbss.
      */
-    int getNumObjFields() {
-        return numObjFields;
+    int gftNumObjFiflds() {
+        rfturn numObjFiflds;
     }
 
     /**
-     * Fetches the serializable primitive field values of object obj and
-     * marshals them into byte array buf starting at offset 0.  It is the
-     * responsibility of the caller to ensure that obj is of the proper type if
+     * Fftdifs tif sfriblizbblf primitivf fifld vblufs of objfdt obj bnd
+     * mbrsibls tifm into bytf brrby buf stbrting bt offsft 0.  It is tif
+     * rfsponsibility of tif dbllfr to fnsurf tibt obj is of tif propfr typf if
      * non-null.
      */
-    void getPrimFieldValues(Object obj, byte[] buf) {
-        fieldRefl.getPrimFieldValues(obj, buf);
+    void gftPrimFifldVblufs(Objfdt obj, bytf[] buf) {
+        fifldRffl.gftPrimFifldVblufs(obj, buf);
     }
 
     /**
-     * Sets the serializable primitive fields of object obj using values
-     * unmarshalled from byte array buf starting at offset 0.  It is the
-     * responsibility of the caller to ensure that obj is of the proper type if
+     * Sfts tif sfriblizbblf primitivf fiflds of objfdt obj using vblufs
+     * unmbrsibllfd from bytf brrby buf stbrting bt offsft 0.  It is tif
+     * rfsponsibility of tif dbllfr to fnsurf tibt obj is of tif propfr typf if
      * non-null.
      */
-    void setPrimFieldValues(Object obj, byte[] buf) {
-        fieldRefl.setPrimFieldValues(obj, buf);
+    void sftPrimFifldVblufs(Objfdt obj, bytf[] buf) {
+        fifldRffl.sftPrimFifldVblufs(obj, buf);
     }
 
     /**
-     * Fetches the serializable object field values of object obj and stores
-     * them in array vals starting at offset 0.  It is the responsibility of
-     * the caller to ensure that obj is of the proper type if non-null.
+     * Fftdifs tif sfriblizbblf objfdt fifld vblufs of objfdt obj bnd storfs
+     * tifm in brrby vbls stbrting bt offsft 0.  It is tif rfsponsibility of
+     * tif dbllfr to fnsurf tibt obj is of tif propfr typf if non-null.
      */
-    void getObjFieldValues(Object obj, Object[] vals) {
-        fieldRefl.getObjFieldValues(obj, vals);
+    void gftObjFifldVblufs(Objfdt obj, Objfdt[] vbls) {
+        fifldRffl.gftObjFifldVblufs(obj, vbls);
     }
 
     /**
-     * Sets the serializable object fields of object obj using values from
-     * array vals starting at offset 0.  It is the responsibility of the caller
-     * to ensure that obj is of the proper type if non-null.
+     * Sfts tif sfriblizbblf objfdt fiflds of objfdt obj using vblufs from
+     * brrby vbls stbrting bt offsft 0.  It is tif rfsponsibility of tif dbllfr
+     * to fnsurf tibt obj is of tif propfr typf if non-null.
      */
-    void setObjFieldValues(Object obj, Object[] vals) {
-        fieldRefl.setObjFieldValues(obj, vals);
+    void sftObjFifldVblufs(Objfdt obj, Objfdt[] vbls) {
+        fifldRffl.sftObjFifldVblufs(obj, vbls);
     }
 
     /**
-     * Calculates and sets serializable field offsets, as well as primitive
-     * data size and object field count totals.  Throws InvalidClassException
-     * if fields are illegally ordered.
+     * Cbldulbtfs bnd sfts sfriblizbblf fifld offsfts, bs wfll bs primitivf
+     * dbtb sizf bnd objfdt fifld dount totbls.  Tirows InvblidClbssExdfption
+     * if fiflds brf illfgblly ordfrfd.
      */
-    private void computeFieldOffsets() throws InvalidClassException {
-        primDataSize = 0;
-        numObjFields = 0;
-        int firstObjIndex = -1;
+    privbtf void domputfFifldOffsfts() tirows InvblidClbssExdfption {
+        primDbtbSizf = 0;
+        numObjFiflds = 0;
+        int firstObjIndfx = -1;
 
-        for (int i = 0; i < fields.length; i++) {
-            ObjectStreamField f = fields[i];
-            switch (f.getTypeCode()) {
-                case 'Z':
-                case 'B':
-                    f.setOffset(primDataSize++);
-                    break;
+        for (int i = 0; i < fiflds.lfngti; i++) {
+            ObjfdtStrfbmFifld f = fiflds[i];
+            switdi (f.gftTypfCodf()) {
+                dbsf 'Z':
+                dbsf 'B':
+                    f.sftOffsft(primDbtbSizf++);
+                    brfbk;
 
-                case 'C':
-                case 'S':
-                    f.setOffset(primDataSize);
-                    primDataSize += 2;
-                    break;
+                dbsf 'C':
+                dbsf 'S':
+                    f.sftOffsft(primDbtbSizf);
+                    primDbtbSizf += 2;
+                    brfbk;
 
-                case 'I':
-                case 'F':
-                    f.setOffset(primDataSize);
-                    primDataSize += 4;
-                    break;
+                dbsf 'I':
+                dbsf 'F':
+                    f.sftOffsft(primDbtbSizf);
+                    primDbtbSizf += 4;
+                    brfbk;
 
-                case 'J':
-                case 'D':
-                    f.setOffset(primDataSize);
-                    primDataSize += 8;
-                    break;
+                dbsf 'J':
+                dbsf 'D':
+                    f.sftOffsft(primDbtbSizf);
+                    primDbtbSizf += 8;
+                    brfbk;
 
-                case '[':
-                case 'L':
-                    f.setOffset(numObjFields++);
-                    if (firstObjIndex == -1) {
-                        firstObjIndex = i;
+                dbsf '[':
+                dbsf 'L':
+                    f.sftOffsft(numObjFiflds++);
+                    if (firstObjIndfx == -1) {
+                        firstObjIndfx = i;
                     }
-                    break;
+                    brfbk;
 
-                default:
-                    throw new InternalError();
+                dffbult:
+                    tirow nfw IntfrnblError();
             }
         }
-        if (firstObjIndex != -1 &&
-            firstObjIndex + numObjFields != fields.length)
+        if (firstObjIndfx != -1 &&
+            firstObjIndfx + numObjFiflds != fiflds.lfngti)
         {
-            throw new InvalidClassException(name, "illegal field order");
+            tirow nfw InvblidClbssExdfption(nbmf, "illfgbl fifld ordfr");
         }
     }
 
     /**
-     * If given class is the same as the class associated with this class
-     * descriptor, returns reference to this class descriptor.  Otherwise,
-     * returns variant of this class descriptor bound to given class.
+     * If givfn dlbss is tif sbmf bs tif dlbss bssodibtfd witi tiis dlbss
+     * dfsdriptor, rfturns rfffrfndf to tiis dlbss dfsdriptor.  Otifrwisf,
+     * rfturns vbribnt of tiis dlbss dfsdriptor bound to givfn dlbss.
      */
-    private ObjectStreamClass getVariantFor(Class<?> cl)
-        throws InvalidClassException
+    privbtf ObjfdtStrfbmClbss gftVbribntFor(Clbss<?> dl)
+        tirows InvblidClbssExdfption
     {
-        if (this.cl == cl) {
-            return this;
+        if (tiis.dl == dl) {
+            rfturn tiis;
         }
-        ObjectStreamClass desc = new ObjectStreamClass();
+        ObjfdtStrfbmClbss dfsd = nfw ObjfdtStrfbmClbss();
         if (isProxy) {
-            desc.initProxy(cl, null, superDesc);
-        } else {
-            desc.initNonProxy(this, cl, null, superDesc);
+            dfsd.initProxy(dl, null, supfrDfsd);
+        } flsf {
+            dfsd.initNonProxy(tiis, dl, null, supfrDfsd);
         }
-        return desc;
+        rfturn dfsd;
     }
 
     /**
-     * Returns public no-arg constructor of given class, or null if none found.
-     * Access checks are disabled on the returned constructor (if any), since
-     * the defining class may still be non-public.
+     * Rfturns publid no-brg donstrudtor of givfn dlbss, or null if nonf found.
+     * Addfss difdks brf disbblfd on tif rfturnfd donstrudtor (if bny), sindf
+     * tif dffining dlbss mby still bf non-publid.
      */
-    private static Constructor<?> getExternalizableConstructor(Class<?> cl) {
+    privbtf stbtid Construdtor<?> gftExtfrnblizbblfConstrudtor(Clbss<?> dl) {
         try {
-            Constructor<?> cons = cl.getDeclaredConstructor((Class<?>[]) null);
-            cons.setAccessible(true);
-            return ((cons.getModifiers() & Modifier.PUBLIC) != 0) ?
-                cons : null;
-        } catch (NoSuchMethodException ex) {
-            return null;
+            Construdtor<?> dons = dl.gftDfdlbrfdConstrudtor((Clbss<?>[]) null);
+            dons.sftAddfssiblf(truf);
+            rfturn ((dons.gftModififrs() & Modififr.PUBLIC) != 0) ?
+                dons : null;
+        } dbtdi (NoSudiMftiodExdfption fx) {
+            rfturn null;
         }
     }
 
     /**
-     * Returns subclass-accessible no-arg constructor of first non-serializable
-     * superclass, or null if none found.  Access checks are disabled on the
-     * returned constructor (if any).
+     * Rfturns subdlbss-bddfssiblf no-brg donstrudtor of first non-sfriblizbblf
+     * supfrdlbss, or null if nonf found.  Addfss difdks brf disbblfd on tif
+     * rfturnfd donstrudtor (if bny).
      */
-    private static Constructor<?> getSerializableConstructor(Class<?> cl) {
-        Class<?> initCl = cl;
-        while (Serializable.class.isAssignableFrom(initCl)) {
-            if ((initCl = initCl.getSuperclass()) == null) {
-                return null;
+    privbtf stbtid Construdtor<?> gftSfriblizbblfConstrudtor(Clbss<?> dl) {
+        Clbss<?> initCl = dl;
+        wiilf (Sfriblizbblf.dlbss.isAssignbblfFrom(initCl)) {
+            if ((initCl = initCl.gftSupfrdlbss()) == null) {
+                rfturn null;
             }
         }
         try {
-            Constructor<?> cons = initCl.getDeclaredConstructor((Class<?>[]) null);
-            int mods = cons.getModifiers();
-            if ((mods & Modifier.PRIVATE) != 0 ||
-                ((mods & (Modifier.PUBLIC | Modifier.PROTECTED)) == 0 &&
-                 !packageEquals(cl, initCl)))
+            Construdtor<?> dons = initCl.gftDfdlbrfdConstrudtor((Clbss<?>[]) null);
+            int mods = dons.gftModififrs();
+            if ((mods & Modififr.PRIVATE) != 0 ||
+                ((mods & (Modififr.PUBLIC | Modififr.PROTECTED)) == 0 &&
+                 !pbdkbgfEqubls(dl, initCl)))
             {
-                return null;
+                rfturn null;
             }
-            cons = reflFactory.newConstructorForSerialization(cl, cons);
-            cons.setAccessible(true);
-            return cons;
-        } catch (NoSuchMethodException ex) {
-            return null;
+            dons = rfflFbdtory.nfwConstrudtorForSfriblizbtion(dl, dons);
+            dons.sftAddfssiblf(truf);
+            rfturn dons;
+        } dbtdi (NoSudiMftiodExdfption fx) {
+            rfturn null;
         }
     }
 
     /**
-     * Returns non-static, non-abstract method with given signature provided it
-     * is defined by or accessible (via inheritance) by the given class, or
-     * null if no match found.  Access checks are disabled on the returned
-     * method (if any).
+     * Rfturns non-stbtid, non-bbstrbdt mftiod witi givfn signbturf providfd it
+     * is dffinfd by or bddfssiblf (vib inifritbndf) by tif givfn dlbss, or
+     * null if no mbtdi found.  Addfss difdks brf disbblfd on tif rfturnfd
+     * mftiod (if bny).
      */
-    private static Method getInheritableMethod(Class<?> cl, String name,
-                                               Class<?>[] argTypes,
-                                               Class<?> returnType)
+    privbtf stbtid Mftiod gftInifritbblfMftiod(Clbss<?> dl, String nbmf,
+                                               Clbss<?>[] brgTypfs,
+                                               Clbss<?> rfturnTypf)
     {
-        Method meth = null;
-        Class<?> defCl = cl;
-        while (defCl != null) {
+        Mftiod mfti = null;
+        Clbss<?> dffCl = dl;
+        wiilf (dffCl != null) {
             try {
-                meth = defCl.getDeclaredMethod(name, argTypes);
-                break;
-            } catch (NoSuchMethodException ex) {
-                defCl = defCl.getSuperclass();
+                mfti = dffCl.gftDfdlbrfdMftiod(nbmf, brgTypfs);
+                brfbk;
+            } dbtdi (NoSudiMftiodExdfption fx) {
+                dffCl = dffCl.gftSupfrdlbss();
             }
         }
 
-        if ((meth == null) || (meth.getReturnType() != returnType)) {
-            return null;
+        if ((mfti == null) || (mfti.gftRfturnTypf() != rfturnTypf)) {
+            rfturn null;
         }
-        meth.setAccessible(true);
-        int mods = meth.getModifiers();
-        if ((mods & (Modifier.STATIC | Modifier.ABSTRACT)) != 0) {
-            return null;
-        } else if ((mods & (Modifier.PUBLIC | Modifier.PROTECTED)) != 0) {
-            return meth;
-        } else if ((mods & Modifier.PRIVATE) != 0) {
-            return (cl == defCl) ? meth : null;
-        } else {
-            return packageEquals(cl, defCl) ? meth : null;
+        mfti.sftAddfssiblf(truf);
+        int mods = mfti.gftModififrs();
+        if ((mods & (Modififr.STATIC | Modififr.ABSTRACT)) != 0) {
+            rfturn null;
+        } flsf if ((mods & (Modififr.PUBLIC | Modififr.PROTECTED)) != 0) {
+            rfturn mfti;
+        } flsf if ((mods & Modififr.PRIVATE) != 0) {
+            rfturn (dl == dffCl) ? mfti : null;
+        } flsf {
+            rfturn pbdkbgfEqubls(dl, dffCl) ? mfti : null;
         }
     }
 
     /**
-     * Returns non-static private method with given signature defined by given
-     * class, or null if none found.  Access checks are disabled on the
-     * returned method (if any).
+     * Rfturns non-stbtid privbtf mftiod witi givfn signbturf dffinfd by givfn
+     * dlbss, or null if nonf found.  Addfss difdks brf disbblfd on tif
+     * rfturnfd mftiod (if bny).
      */
-    private static Method getPrivateMethod(Class<?> cl, String name,
-                                           Class<?>[] argTypes,
-                                           Class<?> returnType)
+    privbtf stbtid Mftiod gftPrivbtfMftiod(Clbss<?> dl, String nbmf,
+                                           Clbss<?>[] brgTypfs,
+                                           Clbss<?> rfturnTypf)
     {
         try {
-            Method meth = cl.getDeclaredMethod(name, argTypes);
-            meth.setAccessible(true);
-            int mods = meth.getModifiers();
-            return ((meth.getReturnType() == returnType) &&
-                    ((mods & Modifier.STATIC) == 0) &&
-                    ((mods & Modifier.PRIVATE) != 0)) ? meth : null;
-        } catch (NoSuchMethodException ex) {
-            return null;
+            Mftiod mfti = dl.gftDfdlbrfdMftiod(nbmf, brgTypfs);
+            mfti.sftAddfssiblf(truf);
+            int mods = mfti.gftModififrs();
+            rfturn ((mfti.gftRfturnTypf() == rfturnTypf) &&
+                    ((mods & Modififr.STATIC) == 0) &&
+                    ((mods & Modififr.PRIVATE) != 0)) ? mfti : null;
+        } dbtdi (NoSudiMftiodExdfption fx) {
+            rfturn null;
         }
     }
 
     /**
-     * Returns true if classes are defined in the same runtime package, false
-     * otherwise.
+     * Rfturns truf if dlbssfs brf dffinfd in tif sbmf runtimf pbdkbgf, fblsf
+     * otifrwisf.
      */
-    private static boolean packageEquals(Class<?> cl1, Class<?> cl2) {
-        return (cl1.getClassLoader() == cl2.getClassLoader() &&
-                getPackageName(cl1).equals(getPackageName(cl2)));
+    privbtf stbtid boolfbn pbdkbgfEqubls(Clbss<?> dl1, Clbss<?> dl2) {
+        rfturn (dl1.gftClbssLobdfr() == dl2.gftClbssLobdfr() &&
+                gftPbdkbgfNbmf(dl1).fqubls(gftPbdkbgfNbmf(dl2)));
     }
 
     /**
-     * Returns package name of given class.
+     * Rfturns pbdkbgf nbmf of givfn dlbss.
      */
-    private static String getPackageName(Class<?> cl) {
-        String s = cl.getName();
-        int i = s.lastIndexOf('[');
+    privbtf stbtid String gftPbdkbgfNbmf(Clbss<?> dl) {
+        String s = dl.gftNbmf();
+        int i = s.lbstIndfxOf('[');
         if (i >= 0) {
             s = s.substring(i + 2);
         }
-        i = s.lastIndexOf('.');
-        return (i >= 0) ? s.substring(0, i) : "";
+        i = s.lbstIndfxOf('.');
+        rfturn (i >= 0) ? s.substring(0, i) : "";
     }
 
     /**
-     * Compares class names for equality, ignoring package names.  Returns true
-     * if class names equal, false otherwise.
+     * Compbrfs dlbss nbmfs for fqublity, ignoring pbdkbgf nbmfs.  Rfturns truf
+     * if dlbss nbmfs fqubl, fblsf otifrwisf.
      */
-    private static boolean classNamesEqual(String name1, String name2) {
-        name1 = name1.substring(name1.lastIndexOf('.') + 1);
-        name2 = name2.substring(name2.lastIndexOf('.') + 1);
-        return name1.equals(name2);
+    privbtf stbtid boolfbn dlbssNbmfsEqubl(String nbmf1, String nbmf2) {
+        nbmf1 = nbmf1.substring(nbmf1.lbstIndfxOf('.') + 1);
+        nbmf2 = nbmf2.substring(nbmf2.lbstIndfxOf('.') + 1);
+        rfturn nbmf1.fqubls(nbmf2);
     }
 
     /**
-     * Returns JVM type signature for given primitive.
+     * Rfturns JVM typf signbturf for givfn primitivf.
      */
-    private static String getPrimitiveSignature(Class<?> cl) {
-        if (cl == Integer.TYPE)
-            return "I";
-        else if (cl == Byte.TYPE)
-            return "B";
-        else if (cl == Long.TYPE)
-            return "J";
-        else if (cl == Float.TYPE)
-            return "F";
-        else if (cl == Double.TYPE)
-            return "D";
-        else if (cl == Short.TYPE)
-            return "S";
-        else if (cl == Character.TYPE)
-            return "C";
-        else if (cl == Boolean.TYPE)
-            return "Z";
-        else if (cl == Void.TYPE)
-            return "V";
-        else
-            throw new InternalError();
+    privbtf stbtid String gftPrimitivfSignbturf(Clbss<?> dl) {
+        if (dl == Intfgfr.TYPE)
+            rfturn "I";
+        flsf if (dl == Bytf.TYPE)
+            rfturn "B";
+        flsf if (dl == Long.TYPE)
+            rfturn "J";
+        flsf if (dl == Flobt.TYPE)
+            rfturn "F";
+        flsf if (dl == Doublf.TYPE)
+            rfturn "D";
+        flsf if (dl == Siort.TYPE)
+            rfturn "S";
+        flsf if (dl == Cibrbdtfr.TYPE)
+            rfturn "C";
+        flsf if (dl == Boolfbn.TYPE)
+            rfturn "Z";
+        flsf if (dl == Void.TYPE)
+            rfturn "V";
+        flsf
+            tirow nfw IntfrnblError();
     }
 
     /**
-     * Returns JVM type signature for given class.
+     * Rfturns JVM typf signbturf for givfn dlbss.
      */
-    static String getClassSignature(Class<?> cl) {
-        if (cl.isPrimitive())
-            return getPrimitiveSignature(cl);
-        else
-            return appendClassSignature(new StringBuilder(), cl).toString();
+    stbtid String gftClbssSignbturf(Clbss<?> dl) {
+        if (dl.isPrimitivf())
+            rfturn gftPrimitivfSignbturf(dl);
+        flsf
+            rfturn bppfndClbssSignbturf(nfw StringBuildfr(), dl).toString();
     }
 
-    private static StringBuilder appendClassSignature(StringBuilder sbuf, Class<?> cl) {
-       while (cl.isArray()) {
-           sbuf.append('[');
-           cl = cl.getComponentType();
+    privbtf stbtid StringBuildfr bppfndClbssSignbturf(StringBuildfr sbuf, Clbss<?> dl) {
+       wiilf (dl.isArrby()) {
+           sbuf.bppfnd('[');
+           dl = dl.gftComponfntTypf();
        }
 
-       if (cl.isPrimitive())
-           sbuf.append(getPrimitiveSignature(cl));
-       else
-           sbuf.append('L').append(cl.getName().replace('.', '/')).append(';');
+       if (dl.isPrimitivf())
+           sbuf.bppfnd(gftPrimitivfSignbturf(dl));
+       flsf
+           sbuf.bppfnd('L').bppfnd(dl.gftNbmf().rfplbdf('.', '/')).bppfnd(';');
 
-       return sbuf;
+       rfturn sbuf;
    }
 
     /**
-     * Returns JVM type signature for given list of parameters and return type.
+     * Rfturns JVM typf signbturf for givfn list of pbrbmftfrs bnd rfturn typf.
      */
-    private static String getMethodSignature(Class<?>[] paramTypes,
-                                             Class<?> retType)
+    privbtf stbtid String gftMftiodSignbturf(Clbss<?>[] pbrbmTypfs,
+                                             Clbss<?> rftTypf)
     {
-        StringBuilder sbuf = new StringBuilder();
-        sbuf.append('(');
-        for (int i = 0; i < paramTypes.length; i++) {
-            appendClassSignature(sbuf, paramTypes[i]);
+        StringBuildfr sbuf = nfw StringBuildfr();
+        sbuf.bppfnd('(');
+        for (int i = 0; i < pbrbmTypfs.lfngti; i++) {
+            bppfndClbssSignbturf(sbuf, pbrbmTypfs[i]);
         }
-        sbuf.append(')');
-        appendClassSignature(sbuf, retType);
-        return sbuf.toString();
+        sbuf.bppfnd(')');
+        bppfndClbssSignbturf(sbuf, rftTypf);
+        rfturn sbuf.toString();
     }
 
     /**
-     * Convenience method for throwing an exception that is either a
-     * RuntimeException, Error, or of some unexpected type (in which case it is
-     * wrapped inside an IOException).
+     * Convfnifndf mftiod for tirowing bn fxdfption tibt is fitifr b
+     * RuntimfExdfption, Error, or of somf unfxpfdtfd typf (in wiidi dbsf it is
+     * wrbppfd insidf bn IOExdfption).
      */
-    private static void throwMiscException(Throwable th) throws IOException {
-        if (th instanceof RuntimeException) {
-            throw (RuntimeException) th;
-        } else if (th instanceof Error) {
-            throw (Error) th;
-        } else {
-            IOException ex = new IOException("unexpected exception type");
-            ex.initCause(th);
-            throw ex;
+    privbtf stbtid void tirowMisdExdfption(Tirowbblf ti) tirows IOExdfption {
+        if (ti instbndfof RuntimfExdfption) {
+            tirow (RuntimfExdfption) ti;
+        } flsf if (ti instbndfof Error) {
+            tirow (Error) ti;
+        } flsf {
+            IOExdfption fx = nfw IOExdfption("unfxpfdtfd fxdfption typf");
+            fx.initCbusf(ti);
+            tirow fx;
         }
     }
 
     /**
-     * Returns ObjectStreamField array describing the serializable fields of
-     * the given class.  Serializable fields backed by an actual field of the
-     * class are represented by ObjectStreamFields with corresponding non-null
-     * Field objects.  Throws InvalidClassException if the (explicitly
-     * declared) serializable fields are invalid.
+     * Rfturns ObjfdtStrfbmFifld brrby dfsdribing tif sfriblizbblf fiflds of
+     * tif givfn dlbss.  Sfriblizbblf fiflds bbdkfd by bn bdtubl fifld of tif
+     * dlbss brf rfprfsfntfd by ObjfdtStrfbmFiflds witi dorrfsponding non-null
+     * Fifld objfdts.  Tirows InvblidClbssExdfption if tif (fxpliditly
+     * dfdlbrfd) sfriblizbblf fiflds brf invblid.
      */
-    private static ObjectStreamField[] getSerialFields(Class<?> cl)
-        throws InvalidClassException
+    privbtf stbtid ObjfdtStrfbmFifld[] gftSfriblFiflds(Clbss<?> dl)
+        tirows InvblidClbssExdfption
     {
-        ObjectStreamField[] fields;
-        if (Serializable.class.isAssignableFrom(cl) &&
-            !Externalizable.class.isAssignableFrom(cl) &&
-            !Proxy.isProxyClass(cl) &&
-            !cl.isInterface())
+        ObjfdtStrfbmFifld[] fiflds;
+        if (Sfriblizbblf.dlbss.isAssignbblfFrom(dl) &&
+            !Extfrnblizbblf.dlbss.isAssignbblfFrom(dl) &&
+            !Proxy.isProxyClbss(dl) &&
+            !dl.isIntfrfbdf())
         {
-            if ((fields = getDeclaredSerialFields(cl)) == null) {
-                fields = getDefaultSerialFields(cl);
+            if ((fiflds = gftDfdlbrfdSfriblFiflds(dl)) == null) {
+                fiflds = gftDffbultSfriblFiflds(dl);
             }
-            Arrays.sort(fields);
-        } else {
-            fields = NO_FIELDS;
+            Arrbys.sort(fiflds);
+        } flsf {
+            fiflds = NO_FIELDS;
         }
-        return fields;
+        rfturn fiflds;
     }
 
     /**
-     * Returns serializable fields of given class as defined explicitly by a
-     * "serialPersistentFields" field, or null if no appropriate
-     * "serialPersistentFields" field is defined.  Serializable fields backed
-     * by an actual field of the class are represented by ObjectStreamFields
-     * with corresponding non-null Field objects.  For compatibility with past
-     * releases, a "serialPersistentFields" field with a null value is
-     * considered equivalent to not declaring "serialPersistentFields".  Throws
-     * InvalidClassException if the declared serializable fields are
-     * invalid--e.g., if multiple fields share the same name.
+     * Rfturns sfriblizbblf fiflds of givfn dlbss bs dffinfd fxpliditly by b
+     * "sfriblPfrsistfntFiflds" fifld, or null if no bppropribtf
+     * "sfriblPfrsistfntFiflds" fifld is dffinfd.  Sfriblizbblf fiflds bbdkfd
+     * by bn bdtubl fifld of tif dlbss brf rfprfsfntfd by ObjfdtStrfbmFiflds
+     * witi dorrfsponding non-null Fifld objfdts.  For dompbtibility witi pbst
+     * rflfbsfs, b "sfriblPfrsistfntFiflds" fifld witi b null vbluf is
+     * donsidfrfd fquivblfnt to not dfdlbring "sfriblPfrsistfntFiflds".  Tirows
+     * InvblidClbssExdfption if tif dfdlbrfd sfriblizbblf fiflds brf
+     * invblid--f.g., if multiplf fiflds sibrf tif sbmf nbmf.
      */
-    private static ObjectStreamField[] getDeclaredSerialFields(Class<?> cl)
-        throws InvalidClassException
+    privbtf stbtid ObjfdtStrfbmFifld[] gftDfdlbrfdSfriblFiflds(Clbss<?> dl)
+        tirows InvblidClbssExdfption
     {
-        ObjectStreamField[] serialPersistentFields = null;
+        ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = null;
         try {
-            Field f = cl.getDeclaredField("serialPersistentFields");
-            int mask = Modifier.PRIVATE | Modifier.STATIC | Modifier.FINAL;
-            if ((f.getModifiers() & mask) == mask) {
-                f.setAccessible(true);
-                serialPersistentFields = (ObjectStreamField[]) f.get(null);
+            Fifld f = dl.gftDfdlbrfdFifld("sfriblPfrsistfntFiflds");
+            int mbsk = Modififr.PRIVATE | Modififr.STATIC | Modififr.FINAL;
+            if ((f.gftModififrs() & mbsk) == mbsk) {
+                f.sftAddfssiblf(truf);
+                sfriblPfrsistfntFiflds = (ObjfdtStrfbmFifld[]) f.gft(null);
             }
-        } catch (Exception ex) {
+        } dbtdi (Exdfption fx) {
         }
-        if (serialPersistentFields == null) {
-            return null;
-        } else if (serialPersistentFields.length == 0) {
-            return NO_FIELDS;
+        if (sfriblPfrsistfntFiflds == null) {
+            rfturn null;
+        } flsf if (sfriblPfrsistfntFiflds.lfngti == 0) {
+            rfturn NO_FIELDS;
         }
 
-        ObjectStreamField[] boundFields =
-            new ObjectStreamField[serialPersistentFields.length];
-        Set<String> fieldNames = new HashSet<>(serialPersistentFields.length);
+        ObjfdtStrfbmFifld[] boundFiflds =
+            nfw ObjfdtStrfbmFifld[sfriblPfrsistfntFiflds.lfngti];
+        Sft<String> fifldNbmfs = nfw HbsiSft<>(sfriblPfrsistfntFiflds.lfngti);
 
-        for (int i = 0; i < serialPersistentFields.length; i++) {
-            ObjectStreamField spf = serialPersistentFields[i];
+        for (int i = 0; i < sfriblPfrsistfntFiflds.lfngti; i++) {
+            ObjfdtStrfbmFifld spf = sfriblPfrsistfntFiflds[i];
 
-            String fname = spf.getName();
-            if (fieldNames.contains(fname)) {
-                throw new InvalidClassException(
-                    "multiple serializable fields named " + fname);
+            String fnbmf = spf.gftNbmf();
+            if (fifldNbmfs.dontbins(fnbmf)) {
+                tirow nfw InvblidClbssExdfption(
+                    "multiplf sfriblizbblf fiflds nbmfd " + fnbmf);
             }
-            fieldNames.add(fname);
+            fifldNbmfs.bdd(fnbmf);
 
             try {
-                Field f = cl.getDeclaredField(fname);
-                if ((f.getType() == spf.getType()) &&
-                    ((f.getModifiers() & Modifier.STATIC) == 0))
+                Fifld f = dl.gftDfdlbrfdFifld(fnbmf);
+                if ((f.gftTypf() == spf.gftTypf()) &&
+                    ((f.gftModififrs() & Modififr.STATIC) == 0))
                 {
-                    boundFields[i] =
-                        new ObjectStreamField(f, spf.isUnshared(), true);
+                    boundFiflds[i] =
+                        nfw ObjfdtStrfbmFifld(f, spf.isUnsibrfd(), truf);
                 }
-            } catch (NoSuchFieldException ex) {
+            } dbtdi (NoSudiFifldExdfption fx) {
             }
-            if (boundFields[i] == null) {
-                boundFields[i] = new ObjectStreamField(
-                    fname, spf.getType(), spf.isUnshared());
+            if (boundFiflds[i] == null) {
+                boundFiflds[i] = nfw ObjfdtStrfbmFifld(
+                    fnbmf, spf.gftTypf(), spf.isUnsibrfd());
             }
         }
-        return boundFields;
+        rfturn boundFiflds;
     }
 
     /**
-     * Returns array of ObjectStreamFields corresponding to all non-static
-     * non-transient fields declared by given class.  Each ObjectStreamField
-     * contains a Field object for the field it represents.  If no default
-     * serializable fields exist, NO_FIELDS is returned.
+     * Rfturns brrby of ObjfdtStrfbmFiflds dorrfsponding to bll non-stbtid
+     * non-trbnsifnt fiflds dfdlbrfd by givfn dlbss.  Ebdi ObjfdtStrfbmFifld
+     * dontbins b Fifld objfdt for tif fifld it rfprfsfnts.  If no dffbult
+     * sfriblizbblf fiflds fxist, NO_FIELDS is rfturnfd.
      */
-    private static ObjectStreamField[] getDefaultSerialFields(Class<?> cl) {
-        Field[] clFields = cl.getDeclaredFields();
-        ArrayList<ObjectStreamField> list = new ArrayList<>();
-        int mask = Modifier.STATIC | Modifier.TRANSIENT;
+    privbtf stbtid ObjfdtStrfbmFifld[] gftDffbultSfriblFiflds(Clbss<?> dl) {
+        Fifld[] dlFiflds = dl.gftDfdlbrfdFiflds();
+        ArrbyList<ObjfdtStrfbmFifld> list = nfw ArrbyList<>();
+        int mbsk = Modififr.STATIC | Modififr.TRANSIENT;
 
-        for (int i = 0; i < clFields.length; i++) {
-            if ((clFields[i].getModifiers() & mask) == 0) {
-                list.add(new ObjectStreamField(clFields[i], false, true));
+        for (int i = 0; i < dlFiflds.lfngti; i++) {
+            if ((dlFiflds[i].gftModififrs() & mbsk) == 0) {
+                list.bdd(nfw ObjfdtStrfbmFifld(dlFiflds[i], fblsf, truf));
             }
         }
-        int size = list.size();
-        return (size == 0) ? NO_FIELDS :
-            list.toArray(new ObjectStreamField[size]);
+        int sizf = list.sizf();
+        rfturn (sizf == 0) ? NO_FIELDS :
+            list.toArrby(nfw ObjfdtStrfbmFifld[sizf]);
     }
 
     /**
-     * Returns explicit serial version UID value declared by given class, or
-     * null if none.
+     * Rfturns fxplidit sfribl vfrsion UID vbluf dfdlbrfd by givfn dlbss, or
+     * null if nonf.
      */
-    private static Long getDeclaredSUID(Class<?> cl) {
+    privbtf stbtid Long gftDfdlbrfdSUID(Clbss<?> dl) {
         try {
-            Field f = cl.getDeclaredField("serialVersionUID");
-            int mask = Modifier.STATIC | Modifier.FINAL;
-            if ((f.getModifiers() & mask) == mask) {
-                f.setAccessible(true);
-                return Long.valueOf(f.getLong(null));
+            Fifld f = dl.gftDfdlbrfdFifld("sfriblVfrsionUID");
+            int mbsk = Modififr.STATIC | Modififr.FINAL;
+            if ((f.gftModififrs() & mbsk) == mbsk) {
+                f.sftAddfssiblf(truf);
+                rfturn Long.vblufOf(f.gftLong(null));
             }
-        } catch (Exception ex) {
+        } dbtdi (Exdfption fx) {
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Computes the default serial version UID value for the given class.
+     * Computfs tif dffbult sfribl vfrsion UID vbluf for tif givfn dlbss.
      */
-    private static long computeDefaultSUID(Class<?> cl) {
-        if (!Serializable.class.isAssignableFrom(cl) || Proxy.isProxyClass(cl))
+    privbtf stbtid long domputfDffbultSUID(Clbss<?> dl) {
+        if (!Sfriblizbblf.dlbss.isAssignbblfFrom(dl) || Proxy.isProxyClbss(dl))
         {
-            return 0L;
+            rfturn 0L;
         }
 
         try {
-            ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            DataOutputStream dout = new DataOutputStream(bout);
+            BytfArrbyOutputStrfbm bout = nfw BytfArrbyOutputStrfbm();
+            DbtbOutputStrfbm dout = nfw DbtbOutputStrfbm(bout);
 
-            dout.writeUTF(cl.getName());
+            dout.writfUTF(dl.gftNbmf());
 
-            int classMods = cl.getModifiers() &
-                (Modifier.PUBLIC | Modifier.FINAL |
-                 Modifier.INTERFACE | Modifier.ABSTRACT);
+            int dlbssMods = dl.gftModififrs() &
+                (Modififr.PUBLIC | Modififr.FINAL |
+                 Modififr.INTERFACE | Modififr.ABSTRACT);
 
             /*
-             * compensate for javac bug in which ABSTRACT bit was set for an
-             * interface only if the interface declared methods
+             * dompfnsbtf for jbvbd bug in wiidi ABSTRACT bit wbs sft for bn
+             * intfrfbdf only if tif intfrfbdf dfdlbrfd mftiods
              */
-            Method[] methods = cl.getDeclaredMethods();
-            if ((classMods & Modifier.INTERFACE) != 0) {
-                classMods = (methods.length > 0) ?
-                    (classMods | Modifier.ABSTRACT) :
-                    (classMods & ~Modifier.ABSTRACT);
+            Mftiod[] mftiods = dl.gftDfdlbrfdMftiods();
+            if ((dlbssMods & Modififr.INTERFACE) != 0) {
+                dlbssMods = (mftiods.lfngti > 0) ?
+                    (dlbssMods | Modififr.ABSTRACT) :
+                    (dlbssMods & ~Modififr.ABSTRACT);
             }
-            dout.writeInt(classMods);
+            dout.writfInt(dlbssMods);
 
-            if (!cl.isArray()) {
+            if (!dl.isArrby()) {
                 /*
-                 * compensate for change in 1.2FCS in which
-                 * Class.getInterfaces() was modified to return Cloneable and
-                 * Serializable for array classes.
+                 * dompfnsbtf for dibngf in 1.2FCS in wiidi
+                 * Clbss.gftIntfrfbdfs() wbs modififd to rfturn Clonfbblf bnd
+                 * Sfriblizbblf for brrby dlbssfs.
                  */
-                Class<?>[] interfaces = cl.getInterfaces();
-                String[] ifaceNames = new String[interfaces.length];
-                for (int i = 0; i < interfaces.length; i++) {
-                    ifaceNames[i] = interfaces[i].getName();
+                Clbss<?>[] intfrfbdfs = dl.gftIntfrfbdfs();
+                String[] ifbdfNbmfs = nfw String[intfrfbdfs.lfngti];
+                for (int i = 0; i < intfrfbdfs.lfngti; i++) {
+                    ifbdfNbmfs[i] = intfrfbdfs[i].gftNbmf();
                 }
-                Arrays.sort(ifaceNames);
-                for (int i = 0; i < ifaceNames.length; i++) {
-                    dout.writeUTF(ifaceNames[i]);
+                Arrbys.sort(ifbdfNbmfs);
+                for (int i = 0; i < ifbdfNbmfs.lfngti; i++) {
+                    dout.writfUTF(ifbdfNbmfs[i]);
                 }
             }
 
-            Field[] fields = cl.getDeclaredFields();
-            MemberSignature[] fieldSigs = new MemberSignature[fields.length];
-            for (int i = 0; i < fields.length; i++) {
-                fieldSigs[i] = new MemberSignature(fields[i]);
+            Fifld[] fiflds = dl.gftDfdlbrfdFiflds();
+            MfmbfrSignbturf[] fifldSigs = nfw MfmbfrSignbturf[fiflds.lfngti];
+            for (int i = 0; i < fiflds.lfngti; i++) {
+                fifldSigs[i] = nfw MfmbfrSignbturf(fiflds[i]);
             }
-            Arrays.sort(fieldSigs, new Comparator<MemberSignature>() {
-                public int compare(MemberSignature ms1, MemberSignature ms2) {
-                    return ms1.name.compareTo(ms2.name);
+            Arrbys.sort(fifldSigs, nfw Compbrbtor<MfmbfrSignbturf>() {
+                publid int dompbrf(MfmbfrSignbturf ms1, MfmbfrSignbturf ms2) {
+                    rfturn ms1.nbmf.dompbrfTo(ms2.nbmf);
                 }
             });
-            for (int i = 0; i < fieldSigs.length; i++) {
-                MemberSignature sig = fieldSigs[i];
-                int mods = sig.member.getModifiers() &
-                    (Modifier.PUBLIC | Modifier.PRIVATE | Modifier.PROTECTED |
-                     Modifier.STATIC | Modifier.FINAL | Modifier.VOLATILE |
-                     Modifier.TRANSIENT);
-                if (((mods & Modifier.PRIVATE) == 0) ||
-                    ((mods & (Modifier.STATIC | Modifier.TRANSIENT)) == 0))
+            for (int i = 0; i < fifldSigs.lfngti; i++) {
+                MfmbfrSignbturf sig = fifldSigs[i];
+                int mods = sig.mfmbfr.gftModififrs() &
+                    (Modififr.PUBLIC | Modififr.PRIVATE | Modififr.PROTECTED |
+                     Modififr.STATIC | Modififr.FINAL | Modififr.VOLATILE |
+                     Modififr.TRANSIENT);
+                if (((mods & Modififr.PRIVATE) == 0) ||
+                    ((mods & (Modififr.STATIC | Modififr.TRANSIENT)) == 0))
                 {
-                    dout.writeUTF(sig.name);
-                    dout.writeInt(mods);
-                    dout.writeUTF(sig.signature);
+                    dout.writfUTF(sig.nbmf);
+                    dout.writfInt(mods);
+                    dout.writfUTF(sig.signbturf);
                 }
             }
 
-            if (hasStaticInitializer(cl)) {
-                dout.writeUTF("<clinit>");
-                dout.writeInt(Modifier.STATIC);
-                dout.writeUTF("()V");
+            if (ibsStbtidInitiblizfr(dl)) {
+                dout.writfUTF("<dlinit>");
+                dout.writfInt(Modififr.STATIC);
+                dout.writfUTF("()V");
             }
 
-            Constructor<?>[] cons = cl.getDeclaredConstructors();
-            MemberSignature[] consSigs = new MemberSignature[cons.length];
-            for (int i = 0; i < cons.length; i++) {
-                consSigs[i] = new MemberSignature(cons[i]);
+            Construdtor<?>[] dons = dl.gftDfdlbrfdConstrudtors();
+            MfmbfrSignbturf[] donsSigs = nfw MfmbfrSignbturf[dons.lfngti];
+            for (int i = 0; i < dons.lfngti; i++) {
+                donsSigs[i] = nfw MfmbfrSignbturf(dons[i]);
             }
-            Arrays.sort(consSigs, new Comparator<MemberSignature>() {
-                public int compare(MemberSignature ms1, MemberSignature ms2) {
-                    return ms1.signature.compareTo(ms2.signature);
+            Arrbys.sort(donsSigs, nfw Compbrbtor<MfmbfrSignbturf>() {
+                publid int dompbrf(MfmbfrSignbturf ms1, MfmbfrSignbturf ms2) {
+                    rfturn ms1.signbturf.dompbrfTo(ms2.signbturf);
                 }
             });
-            for (int i = 0; i < consSigs.length; i++) {
-                MemberSignature sig = consSigs[i];
-                int mods = sig.member.getModifiers() &
-                    (Modifier.PUBLIC | Modifier.PRIVATE | Modifier.PROTECTED |
-                     Modifier.STATIC | Modifier.FINAL |
-                     Modifier.SYNCHRONIZED | Modifier.NATIVE |
-                     Modifier.ABSTRACT | Modifier.STRICT);
-                if ((mods & Modifier.PRIVATE) == 0) {
-                    dout.writeUTF("<init>");
-                    dout.writeInt(mods);
-                    dout.writeUTF(sig.signature.replace('/', '.'));
+            for (int i = 0; i < donsSigs.lfngti; i++) {
+                MfmbfrSignbturf sig = donsSigs[i];
+                int mods = sig.mfmbfr.gftModififrs() &
+                    (Modififr.PUBLIC | Modififr.PRIVATE | Modififr.PROTECTED |
+                     Modififr.STATIC | Modififr.FINAL |
+                     Modififr.SYNCHRONIZED | Modififr.NATIVE |
+                     Modififr.ABSTRACT | Modififr.STRICT);
+                if ((mods & Modififr.PRIVATE) == 0) {
+                    dout.writfUTF("<init>");
+                    dout.writfInt(mods);
+                    dout.writfUTF(sig.signbturf.rfplbdf('/', '.'));
                 }
             }
 
-            MemberSignature[] methSigs = new MemberSignature[methods.length];
-            for (int i = 0; i < methods.length; i++) {
-                methSigs[i] = new MemberSignature(methods[i]);
+            MfmbfrSignbturf[] mftiSigs = nfw MfmbfrSignbturf[mftiods.lfngti];
+            for (int i = 0; i < mftiods.lfngti; i++) {
+                mftiSigs[i] = nfw MfmbfrSignbturf(mftiods[i]);
             }
-            Arrays.sort(methSigs, new Comparator<MemberSignature>() {
-                public int compare(MemberSignature ms1, MemberSignature ms2) {
-                    int comp = ms1.name.compareTo(ms2.name);
-                    if (comp == 0) {
-                        comp = ms1.signature.compareTo(ms2.signature);
+            Arrbys.sort(mftiSigs, nfw Compbrbtor<MfmbfrSignbturf>() {
+                publid int dompbrf(MfmbfrSignbturf ms1, MfmbfrSignbturf ms2) {
+                    int domp = ms1.nbmf.dompbrfTo(ms2.nbmf);
+                    if (domp == 0) {
+                        domp = ms1.signbturf.dompbrfTo(ms2.signbturf);
                     }
-                    return comp;
+                    rfturn domp;
                 }
             });
-            for (int i = 0; i < methSigs.length; i++) {
-                MemberSignature sig = methSigs[i];
-                int mods = sig.member.getModifiers() &
-                    (Modifier.PUBLIC | Modifier.PRIVATE | Modifier.PROTECTED |
-                     Modifier.STATIC | Modifier.FINAL |
-                     Modifier.SYNCHRONIZED | Modifier.NATIVE |
-                     Modifier.ABSTRACT | Modifier.STRICT);
-                if ((mods & Modifier.PRIVATE) == 0) {
-                    dout.writeUTF(sig.name);
-                    dout.writeInt(mods);
-                    dout.writeUTF(sig.signature.replace('/', '.'));
+            for (int i = 0; i < mftiSigs.lfngti; i++) {
+                MfmbfrSignbturf sig = mftiSigs[i];
+                int mods = sig.mfmbfr.gftModififrs() &
+                    (Modififr.PUBLIC | Modififr.PRIVATE | Modififr.PROTECTED |
+                     Modififr.STATIC | Modififr.FINAL |
+                     Modififr.SYNCHRONIZED | Modififr.NATIVE |
+                     Modififr.ABSTRACT | Modififr.STRICT);
+                if ((mods & Modififr.PRIVATE) == 0) {
+                    dout.writfUTF(sig.nbmf);
+                    dout.writfInt(mods);
+                    dout.writfUTF(sig.signbturf.rfplbdf('/', '.'));
                 }
             }
 
-            dout.flush();
+            dout.flusi();
 
-            MessageDigest md = MessageDigest.getInstance("SHA");
-            byte[] hashBytes = md.digest(bout.toByteArray());
-            long hash = 0;
-            for (int i = Math.min(hashBytes.length, 8) - 1; i >= 0; i--) {
-                hash = (hash << 8) | (hashBytes[i] & 0xFF);
+            MfssbgfDigfst md = MfssbgfDigfst.gftInstbndf("SHA");
+            bytf[] ibsiBytfs = md.digfst(bout.toBytfArrby());
+            long ibsi = 0;
+            for (int i = Mbti.min(ibsiBytfs.lfngti, 8) - 1; i >= 0; i--) {
+                ibsi = (ibsi << 8) | (ibsiBytfs[i] & 0xFF);
             }
-            return hash;
-        } catch (IOException ex) {
-            throw new InternalError(ex);
-        } catch (NoSuchAlgorithmException ex) {
-            throw new SecurityException(ex.getMessage());
+            rfturn ibsi;
+        } dbtdi (IOExdfption fx) {
+            tirow nfw IntfrnblError(fx);
+        } dbtdi (NoSudiAlgoritimExdfption fx) {
+            tirow nfw SfdurityExdfption(fx.gftMfssbgf());
         }
     }
 
     /**
-     * Returns true if the given class defines a static initializer method,
-     * false otherwise.
+     * Rfturns truf if tif givfn dlbss dffinfs b stbtid initiblizfr mftiod,
+     * fblsf otifrwisf.
      */
-    private native static boolean hasStaticInitializer(Class<?> cl);
+    privbtf nbtivf stbtid boolfbn ibsStbtidInitiblizfr(Clbss<?> dl);
 
     /**
-     * Class for computing and caching field/constructor/method signatures
-     * during serialVersionUID calculation.
+     * Clbss for domputing bnd dbdiing fifld/donstrudtor/mftiod signbturfs
+     * during sfriblVfrsionUID dbldulbtion.
      */
-    private static class MemberSignature {
+    privbtf stbtid dlbss MfmbfrSignbturf {
 
-        public final Member member;
-        public final String name;
-        public final String signature;
+        publid finbl Mfmbfr mfmbfr;
+        publid finbl String nbmf;
+        publid finbl String signbturf;
 
-        public MemberSignature(Field field) {
-            member = field;
-            name = field.getName();
-            signature = getClassSignature(field.getType());
+        publid MfmbfrSignbturf(Fifld fifld) {
+            mfmbfr = fifld;
+            nbmf = fifld.gftNbmf();
+            signbturf = gftClbssSignbturf(fifld.gftTypf());
         }
 
-        public MemberSignature(Constructor<?> cons) {
-            member = cons;
-            name = cons.getName();
-            signature = getMethodSignature(
-                cons.getParameterTypes(), Void.TYPE);
+        publid MfmbfrSignbturf(Construdtor<?> dons) {
+            mfmbfr = dons;
+            nbmf = dons.gftNbmf();
+            signbturf = gftMftiodSignbturf(
+                dons.gftPbrbmftfrTypfs(), Void.TYPE);
         }
 
-        public MemberSignature(Method meth) {
-            member = meth;
-            name = meth.getName();
-            signature = getMethodSignature(
-                meth.getParameterTypes(), meth.getReturnType());
+        publid MfmbfrSignbturf(Mftiod mfti) {
+            mfmbfr = mfti;
+            nbmf = mfti.gftNbmf();
+            signbturf = gftMftiodSignbturf(
+                mfti.gftPbrbmftfrTypfs(), mfti.gftRfturnTypf());
         }
     }
 
     /**
-     * Class for setting and retrieving serializable field values in batch.
+     * Clbss for sftting bnd rftrifving sfriblizbblf fifld vblufs in bbtdi.
      */
-    // REMIND: dynamically generate these?
-    private static class FieldReflector {
+    // REMIND: dynbmidblly gfnfrbtf tifsf?
+    privbtf stbtid dlbss FifldRfflfdtor {
 
-        /** handle for performing unsafe operations */
-        private static final Unsafe unsafe = Unsafe.getUnsafe();
+        /** ibndlf for pfrforming unsbff opfrbtions */
+        privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
-        /** fields to operate on */
-        private final ObjectStreamField[] fields;
-        /** number of primitive fields */
-        private final int numPrimFields;
-        /** unsafe field keys for reading fields - may contain dupes */
-        private final long[] readKeys;
-        /** unsafe fields keys for writing fields - no dupes */
-        private final long[] writeKeys;
-        /** field data offsets */
-        private final int[] offsets;
-        /** field type codes */
-        private final char[] typeCodes;
-        /** field types */
-        private final Class<?>[] types;
+        /** fiflds to opfrbtf on */
+        privbtf finbl ObjfdtStrfbmFifld[] fiflds;
+        /** numbfr of primitivf fiflds */
+        privbtf finbl int numPrimFiflds;
+        /** unsbff fifld kfys for rfbding fiflds - mby dontbin dupfs */
+        privbtf finbl long[] rfbdKfys;
+        /** unsbff fiflds kfys for writing fiflds - no dupfs */
+        privbtf finbl long[] writfKfys;
+        /** fifld dbtb offsfts */
+        privbtf finbl int[] offsfts;
+        /** fifld typf dodfs */
+        privbtf finbl dibr[] typfCodfs;
+        /** fifld typfs */
+        privbtf finbl Clbss<?>[] typfs;
 
         /**
-         * Constructs FieldReflector capable of setting/getting values from the
-         * subset of fields whose ObjectStreamFields contain non-null
-         * reflective Field objects.  ObjectStreamFields with null Fields are
-         * treated as filler, for which get operations return default values
-         * and set operations discard given values.
+         * Construdts FifldRfflfdtor dbpbblf of sftting/gftting vblufs from tif
+         * subsft of fiflds wiosf ObjfdtStrfbmFiflds dontbin non-null
+         * rfflfdtivf Fifld objfdts.  ObjfdtStrfbmFiflds witi null Fiflds brf
+         * trfbtfd bs fillfr, for wiidi gft opfrbtions rfturn dffbult vblufs
+         * bnd sft opfrbtions disdbrd givfn vblufs.
          */
-        FieldReflector(ObjectStreamField[] fields) {
-            this.fields = fields;
-            int nfields = fields.length;
-            readKeys = new long[nfields];
-            writeKeys = new long[nfields];
-            offsets = new int[nfields];
-            typeCodes = new char[nfields];
-            ArrayList<Class<?>> typeList = new ArrayList<>();
-            Set<Long> usedKeys = new HashSet<>();
+        FifldRfflfdtor(ObjfdtStrfbmFifld[] fiflds) {
+            tiis.fiflds = fiflds;
+            int nfiflds = fiflds.lfngti;
+            rfbdKfys = nfw long[nfiflds];
+            writfKfys = nfw long[nfiflds];
+            offsfts = nfw int[nfiflds];
+            typfCodfs = nfw dibr[nfiflds];
+            ArrbyList<Clbss<?>> typfList = nfw ArrbyList<>();
+            Sft<Long> usfdKfys = nfw HbsiSft<>();
 
 
-            for (int i = 0; i < nfields; i++) {
-                ObjectStreamField f = fields[i];
-                Field rf = f.getField();
-                long key = (rf != null) ?
-                    unsafe.objectFieldOffset(rf) : Unsafe.INVALID_FIELD_OFFSET;
-                readKeys[i] = key;
-                writeKeys[i] = usedKeys.add(key) ?
-                    key : Unsafe.INVALID_FIELD_OFFSET;
-                offsets[i] = f.getOffset();
-                typeCodes[i] = f.getTypeCode();
-                if (!f.isPrimitive()) {
-                    typeList.add((rf != null) ? rf.getType() : null);
+            for (int i = 0; i < nfiflds; i++) {
+                ObjfdtStrfbmFifld f = fiflds[i];
+                Fifld rf = f.gftFifld();
+                long kfy = (rf != null) ?
+                    unsbff.objfdtFifldOffsft(rf) : Unsbff.INVALID_FIELD_OFFSET;
+                rfbdKfys[i] = kfy;
+                writfKfys[i] = usfdKfys.bdd(kfy) ?
+                    kfy : Unsbff.INVALID_FIELD_OFFSET;
+                offsfts[i] = f.gftOffsft();
+                typfCodfs[i] = f.gftTypfCodf();
+                if (!f.isPrimitivf()) {
+                    typfList.bdd((rf != null) ? rf.gftTypf() : null);
                 }
             }
 
-            types = typeList.toArray(new Class<?>[typeList.size()]);
-            numPrimFields = nfields - types.length;
+            typfs = typfList.toArrby(nfw Clbss<?>[typfList.sizf()]);
+            numPrimFiflds = nfiflds - typfs.lfngti;
         }
 
         /**
-         * Returns list of ObjectStreamFields representing fields operated on
-         * by this reflector.  The shared/unshared values and Field objects
-         * contained by ObjectStreamFields in the list reflect their bindings
-         * to locally defined serializable fields.
+         * Rfturns list of ObjfdtStrfbmFiflds rfprfsfnting fiflds opfrbtfd on
+         * by tiis rfflfdtor.  Tif sibrfd/unsibrfd vblufs bnd Fifld objfdts
+         * dontbinfd by ObjfdtStrfbmFiflds in tif list rfflfdt tifir bindings
+         * to lodblly dffinfd sfriblizbblf fiflds.
          */
-        ObjectStreamField[] getFields() {
-            return fields;
+        ObjfdtStrfbmFifld[] gftFiflds() {
+            rfturn fiflds;
         }
 
         /**
-         * Fetches the serializable primitive field values of object obj and
-         * marshals them into byte array buf starting at offset 0.  The caller
-         * is responsible for ensuring that obj is of the proper type.
+         * Fftdifs tif sfriblizbblf primitivf fifld vblufs of objfdt obj bnd
+         * mbrsibls tifm into bytf brrby buf stbrting bt offsft 0.  Tif dbllfr
+         * is rfsponsiblf for fnsuring tibt obj is of tif propfr typf.
          */
-        void getPrimFieldValues(Object obj, byte[] buf) {
+        void gftPrimFifldVblufs(Objfdt obj, bytf[] buf) {
             if (obj == null) {
-                throw new NullPointerException();
+                tirow nfw NullPointfrExdfption();
             }
-            /* assuming checkDefaultSerialize() has been called on the class
-             * descriptor this FieldReflector was obtained from, no field keys
-             * in array should be equal to Unsafe.INVALID_FIELD_OFFSET.
+            /* bssuming difdkDffbultSfriblizf() ibs bffn dbllfd on tif dlbss
+             * dfsdriptor tiis FifldRfflfdtor wbs obtbinfd from, no fifld kfys
+             * in brrby siould bf fqubl to Unsbff.INVALID_FIELD_OFFSET.
              */
-            for (int i = 0; i < numPrimFields; i++) {
-                long key = readKeys[i];
-                int off = offsets[i];
-                switch (typeCodes[i]) {
-                    case 'Z':
-                        Bits.putBoolean(buf, off, unsafe.getBoolean(obj, key));
-                        break;
+            for (int i = 0; i < numPrimFiflds; i++) {
+                long kfy = rfbdKfys[i];
+                int off = offsfts[i];
+                switdi (typfCodfs[i]) {
+                    dbsf 'Z':
+                        Bits.putBoolfbn(buf, off, unsbff.gftBoolfbn(obj, kfy));
+                        brfbk;
 
-                    case 'B':
-                        buf[off] = unsafe.getByte(obj, key);
-                        break;
+                    dbsf 'B':
+                        buf[off] = unsbff.gftBytf(obj, kfy);
+                        brfbk;
 
-                    case 'C':
-                        Bits.putChar(buf, off, unsafe.getChar(obj, key));
-                        break;
+                    dbsf 'C':
+                        Bits.putCibr(buf, off, unsbff.gftCibr(obj, kfy));
+                        brfbk;
 
-                    case 'S':
-                        Bits.putShort(buf, off, unsafe.getShort(obj, key));
-                        break;
+                    dbsf 'S':
+                        Bits.putSiort(buf, off, unsbff.gftSiort(obj, kfy));
+                        brfbk;
 
-                    case 'I':
-                        Bits.putInt(buf, off, unsafe.getInt(obj, key));
-                        break;
+                    dbsf 'I':
+                        Bits.putInt(buf, off, unsbff.gftInt(obj, kfy));
+                        brfbk;
 
-                    case 'F':
-                        Bits.putFloat(buf, off, unsafe.getFloat(obj, key));
-                        break;
+                    dbsf 'F':
+                        Bits.putFlobt(buf, off, unsbff.gftFlobt(obj, kfy));
+                        brfbk;
 
-                    case 'J':
-                        Bits.putLong(buf, off, unsafe.getLong(obj, key));
-                        break;
+                    dbsf 'J':
+                        Bits.putLong(buf, off, unsbff.gftLong(obj, kfy));
+                        brfbk;
 
-                    case 'D':
-                        Bits.putDouble(buf, off, unsafe.getDouble(obj, key));
-                        break;
+                    dbsf 'D':
+                        Bits.putDoublf(buf, off, unsbff.gftDoublf(obj, kfy));
+                        brfbk;
 
-                    default:
-                        throw new InternalError();
+                    dffbult:
+                        tirow nfw IntfrnblError();
                 }
             }
         }
 
         /**
-         * Sets the serializable primitive fields of object obj using values
-         * unmarshalled from byte array buf starting at offset 0.  The caller
-         * is responsible for ensuring that obj is of the proper type.
+         * Sfts tif sfriblizbblf primitivf fiflds of objfdt obj using vblufs
+         * unmbrsibllfd from bytf brrby buf stbrting bt offsft 0.  Tif dbllfr
+         * is rfsponsiblf for fnsuring tibt obj is of tif propfr typf.
          */
-        void setPrimFieldValues(Object obj, byte[] buf) {
+        void sftPrimFifldVblufs(Objfdt obj, bytf[] buf) {
             if (obj == null) {
-                throw new NullPointerException();
+                tirow nfw NullPointfrExdfption();
             }
-            for (int i = 0; i < numPrimFields; i++) {
-                long key = writeKeys[i];
-                if (key == Unsafe.INVALID_FIELD_OFFSET) {
-                    continue;           // discard value
+            for (int i = 0; i < numPrimFiflds; i++) {
+                long kfy = writfKfys[i];
+                if (kfy == Unsbff.INVALID_FIELD_OFFSET) {
+                    dontinuf;           // disdbrd vbluf
                 }
-                int off = offsets[i];
-                switch (typeCodes[i]) {
-                    case 'Z':
-                        unsafe.putBoolean(obj, key, Bits.getBoolean(buf, off));
-                        break;
+                int off = offsfts[i];
+                switdi (typfCodfs[i]) {
+                    dbsf 'Z':
+                        unsbff.putBoolfbn(obj, kfy, Bits.gftBoolfbn(buf, off));
+                        brfbk;
 
-                    case 'B':
-                        unsafe.putByte(obj, key, buf[off]);
-                        break;
+                    dbsf 'B':
+                        unsbff.putBytf(obj, kfy, buf[off]);
+                        brfbk;
 
-                    case 'C':
-                        unsafe.putChar(obj, key, Bits.getChar(buf, off));
-                        break;
+                    dbsf 'C':
+                        unsbff.putCibr(obj, kfy, Bits.gftCibr(buf, off));
+                        brfbk;
 
-                    case 'S':
-                        unsafe.putShort(obj, key, Bits.getShort(buf, off));
-                        break;
+                    dbsf 'S':
+                        unsbff.putSiort(obj, kfy, Bits.gftSiort(buf, off));
+                        brfbk;
 
-                    case 'I':
-                        unsafe.putInt(obj, key, Bits.getInt(buf, off));
-                        break;
+                    dbsf 'I':
+                        unsbff.putInt(obj, kfy, Bits.gftInt(buf, off));
+                        brfbk;
 
-                    case 'F':
-                        unsafe.putFloat(obj, key, Bits.getFloat(buf, off));
-                        break;
+                    dbsf 'F':
+                        unsbff.putFlobt(obj, kfy, Bits.gftFlobt(buf, off));
+                        brfbk;
 
-                    case 'J':
-                        unsafe.putLong(obj, key, Bits.getLong(buf, off));
-                        break;
+                    dbsf 'J':
+                        unsbff.putLong(obj, kfy, Bits.gftLong(buf, off));
+                        brfbk;
 
-                    case 'D':
-                        unsafe.putDouble(obj, key, Bits.getDouble(buf, off));
-                        break;
+                    dbsf 'D':
+                        unsbff.putDoublf(obj, kfy, Bits.gftDoublf(buf, off));
+                        brfbk;
 
-                    default:
-                        throw new InternalError();
+                    dffbult:
+                        tirow nfw IntfrnblError();
                 }
             }
         }
 
         /**
-         * Fetches the serializable object field values of object obj and
-         * stores them in array vals starting at offset 0.  The caller is
-         * responsible for ensuring that obj is of the proper type.
+         * Fftdifs tif sfriblizbblf objfdt fifld vblufs of objfdt obj bnd
+         * storfs tifm in brrby vbls stbrting bt offsft 0.  Tif dbllfr is
+         * rfsponsiblf for fnsuring tibt obj is of tif propfr typf.
          */
-        void getObjFieldValues(Object obj, Object[] vals) {
+        void gftObjFifldVblufs(Objfdt obj, Objfdt[] vbls) {
             if (obj == null) {
-                throw new NullPointerException();
+                tirow nfw NullPointfrExdfption();
             }
-            /* assuming checkDefaultSerialize() has been called on the class
-             * descriptor this FieldReflector was obtained from, no field keys
-             * in array should be equal to Unsafe.INVALID_FIELD_OFFSET.
+            /* bssuming difdkDffbultSfriblizf() ibs bffn dbllfd on tif dlbss
+             * dfsdriptor tiis FifldRfflfdtor wbs obtbinfd from, no fifld kfys
+             * in brrby siould bf fqubl to Unsbff.INVALID_FIELD_OFFSET.
              */
-            for (int i = numPrimFields; i < fields.length; i++) {
-                switch (typeCodes[i]) {
-                    case 'L':
-                    case '[':
-                        vals[offsets[i]] = unsafe.getObject(obj, readKeys[i]);
-                        break;
+            for (int i = numPrimFiflds; i < fiflds.lfngti; i++) {
+                switdi (typfCodfs[i]) {
+                    dbsf 'L':
+                    dbsf '[':
+                        vbls[offsfts[i]] = unsbff.gftObjfdt(obj, rfbdKfys[i]);
+                        brfbk;
 
-                    default:
-                        throw new InternalError();
+                    dffbult:
+                        tirow nfw IntfrnblError();
                 }
             }
         }
 
         /**
-         * Sets the serializable object fields of object obj using values from
-         * array vals starting at offset 0.  The caller is responsible for
-         * ensuring that obj is of the proper type; however, attempts to set a
-         * field with a value of the wrong type will trigger an appropriate
-         * ClassCastException.
+         * Sfts tif sfriblizbblf objfdt fiflds of objfdt obj using vblufs from
+         * brrby vbls stbrting bt offsft 0.  Tif dbllfr is rfsponsiblf for
+         * fnsuring tibt obj is of tif propfr typf; iowfvfr, bttfmpts to sft b
+         * fifld witi b vbluf of tif wrong typf will triggfr bn bppropribtf
+         * ClbssCbstExdfption.
          */
-        void setObjFieldValues(Object obj, Object[] vals) {
+        void sftObjFifldVblufs(Objfdt obj, Objfdt[] vbls) {
             if (obj == null) {
-                throw new NullPointerException();
+                tirow nfw NullPointfrExdfption();
             }
-            for (int i = numPrimFields; i < fields.length; i++) {
-                long key = writeKeys[i];
-                if (key == Unsafe.INVALID_FIELD_OFFSET) {
-                    continue;           // discard value
+            for (int i = numPrimFiflds; i < fiflds.lfngti; i++) {
+                long kfy = writfKfys[i];
+                if (kfy == Unsbff.INVALID_FIELD_OFFSET) {
+                    dontinuf;           // disdbrd vbluf
                 }
-                switch (typeCodes[i]) {
-                    case 'L':
-                    case '[':
-                        Object val = vals[offsets[i]];
-                        if (val != null &&
-                            !types[i - numPrimFields].isInstance(val))
+                switdi (typfCodfs[i]) {
+                    dbsf 'L':
+                    dbsf '[':
+                        Objfdt vbl = vbls[offsfts[i]];
+                        if (vbl != null &&
+                            !typfs[i - numPrimFiflds].isInstbndf(vbl))
                         {
-                            Field f = fields[i].getField();
-                            throw new ClassCastException(
-                                "cannot assign instance of " +
-                                val.getClass().getName() + " to field " +
-                                f.getDeclaringClass().getName() + "." +
-                                f.getName() + " of type " +
-                                f.getType().getName() + " in instance of " +
-                                obj.getClass().getName());
+                            Fifld f = fiflds[i].gftFifld();
+                            tirow nfw ClbssCbstExdfption(
+                                "dbnnot bssign instbndf of " +
+                                vbl.gftClbss().gftNbmf() + " to fifld " +
+                                f.gftDfdlbringClbss().gftNbmf() + "." +
+                                f.gftNbmf() + " of typf " +
+                                f.gftTypf().gftNbmf() + " in instbndf of " +
+                                obj.gftClbss().gftNbmf());
                         }
-                        unsafe.putObject(obj, key, val);
-                        break;
+                        unsbff.putObjfdt(obj, kfy, vbl);
+                        brfbk;
 
-                    default:
-                        throw new InternalError();
+                    dffbult:
+                        tirow nfw IntfrnblError();
                 }
             }
         }
     }
 
     /**
-     * Matches given set of serializable fields with serializable fields
-     * described by the given local class descriptor, and returns a
-     * FieldReflector instance capable of setting/getting values from the
-     * subset of fields that match (non-matching fields are treated as filler,
-     * for which get operations return default values and set operations
-     * discard given values).  Throws InvalidClassException if unresolvable
-     * type conflicts exist between the two sets of fields.
+     * Mbtdifs givfn sft of sfriblizbblf fiflds witi sfriblizbblf fiflds
+     * dfsdribfd by tif givfn lodbl dlbss dfsdriptor, bnd rfturns b
+     * FifldRfflfdtor instbndf dbpbblf of sftting/gftting vblufs from tif
+     * subsft of fiflds tibt mbtdi (non-mbtdiing fiflds brf trfbtfd bs fillfr,
+     * for wiidi gft opfrbtions rfturn dffbult vblufs bnd sft opfrbtions
+     * disdbrd givfn vblufs).  Tirows InvblidClbssExdfption if unrfsolvbblf
+     * typf donflidts fxist bftwffn tif two sfts of fiflds.
      */
-    private static FieldReflector getReflector(ObjectStreamField[] fields,
-                                               ObjectStreamClass localDesc)
-        throws InvalidClassException
+    privbtf stbtid FifldRfflfdtor gftRfflfdtor(ObjfdtStrfbmFifld[] fiflds,
+                                               ObjfdtStrfbmClbss lodblDfsd)
+        tirows InvblidClbssExdfption
     {
-        // class irrelevant if no fields
-        Class<?> cl = (localDesc != null && fields.length > 0) ?
-            localDesc.cl : null;
-        processQueue(Caches.reflectorsQueue, Caches.reflectors);
-        FieldReflectorKey key = new FieldReflectorKey(cl, fields,
-                                                      Caches.reflectorsQueue);
-        Reference<?> ref = Caches.reflectors.get(key);
-        Object entry = null;
-        if (ref != null) {
-            entry = ref.get();
+        // dlbss irrflfvbnt if no fiflds
+        Clbss<?> dl = (lodblDfsd != null && fiflds.lfngti > 0) ?
+            lodblDfsd.dl : null;
+        prodfssQufuf(Cbdifs.rfflfdtorsQufuf, Cbdifs.rfflfdtors);
+        FifldRfflfdtorKfy kfy = nfw FifldRfflfdtorKfy(dl, fiflds,
+                                                      Cbdifs.rfflfdtorsQufuf);
+        Rfffrfndf<?> rff = Cbdifs.rfflfdtors.gft(kfy);
+        Objfdt fntry = null;
+        if (rff != null) {
+            fntry = rff.gft();
         }
-        EntryFuture future = null;
-        if (entry == null) {
-            EntryFuture newEntry = new EntryFuture();
-            Reference<?> newRef = new SoftReference<>(newEntry);
+        EntryFuturf futurf = null;
+        if (fntry == null) {
+            EntryFuturf nfwEntry = nfw EntryFuturf();
+            Rfffrfndf<?> nfwRff = nfw SoftRfffrfndf<>(nfwEntry);
             do {
-                if (ref != null) {
-                    Caches.reflectors.remove(key, ref);
+                if (rff != null) {
+                    Cbdifs.rfflfdtors.rfmovf(kfy, rff);
                 }
-                ref = Caches.reflectors.putIfAbsent(key, newRef);
-                if (ref != null) {
-                    entry = ref.get();
+                rff = Cbdifs.rfflfdtors.putIfAbsfnt(kfy, nfwRff);
+                if (rff != null) {
+                    fntry = rff.gft();
                 }
-            } while (ref != null && entry == null);
-            if (entry == null) {
-                future = newEntry;
+            } wiilf (rff != null && fntry == null);
+            if (fntry == null) {
+                futurf = nfwEntry;
             }
         }
 
-        if (entry instanceof FieldReflector) {  // check common case first
-            return (FieldReflector) entry;
-        } else if (entry instanceof EntryFuture) {
-            entry = ((EntryFuture) entry).get();
-        } else if (entry == null) {
+        if (fntry instbndfof FifldRfflfdtor) {  // difdk dommon dbsf first
+            rfturn (FifldRfflfdtor) fntry;
+        } flsf if (fntry instbndfof EntryFuturf) {
+            fntry = ((EntryFuturf) fntry).gft();
+        } flsf if (fntry == null) {
             try {
-                entry = new FieldReflector(matchFields(fields, localDesc));
-            } catch (Throwable th) {
-                entry = th;
+                fntry = nfw FifldRfflfdtor(mbtdiFiflds(fiflds, lodblDfsd));
+            } dbtdi (Tirowbblf ti) {
+                fntry = ti;
             }
-            future.set(entry);
-            Caches.reflectors.put(key, new SoftReference<Object>(entry));
+            futurf.sft(fntry);
+            Cbdifs.rfflfdtors.put(kfy, nfw SoftRfffrfndf<Objfdt>(fntry));
         }
 
-        if (entry instanceof FieldReflector) {
-            return (FieldReflector) entry;
-        } else if (entry instanceof InvalidClassException) {
-            throw (InvalidClassException) entry;
-        } else if (entry instanceof RuntimeException) {
-            throw (RuntimeException) entry;
-        } else if (entry instanceof Error) {
-            throw (Error) entry;
-        } else {
-            throw new InternalError("unexpected entry: " + entry);
+        if (fntry instbndfof FifldRfflfdtor) {
+            rfturn (FifldRfflfdtor) fntry;
+        } flsf if (fntry instbndfof InvblidClbssExdfption) {
+            tirow (InvblidClbssExdfption) fntry;
+        } flsf if (fntry instbndfof RuntimfExdfption) {
+            tirow (RuntimfExdfption) fntry;
+        } flsf if (fntry instbndfof Error) {
+            tirow (Error) fntry;
+        } flsf {
+            tirow nfw IntfrnblError("unfxpfdtfd fntry: " + fntry);
         }
     }
 
     /**
-     * FieldReflector cache lookup key.  Keys are considered equal if they
-     * refer to the same class and equivalent field formats.
+     * FifldRfflfdtor dbdif lookup kfy.  Kfys brf donsidfrfd fqubl if tify
+     * rfffr to tif sbmf dlbss bnd fquivblfnt fifld formbts.
      */
-    private static class FieldReflectorKey extends WeakReference<Class<?>> {
+    privbtf stbtid dlbss FifldRfflfdtorKfy fxtfnds WfbkRfffrfndf<Clbss<?>> {
 
-        private final String sigs;
-        private final int hash;
-        private final boolean nullClass;
+        privbtf finbl String sigs;
+        privbtf finbl int ibsi;
+        privbtf finbl boolfbn nullClbss;
 
-        FieldReflectorKey(Class<?> cl, ObjectStreamField[] fields,
-                          ReferenceQueue<Class<?>> queue)
+        FifldRfflfdtorKfy(Clbss<?> dl, ObjfdtStrfbmFifld[] fiflds,
+                          RfffrfndfQufuf<Clbss<?>> qufuf)
         {
-            super(cl, queue);
-            nullClass = (cl == null);
-            StringBuilder sbuf = new StringBuilder();
-            for (int i = 0; i < fields.length; i++) {
-                ObjectStreamField f = fields[i];
-                sbuf.append(f.getName()).append(f.getSignature());
+            supfr(dl, qufuf);
+            nullClbss = (dl == null);
+            StringBuildfr sbuf = nfw StringBuildfr();
+            for (int i = 0; i < fiflds.lfngti; i++) {
+                ObjfdtStrfbmFifld f = fiflds[i];
+                sbuf.bppfnd(f.gftNbmf()).bppfnd(f.gftSignbturf());
             }
             sigs = sbuf.toString();
-            hash = System.identityHashCode(cl) + sigs.hashCode();
+            ibsi = Systfm.idfntityHbsiCodf(dl) + sigs.ibsiCodf();
         }
 
-        public int hashCode() {
-            return hash;
+        publid int ibsiCodf() {
+            rfturn ibsi;
         }
 
-        public boolean equals(Object obj) {
-            if (obj == this) {
-                return true;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == tiis) {
+                rfturn truf;
             }
 
-            if (obj instanceof FieldReflectorKey) {
-                FieldReflectorKey other = (FieldReflectorKey) obj;
-                Class<?> referent;
-                return (nullClass ? other.nullClass
-                                  : ((referent = get()) != null) &&
-                                    (referent == other.get())) &&
-                    sigs.equals(other.sigs);
-            } else {
-                return false;
+            if (obj instbndfof FifldRfflfdtorKfy) {
+                FifldRfflfdtorKfy otifr = (FifldRfflfdtorKfy) obj;
+                Clbss<?> rfffrfnt;
+                rfturn (nullClbss ? otifr.nullClbss
+                                  : ((rfffrfnt = gft()) != null) &&
+                                    (rfffrfnt == otifr.gft())) &&
+                    sigs.fqubls(otifr.sigs);
+            } flsf {
+                rfturn fblsf;
             }
         }
     }
 
     /**
-     * Matches given set of serializable fields with serializable fields
-     * obtained from the given local class descriptor (which contain bindings
-     * to reflective Field objects).  Returns list of ObjectStreamFields in
-     * which each ObjectStreamField whose signature matches that of a local
-     * field contains a Field object for that field; unmatched
-     * ObjectStreamFields contain null Field objects.  Shared/unshared settings
-     * of the returned ObjectStreamFields also reflect those of matched local
-     * ObjectStreamFields.  Throws InvalidClassException if unresolvable type
-     * conflicts exist between the two sets of fields.
+     * Mbtdifs givfn sft of sfriblizbblf fiflds witi sfriblizbblf fiflds
+     * obtbinfd from tif givfn lodbl dlbss dfsdriptor (wiidi dontbin bindings
+     * to rfflfdtivf Fifld objfdts).  Rfturns list of ObjfdtStrfbmFiflds in
+     * wiidi fbdi ObjfdtStrfbmFifld wiosf signbturf mbtdifs tibt of b lodbl
+     * fifld dontbins b Fifld objfdt for tibt fifld; unmbtdifd
+     * ObjfdtStrfbmFiflds dontbin null Fifld objfdts.  Sibrfd/unsibrfd sfttings
+     * of tif rfturnfd ObjfdtStrfbmFiflds blso rfflfdt tiosf of mbtdifd lodbl
+     * ObjfdtStrfbmFiflds.  Tirows InvblidClbssExdfption if unrfsolvbblf typf
+     * donflidts fxist bftwffn tif two sfts of fiflds.
      */
-    private static ObjectStreamField[] matchFields(ObjectStreamField[] fields,
-                                                   ObjectStreamClass localDesc)
-        throws InvalidClassException
+    privbtf stbtid ObjfdtStrfbmFifld[] mbtdiFiflds(ObjfdtStrfbmFifld[] fiflds,
+                                                   ObjfdtStrfbmClbss lodblDfsd)
+        tirows InvblidClbssExdfption
     {
-        ObjectStreamField[] localFields = (localDesc != null) ?
-            localDesc.fields : NO_FIELDS;
+        ObjfdtStrfbmFifld[] lodblFiflds = (lodblDfsd != null) ?
+            lodblDfsd.fiflds : NO_FIELDS;
 
         /*
-         * Even if fields == localFields, we cannot simply return localFields
-         * here.  In previous implementations of serialization,
-         * ObjectStreamField.getType() returned Object.class if the
-         * ObjectStreamField represented a non-primitive field and belonged to
-         * a non-local class descriptor.  To preserve this (questionable)
-         * behavior, the ObjectStreamField instances returned by matchFields
-         * cannot report non-primitive types other than Object.class; hence
-         * localFields cannot be returned directly.
+         * Evfn if fiflds == lodblFiflds, wf dbnnot simply rfturn lodblFiflds
+         * ifrf.  In prfvious implfmfntbtions of sfriblizbtion,
+         * ObjfdtStrfbmFifld.gftTypf() rfturnfd Objfdt.dlbss if tif
+         * ObjfdtStrfbmFifld rfprfsfntfd b non-primitivf fifld bnd bflongfd to
+         * b non-lodbl dlbss dfsdriptor.  To prfsfrvf tiis (qufstionbblf)
+         * bfibvior, tif ObjfdtStrfbmFifld instbndfs rfturnfd by mbtdiFiflds
+         * dbnnot rfport non-primitivf typfs otifr tibn Objfdt.dlbss; ifndf
+         * lodblFiflds dbnnot bf rfturnfd dirfdtly.
          */
 
-        ObjectStreamField[] matches = new ObjectStreamField[fields.length];
-        for (int i = 0; i < fields.length; i++) {
-            ObjectStreamField f = fields[i], m = null;
-            for (int j = 0; j < localFields.length; j++) {
-                ObjectStreamField lf = localFields[j];
-                if (f.getName().equals(lf.getName())) {
-                    if ((f.isPrimitive() || lf.isPrimitive()) &&
-                        f.getTypeCode() != lf.getTypeCode())
+        ObjfdtStrfbmFifld[] mbtdifs = nfw ObjfdtStrfbmFifld[fiflds.lfngti];
+        for (int i = 0; i < fiflds.lfngti; i++) {
+            ObjfdtStrfbmFifld f = fiflds[i], m = null;
+            for (int j = 0; j < lodblFiflds.lfngti; j++) {
+                ObjfdtStrfbmFifld lf = lodblFiflds[j];
+                if (f.gftNbmf().fqubls(lf.gftNbmf())) {
+                    if ((f.isPrimitivf() || lf.isPrimitivf()) &&
+                        f.gftTypfCodf() != lf.gftTypfCodf())
                     {
-                        throw new InvalidClassException(localDesc.name,
-                            "incompatible types for field " + f.getName());
+                        tirow nfw InvblidClbssExdfption(lodblDfsd.nbmf,
+                            "indompbtiblf typfs for fifld " + f.gftNbmf());
                     }
-                    if (lf.getField() != null) {
-                        m = new ObjectStreamField(
-                            lf.getField(), lf.isUnshared(), false);
-                    } else {
-                        m = new ObjectStreamField(
-                            lf.getName(), lf.getSignature(), lf.isUnshared());
+                    if (lf.gftFifld() != null) {
+                        m = nfw ObjfdtStrfbmFifld(
+                            lf.gftFifld(), lf.isUnsibrfd(), fblsf);
+                    } flsf {
+                        m = nfw ObjfdtStrfbmFifld(
+                            lf.gftNbmf(), lf.gftSignbturf(), lf.isUnsibrfd());
                     }
                 }
             }
             if (m == null) {
-                m = new ObjectStreamField(
-                    f.getName(), f.getSignature(), false);
+                m = nfw ObjfdtStrfbmFifld(
+                    f.gftNbmf(), f.gftSignbturf(), fblsf);
             }
-            m.setOffset(f.getOffset());
-            matches[i] = m;
+            m.sftOffsft(f.gftOffsft());
+            mbtdifs[i] = m;
         }
-        return matches;
+        rfturn mbtdifs;
     }
 
     /**
-     * Removes from the specified map any keys that have been enqueued
-     * on the specified reference queue.
+     * Rfmovfs from tif spfdififd mbp bny kfys tibt ibvf bffn fnqufufd
+     * on tif spfdififd rfffrfndf qufuf.
      */
-    static void processQueue(ReferenceQueue<Class<?>> queue,
-                             ConcurrentMap<? extends
-                             WeakReference<Class<?>>, ?> map)
+    stbtid void prodfssQufuf(RfffrfndfQufuf<Clbss<?>> qufuf,
+                             CondurrfntMbp<? fxtfnds
+                             WfbkRfffrfndf<Clbss<?>>, ?> mbp)
     {
-        Reference<? extends Class<?>> ref;
-        while((ref = queue.poll()) != null) {
-            map.remove(ref);
+        Rfffrfndf<? fxtfnds Clbss<?>> rff;
+        wiilf((rff = qufuf.poll()) != null) {
+            mbp.rfmovf(rff);
         }
     }
 
     /**
-     *  Weak key for Class objects.
+     *  Wfbk kfy for Clbss objfdts.
      *
      **/
-    static class WeakClassKey extends WeakReference<Class<?>> {
+    stbtid dlbss WfbkClbssKfy fxtfnds WfbkRfffrfndf<Clbss<?>> {
         /**
-         * saved value of the referent's identity hash code, to maintain
-         * a consistent hash code after the referent has been cleared
+         * sbvfd vbluf of tif rfffrfnt's idfntity ibsi dodf, to mbintbin
+         * b donsistfnt ibsi dodf bftfr tif rfffrfnt ibs bffn dlfbrfd
          */
-        private final int hash;
+        privbtf finbl int ibsi;
 
         /**
-         * Create a new WeakClassKey to the given object, registered
-         * with a queue.
+         * Crfbtf b nfw WfbkClbssKfy to tif givfn objfdt, rfgistfrfd
+         * witi b qufuf.
          */
-        WeakClassKey(Class<?> cl, ReferenceQueue<Class<?>> refQueue) {
-            super(cl, refQueue);
-            hash = System.identityHashCode(cl);
+        WfbkClbssKfy(Clbss<?> dl, RfffrfndfQufuf<Clbss<?>> rffQufuf) {
+            supfr(dl, rffQufuf);
+            ibsi = Systfm.idfntityHbsiCodf(dl);
         }
 
         /**
-         * Returns the identity hash code of the original referent.
+         * Rfturns tif idfntity ibsi dodf of tif originbl rfffrfnt.
          */
-        public int hashCode() {
-            return hash;
+        publid int ibsiCodf() {
+            rfturn ibsi;
         }
 
         /**
-         * Returns true if the given object is this identical
-         * WeakClassKey instance, or, if this object's referent has not
-         * been cleared, if the given object is another WeakClassKey
-         * instance with the identical non-null referent as this one.
+         * Rfturns truf if tif givfn objfdt is tiis idfntidbl
+         * WfbkClbssKfy instbndf, or, if tiis objfdt's rfffrfnt ibs not
+         * bffn dlfbrfd, if tif givfn objfdt is bnotifr WfbkClbssKfy
+         * instbndf witi tif idfntidbl non-null rfffrfnt bs tiis onf.
          */
-        public boolean equals(Object obj) {
-            if (obj == this) {
-                return true;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == tiis) {
+                rfturn truf;
             }
 
-            if (obj instanceof WeakClassKey) {
-                Object referent = get();
-                return (referent != null) &&
-                       (referent == ((WeakClassKey) obj).get());
-            } else {
-                return false;
+            if (obj instbndfof WfbkClbssKfy) {
+                Objfdt rfffrfnt = gft();
+                rfturn (rfffrfnt != null) &&
+                       (rfffrfnt == ((WfbkClbssKfy) obj).gft());
+            } flsf {
+                rfturn fblsf;
             }
         }
     }

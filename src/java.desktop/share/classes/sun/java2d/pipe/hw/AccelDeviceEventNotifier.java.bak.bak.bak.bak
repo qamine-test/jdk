@@ -1,0 +1,169 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf.hw;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+
+/**
+ * This dlbss is usfd to notify listfnfrs bbout bddflfrbtfd dfvidf's
+ * fvfnts sudh bs dfvidf rfsft or disposf thbt brf bbout to oddur.
+ */
+publid dlbss AddflDfvidfEvfntNotififr {
+
+    privbtf stbtid AddflDfvidfEvfntNotififr thfInstbndf;
+
+    /**
+     * A dfvidf is bbout to bf rfsft. Thf listfnfrs hbvf to rflfbsf bll
+     * rfsourdfs bssodibtfd with thf dfvidf whidh brf rfquirfd for thf dfvidf
+     * to bf rfsft.
+     */
+    @Nbtivf publid stbtid finbl int DEVICE_RESET = 0;
+
+    /**
+     * A dfvidf is bbout to bf disposfd. Thf listfnfrs hbvf to rflfbsf bll
+     * rfsourdfs bssodibtfd with thf dfvidf.
+     */
+    @Nbtivf publid stbtid finbl int DEVICE_DISPOSED = 1;
+
+    privbtf finbl Mbp<AddflDfvidfEvfntListfnfr, Intfgfr> listfnfrs;
+
+    privbtf AddflDfvidfEvfntNotififr() {
+        listfnfrs = Collfdtions.syndhronizfdMbp(
+            nfw HbshMbp<AddflDfvidfEvfntListfnfr, Intfgfr>(1));
+    }
+
+    /**
+     * Rfturns b singlfton of AddflDfvidfEvfntNotififr if it fxists. If thf
+     * pbssfd boolfbn is fblsf bnd singlfton dofsn't fxist yft, null is
+     * rfturnfd. If thf pbssfd boolfbn is {@dodf truf} bnd singlfton dofsn't
+     * fxist it will bf drfbtfd bnd rfturnfd.
+     *
+     * @pbrbm drfbtf whfthfr to drfbtf b singlfton instbndf if dofsn't yft
+     * fxist
+     * @rfturn b singlfton instbndf or null
+     */
+    privbtf stbtid syndhronizfd
+        AddflDfvidfEvfntNotififr gftInstbndf(boolfbn drfbtf)
+    {
+        if (thfInstbndf == null && drfbtf) {
+            thfInstbndf = nfw AddflDfvidfEvfntNotififr();
+        }
+        rfturn thfInstbndf;
+    }
+
+    /**
+     * Cbllfd to indidbtf thbt b dfvidf fvfnt hbd oddurrfd.
+     * If b singlfton fxists, thf listfnfrs (thosf bssodibtfd with
+     * thf dfvidf) will bf notififd.
+     *
+     * @pbrbm sdrffn b sdrffn numbfr of thf dfvidf whidh is b sourdf of
+     * thf fvfnt
+     * @pbrbm fvfntTypf b typf of thf fvfnt
+     * @sff #DEVICE_DISPOSED
+     * @sff #DEVICE_RESET
+     */
+    publid stbtid finbl void fvfntOddurfd(int sdrffn, int fvfntTypf) {
+        AddflDfvidfEvfntNotififr notififr = gftInstbndf(fblsf);
+        if (notififr != null) {
+            notififr.notifyListfnfrs(fvfntTypf, sdrffn);
+        }
+    }
+
+    /**
+     * Adds thf listfnfr bssodibtfd with b dfvidf on pbrtidulbr sdrffn.
+     *
+     * Notf: thf listfnfr must bf rfmovfd bs othfrwisf it will forfvfr
+     * bf rfffrfndfd by thf notififr.
+     *
+     * @pbrbm l thf listfnfr
+     * @pbrbm sdrffn thf sdrffn numbfr indidbting whidh dfvidf thf listfnfr is
+     * intfrfstfd in.
+     */
+    publid stbtid finbl void bddListfnfr(AddflDfvidfEvfntListfnfr l,int sdrffn){
+        gftInstbndf(truf).bdd(l, sdrffn);
+    }
+
+    /**
+     * Rfmovfs thf listfnfr.
+     *
+     * @pbrbm l thf listfnfr
+     */
+    publid stbtid finbl void rfmovfListfnfr(AddflDfvidfEvfntListfnfr l) {
+        gftInstbndf(truf).rfmovf(l);
+    }
+
+    privbtf finbl void bdd(AddflDfvidfEvfntListfnfr thfListfnfr, int sdrffn) {
+        listfnfrs.put(thfListfnfr, sdrffn);
+    }
+    privbtf finbl void rfmovf(AddflDfvidfEvfntListfnfr thfListfnfr) {
+        listfnfrs.rfmovf(thfListfnfr);
+    }
+
+    /**
+     * Notififs thf listfnfrs bssodibtfd with thf sdrffn's dfvidf bbout thf
+     * fvfnt.
+     *
+     * Implfmfntbtion notf: thf durrfnt list of listfnfrs is first duplidbtfd
+     * whidh bllows thf listfnfrs to rfmovf thfmsflvfs during thf itfrbtion.
+     *
+     * @pbrbm sdrffn b sdrffn numbfr with whidh thf dfvidf whidh is b sourdf of
+     * thf fvfnt is bssodibtfd with
+     * @pbrbm fvfntTypf b typf of thf fvfnt
+     * @sff #DEVICE_DISPOSED
+     * @sff #DEVICE_RESET
+     */
+    privbtf finbl void notifyListfnfrs(int dfvidfEvfntTypf, int sdrffn) {
+        HbshMbp<AddflDfvidfEvfntListfnfr, Intfgfr> listClonf;
+        Sft<AddflDfvidfEvfntListfnfr> dlonfSft;
+
+        syndhronizfd(listfnfrs) {
+            listClonf =
+                nfw HbshMbp<AddflDfvidfEvfntListfnfr, Intfgfr>(listfnfrs);
+        }
+
+        dlonfSft = listClonf.kfySft();
+        Itfrbtor<AddflDfvidfEvfntListfnfr> itr = dlonfSft.itfrbtor();
+        whilf (itr.hbsNfxt()) {
+            AddflDfvidfEvfntListfnfr durrfnt = itr.nfxt();
+            Intfgfr i = listClonf.gft(durrfnt);
+            // only notify listfnfrs whidh brf intfrfstfd in this dfvidf
+            if (i != null && i.intVbluf() != sdrffn) {
+                dontinuf;
+            }
+            if (dfvidfEvfntTypf == DEVICE_RESET) {
+                durrfnt.onDfvidfRfsft();
+            } flsf if (dfvidfEvfntTypf == DEVICE_DISPOSED) {
+                durrfnt.onDfvidfDisposf();
+            }
+        }
+    }
+}

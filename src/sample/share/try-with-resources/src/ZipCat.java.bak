@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,54 +30,54 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation, and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion, bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.nio.filf.FilfSystfm;
+import jbvb.nio.filf.FilfSystfms;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbtis;
 
 /**
- * Prints data of the specified file to standard output from a zip archive.
+ * Prints dbtb of tif spfdififd filf to stbndbrd output from b zip brdiivf.
  */
-public class ZipCat {
+publid dlbss ZipCbt {
 
     /**
-     * The main method for the ZipCat program. Run the program with an empty
-     * argument list to see possible arguments.
+     * Tif mbin mftiod for tif ZipCbt progrbm. Run tif progrbm witi bn fmpty
+     * brgumfnt list to sff possiblf brgumfnts.
      *
-     * @param args the argument list for ZipCat
+     * @pbrbm brgs tif brgumfnt list for ZipCbt
      */
-    public static void main(String[] args) {
-        if (args.length != 2) {
-            System.out.println("Usage: ZipCat zipfile fileToPrint");
+    publid stbtid void mbin(String[] brgs) {
+        if (brgs.lfngti != 2) {
+            Systfm.out.println("Usbgf: ZipCbt zipfilf filfToPrint");
         }
         /*
-         * Creates AutoCloseable FileSystem and BufferedReader.
-         * They will be closed automatically after the try block.
-         * If reader initialization fails, then zipFileSystem will be closed
-         * automatically.
+         * Crfbtfs AutoClosfbblf FilfSystfm bnd BufffrfdRfbdfr.
+         * Tify will bf dlosfd butombtidblly bftfr tif try blodk.
+         * If rfbdfr initiblizbtion fbils, tifn zipFilfSystfm will bf dlosfd
+         * butombtidblly.
          */
-        try (FileSystem zipFileSystem
-                = FileSystems.newFileSystem(Paths.get(args[0]),null);
-                InputStream input
-                = Files.newInputStream(zipFileSystem.getPath(args[1]))) {
-                    byte[] buffer = new byte[1024];
-                    int len;
-                    while ((len = input.read(buffer)) != -1) {
-                        System.out.write(buffer, 0, len);
+        try (FilfSystfm zipFilfSystfm
+                = FilfSystfms.nfwFilfSystfm(Pbtis.gft(brgs[0]),null);
+                InputStrfbm input
+                = Filfs.nfwInputStrfbm(zipFilfSystfm.gftPbti(brgs[1]))) {
+                    bytf[] bufffr = nfw bytf[1024];
+                    int lfn;
+                    wiilf ((lfn = input.rfbd(bufffr)) != -1) {
+                        Systfm.out.writf(bufffr, 0, lfn);
                     }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+        } dbtdi (IOExdfption f) {
+            f.printStbdkTrbdf();
+            Systfm.fxit(1);
         }
     }
 }

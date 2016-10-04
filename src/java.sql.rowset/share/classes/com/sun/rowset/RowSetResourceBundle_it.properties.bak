@@ -1,170 +1,170 @@
 #
-# Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-# CacheRowSetImpl exceptions
-cachedrowsetimpl.populate = Oggetto ResultSet non valido fornito per l'inserimento dati nel metodo
-cachedrowsetimpl.invalidp = Generato provider di persistenza non valido
-cachedrowsetimpl.nullhash = Impossibile creare istanza CachedRowSetImpl. Tabella hash nulla fornita al costruttore
-cachedrowsetimpl.invalidop = Operazione non valida nella riga di inserimento
-cachedrowsetimpl.accfailed = acceptChanges non riuscito
-cachedrowsetimpl.invalidcp = Posizione cursore non valida
-cachedrowsetimpl.illegalop = Operazione non valida nella riga non inserita
-cachedrowsetimpl.clonefail = Copia non riuscita: {0}
-cachedrowsetimpl.invalidcol = Indice di colonna non valido
-cachedrowsetimpl.invalcolnm = Nome di colonna non valido
-cachedrowsetimpl.boolfail = getBoolen non riuscito per il valore ( {0} ) nella colonna {1}
-cachedrowsetimpl.bytefail = getByte non riuscito per il valore ( {0} ) nella colonna {1}
-cachedrowsetimpl.shortfail = getShort non riuscito per il valore ( {0} ) nella colonna {1}
-cachedrowsetimpl.intfail = getInt non riuscito per il valore ( {0} ) nella colonna {1}
-cachedrowsetimpl.longfail = getLong non riuscito per il valore ( {0} ) nella colonna {1}
-cachedrowsetimpl.floatfail = getFloat non riuscito per il valore ( {0} ) nella colonna {1}
-cachedrowsetimpl.doublefail = getDouble non riuscito per il valore ( {0} ) nella colonna {1}
-cachedrowsetimpl.dtypemismt = Mancata corrispondenza tipo di dati 
-cachedrowsetimpl.datefail = getDate non riuscito per il valore ( {0} ) nella colonna {1}. Nessuna conversione disponibile.
-cachedrowsetimpl.timefail = getTime non riuscito per il valore ( {0} ) nella colonna {1}. Nessuna conversione disponibile.
-cachedrowsetimpl.posupdate = Aggiornamenti posizionati non supportati
-cachedrowsetimpl.unableins = Impossibile creare istanza: {0}
-cachedrowsetimpl.beforefirst = beforeFirst: operazione cursore non valida
-cachedrowsetimpl.first = First: operazione cursore non valida
-cachedrowsetimpl.last = last: TYPE_FORWARD_ONLY
-cachedrowsetimpl.absolute = absolute: posizione cursore non valida
-cachedrowsetimpl.relative = relative: posizione cursore non valida
-cachedrowsetimpl.asciistream = lettura non riuscita per il flusso ascii
-cachedrowsetimpl.binstream = lettura non riuscita per il flusso binario
-cachedrowsetimpl.failedins = operazione non riuscita nella riga di inserimento
-cachedrowsetimpl.updateins = updateRow chiamato nella riga di inserimento
-cachedrowsetimpl.movetoins = moveToInsertRow: CONCUR_READ_ONLY
-cachedrowsetimpl.movetoins1 = moveToInsertRow: nessun metadato
-cachedrowsetimpl.movetoins2 = moveToInsertRow: numero di colonne non valido
-cachedrowsetimpl.tablename = Il nome di tabella non pu\u00F2 essere nullo
-cachedrowsetimpl.keycols = Colonne chiave non valide
-cachedrowsetimpl.invalidcol = Indice di colonna non valido
-cachedrowsetimpl.opnotsupp = Operazione non supportata dal database
-cachedrowsetimpl.matchcols = Le colonne di corrispondenza non coincidono con le colonne impostate
-cachedrowsetimpl.setmatchcols = Impostare le colonne di corrispondenza prima di recuperarle
-cachedrowsetimpl.matchcols1 = Le colonne di corrispondenza devono essere superiori a 0
-cachedrowsetimpl.matchcols2 = Le colonne di corrispondenza devono essere una stringa vuota o nulla
-cachedrowsetimpl.unsetmatch = Le colonne rimosse non coincidono con le colonne impostate
-cachedrowsetimpl.unsetmatch1 = Utilizzare il nome di colonna come argomento per unsetMatchColumn
-cachedrowsetimpl.unsetmatch2 = Utilizzare l'ID di colonna come argomento per unsetMatchColumn
-cachedrowsetimpl.numrows = Il numero di righe \u00E8 inferiore a zero o alla dimensione di recupero
-cachedrowsetimpl.startpos = La posizione iniziale non pu\u00F2 essere negativa
-cachedrowsetimpl.nextpage = Inserire i dati prima di chiamare 
-cachedrowsetimpl.pagesize = La dimensione della pagina non pu\u00F2 essere inferiore a zero
-cachedrowsetimpl.pagesize1 = La dimensione della pagina non pu\u00F2 essere superiore a maxRows
-cachedrowsetimpl.fwdonly = ResultSet \u00E8 a solo inoltro
-cachedrowsetimpl.type = Il tipo \u00E8: {0}
-cachedrowsetimpl.opnotysupp = Operazione attualmente non supportata
-cachedrowsetimpl.featnotsupp = Funzione non supportata
+# CbdifRowSftImpl fxdfptions
+dbdifdrowsftimpl.populbtf = Oggftto RfsultSft non vblido fornito pfr l'insfrimfnto dbti nfl mftodo
+dbdifdrowsftimpl.invblidp = Gfnfrbto providfr di pfrsistfnzb non vblido
+dbdifdrowsftimpl.nullibsi = Impossibilf drfbrf istbnzb CbdifdRowSftImpl. Tbbfllb ibsi nullb fornitb bl dostruttorf
+dbdifdrowsftimpl.invblidop = Opfrbzionf non vblidb nfllb rigb di insfrimfnto
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs non riusdito
+dbdifdrowsftimpl.invbliddp = Posizionf dursorf non vblidb
+dbdifdrowsftimpl.illfgblop = Opfrbzionf non vblidb nfllb rigb non insfritb
+dbdifdrowsftimpl.dlonffbil = Copib non riusditb: {0}
+dbdifdrowsftimpl.invbliddol = Indidf di dolonnb non vblido
+dbdifdrowsftimpl.invbldolnm = Nomf di dolonnb non vblido
+dbdifdrowsftimpl.boolfbil = gftBoolfn non riusdito pfr il vblorf ( {0} ) nfllb dolonnb {1}
+dbdifdrowsftimpl.bytffbil = gftBytf non riusdito pfr il vblorf ( {0} ) nfllb dolonnb {1}
+dbdifdrowsftimpl.siortfbil = gftSiort non riusdito pfr il vblorf ( {0} ) nfllb dolonnb {1}
+dbdifdrowsftimpl.intfbil = gftInt non riusdito pfr il vblorf ( {0} ) nfllb dolonnb {1}
+dbdifdrowsftimpl.longfbil = gftLong non riusdito pfr il vblorf ( {0} ) nfllb dolonnb {1}
+dbdifdrowsftimpl.flobtfbil = gftFlobt non riusdito pfr il vblorf ( {0} ) nfllb dolonnb {1}
+dbdifdrowsftimpl.doublffbil = gftDoublf non riusdito pfr il vblorf ( {0} ) nfllb dolonnb {1}
+dbdifdrowsftimpl.dtypfmismt = Mbndbtb dorrispondfnzb tipo di dbti 
+dbdifdrowsftimpl.dbtffbil = gftDbtf non riusdito pfr il vblorf ( {0} ) nfllb dolonnb {1}. Nfssunb donvfrsionf disponibilf.
+dbdifdrowsftimpl.timffbil = gftTimf non riusdito pfr il vblorf ( {0} ) nfllb dolonnb {1}. Nfssunb donvfrsionf disponibilf.
+dbdifdrowsftimpl.posupdbtf = Aggiornbmfnti posizionbti non supportbti
+dbdifdrowsftimpl.unbblfins = Impossibilf drfbrf istbnzb: {0}
+dbdifdrowsftimpl.bfforffirst = bfforfFirst: opfrbzionf dursorf non vblidb
+dbdifdrowsftimpl.first = First: opfrbzionf dursorf non vblidb
+dbdifdrowsftimpl.lbst = lbst: TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.bbsolutf = bbsolutf: posizionf dursorf non vblidb
+dbdifdrowsftimpl.rflbtivf = rflbtivf: posizionf dursorf non vblidb
+dbdifdrowsftimpl.bsdiistrfbm = lftturb non riusditb pfr il flusso bsdii
+dbdifdrowsftimpl.binstrfbm = lftturb non riusditb pfr il flusso binbrio
+dbdifdrowsftimpl.fbilfdins = opfrbzionf non riusditb nfllb rigb di insfrimfnto
+dbdifdrowsftimpl.updbtfins = updbtfRow diibmbto nfllb rigb di insfrimfnto
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: nfssun mftbdbto
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: numfro di dolonnf non vblido
+dbdifdrowsftimpl.tbblfnbmf = Il nomf di tbbfllb non pu\u00F2 fssfrf nullo
+dbdifdrowsftimpl.kfydols = Colonnf diibvf non vblidf
+dbdifdrowsftimpl.invbliddol = Indidf di dolonnb non vblido
+dbdifdrowsftimpl.opnotsupp = Opfrbzionf non supportbtb dbl dbtbbbsf
+dbdifdrowsftimpl.mbtdidols = Lf dolonnf di dorrispondfnzb non doindidono don lf dolonnf impostbtf
+dbdifdrowsftimpl.sftmbtdidols = Impostbrf lf dolonnf di dorrispondfnzb primb di rfdupfrbrlf
+dbdifdrowsftimpl.mbtdidols1 = Lf dolonnf di dorrispondfnzb dfvono fssfrf supfriori b 0
+dbdifdrowsftimpl.mbtdidols2 = Lf dolonnf di dorrispondfnzb dfvono fssfrf unb stringb vuotb o nullb
+dbdifdrowsftimpl.unsftmbtdi = Lf dolonnf rimossf non doindidono don lf dolonnf impostbtf
+dbdifdrowsftimpl.unsftmbtdi1 = Utilizzbrf il nomf di dolonnb domf brgomfnto pfr unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi2 = Utilizzbrf l'ID di dolonnb domf brgomfnto pfr unsftMbtdiColumn
+dbdifdrowsftimpl.numrows = Il numfro di rigif \u00E8 inffriorf b zfro o bllb dimfnsionf di rfdupfro
+dbdifdrowsftimpl.stbrtpos = Lb posizionf iniziblf non pu\u00F2 fssfrf nfgbtivb
+dbdifdrowsftimpl.nfxtpbgf = Insfrirf i dbti primb di diibmbrf 
+dbdifdrowsftimpl.pbgfsizf = Lb dimfnsionf dfllb pbginb non pu\u00F2 fssfrf inffriorf b zfro
+dbdifdrowsftimpl.pbgfsizf1 = Lb dimfnsionf dfllb pbginb non pu\u00F2 fssfrf supfriorf b mbxRows
+dbdifdrowsftimpl.fwdonly = RfsultSft \u00E8 b solo inoltro
+dbdifdrowsftimpl.typf = Il tipo \u00E8: {0}
+dbdifdrowsftimpl.opnotysupp = Opfrbzionf bttublmfntf non supportbtb
+dbdifdrowsftimpl.ffbtnotsupp = Funzionf non supportbtb
 
-# WebRowSetImpl exceptions
-webrowsetimpl.nullhash = Impossibile creare istanza WebRowSetImpl. Tabella hash nulla fornita al costruttore
-webrowsetimpl.invalidwr = Processo di scrittura non valido
-webrowsetimpl.invalidrd = Processo di lettura non valido
+# WfbRowSftImpl fxdfptions
+wfbrowsftimpl.nullibsi = Impossibilf drfbrf istbnzb WfbRowSftImpl. Tbbfllb ibsi nullb fornitb bl dostruttorf
+wfbrowsftimpl.invblidwr = Prodfsso di sdritturb non vblido
+wfbrowsftimpl.invblidrd = Prodfsso di lftturb non vblido
 
-#FilteredRowSetImpl exceptions
-filteredrowsetimpl.relative = relative: operazione cursore non valida 
-filteredrowsetimpl.absolute = absolute: operazione cursore non valida
-filteredrowsetimpl.notallowed = Questo valore non \u00E8 consentito nel filtro
+#FiltfrfdRowSftImpl fxdfptions
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: opfrbzionf dursorf non vblidb 
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: opfrbzionf dursorf non vblidb
+filtfrfdrowsftimpl.notbllowfd = Qufsto vblorf non \u00E8 donsfntito nfl filtro
 
-#JoinRowSetImpl exceptions
-joinrowsetimpl.notinstance = Non \u00E8 un'istanza di rowset
-joinrowsetimpl.matchnotset = Colonna di corrispondenza non impostata per l'unione
-joinrowsetimpl.numnotequal = Numero di elementi in rowset diverso dalla colonna di corrispondenza
-joinrowsetimpl.notdefined = Non \u00E8 un tipo di unione definito
-joinrowsetimpl.notsupported = Questo tipo di unione non \u00E8 supportato
-joinrowsetimpl.initerror = Errore di inizializzazione di JoinRowSet
-joinrowsetimpl.genericerr = Errore iniziale di joinrowset generico
-joinrowsetimpl.emptyrowset = Impossibile aggiungere un set di righe vuoto al JoinRowSet corrente
+#JoinRowSftImpl fxdfptions
+joinrowsftimpl.notinstbndf = Non \u00E8 un'istbnzb di rowsft
+joinrowsftimpl.mbtdinotsft = Colonnb di dorrispondfnzb non impostbtb pfr l'unionf
+joinrowsftimpl.numnotfqubl = Numfro di flfmfnti in rowsft divfrso dbllb dolonnb di dorrispondfnzb
+joinrowsftimpl.notdffinfd = Non \u00E8 un tipo di unionf dffinito
+joinrowsftimpl.notsupportfd = Qufsto tipo di unionf non \u00E8 supportbto
+joinrowsftimpl.initfrror = Errorf di iniziblizzbzionf di JoinRowSft
+joinrowsftimpl.gfnfridfrr = Errorf iniziblf di joinrowsft gfnfrido
+joinrowsftimpl.fmptyrowsft = Impossibilf bggiungfrf un sft di rigif vuoto bl JoinRowSft dorrfntf
 
-#JdbcRowSetImpl exceptions
-jdbcrowsetimpl.invalstate = Stato non valido
-jdbcrowsetimpl.connect = JdbcRowSet (connessione): impossibile stabilire una connessione con JNDI
-jdbcrowsetimpl.paramtype = Impossibile dedurre il tipo di parametro
-jdbcrowsetimpl.matchcols = Le colonne di corrispondenza non coincidono con le colonne impostate
-jdbcrowsetimpl.setmatchcols = Impostare le colonne di corrispondenza prima di recuperarle
-jdbcrowsetimpl.matchcols1 = Le colonne di corrispondenza devono essere superiori a 0
-jdbcrowsetimpl.matchcols2 = Le colonne di corrispondenza non possono essere una stringa vuota o nulla
-jdbcrowsetimpl.unsetmatch = Le colonne rimosse non coincidono con le colonne impostate
-jdbcrowsetimpl.usecolname = Utilizzare il nome di colonna come argomento per unsetMatchColumn
-jdbcrowsetimpl.usecolid = Utilizzare l'ID di colonna come argomento per unsetMatchColumn
-jdbcrowsetimpl.resnotupd = ResultSet non \u00E8 aggiornabile
-jdbcrowsetimpl.opnotysupp = Operazione attualmente non supportata
-jdbcrowsetimpl.featnotsupp = Funzione non supportata
+#JdbdRowSftImpl fxdfptions
+jdbdrowsftimpl.invblstbtf = Stbto non vblido
+jdbdrowsftimpl.donnfdt = JdbdRowSft (donnfssionf): impossibilf stbbilirf unb donnfssionf don JNDI
+jdbdrowsftimpl.pbrbmtypf = Impossibilf dfdurrf il tipo di pbrbmftro
+jdbdrowsftimpl.mbtdidols = Lf dolonnf di dorrispondfnzb non doindidono don lf dolonnf impostbtf
+jdbdrowsftimpl.sftmbtdidols = Impostbrf lf dolonnf di dorrispondfnzb primb di rfdupfrbrlf
+jdbdrowsftimpl.mbtdidols1 = Lf dolonnf di dorrispondfnzb dfvono fssfrf supfriori b 0
+jdbdrowsftimpl.mbtdidols2 = Lf dolonnf di dorrispondfnzb non possono fssfrf unb stringb vuotb o nullb
+jdbdrowsftimpl.unsftmbtdi = Lf dolonnf rimossf non doindidono don lf dolonnf impostbtf
+jdbdrowsftimpl.usfdolnbmf = Utilizzbrf il nomf di dolonnb domf brgomfnto pfr unsftMbtdiColumn
+jdbdrowsftimpl.usfdolid = Utilizzbrf l'ID di dolonnb domf brgomfnto pfr unsftMbtdiColumn
+jdbdrowsftimpl.rfsnotupd = RfsultSft non \u00E8 bggiornbbilf
+jdbdrowsftimpl.opnotysupp = Opfrbzionf bttublmfntf non supportbtb
+jdbdrowsftimpl.ffbtnotsupp = Funzionf non supportbtb
 
-#CachedRowSetReader exceptions
-crsreader.connect = (JNDI) Impossibile stabilire una connessione
-crsreader.paramtype = Impossibile dedurre il tipo di parametro
-crsreader.connecterr = Errore interno in RowSetReader: nessuna connessione o comando
-crsreader.datedetected = \u00C8 stata rilevata una data
-crsreader.caldetected = \u00C8 stato rilevato un calendario
+#CbdifdRowSftRfbdfr fxdfptions
+drsrfbdfr.donnfdt = (JNDI) Impossibilf stbbilirf unb donnfssionf
+drsrfbdfr.pbrbmtypf = Impossibilf dfdurrf il tipo di pbrbmftro
+drsrfbdfr.donnfdtfrr = Errorf intfrno in RowSftRfbdfr: nfssunb donnfssionf o dombndo
+drsrfbdfr.dbtfdftfdtfd = \u00C8 stbtb rilfvbtb unb dbtb
+drsrfbdfr.dbldftfdtfd = \u00C8 stbto rilfvbto un dblfndbrio
 
-#CachedRowSetWriter exceptions
-crswriter.connect = Impossibile stabilire una connessione
-crswriter.tname = writeData non riesce a determinare il nome di tabella
-crswriter.params1 = Valore dei parametri 1: {0} 
-crswriter.params2 = Valore dei parametri 2: {0} 
-crswriter.conflictsno =  Conflitti durante la sincronizzazione 
+#CbdifdRowSftWritfr fxdfptions
+drswritfr.donnfdt = Impossibilf stbbilirf unb donnfssionf
+drswritfr.tnbmf = writfDbtb non rifsdf b dftfrminbrf il nomf di tbbfllb
+drswritfr.pbrbms1 = Vblorf dfi pbrbmftri 1: {0} 
+drswritfr.pbrbms2 = Vblorf dfi pbrbmftri 2: {0} 
+drswritfr.donflidtsno =  Conflitti durbntf lb sindronizzbzionf 
 
-#InsertRow exceptions
-insertrow.novalue = Non \u00E8 stato inserito alcun valore
+#InsfrtRow fxdfptions
+insfrtrow.novbluf = Non \u00E8 stbto insfrito bldun vblorf
 
-#SyncResolverImpl exceptions
-syncrsimpl.indexval = Valore indice non compreso nell'intervallo  
-syncrsimpl.noconflict = Questa colonna non \u00E8 in conflitto
-syncrsimpl.syncnotpos = Impossibile eseguire la sincronizzazione
-syncrsimpl.valtores = Il valore da risolvere pu\u00F2 essere nel database o in cachedrowset
+#SyndRfsolvfrImpl fxdfptions
+syndrsimpl.indfxvbl = Vblorf indidf non domprfso nfll'intfrvbllo  
+syndrsimpl.nodonflidt = Qufstb dolonnb non \u00E8 in donflitto
+syndrsimpl.syndnotpos = Impossibilf fsfguirf lb sindronizzbzionf
+syndrsimpl.vbltorfs = Il vblorf db risolvfrf pu\u00F2 fssfrf nfl dbtbbbsf o in dbdifdrowsft
 
-#WebRowSetXmlReader exception
-wrsxmlreader.invalidcp = Raggiunta la fine di RowSet. Posizione cursore non valida
-wrsxmlreader.readxml = readXML: {0}
-wrsxmlreader.parseerr = **Errore di analisi: {0}, riga: {1}, URI: {2}
+#WfbRowSftXmlRfbdfr fxdfption
+wrsxmlrfbdfr.invbliddp = Rbggiuntb lb finf di RowSft. Posizionf dursorf non vblidb
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.pbrsffrr = **Errorf di bnblisi: {0}, rigb: {1}, URI: {2}
 
-#WebRowSetXmlWriter exceptions
-wrsxmlwriter.ioex = IOException: {0}
-wrsxmlwriter.sqlex = SQLException: {0}
-wrsxmlwriter.failedwrite = Impossibile scrivere il valore
-wsrxmlwriter.notproper = Non un tipo corretto
+#WfbRowSftXmlWritfr fxdfptions
+wrsxmlwritfr.iofx = IOExdfption: {0}
+wrsxmlwritfr.sqlfx = SQLExdfption: {0}
+wrsxmlwritfr.fbilfdwritf = Impossibilf sdrivfrf il vblorf
+wsrxmlwritfr.notpropfr = Non un tipo dorrftto
 
-#XmlReaderContentHandler exceptions
-xmlrch.errmap = Errore durante l''impostazione della mappa: {0}
-xmlrch.errmetadata = Errore durante l''impostazione dei metadati: {0}
-xmlrch.errinsertval = Errore durante l''inserimento dei valori: {0}
-xmlrch.errconstr = Errore durante la costruzione della riga: {0}
-xmlrch.errdel = Errore durante l''eliminazione della riga: {0}
-xmlrch.errinsert = Errore durante la costruzione della riga di inserimento: {0}
-xmlrch.errinsdel = Errore durante la costruzione della riga insdel: {0}
-xmlrch.errupdate = Errore durante la costruzione della riga di aggiornamento: {0}
-xmlrch.errupdrow = Errore durante l''aggiornamento della riga: {0}
-xmlrch.chars = caratteri:
-xmlrch.badvalue = valore non valido; propriet\u00E0 non annullabile
-xmlrch.badvalue1 = valore non valido; metadati non annullabili
-xmlrch.warning =  **Avvertenza: {0}, riga: {1}, URI: {2}
+#XmlRfbdfrContfntHbndlfr fxdfptions
+xmlrdi.frrmbp = Errorf durbntf l''impostbzionf dfllb mbppb: {0}
+xmlrdi.frrmftbdbtb = Errorf durbntf l''impostbzionf dfi mftbdbti: {0}
+xmlrdi.frrinsfrtvbl = Errorf durbntf l''insfrimfnto dfi vblori: {0}
+xmlrdi.frrdonstr = Errorf durbntf lb dostruzionf dfllb rigb: {0}
+xmlrdi.frrdfl = Errorf durbntf l''fliminbzionf dfllb rigb: {0}
+xmlrdi.frrinsfrt = Errorf durbntf lb dostruzionf dfllb rigb di insfrimfnto: {0}
+xmlrdi.frrinsdfl = Errorf durbntf lb dostruzionf dfllb rigb insdfl: {0}
+xmlrdi.frrupdbtf = Errorf durbntf lb dostruzionf dfllb rigb di bggiornbmfnto: {0}
+xmlrdi.frrupdrow = Errorf durbntf l''bggiornbmfnto dfllb rigb: {0}
+xmlrdi.dibrs = dbrbttfri:
+xmlrdi.bbdvbluf = vblorf non vblido; proprift\u00E0 non bnnullbbilf
+xmlrdi.bbdvbluf1 = vblorf non vblido; mftbdbti non bnnullbbili
+xmlrdi.wbrning =  **Avvfrtfnzb: {0}, rigb: {1}, URI: {2}
 
-#RIOptimisticProvider Exceptions
-riop.locking = La classificazione di blocco non \u00E8 supportata
+#RIOptimistidProvidfr Exdfptions
+riop.lodking = Lb dlbssifidbzionf di bloddo non \u00E8 supportbtb
 
-#RIXMLProvider exceptions
-rixml.unsupp = Non supportato con RIXMLProvider
+#RIXMLProvidfr fxdfptions
+rixml.unsupp = Non supportbto don RIXMLProvidfr

@@ -1,0 +1,1068 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <mbth.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf "GrbphidsPrimitivfMgr.h"
+#indludf "PbrbllflogrbmUtils.h"
+
+#indludf "sun_jbvb2d_loops_MbskFill.h"
+
+/*
+ * Clbss:     sun_jbvb2d_loops_MbskFill
+ * Mfthod:    MbskFill
+ * Signbturf: (Lsun/jbvb2d/SunGrbphids2D;Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/bwt/Compositf;IIII[BII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_loops_MbskFill_MbskFill
+    (JNIEnv *fnv, jobjfdt sflf,
+     jobjfdt sg2d, jobjfdt sDbtb, jobjfdt domp,
+     jint x, jint y, jint w, jint h,
+     jbytfArrby mbskArrby, jint mbskoff, jint mbsksdbn)
+{
+    SurfbdfDbtbOps *sdOps;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    NbtivfPrimitivf *pPrim;
+    CompositfInfo dompInfo;
+
+    pPrim = GftNbtivfPrim(fnv, sflf);
+    if (pPrim == NULL) {
+        rfturn;
+    }
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        (*pPrim->pCompTypf->gftCompInfo)(fnv, &dompInfo, domp);
+    }
+
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (sdOps == 0) {
+        rfturn;
+    }
+
+    rbsInfo.bounds.x1 = x;
+    rbsInfo.bounds.y1 = y;
+    rbsInfo.bounds.x2 = x + w;
+    rbsInfo.bounds.y2 = y + h;
+    if (sdOps->Lodk(fnv, sdOps, &rbsInfo, pPrim->dstflbgs) != SD_SUCCESS) {
+        rfturn;
+    }
+
+    if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+        rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
+    {
+        jint dolor = GrPrim_Sg2dGftEbRGB(fnv, sg2d);
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbsf) {
+            jint width = rbsInfo.bounds.x2 - rbsInfo.bounds.x1;
+            jint hfight = rbsInfo.bounds.y2 - rbsInfo.bounds.y1;
+            void *pDst = PtrCoord(rbsInfo.rbsBbsf,
+                                  rbsInfo.bounds.x1, rbsInfo.pixflStridf,
+                                  rbsInfo.bounds.y1, rbsInfo.sdbnStridf);
+            unsignfd dhbr *pMbsk =
+                (mbskArrby
+                 ? (*fnv)->GftPrimitivfArrbyCritidbl(fnv, mbskArrby, 0)
+                 : 0);
+            if (mbskArrby != NULL && pMbsk == NULL) {
+                SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+                SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+                rfturn;
+            }
+            mbskoff += ((rbsInfo.bounds.y1 - y) * mbsksdbn +
+                        (rbsInfo.bounds.x1 - x));
+            (*pPrim->funds.mbskfill)(pDst,
+                                     pMbsk, mbskoff, mbsksdbn,
+                                     width, hfight,
+                                     dolor, &rbsInfo,
+                                     pPrim, &dompInfo);
+            if (pMbsk) {
+                (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, mbskArrby,
+                                                      pMbsk, JNI_ABORT);
+            }
+        }
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+   }
+   SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+}
+
+#dffinf MASK_BUF_LEN 1024
+
+#dffinf DblToMbsk(v) ((unsignfd dhbr) ((v)*255.9999))
+
+/* Fills bn blignfd rfdtbnglf with potfntiblly trbnsludfnt fdgfs. */
+stbtid void
+fillAARfdt(NbtivfPrimitivf *pPrim, SurfbdfDbtbRbsInfo *pRbsInfo,
+           CompositfInfo *pCompInfo, jint dolor, unsignfd dhbr *pMbsk,
+           void *pDst,
+           jdoublf x1, jdoublf y1, jdoublf x2, jdoublf y2)
+{
+    jint dx1 = pRbsInfo->bounds.x1;
+    jint dy1 = pRbsInfo->bounds.y1;
+    jint dx2 = pRbsInfo->bounds.x2;
+    jint dy2 = pRbsInfo->bounds.y2;
+    jint rx1 = (jint) dfil(x1);
+    jint ry1 = (jint) dfil(y1);
+    jint rx2 = (jint) floor(x2);
+    jint ry2 = (jint) floor(y2);
+    jint width = dx2 - dx1;
+    jint sdbn = pRbsInfo->sdbnStridf;
+    /* Convfrt xy12 into thf fdgf dovfrbgf frbdtions for thosf fdgfs. */
+    x1 = rx1-x1;
+    y1 = ry1-y1;
+    x2 = x2-rx2;
+    y2 = y2-ry2;
+    if (ry2 < ry1) {
+        /* Addumulbtf bottom dovfrbgf into top dovfrbgf. */
+        y1 = y1 + y2 - 1.0;
+        /* prfvfnt prodfssing of "bottom frbdtionbl row" */
+        ry2 = dy2;
+    }
+    if (rx2 < rx1) {
+        /* Addumulbtf right dovfrbgf into lfft dovfrbgf. */
+        x1 = x1 + x2 - 1.0;
+        /* prfvfnt prodfssing of "right frbdtionbl dolumn" */
+        rx2 = dx2;
+    }
+    /* Chfdk for b visiblf "top frbdtionbl row" bnd prodfss it */
+    if (dy1 < ry1) {
+        unsignfd dhbr middov = DblToMbsk(y1);
+        jint x;
+        for (x = 0; x < width; x++) {
+            pMbsk[x] = middov;
+        }
+        if (dx1 < rx1) {
+            pMbsk[0] = DblToMbsk(y1 * x1);
+        }
+        if (dx2 > rx2) {
+            pMbsk[width-1] = DblToMbsk(y1 * x2);
+        }
+        (*pPrim->funds.mbskfill)(pDst,
+                                 pMbsk, 0, 0,
+                                 width, 1,
+                                 dolor, pRbsInfo,
+                                 pPrim, pCompInfo);
+        pDst = PtrAddBytfs(pDst, sdbn);
+        dy1++;
+    }
+    /* Chfdk for b visiblf "lfft frbdt, solid middlf, right frbdt" sfdtion. */
+    if (dy1 < ry2 && dy1 < dy2) {
+        jint midh = ((ry2 < dy2) ? ry2 : dy2) - dy1;
+        jint midx = dx1;
+        void *pMid = pDst;
+        /* First prodfss thf lfft "frbdtionbl dolumn" if it is visiblf. */
+        if (midx < rx1) {
+            pMbsk[0] = DblToMbsk(x1);
+            /* Notf: mbsksdbn == 0 mfbns wf rfusf this vbluf for fvfry row. */
+            (*pPrim->funds.mbskfill)(pMid,
+                                     pMbsk, 0, 0,
+                                     1, midh,
+                                     dolor, pRbsInfo,
+                                     pPrim, pCompInfo);
+            pMid = PtrAddBytfs(pMid, pRbsInfo->pixflStridf);
+            midx++;
+        }
+        /* Prodfss thf dfntrbl solid sfdtion if it is visiblf. */
+        if (midx < rx2 && midx < dx2) {
+            jint midw = ((rx2 < dx2) ? rx2 : dx2) - midx;
+            /* A NULL mbsk bufffr mfbns "bll dovfrbgfs brf 0xff" */
+            (*pPrim->funds.mbskfill)(pMid,
+                                     NULL, 0, 0,
+                                     midw, midh,
+                                     dolor, pRbsInfo,
+                                     pPrim, pCompInfo);
+            pMid = PtrCoord(pMid, midw, pRbsInfo->pixflStridf, 0, 0);
+            midx += midw;
+        }
+        /* Finblly prodfss thf right "frbdtionbl dolumn" if it is visiblf. */
+        if (midx < dx2) {
+            pMbsk[0] = DblToMbsk(x2);
+            /* Notf: mbsksdbn == 0 mfbns wf rfusf this vbluf for fvfry row. */
+            (*pPrim->funds.mbskfill)(pMid,
+                                     pMbsk, 0, 0,
+                                     1, midh,
+                                     dolor, pRbsInfo,
+                                     pPrim, pCompInfo);
+        }
+        dy1 += midh;
+        pDst = PtrCoord(pDst, 0, 0, midh, sdbn);
+    }
+    /* Chfdk for b visiblf "bottom frbdtionbl row" bnd prodfss it */
+    if (dy1 < dy2) {
+        unsignfd dhbr middov = DblToMbsk(y2);
+        jint x;
+        for (x = 0; x < width; x++) {
+            pMbsk[x] = middov;
+        }
+        if (dx1 < rx1) {
+            pMbsk[0] = DblToMbsk(y2 * x1);
+        }
+        if (dx2 > rx2) {
+            pMbsk[width-1] = DblToMbsk(y2 * x2);
+        }
+        (*pPrim->funds.mbskfill)(pDst,
+                                 pMbsk, 0, 0,
+                                 width, 1,
+                                 dolor, pRbsInfo,
+                                 pPrim, pCompInfo);
+    }
+}
+
+/*
+ * Support dodf for brbitrbry trbding bnd MbskFill filling of
+ * non-rfdtilinfbr (dibgonbl) pbrbllflogrbms.
+ *
+ * This dodf is bbsfd upon thf following modfl of AA dovfrbgf.
+ *
+ * Ebdh fdgf of b pbrbllflogrbm (for fillPgrbm) or b doublf
+ * pbrbllflogrbm (innfr bnd outfr pbrbllflogrbms for drbwPgrbm)
+ * dbn bf rbstfrizfd indfpfndfntly bfdbusf thf gfomftry is wfll
+ * dffinfd in sudh b wby thbt nonf of thf sidfs will fvfr dross
+ * fbdh othfr bnd thfy hbvf b fixfd ordfring thbt is fbirly
+ * wfll prfdftfrminfd.
+ *
+ * So, for fbdh fdgf wf will look bt thf dibgonbl linf thbt
+ * thf fdgf mbkfs bs it pbssfs through b row of pixfls.  Somf
+ * sudh dibgonbl linfs mby pbss fntirfly through thf row of
+ * pixfls in b singlf pixfl dolumn.  Somf mby dut bdross thf
+ * row bnd pbss through sfvfrbl pixfl dolumns bfforf thfy pbss
+ * on to thf nfxt row.
+ *
+ * As thf fdgf pbssfs through thf row of pixfls it will bfffdt
+ * thf dovfrbgf of thf pixfls it pbssfs through bs wfll bs bll
+ * of thf pixfls to thf right of thf fdgf.  Thf dovfrbgf will
+ * fithfr bf indrfbsfd (by b lfft fdgf of b pbrbllflogrbm) or
+ * dfdrfbsfd (by b right fdgf) for bll pixfls to thf right, until
+ * bnothfr fdgf pbssing thf oppositf dirfdtion is fndountfrfd.
+ *
+ * Thf dovfrbgf bddfd or subtrbdtfd by bn fdgf bs it drossfs b
+ * givfn pixfl is dbldulbtfd using b trbpfzoid formulb in thf
+ * following mbnnfr:
+ *
+ *                /
+ *     +-----+---/-+-----+
+ *     |     |  /  |     |
+ *     |     | /   |     |
+ *     +-----+/----+-----+
+ *           /
+ *
+ * Thf brfb to thf right of thbt fdgf for thf pixfl whfrf it
+ * drossfs is givfn bs:
+ *
+ *     trbphfight * (topfdgf + bottomfdgf)/2
+ *
+ * Anothfr thing to notf is thbt thf bbovf formulb givfs thf
+ * dontribution of thbt fdgf to thf givfn pixfl whfrf it drossfd,
+ * but in so drossing thf pixfl row, it blso drfbtfd 100% dovfrbgf
+ * for bll of thf pixfls to thf right.
+ *
+ * This fxbmplf wbs simplififd in thbt thf fdgf dfpidtfd drossfd
+ * thf domplftf pixfl row bnd it did so fntirfly within thf bounds
+ * of b singlf pixfl dolumn.  In prbdtidf, mbny fdgfs mby stbrt or
+ * fnd in b givfn row bnd thus providf only pbrtibl row dovfrbgf
+ * (i.f. thf totbl "trbphfight" in thf formulb nfvfr rfbdhfs 1.0).
+ * And in othfr dbsfs, fdgfs mby trbvfl sidfwbys through sfvfrbl
+ * pixfl dolumns on b givfn pixfl row from whfrf thfy fntfr it to
+ * whfrf thf lfbvf it (whidh blso mbns thbt thf trbphfight for b
+ * givfn pixfl will bf lfss thbn 1.0, but by thf timf thf fdgf
+ * domplftfs its journfy through thf pixfl row thf "dovfrbgf shbdow"
+ * thbt it dbsts on bll pixfls to thf right fvfntublly rfbdhfs 100%).
+ *
+ * In ordfr to simplify thf dbldulbtions so thbt wf don't hbvf to
+ * kffp propbgbting dovfrbgfs wf dbldulbtf for onf fdgf "until wf
+ * rfbdh bnothfr fdgf" wf will prodfss onf fdgf bt b timf bnd
+ * simply rfdord in b bufffr thf bmount thbt bn fdgf bddfd to
+ * or subtrbdtfd from thf dovfrbgf for b givfn pixfl bnd its
+ * following right-sidf nfighbors.  Thus, thf truf totbl dovfrbgf
+ * of b givfn pixfl is only dftfrminfd by summing thf dfltbs for
+ * thbt pixfl bnd bll of thf pixfls to its lfft.  Sindf wf blrfbdy
+ * hbvf to sdbn thf bufffr to dhbngf flobting point dovfrbgfs into
+ * mbsk vblufs for b MbskFill loop, it is simplf fnough to sum thf
+ * vblufs bs wf pfrform thbt sdbn from lfft to right.
+ *
+ * In thf bbovf fxbmplf, notf thbt 2 dfltbs nffd to bf rfdordfd fvfn
+ * though thf fdgf only intfrsfdtfd b singlf pixfl.  Thf dfltb rfdordfd
+ * for thf pixfl whfrf thf fdgf drossfd will bf bpproximbtfly 55%
+ * (gufsstimbting by fxbmining thf poor bsdii brt) whidh is finf for
+ * dftfrmining how to rfndfr thbt pixfl, but thf rfst of thf pixfls
+ * to its right should hbvf thfir dovfrbgf modififd by b full 100%
+ * bnd thf 55% dfltb vbluf wf rfdordfd for thf pixfl thbt thf fdgf
+ * drossfd will not gft thfm thfrf.  Wf bdjust for this by bdding
+ * thf "rfmbindfr" of thf dovfrbgf implifd by thf shbdow to thf
+ * pixfl immfdibtfly to thf right of whfrf wf rfdord b trbpfzoidbl
+ * dontribution.  In this dbsf b dfltb of 45% will bf rfdordfd in
+ * thf pixfl immfdibtfly to thf right to rbisf thf totbl to 100%.
+ *
+ * As wf sum thfsf dfltb vblufs bs wf prodfss thf linf from lfft
+ * to right, thfsf dfltb vblufs will typidblly drivf thf sum from
+ * 0% up to 100% bnd bbdk down to 0% ovfr thf doursf of b singlf
+ * pixfl row.  In thf dbsf of b drbwn (doublf) pbrbllflogrbm thf
+ * sum will go to 100% bnd bbdk to 0% twidf on most sdbnlinfs.
+ *
+ * Thf fillAAPgrbm bnd drbwAAPgrbm fundtions drivf thf mbin flow
+ * of thf blgorithm with hflp from thf following strudturfs,
+ * mbdros, bnd fundtions.  It is probbbly bfst to stbrt with
+ * thosf 2 fundtions to gbin bn undfrstbnding of thf blgorithm.
+ */
+typfdff strudt {
+    jdoublf x;
+    jdoublf y;
+    jdoublf xbot;
+    jdoublf ybot;
+    jdoublf xnfxty;
+    jdoublf ynfxtx;
+    jdoublf xnfxtx;
+    jdoublf linfdx;
+    jdoublf dflldx;
+    jdoublf dflldy;
+    jboolfbn isTrbiling;
+} EdgfInfo;
+
+#dffinf MIN_DELTA  (1.0/256.0)
+
+/*
+ * Cbldulbtfs slopfs bnd dfltbs for bn fdgf bnd storfs rfsults in bn EdgfInfo.
+ * Rfturns truf if thf fdgf wbs vblid (i.f. not ignorfd for somf rfbson).
+ */
+stbtid jboolfbn
+storfEdgf(EdgfInfo *pEdgf,
+          jdoublf x, jdoublf y, jdoublf dx, jdoublf dy,
+          jint dx1, jint dy1, jint dx2, jint dy2,
+          jboolfbn isTrbiling)
+{
+    jdoublf xbot = x + dx;
+    jdoublf ybot = y + dy;
+    jboolfbn rft;
+
+    pEdgf->x = x;
+    pEdgf->y = y;
+    pEdgf->xbot = xbot;
+    pEdgf->ybot = ybot;
+
+    /* Notf thbt pbrbllflogrbms brf sortfd so dy is blwbys non-nfgbtivf */
+    if (dy > MIN_DELTA &&        /* NbN bnd horizontbl protfdtion */
+        ybot > dy1 &&            /* NbN bnd "OUT_ABOVE" protfdtion */
+        y < dy2 &&               /* NbN bnd "OUT_BELOW" protfdtion */
+        xbot == xbot &&          /* NbN protfdtion */
+        (x < dx2 || xbot < dx2)) /* "OUT_RIGHT" protfdtion */
+        /* Notf: "OUT_LEFT" sfgmfnts mby still dontributf dovfrbgf... */
+    {
+        /* no NbNs, dy is not horizontbl, bnd sfgmfnt dontributfs to dlip */
+        if (dx < -MIN_DELTA || dx > MIN_DELTA) {
+            /* dx is not vfrtidbl */
+            jdoublf linfdx;
+            jdoublf dflldy;
+            jdoublf nfxtx;
+
+            linfdx = dx / dy;
+            dflldy = dy / dx;
+            if (y < dy1) {
+                pEdgf->x = x = x + (dy1 - y) * linfdx;
+                pEdgf->y = y = dy1;
+            }
+            pEdgf->linfdx = linfdx;
+            if (dx < 0) {
+                pEdgf->dflldx = -1.0;
+                pEdgf->dflldy = -dflldy;
+                pEdgf->xnfxtx = nfxtx = dfil(x) - 1.0;
+            } flsf {
+                pEdgf->dflldx = +1.0;
+                pEdgf->dflldy = dflldy;
+                pEdgf->xnfxtx = nfxtx = floor(x) + 1.0;
+            }
+            pEdgf->ynfxtx = y + (nfxtx - x) * dflldy;
+            pEdgf->xnfxty = x + ((floor(y) + 1) - y) * linfdx;
+        } flsf {
+            /* dx is fssfntiblly vfrtidbl */
+            if (y < dy1) {
+                pEdgf->y = y = dy1;
+            }
+            pEdgf->xbot = x;
+            pEdgf->linfdx = 0.0;
+            pEdgf->dflldx = 0.0;
+            pEdgf->dflldy = 1.0;
+            pEdgf->xnfxtx = x;
+            pEdgf->xnfxty = x;
+            pEdgf->ynfxtx = ybot;
+        }
+        rft = JNI_TRUE;
+    } flsf {
+        /* Thfrf is somf rfbson to ignorf this sfgmfnt, "dflldy=0" omits it */
+        pEdgf->ybot = y;
+        pEdgf->linfdx = dx;
+        pEdgf->dflldx = dx;
+        pEdgf->dflldy = 0.0;
+        pEdgf->xnfxtx = xbot;
+        pEdgf->xnfxty = xbot;
+        pEdgf->ynfxtx = y;
+        rft = JNI_FALSE;
+    }
+    pEdgf->isTrbiling = isTrbiling;
+    rfturn rft;
+}
+
+/*
+ * Cbldulbtfs bnd storfs slopfs bnd dfltbs for bll fdgfs of b pbrbllflogrbm.
+ * Rfturns truf if bt lfbst 1 fdgf wbs vblid (i.f. not ignorfd for somf rfbson).
+ *
+ * Thf invfrtfd flbg is truf for bn outfr pbrbllflogrbm (lfft bnd right
+ * fdgfs brf lfbding bnd trbiling) bnd fblsf for bn innfr pbrbllflogrbm
+ * (whfrf thf lfft fdgf is trbiling bnd thf right fdgf is lfbding).
+ */
+stbtid jboolfbn
+storfPgrbm(EdgfInfo *pLfftEdgf, EdgfInfo *pRightEdgf,
+           jdoublf x, jdoublf y,
+           jdoublf dx1, jdoublf dy1,
+           jdoublf dx2, jdoublf dy2,
+           jint dx1, jint dy1, jint dx2, jint dy2,
+           jboolfbn invfrtfd)
+{
+    jboolfbn rft = JNI_FALSE;
+    rft = (storfEdgf(pLfftEdgf  + 0,
+                     x    , y    , dx1, dy1,
+                     dx1, dy1, dx2, dy2, invfrtfd) || rft);
+    rft = (storfEdgf(pLfftEdgf  + 1,
+                     x+dx1, y+dy1, dx2, dy2,
+                     dx1, dy1, dx2, dy2, invfrtfd) || rft);
+    rft = (storfEdgf(pRightEdgf + 0,
+                     x    , y    , dx2, dy2,
+                     dx1, dy1, dx2, dy2, !invfrtfd) || rft);
+    rft = (storfEdgf(pRightEdgf + 1,
+                     x+dx2, y+dy2, dx1, dy1,
+                     dx1, dy1, dx2, dy2, !invfrtfd) || rft);
+    rfturn rft;
+}
+
+/*
+ * Thf X0,Y0,X1,Y1 vblufs rfprfsfnt b trbpfzoidbl frbgmfnt whosf
+ * dovfrbgf must bf bddountfd for in thf bddum bufffr.
+ *
+ * All four vblufs brf bssumfd to fbll within (or on thf fdgf of)
+ * b singlf pixfl.
+ *
+ * Thf trbpfzoid brfb is bddumulbtfd into thf propfr flfmfnt of
+ * thf bddum bufffr bnd thf rfmbindfr of thf "slidf hfight" is
+ * bddumulbtfd into thf flfmfnt to its right.
+ */
+#dffinf INSERT_ACCUM(pACCUM, IMIN, IMAX, X0, Y0, X1, Y1, CX1, CX2, MULT) \
+    do { \
+        jdoublf xmid = ((X0) + (X1)) * 0.5; \
+        if (xmid <= (CX2)) { \
+            jdoublf slidfh = ((Y1) - (Y0)); \
+            jdoublf slidfbrfb; \
+            jint i; \
+            if (xmid < (CX1)) { \
+                /* Addumulbtf thf fntirf slidf hfight into bddum[0]. */ \
+                i = 0; \
+                slidfbrfb = slidfh; \
+            } flsf { \
+                jdoublf xpos = floor(xmid); \
+                i = ((jint) xpos) - (CX1); \
+                slidfbrfb = (xpos+1-xmid) * slidfh; \
+            } \
+            if (IMIN > i) { \
+                IMIN = i; \
+            } \
+            (pACCUM)[i++] += (jflobt) ((MULT) * slidfbrfb); \
+            (pACCUM)[i++] += (jflobt) ((MULT) * (slidfh - slidfbrfb)); \
+            if (IMAX < i) { \
+                IMAX = i; \
+            } \
+        } \
+    } whilf (0)
+
+/*
+ * Addumulbtf thf dontributions for b givfn fdgf drossing b givfn
+ * sdbn linf into thf dorrfsponding fntrifs of thf bddum bufffr.
+ * CY1 is thf Y doordinbtf of thf top fdgf of thf sdbnlinf bnd CY2
+ * is fqubl to (CY1 + 1) bnd is thf Y doordinbtf of thf bottom fdgf
+ * of thf sdbnlinf.  CX1 bnd CX2 brf thf lfft bnd right fdgfs of thf
+ * dlip (or brfb of intfrfst) bfing rfndfrfd.
+ *
+ * Thf fdgf is prodfssfd from thf top fdgf to thf bottom fdgf bnd
+ * b singlf pixfl dolumn bt b timf.
+ */
+#dffinf ACCUM_EDGE(pEDGE, pACCUM, IMIN, IMAX, CX1, CY1, CX2, CY2) \
+    do { \
+        jdoublf x, y, xnfxt, ynfxt, xlbst, ylbst, dx, dy, mult; \
+        y = (pEDGE)->y; \
+        dy = (pEDGE)->dflldy; \
+        ylbst = (pEDGE)->ybot; \
+        if (ylbst <= (CY1) || y >= (CY2) || dy == 0.0) { \
+            brfbk; \
+        } \
+        x = (pEDGE)->x; \
+        dx = (pEDGE)->dflldx; \
+        if (ylbst > (CY2)) { \
+            ylbst = (CY2); \
+            xlbst = (pEDGE)->xnfxty; \
+        } flsf { \
+            xlbst = (pEDGE)->xbot; \
+        } \
+        xnfxt = (pEDGE)->xnfxtx; \
+        ynfxt = (pEDGE)->ynfxtx; \
+        mult = ((pEDGE)->isTrbiling) ? -1.0 : 1.0; \
+        whilf (ynfxt <= ylbst) { \
+            INSERT_ACCUM(pACCUM, IMIN, IMAX, \
+                         x, y, xnfxt, ynfxt, \
+                         CX1, CX2, mult); \
+            x = xnfxt; \
+            y = ynfxt; \
+            xnfxt += dx; \
+            ynfxt += dy; \
+        } \
+        (pEDGE)->ynfxtx = ynfxt; \
+        (pEDGE)->xnfxtx = xnfxt; \
+        INSERT_ACCUM(pACCUM, IMIN, IMAX, \
+                     x, y, xlbst, ylbst, \
+                     CX1, CX2, mult); \
+        (pEDGE)->x = xlbst; \
+        (pEDGE)->y = ylbst; \
+        (pEDGE)->xnfxty = xlbst + (pEDGE)->linfdx; \
+    } whilf(0)
+
+/* Mbin fundtion to fill b singlf Pbrbllflogrbm */
+stbtid void
+fillAAPgrbm(NbtivfPrimitivf *pPrim, SurfbdfDbtbRbsInfo *pRbsInfo,
+            CompositfInfo *pCompInfo, jint dolor, unsignfd dhbr *pMbsk,
+            void *pDst,
+            jdoublf x1, jdoublf y1,
+            jdoublf dx1, jdoublf dy1,
+            jdoublf dx2, jdoublf dy2)
+{
+    jint dx1 = pRbsInfo->bounds.x1;
+    jint dy1 = pRbsInfo->bounds.y1;
+    jint dx2 = pRbsInfo->bounds.x2;
+    jint dy2 = pRbsInfo->bounds.y2;
+    jint width = dx2 - dx1;
+    EdgfInfo fdgfs[4];
+    jflobt lodblbddum[MASK_BUF_LEN + 1];
+    jflobt *pAddum;
+
+    if (!storfPgrbm(fdgfs + 0, fdgfs + 2,
+                    x1, y1, dx1, dy1, dx2, dy2,
+                    dx1, dy1, dx2, dy2,
+                    JNI_FALSE))
+    {
+        rfturn;
+    }
+
+    pAddum = ((width > MASK_BUF_LEN)
+              ? mbllod((width + 1) * sizfof(jflobt))
+              : lodblbddum);
+    if (pAddum == NULL) {
+        rfturn;
+    }
+    mfmsft(pAddum, 0, (width+1) * sizfof(jflobt));
+
+    whilf (dy1 < dy2) {
+        jint lmin, lmbx, rmin, rmbx;
+        jint moff, x;
+        jdoublf bddum;
+        unsignfd dhbr lbstdov;
+
+        lmin = rmin = width + 2;
+        lmbx = rmbx = 0;
+        ACCUM_EDGE(&fdgfs[0], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[1], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[2], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[3], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        if (lmbx > width) {
+            lmbx = width; /* Extrb dol hbs dbtb wf do not nffd. */
+        }
+        if (rmbx > width) {
+            rmbx = width; /* Extrb dol hbs dbtb wf do not nffd. */
+        }
+        /* If rbngfs ovfrlbp, hbndlf both in thf first pbss. */
+        if (rmin <= lmbx) {
+            lmbx = rmbx;
+        }
+
+        x = lmin;
+        bddum = 0.0;
+        moff = 0;
+        lbstdov = 0;
+        whilf (x < lmbx) {
+            bddum += pAddum[x];
+            pAddum[x] = 0.0f;
+            pMbsk[moff++] = lbstdov = DblToMbsk(bddum);
+            x++;
+        }
+        /* Chfdk for b solid dfntfr sfdtion. */
+        if (lbstdov == 0xFF) {
+            jint fndx;
+            void *pRow;
+
+            /* First prodfss thf fxisting pbrtibl dovfrbgf dbtb. */
+            if (moff > 0) {
+                pRow = PtrCoord(pDst, x-moff, pRbsInfo->pixflStridf, 0, 0);
+                (*pPrim->funds.mbskfill)(pRow,
+                                         pMbsk, 0, 0,
+                                         moff, 1,
+                                         dolor, pRbsInfo,
+                                         pPrim, pCompInfo);
+                moff = 0;
+            }
+
+            /* Whfrf dofs thf dfntfr sfdtion fnd? */
+            /* If thfrf is no right AA fdgf in thf bddum bufffr, thfn */
+            /* thf right fdgf wbs bfyond thf dlip, so fill out to width */
+            fndx = (rmin < rmbx) ? rmin : width;
+            if (x < fndx) {
+                pRow = PtrCoord(pDst, x, pRbsInfo->pixflStridf, 0, 0);
+                (*pPrim->funds.mbskfill)(pRow,
+                                         NULL, 0, 0,
+                                         fndx - x, 1,
+                                         dolor, pRbsInfo,
+                                         pPrim, pCompInfo);
+                x = fndx;
+            }
+        } flsf if (lbstdov > 0 && rmin >= rmbx) {
+            /* Wf brf not bt 0 dovfrbgf, but thfrf is no right fdgf, */
+            /* fordf b right fdgf so wf prodfss pixfls out to width. */
+            rmbx = width;
+        }
+        /* Thf following loop will prodfss thf right AA fdgf bnd/or bny */
+        /* pbrtibl dovfrbgf dfntfr sfdtion not prodfssfd bbovf. */
+        whilf (x < rmbx) {
+            bddum += pAddum[x];
+            pAddum[x] = 0.0f;
+            pMbsk[moff++] = DblToMbsk(bddum);
+            x++;
+        }
+        if (moff > 0) {
+            void *pRow = PtrCoord(pDst, x-moff, pRbsInfo->pixflStridf, 0, 0);
+            (*pPrim->funds.mbskfill)(pRow,
+                                     pMbsk, 0, 0,
+                                     moff, 1,
+                                     dolor, pRbsInfo,
+                                     pPrim, pCompInfo);
+        }
+        pDst = PtrAddBytfs(pDst, pRbsInfo->sdbnStridf);
+        dy1++;
+    }
+    if (pAddum != lodblbddum) {
+        frff(pAddum);
+    }
+}
+
+/*
+ * Clbss:     sun_jbvb2d_loops_MbskFill
+ * Mfthod:    FillAAPgrbm
+ * Signbturf: (Lsun/jbvb2d/SunGrbphids2D;Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/bwt/Compositf;DDDDDD)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_loops_MbskFill_FillAAPgrbm
+    (JNIEnv *fnv, jobjfdt sflf,
+     jobjfdt sg2d, jobjfdt sDbtb, jobjfdt domp,
+     jdoublf x0, jdoublf y0,
+     jdoublf dx1, jdoublf dy1,
+     jdoublf dx2, jdoublf dy2)
+{
+    SurfbdfDbtbOps *sdOps;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    NbtivfPrimitivf *pPrim;
+    CompositfInfo dompInfo;
+    jint ix1, iy1, ix2, iy2;
+
+    if ((dy1 == 0 && dx1 == 0) || (dy2 == 0 && dx2 == 0)) {
+        rfturn;
+    }
+
+    /*
+     * Sort pbrbllflogrbm by y vblufs, fnsurf thbt fbdh dfltb vfdtor
+     * hbs b non-nfgbtivf y dfltb.
+     */
+    SORT_PGRAM(x0, y0, dx1, dy1, dx2, dy2, );
+
+    PGRAM_MIN_MAX(ix1, ix2, x0, dx1, dx2, JNI_TRUE);
+    iy1 = (jint) floor(y0);
+    iy2 = (jint) dfil(y0 + dy1 + dy2);
+
+    pPrim = GftNbtivfPrim(fnv, sflf);
+    if (pPrim == NULL) {
+        rfturn;
+    }
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        (*pPrim->pCompTypf->gftCompInfo)(fnv, &dompInfo, domp);
+    }
+
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (sdOps == 0) {
+        rfturn;
+    }
+
+    GrPrim_Sg2dGftClip(fnv, sg2d, &rbsInfo.bounds);
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&rbsInfo.bounds, ix1, iy1, ix2, iy2);
+    if (rbsInfo.bounds.y2 <= rbsInfo.bounds.y1 ||
+        rbsInfo.bounds.x2 <= rbsInfo.bounds.x1)
+    {
+        rfturn;
+    }
+
+    if (sdOps->Lodk(fnv, sdOps, &rbsInfo, pPrim->dstflbgs) != SD_SUCCESS) {
+        rfturn;
+    }
+
+    ix1 = rbsInfo.bounds.x1;
+    iy1 = rbsInfo.bounds.y1;
+    ix2 = rbsInfo.bounds.x2;
+    iy2 = rbsInfo.bounds.y2;
+    if (ix2 > ix1 && iy2 > iy1) {
+        jint width = ix2 - ix1;
+        jint dolor = GrPrim_Sg2dGftEbRGB(fnv, sg2d);
+        unsignfd dhbr lodblmbsk[MASK_BUF_LEN];
+        unsignfd dhbr *pMbsk = ((width > MASK_BUF_LEN)
+                                ? mbllod(width)
+                                : lodblmbsk);
+
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbsf != NULL && pMbsk != NULL) {
+            void *pDst = PtrCoord(rbsInfo.rbsBbsf,
+                                  ix1, rbsInfo.pixflStridf,
+                                  iy1, rbsInfo.sdbnStridf);
+            if (dy1 == 0 && dx2 == 0) {
+                if (dx1 < 0) {
+                    // Wf sortfd by Y bbovf, but not by X
+                    x0 += dx1;
+                    dx1 = -dx1;
+                }
+                fillAARfdt(pPrim, &rbsInfo, &dompInfo,
+                           dolor, pMbsk, pDst,
+                           x0, y0, x0+dx1, y0+dy2);
+            } flsf if (dx1 == 0 && dy2 == 0) {
+                if (dx2 < 0) {
+                    // Wf sortfd by Y bbovf, but not by X
+                    x0 += dx2;
+                    dx2 = -dx2;
+                }
+                fillAARfdt(pPrim, &rbsInfo, &dompInfo,
+                           dolor, pMbsk, pDst,
+                           x0, y0, x0+dx2, y0+dy1);
+            } flsf {
+                fillAAPgrbm(pPrim, &rbsInfo, &dompInfo,
+                            dolor, pMbsk, pDst,
+                            x0, y0, dx1, dy1, dx2, dy2);
+            }
+        }
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+        if (pMbsk != NULL && pMbsk != lodblmbsk) {
+            frff(pMbsk);
+        }
+    }
+    SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+}
+
+/* Mbin fundtion to fill b doublf pbir of (innfr bnd outfr) pbrbllflogrbms */
+stbtid void
+drbwAAPgrbm(NbtivfPrimitivf *pPrim, SurfbdfDbtbRbsInfo *pRbsInfo,
+            CompositfInfo *pCompInfo, jint dolor, unsignfd dhbr *pMbsk,
+            void *pDst,
+            jdoublf ox0, jdoublf oy0,
+            jdoublf dx1, jdoublf dy1,
+            jdoublf dx2, jdoublf dy2,
+            jdoublf ldx1, jdoublf ldy1,
+            jdoublf ldx2, jdoublf ldy2)
+{
+    jint dx1 = pRbsInfo->bounds.x1;
+    jint dy1 = pRbsInfo->bounds.y1;
+    jint dx2 = pRbsInfo->bounds.x2;
+    jint dy2 = pRbsInfo->bounds.y2;
+    jint width = dx2 - dx1;
+    EdgfInfo fdgfs[8];
+    jflobt lodblbddum[MASK_BUF_LEN + 1];
+    jflobt *pAddum;
+
+    if (!storfPgrbm(fdgfs + 0, fdgfs + 6,
+                    ox0, oy0,
+                    dx1 + ldx1, dy1 + ldy1,
+                    dx2 + ldx2, dy2 + ldy2,
+                    dx1, dy1, dx2, dy2,
+                    JNI_FALSE))
+    {
+        /* If outfr pgrbm dofs not dontributf, thfn innfr dbnnot fithfr. */
+        rfturn;
+    }
+    storfPgrbm(fdgfs + 2, fdgfs + 4,
+               ox0 + ldx1 + ldx2, oy0 + ldy1 + ldy2,
+               dx1 - ldx1, dy1 - ldy1,
+               dx2 - ldx2, dy2 - ldy2,
+               dx1, dy1, dx2, dy2,
+               JNI_TRUE);
+
+    pAddum = ((width > MASK_BUF_LEN)
+              ? mbllod((width + 1) * sizfof(jflobt))
+              : lodblbddum);
+    if (pAddum == NULL) {
+        rfturn;
+    }
+    mfmsft(pAddum, 0, (width+1) * sizfof(jflobt));
+
+    whilf (dy1 < dy2) {
+        jint lmin, lmbx, rmin, rmbx;
+        jint moff, x;
+        jdoublf bddum;
+        unsignfd dhbr lbstdov;
+
+        lmin = rmin = width + 2;
+        lmbx = rmbx = 0;
+        ACCUM_EDGE(&fdgfs[0], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[1], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[2], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[3], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[4], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[5], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[6], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[7], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        if (lmbx > width) {
+            lmbx = width; /* Extrb dol hbs dbtb wf do not nffd. */
+        }
+        if (rmbx > width) {
+            rmbx = width; /* Extrb dol hbs dbtb wf do not nffd. */
+        }
+        /* If rbngfs ovfrlbp, hbndlf both in thf first pbss. */
+        if (rmin <= lmbx) {
+            lmbx = rmbx;
+        }
+
+        x = lmin;
+        bddum = 0.0;
+        moff = 0;
+        lbstdov = 0;
+        whilf (x < lmbx) {
+            bddum += pAddum[x];
+            pAddum[x] = 0.0f;
+            pMbsk[moff++] = lbstdov = DblToMbsk(bddum);
+            x++;
+        }
+        /* Chfdk for bn fmpty or soliddfntfr sfdtion. */
+        if (lbstdov == 0 || lbstdov == 0xFF) {
+            jint fndx;
+            void *pRow;
+
+            /* First prodfss thf fxisting pbrtibl dovfrbgf dbtb. */
+            if (moff > 0) {
+                pRow = PtrCoord(pDst, x-moff, pRbsInfo->pixflStridf, 0, 0);
+                (*pPrim->funds.mbskfill)(pRow,
+                                         pMbsk, 0, 0,
+                                         moff, 1,
+                                         dolor, pRbsInfo,
+                                         pPrim, pCompInfo);
+                moff = 0;
+            }
+
+            /* Whfrf dofs thf dfntfr sfdtion fnd? */
+            /* If thfrf is no right AA fdgf in thf bddum bufffr, thfn */
+            /* thf right fdgf wbs bfyond thf dlip, so fill out to width */
+            fndx = (rmin < rmbx) ? rmin : width;
+            if (x < fndx) {
+                if (lbstdov == 0xFF) {
+                    pRow = PtrCoord(pDst, x, pRbsInfo->pixflStridf, 0, 0);
+                    (*pPrim->funds.mbskfill)(pRow,
+                                             NULL, 0, 0,
+                                             fndx - x, 1,
+                                             dolor, pRbsInfo,
+                                             pPrim, pCompInfo);
+                }
+                x = fndx;
+            }
+        } flsf if (rmin >= rmbx) {
+            /* Wf brf not bt 0 dovfrbgf, but thfrf is no right fdgf, */
+            /* fordf b right fdgf so wf prodfss pixfls out to width. */
+            rmbx = width;
+        }
+        /* Thf following loop will prodfss thf right AA fdgf bnd/or bny */
+        /* pbrtibl dovfrbgf dfntfr sfdtion not prodfssfd bbovf. */
+        whilf (x < rmbx) {
+            bddum += pAddum[x];
+            pAddum[x] = 0.0f;
+            pMbsk[moff++] = lbstdov = DblToMbsk(bddum);
+            x++;
+        }
+        if (moff > 0) {
+            void *pRow = PtrCoord(pDst, x-moff, pRbsInfo->pixflStridf, 0, 0);
+            (*pPrim->funds.mbskfill)(pRow,
+                                     pMbsk, 0, 0,
+                                     moff, 1,
+                                     dolor, pRbsInfo,
+                                     pPrim, pCompInfo);
+        }
+        if (lbstdov == 0xFF && x < width) {
+            void *pRow = PtrCoord(pDst, x, pRbsInfo->pixflStridf, 0, 0);
+            (*pPrim->funds.mbskfill)(pRow,
+                                     NULL, 0, 0,
+                                     width - x, 1,
+                                     dolor, pRbsInfo,
+                                     pPrim, pCompInfo);
+        }
+        pDst = PtrAddBytfs(pDst, pRbsInfo->sdbnStridf);
+        dy1++;
+    }
+    if (pAddum != lodblbddum) {
+        frff(pAddum);
+    }
+}
+
+/*
+ * Clbss:     sun_jbvb2d_loops_MbskFill
+ * Mfthod:    DrbwAAPgrbm
+ * Signbturf: (Lsun/jbvb2d/SunGrbphids2D;Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/bwt/Compositf;DDDDDDDD)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_loops_MbskFill_DrbwAAPgrbm
+    (JNIEnv *fnv, jobjfdt sflf,
+     jobjfdt sg2d, jobjfdt sDbtb, jobjfdt domp,
+     jdoublf x0, jdoublf y0,
+     jdoublf dx1, jdoublf dy1,
+     jdoublf dx2, jdoublf dy2,
+     jdoublf lw1, jdoublf lw2)
+{
+    SurfbdfDbtbOps *sdOps;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    NbtivfPrimitivf *pPrim;
+    CompositfInfo dompInfo;
+    jint ix1, iy1, ix2, iy2;
+    jdoublf ldx1, ldy1, ldx2, ldy2;
+    jdoublf ox0, oy0;
+
+    if ((dy1 == 0 && dx1 == 0) || (dy2 == 0 && dx2 == 0)) {
+        rfturn;
+    }
+
+    /*
+     * Sort pbrbllflogrbm by y vblufs, fnsurf thbt fbdh dfltb vfdtor
+     * hbs b non-nfgbtivf y dfltb.
+     */
+    SORT_PGRAM(x0, y0, dx1, dy1, dx2, dy2,
+               v = lw1; lw1 = lw2; lw2 = v;);
+
+    // dx,dy for linf width in thf "1" bnd "2" dirfdtions.
+    ldx1 = dx1 * lw1;
+    ldy1 = dy1 * lw1;
+    ldx2 = dx2 * lw2;
+    ldy2 = dy2 * lw2;
+
+    // dbldulbtf origin of thf outfr pbrbllflogrbm
+    ox0 = x0 - (ldx1 + ldx2) / 2.0;
+    oy0 = y0 - (ldy1 + ldy2) / 2.0;
+
+    if (lw1 >= 1.0 || lw2 >= 1.0) {
+        /* Only nffd to fill bn outfr pgrbm if thf intfrior no longfr
+         * hbs b holf in it (i.f. if fithfr of thf linf width rbtios
+         * wfrf grfbtfr thbn or fqubl to 1.0).
+         */
+        Jbvb_sun_jbvb2d_loops_MbskFill_FillAAPgrbm(fnv, sflf,
+                                                   sg2d, sDbtb, domp,
+                                                   ox0, oy0,
+                                                   dx1 + ldx1, dy1 + ldy1,
+                                                   dx2 + ldx2, dy2 + ldy2);
+        rfturn;
+    }
+
+    PGRAM_MIN_MAX(ix1, ix2, ox0, dx1+ldx1, dx2+ldx2, JNI_TRUE);
+    iy1 = (jint) floor(oy0);
+    iy2 = (jint) dfil(oy0 + dy1 + ldy1 + dy2 + ldy2);
+
+    pPrim = GftNbtivfPrim(fnv, sflf);
+    if (pPrim == NULL) {
+        rfturn;
+    }
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        (*pPrim->pCompTypf->gftCompInfo)(fnv, &dompInfo, domp);
+    }
+
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (sdOps == 0) {
+        rfturn;
+    }
+
+    GrPrim_Sg2dGftClip(fnv, sg2d, &rbsInfo.bounds);
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&rbsInfo.bounds, ix1, iy1, ix2, iy2);
+    if (rbsInfo.bounds.y2 <= rbsInfo.bounds.y1 ||
+        rbsInfo.bounds.x2 <= rbsInfo.bounds.x1)
+    {
+        rfturn;
+    }
+
+    if (sdOps->Lodk(fnv, sdOps, &rbsInfo, pPrim->dstflbgs) != SD_SUCCESS) {
+        rfturn;
+    }
+
+    ix1 = rbsInfo.bounds.x1;
+    iy1 = rbsInfo.bounds.y1;
+    ix2 = rbsInfo.bounds.x2;
+    iy2 = rbsInfo.bounds.y2;
+    if (ix2 > ix1 && iy2 > iy1) {
+        jint width = ix2 - ix1;
+        jint dolor = GrPrim_Sg2dGftEbRGB(fnv, sg2d);
+        unsignfd dhbr lodblmbsk[MASK_BUF_LEN];
+        unsignfd dhbr *pMbsk = ((width > MASK_BUF_LEN)
+                                ? mbllod(width)
+                                : lodblmbsk);
+
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbsf != NULL && pMbsk != NULL) {
+            void *pDst = PtrCoord(rbsInfo.rbsBbsf,
+                                  ix1, rbsInfo.pixflStridf,
+                                  iy1, rbsInfo.sdbnStridf);
+            /*
+             * NOTE: blignfd rfdts dould probbbly bf drbwn
+             * fvfn fbstfr with b littlf work hfrf.
+             * if (dy1 == 0 && dx2 == 0) {
+             *     drbwAARfdt(pPrim, &rbsInfo, &dompInfo,
+             *                dolor, pMbsk, pDst,
+             *                ox0, oy0, ox0+dx1+ldx1, oy0+dy2+ldy2, ldx1, ldy2);
+             * } flsf if (dx1 == 0 && dy2 == 0) {
+             *     drbwAARfdt(pPrim, &rbsInfo, &dompInfo,
+             *                dolor, pMbsk, pDst,
+             *                ox0, oy0, ox0+dx2+ldx2, oy0+dy1+ldy1, ldx2, ldy1);
+             * } flsf {
+             */
+            drbwAAPgrbm(pPrim, &rbsInfo, &dompInfo,
+                        dolor, pMbsk, pDst,
+                        ox0, oy0,
+                        dx1, dy1, dx2, dy2,
+                        ldx1, ldy1, ldx2, ldy2);
+            /*
+             * }
+             */
+        }
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+        if (pMbsk != NULL && pMbsk != lodblmbsk) {
+            frff(pMbsk);
+        }
+    }
+    SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+}

@@ -1,276 +1,276 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.awt.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.table.*;
-import sun.swing.table.*;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.tbblf.*;
+import sun.swing.tbblf.*;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.table.JTableHeader}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.tbblf.JTbblfHfbdfr}.
  *
- * @author Alan Chung
- * @author Philip Milne
- * @since 1.7
+ * @butior Albn Ciung
+ * @butior Piilip Milnf
+ * @sindf 1.7
  */
-public class SynthTableHeaderUI extends BasicTableHeaderUI
-                                implements PropertyChangeListener, SynthUI {
+publid dlbss SyntiTbblfHfbdfrUI fxtfnds BbsidTbblfHfbdfrUI
+                                implfmfnts PropfrtyCibngfListfnfr, SyntiUI {
 
 //
-// Instance Variables
+// Instbndf Vbribblfs
 //
 
-    private TableCellRenderer prevRenderer = null;
+    privbtf TbblfCfllRfndfrfr prfvRfndfrfr = null;
 
-    private SynthStyle style;
+    privbtf SyntiStylf stylf;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crfbtfs b nfw UI objfdt for tif givfn domponfnt.
      *
-     * @param h component to create UI object for
-     * @return the UI object
+     * @pbrbm i domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent h) {
-        return new SynthTableHeaderUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt i) {
+        rfturn nfw SyntiTbblfHfbdfrUI();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installDefaults() {
-        prevRenderer = header.getDefaultRenderer();
-        if (prevRenderer instanceof UIResource) {
-            header.setDefaultRenderer(new HeaderRenderer());
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        prfvRfndfrfr = ifbdfr.gftDffbultRfndfrfr();
+        if (prfvRfndfrfr instbndfof UIRfsourdf) {
+            ifbdfr.sftDffbultRfndfrfr(nfw HfbdfrRfndfrfr());
         }
-        updateStyle(header);
+        updbtfStylf(ifbdfr);
     }
 
-    private void updateStyle(JTableHeader c) {
-        SynthContext context = getContext(c, ENABLED);
-        SynthStyle oldStyle = style;
-        style = SynthLookAndFeel.updateStyle(context, this);
-        if (style != oldStyle) {
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+    privbtf void updbtfStylf(JTbblfHfbdfr d) {
+        SyntiContfxt dontfxt = gftContfxt(d, ENABLED);
+        SyntiStylf oldStylf = stylf;
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        if (stylf != oldStylf) {
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
             }
         }
-        context.dispose();
+        dontfxt.disposf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installListeners() {
-        super.installListeners();
-        header.addPropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        ifbdfr.bddPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallDefaults() {
-        if (header.getDefaultRenderer() instanceof HeaderRenderer) {
-            header.setDefaultRenderer(prevRenderer);
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        if (ifbdfr.gftDffbultRfndfrfr() instbndfof HfbdfrRfndfrfr) {
+            ifbdfr.sftDffbultRfndfrfr(prfvRfndfrfr);
         }
 
-        SynthContext context = getContext(header, ENABLED);
+        SyntiContfxt dontfxt = gftContfxt(ifbdfr, ENABLED);
 
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallListeners() {
-        header.removePropertyChangeListener(this);
-        super.uninstallListeners();
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        ifbdfr.rfmovfPropfrtyCibngfListfnfr(tiis);
+        supfr.uninstbllListfnfrs();
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintTableHeaderBackground(context,
-                          g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
-        context.dispose();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintTbblfHfbdfrBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        paint(context, g);
-        context.dispose();
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints tif spfdififd domponfnt.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        super.paint(g, context.getComponent());
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
+        supfr.pbint(g, dontfxt.gftComponfnt());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintTableHeaderBorder(context, g, x, y, w, h);
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintTbblfHfbdfrBordfr(dontfxt, g, x, y, w, i);
     }
 //
-// SynthUI
+// SyntiUI
 //
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SyntiLookAndFffl.gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void rolloverColumnUpdated(int oldColumn, int newColumn) {
-        header.repaint(header.getHeaderRect(oldColumn));
-        header.repaint(header.getHeaderRect(newColumn));
+    @Ovfrridf
+    protfdtfd void rollovfrColumnUpdbtfd(int oldColumn, int nfwColumn) {
+        ifbdfr.rfpbint(ifbdfr.gftHfbdfrRfdt(oldColumn));
+        ifbdfr.rfpbint(ifbdfr.gftHfbdfrRfdt(nfwColumn));
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
-            updateStyle((JTableHeader)evt.getSource());
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(fvt)) {
+            updbtfStylf((JTbblfHfbdfr)fvt.gftSourdf());
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class HeaderRenderer extends DefaultTableCellHeaderRenderer {
-        HeaderRenderer() {
-            setHorizontalAlignment(JLabel.LEADING);
-            setName("TableHeader.renderer");
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss HfbdfrRfndfrfr fxtfnds DffbultTbblfCfllHfbdfrRfndfrfr {
+        HfbdfrRfndfrfr() {
+            sftHorizontblAlignmfnt(JLbbfl.LEADING);
+            sftNbmf("TbblfHfbdfr.rfndfrfr");
         }
 
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected,
-                                                       boolean hasFocus,
-                                                       int row, int column) {
+        @Ovfrridf
+        publid Componfnt gftTbblfCfllRfndfrfrComponfnt(JTbblf tbblf, Objfdt vbluf,
+                                                       boolfbn isSflfdtfd,
+                                                       boolfbn ibsFodus,
+                                                       int row, int dolumn) {
 
-            boolean hasRollover = (column == getRolloverColumn());
-            if (isSelected || hasRollover || hasFocus) {
-                SynthLookAndFeel.setSelectedUI((SynthLabelUI)SynthLookAndFeel.
-                             getUIOfType(getUI(), SynthLabelUI.class),
-                             isSelected, hasFocus, table.isEnabled(),
-                             hasRollover);
-            } else {
-                SynthLookAndFeel.resetSelectedUI();
+            boolfbn ibsRollovfr = (dolumn == gftRollovfrColumn());
+            if (isSflfdtfd || ibsRollovfr || ibsFodus) {
+                SyntiLookAndFffl.sftSflfdtfdUI((SyntiLbbflUI)SyntiLookAndFffl.
+                             gftUIOfTypf(gftUI(), SyntiLbbflUI.dlbss),
+                             isSflfdtfd, ibsFodus, tbblf.isEnbblfd(),
+                             ibsRollovfr);
+            } flsf {
+                SyntiLookAndFffl.rfsftSflfdtfdUI();
             }
 
-            //stuff a variable into the client property of this renderer indicating the sort order,
-            //so that different rendering can be done for the header based on sorted state.
-            RowSorter<?> rs = table == null ? null : table.getRowSorter();
-            java.util.List<? extends RowSorter.SortKey> sortKeys = rs == null ? null : rs.getSortKeys();
-            if (sortKeys != null && sortKeys.size() > 0 && sortKeys.get(0).getColumn() ==
-                    table.convertColumnIndexToModel(column)) {
-                switch(sortKeys.get(0).getSortOrder()) {
-                    case ASCENDING:
-                        putClientProperty("Table.sortOrder", "ASCENDING");
-                        break;
-                    case DESCENDING:
-                        putClientProperty("Table.sortOrder", "DESCENDING");
-                        break;
-                    case UNSORTED:
-                        putClientProperty("Table.sortOrder", "UNSORTED");
-                        break;
-                    default:
-                        throw new AssertionError("Cannot happen");
+            //stuff b vbribblf into tif dlifnt propfrty of tiis rfndfrfr indidbting tif sort ordfr,
+            //so tibt difffrfnt rfndfring dbn bf donf for tif ifbdfr bbsfd on sortfd stbtf.
+            RowSortfr<?> rs = tbblf == null ? null : tbblf.gftRowSortfr();
+            jbvb.util.List<? fxtfnds RowSortfr.SortKfy> sortKfys = rs == null ? null : rs.gftSortKfys();
+            if (sortKfys != null && sortKfys.sizf() > 0 && sortKfys.gft(0).gftColumn() ==
+                    tbblf.donvfrtColumnIndfxToModfl(dolumn)) {
+                switdi(sortKfys.gft(0).gftSortOrdfr()) {
+                    dbsf ASCENDING:
+                        putClifntPropfrty("Tbblf.sortOrdfr", "ASCENDING");
+                        brfbk;
+                    dbsf DESCENDING:
+                        putClifntPropfrty("Tbblf.sortOrdfr", "DESCENDING");
+                        brfbk;
+                    dbsf UNSORTED:
+                        putClifntPropfrty("Tbblf.sortOrdfr", "UNSORTED");
+                        brfbk;
+                    dffbult:
+                        tirow nfw AssfrtionError("Cbnnot ibppfn");
                 }
-            } else {
-                putClientProperty("Table.sortOrder", "UNSORTED");
+            } flsf {
+                putClifntPropfrty("Tbblf.sortOrdfr", "UNSORTED");
             }
 
-            super.getTableCellRendererComponent(table, value, isSelected,
-                                                hasFocus, row, column);
+            supfr.gftTbblfCfllRfndfrfrComponfnt(tbblf, vbluf, isSflfdtfd,
+                                                ibsFodus, row, dolumn);
 
-            return this;
+            rfturn tiis;
         }
 
-        @Override
-        public void setBorder(Border border) {
-            if (border instanceof SynthBorder) {
-                super.setBorder(border);
+        @Ovfrridf
+        publid void sftBordfr(Bordfr bordfr) {
+            if (bordfr instbndfof SyntiBordfr) {
+                supfr.sftBordfr(bordfr);
             }
         }
     }

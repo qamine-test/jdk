@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
-.\" Title: rmiregistry
-.\" Lbngubge: English
-.\" Dbte: 2013Ç¯11·î21Æü
-.\" SectDesc: Remote Method Invocbtion (RMI)¥Ä¡¼¥ë
-.\" Softwbre: JDK 8
-.\" Arch: ÈÆÍÑ
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: rmirfgistry
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013Ç¯11·î21Æü
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)¥Ä¡¼¥ë
+.\" Softwbrf: JDK 8
+.\" Ardi: ÈÆÍÑ
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
-.TH "rmiregistry" "1" "2013Ç¯11·î21Æü" "JDK 8" "Remote Method Invocbtion (RMI)"
+.TH "rmirfgistry" "1" "2013Ç¯11·î21Æü" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-rmiregistry \- ¸½ºß¤Î¥Û¥¹¥È¤Î»ØÄê¤·¤¿¥Ý¡¼¥È¾å¤Ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥ì¥¸¥¹¥È¥ê¤ò³«»Ï¤·¤Þ¤¹¡£
+rmirfgistry \- ¸½ºß¤Î¥Û¥¹¥È¤Î»ØÄê¤·¤¿¥Ý¡¼¥È¾å¤Ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥ì¥¸¥¹¥È¥ê¤ò³«»Ï¤·¤Þ¤¹¡£
 .SH "³µÍ×"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIrmiregistry\fR [ \fIport\fR ]
+\fIrmirfgistry\fR [ \fIport\fR ]
 .fi
 .if n \{\
 .RE
@@ -68,13 +68,13 @@ rmiregistry \- ¸½ºß¤Î¥Û¥¹¥È¤Î»ØÄê¤·¤¿¥Ý¡¼¥È¾å¤Ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥ì¥¸¥¹¥È¥
 .RE
 .SH "ÀâÌÀ"
 .PP
-\fIrmiregistry\fR¥³¥Þ¥ó¥É¤Ï¡¢¸½ºß¤Î¥Û¥¹¥È¤Î»ØÄê¤·¤¿¥Ý¡¼¥È¾å¤Ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥ì¥¸¥¹¥È¥ê¤òºîÀ®¤·¡¢³«»Ï¤·¤Þ¤¹¡£port¤Î»ØÄê¤ò¾ÊÎ¬¤·¤¿¾ì¹ç¡¢¥ì¥¸¥¹¥È¥ê¤Ï¥Ý¡¼¥È1099¤Ç³«»Ï¤·¤Þ¤¹¡£\fIrmiregistry\fR¥³¥Þ¥ó¥É¤Ë¡¢½ÐÎÏµ¡Ç½¤Ï¤¢¤ê¤Þ¤»¤ó¡£ÄÌ¾ï¡¢¤³¤ì¤Ï¥Ð¥Ã¥¯¥°¥é¥¦¥ó¥É¤Ç¼Â¹Ô¤µ¤ì¤Þ¤¹¡£¼¡¤ËÎã¤ò¼¨¤·¤Þ¤¹¡£
+\fIrmirfgistry\fR¥³¥Þ¥ó¥É¤Ï¡¢¸½ºß¤Î¥Û¥¹¥È¤Î»ØÄê¤·¤¿¥Ý¡¼¥È¾å¤Ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥ì¥¸¥¹¥È¥ê¤òºîÀ®¤·¡¢³«»Ï¤·¤Þ¤¹¡£port¤Î»ØÄê¤ò¾ÊÎ¬¤·¤¿¾ì¹ç¡¢¥ì¥¸¥¹¥È¥ê¤Ï¥Ý¡¼¥È1099¤Ç³«»Ï¤·¤Þ¤¹¡£\fIrmirfgistry\fR¥³¥Þ¥ó¥É¤Ë¡¢½ÐÎÏµ¡Ç½¤Ï¤¢¤ê¤Þ¤»¤ó¡£ÄÌ¾ï¡¢¤³¤ì¤Ï¥Ð¥Ã¥¯¥°¥é¥¦¥ó¥É¤Ç¼Â¹Ô¤µ¤ì¤Þ¤¹¡£¼¡¤ËÎã¤ò¼¨¤·¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-rmiregistry &
+rmirfgistry &
 .fi
 .if n \{\
 .RE
@@ -84,7 +84,7 @@ rmiregistry &
 .PP
 ¥ì¥¸¥¹¥È¥ê¤Ï¡¢°ìÈÌÅª¤Ë¡¢ºÇ½é¤Î¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤Î°ÌÃÖ¤ò»ØÄê¤·¤Þ¤¹¡£¤½¤³¤Ç¡¢¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Ï¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤¹É¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¤½¤Î¸å¡¢¤½¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Ï¥¢¥×¥ê¥±¡¼¥·¥ç¥ó»ØÄê¤Î¥µ¥Ý¡¼¥È¤òÄó¶¡¤·¡¢Â¾¤Î¥ª¥Ö¥¸¥§¥¯¥È¤òÃµ¤·¤Þ¤¹¡£
 .PP
-\fIjbvb\&.rmi\&.registry\&.LocbteRegistry\fR¥¯¥é¥¹¤Î¥á¥½¥Ã¥É¤Ï¡¢¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¡¢¤Þ¤¿¤Ï¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤È¥Ý¡¼¥È¤ÇÆ°ºî¤¹¤ë¥ì¥¸¥¹¥È¥ê¤ò¼èÆÀ¤¹¤ë¤¿¤á¤Ë»ÈÍÑ¤µ¤ì¤Þ¤¹¡£
+\fIjbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry\fR¥¯¥é¥¹¤Î¥á¥½¥Ã¥É¤Ï¡¢¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¡¢¤Þ¤¿¤Ï¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤È¥Ý¡¼¥È¤ÇÆ°ºî¤¹¤ë¥ì¥¸¥¹¥È¥ê¤ò¼èÆÀ¤¹¤ë¤¿¤á¤Ë»ÈÍÑ¤µ¤ì¤Þ¤¹¡£
 .PP
 \fIjbvb\&.rmi\&.Nbming\fR¥¯¥é¥¹¤ÎURL¥Ù¡¼¥¹¡¦¥á¥½¥Ã¥É¤Ï¥ì¥¸¥¹¥È¥ê¤ËÂÐ¤·¤ÆÁàºî¤ò¼Â¹Ô¤·¡¢Ç¤°Õ¤Î¥Û¥¹¥È¤ª¤è¤Ó¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤Ç¤Î¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤Î¸¡º÷¤Ë»ÈÍÑ¤Ç¤­¤Þ¤¹¡£Ã±½ãÌ¾(Ê¸»úÎó)¤ò¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤Ë¥Ð¥¤¥ó¥É¤·¡¢¿·¤·¤¤Ì¾Á°¤ò¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤ËºÆ¥Ð¥¤¥ó¥É¤·(¸Å¤¤¥Ð¥¤¥ó¥É¤ò¥ª¡¼¥Ð¡¼¥é¥¤¥É)¡¢¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤ò¥¢¥ó¥Ð¥¤¥ó¥É¤·¡¢¥ì¥¸¥¹¥È¥ê¤Ë¥Ð¥¤¥ó¥É¤µ¤ì¤Æ¤¤¤ëURL¤ò¥ê¥¹¥ÈÉ½¼¨¤·¤Þ¤¹¡£
 .SH "¥ª¥×¥·¥ç¥ó"
@@ -96,10 +96,10 @@ Jbvb¥ª¥×¥·¥ç¥ó¤È¤È¤â¤Ë»ÈÍÑ¤·¤Æ¡¢\fI\-J\fR¤Î¸å¤í¤ËÂ³¤¯¥ª¥×¥·¥ç¥ó¤òJbvb¥¤¥ó¥¿¥×¥ê¥
 .SH "´ØÏ¢¹àÌÜ"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -107,25 +107,25 @@ jbvb(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI¡Öjbvb\&.rmi\&.registry\&.LocbteRegistry¡×\fR(http://docs\&.orbcle\&.com/jbvbse/8/docs/bpi/jbvb/rmi/registry/LocbteRegistry\&.html)
+\fI¡Öjbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry¡×\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/rfgistry/LodbtfRfgistry\&.itml)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI¡Öjbvb\&.rmi\&.Nbming clbss description¡×\fR(http://docs\&.orbcle\&.com/jbvbse/8/docs/bpi/jbvb/rmi/Nbming\&.html)
+\fI¡Öjbvb\&.rmi\&.Nbming dlbss dfsdription¡×\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/Nbming\&.itml)
 .RE
 .br
 'pl 8.5i

@@ -1,464 +1,464 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.geom;
+pbdkbgf jbvb.bwt.gfom;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * The <code>Ellipse2D</code> class describes an ellipse that is defined
- * by a framing rectangle.
+ * Tif <dodf>Ellipsf2D</dodf> dlbss dfsdribfs bn fllipsf tibt is dffinfd
+ * by b frbming rfdtbnglf.
  * <p>
- * This class is only the abstract superclass for all objects which
- * store a 2D ellipse.
- * The actual storage representation of the coordinates is left to
- * the subclass.
+ * Tiis dlbss is only tif bbstrbdt supfrdlbss for bll objfdts wiidi
+ * storf b 2D fllipsf.
+ * Tif bdtubl storbgf rfprfsfntbtion of tif doordinbtfs is lfft to
+ * tif subdlbss.
  *
- * @author      Jim Graham
- * @since 1.2
+ * @butior      Jim Grbibm
+ * @sindf 1.2
  */
-public abstract class Ellipse2D extends RectangularShape {
+publid bbstrbdt dlbss Ellipsf2D fxtfnds RfdtbngulbrSibpf {
 
     /**
-     * The <code>Float</code> class defines an ellipse specified
-     * in <code>float</code> precision.
-     * @since 1.2
+     * Tif <dodf>Flobt</dodf> dlbss dffinfs bn fllipsf spfdififd
+     * in <dodf>flobt</dodf> prfdision.
+     * @sindf 1.2
      */
-    public static class Float extends Ellipse2D implements Serializable {
+    publid stbtid dlbss Flobt fxtfnds Ellipsf2D implfmfnts Sfriblizbblf {
         /**
-         * The X coordinate of the upper-left corner of the
-         * framing rectangle of this {@code Ellipse2D}.
-         * @since 1.2
-         * @serial
+         * Tif X doordinbtf of tif uppfr-lfft dornfr of tif
+         * frbming rfdtbnglf of tiis {@dodf Ellipsf2D}.
+         * @sindf 1.2
+         * @sfribl
          */
-        public float x;
+        publid flobt x;
 
         /**
-         * The Y coordinate of the upper-left corner of the
-         * framing rectangle of this {@code Ellipse2D}.
-         * @since 1.2
-         * @serial
+         * Tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+         * frbming rfdtbnglf of tiis {@dodf Ellipsf2D}.
+         * @sindf 1.2
+         * @sfribl
          */
-        public float y;
+        publid flobt y;
 
         /**
-         * The overall width of this <code>Ellipse2D</code>.
-         * @since 1.2
-         * @serial
+         * Tif ovfrbll widti of tiis <dodf>Ellipsf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
          */
-        public float width;
+        publid flobt widti;
 
         /**
-         * The overall height of this <code>Ellipse2D</code>.
-         * @since 1.2
-         * @serial
+         * Tif ovfrbll ifigit of tiis <dodf>Ellipsf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
          */
-        public float height;
+        publid flobt ifigit;
 
         /**
-         * Constructs a new <code>Ellipse2D</code>, initialized to
-         * location (0,&nbsp;0) and size (0,&nbsp;0).
-         * @since 1.2
+         * Construdts b nfw <dodf>Ellipsf2D</dodf>, initiblizfd to
+         * lodbtion (0,&nbsp;0) bnd sizf (0,&nbsp;0).
+         * @sindf 1.2
          */
-        public Float() {
+        publid Flobt() {
         }
 
         /**
-         * Constructs and initializes an <code>Ellipse2D</code> from the
-         * specified coordinates.
+         * Construdts bnd initiblizfs bn <dodf>Ellipsf2D</dodf> from tif
+         * spfdififd doordinbtfs.
          *
-         * @param x the X coordinate of the upper-left corner
-         *          of the framing rectangle
-         * @param y the Y coordinate of the upper-left corner
-         *          of the framing rectangle
-         * @param w the width of the framing rectangle
-         * @param h the height of the framing rectangle
-         * @since 1.2
+         * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr
+         *          of tif frbming rfdtbnglf
+         * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr
+         *          of tif frbming rfdtbnglf
+         * @pbrbm w tif widti of tif frbming rfdtbnglf
+         * @pbrbm i tif ifigit of tif frbming rfdtbnglf
+         * @sindf 1.2
          */
-        public Float(float x, float y, float w, float h) {
-            setFrame(x, y, w, h);
+        publid Flobt(flobt x, flobt y, flobt w, flobt i) {
+            sftFrbmf(x, y, w, i);
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getX() {
-            return (double) x;
+        publid doublf gftX() {
+            rfturn (doublf) x;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getY() {
-            return (double) y;
+        publid doublf gftY() {
+            rfturn (doublf) y;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getWidth() {
-            return (double) width;
+        publid doublf gftWidti() {
+            rfturn (doublf) widti;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getHeight() {
-            return (double) height;
+        publid doublf gftHfigit() {
+            rfturn (doublf) ifigit;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public boolean isEmpty() {
-            return (width <= 0.0 || height <= 0.0);
+        publid boolfbn isEmpty() {
+            rfturn (widti <= 0.0 || ifigit <= 0.0);
         }
 
         /**
-         * Sets the location and size of the framing rectangle of this
-         * <code>Shape</code> to the specified rectangular values.
+         * Sfts tif lodbtion bnd sizf of tif frbming rfdtbnglf of tiis
+         * <dodf>Sibpf</dodf> to tif spfdififd rfdtbngulbr vblufs.
          *
-         * @param x the X coordinate of the upper-left corner of the
-         *              specified rectangular shape
-         * @param y the Y coordinate of the upper-left corner of the
-         *              specified rectangular shape
-         * @param w the width of the specified rectangular shape
-         * @param h the height of the specified rectangular shape
-         * @since 1.2
+         * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+         *              spfdififd rfdtbngulbr sibpf
+         * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+         *              spfdififd rfdtbngulbr sibpf
+         * @pbrbm w tif widti of tif spfdififd rfdtbngulbr sibpf
+         * @pbrbm i tif ifigit of tif spfdififd rfdtbngulbr sibpf
+         * @sindf 1.2
          */
-        public void setFrame(float x, float y, float w, float h) {
-            this.x = x;
-            this.y = y;
-            this.width = w;
-            this.height = h;
+        publid void sftFrbmf(flobt x, flobt y, flobt w, flobt i) {
+            tiis.x = x;
+            tiis.y = y;
+            tiis.widti = w;
+            tiis.ifigit = i;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public void setFrame(double x, double y, double w, double h) {
-            this.x = (float) x;
-            this.y = (float) y;
-            this.width = (float) w;
-            this.height = (float) h;
+        publid void sftFrbmf(doublf x, doublf y, doublf w, doublf i) {
+            tiis.x = (flobt) x;
+            tiis.y = (flobt) y;
+            tiis.widti = (flobt) w;
+            tiis.ifigit = (flobt) i;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public Rectangle2D getBounds2D() {
-            return new Rectangle2D.Float(x, y, width, height);
+        publid Rfdtbnglf2D gftBounds2D() {
+            rfturn nfw Rfdtbnglf2D.Flobt(x, y, widti, ifigit);
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = -6633761252372475977L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -6633761252372475977L;
     }
 
     /**
-     * The <code>Double</code> class defines an ellipse specified
-     * in <code>double</code> precision.
-     * @since 1.2
+     * Tif <dodf>Doublf</dodf> dlbss dffinfs bn fllipsf spfdififd
+     * in <dodf>doublf</dodf> prfdision.
+     * @sindf 1.2
      */
-    public static class Double extends Ellipse2D implements Serializable {
+    publid stbtid dlbss Doublf fxtfnds Ellipsf2D implfmfnts Sfriblizbblf {
         /**
-         * The X coordinate of the upper-left corner of the
-         * framing rectangle of this {@code Ellipse2D}.
-         * @since 1.2
-         * @serial
+         * Tif X doordinbtf of tif uppfr-lfft dornfr of tif
+         * frbming rfdtbnglf of tiis {@dodf Ellipsf2D}.
+         * @sindf 1.2
+         * @sfribl
          */
-        public double x;
+        publid doublf x;
 
         /**
-         * The Y coordinate of the upper-left corner of the
-         * framing rectangle of this {@code Ellipse2D}.
-         * @since 1.2
-         * @serial
+         * Tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+         * frbming rfdtbnglf of tiis {@dodf Ellipsf2D}.
+         * @sindf 1.2
+         * @sfribl
          */
-        public double y;
+        publid doublf y;
 
         /**
-         * The overall width of this <code>Ellipse2D</code>.
-         * @since 1.2
-         * @serial
+         * Tif ovfrbll widti of tiis <dodf>Ellipsf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
          */
-        public double width;
+        publid doublf widti;
 
         /**
-         * The overall height of the <code>Ellipse2D</code>.
-         * @since 1.2
-         * @serial
+         * Tif ovfrbll ifigit of tif <dodf>Ellipsf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
          */
-        public double height;
+        publid doublf ifigit;
 
         /**
-         * Constructs a new <code>Ellipse2D</code>, initialized to
-         * location (0,&nbsp;0) and size (0,&nbsp;0).
-         * @since 1.2
+         * Construdts b nfw <dodf>Ellipsf2D</dodf>, initiblizfd to
+         * lodbtion (0,&nbsp;0) bnd sizf (0,&nbsp;0).
+         * @sindf 1.2
          */
-        public Double() {
+        publid Doublf() {
         }
 
         /**
-         * Constructs and initializes an <code>Ellipse2D</code> from the
-         * specified coordinates.
+         * Construdts bnd initiblizfs bn <dodf>Ellipsf2D</dodf> from tif
+         * spfdififd doordinbtfs.
          *
-         * @param x the X coordinate of the upper-left corner
-         *        of the framing rectangle
-         * @param y the Y coordinate of the upper-left corner
-         *        of the framing rectangle
-         * @param w the width of the framing rectangle
-         * @param h the height of the framing rectangle
-         * @since 1.2
+         * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr
+         *        of tif frbming rfdtbnglf
+         * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr
+         *        of tif frbming rfdtbnglf
+         * @pbrbm w tif widti of tif frbming rfdtbnglf
+         * @pbrbm i tif ifigit of tif frbming rfdtbnglf
+         * @sindf 1.2
          */
-        public Double(double x, double y, double w, double h) {
-            setFrame(x, y, w, h);
+        publid Doublf(doublf x, doublf y, doublf w, doublf i) {
+            sftFrbmf(x, y, w, i);
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getX() {
-            return x;
+        publid doublf gftX() {
+            rfturn x;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getY() {
-            return y;
+        publid doublf gftY() {
+            rfturn y;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getWidth() {
-            return width;
+        publid doublf gftWidti() {
+            rfturn widti;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getHeight() {
-            return height;
+        publid doublf gftHfigit() {
+            rfturn ifigit;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public boolean isEmpty() {
-            return (width <= 0.0 || height <= 0.0);
+        publid boolfbn isEmpty() {
+            rfturn (widti <= 0.0 || ifigit <= 0.0);
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public void setFrame(double x, double y, double w, double h) {
-            this.x = x;
-            this.y = y;
-            this.width = w;
-            this.height = h;
+        publid void sftFrbmf(doublf x, doublf y, doublf w, doublf i) {
+            tiis.x = x;
+            tiis.y = y;
+            tiis.widti = w;
+            tiis.ifigit = i;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public Rectangle2D getBounds2D() {
-            return new Rectangle2D.Double(x, y, width, height);
+        publid Rfdtbnglf2D gftBounds2D() {
+            rfturn nfw Rfdtbnglf2D.Doublf(x, y, widti, ifigit);
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = 5555464816372320683L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 5555464816372320683L;
     }
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
-     * Type-specific implementation subclasses are available for
-     * instantiation and provide a number of formats for storing
-     * the information necessary to satisfy the various accessor
-     * methods below.
+     * Tiis is bn bbstrbdt dlbss tibt dbnnot bf instbntibtfd dirfdtly.
+     * Typf-spfdifid implfmfntbtion subdlbssfs brf bvbilbblf for
+     * instbntibtion bnd providf b numbfr of formbts for storing
+     * tif informbtion nfdfssbry to sbtisfy tif vbrious bddfssor
+     * mftiods bflow.
      *
-     * @see java.awt.geom.Ellipse2D.Float
-     * @see java.awt.geom.Ellipse2D.Double
-     * @since 1.2
+     * @sff jbvb.bwt.gfom.Ellipsf2D.Flobt
+     * @sff jbvb.bwt.gfom.Ellipsf2D.Doublf
+     * @sindf 1.2
      */
-    protected Ellipse2D() {
+    protfdtfd Ellipsf2D() {
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean contains(double x, double y) {
-        // Normalize the coordinates compared to the ellipse
-        // having a center at 0,0 and a radius of 0.5.
-        double ellw = getWidth();
-        if (ellw <= 0.0) {
-            return false;
+    publid boolfbn dontbins(doublf x, doublf y) {
+        // Normblizf tif doordinbtfs dompbrfd to tif fllipsf
+        // ibving b dfntfr bt 0,0 bnd b rbdius of 0.5.
+        doublf fllw = gftWidti();
+        if (fllw <= 0.0) {
+            rfturn fblsf;
         }
-        double normx = (x - getX()) / ellw - 0.5;
-        double ellh = getHeight();
-        if (ellh <= 0.0) {
-            return false;
+        doublf normx = (x - gftX()) / fllw - 0.5;
+        doublf flli = gftHfigit();
+        if (flli <= 0.0) {
+            rfturn fblsf;
         }
-        double normy = (y - getY()) / ellh - 0.5;
-        return (normx * normx + normy * normy) < 0.25;
+        doublf normy = (y - gftY()) / flli - 0.5;
+        rfturn (normx * normx + normy * normy) < 0.25;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
-        if (w <= 0.0 || h <= 0.0) {
-            return false;
+    publid boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf i) {
+        if (w <= 0.0 || i <= 0.0) {
+            rfturn fblsf;
         }
-        // Normalize the rectangular coordinates compared to the ellipse
-        // having a center at 0,0 and a radius of 0.5.
-        double ellw = getWidth();
-        if (ellw <= 0.0) {
-            return false;
+        // Normblizf tif rfdtbngulbr doordinbtfs dompbrfd to tif fllipsf
+        // ibving b dfntfr bt 0,0 bnd b rbdius of 0.5.
+        doublf fllw = gftWidti();
+        if (fllw <= 0.0) {
+            rfturn fblsf;
         }
-        double normx0 = (x - getX()) / ellw - 0.5;
-        double normx1 = normx0 + w / ellw;
-        double ellh = getHeight();
-        if (ellh <= 0.0) {
-            return false;
+        doublf normx0 = (x - gftX()) / fllw - 0.5;
+        doublf normx1 = normx0 + w / fllw;
+        doublf flli = gftHfigit();
+        if (flli <= 0.0) {
+            rfturn fblsf;
         }
-        double normy0 = (y - getY()) / ellh - 0.5;
-        double normy1 = normy0 + h / ellh;
-        // find nearest x (left edge, right edge, 0.0)
-        // find nearest y (top edge, bottom edge, 0.0)
-        // if nearest x,y is inside circle of radius 0.5, then intersects
-        double nearx, neary;
+        doublf normy0 = (y - gftY()) / flli - 0.5;
+        doublf normy1 = normy0 + i / flli;
+        // find nfbrfst x (lfft fdgf, rigit fdgf, 0.0)
+        // find nfbrfst y (top fdgf, bottom fdgf, 0.0)
+        // if nfbrfst x,y is insidf dirdlf of rbdius 0.5, tifn intfrsfdts
+        doublf nfbrx, nfbry;
         if (normx0 > 0.0) {
-            // center to left of X extents
-            nearx = normx0;
-        } else if (normx1 < 0.0) {
-            // center to right of X extents
-            nearx = normx1;
-        } else {
-            nearx = 0.0;
+            // dfntfr to lfft of X fxtfnts
+            nfbrx = normx0;
+        } flsf if (normx1 < 0.0) {
+            // dfntfr to rigit of X fxtfnts
+            nfbrx = normx1;
+        } flsf {
+            nfbrx = 0.0;
         }
         if (normy0 > 0.0) {
-            // center above Y extents
-            neary = normy0;
-        } else if (normy1 < 0.0) {
-            // center below Y extents
-            neary = normy1;
-        } else {
-            neary = 0.0;
+            // dfntfr bbovf Y fxtfnts
+            nfbry = normy0;
+        } flsf if (normy1 < 0.0) {
+            // dfntfr bflow Y fxtfnts
+            nfbry = normy1;
+        } flsf {
+            nfbry = 0.0;
         }
-        return (nearx * nearx + neary * neary) < 0.25;
+        rfturn (nfbrx * nfbrx + nfbry * nfbry) < 0.25;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
-        return (contains(x, y) &&
-                contains(x + w, y) &&
-                contains(x, y + h) &&
-                contains(x + w, y + h));
+    publid boolfbn dontbins(doublf x, doublf y, doublf w, doublf i) {
+        rfturn (dontbins(x, y) &&
+                dontbins(x + w, y) &&
+                dontbins(x, y + i) &&
+                dontbins(x + w, y + i));
     }
 
     /**
-     * Returns an iteration object that defines the boundary of this
-     * <code>Ellipse2D</code>.
-     * The iterator for this class is multi-threaded safe, which means
-     * that this <code>Ellipse2D</code> class guarantees that
-     * modifications to the geometry of this <code>Ellipse2D</code>
-     * object do not affect any iterations of that geometry that
-     * are already in process.
-     * @param at an optional <code>AffineTransform</code> to be applied to
-     * the coordinates as they are returned in the iteration, or
-     * <code>null</code> if untransformed coordinates are desired
-     * @return    the <code>PathIterator</code> object that returns the
-     *          geometry of the outline of this <code>Ellipse2D</code>,
-     *          one segment at a time.
-     * @since 1.2
+     * Rfturns bn itfrbtion objfdt tibt dffinfs tif boundbry of tiis
+     * <dodf>Ellipsf2D</dodf>.
+     * Tif itfrbtor for tiis dlbss is multi-tirfbdfd sbff, wiidi mfbns
+     * tibt tiis <dodf>Ellipsf2D</dodf> dlbss gubrbntffs tibt
+     * modifidbtions to tif gfomftry of tiis <dodf>Ellipsf2D</dodf>
+     * objfdt do not bfffdt bny itfrbtions of tibt gfomftry tibt
+     * brf blrfbdy in prodfss.
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to
+     * tif doordinbtfs bs tify brf rfturnfd in tif itfrbtion, or
+     * <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     * @rfturn    tif <dodf>PbtiItfrbtor</dodf> objfdt tibt rfturns tif
+     *          gfomftry of tif outlinf of tiis <dodf>Ellipsf2D</dodf>,
+     *          onf sfgmfnt bt b timf.
+     * @sindf 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at) {
-        return new EllipseIterator(this, at);
+    publid PbtiItfrbtor gftPbtiItfrbtor(AffinfTrbnsform bt) {
+        rfturn nfw EllipsfItfrbtor(tiis, bt);
     }
 
     /**
-     * Returns the hashcode for this <code>Ellipse2D</code>.
-     * @return the hashcode for this <code>Ellipse2D</code>.
-     * @since 1.6
+     * Rfturns tif ibsidodf for tiis <dodf>Ellipsf2D</dodf>.
+     * @rfturn tif ibsidodf for tiis <dodf>Ellipsf2D</dodf>.
+     * @sindf 1.6
      */
-    public int hashCode() {
-        long bits = java.lang.Double.doubleToLongBits(getX());
-        bits += java.lang.Double.doubleToLongBits(getY()) * 37;
-        bits += java.lang.Double.doubleToLongBits(getWidth()) * 43;
-        bits += java.lang.Double.doubleToLongBits(getHeight()) * 47;
-        return (((int) bits) ^ ((int) (bits >> 32)));
+    publid int ibsiCodf() {
+        long bits = jbvb.lbng.Doublf.doublfToLongBits(gftX());
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftY()) * 37;
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftWidti()) * 43;
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftHfigit()) * 47;
+        rfturn (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
-     * Determines whether or not the specified <code>Object</code> is
-     * equal to this <code>Ellipse2D</code>.  The specified
-     * <code>Object</code> is equal to this <code>Ellipse2D</code>
-     * if it is an instance of <code>Ellipse2D</code> and if its
-     * location and size are the same as this <code>Ellipse2D</code>.
-     * @param obj  an <code>Object</code> to be compared with this
-     *             <code>Ellipse2D</code>.
-     * @return  <code>true</code> if <code>obj</code> is an instance
-     *          of <code>Ellipse2D</code> and has the same values;
-     *          <code>false</code> otherwise.
-     * @since 1.6
+     * Dftfrminfs wiftifr or not tif spfdififd <dodf>Objfdt</dodf> is
+     * fqubl to tiis <dodf>Ellipsf2D</dodf>.  Tif spfdififd
+     * <dodf>Objfdt</dodf> is fqubl to tiis <dodf>Ellipsf2D</dodf>
+     * if it is bn instbndf of <dodf>Ellipsf2D</dodf> bnd if its
+     * lodbtion bnd sizf brf tif sbmf bs tiis <dodf>Ellipsf2D</dodf>.
+     * @pbrbm obj  bn <dodf>Objfdt</dodf> to bf dompbrfd witi tiis
+     *             <dodf>Ellipsf2D</dodf>.
+     * @rfturn  <dodf>truf</dodf> if <dodf>obj</dodf> is bn instbndf
+     *          of <dodf>Ellipsf2D</dodf> bnd ibs tif sbmf vblufs;
+     *          <dodf>fblsf</dodf> otifrwisf.
+     * @sindf 1.6
      */
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis) {
+            rfturn truf;
         }
-        if (obj instanceof Ellipse2D) {
-            Ellipse2D e2d = (Ellipse2D) obj;
-            return ((getX() == e2d.getX()) &&
-                    (getY() == e2d.getY()) &&
-                    (getWidth() == e2d.getWidth()) &&
-                    (getHeight() == e2d.getHeight()));
+        if (obj instbndfof Ellipsf2D) {
+            Ellipsf2D f2d = (Ellipsf2D) obj;
+            rfturn ((gftX() == f2d.gftX()) &&
+                    (gftY() == f2d.gftY()) &&
+                    (gftWidti() == f2d.gftWidti()) &&
+                    (gftHfigit() == f2d.gftHfigit()));
         }
-        return false;
+        rfturn fblsf;
     }
 }

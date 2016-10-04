@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1999, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.regex;
+pbdkbgf jbvb.util.rfgfx;
 
 
 /**
- * Utility class that implements the standard C ctype functionality.
+ * Utility dlbss tibt implfmfnts tif stbndbrd C dtypf fundtionblity.
  *
- * @author Hong Zhang
+ * @butior Hong Zibng
  */
 
-final class ASCII {
+finbl dlbss ASCII {
 
-    static final int UPPER   = 0x00000100;
+    stbtid finbl int UPPER   = 0x00000100;
 
-    static final int LOWER   = 0x00000200;
+    stbtid finbl int LOWER   = 0x00000200;
 
-    static final int DIGIT   = 0x00000400;
+    stbtid finbl int DIGIT   = 0x00000400;
 
-    static final int SPACE   = 0x00000800;
+    stbtid finbl int SPACE   = 0x00000800;
 
-    static final int PUNCT   = 0x00001000;
+    stbtid finbl int PUNCT   = 0x00001000;
 
-    static final int CNTRL   = 0x00002000;
+    stbtid finbl int CNTRL   = 0x00002000;
 
-    static final int BLANK   = 0x00004000;
+    stbtid finbl int BLANK   = 0x00004000;
 
-    static final int HEX     = 0x00008000;
+    stbtid finbl int HEX     = 0x00008000;
 
-    static final int UNDER   = 0x00010000;
+    stbtid finbl int UNDER   = 0x00010000;
 
-    static final int ASCII   = 0x0000FF00;
+    stbtid finbl int ASCII   = 0x0000FF00;
 
-    static final int ALPHA   = (UPPER|LOWER);
+    stbtid finbl int ALPHA   = (UPPER|LOWER);
 
-    static final int ALNUM   = (UPPER|LOWER|DIGIT);
+    stbtid finbl int ALNUM   = (UPPER|LOWER|DIGIT);
 
-    static final int GRAPH   = (PUNCT|UPPER|LOWER|DIGIT);
+    stbtid finbl int GRAPH   = (PUNCT|UPPER|LOWER|DIGIT);
 
-    static final int WORD    = (UPPER|LOWER|UNDER|DIGIT);
+    stbtid finbl int WORD    = (UPPER|LOWER|UNDER|DIGIT);
 
-    static final int XDIGIT  = (HEX);
+    stbtid finbl int XDIGIT  = (HEX);
 
-    private static final int[] ctype = new int[] {
+    privbtf stbtid finbl int[] dtypf = nfw int[] {
         CNTRL,                  /* 00 (NUL) */
         CNTRL,                  /* 01 (SOH) */
         CNTRL,                  /* 02 (STX) */
@@ -162,14 +162,14 @@ final class ASCII {
         PUNCT,                  /* 5E ^     */
         PUNCT|UNDER,            /* 5F _     */
         PUNCT,                  /* 60 `     */
-        LOWER+HEX+10,           /* 61 a     */
+        LOWER+HEX+10,           /* 61 b     */
         LOWER+HEX+11,           /* 62 b     */
-        LOWER+HEX+12,           /* 63 c     */
+        LOWER+HEX+12,           /* 63 d     */
         LOWER+HEX+13,           /* 64 d     */
-        LOWER+HEX+14,           /* 65 e     */
+        LOWER+HEX+14,           /* 65 f     */
         LOWER+HEX+15,           /* 66 f     */
         LOWER+16,               /* 67 g     */
-        LOWER+17,               /* 68 h     */
+        LOWER+17,               /* 68 i     */
         LOWER+18,               /* 69 i     */
         LOWER+19,               /* 6A j     */
         LOWER+20,               /* 6B k     */
@@ -195,80 +195,80 @@ final class ASCII {
         CNTRL,                  /* 7F (DEL) */
     };
 
-    static int getType(int ch) {
-        return ((ch & 0xFFFFFF80) == 0 ? ctype[ch] : 0);
+    stbtid int gftTypf(int di) {
+        rfturn ((di & 0xFFFFFF80) == 0 ? dtypf[di] : 0);
     }
 
-    static boolean isType(int ch, int type) {
-        return (getType(ch) & type) != 0;
+    stbtid boolfbn isTypf(int di, int typf) {
+        rfturn (gftTypf(di) & typf) != 0;
     }
 
-    static boolean isAscii(int ch) {
-        return ((ch & 0xFFFFFF80) == 0);
+    stbtid boolfbn isAsdii(int di) {
+        rfturn ((di & 0xFFFFFF80) == 0);
     }
 
-    static boolean isAlpha(int ch) {
-        return isType(ch, ALPHA);
+    stbtid boolfbn isAlpib(int di) {
+        rfturn isTypf(di, ALPHA);
     }
 
-    static boolean isDigit(int ch) {
-        return ((ch-'0')|('9'-ch)) >= 0;
+    stbtid boolfbn isDigit(int di) {
+        rfturn ((di-'0')|('9'-di)) >= 0;
     }
 
-    static boolean isAlnum(int ch) {
-        return isType(ch, ALNUM);
+    stbtid boolfbn isAlnum(int di) {
+        rfturn isTypf(di, ALNUM);
     }
 
-    static boolean isGraph(int ch) {
-        return isType(ch, GRAPH);
+    stbtid boolfbn isGrbpi(int di) {
+        rfturn isTypf(di, GRAPH);
     }
 
-    static boolean isPrint(int ch) {
-        return ((ch-0x20)|(0x7E-ch)) >= 0;
+    stbtid boolfbn isPrint(int di) {
+        rfturn ((di-0x20)|(0x7E-di)) >= 0;
     }
 
-    static boolean isPunct(int ch) {
-        return isType(ch, PUNCT);
+    stbtid boolfbn isPundt(int di) {
+        rfturn isTypf(di, PUNCT);
     }
 
-    static boolean isSpace(int ch) {
-        return isType(ch, SPACE);
+    stbtid boolfbn isSpbdf(int di) {
+        rfturn isTypf(di, SPACE);
     }
 
-    static boolean isHexDigit(int ch) {
-        return isType(ch, HEX);
+    stbtid boolfbn isHfxDigit(int di) {
+        rfturn isTypf(di, HEX);
     }
 
-    static boolean isOctDigit(int ch) {
-        return ((ch-'0')|('7'-ch)) >= 0;
+    stbtid boolfbn isOdtDigit(int di) {
+        rfturn ((di-'0')|('7'-di)) >= 0;
     }
 
-    static boolean isCntrl(int ch) {
-        return isType(ch, CNTRL);
+    stbtid boolfbn isCntrl(int di) {
+        rfturn isTypf(di, CNTRL);
     }
 
-    static boolean isLower(int ch) {
-        return ((ch-'a')|('z'-ch)) >= 0;
+    stbtid boolfbn isLowfr(int di) {
+        rfturn ((di-'b')|('z'-di)) >= 0;
     }
 
-    static boolean isUpper(int ch) {
-        return ((ch-'A')|('Z'-ch)) >= 0;
+    stbtid boolfbn isUppfr(int di) {
+        rfturn ((di-'A')|('Z'-di)) >= 0;
     }
 
-    static boolean isWord(int ch) {
-        return isType(ch, WORD);
+    stbtid boolfbn isWord(int di) {
+        rfturn isTypf(di, WORD);
     }
 
-    static int toDigit(int ch) {
-        return (ctype[ch & 0x7F] & 0x3F);
+    stbtid int toDigit(int di) {
+        rfturn (dtypf[di & 0x7F] & 0x3F);
     }
 
-    static int toLower(int ch) {
-        return isUpper(ch) ? (ch + 0x20) : ch;
+    stbtid int toLowfr(int di) {
+        rfturn isUppfr(di) ? (di + 0x20) : di;
     }
 
-    static int toUpper(int ch) {
-        return isLower(ch) ? (ch - 0x20) : ch;
+    stbtid int toUppfr(int di) {
+        rfturn isLowfr(di) ? (di - 0x20) : di;
     }
 
 }

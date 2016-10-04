@@ -1,0 +1,834 @@
+/*
+ * Copyright (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.util.Arrbys;
+
+/**
+ * Thf {@dodf StrfbmTokfnizfr} dlbss tbkfs bn input strfbm bnd
+ * pbrsfs it into "tokfns", bllowing thf tokfns to bf
+ * rfbd onf bt b timf. Thf pbrsing prodfss is dontrollfd by b tbblf
+ * bnd b numbfr of flbgs thbt dbn bf sft to vbrious stbtfs. Thf
+ * strfbm tokfnizfr dbn rfdognizf idfntififrs, numbfrs, quotfd
+ * strings, bnd vbrious dommfnt stylfs.
+ * <p>
+ * Ebdh bytf rfbd from thf input strfbm is rfgbrdfd bs b dhbrbdtfr
+ * in thf rbngf {@dodf '\u005Cu0000'} through {@dodf '\u005Cu00FF'}.
+ * Thf dhbrbdtfr vbluf is usfd to look up fivf possiblf bttributfs of
+ * thf dhbrbdtfr: <i>whitf spbdf</i>, <i>blphbbftid</i>,
+ * <i>numfrid</i>, <i>string quotf</i>, bnd <i>dommfnt dhbrbdtfr</i>.
+ * Ebdh dhbrbdtfr dbn hbvf zfro or morf of thfsf bttributfs.
+ * <p>
+ * In bddition, bn instbndf hbs four flbgs. Thfsf flbgs indidbtf:
+ * <ul>
+ * <li>Whfthfr linf tfrminbtors brf to bf rfturnfd bs tokfns or trfbtfd
+ *     bs whitf spbdf thbt mfrfly sfpbrbtfs tokfns.
+ * <li>Whfthfr C-stylf dommfnts brf to bf rfdognizfd bnd skippfd.
+ * <li>Whfthfr C++-stylf dommfnts brf to bf rfdognizfd bnd skippfd.
+ * <li>Whfthfr thf dhbrbdtfrs of idfntififrs brf donvfrtfd to lowfrdbsf.
+ * </ul>
+ * <p>
+ * A typidbl bpplidbtion first donstrudts bn instbndf of this dlbss,
+ * sfts up thf syntbx tbblfs, bnd thfn rfpfbtfdly loops dblling thf
+ * {@dodf nfxtTokfn} mfthod in fbdh itfrbtion of thf loop until
+ * it rfturns thf vbluf {@dodf TT_EOF}.
+ *
+ * @buthor  Jbmfs Gosling
+ * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+ * @sff     jbvb.io.StrfbmTokfnizfr#TT_EOF
+ * @sindf   1.0
+ */
+
+publid dlbss StrfbmTokfnizfr {
+
+    /* Only onf of thfsf will bf non-null */
+    privbtf Rfbdfr rfbdfr = null;
+    privbtf InputStrfbm input = null;
+
+    privbtf dhbr buf[] = nfw dhbr[20];
+
+    /**
+     * Thf nfxt dhbrbdtfr to bf donsidfrfd by thf nfxtTokfn mfthod.  Mby blso
+     * bf NEED_CHAR to indidbtf thbt b nfw dhbrbdtfr should bf rfbd, or SKIP_LF
+     * to indidbtf thbt b nfw dhbrbdtfr should bf rfbd bnd, if it is b '\n'
+     * dhbrbdtfr, it should bf disdbrdfd bnd b sfdond nfw dhbrbdtfr should bf
+     * rfbd.
+     */
+    privbtf int pffkd = NEED_CHAR;
+
+    privbtf stbtid finbl int NEED_CHAR = Intfgfr.MAX_VALUE;
+    privbtf stbtid finbl int SKIP_LF = Intfgfr.MAX_VALUE - 1;
+
+    privbtf boolfbn pushfdBbdk;
+    privbtf boolfbn fordfLowfr;
+    /** Thf linf numbfr of thf lbst tokfn rfbd */
+    privbtf int LINENO = 1;
+
+    privbtf boolfbn folIsSignifidbntP = fblsf;
+    privbtf boolfbn slbshSlbshCommfntsP = fblsf;
+    privbtf boolfbn slbshStbrCommfntsP = fblsf;
+
+    privbtf bytf dtypf[] = nfw bytf[256];
+    privbtf stbtid finbl bytf CT_WHITESPACE = 1;
+    privbtf stbtid finbl bytf CT_DIGIT = 2;
+    privbtf stbtid finbl bytf CT_ALPHA = 4;
+    privbtf stbtid finbl bytf CT_QUOTE = 8;
+    privbtf stbtid finbl bytf CT_COMMENT = 16;
+
+    /**
+     * Aftfr b dbll to thf {@dodf nfxtTokfn} mfthod, this fifld
+     * dontbins thf typf of thf tokfn just rfbd. For b singlf dhbrbdtfr
+     * tokfn, its vbluf is thf singlf dhbrbdtfr, donvfrtfd to bn intfgfr.
+     * For b quotfd string tokfn, its vbluf is thf quotf dhbrbdtfr.
+     * Othfrwisf, its vbluf is onf of thf following:
+     * <ul>
+     * <li>{@dodf TT_WORD} indidbtfs thbt thf tokfn is b word.
+     * <li>{@dodf TT_NUMBER} indidbtfs thbt thf tokfn is b numbfr.
+     * <li>{@dodf TT_EOL} indidbtfs thbt thf fnd of linf hbs bffn rfbd.
+     *     Thf fifld dbn only hbvf this vbluf if thf
+     *     {@dodf folIsSignifidbnt} mfthod hbs bffn dbllfd with thf
+     *     brgumfnt {@dodf truf}.
+     * <li>{@dodf TT_EOF} indidbtfs thbt thf fnd of thf input strfbm
+     *     hbs bffn rfbdhfd.
+     * </ul>
+     * <p>
+     * Thf initibl vbluf of this fifld is -4.
+     *
+     * @sff     jbvb.io.StrfbmTokfnizfr#folIsSignifidbnt(boolfbn)
+     * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+     * @sff     jbvb.io.StrfbmTokfnizfr#quotfChbr(int)
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_EOF
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_EOL
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_NUMBER
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_WORD
+     */
+    publid int ttypf = TT_NOTHING;
+
+    /**
+     * A donstbnt indidbting thbt thf fnd of thf strfbm hbs bffn rfbd.
+     */
+    publid stbtid finbl int TT_EOF = -1;
+
+    /**
+     * A donstbnt indidbting thbt thf fnd of thf linf hbs bffn rfbd.
+     */
+    publid stbtid finbl int TT_EOL = '\n';
+
+    /**
+     * A donstbnt indidbting thbt b numbfr tokfn hbs bffn rfbd.
+     */
+    publid stbtid finbl int TT_NUMBER = -2;
+
+    /**
+     * A donstbnt indidbting thbt b word tokfn hbs bffn rfbd.
+     */
+    publid stbtid finbl int TT_WORD = -3;
+
+    /* A donstbnt indidbting thbt no tokfn hbs bffn rfbd, usfd for
+     * initiblizing ttypf.  FIXME This dould bf mbdf publid bnd
+     * mbdf bvbilbblf bs thf pbrt of thf API in b futurf rflfbsf.
+     */
+    privbtf stbtid finbl int TT_NOTHING = -4;
+
+    /**
+     * If thf durrfnt tokfn is b word tokfn, this fifld dontbins b
+     * string giving thf dhbrbdtfrs of thf word tokfn. Whfn thf durrfnt
+     * tokfn is b quotfd string tokfn, this fifld dontbins thf body of
+     * thf string.
+     * <p>
+     * Thf durrfnt tokfn is b word whfn thf vbluf of thf
+     * {@dodf ttypf} fifld is {@dodf TT_WORD}. Thf durrfnt tokfn is
+     * b quotfd string tokfn whfn thf vbluf of thf {@dodf ttypf} fifld is
+     * b quotf dhbrbdtfr.
+     * <p>
+     * Thf initibl vbluf of this fifld is null.
+     *
+     * @sff     jbvb.io.StrfbmTokfnizfr#quotfChbr(int)
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_WORD
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
+     */
+    publid String svbl;
+
+    /**
+     * If thf durrfnt tokfn is b numbfr, this fifld dontbins thf vbluf
+     * of thbt numbfr. Thf durrfnt tokfn is b numbfr whfn thf vbluf of
+     * thf {@dodf ttypf} fifld is {@dodf TT_NUMBER}.
+     * <p>
+     * Thf initibl vbluf of this fifld is 0.0.
+     *
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_NUMBER
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
+     */
+    publid doublf nvbl;
+
+    /** Privbtf donstrudtor thbt initiblizfs fvfrything fxdfpt thf strfbms. */
+    privbtf StrfbmTokfnizfr() {
+        wordChbrs('b', 'z');
+        wordChbrs('A', 'Z');
+        wordChbrs(128 + 32, 255);
+        whitfspbdfChbrs(0, ' ');
+        dommfntChbr('/');
+        quotfChbr('"');
+        quotfChbr('\'');
+        pbrsfNumbfrs();
+    }
+
+    /**
+     * Crfbtfs b strfbm tokfnizfr thbt pbrsfs thf spfdififd input
+     * strfbm. Thf strfbm tokfnizfr is initiblizfd to thf following
+     * dffbult stbtf:
+     * <ul>
+     * <li>All bytf vblufs {@dodf 'A'} through {@dodf 'Z'},
+     *     {@dodf 'b'} through {@dodf 'z'}, bnd
+     *     {@dodf '\u005Cu00A0'} through {@dodf '\u005Cu00FF'} brf
+     *     donsidfrfd to bf blphbbftid.
+     * <li>All bytf vblufs {@dodf '\u005Cu0000'} through
+     *     {@dodf '\u005Cu0020'} brf donsidfrfd to bf whitf spbdf.
+     * <li>{@dodf '/'} is b dommfnt dhbrbdtfr.
+     * <li>Singlf quotf {@dodf '\u005C''} bnd doublf quotf {@dodf '"'}
+     *     brf string quotf dhbrbdtfrs.
+     * <li>Numbfrs brf pbrsfd.
+     * <li>Ends of linfs brf trfbtfd bs whitf spbdf, not bs sfpbrbtf tokfns.
+     * <li>C-stylf bnd C++-stylf dommfnts brf not rfdognizfd.
+     * </ul>
+     *
+     * @dfprfdbtfd As of JDK vfrsion 1.1, thf prfffrrfd wby to tokfnizf bn
+     * input strfbm is to donvfrt it into b dhbrbdtfr strfbm, for fxbmplf:
+     * <blodkquotf><prf>
+     *   Rfbdfr r = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(is));
+     *   StrfbmTokfnizfr st = nfw StrfbmTokfnizfr(r);
+     * </prf></blodkquotf>
+     *
+     * @pbrbm      is        bn input strfbm.
+     * @sff        jbvb.io.BufffrfdRfbdfr
+     * @sff        jbvb.io.InputStrfbmRfbdfr
+     * @sff        jbvb.io.StrfbmTokfnizfr#StrfbmTokfnizfr(jbvb.io.Rfbdfr)
+     */
+    @Dfprfdbtfd
+    publid StrfbmTokfnizfr(InputStrfbm is) {
+        this();
+        if (is == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        input = is;
+    }
+
+    /**
+     * Crfbtf b tokfnizfr thbt pbrsfs thf givfn dhbrbdtfr strfbm.
+     *
+     * @pbrbm r  b Rfbdfr objfdt providing thf input strfbm.
+     * @sindf   1.1
+     */
+    publid StrfbmTokfnizfr(Rfbdfr r) {
+        this();
+        if (r == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfbdfr = r;
+    }
+
+    /**
+     * Rfsfts this tokfnizfr's syntbx tbblf so thbt bll dhbrbdtfrs brf
+     * "ordinbry." Sff thf {@dodf ordinbryChbr} mfthod
+     * for morf informbtion on b dhbrbdtfr bfing ordinbry.
+     *
+     * @sff     jbvb.io.StrfbmTokfnizfr#ordinbryChbr(int)
+     */
+    publid void rfsftSyntbx() {
+        for (int i = dtypf.lfngth; --i >= 0;)
+            dtypf[i] = 0;
+    }
+
+    /**
+     * Spfdififs thbt bll dhbrbdtfrs <i>d</i> in thf rbngf
+     * <dodf>low&nbsp;&lt;=&nbsp;<i>d</i>&nbsp;&lt;=&nbsp;high</dodf>
+     * brf word donstitufnts. A word tokfn donsists of b word donstitufnt
+     * followfd by zfro or morf word donstitufnts or numbfr donstitufnts.
+     *
+     * @pbrbm   low   thf low fnd of thf rbngf.
+     * @pbrbm   hi    thf high fnd of thf rbngf.
+     */
+    publid void wordChbrs(int low, int hi) {
+        if (low < 0)
+            low = 0;
+        if (hi >= dtypf.lfngth)
+            hi = dtypf.lfngth - 1;
+        whilf (low <= hi)
+            dtypf[low++] |= CT_ALPHA;
+    }
+
+    /**
+     * Spfdififs thbt bll dhbrbdtfrs <i>d</i> in thf rbngf
+     * <dodf>low&nbsp;&lt;=&nbsp;<i>d</i>&nbsp;&lt;=&nbsp;high</dodf>
+     * brf whitf spbdf dhbrbdtfrs. Whitf spbdf dhbrbdtfrs sfrvf only to
+     * sfpbrbtf tokfns in thf input strfbm.
+     *
+     * <p>Any othfr bttributf sfttings for thf dhbrbdtfrs in thf spfdififd
+     * rbngf brf dlfbrfd.
+     *
+     * @pbrbm   low   thf low fnd of thf rbngf.
+     * @pbrbm   hi    thf high fnd of thf rbngf.
+     */
+    publid void whitfspbdfChbrs(int low, int hi) {
+        if (low < 0)
+            low = 0;
+        if (hi >= dtypf.lfngth)
+            hi = dtypf.lfngth - 1;
+        whilf (low <= hi)
+            dtypf[low++] = CT_WHITESPACE;
+    }
+
+    /**
+     * Spfdififs thbt bll dhbrbdtfrs <i>d</i> in thf rbngf
+     * <dodf>low&nbsp;&lt;=&nbsp;<i>d</i>&nbsp;&lt;=&nbsp;high</dodf>
+     * brf "ordinbry" in this tokfnizfr. Sff thf
+     * {@dodf ordinbryChbr} mfthod for morf informbtion on b
+     * dhbrbdtfr bfing ordinbry.
+     *
+     * @pbrbm   low   thf low fnd of thf rbngf.
+     * @pbrbm   hi    thf high fnd of thf rbngf.
+     * @sff     jbvb.io.StrfbmTokfnizfr#ordinbryChbr(int)
+     */
+    publid void ordinbryChbrs(int low, int hi) {
+        if (low < 0)
+            low = 0;
+        if (hi >= dtypf.lfngth)
+            hi = dtypf.lfngth - 1;
+        whilf (low <= hi)
+            dtypf[low++] = 0;
+    }
+
+    /**
+     * Spfdififs thbt thf dhbrbdtfr brgumfnt is "ordinbry"
+     * in this tokfnizfr. It rfmovfs bny spfdibl signifidbndf thf
+     * dhbrbdtfr hbs bs b dommfnt dhbrbdtfr, word domponfnt, string
+     * dflimitfr, whitf spbdf, or numbfr dhbrbdtfr. Whfn sudh b dhbrbdtfr
+     * is fndountfrfd by thf pbrsfr, thf pbrsfr trfbts it bs b
+     * singlf-dhbrbdtfr tokfn bnd sfts {@dodf ttypf} fifld to thf
+     * dhbrbdtfr vbluf.
+     *
+     * <p>Mbking b linf tfrminbtor dhbrbdtfr "ordinbry" mby intfrffrf
+     * with thf bbility of b {@dodf StrfbmTokfnizfr} to dount
+     * linfs. Thf {@dodf linfno} mfthod mby no longfr rfflfdt
+     * thf prfsfndf of sudh tfrminbtor dhbrbdtfrs in its linf dount.
+     *
+     * @pbrbm   dh   thf dhbrbdtfr.
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
+     */
+    publid void ordinbryChbr(int dh) {
+        if (dh >= 0 && dh < dtypf.lfngth)
+            dtypf[dh] = 0;
+    }
+
+    /**
+     * Spfdififd thbt thf dhbrbdtfr brgumfnt stbrts b singlf-linf
+     * dommfnt. All dhbrbdtfrs from thf dommfnt dhbrbdtfr to thf fnd of
+     * thf linf brf ignorfd by this strfbm tokfnizfr.
+     *
+     * <p>Any othfr bttributf sfttings for thf spfdififd dhbrbdtfr brf dlfbrfd.
+     *
+     * @pbrbm   dh   thf dhbrbdtfr.
+     */
+    publid void dommfntChbr(int dh) {
+        if (dh >= 0 && dh < dtypf.lfngth)
+            dtypf[dh] = CT_COMMENT;
+    }
+
+    /**
+     * Spfdififs thbt mbtdhing pbirs of this dhbrbdtfr dflimit string
+     * donstbnts in this tokfnizfr.
+     * <p>
+     * Whfn thf {@dodf nfxtTokfn} mfthod fndountfrs b string
+     * donstbnt, thf {@dodf ttypf} fifld is sft to thf string
+     * dflimitfr bnd thf {@dodf svbl} fifld is sft to thf body of
+     * thf string.
+     * <p>
+     * If b string quotf dhbrbdtfr is fndountfrfd, thfn b string is
+     * rfdognizfd, donsisting of bll dhbrbdtfrs bftfr (but not indluding)
+     * thf string quotf dhbrbdtfr, up to (but not indluding) thf nfxt
+     * oddurrfndf of thbt sbmf string quotf dhbrbdtfr, or b linf
+     * tfrminbtor, or fnd of filf. Thf usubl fsdbpf sfqufndfs sudh bs
+     * {@dodf "\u005Cn"} bnd {@dodf "\u005Ct"} brf rfdognizfd bnd
+     * donvfrtfd to singlf dhbrbdtfrs bs thf string is pbrsfd.
+     *
+     * <p>Any othfr bttributf sfttings for thf spfdififd dhbrbdtfr brf dlfbrfd.
+     *
+     * @pbrbm   dh   thf dhbrbdtfr.
+     * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+     * @sff     jbvb.io.StrfbmTokfnizfr#svbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
+     */
+    publid void quotfChbr(int dh) {
+        if (dh >= 0 && dh < dtypf.lfngth)
+            dtypf[dh] = CT_QUOTE;
+    }
+
+    /**
+     * Spfdififs thbt numbfrs should bf pbrsfd by this tokfnizfr. Thf
+     * syntbx tbblf of this tokfnizfr is modififd so thbt fbdh of thf twflvf
+     * dhbrbdtfrs:
+     * <blodkquotf><prf>
+     *      0 1 2 3 4 5 6 7 8 9 . -
+     * </prf></blodkquotf>
+     * <p>
+     * hbs thf "numfrid" bttributf.
+     * <p>
+     * Whfn thf pbrsfr fndountfrs b word tokfn thbt hbs thf formbt of b
+     * doublf prfdision flobting-point numbfr, it trfbts thf tokfn bs b
+     * numbfr rbthfr thbn b word, by sftting thf {@dodf ttypf}
+     * fifld to thf vbluf {@dodf TT_NUMBER} bnd putting thf numfrid
+     * vbluf of thf tokfn into thf {@dodf nvbl} fifld.
+     *
+     * @sff     jbvb.io.StrfbmTokfnizfr#nvbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_NUMBER
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
+     */
+    publid void pbrsfNumbfrs() {
+        for (int i = '0'; i <= '9'; i++)
+            dtypf[i] |= CT_DIGIT;
+        dtypf['.'] |= CT_DIGIT;
+        dtypf['-'] |= CT_DIGIT;
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not fnds of linf brf trfbtfd bs tokfns.
+     * If thf flbg brgumfnt is truf, this tokfnizfr trfbts fnd of linfs
+     * bs tokfns; thf {@dodf nfxtTokfn} mfthod rfturns
+     * {@dodf TT_EOL} bnd blso sfts thf {@dodf ttypf} fifld to
+     * this vbluf whfn bn fnd of linf is rfbd.
+     * <p>
+     * A linf is b sfqufndf of dhbrbdtfrs fnding with fithfr b
+     * dbrribgf-rfturn dhbrbdtfr ({@dodf '\u005Cr'}) or b nfwlinf
+     * dhbrbdtfr ({@dodf '\u005Cn'}). In bddition, b dbrribgf-rfturn
+     * dhbrbdtfr followfd immfdibtfly by b nfwlinf dhbrbdtfr is trfbtfd
+     * bs b singlf fnd-of-linf tokfn.
+     * <p>
+     * If thf {@dodf flbg} is fblsf, fnd-of-linf dhbrbdtfrs brf
+     * trfbtfd bs whitf spbdf bnd sfrvf only to sfpbrbtf tokfns.
+     *
+     * @pbrbm   flbg   {@dodf truf} indidbtfs thbt fnd-of-linf dhbrbdtfrs
+     *                 brf sfpbrbtf tokfns; {@dodf fblsf} indidbtfs thbt
+     *                 fnd-of-linf dhbrbdtfrs brf whitf spbdf.
+     * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_EOL
+     */
+    publid void folIsSignifidbnt(boolfbn flbg) {
+        folIsSignifidbntP = flbg;
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf tokfnizfr rfdognizfs C-stylf dommfnts.
+     * If thf flbg brgumfnt is {@dodf truf}, this strfbm tokfnizfr
+     * rfdognizfs C-stylf dommfnts. All tfxt bftwffn suddfssivf
+     * oddurrfndfs of {@dodf /*} bnd <dodf>*&#47;</dodf> brf disdbrdfd.
+     * <p>
+     * If thf flbg brgumfnt is {@dodf fblsf}, thfn C-stylf dommfnts
+     * brf not trfbtfd spfdiblly.
+     *
+     * @pbrbm   flbg   {@dodf truf} indidbtfs to rfdognizf bnd ignorf
+     *                 C-stylf dommfnts.
+     */
+    publid void slbshStbrCommfnts(boolfbn flbg) {
+        slbshStbrCommfntsP = flbg;
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf tokfnizfr rfdognizfs C++-stylf dommfnts.
+     * If thf flbg brgumfnt is {@dodf truf}, this strfbm tokfnizfr
+     * rfdognizfs C++-stylf dommfnts. Any oddurrfndf of two donsfdutivf
+     * slbsh dhbrbdtfrs ({@dodf '/'}) is trfbtfd bs thf bfginning of
+     * b dommfnt thbt fxtfnds to thf fnd of thf linf.
+     * <p>
+     * If thf flbg brgumfnt is {@dodf fblsf}, thfn C++-stylf
+     * dommfnts brf not trfbtfd spfdiblly.
+     *
+     * @pbrbm   flbg   {@dodf truf} indidbtfs to rfdognizf bnd ignorf
+     *                 C++-stylf dommfnts.
+     */
+    publid void slbshSlbshCommfnts(boolfbn flbg) {
+        slbshSlbshCommfntsP = flbg;
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not word tokfn brf butombtidblly lowfrdbsfd.
+     * If thf flbg brgumfnt is {@dodf truf}, thfn thf vbluf in thf
+     * {@dodf svbl} fifld is lowfrdbsfd whfnfvfr b word tokfn is
+     * rfturnfd (thf {@dodf ttypf} fifld hbs thf
+     * vbluf {@dodf TT_WORD} by thf {@dodf nfxtTokfn} mfthod
+     * of this tokfnizfr.
+     * <p>
+     * If thf flbg brgumfnt is {@dodf fblsf}, thfn thf
+     * {@dodf svbl} fifld is not modififd.
+     *
+     * @pbrbm   fl   {@dodf truf} indidbtfs thbt bll word tokfns should
+     *               bf lowfrdbsfd.
+     * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
+     * @sff     jbvb.io.StrfbmTokfnizfr#TT_WORD
+     */
+    publid void lowfrCbsfModf(boolfbn fl) {
+        fordfLowfr = fl;
+    }
+
+    /** Rfbd thf nfxt dhbrbdtfr */
+    privbtf int rfbd() throws IOExdfption {
+        if (rfbdfr != null)
+            rfturn rfbdfr.rfbd();
+        flsf if (input != null)
+            rfturn input.rfbd();
+        flsf
+            throw nfw IllfgblStbtfExdfption();
+    }
+
+    /**
+     * Pbrsfs thf nfxt tokfn from thf input strfbm of this tokfnizfr.
+     * Thf typf of thf nfxt tokfn is rfturnfd in thf {@dodf ttypf}
+     * fifld. Additionbl informbtion bbout thf tokfn mby bf in thf
+     * {@dodf nvbl} fifld or thf {@dodf svbl} fifld of this
+     * tokfnizfr.
+     * <p>
+     * Typidbl dlifnts of this
+     * dlbss first sft up thf syntbx tbblfs bnd thfn sit in b loop
+     * dblling nfxtTokfn to pbrsf suddfssivf tokfns until TT_EOF
+     * is rfturnfd.
+     *
+     * @rfturn     thf vbluf of thf {@dodf ttypf} fifld.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.StrfbmTokfnizfr#nvbl
+     * @sff        jbvb.io.StrfbmTokfnizfr#svbl
+     * @sff        jbvb.io.StrfbmTokfnizfr#ttypf
+     */
+    publid int nfxtTokfn() throws IOExdfption {
+        if (pushfdBbdk) {
+            pushfdBbdk = fblsf;
+            rfturn ttypf;
+        }
+        bytf dt[] = dtypf;
+        svbl = null;
+
+        int d = pffkd;
+        if (d < 0)
+            d = NEED_CHAR;
+        if (d == SKIP_LF) {
+            d = rfbd();
+            if (d < 0)
+                rfturn ttypf = TT_EOF;
+            if (d == '\n')
+                d = NEED_CHAR;
+        }
+        if (d == NEED_CHAR) {
+            d = rfbd();
+            if (d < 0)
+                rfturn ttypf = TT_EOF;
+        }
+        ttypf = d;              /* Just to bf sbff */
+
+        /* Sft pffkd so thbt thf nfxt invodbtion of nfxtTokfn will rfbd
+         * bnothfr dhbrbdtfr unlfss pffkd is rfsft in this invodbtion
+         */
+        pffkd = NEED_CHAR;
+
+        int dtypf = d < 256 ? dt[d] : CT_ALPHA;
+        whilf ((dtypf & CT_WHITESPACE) != 0) {
+            if (d == '\r') {
+                LINENO++;
+                if (folIsSignifidbntP) {
+                    pffkd = SKIP_LF;
+                    rfturn ttypf = TT_EOL;
+                }
+                d = rfbd();
+                if (d == '\n')
+                    d = rfbd();
+            } flsf {
+                if (d == '\n') {
+                    LINENO++;
+                    if (folIsSignifidbntP) {
+                        rfturn ttypf = TT_EOL;
+                    }
+                }
+                d = rfbd();
+            }
+            if (d < 0)
+                rfturn ttypf = TT_EOF;
+            dtypf = d < 256 ? dt[d] : CT_ALPHA;
+        }
+
+        if ((dtypf & CT_DIGIT) != 0) {
+            boolfbn nfg = fblsf;
+            if (d == '-') {
+                d = rfbd();
+                if (d != '.' && (d < '0' || d > '9')) {
+                    pffkd = d;
+                    rfturn ttypf = '-';
+                }
+                nfg = truf;
+            }
+            doublf v = 0;
+            int dfdfxp = 0;
+            int sffndot = 0;
+            whilf (truf) {
+                if (d == '.' && sffndot == 0)
+                    sffndot = 1;
+                flsf if ('0' <= d && d <= '9') {
+                    v = v * 10 + (d - '0');
+                    dfdfxp += sffndot;
+                } flsf
+                    brfbk;
+                d = rfbd();
+            }
+            pffkd = d;
+            if (dfdfxp != 0) {
+                doublf dfnom = 10;
+                dfdfxp--;
+                whilf (dfdfxp > 0) {
+                    dfnom *= 10;
+                    dfdfxp--;
+                }
+                /* Do onf division of b likfly-to-bf-morf-bddurbtf numbfr */
+                v = v / dfnom;
+            }
+            nvbl = nfg ? -v : v;
+            rfturn ttypf = TT_NUMBER;
+        }
+
+        if ((dtypf & CT_ALPHA) != 0) {
+            int i = 0;
+            do {
+                if (i >= buf.lfngth) {
+                    buf = Arrbys.dopyOf(buf, buf.lfngth * 2);
+                }
+                buf[i++] = (dhbr) d;
+                d = rfbd();
+                dtypf = d < 0 ? CT_WHITESPACE : d < 256 ? dt[d] : CT_ALPHA;
+            } whilf ((dtypf & (CT_ALPHA | CT_DIGIT)) != 0);
+            pffkd = d;
+            svbl = String.dopyVblufOf(buf, 0, i);
+            if (fordfLowfr)
+                svbl = svbl.toLowfrCbsf();
+            rfturn ttypf = TT_WORD;
+        }
+
+        if ((dtypf & CT_QUOTE) != 0) {
+            ttypf = d;
+            int i = 0;
+            /* Invbribnts (bfdbusf \Odtbl nffds b lookbhfbd):
+             *   (i)  d dontbins dhbr vbluf
+             *   (ii) d dontbins thf lookbhfbd
+             */
+            int d = rfbd();
+            whilf (d >= 0 && d != ttypf && d != '\n' && d != '\r') {
+                if (d == '\\') {
+                    d = rfbd();
+                    int first = d;   /* To bllow \377, but not \477 */
+                    if (d >= '0' && d <= '7') {
+                        d = d - '0';
+                        int d2 = rfbd();
+                        if ('0' <= d2 && d2 <= '7') {
+                            d = (d << 3) + (d2 - '0');
+                            d2 = rfbd();
+                            if ('0' <= d2 && d2 <= '7' && first <= '3') {
+                                d = (d << 3) + (d2 - '0');
+                                d = rfbd();
+                            } flsf
+                                d = d2;
+                        } flsf
+                          d = d2;
+                    } flsf {
+                        switdh (d) {
+                        dbsf 'b':
+                            d = 0x7;
+                            brfbk;
+                        dbsf 'b':
+                            d = '\b';
+                            brfbk;
+                        dbsf 'f':
+                            d = 0xC;
+                            brfbk;
+                        dbsf 'n':
+                            d = '\n';
+                            brfbk;
+                        dbsf 'r':
+                            d = '\r';
+                            brfbk;
+                        dbsf 't':
+                            d = '\t';
+                            brfbk;
+                        dbsf 'v':
+                            d = 0xB;
+                            brfbk;
+                        }
+                        d = rfbd();
+                    }
+                } flsf {
+                    d = d;
+                    d = rfbd();
+                }
+                if (i >= buf.lfngth) {
+                    buf = Arrbys.dopyOf(buf, buf.lfngth * 2);
+                }
+                buf[i++] = (dhbr)d;
+            }
+
+            /* If wf brokf out of thf loop bfdbusf wf found b mbtdhing quotf
+             * dhbrbdtfr thfn brrbngf to rfbd b nfw dhbrbdtfr nfxt timf
+             * bround; othfrwisf, sbvf thf dhbrbdtfr.
+             */
+            pffkd = (d == ttypf) ? NEED_CHAR : d;
+
+            svbl = String.dopyVblufOf(buf, 0, i);
+            rfturn ttypf;
+        }
+
+        if (d == '/' && (slbshSlbshCommfntsP || slbshStbrCommfntsP)) {
+            d = rfbd();
+            if (d == '*' && slbshStbrCommfntsP) {
+                int prfvd = 0;
+                whilf ((d = rfbd()) != '/' || prfvd != '*') {
+                    if (d == '\r') {
+                        LINENO++;
+                        d = rfbd();
+                        if (d == '\n') {
+                            d = rfbd();
+                        }
+                    } flsf {
+                        if (d == '\n') {
+                            LINENO++;
+                            d = rfbd();
+                        }
+                    }
+                    if (d < 0)
+                        rfturn ttypf = TT_EOF;
+                    prfvd = d;
+                }
+                rfturn nfxtTokfn();
+            } flsf if (d == '/' && slbshSlbshCommfntsP) {
+                whilf ((d = rfbd()) != '\n' && d != '\r' && d >= 0);
+                pffkd = d;
+                rfturn nfxtTokfn();
+            } flsf {
+                /* Now sff if it is still b singlf linf dommfnt */
+                if ((dt['/'] & CT_COMMENT) != 0) {
+                    whilf ((d = rfbd()) != '\n' && d != '\r' && d >= 0);
+                    pffkd = d;
+                    rfturn nfxtTokfn();
+                } flsf {
+                    pffkd = d;
+                    rfturn ttypf = '/';
+                }
+            }
+        }
+
+        if ((dtypf & CT_COMMENT) != 0) {
+            whilf ((d = rfbd()) != '\n' && d != '\r' && d >= 0);
+            pffkd = d;
+            rfturn nfxtTokfn();
+        }
+
+        rfturn ttypf = d;
+    }
+
+    /**
+     * Cbusfs thf nfxt dbll to thf {@dodf nfxtTokfn} mfthod of this
+     * tokfnizfr to rfturn thf durrfnt vbluf in thf {@dodf ttypf}
+     * fifld, bnd not to modify thf vbluf in thf {@dodf nvbl} or
+     * {@dodf svbl} fifld.
+     *
+     * @sff     jbvb.io.StrfbmTokfnizfr#nfxtTokfn()
+     * @sff     jbvb.io.StrfbmTokfnizfr#nvbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#svbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
+     */
+    publid void pushBbdk() {
+        if (ttypf != TT_NOTHING)   /* No-op if nfxtTokfn() not dbllfd */
+            pushfdBbdk = truf;
+    }
+
+    /**
+     * Rfturn thf durrfnt linf numbfr.
+     *
+     * @rfturn  thf durrfnt linf numbfr of this strfbm tokfnizfr.
+     */
+    publid int linfno() {
+        rfturn LINENO;
+    }
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of thf durrfnt strfbm tokfn bnd
+     * thf linf numbfr it oddurs on.
+     *
+     * <p>Thf prfdisf string rfturnfd is unspfdififd, blthough thf following
+     * fxbmplf dbn bf donsidfrfd typidbl:
+     *
+     * <blodkquotf><prf>Tokfn['b'], linf 10</prf></blodkquotf>
+     *
+     * @rfturn  b string rfprfsfntbtion of thf tokfn
+     * @sff     jbvb.io.StrfbmTokfnizfr#nvbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#svbl
+     * @sff     jbvb.io.StrfbmTokfnizfr#ttypf
+     */
+    publid String toString() {
+        String rft;
+        switdh (ttypf) {
+          dbsf TT_EOF:
+            rft = "EOF";
+            brfbk;
+          dbsf TT_EOL:
+            rft = "EOL";
+            brfbk;
+          dbsf TT_WORD:
+            rft = svbl;
+            brfbk;
+          dbsf TT_NUMBER:
+            rft = "n=" + nvbl;
+            brfbk;
+          dbsf TT_NOTHING:
+            rft = "NOTHING";
+            brfbk;
+          dffbult: {
+                /*
+                 * ttypf is thf first dhbrbdtfr of fithfr b quotfd string or
+                 * is bn ordinbry dhbrbdtfr. ttypf dbn dffinitfly not bf lfss
+                 * thbn 0, sindf thosf brf rfsfrvfd vblufs usfd in thf prfvious
+                 * dbsf stbtfmfnts
+                 */
+                if (ttypf < 256 &&
+                    ((dtypf[ttypf] & CT_QUOTE) != 0)) {
+                    rft = svbl;
+                    brfbk;
+                }
+
+                dhbr s[] = nfw dhbr[3];
+                s[0] = s[2] = '\'';
+                s[1] = (dhbr) ttypf;
+                rft = nfw String(s);
+                brfbk;
+            }
+        }
+        rfturn "Tokfn[" + rft + "], linf " + LINENO;
+    }
+
+}

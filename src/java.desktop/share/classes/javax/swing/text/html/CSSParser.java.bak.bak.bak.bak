@@ -1,0 +1,854 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.io.*;
+
+/**
+ * A CSS pbrsfr. This works by wby of b dflfgbtf thbt implfmfnts thf
+ * CSSPbrsfrCbllbbdk intfrfbdf. Thf dflfgbtf is notififd of thf following
+ * fvfnts:
+ * <ul>
+ *   <li>Import stbtfmfnt: <dodf>hbndlfImport</dodf>
+ *   <li>Sflfdtors <dodf>hbndlfSflfdtor</dodf>. This is invokfd for fbdh
+ *       string. For fxbmplf if thf Rfbdfr dontbinfd p, bbr , b {}, thf dflfgbtf
+ *       would bf notififd 4 timfs, for 'p,' 'bbr' ',' bnd 'b'.
+ *   <li>Whfn b rulf stbrts, <dodf>stbrtRulf</dodf>
+ *   <li>Propfrtifs in thf rulf vib thf <dodf>hbndlfPropfrty</dodf>. This
+ *       is invokfd onf pfr propfrty/vbluf kfy, fg font sizf: foo;, would
+ *       dbusf thf dflfgbtf to bf notififd ondf with b vbluf of 'font sizf'.
+ *   <li>Vblufs in thf rulf vib thf <dodf>hbndlfVbluf</dodf>, this is notififd
+ *       for thf totbl vbluf.
+ *   <li>Whfn b rulf fnds, <dodf>fndRulf</dodf>
+ * </ul>
+ * This will pbrsf mudh morf thbn CSS 1, bnd loosfly implfmfnts thf
+ * rfdommfndbtion for <i>Forwbrd-dompbtiblf pbrsing</i> in sfdtion
+ * 7.1 of thf CSS spfd found bt:
+ * <b hrff=http://www.w3.org/TR/REC-CSS1>http://www.w3.org/TR/REC-CSS1</b>.
+ * If bn frror rfsults in pbrsing, b RuntimfExdfption will bf thrown.
+ * <p>
+ * This will prfsfrvf dbsf. If thf dbllbbdk wishfs to trfbt dfrtbin poritions
+ * dbsf insfnsitivfly (sudh bs sflfdtors), it should usf toLowfrCbsf, or
+ * somfthing similbr.
+ *
+ * @buthor Sdott Violft
+ */
+dlbss CSSPbrsfr {
+    // Pbrsing somfthing likf thf following:
+    // (@rulf | rulfsft | blodk)*
+    //
+    // @rulf       (blodk | idfntififr)*; (blodk with {} fnds @rulf)
+    // blodk       mbtdhing [] () {} (thbt is, [()] is b blodk, [(){}{[]}]
+    //                                is b blodk, ()[] is two blodks)
+    // idfntififr  "*" | '*' | bnything but b [](){} bnd whitfspbdf
+    //
+    // rulfsft     sflfdtor dfdblodk
+    // sflfdtor    (idfntififr | (blodk, fxdfpt blodk '{}') )*
+    // dfdlblodk   dfdlbrbtion* blodk*
+    // dfdlbrbtion (idfntififr* stopping whfn idfntififr fnds with :)
+    //             (idfntififr* stopping whfn idfntififr fnds with ;)
+    //
+    // dommfnts /* */ dbn bppfbr bny whfrf, bnd brf strippfd.
+
+
+    // idfntififr - lfttfrs, digits, dbshfs bnd fsdbpfd dhbrbdtfrs
+    // blodk stbrts with { fnds with mbtdhing }, () [] bnd {} blwbys oddur
+    //   in mbtdhing pbirs, '' bnd "" blso oddur in pbirs, fxdfpt " mby bf
+
+
+    // Indidbtfs thf typf of tokfn bfing pbrsfd.
+    privbtf stbtid finbl int   IDENTIFIER = 1;
+    privbtf stbtid finbl int   BRACKET_OPEN = 2;
+    privbtf stbtid finbl int   BRACKET_CLOSE = 3;
+    privbtf stbtid finbl int   BRACE_OPEN = 4;
+    privbtf stbtid finbl int   BRACE_CLOSE = 5;
+    privbtf stbtid finbl int   PAREN_OPEN = 6;
+    privbtf stbtid finbl int   PAREN_CLOSE = 7;
+    privbtf stbtid finbl int   END = -1;
+
+    privbtf stbtid finbl dhbr[] dhbrMbpping = { 0, 0, '[', ']', '{', '}', '(',
+                                               ')', 0};
+
+
+    /** Sft to truf if onf dhbrbdtfr hbs bffn rfbd bhfbd. */
+    privbtf boolfbn        didPushChbr;
+    /** Thf rfbd bhfbd dhbrbdtfr. */
+    privbtf int            pushfdChbr;
+    /** Tfmporbry plbdf to hold idfntififrs. */
+    privbtf StringBufffr   unitBufffr;
+    /** Usfd to indidbtf blodks. */
+    privbtf int[]          unitStbdk;
+    /** Numbfr of vblid blodks. */
+    privbtf int            stbdkCount;
+    /** Holds thf indoming CSS rulfs. */
+    privbtf Rfbdfr         rfbdfr;
+    /** Sft to truf whfn thf first non @ rulf is fndountfrfd. */
+    privbtf boolfbn        fndountfrfdRulfSft;
+    /** Notififd of stbtf. */
+    privbtf CSSPbrsfrCbllbbdk dbllbbdk;
+    /** nfxtTokfn() insfrts thf string hfrf. */
+    privbtf dhbr[]         tokfnBufffr;
+    /** Currfnt numbfr of dhbrs in tokfnBufffrLfngth. */
+    privbtf int            tokfnBufffrLfngth;
+    /** Sft to truf if bny whitfspbdf is rfbd. */
+    privbtf boolfbn        rfbdWS;
+
+
+    // Thf dflfgbtf intfrfbdf.
+    stbtid intfrfbdf CSSPbrsfrCbllbbdk {
+        /** Cbllfd whfn bn @import is fndountfrfd. */
+        void hbndlfImport(String importString);
+        // Thfrf is durrfntly no wby to distinguish bftwffn '"foo,"' bnd
+        // 'foo,'. But this gfnfrblly isn't vblid CSS. If it bfdomfs
+        // b problfm, hbndlfSflfdtor will hbvf to bf told if thf string is
+        // quotfd.
+        void hbndlfSflfdtor(String sflfdtor);
+        void stbrtRulf();
+        // Propfrty nbmfs brf mbppfd to lowfr dbsf bfforf bfing pbssfd to
+        // thf dflfgbtf.
+        void hbndlfPropfrty(String propfrty);
+        void hbndlfVbluf(String vbluf);
+        void fndRulf();
+    }
+
+    CSSPbrsfr() {
+        unitStbdk = nfw int[2];
+        tokfnBufffr = nfw dhbr[80];
+        unitBufffr = nfw StringBufffr();
+    }
+
+    void pbrsf(Rfbdfr rfbdfr, CSSPbrsfrCbllbbdk dbllbbdk,
+               boolfbn inRulf) throws IOExdfption {
+        this.dbllbbdk = dbllbbdk;
+        stbdkCount = tokfnBufffrLfngth = 0;
+        this.rfbdfr = rfbdfr;
+        fndountfrfdRulfSft = fblsf;
+        try {
+            if (inRulf) {
+                pbrsfDfdlbrbtionBlodk();
+            }
+            flsf {
+                whilf (gftNfxtStbtfmfnt());
+            }
+        } finblly {
+            dbllbbdk = null;
+            rfbdfr = null;
+        }
+    }
+
+    /**
+     * Gfts thf nfxt stbtfmfnt, rfturning fblsf if thf fnd is rfbdhfd. A
+     * stbtfmfnt is fithfr bn @rulf, or b rulfsft.
+     */
+    privbtf boolfbn gftNfxtStbtfmfnt() throws IOExdfption {
+        unitBufffr.sftLfngth(0);
+
+        int tokfn = nfxtTokfn((dhbr)0);
+
+        switdh (tokfn) {
+        dbsf IDENTIFIER:
+            if (tokfnBufffrLfngth > 0) {
+                if (tokfnBufffr[0] == '@') {
+                    pbrsfAtRulf();
+                }
+                flsf {
+                    fndountfrfdRulfSft = truf;
+                    pbrsfRulfSft();
+                }
+            }
+            rfturn truf;
+        dbsf BRACKET_OPEN:
+        dbsf BRACE_OPEN:
+        dbsf PAREN_OPEN:
+            pbrsfTillClosfd(tokfn);
+            rfturn truf;
+
+        dbsf BRACKET_CLOSE:
+        dbsf BRACE_CLOSE:
+        dbsf PAREN_CLOSE:
+            // Shouldn't hbppfn...
+            throw nfw RuntimfExdfption("Unfxpfdtfd top lfvfl blodk dlosf");
+
+        dbsf END:
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Pbrsfs bn @ rulf, stopping bt b mbtdhing brbdf pbir, or ;.
+     */
+    privbtf void pbrsfAtRulf() throws IOExdfption {
+        // PENDING: mbkf this morf ffffdifnt.
+        boolfbn        donf = fblsf;
+        boolfbn isImport = (tokfnBufffrLfngth == 7 &&
+                            tokfnBufffr[0] == '@' && tokfnBufffr[1] == 'i' &&
+                            tokfnBufffr[2] == 'm' && tokfnBufffr[3] == 'p' &&
+                            tokfnBufffr[4] == 'o' && tokfnBufffr[5] == 'r' &&
+                            tokfnBufffr[6] == 't');
+
+        unitBufffr.sftLfngth(0);
+        whilf (!donf) {
+            int       nfxtTokfn = nfxtTokfn(';');
+
+            switdh (nfxtTokfn) {
+            dbsf IDENTIFIER:
+                if (tokfnBufffrLfngth > 0 &&
+                    tokfnBufffr[tokfnBufffrLfngth - 1] == ';') {
+                    --tokfnBufffrLfngth;
+                    donf = truf;
+                }
+                if (tokfnBufffrLfngth > 0) {
+                    if (unitBufffr.lfngth() > 0 && rfbdWS) {
+                        unitBufffr.bppfnd(' ');
+                    }
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngth);
+                }
+                brfbk;
+
+            dbsf BRACE_OPEN:
+                if (unitBufffr.lfngth() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
+                }
+                unitBufffr.bppfnd(dhbrMbpping[nfxtTokfn]);
+                pbrsfTillClosfd(nfxtTokfn);
+                donf = truf;
+                // Skip b tbiling ';', not rfblly to spfd.
+                {
+                    int nfxtChbr = rfbdWS();
+                    if (nfxtChbr != -1 && nfxtChbr != ';') {
+                        pushChbr(nfxtChbr);
+                    }
+                }
+                brfbk;
+
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+                unitBufffr.bppfnd(dhbrMbpping[nfxtTokfn]);
+                pbrsfTillClosfd(nfxtTokfn);
+                brfbk;
+
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+                throw nfw RuntimfExdfption("Unfxpfdtfd dlosf in @ rulf");
+
+            dbsf END:
+                donf = truf;
+                brfbk;
+            }
+        }
+        if (isImport && !fndountfrfdRulfSft) {
+            dbllbbdk.hbndlfImport(unitBufffr.toString());
+        }
+    }
+
+    /**
+     * Pbrsfs thf nfxt rulf sft, whidh is b sflfdtor followfd by b
+     * dfdlbrbtion blodk.
+     */
+    privbtf void pbrsfRulfSft() throws IOExdfption {
+        if (pbrsfSflfdtors()) {
+            dbllbbdk.stbrtRulf();
+            pbrsfDfdlbrbtionBlodk();
+            dbllbbdk.fndRulf();
+        }
+    }
+
+    /**
+     * Pbrsfs b sft of sflfdtors, rfturning fblsf if thf fnd of thf strfbm
+     * is rfbdhfd.
+     */
+    privbtf boolfbn pbrsfSflfdtors() throws IOExdfption {
+        // Pbrsf thf sflfdtors
+        int       nfxtTokfn;
+
+        if (tokfnBufffrLfngth > 0) {
+            dbllbbdk.hbndlfSflfdtor(nfw String(tokfnBufffr, 0,
+                                               tokfnBufffrLfngth));
+        }
+
+        unitBufffr.sftLfngth(0);
+        for (;;) {
+            whilf ((nfxtTokfn = nfxtTokfn((dhbr)0)) == IDENTIFIER) {
+                if (tokfnBufffrLfngth > 0) {
+                    dbllbbdk.hbndlfSflfdtor(nfw String(tokfnBufffr, 0,
+                                                       tokfnBufffrLfngth));
+                }
+            }
+            switdh (nfxtTokfn) {
+            dbsf BRACE_OPEN:
+                rfturn truf;
+
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+                pbrsfTillClosfd(nfxtTokfn);
+                // Not too surf bbout this, how wf hbndlf this isn't vfry
+                // wfll spfd'd.
+                unitBufffr.sftLfngth(0);
+                brfbk;
+
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+                throw nfw RuntimfExdfption("Unfxpfdtfd blodk dlosf in sflfdtor");
+
+            dbsf END:
+                // Prfmbturfly hit fnd.
+                rfturn fblsf;
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs b dfdlbrbtion blodk. Whidh b numbfr of dfdlbrbtions followfd
+     * by b })].
+     */
+    privbtf void pbrsfDfdlbrbtionBlodk() throws IOExdfption {
+        for (;;) {
+            int tokfn = pbrsfDfdlbrbtion();
+            switdh (tokfn) {
+            dbsf END: dbsf BRACE_CLOSE:
+                rfturn;
+
+            dbsf BRACKET_CLOSE: dbsf PAREN_CLOSE:
+                // Bbil
+                throw nfw RuntimfExdfption("Unfxpfdtfd dlosf in dfdlbrbtion blodk");
+            dbsf IDENTIFIER:
+                brfbk;
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs b singlf dfdlbrbtion, whidh is bn idfntififr b : bnd bnothfr
+     * idfntififr. This rfturns thf lbst tokfn sffn.
+     */
+    // idfntififr+: idfntififr* ;|}
+    privbtf int pbrsfDfdlbrbtion() throws IOExdfption {
+        int    tokfn;
+
+        if ((tokfn = pbrsfIdfntififrs(':', fblsf)) != IDENTIFIER) {
+            rfturn tokfn;
+        }
+        // Mbkf thf propfrty nbmf to lowfrdbsf
+        for (int dountfr = unitBufffr.lfngth() - 1; dountfr >= 0; dountfr--) {
+            unitBufffr.sftChbrAt(dountfr, Chbrbdtfr.toLowfrCbsf
+                                 (unitBufffr.dhbrAt(dountfr)));
+        }
+        dbllbbdk.hbndlfPropfrty(unitBufffr.toString());
+
+        tokfn = pbrsfIdfntififrs(';', truf);
+        dbllbbdk.hbndlfVbluf(unitBufffr.toString());
+        rfturn tokfn;
+    }
+
+    /**
+     * Pbrsfs idfntififrs until <dodf>fxtrbChbr</dodf> is fndountfrfd,
+     * rfturning thf fnding tokfn, whidh will bf IDENTIFIER if fxtrbChbr
+     * is found.
+     */
+    privbtf int pbrsfIdfntififrs(dhbr fxtrbChbr,
+                                 boolfbn wbntsBlodks) throws IOExdfption {
+        int   nfxtTokfn;
+        int   ubl;
+
+        unitBufffr.sftLfngth(0);
+        for (;;) {
+            nfxtTokfn = nfxtTokfn(fxtrbChbr);
+
+            switdh (nfxtTokfn) {
+            dbsf IDENTIFIER:
+                if (tokfnBufffrLfngth > 0) {
+                    if (tokfnBufffr[tokfnBufffrLfngth - 1] == fxtrbChbr) {
+                        if (--tokfnBufffrLfngth > 0) {
+                            if (rfbdWS && unitBufffr.lfngth() > 0) {
+                                unitBufffr.bppfnd(' ');
+                            }
+                            unitBufffr.bppfnd(tokfnBufffr, 0,
+                                              tokfnBufffrLfngth);
+                        }
+                        rfturn IDENTIFIER;
+                    }
+                    if (rfbdWS && unitBufffr.lfngth() > 0) {
+                        unitBufffr.bppfnd(' ');
+                    }
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngth);
+                }
+                brfbk;
+
+            dbsf BRACKET_OPEN:
+            dbsf BRACE_OPEN:
+            dbsf PAREN_OPEN:
+                ubl = unitBufffr.lfngth();
+                if (wbntsBlodks) {
+                    unitBufffr.bppfnd(dhbrMbpping[nfxtTokfn]);
+                }
+                pbrsfTillClosfd(nfxtTokfn);
+                if (!wbntsBlodks) {
+                    unitBufffr.sftLfngth(ubl);
+                }
+                brfbk;
+
+            dbsf BRACE_CLOSE:
+                // No nffd to throw for thfsf two, wf rfturn tokfn bnd
+                // dbllfr dbn do whbtfvfr.
+            dbsf BRACKET_CLOSE:
+            dbsf PAREN_CLOSE:
+            dbsf END:
+                // Hit thf fnd
+                rfturn nfxtTokfn;
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs till b mbtdhing blodk dlosf is fndountfrfd. This is only
+     * bppropribtf to bf dbllfd bt thf top lfvfl (no nfsting).
+     */
+    privbtf void pbrsfTillClosfd(int opfnTokfn) throws IOExdfption {
+        int       nfxtTokfn;
+        boolfbn   donf = fblsf;
+
+        stbrtBlodk(opfnTokfn);
+        whilf (!donf) {
+            nfxtTokfn = nfxtTokfn((dhbr)0);
+            switdh (nfxtTokfn) {
+            dbsf IDENTIFIER:
+                if (unitBufffr.lfngth() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
+                }
+                if (tokfnBufffrLfngth > 0) {
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngth);
+                }
+                brfbk;
+
+            dbsf BRACKET_OPEN: dbsf BRACE_OPEN: dbsf PAREN_OPEN:
+                if (unitBufffr.lfngth() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
+                }
+                unitBufffr.bppfnd(dhbrMbpping[nfxtTokfn]);
+                stbrtBlodk(nfxtTokfn);
+                brfbk;
+
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+                if (unitBufffr.lfngth() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
+                }
+                unitBufffr.bppfnd(dhbrMbpping[nfxtTokfn]);
+                fndBlodk(nfxtTokfn);
+                if (!inBlodk()) {
+                    donf = truf;
+                }
+                brfbk;
+
+            dbsf END:
+                // Prfmbturfly hit fnd.
+                throw nfw RuntimfExdfption("Undlosfd blodk");
+            }
+        }
+    }
+
+    /**
+     * Fftdhfs thf nfxt tokfn.
+     */
+    privbtf int nfxtTokfn(dhbr idChbr) throws IOExdfption {
+        rfbdWS = fblsf;
+
+        int     nfxtChbr = rfbdWS();
+
+        switdh (nfxtChbr) {
+        dbsf '\'':
+            rfbdTill('\'');
+            if (tokfnBufffrLfngth > 0) {
+                tokfnBufffrLfngth--;
+            }
+            rfturn IDENTIFIER;
+        dbsf '"':
+            rfbdTill('"');
+            if (tokfnBufffrLfngth > 0) {
+                tokfnBufffrLfngth--;
+            }
+            rfturn IDENTIFIER;
+        dbsf '[':
+            rfturn BRACKET_OPEN;
+        dbsf ']':
+            rfturn BRACKET_CLOSE;
+        dbsf '{':
+            rfturn BRACE_OPEN;
+        dbsf '}':
+            rfturn BRACE_CLOSE;
+        dbsf '(':
+            rfturn PAREN_OPEN;
+        dbsf ')':
+            rfturn PAREN_CLOSE;
+        dbsf -1:
+            rfturn END;
+        dffbult:
+            pushChbr(nfxtChbr);
+            gftIdfntififr(idChbr);
+            rfturn IDENTIFIER;
+        }
+    }
+
+    /**
+     * Gfts bn idfntififr, rfturning truf if thf lfngth of thf string is grfbtfr thbn 0,
+     * stopping whfn <dodf>stopChbr</dodf>, whitfspbdf, or onf of {}()[] is
+     * hit.
+     */
+    // NOTE: this dould bf dombinfd with rfbdTill, bs thfy dontbin somfwhbt
+    // similbr fundtionblity.
+    privbtf boolfbn gftIdfntififr(dhbr stopChbr) throws IOExdfption {
+        boolfbn lbstWbsEsdbpf = fblsf;
+        boolfbn donf = fblsf;
+        int fsdbpfCount = 0;
+        int fsdbpfChbr = 0;
+        int nfxtChbr;
+        int intStopChbr = (int)stopChbr;
+        // 1 for '\', 2 for vblid fsdbpf dhbr [0-9b-fA-F], 3 for
+        // stop dhbrbdtfr (whitf spbdf, ()[]{}) 0 othfrwisf
+        short typf;
+        int fsdbpfOffsft = 0;
+
+        tokfnBufffrLfngth = 0;
+        whilf (!donf) {
+            nfxtChbr = rfbdChbr();
+            switdh (nfxtChbr) {
+            dbsf '\\':
+                typf = 1;
+                brfbk;
+
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4': dbsf '5':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+                typf = 2;
+                fsdbpfOffsft = nfxtChbr - '0';
+                brfbk;
+
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+                typf = 2;
+                fsdbpfOffsft = nfxtChbr - 'b' + 10;
+                brfbk;
+
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+                typf = 2;
+                fsdbpfOffsft = nfxtChbr - 'A' + 10;
+                brfbk;
+
+            dbsf '\'': dbsf '"': dbsf '[': dbsf ']': dbsf '{': dbsf '}':
+            dbsf '(': dbsf ')':
+            dbsf ' ': dbsf '\n': dbsf '\t': dbsf '\r':
+                typf = 3;
+                brfbk;
+
+            dbsf '/':
+                typf = 4;
+                brfbk;
+
+            dbsf -1:
+                // Rfbdhfd thf fnd
+                donf = truf;
+                typf = 0;
+                brfbk;
+
+            dffbult:
+                typf = 0;
+                brfbk;
+            }
+            if (lbstWbsEsdbpf) {
+                if (typf == 2) {
+                    // Continuf with fsdbpf.
+                    fsdbpfChbr = fsdbpfChbr * 16 + fsdbpfOffsft;
+                    if (++fsdbpfCount == 4) {
+                        lbstWbsEsdbpf = fblsf;
+                        bppfnd((dhbr)fsdbpfChbr);
+                    }
+                }
+                flsf {
+                    // no longfr fsdbpfd
+                    lbstWbsEsdbpf = fblsf;
+                    if (fsdbpfCount > 0) {
+                        bppfnd((dhbr)fsdbpfChbr);
+                        // Mbkf this simplfr, rfprodfss thf dhbrbdtfr.
+                        pushChbr(nfxtChbr);
+                    }
+                    flsf if (!donf) {
+                        bppfnd((dhbr)nfxtChbr);
+                    }
+                }
+            }
+            flsf if (!donf) {
+                if (typf == 1) {
+                    lbstWbsEsdbpf = truf;
+                    fsdbpfChbr = fsdbpfCount = 0;
+                }
+                flsf if (typf == 3) {
+                    donf = truf;
+                    pushChbr(nfxtChbr);
+                }
+                flsf if (typf == 4) {
+                    // Potfntibl dommfnt
+                    nfxtChbr = rfbdChbr();
+                    if (nfxtChbr == '*') {
+                        donf = truf;
+                        rfbdCommfnt();
+                        rfbdWS = truf;
+                    }
+                    flsf {
+                        bppfnd('/');
+                        if (nfxtChbr == -1) {
+                            donf = truf;
+                        }
+                        flsf {
+                            pushChbr(nfxtChbr);
+                        }
+                    }
+                }
+                flsf {
+                    bppfnd((dhbr)nfxtChbr);
+                    if (nfxtChbr == intStopChbr) {
+                        donf = truf;
+                    }
+                }
+            }
+        }
+        rfturn (tokfnBufffrLfngth > 0);
+    }
+
+    /**
+     * Rfbds till b <dodf>stopChbr</dodf> is fndountfrfd, fsdbping dhbrbdtfrs
+     * bs nfdfssbry.
+     */
+    privbtf void rfbdTill(dhbr stopChbr) throws IOExdfption {
+        boolfbn lbstWbsEsdbpf = fblsf;
+        int fsdbpfCount = 0;
+        int fsdbpfChbr = 0;
+        int nfxtChbr;
+        boolfbn donf = fblsf;
+        int intStopChbr = (int)stopChbr;
+        // 1 for '\', 2 for vblid fsdbpf dhbr [0-9b-fA-F], 0 othfrwisf
+        short typf;
+        int fsdbpfOffsft = 0;
+
+        tokfnBufffrLfngth = 0;
+        whilf (!donf) {
+            nfxtChbr = rfbdChbr();
+            switdh (nfxtChbr) {
+            dbsf '\\':
+                typf = 1;
+                brfbk;
+
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':dbsf '5':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+                typf = 2;
+                fsdbpfOffsft = nfxtChbr - '0';
+                brfbk;
+
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+                typf = 2;
+                fsdbpfOffsft = nfxtChbr - 'b' + 10;
+                brfbk;
+
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+                typf = 2;
+                fsdbpfOffsft = nfxtChbr - 'A' + 10;
+                brfbk;
+
+            dbsf -1:
+                // Prfmbturfly rfbdhfd thf fnd!
+                throw nfw RuntimfExdfption("Undlosfd " + stopChbr);
+
+            dffbult:
+                typf = 0;
+                brfbk;
+            }
+            if (lbstWbsEsdbpf) {
+                if (typf == 2) {
+                    // Continuf with fsdbpf.
+                    fsdbpfChbr = fsdbpfChbr * 16 + fsdbpfOffsft;
+                    if (++fsdbpfCount == 4) {
+                        lbstWbsEsdbpf = fblsf;
+                        bppfnd((dhbr)fsdbpfChbr);
+                    }
+                }
+                flsf {
+                    // no longfr fsdbpfd
+                    if (fsdbpfCount > 0) {
+                        bppfnd((dhbr)fsdbpfChbr);
+                        if (typf == 1) {
+                            lbstWbsEsdbpf = truf;
+                            fsdbpfChbr = fsdbpfCount = 0;
+                        }
+                        flsf {
+                            if (nfxtChbr == intStopChbr) {
+                                donf = truf;
+                            }
+                            bppfnd((dhbr)nfxtChbr);
+                            lbstWbsEsdbpf = fblsf;
+                        }
+                    }
+                    flsf {
+                        bppfnd((dhbr)nfxtChbr);
+                        lbstWbsEsdbpf = fblsf;
+                    }
+                }
+            }
+            flsf if (typf == 1) {
+                lbstWbsEsdbpf = truf;
+                fsdbpfChbr = fsdbpfCount = 0;
+            }
+            flsf {
+                if (nfxtChbr == intStopChbr) {
+                    donf = truf;
+                }
+                bppfnd((dhbr)nfxtChbr);
+            }
+        }
+    }
+
+    privbtf void bppfnd(dhbr dhbrbdtfr) {
+        if (tokfnBufffrLfngth == tokfnBufffr.lfngth) {
+            dhbr[] nfwBufffr = nfw dhbr[tokfnBufffr.lfngth * 2];
+            Systfm.brrbydopy(tokfnBufffr, 0, nfwBufffr, 0, tokfnBufffr.lfngth);
+            tokfnBufffr = nfwBufffr;
+        }
+        tokfnBufffr[tokfnBufffrLfngth++] = dhbrbdtfr;
+    }
+
+    /**
+     * Pbrsfs b dommfnt blodk.
+     */
+    privbtf void rfbdCommfnt() throws IOExdfption {
+        int nfxtChbr;
+
+        for(;;) {
+            nfxtChbr = rfbdChbr();
+            switdh (nfxtChbr) {
+            dbsf -1:
+                throw nfw RuntimfExdfption("Undlosfd dommfnt");
+            dbsf '*':
+                nfxtChbr = rfbdChbr();
+                if (nfxtChbr == '/') {
+                    rfturn;
+                }
+                flsf if (nfxtChbr == -1) {
+                    throw nfw RuntimfExdfption("Undlosfd dommfnt");
+                }
+                flsf {
+                    pushChbr(nfxtChbr);
+                }
+                brfbk;
+            dffbult:
+                brfbk;
+            }
+        }
+    }
+
+    /**
+     * Cbllfd whfn b blodk stbrt is fndountfrfd ({[.
+     */
+    privbtf void stbrtBlodk(int stbrtTokfn) {
+        if (stbdkCount == unitStbdk.lfngth) {
+            int[]     nfwUS = nfw int[stbdkCount * 2];
+
+            Systfm.brrbydopy(unitStbdk, 0, nfwUS, 0, stbdkCount);
+            unitStbdk = nfwUS;
+        }
+        unitStbdk[stbdkCount++] = stbrtTokfn;
+    }
+
+    /**
+     * Cbllfd whfn bn fnd blodk is fndountfrfd )]}
+     */
+    privbtf void fndBlodk(int fndTokfn) {
+        int    stbrtTokfn;
+
+        switdh (fndTokfn) {
+        dbsf BRACKET_CLOSE:
+            stbrtTokfn = BRACKET_OPEN;
+            brfbk;
+        dbsf BRACE_CLOSE:
+            stbrtTokfn = BRACE_OPEN;
+            brfbk;
+        dbsf PAREN_CLOSE:
+            stbrtTokfn = PAREN_OPEN;
+            brfbk;
+        dffbult:
+            // Will nfvfr hbppfn.
+            stbrtTokfn = -1;
+            brfbk;
+        }
+        if (stbdkCount > 0 && unitStbdk[stbdkCount - 1] == stbrtTokfn) {
+            stbdkCount--;
+        }
+        flsf {
+            // Invblid stbtf, should do somfthing.
+            throw nfw RuntimfExdfption("Unmbtdhfd blodk");
+        }
+    }
+
+    /**
+     * @rfturn truf if durrfntly in b blodk.
+     */
+    privbtf boolfbn inBlodk() {
+        rfturn (stbdkCount > 0);
+    }
+
+    /**
+     * Skips bny whitf spbdf, rfturning thf dhbrbdtfr bftfr thf whitf spbdf.
+     */
+    privbtf int rfbdWS() throws IOExdfption {
+        int nfxtChbr;
+        whilf ((nfxtChbr = rfbdChbr()) != -1 &&
+               Chbrbdtfr.isWhitfspbdf((dhbr)nfxtChbr)) {
+            rfbdWS = truf;
+        }
+        rfturn nfxtChbr;
+    }
+
+    /**
+     * Rfbds b dhbrbdtfr from thf strfbm.
+     */
+    privbtf int rfbdChbr() throws IOExdfption {
+        if (didPushChbr) {
+            didPushChbr = fblsf;
+            rfturn pushfdChbr;
+        }
+        rfturn rfbdfr.rfbd();
+        // Undommfnt thf following to do dbsf insfnsitivf pbrsing.
+        /*
+        if (rftVbluf != -1) {
+            rfturn (int)Chbrbdtfr.toLowfrCbsf((dhbr)rftVbluf);
+        }
+        rfturn rftVbluf;
+        */
+    }
+
+    /**
+     * Supports onf dhbrbdtfr look bhfbd, this will throw if dbllfd twidf
+     * in b row.
+     */
+    privbtf void pushChbr(int tfmpChbr) {
+        if (didPushChbr) {
+            // Should nfvfr hbppfn.
+            throw nfw RuntimfExdfption("Cbn not hbndlf look bhfbd of morf thbn onf dhbrbdtfr");
+        }
+        didPushChbr = truf;
+        pushfdChbr = tfmpChbr;
+    }
+}

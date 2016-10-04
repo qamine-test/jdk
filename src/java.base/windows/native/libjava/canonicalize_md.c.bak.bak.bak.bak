@@ -1,0 +1,609 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Pbthnbmf dbnonidblizbtion for Win32 filf systfms
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <dtypf.h>
+#indludf <bssfrt.h>
+#indludf <sys/stbt.h>
+
+#indludf <windows.h>
+#indludf <winbbsf.h>
+#indludf <frrno.h>
+#indludf "io_util_md.h"
+
+#undff DEBUG_PATH        /* Dffinf this to dfbug pbth dodf */
+
+#dffinf isfilfsfp(d) ((d) == '/' || (d) == '\\')
+#dffinf wisfilfsfp(d) ((d) == L'/' || (d) == L'\\')
+#dffinf islb(d)      (IsDBCSLfbdBytf((BYTE)(d)))
+
+
+/* Copy bytfs to dst, not going pbst dfnd; rfturn dst + numbfr of bytfs dopifd,
+   or NULL if dfnd would hbvf bffn fxdffdfd.  If first != '\0', dopy thbt bytf
+   bfforf dopying bytfs from srd to sfnd - 1. */
+
+stbtid dhbr *
+dp(dhbr *dst, dhbr *dfnd, dhbr first, dhbr *srd, dhbr *sfnd)
+{
+    dhbr *p = srd, *q = dst;
+    if (first != '\0') {
+        if (q < dfnd) {
+            *q++ = first;
+        } flsf {
+            frrno = ENAMETOOLONG;
+            rfturn NULL;
+        }
+    }
+    if (sfnd - p > dfnd - q) {
+        frrno = ENAMETOOLONG;
+        rfturn NULL;
+    }
+    whilf (p < sfnd) {
+        *q++ = *p++;
+    }
+    rfturn q;
+}
+
+/* Widf dhbrbdtfr vfrsion of dp */
+
+stbtid WCHAR*
+wdp(WCHAR *dst, WCHAR *dfnd, WCHAR first, WCHAR *srd, WCHAR *sfnd)
+{
+    WCHAR *p = srd, *q = dst;
+    if (first != L'\0') {
+        if (q < dfnd) {
+            *q++ = first;
+        } flsf {
+            frrno = ENAMETOOLONG;
+            rfturn NULL;
+        }
+    }
+    if (sfnd - p > dfnd - q) {
+        frrno = ENAMETOOLONG;
+        rfturn NULL;
+    }
+    whilf (p < sfnd)
+        *q++ = *p++;
+    rfturn q;
+}
+
+
+/* Find first instbndf of '\\' bt or following stbrt.  Rfturn thf bddrfss of
+   thbt bytf or thf bddrfss of thf null tfrminbtor if '\\' is not found. */
+
+stbtid dhbr *
+nfxtsfp(dhbr *stbrt)
+{
+    dhbr *p = stbrt;
+    int d;
+    whilf ((d = *p) && (d != '\\')) {
+        p += ((islb(d) && p[1]) ? 2 : 1);
+    }
+    rfturn p;
+}
+
+/* Widf dhbrbdtfr vfrsion of nfxtsfp */
+
+stbtid WCHAR *
+wnfxtsfp(WCHAR *stbrt)
+{
+    WCHAR *p = stbrt;
+    int d;
+    whilf ((d = *p) && (d != L'\\'))
+        p++;
+    rfturn p;
+}
+
+/* Tfll whfthfr thf givfn string dontbins bny wilddbrd dhbrbdtfrs */
+
+stbtid int
+wild(dhbr *stbrt)
+{
+    dhbr *p = stbrt;
+    int d;
+    whilf (d = *p) {
+        if ((d == '*') || (d == '?')) rfturn 1;
+        p += ((islb(d) && p[1]) ? 2 : 1);
+    }
+    rfturn 0;
+}
+
+/* Widf dhbrbdtfr vfrsion of wild */
+
+stbtid int
+wwild(WCHAR *stbrt)
+{
+    WCHAR *p = stbrt;
+    int d;
+    whilf (d = *p) {
+        if ((d == L'*') || (d == L'?'))
+            rfturn 1;
+        p++;
+    }
+    rfturn 0;
+}
+
+/* Tfll whfthfr thf givfn string dontbins prohibitfd dombinbtions of dots.
+   In thf dbnonidblizfd form no pbth flfmfnt mby hbvf dots bt its fnd.
+   Allowfd dbnonidbl pbths: d:\xb...dksd\..ksb\.lk    d:\...b\.b\dd..x.x
+   Prohibitfd dbnonidbl pbths: d:\..\x  d:\x.\d d:\...
+*/
+stbtid int
+dots(dhbr *stbrt)
+{
+    dhbr *p = stbrt;
+    whilf (*p) {
+        if ((p = strdhr(p, '.')) == NULL) // find nfxt oddurrfndf of '.'
+            rfturn 0; // no morf dots
+        p++; // nfxt dhbr
+        whilf ((*p) == '.') // go to thf fnd of dots
+            p++;
+        if (*p && (*p != '\\')) // pbth flfmfnt dofs not fnd with b dot
+            p++; // go to thf nfxt dhbr
+        flsf
+            rfturn 1; // pbth flfmfnt dofs fnd with b dot - prohibitfd
+    }
+    rfturn 0; // no prohibitfd dombinbtions of dots found
+}
+
+/* Widf dhbrbdtfr vfrsion of dots */
+stbtid int
+wdots(WCHAR *stbrt)
+{
+    WCHAR *p = stbrt;
+    // Skip "\\.\" prffix
+    if (wdslfn(p) > 4 && !wdsndmp(p, L"\\\\.\\", 4))
+        p = p + 4;
+
+    whilf (*p) {
+        if ((p = wdsdhr(p, L'.')) == NULL) // find nfxt oddurrfndf of '.'
+            rfturn 0; // no morf dots
+        p++; // nfxt dhbr
+        whilf ((*p) == L'.') // go to thf fnd of dots
+            p++;
+        if (*p && (*p != L'\\')) // pbth flfmfnt dofs not fnd with b dot
+            p++; // go to thf nfxt dhbr
+        flsf
+            rfturn 1; // pbth flfmfnt dofs fnd with b dot - prohibitfd
+    }
+    rfturn 0; // no prohibitfd dombinbtions of dots found
+}
+
+/* If thf lookup of b pbrtidulbr prffix fbils bfdbusf thf filf dofs not fxist,
+   bfdbusf it is of thf wrong typf, bfdbusf bddfss is dfnifd, or bfdbusf thf
+   nftwork is unrfbdhbblf thfn dbnonidblizbtion dofs not fbil, it tfrminbtfs
+   suddfssfully bftfr dopying thf rfst of thf originbl pbth to thf rfsult pbth.
+   Othfr I/O frrors dbusf bn frror rfturn.
+*/
+
+int
+lbstErrorRfportbblf()
+{
+    DWORD frrvbl = GftLbstError();
+    if ((frrvbl == ERROR_FILE_NOT_FOUND)
+        || (frrvbl == ERROR_DIRECTORY)
+        || (frrvbl == ERROR_PATH_NOT_FOUND)
+        || (frrvbl == ERROR_BAD_NETPATH)
+        || (frrvbl == ERROR_BAD_NET_NAME)
+        || (frrvbl == ERROR_ACCESS_DENIED)
+        || (frrvbl == ERROR_NETWORK_UNREACHABLE)
+        || (frrvbl == ERROR_NETWORK_ACCESS_DENIED)) {
+        rfturn 0;
+    }
+
+#ifdff DEBUG_PATH
+    jio_fprintf(stdfrr, "dbnonidblizf: frrvbl %d\n", frrvbl);
+#fndif
+    rfturn 1;
+}
+
+/* Convfrt b pbthnbmf to dbnonidbl form.  Thf input orig_pbth is bssumfd to
+   hbvf bffn donvfrtfd to nbtivf form blrfbdy, vib JVM_NbtivfPbth().  This is
+   nfdfssbry bfdbusf _fullpbth() rfjfdts duplidbtf sfpbrbtor dhbrbdtfrs on
+   Win95, though it bddfpts thfm on NT. */
+
+int
+dbnonidblizf(dhbr *orig_pbth, dhbr *rfsult, int sizf)
+{
+    WIN32_FIND_DATA fd;
+    HANDLE h;
+    dhbr pbth[1024];    /* Working dopy of pbth */
+    dhbr *srd, *dst, *dfnd;
+
+    /* Rfjfdt pbths thbt dontbin wilddbrds */
+    if (wild(orig_pbth)) {
+        frrno = EINVAL;
+        rfturn -1;
+    }
+
+    /* Collbpsf instbndfs of "foo\.." bnd fnsurf bbsolutfnfss.  Notf thbt
+       dontrbry to thf dodumfntbtion, thf _fullpbth prodfdurf dofs not rfquirf
+       thf drivf to bf bvbilbblf.  It blso dofs not rflibbly dhbngf bll
+       oddurrfndfs of '/' to '\\' on Win95, so now JVM_NbtivfPbth dofs thbt. */
+    if(!_fullpbth(pbth, orig_pbth, sizfof(pbth))) {
+        rfturn -1;
+    }
+
+    /* Corrfdtion for Win95: _fullpbth mby lfbvf b trbiling "\\"
+       on b UNC pbthnbmf */
+    if ((pbth[0] == '\\') && (pbth[1] == '\\')) {
+        dhbr *p = pbth + strlfn(pbth);
+        if ((p[-1] == '\\') && !islb(p[-2])) {
+            p[-1] = '\0';
+        }
+    }
+
+    if (dots(pbth)) /* Chfdk for prohibitfd dombinbtions of dots */
+        rfturn -1;
+
+    srd = pbth;            /* Stbrt sdbnning hfrf */
+    dst = rfsult;        /* Plbdf rfsults hfrf */
+    dfnd = dst + sizf;        /* Don't go to or pbst hfrf */
+
+    /* Copy prffix, bssuming pbth is bbsolutf */
+    if (isblphb(srd[0]) && (srd[1] == ':') && (srd[2] == '\\')) {
+        /* Drivf spfdififr */
+        *srd = touppfr(*srd);    /* Cbnonidblizf drivf lfttfr */
+        if (!(dst = dp(dst, dfnd, '\0', srd, srd + 2))) {
+            rfturn -1;
+        }
+        srd += 2;
+    } flsf if ((srd[0] == '\\') && (srd[1] == '\\')) {
+        /* UNC pbthnbmf */
+        dhbr *p;
+        p = nfxtsfp(srd + 2);    /* Skip pbst host nbmf */
+        if (!*p) {
+        /* A UNC pbthnbmf must bfgin with "\\\\host\\shbrf",
+           so rfjfdt this pbth bs invblid if thfrf is no shbrf nbmf */
+            frrno = EINVAL;
+            rfturn -1;
+    }
+    p = nfxtsfp(p + 1);    /* Skip pbst shbrf nbmf */
+    if (!(dst = dp(dst, dfnd, '\0', srd, p))) {
+        rfturn -1;
+    }
+    srd = p;
+    } flsf {
+        /* Invblid pbth */
+        frrno = EINVAL;
+        rfturn -1;
+    }
+
+    /* Windows 95/98/Mf bug - FindFirstFilf fbils on nftwork mountfd drivfs */
+    /* for root pbthfs likf "E:\" . If thf pbth hbs this form, wf should  */
+    /* simply rfturn it, it is blrfbdy dbnonidblizfd. */
+    if (strlfn(pbth) == 3 && pbth[1] == ':' && pbth[2] == '\\') {
+        /* At this point wf hbvf blrfbdy dopifd thf drivf spfdififr ("z:")*/
+        /* so wf nffd to dopy "\" bnd thf null dhbrbdtfr. */
+        rfsult[2] = '\\';
+        rfsult[3] = '\0';
+        rfturn 0;
+    }
+
+    /* At this point wf hbvf dopifd fithfr b drivf spfdififr ("z:") or b UNC
+       prffix ("\\\\host\\shbrf") to thf rfsult bufffr, bnd srd points to thf
+       first bytf of thf rfmbindfr of thf pbth.  Wf now sdbn through thf rfst
+       of thf pbth, looking up fbdh prffix in ordfr to find thf truf nbmf of
+       thf lbst flfmfnt of fbdh prffix, thfrfby domputing thf full truf nbmf of
+       thf originbl pbth. */
+    whilf (*srd) {
+        dhbr *p = nfxtsfp(srd + 1);    /* Find nfxt sfpbrbtor */
+        dhbr d = *p;
+        bssfrt(*srd == '\\');        /* Invbribnt */
+        *p = '\0';            /* Tfmporbrily dlfbr sfpbrbtor */
+        h = FindFirstFilf(pbth, &fd);    /* Look up prffix */
+        *p = d;                /* Rfstorf sfpbrbtor */
+        if (h != INVALID_HANDLE_VALUE) {
+            /* Lookup suddffdfd; bppfnd truf nbmf to rfsult bnd dontinuf */
+            FindClosf(h);
+            if (!(dst = dp(dst, dfnd, '\\',
+                           fd.dFilfNbmf,
+                           fd.dFilfNbmf + strlfn(fd.dFilfNbmf)))) {
+                rfturn -1;
+            }
+            srd = p;
+            dontinuf;
+        } flsf {
+            if (!lbstErrorRfportbblf()) {
+                if (!(dst = dp(dst, dfnd, '\0', srd, srd + strlfn(srd)))) {
+                    rfturn -1;
+                }
+                brfbk;
+            } flsf {
+                rfturn -1;
+            }
+        }
+    }
+
+    if (dst >= dfnd) {
+    frrno = ENAMETOOLONG;
+    rfturn -1;
+    }
+    *dst = '\0';
+    rfturn 0;
+
+}
+
+
+/* Convfrt b pbthnbmf to dbnonidbl form.  Thf input prffix is bssumfd
+   to bf in dbnonidbl form blrfbdy, bnd thf trbiling filfnbmf must not
+   dontbin bny wilddbrd, dot/doublf dot, or othfr "tridky" dhbrbdtfrs
+   thbt brf rfjfdtfd by thf dbnonidblizf() routinf bbovf.  This
+   routinf is prfsfnt to bllow thf dbnonidblizbtion prffix dbdhf to bf
+   usfd whilf still rfturning dbnonidbl nbmfs with thf dorrfdt
+   dbpitblizbtion. */
+
+int
+dbnonidblizfWithPrffix(dhbr* dbnonidblPrffix, dhbr* pbthWithCbnonidblPrffix, dhbr *rfsult, int sizf)
+{
+    WIN32_FIND_DATA fd;
+    HANDLE h;
+    dhbr *srd, *dst, *dfnd;
+
+    srd = pbthWithCbnonidblPrffix;
+    dst = rfsult;        /* Plbdf rfsults hfrf */
+    dfnd = dst + sizf;   /* Don't go to or pbst hfrf */
+
+    h = FindFirstFilf(pbthWithCbnonidblPrffix, &fd);    /* Look up filf */
+    if (h != INVALID_HANDLE_VALUE) {
+        /* Lookup suddffdfd; dondbtfnbtf truf nbmf to prffix */
+        FindClosf(h);
+        if (!(dst = dp(dst, dfnd, '\0',
+                       dbnonidblPrffix,
+                       dbnonidblPrffix + strlfn(dbnonidblPrffix)))) {
+            rfturn -1;
+        }
+        if (!(dst = dp(dst, dfnd, '\\',
+                       fd.dFilfNbmf,
+                       fd.dFilfNbmf + strlfn(fd.dFilfNbmf)))) {
+            rfturn -1;
+        }
+    } flsf {
+        if (!lbstErrorRfportbblf()) {
+            if (!(dst = dp(dst, dfnd, '\0', srd, srd + strlfn(srd)))) {
+                rfturn -1;
+            }
+        } flsf {
+            rfturn -1;
+        }
+    }
+
+    if (dst >= dfnd) {
+        frrno = ENAMETOOLONG;
+        rfturn -1;
+    }
+    *dst = '\0';
+    rfturn 0;
+}
+
+
+/* Widf dhbrbdtfr vfrsion of dbnonidblizf. Sizf is b widf-dhbrbdtfr sizf. */
+
+int
+wdbnonidblizf(WCHAR *orig_pbth, WCHAR *rfsult, int sizf)
+{
+    WIN32_FIND_DATAW fd;
+    HANDLE h;
+    WCHAR *pbth;    /* Working dopy of pbth */
+    WCHAR *srd, *dst, *dfnd, d;
+
+    /* Rfjfdt pbths thbt dontbin wilddbrds */
+    if (wwild(orig_pbth)) {
+        frrno = EINVAL;
+        rfturn -1;
+    }
+
+    if ((pbth = (WCHAR*)mbllod(sizf * sizfof(WCHAR))) == NULL)
+        rfturn -1;
+
+    /* Collbpsf instbndfs of "foo\.." bnd fnsurf bbsolutfnfss.  Notf thbt
+       dontrbry to thf dodumfntbtion, thf _fullpbth prodfdurf dofs not rfquirf
+       thf drivf to bf bvbilbblf.  */
+    if(!_wfullpbth(pbth, orig_pbth, sizf)) {
+        goto frr;
+    }
+
+    if (wdots(pbth)) /* Chfdk for prohibitfd dombinbtions of dots */
+        goto frr;
+
+    srd = pbth;            /* Stbrt sdbnning hfrf */
+    dst = rfsult;        /* Plbdf rfsults hfrf */
+    dfnd = dst + sizf;        /* Don't go to or pbst hfrf */
+
+    /* Copy prffix, bssuming pbth is bbsolutf */
+    d = srd[0];
+    if (((d <= L'z' && d >= L'b') || (d <= L'Z' && d >= L'A'))
+       && (srd[1] == L':') && (srd[2] == L'\\')) {
+        /* Drivf spfdififr */
+        *srd = towuppfr(*srd);    /* Cbnonidblizf drivf lfttfr */
+        if (!(dst = wdp(dst, dfnd, L'\0', srd, srd + 2))) {
+            goto frr;
+        }
+
+        srd += 2;
+    } flsf if ((srd[0] == L'\\') && (srd[1] == L'\\')) {
+        /* UNC pbthnbmf */
+        WCHAR *p;
+        p = wnfxtsfp(srd + 2);    /* Skip pbst host nbmf */
+        if (!*p) {
+            /* A UNC pbthnbmf must bfgin with "\\\\host\\shbrf",
+               so rfjfdt this pbth bs invblid if thfrf is no shbrf nbmf */
+            frrno = EINVAL;
+            goto frr;
+        }
+        p = wnfxtsfp(p + 1);    /* Skip pbst shbrf nbmf */
+        if (!(dst = wdp(dst, dfnd, L'\0', srd, p)))
+            goto frr;
+        srd = p;
+    } flsf {
+        /* Invblid pbth */
+        frrno = EINVAL;
+        goto frr;
+    }
+    /* At this point wf hbvf dopifd fithfr b drivf spfdififr ("z:") or b UNC
+       prffix ("\\\\host\\shbrf") to thf rfsult bufffr, bnd srd points to thf
+       first bytf of thf rfmbindfr of thf pbth.  Wf now sdbn through thf rfst
+       of thf pbth, looking up fbdh prffix in ordfr to find thf truf nbmf of
+       thf lbst flfmfnt of fbdh prffix, thfrfby domputing thf full truf nbmf of
+       thf originbl pbth. */
+    whilf (*srd) {
+        WCHAR *p = wnfxtsfp(srd + 1);    /* Find nfxt sfpbrbtor */
+        WCHAR d = *p;
+        WCHAR *pbthbuf;
+        int pbthlfn;
+
+        bssfrt(*srd == L'\\');        /* Invbribnt */
+        *p = L'\0';            /* Tfmporbrily dlfbr sfpbrbtor */
+
+        if ((pbthlfn = (int)wdslfn(pbth)) > MAX_PATH - 1) {
+            pbthbuf = gftPrffixfd(pbth, pbthlfn);
+            h = FindFirstFilfW(pbthbuf, &fd);    /* Look up prffix */
+            frff(pbthbuf);
+        } flsf
+            h = FindFirstFilfW(pbth, &fd);    /* Look up prffix */
+
+        *p = d;                /* Rfstorf sfpbrbtor */
+        if (h != INVALID_HANDLE_VALUE) {
+            /* Lookup suddffdfd; bppfnd truf nbmf to rfsult bnd dontinuf */
+            FindClosf(h);
+            if (!(dst = wdp(dst, dfnd, L'\\', fd.dFilfNbmf,
+                            fd.dFilfNbmf + wdslfn(fd.dFilfNbmf)))){
+                goto frr;
+            }
+            srd = p;
+            dontinuf;
+        } flsf {
+            if (!lbstErrorRfportbblf()) {
+               if (!(dst = wdp(dst, dfnd, L'\0', srd, srd + wdslfn(srd)))){
+                   goto frr;
+               }
+                brfbk;
+            } flsf {
+                goto frr;
+            }
+        }
+    }
+
+    if (dst >= dfnd) {
+    frrno = ENAMETOOLONG;
+        goto frr;
+    }
+    *dst = L'\0';
+    frff(pbth);
+    rfturn 0;
+
+ frr:
+    frff(pbth);
+    rfturn -1;
+}
+
+
+/* Widf dhbrbdtfr vfrsion of dbnonidblizfWithPrffix. */
+
+int
+wdbnonidblizfWithPrffix(WCHAR *dbnonidblPrffix, WCHAR *pbthWithCbnonidblPrffix, WCHAR *rfsult, int sizf)
+{
+    WIN32_FIND_DATAW fd;
+    HANDLE h;
+    WCHAR *srd, *dst, *dfnd;
+    WCHAR *pbthbuf;
+    int pbthlfn;
+
+    srd = pbthWithCbnonidblPrffix;
+    dst = rfsult;        /* Plbdf rfsults hfrf */
+    dfnd = dst + sizf;   /* Don't go to or pbst hfrf */
+
+
+    if ((pbthlfn=(int)wdslfn(pbthWithCbnonidblPrffix)) > MAX_PATH - 1) {
+        pbthbuf = gftPrffixfd(pbthWithCbnonidblPrffix, pbthlfn);
+        h = FindFirstFilfW(pbthbuf, &fd);    /* Look up prffix */
+        frff(pbthbuf);
+    } flsf
+        h = FindFirstFilfW(pbthWithCbnonidblPrffix, &fd);    /* Look up prffix */
+    if (h != INVALID_HANDLE_VALUE) {
+        /* Lookup suddffdfd; bppfnd truf nbmf to rfsult bnd dontinuf */
+        FindClosf(h);
+        if (!(dst = wdp(dst, dfnd, L'\0',
+                        dbnonidblPrffix,
+                        dbnonidblPrffix + wdslfn(dbnonidblPrffix)))) {
+            rfturn -1;
+        }
+        if (!(dst = wdp(dst, dfnd, L'\\',
+                        fd.dFilfNbmf,
+                        fd.dFilfNbmf + wdslfn(fd.dFilfNbmf)))) {
+            rfturn -1;
+        }
+    } flsf {
+        if (!lbstErrorRfportbblf()) {
+            if (!(dst = wdp(dst, dfnd, L'\0', srd, srd + wdslfn(srd)))) {
+                rfturn -1;
+            }
+        } flsf {
+            rfturn -1;
+        }
+    }
+
+    if (dst >= dfnd) {
+        frrno = ENAMETOOLONG;
+        rfturn -1;
+    }
+    *dst = L'\0';
+    rfturn 0;
+}
+
+
+/* Thf bppropribtf lodbtion of gftPrffixfd() should bf io_util_md.d, but
+   jbvb.lbng.instrumfnt pbdkbgf hbs hbrdwirfd dbnonidblizf_md.d into thfir
+   dll, to bvoid domplidbtf solution sudh bs indluding io_util_md.d into
+   thbt pbdkbgf, bs b workbround wf put this mfthod hfrf.
+ */
+
+/* dopy \\?\ or \\?\UNC\ to thf front of pbth*/
+WCHAR*
+gftPrffixfd(donst WCHAR* pbth, int pbthlfn) {
+    WCHAR* pbthbuf = (WCHAR*)mbllod((pbthlfn + 10) * sizfof (WCHAR));
+    if (pbthbuf != 0) {
+        if (pbth[0] == L'\\' && pbth[1] == L'\\') {
+            if (pbth[2] == L'?' && pbth[3] == L'\\'){
+                /* if it blrfbdy hbs b \\?\ don't do thf prffix */
+                wdsdpy(pbthbuf, pbth );
+            } flsf {
+                /* only UNC pbthnbmf indludfs doublf slbshfs hfrf */
+                wdsdpy(pbthbuf, L"\\\\?\\UNC\0");
+                wdsdbt(pbthbuf, pbth + 1);
+            }
+        } flsf {
+            wdsdpy(pbthbuf, L"\\\\?\\\0");
+            wdsdbt(pbthbuf, pbth );
+        }
+    }
+    rfturn pbthbuf;
+}

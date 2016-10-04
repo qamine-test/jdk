@@ -1,0 +1,287 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="dub"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="dub">duálá</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="CM">Cbmfroun</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[b á b ɓ d d ɗ f é ɛ {ɛ\u0301} f g i í j k l m n {ny} ŋ o ó ɔ {ɔ\u0301} p r s t u ú ū w y]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[h q v x z]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx">[A B Ɓ C D Ɗ E Ɛ F G I J K L M N Ŋ O Ɔ P S T U W Y]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">di</month>
+							<month typf="2">ŋgɔn</month>
+							<month typf="3">sɔŋ</month>
+							<month typf="4">diɓ</month>
+							<month typf="5">fmi</month>
+							<month typf="6">fsɔ</month>
+							<month typf="7">mbd</month>
+							<month typf="8">diŋ</month>
+							<month typf="9">nyɛt</month>
+							<month typf="10">mby</month>
+							<month typf="11">tin</month>
+							<month typf="12">flá</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">dimɔ́di</month>
+							<month typf="2">ŋgɔndɛ</month>
+							<month typf="3">sɔŋɛ</month>
+							<month typf="4">diɓáɓá</month>
+							<month typf="5">fmibsflf</month>
+							<month typf="6">fsɔpɛsɔpɛ</month>
+							<month typf="7">mbdiɓɛ́díɓɛ́</month>
+							<month typf="8">diŋgindi</month>
+							<month typf="9">nyɛtɛki</month>
+							<month typf="10">mbyésɛ́</month>
+							<month typf="11">tiníní</month>
+							<month typf="12">fláŋgɛ́</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="nbrrow">
+							<month typf="1">d</month>
+							<month typf="2">ŋ</month>
+							<month typf="3">s</month>
+							<month typf="4">d</month>
+							<month typf="5">f</month>
+							<month typf="6">f</month>
+							<month typf="7">m</month>
+							<month typf="8">d</month>
+							<month typf="9">n</month>
+							<month typf="10">m</month>
+							<month typf="11">t</month>
+							<month typf="12">f</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">ét</dby>
+							<dby typf="mon">mɔ́s</dby>
+							<dby typf="tuf">kwb</dby>
+							<dby typf="wfd">muk</dby>
+							<dby typf="thu">ŋgi</dby>
+							<dby typf="fri">ɗón</dby>
+							<dby typf="sbt">fsb</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">éti</dby>
+							<dby typf="mon">mɔ́sú</dby>
+							<dby typf="tuf">kwbsú</dby>
+							<dby typf="wfd">mukɔ́sú</dby>
+							<dby typf="thu">ŋgisú</dby>
+							<dby typf="fri">ɗónɛsú</dby>
+							<dby typf="sbt">fsbɓbsú</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">f</dby>
+							<dby typf="mon">m</dby>
+							<dby typf="tuf">k</dby>
+							<dby typf="wfd">m</dby>
+							<dby typf="thu">ŋ</dby>
+							<dby typf="fri">ɗ</dby>
+							<dby typf="sbt">f</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="bbbrfvibtfd">
+							<qubrtfr typf="1">ndu1</qubrtfr>
+							<qubrtfr typf="2">ndu2</qubrtfr>
+							<qubrtfr typf="3">ndu3</qubrtfr>
+							<qubrtfr typf="4">ndu4</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1">ndúmbū nyá ɓosó</qubrtfr>
+							<qubrtfr typf="2">ndúmbū ní lóndɛ́ íɓbá</qubrtfr>
+							<qubrtfr typf="3">ndúmbū ní lóndɛ́ ílálo</qubrtfr>
+							<qubrtfr typf="4">ndúmbū ní lóndɛ́ ínɛ́y</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidth typf="widf">
+							<dbyPfriod typf="bm">idiɓb</dbyPfriod>
+							<dbyPfriod typf="pm">fbyámu</dbyPfriod>
+						</dbyPfriodWidth>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">ɓoso ɓwá yáɓf lá</frb>
+						<frb typf="1">mbúsb kwédi b Yés</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">ɓ.Ys</frb>
+						<frb typf="1">mb.Ys</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn>HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="hm">h:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="hms">h:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">m:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>póndá</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>mbú</displbyNbmf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf>mɔ́di</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>disbmb</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>búnyá</displbyNbmf>
+						<rflbtivf typf="-1">kíɛlɛ nítómb́í</rflbtivf>
+						<rflbtivf typf="0">wɛ́ŋgɛ̄</rflbtivf>
+						<rflbtivf typf="1">kíɛlɛ</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>mínyá má disbmb</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>fpbsi b búnyá</displbyNbmf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf>ŋgbndɛ</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>ndɔkɔ</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>píndí</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
+			<group> </group>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0 %</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+	</numbfrs>
+	<posix>
+		<mfssbgfs>
+			<yfsstr>ff:f</yfsstr>
+			<nostr>kɛ́m:k</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>

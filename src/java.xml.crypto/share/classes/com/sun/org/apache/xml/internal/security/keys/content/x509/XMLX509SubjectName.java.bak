@@ -1,106 +1,106 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.keys.content.x509;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509;
 
-import java.security.cert.X509Certificate;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.RFC2253Parser;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.RFC2253Pbrsfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * @author $Author: coheigea $
+ * @butior $Autior: doifigfb $
  */
-public class XMLX509SubjectName extends SignatureElementProxy implements XMLX509DataContent {
+publid dlbss XMLX509SubjfdtNbmf fxtfnds SignbturfElfmfntProxy implfmfnts XMLX509DbtbContfnt {
 
     /**
-     * Constructor X509SubjectName
+     * Construdtor X509SubjfdtNbmf
      *
-     * @param element
-     * @param BaseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509SubjectName(Element element, String BaseURI)
-        throws XMLSecurityException {
-        super(element, BaseURI);
+    publid XMLX509SubjfdtNbmf(Elfmfnt flfmfnt, String BbsfURI)
+        tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
     }
 
     /**
-     * Constructor X509SubjectName
+     * Construdtor X509SubjfdtNbmf
      *
-     * @param doc
-     * @param X509SubjectNameString
+     * @pbrbm dod
+     * @pbrbm X509SubjfdtNbmfString
      */
-    public XMLX509SubjectName(Document doc, String X509SubjectNameString) {
-        super(doc);
+    publid XMLX509SubjfdtNbmf(Dodumfnt dod, String X509SubjfdtNbmfString) {
+        supfr(dod);
 
-        this.addText(X509SubjectNameString);
+        tiis.bddTfxt(X509SubjfdtNbmfString);
     }
 
     /**
-     * Constructor XMLX509SubjectName
+     * Construdtor XMLX509SubjfdtNbmf
      *
-     * @param doc
-     * @param x509certificate
+     * @pbrbm dod
+     * @pbrbm x509dfrtifidbtf
      */
-    public XMLX509SubjectName(Document doc, X509Certificate x509certificate) {
-        this(doc, x509certificate.getSubjectX500Principal().getName());
+    publid XMLX509SubjfdtNbmf(Dodumfnt dod, X509Cfrtifidbtf x509dfrtifidbtf) {
+        tiis(dod, x509dfrtifidbtf.gftSubjfdtX500Prindipbl().gftNbmf());
     }
 
     /**
-     * Method getSubjectName
+     * Mftiod gftSubjfdtNbmf
      *
      *
-     * @return the subject name
+     * @rfturn tif subjfdt nbmf
      */
-    public String getSubjectName() {
-        return RFC2253Parser.normalize(this.getTextFromTextChild());
+    publid String gftSubjfdtNbmf() {
+        rfturn RFC2253Pbrsfr.normblizf(tiis.gftTfxtFromTfxtCiild());
     }
 
-    /** @inheritDoc */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof XMLX509SubjectName)) {
-            return false;
+    /** @inifritDod */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof XMLX509SubjfdtNbmf)) {
+            rfturn fblsf;
         }
 
-        XMLX509SubjectName other = (XMLX509SubjectName) obj;
-        String otherSubject = other.getSubjectName();
-        String thisSubject = this.getSubjectName();
+        XMLX509SubjfdtNbmf otifr = (XMLX509SubjfdtNbmf) obj;
+        String otifrSubjfdt = otifr.gftSubjfdtNbmf();
+        String tiisSubjfdt = tiis.gftSubjfdtNbmf();
 
-        return thisSubject.equals(otherSubject);
+        rfturn tiisSubjfdt.fqubls(otifrSubjfdt);
     }
 
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + this.getSubjectName().hashCode();
-        return result;
+    publid int ibsiCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + tiis.gftSubjfdtNbmf().ibsiCodf();
+        rfturn rfsult;
     }
 
-    /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_X509SUBJECTNAME;
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_X509SUBJECTNAME;
     }
 }

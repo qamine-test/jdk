@@ -1,0 +1,420 @@
+/*
+ * Copyright (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dnd;
+
+import jbvb.bwt.Componfnt;
+
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
+
+import jbvb.bwt.dnd.pffr.DropTbrgftContfxtPffr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+
+
+/**
+ * A <dodf>DropTbrgftContfxt</dodf> is drfbtfd
+ * whfnfvfr thf logidbl dursor bssodibtfd
+ * with b Drbg bnd Drop opfrbtion doindidfs with thf visiblf gfomftry of
+ * b <dodf>Componfnt</dodf> bssodibtfd with b <dodf>DropTbrgft</dodf>.
+ * Thf <dodf>DropTbrgftContfxt</dodf> providfs
+ * thf mfdhbnism for b potfntibl rfdfivfr
+ * of b drop opfrbtion to both providf thf fnd usfr with thf bppropribtf
+ * drbg undfr fffdbbdk, but blso to ffffdt thf subsfqufnt dbtb trbnsffr
+ * if bppropribtf.
+ *
+ * @sindf 1.2
+ */
+
+publid dlbss DropTbrgftContfxt implfmfnts Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -634158968993743371L;
+
+    /**
+     * Construdt b <dodf>DropTbrgftContfxt</dodf>
+     * givfn b spfdififd <dodf>DropTbrgft</dodf>.
+     *
+     * @pbrbm dt thf DropTbrgft to bssodibtf with
+     */
+
+    DropTbrgftContfxt(DropTbrgft dt) {
+        supfr();
+
+        dropTbrgft = dt;
+    }
+
+    /**
+     * This mfthod rfturns thf <dodf>DropTbrgft</dodf> bssodibtfd with this
+     * <dodf>DropTbrgftContfxt</dodf>.
+     *
+     * @rfturn thf <dodf>DropTbrgft</dodf> bssodibtfd with this <dodf>DropTbrgftContfxt</dodf>
+     */
+
+    publid DropTbrgft gftDropTbrgft() { rfturn dropTbrgft; }
+
+    /**
+     * This mfthod rfturns thf <dodf>Componfnt</dodf> bssodibtfd with
+     * this <dodf>DropTbrgftContfxt</dodf>.
+     *
+     * @rfturn thf Componfnt bssodibtfd with this Contfxt
+     */
+
+    publid Componfnt gftComponfnt() { rfturn dropTbrgft.gftComponfnt(); }
+
+    /**
+     * Cbllfd whfn bssodibtfd with thf <dodf>DropTbrgftContfxtPffr</dodf>.
+     *
+     * @pbrbm dtdp thf <dodf>DropTbrgftContfxtPffr</dodf>
+     */
+
+    publid void bddNotify(DropTbrgftContfxtPffr dtdp) {
+        dropTbrgftContfxtPffr = dtdp;
+    }
+
+    /**
+     * Cbllfd whfn disbssodibtfd with thf <dodf>DropTbrgftContfxtPffr</dodf>.
+     */
+
+    publid void rfmovfNotify() {
+        dropTbrgftContfxtPffr = null;
+        trbnsffrbblf          = null;
+    }
+
+    /**
+     * This mfthod sfts thf durrfnt bdtions bddfptbblf to
+     * this <dodf>DropTbrgft</dodf>.
+     *
+     * @pbrbm bdtions bn <dodf>int</dodf> rfprfsfnting thf supportfd bdtion(s)
+     */
+
+    protfdtfd void sftTbrgftAdtions(int bdtions) {
+        DropTbrgftContfxtPffr pffr = gftDropTbrgftContfxtPffr();
+        if (pffr != null) {
+            syndhronizfd (pffr) {
+                pffr.sftTbrgftAdtions(bdtions);
+                gftDropTbrgft().doSftDffbultAdtions(bdtions);
+            }
+        } flsf {
+            gftDropTbrgft().doSftDffbultAdtions(bdtions);
+        }
+    }
+
+    /**
+     * This mfthod rfturns bn <dodf>int</dodf> rfprfsfnting thf
+     * durrfnt bdtions this <dodf>DropTbrgft</dodf> will bddfpt.
+     *
+     * @rfturn thf durrfnt bdtions bddfptbblf to this <dodf>DropTbrgft</dodf>
+     */
+
+    protfdtfd int gftTbrgftAdtions() {
+        DropTbrgftContfxtPffr pffr = gftDropTbrgftContfxtPffr();
+        rfturn ((pffr != null)
+                        ? pffr.gftTbrgftAdtions()
+                        : dropTbrgft.gftDffbultAdtions()
+        );
+    }
+
+    /**
+     * This mfthod signbls thbt thf drop is domplftfd bnd
+     * if it wbs suddfssful or not.
+     *
+     * @pbrbm suddfss truf for suddfss, fblsf if not
+     *
+     * @throws InvblidDnDOpfrbtionExdfption if b drop is not outstbnding/fxtbnt
+     */
+
+    publid void dropComplftf(boolfbn suddfss) throws InvblidDnDOpfrbtionExdfption{
+        DropTbrgftContfxtPffr pffr = gftDropTbrgftContfxtPffr();
+        if (pffr != null) {
+            pffr.dropComplftf(suddfss);
+        }
+    }
+
+    /**
+     * bddfpt thf Drbg.
+     *
+     * @pbrbm drbgOpfrbtion thf supportfd bdtion(s)
+     */
+
+    protfdtfd void bddfptDrbg(int drbgOpfrbtion) {
+        DropTbrgftContfxtPffr pffr = gftDropTbrgftContfxtPffr();
+        if (pffr != null) {
+            pffr.bddfptDrbg(drbgOpfrbtion);
+        }
+    }
+
+    /**
+     * rfjfdt thf Drbg.
+     */
+
+    protfdtfd void rfjfdtDrbg() {
+        DropTbrgftContfxtPffr pffr = gftDropTbrgftContfxtPffr();
+        if (pffr != null) {
+            pffr.rfjfdtDrbg();
+        }
+    }
+
+    /**
+     * dbllfd to signbl thbt thf drop is bddfptbblf
+     * using thf spfdififd opfrbtion.
+     * must bf dbllfd during DropTbrgftListfnfr.drop mfthod invodbtion.
+     *
+     * @pbrbm dropOpfrbtion thf supportfd bdtion(s)
+     */
+
+    protfdtfd void bddfptDrop(int dropOpfrbtion) {
+        DropTbrgftContfxtPffr pffr = gftDropTbrgftContfxtPffr();
+        if (pffr != null) {
+            pffr.bddfptDrop(dropOpfrbtion);
+        }
+    }
+
+    /**
+     * dbllfd to signbl thbt thf drop is unbddfptbblf.
+     * must bf dbllfd during DropTbrgftListfnfr.drop mfthod invodbtion.
+     */
+
+    protfdtfd void rfjfdtDrop() {
+        DropTbrgftContfxtPffr pffr = gftDropTbrgftContfxtPffr();
+        if (pffr != null) {
+            pffr.rfjfdtDrop();
+        }
+    }
+
+    /**
+     * gft thf bvbilbblf DbtbFlbvors of thf
+     * <dodf>Trbnsffrbblf</dodf> opfrbnd of this opfrbtion.
+     *
+     * @rfturn b <dodf>DbtbFlbvor[]</dodf> dontbining thf
+     * supportfd <dodf>DbtbFlbvor</dodf>s of thf
+     * <dodf>Trbnsffrbblf</dodf> opfrbnd.
+     */
+
+    protfdtfd DbtbFlbvor[] gftCurrfntDbtbFlbvors() {
+        DropTbrgftContfxtPffr pffr = gftDropTbrgftContfxtPffr();
+        rfturn pffr != null ? pffr.gftTrbnsffrDbtbFlbvors() : nfw DbtbFlbvor[0];
+    }
+
+    /**
+     * This mfthod rfturns b thf durrfntly bvbilbblf DbtbFlbvors
+     * of thf <dodf>Trbnsffrbblf</dodf> opfrbnd
+     * bs b <dodf>jbvb.util.List</dodf>.
+     *
+     * @rfturn thf durrfntly bvbilbblf
+     * DbtbFlbvors bs b <dodf>jbvb.util.List</dodf>
+     */
+
+    protfdtfd List<DbtbFlbvor> gftCurrfntDbtbFlbvorsAsList() {
+        rfturn Arrbys.bsList(gftCurrfntDbtbFlbvors());
+    }
+
+    /**
+     * This mfthod rfturns b <dodf>boolfbn</dodf>
+     * indidbting if thf givfn <dodf>DbtbFlbvor</dodf> is
+     * supportfd by this <dodf>DropTbrgftContfxt</dodf>.
+     *
+     * @pbrbm df thf <dodf>DbtbFlbvor</dodf>
+     *
+     * @rfturn if thf <dodf>DbtbFlbvor</dodf> spfdififd is supportfd
+     */
+
+    protfdtfd boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor df) {
+        rfturn gftCurrfntDbtbFlbvorsAsList().dontbins(df);
+    }
+
+    /**
+     * gft thf Trbnsffrbblf (proxy) opfrbnd of this opfrbtion
+     *
+     * @throws InvblidDnDOpfrbtionExdfption if b drbg is not outstbnding/fxtbnt
+     *
+     * @rfturn thf <dodf>Trbnsffrbblf</dodf>
+     */
+
+    protfdtfd Trbnsffrbblf gftTrbnsffrbblf() throws InvblidDnDOpfrbtionExdfption {
+        DropTbrgftContfxtPffr pffr = gftDropTbrgftContfxtPffr();
+        if (pffr == null) {
+            throw nfw InvblidDnDOpfrbtionExdfption();
+        } flsf {
+            if (trbnsffrbblf == null) {
+                Trbnsffrbblf t = pffr.gftTrbnsffrbblf();
+                boolfbn isLodbl = pffr.isTrbnsffrbblfJVMLodbl();
+                syndhronizfd (this) {
+                    if (trbnsffrbblf == null) {
+                        trbnsffrbblf = drfbtfTrbnsffrbblfProxy(t, isLodbl);
+                    }
+                }
+            }
+
+            rfturn trbnsffrbblf;
+        }
+    }
+
+    /**
+     * Gft thf <dodf>DropTbrgftContfxtPffr</dodf>
+     *
+     * @rfturn thf plbtform pffr
+     */
+
+    DropTbrgftContfxtPffr gftDropTbrgftContfxtPffr() {
+        rfturn dropTbrgftContfxtPffr;
+    }
+
+    /**
+     * Crfbtfs b TrbnsffrbblfProxy to proxy for thf spfdififd
+     * Trbnsffrbblf.
+     *
+     * @pbrbm t thf <tt>Trbnsffrbblf</tt> to bf proxifd
+     * @pbrbm lodbl <tt>truf</tt> if <tt>t</tt> rfprfsfnts
+     *        thf rfsult of b lodbl drbg-n-drop opfrbtion.
+     * @rfturn thf nfw <tt>TrbnsffrbblfProxy</tt> instbndf.
+     */
+    protfdtfd Trbnsffrbblf drfbtfTrbnsffrbblfProxy(Trbnsffrbblf t, boolfbn lodbl) {
+        rfturn nfw TrbnsffrbblfProxy(t, lodbl);
+    }
+
+/****************************************************************************/
+
+
+    /**
+     * <dodf>TrbnsffrbblfProxy</dodf> is b hflpfr innfr dlbss thbt implfmfnts
+     * <dodf>Trbnsffrbblf</dodf> intfrfbdf bnd sfrvfs bs b proxy for bnothfr
+     * <dodf>Trbnsffrbblf</dodf> objfdt whidh rfprfsfnts dbtb trbnsffr for
+     * b pbrtidulbr drbg-n-drop opfrbtion.
+     * <p>
+     * Thf proxy forwbrds bll rfqufsts to thf fndbpsulbtfd trbnsffrbblf
+     * bnd butombtidblly pfrforms bdditionbl donvfrsion on thf dbtb
+     * rfturnfd by thf fndbpsulbtfd trbnsffrbblf in dbsf of lodbl trbnsffr.
+     */
+
+    protfdtfd dlbss TrbnsffrbblfProxy implfmfnts Trbnsffrbblf {
+
+        /**
+         * Construdts b <dodf>TrbnsffrbblfProxy</dodf> givfn
+         * b spfdififd <dodf>Trbnsffrbblf</dodf> objfdt rfprfsfnting
+         * dbtb trbnsffr for b pbrtidulbr drbg-n-drop opfrbtion bnd
+         * b <dodf>boolfbn</dodf> whidh indidbtfs whfthfr thf
+         * drbg-n-drop opfrbtion is lodbl (within thf sbmf JVM).
+         *
+         * @pbrbm t thf <dodf>Trbnsffrbblf</dodf> objfdt
+         * @pbrbm lodbl <dodf>truf</dodf>, if <dodf>t</dodf> rfprfsfnts
+         *        thf rfsult of lodbl drbg-n-drop opfrbtion
+         */
+        TrbnsffrbblfProxy(Trbnsffrbblf t, boolfbn lodbl) {
+            proxy = nfw sun.bwt.dbtbtrbnsffr.TrbnsffrbblfProxy(t, lodbl);
+            trbnsffrbblf = t;
+            isLodbl      = lodbl;
+        }
+
+        /**
+         * Rfturns bn brrby of DbtbFlbvor objfdts indidbting thf flbvors
+         * thf dbtb dbn bf providfd in by thf fndbpsulbtfd trbnsffrbblf.
+         *
+         * @rfturn bn brrby of dbtb flbvors in whidh thf dbtb dbn bf
+         *         providfd by thf fndbpsulbtfd trbnsffrbblf
+         */
+        publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+            rfturn proxy.gftTrbnsffrDbtbFlbvors();
+        }
+
+        /**
+         * Rfturns whfthfr or not thf spfdififd dbtb flbvor is supportfd by
+         * thf fndbpsulbtfd trbnsffrbblf.
+         * @pbrbm flbvor thf rfqufstfd flbvor for thf dbtb
+         * @rfturn <dodf>truf</dodf> if thf dbtb flbvor is supportfd,
+         *         <dodf>fblsf</dodf> othfrwisf
+         */
+        publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor) {
+            rfturn proxy.isDbtbFlbvorSupportfd(flbvor);
+        }
+
+        /**
+         * Rfturns bn objfdt whidh rfprfsfnts thf dbtb providfd by
+         * thf fndbpsulbtfd trbnsffrbblf for thf rfqufstfd dbtb flbvor.
+         * <p>
+         * In dbsf of lodbl trbnsffr b sfriblizfd dopy of thf objfdt
+         * rfturnfd by thf fndbpsulbtfd trbnsffrbblf is providfd whfn
+         * thf dbtb is rfqufstfd in bpplidbtion/x-jbvb-sfriblizfd-objfdt
+         * dbtb flbvor.
+         *
+         * @pbrbm df thf rfqufstfd flbvor for thf dbtb
+         * @throws IOExdfption if thf dbtb is no longfr bvbilbblf
+         *              in thf rfqufstfd flbvor.
+         * @throws UnsupportfdFlbvorExdfption if thf rfqufstfd dbtb flbvor is
+         *              not supportfd.
+         */
+        publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor df)
+            throws UnsupportfdFlbvorExdfption, IOExdfption
+        {
+            rfturn proxy.gftTrbnsffrDbtb(df);
+        }
+
+        /*
+         * fiflds
+         */
+
+        // Wf don't nffd to worry bbout dlifnt dodf dhbnging thf vblufs of
+        // thfsf vbribblfs. Sindf TrbnsffrbblfProxy is b protfdtfd dlbss, only
+        // subdlbssfs of DropTbrgftContfxt dbn bddfss it. And DropTbrgftContfxt
+        // dbnnot bf subdlbssfd by dlifnt dodf bfdbusf it dofs not hbvf b
+        // publid donstrudtor.
+
+        /**
+         * Thf fndbpsulbtfd <dodf>Trbnsffrbblf</dodf> objfdt.
+         */
+        protfdtfd Trbnsffrbblf  trbnsffrbblf;
+
+        /**
+         * A <dodf>boolfbn</dodf> indidbting if thf fndbpsulbtfd
+         * <dodf>Trbnsffrbblf</dodf> objfdt rfprfsfnts thf rfsult
+         * of lodbl drbg-n-drop opfrbtion (within thf sbmf JVM).
+         */
+        protfdtfd boolfbn       isLodbl;
+
+        privbtf sun.bwt.dbtbtrbnsffr.TrbnsffrbblfProxy proxy;
+    }
+
+/****************************************************************************/
+
+    /*
+     * fiflds
+     */
+
+    /**
+     * Thf DropTbrgft bssodibtfd with this DropTbrgftContfxt.
+     *
+     * @sfribl
+     */
+    privbtf DropTbrgft dropTbrgft;
+
+    privbtf trbnsifnt DropTbrgftContfxtPffr dropTbrgftContfxtPffr;
+
+    privbtf trbnsifnt Trbnsffrbblf trbnsffrbblf;
+}

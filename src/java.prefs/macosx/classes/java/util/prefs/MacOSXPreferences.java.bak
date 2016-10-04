@@ -1,273 +1,273 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.prefs;
+pbdkbgf jbvb.util.prffs;
 
-import java.util.Objects;
+import jbvb.util.Objfdts;
 
-class MacOSXPreferences extends AbstractPreferences {
-    // fixme need security checks?
+dlbss MbdOSXPrfffrfndfs fxtfnds AbstrbdtPrfffrfndfs {
+    // fixmf nffd sfdurity difdks?
 
-    // CF preferences file name for Java nodes with short names
-    // This value is also in MacOSXPreferencesFile.c
-    private static final String defaultAppName = "com.apple.java.util.prefs";
+    // CF prfffrfndfs filf nbmf for Jbvb nodfs witi siort nbmfs
+    // Tiis vbluf is blso in MbdOSXPrfffrfndfsFilf.d
+    privbtf stbtid finbl String dffbultAppNbmf = "dom.bpplf.jbvb.util.prffs";
 
-    // true if this node is a child of userRoot or is userRoot
-    private final boolean isUser;
+    // truf if tiis nodf is b diild of usfrRoot or is usfrRoot
+    privbtf finbl boolfbn isUsfr;
 
-    // true if this node is userRoot or systemRoot
-    private final boolean isRoot;
+    // truf if tiis nodf is usfrRoot or systfmRoot
+    privbtf finbl boolfbn isRoot;
 
-    // CF's storage location for this node and its keys
-    private final MacOSXPreferencesFile file;
+    // CF's storbgf lodbtion for tiis nodf bnd its kfys
+    privbtf finbl MbdOSXPrfffrfndfsFilf filf;
 
-    // absolutePath() + "/"
-    private final String path;
+    // bbsolutfPbti() + "/"
+    privbtf finbl String pbti;
 
-    // User root and system root nodes
-    private static MacOSXPreferences userRoot = null;
-    private static MacOSXPreferences systemRoot = null;
+    // Usfr root bnd systfm root nodfs
+    privbtf stbtid MbdOSXPrfffrfndfs usfrRoot = null;
+    privbtf stbtid MbdOSXPrfffrfndfs systfmRoot = null;
 
 
-    // Returns user root node, creating it if necessary.
-    // Called by MacOSXPreferencesFactory
-    static synchronized Preferences getUserRoot() {
-        if (userRoot == null) {
-            userRoot = new MacOSXPreferences(true);
+    // Rfturns usfr root nodf, drfbting it if nfdfssbry.
+    // Cbllfd by MbdOSXPrfffrfndfsFbdtory
+    stbtid syndironizfd Prfffrfndfs gftUsfrRoot() {
+        if (usfrRoot == null) {
+            usfrRoot = nfw MbdOSXPrfffrfndfs(truf);
         }
-        return userRoot;
+        rfturn usfrRoot;
     }
 
 
-    // Returns system root node, creating it if necessary.
-    // Called by MacOSXPreferencesFactory
-    static synchronized Preferences getSystemRoot() {
-        if (systemRoot == null) {
-            systemRoot = new MacOSXPreferences(false);
+    // Rfturns systfm root nodf, drfbting it if nfdfssbry.
+    // Cbllfd by MbdOSXPrfffrfndfsFbdtory
+    stbtid syndironizfd Prfffrfndfs gftSystfmRoot() {
+        if (systfmRoot == null) {
+            systfmRoot = nfw MbdOSXPrfffrfndfs(fblsf);
         }
-        return systemRoot;
+        rfturn systfmRoot;
     }
 
 
-    // Create a new root node. Called by getUserRoot() and getSystemRoot()
-    // Synchronization is provided by the caller.
-    private MacOSXPreferences(boolean newIsUser) {
-        this(null, "", false, true, newIsUser);
+    // Crfbtf b nfw root nodf. Cbllfd by gftUsfrRoot() bnd gftSystfmRoot()
+    // Syndironizbtion is providfd by tif dbllfr.
+    privbtf MbdOSXPrfffrfndfs(boolfbn nfwIsUsfr) {
+        tiis(null, "", fblsf, truf, nfwIsUsfr);
     }
 
 
-    // Create a new non-root node with the given parent.
-    // Called by childSpi().
-    private MacOSXPreferences(MacOSXPreferences parent, String name) {
-        this(parent, name, false, false, false);
+    // Crfbtf b nfw non-root nodf witi tif givfn pbrfnt.
+    // Cbllfd by diildSpi().
+    privbtf MbdOSXPrfffrfndfs(MbdOSXPrfffrfndfs pbrfnt, String nbmf) {
+        tiis(pbrfnt, nbmf, fblsf, fblsf, fblsf);
     }
 
-    private MacOSXPreferences(MacOSXPreferences parent, String name,
-                              boolean isNew)
+    privbtf MbdOSXPrfffrfndfs(MbdOSXPrfffrfndfs pbrfnt, String nbmf,
+                              boolfbn isNfw)
     {
-        this(parent, name, isNew, false, false);
+        tiis(pbrfnt, nbmf, isNfw, fblsf, fblsf);
     }
 
-    private MacOSXPreferences(MacOSXPreferences parent, String name,
-                              boolean isNew, boolean isRoot, boolean isUser)
+    privbtf MbdOSXPrfffrfndfs(MbdOSXPrfffrfndfs pbrfnt, String nbmf,
+                              boolfbn isNfw, boolfbn isRoot, boolfbn isUsfr)
     {
-        super(parent, name);
-        this.isRoot = isRoot;
+        supfr(pbrfnt, nbmf);
+        tiis.isRoot = isRoot;
         if (isRoot)
-            this.isUser = isUser;
-        else
-            this.isUser = isUserNode();
-        path = isRoot ? absolutePath() : absolutePath() + "/";
-        file = cfFileForNode(this.isUser);
-        if (isNew)
-            newNode = isNew;
-        else
-            newNode = file.addNode(path);
+            tiis.isUsfr = isUsfr;
+        flsf
+            tiis.isUsfr = isUsfrNodf();
+        pbti = isRoot ? bbsolutfPbti() : bbsolutfPbti() + "/";
+        filf = dfFilfForNodf(tiis.isUsfr);
+        if (isNfw)
+            nfwNodf = isNfw;
+        flsf
+            nfwNodf = filf.bddNodf(pbti);
     }
 
-    // Create and return the MacOSXPreferencesFile for this node.
-    // Does not write anything to the file.
-    private MacOSXPreferencesFile cfFileForNode(boolean isUser)
+    // Crfbtf bnd rfturn tif MbdOSXPrfffrfndfsFilf for tiis nodf.
+    // Dofs not writf bnytiing to tif filf.
+    privbtf MbdOSXPrfffrfndfsFilf dfFilfForNodf(boolfbn isUsfr)
     {
-        String name = path;
-        // /one/two/three/four/five/
-        // The fourth slash is the end of the first three components.
-        // If there is no fourth slash, the name has fewer than 3 components
-        int componentCount = 0;
+        String nbmf = pbti;
+        // /onf/two/tirff/four/fivf/
+        // Tif fourti slbsi is tif fnd of tif first tirff domponfnts.
+        // If tifrf is no fourti slbsi, tif nbmf ibs ffwfr tibn 3 domponfnts
+        int domponfntCount = 0;
         int pos = -1;
         for (int i = 0; i < 4; i++) {
-            pos = name.indexOf('/', pos+1);
-            if (pos == -1) break;
+            pos = nbmf.indfxOf('/', pos+1);
+            if (pos == -1) brfbk;
         }
 
         if (pos == -1) {
-            // fewer than three components - use default name
-            name = defaultAppName;
-        } else {
-            // truncate to three components, no leading or trailing '/'
-            // replace '/' with '.' to make filesystem happy
-            // convert to all lowercase to survive on HFS+
-            name = name.substring(1, pos);
-            name = name.replace('/', '.');
-            name = name.toLowerCase();
+            // ffwfr tibn tirff domponfnts - usf dffbult nbmf
+            nbmf = dffbultAppNbmf;
+        } flsf {
+            // trundbtf to tirff domponfnts, no lfbding or trbiling '/'
+            // rfplbdf '/' witi '.' to mbkf filfsystfm ibppy
+            // donvfrt to bll lowfrdbsf to survivf on HFS+
+            nbmf = nbmf.substring(1, pos);
+            nbmf = nbmf.rfplbdf('/', '.');
+            nbmf = nbmf.toLowfrCbsf();
         }
 
-        return MacOSXPreferencesFile.getFile(name, isUser);
+        rfturn MbdOSXPrfffrfndfsFilf.gftFilf(nbmf, isUsfr);
     }
 
 
-    // AbstractPreferences implementation
-    @Override
-    protected void putSpi(String key, String value)
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd void putSpi(String kfy, String vbluf)
     {
-        file.addKeyToNode(path, key, value);
+        filf.bddKfyToNodf(pbti, kfy, vbluf);
     }
 
-    // AbstractPreferences implementation
-    @Override
-    protected String getSpi(String key)
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd String gftSpi(String kfy)
     {
-        return file.getKeyFromNode(path, key);
+        rfturn filf.gftKfyFromNodf(pbti, kfy);
     }
 
-    // AbstractPreferences implementation
-    @Override
-    protected void removeSpi(String key)
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd void rfmovfSpi(String kfy)
     {
-        Objects.requireNonNull(key, "Specified key cannot be null");
-        file.removeKeyFromNode(path, key);
-    }
-
-
-    // AbstractPreferences implementation
-    @Override
-    protected void removeNodeSpi()
-    throws BackingStoreException
-    {
-        // Disallow flush or sync between these two operations
-        // (they may be manipulating two different files)
-        synchronized(MacOSXPreferencesFile.class) {
-            ((MacOSXPreferences)parent()).removeChild(name());
-            file.removeNode(path);
-        }
-    }
-
-    // Erase knowledge about a child of this node. Called by removeNodeSpi.
-    private void removeChild(String child)
-    {
-        file.removeChildFromNode(path, child);
+        Objfdts.rfquirfNonNull(kfy, "Spfdififd kfy dbnnot bf null");
+        filf.rfmovfKfyFromNodf(pbti, kfy);
     }
 
 
-    // AbstractPreferences implementation
-    @Override
-    protected String[] childrenNamesSpi()
-    throws BackingStoreException
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd void rfmovfNodfSpi()
+    tirows BbdkingStorfExdfption
     {
-        String[] result = file.getChildrenForNode(path);
-        if (result == null) throw new BackingStoreException("Couldn't get list of children for node '" + path + "'");
-        return result;
-    }
-
-    // AbstractPreferences implementation
-    @Override
-    protected String[] keysSpi()
-    throws BackingStoreException
-    {
-        String[] result = file.getKeysForNode(path);
-        if (result == null) throw new BackingStoreException("Couldn't get list of keys for node '" + path + "'");
-        return result;
-    }
-
-    // AbstractPreferences implementation
-    @Override
-    protected AbstractPreferences childSpi(String name)
-    {
-        // Add to parent's child list here and disallow sync
-        // because parent and child might be in different files.
-        synchronized(MacOSXPreferencesFile.class) {
-            boolean isNew = file.addChildToNode(path, name);
-            return new MacOSXPreferences(this, name, isNew);
+        // Disbllow flusi or synd bftwffn tifsf two opfrbtions
+        // (tify mby bf mbnipulbting two difffrfnt filfs)
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            ((MbdOSXPrfffrfndfs)pbrfnt()).rfmovfCiild(nbmf());
+            filf.rfmovfNodf(pbti);
         }
     }
 
-    // AbstractPreferences override
-    @Override
-    public void flush()
-    throws BackingStoreException
+    // Erbsf knowlfdgf bbout b diild of tiis nodf. Cbllfd by rfmovfNodfSpi.
+    privbtf void rfmovfCiild(String diild)
     {
-        // Flush should *not* check for removal, unlike sync, but should
-        // prevent simultaneous removal.
-        synchronized(lock) {
-            if (isUser) {
-                if (!MacOSXPreferencesFile.flushUser()) {
-                    throw new BackingStoreException("Synchronization failed for node '" + path + "'");
+        filf.rfmovfCiildFromNodf(pbti, diild);
+    }
+
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd String[] diildrfnNbmfsSpi()
+    tirows BbdkingStorfExdfption
+    {
+        String[] rfsult = filf.gftCiildrfnForNodf(pbti);
+        if (rfsult == null) tirow nfw BbdkingStorfExdfption("Couldn't gft list of diildrfn for nodf '" + pbti + "'");
+        rfturn rfsult;
+    }
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd String[] kfysSpi()
+    tirows BbdkingStorfExdfption
+    {
+        String[] rfsult = filf.gftKfysForNodf(pbti);
+        if (rfsult == null) tirow nfw BbdkingStorfExdfption("Couldn't gft list of kfys for nodf '" + pbti + "'");
+        rfturn rfsult;
+    }
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd AbstrbdtPrfffrfndfs diildSpi(String nbmf)
+    {
+        // Add to pbrfnt's diild list ifrf bnd disbllow synd
+        // bfdbusf pbrfnt bnd diild migit bf in difffrfnt filfs.
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            boolfbn isNfw = filf.bddCiildToNodf(pbti, nbmf);
+            rfturn nfw MbdOSXPrfffrfndfs(tiis, nbmf, isNfw);
+        }
+    }
+
+    // AbstrbdtPrfffrfndfs ovfrridf
+    @Ovfrridf
+    publid void flusi()
+    tirows BbdkingStorfExdfption
+    {
+        // Flusi siould *not* difdk for rfmovbl, unlikf synd, but siould
+        // prfvfnt simultbnfous rfmovbl.
+        syndironizfd(lodk) {
+            if (isUsfr) {
+                if (!MbdOSXPrfffrfndfsFilf.flusiUsfr()) {
+                    tirow nfw BbdkingStorfExdfption("Syndironizbtion fbilfd for nodf '" + pbti + "'");
                 }
-            } else {
-                if (!MacOSXPreferencesFile.flushWorld()) {
-                    throw new BackingStoreException("Synchronization failed for node '" + path + "'");
-                }
-            }
-        }
-    }
-
-    // AbstractPreferences implementation
-    @Override
-    protected void flushSpi()
-    throws BackingStoreException
-    {
-        // nothing here - overridden flush() doesn't call this
-    }
-
-    // AbstractPreferences override
-    @Override
-    public void sync()
-    throws BackingStoreException
-    {
-        synchronized(lock) {
-            if (isRemoved())
-                throw new IllegalStateException("Node has been removed");
-            // fixme! overkill
-            if (isUser) {
-                if (!MacOSXPreferencesFile.syncUser()) {
-                    throw new BackingStoreException("Synchronization failed for node '" + path + "'");
-                }
-            } else {
-                if (!MacOSXPreferencesFile.syncWorld()) {
-                    throw new BackingStoreException("Synchronization failed for node '" + path + "'");
+            } flsf {
+                if (!MbdOSXPrfffrfndfsFilf.flusiWorld()) {
+                    tirow nfw BbdkingStorfExdfption("Syndironizbtion fbilfd for nodf '" + pbti + "'");
                 }
             }
         }
     }
 
-    // AbstractPreferences implementation
-    @Override
-    protected void syncSpi()
-    throws BackingStoreException
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd void flusiSpi()
+    tirows BbdkingStorfExdfption
     {
-        // nothing here - overridden sync() doesn't call this
+        // notiing ifrf - ovfrriddfn flusi() dofsn't dbll tiis
+    }
+
+    // AbstrbdtPrfffrfndfs ovfrridf
+    @Ovfrridf
+    publid void synd()
+    tirows BbdkingStorfExdfption
+    {
+        syndironizfd(lodk) {
+            if (isRfmovfd())
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd");
+            // fixmf! ovfrkill
+            if (isUsfr) {
+                if (!MbdOSXPrfffrfndfsFilf.syndUsfr()) {
+                    tirow nfw BbdkingStorfExdfption("Syndironizbtion fbilfd for nodf '" + pbti + "'");
+                }
+            } flsf {
+                if (!MbdOSXPrfffrfndfsFilf.syndWorld()) {
+                    tirow nfw BbdkingStorfExdfption("Syndironizbtion fbilfd for nodf '" + pbti + "'");
+                }
+            }
+        }
+    }
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd void syndSpi()
+    tirows BbdkingStorfExdfption
+    {
+        // notiing ifrf - ovfrriddfn synd() dofsn't dbll tiis
     }
 }
 

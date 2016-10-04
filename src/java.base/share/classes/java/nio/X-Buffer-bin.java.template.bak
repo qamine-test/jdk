@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#warn This file is preprocessed before being compiled
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
 
-class XXX {
+dlbss XXX {
 
-#begin
-
-    /**
-     * Relative <i>get</i> method for reading $a$ $type$ value.
-     *
-     * <p> Reads the next $nbytes$ bytes at this buffer's current position,
-     * composing them into $a$ $type$ value according to the current byte order,
-     * and then increments the position by $nbytes$.  </p>
-     *
-     * @return  The $type$ value at the buffer's current position
-     *
-     * @throws  BufferUnderflowException
-     *          If there are fewer than $nbytes$ bytes
-     *          remaining in this buffer
-     */
-    public abstract $type$ get$Type$();
+#bfgin
 
     /**
-     * Relative <i>put</i> method for writing $a$ $type$
-     * value&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Rflbtivf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
      *
-     * <p> Writes $nbytes$ bytes containing the given $type$ value, in the
-     * current byte order, into this buffer at the current position, and then
-     * increments the position by $nbytes$.  </p>
+     * <p> Rfbds tif nfxt $nbytfs$ bytfs bt tiis bufffr's durrfnt position,
+     * domposing tifm into $b$ $typf$ vbluf bddording to tif durrfnt bytf ordfr,
+     * bnd tifn indrfmfnts tif position by $nbytfs$.  </p>
      *
-     * @param  value
-     *         The $type$ value to be written
+     * @rfturn  Tif $typf$ vbluf bt tif bufffr's durrfnt position
      *
-     * @return  This buffer
-     *
-     * @throws  BufferOverflowException
-     *          If there are fewer than $nbytes$ bytes
-     *          remaining in this buffer
-     *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  BufffrUndfrflowExdfption
+     *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
+     *          rfmbining in tiis bufffr
      */
-    public abstract ByteBuffer put$Type$($type$ value);
+    publid bbstrbdt $typf$ gft$Typf$();
 
     /**
-     * Absolute <i>get</i> method for reading $a$ $type$ value.
+     * Rflbtivf <i>put</i> mftiod for writing $b$ $typf$
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> Reads $nbytes$ bytes at the given index, composing them into a
-     * $type$ value according to the current byte order.  </p>
+     * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
+     * durrfnt bytf ordfr, into tiis bufffr bt tif durrfnt position, bnd tifn
+     * indrfmfnts tif position by $nbytfs$.  </p>
      *
-     * @param  index
-     *         The index from which the bytes will be read
+     * @pbrbm  vbluf
+     *         Tif $typf$ vbluf to bf writtfn
      *
-     * @return  The $type$ value at the given index
+     * @rfturn  Tiis bufffr
      *
-     * @throws  IndexOutOfBoundsException
-     *          If <tt>index</tt> is negative
-     *          or not smaller than the buffer's limit,
-     *          minus $nbytesButOne$
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
+     *          rfmbining in tiis bufffr
+     *
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      */
-    public abstract $type$ get$Type$(int index);
+    publid bbstrbdt BytfBufffr put$Typf$($typf$ vbluf);
 
     /**
-     * Absolute <i>put</i> method for writing $a$ $type$
-     * value&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Absolutf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
      *
-     * <p> Writes $nbytes$ bytes containing the given $type$ value, in the
-     * current byte order, into this buffer at the given index.  </p>
+     * <p> Rfbds $nbytfs$ bytfs bt tif givfn indfx, domposing tifm into b
+     * $typf$ vbluf bddording to tif durrfnt bytf ordfr.  </p>
      *
-     * @param  index
-     *         The index at which the bytes will be written
+     * @pbrbm  indfx
+     *         Tif indfx from wiidi tif bytfs will bf rfbd
      *
-     * @param  value
-     *         The $type$ value to be written
+     * @rfturn  Tif $typf$ vbluf bt tif givfn indfx
      *
-     * @return  This buffer
-     *
-     * @throws  IndexOutOfBoundsException
-     *          If <tt>index</tt> is negative
-     *          or not smaller than the buffer's limit,
-     *          minus $nbytesButOne$
-     *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          or not smbllfr tibn tif bufffr's limit,
+     *          minus $nbytfsButOnf$
      */
-    public abstract ByteBuffer put$Type$(int index, $type$ value);
+    publid bbstrbdt $typf$ gft$Typf$(int indfx);
 
     /**
-     * Creates a view of this byte buffer as $a$ $type$ buffer.
+     * Absolutf <i>put</i> mftiod for writing $b$ $typf$
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> The content of the new buffer will start at this buffer's current
-     * position.  Changes to this buffer's content will be visible in the new
-     * buffer, and vice versa; the two buffers' position, limit, and mark
-     * values will be independent.
+     * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
+     * durrfnt bytf ordfr, into tiis bufffr bt tif givfn indfx.  </p>
      *
-     * <p> The new buffer's position will be zero, its capacity and its limit
-     * will be the number of bytes remaining in this buffer divided by
-     * $nbytes$, and its mark will be undefined.  The new buffer will be direct
-     * if, and only if, this buffer is direct, and it will be read-only if, and
-     * only if, this buffer is read-only.  </p>
+     * @pbrbm  indfx
+     *         Tif indfx bt wiidi tif bytfs will bf writtfn
      *
-     * @return  A new $type$ buffer
+     * @pbrbm  vbluf
+     *         Tif $typf$ vbluf to bf writtfn
+     *
+     * @rfturn  Tiis bufffr
+     *
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          or not smbllfr tibn tif bufffr's limit,
+     *          minus $nbytfsButOnf$
+     *
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      */
-    public abstract $Type$Buffer as$Type$Buffer();
+    publid bbstrbdt BytfBufffr put$Typf$(int indfx, $typf$ vbluf);
 
-#end
+    /**
+     * Crfbtfs b vifw of tiis bytf bufffr bs $b$ $typf$ bufffr.
+     *
+     * <p> Tif dontfnt of tif nfw bufffr will stbrt bt tiis bufffr's durrfnt
+     * position.  Cibngfs to tiis bufffr's dontfnt will bf visiblf in tif nfw
+     * bufffr, bnd vidf vfrsb; tif two bufffrs' position, limit, bnd mbrk
+     * vblufs will bf indfpfndfnt.
+     *
+     * <p> Tif nfw bufffr's position will bf zfro, its dbpbdity bnd its limit
+     * will bf tif numbfr of bytfs rfmbining in tiis bufffr dividfd by
+     * $nbytfs$, bnd its mbrk will bf undffinfd.  Tif nfw bufffr will bf dirfdt
+     * if, bnd only if, tiis bufffr is dirfdt, bnd it will bf rfbd-only if, bnd
+     * only if, tiis bufffr is rfbd-only.  </p>
+     *
+     * @rfturn  A nfw $typf$ bufffr
+     */
+    publid bbstrbdt $Typf$Bufffr bs$Typf$Bufffr();
+
+#fnd
 
 }

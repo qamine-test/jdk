@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.print;
+import jbvb.io.IOExdfption;
+
+/**
+ * Thf <dodf>PrintfrIOExdfption</dodf> dlbss is b subdlbss of
+ * {@link PrintfrExdfption} bnd is usfd to indidbtf thbt bn IO frror
+ * of somf sort hbs oddurrfd whilf printing.
+ *
+ * <p>As of rflfbsf 1.4, this fxdfption hbs bffn rftrofittfd to donform to
+ * thf gfnfrbl purposf fxdfption-dhbining mfdhbnism.  Thf
+ * "<dodf>IOExdfption</dodf> thbt tfrminbtfd thf print job"
+ * thbt is providfd bt donstrudtion timf bnd bddfssfd vib thf
+ * {@link #gftIOExdfption()} mfthod is now known bs thf <i>dbusf</i>,
+ * bnd mby bf bddfssfd vib thf {@link Throwbblf#gftCbusf()} mfthod,
+ * bs wfll bs thf bforfmfntionfd "lfgbdy mfthod."
+ */
+publid dlbss PrintfrIOExdfption fxtfnds PrintfrExdfption {
+    stbtid finbl long sfriblVfrsionUID = 5850870712125932846L;
+
+    /**
+     * Thf IO frror thbt tfrminbtfd thf print job.
+     * @sfribl
+     */
+    privbtf IOExdfption mExdfption;
+
+    /**
+     * Construdts b nfw <dodf>PrintfrIOExdfption</dodf>
+     * with thf string rfprfsfntbtion of thf spfdififd
+     * {@link IOExdfption}.
+     * @pbrbm fxdfption thf spfdififd <dodf>IOExdfption</dodf>
+     */
+    publid PrintfrIOExdfption(IOExdfption fxdfption) {
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        mExdfption = fxdfption;
+    }
+
+    /**
+     * Rfturns thf <dodf>IOExdfption</dodf> thbt tfrminbtfd
+     * thf print job.
+     *
+     * <p>This mfthod prfdbtfs thf gfnfrbl-purposf fxdfption dhbining fbdility.
+     * Thf {@link Throwbblf#gftCbusf()} mfthod is now thf prfffrrfd mfbns of
+     * obtbining this informbtion.
+     *
+     * @rfturn thf <dodf>IOExdfption</dodf> thbt tfrminbtfd
+     * thf print job.
+     * @sff IOExdfption
+     */
+    publid IOExdfption gftIOExdfption() {
+        rfturn mExdfption;
+    }
+
+    /**
+     * Rfturns thf thf dbusf of this fxdfption (thf <dodf>IOExdfption</dodf>
+     * thbt tfrminbtfd thf print job).
+     *
+     * @rfturn  thf dbusf of this fxdfption.
+     * @sindf   1.4
+     */
+    publid Throwbblf gftCbusf() {
+        rfturn mExdfption;
+    }
+}

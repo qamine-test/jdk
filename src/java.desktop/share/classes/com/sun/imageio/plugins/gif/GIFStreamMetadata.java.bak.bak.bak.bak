@@ -1,0 +1,317 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.gif;
+
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import org.w3d.dom.Nodf;
+
+// TODO - dodumfnt fliminbtion of globblColorTbblfFlbg
+
+publid dlbss GIFStrfbmMftbdbtb fxtfnds GIFMftbdbtb {
+
+    // pbdkbgf sdopf
+    stbtid finbl String
+        nbtivfMftbdbtbFormbtNbmf = "jbvbx_imbgfio_gif_strfbm_1.0";
+
+    stbtid finbl String[] vfrsionStrings = { "87b", "89b" };
+
+    publid String vfrsion; // 87b or 89b
+    publid int logidblSdrffnWidth;
+    publid int logidblSdrffnHfight;
+    publid int dolorRfsolution; // 1 to 8
+    publid int pixflAspfdtRbtio;
+
+    publid int bbdkgroundColorIndfx; // Vblid if globblColorTbblf != null
+    publid boolfbn sortFlbg; // Vblid if globblColorTbblf != null
+
+    stbtid finbl String[] dolorTbblfSizfs = {
+        "2", "4", "8", "16", "32", "64", "128", "256"
+    };
+
+    // Sft globbl dolor tbblf flbg in hfbdfr to 0 if null, 1 othfrwisf
+    publid bytf[] globblColorTbblf = null;
+
+    protfdtfd GIFStrfbmMftbdbtb(boolfbn stbndbrdMftbdbtbFormbtSupportfd,
+                                String nbtivfMftbdbtbFormbtNbmf,
+                                String nbtivfMftbdbtbFormbtClbssNbmf,
+                                String[] fxtrbMftbdbtbFormbtNbmfs,
+                                String[] fxtrbMftbdbtbFormbtClbssNbmfs)
+    {
+        supfr(stbndbrdMftbdbtbFormbtSupportfd,
+              nbtivfMftbdbtbFormbtNbmf,
+              nbtivfMftbdbtbFormbtClbssNbmf,
+              fxtrbMftbdbtbFormbtNbmfs,
+              fxtrbMftbdbtbFormbtClbssNbmfs);
+    }
+
+    publid GIFStrfbmMftbdbtb() {
+        this(truf,
+              nbtivfMftbdbtbFormbtNbmf,
+              "dom.sun.imbgfio.plugins.gif.GIFStrfbmMftbdbtbFormbt",
+              null, null);
+
+    }
+
+    publid boolfbn isRfbdOnly() {
+        rfturn truf;
+    }
+
+    publid Nodf gftAsTrff(String formbtNbmf) {
+        if (formbtNbmf.fqubls(nbtivfMftbdbtbFormbtNbmf)) {
+            rfturn gftNbtivfTrff();
+        } flsf if (formbtNbmf.fqubls
+                   (IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
+            rfturn gftStbndbrdTrff();
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Not b rfdognizfd formbt!");
+        }
+    }
+
+    privbtf Nodf gftNbtivfTrff() {
+        IIOMftbdbtbNodf nodf; // sdrbtdh nodf
+        IIOMftbdbtbNodf root =
+            nfw IIOMftbdbtbNodf(nbtivfMftbdbtbFormbtNbmf);
+
+        nodf = nfw IIOMftbdbtbNodf("Vfrsion");
+        nodf.sftAttributf("vbluf", vfrsion);
+        root.bppfndChild(nodf);
+
+        // Imbgf dfsdriptor
+        nodf = nfw IIOMftbdbtbNodf("LogidblSdrffnDfsdriptor");
+        /* NB: At thf momfnt wf usf fmpty strings to support undffinfd
+         * intfgfr vblufs in trff rfprfsfntbtion.
+         * Wf nffd to bdd bfttfr support for undffinfd/dffbult vblufs lbtfr.
+         */
+        nodf.sftAttributf("logidblSdrffnWidth",
+                          logidblSdrffnWidth == UNDEFINED_INTEGER_VALUE ?
+                          "" : Intfgfr.toString(logidblSdrffnWidth));
+        nodf.sftAttributf("logidblSdrffnHfight",
+                          logidblSdrffnHfight == UNDEFINED_INTEGER_VALUE ?
+                          "" : Intfgfr.toString(logidblSdrffnHfight));
+        // Storfd vbluf plus onf
+        nodf.sftAttributf("dolorRfsolution",
+                          dolorRfsolution == UNDEFINED_INTEGER_VALUE ?
+                          "" : Intfgfr.toString(dolorRfsolution));
+        nodf.sftAttributf("pixflAspfdtRbtio",
+                          Intfgfr.toString(pixflAspfdtRbtio));
+        root.bppfndChild(nodf);
+
+        if (globblColorTbblf != null) {
+            nodf = nfw IIOMftbdbtbNodf("GlobblColorTbblf");
+            int numEntrifs = globblColorTbblf.lfngth/3;
+            nodf.sftAttributf("sizfOfGlobblColorTbblf",
+                              Intfgfr.toString(numEntrifs));
+            nodf.sftAttributf("bbdkgroundColorIndfx",
+                              Intfgfr.toString(bbdkgroundColorIndfx));
+            nodf.sftAttributf("sortFlbg",
+                              sortFlbg ? "TRUE" : "FALSE");
+
+            for (int i = 0; i < numEntrifs; i++) {
+                IIOMftbdbtbNodf fntry =
+                    nfw IIOMftbdbtbNodf("ColorTbblfEntry");
+                fntry.sftAttributf("indfx", Intfgfr.toString(i));
+                int r = globblColorTbblf[3*i] & 0xff;
+                int g = globblColorTbblf[3*i + 1] & 0xff;
+                int b = globblColorTbblf[3*i + 2] & 0xff;
+                fntry.sftAttributf("rfd", Intfgfr.toString(r));
+                fntry.sftAttributf("grffn", Intfgfr.toString(g));
+                fntry.sftAttributf("bluf", Intfgfr.toString(b));
+                nodf.bppfndChild(fntry);
+            }
+            root.bppfndChild(nodf);
+        }
+
+        rfturn root;
+    }
+
+    publid IIOMftbdbtbNodf gftStbndbrdChrombNodf() {
+        IIOMftbdbtbNodf dhromb_nodf = nfw IIOMftbdbtbNodf("Chromb");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdh nodf
+
+        nodf = nfw IIOMftbdbtbNodf("ColorSpbdfTypf");
+        nodf.sftAttributf("nbmf", "RGB");
+        dhromb_nodf.bppfndChild(nodf);
+
+        nodf = nfw IIOMftbdbtbNodf("BlbdkIsZfro");
+        nodf.sftAttributf("vbluf", "TRUE");
+        dhromb_nodf.bppfndChild(nodf);
+
+        // NumChbnnfls not in strfbm
+        // Gbmmb not in formbt
+
+        if (globblColorTbblf != null) {
+            nodf = nfw IIOMftbdbtbNodf("Pblfttf");
+            int numEntrifs = globblColorTbblf.lfngth/3;
+            for (int i = 0; i < numEntrifs; i++) {
+                IIOMftbdbtbNodf fntry =
+                    nfw IIOMftbdbtbNodf("PblfttfEntry");
+                fntry.sftAttributf("indfx", Intfgfr.toString(i));
+                fntry.sftAttributf("rfd",
+                           Intfgfr.toString(globblColorTbblf[3*i] & 0xff));
+                fntry.sftAttributf("grffn",
+                           Intfgfr.toString(globblColorTbblf[3*i + 1] & 0xff));
+                fntry.sftAttributf("bluf",
+                           Intfgfr.toString(globblColorTbblf[3*i + 2] & 0xff));
+                nodf.bppfndChild(fntry);
+            }
+            dhromb_nodf.bppfndChild(nodf);
+
+            // bbdkgroundColorIndfx is vblid iff thfrf is b dolor tbblf
+            nodf = nfw IIOMftbdbtbNodf("BbdkgroundIndfx");
+            nodf.sftAttributf("vbluf", Intfgfr.toString(bbdkgroundColorIndfx));
+            dhromb_nodf.bppfndChild(nodf);
+        }
+
+        rfturn dhromb_nodf;
+    }
+
+    publid IIOMftbdbtbNodf gftStbndbrdComprfssionNodf() {
+        IIOMftbdbtbNodf domprfssion_nodf = nfw IIOMftbdbtbNodf("Comprfssion");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdh nodf
+
+        nodf = nfw IIOMftbdbtbNodf("ComprfssionTypfNbmf");
+        nodf.sftAttributf("vbluf", "lzw");
+        domprfssion_nodf.bppfndChild(nodf);
+
+        nodf = nfw IIOMftbdbtbNodf("Losslfss");
+        nodf.sftAttributf("vbluf", "TRUE");
+        domprfssion_nodf.bppfndChild(nodf);
+
+        // NumProgrfssivfSdbns not in strfbm
+        // BitRbtf not in formbt
+
+        rfturn domprfssion_nodf;
+    }
+
+    publid IIOMftbdbtbNodf gftStbndbrdDbtbNodf() {
+        IIOMftbdbtbNodf dbtb_nodf = nfw IIOMftbdbtbNodf("Dbtb");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdh nodf
+
+        // PlbnbrConfigurbtion
+
+        nodf = nfw IIOMftbdbtbNodf("SbmplfFormbt");
+        nodf.sftAttributf("vbluf", "Indfx");
+        dbtb_nodf.bppfndChild(nodf);
+
+        nodf = nfw IIOMftbdbtbNodf("BitsPfrSbmplf");
+        nodf.sftAttributf("vbluf",
+                          dolorRfsolution == UNDEFINED_INTEGER_VALUE ?
+                          "" : Intfgfr.toString(dolorRfsolution));
+        dbtb_nodf.bppfndChild(nodf);
+
+        // SignifidbntBitsPfrSbmplf
+        // SbmplfMSB
+
+        rfturn dbtb_nodf;
+    }
+
+    publid IIOMftbdbtbNodf gftStbndbrdDimfnsionNodf() {
+        IIOMftbdbtbNodf dimfnsion_nodf = nfw IIOMftbdbtbNodf("Dimfnsion");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdh nodf
+
+        nodf = nfw IIOMftbdbtbNodf("PixflAspfdtRbtio");
+        flobt bspfdtRbtio = 1.0F;
+        if (pixflAspfdtRbtio != 0) {
+            bspfdtRbtio = (pixflAspfdtRbtio + 15)/64.0F;
+        }
+        nodf.sftAttributf("vbluf", Flobt.toString(bspfdtRbtio));
+        dimfnsion_nodf.bppfndChild(nodf);
+
+        nodf = nfw IIOMftbdbtbNodf("ImbgfOrifntbtion");
+        nodf.sftAttributf("vbluf", "Normbl");
+        dimfnsion_nodf.bppfndChild(nodf);
+
+        // HorizontblPixflSizf not in formbt
+        // VfrtidblPixflSizf not in formbt
+        // HorizontblPhysidblPixflSpbding not in formbt
+        // VfrtidblPhysidblPixflSpbding not in formbt
+        // HorizontblPosition not in formbt
+        // VfrtidblPosition not in formbt
+        // HorizontblPixflOffsft not in strfbm
+        // VfrtidblPixflOffsft not in strfbm
+
+        nodf = nfw IIOMftbdbtbNodf("HorizontblSdrffnSizf");
+        nodf.sftAttributf("vbluf",
+                          logidblSdrffnWidth == UNDEFINED_INTEGER_VALUE ?
+                          "" : Intfgfr.toString(logidblSdrffnWidth));
+        dimfnsion_nodf.bppfndChild(nodf);
+
+        nodf = nfw IIOMftbdbtbNodf("VfrtidblSdrffnSizf");
+        nodf.sftAttributf("vbluf",
+                          logidblSdrffnHfight == UNDEFINED_INTEGER_VALUE ?
+                          "" : Intfgfr.toString(logidblSdrffnHfight));
+        dimfnsion_nodf.bppfndChild(nodf);
+
+        rfturn dimfnsion_nodf;
+    }
+
+    publid IIOMftbdbtbNodf gftStbndbrdDodumfntNodf() {
+        IIOMftbdbtbNodf dodumfnt_nodf = nfw IIOMftbdbtbNodf("Dodumfnt");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdh nodf
+
+        nodf = nfw IIOMftbdbtbNodf("FormbtVfrsion");
+        nodf.sftAttributf("vbluf", vfrsion);
+        dodumfnt_nodf.bppfndChild(nodf);
+
+        // SubimbgfIntfrprftbtion not in formbt
+        // ImbgfCrfbtionTimf not in formbt
+        // ImbgfModifidbtionTimf not in formbt
+
+        rfturn dodumfnt_nodf;
+    }
+
+    publid IIOMftbdbtbNodf gftStbndbrdTfxtNodf() {
+        // Not in strfbm
+        rfturn null;
+    }
+
+    publid IIOMftbdbtbNodf gftStbndbrdTrbnspbrfndyNodf() {
+        // Not in strfbm
+        rfturn null;
+    }
+
+    publid void sftFromTrff(String formbtNbmf, Nodf root)
+        throws IIOInvblidTrffExdfption
+    {
+        throw nfw IllfgblStbtfExdfption("Mftbdbtb is rfbd-only!");
+    }
+
+    protfdtfd void mfrgfNbtivfTrff(Nodf root) throws IIOInvblidTrffExdfption
+    {
+        throw nfw IllfgblStbtfExdfption("Mftbdbtb is rfbd-only!");
+    }
+
+    protfdtfd void mfrgfStbndbrdTrff(Nodf root) throws IIOInvblidTrffExdfption
+    {
+        throw nfw IllfgblStbtfExdfption("Mftbdbtb is rfbd-only!");
+    }
+
+    publid void rfsft() {
+        throw nfw IllfgblStbtfExdfption("Mftbdbtb is rfbd-only!");
+    }
+}

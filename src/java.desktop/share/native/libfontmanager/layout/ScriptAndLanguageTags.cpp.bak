@@ -1,278 +1,278 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2013. All Rights Reserved.
+ * (C) Copyrigit IBM Corp. 1998-2013. All Rigits Rfsfrvfd.
  *
  * WARNING: THIS FILE IS MACHINE GENERATED. DO NOT HAND EDIT IT UNLESS
  * YOU REALLY KNOW WHAT YOU'RE DOING.
  *
- * Generated on: 10/26/2010 02:53:33 PM PDT
+ * Gfnfrbtfd on: 10/26/2010 02:53:33 PM PDT
  */
 
-#include "LETypes.h"
-#include "ScriptAndLanguageTags.h"
-#include "OpenTypeLayoutEngine.h"
+#indludf "LETypfs.i"
+#indludf "SdriptAndLbngubgfTbgs.i"
+#indludf "OpfnTypfLbyoutEnginf.i"
 
 U_NAMESPACE_BEGIN
 
-const LETag OpenTypeLayoutEngine::scriptTags[] = {
-    zyyyScriptTag, /* 'zyyy' (COMMON) */
-    zinhScriptTag, /* 'zinh' (INHERITED) */
-    arabScriptTag, /* 'arab' (ARABIC) */
-    armnScriptTag, /* 'armn' (ARMENIAN) */
-    bengScriptTag, /* 'beng' (BENGALI) */
-    bopoScriptTag, /* 'bopo' (BOPOMOFO) */
-    cherScriptTag, /* 'cher' (CHEROKEE) */
-    coptScriptTag, /* 'copt' (COPTIC) */
-    cyrlScriptTag, /* 'cyrl' (CYRILLIC) */
-    dsrtScriptTag, /* 'dsrt' (DESERET) */
-    devaScriptTag, /* 'deva' (DEVANAGARI) */
-    ethiScriptTag, /* 'ethi' (ETHIOPIC) */
-    georScriptTag, /* 'geor' (GEORGIAN) */
-    gothScriptTag, /* 'goth' (GOTHIC) */
-    grekScriptTag, /* 'grek' (GREEK) */
-    gujrScriptTag, /* 'gujr' (GUJARATI) */
-    guruScriptTag, /* 'guru' (GURMUKHI) */
-    haniScriptTag, /* 'hani' (HAN) */
-    hangScriptTag, /* 'hang' (HANGUL) */
-    hebrScriptTag, /* 'hebr' (HEBREW) */
-    hiraScriptTag, /* 'hira' (HIRAGANA) */
-    kndaScriptTag, /* 'knda' (KANNADA) */
-    kanaScriptTag, /* 'kana' (KATAKANA) */
-    khmrScriptTag, /* 'khmr' (KHMER) */
-    laooScriptTag, /* 'lao ' (LAO) */
-    latnScriptTag, /* 'latn' (LATIN) */
-    mlymScriptTag, /* 'mlym' (MALAYALAM) */
-    mongScriptTag, /* 'mong' (MONGOLIAN) */
-    mymrScriptTag, /* 'mymr' (MYANMAR) */
-    ogamScriptTag, /* 'ogam' (OGHAM) */
-    italScriptTag, /* 'ital' (OLD_ITALIC) */
-    oryaScriptTag, /* 'orya' (ORIYA) */
-    runrScriptTag, /* 'runr' (RUNIC) */
-    sinhScriptTag, /* 'sinh' (SINHALA) */
-    syrcScriptTag, /* 'syrc' (SYRIAC) */
-    tamlScriptTag, /* 'taml' (TAMIL) */
-    teluScriptTag, /* 'telu' (TELUGU) */
-    thaaScriptTag, /* 'thaa' (THAANA) */
-    thaiScriptTag, /* 'thai' (THAI) */
-    tibtScriptTag, /* 'tibt' (TIBETAN) */
-    cansScriptTag, /* 'cans' (CANADIAN_ABORIGINAL) */
-    yiiiScriptTag, /* 'yi  ' (YI) */
-    tglgScriptTag, /* 'tglg' (TAGALOG) */
-    hanoScriptTag, /* 'hano' (HANUNOO) */
-    buhdScriptTag, /* 'buhd' (BUHID) */
-    tagbScriptTag, /* 'tagb' (TAGBANWA) */
-    braiScriptTag, /* 'brai' (BRAILLE) */
-    cprtScriptTag, /* 'cprt' (CYPRIOT) */
-    limbScriptTag, /* 'limb' (LIMBU) */
-    linbScriptTag, /* 'linb' (LINEAR_B) */
-    osmaScriptTag, /* 'osma' (OSMANYA) */
-    shawScriptTag, /* 'shaw' (SHAVIAN) */
-    taleScriptTag, /* 'tale' (TAI_LE) */
-    ugarScriptTag, /* 'ugar' (UGARITIC) */
-    hrktScriptTag, /* 'hrkt' (KATAKANA_OR_HIRAGANA) */
-    bugiScriptTag, /* 'bugi' (BUGINESE) */
-    glagScriptTag, /* 'glag' (GLAGOLITIC) */
-    kharScriptTag, /* 'khar' (KHAROSHTHI) */
-    syloScriptTag, /* 'sylo' (SYLOTI_NAGRI) */
-    taluScriptTag, /* 'talu' (NEW_TAI_LUE) */
-    tfngScriptTag, /* 'tfng' (TIFINAGH) */
-    xpeoScriptTag, /* 'xpeo' (OLD_PERSIAN) */
-    baliScriptTag, /* 'bali' (BALINESE) */
-    batkScriptTag, /* 'batk' (BATAK) */
-    blisScriptTag, /* 'blis' (BLIS) */
-    brahScriptTag, /* 'brah' (BRAHMI) */
-    chamScriptTag, /* 'cham' (CHAM) */
-    cirtScriptTag, /* 'cirt' (CIRT) */
-    cyrsScriptTag, /* 'cyrs' (CYRS) */
-    egydScriptTag, /* 'egyd' (EGYD) */
-    egyhScriptTag, /* 'egyh' (EGYH) */
-    egypScriptTag, /* 'egyp' (EGYPTIAN_HIEROGLYPHS) */
-    geokScriptTag, /* 'geok' (GEOK) */
-    hansScriptTag, /* 'hans' (HANS) */
-    hantScriptTag, /* 'hant' (HANT) */
-    hmngScriptTag, /* 'hmng' (HMNG) */
-    hungScriptTag, /* 'hung' (HUNG) */
-    indsScriptTag, /* 'inds' (INDS) */
-    javaScriptTag, /* 'java' (JAVANESE) */
-    kaliScriptTag, /* 'kali' (KAYAH_LI) */
-    latfScriptTag, /* 'latf' (LATF) */
-    latgScriptTag, /* 'latg' (LATG) */
-    lepcScriptTag, /* 'lepc' (LEPCHA) */
-    linaScriptTag, /* 'lina' (LINA) */
-    mandScriptTag, /* 'mand' (MANDAIC) */
-    mayaScriptTag, /* 'maya' (MAYA) */
-    meroScriptTag, /* 'mero' (MEROITIC_HIEROGLYPHS) */
-    nkooScriptTag, /* 'nko ' (NKO) */
-    orkhScriptTag, /* 'orkh' (OLD_TURKIC) */
-    permScriptTag, /* 'perm' (PERM) */
-    phagScriptTag, /* 'phag' (PHAGS_PA) */
-    phnxScriptTag, /* 'phnx' (PHOENICIAN) */
-    plrdScriptTag, /* 'plrd' (MIAO/POLLARD) */
-    roroScriptTag, /* 'roro' (RORO) */
-    saraScriptTag, /* 'sara' (SARA) */
-    syreScriptTag, /* 'syre' (SYRE) */
-    syrjScriptTag, /* 'syrj' (SYRJ) */
-    syrnScriptTag, /* 'syrn' (SYRN) */
-    tengScriptTag, /* 'teng' (TENG) */
-    vaiiScriptTag, /* 'vai ' (VAI) */
-    vispScriptTag, /* 'visp' (VISP) */
-    xsuxScriptTag, /* 'xsux' (CUNEIFORM) */
-    zxxxScriptTag, /* 'zxxx' (ZXXX) */
-    zzzzScriptTag, /* 'zzzz' (UNKNOWN) */
-    cariScriptTag, /* 'cari' (CARIAN) */
-    jpanScriptTag, /* 'jpan' (JPAN) */
-    lanaScriptTag, /* 'lana' (TAI_THAM) */
-    lyciScriptTag, /* 'lyci' (LYCIAN) */
-    lydiScriptTag, /* 'lydi' (LYDIAN) */
-    olckScriptTag, /* 'olck' (OL_CHIKI) */
-    rjngScriptTag, /* 'rjng' (REJANG) */
-    saurScriptTag, /* 'saur' (SAURASHTRA) */
-    sgnwScriptTag, /* 'sgnw' (SGNW) */
-    sundScriptTag, /* 'sund' (SUNDANESE) */
-    moonScriptTag, /* 'moon' (MOON) */
-    mteiScriptTag, /* 'mtei' (MEETEI_MAYEK) */
-    armiScriptTag, /* 'armi' (IMPERIAL_ARAMAIC) */
-    avstScriptTag, /* 'avst' (AVESTAN) */
-    cakmScriptTag, /* 'cakm' (CHAKMA) */
-    koreScriptTag, /* 'kore' (KORE) */
-    kthiScriptTag, /* 'kthi' (KAITHI) */
-    maniScriptTag, /* 'mani' (MANI) */
-    phliScriptTag, /* 'phli' (INSCRIPTIONAL_PAHLAVI) */
-    phlpScriptTag, /* 'phlp' (PHLP) */
-    phlvScriptTag, /* 'phlv' (PHLV) */
-    prtiScriptTag, /* 'prti' (INSCRIPTIONAL_PARTHIAN) */
-    samrScriptTag, /* 'samr' (SAMARITAN) */
-    tavtScriptTag, /* 'tavt' (TAI_VIET) */
-    zmthScriptTag, /* 'zmth' (ZMTH) */
-    zsymScriptTag, /* 'zsym' (ZSYM) */
-    bamuScriptTag, /* 'bamu' (BAMUM) */
-    lisuScriptTag, /* 'lisu' (LISU) */
-    nkgbScriptTag, /* 'nkgb' (NKGB) */
-    sarbScriptTag, /* 'sarb' (OLD_SOUTH_ARABIAN) */
-    bassScriptTag, /* 'bass' (BASS) */
-    duplScriptTag, /* 'dupl' (DUPL) */
-    elbaScriptTag, /* 'elba' (ELBA) */
-    granScriptTag, /* 'gran' (GRAN) */
-    kpelScriptTag, /* 'kpel' (KPEL) */
-    lomaScriptTag, /* 'loma' (LOMA) */
-    mendScriptTag, /* 'mend' (MEND) */
-    mercScriptTag, /* 'merc' (MEROITIC_CURSIVE) */
-    narbScriptTag, /* 'narb' (NARB) */
-    nbatScriptTag, /* 'nbat' (NBAT) */
-    palmScriptTag, /* 'palm' (PALM) */
-    sindScriptTag, /* 'sind' (SIND) */
-    waraScriptTag, /* 'wara' (WARA) */
-    afakScriptTag, /* 'afak' (AFAK) */
-    jurcScriptTag, /* 'jurc' (JURC) */
-    mrooScriptTag, /* 'mroo' (MROO) */
-    nshuScriptTag, /* 'nshu' (NSHU) */
-    shrdScriptTag, /* 'shrd' (SHARADA) */
-    soraScriptTag, /* 'sora' (SORA_SOMPENG) */
-    takrScriptTag, /* 'takr' (TAKRI) */
-    tangScriptTag, /* 'tang' (TANG) */
-    woleScriptTag, /* 'wole' (WOLE) */
-    khojScriptTag, /* 'khoj' (KHOJ) */
-    tirhScriptTag  /* 'tirh' (TIRH) */
+donst LETbg OpfnTypfLbyoutEnginf::sdriptTbgs[] = {
+    zyyySdriptTbg, /* 'zyyy' (COMMON) */
+    ziniSdriptTbg, /* 'zini' (INHERITED) */
+    brbbSdriptTbg, /* 'brbb' (ARABIC) */
+    brmnSdriptTbg, /* 'brmn' (ARMENIAN) */
+    bfngSdriptTbg, /* 'bfng' (BENGALI) */
+    bopoSdriptTbg, /* 'bopo' (BOPOMOFO) */
+    difrSdriptTbg, /* 'difr' (CHEROKEE) */
+    doptSdriptTbg, /* 'dopt' (COPTIC) */
+    dyrlSdriptTbg, /* 'dyrl' (CYRILLIC) */
+    dsrtSdriptTbg, /* 'dsrt' (DESERET) */
+    dfvbSdriptTbg, /* 'dfvb' (DEVANAGARI) */
+    ftiiSdriptTbg, /* 'ftii' (ETHIOPIC) */
+    gforSdriptTbg, /* 'gfor' (GEORGIAN) */
+    gotiSdriptTbg, /* 'goti' (GOTHIC) */
+    grfkSdriptTbg, /* 'grfk' (GREEK) */
+    gujrSdriptTbg, /* 'gujr' (GUJARATI) */
+    guruSdriptTbg, /* 'guru' (GURMUKHI) */
+    ibniSdriptTbg, /* 'ibni' (HAN) */
+    ibngSdriptTbg, /* 'ibng' (HANGUL) */
+    ifbrSdriptTbg, /* 'ifbr' (HEBREW) */
+    iirbSdriptTbg, /* 'iirb' (HIRAGANA) */
+    kndbSdriptTbg, /* 'kndb' (KANNADA) */
+    kbnbSdriptTbg, /* 'kbnb' (KATAKANA) */
+    kimrSdriptTbg, /* 'kimr' (KHMER) */
+    lbooSdriptTbg, /* 'lbo ' (LAO) */
+    lbtnSdriptTbg, /* 'lbtn' (LATIN) */
+    mlymSdriptTbg, /* 'mlym' (MALAYALAM) */
+    mongSdriptTbg, /* 'mong' (MONGOLIAN) */
+    mymrSdriptTbg, /* 'mymr' (MYANMAR) */
+    ogbmSdriptTbg, /* 'ogbm' (OGHAM) */
+    itblSdriptTbg, /* 'itbl' (OLD_ITALIC) */
+    orybSdriptTbg, /* 'oryb' (ORIYA) */
+    runrSdriptTbg, /* 'runr' (RUNIC) */
+    siniSdriptTbg, /* 'sini' (SINHALA) */
+    syrdSdriptTbg, /* 'syrd' (SYRIAC) */
+    tbmlSdriptTbg, /* 'tbml' (TAMIL) */
+    tfluSdriptTbg, /* 'tflu' (TELUGU) */
+    tibbSdriptTbg, /* 'tibb' (THAANA) */
+    tibiSdriptTbg, /* 'tibi' (THAI) */
+    tibtSdriptTbg, /* 'tibt' (TIBETAN) */
+    dbnsSdriptTbg, /* 'dbns' (CANADIAN_ABORIGINAL) */
+    yiiiSdriptTbg, /* 'yi  ' (YI) */
+    tglgSdriptTbg, /* 'tglg' (TAGALOG) */
+    ibnoSdriptTbg, /* 'ibno' (HANUNOO) */
+    buidSdriptTbg, /* 'buid' (BUHID) */
+    tbgbSdriptTbg, /* 'tbgb' (TAGBANWA) */
+    brbiSdriptTbg, /* 'brbi' (BRAILLE) */
+    dprtSdriptTbg, /* 'dprt' (CYPRIOT) */
+    limbSdriptTbg, /* 'limb' (LIMBU) */
+    linbSdriptTbg, /* 'linb' (LINEAR_B) */
+    osmbSdriptTbg, /* 'osmb' (OSMANYA) */
+    sibwSdriptTbg, /* 'sibw' (SHAVIAN) */
+    tblfSdriptTbg, /* 'tblf' (TAI_LE) */
+    ugbrSdriptTbg, /* 'ugbr' (UGARITIC) */
+    irktSdriptTbg, /* 'irkt' (KATAKANA_OR_HIRAGANA) */
+    bugiSdriptTbg, /* 'bugi' (BUGINESE) */
+    glbgSdriptTbg, /* 'glbg' (GLAGOLITIC) */
+    kibrSdriptTbg, /* 'kibr' (KHAROSHTHI) */
+    syloSdriptTbg, /* 'sylo' (SYLOTI_NAGRI) */
+    tbluSdriptTbg, /* 'tblu' (NEW_TAI_LUE) */
+    tfngSdriptTbg, /* 'tfng' (TIFINAGH) */
+    xpfoSdriptTbg, /* 'xpfo' (OLD_PERSIAN) */
+    bbliSdriptTbg, /* 'bbli' (BALINESE) */
+    bbtkSdriptTbg, /* 'bbtk' (BATAK) */
+    blisSdriptTbg, /* 'blis' (BLIS) */
+    brbiSdriptTbg, /* 'brbi' (BRAHMI) */
+    dibmSdriptTbg, /* 'dibm' (CHAM) */
+    dirtSdriptTbg, /* 'dirt' (CIRT) */
+    dyrsSdriptTbg, /* 'dyrs' (CYRS) */
+    fgydSdriptTbg, /* 'fgyd' (EGYD) */
+    fgyiSdriptTbg, /* 'fgyi' (EGYH) */
+    fgypSdriptTbg, /* 'fgyp' (EGYPTIAN_HIEROGLYPHS) */
+    gfokSdriptTbg, /* 'gfok' (GEOK) */
+    ibnsSdriptTbg, /* 'ibns' (HANS) */
+    ibntSdriptTbg, /* 'ibnt' (HANT) */
+    imngSdriptTbg, /* 'imng' (HMNG) */
+    iungSdriptTbg, /* 'iung' (HUNG) */
+    indsSdriptTbg, /* 'inds' (INDS) */
+    jbvbSdriptTbg, /* 'jbvb' (JAVANESE) */
+    kbliSdriptTbg, /* 'kbli' (KAYAH_LI) */
+    lbtfSdriptTbg, /* 'lbtf' (LATF) */
+    lbtgSdriptTbg, /* 'lbtg' (LATG) */
+    lfpdSdriptTbg, /* 'lfpd' (LEPCHA) */
+    linbSdriptTbg, /* 'linb' (LINA) */
+    mbndSdriptTbg, /* 'mbnd' (MANDAIC) */
+    mbybSdriptTbg, /* 'mbyb' (MAYA) */
+    mfroSdriptTbg, /* 'mfro' (MEROITIC_HIEROGLYPHS) */
+    nkooSdriptTbg, /* 'nko ' (NKO) */
+    orkiSdriptTbg, /* 'orki' (OLD_TURKIC) */
+    pfrmSdriptTbg, /* 'pfrm' (PERM) */
+    pibgSdriptTbg, /* 'pibg' (PHAGS_PA) */
+    pinxSdriptTbg, /* 'pinx' (PHOENICIAN) */
+    plrdSdriptTbg, /* 'plrd' (MIAO/POLLARD) */
+    roroSdriptTbg, /* 'roro' (RORO) */
+    sbrbSdriptTbg, /* 'sbrb' (SARA) */
+    syrfSdriptTbg, /* 'syrf' (SYRE) */
+    syrjSdriptTbg, /* 'syrj' (SYRJ) */
+    syrnSdriptTbg, /* 'syrn' (SYRN) */
+    tfngSdriptTbg, /* 'tfng' (TENG) */
+    vbiiSdriptTbg, /* 'vbi ' (VAI) */
+    vispSdriptTbg, /* 'visp' (VISP) */
+    xsuxSdriptTbg, /* 'xsux' (CUNEIFORM) */
+    zxxxSdriptTbg, /* 'zxxx' (ZXXX) */
+    zzzzSdriptTbg, /* 'zzzz' (UNKNOWN) */
+    dbriSdriptTbg, /* 'dbri' (CARIAN) */
+    jpbnSdriptTbg, /* 'jpbn' (JPAN) */
+    lbnbSdriptTbg, /* 'lbnb' (TAI_THAM) */
+    lydiSdriptTbg, /* 'lydi' (LYCIAN) */
+    lydiSdriptTbg, /* 'lydi' (LYDIAN) */
+    oldkSdriptTbg, /* 'oldk' (OL_CHIKI) */
+    rjngSdriptTbg, /* 'rjng' (REJANG) */
+    sburSdriptTbg, /* 'sbur' (SAURASHTRA) */
+    sgnwSdriptTbg, /* 'sgnw' (SGNW) */
+    sundSdriptTbg, /* 'sund' (SUNDANESE) */
+    moonSdriptTbg, /* 'moon' (MOON) */
+    mtfiSdriptTbg, /* 'mtfi' (MEETEI_MAYEK) */
+    brmiSdriptTbg, /* 'brmi' (IMPERIAL_ARAMAIC) */
+    bvstSdriptTbg, /* 'bvst' (AVESTAN) */
+    dbkmSdriptTbg, /* 'dbkm' (CHAKMA) */
+    korfSdriptTbg, /* 'korf' (KORE) */
+    ktiiSdriptTbg, /* 'ktii' (KAITHI) */
+    mbniSdriptTbg, /* 'mbni' (MANI) */
+    piliSdriptTbg, /* 'pili' (INSCRIPTIONAL_PAHLAVI) */
+    pilpSdriptTbg, /* 'pilp' (PHLP) */
+    pilvSdriptTbg, /* 'pilv' (PHLV) */
+    prtiSdriptTbg, /* 'prti' (INSCRIPTIONAL_PARTHIAN) */
+    sbmrSdriptTbg, /* 'sbmr' (SAMARITAN) */
+    tbvtSdriptTbg, /* 'tbvt' (TAI_VIET) */
+    zmtiSdriptTbg, /* 'zmti' (ZMTH) */
+    zsymSdriptTbg, /* 'zsym' (ZSYM) */
+    bbmuSdriptTbg, /* 'bbmu' (BAMUM) */
+    lisuSdriptTbg, /* 'lisu' (LISU) */
+    nkgbSdriptTbg, /* 'nkgb' (NKGB) */
+    sbrbSdriptTbg, /* 'sbrb' (OLD_SOUTH_ARABIAN) */
+    bbssSdriptTbg, /* 'bbss' (BASS) */
+    duplSdriptTbg, /* 'dupl' (DUPL) */
+    flbbSdriptTbg, /* 'flbb' (ELBA) */
+    grbnSdriptTbg, /* 'grbn' (GRAN) */
+    kpflSdriptTbg, /* 'kpfl' (KPEL) */
+    lombSdriptTbg, /* 'lomb' (LOMA) */
+    mfndSdriptTbg, /* 'mfnd' (MEND) */
+    mfrdSdriptTbg, /* 'mfrd' (MEROITIC_CURSIVE) */
+    nbrbSdriptTbg, /* 'nbrb' (NARB) */
+    nbbtSdriptTbg, /* 'nbbt' (NBAT) */
+    pblmSdriptTbg, /* 'pblm' (PALM) */
+    sindSdriptTbg, /* 'sind' (SIND) */
+    wbrbSdriptTbg, /* 'wbrb' (WARA) */
+    bfbkSdriptTbg, /* 'bfbk' (AFAK) */
+    jurdSdriptTbg, /* 'jurd' (JURC) */
+    mrooSdriptTbg, /* 'mroo' (MROO) */
+    nsiuSdriptTbg, /* 'nsiu' (NSHU) */
+    sirdSdriptTbg, /* 'sird' (SHARADA) */
+    sorbSdriptTbg, /* 'sorb' (SORA_SOMPENG) */
+    tbkrSdriptTbg, /* 'tbkr' (TAKRI) */
+    tbngSdriptTbg, /* 'tbng' (TANG) */
+    wolfSdriptTbg, /* 'wolf' (WOLE) */
+    kiojSdriptTbg, /* 'kioj' (KHOJ) */
+    tiriSdriptTbg  /* 'tiri' (TIRH) */
 };
 
-const LETag OpenTypeLayoutEngine::languageTags[] = {
-    nullLanguageTag, /* '' (null) */
-    araLanguageTag, /* 'ARA' (Arabic) */
-    asmLanguageTag, /* 'ASM' (Assamese) */
-    benLanguageTag, /* 'BEN' (Bengali) */
-    farLanguageTag, /* 'FAR' (Farsi) */
-    gujLanguageTag, /* 'GUJ' (Gujarati) */
-    hinLanguageTag, /* 'HIN' (Hindi) */
-    iwrLanguageTag, /* 'IWR' (Hebrew) */
-    jiiLanguageTag, /* 'JII' (Yiddish) */
-    janLanguageTag, /* 'JAN' (Japanese) */
-    kanLanguageTag, /* 'KAN' (Kannada) */
-    kokLanguageTag, /* 'KOK' (Konkani) */
-    korLanguageTag, /* 'KOR' (Korean) */
-    kshLanguageTag, /* 'KSH' (Kashmiri) */
-    malLanguageTag, /* 'MAL' (Malayalam (Traditional)) */
-    marLanguageTag, /* 'MAR' (Marathi) */
-    mlrLanguageTag, /* 'MLR' (Malayalam (Reformed)) */
-    mniLanguageTag, /* 'MNI' (Manipuri) */
-    oriLanguageTag, /* 'ORI' (Oriya) */
-    sanLanguageTag, /* 'SAN' (Sanscrit) */
-    sndLanguageTag, /* 'SND' (Sindhi) */
-    snhLanguageTag, /* 'SNH' (Sinhalese) */
-    syrLanguageTag, /* 'SYR' (Syriac) */
-    tamLanguageTag, /* 'TAM' (Tamil) */
-    telLanguageTag, /* 'TEL' (Telugu) */
-    thaLanguageTag, /* 'THA' (Thai) */
-    urdLanguageTag, /* 'URD' (Urdu) */
-    zhpLanguageTag, /* 'ZHP' (Chinese (Phonetic)) */
-    zhsLanguageTag, /* 'ZHS' (Chinese (Simplified)) */
-    zhtLanguageTag, /* 'ZHT' (Chinese (Traditional)) */
-    afkLanguageTag, /* 'AFK' (Afrikaans) */
-    belLanguageTag, /* 'BEL' (Belarussian) */
-    bgrLanguageTag, /* 'BGR' (Bulgarian) */
-    catLanguageTag, /* 'CAT' (Catalan) */
-    cheLanguageTag, /* 'CHE' (Chechen) */
-    copLanguageTag, /* 'COP' (Coptic) */
-    csyLanguageTag, /* 'CSY' (Czech) */
-    danLanguageTag, /* 'DAN' (Danish) */
-    deuLanguageTag, /* 'DEU' (German) */
-    dznLanguageTag, /* 'DZN' (Dzongkha) */
-    ellLanguageTag, /* 'ELL' (Greek) */
-    engLanguageTag, /* 'ENG' (English) */
-    espLanguageTag, /* 'ESP' (Spanish) */
-    etiLanguageTag, /* 'ETI' (Estonian) */
-    euqLanguageTag, /* 'EUQ' (Basque) */
-    finLanguageTag, /* 'FIN' (Finnish) */
-    fraLanguageTag, /* 'FRA' (French) */
-    gaeLanguageTag, /* 'GAE' (Gaelic) */
-    hauLanguageTag, /* 'HAU' (Hausa) */
-    hrvLanguageTag, /* 'HRV' (Croation) */
-    hunLanguageTag, /* 'HUN' (Hungarian) */
-    hyeLanguageTag, /* 'HYE' (Armenian) */
-    indLanguageTag, /* 'IND' (Indonesian) */
-    itaLanguageTag, /* 'ITA' (Italian) */
-    khmLanguageTag, /* 'KHM' (Khmer) */
-    mngLanguageTag, /* 'MNG' (Mongolian) */
-    mtsLanguageTag, /* 'MTS' (Maltese) */
-    nepLanguageTag, /* 'NEP' (Nepali) */
-    nldLanguageTag, /* 'NLD' (Dutch) */
-    pasLanguageTag, /* 'PAS' (Pashto) */
-    plkLanguageTag, /* 'PLK' (Polish) */
-    ptgLanguageTag, /* 'PTG' (Portuguese) */
-    romLanguageTag, /* 'ROM' (Romanian) */
-    rusLanguageTag, /* 'RUS' (Russian) */
-    skyLanguageTag, /* 'SKY' (Slovak) */
-    slvLanguageTag, /* 'SLV' (Slovenian) */
-    sqiLanguageTag, /* 'SQI' (Albanian) */
-    srbLanguageTag, /* 'SRB' (Serbian) */
-    sveLanguageTag, /* 'SVE' (Swedish) */
-    tibLanguageTag, /* 'TIB' (Tibetan) */
-    trkLanguageTag, /* 'TRK' (Turkish) */
-    welLanguageTag  /* 'WEL' (Welsh) */
+donst LETbg OpfnTypfLbyoutEnginf::lbngubgfTbgs[] = {
+    nullLbngubgfTbg, /* '' (null) */
+    brbLbngubgfTbg, /* 'ARA' (Arbbid) */
+    bsmLbngubgfTbg, /* 'ASM' (Assbmfsf) */
+    bfnLbngubgfTbg, /* 'BEN' (Bfngbli) */
+    fbrLbngubgfTbg, /* 'FAR' (Fbrsi) */
+    gujLbngubgfTbg, /* 'GUJ' (Gujbrbti) */
+    iinLbngubgfTbg, /* 'HIN' (Hindi) */
+    iwrLbngubgfTbg, /* 'IWR' (Hfbrfw) */
+    jiiLbngubgfTbg, /* 'JII' (Yiddisi) */
+    jbnLbngubgfTbg, /* 'JAN' (Jbpbnfsf) */
+    kbnLbngubgfTbg, /* 'KAN' (Kbnnbdb) */
+    kokLbngubgfTbg, /* 'KOK' (Konkbni) */
+    korLbngubgfTbg, /* 'KOR' (Korfbn) */
+    ksiLbngubgfTbg, /* 'KSH' (Kbsimiri) */
+    mblLbngubgfTbg, /* 'MAL' (Mblbyblbm (Trbditionbl)) */
+    mbrLbngubgfTbg, /* 'MAR' (Mbrbtii) */
+    mlrLbngubgfTbg, /* 'MLR' (Mblbyblbm (Rfformfd)) */
+    mniLbngubgfTbg, /* 'MNI' (Mbnipuri) */
+    oriLbngubgfTbg, /* 'ORI' (Oriyb) */
+    sbnLbngubgfTbg, /* 'SAN' (Sbnsdrit) */
+    sndLbngubgfTbg, /* 'SND' (Sindii) */
+    sniLbngubgfTbg, /* 'SNH' (Siniblfsf) */
+    syrLbngubgfTbg, /* 'SYR' (Syribd) */
+    tbmLbngubgfTbg, /* 'TAM' (Tbmil) */
+    tflLbngubgfTbg, /* 'TEL' (Tflugu) */
+    tibLbngubgfTbg, /* 'THA' (Tibi) */
+    urdLbngubgfTbg, /* 'URD' (Urdu) */
+    zipLbngubgfTbg, /* 'ZHP' (Ciinfsf (Pionftid)) */
+    zisLbngubgfTbg, /* 'ZHS' (Ciinfsf (Simplififd)) */
+    zitLbngubgfTbg, /* 'ZHT' (Ciinfsf (Trbditionbl)) */
+    bfkLbngubgfTbg, /* 'AFK' (Afrikbbns) */
+    bflLbngubgfTbg, /* 'BEL' (Bflbrussibn) */
+    bgrLbngubgfTbg, /* 'BGR' (Bulgbribn) */
+    dbtLbngubgfTbg, /* 'CAT' (Cbtblbn) */
+    difLbngubgfTbg, /* 'CHE' (Cifdifn) */
+    dopLbngubgfTbg, /* 'COP' (Coptid) */
+    dsyLbngubgfTbg, /* 'CSY' (Czfdi) */
+    dbnLbngubgfTbg, /* 'DAN' (Dbnisi) */
+    dfuLbngubgfTbg, /* 'DEU' (Gfrmbn) */
+    dznLbngubgfTbg, /* 'DZN' (Dzongkib) */
+    fllLbngubgfTbg, /* 'ELL' (Grffk) */
+    fngLbngubgfTbg, /* 'ENG' (Englisi) */
+    fspLbngubgfTbg, /* 'ESP' (Spbnisi) */
+    ftiLbngubgfTbg, /* 'ETI' (Estonibn) */
+    fuqLbngubgfTbg, /* 'EUQ' (Bbsquf) */
+    finLbngubgfTbg, /* 'FIN' (Finnisi) */
+    frbLbngubgfTbg, /* 'FRA' (Frfndi) */
+    gbfLbngubgfTbg, /* 'GAE' (Gbflid) */
+    ibuLbngubgfTbg, /* 'HAU' (Hbusb) */
+    irvLbngubgfTbg, /* 'HRV' (Crobtion) */
+    iunLbngubgfTbg, /* 'HUN' (Hungbribn) */
+    iyfLbngubgfTbg, /* 'HYE' (Armfnibn) */
+    indLbngubgfTbg, /* 'IND' (Indonfsibn) */
+    itbLbngubgfTbg, /* 'ITA' (Itblibn) */
+    kimLbngubgfTbg, /* 'KHM' (Kimfr) */
+    mngLbngubgfTbg, /* 'MNG' (Mongolibn) */
+    mtsLbngubgfTbg, /* 'MTS' (Mbltfsf) */
+    nfpLbngubgfTbg, /* 'NEP' (Nfpbli) */
+    nldLbngubgfTbg, /* 'NLD' (Dutdi) */
+    pbsLbngubgfTbg, /* 'PAS' (Pbsito) */
+    plkLbngubgfTbg, /* 'PLK' (Polisi) */
+    ptgLbngubgfTbg, /* 'PTG' (Portugufsf) */
+    romLbngubgfTbg, /* 'ROM' (Rombnibn) */
+    rusLbngubgfTbg, /* 'RUS' (Russibn) */
+    skyLbngubgfTbg, /* 'SKY' (Slovbk) */
+    slvLbngubgfTbg, /* 'SLV' (Slovfnibn) */
+    sqiLbngubgfTbg, /* 'SQI' (Albbnibn) */
+    srbLbngubgfTbg, /* 'SRB' (Sfrbibn) */
+    svfLbngubgfTbg, /* 'SVE' (Swfdisi) */
+    tibLbngubgfTbg, /* 'TIB' (Tibftbn) */
+    trkLbngubgfTbg, /* 'TRK' (Turkisi) */
+    wflLbngubgfTbg  /* 'WEL' (Wflsi) */
 };
 
 U_NAMESPACE_END

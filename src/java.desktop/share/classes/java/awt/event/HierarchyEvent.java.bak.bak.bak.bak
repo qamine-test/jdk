@@ -1,0 +1,337 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+
+/**
+ * An fvfnt whidh indidbtfs b dhbngf to thf <dodf>Componfnt</dodf>
+ * hifrbrdhy to whidh <dodf>Componfnt</dodf> bflongs.
+ * <ul>
+ * <li>Hifrbrdhy Chbngf Evfnts (HifrbrdhyListfnfr)
+ *     <ul>
+ *     <li> bddition of bn bndfstor
+ *     <li> rfmovbl of bn bndfstor
+ *     <li> hifrbrdhy mbdf displbybblf
+ *     <li> hifrbrdhy mbdf undisplbybblf
+ *     <li> hifrbrdhy shown on thf sdrffn (both visiblf bnd displbybblf)
+ *     <li> hifrbrdhy hiddfn on thf sdrffn (fithfr invisiblf or undisplbybblf)
+ *     </ul>
+ * <li>Andfstor Rfshbpf Evfnts (HifrbrdhyBoundsListfnfr)
+ *     <ul>
+ *     <li> bn bndfstor wbs rfsizfd
+ *     <li> bn bndfstor wbs movfd
+ *     </ul>
+ * </ul>
+ * <p>
+ * Hifrbrdhy fvfnts brf providfd for notifidbtion purposfs ONLY.
+ * Thf AWT will butombtidblly hbndlf dhbngfs to thf hifrbrdhy intfrnblly so
+ * thbt GUI lbyout bnd displbybbility works propfrly rfgbrdlfss of whfthfr b
+ * progrbm is rfdfiving thfsf fvfnts or not.
+ * <p>
+ * This fvfnt is gfnfrbtfd by b Contbinfr objfdt (sudh bs b Pbnfl) whfn thf
+ * Contbinfr is bddfd, rfmovfd, movfd, or rfsizfd, bnd pbssfd down thf
+ * hifrbrdhy. It is blso gfnfrbtfd by b Componfnt objfdt whfn thbt objfdt's
+ * <dodf>bddNotify</dodf>, <dodf>rfmovfNotify</dodf>, <dodf>show</dodf>, or
+ * <dodf>hidf</dodf> mfthod is dbllfd. Thf {@dodf ANCESTOR_MOVED} bnd
+ * {@dodf ANCESTOR_RESIZED}
+ * fvfnts brf dispbtdhfd to fvfry <dodf>HifrbrdhyBoundsListfnfr</dodf> or
+ * <dodf>HifrbrdhyBoundsAdbptfr</dodf> objfdt whidh rfgistfrfd to rfdfivf
+ * sudh fvfnts using thf Componfnt's <dodf>bddHifrbrdhyBoundsListfnfr</dodf>
+ * mfthod. (<dodf>HifrbrdhyBoundsAdbptfr</dodf> objfdts implfmfnt thf <dodf>
+ * HifrbrdhyBoundsListfnfr</dodf> intfrfbdf.) Thf {@dodf HIERARCHY_CHANGED} fvfnts brf
+ * dispbtdhfd to fvfry <dodf>HifrbrdhyListfnfr</dodf> objfdt whidh rfgistfrfd
+ * to rfdfivf sudh fvfnts using thf Componfnt's <dodf>bddHifrbrdhyListfnfr
+ * </dodf> mfthod. Ebdh sudh listfnfr objfdt gfts this <dodf>HifrbrdhyEvfnt
+ * </dodf> whfn thf fvfnt oddurs.
+ * <p>
+ * An unspfdififd bfhbvior will bf dbusfd if thf {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf HifrbrdhyEvfnt} instbndf is not
+ * in thf rbngf from {@dodf HIERARCHY_FIRST} to {@dodf HIERARCHY_LAST}.
+ * <br>
+ * Thf {@dodf dhbngfFlbgs} pbrbmftfr of bny {@dodf HifrbrdhyEvfnt} instbndf tbkfs onf of thf following
+ * vblufs:
+ * <ul>
+ * <li> {@dodf HifrbrdhyEvfnt.PARENT_CHANGED}
+ * <li> {@dodf HifrbrdhyEvfnt.DISPLAYABILITY_CHANGED}
+ * <li> {@dodf HifrbrdhyEvfnt.SHOWING_CHANGED}
+ * </ul>
+ * Assigning thf vbluf difffrfnt from listfd bbovf will dbusf unspfdififd bfhbvior.
+ *
+ * @buthor      Dbvid Mfndfnhbll
+ * @sff         HifrbrdhyListfnfr
+ * @sff         HifrbrdhyBoundsAdbptfr
+ * @sff         HifrbrdhyBoundsListfnfr
+ * @sindf       1.3
+ */
+publid dlbss HifrbrdhyEvfnt fxtfnds AWTEvfnt {
+    /*
+     * sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5337576970038043990L;
+
+    /**
+     * Mbrks thf first intfgfr id for thf rbngf of hifrbrdhy fvfnt ids.
+     */
+    publid stbtid finbl int HIERARCHY_FIRST = 1400; // 1300 usfd by sun.bwt.windows.ModblityEvfnt
+
+    /**
+     * Thf fvfnt id indidbting thbt modifidbtion wbs mbdf to thf
+     * fntirf hifrbrdhy trff.
+     */
+    publid stbtid finbl int HIERARCHY_CHANGED = HIERARCHY_FIRST;
+
+    /**
+     * Thf fvfnt id indidbting bn bndfstor-Contbinfr wbs movfd.
+     */
+    publid stbtid finbl int ANCESTOR_MOVED = 1 + HIERARCHY_FIRST;
+
+    /**
+     * Thf fvfnt id indidbting bn bndfstor-Contbinfr wbs rfsizfd.
+     */
+    publid stbtid finbl int ANCESTOR_RESIZED = 2 + HIERARCHY_FIRST;
+
+    /**
+     * Mbrks thf lbst intfgfr id for thf rbngf of bndfstor fvfnt ids.
+     */
+    publid stbtid finbl int HIERARCHY_LAST = ANCESTOR_RESIZED;
+
+    /**
+     * A dhbngf flbg indidbtfs thbt thf <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * wbs gfnfrbtfd by b rfpbrfnting opfrbtion.
+     */
+    publid stbtid finbl int PARENT_CHANGED = 0x1;
+
+    /**
+     * A dhbngf flbg indidbtfs thbt thf <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * wbs gfnfrbtfd duf to thf dhbnging of thf hifrbrdhy displbybbility.
+     * To disdfrn thf
+     * durrfnt displbybbility of thf hifrbrdhy, dbll thf
+     * <dodf>Componfnt.isDisplbybblf</dodf> mfthod. Displbybbility dhbngfs oddur
+     * in rfsponsf to fxplidit or implidit dblls of thf
+     * <dodf>Componfnt.bddNotify</dodf> bnd
+     * <dodf>Componfnt.rfmovfNotify</dodf> mfthods.
+     *
+     * @sff jbvb.bwt.Componfnt#isDisplbybblf()
+     * @sff jbvb.bwt.Componfnt#bddNotify()
+     * @sff jbvb.bwt.Componfnt#rfmovfNotify()
+     */
+    publid stbtid finbl int DISPLAYABILITY_CHANGED = 0x2;
+
+    /**
+     * A dhbngf flbg indidbtfs thbt thf <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * wbs gfnfrbtfd duf to thf dhbnging of thf hifrbrdhy showing stbtf.
+     * To disdfrn thf
+     * durrfnt showing stbtf of thf hifrbrdhy, dbll thf
+     * <dodf>Componfnt.isShowing</dodf> mfthod. Showing stbtf dhbngfs oddur
+     * whfn fithfr thf displbybbility or visibility of thf
+     * hifrbrdhy oddurs. Visibility dhbngfs oddur in rfsponsf to fxplidit
+     * or implidit dblls of thf <dodf>Componfnt.show</dodf> bnd
+     * <dodf>Componfnt.hidf</dodf> mfthods.
+     *
+     * @sff jbvb.bwt.Componfnt#isShowing()
+     * @sff jbvb.bwt.Componfnt#bddNotify()
+     * @sff jbvb.bwt.Componfnt#rfmovfNotify()
+     * @sff jbvb.bwt.Componfnt#show()
+     * @sff jbvb.bwt.Componfnt#hidf()
+     */
+    publid stbtid finbl int SHOWING_CHANGED = 0x4;
+
+    Componfnt dhbngfd;
+    Contbinfr dhbngfdPbrfnt;
+    long      dhbngfFlbgs;
+
+    /**
+     * Construdts bn <dodf>HifrbrdhyEvfnt</dodf> objfdt to idfntify b
+     * dhbngf in thf <dodf>Componfnt</dodf> hifrbrdhy.
+     * <p>This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf          Thf <dodf>Componfnt</dodf> objfdt thbt
+     *                        originbtfd thf fvfnt
+     * @pbrbm id              An intfgfr indidbting thf typf of fvfnt.
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        thf dlbss dfsdription for {@link HifrbrdhyEvfnt}
+     * @pbrbm dhbngfd         Thf <dodf>Componfnt</dodf> bt thf top of
+     *                        thf hifrbrdhy whidh wbs dhbngfd
+     * @pbrbm dhbngfdPbrfnt   Thf pbrfnt of thf <dodf>dhbngfd</dodf> domponfnt.
+     *                        This
+     *                        mby bf thf pbrfnt bfforf or bftfr thf
+     *                        dhbngf, dfpfnding on thf typf of dhbngf
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is {@dodf null}
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftChbngfd()
+     * @sff #gftChbngfdPbrfnt()
+     */
+    publid HifrbrdhyEvfnt(Componfnt sourdf, int id, Componfnt dhbngfd,
+                          Contbinfr dhbngfdPbrfnt) {
+        supfr(sourdf, id);
+        this.dhbngfd = dhbngfd;
+        this.dhbngfdPbrfnt = dhbngfdPbrfnt;
+    }
+
+    /**
+     * Construdts bn <dodf>HifrbrdhyEvfnt</dodf> objfdt to idfntify
+     * b dhbngf in thf <dodf>Componfnt</dodf> hifrbrdhy.
+     * <p> This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf          Thf <dodf>Componfnt</dodf> objfdt thbt
+     *                        originbtfd thf fvfnt
+     * @pbrbm id              An intfgfr indidbting thf typf of fvfnt.
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        thf dlbss dfsdription for {@link HifrbrdhyEvfnt}
+     * @pbrbm dhbngfd         Thf <dodf>Componfnt</dodf> bt thf top
+     *                        of thf hifrbrdhy whidh wbs dhbngfd
+     * @pbrbm dhbngfdPbrfnt   Thf pbrfnt of thf <dodf>dhbngfd</dodf> domponfnt.
+     *                        This
+     *                        mby bf thf pbrfnt bfforf or bftfr thf
+     *                        dhbngf, dfpfnding on thf typf of dhbngf
+     * @pbrbm dhbngfFlbgs     A bitmbsk whidh indidbtfs thf typf(s) of
+     *                        thf <dodf>HIERARCHY_CHANGED</dodf> fvfnts
+     *                        rfprfsfntfd in this fvfnt objfdt.
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        thf dlbss dfsdription for {@link HifrbrdhyEvfnt}
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftChbngfd()
+     * @sff #gftChbngfdPbrfnt()
+     * @sff #gftChbngfFlbgs()
+     */
+    publid HifrbrdhyEvfnt(Componfnt sourdf, int id, Componfnt dhbngfd,
+                          Contbinfr dhbngfdPbrfnt, long dhbngfFlbgs) {
+        supfr(sourdf, id);
+        this.dhbngfd = dhbngfd;
+        this.dhbngfdPbrfnt = dhbngfdPbrfnt;
+        this.dhbngfFlbgs = dhbngfFlbgs;
+    }
+
+    /**
+     * Rfturns thf originbtor of thf fvfnt.
+     *
+     * @rfturn thf <dodf>Componfnt</dodf> objfdt thbt originbtfd
+     * thf fvfnt, or <dodf>null</dodf> if thf objfdt is not b
+     * <dodf>Componfnt</dodf>.
+     */
+    publid Componfnt gftComponfnt() {
+        rfturn (sourdf instbndfof Componfnt) ? (Componfnt)sourdf : null;
+    }
+
+    /**
+     * Rfturns thf Componfnt bt thf top of thf hifrbrdhy whidh wbs
+     * dhbngfd.
+     *
+     * @rfturn thf dhbngfd Componfnt
+     */
+    publid Componfnt gftChbngfd() {
+        rfturn dhbngfd;
+    }
+
+    /**
+     * Rfturns thf pbrfnt of thf Componfnt rfturnfd by <dodf>
+     * gftChbngfd()</dodf>. For b HIERARCHY_CHANGED fvfnt whfrf thf
+     * dhbngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * Contbinfr.bdd</dodf>, thf pbrfnt rfturnfd is thf pbrfnt
+     * bftfr thf bdd opfrbtion. For b HIERARCHY_CHANGED fvfnt whfrf
+     * thf dhbngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * Contbinfr.rfmovf</dodf>, thf pbrfnt rfturnfd is thf pbrfnt
+     * bfforf thf rfmovf opfrbtion. For bll othfr fvfnts bnd typfs,
+     * thf pbrfnt rfturnfd is thf pbrfnt during thf opfrbtion.
+     *
+     * @rfturn thf pbrfnt of thf dhbngfd Componfnt
+     */
+    publid Contbinfr gftChbngfdPbrfnt() {
+        rfturn dhbngfdPbrfnt;
+    }
+
+    /**
+     * Rfturns b bitmbsk whidh indidbtfs thf typf(s) of
+     * HIERARCHY_CHANGED fvfnts rfprfsfntfd in this fvfnt objfdt.
+     * Thf bits hbvf bffn bitwisf-orfd togfthfr.
+     *
+     * @rfturn thf bitmbsk, or 0 if this is not bn HIERARCHY_CHANGED
+     * fvfnt
+     */
+    publid long gftChbngfFlbgs() {
+        rfturn dhbngfFlbgs;
+    }
+
+    /**
+     * Rfturns b pbrbmftfr string idfntifying this fvfnt.
+     * This mfthod is usfful for fvfnt-logging bnd for dfbugging.
+     *
+     * @rfturn b string idfntifying thf fvfnt bnd its bttributfs
+     */
+    publid String pbrbmString() {
+        String typfStr;
+        switdh(id) {
+          dbsf ANCESTOR_MOVED:
+              typfStr = "ANCESTOR_MOVED ("+dhbngfd+","+dhbngfdPbrfnt+")";
+              brfbk;
+          dbsf ANCESTOR_RESIZED:
+              typfStr = "ANCESTOR_RESIZED ("+dhbngfd+","+dhbngfdPbrfnt+")";
+              brfbk;
+          dbsf HIERARCHY_CHANGED: {
+              typfStr = "HIERARCHY_CHANGED (";
+              boolfbn first = truf;
+              if ((dhbngfFlbgs & PARENT_CHANGED) != 0) {
+                  first = fblsf;
+                  typfStr += "PARENT_CHANGED";
+              }
+              if ((dhbngfFlbgs & DISPLAYABILITY_CHANGED) != 0) {
+                  if (first) {
+                      first = fblsf;
+                  } flsf {
+                      typfStr += ",";
+                  }
+                  typfStr += "DISPLAYABILITY_CHANGED";
+              }
+              if ((dhbngfFlbgs & SHOWING_CHANGED) != 0) {
+                  if (first) {
+                      first = fblsf;
+                  } flsf {
+                      typfStr += ",";
+                  }
+                  typfStr += "SHOWING_CHANGED";
+              }
+              if (!first) {
+                  typfStr += ",";
+              }
+              typfStr += dhbngfd + "," + dhbngfdPbrfnt + ")";
+              brfbk;
+          }
+          dffbult:
+              typfStr = "unknown typf";
+        }
+        rfturn typfStr;
+    }
+}

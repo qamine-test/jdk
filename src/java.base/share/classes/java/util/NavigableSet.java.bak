@@ -1,319 +1,319 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea and Josh Bloch with assistance from members of JCP
- * JSR-166 Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb bnd Josi Blodi witi bssistbndf from mfmbfrs of JCP
+ * JSR-166 Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * A {@link SortedSet} extended with navigation methods reporting
- * closest matches for given search targets. Methods {@code lower},
- * {@code floor}, {@code ceiling}, and {@code higher} return elements
- * respectively less than, less than or equal, greater than or equal,
- * and greater than a given element, returning {@code null} if there
- * is no such element.  A {@code NavigableSet} may be accessed and
- * traversed in either ascending or descending order.  The {@code
- * descendingSet} method returns a view of the set with the senses of
- * all relational and directional methods inverted. The performance of
- * ascending operations and views is likely to be faster than that of
- * descending ones.  This interface additionally defines methods
- * {@code pollFirst} and {@code pollLast} that return and remove the
- * lowest and highest element, if one exists, else returning {@code
- * null}.  Methods {@code subSet}, {@code headSet},
- * and {@code tailSet} differ from the like-named {@code
- * SortedSet} methods in accepting additional arguments describing
- * whether lower and upper bounds are inclusive versus exclusive.
- * Subsets of any {@code NavigableSet} must implement the {@code
- * NavigableSet} interface.
+ * A {@link SortfdSft} fxtfndfd witi nbvigbtion mftiods rfporting
+ * dlosfst mbtdifs for givfn sfbrdi tbrgfts. Mftiods {@dodf lowfr},
+ * {@dodf floor}, {@dodf dfiling}, bnd {@dodf iigifr} rfturn flfmfnts
+ * rfspfdtivfly lfss tibn, lfss tibn or fqubl, grfbtfr tibn or fqubl,
+ * bnd grfbtfr tibn b givfn flfmfnt, rfturning {@dodf null} if tifrf
+ * is no sudi flfmfnt.  A {@dodf NbvigbblfSft} mby bf bddfssfd bnd
+ * trbvfrsfd in fitifr bsdfnding or dfsdfnding ordfr.  Tif {@dodf
+ * dfsdfndingSft} mftiod rfturns b vifw of tif sft witi tif sfnsfs of
+ * bll rflbtionbl bnd dirfdtionbl mftiods invfrtfd. Tif pfrformbndf of
+ * bsdfnding opfrbtions bnd vifws is likfly to bf fbstfr tibn tibt of
+ * dfsdfnding onfs.  Tiis intfrfbdf bdditionblly dffinfs mftiods
+ * {@dodf pollFirst} bnd {@dodf pollLbst} tibt rfturn bnd rfmovf tif
+ * lowfst bnd iigifst flfmfnt, if onf fxists, flsf rfturning {@dodf
+ * null}.  Mftiods {@dodf subSft}, {@dodf ifbdSft},
+ * bnd {@dodf tbilSft} difffr from tif likf-nbmfd {@dodf
+ * SortfdSft} mftiods in bddfpting bdditionbl brgumfnts dfsdribing
+ * wiftifr lowfr bnd uppfr bounds brf indlusivf vfrsus fxdlusivf.
+ * Subsfts of bny {@dodf NbvigbblfSft} must implfmfnt tif {@dodf
+ * NbvigbblfSft} intfrfbdf.
  *
- * <p> The return values of navigation methods may be ambiguous in
- * implementations that permit {@code null} elements. However, even
- * in this case the result can be disambiguated by checking
- * {@code contains(null)}. To avoid such issues, implementations of
- * this interface are encouraged to <em>not</em> permit insertion of
- * {@code null} elements. (Note that sorted sets of {@link
- * Comparable} elements intrinsically do not permit {@code null}.)
+ * <p> Tif rfturn vblufs of nbvigbtion mftiods mby bf bmbiguous in
+ * implfmfntbtions tibt pfrmit {@dodf null} flfmfnts. Howfvfr, fvfn
+ * in tiis dbsf tif rfsult dbn bf disbmbigubtfd by difdking
+ * {@dodf dontbins(null)}. To bvoid sudi issufs, implfmfntbtions of
+ * tiis intfrfbdf brf fndourbgfd to <fm>not</fm> pfrmit insfrtion of
+ * {@dodf null} flfmfnts. (Notf tibt sortfd sfts of {@link
+ * Compbrbblf} flfmfnts intrinsidblly do not pfrmit {@dodf null}.)
  *
- * <p>Methods
- * {@link #subSet(Object, Object) subSet(E, E)},
- * {@link #headSet(Object) headSet(E)}, and
- * {@link #tailSet(Object) tailSet(E)}
- * are specified to return {@code SortedSet} to allow existing
- * implementations of {@code SortedSet} to be compatibly retrofitted to
- * implement {@code NavigableSet}, but extensions and implementations
- * of this interface are encouraged to override these methods to return
- * {@code NavigableSet}.
+ * <p>Mftiods
+ * {@link #subSft(Objfdt, Objfdt) subSft(E, E)},
+ * {@link #ifbdSft(Objfdt) ifbdSft(E)}, bnd
+ * {@link #tbilSft(Objfdt) tbilSft(E)}
+ * brf spfdififd to rfturn {@dodf SortfdSft} to bllow fxisting
+ * implfmfntbtions of {@dodf SortfdSft} to bf dompbtibly rftrofittfd to
+ * implfmfnt {@dodf NbvigbblfSft}, but fxtfnsions bnd implfmfntbtions
+ * of tiis intfrfbdf brf fndourbgfd to ovfrridf tifsf mftiods to rfturn
+ * {@dodf NbvigbblfSft}.
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @author Doug Lea
- * @author Josh Bloch
- * @param <E> the type of elements maintained by this set
- * @since 1.6
+ * @butior Doug Lfb
+ * @butior Josi Blodi
+ * @pbrbm <E> tif typf of flfmfnts mbintbinfd by tiis sft
+ * @sindf 1.6
  */
-public interface NavigableSet<E> extends SortedSet<E> {
+publid intfrfbdf NbvigbblfSft<E> fxtfnds SortfdSft<E> {
     /**
-     * Returns the greatest element in this set strictly less than the
-     * given element, or {@code null} if there is no such element.
+     * Rfturns tif grfbtfst flfmfnt in tiis sft stridtly lfss tibn tif
+     * givfn flfmfnt, or {@dodf null} if tifrf is no sudi flfmfnt.
      *
-     * @param e the value to match
-     * @return the greatest element less than {@code e},
-     *         or {@code null} if there is no such element
-     * @throws ClassCastException if the specified element cannot be
-     *         compared with the elements currently in the set
-     * @throws NullPointerException if the specified element is null
-     *         and this set does not permit null elements
+     * @pbrbm f tif vbluf to mbtdi
+     * @rfturn tif grfbtfst flfmfnt lfss tibn {@dodf f},
+     *         or {@dodf null} if tifrf is no sudi flfmfnt
+     * @tirows ClbssCbstExdfption if tif spfdififd flfmfnt dbnnot bf
+     *         dompbrfd witi tif flfmfnts durrfntly in tif sft
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     *         bnd tiis sft dofs not pfrmit null flfmfnts
      */
-    E lower(E e);
+    E lowfr(E f);
 
     /**
-     * Returns the greatest element in this set less than or equal to
-     * the given element, or {@code null} if there is no such element.
+     * Rfturns tif grfbtfst flfmfnt in tiis sft lfss tibn or fqubl to
+     * tif givfn flfmfnt, or {@dodf null} if tifrf is no sudi flfmfnt.
      *
-     * @param e the value to match
-     * @return the greatest element less than or equal to {@code e},
-     *         or {@code null} if there is no such element
-     * @throws ClassCastException if the specified element cannot be
-     *         compared with the elements currently in the set
-     * @throws NullPointerException if the specified element is null
-     *         and this set does not permit null elements
+     * @pbrbm f tif vbluf to mbtdi
+     * @rfturn tif grfbtfst flfmfnt lfss tibn or fqubl to {@dodf f},
+     *         or {@dodf null} if tifrf is no sudi flfmfnt
+     * @tirows ClbssCbstExdfption if tif spfdififd flfmfnt dbnnot bf
+     *         dompbrfd witi tif flfmfnts durrfntly in tif sft
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     *         bnd tiis sft dofs not pfrmit null flfmfnts
      */
-    E floor(E e);
+    E floor(E f);
 
     /**
-     * Returns the least element in this set greater than or equal to
-     * the given element, or {@code null} if there is no such element.
+     * Rfturns tif lfbst flfmfnt in tiis sft grfbtfr tibn or fqubl to
+     * tif givfn flfmfnt, or {@dodf null} if tifrf is no sudi flfmfnt.
      *
-     * @param e the value to match
-     * @return the least element greater than or equal to {@code e},
-     *         or {@code null} if there is no such element
-     * @throws ClassCastException if the specified element cannot be
-     *         compared with the elements currently in the set
-     * @throws NullPointerException if the specified element is null
-     *         and this set does not permit null elements
+     * @pbrbm f tif vbluf to mbtdi
+     * @rfturn tif lfbst flfmfnt grfbtfr tibn or fqubl to {@dodf f},
+     *         or {@dodf null} if tifrf is no sudi flfmfnt
+     * @tirows ClbssCbstExdfption if tif spfdififd flfmfnt dbnnot bf
+     *         dompbrfd witi tif flfmfnts durrfntly in tif sft
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     *         bnd tiis sft dofs not pfrmit null flfmfnts
      */
-    E ceiling(E e);
+    E dfiling(E f);
 
     /**
-     * Returns the least element in this set strictly greater than the
-     * given element, or {@code null} if there is no such element.
+     * Rfturns tif lfbst flfmfnt in tiis sft stridtly grfbtfr tibn tif
+     * givfn flfmfnt, or {@dodf null} if tifrf is no sudi flfmfnt.
      *
-     * @param e the value to match
-     * @return the least element greater than {@code e},
-     *         or {@code null} if there is no such element
-     * @throws ClassCastException if the specified element cannot be
-     *         compared with the elements currently in the set
-     * @throws NullPointerException if the specified element is null
-     *         and this set does not permit null elements
+     * @pbrbm f tif vbluf to mbtdi
+     * @rfturn tif lfbst flfmfnt grfbtfr tibn {@dodf f},
+     *         or {@dodf null} if tifrf is no sudi flfmfnt
+     * @tirows ClbssCbstExdfption if tif spfdififd flfmfnt dbnnot bf
+     *         dompbrfd witi tif flfmfnts durrfntly in tif sft
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     *         bnd tiis sft dofs not pfrmit null flfmfnts
      */
-    E higher(E e);
+    E iigifr(E f);
 
     /**
-     * Retrieves and removes the first (lowest) element,
-     * or returns {@code null} if this set is empty.
+     * Rftrifvfs bnd rfmovfs tif first (lowfst) flfmfnt,
+     * or rfturns {@dodf null} if tiis sft is fmpty.
      *
-     * @return the first element, or {@code null} if this set is empty
+     * @rfturn tif first flfmfnt, or {@dodf null} if tiis sft is fmpty
      */
     E pollFirst();
 
     /**
-     * Retrieves and removes the last (highest) element,
-     * or returns {@code null} if this set is empty.
+     * Rftrifvfs bnd rfmovfs tif lbst (iigifst) flfmfnt,
+     * or rfturns {@dodf null} if tiis sft is fmpty.
      *
-     * @return the last element, or {@code null} if this set is empty
+     * @rfturn tif lbst flfmfnt, or {@dodf null} if tiis sft is fmpty
      */
-    E pollLast();
+    E pollLbst();
 
     /**
-     * Returns an iterator over the elements in this set, in ascending order.
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis sft, in bsdfnding ordfr.
      *
-     * @return an iterator over the elements in this set, in ascending order
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis sft, in bsdfnding ordfr
      */
-    Iterator<E> iterator();
+    Itfrbtor<E> itfrbtor();
 
     /**
-     * Returns a reverse order view of the elements contained in this set.
-     * The descending set is backed by this set, so changes to the set are
-     * reflected in the descending set, and vice-versa.  If either set is
-     * modified while an iteration over either set is in progress (except
-     * through the iterator's own {@code remove} operation), the results of
-     * the iteration are undefined.
+     * Rfturns b rfvfrsf ordfr vifw of tif flfmfnts dontbinfd in tiis sft.
+     * Tif dfsdfnding sft is bbdkfd by tiis sft, so dibngfs to tif sft brf
+     * rfflfdtfd in tif dfsdfnding sft, bnd vidf-vfrsb.  If fitifr sft is
+     * modififd wiilf bn itfrbtion ovfr fitifr sft is in progrfss (fxdfpt
+     * tirougi tif itfrbtor's own {@dodf rfmovf} opfrbtion), tif rfsults of
+     * tif itfrbtion brf undffinfd.
      *
-     * <p>The returned set has an ordering equivalent to
-     * <tt>{@link Collections#reverseOrder(Comparator) Collections.reverseOrder}(comparator())</tt>.
-     * The expression {@code s.descendingSet().descendingSet()} returns a
-     * view of {@code s} essentially equivalent to {@code s}.
+     * <p>Tif rfturnfd sft ibs bn ordfring fquivblfnt to
+     * <tt>{@link Collfdtions#rfvfrsfOrdfr(Compbrbtor) Collfdtions.rfvfrsfOrdfr}(dompbrbtor())</tt>.
+     * Tif fxprfssion {@dodf s.dfsdfndingSft().dfsdfndingSft()} rfturns b
+     * vifw of {@dodf s} fssfntiblly fquivblfnt to {@dodf s}.
      *
-     * @return a reverse order view of this set
+     * @rfturn b rfvfrsf ordfr vifw of tiis sft
      */
-    NavigableSet<E> descendingSet();
+    NbvigbblfSft<E> dfsdfndingSft();
 
     /**
-     * Returns an iterator over the elements in this set, in descending order.
-     * Equivalent in effect to {@code descendingSet().iterator()}.
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis sft, in dfsdfnding ordfr.
+     * Equivblfnt in ffffdt to {@dodf dfsdfndingSft().itfrbtor()}.
      *
-     * @return an iterator over the elements in this set, in descending order
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis sft, in dfsdfnding ordfr
      */
-    Iterator<E> descendingIterator();
+    Itfrbtor<E> dfsdfndingItfrbtor();
 
     /**
-     * Returns a view of the portion of this set whose elements range from
-     * {@code fromElement} to {@code toElement}.  If {@code fromElement} and
-     * {@code toElement} are equal, the returned set is empty unless {@code
-     * fromInclusive} and {@code toInclusive} are both true.  The returned set
-     * is backed by this set, so changes in the returned set are reflected in
-     * this set, and vice-versa.  The returned set supports all optional set
-     * operations that this set supports.
+     * Rfturns b vifw of tif portion of tiis sft wiosf flfmfnts rbngf from
+     * {@dodf fromElfmfnt} to {@dodf toElfmfnt}.  If {@dodf fromElfmfnt} bnd
+     * {@dodf toElfmfnt} brf fqubl, tif rfturnfd sft is fmpty unlfss {@dodf
+     * fromIndlusivf} bnd {@dodf toIndlusivf} brf boti truf.  Tif rfturnfd sft
+     * is bbdkfd by tiis sft, so dibngfs in tif rfturnfd sft brf rfflfdtfd in
+     * tiis sft, bnd vidf-vfrsb.  Tif rfturnfd sft supports bll optionbl sft
+     * opfrbtions tibt tiis sft supports.
      *
-     * <p>The returned set will throw an {@code IllegalArgumentException}
-     * on an attempt to insert an element outside its range.
+     * <p>Tif rfturnfd sft will tirow bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
      *
-     * @param fromElement low endpoint of the returned set
-     * @param fromInclusive {@code true} if the low endpoint
-     *        is to be included in the returned view
-     * @param toElement high endpoint of the returned set
-     * @param toInclusive {@code true} if the high endpoint
-     *        is to be included in the returned view
-     * @return a view of the portion of this set whose elements range from
-     *         {@code fromElement}, inclusive, to {@code toElement}, exclusive
-     * @throws ClassCastException if {@code fromElement} and
-     *         {@code toElement} cannot be compared to one another using this
-     *         set's comparator (or, if the set has no comparator, using
-     *         natural ordering).  Implementations may, but are not required
-     *         to, throw this exception if {@code fromElement} or
-     *         {@code toElement} cannot be compared to elements currently in
-     *         the set.
-     * @throws NullPointerException if {@code fromElement} or
-     *         {@code toElement} is null and this set does
-     *         not permit null elements
-     * @throws IllegalArgumentException if {@code fromElement} is
-     *         greater than {@code toElement}; or if this set itself
-     *         has a restricted range, and {@code fromElement} or
-     *         {@code toElement} lies outside the bounds of the range.
+     * @pbrbm fromElfmfnt low fndpoint of tif rfturnfd sft
+     * @pbrbm fromIndlusivf {@dodf truf} if tif low fndpoint
+     *        is to bf indludfd in tif rfturnfd vifw
+     * @pbrbm toElfmfnt iigi fndpoint of tif rfturnfd sft
+     * @pbrbm toIndlusivf {@dodf truf} if tif iigi fndpoint
+     *        is to bf indludfd in tif rfturnfd vifw
+     * @rfturn b vifw of tif portion of tiis sft wiosf flfmfnts rbngf from
+     *         {@dodf fromElfmfnt}, indlusivf, to {@dodf toElfmfnt}, fxdlusivf
+     * @tirows ClbssCbstExdfption if {@dodf fromElfmfnt} bnd
+     *         {@dodf toElfmfnt} dbnnot bf dompbrfd to onf bnotifr using tiis
+     *         sft's dompbrbtor (or, if tif sft ibs no dompbrbtor, using
+     *         nbturbl ordfring).  Implfmfntbtions mby, but brf not rfquirfd
+     *         to, tirow tiis fxdfption if {@dodf fromElfmfnt} or
+     *         {@dodf toElfmfnt} dbnnot bf dompbrfd to flfmfnts durrfntly in
+     *         tif sft.
+     * @tirows NullPointfrExdfption if {@dodf fromElfmfnt} or
+     *         {@dodf toElfmfnt} is null bnd tiis sft dofs
+     *         not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if {@dodf fromElfmfnt} is
+     *         grfbtfr tibn {@dodf toElfmfnt}; or if tiis sft itsflf
+     *         ibs b rfstridtfd rbngf, bnd {@dodf fromElfmfnt} or
+     *         {@dodf toElfmfnt} lifs outsidf tif bounds of tif rbngf.
      */
-    NavigableSet<E> subSet(E fromElement, boolean fromInclusive,
-                           E toElement,   boolean toInclusive);
+    NbvigbblfSft<E> subSft(E fromElfmfnt, boolfbn fromIndlusivf,
+                           E toElfmfnt,   boolfbn toIndlusivf);
 
     /**
-     * Returns a view of the portion of this set whose elements are less than
-     * (or equal to, if {@code inclusive} is true) {@code toElement}.  The
-     * returned set is backed by this set, so changes in the returned set are
-     * reflected in this set, and vice-versa.  The returned set supports all
-     * optional set operations that this set supports.
+     * Rfturns b vifw of tif portion of tiis sft wiosf flfmfnts brf lfss tibn
+     * (or fqubl to, if {@dodf indlusivf} is truf) {@dodf toElfmfnt}.  Tif
+     * rfturnfd sft is bbdkfd by tiis sft, so dibngfs in tif rfturnfd sft brf
+     * rfflfdtfd in tiis sft, bnd vidf-vfrsb.  Tif rfturnfd sft supports bll
+     * optionbl sft opfrbtions tibt tiis sft supports.
      *
-     * <p>The returned set will throw an {@code IllegalArgumentException}
-     * on an attempt to insert an element outside its range.
+     * <p>Tif rfturnfd sft will tirow bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
      *
-     * @param toElement high endpoint of the returned set
-     * @param inclusive {@code true} if the high endpoint
-     *        is to be included in the returned view
-     * @return a view of the portion of this set whose elements are less than
-     *         (or equal to, if {@code inclusive} is true) {@code toElement}
-     * @throws ClassCastException if {@code toElement} is not compatible
-     *         with this set's comparator (or, if the set has no comparator,
-     *         if {@code toElement} does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if {@code toElement} cannot be compared to elements
-     *         currently in the set.
-     * @throws NullPointerException if {@code toElement} is null and
-     *         this set does not permit null elements
-     * @throws IllegalArgumentException if this set itself has a
-     *         restricted range, and {@code toElement} lies outside the
-     *         bounds of the range
+     * @pbrbm toElfmfnt iigi fndpoint of tif rfturnfd sft
+     * @pbrbm indlusivf {@dodf truf} if tif iigi fndpoint
+     *        is to bf indludfd in tif rfturnfd vifw
+     * @rfturn b vifw of tif portion of tiis sft wiosf flfmfnts brf lfss tibn
+     *         (or fqubl to, if {@dodf indlusivf} is truf) {@dodf toElfmfnt}
+     * @tirows ClbssCbstExdfption if {@dodf toElfmfnt} is not dompbtiblf
+     *         witi tiis sft's dompbrbtor (or, if tif sft ibs no dompbrbtor,
+     *         if {@dodf toElfmfnt} dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, tirow tiis
+     *         fxdfption if {@dodf toElfmfnt} dbnnot bf dompbrfd to flfmfnts
+     *         durrfntly in tif sft.
+     * @tirows NullPointfrExdfption if {@dodf toElfmfnt} is null bnd
+     *         tiis sft dofs not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if tiis sft itsflf ibs b
+     *         rfstridtfd rbngf, bnd {@dodf toElfmfnt} lifs outsidf tif
+     *         bounds of tif rbngf
      */
-    NavigableSet<E> headSet(E toElement, boolean inclusive);
+    NbvigbblfSft<E> ifbdSft(E toElfmfnt, boolfbn indlusivf);
 
     /**
-     * Returns a view of the portion of this set whose elements are greater
-     * than (or equal to, if {@code inclusive} is true) {@code fromElement}.
-     * The returned set is backed by this set, so changes in the returned set
-     * are reflected in this set, and vice-versa.  The returned set supports
-     * all optional set operations that this set supports.
+     * Rfturns b vifw of tif portion of tiis sft wiosf flfmfnts brf grfbtfr
+     * tibn (or fqubl to, if {@dodf indlusivf} is truf) {@dodf fromElfmfnt}.
+     * Tif rfturnfd sft is bbdkfd by tiis sft, so dibngfs in tif rfturnfd sft
+     * brf rfflfdtfd in tiis sft, bnd vidf-vfrsb.  Tif rfturnfd sft supports
+     * bll optionbl sft opfrbtions tibt tiis sft supports.
      *
-     * <p>The returned set will throw an {@code IllegalArgumentException}
-     * on an attempt to insert an element outside its range.
+     * <p>Tif rfturnfd sft will tirow bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
      *
-     * @param fromElement low endpoint of the returned set
-     * @param inclusive {@code true} if the low endpoint
-     *        is to be included in the returned view
-     * @return a view of the portion of this set whose elements are greater
-     *         than or equal to {@code fromElement}
-     * @throws ClassCastException if {@code fromElement} is not compatible
-     *         with this set's comparator (or, if the set has no comparator,
-     *         if {@code fromElement} does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if {@code fromElement} cannot be compared to elements
-     *         currently in the set.
-     * @throws NullPointerException if {@code fromElement} is null
-     *         and this set does not permit null elements
-     * @throws IllegalArgumentException if this set itself has a
-     *         restricted range, and {@code fromElement} lies outside the
-     *         bounds of the range
+     * @pbrbm fromElfmfnt low fndpoint of tif rfturnfd sft
+     * @pbrbm indlusivf {@dodf truf} if tif low fndpoint
+     *        is to bf indludfd in tif rfturnfd vifw
+     * @rfturn b vifw of tif portion of tiis sft wiosf flfmfnts brf grfbtfr
+     *         tibn or fqubl to {@dodf fromElfmfnt}
+     * @tirows ClbssCbstExdfption if {@dodf fromElfmfnt} is not dompbtiblf
+     *         witi tiis sft's dompbrbtor (or, if tif sft ibs no dompbrbtor,
+     *         if {@dodf fromElfmfnt} dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, tirow tiis
+     *         fxdfption if {@dodf fromElfmfnt} dbnnot bf dompbrfd to flfmfnts
+     *         durrfntly in tif sft.
+     * @tirows NullPointfrExdfption if {@dodf fromElfmfnt} is null
+     *         bnd tiis sft dofs not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if tiis sft itsflf ibs b
+     *         rfstridtfd rbngf, bnd {@dodf fromElfmfnt} lifs outsidf tif
+     *         bounds of tif rbngf
      */
-    NavigableSet<E> tailSet(E fromElement, boolean inclusive);
+    NbvigbblfSft<E> tbilSft(E fromElfmfnt, boolfbn indlusivf);
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * <p>Equivalent to {@code subSet(fromElement, true, toElement, false)}.
+     * <p>Equivblfnt to {@dodf subSft(fromElfmfnt, truf, toElfmfnt, fblsf)}.
      *
-     * @throws ClassCastException       {@inheritDoc}
-     * @throws NullPointerException     {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows ClbssCbstExdfption       {@inifritDod}
+     * @tirows NullPointfrExdfption     {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    SortedSet<E> subSet(E fromElement, E toElement);
+    SortfdSft<E> subSft(E fromElfmfnt, E toElfmfnt);
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * <p>Equivalent to {@code headSet(toElement, false)}.
+     * <p>Equivblfnt to {@dodf ifbdSft(toElfmfnt, fblsf)}.
      *
-     * @throws ClassCastException       {@inheritDoc}
-     * @throws NullPointerException     {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows ClbssCbstExdfption       {@inifritDod}
+     * @tirows NullPointfrExdfption     {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    SortedSet<E> headSet(E toElement);
+    SortfdSft<E> ifbdSft(E toElfmfnt);
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * <p>Equivalent to {@code tailSet(fromElement, true)}.
+     * <p>Equivblfnt to {@dodf tbilSft(fromElfmfnt, truf)}.
      *
-     * @throws ClassCastException       {@inheritDoc}
-     * @throws NullPointerException     {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows ClbssCbstExdfption       {@inifritDod}
+     * @tirows NullPointfrExdfption     {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    SortedSet<E> tailSet(E fromElement);
+    SortfdSft<E> tbilSft(E fromElfmfnt);
 }

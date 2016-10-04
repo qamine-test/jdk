@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.zip;
+pbdkbgf jbvb.util.zip;
 
-import java.nio.ByteBuffer;
-import sun.nio.ch.DirectBuffer;
+import jbvb.nio.BytfBufffr;
+import sun.nio.di.DirfdtBufffr;
 
 /**
- * A class that can be used to compute the Adler-32 checksum of a data
- * stream. An Adler-32 checksum is almost as reliable as a CRC-32 but
- * can be computed much faster.
+ * A dlbss tibt dbn bf usfd to domputf tif Adlfr-32 difdksum of b dbtb
+ * strfbm. An Adlfr-32 difdksum is blmost bs rflibblf bs b CRC-32 but
+ * dbn bf domputfd mudi fbstfr.
  *
- * <p> Passing a {@code null} argument to a method in this class will cause
- * a {@link NullPointerException} to be thrown.
+ * <p> Pbssing b {@dodf null} brgumfnt to b mftiod in tiis dlbss will dbusf
+ * b {@link NullPointfrExdfption} to bf tirown.
  *
- * @see         Checksum
- * @author      David Connelly
+ * @sff         Cifdksum
+ * @butior      Dbvid Connflly
  */
-public
-class Adler32 implements Checksum {
+publid
+dlbss Adlfr32 implfmfnts Cifdksum {
 
-    private int adler = 1;
+    privbtf int bdlfr = 1;
 
     /**
-     * Creates a new Adler32 object.
+     * Crfbtfs b nfw Adlfr32 objfdt.
      */
-    public Adler32() {
+    publid Adlfr32() {
     }
 
     /**
-     * Updates the checksum with the specified byte (the low eight
-     * bits of the argument b).
+     * Updbtfs tif difdksum witi tif spfdififd bytf (tif low figit
+     * bits of tif brgumfnt b).
      *
-     * @param b the byte to update the checksum with
+     * @pbrbm b tif bytf to updbtf tif difdksum witi
      */
-    public void update(int b) {
-        adler = update(adler, b);
+    publid void updbtf(int b) {
+        bdlfr = updbtf(bdlfr, b);
     }
 
     /**
-     * Updates the checksum with the specified array of bytes.
+     * Updbtfs tif difdksum witi tif spfdififd brrby of bytfs.
      *
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if {@code off} is negative, or {@code len} is negative,
-     *          or {@code off+len} is greater than the length of the
-     *          array {@code b}
+     * @tirows  ArrbyIndfxOutOfBoundsExdfption
+     *          if {@dodf off} is nfgbtivf, or {@dodf lfn} is nfgbtivf,
+     *          or {@dodf off+lfn} is grfbtfr tibn tif lfngti of tif
+     *          brrby {@dodf b}
      */
-    public void update(byte[] b, int off, int len) {
+    publid void updbtf(bytf[] b, int off, int lfn) {
         if (b == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        if (off < 0 || len < 0 || off > b.length - len) {
-            throw new ArrayIndexOutOfBoundsException();
+        if (off < 0 || lfn < 0 || off > b.lfngti - lfn) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        adler = updateBytes(adler, b, off, len);
+        bdlfr = updbtfBytfs(bdlfr, b, off, lfn);
     }
 
     /**
-     * Updates the checksum with the specified array of bytes.
+     * Updbtfs tif difdksum witi tif spfdififd brrby of bytfs.
      *
-     * @param b the byte array to update the checksum with
+     * @pbrbm b tif bytf brrby to updbtf tif difdksum witi
      */
-    public void update(byte[] b) {
-        adler = updateBytes(adler, b, 0, b.length);
+    publid void updbtf(bytf[] b) {
+        bdlfr = updbtfBytfs(bdlfr, b, 0, b.lfngti);
     }
 
 
     /**
-     * Updates the checksum with the bytes from the specified buffer.
+     * Updbtfs tif difdksum witi tif bytfs from tif spfdififd bufffr.
      *
-     * The checksum is updated using
-     * buffer.{@link java.nio.Buffer#remaining() remaining()}
-     * bytes starting at
-     * buffer.{@link java.nio.Buffer#position() position()}
-     * Upon return, the buffer's position will be updated to its
-     * limit; its limit will not have been changed.
+     * Tif difdksum is updbtfd using
+     * bufffr.{@link jbvb.nio.Bufffr#rfmbining() rfmbining()}
+     * bytfs stbrting bt
+     * bufffr.{@link jbvb.nio.Bufffr#position() position()}
+     * Upon rfturn, tif bufffr's position will bf updbtfd to its
+     * limit; its limit will not ibvf bffn dibngfd.
      *
-     * @param buffer the ByteBuffer to update the checksum with
-     * @since 1.8
+     * @pbrbm bufffr tif BytfBufffr to updbtf tif difdksum witi
+     * @sindf 1.8
      */
-    public void update(ByteBuffer buffer) {
-        int pos = buffer.position();
-        int limit = buffer.limit();
-        assert (pos <= limit);
-        int rem = limit - pos;
-        if (rem <= 0)
-            return;
-        if (buffer instanceof DirectBuffer) {
-            adler = updateByteBuffer(adler, ((DirectBuffer)buffer).address(), pos, rem);
-        } else if (buffer.hasArray()) {
-            adler = updateBytes(adler, buffer.array(), pos + buffer.arrayOffset(), rem);
-        } else {
-            byte[] b = new byte[rem];
-            buffer.get(b);
-            adler = updateBytes(adler, b, 0, b.length);
+    publid void updbtf(BytfBufffr bufffr) {
+        int pos = bufffr.position();
+        int limit = bufffr.limit();
+        bssfrt (pos <= limit);
+        int rfm = limit - pos;
+        if (rfm <= 0)
+            rfturn;
+        if (bufffr instbndfof DirfdtBufffr) {
+            bdlfr = updbtfBytfBufffr(bdlfr, ((DirfdtBufffr)bufffr).bddrfss(), pos, rfm);
+        } flsf if (bufffr.ibsArrby()) {
+            bdlfr = updbtfBytfs(bdlfr, bufffr.brrby(), pos + bufffr.brrbyOffsft(), rfm);
+        } flsf {
+            bytf[] b = nfw bytf[rfm];
+            bufffr.gft(b);
+            bdlfr = updbtfBytfs(bdlfr, b, 0, b.lfngti);
         }
-        buffer.position(limit);
+        bufffr.position(limit);
     }
 
     /**
-     * Resets the checksum to initial value.
+     * Rfsfts tif difdksum to initibl vbluf.
      */
-    public void reset() {
-        adler = 1;
+    publid void rfsft() {
+        bdlfr = 1;
     }
 
     /**
-     * Returns the checksum value.
+     * Rfturns tif difdksum vbluf.
      */
-    public long getValue() {
-        return (long)adler & 0xffffffffL;
+    publid long gftVbluf() {
+        rfturn (long)bdlfr & 0xffffffffL;
     }
 
-    private native static int update(int adler, int b);
-    private native static int updateBytes(int adler, byte[] b, int off,
-                                          int len);
-    private native static int updateByteBuffer(int adler, long addr,
-                                               int off, int len);
+    privbtf nbtivf stbtid int updbtf(int bdlfr, int b);
+    privbtf nbtivf stbtid int updbtfBytfs(int bdlfr, bytf[] b, int off,
+                                          int lfn);
+    privbtf nbtivf stbtid int updbtfBytfBufffr(int bdlfr, long bddr,
+                                               int off, int lfn);
 }

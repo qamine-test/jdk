@@ -1,279 +1,279 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
-import java.awt.*;
-import java.awt.MultipleGradientPaint.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.*;
-import sun.java2d.loops.*;
-import static java.awt.AlphaComposite.*;
+import jbvb.bwt.*;
+import jbvb.bwt.MultiplfGrbdifntPbint.*;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.*;
+import sun.jbvb2d.loops.*;
+import stbtid jbvb.bwt.AlpibCompositf.*;
 
 /**
- * XRender constants and utility methods.
+ * XRfndfr donstbnts bnd utility mftiods.
  *
- * @author Clemens Eisserer
+ * @butior Clfmfns Eissfrfr
  */
 
-public class XRUtils {
-    public static final int None = 0;
+publid dlbss XRUtils {
+    publid stbtid finbl int Nonf = 0;
 
-    /* Composition Operators */
-    public static final byte PictOpClear = 0;
-    public static final byte PictOpSrc = 1;
-    public static final byte PictOpDst = 2;
-    public static final byte PictOpOver = 3;
-    public static final byte PictOpOverReverse = 4;
-    public static final byte PictOpIn = 5;
-    public static final byte PictOpInReverse = 6;
-    public static final byte PictOpOut = 7;
-    public static final byte PictOpOutReverse = 8;
-    public static final byte PictOpAtop = 9;
-    public static final byte PictOpAtopReverse = 10;
-    public static final byte PictOpXor = 11;
-    public static final byte PictOpAdd = 12;
-    public static final byte PictOpSaturate = 13;
+    /* Composition Opfrbtors */
+    publid stbtid finbl bytf PidtOpClfbr = 0;
+    publid stbtid finbl bytf PidtOpSrd = 1;
+    publid stbtid finbl bytf PidtOpDst = 2;
+    publid stbtid finbl bytf PidtOpOvfr = 3;
+    publid stbtid finbl bytf PidtOpOvfrRfvfrsf = 4;
+    publid stbtid finbl bytf PidtOpIn = 5;
+    publid stbtid finbl bytf PidtOpInRfvfrsf = 6;
+    publid stbtid finbl bytf PidtOpOut = 7;
+    publid stbtid finbl bytf PidtOpOutRfvfrsf = 8;
+    publid stbtid finbl bytf PidtOpAtop = 9;
+    publid stbtid finbl bytf PidtOpAtopRfvfrsf = 10;
+    publid stbtid finbl bytf PidtOpXor = 11;
+    publid stbtid finbl bytf PidtOpAdd = 12;
+    publid stbtid finbl bytf PidtOpSbturbtf = 13;
 
-    /* Repeats */
-    public static final int RepeatNone = 0;
-    public static final int RepeatNormal = 1;
-    public static final int RepeatPad = 2;
-    public static final int RepeatReflect = 3;
+    /* Rfpfbts */
+    publid stbtid finbl int RfpfbtNonf = 0;
+    publid stbtid finbl int RfpfbtNormbl = 1;
+    publid stbtid finbl int RfpfbtPbd = 2;
+    publid stbtid finbl int RfpfbtRfflfdt = 3;
 
-    /* Interpolation qualities */
-    public static final int FAST = 0;
-    public static final int GOOD = 1;
-    public static final int BEST = 2;
-    public static final byte[] FAST_NAME = "fast".getBytes();
-    public static final byte[] GOOD_NAME = "good".getBytes();
-    public static final byte[] BEST_NAME = "best".getBytes();
+    /* Intfrpolbtion qublitifs */
+    publid stbtid finbl int FAST = 0;
+    publid stbtid finbl int GOOD = 1;
+    publid stbtid finbl int BEST = 2;
+    publid stbtid finbl bytf[] FAST_NAME = "fbst".gftBytfs();
+    publid stbtid finbl bytf[] GOOD_NAME = "good".gftBytfs();
+    publid stbtid finbl bytf[] BEST_NAME = "bfst".gftBytfs();
 
-    /* PictFormats */
-    public static final int PictStandardARGB32 = 0;
-    public static final int PictStandardRGB24 = 1;
-    public static final int PictStandardA8 = 2;
-    public static final int PictStandardA4 = 3;
-    public static final int PictStandardA1 = 4;
-
-    /**
-     * Maps the specified affineTransformOp to the corresponding XRender image
-     * filter.
-     */
-    public static int ATransOpToXRQuality(int affineTranformOp) {
-
-        switch (affineTranformOp) {
-        case AffineTransformOp.TYPE_NEAREST_NEIGHBOR:
-            return FAST;
-
-        case AffineTransformOp.TYPE_BILINEAR:
-            return GOOD;
-
-        case AffineTransformOp.TYPE_BICUBIC:
-            return BEST;
-        }
-
-        return -1;
-    }
+    /* PidtFormbts */
+    publid stbtid finbl int PidtStbndbrdARGB32 = 0;
+    publid stbtid finbl int PidtStbndbrdRGB24 = 1;
+    publid stbtid finbl int PidtStbndbrdA8 = 2;
+    publid stbtid finbl int PidtStbndbrdA4 = 3;
+    publid stbtid finbl int PidtStbndbrdA1 = 4;
 
     /**
-     * Maps the specified affineTransformOp to the corresponding XRender image
-     * filter.
+     * Mbps tif spfdififd bffinfTrbnsformOp to tif dorrfsponding XRfndfr imbgf
+     * filtfr.
      */
-    public static byte[] ATransOpToXRQualityName(int affineTranformOp) {
+    publid stbtid int ATrbnsOpToXRQublity(int bffinfTrbnformOp) {
 
-        switch (affineTranformOp) {
-        case AffineTransformOp.TYPE_NEAREST_NEIGHBOR:
-            return FAST_NAME;
+        switdi (bffinfTrbnformOp) {
+        dbsf AffinfTrbnsformOp.TYPE_NEAREST_NEIGHBOR:
+            rfturn FAST;
 
-        case AffineTransformOp.TYPE_BILINEAR:
-            return GOOD_NAME;
+        dbsf AffinfTrbnsformOp.TYPE_BILINEAR:
+            rfturn GOOD;
 
-        case AffineTransformOp.TYPE_BICUBIC:
-            return BEST_NAME;
+        dbsf AffinfTrbnsformOp.TYPE_BICUBIC:
+            rfturn BEST;
         }
 
-        return null;
-    }
-
-
-    public static byte[] getFilterName(int filterType) {
-        switch (filterType) {
-        case FAST:
-            return FAST_NAME;
-        case GOOD:
-            return GOOD_NAME;
-        case BEST:
-            return BEST_NAME;
-        }
-
-        return null;
-    }
-
-
-    /**
-     * Returns the XRender picture Format which is required to fullfill the
-     * Java2D transparency requirement.
-     */
-    public static int getPictureFormatForTransparency(int transparency) {
-        switch (transparency) {
-        case Transparency.OPAQUE:
-            return PictStandardRGB24;
-
-        case Transparency.BITMASK:
-        case Transparency.TRANSLUCENT:
-            return PictStandardARGB32;
-        }
-
-        return -1;
-    }
-
-
-    public static SurfaceType getXRSurfaceTypeForTransparency(int transparency) {
-        if (transparency == Transparency.OPAQUE) {
-            return SurfaceType.IntRgb;
-        }else {
-            return SurfaceType.IntArgbPre;
-        }
+        rfturn -1;
     }
 
     /**
-     * Maps Java2D CycleMethod to XRender's Repeat property.
+     * Mbps tif spfdififd bffinfTrbnsformOp to tif dorrfsponding XRfndfr imbgf
+     * filtfr.
      */
-    public static int getRepeatForCycleMethod(CycleMethod cycleMethod) {
-        if (cycleMethod.equals(CycleMethod.NO_CYCLE)) {
-            return RepeatPad;
-        } else if (cycleMethod.equals(CycleMethod.REFLECT)) {
-            return RepeatReflect;
-        } else if (cycleMethod.equals(CycleMethod.REPEAT)) {
-            return RepeatNormal;
+    publid stbtid bytf[] ATrbnsOpToXRQublityNbmf(int bffinfTrbnformOp) {
+
+        switdi (bffinfTrbnformOp) {
+        dbsf AffinfTrbnsformOp.TYPE_NEAREST_NEIGHBOR:
+            rfturn FAST_NAME;
+
+        dbsf AffinfTrbnsformOp.TYPE_BILINEAR:
+            rfturn GOOD_NAME;
+
+        dbsf AffinfTrbnsformOp.TYPE_BICUBIC:
+            rfturn BEST_NAME;
         }
 
-        return RepeatNone;
+        rfturn null;
+    }
+
+
+    publid stbtid bytf[] gftFiltfrNbmf(int filtfrTypf) {
+        switdi (filtfrTypf) {
+        dbsf FAST:
+            rfturn FAST_NAME;
+        dbsf GOOD:
+            rfturn GOOD_NAME;
+        dbsf BEST:
+            rfturn BEST_NAME;
+        }
+
+        rfturn null;
+    }
+
+
+    /**
+     * Rfturns tif XRfndfr pidturf Formbt wiidi is rfquirfd to fullfill tif
+     * Jbvb2D trbnspbrfndy rfquirfmfnt.
+     */
+    publid stbtid int gftPidturfFormbtForTrbnspbrfndy(int trbnspbrfndy) {
+        switdi (trbnspbrfndy) {
+        dbsf Trbnspbrfndy.OPAQUE:
+            rfturn PidtStbndbrdRGB24;
+
+        dbsf Trbnspbrfndy.BITMASK:
+        dbsf Trbnspbrfndy.TRANSLUCENT:
+            rfturn PidtStbndbrdARGB32;
+        }
+
+        rfturn -1;
+    }
+
+
+    publid stbtid SurfbdfTypf gftXRSurfbdfTypfForTrbnspbrfndy(int trbnspbrfndy) {
+        if (trbnspbrfndy == Trbnspbrfndy.OPAQUE) {
+            rfturn SurfbdfTypf.IntRgb;
+        }flsf {
+            rfturn SurfbdfTypf.IntArgbPrf;
+        }
     }
 
     /**
-     * Converts a double into an XFixed.
+     * Mbps Jbvb2D CydlfMftiod to XRfndfr's Rfpfbt propfrty.
      */
-    public static int XDoubleToFixed(double dbl) {
-        return (int) (dbl * 65536);
-    }
-
-    public static double XFixedToDouble(int fixed) {
-        return ((double) fixed) / 65536;
-    }
-
-    public static int[] convertFloatsToFixed(float[] values) {
-        int[] fixed = new int[values.length];
-
-        for (int i = 0; i < values.length; i++) {
-            fixed[i] = XDoubleToFixed(values[i]);
+    publid stbtid int gftRfpfbtForCydlfMftiod(CydlfMftiod dydlfMftiod) {
+        if (dydlfMftiod.fqubls(CydlfMftiod.NO_CYCLE)) {
+            rfturn RfpfbtPbd;
+        } flsf if (dydlfMftiod.fqubls(CydlfMftiod.REFLECT)) {
+            rfturn RfpfbtRfflfdt;
+        } flsf if (dydlfMftiod.fqubls(CydlfMftiod.REPEAT)) {
+            rfturn RfpfbtNormbl;
         }
 
-        return fixed;
-    }
-
-    public static long intToULong(int signed) {
-        if (signed < 0) {
-            return ((long) signed) + (((long) Integer.MAX_VALUE) -
-                    ((long) Integer.MIN_VALUE) + 1);
-        }
-
-        return signed;
+        rfturn RfpfbtNonf;
     }
 
     /**
-     * Maps the specified Java2D composition rule, to the corresponding XRender
-     * composition rule.
+     * Convfrts b doublf into bn XFixfd.
      */
-    public static byte j2dAlphaCompToXR(int j2dRule) {
-        switch (j2dRule) {
-        case CLEAR:
-            return PictOpClear;
+    publid stbtid int XDoublfToFixfd(doublf dbl) {
+        rfturn (int) (dbl * 65536);
+    }
 
-        case SRC:
-            return PictOpSrc;
+    publid stbtid doublf XFixfdToDoublf(int fixfd) {
+        rfturn ((doublf) fixfd) / 65536;
+    }
 
-        case DST:
-            return PictOpDst;
+    publid stbtid int[] donvfrtFlobtsToFixfd(flobt[] vblufs) {
+        int[] fixfd = nfw int[vblufs.lfngti];
 
-        case SRC_OVER:
-            return PictOpOver;
-
-        case DST_OVER:
-            return PictOpOverReverse;
-
-        case SRC_IN:
-            return PictOpIn;
-
-        case DST_IN:
-            return PictOpInReverse;
-
-        case SRC_OUT:
-            return PictOpOut;
-
-        case DST_OUT:
-            return PictOpOutReverse;
-
-        case SRC_ATOP:
-            return PictOpAtop;
-
-        case DST_ATOP:
-            return PictOpAtopReverse;
-
-        case XOR:
-            return PictOpXor;
+        for (int i = 0; i < vblufs.lfngti; i++) {
+            fixfd[i] = XDoublfToFixfd(vblufs[i]);
         }
 
-        throw new InternalError("No XRender equivalent available for requested java2d composition rule: "+j2dRule);
+        rfturn fixfd;
     }
 
-    public static short clampToShort(int x) {
-        return (short) (x > Short.MAX_VALUE
-                           ? Short.MAX_VALUE
-                           : (x < Short.MIN_VALUE ? Short.MIN_VALUE : x));
-    }
-
-    public static int clampToUShort(int x) {
-        return (x > 65535 ? 65535 : (x < 0) ? 0 : x);
-    }
-
-    public static boolean isTransformQuadrantRotated(AffineTransform tr) {
-        return ((tr.getType() & (AffineTransform.TYPE_GENERAL_ROTATION |
-                 AffineTransform.TYPE_GENERAL_TRANSFORM)) == 0);
-    }
-
-    public static boolean isMaskEvaluated(byte xrCompRule) {
-        switch (xrCompRule) {
-        case PictOpOver:
-        case PictOpOverReverse:
-        case PictOpAtop:
-        case PictOpXor:
-            return true;
+    publid stbtid long intToULong(int signfd) {
+        if (signfd < 0) {
+            rfturn ((long) signfd) + (((long) Intfgfr.MAX_VALUE) -
+                    ((long) Intfgfr.MIN_VALUE) + 1);
         }
 
-        return false;
+        rfturn signfd;
+    }
+
+    /**
+     * Mbps tif spfdififd Jbvb2D domposition rulf, to tif dorrfsponding XRfndfr
+     * domposition rulf.
+     */
+    publid stbtid bytf j2dAlpibCompToXR(int j2dRulf) {
+        switdi (j2dRulf) {
+        dbsf CLEAR:
+            rfturn PidtOpClfbr;
+
+        dbsf SRC:
+            rfturn PidtOpSrd;
+
+        dbsf DST:
+            rfturn PidtOpDst;
+
+        dbsf SRC_OVER:
+            rfturn PidtOpOvfr;
+
+        dbsf DST_OVER:
+            rfturn PidtOpOvfrRfvfrsf;
+
+        dbsf SRC_IN:
+            rfturn PidtOpIn;
+
+        dbsf DST_IN:
+            rfturn PidtOpInRfvfrsf;
+
+        dbsf SRC_OUT:
+            rfturn PidtOpOut;
+
+        dbsf DST_OUT:
+            rfturn PidtOpOutRfvfrsf;
+
+        dbsf SRC_ATOP:
+            rfturn PidtOpAtop;
+
+        dbsf DST_ATOP:
+            rfturn PidtOpAtopRfvfrsf;
+
+        dbsf XOR:
+            rfturn PidtOpXor;
+        }
+
+        tirow nfw IntfrnblError("No XRfndfr fquivblfnt bvbilbblf for rfqufstfd jbvb2d domposition rulf: "+j2dRulf);
+    }
+
+    publid stbtid siort dlbmpToSiort(int x) {
+        rfturn (siort) (x > Siort.MAX_VALUE
+                           ? Siort.MAX_VALUE
+                           : (x < Siort.MIN_VALUE ? Siort.MIN_VALUE : x));
+    }
+
+    publid stbtid int dlbmpToUSiort(int x) {
+        rfturn (x > 65535 ? 65535 : (x < 0) ? 0 : x);
+    }
+
+    publid stbtid boolfbn isTrbnsformQubdrbntRotbtfd(AffinfTrbnsform tr) {
+        rfturn ((tr.gftTypf() & (AffinfTrbnsform.TYPE_GENERAL_ROTATION |
+                 AffinfTrbnsform.TYPE_GENERAL_TRANSFORM)) == 0);
+    }
+
+    publid stbtid boolfbn isMbskEvblubtfd(bytf xrCompRulf) {
+        switdi (xrCompRulf) {
+        dbsf PidtOpOvfr:
+        dbsf PidtOpOvfrRfvfrsf:
+        dbsf PidtOpAtop:
+        dbsf PidtOpXor:
+            rfturn truf;
+        }
+
+        rfturn fblsf;
     }
 }

@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.io.IOException;
-import javax.naming.*;
-import javax.naming.directory.*;
+import jbvb.io.IOExdfption;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
 
 /**
- * This class implements the LDAPv3 Response Control for entry-change
- * notification as defined in
- * <a href="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-psearch-02.txt">draft-ietf-ldapext-psearch-02.txt</a>.
+ * Tiis dlbss implfmfnts tif LDAPv3 Rfsponsf Control for fntry-dibngf
+ * notifidbtion bs dffinfd in
+ * <b irff="ittp://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-psfbrdi-02.txt">drbft-iftf-ldbpfxt-psfbrdi-02.txt</b>.
  *
- * The control's value has the following ASN.1 definition:
- * <pre>
+ * Tif dontrol's vbluf ibs tif following ASN.1 dffinition:
+ * <prf>
  *
- *     EntryChangeNotification ::= SEQUENCE {
- *         changeType ENUMERATED {
- *             add              (1),
- *             delete           (2),
+ *     EntryCibngfNotifidbtion ::= SEQUENCE {
+ *         dibngfTypf ENUMERATED {
+ *             bdd              (1),
+ *             dflftf           (2),
  *             modify           (4),
  *             modDN            (8)
  *         },
- *         previousDN   LDAPDN OPTIONAL,        -- modifyDN ops. only
- *         changeNumber INTEGER OPTIONAL,       -- if supported
+ *         prfviousDN   LDAPDN OPTIONAL,        -- modifyDN ops. only
+ *         dibngfNumbfr INTEGER OPTIONAL,       -- if supportfd
  *    }
  *
- * </pre>
+ * </prf>
  *
- * @see PersistentSearchControl
- * @see com.sun.jndi.ldap.ctl.ResponseControlFactory ResponseControlFactory
- * @author Vincent Ryan
+ * @sff PfrsistfntSfbrdiControl
+ * @sff dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory RfsponsfControlFbdtory
+ * @butior Vindfnt Rybn
  */
-final public class EntryChangeResponseControl extends BasicControl {
+finbl publid dlbss EntryCibngfRfsponsfControl fxtfnds BbsidControl {
 
     /**
-     * The entry-change response control's assigned object identifier
+     * Tif fntry-dibngf rfsponsf dontrol's bssignfd objfdt idfntififr
      * is 2.16.840.1.113730.3.4.7.
      */
-    public static final String OID = "2.16.840.1.113730.3.4.7";
+    publid stbtid finbl String OID = "2.16.840.1.113730.3.4.7";
 
     /**
-     * Indicates an entry which has been added.
+     * Indidbtfs bn fntry wiidi ibs bffn bddfd.
      */
-    public static final int ADD = 1;
+    publid stbtid finbl int ADD = 1;
 
     /**
-     * Indicates an entry which has been deleted.
+     * Indidbtfs bn fntry wiidi ibs bffn dflftfd.
      */
-    public static final int DELETE = 2;
+    publid stbtid finbl int DELETE = 2;
 
     /**
-     * Indicates an entry which has been modified.
+     * Indidbtfs bn fntry wiidi ibs bffn modififd.
      */
-    public static final int MODIFY = 4;
+    publid stbtid finbl int MODIFY = 4;
 
     /**
-     * Indicates an entry which has been renamed.
+     * Indidbtfs bn fntry wiidi ibs bffn rfnbmfd.
      */
-    public static final int RENAME = 8;
+    publid stbtid finbl int RENAME = 8;
 
     /**
-     * The type of change that occurred.
+     * Tif typf of dibngf tibt oddurrfd.
      *
-     * @serial
+     * @sfribl
      */
-    private int changeType;
+    privbtf int dibngfTypf;
 
     /**
-     * The previous distinguished name (only applies to RENAME changes).
+     * Tif prfvious distinguisifd nbmf (only bpplifs to RENAME dibngfs).
      *
-     * @serial
+     * @sfribl
      */
-    private String previousDN = null;
+    privbtf String prfviousDN = null;
 
     /**
-     * The change number (if supported by the server).
+     * Tif dibngf numbfr (if supportfd by tif sfrvfr).
      *
-     * @serial
+     * @sfribl
      */
-    private long changeNumber = -1L;
+    privbtf long dibngfNumbfr = -1L;
 
-    private static final long serialVersionUID = -2087354136750180511L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2087354136750180511L;
 
     /**
-     * Constructs a new instance of EntryChangeResponseControl.
+     * Construdts b nfw instbndf of EntryCibngfRfsponsfControl.
      *
-     * @param   id              The control's object identifier string.
-     * @param   criticality     The control's criticality.
-     * @param   value           The control's ASN.1 BER encoded value.
-     *                          May be null.
-     * @exception               IOException if an error is encountered
-     *                          while decoding the control's value.
+     * @pbrbm   id              Tif dontrol's objfdt idfntififr string.
+     * @pbrbm   dritidblity     Tif dontrol's dritidblity.
+     * @pbrbm   vbluf           Tif dontrol's ASN.1 BER fndodfd vbluf.
+     *                          Mby bf null.
+     * @fxdfption               IOExdfption if bn frror is fndountfrfd
+     *                          wiilf dfdoding tif dontrol's vbluf.
      */
-    public EntryChangeResponseControl(String id, boolean criticality,
-        byte[] value) throws IOException {
+    publid EntryCibngfRfsponsfControl(String id, boolfbn dritidblity,
+        bytf[] vbluf) tirows IOExdfption {
 
-        super(id, criticality, value);
+        supfr(id, dritidblity, vbluf);
 
-        // decode value
-        if ((value != null) && (value.length > 0)) {
-            BerDecoder ber = new BerDecoder(value, 0, value.length);
+        // dfdodf vbluf
+        if ((vbluf != null) && (vbluf.lfngti > 0)) {
+            BfrDfdodfr bfr = nfw BfrDfdodfr(vbluf, 0, vbluf.lfngti);
 
-            ber.parseSeq(null);
-            changeType = ber.parseEnumeration();
+            bfr.pbrsfSfq(null);
+            dibngfTypf = bfr.pbrsfEnumfrbtion();
 
-            if ((ber.bytesLeft() > 0) && (ber.peekByte() == Ber.ASN_OCTET_STR)){
-                previousDN = ber.parseString(true);
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_OCTET_STR)){
+                prfviousDN = bfr.pbrsfString(truf);
             }
-            if ((ber.bytesLeft() > 0) && (ber.peekByte() == Ber.ASN_INTEGER)) {
-                changeNumber = ber.parseInt();
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_INTEGER)) {
+                dibngfNumbfr = bfr.pbrsfInt();
             }
         }
     }
 
     /**
-     * Retrieves the type of change that occurred.
+     * Rftrifvfs tif typf of dibngf tibt oddurrfd.
      *
-     * @return    The type of change.
+     * @rfturn    Tif typf of dibngf.
      */
-    public int getChangeType() {
-        return changeType;
+    publid int gftCibngfTypf() {
+        rfturn dibngfTypf;
     }
 
     /**
-     * Retrieves the previous distinguished name of the entry before it was
-     * renamed and/or moved. This method applies only to RENAME changes.
+     * Rftrifvfs tif prfvious distinguisifd nbmf of tif fntry bfforf it wbs
+     * rfnbmfd bnd/or movfd. Tiis mftiod bpplifs only to RENAME dibngfs.
      *
-     * @return    The previous distinguished name or null if not applicable.
+     * @rfturn    Tif prfvious distinguisifd nbmf or null if not bpplidbblf.
      */
-    public String getPreviousDN() {
-        return previousDN;
+    publid String gftPrfviousDN() {
+        rfturn prfviousDN;
     }
 
     /**
-     * Retrieves the change number assigned by the server for this change.
-     * Returns -1 if this feature is not supported by the server.
+     * Rftrifvfs tif dibngf numbfr bssignfd by tif sfrvfr for tiis dibngf.
+     * Rfturns -1 if tiis ffbturf is not supportfd by tif sfrvfr.
      *
-     * @return    The change number or -1 if unsupported.
+     * @rfturn    Tif dibngf numbfr or -1 if unsupportfd.
      */
-    public long getChangeNumber() {
-        return changeNumber;
+    publid long gftCibngfNumbfr() {
+        rfturn dibngfNumbfr;
     }
 }

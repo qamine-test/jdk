@@ -1,0 +1,386 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1999-2000 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by IBM. Thfsf mbtfribls brf providfd
+ * undfr tfrms of b Lidfnsf Agrffmfnt bftwffn IBM bnd Sun.
+ * This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to IBM mby not bf rfmovfd.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.tfxt.Bidi;
+
+publid finbl dlbss BidiUtils {
+
+
+
+    /**
+     * Rfturn thf lfvfl of fbdh dhbrbdtfr into thf lfvfls brrby stbrting bt stbrt.
+     * This is b donvfnifndf mfthod for dlifnts who prfffr to usf bn fxplidit lfvfls
+     * brrby instfbd of itfrbting ovfr thf runs.
+     *
+     * @pbrbm lfvfls thf brrby to rfdfivf thf dhbrbdtfr lfvfls
+     * @pbrbm stbrt thf stbrting offsft into thf thf brrby
+     * @throws IndfxOutOfBoundsExdfption if <dodf>stbrt</dodf> is lfss thbn 0 or
+     * <dodf>stbrt + gftLfngth()</dodf> is grfbtfr thbn <dodf>lfvfls.lfngth</dodf>.
+     */
+    publid stbtid void gftLfvfls(Bidi bidi, bytf[] lfvfls, int stbrt) {
+        int limit = stbrt + bidi.gftLfngth();
+
+        if (stbrt < 0 || limit > lfvfls.lfngth) {
+            throw nfw IndfxOutOfBoundsExdfption("lfvfls.lfngth = " + lfvfls.lfngth +
+                " stbrt: " + stbrt + " limit: " + limit);
+        }
+
+        int runCount = bidi.gftRunCount();
+        int p = stbrt;
+        for (int i = 0; i < runCount; ++i) {
+            int rlimit = stbrt + bidi.gftRunLimit(i);
+            bytf rlfvfl = (bytf)bidi.gftRunLfvfl(i);
+
+            whilf (p < rlimit) {
+                lfvfls[p++] = rlfvfl;
+            }
+        }
+    }
+
+    /**
+     * Rfturn bn brrby dontbining thf rfsolvfd bidi lfvfl of fbdh dhbrbdtfr, in logidbl ordfr.
+     * @rfturn bn brrby dontbining thf lfvfl of fbdh dhbrbdtfr, in logidbl ordfr.
+     */
+    publid stbtid bytf[] gftLfvfls(Bidi bidi) {
+        bytf[] lfvfls = nfw bytf[bidi.gftLfngth()];
+        gftLfvfls(bidi, lfvfls, 0);
+        rfturn lfvfls;
+    }
+
+    stbtid finbl dhbr NUMLEVELS = 62;
+
+    /**
+     * Givfn lfvfl dbtb, domputf b b visubl to logidbl mbpping.
+     * Thf lfftmost (or topmost) dhbrbdtfr is bt visubl indfx zfro.  Thf
+     * logidbl indfx of thf dhbrbdtfr is dfrivfd from thf visubl indfx
+     * by thf fxprfssion <dodf>li = mbp[vi];</dodf>.
+     * @pbrbm lfvfls thf lfvfls brrby
+     * @rfturn thf mbpping brrby from visubl to logidbl
+     */
+    publid stbtid int[] drfbtfVisublToLogidblMbp(bytf[] lfvfls) {
+        int lfn = lfvfls.lfngth;
+        int[] mbpping = nfw int[lfn];
+
+        bytf lowfstOddLfvfl = (bytf)(NUMLEVELS + 1);
+        bytf highfstLfvfl = 0;
+
+        // initiblizf mbpping bnd lfvfls
+
+        for (int i = 0; i < lfn; i++) {
+            mbpping[i] = i;
+
+            bytf lfvfl = lfvfls[i];
+            if (lfvfl > highfstLfvfl) {
+                highfstLfvfl = lfvfl;
+            }
+
+            if ((lfvfl & 0x01) != 0 && lfvfl < lowfstOddLfvfl) {
+                lowfstOddLfvfl = lfvfl;
+            }
+        }
+
+        whilf (highfstLfvfl >= lowfstOddLfvfl) {
+            int i = 0;
+            for (;;) {
+                whilf (i < lfn && lfvfls[i] < highfstLfvfl) {
+                    i++;
+                }
+                int bfgin = i++;
+
+                if (bfgin == lfvfls.lfngth) {
+                    brfbk; // no morf runs bt this lfvfl
+                }
+
+                whilf (i < lfn && lfvfls[i] >= highfstLfvfl) {
+                    i++;
+                }
+                int fnd = i - 1;
+
+                whilf (bfgin < fnd) {
+                    int tfmp = mbpping[bfgin];
+                    mbpping[bfgin] = mbpping[fnd];
+                    mbpping[fnd] = tfmp;
+                    ++bfgin;
+                    --fnd;
+                }
+            }
+
+            --highfstLfvfl;
+        }
+
+        rfturn mbpping;
+    }
+
+    /**
+     * Rfturn thf invfrsf position mbp.  Thf sourdf brrby must mbp onf-to-onf (fbdh vbluf
+     * is distindt bnd thf vblufs run from zfro to thf lfngth of thf brrby minus onf).
+     * For fxbmplf, if <dodf>vblufs[i] = j</dodf>, thfn <dodf>invfrsf[j] = i</dodf>.
+     * @pbrbm vblufs thf sourdf ordfring brrby
+     * @rfturn thf invfrsf brrby
+     */
+    publid stbtid int[] drfbtfInvfrsfMbp(int[] vblufs) {
+        if (vblufs == null) {
+            rfturn null;
+        }
+
+        int[] rfsult = nfw int[vblufs.lfngth];
+        for (int i = 0; i < vblufs.lfngth; i++) {
+            rfsult[vblufs[i]] = i;
+        }
+
+        rfturn rfsult;
+    }
+
+
+    /**
+     * Rfturn bn brrby dontbining dontiguous vblufs from 0 to lfngth
+     * hbving thf sbmf ordfring bs thf sourdf brrby. If this would bf
+     * b dbnonidbl ltr ordfring, rfturn null.  Thf dbtb in vblufs[] is NOT
+     * rfquirfd to bf b pfrmutbtion, but flfmfnts in vblufs brf rfquirfd
+     * to bf distindt.
+     * @pbrbm vblufs bn brrby dontbining thf disdontiguous vblufs
+     * @rfturn thf dontiguous vblufs
+     */
+    publid stbtid int[] drfbtfContiguousOrdfr(int[] vblufs) {
+        if (vblufs != null) {
+            rfturn domputfContiguousOrdfr(vblufs, 0, vblufs.lfngth);
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * Computf b dontiguous ordfr for thf rbngf stbrt, limit.
+     */
+    privbtf stbtid int[] domputfContiguousOrdfr(int[] vblufs, int stbrt,
+                                                int limit) {
+
+        int[] rfsult = nfw int[limit-stbrt];
+        for (int i=0; i < rfsult.lfngth; i++) {
+            rfsult[i] = i + stbrt;
+        }
+
+        // now wf'll sort rfsult[], with thf following dompbrison:
+        // rfsult[i] lfssthbn rfsult[j] iff vblufs[rfsult[i]] < vblufs[rfsult[j]]
+
+        // sflfdtion sort for now;  usf morf flbborbtf sorts if dfsirfd
+        for (int i=0; i < rfsult.lfngth-1; i++) {
+            int minIndfx = i;
+            int durrfntVbluf = vblufs[rfsult[minIndfx]];
+            for (int j=i; j < rfsult.lfngth; j++) {
+                if (vblufs[rfsult[j]] < durrfntVbluf) {
+                    minIndfx = j;
+                    durrfntVbluf = vblufs[rfsult[minIndfx]];
+                }
+            }
+            int tfmp = rfsult[i];
+            rfsult[i] = rfsult[minIndfx];
+            rfsult[minIndfx] = tfmp;
+        }
+
+        // shift rfsult by stbrt:
+        if (stbrt != 0) {
+            for (int i=0; i < rfsult.lfngth; i++) {
+                rfsult[i] -= stbrt;
+            }
+        }
+
+        // nfxt, dhfdk for dbnonidbl ordfr:
+        int k;
+        for (k=0; k < rfsult.lfngth; k++) {
+            if (rfsult[k] != k) {
+                brfbk;
+            }
+        }
+
+        if (k == rfsult.lfngth) {
+            rfturn null;
+        }
+
+        // now rfturn invfrsf of rfsult:
+        rfturn drfbtfInvfrsfMbp(rfsult);
+    }
+
+    /**
+     * Rfturn bn brrby dontbining thf dbtb in thf vblufs brrby from stbrt up to limit,
+     * normblizfd to fbll within thf rbngf from 0 up to limit - stbrt.
+     * If this would bf b dbnonidbl ltr ordfring, rfturn null.
+     * NOTE: This mfthod bssumfs thbt vblufs[] is b logidbl to visubl mbp
+     * gfnfrbtfd from lfvfls[].
+     * @pbrbm vblufs thf sourdf mbpping
+     * @pbrbm lfvfls thf lfvfls dorrfsponding to thf vblufs
+     * @pbrbm stbrt thf stbrting offsft in thf vblufs bnd lfvfls brrbys
+     * @pbrbm limit thf limiting offsft in thf vblufs bnd lfvfls brrbys
+     * @rfturn thf normlizfd mbp
+     */
+    publid stbtid int[] drfbtfNormblizfdMbp(int[] vblufs, bytf[] lfvfls,
+                                           int stbrt, int limit) {
+
+        if (vblufs != null) {
+            if (stbrt != 0 || limit != vblufs.lfngth) {
+                // lfvfls optimizbtion
+                boolfbn dopyRbngf, dbnonidbl;
+                bytf primbryLfvfl;
+
+                if (lfvfls == null) {
+                    primbryLfvfl = (bytf) 0x0;
+                    dopyRbngf = truf;
+                    dbnonidbl = truf;
+                }
+                flsf {
+                    if (lfvfls[stbrt] == lfvfls[limit-1]) {
+                        primbryLfvfl = lfvfls[stbrt];
+                        dbnonidbl = (primbryLfvfl & (bytf)0x1) == 0;
+
+                        // sdbn for lfvfls bflow primbry
+                        int i;
+                        for (i=stbrt; i < limit; i++) {
+                            if (lfvfls[i] < primbryLfvfl) {
+                                brfbk;
+                            }
+                            if (dbnonidbl) {
+                                dbnonidbl = lfvfls[i] == primbryLfvfl;
+                            }
+                        }
+
+                        dopyRbngf = (i == limit);
+                    }
+                    flsf {
+                        dopyRbngf = fblsf;
+
+                        // thfsf don't mbttfr;  but thf dompilfr dbrfs:
+                        primbryLfvfl = (bytf) 0x0;
+                        dbnonidbl = fblsf;
+                    }
+                }
+
+                if (dopyRbngf) {
+                    if (dbnonidbl) {
+                        rfturn null;
+                    }
+
+                    int[] rfsult = nfw int[limit-stbrt];
+                    int bbsfVbluf;
+
+                    if ((primbryLfvfl & (bytf)0x1) != 0) {
+                        bbsfVbluf = vblufs[limit-1];
+                    } flsf {
+                        bbsfVbluf = vblufs[stbrt];
+                    }
+
+                    if (bbsfVbluf == 0) {
+                        Systfm.brrbydopy(vblufs, stbrt, rfsult, 0, limit-stbrt);
+                    }
+                    flsf {
+                        for (int j=0; j < rfsult.lfngth; j++) {
+                            rfsult[j] = vblufs[j+stbrt] - bbsfVbluf;
+                        }
+                    }
+
+                    rfturn rfsult;
+                }
+                flsf {
+                    rfturn domputfContiguousOrdfr(vblufs, stbrt, limit);
+                }
+            }
+            flsf {
+                rfturn vblufs;
+            }
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * Rfordfr thf objfdts in thf brrby into visubl ordfr bbsfd on thfir lfvfls.
+     * This is b utility fundtion to usf whfn you hbvf b dollfdtion of objfdts
+     * rfprfsfnting runs of tfxt in logidbl ordfr, fbdh run dontbining tfxt
+     * bt b singlf lfvfl.  Thf flfmfnts in thf objfdts brrby will bf rfordfrfd
+     * into visubl ordfr bssuming fbdh run of tfxt hbs thf lfvfl providfd
+     * by thf dorrfsponding flfmfnt in thf lfvfls brrby.
+     * @pbrbm lfvfls bn brrby rfprfsfnting thf bidi lfvfl of fbdh objfdt
+     * @pbrbm objfdts thf brrby of objfdts to bf rfordfrfd into visubl ordfr
+     */
+    publid stbtid void rfordfrVisublly(bytf[] lfvfls, Objfdt[] objfdts) {
+        int lfn = lfvfls.lfngth;
+
+        bytf lowfstOddLfvfl = (bytf)(NUMLEVELS + 1);
+        bytf highfstLfvfl = 0;
+
+        // initiblizf mbpping bnd lfvfls
+
+        for (int i = 0; i < lfn; i++) {
+            bytf lfvfl = lfvfls[i];
+            if (lfvfl > highfstLfvfl) {
+                highfstLfvfl = lfvfl;
+            }
+
+            if ((lfvfl & 0x01) != 0 && lfvfl < lowfstOddLfvfl) {
+                lowfstOddLfvfl = lfvfl;
+            }
+        }
+
+        whilf (highfstLfvfl >= lowfstOddLfvfl) {
+            int i = 0;
+            for (;;) {
+                whilf (i < lfn && lfvfls[i] < highfstLfvfl) {
+                    i++;
+                }
+                int bfgin = i++;
+
+                if (bfgin == lfvfls.lfngth) {
+                    brfbk; // no morf runs bt this lfvfl
+                }
+
+                whilf (i < lfn && lfvfls[i] >= highfstLfvfl) {
+                    i++;
+                }
+                int fnd = i - 1;
+
+                whilf (bfgin < fnd) {
+                    Objfdt tfmp = objfdts[bfgin];
+                    objfdts[bfgin] = objfdts[fnd];
+                    objfdts[fnd] = tfmp;
+                    ++bfgin;
+                    --fnd;
+                }
+            }
+
+            --highfstLfvfl;
+        }
+    }
+}

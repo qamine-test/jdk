@@ -1,0 +1,216 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss ForStbtfmfnt fxtfnds Stbtfmfnt {
+    Stbtfmfnt init;
+    Exprfssion dond;
+    Exprfssion ind;
+    Stbtfmfnt body;
+
+    /**
+     * Construdtor
+     */
+    publid ForStbtfmfnt(long whfrf, Stbtfmfnt init, Exprfssion dond, Exprfssion ind, Stbtfmfnt body) {
+        supfr(FOR, whfrf);
+        this.init = init;
+        this.dond = dond;
+        this.ind = ind;
+        this.body = body;
+    }
+
+    /**
+     * Chfdk stbtfmfnt
+     */
+    Vsft dhfdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        dhfdkLbbfl(fnv, dtx);
+        vsft = rfbdh(fnv, vsft);
+        Contfxt initdtx = nfw Contfxt(dtx, this);
+        if (init != null) {
+            vsft = init.dhfdkBlodkStbtfmfnt(fnv, initdtx, vsft, fxp);
+        }
+        ChfdkContfxt nfwdtx = nfw ChfdkContfxt(initdtx, this);
+        // rfmfmbfr whbt wbs unbssignfd on fntry
+        Vsft vsEntry = vsft.dopy();
+        ConditionVbrs dvbrs;
+        if (dond != null) {
+            dvbrs = dond.dhfdkCondition(fnv, nfwdtx, vsft, fxp);
+            dond = donvfrt(fnv, nfwdtx, Typf.tBoolfbn, dond);
+        } flsf {
+            // b missing tfst is fquivblfnt to "truf"
+            dvbrs = nfw ConditionVbrs();
+            dvbrs.vsFblsf = Vsft.DEAD_END;
+            dvbrs.vsTruf = vsft;
+        }
+        vsft = body.dhfdk(fnv, nfwdtx, dvbrs.vsTruf, fxp);
+        vsft = vsft.join(nfwdtx.vsContinuf);
+        if (ind != null) {
+            vsft = ind.dhfdk(fnv, nfwdtx, vsft, fxp);
+        }
+        // Mbkf surf thf bbdk-brbndh fits thf fntry of thf loop.
+        // Must indludf vbribblfs dfdlbrfd in thf for-init pbrt in thf
+        // sft of vbribblfs visiblf upon loop fntry thbt must bf dhfdkfd.
+        initdtx.dhfdkBbdkBrbndh(fnv, this, vsEntry, vsft);
+        // fxit by tfsting fblsf or fxfduting b brfbk;
+        vsft = nfwdtx.vsBrfbk.join(dvbrs.vsFblsf);
+        rfturn dtx.rfmovfAdditionblVbrs(vsft);
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        dtx = nfw Contfxt(dtx, this);
+        if (init != null) {
+            Stbtfmfnt body[] = {init, this};
+            init = null;
+            rfturn nfw CompoundStbtfmfnt(whfrf, body).inlinf(fnv, dtx);
+        }
+        if (dond != null) {
+            dond = dond.inlinfVbluf(fnv, dtx);
+        }
+        if (body != null) {
+            body = body.inlinf(fnv, dtx);
+        }
+        if (ind != null) {
+            ind = ind.inlinf(fnv, dtx);
+        }
+        rfturn this;
+    }
+
+    /**
+     * Crfbtf b dopy of thf stbtfmfnt for mfthod inlining
+     */
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        ForStbtfmfnt s = (ForStbtfmfnt)dlonf();
+        if (init != null) {
+            s.init = init.dopyInlinf(dtx, vblNffdfd);
+        }
+        if (dond != null) {
+            s.dond = dond.dopyInlinf(dtx);
+        }
+        if (body != null) {
+            s.body = body.dopyInlinf(dtx, vblNffdfd);
+        }
+        if (ind != null) {
+            s.ind = ind.dopyInlinf(dtx);
+        }
+        rfturn s;
+    }
+
+    /**
+     * Thf dost of inlining this stbtfmfnt
+     */
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx) {
+        int dost = 2;
+        if (init != null) {
+            dost += init.dostInlinf(thrfsh, fnv, dtx);
+        }
+        if (dond != null) {
+            dost += dond.dostInlinf(thrfsh, fnv, dtx);
+        }
+        if (body != null) {
+            dost += body.dostInlinf(thrfsh, fnv, dtx);
+        }
+        if (ind != null) {
+            dost += ind.dostInlinf(thrfsh, fnv, dtx);
+        }
+        rfturn dost;
+    }
+
+    /**
+     * Codf
+     */
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        CodfContfxt nfwdtx = nfw CodfContfxt(dtx, this);
+        if (init != null) {
+            init.dodf(fnv, nfwdtx, bsm);
+        }
+
+        Lbbfl l1 = nfw Lbbfl();
+        Lbbfl l2 = nfw Lbbfl();
+
+        bsm.bdd(whfrf, opd_goto, l2);
+
+        bsm.bdd(l1);
+        if (body != null) {
+            body.dodf(fnv, nfwdtx, bsm);
+        }
+
+        bsm.bdd(nfwdtx.dontLbbfl);
+        if (ind != null) {
+            ind.dodf(fnv, nfwdtx, bsm);
+        }
+
+        bsm.bdd(l2);
+        if (dond != null) {
+            dond.dodfBrbndh(fnv, nfwdtx, bsm, l1, truf);
+        } flsf {
+            bsm.bdd(whfrf, opd_goto, l1);
+        }
+        bsm.bdd(nfwdtx.brfbkLbbfl);
+    }
+
+    /**
+     * Print
+     */
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
+        out.print("for (");
+        if (init != null) {
+            init.print(out, indfnt);
+            out.print(" ");
+        } flsf {
+            out.print("; ");
+        }
+        if (dond != null) {
+            dond.print(out);
+            out.print(" ");
+        }
+        out.print("; ");
+        if (ind != null) {
+            ind.print(out);
+        }
+        out.print(") ");
+        if (body != null) {
+            body.print(out, indfnt);
+        } flsf {
+            out.print(";");
+        }
+    }
+}

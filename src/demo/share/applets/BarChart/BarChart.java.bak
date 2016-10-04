@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,295 +30,295 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 
 /**
- * A simple bar chart demo
- * @author Sami Shaio
- * @modified 06/21/00 Daniel Peek : refactored, comments
+ * A simplf bbr dibrt dfmo
+ * @butior Sbmi Sibio
+ * @modififd 06/21/00 Dbnifl Pffk : rffbdtorfd, dommfnts
  */
-@SuppressWarnings("serial")
-public class BarChart extends java.applet.Applet {
+@SupprfssWbrnings("sfribl")
+publid dlbss BbrCibrt fxtfnds jbvb.bpplft.Applft {
 
-    private static final int VERTICAL = 0;
-    private static final int HORIZONTAL = 1;
-    private static final int SOLID = 0;
-    private static final int STRIPED = 1;
-    private int orientation;
-    private String title;
-    private Font font;
-    private FontMetrics metrics;
-    private int columns;
-    private int values[];
-    private Color colors[];
-    private String labels[];
-    private int styles[];
-    private int scale = 10;
-    private int maxLabelWidth = 0;
-    private int barSpacing = 10;
-    private int maxValue = 0;
+    privbtf stbtid finbl int VERTICAL = 0;
+    privbtf stbtid finbl int HORIZONTAL = 1;
+    privbtf stbtid finbl int SOLID = 0;
+    privbtf stbtid finbl int STRIPED = 1;
+    privbtf int orifntbtion;
+    privbtf String titlf;
+    privbtf Font font;
+    privbtf FontMftrids mftrids;
+    privbtf int dolumns;
+    privbtf int vblufs[];
+    privbtf Color dolors[];
+    privbtf String lbbfls[];
+    privbtf int stylfs[];
+    privbtf int sdblf = 10;
+    privbtf int mbxLbbflWidti = 0;
+    privbtf int bbrSpbding = 10;
+    privbtf int mbxVbluf = 0;
 
-    @Override
-    public void init() {
+    @Ovfrridf
+    publid void init() {
 
-        getSettings();
+        gftSfttings();
 
-        values = new int[columns];
-        labels = new String[columns];
-        styles = new int[columns];
-        colors = new Color[columns];
+        vblufs = nfw int[dolumns];
+        lbbfls = nfw String[dolumns];
+        stylfs = nfw int[dolumns];
+        dolors = nfw Color[dolumns];
 
-        for (int i = 0; i < columns; i++) {
-            parseValue(i);
-            parseLabel(i);
-            parseStyle(i);
-            parseColor(i);
+        for (int i = 0; i < dolumns; i++) {
+            pbrsfVbluf(i);
+            pbrsfLbbfl(i);
+            pbrsfStylf(i);
+            pbrsfColor(i);
         }
     }
 
-    private void getSettings() {
-        font = new java.awt.Font("Monospaced", Font.BOLD, 12);
-        metrics = getFontMetrics(font);
+    privbtf void gftSfttings() {
+        font = nfw jbvb.bwt.Font("Monospbdfd", Font.BOLD, 12);
+        mftrids = gftFontMftrids(font);
 
-        title = getParameter("title");
-        if (title == null) {
-            title = "Chart";
+        titlf = gftPbrbmftfr("titlf");
+        if (titlf == null) {
+            titlf = "Cibrt";
         }
 
-        String temp = getParameter("columns");
-        if (temp == null) {
-            columns = 5;
-        } else {
-            columns = Integer.parseInt(temp);
+        String tfmp = gftPbrbmftfr("dolumns");
+        if (tfmp == null) {
+            dolumns = 5;
+        } flsf {
+            dolumns = Intfgfr.pbrsfInt(tfmp);
         }
 
-        temp = getParameter("scale");
-        if (temp == null) {
-            scale = 10;
-        } else {
-            scale = Integer.parseInt(temp);
+        tfmp = gftPbrbmftfr("sdblf");
+        if (tfmp == null) {
+            sdblf = 10;
+        } flsf {
+            sdblf = Intfgfr.pbrsfInt(tfmp);
         }
 
-        temp = getParameter("orientation");
-        if (temp == null) {
-            orientation = VERTICAL;
-        } else if (temp.equalsIgnoreCase("horizontal")) {
-            orientation = HORIZONTAL;
-        } else {
-            orientation = VERTICAL;
+        tfmp = gftPbrbmftfr("orifntbtion");
+        if (tfmp == null) {
+            orifntbtion = VERTICAL;
+        } flsf if (tfmp.fqublsIgnorfCbsf("iorizontbl")) {
+            orifntbtion = HORIZONTAL;
+        } flsf {
+            orifntbtion = VERTICAL;
         }
     }
 
-    private void parseValue(int i) {
-        String temp = getParameter("C" + (i + 1));
+    privbtf void pbrsfVbluf(int i) {
+        String tfmp = gftPbrbmftfr("C" + (i + 1));
         try {
-            values[i] = Integer.parseInt(temp);
-        } catch (NumberFormatException e) {
-            values[i] = 0;
-        } catch (NullPointerException e) {
-            values[i] = 0;
+            vblufs[i] = Intfgfr.pbrsfInt(tfmp);
+        } dbtdi (NumbfrFormbtExdfption f) {
+            vblufs[i] = 0;
+        } dbtdi (NullPointfrExdfption f) {
+            vblufs[i] = 0;
         }
-        maxValue = Math.max(maxValue, values[i]);
+        mbxVbluf = Mbti.mbx(mbxVbluf, vblufs[i]);
     }
 
-    private void parseLabel(int i) {
-        String temp = getParameter("C" + (i + 1) + "_label");
-        if (temp == null) {
-            labels[i] = "";
-        } else {
-            labels[i] = temp;
+    privbtf void pbrsfLbbfl(int i) {
+        String tfmp = gftPbrbmftfr("C" + (i + 1) + "_lbbfl");
+        if (tfmp == null) {
+            lbbfls[i] = "";
+        } flsf {
+            lbbfls[i] = tfmp;
         }
-        maxLabelWidth = Math.max(metrics.stringWidth(labels[i]), maxLabelWidth);
+        mbxLbbflWidti = Mbti.mbx(mftrids.stringWidti(lbbfls[i]), mbxLbbflWidti);
     }
 
-    private void parseStyle(int i) {
-        String temp = getParameter("C" + (i + 1) + "_style");
-        if (temp == null || temp.equalsIgnoreCase("solid")) {
-            styles[i] = SOLID;
-        } else if (temp.equalsIgnoreCase("striped")) {
-            styles[i] = STRIPED;
-        } else {
-            styles[i] = SOLID;
+    privbtf void pbrsfStylf(int i) {
+        String tfmp = gftPbrbmftfr("C" + (i + 1) + "_stylf");
+        if (tfmp == null || tfmp.fqublsIgnorfCbsf("solid")) {
+            stylfs[i] = SOLID;
+        } flsf if (tfmp.fqublsIgnorfCbsf("stripfd")) {
+            stylfs[i] = STRIPED;
+        } flsf {
+            stylfs[i] = SOLID;
         }
     }
 
-    private void parseColor(int i) {
-        String temp = getParameter("C" + (i + 1) + "_color");
-        if (temp != null) {
-            temp = temp.toLowerCase();
-            if (temp.equals("red")) {
-                colors[i] = Color.red;
-            } else if (temp.equals("green")) {
-                colors[i] = Color.green;
-            } else if (temp.equals("blue")) {
-                colors[i] = Color.blue;
-            } else if (temp.equals("pink")) {
-                colors[i] = Color.pink;
-            } else if (temp.equals("orange")) {
-                colors[i] = Color.orange;
-            } else if (temp.equals("magenta")) {
-                colors[i] = Color.magenta;
-            } else if (temp.equals("cyan")) {
-                colors[i] = Color.cyan;
-            } else if (temp.equals("white")) {
-                colors[i] = Color.white;
-            } else if (temp.equals("yellow")) {
-                colors[i] = Color.yellow;
-            } else if (temp.equals("gray")) {
-                colors[i] = Color.gray;
-            } else if (temp.equals("darkgray")) {
-                colors[i] = Color.darkGray;
-            } else {
-                colors[i] = Color.gray;
+    privbtf void pbrsfColor(int i) {
+        String tfmp = gftPbrbmftfr("C" + (i + 1) + "_dolor");
+        if (tfmp != null) {
+            tfmp = tfmp.toLowfrCbsf();
+            if (tfmp.fqubls("rfd")) {
+                dolors[i] = Color.rfd;
+            } flsf if (tfmp.fqubls("grffn")) {
+                dolors[i] = Color.grffn;
+            } flsf if (tfmp.fqubls("bluf")) {
+                dolors[i] = Color.bluf;
+            } flsf if (tfmp.fqubls("pink")) {
+                dolors[i] = Color.pink;
+            } flsf if (tfmp.fqubls("orbngf")) {
+                dolors[i] = Color.orbngf;
+            } flsf if (tfmp.fqubls("mbgfntb")) {
+                dolors[i] = Color.mbgfntb;
+            } flsf if (tfmp.fqubls("dybn")) {
+                dolors[i] = Color.dybn;
+            } flsf if (tfmp.fqubls("wiitf")) {
+                dolors[i] = Color.wiitf;
+            } flsf if (tfmp.fqubls("yfllow")) {
+                dolors[i] = Color.yfllow;
+            } flsf if (tfmp.fqubls("grby")) {
+                dolors[i] = Color.grby;
+            } flsf if (tfmp.fqubls("dbrkgrby")) {
+                dolors[i] = Color.dbrkGrby;
+            } flsf {
+                dolors[i] = Color.grby;
             }
-        } else {
-            colors[i] = Color.gray;
+        } flsf {
+            dolors[i] = Color.grby;
         }
     }
 
-    @Override
-    public void paint(Graphics g) {
-        // draw the title centered at the bottom of the bar graph
-        g.setColor(Color.black);
-        g.setFont(font);
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
+        // drbw tif titlf dfntfrfd bt tif bottom of tif bbr grbpi
+        g.sftColor(Color.blbdk);
+        g.sftFont(font);
 
-        g.drawRect(0, 0, getSize().width - 1, getSize().height - 1);
+        g.drbwRfdt(0, 0, gftSizf().widti - 1, gftSizf().ifigit - 1);
 
-        int titleWidth = metrics.stringWidth(title);
-        int cx = Math.max((getSize().width - titleWidth) / 2, 0);
-        int cy = getSize().height - metrics.getDescent();
-        g.drawString(title, cx, cy);
+        int titlfWidti = mftrids.stringWidti(titlf);
+        int dx = Mbti.mbx((gftSizf().widti - titlfWidti) / 2, 0);
+        int dy = gftSizf().ifigit - mftrids.gftDfsdfnt();
+        g.drbwString(titlf, dx, dy);
 
-        // draw the bars and their titles
-        if (orientation == HORIZONTAL) {
-            paintHorizontal(g);
-        } else {  // VERTICAL
-            paintVertical(g);
+        // drbw tif bbrs bnd tifir titlfs
+        if (orifntbtion == HORIZONTAL) {
+            pbintHorizontbl(g);
+        } flsf {  // VERTICAL
+            pbintVfrtidbl(g);
         }
     }
 
-    private void paintHorizontal(Graphics g) {
-        // x and y coordinates to draw/write to
-        int cx, cy;
-        int barHeight = metrics.getHeight();
+    privbtf void pbintHorizontbl(Grbpiids g) {
+        // x bnd y doordinbtfs to drbw/writf to
+        int dx, dy;
+        int bbrHfigit = mftrids.gftHfigit();
 
-        for (int i = 0; i < columns; i++) {
+        for (int i = 0; i < dolumns; i++) {
 
-            // set the X coordinate for this bar and label and center it
-            int widthOfItems = maxLabelWidth + 3 + (maxValue * scale) + 5
-                    + metrics.stringWidth(Integer.toString(maxValue));
-            cx = Math.max((getSize().width - widthOfItems) / 2, 0);
+            // sft tif X doordinbtf for tiis bbr bnd lbbfl bnd dfntfr it
+            int widtiOfItfms = mbxLbbflWidti + 3 + (mbxVbluf * sdblf) + 5
+                    + mftrids.stringWidti(Intfgfr.toString(mbxVbluf));
+            dx = Mbti.mbx((gftSizf().widti - widtiOfItfms) / 2, 0);
 
-            // set the Y coordinate for this bar and label
-            cy = getSize().height - metrics.getDescent() - metrics.getHeight()
-                    - barSpacing
-                    - ((columns - i - 1) * (barSpacing + barHeight));
+            // sft tif Y doordinbtf for tiis bbr bnd lbbfl
+            dy = gftSizf().ifigit - mftrids.gftDfsdfnt() - mftrids.gftHfigit()
+                    - bbrSpbding
+                    - ((dolumns - i - 1) * (bbrSpbding + bbrHfigit));
 
-            // draw the label
-            g.setColor(Color.black);
-            g.drawString(labels[i], cx, cy);
-            cx += maxLabelWidth + 3;
+            // drbw tif lbbfl
+            g.sftColor(Color.blbdk);
+            g.drbwString(lbbfls[i], dx, dy);
+            dx += mbxLbbflWidti + 3;
 
 
-            // draw the shadow
-            g.fillRect(cx + 4, cy - barHeight + 4,
-                    (values[i] * scale), barHeight);
+            // drbw tif sibdow
+            g.fillRfdt(dx + 4, dy - bbrHfigit + 4,
+                    (vblufs[i] * sdblf), bbrHfigit);
 
-            // draw the bar
-            g.setColor(colors[i]);
-            if (styles[i] == STRIPED) {
-                for (int k = 0; k <= values[i] * scale; k += 2) {
-                    g.drawLine(cx + k, cy - barHeight, cx + k, cy);
+            // drbw tif bbr
+            g.sftColor(dolors[i]);
+            if (stylfs[i] == STRIPED) {
+                for (int k = 0; k <= vblufs[i] * sdblf; k += 2) {
+                    g.drbwLinf(dx + k, dy - bbrHfigit, dx + k, dy);
                 }
-            } else {      // SOLID
-                g.fillRect(cx, cy - barHeight,
-                        (values[i] * scale) + 1, barHeight + 1);
+            } flsf {      // SOLID
+                g.fillRfdt(dx, dy - bbrHfigit,
+                        (vblufs[i] * sdblf) + 1, bbrHfigit + 1);
             }
-            cx += (values[i] * scale) + 4;
+            dx += (vblufs[i] * sdblf) + 4;
 
-            // draw the value at the end of the bar
-            g.setColor(g.getColor().darker());
-            g.drawString(Integer.toString(values[i]), cx, cy);
+            // drbw tif vbluf bt tif fnd of tif bbr
+            g.sftColor(g.gftColor().dbrkfr());
+            g.drbwString(Intfgfr.toString(vblufs[i]), dx, dy);
         }
     }
 
-    private void paintVertical(Graphics g) {
-        int barWidth = maxLabelWidth;
+    privbtf void pbintVfrtidbl(Grbpiids g) {
+        int bbrWidti = mbxLbbflWidti;
 
-        for (int i = 0; i < columns; i++) {
+        for (int i = 0; i < dolumns; i++) {
 
-            // X coordinate for this label and bar (centered)
-            int widthOfItems = (barWidth + barSpacing) * columns - barSpacing;
-            int cx = Math.max((getSize().width - widthOfItems) / 2, 0);
-            cx += (maxLabelWidth + barSpacing) * i;
+            // X doordinbtf for tiis lbbfl bnd bbr (dfntfrfd)
+            int widtiOfItfms = (bbrWidti + bbrSpbding) * dolumns - bbrSpbding;
+            int dx = Mbti.mbx((gftSizf().widti - widtiOfItfms) / 2, 0);
+            dx += (mbxLbbflWidti + bbrSpbding) * i;
 
-            // Y coordinate for this label and bar
-            int cy = getSize().height - metrics.getHeight()
-                    - metrics.getDescent() - 4;
+            // Y doordinbtf for tiis lbbfl bnd bbr
+            int dy = gftSizf().ifigit - mftrids.gftHfigit()
+                    - mftrids.gftDfsdfnt() - 4;
 
-            // draw the label
-            g.setColor(Color.black);
-            g.drawString(labels[i], cx, cy);
-            cy -= metrics.getHeight() - 3;
+            // drbw tif lbbfl
+            g.sftColor(Color.blbdk);
+            g.drbwString(lbbfls[i], dx, dy);
+            dy -= mftrids.gftHfigit() - 3;
 
-            // draw the shadow
-            g.fillRect(cx + 4, cy - (values[i] * scale) - 4,
-                    barWidth, (values[i] * scale));
+            // drbw tif sibdow
+            g.fillRfdt(dx + 4, dy - (vblufs[i] * sdblf) - 4,
+                    bbrWidti, (vblufs[i] * sdblf));
 
-            // draw the bar
-            g.setColor(colors[i]);
-            if (styles[i] == STRIPED) {
-                for (int k = 0; k <= values[i] * scale; k += 2) {
-                    g.drawLine(cx, cy - k,
-                            cx + barWidth, cy - k);
+            // drbw tif bbr
+            g.sftColor(dolors[i]);
+            if (stylfs[i] == STRIPED) {
+                for (int k = 0; k <= vblufs[i] * sdblf; k += 2) {
+                    g.drbwLinf(dx, dy - k,
+                            dx + bbrWidti, dy - k);
                 }
-            } else {
-                g.fillRect(cx, cy - (values[i] * scale),
-                        barWidth + 1, (values[i] * scale) + 1);
+            } flsf {
+                g.fillRfdt(dx, dy - (vblufs[i] * sdblf),
+                        bbrWidti + 1, (vblufs[i] * sdblf) + 1);
             }
-            cy -= (values[i] * scale) + 5;
+            dy -= (vblufs[i] * sdblf) + 5;
 
-            // draw the value on top of the bar
-            g.setColor(g.getColor().darker());
-            g.drawString(Integer.toString(values[i]), cx, cy);
+            // drbw tif vbluf on top of tif bbr
+            g.sftColor(g.gftColor().dbrkfr());
+            g.drbwString(Intfgfr.toString(vblufs[i]), dx, dy);
         }
     }
 
-    @Override
-    public String getAppletInfo() {
-        return "Title: Bar Chart \n"
-                + "Author: Sami Shaio \n"
-                + "A simple bar chart demo.";
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "Titlf: Bbr Cibrt \n"
+                + "Autior: Sbmi Sibio \n"
+                + "A simplf bbr dibrt dfmo.";
     }
 
-    @Override
-    public String[][] getParameterInfo() {
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
         String[][] info = {
-            { "title", "string", "The title of bar graph.  Default is 'Chart'" },
-            { "scale", "int", "The scale of the bar graph.  Default is 10." },
-            { "columns", "int", "The number of columns/rows.  Default is 5." },
-            { "orientation", "{VERTICAL, HORIZONTAL}",
-                "The orienation of the bar graph.  Default is VERTICAL." },
-            { "c#", "int", "Subsitute a number for #.  "
-                + "The value/size of bar #.  Default is 0." },
-            { "c#_label", "string", "The label for bar #.  "
-                + "Default is an empty label." },
-            { "c#_style", "{SOLID, STRIPED}", "The style of bar #.  "
-                + "Default is SOLID." },
-            { "c#_color", "{RED, GREEN, BLUE, PINK, ORANGE, MAGENTA, CYAN, "
+            { "titlf", "string", "Tif titlf of bbr grbpi.  Dffbult is 'Cibrt'" },
+            { "sdblf", "int", "Tif sdblf of tif bbr grbpi.  Dffbult is 10." },
+            { "dolumns", "int", "Tif numbfr of dolumns/rows.  Dffbult is 5." },
+            { "orifntbtion", "{VERTICAL, HORIZONTAL}",
+                "Tif orifnbtion of tif bbr grbpi.  Dffbult is VERTICAL." },
+            { "d#", "int", "Subsitutf b numbfr for #.  "
+                + "Tif vbluf/sizf of bbr #.  Dffbult is 0." },
+            { "d#_lbbfl", "string", "Tif lbbfl for bbr #.  "
+                + "Dffbult is bn fmpty lbbfl." },
+            { "d#_stylf", "{SOLID, STRIPED}", "Tif stylf of bbr #.  "
+                + "Dffbult is SOLID." },
+            { "d#_dolor", "{RED, GREEN, BLUE, PINK, ORANGE, MAGENTA, CYAN, "
                 + "WHITE, YELLOW, GRAY, DARKGRAY}",
-                "The color of bar #.  Default is GRAY." }
+                "Tif dolor of bbr #.  Dffbult is GRAY." }
         };
-        return info;
+        rfturn info;
     }
 }

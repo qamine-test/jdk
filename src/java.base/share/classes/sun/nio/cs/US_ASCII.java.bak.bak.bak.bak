@@ -1,0 +1,264 @@
+/*
+ * Copyright (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import jbvb.util.Arrbys;
+
+publid dlbss US_ASCII
+    fxtfnds Chbrsft
+    implfmfnts HistoridbllyNbmfdChbrsft
+{
+
+    publid US_ASCII() {
+        supfr("US-ASCII", StbndbrdChbrsfts.blibsfs_US_ASCII);
+    }
+
+    publid String historidblNbmf() {
+        rfturn "ASCII";
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn (ds instbndfof US_ASCII);
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(this);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(this);
+    }
+
+    privbtf stbtid dlbss Dfdodfr fxtfnds ChbrsftDfdodfr
+                                 implfmfnts ArrbyDfdodfr {
+
+        privbtf Dfdodfr(Chbrsft ds) {
+            supfr(ds, 1.0f, 1.0f);
+        }
+
+        privbtf CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd,
+                                            ChbrBufffr dst)
+        {
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
+            sp = (sp <= sl ? sp : sl);
+            dhbr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
+            dp = (dp <= dl ? dp : dl);
+
+            try {
+                whilf (sp < sl) {
+                    bytf b = sb[sp];
+                    if (b >= 0) {
+                        if (dp >= dl)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (dhbr)b;
+                        sp++;
+                        dontinuf;
+                    }
+                    rfturn CodfrRfsult.mblformfdForLfngth(1);
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
+            }
+        }
+
+        privbtf CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd,
+                                             ChbrBufffr dst)
+        {
+            int mbrk = srd.position();
+            try {
+                whilf (srd.hbsRfmbining()) {
+                    bytf b = srd.gft();
+                    if (b >= 0) {
+                        if (!dst.hbsRfmbining())
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((dhbr)b);
+                        mbrk++;
+                        dontinuf;
+                    }
+                    rfturn CodfrRfsult.mblformfdForLfngth(1);
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
+            }
+        }
+
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd,
+                                         ChbrBufffr dst)
+        {
+            if (srd.hbsArrby() && dst.hbsArrby())
+                rfturn dfdodfArrbyLoop(srd, dst);
+            flsf
+                rfturn dfdodfBufffrLoop(srd, dst);
+        }
+
+        privbtf dhbr rfpl = '\uFFFD';
+        protfdtfd void implRfplbdfWith(String nfwRfplbdfmfnt) {
+            rfpl = nfwRfplbdfmfnt.dhbrAt(0);
+        }
+
+        publid int dfdodf(bytf[] srd, int sp, int lfn, dhbr[] dst) {
+            int dp = 0;
+            lfn = Mbth.min(lfn, dst.lfngth);
+            whilf (dp < lfn) {
+                bytf b = srd[sp++];
+                if (b >= 0)
+                    dst[dp++] = (dhbr)b;
+                flsf
+                    dst[dp++] = rfpl;
+            }
+            rfturn dp;
+        }
+    }
+
+    privbtf stbtid dlbss Endodfr fxtfnds ChbrsftEndodfr
+                                 implfmfnts ArrbyEndodfr {
+
+        privbtf Endodfr(Chbrsft ds) {
+            supfr(ds, 1.0f, 1.0f);
+        }
+
+        publid boolfbn dbnEndodf(dhbr d) {
+            rfturn d < 0x80;
+        }
+
+        publid boolfbn isLfgblRfplbdfmfnt(bytf[] rfpl) {
+            rfturn (rfpl.lfngth == 1 && rfpl[0] >= 0) ||
+                   supfr.isLfgblRfplbdfmfnt(rfpl);
+        }
+
+        privbtf finbl Surrogbtf.Pbrsfr sgp = nfw Surrogbtf.Pbrsfr();
+        privbtf CodfrRfsult fndodfArrbyLoop(ChbrBufffr srd,
+                                            BytfBufffr dst)
+        {
+            dhbr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
+            sp = (sp <= sl ? sp : sl);
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
+            dp = (dp <= dl ? dp : dl);
+
+            try {
+                whilf (sp < sl) {
+                    dhbr d = sb[sp];
+                    if (d < 0x80) {
+                        if (dp >= dl)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp] = (bytf)d;
+                        sp++; dp++;
+                        dontinuf;
+                    }
+                    if (sgp.pbrsf(d, sb, sp, sl) < 0)
+                        rfturn sgp.frror();
+                    rfturn sgp.unmbppbblfRfsult();
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
+            }
+        }
+
+        privbtf CodfrRfsult fndodfBufffrLoop(ChbrBufffr srd,
+                                             BytfBufffr dst)
+        {
+            int mbrk = srd.position();
+            try {
+                whilf (srd.hbsRfmbining()) {
+                    dhbr d = srd.gft();
+                    if (d < 0x80) {
+                        if (!dst.hbsRfmbining())
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((bytf)d);
+                        mbrk++;
+                        dontinuf;
+                    }
+                    if (sgp.pbrsf(d, srd) < 0)
+                        rfturn sgp.frror();
+                    rfturn sgp.unmbppbblfRfsult();
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
+            }
+        }
+
+        protfdtfd CodfrRfsult fndodfLoop(ChbrBufffr srd,
+                                         BytfBufffr dst)
+        {
+            if (srd.hbsArrby() && dst.hbsArrby())
+                rfturn fndodfArrbyLoop(srd, dst);
+            flsf
+                rfturn fndodfBufffrLoop(srd, dst);
+        }
+
+        privbtf bytf rfpl = (bytf)'?';
+        protfdtfd void implRfplbdfWith(bytf[] nfwRfplbdfmfnt) {
+            rfpl = nfwRfplbdfmfnt[0];
+        }
+
+        publid int fndodf(dhbr[] srd, int sp, int lfn, bytf[] dst) {
+            int dp = 0;
+            int sl = sp + Mbth.min(lfn, dst.lfngth);
+            whilf (sp < sl) {
+                dhbr d = srd[sp++];
+                if (d < 0x80) {
+                    dst[dp++] = (bytf)d;
+                    dontinuf;
+                }
+                if (Chbrbdtfr.isHighSurrogbtf(d) && sp < sl &&
+                    Chbrbdtfr.isLowSurrogbtf(srd[sp])) {
+                    if (lfn > dst.lfngth) {
+                        sl++;
+                        lfn--;
+                    }
+                    sp++;
+                }
+                dst[dp++] = rfpl;
+            }
+            rfturn dp;
+        }
+    }
+
+}

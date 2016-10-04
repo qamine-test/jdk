@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.smartcardio;
+pbdkbgf jbvbx.smbrtdbrdio;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * The TerminalFactorySpi class defines the service provider interface.
- * Applications do not access this class directly, instead see
- * {@linkplain TerminalFactory}.
+ * Tif TfrminblFbdtorySpi dlbss dffinfs tif sfrvidf providfr intfrfbdf.
+ * Applidbtions do not bddfss tiis dlbss dirfdtly, instfbd sff
+ * {@linkplbin TfrminblFbdtory}.
  *
- * <P>Service providers that want to write a new implementation should define
- * a concrete subclass of TerminalFactorySpi with a constructor that takes
- * an <code>Object</code> as parameter. That class needs to be registered
- * in a {@linkplain java.security.Provider}. The engine
- * {@linkplain java.security.Provider.Service#getType type} is
- * <code>TerminalFactory</code>.
- * Service providers also need to implement subclasses of the abstract classes
- * {@linkplain CardTerminals}, {@linkplain CardTerminal}, {@linkplain Card},
- * and {@linkplain CardChannel}.
+ * <P>Sfrvidf providfrs tibt wbnt to writf b nfw implfmfntbtion siould dffinf
+ * b dondrftf subdlbss of TfrminblFbdtorySpi witi b donstrudtor tibt tbkfs
+ * bn <dodf>Objfdt</dodf> bs pbrbmftfr. Tibt dlbss nffds to bf rfgistfrfd
+ * in b {@linkplbin jbvb.sfdurity.Providfr}. Tif fnginf
+ * {@linkplbin jbvb.sfdurity.Providfr.Sfrvidf#gftTypf typf} is
+ * <dodf>TfrminblFbdtory</dodf>.
+ * Sfrvidf providfrs blso nffd to implfmfnt subdlbssfs of tif bbstrbdt dlbssfs
+ * {@linkplbin CbrdTfrminbls}, {@linkplbin CbrdTfrminbl}, {@linkplbin Cbrd},
+ * bnd {@linkplbin CbrdCibnnfl}.
  *
- * <p>For example:
- * <pre><em>file MyProvider.java:</em>
+ * <p>For fxbmplf:
+ * <prf><fm>filf MyProvidfr.jbvb:</fm>
  *
- * package com.somedomain.card;
+ * pbdkbgf dom.somfdombin.dbrd;
  *
- * import java.security.Provider;
+ * import jbvb.sfdurity.Providfr;
  *
- * public class MyProvider extends Provider {
- *     public MyProvider() {
- *         super("MyProvider", 1.0d, "Smart Card Example");
- *         put("TerminalFactory.MyType", "com.somedomain.card.MySpi");
+ * publid dlbss MyProvidfr fxtfnds Providfr {
+ *     publid MyProvidfr() {
+ *         supfr("MyProvidfr", 1.0d, "Smbrt Cbrd Exbmplf");
+ *         put("TfrminblFbdtory.MyTypf", "dom.somfdombin.dbrd.MySpi");
  *     }
  * }
  *
- *<em>file MySpi.java</em>
+ *<fm>filf MySpi.jbvb</fm>
  *
- * package com.somedomain.card;
+ * pbdkbgf dom.somfdombin.dbrd;
  *
- * import javax.smartcardio.*;
+ * import jbvbx.smbrtdbrdio.*;
  *
- * public class MySpi extends TerminalFactoySpi {
- *      public MySpi(Object parameter) {
- *          // initialize as appropriate
+ * publid dlbss MySpi fxtfnds TfrminblFbdtoySpi {
+ *      publid MySpi(Objfdt pbrbmftfr) {
+ *          // initiblizf bs bppropribtf
  *      }
- *      protected CardTerminals engineTerminals() {
- *          // add implementation code here
+ *      protfdtfd CbrdTfrminbls fnginfTfrminbls() {
+ *          // bdd implfmfntbtion dodf ifrf
  *      }
  * }
- * </pre>
+ * </prf>
  *
- * @see TerminalFactory
- * @see java.security.Provider
+ * @sff TfrminblFbdtory
+ * @sff jbvb.sfdurity.Providfr
  *
- * @since   1.6
- * @author  Andreas Sterbenz
- * @author  JSR 268 Expert Group
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @butior  JSR 268 Expfrt Group
  */
-public abstract class TerminalFactorySpi {
+publid bbstrbdt dlbss TfrminblFbdtorySpi {
 
     /**
-     * Constructs a new TerminalFactorySpi object.
+     * Construdts b nfw TfrminblFbdtorySpi objfdt.
      *
-     * <p>This class is part of the service provider interface and not accessed
-     * directly by applications. Applications
-     * should use TerminalFactory objects, which can be obtained by calling
-     * one of the
-     * {@linkplain TerminalFactory#getInstance TerminalFactory.getInstance()}
-     * methods.
+     * <p>Tiis dlbss is pbrt of tif sfrvidf providfr intfrfbdf bnd not bddfssfd
+     * dirfdtly by bpplidbtions. Applidbtions
+     * siould usf TfrminblFbdtory objfdts, wiidi dbn bf obtbinfd by dblling
+     * onf of tif
+     * {@linkplbin TfrminblFbdtory#gftInstbndf TfrminblFbdtory.gftInstbndf()}
+     * mftiods.
      *
-     * <p>Concrete subclasses should define a constructor that takes an
-     * <code>Object</code> as parameter. It will be invoked when an
-     * application calls one of the {@linkplain TerminalFactory#getInstance
-     * TerminalFactory.getInstance()} methods and receives the <code>params</code>
-     * object specified by the application.
+     * <p>Condrftf subdlbssfs siould dffinf b donstrudtor tibt tbkfs bn
+     * <dodf>Objfdt</dodf> bs pbrbmftfr. It will bf invokfd wifn bn
+     * bpplidbtion dblls onf of tif {@linkplbin TfrminblFbdtory#gftInstbndf
+     * TfrminblFbdtory.gftInstbndf()} mftiods bnd rfdfivfs tif <dodf>pbrbms</dodf>
+     * objfdt spfdififd by tif bpplidbtion.
      */
-    protected TerminalFactorySpi() {
-        // empty
+    protfdtfd TfrminblFbdtorySpi() {
+        // fmpty
     }
 
     /**
-     * Returns the CardTerminals created by this factory.
+     * Rfturns tif CbrdTfrminbls drfbtfd by tiis fbdtory.
      *
-     * @return the CardTerminals created by this factory.
+     * @rfturn tif CbrdTfrminbls drfbtfd by tiis fbdtory.
      */
-    protected abstract CardTerminals engineTerminals();
+    protfdtfd bbstrbdt CbrdTfrminbls fnginfTfrminbls();
 
 }

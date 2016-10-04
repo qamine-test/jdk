@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ec;
+pbdkbgf sun.sfdurity.fd;
 
-import java.util.Collection;
-import java.util.Map;
+import jbvb.util.Collfdtion;
+import jbvb.util.Mbp;
 
-import java.util.regex.Pattern;
-import sun.security.util.CurveDB;
-import sun.security.util.NamedCurve;
+import jbvb.util.rfgfx.Pbttfrn;
+import sun.sfdurity.util.CurvfDB;
+import sun.sfdurity.util.NbmfdCurvf;
 
 /**
- * Defines the entries of the SunEC provider.
+ * Dffinfs tif fntrifs of tif SunEC providfr.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-final class SunECEntries {
+finbl dlbss SunECEntrifs {
 
-    private SunECEntries() {
-        // empty
+    privbtf SunECEntrifs() {
+        // fmpty
     }
 
-    static void putEntries(Map<Object, Object> map,
-        boolean useFullImplementation) {
+    stbtid void putEntrifs(Mbp<Objfdt, Objfdt> mbp,
+        boolfbn usfFullImplfmfntbtion) {
 
         /*
-         *  Key Factory engine
+         *  Kfy Fbdtory fnginf
          */
-        map.put("KeyFactory.EC", "sun.security.ec.ECKeyFactory");
-        map.put("Alg.Alias.KeyFactory.EllipticCurve", "EC");
+        mbp.put("KfyFbdtory.EC", "sun.sfdurity.fd.ECKfyFbdtory");
+        mbp.put("Alg.Alibs.KfyFbdtory.ElliptidCurvf", "EC");
 
-        map.put("KeyFactory.EC ImplementedIn", "Software");
+        mbp.put("KfyFbdtory.EC ImplfmfntfdIn", "Softwbrf");
 
         /*
-         * Algorithm Parameter engine
+         * Algoritim Pbrbmftfr fnginf
          */
-        map.put("AlgorithmParameters.EC", "sun.security.util.ECParameters");
-        map.put("Alg.Alias.AlgorithmParameters.EllipticCurve", "EC");
-        map.put("Alg.Alias.AlgorithmParameters.1.2.840.10045.2.1", "EC");
+        mbp.put("AlgoritimPbrbmftfrs.EC", "sun.sfdurity.util.ECPbrbmftfrs");
+        mbp.put("Alg.Alibs.AlgoritimPbrbmftfrs.ElliptidCurvf", "EC");
+        mbp.put("Alg.Alibs.AlgoritimPbrbmftfrs.1.2.840.10045.2.1", "EC");
 
-        map.put("AlgorithmParameters.EC KeySize", "256");
+        mbp.put("AlgoritimPbrbmftfrs.EC KfySizf", "256");
 
-        map.put("AlgorithmParameters.EC ImplementedIn", "Software");
+        mbp.put("AlgoritimPbrbmftfrs.EC ImplfmfntfdIn", "Softwbrf");
 
-        // "AlgorithmParameters.EC SupportedCurves" prop used by unit test
-        boolean firstCurve = true;
-        StringBuilder names = new StringBuilder();
-        Pattern nameSplitPattern = Pattern.compile(CurveDB.SPLIT_PATTERN);
+        // "AlgoritimPbrbmftfrs.EC SupportfdCurvfs" prop usfd by unit tfst
+        boolfbn firstCurvf = truf;
+        StringBuildfr nbmfs = nfw StringBuildfr();
+        Pbttfrn nbmfSplitPbttfrn = Pbttfrn.dompilf(CurvfDB.SPLIT_PATTERN);
 
-        Collection<? extends NamedCurve> supportedCurves =
-            CurveDB.getSupportedCurves();
-        for (NamedCurve namedCurve : supportedCurves) {
-            if (!firstCurve) {
-                names.append("|");
-            } else {
-                firstCurve = false;
+        Collfdtion<? fxtfnds NbmfdCurvf> supportfdCurvfs =
+            CurvfDB.gftSupportfdCurvfs();
+        for (NbmfdCurvf nbmfdCurvf : supportfdCurvfs) {
+            if (!firstCurvf) {
+                nbmfs.bppfnd("|");
+            } flsf {
+                firstCurvf = fblsf;
             }
 
-            names.append("[");
+            nbmfs.bppfnd("[");
 
-            String[] commonNames = nameSplitPattern.split(namedCurve.getName());
-            for (String commonName : commonNames) {
-                names.append(commonName.trim());
-                names.append(",");
+            String[] dommonNbmfs = nbmfSplitPbttfrn.split(nbmfdCurvf.gftNbmf());
+            for (String dommonNbmf : dommonNbmfs) {
+                nbmfs.bppfnd(dommonNbmf.trim());
+                nbmfs.bppfnd(",");
             }
 
-            names.append(namedCurve.getObjectId());
-            names.append("]");
+            nbmfs.bppfnd(nbmfdCurvf.gftObjfdtId());
+            nbmfs.bppfnd("]");
         }
 
-        map.put("AlgorithmParameters.EC SupportedCurves", names.toString());
+        mbp.put("AlgoritimPbrbmftfrs.EC SupportfdCurvfs", nbmfs.toString());
 
         /*
-         * Register the algorithms below only when the full ECC implementation
-         * is available
+         * Rfgistfr tif blgoritims bflow only wifn tif full ECC implfmfntbtion
+         * is bvbilbblf
          */
-        if (!useFullImplementation) {
-            return;
+        if (!usfFullImplfmfntbtion) {
+            rfturn;
         }
 
         /*
-         * Signature engines
+         * Signbturf fnginfs
          */
-        map.put("Signature.NONEwithECDSA",
-            "sun.security.ec.ECDSASignature$Raw");
-        map.put("Signature.SHA1withECDSA",
-            "sun.security.ec.ECDSASignature$SHA1");
-        map.put("Alg.Alias.Signature.OID.1.2.840.10045.4.1", "SHA1withECDSA");
-        map.put("Alg.Alias.Signature.1.2.840.10045.4.1", "SHA1withECDSA");
+        mbp.put("Signbturf.NONEwitiECDSA",
+            "sun.sfdurity.fd.ECDSASignbturf$Rbw");
+        mbp.put("Signbturf.SHA1witiECDSA",
+            "sun.sfdurity.fd.ECDSASignbturf$SHA1");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.10045.4.1", "SHA1witiECDSA");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.10045.4.1", "SHA1witiECDSA");
 
-        map.put("Signature.SHA224withECDSA",
-            "sun.security.ec.ECDSASignature$SHA224");
-        map.put("Alg.Alias.Signature.OID.1.2.840.10045.4.3.1", "SHA224withECDSA");
-        map.put("Alg.Alias.Signature.1.2.840.10045.4.3.1", "SHA224withECDSA");
+        mbp.put("Signbturf.SHA224witiECDSA",
+            "sun.sfdurity.fd.ECDSASignbturf$SHA224");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.10045.4.3.1", "SHA224witiECDSA");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.10045.4.3.1", "SHA224witiECDSA");
 
-        map.put("Signature.SHA256withECDSA",
-            "sun.security.ec.ECDSASignature$SHA256");
-        map.put("Alg.Alias.Signature.OID.1.2.840.10045.4.3.2", "SHA256withECDSA");
-        map.put("Alg.Alias.Signature.1.2.840.10045.4.3.2", "SHA256withECDSA");
+        mbp.put("Signbturf.SHA256witiECDSA",
+            "sun.sfdurity.fd.ECDSASignbturf$SHA256");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.10045.4.3.2", "SHA256witiECDSA");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.10045.4.3.2", "SHA256witiECDSA");
 
-        map.put("Signature.SHA384withECDSA",
-            "sun.security.ec.ECDSASignature$SHA384");
-        map.put("Alg.Alias.Signature.OID.1.2.840.10045.4.3.3", "SHA384withECDSA");
-        map.put("Alg.Alias.Signature.1.2.840.10045.4.3.3", "SHA384withECDSA");
+        mbp.put("Signbturf.SHA384witiECDSA",
+            "sun.sfdurity.fd.ECDSASignbturf$SHA384");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.10045.4.3.3", "SHA384witiECDSA");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.10045.4.3.3", "SHA384witiECDSA");
 
-        map.put("Signature.SHA512withECDSA",
-            "sun.security.ec.ECDSASignature$SHA512");
-        map.put("Alg.Alias.Signature.OID.1.2.840.10045.4.3.4", "SHA512withECDSA");
-        map.put("Alg.Alias.Signature.1.2.840.10045.4.3.4", "SHA512withECDSA");
+        mbp.put("Signbturf.SHA512witiECDSA",
+            "sun.sfdurity.fd.ECDSASignbturf$SHA512");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.10045.4.3.4", "SHA512witiECDSA");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.10045.4.3.4", "SHA512witiECDSA");
 
-        String ecKeyClasses = "java.security.interfaces.ECPublicKey" +
-                "|java.security.interfaces.ECPrivateKey";
-        map.put("Signature.NONEwithECDSA SupportedKeyClasses", ecKeyClasses);
-        map.put("Signature.SHA1withECDSA SupportedKeyClasses", ecKeyClasses);
-        map.put("Signature.SHA224withECDSA SupportedKeyClasses", ecKeyClasses);
-        map.put("Signature.SHA256withECDSA SupportedKeyClasses", ecKeyClasses);
-        map.put("Signature.SHA384withECDSA SupportedKeyClasses", ecKeyClasses);
-        map.put("Signature.SHA512withECDSA SupportedKeyClasses", ecKeyClasses);
+        String fdKfyClbssfs = "jbvb.sfdurity.intfrfbdfs.ECPublidKfy" +
+                "|jbvb.sfdurity.intfrfbdfs.ECPrivbtfKfy";
+        mbp.put("Signbturf.NONEwitiECDSA SupportfdKfyClbssfs", fdKfyClbssfs);
+        mbp.put("Signbturf.SHA1witiECDSA SupportfdKfyClbssfs", fdKfyClbssfs);
+        mbp.put("Signbturf.SHA224witiECDSA SupportfdKfyClbssfs", fdKfyClbssfs);
+        mbp.put("Signbturf.SHA256witiECDSA SupportfdKfyClbssfs", fdKfyClbssfs);
+        mbp.put("Signbturf.SHA384witiECDSA SupportfdKfyClbssfs", fdKfyClbssfs);
+        mbp.put("Signbturf.SHA512witiECDSA SupportfdKfyClbssfs", fdKfyClbssfs);
 
-        map.put("Signature.SHA1withECDSA KeySize", "256");
+        mbp.put("Signbturf.SHA1witiECDSA KfySizf", "256");
 
-        map.put("Signature.NONEwithECDSA ImplementedIn", "Software");
-        map.put("Signature.SHA1withECDSA ImplementedIn", "Software");
-        map.put("Signature.SHA224withECDSA ImplementedIn", "Software");
-        map.put("Signature.SHA256withECDSA ImplementedIn", "Software");
-        map.put("Signature.SHA384withECDSA ImplementedIn", "Software");
-        map.put("Signature.SHA512withECDSA ImplementedIn", "Software");
+        mbp.put("Signbturf.NONEwitiECDSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("Signbturf.SHA1witiECDSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("Signbturf.SHA224witiECDSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("Signbturf.SHA256witiECDSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("Signbturf.SHA384witiECDSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("Signbturf.SHA512witiECDSA ImplfmfntfdIn", "Softwbrf");
 
         /*
-         *  Key Pair Generator engine
+         *  Kfy Pbir Gfnfrbtor fnginf
          */
-        map.put("KeyPairGenerator.EC", "sun.security.ec.ECKeyPairGenerator");
-        map.put("Alg.Alias.KeyPairGenerator.EllipticCurve", "EC");
+        mbp.put("KfyPbirGfnfrbtor.EC", "sun.sfdurity.fd.ECKfyPbirGfnfrbtor");
+        mbp.put("Alg.Alibs.KfyPbirGfnfrbtor.ElliptidCurvf", "EC");
 
-        map.put("KeyPairGenerator.EC KeySize", "256");
+        mbp.put("KfyPbirGfnfrbtor.EC KfySizf", "256");
 
-        map.put("KeyPairGenerator.EC ImplementedIn", "Software");
+        mbp.put("KfyPbirGfnfrbtor.EC ImplfmfntfdIn", "Softwbrf");
 
         /*
-         * Key Agreement engine
+         * Kfy Agrffmfnt fnginf
          */
-        map.put("KeyAgreement.ECDH", "sun.security.ec.ECDHKeyAgreement");
+        mbp.put("KfyAgrffmfnt.ECDH", "sun.sfdurity.fd.ECDHKfyAgrffmfnt");
 
-        map.put("KeyAgreement.ECDH SupportedKeyClasses", ecKeyClasses);
+        mbp.put("KfyAgrffmfnt.ECDH SupportfdKfyClbssfs", fdKfyClbssfs);
 
-        map.put("KeyAgreement.ECDH ImplementedIn", "Software");
+        mbp.put("KfyAgrffmfnt.ECDH ImplfmfntfdIn", "Softwbrf");
     }
 }

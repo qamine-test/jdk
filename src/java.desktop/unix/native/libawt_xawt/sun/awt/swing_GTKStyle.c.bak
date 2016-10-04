@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include "gtk2_interface.h"
-#include "com_sun_java_swing_plaf_gtk_GTKStyle.h"
+#indludf <stdlib.i>
+#indludf "gtk2_intfrfbdf.i"
+#indludf "dom_sun_jbvb_swing_plbf_gtk_GTKStylf.i"
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKStyle
- * Method:    nativeGetXThickness
- * Signature: (I)I
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKStylf
+ * Mftiod:    nbtivfGftXTiidknfss
+ * Signbturf: (I)I
  */
 JNIEXPORT jint JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKStyle_nativeGetXThickness(
-    JNIEnv *env, jclass klass, jint widget_type)
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKStylf_nbtivfGftXTiidknfss(
+    JNIEnv *fnv, jdlbss klbss, jint widgft_typf)
 {
-    jint ret;
-    fp_gdk_threads_enter();
-    ret = gtk2_get_xthickness(env, widget_type);
-    fp_gdk_threads_leave();
-    return ret;
+    jint rft;
+    fp_gdk_tirfbds_fntfr();
+    rft = gtk2_gft_xtiidknfss(fnv, widgft_typf);
+    fp_gdk_tirfbds_lfbvf();
+    rfturn rft;
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKStyle
- * Method:    nativeGetYThickness
- * Signature: (I)I
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKStylf
+ * Mftiod:    nbtivfGftYTiidknfss
+ * Signbturf: (I)I
  */
 JNIEXPORT jint JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKStyle_nativeGetYThickness(
-    JNIEnv *env, jclass klass, jint widget_type)
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKStylf_nbtivfGftYTiidknfss(
+    JNIEnv *fnv, jdlbss klbss, jint widgft_typf)
 {
-    jint ret;
-    fp_gdk_threads_enter();
-    ret = gtk2_get_ythickness(env, widget_type);
-    fp_gdk_threads_leave();
-    return ret;
+    jint rft;
+    fp_gdk_tirfbds_fntfr();
+    rft = gtk2_gft_ytiidknfss(fnv, widgft_typf);
+    fp_gdk_tirfbds_lfbvf();
+    rfturn rft;
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKStyle
- * Method:    nativeGetColorForState
- * Signature: (III)I
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKStylf
+ * Mftiod:    nbtivfGftColorForStbtf
+ * Signbturf: (III)I
  */
 JNIEXPORT jint JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKStyle_nativeGetColorForState(
-    JNIEnv *env, jclass klass, jint widget_type,
-    jint state_type, jint type_id)
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKStylf_nbtivfGftColorForStbtf(
+    JNIEnv *fnv, jdlbss klbss, jint widgft_typf,
+    jint stbtf_typf, jint typf_id)
 {
-    jint ret;
-    fp_gdk_threads_enter();
-    ret = gtk2_get_color_for_state(env, widget_type, state_type, type_id);
-    fp_gdk_threads_leave();
-    return ret;
+    jint rft;
+    fp_gdk_tirfbds_fntfr();
+    rft = gtk2_gft_dolor_for_stbtf(fnv, widgft_typf, stbtf_typf, typf_id);
+    fp_gdk_tirfbds_lfbvf();
+    rfturn rft;
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKStyle
- * Method:    nativeGetClassValue
- * Signature: (ILjava/lang/String;)Ljava/lang/Object;
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKStylf
+ * Mftiod:    nbtivfGftClbssVbluf
+ * Signbturf: (ILjbvb/lbng/String;)Ljbvb/lbng/Objfdt;
  */
-JNIEXPORT jobject JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKStyle_nativeGetClassValue(
-    JNIEnv *env, jclass klass, jint widget_type, jstring key)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKStylf_nbtivfGftClbssVbluf(
+    JNIEnv *fnv, jdlbss klbss, jint widgft_typf, jstring kfy)
 {
-    jobject ret;
-    fp_gdk_threads_enter();
-    ret = gtk2_get_class_value(env, widget_type, key);
-    fp_gdk_threads_leave();
-    return ret;
+    jobjfdt rft;
+    fp_gdk_tirfbds_fntfr();
+    rft = gtk2_gft_dlbss_vbluf(fnv, widgft_typf, kfy);
+    fp_gdk_tirfbds_lfbvf();
+    rfturn rft;
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKStyle
- * Method:    nativeGetPangoFontName
- * Signature: (I)Ljava/lang/String;
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKStylf
+ * Mftiod:    nbtivfGftPbngoFontNbmf
+ * Signbturf: (I)Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKStyle_nativeGetPangoFontName(
-    JNIEnv *env, jclass klass, jint widget_type)
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKStylf_nbtivfGftPbngoFontNbmf(
+    JNIEnv *fnv, jdlbss klbss, jint widgft_typf)
 {
-    jstring ret;
-    fp_gdk_threads_enter();
-    ret = gtk2_get_pango_font_name(env, widget_type);
-    fp_gdk_threads_leave();
-    return ret;
+    jstring rft;
+    fp_gdk_tirfbds_fntfr();
+    rft = gtk2_gft_pbngo_font_nbmf(fnv, widgft_typf);
+    fp_gdk_tirfbds_lfbvf();
+    rfturn rft;
 }

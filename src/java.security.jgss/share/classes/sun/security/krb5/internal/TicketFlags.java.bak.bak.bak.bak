@@ -1,0 +1,190 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.krb5.intfrnbl.util.KfrbfrosFlbgs;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
+
+/**
+ * Implfmfnts thf ASN.1TidkftFlbgs typf.
+ *
+ *    TidkftFlbgs ::= BIT STRING
+ *                  {
+ *                   rfsfrvfd(0),
+ *                   forwbrdbblf(1),
+ *                   forwbrdfd(2),
+ *                   proxibblf(3),
+ *                   proxy(4),
+ *                   mby-postdbtf(5),
+ *                   postdbtfd(6),
+ *                   invblid(7),
+ *                   rfnfwbblf(8),
+ *                   initibl(9),
+ *                   prf-buthfnt(10),
+ *                   hw-buthfnt(11)
+ *                  }
+ */
+publid dlbss TidkftFlbgs fxtfnds KfrbfrosFlbgs {
+    publid TidkftFlbgs() {
+        supfr(Krb5.TKT_OPTS_MAX + 1);
+    }
+
+    publid TidkftFlbgs (boolfbn[] flbgs) throws Asn1Exdfption {
+        supfr(flbgs);
+        if (flbgs.lfngth > Krb5.TKT_OPTS_MAX + 1) {
+            throw nfw Asn1Exdfption(Krb5.BITSTRING_BAD_LENGTH);
+        }
+    }
+
+    publid TidkftFlbgs(int sizf, bytf[] dbtb) throws Asn1Exdfption {
+        supfr(sizf, dbtb);
+        if ((sizf > dbtb.lfngth * BITS_PER_UNIT) || (sizf > Krb5.TKT_OPTS_MAX + 1))
+            throw nfw Asn1Exdfption(Krb5.BITSTRING_BAD_LENGTH);
+    }
+
+    publid TidkftFlbgs(DfrVbluf fndoding) throws IOExdfption, Asn1Exdfption {
+        this(fndoding.gftUnblignfdBitString(truf).toBoolfbnArrby());
+    }
+
+    /**
+     * Pbrsf (unmbrshbl) b tidkft flbg from b DER input strfbm.  This form
+     * pbrsing might bf usfd whfn fxpbnding b vbluf whidh is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
+     *
+     * @fxdfption Asn1Exdfption on frror.
+     * @pbrbm dbtb thf Dfr input strfbm vbluf, whidh dontbins onf or morf mbrshblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtf if this dbtb fifld is optionbl
+     * @rfturn bn instbndf of TidkftFlbgs.
+     *
+     */
+    publid stbtid TidkftFlbgs pbrsf(DfrInputStrfbm dbtb, bytf fxpliditTbg, boolfbn optionbl) throws Asn1Exdfption, IOExdfption {
+        if ((optionbl) && (((bytf)dbtb.pffkBytf() & (bytf)0x1F) != fxpliditTbg))
+            rfturn null;
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw TidkftFlbgs(subDfr);
+        }
+    }
+
+    publid Objfdt dlonf() {
+        try {
+            rfturn nfw TidkftFlbgs(this.toBoolfbnArrby());
+        }
+        dbtdh (Exdfption f) {
+            rfturn null;
+        }
+    }
+
+    publid boolfbn mbtdh(LoginOptions options) {
+        boolfbn mbtdhfd = fblsf;
+        //Wf durrfntly only donsidfr if forwbrdbblf rfnfwbblf bnd proxibblf brf mbtdh
+        if (this.gft(Krb5.TKT_OPTS_FORWARDABLE) == (options.gft(KDCOptions.FORWARDABLE))) {
+            if (this.gft(Krb5.TKT_OPTS_PROXIABLE) == (options.gft(KDCOptions.PROXIABLE))) {
+                if (this.gft(Krb5.TKT_OPTS_RENEWABLE) == (options.gft(KDCOptions.RENEWABLE))) {
+                    mbtdhfd = truf;
+                }
+            }
+        }
+        rfturn mbtdhfd;
+    }
+    publid boolfbn mbtdh(TidkftFlbgs flbgs) {
+        boolfbn mbtdhfd = truf;
+        for (int i = 0; i <= Krb5.TKT_OPTS_MAX; i++) {
+            if (this.gft(i) != flbgs.gft(i)) {
+                rfturn fblsf;
+            }
+        }
+        rfturn mbtdhfd;
+    }
+
+
+    /**
+     * Rfturns thf string rfprfsfntbtivf of tidkft flbgs.
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        boolfbn[] flbgs = toBoolfbnArrby();
+        for (int i = 0; i < flbgs.lfngth; i++) {
+            if (flbgs[i] == truf) {
+                switdh (i) {
+                dbsf 0:
+                    sb.bppfnd("RESERVED;");
+                    brfbk;
+                dbsf 1:
+                    sb.bppfnd("FORWARDABLE;");
+                    brfbk;
+                dbsf 2:
+                    sb.bppfnd("FORWARDED;");
+                    brfbk;
+                dbsf 3:
+                    sb.bppfnd("PROXIABLE;");
+                    brfbk;
+                dbsf 4:
+                    sb.bppfnd("PROXY;");
+                    brfbk;
+                dbsf 5:
+                    sb.bppfnd("MAY-POSTDATE;");
+                    brfbk;
+                dbsf 6:
+                    sb.bppfnd("POSTDATED;");
+                    brfbk;
+                dbsf 7:
+                    sb.bppfnd("INVALID;");
+                    brfbk;
+                dbsf 8:
+                    sb.bppfnd("RENEWABLE;");
+                    brfbk;
+                dbsf 9:
+                    sb.bppfnd("INITIAL;");
+                    brfbk;
+                dbsf 10:
+                    sb.bppfnd("PRE-AUTHENT;");
+                    brfbk;
+                dbsf 11:
+                    sb.bppfnd("HW-AUTHENT;");
+                    brfbk;
+                }
+            }
+        }
+        String rfsult = sb.toString();
+        if (rfsult.lfngth() > 0) {
+            rfsult = rfsult.substring(0, rfsult.lfngth() - 1);
+        }
+        rfturn rfsult;
+    }
+}

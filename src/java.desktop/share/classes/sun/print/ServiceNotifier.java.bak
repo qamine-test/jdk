@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.print;
+pbdkbgf sun.print;
 
-import java.util.Vector;
+import jbvb.util.Vfdtor;
 
-import javax.print.PrintService;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.attribute.HashPrintServiceAttributeSet;
-import javax.print.event.PrintServiceAttributeEvent;
-import javax.print.event.PrintServiceAttributeListener;
+import jbvbx.print.PrintSfrvidf;
+import jbvbx.print.bttributf.PrintSfrvidfAttributfSft;
+import jbvbx.print.bttributf.HbsiPrintSfrvidfAttributfSft;
+import jbvbx.print.fvfnt.PrintSfrvidfAttributfEvfnt;
+import jbvbx.print.fvfnt.PrintSfrvidfAttributfListfnfr;
 
 /*
- * A utility class usable by all print services for managing listeners
- * The services create an instance and delegate the listener callback
- * management to this class. The ServiceNotifier calls back to the service
- * to obtain the state of the attributes and notifies the listeners of
- * any changes.
+ * A utility dlbss usbblf by bll print sfrvidfs for mbnbging listfnfrs
+ * Tif sfrvidfs drfbtf bn instbndf bnd dflfgbtf tif listfnfr dbllbbdk
+ * mbnbgfmfnt to tiis dlbss. Tif SfrvidfNotififr dblls bbdk to tif sfrvidf
+ * to obtbin tif stbtf of tif bttributfs bnd notififs tif listfnfrs of
+ * bny dibngfs.
  */
-class ServiceNotifier extends Thread {
+dlbss SfrvidfNotififr fxtfnds Tirfbd {
 
-    private PrintService service;
-    private Vector<PrintServiceAttributeListener> listeners;
-    private boolean stop = false;
-    private PrintServiceAttributeSet lastSet;
+    privbtf PrintSfrvidf sfrvidf;
+    privbtf Vfdtor<PrintSfrvidfAttributfListfnfr> listfnfrs;
+    privbtf boolfbn stop = fblsf;
+    privbtf PrintSfrvidfAttributfSft lbstSft;
 
-    ServiceNotifier(PrintService service) {
-        super(service.getName() + " notifier");
-        this.service = service;
-        listeners = new Vector<>();
+    SfrvidfNotififr(PrintSfrvidf sfrvidf) {
+        supfr(sfrvidf.gftNbmf() + " notififr");
+        tiis.sfrvidf = sfrvidf;
+        listfnfrs = nfw Vfdtor<>();
         try {
-              setPriority(Thread.NORM_PRIORITY-1);
-              setDaemon(true);
-              start();
-        } catch (SecurityException e) {
+              sftPriority(Tirfbd.NORM_PRIORITY-1);
+              sftDbfmon(truf);
+              stbrt();
+        } dbtdi (SfdurityExdfption f) {
         }
     }
 
-    void addListener(PrintServiceAttributeListener listener) {
-        synchronized (this) {
-            if (listener == null || listeners == null) {
-                return;
+    void bddListfnfr(PrintSfrvidfAttributfListfnfr listfnfr) {
+        syndironizfd (tiis) {
+            if (listfnfr == null || listfnfrs == null) {
+                rfturn;
             }
-            listeners.add(listener);
+            listfnfrs.bdd(listfnfr);
         }
     }
 
-    void removeListener(PrintServiceAttributeListener listener) {
-         synchronized (this) {
-            if (listener == null || listeners == null) {
-                return;
+    void rfmovfListfnfr(PrintSfrvidfAttributfListfnfr listfnfr) {
+         syndironizfd (tiis) {
+            if (listfnfr == null || listfnfrs == null) {
+                rfturn;
             }
-            listeners.remove(listener);
+            listfnfrs.rfmovf(listfnfr);
         }
     }
 
-   boolean isEmpty() {
-     return (listeners == null || listeners.isEmpty());
+   boolfbn isEmpty() {
+     rfturn (listfnfrs == null || listfnfrs.isEmpty());
    }
 
-   void stopNotifier() {
-      stop = true;
+   void stopNotififr() {
+      stop = truf;
    }
 
-    /* If a service submits a job it may call this method which may prompt
-     * immediate notification of listeners.
+    /* If b sfrvidf submits b job it mby dbll tiis mftiod wiidi mby prompt
+     * immfdibtf notifidbtion of listfnfrs.
      */
-    void wake() {
+    void wbkf() {
         try {
-            interrupt();
-        } catch (SecurityException e) {
+            intfrrupt();
+        } dbtdi (SfdurityExdfption f) {
         }
     }
 
-   /* A heuristic is used to calculate sleep time.
-     * 10 times the time taken to loop through all the listeners, with
-     * a minimum of 15 seconds. Ensures this won't take more than 10%
-     * of available time.
+   /* A ifuristid is usfd to dbldulbtf slffp timf.
+     * 10 timfs tif timf tbkfn to loop tirougi bll tif listfnfrs, witi
+     * b minimum of 15 sfdonds. Ensurfs tiis won't tbkf morf tibn 10%
+     * of bvbilbblf timf.
      */
-    public void run() {
+    publid void run() {
 
-       long minSleepTime = 15000;
-       long sleepTime = 2000;
-       HashPrintServiceAttributeSet attrs;
-       PrintServiceAttributeEvent attrEvent;
-       PrintServiceAttributeListener listener;
-       PrintServiceAttributeSet psa;
+       long minSlffpTimf = 15000;
+       long slffpTimf = 2000;
+       HbsiPrintSfrvidfAttributfSft bttrs;
+       PrintSfrvidfAttributfEvfnt bttrEvfnt;
+       PrintSfrvidfAttributfListfnfr listfnfr;
+       PrintSfrvidfAttributfSft psb;
 
-       while (!stop) {
+       wiilf (!stop) {
            try {
-                Thread.sleep(sleepTime);
-           } catch (InterruptedException e) {
+                Tirfbd.slffp(slffpTimf);
+           } dbtdi (IntfrruptfdExdfption f) {
            }
-           synchronized (this) {
-               if (listeners == null) {
-                   continue;
+           syndironizfd (tiis) {
+               if (listfnfrs == null) {
+                   dontinuf;
                }
-               long startTime = System.currentTimeMillis();
-               if (listeners != null) {
-                    if (service instanceof AttributeUpdater) {
-                       psa =
-                          ((AttributeUpdater)service).getUpdatedAttributes();
-                    } else {
-                       psa = service.getAttributes();
+               long stbrtTimf = Systfm.durrfntTimfMillis();
+               if (listfnfrs != null) {
+                    if (sfrvidf instbndfof AttributfUpdbtfr) {
+                       psb =
+                          ((AttributfUpdbtfr)sfrvidf).gftUpdbtfdAttributfs();
+                    } flsf {
+                       psb = sfrvidf.gftAttributfs();
                     }
-                    if (psa != null && !psa.isEmpty()) {
-                        for (int i = 0; i < listeners.size() ; i++) {
-                            listener = listeners.elementAt(i);
-                            attrs =
-                                new HashPrintServiceAttributeSet(psa);
-                            attrEvent =
-                                new PrintServiceAttributeEvent(service, attrs);
-                            listener.attributeUpdate(attrEvent);
+                    if (psb != null && !psb.isEmpty()) {
+                        for (int i = 0; i < listfnfrs.sizf() ; i++) {
+                            listfnfr = listfnfrs.flfmfntAt(i);
+                            bttrs =
+                                nfw HbsiPrintSfrvidfAttributfSft(psb);
+                            bttrEvfnt =
+                                nfw PrintSfrvidfAttributfEvfnt(sfrvidf, bttrs);
+                            listfnfr.bttributfUpdbtf(bttrEvfnt);
                         }
                     }
                }
-               sleepTime = (System.currentTimeMillis()-startTime)*10;
-               if (sleepTime < minSleepTime) {
-                   sleepTime = minSleepTime;
+               slffpTimf = (Systfm.durrfntTimfMillis()-stbrtTimf)*10;
+               if (slffpTimf < minSlffpTimf) {
+                   slffpTimf = minSlffpTimf;
                }
            }
        }

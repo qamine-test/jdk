@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.Attribute;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.Attributf;
 
 /**
- * Class ReferenceUriSchemesSupported is a printing attribute class
- * an enumeration, that indicates a "URI scheme," such as "http:" or "ftp:",
- * that a printer can use to retrieve print data stored at a URI location.
- * If a printer supports doc flavors with a print data representation class of
- * <CODE>"java.net.URL"</CODE>, the printer uses instances of class
- * ReferenceUriSchemesSupported to advertise the URI schemes it can accept.
- * The acceptable URI schemes are included as service attributes in the
- * lookup service; this lets clients search the
- * for printers that can get print data using a certain URI scheme. The
- * acceptable URI schemes can also be queried using the capability methods in
- * interface <code>PrintService</code>. However,
- * ReferenceUriSchemesSupported attributes are used solely for determining
- * acceptable URI schemes, they are never included in a doc's,
- * print request's, print job's, or print service's attribute set.
+ * Clbss RfffrfndfUriSdifmfsSupportfd is b printing bttributf dlbss
+ * bn fnumfrbtion, tibt indidbtfs b "URI sdifmf," sudi bs "ittp:" or "ftp:",
+ * tibt b printfr dbn usf to rftrifvf print dbtb storfd bt b URI lodbtion.
+ * If b printfr supports dod flbvors witi b print dbtb rfprfsfntbtion dlbss of
+ * <CODE>"jbvb.nft.URL"</CODE>, tif printfr usfs instbndfs of dlbss
+ * RfffrfndfUriSdifmfsSupportfd to bdvfrtisf tif URI sdifmfs it dbn bddfpt.
+ * Tif bddfptbblf URI sdifmfs brf indludfd bs sfrvidf bttributfs in tif
+ * lookup sfrvidf; tiis lfts dlifnts sfbrdi tif
+ * for printfrs tibt dbn gft print dbtb using b dfrtbin URI sdifmf. Tif
+ * bddfptbblf URI sdifmfs dbn blso bf qufrifd using tif dbpbbility mftiods in
+ * intfrfbdf <dodf>PrintSfrvidf</dodf>. Howfvfr,
+ * RfffrfndfUriSdifmfsSupportfd bttributfs brf usfd solfly for dftfrmining
+ * bddfptbblf URI sdifmfs, tify brf nfvfr indludfd in b dod's,
+ * print rfqufst's, print job's, or print sfrvidf's bttributf sft.
  * <P>
- * The Internet Assigned Numbers Authority maintains the
- * <A HREF="http://www.iana.org/assignments/uri-schemes.html">official
- * list of URI schemes</A>.
+ * Tif Intfrnft Assignfd Numbfrs Autiority mbintbins tif
+ * <A HREF="ittp://www.ibnb.org/bssignmfnts/uri-sdifmfs.itml">offidibl
+ * list of URI sdifmfs</A>.
  * <p>
- * Class ReferenceUriSchemesSupported defines enumeration values for widely
- * used URI schemes. A printer that supports additional URI schemes
- * can define them in a subclass of class ReferenceUriSchemesSupported.
+ * Clbss RfffrfndfUriSdifmfsSupportfd dffinfs fnumfrbtion vblufs for widfly
+ * usfd URI sdifmfs. A printfr tibt supports bdditionbl URI sdifmfs
+ * dbn dffinf tifm in b subdlbss of dlbss RfffrfndfUriSdifmfsSupportfd.
  * <P>
- * <B>IPP Compatibility:</B>  The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B>  Tif dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is tif IPP bttributf nbmf.  Tif fnumfrbtion's
+ * intfgfr vbluf is tif IPP fnum vbluf.  Tif <dodf>toString()</dodf> mftiod
+ * rfturns tif IPP string rfprfsfntbtion of tif bttributf vbluf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public class ReferenceUriSchemesSupported
-    extends EnumSyntax implements Attribute {
+publid dlbss RfffrfndfUriSdifmfsSupportfd
+    fxtfnds EnumSyntbx implfmfnts Attributf {
 
-    private static final long serialVersionUID = -8989076942813442805L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8989076942813442805L;
 
     /**
-     * File Transfer Protocol (FTP).
+     * Filf Trbnsffr Protodol (FTP).
      */
-    public static final ReferenceUriSchemesSupported FTP =
-        new ReferenceUriSchemesSupported(0);
+    publid stbtid finbl RfffrfndfUriSdifmfsSupportfd FTP =
+        nfw RfffrfndfUriSdifmfsSupportfd(0);
 
     /**
-     * HyperText Transfer Protocol (HTTP).
+     * HypfrTfxt Trbnsffr Protodol (HTTP).
      */
-    public static final ReferenceUriSchemesSupported HTTP = new ReferenceUriSchemesSupported(1);
+    publid stbtid finbl RfffrfndfUriSdifmfsSupportfd HTTP = nfw RfffrfndfUriSdifmfsSupportfd(1);
 
     /**
-     * Secure HyperText Transfer Protocol (HTTPS).
+     * Sfdurf HypfrTfxt Trbnsffr Protodol (HTTPS).
      */
-    public static final ReferenceUriSchemesSupported HTTPS = new ReferenceUriSchemesSupported(2);
+    publid stbtid finbl RfffrfndfUriSdifmfsSupportfd HTTPS = nfw RfffrfndfUriSdifmfsSupportfd(2);
 
     /**
-     * Gopher Protocol.
+     * Gopifr Protodol.
      */
-    public static final ReferenceUriSchemesSupported GOPHER = new ReferenceUriSchemesSupported(3);
+    publid stbtid finbl RfffrfndfUriSdifmfsSupportfd GOPHER = nfw RfffrfndfUriSdifmfsSupportfd(3);
 
     /**
-     * USENET news.
+     * USENET nfws.
      */
-    public static final ReferenceUriSchemesSupported NEWS = new ReferenceUriSchemesSupported(4);
+    publid stbtid finbl RfffrfndfUriSdifmfsSupportfd NEWS = nfw RfffrfndfUriSdifmfsSupportfd(4);
 
     /**
-     * USENET news using Network News Transfer Protocol (NNTP).
+     * USENET nfws using Nftwork Nfws Trbnsffr Protodol (NNTP).
      */
-    public static final ReferenceUriSchemesSupported NNTP = new ReferenceUriSchemesSupported(5);
+    publid stbtid finbl RfffrfndfUriSdifmfsSupportfd NNTP = nfw RfffrfndfUriSdifmfsSupportfd(5);
 
     /**
-     * Wide Area Information Server (WAIS) protocol.
+     * Widf Arfb Informbtion Sfrvfr (WAIS) protodol.
      */
-    public static final ReferenceUriSchemesSupported WAIS = new ReferenceUriSchemesSupported(6);
+    publid stbtid finbl RfffrfndfUriSdifmfsSupportfd WAIS = nfw RfffrfndfUriSdifmfsSupportfd(6);
 
     /**
-     * Host-specific file names.
+     * Host-spfdifid filf nbmfs.
      */
-    public static final ReferenceUriSchemesSupported FILE = new ReferenceUriSchemesSupported(7);
+    publid stbtid finbl RfffrfndfUriSdifmfsSupportfd FILE = nfw RfffrfndfUriSdifmfsSupportfd(7);
 
     /**
-     * Construct a new reference URI scheme enumeration value with the given
-     * integer value.
+     * Construdt b nfw rfffrfndf URI sdifmf fnumfrbtion vbluf witi tif givfn
+     * intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected ReferenceUriSchemesSupported(int value) {
-        super (value);
+    protfdtfd RfffrfndfUriSdifmfsSupportfd(int vbluf) {
+        supfr (vbluf);
     }
 
-    private static final String[] myStringTable = {
+    privbtf stbtid finbl String[] myStringTbblf = {
         "ftp",
-        "http",
-        "https",
-        "gopher",
-        "news",
+        "ittp",
+        "ittps",
+        "gopifr",
+        "nfws",
         "nntp",
-        "wais",
-        "file",
+        "wbis",
+        "filf",
     };
 
-    private static final ReferenceUriSchemesSupported[] myEnumValueTable = {
+    privbtf stbtid finbl RfffrfndfUriSdifmfsSupportfd[] myEnumVblufTbblf = {
         FTP,
         HTTP,
         HTTPS,
@@ -137,46 +137,46 @@ public class ReferenceUriSchemesSupported
     };
 
     /**
-     * Returns the string table for class ReferenceUriSchemesSupported.
+     * Rfturns tif string tbblf for dlbss RfffrfndfUriSdifmfsSupportfd.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf.dlonf();
     }
 
     /**
-     * Returns the enumeration value table for class
-     * ReferenceUriSchemesSupported.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss
+     * RfffrfndfUriSdifmfsSupportfd.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class ReferenceUriSchemesSupported and any vendor-defined
-     * subclasses, the category is class ReferenceUriSchemesSupported itself.
+     * For dlbss RfffrfndfUriSdifmfsSupportfd bnd bny vfndor-dffinfd
+     * subdlbssfs, tif dbtfgory is dlbss RfffrfndfUriSdifmfsSupportfd itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return ReferenceUriSchemesSupported.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn RfffrfndfUriSdifmfsSupportfd.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class ReferenceUriSchemesSupported and any vendor-defined
-     * subclasses, the category name is
-     * <CODE>"reference-uri-schemes-supported"</CODE>.
+     * For dlbss RfffrfndfUriSdifmfsSupportfd bnd bny vfndor-dffinfd
+     * subdlbssfs, tif dbtfgory nbmf is
+     * <CODE>"rfffrfndf-uri-sdifmfs-supportfd"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "reference-uri-schemes-supported";
+    publid finbl String gftNbmf() {
+        rfturn "rfffrfndf-uri-sdifmfs-supportfd";
     }
 
 }

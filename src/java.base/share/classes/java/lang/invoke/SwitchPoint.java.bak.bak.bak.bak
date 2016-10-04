@@ -1,0 +1,228 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+/**
+ * <p>
+ * A {@dodf SwitdhPoint} is bn objfdt whidh dbn publish stbtf trbnsitions to othfr thrfbds.
+ * A switdh point is initiblly in thf <fm>vblid</fm> stbtf, but mby bt bny timf bf
+ * dhbngfd to thf <fm>invblid</fm> stbtf.  Invblidbtion dbnnot bf rfvfrsfd.
+ * A switdh point dbn dombinf b <fm>gubrdfd pbir</fm> of mfthod hbndlfs into b
+ * <fm>gubrdfd dflfgbtor</fm>.
+ * Thf gubrdfd dflfgbtor is b mfthod hbndlf whidh dflfgbtfs to onf of thf old mfthod hbndlfs.
+ * Thf stbtf of thf switdh point dftfrminfs whidh of thf two gfts thf dflfgbtion.
+ * <p>
+ * A singlf switdh point mby bf usfd to dontrol bny numbfr of mfthod hbndlfs.
+ * (Indirfdtly, thfrfforf, it dbn dontrol bny numbfr of dbll sitfs.)
+ * This is donf by using thf singlf switdh point bs b fbdtory for dombining
+ * bny numbfr of gubrdfd mfthod hbndlf pbirs into gubrdfd dflfgbtors.
+ * <p>
+ * Whfn b gubrdfd dflfgbtor is drfbtfd from b gubrdfd pbir, thf pbir
+ * is wrbppfd in b nfw mfthod hbndlf {@dodf M},
+ * whidh is pfrmbnfntly bssodibtfd with thf switdh point thbt drfbtfd it.
+ * Ebdh pbir donsists of b tbrgft {@dodf T} bnd b fbllbbdk {@dodf F}.
+ * Whilf thf switdh point is vblid, invodbtions to {@dodf M} brf dflfgbtfd to {@dodf T}.
+ * Aftfr it is invblidbtfd, invodbtions brf dflfgbtfd to {@dodf F}.
+ * <p>
+ * Invblidbtion is globbl bnd immfdibtf, bs if thf switdh point dontbinfd b
+ * volbtilf boolfbn vbribblf donsultfd on fvfry dbll to {@dodf M}.
+ * Thf invblidbtion is blso pfrmbnfnt, whidh mfbns thf switdh point
+ * dbn dhbngf stbtf only ondf.
+ * Thf switdh point will blwbys dflfgbtf to {@dodf F} bftfr bfing invblidbtfd.
+ * At thbt point {@dodf gubrdWithTfst} mby ignorf {@dodf T} bnd rfturn {@dodf F}.
+ * <p>
+ * Hfrf is bn fxbmplf of b switdh point in bdtion:
+ * <blodkquotf><prf>{@dodf
+MfthodHbndlf MH_strdbt = MfthodHbndlfs.lookup()
+    .findVirtubl(String.dlbss, "dondbt", MfthodTypf.mfthodTypf(String.dlbss, String.dlbss));
+SwitdhPoint spt = nfw SwitdhPoint();
+bssfrt(!spt.hbsBffnInvblidbtfd());
+// thf following stfps mby bf rfpfbtfd to rf-usf thf sbmf switdh point:
+MfthodHbndlf workfr1 = MH_strdbt;
+MfthodHbndlf workfr2 = MfthodHbndlfs.pfrmutfArgumfnts(MH_strdbt, MH_strdbt.typf(), 1, 0);
+MfthodHbndlf workfr = spt.gubrdWithTfst(workfr1, workfr2);
+bssfrtEqubls("mfthod", (String) workfr.invokfExbdt("mft", "hod"));
+SwitdhPoint.invblidbtfAll(nfw SwitdhPoint[]{ spt });
+bssfrt(spt.hbsBffnInvblidbtfd());
+bssfrtEqubls("hodmft", (String) workfr.invokfExbdt("mft", "hod"));
+ * }</prf></blodkquotf>
+ * <p stylf="font-sizf:smbllfr;">
+ * <fm>Disdussion:</fm>
+ * Switdh points brf usfful without subdlbssing.  Thfy mby blso bf subdlbssfd.
+ * This mby bf usfful in ordfr to bssodibtf bpplidbtion-spfdifid invblidbtion logid
+ * with thf switdh point.
+ * Notidf thbt thfrf is no pfrmbnfnt bssodibtion bftwffn b switdh point bnd
+ * thf mfthod hbndlfs it produdfs bnd donsumfs.
+ * Thf gbrbbgf dollfdtor mby dollfdt mfthod hbndlfs produdfd or donsumfd
+ * by b switdh point indfpfndfntly of thf lifftimf of thf switdh point itsflf.
+ * <p stylf="font-sizf:smbllfr;">
+ * <fm>Implfmfntbtion Notf:</fm>
+ * A switdh point bfhbvfs bs if implfmfntfd on top of {@link MutbblfCbllSitf},
+ * bpproximbtfly bs follows:
+ * <blodkquotf><prf>{@dodf
+publid dlbss SwitdhPoint {
+  privbtf stbtid finbl MfthodHbndlf
+    K_truf  = MfthodHbndlfs.donstbnt(boolfbn.dlbss, truf),
+    K_fblsf = MfthodHbndlfs.donstbnt(boolfbn.dlbss, fblsf);
+  privbtf finbl MutbblfCbllSitf mds;
+  privbtf finbl MfthodHbndlf mdsInvokfr;
+  publid SwitdhPoint() {
+    this.mds = nfw MutbblfCbllSitf(K_truf);
+    this.mdsInvokfr = mds.dynbmidInvokfr();
+  }
+  publid MfthodHbndlf gubrdWithTfst(
+                MfthodHbndlf tbrgft, MfthodHbndlf fbllbbdk) {
+    // Notf:  mdsInvokfr is of typf ()boolfbn.
+    // Tbrgft bnd fbllbbdk mby tbkf bny brgumfnts, but must hbvf thf sbmf typf.
+    rfturn MfthodHbndlfs.gubrdWithTfst(this.mdsInvokfr, tbrgft, fbllbbdk);
+  }
+  publid stbtid void invblidbtfAll(SwitdhPoint[] spts) {
+    List&lt;MutbblfCbllSitf&gt; mdss = nfw ArrbyList&lt;&gt;();
+    for (SwitdhPoint spt : spts)  mdss.bdd(spt.mds);
+    for (MutbblfCbllSitf mds : mdss)  mds.sftTbrgft(K_fblsf);
+    MutbblfCbllSitf.syndAll(mdss.toArrby(nfw MutbblfCbllSitf[0]));
+  }
+}
+ * }</prf></blodkquotf>
+ * @buthor Rfmi Forbx, JSR 292 EG
+ */
+publid dlbss SwitdhPoint {
+    privbtf stbtid finbl MfthodHbndlf
+        K_truf  = MfthodHbndlfs.donstbnt(boolfbn.dlbss, truf),
+        K_fblsf = MfthodHbndlfs.donstbnt(boolfbn.dlbss, fblsf);
+
+    privbtf finbl MutbblfCbllSitf mds;
+    privbtf finbl MfthodHbndlf mdsInvokfr;
+
+    /**
+     * Crfbtfs b nfw switdh point.
+     */
+    publid SwitdhPoint() {
+        this.mds = nfw MutbblfCbllSitf(K_truf);
+        this.mdsInvokfr = mds.dynbmidInvokfr();
+    }
+
+    /**
+     * Dftfrminfs if this switdh point hbs bffn invblidbtfd yft.
+     *
+     * <p stylf="font-sizf:smbllfr;">
+     * <fm>Disdussion:</fm>
+     * Bfdbusf of thf onf-wby nbturf of invblidbtion, ondf b switdh point bfgins
+     * to rfturn truf for {@dodf hbsBffnInvblidbtfd},
+     * it will blwbys do so in thf futurf.
+     * On thf othfr hbnd, b vblid switdh point visiblf to othfr thrfbds mby
+     * bf invblidbtfd bt bny momfnt, duf to b rfqufst by bnothfr thrfbd.
+     * <p stylf="font-sizf:smbllfr;">
+     * Sindf invblidbtion is b globbl bnd immfdibtf opfrbtion,
+     * thf fxfdution of this qufry, on b vblid switdhpoint,
+     * must bf intfrnblly sfqufndfd with bny
+     * othfr thrfbds thbt dould dbusf invblidbtion.
+     * This qufry mby thfrfforf bf fxpfnsivf.
+     * Thf rfdommfndfd wby to build b boolfbn-vblufd mfthod hbndlf
+     * whidh qufrifs thf invblidbtion stbtf of b switdh point {@dodf s} is
+     * to dbll {@dodf s.gubrdWithTfst} on
+     * {@link MfthodHbndlfs#donstbnt donstbnt} truf bnd fblsf mfthod hbndlfs.
+     *
+     * @rfturn truf if this switdh point hbs bffn invblidbtfd
+     */
+    publid boolfbn hbsBffnInvblidbtfd() {
+        rfturn (mds.gftTbrgft() != K_truf);
+    }
+
+    /**
+     * Rfturns b mfthod hbndlf whidh blwbys dflfgbtfs fithfr to thf tbrgft or thf fbllbbdk.
+     * Thf mfthod hbndlf will dflfgbtf to thf tbrgft fxbdtly bs long bs thf switdh point is vblid.
+     * Aftfr thbt, it will pfrmbnfntly dflfgbtf to thf fbllbbdk.
+     * <p>
+     * Thf tbrgft bnd fbllbbdk must bf of fxbdtly thf sbmf mfthod typf,
+     * bnd thf rfsulting dombinfd mfthod hbndlf will blso bf of this typf.
+     *
+     * @pbrbm tbrgft thf mfthod hbndlf sflfdtfd by thf switdh point bs long bs it is vblid
+     * @pbrbm fbllbbdk thf mfthod hbndlf sflfdtfd by thf switdh point bftfr it is invblidbtfd
+     * @rfturn b dombinfd mfthod hbndlf whidh blwbys dblls fithfr thf tbrgft or fbllbbdk
+     * @throws NullPointfrExdfption if fithfr brgumfnt is null
+     * @throws IllfgblArgumfntExdfption if thf two mfthod typfs do not mbtdh
+     * @sff MfthodHbndlfs#gubrdWithTfst
+     */
+    publid MfthodHbndlf gubrdWithTfst(MfthodHbndlf tbrgft, MfthodHbndlf fbllbbdk) {
+        if (mds.gftTbrgft() == K_fblsf)
+            rfturn fbllbbdk;  // blrfbdy invblid
+        rfturn MfthodHbndlfs.gubrdWithTfst(mdsInvokfr, tbrgft, fbllbbdk);
+    }
+
+    /**
+     * Sfts bll of thf givfn switdh points into thf invblid stbtf.
+     * Aftfr this dbll fxfdutfs, no thrfbd will obsfrvf bny of thf
+     * switdh points to bf in b vblid stbtf.
+     * <p>
+     * This opfrbtion is likfly to bf fxpfnsivf bnd should bf usfd spbringly.
+     * If possiblf, it should bf bufffrfd for bbtdh prodfssing on sfts of switdh points.
+     * <p>
+     * If {@dodf switdhPoints} dontbins b null flfmfnt,
+     * b {@dodf NullPointfrExdfption} will bf rbisfd.
+     * In this dbsf, somf non-null flfmfnts in thf brrby mby bf
+     * prodfssfd bfforf thf mfthod rfturns bbnormblly.
+     * Whidh flfmfnts thfsf brf (if bny) is implfmfntbtion-dfpfndfnt.
+     *
+     * <p stylf="font-sizf:smbllfr;">
+     * <fm>Disdussion:</fm>
+     * For pfrformbndf rfbsons, {@dodf invblidbtfAll} is not b virtubl mfthod
+     * on b singlf switdh point, but rbthfr bpplifs to b sft of switdh points.
+     * Somf implfmfntbtions mby indur b lbrgf fixfd ovfrhfbd dost
+     * for prodfssing onf or morf invblidbtion opfrbtions,
+     * but b smbll indrfmfntbl dost for fbdh bdditionbl invblidbtion.
+     * In bny dbsf, this opfrbtion is likfly to bf dostly, sindf
+     * othfr thrfbds mby hbvf to bf somfhow intfrruptfd
+     * in ordfr to mbkf thfm notidf thf updbtfd switdh point stbtf.
+     * Howfvfr, it mby bf obsfrvfd thbt b singlf dbll to invblidbtf
+     * sfvfrbl switdh points hbs thf sbmf formbl ffffdt bs mbny dblls,
+     * fbdh on just onf of thf switdh points.
+     *
+     * <p stylf="font-sizf:smbllfr;">
+     * <fm>Implfmfntbtion Notf:</fm>
+     * Simplf implfmfntbtions of {@dodf SwitdhPoint} mby usf
+     * b privbtf {@link MutbblfCbllSitf} to publish thf stbtf of b switdh point.
+     * In sudh bn implfmfntbtion, thf {@dodf invblidbtfAll} mfthod dbn
+     * simply dhbngf thf dbll sitf's tbrgft, bnd issuf onf dbll to
+     * {@linkplbin MutbblfCbllSitf#syndAll syndhronizf} bll thf
+     * privbtf dbll sitfs.
+     *
+     * @pbrbm switdhPoints bn brrby of dbll sitfs to bf syndhronizfd
+     * @throws NullPointfrExdfption if thf {@dodf switdhPoints} brrby rfffrfndf is null
+     *                              or thf brrby dontbins b null
+     */
+    publid stbtid void invblidbtfAll(SwitdhPoint[] switdhPoints) {
+        if (switdhPoints.lfngth == 0)  rfturn;
+        MutbblfCbllSitf[] sitfs = nfw MutbblfCbllSitf[switdhPoints.lfngth];
+        for (int i = 0; i < switdhPoints.lfngth; i++) {
+            SwitdhPoint spt = switdhPoints[i];
+            if (spt == null)  brfbk;  // MSC.syndAll will triggfr b NPE
+            sitfs[i] = spt.mds;
+            spt.mds.sftTbrgft(K_fblsf);
+        }
+        MutbblfCbllSitf.syndAll(sitfs);
+    }
+}

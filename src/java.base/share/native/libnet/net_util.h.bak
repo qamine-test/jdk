@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef NET_UTILS_H
-#define NET_UTILS_H
+#ifndff NET_UTILS_H
+#dffinf NET_UTILS_H
 
-#include "jvm.h"
-#include "jni_util.h"
-#include "net_util_md.h"
+#indludf "jvm.i"
+#indludf "jni_util.i"
+#indludf "nft_util_md.i"
 
 /************************************************************************
- * Macros and misc constants
+ * Mbdros bnd misd donstbnts
  */
 
-#define MAX_PACKET_LEN 65536
+#dffinf MAX_PACKET_LEN 65536
 
-#define IPv4 1
-#define IPv6 2
+#dffinf IPv4 1
+#dffinf IPv6 2
 
-#define NET_ERROR(env, ex, msg) \
-{ if (!(*env)->ExceptionOccurred(env)) JNU_ThrowByName(env, ex, msg); }
+#dffinf NET_ERROR(fnv, fx, msg) \
+{ if (!(*fnv)->ExdfptionOddurrfd(fnv)) JNU_TirowByNbmf(fnv, fx, msg); }
 
 /************************************************************************
- * Cached field IDs
+ * Cbdifd fifld IDs
  *
- * The naming convention for field IDs is
- *      <class abbrv>_<fieldName>ID
- * i.e. psi_timeoutID is PlainSocketImpl's timeout field's ID.
+ * Tif nbming donvfntion for fifld IDs is
+ *      <dlbss bbbrv>_<fifldNbmf>ID
+ * i.f. psi_timfoutID is PlbinSodkftImpl's timfout fifld's ID.
  */
-extern jclass ia_class;
-extern jfieldID iac_addressID;
-extern jfieldID iac_familyID;
-extern jfieldID iac_hostNameID;
-extern jfieldID ia_preferIPv6AddressID;
+fxtfrn jdlbss ib_dlbss;
+fxtfrn jfifldID ibd_bddrfssID;
+fxtfrn jfifldID ibd_fbmilyID;
+fxtfrn jfifldID ibd_iostNbmfID;
+fxtfrn jfifldID ib_prfffrIPv6AddrfssID;
 
-JNIEXPORT void JNICALL initInetAddressIDs(JNIEnv *env);
+JNIEXPORT void JNICALL initInftAddrfssIDs(JNIEnv *fnv);
 
-/** (Inet6Address accessors)
- * set_ methods return JNI_TRUE on success JNI_FALSE on error
- * get_ methods that return int/boolean, return -1 on error
- * get_ methods that return objects return NULL on error.
+/** (Inft6Addrfss bddfssors)
+ * sft_ mftiods rfturn JNI_TRUE on suddfss JNI_FALSE on frror
+ * gft_ mftiods tibt rfturn int/boolfbn, rfturn -1 on frror
+ * gft_ mftiods tibt rfturn objfdts rfturn NULL on frror.
  */
-extern jobject getInet6Address_scopeifname(JNIEnv *env, jobject ia6Obj);
-extern jboolean setInet6Address_scopeifname(JNIEnv *env, jobject ia6Obj, jobject scopeifname);
-extern int getInet6Address_scopeid_set(JNIEnv *env, jobject ia6Obj);
-extern int getInet6Address_scopeid(JNIEnv *env, jobject ia6Obj);
-extern jboolean setInet6Address_scopeid(JNIEnv *env, jobject ia6Obj, int scopeid);
-extern jboolean getInet6Address_ipaddress(JNIEnv *env, jobject ia6Obj, char *dest);
-extern jboolean setInet6Address_ipaddress(JNIEnv *env, jobject ia6Obj, char *address);
+fxtfrn jobjfdt gftInft6Addrfss_sdopfifnbmf(JNIEnv *fnv, jobjfdt ib6Obj);
+fxtfrn jboolfbn sftInft6Addrfss_sdopfifnbmf(JNIEnv *fnv, jobjfdt ib6Obj, jobjfdt sdopfifnbmf);
+fxtfrn int gftInft6Addrfss_sdopfid_sft(JNIEnv *fnv, jobjfdt ib6Obj);
+fxtfrn int gftInft6Addrfss_sdopfid(JNIEnv *fnv, jobjfdt ib6Obj);
+fxtfrn jboolfbn sftInft6Addrfss_sdopfid(JNIEnv *fnv, jobjfdt ib6Obj, int sdopfid);
+fxtfrn jboolfbn gftInft6Addrfss_ipbddrfss(JNIEnv *fnv, jobjfdt ib6Obj, dibr *dfst);
+fxtfrn jboolfbn sftInft6Addrfss_ipbddrfss(JNIEnv *fnv, jobjfdt ib6Obj, dibr *bddrfss);
 
-extern void setInetAddress_addr(JNIEnv *env, jobject iaObj, int address);
-extern void setInetAddress_family(JNIEnv *env, jobject iaObj, int family);
-extern void setInetAddress_hostName(JNIEnv *env, jobject iaObj, jobject h);
-extern int getInetAddress_addr(JNIEnv *env, jobject iaObj);
-extern int getInetAddress_family(JNIEnv *env, jobject iaObj);
-extern jobject getInetAddress_hostName(JNIEnv *env, jobject iaObj);
+fxtfrn void sftInftAddrfss_bddr(JNIEnv *fnv, jobjfdt ibObj, int bddrfss);
+fxtfrn void sftInftAddrfss_fbmily(JNIEnv *fnv, jobjfdt ibObj, int fbmily);
+fxtfrn void sftInftAddrfss_iostNbmf(JNIEnv *fnv, jobjfdt ibObj, jobjfdt i);
+fxtfrn int gftInftAddrfss_bddr(JNIEnv *fnv, jobjfdt ibObj);
+fxtfrn int gftInftAddrfss_fbmily(JNIEnv *fnv, jobjfdt ibObj);
+fxtfrn jobjfdt gftInftAddrfss_iostNbmf(JNIEnv *fnv, jobjfdt ibObj);
 
-extern jclass ia4_class;
-extern jmethodID ia4_ctrID;
+fxtfrn jdlbss ib4_dlbss;
+fxtfrn jmftiodID ib4_dtrID;
 
-/* NetworkInterface fields */
-extern jclass ni_class;
-extern jfieldID ni_nameID;
-extern jfieldID ni_indexID;
-extern jfieldID ni_addrsID;
-extern jfieldID ni_descID;
-extern jmethodID ni_ctrID;
+/* NftworkIntfrfbdf fiflds */
+fxtfrn jdlbss ni_dlbss;
+fxtfrn jfifldID ni_nbmfID;
+fxtfrn jfifldID ni_indfxID;
+fxtfrn jfifldID ni_bddrsID;
+fxtfrn jfifldID ni_dfsdID;
+fxtfrn jmftiodID ni_dtrID;
 
-/* PlainSocketImpl fields */
-extern jfieldID psi_timeoutID;
-extern jfieldID psi_fdID;
-extern jfieldID psi_addressID;
-extern jfieldID psi_portID;
-extern jfieldID psi_localportID;
+/* PlbinSodkftImpl fiflds */
+fxtfrn jfifldID psi_timfoutID;
+fxtfrn jfifldID psi_fdID;
+fxtfrn jfifldID psi_bddrfssID;
+fxtfrn jfifldID psi_portID;
+fxtfrn jfifldID psi_lodblportID;
 
-/* DatagramPacket fields */
-extern jfieldID dp_addressID;
-extern jfieldID dp_portID;
-extern jfieldID dp_bufID;
-extern jfieldID dp_offsetID;
-extern jfieldID dp_lengthID;
-extern jfieldID dp_bufLengthID;
+/* DbtbgrbmPbdkft fiflds */
+fxtfrn jfifldID dp_bddrfssID;
+fxtfrn jfifldID dp_portID;
+fxtfrn jfifldID dp_bufID;
+fxtfrn jfifldID dp_offsftID;
+fxtfrn jfifldID dp_lfngtiID;
+fxtfrn jfifldID dp_bufLfngtiID;
 
-/* Inet6Address fields */
-extern jclass ia6_class;
-extern jfieldID ia6_holder6ID;
-extern jfieldID ia6_ipaddressID;
-extern jfieldID ia6_scopeidID;
-extern jfieldID ia6_cachedscopeidID;
-extern jfieldID ia6_scopeidsetID;
-extern jfieldID ia6_scopeifnameID;
-extern jmethodID ia6_ctrID;
+/* Inft6Addrfss fiflds */
+fxtfrn jdlbss ib6_dlbss;
+fxtfrn jfifldID ib6_ioldfr6ID;
+fxtfrn jfifldID ib6_ipbddrfssID;
+fxtfrn jfifldID ib6_sdopfidID;
+fxtfrn jfifldID ib6_dbdifdsdopfidID;
+fxtfrn jfifldID ib6_sdopfidsftID;
+fxtfrn jfifldID ib6_sdopfifnbmfID;
+fxtfrn jmftiodID ib6_dtrID;
 
 /************************************************************************
- *  Utilities
+ *  Utilitifs
  */
-JNIEXPORT void JNICALL Java_java_net_InetAddress_init(JNIEnv *env, jclass cls);
-JNIEXPORT void JNICALL Java_java_net_Inet4Address_init(JNIEnv *env, jclass cls);
-JNIEXPORT void JNICALL Java_java_net_Inet6Address_init(JNIEnv *env, jclass cls);
-JNIEXPORT void JNICALL Java_java_net_NetworkInterface_init(JNIEnv *env, jclass cls);
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_InftAddrfss_init(JNIEnv *fnv, jdlbss dls);
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_Inft4Addrfss_init(JNIEnv *fnv, jdlbss dls);
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_Inft6Addrfss_init(JNIEnv *fnv, jdlbss dls);
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_init(JNIEnv *fnv, jdlbss dls);
 
-JNIEXPORT void JNICALL NET_ThrowNew(JNIEnv *env, int errorNum, char *msg);
-int NET_GetError();
+JNIEXPORT void JNICALL NET_TirowNfw(JNIEnv *fnv, int frrorNum, dibr *msg);
+int NET_GftError();
 
-void NET_ThrowCurrent(JNIEnv *env, char *msg);
+void NET_TirowCurrfnt(JNIEnv *fnv, dibr *msg);
 
-jfieldID NET_GetFileDescriptorID(JNIEnv *env);
+jfifldID NET_GftFilfDfsdriptorID(JNIEnv *fnv);
 
-JNIEXPORT jint JNICALL ipv6_available() ;
+JNIEXPORT jint JNICALL ipv6_bvbilbblf() ;
 
 void
-NET_AllocSockaddr(struct sockaddr **him, int *len);
+NET_AllodSodkbddr(strudt sodkbddr **iim, int *lfn);
 
 JNIEXPORT int JNICALL
-NET_InetAddressToSockaddr(JNIEnv *env, jobject iaObj, int port, struct sockaddr *him, int *len, jboolean v4MappedAddress);
+NET_InftAddrfssToSodkbddr(JNIEnv *fnv, jobjfdt ibObj, int port, strudt sodkbddr *iim, int *lfn, jboolfbn v4MbppfdAddrfss);
 
-JNIEXPORT jobject JNICALL
-NET_SockaddrToInetAddress(JNIEnv *env, struct sockaddr *him, int *port);
+JNIEXPORT jobjfdt JNICALL
+NET_SodkbddrToInftAddrfss(JNIEnv *fnv, strudt sodkbddr *iim, int *port);
 
-void platformInit();
-void parseExclusiveBindProperty(JNIEnv *env);
+void plbtformInit();
+void pbrsfExdlusivfBindPropfrty(JNIEnv *fnv);
 
 void
-NET_SetTrafficClass(struct sockaddr *him, int trafficClass);
+NET_SftTrbffidClbss(strudt sodkbddr *iim, int trbffidClbss);
 
 JNIEXPORT jint JNICALL
-NET_GetPortFromSockaddr(struct sockaddr *him);
+NET_GftPortFromSodkbddr(strudt sodkbddr *iim);
 
 JNIEXPORT jint JNICALL
-NET_SockaddrEqualsInetAddress(JNIEnv *env,struct sockaddr *him, jobject iaObj);
+NET_SodkbddrEqublsInftAddrfss(JNIEnv *fnv,strudt sodkbddr *iim, jobjfdt ibObj);
 
 int
-NET_IsIPv4Mapped(jbyte* caddr);
+NET_IsIPv4Mbppfd(jbytf* dbddr);
 
 int
-NET_IPv4MappedToIPv4(jbyte* caddr);
+NET_IPv4MbppfdToIPv4(jbytf* dbddr);
 
 int
-NET_IsEqual(jbyte* caddr1, jbyte* caddr2);
+NET_IsEqubl(jbytf* dbddr1, jbytf* dbddr2);
 
 int
-NET_IsZeroAddr(jbyte* caddr);
+NET_IsZfroAddr(jbytf* dbddr);
 
-/* Socket operations
+/* Sodkft opfrbtions
  *
- * These work just like the system calls, except that they may do some
- * platform-specific pre/post processing of the arguments and/or results.
+ * Tifsf work just likf tif systfm dblls, fxdfpt tibt tify mby do somf
+ * plbtform-spfdifid prf/post prodfssing of tif brgumfnts bnd/or rfsults.
  */
 
 JNIEXPORT int JNICALL
-NET_GetSockOpt(int fd, int level, int opt, void *result, int *len);
+NET_GftSodkOpt(int fd, int lfvfl, int opt, void *rfsult, int *lfn);
 
 JNIEXPORT int JNICALL
-NET_SetSockOpt(int fd, int level, int opt, const void *arg, int len);
+NET_SftSodkOpt(int fd, int lfvfl, int opt, donst void *brg, int lfn);
 
 JNIEXPORT int JNICALL
-NET_Bind(int fd, struct sockaddr *him, int len);
+NET_Bind(int fd, strudt sodkbddr *iim, int lfn);
 
 JNIEXPORT int JNICALL
-NET_MapSocketOption(jint cmd, int *level, int *optname);
+NET_MbpSodkftOption(jint dmd, int *lfvfl, int *optnbmf);
 
 JNIEXPORT int JNICALL
-NET_MapSocketOptionV6(jint cmd, int *level, int *optname);
+NET_MbpSodkftOptionV6(jint dmd, int *lfvfl, int *optnbmf);
 
-int getScopeID (struct sockaddr *);
+int gftSdopfID (strudt sodkbddr *);
 
-int cmpScopeID (unsigned int, struct sockaddr *);
+int dmpSdopfID (unsignfd int, strudt sodkbddr *);
 
-unsigned short in_cksum(unsigned short *addr, int len);
-#endif /* NET_UTILS_H */
+unsignfd siort in_dksum(unsignfd siort *bddr, int lfn);
+#fndif /* NET_UTILS_H */

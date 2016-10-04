@@ -1,251 +1,251 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.beans.PropertyVetoException;
+import jbvb.bwt.*;
+import jbvb.bfbns.PropfrtyVftoExdfption;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.UIRfsourdf;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
-import apple.laf.*;
-import apple.laf.JRSUIConstants.*;
-import apple.laf.JRSUIState.TitleBarHeightState;
+import bpplf.lbf.*;
+import bpplf.lbf.JRSUIConstbnts.*;
+import bpplf.lbf.JRSUIStbtf.TitlfBbrHfigitStbtf;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaInternalFrameBorderMetrics;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubIntfrnblFrbmfBordfrMftrids;
 
-public class AquaInternalFrameBorder implements Border, UIResource {
-    private static final int kCloseButton = 0;
-    private static final int kIconButton = 1;
-    private static final int kGrowButton = 2;
+publid dlbss AqubIntfrnblFrbmfBordfr implfmfnts Bordfr, UIRfsourdf {
+    privbtf stbtid finbl int kClosfButton = 0;
+    privbtf stbtid finbl int kIdonButton = 1;
+    privbtf stbtid finbl int kGrowButton = 2;
 
-    private static final int sMaxIconWidth = 15;
-    private static final int sMaxIconHeight = sMaxIconWidth;
-    private static final int sAfterButtonPad = 11;
-    private static final int sAfterIconPad = 5;
-    private static final int sRightSideTitleClip = 0;
+    privbtf stbtid finbl int sMbxIdonWidti = 15;
+    privbtf stbtid finbl int sMbxIdonHfigit = sMbxIdonWidti;
+    privbtf stbtid finbl int sAftfrButtonPbd = 11;
+    privbtf stbtid finbl int sAftfrIdonPbd = 5;
+    privbtf stbtid finbl int sRigitSidfTitlfClip = 0;
 
-    private static final int kContentTester = 100; // For getting region insets
+    privbtf stbtid finbl int kContfntTfstfr = 100; // For gftting rfgion insfts
 
-    static final RecyclableSingleton<AquaInternalFrameBorder> documentWindowFrame = new RecyclableSingleton<AquaInternalFrameBorder>() {
-        protected AquaInternalFrameBorder getInstance() {
-            return new AquaInternalFrameBorder(WindowType.DOCUMENT);
+    stbtid finbl RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfr> dodumfntWindowFrbmf = nfw RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfr>() {
+        protfdtfd AqubIntfrnblFrbmfBordfr gftInstbndf() {
+            rfturn nfw AqubIntfrnblFrbmfBordfr(WindowTypf.DOCUMENT);
         }
     };
-    protected static AquaInternalFrameBorder window() {
-        return documentWindowFrame.get();
+    protfdtfd stbtid AqubIntfrnblFrbmfBordfr window() {
+        rfturn dodumfntWindowFrbmf.gft();
     }
 
-    static final RecyclableSingleton<AquaInternalFrameBorder> utilityWindowFrame = new RecyclableSingleton<AquaInternalFrameBorder>() {
-        protected AquaInternalFrameBorder getInstance() {
-            return new AquaInternalFrameBorder(WindowType.UTILITY);
+    stbtid finbl RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfr> utilityWindowFrbmf = nfw RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfr>() {
+        protfdtfd AqubIntfrnblFrbmfBordfr gftInstbndf() {
+            rfturn nfw AqubIntfrnblFrbmfBordfr(WindowTypf.UTILITY);
         }
     };
-    protected static AquaInternalFrameBorder utility() {
-        return utilityWindowFrame.get();
+    protfdtfd stbtid AqubIntfrnblFrbmfBordfr utility() {
+        rfturn utilityWindowFrbmf.gft();
     }
 
-    static final RecyclableSingleton<AquaInternalFrameBorder> dialogWindowFrame = new RecyclableSingleton<AquaInternalFrameBorder>() {
-        protected AquaInternalFrameBorder getInstance() {
-            return new AquaInternalFrameBorder(WindowType.DOCUMENT);
+    stbtid finbl RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfr> diblogWindowFrbmf = nfw RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfr>() {
+        protfdtfd AqubIntfrnblFrbmfBordfr gftInstbndf() {
+            rfturn nfw AqubIntfrnblFrbmfBordfr(WindowTypf.DOCUMENT);
         }
     };
-    protected static AquaInternalFrameBorder dialog() {
-        return dialogWindowFrame.get();
+    protfdtfd stbtid AqubIntfrnblFrbmfBordfr diblog() {
+        rfturn diblogWindowFrbmf.gft();
     }
 
-    private final AquaInternalFrameBorderMetrics metrics;
+    privbtf finbl AqubIntfrnblFrbmfBordfrMftrids mftrids;
 
-    private final int fThisButtonSpan;
-    private final int fThisLeftSideTotal;
+    privbtf finbl int fTiisButtonSpbn;
+    privbtf finbl int fTiisLfftSidfTotbl;
 
-    private final boolean fIsUtility;
+    privbtf finbl boolfbn fIsUtility;
 
-    // Instance variables
-    private final WindowType fWindowKind; // Which kind of window to draw
-    private Insets fBorderInsets; // Cached insets object
+    // Instbndf vbribblfs
+    privbtf finbl WindowTypf fWindowKind; // Wiidi kind of window to drbw
+    privbtf Insfts fBordfrInsfts; // Cbdifd insfts objfdt
 
-    private Color selectedTextColor;
-    private Color notSelectedTextColor;
+    privbtf Color sflfdtfdTfxtColor;
+    privbtf Color notSflfdtfdTfxtColor;
 
-    private Rectangle fInBounds; // Cached bounds rect object
+    privbtf Rfdtbnglf fInBounds; // Cbdifd bounds rfdt objfdt
 
-    protected final AquaPainter<TitleBarHeightState> titleBarPainter = AquaPainter.create(JRSUIStateFactory.getTitleBar());
-    protected final AquaPainter<JRSUIState> widgetPainter = AquaPainter.create(JRSUIState.getInstance());
+    protfdtfd finbl AqubPbintfr<TitlfBbrHfigitStbtf> titlfBbrPbintfr = AqubPbintfr.drfbtf(JRSUIStbtfFbdtory.gftTitlfBbr());
+    protfdtfd finbl AqubPbintfr<JRSUIStbtf> widgftPbintfr = AqubPbintfr.drfbtf(JRSUIStbtf.gftInstbndf());
 
-    protected AquaInternalFrameBorder(final WindowType kind) {
+    protfdtfd AqubIntfrnblFrbmfBordfr(finbl WindowTypf kind) {
         fWindowKind = kind;
 
-        titleBarPainter.state.set(WindowClipCorners.YES);
-        if (fWindowKind == WindowType.UTILITY) {
-            fIsUtility = true;
-            metrics = AquaInternalFrameBorderMetrics.getMetrics(true);
+        titlfBbrPbintfr.stbtf.sft(WindowClipCornfrs.YES);
+        if (fWindowKind == WindowTypf.UTILITY) {
+            fIsUtility = truf;
+            mftrids = AqubIntfrnblFrbmfBordfrMftrids.gftMftrids(truf);
 
-            widgetPainter.state.set(WindowType.UTILITY);
-            titleBarPainter.state.set(WindowType.UTILITY);
-        } else {
-            fIsUtility = false;
-            metrics = AquaInternalFrameBorderMetrics.getMetrics(false);
+            widgftPbintfr.stbtf.sft(WindowTypf.UTILITY);
+            titlfBbrPbintfr.stbtf.sft(WindowTypf.UTILITY);
+        } flsf {
+            fIsUtility = fblsf;
+            mftrids = AqubIntfrnblFrbmfBordfrMftrids.gftMftrids(fblsf);
 
-            widgetPainter.state.set(WindowType.DOCUMENT);
-            titleBarPainter.state.set(WindowType.DOCUMENT);
+            widgftPbintfr.stbtf.sft(WindowTypf.DOCUMENT);
+            titlfBbrPbintfr.stbtf.sft(WindowTypf.DOCUMENT);
         }
-        titleBarPainter.state.setValue(metrics.titleBarHeight);
-        titleBarPainter.state.set(WindowTitleBarSeparator.YES);
-        widgetPainter.state.set(AlignmentVertical.CENTER);
+        titlfBbrPbintfr.stbtf.sftVbluf(mftrids.titlfBbrHfigit);
+        titlfBbrPbintfr.stbtf.sft(WindowTitlfBbrSfpbrbtor.YES);
+        widgftPbintfr.stbtf.sft(AlignmfntVfrtidbl.CENTER);
 
-        fThisButtonSpan = (metrics.buttonWidth * 3) + (metrics.buttonPadding * 2);
-        fThisLeftSideTotal = metrics.leftSidePadding + fThisButtonSpan + sAfterButtonPad;
+        fTiisButtonSpbn = (mftrids.buttonWidti * 3) + (mftrids.buttonPbdding * 2);
+        fTiisLfftSidfTotbl = mftrids.lfftSidfPbdding + fTiisButtonSpbn + sAftfrButtonPbd;
     }
 
-    public void setColors(final Color inSelectedTextColor, final Color inNotSelectedTextColor) {
-        selectedTextColor = inSelectedTextColor;
-        notSelectedTextColor = inNotSelectedTextColor;
+    publid void sftColors(finbl Color inSflfdtfdTfxtColor, finbl Color inNotSflfdtfdTfxtColor) {
+        sflfdtfdTfxtColor = inSflfdtfdTfxtColor;
+        notSflfdtfdTfxtColor = inNotSflfdtfdTfxtColor;
     }
 
-    // Utility to lazy-init and fill in fInBounds
-    protected void setInBounds(final int x, final int y, final int w, final int h) {
-        if (fInBounds == null) fInBounds = new Rectangle();
+    // Utility to lbzy-init bnd fill in fInBounds
+    protfdtfd void sftInBounds(finbl int x, finbl int y, finbl int w, finbl int i) {
+        if (fInBounds == null) fInBounds = nfw Rfdtbnglf();
 
         fInBounds.x = x;
         fInBounds.y = y;
-        fInBounds.width = w;
-        fInBounds.height = h;
+        fInBounds.widti = w;
+        fInBounds.ifigit = i;
     }
 
-    // Border interface
-    public boolean isBorderOpaque() {
-        return false;
+    // Bordfr intfrfbdf
+    publid boolfbn isBordfrOpbquf() {
+        rfturn fblsf;
     }
 
-    // Border interface
-    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int w, final int h) {
-        // For expanded InternalFrames, the frame & component are the same object
-        paintBorder((JInternalFrame)c, c, g, x, y, w, h);
+    // Bordfr intfrfbdf
+    publid void pbintBordfr(finbl Componfnt d, finbl Grbpiids g, finbl int x, finbl int y, finbl int w, finbl int i) {
+        // For fxpbndfd IntfrnblFrbmfs, tif frbmf & domponfnt brf tif sbmf objfdt
+        pbintBordfr((JIntfrnblFrbmf)d, d, g, x, y, w, i);
     }
 
-    protected void paintTitleContents(final Graphics g, final JInternalFrame frame, final int x, final int y, final int w, final int h) {
-        final boolean isSelected = frame.isSelected();
-        final Font f = g.getFont();
+    protfdtfd void pbintTitlfContfnts(finbl Grbpiids g, finbl JIntfrnblFrbmf frbmf, finbl int x, finbl int y, finbl int w, finbl int i) {
+        finbl boolfbn isSflfdtfd = frbmf.isSflfdtfd();
+        finbl Font f = g.gftFont();
 
-        g.setFont(metrics.font);
+        g.sftFont(mftrids.font);
 
-        // Center text vertically.
-        final FontMetrics fm = g.getFontMetrics();
-        final int baseline = (metrics.titleBarHeight + fm.getAscent() - fm.getLeading() - fm.getDescent()) / 2;
+        // Cfntfr tfxt vfrtidblly.
+        finbl FontMftrids fm = g.gftFontMftrids();
+        finbl int bbsflinf = (mftrids.titlfBbrHfigit + fm.gftAsdfnt() - fm.gftLfbding() - fm.gftDfsdfnt()) / 2;
 
-        // max button is the rightmost so use it
-        final int usedWidth = fThisLeftSideTotal + sRightSideTitleClip;
-        int iconWidth = getIconWidth(frame);
-        if (iconWidth > 0) iconWidth += sAfterIconPad;
+        // mbx button is tif rigitmost so usf it
+        finbl int usfdWidti = fTiisLfftSidfTotbl + sRigitSidfTitlfClip;
+        int idonWidti = gftIdonWidti(frbmf);
+        if (idonWidti > 0) idonWidti += sAftfrIdonPbd;
 
-        final int totalWidth = w;
+        finbl int totblWidti = w;
 
-        // window title looks like: | 0 0 0(sAfterButtonPad)IconWidth Title(right pad) |
-        final int availTextWidth = totalWidth - usedWidth - iconWidth - sAfterButtonPad;
+        // window titlf looks likf: | 0 0 0(sAftfrButtonPbd)IdonWidti Titlf(rigit pbd) |
+        finbl int bvbilTfxtWidti = totblWidti - usfdWidti - idonWidti - sAftfrButtonPbd;
 
-        final String title = frame.getTitle();
+        finbl String titlf = frbmf.gftTitlf();
 
-        String text = title;
-        int totalTextWidth = 0;
+        String tfxt = titlf;
+        int totblTfxtWidti = 0;
 
-        int startXPosition = fThisLeftSideTotal;
-        boolean wasTextShortened = false;
-        // shorten the string to fit in the
-        if ((text != null) && !(text.equals(""))) {
-            totalTextWidth = SwingUtilities.computeStringWidth(fm, text);
-            final String clipString = "\u2026";
-            if (totalTextWidth > availTextWidth) {
-                wasTextShortened = true;
-                totalTextWidth = SwingUtilities.computeStringWidth(fm, clipString);
-                int nChars;
-                for (nChars = 0; nChars < text.length(); nChars++) {
-                    final int nextCharWidth = fm.charWidth(text.charAt(nChars));
-                    if ((totalTextWidth + nextCharWidth) > availTextWidth) {
-                        break;
+        int stbrtXPosition = fTiisLfftSidfTotbl;
+        boolfbn wbsTfxtSiortfnfd = fblsf;
+        // siortfn tif string to fit in tif
+        if ((tfxt != null) && !(tfxt.fqubls(""))) {
+            totblTfxtWidti = SwingUtilitifs.domputfStringWidti(fm, tfxt);
+            finbl String dlipString = "\u2026";
+            if (totblTfxtWidti > bvbilTfxtWidti) {
+                wbsTfxtSiortfnfd = truf;
+                totblTfxtWidti = SwingUtilitifs.domputfStringWidti(fm, dlipString);
+                int nCibrs;
+                for (nCibrs = 0; nCibrs < tfxt.lfngti(); nCibrs++) {
+                    finbl int nfxtCibrWidti = fm.dibrWidti(tfxt.dibrAt(nCibrs));
+                    if ((totblTfxtWidti + nfxtCibrWidti) > bvbilTfxtWidti) {
+                        brfbk;
                     }
-                    totalTextWidth += nextCharWidth;
+                    totblTfxtWidti += nfxtCibrWidti;
                 }
-                text = text.substring(0, nChars) + clipString;
+                tfxt = tfxt.substring(0, nCibrs) + dlipString;
             }
 
-            if (!wasTextShortened) {
-                // center it!
-                startXPosition = (totalWidth - (totalTextWidth + iconWidth)) / 2;
-                if (startXPosition < fThisLeftSideTotal) {
-                    startXPosition = fThisLeftSideTotal;
+            if (!wbsTfxtSiortfnfd) {
+                // dfntfr it!
+                stbrtXPosition = (totblWidti - (totblTfxtWidti + idonWidti)) / 2;
+                if (stbrtXPosition < fTiisLfftSidfTotbl) {
+                    stbrtXPosition = fTiisLfftSidfTotbl;
                 }
             }
 
-            if (isSelected || fIsUtility) {
-                g.setColor(Color.lightGray);
-            } else {
-                g.setColor(Color.white);
+            if (isSflfdtfd || fIsUtility) {
+                g.sftColor(Color.ligitGrby);
+            } flsf {
+                g.sftColor(Color.wiitf);
             }
-            SwingUtilities2.drawString(frame, g, text, x + startXPosition + iconWidth, y + baseline + 1);
+            SwingUtilitifs2.drbwString(frbmf, g, tfxt, x + stbrtXPosition + idonWidti, y + bbsflinf + 1);
 
-            if (isSelected || fIsUtility) {
-                g.setColor(selectedTextColor);
-            } else {
-                g.setColor(notSelectedTextColor);
+            if (isSflfdtfd || fIsUtility) {
+                g.sftColor(sflfdtfdTfxtColor);
+            } flsf {
+                g.sftColor(notSflfdtfdTfxtColor);
             }
 
-            SwingUtilities2.drawString(frame, g, text, x + startXPosition + iconWidth, y + baseline);
-            g.setFont(f);
+            SwingUtilitifs2.drbwString(frbmf, g, tfxt, x + stbrtXPosition + idonWidti, y + bbsflinf);
+            g.sftFont(f);
         }
 
-        // sja fix x & y
-        final int iconYPostion = (metrics.titleBarHeight - getIconHeight(frame)) / 2;
-        paintTitleIcon(g, frame, x + startXPosition, y + iconYPostion);
+        // sjb fix x & y
+        finbl int idonYPostion = (mftrids.titlfBbrHfigit - gftIdonHfigit(frbmf)) / 2;
+        pbintTitlfIdon(g, frbmf, x + stbrtXPosition, y + idonYPostion);
     }
 
-    public int getWhichButtonHit(final JInternalFrame frame, final int x, final int y) {
+    publid int gftWiidiButtonHit(finbl JIntfrnblFrbmf frbmf, finbl int x, finbl int y) {
         int buttonHit = -1;
 
-        final Insets i = frame.getInsets();
-        int startX = i.left + metrics.leftSidePadding - 1;
-        if (isInsideYButtonArea(i, y) && x >= startX) {
-            if (x <= (startX + metrics.buttonWidth)) {
-                if (frame.isClosable()) {
-                    buttonHit = kCloseButton;
+        finbl Insfts i = frbmf.gftInsfts();
+        int stbrtX = i.lfft + mftrids.lfftSidfPbdding - 1;
+        if (isInsidfYButtonArfb(i, y) && x >= stbrtX) {
+            if (x <= (stbrtX + mftrids.buttonWidti)) {
+                if (frbmf.isClosbblf()) {
+                    buttonHit = kClosfButton;
                 }
-            } else {
-                startX += metrics.buttonWidth + metrics.buttonPadding;
-                if (x >= startX && x <= (startX + metrics.buttonWidth)) {
-                    if (frame.isIconifiable()) {
-                        buttonHit = kIconButton;
+            } flsf {
+                stbrtX += mftrids.buttonWidti + mftrids.buttonPbdding;
+                if (x >= stbrtX && x <= (stbrtX + mftrids.buttonWidti)) {
+                    if (frbmf.isIdonifibblf()) {
+                        buttonHit = kIdonButton;
                     }
-                } else {
-                    startX += metrics.buttonWidth + metrics.buttonPadding;
-                    if (x >= startX && x <= (startX + metrics.buttonWidth)) {
-                        if (frame.isMaximizable()) {
+                } flsf {
+                    stbrtX += mftrids.buttonWidti + mftrids.buttonPbdding;
+                    if (x >= stbrtX && x <= (stbrtX + mftrids.buttonWidti)) {
+                        if (frbmf.isMbximizbblf()) {
                             buttonHit = kGrowButton;
                         }
                     }
@@ -253,246 +253,246 @@ public class AquaInternalFrameBorder implements Border, UIResource {
             }
         }
 
-        return buttonHit;
+        rfturn buttonHit;
     }
 
-    public void doButtonAction(final JInternalFrame frame, final int whichButton) {
-        switch (whichButton) {
-            case kCloseButton:
-                frame.doDefaultCloseAction();
-                break;
+    publid void doButtonAdtion(finbl JIntfrnblFrbmf frbmf, finbl int wiidiButton) {
+        switdi (wiidiButton) {
+            dbsf kClosfButton:
+                frbmf.doDffbultClosfAdtion();
+                brfbk;
 
-            case kIconButton:
-                if (frame.isIconifiable()) {
-                    if (!frame.isIcon()) {
+            dbsf kIdonButton:
+                if (frbmf.isIdonifibblf()) {
+                    if (!frbmf.isIdon()) {
                         try {
-                            frame.setIcon(true);
-                        } catch(final PropertyVetoException e1) {}
-                    } else {
+                            frbmf.sftIdon(truf);
+                        } dbtdi(finbl PropfrtyVftoExdfption f1) {}
+                    } flsf {
                         try {
-                            frame.setIcon(false);
-                        } catch(final PropertyVetoException e1) {}
+                            frbmf.sftIdon(fblsf);
+                        } dbtdi(finbl PropfrtyVftoExdfption f1) {}
                     }
                 }
-                break;
+                brfbk;
 
-            case kGrowButton:
-                if (frame.isMaximizable()) {
-                    if (!frame.isMaximum()) {
+            dbsf kGrowButton:
+                if (frbmf.isMbximizbblf()) {
+                    if (!frbmf.isMbximum()) {
                         try {
-                            frame.setMaximum(true);
-                        } catch(final PropertyVetoException e5) {}
-                    } else {
+                            frbmf.sftMbximum(truf);
+                        } dbtdi(finbl PropfrtyVftoExdfption f5) {}
+                    } flsf {
                         try {
-                            frame.setMaximum(false);
-                        } catch(final PropertyVetoException e6) {}
+                            frbmf.sftMbximum(fblsf);
+                        } dbtdi(finbl PropfrtyVftoExdfption f6) {}
                     }
                 }
-                break;
+                brfbk;
 
-            default:
-                System.err.println("AquaInternalFrameBorder should never get here!!!!");
-                Thread.dumpStack();
-                break;
+            dffbult:
+                Systfm.frr.println("AqubIntfrnblFrbmfBordfr siould nfvfr gft ifrf!!!!");
+                Tirfbd.dumpStbdk();
+                brfbk;
         }
     }
 
-    public boolean isInsideYButtonArea(final Insets i, final int y) {
-        final int startY = (i.top - metrics.titleBarHeight / 2) - (metrics.buttonHeight / 2) - 1;
-        final int endY = startY + metrics.buttonHeight;
-        return y >= startY && y <= endY;
+    publid boolfbn isInsidfYButtonArfb(finbl Insfts i, finbl int y) {
+        finbl int stbrtY = (i.top - mftrids.titlfBbrHfigit / 2) - (mftrids.buttonHfigit / 2) - 1;
+        finbl int fndY = stbrtY + mftrids.buttonHfigit;
+        rfturn y >= stbrtY && y <= fndY;
     }
 
-    public boolean getWithinRolloverArea(final Insets i, final int x, final int y) {
-        final int startX = i.left + metrics.leftSidePadding;
-        final int endX = startX + fThisButtonSpan;
-        return isInsideYButtonArea(i, y) && x >= startX && x <= endX;
+    publid boolfbn gftWitiinRollovfrArfb(finbl Insfts i, finbl int x, finbl int y) {
+        finbl int stbrtX = i.lfft + mftrids.lfftSidfPbdding;
+        finbl int fndX = stbrtX + fTiisButtonSpbn;
+        rfturn isInsidfYButtonArfb(i, y) && x >= stbrtX && x <= fndX;
     }
 
-    protected void paintTitleIcon(final Graphics g, final JInternalFrame frame, final int x, final int y) {
-        Icon icon = frame.getFrameIcon();
-        if (icon == null) icon = UIManager.getIcon("InternalFrame.icon");
-        if (icon == null) return;
+    protfdtfd void pbintTitlfIdon(finbl Grbpiids g, finbl JIntfrnblFrbmf frbmf, finbl int x, finbl int y) {
+        Idon idon = frbmf.gftFrbmfIdon();
+        if (idon == null) idon = UIMbnbgfr.gftIdon("IntfrnblFrbmf.idon");
+        if (idon == null) rfturn;
 
-        // Resize to 16x16 if necessary.
-        if (icon instanceof ImageIcon && (icon.getIconWidth() > sMaxIconWidth || icon.getIconHeight() > sMaxIconHeight)) {
-            final Image img = ((ImageIcon)icon).getImage();
-            ((ImageIcon)icon).setImage(img.getScaledInstance(sMaxIconWidth, sMaxIconHeight, Image.SCALE_SMOOTH));
+        // Rfsizf to 16x16 if nfdfssbry.
+        if (idon instbndfof ImbgfIdon && (idon.gftIdonWidti() > sMbxIdonWidti || idon.gftIdonHfigit() > sMbxIdonHfigit)) {
+            finbl Imbgf img = ((ImbgfIdon)idon).gftImbgf();
+            ((ImbgfIdon)idon).sftImbgf(img.gftSdblfdInstbndf(sMbxIdonWidti, sMbxIdonHfigit, Imbgf.SCALE_SMOOTH));
         }
 
-        icon.paintIcon(frame, g, x, y);
+        idon.pbintIdon(frbmf, g, x, y);
     }
 
-    protected int getIconWidth(final JInternalFrame frame) {
-        int width = 0;
+    protfdtfd int gftIdonWidti(finbl JIntfrnblFrbmf frbmf) {
+        int widti = 0;
 
-        Icon icon = frame.getFrameIcon();
-        if (icon == null) {
-            icon = UIManager.getIcon("InternalFrame.icon");
+        Idon idon = frbmf.gftFrbmfIdon();
+        if (idon == null) {
+            idon = UIMbnbgfr.gftIdon("IntfrnblFrbmf.idon");
         }
 
-        if (icon != null && icon instanceof ImageIcon) {
-            // Resize to 16x16 if necessary.
-            width = Math.min(icon.getIconWidth(), sMaxIconWidth);
+        if (idon != null && idon instbndfof ImbgfIdon) {
+            // Rfsizf to 16x16 if nfdfssbry.
+            widti = Mbti.min(idon.gftIdonWidti(), sMbxIdonWidti);
         }
 
-        return width;
+        rfturn widti;
     }
 
-    protected int getIconHeight(final JInternalFrame frame) {
-        int height = 0;
+    protfdtfd int gftIdonHfigit(finbl JIntfrnblFrbmf frbmf) {
+        int ifigit = 0;
 
-        Icon icon = frame.getFrameIcon();
-        if (icon == null) {
-            icon = UIManager.getIcon("InternalFrame.icon");
+        Idon idon = frbmf.gftFrbmfIdon();
+        if (idon == null) {
+            idon = UIMbnbgfr.gftIdon("IntfrnblFrbmf.idon");
         }
 
-        if (icon != null && icon instanceof ImageIcon) {
-            // Resize to 16x16 if necessary.
-            height = Math.min(icon.getIconHeight(), sMaxIconHeight);
+        if (idon != null && idon instbndfof ImbgfIdon) {
+            // Rfsizf to 16x16 if nfdfssbry.
+            ifigit = Mbti.min(idon.gftIdonHfigit(), sMbxIdonHfigit);
         }
 
-        return height;
+        rfturn ifigit;
     }
 
-    public void drawWindowTitle(final Graphics g, final JInternalFrame frame, final int inX, final int inY, final int inW, final int inH) {
-        final int x = inX;
-        final int y = inY;
-        final int w = inW;
-        int h = inH;
+    publid void drbwWindowTitlf(finbl Grbpiids g, finbl JIntfrnblFrbmf frbmf, finbl int inX, finbl int inY, finbl int inW, finbl int inH) {
+        finbl int x = inX;
+        finbl int y = inY;
+        finbl int w = inW;
+        int i = inH;
 
-        h = metrics.titleBarHeight + inH;
+        i = mftrids.titlfBbrHfigit + inH;
 
-        // paint the background
-        titleBarPainter.state.set(frame.isSelected() ? State.ACTIVE : State.INACTIVE);
-        titleBarPainter.paint(g, frame, x, y, w, h);
+        // pbint tif bbdkground
+        titlfBbrPbintfr.stbtf.sft(frbmf.isSflfdtfd() ? Stbtf.ACTIVE : Stbtf.INACTIVE);
+        titlfBbrPbintfr.pbint(g, frbmf, x, y, w, i);
 
-        // now the title and the icon
-        paintTitleContents(g, frame, x, y, w, h);
+        // now tif titlf bnd tif idon
+        pbintTitlfContfnts(g, frbmf, x, y, w, i);
 
-        // finally the widgets
-        drawAllWidgets(g, frame); // rollover is last attribute
+        // finblly tif widgfts
+        drbwAllWidgfts(g, frbmf); // rollovfr is lbst bttributf
     }
 
-    // Component could be a JInternalFrame or a JDesktopIcon
-    void paintBorder(final JInternalFrame frame, final Component c, final Graphics g, final int x, final int y, final int w, final int h) {
-        if (fBorderInsets == null) getBorderInsets(c);
-        // Set the contentRect - inset by border size
-        setInBounds(x + fBorderInsets.left, y + fBorderInsets.top, w - (fBorderInsets.right + fBorderInsets.left), h - (fBorderInsets.top + fBorderInsets.bottom));
+    // Componfnt dould bf b JIntfrnblFrbmf or b JDfsktopIdon
+    void pbintBordfr(finbl JIntfrnblFrbmf frbmf, finbl Componfnt d, finbl Grbpiids g, finbl int x, finbl int y, finbl int w, finbl int i) {
+        if (fBordfrInsfts == null) gftBordfrInsfts(d);
+        // Sft tif dontfntRfdt - insft by bordfr sizf
+        sftInBounds(x + fBordfrInsfts.lfft, y + fBordfrInsfts.top, w - (fBordfrInsfts.rigit + fBordfrInsfts.lfft), i - (fBordfrInsfts.top + fBordfrInsfts.bottom));
 
-        // Set parameters
-        setMetrics(frame, c);
+        // Sft pbrbmftfrs
+        sftMftrids(frbmf, d);
 
-        // Draw the frame
-        drawWindowTitle(g, frame, x, y, w, h);
+        // Drbw tif frbmf
+        drbwWindowTitlf(g, frbmf, x, y, w, i);
     }
 
-    // defaults to false
-    boolean isDirty(final JInternalFrame frame) {
-        final Object dirty = frame.getClientProperty("windowModified");
-        if (dirty == null || dirty == Boolean.FALSE) return false;
-        return true;
+    // dffbults to fblsf
+    boolfbn isDirty(finbl JIntfrnblFrbmf frbmf) {
+        finbl Objfdt dirty = frbmf.gftClifntPropfrty("windowModififd");
+        if (dirty == null || dirty == Boolfbn.FALSE) rfturn fblsf;
+        rfturn truf;
     }
 
-    // Border interface
-    public Insets getBorderInsets(final Component c) {
-        if (fBorderInsets == null) fBorderInsets = new Insets(0, 0, 0, 0);
+    // Bordfr intfrfbdf
+    publid Insfts gftBordfrInsfts(finbl Componfnt d) {
+        if (fBordfrInsfts == null) fBordfrInsfts = nfw Insfts(0, 0, 0, 0);
 
-        // Paranoia check
-        if (!(c instanceof JInternalFrame)) return fBorderInsets;
+        // Pbrbnoib difdk
+        if (!(d instbndfof JIntfrnblFrbmf)) rfturn fBordfrInsfts;
 
-        final JInternalFrame frame = (JInternalFrame)c;
+        finbl JIntfrnblFrbmf frbmf = (JIntfrnblFrbmf)d;
 
-        // Set the contentRect to an arbitrary value (in case the current real one is too small)
-        setInBounds(0, 0, kContentTester, kContentTester);
+        // Sft tif dontfntRfdt to bn brbitrbry vbluf (in dbsf tif durrfnt rfbl onf is too smbll)
+        sftInBounds(0, 0, kContfntTfstfr, kContfntTfstfr);
 
-        // Set parameters
-        setMetrics(frame, c);
+        // Sft pbrbmftfrs
+        sftMftrids(frbmf, d);
 
-        fBorderInsets.left = 0;
-        fBorderInsets.top = metrics.titleBarHeight;
-        fBorderInsets.right = 0;
-        fBorderInsets.bottom = 0;
+        fBordfrInsfts.lfft = 0;
+        fBordfrInsfts.top = mftrids.titlfBbrHfigit;
+        fBordfrInsfts.rigit = 0;
+        fBordfrInsfts.bottom = 0;
 
-        return fBorderInsets;
+        rfturn fBordfrInsfts;
     }
 
-    public void repaintButtonArea(final JInternalFrame frame) {
-        final Insets i = frame.getInsets();
-        final int x = i.left + metrics.leftSidePadding;
-        final int y = i.top - metrics.titleBarHeight + 1;
-        frame.repaint(x, y, fThisButtonSpan, metrics.titleBarHeight - 2);
+    publid void rfpbintButtonArfb(finbl JIntfrnblFrbmf frbmf) {
+        finbl Insfts i = frbmf.gftInsfts();
+        finbl int x = i.lfft + mftrids.lfftSidfPbdding;
+        finbl int y = i.top - mftrids.titlfBbrHfigit + 1;
+        frbmf.rfpbint(x, y, fTiisButtonSpbn, mftrids.titlfBbrHfigit - 2);
     }
 
-    // Draw all the widgets this frame supports
-    void drawAllWidgets(final Graphics g, final JInternalFrame frame) {
-        int x = metrics.leftSidePadding;
-        int y = (metrics.titleBarHeight - metrics.buttonHeight) / 2 - metrics.titleBarHeight;
+    // Drbw bll tif widgfts tiis frbmf supports
+    void drbwAllWidgfts(finbl Grbpiids g, finbl JIntfrnblFrbmf frbmf) {
+        int x = mftrids.lfftSidfPbdding;
+        int y = (mftrids.titlfBbrHfigit - mftrids.buttonHfigit) / 2 - mftrids.titlfBbrHfigit;
 
-        final Insets insets = frame.getInsets();
-        x += insets.left;
-        y += insets.top + metrics.downShift;
+        finbl Insfts insfts = frbmf.gftInsfts();
+        x += insfts.lfft;
+        y += insfts.top + mftrids.downSiift;
 
-        final AquaInternalFrameUI ui = (AquaInternalFrameUI)frame.getUI();
-        final int buttonPressedIndex = ui.getWhichButtonPressed();
-        final boolean overButton = ui.getMouseOverPressedButton();
-        final boolean rollover = ui.getRollover();
+        finbl AqubIntfrnblFrbmfUI ui = (AqubIntfrnblFrbmfUI)frbmf.gftUI();
+        finbl int buttonPrfssfdIndfx = ui.gftWiidiButtonPrfssfd();
+        finbl boolfbn ovfrButton = ui.gftMousfOvfrPrfssfdButton();
+        finbl boolfbn rollovfr = ui.gftRollovfr();
 
-        final boolean frameSelected = frame.isSelected() || fIsUtility;
-        final boolean generalActive = rollover || frameSelected;
+        finbl boolfbn frbmfSflfdtfd = frbmf.isSflfdtfd() || fIsUtility;
+        finbl boolfbn gfnfrblAdtivf = rollovfr || frbmfSflfdtfd;
 
-        final boolean dirty = isDirty(frame);
+        finbl boolfbn dirty = isDirty(frbmf);
 
-        paintButton(g, frame, x, y, kCloseButton, buttonPressedIndex, overButton, frame.isClosable(), generalActive, rollover, dirty);
+        pbintButton(g, frbmf, x, y, kClosfButton, buttonPrfssfdIndfx, ovfrButton, frbmf.isClosbblf(), gfnfrblAdtivf, rollovfr, dirty);
 
-        x += metrics.buttonPadding + metrics.buttonWidth;
-        paintButton(g, frame, x, y, kIconButton, buttonPressedIndex, overButton, frame.isIconifiable(), generalActive, rollover, false);
+        x += mftrids.buttonPbdding + mftrids.buttonWidti;
+        pbintButton(g, frbmf, x, y, kIdonButton, buttonPrfssfdIndfx, ovfrButton, frbmf.isIdonifibblf(), gfnfrblAdtivf, rollovfr, fblsf);
 
-        x += metrics.buttonPadding + metrics.buttonWidth;
-        paintButton(g, frame, x, y, kGrowButton, buttonPressedIndex, overButton, frame.isMaximizable(), generalActive, rollover, false);
+        x += mftrids.buttonPbdding + mftrids.buttonWidti;
+        pbintButton(g, frbmf, x, y, kGrowButton, buttonPrfssfdIndfx, ovfrButton, frbmf.isMbximizbblf(), gfnfrblAdtivf, rollovfr, fblsf);
     }
 
-    public void paintButton(final Graphics g, final JInternalFrame frame, final int x, final int y, final int buttonType, final int buttonPressedIndex, final boolean overButton, final boolean enabled, final boolean active, final boolean anyRollover, final boolean dirty) {
-        widgetPainter.state.set(getWidget(frame, buttonType));
-        widgetPainter.state.set(getState(buttonPressedIndex == buttonType && overButton, anyRollover, active, enabled));
-        widgetPainter.state.set(dirty ? BooleanValue.YES : BooleanValue.NO);
-        widgetPainter.paint(g, frame, x, y, metrics.buttonWidth, metrics.buttonHeight);
+    publid void pbintButton(finbl Grbpiids g, finbl JIntfrnblFrbmf frbmf, finbl int x, finbl int y, finbl int buttonTypf, finbl int buttonPrfssfdIndfx, finbl boolfbn ovfrButton, finbl boolfbn fnbblfd, finbl boolfbn bdtivf, finbl boolfbn bnyRollovfr, finbl boolfbn dirty) {
+        widgftPbintfr.stbtf.sft(gftWidgft(frbmf, buttonTypf));
+        widgftPbintfr.stbtf.sft(gftStbtf(buttonPrfssfdIndfx == buttonTypf && ovfrButton, bnyRollovfr, bdtivf, fnbblfd));
+        widgftPbintfr.stbtf.sft(dirty ? BoolfbnVbluf.YES : BoolfbnVbluf.NO);
+        widgftPbintfr.pbint(g, frbmf, x, y, mftrids.buttonWidti, mftrids.buttonHfigit);
     }
 
-    static Widget getWidget(final JInternalFrame frame, final int buttonType) {
-        switch (buttonType) {
-            case kIconButton: return Widget.TITLE_BAR_COLLAPSE_BOX;
-            case kGrowButton: return Widget.TITLE_BAR_ZOOM_BOX;
+    stbtid Widgft gftWidgft(finbl JIntfrnblFrbmf frbmf, finbl int buttonTypf) {
+        switdi (buttonTypf) {
+            dbsf kIdonButton: rfturn Widgft.TITLE_BAR_COLLAPSE_BOX;
+            dbsf kGrowButton: rfturn Widgft.TITLE_BAR_ZOOM_BOX;
         }
 
-        return Widget.TITLE_BAR_CLOSE_BOX;
+        rfturn Widgft.TITLE_BAR_CLOSE_BOX;
     }
 
-    static State getState(final boolean pressed, final boolean rollover, final boolean active, final boolean enabled) {
-        if (!enabled) return State.DISABLED;
-        if (!active) return State.INACTIVE;
-        if (pressed) return State.PRESSED;
-        if (rollover) return State.ROLLOVER;
-        return State.ACTIVE;
+    stbtid Stbtf gftStbtf(finbl boolfbn prfssfd, finbl boolfbn rollovfr, finbl boolfbn bdtivf, finbl boolfbn fnbblfd) {
+        if (!fnbblfd) rfturn Stbtf.DISABLED;
+        if (!bdtivf) rfturn Stbtf.INACTIVE;
+        if (prfssfd) rfturn Stbtf.PRESSED;
+        if (rollovfr) rfturn Stbtf.ROLLOVER;
+        rfturn Stbtf.ACTIVE;
     }
 
-    protected void setMetrics(final JInternalFrame frame, final Component window) {
-        final String title = frame.getTitle();
-        final FontMetrics fm = frame.getFontMetrics(UIManager.getFont("InternalFrame.titleFont"));
-        int titleWidth = 0;
-        int titleHeight = fm.getAscent();
-        if (title != null) {
-            titleWidth = SwingUtilities.computeStringWidth(fm, title);
+    protfdtfd void sftMftrids(finbl JIntfrnblFrbmf frbmf, finbl Componfnt window) {
+        finbl String titlf = frbmf.gftTitlf();
+        finbl FontMftrids fm = frbmf.gftFontMftrids(UIMbnbgfr.gftFont("IntfrnblFrbmf.titlfFont"));
+        int titlfWidti = 0;
+        int titlfHfigit = fm.gftAsdfnt();
+        if (titlf != null) {
+            titlfWidti = SwingUtilitifs.domputfStringWidti(fm, titlf);
         }
-        // Icon space
-        final Icon icon = frame.getFrameIcon();
-        if (icon != null) {
-            titleWidth += icon.getIconWidth();
-            titleHeight = Math.max(titleHeight, icon.getIconHeight());
+        // Idon spbdf
+        finbl Idon idon = frbmf.gftFrbmfIdon();
+        if (idon != null) {
+            titlfWidti += idon.gftIdonWidti();
+            titlfHfigit = Mbti.mbx(titlfHfigit, idon.gftIdonHfigit());
         }
     }
 
-    protected int getTitleHeight() {
-        return metrics.titleBarHeight;
+    protfdtfd int gftTitlfHfigit() {
+        rfturn mftrids.titlfBbrHfigit;
     }
 }

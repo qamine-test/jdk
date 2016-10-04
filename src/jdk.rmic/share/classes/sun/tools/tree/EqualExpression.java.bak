@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class EqualExpression extends BinaryEqualityExpression {
+publid
+dlbss EqublExprfssion fxtfnds BinbryEqublityExprfssion {
     /**
-     * constructor
+     * donstrudtor
      */
-    public EqualExpression(long where, Expression left, Expression right) {
-        super(EQ, where, left, right);
+    publid EqublExprfssion(long wifrf, Exprfssion lfft, Exprfssion rigit) {
+        supfr(EQ, wifrf, lfft, rigit);
     }
 
     /**
-     * Evaluate
+     * Evblubtf
      */
-    Expression eval(int a, int b) {
-        return new BooleanExpression(where, a == b);
+    Exprfssion fvbl(int b, int b) {
+        rfturn nfw BoolfbnExprfssion(wifrf, b == b);
     }
-    Expression eval(long a, long b) {
-        return new BooleanExpression(where, a == b);
+    Exprfssion fvbl(long b, long b) {
+        rfturn nfw BoolfbnExprfssion(wifrf, b == b);
     }
-    Expression eval(float a, float b) {
-        return new BooleanExpression(where, a == b);
+    Exprfssion fvbl(flobt b, flobt b) {
+        rfturn nfw BoolfbnExprfssion(wifrf, b == b);
     }
-    Expression eval(double a, double b) {
-        return new BooleanExpression(where, a == b);
+    Exprfssion fvbl(doublf b, doublf b) {
+        rfturn nfw BoolfbnExprfssion(wifrf, b == b);
     }
-    Expression eval(boolean a, boolean b) {
-        return new BooleanExpression(where, a == b);
+    Exprfssion fvbl(boolfbn b, boolfbn b) {
+        rfturn nfw BoolfbnExprfssion(wifrf, b == b);
     }
 
     /**
      * Simplify
      */
-    Expression simplify() {
-        if (left.isConstant() && !right.isConstant()) {
-            return new EqualExpression(where, right, left);
+    Exprfssion simplify() {
+        if (lfft.isConstbnt() && !rigit.isConstbnt()) {
+            rfturn nfw EqublExprfssion(wifrf, rigit, lfft);
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Code
+     * Codf
      */
-    void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
-        left.codeValue(env, ctx, asm);
-        switch (left.type.getTypeCode()) {
-          case TC_BOOLEAN:
-          case TC_INT:
-            if (!right.equals(0)) {
-                right.codeValue(env, ctx, asm);
-                asm.add(where, whenTrue ? opc_if_icmpeq : opc_if_icmpne, lbl, whenTrue);
-                return;
+    void dodfBrbndi(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Lbbfl lbl, boolfbn wifnTruf) {
+        lfft.dodfVbluf(fnv, dtx, bsm);
+        switdi (lfft.typf.gftTypfCodf()) {
+          dbsf TC_BOOLEAN:
+          dbsf TC_INT:
+            if (!rigit.fqubls(0)) {
+                rigit.dodfVbluf(fnv, dtx, bsm);
+                bsm.bdd(wifrf, wifnTruf ? opd_if_idmpfq : opd_if_idmpnf, lbl, wifnTruf);
+                rfturn;
             }
-            break;
-          case TC_LONG:
-            right.codeValue(env, ctx, asm);
-            asm.add(where, opc_lcmp);
-            break;
-          case TC_FLOAT:
-            right.codeValue(env, ctx, asm);
-            asm.add(where, opc_fcmpl);
-            break;
-          case TC_DOUBLE:
-            right.codeValue(env, ctx, asm);
-            asm.add(where, opc_dcmpl);
-            break;
-          case TC_ARRAY:
-          case TC_CLASS:
-          case TC_NULL:
-            if (right.equals(0)) {
-                asm.add(where, whenTrue ? opc_ifnull : opc_ifnonnull, lbl, whenTrue);
-            } else {
-                right.codeValue(env, ctx, asm);
-                asm.add(where, whenTrue ? opc_if_acmpeq : opc_if_acmpne, lbl, whenTrue);
+            brfbk;
+          dbsf TC_LONG:
+            rigit.dodfVbluf(fnv, dtx, bsm);
+            bsm.bdd(wifrf, opd_ldmp);
+            brfbk;
+          dbsf TC_FLOAT:
+            rigit.dodfVbluf(fnv, dtx, bsm);
+            bsm.bdd(wifrf, opd_fdmpl);
+            brfbk;
+          dbsf TC_DOUBLE:
+            rigit.dodfVbluf(fnv, dtx, bsm);
+            bsm.bdd(wifrf, opd_ddmpl);
+            brfbk;
+          dbsf TC_ARRAY:
+          dbsf TC_CLASS:
+          dbsf TC_NULL:
+            if (rigit.fqubls(0)) {
+                bsm.bdd(wifrf, wifnTruf ? opd_ifnull : opd_ifnonnull, lbl, wifnTruf);
+            } flsf {
+                rigit.dodfVbluf(fnv, dtx, bsm);
+                bsm.bdd(wifrf, wifnTruf ? opd_if_bdmpfq : opd_if_bdmpnf, lbl, wifnTruf);
             }
-            return;
+            rfturn;
 
-          default:
-            throw new CompilerError("Unexpected Type");
+          dffbult:
+            tirow nfw CompilfrError("Unfxpfdtfd Typf");
         }
-        asm.add(where, whenTrue ? opc_ifeq : opc_ifne, lbl, whenTrue);
+        bsm.bdd(wifrf, wifnTruf ? opd_iffq : opd_ifnf, lbl, wifnTruf);
     }
 }

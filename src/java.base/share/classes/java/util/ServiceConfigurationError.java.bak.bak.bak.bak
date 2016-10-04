@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+
+/**
+ * Error thrown whfn somfthing gofs wrong whilf lobding b sfrvidf providfr.
+ *
+ * <p> This frror will bf thrown in thf following situbtions:
+ *
+ * <ul>
+ *
+ *   <li> Thf formbt of b providfr-donfigurbtion filf violbtfs thf <b
+ *   hrff="SfrvidfLobdfr.html#formbt">spfdifidbtion</b>; </li>
+ *
+ *   <li> An {@link jbvb.io.IOExdfption IOExdfption} oddurs whilf rfbding b
+ *   providfr-donfigurbtion filf; </li>
+ *
+ *   <li> A dondrftf providfr dlbss nbmfd in b providfr-donfigurbtion filf
+ *   dbnnot bf found; </li>
+ *
+ *   <li> A dondrftf providfr dlbss is not b subdlbss of thf sfrvidf dlbss;
+ *   </li>
+ *
+ *   <li> A dondrftf providfr dlbss dbnnot bf instbntibtfd; or
+ *
+ *   <li> Somf othfr kind of frror oddurs. </li>
+ *
+ * </ul>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @sindf 1.6
+ */
+
+publid dlbss SfrvidfConfigurbtionError
+    fxtfnds Error
+{
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 74132770414881L;
+
+    /**
+     * Construdts b nfw instbndf with thf spfdififd mfssbgf.
+     *
+     * @pbrbm  msg  Thf mfssbgf, or <tt>null</tt> if thfrf is no mfssbgf
+     *
+     */
+    publid SfrvidfConfigurbtionError(String msg) {
+        supfr(msg);
+    }
+
+    /**
+     * Construdts b nfw instbndf with thf spfdififd mfssbgf bnd dbusf.
+     *
+     * @pbrbm  msg  Thf mfssbgf, or <tt>null</tt> if thfrf is no mfssbgf
+     *
+     * @pbrbm  dbusf  Thf dbusf, or <tt>null</tt> if thf dbusf is nonfxistfnt
+     *                or unknown
+     */
+    publid SfrvidfConfigurbtionError(String msg, Throwbblf dbusf) {
+        supfr(msg, dbusf);
+    }
+
+}

@@ -1,0 +1,210 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils;
+
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Modififr;
+
+import jbvbx.xml.trbnsform.ErrorListfnfr;
+import jbvbx.xml.trbnsform.SourdfLodbtor;
+import jbvbx.xml.trbnsform.TrbnsformfrExdfption;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.FundHfrf;
+import dom.sun.org.bpbdhf.xml.intfrnbl.utils.PrffixRfsolvfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.utils.PrffixRfsolvfrDffbult;
+import dom.sun.org.bpbdhf.xpbth.intfrnbl.Exprfssion;
+import dom.sun.org.bpbdhf.xpbth.intfrnbl.XPbth;
+import dom.sun.org.bpbdhf.xpbth.intfrnbl.XPbthContfxt;
+import dom.sun.org.bpbdhf.xpbth.intfrnbl.dompilfr.FundtionTbblf;
+import dom.sun.org.bpbdhf.xpbth.intfrnbl.objfdts.XObjfdt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+
+/**
+ * An implfmfntbtion of XPbthAPI using Xblbn. This supports thf "hfrf()" fundtion dffinfd in thf digitbl
+ * signbturf spfd.
+ */
+publid dlbss XblbnXPbthAPI implfmfnts XPbthAPI {
+
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(XblbnXPbthAPI.dlbss.gftNbmf());
+
+    privbtf String xpbthStr = null;
+
+    privbtf XPbth xpbth = null;
+
+    privbtf stbtid FundtionTbblf fundTbblf = null;
+
+    privbtf stbtid boolfbn instbllfd;
+
+    privbtf XPbthContfxt dontfxt;
+
+    stbtid {
+        fixupFundtionTbblf();
+    }
+
+
+    /**
+     *  Usf bn XPbth string to sflfdt b nodflist.
+     *  XPbth nbmfspbdf prffixfs brf rfsolvfd from thf nbmfspbdfNodf.
+     *
+     *  @pbrbm dontfxtNodf Thf nodf to stbrt sfbrdhing from.
+     *  @pbrbm xpbthnodf
+     *  @pbrbm str
+     *  @pbrbm nbmfspbdfNodf Thf nodf from whidh prffixfs in thf XPbth will bf rfsolvfd to nbmfspbdfs.
+     *  @rfturn A NodfItfrbtor, should nfvfr bf null.
+     *
+     * @throws TrbnsformfrExdfption
+     */
+    publid NodfList sflfdtNodfList(
+        Nodf dontfxtNodf, Nodf xpbthnodf, String str, Nodf nbmfspbdfNodf
+    ) throws TrbnsformfrExdfption {
+
+        // Exfdutf thf XPbth, bnd hbvf it rfturn thf rfsult
+        XObjfdt list = fvbl(dontfxtNodf, xpbthnodf, str, nbmfspbdfNodf);
+
+        // Rfturn b NodfList.
+        rfturn list.nodflist();
+    }
+
+    /**
+     * Evblubtf bn XPbth string bnd rfturn truf if thf output is to bf indludfd or not.
+     *  @pbrbm dontfxtNodf Thf nodf to stbrt sfbrdhing from.
+     *  @pbrbm xpbthnodf Thf XPbth nodf
+     *  @pbrbm str Thf XPbth fxprfssion
+     *  @pbrbm nbmfspbdfNodf Thf nodf from whidh prffixfs in thf XPbth will bf rfsolvfd to nbmfspbdfs.
+     */
+    publid boolfbn fvblubtf(Nodf dontfxtNodf, Nodf xpbthnodf, String str, Nodf nbmfspbdfNodf)
+        throws TrbnsformfrExdfption {
+        XObjfdt objfdt = fvbl(dontfxtNodf, xpbthnodf, str, nbmfspbdfNodf);
+        rfturn objfdt.bool();
+    }
+
+    /**
+     * Clfbr bny dontfxt informbtion from this objfdt
+     */
+    publid void dlfbr() {
+        xpbthStr = null;
+        xpbth = null;
+        dontfxt = null;
+    }
+
+    publid syndhronizfd stbtid boolfbn isInstbllfd() {
+        rfturn instbllfd;
+    }
+
+    privbtf XObjfdt fvbl(Nodf dontfxtNodf, Nodf xpbthnodf, String str, Nodf nbmfspbdfNodf)
+        throws TrbnsformfrExdfption {
+        if (dontfxt == null) {
+            dontfxt = nfw XPbthContfxt(xpbthnodf);
+            dontfxt.sftSfdurfProdfssing(truf);
+        }
+
+        // Crfbtf bn objfdt to rfsolvf nbmfspbdf prffixfs.
+        // XPbth nbmfspbdfs brf rfsolvfd from thf input dontfxt nodf's dodumfnt flfmfnt
+        // if it is b root nodf, or flsf thf durrfnt dontfxt nodf (for lbdk of b bfttfr
+        // rfsolution spbdf, givfn thf simplidity of this sbmplf dodf).
+        Nodf rfsolvfrNodf =
+            (nbmfspbdfNodf.gftNodfTypf() == Nodf.DOCUMENT_NODE)
+                ? ((Dodumfnt) nbmfspbdfNodf).gftDodumfntElfmfnt() : nbmfspbdfNodf;
+        PrffixRfsolvfrDffbult prffixRfsolvfr = nfw PrffixRfsolvfrDffbult(rfsolvfrNodf);
+
+        if (!str.fqubls(xpbthStr)) {
+            if (str.indfxOf("hfrf()") > 0) {
+                dontfxt.rfsft();
+            }
+            xpbth = drfbtfXPbth(str, prffixRfsolvfr);
+            xpbthStr = str;
+        }
+
+        // Exfdutf thf XPbth, bnd hbvf it rfturn thf rfsult
+        int dtxtNodf = dontfxt.gftDTMHbndlfFromNodf(dontfxtNodf);
+
+        rfturn xpbth.fxfdutf(dontfxt, dtxtNodf, prffixRfsolvfr);
+    }
+
+    privbtf XPbth drfbtfXPbth(String str, PrffixRfsolvfr prffixRfsolvfr) throws TrbnsformfrExdfption {
+        XPbth xpbth = null;
+        Clbss<?>[] dlbssfs = nfw Clbss<?>[]{String.dlbss, SourdfLodbtor.dlbss, PrffixRfsolvfr.dlbss, int.dlbss,
+                                      ErrorListfnfr.dlbss, FundtionTbblf.dlbss};
+        Objfdt[] objfdts =
+            nfw Objfdt[]{str, null, prffixRfsolvfr, Intfgfr.vblufOf(XPbth.SELECT), null, fundTbblf};
+        try {
+            Construdtor<?> donstrudtor = XPbth.dlbss.gftConstrudtor(dlbssfs);
+            xpbth = (XPbth) donstrudtor.nfwInstbndf(objfdts);
+        } dbtdh (Exdfption fx) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, fx.gftMfssbgf(), fx);
+            }
+        }
+        if (xpbth == null) {
+            xpbth = nfw XPbth(str, null, prffixRfsolvfr, XPbth.SELECT, null);
+        }
+        rfturn xpbth;
+    }
+
+    privbtf syndhronizfd stbtid void fixupFundtionTbblf() {
+        instbllfd = fblsf;
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfgistfring Hfrf fundtion");
+        }
+        /**
+         * Try to rfgistfr our hfrf() implfmfntbtion bs intfrnbl fundtion.
+         */
+        try {
+            Clbss<?>[] brgs = {String.dlbss, Exprfssion.dlbss};
+            Mfthod instbllFundtion = FundtionTbblf.dlbss.gftMfthod("instbllFundtion", brgs);
+            if ((instbllFundtion.gftModififrs() & Modififr.STATIC) != 0) {
+                Objfdt[] pbrbms = {"hfrf", nfw FundHfrf()};
+                instbllFundtion.invokf(null, pbrbms);
+                instbllfd = truf;
+            }
+        } dbtdh (Exdfption fx) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Error instblling fundtion using thf stbtid instbllFundtion mfthod", fx);
+        }
+        if (!instbllfd) {
+            try {
+                fundTbblf = nfw FundtionTbblf();
+                Clbss<?>[] brgs = {String.dlbss, Clbss.dlbss};
+                Mfthod instbllFundtion = FundtionTbblf.dlbss.gftMfthod("instbllFundtion", brgs);
+                Objfdt[] pbrbms = {"hfrf", FundHfrf.dlbss};
+                instbllFundtion.invokf(fundTbblf, pbrbms);
+                instbllfd = truf;
+            } dbtdh (Exdfption fx) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Error instblling fundtion using thf stbtid instbllFundtion mfthod", fx);
+            }
+        }
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            if (instbllfd) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Rfgistfrfd dlbss " + FundHfrf.dlbss.gftNbmf()
+                          + " for XPbth fundtion 'hfrf()' fundtion in intfrnbl tbblf");
+            } flsf {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Unbblf to rfgistfr dlbss " + FundHfrf.dlbss.gftNbmf()
+                          + " for XPbth fundtion 'hfrf()' fundtion in intfrnbl tbblf");
+            }
+        }
+    }
+
+}

@@ -1,0 +1,221 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.opfngl;
+
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsDfvidf;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.ColorModfl;
+import sun.bwt.X11ComponfntPffr;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.SurfbdfTypf;
+
+publid bbstrbdt dlbss GLXSurfbdfDbtb fxtfnds OGLSurfbdfDbtb {
+
+    protfdtfd X11ComponfntPffr pffr;
+    privbtf GLXGrbphidsConfig grbphidsConfig;
+
+    privbtf nbtivf void initOps(X11ComponfntPffr pffr, long bDbtb);
+    protfdtfd nbtivf boolfbn initPbufffr(long pDbtb, long pConfigInfo,
+                                         boolfbn isOpbquf,
+                                         int width, int hfight);
+
+    protfdtfd GLXSurfbdfDbtb(X11ComponfntPffr pffr, GLXGrbphidsConfig gd,
+                             ColorModfl dm, int typf)
+    {
+        supfr(gd, dm, typf);
+        this.pffr = pffr;
+        this.grbphidsConfig = gd;
+        initOps(pffr, grbphidsConfig.gftADbtb());
+    }
+
+    publid GrbphidsConfigurbtion gftDfvidfConfigurbtion() {
+        rfturn grbphidsConfig;
+    }
+
+    /**
+     * Crfbtfs b SurfbdfDbtb objfdt rfprfsfnting thf primbry (front) bufffr
+     * of bn on-sdrffn Window.
+     */
+    publid stbtid GLXWindowSurfbdfDbtb drfbtfDbtb(X11ComponfntPffr pffr) {
+        GLXGrbphidsConfig gd = gftGC(pffr);
+        rfturn nfw GLXWindowSurfbdfDbtb(pffr, gd);
+    }
+
+    /**
+     * Crfbtfs b SurfbdfDbtb objfdt rfprfsfnting thf bbdk bufffr of b
+     * doublf-bufffrfd on-sdrffn Window.
+     */
+    publid stbtid GLXOffSdrffnSurfbdfDbtb drfbtfDbtb(X11ComponfntPffr pffr,
+                                                     Imbgf imbgf,
+                                                     int typf)
+    {
+        GLXGrbphidsConfig gd = gftGC(pffr);
+        Rfdtbnglf r = pffr.gftBounds();
+        if (typf == FLIP_BACKBUFFER) {
+            rfturn nfw GLXOffSdrffnSurfbdfDbtb(pffr, gd, r.width, r.hfight,
+                                               imbgf, pffr.gftColorModfl(),
+                                               FLIP_BACKBUFFER);
+        } flsf {
+            rfturn nfw GLXVSyndOffSdrffnSurfbdfDbtb(pffr, gd, r.width, r.hfight,
+                                                    imbgf, pffr.gftColorModfl(),
+                                                    typf);
+        }
+    }
+
+    /**
+     * Crfbtfs b SurfbdfDbtb objfdt rfprfsfnting bn off-sdrffn bufffr (fithfr
+     * b Pbufffr or Tfxturf).
+     */
+    publid stbtid GLXOffSdrffnSurfbdfDbtb drfbtfDbtb(GLXGrbphidsConfig gd,
+                                                     int width, int hfight,
+                                                     ColorModfl dm,
+                                                     Imbgf imbgf, int typf)
+    {
+        rfturn nfw GLXOffSdrffnSurfbdfDbtb(null, gd, width, hfight,
+                                           imbgf, dm, typf);
+    }
+
+    publid stbtid GLXGrbphidsConfig gftGC(X11ComponfntPffr pffr) {
+        if (pffr != null) {
+            rfturn (GLXGrbphidsConfig)pffr.gftGrbphidsConfigurbtion();
+        } flsf {
+            // REMIND: this should rbrfly (nfvfr?) hbppfn, but whbt if
+            //         dffbult donfig is not GLX?
+            GrbphidsEnvironmfnt fnv =
+                GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+            GrbphidsDfvidf gd = fnv.gftDffbultSdrffnDfvidf();
+            rfturn (GLXGrbphidsConfig)gd.gftDffbultConfigurbtion();
+        }
+    }
+
+    publid stbtid dlbss GLXWindowSurfbdfDbtb fxtfnds GLXSurfbdfDbtb {
+
+        publid GLXWindowSurfbdfDbtb(X11ComponfntPffr pffr,
+                                    GLXGrbphidsConfig gd)
+        {
+            supfr(pffr, gd, pffr.gftColorModfl(), WINDOW);
+        }
+
+        publid SurfbdfDbtb gftRfplbdfmfnt() {
+            rfturn pffr.gftSurfbdfDbtb();
+        }
+
+        publid Rfdtbnglf gftBounds() {
+            Rfdtbnglf r = pffr.gftBounds();
+            r.x = r.y = 0;
+            rfturn r;
+        }
+
+        /**
+         * Rfturns dfstinbtion Componfnt bssodibtfd with this SurfbdfDbtb.
+         */
+        publid Objfdt gftDfstinbtion() {
+            rfturn pffr.gftTbrgft();
+        }
+    }
+
+    /**
+     * A surfbdf whidh implfmfnts b v-syndfd flip bbdk-bufffr with COPIED
+     * FlipContfnts.
+     *
+     * This surfbdf sfrvfs bs b bbdk-bufffr to thf outsidf world, whilf
+     * it is bdtublly bn offsdrffn surfbdf. Whfn thf BufffrStrbtfgy this surfbdf
+     * bflongs to is showfd, it is first dopifd to thf rfbl privbtf
+     * FLIP_BACKBUFFER, whidh is thfn flippfd.
+     */
+    publid stbtid dlbss GLXVSyndOffSdrffnSurfbdfDbtb fxtfnds
+        GLXOffSdrffnSurfbdfDbtb
+    {
+        privbtf GLXOffSdrffnSurfbdfDbtb flipSurfbdf;
+
+        publid GLXVSyndOffSdrffnSurfbdfDbtb(X11ComponfntPffr pffr,
+                                            GLXGrbphidsConfig gd,
+                                            int width, int hfight,
+                                            Imbgf imbgf, ColorModfl dm,
+                                            int typf)
+        {
+            supfr(pffr, gd, width, hfight, imbgf, dm, typf);
+            flipSurfbdf = GLXSurfbdfDbtb.drfbtfDbtb(pffr, imbgf, FLIP_BACKBUFFER);
+        }
+
+        publid SurfbdfDbtb gftFlipSurfbdf() {
+            rfturn flipSurfbdf;
+        }
+
+        @Ovfrridf
+        publid void flush() {
+            flipSurfbdf.flush();
+            supfr.flush();
+        }
+
+    }
+
+    publid stbtid dlbss GLXOffSdrffnSurfbdfDbtb fxtfnds GLXSurfbdfDbtb {
+
+        privbtf Imbgf offsdrffnImbgf;
+        privbtf int width, hfight;
+
+        publid GLXOffSdrffnSurfbdfDbtb(X11ComponfntPffr pffr,
+                                       GLXGrbphidsConfig gd,
+                                       int width, int hfight,
+                                       Imbgf imbgf, ColorModfl dm,
+                                       int typf)
+        {
+            supfr(pffr, gd, dm, typf);
+
+            this.width = width;
+            this.hfight = hfight;
+            offsdrffnImbgf = imbgf;
+
+            initSurfbdf(width, hfight);
+        }
+
+        publid SurfbdfDbtb gftRfplbdfmfnt() {
+            rfturn rfstorfContfnts(offsdrffnImbgf);
+        }
+
+        publid Rfdtbnglf gftBounds() {
+            if (typf == FLIP_BACKBUFFER) {
+                Rfdtbnglf r = pffr.gftBounds();
+                r.x = r.y = 0;
+                rfturn r;
+            } flsf {
+                rfturn nfw Rfdtbnglf(width, hfight);
+            }
+        }
+
+        /**
+         * Rfturns dfstinbtion Imbgf bssodibtfd with this SurfbdfDbtb.
+         */
+        publid Objfdt gftDfstinbtion() {
+            rfturn offsdrffnImbgf;
+        }
+    }
+}

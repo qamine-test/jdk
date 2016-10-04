@@ -1,0 +1,518 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.sfrvfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.rmi.MbrshblExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.SfrvfrExdfption;
+import jbvb.rmi.UnmbrshblExdfption;
+import jbvb.rmi.sfrvfr.Opfrbtion;
+import jbvb.rmi.sfrvfr.RfmotfCbll;
+import jbvb.rmi.sfrvfr.RfmotfObjfdt;
+import jbvb.rmi.sfrvfr.RfmotfRff;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.rmi.runtimf.Log;
+import sun.rmi.trbnsport.Connfdtion;
+import sun.rmi.trbnsport.LivfRff;
+import sun.rmi.trbnsport.StrfbmRfmotfCbll;
+
+/**
+ * NOTE: Thfrf is b JDK-intfrnbl dfpfndfndy on thf fxistfndf of this
+ * dlbss's gftLivfRff mfthod (bs it is inhfritfd by UnidbstRff2) in
+ * thf implfmfntbtion of jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor.
+ */
+@SupprfssWbrnings("dfprfdbtion")
+publid dlbss UnidbstRff implfmfnts RfmotfRff {
+
+    /**
+     * Clifnt-sidf trbnsport log.
+     */
+    publid stbtid finbl Log dlifntRffLog =
+        Log.gftLog("sun.rmi.dlifnt.rff", "trbnsport",  Util.logLfvfl);
+
+    /**
+     * Clifnt-sidf dbll log.
+     */
+    publid stbtid finbl Log dlifntCbllLog =
+        Log.gftLog("sun.rmi.dlifnt.dbll", "RMI",
+                   AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Boolfbn>) () ->
+                       Boolfbn.gftBoolfbn("sun.rmi.dlifnt.logCblls")));
+    privbtf stbtid finbl long sfriblVfrsionUID = 8258372400816541186L;
+
+    protfdtfd LivfRff rff;
+
+    /**
+     * Crfbtf b nfw (fmpty) Unidbst rfmotf rfffrfndf.
+     */
+    publid UnidbstRff() {
+    }
+
+    /**
+     * Crfbtf b nfw Unidbst RfmotfRff.
+     */
+    publid UnidbstRff(LivfRff livfRff) {
+        rff = livfRff;
+    }
+
+    /**
+     * Rfturns thf durrfnt vbluf of this UnidbstRff's undfrlying
+     * LivfRff.
+     *
+     * NOTE: Thfrf is b JDK-intfrnbl dfpfndfndy on thf fxistfndf of
+     * this mfthod (bs it is inhfritfd by UnidbstRff) in thf
+     * implfmfntbtion of jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor.
+     **/
+    publid LivfRff gftLivfRff() {
+        rfturn rff;
+    }
+
+    /**
+     * Invokf b mfthod. This form of dflfgbting mfthod invodbtion
+     * to thf rfffrfndf bllows thf rfffrfndf to tbkf dbrf of
+     * sftting up thf donnfdtion to thf rfmotf host, mbrshblling
+     * somf rfprfsfntbtion for thf mfthod bnd pbrbmftfrs, thfn
+     * dommunidbting thf mfthod invodbtion to thf rfmotf host.
+     * This mfthod fithfr rfturns thf rfsult of b mfthod invodbtion
+     * on thf rfmotf objfdt whidh rfsidfs on thf rfmotf host or
+     * throws b RfmotfExdfption if thf dbll fbilfd or bn
+     * bpplidbtion-lfvfl fxdfption if thf rfmotf invodbtion throws
+     * bn fxdfption.
+     *
+     * @pbrbm obj thf proxy for thf rfmotf objfdt
+     * @pbrbm mfthod thf mfthod to bf invokfd
+     * @pbrbm pbrbms thf pbrbmftfr list
+     * @pbrbm opnum  b hbsh thbt mby bf usfd to rfprfsfnt thf mfthod
+     * @sindf 1.2
+     */
+    publid Objfdt invokf(Rfmotf obj,
+                         Mfthod mfthod,
+                         Objfdt[] pbrbms,
+                         long opnum)
+        throws Exdfption
+    {
+        if (dlifntRffLog.isLoggbblf(Log.VERBOSE)) {
+            dlifntRffLog.log(Log.VERBOSE, "mfthod: " + mfthod);
+        }
+
+        if (dlifntCbllLog.isLoggbblf(Log.VERBOSE)) {
+            logClifntCbll(obj, mfthod);
+        }
+
+        Connfdtion donn = rff.gftChbnnfl().nfwConnfdtion();
+        RfmotfCbll dbll = null;
+        boolfbn rfusf = truf;
+
+        /* If thf dbll donnfdtion is "rfusfd" fbrly, rfmfmbfr not to
+         * rfusf bgbin.
+         */
+        boolfbn blrfbdyFrffd = fblsf;
+
+        try {
+            if (dlifntRffLog.isLoggbblf(Log.VERBOSE)) {
+                dlifntRffLog.log(Log.VERBOSE, "opnum = " + opnum);
+            }
+
+            // drfbtf dbll dontfxt
+            dbll = nfw StrfbmRfmotfCbll(donn, rff.gftObjID(), -1, opnum);
+
+            // mbrshbl pbrbmftfrs
+            try {
+                ObjfdtOutput out = dbll.gftOutputStrfbm();
+                mbrshblCustomCbllDbtb(out);
+                Clbss<?>[] typfs = mfthod.gftPbrbmftfrTypfs();
+                for (int i = 0; i < typfs.lfngth; i++) {
+                    mbrshblVbluf(typfs[i], pbrbms[i], out);
+                }
+            } dbtdh (IOExdfption f) {
+                dlifntRffLog.log(Log.BRIEF,
+                    "IOExdfption mbrshblling brgumfnts: ", f);
+                throw nfw MbrshblExdfption("frror mbrshblling brgumfnts", f);
+            }
+
+            // unmbrshbl rfturn
+            dbll.fxfdutfCbll();
+
+            try {
+                Clbss<?> rtypf = mfthod.gftRfturnTypf();
+                if (rtypf == void.dlbss)
+                    rfturn null;
+                ObjfdtInput in = dbll.gftInputStrfbm();
+
+                /* StrfbmRfmotfCbll.donf() dofs not bdtublly mbkf usf
+                 * of donn, thfrfforf it is sbff to rfusf this
+                 * donnfdtion bfforf thf dirty dbll is sfnt for
+                 * rfgistfrfd rffs.
+                 */
+                Objfdt rfturnVbluf = unmbrshblVbluf(rtypf, in);
+
+                /* wf brf frffing thf donnfdtion now, do not frff
+                 * bgbin or rfusf.
+                 */
+                blrfbdyFrffd = truf;
+
+                /* if wf got to this point, rfusf must hbvf bffn truf. */
+                dlifntRffLog.log(Log.BRIEF, "frff donnfdtion (rfusf = truf)");
+
+                /* Frff thf dbll's donnfdtion fbrly. */
+                rff.gftChbnnfl().frff(donn, truf);
+
+                rfturn rfturnVbluf;
+
+            } dbtdh (IOExdfption f) {
+                dlifntRffLog.log(Log.BRIEF,
+                                 "IOExdfption unmbrshblling rfturn: ", f);
+                throw nfw UnmbrshblExdfption("frror unmbrshblling rfturn", f);
+            } dbtdh (ClbssNotFoundExdfption f) {
+                dlifntRffLog.log(Log.BRIEF,
+                    "ClbssNotFoundExdfption unmbrshblling rfturn: ", f);
+
+                throw nfw UnmbrshblExdfption("frror unmbrshblling rfturn", f);
+            } finblly {
+                try {
+                    dbll.donf();
+                } dbtdh (IOExdfption f) {
+                    /* WARNING: If thf donn hbs bffn rfusfd fbrly,
+                     * thfn it is too lbtf to rfdovfr from thrown
+                     * IOExdfptions dbught hfrf. This dodf is rflying
+                     * on StrfbmRfmotfCbll.donf() not bdtublly
+                     * throwing IOExdfptions.
+                     */
+                    rfusf = fblsf;
+                }
+            }
+
+        } dbtdh (RuntimfExdfption f) {
+            /*
+             * Nffd to distinguish bftwffn dlifnt (gfnfrbtfd by thf
+             * invokf mfthod itsflf) bnd sfrvfr RuntimfExdfptions.
+             * Clifnt sidf RuntimfExdfptions brf likfly to hbvf
+             * dorruptfd thf dbll donnfdtion bnd thosf from thf sfrvfr
+             * brf not likfly to hbvf donf so.  If thf fxdfption dbmf
+             * from thf sfrvfr thf dbll donnfdtion should bf rfusfd.
+             */
+            if ((dbll == null) ||
+                (((StrfbmRfmotfCbll) dbll).gftSfrvfrExdfption() != f))
+            {
+                rfusf = fblsf;
+            }
+            throw f;
+
+        } dbtdh (RfmotfExdfption f) {
+            /*
+             * Somf fbilurf during dbll; bssumf donnfdtion dbnnot
+             * bf rfusfd.  Must bssumf fbilurf fvfn if SfrvfrExdfption
+             * or SfrvfrError oddurs sindf thfsf fbilurfs dbn hbppfn
+             * during pbrbmftfr dfsfriblizbtion whidh would lfbvf
+             * thf donnfdtion in b dorruptfd stbtf.
+             */
+            rfusf = fblsf;
+            throw f;
+
+        } dbtdh (Error f) {
+            /* If frrors oddurrfd, thf donnfdtion is most likfly not
+             *  rfusbblf.
+             */
+            rfusf = fblsf;
+            throw f;
+
+        } finblly {
+
+            /* blrfbdyFrffd fnsurfs thbt wf do not log b rfusf thbt
+             * mby hbvf blrfbdy hbppfnfd.
+             */
+            if (!blrfbdyFrffd) {
+                if (dlifntRffLog.isLoggbblf(Log.BRIEF)) {
+                    dlifntRffLog.log(Log.BRIEF, "frff donnfdtion (rfusf = " +
+                                           rfusf + ")");
+                }
+                rff.gftChbnnfl().frff(donn, rfusf);
+            }
+        }
+    }
+
+    protfdtfd void mbrshblCustomCbllDbtb(ObjfdtOutput out) throws IOExdfption
+    {}
+
+    /**
+     * Mbrshbl vbluf to bn ObjfdtOutput sink using RMI's sfriblizbtion
+     * formbt for pbrbmftfrs or rfturn vblufs.
+     */
+    protfdtfd stbtid void mbrshblVbluf(Clbss<?> typf, Objfdt vbluf,
+                                       ObjfdtOutput out)
+        throws IOExdfption
+    {
+        if (typf.isPrimitivf()) {
+            if (typf == int.dlbss) {
+                out.writfInt(((Intfgfr) vbluf).intVbluf());
+            } flsf if (typf == boolfbn.dlbss) {
+                out.writfBoolfbn(((Boolfbn) vbluf).boolfbnVbluf());
+            } flsf if (typf == bytf.dlbss) {
+                out.writfBytf(((Bytf) vbluf).bytfVbluf());
+            } flsf if (typf == dhbr.dlbss) {
+                out.writfChbr(((Chbrbdtfr) vbluf).dhbrVbluf());
+            } flsf if (typf == short.dlbss) {
+                out.writfShort(((Short) vbluf).shortVbluf());
+            } flsf if (typf == long.dlbss) {
+                out.writfLong(((Long) vbluf).longVbluf());
+            } flsf if (typf == flobt.dlbss) {
+                out.writfFlobt(((Flobt) vbluf).flobtVbluf());
+            } flsf if (typf == doublf.dlbss) {
+                out.writfDoublf(((Doublf) vbluf).doublfVbluf());
+            } flsf {
+                throw nfw Error("Unrfdognizfd primitivf typf: " + typf);
+            }
+        } flsf {
+            out.writfObjfdt(vbluf);
+        }
+    }
+
+    /**
+     * Unmbrshbl vbluf from bn ObjfdtInput sourdf using RMI's sfriblizbtion
+     * formbt for pbrbmftfrs or rfturn vblufs.
+     */
+    protfdtfd stbtid Objfdt unmbrshblVbluf(Clbss<?> typf, ObjfdtInput in)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        if (typf.isPrimitivf()) {
+            if (typf == int.dlbss) {
+                rfturn Intfgfr.vblufOf(in.rfbdInt());
+            } flsf if (typf == boolfbn.dlbss) {
+                rfturn Boolfbn.vblufOf(in.rfbdBoolfbn());
+            } flsf if (typf == bytf.dlbss) {
+                rfturn Bytf.vblufOf(in.rfbdBytf());
+            } flsf if (typf == dhbr.dlbss) {
+                rfturn Chbrbdtfr.vblufOf(in.rfbdChbr());
+            } flsf if (typf == short.dlbss) {
+                rfturn Short.vblufOf(in.rfbdShort());
+            } flsf if (typf == long.dlbss) {
+                rfturn Long.vblufOf(in.rfbdLong());
+            } flsf if (typf == flobt.dlbss) {
+                rfturn Flobt.vblufOf(in.rfbdFlobt());
+            } flsf if (typf == doublf.dlbss) {
+                rfturn Doublf.vblufOf(in.rfbdDoublf());
+            } flsf {
+                throw nfw Error("Unrfdognizfd primitivf typf: " + typf);
+            }
+        } flsf {
+            rfturn in.rfbdObjfdt();
+        }
+    }
+
+    /**
+     * Crfbtf bn bppropribtf dbll objfdt for b nfw dbll on this objfdt.
+     * Pbssing opfrbtion brrby bnd indfx, bllows thf stubs gfnfrbtor to
+     * bssign thf opfrbtion indfxfs bnd intfrprft thfm. Thf RfmotfRff
+     * mby nffd thf opfrbtion to fndodf in for thf dbll.
+     */
+    publid RfmotfCbll nfwCbll(RfmotfObjfdt obj, Opfrbtion[] ops, int opnum,
+                              long hbsh)
+        throws RfmotfExdfption
+    {
+        dlifntRffLog.log(Log.BRIEF, "gft donnfdtion");
+
+        Connfdtion donn = rff.gftChbnnfl().nfwConnfdtion();
+        try {
+            dlifntRffLog.log(Log.VERBOSE, "drfbtf dbll dontfxt");
+
+            /* log informbtion bbout thf outgoing dbll */
+            if (dlifntCbllLog.isLoggbblf(Log.VERBOSE)) {
+                logClifntCbll(obj, ops[opnum]);
+            }
+
+            RfmotfCbll dbll =
+                nfw StrfbmRfmotfCbll(donn, rff.gftObjID(), opnum, hbsh);
+            try {
+                mbrshblCustomCbllDbtb(dbll.gftOutputStrfbm());
+            } dbtdh (IOExdfption f) {
+                throw nfw MbrshblExdfption("frror mbrshbling " +
+                                           "dustom dbll dbtb");
+            }
+            rfturn dbll;
+        } dbtdh (RfmotfExdfption f) {
+            rff.gftChbnnfl().frff(donn, fblsf);
+            throw f;
+        }
+    }
+
+    /**
+     * Invokf mbkfs thf rfmotf dbll prfsfnt in thf RfmotfCbll objfdt.
+     *
+     * Invokf will rbisf bny "usfr" fxdfptions whidh
+     * should pbss through bnd not bf dbught by thf stub.  If bny
+     * fxdfption is rbisfd during thf rfmotf invodbtion, invokf should
+     * tbkf dbrf of dlfbning up thf donnfdtion bfforf rbising thf
+     * "usfr" or rfmotf fxdfption.
+     */
+    publid void invokf(RfmotfCbll dbll) throws Exdfption {
+        try {
+            dlifntRffLog.log(Log.VERBOSE, "fxfdutf dbll");
+
+            dbll.fxfdutfCbll();
+
+        } dbtdh (RfmotfExdfption f) {
+            /*
+             * Cbll did not domplftf; donnfdtion dbn't bf rfusfd.
+             */
+            dlifntRffLog.log(Log.BRIEF, "fxdfption: ", f);
+            frff(dbll, fblsf);
+            throw f;
+
+        } dbtdh (Error f) {
+            /* If frrors oddurrfd, thf donnfdtion is most likfly not
+             *  rfusbblf.
+             */
+            dlifntRffLog.log(Log.BRIEF, "frror: ", f);
+            frff(dbll, fblsf);
+            throw f;
+
+        } dbtdh (RuntimfExdfption f) {
+            /*
+             * REMIND: Sindf runtimf fxdfptions brf no longfr wrbppfd,
+             * wf dbn't bssuf thbt thf donnfdtion wbs lfft in
+             * b rfusbblf stbtf. Is this okby?
+             */
+            dlifntRffLog.log(Log.BRIEF, "fxdfption: ", f);
+            frff(dbll, fblsf);
+            throw f;
+
+        } dbtdh (Exdfption f) {
+            /*
+             * Assumf thbt thfsf othfr fxdfptions brf usfr fxdfptions
+             * bnd lfbvf thf donnfdtion in b rfusbblf stbtf.
+             */
+            dlifntRffLog.log(Log.BRIEF, "fxdfption: ", f);
+            frff(dbll, truf);
+            /* rfrbisf usfr (bnd unknown) fxdfptions. */
+            throw f;
+        }
+
+        /*
+         * Don't frff thf donnfdtion if bn fxdfption did not
+         * oddur bfdbusf thf stub nffds to unmbrshbl thf
+         * rfturn vbluf. Thf donnfdtion will bf frffd
+         * by b dbll to thf "donf" mfthod.
+         */
+    }
+
+    /**
+     * Privbtf mfthod to frff b donnfdtion.
+     */
+    privbtf void frff(RfmotfCbll dbll, boolfbn rfusf) throws RfmotfExdfption {
+        Connfdtion donn = ((StrfbmRfmotfCbll)dbll).gftConnfdtion();
+        rff.gftChbnnfl().frff(donn, rfusf);
+    }
+
+    /**
+     * Donf should only bf dbllfd if thf invokf rfturns suddfssfully
+     * (non-fxdfptionblly) to thf stub. It bllows thf rfmotf rfffrfndf to
+     * dlfbn up (or rfusf) thf donnfdtion.
+     */
+    publid void donf(RfmotfCbll dbll) throws RfmotfExdfption {
+
+        /* Donf only usfs thf donnfdtion insidf thf dbll to obtbin thf
+         * dhbnnfl thf donnfdtion usfs.  Ondf bll informbtion is rfbd
+         * from thf donnfdtion, thf donnfdtion mby bf frffd.
+         */
+        dlifntRffLog.log(Log.BRIEF, "frff donnfdtion (rfusf = truf)");
+
+        /* Frff thf dbll donnfdtion fbrly. */
+        frff(dbll, truf);
+
+        try {
+            dbll.donf();
+        } dbtdh (IOExdfption f) {
+            /* WARNING: If thf donn hbs bffn rfusfd fbrly, thfn it is
+             * too lbtf to rfdovfr from thrown IOExdfptions dbught
+             * hfrf. This dodf is rflying on StrfbmRfmotfCbll.donf()
+             * not bdtublly throwing IOExdfptions.
+             */
+        }
+    }
+
+    /**
+     * Log thf dftbils of bn outgoing dbll.  Thf mfthod pbrbmftfr is fithfr of
+     * typf jbvb.lbng.rfflfdt.Mfthod or jbvb.rmi.sfrvfr.Opfrbtion.
+     */
+    void logClifntCbll(Objfdt obj, Objfdt mfthod) {
+        dlifntCbllLog.log(Log.VERBOSE, "outbound dbll: " +
+            rff + " : " + obj.gftClbss().gftNbmf() +
+            rff.gftObjID().toString() + ": " + mfthod);
+    }
+
+    /**
+     * Rfturns thf dlbss of thf rff typf to bf sfriblizfd
+     */
+    publid String gftRffClbss(ObjfdtOutput out) {
+        rfturn "UnidbstRff";
+    }
+
+    /**
+     * Writf out fxtfrnbl rfprfsfntbtion for rfmotf rff.
+     */
+    publid void writfExtfrnbl(ObjfdtOutput out) throws IOExdfption {
+        rff.writf(out, fblsf);
+    }
+
+    /**
+     * Rfbd in fxtfrnbl rfprfsfntbtion for rfmotf rff.
+     * @fxdfption ClbssNotFoundExdfption If thf dlbss for bn objfdt
+     * bfing rfstorfd dbnnot bf found.
+     */
+    publid void rfbdExtfrnbl(ObjfdtInput in)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        rff = LivfRff.rfbd(in, fblsf);
+    }
+
+    //----------------------------------------------------------------------;
+    /**
+     * Mfthod from objfdt, forwbrd from RfmotfObjfdt
+     */
+    publid String rfmotfToString() {
+        rfturn Util.gftUnqublififdNbmf(gftClbss()) + " [livfRff: " + rff + "]";
+    }
+
+    /**
+     * dffbult implfmfntbtion of hbshCodf for rfmotf objfdts
+     */
+    publid int rfmotfHbshCodf() {
+        rfturn rff.hbshCodf();
+    }
+
+    /** dffbult implfmfntbtion of fqubls for rfmotf objfdts
+     */
+    publid boolfbn rfmotfEqubls(RfmotfRff sub) {
+        if (sub instbndfof UnidbstRff)
+            rfturn rff.rfmotfEqubls(((UnidbstRff)sub).rff);
+        rfturn fblsf;
+    }
+}

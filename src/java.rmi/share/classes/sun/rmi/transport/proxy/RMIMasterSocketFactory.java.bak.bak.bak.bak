@@ -1,0 +1,468 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.proxy;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.sfdurity.*;
+import jbvb.util.*;
+import jbvb.rmi.sfrvfr.LogStrfbm;
+import jbvb.rmi.sfrvfr.RMISodkftFbdtory;
+import sun.rmi.runtimf.Log;
+import sun.rmi.runtimf.NfwThrfbdAdtion;
+
+/**
+ * RMIMbstfrSodkftFbdtory bttfmpts to drfbtf b sodkft donnfdtion to thf
+ * spfdififd host using suddfssivfly lfss fffidifnt mfdhbnisms
+ * until onf suddffds.  If thf host is suddfssfully donnfdtfd to,
+ * thf fbdtory for thf suddfssful mfdhbnism is storfd in bn intfrnbl
+ * hbsh tbblf kfyfd by thf host nbmf, so thbt futurf bttfmpts to
+ * donnfdt to thf sbmf host will butombtidblly usf thf sbmf
+ * mfdhbnism.
+ */
+@SupprfssWbrnings("dfprfdbtion")
+publid dlbss RMIMbstfrSodkftFbdtory fxtfnds RMISodkftFbdtory {
+
+    /** "proxy" pbdkbgf log lfvfl */
+    stbtid int logLfvfl = LogStrfbm.pbrsfLfvfl(gftLogLfvfl());
+
+    privbtf stbtid String gftLogLfvfl() {
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.rmi.trbnsport.proxy.logLfvfl"));
+    }
+
+    /* proxy pbdkbgf log */
+    stbtid finbl Log proxyLog =
+        Log.gftLog("sun.rmi.trbnsport.tdp.proxy",
+                   "trbnsport", RMIMbstfrSodkftFbdtory.logLfvfl);
+
+    /** timfout for bttfmping dirfdt sodkft donnfdtions */
+    privbtf stbtid long donnfdtTimfout = gftConnfdtTimfout();
+
+    privbtf stbtid long gftConnfdtTimfout() {
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("sun.rmi.trbnsport.proxy.donnfdtTimfout", 15000)); // dffbult: 15 sfdonds
+    }
+
+    /** whfthfr to fbllbbdk to HTTP on gfnfrbl donnfdt fbilurfs */
+    privbtf stbtid finbl boolfbn fbgfrHttpFbllbbdk =
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Boolfbn>) () ->
+            Boolfbn.gftBoolfbn("sun.rmi.trbnsport.proxy.fbgfrHttpFbllbbdk"));
+
+    /** tbblf of hosts suddfssfully donnfdtfd to bnd thf fbdtory usfd */
+    privbtf Hbshtbblf<String, RMISodkftFbdtory> suddfssTbblf =
+        nfw Hbshtbblf<>();
+
+    /** mbximum numbfr of hosts to rfmfmbfr suddfssful donnfdtion to */
+    privbtf stbtid finbl int MbxRfmfmbfrfdHosts = 64;
+
+    /** list of thf hosts in suddfssTbblf in initibl donnfdtion ordfr */
+    privbtf Vfdtor<String> hostList = nfw Vfdtor<>(MbxRfmfmbfrfdHosts);
+
+    /** dffbult fbdtory for initibl usf for dirfdt sodkft donnfdtion */
+    protfdtfd RMISodkftFbdtory initiblFbdtory = nfw RMIDirfdtSodkftFbdtory();
+
+    /** ordfrfd list of fbdtorifs to try bs bltfrnbtf donnfdtion
+      * mfdhbnisms if b dirfdt sodkft donnfdtions fbils */
+    protfdtfd Vfdtor<RMISodkftFbdtory> bltFbdtoryList;
+
+    /**
+     * Crfbtf b RMIMbstfrSodkftFbdtory objfdt.  Estbblish ordfr of
+     * donnfdtion mfdhbnisms to bttfmpt on drfbtfSodkft, if b dirfdt
+     * sodkft donnfdtion fbils.
+     */
+    publid RMIMbstfrSodkftFbdtory() {
+        bltFbdtoryList = nfw Vfdtor<>(2);
+        boolfbn sftFbdtorifs = fblsf;
+
+        try {
+            String proxyHost;
+            proxyHost = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+               (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("http.proxyHost"));
+
+            if (proxyHost == null)
+                proxyHost = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("proxyHost"));
+
+            boolfbn disbblf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("jbvb.rmi.sfrvfr.disbblfHttp", "truf"))
+                .fqublsIgnorfCbsf("truf");
+
+            if (!disbblf && proxyHost != null && proxyHost.lfngth() > 0) {
+                sftFbdtorifs = truf;
+            }
+        } dbtdh (Exdfption f) {
+            // unbblf to obtbin thf propfrtifs, so usf thf dffbult bfhbvior.
+        }
+
+        if (sftFbdtorifs) {
+            bltFbdtoryList.bddElfmfnt(nfw RMIHttpToPortSodkftFbdtory());
+            bltFbdtoryList.bddElfmfnt(nfw RMIHttpToCGISodkftFbdtory());
+        }
+    }
+
+    /**
+     * Crfbtf b nfw dlifnt sodkft.  If wf rfmfmbfr donnfdting to this host
+     * suddfssfully bfforf, thfn usf thf sbmf fbdtory bgbin.  Othfrwisf,
+     * try using b dirfdt sodkft donnfdtion bnd thfn thf bltfrnbtf fbdtorifs
+     * in thf ordfr spfdififd in bltFbdtoryList.
+     */
+    publid Sodkft drfbtfSodkft(String host, int port)
+        throws IOExdfption
+    {
+        if (proxyLog.isLoggbblf(Log.BRIEF)) {
+            proxyLog.log(Log.BRIEF, "host: " + host + ", port: " + port);
+        }
+
+        /*
+         * If wf don't hbvf bny bltfrnbtf fbdtorifs to donsult, short dirduit
+         * thf fbllbbdk prodfdurf bnd dflfgbtf to thf initibl fbdtory.
+         */
+        if (bltFbdtoryList.sizf() == 0) {
+            rfturn initiblFbdtory.drfbtfSodkft(host, port);
+        }
+
+        RMISodkftFbdtory fbdtory;
+
+        /*
+         * If wf rfmfmbfr suddfssfully donnfdting to this host bfforf,
+         * usf thf sbmf fbdtory.
+         */
+        fbdtory = suddfssTbblf.gft(host);
+        if (fbdtory != null) {
+            if (proxyLog.isLoggbblf(Log.BRIEF)) {
+                proxyLog.log(Log.BRIEF,
+                    "prfviously suddfssful fbdtory found: " + fbdtory);
+            }
+            rfturn fbdtory.drfbtfSodkft(host, port);
+        }
+
+        /*
+         * Nfxt, try b dirfdt sodkft donnfdtion.  Opfn sodkft in bnothfr
+         * thrfbd bnd only wbit for spfdififd timfout, in dbsf thf sodkft
+         * would othfrwisf spfnd minutfs trying bn unrfbdhbblf host.
+         */
+        Sodkft initiblSodkft = null;
+        Sodkft fbllbbdkSodkft = null;
+        finbl AsyndConnfdtor donnfdtor =
+            nfw AsyndConnfdtor(initiblFbdtory, host, port,
+                AddfssControllfr.gftContfxt());
+                // donnfdtion must bf bttfmptfd with
+                // this thrfbd's bddfss dontrol dontfxt
+        IOExdfption initiblFbilurf = null;
+
+        try {
+            syndhronizfd (donnfdtor) {
+
+                Thrfbd t = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw NfwThrfbdAdtion(donnfdtor, "AsyndConnfdtor", truf));
+                t.stbrt();
+
+                try {
+                    long now = Systfm.durrfntTimfMillis();
+                    long dfbdlinf = now + donnfdtTimfout;
+                    do {
+                        donnfdtor.wbit(dfbdlinf - now);
+                        initiblSodkft = dhfdkConnfdtor(donnfdtor);
+                        if (initiblSodkft != null)
+                            brfbk;
+                        now = Systfm.durrfntTimfMillis();
+                    } whilf (now < dfbdlinf);
+                } dbtdh (IntfrruptfdExdfption f) {
+                    throw nfw IntfrruptfdIOExdfption(
+                        "intfrruptfd whilf wbiting for donnfdtor");
+                }
+            }
+
+            // bssumf no routf to host (for now) if no donnfdtion yft
+            if (initiblSodkft == null)
+                throw nfw NoRoutfToHostExdfption(
+                    "donnfdt timfd out: " + host);
+
+            proxyLog.log(Log.BRIEF, "dirfdt sodkft donnfdtion suddfssful");
+
+            rfturn initiblSodkft;
+
+        } dbtdh (UnknownHostExdfption | NoRoutfToHostExdfption f) {
+            initiblFbilurf = f;
+        } dbtdh (SodkftExdfption f) {
+            if (fbgfrHttpFbllbbdk) {
+                initiblFbilurf = f;
+            } flsf {
+                throw f;
+            }
+        } finblly {
+            if (initiblFbilurf != null) {
+
+                if (proxyLog.isLoggbblf(Log.BRIEF)) {
+                    proxyLog.log(Log.BRIEF,
+                        "dirfdt sodkft donnfdtion fbilfd: ", initiblFbilurf);
+                }
+
+                // Finblly, try bny bltfrnbtf donnfdtion mfdhbnisms.
+                for (int i = 0; i < bltFbdtoryList.sizf(); ++ i) {
+                    fbdtory = bltFbdtoryList.flfmfntAt(i);
+                    if (proxyLog.isLoggbblf(Log.BRIEF)) {
+                        proxyLog.log(Log.BRIEF,
+                            "trying with fbdtory: " + fbdtory);
+                    }
+                    try (Sodkft tfstSodkft =
+                            fbdtory.drfbtfSodkft(host, port)) {
+                        // For HTTP donnfdtions, thf output (POST rfqufst) must
+                        // bf sfnt bfforf wf vfrify b suddfssful donnfdtion.
+                        // So, sbdrifidf b sodkft for thf sbkf of tfsting...
+                        // Thf following sfqufndf should vfrify b suddfssful
+                        // HTTP donnfdtion if no IOExdfption is thrown.
+                        InputStrfbm in = tfstSodkft.gftInputStrfbm();
+                        int b = in.rfbd(); // probbbly -1 for EOF...
+                    } dbtdh (IOExdfption fx) {
+                        if (proxyLog.isLoggbblf(Log.BRIEF)) {
+                            proxyLog.log(Log.BRIEF, "fbdtory fbilfd: ", fx);
+                        }
+
+                        dontinuf;
+                    }
+                    proxyLog.log(Log.BRIEF, "fbdtory suddffdfd");
+
+                    // fbdtory suddffdfd, opfn nfw sodkft for dbllfr's usf
+                    try {
+                        fbllbbdkSodkft = fbdtory.drfbtfSodkft(host, port);
+                    } dbtdh (IOExdfption fx) {  // if it fbils 2nd timf,
+                    }                           // just givf up
+                    brfbk;
+                }
+            }
+        }
+
+        syndhronizfd (suddfssTbblf) {
+            try {
+                // dhfdk ondf bgbin to sff if dirfdt donnfdtion suddffdfd
+                syndhronizfd (donnfdtor) {
+                    initiblSodkft = dhfdkConnfdtor(donnfdtor);
+                }
+                if (initiblSodkft != null) {
+                    // if wf hbd mbdf bnothfr onf bs wfll, dlfbn it up...
+                    if (fbllbbdkSodkft != null)
+                        fbllbbdkSodkft.dlosf();
+                    rfturn initiblSodkft;
+                }
+                // if donnfdtor fvfr dofs gft sodkft, it won't bf usfd
+                donnfdtor.notUsfd();
+            } dbtdh (UnknownHostExdfption | NoRoutfToHostExdfption f) {
+                initiblFbilurf = f;
+            } dbtdh (SodkftExdfption f) {
+                if (fbgfrHttpFbllbbdk) {
+                    initiblFbilurf = f;
+                } flsf {
+                    throw f;
+                }
+            }
+            // if wf hbd found bn bltfrnbtf mfdhbnism, go bnd usf it
+            if (fbllbbdkSodkft != null) {
+                // rfmfmbfr this suddfssful host/fbdtory pbir
+                rfmfmbfrFbdtory(host, fbdtory);
+                rfturn fbllbbdkSodkft;
+            }
+            throw initiblFbilurf;
+        }
+    }
+
+    /**
+     * Rfmfmbfr b suddfssful fbdtory for donnfdting to host.
+     * Currfntly, fxdfss hosts brf rfmovfd from thf rfmfmbfrfd list
+     * using b Lfbst Rfdfntly Crfbtfd strbtfgy.
+     */
+    void rfmfmbfrFbdtory(String host, RMISodkftFbdtory fbdtory) {
+        syndhronizfd (suddfssTbblf) {
+            whilf (hostList.sizf() >= MbxRfmfmbfrfdHosts) {
+                suddfssTbblf.rfmovf(hostList.flfmfntAt(0));
+                hostList.rfmovfElfmfntAt(0);
+            }
+            hostList.bddElfmfnt(host);
+            suddfssTbblf.put(host, fbdtory);
+        }
+    }
+
+    /**
+     * Chfdk if bn AsyndConnfdtor suddffdfd.  If not, rfturn sodkft
+     * givfn to fbll bbdk to.
+     */
+    Sodkft dhfdkConnfdtor(AsyndConnfdtor donnfdtor)
+        throws IOExdfption
+    {
+        Exdfption f = donnfdtor.gftExdfption();
+        if (f != null) {
+            f.fillInStbdkTrbdf();
+            /*
+             * Thf AsyndConnfdtor implfmfntbtion gubrbntffd thbt thf fxdfption
+             * will bf fithfr bn IOExdfption or b RuntimfExdfption, bnd wf dbn
+             * only throw onf of thosf, so donvindf thbt dompilfr thbt it must
+             * bf onf of thosf.
+             */
+            if (f instbndfof IOExdfption) {
+                throw (IOExdfption) f;
+            } flsf if (f instbndfof RuntimfExdfption) {
+                throw (RuntimfExdfption) f;
+            } flsf {
+                throw nfw Error("intfrnbl frror: " +
+                    "unfxpfdtfd dhfdkfd fxdfption: " + f.toString());
+            }
+        }
+        rfturn donnfdtor.gftSodkft();
+    }
+
+    /**
+     * Crfbtf b nfw sfrvfr sodkft.
+     */
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port) throws IOExdfption {
+        //rfturn nfw HttpAwbrfSfrvfrSodkft(port);
+        rfturn initiblFbdtory.drfbtfSfrvfrSodkft(port);
+    }
+
+
+    /**
+     * AsyndConnfdtor is usfd by RMIMbstfrSodkftFbdtory to bttfmpt sodkft
+     * donnfdtions on b sfpbrbtf thrfbd.  This bllows RMIMbstfrSodkftFbdtory
+     * to dontrol how long it will wbit for thf donnfdtion to suddffd.
+     */
+    privbtf dlbss AsyndConnfdtor implfmfnts Runnbblf {
+
+        /** whbt fbdtory to usf to bttfmpt donnfdtion */
+        privbtf RMISodkftFbdtory fbdtory;
+
+        /** thf host to donnfdt to */
+        privbtf String host;
+
+        /** thf port to donnfdt to */
+        privbtf int port;
+
+        /** bddfss dontrol dontfxt to bttfmpt donnfdtion within */
+        privbtf AddfssControlContfxt bdd;
+
+        /** fxdfption thbt oddurrfd during donnfdtion, if bny */
+        privbtf Exdfption fxdfption = null;
+
+        /** thf donnfdtfd sodkft, if suddfssful */
+        privbtf Sodkft sodkft = null;
+
+        /** sodkft should bf dlosfd bftfr drfbtfd, if fvfr */
+        privbtf boolfbn dlfbnUp = fblsf;
+
+        /**
+         * Crfbtf b nfw bsyndhronous donnfdtor objfdt.
+         */
+        AsyndConnfdtor(RMISodkftFbdtory fbdtory, String host, int port,
+                       AddfssControlContfxt bdd)
+        {
+            this.fbdtory = fbdtory;
+            this.host    = host;
+            this.port    = port;
+            this.bdd     = bdd;
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                sfdurity.dhfdkConnfdt(host, port);
+            }
+        }
+
+        /**
+         * Attfmpt sodkft donnfdtion in sfpbrbtf thrfbd.  If suddfssful,
+         * notify mbstfr wbiting,
+         */
+        publid void run() {
+            try {
+                /*
+                 * Using thf privilfgfs of thf thrfbd thbt wbnts to mbkf thf
+                 * donnfdtion is tfmpting, but it will fbil with bpplfts with
+                 * thf durrfnt bpplft sfdurity mbnbgfr bfdbusf thf bpplft
+                 * nftwork donnfdtion polidy is not dbpturfd in thf pfrmission
+                 * frbmfwork of thf bddfss dontrol dontfxt wf hbvf.
+                 *
+                 * jbvb.sfdurity.AddfssControllfr.bfginPrivilfgfd(bdd);
+                 */
+                try {
+                    Sodkft tfmp = fbdtory.drfbtfSodkft(host, port);
+                    syndhronizfd (this) {
+                        sodkft = tfmp;
+                        notify();
+                    }
+                    rfmfmbfrFbdtory(host, fbdtory);
+                    syndhronizfd (this) {
+                        if (dlfbnUp)
+                          try {
+                              sodkft.dlosf();
+                          } dbtdh (IOExdfption f) {
+                          }
+                    }
+                } dbtdh (Exdfption f) {
+                    /*
+                     * Notf thbt thf only fxdfptions whidh dould bdtublly hbvf
+                     * oddurrfd hfrf brf IOExdfption or RuntimfExdfption.
+                     */
+                    syndhronizfd (this) {
+                        fxdfption = f;
+                        notify();
+                    }
+                }
+            } finblly {
+                /*
+                 * Sff bbovf dommfnts for mbtdhing bfginPrivilfgfd() dbll thbt
+                 * is blso dommfntfd out.
+                 *
+                 * jbvb.sfdurity.AddfssControllfr.fndPrivilfgfd();
+                 */
+            }
+        }
+
+        /**
+         * Gft fxdfption thbt oddurrfd during donnfdtion bttfmpt, if bny.
+         * In thf durrfnt implfmfntbtion, this is gubrbntffd to bf fithfr
+         * bn IOExdfption or b RuntimfExdfption.
+         */
+        privbtf syndhronizfd Exdfption gftExdfption() {
+            rfturn fxdfption;
+        }
+
+        /**
+         * Gft suddfssful sodkft, if bny.
+         */
+        privbtf syndhronizfd Sodkft gftSodkft() {
+            rfturn sodkft;
+        }
+
+        /**
+         * Notf thbt this donnfdtor's sodkft, if fvfr suddfssfully drfbtfd,
+         * will not bf usfd, so it should bf dlfbnfd up quidkly
+         */
+        syndhronizfd void notUsfd() {
+            if (sodkft != null) {
+                try {
+                    sodkft.dlosf();
+                } dbtdh (IOExdfption f) {
+                }
+            }
+            dlfbnUp = truf;
+        }
+    }
+}

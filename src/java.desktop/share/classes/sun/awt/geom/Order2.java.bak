@@ -1,453 +1,453 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.geom;
+pbdkbgf sun.bwt.gfom;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.PathIterator;
-import java.awt.geom.QuadCurve2D;
-import java.util.Vector;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.QubdCurvf2D;
+import jbvb.util.Vfdtor;
 
-final class Order2 extends Curve {
-    private double x0;
-    private double y0;
-    private double cx0;
-    private double cy0;
-    private double x1;
-    private double y1;
-    private double xmin;
-    private double xmax;
+finbl dlbss Ordfr2 fxtfnds Curvf {
+    privbtf doublf x0;
+    privbtf doublf y0;
+    privbtf doublf dx0;
+    privbtf doublf dy0;
+    privbtf doublf x1;
+    privbtf doublf y1;
+    privbtf doublf xmin;
+    privbtf doublf xmbx;
 
-    private double xcoeff0;
-    private double xcoeff1;
-    private double xcoeff2;
-    private double ycoeff0;
-    private double ycoeff1;
-    private double ycoeff2;
+    privbtf doublf xdofff0;
+    privbtf doublf xdofff1;
+    privbtf doublf xdofff2;
+    privbtf doublf ydofff0;
+    privbtf doublf ydofff1;
+    privbtf doublf ydofff2;
 
-    public static void insert(Vector<Curve> curves, double tmp[],
-                              double x0, double y0,
-                              double cx0, double cy0,
-                              double x1, double y1,
-                              int direction)
+    publid stbtid void insfrt(Vfdtor<Curvf> durvfs, doublf tmp[],
+                              doublf x0, doublf y0,
+                              doublf dx0, doublf dy0,
+                              doublf x1, doublf y1,
+                              int dirfdtion)
     {
-        int numparams = getHorizontalParams(y0, cy0, y1, tmp);
-        if (numparams == 0) {
-            // We are using addInstance here to avoid inserting horisontal
-            // segments
-            addInstance(curves, x0, y0, cx0, cy0, x1, y1, direction);
-            return;
+        int numpbrbms = gftHorizontblPbrbms(y0, dy0, y1, tmp);
+        if (numpbrbms == 0) {
+            // Wf brf using bddInstbndf ifrf to bvoid insfrting iorisontbl
+            // sfgmfnts
+            bddInstbndf(durvfs, x0, y0, dx0, dy0, x1, y1, dirfdtion);
+            rfturn;
         }
-        // assert(numparams == 1);
-        double t = tmp[0];
+        // bssfrt(numpbrbms == 1);
+        doublf t = tmp[0];
         tmp[0] = x0;  tmp[1] = y0;
-        tmp[2] = cx0; tmp[3] = cy0;
+        tmp[2] = dx0; tmp[3] = dy0;
         tmp[4] = x1;  tmp[5] = y1;
         split(tmp, 0, t);
-        int i0 = (direction == INCREASING)? 0 : 4;
+        int i0 = (dirfdtion == INCREASING)? 0 : 4;
         int i1 = 4 - i0;
-        addInstance(curves, tmp[i0], tmp[i0 + 1], tmp[i0 + 2], tmp[i0 + 3],
-                    tmp[i0 + 4], tmp[i0 + 5], direction);
-        addInstance(curves, tmp[i1], tmp[i1 + 1], tmp[i1 + 2], tmp[i1 + 3],
-                    tmp[i1 + 4], tmp[i1 + 5], direction);
+        bddInstbndf(durvfs, tmp[i0], tmp[i0 + 1], tmp[i0 + 2], tmp[i0 + 3],
+                    tmp[i0 + 4], tmp[i0 + 5], dirfdtion);
+        bddInstbndf(durvfs, tmp[i1], tmp[i1 + 1], tmp[i1 + 2], tmp[i1 + 3],
+                    tmp[i1 + 4], tmp[i1 + 5], dirfdtion);
     }
 
-    public static void addInstance(Vector<Curve> curves,
-                                   double x0, double y0,
-                                   double cx0, double cy0,
-                                   double x1, double y1,
-                                   int direction) {
+    publid stbtid void bddInstbndf(Vfdtor<Curvf> durvfs,
+                                   doublf x0, doublf y0,
+                                   doublf dx0, doublf dy0,
+                                   doublf x1, doublf y1,
+                                   int dirfdtion) {
         if (y0 > y1) {
-            curves.add(new Order2(x1, y1, cx0, cy0, x0, y0, -direction));
-        } else if (y1 > y0) {
-            curves.add(new Order2(x0, y0, cx0, cy0, x1, y1, direction));
+            durvfs.bdd(nfw Ordfr2(x1, y1, dx0, dy0, x0, y0, -dirfdtion));
+        } flsf if (y1 > y0) {
+            durvfs.bdd(nfw Ordfr2(x0, y0, dx0, dy0, x1, y1, dirfdtion));
         }
     }
 
     /*
-     * Return the count of the number of horizontal sections of the
-     * specified quadratic Bezier curve.  Put the parameters for the
-     * horizontal sections into the specified <code>ret</code> array.
+     * Rfturn tif dount of tif numbfr of iorizontbl sfdtions of tif
+     * spfdififd qubdrbtid Bfzifr durvf.  Put tif pbrbmftfrs for tif
+     * iorizontbl sfdtions into tif spfdififd <dodf>rft</dodf> brrby.
      * <p>
-     * If we examine the parametric equation in t, we have:
+     * If wf fxbminf tif pbrbmftrid fqubtion in t, wf ibvf:
      *     Py(t) = C0*(1-t)^2 + 2*CP*t*(1-t) + C1*t^2
      *           = C0 - 2*C0*t + C0*t^2 + 2*CP*t - 2*CP*t^2 + C1*t^2
      *           = C0 + (2*CP - 2*C0)*t + (C0 - 2*CP + C1)*t^2
      *     Py(t) = (C0 - 2*CP + C1)*t^2 + (2*CP - 2*C0)*t + (C0)
-     * If we take the derivative, we get:
+     * If wf tbkf tif dfrivbtivf, wf gft:
      *     Py(t) = At^2 + Bt + C
      *     dPy(t) = 2At + B = 0
      *     2*(C0 - 2*CP + C1)t + 2*(CP - C0) = 0
      *     2*(C0 - 2*CP + C1)t = 2*(C0 - CP)
      *     t = 2*(C0 - CP) / 2*(C0 - 2*CP + C1)
      *     t = (C0 - CP) / (C0 - CP + C1 - CP)
-     * Note that this method will return 0 if the equation is a line,
-     * which is either always horizontal or never horizontal.
-     * Completely horizontal curves need to be eliminated by other
-     * means outside of this method.
+     * Notf tibt tiis mftiod will rfturn 0 if tif fqubtion is b linf,
+     * wiidi is fitifr blwbys iorizontbl or nfvfr iorizontbl.
+     * Complftfly iorizontbl durvfs nffd to bf fliminbtfd by otifr
+     * mfbns outsidf of tiis mftiod.
      */
-    public static int getHorizontalParams(double c0, double cp, double c1,
-                                          double ret[]) {
-        if (c0 <= cp && cp <= c1) {
-            return 0;
+    publid stbtid int gftHorizontblPbrbms(doublf d0, doublf dp, doublf d1,
+                                          doublf rft[]) {
+        if (d0 <= dp && dp <= d1) {
+            rfturn 0;
         }
-        c0 -= cp;
-        c1 -= cp;
-        double denom = c0 + c1;
-        // If denom == 0 then cp == (c0+c1)/2 and we have a line.
-        if (denom == 0) {
-            return 0;
+        d0 -= dp;
+        d1 -= dp;
+        doublf dfnom = d0 + d1;
+        // If dfnom == 0 tifn dp == (d0+d1)/2 bnd wf ibvf b linf.
+        if (dfnom == 0) {
+            rfturn 0;
         }
-        double t = c0 / denom;
-        // No splits at t==0 and t==1
+        doublf t = d0 / dfnom;
+        // No splits bt t==0 bnd t==1
         if (t <= 0 || t >= 1) {
-            return 0;
+            rfturn 0;
         }
-        ret[0] = t;
-        return 1;
+        rft[0] = t;
+        rfturn 1;
     }
 
     /*
-     * Split the quadratic Bezier stored at coords[pos...pos+5] representing
-     * the paramtric range [0..1] into two subcurves representing the
-     * parametric subranges [0..t] and [t..1].  Store the results back
-     * into the array at coords[pos...pos+5] and coords[pos+4...pos+9].
+     * Split tif qubdrbtid Bfzifr storfd bt doords[pos...pos+5] rfprfsfnting
+     * tif pbrbmtrid rbngf [0..1] into two subdurvfs rfprfsfnting tif
+     * pbrbmftrid subrbngfs [0..t] bnd [t..1].  Storf tif rfsults bbdk
+     * into tif brrby bt doords[pos...pos+5] bnd doords[pos+4...pos+9].
      */
-    public static void split(double coords[], int pos, double t) {
-        double x0, y0, cx, cy, x1, y1;
-        coords[pos+8] = x1 = coords[pos+4];
-        coords[pos+9] = y1 = coords[pos+5];
-        cx = coords[pos+2];
-        cy = coords[pos+3];
-        x1 = cx + (x1 - cx) * t;
-        y1 = cy + (y1 - cy) * t;
-        x0 = coords[pos+0];
-        y0 = coords[pos+1];
-        x0 = x0 + (cx - x0) * t;
-        y0 = y0 + (cy - y0) * t;
-        cx = x0 + (x1 - x0) * t;
-        cy = y0 + (y1 - y0) * t;
-        coords[pos+2] = x0;
-        coords[pos+3] = y0;
-        coords[pos+4] = cx;
-        coords[pos+5] = cy;
-        coords[pos+6] = x1;
-        coords[pos+7] = y1;
+    publid stbtid void split(doublf doords[], int pos, doublf t) {
+        doublf x0, y0, dx, dy, x1, y1;
+        doords[pos+8] = x1 = doords[pos+4];
+        doords[pos+9] = y1 = doords[pos+5];
+        dx = doords[pos+2];
+        dy = doords[pos+3];
+        x1 = dx + (x1 - dx) * t;
+        y1 = dy + (y1 - dy) * t;
+        x0 = doords[pos+0];
+        y0 = doords[pos+1];
+        x0 = x0 + (dx - x0) * t;
+        y0 = y0 + (dy - y0) * t;
+        dx = x0 + (x1 - x0) * t;
+        dy = y0 + (y1 - y0) * t;
+        doords[pos+2] = x0;
+        doords[pos+3] = y0;
+        doords[pos+4] = dx;
+        doords[pos+5] = dy;
+        doords[pos+6] = x1;
+        doords[pos+7] = y1;
     }
 
-    public Order2(double x0, double y0,
-                  double cx0, double cy0,
-                  double x1, double y1,
-                  int direction)
+    publid Ordfr2(doublf x0, doublf y0,
+                  doublf dx0, doublf dy0,
+                  doublf x1, doublf y1,
+                  int dirfdtion)
     {
-        super(direction);
-        // REMIND: Better accuracy in the root finding methods would
-        //  ensure that cy0 is in range.  As it stands, it is never
-        //  more than "1 mantissa bit" out of range...
-        if (cy0 < y0) {
-            cy0 = y0;
-        } else if (cy0 > y1) {
-            cy0 = y1;
+        supfr(dirfdtion);
+        // REMIND: Bfttfr bddurbdy in tif root finding mftiods would
+        //  fnsurf tibt dy0 is in rbngf.  As it stbnds, it is nfvfr
+        //  morf tibn "1 mbntissb bit" out of rbngf...
+        if (dy0 < y0) {
+            dy0 = y0;
+        } flsf if (dy0 > y1) {
+            dy0 = y1;
         }
-        this.x0 = x0;
-        this.y0 = y0;
-        this.cx0 = cx0;
-        this.cy0 = cy0;
-        this.x1 = x1;
-        this.y1 = y1;
-        xmin = Math.min(Math.min(x0, x1), cx0);
-        xmax = Math.max(Math.max(x0, x1), cx0);
-        xcoeff0 = x0;
-        xcoeff1 = cx0 + cx0 - x0 - x0;
-        xcoeff2 = x0 - cx0 - cx0 + x1;
-        ycoeff0 = y0;
-        ycoeff1 = cy0 + cy0 - y0 - y0;
-        ycoeff2 = y0 - cy0 - cy0 + y1;
+        tiis.x0 = x0;
+        tiis.y0 = y0;
+        tiis.dx0 = dx0;
+        tiis.dy0 = dy0;
+        tiis.x1 = x1;
+        tiis.y1 = y1;
+        xmin = Mbti.min(Mbti.min(x0, x1), dx0);
+        xmbx = Mbti.mbx(Mbti.mbx(x0, x1), dx0);
+        xdofff0 = x0;
+        xdofff1 = dx0 + dx0 - x0 - x0;
+        xdofff2 = x0 - dx0 - dx0 + x1;
+        ydofff0 = y0;
+        ydofff1 = dy0 + dy0 - y0 - y0;
+        ydofff2 = y0 - dy0 - dy0 + y1;
     }
 
-    public int getOrder() {
-        return 2;
+    publid int gftOrdfr() {
+        rfturn 2;
     }
 
-    public double getXTop() {
-        return x0;
+    publid doublf gftXTop() {
+        rfturn x0;
     }
 
-    public double getYTop() {
-        return y0;
+    publid doublf gftYTop() {
+        rfturn y0;
     }
 
-    public double getXBot() {
-        return x1;
+    publid doublf gftXBot() {
+        rfturn x1;
     }
 
-    public double getYBot() {
-        return y1;
+    publid doublf gftYBot() {
+        rfturn y1;
     }
 
-    public double getXMin() {
-        return xmin;
+    publid doublf gftXMin() {
+        rfturn xmin;
     }
 
-    public double getXMax() {
-        return xmax;
+    publid doublf gftXMbx() {
+        rfturn xmbx;
     }
 
-    public double getX0() {
-        return (direction == INCREASING) ? x0 : x1;
+    publid doublf gftX0() {
+        rfturn (dirfdtion == INCREASING) ? x0 : x1;
     }
 
-    public double getY0() {
-        return (direction == INCREASING) ? y0 : y1;
+    publid doublf gftY0() {
+        rfturn (dirfdtion == INCREASING) ? y0 : y1;
     }
 
-    public double getCX0() {
-        return cx0;
+    publid doublf gftCX0() {
+        rfturn dx0;
     }
 
-    public double getCY0() {
-        return cy0;
+    publid doublf gftCY0() {
+        rfturn dy0;
     }
 
-    public double getX1() {
-        return (direction == DECREASING) ? x0 : x1;
+    publid doublf gftX1() {
+        rfturn (dirfdtion == DECREASING) ? x0 : x1;
     }
 
-    public double getY1() {
-        return (direction == DECREASING) ? y0 : y1;
+    publid doublf gftY1() {
+        rfturn (dirfdtion == DECREASING) ? y0 : y1;
     }
 
-    public double XforY(double y) {
+    publid doublf XforY(doublf y) {
         if (y <= y0) {
-            return x0;
+            rfturn x0;
         }
         if (y >= y1) {
-            return x1;
+            rfturn x1;
         }
-        return XforT(TforY(y));
+        rfturn XforT(TforY(y));
     }
 
-    public double TforY(double y) {
+    publid doublf TforY(doublf y) {
         if (y <= y0) {
-            return 0;
+            rfturn 0;
         }
         if (y >= y1) {
-            return 1;
+            rfturn 1;
         }
-        return TforY(y, ycoeff0, ycoeff1, ycoeff2);
+        rfturn TforY(y, ydofff0, ydofff1, ydofff2);
     }
 
-    public static double TforY(double y,
-                               double ycoeff0, double ycoeff1, double ycoeff2)
+    publid stbtid doublf TforY(doublf y,
+                               doublf ydofff0, doublf ydofff1, doublf ydofff2)
     {
-        // The caller should have already eliminated y values
-        // outside of the y0 to y1 range.
-        ycoeff0 -= y;
-        if (ycoeff2 == 0.0) {
-            // The quadratic parabola has degenerated to a line.
-            // ycoeff1 should not be 0.0 since we have already eliminated
-            // totally horizontal lines, but if it is, then we will generate
-            // infinity here for the root, which will not be in the [0,1]
-            // range so we will pass to the failure code below.
-            double root = -ycoeff0 / ycoeff1;
+        // Tif dbllfr siould ibvf blrfbdy fliminbtfd y vblufs
+        // outsidf of tif y0 to y1 rbngf.
+        ydofff0 -= y;
+        if (ydofff2 == 0.0) {
+            // Tif qubdrbtid pbrbbolb ibs dfgfnfrbtfd to b linf.
+            // ydofff1 siould not bf 0.0 sindf wf ibvf blrfbdy fliminbtfd
+            // totblly iorizontbl linfs, but if it is, tifn wf will gfnfrbtf
+            // infinity ifrf for tif root, wiidi will not bf in tif [0,1]
+            // rbngf so wf will pbss to tif fbilurf dodf bflow.
+            doublf root = -ydofff0 / ydofff1;
             if (root >= 0 && root <= 1) {
-                return root;
+                rfturn root;
             }
-        } else {
-            // From Numerical Recipes, 5.6, Quadratic and Cubic Equations
-            double d = ycoeff1 * ycoeff1 - 4.0 * ycoeff2 * ycoeff0;
-            // If d < 0.0, then there are no roots
+        } flsf {
+            // From Numfridbl Rfdipfs, 5.6, Qubdrbtid bnd Cubid Equbtions
+            doublf d = ydofff1 * ydofff1 - 4.0 * ydofff2 * ydofff0;
+            // If d < 0.0, tifn tifrf brf no roots
             if (d >= 0.0) {
-                d = Math.sqrt(d);
-                // For accuracy, calculate one root using:
-                //     (-ycoeff1 +/- d) / 2ycoeff2
-                // and the other using:
-                //     2ycoeff0 / (-ycoeff1 +/- d)
-                // Choose the sign of the +/- so that ycoeff1+d
-                // gets larger in magnitude
-                if (ycoeff1 < 0.0) {
+                d = Mbti.sqrt(d);
+                // For bddurbdy, dbldulbtf onf root using:
+                //     (-ydofff1 +/- d) / 2ydofff2
+                // bnd tif otifr using:
+                //     2ydofff0 / (-ydofff1 +/- d)
+                // Cioosf tif sign of tif +/- so tibt ydofff1+d
+                // gfts lbrgfr in mbgnitudf
+                if (ydofff1 < 0.0) {
                     d = -d;
                 }
-                double q = (ycoeff1 + d) / -2.0;
-                // We already tested ycoeff2 for being 0 above
-                double root = q / ycoeff2;
+                doublf q = (ydofff1 + d) / -2.0;
+                // Wf blrfbdy tfstfd ydofff2 for bfing 0 bbovf
+                doublf root = q / ydofff2;
                 if (root >= 0 && root <= 1) {
-                    return root;
+                    rfturn root;
                 }
                 if (q != 0.0) {
-                    root = ycoeff0 / q;
+                    root = ydofff0 / q;
                     if (root >= 0 && root <= 1) {
-                        return root;
+                        rfturn root;
                     }
                 }
             }
         }
-        /* We failed to find a root in [0,1].  What could have gone wrong?
-         * First, remember that these curves are constructed to be monotonic
-         * in Y and totally horizontal curves have already been eliminated.
-         * Now keep in mind that the Y coefficients of the polynomial form
-         * of the curve are calculated from the Y coordinates which define
-         * our curve.  They should theoretically define the same curve,
-         * but they can be off by a couple of bits of precision after the
-         * math is done and so can represent a slightly modified curve.
-         * This is normally not an issue except when we have solutions near
-         * the endpoints.  Since the answers we get from solving the polynomial
-         * may be off by a few bits that means that they could lie just a
-         * few bits of precision outside the [0,1] range.
+        /* Wf fbilfd to find b root in [0,1].  Wibt dould ibvf gonf wrong?
+         * First, rfmfmbfr tibt tifsf durvfs brf donstrudtfd to bf monotonid
+         * in Y bnd totblly iorizontbl durvfs ibvf blrfbdy bffn fliminbtfd.
+         * Now kffp in mind tibt tif Y dofffidifnts of tif polynomibl form
+         * of tif durvf brf dbldulbtfd from tif Y doordinbtfs wiidi dffinf
+         * our durvf.  Tify siould tiforftidblly dffinf tif sbmf durvf,
+         * but tify dbn bf off by b douplf of bits of prfdision bftfr tif
+         * mbti is donf bnd so dbn rfprfsfnt b sligitly modififd durvf.
+         * Tiis is normblly not bn issuf fxdfpt wifn wf ibvf solutions nfbr
+         * tif fndpoints.  Sindf tif bnswfrs wf gft from solving tif polynomibl
+         * mby bf off by b ffw bits tibt mfbns tibt tify dould lif just b
+         * ffw bits of prfdision outsidf tif [0,1] rbngf.
          *
-         * Another problem could be that while the parametric curve defined
-         * by the Y coordinates has a local minima or maxima at or just
-         * outside of the endpoints, the polynomial form might express
-         * that same min/max just inside of and just shy of the Y coordinate
-         * of that endpoint.  In that case, if we solve for a Y coordinate
-         * at or near that endpoint, we may be solving for a Y coordinate
-         * that is below that minima or above that maxima and we would find
-         * no solutions at all.
+         * Anotifr problfm dould bf tibt wiilf tif pbrbmftrid durvf dffinfd
+         * by tif Y doordinbtfs ibs b lodbl minimb or mbximb bt or just
+         * outsidf of tif fndpoints, tif polynomibl form migit fxprfss
+         * tibt sbmf min/mbx just insidf of bnd just siy of tif Y doordinbtf
+         * of tibt fndpoint.  In tibt dbsf, if wf solvf for b Y doordinbtf
+         * bt or nfbr tibt fndpoint, wf mby bf solving for b Y doordinbtf
+         * tibt is bflow tibt minimb or bbovf tibt mbximb bnd wf would find
+         * no solutions bt bll.
          *
-         * In either case, we can assume that y is so near one of the
-         * endpoints that we can just collapse it onto the nearest endpoint
-         * without losing more than a couple of bits of precision.
+         * In fitifr dbsf, wf dbn bssumf tibt y is so nfbr onf of tif
+         * fndpoints tibt wf dbn just dollbpsf it onto tif nfbrfst fndpoint
+         * witiout losing morf tibn b douplf of bits of prfdision.
          */
-        // First calculate the midpoint between y0 and y1 and choose to
-        // return either 0.0 or 1.0 depending on whether y is above
-        // or below the midpoint...
-        // Note that we subtracted y from ycoeff0 above so both y0 and y1
-        // will be "relative to y" so we are really just looking at where
-        // zero falls with respect to the "relative midpoint" here.
-        double y0 = ycoeff0;
-        double y1 = ycoeff0 + ycoeff1 + ycoeff2;
-        return (0 < (y0 + y1) / 2) ? 0.0 : 1.0;
+        // First dbldulbtf tif midpoint bftwffn y0 bnd y1 bnd dioosf to
+        // rfturn fitifr 0.0 or 1.0 dfpfnding on wiftifr y is bbovf
+        // or bflow tif midpoint...
+        // Notf tibt wf subtrbdtfd y from ydofff0 bbovf so boti y0 bnd y1
+        // will bf "rflbtivf to y" so wf brf rfblly just looking bt wifrf
+        // zfro fblls witi rfspfdt to tif "rflbtivf midpoint" ifrf.
+        doublf y0 = ydofff0;
+        doublf y1 = ydofff0 + ydofff1 + ydofff2;
+        rfturn (0 < (y0 + y1) / 2) ? 0.0 : 1.0;
     }
 
-    public double XforT(double t) {
-        return (xcoeff2 * t + xcoeff1) * t + xcoeff0;
+    publid doublf XforT(doublf t) {
+        rfturn (xdofff2 * t + xdofff1) * t + xdofff0;
     }
 
-    public double YforT(double t) {
-        return (ycoeff2 * t + ycoeff1) * t + ycoeff0;
+    publid doublf YforT(doublf t) {
+        rfturn (ydofff2 * t + ydofff1) * t + ydofff0;
     }
 
-    public double dXforT(double t, int deriv) {
-        switch (deriv) {
-        case 0:
-            return (xcoeff2 * t + xcoeff1) * t + xcoeff0;
-        case 1:
-            return 2 * xcoeff2 * t + xcoeff1;
-        case 2:
-            return 2 * xcoeff2;
-        default:
-            return 0;
+    publid doublf dXforT(doublf t, int dfriv) {
+        switdi (dfriv) {
+        dbsf 0:
+            rfturn (xdofff2 * t + xdofff1) * t + xdofff0;
+        dbsf 1:
+            rfturn 2 * xdofff2 * t + xdofff1;
+        dbsf 2:
+            rfturn 2 * xdofff2;
+        dffbult:
+            rfturn 0;
         }
     }
 
-    public double dYforT(double t, int deriv) {
-        switch (deriv) {
-        case 0:
-            return (ycoeff2 * t + ycoeff1) * t + ycoeff0;
-        case 1:
-            return 2 * ycoeff2 * t + ycoeff1;
-        case 2:
-            return 2 * ycoeff2;
-        default:
-            return 0;
+    publid doublf dYforT(doublf t, int dfriv) {
+        switdi (dfriv) {
+        dbsf 0:
+            rfturn (ydofff2 * t + ydofff1) * t + ydofff0;
+        dbsf 1:
+            rfturn 2 * ydofff2 * t + ydofff1;
+        dbsf 2:
+            rfturn 2 * ydofff2;
+        dffbult:
+            rfturn 0;
         }
     }
 
-    public double nextVertical(double t0, double t1) {
-        double t = -xcoeff1 / (2 * xcoeff2);
+    publid doublf nfxtVfrtidbl(doublf t0, doublf t1) {
+        doublf t = -xdofff1 / (2 * xdofff2);
         if (t > t0 && t < t1) {
-            return t;
+            rfturn t;
         }
-        return t1;
+        rfturn t1;
     }
 
-    public void enlarge(Rectangle2D r) {
-        r.add(x0, y0);
-        double t = -xcoeff1 / (2 * xcoeff2);
+    publid void fnlbrgf(Rfdtbnglf2D r) {
+        r.bdd(x0, y0);
+        doublf t = -xdofff1 / (2 * xdofff2);
         if (t > 0 && t < 1) {
-            r.add(XforT(t), YforT(t));
+            r.bdd(XforT(t), YforT(t));
         }
-        r.add(x1, y1);
+        r.bdd(x1, y1);
     }
 
-    public Curve getSubCurve(double ystart, double yend, int dir) {
-        double t0, t1;
-        if (ystart <= y0) {
-            if (yend >= y1) {
-                return getWithDirection(dir);
+    publid Curvf gftSubCurvf(doublf ystbrt, doublf yfnd, int dir) {
+        doublf t0, t1;
+        if (ystbrt <= y0) {
+            if (yfnd >= y1) {
+                rfturn gftWitiDirfdtion(dir);
             }
             t0 = 0;
-        } else {
-            t0 = TforY(ystart, ycoeff0, ycoeff1, ycoeff2);
+        } flsf {
+            t0 = TforY(ystbrt, ydofff0, ydofff1, ydofff2);
         }
-        if (yend >= y1) {
+        if (yfnd >= y1) {
             t1 = 1;
-        } else {
-            t1 = TforY(yend, ycoeff0, ycoeff1, ycoeff2);
+        } flsf {
+            t1 = TforY(yfnd, ydofff0, ydofff1, ydofff2);
         }
-        double eqn[] = new double[10];
-        eqn[0] = x0;
-        eqn[1] = y0;
-        eqn[2] = cx0;
-        eqn[3] = cy0;
-        eqn[4] = x1;
-        eqn[5] = y1;
+        doublf fqn[] = nfw doublf[10];
+        fqn[0] = x0;
+        fqn[1] = y0;
+        fqn[2] = dx0;
+        fqn[3] = dy0;
+        fqn[4] = x1;
+        fqn[5] = y1;
         if (t1 < 1) {
-            split(eqn, 0, t1);
+            split(fqn, 0, t1);
         }
         int i;
         if (t0 <= 0) {
             i = 0;
-        } else {
-            split(eqn, 0, t0 / t1);
+        } flsf {
+            split(fqn, 0, t0 / t1);
             i = 4;
         }
-        return new Order2(eqn[i+0], ystart,
-                          eqn[i+2], eqn[i+3],
-                          eqn[i+4], yend,
+        rfturn nfw Ordfr2(fqn[i+0], ystbrt,
+                          fqn[i+2], fqn[i+3],
+                          fqn[i+4], yfnd,
                           dir);
     }
 
-    public Curve getReversedCurve() {
-        return new Order2(x0, y0, cx0, cy0, x1, y1, -direction);
+    publid Curvf gftRfvfrsfdCurvf() {
+        rfturn nfw Ordfr2(x0, y0, dx0, dy0, x1, y1, -dirfdtion);
     }
 
-    public int getSegment(double coords[]) {
-        coords[0] = cx0;
-        coords[1] = cy0;
-        if (direction == INCREASING) {
-            coords[2] = x1;
-            coords[3] = y1;
-        } else {
-            coords[2] = x0;
-            coords[3] = y0;
+    publid int gftSfgmfnt(doublf doords[]) {
+        doords[0] = dx0;
+        doords[1] = dy0;
+        if (dirfdtion == INCREASING) {
+            doords[2] = x1;
+            doords[3] = y1;
+        } flsf {
+            doords[2] = x0;
+            doords[3] = y0;
         }
-        return PathIterator.SEG_QUADTO;
+        rfturn PbtiItfrbtor.SEG_QUADTO;
     }
 
-    public String controlPointString() {
-        return ("("+round(cx0)+", "+round(cy0)+"), ");
+    publid String dontrolPointString() {
+        rfturn ("("+round(dx0)+", "+round(dy0)+"), ");
     }
 }

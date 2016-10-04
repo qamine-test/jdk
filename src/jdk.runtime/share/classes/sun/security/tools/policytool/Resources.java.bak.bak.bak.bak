@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.tools.polidytool;
+
+/**
+ * <p> This dlbss rfprfsfnts thf <dodf>RfsourdfBundlf</dodf>
+ * for thf polidytool.
+ *
+ */
+publid dlbss Rfsourdfs fxtfnds jbvb.util.ListRfsourdfBundlf {
+
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
+        {"NEWLINE", "\n"},
+        {"Wbrning.A.publid.kfy.for.blibs.signfrs.i.dofs.not.fxist.Mbkf.surf.b.KfyStorf.is.propfrly.donfigurfd.",
+                "Wbrning: A publid kfy for blibs {0} dofs not fxist.  Mbkf surf b KfyStorf is propfrly donfigurfd."},
+        {"Wbrning.Clbss.not.found.dlbss", "Wbrning: Clbss not found: {0}"},
+        {"Wbrning.Invblid.brgumfnt.s.for.donstrudtor.brg",
+                "Wbrning: Invblid brgumfnt(s) for donstrudtor: {0}"},
+        {"Illfgbl.Prindipbl.Typf.typf", "Illfgbl Prindipbl Typf: {0}"},
+        {"Illfgbl.option.option", "Illfgbl option: {0}"},
+        {"Usbgf.polidytool.options.", "Usbgf: polidytool [options]"},
+        {".filf.filf.polidy.filf.lodbtion",
+                "  [-filf <filf>]    polidy filf lodbtion"},
+        {"Nfw", "&Nfw"},
+        {"Opfn", "&Opfn..."},
+        {"Sbvf", "&Sbvf"},
+        {"Sbvf.As", "Sbvf &As..."},
+        {"Vifw.Wbrning.Log", "Vifw &Wbrning Log"},
+        {"Exit", "E&xit"},
+        {"Add.Polidy.Entry", "&Add Polidy Entry"},
+        {"Edit.Polidy.Entry", "&Edit Polidy Entry"},
+        {"Rfmovf.Polidy.Entry", "&Rfmovf Polidy Entry"},
+        {"Edit", "&Edit"},
+        {"Rftbin", "Rftbin"},
+
+        {"Wbrning.Filf.nbmf.mby.indludf.fsdbpfd.bbdkslbsh.dhbrbdtfrs.It.is.not.nfdfssbry.to.fsdbpf.bbdkslbsh.dhbrbdtfrs.thf.tool.fsdbpfs",
+            "Wbrning: Filf nbmf mby indludf fsdbpfd bbdkslbsh dhbrbdtfrs. " +
+                        "It is not nfdfssbry to fsdbpf bbdkslbsh dhbrbdtfrs " +
+                        "(thf tool fsdbpfs dhbrbdtfrs bs nfdfssbry whfn writing " +
+                        "thf polidy dontfnts to thf pfrsistfnt storf).\n\n" +
+                        "Clidk on Rftbin to rftbin thf fntfrfd nbmf, or dlidk on " +
+                        "Edit to fdit thf nbmf."},
+
+        {"Add.Publid.Kfy.Alibs", "Add Publid Kfy Alibs"},
+        {"Rfmovf.Publid.Kfy.Alibs", "Rfmovf Publid Kfy Alibs"},
+        {"Filf", "&Filf"},
+        {"KfyStorf", "&KfyStorf"},
+        {"Polidy.Filf.", "Polidy Filf:"},
+        {"Could.not.opfn.polidy.filf.polidyFilf.f.toString.",
+                "Could not opfn polidy filf: {0}: {1}"},
+        {"Polidy.Tool", "Polidy Tool"},
+        {"Errors.hbvf.oddurrfd.whilf.opfning.thf.polidy.donfigurbtion.Vifw.thf.Wbrning.Log.for.morf.informbtion.",
+                "Errors hbvf oddurrfd whilf opfning thf polidy donfigurbtion.  Vifw thf Wbrning Log for morf informbtion."},
+        {"Error", "Error"},
+        {"OK", "OK"},
+        {"Stbtus", "Stbtus"},
+        {"Wbrning", "Wbrning"},
+        {"Pfrmission.",
+                "Pfrmission:                                                       "},
+        {"Prindipbl.Typf.", "Prindipbl Typf:"},
+        {"Prindipbl.Nbmf.", "Prindipbl Nbmf:"},
+        {"Tbrgft.Nbmf.",
+                "Tbrgft Nbmf:                                                    "},
+        {"Adtions.",
+                "Adtions:                                                             "},
+        {"OK.to.ovfrwritf.fxisting.filf.filfnbmf.",
+                "OK to ovfrwritf fxisting filf {0}?"},
+        {"Cbndfl", "Cbndfl"},
+        {"CodfBbsf.", "&CodfBbsf:"},
+        {"SignfdBy.", "&SignfdBy:"},
+        {"Add.Prindipbl", "&Add Prindipbl"},
+        {"Edit.Prindipbl", "&Edit Prindipbl"},
+        {"Rfmovf.Prindipbl", "&Rfmovf Prindipbl"},
+        {"Prindipbls.", "&Prindipbls:"},
+        {".Add.Pfrmission", "  A&dd Pfrmission"},
+        {".Edit.Pfrmission", "  Ed&it Pfrmission"},
+        {"Rfmovf.Pfrmission", "Rf&movf Pfrmission"},
+        {"Donf", "Donf"},
+        {"KfyStorf.URL.", "KfyStorf &URL:"},
+        {"KfyStorf.Typf.", "KfyStorf &Typf:"},
+        {"KfyStorf.Providfr.", "KfyStorf &Providfr:"},
+        {"KfyStorf.Pbssword.URL.", "KfyStorf Pbss&word URL:"},
+        {"Prindipbls", "Prindipbls"},
+        {".Edit.Prindipbl.", "  Edit Prindipbl:"},
+        {".Add.Nfw.Prindipbl.", "  Add Nfw Prindipbl:"},
+        {"Pfrmissions", "Pfrmissions"},
+        {".Edit.Pfrmission.", "  Edit Pfrmission:"},
+        {".Add.Nfw.Pfrmission.", "  Add Nfw Pfrmission:"},
+        {"Signfd.By.", "Signfd By:"},
+        {"Cbnnot.Spfdify.Prindipbl.with.b.Wilddbrd.Clbss.without.b.Wilddbrd.Nbmf",
+            "Cbnnot Spfdify Prindipbl with b Wilddbrd Clbss without b Wilddbrd Nbmf"},
+        {"Cbnnot.Spfdify.Prindipbl.without.b.Nbmf",
+            "Cbnnot Spfdify Prindipbl without b Nbmf"},
+        {"Pfrmission.bnd.Tbrgft.Nbmf.must.hbvf.b.vbluf",
+                "Pfrmission bnd Tbrgft Nbmf must hbvf b vbluf"},
+        {"Rfmovf.this.Polidy.Entry.", "Rfmovf this Polidy Entry?"},
+        {"Ovfrwritf.Filf", "Ovfrwritf Filf"},
+        {"Polidy.suddfssfully.writtfn.to.filfnbmf",
+                "Polidy suddfssfully writtfn to {0}"},
+        {"null.filfnbmf", "null filfnbmf"},
+        {"Sbvf.dhbngfs.", "Sbvf dhbngfs?"},
+        {"Yfs", "&Yfs"},
+        {"No", "&No"},
+        {"Polidy.Entry", "Polidy Entry"},
+        {"Sbvf.Chbngfs", "Sbvf Chbngfs"},
+        {"No.Polidy.Entry.sflfdtfd", "No Polidy Entry sflfdtfd"},
+        {"Unbblf.to.opfn.KfyStorf.fx.toString.",
+                "Unbblf to opfn KfyStorf: {0}"},
+        {"No.prindipbl.sflfdtfd", "No prindipbl sflfdtfd"},
+        {"No.pfrmission.sflfdtfd", "No pfrmission sflfdtfd"},
+        {"nbmf", "nbmf"},
+        {"donfigurbtion.typf", "donfigurbtion typf"},
+        {"fnvironmfnt.vbribblf.nbmf", "fnvironmfnt vbribblf nbmf"},
+        {"librbry.nbmf", "librbry nbmf"},
+        {"pbdkbgf.nbmf", "pbdkbgf nbmf"},
+        {"polidy.typf", "polidy typf"},
+        {"propfrty.nbmf", "propfrty nbmf"},
+        {"providfr.nbmf", "providfr nbmf"},
+        {"url", "url"},
+        {"mfthod.list", "mfthod list"},
+        {"rfqufst.hfbdfrs.list", "rfqufst hfbdfrs list"},
+        {"Prindipbl.List", "Prindipbl List"},
+        {"Pfrmission.List", "Pfrmission List"},
+        {"Codf.Bbsf", "Codf Bbsf"},
+        {"KfyStorf.U.R.L.", "KfyStorf U R L:"},
+        {"KfyStorf.Pbssword.U.R.L.", "KfyStorf Pbssword U R L:"}
+    };
+
+
+    /**
+     * Rfturns thf dontfnts of this <dodf>RfsourdfBundlf</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn thf dontfnts of this <dodf>RfsourdfBundlf</dodf>.
+     */
+    @Ovfrridf
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
+    }
+}

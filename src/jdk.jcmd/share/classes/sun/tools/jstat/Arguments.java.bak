@@ -1,445 +1,445 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstat;
+pbdkbgf sun.tools.jstbt;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.regex.*;
-import sun.jvmstat.monitor.Monitor;
-import sun.jvmstat.monitor.VmIdentifier;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+import sun.jvmstbt.monitor.Monitor;
+import sun.jvmstbt.monitor.VmIdfntififr;
 
 /**
- * Class for processing command line arguments and providing method
- * level access to arguments.
+ * Clbss for prodfssing dommbnd linf brgumfnts bnd providing mftiod
+ * lfvfl bddfss to brgumfnts.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class Arguments {
+publid dlbss Argumfnts {
 
-    private static final boolean debug = Boolean.getBoolean("jstat.debug");
-    private static final boolean showUnsupported =
-            Boolean.getBoolean("jstat.showUnsupported");
+    privbtf stbtid finbl boolfbn dfbug = Boolfbn.gftBoolfbn("jstbt.dfbug");
+    privbtf stbtid finbl boolfbn siowUnsupportfd =
+            Boolfbn.gftBoolfbn("jstbt.siowUnsupportfd");
 
-    private static final String JVMSTAT_USERDIR = ".jvmstat";
-    private static final String OPTIONS_FILENAME = "jstat_options";
-    private static final String UNSUPPORTED_OPTIONS_FILENAME = "jstat_unsupported_options";
-    private static final String ALL_NAMES = "\\w*";
+    privbtf stbtid finbl String JVMSTAT_USERDIR = ".jvmstbt";
+    privbtf stbtid finbl String OPTIONS_FILENAME = "jstbt_options";
+    privbtf stbtid finbl String UNSUPPORTED_OPTIONS_FILENAME = "jstbt_unsupportfd_options";
+    privbtf stbtid finbl String ALL_NAMES = "\\w*";
 
-    private Comparator<Monitor> comparator;
-    private int headerRate;
-    private boolean help;
-    private boolean list;
-    private boolean options;
-    private boolean constants;
-    private boolean constantsOnly;
-    private boolean strings;
-    private boolean timestamp;
-    private boolean snap;
-    private boolean verbose;
-    private String specialOption;
-    private String names;
+    privbtf Compbrbtor<Monitor> dompbrbtor;
+    privbtf int ifbdfrRbtf;
+    privbtf boolfbn iflp;
+    privbtf boolfbn list;
+    privbtf boolfbn options;
+    privbtf boolfbn donstbnts;
+    privbtf boolfbn donstbntsOnly;
+    privbtf boolfbn strings;
+    privbtf boolfbn timfstbmp;
+    privbtf boolfbn snbp;
+    privbtf boolfbn vfrbosf;
+    privbtf String spfdiblOption;
+    privbtf String nbmfs;
 
-    private OptionFormat optionFormat;
+    privbtf OptionFormbt optionFormbt;
 
-    private int count = -1;
-    private int interval = -1;
-    private String vmIdString;
+    privbtf int dount = -1;
+    privbtf int intfrvbl = -1;
+    privbtf String vmIdString;
 
-    private VmIdentifier vmId;
+    privbtf VmIdfntififr vmId;
 
-    public static void printUsage(PrintStream ps) {
-        ps.println("Usage: jstat -help|-options");
-        ps.println("       jstat -<option> [-t] [-h<lines>] <vmid> [<interval> [<count>]]");
+    publid stbtid void printUsbgf(PrintStrfbm ps) {
+        ps.println("Usbgf: jstbt -iflp|-options");
+        ps.println("       jstbt -<option> [-t] [-i<linfs>] <vmid> [<intfrvbl> [<dount>]]");
         ps.println();
-        ps.println("Definitions:");
-        ps.println("  <option>      An option reported by the -options option");
-        ps.println("  <vmid>        Virtual Machine Identifier. A vmid takes the following form:");
-        ps.println("                     <lvmid>[@<hostname>[:<port>]]");
-        ps.println("                Where <lvmid> is the local vm identifier for the target");
-        ps.println("                Java virtual machine, typically a process id; <hostname> is");
-        ps.println("                the name of the host running the target Java virtual machine;");
-        ps.println("                and <port> is the port number for the rmiregistry on the");
-        ps.println("                target host. See the jvmstat documentation for a more complete");
-        ps.println("                description of the Virtual Machine Identifier.");
-        ps.println("  <lines>       Number of samples between header lines.");
-        ps.println("  <interval>    Sampling interval. The following forms are allowed:");
+        ps.println("Dffinitions:");
+        ps.println("  <option>      An option rfportfd by tif -options option");
+        ps.println("  <vmid>        Virtubl Mbdiinf Idfntififr. A vmid tbkfs tif following form:");
+        ps.println("                     <lvmid>[@<iostnbmf>[:<port>]]");
+        ps.println("                Wifrf <lvmid> is tif lodbl vm idfntififr for tif tbrgft");
+        ps.println("                Jbvb virtubl mbdiinf, typidblly b prodfss id; <iostnbmf> is");
+        ps.println("                tif nbmf of tif iost running tif tbrgft Jbvb virtubl mbdiinf;");
+        ps.println("                bnd <port> is tif port numbfr for tif rmirfgistry on tif");
+        ps.println("                tbrgft iost. Sff tif jvmstbt dodumfntbtion for b morf domplftf");
+        ps.println("                dfsdription of tif Virtubl Mbdiinf Idfntififr.");
+        ps.println("  <linfs>       Numbfr of sbmplfs bftwffn ifbdfr linfs.");
+        ps.println("  <intfrvbl>    Sbmpling intfrvbl. Tif following forms brf bllowfd:");
         ps.println("                    <n>[\"ms\"|\"s\"]");
-        ps.println("                Where <n> is an integer and the suffix specifies the units as ");
-        ps.println("                milliseconds(\"ms\") or seconds(\"s\"). The default units are \"ms\".");
-        ps.println("  <count>       Number of samples to take before terminating.");
-        ps.println("  -J<flag>      Pass <flag> directly to the runtime system.");
+        ps.println("                Wifrf <n> is bn intfgfr bnd tif suffix spfdififs tif units bs ");
+        ps.println("                millisfdonds(\"ms\") or sfdonds(\"s\"). Tif dffbult units brf \"ms\".");
+        ps.println("  <dount>       Numbfr of sbmplfs to tbkf bfforf tfrminbting.");
+        ps.println("  -J<flbg>      Pbss <flbg> dirfdtly to tif runtimf systfm.");
 
-        // undocumented options:
-        //   -list [<vmid>]  - list counter names
-        //   -snap <vmid>    - snapshot counter values as name=value pairs
-        //   -name <pattern> - output counters matching given pattern
-        //   -a              - sort in ascending order (default)
-        //   -d              - sort in descending order
-        //   -v              - verbose output  (-snap)
-        //   -constants      - output constants with -name output
-        //   -strings        - output strings with -name output
+        // undodumfntfd options:
+        //   -list [<vmid>]  - list dountfr nbmfs
+        //   -snbp <vmid>    - snbpsiot dountfr vblufs bs nbmf=vbluf pbirs
+        //   -nbmf <pbttfrn> - output dountfrs mbtdiing givfn pbttfrn
+        //   -b              - sort in bsdfnding ordfr (dffbult)
+        //   -d              - sort in dfsdfnding ordfr
+        //   -v              - vfrbosf output  (-snbp)
+        //   -donstbnts      - output donstbnts witi -nbmf output
+        //   -strings        - output strings witi -nbmf output
     }
 
-    private static int toMillis(String s) throws IllegalArgumentException {
+    privbtf stbtid int toMillis(String s) tirows IllfgblArgumfntExdfption {
 
-        String[] unitStrings = { "ms", "s" }; // ordered from most specific to
-                                              // least specific
+        String[] unitStrings = { "ms", "s" }; // ordfrfd from most spfdifid to
+                                              // lfbst spfdifid
         String unitString = null;
-        String valueString = s;
+        String vblufString = s;
 
-        for (int i = 0; i < unitStrings.length; i++) {
-            int index = s.indexOf(unitStrings[i]);
-            if (index > 0) {
-                unitString = s.substring(index);
-                valueString = s.substring(0, index);
-                break;
+        for (int i = 0; i < unitStrings.lfngti; i++) {
+            int indfx = s.indfxOf(unitStrings[i]);
+            if (indfx > 0) {
+                unitString = s.substring(indfx);
+                vblufString = s.substring(0, indfx);
+                brfbk;
             }
         }
 
         try {
-            int value = Integer.parseInt(valueString);
+            int vbluf = Intfgfr.pbrsfInt(vblufString);
 
-            if (unitString == null || unitString.compareTo("ms") == 0) {
-                return value;
-            } else if (unitString.compareTo("s") == 0) {
-                return value * 1000;
-            } else {
-                throw new IllegalArgumentException(
-                        "Unknow time unit: " + unitString);
+            if (unitString == null || unitString.dompbrfTo("ms") == 0) {
+                rfturn vbluf;
+            } flsf if (unitString.dompbrfTo("s") == 0) {
+                rfturn vbluf * 1000;
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Unknow timf unit: " + unitString);
             }
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                    "Could not convert interval: " + s);
+        } dbtdi (NumbfrFormbtExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Could not donvfrt intfrvbl: " + s);
         }
     }
 
-    public Arguments(String[] args) throws IllegalArgumentException {
-        int argc = 0;
+    publid Argumfnts(String[] brgs) tirows IllfgblArgumfntExdfption {
+        int brgd = 0;
 
-        if (args.length < 1) {
-            throw new IllegalArgumentException("invalid argument count");
+        if (brgs.lfngti < 1) {
+            tirow nfw IllfgblArgumfntExdfption("invblid brgumfnt dount");
         }
 
-        if ((args[0].compareTo("-?") == 0)
-                || (args[0].compareTo("-help") == 0)) {
-            help = true;
-            return;
-        } else if (args[0].compareTo("-options") == 0) {
-            options = true;
-            return;
-        } else if (args[0].compareTo("-list") == 0) {
-            list = true;
-            if (args.length > 2) {
-              throw new IllegalArgumentException("invalid argument count");
+        if ((brgs[0].dompbrfTo("-?") == 0)
+                || (brgs[0].dompbrfTo("-iflp") == 0)) {
+            iflp = truf;
+            rfturn;
+        } flsf if (brgs[0].dompbrfTo("-options") == 0) {
+            options = truf;
+            rfturn;
+        } flsf if (brgs[0].dompbrfTo("-list") == 0) {
+            list = truf;
+            if (brgs.lfngti > 2) {
+              tirow nfw IllfgblArgumfntExdfption("invblid brgumfnt dount");
             }
-            // list can take one arg - a vmid - fall through for arg processing
-            argc++;
+            // list dbn tbkf onf brg - b vmid - fbll tirougi for brg prodfssing
+            brgd++;
         }
 
-        for ( ; (argc < args.length) && (args[argc].startsWith("-")); argc++) {
-            String arg = args[argc];
+        for ( ; (brgd < brgs.lfngti) && (brgs[brgd].stbrtsWiti("-")); brgd++) {
+            String brg = brgs[brgd];
 
-            if (arg.compareTo("-a") == 0) {
-                comparator = new AscendingMonitorComparator();
-            } else if (arg.compareTo("-d") == 0) {
-                comparator =  new DescendingMonitorComparator();
-            } else if (arg.compareTo("-t") == 0) {
-                timestamp = true;
-            } else if (arg.compareTo("-v") == 0) {
-                verbose = true;
-            } else if ((arg.compareTo("-constants") == 0)
-                       || (arg.compareTo("-c") == 0)) {
-                constants = true;
-            } else if ((arg.compareTo("-strings") == 0)
-                       || (arg.compareTo("-s") == 0)) {
-                strings = true;
-            } else if (arg.startsWith("-h")) {
-                String value;
-                if (arg.compareTo("-h") != 0) {
-                    value = arg.substring(2);
-                } else {
-                    argc++;
-                    if (argc >= args.length) {
-                        throw new IllegalArgumentException(
-                                "-h requires an integer argument");
+            if (brg.dompbrfTo("-b") == 0) {
+                dompbrbtor = nfw AsdfndingMonitorCompbrbtor();
+            } flsf if (brg.dompbrfTo("-d") == 0) {
+                dompbrbtor =  nfw DfsdfndingMonitorCompbrbtor();
+            } flsf if (brg.dompbrfTo("-t") == 0) {
+                timfstbmp = truf;
+            } flsf if (brg.dompbrfTo("-v") == 0) {
+                vfrbosf = truf;
+            } flsf if ((brg.dompbrfTo("-donstbnts") == 0)
+                       || (brg.dompbrfTo("-d") == 0)) {
+                donstbnts = truf;
+            } flsf if ((brg.dompbrfTo("-strings") == 0)
+                       || (brg.dompbrfTo("-s") == 0)) {
+                strings = truf;
+            } flsf if (brg.stbrtsWiti("-i")) {
+                String vbluf;
+                if (brg.dompbrfTo("-i") != 0) {
+                    vbluf = brg.substring(2);
+                } flsf {
+                    brgd++;
+                    if (brgd >= brgs.lfngti) {
+                        tirow nfw IllfgblArgumfntExdfption(
+                                "-i rfquirfs bn intfgfr brgumfnt");
                     }
-                    value = args[argc];
+                    vbluf = brgs[brgd];
                 }
                 try {
-                    headerRate = Integer.parseInt(value);
-                } catch (NumberFormatException e) {
-                    headerRate = -1;
+                    ifbdfrRbtf = Intfgfr.pbrsfInt(vbluf);
+                } dbtdi (NumbfrFormbtExdfption f) {
+                    ifbdfrRbtf = -1;
                 }
-                if (headerRate < 0) {
-                    throw new IllegalArgumentException(
-                            "illegal -h argument: " + value);
+                if (ifbdfrRbtf < 0) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                            "illfgbl -i brgumfnt: " + vbluf);
                 }
-            } else if (arg.startsWith("-name")) {
-                if (arg.startsWith("-name=")) {
-                    names = arg.substring(7);
-                } else {
-                    argc++;
-                    if (argc >= args.length) {
-                        throw new IllegalArgumentException(
-                                "option argument expected");
+            } flsf if (brg.stbrtsWiti("-nbmf")) {
+                if (brg.stbrtsWiti("-nbmf=")) {
+                    nbmfs = brg.substring(7);
+                } flsf {
+                    brgd++;
+                    if (brgd >= brgs.lfngti) {
+                        tirow nfw IllfgblArgumfntExdfption(
+                                "option brgumfnt fxpfdtfd");
                     }
-                    names = args[argc];
+                    nbmfs = brgs[brgd];
                 }
-            } else {
+            } flsf {
                 /*
-                 * there are scenarios here: special jstat_options file option
-                 * or the rare case of a negative lvmid. The negative lvmid
-                 * can occur in some operating environments (such as Windows
-                 * 95/98/ME), so we provide for this case here by checking if
-                 * the argument has any numerical characters. This assumes that
-                 * there are no special jstat_options that contain numerical
-                 * characters in their name.
+                 * tifrf brf sdfnbrios ifrf: spfdibl jstbt_options filf option
+                 * or tif rbrf dbsf of b nfgbtivf lvmid. Tif nfgbtivf lvmid
+                 * dbn oddur in somf opfrbting fnvironmfnts (sudi bs Windows
+                 * 95/98/ME), so wf providf for tiis dbsf ifrf by difdking if
+                 * tif brgumfnt ibs bny numfridbl dibrbdtfrs. Tiis bssumfs tibt
+                 * tifrf brf no spfdibl jstbt_options tibt dontbin numfridbl
+                 * dibrbdtfrs in tifir nbmf.
                  */
 
-                // extract the lvmid part of possible lvmid@host.domain:port
+                // fxtrbdt tif lvmid pbrt of possiblf lvmid@iost.dombin:port
                 String lvmidStr = null;
-                int at_index = args[argc].indexOf('@');
-                if (at_index < 0) {
-                    lvmidStr = args[argc];
-                } else {
-                    lvmidStr = args[argc].substring(0, at_index);
+                int bt_indfx = brgs[brgd].indfxOf('@');
+                if (bt_indfx < 0) {
+                    lvmidStr = brgs[brgd];
+                } flsf {
+                    lvmidStr = brgs[brgd].substring(0, bt_indfx);
                 }
 
-                // try to parse the lvmid part as an integer
+                // try to pbrsf tif lvmid pbrt bs bn intfgfr
                 try {
-                    int vmid = Integer.parseInt(lvmidStr);
-                    // it parsed, assume a negative lvmid and continue
-                    break;
-                } catch (NumberFormatException nfe) {
-                    // it didn't parse. check for the -snap or jstat_options
-                    // file options.
-                    if ((argc == 0) && (args[argc].compareTo("-snap") == 0)) {
-                        snap = true;
-                    } else if (argc == 0) {
-                        specialOption = args[argc].substring(1);
-                    } else {
-                        throw new IllegalArgumentException(
-                                "illegal argument: " + args[argc]);
+                    int vmid = Intfgfr.pbrsfInt(lvmidStr);
+                    // it pbrsfd, bssumf b nfgbtivf lvmid bnd dontinuf
+                    brfbk;
+                } dbtdi (NumbfrFormbtExdfption nff) {
+                    // it didn't pbrsf. difdk for tif -snbp or jstbt_options
+                    // filf options.
+                    if ((brgd == 0) && (brgs[brgd].dompbrfTo("-snbp") == 0)) {
+                        snbp = truf;
+                    } flsf if (brgd == 0) {
+                        spfdiblOption = brgs[brgd].substring(1);
+                    } flsf {
+                        tirow nfw IllfgblArgumfntExdfption(
+                                "illfgbl brgumfnt: " + brgs[brgd]);
                     }
                 }
             }
         }
 
-        // prevent 'jstat <pid>' from being accepted as a valid argument
-        if (!(specialOption != null || list || snap || names != null)) {
-            throw new IllegalArgumentException("-<option> required");
+        // prfvfnt 'jstbt <pid>' from bfing bddfptfd bs b vblid brgumfnt
+        if (!(spfdiblOption != null || list || snbp || nbmfs != null)) {
+            tirow nfw IllfgblArgumfntExdfption("-<option> rfquirfd");
         }
 
-        switch (args.length - argc) {
-        case 3:
-            if (snap) {
-                throw new IllegalArgumentException("invalid argument count");
+        switdi (brgs.lfngti - brgd) {
+        dbsf 3:
+            if (snbp) {
+                tirow nfw IllfgblArgumfntExdfption("invblid brgumfnt dount");
             }
             try {
-                count = Integer.parseInt(args[args.length-1]);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("illegal count value: "
-                                                   + args[args.length-1]);
+                dount = Intfgfr.pbrsfInt(brgs[brgs.lfngti-1]);
+            } dbtdi (NumbfrFormbtExdfption f) {
+                tirow nfw IllfgblArgumfntExdfption("illfgbl dount vbluf: "
+                                                   + brgs[brgs.lfngti-1]);
             }
-            interval = toMillis(args[args.length-2]);
-            vmIdString = args[args.length-3];
-            break;
-        case 2:
-            if (snap) {
-                throw new IllegalArgumentException("invalid argument count");
+            intfrvbl = toMillis(brgs[brgs.lfngti-2]);
+            vmIdString = brgs[brgs.lfngti-3];
+            brfbk;
+        dbsf 2:
+            if (snbp) {
+                tirow nfw IllfgblArgumfntExdfption("invblid brgumfnt dount");
             }
-            interval = toMillis(args[args.length-1]);
-            vmIdString = args[args.length-2];
-            break;
-        case 1:
-            vmIdString = args[args.length-1];
-            break;
-        case 0:
+            intfrvbl = toMillis(brgs[brgs.lfngti-1]);
+            vmIdString = brgs[brgs.lfngti-2];
+            brfbk;
+        dbsf 1:
+            vmIdString = brgs[brgs.lfngti-1];
+            brfbk;
+        dbsf 0:
             if (!list) {
-                throw new IllegalArgumentException("invalid argument count");
+                tirow nfw IllfgblArgumfntExdfption("invblid brgumfnt dount");
             }
-            break;
-        default:
-            throw new IllegalArgumentException("invalid argument count");
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("invblid brgumfnt dount");
         }
 
-        // set count and interval to their default values if not set above.
-        if (count == -1 && interval == -1) {
-            // default is for a single sample
-            count = 1;
-            interval = 0;
+        // sft dount bnd intfrvbl to tifir dffbult vblufs if not sft bbovf.
+        if (dount == -1 && intfrvbl == -1) {
+            // dffbult is for b singlf sbmplf
+            dount = 1;
+            intfrvbl = 0;
         }
 
-        // validate arguments
-        if (comparator == null) {
-            comparator = new AscendingMonitorComparator();
+        // vblidbtf brgumfnts
+        if (dompbrbtor == null) {
+            dompbrbtor = nfw AsdfndingMonitorCompbrbtor();
         }
 
-        // allow ',' characters to separate names, convert to '|' chars
-        names = (names == null) ? ALL_NAMES : names.replace(',', '|');
+        // bllow ',' dibrbdtfrs to sfpbrbtf nbmfs, donvfrt to '|' dibrs
+        nbmfs = (nbmfs == null) ? ALL_NAMES : nbmfs.rfplbdf(',', '|');
 
-        // verify that the given pattern parses without errors
+        // vfrify tibt tif givfn pbttfrn pbrsfs witiout frrors
         try {
-            Pattern pattern = Pattern.compile(names);
-        } catch (PatternSyntaxException e) {
-            throw new IllegalArgumentException("Bad name pattern: "
-                                               + e.getMessage());
+            Pbttfrn pbttfrn = Pbttfrn.dompilf(nbmfs);
+        } dbtdi (PbttfrnSyntbxExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption("Bbd nbmf pbttfrn: "
+                                               + f.gftMfssbgf());
         }
 
-        // verify that the special option is valid and get it's formatter
-        if (specialOption != null) {
-            OptionFinder finder = new OptionFinder(optionsSources());
-            optionFormat = finder.getOptionFormat(specialOption, timestamp);
-            if (optionFormat == null) {
-                throw new IllegalArgumentException("Unknown option: -"
-                                                   + specialOption);
+        // vfrify tibt tif spfdibl option is vblid bnd gft it's formbttfr
+        if (spfdiblOption != null) {
+            OptionFindfr findfr = nfw OptionFindfr(optionsSourdfs());
+            optionFormbt = findfr.gftOptionFormbt(spfdiblOption, timfstbmp);
+            if (optionFormbt == null) {
+                tirow nfw IllfgblArgumfntExdfption("Unknown option: -"
+                                                   + spfdiblOption);
             }
         }
 
-        // verify that the vm identifier is valied
+        // vfrify tibt tif vm idfntififr is vblifd
         try {
-            vmId = new VmIdentifier(vmIdString);
-        } catch (URISyntaxException e) {
-            IllegalArgumentException iae = new IllegalArgumentException(
-                    "Malformed VM Identifier: " + vmIdString);
-            iae.initCause(e);
-            throw iae;
+            vmId = nfw VmIdfntififr(vmIdString);
+        } dbtdi (URISyntbxExdfption f) {
+            IllfgblArgumfntExdfption ibf = nfw IllfgblArgumfntExdfption(
+                    "Mblformfd VM Idfntififr: " + vmIdString);
+            ibf.initCbusf(f);
+            tirow ibf;
         }
     }
 
-    public Comparator<Monitor> comparator() {
-        return comparator;
+    publid Compbrbtor<Monitor> dompbrbtor() {
+        rfturn dompbrbtor;
     }
 
-    public boolean isHelp() {
-        return help;
+    publid boolfbn isHflp() {
+        rfturn iflp;
     }
 
-    public boolean isList() {
-        return list;
+    publid boolfbn isList() {
+        rfturn list;
     }
 
-    public boolean isSnap() {
-        return snap;
+    publid boolfbn isSnbp() {
+        rfturn snbp;
     }
 
-    public boolean isOptions() {
-        return options;
+    publid boolfbn isOptions() {
+        rfturn options;
     }
 
-    public boolean isVerbose() {
-        return verbose;
+    publid boolfbn isVfrbosf() {
+        rfturn vfrbosf;
     }
 
-    public boolean printConstants() {
-        return constants;
+    publid boolfbn printConstbnts() {
+        rfturn donstbnts;
     }
 
-    public boolean isConstantsOnly() {
-        return constantsOnly;
+    publid boolfbn isConstbntsOnly() {
+        rfturn donstbntsOnly;
     }
 
-    public boolean printStrings() {
-        return strings;
+    publid boolfbn printStrings() {
+        rfturn strings;
     }
 
-    public boolean showUnsupported() {
-        return showUnsupported;
+    publid boolfbn siowUnsupportfd() {
+        rfturn siowUnsupportfd;
     }
 
-    public int headerRate() {
-        return headerRate;
+    publid int ifbdfrRbtf() {
+        rfturn ifbdfrRbtf;
     }
 
-    public String counterNames() {
-        return names;
+    publid String dountfrNbmfs() {
+        rfturn nbmfs;
     }
 
-    public VmIdentifier vmId() {
-        return vmId;
+    publid VmIdfntififr vmId() {
+        rfturn vmId;
     }
 
-    public String vmIdString() {
-        return vmIdString;
+    publid String vmIdString() {
+        rfturn vmIdString;
     }
 
-    public int sampleInterval() {
-        return interval;
+    publid int sbmplfIntfrvbl() {
+        rfturn intfrvbl;
     }
 
-    public int sampleCount() {
-        return count;
+    publid int sbmplfCount() {
+        rfturn dount;
     }
 
-    public boolean isTimestamp() {
-        return timestamp;
+    publid boolfbn isTimfstbmp() {
+        rfturn timfstbmp;
     }
 
-    public boolean isSpecialOption() {
-        return specialOption != null;
+    publid boolfbn isSpfdiblOption() {
+        rfturn spfdiblOption != null;
     }
 
-    public String specialOption() {
-        return specialOption;
+    publid String spfdiblOption() {
+        rfturn spfdiblOption;
     }
 
-    public OptionFormat optionFormat() {
-        return optionFormat;
+    publid OptionFormbt optionFormbt() {
+        rfturn optionFormbt;
     }
 
-    public List<URL> optionsSources() {
-        List<URL> sources = new ArrayList<URL>();
+    publid List<URL> optionsSourdfs() {
+        List<URL> sourdfs = nfw ArrbyList<URL>();
         int i = 0;
 
-        String filename = OPTIONS_FILENAME;
+        String filfnbmf = OPTIONS_FILENAME;
 
         try {
-            String userHome = System.getProperty("user.home");
-            String userDir = userHome + "/" + JVMSTAT_USERDIR;
-            File home = new File(userDir + "/" + filename);
-            sources.add(home.toURI().toURL());
-        } catch (Exception e) {
-            if (debug) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
+            String usfrHomf = Systfm.gftPropfrty("usfr.iomf");
+            String usfrDir = usfrHomf + "/" + JVMSTAT_USERDIR;
+            Filf iomf = nfw Filf(usfrDir + "/" + filfnbmf);
+            sourdfs.bdd(iomf.toURI().toURL());
+        } dbtdi (Exdfption f) {
+            if (dfbug) {
+                Systfm.frr.println(f.gftMfssbgf());
+                f.printStbdkTrbdf();
             }
-            throw new IllegalArgumentException("Internal Error: Bad URL: "
-                                               + e.getMessage());
+            tirow nfw IllfgblArgumfntExdfption("Intfrnbl Error: Bbd URL: "
+                                               + f.gftMfssbgf());
         }
-        URL u = this.getClass().getResource("resources/" + filename);
-        assert u != null;
-        sources.add(u);
+        URL u = tiis.gftClbss().gftRfsourdf("rfsourdfs/" + filfnbmf);
+        bssfrt u != null;
+        sourdfs.bdd(u);
 
-        if (showUnsupported) {
-            u = this.getClass().getResource("resources/" +  UNSUPPORTED_OPTIONS_FILENAME);
-            assert u != null;
-            sources.add(u);
+        if (siowUnsupportfd) {
+            u = tiis.gftClbss().gftRfsourdf("rfsourdfs/" +  UNSUPPORTED_OPTIONS_FILENAME);
+            bssfrt u != null;
+            sourdfs.bdd(u);
         }
-        return sources;
+        rfturn sourdfs;
     }
 }

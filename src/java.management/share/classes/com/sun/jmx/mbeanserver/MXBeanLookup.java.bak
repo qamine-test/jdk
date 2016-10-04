@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import static com.sun.jmx.mbeanserver.Util.*;
-import java.util.Map;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
-import java.security.AccessController;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.JMX;
-import javax.management.MBeanServerConnection;
-import javax.management.MBeanServerInvocationHandler;
-import javax.management.ObjectName;
-import javax.management.openmbean.OpenDataException;
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.*;
+import jbvb.util.Mbp;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.JMX;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrInvodbtionHbndlfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
 
 /**
- * @since 1.6
+ * @sindf 1.6
  */
 
 /*
- * This class handles the mapping between MXBean references and
- * ObjectNames.  Consider an MXBean interface like this:
+ * Tiis dlbss ibndlfs tif mbpping bftwffn MXBfbn rfffrfndfs bnd
+ * ObjfdtNbmfs.  Considfr bn MXBfbn intfrfbdf likf tiis:
  *
- * public interface ModuleMXBean {
- *     ProductMXBean getProduct();
- *     void setProduct(ProductMXBean product);
+ * publid intfrfbdf ModulfMXBfbn {
+ *     ProdudtMXBfbn gftProdudt();
+ *     void sftProdudt(ProdudtMXBfbn produdt);
  * }
  *
- * This defines an attribute called "Product" whose originalType will
- * be ProductMXBean and whose openType will be ObjectName.  The
- * mapping happens as follows.
+ * Tiis dffinfs bn bttributf dbllfd "Produdt" wiosf originblTypf will
+ * bf ProdudtMXBfbn bnd wiosf opfnTypf will bf ObjfdtNbmf.  Tif
+ * mbpping ibppfns bs follows.
  *
- * When the MXBean's getProduct method is called, it is supposed to
- * return a reference to another MXBean, or a proxy for another
- * MXBean.  The MXBean layer has to convert this into an ObjectName.
- * If it's a reference to another MXBean, it needs to be able to look
- * up the name under which that MXBean has been registered in this
- * MBeanServer; this is the purpose of the mxbeanToObjectName map.  If
- * it's a proxy, it can check that the MBeanServer matches and if so
- * extract the ObjectName from the proxy.
+ * Wifn tif MXBfbn's gftProdudt mftiod is dbllfd, it is supposfd to
+ * rfturn b rfffrfndf to bnotifr MXBfbn, or b proxy for bnotifr
+ * MXBfbn.  Tif MXBfbn lbyfr ibs to donvfrt tiis into bn ObjfdtNbmf.
+ * If it's b rfffrfndf to bnotifr MXBfbn, it nffds to bf bblf to look
+ * up tif nbmf undfr wiidi tibt MXBfbn ibs bffn rfgistfrfd in tiis
+ * MBfbnSfrvfr; tiis is tif purposf of tif mxbfbnToObjfdtNbmf mbp.  If
+ * it's b proxy, it dbn difdk tibt tif MBfbnSfrvfr mbtdifs bnd if so
+ * fxtrbdt tif ObjfdtNbmf from tif proxy.
  *
- * When the setProduct method is called on a proxy for this MXBean,
- * the argument can be either an MXBean reference (only really logical
- * if the proxy has a local MBeanServer) or another proxy.  So the
- * mapping logic is the same as for getProduct on the MXBean.
+ * Wifn tif sftProdudt mftiod is dbllfd on b proxy for tiis MXBfbn,
+ * tif brgumfnt dbn bf fitifr bn MXBfbn rfffrfndf (only rfblly logidbl
+ * if tif proxy ibs b lodbl MBfbnSfrvfr) or bnotifr proxy.  So tif
+ * mbpping logid is tif sbmf bs for gftProdudt on tif MXBfbn.
  *
- * When the MXBean's setProduct method is called, it needs to convert
- * the ObjectName into an object implementing the ProductMXBean
- * interface.  We could have a lookup table that reverses
- * mxbeanToObjectName, but this could violate the general JMX property
- * that you cannot obtain a reference to an MBean object.  So we
- * always use a proxy for this.  However we do have an
- * objectNameToProxy map that allows us to reuse proxy instances.
+ * Wifn tif MXBfbn's sftProdudt mftiod is dbllfd, it nffds to donvfrt
+ * tif ObjfdtNbmf into bn objfdt implfmfnting tif ProdudtMXBfbn
+ * intfrfbdf.  Wf dould ibvf b lookup tbblf tibt rfvfrsfs
+ * mxbfbnToObjfdtNbmf, but tiis dould violbtf tif gfnfrbl JMX propfrty
+ * tibt you dbnnot obtbin b rfffrfndf to bn MBfbn objfdt.  So wf
+ * blwbys usf b proxy for tiis.  Howfvfr wf do ibvf bn
+ * objfdtNbmfToProxy mbp tibt bllows us to rfusf proxy instbndfs.
  *
- * When the getProduct method is called on a proxy for this MXBean, it
- * must convert the returned ObjectName into an instance of
- * ProductMXBean.  Again it can do this by making a proxy.
+ * Wifn tif gftProdudt mftiod is dbllfd on b proxy for tiis MXBfbn, it
+ * must donvfrt tif rfturnfd ObjfdtNbmf into bn instbndf of
+ * ProdudtMXBfbn.  Agbin it dbn do tiis by mbking b proxy.
  *
- * From the above, it is clear that the logic for getX on an MXBean is
- * the same as for setX on a proxy, and vice versa.
+ * From tif bbovf, it is dlfbr tibt tif logid for gftX on bn MXBfbn is
+ * tif sbmf bs for sftX on b proxy, bnd vidf vfrsb.
  */
-public class MXBeanLookup {
-    private MXBeanLookup(MBeanServerConnection mbsc) {
-        this.mbsc = mbsc;
+publid dlbss MXBfbnLookup {
+    privbtf MXBfbnLookup(MBfbnSfrvfrConnfdtion mbsd) {
+        tiis.mbsd = mbsd;
     }
 
-    static MXBeanLookup lookupFor(MBeanServerConnection mbsc) {
-        synchronized (mbscToLookup) {
-            WeakReference<MXBeanLookup> weakLookup = mbscToLookup.get(mbsc);
-            MXBeanLookup lookup = (weakLookup == null) ? null : weakLookup.get();
+    stbtid MXBfbnLookup lookupFor(MBfbnSfrvfrConnfdtion mbsd) {
+        syndironizfd (mbsdToLookup) {
+            WfbkRfffrfndf<MXBfbnLookup> wfbkLookup = mbsdToLookup.gft(mbsd);
+            MXBfbnLookup lookup = (wfbkLookup == null) ? null : wfbkLookup.gft();
             if (lookup == null) {
-                lookup = new MXBeanLookup(mbsc);
-                mbscToLookup.put(mbsc, new WeakReference<MXBeanLookup>(lookup));
+                lookup = nfw MXBfbnLookup(mbsd);
+                mbsdToLookup.put(mbsd, nfw WfbkRfffrfndf<MXBfbnLookup>(lookup));
             }
-            return lookup;
+            rfturn lookup;
         }
     }
 
-    synchronized <T> T objectNameToMXBean(ObjectName name, Class<T> type) {
-        WeakReference<Object> wr = objectNameToProxy.get(name);
+    syndironizfd <T> T objfdtNbmfToMXBfbn(ObjfdtNbmf nbmf, Clbss<T> typf) {
+        WfbkRfffrfndf<Objfdt> wr = objfdtNbmfToProxy.gft(nbmf);
         if (wr != null) {
-            Object proxy = wr.get();
-            if (type.isInstance(proxy))
-                return type.cast(proxy);
+            Objfdt proxy = wr.gft();
+            if (typf.isInstbndf(proxy))
+                rfturn typf.dbst(proxy);
         }
-        T proxy = JMX.newMXBeanProxy(mbsc, name, type);
-        objectNameToProxy.put(name, new WeakReference<Object>(proxy));
-        return proxy;
+        T proxy = JMX.nfwMXBfbnProxy(mbsd, nbmf, typf);
+        objfdtNbmfToProxy.put(nbmf, nfw WfbkRfffrfndf<Objfdt>(proxy));
+        rfturn proxy;
     }
 
-    synchronized ObjectName mxbeanToObjectName(Object mxbean)
-    throws OpenDataException {
+    syndironizfd ObjfdtNbmf mxbfbnToObjfdtNbmf(Objfdt mxbfbn)
+    tirows OpfnDbtbExdfption {
         String wrong;
-        if (mxbean instanceof Proxy) {
-            InvocationHandler ih = Proxy.getInvocationHandler(mxbean);
-            if (ih instanceof MBeanServerInvocationHandler) {
-                MBeanServerInvocationHandler mbsih =
-                        (MBeanServerInvocationHandler) ih;
-                if (mbsih.getMBeanServerConnection().equals(mbsc))
-                    return mbsih.getObjectName();
-                else
-                    wrong = "proxy for a different MBeanServer";
-            } else
-                wrong = "not a JMX proxy";
-        } else {
-            ObjectName name = mxbeanToObjectName.get(mxbean);
-            if (name != null)
-                return name;
-            wrong = "not an MXBean registered in this MBeanServer";
+        if (mxbfbn instbndfof Proxy) {
+            InvodbtionHbndlfr ii = Proxy.gftInvodbtionHbndlfr(mxbfbn);
+            if (ii instbndfof MBfbnSfrvfrInvodbtionHbndlfr) {
+                MBfbnSfrvfrInvodbtionHbndlfr mbsii =
+                        (MBfbnSfrvfrInvodbtionHbndlfr) ii;
+                if (mbsii.gftMBfbnSfrvfrConnfdtion().fqubls(mbsd))
+                    rfturn mbsii.gftObjfdtNbmf();
+                flsf
+                    wrong = "proxy for b difffrfnt MBfbnSfrvfr";
+            } flsf
+                wrong = "not b JMX proxy";
+        } flsf {
+            ObjfdtNbmf nbmf = mxbfbnToObjfdtNbmf.gft(mxbfbn);
+            if (nbmf != null)
+                rfturn nbmf;
+            wrong = "not bn MXBfbn rfgistfrfd in tiis MBfbnSfrvfr";
         }
-        String s = (mxbean == null) ?
-            "null" : "object of type " + mxbean.getClass().getName();
-        throw new OpenDataException(
-                "Could not convert " + s + " to an ObjectName: " + wrong);
-        // Message will be strange if mxbean is null but it is not
-        // supposed to be.
+        String s = (mxbfbn == null) ?
+            "null" : "objfdt of typf " + mxbfbn.gftClbss().gftNbmf();
+        tirow nfw OpfnDbtbExdfption(
+                "Could not donvfrt " + s + " to bn ObjfdtNbmf: " + wrong);
+        // Mfssbgf will bf strbngf if mxbfbn is null but it is not
+        // supposfd to bf.
     }
 
-    synchronized void addReference(ObjectName name, Object mxbean)
-    throws InstanceAlreadyExistsException {
-        ObjectName existing = mxbeanToObjectName.get(mxbean);
-        if (existing != null) {
-            String multiname = AccessController.doPrivileged(
-                    new GetPropertyAction("jmx.mxbean.multiname"));
-            if (!"true".equalsIgnoreCase(multiname)) {
-                throw new InstanceAlreadyExistsException(
-                        "MXBean already registered with name " + existing);
+    syndironizfd void bddRfffrfndf(ObjfdtNbmf nbmf, Objfdt mxbfbn)
+    tirows InstbndfAlrfbdyExistsExdfption {
+        ObjfdtNbmf fxisting = mxbfbnToObjfdtNbmf.gft(mxbfbn);
+        if (fxisting != null) {
+            String multinbmf = AddfssControllfr.doPrivilfgfd(
+                    nfw GftPropfrtyAdtion("jmx.mxbfbn.multinbmf"));
+            if (!"truf".fqublsIgnorfCbsf(multinbmf)) {
+                tirow nfw InstbndfAlrfbdyExistsExdfption(
+                        "MXBfbn blrfbdy rfgistfrfd witi nbmf " + fxisting);
             }
         }
-        mxbeanToObjectName.put(mxbean, name);
+        mxbfbnToObjfdtNbmf.put(mxbfbn, nbmf);
     }
 
-    synchronized boolean removeReference(ObjectName name, Object mxbean) {
-        if (name.equals(mxbeanToObjectName.get(mxbean))) {
-            mxbeanToObjectName.remove(mxbean);
-            return true;
-        } else
-            return false;
-        /* removeReference can be called when the above condition fails,
-         * notably if you try to register the same MXBean twice.
+    syndironizfd boolfbn rfmovfRfffrfndf(ObjfdtNbmf nbmf, Objfdt mxbfbn) {
+        if (nbmf.fqubls(mxbfbnToObjfdtNbmf.gft(mxbfbn))) {
+            mxbfbnToObjfdtNbmf.rfmovf(mxbfbn);
+            rfturn truf;
+        } flsf
+            rfturn fblsf;
+        /* rfmovfRfffrfndf dbn bf dbllfd wifn tif bbovf dondition fbils,
+         * notbbly if you try to rfgistfr tif sbmf MXBfbn twidf.
          */
     }
 
-    static MXBeanLookup getLookup() {
-        return currentLookup.get();
+    stbtid MXBfbnLookup gftLookup() {
+        rfturn durrfntLookup.gft();
     }
 
-    static void setLookup(MXBeanLookup lookup) {
-        currentLookup.set(lookup);
+    stbtid void sftLookup(MXBfbnLookup lookup) {
+        durrfntLookup.sft(lookup);
     }
 
-    private static final ThreadLocal<MXBeanLookup> currentLookup =
-            new ThreadLocal<MXBeanLookup>();
+    privbtf stbtid finbl TirfbdLodbl<MXBfbnLookup> durrfntLookup =
+            nfw TirfbdLodbl<MXBfbnLookup>();
 
-    private final MBeanServerConnection mbsc;
-    private final WeakIdentityHashMap<Object, ObjectName>
-        mxbeanToObjectName = WeakIdentityHashMap.make();
-    private final Map<ObjectName, WeakReference<Object>>
-        objectNameToProxy = newMap();
-    private static final WeakIdentityHashMap<MBeanServerConnection,
-                                             WeakReference<MXBeanLookup>>
-        mbscToLookup = WeakIdentityHashMap.make();
+    privbtf finbl MBfbnSfrvfrConnfdtion mbsd;
+    privbtf finbl WfbkIdfntityHbsiMbp<Objfdt, ObjfdtNbmf>
+        mxbfbnToObjfdtNbmf = WfbkIdfntityHbsiMbp.mbkf();
+    privbtf finbl Mbp<ObjfdtNbmf, WfbkRfffrfndf<Objfdt>>
+        objfdtNbmfToProxy = nfwMbp();
+    privbtf stbtid finbl WfbkIdfntityHbsiMbp<MBfbnSfrvfrConnfdtion,
+                                             WfbkRfffrfndf<MXBfbnLookup>>
+        mbsdToLookup = WfbkIdfntityHbsiMbp.mbkf();
 }

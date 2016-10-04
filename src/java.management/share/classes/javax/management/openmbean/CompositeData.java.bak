@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
 
-// java import
+// jbvb import
 //
-import java.util.Collection;
+import jbvb.util.Collfdtion;
 
 // jmx import
 //
 
 
 /**
- * The <tt>CompositeData</tt> interface specifies the behavior of a specific type of complex <i>open data</i> objects
- * which represent <i>composite data</i> structures.
+ * Tif <tt>CompositfDbtb</tt> intfrfbdf spfdififs tif bfibvior of b spfdifid typf of domplfx <i>opfn dbtb</i> objfdts
+ * wiidi rfprfsfnt <i>dompositf dbtb</i> strudturfs.
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface CompositeData {
+publid intfrfbdf CompositfDbtb {
 
 
     /**
-     * Returns the <i>composite type </i> of this <i>composite data</i> instance.
+     * Rfturns tif <i>dompositf typf </i> of tiis <i>dompositf dbtb</i> instbndf.
      *
-     * @return the type of this CompositeData.
+     * @rfturn tif typf of tiis CompositfDbtb.
      */
-    public CompositeType getCompositeType();
+    publid CompositfTypf gftCompositfTypf();
 
     /**
-     * Returns the value of the item whose name is <tt>key</tt>.
+     * Rfturns tif vbluf of tif itfm wiosf nbmf is <tt>kfy</tt>.
      *
-     * @param key the name of the item.
+     * @pbrbm kfy tif nbmf of tif itfm.
      *
-     * @return the value associated with this key.
+     * @rfturn tif vbluf bssodibtfd witi tiis kfy.
      *
-     * @throws IllegalArgumentException  if <tt>key</tt> is a null or empty String.
+     * @tirows IllfgblArgumfntExdfption  if <tt>kfy</tt> is b null or fmpty String.
      *
-     * @throws InvalidKeyException  if <tt>key</tt> is not an existing item name for this <tt>CompositeData</tt> instance.
+     * @tirows InvblidKfyExdfption  if <tt>kfy</tt> is not bn fxisting itfm nbmf for tiis <tt>CompositfDbtb</tt> instbndf.
      */
-    public Object get(String key) ;
+    publid Objfdt gft(String kfy) ;
 
     /**
-     * Returns an array of the values of the items whose names are specified by <tt>keys</tt>, in the same order as <tt>keys</tt>.
+     * Rfturns bn brrby of tif vblufs of tif itfms wiosf nbmfs brf spfdififd by <tt>kfys</tt>, in tif sbmf ordfr bs <tt>kfys</tt>.
      *
-     * @param keys the names of the items.
+     * @pbrbm kfys tif nbmfs of tif itfms.
      *
-     * @return the values corresponding to the keys.
+     * @rfturn tif vblufs dorrfsponding to tif kfys.
      *
-     * @throws IllegalArgumentException  if an element in <tt>keys</tt> is a null or empty String.
+     * @tirows IllfgblArgumfntExdfption  if bn flfmfnt in <tt>kfys</tt> is b null or fmpty String.
      *
-     * @throws InvalidKeyException  if an element in <tt>keys</tt> is not an existing item name for this <tt>CompositeData</tt> instance.
+     * @tirows InvblidKfyExdfption  if bn flfmfnt in <tt>kfys</tt> is not bn fxisting itfm nbmf for tiis <tt>CompositfDbtb</tt> instbndf.
      */
-    public Object[] getAll(String[] keys) ;
+    publid Objfdt[] gftAll(String[] kfys) ;
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>CompositeData</tt> instance contains
-     * an item whose name is <tt>key</tt>.
-     * If <tt>key</tt> is a null or empty String, this method simply returns false.
+     * Rfturns <tt>truf</tt> if bnd only if tiis <tt>CompositfDbtb</tt> instbndf dontbins
+     * bn itfm wiosf nbmf is <tt>kfy</tt>.
+     * If <tt>kfy</tt> is b null or fmpty String, tiis mftiod simply rfturns fblsf.
      *
-     * @param key the key to be tested.
+     * @pbrbm kfy tif kfy to bf tfstfd.
      *
-     * @return true if this <tt>CompositeData</tt> contains the key.
+     * @rfturn truf if tiis <tt>CompositfDbtb</tt> dontbins tif kfy.
      */
-    public boolean containsKey(String key) ;
+    publid boolfbn dontbinsKfy(String kfy) ;
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>CompositeData</tt> instance contains an item
-     * whose value is <tt>value</tt>.
+     * Rfturns <tt>truf</tt> if bnd only if tiis <tt>CompositfDbtb</tt> instbndf dontbins bn itfm
+     * wiosf vbluf is <tt>vbluf</tt>.
      *
-     * @param value the value to be tested.
+     * @pbrbm vbluf tif vbluf to bf tfstfd.
      *
-     * @return true if this <tt>CompositeData</tt> contains the value.
+     * @rfturn truf if tiis <tt>CompositfDbtb</tt> dontbins tif vbluf.
      */
-    public boolean containsValue(Object value) ;
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) ;
 
     /**
-     * Returns an unmodifiable Collection view of the item values contained in this <tt>CompositeData</tt> instance.
-     * The returned collection's iterator will return the values in the ascending lexicographic order of the corresponding
-     * item names.
+     * Rfturns bn unmodifibblf Collfdtion vifw of tif itfm vblufs dontbinfd in tiis <tt>CompositfDbtb</tt> instbndf.
+     * Tif rfturnfd dollfdtion's itfrbtor will rfturn tif vblufs in tif bsdfnding lfxidogrbpiid ordfr of tif dorrfsponding
+     * itfm nbmfs.
      *
-     * @return the values.
+     * @rfturn tif vblufs.
      */
-    public Collection<?> values() ;
+    publid Collfdtion<?> vblufs() ;
 
     /**
-     * Compares the specified <var>obj</var> parameter with this
-     * <code>CompositeData</code> instance for equality.
+     * Compbrfs tif spfdififd <vbr>obj</vbr> pbrbmftfr witi tiis
+     * <dodf>CompositfDbtb</dodf> instbndf for fqublity.
      * <p>
-     * Returns <tt>true</tt> if and only if all of the following statements are true:
+     * Rfturns <tt>truf</tt> if bnd only if bll of tif following stbtfmfnts brf truf:
      * <ul>
-     * <li><var>obj</var> is non null,</li>
-     * <li><var>obj</var> also implements the <code>CompositeData</code> interface,</li>
-     * <li>their composite types are equal</li>
-     * <li>their contents, i.e. (name, value) pairs are equal. If a value contained in
-     * the content is an array, the value comparison is done as if by calling
-     * the {@link java.util.Arrays#deepEquals(Object[], Object[]) deepEquals} method
-     * for arrays of object reference types or the appropriate overloading of
-     * {@code Arrays.equals(e1,e2)} for arrays of primitive types</li>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implfmfnts tif <dodf>CompositfDbtb</dodf> intfrfbdf,</li>
+     * <li>tifir dompositf typfs brf fqubl</li>
+     * <li>tifir dontfnts, i.f. (nbmf, vbluf) pbirs brf fqubl. If b vbluf dontbinfd in
+     * tif dontfnt is bn brrby, tif vbluf dompbrison is donf bs if by dblling
+     * tif {@link jbvb.util.Arrbys#dffpEqubls(Objfdt[], Objfdt[]) dffpEqubls} mftiod
+     * for brrbys of objfdt rfffrfndf typfs or tif bppropribtf ovfrlobding of
+     * {@dodf Arrbys.fqubls(f1,f2)} for brrbys of primitivf typfs</li>
      * </ul>
      * <p>
-     * This ensures that this <tt>equals</tt> method works properly for
-     * <var>obj</var> parameters which are different implementations of the
-     * <code>CompositeData</code> interface, with the restrictions mentioned in the
-     * {@link java.util.Collection#equals(Object) equals}
-     * method of the <tt>java.util.Collection</tt> interface.
+     * Tiis fnsurfs tibt tiis <tt>fqubls</tt> mftiod works propfrly for
+     * <vbr>obj</vbr> pbrbmftfrs wiidi brf difffrfnt implfmfntbtions of tif
+     * <dodf>CompositfDbtb</dodf> intfrfbdf, witi tif rfstridtions mfntionfd in tif
+     * {@link jbvb.util.Collfdtion#fqubls(Objfdt) fqubls}
+     * mftiod of tif <tt>jbvb.util.Collfdtion</tt> intfrfbdf.
      *
-     * @param  obj  the object to be compared for equality with this
-     * <code>CompositeData</code> instance.
-     * @return  <code>true</code> if the specified object is equal to this
-     * <code>CompositeData</code> instance.
+     * @pbrbm  obj  tif objfdt to bf dompbrfd for fqublity witi tiis
+     * <dodf>CompositfDbtb</dodf> instbndf.
+     * @rfturn  <dodf>truf</dodf> if tif spfdififd objfdt is fqubl to tiis
+     * <dodf>CompositfDbtb</dodf> instbndf.
      */
-    public boolean equals(Object obj) ;
+    publid boolfbn fqubls(Objfdt obj) ;
 
     /**
-     * Returns the hash code value for this <code>CompositeData</code> instance.
+     * Rfturns tif ibsi dodf vbluf for tiis <dodf>CompositfDbtb</dodf> instbndf.
      * <p>
-     * The hash code of a <code>CompositeData</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: its <i>composite type</i> and all the item values).
+     * Tif ibsi dodf of b <dodf>CompositfDbtb</dodf> instbndf is tif sum of tif ibsi dodfs
+     * of bll flfmfnts of informbtion usfd in <dodf>fqubls</dodf> dompbrisons
+     * (if: its <i>dompositf typf</i> bnd bll tif itfm vblufs).
      * <p>
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>CompositeData</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * Tiis fnsurfs tibt <dodf> t1.fqubls(t2) </dodf> implifs tibt <dodf> t1.ibsiCodf()==t2.ibsiCodf() </dodf>
+     * for bny two <dodf>CompositfDbtb</dodf> instbndfs <dodf>t1</dodf> bnd <dodf>t2</dodf>,
+     * bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.
      * <p>
-     * Each item value's hash code is added to the returned hash code.
-     * If an item value is an array,
-     * its hash code is obtained as if by calling the
-     * {@link java.util.Arrays#deepHashCode(Object[]) deepHashCode} method
-     * for arrays of object reference types or the appropriate overloading
-     * of {@code Arrays.hashCode(e)} for arrays of primitive types.
+     * Ebdi itfm vbluf's ibsi dodf is bddfd to tif rfturnfd ibsi dodf.
+     * If bn itfm vbluf is bn brrby,
+     * its ibsi dodf is obtbinfd bs if by dblling tif
+     * {@link jbvb.util.Arrbys#dffpHbsiCodf(Objfdt[]) dffpHbsiCodf} mftiod
+     * for brrbys of objfdt rfffrfndf typfs or tif bppropribtf ovfrlobding
+     * of {@dodf Arrbys.ibsiCodf(f)} for brrbys of primitivf typfs.
      *
-     * @return the hash code value for this <code>CompositeData</code> instance
+     * @rfturn tif ibsi dodf vbluf for tiis <dodf>CompositfDbtb</dodf> instbndf
      */
-    public int hashCode() ;
+    publid int ibsiCodf() ;
 
     /**
-     * Returns a string representation of this <code>CompositeData</code> instance.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>CompositfDbtb</dodf> instbndf.
      * <p>
-     * The string representation consists of the name of the implementing class,
-     * the string representation of the composite type of this instance, and the string representation of the contents
-     * (ie list the itemName=itemValue mappings).
+     * Tif string rfprfsfntbtion donsists of tif nbmf of tif implfmfnting dlbss,
+     * tif string rfprfsfntbtion of tif dompositf typf of tiis instbndf, bnd tif string rfprfsfntbtion of tif dontfnts
+     * (if list tif itfmNbmf=itfmVbluf mbppings).
      *
-     * @return  a string representation of this <code>CompositeData</code> instance
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>CompositfDbtb</dodf> instbndf
      */
-    public String toString() ;
+    publid String toString() ;
 
 }

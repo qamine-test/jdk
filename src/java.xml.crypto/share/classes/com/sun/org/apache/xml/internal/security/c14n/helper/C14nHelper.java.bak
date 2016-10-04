@@ -1,155 +1,155 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.c14n.helper;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.iflpfr;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.NbmfdNodfMbp;
 
 /**
- * Temporary swapped static functions from the normalizer Section
+ * Tfmporbry swbppfd stbtid fundtions from tif normblizfr Sfdtion
  *
- * @author Christian Geuer-Pollmann
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class C14nHelper {
+publid dlbss C14nHflpfr {
 
     /**
-     * Constructor C14nHelper
+     * Construdtor C14nHflpfr
      *
      */
-    private C14nHelper() {
-        // don't allow instantiation
+    privbtf C14nHflpfr() {
+        // don't bllow instbntibtion
     }
 
     /**
-     * Method namespaceIsRelative
+     * Mftiod nbmfspbdfIsRflbtivf
      *
-     * @param namespace
-     * @return true if the given namespace is relative.
+     * @pbrbm nbmfspbdf
+     * @rfturn truf if tif givfn nbmfspbdf is rflbtivf.
      */
-    public static boolean namespaceIsRelative(Attr namespace) {
-        return !namespaceIsAbsolute(namespace);
+    publid stbtid boolfbn nbmfspbdfIsRflbtivf(Attr nbmfspbdf) {
+        rfturn !nbmfspbdfIsAbsolutf(nbmfspbdf);
     }
 
     /**
-     * Method namespaceIsRelative
+     * Mftiod nbmfspbdfIsRflbtivf
      *
-     * @param namespaceValue
-     * @return true if the given namespace is relative.
+     * @pbrbm nbmfspbdfVbluf
+     * @rfturn truf if tif givfn nbmfspbdf is rflbtivf.
      */
-    public static boolean namespaceIsRelative(String namespaceValue) {
-        return !namespaceIsAbsolute(namespaceValue);
+    publid stbtid boolfbn nbmfspbdfIsRflbtivf(String nbmfspbdfVbluf) {
+        rfturn !nbmfspbdfIsAbsolutf(nbmfspbdfVbluf);
     }
 
     /**
-     * Method namespaceIsAbsolute
+     * Mftiod nbmfspbdfIsAbsolutf
      *
-     * @param namespace
-     * @return true if the given namespace is absolute.
+     * @pbrbm nbmfspbdf
+     * @rfturn truf if tif givfn nbmfspbdf is bbsolutf.
      */
-    public static boolean namespaceIsAbsolute(Attr namespace) {
-        return namespaceIsAbsolute(namespace.getValue());
+    publid stbtid boolfbn nbmfspbdfIsAbsolutf(Attr nbmfspbdf) {
+        rfturn nbmfspbdfIsAbsolutf(nbmfspbdf.gftVbluf());
     }
 
     /**
-     * Method namespaceIsAbsolute
+     * Mftiod nbmfspbdfIsAbsolutf
      *
-     * @param namespaceValue
-     * @return true if the given namespace is absolute.
+     * @pbrbm nbmfspbdfVbluf
+     * @rfturn truf if tif givfn nbmfspbdf is bbsolutf.
      */
-    public static boolean namespaceIsAbsolute(String namespaceValue) {
-        // assume empty namespaces are absolute
-        if (namespaceValue.length() == 0) {
-            return true;
+    publid stbtid boolfbn nbmfspbdfIsAbsolutf(String nbmfspbdfVbluf) {
+        // bssumf fmpty nbmfspbdfs brf bbsolutf
+        if (nbmfspbdfVbluf.lfngti() == 0) {
+            rfturn truf;
         }
-        return namespaceValue.indexOf(':') > 0;
+        rfturn nbmfspbdfVbluf.indfxOf(':') > 0;
     }
 
     /**
-     * This method throws an exception if the Attribute value contains
-     * a relative URI.
+     * Tiis mftiod tirows bn fxdfption if tif Attributf vbluf dontbins
+     * b rflbtivf URI.
      *
-     * @param attr
-     * @throws CanonicalizationException
+     * @pbrbm bttr
+     * @tirows CbnonidblizbtionExdfption
      */
-    public static void assertNotRelativeNS(Attr attr) throws CanonicalizationException {
-        if (attr == null) {
-            return;
+    publid stbtid void bssfrtNotRflbtivfNS(Attr bttr) tirows CbnonidblizbtionExdfption {
+        if (bttr == null) {
+            rfturn;
         }
 
-        String nodeAttrName = attr.getNodeName();
-        boolean definesDefaultNS = nodeAttrName.equals("xmlns");
-        boolean definesNonDefaultNS = nodeAttrName.startsWith("xmlns:");
+        String nodfAttrNbmf = bttr.gftNodfNbmf();
+        boolfbn dffinfsDffbultNS = nodfAttrNbmf.fqubls("xmlns");
+        boolfbn dffinfsNonDffbultNS = nodfAttrNbmf.stbrtsWiti("xmlns:");
 
-        if ((definesDefaultNS || definesNonDefaultNS) && namespaceIsRelative(attr)) {
-            String parentName = attr.getOwnerElement().getTagName();
-            String attrValue = attr.getValue();
-            Object exArgs[] = { parentName, nodeAttrName, attrValue };
+        if ((dffinfsDffbultNS || dffinfsNonDffbultNS) && nbmfspbdfIsRflbtivf(bttr)) {
+            String pbrfntNbmf = bttr.gftOwnfrElfmfnt().gftTbgNbmf();
+            String bttrVbluf = bttr.gftVbluf();
+            Objfdt fxArgs[] = { pbrfntNbmf, nodfAttrNbmf, bttrVbluf };
 
-            throw new CanonicalizationException(
-                "c14n.Canonicalizer.RelativeNamespace", exArgs
+            tirow nfw CbnonidblizbtionExdfption(
+                "d14n.Cbnonidblizfr.RflbtivfNbmfspbdf", fxArgs
             );
         }
     }
 
     /**
-     * This method throws a CanonicalizationException if the supplied Document
-     * is not able to be traversed using a TreeWalker.
+     * Tiis mftiod tirows b CbnonidblizbtionExdfption if tif supplifd Dodumfnt
+     * is not bblf to bf trbvfrsfd using b TrffWblkfr.
      *
-     * @param document
-     * @throws CanonicalizationException
+     * @pbrbm dodumfnt
+     * @tirows CbnonidblizbtionExdfption
      */
-    public static void checkTraversability(Document document)
-        throws CanonicalizationException {
-        if (!document.isSupported("Traversal", "2.0")) {
-            Object exArgs[] = {document.getImplementation().getClass().getName() };
+    publid stbtid void difdkTrbvfrsbbility(Dodumfnt dodumfnt)
+        tirows CbnonidblizbtionExdfption {
+        if (!dodumfnt.isSupportfd("Trbvfrsbl", "2.0")) {
+            Objfdt fxArgs[] = {dodumfnt.gftImplfmfntbtion().gftClbss().gftNbmf() };
 
-            throw new CanonicalizationException(
-                "c14n.Canonicalizer.TraversalNotSupported", exArgs
+            tirow nfw CbnonidblizbtionExdfption(
+                "d14n.Cbnonidblizfr.TrbvfrsblNotSupportfd", fxArgs
             );
         }
     }
 
     /**
-     * This method throws a CanonicalizationException if the supplied Element
-     * contains any relative namespaces.
+     * Tiis mftiod tirows b CbnonidblizbtionExdfption if tif supplifd Elfmfnt
+     * dontbins bny rflbtivf nbmfspbdfs.
      *
-     * @param ctxNode
-     * @throws CanonicalizationException
-     * @see C14nHelper#assertNotRelativeNS(Attr)
+     * @pbrbm dtxNodf
+     * @tirows CbnonidblizbtionExdfption
+     * @sff C14nHflpfr#bssfrtNotRflbtivfNS(Attr)
      */
-    public static void checkForRelativeNamespace(Element ctxNode)
-        throws CanonicalizationException {
-        if (ctxNode != null) {
-            NamedNodeMap attributes = ctxNode.getAttributes();
+    publid stbtid void difdkForRflbtivfNbmfspbdf(Elfmfnt dtxNodf)
+        tirows CbnonidblizbtionExdfption {
+        if (dtxNodf != null) {
+            NbmfdNodfMbp bttributfs = dtxNodf.gftAttributfs();
 
-            for (int i = 0; i < attributes.getLength(); i++) {
-                C14nHelper.assertNotRelativeNS((Attr) attributes.item(i));
+            for (int i = 0; i < bttributfs.gftLfngti(); i++) {
+                C14nHflpfr.bssfrtNotRflbtivfNS((Attr) bttributfs.itfm(i));
             }
-        } else {
-            throw new CanonicalizationException("Called checkForRelativeNamespace() on null");
+        } flsf {
+            tirow nfw CbnonidblizbtionExdfption("Cbllfd difdkForRflbtivfNbmfspbdf() on null");
         }
     }
 }

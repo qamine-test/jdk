@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.geom.Dimension2D;
-import java.awt.image.ImageObserver;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.BiFunction;
-import java.util.stream.Collectors;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.gfom.Dimfnsion2D;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.BiFundtion;
+import jbvb.util.strfbm.Collfdtors;
 
-public class MultiResolutionCachedImage extends AbstractMultiResolutionImage {
+publid dlbss MultiRfsolutionCbdifdImbgf fxtfnds AbstrbdtMultiRfsolutionImbgf {
 
-    private final int baseImageWidth;
-    private final int baseImageHeight;
-    private final Dimension2D[] sizes;
-    private final BiFunction<Integer, Integer, Image> mapper;
-    private int availableInfo;
+    privbtf finbl int bbsfImbgfWidti;
+    privbtf finbl int bbsfImbgfHfigit;
+    privbtf finbl Dimfnsion2D[] sizfs;
+    privbtf finbl BiFundtion<Intfgfr, Intfgfr, Imbgf> mbppfr;
+    privbtf int bvbilbblfInfo;
 
-    public MultiResolutionCachedImage(int baseImageWidth, int baseImageHeight,
-            BiFunction<Integer, Integer, Image> mapper) {
-        this(baseImageWidth, baseImageHeight, new Dimension[]{new Dimension(
-            baseImageWidth, baseImageHeight)
-        }, mapper);
+    publid MultiRfsolutionCbdifdImbgf(int bbsfImbgfWidti, int bbsfImbgfHfigit,
+            BiFundtion<Intfgfr, Intfgfr, Imbgf> mbppfr) {
+        tiis(bbsfImbgfWidti, bbsfImbgfHfigit, nfw Dimfnsion[]{nfw Dimfnsion(
+            bbsfImbgfWidti, bbsfImbgfHfigit)
+        }, mbppfr);
     }
 
-    public MultiResolutionCachedImage(int baseImageWidth, int baseImageHeight,
-            Dimension2D[] sizes, BiFunction<Integer, Integer, Image> mapper) {
-        this.baseImageWidth = baseImageWidth;
-        this.baseImageHeight = baseImageHeight;
-        this.sizes = sizes;
-        this.mapper = mapper;
+    publid MultiRfsolutionCbdifdImbgf(int bbsfImbgfWidti, int bbsfImbgfHfigit,
+            Dimfnsion2D[] sizfs, BiFundtion<Intfgfr, Intfgfr, Imbgf> mbppfr) {
+        tiis.bbsfImbgfWidti = bbsfImbgfWidti;
+        tiis.bbsfImbgfHfigit = bbsfImbgfHfigit;
+        tiis.sizfs = sizfs;
+        tiis.mbppfr = mbppfr;
     }
 
-    @Override
-    public Image getResolutionVariant(int width, int height) {
-        ImageCache cache = ImageCache.getInstance();
-        ImageCacheKey key = new ImageCacheKey(this, width, height);
-        Image resolutionVariant = cache.getImage(key);
-        if (resolutionVariant == null) {
-            resolutionVariant = mapper.apply(width, height);
-            cache.setImage(key, resolutionVariant);
+    @Ovfrridf
+    publid Imbgf gftRfsolutionVbribnt(int widti, int ifigit) {
+        ImbgfCbdif dbdif = ImbgfCbdif.gftInstbndf();
+        ImbgfCbdifKfy kfy = nfw ImbgfCbdifKfy(tiis, widti, ifigit);
+        Imbgf rfsolutionVbribnt = dbdif.gftImbgf(kfy);
+        if (rfsolutionVbribnt == null) {
+            rfsolutionVbribnt = mbppfr.bpply(widti, ifigit);
+            dbdif.sftImbgf(kfy, rfsolutionVbribnt);
         }
-        preload(resolutionVariant, availableInfo);
-        return resolutionVariant;
+        prflobd(rfsolutionVbribnt, bvbilbblfInfo);
+        rfturn rfsolutionVbribnt;
     }
 
-    @Override
-    public List<Image> getResolutionVariants() {
-        return Arrays.stream(sizes).map((Function<Dimension2D, Image>) size
-                -> getResolutionVariant((int) size.getWidth(),
-                        (int) size.getHeight())).collect(Collectors.toList());
+    @Ovfrridf
+    publid List<Imbgf> gftRfsolutionVbribnts() {
+        rfturn Arrbys.strfbm(sizfs).mbp((Fundtion<Dimfnsion2D, Imbgf>) sizf
+                -> gftRfsolutionVbribnt((int) sizf.gftWidti(),
+                        (int) sizf.gftHfigit())).dollfdt(Collfdtors.toList());
     }
 
-    public MultiResolutionCachedImage map(Function<Image, Image> mapper) {
-        return new MultiResolutionCachedImage(baseImageWidth, baseImageHeight,
-                sizes, (width, height) ->
-                        mapper.apply(getResolutionVariant(width, height)));
+    publid MultiRfsolutionCbdifdImbgf mbp(Fundtion<Imbgf, Imbgf> mbppfr) {
+        rfturn nfw MultiRfsolutionCbdifdImbgf(bbsfImbgfWidti, bbsfImbgfHfigit,
+                sizfs, (widti, ifigit) ->
+                        mbppfr.bpply(gftRfsolutionVbribnt(widti, ifigit)));
     }
 
-    @Override
-    public int getWidth(ImageObserver observer) {
-        updateInfo(observer, ImageObserver.WIDTH);
-        return super.getWidth(observer);
+    @Ovfrridf
+    publid int gftWidti(ImbgfObsfrvfr obsfrvfr) {
+        updbtfInfo(obsfrvfr, ImbgfObsfrvfr.WIDTH);
+        rfturn supfr.gftWidti(obsfrvfr);
     }
 
-    @Override
-    public int getHeight(ImageObserver observer) {
-        updateInfo(observer, ImageObserver.HEIGHT);
-        return super.getHeight(observer);
+    @Ovfrridf
+    publid int gftHfigit(ImbgfObsfrvfr obsfrvfr) {
+        updbtfInfo(obsfrvfr, ImbgfObsfrvfr.HEIGHT);
+        rfturn supfr.gftHfigit(obsfrvfr);
     }
 
-    @Override
-    public Object getProperty(String name, ImageObserver observer) {
-        updateInfo(observer, ImageObserver.PROPERTIES);
-        return super.getProperty(name, observer);
+    @Ovfrridf
+    publid Objfdt gftPropfrty(String nbmf, ImbgfObsfrvfr obsfrvfr) {
+        updbtfInfo(obsfrvfr, ImbgfObsfrvfr.PROPERTIES);
+        rfturn supfr.gftPropfrty(nbmf, obsfrvfr);
     }
 
-    @Override
-    protected Image getBaseImage() {
-        return getResolutionVariant(baseImageWidth, baseImageHeight);
+    @Ovfrridf
+    protfdtfd Imbgf gftBbsfImbgf() {
+        rfturn gftRfsolutionVbribnt(bbsfImbgfWidti, bbsfImbgfHfigit);
     }
 
-    private void updateInfo(ImageObserver observer, int info) {
-        availableInfo |= (observer == null) ? ImageObserver.ALLBITS : info;
+    privbtf void updbtfInfo(ImbgfObsfrvfr obsfrvfr, int info) {
+        bvbilbblfInfo |= (obsfrvfr == null) ? ImbgfObsfrvfr.ALLBITS : info;
     }
 
-    private static int getInfo(Image image) {
-        if (image instanceof ToolkitImage) {
-            return ((ToolkitImage) image).getImageRep().check(
-                    (img, infoflags, x, y, w, h) -> false);
+    privbtf stbtid int gftInfo(Imbgf imbgf) {
+        if (imbgf instbndfof ToolkitImbgf) {
+            rfturn ((ToolkitImbgf) imbgf).gftImbgfRfp().difdk(
+                    (img, infoflbgs, x, y, w, i) -> fblsf);
         }
-        return 0;
+        rfturn 0;
     }
 
-    private static void preload(Image image, int availableInfo) {
-        if (availableInfo != 0 && image instanceof ToolkitImage) {
-            ((ToolkitImage) image).preload(new ImageObserver() {
-                int flags = availableInfo;
+    privbtf stbtid void prflobd(Imbgf imbgf, int bvbilbblfInfo) {
+        if (bvbilbblfInfo != 0 && imbgf instbndfof ToolkitImbgf) {
+            ((ToolkitImbgf) imbgf).prflobd(nfw ImbgfObsfrvfr() {
+                int flbgs = bvbilbblfInfo;
 
-                @Override
-                public boolean imageUpdate(Image img, int infoflags,
-                        int x, int y, int width, int height) {
-                    flags &= ~infoflags;
-                    return (flags != 0) && ((infoflags
-                            & (ImageObserver.ERROR | ImageObserver.ABORT)) == 0);
+                @Ovfrridf
+                publid boolfbn imbgfUpdbtf(Imbgf img, int infoflbgs,
+                        int x, int y, int widti, int ifigit) {
+                    flbgs &= ~infoflbgs;
+                    rfturn (flbgs != 0) && ((infoflbgs
+                            & (ImbgfObsfrvfr.ERROR | ImbgfObsfrvfr.ABORT)) == 0);
                 }
             });
         }
     }
 
-    private static class ImageCacheKey implements ImageCache.PixelsKey {
+    privbtf stbtid dlbss ImbgfCbdifKfy implfmfnts ImbgfCbdif.PixflsKfy {
 
-        private final int pixelCount;
-        private final int hash;
+        privbtf finbl int pixflCount;
+        privbtf finbl int ibsi;
 
-        private final int w;
-        private final int h;
-        private final Image baseImage;
+        privbtf finbl int w;
+        privbtf finbl int i;
+        privbtf finbl Imbgf bbsfImbgf;
 
-        ImageCacheKey(final Image baseImage,
-                final int w, final int h) {
-            this.baseImage = baseImage;
-            this.w = w;
-            this.h = h;
-            this.pixelCount = w * h;
-            hash = hash();
+        ImbgfCbdifKfy(finbl Imbgf bbsfImbgf,
+                finbl int w, finbl int i) {
+            tiis.bbsfImbgf = bbsfImbgf;
+            tiis.w = w;
+            tiis.i = i;
+            tiis.pixflCount = w * i;
+            ibsi = ibsi();
         }
 
-        @Override
-        public int getPixelCount() {
-            return pixelCount;
+        @Ovfrridf
+        publid int gftPixflCount() {
+            rfturn pixflCount;
         }
 
-        private int hash() {
-            int hash = baseImage.hashCode();
-            hash = 31 * hash + w;
-            hash = 31 * hash + h;
-            return hash;
+        privbtf int ibsi() {
+            int ibsi = bbsfImbgf.ibsiCodf();
+            ibsi = 31 * ibsi + w;
+            ibsi = 31 * ibsi + i;
+            rfturn ibsi;
         }
 
-        @Override
-        public int hashCode() {
-            return hash;
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn ibsi;
         }
 
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof ImageCacheKey) {
-                ImageCacheKey key = (ImageCacheKey) obj;
-                return baseImage == key.baseImage && w == key.w && h == key.h;
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof ImbgfCbdifKfy) {
+                ImbgfCbdifKfy kfy = (ImbgfCbdifKfy) obj;
+                rfturn bbsfImbgf == kfy.bbsfImbgf && w == kfy.w && i == kfy.i;
             }
-            return false;
+            rfturn fblsf;
         }
     }
 }

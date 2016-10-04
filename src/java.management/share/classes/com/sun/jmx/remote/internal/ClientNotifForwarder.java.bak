@@ -1,914 +1,914 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.remote.internal;
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
 
-import java.io.IOException;
-import java.io.NotSerializableException;
+import jbvb.io.IOExdfption;
+import jbvb.io.NotSfriblizbblfExdfption;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Executor;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.dondurrfnt.Exfdutor;
 
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import javax.security.auth.Subject;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.sfdurity.buti.Subjfdt;
 
-import javax.management.Notification;
-import javax.management.NotificationListener;
-import javax.management.NotificationFilter;
-import javax.management.ObjectName;
-import javax.management.MBeanServerNotification;
-import javax.management.InstanceNotFoundException;
-import javax.management.ListenerNotFoundException;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrNotifidbtion;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
 
-import javax.management.remote.NotificationResult;
-import javax.management.remote.TargetedNotification;
+import jbvbx.mbnbgfmfnt.rfmotf.NotifidbtionRfsult;
+import jbvbx.mbnbgfmfnt.rfmotf.TbrgftfdNotifidbtion;
 
-import com.sun.jmx.remote.util.ClassLogger;
-import com.sun.jmx.remote.util.EnvHelp;
-import java.rmi.UnmarshalException;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import jbvb.rmi.UnmbrsiblExdfption;
 
 
-public abstract class ClientNotifForwarder {
+publid bbstrbdt dlbss ClifntNotifForwbrdfr {
 
-    private final AccessControlContext acc;
+    privbtf finbl AddfssControlContfxt bdd;
 
-    public ClientNotifForwarder(Map<String, ?> env) {
-        this(null, env);
+    publid ClifntNotifForwbrdfr(Mbp<String, ?> fnv) {
+        tiis(null, fnv);
     }
 
-    private static int threadId;
+    privbtf stbtid int tirfbdId;
 
-    /* An Executor that allows at most one executing and one pending
-       Runnable.  It uses at most one thread -- as soon as there is
-       no pending Runnable the thread can exit.  Another thread is
-       created as soon as there is a new pending Runnable.  This
-       Executor is adapted for use in a situation where each Runnable
-       usually schedules up another Runnable.  On return from the
-       first one, the second one is immediately executed.  So this
-       just becomes a complicated way to write a while loop, but with
-       the advantage that you can replace it with another Executor,
-       for instance one that you are using to execute a bunch of other
-       unrelated work.
+    /* An Exfdutor tibt bllows bt most onf fxfduting bnd onf pfnding
+       Runnbblf.  It usfs bt most onf tirfbd -- bs soon bs tifrf is
+       no pfnding Runnbblf tif tirfbd dbn fxit.  Anotifr tirfbd is
+       drfbtfd bs soon bs tifrf is b nfw pfnding Runnbblf.  Tiis
+       Exfdutor is bdbptfd for usf in b situbtion wifrf fbdi Runnbblf
+       usublly sdifdulfs up bnotifr Runnbblf.  On rfturn from tif
+       first onf, tif sfdond onf is immfdibtfly fxfdutfd.  So tiis
+       just bfdomfs b domplidbtfd wby to writf b wiilf loop, but witi
+       tif bdvbntbgf tibt you dbn rfplbdf it witi bnotifr Exfdutor,
+       for instbndf onf tibt you brf using to fxfdutf b bundi of otifr
+       unrflbtfd work.
 
-       You might expect that a java.util.concurrent.ThreadPoolExecutor
-       with corePoolSize=0 and maximumPoolSize=1 would have the same
-       behavior, but it does not.  A ThreadPoolExecutor only creates
-       a new thread when a new task is submitted and the number of
-       existing threads is < corePoolSize.  This can never happen when
-       corePoolSize=0, so new threads are never created.  Surprising,
-       but there you are.
+       You migit fxpfdt tibt b jbvb.util.dondurrfnt.TirfbdPoolExfdutor
+       witi dorfPoolSizf=0 bnd mbximumPoolSizf=1 would ibvf tif sbmf
+       bfibvior, but it dofs not.  A TirfbdPoolExfdutor only drfbtfs
+       b nfw tirfbd wifn b nfw tbsk is submittfd bnd tif numbfr of
+       fxisting tirfbds is < dorfPoolSizf.  Tiis dbn nfvfr ibppfn wifn
+       dorfPoolSizf=0, so nfw tirfbds brf nfvfr drfbtfd.  Surprising,
+       but tifrf you brf.
     */
-    private static class LinearExecutor implements Executor {
-        public synchronized void execute(Runnable command) {
-            if (this.command != null)
-                throw new IllegalArgumentException("More than one command");
-            this.command = command;
-            if (thread == null) {
-                thread = new Thread() {
+    privbtf stbtid dlbss LinfbrExfdutor implfmfnts Exfdutor {
+        publid syndironizfd void fxfdutf(Runnbblf dommbnd) {
+            if (tiis.dommbnd != null)
+                tirow nfw IllfgblArgumfntExdfption("Morf tibn onf dommbnd");
+            tiis.dommbnd = dommbnd;
+            if (tirfbd == null) {
+                tirfbd = nfw Tirfbd() {
 
-                    @Override
-                    public void run() {
-                        while (true) {
-                            Runnable r;
-                            synchronized (LinearExecutor.this) {
-                                if (LinearExecutor.this.command == null) {
-                                    thread = null;
-                                    return;
-                                } else {
-                                    r = LinearExecutor.this.command;
-                                    LinearExecutor.this.command = null;
+                    @Ovfrridf
+                    publid void run() {
+                        wiilf (truf) {
+                            Runnbblf r;
+                            syndironizfd (LinfbrExfdutor.tiis) {
+                                if (LinfbrExfdutor.tiis.dommbnd == null) {
+                                    tirfbd = null;
+                                    rfturn;
+                                } flsf {
+                                    r = LinfbrExfdutor.tiis.dommbnd;
+                                    LinfbrExfdutor.tiis.dommbnd = null;
                                 }
                             }
                             r.run();
                         }
                     }
                 };
-                thread.setDaemon(true);
-                thread.setName("ClientNotifForwarder-" + ++threadId);
-                thread.start();
+                tirfbd.sftDbfmon(truf);
+                tirfbd.sftNbmf("ClifntNotifForwbrdfr-" + ++tirfbdId);
+                tirfbd.stbrt();
             }
         }
 
-        private Runnable command;
-        private Thread thread;
+        privbtf Runnbblf dommbnd;
+        privbtf Tirfbd tirfbd;
     }
 
-    public ClientNotifForwarder(ClassLoader defaultClassLoader, Map<String, ?> env) {
-        maxNotifications = EnvHelp.getMaxFetchNotifNumber(env);
-        timeout = EnvHelp.getFetchTimeout(env);
+    publid ClifntNotifForwbrdfr(ClbssLobdfr dffbultClbssLobdfr, Mbp<String, ?> fnv) {
+        mbxNotifidbtions = EnvHflp.gftMbxFftdiNotifNumbfr(fnv);
+        timfout = EnvHflp.gftFftdiTimfout(fnv);
 
-        /* You can supply an Executor in which the remote call to
-           fetchNotifications will be made.  The Executor's execute
-           method reschedules another task, so you must not use
-           an Executor that executes tasks in the caller's thread.  */
-        Executor ex = (Executor)
-            env.get("jmx.remote.x.fetch.notifications.executor");
-        if (ex == null)
-            ex = new LinearExecutor();
-        else if (logger.traceOn())
-            logger.trace("ClientNotifForwarder", "executor is " + ex);
+        /* You dbn supply bn Exfdutor in wiidi tif rfmotf dbll to
+           fftdiNotifidbtions will bf mbdf.  Tif Exfdutor's fxfdutf
+           mftiod rfsdifdulfs bnotifr tbsk, so you must not usf
+           bn Exfdutor tibt fxfdutfs tbsks in tif dbllfr's tirfbd.  */
+        Exfdutor fx = (Exfdutor)
+            fnv.gft("jmx.rfmotf.x.fftdi.notifidbtions.fxfdutor");
+        if (fx == null)
+            fx = nfw LinfbrExfdutor();
+        flsf if (loggfr.trbdfOn())
+            loggfr.trbdf("ClifntNotifForwbrdfr", "fxfdutor is " + fx);
 
-        this.defaultClassLoader = defaultClassLoader;
-        this.executor = ex;
-        this.acc = AccessController.getContext();
+        tiis.dffbultClbssLobdfr = dffbultClbssLobdfr;
+        tiis.fxfdutor = fx;
+        tiis.bdd = AddfssControllfr.gftContfxt();
     }
 
     /**
-     * Called to to fetch notifications from a server.
+     * Cbllfd to to fftdi notifidbtions from b sfrvfr.
      */
-    abstract protected NotificationResult fetchNotifs(long clientSequenceNumber,
-                                                      int maxNotifications,
-                                                      long timeout)
-            throws IOException, ClassNotFoundException;
+    bbstrbdt protfdtfd NotifidbtionRfsult fftdiNotifs(long dlifntSfqufndfNumbfr,
+                                                      int mbxNotifidbtions,
+                                                      long timfout)
+            tirows IOExdfption, ClbssNotFoundExdfption;
 
-    abstract protected Integer addListenerForMBeanRemovedNotif()
-        throws IOException, InstanceNotFoundException;
+    bbstrbdt protfdtfd Intfgfr bddListfnfrForMBfbnRfmovfdNotif()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
-    abstract protected void removeListenerForMBeanRemovedNotif(Integer id)
-        throws IOException, InstanceNotFoundException,
-               ListenerNotFoundException;
+    bbstrbdt protfdtfd void rfmovfListfnfrForMBfbnRfmovfdNotif(Intfgfr id)
+        tirows IOExdfption, InstbndfNotFoundExdfption,
+               ListfnfrNotFoundExdfption;
 
     /**
-     * Used to send out a notification about lost notifs
+     * Usfd to sfnd out b notifidbtion bbout lost notifs
      */
-    abstract protected void lostNotifs(String message, long number);
+    bbstrbdt protfdtfd void lostNotifs(String mfssbgf, long numbfr);
 
 
-    public synchronized void addNotificationListener(Integer listenerID,
-                                        ObjectName name,
-                                        NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback,
-                                        Subject delegationSubject)
-            throws IOException, InstanceNotFoundException {
+    publid syndironizfd void bddNotifidbtionListfnfr(Intfgfr listfnfrID,
+                                        ObjfdtNbmf nbmf,
+                                        NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt ibndbbdk,
+                                        Subjfdt dflfgbtionSubjfdt)
+            tirows IOExdfption, InstbndfNotFoundExdfption {
 
-        if (logger.traceOn()) {
-            logger.trace("addNotificationListener",
-                         "Add the listener "+listener+" at "+name);
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("bddNotifidbtionListfnfr",
+                         "Add tif listfnfr "+listfnfr+" bt "+nbmf);
         }
 
-        infoList.put(listenerID,
-                     new ClientListenerInfo(listenerID,
-                                            name,
-                                            listener,
-                                            filter,
-                                            handback,
-                                            delegationSubject));
+        infoList.put(listfnfrID,
+                     nfw ClifntListfnfrInfo(listfnfrID,
+                                            nbmf,
+                                            listfnfr,
+                                            filtfr,
+                                            ibndbbdk,
+                                            dflfgbtionSubjfdt));
 
 
-        init(false);
+        init(fblsf);
     }
 
-    public synchronized Integer[]
-        removeNotificationListener(ObjectName name,
-                                   NotificationListener listener)
-        throws ListenerNotFoundException, IOException {
+    publid syndironizfd Intfgfr[]
+        rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                   NotifidbtionListfnfr listfnfr)
+        tirows ListfnfrNotFoundExdfption, IOExdfption {
 
-        beforeRemove();
+        bfforfRfmovf();
 
-        if (logger.traceOn()) {
-            logger.trace("removeNotificationListener",
-                         "Remove the listener "+listener+" from "+name);
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("rfmovfNotifidbtionListfnfr",
+                         "Rfmovf tif listfnfr "+listfnfr+" from "+nbmf);
         }
 
-        List<Integer> ids = new ArrayList<Integer>();
-        List<ClientListenerInfo> values =
-                new ArrayList<ClientListenerInfo>(infoList.values());
-        for (int i=values.size()-1; i>=0; i--) {
-            ClientListenerInfo li = values.get(i);
+        List<Intfgfr> ids = nfw ArrbyList<Intfgfr>();
+        List<ClifntListfnfrInfo> vblufs =
+                nfw ArrbyList<ClifntListfnfrInfo>(infoList.vblufs());
+        for (int i=vblufs.sizf()-1; i>=0; i--) {
+            ClifntListfnfrInfo li = vblufs.gft(i);
 
-            if (li.sameAs(name, listener)) {
-                ids.add(li.getListenerID());
+            if (li.sbmfAs(nbmf, listfnfr)) {
+                ids.bdd(li.gftListfnfrID());
 
-                infoList.remove(li.getListenerID());
+                infoList.rfmovf(li.gftListfnfrID());
             }
         }
 
         if (ids.isEmpty())
-            throw new ListenerNotFoundException("Listener not found");
+            tirow nfw ListfnfrNotFoundExdfption("Listfnfr not found");
 
-        return ids.toArray(new Integer[0]);
+        rfturn ids.toArrby(nfw Intfgfr[0]);
     }
 
-    public synchronized Integer
-        removeNotificationListener(ObjectName name,
-                                   NotificationListener listener,
-                                   NotificationFilter filter,
-                                   Object handback)
-            throws ListenerNotFoundException, IOException {
+    publid syndironizfd Intfgfr
+        rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                   NotifidbtionListfnfr listfnfr,
+                                   NotifidbtionFiltfr filtfr,
+                                   Objfdt ibndbbdk)
+            tirows ListfnfrNotFoundExdfption, IOExdfption {
 
-        if (logger.traceOn()) {
-            logger.trace("removeNotificationListener",
-                         "Remove the listener "+listener+" from "+name);
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("rfmovfNotifidbtionListfnfr",
+                         "Rfmovf tif listfnfr "+listfnfr+" from "+nbmf);
         }
 
-        beforeRemove();
+        bfforfRfmovf();
 
-        Integer id = null;
+        Intfgfr id = null;
 
-        List<ClientListenerInfo> values =
-                new ArrayList<ClientListenerInfo>(infoList.values());
-        for (int i=values.size()-1; i>=0; i--) {
-            ClientListenerInfo li = values.get(i);
-            if (li.sameAs(name, listener, filter, handback)) {
-                id=li.getListenerID();
+        List<ClifntListfnfrInfo> vblufs =
+                nfw ArrbyList<ClifntListfnfrInfo>(infoList.vblufs());
+        for (int i=vblufs.sizf()-1; i>=0; i--) {
+            ClifntListfnfrInfo li = vblufs.gft(i);
+            if (li.sbmfAs(nbmf, listfnfr, filtfr, ibndbbdk)) {
+                id=li.gftListfnfrID();
 
-                infoList.remove(id);
+                infoList.rfmovf(id);
 
-                break;
+                brfbk;
             }
         }
 
         if (id == null)
-            throw new ListenerNotFoundException("Listener not found");
+            tirow nfw ListfnfrNotFoundExdfption("Listfnfr not found");
 
-        return id;
+        rfturn id;
     }
 
-    public synchronized Integer[] removeNotificationListener(ObjectName name) {
-        if (logger.traceOn()) {
-            logger.trace("removeNotificationListener",
-                         "Remove all listeners registered at "+name);
+    publid syndironizfd Intfgfr[] rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf) {
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("rfmovfNotifidbtionListfnfr",
+                         "Rfmovf bll listfnfrs rfgistfrfd bt "+nbmf);
         }
 
-        List<Integer> ids = new ArrayList<Integer>();
+        List<Intfgfr> ids = nfw ArrbyList<Intfgfr>();
 
-        List<ClientListenerInfo> values =
-                new ArrayList<ClientListenerInfo>(infoList.values());
-        for (int i=values.size()-1; i>=0; i--) {
-            ClientListenerInfo li = values.get(i);
-            if (li.sameAs(name)) {
-                ids.add(li.getListenerID());
+        List<ClifntListfnfrInfo> vblufs =
+                nfw ArrbyList<ClifntListfnfrInfo>(infoList.vblufs());
+        for (int i=vblufs.sizf()-1; i>=0; i--) {
+            ClifntListfnfrInfo li = vblufs.gft(i);
+            if (li.sbmfAs(nbmf)) {
+                ids.bdd(li.gftListfnfrID());
 
-                infoList.remove(li.getListenerID());
+                infoList.rfmovf(li.gftListfnfrID());
             }
         }
 
-        return ids.toArray(new Integer[0]);
+        rfturn ids.toArrby(nfw Intfgfr[0]);
     }
 
     /*
-     * Called when a connector is doing reconnection. Like <code>postReconnection</code>,
-     * this method is intended to be called only by a client connector:
-     * <code>RMIConnector</code> and <code>ClientIntermediary</code>.
-     * Call this method will set the flag beingReconnection to <code>true</code>,
-     * and the thread used to fetch notifis will be stopped, a new thread can be
-     * created only after the method <code>postReconnection</code> is called.
+     * Cbllfd wifn b donnfdtor is doing rfdonnfdtion. Likf <dodf>postRfdonnfdtion</dodf>,
+     * tiis mftiod is intfndfd to bf dbllfd only by b dlifnt donnfdtor:
+     * <dodf>RMIConnfdtor</dodf> bnd <dodf>ClifntIntfrmfdibry</dodf>.
+     * Cbll tiis mftiod will sft tif flbg bfingRfdonnfdtion to <dodf>truf</dodf>,
+     * bnd tif tirfbd usfd to fftdi notifis will bf stoppfd, b nfw tirfbd dbn bf
+     * drfbtfd only bftfr tif mftiod <dodf>postRfdonnfdtion</dodf> is dbllfd.
      *
-     * It is caller's responsiblity to not re-call this method before calling
-     * <code>postReconnection</code>.
+     * It is dbllfr's rfsponsiblity to not rf-dbll tiis mftiod bfforf dblling
+     * <dodf>postRfdonnfdtion</dodf>.
      */
-    public synchronized ClientListenerInfo[] preReconnection() throws IOException {
-        if (state == TERMINATED || beingReconnected) { // should never
-            throw new IOException("Illegal state.");
+    publid syndironizfd ClifntListfnfrInfo[] prfRfdonnfdtion() tirows IOExdfption {
+        if (stbtf == TERMINATED || bfingRfdonnfdtfd) { // siould nfvfr
+            tirow nfw IOExdfption("Illfgbl stbtf.");
         }
 
-        final ClientListenerInfo[] tmp =
-            infoList.values().toArray(new ClientListenerInfo[0]);
+        finbl ClifntListfnfrInfo[] tmp =
+            infoList.vblufs().toArrby(nfw ClifntListfnfrInfo[0]);
 
 
-        beingReconnected = true;
+        bfingRfdonnfdtfd = truf;
 
-        infoList.clear();
+        infoList.dlfbr();
 
-        return tmp;
+        rfturn tmp;
     }
 
     /**
-     * Called after reconnection is finished.
-     * This method is intended to be called only by a client connector:
-     * <code>RMIConnector</code> and <code>ClientIntermediary</code>.
+     * Cbllfd bftfr rfdonnfdtion is finisifd.
+     * Tiis mftiod is intfndfd to bf dbllfd only by b dlifnt donnfdtor:
+     * <dodf>RMIConnfdtor</dodf> bnd <dodf>ClifntIntfrmfdibry</dodf>.
      */
-    public synchronized void postReconnection(ClientListenerInfo[] listenerInfos)
-        throws IOException {
+    publid syndironizfd void postRfdonnfdtion(ClifntListfnfrInfo[] listfnfrInfos)
+        tirows IOExdfption {
 
-        if (state == TERMINATED) {
-            return;
+        if (stbtf == TERMINATED) {
+            rfturn;
         }
 
-        while (state == STOPPING) {
+        wiilf (stbtf == STOPPING) {
             try {
-                wait();
-            } catch (InterruptedException ire) {
-                IOException ioe = new IOException(ire.toString());
-                EnvHelp.initCause(ioe, ire);
-                throw ioe;
+                wbit();
+            } dbtdi (IntfrruptfdExdfption irf) {
+                IOExdfption iof = nfw IOExdfption(irf.toString());
+                EnvHflp.initCbusf(iof, irf);
+                tirow iof;
             }
         }
 
-        final boolean trace = logger.traceOn();
-        final int len   = listenerInfos.length;
+        finbl boolfbn trbdf = loggfr.trbdfOn();
+        finbl int lfn   = listfnfrInfos.lfngti;
 
-        for (int i=0; i<len; i++) {
-            if (trace) {
-                logger.trace("addNotificationListeners",
-                             "Add a listener at "+
-                             listenerInfos[i].getListenerID());
+        for (int i=0; i<lfn; i++) {
+            if (trbdf) {
+                loggfr.trbdf("bddNotifidbtionListfnfrs",
+                             "Add b listfnfr bt "+
+                             listfnfrInfos[i].gftListfnfrID());
             }
 
-            infoList.put(listenerInfos[i].getListenerID(), listenerInfos[i]);
+            infoList.put(listfnfrInfos[i].gftListfnfrID(), listfnfrInfos[i]);
         }
 
-        beingReconnected = false;
+        bfingRfdonnfdtfd = fblsf;
         notifyAll();
 
-        if (currentFetchThread == Thread.currentThread() ||
-              state == STARTING || state == STARTED) { // doing or waiting reconnection
-              // only update mbeanRemovedNotifID
+        if (durrfntFftdiTirfbd == Tirfbd.durrfntTirfbd() ||
+              stbtf == STARTING || stbtf == STARTED) { // doing or wbiting rfdonnfdtion
+              // only updbtf mbfbnRfmovfdNotifID
             try {
-                mbeanRemovedNotifID = addListenerForMBeanRemovedNotif();
-            } catch (Exception e) {
-                final String msg =
-                    "Failed to register a listener to the mbean " +
-                    "server: the client will not do clean when an MBean " +
-                    "is unregistered";
-                if (logger.traceOn()) {
-                    logger.trace("init", msg, e);
+                mbfbnRfmovfdNotifID = bddListfnfrForMBfbnRfmovfdNotif();
+            } dbtdi (Exdfption f) {
+                finbl String msg =
+                    "Fbilfd to rfgistfr b listfnfr to tif mbfbn " +
+                    "sfrvfr: tif dlifnt will not do dlfbn wifn bn MBfbn " +
+                    "is unrfgistfrfd";
+                if (loggfr.trbdfOn()) {
+                    loggfr.trbdf("init", msg, f);
                 }
             }
-        } else {
-              while (state == STOPPING) {
+        } flsf {
+              wiilf (stbtf == STOPPING) {
                   try {
-                      wait();
-                  } catch (InterruptedException ire) {
-                      IOException ioe = new IOException(ire.toString());
-                      EnvHelp.initCause(ioe, ire);
-                      throw ioe;
+                      wbit();
+                  } dbtdi (IntfrruptfdExdfption irf) {
+                      IOExdfption iof = nfw IOExdfption(irf.toString());
+                      EnvHflp.initCbusf(iof, irf);
+                      tirow iof;
                   }
               }
 
-              if (listenerInfos.length > 0) { // old listeners are re-added
-                  init(true); // not update clientSequenceNumber
-              } else if (infoList.size() > 0) { // only new listeners added during reconnection
-                  init(false); // need update clientSequenceNumber
+              if (listfnfrInfos.lfngti > 0) { // old listfnfrs brf rf-bddfd
+                  init(truf); // not updbtf dlifntSfqufndfNumbfr
+              } flsf if (infoList.sizf() > 0) { // only nfw listfnfrs bddfd during rfdonnfdtion
+                  init(fblsf); // nffd updbtf dlifntSfqufndfNumbfr
               }
           }
     }
 
-    public synchronized void terminate() {
-        if (state == TERMINATED) {
-            return;
+    publid syndironizfd void tfrminbtf() {
+        if (stbtf == TERMINATED) {
+            rfturn;
         }
 
-        if (logger.traceOn()) {
-            logger.trace("terminate", "Terminating...");
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("tfrminbtf", "Tfrminbting...");
         }
 
-        if (state == STARTED) {
-           infoList.clear();
+        if (stbtf == STARTED) {
+           infoList.dlfbr();
         }
 
-        setState(TERMINATED);
+        sftStbtf(TERMINATED);
     }
 
 
     // -------------------------------------------------
-    // private classes
+    // privbtf dlbssfs
     // -------------------------------------------------
     //
 
-    private class NotifFetcher implements Runnable {
+    privbtf dlbss NotifFftdifr implfmfnts Runnbblf {
 
-        private volatile boolean alreadyLogged = false;
+        privbtf volbtilf boolfbn blrfbdyLoggfd = fblsf;
 
-        private void logOnce(String msg, SecurityException x) {
-            if (alreadyLogged) return;
-            // Log only once.
-            logger.config("setContextClassLoader",msg);
-            if (x != null) logger.fine("setContextClassLoader", x);
-            alreadyLogged = true;
+        privbtf void logOndf(String msg, SfdurityExdfption x) {
+            if (blrfbdyLoggfd) rfturn;
+            // Log only ondf.
+            loggfr.donfig("sftContfxtClbssLobdfr",msg);
+            if (x != null) loggfr.finf("sftContfxtClbssLobdfr", x);
+            blrfbdyLoggfd = truf;
         }
 
-        // Set new context class loader, returns previous one.
-        private final ClassLoader setContextClassLoader(final ClassLoader loader) {
-            final AccessControlContext ctxt = ClientNotifForwarder.this.acc;
-            // if ctxt is null, log a config message and throw a
-            // SecurityException.
-            if (ctxt == null) {
-                logOnce("AccessControlContext must not be null.",null);
-                throw new SecurityException("AccessControlContext must not be null");
+        // Sft nfw dontfxt dlbss lobdfr, rfturns prfvious onf.
+        privbtf finbl ClbssLobdfr sftContfxtClbssLobdfr(finbl ClbssLobdfr lobdfr) {
+            finbl AddfssControlContfxt dtxt = ClifntNotifForwbrdfr.tiis.bdd;
+            // if dtxt is null, log b donfig mfssbgf bnd tirow b
+            // SfdurityExdfption.
+            if (dtxt == null) {
+                logOndf("AddfssControlContfxt must not bf null.",null);
+                tirow nfw SfdurityExdfption("AddfssControlContfxt must not bf null");
             }
-            return AccessController.doPrivileged(
-                new PrivilegedAction<ClassLoader>() {
-                    public ClassLoader run() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                    publid ClbssLobdfr run() {
                         try {
-                            // get context class loader - may throw
-                            // SecurityException - though unlikely.
-                            final ClassLoader previous =
-                                Thread.currentThread().getContextClassLoader();
+                            // gft dontfxt dlbss lobdfr - mby tirow
+                            // SfdurityExdfption - tiougi unlikfly.
+                            finbl ClbssLobdfr prfvious =
+                                Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
 
-                            // if nothing needs to be done, break here...
-                            if (loader == previous) return previous;
+                            // if notiing nffds to bf donf, brfbk ifrf...
+                            if (lobdfr == prfvious) rfturn prfvious;
 
-                            // reset context class loader - may throw
-                            // SecurityException
-                            Thread.currentThread().setContextClassLoader(loader);
-                            return previous;
-                        } catch (SecurityException x) {
-                            logOnce("Permission to set ContextClassLoader missing. " +
-                                    "Notifications will not be dispatched. " +
-                                    "Please check your Java policy configuration: " +
+                            // rfsft dontfxt dlbss lobdfr - mby tirow
+                            // SfdurityExdfption
+                            Tirfbd.durrfntTirfbd().sftContfxtClbssLobdfr(lobdfr);
+                            rfturn prfvious;
+                        } dbtdi (SfdurityExdfption x) {
+                            logOndf("Pfrmission to sft ContfxtClbssLobdfr missing. " +
+                                    "Notifidbtions will not bf dispbtdifd. " +
+                                    "Plfbsf difdk your Jbvb polidy donfigurbtion: " +
                                     x, x);
-                            throw x;
+                            tirow x;
                         }
                     }
-                }, ctxt);
+                }, dtxt);
         }
 
-        public void run() {
-            final ClassLoader previous;
-            if (defaultClassLoader != null) {
-                previous = setContextClassLoader(defaultClassLoader);
-            } else {
-                previous = null;
+        publid void run() {
+            finbl ClbssLobdfr prfvious;
+            if (dffbultClbssLobdfr != null) {
+                prfvious = sftContfxtClbssLobdfr(dffbultClbssLobdfr);
+            } flsf {
+                prfvious = null;
             }
             try {
                 doRun();
-            } finally {
-                if (defaultClassLoader != null) {
-                    setContextClassLoader(previous);
+            } finblly {
+                if (dffbultClbssLobdfr != null) {
+                    sftContfxtClbssLobdfr(prfvious);
                 }
             }
         }
 
-        private void doRun() {
-            synchronized (ClientNotifForwarder.this) {
-                currentFetchThread = Thread.currentThread();
+        privbtf void doRun() {
+            syndironizfd (ClifntNotifForwbrdfr.tiis) {
+                durrfntFftdiTirfbd = Tirfbd.durrfntTirfbd();
 
-                if (state == STARTING) {
-                    setState(STARTED);
+                if (stbtf == STARTING) {
+                    sftStbtf(STARTED);
                 }
             }
 
 
-            NotificationResult nr = null;
-            if (!shouldStop() && (nr = fetchNotifs()) != null) {
-                // nr == null means got exception
+            NotifidbtionRfsult nr = null;
+            if (!siouldStop() && (nr = fftdiNotifs()) != null) {
+                // nr == null mfbns got fxdfption
 
-                final TargetedNotification[] notifs =
-                    nr.getTargetedNotifications();
-                final int len = notifs.length;
-                final Map<Integer, ClientListenerInfo> listeners;
-                final Integer myListenerID;
+                finbl TbrgftfdNotifidbtion[] notifs =
+                    nr.gftTbrgftfdNotifidbtions();
+                finbl int lfn = notifs.lfngti;
+                finbl Mbp<Intfgfr, ClifntListfnfrInfo> listfnfrs;
+                finbl Intfgfr myListfnfrID;
 
-                long missed = 0;
+                long missfd = 0;
 
-                synchronized(ClientNotifForwarder.this) {
-                    // check sequence number.
+                syndironizfd(ClifntNotifForwbrdfr.tiis) {
+                    // difdk sfqufndf numbfr.
                     //
-                    if (clientSequenceNumber >= 0) {
-                        missed = nr.getEarliestSequenceNumber() -
-                            clientSequenceNumber;
+                    if (dlifntSfqufndfNumbfr >= 0) {
+                        missfd = nr.gftEbrlifstSfqufndfNumbfr() -
+                            dlifntSfqufndfNumbfr;
                     }
 
-                    clientSequenceNumber = nr.getNextSequenceNumber();
+                    dlifntSfqufndfNumbfr = nr.gftNfxtSfqufndfNumbfr();
 
-                    listeners = new HashMap<Integer, ClientListenerInfo>();
+                    listfnfrs = nfw HbsiMbp<Intfgfr, ClifntListfnfrInfo>();
 
-                    for (int i = 0 ; i < len ; i++) {
-                        final TargetedNotification tn = notifs[i];
-                        final Integer listenerID = tn.getListenerID();
+                    for (int i = 0 ; i < lfn ; i++) {
+                        finbl TbrgftfdNotifidbtion tn = notifs[i];
+                        finbl Intfgfr listfnfrID = tn.gftListfnfrID();
 
-                        // check if an mbean unregistration notif
-                        if (!listenerID.equals(mbeanRemovedNotifID)) {
-                            final ClientListenerInfo li = infoList.get(listenerID);
+                        // difdk if bn mbfbn unrfgistrbtion notif
+                        if (!listfnfrID.fqubls(mbfbnRfmovfdNotifID)) {
+                            finbl ClifntListfnfrInfo li = infoList.gft(listfnfrID);
                             if (li != null) {
-                                listeners.put(listenerID, li);
+                                listfnfrs.put(listfnfrID, li);
                             }
-                            continue;
+                            dontinuf;
                         }
-                        final Notification notif = tn.getNotification();
-                        final String unreg =
-                            MBeanServerNotification.UNREGISTRATION_NOTIFICATION;
-                        if (notif instanceof MBeanServerNotification &&
-                            notif.getType().equals(unreg)) {
+                        finbl Notifidbtion notif = tn.gftNotifidbtion();
+                        finbl String unrfg =
+                            MBfbnSfrvfrNotifidbtion.UNREGISTRATION_NOTIFICATION;
+                        if (notif instbndfof MBfbnSfrvfrNotifidbtion &&
+                            notif.gftTypf().fqubls(unrfg)) {
 
-                            MBeanServerNotification mbsn =
-                                (MBeanServerNotification) notif;
-                            ObjectName name = mbsn.getMBeanName();
+                            MBfbnSfrvfrNotifidbtion mbsn =
+                                (MBfbnSfrvfrNotifidbtion) notif;
+                            ObjfdtNbmf nbmf = mbsn.gftMBfbnNbmf();
 
-                            removeNotificationListener(name);
+                            rfmovfNotifidbtionListfnfr(nbmf);
                         }
                     }
-                    myListenerID = mbeanRemovedNotifID;
+                    myListfnfrID = mbfbnRfmovfdNotifID;
                 }
 
-                if (missed > 0) {
-                    final String msg =
-                        "May have lost up to " + missed +
-                        " notification" + (missed == 1 ? "" : "s");
-                    lostNotifs(msg, missed);
-                    logger.trace("NotifFetcher.run", msg);
+                if (missfd > 0) {
+                    finbl String msg =
+                        "Mby ibvf lost up to " + missfd +
+                        " notifidbtion" + (missfd == 1 ? "" : "s");
+                    lostNotifs(msg, missfd);
+                    loggfr.trbdf("NotifFftdifr.run", msg);
                 }
 
-                // forward
-                for (int i = 0 ; i < len ; i++) {
-                    final TargetedNotification tn = notifs[i];
-                    dispatchNotification(tn,myListenerID,listeners);
+                // forwbrd
+                for (int i = 0 ; i < lfn ; i++) {
+                    finbl TbrgftfdNotifidbtion tn = notifs[i];
+                    dispbtdiNotifidbtion(tn,myListfnfrID,listfnfrs);
                 }
             }
 
-            synchronized (ClientNotifForwarder.this) {
-                currentFetchThread = null;
+            syndironizfd (ClifntNotifForwbrdfr.tiis) {
+                durrfntFftdiTirfbd = null;
             }
 
-            if (nr == null || shouldStop()) {
-                // tell that the thread is REALLY stopped
-                setState(STOPPED);
+            if (nr == null || siouldStop()) {
+                // tfll tibt tif tirfbd is REALLY stoppfd
+                sftStbtf(STOPPED);
 
                 try {
-                      removeListenerForMBeanRemovedNotif(mbeanRemovedNotifID);
-                } catch (Exception e) {
-                    if (logger.traceOn()) {
-                        logger.trace("NotifFetcher-run",
-                                "removeListenerForMBeanRemovedNotif", e);
+                      rfmovfListfnfrForMBfbnRfmovfdNotif(mbfbnRfmovfdNotifID);
+                } dbtdi (Exdfption f) {
+                    if (loggfr.trbdfOn()) {
+                        loggfr.trbdf("NotifFftdifr-run",
+                                "rfmovfListfnfrForMBfbnRfmovfdNotif", f);
                     }
                 }
-            } else {
-                executor.execute(this);
+            } flsf {
+                fxfdutor.fxfdutf(tiis);
             }
         }
 
-        void dispatchNotification(TargetedNotification tn,
-                                  Integer myListenerID,
-                                  Map<Integer, ClientListenerInfo> listeners) {
-            final Notification notif = tn.getNotification();
-            final Integer listenerID = tn.getListenerID();
+        void dispbtdiNotifidbtion(TbrgftfdNotifidbtion tn,
+                                  Intfgfr myListfnfrID,
+                                  Mbp<Intfgfr, ClifntListfnfrInfo> listfnfrs) {
+            finbl Notifidbtion notif = tn.gftNotifidbtion();
+            finbl Intfgfr listfnfrID = tn.gftListfnfrID();
 
-            if (listenerID.equals(myListenerID)) return;
-            final ClientListenerInfo li = listeners.get(listenerID);
+            if (listfnfrID.fqubls(myListfnfrID)) rfturn;
+            finbl ClifntListfnfrInfo li = listfnfrs.gft(listfnfrID);
 
             if (li == null) {
-                logger.trace("NotifFetcher.dispatch",
-                             "Listener ID not in map");
-                return;
+                loggfr.trbdf("NotifFftdifr.dispbtdi",
+                             "Listfnfr ID not in mbp");
+                rfturn;
             }
 
-            NotificationListener l = li.getListener();
-            Object h = li.getHandback();
+            NotifidbtionListfnfr l = li.gftListfnfr();
+            Objfdt i = li.gftHbndbbdk();
             try {
-                l.handleNotification(notif, h);
-            } catch (RuntimeException e) {
-                final String msg =
-                    "Failed to forward a notification " +
-                    "to a listener";
-                logger.trace("NotifFetcher-run", msg, e);
+                l.ibndlfNotifidbtion(notif, i);
+            } dbtdi (RuntimfExdfption f) {
+                finbl String msg =
+                    "Fbilfd to forwbrd b notifidbtion " +
+                    "to b listfnfr";
+                loggfr.trbdf("NotifFftdifr-run", msg, f);
             }
 
         }
 
-        private NotificationResult fetchNotifs() {
+        privbtf NotifidbtionRfsult fftdiNotifs() {
             try {
-                NotificationResult nr = ClientNotifForwarder.this.
-                    fetchNotifs(clientSequenceNumber,maxNotifications,
-                                timeout);
+                NotifidbtionRfsult nr = ClifntNotifForwbrdfr.tiis.
+                    fftdiNotifs(dlifntSfqufndfNumbfr,mbxNotifidbtions,
+                                timfout);
 
-                if (logger.traceOn()) {
-                    logger.trace("NotifFetcher-run",
-                                 "Got notifications from the server: "+nr);
+                if (loggfr.trbdfOn()) {
+                    loggfr.trbdf("NotifFftdifr-run",
+                                 "Got notifidbtions from tif sfrvfr: "+nr);
                 }
 
-                return nr;
-            } catch (ClassNotFoundException | NotSerializableException | UnmarshalException e) {
-                logger.trace("NotifFetcher.fetchNotifs", e);
-                return fetchOneNotif();
-            } catch (IOException ioe) {
-                if (!shouldStop()) {
-                    logger.error("NotifFetcher-run",
-                                 "Failed to fetch notification, " +
-                                 "stopping thread. Error is: " + ioe, ioe);
-                    logger.debug("NotifFetcher-run",ioe);
+                rfturn nr;
+            } dbtdi (ClbssNotFoundExdfption | NotSfriblizbblfExdfption | UnmbrsiblExdfption f) {
+                loggfr.trbdf("NotifFftdifr.fftdiNotifs", f);
+                rfturn fftdiOnfNotif();
+            } dbtdi (IOExdfption iof) {
+                if (!siouldStop()) {
+                    loggfr.frror("NotifFftdifr-run",
+                                 "Fbilfd to fftdi notifidbtion, " +
+                                 "stopping tirfbd. Error is: " + iof, iof);
+                    loggfr.dfbug("NotifFftdifr-run",iof);
                 }
 
-                // no more fetching
-                return null;
+                // no morf fftdiing
+                rfturn null;
             }
         }
 
-        /* Fetch one notification when we suspect that it might be a
-           notification that we can't deserialize (because of a
-           missing class).  First we ask for 0 notifications with 0
-           timeout.  This allows us to skip sequence numbers for
-           notifications that don't match our filters.  Then we ask
-           for one notification.  If that produces a
-           ClassNotFoundException, NotSerializableException or
-           UnmarshalException, we increase our sequence number and ask again.
-           Eventually we will either get a successful notification, or a
-           return with 0 notifications.  In either case we can return a
-           NotificationResult.  This algorithm works (albeit less
-           well) even if the server implementation doesn't optimize a
-           request for 0 notifications to skip sequence numbers for
-           notifications that don't match our filters.
+        /* Fftdi onf notifidbtion wifn wf suspfdt tibt it migit bf b
+           notifidbtion tibt wf dbn't dfsfriblizf (bfdbusf of b
+           missing dlbss).  First wf bsk for 0 notifidbtions witi 0
+           timfout.  Tiis bllows us to skip sfqufndf numbfrs for
+           notifidbtions tibt don't mbtdi our filtfrs.  Tifn wf bsk
+           for onf notifidbtion.  If tibt produdfs b
+           ClbssNotFoundExdfption, NotSfriblizbblfExdfption or
+           UnmbrsiblExdfption, wf indrfbsf our sfqufndf numbfr bnd bsk bgbin.
+           Evfntublly wf will fitifr gft b suddfssful notifidbtion, or b
+           rfturn witi 0 notifidbtions.  In fitifr dbsf wf dbn rfturn b
+           NotifidbtionRfsult.  Tiis blgoritim works (blbfit lfss
+           wfll) fvfn if tif sfrvfr implfmfntbtion dofsn't optimizf b
+           rfqufst for 0 notifidbtions to skip sfqufndf numbfrs for
+           notifidbtions tibt don't mbtdi our filtfrs.
 
-           If we had at least one
-           ClassNotFoundException/NotSerializableException/UnmarshalException,
-           then we must emit a JMXConnectionNotification.LOST_NOTIFS.
+           If wf ibd bt lfbst onf
+           ClbssNotFoundExdfption/NotSfriblizbblfExdfption/UnmbrsiblExdfption,
+           tifn wf must fmit b JMXConnfdtionNotifidbtion.LOST_NOTIFS.
         */
-        private NotificationResult fetchOneNotif() {
-            ClientNotifForwarder cnf = ClientNotifForwarder.this;
+        privbtf NotifidbtionRfsult fftdiOnfNotif() {
+            ClifntNotifForwbrdfr dnf = ClifntNotifForwbrdfr.tiis;
 
-            long startSequenceNumber = clientSequenceNumber;
+            long stbrtSfqufndfNumbfr = dlifntSfqufndfNumbfr;
 
             int notFoundCount = 0;
 
-            NotificationResult result = null;
-            long firstEarliest = -1;
+            NotifidbtionRfsult rfsult = null;
+            long firstEbrlifst = -1;
 
-            while (result == null && !shouldStop()) {
-                NotificationResult nr;
+            wiilf (rfsult == null && !siouldStop()) {
+                NotifidbtionRfsult nr;
 
                 try {
-                    // 0 notifs to update startSequenceNumber
-                    nr = cnf.fetchNotifs(startSequenceNumber, 0, 0L);
-                } catch (ClassNotFoundException e) {
-                    logger.warning("NotifFetcher.fetchOneNotif",
-                                   "Impossible exception: " + e);
-                    logger.debug("NotifFetcher.fetchOneNotif",e);
-                    return null;
-                } catch (IOException e) {
-                    if (!shouldStop())
-                        logger.trace("NotifFetcher.fetchOneNotif", e);
-                    return null;
+                    // 0 notifs to updbtf stbrtSfqufndfNumbfr
+                    nr = dnf.fftdiNotifs(stbrtSfqufndfNumbfr, 0, 0L);
+                } dbtdi (ClbssNotFoundExdfption f) {
+                    loggfr.wbrning("NotifFftdifr.fftdiOnfNotif",
+                                   "Impossiblf fxdfption: " + f);
+                    loggfr.dfbug("NotifFftdifr.fftdiOnfNotif",f);
+                    rfturn null;
+                } dbtdi (IOExdfption f) {
+                    if (!siouldStop())
+                        loggfr.trbdf("NotifFftdifr.fftdiOnfNotif", f);
+                    rfturn null;
                 }
 
-                if (shouldStop())
-                    return null;
+                if (siouldStop())
+                    rfturn null;
 
-                startSequenceNumber = nr.getNextSequenceNumber();
-                if (firstEarliest < 0)
-                    firstEarliest = nr.getEarliestSequenceNumber();
+                stbrtSfqufndfNumbfr = nr.gftNfxtSfqufndfNumbfr();
+                if (firstEbrlifst < 0)
+                    firstEbrlifst = nr.gftEbrlifstSfqufndfNumbfr();
 
                 try {
-                    // 1 notif to skip possible missing class
-                    result = cnf.fetchNotifs(startSequenceNumber, 1, 0L);
-                } catch (ClassNotFoundException | NotSerializableException | UnmarshalException e) {
-                    logger.warning("NotifFetcher.fetchOneNotif",
-                                   "Failed to deserialize a notification: "+e.toString());
-                    if (logger.traceOn()) {
-                        logger.trace("NotifFetcher.fetchOneNotif",
-                                     "Failed to deserialize a notification.", e);
+                    // 1 notif to skip possiblf missing dlbss
+                    rfsult = dnf.fftdiNotifs(stbrtSfqufndfNumbfr, 1, 0L);
+                } dbtdi (ClbssNotFoundExdfption | NotSfriblizbblfExdfption | UnmbrsiblExdfption f) {
+                    loggfr.wbrning("NotifFftdifr.fftdiOnfNotif",
+                                   "Fbilfd to dfsfriblizf b notifidbtion: "+f.toString());
+                    if (loggfr.trbdfOn()) {
+                        loggfr.trbdf("NotifFftdifr.fftdiOnfNotif",
+                                     "Fbilfd to dfsfriblizf b notifidbtion.", f);
                     }
 
                     notFoundCount++;
-                    startSequenceNumber++;
-                } catch (Exception e) {
-                    if (!shouldStop())
-                        logger.trace("NotifFetcher.fetchOneNotif", e);
-                    return null;
+                    stbrtSfqufndfNumbfr++;
+                } dbtdi (Exdfption f) {
+                    if (!siouldStop())
+                        loggfr.trbdf("NotifFftdifr.fftdiOnfNotif", f);
+                    rfturn null;
                 }
             }
 
             if (notFoundCount > 0) {
-                final String msg =
-                    "Dropped " + notFoundCount + " notification" +
+                finbl String msg =
+                    "Droppfd " + notFoundCount + " notifidbtion" +
                     (notFoundCount == 1 ? "" : "s") +
-                    " because classes were missing locally or incompatible";
+                    " bfdbusf dlbssfs wfrf missing lodblly or indompbtiblf";
                 lostNotifs(msg, notFoundCount);
-                // Even if result.getEarliestSequenceNumber() is now greater than
-                // it was initially, meaning some notifs have been dropped
-                // from the buffer, we don't want the caller to see that
-                // because it is then likely to renotify about the lost notifs.
-                // So we put back the first value of earliestSequenceNumber
-                // that we saw.
-                if (result != null) {
-                    result = new NotificationResult(
-                            firstEarliest, result.getNextSequenceNumber(),
-                            result.getTargetedNotifications());
+                // Evfn if rfsult.gftEbrlifstSfqufndfNumbfr() is now grfbtfr tibn
+                // it wbs initiblly, mfbning somf notifs ibvf bffn droppfd
+                // from tif bufffr, wf don't wbnt tif dbllfr to sff tibt
+                // bfdbusf it is tifn likfly to rfnotify bbout tif lost notifs.
+                // So wf put bbdk tif first vbluf of fbrlifstSfqufndfNumbfr
+                // tibt wf sbw.
+                if (rfsult != null) {
+                    rfsult = nfw NotifidbtionRfsult(
+                            firstEbrlifst, rfsult.gftNfxtSfqufndfNumbfr(),
+                            rfsult.gftTbrgftfdNotifidbtions());
                 }
             }
 
-            return result;
+            rfturn rfsult;
         }
 
-        private boolean shouldStop() {
-            synchronized (ClientNotifForwarder.this) {
-                if (state != STARTED) {
-                    return true;
-                } else if (infoList.size() == 0) {
-                    // no more listener, stop fetching
-                    setState(STOPPING);
+        privbtf boolfbn siouldStop() {
+            syndironizfd (ClifntNotifForwbrdfr.tiis) {
+                if (stbtf != STARTED) {
+                    rfturn truf;
+                } flsf if (infoList.sizf() == 0) {
+                    // no morf listfnfr, stop fftdiing
+                    sftStbtf(STOPPING);
 
-                    return true;
+                    rfturn truf;
                 }
 
-                return false;
+                rfturn fblsf;
             }
         }
     }
 
 
 // -------------------------------------------------
-// private methods
+// privbtf mftiods
 // -------------------------------------------------
-    private synchronized void setState(int newState) {
-        if (state == TERMINATED) {
-            return;
+    privbtf syndironizfd void sftStbtf(int nfwStbtf) {
+        if (stbtf == TERMINATED) {
+            rfturn;
         }
 
-        state = newState;
-        this.notifyAll();
+        stbtf = nfwStbtf;
+        tiis.notifyAll();
     }
 
     /*
-     * Called to decide whether need to start a thread for fetching notifs.
-     * <P>The parameter reconnected will decide whether to initilize the clientSequenceNumber,
-     * initilaizing the clientSequenceNumber means to ignore all notifications arrived before.
-     * If it is reconnected, we will not initialize in order to get all notifications arrived
-     * during the reconnection. It may cause the newly registered listeners to receive some
-     * notifications arrived before its registray.
+     * Cbllfd to dfdidf wiftifr nffd to stbrt b tirfbd for fftdiing notifs.
+     * <P>Tif pbrbmftfr rfdonnfdtfd will dfdidf wiftifr to initilizf tif dlifntSfqufndfNumbfr,
+     * initilbizing tif dlifntSfqufndfNumbfr mfbns to ignorf bll notifidbtions brrivfd bfforf.
+     * If it is rfdonnfdtfd, wf will not initiblizf in ordfr to gft bll notifidbtions brrivfd
+     * during tif rfdonnfdtion. It mby dbusf tif nfwly rfgistfrfd listfnfrs to rfdfivf somf
+     * notifidbtions brrivfd bfforf its rfgistrby.
      */
-    private synchronized void init(boolean reconnected) throws IOException {
-        switch (state) {
-        case STARTED:
-            return;
-        case STARTING:
-            return;
-        case TERMINATED:
-            throw new IOException("The ClientNotifForwarder has been terminated.");
-        case STOPPING:
-            if (beingReconnected == true) {
-                // wait for another thread to do, which is doing reconnection
-                return;
+    privbtf syndironizfd void init(boolfbn rfdonnfdtfd) tirows IOExdfption {
+        switdi (stbtf) {
+        dbsf STARTED:
+            rfturn;
+        dbsf STARTING:
+            rfturn;
+        dbsf TERMINATED:
+            tirow nfw IOExdfption("Tif ClifntNotifForwbrdfr ibs bffn tfrminbtfd.");
+        dbsf STOPPING:
+            if (bfingRfdonnfdtfd == truf) {
+                // wbit for bnotifr tirfbd to do, wiidi is doing rfdonnfdtion
+                rfturn;
             }
 
-            while (state == STOPPING) { // make sure only one fetching thread.
+            wiilf (stbtf == STOPPING) { // mbkf surf only onf fftdiing tirfbd.
                 try {
-                    wait();
-                } catch (InterruptedException ire) {
-                    IOException ioe = new IOException(ire.toString());
-                    EnvHelp.initCause(ioe, ire);
+                    wbit();
+                } dbtdi (IntfrruptfdExdfption irf) {
+                    IOExdfption iof = nfw IOExdfption(irf.toString());
+                    EnvHflp.initCbusf(iof, irf);
 
-                    throw ioe;
+                    tirow iof;
                 }
             }
 
-            // re-call this method to check the state again,
-            // the state can be other value like TERMINATED.
-            init(reconnected);
+            // rf-dbll tiis mftiod to difdk tif stbtf bgbin,
+            // tif stbtf dbn bf otifr vbluf likf TERMINATED.
+            init(rfdonnfdtfd);
 
-            return;
-        case STOPPED:
-            if (beingReconnected == true) {
-                // wait for another thread to do, which is doing reconnection
-                return;
+            rfturn;
+        dbsf STOPPED:
+            if (bfingRfdonnfdtfd == truf) {
+                // wbit for bnotifr tirfbd to do, wiidi is doing rfdonnfdtion
+                rfturn;
             }
 
-            if (logger.traceOn()) {
-                logger.trace("init", "Initializing...");
+            if (loggfr.trbdfOn()) {
+                loggfr.trbdf("init", "Initiblizing...");
             }
 
-            // init the clientSequenceNumber if not reconnected.
-            if (!reconnected) {
+            // init tif dlifntSfqufndfNumbfr if not rfdonnfdtfd.
+            if (!rfdonnfdtfd) {
                 try {
-                    NotificationResult nr = fetchNotifs(-1, 0, 0);
+                    NotifidbtionRfsult nr = fftdiNotifs(-1, 0, 0);
 
-                    if (state != STOPPED) { // JDK-8038940
-                                            // reconnection must happen during
-                                            // fetchNotifs(-1, 0, 0), and a new
-                                            // thread takes over the fetching job
-                        return;
+                    if (stbtf != STOPPED) { // JDK-8038940
+                                            // rfdonnfdtion must ibppfn during
+                                            // fftdiNotifs(-1, 0, 0), bnd b nfw
+                                            // tirfbd tbkfs ovfr tif fftdiing job
+                        rfturn;
                     }
 
-                    clientSequenceNumber = nr.getNextSequenceNumber();
-                } catch (ClassNotFoundException e) {
-                    // can't happen
-                    logger.warning("init", "Impossible exception: "+ e);
-                    logger.debug("init",e);
+                    dlifntSfqufndfNumbfr = nr.gftNfxtSfqufndfNumbfr();
+                } dbtdi (ClbssNotFoundExdfption f) {
+                    // dbn't ibppfn
+                    loggfr.wbrning("init", "Impossiblf fxdfption: "+ f);
+                    loggfr.dfbug("init",f);
                 }
             }
 
-            // for cleaning
+            // for dlfbning
             try {
-                mbeanRemovedNotifID = addListenerForMBeanRemovedNotif();
-            } catch (Exception e) {
-                final String msg =
-                    "Failed to register a listener to the mbean " +
-                    "server: the client will not do clean when an MBean " +
-                    "is unregistered";
-                if (logger.traceOn()) {
-                    logger.trace("init", msg, e);
+                mbfbnRfmovfdNotifID = bddListfnfrForMBfbnRfmovfdNotif();
+            } dbtdi (Exdfption f) {
+                finbl String msg =
+                    "Fbilfd to rfgistfr b listfnfr to tif mbfbn " +
+                    "sfrvfr: tif dlifnt will not do dlfbn wifn bn MBfbn " +
+                    "is unrfgistfrfd";
+                if (loggfr.trbdfOn()) {
+                    loggfr.trbdf("init", msg, f);
                 }
             }
 
-            setState(STARTING);
+            sftStbtf(STARTING);
 
-            // start fetching
-            executor.execute(new NotifFetcher());
+            // stbrt fftdiing
+            fxfdutor.fxfdutf(nfw NotifFftdifr());
 
-            return;
-        default:
-            // should not
-            throw new IOException("Unknown state.");
+            rfturn;
+        dffbult:
+            // siould not
+            tirow nfw IOExdfption("Unknown stbtf.");
         }
     }
 
     /**
-     * Import: should not remove a listener during reconnection, the reconnection
-     * needs to change the listener list and that will possibly make removal fail.
+     * Import: siould not rfmovf b listfnfr during rfdonnfdtion, tif rfdonnfdtion
+     * nffds to dibngf tif listfnfr list bnd tibt will possibly mbkf rfmovbl fbil.
      */
-    private synchronized void beforeRemove() throws IOException {
-        while (beingReconnected) {
-            if (state == TERMINATED) {
-                throw new IOException("Terminated.");
+    privbtf syndironizfd void bfforfRfmovf() tirows IOExdfption {
+        wiilf (bfingRfdonnfdtfd) {
+            if (stbtf == TERMINATED) {
+                tirow nfw IOExdfption("Tfrminbtfd.");
             }
 
             try {
-                wait();
-            } catch (InterruptedException ire) {
-                IOException ioe = new IOException(ire.toString());
-                EnvHelp.initCause(ioe, ire);
+                wbit();
+            } dbtdi (IntfrruptfdExdfption irf) {
+                IOExdfption iof = nfw IOExdfption(irf.toString());
+                EnvHflp.initCbusf(iof, irf);
 
-                throw ioe;
+                tirow iof;
             }
         }
 
-        if (state == TERMINATED) {
-            throw new IOException("Terminated.");
+        if (stbtf == TERMINATED) {
+            tirow nfw IOExdfption("Tfrminbtfd.");
         }
     }
 
 // -------------------------------------------------
-// private variables
+// privbtf vbribblfs
 // -------------------------------------------------
 
-    private final ClassLoader defaultClassLoader;
-    private final Executor executor;
+    privbtf finbl ClbssLobdfr dffbultClbssLobdfr;
+    privbtf finbl Exfdutor fxfdutor;
 
-    private final Map<Integer, ClientListenerInfo> infoList =
-            new HashMap<Integer, ClientListenerInfo>();
+    privbtf finbl Mbp<Intfgfr, ClifntListfnfrInfo> infoList =
+            nfw HbsiMbp<Intfgfr, ClifntListfnfrInfo>();
 
     // notif stuff
-    private long clientSequenceNumber = -1;
-    private final int maxNotifications;
-    private final long timeout;
-    private Integer mbeanRemovedNotifID = null;
-    private Thread currentFetchThread;
+    privbtf long dlifntSfqufndfNumbfr = -1;
+    privbtf finbl int mbxNotifidbtions;
+    privbtf finbl long timfout;
+    privbtf Intfgfr mbfbnRfmovfdNotifID = null;
+    privbtf Tirfbd durrfntFftdiTirfbd;
 
-    // state
+    // stbtf
     /**
-     * This state means that a thread is being created for fetching and forwarding notifications.
+     * Tiis stbtf mfbns tibt b tirfbd is bfing drfbtfd for fftdiing bnd forwbrding notifidbtions.
      */
-    private static final int STARTING = 0;
-
-    /**
-     * This state tells that a thread has been started for fetching and forwarding notifications.
-     */
-    private static final int STARTED = 1;
+    privbtf stbtid finbl int STARTING = 0;
 
     /**
-     * This state means that the fetching thread is informed to stop.
+     * Tiis stbtf tflls tibt b tirfbd ibs bffn stbrtfd for fftdiing bnd forwbrding notifidbtions.
      */
-    private static final int STOPPING = 2;
+    privbtf stbtid finbl int STARTED = 1;
 
     /**
-     * This state means that the fetching thread is already stopped.
+     * Tiis stbtf mfbns tibt tif fftdiing tirfbd is informfd to stop.
      */
-    private static final int STOPPED = 3;
+    privbtf stbtid finbl int STOPPING = 2;
 
     /**
-     * This state means that this object is terminated and no more thread will be created
-     * for fetching notifications.
+     * Tiis stbtf mfbns tibt tif fftdiing tirfbd is blrfbdy stoppfd.
      */
-    private static final int TERMINATED = 4;
-
-    private int state = STOPPED;
+    privbtf stbtid finbl int STOPPED = 3;
 
     /**
-     * This variable is used to tell whether a connector (RMIConnector or ClientIntermediary)
-     * is doing reconnection.
-     * This variable will be set to true by the method <code>preReconnection</code>, and set
-     * to false by <code>postReconnection</code>.
-     * When beingReconnected == true, no thread will be created for fetching notifications.
+     * Tiis stbtf mfbns tibt tiis objfdt is tfrminbtfd bnd no morf tirfbd will bf drfbtfd
+     * for fftdiing notifidbtions.
      */
-    private boolean beingReconnected = false;
+    privbtf stbtid finbl int TERMINATED = 4;
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc",
-                        "ClientNotifForwarder");
+    privbtf int stbtf = STOPPED;
+
+    /**
+     * Tiis vbribblf is usfd to tfll wiftifr b donnfdtor (RMIConnfdtor or ClifntIntfrmfdibry)
+     * is doing rfdonnfdtion.
+     * Tiis vbribblf will bf sft to truf by tif mftiod <dodf>prfRfdonnfdtion</dodf>, bnd sft
+     * to fblsf by <dodf>postRfdonnfdtion</dodf>.
+     * Wifn bfingRfdonnfdtfd == truf, no tirfbd will bf drfbtfd for fftdiing notifidbtions.
+     */
+    privbtf boolfbn bfingRfdonnfdtfd = fblsf;
+
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd",
+                        "ClifntNotifForwbrdfr");
 }

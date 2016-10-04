@@ -1,0 +1,683 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5;
+
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.util.*;
+import jbvb.nft.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Arrbys;
+import sun.sfdurity.krb5.intfrnbl.ddbdhf.CCbdhfOutputStrfbm;
+import sun.sfdurity.krb5.intfrnbl.util.KfrbfrosString;
+
+
+/**
+ * Implfmfnts thf ASN.1 PrindipblNbmf typf bnd its rfblm in b singlf dlbss.
+ * <xmp>
+ *    Rfblm           ::= KfrbfrosString
+ *
+ *    PrindipblNbmf   ::= SEQUENCE {
+ *            nbmf-typf       [0] Int32,
+ *            nbmf-string     [1] SEQUENCE OF KfrbfrosString
+ *    }
+ * </xmp>
+ * This dlbss is immutbblf.
+ * @sff Rfblm
+ */
+publid dlbss PrindipblNbmf implfmfnts Clonfbblf {
+
+    //nbmf typfs
+
+    /**
+     * Nbmf typf not known
+     */
+    publid stbtid finbl int KRB_NT_UNKNOWN =   0;
+
+    /**
+     * Just thf nbmf of thf prindipbl bs in DCE, or for usfrs
+     */
+    publid stbtid finbl int KRB_NT_PRINCIPAL = 1;
+
+    /**
+     * Sfrvidf bnd othfr uniquf instbndf (krbtgt)
+     */
+    publid stbtid finbl int KRB_NT_SRV_INST =  2;
+
+    /**
+     * Sfrvidf with host nbmf bs instbndf (tflnft, rdommbnds)
+     */
+    publid stbtid finbl int KRB_NT_SRV_HST =   3;
+
+    /**
+     * Sfrvidf with host bs rfmbining domponfnts
+     */
+    publid stbtid finbl int KRB_NT_SRV_XHST =  4;
+
+    /**
+     * Uniquf ID
+     */
+    publid stbtid finbl int KRB_NT_UID = 5;
+
+    /**
+     * TGS Nbmf
+     */
+    publid stbtid finbl String TGS_DEFAULT_SRV_NAME = "krbtgt";
+    publid stbtid finbl int TGS_DEFAULT_NT = KRB_NT_SRV_INST;
+
+    publid stbtid finbl dhbr NAME_COMPONENT_SEPARATOR = '/';
+    publid stbtid finbl dhbr NAME_REALM_SEPARATOR = '@';
+    publid stbtid finbl dhbr REALM_COMPONENT_SEPARATOR = '.';
+
+    publid stbtid finbl String NAME_COMPONENT_SEPARATOR_STR = "/";
+    publid stbtid finbl String NAME_REALM_SEPARATOR_STR = "@";
+    publid stbtid finbl String REALM_COMPONENT_SEPARATOR_STR = ".";
+
+    // Instbndf fiflds.
+
+    /**
+     * Thf nbmf typf, from PrindipblNbmf's nbmf-typf fifld.
+     */
+    privbtf finbl int nbmfTypf;
+
+    /**
+     * Thf nbmf strings, from PrindipblNbmf's nbmf-strings fifld. This fifld
+     * must bf nfithfr null nor fmpty. Ebdh fntry of it must blso bf nfithfr
+     * null nor fmpty. Mbkf surf to dlonf thf fifld whfn it's pbssfd in or out.
+     */
+    privbtf finbl String[] nbmfStrings;
+
+    /**
+     * Thf rfblm this prindipbl bflongs to.
+     */
+    privbtf finbl Rfblm nbmfRfblm;      // not null
+
+    // dbdhfd dffbult sblt, not usfd in dlonf
+    privbtf trbnsifnt String sblt = null;
+
+    // Thfrf brf 3 bbsid donstrudtors. All othfr donstrudtors must dbll thfm.
+    // All bbsid donstrudtors must dbll vblidbtfNbmfStrings.
+    // 1. From nbmf domponfnts
+    // 2. From nbmf
+    // 3. From DER fndoding
+
+    /**
+     * Crfbtfs b PrindipblNbmf.
+     */
+    publid PrindipblNbmf(int nbmfTypf, String[] nbmfStrings, Rfblm nbmfRfblm) {
+        if (nbmfRfblm == null) {
+            throw nfw IllfgblArgumfntExdfption("Null rfblm not bllowfd");
+        }
+        vblidbtfNbmfStrings(nbmfStrings);
+        this.nbmfTypf = nbmfTypf;
+        this.nbmfStrings = nbmfStrings.dlonf();
+        this.nbmfRfblm = nbmfRfblm;
+    }
+
+    // This mfthod is dbllfd by Windows NbtivfCrfd.d
+    publid PrindipblNbmf(String[] nbmfPbrts, String rfblm) throws RfblmExdfption {
+        this(KRB_NT_UNKNOWN, nbmfPbrts, nfw Rfblm(rfblm));
+    }
+
+    publid PrindipblNbmf(String[] nbmfPbrts, int typf)
+            throws IllfgblArgumfntExdfption, RfblmExdfption {
+        this(typf, nbmfPbrts, Rfblm.gftDffbult());
+    }
+
+    // Vblidbtf b nbmfStrings brgumfnt
+    privbtf stbtid void vblidbtfNbmfStrings(String[] ns) {
+        if (ns == null) {
+            throw nfw IllfgblArgumfntExdfption("Null nbmfStrings not bllowfd");
+        }
+        if (ns.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption("Empty nbmfStrings not bllowfd");
+        }
+        for (String s: ns) {
+            if (s == null) {
+                throw nfw IllfgblArgumfntExdfption("Null nbmfString not bllowfd");
+            }
+            if (s.isEmpty()) {
+                throw nfw IllfgblArgumfntExdfption("Empty nbmfString not bllowfd");
+            }
+        }
+    }
+
+    publid Objfdt dlonf() {
+        try {
+            PrindipblNbmf pNbmf = (PrindipblNbmf) supfr.dlonf();
+            UNSAFE.putObjfdt(this, NAME_STRINGS_OFFSET, nbmfStrings.dlonf());
+            rfturn pNbmf;
+        } dbtdh (ClonfNotSupportfdExdfption fx) {
+            throw nfw AssfrtionError("Should nfvfr hbppfn");
+        }
+    }
+
+    privbtf stbtid finbl long NAME_STRINGS_OFFSET;
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    stbtid {
+        try {
+            sun.misd.Unsbff unsbff = sun.misd.Unsbff.gftUnsbff();
+            NAME_STRINGS_OFFSET = unsbff.objfdtFifldOffsft(
+                    PrindipblNbmf.dlbss.gftDfdlbrfdFifld("nbmfStrings"));
+            UNSAFE = unsbff;
+        } dbtdh (RfflfdtivfOpfrbtionExdfption f) {
+            throw nfw Error(f);
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (this == o) {
+            rfturn truf;
+        }
+        if (o instbndfof PrindipblNbmf) {
+            PrindipblNbmf othfr = (PrindipblNbmf)o;
+            rfturn nbmfRfblm.fqubls(othfr.nbmfRfblm) &&
+                    Arrbys.fqubls(nbmfStrings, othfr.nbmfStrings);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf ASN.1 fndoding of thf
+     * <xmp>
+     * PrindipblNbmf    ::= SEQUENCE {
+     *          nbmf-typf       [0] Int32,
+     *          nbmf-string     [1] SEQUENCE OF KfrbfrosString
+     * }
+     *
+     * KfrbfrosString   ::= GfnfrblString (IA5String)
+     * </xmp>
+     *
+     * <p>
+     * This dffinition rfflfdts thf Nftwork Working Group RFC 4120
+     * spfdifidbtion bvbilbblf bt
+     * <b hrff="http://www.iftf.org/rfd/rfd4120.txt">
+     * http://www.iftf.org/rfd/rfd4120.txt</b>.
+     *
+     * @pbrbm fndoding b Dfr-fndodfd dbtb.
+     * @pbrbm rfblm thf rfblm for this nbmf
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding
+     * bn ASN1 fndodfd dbtb.
+     * @fxdfption Asn1Exdfption if thfrf is bn ASN1 fndoding frror
+     * @fxdfption IOExdfption if bn I/O frror oddurs
+     * @fxdfption IllfgblArgumfntExdfption if fndoding is null
+     * rfbding fndodfd dbtb.
+     */
+    publid PrindipblNbmf(DfrVbluf fndoding, Rfblm rfblm)
+            throws Asn1Exdfption, IOExdfption {
+        if (rfblm == null) {
+            throw nfw IllfgblArgumfntExdfption("Null rfblm not bllowfd");
+        }
+        nbmfRfblm = rfblm;
+        DfrVbluf dfr;
+        if (fndoding == null) {
+            throw nfw IllfgblArgumfntExdfption("Null fndoding not bllowfd");
+        }
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x00) {
+            BigIntfgfr bint = dfr.gftDbtb().gftBigIntfgfr();
+            nbmfTypf = bint.intVbluf();
+        } flsf {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x01F) == 0x01) {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            if (subDfr.gftTbg() != DfrVbluf.tbg_SfqufndfOf) {
+                throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+            }
+            Vfdtor<String> v = nfw Vfdtor<>();
+            DfrVbluf subSubDfr;
+            whilf(subDfr.gftDbtb().bvbilbblf() > 0) {
+                subSubDfr = subDfr.gftDbtb().gftDfrVbluf();
+                String nbmfPbrt = nfw KfrbfrosString(subSubDfr).toString();
+                v.bddElfmfnt(nbmfPbrt);
+            }
+            nbmfStrings = nfw String[v.sizf()];
+            v.dopyInto(nbmfStrings);
+            vblidbtfNbmfStrings(nbmfStrings);
+        } flsf  {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+    }
+
+    /**
+     * Pbrsf (unmbrshbl) b <dodf>PrindipblNbmf</dodf> from b DER
+     * input strfbm.  This form
+     * pbrsing might bf usfd whfn fxpbnding b vbluf whidh is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
+     *
+     * @fxdfption Asn1Exdfption on frror.
+     * @pbrbm dbtb thf Dfr input strfbm vbluf, whidh dontbins onf or
+     * morf mbrshblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtf if this dbtb fifld is optionbl
+     * @pbrbm rfblm thf rfblm for thf nbmf
+     * @rfturn bn instbndf of <dodf>PrindipblNbmf</dodf>, or null if thf
+     * fifld is optionbl bnd missing.
+     */
+    publid stbtid PrindipblNbmf pbrsf(DfrInputStrfbm dbtb,
+                                      bytf fxpliditTbg, boolfbn
+                                      optionbl,
+                                      Rfblm rfblm)
+        throws Asn1Exdfption, IOExdfption, RfblmExdfption {
+
+        if ((optionbl) && (((bytf)dbtb.pffkBytf() & (bytf)0x1F) !=
+                           fxpliditTbg))
+            rfturn null;
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F)) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        } flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            if (rfblm == null) {
+                rfblm = Rfblm.gftDffbult();
+            }
+            rfturn nfw PrindipblNbmf(subDfr, rfblm);
+        }
+    }
+
+
+    // XXX Error dhfdkin donsistfnt with MIT krb5_pbrsf_nbmf
+    // Codf rfpftition, rfblm pbrsfd bgbin by dlbss Rfblm
+    privbtf stbtid String[] pbrsfNbmf(String nbmf) {
+
+        Vfdtor<String> tfmpStrings = nfw Vfdtor<>();
+        String tfmp = nbmf;
+        int i = 0;
+        int domponfntStbrt = 0;
+        String domponfnt;
+
+        whilf (i < tfmp.lfngth()) {
+            if (tfmp.dhbrAt(i) == NAME_COMPONENT_SEPARATOR) {
+                /*
+                 * If this sfpbrbtor is fsdbpfd thfn don't trfbt it
+                 * bs b sfpbrbtor
+                 */
+                if (i > 0 && tfmp.dhbrAt(i - 1) == '\\') {
+                    tfmp = tfmp.substring(0, i - 1) +
+                        tfmp.substring(i, tfmp.lfngth());
+                    dontinuf;
+                }
+                flsf {
+                    if (domponfntStbrt <= i) {
+                        domponfnt = tfmp.substring(domponfntStbrt, i);
+                        tfmpStrings.bddElfmfnt(domponfnt);
+                    }
+                    domponfntStbrt = i + 1;
+                }
+            } flsf {
+                if (tfmp.dhbrAt(i) == NAME_REALM_SEPARATOR) {
+                    /*
+                     * If this sfpbrbtor is fsdbpfd thfn don't trfbt it
+                     * bs b sfpbrbtor
+                     */
+                    if (i > 0 && tfmp.dhbrAt(i - 1) == '\\') {
+                        tfmp = tfmp.substring(0, i - 1) +
+                            tfmp.substring(i, tfmp.lfngth());
+                        dontinuf;
+                    } flsf {
+                        if (domponfntStbrt < i) {
+                            domponfnt = tfmp.substring(domponfntStbrt, i);
+                            tfmpStrings.bddElfmfnt(domponfnt);
+                        }
+                        domponfntStbrt = i + 1;
+                        brfbk;
+                    }
+                }
+            }
+            i++;
+        }
+
+        if (i == tfmp.lfngth()) {
+            domponfnt = tfmp.substring(domponfntStbrt, i);
+            tfmpStrings.bddElfmfnt(domponfnt);
+        }
+
+        String[] rfsult = nfw String[tfmpStrings.sizf()];
+        tfmpStrings.dopyInto(rfsult);
+        rfturn rfsult;
+    }
+
+    /**
+     * Construdts b PrindipblNbmf from b string.
+     * @pbrbm nbmf thf nbmf
+     * @pbrbm typf thf typf
+     * @pbrbm rfblm thf rfblm, null if not known. Notf thbt whfn rfblm is not
+     * null, it will bf blwbys usfd fvfn if thfrf is b rfblm pbrt in nbmf. Whfn
+     * rfblm is null, will rfbd rfblm pbrt from nbmf, or try to mbp b rfblm
+     * (for KRB_NT_SRV_HST), or usf thf dffbult rfblm, or fbil
+     * @throws RfblmExdfption
+     */
+    publid PrindipblNbmf(String nbmf, int typf, String rfblm)
+            throws RfblmExdfption {
+        if (nbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("Null nbmf not bllowfd");
+        }
+        String[] nbmfPbrts = pbrsfNbmf(nbmf);
+        vblidbtfNbmfStrings(nbmfPbrts);
+        if (rfblm == null) {
+            rfblm = Rfblm.pbrsfRfblmAtSfpbrbtor(nbmf);
+        }
+        switdh (typf) {
+        dbsf KRB_NT_SRV_HST:
+            if (nbmfPbrts.lfngth >= 2) {
+                String hostNbmf = nbmfPbrts[1];
+                try {
+                    // RFC4120 dofs not rfdommfnd dbnonidblizing b hostnbmf.
+                    // Howfvfr, for dompbtibility rfbson, wf will try
+                    // dbnonidblizf it bnd sff if thf output looks bfttfr.
+
+                    String dbnonidblizfd = (InftAddrfss.gftByNbmf(hostNbmf)).
+                            gftCbnonidblHostNbmf();
+
+                    // Looks if dbnonidblizfd is b longfr formbt of hostNbmf,
+                    // wf bddfpt dbsfs likf
+                    //     bunny -> bunny.rbbbit.holf
+                    if (dbnonidblizfd.toLowfrCbsf(Lodblf.ENGLISH).stbrtsWith(
+                                hostNbmf.toLowfrCbsf(Lodblf.ENGLISH)+".")) {
+                        hostNbmf = dbnonidblizfd;
+                    }
+                } dbtdh (UnknownHostExdfption f) {
+                    // no dbnonidblizbtion, usf old
+                }
+                nbmfPbrts[1] = hostNbmf.toLowfrCbsf(Lodblf.ENGLISH);
+            }
+            nbmfStrings = nbmfPbrts;
+            nbmfTypf = typf;
+
+            if (rfblm != null) {
+                nbmfRfblm = nfw Rfblm(rfblm);
+            } flsf {
+                // Wf will try to gft rfblm nbmf from thf mbpping in
+                // thf donfigurbtion. If it is not spfdififd
+                // wf will usf thf dffbult rfblm. This nbmftypf dofs
+                // not bllow b rfblm to bf spfdififd. Thf nbmf string must of
+                // thf form sfrvidf@host bnd this is intfrnblly dhbngfd into
+                // sfrvidf/host by Kfrbfros
+                String mbpRfblm =  mbpHostToRfblm(nbmfPbrts[1]);
+                if (mbpRfblm != null) {
+                    nbmfRfblm = nfw Rfblm(mbpRfblm);
+                } flsf {
+                    nbmfRfblm = Rfblm.gftDffbult();
+                }
+            }
+            brfbk;
+        dbsf KRB_NT_UNKNOWN:
+        dbsf KRB_NT_PRINCIPAL:
+        dbsf KRB_NT_SRV_INST:
+        dbsf KRB_NT_SRV_XHST:
+        dbsf KRB_NT_UID:
+            nbmfStrings = nbmfPbrts;
+            nbmfTypf = typf;
+            if (rfblm != null) {
+                nbmfRfblm = nfw Rfblm(rfblm);
+            } flsf {
+                nbmfRfblm = Rfblm.gftDffbult();
+            }
+            brfbk;
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("Illfgbl nbmf typf");
+        }
+    }
+
+    publid PrindipblNbmf(String nbmf, int typf) throws RfblmExdfption {
+        this(nbmf, typf, (String)null);
+    }
+
+    publid PrindipblNbmf(String nbmf) throws RfblmExdfption {
+        this(nbmf, KRB_NT_UNKNOWN);
+    }
+
+    publid PrindipblNbmf(String nbmf, String rfblm) throws RfblmExdfption {
+        this(nbmf, KRB_NT_UNKNOWN, rfblm);
+    }
+
+    publid stbtid PrindipblNbmf tgsSfrvidf(String r1, String r2)
+            throws KrbExdfption {
+        rfturn nfw PrindipblNbmf(PrindipblNbmf.KRB_NT_SRV_INST,
+                nfw String[] {PrindipblNbmf.TGS_DEFAULT_SRV_NAME, r1},
+                nfw Rfblm(r2));
+    }
+
+    publid String gftRfblmAsString() {
+        rfturn gftRfblmString();
+    }
+
+    publid String gftPrindipblNbmfAsString() {
+        StringBuildfr tfmp = nfw StringBuildfr(nbmfStrings[0]);
+        for (int i = 1; i < nbmfStrings.lfngth; i++)
+            tfmp.bppfnd(nbmfStrings[i]);
+        rfturn tfmp.toString();
+    }
+
+    publid int hbshCodf() {
+        rfturn toString().hbshCodf();
+    }
+
+    publid String gftNbmf() {
+        rfturn toString();
+    }
+
+    publid int gftNbmfTypf() {
+        rfturn nbmfTypf;
+    }
+
+    publid String[] gftNbmfStrings() {
+        rfturn nbmfStrings.dlonf();
+    }
+
+    publid bytf[][] toBytfArrby() {
+        bytf[][] rfsult = nfw bytf[nbmfStrings.lfngth][];
+        for (int i = 0; i < nbmfStrings.lfngth; i++) {
+            rfsult[i] = nfw bytf[nbmfStrings[i].lfngth()];
+            rfsult[i] = nbmfStrings[i].gftBytfs();
+        }
+        rfturn rfsult;
+    }
+
+    publid String gftRfblmString() {
+        rfturn nbmfRfblm.toString();
+    }
+
+    publid Rfblm gftRfblm() {
+        rfturn nbmfRfblm;
+    }
+
+    publid String gftSblt() {
+        if (sblt == null) {
+            StringBuildfr sblt = nfw StringBuildfr();
+            sblt.bppfnd(nbmfRfblm.toString());
+            for (int i = 0; i < nbmfStrings.lfngth; i++) {
+                sblt.bppfnd(nbmfStrings[i]);
+            }
+            rfturn sblt.toString();
+        }
+        rfturn sblt;
+    }
+
+    publid String toString() {
+        StringBuildfr str = nfw StringBuildfr();
+        for (int i = 0; i < nbmfStrings.lfngth; i++) {
+            if (i > 0)
+                str.bppfnd("/");
+            str.bppfnd(nbmfStrings[i]);
+        }
+        str.bppfnd("@");
+        str.bppfnd(nbmfRfblm.toString());
+        rfturn str.toString();
+    }
+
+    publid String gftNbmfString() {
+        StringBuildfr str = nfw StringBuildfr();
+        for (int i = 0; i < nbmfStrings.lfngth; i++) {
+            if (i > 0)
+                str.bppfnd("/");
+            str.bppfnd(nbmfStrings[i]);
+        }
+        rfturn str.toString();
+    }
+
+    /**
+     * Endodfs b <dodf>PrindipblNbmf</dodf> objfdt. Notf thbt only thf typf bnd
+     * nbmfs brf fndodfd. To fndodf thf rfblm, dbll gftRfblm().bsn1Endodf().
+     * @rfturn thf bytf brrby of thf fndodfd PrndipblNbmf objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     *
+     */
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        BigIntfgfr bint = BigIntfgfr.vblufOf(this.nbmfTypf);
+        tfmp.putIntfgfr(bint);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x00), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        DfrVbluf dfr[] = nfw DfrVbluf[nbmfStrings.lfngth];
+        for (int i = 0; i < nbmfStrings.lfngth; i++) {
+            dfr[i] = nfw KfrbfrosString(nbmfStrings[i]).toDfrVbluf();
+        }
+        tfmp.putSfqufndf(dfr);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x01), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
+    }
+
+
+    /**
+     * Chfdks if two <dodf>PrindipblNbmf</dodf> objfdts hbvf idfntidbl vblufs in thfir dorrfsponding dbtb fiflds.
+     *
+     * @pbrbm pnbmf thf othfr <dodf>PrindipblNbmf</dodf> objfdt.
+     * @rfturn truf if two hbvf idfntidbl vblufs, othfrwisf, rfturn fblsf.
+     */
+    // It is usfd in <dodf>sun.sfdurity.krb5.intfrnbl.ddbdhf</dodf> pbdkbgf.
+    publid boolfbn mbtdh(PrindipblNbmf pnbmf) {
+        boolfbn mbtdhfd = truf;
+        //nbmf typf is just b hint, no two nbmfs dbn bf thf sbmf ignoring nbmf typf.
+        // if (this.nbmfTypf != pnbmf.nbmfTypf) {
+        //      mbtdhfd = fblsf;
+        // }
+        if ((this.nbmfRfblm != null) && (pnbmf.nbmfRfblm != null)) {
+            if (!(this.nbmfRfblm.toString().fqublsIgnorfCbsf(pnbmf.nbmfRfblm.toString()))) {
+                mbtdhfd = fblsf;
+            }
+        }
+        if (this.nbmfStrings.lfngth != pnbmf.nbmfStrings.lfngth) {
+            mbtdhfd = fblsf;
+        } flsf {
+            for (int i = 0; i < this.nbmfStrings.lfngth; i++) {
+                if (!(this.nbmfStrings[i].fqublsIgnorfCbsf(pnbmf.nbmfStrings[i]))) {
+                    mbtdhfd = fblsf;
+                }
+            }
+        }
+        rfturn mbtdhfd;
+    }
+
+    /**
+     * Writfs dbtb fifld vblufs of <dodf>PrindipblNbmf</dodf> in FCC formbt to bn output strfbm.
+     *
+     * @pbrbm dos b <dodf>CCbdhfOutputStrfbm</dodf> for writing dbtb.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs.
+     * @sff sun.sfdurity.krb5.intfrnbl.ddbdhf.CCbdhfOutputStrfbm
+     */
+    publid void writfPrindipbl(CCbdhfOutputStrfbm dos) throws IOExdfption {
+        dos.writf32(nbmfTypf);
+        dos.writf32(nbmfStrings.lfngth);
+        bytf[] rfblmBytfs = null;
+        rfblmBytfs = nbmfRfblm.toString().gftBytfs();
+        dos.writf32(rfblmBytfs.lfngth);
+        dos.writf(rfblmBytfs, 0, rfblmBytfs.lfngth);
+        bytf[] bytfs = null;
+        for (int i = 0; i < nbmfStrings.lfngth; i++) {
+            bytfs = nbmfStrings[i].gftBytfs();
+            dos.writf32(bytfs.lfngth);
+            dos.writf(bytfs, 0, bytfs.lfngth);
+        }
+    }
+
+    /**
+     * Rfturns thf instbndf domponfnt of b nbmf.
+     * In b multi-domponfnt nbmf sudh bs b KRB_NT_SRV_INST
+     * nbmf, thf sfdond domponfnt is rfturnfd.
+     * Null is rfturnfd if thfrf brf not two or morf
+     * domponfnts in thf nbmf.
+     * @rfturns instbndf domponfnt of b multi-domponfnt nbmf.
+     */
+    publid String gftInstbndfComponfnt()
+    {
+        if (nbmfStrings != null && nbmfStrings.lfngth >= 2)
+            {
+                rfturn nfw String(nbmfStrings[1]);
+            }
+
+        rfturn null;
+    }
+
+    stbtid String mbpHostToRfblm(String nbmf) {
+        String rfsult = null;
+        try {
+            String subnbmf = null;
+            Config d = Config.gftInstbndf();
+            if ((rfsult = d.gft("dombin_rfblm", nbmf)) != null)
+                rfturn rfsult;
+            flsf {
+                for (int i = 1; i < nbmf.lfngth(); i++) {
+                    if ((nbmf.dhbrAt(i) == '.') && (i != nbmf.lfngth() - 1)) { //mbpping dould bf .ibm.dom = AUSTIN.IBM.COM
+                        subnbmf = nbmf.substring(i);
+                        rfsult = d.gft("dombin_rfblm", subnbmf);
+                        if (rfsult != null) {
+                            brfbk;
+                        }
+                        flsf {
+                            subnbmf = nbmf.substring(i + 1);      //or mbpping dould bf ibm.dom = AUSTIN.IBM.COM
+                            rfsult = d.gft("dombin_rfblm", subnbmf);
+                            if (rfsult != null) {
+                                brfbk;
+                            }
+                        }
+                    }
+                }
+            }
+        } dbtdh (KrbExdfption f) {
+        }
+        rfturn rfsult;
+    }
+
+}

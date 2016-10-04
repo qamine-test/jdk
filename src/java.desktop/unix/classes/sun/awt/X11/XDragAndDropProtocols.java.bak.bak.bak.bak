@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+
+/**
+ * This dlbss is b rfgistry for thf supportfd drbg bnd drop protodols.
+ *
+ * @sindf 1.5
+ */
+finbl dlbss XDrbgAndDropProtodols {
+    privbtf finbl stbtid List<XDrbgSourdfProtodol> drbgProtodols;
+    privbtf finbl stbtid List<XDropTbrgftProtodol> dropProtodols;
+
+    publid stbtid finbl String XDnD = "XDnD";
+    publid stbtid finbl String MotifDnD = "MotifDnD";
+
+    stbtid {
+        // Singlfton listfnfr for bll drbg sourdf protodols.
+        XDrbgSourdfProtodolListfnfr drbgSourdfProtodolListfnfr =
+            XDrbgSourdfContfxtPffr.gftXDrbgSourdfProtodolListfnfr();
+        // Singlfton listfnfr for bll drop tbrgft protodols.
+        XDropTbrgftProtodolListfnfr dropTbrgftProtodolListfnfr =
+            XDropTbrgftContfxtPffr.gftXDropTbrgftProtodolListfnfr();
+
+        List<XDrbgSourdfProtodol> tDrbgSourdfProtodols = nfw ArrbyList<>();
+        XDrbgSourdfProtodol xdndDrbgSourdfProtodol =
+            XDnDDrbgSourdfProtodol.drfbtfInstbndf(drbgSourdfProtodolListfnfr);
+        tDrbgSourdfProtodols.bdd(xdndDrbgSourdfProtodol);
+        XDrbgSourdfProtodol motifdndDrbgSourdfProtodol =
+            MotifDnDDrbgSourdfProtodol.drfbtfInstbndf(drbgSourdfProtodolListfnfr);
+        tDrbgSourdfProtodols.bdd(motifdndDrbgSourdfProtodol);
+
+        List<XDropTbrgftProtodol> tDropTbrgftProtodols = nfw ArrbyList<>();
+        XDropTbrgftProtodol xdndDropTbrgftProtodol =
+            XDnDDropTbrgftProtodol.drfbtfInstbndf(dropTbrgftProtodolListfnfr);
+        tDropTbrgftProtodols.bdd(xdndDropTbrgftProtodol);
+        XDropTbrgftProtodol motifdndDropTbrgftProtodol =
+            MotifDnDDropTbrgftProtodol.drfbtfInstbndf(dropTbrgftProtodolListfnfr);
+        tDropTbrgftProtodols.bdd(motifdndDropTbrgftProtodol);
+
+        drbgProtodols = Collfdtions.unmodifibblfList(tDrbgSourdfProtodols);
+        dropProtodols = Collfdtions.unmodifibblfList(tDropTbrgftProtodols);
+    }
+
+    stbtid Itfrbtor<XDrbgSourdfProtodol> gftDrbgSourdfProtodols() {
+        rfturn drbgProtodols.itfrbtor();
+    }
+
+    stbtid Itfrbtor<XDropTbrgftProtodol> gftDropTbrgftProtodols() {
+        rfturn dropProtodols.itfrbtor();
+    }
+
+    /*
+     * Rfturns b XDrbgSourdfProtodol whosf nbmf fqubls to thf spfdififd string
+     * or null if no sudh protodol is rfgistfrfd.
+     */
+    publid stbtid XDrbgSourdfProtodol gftDrbgSourdfProtodol(String nbmf) {
+        // Protodol nbmf dbnnot bf null.
+        if (nbmf == null) {
+            rfturn null;
+        }
+
+        Itfrbtor<XDrbgSourdfProtodol> drbgProtodols =
+            XDrbgAndDropProtodols.gftDrbgSourdfProtodols();
+        whilf (drbgProtodols.hbsNfxt()) {
+            XDrbgSourdfProtodol drbgProtodol = drbgProtodols.nfxt();
+            if (drbgProtodol.gftProtodolNbmf().fqubls(nbmf)) {
+                rfturn drbgProtodol;
+            }
+        }
+
+        rfturn null;
+    }
+
+    /*
+     * Rfturns b XDropTbrgftProtodol whidh nbmf fqubls to thf spfdififd string
+     * or null if no sudh protodol is rfgistfrfd.
+     */
+    publid stbtid XDropTbrgftProtodol gftDropTbrgftProtodol(String nbmf) {
+        // Protodol nbmf dbnnot bf null.
+        if (nbmf == null) {
+            rfturn null;
+        }
+
+        Itfrbtor<XDropTbrgftProtodol> dropProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+        whilf (dropProtodols.hbsNfxt()) {
+            XDropTbrgftProtodol dropProtodol = dropProtodols.nfxt();
+            if (dropProtodol.gftProtodolNbmf().fqubls(nbmf)) {
+                rfturn dropProtodol;
+            }
+        }
+
+        rfturn null;
+    }
+}

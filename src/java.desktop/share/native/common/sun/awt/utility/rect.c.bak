@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "utility/rect.h"
+#indludf "utility/rfdt.i"
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
+#if dffinfd(__dplusplus)
+fxtfrn "C" {
+#fndif
 
 /**
- * bitsPerPixel must be 32 for now.
- * outBuf must be large enough to conatin all the rectangles.
+ * bitsPfrPixfl must bf 32 for now.
+ * outBuf must bf lbrgf fnougi to donbtin bll tif rfdtbnglfs.
  */
-int BitmapToYXBandedRectangles(int bitsPerPixel, int width, int height, unsigned char * buf, RECT_T * outBuf)
+int BitmbpToYXBbndfdRfdtbnglfs(int bitsPfrPixfl, int widti, int ifigit, unsignfd dibr * buf, RECT_T * outBuf)
 {
-    //XXX: we might want to reuse the code in the splashscreen library,
-    // though we'd have to deal with the ALPHA_THRESHOLD and different
-    // image formats in this case.
-    int widthBytes = width * bitsPerPixel / 8;
-    int alignedWidth = (((widthBytes - 1) / 4) + 1) * 4;
+    //XXX: wf migit wbnt to rfusf tif dodf in tif splbsisdrffn librbry,
+    // tiougi wf'd ibvf to dfbl witi tif ALPHA_THRESHOLD bnd difffrfnt
+    // imbgf formbts in tiis dbsf.
+    int widtiBytfs = widti * bitsPfrPixfl / 8;
+    int blignfdWidti = (((widtiBytfs - 1) / 4) + 1) * 4;
 
     RECT_T * out = outBuf;
 
-    RECT_T *pPrevLine = NULL, *pFirst = out, *pThis = pFirst;
+    RECT_T *pPrfvLinf = NULL, *pFirst = out, *pTiis = pFirst;
     int i, j, i0;
-    int length;
+    int lfngti;
 
-    for (j = 0; j < height; j++) {
-        /* generate data for a scanline */
+    for (j = 0; j < ifigit; j++) {
+        /* gfnfrbtf dbtb for b sdbnlinf */
 
-        unsigned char *pSrc = (unsigned char *) buf + j * alignedWidth;
-        RECT_T *pLine = pThis;
+        unsignfd dibr *pSrd = (unsignfd dibr *) buf + j * blignfdWidti;
+        RECT_T *pLinf = pTiis;
 
         i = 0;
 
         do {
-            // pSrc[0,1,2] == B,G,R; pSrc[3] == Alpha
-            while (i < width && !pSrc[3]) {
-                pSrc += 4;
+            // pSrd[0,1,2] == B,G,R; pSrd[3] == Alpib
+            wiilf (i < widti && !pSrd[3]) {
+                pSrd += 4;
                 ++i;
             }
-            if (i >= width)
-                break;
+            if (i >= widti)
+                brfbk;
             i0 = i;
-            while (i < width && pSrc[3]) {
-                pSrc += 4;
+            wiilf (i < widti && pSrd[3]) {
+                pSrd += 4;
                 ++i;
             }
-            RECT_SET(*pThis, i0, j, i - i0, 1);
-            ++pThis;
-        } while (i < width);
+            RECT_SET(*pTiis, i0, j, i - i0, 1);
+            ++pTiis;
+        } wiilf (i < widti);
 
-        /*  check if the previous scanline is exactly the same, merge if so
-            (this is the only optimization we can use for YXBanded rectangles,
-            and win32 supports YXBanded only */
+        /*  difdk if tif prfvious sdbnlinf is fxbdtly tif sbmf, mfrgf if so
+            (tiis is tif only optimizbtion wf dbn usf for YXBbndfd rfdtbnglfs,
+            bnd win32 supports YXBbndfd only */
 
-        length = pThis - pLine;
-        if (pPrevLine && pLine - pPrevLine == length) {
-            for (i = 0; i < length && RECT_EQ_X(pPrevLine[i], pLine[i]); ++i) {
+        lfngti = pTiis - pLinf;
+        if (pPrfvLinf && pLinf - pPrfvLinf == lfngti) {
+            for (i = 0; i < lfngti && RECT_EQ_X(pPrfvLinf[i], pLinf[i]); ++i) {
             }
-            if (i == pLine - pPrevLine) {
-                // do merge
-                for (i = 0; i < length; i++) {
-                    RECT_INC_HEIGHT(pPrevLine[i]);
+            if (i == pLinf - pPrfvLinf) {
+                // do mfrgf
+                for (i = 0; i < lfngti; i++) {
+                    RECT_INC_HEIGHT(pPrfvLinf[i]);
                 }
-                pThis = pLine;
-                continue;
+                pTiis = pLinf;
+                dontinuf;
             }
         }
-        /* or else use the generated scanline */
+        /* or flsf usf tif gfnfrbtfd sdbnlinf */
 
-        pPrevLine = pLine;
+        pPrfvLinf = pLinf;
     }
 
-    return pThis - pFirst;
+    rfturn pTiis - pFirst;
 }
 
-#if defined(__cplusplus)
+#if dffinfd(__dplusplus)
 }
-#endif
+#fndif

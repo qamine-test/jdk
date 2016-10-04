@@ -1,579 +1,579 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi.activation;
+pbdkbgf jbvb.rmi.bdtivbtion;
 
-import java.rmi.MarshalledObject;
-import java.rmi.NoSuchObjectException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.activation.UnknownGroupException;
-import java.rmi.activation.UnknownObjectException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.RemoteServer;
-import sun.rmi.server.ActivatableServerRef;
+import jbvb.rmi.MbrsibllfdObjfdt;
+import jbvb.rmi.NoSudiObjfdtExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RfmotfSfrvfr;
+import sun.rmi.sfrvfr.AdtivbtbblfSfrvfrRff;
 
 /**
- * The <code>Activatable</code> class provides support for remote
- * objects that require persistent access over time and that
- * can be activated by the system.
+ * Tif <dodf>Adtivbtbblf</dodf> dlbss providfs support for rfmotf
+ * objfdts tibt rfquirf pfrsistfnt bddfss ovfr timf bnd tibt
+ * dbn bf bdtivbtfd by tif systfm.
  *
- * <p>For the constructors and static <code>exportObject</code> methods,
- * the stub for a remote object being exported is obtained as described in
- * {@link java.rmi.server.UnicastRemoteObject}.
+ * <p>For tif donstrudtors bnd stbtid <dodf>fxportObjfdt</dodf> mftiods,
+ * tif stub for b rfmotf objfdt bfing fxportfd is obtbinfd bs dfsdribfd in
+ * {@link jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt}.
  *
- * <p>An attempt to serialize explicitly an instance of this class will
- * fail.
+ * <p>An bttfmpt to sfriblizf fxpliditly bn instbndf of tiis dlbss will
+ * fbil.
  *
- * @author      Ann Wollrath
- * @since       1.2
- * @serial      exclude
+ * @butior      Ann Wollrbti
+ * @sindf       1.2
+ * @sfribl      fxdludf
  */
-public abstract class Activatable extends RemoteServer {
+publid bbstrbdt dlbss Adtivbtbblf fxtfnds RfmotfSfrvfr {
 
-    private ActivationID id;
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
-    private static final long serialVersionUID = -3120617863591563455L;
+    privbtf AdtivbtionID id;
+    /** indidbtf dompbtibility witi tif Jbvb 2 SDK v1.2 vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -3120617863591563455L;
 
     /**
-     * Constructs an activatable remote object by registering
-     * an activation descriptor (with the specified location, data, and
-     * restart mode) for this object, and exporting the object with the
-     * specified port.
+     * Construdts bn bdtivbtbblf rfmotf objfdt by rfgistfring
+     * bn bdtivbtion dfsdriptor (witi tif spfdififd lodbtion, dbtb, bnd
+     * rfstbrt modf) for tiis objfdt, bnd fxporting tif objfdt witi tif
+     * spfdififd port.
      *
-     * <p><strong>Note:</strong> Using the <code>Activatable</code>
-     * constructors that both register and export an activatable remote
-     * object is strongly discouraged because the actions of registering
-     * and exporting the remote object are <i>not</i> guaranteed to be
-     * atomic.  Instead, an application should register an activation
-     * descriptor and export a remote object separately, so that exceptions
-     * can be handled properly.
+     * <p><strong>Notf:</strong> Using tif <dodf>Adtivbtbblf</dodf>
+     * donstrudtors tibt boti rfgistfr bnd fxport bn bdtivbtbblf rfmotf
+     * objfdt is strongly disdourbgfd bfdbusf tif bdtions of rfgistfring
+     * bnd fxporting tif rfmotf objfdt brf <i>not</i> gubrbntffd to bf
+     * btomid.  Instfbd, bn bpplidbtion siould rfgistfr bn bdtivbtion
+     * dfsdriptor bnd fxport b rfmotf objfdt sfpbrbtfly, so tibt fxdfptions
+     * dbn bf ibndlfd propfrly.
      *
-     * <p>This method invokes the {@link
-     * #exportObject(Remote,String,MarshalledObject,boolean,int)
-     * exportObject} method with this object, and the specified location,
-     * data, restart mode, and port.  Subsequent calls to {@link #getID}
-     * will return the activation identifier returned from the call to
-     * <code>exportObject</code>.
+     * <p>Tiis mftiod invokfs tif {@link
+     * #fxportObjfdt(Rfmotf,String,MbrsibllfdObjfdt,boolfbn,int)
+     * fxportObjfdt} mftiod witi tiis objfdt, bnd tif spfdififd lodbtion,
+     * dbtb, rfstbrt modf, bnd port.  Subsfqufnt dblls to {@link #gftID}
+     * will rfturn tif bdtivbtion idfntififr rfturnfd from tif dbll to
+     * <dodf>fxportObjfdt</dodf>.
      *
-     * @param location the location for classes for this object
-     * @param data the object's initialization data
-     * @param port the port on which the object is exported (an anonymous
-     * port is used if port=0)
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @exception ActivationException if object registration fails.
-     * @exception RemoteException if either of the following fails:
-     * a) registering the object with the activation system or b) exporting
-     * the object to the RMI runtime.
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation.
-     * @since 1.2
+     * @pbrbm lodbtion tif lodbtion for dlbssfs for tiis objfdt
+     * @pbrbm dbtb tif objfdt's initiblizbtion dbtb
+     * @pbrbm port tif port on wiidi tif objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @pbrbm rfstbrt if truf, tif objfdt is rfstbrtfd (rfbdtivbtfd) wifn
+     * fitifr tif bdtivbtor is rfstbrtfd or tif objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsi; if fblsf, tif objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @fxdfption AdtivbtionExdfption if objfdt rfgistrbtion fbils.
+     * @fxdfption RfmotfExdfption if fitifr of tif following fbils:
+     * b) rfgistfring tif objfdt witi tif bdtivbtion systfm or b) fxporting
+     * tif objfdt to tif RMI runtimf.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion.
+     * @sindf 1.2
      **/
-    protected Activatable(String location,
-                          MarshalledObject<?> data,
-                          boolean restart,
+    protfdtfd Adtivbtbblf(String lodbtion,
+                          MbrsibllfdObjfdt<?> dbtb,
+                          boolfbn rfstbrt,
                           int port)
-        throws ActivationException, RemoteException
+        tirows AdtivbtionExdfption, RfmotfExdfption
     {
-        super();
-        id = exportObject(this, location, data, restart, port);
+        supfr();
+        id = fxportObjfdt(tiis, lodbtion, dbtb, rfstbrt, port);
     }
 
     /**
-     * Constructs an activatable remote object by registering
-     * an activation descriptor (with the specified location, data, and
-     * restart mode) for this object, and exporting the object with the
-     * specified port, and specified client and server socket factories.
+     * Construdts bn bdtivbtbblf rfmotf objfdt by rfgistfring
+     * bn bdtivbtion dfsdriptor (witi tif spfdififd lodbtion, dbtb, bnd
+     * rfstbrt modf) for tiis objfdt, bnd fxporting tif objfdt witi tif
+     * spfdififd port, bnd spfdififd dlifnt bnd sfrvfr sodkft fbdtorifs.
      *
-     * <p><strong>Note:</strong> Using the <code>Activatable</code>
-     * constructors that both register and export an activatable remote
-     * object is strongly discouraged because the actions of registering
-     * and exporting the remote object are <i>not</i> guaranteed to be
-     * atomic.  Instead, an application should register an activation
-     * descriptor and export a remote object separately, so that exceptions
-     * can be handled properly.
+     * <p><strong>Notf:</strong> Using tif <dodf>Adtivbtbblf</dodf>
+     * donstrudtors tibt boti rfgistfr bnd fxport bn bdtivbtbblf rfmotf
+     * objfdt is strongly disdourbgfd bfdbusf tif bdtions of rfgistfring
+     * bnd fxporting tif rfmotf objfdt brf <i>not</i> gubrbntffd to bf
+     * btomid.  Instfbd, bn bpplidbtion siould rfgistfr bn bdtivbtion
+     * dfsdriptor bnd fxport b rfmotf objfdt sfpbrbtfly, so tibt fxdfptions
+     * dbn bf ibndlfd propfrly.
      *
-     * <p>This method invokes the {@link
-     * #exportObject(Remote,String,MarshalledObject,boolean,int,RMIClientSocketFactory,RMIServerSocketFactory)
-     * exportObject} method with this object, and the specified location,
-     * data, restart mode, port, and client and server socket factories.
-     * Subsequent calls to {@link #getID} will return the activation
-     * identifier returned from the call to <code>exportObject</code>.
+     * <p>Tiis mftiod invokfs tif {@link
+     * #fxportObjfdt(Rfmotf,String,MbrsibllfdObjfdt,boolfbn,int,RMIClifntSodkftFbdtory,RMISfrvfrSodkftFbdtory)
+     * fxportObjfdt} mftiod witi tiis objfdt, bnd tif spfdififd lodbtion,
+     * dbtb, rfstbrt modf, port, bnd dlifnt bnd sfrvfr sodkft fbdtorifs.
+     * Subsfqufnt dblls to {@link #gftID} will rfturn tif bdtivbtion
+     * idfntififr rfturnfd from tif dbll to <dodf>fxportObjfdt</dodf>.
      *
-     * @param location the location for classes for this object
-     * @param data the object's initialization data
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @param port the port on which the object is exported (an anonymous
-     * port is used if port=0)
-     * @param csf the client-side socket factory for making calls to the
-     * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
-     * @exception ActivationException if object registration fails.
-     * @exception RemoteException if either of the following fails:
-     * a) registering the object with the activation system or b) exporting
-     * the object to the RMI runtime.
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation.
-     * @since 1.2
+     * @pbrbm lodbtion tif lodbtion for dlbssfs for tiis objfdt
+     * @pbrbm dbtb tif objfdt's initiblizbtion dbtb
+     * @pbrbm rfstbrt if truf, tif objfdt is rfstbrtfd (rfbdtivbtfd) wifn
+     * fitifr tif bdtivbtor is rfstbrtfd or tif objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsi; if fblsf, tif objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @pbrbm port tif port on wiidi tif objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @pbrbm dsf tif dlifnt-sidf sodkft fbdtory for mbking dblls to tif
+     * rfmotf objfdt
+     * @pbrbm ssf tif sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @fxdfption AdtivbtionExdfption if objfdt rfgistrbtion fbils.
+     * @fxdfption RfmotfExdfption if fitifr of tif following fbils:
+     * b) rfgistfring tif objfdt witi tif bdtivbtion systfm or b) fxporting
+     * tif objfdt to tif RMI runtimf.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion.
+     * @sindf 1.2
      **/
-    protected Activatable(String location,
-                          MarshalledObject<?> data,
-                          boolean restart,
+    protfdtfd Adtivbtbblf(String lodbtion,
+                          MbrsibllfdObjfdt<?> dbtb,
+                          boolfbn rfstbrt,
                           int port,
-                          RMIClientSocketFactory csf,
-                          RMIServerSocketFactory ssf)
-        throws ActivationException, RemoteException
+                          RMIClifntSodkftFbdtory dsf,
+                          RMISfrvfrSodkftFbdtory ssf)
+        tirows AdtivbtionExdfption, RfmotfExdfption
     {
-        super();
-        id = exportObject(this, location, data, restart, port, csf, ssf);
+        supfr();
+        id = fxportObjfdt(tiis, lodbtion, dbtb, rfstbrt, port, dsf, ssf);
     }
 
     /**
-     * Constructor used to activate/export the object on a specified
-     * port. An "activatable" remote object must have a constructor that
-     * takes two arguments: <ul>
-     * <li>the object's activation identifier (<code>ActivationID</code>), and
-     * <li>the object's initialization data (a <code>MarshalledObject</code>).
+     * Construdtor usfd to bdtivbtf/fxport tif objfdt on b spfdififd
+     * port. An "bdtivbtbblf" rfmotf objfdt must ibvf b donstrudtor tibt
+     * tbkfs two brgumfnts: <ul>
+     * <li>tif objfdt's bdtivbtion idfntififr (<dodf>AdtivbtionID</dodf>), bnd
+     * <li>tif objfdt's initiblizbtion dbtb (b <dodf>MbrsibllfdObjfdt</dodf>).
      * </ul><p>
      *
-     * A concrete subclass of this class must call this constructor when it is
-     * <i>activated</i> via the two parameter constructor described above. As
-     * a side-effect of construction, the remote object is "exported"
-     * to the RMI runtime (on the specified <code>port</code>) and is
-     * available to accept incoming calls from clients.
+     * A dondrftf subdlbss of tiis dlbss must dbll tiis donstrudtor wifn it is
+     * <i>bdtivbtfd</i> vib tif two pbrbmftfr donstrudtor dfsdribfd bbovf. As
+     * b sidf-ffffdt of donstrudtion, tif rfmotf objfdt is "fxportfd"
+     * to tif RMI runtimf (on tif spfdififd <dodf>port</dodf>) bnd is
+     * bvbilbblf to bddfpt indoming dblls from dlifnts.
      *
-     * @param id activation identifier for the object
-     * @param port the port number on which the object is exported
-     * @exception RemoteException if exporting the object to the RMI
-     * runtime fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm id bdtivbtion idfntififr for tif objfdt
+     * @pbrbm port tif port numbfr on wiidi tif objfdt is fxportfd
+     * @fxdfption RfmotfExdfption if fxporting tif objfdt to tif RMI
+     * runtimf fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    protected Activatable(ActivationID id, int port)
-        throws RemoteException
+    protfdtfd Adtivbtbblf(AdtivbtionID id, int port)
+        tirows RfmotfExdfption
     {
-        super();
-        this.id = id;
-        exportObject(this, id, port);
+        supfr();
+        tiis.id = id;
+        fxportObjfdt(tiis, id, port);
     }
 
     /**
-     * Constructor used to activate/export the object on a specified
-     * port. An "activatable" remote object must have a constructor that
-     * takes two arguments: <ul>
-     * <li>the object's activation identifier (<code>ActivationID</code>), and
-     * <li>the object's initialization data (a <code>MarshalledObject</code>).
+     * Construdtor usfd to bdtivbtf/fxport tif objfdt on b spfdififd
+     * port. An "bdtivbtbblf" rfmotf objfdt must ibvf b donstrudtor tibt
+     * tbkfs two brgumfnts: <ul>
+     * <li>tif objfdt's bdtivbtion idfntififr (<dodf>AdtivbtionID</dodf>), bnd
+     * <li>tif objfdt's initiblizbtion dbtb (b <dodf>MbrsibllfdObjfdt</dodf>).
      * </ul><p>
      *
-     * A concrete subclass of this class must call this constructor when it is
-     * <i>activated</i> via the two parameter constructor described above. As
-     * a side-effect of construction, the remote object is "exported"
-     * to the RMI runtime (on the specified <code>port</code>) and is
-     * available to accept incoming calls from clients.
+     * A dondrftf subdlbss of tiis dlbss must dbll tiis donstrudtor wifn it is
+     * <i>bdtivbtfd</i> vib tif two pbrbmftfr donstrudtor dfsdribfd bbovf. As
+     * b sidf-ffffdt of donstrudtion, tif rfmotf objfdt is "fxportfd"
+     * to tif RMI runtimf (on tif spfdififd <dodf>port</dodf>) bnd is
+     * bvbilbblf to bddfpt indoming dblls from dlifnts.
      *
-     * @param id activation identifier for the object
-     * @param port the port number on which the object is exported
-     * @param csf the client-side socket factory for making calls to the
-     * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
-     * @exception RemoteException if exporting the object to the RMI
-     * runtime fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm id bdtivbtion idfntififr for tif objfdt
+     * @pbrbm port tif port numbfr on wiidi tif objfdt is fxportfd
+     * @pbrbm dsf tif dlifnt-sidf sodkft fbdtory for mbking dblls to tif
+     * rfmotf objfdt
+     * @pbrbm ssf tif sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @fxdfption RfmotfExdfption if fxporting tif objfdt to tif RMI
+     * runtimf fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    protected Activatable(ActivationID id, int port,
-                          RMIClientSocketFactory csf,
-                          RMIServerSocketFactory ssf)
-        throws RemoteException
+    protfdtfd Adtivbtbblf(AdtivbtionID id, int port,
+                          RMIClifntSodkftFbdtory dsf,
+                          RMISfrvfrSodkftFbdtory ssf)
+        tirows RfmotfExdfption
     {
-        super();
-        this.id = id;
-        exportObject(this, id, port, csf, ssf);
+        supfr();
+        tiis.id = id;
+        fxportObjfdt(tiis, id, port, dsf, ssf);
     }
 
     /**
-     * Returns the object's activation identifier.  The method is
-     * protected so that only subclasses can obtain an object's
-     * identifier.
-     * @return the object's activation identifier
-     * @since 1.2
+     * Rfturns tif objfdt's bdtivbtion idfntififr.  Tif mftiod is
+     * protfdtfd so tibt only subdlbssfs dbn obtbin bn objfdt's
+     * idfntififr.
+     * @rfturn tif objfdt's bdtivbtion idfntififr
+     * @sindf 1.2
      */
-    protected ActivationID getID() {
-        return id;
+    protfdtfd AdtivbtionID gftID() {
+        rfturn id;
     }
 
     /**
-     * Register an object descriptor for an activatable remote
-     * object so that is can be activated on demand.
+     * Rfgistfr bn objfdt dfsdriptor for bn bdtivbtbblf rfmotf
+     * objfdt so tibt is dbn bf bdtivbtfd on dfmbnd.
      *
-     * @param desc  the object's descriptor
-     * @return the stub for the activatable remote object
-     * @exception UnknownGroupException if group id in <code>desc</code>
-     * is not registered with the activation system
-     * @exception ActivationException if activation system is not running
-     * @exception RemoteException if remote call fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm dfsd  tif objfdt's dfsdriptor
+     * @rfturn tif stub for tif bdtivbtbblf rfmotf objfdt
+     * @fxdfption UnknownGroupExdfption if group id in <dodf>dfsd</dodf>
+     * is not rfgistfrfd witi tif bdtivbtion systfm
+     * @fxdfption AdtivbtionExdfption if bdtivbtion systfm is not running
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public static Remote register(ActivationDesc desc)
-        throws UnknownGroupException, ActivationException, RemoteException
+    publid stbtid Rfmotf rfgistfr(AdtivbtionDfsd dfsd)
+        tirows UnknownGroupExdfption, AdtivbtionExdfption, RfmotfExdfption
     {
-        // register object with activator.
-        ActivationID id =
-            ActivationGroup.getSystem().registerObject(desc);
-        return sun.rmi.server.ActivatableRef.getStub(desc, id);
+        // rfgistfr objfdt witi bdtivbtor.
+        AdtivbtionID id =
+            AdtivbtionGroup.gftSystfm().rfgistfrObjfdt(dfsd);
+        rfturn sun.rmi.sfrvfr.AdtivbtbblfRff.gftStub(dfsd, id);
     }
 
     /**
-     * Informs the system that the object with the corresponding activation
-     * <code>id</code> is currently inactive. If the object is currently
-     * active, the object is "unexported" from the RMI runtime (only if
-     * there are no pending or in-progress calls)
-     * so the that it can no longer receive incoming calls. This call
-     * informs this VM's ActivationGroup that the object is inactive,
-     * that, in turn, informs its ActivationMonitor. If this call
-     * completes successfully, a subsequent activate request to the activator
-     * will cause the object to reactivate. The operation may still
-     * succeed if the object is considered active but has already
-     * unexported itself.
+     * Informs tif systfm tibt tif objfdt witi tif dorrfsponding bdtivbtion
+     * <dodf>id</dodf> is durrfntly inbdtivf. If tif objfdt is durrfntly
+     * bdtivf, tif objfdt is "unfxportfd" from tif RMI runtimf (only if
+     * tifrf brf no pfnding or in-progrfss dblls)
+     * so tif tibt it dbn no longfr rfdfivf indoming dblls. Tiis dbll
+     * informs tiis VM's AdtivbtionGroup tibt tif objfdt is inbdtivf,
+     * tibt, in turn, informs its AdtivbtionMonitor. If tiis dbll
+     * domplftfs suddfssfully, b subsfqufnt bdtivbtf rfqufst to tif bdtivbtor
+     * will dbusf tif objfdt to rfbdtivbtf. Tif opfrbtion mby still
+     * suddffd if tif objfdt is donsidfrfd bdtivf but ibs blrfbdy
+     * unfxportfd itsflf.
      *
-     * @param id the object's activation identifier
-     * @return true if the operation succeeds (the operation will
-     * succeed if the object in currently known to be active and is
-     * either already unexported or is currently exported and has no
-     * pending/executing calls); false is returned if the object has
-     * pending/executing calls in which case it cannot be deactivated
-     * @exception UnknownObjectException if object is not known (it may
-     * already be inactive)
-     * @exception ActivationException if group is not active
-     * @exception RemoteException if call informing monitor fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm id tif objfdt's bdtivbtion idfntififr
+     * @rfturn truf if tif opfrbtion suddffds (tif opfrbtion will
+     * suddffd if tif objfdt in durrfntly known to bf bdtivf bnd is
+     * fitifr blrfbdy unfxportfd or is durrfntly fxportfd bnd ibs no
+     * pfnding/fxfduting dblls); fblsf is rfturnfd if tif objfdt ibs
+     * pfnding/fxfduting dblls in wiidi dbsf it dbnnot bf dfbdtivbtfd
+     * @fxdfption UnknownObjfdtExdfption if objfdt is not known (it mby
+     * blrfbdy bf inbdtivf)
+     * @fxdfption AdtivbtionExdfption if group is not bdtivf
+     * @fxdfption RfmotfExdfption if dbll informing monitor fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public static boolean inactive(ActivationID id)
-        throws UnknownObjectException, ActivationException, RemoteException
+    publid stbtid boolfbn inbdtivf(AdtivbtionID id)
+        tirows UnknownObjfdtExdfption, AdtivbtionExdfption, RfmotfExdfption
     {
-        return ActivationGroup.currentGroup().inactiveObject(id);
+        rfturn AdtivbtionGroup.durrfntGroup().inbdtivfObjfdt(id);
     }
 
     /**
-     * Revokes previous registration for the activation descriptor
-     * associated with <code>id</code>. An object can no longer be
-     * activated via that <code>id</code>.
+     * Rfvokfs prfvious rfgistrbtion for tif bdtivbtion dfsdriptor
+     * bssodibtfd witi <dodf>id</dodf>. An objfdt dbn no longfr bf
+     * bdtivbtfd vib tibt <dodf>id</dodf>.
      *
-     * @param id the object's activation identifier
-     * @exception UnknownObjectException if object (<code>id</code>) is unknown
-     * @exception ActivationException if activation system is not running
-     * @exception RemoteException if remote call to activation system fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm id tif objfdt's bdtivbtion idfntififr
+     * @fxdfption UnknownObjfdtExdfption if objfdt (<dodf>id</dodf>) is unknown
+     * @fxdfption AdtivbtionExdfption if bdtivbtion systfm is not running
+     * @fxdfption RfmotfExdfption if rfmotf dbll to bdtivbtion systfm fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public static void unregister(ActivationID id)
-        throws UnknownObjectException, ActivationException, RemoteException
+    publid stbtid void unrfgistfr(AdtivbtionID id)
+        tirows UnknownObjfdtExdfption, AdtivbtionExdfption, RfmotfExdfption
     {
-        ActivationGroup.getSystem().unregisterObject(id);
+        AdtivbtionGroup.gftSystfm().unrfgistfrObjfdt(id);
     }
 
     /**
-     * Registers an activation descriptor (with the specified location,
-     * data, and restart mode) for the specified object, and exports that
-     * object with the specified port.
+     * Rfgistfrs bn bdtivbtion dfsdriptor (witi tif spfdififd lodbtion,
+     * dbtb, bnd rfstbrt modf) for tif spfdififd objfdt, bnd fxports tibt
+     * objfdt witi tif spfdififd port.
      *
-     * <p><strong>Note:</strong> Using this method (as well as the
-     * <code>Activatable</code> constructors that both register and export
-     * an activatable remote object) is strongly discouraged because the
-     * actions of registering and exporting the remote object are
-     * <i>not</i> guaranteed to be atomic.  Instead, an application should
-     * register an activation descriptor and export a remote object
-     * separately, so that exceptions can be handled properly.
+     * <p><strong>Notf:</strong> Using tiis mftiod (bs wfll bs tif
+     * <dodf>Adtivbtbblf</dodf> donstrudtors tibt boti rfgistfr bnd fxport
+     * bn bdtivbtbblf rfmotf objfdt) is strongly disdourbgfd bfdbusf tif
+     * bdtions of rfgistfring bnd fxporting tif rfmotf objfdt brf
+     * <i>not</i> gubrbntffd to bf btomid.  Instfbd, bn bpplidbtion siould
+     * rfgistfr bn bdtivbtion dfsdriptor bnd fxport b rfmotf objfdt
+     * sfpbrbtfly, so tibt fxdfptions dbn bf ibndlfd propfrly.
      *
-     * <p>This method invokes the {@link
-     * #exportObject(Remote,String,MarshalledObject,boolean,int,RMIClientSocketFactory,RMIServerSocketFactory)
-     * exportObject} method with the specified object, location, data,
-     * restart mode, and port, and <code>null</code> for both client and
-     * server socket factories, and then returns the resulting activation
-     * identifier.
+     * <p>Tiis mftiod invokfs tif {@link
+     * #fxportObjfdt(Rfmotf,String,MbrsibllfdObjfdt,boolfbn,int,RMIClifntSodkftFbdtory,RMISfrvfrSodkftFbdtory)
+     * fxportObjfdt} mftiod witi tif spfdififd objfdt, lodbtion, dbtb,
+     * rfstbrt modf, bnd port, bnd <dodf>null</dodf> for boti dlifnt bnd
+     * sfrvfr sodkft fbdtorifs, bnd tifn rfturns tif rfsulting bdtivbtion
+     * idfntififr.
      *
-     * @param obj the object being exported
-     * @param location the object's code location
-     * @param data the object's bootstrapping data
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @param port the port on which the object is exported (an anonymous
-     * port is used if port=0)
-     * @return the activation identifier obtained from registering the
-     * descriptor, <code>desc</code>, with the activation system
-     * the wrong group
-     * @exception ActivationException if activation group is not active
-     * @exception RemoteException if object registration or export fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm obj tif objfdt bfing fxportfd
+     * @pbrbm lodbtion tif objfdt's dodf lodbtion
+     * @pbrbm dbtb tif objfdt's bootstrbpping dbtb
+     * @pbrbm rfstbrt if truf, tif objfdt is rfstbrtfd (rfbdtivbtfd) wifn
+     * fitifr tif bdtivbtor is rfstbrtfd or tif objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsi; if fblsf, tif objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @pbrbm port tif port on wiidi tif objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @rfturn tif bdtivbtion idfntififr obtbinfd from rfgistfring tif
+     * dfsdriptor, <dodf>dfsd</dodf>, witi tif bdtivbtion systfm
+     * tif wrong group
+     * @fxdfption AdtivbtionExdfption if bdtivbtion group is not bdtivf
+     * @fxdfption RfmotfExdfption if objfdt rfgistrbtion or fxport fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      **/
-    public static ActivationID exportObject(Remote obj,
-                                            String location,
-                                            MarshalledObject<?> data,
-                                            boolean restart,
+    publid stbtid AdtivbtionID fxportObjfdt(Rfmotf obj,
+                                            String lodbtion,
+                                            MbrsibllfdObjfdt<?> dbtb,
+                                            boolfbn rfstbrt,
                                             int port)
-        throws ActivationException, RemoteException
+        tirows AdtivbtionExdfption, RfmotfExdfption
     {
-        return exportObject(obj, location, data, restart, port, null, null);
+        rfturn fxportObjfdt(obj, lodbtion, dbtb, rfstbrt, port, null, null);
     }
 
     /**
-     * Registers an activation descriptor (with the specified location,
-     * data, and restart mode) for the specified object, and exports that
-     * object with the specified port, and the specified client and server
-     * socket factories.
+     * Rfgistfrs bn bdtivbtion dfsdriptor (witi tif spfdififd lodbtion,
+     * dbtb, bnd rfstbrt modf) for tif spfdififd objfdt, bnd fxports tibt
+     * objfdt witi tif spfdififd port, bnd tif spfdififd dlifnt bnd sfrvfr
+     * sodkft fbdtorifs.
      *
-     * <p><strong>Note:</strong> Using this method (as well as the
-     * <code>Activatable</code> constructors that both register and export
-     * an activatable remote object) is strongly discouraged because the
-     * actions of registering and exporting the remote object are
-     * <i>not</i> guaranteed to be atomic.  Instead, an application should
-     * register an activation descriptor and export a remote object
-     * separately, so that exceptions can be handled properly.
+     * <p><strong>Notf:</strong> Using tiis mftiod (bs wfll bs tif
+     * <dodf>Adtivbtbblf</dodf> donstrudtors tibt boti rfgistfr bnd fxport
+     * bn bdtivbtbblf rfmotf objfdt) is strongly disdourbgfd bfdbusf tif
+     * bdtions of rfgistfring bnd fxporting tif rfmotf objfdt brf
+     * <i>not</i> gubrbntffd to bf btomid.  Instfbd, bn bpplidbtion siould
+     * rfgistfr bn bdtivbtion dfsdriptor bnd fxport b rfmotf objfdt
+     * sfpbrbtfly, so tibt fxdfptions dbn bf ibndlfd propfrly.
      *
-     * <p>This method first registers an activation descriptor for the
-     * specified object as follows. It obtains the activation system by
-     * invoking the method {@link ActivationGroup#getSystem
-     * ActivationGroup.getSystem}.  This method then obtains an {@link
-     * ActivationID} for the object by invoking the activation system's
-     * {@link ActivationSystem#registerObject registerObject} method with
-     * an {@link ActivationDesc} constructed with the specified object's
-     * class name, and the specified location, data, and restart mode.  If
-     * an exception occurs obtaining the activation system or registering
-     * the activation descriptor, that exception is thrown to the caller.
+     * <p>Tiis mftiod first rfgistfrs bn bdtivbtion dfsdriptor for tif
+     * spfdififd objfdt bs follows. It obtbins tif bdtivbtion systfm by
+     * invoking tif mftiod {@link AdtivbtionGroup#gftSystfm
+     * AdtivbtionGroup.gftSystfm}.  Tiis mftiod tifn obtbins bn {@link
+     * AdtivbtionID} for tif objfdt by invoking tif bdtivbtion systfm's
+     * {@link AdtivbtionSystfm#rfgistfrObjfdt rfgistfrObjfdt} mftiod witi
+     * bn {@link AdtivbtionDfsd} donstrudtfd witi tif spfdififd objfdt's
+     * dlbss nbmf, bnd tif spfdififd lodbtion, dbtb, bnd rfstbrt modf.  If
+     * bn fxdfption oddurs obtbining tif bdtivbtion systfm or rfgistfring
+     * tif bdtivbtion dfsdriptor, tibt fxdfption is tirown to tif dbllfr.
      *
-     * <p>Next, this method exports the object by invoking the {@link
-     * #exportObject(Remote,ActivationID,int,RMIClientSocketFactory,RMIServerSocketFactory)
-     * exportObject} method with the specified remote object, the
-     * activation identifier obtained from registration, the specified
-     * port, and the specified client and server socket factories.  If an
-     * exception occurs exporting the object, this method attempts to
-     * unregister the activation identifier (obtained from registration) by
-     * invoking the activation system's {@link
-     * ActivationSystem#unregisterObject unregisterObject} method with the
-     * activation identifier.  If an exception occurs unregistering the
-     * identifier, that exception is ignored, and the original exception
-     * that occurred exporting the object is thrown to the caller.
+     * <p>Nfxt, tiis mftiod fxports tif objfdt by invoking tif {@link
+     * #fxportObjfdt(Rfmotf,AdtivbtionID,int,RMIClifntSodkftFbdtory,RMISfrvfrSodkftFbdtory)
+     * fxportObjfdt} mftiod witi tif spfdififd rfmotf objfdt, tif
+     * bdtivbtion idfntififr obtbinfd from rfgistrbtion, tif spfdififd
+     * port, bnd tif spfdififd dlifnt bnd sfrvfr sodkft fbdtorifs.  If bn
+     * fxdfption oddurs fxporting tif objfdt, tiis mftiod bttfmpts to
+     * unrfgistfr tif bdtivbtion idfntififr (obtbinfd from rfgistrbtion) by
+     * invoking tif bdtivbtion systfm's {@link
+     * AdtivbtionSystfm#unrfgistfrObjfdt unrfgistfrObjfdt} mftiod witi tif
+     * bdtivbtion idfntififr.  If bn fxdfption oddurs unrfgistfring tif
+     * idfntififr, tibt fxdfption is ignorfd, bnd tif originbl fxdfption
+     * tibt oddurrfd fxporting tif objfdt is tirown to tif dbllfr.
      *
-     * <p>Finally, this method invokes the {@link
-     * ActivationGroup#activeObject activeObject} method on the activation
-     * group in this VM with the activation identifier and the specified
-     * remote object, and returns the activation identifier to the caller.
+     * <p>Finblly, tiis mftiod invokfs tif {@link
+     * AdtivbtionGroup#bdtivfObjfdt bdtivfObjfdt} mftiod on tif bdtivbtion
+     * group in tiis VM witi tif bdtivbtion idfntififr bnd tif spfdififd
+     * rfmotf objfdt, bnd rfturns tif bdtivbtion idfntififr to tif dbllfr.
      *
-     * @param obj the object being exported
-     * @param location the object's code location
-     * @param data the object's bootstrapping data
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @param port the port on which the object is exported (an anonymous
-     * port is used if port=0)
-     * @param csf the client-side socket factory for making calls to the
-     * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
-     * @return the activation identifier obtained from registering the
-     * descriptor with the activation system
-     * @exception ActivationException if activation group is not active
-     * @exception RemoteException if object registration or export fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm obj tif objfdt bfing fxportfd
+     * @pbrbm lodbtion tif objfdt's dodf lodbtion
+     * @pbrbm dbtb tif objfdt's bootstrbpping dbtb
+     * @pbrbm rfstbrt if truf, tif objfdt is rfstbrtfd (rfbdtivbtfd) wifn
+     * fitifr tif bdtivbtor is rfstbrtfd or tif objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsi; if fblsf, tif objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @pbrbm port tif port on wiidi tif objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @pbrbm dsf tif dlifnt-sidf sodkft fbdtory for mbking dblls to tif
+     * rfmotf objfdt
+     * @pbrbm ssf tif sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @rfturn tif bdtivbtion idfntififr obtbinfd from rfgistfring tif
+     * dfsdriptor witi tif bdtivbtion systfm
+     * @fxdfption AdtivbtionExdfption if bdtivbtion group is not bdtivf
+     * @fxdfption RfmotfExdfption if objfdt rfgistrbtion or fxport fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      **/
-    public static ActivationID exportObject(Remote obj,
-                                            String location,
-                                            MarshalledObject<?> data,
-                                            boolean restart,
+    publid stbtid AdtivbtionID fxportObjfdt(Rfmotf obj,
+                                            String lodbtion,
+                                            MbrsibllfdObjfdt<?> dbtb,
+                                            boolfbn rfstbrt,
                                             int port,
-                                            RMIClientSocketFactory csf,
-                                            RMIServerSocketFactory ssf)
-        throws ActivationException, RemoteException
+                                            RMIClifntSodkftFbdtory dsf,
+                                            RMISfrvfrSodkftFbdtory ssf)
+        tirows AdtivbtionExdfption, RfmotfExdfption
     {
-        ActivationDesc desc = new ActivationDesc(obj.getClass().getName(),
-                                                 location, data, restart);
+        AdtivbtionDfsd dfsd = nfw AdtivbtionDfsd(obj.gftClbss().gftNbmf(),
+                                                 lodbtion, dbtb, rfstbrt);
         /*
-         * Register descriptor.
+         * Rfgistfr dfsdriptor.
          */
-        ActivationSystem system =  ActivationGroup.getSystem();
-        ActivationID id = system.registerObject(desc);
+        AdtivbtionSystfm systfm =  AdtivbtionGroup.gftSystfm();
+        AdtivbtionID id = systfm.rfgistfrObjfdt(dfsd);
 
         /*
-         * Export object.
+         * Export objfdt.
          */
         try {
-            exportObject(obj, id, port, csf, ssf);
-        } catch (RemoteException e) {
+            fxportObjfdt(obj, id, port, dsf, ssf);
+        } dbtdi (RfmotfExdfption f) {
             /*
-             * Attempt to unregister activation descriptor because export
-             * failed and register/export should be atomic (see 4323621).
+             * Attfmpt to unrfgistfr bdtivbtion dfsdriptor bfdbusf fxport
+             * fbilfd bnd rfgistfr/fxport siould bf btomid (sff 4323621).
              */
             try {
-                system.unregisterObject(id);
-            } catch (Exception ex) {
+                systfm.unrfgistfrObjfdt(id);
+            } dbtdi (Exdfption fx) {
             }
             /*
-             * Report original exception.
+             * Rfport originbl fxdfption.
              */
-            throw e;
+            tirow f;
         }
 
         /*
-         * This call can't fail (it is a local call, and the only possible
-         * exception, thrown if the group is inactive, will not be thrown
-         * because the group is not inactive).
+         * Tiis dbll dbn't fbil (it is b lodbl dbll, bnd tif only possiblf
+         * fxdfption, tirown if tif group is inbdtivf, will not bf tirown
+         * bfdbusf tif group is not inbdtivf).
          */
-        ActivationGroup.currentGroup().activeObject(id, obj);
+        AdtivbtionGroup.durrfntGroup().bdtivfObjfdt(id, obj);
 
-        return id;
+        rfturn id;
     }
 
     /**
-     * Export the activatable remote object to the RMI runtime to make
-     * the object available to receive incoming calls. The object is
-     * exported on an anonymous port, if <code>port</code> is zero. <p>
+     * Export tif bdtivbtbblf rfmotf objfdt to tif RMI runtimf to mbkf
+     * tif objfdt bvbilbblf to rfdfivf indoming dblls. Tif objfdt is
+     * fxportfd on bn bnonymous port, if <dodf>port</dodf> is zfro. <p>
      *
-     * During activation, this <code>exportObject</code> method should
-     * be invoked explicitly by an "activatable" object, that does not
-     * extend the <code>Activatable</code> class. There is no need for objects
-     * that do extend the <code>Activatable</code> class to invoke this
-     * method directly because the object is exported during construction.
+     * During bdtivbtion, tiis <dodf>fxportObjfdt</dodf> mftiod siould
+     * bf invokfd fxpliditly by bn "bdtivbtbblf" objfdt, tibt dofs not
+     * fxtfnd tif <dodf>Adtivbtbblf</dodf> dlbss. Tifrf is no nffd for objfdts
+     * tibt do fxtfnd tif <dodf>Adtivbtbblf</dodf> dlbss to invokf tiis
+     * mftiod dirfdtly bfdbusf tif objfdt is fxportfd during donstrudtion.
      *
-     * @return the stub for the activatable remote object
-     * @param obj the remote object implementation
-     * @param id the object's  activation identifier
-     * @param port the port on which the object is exported (an anonymous
-     * port is used if port=0)
-     * @exception RemoteException if object export fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @rfturn tif stub for tif bdtivbtbblf rfmotf objfdt
+     * @pbrbm obj tif rfmotf objfdt implfmfntbtion
+     * @pbrbm id tif objfdt's  bdtivbtion idfntififr
+     * @pbrbm port tif port on wiidi tif objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @fxdfption RfmotfExdfption if objfdt fxport fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public static Remote exportObject(Remote obj,
-                                      ActivationID id,
+    publid stbtid Rfmotf fxportObjfdt(Rfmotf obj,
+                                      AdtivbtionID id,
                                       int port)
-        throws RemoteException
+        tirows RfmotfExdfption
     {
-        return exportObject(obj, new ActivatableServerRef(id, port));
+        rfturn fxportObjfdt(obj, nfw AdtivbtbblfSfrvfrRff(id, port));
     }
 
     /**
-     * Export the activatable remote object to the RMI runtime to make
-     * the object available to receive incoming calls. The object is
-     * exported on an anonymous port, if <code>port</code> is zero. <p>
+     * Export tif bdtivbtbblf rfmotf objfdt to tif RMI runtimf to mbkf
+     * tif objfdt bvbilbblf to rfdfivf indoming dblls. Tif objfdt is
+     * fxportfd on bn bnonymous port, if <dodf>port</dodf> is zfro. <p>
      *
-     * During activation, this <code>exportObject</code> method should
-     * be invoked explicitly by an "activatable" object, that does not
-     * extend the <code>Activatable</code> class. There is no need for objects
-     * that do extend the <code>Activatable</code> class to invoke this
-     * method directly because the object is exported during construction.
+     * During bdtivbtion, tiis <dodf>fxportObjfdt</dodf> mftiod siould
+     * bf invokfd fxpliditly by bn "bdtivbtbblf" objfdt, tibt dofs not
+     * fxtfnd tif <dodf>Adtivbtbblf</dodf> dlbss. Tifrf is no nffd for objfdts
+     * tibt do fxtfnd tif <dodf>Adtivbtbblf</dodf> dlbss to invokf tiis
+     * mftiod dirfdtly bfdbusf tif objfdt is fxportfd during donstrudtion.
      *
-     * @return the stub for the activatable remote object
-     * @param obj the remote object implementation
-     * @param id the object's  activation identifier
-     * @param port the port on which the object is exported (an anonymous
-     * port is used if port=0)
-     * @param csf the client-side socket factory for making calls to the
-     * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
-     * @exception RemoteException if object export fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @rfturn tif stub for tif bdtivbtbblf rfmotf objfdt
+     * @pbrbm obj tif rfmotf objfdt implfmfntbtion
+     * @pbrbm id tif objfdt's  bdtivbtion idfntififr
+     * @pbrbm port tif port on wiidi tif objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @pbrbm dsf tif dlifnt-sidf sodkft fbdtory for mbking dblls to tif
+     * rfmotf objfdt
+     * @pbrbm ssf tif sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @fxdfption RfmotfExdfption if objfdt fxport fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public static Remote exportObject(Remote obj,
-                                      ActivationID id,
+    publid stbtid Rfmotf fxportObjfdt(Rfmotf obj,
+                                      AdtivbtionID id,
                                       int port,
-                                      RMIClientSocketFactory csf,
-                                      RMIServerSocketFactory ssf)
-        throws RemoteException
+                                      RMIClifntSodkftFbdtory dsf,
+                                      RMISfrvfrSodkftFbdtory ssf)
+        tirows RfmotfExdfption
     {
-        return exportObject(obj, new ActivatableServerRef(id, port, csf, ssf));
+        rfturn fxportObjfdt(obj, nfw AdtivbtbblfSfrvfrRff(id, port, dsf, ssf));
     }
 
     /**
-     * Remove the remote object, obj, from the RMI runtime. If
-     * successful, the object can no longer accept incoming RMI calls.
-     * If the force parameter is true, the object is forcibly unexported
-     * even if there are pending calls to the remote object or the
-     * remote object still has calls in progress.  If the force
-     * parameter is false, the object is only unexported if there are
-     * no pending or in progress calls to the object.
+     * Rfmovf tif rfmotf objfdt, obj, from tif RMI runtimf. If
+     * suddfssful, tif objfdt dbn no longfr bddfpt indoming RMI dblls.
+     * If tif fordf pbrbmftfr is truf, tif objfdt is fordibly unfxportfd
+     * fvfn if tifrf brf pfnding dblls to tif rfmotf objfdt or tif
+     * rfmotf objfdt still ibs dblls in progrfss.  If tif fordf
+     * pbrbmftfr is fblsf, tif objfdt is only unfxportfd if tifrf brf
+     * no pfnding or in progrfss dblls to tif objfdt.
      *
-     * @param obj the remote object to be unexported
-     * @param force if true, unexports the object even if there are
-     * pending or in-progress calls; if false, only unexports the object
-     * if there are no pending or in-progress calls
-     * @return true if operation is successful, false otherwise
-     * @exception NoSuchObjectException if the remote object is not
-     * currently exported
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm obj tif rfmotf objfdt to bf unfxportfd
+     * @pbrbm fordf if truf, unfxports tif objfdt fvfn if tifrf brf
+     * pfnding or in-progrfss dblls; if fblsf, only unfxports tif objfdt
+     * if tifrf brf no pfnding or in-progrfss dblls
+     * @rfturn truf if opfrbtion is suddfssful, fblsf otifrwisf
+     * @fxdfption NoSudiObjfdtExdfption if tif rfmotf objfdt is not
+     * durrfntly fxportfd
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public static boolean unexportObject(Remote obj, boolean force)
-        throws NoSuchObjectException
+    publid stbtid boolfbn unfxportObjfdt(Rfmotf obj, boolfbn fordf)
+        tirows NoSudiObjfdtExdfption
     {
-        return sun.rmi.transport.ObjectTable.unexportObject(obj, force);
+        rfturn sun.rmi.trbnsport.ObjfdtTbblf.unfxportObjfdt(obj, fordf);
     }
 
     /**
-     * Exports the specified object using the specified server ref.
+     * Exports tif spfdififd objfdt using tif spfdififd sfrvfr rff.
      */
-    private static Remote exportObject(Remote obj, ActivatableServerRef sref)
-        throws RemoteException
+    privbtf stbtid Rfmotf fxportObjfdt(Rfmotf obj, AdtivbtbblfSfrvfrRff srff)
+        tirows RfmotfExdfption
     {
-        // if obj extends Activatable, set its ref.
-        if (obj instanceof Activatable) {
-            ((Activatable) obj).ref = sref;
+        // if obj fxtfnds Adtivbtbblf, sft its rff.
+        if (obj instbndfof Adtivbtbblf) {
+            ((Adtivbtbblf) obj).rff = srff;
 
         }
-        return sref.exportObject(obj, null, false);
+        rfturn srff.fxportObjfdt(obj, null, fblsf);
     }
 }

@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbti;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.rfgfx.Mbtdifr;
+import jbvb.util.rfgfx.Pbttfrn;
 
 /**
- * File type detector that uses a file extension to look up its MIME type
- * based on a mime.types file.
+ * Filf typf dftfdtor tibt usfs b filf fxtfnsion to look up its MIME typf
+ * bbsfd on b mimf.typfs filf.
  */
 
-class MimeTypesFileTypeDetector extends AbstractFileTypeDetector {
+dlbss MimfTypfsFilfTypfDftfdtor fxtfnds AbstrbdtFilfTypfDftfdtor {
 
-    // path to mime.types file
-    private final Path mimeTypesFile;
+    // pbti to mimf.typfs filf
+    privbtf finbl Pbti mimfTypfsFilf;
 
-    // map of extension to MIME type
-    private Map<String,String> mimeTypeMap;
+    // mbp of fxtfnsion to MIME typf
+    privbtf Mbp<String,String> mimfTypfMbp;
 
-    // set to true when file loaded
-    private volatile boolean loaded = false;
+    // sft to truf wifn filf lobdfd
+    privbtf volbtilf boolfbn lobdfd = fblsf;
 
-    public MimeTypesFileTypeDetector(Path filePath) {
-        mimeTypesFile = filePath;
+    publid MimfTypfsFilfTypfDftfdtor(Pbti filfPbti) {
+        mimfTypfsFilf = filfPbti;
     }
 
-    @Override
-    protected String implProbeContentType(Path path) {
-        Path fn = path.getFileName();
+    @Ovfrridf
+    protfdtfd String implProbfContfntTypf(Pbti pbti) {
+        Pbti fn = pbti.gftFilfNbmf();
         if (fn == null)
-            return null;  // no file name
+            rfturn null;  // no filf nbmf
 
-        String ext = getExtension(fn.toString());
-        if (ext.isEmpty())
-            return null;  // no extension
+        String fxt = gftExtfnsion(fn.toString());
+        if (fxt.isEmpty())
+            rfturn null;  // no fxtfnsion
 
-        loadMimeTypes();
-        if (mimeTypeMap == null || mimeTypeMap.isEmpty())
-            return null;
+        lobdMimfTypfs();
+        if (mimfTypfMbp == null || mimfTypfMbp.isEmpty())
+            rfturn null;
 
-        // Case-sensitive search
-        String mimeType;
+        // Cbsf-sfnsitivf sfbrdi
+        String mimfTypf;
         do {
-            mimeType = mimeTypeMap.get(ext);
-            if (mimeType == null)
-                ext = getExtension(ext);
-        } while (mimeType == null && !ext.isEmpty());
+            mimfTypf = mimfTypfMbp.gft(fxt);
+            if (mimfTypf == null)
+                fxt = gftExtfnsion(fxt);
+        } wiilf (mimfTypf == null && !fxt.isEmpty());
 
-        return mimeType;
+        rfturn mimfTypf;
     }
 
-    // Get the extension of a file name.
-    private static String getExtension(String name) {
-        String ext = "";
-        if (name != null && !name.isEmpty()) {
-            int dot = name.indexOf('.');
-            if ((dot >= 0) && (dot < name.length() - 1)) {
-                ext = name.substring(dot + 1);
+    // Gft tif fxtfnsion of b filf nbmf.
+    privbtf stbtid String gftExtfnsion(String nbmf) {
+        String fxt = "";
+        if (nbmf != null && !nbmf.isEmpty()) {
+            int dot = nbmf.indfxOf('.');
+            if ((dot >= 0) && (dot < nbmf.lfngti() - 1)) {
+                fxt = nbmf.substring(dot + 1);
             }
         }
-        return ext;
+        rfturn fxt;
     }
 
     /**
-     * Parse the mime types file, and store the type-extension mappings into
-     * mimeTypeMap. The mime types file is not loaded until the first probe
-     * to achieve the lazy initialization. It adopts double-checked locking
-     * optimization to reduce the locking overhead.
+     * Pbrsf tif mimf typfs filf, bnd storf tif typf-fxtfnsion mbppings into
+     * mimfTypfMbp. Tif mimf typfs filf is not lobdfd until tif first probf
+     * to bdiifvf tif lbzy initiblizbtion. It bdopts doublf-difdkfd lodking
+     * optimizbtion to rfdudf tif lodking ovfrifbd.
      */
-    private void loadMimeTypes() {
-        if (!loaded) {
-            synchronized (this) {
-                if (!loaded) {
-                    List<String> lines = AccessController.doPrivileged(
-                        new PrivilegedAction<List<String>>() {
-                            @Override
-                            public List<String> run() {
+    privbtf void lobdMimfTypfs() {
+        if (!lobdfd) {
+            syndironizfd (tiis) {
+                if (!lobdfd) {
+                    List<String> linfs = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<List<String>>() {
+                            @Ovfrridf
+                            publid List<String> run() {
                                 try {
-                                    return Files.readAllLines(mimeTypesFile,
-                                                              Charset.defaultCharset());
-                                } catch (IOException ignore) {
-                                    return Collections.emptyList();
+                                    rfturn Filfs.rfbdAllLinfs(mimfTypfsFilf,
+                                                              Cibrsft.dffbultCibrsft());
+                                } dbtdi (IOExdfption ignorf) {
+                                    rfturn Collfdtions.fmptyList();
                                 }
                             }
                         });
 
-                    mimeTypeMap = new HashMap<>(lines.size());
-                    String entry = "";
-                    for (String line : lines) {
-                        entry += line;
-                        if (entry.endsWith("\\")) {
-                            entry = entry.substring(0, entry.length() - 1);
-                            continue;
+                    mimfTypfMbp = nfw HbsiMbp<>(linfs.sizf());
+                    String fntry = "";
+                    for (String linf : linfs) {
+                        fntry += linf;
+                        if (fntry.fndsWiti("\\")) {
+                            fntry = fntry.substring(0, fntry.lfngti() - 1);
+                            dontinuf;
                         }
-                        parseMimeEntry(entry);
-                        entry = "";
+                        pbrsfMimfEntry(fntry);
+                        fntry = "";
                     }
-                    if (!entry.isEmpty()) {
-                        parseMimeEntry(entry);
+                    if (!fntry.isEmpty()) {
+                        pbrsfMimfEntry(fntry);
                     }
-                    loaded = true;
+                    lobdfd = truf;
                 }
             }
         }
     }
 
     /**
-     * Parse a mime-types entry, which can have the following formats.
-     * 1) Simple space-delimited format
-     * image/jpeg   jpeg jpg jpe JPG
+     * Pbrsf b mimf-typfs fntry, wiidi dbn ibvf tif following formbts.
+     * 1) Simplf spbdf-dflimitfd formbt
+     * imbgf/jpfg   jpfg jpg jpf JPG
      *
-     * 2) Netscape key-value pair format
-     * type=application/x-java-jnlp-file desc="Java Web Start" exts="jnlp"
+     * 2) Nftsdbpf kfy-vbluf pbir formbt
+     * typf=bpplidbtion/x-jbvb-jnlp-filf dfsd="Jbvb Wfb Stbrt" fxts="jnlp"
      * or
-     * type=text/html exts=htm,html
+     * typf=tfxt/itml fxts=itm,itml
      */
-    private void parseMimeEntry(String entry) {
-        entry = entry.trim();
-        if (entry.isEmpty() || entry.charAt(0) == '#')
-            return;
+    privbtf void pbrsfMimfEntry(String fntry) {
+        fntry = fntry.trim();
+        if (fntry.isEmpty() || fntry.dibrAt(0) == '#')
+            rfturn;
 
-        entry = entry.replaceAll("\\s*#.*", "");
-        int equalIdx = entry.indexOf('=');
-        if (equalIdx > 0) {
-            // Parse a mime-types command having the key-value pair format
-            final String TYPEEQUAL = "type=";
-            String typeRegex = "\\b" + TYPEEQUAL +
-                    "(\"\\p{Graph}+?/\\p{Graph}+?\"|\\p{Graph}+/\\p{Graph}+\\b)";
-            Pattern typePattern = Pattern.compile(typeRegex);
-            Matcher typeMatcher = typePattern.matcher(entry);
+        fntry = fntry.rfplbdfAll("\\s*#.*", "");
+        int fqublIdx = fntry.indfxOf('=');
+        if (fqublIdx > 0) {
+            // Pbrsf b mimf-typfs dommbnd ibving tif kfy-vbluf pbir formbt
+            finbl String TYPEEQUAL = "typf=";
+            String typfRfgfx = "\\b" + TYPEEQUAL +
+                    "(\"\\p{Grbpi}+?/\\p{Grbpi}+?\"|\\p{Grbpi}+/\\p{Grbpi}+\\b)";
+            Pbttfrn typfPbttfrn = Pbttfrn.dompilf(typfRfgfx);
+            Mbtdifr typfMbtdifr = typfPbttfrn.mbtdifr(fntry);
 
-            if (typeMatcher.find()) {
-                String type = typeMatcher.group().substring(TYPEEQUAL.length());
-                if (type.charAt(0) == '"') {
-                    type = type.substring(1, type.length() - 1);
+            if (typfMbtdifr.find()) {
+                String typf = typfMbtdifr.group().substring(TYPEEQUAL.lfngti());
+                if (typf.dibrAt(0) == '"') {
+                    typf = typf.substring(1, typf.lfngti() - 1);
                 }
 
-                final String EXTEQUAL = "exts=";
-                String extRegex = "\\b" + EXTEQUAL +
-                        "(\"[\\p{Graph}|\\p{Blank}]+?\"|\\p{Graph}+\\b)";
-                Pattern extPattern = Pattern.compile(extRegex);
-                Matcher extMatcher = extPattern.matcher(entry);
+                finbl String EXTEQUAL = "fxts=";
+                String fxtRfgfx = "\\b" + EXTEQUAL +
+                        "(\"[\\p{Grbpi}|\\p{Blbnk}]+?\"|\\p{Grbpi}+\\b)";
+                Pbttfrn fxtPbttfrn = Pbttfrn.dompilf(fxtRfgfx);
+                Mbtdifr fxtMbtdifr = fxtPbttfrn.mbtdifr(fntry);
 
-                if (extMatcher.find()) {
-                    String exts =
-                            extMatcher.group().substring(EXTEQUAL.length());
-                    if (exts.charAt(0) == '"') {
-                        exts = exts.substring(1, exts.length() - 1);
+                if (fxtMbtdifr.find()) {
+                    String fxts =
+                            fxtMbtdifr.group().substring(EXTEQUAL.lfngti());
+                    if (fxts.dibrAt(0) == '"') {
+                        fxts = fxts.substring(1, fxts.lfngti() - 1);
                     }
-                    String[] extList = exts.split("[\\p{Blank}|\\p{Punct}]+");
-                    for (String ext : extList) {
-                        putIfAbsent(ext, type);
+                    String[] fxtList = fxts.split("[\\p{Blbnk}|\\p{Pundt}]+");
+                    for (String fxt : fxtList) {
+                        putIfAbsfnt(fxt, typf);
                     }
                 }
             }
-        } else {
-            // Parse a mime-types command having the space-delimited format
-            String[] elements = entry.split("\\s+");
+        } flsf {
+            // Pbrsf b mimf-typfs dommbnd ibving tif spbdf-dflimitfd formbt
+            String[] flfmfnts = fntry.split("\\s+");
             int i = 1;
-            while (i < elements.length) {
-                putIfAbsent(elements[i++], elements[0]);
+            wiilf (i < flfmfnts.lfngti) {
+                putIfAbsfnt(flfmfnts[i++], flfmfnts[0]);
             }
         }
     }
 
-    private void putIfAbsent(String key, String value) {
-        if (key != null && !key.isEmpty() &&
-            value != null && !value.isEmpty() &&
-            !mimeTypeMap.containsKey(key))
+    privbtf void putIfAbsfnt(String kfy, String vbluf) {
+        if (kfy != null && !kfy.isEmpty() &&
+            vbluf != null && !vbluf.isEmpty() &&
+            !mimfTypfMbp.dontbinsKfy(kfy))
         {
-            mimeTypeMap.put(key, value);
+            mimfTypfMbp.put(kfy, vbluf);
         }
     }
 }

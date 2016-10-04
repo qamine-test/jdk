@@ -1,85 +1,85 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
-<html>
-  <head>
-    <title>Example JDI Applications</title>
-  </head>
+<itml>
+  <ifbd>
+    <titlf>Exbmplf JDI Applidbtions</titlf>
+  </ifbd>
 <BODY BGCOLOR="#FFFFFF">
-    <h1>Example JDI Applications</h1>
-This example download contains the source code and
-documentation for three applications written using
-the Java<sup><font size=-2>TM</font></sup> Debug Interface (JDI)
-of the <A HREF="http://java.sun.com/products/jpda">Java Platform Debugger Architecture</A> (JPDA).
-They are provided as educational tools and as starting
-points for debugger development.
+    <i1>Exbmplf JDI Applidbtions</i1>
+Tiis fxbmplf downlobd dontbins tif sourdf dodf bnd
+dodumfntbtion for tirff bpplidbtions writtfn using
+tif Jbvb<sup><font sizf=-2>TM</font></sup> Dfbug Intfrfbdf (JDI)
+of tif <A HREF="ittp://jbvb.sun.dom/produdts/jpdb">Jbvb Plbtform Dfbuggfr Ardiitfdturf</A> (JPDA).
+Tify brf providfd bs fdudbtionbl tools bnd bs stbrting
+points for dfbuggfr dfvflopmfnt.
 <P>
-In increasing order of complexity:
+In indrfbsing ordfr of domplfxity:
 <UL>
-<LI><A HREF="trace.html">Trace</A> displays traces
-of program execution.  It is very simple (less than 600 lines)
-yet uses most of the basic JDI functionality.  It is a
-good starting point.
-<LI><A HREF="jdb.html">Jdb</A> is the command line debugger
-distributed with the J2SE SDK.
-<LI><A HREF="javadt.html">Javadt</A> is the beginnings of
-a GUI debugger.
+<LI><A HREF="trbdf.itml">Trbdf</A> displbys trbdfs
+of progrbm fxfdution.  It is vfry simplf (lfss tibn 600 linfs)
+yft usfs most of tif bbsid JDI fundtionblity.  It is b
+good stbrting point.
+<LI><A HREF="jdb.itml">Jdb</A> is tif dommbnd linf dfbuggfr
+distributfd witi tif J2SE SDK.
+<LI><A HREF="jbvbdt.itml">Jbvbdt</A> is tif bfginnings of
+b GUI dfbuggfr.
 </UL>
 <P>
-Trace is in the <code>trace</code> directory. 
-Jdb and Javadt share a package, and are under the 
-<code>debug</code> directory. 
+Trbdf is in tif <dodf>trbdf</dodf> dirfdtory. 
+Jdb bnd Jbvbdt sibrf b pbdkbgf, bnd brf undfr tif 
+<dodf>dfbug</dodf> dirfdtory. 
 
-<A NAME="SETUP"><H2>Required Set-up</H2></A>
+<A NAME="SETUP"><H2>Rfquirfd Sft-up</H2></A>
 
-<H4>Where is JPDA?</H4>
-New versions of the J2SE SDK have JPDA included.  For
-older versions JPDA must be separately downloaded.
+<H4>Wifrf is JPDA?</H4>
+Nfw vfrsions of tif J2SE SDK ibvf JPDA indludfd.  For
+oldfr vfrsions JPDA must bf sfpbrbtfly downlobdfd.
 <DL>
-  <DT>SDKs with JPDA included
-  <DD>J2SE SDK v1.3 and later and J2SE SDK for Linux v1.2.2
-  <DT>SDKs requiring JPDA download
-  <DD>J2SE SDK v1.2.1 and v1.2.2 for Solaris and Windows
-  <DT>Other SDKs
-  <DD>Check with vendor
+  <DT>SDKs witi JPDA indludfd
+  <DD>J2SE SDK v1.3 bnd lbtfr bnd J2SE SDK for Linux v1.2.2
+  <DT>SDKs rfquiring JPDA downlobd
+  <DD>J2SE SDK v1.2.1 bnd v1.2.2 for Solbris bnd Windows
+  <DT>Otifr SDKs
+  <DD>Cifdk witi vfndor
 </DL>
 <P>
-<H4>Set-up for J2SE SDKs with JPDA included</H4>
-Your classpath must include the JDI Library code, which is
-in <code>tools.jar</code> in the <code>lib</code> directory.
-This is needed for both compiling the example code and 
-executing it.
+<H4>Sft-up for J2SE SDKs witi JPDA indludfd</H4>
+Your dlbsspbti must indludf tif JDI Librbry dodf, wiidi is
+in <dodf>tools.jbr</dodf> in tif <dodf>lib</dodf> dirfdtory.
+Tiis is nffdfd for boti dompiling tif fxbmplf dodf bnd 
+fxfduting it.
 <p>
-<H4>Set-up for J2SE SDKs without JPDA - Solaris</H4>
-Download JPDA v1.0 from 
-<A HREF="http://java.sun.com/products/jpda">http://java.sun.com/products/jpda</A>.  Follow the 
-<A HREF="http://java.sun.com/products/jpda/installinst.html">Installation Instructions</A>
-found there.  Pay particular attention to setting the library
-path.
+<H4>Sft-up for J2SE SDKs witiout JPDA - Solbris</H4>
+Downlobd JPDA v1.0 from 
+<A HREF="ittp://jbvb.sun.dom/produdts/jpdb">ittp://jbvb.sun.dom/produdts/jpdb</A>.  Follow tif 
+<A HREF="ittp://jbvb.sun.dom/produdts/jpdb/instbllinst.itml">Instbllbtion Instrudtions</A>
+found tifrf.  Pby pbrtidulbr bttfntion to sftting tif librbry
+pbti.
 <P>
-Your classpath must include the JDI Library code, which is
-in <VAR>jpda_home</VAR>/<code>lib/tools.jar</code>.
-This is needed for both compiling the example code and 
-executing it.
+Your dlbsspbti must indludf tif JDI Librbry dodf, wiidi is
+in <VAR>jpdb_iomf</VAR>/<dodf>lib/tools.jbr</dodf>.
+Tiis is nffdfd for boti dompiling tif fxbmplf dodf bnd 
+fxfduting it.
 <P>
-<H4>Set-up for J2SE SDKs without JPDA - Windows</H4>
-Download JPDA v1.0 from 
-<A HREF="http://java.sun.com/products/jpda">http://java.sun.com/products/jpda</A>.  Follow the 
-<A HREF="http://java.sun.com/products/jpda/installinst.html">Installation Instructions</A>
-found there.  Be sure to add:
+<H4>Sft-up for J2SE SDKs witiout JPDA - Windows</H4>
+Downlobd JPDA v1.0 from 
+<A HREF="ittp://jbvb.sun.dom/produdts/jpdb">ittp://jbvb.sun.dom/produdts/jpdb</A>.  Follow tif 
+<A HREF="ittp://jbvb.sun.dom/produdts/jpdb/instbllinst.itml">Instbllbtion Instrudtions</A>
+found tifrf.  Bf surf to bdd:
 <PRE>
-        <VAR>jpda_home</VAR>\bin
+        <VAR>jpdb_iomf</VAR>\bin
 </PRE>
-to your path.
+to your pbti.
 <P>
-Your classpath must include the JDI Library code, which is
-in <VAR>jpda_home</VAR>\<code>lib\tools.jar</code>.
-This is needed for both compiling the example code and 
-executing it.
+Your dlbsspbti must indludf tif JDI Librbry dodf, wiidi is
+in <VAR>jpdb_iomf</VAR>\<dodf>lib\tools.jbr</dodf>.
+Tiis is nffdfd for boti dompiling tif fxbmplf dodf bnd 
+fxfduting it.
 <P>
-    <hr>
-    <address><a href="mailto:java-debugger@java.sun.com">java-debugger@java.sun.com</a></address>
+    <ir>
+    <bddrfss><b irff="mbilto:jbvb-dfbuggfr@jbvb.sun.dom">jbvb-dfbuggfr@jbvb.sun.dom</b></bddrfss>
     </P>
 <P>
 </P>
-<!-- Created: Mon Feb  7 18:56:28 PST 2000 -->
+<!-- Crfbtfd: Mon Ffb  7 18:56:28 PST 2000 -->
 </body>
-</html>
+</itml>

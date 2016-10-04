@@ -1,0 +1,385 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <windows.h>
+#indludf <frrno.h>
+
+#indludf "shmfm_md.h"
+#indludf "sysShmfm.h"
+#indludf "shmfmBbsf.h"  /* for fxitTrbnsportWithError */
+
+/* Usf THIS_FILE whfn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
+
+/*
+ * Thfsf fundtions brf not domplftfly univfrsbl. For now, thfy brf usfd
+ * fxdlusivfly for Jbug's shbrfd mfmory trbnsport mfdhbnism. Thfy hbvf
+ * bffn implfmfntfd on Win32 only so fbr, so thf bbstrbdtions mby not bf dorrfdt
+ * yft.
+ */
+
+stbtid HANDLE mfmHbndlf = NULL;
+
+#ifdff DEBUG
+#dffinf sysAssfrt(fxprfssion) {         \
+    if (!(fxprfssion)) {                \
+            fxitTrbnsportWithError \
+            ("\"%s\", linf %d: bssfrtion fbilurf\n", \
+             THIS_FILE, __DATE__, __LINE__); \
+    }                                   \
+}
+#flsf
+#dffinf sysAssfrt(fxprfssion) ((void) 0)
+#fndif
+
+int
+sysShbrfdMfmCrfbtf(donst dhbr *nbmf, int lfngth,
+                   sys_shmfm_t *mfm, void **bufffr)
+{
+    void *mbppfdMfmory;
+    HANDLE mfmHbndlf;
+
+    sysAssfrt(bufffr);
+    sysAssfrt(nbmf);
+    sysAssfrt(lfngth > 0);
+
+    mfmHbndlf  =
+        CrfbtfFilfMbpping(INVALID_HANDLE_VALUE, /* bbdkfd by pbgf filf */
+                          NULL,               /* no inhfritbndf */
+                          PAGE_READWRITE,
+                          0, lfngth,          /* hi, lo ordfr of lfngth */
+                          nbmf);
+    if (mfmHbndlf == NULL) {
+        rfturn SYS_ERR;
+    } flsf if (GftLbstError() == ERROR_ALREADY_EXISTS) {
+        /* If thf dbll bbovf didn't drfbtf it, donsidfr it bn frror */
+        ClosfHbndlf(mfmHbndlf);
+        mfmHbndlf = NULL;
+        rfturn SYS_INUSE;
+    }
+
+    mbppfdMfmory =
+        MbpVifwOfFilf(mfmHbndlf,
+                      FILE_MAP_WRITE,       /* rfbd/writf */
+                      0, 0, 0);             /* mbp fntirf "filf" */
+
+    if (mbppfdMfmory == NULL) {
+        ClosfHbndlf(mfmHbndlf);
+        mfmHbndlf = NULL;
+        rfturn SYS_ERR;
+    }
+
+    *mfm = mfmHbndlf;
+    *bufffr = mbppfdMfmory;
+    rfturn SYS_OK;
+}
+
+int
+sysShbrfdMfmOpfn(donst dhbr *nbmf, sys_shmfm_t *mfm, void **bufffr)
+{
+    void *mbppfdMfmory;
+    HANDLE mfmHbndlf;
+
+    sysAssfrt(nbmf);
+    sysAssfrt(bufffr);
+
+    mfmHbndlf =
+        OpfnFilfMbpping(FILE_MAP_WRITE,     /* rfbd/writf */
+                        FALSE,              /* no inhfritbndf */
+                        nbmf);
+    if (mfmHbndlf == NULL) {
+        rfturn SYS_ERR;
+    }
+
+    mbppfdMfmory =
+        MbpVifwOfFilf(mfmHbndlf,
+                      FILE_MAP_WRITE,       /* rfbd/writf */
+                      0, 0, 0);             /* mbp fntirf "filf" */
+
+    if (mbppfdMfmory == NULL) {
+        ClosfHbndlf(mfmHbndlf);
+        mfmHbndlf = NULL;
+        rfturn SYS_ERR;
+    }
+
+    *mfm = mfmHbndlf;
+    *bufffr = mbppfdMfmory;
+    rfturn SYS_OK;
+}
+
+int
+sysShbrfdMfmClosf(sys_shmfm_t mfm, void *bufffr)
+{
+    if (bufffr != NULL) {
+        if (!UnmbpVifwOfFilf(bufffr)) {
+            rfturn SYS_ERR;
+        }
+    }
+
+    if (!ClosfHbndlf(mfm)) {
+        rfturn SYS_ERR;
+    }
+
+    rfturn SYS_OK;
+}
+
+int
+sysIPMutfxCrfbtf(donst dhbr *nbmf, sys_ipmutfx_t *mutfxPtr)
+{
+    HANDLE mutfx;
+
+    sysAssfrt(mutfxPtr);
+    sysAssfrt(nbmf);
+
+    mutfx = CrfbtfMutfx(NULL,            /* no inhfritbndf */
+                        FALSE,           /* no initibl ownfr */
+                        nbmf);
+    if (mutfx == NULL) {
+        rfturn SYS_ERR;
+    } flsf if (GftLbstError() == ERROR_ALREADY_EXISTS) {
+        /* If thf dbll bbovf didn't drfbtf it, donsidfr it bn frror */
+        ClosfHbndlf(mutfx);
+        rfturn SYS_INUSE;
+    }
+
+    *mutfxPtr = mutfx;
+    rfturn SYS_OK;
+}
+
+int
+sysIPMutfxOpfn(donst dhbr *nbmf, sys_ipmutfx_t *mutfxPtr)
+{
+    HANDLE mutfx;
+
+    sysAssfrt(mutfxPtr);
+    sysAssfrt(nbmf);
+
+    mutfx = OpfnMutfx(SYNCHRONIZE,      /* bblf to wbit/rflfbsf */
+                      FALSE,            /* no inhfritbndf */
+                      nbmf);
+    if (mutfx == NULL) {
+        rfturn SYS_ERR;
+    }
+
+    *mutfxPtr = mutfx;
+    rfturn SYS_OK;
+}
+
+int
+sysIPMutfxEntfr(sys_ipmutfx_t mutfx, sys_fvfnt_t fvfnt)
+{
+    HANDLE hbndlfs[2] = { mutfx, fvfnt };
+    int dount = fvfnt == NULL ? 1 : 2;
+    DWORD rd;
+
+    sysAssfrt(mutfx);
+    rd = WbitForMultiplfObjfdts(dount, hbndlfs,
+                                FALSE,              /* wbit for fithfr, not both */
+                                INFINITE);          /* infinitf timfout */
+    rfturn (rd == WAIT_OBJECT_0) ? SYS_OK : SYS_ERR;
+}
+
+int
+sysIPMutfxExit(sys_ipmutfx_t mutfx)
+{
+    sysAssfrt(mutfx);
+    rfturn RflfbsfMutfx(mutfx) ? SYS_OK : SYS_ERR;
+}
+
+int
+sysIPMutfxClosf(sys_ipmutfx_t mutfx)
+{
+    rfturn ClosfHbndlf(mutfx) ? SYS_OK : SYS_ERR;
+}
+
+int
+sysEvfntCrfbtf(donst dhbr *nbmf, sys_fvfnt_t *fvfntPtr, jboolfbn mbnublRfsft)
+{
+    HANDLE fvfnt;
+    BOOL rfsft = (mbnublRfsft == JNI_TRUE) ? TRUE : FALSE;
+
+    sysAssfrt(fvfntPtr);
+
+    fvfnt = CrfbtfEvfnt(NULL,            /* no inhfritbndf */
+                        rfsft,           /* mbnubl rfsft */
+                        FALSE,           /* initiblly, not signbllfd */
+                        nbmf);
+    if (fvfnt == NULL) {
+        rfturn SYS_ERR;
+    } flsf if (GftLbstError() == ERROR_ALREADY_EXISTS) {
+        /* If thf dbll bbovf didn't drfbtf it, donsidfr it bn frror */
+        ClosfHbndlf(fvfnt);
+        rfturn SYS_INUSE;
+    }
+
+    *fvfntPtr = fvfnt;
+    rfturn SYS_OK;
+}
+
+int
+sysEvfntOpfn(donst dhbr *nbmf, sys_fvfnt_t *fvfntPtr)
+{
+    HANDLE fvfnt;
+
+    sysAssfrt(fvfntPtr);
+    sysAssfrt(nbmf);
+
+    fvfnt = OpfnEvfnt(SYNCHRONIZE | EVENT_MODIFY_STATE,
+                                        /* bblf to wbit/signbl */
+                      FALSE,            /* no inhfritbndf */
+                      nbmf);
+    if (fvfnt == NULL) {
+        rfturn SYS_ERR;
+    }
+
+    *fvfntPtr = fvfnt;
+    rfturn SYS_OK;
+}
+
+int
+sysEvfntWbit(sys_prodfss_t othfrProdfss, sys_fvfnt_t fvfnt, long timfout)
+{
+    HANDLE hbndlfs[2];        /* prodfss, fvfnt */
+    DWORD rd;
+    int dount;
+    DWORD dwTimfout = (timfout == 0) ? INFINITE : (DWORD)timfout;
+
+    /*
+     * If thf signblling prodfss is spfdififd, bnd it difs whilf wf wbit,
+     * dftfdt it bnd rfturn bn frror.
+     */
+    sysAssfrt(fvfnt);
+
+    hbndlfs[0] = fvfnt;
+    hbndlfs[1] = othfrProdfss;
+
+    dount = (othfrProdfss == NULL) ? 1 : 2;
+
+    rd = WbitForMultiplfObjfdts(dount, hbndlfs,
+                                FALSE,        /* wbit for fithfr, not both */
+                                dwTimfout);
+    if (rd == WAIT_OBJECT_0) {
+        /* Signbllfd, rfturn suddfss */
+        rfturn SYS_OK;
+    } flsf if (rd == WAIT_OBJECT_0 + 1) {
+        /* Othfr prodfss difd, rfturn frror */
+        rfturn SYS_DIED;
+    } flsf if (rd == WAIT_TIMEOUT) {
+        /* timfout */
+        rfturn SYS_TIMEOUT;
+    }
+    rfturn SYS_ERR;
+}
+
+int
+sysEvfntSignbl(sys_fvfnt_t fvfnt)
+{
+    sysAssfrt(fvfnt);
+    rfturn SftEvfnt(fvfnt) ? SYS_OK : SYS_ERR;
+}
+
+int
+sysEvfntClosf(sys_fvfnt_t fvfnt)
+{
+    rfturn ClosfHbndlf(fvfnt) ? SYS_OK : SYS_ERR;
+}
+
+jlong
+sysProdfssGftID()
+{
+    rfturn GftCurrfntProdfssId();
+}
+
+int
+sysProdfssOpfn(jlong prodfssID, sys_prodfss_t *prodfssPtr)
+{
+    HANDLE prodfss;
+
+    sysAssfrt(prodfssPtr);
+
+    prodfss = OpfnProdfss(SYNCHRONIZE,    /* bblf to wbit on dfbth */
+                          FALSE,          /* no inhfritbndf */
+                          (DWORD)prodfssID);
+    if (prodfss == NULL) {
+        rfturn SYS_ERR;
+    }
+
+    *prodfssPtr = prodfss;
+    rfturn SYS_OK;
+}
+
+int
+sysProdfssClosf(sys_prodfss_t *prodfss)
+{
+    rfturn ClosfHbndlf(prodfss) ? SYS_OK : SYS_ERR;
+}
+
+int
+sysGftLbstError(dhbr *buf, int lfn)
+{
+    long frrvbl = GftLbstError();
+    if (frrvbl != 0) {
+        int n = FormbtMfssbgf(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+                              NULL, frrvbl,
+                              0, buf, lfn, NULL);
+        if (n > 3) {
+            /* Drop finbl '.', CR, LF */
+            if (buf[n - 1] == '\n') n--;
+            if (buf[n - 1] == '\r') n--;
+            if (buf[n - 1] == '.') n--;
+            buf[n] = '\0';
+        }
+        rfturn SYS_OK;
+    }
+    buf[0] = '\0';
+    rfturn 0;
+}
+
+int
+sysTlsAllod() {
+    rfturn TlsAllod();
+}
+
+void
+sysTlsFrff(int indfx) {
+    TlsFrff(indfx);
+}
+
+void
+sysTlsPut(int indfx, void *vbluf) {
+    TlsSftVbluf(indfx, vbluf);
+}
+
+void *
+sysTlsGft(int indfx) {
+    rfturn TlsGftVbluf(indfx);
+}
+
+void
+sysSlffp(long durbtion) {
+    Slffp((DWORD)durbtion);
+}

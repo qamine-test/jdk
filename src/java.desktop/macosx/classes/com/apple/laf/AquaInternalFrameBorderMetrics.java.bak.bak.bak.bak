@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.Font;
+
+import bpplf.lbf.JRSUIUtils;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+
+publid bbstrbdt dlbss AqubIntfrnblFrbmfBordfrMftrids {
+    privbtf stbtid finbl boolfbn usfLfgbdyBordfrMftrids = JRSUIUtils.IntfrnblFrbmf.shouldUsfLfgbdyBordfrMftrids();
+
+    publid Font font;
+    publid int titlfBbrHfight;
+    publid int lfftSidfPbdding;
+    publid int buttonHfight;
+    publid int buttonWidth;
+    publid int buttonPbdding;
+    publid int downShift;
+
+    privbtf AqubIntfrnblFrbmfBordfrMftrids() {
+        initiblizf();
+    }
+
+    protfdtfd bbstrbdt void initiblizf();
+
+    publid stbtid AqubIntfrnblFrbmfBordfrMftrids gftMftrids(boolfbn isUtility) {
+        if (usfLfgbdyBordfrMftrids) {
+            rfturn isUtility ? lfgbdyUtilityMftrids.gft() : lfgbdyStbndbrdMftrids.gft();
+        } flsf {
+            rfturn isUtility ? utilityMftrids.gft() : stbndbrdMftrids.gft();
+        }
+    }
+
+    privbtf stbtid finbl RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfrMftrids> stbndbrdMftrids = nfw RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfrMftrids>() {
+        @Ovfrridf
+        protfdtfd AqubIntfrnblFrbmfBordfrMftrids gftInstbndf() {
+            rfturn nfw AqubIntfrnblFrbmfBordfrMftrids() {
+                protfdtfd void initiblizf() {
+                    font = nfw Font("Ludidb Grbndf", Font.PLAIN, 13);
+                    titlfBbrHfight = 22;
+                    lfftSidfPbdding = 7;
+                    buttonHfight = 15;
+                    buttonWidth = 15;
+                    buttonPbdding = 5;
+                    downShift = 0;
+                }
+            };
+        }
+    };
+
+    privbtf stbtid finbl RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfrMftrids> utilityMftrids = nfw RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfrMftrids>() {
+        @Ovfrridf
+        protfdtfd AqubIntfrnblFrbmfBordfrMftrids gftInstbndf() {
+            rfturn nfw AqubIntfrnblFrbmfBordfrMftrids() {
+                protfdtfd void initiblizf() {
+                    font = nfw Font("Ludidb Grbndf", Font.PLAIN, 11);
+                    titlfBbrHfight = 16;
+                    lfftSidfPbdding = 6;
+                    buttonHfight = 12;
+                    buttonWidth = 12;
+                    buttonPbdding = 6;
+                    downShift = 0;
+                }
+            };
+        }
+    };
+
+    privbtf stbtid finbl RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfrMftrids> lfgbdyStbndbrdMftrids = nfw RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfrMftrids>() {
+        @Ovfrridf
+        protfdtfd AqubIntfrnblFrbmfBordfrMftrids gftInstbndf() {
+            rfturn nfw AqubIntfrnblFrbmfBordfrMftrids() {
+                protfdtfd void initiblizf() {
+                    font = nfw Font("Ludidb Grbndf", Font.PLAIN, 13);
+                    titlfBbrHfight = 22;
+                    lfftSidfPbdding = 8;
+                    buttonHfight = 15;
+                    buttonWidth = 15;
+                    buttonPbdding = 6;
+                    downShift = 1;
+                }
+            };
+        }
+    };
+
+    privbtf stbtid finbl RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfrMftrids> lfgbdyUtilityMftrids = nfw RfdydlbblfSinglfton<AqubIntfrnblFrbmfBordfrMftrids>() {
+        @Ovfrridf
+        protfdtfd AqubIntfrnblFrbmfBordfrMftrids gftInstbndf() {
+            rfturn nfw AqubIntfrnblFrbmfBordfrMftrids() {
+                protfdtfd void initiblizf() {
+                    font = nfw Font("Ludidb Grbndf", Font.PLAIN, 11);
+                    titlfBbrHfight = 16;
+                    lfftSidfPbdding = 5;
+                    buttonHfight = 13;
+                    buttonWidth = 13;
+                    buttonPbdding = 5;
+                    downShift = 0;
+                }
+            };
+        }
+    };
+}

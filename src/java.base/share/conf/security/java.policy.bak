@@ -1,102 +1,102 @@
-// permissions required by each component
-grant codeBase "file:${java.home}/lib/ext/zipfs.jar" {
-        permission java.io.FilePermission "<<ALL FILES>>", "read,write,delete";
-        permission java.lang.RuntimePermission "fileSystemProvider";
-        permission java.util.PropertyPermission "*", "read";
+// pfrmissions rfquirfd by fbdi domponfnt
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/zipfs.jbr" {
+        pfrmission jbvb.io.FilfPfrmission "<<ALL FILES>>", "rfbd,writf,dflftf";
+        pfrmission jbvb.lbng.RuntimfPfrmission "filfSystfmProvidfr";
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
 };
 
-grant codeBase "file:${java.home}/lib/ext/cldrdata.jar" {
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.text.*";
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.util.*";
-        permission java.util.PropertyPermission "*", "read";
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/dldrdbtb.jbr" {
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.tfxt.*";
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.util.*";
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
 };
 
-grant codeBase "file:${java.home}/lib/ext/localedata.jar" {
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.text.*";
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.util.*";
-        permission java.util.PropertyPermission "*", "read";
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/lodblfdbtb.jbr" {
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.tfxt.*";
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.util.*";
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
 };
 
-grant codeBase "file:${java.home}/lib/ext/dnsns.jar" {
-        permission java.security.AllPermission;
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/dnsns.jbr" {
+        pfrmission jbvb.sfdurity.AllPfrmission;
 };
 
-grant codeBase "file:${java.home}/lib/ext/nashorn.jar" {
-        permission java.security.AllPermission;
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/nbsiorn.jbr" {
+        pfrmission jbvb.sfdurity.AllPfrmission;
 };
 
-grant codeBase "file:${java.home}/lib/ext/sunec.jar" {
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.security.*";
-        permission java.lang.RuntimePermission "loadLibrary.sunec";
-        permission java.util.PropertyPermission "*", "read";
-        permission java.security.SecurityPermission "putProviderProperty.SunEC";
-        permission java.security.SecurityPermission "clearProviderProperties.SunEC";
-        permission java.security.SecurityPermission "removeProviderProperty.SunEC";
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/sunfd.jbr" {
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.sfdurity.*";
+        pfrmission jbvb.lbng.RuntimfPfrmission "lobdLibrbry.sunfd";
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "putProvidfrPropfrty.SunEC";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "dlfbrProvidfrPropfrtifs.SunEC";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "rfmovfProvidfrPropfrty.SunEC";
 };
 
-grant codeBase "file:${java.home}/lib/ext/sunjce_provider.jar" {
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.misc";
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.security.*";
-        permission java.util.PropertyPermission "*", "read";
-        permission java.security.SecurityPermission "putProviderProperty.SunJCE";
-        permission java.security.SecurityPermission "clearProviderProperties.SunJCE";
-        permission java.security.SecurityPermission "removeProviderProperty.SunJCE";
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/sunjdf_providfr.jbr" {
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.misd";
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.sfdurity.*";
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "putProvidfrPropfrty.SunJCE";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "dlfbrProvidfrPropfrtifs.SunJCE";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "rfmovfProvidfrPropfrty.SunJCE";
 };
 
-grant codeBase "file:${java.home}/lib/ext/sunpkcs11.jar" {
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.security.*";
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.nio.ch";
-        permission java.lang.RuntimePermission "loadLibrary.j2pkcs11";
-        // needs "security.pkcs11.allowSingleThreadedModules"
-        permission java.util.PropertyPermission "*", "read";
-        permission java.security.SecurityPermission "putProviderProperty.*";
-        permission java.security.SecurityPermission "clearProviderProperties.*";
-        permission java.security.SecurityPermission "removeProviderProperty.*";
-        permission java.security.SecurityPermission "getProperty.auth.login.defaultCallbackHandler";
-        permission java.security.SecurityPermission "authProvider.*";
-        // Needed for reading PKCS11 config file and NSS library check
-        permission java.io.FilePermission "<<ALL FILES>>", "read";
+grbnt dodfBbsf "filf:${jbvb.iomf}/lib/fxt/sunpkds11.jbr" {
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.sfdurity.*";
+        pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.nio.di";
+        pfrmission jbvb.lbng.RuntimfPfrmission "lobdLibrbry.j2pkds11";
+        // nffds "sfdurity.pkds11.bllowSinglfTirfbdfdModulfs"
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "putProvidfrPropfrty.*";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "dlfbrProvidfrPropfrtifs.*";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "rfmovfProvidfrPropfrty.*";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "gftPropfrty.buti.login.dffbultCbllbbdkHbndlfr";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "butiProvidfr.*";
+        // Nffdfd for rfbding PKCS11 donfig filf bnd NSS librbry difdk
+        pfrmission jbvb.io.FilfPfrmission "<<ALL FILES>>", "rfbd";
 };
 
-// default permissions granted to all domains
+// dffbult pfrmissions grbntfd to bll dombins
 
-grant {
-        // Allows any thread to stop itself using the java.lang.Thread.stop()
-        // method that takes no argument.
-        // Note that this permission is granted by default only to remain
-        // backwards compatible.
-        // It is strongly recommended that you either remove this permission
-        // from this policy file or further restrict it to code sources
-        // that you specify, because Thread.stop() is potentially unsafe.
-        // See the API specification of java.lang.Thread.stop() for more
-        // information.
-        permission java.lang.RuntimePermission "stopThread";
+grbnt {
+        // Allows bny tirfbd to stop itsflf using tif jbvb.lbng.Tirfbd.stop()
+        // mftiod tibt tbkfs no brgumfnt.
+        // Notf tibt tiis pfrmission is grbntfd by dffbult only to rfmbin
+        // bbdkwbrds dompbtiblf.
+        // It is strongly rfdommfndfd tibt you fitifr rfmovf tiis pfrmission
+        // from tiis polidy filf or furtifr rfstridt it to dodf sourdfs
+        // tibt you spfdify, bfdbusf Tirfbd.stop() is potfntiblly unsbff.
+        // Sff tif API spfdifidbtion of jbvb.lbng.Tirfbd.stop() for morf
+        // informbtion.
+        pfrmission jbvb.lbng.RuntimfPfrmission "stopTirfbd";
 
-        // allows anyone to listen on dynamic ports
-        permission java.net.SocketPermission "localhost:0", "listen";
+        // bllows bnyonf to listfn on dynbmid ports
+        pfrmission jbvb.nft.SodkftPfrmission "lodbliost:0", "listfn";
 
-        // "standard" properies that can be read by anyone
+        // "stbndbrd" propfrifs tibt dbn bf rfbd by bnyonf
 
-        permission java.util.PropertyPermission "java.version", "read";
-        permission java.util.PropertyPermission "java.vendor", "read";
-        permission java.util.PropertyPermission "java.vendor.url", "read";
-        permission java.util.PropertyPermission "java.class.version", "read";
-        permission java.util.PropertyPermission "os.name", "read";
-        permission java.util.PropertyPermission "os.version", "read";
-        permission java.util.PropertyPermission "os.arch", "read";
-        permission java.util.PropertyPermission "file.separator", "read";
-        permission java.util.PropertyPermission "path.separator", "read";
-        permission java.util.PropertyPermission "line.separator", "read";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vfndor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vfndor.url", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.dlbss.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "os.nbmf", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "os.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "os.brdi", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "filf.sfpbrbtor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "pbti.sfpbrbtor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "linf.sfpbrbtor", "rfbd";
 
-        permission java.util.PropertyPermission "java.specification.version", "read";
-        permission java.util.PropertyPermission "java.specification.vendor", "read";
-        permission java.util.PropertyPermission "java.specification.name", "read";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.spfdifidbtion.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.spfdifidbtion.vfndor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.spfdifidbtion.nbmf", "rfbd";
 
-        permission java.util.PropertyPermission "java.vm.specification.version", "read";
-        permission java.util.PropertyPermission "java.vm.specification.vendor", "read";
-        permission java.util.PropertyPermission "java.vm.specification.name", "read";
-        permission java.util.PropertyPermission "java.vm.version", "read";
-        permission java.util.PropertyPermission "java.vm.vendor", "read";
-        permission java.util.PropertyPermission "java.vm.name", "read";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.spfdifidbtion.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.spfdifidbtion.vfndor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.spfdifidbtion.nbmf", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.vfrsion", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.vfndor", "rfbd";
+        pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vm.nbmf", "rfbd";
 };
 

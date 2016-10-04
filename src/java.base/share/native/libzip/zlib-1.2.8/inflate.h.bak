@@ -1,146 +1,146 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* inflate.h -- internal inflate state definition
- * Copyright (C) 1995-2009 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* inflbtf.i -- intfrnbl inflbtf stbtf dffinition
+ * Copyrigit (C) 1995-2009 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
  */
 
-/* WARNING: this file should *not* be used by applications. It is
-   part of the implementation of the compression library and is
-   subject to change. Applications should only use zlib.h.
+/* WARNING: tiis filf siould *not* bf usfd by bpplidbtions. It is
+   pbrt of tif implfmfntbtion of tif domprfssion librbry bnd is
+   subjfdt to dibngf. Applidbtions siould only usf zlib.i.
  */
 
-/* define NO_GZIP when compiling if you want to disable gzip header and
-   trailer decoding by inflate().  NO_GZIP would be used to avoid linking in
-   the crc code when it is not needed.  For shared libraries, gzip decoding
-   should be left enabled. */
-#ifndef NO_GZIP
-#  define GUNZIP
-#endif
+/* dffinf NO_GZIP wifn dompiling if you wbnt to disbblf gzip ifbdfr bnd
+   trbilfr dfdoding by inflbtf().  NO_GZIP would bf usfd to bvoid linking in
+   tif drd dodf wifn it is not nffdfd.  For sibrfd librbrifs, gzip dfdoding
+   siould bf lfft fnbblfd. */
+#ifndff NO_GZIP
+#  dffinf GUNZIP
+#fndif
 
-/* Possible inflate modes between inflate() calls */
-typedef enum {
-    HEAD,       /* i: waiting for magic header */
-    FLAGS,      /* i: waiting for method and flags (gzip) */
-    TIME,       /* i: waiting for modification time (gzip) */
-    OS,         /* i: waiting for extra flags and operating system (gzip) */
-    EXLEN,      /* i: waiting for extra length (gzip) */
-    EXTRA,      /* i: waiting for extra bytes (gzip) */
-    NAME,       /* i: waiting for end of file name (gzip) */
-    COMMENT,    /* i: waiting for end of comment (gzip) */
-    HCRC,       /* i: waiting for header crc (gzip) */
-    DICTID,     /* i: waiting for dictionary check value */
-    DICT,       /* waiting for inflateSetDictionary() call */
-        TYPE,       /* i: waiting for type bits, including last-flag bit */
-        TYPEDO,     /* i: same, but skip check to exit inflate on new block */
-        STORED,     /* i: waiting for stored size (length and complement) */
-        COPY_,      /* i/o: same as COPY below, but only first time in */
-        COPY,       /* i/o: waiting for input or output to copy stored block */
-        TABLE,      /* i: waiting for dynamic block table lengths */
-        LENLENS,    /* i: waiting for code length code lengths */
-        CODELENS,   /* i: waiting for length/lit and distance code lengths */
-            LEN_,       /* i: same as LEN below, but only first time in */
-            LEN,        /* i: waiting for length/lit/eob code */
-            LENEXT,     /* i: waiting for length extra bits */
-            DIST,       /* i: waiting for distance code */
-            DISTEXT,    /* i: waiting for distance extra bits */
-            MATCH,      /* o: waiting for output space to copy string */
-            LIT,        /* o: waiting for output space to write literal */
-    CHECK,      /* i: waiting for 32-bit check value */
-    LENGTH,     /* i: waiting for 32-bit length (gzip) */
-    DONE,       /* finished check, done -- remain here until reset */
-    BAD,        /* got a data error -- remain here until reset */
-    MEM,        /* got an inflate() memory error -- remain here until reset */
-    SYNC        /* looking for synchronization bytes to restart inflate() */
-} inflate_mode;
+/* Possiblf inflbtf modfs bftwffn inflbtf() dblls */
+typfdff fnum {
+    HEAD,       /* i: wbiting for mbgid ifbdfr */
+    FLAGS,      /* i: wbiting for mftiod bnd flbgs (gzip) */
+    TIME,       /* i: wbiting for modifidbtion timf (gzip) */
+    OS,         /* i: wbiting for fxtrb flbgs bnd opfrbting systfm (gzip) */
+    EXLEN,      /* i: wbiting for fxtrb lfngti (gzip) */
+    EXTRA,      /* i: wbiting for fxtrb bytfs (gzip) */
+    NAME,       /* i: wbiting for fnd of filf nbmf (gzip) */
+    COMMENT,    /* i: wbiting for fnd of dommfnt (gzip) */
+    HCRC,       /* i: wbiting for ifbdfr drd (gzip) */
+    DICTID,     /* i: wbiting for didtionbry difdk vbluf */
+    DICT,       /* wbiting for inflbtfSftDidtionbry() dbll */
+        TYPE,       /* i: wbiting for typf bits, indluding lbst-flbg bit */
+        TYPEDO,     /* i: sbmf, but skip difdk to fxit inflbtf on nfw blodk */
+        STORED,     /* i: wbiting for storfd sizf (lfngti bnd domplfmfnt) */
+        COPY_,      /* i/o: sbmf bs COPY bflow, but only first timf in */
+        COPY,       /* i/o: wbiting for input or output to dopy storfd blodk */
+        TABLE,      /* i: wbiting for dynbmid blodk tbblf lfngtis */
+        LENLENS,    /* i: wbiting for dodf lfngti dodf lfngtis */
+        CODELENS,   /* i: wbiting for lfngti/lit bnd distbndf dodf lfngtis */
+            LEN_,       /* i: sbmf bs LEN bflow, but only first timf in */
+            LEN,        /* i: wbiting for lfngti/lit/fob dodf */
+            LENEXT,     /* i: wbiting for lfngti fxtrb bits */
+            DIST,       /* i: wbiting for distbndf dodf */
+            DISTEXT,    /* i: wbiting for distbndf fxtrb bits */
+            MATCH,      /* o: wbiting for output spbdf to dopy string */
+            LIT,        /* o: wbiting for output spbdf to writf litfrbl */
+    CHECK,      /* i: wbiting for 32-bit difdk vbluf */
+    LENGTH,     /* i: wbiting for 32-bit lfngti (gzip) */
+    DONE,       /* finisifd difdk, donf -- rfmbin ifrf until rfsft */
+    BAD,        /* got b dbtb frror -- rfmbin ifrf until rfsft */
+    MEM,        /* got bn inflbtf() mfmory frror -- rfmbin ifrf until rfsft */
+    SYNC        /* looking for syndironizbtion bytfs to rfstbrt inflbtf() */
+} inflbtf_modf;
 
 /*
-    State transitions between above modes -
+    Stbtf trbnsitions bftwffn bbovf modfs -
 
-    (most modes can go to BAD or MEM on error -- not shown for clarity)
+    (most modfs dbn go to BAD or MEM on frror -- not siown for dlbrity)
 
-    Process header:
-        HEAD -> (gzip) or (zlib) or (raw)
+    Prodfss ifbdfr:
+        HEAD -> (gzip) or (zlib) or (rbw)
         (gzip) -> FLAGS -> TIME -> OS -> EXLEN -> EXTRA -> NAME -> COMMENT ->
                   HCRC -> TYPE
         (zlib) -> DICTID or TYPE
         DICTID -> DICT -> TYPE
-        (raw) -> TYPEDO
-    Read deflate blocks:
+        (rbw) -> TYPEDO
+    Rfbd dfflbtf blodks:
             TYPE -> TYPEDO -> STORED or TABLE or LEN_ or CHECK
             STORED -> COPY_ -> COPY -> TYPE
             TABLE -> LENLENS -> CODELENS -> LEN_
             LEN_ -> LEN
-    Read deflate codes in fixed or dynamic block:
+    Rfbd dfflbtf dodfs in fixfd or dynbmid blodk:
                 LEN -> LENEXT or LIT or TYPE
                 LENEXT -> DIST -> DISTEXT -> MATCH -> LEN
                 LIT -> LEN
-    Process trailer:
+    Prodfss trbilfr:
         CHECK -> LENGTH -> DONE
  */
 
-/* state maintained between inflate() calls.  Approximately 10K bytes. */
-struct inflate_state {
-    inflate_mode mode;          /* current inflate mode */
-    int last;                   /* true if processing last block */
-    int wrap;                   /* bit 0 true for zlib, bit 1 true for gzip */
-    int havedict;               /* true if dictionary provided */
-    int flags;                  /* gzip header method and flags (0 if zlib) */
-    unsigned dmax;              /* zlib header max distance (INFLATE_STRICT) */
-    unsigned long check;        /* protected copy of check value */
-    unsigned long total;        /* protected copy of output count */
-    gz_headerp head;            /* where to save gzip header information */
+/* stbtf mbintbinfd bftwffn inflbtf() dblls.  Approximbtfly 10K bytfs. */
+strudt inflbtf_stbtf {
+    inflbtf_modf modf;          /* durrfnt inflbtf modf */
+    int lbst;                   /* truf if prodfssing lbst blodk */
+    int wrbp;                   /* bit 0 truf for zlib, bit 1 truf for gzip */
+    int ibvfdidt;               /* truf if didtionbry providfd */
+    int flbgs;                  /* gzip ifbdfr mftiod bnd flbgs (0 if zlib) */
+    unsignfd dmbx;              /* zlib ifbdfr mbx distbndf (INFLATE_STRICT) */
+    unsignfd long difdk;        /* protfdtfd dopy of difdk vbluf */
+    unsignfd long totbl;        /* protfdtfd dopy of output dount */
+    gz_ifbdfrp ifbd;            /* wifrf to sbvf gzip ifbdfr informbtion */
         /* sliding window */
-    unsigned wbits;             /* log base 2 of requested window size */
-    unsigned wsize;             /* window size or zero if not using window */
-    unsigned whave;             /* valid bytes in the window */
-    unsigned wnext;             /* window write index */
-    unsigned char FAR *window;  /* allocated sliding window, if needed */
-        /* bit accumulator */
-    unsigned long hold;         /* input bit accumulator */
-    unsigned bits;              /* number of bits in "in" */
-        /* for string and stored block copying */
-    unsigned length;            /* literal or length of data to copy */
-    unsigned offset;            /* distance back to copy string from */
-        /* for table and code decoding */
-    unsigned extra;             /* extra bits needed */
-        /* fixed and dynamic code tables */
-    code const FAR *lencode;    /* starting table for length/literal codes */
-    code const FAR *distcode;   /* starting table for distance codes */
-    unsigned lenbits;           /* index bits for lencode */
-    unsigned distbits;          /* index bits for distcode */
-        /* dynamic table building */
-    unsigned ncode;             /* number of code length code lengths */
-    unsigned nlen;              /* number of length code lengths */
-    unsigned ndist;             /* number of distance code lengths */
-    unsigned have;              /* number of code lengths in lens[] */
-    code FAR *next;             /* next available space in codes[] */
-    unsigned short lens[320];   /* temporary storage for code lengths */
-    unsigned short work[288];   /* work area for code table building */
-    code codes[ENOUGH];         /* space for code tables */
-    int sane;                   /* if false, allow invalid distance too far */
-    int back;                   /* bits back of last unprocessed length/lit */
-    unsigned was;               /* initial length of match */
+    unsignfd wbits;             /* log bbsf 2 of rfqufstfd window sizf */
+    unsignfd wsizf;             /* window sizf or zfro if not using window */
+    unsignfd wibvf;             /* vblid bytfs in tif window */
+    unsignfd wnfxt;             /* window writf indfx */
+    unsignfd dibr FAR *window;  /* bllodbtfd sliding window, if nffdfd */
+        /* bit bddumulbtor */
+    unsignfd long iold;         /* input bit bddumulbtor */
+    unsignfd bits;              /* numbfr of bits in "in" */
+        /* for string bnd storfd blodk dopying */
+    unsignfd lfngti;            /* litfrbl or lfngti of dbtb to dopy */
+    unsignfd offsft;            /* distbndf bbdk to dopy string from */
+        /* for tbblf bnd dodf dfdoding */
+    unsignfd fxtrb;             /* fxtrb bits nffdfd */
+        /* fixfd bnd dynbmid dodf tbblfs */
+    dodf donst FAR *lfndodf;    /* stbrting tbblf for lfngti/litfrbl dodfs */
+    dodf donst FAR *distdodf;   /* stbrting tbblf for distbndf dodfs */
+    unsignfd lfnbits;           /* indfx bits for lfndodf */
+    unsignfd distbits;          /* indfx bits for distdodf */
+        /* dynbmid tbblf building */
+    unsignfd ndodf;             /* numbfr of dodf lfngti dodf lfngtis */
+    unsignfd nlfn;              /* numbfr of lfngti dodf lfngtis */
+    unsignfd ndist;             /* numbfr of distbndf dodf lfngtis */
+    unsignfd ibvf;              /* numbfr of dodf lfngtis in lfns[] */
+    dodf FAR *nfxt;             /* nfxt bvbilbblf spbdf in dodfs[] */
+    unsignfd siort lfns[320];   /* tfmporbry storbgf for dodf lfngtis */
+    unsignfd siort work[288];   /* work brfb for dodf tbblf building */
+    dodf dodfs[ENOUGH];         /* spbdf for dodf tbblfs */
+    int sbnf;                   /* if fblsf, bllow invblid distbndf too fbr */
+    int bbdk;                   /* bits bbdk of lbst unprodfssfd lfngti/lit */
+    unsignfd wbs;               /* initibl lfngti of mbtdi */
 };

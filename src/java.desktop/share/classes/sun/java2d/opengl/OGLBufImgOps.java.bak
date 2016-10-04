@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.opengl;
+pbdkbgf sun.jbvb2d.opfngl;
 
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ConvolveOp;
-import java.awt.image.LookupOp;
-import java.awt.image.RescaleOp;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.pipe.BufferedBufImgOps;
-import static sun.java2d.opengl.OGLContext.OGLContextCaps.*;
+import jbvb.bwt.imbgf.AffinfTrbnsformOp;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.ConvolvfOp;
+import jbvb.bwt.imbgf.LookupOp;
+import jbvb.bwt.imbgf.RfsdblfOp;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.pipf.BufffrfdBufImgOps;
+import stbtid sun.jbvb2d.opfngl.OGLContfxt.OGLContfxtCbps.*;
 
-class OGLBufImgOps extends BufferedBufImgOps {
+dlbss OGLBufImgOps fxtfnds BufffrfdBufImgOps {
 
     /**
-     * This method is called from OGLDrawImage.transformImage() only.  It
-     * validates the provided BufferedImageOp to determine whether the op
-     * is one that can be accelerated by the OGL pipeline.  If the operation
-     * cannot be completed for any reason, this method returns false;
-     * otherwise, the given BufferedImage is rendered to the destination
-     * using the provided BufferedImageOp and this method returns true.
+     * Tiis mftiod is dbllfd from OGLDrbwImbgf.trbnsformImbgf() only.  It
+     * vblidbtfs tif providfd BufffrfdImbgfOp to dftfrminf wiftifr tif op
+     * is onf tibt dbn bf bddflfrbtfd by tif OGL pipflinf.  If tif opfrbtion
+     * dbnnot bf domplftfd for bny rfbson, tiis mftiod rfturns fblsf;
+     * otifrwisf, tif givfn BufffrfdImbgf is rfndfrfd to tif dfstinbtion
+     * using tif providfd BufffrfdImbgfOp bnd tiis mftiod rfturns truf.
      */
-    static boolean renderImageWithOp(SunGraphics2D sg, BufferedImage img,
-                                     BufferedImageOp biop, int x, int y)
+    stbtid boolfbn rfndfrImbgfWitiOp(SunGrbpiids2D sg, BufffrfdImbgf img,
+                                     BufffrfdImbgfOp biop, int x, int y)
     {
-        // Validate the provided BufferedImage (make sure it is one that
-        // is supported, and that its properties are acceleratable)
-        if (biop instanceof ConvolveOp) {
-            if (!isConvolveOpValid((ConvolveOp)biop)) {
-                return false;
+        // Vblidbtf tif providfd BufffrfdImbgf (mbkf surf it is onf tibt
+        // is supportfd, bnd tibt its propfrtifs brf bddflfrbtbblf)
+        if (biop instbndfof ConvolvfOp) {
+            if (!isConvolvfOpVblid((ConvolvfOp)biop)) {
+                rfturn fblsf;
             }
-        } else if (biop instanceof RescaleOp) {
-            if (!isRescaleOpValid((RescaleOp)biop, img)) {
-                return false;
+        } flsf if (biop instbndfof RfsdblfOp) {
+            if (!isRfsdblfOpVblid((RfsdblfOp)biop, img)) {
+                rfturn fblsf;
             }
-        } else if (biop instanceof LookupOp) {
-            if (!isLookupOpValid((LookupOp)biop, img)) {
-                return false;
+        } flsf if (biop instbndfof LookupOp) {
+            if (!isLookupOpVblid((LookupOp)biop, img)) {
+                rfturn fblsf;
             }
-        } else {
-            // No acceleration for other BufferedImageOps (yet)
-            return false;
+        } flsf {
+            // No bddflfrbtion for otifr BufffrfdImbgfOps (yft)
+            rfturn fblsf;
         }
 
-        SurfaceData dstData = sg.surfaceData;
-        if (!(dstData instanceof OGLSurfaceData) ||
-            (sg.interpolationType == AffineTransformOp.TYPE_BICUBIC) ||
-            (sg.compositeState > SunGraphics2D.COMP_ALPHA))
+        SurfbdfDbtb dstDbtb = sg.surfbdfDbtb;
+        if (!(dstDbtb instbndfof OGLSurfbdfDbtb) ||
+            (sg.intfrpolbtionTypf == AffinfTrbnsformOp.TYPE_BICUBIC) ||
+            (sg.dompositfStbtf > SunGrbpiids2D.COMP_ALPHA))
         {
-            return false;
+            rfturn fblsf;
         }
 
-        SurfaceData srcData =
-            dstData.getSourceSurfaceData(img, SunGraphics2D.TRANSFORM_ISIDENT,
-                                         CompositeType.SrcOver, null);
-        if (!(srcData instanceof OGLSurfaceData)) {
-            // REMIND: this hack tries to ensure that we have a cached texture
-            srcData =
-                dstData.getSourceSurfaceData(img, SunGraphics2D.TRANSFORM_ISIDENT,
-                                             CompositeType.SrcOver, null);
-            if (!(srcData instanceof OGLSurfaceData)) {
-                return false;
+        SurfbdfDbtb srdDbtb =
+            dstDbtb.gftSourdfSurfbdfDbtb(img, SunGrbpiids2D.TRANSFORM_ISIDENT,
+                                         CompositfTypf.SrdOvfr, null);
+        if (!(srdDbtb instbndfof OGLSurfbdfDbtb)) {
+            // REMIND: tiis ibdk trifs to fnsurf tibt wf ibvf b dbdifd tfxturf
+            srdDbtb =
+                dstDbtb.gftSourdfSurfbdfDbtb(img, SunGrbpiids2D.TRANSFORM_ISIDENT,
+                                             CompositfTypf.SrdOvfr, null);
+            if (!(srdDbtb instbndfof OGLSurfbdfDbtb)) {
+                rfturn fblsf;
             }
         }
 
-        // Verify that the source surface is actually a texture and
-        // that the operation is supported
-        OGLSurfaceData oglSrc = (OGLSurfaceData)srcData;
-        OGLGraphicsConfig gc = oglSrc.getOGLGraphicsConfig();
-        if (oglSrc.getType() != OGLSurfaceData.TEXTURE ||
-            !gc.isCapPresent(CAPS_EXT_BIOP_SHADER))
+        // Vfrify tibt tif sourdf surfbdf is bdtublly b tfxturf bnd
+        // tibt tif opfrbtion is supportfd
+        OGLSurfbdfDbtb oglSrd = (OGLSurfbdfDbtb)srdDbtb;
+        OGLGrbpiidsConfig gd = oglSrd.gftOGLGrbpiidsConfig();
+        if (oglSrd.gftTypf() != OGLSurfbdfDbtb.TEXTURE ||
+            !gd.isCbpPrfsfnt(CAPS_EXT_BIOP_SHADER))
         {
-            return false;
+            rfturn fblsf;
         }
 
-        int sw = img.getWidth();
-        int sh = img.getHeight();
-        OGLBlitLoops.IsoBlit(srcData, dstData,
+        int sw = img.gftWidti();
+        int si = img.gftHfigit();
+        OGLBlitLoops.IsoBlit(srdDbtb, dstDbtb,
                              img, biop,
-                             sg.composite, sg.getCompClip(),
-                             sg.transform, sg.interpolationType,
-                             0, 0, sw, sh,
-                             x, y, x+sw, y+sh,
-                             true);
+                             sg.dompositf, sg.gftCompClip(),
+                             sg.trbnsform, sg.intfrpolbtionTypf,
+                             0, 0, sw, si,
+                             x, y, x+sw, y+si,
+                             truf);
 
-        return true;
+        rfturn truf;
     }
 }

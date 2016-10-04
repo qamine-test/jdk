@@ -1,0 +1,63 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.util.EvfntListfnfr;
+import jbvb.bwt.AWTEvfnt;
+
+/**
+ * Thf listfnfr intfrfbdf for rfdfiving notifidbtion of fvfnts
+ * dispbtdhfd to objfdts thbt brf instbndfs of Componfnt or
+ * MfnuComponfnt or thfir subdlbssfs.  Unlikf thf othfr EvfntListfnfrs
+ * in this pbdkbgf, AWTEvfntListfnfrs pbssivfly obsfrvf fvfnts
+ * bfing dispbtdhfd in thf AWT, systfm-widf.  Most bpplidbtions
+ * should nfvfr usf this dlbss; bpplidbtions whidh might usf
+ * AWTEvfntListfnfrs indludf fvfnt rfdordfrs for butombtfd tfsting,
+ * bnd fbdilitifs sudh bs thf Jbvb Addfssibility pbdkbgf.
+ * <p>
+ * Thf dlbss thbt is intfrfstfd in monitoring AWT fvfnts
+ * implfmfnts this intfrfbdf, bnd thf objfdt drfbtfd with thbt
+ * dlbss is rfgistfrfd with thf Toolkit, using thf Toolkit's
+ * <dodf>bddAWTEvfntListfnfr</dodf> mfthod.  Whfn bn fvfnt is
+ * dispbtdhfd bnywhfrf in thf AWT, thbt objfdt's
+ * <dodf>fvfntDispbtdhfd</dodf> mfthod is invokfd.
+ *
+ * @sff jbvb.bwt.AWTEvfnt
+ * @sff jbvb.bwt.Toolkit#bddAWTEvfntListfnfr
+ * @sff jbvb.bwt.Toolkit#rfmovfAWTEvfntListfnfr
+ *
+ * @buthor Frfd Edks
+ * @sindf 1.2
+ */
+publid intfrfbdf AWTEvfntListfnfr fxtfnds EvfntListfnfr {
+
+    /**
+     * Invokfd whfn bn fvfnt is dispbtdhfd in thf AWT.
+     * @pbrbm fvfnt thf fvfnt to bf prodfssfd
+     */
+    publid void fvfntDispbtdhfd(AWTEvfnt fvfnt);
+
+}

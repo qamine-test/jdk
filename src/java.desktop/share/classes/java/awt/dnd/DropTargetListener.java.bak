@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.dnd;
+pbdkbgf jbvb.bwt.dnd;
 
-import java.util.EventListener;
+import jbvb.util.EvfntListfnfr;
 
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
+import jbvb.bwt.dnd.DropTbrgftDrbgEvfnt;
+import jbvb.bwt.dnd.DropTbrgftDropEvfnt;
 
 /**
- * The <code>DropTargetListener</code> interface
- * is the callback interface used by the
- * <code>DropTarget</code> class to provide
- * notification of DnD operations that involve
- * the subject <code>DropTarget</code>. Methods of
- * this interface may be implemented to provide
- * "drag under" visual feedback to the user throughout
- * the Drag and Drop operation.
+ * Tif <dodf>DropTbrgftListfnfr</dodf> intfrfbdf
+ * is tif dbllbbdk intfrfbdf usfd by tif
+ * <dodf>DropTbrgft</dodf> dlbss to providf
+ * notifidbtion of DnD opfrbtions tibt involvf
+ * tif subjfdt <dodf>DropTbrgft</dodf>. Mftiods of
+ * tiis intfrfbdf mby bf implfmfntfd to providf
+ * "drbg undfr" visubl fffdbbdk to tif usfr tirougiout
+ * tif Drbg bnd Drop opfrbtion.
  * <p>
- * Create a listener object by implementing the interface and then register it
- * with a <code>DropTarget</code>. When the drag enters, moves over, or exits
- * the operable part of the drop site for that <code>DropTarget</code>, when
- * the drop action changes, and when the drop occurs, the relevant method in
- * the listener object is invoked, and the <code>DropTargetEvent</code> is
- * passed to it.
+ * Crfbtf b listfnfr objfdt by implfmfnting tif intfrfbdf bnd tifn rfgistfr it
+ * witi b <dodf>DropTbrgft</dodf>. Wifn tif drbg fntfrs, movfs ovfr, or fxits
+ * tif opfrbblf pbrt of tif drop sitf for tibt <dodf>DropTbrgft</dodf>, wifn
+ * tif drop bdtion dibngfs, bnd wifn tif drop oddurs, tif rflfvbnt mftiod in
+ * tif listfnfr objfdt is invokfd, bnd tif <dodf>DropTbrgftEvfnt</dodf> is
+ * pbssfd to it.
  * <p>
- * The operable part of the drop site for the <code>DropTarget</code> is
- * the part of the associated <code>Component</code>'s geometry that is not
- * obscured by an overlapping top-level window or by another
- * <code>Component</code> higher in the Z-order that has an associated active
- * <code>DropTarget</code>.
+ * Tif opfrbblf pbrt of tif drop sitf for tif <dodf>DropTbrgft</dodf> is
+ * tif pbrt of tif bssodibtfd <dodf>Componfnt</dodf>'s gfomftry tibt is not
+ * obsdurfd by bn ovfrlbpping top-lfvfl window or by bnotifr
+ * <dodf>Componfnt</dodf> iigifr in tif Z-ordfr tibt ibs bn bssodibtfd bdtivf
+ * <dodf>DropTbrgft</dodf>.
  * <p>
- * During the drag, the data associated with the current drag operation can be
- * retrieved by calling <code>getTransferable()</code> on
- * <code>DropTargetDragEvent</code> instances passed to the listener's
- * methods.
+ * During tif drbg, tif dbtb bssodibtfd witi tif durrfnt drbg opfrbtion dbn bf
+ * rftrifvfd by dblling <dodf>gftTrbnsffrbblf()</dodf> on
+ * <dodf>DropTbrgftDrbgEvfnt</dodf> instbndfs pbssfd to tif listfnfr's
+ * mftiods.
  * <p>
- * Note that <code>getTransferable()</code> on the
- * <code>DropTargetDragEvent</code> instance should only be called within the
- * respective listener's method and all the necessary data should be retrieved
- * from the returned <code>Transferable</code> before that method returns.
+ * Notf tibt <dodf>gftTrbnsffrbblf()</dodf> on tif
+ * <dodf>DropTbrgftDrbgEvfnt</dodf> instbndf siould only bf dbllfd witiin tif
+ * rfspfdtivf listfnfr's mftiod bnd bll tif nfdfssbry dbtb siould bf rftrifvfd
+ * from tif rfturnfd <dodf>Trbnsffrbblf</dodf> bfforf tibt mftiod rfturns.
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public interface DropTargetListener extends EventListener {
+publid intfrfbdf DropTbrgftListfnfr fxtfnds EvfntListfnfr {
 
     /**
-     * Called while a drag operation is ongoing, when the mouse pointer enters
-     * the operable part of the drop site for the <code>DropTarget</code>
-     * registered with this listener.
+     * Cbllfd wiilf b drbg opfrbtion is ongoing, wifn tif mousf pointfr fntfrs
+     * tif opfrbblf pbrt of tif drop sitf for tif <dodf>DropTbrgft</dodf>
+     * rfgistfrfd witi tiis listfnfr.
      *
-     * @param dtde the <code>DropTargetDragEvent</code>
+     * @pbrbm dtdf tif <dodf>DropTbrgftDrbgEvfnt</dodf>
      */
 
-    void dragEnter(DropTargetDragEvent dtde);
+    void drbgEntfr(DropTbrgftDrbgEvfnt dtdf);
 
     /**
-     * Called when a drag operation is ongoing, while the mouse pointer is still
-     * over the operable part of the drop site for the <code>DropTarget</code>
-     * registered with this listener.
+     * Cbllfd wifn b drbg opfrbtion is ongoing, wiilf tif mousf pointfr is still
+     * ovfr tif opfrbblf pbrt of tif drop sitf for tif <dodf>DropTbrgft</dodf>
+     * rfgistfrfd witi tiis listfnfr.
      *
-     * @param dtde the <code>DropTargetDragEvent</code>
+     * @pbrbm dtdf tif <dodf>DropTbrgftDrbgEvfnt</dodf>
      */
 
-    void dragOver(DropTargetDragEvent dtde);
+    void drbgOvfr(DropTbrgftDrbgEvfnt dtdf);
 
     /**
-     * Called if the user has modified
-     * the current drop gesture.
+     * Cbllfd if tif usfr ibs modififd
+     * tif durrfnt drop gfsturf.
      *
-     * @param dtde the <code>DropTargetDragEvent</code>
+     * @pbrbm dtdf tif <dodf>DropTbrgftDrbgEvfnt</dodf>
      */
 
-    void dropActionChanged(DropTargetDragEvent dtde);
+    void dropAdtionCibngfd(DropTbrgftDrbgEvfnt dtdf);
 
     /**
-     * Called while a drag operation is ongoing, when the mouse pointer has
-     * exited the operable part of the drop site for the
-     * <code>DropTarget</code> registered with this listener.
+     * Cbllfd wiilf b drbg opfrbtion is ongoing, wifn tif mousf pointfr ibs
+     * fxitfd tif opfrbblf pbrt of tif drop sitf for tif
+     * <dodf>DropTbrgft</dodf> rfgistfrfd witi tiis listfnfr.
      *
-     * @param dte the <code>DropTargetEvent</code>
+     * @pbrbm dtf tif <dodf>DropTbrgftEvfnt</dodf>
      */
 
-    void dragExit(DropTargetEvent dte);
+    void drbgExit(DropTbrgftEvfnt dtf);
 
     /**
-     * Called when the drag operation has terminated with a drop on
-     * the operable part of the drop site for the <code>DropTarget</code>
-     * registered with this listener.
+     * Cbllfd wifn tif drbg opfrbtion ibs tfrminbtfd witi b drop on
+     * tif opfrbblf pbrt of tif drop sitf for tif <dodf>DropTbrgft</dodf>
+     * rfgistfrfd witi tiis listfnfr.
      * <p>
-     * This method is responsible for undertaking
-     * the transfer of the data associated with the
-     * gesture. The <code>DropTargetDropEvent</code>
-     * provides a means to obtain a <code>Transferable</code>
-     * object that represents the data object(s) to
-     * be transfered.<P>
-     * From this method, the <code>DropTargetListener</code>
-     * shall accept or reject the drop via the
-     * acceptDrop(int dropAction) or rejectDrop() methods of the
-     * <code>DropTargetDropEvent</code> parameter.
+     * Tiis mftiod is rfsponsiblf for undfrtbking
+     * tif trbnsffr of tif dbtb bssodibtfd witi tif
+     * gfsturf. Tif <dodf>DropTbrgftDropEvfnt</dodf>
+     * providfs b mfbns to obtbin b <dodf>Trbnsffrbblf</dodf>
+     * objfdt tibt rfprfsfnts tif dbtb objfdt(s) to
+     * bf trbnsffrfd.<P>
+     * From tiis mftiod, tif <dodf>DropTbrgftListfnfr</dodf>
+     * sibll bddfpt or rfjfdt tif drop vib tif
+     * bddfptDrop(int dropAdtion) or rfjfdtDrop() mftiods of tif
+     * <dodf>DropTbrgftDropEvfnt</dodf> pbrbmftfr.
      * <P>
-     * Subsequent to acceptDrop(), but not before,
-     * <code>DropTargetDropEvent</code>'s getTransferable()
-     * method may be invoked, and data transfer may be
-     * performed via the returned <code>Transferable</code>'s
-     * getTransferData() method.
+     * Subsfqufnt to bddfptDrop(), but not bfforf,
+     * <dodf>DropTbrgftDropEvfnt</dodf>'s gftTrbnsffrbblf()
+     * mftiod mby bf invokfd, bnd dbtb trbnsffr mby bf
+     * pfrformfd vib tif rfturnfd <dodf>Trbnsffrbblf</dodf>'s
+     * gftTrbnsffrDbtb() mftiod.
      * <P>
-     * At the completion of a drop, an implementation
-     * of this method is required to signal the success/failure
-     * of the drop by passing an appropriate
-     * <code>boolean</code> to the <code>DropTargetDropEvent</code>'s
-     * dropComplete(boolean success) method.
+     * At tif domplftion of b drop, bn implfmfntbtion
+     * of tiis mftiod is rfquirfd to signbl tif suddfss/fbilurf
+     * of tif drop by pbssing bn bppropribtf
+     * <dodf>boolfbn</dodf> to tif <dodf>DropTbrgftDropEvfnt</dodf>'s
+     * dropComplftf(boolfbn suddfss) mftiod.
      * <P>
-     * Note: The data transfer should be completed before the call  to the
-     * <code>DropTargetDropEvent</code>'s dropComplete(boolean success) method.
-     * After that, a call to the getTransferData() method of the
-     * <code>Transferable</code> returned by
-     * <code>DropTargetDropEvent.getTransferable()</code> is guaranteed to
-     * succeed only if the data transfer is local; that is, only if
-     * <code>DropTargetDropEvent.isLocalTransfer()</code> returns
-     * <code>true</code>. Otherwise, the behavior of the call is
-     * implementation-dependent.
+     * Notf: Tif dbtb trbnsffr siould bf domplftfd bfforf tif dbll  to tif
+     * <dodf>DropTbrgftDropEvfnt</dodf>'s dropComplftf(boolfbn suddfss) mftiod.
+     * Aftfr tibt, b dbll to tif gftTrbnsffrDbtb() mftiod of tif
+     * <dodf>Trbnsffrbblf</dodf> rfturnfd by
+     * <dodf>DropTbrgftDropEvfnt.gftTrbnsffrbblf()</dodf> is gubrbntffd to
+     * suddffd only if tif dbtb trbnsffr is lodbl; tibt is, only if
+     * <dodf>DropTbrgftDropEvfnt.isLodblTrbnsffr()</dodf> rfturns
+     * <dodf>truf</dodf>. Otifrwisf, tif bfibvior of tif dbll is
+     * implfmfntbtion-dfpfndfnt.
      *
-     * @param dtde the <code>DropTargetDropEvent</code>
+     * @pbrbm dtdf tif <dodf>DropTbrgftDropEvfnt</dodf>
      */
 
-    void drop(DropTargetDropEvent dtde);
+    void drop(DropTbrgftDropEvfnt dtdf);
 }

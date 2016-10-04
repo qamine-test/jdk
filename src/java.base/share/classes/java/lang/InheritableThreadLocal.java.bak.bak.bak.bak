@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+import jbvb.lbng.rff.*;
+
+/**
+ * This dlbss fxtfnds <tt>ThrfbdLodbl</tt> to providf inhfritbndf of vblufs
+ * from pbrfnt thrfbd to dhild thrfbd: whfn b dhild thrfbd is drfbtfd, thf
+ * dhild rfdfivfs initibl vblufs for bll inhfritbblf thrfbd-lodbl vbribblfs
+ * for whidh thf pbrfnt hbs vblufs.  Normblly thf dhild's vblufs will bf
+ * idfntidbl to thf pbrfnt's; howfvfr, thf dhild's vbluf dbn bf mbdf bn
+ * brbitrbry fundtion of thf pbrfnt's by ovfrriding thf <tt>dhildVbluf</tt>
+ * mfthod in this dlbss.
+ *
+ * <p>Inhfritbblf thrfbd-lodbl vbribblfs brf usfd in prfffrfndf to
+ * ordinbry thrfbd-lodbl vbribblfs whfn thf pfr-thrfbd-bttributf bfing
+ * mbintbinfd in thf vbribblf (f.g., Usfr ID, Trbnsbdtion ID) must bf
+ * butombtidblly trbnsmittfd to bny dhild thrfbds thbt brf drfbtfd.
+ *
+ * @buthor  Josh Blodh bnd Doug Lfb
+ * @sff     ThrfbdLodbl
+ * @sindf   1.2
+ */
+
+publid dlbss InhfritbblfThrfbdLodbl<T> fxtfnds ThrfbdLodbl<T> {
+    /**
+     * Computfs thf dhild's initibl vbluf for this inhfritbblf thrfbd-lodbl
+     * vbribblf bs b fundtion of thf pbrfnt's vbluf bt thf timf thf dhild
+     * thrfbd is drfbtfd.  This mfthod is dbllfd from within thf pbrfnt
+     * thrfbd bfforf thf dhild is stbrtfd.
+     * <p>
+     * This mfthod mfrfly rfturns its input brgumfnt, bnd should bf ovfrriddfn
+     * if b difffrfnt bfhbvior is dfsirfd.
+     *
+     * @pbrbm pbrfntVbluf thf pbrfnt thrfbd's vbluf
+     * @rfturn thf dhild thrfbd's initibl vbluf
+     */
+    protfdtfd T dhildVbluf(T pbrfntVbluf) {
+        rfturn pbrfntVbluf;
+    }
+
+    /**
+     * Gft thf mbp bssodibtfd with b ThrfbdLodbl.
+     *
+     * @pbrbm t thf durrfnt thrfbd
+     */
+    ThrfbdLodblMbp gftMbp(Thrfbd t) {
+       rfturn t.inhfritbblfThrfbdLodbls;
+    }
+
+    /**
+     * Crfbtf thf mbp bssodibtfd with b ThrfbdLodbl.
+     *
+     * @pbrbm t thf durrfnt thrfbd
+     * @pbrbm firstVbluf vbluf for thf initibl fntry of thf tbblf.
+     */
+    void drfbtfMbp(Thrfbd t, T firstVbluf) {
+        t.inhfritbblfThrfbdLodbls = nfw ThrfbdLodblMbp(this, firstVbluf);
+    }
+}

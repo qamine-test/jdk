@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.spec;
+pbdkbgf jbvb.sfdurity.spfd;
 
 /**
- * This class represents the ASN.1 encoding of a public key,
- * encoded according to the ASN.1 type {@code SubjectPublicKeyInfo}.
- * The {@code SubjectPublicKeyInfo} syntax is defined in the X.509
- * standard as follows:
+ * Tiis dlbss rfprfsfnts tif ASN.1 fndoding of b publid kfy,
+ * fndodfd bddording to tif ASN.1 typf {@dodf SubjfdtPublidKfyInfo}.
+ * Tif {@dodf SubjfdtPublidKfyInfo} syntbx is dffinfd in tif X.509
+ * stbndbrd bs follows:
  *
- * <pre>
- * SubjectPublicKeyInfo ::= SEQUENCE {
- *   algorithm AlgorithmIdentifier,
- *   subjectPublicKey BIT STRING }
- * </pre>
+ * <prf>
+ * SubjfdtPublidKfyInfo ::= SEQUENCE {
+ *   blgoritim AlgoritimIdfntififr,
+ *   subjfdtPublidKfy BIT STRING }
+ * </prf>
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see java.security.Key
- * @see java.security.KeyFactory
- * @see KeySpec
- * @see EncodedKeySpec
- * @see PKCS8EncodedKeySpec
+ * @sff jbvb.sfdurity.Kfy
+ * @sff jbvb.sfdurity.KfyFbdtory
+ * @sff KfySpfd
+ * @sff EndodfdKfySpfd
+ * @sff PKCS8EndodfdKfySpfd
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public class X509EncodedKeySpec extends EncodedKeySpec {
+publid dlbss X509EndodfdKfySpfd fxtfnds EndodfdKfySpfd {
 
     /**
-     * Creates a new X509EncodedKeySpec with the given encoded key.
+     * Crfbtfs b nfw X509EndodfdKfySpfd witi tif givfn fndodfd kfy.
      *
-     * @param encodedKey the key, which is assumed to be
-     * encoded according to the X.509 standard. The contents of the
-     * array are copied to protect against subsequent modification.
-     * @exception NullPointerException if {@code encodedKey}
+     * @pbrbm fndodfdKfy tif kfy, wiidi is bssumfd to bf
+     * fndodfd bddording to tif X.509 stbndbrd. Tif dontfnts of tif
+     * brrby brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @fxdfption NullPointfrExdfption if {@dodf fndodfdKfy}
      * is null.
      */
-    public X509EncodedKeySpec(byte[] encodedKey) {
-        super(encodedKey);
+    publid X509EndodfdKfySpfd(bytf[] fndodfdKfy) {
+        supfr(fndodfdKfy);
     }
 
     /**
-     * Returns the key bytes, encoded according to the X.509 standard.
+     * Rfturns tif kfy bytfs, fndodfd bddording to tif X.509 stbndbrd.
      *
-     * @return the X.509 encoding of the key. Returns a new array
-     * each time this method is called.
+     * @rfturn tif X.509 fndoding of tif kfy. Rfturns b nfw brrby
+     * fbdi timf tiis mftiod is dbllfd.
      */
-    public byte[] getEncoded() {
-        return super.getEncoded();
+    publid bytf[] gftEndodfd() {
+        rfturn supfr.gftEndodfd();
     }
 
     /**
-     * Returns the name of the encoding format associated with this
-     * key specification.
+     * Rfturns tif nbmf of tif fndoding formbt bssodibtfd witi tiis
+     * kfy spfdifidbtion.
      *
-     * @return the string {@code "X.509"}.
+     * @rfturn tif string {@dodf "X.509"}.
      */
-    public final String getFormat() {
-        return "X.509";
+    publid finbl String gftFormbt() {
+        rfturn "X.509";
     }
 }

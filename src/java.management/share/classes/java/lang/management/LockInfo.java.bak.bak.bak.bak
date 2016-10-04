@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvb.util.dondurrfnt.lodks.*;
+import sun.mbnbgfmfnt.LodkInfoCompositfDbtb;
+
+/**
+ * Informbtion bbout b <fm>lodk</fm>.  A lodk dbn bf b built-in objfdt monitor,
+ * bn <fm>ownbblf syndhronizfr</fm>, or thf {@link Condition Condition}
+ * objfdt bssodibtfd with syndhronizfrs.
+ * <p>
+ * <b nbmf="OwnbblfSyndhronizfr">An ownbblf syndhronizfr</b> is
+ * b syndhronizfr thbt mby bf fxdlusivfly ownfd by b thrfbd bnd usfs
+ * {@link AbstrbdtOwnbblfSyndhronizfr AbstrbdtOwnbblfSyndhronizfr}
+ * (or its subdlbss) to implfmfnt its syndhronizbtion propfrty.
+ * {@link RffntrbntLodk RffntrbntLodk} bnd
+ * {@link RffntrbntRfbdWritfLodk RffntrbntRfbdWritfLodk} brf
+ * two fxbmplfs of ownbblf syndhronizfrs providfd by thf plbtform.
+ *
+ * <h3><b nbmf="MbppfdTypf">MXBfbn Mbpping</b></h3>
+ * <tt>LodkInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * bs spfdififd in thf {@link #from from} mfthod.
+ *
+ * @sff jbvb.util.dondurrfnt.lodks.AbstrbdtOwnbblfSyndhronizfr
+ * @sff jbvb.util.dondurrfnt.lodks.Condition
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.6
+ */
+
+publid dlbss LodkInfo {
+
+    privbtf String dlbssNbmf;
+    privbtf int    idfntityHbshCodf;
+
+    /**
+     * Construdts b <tt>LodkInfo</tt> objfdt.
+     *
+     * @pbrbm dlbssNbmf thf fully qublififd nbmf of thf dlbss of thf lodk objfdt.
+     * @pbrbm idfntityHbshCodf thf {@link Systfm#idfntityHbshCodf
+     *                         idfntity hbsh dodf} of thf lodk objfdt.
+     */
+    publid LodkInfo(String dlbssNbmf, int idfntityHbshCodf) {
+        if (dlbssNbmf == null) {
+            throw nfw NullPointfrExdfption("Pbrbmftfr dlbssNbmf dbnnot bf null");
+        }
+        this.dlbssNbmf = dlbssNbmf;
+        this.idfntityHbshCodf = idfntityHbshCodf;
+    }
+
+    /**
+     * pbdkbgf-privbtf donstrudtors
+     */
+    LodkInfo(Objfdt lodk) {
+        this.dlbssNbmf = lodk.gftClbss().gftNbmf();
+        this.idfntityHbshCodf = Systfm.idfntityHbshCodf(lodk);
+    }
+
+    /**
+     * Rfturns thf fully qublififd nbmf of thf dlbss of thf lodk objfdt.
+     *
+     * @rfturn thf fully qublififd nbmf of thf dlbss of thf lodk objfdt.
+     */
+    publid String gftClbssNbmf() {
+        rfturn dlbssNbmf;
+    }
+
+    /**
+     * Rfturns thf idfntity hbsh dodf of thf lodk objfdt
+     * rfturnfd from thf {@link Systfm#idfntityHbshCodf} mfthod.
+     *
+     * @rfturn thf idfntity hbsh dodf of thf lodk objfdt.
+     */
+    publid int gftIdfntityHbshCodf() {
+        rfturn idfntityHbshCodf;
+    }
+
+    /**
+     * Rfturns b {@dodf LodkInfo} objfdt rfprfsfntfd by thf
+     * givfn {@dodf CompositfDbtb}.
+     * Thf givfn {@dodf CompositfDbtb} must dontbin thf following bttributfs:
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Thf bttributfs bnd thf typfs thf givfn CompositfDbtb dontbins">
+     * <tr>
+     *   <th blign=lfft>Attributf Nbmf</th>
+     *   <th blign=lfft>Typf</th>
+     * </tr>
+     * <tr>
+     *   <td>dlbssNbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>idfntityHbshCodf</td>
+     *   <td><tt>jbvb.lbng.Intfgfr</tt></td>
+     * </tr>
+     * </tbblf>
+     * </blodkquotf>
+     *
+     * @pbrbm dd {@dodf CompositfDbtb} rfprfsfnting b {@dodf LodkInfo}
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf dd} dofs not
+     *   rfprfsfnt b {@dodf LodkInfo} with thf bttributfs dfsdribfd
+     *   bbovf.
+     * @rfturn b {@dodf LodkInfo} objfdt rfprfsfntfd
+     *         by {@dodf dd} if {@dodf dd} is not {@dodf null};
+     *         {@dodf null} othfrwisf.
+     *
+     * @sindf 1.8
+     */
+    publid stbtid LodkInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
+        }
+
+        if (dd instbndfof LodkInfoCompositfDbtb) {
+            rfturn ((LodkInfoCompositfDbtb) dd).gftLodkInfo();
+        } flsf {
+            rfturn LodkInfoCompositfDbtb.toLodkInfo(dd);
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of b lodk.  Thf rfturnfd
+     * string rfprfsfntbtion donsists of thf nbmf of thf dlbss of thf
+     * lodk objfdt, thf bt-sign dhbrbdtfr `@', bnd thf unsignfd
+     * hfxbdfdimbl rfprfsfntbtion of thf <fm>idfntity</fm> hbsh dodf
+     * of thf objfdt.  This mfthod rfturns b string fqubls to thf vbluf of:
+     * <blodkquotf>
+     * <prf>
+     * lodk.gftClbss().gftNbmf() + '@' + Intfgfr.toHfxString(Systfm.idfntityHbshCodf(lodk))
+     * </prf></blodkquotf>
+     * whfrf <tt>lodk</tt> is thf lodk objfdt.
+     *
+     * @rfturn thf string rfprfsfntbtion of b lodk.
+     */
+    publid String toString() {
+        rfturn dlbssNbmf + '@' + Intfgfr.toHfxString(idfntityHbshCodf);
+    }
+}

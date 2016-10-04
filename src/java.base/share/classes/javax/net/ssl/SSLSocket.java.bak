@@ -1,664 +1,664 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.io.IOException;
-import java.net.*;
+import jbvb.io.IOExdfption;
+import jbvb.nft.*;
 
 /**
- * This class extends <code>Socket</code>s and provides secure
- * socket using protocols such as the "Secure
- * Sockets Layer" (SSL) or IETF "Transport Layer Security" (TLS) protocols.
+ * Tiis dlbss fxtfnds <dodf>Sodkft</dodf>s bnd providfs sfdurf
+ * sodkft using protodols sudi bs tif "Sfdurf
+ * Sodkfts Lbyfr" (SSL) or IETF "Trbnsport Lbyfr Sfdurity" (TLS) protodols.
  * <P>
- * Such sockets are normal stream sockets, but they
- * add a layer of security protections over the underlying network transport
- * protocol, such as TCP.  Those protections include: <UL>
+ * Sudi sodkfts brf normbl strfbm sodkfts, but tify
+ * bdd b lbyfr of sfdurity protfdtions ovfr tif undfrlying nftwork trbnsport
+ * protodol, sudi bs TCP.  Tiosf protfdtions indludf: <UL>
  *
- *      <LI> <em>Integrity Protection</em>.  SSL protects against
- *      modification of messages by an active wiretapper.
+ *      <LI> <fm>Intfgrity Protfdtion</fm>.  SSL protfdts bgbinst
+ *      modifidbtion of mfssbgfs by bn bdtivf wirftbppfr.
  *
- *      <LI> <em>Authentication</em>.  In most modes, SSL provides
- *      peer authentication.  Servers are usually authenticated,
- *      and clients may be authenticated as requested by servers.
+ *      <LI> <fm>Autifntidbtion</fm>.  In most modfs, SSL providfs
+ *      pffr butifntidbtion.  Sfrvfrs brf usublly butifntidbtfd,
+ *      bnd dlifnts mby bf butifntidbtfd bs rfqufstfd by sfrvfrs.
  *
- *      <LI> <em>Confidentiality (Privacy Protection)</em>.  In most
- *      modes, SSL encrypts data being sent between client and server.
- *      This protects the confidentiality of data, so that passive
- *      wiretappers won't see sensitive data such as financial
- *      information or personal information of many kinds.
+ *      <LI> <fm>Confidfntiblity (Privbdy Protfdtion)</fm>.  In most
+ *      modfs, SSL fndrypts dbtb bfing sfnt bftwffn dlifnt bnd sfrvfr.
+ *      Tiis protfdts tif donfidfntiblity of dbtb, so tibt pbssivf
+ *      wirftbppfrs won't sff sfnsitivf dbtb sudi bs finbndibl
+ *      informbtion or pfrsonbl informbtion of mbny kinds.
  *
  *      </UL>
  *
- * <P>These kinds of protection are specified by a "cipher suite", which
- * is a combination of cryptographic algorithms used by a given SSL connection.
- * During the negotiation process, the two endpoints must agree on
- * a ciphersuite that is available in both environments.
- * If there is no such suite in common, no SSL connection can
- * be established, and no data can be exchanged.
+ * <P>Tifsf kinds of protfdtion brf spfdififd by b "dipifr suitf", wiidi
+ * is b dombinbtion of dryptogrbpiid blgoritims usfd by b givfn SSL donnfdtion.
+ * During tif nfgotibtion prodfss, tif two fndpoints must bgrff on
+ * b dipifrsuitf tibt is bvbilbblf in boti fnvironmfnts.
+ * If tifrf is no sudi suitf in dommon, no SSL donnfdtion dbn
+ * bf fstbblisifd, bnd no dbtb dbn bf fxdibngfd.
  *
- * <P> The cipher suite used is established by a negotiation process
- * called "handshaking".  The goal of this
- * process is to create or rejoin a "session", which may protect many
- * connections over time.  After handshaking has completed, you can access
- * session attributes by using the <em>getSession</em> method.
- * The initial handshake on this connection can be initiated in
- * one of three ways: <UL>
+ * <P> Tif dipifr suitf usfd is fstbblisifd by b nfgotibtion prodfss
+ * dbllfd "ibndsibking".  Tif gobl of tiis
+ * prodfss is to drfbtf or rfjoin b "sfssion", wiidi mby protfdt mbny
+ * donnfdtions ovfr timf.  Aftfr ibndsibking ibs domplftfd, you dbn bddfss
+ * sfssion bttributfs by using tif <fm>gftSfssion</fm> mftiod.
+ * Tif initibl ibndsibkf on tiis donnfdtion dbn bf initibtfd in
+ * onf of tirff wbys: <UL>
  *
- *      <LI> calling <code>startHandshake</code> which explicitly
- *              begins handshakes, or
- *      <LI> any attempt to read or write application data on
- *              this socket causes an implicit handshake, or
- *      <LI> a call to <code>getSession</code> tries to set up a session
- *              if there is no currently valid session, and
- *              an implicit handshake is done.
+ *      <LI> dblling <dodf>stbrtHbndsibkf</dodf> wiidi fxpliditly
+ *              bfgins ibndsibkfs, or
+ *      <LI> bny bttfmpt to rfbd or writf bpplidbtion dbtb on
+ *              tiis sodkft dbusfs bn implidit ibndsibkf, or
+ *      <LI> b dbll to <dodf>gftSfssion</dodf> trifs to sft up b sfssion
+ *              if tifrf is no durrfntly vblid sfssion, bnd
+ *              bn implidit ibndsibkf is donf.
  * </UL>
  *
- * <P>If handshaking fails for any reason, the <code>SSLSocket</code>
- * is closed, and no further communications can be done.
+ * <P>If ibndsibking fbils for bny rfbson, tif <dodf>SSLSodkft</dodf>
+ * is dlosfd, bnd no furtifr dommunidbtions dbn bf donf.
  *
- * <P>There are two groups of cipher suites which you will need to know
- * about when managing cipher suites: <UL>
+ * <P>Tifrf brf two groups of dipifr suitfs wiidi you will nffd to know
+ * bbout wifn mbnbging dipifr suitfs: <UL>
  *
- *      <LI> <em>Supported</em> cipher suites:  all the suites which are
- *      supported by the SSL implementation.  This list is reported
- *      using <em>getSupportedCipherSuites</em>.
+ *      <LI> <fm>Supportfd</fm> dipifr suitfs:  bll tif suitfs wiidi brf
+ *      supportfd by tif SSL implfmfntbtion.  Tiis list is rfportfd
+ *      using <fm>gftSupportfdCipifrSuitfs</fm>.
  *
- *      <LI> <em>Enabled</em> cipher suites, which may be fewer
- *      than the full set of supported suites.  This group is
- *      set using the <em>setEnabledCipherSuites</em> method, and
- *      queried using the <em>getEnabledCipherSuites</em> method.
- *      Initially, a default set of cipher suites will be enabled on
- *      a new socket that represents the minimum suggested configuration.
+ *      <LI> <fm>Enbblfd</fm> dipifr suitfs, wiidi mby bf ffwfr
+ *      tibn tif full sft of supportfd suitfs.  Tiis group is
+ *      sft using tif <fm>sftEnbblfdCipifrSuitfs</fm> mftiod, bnd
+ *      qufrifd using tif <fm>gftEnbblfdCipifrSuitfs</fm> mftiod.
+ *      Initiblly, b dffbult sft of dipifr suitfs will bf fnbblfd on
+ *      b nfw sodkft tibt rfprfsfnts tif minimum suggfstfd donfigurbtion.
  *
  *      </UL>
  *
- * <P> Implementation defaults require that only cipher
- * suites which authenticate servers and provide confidentiality
- * be enabled by default.
- * Only if both sides explicitly agree to unauthenticated and/or
- * non-private (unencrypted) communications will such a ciphersuite be
- * selected.
+ * <P> Implfmfntbtion dffbults rfquirf tibt only dipifr
+ * suitfs wiidi butifntidbtf sfrvfrs bnd providf donfidfntiblity
+ * bf fnbblfd by dffbult.
+ * Only if boti sidfs fxpliditly bgrff to unbutifntidbtfd bnd/or
+ * non-privbtf (unfndryptfd) dommunidbtions will sudi b dipifrsuitf bf
+ * sflfdtfd.
  *
- * <P>When <code>SSLSocket</code>s are first created, no handshaking
- * is done so that applications may first set their communication
- * preferences:  what cipher suites to use, whether the socket should be
- * in client or server mode, etc.
- * However, security is always provided by the time that application data
- * is sent over the connection.
+ * <P>Wifn <dodf>SSLSodkft</dodf>s brf first drfbtfd, no ibndsibking
+ * is donf so tibt bpplidbtions mby first sft tifir dommunidbtion
+ * prfffrfndfs:  wibt dipifr suitfs to usf, wiftifr tif sodkft siould bf
+ * in dlifnt or sfrvfr modf, ftd.
+ * Howfvfr, sfdurity is blwbys providfd by tif timf tibt bpplidbtion dbtb
+ * is sfnt ovfr tif donnfdtion.
  *
- * <P> You may register to receive event notification of handshake
- * completion.  This involves
- * the use of two additional classes.  <em>HandshakeCompletedEvent</em>
- * objects are passed to <em>HandshakeCompletedListener</em> instances,
- * which are registered by users of this API.
+ * <P> You mby rfgistfr to rfdfivf fvfnt notifidbtion of ibndsibkf
+ * domplftion.  Tiis involvfs
+ * tif usf of two bdditionbl dlbssfs.  <fm>HbndsibkfComplftfdEvfnt</fm>
+ * objfdts brf pbssfd to <fm>HbndsibkfComplftfdListfnfr</fm> instbndfs,
+ * wiidi brf rfgistfrfd by usfrs of tiis API.
  *
- * <code>SSLSocket</code>s are created by <code>SSLSocketFactory</code>s,
- * or by <code>accept</code>ing a connection from a
- * <code>SSLServerSocket</code>.
+ * <dodf>SSLSodkft</dodf>s brf drfbtfd by <dodf>SSLSodkftFbdtory</dodf>s,
+ * or by <dodf>bddfpt</dodf>ing b donnfdtion from b
+ * <dodf>SSLSfrvfrSodkft</dodf>.
  *
- * <P>A SSL socket must choose to operate in the client or server mode.
- * This will determine who begins the handshaking process, as well
- * as which messages should be sent by each party.  Each
- * connection must have one client and one server, or handshaking
- * will not progress properly.  Once the initial handshaking has started, a
- * socket can not switch between client and server modes, even when
- * performing renegotiations.
+ * <P>A SSL sodkft must dioosf to opfrbtf in tif dlifnt or sfrvfr modf.
+ * Tiis will dftfrminf wio bfgins tif ibndsibking prodfss, bs wfll
+ * bs wiidi mfssbgfs siould bf sfnt by fbdi pbrty.  Ebdi
+ * donnfdtion must ibvf onf dlifnt bnd onf sfrvfr, or ibndsibking
+ * will not progrfss propfrly.  Ondf tif initibl ibndsibking ibs stbrtfd, b
+ * sodkft dbn not switdi bftwffn dlifnt bnd sfrvfr modfs, fvfn wifn
+ * pfrforming rfnfgotibtions.
  *
- * @see java.net.Socket
- * @see SSLServerSocket
- * @see SSLSocketFactory
+ * @sff jbvb.nft.Sodkft
+ * @sff SSLSfrvfrSodkft
+ * @sff SSLSodkftFbdtory
  *
- * @since 1.4
- * @author David Brownell
+ * @sindf 1.4
+ * @butior Dbvid Brownfll
  */
-public abstract class SSLSocket extends Socket
+publid bbstrbdt dlbss SSLSodkft fxtfnds Sodkft
 {
     /**
-     * Used only by subclasses.
-     * Constructs an uninitialized, unconnected TCP socket.
+     * Usfd only by subdlbssfs.
+     * Construdts bn uninitiblizfd, undonnfdtfd TCP sodkft.
      */
-    protected SSLSocket()
-        { super(); }
+    protfdtfd SSLSodkft()
+        { supfr(); }
 
 
     /**
-     * Used only by subclasses.
-     * Constructs a TCP connection to a named host at a specified port.
-     * This acts as the SSL client.
+     * Usfd only by subdlbssfs.
+     * Construdts b TCP donnfdtion to b nbmfd iost bt b spfdififd port.
+     * Tiis bdts bs tif SSL dlifnt.
      * <p>
-     * If there is a security manager, its <code>checkConnect</code>
-     * method is called with the host address and <code>port</code>
-     * as its arguments. This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkConnfdt</dodf>
+     * mftiod is dbllfd witi tif iost bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param host name of the host with which to connect, or
-     *        <code>null</code> for the loopback address.
-     * @param port number of the server's port
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkConnect</code> method doesn't allow the operation.
-     * @throws UnknownHostException if the host is not known
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
-     *         65535, inclusive.
-     * @see SecurityManager#checkConnect
+     * @pbrbm iost nbmf of tif iost witi wiidi to donnfdt, or
+     *        <dodf>null</dodf> for tif loopbbdk bddrfss.
+     * @pbrbm port numbfr of tif sfrvfr's port
+     * @tirows IOExdfption if bn I/O frror oddurs wifn drfbting tif sodkft
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkConnfdt</dodf> mftiod dofsn't bllow tif opfrbtion.
+     * @tirows UnknownHostExdfption if tif iost is not known
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf tif
+     *         spfdififd rbngf of vblid port vblufs, wiidi is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @sff SfdurityMbnbgfr#difdkConnfdt
      */
-    protected SSLSocket(String host, int port)
-    throws IOException, UnknownHostException
-        { super(host, port); }
+    protfdtfd SSLSodkft(String iost, int port)
+    tirows IOExdfption, UnknownHostExdfption
+        { supfr(iost, port); }
 
 
     /**
-     * Used only by subclasses.
-     * Constructs a TCP connection to a server at a specified address
-     * and port.  This acts as the SSL client.
+     * Usfd only by subdlbssfs.
+     * Construdts b TCP donnfdtion to b sfrvfr bt b spfdififd bddrfss
+     * bnd port.  Tiis bdts bs tif SSL dlifnt.
      * <p>
-     * If there is a security manager, its <code>checkConnect</code>
-     * method is called with the host address and <code>port</code>
-     * as its arguments. This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkConnfdt</dodf>
+     * mftiod is dbllfd witi tif iost bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param address the server's host
-     * @param port its port
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkConnect</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
-     *         65535, inclusive.
-     * @throws NullPointerException if <code>address</code> is null.
-     * @see SecurityManager#checkConnect
+     * @pbrbm bddrfss tif sfrvfr's iost
+     * @pbrbm port its port
+     * @tirows IOExdfption if bn I/O frror oddurs wifn drfbting tif sodkft
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkConnfdt</dodf> mftiod dofsn't bllow tif opfrbtion.
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf tif
+     *         spfdififd rbngf of vblid port vblufs, wiidi is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @tirows NullPointfrExdfption if <dodf>bddrfss</dodf> is null.
+     * @sff SfdurityMbnbgfr#difdkConnfdt
      */
-    protected SSLSocket(InetAddress address, int port)
-    throws IOException
-        { super(address, port); }
+    protfdtfd SSLSodkft(InftAddrfss bddrfss, int port)
+    tirows IOExdfption
+        { supfr(bddrfss, port); }
 
 
     /**
-     * Used only by subclasses.
-     * Constructs an SSL connection to a named host at a specified port,
-     * binding the client side of the connection a given address and port.
-     * This acts as the SSL client.
+     * Usfd only by subdlbssfs.
+     * Construdts bn SSL donnfdtion to b nbmfd iost bt b spfdififd port,
+     * binding tif dlifnt sidf of tif donnfdtion b givfn bddrfss bnd port.
+     * Tiis bdts bs tif SSL dlifnt.
      * <p>
-     * If there is a security manager, its <code>checkConnect</code>
-     * method is called with the host address and <code>port</code>
-     * as its arguments. This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkConnfdt</dodf>
+     * mftiod is dbllfd witi tif iost bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param host name of the host with which to connect, or
-     *        <code>null</code> for the loopback address.
-     * @param port number of the server's port
-     * @param clientAddress the client's address the socket is bound to, or
-     *        <code>null</code> for the <code>anyLocal</code> address.
-     * @param clientPort the client's port the socket is bound to, or
-     *        <code>zero</code> for a system selected free port.
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkConnect</code> method doesn't allow the operation.
-     * @throws UnknownHostException if the host is not known
-     * @throws IllegalArgumentException if the port parameter or clientPort
-     *         parameter is outside the specified range of valid port values,
-     *         which is between 0 and 65535, inclusive.
-     * @see SecurityManager#checkConnect
+     * @pbrbm iost nbmf of tif iost witi wiidi to donnfdt, or
+     *        <dodf>null</dodf> for tif loopbbdk bddrfss.
+     * @pbrbm port numbfr of tif sfrvfr's port
+     * @pbrbm dlifntAddrfss tif dlifnt's bddrfss tif sodkft is bound to, or
+     *        <dodf>null</dodf> for tif <dodf>bnyLodbl</dodf> bddrfss.
+     * @pbrbm dlifntPort tif dlifnt's port tif sodkft is bound to, or
+     *        <dodf>zfro</dodf> for b systfm sflfdtfd frff port.
+     * @tirows IOExdfption if bn I/O frror oddurs wifn drfbting tif sodkft
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkConnfdt</dodf> mftiod dofsn't bllow tif opfrbtion.
+     * @tirows UnknownHostExdfption if tif iost is not known
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr or dlifntPort
+     *         pbrbmftfr is outsidf tif spfdififd rbngf of vblid port vblufs,
+     *         wiidi is bftwffn 0 bnd 65535, indlusivf.
+     * @sff SfdurityMbnbgfr#difdkConnfdt
      */
-    protected SSLSocket(String host, int port,
-        InetAddress clientAddress, int clientPort)
-    throws IOException, UnknownHostException
-        { super(host, port, clientAddress, clientPort); }
+    protfdtfd SSLSodkft(String iost, int port,
+        InftAddrfss dlifntAddrfss, int dlifntPort)
+    tirows IOExdfption, UnknownHostExdfption
+        { supfr(iost, port, dlifntAddrfss, dlifntPort); }
 
 
     /**
-     * Used only by subclasses.
-     * Constructs an SSL connection to a server at a specified address
-     * and TCP port, binding the client side of the connection a given
-     * address and port.  This acts as the SSL client.
+     * Usfd only by subdlbssfs.
+     * Construdts bn SSL donnfdtion to b sfrvfr bt b spfdififd bddrfss
+     * bnd TCP port, binding tif dlifnt sidf of tif donnfdtion b givfn
+     * bddrfss bnd port.  Tiis bdts bs tif SSL dlifnt.
      * <p>
-     * If there is a security manager, its <code>checkConnect</code>
-     * method is called with the host address and <code>port</code>
-     * as its arguments. This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkConnfdt</dodf>
+     * mftiod is dbllfd witi tif iost bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param address the server's host
-     * @param port its port
-     * @param clientAddress the client's address the socket is bound to, or
-     *        <code>null</code> for the <code>anyLocal</code> address.
-     * @param clientPort the client's port the socket is bound to, or
-     *        <code>zero</code> for a system selected free port.
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkConnect</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter or clientPort
-     *         parameter is outside the specified range of valid port values,
-     *         which is between 0 and 65535, inclusive.
-     * @throws NullPointerException if <code>address</code> is null.
-     * @see SecurityManager#checkConnect
+     * @pbrbm bddrfss tif sfrvfr's iost
+     * @pbrbm port its port
+     * @pbrbm dlifntAddrfss tif dlifnt's bddrfss tif sodkft is bound to, or
+     *        <dodf>null</dodf> for tif <dodf>bnyLodbl</dodf> bddrfss.
+     * @pbrbm dlifntPort tif dlifnt's port tif sodkft is bound to, or
+     *        <dodf>zfro</dodf> for b systfm sflfdtfd frff port.
+     * @tirows IOExdfption if bn I/O frror oddurs wifn drfbting tif sodkft
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkConnfdt</dodf> mftiod dofsn't bllow tif opfrbtion.
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr or dlifntPort
+     *         pbrbmftfr is outsidf tif spfdififd rbngf of vblid port vblufs,
+     *         wiidi is bftwffn 0 bnd 65535, indlusivf.
+     * @tirows NullPointfrExdfption if <dodf>bddrfss</dodf> is null.
+     * @sff SfdurityMbnbgfr#difdkConnfdt
      */
-    protected SSLSocket(InetAddress address, int port,
-        InetAddress clientAddress, int clientPort)
-    throws IOException
-        { super(address, port, clientAddress, clientPort); }
+    protfdtfd SSLSodkft(InftAddrfss bddrfss, int port,
+        InftAddrfss dlifntAddrfss, int dlifntPort)
+    tirows IOExdfption
+        { supfr(bddrfss, port, dlifntAddrfss, dlifntPort); }
 
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on this connection.  Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not meet quality of service requirements for those defaults.  Such
-     * cipher suites might be useful in specialized applications.
+     * Rfturns tif nbmfs of tif dipifr suitfs wiidi dould bf fnbblfd for usf
+     * on tiis donnfdtion.  Normblly, only b subsft of tifsf will bdtublly
+     * bf fnbblfd by dffbult, sindf tiis list mby indludf dipifr suitfs wiidi
+     * do not mfft qublity of sfrvidf rfquirfmfnts for tiosf dffbults.  Sudi
+     * dipifr suitfs migit bf usfful in spfdiblizfd bpplidbtions.
      *
-     * @return an array of cipher suite names
-     * @see #getEnabledCipherSuites()
-     * @see #setEnabledCipherSuites(String [])
+     * @rfturn bn brrby of dipifr suitf nbmfs
+     * @sff #gftEnbblfdCipifrSuitfs()
+     * @sff #sftEnbblfdCipifrSuitfs(String [])
      */
-    public abstract String [] getSupportedCipherSuites();
+    publid bbstrbdt String [] gftSupportfdCipifrSuitfs();
 
 
     /**
-     * Returns the names of the SSL cipher suites which are currently
-     * enabled for use on this connection.  When an SSLSocket is first
-     * created, all enabled cipher suites support a minimum quality of
-     * service.  Thus, in some environments this value might be empty.
+     * Rfturns tif nbmfs of tif SSL dipifr suitfs wiidi brf durrfntly
+     * fnbblfd for usf on tiis donnfdtion.  Wifn bn SSLSodkft is first
+     * drfbtfd, bll fnbblfd dipifr suitfs support b minimum qublity of
+     * sfrvidf.  Tius, in somf fnvironmfnts tiis vbluf migit bf fmpty.
      * <P>
-     * Even if a suite has been enabled, it might never be used.  (For
-     * example, the peer does not support it, the requisite certificates
-     * (and private keys) for the suite are not available, or an
-     * anonymous suite is enabled but authentication is required.
+     * Evfn if b suitf ibs bffn fnbblfd, it migit nfvfr bf usfd.  (For
+     * fxbmplf, tif pffr dofs not support it, tif rfquisitf dfrtifidbtfs
+     * (bnd privbtf kfys) for tif suitf brf not bvbilbblf, or bn
+     * bnonymous suitf is fnbblfd but butifntidbtion is rfquirfd.
      *
-     * @return an array of cipher suite names
-     * @see #getSupportedCipherSuites()
-     * @see #setEnabledCipherSuites(String [])
+     * @rfturn bn brrby of dipifr suitf nbmfs
+     * @sff #gftSupportfdCipifrSuitfs()
+     * @sff #sftEnbblfdCipifrSuitfs(String [])
      */
-    public abstract String [] getEnabledCipherSuites();
+    publid bbstrbdt String [] gftEnbblfdCipifrSuitfs();
 
 
     /**
-     * Sets the cipher suites enabled for use on this connection.
+     * Sfts tif dipifr suitfs fnbblfd for usf on tiis donnfdtion.
      * <P>
-     * Each cipher suite in the <code>suites</code> parameter must have
-     * been listed by getSupportedCipherSuites(), or the method will
-     * fail.  Following a successful call to this method, only suites
-     * listed in the <code>suites</code> parameter are enabled for use.
+     * Ebdi dipifr suitf in tif <dodf>suitfs</dodf> pbrbmftfr must ibvf
+     * bffn listfd by gftSupportfdCipifrSuitfs(), or tif mftiod will
+     * fbil.  Following b suddfssful dbll to tiis mftiod, only suitfs
+     * listfd in tif <dodf>suitfs</dodf> pbrbmftfr brf fnbblfd for usf.
      * <P>
-     * See {@link #getEnabledCipherSuites()} for more information
-     * on why a specific ciphersuite may never be used on a connection.
+     * Sff {@link #gftEnbblfdCipifrSuitfs()} for morf informbtion
+     * on wiy b spfdifid dipifrsuitf mby nfvfr bf usfd on b donnfdtion.
      *
-     * @param suites Names of all the cipher suites to enable
-     * @throws IllegalArgumentException when one or more of the ciphers
-     *          named by the parameter is not supported, or when the
-     *          parameter is null.
-     * @see #getSupportedCipherSuites()
-     * @see #getEnabledCipherSuites()
+     * @pbrbm suitfs Nbmfs of bll tif dipifr suitfs to fnbblf
+     * @tirows IllfgblArgumfntExdfption wifn onf or morf of tif dipifrs
+     *          nbmfd by tif pbrbmftfr is not supportfd, or wifn tif
+     *          pbrbmftfr is null.
+     * @sff #gftSupportfdCipifrSuitfs()
+     * @sff #gftEnbblfdCipifrSuitfs()
      */
-    public abstract void setEnabledCipherSuites(String suites []);
+    publid bbstrbdt void sftEnbblfdCipifrSuitfs(String suitfs []);
 
 
     /**
-     * Returns the names of the protocols which could be enabled for use
-     * on an SSL connection.
+     * Rfturns tif nbmfs of tif protodols wiidi dould bf fnbblfd for usf
+     * on bn SSL donnfdtion.
      *
-     * @return an array of protocols supported
+     * @rfturn bn brrby of protodols supportfd
      */
-    public abstract String [] getSupportedProtocols();
+    publid bbstrbdt String [] gftSupportfdProtodols();
 
 
     /**
-     * Returns the names of the protocol versions which are currently
-     * enabled for use on this connection.
-     * @see #setEnabledProtocols(String [])
-     * @return an array of protocols
+     * Rfturns tif nbmfs of tif protodol vfrsions wiidi brf durrfntly
+     * fnbblfd for usf on tiis donnfdtion.
+     * @sff #sftEnbblfdProtodols(String [])
+     * @rfturn bn brrby of protodols
      */
-    public abstract String [] getEnabledProtocols();
+    publid bbstrbdt String [] gftEnbblfdProtodols();
 
 
     /**
-     * Sets the protocol versions enabled for use on this connection.
+     * Sfts tif protodol vfrsions fnbblfd for usf on tiis donnfdtion.
      * <P>
-     * The protocols must have been listed by
-     * <code>getSupportedProtocols()</code> as being supported.
-     * Following a successful call to this method, only protocols listed
-     * in the <code>protocols</code> parameter are enabled for use.
+     * Tif protodols must ibvf bffn listfd by
+     * <dodf>gftSupportfdProtodols()</dodf> bs bfing supportfd.
+     * Following b suddfssful dbll to tiis mftiod, only protodols listfd
+     * in tif <dodf>protodols</dodf> pbrbmftfr brf fnbblfd for usf.
      *
-     * @param protocols Names of all the protocols to enable.
-     * @throws IllegalArgumentException when one or more of
-     *            the protocols named by the parameter is not supported or
-     *            when the protocols parameter is null.
-     * @see #getEnabledProtocols()
+     * @pbrbm protodols Nbmfs of bll tif protodols to fnbblf.
+     * @tirows IllfgblArgumfntExdfption wifn onf or morf of
+     *            tif protodols nbmfd by tif pbrbmftfr is not supportfd or
+     *            wifn tif protodols pbrbmftfr is null.
+     * @sff #gftEnbblfdProtodols()
      */
-    public abstract void setEnabledProtocols(String protocols[]);
+    publid bbstrbdt void sftEnbblfdProtodols(String protodols[]);
 
 
     /**
-     * Returns the SSL Session in use by this connection.  These can
-     * be long lived, and frequently correspond to an entire login session
-     * for some user.  The session specifies a particular cipher suite
-     * which is being actively used by all connections in that session,
-     * as well as the identities of the session's client and server.
+     * Rfturns tif SSL Sfssion in usf by tiis donnfdtion.  Tifsf dbn
+     * bf long livfd, bnd frfqufntly dorrfspond to bn fntirf login sfssion
+     * for somf usfr.  Tif sfssion spfdififs b pbrtidulbr dipifr suitf
+     * wiidi is bfing bdtivfly usfd by bll donnfdtions in tibt sfssion,
+     * bs wfll bs tif idfntitifs of tif sfssion's dlifnt bnd sfrvfr.
      * <P>
-     * This method will initiate the initial handshake if
-     * necessary and then block until the handshake has been
-     * established.
+     * Tiis mftiod will initibtf tif initibl ibndsibkf if
+     * nfdfssbry bnd tifn blodk until tif ibndsibkf ibs bffn
+     * fstbblisifd.
      * <P>
-     * If an error occurs during the initial handshake, this method
-     * returns an invalid session object which reports an invalid
-     * cipher suite of "SSL_NULL_WITH_NULL_NULL".
+     * If bn frror oddurs during tif initibl ibndsibkf, tiis mftiod
+     * rfturns bn invblid sfssion objfdt wiidi rfports bn invblid
+     * dipifr suitf of "SSL_NULL_WITH_NULL_NULL".
      *
-     * @return the <code>SSLSession</code>
+     * @rfturn tif <dodf>SSLSfssion</dodf>
      */
-    public abstract SSLSession getSession();
+    publid bbstrbdt SSLSfssion gftSfssion();
 
 
     /**
-     * Returns the {@code SSLSession} being constructed during a SSL/TLS
-     * handshake.
+     * Rfturns tif {@dodf SSLSfssion} bfing donstrudtfd during b SSL/TLS
+     * ibndsibkf.
      * <p>
-     * TLS protocols may negotiate parameters that are needed when using
-     * an instance of this class, but before the {@code SSLSession} has
-     * been completely initialized and made available via {@code getSession}.
-     * For example, the list of valid signature algorithms may restrict
-     * the type of certificates that can used during TrustManager
-     * decisions, or the maximum TLS fragment packet sizes can be
-     * resized to better support the network environment.
+     * TLS protodols mby nfgotibtf pbrbmftfrs tibt brf nffdfd wifn using
+     * bn instbndf of tiis dlbss, but bfforf tif {@dodf SSLSfssion} ibs
+     * bffn domplftfly initiblizfd bnd mbdf bvbilbblf vib {@dodf gftSfssion}.
+     * For fxbmplf, tif list of vblid signbturf blgoritims mby rfstridt
+     * tif typf of dfrtifidbtfs tibt dbn usfd during TrustMbnbgfr
+     * dfdisions, or tif mbximum TLS frbgmfnt pbdkft sizfs dbn bf
+     * rfsizfd to bfttfr support tif nftwork fnvironmfnt.
      * <p>
-     * This method provides early access to the {@code SSLSession} being
-     * constructed.  Depending on how far the handshake has progressed,
-     * some data may not yet be available for use.  For example, if a
-     * remote server will be sending a Certificate chain, but that chain
-     * has yet not been processed, the {@code getPeerCertificates}
-     * method of {@code SSLSession} will throw a
-     * SSLPeerUnverifiedException.  Once that chain has been processed,
-     * {@code getPeerCertificates} will return the proper value.
+     * Tiis mftiod providfs fbrly bddfss to tif {@dodf SSLSfssion} bfing
+     * donstrudtfd.  Dfpfnding on iow fbr tif ibndsibkf ibs progrfssfd,
+     * somf dbtb mby not yft bf bvbilbblf for usf.  For fxbmplf, if b
+     * rfmotf sfrvfr will bf sfnding b Cfrtifidbtf dibin, but tibt dibin
+     * ibs yft not bffn prodfssfd, tif {@dodf gftPffrCfrtifidbtfs}
+     * mftiod of {@dodf SSLSfssion} will tirow b
+     * SSLPffrUnvfrififdExdfption.  Ondf tibt dibin ibs bffn prodfssfd,
+     * {@dodf gftPffrCfrtifidbtfs} will rfturn tif propfr vbluf.
      * <p>
-     * Unlike {@link #getSession()}, this method does not initiate the
-     * initial handshake and does not block until handshaking is
-     * complete.
+     * Unlikf {@link #gftSfssion()}, tiis mftiod dofs not initibtf tif
+     * initibl ibndsibkf bnd dofs not blodk until ibndsibking is
+     * domplftf.
      *
-     * @see SSLEngine
-     * @see SSLSession
-     * @see ExtendedSSLSession
-     * @see X509ExtendedKeyManager
-     * @see X509ExtendedTrustManager
+     * @sff SSLEnginf
+     * @sff SSLSfssion
+     * @sff ExtfndfdSSLSfssion
+     * @sff X509ExtfndfdKfyMbnbgfr
+     * @sff X509ExtfndfdTrustMbnbgfr
      *
-     * @return null if this instance is not currently handshaking, or
-     *         if the current handshake has not progressed far enough to
-     *         create a basic SSLSession.  Otherwise, this method returns the
-     *         {@code SSLSession} currently being negotiated.
-     * @throws UnsupportedOperationException if the underlying provider
-     *         does not implement the operation.
+     * @rfturn null if tiis instbndf is not durrfntly ibndsibking, or
+     *         if tif durrfnt ibndsibkf ibs not progrfssfd fbr fnougi to
+     *         drfbtf b bbsid SSLSfssion.  Otifrwisf, tiis mftiod rfturns tif
+     *         {@dodf SSLSfssion} durrfntly bfing nfgotibtfd.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif undfrlying providfr
+     *         dofs not implfmfnt tif opfrbtion.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public SSLSession getHandshakeSession() {
-        throw new UnsupportedOperationException();
+    publid SSLSfssion gftHbndsibkfSfssion() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
 
     /**
-     * Registers an event listener to receive notifications that an
-     * SSL handshake has completed on this connection.
+     * Rfgistfrs bn fvfnt listfnfr to rfdfivf notifidbtions tibt bn
+     * SSL ibndsibkf ibs domplftfd on tiis donnfdtion.
      *
-     * @param listener the HandShake Completed event listener
-     * @see #startHandshake()
-     * @see #removeHandshakeCompletedListener(HandshakeCompletedListener)
-     * @throws IllegalArgumentException if the argument is null.
+     * @pbrbm listfnfr tif HbndSibkf Complftfd fvfnt listfnfr
+     * @sff #stbrtHbndsibkf()
+     * @sff #rfmovfHbndsibkfComplftfdListfnfr(HbndsibkfComplftfdListfnfr)
+     * @tirows IllfgblArgumfntExdfption if tif brgumfnt is null.
      */
-    public abstract void addHandshakeCompletedListener(
-        HandshakeCompletedListener listener);
+    publid bbstrbdt void bddHbndsibkfComplftfdListfnfr(
+        HbndsibkfComplftfdListfnfr listfnfr);
 
 
     /**
-     * Removes a previously registered handshake completion listener.
+     * Rfmovfs b prfviously rfgistfrfd ibndsibkf domplftion listfnfr.
      *
-     * @param listener the HandShake Completed event listener
-     * @throws IllegalArgumentException if the listener is not registered,
-     * or the argument is null.
-     * @see #addHandshakeCompletedListener(HandshakeCompletedListener)
+     * @pbrbm listfnfr tif HbndSibkf Complftfd fvfnt listfnfr
+     * @tirows IllfgblArgumfntExdfption if tif listfnfr is not rfgistfrfd,
+     * or tif brgumfnt is null.
+     * @sff #bddHbndsibkfComplftfdListfnfr(HbndsibkfComplftfdListfnfr)
      */
-    public abstract void removeHandshakeCompletedListener(
-        HandshakeCompletedListener listener);
+    publid bbstrbdt void rfmovfHbndsibkfComplftfdListfnfr(
+        HbndsibkfComplftfdListfnfr listfnfr);
 
 
     /**
-     * Starts an SSL handshake on this connection.  Common reasons include
-     * a need to use new encryption keys, to change cipher suites, or to
-     * initiate a new session.  To force complete reauthentication, the
-     * current session could be invalidated before starting this handshake.
+     * Stbrts bn SSL ibndsibkf on tiis donnfdtion.  Common rfbsons indludf
+     * b nffd to usf nfw fndryption kfys, to dibngf dipifr suitfs, or to
+     * initibtf b nfw sfssion.  To fordf domplftf rfbutifntidbtion, tif
+     * durrfnt sfssion dould bf invblidbtfd bfforf stbrting tiis ibndsibkf.
      *
-     * <P> If data has already been sent on the connection, it continues
-     * to flow during this handshake.  When the handshake completes, this
-     * will be signaled with an event.
+     * <P> If dbtb ibs blrfbdy bffn sfnt on tif donnfdtion, it dontinufs
+     * to flow during tiis ibndsibkf.  Wifn tif ibndsibkf domplftfs, tiis
+     * will bf signblfd witi bn fvfnt.
      *
-     * This method is synchronous for the initial handshake on a connection
-     * and returns when the negotiated handshake is complete. Some
-     * protocols may not support multiple handshakes on an existing socket
-     * and may throw an IOException.
+     * Tiis mftiod is syndironous for tif initibl ibndsibkf on b donnfdtion
+     * bnd rfturns wifn tif nfgotibtfd ibndsibkf is domplftf. Somf
+     * protodols mby not support multiplf ibndsibkfs on bn fxisting sodkft
+     * bnd mby tirow bn IOExdfption.
      *
-     * @throws IOException on a network level error
-     * @see #addHandshakeCompletedListener(HandshakeCompletedListener)
+     * @tirows IOExdfption on b nftwork lfvfl frror
+     * @sff #bddHbndsibkfComplftfdListfnfr(HbndsibkfComplftfdListfnfr)
      */
-    public abstract void startHandshake() throws IOException;
+    publid bbstrbdt void stbrtHbndsibkf() tirows IOExdfption;
 
 
     /**
-     * Configures the socket to use client (or server) mode when
-     * handshaking.
+     * Configurfs tif sodkft to usf dlifnt (or sfrvfr) modf wifn
+     * ibndsibking.
      * <P>
-     * This method must be called before any handshaking occurs.
-     * Once handshaking has begun, the mode can not be reset for the
-     * life of this socket.
+     * Tiis mftiod must bf dbllfd bfforf bny ibndsibking oddurs.
+     * Ondf ibndsibking ibs bfgun, tif modf dbn not bf rfsft for tif
+     * liff of tiis sodkft.
      * <P>
-     * Servers normally authenticate themselves, and clients
-     * are not required to do so.
+     * Sfrvfrs normblly butifntidbtf tifmsflvfs, bnd dlifnts
+     * brf not rfquirfd to do so.
      *
-     * @param mode true if the socket should start its handshaking
-     *          in "client" mode
-     * @throws IllegalArgumentException if a mode change is attempted
-     *          after the initial handshake has begun.
-     * @see #getUseClientMode()
+     * @pbrbm modf truf if tif sodkft siould stbrt its ibndsibking
+     *          in "dlifnt" modf
+     * @tirows IllfgblArgumfntExdfption if b modf dibngf is bttfmptfd
+     *          bftfr tif initibl ibndsibkf ibs bfgun.
+     * @sff #gftUsfClifntModf()
      */
-    public abstract void setUseClientMode(boolean mode);
+    publid bbstrbdt void sftUsfClifntModf(boolfbn modf);
 
 
     /**
-     * Returns true if the socket is set to use client mode when
-     * handshaking.
+     * Rfturns truf if tif sodkft is sft to usf dlifnt modf wifn
+     * ibndsibking.
      *
-     * @return true if the socket should do handshaking
-     *          in "client" mode
-     * @see #setUseClientMode(boolean)
+     * @rfturn truf if tif sodkft siould do ibndsibking
+     *          in "dlifnt" modf
+     * @sff #sftUsfClifntModf(boolfbn)
      */
-    public abstract boolean getUseClientMode();
+    publid bbstrbdt boolfbn gftUsfClifntModf();
 
 
     /**
-     * Configures the socket to <i>require</i> client authentication.  This
-     * option is only useful for sockets in the server mode.
+     * Configurfs tif sodkft to <i>rfquirf</i> dlifnt butifntidbtion.  Tiis
+     * option is only usfful for sodkfts in tif sfrvfr modf.
      * <P>
-     * A socket's client authentication setting is one of the following:
+     * A sodkft's dlifnt butifntidbtion sftting is onf of tif following:
      * <ul>
-     * <li> client authentication required
-     * <li> client authentication requested
-     * <li> no client authentication desired
+     * <li> dlifnt butifntidbtion rfquirfd
+     * <li> dlifnt butifntidbtion rfqufstfd
+     * <li> no dlifnt butifntidbtion dfsirfd
      * </ul>
      * <P>
-     * Unlike {@link #setWantClientAuth(boolean)}, if this option is set and
-     * the client chooses not to provide authentication information
-     * about itself, <i>the negotiations will stop and the connection
-     * will be dropped</i>.
+     * Unlikf {@link #sftWbntClifntAuti(boolfbn)}, if tiis option is sft bnd
+     * tif dlifnt dioosfs not to providf butifntidbtion informbtion
+     * bbout itsflf, <i>tif nfgotibtions will stop bnd tif donnfdtion
+     * will bf droppfd</i>.
      * <P>
-     * Calling this method overrides any previous setting made by
-     * this method or {@link #setWantClientAuth(boolean)}.
+     * Cblling tiis mftiod ovfrridfs bny prfvious sftting mbdf by
+     * tiis mftiod or {@link #sftWbntClifntAuti(boolfbn)}.
      *
-     * @param   need set to true if client authentication is required,
-     *          or false if no client authentication is desired.
-     * @see #getNeedClientAuth()
-     * @see #setWantClientAuth(boolean)
-     * @see #getWantClientAuth()
-     * @see #setUseClientMode(boolean)
+     * @pbrbm   nffd sft to truf if dlifnt butifntidbtion is rfquirfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff #gftNffdClifntAuti()
+     * @sff #sftWbntClifntAuti(boolfbn)
+     * @sff #gftWbntClifntAuti()
+     * @sff #sftUsfClifntModf(boolfbn)
      */
-    public abstract void setNeedClientAuth(boolean need);
+    publid bbstrbdt void sftNffdClifntAuti(boolfbn nffd);
 
 
     /**
-     * Returns true if the socket will <i>require</i> client authentication.
-     * This option is only useful to sockets in the server mode.
+     * Rfturns truf if tif sodkft will <i>rfquirf</i> dlifnt butifntidbtion.
+     * Tiis option is only usfful to sodkfts in tif sfrvfr modf.
      *
-     * @return  true if client authentication is required,
-     *          or false if no client authentication is desired.
-     * @see #setNeedClientAuth(boolean)
-     * @see #setWantClientAuth(boolean)
-     * @see #getWantClientAuth()
-     * @see #setUseClientMode(boolean)
+     * @rfturn  truf if dlifnt butifntidbtion is rfquirfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff #sftNffdClifntAuti(boolfbn)
+     * @sff #sftWbntClifntAuti(boolfbn)
+     * @sff #gftWbntClifntAuti()
+     * @sff #sftUsfClifntModf(boolfbn)
      */
-    public abstract boolean getNeedClientAuth();
+    publid bbstrbdt boolfbn gftNffdClifntAuti();
 
 
     /**
-     * Configures the socket to <i>request</i> client authentication.
-     * This option is only useful for sockets in the server mode.
+     * Configurfs tif sodkft to <i>rfqufst</i> dlifnt butifntidbtion.
+     * Tiis option is only usfful for sodkfts in tif sfrvfr modf.
      * <P>
-     * A socket's client authentication setting is one of the following:
+     * A sodkft's dlifnt butifntidbtion sftting is onf of tif following:
      * <ul>
-     * <li> client authentication required
-     * <li> client authentication requested
-     * <li> no client authentication desired
+     * <li> dlifnt butifntidbtion rfquirfd
+     * <li> dlifnt butifntidbtion rfqufstfd
+     * <li> no dlifnt butifntidbtion dfsirfd
      * </ul>
      * <P>
-     * Unlike {@link #setNeedClientAuth(boolean)}, if this option is set and
-     * the client chooses not to provide authentication information
-     * about itself, <i>the negotiations will continue</i>.
+     * Unlikf {@link #sftNffdClifntAuti(boolfbn)}, if tiis option is sft bnd
+     * tif dlifnt dioosfs not to providf butifntidbtion informbtion
+     * bbout itsflf, <i>tif nfgotibtions will dontinuf</i>.
      * <P>
-     * Calling this method overrides any previous setting made by
-     * this method or {@link #setNeedClientAuth(boolean)}.
+     * Cblling tiis mftiod ovfrridfs bny prfvious sftting mbdf by
+     * tiis mftiod or {@link #sftNffdClifntAuti(boolfbn)}.
      *
-     * @param   want set to true if client authentication is requested,
-     *          or false if no client authentication is desired.
-     * @see #getWantClientAuth()
-     * @see #setNeedClientAuth(boolean)
-     * @see #getNeedClientAuth()
-     * @see #setUseClientMode(boolean)
+     * @pbrbm   wbnt sft to truf if dlifnt butifntidbtion is rfqufstfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff #gftWbntClifntAuti()
+     * @sff #sftNffdClifntAuti(boolfbn)
+     * @sff #gftNffdClifntAuti()
+     * @sff #sftUsfClifntModf(boolfbn)
      */
-    public abstract void setWantClientAuth(boolean want);
+    publid bbstrbdt void sftWbntClifntAuti(boolfbn wbnt);
 
 
     /**
-     * Returns true if the socket will <i>request</i> client authentication.
-     * This option is only useful for sockets in the server mode.
+     * Rfturns truf if tif sodkft will <i>rfqufst</i> dlifnt butifntidbtion.
+     * Tiis option is only usfful for sodkfts in tif sfrvfr modf.
      *
-     * @return  true if client authentication is requested,
-     *          or false if no client authentication is desired.
-     * @see #setNeedClientAuth(boolean)
-     * @see #getNeedClientAuth()
-     * @see #setWantClientAuth(boolean)
-     * @see #setUseClientMode(boolean)
+     * @rfturn  truf if dlifnt butifntidbtion is rfqufstfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff #sftNffdClifntAuti(boolfbn)
+     * @sff #gftNffdClifntAuti()
+     * @sff #sftWbntClifntAuti(boolfbn)
+     * @sff #sftUsfClifntModf(boolfbn)
      */
-    public abstract boolean getWantClientAuth();
+    publid bbstrbdt boolfbn gftWbntClifntAuti();
 
 
     /**
-     * Controls whether new SSL sessions may be established by this socket.
-     * If session creations are not allowed, and there are no
-     * existing sessions to resume, there will be no successful
-     * handshaking.
+     * Controls wiftifr nfw SSL sfssions mby bf fstbblisifd by tiis sodkft.
+     * If sfssion drfbtions brf not bllowfd, bnd tifrf brf no
+     * fxisting sfssions to rfsumf, tifrf will bf no suddfssful
+     * ibndsibking.
      *
-     * @param flag true indicates that sessions may be created; this
-     *          is the default.  false indicates that an existing session
-     *          must be resumed
-     * @see #getEnableSessionCreation()
+     * @pbrbm flbg truf indidbtfs tibt sfssions mby bf drfbtfd; tiis
+     *          is tif dffbult.  fblsf indidbtfs tibt bn fxisting sfssion
+     *          must bf rfsumfd
+     * @sff #gftEnbblfSfssionCrfbtion()
      */
-    public abstract void setEnableSessionCreation(boolean flag);
+    publid bbstrbdt void sftEnbblfSfssionCrfbtion(boolfbn flbg);
 
 
     /**
-     * Returns true if new SSL sessions may be established by this socket.
+     * Rfturns truf if nfw SSL sfssions mby bf fstbblisifd by tiis sodkft.
      *
-     * @return true indicates that sessions may be created; this
-     *          is the default.  false indicates that an existing session
-     *          must be resumed
-     * @see #setEnableSessionCreation(boolean)
+     * @rfturn truf indidbtfs tibt sfssions mby bf drfbtfd; tiis
+     *          is tif dffbult.  fblsf indidbtfs tibt bn fxisting sfssion
+     *          must bf rfsumfd
+     * @sff #sftEnbblfSfssionCrfbtion(boolfbn)
      */
-    public abstract boolean getEnableSessionCreation();
+    publid bbstrbdt boolfbn gftEnbblfSfssionCrfbtion();
 
     /**
-     * Returns the SSLParameters in effect for this SSLSocket.
-     * The ciphersuites and protocols of the returned SSLParameters
-     * are always non-null.
+     * Rfturns tif SSLPbrbmftfrs in ffffdt for tiis SSLSodkft.
+     * Tif dipifrsuitfs bnd protodols of tif rfturnfd SSLPbrbmftfrs
+     * brf blwbys non-null.
      *
-     * @return the SSLParameters in effect for this SSLSocket.
-     * @since 1.6
+     * @rfturn tif SSLPbrbmftfrs in ffffdt for tiis SSLSodkft.
+     * @sindf 1.6
      */
-    public SSLParameters getSSLParameters() {
-        SSLParameters params = new SSLParameters();
-        params.setCipherSuites(getEnabledCipherSuites());
-        params.setProtocols(getEnabledProtocols());
-        if (getNeedClientAuth()) {
-            params.setNeedClientAuth(true);
-        } else if (getWantClientAuth()) {
-            params.setWantClientAuth(true);
+    publid SSLPbrbmftfrs gftSSLPbrbmftfrs() {
+        SSLPbrbmftfrs pbrbms = nfw SSLPbrbmftfrs();
+        pbrbms.sftCipifrSuitfs(gftEnbblfdCipifrSuitfs());
+        pbrbms.sftProtodols(gftEnbblfdProtodols());
+        if (gftNffdClifntAuti()) {
+            pbrbms.sftNffdClifntAuti(truf);
+        } flsf if (gftWbntClifntAuti()) {
+            pbrbms.sftWbntClifntAuti(truf);
         }
-        return params;
+        rfturn pbrbms;
     }
 
     /**
-     * Applies SSLParameters to this socket.
+     * Applifs SSLPbrbmftfrs to tiis sodkft.
      *
-     * <p>This means:
+     * <p>Tiis mfbns:
      * <ul>
-     * <li>If {@code params.getCipherSuites()} is non-null,
-     *   {@code setEnabledCipherSuites()} is called with that value.</li>
-     * <li>If {@code params.getProtocols()} is non-null,
-     *   {@code setEnabledProtocols()} is called with that value.</li>
-     * <li>If {@code params.getNeedClientAuth()} or
-     *   {@code params.getWantClientAuth()} return {@code true},
-     *   {@code setNeedClientAuth(true)} and
-     *   {@code setWantClientAuth(true)} are called, respectively;
-     *   otherwise {@code setWantClientAuth(false)} is called.</li>
-     * <li>If {@code params.getServerNames()} is non-null, the socket will
-     *   configure its server names with that value.</li>
-     * <li>If {@code params.getSNIMatchers()} is non-null, the socket will
-     *   configure its SNI matchers with that value.</li>
+     * <li>If {@dodf pbrbms.gftCipifrSuitfs()} is non-null,
+     *   {@dodf sftEnbblfdCipifrSuitfs()} is dbllfd witi tibt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftProtodols()} is non-null,
+     *   {@dodf sftEnbblfdProtodols()} is dbllfd witi tibt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftNffdClifntAuti()} or
+     *   {@dodf pbrbms.gftWbntClifntAuti()} rfturn {@dodf truf},
+     *   {@dodf sftNffdClifntAuti(truf)} bnd
+     *   {@dodf sftWbntClifntAuti(truf)} brf dbllfd, rfspfdtivfly;
+     *   otifrwisf {@dodf sftWbntClifntAuti(fblsf)} is dbllfd.</li>
+     * <li>If {@dodf pbrbms.gftSfrvfrNbmfs()} is non-null, tif sodkft will
+     *   donfigurf its sfrvfr nbmfs witi tibt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftSNIMbtdifrs()} is non-null, tif sodkft will
+     *   donfigurf its SNI mbtdifrs witi tibt vbluf.</li>
      * </ul>
      *
-     * @param params the parameters
-     * @throws IllegalArgumentException if the setEnabledCipherSuites() or
-     *    the setEnabledProtocols() call fails
-     * @since 1.6
+     * @pbrbm pbrbms tif pbrbmftfrs
+     * @tirows IllfgblArgumfntExdfption if tif sftEnbblfdCipifrSuitfs() or
+     *    tif sftEnbblfdProtodols() dbll fbils
+     * @sindf 1.6
      */
-    public void setSSLParameters(SSLParameters params) {
+    publid void sftSSLPbrbmftfrs(SSLPbrbmftfrs pbrbms) {
         String[] s;
-        s = params.getCipherSuites();
+        s = pbrbms.gftCipifrSuitfs();
         if (s != null) {
-            setEnabledCipherSuites(s);
+            sftEnbblfdCipifrSuitfs(s);
         }
-        s = params.getProtocols();
+        s = pbrbms.gftProtodols();
         if (s != null) {
-            setEnabledProtocols(s);
+            sftEnbblfdProtodols(s);
         }
-        if (params.getNeedClientAuth()) {
-            setNeedClientAuth(true);
-        } else if (params.getWantClientAuth()) {
-            setWantClientAuth(true);
-        } else {
-            setWantClientAuth(false);
+        if (pbrbms.gftNffdClifntAuti()) {
+            sftNffdClifntAuti(truf);
+        } flsf if (pbrbms.gftWbntClifntAuti()) {
+            sftWbntClifntAuti(truf);
+        } flsf {
+            sftWbntClifntAuti(fblsf);
         }
     }
 

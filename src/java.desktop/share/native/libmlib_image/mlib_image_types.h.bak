@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-#ifndef MLIB_IMAGE_TYPES_H
-#define MLIB_IMAGE_TYPES_H
+#ifndff MLIB_IMAGE_TYPES_H
+#dffinf MLIB_IMAGE_TYPES_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-typedef enum {
-  MLIB_BIT    = 0,      /* 1-bit data                   */
-  MLIB_BYTE   = 1,      /* 8-bit unsigned integer data  */
-  MLIB_SHORT  = 2,      /* 16-bit signed integer data   */
-  MLIB_INT    = 3,      /* 32-bit signed integer data   */
-  MLIB_FLOAT  = 4,      /* 32-bit floating-point data   */
-  MLIB_DOUBLE = 5,      /* 64-bit floating-point data   */
-  MLIB_USHORT = 6       /* 16-bit unsigned integer data */
-} mlib_type;
+typfdff fnum {
+  MLIB_BIT    = 0,      /* 1-bit dbtb                   */
+  MLIB_BYTE   = 1,      /* 8-bit unsignfd intfgfr dbtb  */
+  MLIB_SHORT  = 2,      /* 16-bit signfd intfgfr dbtb   */
+  MLIB_INT    = 3,      /* 32-bit signfd intfgfr dbtb   */
+  MLIB_FLOAT  = 4,      /* 32-bit flobting-point dbtb   */
+  MLIB_DOUBLE = 5,      /* 64-bit flobting-point dbtb   */
+  MLIB_USHORT = 6       /* 16-bit unsignfd intfgfr dbtb */
+} mlib_typf;
 
-typedef enum {
-  MLIB_NEAREST  = 0,    /* nearest neighbor filter      */
-  MLIB_BILINEAR = 1,    /* bilinear filter              */
-  MLIB_BICUBIC  = 2,    /* bicubic filter               */
-  MLIB_BICUBIC2 = 3     /* bicubic2 filter              */
-} mlib_filter;
+typfdff fnum {
+  MLIB_NEAREST  = 0,    /* nfbrfst nfigibor filtfr      */
+  MLIB_BILINEAR = 1,    /* bilinfbr filtfr              */
+  MLIB_BICUBIC  = 2,    /* bidubid filtfr               */
+  MLIB_BICUBIC2 = 3     /* bidubid2 filtfr              */
+} mlib_filtfr;
 
-typedef enum {
-  MLIB_EDGE_DST_NO_WRITE      = 0,      /* no write to dst edge */
-  MLIB_EDGE_DST_FILL_ZERO     = 1,      /* set dst edge to zero */
-  MLIB_EDGE_DST_COPY_SRC      = 2,      /* copy src edge to dst edge */
-  MLIB_EDGE_OP_NEAREST        = 3,      /* use nearest neighbor interpolation
-                                           for edge pixels */
-  MLIB_EDGE_OP_DEGRADED       = 4,      /* use degraded interpolation for
-                                           edge pixels, i.e., bicubic ->
-                                           bilinear -> nearest neighbor */
-  MLIB_EDGE_SRC_EXTEND        = 5,      /* extend src edge by replication */
-  MLIB_EDGE_SRC_EXTEND_ZERO   = 6,      /* extend src edge with zeros */
-  MLIB_EDGE_SRC_EXTEND_MIRROR = 7,      /* extend src edge with mirrored data */
-  MLIB_EDGE_SRC_PADDED        = 8       /* use borders specified in mlib_image structure */
-} mlib_edge;
+typfdff fnum {
+  MLIB_EDGE_DST_NO_WRITE      = 0,      /* no writf to dst fdgf */
+  MLIB_EDGE_DST_FILL_ZERO     = 1,      /* sft dst fdgf to zfro */
+  MLIB_EDGE_DST_COPY_SRC      = 2,      /* dopy srd fdgf to dst fdgf */
+  MLIB_EDGE_OP_NEAREST        = 3,      /* usf nfbrfst nfigibor intfrpolbtion
+                                           for fdgf pixfls */
+  MLIB_EDGE_OP_DEGRADED       = 4,      /* usf dfgrbdfd intfrpolbtion for
+                                           fdgf pixfls, i.f., bidubid ->
+                                           bilinfbr -> nfbrfst nfigibor */
+  MLIB_EDGE_SRC_EXTEND        = 5,      /* fxtfnd srd fdgf by rfplidbtion */
+  MLIB_EDGE_SRC_EXTEND_ZERO   = 6,      /* fxtfnd srd fdgf witi zfros */
+  MLIB_EDGE_SRC_EXTEND_MIRROR = 7,      /* fxtfnd srd fdgf witi mirrorfd dbtb */
+  MLIB_EDGE_SRC_PADDED        = 8       /* usf bordfrs spfdififd in mlib_imbgf strudturf */
+} mlib_fdgf;
 
-typedef enum {
+typfdff fnum {
   MLIB_BLEND_ZERO                = 0,
   MLIB_BLEND_ONE                 = 1,
   MLIB_BLEND_DST_COLOR           = 2,
@@ -75,29 +75,29 @@ typedef enum {
   MLIB_BLEND_ONE_MINUS_DST_ALPHA = 8,
   MLIB_BLEND_ONE_MINUS_SRC_ALPHA = 9,
   MLIB_BLEND_SRC_ALPHA_SATURATE  = 10
-} mlib_blend;
+} mlib_blfnd;
 
-typedef enum {
-  MLIB_DFT_SCALE_NONE     = 0,  /* forward transform without scaling */
-  MLIB_DFT_SCALE_MXN      = 1,  /* forward transform with scaling of
+typfdff fnum {
+  MLIB_DFT_SCALE_NONE     = 0,  /* forwbrd trbnsform witiout sdbling */
+  MLIB_DFT_SCALE_MXN      = 1,  /* forwbrd trbnsform witi sdbling of
                                    1/(M*N) */
-  MLIB_DFT_SCALE_SQRT     = 2,  /* forward transform with scaling of
+  MLIB_DFT_SCALE_SQRT     = 2,  /* forwbrd trbnsform witi sdbling of
                                    1/sqrt(M*N) */
-  MLIB_IDFT_SCALE_NONE    = 3,  /* inverse transform without scaling */
-  MLIB_IDFT_SCALE_MXN     = 4,  /* inverse transform with scaling of
+  MLIB_IDFT_SCALE_NONE    = 3,  /* invfrsf trbnsform witiout sdbling */
+  MLIB_IDFT_SCALE_MXN     = 4,  /* invfrsf trbnsform witi sdbling of
                                    1/(M*N) */
-  MLIB_IDFT_SCALE_SQRT    = 5   /* inverse transform with scaling of
+  MLIB_IDFT_SCALE_SQRT    = 5   /* invfrsf trbnsform witi sdbling of
                                    1/sqrt(M*N) */
-} mlib_fourier_mode;
+} mlib_fourifr_modf;
 
-typedef enum {
-  MLIB_MEDIAN_MASK_RECT             = 0, /* Rectangle shaped mask */
-  MLIB_MEDIAN_MASK_PLUS             = 1, /* Plus shaped mask */
-  MLIB_MEDIAN_MASK_X                = 2, /* X shaped mask */
-  MLIB_MEDIAN_MASK_RECT_SEPARABLE   = 3  /* Separable rectangle mask */
-} mlib_median_mask;
+typfdff fnum {
+  MLIB_MEDIAN_MASK_RECT             = 0, /* Rfdtbnglf sibpfd mbsk */
+  MLIB_MEDIAN_MASK_PLUS             = 1, /* Plus sibpfd mbsk */
+  MLIB_MEDIAN_MASK_X                = 2, /* X sibpfd mbsk */
+  MLIB_MEDIAN_MASK_RECT_SEPARABLE   = 3  /* Sfpbrbblf rfdtbnglf mbsk */
+} mlib_mfdibn_mbsk;
 
-typedef enum { /* constants used for pixel format */
+typfdff fnum { /* donstbnts usfd for pixfl formbt */
   MLIB_FORMAT_UNKNOWN         =  0,
   MLIB_FORMAT_INDEXED         =  1,
   MLIB_FORMAT_GRAYSCALE       =  2,
@@ -109,56 +109,56 @@ typedef enum { /* constants used for pixel format */
   MLIB_FORMAT_PACKED_ABGR     =  8,
   MLIB_FORMAT_GRAYSCALE_ALPHA =  9,
   MLIB_FORMAT_RGBA            = 10
-} mlib_format;
+} mlib_formbt;
 
-typedef struct {
-  mlib_type   type;        /* data type of image                       */
-  mlib_s32    channels;    /* number of channels                       */
-  mlib_s32    width;       /* width of image in pixels, x dimension    */
-  mlib_s32    height;      /* height of image in pixels, y dimension   */
-  mlib_s32    stride;      /* linestride = bytes to next row           */
-  mlib_s32    flags;       /* collection of helpful hints              */
-  void        *data;       /* pointer to first data pixel              */
-  void        *state;      /* internal state structure                 */
-  mlib_u8     paddings[4]; /* left, top, right, bottom                 */
-  mlib_s32    bitoffset;   /* the offset in bits from the beginning    */
-                           /* of the data buffer to the first pixel    */
-  mlib_format format;      /* pixels format                            */
-  mlib_s32    reserved[7 - 2*sizeof(void*)/4];
-                           /* Reserved for future use. Also makes      */
-                           /* size of this structure = 64 bytes, which */
-                           /* is the size of the cache line.           */
-} mlib_image;
+typfdff strudt {
+  mlib_typf   typf;        /* dbtb typf of imbgf                       */
+  mlib_s32    dibnnfls;    /* numbfr of dibnnfls                       */
+  mlib_s32    widti;       /* widti of imbgf in pixfls, x dimfnsion    */
+  mlib_s32    ifigit;      /* ifigit of imbgf in pixfls, y dimfnsion   */
+  mlib_s32    stridf;      /* linfstridf = bytfs to nfxt row           */
+  mlib_s32    flbgs;       /* dollfdtion of iflpful iints              */
+  void        *dbtb;       /* pointfr to first dbtb pixfl              */
+  void        *stbtf;      /* intfrnbl stbtf strudturf                 */
+  mlib_u8     pbddings[4]; /* lfft, top, rigit, bottom                 */
+  mlib_s32    bitoffsft;   /* tif offsft in bits from tif bfginning    */
+                           /* of tif dbtb bufffr to tif first pixfl    */
+  mlib_formbt formbt;      /* pixfls formbt                            */
+  mlib_s32    rfsfrvfd[7 - 2*sizfof(void*)/4];
+                           /* Rfsfrvfd for futurf usf. Also mbkfs      */
+                           /* sizf of tiis strudturf = 64 bytfs, wiidi */
+                           /* is tif sizf of tif dbdif linf.           */
+} mlib_imbgf;
 
 /*
- * Flags or hints are contained in a 32-bit integer. The bit structure is
- * shown below:
+ * Flbgs or iints brf dontbinfd in b 32-bit intfgfr. Tif bit strudturf is
+ * siown bflow:
  *
  *      3                   2                   1
  *    1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
  *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- *   |S|                 |U|V| shint | hhint | whint |     dhint     |
+ *   |S|                 |U|V| siint | iiint | wiint |     diint     |
  *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  *
- *      S = 0   - attributes have been set (attribute field >= 0)
- *          1   - attributes have not been set (attribute field < 0)
+ *      S = 0   - bttributfs ibvf bffn sft (bttributf fifld >= 0)
+ *          1   - bttributfs ibvf not bffn sft (bttributf fifld < 0)
  *
- *      U = 0   - mediaLib allocated data space
- *          1   - user allocated data space
+ *      U = 0   - mfdibLib bllodbtfd dbtb spbdf
+ *          1   - usfr bllodbtfd dbtb spbdf
  *
- *      V = 0   - stride == width => 1-D vector
- *          1   - stride != width
+ *      V = 0   - stridf == widti => 1-D vfdtor
+ *          1   - stridf != widti
  *
- *      shint   - last 4 bits of stride
+ *      siint   - lbst 4 bits of stridf
  *
- *      hhint   - last 4 bits of height
+ *      iiint   - lbst 4 bits of ifigit
  *
- *      whint   - last 4 bits of width
+ *      wiint   - lbst 4 bits of widti
  *
- *      dhint   - last 8 bits of data address
+ *      diint   - lbst 8 bits of dbtb bddrfss
  */
 
-enum {
+fnum {
   MLIB_IMAGE_ALIGNED64     = 0x3f,
   MLIB_IMAGE_ALIGNED8      = 0x7,
   MLIB_IMAGE_ALIGNED4      = 0x3,
@@ -175,8 +175,8 @@ enum {
   MLIB_IMAGE_ATTRIBUTESET  = 0x7fffffff
 };
 
-#ifdef __cplusplus
+#ifdff __dplusplus
 }
-#endif
+#fndif
 
-#endif  /* MLIB_IMAGE_TYPES_H */
+#fndif  /* MLIB_IMAGE_TYPES_H */

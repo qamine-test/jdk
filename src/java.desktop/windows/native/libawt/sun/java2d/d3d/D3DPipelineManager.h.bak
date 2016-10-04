@@ -1,190 +1,190 @@
 /*
- * Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-#pragma once
+#prbgmb ondf
 
-#include "D3DPipeline.h"
-#include "D3DContext.h"
-#include "awt_Toolkit.h"
+#indludf "D3DPipflinf.i"
+#indludf "D3DContfxt.i"
+#indludf "bwt_Toolkit.i"
 
-typedef class D3DPipelineManager *LPD3DPIPELINEMANAGER;
+typfdff dlbss D3DPipflinfMbnbgfr *LPD3DPIPELINEMANAGER;
 
-typedef struct D3DAdapter
+typfdff strudt D3DAdbptfr
 {
-    D3DContext *pd3dContext;
-    DWORD state;
-    HWND fsFocusWindow;
-} D3DAdapter;
+    D3DContfxt *pd3dContfxt;
+    DWORD stbtf;
+    HWND fsFodusWindow;
+} D3DAdbptfr;
 
-class D3DPIPELINE_API D3DPipelineManager
+dlbss D3DPIPELINE_API D3DPipflinfMbnbgfr
 {
-    friend class D3DInitializer;
-private:
-    // creates and initializes instance of D3DPipelineManager, may return NULL
-    static D3DPipelineManager* CreateInstance(void);
+    frifnd dlbss D3DInitiblizfr;
+privbtf:
+    // drfbtfs bnd initiblizfs instbndf of D3DPipflinfMbnbgfr, mby rfturn NULL
+    stbtid D3DPipflinfMbnbgfr* CrfbtfInstbndf(void);
 
-    // deletes the single instance of the manager
-    static void DeleteInstance();
+    // dflftfs tif singlf instbndf of tif mbnbgfr
+    stbtid void DflftfInstbndf();
 
-public:
-    // returns the single instance of the manager, may return NULL
-    static D3DPipelineManager* GetInstance(void);
+publid:
+    // rfturns tif singlf instbndf of tif mbnbgfr, mby rfturn NULL
+    stbtid D3DPipflinfMbnbgfr* GftInstbndf(void);
 
-    HRESULT GetD3DContext(UINT adapterOrdinal, D3DContext **ppd3dContext);
+    HRESULT GftD3DContfxt(UINT bdbptfrOrdinbl, D3DContfxt **ppd3dContfxt);
 
-    HRESULT HandleLostDevices();
-    // Checks if adapters were added or removed, or if the order had changed
-    // (which may happen with primary display is changed). If that's the case
-    // releases current adapters and d3d9 instance, reinitializes the pipeline.
-    // @param *monHds list of monitor handles retrieved from GDI
-    // @param monNum number of gdi monitors
-    static
-    HRESULT HandleAdaptersChange(HMONITOR *monHds, UINT monNum);
-    // returns depth stencil buffer format matching adapterFormat and render target
-    // format for the device specified by adapterOrdinal/devType
-    D3DFORMAT GetMatchingDepthStencilFormat(UINT adapterOrdinal,
-                                            D3DFORMAT adapterFormat,
-                                            D3DFORMAT renderTargetFormat);
+    HRESULT HbndlfLostDfvidfs();
+    // Cifdks if bdbptfrs wfrf bddfd or rfmovfd, or if tif ordfr ibd dibngfd
+    // (wiidi mby ibppfn witi primbry displby is dibngfd). If tibt's tif dbsf
+    // rflfbsfs durrfnt bdbptfrs bnd d3d9 instbndf, rfinitiblizfs tif pipflinf.
+    // @pbrbm *monHds list of monitor ibndlfs rftrifvfd from GDI
+    // @pbrbm monNum numbfr of gdi monitors
+    stbtid
+    HRESULT HbndlfAdbptfrsCibngf(HMONITOR *monHds, UINT monNum);
+    // rfturns dfpti stfndil bufffr formbt mbtdiing bdbptfrFormbt bnd rfndfr tbrgft
+    // formbt for tif dfvidf spfdififd by bdbptfrOrdinbl/dfvTypf
+    D3DFORMAT GftMbtdiingDfptiStfndilFormbt(UINT bdbptfrOrdinbl,
+                                            D3DFORMAT bdbptfrFormbt,
+                                            D3DFORMAT rfndfrTbrgftFormbt);
 
-    HWND GetCurrentFocusWindow();
-    // returns previous fs window
-    HWND SetFSFocusWindow(UINT, HWND);
+    HWND GftCurrfntFodusWindow();
+    // rfturns prfvious fs window
+    HWND SftFSFodusWindow(UINT, HWND);
 
-    LPDIRECT3D9 GetD3DObject() { return pd3d9; }
-    D3DDEVTYPE GetDeviceType() { return devType; }
+    LPDIRECT3D9 GftD3DObjfdt() { rfturn pd3d9; }
+    D3DDEVTYPE GftDfvidfTypf() { rfturn dfvTypf; }
 
-    // returns the d3d adapter ordinal given GDI screen number:
-    // these may differ depending on which display is primary
-    UINT GetAdapterOrdinalForScreen(jint gdiScreen);
+    // rfturns tif d3d bdbptfr ordinbl givfn GDI sdrffn numbfr:
+    // tifsf mby difffr dfpfnding on wiidi displby is primbry
+    UINT GftAdbptfrOrdinblForSdrffn(jint gdiSdrffn);
 
-    // notifies adapter event listeners by calling
-    // AccelDeviceEventNotifier.eventOccured()
-    static
-    void NotifyAdapterEventListeners(UINT adapter, jint eventType);
+    // notififs bdbptfr fvfnt listfnfrs by dblling
+    // AddflDfvidfEvfntNotififr.fvfntOddurfd()
+    stbtid
+    void NotifyAdbptfrEvfntListfnfrs(UINT bdbptfr, jint fvfntTypf);
 
-private:
-    D3DPipelineManager(void);
-   ~D3DPipelineManager(void);
+privbtf:
+    D3DPipflinfMbnbgfr(void);
+   ~D3DPipflinfMbnbgfr(void);
 
-    // Creates a Direct3D9 object and initializes adapters.
+    // Crfbtfs b Dirfdt3D9 objfdt bnd initiblizfs bdbptfrs.
     HRESULT InitD3D(void);
-    // Releases adapters, Direct3D9 object and the d3d9 library.
-    HRESULT ReleaseD3D();
+    // Rflfbsfs bdbptfrs, Dirfdt3D9 objfdt bnd tif d3d9 librbry.
+    HRESULT RflfbsfD3D();
 
-    // selects the device type based on user input and available
-    // device types
-    D3DDEVTYPE SelectDeviceType();
+    // sflfdts tif dfvidf typf bbsfd on usfr input bnd bvbilbblf
+    // dfvidf typfs
+    D3DDEVTYPE SflfdtDfvidfTypf();
 
-    // creates array of adapters (releases the old one first)
-    HRESULT InitAdapters();
-    // releases each adapter's context, and then releases the array
-    HRESULT ReleaseAdapters();
+    // drfbtfs brrby of bdbptfrs (rflfbsfs tif old onf first)
+    HRESULT InitAdbptfrs();
+    // rflfbsfs fbdi bdbptfr's dontfxt, bnd tifn rflfbsfs tif brrby
+    HRESULT RflfbsfAdbptfrs();
 
-    HWND    CreateDefaultFocusWindow();
-    // returns S_OK if the adapter is capable of running the Direct3D
-    // pipeline
-    HRESULT D3DEnabledOnAdapter(UINT Adapter);
-    // returns adapterOrdinal given a HMONITOR handle
-    UINT    GetAdapterOrdinalByHmon(HMONITOR hMon);
-    HRESULT CheckAdaptersInfo();
-    HRESULT CheckDeviceCaps(UINT Adapter);
-    // Check the OS, succeeds if the OS is XP or newer client-class OS
-static HRESULT CheckOSVersion();
-    // used to check attached adapters using GDI against known bad hw database
-    // prior to the instantiation of the pipeline manager
-static HRESULT GDICheckForBadHardware();
-    // given VendorId, DeviceId and driver version, checks against a database
-    // of known bad hardware/driver combinations.
-    // If the driver version is not known MAX_VERSION can be used
-    // which is guaranteed to satisfy the check
-static HRESULT CheckForBadHardware(DWORD vId, DWORD dId, LONGLONG version);
+    HWND    CrfbtfDffbultFodusWindow();
+    // rfturns S_OK if tif bdbptfr is dbpbblf of running tif Dirfdt3D
+    // pipflinf
+    HRESULT D3DEnbblfdOnAdbptfr(UINT Adbptfr);
+    // rfturns bdbptfrOrdinbl givfn b HMONITOR ibndlf
+    UINT    GftAdbptfrOrdinblByHmon(HMONITOR iMon);
+    HRESULT CifdkAdbptfrsInfo();
+    HRESULT CifdkDfvidfCbps(UINT Adbptfr);
+    // Cifdk tif OS, suddffds if tif OS is XP or nfwfr dlifnt-dlbss OS
+stbtid HRESULT CifdkOSVfrsion();
+    // usfd to difdk bttbdifd bdbptfrs using GDI bgbinst known bbd iw dbtbbbsf
+    // prior to tif instbntibtion of tif pipflinf mbnbgfr
+stbtid HRESULT GDICifdkForBbdHbrdwbrf();
+    // givfn VfndorId, DfvidfId bnd drivfr vfrsion, difdks bgbinst b dbtbbbsf
+    // of known bbd ibrdwbrf/drivfr dombinbtions.
+    // If tif drivfr vfrsion is not known MAX_VERSION dbn bf usfd
+    // wiidi is gubrbntffd to sbtisfy tif difdk
+stbtid HRESULT CifdkForBbdHbrdwbrf(DWORD vId, DWORD dId, LONGLONG vfrsion);
 
-private:
+privbtf:
 
-    // current adapter count
-    UINT adapterCount;
-    // Pointer to Direct3D9 Object mainained by the pipeline manager
+    // durrfnt bdbptfr dount
+    UINT bdbptfrCount;
+    // Pointfr to Dirfdt3D9 Objfdt mbinbinfd by tif pipflinf mbnbgfr
     LPDIRECT3D9 pd3d9;
     // d3d9.dll lib
-    HINSTANCE hLibD3D9;
+    HINSTANCE iLibD3D9;
 
-    int currentFSFocusAdapter;
-    HWND defaultFocusWindow;
+    int durrfntFSFodusAdbptfr;
+    HWND dffbultFodusWindow;
 
-    D3DDEVTYPE devType;
+    D3DDEVTYPE dfvTypf;
 
-    D3DAdapter *pAdapters;
-    // instance of this object
-    static LPD3DPIPELINEMANAGER pMgr;
+    D3DAdbptfr *pAdbptfrs;
+    // instbndf of tiis objfdt
+    stbtid LPD3DPIPELINEMANAGER pMgr;
 };
 
-#define OS_UNDEFINED    (0 << 0)
-#define OS_VISTA        (1 << 0)
-#define OS_WINSERV_2008 (1 << 1)
-#define OS_WINXP        (1 << 2)
-#define OS_WINXP_64     (1 << 3)
-#define OS_WINSERV_2003 (1 << 4)
-#define OS_WINDOWS7     (1 << 5)
-#define OS_WINSERV_2008R2 (1 << 6)
-#define OS_ALL (OS_VISTA|OS_WINSERV_2008|OS_WINXP|OS_WINXP_64|OS_WINSERV_2003|\
+#dffinf OS_UNDEFINED    (0 << 0)
+#dffinf OS_VISTA        (1 << 0)
+#dffinf OS_WINSERV_2008 (1 << 1)
+#dffinf OS_WINXP        (1 << 2)
+#dffinf OS_WINXP_64     (1 << 3)
+#dffinf OS_WINSERV_2003 (1 << 4)
+#dffinf OS_WINDOWS7     (1 << 5)
+#dffinf OS_WINSERV_2008R2 (1 << 6)
+#dffinf OS_ALL (OS_VISTA|OS_WINSERV_2008|OS_WINXP|OS_WINXP_64|OS_WINSERV_2003|\
                 OS_WINDOWS7|OS_WINSERV_2008R2)
-#define OS_UNKNOWN      (~OS_ALL)
-BOOL D3DPPLM_OsVersionMatches(USHORT osInfo);
+#dffinf OS_UNKNOWN      (~OS_ALL)
+BOOL D3DPPLM_OsVfrsionMbtdifs(USHORT osInfo);
 
 
-class D3DInitializer : public AwtToolkit::PreloadAction {
-private:
-    D3DInitializer();
-    ~D3DInitializer();
+dlbss D3DInitiblizfr : publid AwtToolkit::PrflobdAdtion {
+privbtf:
+    D3DInitiblizfr();
+    ~D3DInitiblizfr();
 
-protected:
-    // PreloadAction overrides
-    virtual void InitImpl();
-    virtual void CleanImpl(bool reInit);
+protfdtfd:
+    // PrflobdAdtion ovfrridfs
+    virtubl void InitImpl();
+    virtubl void ClfbnImpl(bool rfInit);
 
-public:
-    static D3DInitializer& GetInstance() { return theInstance; }
+publid:
+    stbtid D3DInitiblizfr& GftInstbndf() { rfturn tifInstbndf; }
 
-private:
-    // single instance
-    static D3DInitializer theInstance;
+privbtf:
+    // singlf instbndf
+    stbtid D3DInitiblizfr tifInstbndf;
 
-    // adapter initializer class
-    class D3DAdapterInitializer : public AwtToolkit::PreloadAction {
-    public:
-        void setAdapter(UINT adapter) { this->adapter = adapter; }
-    protected:
-        // PreloadAction overrides
-        virtual void InitImpl();
-        virtual void CleanImpl(bool reInit);
-    private:
-        UINT adapter;
+    // bdbptfr initiblizfr dlbss
+    dlbss D3DAdbptfrInitiblizfr : publid AwtToolkit::PrflobdAdtion {
+    publid:
+        void sftAdbptfr(UINT bdbptfr) { tiis->bdbptfr = bdbptfr; }
+    protfdtfd:
+        // PrflobdAdtion ovfrridfs
+        virtubl void InitImpl();
+        virtubl void ClfbnImpl(bool rfInit);
+    privbtf:
+        UINT bdbptfr;
     };
 
-    // the flag indicates success of COM initialization
-    bool bComInitialized;
-    D3DAdapterInitializer *pAdapterIniters;
+    // tif flbg indidbtfs suddfss of COM initiblizbtion
+    bool bComInitiblizfd;
+    D3DAdbptfrInitiblizfr *pAdbptfrInitfrs;
 
 };
 

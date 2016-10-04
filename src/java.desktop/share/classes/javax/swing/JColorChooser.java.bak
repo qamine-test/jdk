@@ -1,770 +1,770 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import javax.swing.colorchooser.*;
-import javax.swing.plaf.ColorChooserUI;
-import javax.accessibility.*;
+import jbvbx.swing.dolordioosfr.*;
+import jbvbx.swing.plbf.ColorCioosfrUI;
+import jbvbx.bddfssibility.*;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
 
 /**
- * <code>JColorChooser</code> provides a pane of controls designed to allow
- * a user to manipulate and select a color.
- * For information about using color choosers, see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/colorchooser.html">How to Use Color Choosers</a>,
- * a section in <em>The Java Tutorial</em>.
+ * <dodf>JColorCioosfr</dodf> providfs b pbnf of dontrols dfsignfd to bllow
+ * b usfr to mbnipulbtf bnd sflfdt b dolor.
+ * For informbtion bbout using dolor dioosfrs, sff
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/dolordioosfr.itml">How to Usf Color Cioosfrs</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  *
  * <p>
  *
- * This class provides three levels of API:
+ * Tiis dlbss providfs tirff lfvfls of API:
  * <ol>
- * <li>A static convenience method which shows a modal color-chooser
- * dialog and returns the color selected by the user.
- * <li>A static convenience method for creating a color-chooser dialog
- * where <code>ActionListeners</code> can be specified to be invoked when
- * the user presses one of the dialog buttons.
- * <li>The ability to create instances of <code>JColorChooser</code> panes
- * directly (within any container). <code>PropertyChange</code> listeners
- * can be added to detect when the current "color" property changes.
+ * <li>A stbtid donvfnifndf mftiod wiidi siows b modbl dolor-dioosfr
+ * diblog bnd rfturns tif dolor sflfdtfd by tif usfr.
+ * <li>A stbtid donvfnifndf mftiod for drfbting b dolor-dioosfr diblog
+ * wifrf <dodf>AdtionListfnfrs</dodf> dbn bf spfdififd to bf invokfd wifn
+ * tif usfr prfssfs onf of tif diblog buttons.
+ * <li>Tif bbility to drfbtf instbndfs of <dodf>JColorCioosfr</dodf> pbnfs
+ * dirfdtly (witiin bny dontbinfr). <dodf>PropfrtyCibngf</dodf> listfnfrs
+ * dbn bf bddfd to dftfdt wifn tif durrfnt "dolor" propfrty dibngfs.
  * </ol>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
  *
- * @beaninfo
- *      attribute: isContainer false
- *    description: A component that supports selecting a Color.
+ * @bfbninfo
+ *      bttributf: isContbinfr fblsf
+ *    dfsdription: A domponfnt tibt supports sflfdting b Color.
  *
  *
- * @author James Gosling
- * @author Amy Fowler
- * @author Steve Wilson
- * @since 1.2
+ * @butior Jbmfs Gosling
+ * @butior Amy Fowlfr
+ * @butior Stfvf Wilson
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JColorChooser extends JComponent implements Accessible {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JColorCioosfr fxtfnds JComponfnt implfmfnts Addfssiblf {
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "ColorChooserUI";
+    privbtf stbtid finbl String uiClbssID = "ColorCioosfrUI";
 
-    private ColorSelectionModel selectionModel;
+    privbtf ColorSflfdtionModfl sflfdtionModfl;
 
-    private JComponent previewPanel = ColorChooserComponentFactory.getPreviewPanel();
+    privbtf JComponfnt prfvifwPbnfl = ColorCioosfrComponfntFbdtory.gftPrfvifwPbnfl();
 
-    private AbstractColorChooserPanel[] chooserPanels = new AbstractColorChooserPanel[0];
+    privbtf AbstrbdtColorCioosfrPbnfl[] dioosfrPbnfls = nfw AbstrbdtColorCioosfrPbnfl[0];
 
-    private boolean dragEnabled;
+    privbtf boolfbn drbgEnbblfd;
 
     /**
-     * The selection model property name.
+     * Tif sflfdtion modfl propfrty nbmf.
      */
-    public static final String      SELECTION_MODEL_PROPERTY = "selectionModel";
+    publid stbtid finbl String      SELECTION_MODEL_PROPERTY = "sflfdtionModfl";
 
     /**
-     * The preview panel property name.
+     * Tif prfvifw pbnfl propfrty nbmf.
      */
-    public static final String      PREVIEW_PANEL_PROPERTY = "previewPanel";
+    publid stbtid finbl String      PREVIEW_PANEL_PROPERTY = "prfvifwPbnfl";
 
     /**
-     * The chooserPanel array property name.
+     * Tif dioosfrPbnfl brrby propfrty nbmf.
      */
-    public static final String      CHOOSER_PANELS_PROPERTY = "chooserPanels";
+    publid stbtid finbl String      CHOOSER_PANELS_PROPERTY = "dioosfrPbnfls";
 
 
     /**
-     * Shows a modal color-chooser dialog and blocks until the
-     * dialog is hidden.  If the user presses the "OK" button, then
-     * this method hides/disposes the dialog and returns the selected color.
-     * If the user presses the "Cancel" button or closes the dialog without
-     * pressing "OK", then this method hides/disposes the dialog and returns
-     * <code>null</code>.
+     * Siows b modbl dolor-dioosfr diblog bnd blodks until tif
+     * diblog is iiddfn.  If tif usfr prfssfs tif "OK" button, tifn
+     * tiis mftiod iidfs/disposfs tif diblog bnd rfturns tif sflfdtfd dolor.
+     * If tif usfr prfssfs tif "Cbndfl" button or dlosfs tif diblog witiout
+     * prfssing "OK", tifn tiis mftiod iidfs/disposfs tif diblog bnd rfturns
+     * <dodf>null</dodf>.
      *
-     * @param component    the parent <code>Component</code> for the dialog
-     * @param title        the String containing the dialog's title
-     * @param initialColor the initial Color set when the color-chooser is shown
-     * @return the selected color or <code>null</code> if the user opted out
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @pbrbm domponfnt    tif pbrfnt <dodf>Componfnt</dodf> for tif diblog
+     * @pbrbm titlf        tif String dontbining tif diblog's titlf
+     * @pbrbm initiblColor tif initibl Color sft wifn tif dolor-dioosfr is siown
+     * @rfturn tif sflfdtfd dolor or <dodf>null</dodf> if tif usfr optfd out
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public static Color showDialog(Component component,
-        String title, Color initialColor) throws HeadlessException {
+    publid stbtid Color siowDiblog(Componfnt domponfnt,
+        String titlf, Color initiblColor) tirows HfbdlfssExdfption {
 
-        final JColorChooser pane = new JColorChooser(initialColor != null?
-                                               initialColor : Color.white);
+        finbl JColorCioosfr pbnf = nfw JColorCioosfr(initiblColor != null?
+                                               initiblColor : Color.wiitf);
 
-        ColorTracker ok = new ColorTracker(pane);
-        JDialog dialog = createDialog(component, title, true, pane, ok, null);
+        ColorTrbdkfr ok = nfw ColorTrbdkfr(pbnf);
+        JDiblog diblog = drfbtfDiblog(domponfnt, titlf, truf, pbnf, ok, null);
 
-        dialog.addComponentListener(new ColorChooserDialog.DisposeOnClose());
+        diblog.bddComponfntListfnfr(nfw ColorCioosfrDiblog.DisposfOnClosf());
 
-        dialog.show(); // blocks until user brings dialog down...
+        diblog.siow(); // blodks until usfr brings diblog down...
 
-        return ok.getColor();
+        rfturn ok.gftColor();
     }
 
 
     /**
-     * Creates and returns a new dialog containing the specified
-     * <code>ColorChooser</code> pane along with "OK", "Cancel", and "Reset"
-     * buttons. If the "OK" or "Cancel" buttons are pressed, the dialog is
-     * automatically hidden (but not disposed).  If the "Reset"
-     * button is pressed, the color-chooser's color will be reset to the
-     * color which was set the last time <code>show</code> was invoked on the
-     * dialog and the dialog will remain showing.
+     * Crfbtfs bnd rfturns b nfw diblog dontbining tif spfdififd
+     * <dodf>ColorCioosfr</dodf> pbnf blong witi "OK", "Cbndfl", bnd "Rfsft"
+     * buttons. If tif "OK" or "Cbndfl" buttons brf prfssfd, tif diblog is
+     * butombtidblly iiddfn (but not disposfd).  If tif "Rfsft"
+     * button is prfssfd, tif dolor-dioosfr's dolor will bf rfsft to tif
+     * dolor wiidi wbs sft tif lbst timf <dodf>siow</dodf> wbs invokfd on tif
+     * diblog bnd tif diblog will rfmbin siowing.
      *
-     * @param c              the parent component for the dialog
-     * @param title          the title for the dialog
-     * @param modal          a boolean. When true, the remainder of the program
-     *                       is inactive until the dialog is closed.
-     * @param chooserPane    the color-chooser to be placed inside the dialog
-     * @param okListener     the ActionListener invoked when "OK" is pressed
-     * @param cancelListener the ActionListener invoked when "Cancel" is pressed
-     * @return a new dialog containing the color-chooser pane
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @pbrbm d              tif pbrfnt domponfnt for tif diblog
+     * @pbrbm titlf          tif titlf for tif diblog
+     * @pbrbm modbl          b boolfbn. Wifn truf, tif rfmbindfr of tif progrbm
+     *                       is inbdtivf until tif diblog is dlosfd.
+     * @pbrbm dioosfrPbnf    tif dolor-dioosfr to bf plbdfd insidf tif diblog
+     * @pbrbm okListfnfr     tif AdtionListfnfr invokfd wifn "OK" is prfssfd
+     * @pbrbm dbndflListfnfr tif AdtionListfnfr invokfd wifn "Cbndfl" is prfssfd
+     * @rfturn b nfw diblog dontbining tif dolor-dioosfr pbnf
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public static JDialog createDialog(Component c, String title, boolean modal,
-        JColorChooser chooserPane, ActionListener okListener,
-        ActionListener cancelListener) throws HeadlessException {
+    publid stbtid JDiblog drfbtfDiblog(Componfnt d, String titlf, boolfbn modbl,
+        JColorCioosfr dioosfrPbnf, AdtionListfnfr okListfnfr,
+        AdtionListfnfr dbndflListfnfr) tirows HfbdlfssExdfption {
 
-        Window window = JOptionPane.getWindowForComponent(c);
-        ColorChooserDialog dialog;
-        if (window instanceof Frame) {
-            dialog = new ColorChooserDialog((Frame)window, title, modal, c, chooserPane,
-                                            okListener, cancelListener);
-        } else {
-            dialog = new ColorChooserDialog((Dialog)window, title, modal, c, chooserPane,
-                                            okListener, cancelListener);
+        Window window = JOptionPbnf.gftWindowForComponfnt(d);
+        ColorCioosfrDiblog diblog;
+        if (window instbndfof Frbmf) {
+            diblog = nfw ColorCioosfrDiblog((Frbmf)window, titlf, modbl, d, dioosfrPbnf,
+                                            okListfnfr, dbndflListfnfr);
+        } flsf {
+            diblog = nfw ColorCioosfrDiblog((Diblog)window, titlf, modbl, d, dioosfrPbnf,
+                                            okListfnfr, dbndflListfnfr);
         }
-        dialog.getAccessibleContext().setAccessibleDescription(title);
-        return dialog;
+        diblog.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(titlf);
+        rfturn diblog;
     }
 
     /**
-     * Creates a color chooser pane with an initial color of white.
+     * Crfbtfs b dolor dioosfr pbnf witi bn initibl dolor of wiitf.
      */
-    public JColorChooser() {
-        this(Color.white);
+    publid JColorCioosfr() {
+        tiis(Color.wiitf);
     }
 
     /**
-     * Creates a color chooser pane with the specified initial color.
+     * Crfbtfs b dolor dioosfr pbnf witi tif spfdififd initibl dolor.
      *
-     * @param initialColor the initial color set in the chooser
+     * @pbrbm initiblColor tif initibl dolor sft in tif dioosfr
      */
-    public JColorChooser(Color initialColor) {
-        this( new DefaultColorSelectionModel(initialColor) );
+    publid JColorCioosfr(Color initiblColor) {
+        tiis( nfw DffbultColorSflfdtionModfl(initiblColor) );
 
     }
 
     /**
-     * Creates a color chooser pane with the specified
-     * <code>ColorSelectionModel</code>.
+     * Crfbtfs b dolor dioosfr pbnf witi tif spfdififd
+     * <dodf>ColorSflfdtionModfl</dodf>.
      *
-     * @param model the <code>ColorSelectionModel</code> to be used
+     * @pbrbm modfl tif <dodf>ColorSflfdtionModfl</dodf> to bf usfd
      */
-    public JColorChooser(ColorSelectionModel model) {
-        selectionModel = model;
-        updateUI();
-        dragEnabled = false;
+    publid JColorCioosfr(ColorSflfdtionModfl modfl) {
+        sflfdtionModfl = modfl;
+        updbtfUI();
+        drbgEnbblfd = fblsf;
     }
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Rfturns tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @return the <code>ColorChooserUI</code> object that renders
-     *          this component
+     * @rfturn tif <dodf>ColorCioosfrUI</dodf> objfdt tibt rfndfrs
+     *          tiis domponfnt
      */
-    public ColorChooserUI getUI() {
-        return (ColorChooserUI)ui;
+    publid ColorCioosfrUI gftUI() {
+        rfturn (ColorCioosfrUI)ui;
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sfts tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui  the <code>ColorChooserUI</code> L&amp;F object
-     * @see UIDefaults#getUI
+     * @pbrbm ui  tif <dodf>ColorCioosfrUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
      *
-     * @beaninfo
-     *       bound: true
-     *      hidden: true
-     * description: The UI object that implements the color chooser's LookAndFeel.
+     * @bfbninfo
+     *       bound: truf
+     *      iiddfn: truf
+     * dfsdription: Tif UI objfdt tibt implfmfnts tif dolor dioosfr's LookAndFffl.
      */
-    public void setUI(ColorChooserUI ui) {
-        super.setUI(ui);
+    publid void sftUI(ColorCioosfrUI ui) {
+        supfr.sftUI(ui);
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the L&amp;F has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notifidbtion from tif <dodf>UIMbnbgfr</dodf> tibt tif L&bmp;F ibs dibngfd.
+     * Rfplbdfs tif durrfnt UI objfdt witi tif lbtfst vfrsion from tif
+     * <dodf>UIMbnbgfr</dodf>.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((ColorChooserUI)UIManager.getUI(this));
+    publid void updbtfUI() {
+        sftUI((ColorCioosfrUI)UIMbnbgfr.gftUI(tiis));
     }
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Rfturns tif nbmf of tif L&bmp;F dlbss tibt rfndfrs tiis domponfnt.
      *
-     * @return the string "ColorChooserUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @rfturn tif string "ColorCioosfrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
     /**
-     * Gets the current color value from the color chooser.
-     * By default, this delegates to the model.
+     * Gfts tif durrfnt dolor vbluf from tif dolor dioosfr.
+     * By dffbult, tiis dflfgbtfs to tif modfl.
      *
-     * @return the current color value of the color chooser
+     * @rfturn tif durrfnt dolor vbluf of tif dolor dioosfr
      */
-    public Color getColor() {
-        return selectionModel.getSelectedColor();
+    publid Color gftColor() {
+        rfturn sflfdtionModfl.gftSflfdtfdColor();
     }
 
     /**
-     * Sets the current color of the color chooser to the specified color.
-     * The <code>ColorSelectionModel</code> will fire a <code>ChangeEvent</code>
-     * @param color the color to be set in the color chooser
-     * @see JComponent#addPropertyChangeListener
+     * Sfts tif durrfnt dolor of tif dolor dioosfr to tif spfdififd dolor.
+     * Tif <dodf>ColorSflfdtionModfl</dodf> will firf b <dodf>CibngfEvfnt</dodf>
+     * @pbrbm dolor tif dolor to bf sft in tif dolor dioosfr
+     * @sff JComponfnt#bddPropfrtyCibngfListfnfr
      *
-     * @beaninfo
-     *       bound: false
-     *      hidden: false
-     * description: The current color the chooser is to display.
+     * @bfbninfo
+     *       bound: fblsf
+     *      iiddfn: fblsf
+     * dfsdription: Tif durrfnt dolor tif dioosfr is to displby.
      */
-    public void setColor(Color color) {
-        selectionModel.setSelectedColor(color);
+    publid void sftColor(Color dolor) {
+        sflfdtionModfl.sftSflfdtfdColor(dolor);
 
     }
 
     /**
-     * Sets the current color of the color chooser to the
-     * specified RGB color.  Note that the values of red, green,
-     * and blue should be between the numbers 0 and 255, inclusive.
+     * Sfts tif durrfnt dolor of tif dolor dioosfr to tif
+     * spfdififd RGB dolor.  Notf tibt tif vblufs of rfd, grffn,
+     * bnd bluf siould bf bftwffn tif numbfrs 0 bnd 255, indlusivf.
      *
-     * @param r   an int specifying the amount of Red
-     * @param g   an int specifying the amount of Green
-     * @param b   an int specifying the amount of Blue
-     * @exception IllegalArgumentException if r,g,b values are out of range
-     * @see java.awt.Color
+     * @pbrbm r   bn int spfdifying tif bmount of Rfd
+     * @pbrbm g   bn int spfdifying tif bmount of Grffn
+     * @pbrbm b   bn int spfdifying tif bmount of Bluf
+     * @fxdfption IllfgblArgumfntExdfption if r,g,b vblufs brf out of rbngf
+     * @sff jbvb.bwt.Color
      */
-    public void setColor(int r, int g, int b) {
-        setColor(new Color(r,g,b));
+    publid void sftColor(int r, int g, int b) {
+        sftColor(nfw Color(r,g,b));
     }
 
     /**
-     * Sets the current color of the color chooser to the
-     * specified color.
+     * Sfts tif durrfnt dolor of tif dolor dioosfr to tif
+     * spfdififd dolor.
      *
-     * @param c an integer value that sets the current color in the chooser
-     *          where the low-order 8 bits specify the Blue value,
-     *          the next 8 bits specify the Green value, and the 8 bits
-     *          above that specify the Red value.
+     * @pbrbm d bn intfgfr vbluf tibt sfts tif durrfnt dolor in tif dioosfr
+     *          wifrf tif low-ordfr 8 bits spfdify tif Bluf vbluf,
+     *          tif nfxt 8 bits spfdify tif Grffn vbluf, bnd tif 8 bits
+     *          bbovf tibt spfdify tif Rfd vbluf.
      */
-    public void setColor(int c) {
-        setColor((c >> 16) & 0xFF, (c >> 8) & 0xFF, c & 0xFF);
+    publid void sftColor(int d) {
+        sftColor((d >> 16) & 0xFF, (d >> 8) & 0xFF, d & 0xFF);
     }
 
     /**
-     * Sets the <code>dragEnabled</code> property,
-     * which must be <code>true</code> to enable
-     * automatic drag handling (the first part of drag and drop)
-     * on this component.
-     * The <code>transferHandler</code> property needs to be set
-     * to a non-<code>null</code> value for the drag to do
-     * anything.  The default value of the <code>dragEnabled</code>
-     * property
-     * is <code>false</code>.
+     * Sfts tif <dodf>drbgEnbblfd</dodf> propfrty,
+     * wiidi must bf <dodf>truf</dodf> to fnbblf
+     * butombtid drbg ibndling (tif first pbrt of drbg bnd drop)
+     * on tiis domponfnt.
+     * Tif <dodf>trbnsffrHbndlfr</dodf> propfrty nffds to bf sft
+     * to b non-<dodf>null</dodf> vbluf for tif drbg to do
+     * bnytiing.  Tif dffbult vbluf of tif <dodf>drbgEnbblfd</dodf>
+     * propfrty
+     * is <dodf>fblsf</dodf>.
      *
      * <p>
      *
-     * When automatic drag handling is enabled,
-     * most look and feels begin a drag-and-drop operation
-     * when the user presses the mouse button over the preview panel.
-     * Some look and feels might not support automatic drag and drop;
-     * they will ignore this property.  You can work around such
-     * look and feels by modifying the component
-     * to directly call the <code>exportAsDrag</code> method of a
-     * <code>TransferHandler</code>.
+     * Wifn butombtid drbg ibndling is fnbblfd,
+     * most look bnd fffls bfgin b drbg-bnd-drop opfrbtion
+     * wifn tif usfr prfssfs tif mousf button ovfr tif prfvifw pbnfl.
+     * Somf look bnd fffls migit not support butombtid drbg bnd drop;
+     * tify will ignorf tiis propfrty.  You dbn work bround sudi
+     * look bnd fffls by modifying tif domponfnt
+     * to dirfdtly dbll tif <dodf>fxportAsDrbg</dodf> mftiod of b
+     * <dodf>TrbnsffrHbndlfr</dodf>.
      *
-     * @param b the value to set the <code>dragEnabled</code> property to
-     * @exception HeadlessException if
-     *            <code>b</code> is <code>true</code> and
-     *            <code>GraphicsEnvironment.isHeadless()</code>
-     *            returns <code>true</code>
+     * @pbrbm b tif vbluf to sft tif <dodf>drbgEnbblfd</dodf> propfrty to
+     * @fxdfption HfbdlfssExdfption if
+     *            <dodf>b</dodf> is <dodf>truf</dodf> bnd
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf>
+     *            rfturns <dodf>truf</dodf>
      *
-     * @since 1.4
+     * @sindf 1.4
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #getDragEnabled
-     * @see #setTransferHandler
-     * @see TransferHandler
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #gftDrbgEnbblfd
+     * @sff #sftTrbnsffrHbndlfr
+     * @sff TrbnsffrHbndlfr
      *
-     * @beaninfo
-     *  description: Determines whether automatic drag handling is enabled.
-     *        bound: false
+     * @bfbninfo
+     *  dfsdription: Dftfrminfs wiftifr butombtid drbg ibndling is fnbblfd.
+     *        bound: fblsf
      */
-    public void setDragEnabled(boolean b) {
-        if (b && GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    publid void sftDrbgEnbblfd(boolfbn b) {
+        if (b && GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
         }
-        dragEnabled = b;
+        drbgEnbblfd = b;
     }
 
     /**
-     * Gets the value of the <code>dragEnabled</code> property.
+     * Gfts tif vbluf of tif <dodf>drbgEnbblfd</dodf> propfrty.
      *
-     * @return  the value of the <code>dragEnabled</code> property
-     * @see #setDragEnabled
-     * @since 1.4
+     * @rfturn  tif vbluf of tif <dodf>drbgEnbblfd</dodf> propfrty
+     * @sff #sftDrbgEnbblfd
+     * @sindf 1.4
      */
-    public boolean getDragEnabled() {
-        return dragEnabled;
+    publid boolfbn gftDrbgEnbblfd() {
+        rfturn drbgEnbblfd;
     }
 
     /**
-     * Sets the current preview panel.
-     * This will fire a <code>PropertyChangeEvent</code> for the property
-     * named "previewPanel".
+     * Sfts tif durrfnt prfvifw pbnfl.
+     * Tiis will firf b <dodf>PropfrtyCibngfEvfnt</dodf> for tif propfrty
+     * nbmfd "prfvifwPbnfl".
      *
-     * @param preview the <code>JComponent</code> which displays the current color
-     * @see JComponent#addPropertyChangeListener
+     * @pbrbm prfvifw tif <dodf>JComponfnt</dodf> wiidi displbys tif durrfnt dolor
+     * @sff JComponfnt#bddPropfrtyCibngfListfnfr
      *
-     * @beaninfo
-     *       bound: true
-     *      hidden: true
-     * description: The UI component which displays the current color.
+     * @bfbninfo
+     *       bound: truf
+     *      iiddfn: truf
+     * dfsdription: Tif UI domponfnt wiidi displbys tif durrfnt dolor.
      */
-    public void setPreviewPanel(JComponent preview) {
+    publid void sftPrfvifwPbnfl(JComponfnt prfvifw) {
 
-        if (previewPanel != preview) {
-            JComponent oldPreview = previewPanel;
-            previewPanel = preview;
-            firePropertyChange(JColorChooser.PREVIEW_PANEL_PROPERTY, oldPreview, preview);
+        if (prfvifwPbnfl != prfvifw) {
+            JComponfnt oldPrfvifw = prfvifwPbnfl;
+            prfvifwPbnfl = prfvifw;
+            firfPropfrtyCibngf(JColorCioosfr.PREVIEW_PANEL_PROPERTY, oldPrfvifw, prfvifw);
         }
     }
 
     /**
-     * Returns the preview panel that shows a chosen color.
+     * Rfturns tif prfvifw pbnfl tibt siows b diosfn dolor.
      *
-     * @return a <code>JComponent</code> object -- the preview panel
+     * @rfturn b <dodf>JComponfnt</dodf> objfdt -- tif prfvifw pbnfl
      */
-    public JComponent getPreviewPanel() {
-        return previewPanel;
+    publid JComponfnt gftPrfvifwPbnfl() {
+        rfturn prfvifwPbnfl;
     }
 
     /**
-     * Adds a color chooser panel to the color chooser.
+     * Adds b dolor dioosfr pbnfl to tif dolor dioosfr.
      *
-     * @param panel the <code>AbstractColorChooserPanel</code> to be added
+     * @pbrbm pbnfl tif <dodf>AbstrbdtColorCioosfrPbnfl</dodf> to bf bddfd
      */
-    public void addChooserPanel( AbstractColorChooserPanel panel ) {
-        AbstractColorChooserPanel[] oldPanels = getChooserPanels();
-        AbstractColorChooserPanel[] newPanels = new AbstractColorChooserPanel[oldPanels.length+1];
-        System.arraycopy(oldPanels, 0, newPanels, 0, oldPanels.length);
-        newPanels[newPanels.length-1] = panel;
-        setChooserPanels(newPanels);
+    publid void bddCioosfrPbnfl( AbstrbdtColorCioosfrPbnfl pbnfl ) {
+        AbstrbdtColorCioosfrPbnfl[] oldPbnfls = gftCioosfrPbnfls();
+        AbstrbdtColorCioosfrPbnfl[] nfwPbnfls = nfw AbstrbdtColorCioosfrPbnfl[oldPbnfls.lfngti+1];
+        Systfm.brrbydopy(oldPbnfls, 0, nfwPbnfls, 0, oldPbnfls.lfngti);
+        nfwPbnfls[nfwPbnfls.lfngti-1] = pbnfl;
+        sftCioosfrPbnfls(nfwPbnfls);
     }
 
     /**
-     * Removes the Color Panel specified.
+     * Rfmovfs tif Color Pbnfl spfdififd.
      *
-     * @param panel   a string that specifies the panel to be removed
-     * @return the color panel
-     * @exception IllegalArgumentException if panel is not in list of
-     *                  known chooser panels
+     * @pbrbm pbnfl   b string tibt spfdififs tif pbnfl to bf rfmovfd
+     * @rfturn tif dolor pbnfl
+     * @fxdfption IllfgblArgumfntExdfption if pbnfl is not in list of
+     *                  known dioosfr pbnfls
      */
-    public AbstractColorChooserPanel removeChooserPanel( AbstractColorChooserPanel panel ) {
+    publid AbstrbdtColorCioosfrPbnfl rfmovfCioosfrPbnfl( AbstrbdtColorCioosfrPbnfl pbnfl ) {
 
 
-        int containedAt = -1;
+        int dontbinfdAt = -1;
 
-        for (int i = 0; i < chooserPanels.length; i++) {
-            if (chooserPanels[i] == panel) {
-                containedAt = i;
-                break;
+        for (int i = 0; i < dioosfrPbnfls.lfngti; i++) {
+            if (dioosfrPbnfls[i] == pbnfl) {
+                dontbinfdAt = i;
+                brfbk;
             }
         }
-        if (containedAt == -1) {
-            throw new IllegalArgumentException("chooser panel not in this chooser");
+        if (dontbinfdAt == -1) {
+            tirow nfw IllfgblArgumfntExdfption("dioosfr pbnfl not in tiis dioosfr");
         }
 
-        AbstractColorChooserPanel[] newArray = new AbstractColorChooserPanel[chooserPanels.length-1];
+        AbstrbdtColorCioosfrPbnfl[] nfwArrby = nfw AbstrbdtColorCioosfrPbnfl[dioosfrPbnfls.lfngti-1];
 
-        if (containedAt == chooserPanels.length-1) {  // at end
-            System.arraycopy(chooserPanels, 0, newArray, 0, newArray.length);
+        if (dontbinfdAt == dioosfrPbnfls.lfngti-1) {  // bt fnd
+            Systfm.brrbydopy(dioosfrPbnfls, 0, nfwArrby, 0, nfwArrby.lfngti);
         }
-        else if (containedAt == 0) {  // at start
-            System.arraycopy(chooserPanels, 1, newArray, 0, newArray.length);
+        flsf if (dontbinfdAt == 0) {  // bt stbrt
+            Systfm.brrbydopy(dioosfrPbnfls, 1, nfwArrby, 0, nfwArrby.lfngti);
         }
-        else {  // in middle
-            System.arraycopy(chooserPanels, 0, newArray, 0, containedAt);
-            System.arraycopy(chooserPanels, containedAt+1,
-                             newArray, containedAt, (chooserPanels.length - containedAt - 1));
+        flsf {  // in middlf
+            Systfm.brrbydopy(dioosfrPbnfls, 0, nfwArrby, 0, dontbinfdAt);
+            Systfm.brrbydopy(dioosfrPbnfls, dontbinfdAt+1,
+                             nfwArrby, dontbinfdAt, (dioosfrPbnfls.lfngti - dontbinfdAt - 1));
         }
 
-        setChooserPanels(newArray);
+        sftCioosfrPbnfls(nfwArrby);
 
-        return panel;
+        rfturn pbnfl;
     }
 
 
     /**
-     * Specifies the Color Panels used to choose a color value.
+     * Spfdififs tif Color Pbnfls usfd to dioosf b dolor vbluf.
      *
-     * @param panels  an array of <code>AbstractColorChooserPanel</code>
-     *          objects
+     * @pbrbm pbnfls  bn brrby of <dodf>AbstrbdtColorCioosfrPbnfl</dodf>
+     *          objfdts
      *
-     * @beaninfo
-     *       bound: true
-     *      hidden: true
-     * description: An array of different chooser types.
+     * @bfbninfo
+     *       bound: truf
+     *      iiddfn: truf
+     * dfsdription: An brrby of difffrfnt dioosfr typfs.
      */
-    public void setChooserPanels( AbstractColorChooserPanel[] panels) {
-        AbstractColorChooserPanel[] oldValue = chooserPanels;
-        chooserPanels = panels;
-        firePropertyChange(CHOOSER_PANELS_PROPERTY, oldValue, panels);
+    publid void sftCioosfrPbnfls( AbstrbdtColorCioosfrPbnfl[] pbnfls) {
+        AbstrbdtColorCioosfrPbnfl[] oldVbluf = dioosfrPbnfls;
+        dioosfrPbnfls = pbnfls;
+        firfPropfrtyCibngf(CHOOSER_PANELS_PROPERTY, oldVbluf, pbnfls);
     }
 
     /**
-     * Returns the specified color panels.
+     * Rfturns tif spfdififd dolor pbnfls.
      *
-     * @return an array of <code>AbstractColorChooserPanel</code> objects
+     * @rfturn bn brrby of <dodf>AbstrbdtColorCioosfrPbnfl</dodf> objfdts
      */
-    public AbstractColorChooserPanel[] getChooserPanels() {
-        return chooserPanels;
+    publid AbstrbdtColorCioosfrPbnfl[] gftCioosfrPbnfls() {
+        rfturn dioosfrPbnfls;
     }
 
     /**
-     * Returns the data model that handles color selections.
+     * Rfturns tif dbtb modfl tibt ibndlfs dolor sflfdtions.
      *
-     * @return a <code>ColorSelectionModel</code> object
+     * @rfturn b <dodf>ColorSflfdtionModfl</dodf> objfdt
      */
-    public ColorSelectionModel getSelectionModel() {
-        return selectionModel;
-    }
-
-
-    /**
-     * Sets the model containing the selected color.
-     *
-     * @param newModel   the new <code>ColorSelectionModel</code> object
-     *
-     * @beaninfo
-     *       bound: true
-     *      hidden: true
-     * description: The model which contains the currently selected color.
-     */
-    public void setSelectionModel(ColorSelectionModel newModel ) {
-        ColorSelectionModel oldModel = selectionModel;
-        selectionModel = newModel;
-        firePropertyChange(JColorChooser.SELECTION_MODEL_PROPERTY, oldModel, newModel);
+    publid ColorSflfdtionModfl gftSflfdtionModfl() {
+        rfturn sflfdtionModfl;
     }
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sfts tif modfl dontbining tif sflfdtfd dolor.
+     *
+     * @pbrbm nfwModfl   tif nfw <dodf>ColorSflfdtionModfl</dodf> objfdt
+     *
+     * @bfbninfo
+     *       bound: truf
+     *      iiddfn: truf
+     * dfsdription: Tif modfl wiidi dontbins tif durrfntly sflfdtfd dolor.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    publid void sftSflfdtionModfl(ColorSflfdtionModfl nfwModfl ) {
+        ColorSflfdtionModfl oldModfl = sflfdtionModfl;
+        sflfdtionModfl = nfwModfl;
+        firfPropfrtyCibngf(JColorCioosfr.SELECTION_MODEL_PROPERTY, oldModfl, nfwModfl);
+    }
+
+
+    /**
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JColorChooser</code>.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JColorCioosfr</dodf>.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JColorChooser</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JColorCioosfr</dodf>
      */
-    protected String paramString() {
-        StringBuilder chooserPanelsString = new StringBuilder("");
-        for (int i=0; i<chooserPanels.length; i++) {
-            chooserPanelsString.append("[" + chooserPanels[i].toString()
+    protfdtfd String pbrbmString() {
+        StringBuildfr dioosfrPbnflsString = nfw StringBuildfr("");
+        for (int i=0; i<dioosfrPbnfls.lfngti; i++) {
+            dioosfrPbnflsString.bppfnd("[" + dioosfrPbnfls[i].toString()
                                        + "]");
         }
-        String previewPanelString = (previewPanel != null ?
-                                     previewPanel.toString() : "");
+        String prfvifwPbnflString = (prfvifwPbnfl != null ?
+                                     prfvifwPbnfl.toString() : "");
 
-        return super.paramString() +
-        ",chooserPanels=" + chooserPanelsString.toString() +
-        ",previewPanel=" + previewPanelString;
+        rfturn supfr.pbrbmString() +
+        ",dioosfrPbnfls=" + dioosfrPbnflsString.toString() +
+        ",prfvifwPbnfl=" + prfvifwPbnflString;
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
-    protected AccessibleContext accessibleContext = null;
+    protfdtfd AddfssiblfContfxt bddfssiblfContfxt = null;
 
     /**
-     * Gets the AccessibleContext associated with this JColorChooser.
-     * For color choosers, the AccessibleContext takes the form of an
-     * AccessibleJColorChooser.
-     * A new AccessibleJColorChooser instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JColorCioosfr.
+     * For dolor dioosfrs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJColorCioosfr.
+     * A nfw AddfssiblfJColorCioosfr instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJColorChooser that serves as the
-     *         AccessibleContext of this JColorChooser
+     * @rfturn bn AddfssiblfJColorCioosfr tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JColorCioosfr
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJColorChooser();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJColorCioosfr();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JColorChooser</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to color chooser user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JColorCioosfr</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to dolor dioosfr usfr-intfrfbdf
+     * flfmfnts.
      */
-    protected class AccessibleJColorChooser extends AccessibleJComponent {
+    protfdtfd dlbss AddfssiblfJColorCioosfr fxtfnds AddfssiblfJComponfnt {
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.COLOR_CHOOSER;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.COLOR_CHOOSER;
         }
 
-    } // inner class AccessibleJColorChooser
+    } // innfr dlbss AddfssiblfJColorCioosfr
 }
 
 
 /*
- * Class which builds a color chooser dialog consisting of
- * a JColorChooser with "Ok", "Cancel", and "Reset" buttons.
+ * Clbss wiidi builds b dolor dioosfr diblog donsisting of
+ * b JColorCioosfr witi "Ok", "Cbndfl", bnd "Rfsft" buttons.
  *
- * Note: This needs to be fixed to deal with localization!
+ * Notf: Tiis nffds to bf fixfd to dfbl witi lodblizbtion!
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class ColorChooserDialog extends JDialog {
-    private Color initialColor;
-    private JColorChooser chooserPane;
-    private JButton cancelButton;
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss ColorCioosfrDiblog fxtfnds JDiblog {
+    privbtf Color initiblColor;
+    privbtf JColorCioosfr dioosfrPbnf;
+    privbtf JButton dbndflButton;
 
-    public ColorChooserDialog(Dialog owner, String title, boolean modal,
-        Component c, JColorChooser chooserPane,
-        ActionListener okListener, ActionListener cancelListener)
-        throws HeadlessException {
-        super(owner, title, modal);
-        initColorChooserDialog(c, chooserPane, okListener, cancelListener);
+    publid ColorCioosfrDiblog(Diblog ownfr, String titlf, boolfbn modbl,
+        Componfnt d, JColorCioosfr dioosfrPbnf,
+        AdtionListfnfr okListfnfr, AdtionListfnfr dbndflListfnfr)
+        tirows HfbdlfssExdfption {
+        supfr(ownfr, titlf, modbl);
+        initColorCioosfrDiblog(d, dioosfrPbnf, okListfnfr, dbndflListfnfr);
     }
 
-    public ColorChooserDialog(Frame owner, String title, boolean modal,
-        Component c, JColorChooser chooserPane,
-        ActionListener okListener, ActionListener cancelListener)
-        throws HeadlessException {
-        super(owner, title, modal);
-        initColorChooserDialog(c, chooserPane, okListener, cancelListener);
+    publid ColorCioosfrDiblog(Frbmf ownfr, String titlf, boolfbn modbl,
+        Componfnt d, JColorCioosfr dioosfrPbnf,
+        AdtionListfnfr okListfnfr, AdtionListfnfr dbndflListfnfr)
+        tirows HfbdlfssExdfption {
+        supfr(ownfr, titlf, modbl);
+        initColorCioosfrDiblog(d, dioosfrPbnf, okListfnfr, dbndflListfnfr);
     }
 
-    protected void initColorChooserDialog(Component c, JColorChooser chooserPane,
-        ActionListener okListener, ActionListener cancelListener) {
-        //setResizable(false);
+    protfdtfd void initColorCioosfrDiblog(Componfnt d, JColorCioosfr dioosfrPbnf,
+        AdtionListfnfr okListfnfr, AdtionListfnfr dbndflListfnfr) {
+        //sftRfsizbblf(fblsf);
 
-        this.chooserPane = chooserPane;
+        tiis.dioosfrPbnf = dioosfrPbnf;
 
-        Locale locale = getLocale();
-        String okString = UIManager.getString("ColorChooser.okText", locale);
-        String cancelString = UIManager.getString("ColorChooser.cancelText", locale);
-        String resetString = UIManager.getString("ColorChooser.resetText", locale);
+        Lodblf lodblf = gftLodblf();
+        String okString = UIMbnbgfr.gftString("ColorCioosfr.okTfxt", lodblf);
+        String dbndflString = UIMbnbgfr.gftString("ColorCioosfr.dbndflTfxt", lodblf);
+        String rfsftString = UIMbnbgfr.gftString("ColorCioosfr.rfsftTfxt", lodblf);
 
-        Container contentPane = getContentPane();
-        contentPane.setLayout(new BorderLayout());
-        contentPane.add(chooserPane, BorderLayout.CENTER);
+        Contbinfr dontfntPbnf = gftContfntPbnf();
+        dontfntPbnf.sftLbyout(nfw BordfrLbyout());
+        dontfntPbnf.bdd(dioosfrPbnf, BordfrLbyout.CENTER);
 
         /*
-         * Create Lower button panel
+         * Crfbtf Lowfr button pbnfl
          */
-        JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JButton okButton = new JButton(okString);
-        getRootPane().setDefaultButton(okButton);
-        okButton.getAccessibleContext().setAccessibleDescription(okString);
-        okButton.setActionCommand("OK");
-        okButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                hide();
+        JPbnfl buttonPbnf = nfw JPbnfl();
+        buttonPbnf.sftLbyout(nfw FlowLbyout(FlowLbyout.CENTER));
+        JButton okButton = nfw JButton(okString);
+        gftRootPbnf().sftDffbultButton(okButton);
+        okButton.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(okString);
+        okButton.sftAdtionCommbnd("OK");
+        okButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                iidf();
             }
         });
-        if (okListener != null) {
-            okButton.addActionListener(okListener);
+        if (okListfnfr != null) {
+            okButton.bddAdtionListfnfr(okListfnfr);
         }
-        buttonPane.add(okButton);
+        buttonPbnf.bdd(okButton);
 
-        cancelButton = new JButton(cancelString);
-        cancelButton.getAccessibleContext().setAccessibleDescription(cancelString);
+        dbndflButton = nfw JButton(dbndflString);
+        dbndflButton.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(dbndflString);
 
-        // The following few lines are used to register esc to close the dialog
-        @SuppressWarnings("serial") // anonymous class
-        Action cancelKeyAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                ((AbstractButton)e.getSource()).fireActionPerformed(e);
+        // Tif following ffw linfs brf usfd to rfgistfr fsd to dlosf tif diblog
+        @SupprfssWbrnings("sfribl") // bnonymous dlbss
+        Adtion dbndflKfyAdtion = nfw AbstrbdtAdtion() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                ((AbstrbdtButton)f.gftSourdf()).firfAdtionPfrformfd(f);
             }
         };
-        KeyStroke cancelKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-        InputMap inputMap = cancelButton.getInputMap(JComponent.
+        KfyStrokf dbndflKfyStrokf = KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0);
+        InputMbp inputMbp = dbndflButton.gftInputMbp(JComponfnt.
                                                      WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = cancelButton.getActionMap();
-        if (inputMap != null && actionMap != null) {
-            inputMap.put(cancelKeyStroke, "cancel");
-            actionMap.put("cancel", cancelKeyAction);
+        AdtionMbp bdtionMbp = dbndflButton.gftAdtionMbp();
+        if (inputMbp != null && bdtionMbp != null) {
+            inputMbp.put(dbndflKfyStrokf, "dbndfl");
+            bdtionMbp.put("dbndfl", dbndflKfyAdtion);
         }
-        // end esc handling
+        // fnd fsd ibndling
 
-        cancelButton.setActionCommand("cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                hide();
+        dbndflButton.sftAdtionCommbnd("dbndfl");
+        dbndflButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                iidf();
             }
         });
-        if (cancelListener != null) {
-            cancelButton.addActionListener(cancelListener);
+        if (dbndflListfnfr != null) {
+            dbndflButton.bddAdtionListfnfr(dbndflListfnfr);
         }
-        buttonPane.add(cancelButton);
+        buttonPbnf.bdd(dbndflButton);
 
-        JButton resetButton = new JButton(resetString);
-        resetButton.getAccessibleContext().setAccessibleDescription(resetString);
-        resetButton.addActionListener(new ActionListener() {
-           public void actionPerformed(ActionEvent e) {
-               reset();
+        JButton rfsftButton = nfw JButton(rfsftString);
+        rfsftButton.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(rfsftString);
+        rfsftButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+           publid void bdtionPfrformfd(AdtionEvfnt f) {
+               rfsft();
            }
         });
-        int mnemonic = SwingUtilities2.getUIDefaultsInt("ColorChooser.resetMnemonic", locale, -1);
-        if (mnemonic != -1) {
-            resetButton.setMnemonic(mnemonic);
+        int mnfmonid = SwingUtilitifs2.gftUIDffbultsInt("ColorCioosfr.rfsftMnfmonid", lodblf, -1);
+        if (mnfmonid != -1) {
+            rfsftButton.sftMnfmonid(mnfmonid);
         }
-        buttonPane.add(resetButton);
-        contentPane.add(buttonPane, BorderLayout.SOUTH);
+        buttonPbnf.bdd(rfsftButton);
+        dontfntPbnf.bdd(buttonPbnf, BordfrLbyout.SOUTH);
 
-        if (JDialog.isDefaultLookAndFeelDecorated()) {
-            boolean supportsWindowDecorations =
-            UIManager.getLookAndFeel().getSupportsWindowDecorations();
-            if (supportsWindowDecorations) {
-                getRootPane().setWindowDecorationStyle(JRootPane.COLOR_CHOOSER_DIALOG);
+        if (JDiblog.isDffbultLookAndFfflDfdorbtfd()) {
+            boolfbn supportsWindowDfdorbtions =
+            UIMbnbgfr.gftLookAndFffl().gftSupportsWindowDfdorbtions();
+            if (supportsWindowDfdorbtions) {
+                gftRootPbnf().sftWindowDfdorbtionStylf(JRootPbnf.COLOR_CHOOSER_DIALOG);
             }
         }
-        applyComponentOrientation(((c == null) ? getRootPane() : c).getComponentOrientation());
+        bpplyComponfntOrifntbtion(((d == null) ? gftRootPbnf() : d).gftComponfntOrifntbtion());
 
-        pack();
-        setLocationRelativeTo(c);
+        pbdk();
+        sftLodbtionRflbtivfTo(d);
 
-        this.addWindowListener(new Closer());
+        tiis.bddWindowListfnfr(nfw Closfr());
     }
 
-    public void show() {
-        initialColor = chooserPane.getColor();
-        super.show();
+    publid void siow() {
+        initiblColor = dioosfrPbnf.gftColor();
+        supfr.siow();
     }
 
-    public void reset() {
-        chooserPane.setColor(initialColor);
+    publid void rfsft() {
+        dioosfrPbnf.sftColor(initiblColor);
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    class Closer extends WindowAdapter implements Serializable{
-        public void windowClosing(WindowEvent e) {
-            cancelButton.doClick(0);
-            Window w = e.getWindow();
-            w.hide();
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    dlbss Closfr fxtfnds WindowAdbptfr implfmfnts Sfriblizbblf{
+        publid void windowClosing(WindowEvfnt f) {
+            dbndflButton.doClidk(0);
+            Window w = f.gftWindow();
+            w.iidf();
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class DisposeOnClose extends ComponentAdapter implements Serializable{
-        public void componentHidden(ComponentEvent e) {
-            Window w = (Window)e.getComponent();
-            w.dispose();
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss DisposfOnClosf fxtfnds ComponfntAdbptfr implfmfnts Sfriblizbblf{
+        publid void domponfntHiddfn(ComponfntEvfnt f) {
+            Window w = (Window)f.gftComponfnt();
+            w.disposf();
         }
     }
 
 }
 
-@SuppressWarnings("serial") // JDK-implementation class
-class ColorTracker implements ActionListener, Serializable {
-    JColorChooser chooser;
-    Color color;
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+dlbss ColorTrbdkfr implfmfnts AdtionListfnfr, Sfriblizbblf {
+    JColorCioosfr dioosfr;
+    Color dolor;
 
-    public ColorTracker(JColorChooser c) {
-        chooser = c;
+    publid ColorTrbdkfr(JColorCioosfr d) {
+        dioosfr = d;
     }
 
-    public void actionPerformed(ActionEvent e) {
-        color = chooser.getColor();
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        dolor = dioosfr.gftColor();
     }
 
-    public Color getColor() {
-        return color;
+    publid Color gftColor() {
+        rfturn dolor;
     }
 }

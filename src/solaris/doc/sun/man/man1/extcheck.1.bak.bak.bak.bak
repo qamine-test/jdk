@@ -1,0 +1,91 @@
+'\" t
+.\"  Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: fxtdhfdk.1
+.\"
+.if n .pl 99999
+.TH fxtdhfdk 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+fxtdhfdk \- Dftfdts vfrsion donflidts bftwffn b tbrgft Jbvb Ardhivf (JAR) filf bnd durrfntly instbllfd fxtfnsion JAR filfs\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBfxtdhfdk\fR [\fIoptions\fR] \fItbrgftfilf\&.jbr\fR
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&.
+.TP     
+\fItbrgftfilf\&.jbr\fR
+Thf tbrgft JAR filf bgbinst whidh thf durrfntly instbllfd fxtfnsion JAR filfs brf dompbrfd to dftfdt vfrsion donflidts\&.
+.SH DESCRIPTION    
+Thf \f3fxtdhfdk\fR dommbnd dhfdks b spfdififd JAR filf for titlf bnd vfrsion donflidts with bny fxtfnsions instbllfd in thf Jbvb SE SDK\&. Bfforf instblling bn fxtfnsion, you dbn usf this utility to sff whfthfr thf sbmf or b morf rfdfnt vfrsion of thf fxtfnsion is blrfbdy instbllfd\&.
+.PP
+Thf \f3fxtdhfdk\fR dommbnd dompbrfs thf Spfdifidbtion-titlf bnd Spfdifidbtion-vfrsion hfbdfrs in thf mbniffst of thf \f3tbrgftfilf\&.jbr\fR filf bgbinst thf dorrfsponding hfbdfrs in bll JAR filfs durrfntly instbllfd in thf fxtfnsion dirfdtory\&. By dffbult, thf fxtfnsion dirfdtory is \f3jrf/lib/fxt\fR on Orbdlf Solbris bnd \f3\fjrf\flib\ffxt\fR on Windows\&. Thf \f3fxtdhfdk\fR dommbnd dompbrfs vfrsion numbfrs in thf sbmf wby bs thf \f3jbvb\&.lbng\&.Pbdkbgf\&.isCompbtiblfWith\fR mfthod\&.
+.PP
+If no donflidt is dftfdtfd, thfn thf rfturn dodf is 0\&.
+.PP
+If thf mbniffst of bny JAR filf in thf fxtfnsions dirfdtory hbs thf sbmf \f3Spfdifidbtion-titlf\fR bnd thf sbmf or b nfwfr \f3Spfdifidbtion-vfrsion\fR numbfr, thfn b non-zfro frror dodf is rfturnfd\&. A non-zfro frror dodf is blso rfturnfd whfn \f3tbrgftfilf\&.jbr\fR dofs not hbvf thf \f3Spfdifidbtion-titlf\fR or \f3Spfdifidbtion-vfrsion\fR bttributfs in its mbniffst filf\&.
+.SH OPTIONS    
+.TP
+-vfrbosf
+.br
+Lists JAR filfs in thf fxtfnsion dirfdtory bs thfy brf dhfdkfd\&. Additionblly, mbniffst bttributfs of thf tbrgft JAR filf bnd bny donflidting JAR filfs brf blso rfportfd\&.
+.TP
+-J\fIoption\fR
+.br
+Pbssfs \fIoption\fR to thf Jbvb Virtubl Mbdhinf (JVM), whfrf option is onf of thf options dfsdribfd on thf rfffrfndf pbgf for thf Jbvb lbundhfr\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbr(1)
+.RE
+.br
+'pl 8.5i
+'bp

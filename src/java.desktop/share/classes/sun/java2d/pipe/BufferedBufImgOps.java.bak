@@ -1,393 +1,393 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.color.ColorSpace;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ByteLookupTable;
-import java.awt.image.ColorModel;
-import java.awt.image.ConvolveOp;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Kernel;
-import java.awt.image.LookupOp;
-import java.awt.image.LookupTable;
-import java.awt.image.RescaleOp;
-import java.awt.image.ShortLookupTable;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.CompositeType;
-import static sun.java2d.pipe.BufferedOpCodes.*;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.AffinfTrbnsformOp;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.BytfLookupTbblf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ConvolvfOp;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Kfrnfl;
+import jbvb.bwt.imbgf.LookupOp;
+import jbvb.bwt.imbgf.LookupTbblf;
+import jbvb.bwt.imbgf.RfsdblfOp;
+import jbvb.bwt.imbgf.SiortLookupTbblf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.CompositfTypf;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
 
-public class BufferedBufImgOps {
+publid dlbss BufffrfdBufImgOps {
 
-    public static void enableBufImgOp(RenderQueue rq, SurfaceData srcData,
-                                      BufferedImage srcImg,
-                                      BufferedImageOp biop)
+    publid stbtid void fnbblfBufImgOp(RfndfrQufuf rq, SurfbdfDbtb srdDbtb,
+                                      BufffrfdImbgf srdImg,
+                                      BufffrfdImbgfOp biop)
     {
-        if (biop instanceof ConvolveOp) {
-            enableConvolveOp(rq, srcData, (ConvolveOp)biop);
-        } else if (biop instanceof RescaleOp) {
-            enableRescaleOp(rq, srcData, srcImg, (RescaleOp)biop);
-        } else if (biop instanceof LookupOp) {
-            enableLookupOp(rq, srcData, srcImg, (LookupOp)biop);
-        } else {
-            throw new InternalError("Unknown BufferedImageOp");
+        if (biop instbndfof ConvolvfOp) {
+            fnbblfConvolvfOp(rq, srdDbtb, (ConvolvfOp)biop);
+        } flsf if (biop instbndfof RfsdblfOp) {
+            fnbblfRfsdblfOp(rq, srdDbtb, srdImg, (RfsdblfOp)biop);
+        } flsf if (biop instbndfof LookupOp) {
+            fnbblfLookupOp(rq, srdDbtb, srdImg, (LookupOp)biop);
+        } flsf {
+            tirow nfw IntfrnblError("Unknown BufffrfdImbgfOp");
         }
     }
 
-    public static void disableBufImgOp(RenderQueue rq, BufferedImageOp biop) {
-        if (biop instanceof ConvolveOp) {
-            disableConvolveOp(rq);
-        } else if (biop instanceof RescaleOp) {
-            disableRescaleOp(rq);
-        } else if (biop instanceof LookupOp) {
-            disableLookupOp(rq);
-        } else {
-            throw new InternalError("Unknown BufferedImageOp");
+    publid stbtid void disbblfBufImgOp(RfndfrQufuf rq, BufffrfdImbgfOp biop) {
+        if (biop instbndfof ConvolvfOp) {
+            disbblfConvolvfOp(rq);
+        } flsf if (biop instbndfof RfsdblfOp) {
+            disbblfRfsdblfOp(rq);
+        } flsf if (biop instbndfof LookupOp) {
+            disbblfLookupOp(rq);
+        } flsf {
+            tirow nfw IntfrnblError("Unknown BufffrfdImbgfOp");
         }
     }
 
-/**************************** ConvolveOp support ****************************/
+/**************************** ConvolvfOp support ****************************/
 
-    public static boolean isConvolveOpValid(ConvolveOp cop) {
-        Kernel kernel = cop.getKernel();
-        int kw = kernel.getWidth();
-        int kh = kernel.getHeight();
-        // REMIND: we currently can only handle 3x3 and 5x5 kernels,
-        //         but hopefully this is just a temporary restriction;
-        //         see native shader comments for more details
-        if (!(kw == 3 && kh == 3) && !(kw == 5 && kh == 5)) {
-            return false;
+    publid stbtid boolfbn isConvolvfOpVblid(ConvolvfOp dop) {
+        Kfrnfl kfrnfl = dop.gftKfrnfl();
+        int kw = kfrnfl.gftWidti();
+        int ki = kfrnfl.gftHfigit();
+        // REMIND: wf durrfntly dbn only ibndlf 3x3 bnd 5x5 kfrnfls,
+        //         but iopffully tiis is just b tfmporbry rfstridtion;
+        //         sff nbtivf sibdfr dommfnts for morf dftbils
+        if (!(kw == 3 && ki == 3) && !(kw == 5 && ki == 5)) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    private static void enableConvolveOp(RenderQueue rq,
-                                         SurfaceData srcData,
-                                         ConvolveOp cop)
+    privbtf stbtid void fnbblfConvolvfOp(RfndfrQufuf rq,
+                                         SurfbdfDbtb srdDbtb,
+                                         ConvolvfOp dop)
     {
-        // assert rq.lock.isHeldByCurrentThread();
-        boolean edgeZero =
-            cop.getEdgeCondition() == ConvolveOp.EDGE_ZERO_FILL;
-        Kernel kernel = cop.getKernel();
-        int kernelWidth = kernel.getWidth();
-        int kernelHeight = kernel.getHeight();
-        int kernelSize = kernelWidth * kernelHeight;
-        int sizeofFloat = 4;
-        int totalBytesRequired = 4 + 8 + 12 + (kernelSize * sizeofFloat);
+        // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
+        boolfbn fdgfZfro =
+            dop.gftEdgfCondition() == ConvolvfOp.EDGE_ZERO_FILL;
+        Kfrnfl kfrnfl = dop.gftKfrnfl();
+        int kfrnflWidti = kfrnfl.gftWidti();
+        int kfrnflHfigit = kfrnfl.gftHfigit();
+        int kfrnflSizf = kfrnflWidti * kfrnflHfigit;
+        int sizfofFlobt = 4;
+        int totblBytfsRfquirfd = 4 + 8 + 12 + (kfrnflSizf * sizfofFlobt);
 
-        RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacityAndAlignment(totalBytesRequired, 4);
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdityAndAlignmfnt(totblBytfsRfquirfd, 4);
         buf.putInt(ENABLE_CONVOLVE_OP);
-        buf.putLong(srcData.getNativeOps());
-        buf.putInt(edgeZero ? 1 : 0);
-        buf.putInt(kernelWidth);
-        buf.putInt(kernelHeight);
-        buf.put(kernel.getKernelData(null));
+        buf.putLong(srdDbtb.gftNbtivfOps());
+        buf.putInt(fdgfZfro ? 1 : 0);
+        buf.putInt(kfrnflWidti);
+        buf.putInt(kfrnflHfigit);
+        buf.put(kfrnfl.gftKfrnflDbtb(null));
     }
 
-    private static void disableConvolveOp(RenderQueue rq) {
-        // assert rq.lock.isHeldByCurrentThread();
-        RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacity(4);
+    privbtf stbtid void disbblfConvolvfOp(RfndfrQufuf rq) {
+        // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdity(4);
         buf.putInt(DISABLE_CONVOLVE_OP);
     }
 
-/**************************** RescaleOp support *****************************/
+/**************************** RfsdblfOp support *****************************/
 
-    public static boolean isRescaleOpValid(RescaleOp rop,
-                                           BufferedImage srcImg)
+    publid stbtid boolfbn isRfsdblfOpVblid(RfsdblfOp rop,
+                                           BufffrfdImbgf srdImg)
     {
-        int numFactors = rop.getNumFactors();
-        ColorModel srcCM = srcImg.getColorModel();
+        int numFbdtors = rop.gftNumFbdtors();
+        ColorModfl srdCM = srdImg.gftColorModfl();
 
-        if (srcCM instanceof IndexColorModel) {
-            throw new
-                IllegalArgumentException("Rescaling cannot be "+
-                                         "performed on an indexed image");
+        if (srdCM instbndfof IndfxColorModfl) {
+            tirow nfw
+                IllfgblArgumfntExdfption("Rfsdbling dbnnot bf "+
+                                         "pfrformfd on bn indfxfd imbgf");
         }
-        if (numFactors != 1 &&
-            numFactors != srcCM.getNumColorComponents() &&
-            numFactors != srcCM.getNumComponents())
+        if (numFbdtors != 1 &&
+            numFbdtors != srdCM.gftNumColorComponfnts() &&
+            numFbdtors != srdCM.gftNumComponfnts())
         {
-            throw new IllegalArgumentException("Number of scaling constants "+
-                                               "does not equal the number of"+
-                                               " of color or color/alpha "+
-                                               " components");
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of sdbling donstbnts "+
+                                               "dofs not fqubl tif numbfr of"+
+                                               " of dolor or dolor/blpib "+
+                                               " domponfnts");
         }
 
-        int csType = srcCM.getColorSpace().getType();
-        if (csType != ColorSpace.TYPE_RGB &&
-            csType != ColorSpace.TYPE_GRAY)
+        int dsTypf = srdCM.gftColorSpbdf().gftTypf();
+        if (dsTypf != ColorSpbdf.TYPE_RGB &&
+            dsTypf != ColorSpbdf.TYPE_GRAY)
         {
-            // Not prepared to deal with other color spaces
-            return false;
+            // Not prfpbrfd to dfbl witi otifr dolor spbdfs
+            rfturn fblsf;
         }
 
-        if (numFactors == 2 || numFactors > 4) {
-            // Not really prepared to handle this at the native level, so...
-            return false;
+        if (numFbdtors == 2 || numFbdtors > 4) {
+            // Not rfblly prfpbrfd to ibndlf tiis bt tif nbtivf lfvfl, so...
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
-    private static void enableRescaleOp(RenderQueue rq,
-                                        SurfaceData srcData,
-                                        BufferedImage srcImg,
-                                        RescaleOp rop)
+    privbtf stbtid void fnbblfRfsdblfOp(RfndfrQufuf rq,
+                                        SurfbdfDbtb srdDbtb,
+                                        BufffrfdImbgf srdImg,
+                                        RfsdblfOp rop)
     {
-        // assert rq.lock.isHeldByCurrentThread();
-        ColorModel srcCM = srcImg.getColorModel();
-        boolean nonPremult =
-            srcCM.hasAlpha() &&
-            srcCM.isAlphaPremultiplied();
+        // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
+        ColorModfl srdCM = srdImg.gftColorModfl();
+        boolfbn nonPrfmult =
+            srdCM.ibsAlpib() &&
+            srdCM.isAlpibPrfmultiplifd();
 
         /*
-         * Note: The user-provided scale factors and offsets are arranged
-         * in R/G/B/A order, regardless of the raw data order of the
-         * underlying Raster/DataBuffer.  The source image data is ultimately
-         * converted into RGBA data when uploaded to an OpenGL texture
-         * (even for TYPE_GRAY), so the scale factors and offsets are already
-         * in the order expected by the native OpenGL code.
+         * Notf: Tif usfr-providfd sdblf fbdtors bnd offsfts brf brrbngfd
+         * in R/G/B/A ordfr, rfgbrdlfss of tif rbw dbtb ordfr of tif
+         * undfrlying Rbstfr/DbtbBufffr.  Tif sourdf imbgf dbtb is ultimbtfly
+         * donvfrtfd into RGBA dbtb wifn uplobdfd to bn OpfnGL tfxturf
+         * (fvfn for TYPE_GRAY), so tif sdblf fbdtors bnd offsfts brf blrfbdy
+         * in tif ordfr fxpfdtfd by tif nbtivf OpfnGL dodf.
          *
-         * However, the offsets provided by the user are in a range dictated
-         * by the size of each color/alpha band in the source image.  For
-         * example, for 8/8/8 data each offset is in the range [0,255],
-         * for 5/5/5 data each offset is in the range [0,31], and so on.
-         * The OpenGL shader only thinks in terms of [0,1], so below we need
-         * to normalize the user-provided offset values into the range [0,1].
+         * Howfvfr, tif offsfts providfd by tif usfr brf in b rbngf didtbtfd
+         * by tif sizf of fbdi dolor/blpib bbnd in tif sourdf imbgf.  For
+         * fxbmplf, for 8/8/8 dbtb fbdi offsft is in tif rbngf [0,255],
+         * for 5/5/5 dbtb fbdi offsft is in tif rbngf [0,31], bnd so on.
+         * Tif OpfnGL sibdfr only tiinks in tfrms of [0,1], so bflow wf nffd
+         * to normblizf tif usfr-providfd offsft vblufs into tif rbngf [0,1].
          */
-        int numFactors = rop.getNumFactors();
-        float[] origScaleFactors = rop.getScaleFactors(null);
-        float[] origOffsets = rop.getOffsets(null);
+        int numFbdtors = rop.gftNumFbdtors();
+        flobt[] origSdblfFbdtors = rop.gftSdblfFbdtors(null);
+        flobt[] origOffsfts = rop.gftOffsfts(null);
 
-        // To make things easier, we will always pass all four bands
-        // down to native code...
-        float[] normScaleFactors;
-        float[] normOffsets;
+        // To mbkf tiings fbsifr, wf will blwbys pbss bll four bbnds
+        // down to nbtivf dodf...
+        flobt[] normSdblfFbdtors;
+        flobt[] normOffsfts;
 
-        if (numFactors == 1) {
-            normScaleFactors = new float[4];
-            normOffsets      = new float[4];
+        if (numFbdtors == 1) {
+            normSdblfFbdtors = nfw flobt[4];
+            normOffsfts      = nfw flobt[4];
             for (int i = 0; i < 3; i++) {
-                normScaleFactors[i] = origScaleFactors[0];
-                normOffsets[i]      = origOffsets[0];
+                normSdblfFbdtors[i] = origSdblfFbdtors[0];
+                normOffsfts[i]      = origOffsfts[0];
             }
-            // Leave alpha untouched...
-            normScaleFactors[3] = 1.0f;
-            normOffsets[3]      = 0.0f;
-        } else if (numFactors == 3) {
-            normScaleFactors = new float[4];
-            normOffsets      = new float[4];
+            // Lfbvf blpib untoudifd...
+            normSdblfFbdtors[3] = 1.0f;
+            normOffsfts[3]      = 0.0f;
+        } flsf if (numFbdtors == 3) {
+            normSdblfFbdtors = nfw flobt[4];
+            normOffsfts      = nfw flobt[4];
             for (int i = 0; i < 3; i++) {
-                normScaleFactors[i] = origScaleFactors[i];
-                normOffsets[i]      = origOffsets[i];
+                normSdblfFbdtors[i] = origSdblfFbdtors[i];
+                normOffsfts[i]      = origOffsfts[i];
             }
-            // Leave alpha untouched...
-            normScaleFactors[3] = 1.0f;
-            normOffsets[3]      = 0.0f;
-        } else { // (numFactors == 4)
-            normScaleFactors = origScaleFactors;
-            normOffsets      = origOffsets;
+            // Lfbvf blpib untoudifd...
+            normSdblfFbdtors[3] = 1.0f;
+            normOffsfts[3]      = 0.0f;
+        } flsf { // (numFbdtors == 4)
+            normSdblfFbdtors = origSdblfFbdtors;
+            normOffsfts      = origOffsfts;
         }
 
-        // The user-provided offsets are specified in the range
-        // of each source color band, but the OpenGL shader only wants
-        // to deal with data in the range [0,1], so we need to normalize
-        // each offset value to the range [0,1] here.
-        if (srcCM.getNumComponents() == 1) {
-            // Gray data
-            int nBits = srcCM.getComponentSize(0);
-            int maxValue = (1 << nBits) - 1;
+        // Tif usfr-providfd offsfts brf spfdififd in tif rbngf
+        // of fbdi sourdf dolor bbnd, but tif OpfnGL sibdfr only wbnts
+        // to dfbl witi dbtb in tif rbngf [0,1], so wf nffd to normblizf
+        // fbdi offsft vbluf to tif rbngf [0,1] ifrf.
+        if (srdCM.gftNumComponfnts() == 1) {
+            // Grby dbtb
+            int nBits = srdCM.gftComponfntSizf(0);
+            int mbxVbluf = (1 << nBits) - 1;
             for (int i = 0; i < 3; i++) {
-                normOffsets[i] /= maxValue;
+                normOffsfts[i] /= mbxVbluf;
             }
-        } else {
-            // RGB(A) data
-            for (int i = 0; i < srcCM.getNumComponents(); i++) {
-                int nBits = srcCM.getComponentSize(i);
-                int maxValue = (1 << nBits) - 1;
-                normOffsets[i] /= maxValue;
+        } flsf {
+            // RGB(A) dbtb
+            for (int i = 0; i < srdCM.gftNumComponfnts(); i++) {
+                int nBits = srdCM.gftComponfntSizf(i);
+                int mbxVbluf = (1 << nBits) - 1;
+                normOffsfts[i] /= mbxVbluf;
             }
         }
 
-        int sizeofFloat = 4;
-        int totalBytesRequired = 4 + 8 + 4 + (4 * sizeofFloat * 2);
+        int sizfofFlobt = 4;
+        int totblBytfsRfquirfd = 4 + 8 + 4 + (4 * sizfofFlobt * 2);
 
-        RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacityAndAlignment(totalBytesRequired, 4);
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdityAndAlignmfnt(totblBytfsRfquirfd, 4);
         buf.putInt(ENABLE_RESCALE_OP);
-        buf.putLong(srcData.getNativeOps());
-        buf.putInt(nonPremult ? 1 : 0);
-        buf.put(normScaleFactors);
-        buf.put(normOffsets);
+        buf.putLong(srdDbtb.gftNbtivfOps());
+        buf.putInt(nonPrfmult ? 1 : 0);
+        buf.put(normSdblfFbdtors);
+        buf.put(normOffsfts);
     }
 
-    private static void disableRescaleOp(RenderQueue rq) {
-        // assert rq.lock.isHeldByCurrentThread();
-        RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacity(4);
+    privbtf stbtid void disbblfRfsdblfOp(RfndfrQufuf rq) {
+        // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdity(4);
         buf.putInt(DISABLE_RESCALE_OP);
     }
 
 /**************************** LookupOp support ******************************/
 
-    public static boolean isLookupOpValid(LookupOp lop,
-                                          BufferedImage srcImg)
+    publid stbtid boolfbn isLookupOpVblid(LookupOp lop,
+                                          BufffrfdImbgf srdImg)
     {
-        LookupTable table = lop.getTable();
-        int numComps = table.getNumComponents();
-        ColorModel srcCM = srcImg.getColorModel();
+        LookupTbblf tbblf = lop.gftTbblf();
+        int numComps = tbblf.gftNumComponfnts();
+        ColorModfl srdCM = srdImg.gftColorModfl();
 
-        if (srcCM instanceof IndexColorModel) {
-            throw new
-                IllegalArgumentException("LookupOp cannot be "+
-                                         "performed on an indexed image");
+        if (srdCM instbndfof IndfxColorModfl) {
+            tirow nfw
+                IllfgblArgumfntExdfption("LookupOp dbnnot bf "+
+                                         "pfrformfd on bn indfxfd imbgf");
         }
         if (numComps != 1 &&
-            numComps != srcCM.getNumComponents() &&
-            numComps != srcCM.getNumColorComponents())
+            numComps != srdCM.gftNumComponfnts() &&
+            numComps != srdCM.gftNumColorComponfnts())
         {
-            throw new IllegalArgumentException("Number of arrays in the "+
-                                               " lookup table ("+
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of brrbys in tif "+
+                                               " lookup tbblf ("+
                                                numComps+
-                                               ") is not compatible with"+
-                                               " the src image: "+srcImg);
+                                               ") is not dompbtiblf witi"+
+                                               " tif srd imbgf: "+srdImg);
         }
 
-        int csType = srcCM.getColorSpace().getType();
-        if (csType != ColorSpace.TYPE_RGB &&
-            csType != ColorSpace.TYPE_GRAY)
+        int dsTypf = srdCM.gftColorSpbdf().gftTypf();
+        if (dsTypf != ColorSpbdf.TYPE_RGB &&
+            dsTypf != ColorSpbdf.TYPE_GRAY)
         {
-            // Not prepared to deal with other color spaces
-            return false;
+            // Not prfpbrfd to dfbl witi otifr dolor spbdfs
+            rfturn fblsf;
         }
 
         if (numComps == 2 || numComps > 4) {
-            // Not really prepared to handle this at the native level, so...
-            return false;
+            // Not rfblly prfpbrfd to ibndlf tiis bt tif nbtivf lfvfl, so...
+            rfturn fblsf;
         }
 
-        // The LookupTable spec says that "all arrays must be the
-        // same size" but unfortunately the constructors do not
-        // enforce that.  Also, our native code only works with
-        // arrays no larger than 256 elements, so check both of
-        // these restrictions here.
-        if (table instanceof ByteLookupTable) {
-            byte[][] data = ((ByteLookupTable)table).getTable();
-            for (int i = 1; i < data.length; i++) {
-                if (data[i].length > 256 ||
-                    data[i].length != data[i-1].length)
+        // Tif LookupTbblf spfd sbys tibt "bll brrbys must bf tif
+        // sbmf sizf" but unfortunbtfly tif donstrudtors do not
+        // fnfordf tibt.  Also, our nbtivf dodf only works witi
+        // brrbys no lbrgfr tibn 256 flfmfnts, so difdk boti of
+        // tifsf rfstridtions ifrf.
+        if (tbblf instbndfof BytfLookupTbblf) {
+            bytf[][] dbtb = ((BytfLookupTbblf)tbblf).gftTbblf();
+            for (int i = 1; i < dbtb.lfngti; i++) {
+                if (dbtb[i].lfngti > 256 ||
+                    dbtb[i].lfngti != dbtb[i-1].lfngti)
                 {
-                    return false;
+                    rfturn fblsf;
                 }
             }
-        } else if (table instanceof ShortLookupTable) {
-            short[][] data = ((ShortLookupTable)table).getTable();
-            for (int i = 1; i < data.length; i++) {
-                if (data[i].length > 256 ||
-                    data[i].length != data[i-1].length)
+        } flsf if (tbblf instbndfof SiortLookupTbblf) {
+            siort[][] dbtb = ((SiortLookupTbblf)tbblf).gftTbblf();
+            for (int i = 1; i < dbtb.lfngti; i++) {
+                if (dbtb[i].lfngti > 256 ||
+                    dbtb[i].lfngti != dbtb[i-1].lfngti)
                 {
-                    return false;
+                    rfturn fblsf;
                 }
             }
-        } else {
-            return false;
+        } flsf {
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
-    private static void enableLookupOp(RenderQueue rq,
-                                       SurfaceData srcData,
-                                       BufferedImage srcImg,
+    privbtf stbtid void fnbblfLookupOp(RfndfrQufuf rq,
+                                       SurfbdfDbtb srdDbtb,
+                                       BufffrfdImbgf srdImg,
                                        LookupOp lop)
     {
-        // assert rq.lock.isHeldByCurrentThread();
-        boolean nonPremult =
-            srcImg.getColorModel().hasAlpha() &&
-            srcImg.isAlphaPremultiplied();
+        // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
+        boolfbn nonPrfmult =
+            srdImg.gftColorModfl().ibsAlpib() &&
+            srdImg.isAlpibPrfmultiplifd();
 
-        LookupTable table = lop.getTable();
-        int numBands = table.getNumComponents();
-        int offset = table.getOffset();
-        int bandLength;
-        int bytesPerElem;
-        boolean shortData;
+        LookupTbblf tbblf = lop.gftTbblf();
+        int numBbnds = tbblf.gftNumComponfnts();
+        int offsft = tbblf.gftOffsft();
+        int bbndLfngti;
+        int bytfsPfrElfm;
+        boolfbn siortDbtb;
 
-        if (table instanceof ShortLookupTable) {
-            short[][] data = ((ShortLookupTable)table).getTable();
-            bandLength = data[0].length;
-            bytesPerElem = 2;
-            shortData = true;
-        } else { // (table instanceof ByteLookupTable)
-            byte[][] data = ((ByteLookupTable)table).getTable();
-            bandLength = data[0].length;
-            bytesPerElem = 1;
-            shortData = false;
+        if (tbblf instbndfof SiortLookupTbblf) {
+            siort[][] dbtb = ((SiortLookupTbblf)tbblf).gftTbblf();
+            bbndLfngti = dbtb[0].lfngti;
+            bytfsPfrElfm = 2;
+            siortDbtb = truf;
+        } flsf { // (tbblf instbndfof BytfLookupTbblf)
+            bytf[][] dbtb = ((BytfLookupTbblf)tbblf).gftTbblf();
+            bbndLfngti = dbtb[0].lfngti;
+            bytfsPfrElfm = 1;
+            siortDbtb = fblsf;
         }
 
-        // Adjust the LUT length so that it ends on a 4-byte boundary
-        int totalLutBytes = numBands * bandLength * bytesPerElem;
-        int paddedLutBytes = (totalLutBytes + 3) & (~3);
-        int padding = paddedLutBytes - totalLutBytes;
-        int totalBytesRequired = 4 + 8 + 20 + paddedLutBytes;
+        // Adjust tif LUT lfngti so tibt it fnds on b 4-bytf boundbry
+        int totblLutBytfs = numBbnds * bbndLfngti * bytfsPfrElfm;
+        int pbddfdLutBytfs = (totblLutBytfs + 3) & (~3);
+        int pbdding = pbddfdLutBytfs - totblLutBytfs;
+        int totblBytfsRfquirfd = 4 + 8 + 20 + pbddfdLutBytfs;
 
-        RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacityAndAlignment(totalBytesRequired, 4);
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdityAndAlignmfnt(totblBytfsRfquirfd, 4);
         buf.putInt(ENABLE_LOOKUP_OP);
-        buf.putLong(srcData.getNativeOps());
-        buf.putInt(nonPremult ? 1 : 0);
-        buf.putInt(shortData ? 1 : 0);
-        buf.putInt(numBands);
-        buf.putInt(bandLength);
-        buf.putInt(offset);
-        if (shortData) {
-            short[][] data = ((ShortLookupTable)table).getTable();
-            for (int i = 0; i < numBands; i++) {
-                buf.put(data[i]);
+        buf.putLong(srdDbtb.gftNbtivfOps());
+        buf.putInt(nonPrfmult ? 1 : 0);
+        buf.putInt(siortDbtb ? 1 : 0);
+        buf.putInt(numBbnds);
+        buf.putInt(bbndLfngti);
+        buf.putInt(offsft);
+        if (siortDbtb) {
+            siort[][] dbtb = ((SiortLookupTbblf)tbblf).gftTbblf();
+            for (int i = 0; i < numBbnds; i++) {
+                buf.put(dbtb[i]);
             }
-        } else {
-            byte[][] data = ((ByteLookupTable)table).getTable();
-            for (int i = 0; i < numBands; i++) {
-                buf.put(data[i]);
+        } flsf {
+            bytf[][] dbtb = ((BytfLookupTbblf)tbblf).gftTbblf();
+            for (int i = 0; i < numBbnds; i++) {
+                buf.put(dbtb[i]);
             }
         }
-        if (padding != 0) {
-            buf.position(buf.position() + padding);
+        if (pbdding != 0) {
+            buf.position(buf.position() + pbdding);
         }
     }
 
-    private static void disableLookupOp(RenderQueue rq) {
-        // assert rq.lock.isHeldByCurrentThread();
-        RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacity(4);
+    privbtf stbtid void disbblfLookupOp(RfndfrQufuf rq) {
+        // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdity(4);
         buf.putInt(DISABLE_LOOKUP_OP);
     }
 }

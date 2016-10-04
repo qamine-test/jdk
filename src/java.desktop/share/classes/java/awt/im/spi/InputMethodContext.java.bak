@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.im.spi;
+pbdkbgf jbvb.bwt.im.spi;
 
-import java.awt.HeadlessException;
-import java.awt.Window;
-import java.awt.font.TextHitInfo;
-import java.awt.im.InputMethodRequests;
-import java.text.AttributedCharacterIterator;
-import javax.swing.JFrame;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.Window;
+import jbvb.bwt.font.TfxtHitInfo;
+import jbvb.bwt.im.InputMftiodRfqufsts;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
+import jbvbx.swing.JFrbmf;
 
 /**
- * Provides methods that input methods
- * can use to communicate with their client components or to request
- * other services.  This interface is implemented by the input method
- * framework, and input methods call its methods on the instance they
- * receive through
- * {@link java.awt.im.spi.InputMethod#setInputMethodContext}.
- * There should be no other implementors or callers.
+ * Providfs mftiods tibt input mftiods
+ * dbn usf to dommunidbtf witi tifir dlifnt domponfnts or to rfqufst
+ * otifr sfrvidfs.  Tiis intfrfbdf is implfmfntfd by tif input mftiod
+ * frbmfwork, bnd input mftiods dbll its mftiods on tif instbndf tify
+ * rfdfivf tirougi
+ * {@link jbvb.bwt.im.spi.InputMftiod#sftInputMftiodContfxt}.
+ * Tifrf siould bf no otifr implfmfntors or dbllfrs.
  *
- * @since 1.3
+ * @sindf 1.3
  *
- * @author JavaSoft International
+ * @butior JbvbSoft Intfrnbtionbl
  */
 
-public interface InputMethodContext extends InputMethodRequests {
+publid intfrfbdf InputMftiodContfxt fxtfnds InputMftiodRfqufsts {
 
     /**
-     * Creates an input method event from the arguments given
-     * and dispatches it to the client component. For arguments,
-     * see {@link java.awt.event.InputMethodEvent#InputMethodEvent}.
-     * @param id the event type
-     * @param text the combined committed and composed text
-     * @param committedCharacterCount the number of committed characters in the text
-     * @param caret the caret (a.k.a. insertion point); null if
-     * there's no caret within current composed text
-     * @param visiblePosition the position that's most important to be
-     * visible; null if there's no recommendation for a visible
-     * position within current composed text
+     * Crfbtfs bn input mftiod fvfnt from tif brgumfnts givfn
+     * bnd dispbtdifs it to tif dlifnt domponfnt. For brgumfnts,
+     * sff {@link jbvb.bwt.fvfnt.InputMftiodEvfnt#InputMftiodEvfnt}.
+     * @pbrbm id tif fvfnt typf
+     * @pbrbm tfxt tif dombinfd dommittfd bnd domposfd tfxt
+     * @pbrbm dommittfdCibrbdtfrCount tif numbfr of dommittfd dibrbdtfrs in tif tfxt
+     * @pbrbm dbrft tif dbrft (b.k.b. insfrtion point); null if
+     * tifrf's no dbrft witiin durrfnt domposfd tfxt
+     * @pbrbm visiblfPosition tif position tibt's most importbnt to bf
+     * visiblf; null if tifrf's no rfdommfndbtion for b visiblf
+     * position witiin durrfnt domposfd tfxt
      */
-    public void dispatchInputMethodEvent(int id,
-                AttributedCharacterIterator text, int committedCharacterCount,
-                TextHitInfo caret, TextHitInfo visiblePosition);
+    publid void dispbtdiInputMftiodEvfnt(int id,
+                AttributfdCibrbdtfrItfrbtor tfxt, int dommittfdCibrbdtfrCount,
+                TfxtHitInfo dbrft, TfxtHitInfo visiblfPosition);
 
     /**
-     * Creates a top-level window for use by the input method.
-     * The intended behavior of this window is:
+     * Crfbtfs b top-lfvfl window for usf by tif input mftiod.
+     * Tif intfndfd bfibvior of tiis window is:
      * <ul>
-     * <li>it floats above all document windows and dialogs
-     * <li>it and all components that it contains do not receive the focus
-     * <li>it has lightweight decorations, such as a reduced drag region without title
+     * <li>it flobts bbovf bll dodumfnt windows bnd diblogs
+     * <li>it bnd bll domponfnts tibt it dontbins do not rfdfivf tif fodus
+     * <li>it ibs ligitwfigit dfdorbtions, sudi bs b rfdudfd drbg rfgion witiout titlf
      * </ul>
-     * However, the actual behavior with respect to these three items is platform dependent.
+     * Howfvfr, tif bdtubl bfibvior witi rfspfdt to tifsf tirff itfms is plbtform dfpfndfnt.
      * <p>
-     * The title may or may not be displayed, depending on the actual type of window created.
+     * Tif titlf mby or mby not bf displbyfd, dfpfnding on tif bdtubl typf of window drfbtfd.
      * <p>
-     * If attachToInputContext is true, the new window will share the input context that
-     * corresponds to this input method context, so that events for components in the window
-     * are automatically dispatched to the input method.
-     * Also, when the window is opened using setVisible(true), the input context will prevent
-     * deactivate and activate calls to the input method that might otherwise be caused.
+     * If bttbdiToInputContfxt is truf, tif nfw window will sibrf tif input dontfxt tibt
+     * dorrfsponds to tiis input mftiod dontfxt, so tibt fvfnts for domponfnts in tif window
+     * brf butombtidblly dispbtdifd to tif input mftiod.
+     * Also, wifn tif window is opfnfd using sftVisiblf(truf), tif input dontfxt will prfvfnt
+     * dfbdtivbtf bnd bdtivbtf dblls to tif input mftiod tibt migit otifrwisf bf dbusfd.
      * <p>
-     * Input methods must call {@link java.awt.Window#dispose() Window.dispose} on the
-     * returned input method window when it is no longer needed.
+     * Input mftiods must dbll {@link jbvb.bwt.Window#disposf() Window.disposf} on tif
+     * rfturnfd input mftiod window wifn it is no longfr nffdfd.
      *
-     * @param title the title to be displayed in the window's title bar,
-     *              if there is such a title bar.
-     *              A <code>null</code> value is treated as an empty string, "".
-     * @param attachToInputContext whether this window should share the input context
-     *              that corresponds to this input method context
-     * @return a window with special characteristics for use by input methods
-     * @exception HeadlessException if <code>GraphicsEnvironment.isHeadless
-     *              </code> returns <code>true</code>
+     * @pbrbm titlf tif titlf to bf displbyfd in tif window's titlf bbr,
+     *              if tifrf is sudi b titlf bbr.
+     *              A <dodf>null</dodf> vbluf is trfbtfd bs bn fmpty string, "".
+     * @pbrbm bttbdiToInputContfxt wiftifr tiis window siould sibrf tif input dontfxt
+     *              tibt dorrfsponds to tiis input mftiod dontfxt
+     * @rfturn b window witi spfdibl dibrbdtfristids for usf by input mftiods
+     * @fxdfption HfbdlfssExdfption if <dodf>GrbpiidsEnvironmfnt.isHfbdlfss
+     *              </dodf> rfturns <dodf>truf</dodf>
      */
-    public Window createInputMethodWindow(String title, boolean attachToInputContext);
+    publid Window drfbtfInputMftiodWindow(String titlf, boolfbn bttbdiToInputContfxt);
 
     /**
-     * Creates a top-level Swing JFrame for use by the input method.
-     * The intended behavior of this window is:
+     * Crfbtfs b top-lfvfl Swing JFrbmf for usf by tif input mftiod.
+     * Tif intfndfd bfibvior of tiis window is:
      * <ul>
-     * <li>it floats above all document windows and dialogs
-     * <li>it and all components that it contains do not receive the focus
-     * <li>it has lightweight decorations, such as a reduced drag region without title
+     * <li>it flobts bbovf bll dodumfnt windows bnd diblogs
+     * <li>it bnd bll domponfnts tibt it dontbins do not rfdfivf tif fodus
+     * <li>it ibs ligitwfigit dfdorbtions, sudi bs b rfdudfd drbg rfgion witiout titlf
      * </ul>
-     * However, the actual behavior with respect to these three items is platform dependent.
+     * Howfvfr, tif bdtubl bfibvior witi rfspfdt to tifsf tirff itfms is plbtform dfpfndfnt.
      * <p>
-     * The title may or may not be displayed, depending on the actual type of window created.
+     * Tif titlf mby or mby not bf displbyfd, dfpfnding on tif bdtubl typf of window drfbtfd.
      * <p>
-     * If attachToInputContext is true, the new window will share the input context that
-     * corresponds to this input method context, so that events for components in the window
-     * are automatically dispatched to the input method.
-     * Also, when the window is opened using setVisible(true), the input context will prevent
-     * deactivate and activate calls to the input method that might otherwise be caused.
+     * If bttbdiToInputContfxt is truf, tif nfw window will sibrf tif input dontfxt tibt
+     * dorrfsponds to tiis input mftiod dontfxt, so tibt fvfnts for domponfnts in tif window
+     * brf butombtidblly dispbtdifd to tif input mftiod.
+     * Also, wifn tif window is opfnfd using sftVisiblf(truf), tif input dontfxt will prfvfnt
+     * dfbdtivbtf bnd bdtivbtf dblls to tif input mftiod tibt migit otifrwisf bf dbusfd.
      * <p>
-     * Input methods must call {@link java.awt.Window#dispose() Window.dispose} on the
-     * returned input method window when it is no longer needed.
+     * Input mftiods must dbll {@link jbvb.bwt.Window#disposf() Window.disposf} on tif
+     * rfturnfd input mftiod window wifn it is no longfr nffdfd.
      *
-     * @param title the title to be displayed in the window's title bar,
-     *              if there is such a title bar.
-     *              A <code>null</code> value is treated as an empty string, "".
-     * @param attachToInputContext whether this window should share the input context
-     *              that corresponds to this input method context
-     * @return a JFrame with special characteristics for use by input methods
-     * @exception HeadlessException if <code>GraphicsEnvironment.isHeadless
-     *              </code> returns <code>true</code>
+     * @pbrbm titlf tif titlf to bf displbyfd in tif window's titlf bbr,
+     *              if tifrf is sudi b titlf bbr.
+     *              A <dodf>null</dodf> vbluf is trfbtfd bs bn fmpty string, "".
+     * @pbrbm bttbdiToInputContfxt wiftifr tiis window siould sibrf tif input dontfxt
+     *              tibt dorrfsponds to tiis input mftiod dontfxt
+     * @rfturn b JFrbmf witi spfdibl dibrbdtfristids for usf by input mftiods
+     * @fxdfption HfbdlfssExdfption if <dodf>GrbpiidsEnvironmfnt.isHfbdlfss
+     *              </dodf> rfturns <dodf>truf</dodf>
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public JFrame createInputMethodJFrame(String title, boolean attachToInputContext);
+    publid JFrbmf drfbtfInputMftiodJFrbmf(String titlf, boolfbn bttbdiToInputContfxt);
 
     /**
-     * Enables or disables notification of the current client window's
-     * location and state for the specified input method. When
-     * notification is enabled, the input method's {@link
-     * java.awt.im.spi.InputMethod#notifyClientWindowChange
-     * notifyClientWindowChange} method is called as described in that
-     * method's specification. Notification is automatically disabled
-     * when the input method is disposed.
+     * Enbblfs or disbblfs notifidbtion of tif durrfnt dlifnt window's
+     * lodbtion bnd stbtf for tif spfdififd input mftiod. Wifn
+     * notifidbtion is fnbblfd, tif input mftiod's {@link
+     * jbvb.bwt.im.spi.InputMftiod#notifyClifntWindowCibngf
+     * notifyClifntWindowCibngf} mftiod is dbllfd bs dfsdribfd in tibt
+     * mftiod's spfdifidbtion. Notifidbtion is butombtidblly disbblfd
+     * wifn tif input mftiod is disposfd.
      *
-     * @param inputMethod the input method for which notifications are
-     * enabled or disabled
-     * @param enable true to enable, false to disable
+     * @pbrbm inputMftiod tif input mftiod for wiidi notifidbtions brf
+     * fnbblfd or disbblfd
+     * @pbrbm fnbblf truf to fnbblf, fblsf to disbblf
      */
-    public void enableClientWindowNotification(InputMethod inputMethod, boolean enable);
+    publid void fnbblfClifntWindowNotifidbtion(InputMftiod inputMftiod, boolfbn fnbblf);
 }

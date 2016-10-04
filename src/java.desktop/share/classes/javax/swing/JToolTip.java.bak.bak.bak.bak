@@ -1,0 +1,293 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.swing;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
+
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Objfdts;
+
+
+/**
+ * Usfd to displby b "Tip" for b Componfnt. Typidblly domponfnts providf bpi
+ * to butombtf thf prodfss of using <dodf>ToolTip</dodf>s.
+ * For fxbmplf, bny Swing domponfnt dbn usf thf <dodf>JComponfnt</dodf>
+ * <dodf>sftToolTipTfxt</dodf> mfthod to spfdify thf tfxt
+ * for b stbndbrd tooltip. A domponfnt thbt wbnts to drfbtf b dustom
+ * <dodf>ToolTip</dodf>
+ * displby dbn ovfrridf <dodf>JComponfnt</dodf>'s <dodf>drfbtfToolTip</dodf>
+ * mfthod bnd usf b subdlbss of this dlbss.
+ * <p>
+ * Sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/tooltip.html">How to Usf Tool Tips</b>
+ * in <fm>Thf Jbvb Tutoribl</fm>
+ * for furthfr dodumfntbtion.
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff JComponfnt#sftToolTipTfxt
+ * @sff JComponfnt#drfbtfToolTip
+ * @buthor Dbvf Moorf
+ * @buthor Ridh Shibvi
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss JToolTip fxtfnds JComponfnt implfmfnts Addfssiblf {
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "ToolTipUI";
+
+    String tipTfxt;
+    JComponfnt domponfnt;
+
+    /** Crfbtfs b tool tip. */
+    publid JToolTip() {
+        sftOpbquf(truf);
+        updbtfUI();
+    }
+
+    /**
+     * Rfturns thf L&bmp;F objfdt thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf <dodf>ToolTipUI</dodf> objfdt thbt rfndfrs this domponfnt
+     */
+    publid ToolTipUI gftUI() {
+        rfturn (ToolTipUI)ui;
+    }
+
+    /**
+     * Rfsfts thf UI propfrty to b vbluf from thf durrfnt look bnd fffl.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((ToolTipUI)UIMbnbgfr.gftUI(this));
+    }
+
+
+    /**
+     * Rfturns thf nbmf of thf L&bmp;F dlbss thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf string "ToolTipUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /**
+     * Sfts thf tfxt to show whfn thf tool tip is displbyfd.
+     * Thf string <dodf>tipTfxt</dodf> mby bf <dodf>null</dodf>.
+     *
+     * @pbrbm tipTfxt thf <dodf>String</dodf> to displby
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *        bound: truf
+     *  dfsdription: Sfts thf tfxt of thf tooltip
+     */
+    publid void sftTipTfxt(String tipTfxt) {
+        String oldVbluf = this.tipTfxt;
+        this.tipTfxt = tipTfxt;
+        firfPropfrtyChbngf("tiptfxt", oldVbluf, tipTfxt);
+
+        if (!Objfdts.fqubls(oldVbluf, tipTfxt)) {
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+    /**
+     * Rfturns thf tfxt thbt is shown whfn thf tool tip is displbyfd.
+     * Thf rfturnfd vbluf mby bf <dodf>null</dodf>.
+     *
+     * @rfturn thf <dodf>String</dodf> thbt is displbyfd
+     */
+    publid String gftTipTfxt() {
+        rfturn tipTfxt;
+    }
+
+    /**
+     * Spfdififs thf domponfnt thbt thf tooltip dfsdribfs.
+     * Thf domponfnt <dodf>d</dodf> mby bf <dodf>null</dodf>
+     * bnd will hbvf no ffffdt.
+     * <p>
+     * This is b bound propfrty.
+     *
+     * @pbrbm d thf <dodf>JComponfnt</dodf> bfing dfsdribfd
+     * @sff JComponfnt#drfbtfToolTip
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Sfts thf domponfnt thbt thf tooltip dfsdribfs.
+     */
+    publid void sftComponfnt(JComponfnt d) {
+        JComponfnt oldVbluf = this.domponfnt;
+
+        domponfnt = d;
+        firfPropfrtyChbngf("domponfnt", oldVbluf, d);
+    }
+
+    /**
+     * Rfturns thf domponfnt thf tooltip bpplifs to.
+     * Thf rfturnfd vbluf mby bf <dodf>null</dodf>.
+     *
+     * @rfturn thf domponfnt thbt thf tooltip dfsdribfs
+     *
+     * @sff JComponfnt#drfbtfToolTip
+     */
+    publid JComponfnt gftComponfnt() {
+        rfturn domponfnt;
+    }
+
+    /**
+     * Alwbys rfturns truf sindf tooltips, by dffinition,
+     * should blwbys bf on top of bll othfr windows.
+     */
+    // pbdkbgf privbtf
+    boolfbn blwbysOnTop() {
+        rfturn truf;
+    }
+
+
+    /**
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf>
+     * in <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JToolTip</dodf>.
+     * This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>JToolTip</dodf>
+     */
+    protfdtfd String pbrbmString() {
+        String tipTfxtString = (tipTfxt != null ?
+                                tipTfxt : "");
+
+        rfturn supfr.pbrbmString() +
+        ",tipTfxt=" + tipTfxtString;
+    }
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JToolTip.
+     * For tool tips, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJToolTip.
+     * A nfw AddfssiblfJToolTip instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJToolTip thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JToolTip
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJToolTip();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JToolTip</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to tool tip usfr-intfrfbdf flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl")
+    protfdtfd dlbss AddfssiblfJToolTip fxtfnds AddfssiblfJComponfnt {
+
+        /**
+         * Gft thf bddfssiblf dfsdription of this objfdt.
+         *
+         * @rfturn b lodblizfd String dfsdribing this objfdt.
+         */
+        publid String gftAddfssiblfDfsdription() {
+            String dfsdription = bddfssiblfDfsdription;
+
+            // fbllbbdk to dlifnt propfrty
+            if (dfsdription == null) {
+                dfsdription = (String)gftClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_DESCRIPTION_PROPERTY);
+            }
+            if (dfsdription == null) {
+                dfsdription = gftTipTfxt();
+            }
+            rfturn dfsdription;
+        }
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.TOOL_TIP;
+        }
+    }
+}

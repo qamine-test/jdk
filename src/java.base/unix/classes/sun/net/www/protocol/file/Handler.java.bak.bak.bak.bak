@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.filf;
+
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.URLConnfdtion;
+import jbvb.nft.URL;
+import jbvb.nft.Proxy;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URLStrfbmHbndlfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.nft.www.PbrsfUtil;
+import jbvb.io.Filf;
+
+/**
+ * Opfn bn filf input strfbm givfn b URL.
+ * @buthor      Jbmfs Gosling
+ */
+publid dlbss Hbndlfr fxtfnds URLStrfbmHbndlfr {
+
+    privbtf String gftHost(URL url) {
+        String host = url.gftHost();
+        if (host == null)
+            host = "";
+        rfturn host;
+    }
+
+
+    protfdtfd void pbrsfURL(URL u, String spfd, int stbrt, int limit) {
+        /*
+         * Ugly bbdkwbrds dompbtibility. Flip bny filf sfpbrbtor
+         * dhbrbdtfrs to bf forwbrd slbshfs. This is b nop on Unix
+         * bnd "fixfs" win32 filf pbths. Addording to RFC 2396,
+         * only forwbrd slbshfs mby bf usfd to rfprfsfnt hifrbrdhy
+         * sfpbrbtion in b URL but prfvious rflfbsfs unfortunbtfly
+         * pfrformfd this "fixup" bfhbvior in thf filf URL pbrsing dodf
+         * rbthfr thbn fording this to bf fixfd in thf dbllfr of thf URL
+         * dlbss whfrf it bflongs. Sindf bbdkslbsh is bn "unwisf"
+         * dhbrbdtfr thbt would normblly bf fndodfd if litfrblly intfndfd
+         * bs b non-sfpfrbtor dhbrbdtfr thf dbmbgf of vffring bwby from thf
+         * spfdifidbtion is prfsumbbly limitfd.
+         */
+        supfr.pbrsfURL(u, spfd.rfplbdf(Filf.sfpbrbtorChbr, '/'), stbrt, limit);
+    }
+
+    publid syndhronizfd URLConnfdtion opfnConnfdtion(URL u)
+        throws IOExdfption {
+        rfturn opfnConnfdtion(u, null);
+    }
+
+    publid syndhronizfd URLConnfdtion opfnConnfdtion(URL u, Proxy p)
+           throws IOExdfption {
+        String host = u.gftHost();
+        if (host == null || host.fqubls("") || host.fqubls("~") ||
+            host.fqublsIgnorfCbsf("lodblhost")) {
+            Filf filf = nfw Filf(PbrsfUtil.dfdodf(u.gftPbth()));
+            rfturn drfbtfFilfURLConnfdtion(u, filf);
+        }
+
+        /* If you rfbdh hfrf, it implifs thbt you hbvf b hostnbmf
+           so bttfmpt bn ftp donnfdtion.
+         */
+        URLConnfdtion ud;
+        URL ru;
+
+        try {
+            ru = nfw URL("ftp", host, u.gftFilf() +
+                             (u.gftRff() == null ? "": "#" + u.gftRff()));
+            if (p != null) {
+                ud = ru.opfnConnfdtion(p);
+            } flsf {
+                ud = ru.opfnConnfdtion();
+            }
+        } dbtdh (IOExdfption f) {
+            ud = null;
+        }
+        if (ud == null) {
+            throw nfw IOExdfption("Unbblf to donnfdt to: " +
+                                                       u.toExtfrnblForm());
+        }
+        rfturn ud;
+    }
+
+    // Tfmplbtf mfthod to bf ovfrridfn by Jbvb Plug-in. [stbnlfyh]
+    //
+    protfdtfd URLConnfdtion drfbtfFilfURLConnfdtion(URL u, Filf filf)
+    {
+        rfturn nfw FilfURLConnfdtion(u, filf);
+    }
+
+    /**
+     * Compbrfs thf host domponfnts of two URLs.
+     * @pbrbm u1 thf URL of thf first host to dompbrf
+     * @pbrbm u2 thf URL of thf sfdond host to dompbrf
+     * @rfturn  <tt>truf</tt> if bnd only if thfy
+     * brf fqubl, <tt>fblsf</tt> othfrwisf.
+     */
+    protfdtfd boolfbn hostsEqubl(URL u1, URL u2) {
+        /*
+         * Spfdibl dbsf for filf: URLs
+         * pfr RFC 1738 no hostnbmf is fquivblfnt to 'lodblhost'
+         * i.f. filf:///pbth is fqubl to filf://lodblhost/pbth
+         */
+        String s1 = u1.gftHost();
+        String s2 = u2.gftHost();
+        if ("lodblhost".fqublsIgnorfCbsf(s1) && ( s2 == null || "".fqubls(s2)))
+            rfturn truf;
+        if ("lodblhost".fqublsIgnorfCbsf(s2) && ( s1 == null || "".fqubls(s1)))
+            rfturn truf;
+        rfturn supfr.hostsEqubl(u1, u2);
+    }
+}

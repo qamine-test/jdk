@@ -1,2243 +1,2243 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
-import java.net.URI;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.ArrayList;
-import java.security.AccessController;
-import java.security.SecureRandom;
-import java.nio.file.Path;
-import java.nio.file.FileSystems;
-import sun.security.action.GetPropertyAction;
+import jbvb.nft.URI;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.nio.filf.Pbti;
+import jbvb.nio.filf.FilfSystfms;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 /**
- * An abstract representation of file and directory pathnames.
+ * An bbstrbdt rfprfsfntbtion of filf bnd dirfdtory pbtinbmfs.
  *
- * <p> User interfaces and operating systems use system-dependent <em>pathname
- * strings</em> to name files and directories.  This class presents an
- * abstract, system-independent view of hierarchical pathnames.  An
- * <em>abstract pathname</em> has two components:
+ * <p> Usfr intfrfbdfs bnd opfrbting systfms usf systfm-dfpfndfnt <fm>pbtinbmf
+ * strings</fm> to nbmf filfs bnd dirfdtorifs.  Tiis dlbss prfsfnts bn
+ * bbstrbdt, systfm-indfpfndfnt vifw of iifrbrdiidbl pbtinbmfs.  An
+ * <fm>bbstrbdt pbtinbmf</fm> ibs two domponfnts:
  *
  * <ol>
- * <li> An optional system-dependent <em>prefix</em> string,
- *      such as a disk-drive specifier, <code>"/"</code>&nbsp;for the UNIX root
- *      directory, or <code>"\\\\"</code>&nbsp;for a Microsoft Windows UNC pathname, and
- * <li> A sequence of zero or more string <em>names</em>.
+ * <li> An optionbl systfm-dfpfndfnt <fm>prffix</fm> string,
+ *      sudi bs b disk-drivf spfdififr, <dodf>"/"</dodf>&nbsp;for tif UNIX root
+ *      dirfdtory, or <dodf>"\\\\"</dodf>&nbsp;for b Midrosoft Windows UNC pbtinbmf, bnd
+ * <li> A sfqufndf of zfro or morf string <fm>nbmfs</fm>.
  * </ol>
  *
- * The first name in an abstract pathname may be a directory name or, in the
- * case of Microsoft Windows UNC pathnames, a hostname.  Each subsequent name
- * in an abstract pathname denotes a directory; the last name may denote
- * either a directory or a file.  The <em>empty</em> abstract pathname has no
- * prefix and an empty name sequence.
+ * Tif first nbmf in bn bbstrbdt pbtinbmf mby bf b dirfdtory nbmf or, in tif
+ * dbsf of Midrosoft Windows UNC pbtinbmfs, b iostnbmf.  Ebdi subsfqufnt nbmf
+ * in bn bbstrbdt pbtinbmf dfnotfs b dirfdtory; tif lbst nbmf mby dfnotf
+ * fitifr b dirfdtory or b filf.  Tif <fm>fmpty</fm> bbstrbdt pbtinbmf ibs no
+ * prffix bnd bn fmpty nbmf sfqufndf.
  *
- * <p> The conversion of a pathname string to or from an abstract pathname is
- * inherently system-dependent.  When an abstract pathname is converted into a
- * pathname string, each name is separated from the next by a single copy of
- * the default <em>separator character</em>.  The default name-separator
- * character is defined by the system property <code>file.separator</code>, and
- * is made available in the public static fields <code>{@link
- * #separator}</code> and <code>{@link #separatorChar}</code> of this class.
- * When a pathname string is converted into an abstract pathname, the names
- * within it may be separated by the default name-separator character or by any
- * other name-separator character that is supported by the underlying system.
+ * <p> Tif donvfrsion of b pbtinbmf string to or from bn bbstrbdt pbtinbmf is
+ * inifrfntly systfm-dfpfndfnt.  Wifn bn bbstrbdt pbtinbmf is donvfrtfd into b
+ * pbtinbmf string, fbdi nbmf is sfpbrbtfd from tif nfxt by b singlf dopy of
+ * tif dffbult <fm>sfpbrbtor dibrbdtfr</fm>.  Tif dffbult nbmf-sfpbrbtor
+ * dibrbdtfr is dffinfd by tif systfm propfrty <dodf>filf.sfpbrbtor</dodf>, bnd
+ * is mbdf bvbilbblf in tif publid stbtid fiflds <dodf>{@link
+ * #sfpbrbtor}</dodf> bnd <dodf>{@link #sfpbrbtorCibr}</dodf> of tiis dlbss.
+ * Wifn b pbtinbmf string is donvfrtfd into bn bbstrbdt pbtinbmf, tif nbmfs
+ * witiin it mby bf sfpbrbtfd by tif dffbult nbmf-sfpbrbtor dibrbdtfr or by bny
+ * otifr nbmf-sfpbrbtor dibrbdtfr tibt is supportfd by tif undfrlying systfm.
  *
- * <p> A pathname, whether abstract or in string form, may be either
- * <em>absolute</em> or <em>relative</em>.  An absolute pathname is complete in
- * that no other information is required in order to locate the file that it
- * denotes.  A relative pathname, in contrast, must be interpreted in terms of
- * information taken from some other pathname.  By default the classes in the
- * <code>java.io</code> package always resolve relative pathnames against the
- * current user directory.  This directory is named by the system property
- * <code>user.dir</code>, and is typically the directory in which the Java
- * virtual machine was invoked.
+ * <p> A pbtinbmf, wiftifr bbstrbdt or in string form, mby bf fitifr
+ * <fm>bbsolutf</fm> or <fm>rflbtivf</fm>.  An bbsolutf pbtinbmf is domplftf in
+ * tibt no otifr informbtion is rfquirfd in ordfr to lodbtf tif filf tibt it
+ * dfnotfs.  A rflbtivf pbtinbmf, in dontrbst, must bf intfrprftfd in tfrms of
+ * informbtion tbkfn from somf otifr pbtinbmf.  By dffbult tif dlbssfs in tif
+ * <dodf>jbvb.io</dodf> pbdkbgf blwbys rfsolvf rflbtivf pbtinbmfs bgbinst tif
+ * durrfnt usfr dirfdtory.  Tiis dirfdtory is nbmfd by tif systfm propfrty
+ * <dodf>usfr.dir</dodf>, bnd is typidblly tif dirfdtory in wiidi tif Jbvb
+ * virtubl mbdiinf wbs invokfd.
  *
- * <p> The <em>parent</em> of an abstract pathname may be obtained by invoking
- * the {@link #getParent} method of this class and consists of the pathname's
- * prefix and each name in the pathname's name sequence except for the last.
- * Each directory's absolute pathname is an ancestor of any <tt>File</tt>
- * object with an absolute abstract pathname which begins with the directory's
- * absolute pathname.  For example, the directory denoted by the abstract
- * pathname <tt>"/usr"</tt> is an ancestor of the directory denoted by the
- * pathname <tt>"/usr/local/bin"</tt>.
+ * <p> Tif <fm>pbrfnt</fm> of bn bbstrbdt pbtinbmf mby bf obtbinfd by invoking
+ * tif {@link #gftPbrfnt} mftiod of tiis dlbss bnd donsists of tif pbtinbmf's
+ * prffix bnd fbdi nbmf in tif pbtinbmf's nbmf sfqufndf fxdfpt for tif lbst.
+ * Ebdi dirfdtory's bbsolutf pbtinbmf is bn bndfstor of bny <tt>Filf</tt>
+ * objfdt witi bn bbsolutf bbstrbdt pbtinbmf wiidi bfgins witi tif dirfdtory's
+ * bbsolutf pbtinbmf.  For fxbmplf, tif dirfdtory dfnotfd by tif bbstrbdt
+ * pbtinbmf <tt>"/usr"</tt> is bn bndfstor of tif dirfdtory dfnotfd by tif
+ * pbtinbmf <tt>"/usr/lodbl/bin"</tt>.
  *
- * <p> The prefix concept is used to handle root directories on UNIX platforms,
- * and drive specifiers, root directories and UNC pathnames on Microsoft Windows platforms,
- * as follows:
+ * <p> Tif prffix dondfpt is usfd to ibndlf root dirfdtorifs on UNIX plbtforms,
+ * bnd drivf spfdififrs, root dirfdtorifs bnd UNC pbtinbmfs on Midrosoft Windows plbtforms,
+ * bs follows:
  *
  * <ul>
  *
- * <li> For UNIX platforms, the prefix of an absolute pathname is always
- * <code>"/"</code>.  Relative pathnames have no prefix.  The abstract pathname
- * denoting the root directory has the prefix <code>"/"</code> and an empty
- * name sequence.
+ * <li> For UNIX plbtforms, tif prffix of bn bbsolutf pbtinbmf is blwbys
+ * <dodf>"/"</dodf>.  Rflbtivf pbtinbmfs ibvf no prffix.  Tif bbstrbdt pbtinbmf
+ * dfnoting tif root dirfdtory ibs tif prffix <dodf>"/"</dodf> bnd bn fmpty
+ * nbmf sfqufndf.
  *
- * <li> For Microsoft Windows platforms, the prefix of a pathname that contains a drive
- * specifier consists of the drive letter followed by <code>":"</code> and
- * possibly followed by <code>"\\"</code> if the pathname is absolute.  The
- * prefix of a UNC pathname is <code>"\\\\"</code>; the hostname and the share
- * name are the first two names in the name sequence.  A relative pathname that
- * does not specify a drive has no prefix.
+ * <li> For Midrosoft Windows plbtforms, tif prffix of b pbtinbmf tibt dontbins b drivf
+ * spfdififr donsists of tif drivf lfttfr followfd by <dodf>":"</dodf> bnd
+ * possibly followfd by <dodf>"\\"</dodf> if tif pbtinbmf is bbsolutf.  Tif
+ * prffix of b UNC pbtinbmf is <dodf>"\\\\"</dodf>; tif iostnbmf bnd tif sibrf
+ * nbmf brf tif first two nbmfs in tif nbmf sfqufndf.  A rflbtivf pbtinbmf tibt
+ * dofs not spfdify b drivf ibs no prffix.
  *
  * </ul>
  *
- * <p> Instances of this class may or may not denote an actual file-system
- * object such as a file or a directory.  If it does denote such an object
- * then that object resides in a <i>partition</i>.  A partition is an
- * operating system-specific portion of storage for a file system.  A single
- * storage device (e.g. a physical disk-drive, flash memory, CD-ROM) may
- * contain multiple partitions.  The object, if any, will reside on the
- * partition <a name="partName">named</a> by some ancestor of the absolute
- * form of this pathname.
+ * <p> Instbndfs of tiis dlbss mby or mby not dfnotf bn bdtubl filf-systfm
+ * objfdt sudi bs b filf or b dirfdtory.  If it dofs dfnotf sudi bn objfdt
+ * tifn tibt objfdt rfsidfs in b <i>pbrtition</i>.  A pbrtition is bn
+ * opfrbting systfm-spfdifid portion of storbgf for b filf systfm.  A singlf
+ * storbgf dfvidf (f.g. b piysidbl disk-drivf, flbsi mfmory, CD-ROM) mby
+ * dontbin multiplf pbrtitions.  Tif objfdt, if bny, will rfsidf on tif
+ * pbrtition <b nbmf="pbrtNbmf">nbmfd</b> by somf bndfstor of tif bbsolutf
+ * form of tiis pbtinbmf.
  *
- * <p> A file system may implement restrictions to certain operations on the
- * actual file-system object, such as reading, writing, and executing.  These
- * restrictions are collectively known as <i>access permissions</i>.  The file
- * system may have multiple sets of access permissions on a single object.
- * For example, one set may apply to the object's <i>owner</i>, and another
- * may apply to all other users.  The access permissions on an object may
- * cause some methods in this class to fail.
+ * <p> A filf systfm mby implfmfnt rfstridtions to dfrtbin opfrbtions on tif
+ * bdtubl filf-systfm objfdt, sudi bs rfbding, writing, bnd fxfduting.  Tifsf
+ * rfstridtions brf dollfdtivfly known bs <i>bddfss pfrmissions</i>.  Tif filf
+ * systfm mby ibvf multiplf sfts of bddfss pfrmissions on b singlf objfdt.
+ * For fxbmplf, onf sft mby bpply to tif objfdt's <i>ownfr</i>, bnd bnotifr
+ * mby bpply to bll otifr usfrs.  Tif bddfss pfrmissions on bn objfdt mby
+ * dbusf somf mftiods in tiis dlbss to fbil.
  *
- * <p> Instances of the <code>File</code> class are immutable; that is, once
- * created, the abstract pathname represented by a <code>File</code> object
- * will never change.
+ * <p> Instbndfs of tif <dodf>Filf</dodf> dlbss brf immutbblf; tibt is, ondf
+ * drfbtfd, tif bbstrbdt pbtinbmf rfprfsfntfd by b <dodf>Filf</dodf> objfdt
+ * will nfvfr dibngf.
  *
- * <h3>Interoperability with {@code java.nio.file} package</h3>
+ * <i3>Intfropfrbbility witi {@dodf jbvb.nio.filf} pbdkbgf</i3>
  *
- * <p> The <a href="../../java/nio/file/package-summary.html">{@code java.nio.file}</a>
- * package defines interfaces and classes for the Java virtual machine to access
- * files, file attributes, and file systems. This API may be used to overcome
- * many of the limitations of the {@code java.io.File} class.
- * The {@link #toPath toPath} method may be used to obtain a {@link
- * Path} that uses the abstract path represented by a {@code File} object to
- * locate a file. The resulting {@code Path} may be used with the {@link
- * java.nio.file.Files} class to provide more efficient and extensive access to
- * additional file operations, file attributes, and I/O exceptions to help
- * diagnose errors when an operation on a file fails.
+ * <p> Tif <b irff="../../jbvb/nio/filf/pbdkbgf-summbry.itml">{@dodf jbvb.nio.filf}</b>
+ * pbdkbgf dffinfs intfrfbdfs bnd dlbssfs for tif Jbvb virtubl mbdiinf to bddfss
+ * filfs, filf bttributfs, bnd filf systfms. Tiis API mby bf usfd to ovfrdomf
+ * mbny of tif limitbtions of tif {@dodf jbvb.io.Filf} dlbss.
+ * Tif {@link #toPbti toPbti} mftiod mby bf usfd to obtbin b {@link
+ * Pbti} tibt usfs tif bbstrbdt pbti rfprfsfntfd by b {@dodf Filf} objfdt to
+ * lodbtf b filf. Tif rfsulting {@dodf Pbti} mby bf usfd witi tif {@link
+ * jbvb.nio.filf.Filfs} dlbss to providf morf fffidifnt bnd fxtfnsivf bddfss to
+ * bdditionbl filf opfrbtions, filf bttributfs, bnd I/O fxdfptions to iflp
+ * dibgnosf frrors wifn bn opfrbtion on b filf fbils.
  *
- * @author  unascribed
- * @since   1.0
+ * @butior  unbsdribfd
+ * @sindf   1.0
  */
 
-public class File
-    implements Serializable, Comparable<File>
+publid dlbss Filf
+    implfmfnts Sfriblizbblf, Compbrbblf<Filf>
 {
 
     /**
-     * The FileSystem object representing the platform's local file system.
+     * Tif FilfSystfm objfdt rfprfsfnting tif plbtform's lodbl filf systfm.
      */
-    private static final FileSystem fs = DefaultFileSystem.getFileSystem();
+    privbtf stbtid finbl FilfSystfm fs = DffbultFilfSystfm.gftFilfSystfm();
 
     /**
-     * This abstract pathname's normalized pathname string. A normalized
-     * pathname string uses the default name-separator character and does not
-     * contain any duplicate or redundant separators.
+     * Tiis bbstrbdt pbtinbmf's normblizfd pbtinbmf string. A normblizfd
+     * pbtinbmf string usfs tif dffbult nbmf-sfpbrbtor dibrbdtfr bnd dofs not
+     * dontbin bny duplidbtf or rfdundbnt sfpbrbtors.
      *
-     * @serial
+     * @sfribl
      */
-    private final String path;
+    privbtf finbl String pbti;
 
     /**
-     * Enum type that indicates the status of a file path.
+     * Enum typf tibt indidbtfs tif stbtus of b filf pbti.
      */
-    private static enum PathStatus { INVALID, CHECKED };
+    privbtf stbtid fnum PbtiStbtus { INVALID, CHECKED };
 
     /**
-     * The flag indicating whether the file path is invalid.
+     * Tif flbg indidbting wiftifr tif filf pbti is invblid.
      */
-    private transient PathStatus status = null;
+    privbtf trbnsifnt PbtiStbtus stbtus = null;
 
     /**
-     * Check if the file has an invalid path. Currently, the inspection of
-     * a file path is very limited, and it only covers Nul character check.
-     * Returning true means the path is definitely invalid/garbage. But
-     * returning false does not guarantee that the path is valid.
+     * Cifdk if tif filf ibs bn invblid pbti. Currfntly, tif inspfdtion of
+     * b filf pbti is vfry limitfd, bnd it only dovfrs Nul dibrbdtfr difdk.
+     * Rfturning truf mfbns tif pbti is dffinitfly invblid/gbrbbgf. But
+     * rfturning fblsf dofs not gubrbntff tibt tif pbti is vblid.
      *
-     * @return true if the file path is invalid.
+     * @rfturn truf if tif filf pbti is invblid.
      */
-    final boolean isInvalid() {
-        if (status == null) {
-            status = (this.path.indexOf('\u0000') < 0) ? PathStatus.CHECKED
-                                                       : PathStatus.INVALID;
+    finbl boolfbn isInvblid() {
+        if (stbtus == null) {
+            stbtus = (tiis.pbti.indfxOf('\u0000') < 0) ? PbtiStbtus.CHECKED
+                                                       : PbtiStbtus.INVALID;
         }
-        return status == PathStatus.INVALID;
+        rfturn stbtus == PbtiStbtus.INVALID;
     }
 
     /**
-     * The length of this abstract pathname's prefix, or zero if it has no
-     * prefix.
+     * Tif lfngti of tiis bbstrbdt pbtinbmf's prffix, or zfro if it ibs no
+     * prffix.
      */
-    private final transient int prefixLength;
+    privbtf finbl trbnsifnt int prffixLfngti;
 
     /**
-     * Returns the length of this abstract pathname's prefix.
-     * For use by FileSystem classes.
+     * Rfturns tif lfngti of tiis bbstrbdt pbtinbmf's prffix.
+     * For usf by FilfSystfm dlbssfs.
      */
-    int getPrefixLength() {
-        return prefixLength;
+    int gftPrffixLfngti() {
+        rfturn prffixLfngti;
     }
 
     /**
-     * The system-dependent default name-separator character.  This field is
-     * initialized to contain the first character of the value of the system
-     * property <code>file.separator</code>.  On UNIX systems the value of this
-     * field is <code>'/'</code>; on Microsoft Windows systems it is <code>'\\'</code>.
+     * Tif systfm-dfpfndfnt dffbult nbmf-sfpbrbtor dibrbdtfr.  Tiis fifld is
+     * initiblizfd to dontbin tif first dibrbdtfr of tif vbluf of tif systfm
+     * propfrty <dodf>filf.sfpbrbtor</dodf>.  On UNIX systfms tif vbluf of tiis
+     * fifld is <dodf>'/'</dodf>; on Midrosoft Windows systfms it is <dodf>'\\'</dodf>.
      *
-     * @see     java.lang.System#getProperty(java.lang.String)
+     * @sff     jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
      */
-    public static final char separatorChar = fs.getSeparator();
+    publid stbtid finbl dibr sfpbrbtorCibr = fs.gftSfpbrbtor();
 
     /**
-     * The system-dependent default name-separator character, represented as a
-     * string for convenience.  This string contains a single character, namely
-     * <code>{@link #separatorChar}</code>.
+     * Tif systfm-dfpfndfnt dffbult nbmf-sfpbrbtor dibrbdtfr, rfprfsfntfd bs b
+     * string for donvfnifndf.  Tiis string dontbins b singlf dibrbdtfr, nbmfly
+     * <dodf>{@link #sfpbrbtorCibr}</dodf>.
      */
-    public static final String separator = "" + separatorChar;
+    publid stbtid finbl String sfpbrbtor = "" + sfpbrbtorCibr;
 
     /**
-     * The system-dependent path-separator character.  This field is
-     * initialized to contain the first character of the value of the system
-     * property <code>path.separator</code>.  This character is used to
-     * separate filenames in a sequence of files given as a <em>path list</em>.
-     * On UNIX systems, this character is <code>':'</code>; on Microsoft Windows systems it
-     * is <code>';'</code>.
+     * Tif systfm-dfpfndfnt pbti-sfpbrbtor dibrbdtfr.  Tiis fifld is
+     * initiblizfd to dontbin tif first dibrbdtfr of tif vbluf of tif systfm
+     * propfrty <dodf>pbti.sfpbrbtor</dodf>.  Tiis dibrbdtfr is usfd to
+     * sfpbrbtf filfnbmfs in b sfqufndf of filfs givfn bs b <fm>pbti list</fm>.
+     * On UNIX systfms, tiis dibrbdtfr is <dodf>':'</dodf>; on Midrosoft Windows systfms it
+     * is <dodf>';'</dodf>.
      *
-     * @see     java.lang.System#getProperty(java.lang.String)
+     * @sff     jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
      */
-    public static final char pathSeparatorChar = fs.getPathSeparator();
+    publid stbtid finbl dibr pbtiSfpbrbtorCibr = fs.gftPbtiSfpbrbtor();
 
     /**
-     * The system-dependent path-separator character, represented as a string
-     * for convenience.  This string contains a single character, namely
-     * <code>{@link #pathSeparatorChar}</code>.
+     * Tif systfm-dfpfndfnt pbti-sfpbrbtor dibrbdtfr, rfprfsfntfd bs b string
+     * for donvfnifndf.  Tiis string dontbins b singlf dibrbdtfr, nbmfly
+     * <dodf>{@link #pbtiSfpbrbtorCibr}</dodf>.
      */
-    public static final String pathSeparator = "" + pathSeparatorChar;
+    publid stbtid finbl String pbtiSfpbrbtor = "" + pbtiSfpbrbtorCibr;
 
 
-    /* -- Constructors -- */
+    /* -- Construdtors -- */
 
     /**
-     * Internal constructor for already-normalized pathname strings.
+     * Intfrnbl donstrudtor for blrfbdy-normblizfd pbtinbmf strings.
      */
-    private File(String pathname, int prefixLength) {
-        this.path = pathname;
-        this.prefixLength = prefixLength;
+    privbtf Filf(String pbtinbmf, int prffixLfngti) {
+        tiis.pbti = pbtinbmf;
+        tiis.prffixLfngti = prffixLfngti;
     }
 
     /**
-     * Internal constructor for already-normalized pathname strings.
-     * The parameter order is used to disambiguate this method from the
-     * public(File, String) constructor.
+     * Intfrnbl donstrudtor for blrfbdy-normblizfd pbtinbmf strings.
+     * Tif pbrbmftfr ordfr is usfd to disbmbigubtf tiis mftiod from tif
+     * publid(Filf, String) donstrudtor.
      */
-    private File(String child, File parent) {
-        assert parent.path != null;
-        assert (!parent.path.equals(""));
-        this.path = fs.resolve(parent.path, child);
-        this.prefixLength = parent.prefixLength;
+    privbtf Filf(String diild, Filf pbrfnt) {
+        bssfrt pbrfnt.pbti != null;
+        bssfrt (!pbrfnt.pbti.fqubls(""));
+        tiis.pbti = fs.rfsolvf(pbrfnt.pbti, diild);
+        tiis.prffixLfngti = pbrfnt.prffixLfngti;
     }
 
     /**
-     * Creates a new <code>File</code> instance by converting the given
-     * pathname string into an abstract pathname.  If the given string is
-     * the empty string, then the result is the empty abstract pathname.
+     * Crfbtfs b nfw <dodf>Filf</dodf> instbndf by donvfrting tif givfn
+     * pbtinbmf string into bn bbstrbdt pbtinbmf.  If tif givfn string is
+     * tif fmpty string, tifn tif rfsult is tif fmpty bbstrbdt pbtinbmf.
      *
-     * @param   pathname  A pathname string
-     * @throws  NullPointerException
-     *          If the <code>pathname</code> argument is <code>null</code>
+     * @pbrbm   pbtinbmf  A pbtinbmf string
+     * @tirows  NullPointfrExdfption
+     *          If tif <dodf>pbtinbmf</dodf> brgumfnt is <dodf>null</dodf>
      */
-    public File(String pathname) {
-        if (pathname == null) {
-            throw new NullPointerException();
+    publid Filf(String pbtinbmf) {
+        if (pbtinbmf == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.path = fs.normalize(pathname);
-        this.prefixLength = fs.prefixLength(this.path);
+        tiis.pbti = fs.normblizf(pbtinbmf);
+        tiis.prffixLfngti = fs.prffixLfngti(tiis.pbti);
     }
 
-    /* Note: The two-argument File constructors do not interpret an empty
-       parent abstract pathname as the current user directory.  An empty parent
-       instead causes the child to be resolved against the system-dependent
-       directory defined by the FileSystem.getDefaultParent method.  On Unix
-       this default is "/", while on Microsoft Windows it is "\\".  This is required for
-       compatibility with the original behavior of this class. */
+    /* Notf: Tif two-brgumfnt Filf donstrudtors do not intfrprft bn fmpty
+       pbrfnt bbstrbdt pbtinbmf bs tif durrfnt usfr dirfdtory.  An fmpty pbrfnt
+       instfbd dbusfs tif diild to bf rfsolvfd bgbinst tif systfm-dfpfndfnt
+       dirfdtory dffinfd by tif FilfSystfm.gftDffbultPbrfnt mftiod.  On Unix
+       tiis dffbult is "/", wiilf on Midrosoft Windows it is "\\".  Tiis is rfquirfd for
+       dompbtibility witi tif originbl bfibvior of tiis dlbss. */
 
     /**
-     * Creates a new <code>File</code> instance from a parent pathname string
-     * and a child pathname string.
+     * Crfbtfs b nfw <dodf>Filf</dodf> instbndf from b pbrfnt pbtinbmf string
+     * bnd b diild pbtinbmf string.
      *
-     * <p> If <code>parent</code> is <code>null</code> then the new
-     * <code>File</code> instance is created as if by invoking the
-     * single-argument <code>File</code> constructor on the given
-     * <code>child</code> pathname string.
+     * <p> If <dodf>pbrfnt</dodf> is <dodf>null</dodf> tifn tif nfw
+     * <dodf>Filf</dodf> instbndf is drfbtfd bs if by invoking tif
+     * singlf-brgumfnt <dodf>Filf</dodf> donstrudtor on tif givfn
+     * <dodf>diild</dodf> pbtinbmf string.
      *
-     * <p> Otherwise the <code>parent</code> pathname string is taken to denote
-     * a directory, and the <code>child</code> pathname string is taken to
-     * denote either a directory or a file.  If the <code>child</code> pathname
-     * string is absolute then it is converted into a relative pathname in a
-     * system-dependent way.  If <code>parent</code> is the empty string then
-     * the new <code>File</code> instance is created by converting
-     * <code>child</code> into an abstract pathname and resolving the result
-     * against a system-dependent default directory.  Otherwise each pathname
-     * string is converted into an abstract pathname and the child abstract
-     * pathname is resolved against the parent.
+     * <p> Otifrwisf tif <dodf>pbrfnt</dodf> pbtinbmf string is tbkfn to dfnotf
+     * b dirfdtory, bnd tif <dodf>diild</dodf> pbtinbmf string is tbkfn to
+     * dfnotf fitifr b dirfdtory or b filf.  If tif <dodf>diild</dodf> pbtinbmf
+     * string is bbsolutf tifn it is donvfrtfd into b rflbtivf pbtinbmf in b
+     * systfm-dfpfndfnt wby.  If <dodf>pbrfnt</dodf> is tif fmpty string tifn
+     * tif nfw <dodf>Filf</dodf> instbndf is drfbtfd by donvfrting
+     * <dodf>diild</dodf> into bn bbstrbdt pbtinbmf bnd rfsolving tif rfsult
+     * bgbinst b systfm-dfpfndfnt dffbult dirfdtory.  Otifrwisf fbdi pbtinbmf
+     * string is donvfrtfd into bn bbstrbdt pbtinbmf bnd tif diild bbstrbdt
+     * pbtinbmf is rfsolvfd bgbinst tif pbrfnt.
      *
-     * @param   parent  The parent pathname string
-     * @param   child   The child pathname string
-     * @throws  NullPointerException
-     *          If <code>child</code> is <code>null</code>
+     * @pbrbm   pbrfnt  Tif pbrfnt pbtinbmf string
+     * @pbrbm   diild   Tif diild pbtinbmf string
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>diild</dodf> is <dodf>null</dodf>
      */
-    public File(String parent, String child) {
-        if (child == null) {
-            throw new NullPointerException();
+    publid Filf(String pbrfnt, String diild) {
+        if (diild == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        if (parent != null) {
-            if (parent.equals("")) {
-                this.path = fs.resolve(fs.getDefaultParent(),
-                                       fs.normalize(child));
-            } else {
-                this.path = fs.resolve(fs.normalize(parent),
-                                       fs.normalize(child));
+        if (pbrfnt != null) {
+            if (pbrfnt.fqubls("")) {
+                tiis.pbti = fs.rfsolvf(fs.gftDffbultPbrfnt(),
+                                       fs.normblizf(diild));
+            } flsf {
+                tiis.pbti = fs.rfsolvf(fs.normblizf(pbrfnt),
+                                       fs.normblizf(diild));
             }
-        } else {
-            this.path = fs.normalize(child);
+        } flsf {
+            tiis.pbti = fs.normblizf(diild);
         }
-        this.prefixLength = fs.prefixLength(this.path);
+        tiis.prffixLfngti = fs.prffixLfngti(tiis.pbti);
     }
 
     /**
-     * Creates a new <code>File</code> instance from a parent abstract
-     * pathname and a child pathname string.
+     * Crfbtfs b nfw <dodf>Filf</dodf> instbndf from b pbrfnt bbstrbdt
+     * pbtinbmf bnd b diild pbtinbmf string.
      *
-     * <p> If <code>parent</code> is <code>null</code> then the new
-     * <code>File</code> instance is created as if by invoking the
-     * single-argument <code>File</code> constructor on the given
-     * <code>child</code> pathname string.
+     * <p> If <dodf>pbrfnt</dodf> is <dodf>null</dodf> tifn tif nfw
+     * <dodf>Filf</dodf> instbndf is drfbtfd bs if by invoking tif
+     * singlf-brgumfnt <dodf>Filf</dodf> donstrudtor on tif givfn
+     * <dodf>diild</dodf> pbtinbmf string.
      *
-     * <p> Otherwise the <code>parent</code> abstract pathname is taken to
-     * denote a directory, and the <code>child</code> pathname string is taken
-     * to denote either a directory or a file.  If the <code>child</code>
-     * pathname string is absolute then it is converted into a relative
-     * pathname in a system-dependent way.  If <code>parent</code> is the empty
-     * abstract pathname then the new <code>File</code> instance is created by
-     * converting <code>child</code> into an abstract pathname and resolving
-     * the result against a system-dependent default directory.  Otherwise each
-     * pathname string is converted into an abstract pathname and the child
-     * abstract pathname is resolved against the parent.
+     * <p> Otifrwisf tif <dodf>pbrfnt</dodf> bbstrbdt pbtinbmf is tbkfn to
+     * dfnotf b dirfdtory, bnd tif <dodf>diild</dodf> pbtinbmf string is tbkfn
+     * to dfnotf fitifr b dirfdtory or b filf.  If tif <dodf>diild</dodf>
+     * pbtinbmf string is bbsolutf tifn it is donvfrtfd into b rflbtivf
+     * pbtinbmf in b systfm-dfpfndfnt wby.  If <dodf>pbrfnt</dodf> is tif fmpty
+     * bbstrbdt pbtinbmf tifn tif nfw <dodf>Filf</dodf> instbndf is drfbtfd by
+     * donvfrting <dodf>diild</dodf> into bn bbstrbdt pbtinbmf bnd rfsolving
+     * tif rfsult bgbinst b systfm-dfpfndfnt dffbult dirfdtory.  Otifrwisf fbdi
+     * pbtinbmf string is donvfrtfd into bn bbstrbdt pbtinbmf bnd tif diild
+     * bbstrbdt pbtinbmf is rfsolvfd bgbinst tif pbrfnt.
      *
-     * @param   parent  The parent abstract pathname
-     * @param   child   The child pathname string
-     * @throws  NullPointerException
-     *          If <code>child</code> is <code>null</code>
+     * @pbrbm   pbrfnt  Tif pbrfnt bbstrbdt pbtinbmf
+     * @pbrbm   diild   Tif diild pbtinbmf string
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>diild</dodf> is <dodf>null</dodf>
      */
-    public File(File parent, String child) {
-        if (child == null) {
-            throw new NullPointerException();
+    publid Filf(Filf pbrfnt, String diild) {
+        if (diild == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        if (parent != null) {
-            if (parent.path.equals("")) {
-                this.path = fs.resolve(fs.getDefaultParent(),
-                                       fs.normalize(child));
-            } else {
-                this.path = fs.resolve(parent.path,
-                                       fs.normalize(child));
+        if (pbrfnt != null) {
+            if (pbrfnt.pbti.fqubls("")) {
+                tiis.pbti = fs.rfsolvf(fs.gftDffbultPbrfnt(),
+                                       fs.normblizf(diild));
+            } flsf {
+                tiis.pbti = fs.rfsolvf(pbrfnt.pbti,
+                                       fs.normblizf(diild));
             }
-        } else {
-            this.path = fs.normalize(child);
+        } flsf {
+            tiis.pbti = fs.normblizf(diild);
         }
-        this.prefixLength = fs.prefixLength(this.path);
+        tiis.prffixLfngti = fs.prffixLfngti(tiis.pbti);
     }
 
     /**
-     * Creates a new <tt>File</tt> instance by converting the given
-     * <tt>file:</tt> URI into an abstract pathname.
+     * Crfbtfs b nfw <tt>Filf</tt> instbndf by donvfrting tif givfn
+     * <tt>filf:</tt> URI into bn bbstrbdt pbtinbmf.
      *
-     * <p> The exact form of a <tt>file:</tt> URI is system-dependent, hence
-     * the transformation performed by this constructor is also
-     * system-dependent.
+     * <p> Tif fxbdt form of b <tt>filf:</tt> URI is systfm-dfpfndfnt, ifndf
+     * tif trbnsformbtion pfrformfd by tiis donstrudtor is blso
+     * systfm-dfpfndfnt.
      *
-     * <p> For a given abstract pathname <i>f</i> it is guaranteed that
+     * <p> For b givfn bbstrbdt pbtinbmf <i>f</i> it is gubrbntffd tibt
      *
-     * <blockquote><tt>
-     * new File(</tt><i>&nbsp;f</i><tt>.{@link #toURI() toURI}()).equals(</tt><i>&nbsp;f</i><tt>.{@link #getAbsoluteFile() getAbsoluteFile}())
-     * </tt></blockquote>
+     * <blodkquotf><tt>
+     * nfw Filf(</tt><i>&nbsp;f</i><tt>.{@link #toURI() toURI}()).fqubls(</tt><i>&nbsp;f</i><tt>.{@link #gftAbsolutfFilf() gftAbsolutfFilf}())
+     * </tt></blodkquotf>
      *
-     * so long as the original abstract pathname, the URI, and the new abstract
-     * pathname are all created in (possibly different invocations of) the same
-     * Java virtual machine.  This relationship typically does not hold,
-     * however, when a <tt>file:</tt> URI that is created in a virtual machine
-     * on one operating system is converted into an abstract pathname in a
-     * virtual machine on a different operating system.
+     * so long bs tif originbl bbstrbdt pbtinbmf, tif URI, bnd tif nfw bbstrbdt
+     * pbtinbmf brf bll drfbtfd in (possibly difffrfnt invodbtions of) tif sbmf
+     * Jbvb virtubl mbdiinf.  Tiis rflbtionsiip typidblly dofs not iold,
+     * iowfvfr, wifn b <tt>filf:</tt> URI tibt is drfbtfd in b virtubl mbdiinf
+     * on onf opfrbting systfm is donvfrtfd into bn bbstrbdt pbtinbmf in b
+     * virtubl mbdiinf on b difffrfnt opfrbting systfm.
      *
-     * @param  uri
-     *         An absolute, hierarchical URI with a scheme equal to
-     *         <tt>"file"</tt>, a non-empty path component, and undefined
-     *         authority, query, and fragment components
+     * @pbrbm  uri
+     *         An bbsolutf, iifrbrdiidbl URI witi b sdifmf fqubl to
+     *         <tt>"filf"</tt>, b non-fmpty pbti domponfnt, bnd undffinfd
+     *         butiority, qufry, bnd frbgmfnt domponfnts
      *
-     * @throws  NullPointerException
+     * @tirows  NullPointfrExdfption
      *          If <tt>uri</tt> is <tt>null</tt>
      *
-     * @throws  IllegalArgumentException
-     *          If the preconditions on the parameter do not hold
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif prfdonditions on tif pbrbmftfr do not iold
      *
-     * @see #toURI()
-     * @see java.net.URI
-     * @since 1.4
+     * @sff #toURI()
+     * @sff jbvb.nft.URI
+     * @sindf 1.4
      */
-    public File(URI uri) {
+    publid Filf(URI uri) {
 
-        // Check our many preconditions
-        if (!uri.isAbsolute())
-            throw new IllegalArgumentException("URI is not absolute");
-        if (uri.isOpaque())
-            throw new IllegalArgumentException("URI is not hierarchical");
-        String scheme = uri.getScheme();
-        if ((scheme == null) || !scheme.equalsIgnoreCase("file"))
-            throw new IllegalArgumentException("URI scheme is not \"file\"");
-        if (uri.getAuthority() != null)
-            throw new IllegalArgumentException("URI has an authority component");
-        if (uri.getFragment() != null)
-            throw new IllegalArgumentException("URI has a fragment component");
-        if (uri.getQuery() != null)
-            throw new IllegalArgumentException("URI has a query component");
-        String p = uri.getPath();
-        if (p.equals(""))
-            throw new IllegalArgumentException("URI path component is empty");
+        // Cifdk our mbny prfdonditions
+        if (!uri.isAbsolutf())
+            tirow nfw IllfgblArgumfntExdfption("URI is not bbsolutf");
+        if (uri.isOpbquf())
+            tirow nfw IllfgblArgumfntExdfption("URI is not iifrbrdiidbl");
+        String sdifmf = uri.gftSdifmf();
+        if ((sdifmf == null) || !sdifmf.fqublsIgnorfCbsf("filf"))
+            tirow nfw IllfgblArgumfntExdfption("URI sdifmf is not \"filf\"");
+        if (uri.gftAutiority() != null)
+            tirow nfw IllfgblArgumfntExdfption("URI ibs bn butiority domponfnt");
+        if (uri.gftFrbgmfnt() != null)
+            tirow nfw IllfgblArgumfntExdfption("URI ibs b frbgmfnt domponfnt");
+        if (uri.gftQufry() != null)
+            tirow nfw IllfgblArgumfntExdfption("URI ibs b qufry domponfnt");
+        String p = uri.gftPbti();
+        if (p.fqubls(""))
+            tirow nfw IllfgblArgumfntExdfption("URI pbti domponfnt is fmpty");
 
-        // Okay, now initialize
-        p = fs.fromURIPath(p);
-        if (File.separatorChar != '/')
-            p = p.replace('/', File.separatorChar);
-        this.path = fs.normalize(p);
-        this.prefixLength = fs.prefixLength(this.path);
+        // Okby, now initiblizf
+        p = fs.fromURIPbti(p);
+        if (Filf.sfpbrbtorCibr != '/')
+            p = p.rfplbdf('/', Filf.sfpbrbtorCibr);
+        tiis.pbti = fs.normblizf(p);
+        tiis.prffixLfngti = fs.prffixLfngti(tiis.pbti);
     }
 
 
-    /* -- Path-component accessors -- */
+    /* -- Pbti-domponfnt bddfssors -- */
 
     /**
-     * Returns the name of the file or directory denoted by this abstract
-     * pathname.  This is just the last name in the pathname's name
-     * sequence.  If the pathname's name sequence is empty, then the empty
-     * string is returned.
+     * Rfturns tif nbmf of tif filf or dirfdtory dfnotfd by tiis bbstrbdt
+     * pbtinbmf.  Tiis is just tif lbst nbmf in tif pbtinbmf's nbmf
+     * sfqufndf.  If tif pbtinbmf's nbmf sfqufndf is fmpty, tifn tif fmpty
+     * string is rfturnfd.
      *
-     * @return  The name of the file or directory denoted by this abstract
-     *          pathname, or the empty string if this pathname's name sequence
-     *          is empty
+     * @rfturn  Tif nbmf of tif filf or dirfdtory dfnotfd by tiis bbstrbdt
+     *          pbtinbmf, or tif fmpty string if tiis pbtinbmf's nbmf sfqufndf
+     *          is fmpty
      */
-    public String getName() {
-        int index = path.lastIndexOf(separatorChar);
-        if (index < prefixLength) return path.substring(prefixLength);
-        return path.substring(index + 1);
+    publid String gftNbmf() {
+        int indfx = pbti.lbstIndfxOf(sfpbrbtorCibr);
+        if (indfx < prffixLfngti) rfturn pbti.substring(prffixLfngti);
+        rfturn pbti.substring(indfx + 1);
     }
 
     /**
-     * Returns the pathname string of this abstract pathname's parent, or
-     * <code>null</code> if this pathname does not name a parent directory.
+     * Rfturns tif pbtinbmf string of tiis bbstrbdt pbtinbmf's pbrfnt, or
+     * <dodf>null</dodf> if tiis pbtinbmf dofs not nbmf b pbrfnt dirfdtory.
      *
-     * <p> The <em>parent</em> of an abstract pathname consists of the
-     * pathname's prefix, if any, and each name in the pathname's name
-     * sequence except for the last.  If the name sequence is empty then
-     * the pathname does not name a parent directory.
+     * <p> Tif <fm>pbrfnt</fm> of bn bbstrbdt pbtinbmf donsists of tif
+     * pbtinbmf's prffix, if bny, bnd fbdi nbmf in tif pbtinbmf's nbmf
+     * sfqufndf fxdfpt for tif lbst.  If tif nbmf sfqufndf is fmpty tifn
+     * tif pbtinbmf dofs not nbmf b pbrfnt dirfdtory.
      *
-     * @return  The pathname string of the parent directory named by this
-     *          abstract pathname, or <code>null</code> if this pathname
-     *          does not name a parent
+     * @rfturn  Tif pbtinbmf string of tif pbrfnt dirfdtory nbmfd by tiis
+     *          bbstrbdt pbtinbmf, or <dodf>null</dodf> if tiis pbtinbmf
+     *          dofs not nbmf b pbrfnt
      */
-    public String getParent() {
-        int index = path.lastIndexOf(separatorChar);
-        if (index < prefixLength) {
-            if ((prefixLength > 0) && (path.length() > prefixLength))
-                return path.substring(0, prefixLength);
-            return null;
+    publid String gftPbrfnt() {
+        int indfx = pbti.lbstIndfxOf(sfpbrbtorCibr);
+        if (indfx < prffixLfngti) {
+            if ((prffixLfngti > 0) && (pbti.lfngti() > prffixLfngti))
+                rfturn pbti.substring(0, prffixLfngti);
+            rfturn null;
         }
-        return path.substring(0, index);
+        rfturn pbti.substring(0, indfx);
     }
 
     /**
-     * Returns the abstract pathname of this abstract pathname's parent,
-     * or <code>null</code> if this pathname does not name a parent
-     * directory.
+     * Rfturns tif bbstrbdt pbtinbmf of tiis bbstrbdt pbtinbmf's pbrfnt,
+     * or <dodf>null</dodf> if tiis pbtinbmf dofs not nbmf b pbrfnt
+     * dirfdtory.
      *
-     * <p> The <em>parent</em> of an abstract pathname consists of the
-     * pathname's prefix, if any, and each name in the pathname's name
-     * sequence except for the last.  If the name sequence is empty then
-     * the pathname does not name a parent directory.
+     * <p> Tif <fm>pbrfnt</fm> of bn bbstrbdt pbtinbmf donsists of tif
+     * pbtinbmf's prffix, if bny, bnd fbdi nbmf in tif pbtinbmf's nbmf
+     * sfqufndf fxdfpt for tif lbst.  If tif nbmf sfqufndf is fmpty tifn
+     * tif pbtinbmf dofs not nbmf b pbrfnt dirfdtory.
      *
-     * @return  The abstract pathname of the parent directory named by this
-     *          abstract pathname, or <code>null</code> if this pathname
-     *          does not name a parent
+     * @rfturn  Tif bbstrbdt pbtinbmf of tif pbrfnt dirfdtory nbmfd by tiis
+     *          bbstrbdt pbtinbmf, or <dodf>null</dodf> if tiis pbtinbmf
+     *          dofs not nbmf b pbrfnt
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public File getParentFile() {
-        String p = this.getParent();
-        if (p == null) return null;
-        return new File(p, this.prefixLength);
+    publid Filf gftPbrfntFilf() {
+        String p = tiis.gftPbrfnt();
+        if (p == null) rfturn null;
+        rfturn nfw Filf(p, tiis.prffixLfngti);
     }
 
     /**
-     * Converts this abstract pathname into a pathname string.  The resulting
-     * string uses the {@link #separator default name-separator character} to
-     * separate the names in the name sequence.
+     * Convfrts tiis bbstrbdt pbtinbmf into b pbtinbmf string.  Tif rfsulting
+     * string usfs tif {@link #sfpbrbtor dffbult nbmf-sfpbrbtor dibrbdtfr} to
+     * sfpbrbtf tif nbmfs in tif nbmf sfqufndf.
      *
-     * @return  The string form of this abstract pathname
+     * @rfturn  Tif string form of tiis bbstrbdt pbtinbmf
      */
-    public String getPath() {
-        return path;
+    publid String gftPbti() {
+        rfturn pbti;
     }
 
 
-    /* -- Path operations -- */
+    /* -- Pbti opfrbtions -- */
 
     /**
-     * Tests whether this abstract pathname is absolute.  The definition of
-     * absolute pathname is system dependent.  On UNIX systems, a pathname is
-     * absolute if its prefix is <code>"/"</code>.  On Microsoft Windows systems, a
-     * pathname is absolute if its prefix is a drive specifier followed by
-     * <code>"\\"</code>, or if its prefix is <code>"\\\\"</code>.
+     * Tfsts wiftifr tiis bbstrbdt pbtinbmf is bbsolutf.  Tif dffinition of
+     * bbsolutf pbtinbmf is systfm dfpfndfnt.  On UNIX systfms, b pbtinbmf is
+     * bbsolutf if its prffix is <dodf>"/"</dodf>.  On Midrosoft Windows systfms, b
+     * pbtinbmf is bbsolutf if its prffix is b drivf spfdififr followfd by
+     * <dodf>"\\"</dodf>, or if its prffix is <dodf>"\\\\"</dodf>.
      *
-     * @return  <code>true</code> if this abstract pathname is absolute,
-     *          <code>false</code> otherwise
+     * @rfturn  <dodf>truf</dodf> if tiis bbstrbdt pbtinbmf is bbsolutf,
+     *          <dodf>fblsf</dodf> otifrwisf
      */
-    public boolean isAbsolute() {
-        return fs.isAbsolute(this);
+    publid boolfbn isAbsolutf() {
+        rfturn fs.isAbsolutf(tiis);
     }
 
     /**
-     * Returns the absolute pathname string of this abstract pathname.
+     * Rfturns tif bbsolutf pbtinbmf string of tiis bbstrbdt pbtinbmf.
      *
-     * <p> If this abstract pathname is already absolute, then the pathname
-     * string is simply returned as if by the <code>{@link #getPath}</code>
-     * method.  If this abstract pathname is the empty abstract pathname then
-     * the pathname string of the current user directory, which is named by the
-     * system property <code>user.dir</code>, is returned.  Otherwise this
-     * pathname is resolved in a system-dependent way.  On UNIX systems, a
-     * relative pathname is made absolute by resolving it against the current
-     * user directory.  On Microsoft Windows systems, a relative pathname is made absolute
-     * by resolving it against the current directory of the drive named by the
-     * pathname, if any; if not, it is resolved against the current user
-     * directory.
+     * <p> If tiis bbstrbdt pbtinbmf is blrfbdy bbsolutf, tifn tif pbtinbmf
+     * string is simply rfturnfd bs if by tif <dodf>{@link #gftPbti}</dodf>
+     * mftiod.  If tiis bbstrbdt pbtinbmf is tif fmpty bbstrbdt pbtinbmf tifn
+     * tif pbtinbmf string of tif durrfnt usfr dirfdtory, wiidi is nbmfd by tif
+     * systfm propfrty <dodf>usfr.dir</dodf>, is rfturnfd.  Otifrwisf tiis
+     * pbtinbmf is rfsolvfd in b systfm-dfpfndfnt wby.  On UNIX systfms, b
+     * rflbtivf pbtinbmf is mbdf bbsolutf by rfsolving it bgbinst tif durrfnt
+     * usfr dirfdtory.  On Midrosoft Windows systfms, b rflbtivf pbtinbmf is mbdf bbsolutf
+     * by rfsolving it bgbinst tif durrfnt dirfdtory of tif drivf nbmfd by tif
+     * pbtinbmf, if bny; if not, it is rfsolvfd bgbinst tif durrfnt usfr
+     * dirfdtory.
      *
-     * @return  The absolute pathname string denoting the same file or
-     *          directory as this abstract pathname
+     * @rfturn  Tif bbsolutf pbtinbmf string dfnoting tif sbmf filf or
+     *          dirfdtory bs tiis bbstrbdt pbtinbmf
      *
-     * @throws  SecurityException
-     *          If a required system property value cannot be accessed.
+     * @tirows  SfdurityExdfption
+     *          If b rfquirfd systfm propfrty vbluf dbnnot bf bddfssfd.
      *
-     * @see     java.io.File#isAbsolute()
+     * @sff     jbvb.io.Filf#isAbsolutf()
      */
-    public String getAbsolutePath() {
-        return fs.resolve(this);
+    publid String gftAbsolutfPbti() {
+        rfturn fs.rfsolvf(tiis);
     }
 
     /**
-     * Returns the absolute form of this abstract pathname.  Equivalent to
-     * <code>new&nbsp;File(this.{@link #getAbsolutePath})</code>.
+     * Rfturns tif bbsolutf form of tiis bbstrbdt pbtinbmf.  Equivblfnt to
+     * <dodf>nfw&nbsp;Filf(tiis.{@link #gftAbsolutfPbti})</dodf>.
      *
-     * @return  The absolute abstract pathname denoting the same file or
-     *          directory as this abstract pathname
+     * @rfturn  Tif bbsolutf bbstrbdt pbtinbmf dfnoting tif sbmf filf or
+     *          dirfdtory bs tiis bbstrbdt pbtinbmf
      *
-     * @throws  SecurityException
-     *          If a required system property value cannot be accessed.
+     * @tirows  SfdurityExdfption
+     *          If b rfquirfd systfm propfrty vbluf dbnnot bf bddfssfd.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public File getAbsoluteFile() {
-        String absPath = getAbsolutePath();
-        return new File(absPath, fs.prefixLength(absPath));
+    publid Filf gftAbsolutfFilf() {
+        String bbsPbti = gftAbsolutfPbti();
+        rfturn nfw Filf(bbsPbti, fs.prffixLfngti(bbsPbti));
     }
 
     /**
-     * Returns the canonical pathname string of this abstract pathname.
+     * Rfturns tif dbnonidbl pbtinbmf string of tiis bbstrbdt pbtinbmf.
      *
-     * <p> A canonical pathname is both absolute and unique.  The precise
-     * definition of canonical form is system-dependent.  This method first
-     * converts this pathname to absolute form if necessary, as if by invoking the
-     * {@link #getAbsolutePath} method, and then maps it to its unique form in a
-     * system-dependent way.  This typically involves removing redundant names
-     * such as <tt>"."</tt> and <tt>".."</tt> from the pathname, resolving
-     * symbolic links (on UNIX platforms), and converting drive letters to a
-     * standard case (on Microsoft Windows platforms).
+     * <p> A dbnonidbl pbtinbmf is boti bbsolutf bnd uniquf.  Tif prfdisf
+     * dffinition of dbnonidbl form is systfm-dfpfndfnt.  Tiis mftiod first
+     * donvfrts tiis pbtinbmf to bbsolutf form if nfdfssbry, bs if by invoking tif
+     * {@link #gftAbsolutfPbti} mftiod, bnd tifn mbps it to its uniquf form in b
+     * systfm-dfpfndfnt wby.  Tiis typidblly involvfs rfmoving rfdundbnt nbmfs
+     * sudi bs <tt>"."</tt> bnd <tt>".."</tt> from tif pbtinbmf, rfsolving
+     * symbolid links (on UNIX plbtforms), bnd donvfrting drivf lfttfrs to b
+     * stbndbrd dbsf (on Midrosoft Windows plbtforms).
      *
-     * <p> Every pathname that denotes an existing file or directory has a
-     * unique canonical form.  Every pathname that denotes a nonexistent file
-     * or directory also has a unique canonical form.  The canonical form of
-     * the pathname of a nonexistent file or directory may be different from
-     * the canonical form of the same pathname after the file or directory is
-     * created.  Similarly, the canonical form of the pathname of an existing
-     * file or directory may be different from the canonical form of the same
-     * pathname after the file or directory is deleted.
+     * <p> Evfry pbtinbmf tibt dfnotfs bn fxisting filf or dirfdtory ibs b
+     * uniquf dbnonidbl form.  Evfry pbtinbmf tibt dfnotfs b nonfxistfnt filf
+     * or dirfdtory blso ibs b uniquf dbnonidbl form.  Tif dbnonidbl form of
+     * tif pbtinbmf of b nonfxistfnt filf or dirfdtory mby bf difffrfnt from
+     * tif dbnonidbl form of tif sbmf pbtinbmf bftfr tif filf or dirfdtory is
+     * drfbtfd.  Similbrly, tif dbnonidbl form of tif pbtinbmf of bn fxisting
+     * filf or dirfdtory mby bf difffrfnt from tif dbnonidbl form of tif sbmf
+     * pbtinbmf bftfr tif filf or dirfdtory is dflftfd.
      *
-     * @return  The canonical pathname string denoting the same file or
-     *          directory as this abstract pathname
+     * @rfturn  Tif dbnonidbl pbtinbmf string dfnoting tif sbmf filf or
+     *          dirfdtory bs tiis bbstrbdt pbtinbmf
      *
-     * @throws  IOException
-     *          If an I/O error occurs, which is possible because the
-     *          construction of the canonical pathname may require
-     *          filesystem queries
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs, wiidi is possiblf bfdbusf tif
+     *          donstrudtion of tif dbnonidbl pbtinbmf mby rfquirf
+     *          filfsystfm qufrifs
      *
-     * @throws  SecurityException
-     *          If a required system property value cannot be accessed, or
-     *          if a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead}</code> method denies
-     *          read access to the file
+     * @tirows  SfdurityExdfption
+     *          If b rfquirfd systfm propfrty vbluf dbnnot bf bddfssfd, or
+     *          if b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkRfbd}</dodf> mftiod dfnifs
+     *          rfbd bddfss to tif filf
      *
-     * @since   1.1
-     * @see     Path#toRealPath
+     * @sindf   1.1
+     * @sff     Pbti#toRfblPbti
      */
-    public String getCanonicalPath() throws IOException {
-        if (isInvalid()) {
-            throw new IOException("Invalid file path");
+    publid String gftCbnonidblPbti() tirows IOExdfption {
+        if (isInvblid()) {
+            tirow nfw IOExdfption("Invblid filf pbti");
         }
-        return fs.canonicalize(fs.resolve(this));
+        rfturn fs.dbnonidblizf(fs.rfsolvf(tiis));
     }
 
     /**
-     * Returns the canonical form of this abstract pathname.  Equivalent to
-     * <code>new&nbsp;File(this.{@link #getCanonicalPath})</code>.
+     * Rfturns tif dbnonidbl form of tiis bbstrbdt pbtinbmf.  Equivblfnt to
+     * <dodf>nfw&nbsp;Filf(tiis.{@link #gftCbnonidblPbti})</dodf>.
      *
-     * @return  The canonical pathname string denoting the same file or
-     *          directory as this abstract pathname
+     * @rfturn  Tif dbnonidbl pbtinbmf string dfnoting tif sbmf filf or
+     *          dirfdtory bs tiis bbstrbdt pbtinbmf
      *
-     * @throws  IOException
-     *          If an I/O error occurs, which is possible because the
-     *          construction of the canonical pathname may require
-     *          filesystem queries
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs, wiidi is possiblf bfdbusf tif
+     *          donstrudtion of tif dbnonidbl pbtinbmf mby rfquirf
+     *          filfsystfm qufrifs
      *
-     * @throws  SecurityException
-     *          If a required system property value cannot be accessed, or
-     *          if a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead}</code> method denies
-     *          read access to the file
+     * @tirows  SfdurityExdfption
+     *          If b rfquirfd systfm propfrty vbluf dbnnot bf bddfssfd, or
+     *          if b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkRfbd}</dodf> mftiod dfnifs
+     *          rfbd bddfss to tif filf
      *
-     * @since 1.2
-     * @see     Path#toRealPath
+     * @sindf 1.2
+     * @sff     Pbti#toRfblPbti
      */
-    public File getCanonicalFile() throws IOException {
-        String canonPath = getCanonicalPath();
-        return new File(canonPath, fs.prefixLength(canonPath));
+    publid Filf gftCbnonidblFilf() tirows IOExdfption {
+        String dbnonPbti = gftCbnonidblPbti();
+        rfturn nfw Filf(dbnonPbti, fs.prffixLfngti(dbnonPbti));
     }
 
-    private static String slashify(String path, boolean isDirectory) {
-        String p = path;
-        if (File.separatorChar != '/')
-            p = p.replace(File.separatorChar, '/');
-        if (!p.startsWith("/"))
+    privbtf stbtid String slbsiify(String pbti, boolfbn isDirfdtory) {
+        String p = pbti;
+        if (Filf.sfpbrbtorCibr != '/')
+            p = p.rfplbdf(Filf.sfpbrbtorCibr, '/');
+        if (!p.stbrtsWiti("/"))
             p = "/" + p;
-        if (!p.endsWith("/") && isDirectory)
+        if (!p.fndsWiti("/") && isDirfdtory)
             p = p + "/";
-        return p;
+        rfturn p;
     }
 
     /**
-     * Converts this abstract pathname into a <code>file:</code> URL.  The
-     * exact form of the URL is system-dependent.  If it can be determined that
-     * the file denoted by this abstract pathname is a directory, then the
-     * resulting URL will end with a slash.
+     * Convfrts tiis bbstrbdt pbtinbmf into b <dodf>filf:</dodf> URL.  Tif
+     * fxbdt form of tif URL is systfm-dfpfndfnt.  If it dbn bf dftfrminfd tibt
+     * tif filf dfnotfd by tiis bbstrbdt pbtinbmf is b dirfdtory, tifn tif
+     * rfsulting URL will fnd witi b slbsi.
      *
-     * @return  A URL object representing the equivalent file URL
+     * @rfturn  A URL objfdt rfprfsfnting tif fquivblfnt filf URL
      *
-     * @throws  MalformedURLException
-     *          If the path cannot be parsed as a URL
+     * @tirows  MblformfdURLExdfption
+     *          If tif pbti dbnnot bf pbrsfd bs b URL
      *
-     * @see     #toURI()
-     * @see     java.net.URI
-     * @see     java.net.URI#toURL()
-     * @see     java.net.URL
-     * @since   1.2
+     * @sff     #toURI()
+     * @sff     jbvb.nft.URI
+     * @sff     jbvb.nft.URI#toURL()
+     * @sff     jbvb.nft.URL
+     * @sindf   1.2
      *
-     * @deprecated This method does not automatically escape characters that
-     * are illegal in URLs.  It is recommended that new code convert an
-     * abstract pathname into a URL by first converting it into a URI, via the
-     * {@link #toURI() toURI} method, and then converting the URI into a URL
-     * via the {@link java.net.URI#toURL() URI.toURL} method.
+     * @dfprfdbtfd Tiis mftiod dofs not butombtidblly fsdbpf dibrbdtfrs tibt
+     * brf illfgbl in URLs.  It is rfdommfndfd tibt nfw dodf donvfrt bn
+     * bbstrbdt pbtinbmf into b URL by first donvfrting it into b URI, vib tif
+     * {@link #toURI() toURI} mftiod, bnd tifn donvfrting tif URI into b URL
+     * vib tif {@link jbvb.nft.URI#toURL() URI.toURL} mftiod.
      */
-    @Deprecated
-    public URL toURL() throws MalformedURLException {
-        if (isInvalid()) {
-            throw new MalformedURLException("Invalid file path");
+    @Dfprfdbtfd
+    publid URL toURL() tirows MblformfdURLExdfption {
+        if (isInvblid()) {
+            tirow nfw MblformfdURLExdfption("Invblid filf pbti");
         }
-        return new URL("file", "", slashify(getAbsolutePath(), isDirectory()));
+        rfturn nfw URL("filf", "", slbsiify(gftAbsolutfPbti(), isDirfdtory()));
     }
 
     /**
-     * Constructs a <tt>file:</tt> URI that represents this abstract pathname.
+     * Construdts b <tt>filf:</tt> URI tibt rfprfsfnts tiis bbstrbdt pbtinbmf.
      *
-     * <p> The exact form of the URI is system-dependent.  If it can be
-     * determined that the file denoted by this abstract pathname is a
-     * directory, then the resulting URI will end with a slash.
+     * <p> Tif fxbdt form of tif URI is systfm-dfpfndfnt.  If it dbn bf
+     * dftfrminfd tibt tif filf dfnotfd by tiis bbstrbdt pbtinbmf is b
+     * dirfdtory, tifn tif rfsulting URI will fnd witi b slbsi.
      *
-     * <p> For a given abstract pathname <i>f</i>, it is guaranteed that
+     * <p> For b givfn bbstrbdt pbtinbmf <i>f</i>, it is gubrbntffd tibt
      *
-     * <blockquote><tt>
-     * new {@link #File(java.net.URI) File}(</tt><i>&nbsp;f</i><tt>.toURI()).equals(</tt><i>&nbsp;f</i><tt>.{@link #getAbsoluteFile() getAbsoluteFile}())
-     * </tt></blockquote>
+     * <blodkquotf><tt>
+     * nfw {@link #Filf(jbvb.nft.URI) Filf}(</tt><i>&nbsp;f</i><tt>.toURI()).fqubls(</tt><i>&nbsp;f</i><tt>.{@link #gftAbsolutfFilf() gftAbsolutfFilf}())
+     * </tt></blodkquotf>
      *
-     * so long as the original abstract pathname, the URI, and the new abstract
-     * pathname are all created in (possibly different invocations of) the same
-     * Java virtual machine.  Due to the system-dependent nature of abstract
-     * pathnames, however, this relationship typically does not hold when a
-     * <tt>file:</tt> URI that is created in a virtual machine on one operating
-     * system is converted into an abstract pathname in a virtual machine on a
-     * different operating system.
+     * so long bs tif originbl bbstrbdt pbtinbmf, tif URI, bnd tif nfw bbstrbdt
+     * pbtinbmf brf bll drfbtfd in (possibly difffrfnt invodbtions of) tif sbmf
+     * Jbvb virtubl mbdiinf.  Duf to tif systfm-dfpfndfnt nbturf of bbstrbdt
+     * pbtinbmfs, iowfvfr, tiis rflbtionsiip typidblly dofs not iold wifn b
+     * <tt>filf:</tt> URI tibt is drfbtfd in b virtubl mbdiinf on onf opfrbting
+     * systfm is donvfrtfd into bn bbstrbdt pbtinbmf in b virtubl mbdiinf on b
+     * difffrfnt opfrbting systfm.
      *
-     * <p> Note that when this abstract pathname represents a UNC pathname then
-     * all components of the UNC (including the server name component) are encoded
-     * in the {@code URI} path. The authority component is undefined, meaning
-     * that it is represented as {@code null}. The {@link Path} class defines the
-     * {@link Path#toUri toUri} method to encode the server name in the authority
-     * component of the resulting {@code URI}. The {@link #toPath toPath} method
-     * may be used to obtain a {@code Path} representing this abstract pathname.
+     * <p> Notf tibt wifn tiis bbstrbdt pbtinbmf rfprfsfnts b UNC pbtinbmf tifn
+     * bll domponfnts of tif UNC (indluding tif sfrvfr nbmf domponfnt) brf fndodfd
+     * in tif {@dodf URI} pbti. Tif butiority domponfnt is undffinfd, mfbning
+     * tibt it is rfprfsfntfd bs {@dodf null}. Tif {@link Pbti} dlbss dffinfs tif
+     * {@link Pbti#toUri toUri} mftiod to fndodf tif sfrvfr nbmf in tif butiority
+     * domponfnt of tif rfsulting {@dodf URI}. Tif {@link #toPbti toPbti} mftiod
+     * mby bf usfd to obtbin b {@dodf Pbti} rfprfsfnting tiis bbstrbdt pbtinbmf.
      *
-     * @return  An absolute, hierarchical URI with a scheme equal to
-     *          <tt>"file"</tt>, a path representing this abstract pathname,
-     *          and undefined authority, query, and fragment components
-     * @throws SecurityException If a required system property value cannot
-     * be accessed.
+     * @rfturn  An bbsolutf, iifrbrdiidbl URI witi b sdifmf fqubl to
+     *          <tt>"filf"</tt>, b pbti rfprfsfnting tiis bbstrbdt pbtinbmf,
+     *          bnd undffinfd butiority, qufry, bnd frbgmfnt domponfnts
+     * @tirows SfdurityExdfption If b rfquirfd systfm propfrty vbluf dbnnot
+     * bf bddfssfd.
      *
-     * @see #File(java.net.URI)
-     * @see java.net.URI
-     * @see java.net.URI#toURL()
-     * @since 1.4
+     * @sff #Filf(jbvb.nft.URI)
+     * @sff jbvb.nft.URI
+     * @sff jbvb.nft.URI#toURL()
+     * @sindf 1.4
      */
-    public URI toURI() {
+    publid URI toURI() {
         try {
-            File f = getAbsoluteFile();
-            String sp = slashify(f.getPath(), f.isDirectory());
-            if (sp.startsWith("//"))
+            Filf f = gftAbsolutfFilf();
+            String sp = slbsiify(f.gftPbti(), f.isDirfdtory());
+            if (sp.stbrtsWiti("//"))
                 sp = "//" + sp;
-            return new URI("file", null, sp, null);
-        } catch (URISyntaxException x) {
-            throw new Error(x);         // Can't happen
+            rfturn nfw URI("filf", null, sp, null);
+        } dbtdi (URISyntbxExdfption x) {
+            tirow nfw Error(x);         // Cbn't ibppfn
         }
     }
 
 
-    /* -- Attribute accessors -- */
+    /* -- Attributf bddfssors -- */
 
     /**
-     * Tests whether the application can read the file denoted by this
-     * abstract pathname. On some platforms it may be possible to start the
-     * Java virtual machine with special privileges that allow it to read
-     * files that are marked as unreadable. Consequently this method may return
-     * {@code true} even though the file does not have read permissions.
+     * Tfsts wiftifr tif bpplidbtion dbn rfbd tif filf dfnotfd by tiis
+     * bbstrbdt pbtinbmf. On somf plbtforms it mby bf possiblf to stbrt tif
+     * Jbvb virtubl mbdiinf witi spfdibl privilfgfs tibt bllow it to rfbd
+     * filfs tibt brf mbrkfd bs unrfbdbblf. Consfqufntly tiis mftiod mby rfturn
+     * {@dodf truf} fvfn tiougi tif filf dofs not ibvf rfbd pfrmissions.
      *
-     * @return  <code>true</code> if and only if the file specified by this
-     *          abstract pathname exists <em>and</em> can be read by the
-     *          application; <code>false</code> otherwise
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif filf spfdififd by tiis
+     *          bbstrbdt pbtinbmf fxists <fm>bnd</fm> dbn bf rfbd by tif
+     *          bpplidbtion; <dodf>fblsf</dodf> otifrwisf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs rfbd bddfss to tif filf
      */
-    public boolean canRead() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkRead(path);
+    publid boolfbn dbnRfbd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return fs.checkAccess(this, FileSystem.ACCESS_READ);
+        rfturn fs.difdkAddfss(tiis, FilfSystfm.ACCESS_READ);
     }
 
     /**
-     * Tests whether the application can modify the file denoted by this
-     * abstract pathname. On some platforms it may be possible to start the
-     * Java virtual machine with special privileges that allow it to modify
-     * files that are marked read-only. Consequently this method may return
-     * {@code true} even though the file is marked read-only.
+     * Tfsts wiftifr tif bpplidbtion dbn modify tif filf dfnotfd by tiis
+     * bbstrbdt pbtinbmf. On somf plbtforms it mby bf possiblf to stbrt tif
+     * Jbvb virtubl mbdiinf witi spfdibl privilfgfs tibt bllow it to modify
+     * filfs tibt brf mbrkfd rfbd-only. Consfqufntly tiis mftiod mby rfturn
+     * {@dodf truf} fvfn tiougi tif filf is mbrkfd rfbd-only.
      *
-     * @return  <code>true</code> if and only if the file system actually
-     *          contains a file denoted by this abstract pathname <em>and</em>
-     *          the application is allowed to write to the file;
-     *          <code>false</code> otherwise.
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif filf systfm bdtublly
+     *          dontbins b filf dfnotfd by tiis bbstrbdt pbtinbmf <fm>bnd</fm>
+     *          tif bpplidbtion is bllowfd to writf to tif filf;
+     *          <dodf>fblsf</dodf> otifrwisf.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs writf bddfss to tif filf
      */
-    public boolean canWrite() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(path);
+    publid boolfbn dbnWritf() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return fs.checkAccess(this, FileSystem.ACCESS_WRITE);
+        rfturn fs.difdkAddfss(tiis, FilfSystfm.ACCESS_WRITE);
     }
 
     /**
-     * Tests whether the file or directory denoted by this abstract pathname
-     * exists.
+     * Tfsts wiftifr tif filf or dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf
+     * fxists.
      *
-     * @return  <code>true</code> if and only if the file or directory denoted
-     *          by this abstract pathname exists; <code>false</code> otherwise
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif filf or dirfdtory dfnotfd
+     *          by tiis bbstrbdt pbtinbmf fxists; <dodf>fblsf</dodf> otifrwisf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file or directory
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs rfbd bddfss to tif filf or dirfdtory
      */
-    public boolean exists() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkRead(path);
+    publid boolfbn fxists() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return ((fs.getBooleanAttributes(this) & FileSystem.BA_EXISTS) != 0);
+        rfturn ((fs.gftBoolfbnAttributfs(tiis) & FilfSystfm.BA_EXISTS) != 0);
     }
 
     /**
-     * Tests whether the file denoted by this abstract pathname is a
-     * directory.
+     * Tfsts wiftifr tif filf dfnotfd by tiis bbstrbdt pbtinbmf is b
+     * dirfdtory.
      *
-     * <p> Where it is required to distinguish an I/O exception from the case
-     * that the file is not a directory, or where several attributes of the
-     * same file are required at the same time, then the {@link
-     * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])
-     * Files.readAttributes} method may be used.
+     * <p> Wifrf it is rfquirfd to distinguisi bn I/O fxdfption from tif dbsf
+     * tibt tif filf is not b dirfdtory, or wifrf sfvfrbl bttributfs of tif
+     * sbmf filf brf rfquirfd bt tif sbmf timf, tifn tif {@link
+     * jbvb.nio.filf.Filfs#rfbdAttributfs(Pbti,Clbss,LinkOption[])
+     * Filfs.rfbdAttributfs} mftiod mby bf usfd.
      *
-     * @return <code>true</code> if and only if the file denoted by this
-     *          abstract pathname exists <em>and</em> is a directory;
-     *          <code>false</code> otherwise
+     * @rfturn <dodf>truf</dodf> if bnd only if tif filf dfnotfd by tiis
+     *          bbstrbdt pbtinbmf fxists <fm>bnd</fm> is b dirfdtory;
+     *          <dodf>fblsf</dodf> otifrwisf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs rfbd bddfss to tif filf
      */
-    public boolean isDirectory() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkRead(path);
+    publid boolfbn isDirfdtory() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return ((fs.getBooleanAttributes(this) & FileSystem.BA_DIRECTORY)
+        rfturn ((fs.gftBoolfbnAttributfs(tiis) & FilfSystfm.BA_DIRECTORY)
                 != 0);
     }
 
     /**
-     * Tests whether the file denoted by this abstract pathname is a normal
-     * file.  A file is <em>normal</em> if it is not a directory and, in
-     * addition, satisfies other system-dependent criteria.  Any non-directory
-     * file created by a Java application is guaranteed to be a normal file.
+     * Tfsts wiftifr tif filf dfnotfd by tiis bbstrbdt pbtinbmf is b normbl
+     * filf.  A filf is <fm>normbl</fm> if it is not b dirfdtory bnd, in
+     * bddition, sbtisfifs otifr systfm-dfpfndfnt dritfrib.  Any non-dirfdtory
+     * filf drfbtfd by b Jbvb bpplidbtion is gubrbntffd to bf b normbl filf.
      *
-     * <p> Where it is required to distinguish an I/O exception from the case
-     * that the file is not a normal file, or where several attributes of the
-     * same file are required at the same time, then the {@link
-     * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])
-     * Files.readAttributes} method may be used.
+     * <p> Wifrf it is rfquirfd to distinguisi bn I/O fxdfption from tif dbsf
+     * tibt tif filf is not b normbl filf, or wifrf sfvfrbl bttributfs of tif
+     * sbmf filf brf rfquirfd bt tif sbmf timf, tifn tif {@link
+     * jbvb.nio.filf.Filfs#rfbdAttributfs(Pbti,Clbss,LinkOption[])
+     * Filfs.rfbdAttributfs} mftiod mby bf usfd.
      *
-     * @return  <code>true</code> if and only if the file denoted by this
-     *          abstract pathname exists <em>and</em> is a normal file;
-     *          <code>false</code> otherwise
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif filf dfnotfd by tiis
+     *          bbstrbdt pbtinbmf fxists <fm>bnd</fm> is b normbl filf;
+     *          <dodf>fblsf</dodf> otifrwisf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs rfbd bddfss to tif filf
      */
-    public boolean isFile() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkRead(path);
+    publid boolfbn isFilf() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return ((fs.getBooleanAttributes(this) & FileSystem.BA_REGULAR) != 0);
+        rfturn ((fs.gftBoolfbnAttributfs(tiis) & FilfSystfm.BA_REGULAR) != 0);
     }
 
     /**
-     * Tests whether the file named by this abstract pathname is a hidden
-     * file.  The exact definition of <em>hidden</em> is system-dependent.  On
-     * UNIX systems, a file is considered to be hidden if its name begins with
-     * a period character (<code>'.'</code>).  On Microsoft Windows systems, a file is
-     * considered to be hidden if it has been marked as such in the filesystem.
+     * Tfsts wiftifr tif filf nbmfd by tiis bbstrbdt pbtinbmf is b iiddfn
+     * filf.  Tif fxbdt dffinition of <fm>iiddfn</fm> is systfm-dfpfndfnt.  On
+     * UNIX systfms, b filf is donsidfrfd to bf iiddfn if its nbmf bfgins witi
+     * b pfriod dibrbdtfr (<dodf>'.'</dodf>).  On Midrosoft Windows systfms, b filf is
+     * donsidfrfd to bf iiddfn if it ibs bffn mbrkfd bs sudi in tif filfsystfm.
      *
-     * @return  <code>true</code> if and only if the file denoted by this
-     *          abstract pathname is hidden according to the conventions of the
-     *          underlying platform
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif filf dfnotfd by tiis
+     *          bbstrbdt pbtinbmf is iiddfn bddording to tif donvfntions of tif
+     *          undfrlying plbtform
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs rfbd bddfss to tif filf
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public boolean isHidden() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkRead(path);
+    publid boolfbn isHiddfn() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return ((fs.getBooleanAttributes(this) & FileSystem.BA_HIDDEN) != 0);
+        rfturn ((fs.gftBoolfbnAttributfs(tiis) & FilfSystfm.BA_HIDDEN) != 0);
     }
 
     /**
-     * Returns the time that the file denoted by this abstract pathname was
-     * last modified.
+     * Rfturns tif timf tibt tif filf dfnotfd by tiis bbstrbdt pbtinbmf wbs
+     * lbst modififd.
      *
-     * <p> Where it is required to distinguish an I/O exception from the case
-     * where {@code 0L} is returned, or where several attributes of the
-     * same file are required at the same time, or where the time of last
-     * access or the creation time are required, then the {@link
-     * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])
-     * Files.readAttributes} method may be used.
+     * <p> Wifrf it is rfquirfd to distinguisi bn I/O fxdfption from tif dbsf
+     * wifrf {@dodf 0L} is rfturnfd, or wifrf sfvfrbl bttributfs of tif
+     * sbmf filf brf rfquirfd bt tif sbmf timf, or wifrf tif timf of lbst
+     * bddfss or tif drfbtion timf brf rfquirfd, tifn tif {@link
+     * jbvb.nio.filf.Filfs#rfbdAttributfs(Pbti,Clbss,LinkOption[])
+     * Filfs.rfbdAttributfs} mftiod mby bf usfd.
      *
-     * @return  A <code>long</code> value representing the time the file was
-     *          last modified, measured in milliseconds since the epoch
-     *          (00:00:00 GMT, January 1, 1970), or <code>0L</code> if the
-     *          file does not exist or if an I/O error occurs
+     * @rfturn  A <dodf>long</dodf> vbluf rfprfsfnting tif timf tif filf wbs
+     *          lbst modififd, mfbsurfd in millisfdonds sindf tif fpodi
+     *          (00:00:00 GMT, Jbnubry 1, 1970), or <dodf>0L</dodf> if tif
+     *          filf dofs not fxist or if bn I/O frror oddurs
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs rfbd bddfss to tif filf
      */
-    public long lastModified() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkRead(path);
+    publid long lbstModififd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(pbti);
         }
-        if (isInvalid()) {
-            return 0L;
+        if (isInvblid()) {
+            rfturn 0L;
         }
-        return fs.getLastModifiedTime(this);
+        rfturn fs.gftLbstModififdTimf(tiis);
     }
 
     /**
-     * Returns the length of the file denoted by this abstract pathname.
-     * The return value is unspecified if this pathname denotes a directory.
+     * Rfturns tif lfngti of tif filf dfnotfd by tiis bbstrbdt pbtinbmf.
+     * Tif rfturn vbluf is unspfdififd if tiis pbtinbmf dfnotfs b dirfdtory.
      *
-     * <p> Where it is required to distinguish an I/O exception from the case
-     * that {@code 0L} is returned, or where several attributes of the same file
-     * are required at the same time, then the {@link
-     * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])
-     * Files.readAttributes} method may be used.
+     * <p> Wifrf it is rfquirfd to distinguisi bn I/O fxdfption from tif dbsf
+     * tibt {@dodf 0L} is rfturnfd, or wifrf sfvfrbl bttributfs of tif sbmf filf
+     * brf rfquirfd bt tif sbmf timf, tifn tif {@link
+     * jbvb.nio.filf.Filfs#rfbdAttributfs(Pbti,Clbss,LinkOption[])
+     * Filfs.rfbdAttributfs} mftiod mby bf usfd.
      *
-     * @return  The length, in bytes, of the file denoted by this abstract
-     *          pathname, or <code>0L</code> if the file does not exist.  Some
-     *          operating systems may return <code>0L</code> for pathnames
-     *          denoting system-dependent entities such as devices or pipes.
+     * @rfturn  Tif lfngti, in bytfs, of tif filf dfnotfd by tiis bbstrbdt
+     *          pbtinbmf, or <dodf>0L</dodf> if tif filf dofs not fxist.  Somf
+     *          opfrbting systfms mby rfturn <dodf>0L</dodf> for pbtinbmfs
+     *          dfnoting systfm-dfpfndfnt fntitifs sudi bs dfvidfs or pipfs.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs rfbd bddfss to tif filf
      */
-    public long length() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkRead(path);
+    publid long lfngti() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(pbti);
         }
-        if (isInvalid()) {
-            return 0L;
+        if (isInvblid()) {
+            rfturn 0L;
         }
-        return fs.getLength(this);
+        rfturn fs.gftLfngti(tiis);
     }
 
 
-    /* -- File operations -- */
+    /* -- Filf opfrbtions -- */
 
     /**
-     * Atomically creates a new, empty file named by this abstract pathname if
-     * and only if a file with this name does not yet exist.  The check for the
-     * existence of the file and the creation of the file if it does not exist
-     * are a single operation that is atomic with respect to all other
-     * filesystem activities that might affect the file.
+     * Atomidblly drfbtfs b nfw, fmpty filf nbmfd by tiis bbstrbdt pbtinbmf if
+     * bnd only if b filf witi tiis nbmf dofs not yft fxist.  Tif difdk for tif
+     * fxistfndf of tif filf bnd tif drfbtion of tif filf if it dofs not fxist
+     * brf b singlf opfrbtion tibt is btomid witi rfspfdt to bll otifr
+     * filfsystfm bdtivitifs tibt migit bfffdt tif filf.
      * <P>
-     * Note: this method should <i>not</i> be used for file-locking, as
-     * the resulting protocol cannot be made to work reliably. The
-     * {@link java.nio.channels.FileLock FileLock}
-     * facility should be used instead.
+     * Notf: tiis mftiod siould <i>not</i> bf usfd for filf-lodking, bs
+     * tif rfsulting protodol dbnnot bf mbdf to work rflibbly. Tif
+     * {@link jbvb.nio.dibnnfls.FilfLodk FilfLodk}
+     * fbdility siould bf usfd instfbd.
      *
-     * @return  <code>true</code> if the named file does not exist and was
-     *          successfully created; <code>false</code> if the named file
-     *          already exists
+     * @rfturn  <dodf>truf</dodf> if tif nbmfd filf dofs not fxist bnd wbs
+     *          suddfssfully drfbtfd; <dodf>fblsf</dodf> if tif nbmfd filf
+     *          blrfbdy fxists
      *
-     * @throws  IOException
-     *          If an I/O error occurred
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurrfd
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs writf bddfss to tif filf
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public boolean createNewFile() throws IOException {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) security.checkWrite(path);
-        if (isInvalid()) {
-            throw new IOException("Invalid file path");
+    publid boolfbn drfbtfNfwFilf() tirows IOExdfption {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) sfdurity.difdkWritf(pbti);
+        if (isInvblid()) {
+            tirow nfw IOExdfption("Invblid filf pbti");
         }
-        return fs.createFileExclusively(path);
+        rfturn fs.drfbtfFilfExdlusivfly(pbti);
     }
 
     /**
-     * Deletes the file or directory denoted by this abstract pathname.  If
-     * this pathname denotes a directory, then the directory must be empty in
-     * order to be deleted.
+     * Dflftfs tif filf or dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf.  If
+     * tiis pbtinbmf dfnotfs b dirfdtory, tifn tif dirfdtory must bf fmpty in
+     * ordfr to bf dflftfd.
      *
-     * <p> Note that the {@link java.nio.file.Files} class defines the {@link
-     * java.nio.file.Files#delete(Path) delete} method to throw an {@link IOException}
-     * when a file cannot be deleted. This is useful for error reporting and to
-     * diagnose why a file cannot be deleted.
+     * <p> Notf tibt tif {@link jbvb.nio.filf.Filfs} dlbss dffinfs tif {@link
+     * jbvb.nio.filf.Filfs#dflftf(Pbti) dflftf} mftiod to tirow bn {@link IOExdfption}
+     * wifn b filf dbnnot bf dflftfd. Tiis is usfful for frror rfporting bnd to
+     * dibgnosf wiy b filf dbnnot bf dflftfd.
      *
-     * @return  <code>true</code> if and only if the file or directory is
-     *          successfully deleted; <code>false</code> otherwise
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif filf or dirfdtory is
+     *          suddfssfully dflftfd; <dodf>fblsf</dodf> otifrwisf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkDelete}</code> method denies
-     *          delete access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkDflftf}</dodf> mftiod dfnifs
+     *          dflftf bddfss to tif filf
      */
-    public boolean delete() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkDelete(path);
+    publid boolfbn dflftf() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkDflftf(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return fs.delete(this);
+        rfturn fs.dflftf(tiis);
     }
 
     /**
-     * Requests that the file or directory denoted by this abstract
-     * pathname be deleted when the virtual machine terminates.
-     * Files (or directories) are deleted in the reverse order that
-     * they are registered. Invoking this method to delete a file or
-     * directory that is already registered for deletion has no effect.
-     * Deletion will be attempted only for normal termination of the
-     * virtual machine, as defined by the Java Language Specification.
+     * Rfqufsts tibt tif filf or dirfdtory dfnotfd by tiis bbstrbdt
+     * pbtinbmf bf dflftfd wifn tif virtubl mbdiinf tfrminbtfs.
+     * Filfs (or dirfdtorifs) brf dflftfd in tif rfvfrsf ordfr tibt
+     * tify brf rfgistfrfd. Invoking tiis mftiod to dflftf b filf or
+     * dirfdtory tibt is blrfbdy rfgistfrfd for dflftion ibs no ffffdt.
+     * Dflftion will bf bttfmptfd only for normbl tfrminbtion of tif
+     * virtubl mbdiinf, bs dffinfd by tif Jbvb Lbngubgf Spfdifidbtion.
      *
-     * <p> Once deletion has been requested, it is not possible to cancel the
-     * request.  This method should therefore be used with care.
+     * <p> Ondf dflftion ibs bffn rfqufstfd, it is not possiblf to dbndfl tif
+     * rfqufst.  Tiis mftiod siould tifrfforf bf usfd witi dbrf.
      *
      * <P>
-     * Note: this method should <i>not</i> be used for file-locking, as
-     * the resulting protocol cannot be made to work reliably. The
-     * {@link java.nio.channels.FileLock FileLock}
-     * facility should be used instead.
+     * Notf: tiis mftiod siould <i>not</i> bf usfd for filf-lodking, bs
+     * tif rfsulting protodol dbnnot bf mbdf to work rflibbly. Tif
+     * {@link jbvb.nio.dibnnfls.FilfLodk FilfLodk}
+     * fbdility siould bf usfd instfbd.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkDelete}</code> method denies
-     *          delete access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkDflftf}</dodf> mftiod dfnifs
+     *          dflftf bddfss to tif filf
      *
-     * @see #delete
+     * @sff #dflftf
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public void deleteOnExit() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkDelete(path);
+    publid void dflftfOnExit() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkDflftf(pbti);
         }
-        if (isInvalid()) {
-            return;
+        if (isInvblid()) {
+            rfturn;
         }
-        DeleteOnExitHook.add(path);
+        DflftfOnExitHook.bdd(pbti);
     }
 
     /**
-     * Returns an array of strings naming the files and directories in the
-     * directory denoted by this abstract pathname.
+     * Rfturns bn brrby of strings nbming tif filfs bnd dirfdtorifs in tif
+     * dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf.
      *
-     * <p> If this abstract pathname does not denote a directory, then this
-     * method returns {@code null}.  Otherwise an array of strings is
-     * returned, one for each file or directory in the directory.  Names
-     * denoting the directory itself and the directory's parent directory are
-     * not included in the result.  Each string is a file name rather than a
-     * complete path.
+     * <p> If tiis bbstrbdt pbtinbmf dofs not dfnotf b dirfdtory, tifn tiis
+     * mftiod rfturns {@dodf null}.  Otifrwisf bn brrby of strings is
+     * rfturnfd, onf for fbdi filf or dirfdtory in tif dirfdtory.  Nbmfs
+     * dfnoting tif dirfdtory itsflf bnd tif dirfdtory's pbrfnt dirfdtory brf
+     * not indludfd in tif rfsult.  Ebdi string is b filf nbmf rbtifr tibn b
+     * domplftf pbti.
      *
-     * <p> There is no guarantee that the name strings in the resulting array
-     * will appear in any specific order; they are not, in particular,
-     * guaranteed to appear in alphabetical order.
+     * <p> Tifrf is no gubrbntff tibt tif nbmf strings in tif rfsulting brrby
+     * will bppfbr in bny spfdifid ordfr; tify brf not, in pbrtidulbr,
+     * gubrbntffd to bppfbr in blpibbftidbl ordfr.
      *
-     * <p> Note that the {@link java.nio.file.Files} class defines the {@link
-     * java.nio.file.Files#newDirectoryStream(Path) newDirectoryStream} method to
-     * open a directory and iterate over the names of the files in the directory.
-     * This may use less resources when working with very large directories, and
-     * may be more responsive when working with remote directories.
+     * <p> Notf tibt tif {@link jbvb.nio.filf.Filfs} dlbss dffinfs tif {@link
+     * jbvb.nio.filf.Filfs#nfwDirfdtoryStrfbm(Pbti) nfwDirfdtoryStrfbm} mftiod to
+     * opfn b dirfdtory bnd itfrbtf ovfr tif nbmfs of tif filfs in tif dirfdtory.
+     * Tiis mby usf lfss rfsourdfs wifn working witi vfry lbrgf dirfdtorifs, bnd
+     * mby bf morf rfsponsivf wifn working witi rfmotf dirfdtorifs.
      *
-     * @return  An array of strings naming the files and directories in the
-     *          directory denoted by this abstract pathname.  The array will be
-     *          empty if the directory is empty.  Returns {@code null} if
-     *          this abstract pathname does not denote a directory, or if an
-     *          I/O error occurs.
+     * @rfturn  An brrby of strings nbming tif filfs bnd dirfdtorifs in tif
+     *          dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf.  Tif brrby will bf
+     *          fmpty if tif dirfdtory is fmpty.  Rfturns {@dodf null} if
+     *          tiis bbstrbdt pbtinbmf dofs not dfnotf b dirfdtory, or if bn
+     *          I/O frror oddurs.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its {@link
-     *          SecurityManager#checkRead(String)} method denies read access to
-     *          the directory
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its {@link
+     *          SfdurityMbnbgfr#difdkRfbd(String)} mftiod dfnifs rfbd bddfss to
+     *          tif dirfdtory
      */
-    public String[] list() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkRead(path);
+    publid String[] list() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(pbti);
         }
-        if (isInvalid()) {
-            return null;
+        if (isInvblid()) {
+            rfturn null;
         }
-        return fs.list(this);
+        rfturn fs.list(tiis);
     }
 
     /**
-     * Returns an array of strings naming the files and directories in the
-     * directory denoted by this abstract pathname that satisfy the specified
-     * filter.  The behavior of this method is the same as that of the
-     * {@link #list()} method, except that the strings in the returned array
-     * must satisfy the filter.  If the given {@code filter} is {@code null}
-     * then all names are accepted.  Otherwise, a name satisfies the filter if
-     * and only if the value {@code true} results when the {@link
-     * FilenameFilter#accept FilenameFilter.accept(File,&nbsp;String)} method
-     * of the filter is invoked on this abstract pathname and the name of a
-     * file or directory in the directory that it denotes.
+     * Rfturns bn brrby of strings nbming tif filfs bnd dirfdtorifs in tif
+     * dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf tibt sbtisfy tif spfdififd
+     * filtfr.  Tif bfibvior of tiis mftiod is tif sbmf bs tibt of tif
+     * {@link #list()} mftiod, fxdfpt tibt tif strings in tif rfturnfd brrby
+     * must sbtisfy tif filtfr.  If tif givfn {@dodf filtfr} is {@dodf null}
+     * tifn bll nbmfs brf bddfptfd.  Otifrwisf, b nbmf sbtisfifs tif filtfr if
+     * bnd only if tif vbluf {@dodf truf} rfsults wifn tif {@link
+     * FilfnbmfFiltfr#bddfpt FilfnbmfFiltfr.bddfpt(Filf,&nbsp;String)} mftiod
+     * of tif filtfr is invokfd on tiis bbstrbdt pbtinbmf bnd tif nbmf of b
+     * filf or dirfdtory in tif dirfdtory tibt it dfnotfs.
      *
-     * @param  filter
-     *         A filename filter
+     * @pbrbm  filtfr
+     *         A filfnbmf filtfr
      *
-     * @return  An array of strings naming the files and directories in the
-     *          directory denoted by this abstract pathname that were accepted
-     *          by the given {@code filter}.  The array will be empty if the
-     *          directory is empty or if no names were accepted by the filter.
-     *          Returns {@code null} if this abstract pathname does not denote
-     *          a directory, or if an I/O error occurs.
+     * @rfturn  An brrby of strings nbming tif filfs bnd dirfdtorifs in tif
+     *          dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf tibt wfrf bddfptfd
+     *          by tif givfn {@dodf filtfr}.  Tif brrby will bf fmpty if tif
+     *          dirfdtory is fmpty or if no nbmfs wfrf bddfptfd by tif filtfr.
+     *          Rfturns {@dodf null} if tiis bbstrbdt pbtinbmf dofs not dfnotf
+     *          b dirfdtory, or if bn I/O frror oddurs.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its {@link
-     *          SecurityManager#checkRead(String)} method denies read access to
-     *          the directory
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its {@link
+     *          SfdurityMbnbgfr#difdkRfbd(String)} mftiod dfnifs rfbd bddfss to
+     *          tif dirfdtory
      *
-     * @see java.nio.file.Files#newDirectoryStream(Path,String)
+     * @sff jbvb.nio.filf.Filfs#nfwDirfdtoryStrfbm(Pbti,String)
      */
-    public String[] list(FilenameFilter filter) {
-        String names[] = list();
-        if ((names == null) || (filter == null)) {
-            return names;
+    publid String[] list(FilfnbmfFiltfr filtfr) {
+        String nbmfs[] = list();
+        if ((nbmfs == null) || (filtfr == null)) {
+            rfturn nbmfs;
         }
-        List<String> v = new ArrayList<>();
-        for (int i = 0 ; i < names.length ; i++) {
-            if (filter.accept(this, names[i])) {
-                v.add(names[i]);
+        List<String> v = nfw ArrbyList<>();
+        for (int i = 0 ; i < nbmfs.lfngti ; i++) {
+            if (filtfr.bddfpt(tiis, nbmfs[i])) {
+                v.bdd(nbmfs[i]);
             }
         }
-        return v.toArray(new String[v.size()]);
+        rfturn v.toArrby(nfw String[v.sizf()]);
     }
 
     /**
-     * Returns an array of abstract pathnames denoting the files in the
-     * directory denoted by this abstract pathname.
+     * Rfturns bn brrby of bbstrbdt pbtinbmfs dfnoting tif filfs in tif
+     * dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf.
      *
-     * <p> If this abstract pathname does not denote a directory, then this
-     * method returns {@code null}.  Otherwise an array of {@code File} objects
-     * is returned, one for each file or directory in the directory.  Pathnames
-     * denoting the directory itself and the directory's parent directory are
-     * not included in the result.  Each resulting abstract pathname is
-     * constructed from this abstract pathname using the {@link #File(File,
-     * String) File(File,&nbsp;String)} constructor.  Therefore if this
-     * pathname is absolute then each resulting pathname is absolute; if this
-     * pathname is relative then each resulting pathname will be relative to
-     * the same directory.
+     * <p> If tiis bbstrbdt pbtinbmf dofs not dfnotf b dirfdtory, tifn tiis
+     * mftiod rfturns {@dodf null}.  Otifrwisf bn brrby of {@dodf Filf} objfdts
+     * is rfturnfd, onf for fbdi filf or dirfdtory in tif dirfdtory.  Pbtinbmfs
+     * dfnoting tif dirfdtory itsflf bnd tif dirfdtory's pbrfnt dirfdtory brf
+     * not indludfd in tif rfsult.  Ebdi rfsulting bbstrbdt pbtinbmf is
+     * donstrudtfd from tiis bbstrbdt pbtinbmf using tif {@link #Filf(Filf,
+     * String) Filf(Filf,&nbsp;String)} donstrudtor.  Tifrfforf if tiis
+     * pbtinbmf is bbsolutf tifn fbdi rfsulting pbtinbmf is bbsolutf; if tiis
+     * pbtinbmf is rflbtivf tifn fbdi rfsulting pbtinbmf will bf rflbtivf to
+     * tif sbmf dirfdtory.
      *
-     * <p> There is no guarantee that the name strings in the resulting array
-     * will appear in any specific order; they are not, in particular,
-     * guaranteed to appear in alphabetical order.
+     * <p> Tifrf is no gubrbntff tibt tif nbmf strings in tif rfsulting brrby
+     * will bppfbr in bny spfdifid ordfr; tify brf not, in pbrtidulbr,
+     * gubrbntffd to bppfbr in blpibbftidbl ordfr.
      *
-     * <p> Note that the {@link java.nio.file.Files} class defines the {@link
-     * java.nio.file.Files#newDirectoryStream(Path) newDirectoryStream} method
-     * to open a directory and iterate over the names of the files in the
-     * directory. This may use less resources when working with very large
-     * directories.
+     * <p> Notf tibt tif {@link jbvb.nio.filf.Filfs} dlbss dffinfs tif {@link
+     * jbvb.nio.filf.Filfs#nfwDirfdtoryStrfbm(Pbti) nfwDirfdtoryStrfbm} mftiod
+     * to opfn b dirfdtory bnd itfrbtf ovfr tif nbmfs of tif filfs in tif
+     * dirfdtory. Tiis mby usf lfss rfsourdfs wifn working witi vfry lbrgf
+     * dirfdtorifs.
      *
-     * @return  An array of abstract pathnames denoting the files and
-     *          directories in the directory denoted by this abstract pathname.
-     *          The array will be empty if the directory is empty.  Returns
-     *          {@code null} if this abstract pathname does not denote a
-     *          directory, or if an I/O error occurs.
+     * @rfturn  An brrby of bbstrbdt pbtinbmfs dfnoting tif filfs bnd
+     *          dirfdtorifs in tif dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf.
+     *          Tif brrby will bf fmpty if tif dirfdtory is fmpty.  Rfturns
+     *          {@dodf null} if tiis bbstrbdt pbtinbmf dofs not dfnotf b
+     *          dirfdtory, or if bn I/O frror oddurs.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its {@link
-     *          SecurityManager#checkRead(String)} method denies read access to
-     *          the directory
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its {@link
+     *          SfdurityMbnbgfr#difdkRfbd(String)} mftiod dfnifs rfbd bddfss to
+     *          tif dirfdtory
      *
-     * @since  1.2
+     * @sindf  1.2
      */
-    public File[] listFiles() {
+    publid Filf[] listFilfs() {
         String[] ss = list();
-        if (ss == null) return null;
-        int n = ss.length;
-        File[] fs = new File[n];
+        if (ss == null) rfturn null;
+        int n = ss.lfngti;
+        Filf[] fs = nfw Filf[n];
         for (int i = 0; i < n; i++) {
-            fs[i] = new File(ss[i], this);
+            fs[i] = nfw Filf(ss[i], tiis);
         }
-        return fs;
+        rfturn fs;
     }
 
     /**
-     * Returns an array of abstract pathnames denoting the files and
-     * directories in the directory denoted by this abstract pathname that
-     * satisfy the specified filter.  The behavior of this method is the same
-     * as that of the {@link #listFiles()} method, except that the pathnames in
-     * the returned array must satisfy the filter.  If the given {@code filter}
-     * is {@code null} then all pathnames are accepted.  Otherwise, a pathname
-     * satisfies the filter if and only if the value {@code true} results when
-     * the {@link FilenameFilter#accept
-     * FilenameFilter.accept(File,&nbsp;String)} method of the filter is
-     * invoked on this abstract pathname and the name of a file or directory in
-     * the directory that it denotes.
+     * Rfturns bn brrby of bbstrbdt pbtinbmfs dfnoting tif filfs bnd
+     * dirfdtorifs in tif dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf tibt
+     * sbtisfy tif spfdififd filtfr.  Tif bfibvior of tiis mftiod is tif sbmf
+     * bs tibt of tif {@link #listFilfs()} mftiod, fxdfpt tibt tif pbtinbmfs in
+     * tif rfturnfd brrby must sbtisfy tif filtfr.  If tif givfn {@dodf filtfr}
+     * is {@dodf null} tifn bll pbtinbmfs brf bddfptfd.  Otifrwisf, b pbtinbmf
+     * sbtisfifs tif filtfr if bnd only if tif vbluf {@dodf truf} rfsults wifn
+     * tif {@link FilfnbmfFiltfr#bddfpt
+     * FilfnbmfFiltfr.bddfpt(Filf,&nbsp;String)} mftiod of tif filtfr is
+     * invokfd on tiis bbstrbdt pbtinbmf bnd tif nbmf of b filf or dirfdtory in
+     * tif dirfdtory tibt it dfnotfs.
      *
-     * @param  filter
-     *         A filename filter
+     * @pbrbm  filtfr
+     *         A filfnbmf filtfr
      *
-     * @return  An array of abstract pathnames denoting the files and
-     *          directories in the directory denoted by this abstract pathname.
-     *          The array will be empty if the directory is empty.  Returns
-     *          {@code null} if this abstract pathname does not denote a
-     *          directory, or if an I/O error occurs.
+     * @rfturn  An brrby of bbstrbdt pbtinbmfs dfnoting tif filfs bnd
+     *          dirfdtorifs in tif dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf.
+     *          Tif brrby will bf fmpty if tif dirfdtory is fmpty.  Rfturns
+     *          {@dodf null} if tiis bbstrbdt pbtinbmf dofs not dfnotf b
+     *          dirfdtory, or if bn I/O frror oddurs.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its {@link
-     *          SecurityManager#checkRead(String)} method denies read access to
-     *          the directory
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its {@link
+     *          SfdurityMbnbgfr#difdkRfbd(String)} mftiod dfnifs rfbd bddfss to
+     *          tif dirfdtory
      *
-     * @since  1.2
-     * @see java.nio.file.Files#newDirectoryStream(Path,String)
+     * @sindf  1.2
+     * @sff jbvb.nio.filf.Filfs#nfwDirfdtoryStrfbm(Pbti,String)
      */
-    public File[] listFiles(FilenameFilter filter) {
+    publid Filf[] listFilfs(FilfnbmfFiltfr filtfr) {
         String ss[] = list();
-        if (ss == null) return null;
-        ArrayList<File> files = new ArrayList<>();
+        if (ss == null) rfturn null;
+        ArrbyList<Filf> filfs = nfw ArrbyList<>();
         for (String s : ss)
-            if ((filter == null) || filter.accept(this, s))
-                files.add(new File(s, this));
-        return files.toArray(new File[files.size()]);
+            if ((filtfr == null) || filtfr.bddfpt(tiis, s))
+                filfs.bdd(nfw Filf(s, tiis));
+        rfturn filfs.toArrby(nfw Filf[filfs.sizf()]);
     }
 
     /**
-     * Returns an array of abstract pathnames denoting the files and
-     * directories in the directory denoted by this abstract pathname that
-     * satisfy the specified filter.  The behavior of this method is the same
-     * as that of the {@link #listFiles()} method, except that the pathnames in
-     * the returned array must satisfy the filter.  If the given {@code filter}
-     * is {@code null} then all pathnames are accepted.  Otherwise, a pathname
-     * satisfies the filter if and only if the value {@code true} results when
-     * the {@link FileFilter#accept FileFilter.accept(File)} method of the
-     * filter is invoked on the pathname.
+     * Rfturns bn brrby of bbstrbdt pbtinbmfs dfnoting tif filfs bnd
+     * dirfdtorifs in tif dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf tibt
+     * sbtisfy tif spfdififd filtfr.  Tif bfibvior of tiis mftiod is tif sbmf
+     * bs tibt of tif {@link #listFilfs()} mftiod, fxdfpt tibt tif pbtinbmfs in
+     * tif rfturnfd brrby must sbtisfy tif filtfr.  If tif givfn {@dodf filtfr}
+     * is {@dodf null} tifn bll pbtinbmfs brf bddfptfd.  Otifrwisf, b pbtinbmf
+     * sbtisfifs tif filtfr if bnd only if tif vbluf {@dodf truf} rfsults wifn
+     * tif {@link FilfFiltfr#bddfpt FilfFiltfr.bddfpt(Filf)} mftiod of tif
+     * filtfr is invokfd on tif pbtinbmf.
      *
-     * @param  filter
-     *         A file filter
+     * @pbrbm  filtfr
+     *         A filf filtfr
      *
-     * @return  An array of abstract pathnames denoting the files and
-     *          directories in the directory denoted by this abstract pathname.
-     *          The array will be empty if the directory is empty.  Returns
-     *          {@code null} if this abstract pathname does not denote a
-     *          directory, or if an I/O error occurs.
+     * @rfturn  An brrby of bbstrbdt pbtinbmfs dfnoting tif filfs bnd
+     *          dirfdtorifs in tif dirfdtory dfnotfd by tiis bbstrbdt pbtinbmf.
+     *          Tif brrby will bf fmpty if tif dirfdtory is fmpty.  Rfturns
+     *          {@dodf null} if tiis bbstrbdt pbtinbmf dofs not dfnotf b
+     *          dirfdtory, or if bn I/O frror oddurs.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its {@link
-     *          SecurityManager#checkRead(String)} method denies read access to
-     *          the directory
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its {@link
+     *          SfdurityMbnbgfr#difdkRfbd(String)} mftiod dfnifs rfbd bddfss to
+     *          tif dirfdtory
      *
-     * @since  1.2
-     * @see java.nio.file.Files#newDirectoryStream(Path,java.nio.file.DirectoryStream.Filter)
+     * @sindf  1.2
+     * @sff jbvb.nio.filf.Filfs#nfwDirfdtoryStrfbm(Pbti,jbvb.nio.filf.DirfdtoryStrfbm.Filtfr)
      */
-    public File[] listFiles(FileFilter filter) {
+    publid Filf[] listFilfs(FilfFiltfr filtfr) {
         String ss[] = list();
-        if (ss == null) return null;
-        ArrayList<File> files = new ArrayList<>();
+        if (ss == null) rfturn null;
+        ArrbyList<Filf> filfs = nfw ArrbyList<>();
         for (String s : ss) {
-            File f = new File(s, this);
-            if ((filter == null) || filter.accept(f))
-                files.add(f);
+            Filf f = nfw Filf(s, tiis);
+            if ((filtfr == null) || filtfr.bddfpt(f))
+                filfs.bdd(f);
         }
-        return files.toArray(new File[files.size()]);
+        rfturn filfs.toArrby(nfw Filf[filfs.sizf()]);
     }
 
     /**
-     * Creates the directory named by this abstract pathname.
+     * Crfbtfs tif dirfdtory nbmfd by tiis bbstrbdt pbtinbmf.
      *
-     * @return  <code>true</code> if and only if the directory was
-     *          created; <code>false</code> otherwise
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif dirfdtory wbs
+     *          drfbtfd; <dodf>fblsf</dodf> otifrwisf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method does not permit the named directory to be created
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dofs not pfrmit tif nbmfd dirfdtory to bf drfbtfd
      */
-    public boolean mkdir() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(path);
+    publid boolfbn mkdir() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return fs.createDirectory(this);
+        rfturn fs.drfbtfDirfdtory(tiis);
     }
 
     /**
-     * Creates the directory named by this abstract pathname, including any
-     * necessary but nonexistent parent directories.  Note that if this
-     * operation fails it may have succeeded in creating some of the necessary
-     * parent directories.
+     * Crfbtfs tif dirfdtory nbmfd by tiis bbstrbdt pbtinbmf, indluding bny
+     * nfdfssbry but nonfxistfnt pbrfnt dirfdtorifs.  Notf tibt if tiis
+     * opfrbtion fbils it mby ibvf suddffdfd in drfbting somf of tif nfdfssbry
+     * pbrfnt dirfdtorifs.
      *
-     * @return  <code>true</code> if and only if the directory was created,
-     *          along with all necessary parent directories; <code>false</code>
-     *          otherwise
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif dirfdtory wbs drfbtfd,
+     *          blong witi bll nfdfssbry pbrfnt dirfdtorifs; <dodf>fblsf</dodf>
+     *          otifrwisf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method does not permit verification of the existence of the
-     *          named directory and all necessary parent directories; or if
-     *          the <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method does not permit the named directory and all necessary
-     *          parent directories to be created
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)}</dodf>
+     *          mftiod dofs not pfrmit vfrifidbtion of tif fxistfndf of tif
+     *          nbmfd dirfdtory bnd bll nfdfssbry pbrfnt dirfdtorifs; or if
+     *          tif <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dofs not pfrmit tif nbmfd dirfdtory bnd bll nfdfssbry
+     *          pbrfnt dirfdtorifs to bf drfbtfd
      */
-    public boolean mkdirs() {
-        if (exists()) {
-            return false;
+    publid boolfbn mkdirs() {
+        if (fxists()) {
+            rfturn fblsf;
         }
         if (mkdir()) {
-            return true;
+            rfturn truf;
         }
-        File canonFile = null;
+        Filf dbnonFilf = null;
         try {
-            canonFile = getCanonicalFile();
-        } catch (IOException e) {
-            return false;
+            dbnonFilf = gftCbnonidblFilf();
+        } dbtdi (IOExdfption f) {
+            rfturn fblsf;
         }
 
-        File parent = canonFile.getParentFile();
-        return (parent != null && (parent.mkdirs() || parent.exists()) &&
-                canonFile.mkdir());
+        Filf pbrfnt = dbnonFilf.gftPbrfntFilf();
+        rfturn (pbrfnt != null && (pbrfnt.mkdirs() || pbrfnt.fxists()) &&
+                dbnonFilf.mkdir());
     }
 
     /**
-     * Renames the file denoted by this abstract pathname.
+     * Rfnbmfs tif filf dfnotfd by tiis bbstrbdt pbtinbmf.
      *
-     * <p> Many aspects of the behavior of this method are inherently
-     * platform-dependent: The rename operation might not be able to move a
-     * file from one filesystem to another, it might not be atomic, and it
-     * might not succeed if a file with the destination abstract pathname
-     * already exists.  The return value should always be checked to make sure
-     * that the rename operation was successful.
+     * <p> Mbny bspfdts of tif bfibvior of tiis mftiod brf inifrfntly
+     * plbtform-dfpfndfnt: Tif rfnbmf opfrbtion migit not bf bblf to movf b
+     * filf from onf filfsystfm to bnotifr, it migit not bf btomid, bnd it
+     * migit not suddffd if b filf witi tif dfstinbtion bbstrbdt pbtinbmf
+     * blrfbdy fxists.  Tif rfturn vbluf siould blwbys bf difdkfd to mbkf surf
+     * tibt tif rfnbmf opfrbtion wbs suddfssful.
      *
-     * <p> Note that the {@link java.nio.file.Files} class defines the {@link
-     * java.nio.file.Files#move move} method to move or rename a file in a
-     * platform independent manner.
+     * <p> Notf tibt tif {@link jbvb.nio.filf.Filfs} dlbss dffinfs tif {@link
+     * jbvb.nio.filf.Filfs#movf movf} mftiod to movf or rfnbmf b filf in b
+     * plbtform indfpfndfnt mbnnfr.
      *
-     * @param  dest  The new abstract pathname for the named file
+     * @pbrbm  dfst  Tif nfw bbstrbdt pbtinbmf for tif nbmfd filf
      *
-     * @return  <code>true</code> if and only if the renaming succeeded;
-     *          <code>false</code> otherwise
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif rfnbming suddffdfd;
+     *          <dodf>fblsf</dodf> otifrwisf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to either the old or new pathnames
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs writf bddfss to fitifr tif old or nfw pbtinbmfs
      *
-     * @throws  NullPointerException
-     *          If parameter <code>dest</code> is <code>null</code>
+     * @tirows  NullPointfrExdfption
+     *          If pbrbmftfr <dodf>dfst</dodf> is <dodf>null</dodf>
      */
-    public boolean renameTo(File dest) {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(path);
-            security.checkWrite(dest.path);
+    publid boolfbn rfnbmfTo(Filf dfst) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(pbti);
+            sfdurity.difdkWritf(dfst.pbti);
         }
-        if (dest == null) {
-            throw new NullPointerException();
+        if (dfst == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        if (this.isInvalid() || dest.isInvalid()) {
-            return false;
+        if (tiis.isInvblid() || dfst.isInvblid()) {
+            rfturn fblsf;
         }
-        return fs.rename(this, dest);
+        rfturn fs.rfnbmf(tiis, dfst);
     }
 
     /**
-     * Sets the last-modified time of the file or directory named by this
-     * abstract pathname.
+     * Sfts tif lbst-modififd timf of tif filf or dirfdtory nbmfd by tiis
+     * bbstrbdt pbtinbmf.
      *
-     * <p> All platforms support file-modification times to the nearest second,
-     * but some provide more precision.  The argument will be truncated to fit
-     * the supported precision.  If the operation succeeds and no intervening
-     * operations on the file take place, then the next invocation of the
-     * <code>{@link #lastModified}</code> method will return the (possibly
-     * truncated) <code>time</code> argument that was passed to this method.
+     * <p> All plbtforms support filf-modifidbtion timfs to tif nfbrfst sfdond,
+     * but somf providf morf prfdision.  Tif brgumfnt will bf trundbtfd to fit
+     * tif supportfd prfdision.  If tif opfrbtion suddffds bnd no intfrvfning
+     * opfrbtions on tif filf tbkf plbdf, tifn tif nfxt invodbtion of tif
+     * <dodf>{@link #lbstModififd}</dodf> mftiod will rfturn tif (possibly
+     * trundbtfd) <dodf>timf</dodf> brgumfnt tibt wbs pbssfd to tiis mftiod.
      *
-     * @param  time  The new last-modified time, measured in milliseconds since
-     *               the epoch (00:00:00 GMT, January 1, 1970)
+     * @pbrbm  timf  Tif nfw lbst-modififd timf, mfbsurfd in millisfdonds sindf
+     *               tif fpodi (00:00:00 GMT, Jbnubry 1, 1970)
      *
-     * @return <code>true</code> if and only if the operation succeeded;
-     *          <code>false</code> otherwise
+     * @rfturn <dodf>truf</dodf> if bnd only if tif opfrbtion suddffdfd;
+     *          <dodf>fblsf</dodf> otifrwisf
      *
-     * @throws  IllegalArgumentException  If the argument is negative
+     * @tirows  IllfgblArgumfntExdfption  If tif brgumfnt is nfgbtivf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the named file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs writf bddfss to tif nbmfd filf
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public boolean setLastModified(long time) {
-        if (time < 0) throw new IllegalArgumentException("Negative time");
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(path);
+    publid boolfbn sftLbstModififd(long timf) {
+        if (timf < 0) tirow nfw IllfgblArgumfntExdfption("Nfgbtivf timf");
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return fs.setLastModifiedTime(this, time);
+        rfturn fs.sftLbstModififdTimf(tiis, timf);
     }
 
     /**
-     * Marks the file or directory named by this abstract pathname so that
-     * only read operations are allowed. After invoking this method the file
-     * or directory will not change until it is either deleted or marked
-     * to allow write access. On some platforms it may be possible to start the
-     * Java virtual machine with special privileges that allow it to modify
-     * files that are marked read-only. Whether or not a read-only file or
-     * directory may be deleted depends upon the underlying system.
+     * Mbrks tif filf or dirfdtory nbmfd by tiis bbstrbdt pbtinbmf so tibt
+     * only rfbd opfrbtions brf bllowfd. Aftfr invoking tiis mftiod tif filf
+     * or dirfdtory will not dibngf until it is fitifr dflftfd or mbrkfd
+     * to bllow writf bddfss. On somf plbtforms it mby bf possiblf to stbrt tif
+     * Jbvb virtubl mbdiinf witi spfdibl privilfgfs tibt bllow it to modify
+     * filfs tibt brf mbrkfd rfbd-only. Wiftifr or not b rfbd-only filf or
+     * dirfdtory mby bf dflftfd dfpfnds upon tif undfrlying systfm.
      *
-     * @return <code>true</code> if and only if the operation succeeded;
-     *          <code>false</code> otherwise
+     * @rfturn <dodf>truf</dodf> if bnd only if tif opfrbtion suddffdfd;
+     *          <dodf>fblsf</dodf> otifrwisf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the named file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs writf bddfss to tif nbmfd filf
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public boolean setReadOnly() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(path);
+    publid boolfbn sftRfbdOnly() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return fs.setReadOnly(this);
+        rfturn fs.sftRfbdOnly(tiis);
     }
 
     /**
-     * Sets the owner's or everybody's write permission for this abstract
-     * pathname. On some platforms it may be possible to start the Java virtual
-     * machine with special privileges that allow it to modify files that
-     * disallow write operations.
+     * Sfts tif ownfr's or fvfrybody's writf pfrmission for tiis bbstrbdt
+     * pbtinbmf. On somf plbtforms it mby bf possiblf to stbrt tif Jbvb virtubl
+     * mbdiinf witi spfdibl privilfgfs tibt bllow it to modify filfs tibt
+     * disbllow writf opfrbtions.
      *
-     * <p> The {@link java.nio.file.Files} class defines methods that operate on
-     * file attributes including file permissions. This may be used when finer
-     * manipulation of file permissions is required.
+     * <p> Tif {@link jbvb.nio.filf.Filfs} dlbss dffinfs mftiods tibt opfrbtf on
+     * filf bttributfs indluding filf pfrmissions. Tiis mby bf usfd wifn finfr
+     * mbnipulbtion of filf pfrmissions is rfquirfd.
      *
-     * @param   writable
-     *          If <code>true</code>, sets the access permission to allow write
-     *          operations; if <code>false</code> to disallow write operations
+     * @pbrbm   writbblf
+     *          If <dodf>truf</dodf>, sfts tif bddfss pfrmission to bllow writf
+     *          opfrbtions; if <dodf>fblsf</dodf> to disbllow writf opfrbtions
      *
-     * @param   ownerOnly
-     *          If <code>true</code>, the write permission applies only to the
-     *          owner's write permission; otherwise, it applies to everybody.  If
-     *          the underlying file system can not distinguish the owner's write
-     *          permission from that of others, then the permission will apply to
-     *          everybody, regardless of this value.
+     * @pbrbm   ownfrOnly
+     *          If <dodf>truf</dodf>, tif writf pfrmission bpplifs only to tif
+     *          ownfr's writf pfrmission; otifrwisf, it bpplifs to fvfrybody.  If
+     *          tif undfrlying filf systfm dbn not distinguisi tif ownfr's writf
+     *          pfrmission from tibt of otifrs, tifn tif pfrmission will bpply to
+     *          fvfrybody, rfgbrdlfss of tiis vbluf.
      *
-     * @return  <code>true</code> if and only if the operation succeeded. The
-     *          operation will fail if the user does not have permission to change
-     *          the access permissions of this abstract pathname.
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif opfrbtion suddffdfd. Tif
+     *          opfrbtion will fbil if tif usfr dofs not ibvf pfrmission to dibngf
+     *          tif bddfss pfrmissions of tiis bbstrbdt pbtinbmf.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the named file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs writf bddfss to tif nbmfd filf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public boolean setWritable(boolean writable, boolean ownerOnly) {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(path);
+    publid boolfbn sftWritbblf(boolfbn writbblf, boolfbn ownfrOnly) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return fs.setPermission(this, FileSystem.ACCESS_WRITE, writable, ownerOnly);
+        rfturn fs.sftPfrmission(tiis, FilfSystfm.ACCESS_WRITE, writbblf, ownfrOnly);
     }
 
     /**
-     * A convenience method to set the owner's write permission for this abstract
-     * pathname. On some platforms it may be possible to start the Java virtual
-     * machine with special privileges that allow it to modify files that
-     * disallow write operations.
+     * A donvfnifndf mftiod to sft tif ownfr's writf pfrmission for tiis bbstrbdt
+     * pbtinbmf. On somf plbtforms it mby bf possiblf to stbrt tif Jbvb virtubl
+     * mbdiinf witi spfdibl privilfgfs tibt bllow it to modify filfs tibt
+     * disbllow writf opfrbtions.
      *
-     * <p> An invocation of this method of the form <tt>file.setWritable(arg)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>filf.sftWritbblf(brg)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     file.setWritable(arg, true) </pre>
+     * <prf>
+     *     filf.sftWritbblf(brg, truf) </prf>
      *
-     * @param   writable
-     *          If <code>true</code>, sets the access permission to allow write
-     *          operations; if <code>false</code> to disallow write operations
+     * @pbrbm   writbblf
+     *          If <dodf>truf</dodf>, sfts tif bddfss pfrmission to bllow writf
+     *          opfrbtions; if <dodf>fblsf</dodf> to disbllow writf opfrbtions
      *
-     * @return  <code>true</code> if and only if the operation succeeded.  The
-     *          operation will fail if the user does not have permission to
-     *          change the access permissions of this abstract pathname.
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif opfrbtion suddffdfd.  Tif
+     *          opfrbtion will fbil if tif usfr dofs not ibvf pfrmission to
+     *          dibngf tif bddfss pfrmissions of tiis bbstrbdt pbtinbmf.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs writf bddfss to tif filf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public boolean setWritable(boolean writable) {
-        return setWritable(writable, true);
+    publid boolfbn sftWritbblf(boolfbn writbblf) {
+        rfturn sftWritbblf(writbblf, truf);
     }
 
     /**
-     * Sets the owner's or everybody's read permission for this abstract
-     * pathname. On some platforms it may be possible to start the Java virtual
-     * machine with special privileges that allow it to read files that are
-     * marked as unreadable.
+     * Sfts tif ownfr's or fvfrybody's rfbd pfrmission for tiis bbstrbdt
+     * pbtinbmf. On somf plbtforms it mby bf possiblf to stbrt tif Jbvb virtubl
+     * mbdiinf witi spfdibl privilfgfs tibt bllow it to rfbd filfs tibt brf
+     * mbrkfd bs unrfbdbblf.
      *
-     * <p> The {@link java.nio.file.Files} class defines methods that operate on
-     * file attributes including file permissions. This may be used when finer
-     * manipulation of file permissions is required.
+     * <p> Tif {@link jbvb.nio.filf.Filfs} dlbss dffinfs mftiods tibt opfrbtf on
+     * filf bttributfs indluding filf pfrmissions. Tiis mby bf usfd wifn finfr
+     * mbnipulbtion of filf pfrmissions is rfquirfd.
      *
-     * @param   readable
-     *          If <code>true</code>, sets the access permission to allow read
-     *          operations; if <code>false</code> to disallow read operations
+     * @pbrbm   rfbdbblf
+     *          If <dodf>truf</dodf>, sfts tif bddfss pfrmission to bllow rfbd
+     *          opfrbtions; if <dodf>fblsf</dodf> to disbllow rfbd opfrbtions
      *
-     * @param   ownerOnly
-     *          If <code>true</code>, the read permission applies only to the
-     *          owner's read permission; otherwise, it applies to everybody.  If
-     *          the underlying file system can not distinguish the owner's read
-     *          permission from that of others, then the permission will apply to
-     *          everybody, regardless of this value.
+     * @pbrbm   ownfrOnly
+     *          If <dodf>truf</dodf>, tif rfbd pfrmission bpplifs only to tif
+     *          ownfr's rfbd pfrmission; otifrwisf, it bpplifs to fvfrybody.  If
+     *          tif undfrlying filf systfm dbn not distinguisi tif ownfr's rfbd
+     *          pfrmission from tibt of otifrs, tifn tif pfrmission will bpply to
+     *          fvfrybody, rfgbrdlfss of tiis vbluf.
      *
-     * @return  <code>true</code> if and only if the operation succeeded.  The
-     *          operation will fail if the user does not have permission to
-     *          change the access permissions of this abstract pathname.  If
-     *          <code>readable</code> is <code>false</code> and the underlying
-     *          file system does not implement a read permission, then the
-     *          operation will fail.
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif opfrbtion suddffdfd.  Tif
+     *          opfrbtion will fbil if tif usfr dofs not ibvf pfrmission to
+     *          dibngf tif bddfss pfrmissions of tiis bbstrbdt pbtinbmf.  If
+     *          <dodf>rfbdbblf</dodf> is <dodf>fblsf</dodf> bnd tif undfrlying
+     *          filf systfm dofs not implfmfnt b rfbd pfrmission, tifn tif
+     *          opfrbtion will fbil.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs writf bddfss to tif filf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public boolean setReadable(boolean readable, boolean ownerOnly) {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(path);
+    publid boolfbn sftRfbdbblf(boolfbn rfbdbblf, boolfbn ownfrOnly) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return fs.setPermission(this, FileSystem.ACCESS_READ, readable, ownerOnly);
+        rfturn fs.sftPfrmission(tiis, FilfSystfm.ACCESS_READ, rfbdbblf, ownfrOnly);
     }
 
     /**
-     * A convenience method to set the owner's read permission for this abstract
-     * pathname. On some platforms it may be possible to start the Java virtual
-     * machine with special privileges that allow it to read files that that are
-     * marked as unreadable.
+     * A donvfnifndf mftiod to sft tif ownfr's rfbd pfrmission for tiis bbstrbdt
+     * pbtinbmf. On somf plbtforms it mby bf possiblf to stbrt tif Jbvb virtubl
+     * mbdiinf witi spfdibl privilfgfs tibt bllow it to rfbd filfs tibt tibt brf
+     * mbrkfd bs unrfbdbblf.
      *
-     * <p>An invocation of this method of the form <tt>file.setReadable(arg)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p>An invodbtion of tiis mftiod of tif form <tt>filf.sftRfbdbblf(brg)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     file.setReadable(arg, true) </pre>
+     * <prf>
+     *     filf.sftRfbdbblf(brg, truf) </prf>
      *
-     * @param  readable
-     *          If <code>true</code>, sets the access permission to allow read
-     *          operations; if <code>false</code> to disallow read operations
+     * @pbrbm  rfbdbblf
+     *          If <dodf>truf</dodf>, sfts tif bddfss pfrmission to bllow rfbd
+     *          opfrbtions; if <dodf>fblsf</dodf> to disbllow rfbd opfrbtions
      *
-     * @return  <code>true</code> if and only if the operation succeeded.  The
-     *          operation will fail if the user does not have permission to
-     *          change the access permissions of this abstract pathname.  If
-     *          <code>readable</code> is <code>false</code> and the underlying
-     *          file system does not implement a read permission, then the
-     *          operation will fail.
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif opfrbtion suddffdfd.  Tif
+     *          opfrbtion will fbil if tif usfr dofs not ibvf pfrmission to
+     *          dibngf tif bddfss pfrmissions of tiis bbstrbdt pbtinbmf.  If
+     *          <dodf>rfbdbblf</dodf> is <dodf>fblsf</dodf> bnd tif undfrlying
+     *          filf systfm dofs not implfmfnt b rfbd pfrmission, tifn tif
+     *          opfrbtion will fbil.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs writf bddfss to tif filf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public boolean setReadable(boolean readable) {
-        return setReadable(readable, true);
+    publid boolfbn sftRfbdbblf(boolfbn rfbdbblf) {
+        rfturn sftRfbdbblf(rfbdbblf, truf);
     }
 
     /**
-     * Sets the owner's or everybody's execute permission for this abstract
-     * pathname. On some platforms it may be possible to start the Java virtual
-     * machine with special privileges that allow it to execute files that are
-     * not marked executable.
+     * Sfts tif ownfr's or fvfrybody's fxfdutf pfrmission for tiis bbstrbdt
+     * pbtinbmf. On somf plbtforms it mby bf possiblf to stbrt tif Jbvb virtubl
+     * mbdiinf witi spfdibl privilfgfs tibt bllow it to fxfdutf filfs tibt brf
+     * not mbrkfd fxfdutbblf.
      *
-     * <p> The {@link java.nio.file.Files} class defines methods that operate on
-     * file attributes including file permissions. This may be used when finer
-     * manipulation of file permissions is required.
+     * <p> Tif {@link jbvb.nio.filf.Filfs} dlbss dffinfs mftiods tibt opfrbtf on
+     * filf bttributfs indluding filf pfrmissions. Tiis mby bf usfd wifn finfr
+     * mbnipulbtion of filf pfrmissions is rfquirfd.
      *
-     * @param   executable
-     *          If <code>true</code>, sets the access permission to allow execute
-     *          operations; if <code>false</code> to disallow execute operations
+     * @pbrbm   fxfdutbblf
+     *          If <dodf>truf</dodf>, sfts tif bddfss pfrmission to bllow fxfdutf
+     *          opfrbtions; if <dodf>fblsf</dodf> to disbllow fxfdutf opfrbtions
      *
-     * @param   ownerOnly
-     *          If <code>true</code>, the execute permission applies only to the
-     *          owner's execute permission; otherwise, it applies to everybody.
-     *          If the underlying file system can not distinguish the owner's
-     *          execute permission from that of others, then the permission will
-     *          apply to everybody, regardless of this value.
+     * @pbrbm   ownfrOnly
+     *          If <dodf>truf</dodf>, tif fxfdutf pfrmission bpplifs only to tif
+     *          ownfr's fxfdutf pfrmission; otifrwisf, it bpplifs to fvfrybody.
+     *          If tif undfrlying filf systfm dbn not distinguisi tif ownfr's
+     *          fxfdutf pfrmission from tibt of otifrs, tifn tif pfrmission will
+     *          bpply to fvfrybody, rfgbrdlfss of tiis vbluf.
      *
-     * @return  <code>true</code> if and only if the operation succeeded.  The
-     *          operation will fail if the user does not have permission to
-     *          change the access permissions of this abstract pathname.  If
-     *          <code>executable</code> is <code>false</code> and the underlying
-     *          file system does not implement an execute permission, then the
-     *          operation will fail.
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif opfrbtion suddffdfd.  Tif
+     *          opfrbtion will fbil if tif usfr dofs not ibvf pfrmission to
+     *          dibngf tif bddfss pfrmissions of tiis bbstrbdt pbtinbmf.  If
+     *          <dodf>fxfdutbblf</dodf> is <dodf>fblsf</dodf> bnd tif undfrlying
+     *          filf systfm dofs not implfmfnt bn fxfdutf pfrmission, tifn tif
+     *          opfrbtion will fbil.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs writf bddfss to tif filf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public boolean setExecutable(boolean executable, boolean ownerOnly) {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(path);
+    publid boolfbn sftExfdutbblf(boolfbn fxfdutbblf, boolfbn ownfrOnly) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return fs.setPermission(this, FileSystem.ACCESS_EXECUTE, executable, ownerOnly);
+        rfturn fs.sftPfrmission(tiis, FilfSystfm.ACCESS_EXECUTE, fxfdutbblf, ownfrOnly);
     }
 
     /**
-     * A convenience method to set the owner's execute permission for this
-     * abstract pathname. On some platforms it may be possible to start the Java
-     * virtual machine with special privileges that allow it to execute files
-     * that are not marked executable.
+     * A donvfnifndf mftiod to sft tif ownfr's fxfdutf pfrmission for tiis
+     * bbstrbdt pbtinbmf. On somf plbtforms it mby bf possiblf to stbrt tif Jbvb
+     * virtubl mbdiinf witi spfdibl privilfgfs tibt bllow it to fxfdutf filfs
+     * tibt brf not mbrkfd fxfdutbblf.
      *
-     * <p>An invocation of this method of the form <tt>file.setExcutable(arg)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p>An invodbtion of tiis mftiod of tif form <tt>filf.sftExdutbblf(brg)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     file.setExecutable(arg, true) </pre>
+     * <prf>
+     *     filf.sftExfdutbblf(brg, truf) </prf>
      *
-     * @param   executable
-     *          If <code>true</code>, sets the access permission to allow execute
-     *          operations; if <code>false</code> to disallow execute operations
+     * @pbrbm   fxfdutbblf
+     *          If <dodf>truf</dodf>, sfts tif bddfss pfrmission to bllow fxfdutf
+     *          opfrbtions; if <dodf>fblsf</dodf> to disbllow fxfdutf opfrbtions
      *
-     * @return   <code>true</code> if and only if the operation succeeded.  The
-     *           operation will fail if the user does not have permission to
-     *           change the access permissions of this abstract pathname.  If
-     *           <code>executable</code> is <code>false</code> and the underlying
-     *           file system does not implement an execute permission, then the
-     *           operation will fail.
+     * @rfturn   <dodf>truf</dodf> if bnd only if tif opfrbtion suddffdfd.  Tif
+     *           opfrbtion will fbil if tif usfr dofs not ibvf pfrmission to
+     *           dibngf tif bddfss pfrmissions of tiis bbstrbdt pbtinbmf.  If
+     *           <dodf>fxfdutbblf</dodf> is <dodf>fblsf</dodf> bnd tif undfrlying
+     *           filf systfm dofs not implfmfnt bn fxfdutf pfrmission, tifn tif
+     *           opfrbtion will fbil.
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs writf bddfss to tif filf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public boolean setExecutable(boolean executable) {
-        return setExecutable(executable, true);
+    publid boolfbn sftExfdutbblf(boolfbn fxfdutbblf) {
+        rfturn sftExfdutbblf(fxfdutbblf, truf);
     }
 
     /**
-     * Tests whether the application can execute the file denoted by this
-     * abstract pathname. On some platforms it may be possible to start the
-     * Java virtual machine with special privileges that allow it to execute
-     * files that are not marked executable. Consequently this method may return
-     * {@code true} even though the file does not have execute permissions.
+     * Tfsts wiftifr tif bpplidbtion dbn fxfdutf tif filf dfnotfd by tiis
+     * bbstrbdt pbtinbmf. On somf plbtforms it mby bf possiblf to stbrt tif
+     * Jbvb virtubl mbdiinf witi spfdibl privilfgfs tibt bllow it to fxfdutf
+     * filfs tibt brf not mbrkfd fxfdutbblf. Consfqufntly tiis mftiod mby rfturn
+     * {@dodf truf} fvfn tiougi tif filf dofs not ibvf fxfdutf pfrmissions.
      *
-     * @return  <code>true</code> if and only if the abstract pathname exists
-     *          <em>and</em> the application is allowed to execute the file
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif bbstrbdt pbtinbmf fxists
+     *          <fm>bnd</fm> tif bpplidbtion is bllowfd to fxfdutf tif filf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkExec(java.lang.String)}</code>
-     *          method denies execute access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkExfd(jbvb.lbng.String)}</dodf>
+     *          mftiod dfnifs fxfdutf bddfss to tif filf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public boolean canExecute() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkExec(path);
+    publid boolfbn dbnExfdutf() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkExfd(pbti);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            rfturn fblsf;
         }
-        return fs.checkAccess(this, FileSystem.ACCESS_EXECUTE);
+        rfturn fs.difdkAddfss(tiis, FilfSystfm.ACCESS_EXECUTE);
     }
 
 
-    /* -- Filesystem interface -- */
+    /* -- Filfsystfm intfrfbdf -- */
 
     /**
-     * List the available filesystem roots.
+     * List tif bvbilbblf filfsystfm roots.
      *
-     * <p> A particular Java platform may support zero or more
-     * hierarchically-organized file systems.  Each file system has a
-     * {@code root} directory from which all other files in that file system
-     * can be reached.  Windows platforms, for example, have a root directory
-     * for each active drive; UNIX platforms have a single root directory,
-     * namely {@code "/"}.  The set of available filesystem roots is affected
-     * by various system-level operations such as the insertion or ejection of
-     * removable media and the disconnecting or unmounting of physical or
-     * virtual disk drives.
+     * <p> A pbrtidulbr Jbvb plbtform mby support zfro or morf
+     * iifrbrdiidblly-orgbnizfd filf systfms.  Ebdi filf systfm ibs b
+     * {@dodf root} dirfdtory from wiidi bll otifr filfs in tibt filf systfm
+     * dbn bf rfbdifd.  Windows plbtforms, for fxbmplf, ibvf b root dirfdtory
+     * for fbdi bdtivf drivf; UNIX plbtforms ibvf b singlf root dirfdtory,
+     * nbmfly {@dodf "/"}.  Tif sft of bvbilbblf filfsystfm roots is bfffdtfd
+     * by vbrious systfm-lfvfl opfrbtions sudi bs tif insfrtion or fjfdtion of
+     * rfmovbblf mfdib bnd tif disdonnfdting or unmounting of piysidbl or
+     * virtubl disk drivfs.
      *
-     * <p> This method returns an array of {@code File} objects that denote the
-     * root directories of the available filesystem roots.  It is guaranteed
-     * that the canonical pathname of any file physically present on the local
-     * machine will begin with one of the roots returned by this method.
+     * <p> Tiis mftiod rfturns bn brrby of {@dodf Filf} objfdts tibt dfnotf tif
+     * root dirfdtorifs of tif bvbilbblf filfsystfm roots.  It is gubrbntffd
+     * tibt tif dbnonidbl pbtinbmf of bny filf piysidblly prfsfnt on tif lodbl
+     * mbdiinf will bfgin witi onf of tif roots rfturnfd by tiis mftiod.
      *
-     * <p> The canonical pathname of a file that resides on some other machine
-     * and is accessed via a remote-filesystem protocol such as SMB or NFS may
-     * or may not begin with one of the roots returned by this method.  If the
-     * pathname of a remote file is syntactically indistinguishable from the
-     * pathname of a local file then it will begin with one of the roots
-     * returned by this method.  Thus, for example, {@code File} objects
-     * denoting the root directories of the mapped network drives of a Windows
-     * platform will be returned by this method, while {@code File} objects
-     * containing UNC pathnames will not be returned by this method.
+     * <p> Tif dbnonidbl pbtinbmf of b filf tibt rfsidfs on somf otifr mbdiinf
+     * bnd is bddfssfd vib b rfmotf-filfsystfm protodol sudi bs SMB or NFS mby
+     * or mby not bfgin witi onf of tif roots rfturnfd by tiis mftiod.  If tif
+     * pbtinbmf of b rfmotf filf is syntbdtidblly indistinguisibblf from tif
+     * pbtinbmf of b lodbl filf tifn it will bfgin witi onf of tif roots
+     * rfturnfd by tiis mftiod.  Tius, for fxbmplf, {@dodf Filf} objfdts
+     * dfnoting tif root dirfdtorifs of tif mbppfd nftwork drivfs of b Windows
+     * plbtform will bf rfturnfd by tiis mftiod, wiilf {@dodf Filf} objfdts
+     * dontbining UNC pbtinbmfs will not bf rfturnfd by tiis mftiod.
      *
-     * <p> Unlike most methods in this class, this method does not throw
-     * security exceptions.  If a security manager exists and its {@link
-     * SecurityManager#checkRead(String)} method denies read access to a
-     * particular root directory, then that directory will not appear in the
-     * result.
+     * <p> Unlikf most mftiods in tiis dlbss, tiis mftiod dofs not tirow
+     * sfdurity fxdfptions.  If b sfdurity mbnbgfr fxists bnd its {@link
+     * SfdurityMbnbgfr#difdkRfbd(String)} mftiod dfnifs rfbd bddfss to b
+     * pbrtidulbr root dirfdtory, tifn tibt dirfdtory will not bppfbr in tif
+     * rfsult.
      *
-     * @return  An array of {@code File} objects denoting the available
-     *          filesystem roots, or {@code null} if the set of roots could not
-     *          be determined.  The array will be empty if there are no
-     *          filesystem roots.
+     * @rfturn  An brrby of {@dodf Filf} objfdts dfnoting tif bvbilbblf
+     *          filfsystfm roots, or {@dodf null} if tif sft of roots dould not
+     *          bf dftfrminfd.  Tif brrby will bf fmpty if tifrf brf no
+     *          filfsystfm roots.
      *
-     * @since  1.2
-     * @see java.nio.file.FileStore
+     * @sindf  1.2
+     * @sff jbvb.nio.filf.FilfStorf
      */
-    public static File[] listRoots() {
-        return fs.listRoots();
+    publid stbtid Filf[] listRoots() {
+        rfturn fs.listRoots();
     }
 
 
-    /* -- Disk usage -- */
+    /* -- Disk usbgf -- */
 
     /**
-     * Returns the size of the partition <a href="#partName">named</a> by this
-     * abstract pathname.
+     * Rfturns tif sizf of tif pbrtition <b irff="#pbrtNbmf">nbmfd</b> by tiis
+     * bbstrbdt pbtinbmf.
      *
-     * @return  The size, in bytes, of the partition or <tt>0L</tt> if this
-     *          abstract pathname does not name a partition
+     * @rfturn  Tif sizf, in bytfs, of tif pbrtition or <tt>0L</tt> if tiis
+     *          bbstrbdt pbtinbmf dofs not nbmf b pbrtition
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link RuntimePermission}<tt>("getFileSystemAttributes")</tt>
-     *          or its {@link SecurityManager#checkRead(String)} method denies
-     *          read access to the file named by this abstract pathname
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}<tt>("gftFilfSystfmAttributfs")</tt>
+     *          or its {@link SfdurityMbnbgfr#difdkRfbd(String)} mftiod dfnifs
+     *          rfbd bddfss to tif filf nbmfd by tiis bbstrbdt pbtinbmf
      *
-     * @since  1.6
+     * @sindf  1.6
      */
-    public long getTotalSpace() {
-        SecurityManager sm = System.getSecurityManager();
+    publid long gftTotblSpbdf() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("getFileSystemAttributes"));
-            sm.checkRead(path);
+            sm.difdkPfrmission(nfw RuntimfPfrmission("gftFilfSystfmAttributfs"));
+            sm.difdkRfbd(pbti);
         }
-        if (isInvalid()) {
-            return 0L;
+        if (isInvblid()) {
+            rfturn 0L;
         }
-        return fs.getSpace(this, FileSystem.SPACE_TOTAL);
+        rfturn fs.gftSpbdf(tiis, FilfSystfm.SPACE_TOTAL);
     }
 
     /**
-     * Returns the number of unallocated bytes in the partition <a
-     * href="#partName">named</a> by this abstract path name.
+     * Rfturns tif numbfr of unbllodbtfd bytfs in tif pbrtition <b
+     * irff="#pbrtNbmf">nbmfd</b> by tiis bbstrbdt pbti nbmf.
      *
-     * <p> The returned number of unallocated bytes is a hint, but not
-     * a guarantee, that it is possible to use most or any of these
-     * bytes.  The number of unallocated bytes is most likely to be
-     * accurate immediately after this call.  It is likely to be made
-     * inaccurate by any external I/O operations including those made
-     * on the system outside of this virtual machine.  This method
-     * makes no guarantee that write operations to this file system
-     * will succeed.
+     * <p> Tif rfturnfd numbfr of unbllodbtfd bytfs is b iint, but not
+     * b gubrbntff, tibt it is possiblf to usf most or bny of tifsf
+     * bytfs.  Tif numbfr of unbllodbtfd bytfs is most likfly to bf
+     * bddurbtf immfdibtfly bftfr tiis dbll.  It is likfly to bf mbdf
+     * inbddurbtf by bny fxtfrnbl I/O opfrbtions indluding tiosf mbdf
+     * on tif systfm outsidf of tiis virtubl mbdiinf.  Tiis mftiod
+     * mbkfs no gubrbntff tibt writf opfrbtions to tiis filf systfm
+     * will suddffd.
      *
-     * @return  The number of unallocated bytes on the partition or <tt>0L</tt>
-     *          if the abstract pathname does not name a partition.  This
-     *          value will be less than or equal to the total file system size
-     *          returned by {@link #getTotalSpace}.
+     * @rfturn  Tif numbfr of unbllodbtfd bytfs on tif pbrtition or <tt>0L</tt>
+     *          if tif bbstrbdt pbtinbmf dofs not nbmf b pbrtition.  Tiis
+     *          vbluf will bf lfss tibn or fqubl to tif totbl filf systfm sizf
+     *          rfturnfd by {@link #gftTotblSpbdf}.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link RuntimePermission}<tt>("getFileSystemAttributes")</tt>
-     *          or its {@link SecurityManager#checkRead(String)} method denies
-     *          read access to the file named by this abstract pathname
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}<tt>("gftFilfSystfmAttributfs")</tt>
+     *          or its {@link SfdurityMbnbgfr#difdkRfbd(String)} mftiod dfnifs
+     *          rfbd bddfss to tif filf nbmfd by tiis bbstrbdt pbtinbmf
      *
-     * @since  1.6
+     * @sindf  1.6
      */
-    public long getFreeSpace() {
-        SecurityManager sm = System.getSecurityManager();
+    publid long gftFrffSpbdf() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("getFileSystemAttributes"));
-            sm.checkRead(path);
+            sm.difdkPfrmission(nfw RuntimfPfrmission("gftFilfSystfmAttributfs"));
+            sm.difdkRfbd(pbti);
         }
-        if (isInvalid()) {
-            return 0L;
+        if (isInvblid()) {
+            rfturn 0L;
         }
-        return fs.getSpace(this, FileSystem.SPACE_FREE);
+        rfturn fs.gftSpbdf(tiis, FilfSystfm.SPACE_FREE);
     }
 
     /**
-     * Returns the number of bytes available to this virtual machine on the
-     * partition <a href="#partName">named</a> by this abstract pathname.  When
-     * possible, this method checks for write permissions and other operating
-     * system restrictions and will therefore usually provide a more accurate
-     * estimate of how much new data can actually be written than {@link
-     * #getFreeSpace}.
+     * Rfturns tif numbfr of bytfs bvbilbblf to tiis virtubl mbdiinf on tif
+     * pbrtition <b irff="#pbrtNbmf">nbmfd</b> by tiis bbstrbdt pbtinbmf.  Wifn
+     * possiblf, tiis mftiod difdks for writf pfrmissions bnd otifr opfrbting
+     * systfm rfstridtions bnd will tifrfforf usublly providf b morf bddurbtf
+     * fstimbtf of iow mudi nfw dbtb dbn bdtublly bf writtfn tibn {@link
+     * #gftFrffSpbdf}.
      *
-     * <p> The returned number of available bytes is a hint, but not a
-     * guarantee, that it is possible to use most or any of these bytes.  The
-     * number of unallocated bytes is most likely to be accurate immediately
-     * after this call.  It is likely to be made inaccurate by any external
-     * I/O operations including those made on the system outside of this
-     * virtual machine.  This method makes no guarantee that write operations
-     * to this file system will succeed.
+     * <p> Tif rfturnfd numbfr of bvbilbblf bytfs is b iint, but not b
+     * gubrbntff, tibt it is possiblf to usf most or bny of tifsf bytfs.  Tif
+     * numbfr of unbllodbtfd bytfs is most likfly to bf bddurbtf immfdibtfly
+     * bftfr tiis dbll.  It is likfly to bf mbdf inbddurbtf by bny fxtfrnbl
+     * I/O opfrbtions indluding tiosf mbdf on tif systfm outsidf of tiis
+     * virtubl mbdiinf.  Tiis mftiod mbkfs no gubrbntff tibt writf opfrbtions
+     * to tiis filf systfm will suddffd.
      *
-     * @return  The number of available bytes on the partition or <tt>0L</tt>
-     *          if the abstract pathname does not name a partition.  On
-     *          systems where this information is not available, this method
-     *          will be equivalent to a call to {@link #getFreeSpace}.
+     * @rfturn  Tif numbfr of bvbilbblf bytfs on tif pbrtition or <tt>0L</tt>
+     *          if tif bbstrbdt pbtinbmf dofs not nbmf b pbrtition.  On
+     *          systfms wifrf tiis informbtion is not bvbilbblf, tiis mftiod
+     *          will bf fquivblfnt to b dbll to {@link #gftFrffSpbdf}.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link RuntimePermission}<tt>("getFileSystemAttributes")</tt>
-     *          or its {@link SecurityManager#checkRead(String)} method denies
-     *          read access to the file named by this abstract pathname
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}<tt>("gftFilfSystfmAttributfs")</tt>
+     *          or its {@link SfdurityMbnbgfr#difdkRfbd(String)} mftiod dfnifs
+     *          rfbd bddfss to tif filf nbmfd by tiis bbstrbdt pbtinbmf
      *
-     * @since  1.6
+     * @sindf  1.6
      */
-    public long getUsableSpace() {
-        SecurityManager sm = System.getSecurityManager();
+    publid long gftUsbblfSpbdf() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("getFileSystemAttributes"));
-            sm.checkRead(path);
+            sm.difdkPfrmission(nfw RuntimfPfrmission("gftFilfSystfmAttributfs"));
+            sm.difdkRfbd(pbti);
         }
-        if (isInvalid()) {
-            return 0L;
+        if (isInvblid()) {
+            rfturn 0L;
         }
-        return fs.getSpace(this, FileSystem.SPACE_USABLE);
+        rfturn fs.gftSpbdf(tiis, FilfSystfm.SPACE_USABLE);
     }
 
-    /* -- Temporary files -- */
+    /* -- Tfmporbry filfs -- */
 
-    private static class TempDirectory {
-        private TempDirectory() { }
+    privbtf stbtid dlbss TfmpDirfdtory {
+        privbtf TfmpDirfdtory() { }
 
-        // temporary directory location
-        private static final File tmpdir = new File(AccessController
-            .doPrivileged(new GetPropertyAction("java.io.tmpdir")));
-        static File location() {
-            return tmpdir;
+        // tfmporbry dirfdtory lodbtion
+        privbtf stbtid finbl Filf tmpdir = nfw Filf(AddfssControllfr
+            .doPrivilfgfd(nfw GftPropfrtyAdtion("jbvb.io.tmpdir")));
+        stbtid Filf lodbtion() {
+            rfturn tmpdir;
         }
 
-        // file name generation
-        private static final SecureRandom random = new SecureRandom();
-        static File generateFile(String prefix, String suffix, File dir)
-            throws IOException
+        // filf nbmf gfnfrbtion
+        privbtf stbtid finbl SfdurfRbndom rbndom = nfw SfdurfRbndom();
+        stbtid Filf gfnfrbtfFilf(String prffix, String suffix, Filf dir)
+            tirows IOExdfption
         {
-            long n = random.nextLong();
+            long n = rbndom.nfxtLong();
             if (n == Long.MIN_VALUE) {
-                n = 0;      // corner case
-            } else {
-                n = Math.abs(n);
+                n = 0;      // dornfr dbsf
+            } flsf {
+                n = Mbti.bbs(n);
             }
 
-            // Use only the file name from the supplied prefix
-            prefix = (new File(prefix)).getName();
+            // Usf only tif filf nbmf from tif supplifd prffix
+            prffix = (nfw Filf(prffix)).gftNbmf();
 
-            String name = prefix + Long.toString(n) + suffix;
-            File f = new File(dir, name);
-            if (!name.equals(f.getName()) || f.isInvalid()) {
-                if (System.getSecurityManager() != null)
-                    throw new IOException("Unable to create temporary file");
-                else
-                    throw new IOException("Unable to create temporary file, " + f);
+            String nbmf = prffix + Long.toString(n) + suffix;
+            Filf f = nfw Filf(dir, nbmf);
+            if (!nbmf.fqubls(f.gftNbmf()) || f.isInvblid()) {
+                if (Systfm.gftSfdurityMbnbgfr() != null)
+                    tirow nfw IOExdfption("Unbblf to drfbtf tfmporbry filf");
+                flsf
+                    tirow nfw IOExdfption("Unbblf to drfbtf tfmporbry filf, " + f);
             }
-            return f;
+            rfturn f;
         }
     }
 
     /**
-     * <p> Creates a new empty file in the specified directory, using the
-     * given prefix and suffix strings to generate its name.  If this method
-     * returns successfully then it is guaranteed that:
+     * <p> Crfbtfs b nfw fmpty filf in tif spfdififd dirfdtory, using tif
+     * givfn prffix bnd suffix strings to gfnfrbtf its nbmf.  If tiis mftiod
+     * rfturns suddfssfully tifn it is gubrbntffd tibt:
      *
      * <ol>
-     * <li> The file denoted by the returned abstract pathname did not exist
-     *      before this method was invoked, and
-     * <li> Neither this method nor any of its variants will return the same
-     *      abstract pathname again in the current invocation of the virtual
-     *      machine.
+     * <li> Tif filf dfnotfd by tif rfturnfd bbstrbdt pbtinbmf did not fxist
+     *      bfforf tiis mftiod wbs invokfd, bnd
+     * <li> Nfitifr tiis mftiod nor bny of its vbribnts will rfturn tif sbmf
+     *      bbstrbdt pbtinbmf bgbin in tif durrfnt invodbtion of tif virtubl
+     *      mbdiinf.
      * </ol>
      *
-     * This method provides only part of a temporary-file facility.  To arrange
-     * for a file created by this method to be deleted automatically, use the
-     * <code>{@link #deleteOnExit}</code> method.
+     * Tiis mftiod providfs only pbrt of b tfmporbry-filf fbdility.  To brrbngf
+     * for b filf drfbtfd by tiis mftiod to bf dflftfd butombtidblly, usf tif
+     * <dodf>{@link #dflftfOnExit}</dodf> mftiod.
      *
-     * <p> The <code>prefix</code> argument must be at least three characters
-     * long.  It is recommended that the prefix be a short, meaningful string
-     * such as <code>"hjb"</code> or <code>"mail"</code>.  The
-     * <code>suffix</code> argument may be <code>null</code>, in which case the
-     * suffix <code>".tmp"</code> will be used.
+     * <p> Tif <dodf>prffix</dodf> brgumfnt must bf bt lfbst tirff dibrbdtfrs
+     * long.  It is rfdommfndfd tibt tif prffix bf b siort, mfbningful string
+     * sudi bs <dodf>"ijb"</dodf> or <dodf>"mbil"</dodf>.  Tif
+     * <dodf>suffix</dodf> brgumfnt mby bf <dodf>null</dodf>, in wiidi dbsf tif
+     * suffix <dodf>".tmp"</dodf> will bf usfd.
      *
-     * <p> To create the new file, the prefix and the suffix may first be
-     * adjusted to fit the limitations of the underlying platform.  If the
-     * prefix is too long then it will be truncated, but its first three
-     * characters will always be preserved.  If the suffix is too long then it
-     * too will be truncated, but if it begins with a period character
-     * (<code>'.'</code>) then the period and the first three characters
-     * following it will always be preserved.  Once these adjustments have been
-     * made the name of the new file will be generated by concatenating the
-     * prefix, five or more internally-generated characters, and the suffix.
+     * <p> To drfbtf tif nfw filf, tif prffix bnd tif suffix mby first bf
+     * bdjustfd to fit tif limitbtions of tif undfrlying plbtform.  If tif
+     * prffix is too long tifn it will bf trundbtfd, but its first tirff
+     * dibrbdtfrs will blwbys bf prfsfrvfd.  If tif suffix is too long tifn it
+     * too will bf trundbtfd, but if it bfgins witi b pfriod dibrbdtfr
+     * (<dodf>'.'</dodf>) tifn tif pfriod bnd tif first tirff dibrbdtfrs
+     * following it will blwbys bf prfsfrvfd.  Ondf tifsf bdjustmfnts ibvf bffn
+     * mbdf tif nbmf of tif nfw filf will bf gfnfrbtfd by dondbtfnbting tif
+     * prffix, fivf or morf intfrnblly-gfnfrbtfd dibrbdtfrs, bnd tif suffix.
      *
-     * <p> If the <code>directory</code> argument is <code>null</code> then the
-     * system-dependent default temporary-file directory will be used.  The
-     * default temporary-file directory is specified by the system property
-     * <code>java.io.tmpdir</code>.  On UNIX systems the default value of this
-     * property is typically <code>"/tmp"</code> or <code>"/var/tmp"</code>; on
-     * Microsoft Windows systems it is typically <code>"C:\\WINNT\\TEMP"</code>.  A different
-     * value may be given to this system property when the Java virtual machine
-     * is invoked, but programmatic changes to this property are not guaranteed
-     * to have any effect upon the temporary directory used by this method.
+     * <p> If tif <dodf>dirfdtory</dodf> brgumfnt is <dodf>null</dodf> tifn tif
+     * systfm-dfpfndfnt dffbult tfmporbry-filf dirfdtory will bf usfd.  Tif
+     * dffbult tfmporbry-filf dirfdtory is spfdififd by tif systfm propfrty
+     * <dodf>jbvb.io.tmpdir</dodf>.  On UNIX systfms tif dffbult vbluf of tiis
+     * propfrty is typidblly <dodf>"/tmp"</dodf> or <dodf>"/vbr/tmp"</dodf>; on
+     * Midrosoft Windows systfms it is typidblly <dodf>"C:\\WINNT\\TEMP"</dodf>.  A difffrfnt
+     * vbluf mby bf givfn to tiis systfm propfrty wifn tif Jbvb virtubl mbdiinf
+     * is invokfd, but progrbmmbtid dibngfs to tiis propfrty brf not gubrbntffd
+     * to ibvf bny ffffdt upon tif tfmporbry dirfdtory usfd by tiis mftiod.
      *
-     * @param  prefix     The prefix string to be used in generating the file's
-     *                    name; must be at least three characters long
+     * @pbrbm  prffix     Tif prffix string to bf usfd in gfnfrbting tif filf's
+     *                    nbmf; must bf bt lfbst tirff dibrbdtfrs long
      *
-     * @param  suffix     The suffix string to be used in generating the file's
-     *                    name; may be <code>null</code>, in which case the
-     *                    suffix <code>".tmp"</code> will be used
+     * @pbrbm  suffix     Tif suffix string to bf usfd in gfnfrbting tif filf's
+     *                    nbmf; mby bf <dodf>null</dodf>, in wiidi dbsf tif
+     *                    suffix <dodf>".tmp"</dodf> will bf usfd
      *
-     * @param  directory  The directory in which the file is to be created, or
-     *                    <code>null</code> if the default temporary-file
-     *                    directory is to be used
+     * @pbrbm  dirfdtory  Tif dirfdtory in wiidi tif filf is to bf drfbtfd, or
+     *                    <dodf>null</dodf> if tif dffbult tfmporbry-filf
+     *                    dirfdtory is to bf usfd
      *
-     * @return  An abstract pathname denoting a newly-created empty file
+     * @rfturn  An bbstrbdt pbtinbmf dfnoting b nfwly-drfbtfd fmpty filf
      *
-     * @throws  IllegalArgumentException
-     *          If the <code>prefix</code> argument contains fewer than three
-     *          characters
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif <dodf>prffix</dodf> brgumfnt dontbins ffwfr tibn tirff
+     *          dibrbdtfrs
      *
-     * @throws  IOException  If a file could not be created
+     * @tirows  IOExdfption  If b filf dould not bf drfbtfd
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method does not allow a file to be created
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dofs not bllow b filf to bf drfbtfd
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public static File createTempFile(String prefix, String suffix,
-                                      File directory)
-        throws IOException
+    publid stbtid Filf drfbtfTfmpFilf(String prffix, String suffix,
+                                      Filf dirfdtory)
+        tirows IOExdfption
     {
-        if (prefix.length() < 3) {
-            throw new IllegalArgumentException("Prefix string \"" + prefix +
-                "\" too short: length must be at least 3");
+        if (prffix.lfngti() < 3) {
+            tirow nfw IllfgblArgumfntExdfption("Prffix string \"" + prffix +
+                "\" too siort: lfngti must bf bt lfbst 3");
         }
         if (suffix == null)
             suffix = ".tmp";
 
-        File tmpdir = (directory != null) ? directory
-                                          : TempDirectory.location();
-        SecurityManager sm = System.getSecurityManager();
-        File f;
+        Filf tmpdir = (dirfdtory != null) ? dirfdtory
+                                          : TfmpDirfdtory.lodbtion();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        Filf f;
         do {
-            f = TempDirectory.generateFile(prefix, suffix, tmpdir);
+            f = TfmpDirfdtory.gfnfrbtfFilf(prffix, suffix, tmpdir);
 
             if (sm != null) {
                 try {
-                    sm.checkWrite(f.getPath());
-                } catch (SecurityException se) {
-                    // don't reveal temporary directory location
-                    if (directory == null)
-                        throw new SecurityException("Unable to create temporary file");
-                    throw se;
+                    sm.difdkWritf(f.gftPbti());
+                } dbtdi (SfdurityExdfption sf) {
+                    // don't rfvfbl tfmporbry dirfdtory lodbtion
+                    if (dirfdtory == null)
+                        tirow nfw SfdurityExdfption("Unbblf to drfbtf tfmporbry filf");
+                    tirow sf;
                 }
             }
-        } while ((fs.getBooleanAttributes(f) & FileSystem.BA_EXISTS) != 0);
+        } wiilf ((fs.gftBoolfbnAttributfs(f) & FilfSystfm.BA_EXISTS) != 0);
 
-        if (!fs.createFileExclusively(f.getPath()))
-            throw new IOException("Unable to create temporary file");
+        if (!fs.drfbtfFilfExdlusivfly(f.gftPbti()))
+            tirow nfw IOExdfption("Unbblf to drfbtf tfmporbry filf");
 
-        return f;
+        rfturn f;
     }
 
     /**
-     * Creates an empty file in the default temporary-file directory, using
-     * the given prefix and suffix to generate its name. Invoking this method
-     * is equivalent to invoking <code>{@link #createTempFile(java.lang.String,
-     * java.lang.String, java.io.File)
-     * createTempFile(prefix,&nbsp;suffix,&nbsp;null)}</code>.
+     * Crfbtfs bn fmpty filf in tif dffbult tfmporbry-filf dirfdtory, using
+     * tif givfn prffix bnd suffix to gfnfrbtf its nbmf. Invoking tiis mftiod
+     * is fquivblfnt to invoking <dodf>{@link #drfbtfTfmpFilf(jbvb.lbng.String,
+     * jbvb.lbng.String, jbvb.io.Filf)
+     * drfbtfTfmpFilf(prffix,&nbsp;suffix,&nbsp;null)}</dodf>.
      *
-     * <p> The {@link
-     * java.nio.file.Files#createTempFile(String,String,java.nio.file.attribute.FileAttribute[])
-     * Files.createTempFile} method provides an alternative method to create an
-     * empty file in the temporary-file directory. Files created by that method
-     * may have more restrictive access permissions to files created by this
-     * method and so may be more suited to security-sensitive applications.
+     * <p> Tif {@link
+     * jbvb.nio.filf.Filfs#drfbtfTfmpFilf(String,String,jbvb.nio.filf.bttributf.FilfAttributf[])
+     * Filfs.drfbtfTfmpFilf} mftiod providfs bn bltfrnbtivf mftiod to drfbtf bn
+     * fmpty filf in tif tfmporbry-filf dirfdtory. Filfs drfbtfd by tibt mftiod
+     * mby ibvf morf rfstridtivf bddfss pfrmissions to filfs drfbtfd by tiis
+     * mftiod bnd so mby bf morf suitfd to sfdurity-sfnsitivf bpplidbtions.
      *
-     * @param  prefix     The prefix string to be used in generating the file's
-     *                    name; must be at least three characters long
+     * @pbrbm  prffix     Tif prffix string to bf usfd in gfnfrbting tif filf's
+     *                    nbmf; must bf bt lfbst tirff dibrbdtfrs long
      *
-     * @param  suffix     The suffix string to be used in generating the file's
-     *                    name; may be <code>null</code>, in which case the
-     *                    suffix <code>".tmp"</code> will be used
+     * @pbrbm  suffix     Tif suffix string to bf usfd in gfnfrbting tif filf's
+     *                    nbmf; mby bf <dodf>null</dodf>, in wiidi dbsf tif
+     *                    suffix <dodf>".tmp"</dodf> will bf usfd
      *
-     * @return  An abstract pathname denoting a newly-created empty file
+     * @rfturn  An bbstrbdt pbtinbmf dfnoting b nfwly-drfbtfd fmpty filf
      *
-     * @throws  IllegalArgumentException
-     *          If the <code>prefix</code> argument contains fewer than three
-     *          characters
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif <dodf>prffix</dodf> brgumfnt dontbins ffwfr tibn tirff
+     *          dibrbdtfrs
      *
-     * @throws  IOException  If a file could not be created
+     * @tirows  IOExdfption  If b filf dould not bf drfbtfd
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method does not allow a file to be created
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <dodf>{@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}</dodf>
+     *          mftiod dofs not bllow b filf to bf drfbtfd
      *
-     * @since 1.2
-     * @see java.nio.file.Files#createTempDirectory(String,FileAttribute[])
+     * @sindf 1.2
+     * @sff jbvb.nio.filf.Filfs#drfbtfTfmpDirfdtory(String,FilfAttributf[])
      */
-    public static File createTempFile(String prefix, String suffix)
-        throws IOException
+    publid stbtid Filf drfbtfTfmpFilf(String prffix, String suffix)
+        tirows IOExdfption
     {
-        return createTempFile(prefix, suffix, null);
+        rfturn drfbtfTfmpFilf(prffix, suffix, null);
     }
 
-    /* -- Basic infrastructure -- */
+    /* -- Bbsid infrbstrudturf -- */
 
     /**
-     * Compares two abstract pathnames lexicographically.  The ordering
-     * defined by this method depends upon the underlying system.  On UNIX
-     * systems, alphabetic case is significant in comparing pathnames; on Microsoft Windows
-     * systems it is not.
+     * Compbrfs two bbstrbdt pbtinbmfs lfxidogrbpiidblly.  Tif ordfring
+     * dffinfd by tiis mftiod dfpfnds upon tif undfrlying systfm.  On UNIX
+     * systfms, blpibbftid dbsf is signifidbnt in dompbring pbtinbmfs; on Midrosoft Windows
+     * systfms it is not.
      *
-     * @param   pathname  The abstract pathname to be compared to this abstract
-     *                    pathname
+     * @pbrbm   pbtinbmf  Tif bbstrbdt pbtinbmf to bf dompbrfd to tiis bbstrbdt
+     *                    pbtinbmf
      *
-     * @return  Zero if the argument is equal to this abstract pathname, a
-     *          value less than zero if this abstract pathname is
-     *          lexicographically less than the argument, or a value greater
-     *          than zero if this abstract pathname is lexicographically
-     *          greater than the argument
+     * @rfturn  Zfro if tif brgumfnt is fqubl to tiis bbstrbdt pbtinbmf, b
+     *          vbluf lfss tibn zfro if tiis bbstrbdt pbtinbmf is
+     *          lfxidogrbpiidblly lfss tibn tif brgumfnt, or b vbluf grfbtfr
+     *          tibn zfro if tiis bbstrbdt pbtinbmf is lfxidogrbpiidblly
+     *          grfbtfr tibn tif brgumfnt
      *
-     * @since   1.2
+     * @sindf   1.2
      */
-    public int compareTo(File pathname) {
-        return fs.compare(this, pathname);
+    publid int dompbrfTo(Filf pbtinbmf) {
+        rfturn fs.dompbrf(tiis, pbtinbmf);
     }
 
     /**
-     * Tests this abstract pathname for equality with the given object.
-     * Returns <code>true</code> if and only if the argument is not
-     * <code>null</code> and is an abstract pathname that denotes the same file
-     * or directory as this abstract pathname.  Whether or not two abstract
-     * pathnames are equal depends upon the underlying system.  On UNIX
-     * systems, alphabetic case is significant in comparing pathnames; on Microsoft Windows
-     * systems it is not.
+     * Tfsts tiis bbstrbdt pbtinbmf for fqublity witi tif givfn objfdt.
+     * Rfturns <dodf>truf</dodf> if bnd only if tif brgumfnt is not
+     * <dodf>null</dodf> bnd is bn bbstrbdt pbtinbmf tibt dfnotfs tif sbmf filf
+     * or dirfdtory bs tiis bbstrbdt pbtinbmf.  Wiftifr or not two bbstrbdt
+     * pbtinbmfs brf fqubl dfpfnds upon tif undfrlying systfm.  On UNIX
+     * systfms, blpibbftid dbsf is signifidbnt in dompbring pbtinbmfs; on Midrosoft Windows
+     * systfms it is not.
      *
-     * @param   obj   The object to be compared with this abstract pathname
+     * @pbrbm   obj   Tif objfdt to bf dompbrfd witi tiis bbstrbdt pbtinbmf
      *
-     * @return  <code>true</code> if and only if the objects are the same;
-     *          <code>false</code> otherwise
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif objfdts brf tif sbmf;
+     *          <dodf>fblsf</dodf> otifrwisf
      */
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof File)) {
-            return compareTo((File)obj) == 0;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof Filf)) {
+            rfturn dompbrfTo((Filf)obj) == 0;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Computes a hash code for this abstract pathname.  Because equality of
-     * abstract pathnames is inherently system-dependent, so is the computation
-     * of their hash codes.  On UNIX systems, the hash code of an abstract
-     * pathname is equal to the exclusive <em>or</em> of the hash code
-     * of its pathname string and the decimal value
-     * <code>1234321</code>.  On Microsoft Windows systems, the hash
-     * code is equal to the exclusive <em>or</em> of the hash code of
-     * its pathname string converted to lower case and the decimal
-     * value <code>1234321</code>.  Locale is not taken into account on
-     * lowercasing the pathname string.
+     * Computfs b ibsi dodf for tiis bbstrbdt pbtinbmf.  Bfdbusf fqublity of
+     * bbstrbdt pbtinbmfs is inifrfntly systfm-dfpfndfnt, so is tif domputbtion
+     * of tifir ibsi dodfs.  On UNIX systfms, tif ibsi dodf of bn bbstrbdt
+     * pbtinbmf is fqubl to tif fxdlusivf <fm>or</fm> of tif ibsi dodf
+     * of its pbtinbmf string bnd tif dfdimbl vbluf
+     * <dodf>1234321</dodf>.  On Midrosoft Windows systfms, tif ibsi
+     * dodf is fqubl to tif fxdlusivf <fm>or</fm> of tif ibsi dodf of
+     * its pbtinbmf string donvfrtfd to lowfr dbsf bnd tif dfdimbl
+     * vbluf <dodf>1234321</dodf>.  Lodblf is not tbkfn into bddount on
+     * lowfrdbsing tif pbtinbmf string.
      *
-     * @return  A hash code for this abstract pathname
+     * @rfturn  A ibsi dodf for tiis bbstrbdt pbtinbmf
      */
-    public int hashCode() {
-        return fs.hashCode(this);
+    publid int ibsiCodf() {
+        rfturn fs.ibsiCodf(tiis);
     }
 
     /**
-     * Returns the pathname string of this abstract pathname.  This is just the
-     * string returned by the <code>{@link #getPath}</code> method.
+     * Rfturns tif pbtinbmf string of tiis bbstrbdt pbtinbmf.  Tiis is just tif
+     * string rfturnfd by tif <dodf>{@link #gftPbti}</dodf> mftiod.
      *
-     * @return  The string form of this abstract pathname
+     * @rfturn  Tif string form of tiis bbstrbdt pbtinbmf
      */
-    public String toString() {
-        return getPath();
+    publid String toString() {
+        rfturn gftPbti();
     }
 
     /**
-     * WriteObject is called to save this filename.
-     * The separator character is saved also so it can be replaced
-     * in case the path is reconstituted on a different host type.
+     * WritfObjfdt is dbllfd to sbvf tiis filfnbmf.
+     * Tif sfpbrbtor dibrbdtfr is sbvfd blso so it dbn bf rfplbdfd
+     * in dbsf tif pbti is rfdonstitutfd on b difffrfnt iost typf.
      * <p>
-     * @serialData  Default fields followed by separator character.
+     * @sfriblDbtb  Dffbult fiflds followfd by sfpbrbtor dibrbdtfr.
      */
-    private synchronized void writeObject(java.io.ObjectOutputStream s)
-        throws IOException
+    privbtf syndironizfd void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows IOExdfption
     {
-        s.defaultWriteObject();
-        s.writeChar(separatorChar); // Add the separator character
+        s.dffbultWritfObjfdt();
+        s.writfCibr(sfpbrbtorCibr); // Add tif sfpbrbtor dibrbdtfr
     }
 
     /**
-     * readObject is called to restore this filename.
-     * The original separator character is read.  If it is different
-     * than the separator character on this system, then the old separator
-     * is replaced by the local separator.
+     * rfbdObjfdt is dbllfd to rfstorf tiis filfnbmf.
+     * Tif originbl sfpbrbtor dibrbdtfr is rfbd.  If it is difffrfnt
+     * tibn tif sfpbrbtor dibrbdtfr on tiis systfm, tifn tif old sfpbrbtor
+     * is rfplbdfd by tif lodbl sfpbrbtor.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbtf syndironizfd void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+         tirows IOExdfption, ClbssNotFoundExdfption
     {
-        ObjectInputStream.GetField fields = s.readFields();
-        String pathField = (String)fields.get("path", null);
-        char sep = s.readChar(); // read the previous separator char
-        if (sep != separatorChar)
-            pathField = pathField.replace(sep, separatorChar);
-        String path = fs.normalize(pathField);
-        UNSAFE.putObject(this, PATH_OFFSET, path);
-        UNSAFE.putIntVolatile(this, PREFIX_LENGTH_OFFSET, fs.prefixLength(path));
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+        String pbtiFifld = (String)fiflds.gft("pbti", null);
+        dibr sfp = s.rfbdCibr(); // rfbd tif prfvious sfpbrbtor dibr
+        if (sfp != sfpbrbtorCibr)
+            pbtiFifld = pbtiFifld.rfplbdf(sfp, sfpbrbtorCibr);
+        String pbti = fs.normblizf(pbtiFifld);
+        UNSAFE.putObjfdt(tiis, PATH_OFFSET, pbti);
+        UNSAFE.putIntVolbtilf(tiis, PREFIX_LENGTH_OFFSET, fs.prffixLfngti(pbti));
     }
 
-    private static final long PATH_OFFSET;
-    private static final long PREFIX_LENGTH_OFFSET;
-    private static final sun.misc.Unsafe UNSAFE;
-    static {
+    privbtf stbtid finbl long PATH_OFFSET;
+    privbtf stbtid finbl long PREFIX_LENGTH_OFFSET;
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    stbtid {
         try {
-            sun.misc.Unsafe unsafe = sun.misc.Unsafe.getUnsafe();
-            PATH_OFFSET = unsafe.objectFieldOffset(
-                    File.class.getDeclaredField("path"));
-            PREFIX_LENGTH_OFFSET = unsafe.objectFieldOffset(
-                    File.class.getDeclaredField("prefixLength"));
-            UNSAFE = unsafe;
-        } catch (ReflectiveOperationException e) {
-            throw new Error(e);
+            sun.misd.Unsbff unsbff = sun.misd.Unsbff.gftUnsbff();
+            PATH_OFFSET = unsbff.objfdtFifldOffsft(
+                    Filf.dlbss.gftDfdlbrfdFifld("pbti"));
+            PREFIX_LENGTH_OFFSET = unsbff.objfdtFifldOffsft(
+                    Filf.dlbss.gftDfdlbrfdFifld("prffixLfngti"));
+            UNSAFE = unsbff;
+        } dbtdi (RfflfdtivfOpfrbtionExdfption f) {
+            tirow nfw Error(f);
         }
     }
 
 
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = 301077366599181567L;
+    /** usf sfriblVfrsionUID from JDK 1.0.2 for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = 301077366599181567L;
 
-    // -- Integration with java.nio.file --
+    // -- Intfgrbtion witi jbvb.nio.filf --
 
-    private volatile transient Path filePath;
+    privbtf volbtilf trbnsifnt Pbti filfPbti;
 
     /**
-     * Returns a {@link Path java.nio.file.Path} object constructed from the
-     * this abstract path. The resulting {@code Path} is associated with the
-     * {@link java.nio.file.FileSystems#getDefault default-filesystem}.
+     * Rfturns b {@link Pbti jbvb.nio.filf.Pbti} objfdt donstrudtfd from tif
+     * tiis bbstrbdt pbti. Tif rfsulting {@dodf Pbti} is bssodibtfd witi tif
+     * {@link jbvb.nio.filf.FilfSystfms#gftDffbult dffbult-filfsystfm}.
      *
-     * <p> The first invocation of this method works as if invoking it were
-     * equivalent to evaluating the expression:
-     * <blockquote><pre>
-     * {@link java.nio.file.FileSystems#getDefault FileSystems.getDefault}().{@link
-     * java.nio.file.FileSystem#getPath getPath}(this.{@link #getPath getPath}());
-     * </pre></blockquote>
-     * Subsequent invocations of this method return the same {@code Path}.
+     * <p> Tif first invodbtion of tiis mftiod works bs if invoking it wfrf
+     * fquivblfnt to fvblubting tif fxprfssion:
+     * <blodkquotf><prf>
+     * {@link jbvb.nio.filf.FilfSystfms#gftDffbult FilfSystfms.gftDffbult}().{@link
+     * jbvb.nio.filf.FilfSystfm#gftPbti gftPbti}(tiis.{@link #gftPbti gftPbti}());
+     * </prf></blodkquotf>
+     * Subsfqufnt invodbtions of tiis mftiod rfturn tif sbmf {@dodf Pbti}.
      *
-     * <p> If this abstract pathname is the empty abstract pathname then this
-     * method returns a {@code Path} that may be used to access the current
-     * user directory.
+     * <p> If tiis bbstrbdt pbtinbmf is tif fmpty bbstrbdt pbtinbmf tifn tiis
+     * mftiod rfturns b {@dodf Pbti} tibt mby bf usfd to bddfss tif durrfnt
+     * usfr dirfdtory.
      *
-     * @return  a {@code Path} constructed from this abstract path
+     * @rfturn  b {@dodf Pbti} donstrudtfd from tiis bbstrbdt pbti
      *
-     * @throws  java.nio.file.InvalidPathException
-     *          if a {@code Path} object cannot be constructed from the abstract
-     *          path (see {@link java.nio.file.FileSystem#getPath FileSystem.getPath})
+     * @tirows  jbvb.nio.filf.InvblidPbtiExdfption
+     *          if b {@dodf Pbti} objfdt dbnnot bf donstrudtfd from tif bbstrbdt
+     *          pbti (sff {@link jbvb.nio.filf.FilfSystfm#gftPbti FilfSystfm.gftPbti})
      *
-     * @since   1.7
-     * @see Path#toFile
+     * @sindf   1.7
+     * @sff Pbti#toFilf
      */
-    public Path toPath() {
-        Path result = filePath;
-        if (result == null) {
-            synchronized (this) {
-                result = filePath;
-                if (result == null) {
-                    result = FileSystems.getDefault().getPath(path);
-                    filePath = result;
+    publid Pbti toPbti() {
+        Pbti rfsult = filfPbti;
+        if (rfsult == null) {
+            syndironizfd (tiis) {
+                rfsult = filfPbti;
+                if (rfsult == null) {
+                    rfsult = FilfSystfms.gftDffbult().gftPbti(pbti);
+                    filfPbti = rfsult;
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 }

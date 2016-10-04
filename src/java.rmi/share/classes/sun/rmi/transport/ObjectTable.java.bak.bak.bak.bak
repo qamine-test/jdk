@@ -1,0 +1,370 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport;
+
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.rmi.NoSudhObjfdtExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.dgd.VMID;
+import jbvb.rmi.sfrvfr.ExportExdfption;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import sun.misd.GC;
+import sun.rmi.runtimf.Log;
+import sun.rmi.runtimf.NfwThrfbdAdtion;
+
+/**
+ * Objfdt tbblf shbrfd by bll implfmfntors of thf Trbnsport intfrfbdf.
+ * This tbblf mbps objfdt ids to rfmotf objfdt tbrgfts in this bddrfss
+ * spbdf.
+ *
+ * @buthor  Ann Wollrbth
+ * @buthor  Pftfr Jonfs
+ */
+publid finbl dlbss ObjfdtTbblf {
+
+    /** mbximum intfrvbl bftwffn domplftf gbrbbgf dollfdtions of lodbl hfbp */
+    privbtf finbl stbtid long gdIntfrvbl =              // dffbult 1 hour
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("sun.rmi.dgd.sfrvfr.gdIntfrvbl", 3600000));
+
+    /**
+     * lodk gubrding objTbblf bnd implTbblf.
+     * Holdfrs MAY bdquirf b Tbrgft instbndf's lodk or kffpAlivfLodk.
+     */
+    privbtf stbtid finbl Objfdt tbblfLodk = nfw Objfdt();
+
+    /** tbblfs mbpping to Tbrgft, kfyfd from ObjfdtEndpoint bnd impl objfdt */
+    privbtf stbtid finbl Mbp<ObjfdtEndpoint,Tbrgft> objTbblf =
+        nfw HbshMbp<>();
+    privbtf stbtid finbl Mbp<WfbkRff,Tbrgft> implTbblf =
+        nfw HbshMbp<>();
+
+    /**
+     * lodk gubrding kffpAlivfCount, rfbpfr, bnd gdLbtfndyRfqufst.
+     * Holdfrs mby NOT bdquirf b Tbrgft instbndf's lodk or tbblfLodk.
+     */
+    privbtf stbtid finbl Objfdt kffpAlivfLodk = nfw Objfdt();
+
+    /** dount of non-pfrmbnfnt objfdts in tbblf or still prodfssing dblls */
+    privbtf stbtid int kffpAlivfCount = 0;
+
+    /** thrfbd to dollfdt unrfffrfndfd objfdts from tbblf */
+    privbtf stbtid Thrfbd rfbpfr = null;
+
+    /** qufuf notififd whfn wfbk rffs in thf tbblf brf dlfbrfd */
+    stbtid finbl RfffrfndfQufuf<Objfdt> rfbpQufuf = nfw RfffrfndfQufuf<>();
+
+    /** hbndlf for GC lbtfndy rfqufst (for futurf dbndfllbtion) */
+    privbtf stbtid GC.LbtfndyRfqufst gdLbtfndyRfqufst = null;
+
+    /*
+     * Disbllow bnyonf from drfbting onf of thfsf.
+     */
+    privbtf ObjfdtTbblf() {}
+
+    /**
+     * Rfturns thf tbrgft bssodibtfd with thf objfdt id.
+     */
+    stbtid Tbrgft gftTbrgft(ObjfdtEndpoint of) {
+        syndhronizfd (tbblfLodk) {
+            rfturn objTbblf.gft(of);
+        }
+    }
+
+    /**
+     * Rfturns thf tbrgft bssodibtfd with thf rfmotf objfdt
+     */
+    publid stbtid Tbrgft gftTbrgft(Rfmotf impl) {
+        syndhronizfd (tbblfLodk) {
+            rfturn implTbblf.gft(nfw WfbkRff(impl));
+        }
+    }
+
+    /**
+     * Rfturns thf stub for thf rfmotf objfdt <b>obj</b> pbssfd
+     * bs b pbrbmftfr. This opfrbtion is only vblid <i>bftfr</i>
+     * thf objfdt hbs bffn fxportfd.
+     *
+     * @rfturn thf stub for thf rfmotf objfdt, <b>obj</b>.
+     * @fxdfption NoSudhObjfdtExdfption if thf stub for thf
+     * rfmotf objfdt dould not bf found.
+     */
+    publid stbtid Rfmotf gftStub(Rfmotf impl)
+        throws NoSudhObjfdtExdfption
+    {
+        Tbrgft tbrgft = gftTbrgft(impl);
+        if (tbrgft == null) {
+            throw nfw NoSudhObjfdtExdfption("objfdt not fxportfd");
+        } flsf {
+            rfturn tbrgft.gftStub();
+        }
+    }
+
+   /**
+    * Rfmovf thf rfmotf objfdt, obj, from thf RMI runtimf. If
+    * suddfssful, thf objfdt dbn no longfr bddfpt indoming RMI dblls.
+    * If thf fordf pbrbmftfr is truf, thf objfdt is fordibly unfxportfd
+    * fvfn if thfrf brf pfnding dblls to thf rfmotf objfdt or thf
+    * rfmotf objfdt still hbs dblls in progrfss.  If thf fordf
+    * pbrbmftfr is fblsf, thf objfdt is only unfxportfd if thfrf brf
+    * no pfnding or in progrfss dblls to thf objfdt.
+    *
+    * @pbrbm obj thf rfmotf objfdt to bf unfxportfd
+    * @pbrbm fordf if truf, unfxports thf objfdt fvfn if thfrf brf
+    * pfnding or in-progrfss dblls; if fblsf, only unfxports thf objfdt
+    * if thfrf brf no pfnding or in-progrfss dblls
+    * @rfturn truf if opfrbtion is suddfssful, fblsf othfrwisf
+    * @fxdfption NoSudhObjfdtExdfption if thf rfmotf objfdt is not
+    * durrfntly fxportfd
+    */
+   publid stbtid boolfbn unfxportObjfdt(Rfmotf obj, boolfbn fordf)
+        throws jbvb.rmi.NoSudhObjfdtExdfption
+    {
+        syndhronizfd (tbblfLodk) {
+            Tbrgft tbrgft = gftTbrgft(obj);
+            if (tbrgft == null) {
+                throw nfw NoSudhObjfdtExdfption("objfdt not fxportfd");
+            } flsf {
+                if (tbrgft.unfxport(fordf)) {
+                    rfmovfTbrgft(tbrgft);
+                    rfturn truf;
+                } flsf {
+                    rfturn fblsf;
+                }
+            }
+        }
+    }
+
+    /**
+     * Add tbrgft to objfdt tbblf.  If it is not b pfrmbnfnt fntry, thfn
+     * mbkf surf thbt rfbpfr thrfbd is running to rfmovf dollfdtfd fntrifs
+     * bnd kffp VM blivf.
+     */
+    stbtid void putTbrgft(Tbrgft tbrgft) throws ExportExdfption {
+        ObjfdtEndpoint of = tbrgft.gftObjfdtEndpoint();
+        WfbkRff wfbkImpl = tbrgft.gftWfbkImpl();
+
+        if (DGCImpl.dgdLog.isLoggbblf(Log.VERBOSE)) {
+            DGCImpl.dgdLog.log(Log.VERBOSE, "bdd objfdt " + of);
+        }
+
+        syndhronizfd (tbblfLodk) {
+            /**
+             * Do nothing if impl hbs blrfbdy bffn dollfdtfd (sff 6597112). Chfdk whilf
+             * holding tbblfLodk to fnsurf thbt Rfbpfr dbnnot prodfss wfbkImpl in bftwffn
+             * null dhfdk bnd put/indrfmfnt ffffdts.
+             */
+            if (tbrgft.gftImpl() != null) {
+                if (objTbblf.dontbinsKfy(of)) {
+                    throw nfw ExportExdfption(
+                        "intfrnbl frror: ObjID blrfbdy in usf");
+                } flsf if (implTbblf.dontbinsKfy(wfbkImpl)) {
+                    throw nfw ExportExdfption("objfdt blrfbdy fxportfd");
+                }
+
+                objTbblf.put(of, tbrgft);
+                implTbblf.put(wfbkImpl, tbrgft);
+
+                if (!tbrgft.isPfrmbnfnt()) {
+                    indrfmfntKffpAlivfCount();
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfmovf tbrgft from objfdt tbblf.
+     *
+     * NOTE: This mfthod must only bf invokfd whilf syndhronizfd on
+     * thf "tbblfLodk" objfdt, bfdbusf it dofs not do so itsflf.
+     */
+    privbtf stbtid void rfmovfTbrgft(Tbrgft tbrgft) {
+        // bssfrt Thrfbd.holdsLodk(tbblfLodk);
+
+        ObjfdtEndpoint of = tbrgft.gftObjfdtEndpoint();
+        WfbkRff wfbkImpl = tbrgft.gftWfbkImpl();
+
+        if (DGCImpl.dgdLog.isLoggbblf(Log.VERBOSE)) {
+            DGCImpl.dgdLog.log(Log.VERBOSE, "rfmovf objfdt " + of);
+        }
+
+        objTbblf.rfmovf(of);
+        implTbblf.rfmovf(wfbkImpl);
+
+        tbrgft.mbrkRfmovfd();   // hbndlfs dfdrfmfnting kffp-blivf dount
+    }
+
+    /**
+     * Prodfss dlifnt VM signblling rfffrfndf for givfn ObjID: forwbrd to
+     * dorrfsponding Tbrgft fntry.  If ObjID is not found in tbblf,
+     * no bdtion is tbkfn.
+     */
+    stbtid void rfffrfndfd(ObjID id, long sfqufndfNum, VMID vmid) {
+        syndhronizfd (tbblfLodk) {
+            ObjfdtEndpoint of =
+                nfw ObjfdtEndpoint(id, Trbnsport.durrfntTrbnsport());
+            Tbrgft tbrgft = objTbblf.gft(of);
+            if (tbrgft != null) {
+                tbrgft.rfffrfndfd(sfqufndfNum, vmid);
+            }
+        }
+    }
+
+    /**
+     * Prodfss dlifnt VM dropping rfffrfndf for givfn ObjID: forwbrd to
+     * dorrfsponding Tbrgft fntry.  If ObjID is not found in tbblf,
+     * no bdtion is tbkfn.
+     */
+    stbtid void unrfffrfndfd(ObjID id, long sfqufndfNum, VMID vmid,
+                             boolfbn strong)
+    {
+        syndhronizfd (tbblfLodk) {
+            ObjfdtEndpoint of =
+                nfw ObjfdtEndpoint(id, Trbnsport.durrfntTrbnsport());
+            Tbrgft tbrgft = objTbblf.gft(of);
+            if (tbrgft != null)
+                tbrgft.unrfffrfndfd(sfqufndfNum, vmid, strong);
+        }
+    }
+
+    /**
+     * Indrfmfnts thf "kffp-blivf dount".
+     *
+     * Thf "kffp-blivf dount" is thf numbfr of non-pfrmbnfnt rfmotf objfdts
+     * thbt brf fithfr in thf objfdt tbblf or still hbvf dblls in progrfss.
+     * Thfrfforf, this mfthod should bf invokfd fxbdtly ondf for fvfry
+     * non-pfrmbnfnt rfmotf objfdt fxportfd (b rfmotf objfdt must bf
+     * fxportfd bfforf it dbn hbvf bny dblls in progrfss).
+     *
+     * Thf VM is "kfpt blivf" whilf thf kffp-blivf dount is grfbtfr thbn
+     * zfro; this is bddomplishfd by kffping b non-dbfmon thrfbd running.
+     *
+     * Bfdbusf non-pfrmbnfnt objfdts brf thosf thbt dbn bf gbrbbgf
+     * dollfdtfd whilf fxportfd, bnd thus thosf for whidh thf "rfbpfr"
+     * thrfbd opfrbtfs, thf rfbpfr thrfbd blso sfrvfs bs thf non-dbfmon
+     * VM kffp-blivf thrfbd; b nfw rfbpfr thrfbd is drfbtfd if nfdfssbry.
+     */
+    stbtid void indrfmfntKffpAlivfCount() {
+        syndhronizfd (kffpAlivfLodk) {
+            kffpAlivfCount++;
+
+            if (rfbpfr == null) {
+                rfbpfr = AddfssControllfr.doPrivilfgfd(
+                    nfw NfwThrfbdAdtion(nfw Rfbpfr(), "Rfbpfr", fblsf));
+                rfbpfr.stbrt();
+            }
+
+            /*
+             * Whilf thfrf brf non-"pfrmbnfnt" objfdts in thf objfdt tbblf,
+             * rfqufst b mbximum lbtfndy for inspfdting thf fntirf hfbp
+             * from thf lodbl gbrbbgf dollfdtor, to plbdf bn uppfr bound
+             * on thf timf to disdovfr rfmotf objfdts thbt hbvf bfdomf
+             * unrfbdhbblf (bnd thus dbn bf rfmovfd from thf tbblf).
+             */
+            if (gdLbtfndyRfqufst == null) {
+                gdLbtfndyRfqufst = GC.rfqufstLbtfndy(gdIntfrvbl);
+            }
+        }
+    }
+
+    /**
+     * Dfdrfmfnts thf "kffp-blivf dount".
+     *
+     * Thf "kffp-blivf dount" is thf numbfr of non-pfrmbnfnt rfmotf objfdts
+     * thbt brf fithfr in thf objfdt tbblf or still hbvf dblls in progrfss.
+     * Thfrfforf, this mfthod should bf invokfd fxbdtly ondf for fvfry
+     * prfviously-fxportfd non-pfrmbnfnt rfmotf objfdt thbt both hbs bffn
+     * rfmovfd from thf objfdt tbblf bnd hbs no dblls still in progrfss.
+     *
+     * If thf kffp-blivf dount is dfdrfmfntfd to zfro, thfn thf durrfnt
+     * rfbpfr thrfbd is tfrminbtfd to dfbsf kffping thf VM blivf (bnd
+     * bfdbusf thfrf brf no morf non-pfrmbnfnt rfmotf objfdts to rfbp).
+     */
+    stbtid void dfdrfmfntKffpAlivfCount() {
+        syndhronizfd (kffpAlivfLodk) {
+            kffpAlivfCount--;
+
+            if (kffpAlivfCount == 0) {
+                if (!(rfbpfr != null)) { throw nfw AssfrtionError(); }
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        rfbpfr.intfrrupt();
+                        rfturn null;
+                    }
+                });
+                rfbpfr = null;
+
+                /*
+                 * If thfrf brf no longfr bny non-pfrmbnfnt objfdts in thf
+                 * objfdt tbblf, wf brf no longfr dondfrnfd with thf lbtfndy
+                 * of lodbl gbrbbgf dollfdtion hfrf.
+                 */
+                gdLbtfndyRfqufst.dbndfl();
+                gdLbtfndyRfqufst = null;
+            }
+        }
+    }
+
+    /**
+     * Thf Rfbpfr thrfbd wbits for notifidbtions thbt wfbk rfffrfndfs in thf
+     * objfdt tbblf hbvf bffn dlfbrfd.  Whfn it rfdfivfs b notifidbtion, it
+     * rfmovfs thf dorrfsponding fntry from thf tbblf.
+     *
+     * Sindf thf Rfbpfr is drfbtfd bs b non-dbfmon thrfbd, it blso sfrvfs
+     * to kffp thf VM from fxiting whilf thfrf brf objfdts in thf tbblf
+     * (othfr thbn pfrmbnfnt fntrifs thbt should nfithfr bf rfbpfd nor
+     * kffp thf VM blivf).
+     */
+    privbtf stbtid dlbss Rfbpfr implfmfnts Runnbblf {
+
+        publid void run() {
+            try {
+                do {
+                    // wbit for nfxt dlfbrfd wfbk rfffrfndf
+                    WfbkRff wfbkImpl = (WfbkRff) rfbpQufuf.rfmovf();
+
+                    syndhronizfd (tbblfLodk) {
+                        Tbrgft tbrgft = implTbblf.gft(wfbkImpl);
+                        if (tbrgft != null) {
+                            if (!tbrgft.isEmpty()) {
+                                throw nfw Error(
+                                    "objfdt with known rfffrfndfs dollfdtfd");
+                            } flsf if (tbrgft.isPfrmbnfnt()) {
+                                throw nfw Error("pfrmbnfnt objfdt dollfdtfd");
+                            }
+                            rfmovfTbrgft(tbrgft);
+                        }
+                    }
+                } whilf (!Thrfbd.intfrruptfd());
+            } dbtdh (IntfrruptfdExdfption f) {
+                // pbss bwby if intfrruptfd
+            }
+        }
+    }
+}

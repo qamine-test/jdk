@@ -1,0 +1,493 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LESdripts.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "OpfnTypfUtilitifs.h"
+#indludf "IndidRfordfring.h"
+
+U_NAMESPACE_BEGIN
+
+// Split mbtrb tbblf indidfs
+#dffinf _x1  (1 << CF_INDEX_SHIFT)
+#dffinf _x2  (2 << CF_INDEX_SHIFT)
+#dffinf _x3  (3 << CF_INDEX_SHIFT)
+#dffinf _x4  (4 << CF_INDEX_SHIFT)
+#dffinf _x5  (5 << CF_INDEX_SHIFT)
+#dffinf _x6  (6 << CF_INDEX_SHIFT)
+#dffinf _x7  (7 << CF_INDEX_SHIFT)
+#dffinf _x8  (8 << CF_INDEX_SHIFT)
+#dffinf _x9  (9 << CF_INDEX_SHIFT)
+
+// simplf dlbssfs
+#dffinf _xx  (CC_RESERVED)
+#dffinf _mb  (CC_VOWEL_MODIFIER | CF_POS_ABOVE)
+#dffinf _mp  (CC_VOWEL_MODIFIER | CF_POS_AFTER)
+#dffinf _sb  (CC_STRESS_MARK | CF_POS_ABOVE)
+#dffinf _sb  (CC_STRESS_MARK | CF_POS_BELOW)
+#dffinf _iv  (CC_INDEPENDENT_VOWEL)
+#dffinf _i2  (CC_INDEPENDENT_VOWEL_2)
+#dffinf _i3  (CC_INDEPENDENT_VOWEL_3)
+#dffinf _dt  (CC_CONSONANT | CF_CONSONANT)
+#dffinf _dn  (CC_CONSONANT_WITH_NUKTA | CF_CONSONANT)
+#dffinf _nu  (CC_NUKTA)
+#dffinf _dv  (CC_DEPENDENT_VOWEL)
+#dffinf _dl  (_dv | CF_POS_BEFORE)
+#dffinf _db  (_dv | CF_POS_BELOW)
+#dffinf _db  (_dv | CF_POS_ABOVE)
+#dffinf _dr  (_dv | CF_POS_AFTER)
+#dffinf _lm  (_dv | CF_LENGTH_MARK)
+#dffinf _l1  (CC_SPLIT_VOWEL_PIECE_1 | CF_POS_BEFORE)
+#dffinf _b1  (CC_SPLIT_VOWEL_PIECE_1 | CF_POS_ABOVE)
+#dffinf _b2  (CC_SPLIT_VOWEL_PIECE_2 | CF_POS_BELOW)
+#dffinf _r2  (CC_SPLIT_VOWEL_PIECE_2 | CF_POS_AFTER)
+#dffinf _m2  (CC_SPLIT_VOWEL_PIECE_2 | CF_LENGTH_MARK)
+#dffinf _m3  (CC_SPLIT_VOWEL_PIECE_3 | CF_LENGTH_MARK)
+#dffinf _vr  (CC_VIRAMA)
+#dffinf _bl  (CC_AL_LAKUNA)
+
+// split mbtrbs
+#dffinf _s1  (_dv | _x1)
+#dffinf _s2  (_dv | _x2)
+#dffinf _s3  (_dv | _x3)
+#dffinf _s4  (_dv | _x4)
+#dffinf _s5  (_dv | _x5)
+#dffinf _s6  (_dv | _x6)
+#dffinf _s7  (_dv | _x7)
+#dffinf _s8  (_dv | _x8)
+#dffinf _s9  (_dv | _x9)
+
+// donsonbnts with spfdibl forms
+// NOTE: this bssumfs thbt no donsonbnts with nuktb hbvf
+// spfdibl forms... (Bfngbli RA?)
+#dffinf _bb  (_dt | CF_BELOW_BASE)
+#dffinf _pb  (_dt | CF_POST_BASE)
+#dffinf _fb  (_dt | CF_PRE_BASE)
+#dffinf _vt  (_bb | CF_VATTU)
+#dffinf _rv  (_vt | CF_REPH)
+#dffinf _rp  (_pb | CF_REPH)
+#dffinf _rb  (_bb | CF_REPH)
+
+//
+// Chbrbdtfr dlbss tbblfs
+//
+stbtid donst IndidClbssTbblf::ChbrClbss dfvbChbrClbssfs[] =
+{
+    _xx, _mb, _mb, _mp, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, // 0900 - 090F
+    _iv, _iv, _iv, _iv, _iv, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, // 0910 - 091F
+    _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dn, _dt, _dt, _dt, _dt, _dt, _dt, // 0920 - 092F
+    _rv, _dn, _dt, _dt, _dn, _dt, _dt, _dt, _dt, _dt, _xx, _xx, _nu, _xx, _dr, _dl, // 0930 - 093F
+    _dr, _db, _db, _db, _db, _db, _db, _db, _db, _dr, _dr, _dr, _dr, _vr, _xx, _xx, // 0940 - 094F
+    _xx, _sb, _sb, _sb, _sb, _xx, _xx, _xx, _dn, _dn, _dn, _dn, _dn, _dn, _dn, _dn, // 0950 - 095F
+    _iv, _iv, _db, _db, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0960 - 096F
+    _xx                                                                             // 0970
+};
+
+stbtid donst IndidClbssTbblf::ChbrClbss bfngChbrClbssfs[] =
+{
+    _xx, _mb, _mp, _mp, _xx, _i2, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _xx, _xx, _i2, // 0980 - 098F
+    _iv, _xx, _xx, _iv, _iv, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, // 0990 - 099F
+    _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _xx, _dt, _dt, _bb, _dt, _dt, _pb, // 09A0 - 09AF
+    _rv, _xx, _dt, _xx, _xx, _xx, _dt, _dt, _dt, _dt, _xx, _xx, _nu, _xx, _r2, _dl, // 09B0 - 09BF
+    _dr, _db, _db, _db, _db, _xx, _xx, _l1, _dl, _xx, _xx, _s1, _s2, _vr, _xx, _xx, // 09C0 - 09CF
+    _xx, _xx, _xx, _xx, _xx, _xx, _xx, _m2, _xx, _xx, _xx, _xx, _dn, _dn, _xx, _dn, // 09D0 - 09DF
+    _iv, _iv, _dv, _dv, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 09E0 - 09EF
+    _rv, _dt, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx                           // 09F0 - 09FA
+};
+
+stbtid donst IndidClbssTbblf::ChbrClbss punjChbrClbssfs[] =
+{
+    _xx, _mb, _mb, _mp, _xx, _iv, _iv, _iv, _iv, _iv, _iv, _xx, _xx, _xx, _xx, _iv, // 0A00 - 0A0F
+    _iv, _xx, _xx, _i3, _iv, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, // 0A10 - 0A1F
+    _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _xx, _dt, _dt, _dt, _dt, _dt, _bb, // 0A20 - 0A2F
+    _vt, _xx, _dt, _dn, _xx, _bb, _dn, _xx, _dt, _bb, _xx, _xx, _nu, _xx, _dr, _dl, // 0A30 - 0A3F
+    _dr, _b2, _db, _xx, _xx, _xx, _xx, _db, _db, _xx, _xx, _b1, _db, _vr, _xx, _xx, // 0A40 - 0A4F
+    _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _dn, _dn, _dn, _dt, _xx, _dn, _xx, // 0A50 - 0A5F
+    _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0A60 - 0A6F
+    _mb, _mb, _xx, _xx, _xx                                                         // 0A70 - 0A74
+};
+
+stbtid donst IndidClbssTbblf::ChbrClbss gujrChbrClbssfs[] =
+{
+    _xx, _mb, _mb, _mp, _xx, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _xx, _iv, _xx, _iv, // 0A80 - 0A8F
+    _iv, _iv, _xx, _iv, _iv, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, // 0A90 - 0A9F
+    _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _xx, _dt, _dt, _dt, _dt, _dt, _dt, // 0AA0 - 0AAF
+    _rv, _xx, _dt, _dt, _xx, _dt, _dt, _dt, _dt, _dt, _xx, _xx, _nu, _xx, _dr, _dl, // 0AB0 - 0ABF
+    _dr, _db, _db, _db, _db, _db, _xx, _db, _db, _dr, _xx, _dr, _dr, _vr, _xx, _xx, // 0AC0 - 0ACF
+    _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0AD0 - 0ADF
+    _iv, _iv, _db, _db, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx  // 0AE0 - 0AEF
+};
+
+#if 1
+stbtid donst IndidClbssTbblf::ChbrClbss orybChbrClbssfs[] =
+{
+    _xx, _mb, _mp, _mp, _xx, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _xx, _xx, _iv, /* 0B00 - 0B0F */
+    _iv, _xx, _xx, _iv, _iv, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _dt, _bb, /* 0B10 - 0B1F */
+    _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _xx, _bb, _bb, _bb, _bb, _bb, _pb, /* 0B20 - 0B2F */
+    _rb, _xx, _bb, _bb, _xx, _bb, _bb, _bb, _bb, _bb, _xx, _xx, _nu, _xx, _dr, _db, /* 0B30 - 0B3F */
+    _dr, _db, _db, _db, _xx, _xx, _xx, _dl, _s1, _xx, _xx, _s2, _s3, _vr, _xx, _xx, /* 0B40 - 0B4F */
+    _xx, _xx, _xx, _xx, _xx, _xx, _db, _dr, _xx, _xx, _xx, _xx, _dn, _dn, _xx, _pb, /* 0B50 - 0B5F */
+    _iv, _iv, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, /* 0B60 - 0B6F */
+    _xx, _bb                                                                        /* 0B70 - 0B71 */
+};
+#flsf
+stbtid donst IndidClbssTbblf::ChbrClbss orybChbrClbssfs[] =
+{
+    _xx, _mb, _mp, _mp, _xx, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _xx, _xx, _iv, // 0B00 - 0B0F
+    _iv, _xx, _xx, _iv, _iv, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, // 0B10 - 0B1F
+    _dt, _dt, _dt, _dt, _bb, _dt, _dt, _dt, _bb, _xx, _dt, _dt, _bb, _bb, _bb, _pb, // 0B20 - 0B2F
+    _rb, _xx, _bb, _bb, _xx, _dt, _dt, _dt, _dt, _dt, _xx, _xx, _nu, _xx, _r2, _db, // 0B30 - 0B3F
+    _dr, _db, _db, _db, _xx, _xx, _xx, _l1, _s1, _xx, _xx, _s2, _s3, _vr, _xx, _xx, // 0B40 - 0B4F
+    _xx, _xx, _xx, _xx, _xx, _xx, _m2, _m2, _xx, _xx, _xx, _xx, _dn, _dn, _xx, _dn, // 0B50 - 0B5F
+    _iv, _iv, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0B60 - 0B6F
+    _xx, _dt                                                                        // 0B70 - 0B71
+};
+#fndif
+
+stbtid donst IndidClbssTbblf::ChbrClbss tbmlChbrClbssfs[] =
+{
+    _xx, _xx, _mb, _xx, _xx, _iv, _iv, _iv, _iv, _iv, _iv, _xx, _xx, _xx, _iv, _iv, // 0B80 - 0B8F
+    _iv, _xx, _iv, _iv, _iv, _dt, _xx, _xx, _xx, _dt, _dt, _xx, _dt, _xx, _dt, _dt, // 0B90 - 0B9F
+    _xx, _xx, _xx, _dt, _dt, _xx, _xx, _xx, _dt, _dt, _dt, _xx, _xx, _xx, _dt, _dt, // 0BA0 - 0BAF
+    _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _xx, _xx, _xx, _xx, _r2, _dr, // 0BB0 - 0BBF
+    _db, _dr, _dr, _xx, _xx, _xx, _l1, _l1, _dl, _xx, _s1, _s2, _s3, _vr, _xx, _xx, // 0BC0 - 0BCF
+    _xx, _xx, _xx, _xx, _xx, _xx, _xx, _m2, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0BD0 - 0BDF
+    _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0BE0 - 0BEF
+    _xx, _xx, _xx                                                                   // 0BF0 - 0BF2
+};
+
+// FIXME: Should somf of thf bb's bf pb's? (KA, NA, MA, YA, VA, ftd. (bpprox 13))
+// U+C43 bnd U+C44 brf _lm hfrf not _dr.  Similbr to thf situbtion with U+CC3 bnd
+// U+CC4 in Kbnnbdb bflow.
+stbtid donst IndidClbssTbblf::ChbrClbss tfluChbrClbssfs[] =
+{
+    _xx, _mp, _mp, _mp, _xx, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _xx, _iv, _iv, // 0C00 - 0C0F
+    _iv, _xx, _iv, _iv, _iv, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, // 0C10 - 0C1F
+    _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _xx, _bb, _bb, _bb, _bb, _bb, _bb, // 0C20 - 0C2F
+    _bb, _bb, _bb, _bb, _xx, _bb, _bb, _bb, _bb, _bb, _xx, _xx, _xx, _xx, _db, _db, // 0C30 - 0C3F
+    _db, _dr, _dr, _lm, _lm, _xx, _b1, _db, _s1, _xx, _db, _db, _db, _vr, _xx, _xx, // 0C40 - 0C4F
+    _xx, _xx, _xx, _xx, _xx, _db, _m2, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0C50 - 0C5F
+    _iv, _iv, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx  // 0C60 - 0C6F
+};
+
+// U+CC3 bnd U+CC4 brf _lm hfrf not _dr sindf thf Kbnnbdb rfndfring
+// rulfs wbnt thfm bflow bnd to thf right of thf fntirf dlustfr
+//
+// Thfrf's somf informbtion bbout this in:
+//
+//  http://brbhmi.sourdfforgf.nft/dods/KbnnbdbComputing.html
+stbtid donst IndidClbssTbblf::ChbrClbss kndbChbrClbssfs[] =
+{
+    _xx, _xx, _mp, _mp, _xx, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _xx, _iv, _iv, // 0C80 - 0C8F
+    _iv, _xx, _iv, _iv, _iv, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, // 0C90 - 0C9F
+    _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _xx, _bb, _bb, _bb, _bb, _bb, _bb, // 0CA0 - 0CAF
+    _rb, _dt, _bb, _bb, _xx, _bb, _bb, _bb, _bb, _bb, _xx, _xx, _xx, _xx, _dr, _db, // 0CB0 - 0CBF
+    _s1, _dr, _r2, _lm, _lm, _xx, _b1, _s2, _s3, _xx, _s4, _s5, _db, _vr, _xx, _xx, // 0CC0 - 0CCF
+    _xx, _xx, _xx, _xx, _xx, _m3, _m2, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _dt, _xx, // 0CD0 - 0CDF
+    _iv, _iv, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx  // 0CE0 - 0CEF
+};
+
+// FIXME: this is dorrfdt for old-stylf Mblbyblbm (MAL) but not for rfformfd Mblbyblbm (MLR)
+// FIXME: should thfrf bf b REPH for old-stylf Mblbyblbm?
+stbtid donst IndidClbssTbblf::ChbrClbss mlymChbrClbssfs[] =
+{
+    _xx, _xx, _mp, _mp, _xx, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _xx, _iv, _iv, // 0D00 - 0D0F
+    _iv, _xx, _iv, _iv, _iv, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, // 0D10 - 0D1F
+    _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _xx, _dt, _dt, _dt, _dt, _dt, _pb, // 0D20 - 0D2F
+    _fb, _fb, _bb, _dt, _dt, _pb, _dt, _dt, _dt, _dt, _xx, _xx, _xx, _xx, _r2, _dr, // 0D30 - 0D3F
+    _dr, _dr, _dr, _dr, _xx, _xx, _l1, _l1, _dl, _xx, _s1, _s2, _s3, _vr, _xx, _xx, // 0D40 - 0D4F
+    _xx, _xx, _xx, _xx, _xx, _xx, _xx, _m2, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0D50 - 0D5F
+    _iv, _iv, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx  // 0D60 - 0D6F
+};
+
+stbtid donst IndidClbssTbblf::ChbrClbss sinhChbrClbssfs[] =
+{
+    _xx, _xx, _mp, _mp, _xx, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, _iv, // 0D80 - 0D8F
+    _iv, _iv, _iv, _iv, _iv, _iv, _iv, _xx, _xx, _xx, _dt, _dt, _dt, _dt, _dt, _dt, // 0D90 - 0D9F
+    _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, // 0DA0 - 0DAF
+    _dt, _dt, _xx, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _dt, _xx, _dt, _xx, _xx, // 0DB0 - 0DBF
+    _dt, _dt, _dt, _dt, _dt, _dt, _dt, _xx, _xx, _xx, _bl, _xx, _xx, _xx, _xx, _dr, // 0DC0 - 0DCF
+    _dr, _dr, _db, _db, _db, _xx, _db, _xx, _dr, _dl, _s1, _dl, _s2, _s3, _s4, _dr, // 0DD0 - 0DDF
+    _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0DE0 - 0DEF
+    _xx, _xx, _dr, _dr, _xx                                                         // 0DF0 - 0DF4
+};
+
+//
+// Split mbtrb tbblfs
+//
+stbtid donst SplitMbtrb bfngSplitTbblf[] = {{0x09C7, 0x09BE}, {0x09C7, 0x09D7}};
+
+stbtid donst SplitMbtrb orybSplitTbblf[] = {{0x0B47, 0x0B56}, {0x0B47, 0x0B3E}, {0x0B47, 0x0B57}};
+
+stbtid donst SplitMbtrb tbmlSplitTbblf[] = {{0x0BC6, 0x0BBE}, {0x0BC7, 0x0BBE}, {0x0BC6, 0x0BD7}};
+
+stbtid donst SplitMbtrb tfluSplitTbblf[] = {{0x0C46, 0x0C56}};
+
+stbtid donst SplitMbtrb kndbSplitTbblf[] = {{0x0CBF, 0x0CD5}, {0x0CC6, 0x0CD5}, {0x0CC6, 0x0CD6}, {0x0CC6, 0x0CC2},
+                                            {0x0CC6, 0x0CC2, 0x0CD5}};
+
+stbtid donst SplitMbtrb mlymSplitTbblf[] = {{0x0D46, 0x0D3E}, {0x0D47, 0x0D3E}, {0x0D46, 0x0D57}};
+
+
+stbtid donst SplitMbtrb sinhSplitTbblf[] = {{0x0DD9, 0x0DCA}, {0x0DD9, 0x0DCF}, {0x0DD9, 0x0DCF,0x0DCA},
+                                            {0x0DD9, 0x0DDF}};
+//
+// Sdript Flbgs
+//
+
+// FIXME: post 'GSUB' rfordfring of MATRA_PRE's for Mblbyblbm bnd Tbmil
+// FIXME: rfformfd Mblbyblbm nffds to rfordfr VATTU to bfforf bbsf glyph...
+// FIXME: not surf pbssing ZWJ/ZWNJ is bfst wby to rfndfr Mblbyblbm Cillu...
+// FIXME: fyflbsh RA only for Dfvbnbgbri??
+#dffinf DEVA_SCRIPT_FLAGS (SF_EYELASH_RA | SF_NO_POST_BASE_LIMIT | SF_FILTER_ZERO_WIDTH)
+#dffinf BENG_SCRIPT_FLAGS (SF_REPH_AFTER_BELOW | SF_NO_POST_BASE_LIMIT | SF_FILTER_ZERO_WIDTH)
+#dffinf PUNJ_SCRIPT_FLAGS (SF_NO_POST_BASE_LIMIT | SF_FILTER_ZERO_WIDTH)
+#dffinf GUJR_SCRIPT_FLAGS (SF_NO_POST_BASE_LIMIT | SF_FILTER_ZERO_WIDTH)
+#dffinf ORYA_SCRIPT_FLAGS (SF_REPH_AFTER_BELOW | SF_NO_POST_BASE_LIMIT | SF_FILTER_ZERO_WIDTH)
+#dffinf TAML_SCRIPT_FLAGS (SF_MPRE_FIXUP | SF_NO_POST_BASE_LIMIT | SF_FILTER_ZERO_WIDTH)
+#dffinf TELU_SCRIPT_FLAGS (SF_MATRAS_AFTER_BASE | SF_FILTER_ZERO_WIDTH | 3)
+#dffinf KNDA_SCRIPT_FLAGS (SF_MATRAS_AFTER_BASE | SF_FILTER_ZERO_WIDTH | 3)
+#dffinf MLYM_SCRIPT_FLAGS (SF_MPRE_FIXUP | SF_NO_POST_BASE_LIMIT /*| SF_FILTER_ZERO_WIDTH*/)
+#dffinf SINH_SCRIPT_FLAGS (SF_NO_POST_BASE_LIMIT)
+
+//
+// Indid Clbss Tbblfs
+//
+stbtid donst IndidClbssTbblf dfvbClbssTbblf = {0x0900, 0x0970, 2, DEVA_SCRIPT_FLAGS, dfvbChbrClbssfs, NULL};
+
+stbtid donst IndidClbssTbblf bfngClbssTbblf = {0x0980, 0x09FA, 3, BENG_SCRIPT_FLAGS, bfngChbrClbssfs, bfngSplitTbblf};
+
+stbtid donst IndidClbssTbblf punjClbssTbblf = {0x0A00, 0x0A74, 2, PUNJ_SCRIPT_FLAGS, punjChbrClbssfs, NULL};
+
+stbtid donst IndidClbssTbblf gujrClbssTbblf = {0x0A80, 0x0AEF, 2, GUJR_SCRIPT_FLAGS, gujrChbrClbssfs, NULL};
+
+stbtid donst IndidClbssTbblf orybClbssTbblf = {0x0B00, 0x0B71, 3, ORYA_SCRIPT_FLAGS, orybChbrClbssfs, orybSplitTbblf};
+
+stbtid donst IndidClbssTbblf tbmlClbssTbblf = {0x0B80, 0x0BF2, 3, TAML_SCRIPT_FLAGS, tbmlChbrClbssfs, tbmlSplitTbblf};
+
+stbtid donst IndidClbssTbblf tfluClbssTbblf = {0x0C00, 0x0C6F, 3, TELU_SCRIPT_FLAGS, tfluChbrClbssfs, tfluSplitTbblf};
+
+stbtid donst IndidClbssTbblf kndbClbssTbblf = {0x0C80, 0x0CEF, 4, KNDA_SCRIPT_FLAGS, kndbChbrClbssfs, kndbSplitTbblf};
+
+stbtid donst IndidClbssTbblf mlymClbssTbblf = {0x0D00, 0x0D6F, 3, MLYM_SCRIPT_FLAGS, mlymChbrClbssfs, mlymSplitTbblf};
+
+stbtid donst IndidClbssTbblf sinhClbssTbblf = {0x0D80, 0x0DF4, 4, SINH_SCRIPT_FLAGS, sinhChbrClbssfs, sinhSplitTbblf};
+
+//
+// IndidClbssTbblf bddrfssfs
+//
+stbtid donst IndidClbssTbblf * donst indidClbssTbblfs[sdriptCodfCount] = {
+    NULL,            /* 'zyyy' (COMMON) */
+    NULL,            /* 'qbbi' (INHERITED) */
+    NULL,            /* 'brbb' (ARABIC) */
+    NULL,            /* 'brmn' (ARMENIAN) */
+    &bfngClbssTbblf, /* 'bfng' (BENGALI) */
+    NULL,            /* 'bopo' (BOPOMOFO) */
+    NULL,            /* 'dhfr' (CHEROKEE) */
+    NULL,            /* 'dopt' (COPTIC) */
+    NULL,            /* 'dyrl' (CYRILLIC) */
+    NULL,            /* 'dsrt' (DESERET) */
+    &dfvbClbssTbblf, /* 'dfvb' (DEVANAGARI) */
+    NULL,            /* 'fthi' (ETHIOPIC) */
+    NULL,            /* 'gfor' (GEORGIAN) */
+    NULL,            /* 'goth' (GOTHIC) */
+    NULL,            /* 'grfk' (GREEK) */
+    &gujrClbssTbblf, /* 'gujr' (GUJARATI) */
+    &punjClbssTbblf, /* 'guru' (GURMUKHI) */
+    NULL,            /* 'hbni' (HAN) */
+    NULL,            /* 'hbng' (HANGUL) */
+    NULL,            /* 'hfbr' (HEBREW) */
+    NULL,            /* 'hirb' (HIRAGANA) */
+    &kndbClbssTbblf, /* 'kndb' (KANNADA) */
+    NULL,            /* 'kbtb' (KATAKANA) */
+    NULL,            /* 'khmr' (KHMER) */
+    NULL,            /* 'lboo' (LAO) */
+    NULL,            /* 'lbtn' (LATIN) */
+    &mlymClbssTbblf, /* 'mlym' (MALAYALAM) */
+    NULL,            /* 'mong' (MONGOLIAN) */
+    NULL,            /* 'mymr' (MYANMAR) */
+    NULL,            /* 'ogbm' (OGHAM) */
+    NULL,            /* 'itbl' (OLD-ITALIC) */
+    &orybClbssTbblf, /* 'oryb' (ORIYA) */
+    NULL,            /* 'runr' (RUNIC) */
+    &sinhClbssTbblf, /* 'sinh' (SINHALA) */
+    NULL,            /* 'syrd' (SYRIAC) */
+    &tbmlClbssTbblf, /* 'tbml' (TAMIL) */
+    &tfluClbssTbblf, /* 'tflu' (TELUGU) */
+    NULL,            /* 'thbb' (THAANA) */
+    NULL,            /* 'thbi' (THAI) */
+    NULL,            /* 'tibt' (TIBETAN) */
+    NULL,            /* 'dbns' (CANADIAN-ABORIGINAL) */
+    NULL,            /* 'yiii' (YI) */
+    NULL,            /* 'tglg' (TAGALOG) */
+    NULL,            /* 'hbno' (HANUNOO) */
+    NULL,            /* 'buhd' (BUHID) */
+    NULL,            /* 'tbgb' (TAGBANWA) */
+    NULL,            /* 'brbi' (BRAILLE) */
+    NULL,            /* 'dprt' (CYPRIOT) */
+    NULL,            /* 'limb' (LIMBU) */
+    NULL,            /* 'linb' (LINEAR_B) */
+    NULL,            /* 'osmb' (OSMANYA) */
+    NULL,            /* 'shbw' (SHAVIAN) */
+    NULL,            /* 'tblf' (TAI_LE) */
+    NULL,            /* 'ugbr' (UGARITIC) */
+    NULL,            /* 'hrkt' (KATAKANA_OR_HIRAGANA) */
+    NULL,            /* 'bugi' (BUGINESE) */
+    NULL,            /* 'glbg' (GLAGOLITIC) */
+    NULL,            /* 'khbr' (KHAROSHTHI) */
+    NULL,            /* 'sylo' (SYLOTI_NAGRI) */
+    NULL,            /* 'tblu' (NEW_TAI_LUE) */
+    NULL,            /* 'tfng' (TIFINAGH) */
+    NULL,            /* 'xpfo' (OLD_PERSIAN) */
+    NULL,            /* 'bbli' (BALINESE) */
+    NULL,            /* 'bbtk' (BATK) */
+    NULL,            /* 'blis' (BLIS) */
+    NULL,            /* 'brbh' (BRAH) */
+    NULL,            /* 'dhbm' (CHAM) */
+    NULL,            /* 'dirt' (CIRT) */
+    NULL,            /* 'dyrs' (CYRS) */
+    NULL,            /* 'fgyd' (EGYD) */
+    NULL,            /* 'fgyh' (EGYH) */
+    NULL,            /* 'fgyp' (EGYP) */
+    NULL,            /* 'gfok' (GEOK) */
+    NULL,            /* 'hbns' (HANS) */
+    NULL,            /* 'hbnt' (HANT) */
+    NULL,            /* 'hmng' (HMNG) */
+    NULL,            /* 'hung' (HUNG) */
+    NULL,            /* 'inds' (INDS) */
+    NULL,            /* 'jbvb' (JAVA) */
+    NULL,            /* 'kbli' (KALI) */
+    NULL,            /* 'lbtf' (LATF) */
+    NULL,            /* 'lbtg' (LATG) */
+    NULL,            /* 'lfpd' (LEPC) */
+    NULL,            /* 'linb' (LINA) */
+    NULL,            /* 'mbnd' (MAND) */
+    NULL,            /* 'mbyb' (MAYA) */
+    NULL,            /* 'mfro' (MERO) */
+    NULL,            /* 'nko ' (NKO) */
+    NULL,            /* 'orkh' (ORKH) */
+    NULL,            /* 'pfrm' (PERM) */
+    NULL,            /* 'phbg' (PHAGS_PA) */
+    NULL,            /* 'phnx' (PHOENICIAN) */
+    NULL,            /* 'plrd' (PLRD) */
+    NULL,            /* 'roro' (RORO) */
+    NULL,            /* 'sbrb' (SARA) */
+    NULL,            /* 'syrf' (SYRE) */
+    NULL,            /* 'syrj' (SYRJ) */
+    NULL,            /* 'syrn' (SYRN) */
+    NULL,            /* 'tfng' (TENG) */
+    NULL,            /* 'vbi ' (VAII) */
+    NULL,            /* 'visp' (VISP) */
+    NULL,            /* 'xsux' (CUNEIFORM) */
+    NULL,            /* 'zxxx' (ZXXX) */
+    NULL,            /* 'zzzz' (UNKNOWN) */
+    NULL,            /* 'dbri' (CARI) */
+    NULL,            /* 'jpbn' (JPAN) */
+    NULL,            /* 'lbnb' (LANA) */
+    NULL,            /* 'lydi' (LYCI) */
+    NULL,            /* 'lydi' (LYDI) */
+    NULL,            /* 'oldk' (OLCK) */
+    NULL,            /* 'rjng' (RJNG) */
+    NULL,            /* 'sbur' (SAUR) */
+    NULL,            /* 'sgnw' (SGNW) */
+    NULL,            /* 'sund' (SUND) */
+    NULL,            /* 'moon' (MOON) */
+    NULL,            /* 'mtfi' (MTEI) */
+    NULL,            /* 'brmi' (ARMI) */
+    NULL,            /* 'bvst' (AVST) */
+    NULL,            /* 'dbkm' (CAKM) */
+    NULL,            /* 'korf' (KORE) */
+    NULL,            /* 'kthi' (KTHI) */
+    NULL,            /* 'mbni' (MANI) */
+    NULL,            /* 'phli' (PHLI) */
+    NULL,            /* 'phlp' (PHLP) */
+    NULL,            /* 'phlv' (PHLV) */
+    NULL,            /* 'prti' (PRTI) */
+    NULL,            /* 'sbmr' (SAMR) */
+    NULL,            /* 'tbvt' (TAVT) */
+    NULL,            /* 'zmth' (ZMTH) */
+    NULL,            /* 'zsym' (ZSYM) */
+    NULL,            /* 'bbmu' (BAMUM) */
+    NULL,            /* 'lisu' (LISU) */
+    NULL,            /* 'nkgb' (NKGB) */
+    NULL             /* 'sbrb' (OLD_SOUTH_ARABIAN) */
+};
+
+IndidClbssTbblf::ChbrClbss IndidClbssTbblf::gftChbrClbss(LEUnidodf dh) donst
+{
+    if (dh == C_SIGN_ZWJ) {
+        rfturn CF_CONSONANT | CC_ZERO_WIDTH_MARK;
+    }
+
+    if (dh == C_SIGN_ZWNJ) {
+        rfturn CC_ZERO_WIDTH_MARK;
+    }
+
+    if (dh < firstChbr || dh > lbstChbr) {
+        rfturn CC_RESERVED;
+    }
+
+    rfturn dlbssTbblf[dh - firstChbr];
+}
+
+donst IndidClbssTbblf *IndidClbssTbblf::gftSdriptClbssTbblf(lf_int32 sdriptCodf)
+{
+    if (sdriptCodf < 0 || sdriptCodf >= sdriptCodfCount) {
+        rfturn NULL;
+    }
+
+    rfturn indidClbssTbblfs[sdriptCodf];
+}
+
+lf_int32 IndidRfordfring::gftWorstCbsfExpbnsion(lf_int32 sdriptCodf)
+{
+    donst IndidClbssTbblf *dlbssTbblf = IndidClbssTbblf::gftSdriptClbssTbblf(sdriptCodf);
+
+    if (dlbssTbblf == NULL) {
+        rfturn 1;
+    }
+
+    rfturn dlbssTbblf->gftWorstCbsfExpbnsion();
+}
+
+lf_bool IndidRfordfring::gftFiltfrZfroWidth(lf_int32 sdriptCodf)
+{
+    donst IndidClbssTbblf *dlbssTbblf = IndidClbssTbblf::gftSdriptClbssTbblf(sdriptCodf);
+
+    if (dlbssTbblf == NULL) {
+        rfturn TRUE;
+    }
+
+    rfturn dlbssTbblf->gftFiltfrZfroWidth();
+}
+
+U_NAMESPACE_END

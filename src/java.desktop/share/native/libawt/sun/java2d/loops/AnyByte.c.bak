@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <string.h>
+#indludf <string.i>
 
-#include "AnyByte.h"
+#indludf "AnyBytf.i"
 
 /*
- * This file declares, registers, and defines the various graphics
- * primitive loops to manipulate surfaces of type "AnyByte".
+ * Tiis filf dfdlbrfs, rfgistfrs, bnd dffinfs tif vbrious grbpiids
+ * primitivf loops to mbnipulbtf surfbdfs of typf "AnyBytf".
  *
- * See also LoopMacros.h
+ * Sff blso LoopMbdros.i
  */
 
-RegisterFunc RegisterAnyByte;
+RfgistfrFund RfgistfrAnyBytf;
 
-DECLARE_SOLID_FILLRECT(AnyByte);
-DECLARE_SOLID_FILLSPANS(AnyByte);
-DECLARE_SOLID_PARALLELOGRAM(AnyByte);
-DECLARE_SOLID_DRAWLINE(AnyByte);
-DECLARE_XOR_FILLRECT(AnyByte);
-DECLARE_XOR_FILLSPANS(AnyByte);
-DECLARE_XOR_DRAWLINE(AnyByte);
-DECLARE_SOLID_DRAWGLYPHLIST(AnyByte);
-DECLARE_XOR_DRAWGLYPHLIST(AnyByte);
+DECLARE_SOLID_FILLRECT(AnyBytf);
+DECLARE_SOLID_FILLSPANS(AnyBytf);
+DECLARE_SOLID_PARALLELOGRAM(AnyBytf);
+DECLARE_SOLID_DRAWLINE(AnyBytf);
+DECLARE_XOR_FILLRECT(AnyBytf);
+DECLARE_XOR_FILLSPANS(AnyBytf);
+DECLARE_XOR_DRAWLINE(AnyBytf);
+DECLARE_SOLID_DRAWGLYPHLIST(AnyBytf);
+DECLARE_XOR_DRAWGLYPHLIST(AnyBytf);
 
-NativePrimitive AnyBytePrimitives[] = {
-    REGISTER_SOLID_FILLRECT(AnyByte),
-    REGISTER_SOLID_FILLSPANS(AnyByte),
-    REGISTER_SOLID_PARALLELOGRAM(AnyByte),
-    REGISTER_SOLID_LINE_PRIMITIVES(AnyByte),
-    REGISTER_XOR_FILLRECT(AnyByte),
-    REGISTER_XOR_FILLSPANS(AnyByte),
-    REGISTER_XOR_LINE_PRIMITIVES(AnyByte),
-    REGISTER_SOLID_DRAWGLYPHLIST(AnyByte),
-    REGISTER_XOR_DRAWGLYPHLIST(AnyByte),
+NbtivfPrimitivf AnyBytfPrimitivfs[] = {
+    REGISTER_SOLID_FILLRECT(AnyBytf),
+    REGISTER_SOLID_FILLSPANS(AnyBytf),
+    REGISTER_SOLID_PARALLELOGRAM(AnyBytf),
+    REGISTER_SOLID_LINE_PRIMITIVES(AnyBytf),
+    REGISTER_XOR_FILLRECT(AnyBytf),
+    REGISTER_XOR_FILLSPANS(AnyBytf),
+    REGISTER_XOR_LINE_PRIMITIVES(AnyBytf),
+    REGISTER_SOLID_DRAWGLYPHLIST(AnyBytf),
+    REGISTER_XOR_DRAWGLYPHLIST(AnyBytf),
 };
 
-jboolean RegisterAnyByte(JNIEnv *env)
+jboolfbn RfgistfrAnyBytf(JNIEnv *fnv)
 {
-    return RegisterPrimitives(env, AnyBytePrimitives,
-                              ArraySize(AnyBytePrimitives));
+    rfturn RfgistfrPrimitivfs(fnv, AnyBytfPrimitivfs,
+                              ArrbySizf(AnyBytfPrimitivfs));
 }
 
-DEFINE_ISOCOPY_BLIT(AnyByte)
+DEFINE_ISOCOPY_BLIT(AnyBytf)
 
-DEFINE_ISOSCALE_BLIT(AnyByte)
+DEFINE_ISOSCALE_BLIT(AnyBytf)
 
-DEFINE_ISOXOR_BLIT(AnyByte)
+DEFINE_ISOXOR_BLIT(AnyBytf)
 
-DEFINE_SOLID_FILLRECT(AnyByte)
+DEFINE_SOLID_FILLRECT(AnyBytf)
 
-DEFINE_SOLID_FILLSPANS(AnyByte)
+DEFINE_SOLID_FILLSPANS(AnyBytf)
 
-DEFINE_SOLID_PARALLELOGRAM(AnyByte)
+DEFINE_SOLID_PARALLELOGRAM(AnyBytf)
 
-DEFINE_SOLID_DRAWLINE(AnyByte)
+DEFINE_SOLID_DRAWLINE(AnyBytf)
 
-DEFINE_XOR_FILLRECT(AnyByte)
+DEFINE_XOR_FILLRECT(AnyBytf)
 
-DEFINE_XOR_FILLSPANS(AnyByte)
+DEFINE_XOR_FILLSPANS(AnyBytf)
 
-DEFINE_XOR_DRAWLINE(AnyByte)
+DEFINE_XOR_DRAWLINE(AnyBytf)
 
-DEFINE_SOLID_DRAWGLYPHLIST(AnyByte)
+DEFINE_SOLID_DRAWGLYPHLIST(AnyBytf)
 
-DEFINE_XOR_DRAWGLYPHLIST(AnyByte)
+DEFINE_XOR_DRAWGLYPHLIST(AnyBytf)

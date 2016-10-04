@@ -1,1562 +1,1562 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
 
-import javax.imageio.IIOException;
-import javax.imageio.IIOImage;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageReader;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.stream.MemoryCacheImageOutputStream;
-import javax.imageio.event.IIOReadProgressListener;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.IIOImbgf;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.strfbm.MfmoryCbdifImbgfOutputStrfbm;
+import jbvbx.imbgfio.fvfnt.IIORfbdProgrfssListfnfr;
 
-import java.awt.Graphics;
-import java.awt.color.ICC_Profile;
-import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ColorSpace;
-import java.awt.image.ColorModel;
-import java.awt.image.SampleModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.dolor.ICC_Profilf;
+import jbvb.bwt.dolor.ICC_ColorSpbdf;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.ComponfntColorModfl;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.NbmfdNodfMbp;
 
 /**
- * A JFIF (JPEG File Interchange Format) APP0 (Application-Specific)
- * marker segment.  Inner classes are included for JFXX extension
- * marker segments, for different varieties of thumbnails, and for
- * ICC Profile APP2 marker segments.  Any of these secondary types
- * that occur are kept as members of a single JFIFMarkerSegment object.
+ * A JFIF (JPEG Filf Intfrdibngf Formbt) APP0 (Applidbtion-Spfdifid)
+ * mbrkfr sfgmfnt.  Innfr dlbssfs brf indludfd for JFXX fxtfnsion
+ * mbrkfr sfgmfnts, for difffrfnt vbriftifs of tiumbnbils, bnd for
+ * ICC Profilf APP2 mbrkfr sfgmfnts.  Any of tifsf sfdondbry typfs
+ * tibt oddur brf kfpt bs mfmbfrs of b singlf JFIFMbrkfrSfgmfnt objfdt.
  */
-class JFIFMarkerSegment extends MarkerSegment {
-    int majorVersion;
-    int minorVersion;
-    int resUnits;
-    int Xdensity;
-    int Ydensity;
-    int thumbWidth;
-    int thumbHeight;
-    JFIFThumbRGB thumb = null;  // If present
-    ArrayList<JFIFExtensionMarkerSegment> extSegments = new ArrayList<>();
-    ICCMarkerSegment iccSegment = null; // optional ICC
-    private static final int THUMB_JPEG = 0x10;
-    private static final int THUMB_PALETTE = 0x11;
-    private static final int THUMB_UNASSIGNED = 0x12;
-    private static final int THUMB_RGB = 0x13;
-    private static final int DATA_SIZE = 14;
-    private static final int ID_SIZE = 5;
-    private final int MAX_THUMB_WIDTH = 255;
-    private final int MAX_THUMB_HEIGHT = 255;
+dlbss JFIFMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+    int mbjorVfrsion;
+    int minorVfrsion;
+    int rfsUnits;
+    int Xdfnsity;
+    int Ydfnsity;
+    int tiumbWidti;
+    int tiumbHfigit;
+    JFIFTiumbRGB tiumb = null;  // If prfsfnt
+    ArrbyList<JFIFExtfnsionMbrkfrSfgmfnt> fxtSfgmfnts = nfw ArrbyList<>();
+    ICCMbrkfrSfgmfnt iddSfgmfnt = null; // optionbl ICC
+    privbtf stbtid finbl int THUMB_JPEG = 0x10;
+    privbtf stbtid finbl int THUMB_PALETTE = 0x11;
+    privbtf stbtid finbl int THUMB_UNASSIGNED = 0x12;
+    privbtf stbtid finbl int THUMB_RGB = 0x13;
+    privbtf stbtid finbl int DATA_SIZE = 14;
+    privbtf stbtid finbl int ID_SIZE = 5;
+    privbtf finbl int MAX_THUMB_WIDTH = 255;
+    privbtf finbl int MAX_THUMB_HEIGHT = 255;
 
-    private final boolean debug = false;
-
-    /**
-     * Set to <code>true</code> when reading the chunks of an
-     * ICC profile.  All chunks are consolidated to create a single
-     * "segment" containing all the chunks.  This flag is a state
-     * variable identifying whether to construct a new segment or
-     * append to an old one.
-     */
-    private boolean inICC = false;
+    privbtf finbl boolfbn dfbug = fblsf;
 
     /**
-     * A placeholder for an ICC profile marker segment under
-     * construction.  The segment is not added to the list
-     * until all chunks have been read.
+     * Sft to <dodf>truf</dodf> wifn rfbding tif diunks of bn
+     * ICC profilf.  All diunks brf donsolidbtfd to drfbtf b singlf
+     * "sfgmfnt" dontbining bll tif diunks.  Tiis flbg is b stbtf
+     * vbribblf idfntifying wiftifr to donstrudt b nfw sfgmfnt or
+     * bppfnd to bn old onf.
      */
-    private ICCMarkerSegment tempICCSegment = null;
+    privbtf boolfbn inICC = fblsf;
+
+    /**
+     * A plbdfioldfr for bn ICC profilf mbrkfr sfgmfnt undfr
+     * donstrudtion.  Tif sfgmfnt is not bddfd to tif list
+     * until bll diunks ibvf bffn rfbd.
+     */
+    privbtf ICCMbrkfrSfgmfnt tfmpICCSfgmfnt = null;
 
 
     /**
-     * Default constructor.  Used to create a default JFIF header
+     * Dffbult donstrudtor.  Usfd to drfbtf b dffbult JFIF ifbdfr
      */
-    JFIFMarkerSegment() {
-        super(JPEG.APP0);
-        majorVersion = 1;
-        minorVersion = 2;
-        resUnits = JPEG.DENSITY_UNIT_ASPECT_RATIO;
-        Xdensity = 1;
-        Ydensity = 1;
-        thumbWidth = 0;
-        thumbHeight = 0;
+    JFIFMbrkfrSfgmfnt() {
+        supfr(JPEG.APP0);
+        mbjorVfrsion = 1;
+        minorVfrsion = 2;
+        rfsUnits = JPEG.DENSITY_UNIT_ASPECT_RATIO;
+        Xdfnsity = 1;
+        Ydfnsity = 1;
+        tiumbWidti = 0;
+        tiumbHfigit = 0;
     }
 
     /**
-     * Constructs a JFIF header by reading from a stream wrapped
-     * in a JPEGBuffer.
+     * Construdts b JFIF ifbdfr by rfbding from b strfbm wrbppfd
+     * in b JPEGBufffr.
      */
-    JFIFMarkerSegment(JPEGBuffer buffer) throws IOException {
-        super(buffer);
-        buffer.bufPtr += ID_SIZE;  // skip the id, we already checked it
+    JFIFMbrkfrSfgmfnt(JPEGBufffr bufffr) tirows IOExdfption {
+        supfr(bufffr);
+        bufffr.bufPtr += ID_SIZE;  // skip tif id, wf blrfbdy difdkfd it
 
-        majorVersion = buffer.buf[buffer.bufPtr++];
-        minorVersion = buffer.buf[buffer.bufPtr++];
-        resUnits = buffer.buf[buffer.bufPtr++];
-        Xdensity = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
-        Xdensity |= buffer.buf[buffer.bufPtr++] & 0xff;
-        Ydensity = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
-        Ydensity |= buffer.buf[buffer.bufPtr++] & 0xff;
-        thumbWidth = buffer.buf[buffer.bufPtr++] & 0xff;
-        thumbHeight = buffer.buf[buffer.bufPtr++] & 0xff;
-        buffer.bufAvail -= DATA_SIZE;
-        if (thumbWidth > 0) {
-            thumb = new JFIFThumbRGB(buffer, thumbWidth, thumbHeight);
+        mbjorVfrsion = bufffr.buf[bufffr.bufPtr++];
+        minorVfrsion = bufffr.buf[bufffr.bufPtr++];
+        rfsUnits = bufffr.buf[bufffr.bufPtr++];
+        Xdfnsity = (bufffr.buf[bufffr.bufPtr++] & 0xff) << 8;
+        Xdfnsity |= bufffr.buf[bufffr.bufPtr++] & 0xff;
+        Ydfnsity = (bufffr.buf[bufffr.bufPtr++] & 0xff) << 8;
+        Ydfnsity |= bufffr.buf[bufffr.bufPtr++] & 0xff;
+        tiumbWidti = bufffr.buf[bufffr.bufPtr++] & 0xff;
+        tiumbHfigit = bufffr.buf[bufffr.bufPtr++] & 0xff;
+        bufffr.bufAvbil -= DATA_SIZE;
+        if (tiumbWidti > 0) {
+            tiumb = nfw JFIFTiumbRGB(bufffr, tiumbWidti, tiumbHfigit);
         }
     }
 
     /**
-     * Constructs a JFIF header from a DOM Node.
+     * Construdts b JFIF ifbdfr from b DOM Nodf.
      */
-    JFIFMarkerSegment(Node node) throws IIOInvalidTreeException {
-        this();
-        updateFromNativeNode(node, true);
+    JFIFMbrkfrSfgmfnt(Nodf nodf) tirows IIOInvblidTrffExdfption {
+        tiis();
+        updbtfFromNbtivfNodf(nodf, truf);
     }
 
     /**
-     * Returns a deep-copy clone of this object.
+     * Rfturns b dffp-dopy dlonf of tiis objfdt.
      */
-    protected Object clone() {
-        JFIFMarkerSegment newGuy = (JFIFMarkerSegment) super.clone();
-        if (!extSegments.isEmpty()) { // Clone the list with a deep copy
-            newGuy.extSegments = new ArrayList<>();
-            for (Iterator<JFIFExtensionMarkerSegment> iter =
-                    extSegments.iterator(); iter.hasNext();) {
-                JFIFExtensionMarkerSegment jfxx = iter.next();
-                newGuy.extSegments.add((JFIFExtensionMarkerSegment) jfxx.clone());
+    protfdtfd Objfdt dlonf() {
+        JFIFMbrkfrSfgmfnt nfwGuy = (JFIFMbrkfrSfgmfnt) supfr.dlonf();
+        if (!fxtSfgmfnts.isEmpty()) { // Clonf tif list witi b dffp dopy
+            nfwGuy.fxtSfgmfnts = nfw ArrbyList<>();
+            for (Itfrbtor<JFIFExtfnsionMbrkfrSfgmfnt> itfr =
+                    fxtSfgmfnts.itfrbtor(); itfr.ibsNfxt();) {
+                JFIFExtfnsionMbrkfrSfgmfnt jfxx = itfr.nfxt();
+                nfwGuy.fxtSfgmfnts.bdd((JFIFExtfnsionMbrkfrSfgmfnt) jfxx.dlonf());
             }
         }
-        if (iccSegment != null) {
-            newGuy.iccSegment = (ICCMarkerSegment) iccSegment.clone();
+        if (iddSfgmfnt != null) {
+            nfwGuy.iddSfgmfnt = (ICCMbrkfrSfgmfnt) iddSfgmfnt.dlonf();
         }
-        return newGuy;
+        rfturn nfwGuy;
     }
 
     /**
-     * Add an JFXX extension marker segment from the stream wrapped
-     * in the JPEGBuffer to the list of extension segments.
+     * Add bn JFXX fxtfnsion mbrkfr sfgmfnt from tif strfbm wrbppfd
+     * in tif JPEGBufffr to tif list of fxtfnsion sfgmfnts.
      */
-    void addJFXX(JPEGBuffer buffer, JPEGImageReader reader)
-        throws IOException {
-        extSegments.add(new JFIFExtensionMarkerSegment(buffer, reader));
+    void bddJFXX(JPEGBufffr bufffr, JPEGImbgfRfbdfr rfbdfr)
+        tirows IOExdfption {
+        fxtSfgmfnts.bdd(nfw JFIFExtfnsionMbrkfrSfgmfnt(bufffr, rfbdfr));
     }
 
     /**
-     * Adds an ICC Profile APP2 segment from the stream wrapped
-     * in the JPEGBuffer.
+     * Adds bn ICC Profilf APP2 sfgmfnt from tif strfbm wrbppfd
+     * in tif JPEGBufffr.
      */
-    void addICC(JPEGBuffer buffer) throws IOException {
-        if (inICC == false) {
-            if (iccSegment != null) {
-                throw new IIOException
-                    ("> 1 ICC APP2 Marker Segment not supported");
+    void bddICC(JPEGBufffr bufffr) tirows IOExdfption {
+        if (inICC == fblsf) {
+            if (iddSfgmfnt != null) {
+                tirow nfw IIOExdfption
+                    ("> 1 ICC APP2 Mbrkfr Sfgmfnt not supportfd");
             }
-            tempICCSegment = new ICCMarkerSegment(buffer);
-            if (inICC == false) { // Just one chunk
-                iccSegment = tempICCSegment;
-                tempICCSegment = null;
+            tfmpICCSfgmfnt = nfw ICCMbrkfrSfgmfnt(bufffr);
+            if (inICC == fblsf) { // Just onf diunk
+                iddSfgmfnt = tfmpICCSfgmfnt;
+                tfmpICCSfgmfnt = null;
             }
-        } else {
-            if (tempICCSegment.addData(buffer) == true) {
-                iccSegment = tempICCSegment;
-                tempICCSegment = null;
+        } flsf {
+            if (tfmpICCSfgmfnt.bddDbtb(bufffr) == truf) {
+                iddSfgmfnt = tfmpICCSfgmfnt;
+                tfmpICCSfgmfnt = null;
             }
         }
     }
 
     /**
-     * Add an ICC Profile APP2 segment by constructing it from
-     * the given ICC_ColorSpace object.
+     * Add bn ICC Profilf APP2 sfgmfnt by donstrudting it from
+     * tif givfn ICC_ColorSpbdf objfdt.
      */
-    void addICC(ICC_ColorSpace cs) throws IOException {
-        if (iccSegment != null) {
-            throw new IIOException
-                ("> 1 ICC APP2 Marker Segment not supported");
+    void bddICC(ICC_ColorSpbdf ds) tirows IOExdfption {
+        if (iddSfgmfnt != null) {
+            tirow nfw IIOExdfption
+                ("> 1 ICC APP2 Mbrkfr Sfgmfnt not supportfd");
         }
-        iccSegment = new ICCMarkerSegment(cs);
+        iddSfgmfnt = nfw ICCMbrkfrSfgmfnt(ds);
     }
 
     /**
-     * Returns a tree of DOM nodes representing this object and any
-     * subordinate JFXX extension or ICC Profile segments.
+     * Rfturns b trff of DOM nodfs rfprfsfnting tiis objfdt bnd bny
+     * subordinbtf JFXX fxtfnsion or ICC Profilf sfgmfnts.
      */
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("app0JFIF");
-        node.setAttribute("majorVersion", Integer.toString(majorVersion));
-        node.setAttribute("minorVersion", Integer.toString(minorVersion));
-        node.setAttribute("resUnits", Integer.toString(resUnits));
-        node.setAttribute("Xdensity", Integer.toString(Xdensity));
-        node.setAttribute("Ydensity", Integer.toString(Ydensity));
-        node.setAttribute("thumbWidth", Integer.toString(thumbWidth));
-        node.setAttribute("thumbHeight", Integer.toString(thumbHeight));
-        if (!extSegments.isEmpty()) {
-            IIOMetadataNode JFXXnode = new IIOMetadataNode("JFXX");
-            node.appendChild(JFXXnode);
-            for (Iterator<JFIFExtensionMarkerSegment> iter =
-                    extSegments.iterator(); iter.hasNext();) {
-                JFIFExtensionMarkerSegment seg = iter.next();
-                JFXXnode.appendChild(seg.getNativeNode());
+    IIOMftbdbtbNodf gftNbtivfNodf() {
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("bpp0JFIF");
+        nodf.sftAttributf("mbjorVfrsion", Intfgfr.toString(mbjorVfrsion));
+        nodf.sftAttributf("minorVfrsion", Intfgfr.toString(minorVfrsion));
+        nodf.sftAttributf("rfsUnits", Intfgfr.toString(rfsUnits));
+        nodf.sftAttributf("Xdfnsity", Intfgfr.toString(Xdfnsity));
+        nodf.sftAttributf("Ydfnsity", Intfgfr.toString(Ydfnsity));
+        nodf.sftAttributf("tiumbWidti", Intfgfr.toString(tiumbWidti));
+        nodf.sftAttributf("tiumbHfigit", Intfgfr.toString(tiumbHfigit));
+        if (!fxtSfgmfnts.isEmpty()) {
+            IIOMftbdbtbNodf JFXXnodf = nfw IIOMftbdbtbNodf("JFXX");
+            nodf.bppfndCiild(JFXXnodf);
+            for (Itfrbtor<JFIFExtfnsionMbrkfrSfgmfnt> itfr =
+                    fxtSfgmfnts.itfrbtor(); itfr.ibsNfxt();) {
+                JFIFExtfnsionMbrkfrSfgmfnt sfg = itfr.nfxt();
+                JFXXnodf.bppfndCiild(sfg.gftNbtivfNodf());
             }
         }
-        if (iccSegment != null) {
-            node.appendChild(iccSegment.getNativeNode());
+        if (iddSfgmfnt != null) {
+            nodf.bppfndCiild(iddSfgmfnt.gftNbtivfNodf());
         }
 
-        return node;
+        rfturn nodf;
     }
 
     /**
-     * Updates the data in this object from the given DOM Node tree.
-     * If fromScratch is true, this object is being constructed.
-     * Otherwise an existing object is being modified.
-     * Throws an IIOInvalidTreeException if the tree is invalid in
-     * any way.
+     * Updbtfs tif dbtb in tiis objfdt from tif givfn DOM Nodf trff.
+     * If fromSdrbtdi is truf, tiis objfdt is bfing donstrudtfd.
+     * Otifrwisf bn fxisting objfdt is bfing modififd.
+     * Tirows bn IIOInvblidTrffExdfption if tif trff is invblid in
+     * bny wby.
      */
-    void updateFromNativeNode(Node node, boolean fromScratch)
-        throws IIOInvalidTreeException {
-        // none of the attributes are required
-        NamedNodeMap attrs = node.getAttributes();
-        if (attrs.getLength() > 0) {
-            int value = getAttributeValue(node, attrs, "majorVersion",
-                                          0, 255, false);
-            majorVersion = (value != -1) ? value : majorVersion;
-            value = getAttributeValue(node, attrs, "minorVersion",
-                                      0, 255, false);
-            minorVersion = (value != -1) ? value : minorVersion;
-            value = getAttributeValue(node, attrs, "resUnits", 0, 2, false);
-            resUnits = (value != -1) ? value : resUnits;
-            value = getAttributeValue(node, attrs, "Xdensity", 1, 65535, false);
-            Xdensity = (value != -1) ? value : Xdensity;
-            value = getAttributeValue(node, attrs, "Ydensity", 1, 65535, false);
-            Ydensity = (value != -1) ? value : Ydensity;
-            value = getAttributeValue(node, attrs, "thumbWidth", 0, 255, false);
-            thumbWidth = (value != -1) ? value : thumbWidth;
-            value = getAttributeValue(node, attrs, "thumbHeight", 0, 255, false);
-            thumbHeight = (value != -1) ? value : thumbHeight;
+    void updbtfFromNbtivfNodf(Nodf nodf, boolfbn fromSdrbtdi)
+        tirows IIOInvblidTrffExdfption {
+        // nonf of tif bttributfs brf rfquirfd
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        if (bttrs.gftLfngti() > 0) {
+            int vbluf = gftAttributfVbluf(nodf, bttrs, "mbjorVfrsion",
+                                          0, 255, fblsf);
+            mbjorVfrsion = (vbluf != -1) ? vbluf : mbjorVfrsion;
+            vbluf = gftAttributfVbluf(nodf, bttrs, "minorVfrsion",
+                                      0, 255, fblsf);
+            minorVfrsion = (vbluf != -1) ? vbluf : minorVfrsion;
+            vbluf = gftAttributfVbluf(nodf, bttrs, "rfsUnits", 0, 2, fblsf);
+            rfsUnits = (vbluf != -1) ? vbluf : rfsUnits;
+            vbluf = gftAttributfVbluf(nodf, bttrs, "Xdfnsity", 1, 65535, fblsf);
+            Xdfnsity = (vbluf != -1) ? vbluf : Xdfnsity;
+            vbluf = gftAttributfVbluf(nodf, bttrs, "Ydfnsity", 1, 65535, fblsf);
+            Ydfnsity = (vbluf != -1) ? vbluf : Ydfnsity;
+            vbluf = gftAttributfVbluf(nodf, bttrs, "tiumbWidti", 0, 255, fblsf);
+            tiumbWidti = (vbluf != -1) ? vbluf : tiumbWidti;
+            vbluf = gftAttributfVbluf(nodf, bttrs, "tiumbHfigit", 0, 255, fblsf);
+            tiumbHfigit = (vbluf != -1) ? vbluf : tiumbHfigit;
         }
-        if (node.hasChildNodes()) {
-            NodeList children = node.getChildNodes();
-            int count = children.getLength();
-            if (count > 2) {
-                throw new IIOInvalidTreeException
-                    ("app0JFIF node cannot have > 2 children", node);
+        if (nodf.ibsCiildNodfs()) {
+            NodfList diildrfn = nodf.gftCiildNodfs();
+            int dount = diildrfn.gftLfngti();
+            if (dount > 2) {
+                tirow nfw IIOInvblidTrffExdfption
+                    ("bpp0JFIF nodf dbnnot ibvf > 2 diildrfn", nodf);
             }
-            for (int i = 0; i < count; i++) {
-                Node child = children.item(i);
-                String name = child.getNodeName();
-                if (name.equals("JFXX")) {
-                    if ((!extSegments.isEmpty()) && fromScratch) {
-                        throw new IIOInvalidTreeException
-                            ("app0JFIF node cannot have > 1 JFXX node", node);
+            for (int i = 0; i < dount; i++) {
+                Nodf diild = diildrfn.itfm(i);
+                String nbmf = diild.gftNodfNbmf();
+                if (nbmf.fqubls("JFXX")) {
+                    if ((!fxtSfgmfnts.isEmpty()) && fromSdrbtdi) {
+                        tirow nfw IIOInvblidTrffExdfption
+                            ("bpp0JFIF nodf dbnnot ibvf > 1 JFXX nodf", nodf);
                     }
-                    NodeList exts = child.getChildNodes();
-                    int extCount = exts.getLength();
-                    for (int j = 0; j < extCount; j++) {
-                        Node ext = exts.item(j);
-                        extSegments.add(new JFIFExtensionMarkerSegment(ext));
+                    NodfList fxts = diild.gftCiildNodfs();
+                    int fxtCount = fxts.gftLfngti();
+                    for (int j = 0; j < fxtCount; j++) {
+                        Nodf fxt = fxts.itfm(j);
+                        fxtSfgmfnts.bdd(nfw JFIFExtfnsionMbrkfrSfgmfnt(fxt));
                     }
                 }
-                if (name.equals("app2ICC")) {
-                    if ((iccSegment != null) && fromScratch) {
-                        throw new IIOInvalidTreeException
-                            ("> 1 ICC APP2 Marker Segment not supported", node);
+                if (nbmf.fqubls("bpp2ICC")) {
+                    if ((iddSfgmfnt != null) && fromSdrbtdi) {
+                        tirow nfw IIOInvblidTrffExdfption
+                            ("> 1 ICC APP2 Mbrkfr Sfgmfnt not supportfd", nodf);
                     }
-                    iccSegment = new ICCMarkerSegment(child);
+                    iddSfgmfnt = nfw ICCMbrkfrSfgmfnt(diild);
                 }
             }
         }
     }
 
-    int getThumbnailWidth(int index) {
-        if (thumb != null) {
-            if (index == 0) {
-                return thumb.getWidth();
+    int gftTiumbnbilWidti(int indfx) {
+        if (tiumb != null) {
+            if (indfx == 0) {
+                rfturn tiumb.gftWidti();
             }
-            index--;
+            indfx--;
         }
-        JFIFExtensionMarkerSegment jfxx = extSegments.get(index);
-        return jfxx.thumb.getWidth();
+        JFIFExtfnsionMbrkfrSfgmfnt jfxx = fxtSfgmfnts.gft(indfx);
+        rfturn jfxx.tiumb.gftWidti();
     }
 
-    int getThumbnailHeight(int index) {
-        if (thumb != null) {
-            if (index == 0) {
-                return thumb.getHeight();
+    int gftTiumbnbilHfigit(int indfx) {
+        if (tiumb != null) {
+            if (indfx == 0) {
+                rfturn tiumb.gftHfigit();
             }
-            index--;
+            indfx--;
         }
-        JFIFExtensionMarkerSegment jfxx = extSegments.get(index);
-        return jfxx.thumb.getHeight();
+        JFIFExtfnsionMbrkfrSfgmfnt jfxx = fxtSfgmfnts.gft(indfx);
+        rfturn jfxx.tiumb.gftHfigit();
     }
 
-    BufferedImage getThumbnail(ImageInputStream iis,
-                               int index,
-                               JPEGImageReader reader) throws IOException {
-        reader.thumbnailStarted(index);
-        BufferedImage ret = null;
-        if ((thumb != null) && (index == 0)) {
-                ret = thumb.getThumbnail(iis, reader);
-        } else {
-            if (thumb != null) {
-                index--;
+    BufffrfdImbgf gftTiumbnbil(ImbgfInputStrfbm iis,
+                               int indfx,
+                               JPEGImbgfRfbdfr rfbdfr) tirows IOExdfption {
+        rfbdfr.tiumbnbilStbrtfd(indfx);
+        BufffrfdImbgf rft = null;
+        if ((tiumb != null) && (indfx == 0)) {
+                rft = tiumb.gftTiumbnbil(iis, rfbdfr);
+        } flsf {
+            if (tiumb != null) {
+                indfx--;
             }
-            JFIFExtensionMarkerSegment jfxx = extSegments.get(index);
-            ret = jfxx.thumb.getThumbnail(iis, reader);
+            JFIFExtfnsionMbrkfrSfgmfnt jfxx = fxtSfgmfnts.gft(indfx);
+            rft = jfxx.tiumb.gftTiumbnbil(iis, rfbdfr);
         }
-        reader.thumbnailComplete();
-        return ret;
+        rfbdfr.tiumbnbilComplftf();
+        rfturn rft;
     }
 
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format.  Assumes that there will be no thumbnail.
+     * Writfs tif dbtb for tiis sfgmfnt to tif strfbm in
+     * vblid JPEG formbt.  Assumfs tibt tifrf will bf no tiumbnbil.
      */
-    void write(ImageOutputStream ios,
-               JPEGImageWriter writer) throws IOException {
-        // No thumbnail
-        write(ios, null, writer);
+    void writf(ImbgfOutputStrfbm ios,
+               JPEGImbgfWritfr writfr) tirows IOExdfption {
+        // No tiumbnbil
+        writf(ios, null, writfr);
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format.  The length written takes the thumbnail
-     * width and height into account.  If necessary, the thumbnail
-     * is clipped to 255 x 255 and a warning is sent to the writer
-     * argument.  Progress updates are sent to the writer argument.
+     * Writfs tif dbtb for tiis sfgmfnt to tif strfbm in
+     * vblid JPEG formbt.  Tif lfngti writtfn tbkfs tif tiumbnbil
+     * widti bnd ifigit into bddount.  If nfdfssbry, tif tiumbnbil
+     * is dlippfd to 255 x 255 bnd b wbrning is sfnt to tif writfr
+     * brgumfnt.  Progrfss updbtfs brf sfnt to tif writfr brgumfnt.
      */
-    void write(ImageOutputStream ios,
-               BufferedImage thumb,
-               JPEGImageWriter writer) throws IOException {
-        int thumbWidth = 0;
-        int thumbHeight = 0;
-        int thumbLength = 0;
-        int [] thumbData = null;
-        if (thumb != null) {
-            // Clip if necessary and get the data in thumbData
-            thumbWidth = thumb.getWidth();
-            thumbHeight = thumb.getHeight();
-            if ((thumbWidth > MAX_THUMB_WIDTH)
-                || (thumbHeight > MAX_THUMB_HEIGHT)) {
-                writer.warningOccurred(JPEGImageWriter.WARNING_THUMB_CLIPPED);
+    void writf(ImbgfOutputStrfbm ios,
+               BufffrfdImbgf tiumb,
+               JPEGImbgfWritfr writfr) tirows IOExdfption {
+        int tiumbWidti = 0;
+        int tiumbHfigit = 0;
+        int tiumbLfngti = 0;
+        int [] tiumbDbtb = null;
+        if (tiumb != null) {
+            // Clip if nfdfssbry bnd gft tif dbtb in tiumbDbtb
+            tiumbWidti = tiumb.gftWidti();
+            tiumbHfigit = tiumb.gftHfigit();
+            if ((tiumbWidti > MAX_THUMB_WIDTH)
+                || (tiumbHfigit > MAX_THUMB_HEIGHT)) {
+                writfr.wbrningOddurrfd(JPEGImbgfWritfr.WARNING_THUMB_CLIPPED);
             }
-            thumbWidth = Math.min(thumbWidth, MAX_THUMB_WIDTH);
-            thumbHeight = Math.min(thumbHeight, MAX_THUMB_HEIGHT);
-            thumbData = thumb.getRaster().getPixels(0, 0,
-                                                    thumbWidth, thumbHeight,
+            tiumbWidti = Mbti.min(tiumbWidti, MAX_THUMB_WIDTH);
+            tiumbHfigit = Mbti.min(tiumbHfigit, MAX_THUMB_HEIGHT);
+            tiumbDbtb = tiumb.gftRbstfr().gftPixfls(0, 0,
+                                                    tiumbWidti, tiumbHfigit,
                                                     (int []) null);
-            thumbLength = thumbData.length;
+            tiumbLfngti = tiumbDbtb.lfngti;
         }
-        length = DATA_SIZE + LENGTH_SIZE + thumbLength;
-        writeTag(ios);
-        byte [] id = {0x4A, 0x46, 0x49, 0x46, 0x00};
-        ios.write(id);
-        ios.write(majorVersion);
-        ios.write(minorVersion);
-        ios.write(resUnits);
-        write2bytes(ios, Xdensity);
-        write2bytes(ios, Ydensity);
-        ios.write(thumbWidth);
-        ios.write(thumbHeight);
-        if (thumbData != null) {
-            writer.thumbnailStarted(0);
-            writeThumbnailData(ios, thumbData, writer);
-            writer.thumbnailComplete();
+        lfngti = DATA_SIZE + LENGTH_SIZE + tiumbLfngti;
+        writfTbg(ios);
+        bytf [] id = {0x4A, 0x46, 0x49, 0x46, 0x00};
+        ios.writf(id);
+        ios.writf(mbjorVfrsion);
+        ios.writf(minorVfrsion);
+        ios.writf(rfsUnits);
+        writf2bytfs(ios, Xdfnsity);
+        writf2bytfs(ios, Ydfnsity);
+        ios.writf(tiumbWidti);
+        ios.writf(tiumbHfigit);
+        if (tiumbDbtb != null) {
+            writfr.tiumbnbilStbrtfd(0);
+            writfTiumbnbilDbtb(ios, tiumbDbtb, writfr);
+            writfr.tiumbnbilComplftf();
         }
     }
 
     /*
-     * Write out the values in the integer array as a sequence of bytes,
-     * reporting progress to the writer argument.
+     * Writf out tif vblufs in tif intfgfr brrby bs b sfqufndf of bytfs,
+     * rfporting progrfss to tif writfr brgumfnt.
      */
-    void writeThumbnailData(ImageOutputStream ios,
-                            int [] thumbData,
-                            JPEGImageWriter writer) throws IOException {
-        int progInterval = thumbData.length / 20;  // approx. every 5%
-        if (progInterval == 0) {
-            progInterval = 1;
+    void writfTiumbnbilDbtb(ImbgfOutputStrfbm ios,
+                            int [] tiumbDbtb,
+                            JPEGImbgfWritfr writfr) tirows IOExdfption {
+        int progIntfrvbl = tiumbDbtb.lfngti / 20;  // bpprox. fvfry 5%
+        if (progIntfrvbl == 0) {
+            progIntfrvbl = 1;
         }
-        for (int i = 0; i < thumbData.length; i++) {
-            ios.write(thumbData[i]);
-            if ((i > progInterval) && (i % progInterval == 0)) {
-                writer.thumbnailProgress
-                    (((float) i * 100) / ((float) thumbData.length));
+        for (int i = 0; i < tiumbDbtb.lfngti; i++) {
+            ios.writf(tiumbDbtb[i]);
+            if ((i > progIntfrvbl) && (i % progIntfrvbl == 0)) {
+                writfr.tiumbnbilProgrfss
+                    (((flobt) i * 100) / ((flobt) tiumbDbtb.lfngti));
             }
         }
     }
 
     /**
-     * Write out this JFIF Marker Segment, including a thumbnail or
-     * appending a series of JFXX Marker Segments, as appropriate.
-     * Warnings and progress reports are sent to the writer argument.
-     * The list of thumbnails is matched to the list of JFXX extension
-     * segments, if any, in order to determine how to encode the
-     * thumbnails.  If there are more thumbnails than metadata segments,
-     * default encoding is used for the extra thumbnails.
+     * Writf out tiis JFIF Mbrkfr Sfgmfnt, indluding b tiumbnbil or
+     * bppfnding b sfrifs of JFXX Mbrkfr Sfgmfnts, bs bppropribtf.
+     * Wbrnings bnd progrfss rfports brf sfnt to tif writfr brgumfnt.
+     * Tif list of tiumbnbils is mbtdifd to tif list of JFXX fxtfnsion
+     * sfgmfnts, if bny, in ordfr to dftfrminf iow to fndodf tif
+     * tiumbnbils.  If tifrf brf morf tiumbnbils tibn mftbdbtb sfgmfnts,
+     * dffbult fndoding is usfd for tif fxtrb tiumbnbils.
      */
-    void writeWithThumbs(ImageOutputStream ios,
-                         List<? extends BufferedImage> thumbnails,
-                         JPEGImageWriter writer) throws IOException {
-        if (thumbnails != null) {
-            JFIFExtensionMarkerSegment jfxx = null;
-            if (thumbnails.size() == 1) {
-                if (!extSegments.isEmpty()) {
-                    jfxx = extSegments.get(0);
+    void writfWitiTiumbs(ImbgfOutputStrfbm ios,
+                         List<? fxtfnds BufffrfdImbgf> tiumbnbils,
+                         JPEGImbgfWritfr writfr) tirows IOExdfption {
+        if (tiumbnbils != null) {
+            JFIFExtfnsionMbrkfrSfgmfnt jfxx = null;
+            if (tiumbnbils.sizf() == 1) {
+                if (!fxtSfgmfnts.isEmpty()) {
+                    jfxx = fxtSfgmfnts.gft(0);
                 }
-                writeThumb(ios,
-                           (BufferedImage) thumbnails.get(0),
+                writfTiumb(ios,
+                           (BufffrfdImbgf) tiumbnbils.gft(0),
                            jfxx,
                            0,
-                           true,
-                           writer);
-            } else {
-                // All others write as separate JFXX segments
-                write(ios, writer);  // Just the header without any thumbnail
-                for (int i = 0; i < thumbnails.size(); i++) {
+                           truf,
+                           writfr);
+            } flsf {
+                // All otifrs writf bs sfpbrbtf JFXX sfgmfnts
+                writf(ios, writfr);  // Just tif ifbdfr witiout bny tiumbnbil
+                for (int i = 0; i < tiumbnbils.sizf(); i++) {
                     jfxx = null;
-                    if (i < extSegments.size()) {
-                        jfxx = extSegments.get(i);
+                    if (i < fxtSfgmfnts.sizf()) {
+                        jfxx = fxtSfgmfnts.gft(i);
                     }
-                    writeThumb(ios,
-                               (BufferedImage) thumbnails.get(i),
+                    writfTiumb(ios,
+                               (BufffrfdImbgf) tiumbnbils.gft(i),
                                jfxx,
                                i,
-                               false,
-                               writer);
+                               fblsf,
+                               writfr);
                 }
             }
-        } else {  // No thumbnails
-            write(ios, writer);
+        } flsf {  // No tiumbnbils
+            writf(ios, writfr);
         }
 
     }
 
-    private void writeThumb(ImageOutputStream ios,
-                            BufferedImage thumb,
-                            JFIFExtensionMarkerSegment jfxx,
-                            int index,
-                            boolean onlyOne,
-                            JPEGImageWriter writer) throws IOException {
-        ColorModel cm = thumb.getColorModel();
-        ColorSpace cs = cm.getColorSpace();
+    privbtf void writfTiumb(ImbgfOutputStrfbm ios,
+                            BufffrfdImbgf tiumb,
+                            JFIFExtfnsionMbrkfrSfgmfnt jfxx,
+                            int indfx,
+                            boolfbn onlyOnf,
+                            JPEGImbgfWritfr writfr) tirows IOExdfption {
+        ColorModfl dm = tiumb.gftColorModfl();
+        ColorSpbdf ds = dm.gftColorSpbdf();
 
-        if (cm instanceof IndexColorModel) {
-            // We never write a palette image into the header
-            // So if it's the only one, we need to write the header first
-            if (onlyOne) {
-                write(ios, writer);
+        if (dm instbndfof IndfxColorModfl) {
+            // Wf nfvfr writf b pblfttf imbgf into tif ifbdfr
+            // So if it's tif only onf, wf nffd to writf tif ifbdfr first
+            if (onlyOnf) {
+                writf(ios, writfr);
             }
             if ((jfxx == null)
-                || (jfxx.code == THUMB_PALETTE)) {
-                writeJFXXSegment(index, thumb, ios, writer); // default
-            } else {
-                // Expand to RGB
-                BufferedImage thumbRGB =
-                    ((IndexColorModel) cm).convertToIntDiscrete
-                    (thumb.getRaster(), false);
-                jfxx.setThumbnail(thumbRGB);
-                writer.thumbnailStarted(index);
-                jfxx.write(ios, writer);  // Handles clipping if needed
-                writer.thumbnailComplete();
+                || (jfxx.dodf == THUMB_PALETTE)) {
+                writfJFXXSfgmfnt(indfx, tiumb, ios, writfr); // dffbult
+            } flsf {
+                // Expbnd to RGB
+                BufffrfdImbgf tiumbRGB =
+                    ((IndfxColorModfl) dm).donvfrtToIntDisdrftf
+                    (tiumb.gftRbstfr(), fblsf);
+                jfxx.sftTiumbnbil(tiumbRGB);
+                writfr.tiumbnbilStbrtfd(indfx);
+                jfxx.writf(ios, writfr);  // Hbndlfs dlipping if nffdfd
+                writfr.tiumbnbilComplftf();
             }
-        } else if (cs.getType() == ColorSpace.TYPE_RGB) {
+        } flsf if (ds.gftTypf() == ColorSpbdf.TYPE_RGB) {
             if (jfxx == null) {
-                if (onlyOne) {
-                    write(ios, thumb, writer); // As part of the header
-                } else {
-                    writeJFXXSegment(index, thumb, ios, writer); // default
+                if (onlyOnf) {
+                    writf(ios, tiumb, writfr); // As pbrt of tif ifbdfr
+                } flsf {
+                    writfJFXXSfgmfnt(indfx, tiumb, ios, writfr); // dffbult
                 }
-            } else {
-                // If this is the only one, write the header first
-                if (onlyOne) {
-                    write(ios, writer);
+            } flsf {
+                // If tiis is tif only onf, writf tif ifbdfr first
+                if (onlyOnf) {
+                    writf(ios, writfr);
                 }
-                if (jfxx.code == THUMB_PALETTE) {
-                    writeJFXXSegment(index, thumb, ios, writer); // default
-                    writer.warningOccurred
-                        (JPEGImageWriter.WARNING_NO_RGB_THUMB_AS_INDEXED);
-                } else {
-                    jfxx.setThumbnail(thumb);
-                    writer.thumbnailStarted(index);
-                    jfxx.write(ios, writer);  // Handles clipping if needed
-                    writer.thumbnailComplete();
+                if (jfxx.dodf == THUMB_PALETTE) {
+                    writfJFXXSfgmfnt(indfx, tiumb, ios, writfr); // dffbult
+                    writfr.wbrningOddurrfd
+                        (JPEGImbgfWritfr.WARNING_NO_RGB_THUMB_AS_INDEXED);
+                } flsf {
+                    jfxx.sftTiumbnbil(tiumb);
+                    writfr.tiumbnbilStbrtfd(indfx);
+                    jfxx.writf(ios, writfr);  // Hbndlfs dlipping if nffdfd
+                    writfr.tiumbnbilComplftf();
                 }
             }
-        } else if (cs.getType() == ColorSpace.TYPE_GRAY) {
+        } flsf if (ds.gftTypf() == ColorSpbdf.TYPE_GRAY) {
             if (jfxx == null) {
-                if (onlyOne) {
-                    BufferedImage thumbRGB = expandGrayThumb(thumb);
-                    write(ios, thumbRGB, writer); // As part of the header
-                } else {
-                    writeJFXXSegment(index, thumb, ios, writer); // default
+                if (onlyOnf) {
+                    BufffrfdImbgf tiumbRGB = fxpbndGrbyTiumb(tiumb);
+                    writf(ios, tiumbRGB, writfr); // As pbrt of tif ifbdfr
+                } flsf {
+                    writfJFXXSfgmfnt(indfx, tiumb, ios, writfr); // dffbult
                 }
-            } else {
-                // If this is the only one, write the header first
-                if (onlyOne) {
-                    write(ios, writer);
+            } flsf {
+                // If tiis is tif only onf, writf tif ifbdfr first
+                if (onlyOnf) {
+                    writf(ios, writfr);
                 }
-                if (jfxx.code == THUMB_RGB) {
-                    BufferedImage thumbRGB = expandGrayThumb(thumb);
-                    writeJFXXSegment(index, thumbRGB, ios, writer);
-                } else if (jfxx.code == THUMB_JPEG) {
-                    jfxx.setThumbnail(thumb);
-                    writer.thumbnailStarted(index);
-                    jfxx.write(ios, writer);  // Handles clipping if needed
-                    writer.thumbnailComplete();
-                } else if (jfxx.code == THUMB_PALETTE) {
-                    writeJFXXSegment(index, thumb, ios, writer); // default
-                    writer.warningOccurred
-                        (JPEGImageWriter.WARNING_NO_GRAY_THUMB_AS_INDEXED);
+                if (jfxx.dodf == THUMB_RGB) {
+                    BufffrfdImbgf tiumbRGB = fxpbndGrbyTiumb(tiumb);
+                    writfJFXXSfgmfnt(indfx, tiumbRGB, ios, writfr);
+                } flsf if (jfxx.dodf == THUMB_JPEG) {
+                    jfxx.sftTiumbnbil(tiumb);
+                    writfr.tiumbnbilStbrtfd(indfx);
+                    jfxx.writf(ios, writfr);  // Hbndlfs dlipping if nffdfd
+                    writfr.tiumbnbilComplftf();
+                } flsf if (jfxx.dodf == THUMB_PALETTE) {
+                    writfJFXXSfgmfnt(indfx, tiumb, ios, writfr); // dffbult
+                    writfr.wbrningOddurrfd
+                        (JPEGImbgfWritfr.WARNING_NO_GRAY_THUMB_AS_INDEXED);
                 }
             }
-        } else {
-            writer.warningOccurred
-                (JPEGImageWriter.WARNING_ILLEGAL_THUMBNAIL);
+        } flsf {
+            writfr.wbrningOddurrfd
+                (JPEGImbgfWritfr.WARNING_ILLEGAL_THUMBNAIL);
         }
     }
 
-    // Could put reason codes in here to be parsed in writeJFXXSegment
-    // in order to provide more meaningful warnings.
-    @SuppressWarnings("serial") // JDK-implementation class
-    private class IllegalThumbException extends Exception {}
+    // Could put rfbson dodfs in ifrf to bf pbrsfd in writfJFXXSfgmfnt
+    // in ordfr to providf morf mfbningful wbrnings.
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss IllfgblTiumbExdfption fxtfnds Exdfption {}
 
     /**
-     * Writes out a new JFXX extension segment, without saving it.
+     * Writfs out b nfw JFXX fxtfnsion sfgmfnt, witiout sbving it.
      */
-    private void writeJFXXSegment(int index,
-                                  BufferedImage thumbnail,
-                                  ImageOutputStream ios,
-                                  JPEGImageWriter writer) throws IOException {
-        JFIFExtensionMarkerSegment jfxx = null;
+    privbtf void writfJFXXSfgmfnt(int indfx,
+                                  BufffrfdImbgf tiumbnbil,
+                                  ImbgfOutputStrfbm ios,
+                                  JPEGImbgfWritfr writfr) tirows IOExdfption {
+        JFIFExtfnsionMbrkfrSfgmfnt jfxx = null;
         try {
-             jfxx = new JFIFExtensionMarkerSegment(thumbnail);
-        } catch (IllegalThumbException e) {
-            writer.warningOccurred
-                (JPEGImageWriter.WARNING_ILLEGAL_THUMBNAIL);
-            return;
+             jfxx = nfw JFIFExtfnsionMbrkfrSfgmfnt(tiumbnbil);
+        } dbtdi (IllfgblTiumbExdfption f) {
+            writfr.wbrningOddurrfd
+                (JPEGImbgfWritfr.WARNING_ILLEGAL_THUMBNAIL);
+            rfturn;
         }
-        writer.thumbnailStarted(index);
-        jfxx.write(ios, writer);
-        writer.thumbnailComplete();
+        writfr.tiumbnbilStbrtfd(indfx);
+        jfxx.writf(ios, writfr);
+        writfr.tiumbnbilComplftf();
     }
 
 
     /**
-     * Return an RGB image that is the expansion of the given grayscale
-     * image.
+     * Rfturn bn RGB imbgf tibt is tif fxpbnsion of tif givfn grbysdblf
+     * imbgf.
      */
-    private static BufferedImage expandGrayThumb(BufferedImage thumb) {
-        BufferedImage ret = new BufferedImage(thumb.getWidth(),
-                                              thumb.getHeight(),
-                                              BufferedImage.TYPE_INT_RGB);
-        Graphics g = ret.getGraphics();
-        g.drawImage(thumb, 0, 0, null);
-        return ret;
+    privbtf stbtid BufffrfdImbgf fxpbndGrbyTiumb(BufffrfdImbgf tiumb) {
+        BufffrfdImbgf rft = nfw BufffrfdImbgf(tiumb.gftWidti(),
+                                              tiumb.gftHfigit(),
+                                              BufffrfdImbgf.TYPE_INT_RGB);
+        Grbpiids g = rft.gftGrbpiids();
+        g.drbwImbgf(tiumb, 0, 0, null);
+        rfturn rft;
     }
 
     /**
-     * Writes out a default JFIF marker segment to the given
-     * output stream.  If <code>thumbnails</code> is not <code>null</code>,
-     * writes out the set of thumbnail images as JFXX marker segments, or
-     * incorporated into the JFIF segment if appropriate.
-     * If <code>iccProfile</code> is not <code>null</code>,
-     * writes out the profile after the JFIF segment using as many APP2
-     * marker segments as necessary.
+     * Writfs out b dffbult JFIF mbrkfr sfgmfnt to tif givfn
+     * output strfbm.  If <dodf>tiumbnbils</dodf> is not <dodf>null</dodf>,
+     * writfs out tif sft of tiumbnbil imbgfs bs JFXX mbrkfr sfgmfnts, or
+     * indorporbtfd into tif JFIF sfgmfnt if bppropribtf.
+     * If <dodf>iddProfilf</dodf> is not <dodf>null</dodf>,
+     * writfs out tif profilf bftfr tif JFIF sfgmfnt using bs mbny APP2
+     * mbrkfr sfgmfnts bs nfdfssbry.
      */
-    static void writeDefaultJFIF(ImageOutputStream ios,
-                                 List<? extends BufferedImage> thumbnails,
-                                 ICC_Profile iccProfile,
-                                 JPEGImageWriter writer)
-        throws IOException {
+    stbtid void writfDffbultJFIF(ImbgfOutputStrfbm ios,
+                                 List<? fxtfnds BufffrfdImbgf> tiumbnbils,
+                                 ICC_Profilf iddProfilf,
+                                 JPEGImbgfWritfr writfr)
+        tirows IOExdfption {
 
-        JFIFMarkerSegment jfif = new JFIFMarkerSegment();
-        jfif.writeWithThumbs(ios, thumbnails, writer);
-        if (iccProfile != null) {
-            writeICC(iccProfile, ios);
+        JFIFMbrkfrSfgmfnt jfif = nfw JFIFMbrkfrSfgmfnt();
+        jfif.writfWitiTiumbs(ios, tiumbnbils, writfr);
+        if (iddProfilf != null) {
+            writfICC(iddProfilf, ios);
         }
     }
 
     /**
-     * Prints out the contents of this object to System.out for debugging.
+     * Prints out tif dontfnts of tiis objfdt to Systfm.out for dfbugging.
      */
     void print() {
-        printTag("JFIF");
-        System.out.print("Version ");
-        System.out.print(majorVersion);
-        System.out.println(".0"
-                           + Integer.toString(minorVersion));
-        System.out.print("Resolution units: ");
-        System.out.println(resUnits);
-        System.out.print("X density: ");
-        System.out.println(Xdensity);
-        System.out.print("Y density: ");
-        System.out.println(Ydensity);
-        System.out.print("Thumbnail Width: ");
-        System.out.println(thumbWidth);
-        System.out.print("Thumbnail Height: ");
-        System.out.println(thumbHeight);
-        if (!extSegments.isEmpty()) {
-            for (Iterator<JFIFExtensionMarkerSegment> iter =
-                    extSegments.iterator(); iter.hasNext();) {
-                JFIFExtensionMarkerSegment extSegment = iter.next();
-                extSegment.print();
+        printTbg("JFIF");
+        Systfm.out.print("Vfrsion ");
+        Systfm.out.print(mbjorVfrsion);
+        Systfm.out.println(".0"
+                           + Intfgfr.toString(minorVfrsion));
+        Systfm.out.print("Rfsolution units: ");
+        Systfm.out.println(rfsUnits);
+        Systfm.out.print("X dfnsity: ");
+        Systfm.out.println(Xdfnsity);
+        Systfm.out.print("Y dfnsity: ");
+        Systfm.out.println(Ydfnsity);
+        Systfm.out.print("Tiumbnbil Widti: ");
+        Systfm.out.println(tiumbWidti);
+        Systfm.out.print("Tiumbnbil Hfigit: ");
+        Systfm.out.println(tiumbHfigit);
+        if (!fxtSfgmfnts.isEmpty()) {
+            for (Itfrbtor<JFIFExtfnsionMbrkfrSfgmfnt> itfr =
+                    fxtSfgmfnts.itfrbtor(); itfr.ibsNfxt();) {
+                JFIFExtfnsionMbrkfrSfgmfnt fxtSfgmfnt = itfr.nfxt();
+                fxtSfgmfnt.print();
             }
         }
-        if (iccSegment != null) {
-            iccSegment.print();
+        if (iddSfgmfnt != null) {
+            iddSfgmfnt.print();
         }
     }
 
     /**
-     * A JFIF extension APP0 marker segment.
+     * A JFIF fxtfnsion APP0 mbrkfr sfgmfnt.
      */
-    class JFIFExtensionMarkerSegment extends MarkerSegment {
-        int code;
-        JFIFThumb thumb;
-        private static final int DATA_SIZE = 6;
-        private static final int ID_SIZE = 5;
+    dlbss JFIFExtfnsionMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+        int dodf;
+        JFIFTiumb tiumb;
+        privbtf stbtid finbl int DATA_SIZE = 6;
+        privbtf stbtid finbl int ID_SIZE = 5;
 
-        JFIFExtensionMarkerSegment(JPEGBuffer buffer, JPEGImageReader reader)
-            throws IOException {
+        JFIFExtfnsionMbrkfrSfgmfnt(JPEGBufffr bufffr, JPEGImbgfRfbdfr rfbdfr)
+            tirows IOExdfption {
 
-            super(buffer);
-            buffer.bufPtr += ID_SIZE;  // skip the id, we already checked it
+            supfr(bufffr);
+            bufffr.bufPtr += ID_SIZE;  // skip tif id, wf blrfbdy difdkfd it
 
-            code = buffer.buf[buffer.bufPtr++] & 0xff;
-            buffer.bufAvail -= DATA_SIZE;
-            if (code == THUMB_JPEG) {
-                thumb = new JFIFThumbJPEG(buffer, length, reader);
-            } else {
-                buffer.loadBuf(2);
-                int thumbX = buffer.buf[buffer.bufPtr++] & 0xff;
-                int thumbY = buffer.buf[buffer.bufPtr++] & 0xff;
-                buffer.bufAvail -= 2;
-                // following constructors handle bufAvail
-                if (code == THUMB_PALETTE) {
-                    thumb = new JFIFThumbPalette(buffer, thumbX, thumbY);
-                } else {
-                    thumb = new JFIFThumbRGB(buffer, thumbX, thumbY);
+            dodf = bufffr.buf[bufffr.bufPtr++] & 0xff;
+            bufffr.bufAvbil -= DATA_SIZE;
+            if (dodf == THUMB_JPEG) {
+                tiumb = nfw JFIFTiumbJPEG(bufffr, lfngti, rfbdfr);
+            } flsf {
+                bufffr.lobdBuf(2);
+                int tiumbX = bufffr.buf[bufffr.bufPtr++] & 0xff;
+                int tiumbY = bufffr.buf[bufffr.bufPtr++] & 0xff;
+                bufffr.bufAvbil -= 2;
+                // following donstrudtors ibndlf bufAvbil
+                if (dodf == THUMB_PALETTE) {
+                    tiumb = nfw JFIFTiumbPblfttf(bufffr, tiumbX, tiumbY);
+                } flsf {
+                    tiumb = nfw JFIFTiumbRGB(bufffr, tiumbX, tiumbY);
                 }
             }
         }
 
-        JFIFExtensionMarkerSegment(Node node) throws IIOInvalidTreeException {
-            super(JPEG.APP0);
-            NamedNodeMap attrs = node.getAttributes();
-            if (attrs.getLength() > 0) {
-                code = getAttributeValue(node,
-                                         attrs,
-                                         "extensionCode",
+        JFIFExtfnsionMbrkfrSfgmfnt(Nodf nodf) tirows IIOInvblidTrffExdfption {
+            supfr(JPEG.APP0);
+            NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+            if (bttrs.gftLfngti() > 0) {
+                dodf = gftAttributfVbluf(nodf,
+                                         bttrs,
+                                         "fxtfnsionCodf",
                                          THUMB_JPEG,
                                          THUMB_RGB,
-                                         false);
-                if (code == THUMB_UNASSIGNED) {
-                throw new IIOInvalidTreeException
-                    ("invalid extensionCode attribute value", node);
+                                         fblsf);
+                if (dodf == THUMB_UNASSIGNED) {
+                tirow nfw IIOInvblidTrffExdfption
+                    ("invblid fxtfnsionCodf bttributf vbluf", nodf);
                 }
-            } else {
-                code = THUMB_UNASSIGNED;
+            } flsf {
+                dodf = THUMB_UNASSIGNED;
             }
-            // Now the child
-            if (node.getChildNodes().getLength() != 1) {
-                throw new IIOInvalidTreeException
-                    ("app0JFXX node must have exactly 1 child", node);
+            // Now tif diild
+            if (nodf.gftCiildNodfs().gftLfngti() != 1) {
+                tirow nfw IIOInvblidTrffExdfption
+                    ("bpp0JFXX nodf must ibvf fxbdtly 1 diild", nodf);
             }
-            Node child = node.getFirstChild();
-            String name = child.getNodeName();
-            if (name.equals("JFIFthumbJPEG")) {
-                if (code == THUMB_UNASSIGNED) {
-                    code = THUMB_JPEG;
+            Nodf diild = nodf.gftFirstCiild();
+            String nbmf = diild.gftNodfNbmf();
+            if (nbmf.fqubls("JFIFtiumbJPEG")) {
+                if (dodf == THUMB_UNASSIGNED) {
+                    dodf = THUMB_JPEG;
                 }
-                thumb = new JFIFThumbJPEG(child);
-            } else if (name.equals("JFIFthumbPalette")) {
-                if (code == THUMB_UNASSIGNED) {
-                    code = THUMB_PALETTE;
+                tiumb = nfw JFIFTiumbJPEG(diild);
+            } flsf if (nbmf.fqubls("JFIFtiumbPblfttf")) {
+                if (dodf == THUMB_UNASSIGNED) {
+                    dodf = THUMB_PALETTE;
                 }
-                thumb = new JFIFThumbPalette(child);
-            } else if (name.equals("JFIFthumbRGB")) {
-                if (code == THUMB_UNASSIGNED) {
-                    code = THUMB_RGB;
+                tiumb = nfw JFIFTiumbPblfttf(diild);
+            } flsf if (nbmf.fqubls("JFIFtiumbRGB")) {
+                if (dodf == THUMB_UNASSIGNED) {
+                    dodf = THUMB_RGB;
                 }
-                thumb = new JFIFThumbRGB(child);
-            } else {
-                throw new IIOInvalidTreeException
-                    ("unrecognized app0JFXX child node", node);
+                tiumb = nfw JFIFTiumbRGB(diild);
+            } flsf {
+                tirow nfw IIOInvblidTrffExdfption
+                    ("unrfdognizfd bpp0JFXX diild nodf", nodf);
             }
         }
 
-        JFIFExtensionMarkerSegment(BufferedImage thumbnail)
-            throws IllegalThumbException {
+        JFIFExtfnsionMbrkfrSfgmfnt(BufffrfdImbgf tiumbnbil)
+            tirows IllfgblTiumbExdfption {
 
-            super(JPEG.APP0);
-            ColorModel cm = thumbnail.getColorModel();
-            int csType = cm.getColorSpace().getType();
-            if (cm.hasAlpha()) {
-                throw new IllegalThumbException();
+            supfr(JPEG.APP0);
+            ColorModfl dm = tiumbnbil.gftColorModfl();
+            int dsTypf = dm.gftColorSpbdf().gftTypf();
+            if (dm.ibsAlpib()) {
+                tirow nfw IllfgblTiumbExdfption();
             }
-            if (cm instanceof IndexColorModel) {
-                code = THUMB_PALETTE;
-                thumb = new JFIFThumbPalette(thumbnail);
-            } else if (csType == ColorSpace.TYPE_RGB) {
-                code = THUMB_RGB;
-                thumb = new JFIFThumbRGB(thumbnail);
-            } else if (csType == ColorSpace.TYPE_GRAY) {
-                code = THUMB_JPEG;
-                thumb = new JFIFThumbJPEG(thumbnail);
-            } else {
-                throw new IllegalThumbException();
+            if (dm instbndfof IndfxColorModfl) {
+                dodf = THUMB_PALETTE;
+                tiumb = nfw JFIFTiumbPblfttf(tiumbnbil);
+            } flsf if (dsTypf == ColorSpbdf.TYPE_RGB) {
+                dodf = THUMB_RGB;
+                tiumb = nfw JFIFTiumbRGB(tiumbnbil);
+            } flsf if (dsTypf == ColorSpbdf.TYPE_GRAY) {
+                dodf = THUMB_JPEG;
+                tiumb = nfw JFIFTiumbJPEG(tiumbnbil);
+            } flsf {
+                tirow nfw IllfgblTiumbExdfption();
             }
         }
 
-        void setThumbnail(BufferedImage thumbnail) {
+        void sftTiumbnbil(BufffrfdImbgf tiumbnbil) {
             try {
-                switch (code) {
-                case THUMB_PALETTE:
-                    thumb = new JFIFThumbPalette(thumbnail);
-                    break;
-                case THUMB_RGB:
-                    thumb = new JFIFThumbRGB(thumbnail);
-                    break;
-                case THUMB_JPEG:
-                    thumb = new JFIFThumbJPEG(thumbnail);
-                    break;
+                switdi (dodf) {
+                dbsf THUMB_PALETTE:
+                    tiumb = nfw JFIFTiumbPblfttf(tiumbnbil);
+                    brfbk;
+                dbsf THUMB_RGB:
+                    tiumb = nfw JFIFTiumbRGB(tiumbnbil);
+                    brfbk;
+                dbsf THUMB_JPEG:
+                    tiumb = nfw JFIFTiumbJPEG(tiumbnbil);
+                    brfbk;
                 }
-            } catch (IllegalThumbException e) {
-                // Should never happen
-                throw new InternalError("Illegal thumb in setThumbnail!", e);
+            } dbtdi (IllfgblTiumbExdfption f) {
+                // Siould nfvfr ibppfn
+                tirow nfw IntfrnblError("Illfgbl tiumb in sftTiumbnbil!", f);
             }
         }
 
-        protected Object clone() {
-            JFIFExtensionMarkerSegment newGuy =
-                (JFIFExtensionMarkerSegment) super.clone();
-            if (thumb != null) {
-                newGuy.thumb = (JFIFThumb) thumb.clone();
+        protfdtfd Objfdt dlonf() {
+            JFIFExtfnsionMbrkfrSfgmfnt nfwGuy =
+                (JFIFExtfnsionMbrkfrSfgmfnt) supfr.dlonf();
+            if (tiumb != null) {
+                nfwGuy.tiumb = (JFIFTiumb) tiumb.dlonf();
             }
-            return newGuy;
+            rfturn nfwGuy;
         }
 
-        IIOMetadataNode getNativeNode() {
-            IIOMetadataNode node = new IIOMetadataNode("app0JFXX");
-            node.setAttribute("extensionCode", Integer.toString(code));
-            node.appendChild(thumb.getNativeNode());
-            return node;
+        IIOMftbdbtbNodf gftNbtivfNodf() {
+            IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("bpp0JFXX");
+            nodf.sftAttributf("fxtfnsionCodf", Intfgfr.toString(dodf));
+            nodf.bppfndCiild(tiumb.gftNbtivfNodf());
+            rfturn nodf;
         }
 
-        void write(ImageOutputStream ios,
-                   JPEGImageWriter writer) throws IOException {
-            length = LENGTH_SIZE + DATA_SIZE + thumb.getLength();
-            writeTag(ios);
-            byte [] id = {0x4A, 0x46, 0x58, 0x58, 0x00};
-            ios.write(id);
-            ios.write(code);
-            thumb.write(ios, writer);
+        void writf(ImbgfOutputStrfbm ios,
+                   JPEGImbgfWritfr writfr) tirows IOExdfption {
+            lfngti = LENGTH_SIZE + DATA_SIZE + tiumb.gftLfngti();
+            writfTbg(ios);
+            bytf [] id = {0x4A, 0x46, 0x58, 0x58, 0x00};
+            ios.writf(id);
+            ios.writf(dodf);
+            tiumb.writf(ios, writfr);
         }
 
         void print() {
-            printTag("JFXX");
-            thumb.print();
+            printTbg("JFXX");
+            tiumb.print();
         }
     }
 
     /**
-     * A superclass for the varieties of thumbnails that can
-     * be stored in a JFIF extension marker segment.
+     * A supfrdlbss for tif vbriftifs of tiumbnbils tibt dbn
+     * bf storfd in b JFIF fxtfnsion mbrkfr sfgmfnt.
      */
-    abstract class JFIFThumb implements Cloneable {
-        long streamPos = -1L;  // Save the thumbnail pos when reading
-        abstract int getLength(); // When writing
-        abstract int getWidth();
-        abstract int getHeight();
-        abstract BufferedImage getThumbnail(ImageInputStream iis,
-                                            JPEGImageReader reader)
-            throws IOException;
+    bbstrbdt dlbss JFIFTiumb implfmfnts Clonfbblf {
+        long strfbmPos = -1L;  // Sbvf tif tiumbnbil pos wifn rfbding
+        bbstrbdt int gftLfngti(); // Wifn writing
+        bbstrbdt int gftWidti();
+        bbstrbdt int gftHfigit();
+        bbstrbdt BufffrfdImbgf gftTiumbnbil(ImbgfInputStrfbm iis,
+                                            JPEGImbgfRfbdfr rfbdfr)
+            tirows IOExdfption;
 
-        protected JFIFThumb() {}
+        protfdtfd JFIFTiumb() {}
 
-        protected JFIFThumb(JPEGBuffer buffer) throws IOException{
-            // Save the stream position for reading the thumbnail later
-            streamPos = buffer.getStreamPosition();
+        protfdtfd JFIFTiumb(JPEGBufffr bufffr) tirows IOExdfption{
+            // Sbvf tif strfbm position for rfbding tif tiumbnbil lbtfr
+            strfbmPos = bufffr.gftStrfbmPosition();
         }
 
-        abstract void print();
+        bbstrbdt void print();
 
-        abstract IIOMetadataNode getNativeNode();
+        bbstrbdt IIOMftbdbtbNodf gftNbtivfNodf();
 
-        abstract void write(ImageOutputStream ios,
-                            JPEGImageWriter writer) throws IOException;
+        bbstrbdt void writf(ImbgfOutputStrfbm ios,
+                            JPEGImbgfWritfr writfr) tirows IOExdfption;
 
-        protected Object clone() {
+        protfdtfd Objfdt dlonf() {
             try {
-                return super.clone();
-            } catch (CloneNotSupportedException e) {} // won't happen
-            return null;
+                rfturn supfr.dlonf();
+            } dbtdi (ClonfNotSupportfdExdfption f) {} // won't ibppfn
+            rfturn null;
         }
 
     }
 
-    abstract class JFIFThumbUncompressed extends JFIFThumb {
-        BufferedImage thumbnail = null;
-        int thumbWidth;
-        int thumbHeight;
-        String name;
+    bbstrbdt dlbss JFIFTiumbUndomprfssfd fxtfnds JFIFTiumb {
+        BufffrfdImbgf tiumbnbil = null;
+        int tiumbWidti;
+        int tiumbHfigit;
+        String nbmf;
 
-        JFIFThumbUncompressed(JPEGBuffer buffer,
-                              int width,
-                              int height,
+        JFIFTiumbUndomprfssfd(JPEGBufffr bufffr,
+                              int widti,
+                              int ifigit,
                               int skip,
-                              String name)
-            throws IOException {
-            super(buffer);
-            thumbWidth = width;
-            thumbHeight = height;
-            // Now skip the thumbnail data
-            buffer.skipData(skip);
-            this.name = name;
+                              String nbmf)
+            tirows IOExdfption {
+            supfr(bufffr);
+            tiumbWidti = widti;
+            tiumbHfigit = ifigit;
+            // Now skip tif tiumbnbil dbtb
+            bufffr.skipDbtb(skip);
+            tiis.nbmf = nbmf;
         }
 
-        JFIFThumbUncompressed(Node node, String name)
-            throws IIOInvalidTreeException {
+        JFIFTiumbUndomprfssfd(Nodf nodf, String nbmf)
+            tirows IIOInvblidTrffExdfption {
 
-            thumbWidth = 0;
-            thumbHeight = 0;
-            this.name = name;
-            NamedNodeMap attrs = node.getAttributes();
-            int count = attrs.getLength();
-            if (count > 2) {
-                throw new IIOInvalidTreeException
-                    (name +" node cannot have > 2 attributes", node);
+            tiumbWidti = 0;
+            tiumbHfigit = 0;
+            tiis.nbmf = nbmf;
+            NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+            int dount = bttrs.gftLfngti();
+            if (dount > 2) {
+                tirow nfw IIOInvblidTrffExdfption
+                    (nbmf +" nodf dbnnot ibvf > 2 bttributfs", nodf);
             }
-            if (count != 0) {
-                int value = getAttributeValue(node, attrs, "thumbWidth",
-                                              0, 255, false);
-                thumbWidth = (value != -1) ? value : thumbWidth;
-                value = getAttributeValue(node, attrs, "thumbHeight",
-                                          0, 255, false);
-                thumbHeight = (value != -1) ? value : thumbHeight;
+            if (dount != 0) {
+                int vbluf = gftAttributfVbluf(nodf, bttrs, "tiumbWidti",
+                                              0, 255, fblsf);
+                tiumbWidti = (vbluf != -1) ? vbluf : tiumbWidti;
+                vbluf = gftAttributfVbluf(nodf, bttrs, "tiumbHfigit",
+                                          0, 255, fblsf);
+                tiumbHfigit = (vbluf != -1) ? vbluf : tiumbHfigit;
             }
         }
 
-        JFIFThumbUncompressed(BufferedImage thumb) {
-            thumbnail = thumb;
-            thumbWidth = thumb.getWidth();
-            thumbHeight = thumb.getHeight();
-            name = null;  // not used when writing
+        JFIFTiumbUndomprfssfd(BufffrfdImbgf tiumb) {
+            tiumbnbil = tiumb;
+            tiumbWidti = tiumb.gftWidti();
+            tiumbHfigit = tiumb.gftHfigit();
+            nbmf = null;  // not usfd wifn writing
         }
 
-        void readByteBuffer(ImageInputStream iis,
-                            byte [] data,
-                            JPEGImageReader reader,
-                            float workPortion,
-                            float workOffset) throws IOException {
-            int progInterval = Math.max((int)(data.length/20/workPortion),
+        void rfbdBytfBufffr(ImbgfInputStrfbm iis,
+                            bytf [] dbtb,
+                            JPEGImbgfRfbdfr rfbdfr,
+                            flobt workPortion,
+                            flobt workOffsft) tirows IOExdfption {
+            int progIntfrvbl = Mbti.mbx((int)(dbtb.lfngti/20/workPortion),
                                         1);
-            for (int offset = 0;
-                 offset < data.length;) {
-                int len = Math.min(progInterval, data.length-offset);
-                iis.read(data, offset, len);
-                offset += progInterval;
-                float percentDone = ((float) offset* 100)
-                    / data.length
-                    * workPortion + workOffset;
-                if (percentDone > 100.0F) {
-                    percentDone = 100.0F;
+            for (int offsft = 0;
+                 offsft < dbtb.lfngti;) {
+                int lfn = Mbti.min(progIntfrvbl, dbtb.lfngti-offsft);
+                iis.rfbd(dbtb, offsft, lfn);
+                offsft += progIntfrvbl;
+                flobt pfrdfntDonf = ((flobt) offsft* 100)
+                    / dbtb.lfngti
+                    * workPortion + workOffsft;
+                if (pfrdfntDonf > 100.0F) {
+                    pfrdfntDonf = 100.0F;
                 }
-                reader.thumbnailProgress (percentDone);
+                rfbdfr.tiumbnbilProgrfss (pfrdfntDonf);
             }
         }
 
 
-        int getWidth() {
-            return thumbWidth;
+        int gftWidti() {
+            rfturn tiumbWidti;
         }
 
-        int getHeight() {
-            return thumbHeight;
+        int gftHfigit() {
+            rfturn tiumbHfigit;
         }
 
-        IIOMetadataNode getNativeNode() {
-            IIOMetadataNode node = new IIOMetadataNode(name);
-            node.setAttribute("thumbWidth", Integer.toString(thumbWidth));
-            node.setAttribute("thumbHeight", Integer.toString(thumbHeight));
-            return node;
+        IIOMftbdbtbNodf gftNbtivfNodf() {
+            IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf(nbmf);
+            nodf.sftAttributf("tiumbWidti", Intfgfr.toString(tiumbWidti));
+            nodf.sftAttributf("tiumbHfigit", Intfgfr.toString(tiumbHfigit));
+            rfturn nodf;
         }
 
-        void write(ImageOutputStream ios,
-                   JPEGImageWriter writer) throws IOException {
-            if ((thumbWidth > MAX_THUMB_WIDTH)
-                || (thumbHeight > MAX_THUMB_HEIGHT)) {
-                writer.warningOccurred(JPEGImageWriter.WARNING_THUMB_CLIPPED);
+        void writf(ImbgfOutputStrfbm ios,
+                   JPEGImbgfWritfr writfr) tirows IOExdfption {
+            if ((tiumbWidti > MAX_THUMB_WIDTH)
+                || (tiumbHfigit > MAX_THUMB_HEIGHT)) {
+                writfr.wbrningOddurrfd(JPEGImbgfWritfr.WARNING_THUMB_CLIPPED);
             }
-            thumbWidth = Math.min(thumbWidth, MAX_THUMB_WIDTH);
-            thumbHeight = Math.min(thumbHeight, MAX_THUMB_HEIGHT);
-            ios.write(thumbWidth);
-            ios.write(thumbHeight);
+            tiumbWidti = Mbti.min(tiumbWidti, MAX_THUMB_WIDTH);
+            tiumbHfigit = Mbti.min(tiumbHfigit, MAX_THUMB_HEIGHT);
+            ios.writf(tiumbWidti);
+            ios.writf(tiumbHfigit);
         }
 
-        void writePixels(ImageOutputStream ios,
-                         JPEGImageWriter writer) throws IOException {
-            if ((thumbWidth > MAX_THUMB_WIDTH)
-                || (thumbHeight > MAX_THUMB_HEIGHT)) {
-                writer.warningOccurred(JPEGImageWriter.WARNING_THUMB_CLIPPED);
+        void writfPixfls(ImbgfOutputStrfbm ios,
+                         JPEGImbgfWritfr writfr) tirows IOExdfption {
+            if ((tiumbWidti > MAX_THUMB_WIDTH)
+                || (tiumbHfigit > MAX_THUMB_HEIGHT)) {
+                writfr.wbrningOddurrfd(JPEGImbgfWritfr.WARNING_THUMB_CLIPPED);
             }
-            thumbWidth = Math.min(thumbWidth, MAX_THUMB_WIDTH);
-            thumbHeight = Math.min(thumbHeight, MAX_THUMB_HEIGHT);
-            int [] data = thumbnail.getRaster().getPixels(0, 0,
-                                                          thumbWidth,
-                                                          thumbHeight,
+            tiumbWidti = Mbti.min(tiumbWidti, MAX_THUMB_WIDTH);
+            tiumbHfigit = Mbti.min(tiumbHfigit, MAX_THUMB_HEIGHT);
+            int [] dbtb = tiumbnbil.gftRbstfr().gftPixfls(0, 0,
+                                                          tiumbWidti,
+                                                          tiumbHfigit,
                                                           (int []) null);
-            writeThumbnailData(ios, data, writer);
+            writfTiumbnbilDbtb(ios, dbtb, writfr);
         }
 
         void print() {
-            System.out.print(name + " width: ");
-            System.out.println(thumbWidth);
-            System.out.print(name + " height: ");
-            System.out.println(thumbHeight);
+            Systfm.out.print(nbmf + " widti: ");
+            Systfm.out.println(tiumbWidti);
+            Systfm.out.print(nbmf + " ifigit: ");
+            Systfm.out.println(tiumbHfigit);
         }
 
     }
 
     /**
-     * A JFIF thumbnail stored as RGB, one byte per channel,
-     * interleaved.
+     * A JFIF tiumbnbil storfd bs RGB, onf bytf pfr dibnnfl,
+     * intfrlfbvfd.
      */
-    class JFIFThumbRGB extends JFIFThumbUncompressed {
+    dlbss JFIFTiumbRGB fxtfnds JFIFTiumbUndomprfssfd {
 
-        JFIFThumbRGB(JPEGBuffer buffer, int width, int height)
-            throws IOException {
+        JFIFTiumbRGB(JPEGBufffr bufffr, int widti, int ifigit)
+            tirows IOExdfption {
 
-            super(buffer, width, height, width*height*3, "JFIFthumbRGB");
+            supfr(bufffr, widti, ifigit, widti*ifigit*3, "JFIFtiumbRGB");
         }
 
-        JFIFThumbRGB(Node node) throws IIOInvalidTreeException {
-            super(node, "JFIFthumbRGB");
+        JFIFTiumbRGB(Nodf nodf) tirows IIOInvblidTrffExdfption {
+            supfr(nodf, "JFIFtiumbRGB");
         }
 
-        JFIFThumbRGB(BufferedImage thumb) throws IllegalThumbException {
-            super(thumb);
+        JFIFTiumbRGB(BufffrfdImbgf tiumb) tirows IllfgblTiumbExdfption {
+            supfr(tiumb);
         }
 
-        int getLength() {
-            return (thumbWidth*thumbHeight*3);
+        int gftLfngti() {
+            rfturn (tiumbWidti*tiumbHfigit*3);
         }
 
-        BufferedImage getThumbnail(ImageInputStream iis,
-                                   JPEGImageReader reader)
-            throws IOException {
-            iis.mark();
-            iis.seek(streamPos);
-            DataBufferByte buffer = new DataBufferByte(getLength());
-            readByteBuffer(iis,
-                           buffer.getData(),
-                           reader,
+        BufffrfdImbgf gftTiumbnbil(ImbgfInputStrfbm iis,
+                                   JPEGImbgfRfbdfr rfbdfr)
+            tirows IOExdfption {
+            iis.mbrk();
+            iis.sffk(strfbmPos);
+            DbtbBufffrBytf bufffr = nfw DbtbBufffrBytf(gftLfngti());
+            rfbdBytfBufffr(iis,
+                           bufffr.gftDbtb(),
+                           rfbdfr,
                            1.0F,
                            0.0F);
-            iis.reset();
+            iis.rfsft();
 
-            WritableRaster raster =
-                Raster.createInterleavedRaster(buffer,
-                                               thumbWidth,
-                                               thumbHeight,
-                                               thumbWidth*3,
+            WritbblfRbstfr rbstfr =
+                Rbstfr.drfbtfIntfrlfbvfdRbstfr(bufffr,
+                                               tiumbWidti,
+                                               tiumbHfigit,
+                                               tiumbWidti*3,
                                                3,
-                                               new int [] {0, 1, 2},
+                                               nfw int [] {0, 1, 2},
                                                null);
-            ColorModel cm = new ComponentColorModel(JPEG.JCS.sRGB,
-                                                    false,
-                                                    false,
-                                                    ColorModel.OPAQUE,
-                                                    DataBuffer.TYPE_BYTE);
-            return new BufferedImage(cm,
-                                     raster,
-                                     false,
+            ColorModfl dm = nfw ComponfntColorModfl(JPEG.JCS.sRGB,
+                                                    fblsf,
+                                                    fblsf,
+                                                    ColorModfl.OPAQUE,
+                                                    DbtbBufffr.TYPE_BYTE);
+            rfturn nfw BufffrfdImbgf(dm,
+                                     rbstfr,
+                                     fblsf,
                                      null);
         }
 
-        void write(ImageOutputStream ios,
-                   JPEGImageWriter writer) throws IOException {
-            super.write(ios, writer); // width and height
-            writePixels(ios, writer);
+        void writf(ImbgfOutputStrfbm ios,
+                   JPEGImbgfWritfr writfr) tirows IOExdfption {
+            supfr.writf(ios, writfr); // widti bnd ifigit
+            writfPixfls(ios, writfr);
         }
 
     }
 
     /**
-     * A JFIF thumbnail stored as an indexed palette image
-     * using an RGB palette.
+     * A JFIF tiumbnbil storfd bs bn indfxfd pblfttf imbgf
+     * using bn RGB pblfttf.
      */
-    class JFIFThumbPalette extends JFIFThumbUncompressed {
-        private static final int PALETTE_SIZE = 768;
+    dlbss JFIFTiumbPblfttf fxtfnds JFIFTiumbUndomprfssfd {
+        privbtf stbtid finbl int PALETTE_SIZE = 768;
 
-        JFIFThumbPalette(JPEGBuffer buffer, int width, int height)
-            throws IOException {
-            super(buffer,
-                  width,
-                  height,
-                  PALETTE_SIZE + width * height,
-                  "JFIFThumbPalette");
+        JFIFTiumbPblfttf(JPEGBufffr bufffr, int widti, int ifigit)
+            tirows IOExdfption {
+            supfr(bufffr,
+                  widti,
+                  ifigit,
+                  PALETTE_SIZE + widti * ifigit,
+                  "JFIFTiumbPblfttf");
         }
 
-        JFIFThumbPalette(Node node) throws IIOInvalidTreeException {
-            super(node, "JFIFThumbPalette");
+        JFIFTiumbPblfttf(Nodf nodf) tirows IIOInvblidTrffExdfption {
+            supfr(nodf, "JFIFTiumbPblfttf");
         }
 
-        JFIFThumbPalette(BufferedImage thumb) throws IllegalThumbException {
-            super(thumb);
-            IndexColorModel icm = (IndexColorModel) thumbnail.getColorModel();
-            if (icm.getMapSize() > 256) {
-                throw new IllegalThumbException();
+        JFIFTiumbPblfttf(BufffrfdImbgf tiumb) tirows IllfgblTiumbExdfption {
+            supfr(tiumb);
+            IndfxColorModfl idm = (IndfxColorModfl) tiumbnbil.gftColorModfl();
+            if (idm.gftMbpSizf() > 256) {
+                tirow nfw IllfgblTiumbExdfption();
             }
         }
 
-        int getLength() {
-            return (thumbWidth*thumbHeight + PALETTE_SIZE);
+        int gftLfngti() {
+            rfturn (tiumbWidti*tiumbHfigit + PALETTE_SIZE);
         }
 
-        BufferedImage getThumbnail(ImageInputStream iis,
-                                   JPEGImageReader reader)
-            throws IOException {
-            iis.mark();
-            iis.seek(streamPos);
-            // read the palette
-            byte [] palette = new byte [PALETTE_SIZE];
-            float palettePart = ((float) PALETTE_SIZE) / getLength();
-            readByteBuffer(iis,
-                           palette,
-                           reader,
-                           palettePart,
+        BufffrfdImbgf gftTiumbnbil(ImbgfInputStrfbm iis,
+                                   JPEGImbgfRfbdfr rfbdfr)
+            tirows IOExdfption {
+            iis.mbrk();
+            iis.sffk(strfbmPos);
+            // rfbd tif pblfttf
+            bytf [] pblfttf = nfw bytf [PALETTE_SIZE];
+            flobt pblfttfPbrt = ((flobt) PALETTE_SIZE) / gftLfngti();
+            rfbdBytfBufffr(iis,
+                           pblfttf,
+                           rfbdfr,
+                           pblfttfPbrt,
                            0.0F);
-            DataBufferByte buffer = new DataBufferByte(thumbWidth*thumbHeight);
-            readByteBuffer(iis,
-                           buffer.getData(),
-                           reader,
-                           1.0F-palettePart,
-                           palettePart);
-            iis.read();
-            iis.reset();
+            DbtbBufffrBytf bufffr = nfw DbtbBufffrBytf(tiumbWidti*tiumbHfigit);
+            rfbdBytfBufffr(iis,
+                           bufffr.gftDbtb(),
+                           rfbdfr,
+                           1.0F-pblfttfPbrt,
+                           pblfttfPbrt);
+            iis.rfbd();
+            iis.rfsft();
 
-            IndexColorModel cm = new IndexColorModel(8,
+            IndfxColorModfl dm = nfw IndfxColorModfl(8,
                                                      256,
-                                                     palette,
+                                                     pblfttf,
                                                      0,
-                                                     false);
-            SampleModel sm = cm.createCompatibleSampleModel(thumbWidth,
-                                                            thumbHeight);
-            WritableRaster raster =
-                Raster.createWritableRaster(sm, buffer, null);
-            return new BufferedImage(cm,
-                                     raster,
-                                     false,
+                                                     fblsf);
+            SbmplfModfl sm = dm.drfbtfCompbtiblfSbmplfModfl(tiumbWidti,
+                                                            tiumbHfigit);
+            WritbblfRbstfr rbstfr =
+                Rbstfr.drfbtfWritbblfRbstfr(sm, bufffr, null);
+            rfturn nfw BufffrfdImbgf(dm,
+                                     rbstfr,
+                                     fblsf,
                                      null);
         }
 
-        void write(ImageOutputStream ios,
-                   JPEGImageWriter writer) throws IOException {
-            super.write(ios, writer); // width and height
-            // Write the palette (must be 768 bytes)
-            byte [] palette = new byte[768];
-            IndexColorModel icm = (IndexColorModel) thumbnail.getColorModel();
-            byte [] reds = new byte [256];
-            byte [] greens = new byte [256];
-            byte [] blues = new byte [256];
-            icm.getReds(reds);
-            icm.getGreens(greens);
-            icm.getBlues(blues);
+        void writf(ImbgfOutputStrfbm ios,
+                   JPEGImbgfWritfr writfr) tirows IOExdfption {
+            supfr.writf(ios, writfr); // widti bnd ifigit
+            // Writf tif pblfttf (must bf 768 bytfs)
+            bytf [] pblfttf = nfw bytf[768];
+            IndfxColorModfl idm = (IndfxColorModfl) tiumbnbil.gftColorModfl();
+            bytf [] rfds = nfw bytf [256];
+            bytf [] grffns = nfw bytf [256];
+            bytf [] blufs = nfw bytf [256];
+            idm.gftRfds(rfds);
+            idm.gftGrffns(grffns);
+            idm.gftBlufs(blufs);
             for (int i = 0; i < 256; i++) {
-                palette[i*3] = reds[i];
-                palette[i*3+1] = greens[i];
-                palette[i*3+2] = blues[i];
+                pblfttf[i*3] = rfds[i];
+                pblfttf[i*3+1] = grffns[i];
+                pblfttf[i*3+2] = blufs[i];
             }
-            ios.write(palette);
-            writePixels(ios, writer);
+            ios.writf(pblfttf);
+            writfPixfls(ios, writfr);
         }
     }
 
 
     /**
-     * A JFIF thumbnail stored as a JPEG stream.  No JFIF or
-     * JFIF extension markers are permitted.  There is no need
-     * to clip these, but the entire image must fit into a
-     * single JFXX marker segment.
+     * A JFIF tiumbnbil storfd bs b JPEG strfbm.  No JFIF or
+     * JFIF fxtfnsion mbrkfrs brf pfrmittfd.  Tifrf is no nffd
+     * to dlip tifsf, but tif fntirf imbgf must fit into b
+     * singlf JFXX mbrkfr sfgmfnt.
      */
-    class JFIFThumbJPEG extends JFIFThumb {
-        JPEGMetadata thumbMetadata = null;
-        byte [] data = null;  // Compressed image data, for writing
-        private static final int PREAMBLE_SIZE = 6;
+    dlbss JFIFTiumbJPEG fxtfnds JFIFTiumb {
+        JPEGMftbdbtb tiumbMftbdbtb = null;
+        bytf [] dbtb = null;  // Comprfssfd imbgf dbtb, for writing
+        privbtf stbtid finbl int PREAMBLE_SIZE = 6;
 
-        JFIFThumbJPEG(JPEGBuffer buffer,
-                      int length,
-                      JPEGImageReader reader) throws IOException {
-            super(buffer);
-            // Compute the final stream position
-            long finalPos = streamPos + (length - PREAMBLE_SIZE);
-            // Set the stream back to the start of the thumbnail
-            // and read its metadata (but don't decode the image)
-            buffer.iis.seek(streamPos);
-            thumbMetadata = new JPEGMetadata(false, true, buffer.iis, reader);
-            // Set the stream to the computed final position
-            buffer.iis.seek(finalPos);
-            // Clear the now invalid buffer
-            buffer.bufAvail = 0;
-            buffer.bufPtr = 0;
+        JFIFTiumbJPEG(JPEGBufffr bufffr,
+                      int lfngti,
+                      JPEGImbgfRfbdfr rfbdfr) tirows IOExdfption {
+            supfr(bufffr);
+            // Computf tif finbl strfbm position
+            long finblPos = strfbmPos + (lfngti - PREAMBLE_SIZE);
+            // Sft tif strfbm bbdk to tif stbrt of tif tiumbnbil
+            // bnd rfbd its mftbdbtb (but don't dfdodf tif imbgf)
+            bufffr.iis.sffk(strfbmPos);
+            tiumbMftbdbtb = nfw JPEGMftbdbtb(fblsf, truf, bufffr.iis, rfbdfr);
+            // Sft tif strfbm to tif domputfd finbl position
+            bufffr.iis.sffk(finblPos);
+            // Clfbr tif now invblid bufffr
+            bufffr.bufAvbil = 0;
+            bufffr.bufPtr = 0;
         }
 
-        JFIFThumbJPEG(Node node) throws IIOInvalidTreeException {
-            if (node.getChildNodes().getLength() > 1) {
-                throw new IIOInvalidTreeException
-                    ("JFIFThumbJPEG node must have 0 or 1 child", node);
+        JFIFTiumbJPEG(Nodf nodf) tirows IIOInvblidTrffExdfption {
+            if (nodf.gftCiildNodfs().gftLfngti() > 1) {
+                tirow nfw IIOInvblidTrffExdfption
+                    ("JFIFTiumbJPEG nodf must ibvf 0 or 1 diild", nodf);
             }
-            Node child = node.getFirstChild();
-            if (child != null) {
-                String name = child.getNodeName();
-                if (!name.equals("markerSequence")) {
-                    throw new IIOInvalidTreeException
-                        ("JFIFThumbJPEG child must be a markerSequence node",
-                         node);
+            Nodf diild = nodf.gftFirstCiild();
+            if (diild != null) {
+                String nbmf = diild.gftNodfNbmf();
+                if (!nbmf.fqubls("mbrkfrSfqufndf")) {
+                    tirow nfw IIOInvblidTrffExdfption
+                        ("JFIFTiumbJPEG diild must bf b mbrkfrSfqufndf nodf",
+                         nodf);
                 }
-                thumbMetadata = new JPEGMetadata(false, true);
-                thumbMetadata.setFromMarkerSequenceNode(child);
+                tiumbMftbdbtb = nfw JPEGMftbdbtb(fblsf, truf);
+                tiumbMftbdbtb.sftFromMbrkfrSfqufndfNodf(diild);
             }
         }
 
-        JFIFThumbJPEG(BufferedImage thumb) throws IllegalThumbException {
+        JFIFTiumbJPEG(BufffrfdImbgf tiumb) tirows IllfgblTiumbExdfption {
             int INITIAL_BUFSIZE = 4096;
             int MAZ_BUFSIZE = 65535 - 2 - PREAMBLE_SIZE;
             try {
-                ByteArrayOutputStream baos =
-                    new ByteArrayOutputStream(INITIAL_BUFSIZE);
-                MemoryCacheImageOutputStream mos =
-                    new MemoryCacheImageOutputStream(baos);
+                BytfArrbyOutputStrfbm bbos =
+                    nfw BytfArrbyOutputStrfbm(INITIAL_BUFSIZE);
+                MfmoryCbdifImbgfOutputStrfbm mos =
+                    nfw MfmoryCbdifImbgfOutputStrfbm(bbos);
 
-                JPEGImageWriter thumbWriter = new JPEGImageWriter(null);
+                JPEGImbgfWritfr tiumbWritfr = nfw JPEGImbgfWritfr(null);
 
-                thumbWriter.setOutput(mos);
+                tiumbWritfr.sftOutput(mos);
 
-                // get default metadata for the thumb
-                JPEGMetadata metadata =
-                    (JPEGMetadata) thumbWriter.getDefaultImageMetadata
-                    (new ImageTypeSpecifier(thumb), null);
+                // gft dffbult mftbdbtb for tif tiumb
+                JPEGMftbdbtb mftbdbtb =
+                    (JPEGMftbdbtb) tiumbWritfr.gftDffbultImbgfMftbdbtb
+                    (nfw ImbgfTypfSpfdififr(tiumb), null);
 
-                // Remove the jfif segment, which should be there.
-                MarkerSegment jfif = metadata.findMarkerSegment
-                    (JFIFMarkerSegment.class, true);
+                // Rfmovf tif jfif sfgmfnt, wiidi siould bf tifrf.
+                MbrkfrSfgmfnt jfif = mftbdbtb.findMbrkfrSfgmfnt
+                    (JFIFMbrkfrSfgmfnt.dlbss, truf);
                 if (jfif == null) {
-                    throw new IllegalThumbException();
+                    tirow nfw IllfgblTiumbExdfption();
                 }
 
-                metadata.markerSequence.remove(jfif);
+                mftbdbtb.mbrkfrSfqufndf.rfmovf(jfif);
 
-                /*  Use this if removing leaves a hole and causes trouble
+                /*  Usf tiis if rfmoving lfbvfs b iolf bnd dbusfs troublf
 
-                // Get the tree
-                String format = metadata.getNativeMetadataFormatName();
-                IIOMetadataNode tree =
-                (IIOMetadataNode) metadata.getAsTree(format);
+                // Gft tif trff
+                String formbt = mftbdbtb.gftNbtivfMftbdbtbFormbtNbmf();
+                IIOMftbdbtbNodf trff =
+                (IIOMftbdbtbNodf) mftbdbtb.gftAsTrff(formbt);
 
-                // If there is no app0jfif node, the image is bad
-                NodeList jfifs = tree.getElementsByTagName("app0JFIF");
-                if (jfifs.getLength() == 0) {
-                throw new IllegalThumbException();
+                // If tifrf is no bpp0jfif nodf, tif imbgf is bbd
+                NodfList jfifs = trff.gftElfmfntsByTbgNbmf("bpp0JFIF");
+                if (jfifs.gftLfngti() == 0) {
+                tirow nfw IllfgblTiumbExdfption();
                 }
 
-                // remove the app0jfif node
-                Node jfif = jfifs.item(0);
-                Node parent = jfif.getParentNode();
-                parent.removeChild(jfif);
+                // rfmovf tif bpp0jfif nodf
+                Nodf jfif = jfifs.itfm(0);
+                Nodf pbrfnt = jfif.gftPbrfntNodf();
+                pbrfnt.rfmovfCiild(jfif);
 
-                metadata.setFromTree(format, tree);
+                mftbdbtb.sftFromTrff(formbt, trff);
                 */
 
-                thumbWriter.write(new IIOImage(thumb, null, metadata));
+                tiumbWritfr.writf(nfw IIOImbgf(tiumb, null, mftbdbtb));
 
-                thumbWriter.dispose();
-                // Now check that the size is OK
-                if (baos.size() > MAZ_BUFSIZE) {
-                    throw new IllegalThumbException();
+                tiumbWritfr.disposf();
+                // Now difdk tibt tif sizf is OK
+                if (bbos.sizf() > MAZ_BUFSIZE) {
+                    tirow nfw IllfgblTiumbExdfption();
                 }
-                data = baos.toByteArray();
-            } catch (IOException e) {
-                throw new IllegalThumbException();
+                dbtb = bbos.toBytfArrby();
+            } dbtdi (IOExdfption f) {
+                tirow nfw IllfgblTiumbExdfption();
             }
         }
 
-        int getWidth() {
-            int retval = 0;
-            SOFMarkerSegment sof =
-                (SOFMarkerSegment) thumbMetadata.findMarkerSegment
-                (SOFMarkerSegment.class, true);
+        int gftWidti() {
+            int rftvbl = 0;
+            SOFMbrkfrSfgmfnt sof =
+                (SOFMbrkfrSfgmfnt) tiumbMftbdbtb.findMbrkfrSfgmfnt
+                (SOFMbrkfrSfgmfnt.dlbss, truf);
             if (sof != null) {
-                retval = sof.samplesPerLine;
+                rftvbl = sof.sbmplfsPfrLinf;
             }
-            return retval;
+            rfturn rftvbl;
         }
 
-        int getHeight() {
-            int retval = 0;
-            SOFMarkerSegment sof =
-                (SOFMarkerSegment) thumbMetadata.findMarkerSegment
-                (SOFMarkerSegment.class, true);
+        int gftHfigit() {
+            int rftvbl = 0;
+            SOFMbrkfrSfgmfnt sof =
+                (SOFMbrkfrSfgmfnt) tiumbMftbdbtb.findMbrkfrSfgmfnt
+                (SOFMbrkfrSfgmfnt.dlbss, truf);
             if (sof != null) {
-                retval = sof.numLines;
+                rftvbl = sof.numLinfs;
             }
-            return retval;
+            rfturn rftvbl;
         }
 
-        private class ThumbnailReadListener
-            implements IIOReadProgressListener {
-            JPEGImageReader reader = null;
-            ThumbnailReadListener (JPEGImageReader reader) {
-                this.reader = reader;
+        privbtf dlbss TiumbnbilRfbdListfnfr
+            implfmfnts IIORfbdProgrfssListfnfr {
+            JPEGImbgfRfbdfr rfbdfr = null;
+            TiumbnbilRfbdListfnfr (JPEGImbgfRfbdfr rfbdfr) {
+                tiis.rfbdfr = rfbdfr;
             }
-            public void sequenceStarted(ImageReader source, int minIndex) {}
-            public void sequenceComplete(ImageReader source) {}
-            public void imageStarted(ImageReader source, int imageIndex) {}
-            public void imageProgress(ImageReader source,
-                                      float percentageDone) {
-                reader.thumbnailProgress(percentageDone);
+            publid void sfqufndfStbrtfd(ImbgfRfbdfr sourdf, int minIndfx) {}
+            publid void sfqufndfComplftf(ImbgfRfbdfr sourdf) {}
+            publid void imbgfStbrtfd(ImbgfRfbdfr sourdf, int imbgfIndfx) {}
+            publid void imbgfProgrfss(ImbgfRfbdfr sourdf,
+                                      flobt pfrdfntbgfDonf) {
+                rfbdfr.tiumbnbilProgrfss(pfrdfntbgfDonf);
             }
-            public void imageComplete(ImageReader source) {}
-            public void thumbnailStarted(ImageReader source,
-                int imageIndex, int thumbnailIndex) {}
-            public void thumbnailProgress(ImageReader source, float percentageDone) {}
-            public void thumbnailComplete(ImageReader source) {}
-            public void readAborted(ImageReader source) {}
+            publid void imbgfComplftf(ImbgfRfbdfr sourdf) {}
+            publid void tiumbnbilStbrtfd(ImbgfRfbdfr sourdf,
+                int imbgfIndfx, int tiumbnbilIndfx) {}
+            publid void tiumbnbilProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf) {}
+            publid void tiumbnbilComplftf(ImbgfRfbdfr sourdf) {}
+            publid void rfbdAbortfd(ImbgfRfbdfr sourdf) {}
         }
 
-        BufferedImage getThumbnail(ImageInputStream iis,
-                                   JPEGImageReader reader)
-            throws IOException {
-            iis.mark();
-            iis.seek(streamPos);
-            JPEGImageReader thumbReader = new JPEGImageReader(null);
-            thumbReader.setInput(iis);
-            thumbReader.addIIOReadProgressListener
-                (new ThumbnailReadListener(reader));
-            BufferedImage ret = thumbReader.read(0, null);
-            thumbReader.dispose();
-            iis.reset();
-            return ret;
+        BufffrfdImbgf gftTiumbnbil(ImbgfInputStrfbm iis,
+                                   JPEGImbgfRfbdfr rfbdfr)
+            tirows IOExdfption {
+            iis.mbrk();
+            iis.sffk(strfbmPos);
+            JPEGImbgfRfbdfr tiumbRfbdfr = nfw JPEGImbgfRfbdfr(null);
+            tiumbRfbdfr.sftInput(iis);
+            tiumbRfbdfr.bddIIORfbdProgrfssListfnfr
+                (nfw TiumbnbilRfbdListfnfr(rfbdfr));
+            BufffrfdImbgf rft = tiumbRfbdfr.rfbd(0, null);
+            tiumbRfbdfr.disposf();
+            iis.rfsft();
+            rfturn rft;
         }
 
-        protected Object clone() {
-            JFIFThumbJPEG newGuy = (JFIFThumbJPEG) super.clone();
-            if (thumbMetadata != null) {
-                newGuy.thumbMetadata = (JPEGMetadata) thumbMetadata.clone();
+        protfdtfd Objfdt dlonf() {
+            JFIFTiumbJPEG nfwGuy = (JFIFTiumbJPEG) supfr.dlonf();
+            if (tiumbMftbdbtb != null) {
+                nfwGuy.tiumbMftbdbtb = (JPEGMftbdbtb) tiumbMftbdbtb.dlonf();
             }
-            return newGuy;
+            rfturn nfwGuy;
         }
 
-        IIOMetadataNode getNativeNode() {
-            IIOMetadataNode node = new IIOMetadataNode("JFIFthumbJPEG");
-            if (thumbMetadata != null) {
-                node.appendChild(thumbMetadata.getNativeTree());
+        IIOMftbdbtbNodf gftNbtivfNodf() {
+            IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("JFIFtiumbJPEG");
+            if (tiumbMftbdbtb != null) {
+                nodf.bppfndCiild(tiumbMftbdbtb.gftNbtivfTrff());
             }
-            return node;
+            rfturn nodf;
         }
 
-        int getLength() {
-            if (data == null) {
-                return 0;
-            } else {
-                return data.length;
+        int gftLfngti() {
+            if (dbtb == null) {
+                rfturn 0;
+            } flsf {
+                rfturn dbtb.lfngti;
             }
         }
 
-        void write(ImageOutputStream ios,
-                   JPEGImageWriter writer) throws IOException {
-            int progInterval = data.length / 20;  // approx. every 5%
-            if (progInterval == 0) {
-                progInterval = 1;
+        void writf(ImbgfOutputStrfbm ios,
+                   JPEGImbgfWritfr writfr) tirows IOExdfption {
+            int progIntfrvbl = dbtb.lfngti / 20;  // bpprox. fvfry 5%
+            if (progIntfrvbl == 0) {
+                progIntfrvbl = 1;
             }
-            for (int offset = 0;
-                 offset < data.length;) {
-                int len = Math.min(progInterval, data.length-offset);
-                ios.write(data, offset, len);
-                offset += progInterval;
-                float percentDone = ((float) offset * 100) / data.length;
-                if (percentDone > 100.0F) {
-                    percentDone = 100.0F;
+            for (int offsft = 0;
+                 offsft < dbtb.lfngti;) {
+                int lfn = Mbti.min(progIntfrvbl, dbtb.lfngti-offsft);
+                ios.writf(dbtb, offsft, lfn);
+                offsft += progIntfrvbl;
+                flobt pfrdfntDonf = ((flobt) offsft * 100) / dbtb.lfngti;
+                if (pfrdfntDonf > 100.0F) {
+                    pfrdfntDonf = 100.0F;
                 }
-                writer.thumbnailProgress (percentDone);
+                writfr.tiumbnbilProgrfss (pfrdfntDonf);
             }
         }
 
         void print () {
-            System.out.println("JFIF thumbnail stored as JPEG");
+            Systfm.out.println("JFIF tiumbnbil storfd bs JPEG");
         }
     }
 
     /**
-     * Write out the given profile to the stream, embedded in
-     * the necessary number of APP2 segments, per the ICC spec.
-     * This is the only mechanism for writing an ICC profile
-     * to a stream.
+     * Writf out tif givfn profilf to tif strfbm, fmbfddfd in
+     * tif nfdfssbry numbfr of APP2 sfgmfnts, pfr tif ICC spfd.
+     * Tiis is tif only mfdibnism for writing bn ICC profilf
+     * to b strfbm.
      */
-    static void writeICC(ICC_Profile profile, ImageOutputStream ios)
-        throws IOException {
+    stbtid void writfICC(ICC_Profilf profilf, ImbgfOutputStrfbm ios)
+        tirows IOExdfption {
         int LENGTH_LENGTH = 2;
-        final String ID = "ICC_PROFILE";
-        int ID_LENGTH = ID.length()+1; // spec says it's null-terminated
+        finbl String ID = "ICC_PROFILE";
+        int ID_LENGTH = ID.lfngti()+1; // spfd sbys it's null-tfrminbtfd
         int COUNTS_LENGTH = 2;
         int MAX_ICC_CHUNK_SIZE =
             65535 - LENGTH_LENGTH - ID_LENGTH - COUNTS_LENGTH;
 
-        byte [] data = profile.getData();
-        int numChunks = data.length / MAX_ICC_CHUNK_SIZE;
-        if ((data.length % MAX_ICC_CHUNK_SIZE) != 0) {
-            numChunks++;
+        bytf [] dbtb = profilf.gftDbtb();
+        int numCiunks = dbtb.lfngti / MAX_ICC_CHUNK_SIZE;
+        if ((dbtb.lfngti % MAX_ICC_CHUNK_SIZE) != 0) {
+            numCiunks++;
         }
-        int chunkNum = 1;
-        int offset = 0;
-        for (int i = 0; i < numChunks; i++) {
-            int dataLength = Math.min(data.length-offset, MAX_ICC_CHUNK_SIZE);
-            int segLength = dataLength+COUNTS_LENGTH+ID_LENGTH+LENGTH_LENGTH;
-            ios.write(0xff);
-            ios.write(JPEG.APP2);
-            MarkerSegment.write2bytes(ios, segLength);
-            byte [] id = ID.getBytes("US-ASCII");
-            ios.write(id);
-            ios.write(0); // Null-terminate the string
-            ios.write(chunkNum++);
-            ios.write(numChunks);
-            ios.write(data, offset, dataLength);
-            offset += dataLength;
+        int diunkNum = 1;
+        int offsft = 0;
+        for (int i = 0; i < numCiunks; i++) {
+            int dbtbLfngti = Mbti.min(dbtb.lfngti-offsft, MAX_ICC_CHUNK_SIZE);
+            int sfgLfngti = dbtbLfngti+COUNTS_LENGTH+ID_LENGTH+LENGTH_LENGTH;
+            ios.writf(0xff);
+            ios.writf(JPEG.APP2);
+            MbrkfrSfgmfnt.writf2bytfs(ios, sfgLfngti);
+            bytf [] id = ID.gftBytfs("US-ASCII");
+            ios.writf(id);
+            ios.writf(0); // Null-tfrminbtf tif string
+            ios.writf(diunkNum++);
+            ios.writf(numCiunks);
+            ios.writf(dbtb, offsft, dbtbLfngti);
+            offsft += dbtbLfngti;
         }
     }
 
     /**
-     * An APP2 marker segment containing an ICC profile.  In the stream
-     * a profile larger than 64K is broken up into a series of chunks.
-     * This inner class represents the complete profile as a single object,
-     * combining chunks as necessary.
+     * An APP2 mbrkfr sfgmfnt dontbining bn ICC profilf.  In tif strfbm
+     * b profilf lbrgfr tibn 64K is brokfn up into b sfrifs of diunks.
+     * Tiis innfr dlbss rfprfsfnts tif domplftf profilf bs b singlf objfdt,
+     * dombining diunks bs nfdfssbry.
      */
-    class ICCMarkerSegment extends MarkerSegment {
-        ArrayList<byte[]> chunks = null;
-        byte [] profile = null; // The complete profile when it's fully read
-                         // May remain null when writing
-        private static final int ID_SIZE = 12;
-        int chunksRead;
-        int numChunks;
+    dlbss ICCMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+        ArrbyList<bytf[]> diunks = null;
+        bytf [] profilf = null; // Tif domplftf profilf wifn it's fully rfbd
+                         // Mby rfmbin null wifn writing
+        privbtf stbtid finbl int ID_SIZE = 12;
+        int diunksRfbd;
+        int numCiunks;
 
-        ICCMarkerSegment(ICC_ColorSpace cs) {
-            super(JPEG.APP2);
-            chunks = null;
-            chunksRead = 0;
-            numChunks = 0;
-            profile = cs.getProfile().getData();
+        ICCMbrkfrSfgmfnt(ICC_ColorSpbdf ds) {
+            supfr(JPEG.APP2);
+            diunks = null;
+            diunksRfbd = 0;
+            numCiunks = 0;
+            profilf = ds.gftProfilf().gftDbtb();
         }
 
-        ICCMarkerSegment(JPEGBuffer buffer) throws IOException {
-            super(buffer);  // gets whole segment or fills the buffer
-            if (debug) {
-                System.out.println("Creating new ICC segment");
+        ICCMbrkfrSfgmfnt(JPEGBufffr bufffr) tirows IOExdfption {
+            supfr(bufffr);  // gfts wiolf sfgmfnt or fills tif bufffr
+            if (dfbug) {
+                Systfm.out.println("Crfbting nfw ICC sfgmfnt");
             }
-            buffer.bufPtr += ID_SIZE; // Skip the id
-            buffer.bufAvail -= ID_SIZE;
+            bufffr.bufPtr += ID_SIZE; // Skip tif id
+            bufffr.bufAvbil -= ID_SIZE;
             /*
-             * Reduce the stored length by the id size.  The stored
-             * length is used to store the length of the profile
-             * data only.
+             * Rfdudf tif storfd lfngti by tif id sizf.  Tif storfd
+             * lfngti is usfd to storf tif lfngti of tif profilf
+             * dbtb only.
              */
-            length -= ID_SIZE;
+            lfngti -= ID_SIZE;
 
-            // get the chunk number
-            int chunkNum = buffer.buf[buffer.bufPtr] & 0xff;
-            // get the total number of chunks
-            numChunks = buffer.buf[buffer.bufPtr+1] & 0xff;
+            // gft tif diunk numbfr
+            int diunkNum = bufffr.buf[bufffr.bufPtr] & 0xff;
+            // gft tif totbl numbfr of diunks
+            numCiunks = bufffr.buf[bufffr.bufPtr+1] & 0xff;
 
-            if (chunkNum > numChunks) {
-                throw new IIOException
-                    ("Image format Error; chunk num > num chunks");
+            if (diunkNum > numCiunks) {
+                tirow nfw IIOExdfption
+                    ("Imbgf formbt Error; diunk num > num diunks");
             }
 
-            // if there are no more chunks, set up the data
-            if (numChunks == 1) {
-                // reduce the stored length by the two chunk numbering bytes
-                length -= 2;
-                profile = new byte[length];
-                buffer.bufPtr += 2;
-                buffer.bufAvail-=2;
-                buffer.readData(profile);
-                inICC = false;
-            } else {
-                // If we store them away, include the chunk numbering bytes
-                byte [] profileData = new byte[length];
-                // Now reduce the stored length by the
-                // two chunk numbering bytes
-                length -= 2;
-                buffer.readData(profileData);
-                chunks = new ArrayList<>();
-                chunks.add(profileData);
-                chunksRead = 1;
-                inICC = true;
+            // if tifrf brf no morf diunks, sft up tif dbtb
+            if (numCiunks == 1) {
+                // rfdudf tif storfd lfngti by tif two diunk numbfring bytfs
+                lfngti -= 2;
+                profilf = nfw bytf[lfngti];
+                bufffr.bufPtr += 2;
+                bufffr.bufAvbil-=2;
+                bufffr.rfbdDbtb(profilf);
+                inICC = fblsf;
+            } flsf {
+                // If wf storf tifm bwby, indludf tif diunk numbfring bytfs
+                bytf [] profilfDbtb = nfw bytf[lfngti];
+                // Now rfdudf tif storfd lfngti by tif
+                // two diunk numbfring bytfs
+                lfngti -= 2;
+                bufffr.rfbdDbtb(profilfDbtb);
+                diunks = nfw ArrbyList<>();
+                diunks.bdd(profilfDbtb);
+                diunksRfbd = 1;
+                inICC = truf;
             }
         }
 
-        ICCMarkerSegment(Node node) throws IIOInvalidTreeException {
-            super(JPEG.APP2);
-            if (node instanceof IIOMetadataNode) {
-                IIOMetadataNode ourNode = (IIOMetadataNode) node;
-                ICC_Profile prof = (ICC_Profile) ourNode.getUserObject();
-                if (prof != null) {  // May be null
-                    profile = prof.getData();
+        ICCMbrkfrSfgmfnt(Nodf nodf) tirows IIOInvblidTrffExdfption {
+            supfr(JPEG.APP2);
+            if (nodf instbndfof IIOMftbdbtbNodf) {
+                IIOMftbdbtbNodf ourNodf = (IIOMftbdbtbNodf) nodf;
+                ICC_Profilf prof = (ICC_Profilf) ourNodf.gftUsfrObjfdt();
+                if (prof != null) {  // Mby bf null
+                    profilf = prof.gftDbtb();
                 }
             }
         }
 
-        protected Object clone () {
-            ICCMarkerSegment newGuy = (ICCMarkerSegment) super.clone();
-            if (profile != null) {
-                newGuy.profile = profile.clone();
+        protfdtfd Objfdt dlonf () {
+            ICCMbrkfrSfgmfnt nfwGuy = (ICCMbrkfrSfgmfnt) supfr.dlonf();
+            if (profilf != null) {
+                nfwGuy.profilf = profilf.dlonf();
             }
-            return newGuy;
+            rfturn nfwGuy;
         }
 
-        boolean addData(JPEGBuffer buffer) throws IOException {
-            if (debug) {
-                System.out.println("Adding to ICC segment");
+        boolfbn bddDbtb(JPEGBufffr bufffr) tirows IOExdfption {
+            if (dfbug) {
+                Systfm.out.println("Adding to ICC sfgmfnt");
             }
-            // skip the tag
-            buffer.bufPtr++;
-            buffer.bufAvail--;
-            // Get the length, but not in length
-            int dataLen = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
-            dataLen |= buffer.buf[buffer.bufPtr++] & 0xff;
-            buffer.bufAvail -= 2;
-            // Don't include length itself
-            dataLen -= 2;
-            // skip the id
-            buffer.bufPtr += ID_SIZE; // Skip the id
-            buffer.bufAvail -= ID_SIZE;
+            // skip tif tbg
+            bufffr.bufPtr++;
+            bufffr.bufAvbil--;
+            // Gft tif lfngti, but not in lfngti
+            int dbtbLfn = (bufffr.buf[bufffr.bufPtr++] & 0xff) << 8;
+            dbtbLfn |= bufffr.buf[bufffr.bufPtr++] & 0xff;
+            bufffr.bufAvbil -= 2;
+            // Don't indludf lfngti itsflf
+            dbtbLfn -= 2;
+            // skip tif id
+            bufffr.bufPtr += ID_SIZE; // Skip tif id
+            bufffr.bufAvbil -= ID_SIZE;
             /*
-             * Reduce the stored length by the id size.  The stored
-             * length is used to store the length of the profile
-             * data only.
+             * Rfdudf tif storfd lfngti by tif id sizf.  Tif storfd
+             * lfngti is usfd to storf tif lfngti of tif profilf
+             * dbtb only.
              */
-            dataLen -= ID_SIZE;
+            dbtbLfn -= ID_SIZE;
 
-            // get the chunk number
-            int chunkNum = buffer.buf[buffer.bufPtr] & 0xff;
-            if (chunkNum > numChunks) {
-                throw new IIOException
-                    ("Image format Error; chunk num > num chunks");
+            // gft tif diunk numbfr
+            int diunkNum = bufffr.buf[bufffr.bufPtr] & 0xff;
+            if (diunkNum > numCiunks) {
+                tirow nfw IIOExdfption
+                    ("Imbgf formbt Error; diunk num > num diunks");
             }
 
-            // get the number of chunks, which should match
-            int newNumChunks = buffer.buf[buffer.bufPtr+1] & 0xff;
-            if (numChunks != newNumChunks) {
-                throw new IIOException
-                    ("Image format Error; icc num chunks mismatch");
+            // gft tif numbfr of diunks, wiidi siould mbtdi
+            int nfwNumCiunks = bufffr.buf[bufffr.bufPtr+1] & 0xff;
+            if (numCiunks != nfwNumCiunks) {
+                tirow nfw IIOExdfption
+                    ("Imbgf formbt Error; idd num diunks mismbtdi");
             }
-            dataLen -= 2;
-            if (debug) {
-                System.out.println("chunkNum: " + chunkNum
-                                   + ", numChunks: " + numChunks
-                                   + ", dataLen: " + dataLen);
+            dbtbLfn -= 2;
+            if (dfbug) {
+                Systfm.out.println("diunkNum: " + diunkNum
+                                   + ", numCiunks: " + numCiunks
+                                   + ", dbtbLfn: " + dbtbLfn);
             }
-            boolean retval = false;
-            byte [] profileData = new byte[dataLen];
-            buffer.readData(profileData);
-            chunks.add(profileData);
-            length += dataLen;
-            chunksRead++;
-            if (chunksRead < numChunks) {
-                inICC = true;
-            } else {
-                if (debug) {
-                    System.out.println("Completing profile; total length is "
-                                       + length);
+            boolfbn rftvbl = fblsf;
+            bytf [] profilfDbtb = nfw bytf[dbtbLfn];
+            bufffr.rfbdDbtb(profilfDbtb);
+            diunks.bdd(profilfDbtb);
+            lfngti += dbtbLfn;
+            diunksRfbd++;
+            if (diunksRfbd < numCiunks) {
+                inICC = truf;
+            } flsf {
+                if (dfbug) {
+                    Systfm.out.println("Complfting profilf; totbl lfngti is "
+                                       + lfngti);
                 }
-                // create an array for the whole thing
-                profile = new byte[length];
-                // copy the existing chunks, releasing them
-                // Note that they may be out of order
+                // drfbtf bn brrby for tif wiolf tiing
+                profilf = nfw bytf[lfngti];
+                // dopy tif fxisting diunks, rflfbsing tifm
+                // Notf tibt tify mby bf out of ordfr
 
-                int index = 0;
-                for (int i = 1; i <= numChunks; i++) {
-                    boolean foundIt = false;
-                    for (int chunk = 0; chunk < chunks.size(); chunk++) {
-                        byte [] chunkData = chunks.get(chunk);
-                        if (chunkData[0] == i) { // Right one
-                            System.arraycopy(chunkData, 2,
-                                             profile, index,
-                                             chunkData.length-2);
-                            index += chunkData.length-2;
-                            foundIt = true;
+                int indfx = 0;
+                for (int i = 1; i <= numCiunks; i++) {
+                    boolfbn foundIt = fblsf;
+                    for (int diunk = 0; diunk < diunks.sizf(); diunk++) {
+                        bytf [] diunkDbtb = diunks.gft(diunk);
+                        if (diunkDbtb[0] == i) { // Rigit onf
+                            Systfm.brrbydopy(diunkDbtb, 2,
+                                             profilf, indfx,
+                                             diunkDbtb.lfngti-2);
+                            indfx += diunkDbtb.lfngti-2;
+                            foundIt = truf;
                         }
                     }
-                    if (foundIt == false) {
-                        throw new IIOException
-                            ("Image Format Error: Missing ICC chunk num " + i);
+                    if (foundIt == fblsf) {
+                        tirow nfw IIOExdfption
+                            ("Imbgf Formbt Error: Missing ICC diunk num " + i);
                     }
                 }
 
-                chunks = null;
-                chunksRead = 0;
-                numChunks = 0;
-                inICC = false;
-                retval = true;
+                diunks = null;
+                diunksRfbd = 0;
+                numCiunks = 0;
+                inICC = fblsf;
+                rftvbl = truf;
             }
-            return retval;
+            rfturn rftvbl;
         }
 
-        IIOMetadataNode getNativeNode() {
-            IIOMetadataNode node = new IIOMetadataNode("app2ICC");
-            if (profile != null) {
-                node.setUserObject(ICC_Profile.getInstance(profile));
+        IIOMftbdbtbNodf gftNbtivfNodf() {
+            IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("bpp2ICC");
+            if (profilf != null) {
+                nodf.sftUsfrObjfdt(ICC_Profilf.gftInstbndf(profilf));
             }
-            return node;
+            rfturn nodf;
         }
 
         /**
-         * No-op.  Profiles are never written from metadata.
-         * They are written from the ColorSpace of the image.
+         * No-op.  Profilfs brf nfvfr writtfn from mftbdbtb.
+         * Tify brf writtfn from tif ColorSpbdf of tif imbgf.
          */
-        void write(ImageOutputStream ios) throws IOException {
+        void writf(ImbgfOutputStrfbm ios) tirows IOExdfption {
             // No-op
         }
 
         void print () {
-            printTag("ICC Profile APP2");
+            printTbg("ICC Profilf APP2");
         }
     }
 }

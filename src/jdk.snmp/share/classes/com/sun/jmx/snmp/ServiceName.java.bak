@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 /**
- * Used for storing default values used by SNMP Runtime services.
- * <p><b>This API is an Oracle Corporation internal API  and is subject
- * to change without notice.</b></p>
+ * Usfd for storing dffbult vblufs usfd by SNMP Runtimf sfrvidfs.
+ * <p><b>Tiis API is bn Orbdlf Corporbtion intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
-public class ServiceName {
+publid dlbss SfrvidfNbmf {
 
-    // private constructor defined to "hide" the default public constructor
-    private ServiceName() {
+    // privbtf donstrudtor dffinfd to "iidf" tif dffbult publid donstrudtor
+    privbtf SfrvidfNbmf() {
     }
 
     /**
-     * The object name of the MBeanServer delegate object
+     * Tif objfdt nbmf of tif MBfbnSfrvfr dflfgbtf objfdt
      * <BR>
-     * The value is <CODE>JMImplementation:type=MBeanServerDelegate</CODE>.
+     * Tif vbluf is <CODE>JMImplfmfntbtion:typf=MBfbnSfrvfrDflfgbtf</CODE>.
      */
-    public static final String DELEGATE = "JMImplementation:type=MBeanServerDelegate" ;
+    publid stbtid finbl String DELEGATE = "JMImplfmfntbtion:typf=MBfbnSfrvfrDflfgbtf" ;
 
     /**
-     * The default key properties for registering the class loader of the MLet service.
+     * Tif dffbult kfy propfrtifs for rfgistfring tif dlbss lobdfr of tif MLft sfrvidf.
      * <BR>
-     * The value is <CODE>type=MLet</CODE>.
+     * Tif vbluf is <CODE>typf=MLft</CODE>.
      */
-    public static final String MLET = "type=MLet";
+    publid stbtid finbl String MLET = "typf=MLft";
 
     /**
-     * The default domain.
+     * Tif dffbult dombin.
      * <BR>
-     * The value is <CODE>DefaultDomain</CODE>.
+     * Tif vbluf is <CODE>DffbultDombin</CODE>.
      */
-    public static final String DOMAIN = "DefaultDomain";
+    publid stbtid finbl String DOMAIN = "DffbultDombin";
 
     /**
-     * The default port for the RMI connector.
+     * Tif dffbult port for tif RMI donnfdtor.
      * <BR>
-     * The value is <CODE>1099</CODE>.
+     * Tif vbluf is <CODE>1099</CODE>.
      */
-    public static final int RMI_CONNECTOR_PORT = 1099 ;
+    publid stbtid finbl int RMI_CONNECTOR_PORT = 1099 ;
 
     /**
-     * The default key properties for the RMI connector.
+     * Tif dffbult kfy propfrtifs for tif RMI donnfdtor.
      * <BR>
-     * The value is <CODE>name=RmiConnectorServer</CODE>.
+     * Tif vbluf is <CODE>nbmf=RmiConnfdtorSfrvfr</CODE>.
      */
-    public static final String RMI_CONNECTOR_SERVER = "name=RmiConnectorServer" ;
+    publid stbtid finbl String RMI_CONNECTOR_SERVER = "nbmf=RmiConnfdtorSfrvfr" ;
 
     /**
-     * The default port for the SNMP adaptor.
+     * Tif dffbult port for tif SNMP bdbptor.
      * <BR>
-     * The value is <CODE>161</CODE>.
+     * Tif vbluf is <CODE>161</CODE>.
      */
-    public static final int SNMP_ADAPTOR_PORT = 161 ;
+    publid stbtid finbl int SNMP_ADAPTOR_PORT = 161 ;
 
     /**
-     * The default key properties for the SNMP protocol adaptor.
+     * Tif dffbult kfy propfrtifs for tif SNMP protodol bdbptor.
      * <BR>
-     * The value is <CODE>name=SnmpAdaptorServer</CODE>.
+     * Tif vbluf is <CODE>nbmf=SnmpAdbptorSfrvfr</CODE>.
      */
-    public static final String SNMP_ADAPTOR_SERVER = "name=SnmpAdaptorServer" ;
+    publid stbtid finbl String SNMP_ADAPTOR_SERVER = "nbmf=SnmpAdbptorSfrvfr" ;
 
     /**
-     * The default port for the HTTP connector.
+     * Tif dffbult port for tif HTTP donnfdtor.
      * <BR>
-     * The value is <CODE>8081</CODE>.
+     * Tif vbluf is <CODE>8081</CODE>.
      */
-    public static final int HTTP_CONNECTOR_PORT = 8081 ;
+    publid stbtid finbl int HTTP_CONNECTOR_PORT = 8081 ;
 
     /**
-     * The default key properties for the HTTP connector.
+     * Tif dffbult kfy propfrtifs for tif HTTP donnfdtor.
      * <BR>
-     * The value is <CODE>name=HttpConnectorServer</CODE>.
+     * Tif vbluf is <CODE>nbmf=HttpConnfdtorSfrvfr</CODE>.
      */
-    public static final String HTTP_CONNECTOR_SERVER = "name=HttpConnectorServer" ;
+    publid stbtid finbl String HTTP_CONNECTOR_SERVER = "nbmf=HttpConnfdtorSfrvfr" ;
 
     /**
-     * The default port for the HTTPS connector.
+     * Tif dffbult port for tif HTTPS donnfdtor.
      * <BR>
-     * The value is <CODE>8084</CODE>.
+     * Tif vbluf is <CODE>8084</CODE>.
      */
-    public static final int HTTPS_CONNECTOR_PORT = 8084 ;
+    publid stbtid finbl int HTTPS_CONNECTOR_PORT = 8084 ;
 
     /**
-     * The default key properties for the HTTPS connector.
+     * Tif dffbult kfy propfrtifs for tif HTTPS donnfdtor.
      * <BR>
-     * The value is <CODE>name=HttpsConnectorServer</CODE>.
+     * Tif vbluf is <CODE>nbmf=HttpsConnfdtorSfrvfr</CODE>.
      */
-    public static final String HTTPS_CONNECTOR_SERVER = "name=HttpsConnectorServer" ;
+    publid stbtid finbl String HTTPS_CONNECTOR_SERVER = "nbmf=HttpsConnfdtorSfrvfr" ;
 
     /**
-     * The default port for the HTML adaptor.
+     * Tif dffbult port for tif HTML bdbptor.
      * <BR>
-     * The value is <CODE>8082</CODE>.
+     * Tif vbluf is <CODE>8082</CODE>.
      */
-    public static final int HTML_ADAPTOR_PORT = 8082 ;
+    publid stbtid finbl int HTML_ADAPTOR_PORT = 8082 ;
 
     /**
-     * The default key properties for the HTML protocol adaptor.
+     * Tif dffbult kfy propfrtifs for tif HTML protodol bdbptor.
      * <BR>
-     * The value is <CODE>name=HtmlAdaptorServer</CODE>.
+     * Tif vbluf is <CODE>nbmf=HtmlAdbptorSfrvfr</CODE>.
      */
-    public static final String HTML_ADAPTOR_SERVER = "name=HtmlAdaptorServer" ;
+    publid stbtid finbl String HTML_ADAPTOR_SERVER = "nbmf=HtmlAdbptorSfrvfr" ;
 
     /**
-     * The name of the JMX specification implemented by this product.
+     * Tif nbmf of tif JMX spfdifidbtion implfmfntfd by tiis produdt.
      * <BR>
-     * The value is <CODE>Java Management Extensions</CODE>.
+     * Tif vbluf is <CODE>Jbvb Mbnbgfmfnt Extfnsions</CODE>.
      */
-    public static final String JMX_SPEC_NAME = "Java Management Extensions";
+    publid stbtid finbl String JMX_SPEC_NAME = "Jbvb Mbnbgfmfnt Extfnsions";
 
     /**
-     * The version of the JMX specification implemented by this product.
+     * Tif vfrsion of tif JMX spfdifidbtion implfmfntfd by tiis produdt.
      * <BR>
-     * The value is <CODE>1.0 Final Release</CODE>.
+     * Tif vbluf is <CODE>1.0 Finbl Rflfbsf</CODE>.
      */
-    public static final String JMX_SPEC_VERSION = "1.2 Maintenance Release";
+    publid stbtid finbl String JMX_SPEC_VERSION = "1.2 Mbintfnbndf Rflfbsf";
 
     /**
-     * The vendor of the JMX specification implemented by this product.
+     * Tif vfndor of tif JMX spfdifidbtion implfmfntfd by tiis produdt.
      * <BR>
-     * The value is <CODE>Oracle Corporation</CODE>.
+     * Tif vbluf is <CODE>Orbdlf Corporbtion</CODE>.
      */
-    public static final String JMX_SPEC_VENDOR = "Oracle Corporation";
+    publid stbtid finbl String JMX_SPEC_VENDOR = "Orbdlf Corporbtion";
 
     /**
-     * The name of the vendor of this product implementing the  JMX specification.
+     * Tif nbmf of tif vfndor of tiis produdt implfmfnting tif  JMX spfdifidbtion.
      * <BR>
-     * The value is <CODE>Oracle Corporation</CODE>.
+     * Tif vbluf is <CODE>Orbdlf Corporbtion</CODE>.
      */
-    public static final String JMX_IMPL_VENDOR = "Oracle Corporation";
+    publid stbtid finbl String JMX_IMPL_VENDOR = "Orbdlf Corporbtion";
 
     /**
-      * The build number of the current product version, of the form <CODE>rXX</CODE>.
+      * Tif build numbfr of tif durrfnt produdt vfrsion, of tif form <CODE>rXX</CODE>.
       */
-    public static final String BUILD_NUMBER = "r01";
+    publid stbtid finbl String BUILD_NUMBER = "r01";
 
     /**
-     * The version of this product implementing the  JMX specification.
+     * Tif vfrsion of tiis produdt implfmfnting tif  JMX spfdifidbtion.
      * <BR>
-     * The value is <CODE>5.1_rXX</CODE>, where <CODE>rXX</CODE> is the <CODE>BUILD_NUMBER</CODE> .
+     * Tif vbluf is <CODE>5.1_rXX</CODE>, wifrf <CODE>rXX</CODE> is tif <CODE>BUILD_NUMBER</CODE> .
      */
-    public static final String JMX_IMPL_VERSION = "5.1_" + BUILD_NUMBER;
+    publid stbtid finbl String JMX_IMPL_VERSION = "5.1_" + BUILD_NUMBER;
 
 }

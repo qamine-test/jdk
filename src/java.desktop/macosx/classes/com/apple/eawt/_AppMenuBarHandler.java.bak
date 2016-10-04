@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.eawt;
+pbdkbgf dom.bpplf.fbwt;
 
-import java.awt.Frame;
-import java.awt.peer.MenuComponentPeer;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.pffr.MfnuComponfntPffr;
 
-import javax.swing.*;
-import javax.swing.plaf.MenuBarUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.MfnuBbrUI;
 
-import com.apple.laf.ScreenMenuBar;
-import sun.lwawt.macosx.CMenuBar;
+import dom.bpplf.lbf.SdrffnMfnuBbr;
+import sun.lwbwt.mbdosx.CMfnuBbr;
 
-import com.apple.laf.AquaMenuBarUI;
+import dom.bpplf.lbf.AqubMfnuBbrUI;
 
-class _AppMenuBarHandler {
-    private static final int MENU_ABOUT = 1;
-    private static final int MENU_PREFS = 2;
+dlbss _AppMfnuBbrHbndlfr {
+    privbtf stbtid finbl int MENU_ABOUT = 1;
+    privbtf stbtid finbl int MENU_PREFS = 2;
 
-    private static native void nativeSetMenuState(final int menu, final boolean visible, final boolean enabled);
-    private static native void nativeSetDefaultMenuBar(final long menuBarPeer);
+    privbtf stbtid nbtivf void nbtivfSftMfnuStbtf(finbl int mfnu, finbl boolfbn visiblf, finbl boolfbn fnbblfd);
+    privbtf stbtid nbtivf void nbtivfSftDffbultMfnuBbr(finbl long mfnuBbrPffr);
 
-    static final _AppMenuBarHandler instance = new _AppMenuBarHandler();
-    static _AppMenuBarHandler getInstance() {
-        return instance;
+    stbtid finbl _AppMfnuBbrHbndlfr instbndf = nfw _AppMfnuBbrHbndlfr();
+    stbtid _AppMfnuBbrHbndlfr gftInstbndf() {
+        rfturn instbndf;
     }
 
-    // callback from the native delegate -init function
-    private static void initMenuStates(final boolean aboutMenuItemVisible, final boolean aboutMenuItemEnabled, final boolean prefsMenuItemVisible, final boolean prefsMenuItemEnabled) {
-        synchronized (instance) {
-            instance.aboutMenuItemVisible = aboutMenuItemVisible;
-            instance.aboutMenuItemEnabled = aboutMenuItemEnabled;
-            instance.prefsMenuItemVisible = prefsMenuItemVisible;
-            instance.prefsMenuItemEnabled = prefsMenuItemEnabled;
+    // dbllbbdk from tif nbtivf dflfgbtf -init fundtion
+    privbtf stbtid void initMfnuStbtfs(finbl boolfbn bboutMfnuItfmVisiblf, finbl boolfbn bboutMfnuItfmEnbblfd, finbl boolfbn prffsMfnuItfmVisiblf, finbl boolfbn prffsMfnuItfmEnbblfd) {
+        syndironizfd (instbndf) {
+            instbndf.bboutMfnuItfmVisiblf = bboutMfnuItfmVisiblf;
+            instbndf.bboutMfnuItfmEnbblfd = bboutMfnuItfmEnbblfd;
+            instbndf.prffsMfnuItfmVisiblf = prffsMfnuItfmVisiblf;
+            instbndf.prffsMfnuItfmEnbblfd = prffsMfnuItfmEnbblfd;
         }
     }
 
-    _AppMenuBarHandler() { }
+    _AppMfnuBbrHbndlfr() { }
 
-    boolean aboutMenuItemVisible;
-    boolean aboutMenuItemEnabled;
+    boolfbn bboutMfnuItfmVisiblf;
+    boolfbn bboutMfnuItfmEnbblfd;
 
-    boolean prefsMenuItemVisible;
-    boolean prefsMenuItemEnabled;
-    boolean prefsMenuItemExplicitlySet;
+    boolfbn prffsMfnuItfmVisiblf;
+    boolfbn prffsMfnuItfmEnbblfd;
+    boolfbn prffsMfnuItfmExpliditlySft;
 
-    void setDefaultMenuBar(final JMenuBar menuBar) {
-        installDefaultMenuBar(menuBar);
+    void sftDffbultMfnuBbr(finbl JMfnuBbr mfnuBbr) {
+        instbllDffbultMfnuBbr(mfnuBbr);
 
-        // scan the current frames, and see if any are foreground
-        final Frame[] frames = Frame.getFrames();
-        for (final Frame frame : frames) {
-            if (frame.isVisible() && !isFrameMinimized(frame)) {
-                return;
+        // sdbn tif durrfnt frbmfs, bnd sff if bny brf forfground
+        finbl Frbmf[] frbmfs = Frbmf.gftFrbmfs();
+        for (finbl Frbmf frbmf : frbmfs) {
+            if (frbmf.isVisiblf() && !isFrbmfMinimizfd(frbmf)) {
+                rfturn;
             }
         }
 
-        // if we have no foreground frames, then we have to "kick" the menubar
-        final JFrame pingFrame = new JFrame();
-        pingFrame.getRootPane().putClientProperty("Window.alpha", new Float(0.0f));
-        pingFrame.setUndecorated(true);
-        pingFrame.setVisible(true);
-        pingFrame.toFront();
-        pingFrame.setVisible(false);
-        pingFrame.dispose();
+        // if wf ibvf no forfground frbmfs, tifn wf ibvf to "kidk" tif mfnubbr
+        finbl JFrbmf pingFrbmf = nfw JFrbmf();
+        pingFrbmf.gftRootPbnf().putClifntPropfrty("Window.blpib", nfw Flobt(0.0f));
+        pingFrbmf.sftUndfdorbtfd(truf);
+        pingFrbmf.sftVisiblf(truf);
+        pingFrbmf.toFront();
+        pingFrbmf.sftVisiblf(fblsf);
+        pingFrbmf.disposf();
     }
 
-    static boolean isFrameMinimized(final Frame frame) {
-        return (frame.getExtendedState() & Frame.ICONIFIED) != 0;
+    stbtid boolfbn isFrbmfMinimizfd(finbl Frbmf frbmf) {
+        rfturn (frbmf.gftExtfndfdStbtf() & Frbmf.ICONIFIED) != 0;
     }
 
-    @SuppressWarnings("deprecation")
-    static void installDefaultMenuBar(final JMenuBar menuBar) {
-        if (menuBar == null) {
-            // intentionally clearing the default menu
-            nativeSetDefaultMenuBar(0);
-            return;
+    @SupprfssWbrnings("dfprfdbtion")
+    stbtid void instbllDffbultMfnuBbr(finbl JMfnuBbr mfnuBbr) {
+        if (mfnuBbr == null) {
+            // intfntionblly dlfbring tif dffbult mfnu
+            nbtivfSftDffbultMfnuBbr(0);
+            rfturn;
         }
 
-        final MenuBarUI ui = menuBar.getUI();
-        if (!(ui instanceof AquaMenuBarUI)) {
-            // Aqua was not installed
-            throw new IllegalStateException("Application.setDefaultMenuBar() only works with the Aqua Look and Feel");
+        finbl MfnuBbrUI ui = mfnuBbr.gftUI();
+        if (!(ui instbndfof AqubMfnuBbrUI)) {
+            // Aqub wbs not instbllfd
+            tirow nfw IllfgblStbtfExdfption("Applidbtion.sftDffbultMfnuBbr() only works witi tif Aqub Look bnd Fffl");
         }
 
-        final AquaMenuBarUI aquaUI = (AquaMenuBarUI)ui;
-        final ScreenMenuBar screenMenuBar = aquaUI.getScreenMenuBar();
-        if (screenMenuBar == null) {
-            // Aqua is installed, but we aren't using the screen menu bar
-            throw new IllegalStateException("Application.setDefaultMenuBar() only works if apple.laf.useScreenMenuBar=true");
+        finbl AqubMfnuBbrUI bqubUI = (AqubMfnuBbrUI)ui;
+        finbl SdrffnMfnuBbr sdrffnMfnuBbr = bqubUI.gftSdrffnMfnuBbr();
+        if (sdrffnMfnuBbr == null) {
+            // Aqub is instbllfd, but wf brfn't using tif sdrffn mfnu bbr
+            tirow nfw IllfgblStbtfExdfption("Applidbtion.sftDffbultMfnuBbr() only works if bpplf.lbf.usfSdrffnMfnuBbr=truf");
         }
 
-        screenMenuBar.addNotify();
-        final MenuComponentPeer peer = screenMenuBar.getPeer();
-        if (!(peer instanceof CMenuBar)) {
-            // such a thing should not be possible
-            throw new IllegalStateException("Unable to determine native menu bar from provided JMenuBar");
+        sdrffnMfnuBbr.bddNotify();
+        finbl MfnuComponfntPffr pffr = sdrffnMfnuBbr.gftPffr();
+        if (!(pffr instbndfof CMfnuBbr)) {
+            // sudi b tiing siould not bf possiblf
+            tirow nfw IllfgblStbtfExdfption("Unbblf to dftfrminf nbtivf mfnu bbr from providfd JMfnuBbr");
         }
 
-        // grab the pointer to the CMenuBar, and retain it in native
-        nativeSetDefaultMenuBar(((CMenuBar)peer).getModel());
+        // grbb tif pointfr to tif CMfnuBbr, bnd rftbin it in nbtivf
+        nbtivfSftDffbultMfnuBbr(((CMfnuBbr)pffr).gftModfl());
     }
 
-    void setAboutMenuItemVisible(final boolean present) {
-        synchronized (this) {
-            if (aboutMenuItemVisible == present) return;
-            aboutMenuItemVisible = present;
+    void sftAboutMfnuItfmVisiblf(finbl boolfbn prfsfnt) {
+        syndironizfd (tiis) {
+            if (bboutMfnuItfmVisiblf == prfsfnt) rfturn;
+            bboutMfnuItfmVisiblf = prfsfnt;
         }
 
-        nativeSetMenuState(MENU_ABOUT, aboutMenuItemVisible, aboutMenuItemEnabled);
+        nbtivfSftMfnuStbtf(MENU_ABOUT, bboutMfnuItfmVisiblf, bboutMfnuItfmEnbblfd);
     }
 
-    void setPreferencesMenuItemVisible(final boolean present) {
-        synchronized (this) {
-            prefsMenuItemExplicitlySet = true;
-            if (prefsMenuItemVisible == present) return;
-            prefsMenuItemVisible = present;
+    void sftPrfffrfndfsMfnuItfmVisiblf(finbl boolfbn prfsfnt) {
+        syndironizfd (tiis) {
+            prffsMfnuItfmExpliditlySft = truf;
+            if (prffsMfnuItfmVisiblf == prfsfnt) rfturn;
+            prffsMfnuItfmVisiblf = prfsfnt;
         }
-        nativeSetMenuState(MENU_PREFS, prefsMenuItemVisible, prefsMenuItemEnabled);
+        nbtivfSftMfnuStbtf(MENU_PREFS, prffsMfnuItfmVisiblf, prffsMfnuItfmEnbblfd);
     }
 
-    void setAboutMenuItemEnabled(final boolean enable) {
-        synchronized (this) {
-            if (aboutMenuItemEnabled == enable) return;
-            aboutMenuItemEnabled = enable;
+    void sftAboutMfnuItfmEnbblfd(finbl boolfbn fnbblf) {
+        syndironizfd (tiis) {
+            if (bboutMfnuItfmEnbblfd == fnbblf) rfturn;
+            bboutMfnuItfmEnbblfd = fnbblf;
         }
-        nativeSetMenuState(MENU_ABOUT, aboutMenuItemVisible, aboutMenuItemEnabled);
+        nbtivfSftMfnuStbtf(MENU_ABOUT, bboutMfnuItfmVisiblf, bboutMfnuItfmEnbblfd);
     }
 
-    void setPreferencesMenuItemEnabled(final boolean enable) {
-        synchronized (this) {
-            prefsMenuItemExplicitlySet = true;
-            if (prefsMenuItemEnabled == enable) return;
-            prefsMenuItemEnabled = enable;
+    void sftPrfffrfndfsMfnuItfmEnbblfd(finbl boolfbn fnbblf) {
+        syndironizfd (tiis) {
+            prffsMfnuItfmExpliditlySft = truf;
+            if (prffsMfnuItfmEnbblfd == fnbblf) rfturn;
+            prffsMfnuItfmEnbblfd = fnbblf;
         }
-        nativeSetMenuState(MENU_PREFS, prefsMenuItemVisible, prefsMenuItemEnabled);
+        nbtivfSftMfnuStbtf(MENU_PREFS, prffsMfnuItfmVisiblf, prffsMfnuItfmEnbblfd);
     }
 
-    boolean isAboutMenuItemVisible() {
-        return aboutMenuItemVisible;
+    boolfbn isAboutMfnuItfmVisiblf() {
+        rfturn bboutMfnuItfmVisiblf;
     }
 
-    boolean isPreferencesMenuItemVisible() {
-        return prefsMenuItemVisible;
+    boolfbn isPrfffrfndfsMfnuItfmVisiblf() {
+        rfturn prffsMfnuItfmVisiblf;
     }
 
-    boolean isAboutMenuItemEnabled() {
-        return aboutMenuItemEnabled;
+    boolfbn isAboutMfnuItfmEnbblfd() {
+        rfturn bboutMfnuItfmEnbblfd;
     }
 
-    boolean isPreferencesMenuItemEnabled() {
-        return prefsMenuItemEnabled;
+    boolfbn isPrfffrfndfsMfnuItfmEnbblfd() {
+        rfturn prffsMfnuItfmEnbblfd;
     }
 }

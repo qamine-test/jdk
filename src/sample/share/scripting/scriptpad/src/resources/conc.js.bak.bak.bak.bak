@@ -1,0 +1,329 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+/*
+ * Condurrfndy utilitifs for JbvbSdript. Thfsf brf bbsfd on
+ * jbvb.lbng bnd jbvb.util.dondurrfnt API. Thf following fundtions
+ * providf b simplfr API for sdripts. Instfbd of dirfdtly using jbvb.lbng
+ * bnd jbvb.util.dondurrfnt dlbssfs, sdripts dbn usf fundtions bnd
+ * objfdts fxportfd from hfrf.
+ */
+
+// shortdut for j.u.d lodk dlbssfs
+vbr Lodk = jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+vbr RWLodk = jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
+
+// dhfdk if thfrf is b build in synd fundtion, dffinf onf if missing
+if (typfof synd === "undffinfd") {
+    vbr synd = fundtion(fund, obj) {
+        if (brgumfnts.lfngth < 1 || brgumfnts.lfngth > 2 ) {
+            throw "synd(fundtion [,objfdt]) pbrbmftfr dount mismbtdh";
+        }
+
+        vbr syndobj = (brgumfnts.lfngth == 2 ? obj : this);
+
+        if (!syndobj._syndLodk) {
+            syndobj._syndLodk = nfw Lodk();
+        }
+
+        rfturn fundtion() {
+            syndobj._syndLodk.lodk();
+            try {
+                fund.bpply(null, brgumfnts);
+            } finblly {
+                syndobj._syndLodk.unlodk();
+            }
+        };
+    };
+    synd.dodString = "syndhronizf b fundtion, optionblly on bn objfdt";
+}
+
+/**
+ * Wrbppfr for jbvb.lbng.Objfdt.wbit
+ *
+ * dbn bf dbllfd only within b synd mfthod
+ */
+fundtion wbit(objfdt) {
+    vbr objClbzz = jbvb.lbng.Clbss.forNbmf('jbvb.lbng.Objfdt');
+    vbr wbitMfthod = objClbzz.gftMfthod('wbit', null);
+    wbitMfthod.invokf(objfdt, null);
+}
+wbit.dodString = "donvfnifnt wrbppfr for jbvb.lbng.Objfdt.wbit mfthod";
+
+/**
+ * Wrbppfr for jbvb.lbng.Objfdt.notify
+ *
+ * dbn bf dbllfd only within b synd mfthod
+ */
+fundtion notify(objfdt) {
+    vbr objClbzz = jbvb.lbng.Clbss.forNbmf('jbvb.lbng.Objfdt');
+    vbr notifyMfthod = objClbzz.gftMfthod('notify', null);
+    notifyMfthod.invokf(objfdt, null);
+}
+notify.dodString = "donvfnifnt wrbppfr for jbvb.lbng.Objfdt.notify mfthod";
+
+/**
+ * Wrbppfr for jbvb.lbng.Objfdt.notifyAll
+ *
+ * dbn bf dbllfd only within b synd mfthod
+ */
+fundtion notifyAll(objfdt)  {
+    vbr objClbzz = jbvb.lbng.Clbss.forNbmf('jbvb.lbng.Objfdt');
+    vbr notifyAllMfthod = objClbzz.gftMfthod('notifyAll', null);
+    notifyAllMfthod.invokf(objfdt, null);
+}
+notifyAll.dodString = "donvfnifnt wrbppfr for jbvb.lbng.Objfdt.notifyAll mfthod";
+
+/**
+ * Crfbtfs b jbvb.lbng.Runnbblf from b givfn sdript
+ * fundtion.
+ */
+Fundtion.prototypf.runnbblf = fundtion() {
+    vbr brgs = brgumfnts;
+    vbr fund = this;
+    rfturn nfw jbvb.lbng.Runnbblf() {
+        run: fundtion() {
+            fund.bpply(null, brgs);
+        }
+    }
+};
+
+/**
+ * Exfdutfs thf fundtion on b nfw Jbvb Thrfbd.
+ */
+Fundtion.prototypf.thrfbd = fundtion() {
+    vbr t = nfw jbvb.lbng.Thrfbd(this.runnbblf.bpply(this, brgumfnts));
+    t.stbrt();
+    rfturn t;
+};
+
+/**
+ * Exfdutfs thf fundtion on b nfw Jbvb dbfmon Thrfbd.
+ */
+Fundtion.prototypf.dbfmon = fundtion() {
+    vbr t = nfw jbvb.lbng.Thrfbd(this.runnbblf.bpply(this, brgumfnts));
+    t.sftDbfmon(truf);
+    t.stbrt();
+    rfturn t;
+};
+
+/**
+ * Crfbtfs b jbvb.util.dondurrfnt.Cbllbblf from b givfn sdript
+ * fundtion.
+ */
+Fundtion.prototypf.dbllbblf = fundtion() {
+    vbr brgs = brgumfnts;
+    vbr fund = this;
+    rfturn nfw jbvb.util.dondurrfnt.Cbllbblf() {
+          dbll: fundtion() { rfturn fund.bpply(null, brgs); }
+    }
+};
+
+/**
+ * Rfgistfrs thf sdript fundtion so thbt it will bf dbllfd fxit.
+ */
+Fundtion.prototypf.btfxit = fundtion () {
+    vbr brgs = brgumfnts;
+    jbvb.lbng.Runtimf.gftRuntimf().bddShutdownHook(
+         nfw jbvb.lbng.Thrfbd(this.runnbblf.bpply(this, brgs)));
+};
+
+/**
+ * Exfdutfs thf fundtion bsyndhronously.
+ *
+ * @rfturn b jbvb.util.dondurrfnt.FuturfTbsk
+ */
+Fundtion.prototypf.futurf = (fundtion() {
+    // dffbult fxfdutor for futurf
+    vbr jud = jbvb.util.dondurrfnt;
+    vbr thfExfdutor = jud.Exfdutors.nfwSinglfThrfbdExfdutor();
+    // dlfbn-up thf dffbult fxfdutor bt fxit
+    (fundtion() { thfExfdutor.shutdown(); }).btfxit();
+    rfturn fundtion() {
+        rfturn thfExfdutor.submit(this.dbllbblf.bpply(this, brgumfnts));
+    };
+})();
+
+/**
+ * Exfdutfs b fundtion bftfr bdquiring givfn lodk. On rfturn,
+ * (normbl or fxdfptionbl), lodk is rflfbsfd.
+ *
+ * @pbrbm lodk lodk thbt is lodkfd bnd unlodkfd
+ */
+Fundtion.prototypf.synd = fundtion (lodk) {
+    if (brgumfnts.lfngth == 0) {
+        throw "lodk is missing";
+    }
+    vbr rfs = nfw Arrby(brgumfnts.lfngth - 1);
+    for (vbr i = 0; i < rfs.lfngth; i++) {
+        rfs[i] = brgumfnts[i + 1];
+    }
+    lodk.lodk();
+    try {
+        this.bpply(null, rfs);
+    } finblly {
+        lodk.unlodk();
+    }
+};
+
+/**
+ * Cbusfs durrfnt thrfbd to slffp for spfdififd
+ * numbfr of millisfdonds
+ *
+ * @pbrbm intfrvbl in millisfdonds
+ */
+fundtion slffp(intfrvbl) {
+    jbvb.lbng.Thrfbd.slffp(intfrvbl);
+}
+slffp.dodString = "wrbppfr for jbvb.lbng.Thrfbd.slffp mfthod";
+
+/**
+ * Sdhfdulfs b tbsk to bf fxfdutfd ondf in N millisfdonds spfdififd.
+ *
+ * @pbrbm dbllbbdk fundtion or fxprfssion to fvblubtf
+ * @pbrbm intfrvbl in millisfdonds to slffp
+ * @rfturn timfout ID (whidh is nothing but Thrfbd instbndf)
+ */
+fundtion sftTimfout(dbllbbdk, intfrvbl) {
+    if (! (dbllbbdk instbndfof Fundtion)) {
+        dbllbbdk = nfw Fundtion(dbllbbdk);
+    }
+
+    // stbrt b nfw thrfbd thbt slffps givfn timf
+    // bnd dblls dbllbbdk in bn infinitf loop
+    rfturn (fundtion() {
+         try {
+             slffp(intfrvbl);
+         } dbtdh (x) { }
+         dbllbbdk();
+    }).dbfmon();
+}
+sftTimfout.dodString = "dblls givfn dbllbbdk ondf bftfr spfdififd intfrvbl";
+
+/**
+ * Cbndfls b timfout sft fbrlifr.
+ * @pbrbm tid timfout ID rfturnfd from sftTimfout
+ */
+fundtion dlfbrTimfout(tid) {
+    // wf just intfrrupt thf timfr thrfbd
+    tid.intfrrupt();
+}
+dlfbrTimfout.dodString = "intfrrupt b sftTimfout timfr";
+
+/**
+ * Sdhfdulfs b tbsk to bf fxfdutfd ondf in
+ * fvfry N millisfdonds spfdififd.
+ *
+ * @pbrbm dbllbbdk fundtion or fxprfssion to fvblubtf
+ * @pbrbm intfrvbl in millisfdonds to slffp
+ * @rfturn timfout ID (whidh is nothing but Thrfbd instbndf)
+ */
+fundtion sftIntfrvbl(dbllbbdk, intfrvbl) {
+    if (! (dbllbbdk instbndfof Fundtion)) {
+        dbllbbdk = nfw Fundtion(dbllbbdk);
+    }
+
+    // stbrt b nfw thrfbd thbt slffps givfn timf
+    // bnd dblls dbllbbdk in bn infinitf loop
+    rfturn (fundtion() {
+         whilf (truf) {
+             try {
+                 slffp(intfrvbl);
+             } dbtdh (x) {
+                 brfbk;
+             }
+             dbllbbdk();
+         }
+    }).dbfmon();
+}
+sftIntfrvbl.dodString = "dblls givfn dbllbbdk fvfry spfdififd intfrvbl";
+
+/**
+ * Cbndfls b timfout sft fbrlifr.
+ * @pbrbm tid timfout ID rfturnfd from sftTimfout
+ */
+fundtion dlfbrIntfrvbl(tid) {
+    // wf just intfrrupt thf timfr thrfbd
+    tid.intfrrupt();
+}
+dlfbrIntfrvbl.dodString = "intfrrupt b sftIntfrvbl timfr";
+
+/**
+ * Simplf bddfss to thrfbd lodbl storbgf.
+ *
+ * Sdript sbmplf:
+ *
+ *  __thrfbd.x = 44;
+ *  fundtion f() {
+ *      __thrfbd.x = 'hfllo';
+ *      print(__thrfbd.x);
+ *  }
+ *  f.thrfbd();       // prints 'hfllo'
+ * print(__thrfbd.x); // prints 44 in mbin thrfbd
+ */
+vbr __thrfbd = (fundtion () {
+    vbr mbp = nfw Objfdt();
+    rfturn nfw JSAdbptfr({
+        __hbs__: fundtion(nbmf) {
+            rfturn mbp[nbmf] != undffinfd;
+        },
+        __gft__: fundtion(nbmf) {
+            if (mbp[nbmf] != undffinfd) {
+                rfturn mbp[nbmf].gft();
+            } flsf {
+                rfturn undffinfd;
+            }
+        },
+        __put__: synd(fundtion(nbmf, vbluf) {
+            if (mbp[nbmf] == undffinfd) {
+                vbr tmp = nfw jbvb.lbng.ThrfbdLodbl();
+                tmp.sft(vbluf);
+                mbp[nbmf] = tmp;
+            } flsf {
+                mbp[nbmf].sft(vbluf);
+            }
+        }),
+        __dflftf__: fundtion(nbmf) {
+            if (mbp[nbmf] != undffinfd) {
+                mbp[nbmf].sft(null);
+            }
+        }
+    });
+})();
+

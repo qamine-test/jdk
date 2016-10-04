@@ -1,418 +1,418 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import javax.management.Descriptor;
-import javax.management.ImmutableDescriptor;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.ImmutbblfDfsdriptor;
 
 /**
- * The <code>OpenType</code> class is the parent abstract class of all classes which describe the actual <i>open type</i>
- * of open data values.
+ * Tif <dodf>OpfnTypf</dodf> dlbss is tif pbrfnt bbstrbdt dlbss of bll dlbssfs wiidi dfsdribf tif bdtubl <i>opfn typf</i>
+ * of opfn dbtb vblufs.
  * <p>
- * An <i>open type</i> is defined by:
+ * An <i>opfn typf</i> is dffinfd by:
  * <ul>
- *  <li>the fully qualified Java class name of the open data values this type describes;
- *      note that only a limited set of Java classes is allowed for open data values
- *      (see {@link #ALLOWED_CLASSNAMES_LIST ALLOWED_CLASSNAMES_LIST}),</li>
- *  <li>its name,</li>
- *  <li>its description.</li>
+ *  <li>tif fully qublififd Jbvb dlbss nbmf of tif opfn dbtb vblufs tiis typf dfsdribfs;
+ *      notf tibt only b limitfd sft of Jbvb dlbssfs is bllowfd for opfn dbtb vblufs
+ *      (sff {@link #ALLOWED_CLASSNAMES_LIST ALLOWED_CLASSNAMES_LIST}),</li>
+ *  <li>its nbmf,</li>
+ *  <li>its dfsdription.</li>
  * </ul>
  *
- * @param <T> the Java type that instances described by this type must
- * have.  For example, {@link SimpleType#INTEGER} is a {@code
- * SimpleType<Integer>} which is a subclass of {@code OpenType<Integer>},
- * meaning that an attribute, parameter, or return value that is described
- * as a {@code SimpleType.INTEGER} must have Java type
- * {@link Integer}.
+ * @pbrbm <T> tif Jbvb typf tibt instbndfs dfsdribfd by tiis typf must
+ * ibvf.  For fxbmplf, {@link SimplfTypf#INTEGER} is b {@dodf
+ * SimplfTypf<Intfgfr>} wiidi is b subdlbss of {@dodf OpfnTypf<Intfgfr>},
+ * mfbning tibt bn bttributf, pbrbmftfr, or rfturn vbluf tibt is dfsdribfd
+ * bs b {@dodf SimplfTypf.INTEGER} must ibvf Jbvb typf
+ * {@link Intfgfr}.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public abstract class OpenType<T> implements Serializable {
+publid bbstrbdt dlbss OpfnTypf<T> implfmfnts Sfriblizbblf {
 
-    /* Serial version */
-    static final long serialVersionUID = -9195195325186646468L;
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = -9195195325186646468L;
 
 
     /**
-     * List of the fully qualified names of the Java classes allowed for open
-     * data values. A multidimensional array of any one of these classes or
-     * their corresponding primitive types is also an allowed class for open
-     * data values.
+     * List of tif fully qublififd nbmfs of tif Jbvb dlbssfs bllowfd for opfn
+     * dbtb vblufs. A multidimfnsionbl brrby of bny onf of tifsf dlbssfs or
+     * tifir dorrfsponding primitivf typfs is blso bn bllowfd dlbss for opfn
+     * dbtb vblufs.
      *
-       <pre>ALLOWED_CLASSNAMES_LIST = {
-        "java.lang.Void",
-        "java.lang.Boolean",
-        "java.lang.Character",
-        "java.lang.Byte",
-        "java.lang.Short",
-        "java.lang.Integer",
-        "java.lang.Long",
-        "java.lang.Float",
-        "java.lang.Double",
-        "java.lang.String",
-        "java.math.BigDecimal",
-        "java.math.BigInteger",
-        "java.util.Date",
-        "javax.management.ObjectName",
-        CompositeData.class.getName(),
-        TabularData.class.getName() } ;
-       </pre>
+       <prf>ALLOWED_CLASSNAMES_LIST = {
+        "jbvb.lbng.Void",
+        "jbvb.lbng.Boolfbn",
+        "jbvb.lbng.Cibrbdtfr",
+        "jbvb.lbng.Bytf",
+        "jbvb.lbng.Siort",
+        "jbvb.lbng.Intfgfr",
+        "jbvb.lbng.Long",
+        "jbvb.lbng.Flobt",
+        "jbvb.lbng.Doublf",
+        "jbvb.lbng.String",
+        "jbvb.mbti.BigDfdimbl",
+        "jbvb.mbti.BigIntfgfr",
+        "jbvb.util.Dbtf",
+        "jbvbx.mbnbgfmfnt.ObjfdtNbmf",
+        CompositfDbtb.dlbss.gftNbmf(),
+        TbbulbrDbtb.dlbss.gftNbmf() } ;
+       </prf>
      *
      */
-    public static final List<String> ALLOWED_CLASSNAMES_LIST =
-      Collections.unmodifiableList(
-        Arrays.asList(
-          "java.lang.Void",
-          "java.lang.Boolean",
-          "java.lang.Character",
-          "java.lang.Byte",
-          "java.lang.Short",
-          "java.lang.Integer",
-          "java.lang.Long",
-          "java.lang.Float",
-          "java.lang.Double",
-          "java.lang.String",
-          "java.math.BigDecimal",
-          "java.math.BigInteger",
-          "java.util.Date",
-          "javax.management.ObjectName",
-          CompositeData.class.getName(),        // better refer to these two class names like this, rather than hardcoding a string,
-          TabularData.class.getName()) );       // in case the package of these classes should change (who knows...)
+    publid stbtid finbl List<String> ALLOWED_CLASSNAMES_LIST =
+      Collfdtions.unmodifibblfList(
+        Arrbys.bsList(
+          "jbvb.lbng.Void",
+          "jbvb.lbng.Boolfbn",
+          "jbvb.lbng.Cibrbdtfr",
+          "jbvb.lbng.Bytf",
+          "jbvb.lbng.Siort",
+          "jbvb.lbng.Intfgfr",
+          "jbvb.lbng.Long",
+          "jbvb.lbng.Flobt",
+          "jbvb.lbng.Doublf",
+          "jbvb.lbng.String",
+          "jbvb.mbti.BigDfdimbl",
+          "jbvb.mbti.BigIntfgfr",
+          "jbvb.util.Dbtf",
+          "jbvbx.mbnbgfmfnt.ObjfdtNbmf",
+          CompositfDbtb.dlbss.gftNbmf(),        // bfttfr rfffr to tifsf two dlbss nbmfs likf tiis, rbtifr tibn ibrddoding b string,
+          TbbulbrDbtb.dlbss.gftNbmf()) );       // in dbsf tif pbdkbgf of tifsf dlbssfs siould dibngf (wio knows...)
 
 
     /**
-     * @deprecated Use {@link #ALLOWED_CLASSNAMES_LIST ALLOWED_CLASSNAMES_LIST} instead.
+     * @dfprfdbtfd Usf {@link #ALLOWED_CLASSNAMES_LIST ALLOWED_CLASSNAMES_LIST} instfbd.
      */
-    @Deprecated
-    public static final String[] ALLOWED_CLASSNAMES =
-        ALLOWED_CLASSNAMES_LIST.toArray(new String[0]);
+    @Dfprfdbtfd
+    publid stbtid finbl String[] ALLOWED_CLASSNAMES =
+        ALLOWED_CLASSNAMES_LIST.toArrby(nfw String[0]);
 
 
     /**
-     * @serial The fully qualified Java class name of open data values this
-     *         type describes.
+     * @sfribl Tif fully qublififd Jbvb dlbss nbmf of opfn dbtb vblufs tiis
+     *         typf dfsdribfs.
      */
-    private String className;
+    privbtf String dlbssNbmf;
 
     /**
-     * @serial The type description (should not be null or empty).
+     * @sfribl Tif typf dfsdription (siould not bf null or fmpty).
      */
-    private String description;
+    privbtf String dfsdription;
 
     /**
-     * @serial The name given to this type (should not be null or empty).
+     * @sfribl Tif nbmf givfn to tiis typf (siould not bf null or fmpty).
      */
-    private String typeName;
+    privbtf String typfNbmf;
 
     /**
-     * Tells if this type describes an array (checked in constructor).
+     * Tflls if tiis typf dfsdribfs bn brrby (difdkfd in donstrudtor).
      */
-    private transient boolean isArray = false;
+    privbtf trbnsifnt boolfbn isArrby = fblsf;
 
     /**
-     * Cached Descriptor for this OpenType, constructed on demand.
+     * Cbdifd Dfsdriptor for tiis OpfnTypf, donstrudtfd on dfmbnd.
      */
-    private transient Descriptor descriptor;
+    privbtf trbnsifnt Dfsdriptor dfsdriptor;
 
-    /* *** Constructor *** */
+    /* *** Construdtor *** */
 
     /**
-     * Constructs an <code>OpenType</code> instance (actually a subclass instance as <code>OpenType</code> is abstract),
-     * checking for the validity of the given parameters.
-     * The validity constraints are described below for each parameter.
+     * Construdts bn <dodf>OpfnTypf</dodf> instbndf (bdtublly b subdlbss instbndf bs <dodf>OpfnTypf</dodf> is bbstrbdt),
+     * difdking for tif vblidity of tif givfn pbrbmftfrs.
+     * Tif vblidity donstrbints brf dfsdribfd bflow for fbdi pbrbmftfr.
      * <br>&nbsp;
-     * @param  className  The fully qualified Java class name of the open data values this open type describes.
-     *                    The valid Java class names allowed for open data values are listed in
+     * @pbrbm  dlbssNbmf  Tif fully qublififd Jbvb dlbss nbmf of tif opfn dbtb vblufs tiis opfn typf dfsdribfs.
+     *                    Tif vblid Jbvb dlbss nbmfs bllowfd for opfn dbtb vblufs brf listfd in
      *                    {@link #ALLOWED_CLASSNAMES_LIST ALLOWED_CLASSNAMES_LIST}.
-     *                    A multidimensional array of any one of these classes
-     *                    or their corresponding primitive types is also an allowed class,
-     *                    in which case the class name follows the rules defined by the method
-     *                    {@link Class#getName() getName()} of <code>java.lang.Class</code>.
-     *                    For example, a 3-dimensional array of Strings has for class name
-     *                    &quot;<code>[[[Ljava.lang.String;</code>&quot; (without the quotes).
+     *                    A multidimfnsionbl brrby of bny onf of tifsf dlbssfs
+     *                    or tifir dorrfsponding primitivf typfs is blso bn bllowfd dlbss,
+     *                    in wiidi dbsf tif dlbss nbmf follows tif rulfs dffinfd by tif mftiod
+     *                    {@link Clbss#gftNbmf() gftNbmf()} of <dodf>jbvb.lbng.Clbss</dodf>.
+     *                    For fxbmplf, b 3-dimfnsionbl brrby of Strings ibs for dlbss nbmf
+     *                    &quot;<dodf>[[[Ljbvb.lbng.String;</dodf>&quot; (witiout tif quotfs).
      * <br>&nbsp;
-     * @param  typeName  The name given to the open type this instance represents; cannot be a null or empty string.
+     * @pbrbm  typfNbmf  Tif nbmf givfn to tif opfn typf tiis instbndf rfprfsfnts; dbnnot bf b null or fmpty string.
      * <br>&nbsp;
-     * @param  description  The human readable description of the open type this instance represents;
-     *                      cannot be a null or empty string.
+     * @pbrbm  dfsdription  Tif iumbn rfbdbblf dfsdription of tif opfn typf tiis instbndf rfprfsfnts;
+     *                      dbnnot bf b null or fmpty string.
      * <br>&nbsp;
-     * @throws IllegalArgumentException  if <var>className</var>, <var>typeName</var> or <var>description</var>
-     *                                   is a null or empty string
+     * @tirows IllfgblArgumfntExdfption  if <vbr>dlbssNbmf</vbr>, <vbr>typfNbmf</vbr> or <vbr>dfsdription</vbr>
+     *                                   is b null or fmpty string
      * <br>&nbsp;
-     * @throws OpenDataException  if <var>className</var> is not one of the allowed Java class names for open data
+     * @tirows OpfnDbtbExdfption  if <vbr>dlbssNbmf</vbr> is not onf of tif bllowfd Jbvb dlbss nbmfs for opfn dbtb
      */
-    protected OpenType(String  className,
-                       String  typeName,
-                       String  description) throws OpenDataException {
-        checkClassNameOverride();
-        this.typeName = valid("typeName", typeName);
-        this.description = valid("description", description);
-        this.className = validClassName(className);
-        this.isArray = (this.className != null && this.className.startsWith("["));
+    protfdtfd OpfnTypf(String  dlbssNbmf,
+                       String  typfNbmf,
+                       String  dfsdription) tirows OpfnDbtbExdfption {
+        difdkClbssNbmfOvfrridf();
+        tiis.typfNbmf = vblid("typfNbmf", typfNbmf);
+        tiis.dfsdription = vblid("dfsdription", dfsdription);
+        tiis.dlbssNbmf = vblidClbssNbmf(dlbssNbmf);
+        tiis.isArrby = (tiis.dlbssNbmf != null && tiis.dlbssNbmf.stbrtsWiti("["));
     }
 
-    /* Package-private constructor for callers we trust to get it right. */
-    OpenType(String className, String typeName, String description,
-             boolean isArray) {
-        this.className   = valid("className",className);
-        this.typeName    = valid("typeName", typeName);
-        this.description = valid("description", description);
-        this.isArray     = isArray;
+    /* Pbdkbgf-privbtf donstrudtor for dbllfrs wf trust to gft it rigit. */
+    OpfnTypf(String dlbssNbmf, String typfNbmf, String dfsdription,
+             boolfbn isArrby) {
+        tiis.dlbssNbmf   = vblid("dlbssNbmf",dlbssNbmf);
+        tiis.typfNbmf    = vblid("typfNbmf", typfNbmf);
+        tiis.dfsdription = vblid("dfsdription", dfsdription);
+        tiis.isArrby     = isArrby;
     }
 
-    private void checkClassNameOverride() throws SecurityException {
-        if (this.getClass().getClassLoader() == null)
-            return;  // We trust bootstrap classes.
-        if (overridesGetClassName(this.getClass())) {
-            final GetPropertyAction getExtendOpenTypes =
-                new GetPropertyAction("jmx.extend.open.types");
-            if (AccessController.doPrivileged(getExtendOpenTypes) == null) {
-                throw new SecurityException("Cannot override getClassName() " +
-                        "unless -Djmx.extend.open.types");
+    privbtf void difdkClbssNbmfOvfrridf() tirows SfdurityExdfption {
+        if (tiis.gftClbss().gftClbssLobdfr() == null)
+            rfturn;  // Wf trust bootstrbp dlbssfs.
+        if (ovfrridfsGftClbssNbmf(tiis.gftClbss())) {
+            finbl GftPropfrtyAdtion gftExtfndOpfnTypfs =
+                nfw GftPropfrtyAdtion("jmx.fxtfnd.opfn.typfs");
+            if (AddfssControllfr.doPrivilfgfd(gftExtfndOpfnTypfs) == null) {
+                tirow nfw SfdurityExdfption("Cbnnot ovfrridf gftClbssNbmf() " +
+                        "unlfss -Djmx.fxtfnd.opfn.typfs");
             }
         }
     }
 
-    private static boolean overridesGetClassName(final Class<?> c) {
-        return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-            public Boolean run() {
+    privbtf stbtid boolfbn ovfrridfsGftClbssNbmf(finbl Clbss<?> d) {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Boolfbn>() {
+            publid Boolfbn run() {
                 try {
-                    return (c.getMethod("getClassName").getDeclaringClass() !=
-                            OpenType.class);
-                } catch (Exception e) {
-                    return true;  // fail safe
+                    rfturn (d.gftMftiod("gftClbssNbmf").gftDfdlbringClbss() !=
+                            OpfnTypf.dlbss);
+                } dbtdi (Exdfption f) {
+                    rfturn truf;  // fbil sbff
                 }
             }
         });
     }
 
-    private static String validClassName(String className) throws OpenDataException {
-        className   = valid("className", className);
+    privbtf stbtid String vblidClbssNbmf(String dlbssNbmf) tirows OpfnDbtbExdfption {
+        dlbssNbmf   = vblid("dlbssNbmf", dlbssNbmf);
 
-        // Check if className describes an array class, and determines its elements' class name.
-        // (eg: a 3-dimensional array of Strings has for class name: "[[[Ljava.lang.String;")
+        // Cifdk if dlbssNbmf dfsdribfs bn brrby dlbss, bnd dftfrminfs its flfmfnts' dlbss nbmf.
+        // (fg: b 3-dimfnsionbl brrby of Strings ibs for dlbss nbmf: "[[[Ljbvb.lbng.String;")
         //
         int n = 0;
-        while (className.startsWith("[", n)) {
+        wiilf (dlbssNbmf.stbrtsWiti("[", n)) {
             n++;
         }
-        String eltClassName; // class name of array elements
-        boolean isPrimitiveArray = false;
+        String fltClbssNbmf; // dlbss nbmf of brrby flfmfnts
+        boolfbn isPrimitivfArrby = fblsf;
         if (n > 0) {
-            if (className.startsWith("L", n) && className.endsWith(";")) {
-                // removes the n leading '[' + the 'L' characters
-                // and the last ';' character
-                eltClassName = className.substring(n+1, className.length()-1);
-            } else if (n == className.length() - 1) {
-                // removes the n leading '[' characters
-                eltClassName = className.substring(n, className.length());
-                isPrimitiveArray = true;
-            } else {
-                throw new OpenDataException("Argument className=\"" + className +
-                        "\" is not a valid class name");
+            if (dlbssNbmf.stbrtsWiti("L", n) && dlbssNbmf.fndsWiti(";")) {
+                // rfmovfs tif n lfbding '[' + tif 'L' dibrbdtfrs
+                // bnd tif lbst ';' dibrbdtfr
+                fltClbssNbmf = dlbssNbmf.substring(n+1, dlbssNbmf.lfngti()-1);
+            } flsf if (n == dlbssNbmf.lfngti() - 1) {
+                // rfmovfs tif n lfbding '[' dibrbdtfrs
+                fltClbssNbmf = dlbssNbmf.substring(n, dlbssNbmf.lfngti());
+                isPrimitivfArrby = truf;
+            } flsf {
+                tirow nfw OpfnDbtbExdfption("Argumfnt dlbssNbmf=\"" + dlbssNbmf +
+                        "\" is not b vblid dlbss nbmf");
             }
-        } else {
-            // not an array
-            eltClassName = className;
+        } flsf {
+            // not bn brrby
+            fltClbssNbmf = dlbssNbmf;
         }
 
-        // Check that eltClassName's value is one of the allowed basic data types for open data
+        // Cifdk tibt fltClbssNbmf's vbluf is onf of tif bllowfd bbsid dbtb typfs for opfn dbtb
         //
-        boolean ok = false;
-        if (isPrimitiveArray) {
-            ok = ArrayType.isPrimitiveContentType(eltClassName);
-        } else {
-            ok = ALLOWED_CLASSNAMES_LIST.contains(eltClassName);
+        boolfbn ok = fblsf;
+        if (isPrimitivfArrby) {
+            ok = ArrbyTypf.isPrimitivfContfntTypf(fltClbssNbmf);
+        } flsf {
+            ok = ALLOWED_CLASSNAMES_LIST.dontbins(fltClbssNbmf);
         }
         if ( ! ok ) {
-            throw new OpenDataException("Argument className=\""+ className +
-                                        "\" is not one of the allowed Java class names for open data.");
+            tirow nfw OpfnDbtbExdfption("Argumfnt dlbssNbmf=\""+ dlbssNbmf +
+                                        "\" is not onf of tif bllowfd Jbvb dlbss nbmfs for opfn dbtb.");
         }
 
-        return className;
+        rfturn dlbssNbmf;
     }
 
-    /* Return argValue.trim() provided argValue is neither null nor empty;
-       otherwise throw IllegalArgumentException.  */
-    private static String valid(String argName, String argValue) {
-        if (argValue == null || (argValue = argValue.trim()).equals(""))
-            throw new IllegalArgumentException("Argument " + argName +
-                                               " cannot be null or empty");
-        return argValue;
+    /* Rfturn brgVbluf.trim() providfd brgVbluf is nfitifr null nor fmpty;
+       otifrwisf tirow IllfgblArgumfntExdfption.  */
+    privbtf stbtid String vblid(String brgNbmf, String brgVbluf) {
+        if (brgVbluf == null || (brgVbluf = brgVbluf.trim()).fqubls(""))
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt " + brgNbmf +
+                                               " dbnnot bf null or fmpty");
+        rfturn brgVbluf;
     }
 
-    /* Package-private access to a Descriptor containing this OpenType. */
-    synchronized Descriptor getDescriptor() {
-        if (descriptor == null) {
-            descriptor = new ImmutableDescriptor(new String[] {"openType"},
-                                                 new Object[] {this});
+    /* Pbdkbgf-privbtf bddfss to b Dfsdriptor dontbining tiis OpfnTypf. */
+    syndironizfd Dfsdriptor gftDfsdriptor() {
+        if (dfsdriptor == null) {
+            dfsdriptor = nfw ImmutbblfDfsdriptor(nfw String[] {"opfnTypf"},
+                                                 nfw Objfdt[] {tiis});
         }
-        return descriptor;
+        rfturn dfsdriptor;
     }
 
-    /* *** Open type information methods *** */
+    /* *** Opfn typf informbtion mftiods *** */
 
     /**
-     * Returns the fully qualified Java class name of the open data values
-     * this open type describes.
-     * The only possible Java class names for open data values are listed in
+     * Rfturns tif fully qublififd Jbvb dlbss nbmf of tif opfn dbtb vblufs
+     * tiis opfn typf dfsdribfs.
+     * Tif only possiblf Jbvb dlbss nbmfs for opfn dbtb vblufs brf listfd in
      * {@link #ALLOWED_CLASSNAMES_LIST ALLOWED_CLASSNAMES_LIST}.
-     * A multidimensional array of any one of these classes or their
-     * corresponding primitive types is also an allowed class,
-     * in which case the class name follows the rules defined by the method
-     * {@link Class#getName() getName()} of <code>java.lang.Class</code>.
-     * For example, a 3-dimensional array of Strings has for class name
-     * &quot;<code>[[[Ljava.lang.String;</code>&quot; (without the quotes),
-     * a 3-dimensional array of Integers has for class name
-     * &quot;<code>[[[Ljava.lang.Integer;</code>&quot; (without the quotes),
-     * and a 3-dimensional array of int has for class name
-     * &quot;<code>[[[I</code>&quot; (without the quotes)
+     * A multidimfnsionbl brrby of bny onf of tifsf dlbssfs or tifir
+     * dorrfsponding primitivf typfs is blso bn bllowfd dlbss,
+     * in wiidi dbsf tif dlbss nbmf follows tif rulfs dffinfd by tif mftiod
+     * {@link Clbss#gftNbmf() gftNbmf()} of <dodf>jbvb.lbng.Clbss</dodf>.
+     * For fxbmplf, b 3-dimfnsionbl brrby of Strings ibs for dlbss nbmf
+     * &quot;<dodf>[[[Ljbvb.lbng.String;</dodf>&quot; (witiout tif quotfs),
+     * b 3-dimfnsionbl brrby of Intfgfrs ibs for dlbss nbmf
+     * &quot;<dodf>[[[Ljbvb.lbng.Intfgfr;</dodf>&quot; (witiout tif quotfs),
+     * bnd b 3-dimfnsionbl brrby of int ibs for dlbss nbmf
+     * &quot;<dodf>[[[I</dodf>&quot; (witiout tif quotfs)
      *
-     * @return the class name.
+     * @rfturn tif dlbss nbmf.
      */
-    public String getClassName() {
-        return className;
+    publid String gftClbssNbmf() {
+        rfturn dlbssNbmf;
     }
 
-    // A version of getClassName() that can only be called from within this
-    // package and that cannot be overridden.
-    String safeGetClassName() {
-        return className;
-    }
-
-    /**
-     * Returns the name of this <code>OpenType</code> instance.
-     *
-     * @return the type name.
-     */
-    public String getTypeName() {
-
-        return typeName;
+    // A vfrsion of gftClbssNbmf() tibt dbn only bf dbllfd from witiin tiis
+    // pbdkbgf bnd tibt dbnnot bf ovfrriddfn.
+    String sbffGftClbssNbmf() {
+        rfturn dlbssNbmf;
     }
 
     /**
-     * Returns the text description of this <code>OpenType</code> instance.
+     * Rfturns tif nbmf of tiis <dodf>OpfnTypf</dodf> instbndf.
      *
-     * @return the description.
+     * @rfturn tif typf nbmf.
      */
-    public String getDescription() {
+    publid String gftTypfNbmf() {
 
-        return description;
+        rfturn typfNbmf;
     }
 
     /**
-     * Returns <code>true</code> if the open data values this open
-     * type describes are arrays, <code>false</code> otherwise.
+     * Rfturns tif tfxt dfsdription of tiis <dodf>OpfnTypf</dodf> instbndf.
      *
-     * @return true if this is an array type.
+     * @rfturn tif dfsdription.
      */
-    public boolean isArray() {
+    publid String gftDfsdription() {
 
-        return isArray;
+        rfturn dfsdription;
     }
 
     /**
-     * Tests whether <var>obj</var> is a value for this open type.
+     * Rfturns <dodf>truf</dodf> if tif opfn dbtb vblufs tiis opfn
+     * typf dfsdribfs brf brrbys, <dodf>fblsf</dodf> otifrwisf.
      *
-     * @param obj the object to be tested for validity.
-     *
-     * @return <code>true</code> if <var>obj</var> is a value for this
-     * open type, <code>false</code> otherwise.
+     * @rfturn truf if tiis is bn brrby typf.
      */
-    public abstract boolean isValue(Object obj) ;
+    publid boolfbn isArrby() {
 
-    /**
-     * Tests whether values of the given type can be assigned to this open type.
-     * The default implementation of this method returns true only if the
-     * types are equal.
-     *
-     * @param ot the type to be tested.
-     *
-     * @return true if {@code ot} is assignable to this open type.
-     */
-    boolean isAssignableFrom(OpenType<?> ot) {
-        return this.equals(ot);
+        rfturn isArrby;
     }
 
-    /* *** Methods overriden from class Object *** */
+    /**
+     * Tfsts wiftifr <vbr>obj</vbr> is b vbluf for tiis opfn typf.
+     *
+     * @pbrbm obj tif objfdt to bf tfstfd for vblidity.
+     *
+     * @rfturn <dodf>truf</dodf> if <vbr>obj</vbr> is b vbluf for tiis
+     * opfn typf, <dodf>fblsf</dodf> otifrwisf.
+     */
+    publid bbstrbdt boolfbn isVbluf(Objfdt obj) ;
 
     /**
-     * Compares the specified <code>obj</code> parameter with this
-     * open type instance for equality.
+     * Tfsts wiftifr vblufs of tif givfn typf dbn bf bssignfd to tiis opfn typf.
+     * Tif dffbult implfmfntbtion of tiis mftiod rfturns truf only if tif
+     * typfs brf fqubl.
      *
-     * @param obj the object to compare to.
+     * @pbrbm ot tif typf to bf tfstfd.
      *
-     * @return true if this object and <code>obj</code> are equal.
+     * @rfturn truf if {@dodf ot} is bssignbblf to tiis opfn typf.
      */
-    public abstract boolean equals(Object obj) ;
+    boolfbn isAssignbblfFrom(OpfnTypf<?> ot) {
+        rfturn tiis.fqubls(ot);
+    }
 
-    public abstract int hashCode() ;
-
-    /**
-     * Returns a string representation of this open type instance.
-     *
-     * @return the string representation.
-     */
-    public abstract String toString() ;
+    /* *** Mftiods ovfrridfn from dlbss Objfdt *** */
 
     /**
-     * Deserializes an {@link OpenType} from an {@link java.io.ObjectInputStream}.
+     * Compbrfs tif spfdififd <dodf>obj</dodf> pbrbmftfr witi tiis
+     * opfn typf instbndf for fqublity.
+     *
+     * @pbrbm obj tif objfdt to dompbrf to.
+     *
+     * @rfturn truf if tiis objfdt bnd <dodf>obj</dodf> brf fqubl.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-        checkClassNameOverride();
-        ObjectInputStream.GetField fields = in.readFields();
-        final String classNameField;
-        final String descriptionField;
-        final String typeNameField;
+    publid bbstrbdt boolfbn fqubls(Objfdt obj) ;
+
+    publid bbstrbdt int ibsiCodf() ;
+
+    /**
+     * Rfturns b string rfprfsfntbtion of tiis opfn typf instbndf.
+     *
+     * @rfturn tif string rfprfsfntbtion.
+     */
+    publid bbstrbdt String toString() ;
+
+    /**
+     * Dfsfriblizfs bn {@link OpfnTypf} from bn {@link jbvb.io.ObjfdtInputStrfbm}.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        difdkClbssNbmfOvfrridf();
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        finbl String dlbssNbmfFifld;
+        finbl String dfsdriptionFifld;
+        finbl String typfNbmfFifld;
         try {
-            classNameField =
-                validClassName((String) fields.get("className", null));
-            descriptionField =
-                valid("description", (String) fields.get("description", null));
-            typeNameField =
-                valid("typeName", (String) fields.get("typeName", null));
-        } catch (Exception e) {
-            IOException e2 = new InvalidObjectException(e.getMessage());
-            e2.initCause(e);
-            throw e2;
+            dlbssNbmfFifld =
+                vblidClbssNbmf((String) fiflds.gft("dlbssNbmf", null));
+            dfsdriptionFifld =
+                vblid("dfsdription", (String) fiflds.gft("dfsdription", null));
+            typfNbmfFifld =
+                vblid("typfNbmf", (String) fiflds.gft("typfNbmf", null));
+        } dbtdi (Exdfption f) {
+            IOExdfption f2 = nfw InvblidObjfdtExdfption(f.gftMfssbgf());
+            f2.initCbusf(f);
+            tirow f2;
         }
-        className = classNameField;
-        description = descriptionField;
-        typeName = typeNameField;
-        isArray = (className.startsWith("["));
+        dlbssNbmf = dlbssNbmfFifld;
+        dfsdription = dfsdriptionFifld;
+        typfNbmf = typfNbmfFifld;
+        isArrby = (dlbssNbmf.stbrtsWiti("["));
     }
 }

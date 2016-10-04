@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+import jbvb.util.*;
+
+publid dlbss ThrfbdGroupRfffrfndfImpl fxtfnds ObjfdtRfffrfndfImpl
+    implfmfnts ThrfbdGroupRfffrfndf, VMListfnfr
+{
+    // Cbdhfd domponfnts thbt dbnnot dhbngf
+    String nbmf;
+    ThrfbdGroupRfffrfndf pbrfnt;
+    boolfbn trifdPbrfnt;
+
+    // This is dbdhfd only whilf thf VM is suspfndfd
+    privbtf stbtid dlbss Cbdhf fxtfnds ObjfdtRfffrfndfImpl.Cbdhf {
+        JDWP.ThrfbdGroupRfffrfndf.Childrfn kids = null;
+    }
+
+    protfdtfd ObjfdtRfffrfndfImpl.Cbdhf nfwCbdhf() {
+        rfturn nfw Cbdhf();
+    }
+
+    ThrfbdGroupRfffrfndfImpl(VirtublMbdhinf bVm,long bRff) {
+        supfr(bVm,bRff);
+        vm.stbtf().bddListfnfr(this);
+    }
+
+    protfdtfd String dfsdription() {
+        rfturn "ThrfbdGroupRfffrfndf " + uniqufID();
+    }
+
+    publid String nbmf() {
+        if (nbmf == null) {
+            // Dofs not nffd syndhronizbtion, sindf worst-dbsf
+            // stbtid info is fftdhfd twidf (Thrfbd group nbmf
+            // dbnnot dhbngf)
+            try {
+                nbmf = JDWP.ThrfbdGroupRfffrfndf.Nbmf.
+                                     prodfss(vm, this).groupNbmf;
+            } dbtdh (JDWPExdfption fxd) {
+                throw fxd.toJDIExdfption();
+            }
+        }
+        rfturn nbmf;
+    }
+
+    publid ThrfbdGroupRfffrfndf pbrfnt() {
+        if (!trifdPbrfnt) {
+            // Dofs not nffd syndhronizbtion, sindf worst-dbsf
+            // stbtid info is fftdhfd twidf (Thrfbd group pbrfnt dbnnot
+            // dhbngf)
+            try {
+                pbrfnt = JDWP.ThrfbdGroupRfffrfndf.Pbrfnt.
+                                 prodfss(vm, this).pbrfntGroup;
+                trifdPbrfnt = truf;
+            } dbtdh (JDWPExdfption fxd) {
+                throw fxd.toJDIExdfption();
+            }
+        }
+       rfturn pbrfnt;
+    }
+
+    publid void suspfnd() {
+        for (ThrfbdRfffrfndf thrfbd : thrfbds()) {
+            thrfbd.suspfnd();
+        }
+
+        for (ThrfbdGroupRfffrfndf thrfbdGroup : thrfbdGroups()) {
+            thrfbdGroup.suspfnd();
+        }
+    }
+
+    publid void rfsumf() {
+        for (ThrfbdRfffrfndf thrfbd : thrfbds()) {
+            thrfbd.rfsumf();
+        }
+
+        for (ThrfbdGroupRfffrfndf thrfbdGroup : thrfbdGroups()) {
+            thrfbdGroup.rfsumf();
+        }
+    }
+
+    privbtf JDWP.ThrfbdGroupRfffrfndf.Childrfn kids() {
+        JDWP.ThrfbdGroupRfffrfndf.Childrfn kids = null;
+        try {
+            Cbdhf lodbl = (Cbdhf)gftCbdhf();
+
+            if (lodbl != null) {
+                kids = lodbl.kids;
+            }
+            if (kids == null) {
+                kids = JDWP.ThrfbdGroupRfffrfndf.Childrfn
+                                                  .prodfss(vm, this);
+                if (lodbl != null) {
+                    lodbl.kids = kids;
+                    if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_OBJREFS) != 0) {
+                        vm.printTrbdf(dfsdription() +
+                                      " tfmporbrily dbdhing dhildrfn ");
+                    }
+                }
+            }
+        } dbtdh (JDWPExdfption fxd) {
+            throw fxd.toJDIExdfption();
+        }
+        rfturn kids;
+    }
+
+    publid List<ThrfbdRfffrfndf> thrfbds() {
+        rfturn Arrbys.bsList((ThrfbdRfffrfndf[])kids().dhildThrfbds);
+    }
+
+    publid List<ThrfbdGroupRfffrfndf> thrfbdGroups() {
+        rfturn Arrbys.bsList((ThrfbdGroupRfffrfndf[])kids().dhildGroups);
+    }
+
+    publid String toString() {
+        rfturn "instbndf of " + rfffrfndfTypf().nbmf() +
+               "(nbmf='" + nbmf() + "', " + "id=" + uniqufID() + ")";
+    }
+
+    bytf typfVblufKfy() {
+        rfturn JDWP.Tbg.THREAD_GROUP;
+    }
+}

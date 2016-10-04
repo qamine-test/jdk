@@ -1,300 +1,300 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.i>
 
-#import "apple_laf_JRSUIControl.h"
-#import "apple_laf_JRSUIConstants_DoubleValue.h"
-#import "apple_laf_JRSUIConstants_Hit.h"
+#import "bpplf_lbf_JRSUIControl.i"
+#import "bpplf_lbf_JRSUIConstbnts_DoublfVbluf.i"
+#import "bpplf_lbf_JRSUIConstbnts_Hit.i"
 
-#import "JRSUIConstantSync.h"
+#import "JRSUIConstbntSynd.i"
 
 
-static JRSUIRendererRef gRenderer;
+stbtid JRSUIRfndfrfrRff gRfndfrfr;
 
 /*
- * Class:     apple_laf_JRSUIControl
- * Method:    initNativeJRSUI
- * Signature: ()I
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    initNbtivfJRSUI
+ * Signbturf: ()I
  */
-JNIEXPORT jint JNICALL Java_apple_laf_JRSUIControl_initNativeJRSUI
-(JNIEnv *env, jclass clazz)
+JNIEXPORT jint JNICALL Jbvb_bpplf_lbf_JRSUIControl_initNbtivfJRSUI
+(JNIEnv *fnv, jdlbss dlbzz)
 {
-    BOOL coherent = _InitializeJRSProperties();
-    if (!coherent) return apple_laf_JRSUIControl_INCOHERENT;
+    BOOL doifrfnt = _InitiblizfJRSPropfrtifs();
+    if (!doifrfnt) rfturn bpplf_lbf_JRSUIControl_INCOHERENT;
 
-    gRenderer = JRSUIRendererCreate();
-    if (gRenderer == NULL) return apple_laf_JRSUIControl_NULL_PTR;
+    gRfndfrfr = JRSUIRfndfrfrCrfbtf();
+    if (gRfndfrfr == NULL) rfturn bpplf_lbf_JRSUIControl_NULL_PTR;
 
-    return apple_laf_JRSUIControl_SUCCESS;
+    rfturn bpplf_lbf_JRSUIControl_SUCCESS;
 }
 
 /*
- * Class:     apple_laf_JRSUIControl
- * Method:    getPtrOfBuffer
- * Signature: (Ljava/nio/ByteBuffer;)J
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    gftPtrOfBufffr
+ * Signbturf: (Ljbvb/nio/BytfBufffr;)J
  */
-JNIEXPORT jlong JNICALL Java_apple_laf_JRSUIControl_getPtrOfBuffer
-(JNIEnv *env, jclass clazz, jobject byteBuffer)
+JNIEXPORT jlong JNICALL Jbvb_bpplf_lbf_JRSUIControl_gftPtrOfBufffr
+(JNIEnv *fnv, jdlbss dlbzz, jobjfdt bytfBufffr)
 {
-    char *byteBufferPtr = (*env)->GetDirectBufferAddress(env, byteBuffer);
-    if (byteBufferPtr == NULL) return 0L;
-    return ptr_to_jlong(byteBufferPtr); // GC
+    dibr *bytfBufffrPtr = (*fnv)->GftDirfdtBufffrAddrfss(fnv, bytfBufffr);
+    if (bytfBufffrPtr == NULL) rfturn 0L;
+    rfturn ptr_to_jlong(bytfBufffrPtr); // GC
 }
 
 /*
- * Class:     apple_laf_JRSUIControl
- * Method:    getCFDictionary
- * Signature: (Z)J
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    gftCFDidtionbry
+ * Signbturf: (Z)J
  */
-JNIEXPORT jlong JNICALL Java_apple_laf_JRSUIControl_getCFDictionary
-(JNIEnv *env, jclass clazz, jboolean isFlipped)
+JNIEXPORT jlong JNICALL Jbvb_bpplf_lbf_JRSUIControl_gftCFDidtionbry
+(JNIEnv *fnv, jdlbss dlbzz, jboolfbn isFlippfd)
 {
-    return ptr_to_jlong(JRSUIControlCreate(isFlipped));
+    rfturn ptr_to_jlong(JRSUIControlCrfbtf(isFlippfd));
 }
 
 /*
- * Class:     apple_laf_JRSUIControl
- * Method:    disposeCFDictionary
- * Signature: (J)V
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    disposfCFDidtionbry
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_apple_laf_JRSUIControl_disposeCFDictionary
-(JNIEnv *env, jclass clazz, jlong controlPtr)
+JNIEXPORT void JNICALL Jbvb_bpplf_lbf_JRSUIControl_disposfCFDidtionbry
+(JNIEnv *fnv, jdlbss dlbzz, jlong dontrolPtr)
 {
-    void *ptr = jlong_to_ptr(controlPtr);
-    if (!ptr) return;
-    JRSUIControlRelease((JRSUIControlRef)ptr);
+    void *ptr = jlong_to_ptr(dontrolPtr);
+    if (!ptr) rfturn;
+    JRSUIControlRflfbsf((JRSUIControlRff)ptr);
 }
 
 
-static inline void *getValueFor
-(jbyte code, UInt8 *changeBuffer, size_t *dataSizePtr)
+stbtid inlinf void *gftVblufFor
+(jbytf dodf, UInt8 *dibngfBufffr, sizf_t *dbtbSizfPtr)
 {
-    switch (code)
+    switdi (dodf)
     {
-        case apple_laf_JRSUIConstants_DoubleValue_TYPE_CODE:
-            *dataSizePtr = sizeof(jdouble);
-            jdouble doubleValue = (*(jdouble *)changeBuffer);
-            return (void *)CFNumberCreate(kCFAllocatorDefault, kCFNumberDoubleType, &doubleValue);
+        dbsf bpplf_lbf_JRSUIConstbnts_DoublfVbluf_TYPE_CODE:
+            *dbtbSizfPtr = sizfof(jdoublf);
+            jdoublf doublfVbluf = (*(jdoublf *)dibngfBufffr);
+            rfturn (void *)CFNumbfrCrfbtf(kCFAllodbtorDffbult, kCFNumbfrDoublfTypf, &doublfVbluf);
     }
 
-    return NULL;
+    rfturn NULL;
 }
 
-static inline jint syncChangesToControl
-(JRSUIControlRef control, UInt8 *changeBuffer)
+stbtid inlinf jint syndCibngfsToControl
+(JRSUIControlRff dontrol, UInt8 *dibngfBufffr)
 {
-    UInt8 *endOfBuffer = changeBuffer + apple_laf_JRSUIControl_NIO_BUFFER_SIZE;
+    UInt8 *fndOfBufffr = dibngfBufffr + bpplf_lbf_JRSUIControl_NIO_BUFFER_SIZE;
 
-    while (changeBuffer < endOfBuffer)
+    wiilf (dibngfBufffr < fndOfBufffr)
     {
-        // dereference the pointer to the constant that was stored as a jlong in the byte buffer
-        CFStringRef key = (CFStringRef)jlong_to_ptr(*((jlong *)changeBuffer));
-        if (key == NULL) return apple_laf_JRSUIControl_SUCCESS;
-        changeBuffer += sizeof(jlong);
+        // dfrfffrfndf tif pointfr to tif donstbnt tibt wbs storfd bs b jlong in tif bytf bufffr
+        CFStringRff kfy = (CFStringRff)jlong_to_ptr(*((jlong *)dibngfBufffr));
+        if (kfy == NULL) rfturn bpplf_lbf_JRSUIControl_SUCCESS;
+        dibngfBufffr += sizfof(jlong);
 
-        jbyte code = *((jbyte *)changeBuffer);
-        changeBuffer += sizeof(jbyte);
+        jbytf dodf = *((jbytf *)dibngfBufffr);
+        dibngfBufffr += sizfof(jbytf);
 
-        size_t dataSize;
-        void *value = (void *)getValueFor(code, changeBuffer, &dataSize);
-        if (value == NULL) {
-            NSLog(@"null pointer for %@ for value %d", key, (int)code);
+        sizf_t dbtbSizf;
+        void *vbluf = (void *)gftVblufFor(dodf, dibngfBufffr, &dbtbSizf);
+        if (vbluf == NULL) {
+            NSLog(@"null pointfr for %@ for vbluf %d", kfy, (int)dodf);
 
-            return apple_laf_JRSUIControl_NULL_PTR;
+            rfturn bpplf_lbf_JRSUIControl_NULL_PTR;
         }
 
-        changeBuffer += dataSize;
-        JRSUIControlSetValueByKey(control, key, value);
-        CFRelease(value);
+        dibngfBufffr += dbtbSizf;
+        JRSUIControlSftVblufByKfy(dontrol, kfy, vbluf);
+        CFRflfbsf(vbluf);
     }
 
-    return apple_laf_JRSUIControl_SUCCESS;
+    rfturn bpplf_lbf_JRSUIControl_SUCCESS;
 }
 
-static inline jint doSyncChanges
-(JNIEnv *env, jlong controlPtr, jlong byteBufferPtr)
+stbtid inlinf jint doSyndCibngfs
+(JNIEnv *fnv, jlong dontrolPtr, jlong bytfBufffrPtr)
 {
-    JRSUIControlRef control = (JRSUIControlRef)jlong_to_ptr(controlPtr);
-    UInt8 *changeBuffer = (UInt8 *)jlong_to_ptr(byteBufferPtr);
+    JRSUIControlRff dontrol = (JRSUIControlRff)jlong_to_ptr(dontrolPtr);
+    UInt8 *dibngfBufffr = (UInt8 *)jlong_to_ptr(bytfBufffrPtr);
 
-    return syncChangesToControl(control, changeBuffer);
-}
-
-/*
- * Class:     apple_laf_JRSUIControl
- * Method:    syncChanges
- * Signature: (JJ)I
- */
-JNIEXPORT jint JNICALL Java_apple_laf_JRSUIControl_syncChanges
-(JNIEnv *env, jclass clazz, jlong controlPtr, jlong byteBufferPtr)
-{
-    return doSyncChanges(env, controlPtr, byteBufferPtr);
-}
-
-static inline jint doPaintCGContext(CGContextRef cgRef, jlong controlPtr, jlong oldProperties, jlong newProperties, jdouble x, jdouble y, jdouble w, jdouble h)
-{
-    JRSUIControlRef control = (JRSUIControlRef)jlong_to_ptr(controlPtr);
-    _SyncEncodedProperties(control, oldProperties, newProperties);
-    CGRect bounds = CGRectMake(x, y, w, h);
-    JRSUIControlDraw(gRenderer, control, cgRef, bounds);
-    return 0;
+    rfturn syndCibngfsToControl(dontrol, dibngfBufffr);
 }
 
 /*
- * Class:     apple_laf_JRSUIControl
- * Method:    paintToCGContext
- * Signature: (JJJJDDDD)I
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    syndCibngfs
+ * Signbturf: (JJ)I
  */
-JNIEXPORT jint JNICALL Java_apple_laf_JRSUIControl_paintToCGContext
-(JNIEnv *env, jclass clazz, jlong cgContextPtr, jlong controlPtr, jlong oldProperties, jlong newProperties, jdouble x, jdouble y, jdouble w, jdouble h)
+JNIEXPORT jint JNICALL Jbvb_bpplf_lbf_JRSUIControl_syndCibngfs
+(JNIEnv *fnv, jdlbss dlbzz, jlong dontrolPtr, jlong bytfBufffrPtr)
 {
-    return doPaintCGContext((CGContextRef)jlong_to_ptr(cgContextPtr), controlPtr, oldProperties, newProperties, x, y, w, h);
+    rfturn doSyndCibngfs(fnv, dontrolPtr, bytfBufffrPtr);
+}
+
+stbtid inlinf jint doPbintCGContfxt(CGContfxtRff dgRff, jlong dontrolPtr, jlong oldPropfrtifs, jlong nfwPropfrtifs, jdoublf x, jdoublf y, jdoublf w, jdoublf i)
+{
+    JRSUIControlRff dontrol = (JRSUIControlRff)jlong_to_ptr(dontrolPtr);
+    _SyndEndodfdPropfrtifs(dontrol, oldPropfrtifs, nfwPropfrtifs);
+    CGRfdt bounds = CGRfdtMbkf(x, y, w, i);
+    JRSUIControlDrbw(gRfndfrfr, dontrol, dgRff, bounds);
+    rfturn 0;
 }
 
 /*
- * Class:     apple_laf_JRSUIControl
- * Method:    paintChangesToCGContext
- * Signature: (JJJJDDDDJ)I
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    pbintToCGContfxt
+ * Signbturf: (JJJJDDDD)I
  */
-JNIEXPORT jint JNICALL Java_apple_laf_JRSUIControl_paintChangesToCGContext
-(JNIEnv *env, jclass clazz, jlong cgContextPtr, jlong controlPtr, jlong oldProperties, jlong newProperties, jdouble x, jdouble y, jdouble w, jdouble h, jlong changes)
+JNIEXPORT jint JNICALL Jbvb_bpplf_lbf_JRSUIControl_pbintToCGContfxt
+(JNIEnv *fnv, jdlbss dlbzz, jlong dgContfxtPtr, jlong dontrolPtr, jlong oldPropfrtifs, jlong nfwPropfrtifs, jdoublf x, jdoublf y, jdoublf w, jdoublf i)
 {
-    int syncStatus = doSyncChanges(env, controlPtr, changes);
-    if (syncStatus != apple_laf_JRSUIControl_SUCCESS) return syncStatus;
-
-    return doPaintCGContext((CGContextRef)jlong_to_ptr(cgContextPtr), controlPtr, oldProperties, newProperties, x, y, w, h);
-}
-
-static inline jint doPaintImage
-(JNIEnv *env, jlong controlPtr, jlong oldProperties, jlong newProperties, jintArray data, jint imgW, jint imgH, jdouble x, jdouble y, jdouble w, jdouble h)
-{
-    jboolean isCopy = JNI_FALSE;
-    void *rawPixelData = (*env)->GetPrimitiveArrayCritical(env, data, &isCopy);
-    if (!rawPixelData) return apple_laf_JRSUIControl_NULL_PTR;
-
-    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef cgRef = CGBitmapContextCreate(rawPixelData, imgW, imgH, 8, imgW * 4, colorspace, kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
-    CGColorSpaceRelease(colorspace);
-    CGContextScaleCTM(cgRef, imgW/(w + x + x) , imgH/(h + y + y));
-
-    jint status = doPaintCGContext(cgRef, controlPtr, oldProperties, newProperties, x, y, w, h);
-    CGContextRelease(cgRef);
-
-    (*env)->ReleasePrimitiveArrayCritical(env, data, rawPixelData, 0);
-
-    return status == noErr ? apple_laf_JRSUIControl_SUCCESS : status;
+    rfturn doPbintCGContfxt((CGContfxtRff)jlong_to_ptr(dgContfxtPtr), dontrolPtr, oldPropfrtifs, nfwPropfrtifs, x, y, w, i);
 }
 
 /*
- * Class:     apple_laf_JRSUIControl
- * Method:    paintImage
- * Signature: ([IIIJJJDDDD)I
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    pbintCibngfsToCGContfxt
+ * Signbturf: (JJJJDDDDJ)I
  */
-JNIEXPORT jint JNICALL Java_apple_laf_JRSUIControl_paintImage
-(JNIEnv *env, jclass clazz, jintArray data, jint imgW, jint imgH, jlong controlPtr, jlong oldProperties, jlong newProperties, jdouble x, jdouble y, jdouble w, jdouble h)
+JNIEXPORT jint JNICALL Jbvb_bpplf_lbf_JRSUIControl_pbintCibngfsToCGContfxt
+(JNIEnv *fnv, jdlbss dlbzz, jlong dgContfxtPtr, jlong dontrolPtr, jlong oldPropfrtifs, jlong nfwPropfrtifs, jdoublf x, jdoublf y, jdoublf w, jdoublf i, jlong dibngfs)
 {
-    return doPaintImage(env, controlPtr, oldProperties, newProperties, data, imgW, imgH, x, y, w, h);
+    int syndStbtus = doSyndCibngfs(fnv, dontrolPtr, dibngfs);
+    if (syndStbtus != bpplf_lbf_JRSUIControl_SUCCESS) rfturn syndStbtus;
+
+    rfturn doPbintCGContfxt((CGContfxtRff)jlong_to_ptr(dgContfxtPtr), dontrolPtr, oldPropfrtifs, nfwPropfrtifs, x, y, w, i);
+}
+
+stbtid inlinf jint doPbintImbgf
+(JNIEnv *fnv, jlong dontrolPtr, jlong oldPropfrtifs, jlong nfwPropfrtifs, jintArrby dbtb, jint imgW, jint imgH, jdoublf x, jdoublf y, jdoublf w, jdoublf i)
+{
+    jboolfbn isCopy = JNI_FALSE;
+    void *rbwPixflDbtb = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, dbtb, &isCopy);
+    if (!rbwPixflDbtb) rfturn bpplf_lbf_JRSUIControl_NULL_PTR;
+
+    CGColorSpbdfRff dolorspbdf = CGColorSpbdfCrfbtfDfvidfRGB();
+    CGContfxtRff dgRff = CGBitmbpContfxtCrfbtf(rbwPixflDbtb, imgW, imgH, 8, imgW * 4, dolorspbdf, kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host);
+    CGColorSpbdfRflfbsf(dolorspbdf);
+    CGContfxtSdblfCTM(dgRff, imgW/(w + x + x) , imgH/(i + y + y));
+
+    jint stbtus = doPbintCGContfxt(dgRff, dontrolPtr, oldPropfrtifs, nfwPropfrtifs, x, y, w, i);
+    CGContfxtRflfbsf(dgRff);
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, dbtb, rbwPixflDbtb, 0);
+
+    rfturn stbtus == noErr ? bpplf_lbf_JRSUIControl_SUCCESS : stbtus;
 }
 
 /*
- * Class:     apple_laf_JRSUIControl
- * Method:    paintChangesImage
- * Signature: ([IIIJJJDDDDJ)I
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    pbintImbgf
+ * Signbturf: ([IIIJJJDDDD)I
  */
-JNIEXPORT jint JNICALL Java_apple_laf_JRSUIControl_paintChangesImage
-(JNIEnv *env, jclass clazz, jintArray data, jint imgW, jint imgH, jlong controlPtr, jlong oldProperties, jlong newProperties, jdouble x, jdouble y, jdouble w, jdouble h, jlong changes)
+JNIEXPORT jint JNICALL Jbvb_bpplf_lbf_JRSUIControl_pbintImbgf
+(JNIEnv *fnv, jdlbss dlbzz, jintArrby dbtb, jint imgW, jint imgH, jlong dontrolPtr, jlong oldPropfrtifs, jlong nfwPropfrtifs, jdoublf x, jdoublf y, jdoublf w, jdoublf i)
 {
-    int syncStatus = doSyncChanges(env, controlPtr, changes);
-    if (syncStatus != apple_laf_JRSUIControl_SUCCESS) return syncStatus;
-
-    return doPaintImage(env, controlPtr, oldProperties, newProperties, data, imgW, imgH, x, y, w, h);
+    rfturn doPbintImbgf(fnv, dontrolPtr, oldPropfrtifs, nfwPropfrtifs, dbtb, imgW, imgH, x, y, w, i);
 }
 
 /*
- * Class:     apple_laf_JRSUIControl
- * Method:    getNativeHitPart
- * Signature: (JJJDDDDDD)I
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    pbintCibngfsImbgf
+ * Signbturf: ([IIIJJJDDDDJ)I
  */
-JNIEXPORT jint JNICALL Java_apple_laf_JRSUIControl_getNativeHitPart
-(JNIEnv *env, jclass clazz, jlong controlPtr, jlong oldProperties, jlong newProperties, jdouble x, jdouble y, jdouble w, jdouble h, jdouble pointX, jdouble pointY)
+JNIEXPORT jint JNICALL Jbvb_bpplf_lbf_JRSUIControl_pbintCibngfsImbgf
+(JNIEnv *fnv, jdlbss dlbzz, jintArrby dbtb, jint imgW, jint imgH, jlong dontrolPtr, jlong oldPropfrtifs, jlong nfwPropfrtifs, jdoublf x, jdoublf y, jdoublf w, jdoublf i, jlong dibngfs)
 {
-    JRSUIControlRef control = (JRSUIControlRef)jlong_to_ptr(controlPtr);
-    _SyncEncodedProperties(control, oldProperties, newProperties);
+    int syndStbtus = doSyndCibngfs(fnv, dontrolPtr, dibngfs);
+    if (syndStbtus != bpplf_lbf_JRSUIControl_SUCCESS) rfturn syndStbtus;
 
-    CGRect bounds = CGRectMake(x, y, w, h);
-    CGPoint point = CGPointMake(pointX, pointY);
-
-    return JRSUIControlGetHitPart(gRenderer, control, bounds, point);
+    rfturn doPbintImbgf(fnv, dontrolPtr, oldPropfrtifs, nfwPropfrtifs, dbtb, imgW, imgH, x, y, w, i);
 }
 
 /*
- * Class:     apple_laf_JRSUIUtils_ScrollBar
- * Method:    shouldUseScrollToClick
- * Signature: ()Z
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    gftNbtivfHitPbrt
+ * Signbturf: (JJJDDDDDD)I
  */
-JNIEXPORT jboolean JNICALL Java_apple_laf_JRSUIUtils_00024ScrollBar_shouldUseScrollToClick
-(JNIEnv *env, jclass clazz)
+JNIEXPORT jint JNICALL Jbvb_bpplf_lbf_JRSUIControl_gftNbtivfHitPbrt
+(JNIEnv *fnv, jdlbss dlbzz, jlong dontrolPtr, jlong oldPropfrtifs, jlong nfwPropfrtifs, jdoublf x, jdoublf y, jdoublf w, jdoublf i, jdoublf pointX, jdoublf pointY)
 {
-    return JRSUIControlShouldScrollToClick();
+    JRSUIControlRff dontrol = (JRSUIControlRff)jlong_to_ptr(dontrolPtr);
+    _SyndEndodfdPropfrtifs(dontrol, oldPropfrtifs, nfwPropfrtifs);
+
+    CGRfdt bounds = CGRfdtMbkf(x, y, w, i);
+    CGPoint point = CGPointMbkf(pointX, pointY);
+
+    rfturn JRSUIControlGftHitPbrt(gRfndfrfr, dontrol, bounds, point);
 }
 
 /*
- * Class:     apple_laf_JRSUIControl
- * Method:    getNativePartBounds
- * Signature: ([DJJJDDDDI)V
+ * Clbss:     bpplf_lbf_JRSUIUtils_SdrollBbr
+ * Mftiod:    siouldUsfSdrollToClidk
+ * Signbturf: ()Z
  */
-JNIEXPORT void JNICALL Java_apple_laf_JRSUIControl_getNativePartBounds
-(JNIEnv *env, jclass clazz, jdoubleArray rectArray, jlong controlPtr, jlong oldProperties, jlong newProperties, jdouble x, jdouble y, jdouble w, jdouble h, jint part)
+JNIEXPORT jboolfbn JNICALL Jbvb_bpplf_lbf_JRSUIUtils_00024SdrollBbr_siouldUsfSdrollToClidk
+(JNIEnv *fnv, jdlbss dlbzz)
 {
-    JRSUIControlRef control = (JRSUIControlRef)jlong_to_ptr(controlPtr);
-    _SyncEncodedProperties(control, oldProperties, newProperties);
-
-    CGRect frame = CGRectMake(x, y, w, h);
-    CGRect partBounds = JRSUIControlGetScrollBarPartBounds(control, frame, part);
-
-    jdouble *rect = (*env)->GetPrimitiveArrayCritical(env, rectArray, NULL);
-    rect[0] = partBounds.origin.x;
-    rect[1] = partBounds.origin.y;
-    rect[2] = partBounds.size.width;
-    rect[3] = partBounds.size.height;
-    (*env)->ReleasePrimitiveArrayCritical(env, rectArray, rect, 0);
+    rfturn JRSUIControlSiouldSdrollToClidk();
 }
 
 /*
- * Class:     apple_laf_JRSUIControl
- * Method:    getNativeScrollBarOffsetChange
- * Signature: (JJJDDDDIII)D
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    gftNbtivfPbrtBounds
+ * Signbturf: ([DJJJDDDDI)V
  */
-JNIEXPORT jdouble JNICALL Java_apple_laf_JRSUIControl_getNativeScrollBarOffsetChange
-(JNIEnv *env, jclass clazz, jlong controlPtr, jlong oldProperties, jlong newProperties, jdouble x, jdouble y, jdouble w, jdouble h, jint offset, jint visibleAmount, jint extent)
+JNIEXPORT void JNICALL Jbvb_bpplf_lbf_JRSUIControl_gftNbtivfPbrtBounds
+(JNIEnv *fnv, jdlbss dlbzz, jdoublfArrby rfdtArrby, jlong dontrolPtr, jlong oldPropfrtifs, jlong nfwPropfrtifs, jdoublf x, jdoublf y, jdoublf w, jdoublf i, jint pbrt)
 {
-    JRSUIControlRef control = (JRSUIControlRef)jlong_to_ptr(controlPtr);
-    _SyncEncodedProperties(control, oldProperties, newProperties);
+    JRSUIControlRff dontrol = (JRSUIControlRff)jlong_to_ptr(dontrolPtr);
+    _SyndEndodfdPropfrtifs(dontrol, oldPropfrtifs, nfwPropfrtifs);
 
-    CGRect frame = CGRectMake(x, y, w, h);
-    return (jdouble)JRSUIControlGetScrollBarOffsetFor(control, frame, offset, visibleAmount, extent);
+    CGRfdt frbmf = CGRfdtMbkf(x, y, w, i);
+    CGRfdt pbrtBounds = JRSUIControlGftSdrollBbrPbrtBounds(dontrol, frbmf, pbrt);
+
+    jdoublf *rfdt = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, rfdtArrby, NULL);
+    rfdt[0] = pbrtBounds.origin.x;
+    rfdt[1] = pbrtBounds.origin.y;
+    rfdt[2] = pbrtBounds.sizf.widti;
+    rfdt[3] = pbrtBounds.sizf.ifigit;
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, rfdtArrby, rfdt, 0);
+}
+
+/*
+ * Clbss:     bpplf_lbf_JRSUIControl
+ * Mftiod:    gftNbtivfSdrollBbrOffsftCibngf
+ * Signbturf: (JJJDDDDIII)D
+ */
+JNIEXPORT jdoublf JNICALL Jbvb_bpplf_lbf_JRSUIControl_gftNbtivfSdrollBbrOffsftCibngf
+(JNIEnv *fnv, jdlbss dlbzz, jlong dontrolPtr, jlong oldPropfrtifs, jlong nfwPropfrtifs, jdoublf x, jdoublf y, jdoublf w, jdoublf i, jint offsft, jint visiblfAmount, jint fxtfnt)
+{
+    JRSUIControlRff dontrol = (JRSUIControlRff)jlong_to_ptr(dontrolPtr);
+    _SyndEndodfdPropfrtifs(dontrol, oldPropfrtifs, nfwPropfrtifs);
+
+    CGRfdt frbmf = CGRfdtMbkf(x, y, w, i);
+    rfturn (jdoublf)JRSUIControlGftSdrollBbrOffsftFor(dontrol, frbmf, offsft, visiblfAmount, fxtfnt);
 }

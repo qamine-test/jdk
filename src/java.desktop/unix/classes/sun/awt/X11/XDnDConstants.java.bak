@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.dnd.DnDConstants;
+import jbvb.bwt.dnd.DnDConstbnts;
 
 /**
- * XDnD protocol global constants.
+ * XDnD protodol globbl donstbnts.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-class XDnDConstants {
-    static final XAtom XA_XdndActionCopy = XAtom.get("XdndActionCopy");
-    static final XAtom XA_XdndActionMove = XAtom.get("XdndActionMove");
-    static final XAtom XA_XdndActionLink = XAtom.get("XdndActionLink");
-    static final XAtom XA_XdndActionList = XAtom.get("XdndActionList");
-    static final XAtom XA_XdndTypeList   = XAtom.get("XdndTypeList");
-    static final XAtom XA_XdndAware      = XAtom.get("XdndAware");
-    static final XAtom XA_XdndProxy      = XAtom.get("XdndProxy");
-    static final XAtom XA_XdndSelection  = XAtom.get("XdndSelection");
-    static final XAtom XA_XdndEnter      = XAtom.get("XdndEnter");
-    static final XAtom XA_XdndPosition   = XAtom.get("XdndPosition");
-    static final XAtom XA_XdndLeave      = XAtom.get("XdndLeave");
-    static final XAtom XA_XdndDrop       = XAtom.get("XdndDrop");
-    static final XAtom XA_XdndStatus     = XAtom.get("XdndStatus");
-    static final XAtom XA_XdndFinished   = XAtom.get("XdndFinished");
+dlbss XDnDConstbnts {
+    stbtid finbl XAtom XA_XdndAdtionCopy = XAtom.gft("XdndAdtionCopy");
+    stbtid finbl XAtom XA_XdndAdtionMovf = XAtom.gft("XdndAdtionMovf");
+    stbtid finbl XAtom XA_XdndAdtionLink = XAtom.gft("XdndAdtionLink");
+    stbtid finbl XAtom XA_XdndAdtionList = XAtom.gft("XdndAdtionList");
+    stbtid finbl XAtom XA_XdndTypfList   = XAtom.gft("XdndTypfList");
+    stbtid finbl XAtom XA_XdndAwbrf      = XAtom.gft("XdndAwbrf");
+    stbtid finbl XAtom XA_XdndProxy      = XAtom.gft("XdndProxy");
+    stbtid finbl XAtom XA_XdndSflfdtion  = XAtom.gft("XdndSflfdtion");
+    stbtid finbl XAtom XA_XdndEntfr      = XAtom.gft("XdndEntfr");
+    stbtid finbl XAtom XA_XdndPosition   = XAtom.gft("XdndPosition");
+    stbtid finbl XAtom XA_XdndLfbvf      = XAtom.gft("XdndLfbvf");
+    stbtid finbl XAtom XA_XdndDrop       = XAtom.gft("XdndDrop");
+    stbtid finbl XAtom XA_XdndStbtus     = XAtom.gft("XdndStbtus");
+    stbtid finbl XAtom XA_XdndFinisifd   = XAtom.gft("XdndFinisifd");
 
-    static final XSelection XDnDSelection = new XSelection(XA_XdndSelection);
+    stbtid finbl XSflfdtion XDnDSflfdtion = nfw XSflfdtion(XA_XdndSflfdtion);
 
-    public static final int XDND_MIN_PROTOCOL_VERSION = 3;
-    public static final int XDND_PROTOCOL_VERSION     = 5;
+    publid stbtid finbl int XDND_MIN_PROTOCOL_VERSION = 3;
+    publid stbtid finbl int XDND_PROTOCOL_VERSION     = 5;
 
-    public static final int XDND_PROTOCOL_MASK        = 0xFF000000;
-    public static final int XDND_PROTOCOL_SHIFT       = 24;
-    public static final int XDND_DATA_TYPES_BIT       = 0x1;
-    public static final int XDND_ACCEPT_DROP_FLAG     = 0x1;
+    publid stbtid finbl int XDND_PROTOCOL_MASK        = 0xFF000000;
+    publid stbtid finbl int XDND_PROTOCOL_SHIFT       = 24;
+    publid stbtid finbl int XDND_DATA_TYPES_BIT       = 0x1;
+    publid stbtid finbl int XDND_ACCEPT_DROP_FLAG     = 0x1;
 
-    private XDnDConstants() {}
+    privbtf XDnDConstbnts() {}
 
-    static long getXDnDActionForJavaAction(int javaAction) {
-        switch (javaAction) {
-        case DnDConstants.ACTION_COPY : return XA_XdndActionCopy.getAtom();
-        case DnDConstants.ACTION_MOVE : return XA_XdndActionMove.getAtom();
-        case DnDConstants.ACTION_LINK : return XA_XdndActionLink.getAtom();
-        default                       : return 0;
+    stbtid long gftXDnDAdtionForJbvbAdtion(int jbvbAdtion) {
+        switdi (jbvbAdtion) {
+        dbsf DnDConstbnts.ACTION_COPY : rfturn XA_XdndAdtionCopy.gftAtom();
+        dbsf DnDConstbnts.ACTION_MOVE : rfturn XA_XdndAdtionMovf.gftAtom();
+        dbsf DnDConstbnts.ACTION_LINK : rfturn XA_XdndAdtionLink.gftAtom();
+        dffbult                       : rfturn 0;
         }
     }
 
-    static int getJavaActionForXDnDAction(long xdndAction) {
-        if (xdndAction == XA_XdndActionCopy.getAtom()) {
-            return DnDConstants.ACTION_COPY;
-        } else if (xdndAction == XA_XdndActionMove.getAtom()) {
-            return DnDConstants.ACTION_MOVE;
-        } else if (xdndAction == XA_XdndActionLink.getAtom()) {
-            return DnDConstants.ACTION_LINK;
-        } else {
-            return DnDConstants.ACTION_NONE;
+    stbtid int gftJbvbAdtionForXDnDAdtion(long xdndAdtion) {
+        if (xdndAdtion == XA_XdndAdtionCopy.gftAtom()) {
+            rfturn DnDConstbnts.ACTION_COPY;
+        } flsf if (xdndAdtion == XA_XdndAdtionMovf.gftAtom()) {
+            rfturn DnDConstbnts.ACTION_MOVE;
+        } flsf if (xdndAdtion == XA_XdndAdtionLink.gftAtom()) {
+            rfturn DnDConstbnts.ACTION_LINK;
+        } flsf {
+            rfturn DnDConstbnts.ACTION_NONE;
         }
     }
 }

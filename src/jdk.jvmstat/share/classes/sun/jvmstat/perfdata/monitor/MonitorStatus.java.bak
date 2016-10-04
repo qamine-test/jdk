@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
 
-import java.util.List;
-import sun.jvmstat.monitor.Monitor;
+import jbvb.util.List;
+import sun.jvmstbt.monitor.Monitor;
 
 /**
- * Immutable class containing the list of inserted and deleted
- * monitors over an arbitrary time period.
+ * Immutbblf dlbss dontbining tif list of insfrtfd bnd dflftfd
+ * monitors ovfr bn brbitrbry timf pfriod.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class MonitorStatus {
+publid dlbss MonitorStbtus {
 
     /**
-     * The list of Monitors inserted since the last query.
+     * Tif list of Monitors insfrtfd sindf tif lbst qufry.
      */
-    protected List<Monitor> inserted;
+    protfdtfd List<Monitor> insfrtfd;
 
     /**
-     * The list of Monitors removed since the last query.
+     * Tif list of Monitors rfmovfd sindf tif lbst qufry.
      */
-    protected List<Monitor> removed;
+    protfdtfd List<Monitor> rfmovfd;
 
     /**
-     * Create a MonitorStatus instance.
+     * Crfbtf b MonitorStbtus instbndf.
      *
-     * @param inserted the list of Monitors inserted
-     * @param removed the list of Monitors removed
+     * @pbrbm insfrtfd tif list of Monitors insfrtfd
+     * @pbrbm rfmovfd tif list of Monitors rfmovfd
      */
-    public MonitorStatus(List<Monitor> inserted, List<Monitor> removed) {
-        this.inserted = inserted;
-        this.removed = removed;
+    publid MonitorStbtus(List<Monitor> insfrtfd, List<Monitor> rfmovfd) {
+        tiis.insfrtfd = insfrtfd;
+        tiis.rfmovfd = rfmovfd;
     }
 
     /**
-     * Get the list of Monitors inserted since the last query.
+     * Gft tif list of Monitors insfrtfd sindf tif lbst qufry.
      *
-     * @return List - the List of Monitor objects inserted or an empty List.
+     * @rfturn List - tif List of Monitor objfdts insfrtfd or bn fmpty List.
      */
-    public List<Monitor> getInserted() {
-        return inserted;
+    publid List<Monitor> gftInsfrtfd() {
+        rfturn insfrtfd;
     }
 
     /**
-     * Get the list of Monitors removed since the last query.
+     * Gft tif list of Monitors rfmovfd sindf tif lbst qufry.
      *
-     * @return List - the List of Monitor objects removed or an empty List.
+     * @rfturn List - tif List of Monitor objfdts rfmovfd or bn fmpty List.
      */
-    public List<Monitor> getRemoved() {
-        return removed;
+    publid List<Monitor> gftRfmovfd() {
+        rfturn rfmovfd;
     }
 }

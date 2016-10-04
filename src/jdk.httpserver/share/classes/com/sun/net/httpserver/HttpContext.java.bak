@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.net.httpserver;
-import java.net.*;
-import java.io.*;
-import java.util.*;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * HttpContext represents a mapping between the root URI path of an application
- * to a {@link HttpHandler} which is invoked to handle requests destined
- * for that path on the associated HttpServer or HttpsServer.
+ * HttpContfxt rfprfsfnts b mbpping bftwffn tif root URI pbti of bn bpplidbtion
+ * to b {@link HttpHbndlfr} wiidi is invokfd to ibndlf rfqufsts dfstinfd
+ * for tibt pbti on tif bssodibtfd HttpSfrvfr or HttpsSfrvfr.
  * <p>
- * HttpContext instances are created by the create methods in HttpServer
- * and HttpsServer
+ * HttpContfxt instbndfs brf drfbtfd by tif drfbtf mftiods in HttpSfrvfr
+ * bnd HttpsSfrvfr
  * <p>
- * A chain of {@link Filter} objects can be added to a HttpContext. All exchanges processed by the
- * context can be pre- and post-processed by each Filter in the chain.
- * @since 1.6
+ * A dibin of {@link Filtfr} objfdts dbn bf bddfd to b HttpContfxt. All fxdibngfs prodfssfd by tif
+ * dontfxt dbn bf prf- bnd post-prodfssfd by fbdi Filtfr in tif dibin.
+ * @sindf 1.6
  */
-@jdk.Exported
-public abstract class HttpContext {
+@jdk.Exportfd
+publid bbstrbdt dlbss HttpContfxt {
 
-    protected HttpContext () {
+    protfdtfd HttpContfxt () {
     }
 
     /**
-     * returns the handler for this context
-     * @return the HttpHandler for this context
+     * rfturns tif ibndlfr for tiis dontfxt
+     * @rfturn tif HttpHbndlfr for tiis dontfxt
      */
-    public abstract HttpHandler getHandler () ;
+    publid bbstrbdt HttpHbndlfr gftHbndlfr () ;
 
     /**
-     * Sets the handler for this context, if not already set.
-     * @param h the handler to set for this context
-     * @throws IllegalArgumentException if this context's handler is already set.
-     * @throws NullPointerException if handler is <code>null</code>
+     * Sfts tif ibndlfr for tiis dontfxt, if not blrfbdy sft.
+     * @pbrbm i tif ibndlfr to sft for tiis dontfxt
+     * @tirows IllfgblArgumfntExdfption if tiis dontfxt's ibndlfr is blrfbdy sft.
+     * @tirows NullPointfrExdfption if ibndlfr is <dodf>null</dodf>
      */
-    public abstract void setHandler (HttpHandler h) ;
+    publid bbstrbdt void sftHbndlfr (HttpHbndlfr i) ;
 
     /**
-     * returns the path this context was created with
-     * @return this context's path
+     * rfturns tif pbti tiis dontfxt wbs drfbtfd witi
+     * @rfturn tiis dontfxt's pbti
      */
-    public abstract String getPath() ;
+    publid bbstrbdt String gftPbti() ;
 
     /**
-     * returns the server this context was created with
-     * @return this context's server
+     * rfturns tif sfrvfr tiis dontfxt wbs drfbtfd witi
+     * @rfturn tiis dontfxt's sfrvfr
      */
-    public abstract HttpServer getServer () ;
+    publid bbstrbdt HttpSfrvfr gftSfrvfr () ;
 
     /**
-     * returns a mutable Map, which can be used to pass
-     * configuration and other data to Filter modules
-     * and to the context's exchange handler.
+     * rfturns b mutbblf Mbp, wiidi dbn bf usfd to pbss
+     * donfigurbtion bnd otifr dbtb to Filtfr modulfs
+     * bnd to tif dontfxt's fxdibngf ibndlfr.
      * <p>
-     * Every attribute stored in this Map will be visible to
-     * every HttpExchange processed by this context
+     * Evfry bttributf storfd in tiis Mbp will bf visiblf to
+     * fvfry HttpExdibngf prodfssfd by tiis dontfxt
      */
-    public abstract Map<String,Object> getAttributes() ;
+    publid bbstrbdt Mbp<String,Objfdt> gftAttributfs() ;
 
     /**
-     * returns this context's list of Filters. This is the
-     * actual list used by the server when dispatching requests
-     * so modifications to this list immediately affect the
-     * the handling of exchanges.
+     * rfturns tiis dontfxt's list of Filtfrs. Tiis is tif
+     * bdtubl list usfd by tif sfrvfr wifn dispbtdiing rfqufsts
+     * so modifidbtions to tiis list immfdibtfly bfffdt tif
+     * tif ibndling of fxdibngfs.
      */
-    public abstract List<Filter> getFilters();
+    publid bbstrbdt List<Filtfr> gftFiltfrs();
 
     /**
-     * Sets the Authenticator for this HttpContext. Once an authenticator
-     * is establised on a context, all client requests must be
-     * authenticated, and the given object will be invoked to validate each
-     * request. Each call to this method replaces any previous value set.
-     * @param auth the authenticator to set. If <code>null</code> then any
-     *         previously set authenticator is removed,
-     *         and client authentication will no longer be required.
-     * @return the previous Authenticator, if any set, or <code>null</code>
-     *         otherwise.
+     * Sfts tif Autifntidbtor for tiis HttpContfxt. Ondf bn butifntidbtor
+     * is fstbblisfd on b dontfxt, bll dlifnt rfqufsts must bf
+     * butifntidbtfd, bnd tif givfn objfdt will bf invokfd to vblidbtf fbdi
+     * rfqufst. Ebdi dbll to tiis mftiod rfplbdfs bny prfvious vbluf sft.
+     * @pbrbm buti tif butifntidbtor to sft. If <dodf>null</dodf> tifn bny
+     *         prfviously sft butifntidbtor is rfmovfd,
+     *         bnd dlifnt butifntidbtion will no longfr bf rfquirfd.
+     * @rfturn tif prfvious Autifntidbtor, if bny sft, or <dodf>null</dodf>
+     *         otifrwisf.
      */
-    public abstract Authenticator setAuthenticator (Authenticator auth);
+    publid bbstrbdt Autifntidbtor sftAutifntidbtor (Autifntidbtor buti);
 
     /**
-     * Returns the currently set Authenticator for this context
-     * if one exists.
-     * @return this HttpContext's Authenticator, or <code>null</code>
-     *         if none is set.
+     * Rfturns tif durrfntly sft Autifntidbtor for tiis dontfxt
+     * if onf fxists.
+     * @rfturn tiis HttpContfxt's Autifntidbtor, or <dodf>null</dodf>
+     *         if nonf is sft.
      */
-    public abstract Authenticator getAuthenticator ();
+    publid bbstrbdt Autifntidbtor gftAutifntidbtor ();
 }

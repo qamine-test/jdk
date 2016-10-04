@@ -1,0 +1,186 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.IllfgblComponfntStbtfExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.WfbkHbshMbp;
+
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * This dlbss is usfd to bid in kffping trbdk of DisplbyChbngfdListfnfrs bnd
+ * notifying thfm whfn b displby dhbngf hbs tbkfn plbdf. DisplbyChbngfdListfnfrs
+ * brf notififd whfn thf displby's bit dfpth is dhbngfd, or whfn b top-lfvfl
+ * window hbs bffn drbggfd onto bnothfr sdrffn.
+ *
+ * It is sbff for b DisplbyChbngfdListfnfr to bf bddfd whilf thf list is bfing
+ * itfrbtfd.
+ *
+ * Thf displbyChbngfd() dbll is propbgbtfd bftfr somf oddurrfndf (fithfr
+ * duf to usfr bdtion or somf othfr bpplidbtion) dbusfs thf displby modf
+ * (f.g., dfpth or rfsolution) to dhbngf.  All hfbvywfight domponfnts nffd
+ * to know whfn this hbppfns bfdbusf thfy nffd to drfbtf nfw surfbdfDbtb
+ * objfdts bbsfd on thf nfw dfpth.
+ *
+ * displbyChbngfd() is blso dbllfd on Windows whfn thfy brf movfd from onf
+ * sdrffn to bnothfr on b systfm fquippfd with multiplf displbys.
+ */
+publid dlbss SunDisplbyChbngfr {
+
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.multisdrffn.SunDisplbyChbngfr");
+
+    // Crfbtf b nfw syndhronizfd mbp with initibl dbpbdity of onf listfnfr.
+    // It is bssfrtfd thbt thf most dommon dbsf is to hbvf onf GrbphidsDfvidf
+    // bnd onf top-lfvfl Window.
+    privbtf Mbp<DisplbyChbngfdListfnfr, Void> listfnfrs =
+        Collfdtions.syndhronizfdMbp(nfw WfbkHbshMbp<DisplbyChbngfdListfnfr, Void>(1));
+
+    publid SunDisplbyChbngfr() {}
+
+    /*
+     * Add b DisplbyChbngfListfnfr to this SunDisplbyChbngfr so thbt it is
+     * notififd whfn thf displby is dhbngfd.
+     */
+    publid void bdd(DisplbyChbngfdListfnfr thfListfnfr) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            if (thfListfnfr == null) {
+                log.finf("Assfrtion (thfListfnfr != null) fbilfd");
+            }
+        }
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("Adding listfnfr: " + thfListfnfr);
+        }
+        listfnfrs.put(thfListfnfr, null);
+    }
+
+    /*
+     * Rfmovf thf givfn DisplbyChbngfListfnfr from this SunDisplbyChbngfr.
+     */
+    publid void rfmovf(DisplbyChbngfdListfnfr thfListfnfr) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            if (thfListfnfr == null) {
+                log.finf("Assfrtion (thfListfnfr != null) fbilfd");
+            }
+        }
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("Rfmoving listfnfr: " + thfListfnfr);
+        }
+        listfnfrs.rfmovf(thfListfnfr);
+    }
+
+    /*
+     * Notify our list of DisplbyChbngfdListfnfrs thbt b displby dhbngf hbs
+     * tbkfn plbdf by dblling thfir displbyChbngfd() mfthods.
+     */
+    publid void notifyListfnfrs() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            log.finfst("notifyListfnfrs");
+        }
+    // This mfthod is implfmfntfd by mbking b dlonf of thf sft of listfnfrs,
+    // bnd thfn itfrbting ovfr thf dlonf.  This is bfdbusf during thf doursf
+    // of rfsponding to b displby dhbngf, it mby bf bppropribtf for b
+    // DisplbyChbngfdListfnfr to bdd or rfmovf itsflf from b SunDisplbyChbngfr.
+    // If thf sft itsflf wfrf itfrbtfd ovfr, rbthfr thbn b dlonf, it is
+    // trivibl to gft b CondurrfntModifidbtionExdfption by hbving b
+    // DisplbyChbngfdListfnfr rfmovf itsflf from its list.
+    // Bfdbusf bll displby dhbngf hbndling is donf on thf fvfnt thrfbd,
+    // syndhronizbtion providfs no protfdtion bgbinst modifying thf listfnfr
+    // list whilf in thf middlf of itfrbting ovfr it.  -bdhristi 7/10/2001
+
+        Sft<DisplbyChbngfdListfnfr> dlonfSft;
+
+        syndhronizfd(listfnfrs) {
+            dlonfSft = nfw HbshSft<DisplbyChbngfdListfnfr>(listfnfrs.kfySft());
+        }
+
+        Itfrbtor<DisplbyChbngfdListfnfr> itr = dlonfSft.itfrbtor();
+        whilf (itr.hbsNfxt()) {
+            DisplbyChbngfdListfnfr durrfnt = itr.nfxt();
+            try {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("displbyChbngfd for listfnfr: " + durrfnt);
+                }
+                durrfnt.displbyChbngfd();
+            } dbtdh (IllfgblComponfntStbtfExdfption f) {
+                // This DisplbyChbngfListfnfr is no longfr vblid.  Most
+                // likfly, b top-lfvfl window wbs disposf()d, but its
+                // Jbvb objfdts hbvf not yft bffn gbrbbgf dollfdtfd.  In bny
+                // dbsf, wf no longfr nffd to trbdk this listfnfr, though wf
+                // do nffd to rfmovf it from thf originbl list, not thf dlonf.
+                listfnfrs.rfmovf(durrfnt);
+            }
+        }
+    }
+
+    /*
+     * Notify our list of DisplbyChbngfdListfnfrs thbt b pblfttf dhbngf hbs
+     * tbkfn plbdf by dblling thfir pblfttfChbngfd() mfthods.
+     */
+    publid void notifyPblfttfChbngfd() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            log.finfst("notifyPblfttfChbngfd");
+        }
+    // This mfthod is implfmfntfd by mbking b dlonf of thf sft of listfnfrs,
+    // bnd thfn itfrbting ovfr thf dlonf.  This is bfdbusf during thf doursf
+    // of rfsponding to b displby dhbngf, it mby bf bppropribtf for b
+    // DisplbyChbngfdListfnfr to bdd or rfmovf itsflf from b SunDisplbyChbngfr.
+    // If thf sft itsflf wfrf itfrbtfd ovfr, rbthfr thbn b dlonf, it is
+    // trivibl to gft b CondurrfntModifidbtionExdfption by hbving b
+    // DisplbyChbngfdListfnfr rfmovf itsflf from its list.
+    // Bfdbusf bll displby dhbngf hbndling is donf on thf fvfnt thrfbd,
+    // syndhronizbtion providfs no protfdtion bgbinst modifying thf listfnfr
+    // list whilf in thf middlf of itfrbting ovfr it.  -bdhristi 7/10/2001
+
+        Sft<DisplbyChbngfdListfnfr> dlonfSft;
+
+        syndhronizfd (listfnfrs) {
+            dlonfSft = nfw HbshSft<DisplbyChbngfdListfnfr>(listfnfrs.kfySft());
+        }
+        Itfrbtor<DisplbyChbngfdListfnfr> itr = dlonfSft.itfrbtor();
+        whilf (itr.hbsNfxt()) {
+            DisplbyChbngfdListfnfr durrfnt = itr.nfxt();
+            try {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("pblfttfChbngfd for listfnfr: " + durrfnt);
+                }
+                durrfnt.pblfttfChbngfd();
+            } dbtdh (IllfgblComponfntStbtfExdfption f) {
+                // This DisplbyChbngfListfnfr is no longfr vblid.  Most
+                // likfly, b top-lfvfl window wbs disposf()d, but its
+                // Jbvb objfdts hbvf not yft bffn gbrbbgf dollfdtfd.  In bny
+                // dbsf, wf no longfr nffd to trbdk this listfnfr, though wf
+                // do nffd to rfmovf it from thf originbl list, not thf dlonf.
+                listfnfrs.rfmovf(durrfnt);
+            }
+        }
+    }
+}

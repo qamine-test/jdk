@@ -1,652 +1,652 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "io_util.h"
-#include "io_util_md.h"
-#include <stdio.h>
-#include <windows.h>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "io_util.i"
+#indludf "io_util_md.i"
+#indludf <stdio.i>
+#indludf <windows.i>
 
-#include <wchar.h>
-#include <io.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <limits.h>
-#include <wincon.h>
+#indludf <wdibr.i>
+#indludf <io.i>
+#indludf <fdntl.i>
+#indludf <frrno.i>
+#indludf <string.i>
+#indludf <sys/typfs.i>
+#indludf <sys/stbt.i>
+#indludf <limits.i>
+#indludf <windon.i>
 
 
-static DWORD MAX_INPUT_EVENTS = 2000;
+stbtid DWORD MAX_INPUT_EVENTS = 2000;
 
-/* If this returns NULL then an exception is pending */
+/* If tiis rfturns NULL tifn bn fxdfption is pfnding */
 WCHAR*
-fileToNTPath(JNIEnv *env, jobject file, jfieldID id) {
-    jstring path = NULL;
-    if (file != NULL) {
-        path = (*env)->GetObjectField(env, file, id);
+filfToNTPbti(JNIEnv *fnv, jobjfdt filf, jfifldID id) {
+    jstring pbti = NULL;
+    if (filf != NULL) {
+        pbti = (*fnv)->GftObjfdtFifld(fnv, filf, id);
     }
-    return pathToNTPath(env, path, JNI_FALSE);
+    rfturn pbtiToNTPbti(fnv, pbti, JNI_FALSE);
 }
 
-/* Returns the working directory for the given drive, or NULL */
+/* Rfturns tif working dirfdtory for tif givfn drivf, or NULL */
 WCHAR*
-currentDir(int di) {
+durrfntDir(int di) {
     UINT dt;
     WCHAR root[4];
-    // verify drive is valid as _wgetdcwd in the VC++ 2010 runtime
-    // library does not handle invalid drives.
+    // vfrify drivf is vblid bs _wgftddwd in tif VC++ 2010 runtimf
+    // librbry dofs not ibndlf invblid drivfs.
     root[0] = L'A' + (WCHAR)(di - 1);
     root[1] = L':';
     root[2] = L'\\';
     root[3] = L'\0';
-    dt = GetDriveTypeW(root);
+    dt = GftDrivfTypfW(root);
     if (dt == DRIVE_UNKNOWN || dt == DRIVE_NO_ROOT_DIR) {
-        return NULL;
-    } else {
-        return _wgetdcwd(di, NULL, MAX_PATH);
+        rfturn NULL;
+    } flsf {
+        rfturn _wgftddwd(di, NULL, MAX_PATH);
     }
 }
 
-/* We cache the length of current working dir here to avoid
-   calling _wgetcwd() every time we need to resolve a relative
-   path. This piece of code needs to be revisited if chdir
-   makes its way into java runtime.
+/* Wf dbdif tif lfngti of durrfnt working dir ifrf to bvoid
+   dblling _wgftdwd() fvfry timf wf nffd to rfsolvf b rflbtivf
+   pbti. Tiis pifdf of dodf nffds to bf rfvisitfd if didir
+   mbkfs its wby into jbvb runtimf.
 */
 
 int
-currentDirLength(const WCHAR* ps, int pathlen) {
+durrfntDirLfngti(donst WCHAR* ps, int pbtilfn) {
     WCHAR *dir;
-    if (pathlen > 2 && ps[1] == L':' && ps[2] != L'\\') {
-        //drive-relative
+    if (pbtilfn > 2 && ps[1] == L':' && ps[2] != L'\\') {
+        //drivf-rflbtivf
         WCHAR d = ps[0];
-        int dirlen = 0;
+        int dirlfn = 0;
         int di = 0;
-        if ((d >= L'a') && (d <= L'z')) di = d - L'a' + 1;
-        else if ((d >= L'A') && (d <= L'Z')) di = d - L'A' + 1;
-        else return 0; /* invalid drive name. */
-        dir = currentDir(di);
+        if ((d >= L'b') && (d <= L'z')) di = d - L'b' + 1;
+        flsf if ((d >= L'A') && (d <= L'Z')) di = d - L'A' + 1;
+        flsf rfturn 0; /* invblid drivf nbmf. */
+        dir = durrfntDir(di);
         if (dir != NULL){
-            dirlen = (int)wcslen(dir);
-            free(dir);
+            dirlfn = (int)wdslfn(dir);
+            frff(dir);
         }
-        return dirlen;
-    } else {
-        static int curDirLenCached = -1;
-        //relative to both drive and directory
-        if (curDirLenCached == -1) {
-            int dirlen = -1;
-            dir = _wgetcwd(NULL, MAX_PATH);
+        rfturn dirlfn;
+    } flsf {
+        stbtid int durDirLfnCbdifd = -1;
+        //rflbtivf to boti drivf bnd dirfdtory
+        if (durDirLfnCbdifd == -1) {
+            int dirlfn = -1;
+            dir = _wgftdwd(NULL, MAX_PATH);
             if (dir != NULL) {
-                curDirLenCached = (int)wcslen(dir);
-                free(dir);
+                durDirLfnCbdifd = (int)wdslfn(dir);
+                frff(dir);
             }
         }
-        return curDirLenCached;
+        rfturn durDirLfnCbdifd;
     }
 }
 
 /*
-  The "abpathlen" is the size of the buffer needed by _wfullpath. If the
-  "path" is a relative path, it is "the length of the current dir" + "the
-  length of the path", if it's "absolute" already, it's the same as
-  pathlen which is the length of "path".
+  Tif "bbpbtilfn" is tif sizf of tif bufffr nffdfd by _wfullpbti. If tif
+  "pbti" is b rflbtivf pbti, it is "tif lfngti of tif durrfnt dir" + "tif
+  lfngti of tif pbti", if it's "bbsolutf" blrfbdy, it's tif sbmf bs
+  pbtilfn wiidi is tif lfngti of "pbti".
  */
-WCHAR* prefixAbpath(const WCHAR* path, int pathlen, int abpathlen) {
-    WCHAR* pathbuf = NULL;
-    WCHAR* abpath = NULL;
+WCHAR* prffixAbpbti(donst WCHAR* pbti, int pbtilfn, int bbpbtilfn) {
+    WCHAR* pbtibuf = NULL;
+    WCHAR* bbpbti = NULL;
 
-    abpathlen += 10;  //padding
-    abpath = (WCHAR*)malloc(abpathlen * sizeof(WCHAR));
-    if (abpath) {
-        /* Collapse instances of "foo\.." and ensure absoluteness before
-           going down to prefixing.
+    bbpbtilfn += 10;  //pbdding
+    bbpbti = (WCHAR*)mbllod(bbpbtilfn * sizfof(WCHAR));
+    if (bbpbti) {
+        /* Collbpsf instbndfs of "foo\.." bnd fnsurf bbsolutfnfss bfforf
+           going down to prffixing.
         */
-        if (_wfullpath(abpath, path, abpathlen)) {
-            pathbuf = getPrefixed(abpath, abpathlen);
-        } else {
-            /* _wfullpath fails if the pathlength exceeds 32k wchar.
-               Instead of doing more fancy things we simply copy the
-               ps into the return buffer, the subsequent win32 API will
-               probably fail with FileNotFoundException, which is expected
+        if (_wfullpbti(bbpbti, pbti, bbpbtilfn)) {
+            pbtibuf = gftPrffixfd(bbpbti, bbpbtilfn);
+        } flsf {
+            /* _wfullpbti fbils if tif pbtilfngti fxdffds 32k wdibr.
+               Instfbd of doing morf fbndy tiings wf simply dopy tif
+               ps into tif rfturn bufffr, tif subsfqufnt win32 API will
+               probbbly fbil witi FilfNotFoundExdfption, wiidi is fxpfdtfd
             */
-            pathbuf = (WCHAR*)malloc((pathlen + 6) * sizeof(WCHAR));
-            if (pathbuf != 0) {
-                wcscpy(pathbuf, path);
+            pbtibuf = (WCHAR*)mbllod((pbtilfn + 6) * sizfof(WCHAR));
+            if (pbtibuf != 0) {
+                wdsdpy(pbtibuf, pbti);
             }
         }
-        free(abpath);
+        frff(bbpbti);
     }
-    return pathbuf;
+    rfturn pbtibuf;
 }
 
-/* If this returns NULL then an exception is pending */
+/* If tiis rfturns NULL tifn bn fxdfption is pfnding */
 WCHAR*
-pathToNTPath(JNIEnv *env, jstring path, jboolean throwFNFE) {
-    int pathlen = 0;
-    WCHAR *pathbuf = NULL;
-    int max_path = 248; /* CreateDirectoryW() has the limit of 248 */
+pbtiToNTPbti(JNIEnv *fnv, jstring pbti, jboolfbn tirowFNFE) {
+    int pbtilfn = 0;
+    WCHAR *pbtibuf = NULL;
+    int mbx_pbti = 248; /* CrfbtfDirfdtoryW() ibs tif limit of 248 */
 
-    WITH_UNICODE_STRING(env, path, ps) {
-        pathlen = (int)wcslen(ps);
-        if (pathlen != 0) {
-            if (pathlen > 2 &&
+    WITH_UNICODE_STRING(fnv, pbti, ps) {
+        pbtilfn = (int)wdslfn(ps);
+        if (pbtilfn != 0) {
+            if (pbtilfn > 2 &&
                 (ps[0] == L'\\' && ps[1] == L'\\' ||   //UNC
-                 ps[1] == L':' && ps[2] == L'\\'))     //absolute
+                 ps[1] == L':' && ps[2] == L'\\'))     //bbsolutf
             {
-                 if (pathlen > max_path - 1) {
-                     pathbuf = prefixAbpath(ps, pathlen, pathlen);
-                 } else {
-                     pathbuf = (WCHAR*)malloc((pathlen + 6) * sizeof(WCHAR));
-                     if (pathbuf != 0) {
-                         wcscpy(pathbuf, ps);
-                     } else {
-                         JNU_ThrowOutOfMemoryError(env, "native memory allocation failed");
-                         return NULL;
+                 if (pbtilfn > mbx_pbti - 1) {
+                     pbtibuf = prffixAbpbti(ps, pbtilfn, pbtilfn);
+                 } flsf {
+                     pbtibuf = (WCHAR*)mbllod((pbtilfn + 6) * sizfof(WCHAR));
+                     if (pbtibuf != 0) {
+                         wdsdpy(pbtibuf, ps);
+                     } flsf {
+                         JNU_TirowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+                         rfturn NULL;
                      }
                  }
-            } else {
-                /* If the path came in as a relative path, need to verify if
-                   its absolute form is bigger than max_path or not, if yes
-                   need to (1)convert it to absolute and (2)prefix. This is
-                   obviously a burden to all relative paths (The current dir/len
-                   for "drive & directory" relative path is cached, so we only
-                   calculate it once but for "drive-relative path we call
-                   _wgetdcwd() and wcslen() everytime), but a hit we have
-                   to take if we want to support relative path beyond max_path.
-                   There is no way to predict how long the absolute path will be
-                   (therefor allocate the sufficient memory block) before calling
-                   _wfullpath(), we have to get the length of "current" dir first.
+            } flsf {
+                /* If tif pbti dbmf in bs b rflbtivf pbti, nffd to vfrify if
+                   its bbsolutf form is biggfr tibn mbx_pbti or not, if yfs
+                   nffd to (1)donvfrt it to bbsolutf bnd (2)prffix. Tiis is
+                   obviously b burdfn to bll rflbtivf pbtis (Tif durrfnt dir/lfn
+                   for "drivf & dirfdtory" rflbtivf pbti is dbdifd, so wf only
+                   dbldulbtf it ondf but for "drivf-rflbtivf pbti wf dbll
+                   _wgftddwd() bnd wdslfn() fvfrytimf), but b iit wf ibvf
+                   to tbkf if wf wbnt to support rflbtivf pbti bfyond mbx_pbti.
+                   Tifrf is no wby to prfdidt iow long tif bbsolutf pbti will bf
+                   (tifrffor bllodbtf tif suffidifnt mfmory blodk) bfforf dblling
+                   _wfullpbti(), wf ibvf to gft tif lfngti of "durrfnt" dir first.
                 */
-                WCHAR *abpath = NULL;
-                int dirlen = currentDirLength(ps, pathlen);
-                if (dirlen + pathlen + 1 > max_path - 1) {
-                    pathbuf = prefixAbpath(ps, pathlen, dirlen + pathlen);
-                } else {
-                    pathbuf = (WCHAR*)malloc((pathlen + 6) * sizeof(WCHAR));
-                    if (pathbuf != 0) {
-                        wcscpy(pathbuf, ps);
-                    } else {
-                        JNU_ThrowOutOfMemoryError(env, "native memory allocation failed");
-                        return NULL;
+                WCHAR *bbpbti = NULL;
+                int dirlfn = durrfntDirLfngti(ps, pbtilfn);
+                if (dirlfn + pbtilfn + 1 > mbx_pbti - 1) {
+                    pbtibuf = prffixAbpbti(ps, pbtilfn, dirlfn + pbtilfn);
+                } flsf {
+                    pbtibuf = (WCHAR*)mbllod((pbtilfn + 6) * sizfof(WCHAR));
+                    if (pbtibuf != 0) {
+                        wdsdpy(pbtibuf, ps);
+                    } flsf {
+                        JNU_TirowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+                        rfturn NULL;
                     }
                 }
             }
         }
-    } END_UNICODE_STRING(env, ps);
+    } END_UNICODE_STRING(fnv, ps);
 
-    if (pathlen == 0) {
-        if (throwFNFE == JNI_TRUE) {
-            if (!(*env)->ExceptionCheck(env)) {
-                throwFileNotFoundException(env, path);
+    if (pbtilfn == 0) {
+        if (tirowFNFE == JNI_TRUE) {
+            if (!(*fnv)->ExdfptionCifdk(fnv)) {
+                tirowFilfNotFoundExdfption(fnv, pbti);
             }
-            return NULL;
-        } else {
-            pathbuf = (WCHAR*)malloc(sizeof(WCHAR));
-            if (pathbuf != NULL) {
-                pathbuf[0] = L'\0';
-            } else {
-                JNU_ThrowOutOfMemoryError(env, 0);
-                return NULL;
+            rfturn NULL;
+        } flsf {
+            pbtibuf = (WCHAR*)mbllod(sizfof(WCHAR));
+            if (pbtibuf != NULL) {
+                pbtibuf[0] = L'\0';
+            } flsf {
+                JNU_TirowOutOfMfmoryError(fnv, 0);
+                rfturn NULL;
             }
         }
     }
-    if (pathbuf == 0) {
-        JNU_ThrowOutOfMemoryError(env, 0);
-        return NULL;
+    if (pbtibuf == 0) {
+        JNU_TirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
-    return pathbuf;
+    rfturn pbtibuf;
 }
 
 FD
-winFileHandleOpen(JNIEnv *env, jstring path, int flags)
+winFilfHbndlfOpfn(JNIEnv *fnv, jstring pbti, int flbgs)
 {
-    const DWORD access =
-        (flags & O_WRONLY) ?  GENERIC_WRITE :
-        (flags & O_RDWR)   ? (GENERIC_READ | GENERIC_WRITE) :
+    donst DWORD bddfss =
+        (flbgs & O_WRONLY) ?  GENERIC_WRITE :
+        (flbgs & O_RDWR)   ? (GENERIC_READ | GENERIC_WRITE) :
         GENERIC_READ;
-    const DWORD sharing =
+    donst DWORD sibring =
         FILE_SHARE_READ | FILE_SHARE_WRITE;
-    const DWORD disposition =
-        /* Note: O_TRUNC overrides O_CREAT */
-        (flags & O_TRUNC) ? CREATE_ALWAYS :
-        (flags & O_CREAT) ? OPEN_ALWAYS   :
+    donst DWORD disposition =
+        /* Notf: O_TRUNC ovfrridfs O_CREAT */
+        (flbgs & O_TRUNC) ? CREATE_ALWAYS :
+        (flbgs & O_CREAT) ? OPEN_ALWAYS   :
         OPEN_EXISTING;
-    const DWORD  maybeWriteThrough =
-        (flags & (O_SYNC | O_DSYNC)) ?
+    donst DWORD  mbybfWritfTirougi =
+        (flbgs & (O_SYNC | O_DSYNC)) ?
         FILE_FLAG_WRITE_THROUGH :
         FILE_ATTRIBUTE_NORMAL;
-    const DWORD maybeDeleteOnClose =
-        (flags & O_TEMPORARY) ?
+    donst DWORD mbybfDflftfOnClosf =
+        (flbgs & O_TEMPORARY) ?
         FILE_FLAG_DELETE_ON_CLOSE :
         FILE_ATTRIBUTE_NORMAL;
-    const DWORD flagsAndAttributes = maybeWriteThrough | maybeDeleteOnClose;
-    HANDLE h = NULL;
+    donst DWORD flbgsAndAttributfs = mbybfWritfTirougi | mbybfDflftfOnClosf;
+    HANDLE i = NULL;
 
-    WCHAR *pathbuf = pathToNTPath(env, path, JNI_TRUE);
-    if (pathbuf == NULL) {
-        /* Exception already pending */
-        return -1;
+    WCHAR *pbtibuf = pbtiToNTPbti(fnv, pbti, JNI_TRUE);
+    if (pbtibuf == NULL) {
+        /* Exdfption blrfbdy pfnding */
+        rfturn -1;
     }
-    h = CreateFileW(
-        pathbuf,            /* Wide char path name */
-        access,             /* Read and/or write permission */
-        sharing,            /* File sharing flags */
-        NULL,               /* Security attributes */
-        disposition,        /* creation disposition */
-        flagsAndAttributes, /* flags and attributes */
+    i = CrfbtfFilfW(
+        pbtibuf,            /* Widf dibr pbti nbmf */
+        bddfss,             /* Rfbd bnd/or writf pfrmission */
+        sibring,            /* Filf sibring flbgs */
+        NULL,               /* Sfdurity bttributfs */
+        disposition,        /* drfbtion disposition */
+        flbgsAndAttributfs, /* flbgs bnd bttributfs */
         NULL);
-    free(pathbuf);
+    frff(pbtibuf);
 
-    if (h == INVALID_HANDLE_VALUE) {
-        throwFileNotFoundException(env, path);
-        return -1;
+    if (i == INVALID_HANDLE_VALUE) {
+        tirowFilfNotFoundExdfption(fnv, pbti);
+        rfturn -1;
     }
-    return (jlong) h;
+    rfturn (jlong) i;
 }
 
 void
-fileOpen(JNIEnv *env, jobject this, jstring path, jfieldID fid, int flags)
+filfOpfn(JNIEnv *fnv, jobjfdt tiis, jstring pbti, jfifldID fid, int flbgs)
 {
-    FD h = winFileHandleOpen(env, path, flags);
-    if (h >= 0) {
-        SET_FD(this, h, fid);
+    FD i = winFilfHbndlfOpfn(fnv, pbti, flbgs);
+    if (i >= 0) {
+        SET_FD(tiis, i, fid);
     }
 }
 
-/* These are functions that use a handle fd instead of the
-   old C style int fd as is used in HPI layer */
+/* Tifsf brf fundtions tibt usf b ibndlf fd instfbd of tif
+   old C stylf int fd bs is usfd in HPI lbyfr */
 
-static int
-handleNonSeekAvailable(FD, long *);
-static int
-handleStdinAvailable(FD, long *);
+stbtid int
+ibndlfNonSffkAvbilbblf(FD, long *);
+stbtid int
+ibndlfStdinAvbilbblf(FD, long *);
 
 int
-handleAvailable(FD fd, jlong *pbytes) {
-    HANDLE h = (HANDLE)fd;
-    DWORD type = 0;
+ibndlfAvbilbblf(FD fd, jlong *pbytfs) {
+    HANDLE i = (HANDLE)fd;
+    DWORD typf = 0;
 
-    type = GetFileType(h);
-    /* Handle is for keyboard or pipe */
-    if (type == FILE_TYPE_CHAR || type == FILE_TYPE_PIPE) {
-        int ret;
-        long lpbytes;
-        HANDLE stdInHandle = GetStdHandle(STD_INPUT_HANDLE);
-        if (stdInHandle == h) {
-            ret = handleStdinAvailable(fd, &lpbytes); /* keyboard */
-        } else {
-            ret = handleNonSeekAvailable(fd, &lpbytes); /* pipe */
+    typf = GftFilfTypf(i);
+    /* Hbndlf is for kfybobrd or pipf */
+    if (typf == FILE_TYPE_CHAR || typf == FILE_TYPE_PIPE) {
+        int rft;
+        long lpbytfs;
+        HANDLE stdInHbndlf = GftStdHbndlf(STD_INPUT_HANDLE);
+        if (stdInHbndlf == i) {
+            rft = ibndlfStdinAvbilbblf(fd, &lpbytfs); /* kfybobrd */
+        } flsf {
+            rft = ibndlfNonSffkAvbilbblf(fd, &lpbytfs); /* pipf */
         }
-        (*pbytes) = (jlong)(lpbytes);
-        return ret;
+        (*pbytfs) = (jlong)(lpbytfs);
+        rfturn rft;
     }
-    /* Handle is for regular file */
-    if (type == FILE_TYPE_DISK) {
-        jlong current, end;
+    /* Hbndlf is for rfgulbr filf */
+    if (typf == FILE_TYPE_DISK) {
+        jlong durrfnt, fnd;
 
-        LARGE_INTEGER filesize;
-        current = handleLseek(fd, 0, SEEK_CUR);
-        if (current < 0) {
-            return FALSE;
+        LARGE_INTEGER filfsizf;
+        durrfnt = ibndlfLsffk(fd, 0, SEEK_CUR);
+        if (durrfnt < 0) {
+            rfturn FALSE;
         }
-        if (GetFileSizeEx(h, &filesize) == 0) {
-            return FALSE;
+        if (GftFilfSizfEx(i, &filfsizf) == 0) {
+            rfturn FALSE;
         }
-        end = long_to_jlong(filesize.QuadPart);
-        *pbytes = end - current;
-        return TRUE;
+        fnd = long_to_jlong(filfsizf.QubdPbrt);
+        *pbytfs = fnd - durrfnt;
+        rfturn TRUE;
     }
-    return FALSE;
+    rfturn FALSE;
 }
 
-static int
-handleNonSeekAvailable(FD fd, long *pbytes) {
-    /* This is used for available on non-seekable devices
-     * (like both named and anonymous pipes, such as pipes
-     *  connected to an exec'd process).
-     * Standard Input is a special case.
+stbtid int
+ibndlfNonSffkAvbilbblf(FD fd, long *pbytfs) {
+    /* Tiis is usfd for bvbilbblf on non-sffkbblf dfvidfs
+     * (likf boti nbmfd bnd bnonymous pipfs, sudi bs pipfs
+     *  donnfdtfd to bn fxfd'd prodfss).
+     * Stbndbrd Input is b spfdibl dbsf.
      *
      */
-    HANDLE han;
+    HANDLE ibn;
 
-    if ((han = (HANDLE) fd) == INVALID_HANDLE_VALUE) {
-        return FALSE;
+    if ((ibn = (HANDLE) fd) == INVALID_HANDLE_VALUE) {
+        rfturn FALSE;
     }
 
-    if (! PeekNamedPipe(han, NULL, 0, NULL, pbytes, NULL)) {
-        /* PeekNamedPipe fails when at EOF.  In that case we
-         * simply make *pbytes = 0 which is consistent with the
-         * behavior we get on Solaris when an fd is at EOF.
-         * The only alternative is to raise and Exception,
-         * which isn't really warranted.
+    if (! PffkNbmfdPipf(ibn, NULL, 0, NULL, pbytfs, NULL)) {
+        /* PffkNbmfdPipf fbils wifn bt EOF.  In tibt dbsf wf
+         * simply mbkf *pbytfs = 0 wiidi is donsistfnt witi tif
+         * bfibvior wf gft on Solbris wifn bn fd is bt EOF.
+         * Tif only bltfrnbtivf is to rbisf bnd Exdfption,
+         * wiidi isn't rfblly wbrrbntfd.
          */
-        if (GetLastError() != ERROR_BROKEN_PIPE) {
-            return FALSE;
+        if (GftLbstError() != ERROR_BROKEN_PIPE) {
+            rfturn FALSE;
         }
-        *pbytes = 0;
+        *pbytfs = 0;
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
-static int
-handleStdinAvailable(FD fd, long *pbytes) {
-    HANDLE han;
-    DWORD numEventsRead = 0;    /* Number of events read from buffer */
-    DWORD numEvents = 0;        /* Number of events in buffer */
-    DWORD i = 0;                /* Loop index */
-    DWORD curLength = 0;        /* Position marker */
-    DWORD actualLength = 0;     /* Number of bytes readable */
-    BOOL error = FALSE;         /* Error holder */
-    INPUT_RECORD *lpBuffer;     /* Pointer to records of input events */
-    DWORD bufferSize = 0;
+stbtid int
+ibndlfStdinAvbilbblf(FD fd, long *pbytfs) {
+    HANDLE ibn;
+    DWORD numEvfntsRfbd = 0;    /* Numbfr of fvfnts rfbd from bufffr */
+    DWORD numEvfnts = 0;        /* Numbfr of fvfnts in bufffr */
+    DWORD i = 0;                /* Loop indfx */
+    DWORD durLfngti = 0;        /* Position mbrkfr */
+    DWORD bdtublLfngti = 0;     /* Numbfr of bytfs rfbdbblf */
+    BOOL frror = FALSE;         /* Error ioldfr */
+    INPUT_RECORD *lpBufffr;     /* Pointfr to rfdords of input fvfnts */
+    DWORD bufffrSizf = 0;
 
-    if ((han = GetStdHandle(STD_INPUT_HANDLE)) == INVALID_HANDLE_VALUE) {
-        return FALSE;
+    if ((ibn = GftStdHbndlf(STD_INPUT_HANDLE)) == INVALID_HANDLE_VALUE) {
+        rfturn FALSE;
     }
 
-    /* Construct an array of input records in the console buffer */
-    error = GetNumberOfConsoleInputEvents(han, &numEvents);
-    if (error == 0) {
-        return handleNonSeekAvailable(fd, pbytes);
+    /* Construdt bn brrby of input rfdords in tif donsolf bufffr */
+    frror = GftNumbfrOfConsolfInputEvfnts(ibn, &numEvfnts);
+    if (frror == 0) {
+        rfturn ibndlfNonSffkAvbilbblf(fd, pbytfs);
     }
 
-    /* lpBuffer must fit into 64K or else PeekConsoleInput fails */
-    if (numEvents > MAX_INPUT_EVENTS) {
-        numEvents = MAX_INPUT_EVENTS;
+    /* lpBufffr must fit into 64K or flsf PffkConsolfInput fbils */
+    if (numEvfnts > MAX_INPUT_EVENTS) {
+        numEvfnts = MAX_INPUT_EVENTS;
     }
 
-    bufferSize = numEvents * sizeof(INPUT_RECORD);
-    if (bufferSize == 0)
-        bufferSize = 1;
-    lpBuffer = malloc(bufferSize);
-    if (lpBuffer == NULL) {
-        return FALSE;
+    bufffrSizf = numEvfnts * sizfof(INPUT_RECORD);
+    if (bufffrSizf == 0)
+        bufffrSizf = 1;
+    lpBufffr = mbllod(bufffrSizf);
+    if (lpBufffr == NULL) {
+        rfturn FALSE;
     }
 
-    error = PeekConsoleInput(han, lpBuffer, numEvents, &numEventsRead);
-    if (error == 0) {
-        free(lpBuffer);
-        return FALSE;
+    frror = PffkConsolfInput(ibn, lpBufffr, numEvfnts, &numEvfntsRfbd);
+    if (frror == 0) {
+        frff(lpBufffr);
+        rfturn FALSE;
     }
 
-    /* Examine input records for the number of bytes available */
-    for(i=0; i<numEvents; i++) {
-        if (lpBuffer[i].EventType == KEY_EVENT) {
-            KEY_EVENT_RECORD *keyRecord = (KEY_EVENT_RECORD *)
-                                          &(lpBuffer[i].Event);
-            if (keyRecord->bKeyDown == TRUE) {
-                CHAR *keyPressed = (CHAR *) &(keyRecord->uChar);
-                curLength++;
-                if (*keyPressed == '\r')
-                    actualLength = curLength;
+    /* Exbminf input rfdords for tif numbfr of bytfs bvbilbblf */
+    for(i=0; i<numEvfnts; i++) {
+        if (lpBufffr[i].EvfntTypf == KEY_EVENT) {
+            KEY_EVENT_RECORD *kfyRfdord = (KEY_EVENT_RECORD *)
+                                          &(lpBufffr[i].Evfnt);
+            if (kfyRfdord->bKfyDown == TRUE) {
+                CHAR *kfyPrfssfd = (CHAR *) &(kfyRfdord->uCibr);
+                durLfngti++;
+                if (*kfyPrfssfd == '\r')
+                    bdtublLfngti = durLfngti;
             }
         }
     }
-    if(lpBuffer != NULL)
-        free(lpBuffer);
-    *pbytes = (long) actualLength;
-    return TRUE;
+    if(lpBufffr != NULL)
+        frff(lpBufffr);
+    *pbytfs = (long) bdtublLfngti;
+    rfturn TRUE;
 }
 
 /*
- * This is documented to succeed on read-only files, but Win32's
- * FlushFileBuffers functions fails with "access denied" in such a
- * case.  So we only signal an error if the error is *not* "access
- * denied".
+ * Tiis is dodumfntfd to suddffd on rfbd-only filfs, but Win32's
+ * FlusiFilfBufffrs fundtions fbils witi "bddfss dfnifd" in sudi b
+ * dbsf.  So wf only signbl bn frror if tif frror is *not* "bddfss
+ * dfnifd".
  */
 
 int
-handleSync(FD fd) {
+ibndlfSynd(FD fd) {
     /*
-     * From the documentation:
+     * From tif dodumfntbtion:
      *
-     *     On Windows NT, the function FlushFileBuffers fails if hFile
-     *     is a handle to console output. That is because console
-     *     output is not buffered. The function returns FALSE, and
-     *     GetLastError returns ERROR_INVALID_HANDLE.
+     *     On Windows NT, tif fundtion FlusiFilfBufffrs fbils if iFilf
+     *     is b ibndlf to donsolf output. Tibt is bfdbusf donsolf
+     *     output is not bufffrfd. Tif fundtion rfturns FALSE, bnd
+     *     GftLbstError rfturns ERROR_INVALID_HANDLE.
      *
-     * On the other hand, on Win95, it returns without error.  I cannot
-     * assume that 0, 1, and 2 are console, because if someone closes
-     * System.out and then opens a file, they might get file descriptor
-     * 1.  An error on *that* version of 1 should be reported, whereas
-     * an error on System.out (which was the original 1) should be
-     * ignored.  So I use isatty() to ensure that such an error was due
-     * to this bogosity, and if it was, I ignore the error.
+     * On tif otifr ibnd, on Win95, it rfturns witiout frror.  I dbnnot
+     * bssumf tibt 0, 1, bnd 2 brf donsolf, bfdbusf if somfonf dlosfs
+     * Systfm.out bnd tifn opfns b filf, tify migit gft filf dfsdriptor
+     * 1.  An frror on *tibt* vfrsion of 1 siould bf rfportfd, wifrfbs
+     * bn frror on Systfm.out (wiidi wbs tif originbl 1) siould bf
+     * ignorfd.  So I usf isbtty() to fnsurf tibt sudi bn frror wbs duf
+     * to tiis bogosity, bnd if it wbs, I ignorf tif frror.
      */
 
-    HANDLE handle = (HANDLE)fd;
+    HANDLE ibndlf = (HANDLE)fd;
 
-    if (!FlushFileBuffers(handle)) {
-        if (GetLastError() != ERROR_ACCESS_DENIED) {    /* from winerror.h */
-            return -1;
+    if (!FlusiFilfBufffrs(ibndlf)) {
+        if (GftLbstError() != ERROR_ACCESS_DENIED) {    /* from winfrror.i */
+            rfturn -1;
         }
     }
-    return 0;
+    rfturn 0;
 }
 
 
 int
-handleSetLength(FD fd, jlong length) {
-    HANDLE h = (HANDLE)fd;
-    long high = (long)(length >> 32);
-    DWORD ret;
+ibndlfSftLfngti(FD fd, jlong lfngti) {
+    HANDLE i = (HANDLE)fd;
+    long iigi = (long)(lfngti >> 32);
+    DWORD rft;
 
-    if (h == (HANDLE)(-1)) return -1;
-    ret = SetFilePointer(h, (long)(length), &high, FILE_BEGIN);
-    if (ret == 0xFFFFFFFF && GetLastError() != NO_ERROR) {
-        return -1;
+    if (i == (HANDLE)(-1)) rfturn -1;
+    rft = SftFilfPointfr(i, (long)(lfngti), &iigi, FILE_BEGIN);
+    if (rft == 0xFFFFFFFF && GftLbstError() != NO_ERROR) {
+        rfturn -1;
     }
-    if (SetEndOfFile(h) == FALSE) return -1;
-    return 0;
+    if (SftEndOfFilf(i) == FALSE) rfturn -1;
+    rfturn 0;
 }
 
 JNIEXPORT
 jint
-handleRead(FD fd, void *buf, jint len)
+ibndlfRfbd(FD fd, void *buf, jint lfn)
 {
-    DWORD read = 0;
-    BOOL result = 0;
-    HANDLE h = (HANDLE)fd;
-    if (h == INVALID_HANDLE_VALUE) {
-        return -1;
+    DWORD rfbd = 0;
+    BOOL rfsult = 0;
+    HANDLE i = (HANDLE)fd;
+    if (i == INVALID_HANDLE_VALUE) {
+        rfturn -1;
     }
-    result = ReadFile(h,          /* File handle to read */
-                      buf,        /* address to put data */
-                      len,        /* number of bytes to read */
-                      &read,      /* number of bytes read */
-                      NULL);      /* no overlapped struct */
-    if (result == 0) {
-        int error = GetLastError();
-        if (error == ERROR_BROKEN_PIPE) {
-            return 0; /* EOF */
+    rfsult = RfbdFilf(i,          /* Filf ibndlf to rfbd */
+                      buf,        /* bddrfss to put dbtb */
+                      lfn,        /* numbfr of bytfs to rfbd */
+                      &rfbd,      /* numbfr of bytfs rfbd */
+                      NULL);      /* no ovfrlbppfd strudt */
+    if (rfsult == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_BROKEN_PIPE) {
+            rfturn 0; /* EOF */
         }
-        return -1;
+        rfturn -1;
     }
-    return (jint)read;
+    rfturn (jint)rfbd;
 }
 
-static jint writeInternal(FD fd, const void *buf, jint len, jboolean append)
+stbtid jint writfIntfrnbl(FD fd, donst void *buf, jint lfn, jboolfbn bppfnd)
 {
-    BOOL result = 0;
-    DWORD written = 0;
-    HANDLE h = (HANDLE)fd;
-    if (h != INVALID_HANDLE_VALUE) {
+    BOOL rfsult = 0;
+    DWORD writtfn = 0;
+    HANDLE i = (HANDLE)fd;
+    if (i != INVALID_HANDLE_VALUE) {
         OVERLAPPED ov;
         LPOVERLAPPED lpOv;
-        if (append == JNI_TRUE) {
-            ov.Offset = (DWORD)0xFFFFFFFF;
-            ov.OffsetHigh = (DWORD)0xFFFFFFFF;
-            ov.hEvent = NULL;
+        if (bppfnd == JNI_TRUE) {
+            ov.Offsft = (DWORD)0xFFFFFFFF;
+            ov.OffsftHigi = (DWORD)0xFFFFFFFF;
+            ov.iEvfnt = NULL;
             lpOv = &ov;
-        } else {
+        } flsf {
             lpOv = NULL;
         }
-        result = WriteFile(h,                /* File handle to write */
-                           buf,              /* pointers to the buffers */
-                           len,              /* number of bytes to write */
-                           &written,         /* receives number of bytes written */
-                           lpOv);            /* overlapped struct */
+        rfsult = WritfFilf(i,                /* Filf ibndlf to writf */
+                           buf,              /* pointfrs to tif bufffrs */
+                           lfn,              /* numbfr of bytfs to writf */
+                           &writtfn,         /* rfdfivfs numbfr of bytfs writtfn */
+                           lpOv);            /* ovfrlbppfd strudt */
     }
-    if ((h == INVALID_HANDLE_VALUE) || (result == 0)) {
-        return -1;
+    if ((i == INVALID_HANDLE_VALUE) || (rfsult == 0)) {
+        rfturn -1;
     }
-    return (jint)written;
+    rfturn (jint)writtfn;
 }
 
-jint handleWrite(FD fd, const void *buf, jint len) {
-    return writeInternal(fd, buf, len, JNI_FALSE);
+jint ibndlfWritf(FD fd, donst void *buf, jint lfn) {
+    rfturn writfIntfrnbl(fd, buf, lfn, JNI_FALSE);
 }
 
-jint handleAppend(FD fd, const void *buf, jint len) {
-    return writeInternal(fd, buf, len, JNI_TRUE);
+jint ibndlfAppfnd(FD fd, donst void *buf, jint lfn) {
+    rfturn writfIntfrnbl(fd, buf, lfn, JNI_TRUE);
 }
 
 jint
-handleClose(JNIEnv *env, jobject this, jfieldID fid)
+ibndlfClosf(JNIEnv *fnv, jobjfdt tiis, jfifldID fid)
 {
-    FD fd = GET_FD(this, fid);
-    HANDLE h = (HANDLE)fd;
+    FD fd = GET_FD(tiis, fid);
+    HANDLE i = (HANDLE)fd;
 
-    if (h == INVALID_HANDLE_VALUE) {
-        return 0;
+    if (i == INVALID_HANDLE_VALUE) {
+        rfturn 0;
     }
 
-    /* Set the fd to -1 before closing it so that the timing window
-     * of other threads using the wrong fd (closed but recycled fd,
-     * that gets re-opened with some other filename) is reduced.
-     * Practically the chance of its occurance is low, however, we are
-     * taking extra precaution over here.
+    /* Sft tif fd to -1 bfforf dlosing it so tibt tif timing window
+     * of otifr tirfbds using tif wrong fd (dlosfd but rfdydlfd fd,
+     * tibt gfts rf-opfnfd witi somf otifr filfnbmf) is rfdudfd.
+     * Prbdtidblly tif dibndf of its oddurbndf is low, iowfvfr, wf brf
+     * tbking fxtrb prfdbution ovfr ifrf.
      */
-    SET_FD(this, -1, fid);
+    SET_FD(tiis, -1, fid);
 
-    if (CloseHandle(h) == 0) { /* Returns zero on failure */
-        JNU_ThrowIOExceptionWithLastError(env, "close failed");
+    if (ClosfHbndlf(i) == 0) { /* Rfturns zfro on fbilurf */
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "dlosf fbilfd");
     }
-    return 0;
+    rfturn 0;
 }
 
 jlong
-handleLseek(FD fd, jlong offset, jint whence)
+ibndlfLsffk(FD fd, jlong offsft, jint wifndf)
 {
-    LARGE_INTEGER pos, distance;
+    LARGE_INTEGER pos, distbndf;
     DWORD lowPos = 0;
-    long highPos = 0;
+    long iigiPos = 0;
     DWORD op = FILE_CURRENT;
-    HANDLE h = (HANDLE)fd;
+    HANDLE i = (HANDLE)fd;
 
-    if (whence == SEEK_END) {
+    if (wifndf == SEEK_END) {
         op = FILE_END;
     }
-    if (whence == SEEK_CUR) {
+    if (wifndf == SEEK_CUR) {
         op = FILE_CURRENT;
     }
-    if (whence == SEEK_SET) {
+    if (wifndf == SEEK_SET) {
         op = FILE_BEGIN;
     }
 
-    distance.QuadPart = offset;
-    if (SetFilePointerEx(h, distance, &pos, op) == 0) {
-        return -1;
+    distbndf.QubdPbrt = offsft;
+    if (SftFilfPointfrEx(i, distbndf, &pos, op) == 0) {
+        rfturn -1;
     }
-    return long_to_jlong(pos.QuadPart);
+    rfturn long_to_jlong(pos.QubdPbrt);
 }
 
-size_t
-getLastErrorString(char *utf8_jvmErrorMsg, size_t cbErrorMsg)
+sizf_t
+gftLbstErrorString(dibr *utf8_jvmErrorMsg, sizf_t dbErrorMsg)
 {
-    size_t n = 0;
-    if (cbErrorMsg > 0) {
+    sizf_t n = 0;
+    if (dbErrorMsg > 0) {
         BOOLEAN noError = FALSE;
-        WCHAR *utf16_osErrorMsg = (WCHAR *)malloc(cbErrorMsg*sizeof(WCHAR));
+        WCHAR *utf16_osErrorMsg = (WCHAR *)mbllod(dbErrorMsg*sizfof(WCHAR));
         if (utf16_osErrorMsg == NULL) {
-            // OOM accident
-            strncpy(utf8_jvmErrorMsg, "Out of memory", cbErrorMsg);
-            // truncate if too long
-            utf8_jvmErrorMsg[cbErrorMsg - 1] = '\0';
-            n = strlen(utf8_jvmErrorMsg);
-        } else {
-            DWORD errval = GetLastError();
-            if (errval != 0) {
-                // WIN32 error
-                n = (size_t)FormatMessageW(
+            // OOM bddidfnt
+            strndpy(utf8_jvmErrorMsg, "Out of mfmory", dbErrorMsg);
+            // trundbtf if too long
+            utf8_jvmErrorMsg[dbErrorMsg - 1] = '\0';
+            n = strlfn(utf8_jvmErrorMsg);
+        } flsf {
+            DWORD frrvbl = GftLbstError();
+            if (frrvbl != 0) {
+                // WIN32 frror
+                n = (sizf_t)FormbtMfssbgfW(
                     FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
                     NULL,
-                    errval,
+                    frrvbl,
                     0,
                     utf16_osErrorMsg,
-                    (DWORD)cbErrorMsg,
+                    (DWORD)dbErrorMsg,
                     NULL);
                 if (n > 3) {
-                    // Drop final '.', CR, LF
+                    // Drop finbl '.', CR, LF
                     if (utf16_osErrorMsg[n - 1] == L'\n') --n;
                     if (utf16_osErrorMsg[n - 1] == L'\r') --n;
                     if (utf16_osErrorMsg[n - 1] == L'.') --n;
                     utf16_osErrorMsg[n] = L'\0';
                 }
-            } else if (errno != 0) {
-                // C runtime error that has no corresponding WIN32 error code
-                const WCHAR *rtError = _wcserror(errno);
+            } flsf if (frrno != 0) {
+                // C runtimf frror tibt ibs no dorrfsponding WIN32 frror dodf
+                donst WCHAR *rtError = _wdsfrror(frrno);
                 if (rtError != NULL) {
-                    wcsncpy(utf16_osErrorMsg, rtError, cbErrorMsg);
-                    // truncate if too long
-                    utf16_osErrorMsg[cbErrorMsg - 1] = L'\0';
-                    n = wcslen(utf16_osErrorMsg);
+                    wdsndpy(utf16_osErrorMsg, rtError, dbErrorMsg);
+                    // trundbtf if too long
+                    utf16_osErrorMsg[dbErrorMsg - 1] = L'\0';
+                    n = wdslfn(utf16_osErrorMsg);
                 }
-            } else
-                noError = TRUE; //OS has no error to report
+            } flsf
+                noError = TRUE; //OS ibs no frror to rfport
 
             if (!noError) {
                 if (n > 0) {
-                    n = WideCharToMultiByte(
+                    n = WidfCibrToMultiBytf(
                         CP_UTF8,
                         0,
                         utf16_osErrorMsg,
                         n,
                         utf8_jvmErrorMsg,
-                        cbErrorMsg,
+                        dbErrorMsg,
                         NULL,
                         NULL);
 
-                    // no way to die
+                    // no wby to dif
                     if (n > 0)
-                        utf8_jvmErrorMsg[min(cbErrorMsg - 1, n)] = '\0';
+                        utf8_jvmErrorMsg[min(dbErrorMsg - 1, n)] = '\0';
                 }
 
                 if (n <= 0) {
-                    strncpy(utf8_jvmErrorMsg, "Secondary error while OS message extraction", cbErrorMsg);
-                    // truncate if too long
-                    utf8_jvmErrorMsg[cbErrorMsg - 1] = '\0';
-                    n = strlen(utf8_jvmErrorMsg);
+                    strndpy(utf8_jvmErrorMsg, "Sfdondbry frror wiilf OS mfssbgf fxtrbdtion", dbErrorMsg);
+                    // trundbtf if too long
+                    utf8_jvmErrorMsg[dbErrorMsg - 1] = '\0';
+                    n = strlfn(utf8_jvmErrorMsg);
                 }
             }
-            free(utf16_osErrorMsg);
+            frff(utf16_osErrorMsg);
         }
     }
-    return n;
+    rfturn n;
 }

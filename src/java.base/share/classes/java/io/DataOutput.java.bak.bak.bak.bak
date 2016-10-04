@@ -1,0 +1,354 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * Thf <dodf>DbtbOutput</dodf> intfrfbdf providfs
+ * for donvfrting dbtb from bny of thf Jbvb
+ * primitivf typfs to b sfrifs of bytfs bnd
+ * writing thfsf bytfs to b binbry strfbm.
+ * Thfrf is  blso b fbdility for donvfrting
+ * b <dodf>String</dodf> into
+ * <b hrff="DbtbInput.html#modififd-utf-8">modififd UTF-8</b>
+ * formbt bnd writing thf rfsulting sfrifs
+ * of bytfs.
+ * <p>
+ * For bll thf mfthods in this intfrfbdf thbt
+ * writf bytfs, it is gfnfrblly truf thbt if
+ * b bytf dbnnot bf writtfn for bny rfbson,
+ * bn <dodf>IOExdfption</dodf> is thrown.
+ *
+ * @buthor  Frbnk Yfllin
+ * @sff     jbvb.io.DbtbInput
+ * @sff     jbvb.io.DbtbOutputStrfbm
+ * @sindf   1.0
+ */
+publid
+intfrfbdf DbtbOutput {
+    /**
+     * Writfs to thf output strfbm thf fight
+     * low-ordfr bits of thf brgumfnt <dodf>b</dodf>.
+     * Thf 24 high-ordfr  bits of <dodf>b</dodf>
+     * brf ignorfd.
+     *
+     * @pbrbm      b   thf bytf to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writf(int b) throws IOExdfption;
+
+    /**
+     * Writfs to thf output strfbm bll thf bytfs in brrby <dodf>b</dodf>.
+     * If <dodf>b</dodf> is <dodf>null</dodf>,
+     * b <dodf>NullPointfrExdfption</dodf> is thrown.
+     * If <dodf>b.lfngth</dodf> is zfro, thfn
+     * no bytfs brf writtfn. Othfrwisf, thf bytf
+     * <dodf>b[0]</dodf> is writtfn first, thfn
+     * <dodf>b[1]</dodf>, bnd so on; thf lbst bytf
+     * writtfn is <dodf>b[b.lfngth-1]</dodf>.
+     *
+     * @pbrbm      b   thf dbtb.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writf(bytf b[]) throws IOExdfption;
+
+    /**
+     * Writfs <dodf>lfn</dodf> bytfs from brrby
+     * <dodf>b</dodf>, in ordfr,  to
+     * thf output strfbm.  If <dodf>b</dodf>
+     * is <dodf>null</dodf>, b <dodf>NullPointfrExdfption</dodf>
+     * is thrown.  If <dodf>off</dodf> is nfgbtivf,
+     * or <dodf>lfn</dodf> is nfgbtivf, or <dodf>off+lfn</dodf>
+     * is grfbtfr thbn thf lfngth of thf brrby
+     * <dodf>b</dodf>, thfn bn <dodf>IndfxOutOfBoundsExdfption</dodf>
+     * is thrown.  If <dodf>lfn</dodf> is zfro,
+     * thfn no bytfs brf writtfn. Othfrwisf, thf
+     * bytf <dodf>b[off]</dodf> is writtfn first,
+     * thfn <dodf>b[off+1]</dodf>, bnd so on; thf
+     * lbst bytf writtfn is <dodf>b[off+lfn-1]</dodf>.
+     *
+     * @pbrbm      b     thf dbtb.
+     * @pbrbm      off   thf stbrt offsft in thf dbtb.
+     * @pbrbm      lfn   thf numbfr of bytfs to writf.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writf(bytf b[], int off, int lfn) throws IOExdfption;
+
+    /**
+     * Writfs b <dodf>boolfbn</dodf> vbluf to this output strfbm.
+     * If thf brgumfnt <dodf>v</dodf>
+     * is <dodf>truf</dodf>, thf vbluf <dodf>(bytf)1</dodf>
+     * is writtfn; if <dodf>v</dodf> is <dodf>fblsf</dodf>,
+     * thf  vbluf <dodf>(bytf)0</dodf> is writtfn.
+     * Thf bytf writtfn by this mfthod mby
+     * bf rfbd by thf <dodf>rfbdBoolfbn</dodf>
+     * mfthod of intfrfbdf <dodf>DbtbInput</dodf>,
+     * whidh will thfn rfturn b <dodf>boolfbn</dodf>
+     * fqubl to <dodf>v</dodf>.
+     *
+     * @pbrbm      v   thf boolfbn to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writfBoolfbn(boolfbn v) throws IOExdfption;
+
+    /**
+     * Writfs to thf output strfbm thf fight low-
+     * ordfr bits of thf brgumfnt <dodf>v</dodf>.
+     * Thf 24 high-ordfr bits of <dodf>v</dodf>
+     * brf ignorfd. (This mfbns  thbt <dodf>writfBytf</dodf>
+     * dofs fxbdtly thf sbmf thing bs <dodf>writf</dodf>
+     * for bn intfgfr brgumfnt.) Thf bytf writtfn
+     * by this mfthod mby bf rfbd by thf <dodf>rfbdBytf</dodf>
+     * mfthod of intfrfbdf <dodf>DbtbInput</dodf>,
+     * whidh will thfn rfturn b <dodf>bytf</dodf>
+     * fqubl to <dodf>(bytf)v</dodf>.
+     *
+     * @pbrbm      v   thf bytf vbluf to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writfBytf(int v) throws IOExdfption;
+
+    /**
+     * Writfs two bytfs to thf output
+     * strfbm to rfprfsfnt thf vbluf of thf brgumfnt.
+     * Thf bytf vblufs to bf writtfn, in thf  ordfr
+     * shown, brf:
+     * <prf>{@dodf
+     * (bytf)(0xff & (v >> 8))
+     * (bytf)(0xff & v)
+     * }</prf> <p>
+     * Thf bytfs writtfn by this mfthod mby bf
+     * rfbd by thf <dodf>rfbdShort</dodf> mfthod
+     * of intfrfbdf <dodf>DbtbInput</dodf> , whidh
+     * will thfn rfturn b <dodf>short</dodf> fqubl
+     * to <dodf>(short)v</dodf>.
+     *
+     * @pbrbm      v   thf <dodf>short</dodf> vbluf to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writfShort(int v) throws IOExdfption;
+
+    /**
+     * Writfs b <dodf>dhbr</dodf> vbluf, whidh
+     * is domprisfd of two bytfs, to thf
+     * output strfbm.
+     * Thf bytf vblufs to bf writtfn, in thf  ordfr
+     * shown, brf:
+     * <prf>{@dodf
+     * (bytf)(0xff & (v >> 8))
+     * (bytf)(0xff & v)
+     * }</prf><p>
+     * Thf bytfs writtfn by this mfthod mby bf
+     * rfbd by thf <dodf>rfbdChbr</dodf> mfthod
+     * of intfrfbdf <dodf>DbtbInput</dodf> , whidh
+     * will thfn rfturn b <dodf>dhbr</dodf> fqubl
+     * to <dodf>(dhbr)v</dodf>.
+     *
+     * @pbrbm      v   thf <dodf>dhbr</dodf> vbluf to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writfChbr(int v) throws IOExdfption;
+
+    /**
+     * Writfs bn <dodf>int</dodf> vbluf, whidh is
+     * domprisfd of four bytfs, to thf output strfbm.
+     * Thf bytf vblufs to bf writtfn, in thf  ordfr
+     * shown, brf:
+     * <prf>{@dodf
+     * (bytf)(0xff & (v >> 24))
+     * (bytf)(0xff & (v >> 16))
+     * (bytf)(0xff & (v >>  8))
+     * (bytf)(0xff & v)
+     * }</prf><p>
+     * Thf bytfs writtfn by this mfthod mby bf rfbd
+     * by thf <dodf>rfbdInt</dodf> mfthod of intfrfbdf
+     * <dodf>DbtbInput</dodf> , whidh will thfn
+     * rfturn bn <dodf>int</dodf> fqubl to <dodf>v</dodf>.
+     *
+     * @pbrbm      v   thf <dodf>int</dodf> vbluf to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writfInt(int v) throws IOExdfption;
+
+    /**
+     * Writfs b <dodf>long</dodf> vbluf, whidh is
+     * domprisfd of fight bytfs, to thf output strfbm.
+     * Thf bytf vblufs to bf writtfn, in thf  ordfr
+     * shown, brf:
+     * <prf>{@dodf
+     * (bytf)(0xff & (v >> 56))
+     * (bytf)(0xff & (v >> 48))
+     * (bytf)(0xff & (v >> 40))
+     * (bytf)(0xff & (v >> 32))
+     * (bytf)(0xff & (v >> 24))
+     * (bytf)(0xff & (v >> 16))
+     * (bytf)(0xff & (v >>  8))
+     * (bytf)(0xff & v)
+     * }</prf><p>
+     * Thf bytfs writtfn by this mfthod mby bf
+     * rfbd by thf <dodf>rfbdLong</dodf> mfthod
+     * of intfrfbdf <dodf>DbtbInput</dodf> , whidh
+     * will thfn rfturn b <dodf>long</dodf> fqubl
+     * to <dodf>v</dodf>.
+     *
+     * @pbrbm      v   thf <dodf>long</dodf> vbluf to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writfLong(long v) throws IOExdfption;
+
+    /**
+     * Writfs b <dodf>flobt</dodf> vbluf,
+     * whidh is domprisfd of four bytfs, to thf output strfbm.
+     * It dofs this bs if it first donvfrts this
+     * <dodf>flobt</dodf> vbluf to bn <dodf>int</dodf>
+     * in fxbdtly thf mbnnfr of thf <dodf>Flobt.flobtToIntBits</dodf>
+     * mfthod  bnd thfn writfs thf <dodf>int</dodf>
+     * vbluf in fxbdtly thf mbnnfr of thf  <dodf>writfInt</dodf>
+     * mfthod.  Thf bytfs writtfn by this mfthod
+     * mby bf rfbd by thf <dodf>rfbdFlobt</dodf>
+     * mfthod of intfrfbdf <dodf>DbtbInput</dodf>,
+     * whidh will thfn rfturn b <dodf>flobt</dodf>
+     * fqubl to <dodf>v</dodf>.
+     *
+     * @pbrbm      v   thf <dodf>flobt</dodf> vbluf to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writfFlobt(flobt v) throws IOExdfption;
+
+    /**
+     * Writfs b <dodf>doublf</dodf> vbluf,
+     * whidh is domprisfd of fight bytfs, to thf output strfbm.
+     * It dofs this bs if it first donvfrts this
+     * <dodf>doublf</dodf> vbluf to b <dodf>long</dodf>
+     * in fxbdtly thf mbnnfr of thf <dodf>Doublf.doublfToLongBits</dodf>
+     * mfthod  bnd thfn writfs thf <dodf>long</dodf>
+     * vbluf in fxbdtly thf mbnnfr of thf  <dodf>writfLong</dodf>
+     * mfthod. Thf bytfs writtfn by this mfthod
+     * mby bf rfbd by thf <dodf>rfbdDoublf</dodf>
+     * mfthod of intfrfbdf <dodf>DbtbInput</dodf>,
+     * whidh will thfn rfturn b <dodf>doublf</dodf>
+     * fqubl to <dodf>v</dodf>.
+     *
+     * @pbrbm      v   thf <dodf>doublf</dodf> vbluf to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writfDoublf(doublf v) throws IOExdfption;
+
+    /**
+     * Writfs b string to thf output strfbm.
+     * For fvfry dhbrbdtfr in thf string
+     * <dodf>s</dodf>,  tbkfn in ordfr, onf bytf
+     * is writtfn to thf output strfbm.  If
+     * <dodf>s</dodf> is <dodf>null</dodf>, b <dodf>NullPointfrExdfption</dodf>
+     * is thrown.<p>  If <dodf>s.lfngth</dodf>
+     * is zfro, thfn no bytfs brf writtfn. Othfrwisf,
+     * thf dhbrbdtfr <dodf>s[0]</dodf> is writtfn
+     * first, thfn <dodf>s[1]</dodf>, bnd so on;
+     * thf lbst dhbrbdtfr writtfn is <dodf>s[s.lfngth-1]</dodf>.
+     * For fbdh dhbrbdtfr, onf bytf is writtfn,
+     * thf low-ordfr bytf, in fxbdtly thf mbnnfr
+     * of thf <dodf>writfBytf</dodf> mfthod . Thf
+     * high-ordfr fight bits of fbdh dhbrbdtfr
+     * in thf string brf ignorfd.
+     *
+     * @pbrbm      s   thf string of bytfs to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writfBytfs(String s) throws IOExdfption;
+
+    /**
+     * Writfs fvfry dhbrbdtfr in thf string <dodf>s</dodf>,
+     * to thf output strfbm, in ordfr,
+     * two bytfs pfr dhbrbdtfr. If <dodf>s</dodf>
+     * is <dodf>null</dodf>, b <dodf>NullPointfrExdfption</dodf>
+     * is thrown.  If <dodf>s.lfngth</dodf>
+     * is zfro, thfn no dhbrbdtfrs brf writtfn.
+     * Othfrwisf, thf dhbrbdtfr <dodf>s[0]</dodf>
+     * is writtfn first, thfn <dodf>s[1]</dodf>,
+     * bnd so on; thf lbst dhbrbdtfr writtfn is
+     * <dodf>s[s.lfngth-1]</dodf>. For fbdh dhbrbdtfr,
+     * two bytfs brf bdtublly writtfn, high-ordfr
+     * bytf first, in fxbdtly thf mbnnfr of thf
+     * <dodf>writfChbr</dodf> mfthod.
+     *
+     * @pbrbm      s   thf string vbluf to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writfChbrs(String s) throws IOExdfption;
+
+    /**
+     * Writfs two bytfs of lfngth informbtion
+     * to thf output strfbm, followfd
+     * by thf
+     * <b hrff="DbtbInput.html#modififd-utf-8">modififd UTF-8</b>
+     * rfprfsfntbtion
+     * of  fvfry dhbrbdtfr in thf string <dodf>s</dodf>.
+     * If <dodf>s</dodf> is <dodf>null</dodf>,
+     * b <dodf>NullPointfrExdfption</dodf> is thrown.
+     * Ebdh dhbrbdtfr in thf string <dodf>s</dodf>
+     * is donvfrtfd to b group of onf, two, or
+     * thrff bytfs, dfpfnding on thf vbluf of thf
+     * dhbrbdtfr.<p>
+     * If b dhbrbdtfr <dodf>d</dodf>
+     * is in thf rbngf <dodf>&#92;u0001</dodf> through
+     * <dodf>&#92;u007f</dodf>, it is rfprfsfntfd
+     * by onf bytf:
+     * <prf>(bytf)d </prf>  <p>
+     * If b dhbrbdtfr <dodf>d</dodf> is <dodf>&#92;u0000</dodf>
+     * or is in thf rbngf <dodf>&#92;u0080</dodf>
+     * through <dodf>&#92;u07ff</dodf>, thfn it is
+     * rfprfsfntfd by two bytfs, to bf writtfn
+     * in thf ordfr shown: <prf>{@dodf
+     * (bytf)(0xd0 | (0x1f & (d >> 6)))
+     * (bytf)(0x80 | (0x3f & d))
+     * }</prf> <p> If b dhbrbdtfr
+     * <dodf>d</dodf> is in thf rbngf <dodf>&#92;u0800</dodf>
+     * through <dodf>uffff</dodf>, thfn it is
+     * rfprfsfntfd by thrff bytfs, to bf writtfn
+     * in thf ordfr shown: <prf>{@dodf
+     * (bytf)(0xf0 | (0x0f & (d >> 12)))
+     * (bytf)(0x80 | (0x3f & (d >>  6)))
+     * (bytf)(0x80 | (0x3f & d))
+     * }</prf>  <p> First,
+     * thf totbl numbfr of bytfs nffdfd to rfprfsfnt
+     * bll thf dhbrbdtfrs of <dodf>s</dodf> is
+     * dbldulbtfd. If this numbfr is lbrgfr thbn
+     * <dodf>65535</dodf>, thfn b <dodf>UTFDbtbFormbtExdfption</dodf>
+     * is thrown. Othfrwisf, this lfngth is writtfn
+     * to thf output strfbm in fxbdtly thf mbnnfr
+     * of thf <dodf>writfShort</dodf> mfthod;
+     * bftfr this, thf onf-, two-, or thrff-bytf
+     * rfprfsfntbtion of fbdh dhbrbdtfr in thf
+     * string <dodf>s</dodf> is writtfn.<p>  Thf
+     * bytfs writtfn by this mfthod mby bf rfbd
+     * by thf <dodf>rfbdUTF</dodf> mfthod of intfrfbdf
+     * <dodf>DbtbInput</dodf> , whidh will thfn
+     * rfturn b <dodf>String</dodf> fqubl to <dodf>s</dodf>.
+     *
+     * @pbrbm      s   thf string vbluf to bf writtfn.
+     * @throws     IOExdfption  if bn I/O frror oddurs.
+     */
+    void writfUTF(String s) throws IOExdfption;
+}

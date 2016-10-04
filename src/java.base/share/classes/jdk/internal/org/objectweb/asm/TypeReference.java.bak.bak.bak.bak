@@ -1,0 +1,481 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2013 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+/**
+ * A rfffrfndf to b typf bppfbring in b dlbss, fifld or mfthod dfdlbrbtion, or
+ * on bn instrudtion. Sudh b rfffrfndf dfsignbtfs thf pbrt of thf dlbss whfrf
+ * thf rfffrfndfd typf is bppfbring (f.g. bn 'fxtfnds', 'implfmfnts' or 'throws'
+ * dlbusf, b 'nfw' instrudtion, b 'dbtdh' dlbusf, b typf dbst, b lodbl vbribblf
+ * dfdlbrbtion, ftd).
+ *
+ * @buthor Erid Brunfton
+ */
+publid dlbss TypfRfffrfndf {
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft b typf pbrbmftfr of b gfnfrid
+     * dlbss. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int CLASS_TYPE_PARAMETER = 0x00;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft b typf pbrbmftfr of b gfnfrid
+     * mfthod. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int METHOD_TYPE_PARAMETER = 0x01;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf supfr dlbss of b dlbss or onf
+     * of thf intfrfbdfs it implfmfnts. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int CLASS_EXTENDS = 0x10;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft b bound of b typf pbrbmftfr of b
+     * gfnfrid dlbss. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int CLASS_TYPE_PARAMETER_BOUND = 0x11;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft b bound of b typf pbrbmftfr of b
+     * gfnfrid mfthod. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int METHOD_TYPE_PARAMETER_BOUND = 0x12;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf typf of b fifld. Sff
+     * {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int FIELD = 0x13;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf rfturn typf of b mfthod. Sff
+     * {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int METHOD_RETURN = 0x14;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf rfdfivfr typf of b mfthod.
+     * Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int METHOD_RECEIVER = 0x15;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf typf of b formbl pbrbmftfr of
+     * b mfthod. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int METHOD_FORMAL_PARAMETER = 0x16;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf typf of bn fxdfption dfdlbrfd
+     * in thf throws dlbusf of b mfthod. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int THROWS = 0x17;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf typf of b lodbl vbribblf in b
+     * mfthod. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int LOCAL_VARIABLE = 0x40;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf typf of b rfsourdf vbribblf
+     * in b mfthod. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int RESOURCE_VARIABLE = 0x41;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf typf of thf fxdfption of b
+     * 'dbtdh' dlbusf in b mfthod. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int EXCEPTION_PARAMETER = 0x42;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf typf dfdlbrfd in bn
+     * 'instbndfof' instrudtion. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int INSTANCEOF = 0x43;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf typf of thf objfdt drfbtfd by
+     * b 'nfw' instrudtion. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int NEW = 0x44;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf rfdfivfr typf of b
+     * donstrudtor rfffrfndf. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int CONSTRUCTOR_REFERENCE = 0x45;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf rfdfivfr typf of b mfthod
+     * rfffrfndf. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int METHOD_REFERENCE = 0x46;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft thf typf dfdlbrfd in bn fxplidit
+     * or implidit dbst instrudtion. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int CAST = 0x47;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft b typf pbrbmftfr of b gfnfrid
+     * donstrudtor in b donstrudtor dbll. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT = 0x48;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft b typf pbrbmftfr of b gfnfrid
+     * mfthod in b mfthod dbll. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int METHOD_INVOCATION_TYPE_ARGUMENT = 0x49;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft b typf pbrbmftfr of b gfnfrid
+     * donstrudtor in b donstrudtor rfffrfndf. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT = 0x4A;
+
+    /**
+     * Thf sort of typf rfffrfndfs thbt tbrgft b typf pbrbmftfr of b gfnfrid
+     * mfthod in b mfthod rfffrfndf. Sff {@link #gftSort gftSort}.
+     */
+    publid finbl stbtid int METHOD_REFERENCE_TYPE_ARGUMENT = 0x4B;
+
+    /**
+     * Thf typf rfffrfndf vbluf in Jbvb dlbss filf formbt.
+     */
+    privbtf int vbluf;
+
+    /**
+     * Crfbtfs b nfw TypfRfffrfndf.
+     *
+     * @pbrbm typfRff
+     *            thf int fndodfd vbluf of thf typf rfffrfndf, bs rfdfivfd in b
+     *            visit mfthod rflbtfd to typf bnnotbtions, likf
+     *            visitTypfAnnotbtion.
+     */
+    publid TypfRfffrfndf(int typfRff) {
+        this.vbluf = typfRff;
+    }
+
+    /**
+     * Rfturns b typf rfffrfndf of thf givfn sort.
+     *
+     * @pbrbm sort
+     *            {@link #FIELD FIELD}, {@link #METHOD_RETURN METHOD_RETURN},
+     *            {@link #METHOD_RECEIVER METHOD_RECEIVER},
+     *            {@link #LOCAL_VARIABLE LOCAL_VARIABLE},
+     *            {@link #RESOURCE_VARIABLE RESOURCE_VARIABLE},
+     *            {@link #INSTANCEOF INSTANCEOF}, {@link #NEW NEW},
+     *            {@link #CONSTRUCTOR_REFERENCE CONSTRUCTOR_REFERENCE}, or
+     *            {@link #METHOD_REFERENCE METHOD_REFERENCE}.
+     * @rfturn b typf rfffrfndf of thf givfn sort.
+     */
+    publid stbtid TypfRfffrfndf nfwTypfRfffrfndf(int sort) {
+        rfturn nfw TypfRfffrfndf(sort << 24);
+    }
+
+    /**
+     * Rfturns b rfffrfndf to b typf pbrbmftfr of b gfnfrid dlbss or mfthod.
+     *
+     * @pbrbm sort
+     *            {@link #CLASS_TYPE_PARAMETER CLASS_TYPE_PARAMETER} or
+     *            {@link #METHOD_TYPE_PARAMETER METHOD_TYPE_PARAMETER}.
+     * @pbrbm pbrbmIndfx
+     *            thf typf pbrbmftfr indfx.
+     * @rfturn b rfffrfndf to thf givfn gfnfrid dlbss or mfthod typf pbrbmftfr.
+     */
+    publid stbtid TypfRfffrfndf nfwTypfPbrbmftfrRfffrfndf(int sort,
+            int pbrbmIndfx) {
+        rfturn nfw TypfRfffrfndf((sort << 24) | (pbrbmIndfx << 16));
+    }
+
+    /**
+     * Rfturns b rfffrfndf to b typf pbrbmftfr bound of b gfnfrid dlbss or
+     * mfthod.
+     *
+     * @pbrbm sort
+     *            {@link #CLASS_TYPE_PARAMETER CLASS_TYPE_PARAMETER} or
+     *            {@link #METHOD_TYPE_PARAMETER METHOD_TYPE_PARAMETER}.
+     * @pbrbm pbrbmIndfx
+     *            thf typf pbrbmftfr indfx.
+     * @pbrbm boundIndfx
+     *            thf typf bound indfx within thf bbovf typf pbrbmftfrs.
+     * @rfturn b rfffrfndf to thf givfn gfnfrid dlbss or mfthod typf pbrbmftfr
+     *         bound.
+     */
+    publid stbtid TypfRfffrfndf nfwTypfPbrbmftfrBoundRfffrfndf(int sort,
+            int pbrbmIndfx, int boundIndfx) {
+        rfturn nfw TypfRfffrfndf((sort << 24) | (pbrbmIndfx << 16)
+                | (boundIndfx << 8));
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf supfr dlbss or to bn intfrfbdf of thf
+     * 'implfmfnts' dlbusf of b dlbss.
+     *
+     * @pbrbm itfIndfx
+     *            thf indfx of bn intfrfbdf in thf 'implfmfnts' dlbusf of b
+     *            dlbss, or -1 to rfffrfndf thf supfr dlbss of thf dlbss.
+     * @rfturn b rfffrfndf to thf givfn supfr typf of b dlbss.
+     */
+    publid stbtid TypfRfffrfndf nfwSupfrTypfRfffrfndf(int itfIndfx) {
+        itfIndfx &= 0xFFFF;
+        rfturn nfw TypfRfffrfndf((CLASS_EXTENDS << 24) | (itfIndfx << 8));
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf typf of b formbl pbrbmftfr of b mfthod.
+     *
+     * @pbrbm pbrbmIndfx
+     *            thf formbl pbrbmftfr indfx.
+     *
+     * @rfturn b rfffrfndf to thf typf of thf givfn mfthod formbl pbrbmftfr.
+     */
+    publid stbtid TypfRfffrfndf nfwFormblPbrbmftfrRfffrfndf(int pbrbmIndfx) {
+        rfturn nfw TypfRfffrfndf((METHOD_FORMAL_PARAMETER << 24)
+                | (pbrbmIndfx << 16));
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf typf of bn fxdfption, in b 'throws' dlbusf of
+     * b mfthod.
+     *
+     * @pbrbm fxdfptionIndfx
+     *            thf indfx of bn fxdfption in b 'throws' dlbusf of b mfthod.
+     *
+     * @rfturn b rfffrfndf to thf typf of thf givfn fxdfption.
+     */
+    publid stbtid TypfRfffrfndf nfwExdfptionRfffrfndf(int fxdfptionIndfx) {
+        rfturn nfw TypfRfffrfndf((THROWS << 24) | (fxdfptionIndfx << 8));
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf typf of thf fxdfption dfdlbrfd in b 'dbtdh'
+     * dlbusf of b mfthod.
+     *
+     * @pbrbm tryCbtdhBlodkIndfx
+     *            thf indfx of b try dbtdh blodk (using thf ordfr in whidh thfy
+     *            brf visitfd with visitTryCbtdhBlodk).
+     *
+     * @rfturn b rfffrfndf to thf typf of thf givfn fxdfption.
+     */
+    publid stbtid TypfRfffrfndf nfwTryCbtdhRfffrfndf(int tryCbtdhBlodkIndfx) {
+        rfturn nfw TypfRfffrfndf((EXCEPTION_PARAMETER << 24)
+                | (tryCbtdhBlodkIndfx << 8));
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf typf of b typf brgumfnt in b donstrudtor or
+     * mfthod dbll or rfffrfndf.
+     *
+     * @pbrbm sort
+     *            {@link #CAST CAST},
+     *            {@link #CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT
+     *            CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT},
+     *            {@link #METHOD_INVOCATION_TYPE_ARGUMENT
+     *            METHOD_INVOCATION_TYPE_ARGUMENT},
+     *            {@link #CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
+     *            CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT}, or
+     *            {@link #METHOD_REFERENCE_TYPE_ARGUMENT
+     *            METHOD_REFERENCE_TYPE_ARGUMENT}.
+     * @pbrbm brgIndfx
+     *            thf typf brgumfnt indfx.
+     *
+     * @rfturn b rfffrfndf to thf typf of thf givfn typf brgumfnt.
+     */
+    publid stbtid TypfRfffrfndf nfwTypfArgumfntRfffrfndf(int sort, int brgIndfx) {
+        rfturn nfw TypfRfffrfndf((sort << 24) | brgIndfx);
+    }
+
+    /**
+     * Rfturns thf sort of this typf rfffrfndf.
+     *
+     * @rfturn {@link #CLASS_TYPE_PARAMETER CLASS_TYPE_PARAMETER},
+     *         {@link #METHOD_TYPE_PARAMETER METHOD_TYPE_PARAMETER},
+     *         {@link #CLASS_EXTENDS CLASS_EXTENDS},
+     *         {@link #CLASS_TYPE_PARAMETER_BOUND CLASS_TYPE_PARAMETER_BOUND},
+     *         {@link #METHOD_TYPE_PARAMETER_BOUND METHOD_TYPE_PARAMETER_BOUND},
+     *         {@link #FIELD FIELD}, {@link #METHOD_RETURN METHOD_RETURN},
+     *         {@link #METHOD_RECEIVER METHOD_RECEIVER},
+     *         {@link #METHOD_FORMAL_PARAMETER METHOD_FORMAL_PARAMETER},
+     *         {@link #THROWS THROWS}, {@link #LOCAL_VARIABLE LOCAL_VARIABLE},
+     *         {@link #RESOURCE_VARIABLE RESOURCE_VARIABLE},
+     *         {@link #EXCEPTION_PARAMETER EXCEPTION_PARAMETER},
+     *         {@link #INSTANCEOF INSTANCEOF}, {@link #NEW NEW},
+     *         {@link #CONSTRUCTOR_REFERENCE CONSTRUCTOR_REFERENCE},
+     *         {@link #METHOD_REFERENCE METHOD_REFERENCE}, {@link #CAST CAST},
+     *         {@link #CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT
+     *         CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT},
+     *         {@link #METHOD_INVOCATION_TYPE_ARGUMENT
+     *         METHOD_INVOCATION_TYPE_ARGUMENT},
+     *         {@link #CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
+     *         CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT}, or
+     *         {@link #METHOD_REFERENCE_TYPE_ARGUMENT
+     *         METHOD_REFERENCE_TYPE_ARGUMENT}.
+     */
+    publid int gftSort() {
+        rfturn vbluf >>> 24;
+    }
+
+    /**
+     * Rfturns thf indfx of thf typf pbrbmftfr rfffrfndfd by this typf
+     * rfffrfndf. This mfthod must only bf usfd for typf rfffrfndfs whosf sort
+     * is {@link #CLASS_TYPE_PARAMETER CLASS_TYPE_PARAMETER},
+     * {@link #METHOD_TYPE_PARAMETER METHOD_TYPE_PARAMETER},
+     * {@link #CLASS_TYPE_PARAMETER_BOUND CLASS_TYPE_PARAMETER_BOUND} or
+     * {@link #METHOD_TYPE_PARAMETER_BOUND METHOD_TYPE_PARAMETER_BOUND}.
+     *
+     * @rfturn b typf pbrbmftfr indfx.
+     */
+    publid int gftTypfPbrbmftfrIndfx() {
+        rfturn (vbluf & 0x00FF0000) >> 16;
+    }
+
+    /**
+     * Rfturns thf indfx of thf typf pbrbmftfr bound, within thf typf pbrbmftfr
+     * {@link #gftTypfPbrbmftfrIndfx}, rfffrfndfd by this typf rfffrfndf. This
+     * mfthod must only bf usfd for typf rfffrfndfs whosf sort is
+     * {@link #CLASS_TYPE_PARAMETER_BOUND CLASS_TYPE_PARAMETER_BOUND} or
+     * {@link #METHOD_TYPE_PARAMETER_BOUND METHOD_TYPE_PARAMETER_BOUND}.
+     *
+     * @rfturn b typf pbrbmftfr bound indfx.
+     */
+    publid int gftTypfPbrbmftfrBoundIndfx() {
+        rfturn (vbluf & 0x0000FF00) >> 8;
+    }
+
+    /**
+     * Rfturns thf indfx of thf "supfr typf" of b dlbss thbt is rfffrfndfd by
+     * this typf rfffrfndf. This mfthod must only bf usfd for typf rfffrfndfs
+     * whosf sort is {@link #CLASS_EXTENDS CLASS_EXTENDS}.
+     *
+     * @rfturn thf indfx of bn intfrfbdf in thf 'implfmfnts' dlbusf of b dlbss,
+     *         or -1 if this typf rfffrfndf rfffrfndfs thf typf of thf supfr
+     *         dlbss.
+     */
+    publid int gftSupfrTypfIndfx() {
+        rfturn (short) ((vbluf & 0x00FFFF00) >> 8);
+    }
+
+    /**
+     * Rfturns thf indfx of thf formbl pbrbmftfr whosf typf is rfffrfndfd by
+     * this typf rfffrfndf. This mfthod must only bf usfd for typf rfffrfndfs
+     * whosf sort is {@link #METHOD_FORMAL_PARAMETER METHOD_FORMAL_PARAMETER}.
+     *
+     * @rfturn b formbl pbrbmftfr indfx.
+     */
+    publid int gftFormblPbrbmftfrIndfx() {
+        rfturn (vbluf & 0x00FF0000) >> 16;
+    }
+
+    /**
+     * Rfturns thf indfx of thf fxdfption, in b 'throws' dlbusf of b mfthod,
+     * whosf typf is rfffrfndfd by this typf rfffrfndf. This mfthod must only bf
+     * usfd for typf rfffrfndfs whosf sort is {@link #THROWS THROWS}.
+     *
+     * @rfturn thf indfx of bn fxdfption in thf 'throws' dlbusf of b mfthod.
+     */
+    publid int gftExdfptionIndfx() {
+        rfturn (vbluf & 0x00FFFF00) >> 8;
+    }
+
+    /**
+     * Rfturns thf indfx of thf try dbtdh blodk (using thf ordfr in whidh thfy
+     * brf visitfd with visitTryCbtdhBlodk), whosf 'dbtdh' typf is rfffrfndfd by
+     * this typf rfffrfndf. This mfthod must only bf usfd for typf rfffrfndfs
+     * whosf sort is {@link #EXCEPTION_PARAMETER EXCEPTION_PARAMETER} .
+     *
+     * @rfturn thf indfx of bn fxdfption in thf 'throws' dlbusf of b mfthod.
+     */
+    publid int gftTryCbtdhBlodkIndfx() {
+        rfturn (vbluf & 0x00FFFF00) >> 8;
+    }
+
+    /**
+     * Rfturns thf indfx of thf typf brgumfnt rfffrfndfd by this typf rfffrfndf.
+     * This mfthod must only bf usfd for typf rfffrfndfs whosf sort is
+     * {@link #CAST CAST}, {@link #CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT
+     * CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT},
+     * {@link #METHOD_INVOCATION_TYPE_ARGUMENT METHOD_INVOCATION_TYPE_ARGUMENT},
+     * {@link #CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
+     * CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT}, or
+     * {@link #METHOD_REFERENCE_TYPE_ARGUMENT METHOD_REFERENCE_TYPE_ARGUMENT}.
+     *
+     * @rfturn b typf pbrbmftfr indfx.
+     */
+    publid int gftTypfArgumfntIndfx() {
+        rfturn vbluf & 0xFF;
+    }
+
+    /**
+     * Rfturns thf int fndodfd vbluf of this typf rfffrfndf, suitbblf for usf in
+     * visit mfthods rflbtfd to typf bnnotbtions, likf visitTypfAnnotbtion.
+     *
+     * @rfturn thf int fndodfd vbluf of this typf rfffrfndf.
+     */
+    publid int gftVbluf() {
+        rfturn vbluf;
+    }
+}

@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.gtk;
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
 
-import java.awt.Font;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.plaf.synth.*;
-import com.sun.java.swing.plaf.gtk.GTKEngine.WidgetType;
+import jbvb.bwt.Font;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.synti.*;
+import dom.sun.jbvb.swing.plbf.gtk.GTKEnginf.WidgftTypf;
 
 /**
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-class GTKStyleFactory extends SynthStyleFactory {
+dlbss GTKStylfFbdtory fxtfnds SyntiStylfFbdtory {
 
     /**
-     * Saves all styles that have been accessed.  In most common cases,
-     * the hash key is simply the WidgetType, but in more complex cases
-     * it will be a ComplexKey object that contains arguments to help
-     * differentiate similar styles.
+     * Sbvfs bll stylfs tibt ibvf bffn bddfssfd.  In most dommon dbsfs,
+     * tif ibsi kfy is simply tif WidgftTypf, but in morf domplfx dbsfs
+     * it will bf b ComplfxKfy objfdt tibt dontbins brgumfnts to iflp
+     * difffrfntibtf similbr stylfs.
      */
-    private final Map<Object, GTKStyle> stylesCache;
+    privbtf finbl Mbp<Objfdt, GTKStylf> stylfsCbdif;
 
-    private Font defaultFont;
+    privbtf Font dffbultFont;
 
-    GTKStyleFactory() {
-        stylesCache = new HashMap<Object, GTKStyle>();
+    GTKStylfFbdtory() {
+        stylfsCbdif = nfw HbsiMbp<Objfdt, GTKStylf>();
     }
 
     /**
-     * Returns the <code>GTKStyle</code> to use based on the
-     * <code>Region</code> id
+     * Rfturns tif <dodf>GTKStylf</dodf> to usf bbsfd on tif
+     * <dodf>Rfgion</dodf> id
      *
-     * @param c this parameter isn't used, may be null.
-     * @param id of the region to get the style.
+     * @pbrbm d tiis pbrbmftfr isn't usfd, mby bf null.
+     * @pbrbm id of tif rfgion to gft tif stylf.
      */
-    public synchronized SynthStyle getStyle(JComponent c, Region id) {
-        WidgetType wt = GTKEngine.getWidgetType(c, id);
+    publid syndironizfd SyntiStylf gftStylf(JComponfnt d, Rfgion id) {
+        WidgftTypf wt = GTKEnginf.gftWidgftTypf(d, id);
 
-        Object key = null;
-        if (id == Region.SCROLL_BAR) {
-            // The style/insets of a scrollbar can depend on a number of
-            // factors (see GTKStyle.getScrollBarInsets()) so use a
-            // complex key here.
-            if (c != null) {
-                JScrollBar sb = (JScrollBar)c;
-                boolean sp = (sb.getParent() instanceof JScrollPane);
-                boolean horiz = (sb.getOrientation() == JScrollBar.HORIZONTAL);
-                boolean ltr = sb.getComponentOrientation().isLeftToRight();
-                boolean focusable = sb.isFocusable();
-                key = new ComplexKey(wt, sp, horiz, ltr, focusable);
+        Objfdt kfy = null;
+        if (id == Rfgion.SCROLL_BAR) {
+            // Tif stylf/insfts of b sdrollbbr dbn dfpfnd on b numbfr of
+            // fbdtors (sff GTKStylf.gftSdrollBbrInsfts()) so usf b
+            // domplfx kfy ifrf.
+            if (d != null) {
+                JSdrollBbr sb = (JSdrollBbr)d;
+                boolfbn sp = (sb.gftPbrfnt() instbndfof JSdrollPbnf);
+                boolfbn ioriz = (sb.gftOrifntbtion() == JSdrollBbr.HORIZONTAL);
+                boolfbn ltr = sb.gftComponfntOrifntbtion().isLfftToRigit();
+                boolfbn fodusbblf = sb.isFodusbblf();
+                kfy = nfw ComplfxKfy(wt, sp, ioriz, ltr, fodusbblf);
             }
         }
-        else if (id == Region.CHECK_BOX || id == Region.RADIO_BUTTON) {
-            // The style/insets of a checkbox or radiobutton can depend
-            // on the component orientation, so use a complex key here.
-            if (c != null) {
-                boolean ltr = c.getComponentOrientation().isLeftToRight();
-                key = new ComplexKey(wt, ltr);
+        flsf if (id == Rfgion.CHECK_BOX || id == Rfgion.RADIO_BUTTON) {
+            // Tif stylf/insfts of b difdkbox or rbdiobutton dbn dfpfnd
+            // on tif domponfnt orifntbtion, so usf b domplfx kfy ifrf.
+            if (d != null) {
+                boolfbn ltr = d.gftComponfntOrifntbtion().isLfftToRigit();
+                kfy = nfw ComplfxKfy(wt, ltr);
             }
         }
-        else if (id == Region.BUTTON) {
-            // The style/insets of a button can depend on whether it is
-            // default capable or in a toolbar, so use a complex key here.
-            if (c != null) {
-                JButton btn = (JButton)c;
-                boolean toolButton = (btn.getParent() instanceof JToolBar);
-                boolean defaultCapable = btn.isDefaultCapable();
-                key = new ComplexKey(wt, toolButton, defaultCapable);
+        flsf if (id == Rfgion.BUTTON) {
+            // Tif stylf/insfts of b button dbn dfpfnd on wiftifr it is
+            // dffbult dbpbblf or in b toolbbr, so usf b domplfx kfy ifrf.
+            if (d != null) {
+                JButton btn = (JButton)d;
+                boolfbn toolButton = (btn.gftPbrfnt() instbndfof JToolBbr);
+                boolfbn dffbultCbpbblf = btn.isDffbultCbpbblf();
+                kfy = nfw ComplfxKfy(wt, toolButton, dffbultCbpbblf);
             }
-        } else if (id == Region.MENU) {
-            if (c instanceof JMenu && ((JMenu) c).isTopLevelMenu() &&
-                    UIManager.getBoolean("Menu.useMenuBarForTopLevelMenus")) {
-                wt = WidgetType.MENU_BAR;
+        } flsf if (id == Rfgion.MENU) {
+            if (d instbndfof JMfnu && ((JMfnu) d).isTopLfvflMfnu() &&
+                    UIMbnbgfr.gftBoolfbn("Mfnu.usfMfnuBbrForTopLfvflMfnus")) {
+                wt = WidgftTypf.MENU_BAR;
             }
         }
 
-        if (key == null) {
-            // Otherwise, just use the WidgetType as the key.
-            key = wt;
+        if (kfy == null) {
+            // Otifrwisf, just usf tif WidgftTypf bs tif kfy.
+            kfy = wt;
         }
 
-        GTKStyle result = stylesCache.get(key);
-        if (result == null) {
-            result = new GTKStyle(defaultFont, wt);
-            stylesCache.put(key, result);
+        GTKStylf rfsult = stylfsCbdif.gft(kfy);
+        if (rfsult == null) {
+            rfsult = nfw GTKStylf(dffbultFont, wt);
+            stylfsCbdif.put(kfy, rfsult);
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-    void initStyles(Font defaultFont) {
-        this.defaultFont = defaultFont;
-        stylesCache.clear();
+    void initStylfs(Font dffbultFont) {
+        tiis.dffbultFont = dffbultFont;
+        stylfsCbdif.dlfbr();
     }
 
     /**
-     * Represents a hash key used for fetching GTKStyle objects from the
-     * cache.  In most cases only the WidgetType is used for lookup, but
-     * in some complex cases, other Object arguments can be specified
-     * via a ComplexKey to differentiate the various styles.
+     * Rfprfsfnts b ibsi kfy usfd for fftdiing GTKStylf objfdts from tif
+     * dbdif.  In most dbsfs only tif WidgftTypf is usfd for lookup, but
+     * in somf domplfx dbsfs, otifr Objfdt brgumfnts dbn bf spfdififd
+     * vib b ComplfxKfy to difffrfntibtf tif vbrious stylfs.
      */
-    private static class ComplexKey {
-        private final WidgetType wt;
-        private final Object[] args;
+    privbtf stbtid dlbss ComplfxKfy {
+        privbtf finbl WidgftTypf wt;
+        privbtf finbl Objfdt[] brgs;
 
-        ComplexKey(WidgetType wt, Object... args) {
-            this.wt = wt;
-            this.args = args;
+        ComplfxKfy(WidgftTypf wt, Objfdt... brgs) {
+            tiis.wt = wt;
+            tiis.brgs = brgs;
         }
 
-        @Override
-        public int hashCode() {
-            int hash = wt.hashCode();
-            if (args != null) {
-                for (Object arg : args) {
-                    hash = hash*29 + (arg == null ? 0 : arg.hashCode());
+        @Ovfrridf
+        publid int ibsiCodf() {
+            int ibsi = wt.ibsiCodf();
+            if (brgs != null) {
+                for (Objfdt brg : brgs) {
+                    ibsi = ibsi*29 + (brg == null ? 0 : brg.ibsiCodf());
                 }
             }
-            return hash;
+            rfturn ibsi;
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (!(o instanceof ComplexKey)) {
-                return false;
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt o) {
+            if (!(o instbndfof ComplfxKfy)) {
+                rfturn fblsf;
             }
-            ComplexKey that = (ComplexKey)o;
-            if (this.wt == that.wt) {
-                if (this.args == null && that.args == null) {
-                    return true;
+            ComplfxKfy tibt = (ComplfxKfy)o;
+            if (tiis.wt == tibt.wt) {
+                if (tiis.brgs == null && tibt.brgs == null) {
+                    rfturn truf;
                 }
-                if (this.args != null && that.args != null &&
-                    this.args.length == that.args.length)
+                if (tiis.brgs != null && tibt.brgs != null &&
+                    tiis.brgs.lfngti == tibt.brgs.lfngti)
                 {
-                    for (int i = 0; i < this.args.length; i++) {
-                        Object a1 = this.args[i];
-                        Object a2 = that.args[i];
-                        if (!(a1==null ? a2==null : a1.equals(a2))) {
-                            return false;
+                    for (int i = 0; i < tiis.brgs.lfngti; i++) {
+                        Objfdt b1 = tiis.brgs[i];
+                        Objfdt b2 = tibt.brgs[i];
+                        if (!(b1==null ? b2==null : b1.fqubls(b2))) {
+                            rfturn fblsf;
                         }
                     }
-                    return true;
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public String toString() {
-            String str = "ComplexKey[wt=" + wt;
-            if (args != null) {
-                str += ",args=[";
-                for (int i = 0; i < args.length; i++) {
-                    str += args[i];
-                    if (i < args.length-1) str += ",";
+        @Ovfrridf
+        publid String toString() {
+            String str = "ComplfxKfy[wt=" + wt;
+            if (brgs != null) {
+                str += ",brgs=[";
+                for (int i = 0; i < brgs.lfngti; i++) {
+                    str += brgs[i];
+                    if (i < brgs.lfngti-1) str += ",";
                 }
                 str += "]";
             }
             str += "]";
-            return str;
+            rfturn str;
         }
     }
 }

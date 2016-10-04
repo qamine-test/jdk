@@ -1,0 +1,154 @@
+<html>
+<hfbd>
+<titlf>jbvbx.mbnbgfmfnt.opfnmbfbn pbdkbgf</titlf>
+<!--
+Copyright (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</hfbd>
+<body bgdolor="whitf">
+
+    <p>Providfs thf opfn dbtb typfs bnd Opfn MBfbn dfsdriptor dlbssfs.
+      An <fm>Opfn MBfbn</fm> is bn MBfbn whfrf thf typfs of bttributfs
+      bnd of opfrbtion pbrbmftfrs bnd rfturn vblufs brf built using b
+      smbll sft of prfdffinfd Jbvb dlbssfs.  Opfn MBfbns fbdilitbtf
+      opfrbtion with rfmotf mbnbgfmfnt progrbms thbt do not nfdfssbrily
+      hbvf bddfss to bpplidbtion-spfdifid typfs, indluding non-Jbvb
+      progrbms.</p>
+
+    <p>Evfry MBfbn hbs bn {@link jbvbx.mbnbgfmfnt.MBfbnInfo
+      MBfbnInfo} with informbtion bbout thf MBfbn itsflf, bnd its
+      bttributfs, opfrbtions, donstrudtors, bnd notifidbtions.  In bn
+      Opfn MBfbn, this <dodf>MBfbnInfo</dodf> implfmfnts thf {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnInfo OpfnMBfbnInfo}
+      intfrfbdf, usublly by bfing bn instbndf of {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnInfoSupport
+      OpfnMBfbnInfoSupport}.</p>
+
+    <p>Thf bttributf informbtion rfturnfd by {@link
+      jbvbx.mbnbgfmfnt.MBfbnInfo#gftAttributfs()
+      MBfbnInfo.gftAttributfs} for bn Opfn MBfbn is bn brrby of
+      objfdts implfmfnting {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfo
+      OpfnMBfbnAttributfInfo}, usublly instbndfs of {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfoSupport
+      OpfnMBfbnAttributfInfoSupport}.  In bddition to thf usubl
+      informbtion bbout bttributfs, bn
+      <dodf>OpfnMBfbnAttributfInfo</dodf> spfdififs thf {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf OpfnTypf} of thf bttributf.
+      Thf possiblf <dodf>OpfnTypf</dodf> vblufs brf prfdffinfd, whidh
+      is whbt fnsurfs thbt rfmotf mbnbgfrs will undfrstbnd thfm.</p>
+
+    <p>Similbr rfmbrks bpply to thf pbrbmftfr typfs of opfrbtions bnd
+      donstrudtors, bnd to thf rfturn typfs of opfrbtions.</p>
+
+    <p>Thfrf is b distindtion bftwffn bn bttributf's Jbvb lbngubgf
+      typf, bs rfturnfd by {@link
+      jbvbx.mbnbgfmfnt.MBfbnAttributfInfo#gftTypf() gftTypf()}, bnd
+      its <dodf>OpfnTypf</dodf>, bs rfturnfd by {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfo#gftOpfnTypf()
+      gftOpfnTypf()}.  For fxbmplf, if thf Jbvb lbngubgf typf is
+      <dodf>jbvb.lbng.String</dodf>, thf <dodf>OpfnTypf</dodf> will bf
+      {@link jbvbx.mbnbgfmfnt.opfnmbfbn.SimplfTypf#STRING
+      SimplfTypf.String}.  If thf Jbvb lbngubgf typf is {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb}, thf
+      <dodf>OpfnTypf</dodf> will bf b {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf CompositfTypf} thbt
+      dfsdribfs thf itfms in thf <dodf>CompositfDbtb</dodf> instbndfs
+      for thf bttributf.</p>
+
+    <h2><b nbmf="donstrbints">Dffbult vblufs bnd donstrbints</b></h2>
+
+    <p>In Opfn MBfbns, bttributfs bnd pbrbmftfrs dbn hbvf dffbult vblufs
+      bnd/or donstrbints bssodibtfd with thfm in thf {@dodf
+      OpfnMBfbnAttributfInfo} or {@dodf OpfnMBfbnPbrbmftfrInfo}.
+      Thfrf brf two wbys to spfdify thfsf donstrbints.  Eithfr thf
+      vblufs brf dirfdtly spfdififd bs pbrbmftfrs to onf of thf
+      donstrudtors of {@dodf OpfnMBfbnAttributfInfoSupport} or
+      {@dodf OpfnMBfbnPbrbmftfrInfoSupport}, for fxbmplf
+      {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfoSupport#OpfnMBfbnPbrbmftfrInfoSupport(
+      String, String, OpfnTypf, Objfdt, Objfdt[])}; or thf vblufs brf
+      spfdififd in b {@link jbvbx.mbnbgfmfnt.Dfsdriptor Dfsdriptor} givfn
+      bs b pbrbmftfr to onf of thf donstrudtors.</p>
+
+    <p>Whfn b {@dodf Dfsdriptor} is usfd, thf fiflds of intfrfst brf
+      thfsf:</p>
+
+    <ul>
+
+      <li>{@dodf dffbultVbluf} dffinfs thf vbluf rfturnfd by
+	{@link jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfo#gftDffbultVbluf()
+	gftDffbultVbluf()};
+
+      <li>{@dodf minVbluf} dffinfs thf vbluf rfturnfd by {@link
+	jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfo#gftMinVbluf() gftMinVbluf()};
+
+      <li>{@dodf mbxVbluf} dffinfs thf vbluf rfturnfd by {@link
+	jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfo#gftMbxVbluf() gftMbxVbluf()};
+
+      <li>{@dodf lfgblVblufs} dffinfs thf vblufs rfturnfd by {@link
+	jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfo#gftLfgblVblufs() gftLfgblVblufs()}.
+
+    </ul>
+
+    <p>For {@dodf dffbultVbluf}, {@dodf minVbluf}, bnd {@dodf
+      mbxVbluf}, thf bssodibtfd vbluf must fithfr bf of thf Jbvb typf
+      dorrfsponding to {@dodf opfnTypf}, or bf b string thbt dbn bf
+      donvfrtfd into thbt typf.  Thf donvfrsion usfs thf stbtid mfthod
+      {@dodf vblufOf(String)} if it finds onf; othfrwisf b donstrudtor
+      with b singlf {@dodf String} pbrbmftfr if it finds onf; othfrwisf
+      it fbils.</p>
+
+    <p>For {@dodf lfgblVblufs}, thf bssodibtfd vbluf must bf fithfr
+      bn brrby or b {@dodf Sft}, bnd thf flfmfnts of thf brrby or sft
+      must bf donvfrtiblf bs dfsdribfd for {@dodf dffbultVbluf} ftd.</p>
+
+    <p>Thf following donditions must bf mft for thfsf fiflds:</p>
+
+    <ul>
+      <li>thf vblufs must bf of thf bppropribtf typf, or bf strings
+	thbt dbn bf donvfrtfd to thf bppropribtf typf bs fxplbinfd
+	bbovf;
+
+      <li>if {@dodf lfgblVblufs} is prfsfnt thfn nfithfr {@dodf
+	minVbluf} nor {@dodf mbxVbluf} must bf prfsfnt;
+
+      <li>if {@dodf dffbultVbluf} is prfsfnt thfn it must sbtisfy thf
+	donstrbints dffinfd by {@dodf lfgblVblufs}, {@dodf minVbluf}, or
+	{@dodf mbxVbluf} whfn bny of thfsf is blso prfsfnt;
+
+      <li>if {@dodf minVbluf} bnd {@dodf mbxVbluf} brf both prfsfnt
+	thfn {@dodf minVbluf} must not bf grfbtfr thbn {@dodf mbxVbluf}.
+    </ul>
+
+    @sff <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jmx/">
+      Jbvb Plbtform dodumfntbtion on JMX tfdhnology</b>,
+    in pbrtidulbr thf 
+    <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+      JMX Spfdifidbtion, vfrsion 1.4</b>
+
+    @sindf 1.5
+
+</BODY>
+</HTML>

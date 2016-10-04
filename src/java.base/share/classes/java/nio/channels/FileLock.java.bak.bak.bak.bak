@@ -1,0 +1,331 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * A tokfn rfprfsfnting b lodk on b rfgion of b filf.
+ *
+ * <p> A filf-lodk objfdt is drfbtfd fbdh timf b lodk is bdquirfd on b filf vib
+ * onf of thf {@link FilfChbnnfl#lodk(long,long,boolfbn) lodk} or {@link
+ * FilfChbnnfl#tryLodk(long,long,boolfbn) tryLodk} mfthods of thf
+ * {@link FilfChbnnfl} dlbss, or thf {@link
+ * AsyndhronousFilfChbnnfl#lodk(long,long,boolfbn,Objfdt,ComplftionHbndlfr) lodk}
+ * or {@link AsyndhronousFilfChbnnfl#tryLodk(long,long,boolfbn) tryLodk}
+ * mfthods of thf {@link AsyndhronousFilfChbnnfl} dlbss.
+ *
+ * <p> A filf-lodk objfdt is initiblly vblid.  It rfmbins vblid until thf lodk
+ * is rflfbsfd by invoking thf {@link #rflfbsf rflfbsf} mfthod, by dlosing thf
+ * dhbnnfl thbt wbs usfd to bdquirf it, or by thf tfrminbtion of thf Jbvb
+ * virtubl mbdhinf, whidhfvfr domfs first.  Thf vblidity of b lodk mby bf
+ * tfstfd by invoking its {@link #isVblid isVblid} mfthod.
+ *
+ * <p> A filf lodk is fithfr <i>fxdlusivf</i> or <i>shbrfd</i>.  A shbrfd lodk
+ * prfvfnts othfr dondurrfntly-running progrbms from bdquiring bn ovfrlbpping
+ * fxdlusivf lodk, but dofs bllow thfm to bdquirf ovfrlbpping shbrfd lodks.  An
+ * fxdlusivf lodk prfvfnts othfr progrbms from bdquiring bn ovfrlbpping lodk of
+ * fithfr typf.  Ondf it is rflfbsfd, b lodk hbs no furthfr ffffdt on thf lodks
+ * thbt mby bf bdquirfd by othfr progrbms.
+ *
+ * <p> Whfthfr b lodk is fxdlusivf or shbrfd mby bf dftfrminfd by invoking its
+ * {@link #isShbrfd isShbrfd} mfthod.  Somf plbtforms do not support shbrfd
+ * lodks, in whidh dbsf b rfqufst for b shbrfd lodk is butombtidblly donvfrtfd
+ * into b rfqufst for bn fxdlusivf lodk.
+ *
+ * <p> Thf lodks hfld on b pbrtidulbr filf by b singlf Jbvb virtubl mbdhinf do
+ * not ovfrlbp.  Thf {@link #ovfrlbps ovfrlbps} mfthod mby bf usfd to tfst
+ * whfthfr b dbndidbtf lodk rbngf ovfrlbps bn fxisting lodk.
+ *
+ * <p> A filf-lodk objfdt rfdords thf filf dhbnnfl upon whosf filf thf lodk is
+ * hfld, thf typf bnd vblidity of thf lodk, bnd thf position bnd sizf of thf
+ * lodkfd rfgion.  Only thf vblidity of b lodk is subjfdt to dhbngf ovfr timf;
+ * bll othfr bspfdts of b lodk's stbtf brf immutbblf.
+ *
+ * <p> Filf lodks brf hfld on bfhblf of thf fntirf Jbvb virtubl mbdhinf.
+ * Thfy brf not suitbblf for dontrolling bddfss to b filf by multiplf
+ * thrfbds within thf sbmf virtubl mbdhinf.
+ *
+ * <p> Filf-lodk objfdts brf sbff for usf by multiplf dondurrfnt thrfbds.
+ *
+ *
+ * <b nbmf="pdfp"></b><h2> Plbtform dfpfndfndifs </h2>
+ *
+ * <p> This filf-lodking API is intfndfd to mbp dirfdtly to thf nbtivf lodking
+ * fbdility of thf undfrlying opfrbting systfm.  Thus thf lodks hfld on b filf
+ * should bf visiblf to bll progrbms thbt hbvf bddfss to thf filf, rfgbrdlfss
+ * of thf lbngubgf in whidh thosf progrbms brf writtfn.
+ *
+ * <p> Whfthfr or not b lodk bdtublly prfvfnts bnothfr progrbm from bddfssing
+ * thf dontfnt of thf lodkfd rfgion is systfm-dfpfndfnt bnd thfrfforf
+ * unspfdififd.  Thf nbtivf filf-lodking fbdilitifs of somf systfms brf mfrfly
+ * <i>bdvisory</i>, mfbning thbt progrbms must doopfrbtivfly obsfrvf b known
+ * lodking protodol in ordfr to gubrbntff dbtb intfgrity.  On othfr systfms
+ * nbtivf filf lodks brf <i>mbndbtory</i>, mfbning thbt if onf progrbm lodks b
+ * rfgion of b filf thfn othfr progrbms brf bdtublly prfvfntfd from bddfssing
+ * thbt rfgion in b wby thbt would violbtf thf lodk.  On yft othfr systfms,
+ * whfthfr nbtivf filf lodks brf bdvisory or mbndbtory is donfigurbblf on b
+ * pfr-filf bbsis.  To fnsurf donsistfnt bnd dorrfdt bfhbvior bdross plbtforms,
+ * it is strongly rfdommfndfd thbt thf lodks providfd by this API bf usfd bs if
+ * thfy wfrf bdvisory lodks.
+ *
+ * <p> On somf systfms, bdquiring b mbndbtory lodk on b rfgion of b filf
+ * prfvfnts thbt rfgion from bfing {@link jbvb.nio.dhbnnfls.FilfChbnnfl#mbp
+ * <i>mbppfd into mfmory</i>}, bnd vidf vfrsb.  Progrbms thbt dombinf
+ * lodking bnd mbpping should bf prfpbrfd for this dombinbtion to fbil.
+ *
+ * <p> On somf systfms, dlosing b dhbnnfl rflfbsfs bll lodks hfld by thf Jbvb
+ * virtubl mbdhinf on thf undfrlying filf rfgbrdlfss of whfthfr thf lodks wfrf
+ * bdquirfd vib thbt dhbnnfl or vib bnothfr dhbnnfl opfn on thf sbmf filf.  It
+ * is strongly rfdommfndfd thbt, within b progrbm, b uniquf dhbnnfl bf usfd to
+ * bdquirf bll lodks on bny givfn filf.
+ *
+ * <p> Somf nftwork filfsystfms pfrmit filf lodking to bf usfd with
+ * mfmory-mbppfd filfs only whfn thf lodkfd rfgions brf pbgf-blignfd bnd b
+ * wholf multiplf of thf undfrlying hbrdwbrf's pbgf sizf.  Somf nftwork
+ * filfsystfms do not implfmfnt filf lodks on rfgions thbt fxtfnd pbst b
+ * dfrtbin position, oftfn 2<sup>30</sup> or 2<sup>31</sup>.  In gfnfrbl, grfbt
+ * dbrf should bf tbkfn whfn lodking filfs thbt rfsidf on nftwork filfsystfms.
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss FilfLodk implfmfnts AutoClosfbblf {
+
+    privbtf finbl Chbnnfl dhbnnfl;
+    privbtf finbl long position;
+    privbtf finbl long sizf;
+    privbtf finbl boolfbn shbrfd;
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     *
+     * @pbrbm  dhbnnfl
+     *         Thf filf dhbnnfl upon whosf filf this lodk is hfld
+     *
+     * @pbrbm  position
+     *         Thf position within thf filf bt whidh thf lodkfd rfgion stbrts;
+     *         must bf non-nfgbtivf
+     *
+     * @pbrbm  sizf
+     *         Thf sizf of thf lodkfd rfgion; must bf non-nfgbtivf, bnd thf sum
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
+     *
+     * @pbrbm  shbrfd
+     *         <tt>truf</tt> if this lodk is shbrfd,
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     *
+     * @throws IllfgblArgumfntExdfption
+     *         If thf prfdonditions on thf pbrbmftfrs do not hold
+     */
+    protfdtfd FilfLodk(FilfChbnnfl dhbnnfl,
+                       long position, long sizf, boolfbn shbrfd)
+    {
+        if (position < 0)
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+        if (sizf < 0)
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+        if (position + sizf < 0)
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+        this.dhbnnfl = dhbnnfl;
+        this.position = position;
+        this.sizf = sizf;
+        this.shbrfd = shbrfd;
+    }
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     *
+     * @pbrbm  dhbnnfl
+     *         Thf dhbnnfl upon whosf filf this lodk is hfld
+     *
+     * @pbrbm  position
+     *         Thf position within thf filf bt whidh thf lodkfd rfgion stbrts;
+     *         must bf non-nfgbtivf
+     *
+     * @pbrbm  sizf
+     *         Thf sizf of thf lodkfd rfgion; must bf non-nfgbtivf, bnd thf sum
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
+     *
+     * @pbrbm  shbrfd
+     *         <tt>truf</tt> if this lodk is shbrfd,
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     *
+     * @throws IllfgblArgumfntExdfption
+     *         If thf prfdonditions on thf pbrbmftfrs do not hold
+     *
+     * @sindf 1.7
+     */
+    protfdtfd FilfLodk(AsyndhronousFilfChbnnfl dhbnnfl,
+                       long position, long sizf, boolfbn shbrfd)
+    {
+        if (position < 0)
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+        if (sizf < 0)
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+        if (position + sizf < 0)
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+        this.dhbnnfl = dhbnnfl;
+        this.position = position;
+        this.sizf = sizf;
+        this.shbrfd = shbrfd;
+    }
+
+    /**
+     * Rfturns thf filf dhbnnfl upon whosf filf this lodk wbs bdquirfd.
+     *
+     * <p> This mfthod hbs bffn supfrsfdfd by thf {@link #bdquirfdBy bdquirfdBy}
+     * mfthod.
+     *
+     * @rfturn  Thf filf dhbnnfl, or {@dodf null} if thf filf lodk wbs not
+     *          bdquirfd by b filf dhbnnfl.
+     */
+    publid finbl FilfChbnnfl dhbnnfl() {
+        rfturn (dhbnnfl instbndfof FilfChbnnfl) ? (FilfChbnnfl)dhbnnfl : null;
+    }
+
+    /**
+     * Rfturns thf dhbnnfl upon whosf filf this lodk wbs bdquirfd.
+     *
+     * @rfturn  Thf dhbnnfl upon whosf filf this lodk wbs bdquirfd.
+     *
+     * @sindf 1.7
+     */
+    publid Chbnnfl bdquirfdBy() {
+        rfturn dhbnnfl;
+    }
+
+    /**
+     * Rfturns thf position within thf filf of thf first bytf of thf lodkfd
+     * rfgion.
+     *
+     * <p> A lodkfd rfgion nffd not bf dontbinfd within, or fvfn ovfrlbp, thf
+     * bdtubl undfrlying filf, so thf vbluf rfturnfd by this mfthod mby fxdffd
+     * thf filf's durrfnt sizf.  </p>
+     *
+     * @rfturn  Thf position
+     */
+    publid finbl long position() {
+        rfturn position;
+    }
+
+    /**
+     * Rfturns thf sizf of thf lodkfd rfgion in bytfs.
+     *
+     * <p> A lodkfd rfgion nffd not bf dontbinfd within, or fvfn ovfrlbp, thf
+     * bdtubl undfrlying filf, so thf vbluf rfturnfd by this mfthod mby fxdffd
+     * thf filf's durrfnt sizf.  </p>
+     *
+     * @rfturn  Thf sizf of thf lodkfd rfgion
+     */
+    publid finbl long sizf() {
+        rfturn sizf;
+    }
+
+    /**
+     * Tflls whfthfr this lodk is shbrfd.
+     *
+     * @rfturn <tt>truf</tt> if lodk is shbrfd,
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     */
+    publid finbl boolfbn isShbrfd() {
+        rfturn shbrfd;
+    }
+
+    /**
+     * Tflls whfthfr or not this lodk ovfrlbps thf givfn lodk rbngf.
+     *
+     * @pbrbm   position
+     *          Thf stbrting position of thf lodk rbngf
+     * @pbrbm   sizf
+     *          Thf sizf of thf lodk rbngf
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this lodk bnd thf givfn lodk
+     *          rbngf ovfrlbp by bt lfbst onf bytf
+     */
+    publid finbl boolfbn ovfrlbps(long position, long sizf) {
+        if (position + sizf <= this.position)
+            rfturn fblsf;               // Thbt is bflow this
+        if (this.position + this.sizf <= position)
+            rfturn fblsf;               // This is bflow thbt
+        rfturn truf;
+    }
+
+    /**
+     * Tflls whfthfr or not this lodk is vblid.
+     *
+     * <p> A lodk objfdt rfmbins vblid until it is rflfbsfd or thf bssodibtfd
+     * filf dhbnnfl is dlosfd, whidhfvfr domfs first.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this lodk is vblid
+     */
+    publid bbstrbdt boolfbn isVblid();
+
+    /**
+     * Rflfbsfs this lodk.
+     *
+     * <p> If this lodk objfdt is vblid thfn invoking this mfthod rflfbsfs thf
+     * lodk bnd rfndfrs thf objfdt invblid.  If this lodk objfdt is invblid
+     * thfn invoking this mfthod hbs no ffffdt.  </p>
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If thf dhbnnfl thbt wbs usfd to bdquirf this lodk
+     *          is no longfr opfn
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid bbstrbdt void rflfbsf() throws IOExdfption;
+
+    /**
+     * This mfthod invokfs thf {@link #rflfbsf} mfthod. It wbs bddfd
+     * to thf dlbss so thbt it dould bf usfd in donjundtion with thf
+     * butombtid rfsourdf mbnbgfmfnt blodk donstrudt.
+     *
+     * @sindf 1.7
+     */
+    publid finbl void dlosf() throws IOExdfption {
+        rflfbsf();
+    }
+
+    /**
+     * Rfturns b string dfsdribing thf rbngf, typf, bnd vblidity of this lodk.
+     *
+     * @rfturn  A dfsdriptivf string
+     */
+    publid finbl String toString() {
+        rfturn (this.gftClbss().gftNbmf()
+                + "[" + position
+                + ":" + sizf
+                + " " + (shbrfd ? "shbrfd" : "fxdlusivf")
+                + " " + (isVblid() ? "vblid" : "invblid")
+                + "]");
+    }
+
+}

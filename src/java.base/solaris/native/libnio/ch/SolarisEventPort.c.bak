@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
-#include "nio_util.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf "nio_util.i"
 
-#include <stdlib.h>
-#include <dlfcn.h>
-#include <sys/types.h>
-#include <port.h>
+#indludf <stdlib.i>
+#indludf <dlfdn.i>
+#indludf <sys/typfs.i>
+#indludf <port.i>
 
-#include "sun_nio_ch_SolarisEventPort.h"
+#indludf "sun_nio_di_SolbrisEvfntPort.i"
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_SolarisEventPort_port_1create
-    (JNIEnv* env, jclass clazz)
+Jbvb_sun_nio_di_SolbrisEvfntPort_port_1drfbtf
+    (JNIEnv* fnv, jdlbss dlbzz)
 {
-    int port = port_create();
+    int port = port_drfbtf();
     if (port == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "port_create");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "port_drfbtf");
     }
-    return (jint)port;
+    rfturn (jint)port;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_SolarisEventPort_port_1close
-    (JNIEnv* env, jclass clazz, jint port)
+Jbvb_sun_nio_di_SolbrisEvfntPort_port_1dlosf
+    (JNIEnv* fnv, jdlbss dlbzz, jint port)
 {
-    int res;
-    RESTARTABLE(close(port), res);
+    int rfs;
+    RESTARTABLE(dlosf(port), rfs);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_ch_SolarisEventPort_port_1associate
-    (JNIEnv* env, jclass clazz, jint port, jint source, jlong objectAddress, jint events)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_di_SolbrisEvfntPort_port_1bssodibtf
+    (JNIEnv* fnv, jdlbss dlbzz, jint port, jint sourdf, jlong objfdtAddrfss, jint fvfnts)
 {
-    uintptr_t object = (uintptr_t)jlong_to_ptr(objectAddress);
-    if (port_associate((int)port, (int)source, object, (int)events, NULL) == 0) {
-        return JNI_TRUE;
-    } else {
-        if (errno != EBADFD)
-            JNU_ThrowIOExceptionWithLastError(env, "port_associate");
-        return JNI_FALSE;
+    uintptr_t objfdt = (uintptr_t)jlong_to_ptr(objfdtAddrfss);
+    if (port_bssodibtf((int)port, (int)sourdf, objfdt, (int)fvfnts, NULL) == 0) {
+        rfturn JNI_TRUE;
+    } flsf {
+        if (frrno != EBADFD)
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "port_bssodibtf");
+        rfturn JNI_FALSE;
     }
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_ch_SolarisEventPort_port_1dissociate
-    (JNIEnv* env, jclass clazz, jint port, jint source, jlong objectAddress)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_di_SolbrisEvfntPort_port_1dissodibtf
+    (JNIEnv* fnv, jdlbss dlbzz, jint port, jint sourdf, jlong objfdtAddrfss)
 {
-    uintptr_t object = (uintptr_t)jlong_to_ptr(objectAddress);
+    uintptr_t objfdt = (uintptr_t)jlong_to_ptr(objfdtAddrfss);
 
-    if (port_dissociate((int)port, (int)source, object) == 0) {
-        return JNI_TRUE;
-    } else {
-        if (errno != ENOENT)
-            JNU_ThrowIOExceptionWithLastError(env, "port_dissociate");
-        return JNI_FALSE;
-    }
-}
-
-JNIEXPORT void JNICALL
-Java_sun_nio_ch_SolarisEventPort_port_1send(JNIEnv* env, jclass clazz,
-    jint port, jint events)
-{
-    if (port_send((int)port, (int)events, NULL) == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "port_send");
+    if (port_dissodibtf((int)port, (int)sourdf, objfdt) == 0) {
+        rfturn JNI_TRUE;
+    } flsf {
+        if (frrno != ENOENT)
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "port_dissodibtf");
+        rfturn JNI_FALSE;
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_SolarisEventPort_port_1get(JNIEnv* env, jclass clazz,
-    jint port, jlong eventAddress)
+Jbvb_sun_nio_di_SolbrisEvfntPort_port_1sfnd(JNIEnv* fnv, jdlbss dlbzz,
+    jint port, jint fvfnts)
 {
-    int res;
-    port_event_t* ev = (port_event_t*)jlong_to_ptr(eventAddress);
+    if (port_sfnd((int)port, (int)fvfnts, NULL) == -1) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "port_sfnd");
+    }
+}
 
-    RESTARTABLE(port_get((int)port, ev, NULL), res);
-    if (res == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "port_get");
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_di_SolbrisEvfntPort_port_1gft(JNIEnv* fnv, jdlbss dlbzz,
+    jint port, jlong fvfntAddrfss)
+{
+    int rfs;
+    port_fvfnt_t* fv = (port_fvfnt_t*)jlong_to_ptr(fvfntAddrfss);
+
+    RESTARTABLE(port_gft((int)port, fv, NULL), rfs);
+    if (rfs == -1) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "port_gft");
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_SolarisEventPort_port_1getn(JNIEnv* env, jclass clazz,
-    jint port, jlong arrayAddress, jint max, jlong timeout)
+Jbvb_sun_nio_di_SolbrisEvfntPort_port_1gftn(JNIEnv* fnv, jdlbss dlbzz,
+    jint port, jlong brrbyAddrfss, jint mbx, jlong timfout)
 {
-    int res;
+    int rfs;
     uint_t n = 1;
-    port_event_t* list = (port_event_t*)jlong_to_ptr(arrayAddress);
-    timespec_t ts;
-    timespec_t* tsp;
+    port_fvfnt_t* list = (port_fvfnt_t*)jlong_to_ptr(brrbyAddrfss);
+    timfspfd_t ts;
+    timfspfd_t* tsp;
 
-    if (timeout >= 0L) {
-        ts.tv_sec = timeout / 1000;
-        ts.tv_nsec = 1000000 * (timeout % 1000);
+    if (timfout >= 0L) {
+        ts.tv_sfd = timfout / 1000;
+        ts.tv_nsfd = 1000000 * (timfout % 1000);
         tsp = &ts;
-    } else {
+    } flsf {
         tsp = NULL;
     }
 
-    res = port_getn((int)port, list, (uint_t)max, &n, tsp);
-    if (res == -1) {
-        if (errno != ETIME && errno != EINTR)
-            JNU_ThrowIOExceptionWithLastError(env, "port_getn");
+    rfs = port_gftn((int)port, list, (uint_t)mbx, &n, tsp);
+    if (rfs == -1) {
+        if (frrno != ETIME && frrno != EINTR)
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "port_gftn");
     }
 
-    return (jint)n;
+    rfturn (jint)n;
 }

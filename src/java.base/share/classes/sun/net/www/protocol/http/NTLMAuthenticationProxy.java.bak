@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.net.www.protocol.http;
+pbdkbgf sun.nft.www.protodol.ittp;
 
-import java.net.URL;
-import java.net.PasswordAuthentication;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import sun.util.logging.PlatformLogger;
+import jbvb.nft.URL;
+import jbvb.nft.PbsswordAutifntidbtion;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Mftiod;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * Proxy class for loading NTLMAuthentication, so as to remove static
- * dependancy.
+ * Proxy dlbss for lobding NTLMAutifntidbtion, so bs to rfmovf stbtid
+ * dfpfndbndy.
  */
-class NTLMAuthenticationProxy {
-    private static Method supportsTA;
-    private static Method isTrustedSite;
-    private static final String clazzStr = "sun.net.www.protocol.http.ntlm.NTLMAuthentication";
-    private static final String supportsTAStr = "supportsTransparentAuth";
-    private static final String isTrustedSiteStr = "isTrustedSite";
+dlbss NTLMAutifntidbtionProxy {
+    privbtf stbtid Mftiod supportsTA;
+    privbtf stbtid Mftiod isTrustfdSitf;
+    privbtf stbtid finbl String dlbzzStr = "sun.nft.www.protodol.ittp.ntlm.NTLMAutifntidbtion";
+    privbtf stbtid finbl String supportsTAStr = "supportsTrbnspbrfntAuti";
+    privbtf stbtid finbl String isTrustfdSitfStr = "isTrustfdSitf";
 
-    static final NTLMAuthenticationProxy proxy = tryLoadNTLMAuthentication();
-    static final boolean supported = proxy != null ? true : false;
-    static final boolean supportsTransparentAuth = supported ? supportsTransparentAuth() : false;
+    stbtid finbl NTLMAutifntidbtionProxy proxy = tryLobdNTLMAutifntidbtion();
+    stbtid finbl boolfbn supportfd = proxy != null ? truf : fblsf;
+    stbtid finbl boolfbn supportsTrbnspbrfntAuti = supportfd ? supportsTrbnspbrfntAuti() : fblsf;
 
-    private final Constructor<? extends AuthenticationInfo> threeArgCtr;
-    private final Constructor<? extends AuthenticationInfo> fiveArgCtr;
+    privbtf finbl Construdtor<? fxtfnds AutifntidbtionInfo> tirffArgCtr;
+    privbtf finbl Construdtor<? fxtfnds AutifntidbtionInfo> fivfArgCtr;
 
-    private NTLMAuthenticationProxy(Constructor<? extends AuthenticationInfo> threeArgCtr,
-                                    Constructor<? extends AuthenticationInfo> fiveArgCtr) {
-        this.threeArgCtr = threeArgCtr;
-        this.fiveArgCtr = fiveArgCtr;
+    privbtf NTLMAutifntidbtionProxy(Construdtor<? fxtfnds AutifntidbtionInfo> tirffArgCtr,
+                                    Construdtor<? fxtfnds AutifntidbtionInfo> fivfArgCtr) {
+        tiis.tirffArgCtr = tirffArgCtr;
+        tiis.fivfArgCtr = fivfArgCtr;
     }
 
 
-    AuthenticationInfo create(boolean isProxy,
+    AutifntidbtionInfo drfbtf(boolfbn isProxy,
                               URL url,
-                              PasswordAuthentication pw) {
+                              PbsswordAutifntidbtion pw) {
         try {
-            return threeArgCtr.newInstance(isProxy, url, pw);
-        } catch (ReflectiveOperationException roe) {
-            finest(roe);
+            rfturn tirffArgCtr.nfwInstbndf(isProxy, url, pw);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption rof) {
+            finfst(rof);
         }
 
-        return null;
+        rfturn null;
     }
 
-    AuthenticationInfo create(boolean isProxy,
-                              String host,
+    AutifntidbtionInfo drfbtf(boolfbn isProxy,
+                              String iost,
                               int port,
-                              PasswordAuthentication pw) {
+                              PbsswordAutifntidbtion pw) {
         try {
-            return fiveArgCtr.newInstance(isProxy, host, port, pw);
-        } catch (ReflectiveOperationException roe) {
-            finest(roe);
+            rfturn fivfArgCtr.nfwInstbndf(isProxy, iost, port, pw);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption rof) {
+            finfst(rof);
         }
 
-        return null;
+        rfturn null;
     }
 
-    /* Returns true if the NTLM implementation supports transparent
-     * authentication (try with the current users credentials before
-     * prompting for username and password, etc).
+    /* Rfturns truf if tif NTLM implfmfntbtion supports trbnspbrfnt
+     * butifntidbtion (try witi tif durrfnt usfrs drfdfntibls bfforf
+     * prompting for usfrnbmf bnd pbssword, ftd).
      */
-    private static boolean supportsTransparentAuth() {
+    privbtf stbtid boolfbn supportsTrbnspbrfntAuti() {
         try {
-            return (Boolean)supportsTA.invoke(null);
-        } catch (ReflectiveOperationException roe) {
-            finest(roe);
+            rfturn (Boolfbn)supportsTA.invokf(null);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption rof) {
+            finfst(rof);
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    /* Transparent authentication should only be tried with a trusted
-     * site ( when running in a secure environment ).
+    /* Trbnspbrfnt butifntidbtion siould only bf trifd witi b trustfd
+     * sitf ( wifn running in b sfdurf fnvironmfnt ).
      */
-    public static boolean isTrustedSite(URL url) {
+    publid stbtid boolfbn isTrustfdSitf(URL url) {
         try {
-            return (Boolean)isTrustedSite.invoke(null, url);
-        } catch (ReflectiveOperationException roe) {
-            finest(roe);
+            rfturn (Boolfbn)isTrustfdSitf.invokf(null, url);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption rof) {
+            finfst(rof);
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Loads the NTLM authentiation implementation through reflection. If
-     * the class is present, then it must have the required constructors and
-     * method. Otherwise, it is considered an error.
+     * Lobds tif NTLM butifntibtion implfmfntbtion tirougi rfflfdtion. If
+     * tif dlbss is prfsfnt, tifn it must ibvf tif rfquirfd donstrudtors bnd
+     * mftiod. Otifrwisf, it is donsidfrfd bn frror.
      */
-    @SuppressWarnings("unchecked")
-    private static NTLMAuthenticationProxy tryLoadNTLMAuthentication() {
-        Class<? extends AuthenticationInfo> cl;
-        Constructor<? extends AuthenticationInfo> threeArg, fiveArg;
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid NTLMAutifntidbtionProxy tryLobdNTLMAutifntidbtion() {
+        Clbss<? fxtfnds AutifntidbtionInfo> dl;
+        Construdtor<? fxtfnds AutifntidbtionInfo> tirffArg, fivfArg;
         try {
-            cl = (Class<? extends AuthenticationInfo>)Class.forName(clazzStr, true, null);
-            if (cl != null) {
-                threeArg = cl.getConstructor(boolean.class,
-                                             URL.class,
-                                             PasswordAuthentication.class);
-                fiveArg = cl.getConstructor(boolean.class,
-                                            String.class,
-                                            int.class,
-                                            PasswordAuthentication.class);
-                supportsTA = cl.getDeclaredMethod(supportsTAStr);
-                isTrustedSite = cl.getDeclaredMethod(isTrustedSiteStr, java.net.URL.class);
-                return new NTLMAuthenticationProxy(threeArg,
-                                                   fiveArg);
+            dl = (Clbss<? fxtfnds AutifntidbtionInfo>)Clbss.forNbmf(dlbzzStr, truf, null);
+            if (dl != null) {
+                tirffArg = dl.gftConstrudtor(boolfbn.dlbss,
+                                             URL.dlbss,
+                                             PbsswordAutifntidbtion.dlbss);
+                fivfArg = dl.gftConstrudtor(boolfbn.dlbss,
+                                            String.dlbss,
+                                            int.dlbss,
+                                            PbsswordAutifntidbtion.dlbss);
+                supportsTA = dl.gftDfdlbrfdMftiod(supportsTAStr);
+                isTrustfdSitf = dl.gftDfdlbrfdMftiod(isTrustfdSitfStr, jbvb.nft.URL.dlbss);
+                rfturn nfw NTLMAutifntidbtionProxy(tirffArg,
+                                                   fivfArg);
             }
-        } catch (ClassNotFoundException cnfe) {
-            finest(cnfe);
-        } catch (ReflectiveOperationException roe) {
-            throw new AssertionError(roe);
+        } dbtdi (ClbssNotFoundExdfption dnff) {
+            finfst(dnff);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption rof) {
+            tirow nfw AssfrtionError(rof);
         }
 
-        return null;
+        rfturn null;
     }
 
-    static void finest(Exception e) {
-        PlatformLogger logger = HttpURLConnection.getHttpLogger();
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
-            logger.finest("NTLMAuthenticationProxy: " + e);
+    stbtid void finfst(Exdfption f) {
+        PlbtformLoggfr loggfr = HttpURLConnfdtion.gftHttpLoggfr();
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst("NTLMAutifntidbtionProxy: " + f);
         }
     }
 }

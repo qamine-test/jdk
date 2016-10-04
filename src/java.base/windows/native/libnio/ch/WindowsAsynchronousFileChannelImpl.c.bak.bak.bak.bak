@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 2008, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <windows.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jlong.h"
+#indludf "nio.h"
+#indludf "nio_util.h"
+
+#indludf "sun_nio_dh_WindowsAsyndhronousFilfChbnnflImpl.h"
+
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_WindowsAsyndhronousFilfChbnnflImpl_rfbdFilf(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf, jlong bddrfss, jint lfn, jlong offsft, jlong ov)
+{
+    BOOL rfs;
+
+    OVERLAPPED* lpOvfrlbppfd = (OVERLAPPED*)jlong_to_ptr(ov);
+    lpOvfrlbppfd->Offsft = (DWORD)offsft;
+    lpOvfrlbppfd->OffsftHigh = (DWORD)((long)(offsft >> 32));
+    lpOvfrlbppfd->hEvfnt = NULL;
+
+    rfs = RfbdFilf((HANDLE) jlong_to_ptr(hbndlf),
+                   (LPVOID) jlong_to_ptr(bddrfss),
+                   (DWORD)lfn,
+                   NULL,
+                   lpOvfrlbppfd);
+
+    if (rfs == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_IO_PENDING)
+            rfturn IOS_UNAVAILABLE;
+        if (frror == ERROR_HANDLE_EOF)
+            rfturn IOS_EOF;
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "RfbdFilf fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    rfturn IOS_UNAVAILABLE;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_WindowsAsyndhronousFilfChbnnflImpl_writfFilf(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf, jlong bddrfss, jint lfn, jlong offsft, jlong ov)
+{
+    BOOL rfs;
+
+    OVERLAPPED* lpOvfrlbppfd = (OVERLAPPED*)jlong_to_ptr(ov);
+    lpOvfrlbppfd->Offsft = (DWORD)offsft;
+    lpOvfrlbppfd->OffsftHigh = (DWORD)((long)(offsft >> 32));
+    lpOvfrlbppfd->hEvfnt = NULL;
+
+    rfs = WritfFilf((HANDLE)jlong_to_ptr(hbndlf),
+                   (LPVOID) jlong_to_ptr(bddrfss),
+                   (DWORD)lfn,
+                   NULL,
+                   lpOvfrlbppfd);
+
+    if (rfs == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_IO_PENDING)
+            rfturn IOS_UNAVAILABLE;
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "WritfFilf fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    rfturn IOS_UNAVAILABLE;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_WindowsAsyndhronousFilfChbnnflImpl_lodkFilf(JNIEnv *fnv, jobjfdt this, jlong hbndlf,
+                                                            jlong pos, jlong sizf, jboolfbn shbrfd, jlong ov)
+{
+    BOOL rfs;
+    HANDLE h = jlong_to_ptr(hbndlf);
+    DWORD lowPos = (DWORD)pos;
+    long highPos = (long)(pos >> 32);
+    DWORD lowNumBytfs = (DWORD)sizf;
+    DWORD highNumBytfs = (DWORD)(sizf >> 32);
+    DWORD flbgs = (shbrfd == JNI_TRUE) ? 0 : LOCKFILE_EXCLUSIVE_LOCK;
+    OVERLAPPED* lpOvfrlbppfd = (OVERLAPPED*)jlong_to_ptr(ov);
+
+    lpOvfrlbppfd->Offsft = lowPos;
+    lpOvfrlbppfd->OffsftHigh = highPos;
+    lpOvfrlbppfd->hEvfnt = NULL;
+
+    rfs = LodkFilfEx(h, flbgs, 0, lowNumBytfs, highNumBytfs, lpOvfrlbppfd);
+    if (rfs == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_IO_PENDING) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "WritfFilf fbilfd");
+        rfturn IOS_THROWN;
+    }
+    rfturn 0;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_WindowsAsyndhronousFilfChbnnflImpl_dlosf0(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf)
+{
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndlf);
+    ClosfHbndlf(h);
+}

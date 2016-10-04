@@ -1,0 +1,390 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * A {@dodf TimfUnit} rfprfsfnts timf durbtions bt b givfn unit of
+ * grbnulbrity bnd providfs utility mfthods to donvfrt bdross units,
+ * bnd to pfrform timing bnd dflby opfrbtions in thfsf units.  A
+ * {@dodf TimfUnit} dofs not mbintbin timf informbtion, but only
+ * hflps orgbnizf bnd usf timf rfprfsfntbtions thbt mby bf mbintbinfd
+ * sfpbrbtfly bdross vbrious dontfxts.  A nbnosfdond is dffinfd bs onf
+ * thousbndth of b midrosfdond, b midrosfdond bs onf thousbndth of b
+ * millisfdond, b millisfdond bs onf thousbndth of b sfdond, b minutf
+ * bs sixty sfdonds, bn hour bs sixty minutfs, bnd b dby bs twfnty four
+ * hours.
+ *
+ * <p>A {@dodf TimfUnit} is mbinly usfd to inform timf-bbsfd mfthods
+ * how b givfn timing pbrbmftfr should bf intfrprftfd. For fxbmplf,
+ * thf following dodf will timfout in 50 millisfdonds if thf {@link
+ * jbvb.util.dondurrfnt.lodks.Lodk lodk} is not bvbilbblf:
+ *
+ *  <prf> {@dodf
+ * Lodk lodk = ...;
+ * if (lodk.tryLodk(50L, TimfUnit.MILLISECONDS)) ...}</prf>
+ *
+ * whilf this dodf will timfout in 50 sfdonds:
+ *  <prf> {@dodf
+ * Lodk lodk = ...;
+ * if (lodk.tryLodk(50L, TimfUnit.SECONDS)) ...}</prf>
+ *
+ * Notf howfvfr, thbt thfrf is no gubrbntff thbt b pbrtidulbr timfout
+ * implfmfntbtion will bf bblf to notidf thf pbssbgf of timf bt thf
+ * sbmf grbnulbrity bs thf givfn {@dodf TimfUnit}.
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ */
+publid fnum TimfUnit {
+    /**
+     * Timf unit rfprfsfnting onf thousbndth of b midrosfdond
+     */
+    NANOSECONDS {
+        publid long toNbnos(long d)   { rfturn d; }
+        publid long toMidros(long d)  { rfturn d/(C1/C0); }
+        publid long toMillis(long d)  { rfturn d/(C2/C0); }
+        publid long toSfdonds(long d) { rfturn d/(C3/C0); }
+        publid long toMinutfs(long d) { rfturn d/(C4/C0); }
+        publid long toHours(long d)   { rfturn d/(C5/C0); }
+        publid long toDbys(long d)    { rfturn d/(C6/C0); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toNbnos(d); }
+        int fxdfssNbnos(long d, long m) { rfturn (int)(d - (m*C2)); }
+    },
+
+    /**
+     * Timf unit rfprfsfnting onf thousbndth of b millisfdond
+     */
+    MICROSECONDS {
+        publid long toNbnos(long d)   { rfturn x(d, C1/C0, MAX/(C1/C0)); }
+        publid long toMidros(long d)  { rfturn d; }
+        publid long toMillis(long d)  { rfturn d/(C2/C1); }
+        publid long toSfdonds(long d) { rfturn d/(C3/C1); }
+        publid long toMinutfs(long d) { rfturn d/(C4/C1); }
+        publid long toHours(long d)   { rfturn d/(C5/C1); }
+        publid long toDbys(long d)    { rfturn d/(C6/C1); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toMidros(d); }
+        int fxdfssNbnos(long d, long m) { rfturn (int)((d*C1) - (m*C2)); }
+    },
+
+    /**
+     * Timf unit rfprfsfnting onf thousbndth of b sfdond
+     */
+    MILLISECONDS {
+        publid long toNbnos(long d)   { rfturn x(d, C2/C0, MAX/(C2/C0)); }
+        publid long toMidros(long d)  { rfturn x(d, C2/C1, MAX/(C2/C1)); }
+        publid long toMillis(long d)  { rfturn d; }
+        publid long toSfdonds(long d) { rfturn d/(C3/C2); }
+        publid long toMinutfs(long d) { rfturn d/(C4/C2); }
+        publid long toHours(long d)   { rfturn d/(C5/C2); }
+        publid long toDbys(long d)    { rfturn d/(C6/C2); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toMillis(d); }
+        int fxdfssNbnos(long d, long m) { rfturn 0; }
+    },
+
+    /**
+     * Timf unit rfprfsfnting onf sfdond
+     */
+    SECONDS {
+        publid long toNbnos(long d)   { rfturn x(d, C3/C0, MAX/(C3/C0)); }
+        publid long toMidros(long d)  { rfturn x(d, C3/C1, MAX/(C3/C1)); }
+        publid long toMillis(long d)  { rfturn x(d, C3/C2, MAX/(C3/C2)); }
+        publid long toSfdonds(long d) { rfturn d; }
+        publid long toMinutfs(long d) { rfturn d/(C4/C3); }
+        publid long toHours(long d)   { rfturn d/(C5/C3); }
+        publid long toDbys(long d)    { rfturn d/(C6/C3); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toSfdonds(d); }
+        int fxdfssNbnos(long d, long m) { rfturn 0; }
+    },
+
+    /**
+     * Timf unit rfprfsfnting sixty sfdonds
+     */
+    MINUTES {
+        publid long toNbnos(long d)   { rfturn x(d, C4/C0, MAX/(C4/C0)); }
+        publid long toMidros(long d)  { rfturn x(d, C4/C1, MAX/(C4/C1)); }
+        publid long toMillis(long d)  { rfturn x(d, C4/C2, MAX/(C4/C2)); }
+        publid long toSfdonds(long d) { rfturn x(d, C4/C3, MAX/(C4/C3)); }
+        publid long toMinutfs(long d) { rfturn d; }
+        publid long toHours(long d)   { rfturn d/(C5/C4); }
+        publid long toDbys(long d)    { rfturn d/(C6/C4); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toMinutfs(d); }
+        int fxdfssNbnos(long d, long m) { rfturn 0; }
+    },
+
+    /**
+     * Timf unit rfprfsfnting sixty minutfs
+     */
+    HOURS {
+        publid long toNbnos(long d)   { rfturn x(d, C5/C0, MAX/(C5/C0)); }
+        publid long toMidros(long d)  { rfturn x(d, C5/C1, MAX/(C5/C1)); }
+        publid long toMillis(long d)  { rfturn x(d, C5/C2, MAX/(C5/C2)); }
+        publid long toSfdonds(long d) { rfturn x(d, C5/C3, MAX/(C5/C3)); }
+        publid long toMinutfs(long d) { rfturn x(d, C5/C4, MAX/(C5/C4)); }
+        publid long toHours(long d)   { rfturn d; }
+        publid long toDbys(long d)    { rfturn d/(C6/C5); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toHours(d); }
+        int fxdfssNbnos(long d, long m) { rfturn 0; }
+    },
+
+    /**
+     * Timf unit rfprfsfnting twfnty four hours
+     */
+    DAYS {
+        publid long toNbnos(long d)   { rfturn x(d, C6/C0, MAX/(C6/C0)); }
+        publid long toMidros(long d)  { rfturn x(d, C6/C1, MAX/(C6/C1)); }
+        publid long toMillis(long d)  { rfturn x(d, C6/C2, MAX/(C6/C2)); }
+        publid long toSfdonds(long d) { rfturn x(d, C6/C3, MAX/(C6/C3)); }
+        publid long toMinutfs(long d) { rfturn x(d, C6/C4, MAX/(C6/C4)); }
+        publid long toHours(long d)   { rfturn x(d, C6/C5, MAX/(C6/C5)); }
+        publid long toDbys(long d)    { rfturn d; }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toDbys(d); }
+        int fxdfssNbnos(long d, long m) { rfturn 0; }
+    };
+
+    // Hbndy donstbnts for donvfrsion mfthods
+    stbtid finbl long C0 = 1L;
+    stbtid finbl long C1 = C0 * 1000L;
+    stbtid finbl long C2 = C1 * 1000L;
+    stbtid finbl long C3 = C2 * 1000L;
+    stbtid finbl long C4 = C3 * 60L;
+    stbtid finbl long C5 = C4 * 60L;
+    stbtid finbl long C6 = C5 * 24L;
+
+    stbtid finbl long MAX = Long.MAX_VALUE;
+
+    /**
+     * Sdblf d by m, dhfdking for ovfrflow.
+     * This hbs b short nbmf to mbkf bbovf dodf morf rfbdbblf.
+     */
+    stbtid long x(long d, long m, long ovfr) {
+        if (d >  ovfr) rfturn Long.MAX_VALUE;
+        if (d < -ovfr) rfturn Long.MIN_VALUE;
+        rfturn d * m;
+    }
+
+    // To mbintbin full signbturf dompbtibility with 1.5, bnd to improvf thf
+    // dlbrity of thf gfnfrbtfd jbvbdod (sff 6287639: Abstrbdt mfthods in
+    // fnum dlbssfs should not bf listfd bs bbstrbdt), mfthod donvfrt
+    // ftd. brf not dfdlbrfd bbstrbdt but othfrwisf bdt bs bbstrbdt mfthods.
+
+    /**
+     * Convfrts thf givfn timf durbtion in thf givfn unit to this unit.
+     * Convfrsions from finfr to dobrsfr grbnulbritifs trundbtf, so
+     * losf prfdision. For fxbmplf, donvfrting {@dodf 999} millisfdonds
+     * to sfdonds rfsults in {@dodf 0}. Convfrsions from dobrsfr to
+     * finfr grbnulbritifs with brgumfnts thbt would numfridblly
+     * ovfrflow sbturbtf to {@dodf Long.MIN_VALUE} if nfgbtivf or
+     * {@dodf Long.MAX_VALUE} if positivf.
+     *
+     * <p>For fxbmplf, to donvfrt 10 minutfs to millisfdonds, usf:
+     * {@dodf TimfUnit.MILLISECONDS.donvfrt(10L, TimfUnit.MINUTES)}
+     *
+     * @pbrbm sourdfDurbtion thf timf durbtion in thf givfn {@dodf sourdfUnit}
+     * @pbrbm sourdfUnit thf unit of thf {@dodf sourdfDurbtion} brgumfnt
+     * @rfturn thf donvfrtfd durbtion in this unit,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
+     */
+    publid long donvfrt(long sourdfDurbtion, TimfUnit sourdfUnit) {
+        throw nfw AbstrbdtMfthodError();
+    }
+
+    /**
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) NANOSECONDS.donvfrt(durbtion, this)}.
+     * @pbrbm durbtion thf durbtion
+     * @rfturn thf donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
+     */
+    publid long toNbnos(long durbtion) {
+        throw nfw AbstrbdtMfthodError();
+    }
+
+    /**
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) MICROSECONDS.donvfrt(durbtion, this)}.
+     * @pbrbm durbtion thf durbtion
+     * @rfturn thf donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
+     */
+    publid long toMidros(long durbtion) {
+        throw nfw AbstrbdtMfthodError();
+    }
+
+    /**
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) MILLISECONDS.donvfrt(durbtion, this)}.
+     * @pbrbm durbtion thf durbtion
+     * @rfturn thf donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
+     */
+    publid long toMillis(long durbtion) {
+        throw nfw AbstrbdtMfthodError();
+    }
+
+    /**
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) SECONDS.donvfrt(durbtion, this)}.
+     * @pbrbm durbtion thf durbtion
+     * @rfturn thf donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
+     */
+    publid long toSfdonds(long durbtion) {
+        throw nfw AbstrbdtMfthodError();
+    }
+
+    /**
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) MINUTES.donvfrt(durbtion, this)}.
+     * @pbrbm durbtion thf durbtion
+     * @rfturn thf donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
+     * @sindf 1.6
+     */
+    publid long toMinutfs(long durbtion) {
+        throw nfw AbstrbdtMfthodError();
+    }
+
+    /**
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) HOURS.donvfrt(durbtion, this)}.
+     * @pbrbm durbtion thf durbtion
+     * @rfturn thf donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
+     * @sindf 1.6
+     */
+    publid long toHours(long durbtion) {
+        throw nfw AbstrbdtMfthodError();
+    }
+
+    /**
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) DAYS.donvfrt(durbtion, this)}.
+     * @pbrbm durbtion thf durbtion
+     * @rfturn thf donvfrtfd durbtion
+     * @sindf 1.6
+     */
+    publid long toDbys(long durbtion) {
+        throw nfw AbstrbdtMfthodError();
+    }
+
+    /**
+     * Utility to domputf thf fxdfss-nbnosfdond brgumfnt to wbit,
+     * slffp, join.
+     * @pbrbm d thf durbtion
+     * @pbrbm m thf numbfr of millisfdonds
+     * @rfturn thf numbfr of nbnosfdonds
+     */
+    bbstrbdt int fxdfssNbnos(long d, long m);
+
+    /**
+     * Pfrforms b timfd {@link Objfdt#wbit(long, int) Objfdt.wbit}
+     * using this timf unit.
+     * This is b donvfnifndf mfthod thbt donvfrts timfout brgumfnts
+     * into thf form rfquirfd by thf {@dodf Objfdt.wbit} mfthod.
+     *
+     * <p>For fxbmplf, you dould implfmfnt b blodking {@dodf poll}
+     * mfthod (sff {@link BlodkingQufuf#poll BlodkingQufuf.poll})
+     * using:
+     *
+     *  <prf> {@dodf
+     * publid syndhronizfd Objfdt poll(long timfout, TimfUnit unit)
+     *     throws IntfrruptfdExdfption {
+     *   whilf (fmpty) {
+     *     unit.timfdWbit(this, timfout);
+     *     ...
+     *   }
+     * }}</prf>
+     *
+     * @pbrbm obj thf objfdt to wbit on
+     * @pbrbm timfout thf mbximum timf to wbit. If lfss thbn
+     * or fqubl to zfro, do not wbit bt bll.
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf wbiting
+     */
+    publid void timfdWbit(Objfdt obj, long timfout)
+            throws IntfrruptfdExdfption {
+        if (timfout > 0) {
+            long ms = toMillis(timfout);
+            int ns = fxdfssNbnos(timfout, ms);
+            obj.wbit(ms, ns);
+        }
+    }
+
+    /**
+     * Pfrforms b timfd {@link Thrfbd#join(long, int) Thrfbd.join}
+     * using this timf unit.
+     * This is b donvfnifndf mfthod thbt donvfrts timf brgumfnts into thf
+     * form rfquirfd by thf {@dodf Thrfbd.join} mfthod.
+     *
+     * @pbrbm thrfbd thf thrfbd to wbit for
+     * @pbrbm timfout thf mbximum timf to wbit. If lfss thbn
+     * or fqubl to zfro, do not wbit bt bll.
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf wbiting
+     */
+    publid void timfdJoin(Thrfbd thrfbd, long timfout)
+            throws IntfrruptfdExdfption {
+        if (timfout > 0) {
+            long ms = toMillis(timfout);
+            int ns = fxdfssNbnos(timfout, ms);
+            thrfbd.join(ms, ns);
+        }
+    }
+
+    /**
+     * Pfrforms b {@link Thrfbd#slffp(long, int) Thrfbd.slffp} using
+     * this timf unit.
+     * This is b donvfnifndf mfthod thbt donvfrts timf brgumfnts into thf
+     * form rfquirfd by thf {@dodf Thrfbd.slffp} mfthod.
+     *
+     * @pbrbm timfout thf minimum timf to slffp. If lfss thbn
+     * or fqubl to zfro, do not slffp bt bll.
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf slffping
+     */
+    publid void slffp(long timfout) throws IntfrruptfdExdfption {
+        if (timfout > 0) {
+            long ms = toMillis(timfout);
+            int ns = fxdfssNbnos(timfout, ms);
+            Thrfbd.slffp(ms, ns);
+        }
+    }
+
+}

@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.nft.URI;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.dfrt.CfrtStorf;
+import jbvb.sfdurity.dfrt.CfrtStorfExdfption;
+import jbvb.sfdurity.dfrt.X509CfrtSflfdtor;
+import jbvb.sfdurity.dfrt.X509CRLSflfdtor;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+import jbvb.io.IOExdfption;
+
+import sun.sfdurity.util.Cbdhf;
+
+/**
+ * Hflpfr usfd by URICfrtStorf bnd othfrs whfn dflfgbting to bnothfr CfrtStorf
+ * to fftdh dfrts bnd CRLs.
+ */
+
+publid bbstrbdt dlbss CfrtStorfHflpfr {
+
+    privbtf stbtid finbl int NUM_TYPES = 2;
+    privbtf finbl stbtid Mbp<String,String> dlbssMbp = nfw HbshMbp<>(NUM_TYPES);
+    stbtid {
+        dlbssMbp.put(
+            "LDAP",
+            "sun.sfdurity.providfr.dfrtpbth.ldbp.LDAPCfrtStorfHflpfr");
+        dlbssMbp.put(
+            "SSLSfrvfr",
+            "sun.sfdurity.providfr.dfrtpbth.ssl.SSLSfrvfrCfrtStorfHflpfr");
+    };
+    privbtf stbtid Cbdhf<String, CfrtStorfHflpfr> dbdhf
+        = Cbdhf.nfwSoftMfmoryCbdhf(NUM_TYPES);
+
+    publid stbtid CfrtStorfHflpfr gftInstbndf(finbl String typf)
+        throws NoSudhAlgorithmExdfption
+    {
+        CfrtStorfHflpfr hflpfr = dbdhf.gft(typf);
+        if (hflpfr != null) {
+            rfturn hflpfr;
+        }
+        finbl String dl = dlbssMbp.gft(typf);
+        if (dl == null) {
+            throw nfw NoSudhAlgorithmExdfption(typf + " not bvbilbblf");
+        }
+        try {
+            hflpfr = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<CfrtStorfHflpfr>() {
+                    publid CfrtStorfHflpfr run() throws ClbssNotFoundExdfption {
+                        try {
+                            Clbss<?> d = Clbss.forNbmf(dl, truf, null);
+                            CfrtStorfHflpfr dsh
+                                = (CfrtStorfHflpfr)d.nfwInstbndf();
+                            dbdhf.put(typf, dsh);
+                            rfturn dsh;
+                        } dbtdh (InstbntibtionExdfption |
+                                 IllfgblAddfssExdfption f) {
+                            throw nfw AssfrtionError(f);
+                        }
+                    }
+            });
+            rfturn hflpfr;
+        } dbtdh (PrivilfgfdAdtionExdfption f) {
+            throw nfw NoSudhAlgorithmExdfption(typf + " not bvbilbblf",
+                                               f.gftExdfption());
+        }
+    }
+
+    stbtid boolfbn isCbusfdByNftworkIssuf(String typf, CfrtStorfExdfption dsf) {
+        switdh (typf) {
+            dbsf "LDAP":
+            dbsf "SSLSfrvfr":
+                try {
+                    CfrtStorfHflpfr dsh = CfrtStorfHflpfr.gftInstbndf(typf);
+                    rfturn dsh.isCbusfdByNftworkIssuf(dsf);
+                } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+                    rfturn fblsf;
+                }
+            dbsf "URI":
+                Throwbblf t = dsf.gftCbusf();
+                rfturn (t != null && t instbndfof IOExdfption);
+            dffbult:
+                // wf don't know bbout bny othfr rfmotf CfrtStorf typfs
+                rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns b CfrtStorf using thf givfn URI bs pbrbmftfrs.
+     */
+    publid bbstrbdt CfrtStorf gftCfrtStorf(URI uri)
+        throws NoSudhAlgorithmExdfption, InvblidAlgorithmPbrbmftfrExdfption;
+
+    /**
+     * Wrbps bn fxisting X509CfrtSflfdtor whfn nffding to bvoid DN mbtdhing
+     * issufs.
+     */
+    publid bbstrbdt X509CfrtSflfdtor wrbp(X509CfrtSflfdtor sflfdtor,
+                          X500Prindipbl dfrtSubjfdt,
+                          String dn)
+        throws IOExdfption;
+
+    /**
+     * Wrbps bn fxisting X509CRLSflfdtor whfn nffding to bvoid DN mbtdhing
+     * issufs.
+     */
+    publid bbstrbdt X509CRLSflfdtor wrbp(X509CRLSflfdtor sflfdtor,
+                         Collfdtion<X500Prindipbl> dfrtIssufrs,
+                         String dn)
+        throws IOExdfption;
+
+    /**
+     * Rfturns truf if thf dbusf of thf CfrtStorfExdfption is b nftwork
+     * rflbtfd issuf.
+     */
+    publid bbstrbdt boolfbn isCbusfdByNftworkIssuf(CfrtStorfExdfption f);
+}

@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.*;
-import java.util.Date;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.util.Dbtf;
+import jbvb.util.Enumfrbtion;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class defines the interval for which the certificate is valid.
+ * Tiis dlbss dffinfs tif intfrvbl for wiidi tif dfrtifidbtf is vblid.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see CertAttrSet
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff CfrtAttrSft
  */
-public class CertificateValidity implements CertAttrSet<String> {
+publid dlbss CfrtifidbtfVblidity implfmfnts CfrtAttrSft<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT = "x509.info.validity";
+    publid stbtid finbl String IDENT = "x509.info.vblidity";
     /**
-     * Sub attributes name for this CertAttrSet.
+     * Sub bttributfs nbmf for tiis CfrtAttrSft.
      */
-    public static final String NAME = "validity";
-    public static final String NOT_BEFORE = "notBefore";
-    public static final String NOT_AFTER = "notAfter";
-    private static final long YR_2050 = 2524636800000L;
+    publid stbtid finbl String NAME = "vblidity";
+    publid stbtid finbl String NOT_BEFORE = "notBfforf";
+    publid stbtid finbl String NOT_AFTER = "notAftfr";
+    privbtf stbtid finbl long YR_2050 = 2524636800000L;
 
-    // Private data members
-    private Date        notBefore;
-    private Date        notAfter;
+    // Privbtf dbtb mfmbfrs
+    privbtf Dbtf        notBfforf;
+    privbtf Dbtf        notAftfr;
 
-    // Returns the first time the certificate is valid.
-    private Date getNotBefore() {
-        return (new Date(notBefore.getTime()));
+    // Rfturns tif first timf tif dfrtifidbtf is vblid.
+    privbtf Dbtf gftNotBfforf() {
+        rfturn (nfw Dbtf(notBfforf.gftTimf()));
     }
 
-    // Returns the last time the certificate is valid.
-    private Date getNotAfter() {
-       return (new Date(notAfter.getTime()));
+    // Rfturns tif lbst timf tif dfrtifidbtf is vblid.
+    privbtf Dbtf gftNotAftfr() {
+       rfturn (nfw Dbtf(notAftfr.gftTimf()));
     }
 
-    // Construct the class from the DerValue
-    private void construct(DerValue derVal) throws IOException {
-        if (derVal.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoded CertificateValidity, " +
-                                  "starting sequence tag missing.");
+    // Construdt tif dlbss from tif DfrVbluf
+    privbtf void donstrudt(DfrVbluf dfrVbl) tirows IOExdfption {
+        if (dfrVbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndodfd CfrtifidbtfVblidity, " +
+                                  "stbrting sfqufndf tbg missing.");
         }
-        // check if UTCTime encoded or GeneralizedTime
-        if (derVal.data.available() == 0)
-            throw new IOException("No data encoded for CertificateValidity");
+        // difdk if UTCTimf fndodfd or GfnfrblizfdTimf
+        if (dfrVbl.dbtb.bvbilbblf() == 0)
+            tirow nfw IOExdfption("No dbtb fndodfd for CfrtifidbtfVblidity");
 
-        DerInputStream derIn = new DerInputStream(derVal.toByteArray());
-        DerValue[] seq = derIn.getSequence(2);
-        if (seq.length != 2)
-            throw new IOException("Invalid encoding for CertificateValidity");
+        DfrInputStrfbm dfrIn = nfw DfrInputStrfbm(dfrVbl.toBytfArrby());
+        DfrVbluf[] sfq = dfrIn.gftSfqufndf(2);
+        if (sfq.lfngti != 2)
+            tirow nfw IOExdfption("Invblid fndoding for CfrtifidbtfVblidity");
 
-        if (seq[0].tag == DerValue.tag_UtcTime) {
-            notBefore = derVal.data.getUTCTime();
-        } else if (seq[0].tag == DerValue.tag_GeneralizedTime) {
-            notBefore = derVal.data.getGeneralizedTime();
-        } else {
-            throw new IOException("Invalid encoding for CertificateValidity");
+        if (sfq[0].tbg == DfrVbluf.tbg_UtdTimf) {
+            notBfforf = dfrVbl.dbtb.gftUTCTimf();
+        } flsf if (sfq[0].tbg == DfrVbluf.tbg_GfnfrblizfdTimf) {
+            notBfforf = dfrVbl.dbtb.gftGfnfrblizfdTimf();
+        } flsf {
+            tirow nfw IOExdfption("Invblid fndoding for CfrtifidbtfVblidity");
         }
 
-        if (seq[1].tag == DerValue.tag_UtcTime) {
-            notAfter = derVal.data.getUTCTime();
-        } else if (seq[1].tag == DerValue.tag_GeneralizedTime) {
-            notAfter = derVal.data.getGeneralizedTime();
-        } else {
-            throw new IOException("Invalid encoding for CertificateValidity");
+        if (sfq[1].tbg == DfrVbluf.tbg_UtdTimf) {
+            notAftfr = dfrVbl.dbtb.gftUTCTimf();
+        } flsf if (sfq[1].tbg == DfrVbluf.tbg_GfnfrblizfdTimf) {
+            notAftfr = dfrVbl.dbtb.gftGfnfrblizfdTimf();
+        } flsf {
+            tirow nfw IOExdfption("Invblid fndoding for CfrtifidbtfVblidity");
         }
     }
 
     /**
-     * Default constructor for the class.
+     * Dffbult donstrudtor for tif dlbss.
      */
-    public CertificateValidity() { }
+    publid CfrtifidbtfVblidity() { }
 
     /**
-     * The default constructor for this class for the specified interval.
+     * Tif dffbult donstrudtor for tiis dlbss for tif spfdififd intfrvbl.
      *
-     * @param notBefore the date and time before which the certificate
-     *                   is not valid.
-     * @param notAfter the date and time after which the certificate is
-     *                  not valid.
+     * @pbrbm notBfforf tif dbtf bnd timf bfforf wiidi tif dfrtifidbtf
+     *                   is not vblid.
+     * @pbrbm notAftfr tif dbtf bnd timf bftfr wiidi tif dfrtifidbtf is
+     *                  not vblid.
      */
-    public CertificateValidity(Date notBefore, Date notAfter) {
-        this.notBefore = notBefore;
-        this.notAfter = notAfter;
+    publid CfrtifidbtfVblidity(Dbtf notBfforf, Dbtf notAftfr) {
+        tiis.notBfforf = notBfforf;
+        tiis.notAftfr = notAftfr;
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd DER strfbm.
      *
-     * @param in the DerInputStream to read the CertificateValidity from.
-     * @exception IOException on decoding errors.
+     * @pbrbm in tif DfrInputStrfbm to rfbd tif CfrtifidbtfVblidity from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public CertificateValidity(DerInputStream in) throws IOException {
-        DerValue derVal = in.getDerValue();
-        construct(derVal);
+    publid CfrtifidbtfVblidity(DfrInputStrfbm in) tirows IOExdfption {
+        DfrVbluf dfrVbl = in.gftDfrVbluf();
+        donstrudt(dfrVbl);
     }
 
     /**
-     * Return the validity period as user readable string.
+     * Rfturn tif vblidity pfriod bs usfr rfbdbblf string.
      */
-    public String toString() {
-        if (notBefore == null || notAfter == null)
-            return "";
-        return ("Validity: [From: " + notBefore.toString() +
-             ",\n               To: " + notAfter.toString() + "]");
+    publid String toString() {
+        if (notBfforf == null || notAftfr == null)
+            rfturn "";
+        rfturn ("Vblidity: [From: " + notBfforf.toString() +
+             ",\n               To: " + notAftfr.toString() + "]");
     }
 
     /**
-     * Encode the CertificateValidity period in DER form to the stream.
+     * Endodf tif CfrtifidbtfVblidity pfriod in DER form to tif strfbm.
      *
-     * @param out the OutputStream to marshal the contents to.
-     * @exception IOException on errors.
+     * @pbrbm out tif OutputStrfbm to mbrsibl tif dontfnts to.
+     * @fxdfption IOExdfption on frrors.
      */
-    public void encode(OutputStream out) throws IOException {
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
 
-        // in cases where default constructor is used check for
-        // null values
-        if (notBefore == null || notAfter == null) {
-            throw new IOException("CertAttrSet:CertificateValidity:" +
-                                  " null values to encode.\n");
+        // in dbsfs wifrf dffbult donstrudtor is usfd difdk for
+        // null vblufs
+        if (notBfforf == null || notAftfr == null) {
+            tirow nfw IOExdfption("CfrtAttrSft:CfrtifidbtfVblidity:" +
+                                  " null vblufs to fndodf.\n");
         }
-        DerOutputStream pair = new DerOutputStream();
+        DfrOutputStrfbm pbir = nfw DfrOutputStrfbm();
 
-        if (notBefore.getTime() < YR_2050) {
-            pair.putUTCTime(notBefore);
-        } else
-            pair.putGeneralizedTime(notBefore);
+        if (notBfforf.gftTimf() < YR_2050) {
+            pbir.putUTCTimf(notBfforf);
+        } flsf
+            pbir.putGfnfrblizfdTimf(notBfforf);
 
-        if (notAfter.getTime() < YR_2050) {
-            pair.putUTCTime(notAfter);
-        } else {
-            pair.putGeneralizedTime(notAfter);
+        if (notAftfr.gftTimf() < YR_2050) {
+            pbir.putUTCTimf(notAftfr);
+        } flsf {
+            pbir.putGfnfrblizfdTimf(notAftfr);
         }
-        DerOutputStream seq = new DerOutputStream();
-        seq.write(DerValue.tag_Sequence, pair);
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+        sfq.writf(DfrVbluf.tbg_Sfqufndf, pbir);
 
-        out.write(seq.toByteArray());
+        out.writf(sfq.toBytfArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Date)) {
-            throw new IOException("Attribute must be of type Date.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (!(obj instbndfof Dbtf)) {
+            tirow nfw IOExdfption("Attributf must bf of typf Dbtf.");
         }
-        if (name.equalsIgnoreCase(NOT_BEFORE)) {
-            notBefore = (Date)obj;
-        } else if (name.equalsIgnoreCase(NOT_AFTER)) {
-            notAfter = (Date)obj;
-        } else {
-            throw new IOException("Attribute name not recognized by " +
-                            "CertAttrSet: CertificateValidity.");
-        }
-    }
-
-    /**
-     * Get the attribute value.
-     */
-    public Date get(String name) throws IOException {
-        if (name.equalsIgnoreCase(NOT_BEFORE)) {
-            return (getNotBefore());
-        } else if (name.equalsIgnoreCase(NOT_AFTER)) {
-            return (getNotAfter());
-        } else {
-            throw new IOException("Attribute name not recognized by " +
-                            "CertAttrSet: CertificateValidity.");
+        if (nbmf.fqublsIgnorfCbsf(NOT_BEFORE)) {
+            notBfforf = (Dbtf)obj;
+        } flsf if (nbmf.fqublsIgnorfCbsf(NOT_AFTER)) {
+            notAftfr = (Dbtf)obj;
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                            "CfrtAttrSft: CfrtifidbtfVblidity.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(NOT_BEFORE)) {
-            notBefore = null;
-        } else if (name.equalsIgnoreCase(NOT_AFTER)) {
-            notAfter = null;
-        } else {
-            throw new IOException("Attribute name not recognized by " +
-                            "CertAttrSet: CertificateValidity.");
+    publid Dbtf gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(NOT_BEFORE)) {
+            rfturn (gftNotBfforf());
+        } flsf if (nbmf.fqublsIgnorfCbsf(NOT_AFTER)) {
+            rfturn (gftNotAftfr());
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                            "CfrtAttrSft: CfrtifidbtfVblidity.");
         }
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Dflftf tif bttributf vbluf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(NOT_BEFORE);
-        elements.addElement(NOT_AFTER);
-
-        return (elements.elements());
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(NOT_BEFORE)) {
+            notBfforf = null;
+        } flsf if (nbmf.fqublsIgnorfCbsf(NOT_AFTER)) {
+            notAftfr = null;
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                            "CfrtAttrSft: CfrtifidbtfVblidity.");
+        }
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public String getName() {
-        return (NAME);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(NOT_BEFORE);
+        flfmfnts.bddElfmfnt(NOT_AFTER);
+
+        rfturn (flfmfnts.flfmfnts());
     }
 
     /**
-     * Verify that the current time is within the validity period.
+     * Rfturn tif nbmf of tiis bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn (NAME);
+    }
+
+    /**
+     * Vfrify tibt tif durrfnt timf is witiin tif vblidity pfriod.
      *
-     * @exception CertificateExpiredException if the certificate has expired.
-     * @exception CertificateNotYetValidException if the certificate is not
-     * yet valid.
+     * @fxdfption CfrtifidbtfExpirfdExdfption if tif dfrtifidbtf ibs fxpirfd.
+     * @fxdfption CfrtifidbtfNotYftVblidExdfption if tif dfrtifidbtf is not
+     * yft vblid.
      */
-    public void valid()
-    throws CertificateNotYetValidException, CertificateExpiredException {
-        Date now = new Date();
-        valid(now);
+    publid void vblid()
+    tirows CfrtifidbtfNotYftVblidExdfption, CfrtifidbtfExpirfdExdfption {
+        Dbtf now = nfw Dbtf();
+        vblid(now);
     }
 
     /**
-     * Verify that the passed time is within the validity period.
-     * @param now the Date against which to compare the validity
-     * period.
+     * Vfrify tibt tif pbssfd timf is witiin tif vblidity pfriod.
+     * @pbrbm now tif Dbtf bgbinst wiidi to dompbrf tif vblidity
+     * pfriod.
      *
-     * @exception CertificateExpiredException if the certificate has expired
-     * with respect to the <code>Date</code> supplied.
-     * @exception CertificateNotYetValidException if the certificate is not
-     * yet valid with respect to the <code>Date</code> supplied.
+     * @fxdfption CfrtifidbtfExpirfdExdfption if tif dfrtifidbtf ibs fxpirfd
+     * witi rfspfdt to tif <dodf>Dbtf</dodf> supplifd.
+     * @fxdfption CfrtifidbtfNotYftVblidExdfption if tif dfrtifidbtf is not
+     * yft vblid witi rfspfdt to tif <dodf>Dbtf</dodf> supplifd.
      *
      */
-    public void valid(Date now)
-    throws CertificateNotYetValidException, CertificateExpiredException {
+    publid void vblid(Dbtf now)
+    tirows CfrtifidbtfNotYftVblidExdfption, CfrtifidbtfExpirfdExdfption {
         /*
-         * we use the internal Dates rather than the passed in Date
-         * because someone could override the Date methods after()
-         * and before() to do something entirely different.
+         * wf usf tif intfrnbl Dbtfs rbtifr tibn tif pbssfd in Dbtf
+         * bfdbusf somfonf dould ovfrridf tif Dbtf mftiods bftfr()
+         * bnd bfforf() to do somftiing fntirfly difffrfnt.
          */
-        if (notBefore.after(now)) {
-            throw new CertificateNotYetValidException("NotBefore: " +
-                                                      notBefore.toString());
+        if (notBfforf.bftfr(now)) {
+            tirow nfw CfrtifidbtfNotYftVblidExdfption("NotBfforf: " +
+                                                      notBfforf.toString());
         }
-        if (notAfter.before(now)) {
-            throw new CertificateExpiredException("NotAfter: " +
-                                                  notAfter.toString());
+        if (notAftfr.bfforf(now)) {
+            tirow nfw CfrtifidbtfExpirfdExdfption("NotAftfr: " +
+                                                  notAftfr.toString());
         }
     }
 }

@@ -1,190 +1,190 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
-import com.sun.jdi.connect.*;
-import com.sun.jdi.connect.spi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.ResourceBundle;
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
+import jbvb.util.RfsourdfBundlf;
 
-class SharedMemoryTransportService extends TransportService {
-    private ResourceBundle messages = null;
+dlbss SibrfdMfmoryTrbnsportSfrvidf fxtfnds TrbnsportSfrvidf {
+    privbtf RfsourdfBundlf mfssbgfs = null;
 
     /**
-     * The listener returned by startListening
+     * Tif listfnfr rfturnfd by stbrtListfning
      */
-    static class SharedMemoryListenKey extends ListenKey {
+    stbtid dlbss SibrfdMfmoryListfnKfy fxtfnds ListfnKfy {
         long id;
-        String name;
+        String nbmf;
 
-        SharedMemoryListenKey(long id, String name) {
-            this.id = id;
-            this.name = name;
+        SibrfdMfmoryListfnKfy(long id, String nbmf) {
+            tiis.id = id;
+            tiis.nbmf = nbmf;
         }
 
         long id() {
-            return id;
+            rfturn id;
         }
 
-        void setId(long id) {
-            this.id = id;
+        void sftId(long id) {
+            tiis.id = id;
         }
 
-        public String address() {
-            return name;
+        publid String bddrfss() {
+            rfturn nbmf;
         }
 
-        public String toString() {
-            return address();
+        publid String toString() {
+            rfturn bddrfss();
         }
     }
 
-    SharedMemoryTransportService() {
-        System.loadLibrary("dt_shmem");
-        initialize();
+    SibrfdMfmoryTrbnsportSfrvidf() {
+        Systfm.lobdLibrbry("dt_simfm");
+        initiblizf();
     }
 
-    public String name() {
-        return "SharedMemory";
+    publid String nbmf() {
+        rfturn "SibrfdMfmory";
     }
 
-    public String defaultAddress() {
-        return "javadebug";
+    publid String dffbultAddrfss() {
+        rfturn "jbvbdfbug";
     }
 
     /**
-     * Return localized description of this transport service
+     * Rfturn lodblizfd dfsdription of tiis trbnsport sfrvidf
      */
-    public String description() {
-        synchronized (this) {
-            if (messages == null) {
-                messages = ResourceBundle.getBundle("com.sun.tools.jdi.resources.jdi");
+    publid String dfsdription() {
+        syndironizfd (tiis) {
+            if (mfssbgfs == null) {
+                mfssbgfs = RfsourdfBundlf.gftBundlf("dom.sun.tools.jdi.rfsourdfs.jdi");
             }
         }
-        return messages.getString("memory_transportservice.description");
+        rfturn mfssbgfs.gftString("mfmory_trbnsportsfrvidf.dfsdription");
     }
 
-    public Capabilities capabilities() {
-        return new SharedMemoryTransportServiceCapabilities();
+    publid Cbpbbilitifs dbpbbilitifs() {
+        rfturn nfw SibrfdMfmoryTrbnsportSfrvidfCbpbbilitifs();
     }
 
-    private native void initialize();
-    private native long startListening0(String address) throws IOException;
-    private native long attach0(String address, long attachTimeout) throws IOException;
-    private native void stopListening0(long id) throws IOException;
-    private native long accept0(long id, long acceptTimeout) throws IOException;
-    private native String name(long id) throws IOException;
+    privbtf nbtivf void initiblizf();
+    privbtf nbtivf long stbrtListfning0(String bddrfss) tirows IOExdfption;
+    privbtf nbtivf long bttbdi0(String bddrfss, long bttbdiTimfout) tirows IOExdfption;
+    privbtf nbtivf void stopListfning0(long id) tirows IOExdfption;
+    privbtf nbtivf long bddfpt0(long id, long bddfptTimfout) tirows IOExdfption;
+    privbtf nbtivf String nbmf(long id) tirows IOExdfption;
 
-    public Connection attach(String address, long attachTimeout, long handshakeTimeout) throws IOException {
-        if (address == null) {
-            throw new NullPointerException("address is null");
+    publid Connfdtion bttbdi(String bddrfss, long bttbdiTimfout, long ibndsibkfTimfout) tirows IOExdfption {
+        if (bddrfss == null) {
+            tirow nfw NullPointfrExdfption("bddrfss is null");
         }
-        long id = attach0(address, attachTimeout);
-        SharedMemoryConnection conn = new SharedMemoryConnection(id);
-        conn.handshake(handshakeTimeout);
-        return conn;
+        long id = bttbdi0(bddrfss, bttbdiTimfout);
+        SibrfdMfmoryConnfdtion donn = nfw SibrfdMfmoryConnfdtion(id);
+        donn.ibndsibkf(ibndsibkfTimfout);
+        rfturn donn;
     }
 
-    public TransportService.ListenKey startListening(String address) throws IOException {
-        if (address == null || address.length() == 0) {
-            address = defaultAddress();
+    publid TrbnsportSfrvidf.ListfnKfy stbrtListfning(String bddrfss) tirows IOExdfption {
+        if (bddrfss == null || bddrfss.lfngti() == 0) {
+            bddrfss = dffbultAddrfss();
         }
-        long id = startListening0(address);
-        return new SharedMemoryListenKey(id, name(id));
+        long id = stbrtListfning0(bddrfss);
+        rfturn nfw SibrfdMfmoryListfnKfy(id, nbmf(id));
     }
 
-    public ListenKey startListening() throws IOException {
-        return startListening(null);
+    publid ListfnKfy stbrtListfning() tirows IOExdfption {
+        rfturn stbrtListfning(null);
     }
 
-    public void stopListening(ListenKey listener) throws IOException {
-        if (!(listener instanceof SharedMemoryListenKey)) {
-            throw new IllegalArgumentException("Invalid listener");
+    publid void stopListfning(ListfnKfy listfnfr) tirows IOExdfption {
+        if (!(listfnfr instbndfof SibrfdMfmoryListfnKfy)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid listfnfr");
         }
 
         long id;
-        SharedMemoryListenKey key = (SharedMemoryListenKey)listener;
-        synchronized (key) {
-            id = key.id();
+        SibrfdMfmoryListfnKfy kfy = (SibrfdMfmoryListfnKfy)listfnfr;
+        syndironizfd (kfy) {
+            id = kfy.id();
             if (id == 0) {
-                throw new IllegalArgumentException("Invalid listener");
+                tirow nfw IllfgblArgumfntExdfption("Invblid listfnfr");
             }
 
-            // invalidate the id
-            key.setId(0);
+            // invblidbtf tif id
+            kfy.sftId(0);
         }
-        stopListening0(id);
+        stopListfning0(id);
     }
 
-    public Connection accept(ListenKey listener, long acceptTimeout, long handshakeTimeout) throws IOException {
-        if (!(listener instanceof SharedMemoryListenKey)) {
-            throw new IllegalArgumentException("Invalid listener");
+    publid Connfdtion bddfpt(ListfnKfy listfnfr, long bddfptTimfout, long ibndsibkfTimfout) tirows IOExdfption {
+        if (!(listfnfr instbndfof SibrfdMfmoryListfnKfy)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid listfnfr");
         }
 
-        long transportId;
-        SharedMemoryListenKey key = (SharedMemoryListenKey)listener;
-        synchronized (key) {
-            transportId = key.id();
-            if (transportId == 0) {
-                throw new IllegalArgumentException("Invalid listener");
+        long trbnsportId;
+        SibrfdMfmoryListfnKfy kfy = (SibrfdMfmoryListfnKfy)listfnfr;
+        syndironizfd (kfy) {
+            trbnsportId = kfy.id();
+            if (trbnsportId == 0) {
+                tirow nfw IllfgblArgumfntExdfption("Invblid listfnfr");
             }
         }
 
-        // in theory another thread could call stopListening before
-        // accept0 is called. In that case accept0 will try to accept
-        // with an invalid "transport id" - this should result in an
-        // IOException.
+        // in tifory bnotifr tirfbd dould dbll stopListfning bfforf
+        // bddfpt0 is dbllfd. In tibt dbsf bddfpt0 will try to bddfpt
+        // witi bn invblid "trbnsport id" - tiis siould rfsult in bn
+        // IOExdfption.
 
-        long connectId = accept0(transportId, acceptTimeout);
-        SharedMemoryConnection conn = new SharedMemoryConnection(connectId);
-        conn.handshake(handshakeTimeout);
-        return conn;
+        long donnfdtId = bddfpt0(trbnsportId, bddfptTimfout);
+        SibrfdMfmoryConnfdtion donn = nfw SibrfdMfmoryConnfdtion(donnfdtId);
+        donn.ibndsibkf(ibndsibkfTimfout);
+        rfturn donn;
     }
 }
 
 
-class SharedMemoryTransportServiceCapabilities extends TransportService.Capabilities {
+dlbss SibrfdMfmoryTrbnsportSfrvidfCbpbbilitifs fxtfnds TrbnsportSfrvidf.Cbpbbilitifs {
 
-    public boolean supportsMultipleConnections() {
-        return false;
+    publid boolfbn supportsMultiplfConnfdtions() {
+        rfturn fblsf;
     }
 
-    public boolean supportsAttachTimeout() {
-        return true;
+    publid boolfbn supportsAttbdiTimfout() {
+        rfturn truf;
     }
 
-    public boolean supportsAcceptTimeout() {
-        return true;
+    publid boolfbn supportsAddfptTimfout() {
+        rfturn truf;
     }
 
-    public boolean supportsHandshakeTimeout() {
-        return false;
+    publid boolfbn supportsHbndsibkfTimfout() {
+        rfturn fblsf;
     }
 
 }

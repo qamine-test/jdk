@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi.server;
+pbdkbgf jbvb.rmi.sfrvfr;
 
-import java.rmi.RemoteException;
+import jbvb.rmi.RfmotfExdfption;
 
 /**
- * A <code>SkeletonNotFoundException</code> is thrown if the
- * <code>Skeleton</code> corresponding to the remote object being
- * exported is not found.  Skeletons are no longer required, so this
- * exception is never thrown.
+ * A <dodf>SkflftonNotFoundExdfption</dodf> is tirown if tif
+ * <dodf>Skflfton</dodf> dorrfsponding to tif rfmotf objfdt bfing
+ * fxportfd is not found.  Skflftons brf no longfr rfquirfd, so tiis
+ * fxdfption is nfvfr tirown.
  *
- * @since   1.1
- * @deprecated no replacement.  Skeletons are no longer required for remote
- * method calls in the Java 2 platform v1.2 and greater.
+ * @sindf   1.1
+ * @dfprfdbtfd no rfplbdfmfnt.  Skflftons brf no longfr rfquirfd for rfmotf
+ * mftiod dblls in tif Jbvb 2 plbtform v1.2 bnd grfbtfr.
  */
-@Deprecated
-public class SkeletonNotFoundException extends RemoteException {
+@Dfprfdbtfd
+publid dlbss SkflftonNotFoundExdfption fxtfnds RfmotfExdfption {
 
-    /* indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = -7860299673822761231L;
+    /* indidbtf dompbtibility witi JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7860299673822761231L;
 
     /**
-     * Constructs a <code>SkeletonNotFoundException</code> with the specified
-     * detail message.
+     * Construdts b <dodf>SkflftonNotFoundExdfption</dodf> witi tif spfdififd
+     * dftbil mfssbgf.
      *
-     * @param s the detail message.
-     * @since 1.1
+     * @pbrbm s tif dftbil mfssbgf.
+     * @sindf 1.1
      */
-    public SkeletonNotFoundException(String s) {
-        super(s);
+    publid SkflftonNotFoundExdfption(String s) {
+        supfr(s);
     }
 
     /**
-     * Constructs a <code>SkeletonNotFoundException</code> with the specified
-     * detail message and nested exception.
+     * Construdts b <dodf>SkflftonNotFoundExdfption</dodf> witi tif spfdififd
+     * dftbil mfssbgf bnd nfstfd fxdfption.
      *
-     * @param s the detail message.
-     * @param ex the nested exception
-     * @since 1.1
+     * @pbrbm s tif dftbil mfssbgf.
+     * @pbrbm fx tif nfstfd fxdfption
+     * @sindf 1.1
      */
-    public SkeletonNotFoundException(String s, Exception ex) {
-        super(s, ex);
+    publid SkflftonNotFoundExdfption(String s, Exdfption fx) {
+        supfr(s, fx);
     }
 }

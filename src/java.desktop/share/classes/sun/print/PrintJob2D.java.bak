@@ -1,1256 +1,1256 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.print;
+pbdkbgf sun.print;
 
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.PrintJob;
-import java.awt.JobAttributes;
-import java.awt.JobAttributes.*;
-import java.awt.PageAttributes;
-import java.awt.PageAttributes.*;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.PrintJob;
+import jbvb.bwt.JobAttributfs;
+import jbvb.bwt.JobAttributfs.*;
+import jbvb.bwt.PbgfAttributfs;
+import jbvb.bwt.PbgfAttributfs.*;
 
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Pbpfr;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrJob;
 
-import java.io.File;
-import java.io.FilePermission;
-import java.io.IOException;
+import jbvb.io.Filf;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.IOExdfption;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
 
-import java.util.ArrayList;
-import java.util.Properties;
+import jbvb.util.ArrbyList;
+import jbvb.util.Propfrtifs;
 
-import javax.print.PrintService;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.ResolutionSyntax;
-import javax.print.attribute.Size2DSyntax;
-import javax.print.attribute.standard.Chromaticity;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.Destination;
-import javax.print.attribute.standard.DialogTypeSelection;
-import javax.print.attribute.standard.JobName;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.PrintQuality;
-import javax.print.attribute.standard.PrinterResolution;
-import javax.print.attribute.standard.SheetCollate;
-import javax.print.attribute.standard.Sides;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.OrientationRequested;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.PageRanges;
+import jbvbx.print.PrintSfrvidf;
+import jbvbx.print.bttributf.HbsiPrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.RfsolutionSyntbx;
+import jbvbx.print.bttributf.Sizf2DSyntbx;
+import jbvbx.print.bttributf.stbndbrd.Cirombtidity;
+import jbvbx.print.bttributf.stbndbrd.Copifs;
+import jbvbx.print.bttributf.stbndbrd.Dfstinbtion;
+import jbvbx.print.bttributf.stbndbrd.DiblogTypfSflfdtion;
+import jbvbx.print.bttributf.stbndbrd.JobNbmf;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizf;
+import jbvbx.print.bttributf.stbndbrd.PrintQublity;
+import jbvbx.print.bttributf.stbndbrd.PrintfrRfsolution;
+import jbvbx.print.bttributf.stbndbrd.SifftCollbtf;
+import jbvbx.print.bttributf.stbndbrd.Sidfs;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvbx.print.bttributf.stbndbrd.OrifntbtionRfqufstfd;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizfNbmf;
+import jbvbx.print.bttributf.stbndbrd.PbgfRbngfs;
 
-import sun.print.SunPageSelection;
-import sun.print.SunMinMaxPage;
+import sun.print.SunPbgfSflfdtion;
+import sun.print.SunMinMbxPbgf;
 
 /**
- * A class which initiates and executes a print job using
- * the underlying PrinterJob graphics conversions.
+ * A dlbss wiidi initibtfs bnd fxfdutfs b print job using
+ * tif undfrlying PrintfrJob grbpiids donvfrsions.
  *
- * @see Toolkit#getPrintJob
+ * @sff Toolkit#gftPrintJob
  *
  */
-public class PrintJob2D extends PrintJob implements Printable, Runnable {
+publid dlbss PrintJob2D fxtfnds PrintJob implfmfnts Printbblf, Runnbblf {
 
-    private static final MediaType SIZES[] = {
-        MediaType.ISO_4A0, MediaType.ISO_2A0, MediaType.ISO_A0,
-        MediaType.ISO_A1, MediaType.ISO_A2, MediaType.ISO_A3,
-        MediaType.ISO_A4, MediaType.ISO_A5, MediaType.ISO_A6,
-        MediaType.ISO_A7, MediaType.ISO_A8, MediaType.ISO_A9,
-        MediaType.ISO_A10, MediaType.ISO_B0, MediaType.ISO_B1,
-        MediaType.ISO_B2, MediaType.ISO_B3, MediaType.ISO_B4,
-        MediaType.ISO_B5, MediaType.ISO_B6, MediaType.ISO_B7,
-        MediaType.ISO_B8, MediaType.ISO_B9, MediaType.ISO_B10,
-        MediaType.JIS_B0, MediaType.JIS_B1, MediaType.JIS_B2,
-        MediaType.JIS_B3, MediaType.JIS_B4, MediaType.JIS_B5,
-        MediaType.JIS_B6, MediaType.JIS_B7, MediaType.JIS_B8,
-        MediaType.JIS_B9, MediaType.JIS_B10, MediaType.ISO_C0,
-        MediaType.ISO_C1, MediaType.ISO_C2, MediaType.ISO_C3,
-        MediaType.ISO_C4, MediaType.ISO_C5, MediaType.ISO_C6,
-        MediaType.ISO_C7, MediaType.ISO_C8, MediaType.ISO_C9,
-        MediaType.ISO_C10, MediaType.ISO_DESIGNATED_LONG,
-        MediaType.EXECUTIVE, MediaType.FOLIO, MediaType.INVOICE,
-        MediaType.LEDGER, MediaType.NA_LETTER, MediaType.NA_LEGAL,
-        MediaType.QUARTO, MediaType.A, MediaType.B,
-        MediaType.C, MediaType.D, MediaType.E,
-        MediaType.NA_10X15_ENVELOPE, MediaType.NA_10X14_ENVELOPE,
-        MediaType.NA_10X13_ENVELOPE, MediaType.NA_9X12_ENVELOPE,
-        MediaType.NA_9X11_ENVELOPE, MediaType.NA_7X9_ENVELOPE,
-        MediaType.NA_6X9_ENVELOPE, MediaType.NA_NUMBER_9_ENVELOPE,
-        MediaType.NA_NUMBER_10_ENVELOPE, MediaType.NA_NUMBER_11_ENVELOPE,
-        MediaType.NA_NUMBER_12_ENVELOPE, MediaType.NA_NUMBER_14_ENVELOPE,
-        MediaType.INVITE_ENVELOPE, MediaType.ITALY_ENVELOPE,
-        MediaType.MONARCH_ENVELOPE, MediaType.PERSONAL_ENVELOPE
+    privbtf stbtid finbl MfdibTypf SIZES[] = {
+        MfdibTypf.ISO_4A0, MfdibTypf.ISO_2A0, MfdibTypf.ISO_A0,
+        MfdibTypf.ISO_A1, MfdibTypf.ISO_A2, MfdibTypf.ISO_A3,
+        MfdibTypf.ISO_A4, MfdibTypf.ISO_A5, MfdibTypf.ISO_A6,
+        MfdibTypf.ISO_A7, MfdibTypf.ISO_A8, MfdibTypf.ISO_A9,
+        MfdibTypf.ISO_A10, MfdibTypf.ISO_B0, MfdibTypf.ISO_B1,
+        MfdibTypf.ISO_B2, MfdibTypf.ISO_B3, MfdibTypf.ISO_B4,
+        MfdibTypf.ISO_B5, MfdibTypf.ISO_B6, MfdibTypf.ISO_B7,
+        MfdibTypf.ISO_B8, MfdibTypf.ISO_B9, MfdibTypf.ISO_B10,
+        MfdibTypf.JIS_B0, MfdibTypf.JIS_B1, MfdibTypf.JIS_B2,
+        MfdibTypf.JIS_B3, MfdibTypf.JIS_B4, MfdibTypf.JIS_B5,
+        MfdibTypf.JIS_B6, MfdibTypf.JIS_B7, MfdibTypf.JIS_B8,
+        MfdibTypf.JIS_B9, MfdibTypf.JIS_B10, MfdibTypf.ISO_C0,
+        MfdibTypf.ISO_C1, MfdibTypf.ISO_C2, MfdibTypf.ISO_C3,
+        MfdibTypf.ISO_C4, MfdibTypf.ISO_C5, MfdibTypf.ISO_C6,
+        MfdibTypf.ISO_C7, MfdibTypf.ISO_C8, MfdibTypf.ISO_C9,
+        MfdibTypf.ISO_C10, MfdibTypf.ISO_DESIGNATED_LONG,
+        MfdibTypf.EXECUTIVE, MfdibTypf.FOLIO, MfdibTypf.INVOICE,
+        MfdibTypf.LEDGER, MfdibTypf.NA_LETTER, MfdibTypf.NA_LEGAL,
+        MfdibTypf.QUARTO, MfdibTypf.A, MfdibTypf.B,
+        MfdibTypf.C, MfdibTypf.D, MfdibTypf.E,
+        MfdibTypf.NA_10X15_ENVELOPE, MfdibTypf.NA_10X14_ENVELOPE,
+        MfdibTypf.NA_10X13_ENVELOPE, MfdibTypf.NA_9X12_ENVELOPE,
+        MfdibTypf.NA_9X11_ENVELOPE, MfdibTypf.NA_7X9_ENVELOPE,
+        MfdibTypf.NA_6X9_ENVELOPE, MfdibTypf.NA_NUMBER_9_ENVELOPE,
+        MfdibTypf.NA_NUMBER_10_ENVELOPE, MfdibTypf.NA_NUMBER_11_ENVELOPE,
+        MfdibTypf.NA_NUMBER_12_ENVELOPE, MfdibTypf.NA_NUMBER_14_ENVELOPE,
+        MfdibTypf.INVITE_ENVELOPE, MfdibTypf.ITALY_ENVELOPE,
+        MfdibTypf.MONARCH_ENVELOPE, MfdibTypf.PERSONAL_ENVELOPE
     };
 
-    /* This array maps the above array to the objects used by the
-     * javax.print APIs
+    /* Tiis brrby mbps tif bbovf brrby to tif objfdts usfd by tif
+     * jbvbx.print APIs
          */
-    private static final MediaSizeName JAVAXSIZES[] = {
-        null, null, MediaSizeName.ISO_A0,
-        MediaSizeName.ISO_A1, MediaSizeName.ISO_A2, MediaSizeName.ISO_A3,
-        MediaSizeName.ISO_A4, MediaSizeName.ISO_A5, MediaSizeName.ISO_A6,
-        MediaSizeName.ISO_A7, MediaSizeName.ISO_A8, MediaSizeName.ISO_A9,
-        MediaSizeName.ISO_A10, MediaSizeName.ISO_B0, MediaSizeName.ISO_B1,
-        MediaSizeName.ISO_B2, MediaSizeName.ISO_B3, MediaSizeName.ISO_B4,
-        MediaSizeName.ISO_B5,  MediaSizeName.ISO_B6, MediaSizeName.ISO_B7,
-        MediaSizeName.ISO_B8, MediaSizeName.ISO_B9, MediaSizeName.ISO_B10,
-        MediaSizeName.JIS_B0, MediaSizeName.JIS_B1, MediaSizeName.JIS_B2,
-        MediaSizeName.JIS_B3, MediaSizeName.JIS_B4, MediaSizeName.JIS_B5,
-        MediaSizeName.JIS_B6, MediaSizeName.JIS_B7, MediaSizeName.JIS_B8,
-        MediaSizeName.JIS_B9, MediaSizeName.JIS_B10, MediaSizeName.ISO_C0,
-        MediaSizeName.ISO_C1, MediaSizeName.ISO_C2, MediaSizeName.ISO_C3,
-        MediaSizeName.ISO_C4, MediaSizeName.ISO_C5, MediaSizeName.ISO_C6,
+    privbtf stbtid finbl MfdibSizfNbmf JAVAXSIZES[] = {
+        null, null, MfdibSizfNbmf.ISO_A0,
+        MfdibSizfNbmf.ISO_A1, MfdibSizfNbmf.ISO_A2, MfdibSizfNbmf.ISO_A3,
+        MfdibSizfNbmf.ISO_A4, MfdibSizfNbmf.ISO_A5, MfdibSizfNbmf.ISO_A6,
+        MfdibSizfNbmf.ISO_A7, MfdibSizfNbmf.ISO_A8, MfdibSizfNbmf.ISO_A9,
+        MfdibSizfNbmf.ISO_A10, MfdibSizfNbmf.ISO_B0, MfdibSizfNbmf.ISO_B1,
+        MfdibSizfNbmf.ISO_B2, MfdibSizfNbmf.ISO_B3, MfdibSizfNbmf.ISO_B4,
+        MfdibSizfNbmf.ISO_B5,  MfdibSizfNbmf.ISO_B6, MfdibSizfNbmf.ISO_B7,
+        MfdibSizfNbmf.ISO_B8, MfdibSizfNbmf.ISO_B9, MfdibSizfNbmf.ISO_B10,
+        MfdibSizfNbmf.JIS_B0, MfdibSizfNbmf.JIS_B1, MfdibSizfNbmf.JIS_B2,
+        MfdibSizfNbmf.JIS_B3, MfdibSizfNbmf.JIS_B4, MfdibSizfNbmf.JIS_B5,
+        MfdibSizfNbmf.JIS_B6, MfdibSizfNbmf.JIS_B7, MfdibSizfNbmf.JIS_B8,
+        MfdibSizfNbmf.JIS_B9, MfdibSizfNbmf.JIS_B10, MfdibSizfNbmf.ISO_C0,
+        MfdibSizfNbmf.ISO_C1, MfdibSizfNbmf.ISO_C2, MfdibSizfNbmf.ISO_C3,
+        MfdibSizfNbmf.ISO_C4, MfdibSizfNbmf.ISO_C5, MfdibSizfNbmf.ISO_C6,
         null, null, null, null,
-        MediaSizeName.ISO_DESIGNATED_LONG, MediaSizeName.EXECUTIVE,
-        MediaSizeName.FOLIO, MediaSizeName.INVOICE, MediaSizeName.LEDGER,
-        MediaSizeName.NA_LETTER, MediaSizeName.NA_LEGAL,
-        MediaSizeName.QUARTO, MediaSizeName.A, MediaSizeName.B,
-        MediaSizeName.C, MediaSizeName.D, MediaSizeName.E,
-        MediaSizeName.NA_10X15_ENVELOPE, MediaSizeName.NA_10X14_ENVELOPE,
-        MediaSizeName.NA_10X13_ENVELOPE, MediaSizeName.NA_9X12_ENVELOPE,
-        MediaSizeName.NA_9X11_ENVELOPE, MediaSizeName.NA_7X9_ENVELOPE,
-        MediaSizeName.NA_6X9_ENVELOPE,
-        MediaSizeName.NA_NUMBER_9_ENVELOPE,
-        MediaSizeName.NA_NUMBER_10_ENVELOPE,
-        MediaSizeName.NA_NUMBER_11_ENVELOPE,
-        MediaSizeName.NA_NUMBER_12_ENVELOPE,
-        MediaSizeName.NA_NUMBER_14_ENVELOPE,
-        null, MediaSizeName.ITALY_ENVELOPE,
-        MediaSizeName.MONARCH_ENVELOPE, MediaSizeName.PERSONAL_ENVELOPE,
+        MfdibSizfNbmf.ISO_DESIGNATED_LONG, MfdibSizfNbmf.EXECUTIVE,
+        MfdibSizfNbmf.FOLIO, MfdibSizfNbmf.INVOICE, MfdibSizfNbmf.LEDGER,
+        MfdibSizfNbmf.NA_LETTER, MfdibSizfNbmf.NA_LEGAL,
+        MfdibSizfNbmf.QUARTO, MfdibSizfNbmf.A, MfdibSizfNbmf.B,
+        MfdibSizfNbmf.C, MfdibSizfNbmf.D, MfdibSizfNbmf.E,
+        MfdibSizfNbmf.NA_10X15_ENVELOPE, MfdibSizfNbmf.NA_10X14_ENVELOPE,
+        MfdibSizfNbmf.NA_10X13_ENVELOPE, MfdibSizfNbmf.NA_9X12_ENVELOPE,
+        MfdibSizfNbmf.NA_9X11_ENVELOPE, MfdibSizfNbmf.NA_7X9_ENVELOPE,
+        MfdibSizfNbmf.NA_6X9_ENVELOPE,
+        MfdibSizfNbmf.NA_NUMBER_9_ENVELOPE,
+        MfdibSizfNbmf.NA_NUMBER_10_ENVELOPE,
+        MfdibSizfNbmf.NA_NUMBER_11_ENVELOPE,
+        MfdibSizfNbmf.NA_NUMBER_12_ENVELOPE,
+        MfdibSizfNbmf.NA_NUMBER_14_ENVELOPE,
+        null, MfdibSizfNbmf.ITALY_ENVELOPE,
+        MfdibSizfNbmf.MONARCH_ENVELOPE, MfdibSizfNbmf.PERSONAL_ENVELOPE,
     };
 
 
-    // widths and lengths in PostScript points (1/72 in.)
-    private static final int WIDTHS[] = {
-        /*iso-4a0*/ 4768, /*iso-2a0*/ 3370, /*iso-a0*/ 2384, /*iso-a1*/ 1684,
-        /*iso-a2*/ 1191, /*iso-a3*/ 842, /*iso-a4*/ 595, /*iso-a5*/ 420,
-        /*iso-a6*/ 298, /*iso-a7*/ 210, /*iso-a8*/ 147, /*iso-a9*/ 105,
-        /*iso-a10*/ 74, /*iso-b0*/ 2835, /*iso-b1*/ 2004, /*iso-b2*/ 1417,
+    // widtis bnd lfngtis in PostSdript points (1/72 in.)
+    privbtf stbtid finbl int WIDTHS[] = {
+        /*iso-4b0*/ 4768, /*iso-2b0*/ 3370, /*iso-b0*/ 2384, /*iso-b1*/ 1684,
+        /*iso-b2*/ 1191, /*iso-b3*/ 842, /*iso-b4*/ 595, /*iso-b5*/ 420,
+        /*iso-b6*/ 298, /*iso-b7*/ 210, /*iso-b8*/ 147, /*iso-b9*/ 105,
+        /*iso-b10*/ 74, /*iso-b0*/ 2835, /*iso-b1*/ 2004, /*iso-b2*/ 1417,
         /*iso-b3*/ 1001, /*iso-b4*/ 709, /*iso-b5*/ 499, /*iso-b6*/ 354,
         /*iso-b7*/ 249, /*iso-b8*/ 176, /*iso-b9*/ 125, /*iso-b10*/ 88,
         /*jis-b0*/ 2920, /*jis-b1*/ 2064, /*jis-b2*/ 1460, /*jis-b3*/ 1032,
         /*jis-b4*/ 729, /*jis-b5*/ 516, /*jis-b6*/ 363, /*jis-b7*/ 258,
-        /*jis-b8*/ 181, /*jis-b9*/ 128, /*jis-b10*/ 91, /*iso-c0*/ 2599,
-        /*iso-c1*/ 1837, /*iso-c2*/ 1298, /*iso-c3*/ 918, /*iso-c4*/ 649,
-        /*iso-c5*/ 459, /*iso-c6*/ 323, /*iso-c7*/ 230, /*iso-c8*/ 162,
-        /*iso-c9*/ 113, /*iso-c10*/ 79, /*iso-designated-long*/ 312,
-        /*executive*/ 522, /*folio*/ 612, /*invoice*/ 396, /*ledger*/ 792,
-        /*na-letter*/ 612, /*na-legal*/ 612, /*quarto*/ 609, /*a*/ 612,
-        /*b*/ 792, /*c*/ 1224, /*d*/ 1584, /*e*/ 2448,
-        /*na-10x15-envelope*/ 720, /*na-10x14-envelope*/ 720,
-        /*na-10x13-envelope*/ 720, /*na-9x12-envelope*/ 648,
-        /*na-9x11-envelope*/ 648, /*na-7x9-envelope*/ 504,
-        /*na-6x9-envelope*/ 432, /*na-number-9-envelope*/ 279,
-        /*na-number-10-envelope*/ 297, /*na-number-11-envelope*/ 324,
-        /*na-number-12-envelope*/ 342, /*na-number-14-envelope*/ 360,
-        /*invite-envelope*/ 624, /*italy-envelope*/ 312,
-        /*monarch-envelope*/ 279, /*personal-envelope*/ 261
+        /*jis-b8*/ 181, /*jis-b9*/ 128, /*jis-b10*/ 91, /*iso-d0*/ 2599,
+        /*iso-d1*/ 1837, /*iso-d2*/ 1298, /*iso-d3*/ 918, /*iso-d4*/ 649,
+        /*iso-d5*/ 459, /*iso-d6*/ 323, /*iso-d7*/ 230, /*iso-d8*/ 162,
+        /*iso-d9*/ 113, /*iso-d10*/ 79, /*iso-dfsignbtfd-long*/ 312,
+        /*fxfdutivf*/ 522, /*folio*/ 612, /*invoidf*/ 396, /*lfdgfr*/ 792,
+        /*nb-lfttfr*/ 612, /*nb-lfgbl*/ 612, /*qubrto*/ 609, /*b*/ 612,
+        /*b*/ 792, /*d*/ 1224, /*d*/ 1584, /*f*/ 2448,
+        /*nb-10x15-fnvflopf*/ 720, /*nb-10x14-fnvflopf*/ 720,
+        /*nb-10x13-fnvflopf*/ 720, /*nb-9x12-fnvflopf*/ 648,
+        /*nb-9x11-fnvflopf*/ 648, /*nb-7x9-fnvflopf*/ 504,
+        /*nb-6x9-fnvflopf*/ 432, /*nb-numbfr-9-fnvflopf*/ 279,
+        /*nb-numbfr-10-fnvflopf*/ 297, /*nb-numbfr-11-fnvflopf*/ 324,
+        /*nb-numbfr-12-fnvflopf*/ 342, /*nb-numbfr-14-fnvflopf*/ 360,
+        /*invitf-fnvflopf*/ 624, /*itbly-fnvflopf*/ 312,
+        /*monbrdi-fnvflopf*/ 279, /*pfrsonbl-fnvflopf*/ 261
     };
-    private static final int LENGTHS[] = {
-        /*iso-4a0*/ 6741, /*iso-2a0*/ 4768, /*iso-a0*/ 3370, /*iso-a1*/ 2384,
-        /*iso-a2*/ 1684, /*iso-a3*/ 1191, /*iso-a4*/ 842, /*iso-a5*/ 595,
-        /*iso-a6*/ 420, /*iso-a7*/ 298, /*iso-a8*/ 210, /*iso-a9*/ 147,
-        /*iso-a10*/ 105, /*iso-b0*/ 4008, /*iso-b1*/ 2835, /*iso-b2*/ 2004,
+    privbtf stbtid finbl int LENGTHS[] = {
+        /*iso-4b0*/ 6741, /*iso-2b0*/ 4768, /*iso-b0*/ 3370, /*iso-b1*/ 2384,
+        /*iso-b2*/ 1684, /*iso-b3*/ 1191, /*iso-b4*/ 842, /*iso-b5*/ 595,
+        /*iso-b6*/ 420, /*iso-b7*/ 298, /*iso-b8*/ 210, /*iso-b9*/ 147,
+        /*iso-b10*/ 105, /*iso-b0*/ 4008, /*iso-b1*/ 2835, /*iso-b2*/ 2004,
         /*iso-b3*/ 1417, /*iso-b4*/ 1001, /*iso-b5*/ 729, /*iso-b6*/ 499,
         /*iso-b7*/ 354, /*iso-b8*/ 249, /*iso-b9*/ 176, /*iso-b10*/ 125,
         /*jis-b0*/ 4127, /*jis-b1*/ 2920, /*jis-b2*/ 2064, /*jis-b3*/ 1460,
         /*jis-b4*/ 1032, /*jis-b5*/ 729, /*jis-b6*/ 516, /*jis-b7*/ 363,
-        /*jis-b8*/ 258, /*jis-b9*/ 181, /*jis-b10*/ 128, /*iso-c0*/ 3677,
-        /*iso-c1*/ 2599, /*iso-c2*/ 1837, /*iso-c3*/ 1298, /*iso-c4*/ 918,
-        /*iso-c5*/ 649, /*iso-c6*/ 459, /*iso-c7*/ 323, /*iso-c8*/ 230,
-        /*iso-c9*/ 162, /*iso-c10*/ 113, /*iso-designated-long*/ 624,
-        /*executive*/ 756, /*folio*/ 936, /*invoice*/ 612, /*ledger*/ 1224,
-        /*na-letter*/ 792, /*na-legal*/ 1008, /*quarto*/ 780, /*a*/ 792,
-        /*b*/ 1224, /*c*/ 1584, /*d*/ 2448, /*e*/ 3168,
-        /*na-10x15-envelope*/ 1080, /*na-10x14-envelope*/ 1008,
-        /*na-10x13-envelope*/ 936, /*na-9x12-envelope*/ 864,
-        /*na-9x11-envelope*/ 792, /*na-7x9-envelope*/ 648,
-        /*na-6x9-envelope*/ 648, /*na-number-9-envelope*/ 639,
-        /*na-number-10-envelope*/ 684, /*na-number-11-envelope*/ 747,
-        /*na-number-12-envelope*/ 792, /*na-number-14-envelope*/ 828,
-        /*invite-envelope*/ 624, /*italy-envelope*/ 652,
-        /*monarch-envelope*/ 540, /*personal-envelope*/ 468
+        /*jis-b8*/ 258, /*jis-b9*/ 181, /*jis-b10*/ 128, /*iso-d0*/ 3677,
+        /*iso-d1*/ 2599, /*iso-d2*/ 1837, /*iso-d3*/ 1298, /*iso-d4*/ 918,
+        /*iso-d5*/ 649, /*iso-d6*/ 459, /*iso-d7*/ 323, /*iso-d8*/ 230,
+        /*iso-d9*/ 162, /*iso-d10*/ 113, /*iso-dfsignbtfd-long*/ 624,
+        /*fxfdutivf*/ 756, /*folio*/ 936, /*invoidf*/ 612, /*lfdgfr*/ 1224,
+        /*nb-lfttfr*/ 792, /*nb-lfgbl*/ 1008, /*qubrto*/ 780, /*b*/ 792,
+        /*b*/ 1224, /*d*/ 1584, /*d*/ 2448, /*f*/ 3168,
+        /*nb-10x15-fnvflopf*/ 1080, /*nb-10x14-fnvflopf*/ 1008,
+        /*nb-10x13-fnvflopf*/ 936, /*nb-9x12-fnvflopf*/ 864,
+        /*nb-9x11-fnvflopf*/ 792, /*nb-7x9-fnvflopf*/ 648,
+        /*nb-6x9-fnvflopf*/ 648, /*nb-numbfr-9-fnvflopf*/ 639,
+        /*nb-numbfr-10-fnvflopf*/ 684, /*nb-numbfr-11-fnvflopf*/ 747,
+        /*nb-numbfr-12-fnvflopf*/ 792, /*nb-numbfr-14-fnvflopf*/ 828,
+        /*invitf-fnvflopf*/ 624, /*itbly-fnvflopf*/ 652,
+        /*monbrdi-fnvflopf*/ 540, /*pfrsonbl-fnvflopf*/ 468
     };
 
 
-    private Frame frame;
-    private String docTitle = "";
-    private JobAttributes jobAttributes;
-    private PageAttributes pageAttributes;
-    private PrintRequestAttributeSet attributes;
+    privbtf Frbmf frbmf;
+    privbtf String dodTitlf = "";
+    privbtf JobAttributfs jobAttributfs;
+    privbtf PbgfAttributfs pbgfAttributfs;
+    privbtf PrintRfqufstAttributfSft bttributfs;
 
     /*
-     * Displays the native or cross-platform dialog and allows the
-     * user to update job & page attributes
+     * Displbys tif nbtivf or dross-plbtform diblog bnd bllows tif
+     * usfr to updbtf job & pbgf bttributfs
      */
 
     /**
-     * The PrinterJob being uses to implement the PrintJob.
+     * Tif PrintfrJob bfing usfs to implfmfnt tif PrintJob.
      */
-    private PrinterJob printerJob;
+    privbtf PrintfrJob printfrJob;
 
     /**
-     * The size of the page being used for the PrintJob.
+     * Tif sizf of tif pbgf bfing usfd for tif PrintJob.
      */
-    private PageFormat pageFormat;
+    privbtf PbgfFormbt pbgfFormbt;
 
     /**
-     * The PrinterJob and the application run on different
-     * threads and communicate through a pair of message
-     * queues. This queue is the list of Graphics that
-     * the PrinterJob has requested rendering for, but
-     * for which the application has not yet called getGraphics().
-     * In practice the length of this message queue is always
+     * Tif PrintfrJob bnd tif bpplidbtion run on difffrfnt
+     * tirfbds bnd dommunidbtf tirougi b pbir of mfssbgf
+     * qufufs. Tiis qufuf is tif list of Grbpiids tibt
+     * tif PrintfrJob ibs rfqufstfd rfndfring for, but
+     * for wiidi tif bpplidbtion ibs not yft dbllfd gftGrbpiids().
+     * In prbdtidf tif lfngti of tiis mfssbgf qufuf is blwbys
      * 0 or 1.
      */
-    private MessageQ graphicsToBeDrawn = new MessageQ("tobedrawn");
+    privbtf MfssbgfQ grbpiidsToBfDrbwn = nfw MfssbgfQ("tobfdrbwn");
 
     /**
-     * Used to communicate between the application's thread
-     * and the PrinterJob's thread this message queue holds
-     * the list of Graphics into which the application has
-     * finished drawing, but that have not yet been returned
-     * to the PrinterJob thread. Again, in practice, the
-     * length of this message queue is always 0 or 1.
+     * Usfd to dommunidbtf bftwffn tif bpplidbtion's tirfbd
+     * bnd tif PrintfrJob's tirfbd tiis mfssbgf qufuf iolds
+     * tif list of Grbpiids into wiidi tif bpplidbtion ibs
+     * finisifd drbwing, but tibt ibvf not yft bffn rfturnfd
+     * to tif PrintfrJob tirfbd. Agbin, in prbdtidf, tif
+     * lfngti of tiis mfssbgf qufuf is blwbys 0 or 1.
      */
-    private MessageQ graphicsDrawn = new MessageQ("drawn");
+    privbtf MfssbgfQ grbpiidsDrbwn = nfw MfssbgfQ("drbwn");
 
     /**
-     * The last Graphics returned to the application via
-     * getGraphics. This is the Graphics into which the
-     * application is currently drawing.
+     * Tif lbst Grbpiids rfturnfd to tif bpplidbtion vib
+     * gftGrbpiids. Tiis is tif Grbpiids into wiidi tif
+     * bpplidbtion is durrfntly drbwing.
      */
-    private Graphics2D currentGraphics;
+    privbtf Grbpiids2D durrfntGrbpiids;
 
     /**
-     * The zero based index of the page currently being rendered
-     * by the application.
+     * Tif zfro bbsfd indfx of tif pbgf durrfntly bfing rfndfrfd
+     * by tif bpplidbtion.
      */
-    private int pageIndex = -1;
+    privbtf int pbgfIndfx = -1;
 
-    // The following Strings are maintained for backward-compatibility with
-    // Properties based print control.
-    private final static String DEST_PROP = "awt.print.destination";
-    private final static String PRINTER = "printer";
-    private final static String FILE = "file";
+    // Tif following Strings brf mbintbinfd for bbdkwbrd-dompbtibility witi
+    // Propfrtifs bbsfd print dontrol.
+    privbtf finbl stbtid String DEST_PROP = "bwt.print.dfstinbtion";
+    privbtf finbl stbtid String PRINTER = "printfr";
+    privbtf finbl stbtid String FILE = "filf";
 
-    private final static String PRINTER_PROP = "awt.print.printer";
+    privbtf finbl stbtid String PRINTER_PROP = "bwt.print.printfr";
 
-    private final static String FILENAME_PROP = "awt.print.fileName";
+    privbtf finbl stbtid String FILENAME_PROP = "bwt.print.filfNbmf";
 
-    private final static String NUMCOPIES_PROP = "awt.print.numCopies";
+    privbtf finbl stbtid String NUMCOPIES_PROP = "bwt.print.numCopifs";
 
-    private final static String OPTIONS_PROP = "awt.print.options";
+    privbtf finbl stbtid String OPTIONS_PROP = "bwt.print.options";
 
-    private final static String ORIENT_PROP = "awt.print.orientation";
-    private final static String PORTRAIT = "portrait";
-    private final static String LANDSCAPE = "landscape";
+    privbtf finbl stbtid String ORIENT_PROP = "bwt.print.orifntbtion";
+    privbtf finbl stbtid String PORTRAIT = "portrbit";
+    privbtf finbl stbtid String LANDSCAPE = "lbndsdbpf";
 
-    private final static String PAPERSIZE_PROP = "awt.print.paperSize";
-    private final static String LETTER = "letter";
-    private final static String LEGAL = "legal";
-    private final static String EXECUTIVE = "executive";
-    private final static String A4 = "a4";
+    privbtf finbl stbtid String PAPERSIZE_PROP = "bwt.print.pbpfrSizf";
+    privbtf finbl stbtid String LETTER = "lfttfr";
+    privbtf finbl stbtid String LEGAL = "lfgbl";
+    privbtf finbl stbtid String EXECUTIVE = "fxfdutivf";
+    privbtf finbl stbtid String A4 = "b4";
 
-    private Properties props;
+    privbtf Propfrtifs props;
 
-    private String options = ""; // REMIND: needs implementation
+    privbtf String options = ""; // REMIND: nffds implfmfntbtion
 
     /**
-     * The thread on which PrinterJob is running.
-     * This is different than the applications thread.
+     * Tif tirfbd on wiidi PrintfrJob is running.
+     * Tiis is difffrfnt tibn tif bpplidbtions tirfbd.
      */
-    private Thread printerJobThread;
+    privbtf Tirfbd printfrJobTirfbd;
 
-    public PrintJob2D(Frame frame,  String doctitle,
-                      final Properties props) {
-        this.props = props;
-        this.jobAttributes = new JobAttributes();
-        this.pageAttributes = new PageAttributes();
-        translateInputProps();
-        initPrintJob2D(frame, doctitle,
-                       this.jobAttributes, this.pageAttributes);
+    publid PrintJob2D(Frbmf frbmf,  String dodtitlf,
+                      finbl Propfrtifs props) {
+        tiis.props = props;
+        tiis.jobAttributfs = nfw JobAttributfs();
+        tiis.pbgfAttributfs = nfw PbgfAttributfs();
+        trbnslbtfInputProps();
+        initPrintJob2D(frbmf, dodtitlf,
+                       tiis.jobAttributfs, tiis.pbgfAttributfs);
     }
 
-    public PrintJob2D(Frame frame,  String doctitle,
-                      JobAttributes jobAttributes,
-                      PageAttributes pageAttributes) {
-        initPrintJob2D(frame, doctitle, jobAttributes, pageAttributes);
+    publid PrintJob2D(Frbmf frbmf,  String dodtitlf,
+                      JobAttributfs jobAttributfs,
+                      PbgfAttributfs pbgfAttributfs) {
+        initPrintJob2D(frbmf, dodtitlf, jobAttributfs, pbgfAttributfs);
     }
 
-    private void initPrintJob2D(Frame frame,  String doctitle,
-                                JobAttributes jobAttributes,
-                                PageAttributes pageAttributes) {
+    privbtf void initPrintJob2D(Frbmf frbmf,  String dodtitlf,
+                                JobAttributfs jobAttributfs,
+                                PbgfAttributfs pbgfAttributfs) {
 
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPrintJobAccess();
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPrintJobAddfss();
         }
 
-        if (frame == null &&
-            (jobAttributes == null ||
-             jobAttributes.getDialog() == DialogType.NATIVE)) {
-            throw new NullPointerException("Frame must not be null");
+        if (frbmf == null &&
+            (jobAttributfs == null ||
+             jobAttributfs.gftDiblog() == DiblogTypf.NATIVE)) {
+            tirow nfw NullPointfrExdfption("Frbmf must not bf null");
         }
-        this.frame = frame;
+        tiis.frbmf = frbmf;
 
-        this.docTitle = (doctitle == null) ? "" : doctitle;
-        this.jobAttributes = (jobAttributes != null)
-            ? jobAttributes : new JobAttributes();
-        this.pageAttributes = (pageAttributes != null)
-            ? pageAttributes : new PageAttributes();
+        tiis.dodTitlf = (dodtitlf == null) ? "" : dodtitlf;
+        tiis.jobAttributfs = (jobAttributfs != null)
+            ? jobAttributfs : nfw JobAttributfs();
+        tiis.pbgfAttributfs = (pbgfAttributfs != null)
+            ? pbgfAttributfs : nfw PbgfAttributfs();
 
-        // Currently, we always reduce page ranges to xxx or xxx-xxx
-        int[][] pageRanges = this.jobAttributes.getPageRanges();
-        int first = pageRanges[0][0];
-        int last = pageRanges[pageRanges.length - 1][1];
-        this.jobAttributes.setPageRanges(new int[][] {
-            new int[] { first, last }
+        // Currfntly, wf blwbys rfdudf pbgf rbngfs to xxx or xxx-xxx
+        int[][] pbgfRbngfs = tiis.jobAttributfs.gftPbgfRbngfs();
+        int first = pbgfRbngfs[0][0];
+        int lbst = pbgfRbngfs[pbgfRbngfs.lfngti - 1][1];
+        tiis.jobAttributfs.sftPbgfRbngfs(nfw int[][] {
+            nfw int[] { first, lbst }
         });
-        this.jobAttributes.setToPage(last);
-        this.jobAttributes.setFromPage(first);
+        tiis.jobAttributfs.sftToPbgf(lbst);
+        tiis.jobAttributfs.sftFromPbgf(first);
 
 
-        // Verify that the cross feed and feed resolutions are the same
-        int[] res = this.pageAttributes.getPrinterResolution();
-        if (res[0] != res[1]) {
-            throw new IllegalArgumentException("Differing cross feed and feed"+
-                                               " resolutions not supported.");
+        // Vfrify tibt tif dross fffd bnd fffd rfsolutions brf tif sbmf
+        int[] rfs = tiis.pbgfAttributfs.gftPrintfrRfsolution();
+        if (rfs[0] != rfs[1]) {
+            tirow nfw IllfgblArgumfntExdfption("Difffring dross fffd bnd fffd"+
+                                               " rfsolutions not supportfd.");
         }
 
-        // Verify that the app has access to the file system
-        DestinationType dest= this.jobAttributes.getDestination();
-        if (dest == DestinationType.FILE) {
-            throwPrintToFile();
+        // Vfrify tibt tif bpp ibs bddfss to tif filf systfm
+        DfstinbtionTypf dfst= tiis.jobAttributfs.gftDfstinbtion();
+        if (dfst == DfstinbtionTypf.FILE) {
+            tirowPrintToFilf();
 
-            // check if given filename is valid
-            String destStr = jobAttributes.getFileName();
-            if ((destStr != null) &&
-                (jobAttributes.getDialog() == JobAttributes.DialogType.NONE)) {
+            // difdk if givfn filfnbmf is vblid
+            String dfstStr = jobAttributfs.gftFilfNbmf();
+            if ((dfstStr != null) &&
+                (jobAttributfs.gftDiblog() == JobAttributfs.DiblogTypf.NONE)) {
 
-                File f = new File(destStr);
+                Filf f = nfw Filf(dfstStr);
                 try {
-                    // check if this is a new file and if filename chars are valid
-                    // createNewFile returns false if file exists
-                    if (f.createNewFile()) {
-                        f.delete();
+                    // difdk if tiis is b nfw filf bnd if filfnbmf dibrs brf vblid
+                    // drfbtfNfwFilf rfturns fblsf if filf fxists
+                    if (f.drfbtfNfwFilf()) {
+                        f.dflftf();
                     }
-                } catch (IOException ioe) {
-                    throw new IllegalArgumentException("Cannot write to file:"+
-                                                       destStr);
-                } catch (SecurityException se) {
-                    //There is already file read/write access so at this point
-                    // only delete access is denied.  Just ignore it because in
-                    // most cases the file created in createNewFile gets overwritten
-                    // anyway.
+                } dbtdi (IOExdfption iof) {
+                    tirow nfw IllfgblArgumfntExdfption("Cbnnot writf to filf:"+
+                                                       dfstStr);
+                } dbtdi (SfdurityExdfption sf) {
+                    //Tifrf is blrfbdy filf rfbd/writf bddfss so bt tiis point
+                    // only dflftf bddfss is dfnifd.  Just ignorf it bfdbusf in
+                    // most dbsfs tif filf drfbtfd in drfbtfNfwFilf gfts ovfrwrittfn
+                    // bnywby.
                 }
 
-                 File pFile = f.getParentFile();
-                 if ((f.exists() &&
-                      (!f.isFile() || !f.canWrite())) ||
-                     ((pFile != null) &&
-                      (!pFile.exists() || (pFile.exists() && !pFile.canWrite())))) {
-                     throw new IllegalArgumentException("Cannot write to file:"+
-                                                        destStr);
+                 Filf pFilf = f.gftPbrfntFilf();
+                 if ((f.fxists() &&
+                      (!f.isFilf() || !f.dbnWritf())) ||
+                     ((pFilf != null) &&
+                      (!pFilf.fxists() || (pFilf.fxists() && !pFilf.dbnWritf())))) {
+                     tirow nfw IllfgblArgumfntExdfption("Cbnnot writf to filf:"+
+                                                        dfstStr);
                  }
             }
         }
     }
 
-    public boolean printDialog() {
+    publid boolfbn printDiblog() {
 
-        boolean proceedWithPrint = false;
+        boolfbn prodffdWitiPrint = fblsf;
 
-        printerJob = PrinterJob.getPrinterJob();
-        if (printerJob == null) {
-            return false;
+        printfrJob = PrintfrJob.gftPrintfrJob();
+        if (printfrJob == null) {
+            rfturn fblsf;
         }
-        DialogType d = this.jobAttributes.getDialog();
-        PrintService pServ = printerJob.getPrintService();
-        if ((pServ == null) &&  (d == DialogType.NONE)){
-            return false;
+        DiblogTypf d = tiis.jobAttributfs.gftDiblog();
+        PrintSfrvidf pSfrv = printfrJob.gftPrintSfrvidf();
+        if ((pSfrv == null) &&  (d == DiblogTypf.NONE)){
+            rfturn fblsf;
         }
-        copyAttributes(pServ);
+        dopyAttributfs(pSfrv);
 
-        DefaultSelectionType select =
-            this.jobAttributes.getDefaultSelection();
-        if (select == DefaultSelectionType.RANGE) {
-            attributes.add(SunPageSelection.RANGE);
-        } else if (select == DefaultSelectionType.SELECTION) {
-            attributes.add(SunPageSelection.SELECTION);
-        } else {
-            attributes.add(SunPageSelection.ALL);
+        DffbultSflfdtionTypf sflfdt =
+            tiis.jobAttributfs.gftDffbultSflfdtion();
+        if (sflfdt == DffbultSflfdtionTypf.RANGE) {
+            bttributfs.bdd(SunPbgfSflfdtion.RANGE);
+        } flsf if (sflfdt == DffbultSflfdtionTypf.SELECTION) {
+            bttributfs.bdd(SunPbgfSflfdtion.SELECTION);
+        } flsf {
+            bttributfs.bdd(SunPbgfSflfdtion.ALL);
         }
 
-        if (frame != null) {
-             attributes.add(new DialogOwner(frame));
+        if (frbmf != null) {
+             bttributfs.bdd(nfw DiblogOwnfr(frbmf));
          }
 
-        if ( d == DialogType.NONE) {
-            proceedWithPrint = true;
-        } else {
-            if (d == DialogType.NATIVE) {
-                attributes.add(DialogTypeSelection.NATIVE);
-            }  else { //  (d == DialogType.COMMON)
-                attributes.add(DialogTypeSelection.COMMON);
+        if ( d == DiblogTypf.NONE) {
+            prodffdWitiPrint = truf;
+        } flsf {
+            if (d == DiblogTypf.NATIVE) {
+                bttributfs.bdd(DiblogTypfSflfdtion.NATIVE);
+            }  flsf { //  (d == DiblogTypf.COMMON)
+                bttributfs.bdd(DiblogTypfSflfdtion.COMMON);
             }
-            if (proceedWithPrint = printerJob.printDialog(attributes)) {
-                if (pServ == null) {
-                    // Windows gives an option to install a service
-                    // when it detects there are no printers so
-                    // we make sure we get the updated print service.
-                    pServ = printerJob.getPrintService();
-                    if (pServ == null) {
-                        return false;
+            if (prodffdWitiPrint = printfrJob.printDiblog(bttributfs)) {
+                if (pSfrv == null) {
+                    // Windows givfs bn option to instbll b sfrvidf
+                    // wifn it dftfdts tifrf brf no printfrs so
+                    // wf mbkf surf wf gft tif updbtfd print sfrvidf.
+                    pSfrv = printfrJob.gftPrintSfrvidf();
+                    if (pSfrv == null) {
+                        rfturn fblsf;
                     }
                 }
-                updateAttributes();
-                translateOutputProps();
+                updbtfAttributfs();
+                trbnslbtfOutputProps();
             }
         }
 
-        if (proceedWithPrint) {
+        if (prodffdWitiPrint) {
 
-            JobName jname = (JobName)attributes.get(JobName.class);
-            if (jname != null) {
-                printerJob.setJobName(jname.toString());
+            JobNbmf jnbmf = (JobNbmf)bttributfs.gft(JobNbmf.dlbss);
+            if (jnbmf != null) {
+                printfrJob.sftJobNbmf(jnbmf.toString());
             }
 
-            pageFormat = new PageFormat();
+            pbgfFormbt = nfw PbgfFormbt();
 
-            Media media = (Media)attributes.get(Media.class);
-            MediaSize mediaSize =  null;
-            if (media != null  && media instanceof MediaSizeName) {
-                mediaSize = MediaSize.getMediaSizeForName((MediaSizeName)media);
+            Mfdib mfdib = (Mfdib)bttributfs.gft(Mfdib.dlbss);
+            MfdibSizf mfdibSizf =  null;
+            if (mfdib != null  && mfdib instbndfof MfdibSizfNbmf) {
+                mfdibSizf = MfdibSizf.gftMfdibSizfForNbmf((MfdibSizfNbmf)mfdib);
             }
 
-            Paper p = pageFormat.getPaper();
-            if (mediaSize != null) {
-                p.setSize(mediaSize.getX(MediaSize.INCH)*72.0,
-                          mediaSize.getY(MediaSize.INCH)*72.0);
+            Pbpfr p = pbgfFormbt.gftPbpfr();
+            if (mfdibSizf != null) {
+                p.sftSizf(mfdibSizf.gftX(MfdibSizf.INCH)*72.0,
+                          mfdibSizf.gftY(MfdibSizf.INCH)*72.0);
             }
 
-            if (pageAttributes.getOrigin()==OriginType.PRINTABLE) {
-                // AWT uses 1/4" borders by default
-                p.setImageableArea(18.0, 18.0,
-                                   p.getWidth()-36.0,
-                                   p.getHeight()-36.0);
-            } else {
-                p.setImageableArea(0.0,0.0,p.getWidth(),p.getHeight());
+            if (pbgfAttributfs.gftOrigin()==OriginTypf.PRINTABLE) {
+                // AWT usfs 1/4" bordfrs by dffbult
+                p.sftImbgfbblfArfb(18.0, 18.0,
+                                   p.gftWidti()-36.0,
+                                   p.gftHfigit()-36.0);
+            } flsf {
+                p.sftImbgfbblfArfb(0.0,0.0,p.gftWidti(),p.gftHfigit());
             }
 
-            pageFormat.setPaper(p);
+            pbgfFormbt.sftPbpfr(p);
 
-            OrientationRequested orient =
-               (OrientationRequested)attributes.get(OrientationRequested.class);
-            if (orient!= null &&
-                orient == OrientationRequested.REVERSE_LANDSCAPE) {
-                pageFormat.setOrientation(PageFormat.REVERSE_LANDSCAPE);
-            } else if (orient == OrientationRequested.LANDSCAPE) {
-                pageFormat.setOrientation(PageFormat.LANDSCAPE);
-            } else {
-                pageFormat.setOrientation(PageFormat.PORTRAIT);
+            OrifntbtionRfqufstfd orifnt =
+               (OrifntbtionRfqufstfd)bttributfs.gft(OrifntbtionRfqufstfd.dlbss);
+            if (orifnt!= null &&
+                orifnt == OrifntbtionRfqufstfd.REVERSE_LANDSCAPE) {
+                pbgfFormbt.sftOrifntbtion(PbgfFormbt.REVERSE_LANDSCAPE);
+            } flsf if (orifnt == OrifntbtionRfqufstfd.LANDSCAPE) {
+                pbgfFormbt.sftOrifntbtion(PbgfFormbt.LANDSCAPE);
+            } flsf {
+                pbgfFormbt.sftOrifntbtion(PbgfFormbt.PORTRAIT);
                 }
 
-            printerJob.setPrintable(this, pageFormat);
+            printfrJob.sftPrintbblf(tiis, pbgfFormbt);
 
         }
 
-        return proceedWithPrint;
+        rfturn prodffdWitiPrint;
     }
 
-    private void updateAttributes() {
-        Copies c = (Copies)attributes.get(Copies.class);
-        jobAttributes.setCopies(c.getValue());
+    privbtf void updbtfAttributfs() {
+        Copifs d = (Copifs)bttributfs.gft(Copifs.dlbss);
+        jobAttributfs.sftCopifs(d.gftVbluf());
 
-        SunPageSelection sel =
-            (SunPageSelection)attributes.get(SunPageSelection.class);
-        if (sel == SunPageSelection.RANGE) {
-            jobAttributes.setDefaultSelection(DefaultSelectionType.RANGE);
-        } else if (sel == SunPageSelection.SELECTION) {
-            jobAttributes.setDefaultSelection(DefaultSelectionType.SELECTION);
-        } else {
-            jobAttributes.setDefaultSelection(DefaultSelectionType.ALL);
+        SunPbgfSflfdtion sfl =
+            (SunPbgfSflfdtion)bttributfs.gft(SunPbgfSflfdtion.dlbss);
+        if (sfl == SunPbgfSflfdtion.RANGE) {
+            jobAttributfs.sftDffbultSflfdtion(DffbultSflfdtionTypf.RANGE);
+        } flsf if (sfl == SunPbgfSflfdtion.SELECTION) {
+            jobAttributfs.sftDffbultSflfdtion(DffbultSflfdtionTypf.SELECTION);
+        } flsf {
+            jobAttributfs.sftDffbultSflfdtion(DffbultSflfdtionTypf.ALL);
         }
 
-        Destination dest = (Destination)attributes.get(Destination.class);
-        if (dest != null) {
-            jobAttributes.setDestination(DestinationType.FILE);
-            jobAttributes.setFileName(dest.getURI().getPath());
-        } else {
-            jobAttributes.setDestination(DestinationType.PRINTER);
+        Dfstinbtion dfst = (Dfstinbtion)bttributfs.gft(Dfstinbtion.dlbss);
+        if (dfst != null) {
+            jobAttributfs.sftDfstinbtion(DfstinbtionTypf.FILE);
+            jobAttributfs.sftFilfNbmf(dfst.gftURI().gftPbti());
+        } flsf {
+            jobAttributfs.sftDfstinbtion(DfstinbtionTypf.PRINTER);
         }
 
-        PrintService serv = printerJob.getPrintService();
-        if (serv != null) {
-            jobAttributes.setPrinter(serv.getName());
+        PrintSfrvidf sfrv = printfrJob.gftPrintSfrvidf();
+        if (sfrv != null) {
+            jobAttributfs.sftPrintfr(sfrv.gftNbmf());
         }
 
-        PageRanges range = (PageRanges)attributes.get(PageRanges.class);
-        int[][] members = range.getMembers();
-        jobAttributes.setPageRanges(members);
+        PbgfRbngfs rbngf = (PbgfRbngfs)bttributfs.gft(PbgfRbngfs.dlbss);
+        int[][] mfmbfrs = rbngf.gftMfmbfrs();
+        jobAttributfs.sftPbgfRbngfs(mfmbfrs);
 
-        SheetCollate collation =
-            (SheetCollate)attributes.get(SheetCollate.class);
-        if (collation == SheetCollate.COLLATED) {
-            jobAttributes.setMultipleDocumentHandling(
-            MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_COLLATED_COPIES);
-        } else {
-            jobAttributes.setMultipleDocumentHandling(
-            MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES);
+        SifftCollbtf dollbtion =
+            (SifftCollbtf)bttributfs.gft(SifftCollbtf.dlbss);
+        if (dollbtion == SifftCollbtf.COLLATED) {
+            jobAttributfs.sftMultiplfDodumfntHbndling(
+            MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_COLLATED_COPIES);
+        } flsf {
+            jobAttributfs.sftMultiplfDodumfntHbndling(
+            MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES);
         }
 
-        Sides sides = (Sides)attributes.get(Sides.class);
-        if (sides == Sides.TWO_SIDED_LONG_EDGE) {
-            jobAttributes.setSides(SidesType.TWO_SIDED_LONG_EDGE);
-        } else if (sides == Sides.TWO_SIDED_SHORT_EDGE) {
-            jobAttributes.setSides(SidesType.TWO_SIDED_SHORT_EDGE);
-        } else {
-            jobAttributes.setSides(SidesType.ONE_SIDED);
+        Sidfs sidfs = (Sidfs)bttributfs.gft(Sidfs.dlbss);
+        if (sidfs == Sidfs.TWO_SIDED_LONG_EDGE) {
+            jobAttributfs.sftSidfs(SidfsTypf.TWO_SIDED_LONG_EDGE);
+        } flsf if (sidfs == Sidfs.TWO_SIDED_SHORT_EDGE) {
+            jobAttributfs.sftSidfs(SidfsTypf.TWO_SIDED_SHORT_EDGE);
+        } flsf {
+            jobAttributfs.sftSidfs(SidfsTypf.ONE_SIDED);
         }
 
-        // PageAttributes
+        // PbgfAttributfs
 
-        Chromaticity color =
-            (Chromaticity)attributes.get(Chromaticity.class);
-        if (color == Chromaticity.COLOR) {
-            pageAttributes.setColor(ColorType.COLOR);
-        } else {
-            pageAttributes.setColor(ColorType.MONOCHROME);
+        Cirombtidity dolor =
+            (Cirombtidity)bttributfs.gft(Cirombtidity.dlbss);
+        if (dolor == Cirombtidity.COLOR) {
+            pbgfAttributfs.sftColor(ColorTypf.COLOR);
+        } flsf {
+            pbgfAttributfs.sftColor(ColorTypf.MONOCHROME);
         }
 
-        OrientationRequested orient =
-            (OrientationRequested)attributes.get(OrientationRequested.class);
-        if (orient == OrientationRequested.LANDSCAPE) {
-            pageAttributes.setOrientationRequested(
-                                       OrientationRequestedType.LANDSCAPE);
-        } else {
-            pageAttributes.setOrientationRequested(
-                                       OrientationRequestedType.PORTRAIT);
+        OrifntbtionRfqufstfd orifnt =
+            (OrifntbtionRfqufstfd)bttributfs.gft(OrifntbtionRfqufstfd.dlbss);
+        if (orifnt == OrifntbtionRfqufstfd.LANDSCAPE) {
+            pbgfAttributfs.sftOrifntbtionRfqufstfd(
+                                       OrifntbtionRfqufstfdTypf.LANDSCAPE);
+        } flsf {
+            pbgfAttributfs.sftOrifntbtionRfqufstfd(
+                                       OrifntbtionRfqufstfdTypf.PORTRAIT);
         }
 
-        PrintQuality qual = (PrintQuality)attributes.get(PrintQuality.class);
-        if (qual == PrintQuality.DRAFT) {
-            pageAttributes.setPrintQuality(PrintQualityType.DRAFT);
-        } else if (qual == PrintQuality.HIGH) {
-            pageAttributes.setPrintQuality(PrintQualityType.HIGH);
-        } else { // NORMAL
-            pageAttributes.setPrintQuality(PrintQualityType.NORMAL);
+        PrintQublity qubl = (PrintQublity)bttributfs.gft(PrintQublity.dlbss);
+        if (qubl == PrintQublity.DRAFT) {
+            pbgfAttributfs.sftPrintQublity(PrintQublityTypf.DRAFT);
+        } flsf if (qubl == PrintQublity.HIGH) {
+            pbgfAttributfs.sftPrintQublity(PrintQublityTypf.HIGH);
+        } flsf { // NORMAL
+            pbgfAttributfs.sftPrintQublity(PrintQublityTypf.NORMAL);
         }
 
-        Media msn = (Media)attributes.get(Media.class);
-        if (msn != null && msn instanceof MediaSizeName) {
-            MediaType mType = unMapMedia((MediaSizeName)msn);
+        Mfdib msn = (Mfdib)bttributfs.gft(Mfdib.dlbss);
+        if (msn != null && msn instbndfof MfdibSizfNbmf) {
+            MfdibTypf mTypf = unMbpMfdib((MfdibSizfNbmf)msn);
 
-            if (mType != null) {
-                pageAttributes.setMedia(mType);
+            if (mTypf != null) {
+                pbgfAttributfs.sftMfdib(mTypf);
             }
         }
-        debugPrintAttributes(false, false);
+        dfbugPrintAttributfs(fblsf, fblsf);
     }
 
-    private void debugPrintAttributes(boolean ja, boolean pa ) {
-        if (ja) {
-            System.out.println("new Attributes\ncopies = "+
-                               jobAttributes.getCopies()+
-                               "\nselection = "+
-                               jobAttributes.getDefaultSelection()+
-                               "\ndest "+jobAttributes.getDestination()+
-                               "\nfile "+jobAttributes.getFileName()+
-                               "\nfromPage "+jobAttributes.getFromPage()+
-                               "\ntoPage "+jobAttributes.getToPage()+
-                               "\ncollation "+
-                               jobAttributes.getMultipleDocumentHandling()+
-                               "\nPrinter "+jobAttributes.getPrinter()+
-                               "\nSides2 "+jobAttributes.getSides()
+    privbtf void dfbugPrintAttributfs(boolfbn jb, boolfbn pb ) {
+        if (jb) {
+            Systfm.out.println("nfw Attributfs\ndopifs = "+
+                               jobAttributfs.gftCopifs()+
+                               "\nsflfdtion = "+
+                               jobAttributfs.gftDffbultSflfdtion()+
+                               "\ndfst "+jobAttributfs.gftDfstinbtion()+
+                               "\nfilf "+jobAttributfs.gftFilfNbmf()+
+                               "\nfromPbgf "+jobAttributfs.gftFromPbgf()+
+                               "\ntoPbgf "+jobAttributfs.gftToPbgf()+
+                               "\ndollbtion "+
+                               jobAttributfs.gftMultiplfDodumfntHbndling()+
+                               "\nPrintfr "+jobAttributfs.gftPrintfr()+
+                               "\nSidfs2 "+jobAttributfs.gftSidfs()
                                );
         }
 
-        if (pa) {
-            System.out.println("new Attributes\ncolor = "+
-                               pageAttributes.getColor()+
-                               "\norientation = "+
-                               pageAttributes.getOrientationRequested()+
-                               "\nquality "+pageAttributes.getPrintQuality()+
-                               "\nMedia2 "+pageAttributes.getMedia()
+        if (pb) {
+            Systfm.out.println("nfw Attributfs\ndolor = "+
+                               pbgfAttributfs.gftColor()+
+                               "\norifntbtion = "+
+                               pbgfAttributfs.gftOrifntbtionRfqufstfd()+
+                               "\nqublity "+pbgfAttributfs.gftPrintQublity()+
+                               "\nMfdib2 "+pbgfAttributfs.gftMfdib()
                                );
         }
     }
 
 
-    /* From JobAttributes we will copy job name and duplex printing
-     * and destination.
-     * The majority of the rest of the attributes are reflected
-     * attributes.
+    /* From JobAttributfs wf will dopy job nbmf bnd duplfx printing
+     * bnd dfstinbtion.
+     * Tif mbjority of tif rfst of tif bttributfs brf rfflfdtfd
+     * bttributfs.
      *
-     * From PageAttributes we copy color, media size, orientation,
-     * origin type, resolution and print quality.
-     * We use the media, orientation in creating the page format, and
-     * the origin type to set its imageable area.
+     * From PbgfAttributfs wf dopy dolor, mfdib sizf, orifntbtion,
+     * origin typf, rfsolution bnd print qublity.
+     * Wf usf tif mfdib, orifntbtion in drfbting tif pbgf formbt, bnd
+     * tif origin typf to sft its imbgfbblf brfb.
      *
-     * REMIND: Interpretation of resolution, additional media sizes.
+     * REMIND: Intfrprftbtion of rfsolution, bdditionbl mfdib sizfs.
      */
-    private void copyAttributes(PrintService printServ) {
+    privbtf void dopyAttributfs(PrintSfrvidf printSfrv) {
 
-        attributes = new HashPrintRequestAttributeSet();
-        attributes.add(new JobName(docTitle, null));
-        PrintService pServ = printServ;
+        bttributfs = nfw HbsiPrintRfqufstAttributfSft();
+        bttributfs.bdd(nfw JobNbmf(dodTitlf, null));
+        PrintSfrvidf pSfrv = printSfrv;
 
-        String printerName = jobAttributes.getPrinter();
-        if (printerName != null && printerName != ""
-            && !printerName.equals(pServ.getName())) {
+        String printfrNbmf = jobAttributfs.gftPrintfr();
+        if (printfrNbmf != null && printfrNbmf != ""
+            && !printfrNbmf.fqubls(pSfrv.gftNbmf())) {
 
-            // Search for the given printerName in the list of PrintServices
-            PrintService []services = PrinterJob.lookupPrintServices();
+            // Sfbrdi for tif givfn printfrNbmf in tif list of PrintSfrvidfs
+            PrintSfrvidf []sfrvidfs = PrintfrJob.lookupPrintSfrvidfs();
             try {
-                for (int i=0; i<services.length; i++) {
-                    if (printerName.equals(services[i].getName())) {
-                        printerJob.setPrintService(services[i]);
-                        pServ = services[i];
-                        break;
+                for (int i=0; i<sfrvidfs.lfngti; i++) {
+                    if (printfrNbmf.fqubls(sfrvidfs[i].gftNbmf())) {
+                        printfrJob.sftPrintSfrvidf(sfrvidfs[i]);
+                        pSfrv = sfrvidfs[i];
+                        brfbk;
                     }
                 }
-            } catch (PrinterException pe) {
+            } dbtdi (PrintfrExdfption pf) {
             }
         }
 
-        DestinationType dest = jobAttributes.getDestination();
-        if (dest == DestinationType.FILE &&
-            pServ.isAttributeCategorySupported(Destination.class)) {
+        DfstinbtionTypf dfst = jobAttributfs.gftDfstinbtion();
+        if (dfst == DfstinbtionTypf.FILE &&
+            pSfrv.isAttributfCbtfgorySupportfd(Dfstinbtion.dlbss)) {
 
-            String fileName = jobAttributes.getFileName();
+            String filfNbmf = jobAttributfs.gftFilfNbmf();
 
-            Destination defaultDest;
-            if (fileName == null && (defaultDest = (Destination)pServ.
-                    getDefaultAttributeValue(Destination.class)) != null) {
-                attributes.add(defaultDest);
-            } else {
+            Dfstinbtion dffbultDfst;
+            if (filfNbmf == null && (dffbultDfst = (Dfstinbtion)pSfrv.
+                    gftDffbultAttributfVbluf(Dfstinbtion.dlbss)) != null) {
+                bttributfs.bdd(dffbultDfst);
+            } flsf {
                 URI uri = null;
                 try {
-                    if (fileName != null) {
-                        if (fileName.equals("")) {
-                            fileName = ".";
+                    if (filfNbmf != null) {
+                        if (filfNbmf.fqubls("")) {
+                            filfNbmf = ".";
                         }
-                    } else {
-                        // defaultDest should not be null.  The following code
-                        // is only added to safeguard against a possible
-                        // buggy implementation of a PrintService having a
-                        // null default Destination.
-                        fileName = "out.prn";
+                    } flsf {
+                        // dffbultDfst siould not bf null.  Tif following dodf
+                        // is only bddfd to sbffgubrd bgbinst b possiblf
+                        // buggy implfmfntbtion of b PrintSfrvidf ibving b
+                        // null dffbult Dfstinbtion.
+                        filfNbmf = "out.prn";
                     }
-                    uri = (new File(fileName)).toURI();
-                } catch (SecurityException se) {
+                    uri = (nfw Filf(filfNbmf)).toURI();
+                } dbtdi (SfdurityExdfption sf) {
                     try {
-                        // '\\' file separator is illegal character in opaque
-                        // part and causes URISyntaxException, so we replace
-                        // it with '/'
-                        fileName = fileName.replace('\\', '/');
-                        uri = new URI("file:"+fileName);
-                    } catch (URISyntaxException e) {
+                        // '\\' filf sfpbrbtor is illfgbl dibrbdtfr in opbquf
+                        // pbrt bnd dbusfs URISyntbxExdfption, so wf rfplbdf
+                        // it witi '/'
+                        filfNbmf = filfNbmf.rfplbdf('\\', '/');
+                        uri = nfw URI("filf:"+filfNbmf);
+                    } dbtdi (URISyntbxExdfption f) {
                     }
                 }
                 if (uri != null) {
-                    attributes.add(new Destination(uri));
+                    bttributfs.bdd(nfw Dfstinbtion(uri));
                 }
             }
         }
-        attributes.add(new SunMinMaxPage(jobAttributes.getMinPage(),
-                                         jobAttributes.getMaxPage()));
-        SidesType sType = jobAttributes.getSides();
-        if (sType == SidesType.TWO_SIDED_LONG_EDGE) {
-            attributes.add(Sides.TWO_SIDED_LONG_EDGE);
-        } else if (sType == SidesType.TWO_SIDED_SHORT_EDGE) {
-            attributes.add(Sides.TWO_SIDED_SHORT_EDGE);
-        } else if (sType == SidesType.ONE_SIDED) {
-            attributes.add(Sides.ONE_SIDED);
+        bttributfs.bdd(nfw SunMinMbxPbgf(jobAttributfs.gftMinPbgf(),
+                                         jobAttributfs.gftMbxPbgf()));
+        SidfsTypf sTypf = jobAttributfs.gftSidfs();
+        if (sTypf == SidfsTypf.TWO_SIDED_LONG_EDGE) {
+            bttributfs.bdd(Sidfs.TWO_SIDED_LONG_EDGE);
+        } flsf if (sTypf == SidfsTypf.TWO_SIDED_SHORT_EDGE) {
+            bttributfs.bdd(Sidfs.TWO_SIDED_SHORT_EDGE);
+        } flsf if (sTypf == SidfsTypf.ONE_SIDED) {
+            bttributfs.bdd(Sidfs.ONE_SIDED);
         }
 
-        MultipleDocumentHandlingType hType =
-          jobAttributes.getMultipleDocumentHandling();
-        if (hType ==
-            MultipleDocumentHandlingType.SEPARATE_DOCUMENTS_COLLATED_COPIES) {
-          attributes.add(SheetCollate.COLLATED);
-        } else {
-          attributes.add(SheetCollate.UNCOLLATED);
+        MultiplfDodumfntHbndlingTypf iTypf =
+          jobAttributfs.gftMultiplfDodumfntHbndling();
+        if (iTypf ==
+            MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_COLLATED_COPIES) {
+          bttributfs.bdd(SifftCollbtf.COLLATED);
+        } flsf {
+          bttributfs.bdd(SifftCollbtf.UNCOLLATED);
         }
 
-        attributes.add(new Copies(jobAttributes.getCopies()));
+        bttributfs.bdd(nfw Copifs(jobAttributfs.gftCopifs()));
 
-        attributes.add(new PageRanges(jobAttributes.getFromPage(),
-                                      jobAttributes.getToPage()));
+        bttributfs.bdd(nfw PbgfRbngfs(jobAttributfs.gftFromPbgf(),
+                                      jobAttributfs.gftToPbgf()));
 
-        if (pageAttributes.getColor() == ColorType.COLOR) {
-            attributes.add(Chromaticity.COLOR);
-        } else {
-            attributes.add(Chromaticity.MONOCHROME);
+        if (pbgfAttributfs.gftColor() == ColorTypf.COLOR) {
+            bttributfs.bdd(Cirombtidity.COLOR);
+        } flsf {
+            bttributfs.bdd(Cirombtidity.MONOCHROME);
         }
 
-        pageFormat = printerJob.defaultPage();
-        if (pageAttributes.getOrientationRequested() ==
-            OrientationRequestedType.LANDSCAPE) {
-            pageFormat.setOrientation(PageFormat.LANDSCAPE);
-                attributes.add(OrientationRequested.LANDSCAPE);
-        } else {
-                pageFormat.setOrientation(PageFormat.PORTRAIT);
-                attributes.add(OrientationRequested.PORTRAIT);
+        pbgfFormbt = printfrJob.dffbultPbgf();
+        if (pbgfAttributfs.gftOrifntbtionRfqufstfd() ==
+            OrifntbtionRfqufstfdTypf.LANDSCAPE) {
+            pbgfFormbt.sftOrifntbtion(PbgfFormbt.LANDSCAPE);
+                bttributfs.bdd(OrifntbtionRfqufstfd.LANDSCAPE);
+        } flsf {
+                pbgfFormbt.sftOrifntbtion(PbgfFormbt.PORTRAIT);
+                bttributfs.bdd(OrifntbtionRfqufstfd.PORTRAIT);
         }
 
-        MediaType media = pageAttributes.getMedia();
-        MediaSizeName msn = mapMedia(media);
+        MfdibTypf mfdib = pbgfAttributfs.gftMfdib();
+        MfdibSizfNbmf msn = mbpMfdib(mfdib);
         if (msn != null) {
-            attributes.add(msn);
+            bttributfs.bdd(msn);
         }
 
-        PrintQualityType qType =
-            pageAttributes.getPrintQuality();
-        if (qType == PrintQualityType.DRAFT) {
-            attributes.add(PrintQuality.DRAFT);
-        } else if (qType == PrintQualityType.NORMAL) {
-            attributes.add(PrintQuality.NORMAL);
-        } else if (qType == PrintQualityType.HIGH) {
-            attributes.add(PrintQuality.HIGH);
+        PrintQublityTypf qTypf =
+            pbgfAttributfs.gftPrintQublity();
+        if (qTypf == PrintQublityTypf.DRAFT) {
+            bttributfs.bdd(PrintQublity.DRAFT);
+        } flsf if (qTypf == PrintQublityTypf.NORMAL) {
+            bttributfs.bdd(PrintQublity.NORMAL);
+        } flsf if (qTypf == PrintQublityTypf.HIGH) {
+            bttributfs.bdd(PrintQublity.HIGH);
         }
     }
 
     /**
-     * Gets a Graphics object that will draw to the next page.
-     * The page is sent to the printer when the graphics
-     * object is disposed.  This graphics object will also implement
-     * the PrintGraphics interface.
-     * @see PrintGraphics
+     * Gfts b Grbpiids objfdt tibt will drbw to tif nfxt pbgf.
+     * Tif pbgf is sfnt to tif printfr wifn tif grbpiids
+     * objfdt is disposfd.  Tiis grbpiids objfdt will blso implfmfnt
+     * tif PrintGrbpiids intfrfbdf.
+     * @sff PrintGrbpiids
      */
-    public Graphics getGraphics() {
+    publid Grbpiids gftGrbpiids() {
 
-        Graphics printGraphics = null;
+        Grbpiids printGrbpiids = null;
 
-        synchronized (this) {
-            ++pageIndex;
+        syndironizfd (tiis) {
+            ++pbgfIndfx;
 
-            // Thread should not be created after end has been called.
-            // One way to detect this is if any of the graphics queue
-            //  has been closed.
-            if (pageIndex == 0 && !graphicsToBeDrawn.isClosed()) {
+            // Tirfbd siould not bf drfbtfd bftfr fnd ibs bffn dbllfd.
+            // Onf wby to dftfdt tiis is if bny of tif grbpiids qufuf
+            //  ibs bffn dlosfd.
+            if (pbgfIndfx == 0 && !grbpiidsToBfDrbwn.isClosfd()) {
 
-            /* We start a thread on which the PrinterJob will run.
-             * The PrinterJob will ask for pages on that thread
-             * and will use a message queue to fulfill the application's
-             * requests for a Graphics on the application's
-             * thread.
+            /* Wf stbrt b tirfbd on wiidi tif PrintfrJob will run.
+             * Tif PrintfrJob will bsk for pbgfs on tibt tirfbd
+             * bnd will usf b mfssbgf qufuf to fulfill tif bpplidbtion's
+             * rfqufsts for b Grbpiids on tif bpplidbtion's
+             * tirfbd.
              */
 
-                startPrinterJobThread();
+                stbrtPrintfrJobTirfbd();
 
             }
             notify();
         }
 
-        /* If the application has already been handed back
-         * a graphics then we need to put that graphics into
-         * the drawn queue so that the PrinterJob thread can
-         * return to the print system.
+        /* If tif bpplidbtion ibs blrfbdy bffn ibndfd bbdk
+         * b grbpiids tifn wf nffd to put tibt grbpiids into
+         * tif drbwn qufuf so tibt tif PrintfrJob tirfbd dbn
+         * rfturn to tif print systfm.
          */
-        if (currentGraphics != null) {
-            graphicsDrawn.append(currentGraphics);
-            currentGraphics = null;
+        if (durrfntGrbpiids != null) {
+            grbpiidsDrbwn.bppfnd(durrfntGrbpiids);
+            durrfntGrbpiids = null;
         }
 
-        /* We'll block here until a new graphics becomes
-         * available.
+        /* Wf'll blodk ifrf until b nfw grbpiids bfdomfs
+         * bvbilbblf.
          */
 
-        currentGraphics = graphicsToBeDrawn.pop();
+        durrfntGrbpiids = grbpiidsToBfDrbwn.pop();
 
-        if (currentGraphics instanceof PeekGraphics) {
-            ( (PeekGraphics) currentGraphics).setAWTDrawingOnly();
-            graphicsDrawn.append(currentGraphics);
-            currentGraphics = graphicsToBeDrawn.pop();
+        if (durrfntGrbpiids instbndfof PffkGrbpiids) {
+            ( (PffkGrbpiids) durrfntGrbpiids).sftAWTDrbwingOnly();
+            grbpiidsDrbwn.bppfnd(durrfntGrbpiids);
+            durrfntGrbpiids = grbpiidsToBfDrbwn.pop();
         }
 
 
-        if (currentGraphics != null) {
+        if (durrfntGrbpiids != null) {
 
-            /* In the PrintJob API, the origin is at the upper-
-             * left of the imageable area when using the new "printable"
-             * origin attribute, otherwise its the physical origin (for
-             * backwards compatibility. We emulate this by createing
-             * a PageFormat which matches and then performing the
-             * translate to the origin. This is a no-op if physical
-             * origin is specified.
+            /* In tif PrintJob API, tif origin is bt tif uppfr-
+             * lfft of tif imbgfbblf brfb wifn using tif nfw "printbblf"
+             * origin bttributf, otifrwisf its tif piysidbl origin (for
+             * bbdkwbrds dompbtibility. Wf fmulbtf tiis by drfbtfing
+             * b PbgfFormbt wiidi mbtdifs bnd tifn pfrforming tif
+             * trbnslbtf to tif origin. Tiis is b no-op if piysidbl
+             * origin is spfdififd.
              */
-            currentGraphics.translate(pageFormat.getImageableX(),
-                                      pageFormat.getImageableY());
+            durrfntGrbpiids.trbnslbtf(pbgfFormbt.gftImbgfbblfX(),
+                                      pbgfFormbt.gftImbgfbblfY());
 
-            /* Scale to accommodate AWT's notion of printer resolution */
-            double awtScale = 72.0/getPageResolutionInternal();
-            currentGraphics.scale(awtScale, awtScale);
+            /* Sdblf to bddommodbtf AWT's notion of printfr rfsolution */
+            doublf bwtSdblf = 72.0/gftPbgfRfsolutionIntfrnbl();
+            durrfntGrbpiids.sdblf(bwtSdblf, bwtSdblf);
 
-            /* The caller wants a Graphics instance but we do
-             * not want them to make 2D calls. We can't hand
-             * back a Graphics2D. The returned Graphics also
-             * needs to implement PrintGraphics, so we wrap
-             * the Graphics2D instance. The PrintJob API has
-             * the application dispose of the Graphics so
-             * we create a copy of the one returned by PrinterJob.
+            /* Tif dbllfr wbnts b Grbpiids instbndf but wf do
+             * not wbnt tifm to mbkf 2D dblls. Wf dbn't ibnd
+             * bbdk b Grbpiids2D. Tif rfturnfd Grbpiids blso
+             * nffds to implfmfnt PrintGrbpiids, so wf wrbp
+             * tif Grbpiids2D instbndf. Tif PrintJob API ibs
+             * tif bpplidbtion disposf of tif Grbpiids so
+             * wf drfbtf b dopy of tif onf rfturnfd by PrintfrJob.
              */
-            printGraphics = new ProxyPrintGraphics(currentGraphics.create(),
-                                                   this);
+            printGrbpiids = nfw ProxyPrintGrbpiids(durrfntGrbpiids.drfbtf(),
+                                                   tiis);
 
         }
 
-        return printGraphics;
+        rfturn printGrbpiids;
     }
 
     /**
-     * Returns the dimensions of the page in pixels.
-     * The resolution of the page is chosen so that it
-     * is similar to the screen resolution.
-     * Except (since 1.3) when the application specifies a resolution.
-     * In that case it it scaled accordingly.
+     * Rfturns tif dimfnsions of tif pbgf in pixfls.
+     * Tif rfsolution of tif pbgf is diosfn so tibt it
+     * is similbr to tif sdrffn rfsolution.
+     * Exdfpt (sindf 1.3) wifn tif bpplidbtion spfdififs b rfsolution.
+     * In tibt dbsf it it sdblfd bddordingly.
      */
-    public Dimension getPageDimension() {
-        double wid, hgt, scale;
-        if (pageAttributes != null &&
-            pageAttributes.getOrigin()==OriginType.PRINTABLE) {
-            wid = pageFormat.getImageableWidth();
-            hgt = pageFormat.getImageableHeight();
-        } else {
-            wid = pageFormat.getWidth();
-            hgt = pageFormat.getHeight();
+    publid Dimfnsion gftPbgfDimfnsion() {
+        doublf wid, igt, sdblf;
+        if (pbgfAttributfs != null &&
+            pbgfAttributfs.gftOrigin()==OriginTypf.PRINTABLE) {
+            wid = pbgfFormbt.gftImbgfbblfWidti();
+            igt = pbgfFormbt.gftImbgfbblfHfigit();
+        } flsf {
+            wid = pbgfFormbt.gftWidti();
+            igt = pbgfFormbt.gftHfigit();
         }
-        scale = getPageResolutionInternal() / 72.0;
-        return new Dimension((int)(wid * scale), (int)(hgt * scale));
+        sdblf = gftPbgfRfsolutionIntfrnbl() / 72.0;
+        rfturn nfw Dimfnsion((int)(wid * sdblf), (int)(igt * sdblf));
     }
 
-     private double getPageResolutionInternal() {
-        if (pageAttributes != null) {
-            int []res = pageAttributes.getPrinterResolution();
-            if (res[2] == 3) {
-                return res[0];
-            } else /* if (res[2] == 4) */ {
-                return (res[0] * 2.54);
+     privbtf doublf gftPbgfRfsolutionIntfrnbl() {
+        if (pbgfAttributfs != null) {
+            int []rfs = pbgfAttributfs.gftPrintfrRfsolution();
+            if (rfs[2] == 3) {
+                rfturn rfs[0];
+            } flsf /* if (rfs[2] == 4) */ {
+                rfturn (rfs[0] * 2.54);
             }
-        } else {
-            return 72.0;
+        } flsf {
+            rfturn 72.0;
         }
     }
 
     /**
-     * Returns the resolution of the page in pixels per inch.
-     * Note that this doesn't have to correspond to the physical
-     * resolution of the printer.
+     * Rfturns tif rfsolution of tif pbgf in pixfls pfr indi.
+     * Notf tibt tiis dofsn't ibvf to dorrfspond to tif piysidbl
+     * rfsolution of tif printfr.
      */
-    public int getPageResolution() {
-        return (int)getPageResolutionInternal();
+    publid int gftPbgfRfsolution() {
+        rfturn (int)gftPbgfRfsolutionIntfrnbl();
     }
 
     /**
-     * Returns true if the last page will be printed first.
+     * Rfturns truf if tif lbst pbgf will bf printfd first.
      */
-    public boolean lastPageFirst() {
-        return false;
+    publid boolfbn lbstPbgfFirst() {
+        rfturn fblsf;
     }
 
     /**
-     * Ends the print job and does any necessary cleanup.
+     * Ends tif print job bnd dofs bny nfdfssbry dlfbnup.
      */
-    public synchronized void end() {
+    publid syndironizfd void fnd() {
 
-        /* Prevent the PrinterJob thread from appending any more
-         * graphics to the to-be-drawn queue
+        /* Prfvfnt tif PrintfrJob tirfbd from bppfnding bny morf
+         * grbpiids to tif to-bf-drbwn qufuf
          */
-        graphicsToBeDrawn.close();
+        grbpiidsToBfDrbwn.dlosf();
 
-        /* If we have a currentGraphics it was the last one returned to the
-         * PrintJob client. Append it to the drawn queue so that print()
-         * will return allowing the page to be flushed.
-         * This really ought to happen in dispose() but for whatever reason
-         * that isn't how the old PrintJob worked even though its spec
-         * said dispose() flushed the page.
+        /* If wf ibvf b durrfntGrbpiids it wbs tif lbst onf rfturnfd to tif
+         * PrintJob dlifnt. Appfnd it to tif drbwn qufuf so tibt print()
+         * will rfturn bllowing tif pbgf to bf flusifd.
+         * Tiis rfblly ougit to ibppfn in disposf() but for wibtfvfr rfbson
+         * tibt isn't iow tif old PrintJob workfd fvfn tiougi its spfd
+         * sbid disposf() flusifd tif pbgf.
          */
-        if (currentGraphics != null) {
-            graphicsDrawn.append(currentGraphics);
+        if (durrfntGrbpiids != null) {
+            grbpiidsDrbwn.bppfnd(durrfntGrbpiids);
         }
-        graphicsDrawn.closeWhenEmpty();
+        grbpiidsDrbwn.dlosfWifnEmpty();
 
-        /* Wait for the PrinterJob.print() thread to terminate, ensuring
-         * that RasterPrinterJob has made its end doc call, and resources
-         * are released, files closed etc.
+        /* Wbit for tif PrintfrJob.print() tirfbd to tfrminbtf, fnsuring
+         * tibt RbstfrPrintfrJob ibs mbdf its fnd dod dbll, bnd rfsourdfs
+         * brf rflfbsfd, filfs dlosfd ftd.
          */
-        if( printerJobThread != null && printerJobThread.isAlive() ){
+        if( printfrJobTirfbd != null && printfrJobTirfbd.isAlivf() ){
             try {
-                printerJobThread.join();
-            } catch (InterruptedException e) {
+                printfrJobTirfbd.join();
+            } dbtdi (IntfrruptfdExdfption f) {
             }
         }
     }
 
     /**
-     * Ends this print job once it is no longer referenced.
-     * @see #end
+     * Ends tiis print job ondf it is no longfr rfffrfndfd.
+     * @sff #fnd
      */
-    public void finalize() {
-        end();
+    publid void finblizf() {
+        fnd();
     }
 
     /**
-     * Prints the page at the specified index into the specified
-     * {@link Graphics} context in the specified
-     * format.  A <code>PrinterJob</code> calls the
-     * <code>Printable</code> interface to request that a page be
-     * rendered into the context specified by
-     * <code>graphics</code>.  The format of the page to be drawn is
-     * specified by <code>pageFormat</code>.  The zero based index
-     * of the requested page is specified by <code>pageIndex</code>.
-     * If the requested page does not exist then this method returns
-     * NO_SUCH_PAGE; otherwise PAGE_EXISTS is returned.
-     * The <code>Graphics</code> class or subclass implements the
-     * {@link PrinterGraphics} interface to provide additional
-     * information.  If the <code>Printable</code> object
-     * aborts the print job then it throws a {@link PrinterException}.
-     * @param graphics the context into which the page is drawn
-     * @param pageFormat the size and orientation of the page being drawn
-     * @param pageIndex the zero based index of the page to be drawn
-     * @return PAGE_EXISTS if the page is rendered successfully
-     *         or NO_SUCH_PAGE if <code>pageIndex</code> specifies a
-     *         non-existent page.
-     * @exception java.awt.print.PrinterException
-     *         thrown when the print job is terminated.
+     * Prints tif pbgf bt tif spfdififd indfx into tif spfdififd
+     * {@link Grbpiids} dontfxt in tif spfdififd
+     * formbt.  A <dodf>PrintfrJob</dodf> dblls tif
+     * <dodf>Printbblf</dodf> intfrfbdf to rfqufst tibt b pbgf bf
+     * rfndfrfd into tif dontfxt spfdififd by
+     * <dodf>grbpiids</dodf>.  Tif formbt of tif pbgf to bf drbwn is
+     * spfdififd by <dodf>pbgfFormbt</dodf>.  Tif zfro bbsfd indfx
+     * of tif rfqufstfd pbgf is spfdififd by <dodf>pbgfIndfx</dodf>.
+     * If tif rfqufstfd pbgf dofs not fxist tifn tiis mftiod rfturns
+     * NO_SUCH_PAGE; otifrwisf PAGE_EXISTS is rfturnfd.
+     * Tif <dodf>Grbpiids</dodf> dlbss or subdlbss implfmfnts tif
+     * {@link PrintfrGrbpiids} intfrfbdf to providf bdditionbl
+     * informbtion.  If tif <dodf>Printbblf</dodf> objfdt
+     * bborts tif print job tifn it tirows b {@link PrintfrExdfption}.
+     * @pbrbm grbpiids tif dontfxt into wiidi tif pbgf is drbwn
+     * @pbrbm pbgfFormbt tif sizf bnd orifntbtion of tif pbgf bfing drbwn
+     * @pbrbm pbgfIndfx tif zfro bbsfd indfx of tif pbgf to bf drbwn
+     * @rfturn PAGE_EXISTS if tif pbgf is rfndfrfd suddfssfully
+     *         or NO_SUCH_PAGE if <dodf>pbgfIndfx</dodf> spfdififs b
+     *         non-fxistfnt pbgf.
+     * @fxdfption jbvb.bwt.print.PrintfrExdfption
+     *         tirown wifn tif print job is tfrminbtfd.
      */
-    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
-                 throws PrinterException {
+    publid int print(Grbpiids grbpiids, PbgfFormbt pbgfFormbt, int pbgfIndfx)
+                 tirows PrintfrExdfption {
 
-        int result;
+        int rfsult;
 
-        /* This method will be called by the PrinterJob on a thread other
-         * that the application's thread. We hold on to the graphics
-         * until we can rendevous with the application's thread and
-         * hand over the graphics. The application then does all the
-         * drawing. When the application is done drawing we rendevous
-         * again with the PrinterJob thread and release the Graphics
-         * so that it knows we are done.
+        /* Tiis mftiod will bf dbllfd by tif PrintfrJob on b tirfbd otifr
+         * tibt tif bpplidbtion's tirfbd. Wf iold on to tif grbpiids
+         * until wf dbn rfndfvous witi tif bpplidbtion's tirfbd bnd
+         * ibnd ovfr tif grbpiids. Tif bpplidbtion tifn dofs bll tif
+         * drbwing. Wifn tif bpplidbtion is donf drbwing wf rfndfvous
+         * bgbin witi tif PrintfrJob tirfbd bnd rflfbsf tif Grbpiids
+         * so tibt it knows wf brf donf.
          */
 
-        /* Add the graphics to the message queue of graphics to
-         * be rendered. This is really a one slot queue. The
-         * application's thread will come along and remove the
-         * graphics from the queue when the app asks for a graphics.
+        /* Add tif grbpiids to tif mfssbgf qufuf of grbpiids to
+         * bf rfndfrfd. Tiis is rfblly b onf slot qufuf. Tif
+         * bpplidbtion's tirfbd will domf blong bnd rfmovf tif
+         * grbpiids from tif qufuf wifn tif bpp bsks for b grbpiids.
          */
-        graphicsToBeDrawn.append( (Graphics2D) graphics);
+        grbpiidsToBfDrbwn.bppfnd( (Grbpiids2D) grbpiids);
 
-        /* We now wait for the app's thread to finish drawing on
-         * the Graphics. This thread will sleep until the application
-         * release the graphics by placing it in the graphics drawn
-         * message queue. If the application signals that it is
-         * finished drawing the entire document then we'll get null
-         * returned when we try and pop a finished graphic.
+        /* Wf now wbit for tif bpp's tirfbd to finisi drbwing on
+         * tif Grbpiids. Tiis tirfbd will slffp until tif bpplidbtion
+         * rflfbsf tif grbpiids by plbding it in tif grbpiids drbwn
+         * mfssbgf qufuf. If tif bpplidbtion signbls tibt it is
+         * finisifd drbwing tif fntirf dodumfnt tifn wf'll gft null
+         * rfturnfd wifn wf try bnd pop b finisifd grbpiid.
          */
-        if (graphicsDrawn.pop() != null) {
-            result = PAGE_EXISTS;
-        } else {
-            result = NO_SUCH_PAGE;
+        if (grbpiidsDrbwn.pop() != null) {
+            rfsult = PAGE_EXISTS;
+        } flsf {
+            rfsult = NO_SUCH_PAGE;
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-    private void startPrinterJobThread() {
+    privbtf void stbrtPrintfrJobTirfbd() {
 
-        printerJobThread = new Thread(this, "printerJobThread");
-        printerJobThread.start();
+        printfrJobTirfbd = nfw Tirfbd(tiis, "printfrJobTirfbd");
+        printfrJobTirfbd.stbrt();
     }
 
 
-    public void run() {
+    publid void run() {
 
         try {
-            printerJob.print(attributes);
-        } catch (PrinterException e) {
-            //REMIND: need to store this away and not rethrow it.
+            printfrJob.print(bttributfs);
+        } dbtdi (PrintfrExdfption f) {
+            //REMIND: nffd to storf tiis bwby bnd not rftirow it.
         }
 
-        /* Close the message queues so that nobody is stuck
-         * waiting for one.
+        /* Closf tif mfssbgf qufufs so tibt nobody is studk
+         * wbiting for onf.
          */
-        graphicsToBeDrawn.closeWhenEmpty();
-        graphicsDrawn.close();
+        grbpiidsToBfDrbwn.dlosfWifnEmpty();
+        grbpiidsDrbwn.dlosf();
     }
 
-    private class MessageQ {
+    privbtf dlbss MfssbgfQ {
 
-        private String qid="noname";
+        privbtf String qid="nonbmf";
 
-        private ArrayList<Graphics2D> queue = new ArrayList<>();
+        privbtf ArrbyList<Grbpiids2D> qufuf = nfw ArrbyList<>();
 
-        MessageQ(String id) {
+        MfssbgfQ(String id) {
           qid = id;
         }
 
-        synchronized void closeWhenEmpty() {
+        syndironizfd void dlosfWifnEmpty() {
 
-            while (queue != null && queue.size() > 0) {
+            wiilf (qufuf != null && qufuf.sizf() > 0) {
                 try {
-                    wait(1000);
-                } catch (InterruptedException e) {
-                    // do nothing.
+                    wbit(1000);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    // do notiing.
                 }
             }
 
-            queue = null;
+            qufuf = null;
             notifyAll();
         }
 
-        synchronized void close() {
-            queue = null;
+        syndironizfd void dlosf() {
+            qufuf = null;
             notifyAll();
         }
 
-        synchronized boolean append(Graphics2D g) {
+        syndironizfd boolfbn bppfnd(Grbpiids2D g) {
 
-            boolean queued = false;
+            boolfbn qufufd = fblsf;
 
-            if (queue != null) {
-                queue.add(g);
-                queued = true;
+            if (qufuf != null) {
+                qufuf.bdd(g);
+                qufufd = truf;
                 notify();
             }
 
-            return queued;
+            rfturn qufufd;
         }
 
-        synchronized Graphics2D pop() {
-            Graphics2D g = null;
+        syndironizfd Grbpiids2D pop() {
+            Grbpiids2D g = null;
 
-            while (g == null && queue != null) {
+            wiilf (g == null && qufuf != null) {
 
-                if (queue.size() > 0) {
-                    g = queue.remove(0);
+                if (qufuf.sizf() > 0) {
+                    g = qufuf.rfmovf(0);
                     notify();
 
-                } else {
+                } flsf {
                     try {
-                        wait(2000);
-                    } catch (InterruptedException e) {
-                        // do nothing.
+                        wbit(2000);
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        // do notiing.
                     }
                 }
             }
 
-            return g;
+            rfturn g;
         }
 
-        synchronized boolean isClosed() {
-            return queue == null;
+        syndironizfd boolfbn isClosfd() {
+            rfturn qufuf == null;
         }
 
     }
 
 
-    private static int[] getSize(MediaType mType) {
-        int []dim = new int[2];
+    privbtf stbtid int[] gftSizf(MfdibTypf mTypf) {
+        int []dim = nfw int[2];
         dim[0] = 612;
         dim[1] = 792;
 
-        for (int i=0; i < SIZES.length; i++) {
-            if (SIZES[i] == mType) {
+        for (int i=0; i < SIZES.lfngti; i++) {
+            if (SIZES[i] == mTypf) {
                 dim[0] = WIDTHS[i];
                 dim[1] = LENGTHS[i];
-                break;
+                brfbk;
             }
         }
-        return dim;
+        rfturn dim;
     }
 
-    public static MediaSizeName mapMedia(MediaType mType) {
-        MediaSizeName media = null;
+    publid stbtid MfdibSizfNbmf mbpMfdib(MfdibTypf mTypf) {
+        MfdibSizfNbmf mfdib = null;
 
-        // JAVAXSIZES.length and SIZES.length must be equal!
-        // Attempt to recover by getting the smaller size.
-        int length = Math.min(SIZES.length, JAVAXSIZES.length);
+        // JAVAXSIZES.lfngti bnd SIZES.lfngti must bf fqubl!
+        // Attfmpt to rfdovfr by gftting tif smbllfr sizf.
+        int lfngti = Mbti.min(SIZES.lfngti, JAVAXSIZES.lfngti);
 
-        for (int i=0; i < length; i++) {
-            if (SIZES[i] == mType) {
+        for (int i=0; i < lfngti; i++) {
+            if (SIZES[i] == mTypf) {
                 if ((JAVAXSIZES[i] != null) &&
-                    MediaSize.getMediaSizeForName(JAVAXSIZES[i]) != null) {
-                    media = JAVAXSIZES[i];
-                    break;
-                } else {
-                    /* create Custom Media */
-                    media = new CustomMediaSizeName(SIZES[i].toString());
+                    MfdibSizf.gftMfdibSizfForNbmf(JAVAXSIZES[i]) != null) {
+                    mfdib = JAVAXSIZES[i];
+                    brfbk;
+                } flsf {
+                    /* drfbtf Custom Mfdib */
+                    mfdib = nfw CustomMfdibSizfNbmf(SIZES[i].toString());
 
-                    float w = (float)Math.rint(WIDTHS[i]  / 72.0);
-                    float h = (float)Math.rint(LENGTHS[i] / 72.0);
-                    if (w > 0.0 && h > 0.0) {
-                        // add new created MediaSize to our static map
-                        // so it will be found when we call findMedia
-                        new MediaSize(w, h, Size2DSyntax.INCH, media);
+                    flobt w = (flobt)Mbti.rint(WIDTHS[i]  / 72.0);
+                    flobt i = (flobt)Mbti.rint(LENGTHS[i] / 72.0);
+                    if (w > 0.0 && i > 0.0) {
+                        // bdd nfw drfbtfd MfdibSizf to our stbtid mbp
+                        // so it will bf found wifn wf dbll findMfdib
+                        nfw MfdibSizf(w, i, Sizf2DSyntbx.INCH, mfdib);
                     }
 
-                    break;
+                    brfbk;
                 }
             }
         }
-        return media;
+        rfturn mfdib;
     }
 
 
-    public static MediaType unMapMedia(MediaSizeName mSize) {
-        MediaType media = null;
+    publid stbtid MfdibTypf unMbpMfdib(MfdibSizfNbmf mSizf) {
+        MfdibTypf mfdib = null;
 
-        // JAVAXSIZES.length and SIZES.length must be equal!
-        // Attempt to recover by getting the smaller size.
-        int length = Math.min(SIZES.length, JAVAXSIZES.length);
+        // JAVAXSIZES.lfngti bnd SIZES.lfngti must bf fqubl!
+        // Attfmpt to rfdovfr by gftting tif smbllfr sizf.
+        int lfngti = Mbti.min(SIZES.lfngti, JAVAXSIZES.lfngti);
 
-        for (int i=0; i < length; i++) {
-            if (JAVAXSIZES[i] == mSize) {
+        for (int i=0; i < lfngti; i++) {
+            if (JAVAXSIZES[i] == mSizf) {
                 if (SIZES[i] != null) {
-                    media = SIZES[i];
-                    break;
+                    mfdib = SIZES[i];
+                    brfbk;
                 }
             }
         }
-        return media;
+        rfturn mfdib;
     }
 
-    private void translateInputProps() {
+    privbtf void trbnslbtfInputProps() {
         if (props == null) {
-            return;
+            rfturn;
         }
 
         String str;
 
-        str = props.getProperty(DEST_PROP);
+        str = props.gftPropfrty(DEST_PROP);
         if (str != null) {
-            if (str.equals(PRINTER)) {
-                jobAttributes.setDestination(DestinationType.PRINTER);
-            } else if (str.equals(FILE)) {
-                jobAttributes.setDestination(DestinationType.FILE);
+            if (str.fqubls(PRINTER)) {
+                jobAttributfs.sftDfstinbtion(DfstinbtionTypf.PRINTER);
+            } flsf if (str.fqubls(FILE)) {
+                jobAttributfs.sftDfstinbtion(DfstinbtionTypf.FILE);
             }
         }
-        str = props.getProperty(PRINTER_PROP);
+        str = props.gftPropfrty(PRINTER_PROP);
         if (str != null) {
-            jobAttributes.setPrinter(str);
+            jobAttributfs.sftPrintfr(str);
         }
-        str = props.getProperty(FILENAME_PROP);
+        str = props.gftPropfrty(FILENAME_PROP);
         if (str != null) {
-            jobAttributes.setFileName(str);
+            jobAttributfs.sftFilfNbmf(str);
         }
-        str = props.getProperty(NUMCOPIES_PROP);
+        str = props.gftPropfrty(NUMCOPIES_PROP);
         if (str != null) {
-            jobAttributes.setCopies(Integer.parseInt(str));
+            jobAttributfs.sftCopifs(Intfgfr.pbrsfInt(str));
         }
 
-        this.options = props.getProperty(OPTIONS_PROP, "");
+        tiis.options = props.gftPropfrty(OPTIONS_PROP, "");
 
-        str = props.getProperty(ORIENT_PROP);
+        str = props.gftPropfrty(ORIENT_PROP);
         if (str != null) {
-            if (str.equals(PORTRAIT)) {
-                pageAttributes.setOrientationRequested(
-                                        OrientationRequestedType.PORTRAIT);
-            } else if (str.equals(LANDSCAPE)) {
-                pageAttributes.setOrientationRequested(
-                                        OrientationRequestedType.LANDSCAPE);
+            if (str.fqubls(PORTRAIT)) {
+                pbgfAttributfs.sftOrifntbtionRfqufstfd(
+                                        OrifntbtionRfqufstfdTypf.PORTRAIT);
+            } flsf if (str.fqubls(LANDSCAPE)) {
+                pbgfAttributfs.sftOrifntbtionRfqufstfd(
+                                        OrifntbtionRfqufstfdTypf.LANDSCAPE);
             }
         }
-        str = props.getProperty(PAPERSIZE_PROP);
+        str = props.gftPropfrty(PAPERSIZE_PROP);
         if (str != null) {
-            if (str.equals(LETTER)) {
-                pageAttributes.setMedia(SIZES[MediaType.LETTER.hashCode()]);
-            } else if (str.equals(LEGAL)) {
-                pageAttributes.setMedia(SIZES[MediaType.LEGAL.hashCode()]);
-            } else if (str.equals(EXECUTIVE)) {
-                pageAttributes.setMedia(SIZES[MediaType.EXECUTIVE.hashCode()]);
-            } else if (str.equals(A4)) {
-                pageAttributes.setMedia(SIZES[MediaType.A4.hashCode()]);
+            if (str.fqubls(LETTER)) {
+                pbgfAttributfs.sftMfdib(SIZES[MfdibTypf.LETTER.ibsiCodf()]);
+            } flsf if (str.fqubls(LEGAL)) {
+                pbgfAttributfs.sftMfdib(SIZES[MfdibTypf.LEGAL.ibsiCodf()]);
+            } flsf if (str.fqubls(EXECUTIVE)) {
+                pbgfAttributfs.sftMfdib(SIZES[MfdibTypf.EXECUTIVE.ibsiCodf()]);
+            } flsf if (str.fqubls(A4)) {
+                pbgfAttributfs.sftMfdib(SIZES[MfdibTypf.A4.ibsiCodf()]);
             }
         }
     }
 
-    private void translateOutputProps() {
+    privbtf void trbnslbtfOutputProps() {
         if (props == null) {
-            return;
+            rfturn;
         }
 
         String str;
 
-        props.setProperty(DEST_PROP,
-            (jobAttributes.getDestination() == DestinationType.PRINTER) ?
+        props.sftPropfrty(DEST_PROP,
+            (jobAttributfs.gftDfstinbtion() == DfstinbtionTypf.PRINTER) ?
                           PRINTER : FILE);
-        str = jobAttributes.getPrinter();
-        if (str != null && !str.equals("")) {
-            props.setProperty(PRINTER_PROP, str);
+        str = jobAttributfs.gftPrintfr();
+        if (str != null && !str.fqubls("")) {
+            props.sftPropfrty(PRINTER_PROP, str);
         }
-        str = jobAttributes.getFileName();
-        if (str != null && !str.equals("")) {
-            props.setProperty(FILENAME_PROP, str);
+        str = jobAttributfs.gftFilfNbmf();
+        if (str != null && !str.fqubls("")) {
+            props.sftPropfrty(FILENAME_PROP, str);
         }
-        int copies = jobAttributes.getCopies();
-        if (copies > 0) {
-            props.setProperty(NUMCOPIES_PROP, "" + copies);
+        int dopifs = jobAttributfs.gftCopifs();
+        if (dopifs > 0) {
+            props.sftPropfrty(NUMCOPIES_PROP, "" + dopifs);
         }
-        str = this.options;
-        if (str != null && !str.equals("")) {
-            props.setProperty(OPTIONS_PROP, str);
+        str = tiis.options;
+        if (str != null && !str.fqubls("")) {
+            props.sftPropfrty(OPTIONS_PROP, str);
         }
-        props.setProperty(ORIENT_PROP,
-            (pageAttributes.getOrientationRequested() ==
-             OrientationRequestedType.PORTRAIT)
+        props.sftPropfrty(ORIENT_PROP,
+            (pbgfAttributfs.gftOrifntbtionRfqufstfd() ==
+             OrifntbtionRfqufstfdTypf.PORTRAIT)
                           ? PORTRAIT : LANDSCAPE);
-        MediaType media = SIZES[pageAttributes.getMedia().hashCode()];
-        if (media == MediaType.LETTER) {
+        MfdibTypf mfdib = SIZES[pbgfAttributfs.gftMfdib().ibsiCodf()];
+        if (mfdib == MfdibTypf.LETTER) {
             str = LETTER;
-        } else if (media == MediaType.LEGAL) {
+        } flsf if (mfdib == MfdibTypf.LEGAL) {
             str = LEGAL;
-        } else if (media == MediaType.EXECUTIVE) {
+        } flsf if (mfdib == MfdibTypf.EXECUTIVE) {
             str = EXECUTIVE;
-        } else if (media == MediaType.A4) {
+        } flsf if (mfdib == MfdibTypf.A4) {
             str = A4;
-        } else {
-            str = media.toString();
+        } flsf {
+            str = mfdib.toString();
         }
-        props.setProperty(PAPERSIZE_PROP, str);
+        props.sftPropfrty(PAPERSIZE_PROP, str);
     }
 
-    private void throwPrintToFile() {
-        SecurityManager security = System.getSecurityManager();
-        FilePermission printToFilePermission = null;
-        if (security != null) {
-            if (printToFilePermission == null) {
-                printToFilePermission =
-                    new FilePermission("<<ALL FILES>>", "read,write");
+    privbtf void tirowPrintToFilf() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        FilfPfrmission printToFilfPfrmission = null;
+        if (sfdurity != null) {
+            if (printToFilfPfrmission == null) {
+                printToFilfPfrmission =
+                    nfw FilfPfrmission("<<ALL FILES>>", "rfbd,writf");
             }
-            security.checkPermission(printToFilePermission);
+            sfdurity.difdkPfrmission(printToFilfPfrmission);
         }
     }
 

@@ -1,0 +1,2802 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+// Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+// filf:
+//
+//---------------------------------------------------------------------------------
+//
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyright (d) 1998-2012 Mbrti Mbrib Sbgufr
+//
+// Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+// b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf "Softwbrf"),
+// to dfbl in thf Softwbrf without rfstridtion, indluding without limitbtion
+// thf rights to usf, dopy, modify, mfrgf, publish, distributf, sublidfnsf,
+// bnd/or sfll dopifs of thf Softwbrf, bnd to pfrmit pfrsons to whom thf Softwbrf
+// is furnishfd to do so, subjfdt to thf following donditions:
+//
+// Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd in
+// bll dopifs or substbntibl portions of thf Softwbrf.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//---------------------------------------------------------------------------------
+//
+
+#indludf "ldms2_intfrnbl.h"
+
+
+// IT8.7 / CGATS.17-200x hbndling -----------------------------------------------------------------------------
+
+
+#dffinf MAXID        128     // Mbx lfngth of idfntififr
+#dffinf MAXSTR      1024     // Mbx lfngth of string
+#dffinf MAXTABLES    255     // Mbx Numbfr of tbblfs in b singlf strfbm
+#dffinf MAXINCLUDE    20     // Mbx numbfr of nfstfd indludfs
+
+#dffinf DEFAULT_DBL_FORMAT  "%.10g" // Doublf formbtting
+
+#ifdff CMS_IS_WINDOWS_
+#    indludf <io.h>
+#    dffinf DIR_CHAR    '\\'
+#flsf
+#    dffinf DIR_CHAR    '/'
+#fndif
+
+
+// Symbols
+typfdff fnum {
+
+        SNONE,
+        SINUM,      // Intfgfr
+        SDNUM,      // Rfbl
+        SIDENT,     // Idfntififr
+        SSTRING,    // string
+        SCOMMENT,   // dommfnt
+        SEOLN,      // End of linf
+        SEOF,       // End of strfbm
+        SSYNERROR,  // Syntbx frror found on strfbm
+
+        // Kfywords
+
+        SBEGIN_DATA,
+        SBEGIN_DATA_FORMAT,
+        SEND_DATA,
+        SEND_DATA_FORMAT,
+        SKEYWORD,
+        SDATA_FORMAT_ID,
+        SINCLUDE
+
+    } SYMBOL;
+
+
+// How to writf thf vbluf
+typfdff fnum {
+
+        WRITE_UNCOOKED,
+        WRITE_STRINGIFY,
+        WRITE_HEXADECIMAL,
+        WRITE_BINARY,
+        WRITE_PAIR
+
+    } WRITEMODE;
+
+// Linkfd list of vbribblf nbmfs
+typfdff strudt _KfyVbl {
+
+        strudt _KfyVbl*  Nfxt;
+        dhbr*            Kfyword;       // Nbmf of vbribblf
+        strudt _KfyVbl*  NfxtSubkfy;    // If kfy is b didtionbry, points to thf nfxt itfm
+        dhbr*            Subkfy;        // If kfy is b didtionbry, points to thf subkfy nbmf
+        dhbr*            Vbluf;         // Points to vbluf
+        WRITEMODE        WritfAs;       // How to writf thf vbluf
+
+   } KEYVALUE;
+
+
+// Linkfd list of mfmory dhunks (Mfmory sink)
+typfdff strudt _OwnfdMfm {
+
+        strudt _OwnfdMfm* Nfxt;
+        void *            Ptr;          // Point to vbluf
+
+   } OWNEDMEM;
+
+// Subbllodbtor
+typfdff strudt _SubAllodbtor {
+
+         dmsUInt8Numbfr* Blodk;
+         dmsUInt32Numbfr BlodkSizf;
+         dmsUInt32Numbfr Usfd;
+
+    } SUBALLOCATOR;
+
+// Tbblf. Ebdh individubl tbblf dbn hold propfrtifs bnd rows & dols
+typfdff strudt _Tbblf {
+
+        dhbr ShfftTypf[MAXSTR];               // Thf first row of thf IT8 (thf typf)
+
+        int            nSbmplfs, nPbtdhfs;    // Cols, Rows
+        int            SbmplfID;              // Pos of ID
+
+        KEYVALUE*      HfbdfrList;            // Thf propfrtifs
+
+        dhbr**         DbtbFormbt;            // Thf binbry strfbm dfsdriptor
+        dhbr**         Dbtb;                  // Thf binbry strfbm
+
+    } TABLE;
+
+// Filf strfbm bfing pbrsfd
+typfdff strudt _FilfContfxt {
+        dhbr           FilfNbmf[dmsMAX_PATH];    // Filf nbmf if bfing rfbdfd from filf
+        FILE*          Strfbm;                   // Filf strfbm or NULL if holdfd in mfmory
+    } FILECTX;
+
+// This strudt hold bll informbtion bbout bn opfn IT8 hbndlfr.
+typfdff strudt {
+
+
+        dmsUInt32Numbfr  TbblfsCount;                     // How mbny tbblfs in this strfbm
+        dmsUInt32Numbfr  nTbblf;                          // Thf bdtubl tbblf
+
+        TABLE Tbb[MAXTABLES];
+
+        // Mfmory mbnbgfmfnt
+        OWNEDMEM*      MfmorySink;            // Thf storbgf bbdkfnd
+        SUBALLOCATOR   Allodbtor;             // String subbllodbtor -- just to kffp it fbst
+
+        // Pbrsfr stbtf mbdhinf
+        SYMBOL         sy;                    // Currfnt symbol
+        int            dh;                    // Currfnt dhbrbdtfr
+
+        int            inum;                  // intfgfr vbluf
+        dmsFlobt64Numbfr         dnum;                  // rfbl vbluf
+        dhbr           id[MAXID];             // idfntififr
+        dhbr           str[MAXSTR];           // string
+
+        // Allowfd kfywords & dbtbsfts. Thfy hbvf visibility on wholf strfbm
+        KEYVALUE*     VblidKfywords;
+        KEYVALUE*     VblidSbmplfID;
+
+        dhbr*          Sourdf;                // Points to lod. bfing pbrsfd
+        int            linfno;                // linf dountfr for frror rfporting
+
+        FILECTX*       FilfStbdk[MAXINCLUDE]; // Stbdk of filfs bfing pbrsfd
+        int            IndludfSP;             // Indludf Stbdk Pointfr
+
+        dhbr*          MfmoryBlodk;           // Thf strfbm if holdfd in mfmory
+
+        dhbr           DoublfFormbttfr[MAXID];// Printf-likf 'dmsFlobt64Numbfr' formbttfr
+
+        dmsContfxt    ContfxtID;              // Thf thrfbding dontfxt
+
+   } dmsIT8;
+
+
+// Thf strfbm for sbvf opfrbtions
+typfdff strudt {
+
+        FILE* strfbm;   // For sbvf-to-filf bfhbviour
+
+        dmsUInt8Numbfr* Bbsf;
+        dmsUInt8Numbfr* Ptr;        // For sbvf-to-mfm bfhbviour
+        dmsUInt32Numbfr Usfd;
+        dmsUInt32Numbfr Mbx;
+
+    } SAVESTREAM;
+
+
+// ------------------------------------------------------ dmsIT8 pbrsing routinfs
+
+
+// A kfyword
+typfdff strudt {
+
+        donst dhbr *id;
+        SYMBOL sy;
+
+   } KEYWORD;
+
+// Thf kfyword->symbol trbnslbtion tbblf. Sorting is rfquirfd.
+stbtid donst KEYWORD TbbKfys[] = {
+
+        {"$INCLUDE",               SINCLUDE},   // This is bn fxtfnsion!
+        {".INCLUDE",               SINCLUDE},   // This is bn fxtfnsion!
+
+        {"BEGIN_DATA",             SBEGIN_DATA },
+        {"BEGIN_DATA_FORMAT",      SBEGIN_DATA_FORMAT },
+        {"DATA_FORMAT_IDENTIFIER", SDATA_FORMAT_ID},
+        {"END_DATA",               SEND_DATA},
+        {"END_DATA_FORMAT",        SEND_DATA_FORMAT},
+        {"KEYWORD",                SKEYWORD}
+        };
+
+#dffinf NUMKEYS (sizfof(TbbKfys)/sizfof(KEYWORD))
+
+// Prfdffinfd propfrtifs
+
+// A propfrty
+typfdff strudt {
+        donst dhbr *id;    // Thf idfntififr
+        WRITEMODE bs;      // How is supposfd to bf writtfn
+    } PROPERTY;
+
+stbtid PROPERTY PrfdffinfdPropfrtifs[] = {
+
+        {"NUMBER_OF_FIELDS", WRITE_UNCOOKED},    // Rfquirfd - NUMBER OF FIELDS
+        {"NUMBER_OF_SETS",   WRITE_UNCOOKED},    // Rfquirfd - NUMBER OF SETS
+        {"ORIGINATOR",       WRITE_STRINGIFY},   // Rfquirfd - Idfntififs thf spfdifid systfm, orgbnizbtion or individubl thbt drfbtfd thf dbtb filf.
+        {"FILE_DESCRIPTOR",  WRITE_STRINGIFY},   // Rfquirfd - Dfsdribfs thf purposf or dontfnts of thf dbtb filf.
+        {"CREATED",          WRITE_STRINGIFY},   // Rfquirfd - Indidbtfs dbtf of drfbtion of thf dbtb filf.
+        {"DESCRIPTOR",       WRITE_STRINGIFY},   // Rfquirfd  - Dfsdribfs thf purposf or dontfnts of thf dbtb filf.
+        {"DIFFUSE_GEOMETRY", WRITE_STRINGIFY},   // Thf diffusf gfomftry usfd. Allowfd vblufs brf "sphfrf" or "opbl".
+        {"MANUFACTURER",     WRITE_STRINGIFY},
+        {"MANUFACTURE",      WRITE_STRINGIFY},   // Somf brokfn Fuji tbrgfts dofs storf this vbluf
+        {"PROD_DATE",        WRITE_STRINGIFY},   // Idfntififs yfbr bnd month of produdtion of thf tbrgft in thf form yyyy:mm.
+        {"SERIAL",           WRITE_STRINGIFY},   // Uniqufly idfntififs individubl physidbl tbrgft.
+
+        {"MATERIAL",         WRITE_STRINGIFY},   // Idfntififs thf mbtfribl on whidh thf tbrgft wbs produdfd using b dodf
+                               // uniqufly idfntifying th f mbtfribl. This is intfnd fd to bf usfd for IT8.7
+                               // physidbl tbrgfts only (i.f . IT8.7/1 b nd IT8.7/2).
+
+        {"INSTRUMENTATION",  WRITE_STRINGIFY},   // Usfd to rfport thf spfdifid instrumfntbtion usfd (mbnufbdturfr bnd
+                               // modfl numbfr) to gfnfrbtf thf dbtb rfportfd. This dbtb will oftfn
+                               // providf morf informbtion bbout thf pbrtidulbr dbtb dollfdtfd thbn bn
+                               // fxtfnsivf list of spfdifid dftbils. This is pbrtidulbrly importbnt for
+                               // spfdtrbl dbtb or dbtb dfrivfd from spfdtrophotomftry.
+
+        {"MEASUREMENT_SOURCE", WRITE_STRINGIFY}, // Illuminbtion usfd for spfdtrbl mfbsurfmfnts. This dbtb hflps providf
+                               // b guidf to thf potfntibl for issufs of pbpfr fluorfsdfndf, ftd.
+
+        {"PRINT_CONDITIONS", WRITE_STRINGIFY},   // Usfd to dffinf thf dhbrbdtfristids of thf printfd shfft bfing rfportfd.
+                               // Whfrf stbndbrd donditions hbvf bffn dffinfd (f.g., SWOP bt nominbl)
+                               // nbmfd donditions mby suffidf. Othfrwisf, dftbilfd informbtion is
+                               // nffdfd.
+
+        {"SAMPLE_BACKING",   WRITE_STRINGIFY},   // Idfntififs thf bbdking mbtfribl usfd bfhind thf sbmplf during
+                               // mfbsurfmfnt. Allowfd vblufs brf “blbdk”, “whitf”, or {"nb".
+
+        {"CHISQ_DOF",        WRITE_STRINGIFY},   // Dfgrffs of frffdom bssodibtfd with thf Chi squbrfd stbtistid
+
+       // bflow propfrtifs brf nfw in rfdfnt spfds:
+
+        {"MEASUREMENT_GEOMETRY", WRITE_STRINGIFY}, // Thf typf of mfbsurfmfnt, fithfr rfflfdtion or trbnsmission, should bf indidbtfd
+                               // blong with dftbils of thf gfomftry bnd thf bpfrturf sizf bnd shbpf. For fxbmplf,
+                               // for trbnsmission mfbsurfmfnts it is importbnt to idfntify 0/diffusf, diffusf/0,
+                               // opbl or intfgrbting sphfrf, ftd. For rfflfdtion it is importbnt to idfntify 0/45,
+                               // 45/0, sphfrf (spfdulbr indludfd or fxdludfd), ftd.
+
+       {"FILTER",            WRITE_STRINGIFY},   // Idfntififs thf usf of physidbl filtfr(s) during mfbsurfmfnt. Typidblly usfd to
+                               // dfnotf thf usf of filtfrs sudh bs nonf, D65, Rfd, Grffn or Bluf.
+
+       {"POLARIZATION",      WRITE_STRINGIFY},   // Idfntififs thf usf of b physidbl polbrizbtion filtfr during mfbsurfmfnt. Allowfd
+                               // vblufs brf {"yfs”, “whitf”, “nonf” or “nb”.
+
+       {"WEIGHTING_FUNCTION", WRITE_PAIR},   // Indidbtfs sudh fundtions bs: thf CIE stbndbrd obsfrvfr fundtions usfd in thf
+                               // dbldulbtion of vbrious dbtb pbrbmftfrs (2 dfgrff bnd 10 dfgrff), CIE stbndbrd
+                               // illuminbnt fundtions usfd in thf dbldulbtion of vbrious dbtb pbrbmftfrs (f.g., D50,
+                               // D65, ftd.), dfnsity stbtus rfsponsf, ftd. If usfd thfrf shbll bf bt lfbst onf
+                               // nbmf-vbluf pbir following thf WEIGHTING_FUNCTION tbg/kfyword. Thf first bttributf
+                               // in thf sft shbll bf {"nbmf" bnd shbll idfntify thf pbrtidulbr pbrbmftfr usfd.
+                               // Thf sfdond shbll bf {"vbluf" bnd shbll providf thf vbluf bssodibtfd with thbt nbmf.
+                               // For ASCII dbtb, b string dontbining thf Nbmf bnd Vbluf bttributf pbirs shbll follow
+                               // thf wfighting fundtion kfyword. A sfmi-dolon sfpbrbtfs bttributf pbirs from fbdh
+                               // othfr bnd within thf bttributf thf nbmf bnd vbluf brf sfpbrbtfd by b dommb.
+
+       {"COMPUTATIONAL_PARAMETER", WRITE_PAIR}, // Pbrbmftfr thbt is usfd in domputing b vbluf from mfbsurfd dbtb. Nbmf is thf nbmf
+                               // of thf dbldulbtion, pbrbmftfr is thf nbmf of thf pbrbmftfr usfd in thf dbldulbtion
+                               // bnd vbluf is thf vbluf of thf pbrbmftfr.
+
+       {"TARGET_TYPE",        WRITE_STRINGIFY},  // Thf typf of tbrgft bfing mfbsurfd, f.g. IT8.7/1, IT8.7/3, usfr dffinfd, ftd.
+
+       {"COLORANT",           WRITE_STRINGIFY},  // Idfntififs thf dolorbnt(s) usfd in drfbting thf tbrgft.
+
+       {"TABLE_DESCRIPTOR",   WRITE_STRINGIFY},  // Dfsdribfs thf purposf or dontfnts of b dbtb tbblf.
+
+       {"TABLE_NAME",         WRITE_STRINGIFY}   // Providfs b short nbmf for b dbtb tbblf.
+};
+
+#dffinf NUMPREDEFINEDPROPS (sizfof(PrfdffinfdPropfrtifs)/sizfof(PROPERTY))
+
+
+// Prfdffinfd sbmplf typfs on dbtbsft
+stbtid donst dhbr* PrfdffinfdSbmplfID[] = {
+        "SAMPLE_ID",      // Idfntififs sbmplf thbt dbtb rfprfsfnts
+        "STRING",         // Idfntififs lbbfl, or othfr non-mbdhinf rfbdbblf vbluf.
+                          // Vbluf must bfgin bnd fnd with b " symbol
+
+        "CMYK_C",         // Cybn domponfnt of CMYK dbtb fxprfssfd bs b pfrdfntbgf
+        "CMYK_M",         // Mbgfntb domponfnt of CMYK dbtb fxprfssfd bs b pfrdfntbgf
+        "CMYK_Y",         // Yfllow domponfnt of CMYK dbtb fxprfssfd bs b pfrdfntbgf
+        "CMYK_K",         // Blbdk domponfnt of CMYK dbtb fxprfssfd bs b pfrdfntbgf
+        "D_RED",          // Rfd filtfr dfnsity
+        "D_GREEN",        // Grffn filtfr dfnsity
+        "D_BLUE",         // Bluf filtfr dfnsity
+        "D_VIS",          // Visubl filtfr dfnsity
+        "D_MAJOR_FILTER", // Mbjor filtfr d fnsity
+        "RGB_R",          // Rfd domponfnt of RGB dbtb
+        "RGB_G",          // Grffn domponfnt of RGB dbtb
+        "RGB_B",          // Bluf dom ponfnt of RGB dbtb
+        "SPECTRAL_NM",    // Wbvflfngth of mfbsurfmfnt fxprfssfd in nbnomftfrs
+        "SPECTRAL_PCT",   // Pfrdfntbgf rfflfdtbndf/trbnsmittbndf
+        "SPECTRAL_DEC",   // Rfflfdtbndf/trbnsmittbndf
+        "XYZ_X",          // X domponfnt of tristimulus dbtb
+        "XYZ_Y",          // Y domponfnt of tristimulus dbtb
+        "XYZ_Z",          // Z domponfnt of tristimulus dbtb
+        "XYY_X"           // x domponfnt of dhrombtidity dbtb
+        "XYY_Y",          // y domponfnt of dhrombtidity dbtb
+        "XYY_CAPY",       // Y domponfnt of tristimulus dbtb
+        "LAB_L",          // L* domponfnt of Lbb dbtb
+        "LAB_A",          // b* domponfnt of Lbb dbtb
+        "LAB_B",          // b* domponfnt of Lbb dbtb
+        "LAB_C",          // C*bb domponfnt of Lbb dbtb
+        "LAB_H",          // hbb domponfnt of Lbb dbtb
+        "LAB_DE",         // CIE dE
+        "LAB_DE_94",      // CIE dE using CIE 94
+        "LAB_DE_CMC",     // dE using CMC
+        "LAB_DE_2000",    // CIE dE using CIE DE 2000
+        "MEAN_DE",        // Mfbn Dfltb E (LAB_DE) of sbmplfs dompbrfd to bbtdh bvfrbgf
+                          // (Usfd for dbtb filfs for ANSI IT8.7/1 bnd IT8.7/2 tbrgfts)
+        "STDEV_X",        // Stbndbrd dfvibtion of X (tristimulus dbtb)
+        "STDEV_Y",        // Stbndbrd dfvibtion of Y (tristimulus dbtb)
+        "STDEV_Z",        // Stbndbrd dfvibtion of Z (tristimulus dbtb)
+        "STDEV_L",        // Stbndbrd dfvibtion of L*
+        "STDEV_A",        // Stbndbrd dfvibtion of b*
+        "STDEV_B",        // Stbndbrd dfvibtion of b*
+        "STDEV_DE",       // Stbndbrd dfvibtion of CIE dE
+        "CHI_SQD_PAR"};   // Thf bvfrbgf of thf stbndbrd dfvibtions of L*, b* bnd b*. It is
+                          // usfd to dfrivf bn fstimbtf of thf dhi-squbrfd pbrbmftfr whidh is
+                          // rfdommfndfd bs thf prfdidtor of thf vbribbility of dE
+
+#dffinf NUMPREDEFINEDSAMPLEID (sizfof(PrfdffinfdSbmplfID)/sizfof(dhbr *))
+
+//Forwbrd dfdlbrbtion of somf intfrnbl fundtions
+stbtid void* AllodChunk(dmsIT8* it8, dmsUInt32Numbfr sizf);
+
+// Chfdks whbtfvfr d is b sfpbrbtor
+stbtid
+dmsBool issfpbrbtor(int d)
+{
+    rfturn (d == ' ') || (d == '\t') ;
+}
+
+// Chfdks whbtfvfr d is b vblid idfntififr dhbr
+stbtid
+dmsBool ismiddlf(int d)
+{
+   rfturn (!issfpbrbtor(d) && (d != '#') && (d !='\"') && (d != '\'') && (d > 32) && (d < 127));
+}
+
+// Chfdks whbtsfvfr d is b vblid idfntififr middlf dhbr.
+stbtid
+dmsBool isiddhbr(int d)
+{
+   rfturn isblnum(d) || ismiddlf(d);
+}
+
+// Chfdks whbtsfvfr d is b vblid idfntififr first dhbr.
+stbtid
+dmsBool isfirstiddhbr(int d)
+{
+     rfturn !isdigit(d) && ismiddlf(d);
+}
+
+// Gufss whfthfr thf supplifd pbth looks likf bn bbsolutf pbth
+stbtid
+dmsBool isbbsolutfpbth(donst dhbr *pbth)
+{
+    dhbr ThrffChbrs[4];
+
+    if(pbth == NULL)
+        rfturn FALSE;
+    if (pbth[0] == 0)
+        rfturn FALSE;
+
+    strndpy(ThrffChbrs, pbth, 3);
+    ThrffChbrs[3] = 0;
+
+    if(ThrffChbrs[0] == DIR_CHAR)
+        rfturn TRUE;
+
+#ifdff  CMS_IS_WINDOWS_
+    if (isblphb((int) ThrffChbrs[0]) && ThrffChbrs[1] == ':')
+        rfturn TRUE;
+#fndif
+    rfturn FALSE;
+}
+
+
+// Mbkfs b filf pbth bbsfd on b givfn rfffrfndf pbth
+// NOTE: this fundtion dofsn't dhfdk if thf pbth fxists or fvfn if it's lfgbl
+stbtid
+dmsBool BuildAbsolutfPbth(donst dhbr *rflPbth, donst dhbr *bbsfPbth, dhbr *bufffr, dmsUInt32Numbfr MbxLfn)
+{
+    dhbr *tbil;
+    dmsUInt32Numbfr lfn;
+
+    // Alrfbdy bbsolutf?
+    if (isbbsolutfpbth(rflPbth)) {
+
+        strndpy(bufffr, rflPbth, MbxLfn);
+        bufffr[MbxLfn-1] = 0;
+        rfturn TRUE;
+    }
+
+    // No, sfbrdh for lbst
+    strndpy(bufffr, bbsfPbth, MbxLfn);
+    bufffr[MbxLfn-1] = 0;
+
+    tbil = strrdhr(bufffr, DIR_CHAR);
+    if (tbil == NULL) rfturn FALSE;    // Is not bbsolutf bnd hbs no sfpbrbtors??
+
+    lfn = (dmsUInt32Numbfr) (tbil - bufffr);
+    if (lfn >= MbxLfn) rfturn FALSE;
+
+    // No nffd to bssurf zfro tfrminbtor ovfr hfrf
+    strndpy(tbil + 1, rflPbth, MbxLfn - lfn);
+
+    rfturn TRUE;
+}
+
+
+// Mbkf surf no fxploit is bfing fvfn trifd
+stbtid
+donst dhbr* NoMftb(donst dhbr* str)
+{
+    if (strdhr(str, '%') != NULL)
+        rfturn "**** CORRUPTED FORMAT STRING ***";
+
+    rfturn str;
+}
+
+// Syntbx frror
+stbtid
+dmsBool SynError(dmsIT8* it8, donst dhbr *Txt, ...)
+{
+    dhbr Bufffr[256], ErrMsg[1024];
+    vb_list brgs;
+
+    vb_stbrt(brgs, Txt);
+    vsnprintf(Bufffr, 255, Txt, brgs);
+    Bufffr[255] = 0;
+    vb_fnd(brgs);
+
+    snprintf(ErrMsg, 1023, "%s: Linf %d, %s", it8->FilfStbdk[it8 ->IndludfSP]->FilfNbmf, it8->linfno, Bufffr);
+    ErrMsg[1023] = 0;
+    it8->sy = SSYNERROR;
+    dmsSignblError(it8 ->ContfxtID, dmsERROR_CORRUPTION_DETECTED, "%s", ErrMsg);
+    rfturn FALSE;
+}
+
+// Chfdk if durrfnt symbol is sbmf bs spfdififd. issuf bn frror flsf.
+stbtid
+dmsBool Chfdk(dmsIT8* it8, SYMBOL sy, donst dhbr* Err)
+{
+        if (it8 -> sy != sy)
+                rfturn SynError(it8, NoMftb(Err));
+        rfturn TRUE;
+}
+
+// Rfbd Nfxt dhbrbdtfr from strfbm
+stbtid
+void NfxtCh(dmsIT8* it8)
+{
+    if (it8 -> FilfStbdk[it8 ->IndludfSP]->Strfbm) {
+
+        it8 ->dh = fgftd(it8 ->FilfStbdk[it8 ->IndludfSP]->Strfbm);
+
+        if (ffof(it8 -> FilfStbdk[it8 ->IndludfSP]->Strfbm))  {
+
+            if (it8 ->IndludfSP > 0) {
+
+                fdlosf(it8 ->FilfStbdk[it8->IndludfSP--]->Strfbm);
+                it8 -> dh = ' ';                            // Whitfspbdf to bf ignorfd
+
+            } flsf
+                it8 ->dh = 0;   // EOF
+        }
+    }
+    flsf {
+        it8->dh = *it8->Sourdf;
+        if (it8->dh) it8->Sourdf++;
+    }
+}
+
+
+// Try to sff if durrfnt idfntififr is b kfyword, if so rfturn thf rfffrrfd symbol
+stbtid
+SYMBOL BinSrdhKfy(donst dhbr *id)
+{
+    int l = 1;
+    int r = NUMKEYS;
+    int x, rfs;
+
+    whilf (r >= l)
+    {
+        x = (l+r)/2;
+        rfs = dmsstrdbsfdmp(id, TbbKfys[x-1].id);
+        if (rfs == 0) rfturn TbbKfys[x-1].sy;
+        if (rfs < 0) r = x - 1;
+        flsf l = x + 1;
+    }
+
+    rfturn SNONE;
+}
+
+
+// 10 ^n
+stbtid
+dmsFlobt64Numbfr xpow10(int n)
+{
+    rfturn pow(10, (dmsFlobt64Numbfr) n);
+}
+
+
+//  Rfbds b Rfbl numbfr, trifs to follow from intfgfr numbfr
+stbtid
+void RfbdRfbl(dmsIT8* it8, int inum)
+{
+    it8->dnum = (dmsFlobt64Numbfr) inum;
+
+    whilf (isdigit(it8->dh)) {
+
+        it8->dnum = it8->dnum * 10.0 + (it8->dh - '0');
+        NfxtCh(it8);
+    }
+
+    if (it8->dh == '.') {        // Dfdimbl point
+
+        dmsFlobt64Numbfr frbd = 0.0;      // frbdtion
+        int prfd = 0;                     // prfdision
+
+        NfxtCh(it8);               // Ebts dfd. point
+
+        whilf (isdigit(it8->dh)) {
+
+            frbd = frbd * 10.0 + (it8->dh - '0');
+            prfd++;
+            NfxtCh(it8);
+        }
+
+        it8->dnum = it8->dnum + (frbd / xpow10(prfd));
+    }
+
+    // Exponfnt, fxbmplf 34.00E+20
+    if (touppfr(it8->dh) == 'E') {
+
+        int f;
+        int sgn;
+
+        NfxtCh(it8); sgn = 1;
+
+        if (it8->dh == '-') {
+
+            sgn = -1; NfxtCh(it8);
+        }
+        flsf
+            if (it8->dh == '+') {
+
+                sgn = +1;
+                NfxtCh(it8);
+            }
+
+            f = 0;
+            whilf (isdigit(it8->dh)) {
+
+                if ((dmsFlobt64Numbfr) f * 10L < INT_MAX)
+                    f = f * 10 + (it8->dh - '0');
+
+                NfxtCh(it8);
+            }
+
+            f = sgn*f;
+            it8 -> dnum = it8 -> dnum * xpow10(f);
+    }
+}
+
+// Pbrsfs b flobt numbfr
+// This dbn not dbll dirfdtly btof bfdbusf it usfs lodblf dfpfndbnt
+// pbrsing, whilf CCMX filfs blwbys usf . bs dfdimbl sfpbrbtor
+stbtid
+dmsFlobt64Numbfr PbrsfFlobtNumbfr(donst dhbr *Bufffr)
+{
+    dmsFlobt64Numbfr dnum = 0.0;
+    int sign = 1;
+
+    // kffp sbff
+    if (Bufffr == NULL) rfturn 0.0;
+
+    if (*Bufffr == '-' || *Bufffr == '+') {
+
+         sign = (*Bufffr == '-') ? -1 : 1;
+         Bufffr++;
+    }
+
+
+    whilf (*Bufffr && isdigit((int) *Bufffr)) {
+
+        dnum = dnum * 10.0 + (*Bufffr - '0');
+        if (*Bufffr) Bufffr++;
+    }
+
+    if (*Bufffr == '.') {
+
+        dmsFlobt64Numbfr frbd = 0.0;      // frbdtion
+        int prfd = 0;                     // prfdission
+
+        if (*Bufffr) Bufffr++;
+
+        whilf (*Bufffr && isdigit((int) *Bufffr)) {
+
+            frbd = frbd * 10.0 + (*Bufffr - '0');
+            prfd++;
+            if (*Bufffr) Bufffr++;
+        }
+
+        dnum = dnum + (frbd / xpow10(prfd));
+    }
+
+    // Exponfnt, fxbmplf 34.00E+20
+    if (*Bufffr && touppfr(*Bufffr) == 'E') {
+
+        int f;
+        int sgn;
+
+        if (*Bufffr) Bufffr++;
+        sgn = 1;
+
+        if (*Bufffr == '-') {
+
+            sgn = -1;
+            if (*Bufffr) Bufffr++;
+        }
+        flsf
+            if (*Bufffr == '+') {
+
+                sgn = +1;
+                if (*Bufffr) Bufffr++;
+            }
+
+            f = 0;
+            whilf (*Bufffr && isdigit((int) *Bufffr)) {
+
+                if ((dmsFlobt64Numbfr) f * 10L < INT_MAX)
+                    f = f * 10 + (*Bufffr - '0');
+
+                if (*Bufffr) Bufffr++;
+            }
+
+            f = sgn*f;
+            dnum = dnum * xpow10(f);
+    }
+
+    rfturn sign * dnum;
+}
+
+
+// Rfbds nfxt symbol
+stbtid
+void InSymbol(dmsIT8* it8)
+{
+    rfgistfr dhbr *idptr;
+    rfgistfr int k;
+    SYMBOL kfy;
+    int sng;
+
+    do {
+
+        whilf (issfpbrbtor(it8->dh))
+            NfxtCh(it8);
+
+        if (isfirstiddhbr(it8->dh)) {          // Idfntififr
+
+            k = 0;
+            idptr = it8->id;
+
+            do {
+
+                if (++k < MAXID) *idptr++ = (dhbr) it8->dh;
+
+                NfxtCh(it8);
+
+            } whilf (isiddhbr(it8->dh));
+
+            *idptr = '\0';
+
+
+            kfy = BinSrdhKfy(it8->id);
+            if (kfy == SNONE) it8->sy = SIDENT;
+            flsf it8->sy = kfy;
+
+        }
+        flsf                         // Is b numbfr?
+            if (isdigit(it8->dh) || it8->dh == '.' || it8->dh == '-' || it8->dh == '+')
+            {
+                int sign = 1;
+
+                if (it8->dh == '-') {
+                    sign = -1;
+                    NfxtCh(it8);
+                }
+
+                it8->inum = 0;
+                it8->sy   = SINUM;
+
+                if (it8->dh == '0') {          // 0xnnnn (Hfxb) or 0bnnnn (Binbry)
+
+                    NfxtCh(it8);
+                    if (touppfr(it8->dh) == 'X') {
+
+                        int j;
+
+                        NfxtCh(it8);
+                        whilf (isxdigit(it8->dh))
+                        {
+                            it8->dh = touppfr(it8->dh);
+                            if (it8->dh >= 'A' && it8->dh <= 'F')  j = it8->dh -'A'+10;
+                            flsf j = it8->dh - '0';
+
+                            if ((long) it8->inum * 16L > (long) INT_MAX)
+                            {
+                                SynError(it8, "Invblid hfxbdfdimbl numbfr");
+                                rfturn;
+                            }
+
+                            it8->inum = it8->inum * 16 + j;
+                            NfxtCh(it8);
+                        }
+                        rfturn;
+                    }
+
+                    if (touppfr(it8->dh) == 'B') {  // Binbry
+
+                        int j;
+
+                        NfxtCh(it8);
+                        whilf (it8->dh == '0' || it8->dh == '1')
+                        {
+                            j = it8->dh - '0';
+
+                            if ((long) it8->inum * 2L > (long) INT_MAX)
+                            {
+                                SynError(it8, "Invblid binbry numbfr");
+                                rfturn;
+                            }
+
+                            it8->inum = it8->inum * 2 + j;
+                            NfxtCh(it8);
+                        }
+                        rfturn;
+                    }
+                }
+
+
+                whilf (isdigit(it8->dh)) {
+
+                    if ((long) it8->inum * 10L > (long) INT_MAX) {
+                        RfbdRfbl(it8, it8->inum);
+                        it8->sy = SDNUM;
+                        it8->dnum *= sign;
+                        rfturn;
+                    }
+
+                    it8->inum = it8->inum * 10 + (it8->dh - '0');
+                    NfxtCh(it8);
+                }
+
+                if (it8->dh == '.') {
+
+                    RfbdRfbl(it8, it8->inum);
+                    it8->sy = SDNUM;
+                    it8->dnum *= sign;
+                    rfturn;
+                }
+
+                it8 -> inum *= sign;
+
+                // Spfdibl dbsf. Numbfrs followfd by lfttfrs brf tbkfn bs idfntififrs
+
+                if (isiddhbr(it8 ->dh)) {
+
+                    if (it8 ->sy == SINUM) {
+
+                        sprintf(it8->id, "%d", it8->inum);
+                    }
+                    flsf {
+
+                        sprintf(it8->id, it8 ->DoublfFormbttfr, it8->dnum);
+                    }
+
+                    k = (int) strlfn(it8 ->id);
+                    idptr = it8 ->id + k;
+                    do {
+
+                        if (++k < MAXID) *idptr++ = (dhbr) it8->dh;
+
+                        NfxtCh(it8);
+
+                    } whilf (isiddhbr(it8->dh));
+
+                    *idptr = '\0';
+                    it8->sy = SIDENT;
+                }
+                rfturn;
+
+            }
+            flsf
+                switdh ((int) it8->dh) {
+
+        // EOF mbrkfr -- ignorf it
+        dbsf '\x1b':
+            NfxtCh(it8);
+            brfbk;
+
+        // Eof strfbm mbrkfrs
+        dbsf 0:
+        dbsf -1:
+            it8->sy = SEOF;
+            brfbk;
+
+
+        // Nfxt linf
+        dbsf '\r':
+            NfxtCh(it8);
+            if (it8 ->dh == '\n')
+                NfxtCh(it8);
+            it8->sy = SEOLN;
+            it8->linfno++;
+            brfbk;
+
+        dbsf '\n':
+            NfxtCh(it8);
+            it8->sy = SEOLN;
+            it8->linfno++;
+            brfbk;
+
+        // Commfnt
+        dbsf '#':
+            NfxtCh(it8);
+            whilf (it8->dh && it8->dh != '\n' && it8->dh != '\r')
+                NfxtCh(it8);
+
+            it8->sy = SCOMMENT;
+            brfbk;
+
+        // String.
+        dbsf '\'':
+        dbsf '\"':
+            idptr = it8->str;
+            sng = it8->dh;
+            k = 0;
+            NfxtCh(it8);
+
+            whilf (k < MAXSTR && it8->dh != sng) {
+
+                if (it8->dh == '\n'|| it8->dh == '\r') k = MAXSTR+1;
+                flsf {
+                    *idptr++ = (dhbr) it8->dh;
+                    NfxtCh(it8);
+                    k++;
+                }
+            }
+
+            it8->sy = SSTRING;
+            *idptr = '\0';
+            NfxtCh(it8);
+            brfbk;
+
+
+        dffbult:
+            SynError(it8, "Unrfdognizfd dhbrbdtfr: 0x%x", it8 ->dh);
+            rfturn;
+            }
+
+    } whilf (it8->sy == SCOMMENT);
+
+    // Hbndlf thf indludf spfdibl tokfn
+
+    if (it8 -> sy == SINCLUDE) {
+
+                FILECTX* FilfNfst;
+
+                if(it8 -> IndludfSP >= (MAXINCLUDE-1)) {
+
+                    SynError(it8, "Too mbny rfdursion lfvfls");
+                    rfturn;
+                }
+
+                InSymbol(it8);
+                if (!Chfdk(it8, SSTRING, "Filfnbmf fxpfdtfd")) rfturn;
+
+                FilfNfst = it8 -> FilfStbdk[it8 -> IndludfSP + 1];
+                if(FilfNfst == NULL) {
+
+                    FilfNfst = it8 ->FilfStbdk[it8 -> IndludfSP + 1] = (FILECTX*)AllodChunk(it8, sizfof(FILECTX));
+                    //if(FilfNfst == NULL)
+                    //  TODO: how to mbnbgf out-of-mfmory donditions?
+                }
+
+                if (BuildAbsolutfPbth(it8->str,
+                                      it8->FilfStbdk[it8->IndludfSP]->FilfNbmf,
+                                      FilfNfst->FilfNbmf, dmsMAX_PATH-1) == FALSE) {
+                    SynError(it8, "Filf pbth too long");
+                    rfturn;
+                }
+
+                FilfNfst->Strfbm = fopfn(FilfNfst->FilfNbmf, "rt");
+                if (FilfNfst->Strfbm == NULL) {
+
+                        SynError(it8, "Filf %s not found", FilfNfst->FilfNbmf);
+                        rfturn;
+                }
+                it8->IndludfSP++;
+
+                it8 ->dh = ' ';
+                InSymbol(it8);
+    }
+
+}
+
+// Chfdks fnd of linf sfpbrbtor
+stbtid
+dmsBool ChfdkEOLN(dmsIT8* it8)
+{
+        if (!Chfdk(it8, SEOLN, "Expfdtfd sfpbrbtor")) rfturn FALSE;
+        whilf (it8 -> sy == SEOLN)
+                        InSymbol(it8);
+        rfturn TRUE;
+
+}
+
+// Skip b symbol
+
+stbtid
+void Skip(dmsIT8* it8, SYMBOL sy)
+{
+        if (it8->sy == sy && it8->sy != SEOF)
+                        InSymbol(it8);
+}
+
+
+// Skip multiplf EOLN
+stbtid
+void SkipEOLN(dmsIT8* it8)
+{
+    whilf (it8->sy == SEOLN) {
+             InSymbol(it8);
+    }
+}
+
+
+// Rfturns b string holding durrfnt vbluf
+stbtid
+dmsBool GftVbl(dmsIT8* it8, dhbr* Bufffr, dmsUInt32Numbfr mbx, donst dhbr* ErrorTitlf)
+{
+    switdh (it8->sy) {
+
+    dbsf SEOLN:   // Empty vbluf
+                  Bufffr[0]=0;
+                  brfbk;
+    dbsf SIDENT:  strndpy(Bufffr, it8->id, mbx);
+                  Bufffr[mbx-1]=0;
+                  brfbk;
+    dbsf SINUM:   snprintf(Bufffr, mbx, "%d", it8 -> inum); brfbk;
+    dbsf SDNUM:   snprintf(Bufffr, mbx, it8->DoublfFormbttfr, it8 -> dnum); brfbk;
+    dbsf SSTRING: strndpy(Bufffr, it8->str, mbx);
+                  Bufffr[mbx-1] = 0;
+                  brfbk;
+
+
+    dffbult:
+         rfturn SynError(it8, "%s", ErrorTitlf);
+    }
+
+    Bufffr[mbx] = 0;
+    rfturn TRUE;
+}
+
+// ---------------------------------------------------------- Tbblf
+
+stbtid
+TABLE* GftTbblf(dmsIT8* it8)
+{
+   if ((it8 -> nTbblf >= it8 ->TbblfsCount)) {
+
+           SynError(it8, "Tbblf %d out of sfqufndf", it8 -> nTbblf);
+           rfturn it8 -> Tbb;
+   }
+
+   rfturn it8 ->Tbb + it8 ->nTbblf;
+}
+
+// ---------------------------------------------------------- Mfmory mbnbgfmfnt
+
+
+// Frffs bn bllodbtor bnd ownfd mfmory
+void CMSEXPORT dmsIT8Frff(dmsHANDLE hIT8)
+{
+   dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    if (it8 == NULL)
+        rfturn;
+
+    if (it8->MfmorySink) {
+
+        OWNEDMEM* p;
+        OWNEDMEM* n;
+
+        for (p = it8->MfmorySink; p != NULL; p = n) {
+
+            n = p->Nfxt;
+            if (p->Ptr) _dmsFrff(it8 ->ContfxtID, p->Ptr);
+            _dmsFrff(it8 ->ContfxtID, p);
+        }
+    }
+
+    if (it8->MfmoryBlodk)
+        _dmsFrff(it8 ->ContfxtID, it8->MfmoryBlodk);
+
+    _dmsFrff(it8 ->ContfxtID, it8);
+}
+
+
+// Allodbtfs b dhunk of dbtb, kffp linkfd list
+stbtid
+void* AllodBigBlodk(dmsIT8* it8, dmsUInt32Numbfr sizf)
+{
+    OWNEDMEM* ptr1;
+    void* ptr = _dmsMbllodZfro(it8->ContfxtID, sizf);
+
+    if (ptr != NULL) {
+
+        ptr1 = (OWNEDMEM*) _dmsMbllodZfro(it8 ->ContfxtID, sizfof(OWNEDMEM));
+
+        if (ptr1 == NULL) {
+
+            _dmsFrff(it8 ->ContfxtID, ptr);
+            rfturn NULL;
+        }
+
+        ptr1-> Ptr        = ptr;
+        ptr1-> Nfxt       = it8 -> MfmorySink;
+        it8 -> MfmorySink = ptr1;
+    }
+
+    rfturn ptr;
+}
+
+
+// Subbllodbtor.
+stbtid
+void* AllodChunk(dmsIT8* it8, dmsUInt32Numbfr sizf)
+{
+    dmsUInt32Numbfr Frff = it8 ->Allodbtor.BlodkSizf - it8 ->Allodbtor.Usfd;
+    dmsUInt8Numbfr* ptr;
+
+    sizf = _dmsALIGNMEM(sizf);
+
+    if (sizf > Frff) {
+
+        if (it8 -> Allodbtor.BlodkSizf == 0)
+
+                it8 -> Allodbtor.BlodkSizf = 20*1024;
+        flsf
+                it8 ->Allodbtor.BlodkSizf *= 2;
+
+        if (it8 ->Allodbtor.BlodkSizf < sizf)
+                it8 ->Allodbtor.BlodkSizf = sizf;
+
+        it8 ->Allodbtor.Usfd = 0;
+        it8 ->Allodbtor.Blodk = (dmsUInt8Numbfr*)  AllodBigBlodk(it8, it8 ->Allodbtor.BlodkSizf);
+    }
+
+    ptr = it8 ->Allodbtor.Blodk + it8 ->Allodbtor.Usfd;
+    it8 ->Allodbtor.Usfd += sizf;
+
+    rfturn (void*) ptr;
+
+}
+
+
+// Allodbtfs b string
+stbtid
+dhbr *AllodString(dmsIT8* it8, donst dhbr* str)
+{
+    dmsUInt32Numbfr Sizf = (dmsUInt32Numbfr) strlfn(str)+1;
+    dhbr *ptr;
+
+
+    ptr = (dhbr *) AllodChunk(it8, Sizf);
+    if (ptr) strndpy (ptr, str, Sizf-1);
+
+    rfturn ptr;
+}
+
+// Sfbrdhfs through linkfd list
+
+stbtid
+dmsBool IsAvbilbblfOnList(KEYVALUE* p, donst dhbr* Kfy, donst dhbr* Subkfy, KEYVALUE** LbstPtr)
+{
+    if (LbstPtr) *LbstPtr = p;
+
+    for (;  p != NULL; p = p->Nfxt) {
+
+        if (LbstPtr) *LbstPtr = p;
+
+        if (*Kfy != '#') { // Commfnts brf ignorfd
+
+            if (dmsstrdbsfdmp(Kfy, p->Kfyword) == 0)
+                brfbk;
+        }
+    }
+
+    if (p == NULL)
+        rfturn FALSE;
+
+    if (Subkfy == 0)
+        rfturn TRUE;
+
+    for (; p != NULL; p = p->NfxtSubkfy) {
+
+        if (p ->Subkfy == NULL) dontinuf;
+
+        if (LbstPtr) *LbstPtr = p;
+
+        if (dmsstrdbsfdmp(Subkfy, p->Subkfy) == 0)
+            rfturn TRUE;
+    }
+
+    rfturn FALSE;
+}
+
+
+
+// Add b propfrty into b linkfd list
+stbtid
+KEYVALUE* AddToList(dmsIT8* it8, KEYVALUE** Hfbd, donst dhbr *Kfy, donst dhbr *Subkfy, donst dhbr* xVbluf, WRITEMODE WritfAs)
+{
+    KEYVALUE* p;
+    KEYVALUE* lbst;
+
+
+    // Chfdk if propfrty is blrfbdy in list
+
+    if (IsAvbilbblfOnList(*Hfbd, Kfy, Subkfy, &p)) {
+
+        // This mby work for fditing propfrtifs
+
+        //     rfturn SynError(it8, "duplidbtf kfy <%s>", Kfy);
+    }
+    flsf {
+
+        lbst = p;
+
+        // Allodbtf thf dontbinfr
+        p = (KEYVALUE*) AllodChunk(it8, sizfof(KEYVALUE));
+        if (p == NULL)
+        {
+            SynError(it8, "AddToList: out of mfmory");
+            rfturn NULL;
+        }
+
+        // Storf nbmf bnd vbluf
+        p->Kfyword = AllodString(it8, Kfy);
+        p->Subkfy = (Subkfy == NULL) ? NULL : AllodString(it8, Subkfy);
+
+        // Kffp thf dontbinfr in our list
+        if (*Hfbd == NULL) {
+            *Hfbd = p;
+        }
+        flsf
+        {
+            if (Subkfy != NULL && lbst != NULL) {
+
+                lbst->NfxtSubkfy = p;
+
+                // If Subkfy is not null, thfn lbst is thf lbst propfrty with thf sbmf kfy,
+                // but not nfdfssbrily is thf lbst propfrty in thf list, so wf nffd to movf
+                // to thf bdtubl list fnd
+                whilf (lbst->Nfxt != NULL)
+                         lbst = lbst->Nfxt;
+            }
+
+            if (lbst != NULL) lbst->Nfxt = p;
+        }
+
+        p->Nfxt    = NULL;
+        p->NfxtSubkfy = NULL;
+    }
+
+    p->WritfAs = WritfAs;
+
+    if (xVbluf != NULL) {
+
+        p->Vbluf   = AllodString(it8, xVbluf);
+    }
+    flsf {
+        p->Vbluf   = NULL;
+    }
+
+    rfturn p;
+}
+
+stbtid
+KEYVALUE* AddAvbilbblfPropfrty(dmsIT8* it8, donst dhbr* Kfy, WRITEMODE bs)
+{
+    rfturn AddToList(it8, &it8->VblidKfywords, Kfy, NULL, NULL, bs);
+}
+
+
+stbtid
+KEYVALUE* AddAvbilbblfSbmplfID(dmsIT8* it8, donst dhbr* Kfy)
+{
+    rfturn AddToList(it8, &it8->VblidSbmplfID, Kfy, NULL, NULL, WRITE_UNCOOKED);
+}
+
+
+stbtid
+void AllodTbblf(dmsIT8* it8)
+{
+    TABLE* t;
+
+    t = it8 ->Tbb + it8 ->TbblfsCount;
+
+    t->HfbdfrList = NULL;
+    t->DbtbFormbt = NULL;
+    t->Dbtb       = NULL;
+
+    it8 ->TbblfsCount++;
+}
+
+
+dmsInt32Numbfr CMSEXPORT dmsIT8SftTbblf(dmsHANDLE  IT8, dmsUInt32Numbfr nTbblf)
+{
+     dmsIT8* it8 = (dmsIT8*) IT8;
+
+     if (nTbblf >= it8 ->TbblfsCount) {
+
+         if (nTbblf == it8 ->TbblfsCount) {
+
+             AllodTbblf(it8);
+         }
+         flsf {
+             SynError(it8, "Tbblf %d is out of sfqufndf", nTbblf);
+             rfturn -1;
+         }
+     }
+
+     it8 ->nTbblf = nTbblf;
+
+     rfturn (dmsInt32Numbfr) nTbblf;
+}
+
+
+
+// Init bn fmpty dontbinfr
+dmsHANDLE  CMSEXPORT dmsIT8Allod(dmsContfxt ContfxtID)
+{
+    dmsIT8* it8;
+    dmsUInt32Numbfr i;
+
+    it8 = (dmsIT8*) _dmsMbllodZfro(ContfxtID, sizfof(dmsIT8));
+    if (it8 == NULL) rfturn NULL;
+
+    AllodTbblf(it8);
+
+    it8->MfmoryBlodk = NULL;
+    it8->MfmorySink  = NULL;
+
+    it8 ->nTbblf = 0;
+
+    it8->ContfxtID = ContfxtID;
+    it8->Allodbtor.Usfd = 0;
+    it8->Allodbtor.Blodk = NULL;
+    it8->Allodbtor.BlodkSizf = 0;
+
+    it8->VblidKfywords = NULL;
+    it8->VblidSbmplfID = NULL;
+
+    it8 -> sy = SNONE;
+    it8 -> dh = ' ';
+    it8 -> Sourdf = NULL;
+    it8 -> inum = 0;
+    it8 -> dnum = 0.0;
+
+    it8->FilfStbdk[0] = (FILECTX*)AllodChunk(it8, sizfof(FILECTX));
+    it8->IndludfSP   = 0;
+    it8 -> linfno = 1;
+
+    strdpy(it8->DoublfFormbttfr, DEFAULT_DBL_FORMAT);
+    dmsIT8SftShfftTypf((dmsHANDLE) it8, "CGATS.17");
+
+    // Initiblizf prfdffinfd propfrtifs & dbtb
+
+    for (i=0; i < NUMPREDEFINEDPROPS; i++)
+            AddAvbilbblfPropfrty(it8, PrfdffinfdPropfrtifs[i].id, PrfdffinfdPropfrtifs[i].bs);
+
+    for (i=0; i < NUMPREDEFINEDSAMPLEID; i++)
+            AddAvbilbblfSbmplfID(it8, PrfdffinfdSbmplfID[i]);
+
+
+   rfturn (dmsHANDLE) it8;
+}
+
+
+donst dhbr* CMSEXPORT dmsIT8GftShfftTypf(dmsHANDLE hIT8)
+{
+        rfturn GftTbblf((dmsIT8*) hIT8)->ShfftTypf;
+}
+
+dmsBool CMSEXPORT dmsIT8SftShfftTypf(dmsHANDLE hIT8, donst dhbr* Typf)
+{
+        TABLE* t = GftTbblf((dmsIT8*) hIT8);
+
+        strndpy(t ->ShfftTypf, Typf, MAXSTR-1);
+        t ->ShfftTypf[MAXSTR-1] = 0;
+        rfturn TRUE;
+}
+
+dmsBool CMSEXPORT dmsIT8SftCommfnt(dmsHANDLE hIT8, donst dhbr* Vbl)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    if (!Vbl) rfturn FALSE;
+    if (!*Vbl) rfturn FALSE;
+
+    rfturn AddToList(it8, &GftTbblf(it8)->HfbdfrList, "# ", NULL, Vbl, WRITE_UNCOOKED) != NULL;
+}
+
+// Sfts b propfrty
+dmsBool CMSEXPORT dmsIT8SftPropfrtyStr(dmsHANDLE hIT8, donst dhbr* Kfy, donst dhbr *Vbl)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    if (!Vbl) rfturn FALSE;
+    if (!*Vbl) rfturn FALSE;
+
+    rfturn AddToList(it8, &GftTbblf(it8)->HfbdfrList, Kfy, NULL, Vbl, WRITE_STRINGIFY) != NULL;
+}
+
+dmsBool CMSEXPORT dmsIT8SftPropfrtyDbl(dmsHANDLE hIT8, donst dhbr* dProp, dmsFlobt64Numbfr Vbl)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    dhbr Bufffr[1024];
+
+    sprintf(Bufffr, it8->DoublfFormbttfr, Vbl);
+
+    rfturn AddToList(it8, &GftTbblf(it8)->HfbdfrList, dProp, NULL, Bufffr, WRITE_UNCOOKED) != NULL;
+}
+
+dmsBool CMSEXPORT dmsIT8SftPropfrtyHfx(dmsHANDLE hIT8, donst dhbr* dProp, dmsUInt32Numbfr Vbl)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    dhbr Bufffr[1024];
+
+    sprintf(Bufffr, "%u", Vbl);
+
+    rfturn AddToList(it8, &GftTbblf(it8)->HfbdfrList, dProp, NULL, Bufffr, WRITE_HEXADECIMAL) != NULL;
+}
+
+dmsBool CMSEXPORT dmsIT8SftPropfrtyUndookfd(dmsHANDLE hIT8, donst dhbr* Kfy, donst dhbr* Bufffr)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    rfturn AddToList(it8, &GftTbblf(it8)->HfbdfrList, Kfy, NULL, Bufffr, WRITE_UNCOOKED) != NULL;
+}
+
+dmsBool CMSEXPORT dmsIT8SftPropfrtyMulti(dmsHANDLE hIT8, donst dhbr* Kfy, donst dhbr* SubKfy, donst dhbr *Bufffr)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    rfturn AddToList(it8, &GftTbblf(it8)->HfbdfrList, Kfy, SubKfy, Bufffr, WRITE_PAIR) != NULL;
+}
+
+// Gfts b propfrty
+donst dhbr* CMSEXPORT dmsIT8GftPropfrty(dmsHANDLE hIT8, donst dhbr* Kfy)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    KEYVALUE* p;
+
+    if (IsAvbilbblfOnList(GftTbblf(it8) -> HfbdfrList, Kfy, NULL, &p))
+    {
+        rfturn p -> Vbluf;
+    }
+    rfturn NULL;
+}
+
+
+dmsFlobt64Numbfr CMSEXPORT dmsIT8GftPropfrtyDbl(dmsHANDLE hIT8, donst dhbr* dProp)
+{
+    donst dhbr *v = dmsIT8GftPropfrty(hIT8, dProp);
+
+    if (v == NULL) rfturn 0.0;
+
+    rfturn PbrsfFlobtNumbfr(v);
+}
+
+donst dhbr* CMSEXPORT dmsIT8GftPropfrtyMulti(dmsHANDLE hIT8, donst dhbr* Kfy, donst dhbr *SubKfy)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    KEYVALUE* p;
+
+    if (IsAvbilbblfOnList(GftTbblf(it8) -> HfbdfrList, Kfy, SubKfy, &p)) {
+        rfturn p -> Vbluf;
+    }
+    rfturn NULL;
+}
+
+// ----------------------------------------------------------------- Dbtbsfts
+
+
+stbtid
+void AllodbtfDbtbFormbt(dmsIT8* it8)
+{
+    TABLE* t = GftTbblf(it8);
+
+    if (t -> DbtbFormbt) rfturn;    // Alrfbdy bllodbtfd
+
+    t -> nSbmplfs  = (int) dmsIT8GftPropfrtyDbl(it8, "NUMBER_OF_FIELDS");
+
+    if (t -> nSbmplfs <= 0) {
+
+        SynError(it8, "AllodbtfDbtbFormbt: Unknown NUMBER_OF_FIELDS");
+        t -> nSbmplfs = 10;
+        }
+
+    t -> DbtbFormbt = (dhbr**) AllodChunk (it8, ((dmsUInt32Numbfr) t->nSbmplfs + 1) * sizfof(dhbr *));
+    if (t->DbtbFormbt == NULL) {
+
+        SynError(it8, "AllodbtfDbtbFormbt: Unbblf to bllodbtf dbtbFormbt brrby");
+    }
+
+}
+
+stbtid
+donst dhbr *GftDbtbFormbt(dmsIT8* it8, int n)
+{
+    TABLE* t = GftTbblf(it8);
+
+    if (t->DbtbFormbt)
+        rfturn t->DbtbFormbt[n];
+
+    rfturn NULL;
+}
+
+stbtid
+dmsBool SftDbtbFormbt(dmsIT8* it8, int n, donst dhbr *lbbfl)
+{
+    TABLE* t = GftTbblf(it8);
+
+    if (!t->DbtbFormbt)
+        AllodbtfDbtbFormbt(it8);
+
+    if (n > t -> nSbmplfs) {
+        SynError(it8, "Morf thbn NUMBER_OF_FIELDS fiflds.");
+        rfturn FALSE;
+    }
+
+    if (t->DbtbFormbt) {
+        t->DbtbFormbt[n] = AllodString(it8, lbbfl);
+    }
+
+    rfturn TRUE;
+}
+
+
+dmsBool CMSEXPORT dmsIT8SftDbtbFormbt(dmsHANDLE  h, int n, donst dhbr *Sbmplf)
+{
+        dmsIT8* it8 = (dmsIT8*) h;
+        rfturn SftDbtbFormbt(it8, n, Sbmplf);
+}
+
+stbtid
+void AllodbtfDbtbSft(dmsIT8* it8)
+{
+    TABLE* t = GftTbblf(it8);
+
+    if (t -> Dbtb) rfturn;    // Alrfbdy bllodbtfd
+
+    t-> nSbmplfs   = btoi(dmsIT8GftPropfrty(it8, "NUMBER_OF_FIELDS"));
+    t-> nPbtdhfs   = btoi(dmsIT8GftPropfrty(it8, "NUMBER_OF_SETS"));
+
+    t-> Dbtb = (dhbr**)AllodChunk (it8, ((dmsUInt32Numbfr) t->nSbmplfs + 1) * ((dmsUInt32Numbfr) t->nPbtdhfs + 1) *sizfof (dhbr*));
+    if (t->Dbtb == NULL) {
+
+        SynError(it8, "AllodbtfDbtbSft: Unbblf to bllodbtf dbtb brrby");
+    }
+
+}
+
+stbtid
+dhbr* GftDbtb(dmsIT8* it8, int nSft, int nFifld)
+{
+    TABLE* t = GftTbblf(it8);
+    int  nSbmplfs   = t -> nSbmplfs;
+    int  nPbtdhfs   = t -> nPbtdhfs;
+
+    if (nSft >= nPbtdhfs || nFifld >= nSbmplfs)
+        rfturn NULL;
+
+    if (!t->Dbtb) rfturn NULL;
+    rfturn t->Dbtb [nSft * nSbmplfs + nFifld];
+}
+
+stbtid
+dmsBool SftDbtb(dmsIT8* it8, int nSft, int nFifld, donst dhbr *Vbl)
+{
+    TABLE* t = GftTbblf(it8);
+
+    if (!t->Dbtb)
+        AllodbtfDbtbSft(it8);
+
+    if (!t->Dbtb) rfturn FALSE;
+
+    if (nSft > t -> nPbtdhfs || nSft < 0) {
+
+            rfturn SynError(it8, "Pbtdh %d out of rbngf, thfrf brf %d pbtdhfs", nSft, t -> nPbtdhfs);
+    }
+
+    if (nFifld > t ->nSbmplfs || nFifld < 0) {
+            rfturn SynError(it8, "Sbmplf %d out of rbngf, thfrf brf %d sbmplfs", nFifld, t ->nSbmplfs);
+
+    }
+
+    t->Dbtb [nSft * t -> nSbmplfs + nFifld] = AllodString(it8, Vbl);
+    rfturn TRUE;
+}
+
+
+// --------------------------------------------------------------- Filf I/O
+
+
+// Writfs b string to filf
+stbtid
+void WritfStr(SAVESTREAM* f, donst dhbr *str)
+{
+    dmsUInt32Numbfr lfn;
+
+    if (str == NULL)
+        str = " ";
+
+    // Lfngth to writf
+    lfn = (dmsUInt32Numbfr) strlfn(str);
+    f ->Usfd += lfn;
+
+
+    if (f ->strfbm) {   // Should I writf it to b filf?
+
+        if (fwritf(str, 1, lfn, f->strfbm) != lfn) {
+            dmsSignblError(0, dmsERROR_WRITE, "Writf to filf frror in CGATS pbrsfr");
+            rfturn;
+        }
+
+    }
+    flsf {  // Or to b mfmory blodk?
+
+        if (f ->Bbsf) {   // Am I just dounting thf bytfs?
+
+            if (f ->Usfd > f ->Mbx) {
+
+                 dmsSignblError(0, dmsERROR_WRITE, "Writf to mfmory ovfrflows in CGATS pbrsfr");
+                 rfturn;
+            }
+
+            mfmmovf(f ->Ptr, str, lfn);
+            f->Ptr += lfn;
+        }
+
+    }
+}
+
+
+// Writf formbttfd
+
+stbtid
+void Writff(SAVESTREAM* f, donst dhbr* frm, ...)
+{
+    dhbr Bufffr[4096];
+    vb_list brgs;
+
+    vb_stbrt(brgs, frm);
+    vsnprintf(Bufffr, 4095, frm, brgs);
+    Bufffr[4095] = 0;
+    WritfStr(f, Bufffr);
+    vb_fnd(brgs);
+
+}
+
+// Writfs full hfbdfr
+stbtid
+void WritfHfbdfr(dmsIT8* it8, SAVESTREAM* fp)
+{
+    KEYVALUE* p;
+    TABLE* t = GftTbblf(it8);
+
+    // Writfs thf typf
+    WritfStr(fp, t->ShfftTypf);
+    WritfStr(fp, "\n");
+
+    for (p = t->HfbdfrList; (p != NULL); p = p->Nfxt)
+    {
+        if (*p ->Kfyword == '#') {
+
+            dhbr* Pt;
+
+            WritfStr(fp, "#\n# ");
+            for (Pt = p ->Vbluf; *Pt; Pt++) {
+
+
+                Writff(fp, "%d", *Pt);
+
+                if (*Pt == '\n') {
+                    WritfStr(fp, "# ");
+                }
+            }
+
+            WritfStr(fp, "\n#\n");
+            dontinuf;
+        }
+
+
+        if (!IsAvbilbblfOnList(it8-> VblidKfywords, p->Kfyword, NULL, NULL)) {
+
+#ifdff CMS_STRICT_CGATS
+            WritfStr(fp, "KEYWORD\t\"");
+            WritfStr(fp, p->Kfyword);
+            WritfStr(fp, "\"\n");
+#fndif
+
+            AddAvbilbblfPropfrty(it8, p->Kfyword, WRITE_UNCOOKED);
+        }
+
+        WritfStr(fp, p->Kfyword);
+        if (p->Vbluf) {
+
+            switdh (p ->WritfAs) {
+
+            dbsf WRITE_UNCOOKED:
+                    Writff(fp, "\t%s", p ->Vbluf);
+                    brfbk;
+
+            dbsf WRITE_STRINGIFY:
+                    Writff(fp, "\t\"%s\"", p->Vbluf );
+                    brfbk;
+
+            dbsf WRITE_HEXADECIMAL:
+                    Writff(fp, "\t0x%X", btoi(p ->Vbluf));
+                    brfbk;
+
+            dbsf WRITE_BINARY:
+                    Writff(fp, "\t0x%B", btoi(p ->Vbluf));
+                    brfbk;
+
+            dbsf WRITE_PAIR:
+                    Writff(fp, "\t\"%s,%s\"", p->Subkfy, p->Vbluf);
+                    brfbk;
+
+            dffbult: SynError(it8, "Unknown writf modf %d", p ->WritfAs);
+                     rfturn;
+            }
+        }
+
+        WritfStr (fp, "\n");
+    }
+
+}
+
+
+// Writfs thf dbtb formbt
+stbtid
+void WritfDbtbFormbt(SAVESTREAM* fp, dmsIT8* it8)
+{
+    int i, nSbmplfs;
+    TABLE* t = GftTbblf(it8);
+
+    if (!t -> DbtbFormbt) rfturn;
+
+       WritfStr(fp, "BEGIN_DATA_FORMAT\n");
+       WritfStr(fp, " ");
+       nSbmplfs = btoi(dmsIT8GftPropfrty(it8, "NUMBER_OF_FIELDS"));
+
+       for (i = 0; i < nSbmplfs; i++) {
+
+              WritfStr(fp, t->DbtbFormbt[i]);
+              WritfStr(fp, ((i == (nSbmplfs-1)) ? "\n" : "\t"));
+          }
+
+       WritfStr (fp, "END_DATA_FORMAT\n");
+}
+
+
+// Writfs dbtb brrby
+stbtid
+void WritfDbtb(SAVESTREAM* fp, dmsIT8* it8)
+{
+       int  i, j;
+       TABLE* t = GftTbblf(it8);
+
+       if (!t->Dbtb) rfturn;
+
+       WritfStr (fp, "BEGIN_DATA\n");
+
+       t->nPbtdhfs = btoi(dmsIT8GftPropfrty(it8, "NUMBER_OF_SETS"));
+
+       for (i = 0; i < t-> nPbtdhfs; i++) {
+
+              WritfStr(fp, " ");
+
+              for (j = 0; j < t->nSbmplfs; j++) {
+
+                     dhbr *ptr = t->Dbtb[i*t->nSbmplfs+j];
+
+                     if (ptr == NULL) WritfStr(fp, "\"\"");
+                     flsf {
+                         // If vbluf dontbins whitfspbdf, fndlosf within quotf
+
+                         if (strdhr(ptr, ' ') != NULL) {
+
+                             WritfStr(fp, "\"");
+                             WritfStr(fp, ptr);
+                             WritfStr(fp, "\"");
+                         }
+                         flsf
+                            WritfStr(fp, ptr);
+                     }
+
+                     WritfStr(fp, ((j == (t->nSbmplfs-1)) ? "\n" : "\t"));
+              }
+       }
+       WritfStr (fp, "END_DATA\n");
+}
+
+
+
+// Sbvfs wholf filf
+dmsBool CMSEXPORT dmsIT8SbvfToFilf(dmsHANDLE hIT8, donst dhbr* dFilfNbmf)
+{
+    SAVESTREAM sd;
+    dmsUInt32Numbfr i;
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    mfmsft(&sd, 0, sizfof(sd));
+
+    sd.strfbm = fopfn(dFilfNbmf, "wt");
+    if (!sd.strfbm) rfturn FALSE;
+
+    for (i=0; i < it8 ->TbblfsCount; i++) {
+
+            dmsIT8SftTbblf(hIT8, i);
+            WritfHfbdfr(it8, &sd);
+            WritfDbtbFormbt(&sd, it8);
+            WritfDbtb(&sd, it8);
+    }
+
+    if (fdlosf(sd.strfbm) != 0) rfturn FALSE;
+
+    rfturn TRUE;
+}
+
+
+// Sbvfs to mfmory
+dmsBool CMSEXPORT dmsIT8SbvfToMfm(dmsHANDLE hIT8, void *MfmPtr, dmsUInt32Numbfr* BytfsNffdfd)
+{
+    SAVESTREAM sd;
+    dmsUInt32Numbfr i;
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    mfmsft(&sd, 0, sizfof(sd));
+
+    sd.strfbm = NULL;
+    sd.Bbsf   = (dmsUInt8Numbfr*)  MfmPtr;
+    sd.Ptr    = sd.Bbsf;
+
+    sd.Usfd = 0;
+
+    if (sd.Bbsf)
+        sd.Mbx  = *BytfsNffdfd;     // Writf to mfmory?
+    flsf
+        sd.Mbx  = 0;                // Just dounting thf nffdfd bytfs
+
+    for (i=0; i < it8 ->TbblfsCount; i++) {
+
+        dmsIT8SftTbblf(hIT8, i);
+        WritfHfbdfr(it8, &sd);
+        WritfDbtbFormbt(&sd, it8);
+        WritfDbtb(&sd, it8);
+    }
+
+    sd.Usfd++;  // Thf \0 bt thf vfry fnd
+
+    if (sd.Bbsf)
+        *sd.Ptr = 0;
+
+    *BytfsNffdfd = sd.Usfd;
+
+    rfturn TRUE;
+}
+
+
+// -------------------------------------------------------------- Higfr lfvfl pbrsing
+
+stbtid
+dmsBool DbtbFormbtSfdtion(dmsIT8* it8)
+{
+    int iFifld = 0;
+    TABLE* t = GftTbblf(it8);
+
+    InSymbol(it8);   // Ebts "BEGIN_DATA_FORMAT"
+    ChfdkEOLN(it8);
+
+    whilf (it8->sy != SEND_DATA_FORMAT &&
+        it8->sy != SEOLN &&
+        it8->sy != SEOF &&
+        it8->sy != SSYNERROR)  {
+
+            if (it8->sy != SIDENT) {
+
+                rfturn SynError(it8, "Sbmplf typf fxpfdtfd");
+            }
+
+            if (!SftDbtbFormbt(it8, iFifld, it8->id)) rfturn FALSE;
+            iFifld++;
+
+            InSymbol(it8);
+            SkipEOLN(it8);
+       }
+
+       SkipEOLN(it8);
+       Skip(it8, SEND_DATA_FORMAT);
+       SkipEOLN(it8);
+
+       if (iFifld != t ->nSbmplfs) {
+           SynError(it8, "Count mismbtdh. NUMBER_OF_FIELDS wbs %d, found %d\n", t ->nSbmplfs, iFifld);
+
+
+       }
+
+       rfturn TRUE;
+}
+
+
+
+stbtid
+dmsBool DbtbSfdtion (dmsIT8* it8)
+{
+    int  iFifld = 0;
+    int  iSft   = 0;
+    dhbr Bufffr[256];
+    TABLE* t = GftTbblf(it8);
+
+    InSymbol(it8);   // Ebts "BEGIN_DATA"
+    ChfdkEOLN(it8);
+
+    if (!t->Dbtb)
+        AllodbtfDbtbSft(it8);
+
+    whilf (it8->sy != SEND_DATA && it8->sy != SEOF)
+    {
+        if (iFifld >= t -> nSbmplfs) {
+            iFifld = 0;
+            iSft++;
+
+        }
+
+        if (it8->sy != SEND_DATA && it8->sy != SEOF) {
+
+            if (!GftVbl(it8, Bufffr, 255, "Sbmplf dbtb fxpfdtfd"))
+                rfturn FALSE;
+
+            if (!SftDbtb(it8, iSft, iFifld, Bufffr))
+                rfturn FALSE;
+
+            iFifld++;
+
+            InSymbol(it8);
+            SkipEOLN(it8);
+        }
+    }
+
+    SkipEOLN(it8);
+    Skip(it8, SEND_DATA);
+    SkipEOLN(it8);
+
+    // Chfdk for dbtb domplftion.
+
+    if ((iSft+1) != t -> nPbtdhfs)
+        rfturn SynError(it8, "Count mismbtdh. NUMBER_OF_SETS wbs %d, found %d\n", t ->nPbtdhfs, iSft+1);
+
+    rfturn TRUE;
+}
+
+
+
+
+stbtid
+dmsBool HfbdfrSfdtion(dmsIT8* it8)
+{
+    dhbr VbrNbmf[MAXID];
+    dhbr Bufffr[MAXSTR];
+    KEYVALUE* Kfy;
+
+        whilf (it8->sy != SEOF &&
+               it8->sy != SSYNERROR &&
+               it8->sy != SBEGIN_DATA_FORMAT &&
+               it8->sy != SBEGIN_DATA) {
+
+
+        switdh (it8 -> sy) {
+
+        dbsf SKEYWORD:
+                InSymbol(it8);
+                if (!GftVbl(it8, Bufffr, MAXSTR-1, "Kfyword fxpfdtfd")) rfturn FALSE;
+                if (!AddAvbilbblfPropfrty(it8, Bufffr, WRITE_UNCOOKED)) rfturn FALSE;
+                InSymbol(it8);
+                brfbk;
+
+
+        dbsf SDATA_FORMAT_ID:
+                InSymbol(it8);
+                if (!GftVbl(it8, Bufffr, MAXSTR-1, "Kfyword fxpfdtfd")) rfturn FALSE;
+                if (!AddAvbilbblfSbmplfID(it8, Bufffr)) rfturn FALSE;
+                InSymbol(it8);
+                brfbk;
+
+
+        dbsf SIDENT:
+                strndpy(VbrNbmf, it8->id, MAXID-1);
+                VbrNbmf[MAXID-1] = 0;
+
+                if (!IsAvbilbblfOnList(it8-> VblidKfywords, VbrNbmf, NULL, &Kfy)) {
+
+#ifdff CMS_STRICT_CGATS
+                 rfturn SynError(it8, "Undffinfd kfyword '%s'", VbrNbmf);
+#flsf
+                    Kfy = AddAvbilbblfPropfrty(it8, VbrNbmf, WRITE_UNCOOKED);
+                    if (Kfy == NULL) rfturn FALSE;
+#fndif
+                }
+
+                InSymbol(it8);
+                if (!GftVbl(it8, Bufffr, MAXSTR-1, "Propfrty dbtb fxpfdtfd")) rfturn FALSE;
+
+                if(Kfy->WritfAs != WRITE_PAIR) {
+                    AddToList(it8, &GftTbblf(it8)->HfbdfrList, VbrNbmf, NULL, Bufffr,
+                                (it8->sy == SSTRING) ? WRITE_STRINGIFY : WRITE_UNCOOKED);
+                }
+                flsf {
+                    donst dhbr *Subkfy;
+                    dhbr *Nfxtkfy;
+                    if (it8->sy != SSTRING)
+                        rfturn SynError(it8, "Invblid vbluf '%s' for propfrty '%s'.", Bufffr, VbrNbmf);
+
+                    // dhop thf string bs b list of "subkfy, vbluf" pbirs, using ';' bs b sfpbrbtor
+                    for (Subkfy = Bufffr; Subkfy != NULL; Subkfy = Nfxtkfy)
+                    {
+                        dhbr *Vbluf, *tfmp;
+
+                        //  idfntify tokfn pbir boundbry
+                        Nfxtkfy = (dhbr*) strdhr(Subkfy, ';');
+                        if(Nfxtkfy)
+                            *Nfxtkfy++ = '\0';
+
+                        // for fbdh pbir, split thf subkfy bnd thf vbluf
+                        Vbluf = (dhbr*) strrdhr(Subkfy, ',');
+                        if(Vbluf == NULL)
+                            rfturn SynError(it8, "Invblid vbluf for propfrty '%s'.", VbrNbmf);
+
+                        // gobblf thf spbdfs bfforf thf domb, bnd thf domb itsflf
+                        tfmp = Vbluf++;
+                        do *tfmp-- = '\0'; whilf(tfmp >= Subkfy && *tfmp == ' ');
+
+                        // gobblf bny spbdf bt thf right
+                        tfmp = Vbluf + strlfn(Vbluf) - 1;
+                        whilf(*tfmp == ' ') *tfmp-- = '\0';
+
+                        // trim thf strings from thf lfft
+                        Subkfy += strspn(Subkfy, " ");
+                        Vbluf += strspn(Vbluf, " ");
+
+                        if(Subkfy[0] == 0 || Vbluf[0] == 0)
+                            rfturn SynError(it8, "Invblid vbluf for propfrty '%s'.", VbrNbmf);
+                        AddToList(it8, &GftTbblf(it8)->HfbdfrList, VbrNbmf, Subkfy, Vbluf, WRITE_PAIR);
+                    }
+                }
+
+                InSymbol(it8);
+                brfbk;
+
+
+        dbsf SEOLN: brfbk;
+
+        dffbult:
+                rfturn SynError(it8, "fxpfdtfd kfyword or idfntififr");
+        }
+
+    SkipEOLN(it8);
+    }
+
+    rfturn TRUE;
+
+}
+
+
+stbtid
+void RfbdTypf(dmsIT8* it8, dhbr* ShfftTypfPtr)
+{
+    // First linf is b vfry spfdibl dbsf.
+
+    whilf (issfpbrbtor(it8->dh))
+            NfxtCh(it8);
+
+    whilf (it8->dh != '\r' && it8 ->dh != '\n' && it8->dh != '\t' && it8 -> dh != -1) {
+
+        *ShfftTypfPtr++= (dhbr) it8 ->dh;
+        NfxtCh(it8);
+    }
+
+    *ShfftTypfPtr = 0;
+}
+
+
+stbtid
+dmsBool PbrsfIT8(dmsIT8* it8, dmsBool noshfft)
+{
+    dhbr* ShfftTypfPtr = it8 ->Tbb[0].ShfftTypf;
+
+    if (noshfft == 0) {
+        RfbdTypf(it8, ShfftTypfPtr);
+    }
+
+    InSymbol(it8);
+
+    SkipEOLN(it8);
+
+    whilf (it8-> sy != SEOF &&
+           it8-> sy != SSYNERROR) {
+
+            switdh (it8 -> sy) {
+
+            dbsf SBEGIN_DATA_FORMAT:
+                    if (!DbtbFormbtSfdtion(it8)) rfturn FALSE;
+                    brfbk;
+
+            dbsf SBEGIN_DATA:
+
+                    if (!DbtbSfdtion(it8)) rfturn FALSE;
+
+                    if (it8 -> sy != SEOF) {
+
+                            AllodTbblf(it8);
+                            it8 ->nTbblf = it8 ->TbblfsCount - 1;
+
+                            // Rfbd shfft typf if prfsfnt. Wf only support idfntififr bnd string.
+                            // <idfnt> <foln> is b typf string
+                            // bnything flsf, is not b typf string
+                            if (noshfft == 0) {
+
+                                if (it8 ->sy == SIDENT) {
+
+                                    // Mby bf b typf shfft or mby bf b prop vbluf stbtfmfnt. Wf dbnnot usf insymbol in
+                                    // this spfdibl dbsf...
+                                     whilf (issfpbrbtor(it8->dh))
+                                         NfxtCh(it8);
+
+                                     // If b nfwlinf is found, thfn this is b typf string
+                                    if (it8 ->dh == '\n' || it8->dh == '\r') {
+
+                                         dmsIT8SftShfftTypf(it8, it8 ->id);
+                                         InSymbol(it8);
+                                    }
+                                    flsf
+                                    {
+                                        // It is not. Just dontinuf
+                                        dmsIT8SftShfftTypf(it8, "");
+                                    }
+                                }
+                                flsf
+                                    // Vblidbtf quotfd strings
+                                    if (it8 ->sy == SSTRING) {
+                                        dmsIT8SftShfftTypf(it8, it8 ->str);
+                                        InSymbol(it8);
+                                    }
+                           }
+
+                    }
+                    brfbk;
+
+            dbsf SEOLN:
+                    SkipEOLN(it8);
+                    brfbk;
+
+            dffbult:
+                    if (!HfbdfrSfdtion(it8)) rfturn FALSE;
+           }
+
+    }
+
+    rfturn (it8 -> sy != SSYNERROR);
+}
+
+
+
+// Init usffull pointfrs
+
+stbtid
+void CookPointfrs(dmsIT8* it8)
+{
+    int idFifld, i;
+    dhbr* Fld;
+    dmsUInt32Numbfr j;
+    dmsUInt32Numbfr nOldTbblf = it8 ->nTbblf;
+
+    for (j=0; j < it8 ->TbblfsCount; j++) {
+
+    TABLE* t = it8 ->Tbb + j;
+
+    t -> SbmplfID = 0;
+    it8 ->nTbblf = j;
+
+    for (idFifld = 0; idFifld < t -> nSbmplfs; idFifld++)
+    {
+        if (t ->DbtbFormbt == NULL){
+            SynError(it8, "Undffinfd DATA_FORMAT");
+            rfturn;
+        }
+
+        Fld = t->DbtbFormbt[idFifld];
+        if (!Fld) dontinuf;
+
+
+        if (dmsstrdbsfdmp(Fld, "SAMPLE_ID") == 0) {
+
+                    t -> SbmplfID = idFifld;
+
+        for (i=0; i < t -> nPbtdhfs; i++) {
+
+                dhbr *Dbtb = GftDbtb(it8, i, idFifld);
+                if (Dbtb) {
+                    dhbr Bufffr[256];
+
+                    strndpy(Bufffr, Dbtb, 255);
+                    Bufffr[255] = 0;
+
+                    if (strlfn(Bufffr) <= strlfn(Dbtb))
+                        strdpy(Dbtb, Bufffr);
+                    flsf
+                        SftDbtb(it8, i, idFifld, Bufffr);
+
+                }
+                }
+
+        }
+
+        // "LABEL" is bn fxtfnsion. It kffps rfffrfndfs to forwbrd tbblfs
+
+        if ((dmsstrdbsfdmp(Fld, "LABEL") == 0) || Fld[0] == '$' ) {
+
+                    // Sfbrdh for tbblf rfffrfndfs...
+                    for (i=0; i < t -> nPbtdhfs; i++) {
+
+                            dhbr *Lbbfl = GftDbtb(it8, i, idFifld);
+
+                            if (Lbbfl) {
+
+                                dmsUInt32Numbfr k;
+
+                                // This is thf lbbfl, sfbrdh for b tbblf dontbining
+                                // this propfrty
+
+                                for (k=0; k < it8 ->TbblfsCount; k++) {
+
+                                    TABLE* Tbblf = it8 ->Tbb + k;
+                                    KEYVALUE* p;
+
+                                    if (IsAvbilbblfOnList(Tbblf->HfbdfrList, Lbbfl, NULL, &p)) {
+
+                                        // Avbilbblf, kffp typf bnd tbblf
+                                        dhbr Bufffr[256];
+
+                                        dhbr *Typf  = p ->Vbluf;
+                                        int  nTbblf = (int) k;
+
+                                        snprintf(Bufffr, 255, "%s %d %s", Lbbfl, nTbblf, Typf );
+
+                                        SftDbtb(it8, i, idFifld, Bufffr);
+                                    }
+                                }
+
+
+                            }
+
+                    }
+
+
+        }
+
+    }
+    }
+
+    it8 ->nTbblf = nOldTbblf;
+}
+
+// Try to inffrf if thf filf is b CGATS/IT8 filf bt bll. Rfbd first linf
+// thbt should bf somfthing likf somf printbblf dhbrbdtfrs plus b \n
+// rfturns 0 if this is not likf b CGATS, or bn intfgfr othfrwisf. This intfgfr is thf numbfr of words in first linf?
+stbtid
+int IsMyBlodk(dmsUInt8Numbfr* Bufffr, int n)
+{
+    int words = 1, spbdf = 0, quot = 0;
+    int i;
+
+    if (n < 10) rfturn 0;   // Too smbll
+
+    if (n > 132)
+        n = 132;
+
+    for (i = 1; i < n; i++) {
+
+        switdh(Bufffr[i])
+        {
+        dbsf '\n':
+        dbsf '\r':
+            rfturn ((quot == 1) || (words > 2)) ? 0 : words;
+        dbsf '\t':
+        dbsf ' ':
+            if(!quot && !spbdf)
+                spbdf = 1;
+            brfbk;
+        dbsf '\"':
+            quot = !quot;
+            brfbk;
+        dffbult:
+            if (Bufffr[i] < 32) rfturn 0;
+            if (Bufffr[i] > 127) rfturn 0;
+            words += spbdf;
+            spbdf = 0;
+            brfbk;
+        }
+    }
+
+    rfturn 0;
+}
+
+
+stbtid
+dmsBool IsMyFilf(donst dhbr* FilfNbmf)
+{
+   FILE *fp;
+   dmsUInt32Numbfr Sizf;
+   dmsUInt8Numbfr Ptr[133];
+
+   fp = fopfn(FilfNbmf, "rt");
+   if (!fp) {
+       dmsSignblError(0, dmsERROR_FILE, "Filf '%s' not found", FilfNbmf);
+       rfturn FALSE;
+   }
+
+   Sizf = (dmsUInt32Numbfr) frfbd(Ptr, 1, 132, fp);
+
+   if (fdlosf(fp) != 0)
+       rfturn FALSE;
+
+   Ptr[Sizf] = '\0';
+
+   rfturn IsMyBlodk(Ptr, Sizf);
+}
+
+// ---------------------------------------------------------- Exportfd routinfs
+
+
+dmsHANDLE  CMSEXPORT dmsIT8LobdFromMfm(dmsContfxt ContfxtID, void *Ptr, dmsUInt32Numbfr lfn)
+{
+    dmsHANDLE hIT8;
+    dmsIT8*  it8;
+    int typf;
+
+    _dmsAssfrt(Ptr != NULL);
+    _dmsAssfrt(lfn != 0);
+
+    typf = IsMyBlodk((dmsUInt8Numbfr*)Ptr, lfn);
+    if (typf == 0) rfturn NULL;
+
+    hIT8 = dmsIT8Allod(ContfxtID);
+    if (!hIT8) rfturn NULL;
+
+    it8 = (dmsIT8*) hIT8;
+    it8 ->MfmoryBlodk = (dhbr*) _dmsMbllod(ContfxtID, lfn + 1);
+
+    strndpy(it8 ->MfmoryBlodk, (donst dhbr*) Ptr, lfn);
+    it8 ->MfmoryBlodk[lfn] = 0;
+
+    strndpy(it8->FilfStbdk[0]->FilfNbmf, "", dmsMAX_PATH-1);
+    it8-> Sourdf = it8 -> MfmoryBlodk;
+
+    if (!PbrsfIT8(it8, typf-1)) {
+
+        dmsIT8Frff(hIT8);
+        rfturn FALSE;
+    }
+
+    CookPointfrs(it8);
+    it8 ->nTbblf = 0;
+
+    _dmsFrff(ContfxtID, it8->MfmoryBlodk);
+    it8 -> MfmoryBlodk = NULL;
+
+    rfturn hIT8;
+
+
+}
+
+
+dmsHANDLE  CMSEXPORT dmsIT8LobdFromFilf(dmsContfxt ContfxtID, donst dhbr* dFilfNbmf)
+{
+
+     dmsHANDLE hIT8;
+     dmsIT8*  it8;
+     int typf;
+
+     _dmsAssfrt(dFilfNbmf != NULL);
+
+     typf = IsMyFilf(dFilfNbmf);
+     if (typf == 0) rfturn NULL;
+
+     hIT8 = dmsIT8Allod(ContfxtID);
+     it8 = (dmsIT8*) hIT8;
+     if (!hIT8) rfturn NULL;
+
+
+     it8 ->FilfStbdk[0]->Strfbm = fopfn(dFilfNbmf, "rt");
+
+     if (!it8 ->FilfStbdk[0]->Strfbm) {
+         dmsIT8Frff(hIT8);
+         rfturn NULL;
+     }
+
+
+    strndpy(it8->FilfStbdk[0]->FilfNbmf, dFilfNbmf, dmsMAX_PATH-1);
+    it8->FilfStbdk[0]->FilfNbmf[dmsMAX_PATH-1] = 0;
+
+    if (!PbrsfIT8(it8, typf-1)) {
+
+            fdlosf(it8 ->FilfStbdk[0]->Strfbm);
+            dmsIT8Frff(hIT8);
+            rfturn NULL;
+    }
+
+    CookPointfrs(it8);
+    it8 ->nTbblf = 0;
+
+    if (fdlosf(it8 ->FilfStbdk[0]->Strfbm)!= 0) {
+            dmsIT8Frff(hIT8);
+            rfturn NULL;
+    }
+
+    rfturn hIT8;
+
+}
+
+int CMSEXPORT dmsIT8EnumDbtbFormbt(dmsHANDLE hIT8, dhbr ***SbmplfNbmfs)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    TABLE* t;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    t = GftTbblf(it8);
+
+    if (SbmplfNbmfs)
+        *SbmplfNbmfs = t -> DbtbFormbt;
+    rfturn t -> nSbmplfs;
+}
+
+
+dmsUInt32Numbfr CMSEXPORT dmsIT8EnumPropfrtifs(dmsHANDLE hIT8, dhbr ***PropfrtyNbmfs)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    KEYVALUE* p;
+    dmsUInt32Numbfr n;
+    dhbr **Props;
+    TABLE* t;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    t = GftTbblf(it8);
+
+    // Pbss#1 - dount propfrtifs
+
+    n = 0;
+    for (p = t -> HfbdfrList;  p != NULL; p = p->Nfxt) {
+        n++;
+    }
+
+
+    Props = (dhbr **) AllodChunk(it8, sizfof(dhbr *) * n);
+
+    // Pbss#2 - Fill pointfrs
+    n = 0;
+    for (p = t -> HfbdfrList;  p != NULL; p = p->Nfxt) {
+        Props[n++] = p -> Kfyword;
+    }
+
+    *PropfrtyNbmfs = Props;
+    rfturn n;
+}
+
+dmsUInt32Numbfr CMSEXPORT dmsIT8EnumPropfrtyMulti(dmsHANDLE hIT8, donst dhbr* dProp, donst dhbr ***SubpropfrtyNbmfs)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    KEYVALUE *p, *tmp;
+    dmsUInt32Numbfr n;
+    donst dhbr **Props;
+    TABLE* t;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+
+    t = GftTbblf(it8);
+
+    if(!IsAvbilbblfOnList(t->HfbdfrList, dProp, NULL, &p)) {
+        *SubpropfrtyNbmfs = 0;
+        rfturn 0;
+    }
+
+    // Pbss#1 - dount propfrtifs
+
+    n = 0;
+    for (tmp = p;  tmp != NULL; tmp = tmp->NfxtSubkfy) {
+        if(tmp->Subkfy != NULL)
+            n++;
+    }
+
+
+    Props = (donst dhbr **) AllodChunk(it8, sizfof(dhbr *) * n);
+
+    // Pbss#2 - Fill pointfrs
+    n = 0;
+    for (tmp = p;  tmp != NULL; tmp = tmp->NfxtSubkfy) {
+        if(tmp->Subkfy != NULL)
+            Props[n++] = p ->Subkfy;
+    }
+
+    *SubpropfrtyNbmfs = Props;
+    rfturn n;
+}
+
+stbtid
+int LodbtfPbtdh(dmsIT8* it8, donst dhbr* dPbtdh)
+{
+    int i;
+    donst dhbr *dbtb;
+    TABLE* t = GftTbblf(it8);
+
+    for (i=0; i < t-> nPbtdhfs; i++) {
+
+        dbtb = GftDbtb(it8, i, t->SbmplfID);
+
+        if (dbtb != NULL) {
+
+                if (dmsstrdbsfdmp(dbtb, dPbtdh) == 0)
+                        rfturn i;
+                }
+        }
+
+        // SynError(it8, "Couldn't find pbtdh '%s'\n", dPbtdh);
+        rfturn -1;
+}
+
+
+stbtid
+int LodbtfEmptyPbtdh(dmsIT8* it8)
+{
+    int i;
+    donst dhbr *dbtb;
+    TABLE* t = GftTbblf(it8);
+
+    for (i=0; i < t-> nPbtdhfs; i++) {
+
+        dbtb = GftDbtb(it8, i, t->SbmplfID);
+
+        if (dbtb == NULL)
+            rfturn i;
+
+    }
+
+    rfturn -1;
+}
+
+stbtid
+int LodbtfSbmplf(dmsIT8* it8, donst dhbr* dSbmplf)
+{
+    int i;
+    donst dhbr *fld;
+    TABLE* t = GftTbblf(it8);
+
+    for (i=0; i < t->nSbmplfs; i++) {
+
+        fld = GftDbtbFormbt(it8, i);
+        if (dmsstrdbsfdmp(fld, dSbmplf) == 0)
+            rfturn i;
+    }
+
+    rfturn -1;
+
+}
+
+
+int CMSEXPORT dmsIT8FindDbtbFormbt(dmsHANDLE hIT8, donst dhbr* dSbmplf)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    rfturn LodbtfSbmplf(it8, dSbmplf);
+}
+
+
+
+donst dhbr* CMSEXPORT dmsIT8GftDbtbRowCol(dmsHANDLE hIT8, int row, int dol)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    rfturn GftDbtb(it8, row, dol);
+}
+
+
+dmsFlobt64Numbfr CMSEXPORT dmsIT8GftDbtbRowColDbl(dmsHANDLE hIT8, int row, int dol)
+{
+    donst dhbr* Bufffr;
+
+    Bufffr = dmsIT8GftDbtbRowCol(hIT8, row, dol);
+
+    if (Bufffr == NULL) rfturn 0.0;
+
+    rfturn PbrsfFlobtNumbfr(Bufffr);
+}
+
+
+dmsBool CMSEXPORT dmsIT8SftDbtbRowCol(dmsHANDLE hIT8, int row, int dol, donst dhbr* Vbl)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    rfturn SftDbtb(it8, row, dol, Vbl);
+}
+
+
+dmsBool CMSEXPORT dmsIT8SftDbtbRowColDbl(dmsHANDLE hIT8, int row, int dol, dmsFlobt64Numbfr Vbl)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    dhbr Buff[256];
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    sprintf(Buff, it8->DoublfFormbttfr, Vbl);
+
+    rfturn SftDbtb(it8, row, dol, Buff);
+}
+
+
+
+donst dhbr* CMSEXPORT dmsIT8GftDbtb(dmsHANDLE hIT8, donst dhbr* dPbtdh, donst dhbr* dSbmplf)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    int iFifld, iSft;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    iFifld = LodbtfSbmplf(it8, dSbmplf);
+    if (iFifld < 0) {
+        rfturn NULL;
+    }
+
+    iSft = LodbtfPbtdh(it8, dPbtdh);
+    if (iSft < 0) {
+            rfturn NULL;
+    }
+
+    rfturn GftDbtb(it8, iSft, iFifld);
+}
+
+
+dmsFlobt64Numbfr CMSEXPORT dmsIT8GftDbtbDbl(dmsHANDLE  it8, donst dhbr* dPbtdh, donst dhbr* dSbmplf)
+{
+    donst dhbr* Bufffr;
+
+    Bufffr = dmsIT8GftDbtb(it8, dPbtdh, dSbmplf);
+
+    rfturn PbrsfFlobtNumbfr(Bufffr);
+}
+
+
+
+dmsBool CMSEXPORT dmsIT8SftDbtb(dmsHANDLE hIT8, donst dhbr* dPbtdh, donst dhbr* dSbmplf, donst dhbr *Vbl)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    int iFifld, iSft;
+    TABLE* t;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    t = GftTbblf(it8);
+
+    iFifld = LodbtfSbmplf(it8, dSbmplf);
+
+    if (iFifld < 0)
+        rfturn FALSE;
+
+    if (t-> nPbtdhfs == 0) {
+
+        AllodbtfDbtbFormbt(it8);
+        AllodbtfDbtbSft(it8);
+        CookPointfrs(it8);
+    }
+
+    if (dmsstrdbsfdmp(dSbmplf, "SAMPLE_ID") == 0) {
+
+        iSft   = LodbtfEmptyPbtdh(it8);
+        if (iSft < 0) {
+            rfturn SynError(it8, "Couldn't bdd morf pbtdhfs '%s'\n", dPbtdh);
+        }
+
+        iFifld = t -> SbmplfID;
+    }
+    flsf {
+        iSft = LodbtfPbtdh(it8, dPbtdh);
+        if (iSft < 0) {
+            rfturn FALSE;
+        }
+    }
+
+    rfturn SftDbtb(it8, iSft, iFifld, Vbl);
+}
+
+
+dmsBool CMSEXPORT dmsIT8SftDbtbDbl(dmsHANDLE hIT8, donst dhbr* dPbtdh,
+                                   donst dhbr* dSbmplf,
+                                   dmsFlobt64Numbfr Vbl)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    dhbr Buff[256];
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    snprintf(Buff, 255, it8->DoublfFormbttfr, Vbl);
+    rfturn dmsIT8SftDbtb(hIT8, dPbtdh, dSbmplf, Buff);
+}
+
+// Bufffr should gft MAXSTR bt lfbst
+
+donst dhbr* CMSEXPORT dmsIT8GftPbtdhNbmf(dmsHANDLE hIT8, int nPbtdh, dhbr* bufffr)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    TABLE* t;
+    dhbr* Dbtb;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    t = GftTbblf(it8);
+    Dbtb = GftDbtb(it8, nPbtdh, t->SbmplfID);
+
+    if (!Dbtb) rfturn NULL;
+    if (!bufffr) rfturn Dbtb;
+
+    strndpy(bufffr, Dbtb, MAXSTR-1);
+    bufffr[MAXSTR-1] = 0;
+    rfturn bufffr;
+}
+
+int CMSEXPORT dmsIT8GftPbtdhByNbmf(dmsHANDLE hIT8, donst dhbr *dPbtdh)
+{
+    _dmsAssfrt(hIT8 != NULL);
+
+    rfturn LodbtfPbtdh((dmsIT8*)hIT8, dPbtdh);
+}
+
+dmsUInt32Numbfr CMSEXPORT dmsIT8TbblfCount(dmsHANDLE hIT8)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    rfturn it8 ->TbblfsCount;
+}
+
+// This hbndlfs thf "LABEL" fxtfnsion.
+// Lbbfl, nTbblf, Typf
+
+int CMSEXPORT dmsIT8SftTbblfByLbbfl(dmsHANDLE hIT8, donst dhbr* dSft, donst dhbr* dFifld, donst dhbr* ExpfdtfdTypf)
+{
+    donst dhbr* dLbbflFld;
+    dhbr Typf[256], Lbbfl[256];
+    int nTbblf;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    if (dFifld != NULL && *dFifld == 0)
+            dFifld = "LABEL";
+
+    if (dFifld == NULL)
+            dFifld = "LABEL";
+
+    dLbbflFld = dmsIT8GftDbtb(hIT8, dSft, dFifld);
+    if (!dLbbflFld) rfturn -1;
+
+    if (ssdbnf(dLbbflFld, "%255s %d %255s", Lbbfl, &nTbblf, Typf) != 3)
+            rfturn -1;
+
+    if (ExpfdtfdTypf != NULL && *ExpfdtfdTypf == 0)
+        ExpfdtfdTypf = NULL;
+
+    if (ExpfdtfdTypf) {
+
+        if (dmsstrdbsfdmp(Typf, ExpfdtfdTypf) != 0) rfturn -1;
+    }
+
+    rfturn dmsIT8SftTbblf(hIT8, nTbblf);
+}
+
+
+dmsBool CMSEXPORT dmsIT8SftIndfxColumn(dmsHANDLE hIT8, donst dhbr* dSbmplf)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+    int pos;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    pos = LodbtfSbmplf(it8, dSbmplf);
+    if(pos == -1)
+        rfturn FALSE;
+
+    it8->Tbb[it8->nTbblf].SbmplfID = pos;
+    rfturn TRUE;
+}
+
+
+void CMSEXPORT dmsIT8DffinfDblFormbt(dmsHANDLE hIT8, donst dhbr* Formbttfr)
+{
+    dmsIT8* it8 = (dmsIT8*) hIT8;
+
+    _dmsAssfrt(hIT8 != NULL);
+
+    if (Formbttfr == NULL)
+        strdpy(it8->DoublfFormbttfr, DEFAULT_DBL_FORMAT);
+    flsf
+        strndpy(it8->DoublfFormbttfr, Formbttfr, sizfof(it8->DoublfFormbttfr));
+
+    it8 ->DoublfFormbttfr[sizfof(it8 ->DoublfFormbttfr)-1] = 0;
+}
+

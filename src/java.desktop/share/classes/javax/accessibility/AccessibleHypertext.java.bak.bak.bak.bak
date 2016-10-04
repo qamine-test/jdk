@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvbx.swing.tfxt.*;
+
+
+/**
+ * <P>Thf AddfssiblfHypfrtfxt dlbss is thf bbsf dlbss for bll
+ * dlbssfs thbt prfsfnt hypfrtfxt informbtion on thf displby.  This dlbss
+ * providfs thf stbndbrd mfdhbnism for bn bssistivf tfdhnology to bddfss
+ * thbt tfxt vib its dontfnt, bttributfs, bnd spbtibl lodbtion.
+ * It blso providfs stbndbrd mfdhbnisms for mbnipulbting hypfrlinks.
+ * Applidbtions dbn dftfrminf if bn objfdt supports thf AddfssiblfHypfrtfxt
+ * intfrfbdf by first obtbining its AddfssiblfContfxt (sff {@link Addfssiblf})
+ * bnd thfn dblling thf {@link AddfssiblfContfxt#gftAddfssiblfTfxt}
+ * mfthod of AddfssiblfContfxt.  If thf rfturn vbluf is b dlbss whidh fxtfnds
+ * AddfssiblfHypfrtfxt, thfn thbt objfdt supports AddfssiblfHypfrtfxt.
+ *
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfTfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfTfxt
+ *
+ * @buthor      Pftfr Korn
+ */
+publid intfrfbdf AddfssiblfHypfrtfxt fxtfnds AddfssiblfTfxt {
+
+    /**
+     * Rfturns thf numbfr of links within this hypfrtfxt dodumfnt.
+     *
+     * @rfturn numbfr of links in this hypfrtfxt dod.
+     */
+    publid bbstrbdt int gftLinkCount();
+
+    /**
+     * Rfturns thf nth Link of this Hypfrtfxt dodumfnt.
+     *
+     * @pbrbm linkIndfx within thf links of this Hypfrtfxt
+     * @rfturn Link objfdt fndbpsulbting thf nth link(s)
+     */
+    publid bbstrbdt AddfssiblfHypfrlink gftLink(int linkIndfx);
+
+    /**
+     * Rfturns thf indfx into bn brrby of hypfrlinks thbt
+     * is bssodibtfd with this dhbrbdtfr indfx, or -1 if thfrf
+     * is no hypfrlink bssodibtfd with this indfx.
+     *
+     * @pbrbm dhbrIndfx indfx within thf tfxt
+     * @rfturn indfx into thf sft of hypfrlinks for this hypfrtfxt dod.
+     */
+    publid bbstrbdt int gftLinkIndfx(int dhbrIndfx);
+}

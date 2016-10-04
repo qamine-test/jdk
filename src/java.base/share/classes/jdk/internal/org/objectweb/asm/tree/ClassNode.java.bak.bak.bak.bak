@@ -1,0 +1,446 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Attributf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.FifldVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfPbth;
+
+/**
+ * A nodf thbt rfprfsfnts b dlbss.
+ *
+ * @buthor Erid Brunfton
+ */
+publid dlbss ClbssNodf fxtfnds ClbssVisitor {
+
+    /**
+     * Thf dlbss vfrsion.
+     */
+    publid int vfrsion;
+
+    /**
+     * Thf dlbss's bddfss flbgs (sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs}). This
+     * fifld blso indidbtfs if thf dlbss is dfprfdbtfd.
+     */
+    publid int bddfss;
+
+    /**
+     * Thf intfrnbl nbmf of thf dlbss (sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
+     */
+    publid String nbmf;
+
+    /**
+     * Thf signbturf of thf dlbss. Mby bf <tt>null</tt>.
+     */
+    publid String signbturf;
+
+    /**
+     * Thf intfrnbl of nbmf of thf supfr dlbss (sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). For
+     * intfrfbdfs, thf supfr dlbss is {@link Objfdt}. Mby bf <tt>null</tt>, but
+     * only for thf {@link Objfdt} dlbss.
+     */
+    publid String supfrNbmf;
+
+    /**
+     * Thf intfrnbl nbmfs of thf dlbss's intfrfbdfs (sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). This
+     * list is b list of {@link String} objfdts.
+     */
+    publid List<String> intfrfbdfs;
+
+    /**
+     * Thf nbmf of thf sourdf filf from whidh this dlbss wbs dompilfd. Mby bf
+     * <tt>null</tt>.
+     */
+    publid String sourdfFilf;
+
+    /**
+     * Dfbug informbtion to domputf thf dorrfspondfndf bftwffn sourdf bnd
+     * dompilfd flfmfnts of thf dlbss. Mby bf <tt>null</tt>.
+     */
+    publid String sourdfDfbug;
+
+    /**
+     * Thf intfrnbl nbmf of thf fndlosing dlbss of thf dlbss. Mby bf
+     * <tt>null</tt>.
+     */
+    publid String outfrClbss;
+
+    /**
+     * Thf nbmf of thf mfthod thbt dontbins thf dlbss, or <tt>null</tt> if thf
+     * dlbss is not fndlosfd in b mfthod.
+     */
+    publid String outfrMfthod;
+
+    /**
+     * Thf dfsdriptor of thf mfthod thbt dontbins thf dlbss, or <tt>null</tt> if
+     * thf dlbss is not fndlosfd in b mfthod.
+     */
+    publid String outfrMfthodDfsd;
+
+    /**
+     * Thf runtimf visiblf bnnotbtions of this dlbss. This list is b list of
+     * {@link AnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
+     *
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.AnnotbtionNodf
+     * @lbbfl visiblf
+     */
+    publid List<AnnotbtionNodf> visiblfAnnotbtions;
+
+    /**
+     * Thf runtimf invisiblf bnnotbtions of this dlbss. This list is b list of
+     * {@link AnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
+     *
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.AnnotbtionNodf
+     * @lbbfl invisiblf
+     */
+    publid List<AnnotbtionNodf> invisiblfAnnotbtions;
+
+    /**
+     * Thf runtimf visiblf typf bnnotbtions of this dlbss. This list is b list
+     * of {@link TypfAnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
+     *
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl visiblf
+     */
+    publid List<TypfAnnotbtionNodf> visiblfTypfAnnotbtions;
+
+    /**
+     * Thf runtimf invisiblf typf bnnotbtions of this dlbss. This list is b list
+     * of {@link TypfAnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
+     *
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl invisiblf
+     */
+    publid List<TypfAnnotbtionNodf> invisiblfTypfAnnotbtions;
+
+    /**
+     * Thf non stbndbrd bttributfs of this dlbss. This list is b list of
+     * {@link Attributf} objfdts. Mby bf <tt>null</tt>.
+     *
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.Attributf
+     */
+    publid List<Attributf> bttrs;
+
+    /**
+     * Informbtions bbout thf innfr dlbssfs of this dlbss. This list is b list
+     * of {@link InnfrClbssNodf} objfdts.
+     *
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.InnfrClbssNodf
+     */
+    publid List<InnfrClbssNodf> innfrClbssfs;
+
+    /**
+     * Thf fiflds of this dlbss. This list is b list of {@link FifldNodf}
+     * objfdts.
+     *
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.FifldNodf
+     */
+    publid List<FifldNodf> fiflds;
+
+    /**
+     * Thf mfthods of this dlbss. This list is b list of {@link MfthodNodf}
+     * objfdts.
+     *
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.MfthodNodf
+     */
+    publid List<MfthodNodf> mfthods;
+
+    /**
+     * Construdts b nfw {@link ClbssNodf}. <i>Subdlbssfs must not usf this
+     * donstrudtor</i>. Instfbd, thfy must usf thf {@link #ClbssNodf(int)}
+     * vfrsion.
+     *
+     * @throws IllfgblStbtfExdfption
+     *             If b subdlbss dblls this donstrudtor.
+     */
+    publid ClbssNodf() {
+        this(Opdodfs.ASM5);
+        if (gftClbss() != ClbssNodf.dlbss) {
+            throw nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    /**
+     * Construdts b nfw {@link ClbssNodf}.
+     *
+     * @pbrbm bpi
+     *            thf ASM API vfrsion implfmfntfd by this visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     */
+    publid ClbssNodf(finbl int bpi) {
+        supfr(bpi);
+        this.intfrfbdfs = nfw ArrbyList<String>();
+        this.innfrClbssfs = nfw ArrbyList<InnfrClbssNodf>();
+        this.fiflds = nfw ArrbyList<FifldNodf>();
+        this.mfthods = nfw ArrbyList<MfthodNodf>();
+    }
+
+    // ------------------------------------------------------------------------
+    // Implfmfntbtion of thf ClbssVisitor bbstrbdt dlbss
+    // ------------------------------------------------------------------------
+
+    @Ovfrridf
+    publid void visit(finbl int vfrsion, finbl int bddfss, finbl String nbmf,
+            finbl String signbturf, finbl String supfrNbmf,
+            finbl String[] intfrfbdfs) {
+        this.vfrsion = vfrsion;
+        this.bddfss = bddfss;
+        this.nbmf = nbmf;
+        this.signbturf = signbturf;
+        this.supfrNbmf = supfrNbmf;
+        if (intfrfbdfs != null) {
+            this.intfrfbdfs.bddAll(Arrbys.bsList(intfrfbdfs));
+        }
+    }
+
+    @Ovfrridf
+    publid void visitSourdf(finbl String filf, finbl String dfbug) {
+        sourdfFilf = filf;
+        sourdfDfbug = dfbug;
+    }
+
+    @Ovfrridf
+    publid void visitOutfrClbss(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd) {
+        outfrClbss = ownfr;
+        outfrMfthod = nbmf;
+        outfrMfthodDfsd = dfsd;
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        AnnotbtionNodf bn = nfw AnnotbtionNodf(dfsd);
+        if (visiblf) {
+            if (visiblfAnnotbtions == null) {
+                visiblfAnnotbtions = nfw ArrbyList<AnnotbtionNodf>(1);
+            }
+            visiblfAnnotbtions.bdd(bn);
+        } flsf {
+            if (invisiblfAnnotbtions == null) {
+                invisiblfAnnotbtions = nfw ArrbyList<AnnotbtionNodf>(1);
+            }
+            invisiblfAnnotbtions.bdd(bn);
+        }
+        rfturn bn;
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbth typfPbth, String dfsd, boolfbn visiblf) {
+        TypfAnnotbtionNodf bn = nfw TypfAnnotbtionNodf(typfRff, typfPbth, dfsd);
+        if (visiblf) {
+            if (visiblfTypfAnnotbtions == null) {
+                visiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>(1);
+            }
+            visiblfTypfAnnotbtions.bdd(bn);
+        } flsf {
+            if (invisiblfTypfAnnotbtions == null) {
+                invisiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>(1);
+            }
+            invisiblfTypfAnnotbtions.bdd(bn);
+        }
+        rfturn bn;
+    }
+
+    @Ovfrridf
+    publid void visitAttributf(finbl Attributf bttr) {
+        if (bttrs == null) {
+            bttrs = nfw ArrbyList<Attributf>(1);
+        }
+        bttrs.bdd(bttr);
+    }
+
+    @Ovfrridf
+    publid void visitInnfrClbss(finbl String nbmf, finbl String outfrNbmf,
+            finbl String innfrNbmf, finbl int bddfss) {
+        InnfrClbssNodf idn = nfw InnfrClbssNodf(nbmf, outfrNbmf, innfrNbmf,
+                bddfss);
+        innfrClbssfs.bdd(idn);
+    }
+
+    @Ovfrridf
+    publid FifldVisitor visitFifld(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Objfdt vbluf) {
+        FifldNodf fn = nfw FifldNodf(bddfss, nbmf, dfsd, signbturf, vbluf);
+        fiflds.bdd(fn);
+        rfturn fn;
+    }
+
+    @Ovfrridf
+    publid MfthodVisitor visitMfthod(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl String[] fxdfptions) {
+        MfthodNodf mn = nfw MfthodNodf(bddfss, nbmf, dfsd, signbturf,
+                fxdfptions);
+        mfthods.bdd(mn);
+        rfturn mn;
+    }
+
+    @Ovfrridf
+    publid void visitEnd() {
+    }
+
+    // ------------------------------------------------------------------------
+    // Addfpt mfthod
+    // ------------------------------------------------------------------------
+
+    /**
+     * Chfdks thbt this dlbss nodf is dompbtiblf with thf givfn ASM API vfrsion.
+     * This mfthods dhfdks thbt this nodf, bnd bll its nodfs rfdursivfly, do not
+     * dontbin flfmfnts thbt wfrf introdudfd in morf rfdfnt vfrsions of thf ASM
+     * API thbn thf givfn vfrsion.
+     *
+     * @pbrbm bpi
+     *            bn ASM API vfrsion. Must bf onf of {@link Opdodfs#ASM4} or
+     *            {@link Opdodfs#ASM5}.
+     */
+    publid void dhfdk(finbl int bpi) {
+        if (bpi == Opdodfs.ASM4) {
+            if (visiblfTypfAnnotbtions != null
+                    && visiblfTypfAnnotbtions.sizf() > 0) {
+                throw nfw RuntimfExdfption();
+            }
+            if (invisiblfTypfAnnotbtions != null
+                    && invisiblfTypfAnnotbtions.sizf() > 0) {
+                throw nfw RuntimfExdfption();
+            }
+            for (FifldNodf f : fiflds) {
+                f.dhfdk(bpi);
+            }
+            for (MfthodNodf m : mfthods) {
+                m.dhfdk(bpi);
+            }
+        }
+    }
+
+    /**
+     * Mbkfs thf givfn dlbss visitor visit this dlbss.
+     *
+     * @pbrbm dv
+     *            b dlbss visitor.
+     */
+    publid void bddfpt(finbl ClbssVisitor dv) {
+        // visits hfbdfr
+        String[] intfrfbdfs = nfw String[this.intfrfbdfs.sizf()];
+        this.intfrfbdfs.toArrby(intfrfbdfs);
+        dv.visit(vfrsion, bddfss, nbmf, signbturf, supfrNbmf, intfrfbdfs);
+        // visits sourdf
+        if (sourdfFilf != null || sourdfDfbug != null) {
+            dv.visitSourdf(sourdfFilf, sourdfDfbug);
+        }
+        // visits outfr dlbss
+        if (outfrClbss != null) {
+            dv.visitOutfrClbss(outfrClbss, outfrMfthod, outfrMfthodDfsd);
+        }
+        // visits bttributfs
+        int i, n;
+        n = visiblfAnnotbtions == null ? 0 : visiblfAnnotbtions.sizf();
+        for (i = 0; i < n; ++i) {
+            AnnotbtionNodf bn = visiblfAnnotbtions.gft(i);
+            bn.bddfpt(dv.visitAnnotbtion(bn.dfsd, truf));
+        }
+        n = invisiblfAnnotbtions == null ? 0 : invisiblfAnnotbtions.sizf();
+        for (i = 0; i < n; ++i) {
+            AnnotbtionNodf bn = invisiblfAnnotbtions.gft(i);
+            bn.bddfpt(dv.visitAnnotbtion(bn.dfsd, fblsf));
+        }
+        n = visiblfTypfAnnotbtions == null ? 0 : visiblfTypfAnnotbtions.sizf();
+        for (i = 0; i < n; ++i) {
+            TypfAnnotbtionNodf bn = visiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(dv.visitTypfAnnotbtion(bn.typfRff, bn.typfPbth, bn.dfsd,
+                    truf));
+        }
+        n = invisiblfTypfAnnotbtions == null ? 0 : invisiblfTypfAnnotbtions
+                .sizf();
+        for (i = 0; i < n; ++i) {
+            TypfAnnotbtionNodf bn = invisiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(dv.visitTypfAnnotbtion(bn.typfRff, bn.typfPbth, bn.dfsd,
+                    fblsf));
+        }
+        n = bttrs == null ? 0 : bttrs.sizf();
+        for (i = 0; i < n; ++i) {
+            dv.visitAttributf(bttrs.gft(i));
+        }
+        // visits innfr dlbssfs
+        for (i = 0; i < innfrClbssfs.sizf(); ++i) {
+            innfrClbssfs.gft(i).bddfpt(dv);
+        }
+        // visits fiflds
+        for (i = 0; i < fiflds.sizf(); ++i) {
+            fiflds.gft(i).bddfpt(dv);
+        }
+        // visits mfthods
+        for (i = 0; i < mfthods.sizf(); ++i) {
+            mfthods.gft(i).bddfpt(dv);
+        }
+        // visits fnd
+        dv.visitEnd();
+    }
+}

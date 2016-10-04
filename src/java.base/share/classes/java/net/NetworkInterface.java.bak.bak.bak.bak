@@ -1,0 +1,580 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.NoSudhElfmfntExdfption;
+import sun.sfdurity.bdtion.*;
+import jbvb.sfdurity.AddfssControllfr;
+
+/**
+ * This dlbss rfprfsfnts b Nftwork Intfrfbdf mbdf up of b nbmf,
+ * bnd b list of IP bddrfssfs bssignfd to this intfrfbdf.
+ * It is usfd to idfntify thf lodbl intfrfbdf on whidh b multidbst group
+ * is joinfd.
+ *
+ * Intfrfbdfs brf normblly known by nbmfs sudh bs "lf0".
+ *
+ * @sindf 1.4
+ */
+publid finbl dlbss NftworkIntfrfbdf {
+    privbtf String nbmf;
+    privbtf String displbyNbmf;
+    privbtf int indfx;
+    privbtf InftAddrfss bddrs[];
+    privbtf IntfrfbdfAddrfss bindings[];
+    privbtf NftworkIntfrfbdf dhilds[];
+    privbtf NftworkIntfrfbdf pbrfnt = null;
+    privbtf boolfbn virtubl = fblsf;
+    privbtf stbtid finbl NftworkIntfrfbdf dffbultIntfrfbdf;
+    privbtf stbtid finbl int dffbultIndfx; /* indfx of dffbultIntfrfbdf */
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("nft");
+                    rfturn null;
+                }
+            });
+
+        init();
+        dffbultIntfrfbdf = DffbultIntfrfbdf.gftDffbult();
+        if (dffbultIntfrfbdf != null) {
+            dffbultIndfx = dffbultIntfrfbdf.gftIndfx();
+        } flsf {
+            dffbultIndfx = 0;
+        }
+    }
+
+    /**
+     * Rfturns bn NftworkIntfrfbdf objfdt with indfx sft to 0 bnd nbmf to null.
+     * Sftting sudh bn intfrfbdf on b MultidbstSodkft will dbusf thf
+     * kfrnfl to dhoosf onf intfrfbdf for sfnding multidbst pbdkfts.
+     *
+     */
+    NftworkIntfrfbdf() {
+    }
+
+    NftworkIntfrfbdf(String nbmf, int indfx, InftAddrfss[] bddrs) {
+        this.nbmf = nbmf;
+        this.indfx = indfx;
+        this.bddrs = bddrs;
+    }
+
+    /**
+     * Gft thf nbmf of this nftwork intfrfbdf.
+     *
+     * @rfturn thf nbmf of this nftwork intfrfbdf
+     */
+    publid String gftNbmf() {
+            rfturn nbmf;
+    }
+
+    /**
+     * Convfnifndf mfthod to rfturn bn Enumfrbtion with bll or b
+     * subsft of thf InftAddrfssfs bound to this nftwork intfrfbdf.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkConnfdt}
+     * mfthod is dbllfd for fbdh InftAddrfss. Only InftAddrfssfs whfrf
+     * thf {@dodf dhfdkConnfdt} dofsn't throw b SfdurityExdfption
+     * will bf rfturnfd in thf Enumfrbtion. Howfvfr, if thf dbllfr hbs thf
+     * {@link NftPfrmission}("gftNftworkInformbtion") pfrmission, thfn bll
+     * InftAddrfssfs brf rfturnfd.
+     * @rfturn bn Enumfrbtion objfdt with bll or b subsft of thf InftAddrfssfs
+     * bound to this nftwork intfrfbdf
+     */
+    publid Enumfrbtion<InftAddrfss> gftInftAddrfssfs() {
+
+        dlbss dhfdkfdAddrfssfs implfmfnts Enumfrbtion<InftAddrfss> {
+
+            privbtf int i=0, dount=0;
+            privbtf InftAddrfss lodbl_bddrs[];
+
+            dhfdkfdAddrfssfs() {
+                lodbl_bddrs = nfw InftAddrfss[bddrs.lfngth];
+                boolfbn trustfd = truf;
+
+                SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+                if (sfd != null) {
+                    try {
+                        sfd.dhfdkPfrmission(nfw NftPfrmission("gftNftworkInformbtion"));
+                    } dbtdh (SfdurityExdfption f) {
+                        trustfd = fblsf;
+                    }
+                }
+                for (int j=0; j<bddrs.lfngth; j++) {
+                    try {
+                        if (sfd != null && !trustfd) {
+                            sfd.dhfdkConnfdt(bddrs[j].gftHostAddrfss(), -1);
+                        }
+                        lodbl_bddrs[dount++] = bddrs[j];
+                    } dbtdh (SfdurityExdfption f) { }
+                }
+
+            }
+
+            publid InftAddrfss nfxtElfmfnt() {
+                if (i < dount) {
+                    rfturn lodbl_bddrs[i++];
+                } flsf {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+            }
+
+            publid boolfbn hbsMorfElfmfnts() {
+                rfturn (i < dount);
+            }
+        }
+        rfturn nfw dhfdkfdAddrfssfs();
+
+    }
+
+    /**
+     * Gft b List of bll or b subsft of thf {@dodf IntfrfbdfAddrfssfs}
+     * of this nftwork intfrfbdf.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkConnfdt}
+     * mfthod is dbllfd with thf InftAddrfss for fbdh IntfrfbdfAddrfss.
+     * Only IntfrfbdfAddrfssfs whfrf thf {@dodf dhfdkConnfdt} dofsn't throw
+     * b SfdurityExdfption will bf rfturnfd in thf List.
+     *
+     * @rfturn b {@dodf List} objfdt with bll or b subsft of thf
+     *         IntfrfbdfAddrfsss of this nftwork intfrfbdf
+     * @sindf 1.6
+     */
+    publid jbvb.util.List<IntfrfbdfAddrfss> gftIntfrfbdfAddrfssfs() {
+        jbvb.util.List<IntfrfbdfAddrfss> lst = nfw jbvb.util.ArrbyList<IntfrfbdfAddrfss>(1);
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        for (int j=0; j<bindings.lfngth; j++) {
+            try {
+                if (sfd != null) {
+                    sfd.dhfdkConnfdt(bindings[j].gftAddrfss().gftHostAddrfss(), -1);
+                }
+                lst.bdd(bindings[j]);
+            } dbtdh (SfdurityExdfption f) { }
+        }
+        rfturn lst;
+    }
+
+    /**
+     * Gft bn Enumfrbtion with bll thf subintfrfbdfs (blso known bs virtubl
+     * intfrfbdfs) bttbdhfd to this nftwork intfrfbdf.
+     * <p>
+     * For instbndf fth0:1 will bf b subintfrfbdf to fth0.
+     *
+     * @rfturn bn Enumfrbtion objfdt with bll of thf subintfrfbdfs
+     * of this nftwork intfrfbdf
+     * @sindf 1.6
+     */
+    publid Enumfrbtion<NftworkIntfrfbdf> gftSubIntfrfbdfs() {
+        dlbss subIFs implfmfnts Enumfrbtion<NftworkIntfrfbdf> {
+
+            privbtf int i=0;
+
+            subIFs() {
+            }
+
+            publid NftworkIntfrfbdf nfxtElfmfnt() {
+                if (i < dhilds.lfngth) {
+                    rfturn dhilds[i++];
+                } flsf {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+            }
+
+            publid boolfbn hbsMorfElfmfnts() {
+                rfturn (i < dhilds.lfngth);
+            }
+        }
+        rfturn nfw subIFs();
+
+    }
+
+    /**
+     * Rfturns thf pbrfnt NftworkIntfrfbdf of this intfrfbdf if this is
+     * b subintfrfbdf, or {@dodf null} if it is b physidbl
+     * (non virtubl) intfrfbdf or hbs no pbrfnt.
+     *
+     * @rfturn Thf {@dodf NftworkIntfrfbdf} this intfrfbdf is bttbdhfd to.
+     * @sindf 1.6
+     */
+    publid NftworkIntfrfbdf gftPbrfnt() {
+        rfturn pbrfnt;
+    }
+
+    /**
+     * Rfturns thf indfx of this nftwork intfrfbdf. Thf indfx is bn intfgfr grfbtfr
+     * or fqubl to zfro, or {@dodf -1} for unknown. This is b systfm spfdifid vbluf
+     * bnd intfrfbdfs with thf sbmf nbmf dbn hbvf difffrfnt indfxfs on difffrfnt
+     * mbdhinfs.
+     *
+     * @rfturn thf indfx of this nftwork intfrfbdf or {@dodf -1} if thf indfx is
+     *         unknown
+     * @sff #gftByIndfx(int)
+     * @sindf 1.7
+     */
+    publid int gftIndfx() {
+        rfturn indfx;
+    }
+
+    /**
+     * Gft thf displby nbmf of this nftwork intfrfbdf.
+     * A displby nbmf is b humbn rfbdbblf String dfsdribing thf nftwork
+     * dfvidf.
+     *
+     * @rfturn b non-fmpty string rfprfsfnting thf displby nbmf of this nftwork
+     *         intfrfbdf, or null if no displby nbmf is bvbilbblf.
+     */
+    publid String gftDisplbyNbmf() {
+        /* stridt TCK donformbndf */
+        rfturn "".fqubls(displbyNbmf) ? null : displbyNbmf;
+    }
+
+    /**
+     * Sfbrdhfs for thf nftwork intfrfbdf with thf spfdififd nbmf.
+     *
+     * @pbrbm   nbmf
+     *          Thf nbmf of thf nftwork intfrfbdf.
+     *
+     * @rfturn  A {@dodf NftworkIntfrfbdf} with thf spfdififd nbmf,
+     *          or {@dodf null} if thfrf is no nftwork intfrfbdf
+     *          with thf spfdififd nbmf.
+     *
+     * @throws  SodkftExdfption
+     *          If bn I/O frror oddurs.
+     *
+     * @throws  NullPointfrExdfption
+     *          If thf spfdififd nbmf is {@dodf null}.
+     */
+    publid stbtid NftworkIntfrfbdf gftByNbmf(String nbmf) throws SodkftExdfption {
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption();
+        rfturn gftByNbmf0(nbmf);
+    }
+
+    /**
+     * Gft b nftwork intfrfbdf givfn its indfx.
+     *
+     * @pbrbm indfx bn intfgfr, thf indfx of thf intfrfbdf
+     * @rfturn thf NftworkIntfrfbdf obtbinfd from its indfx, or {@dodf null} if
+     *         thfrf is no intfrfbdf with sudh bn indfx on thf systfm
+     * @throws  SodkftExdfption  if bn I/O frror oddurs.
+     * @throws  IllfgblArgumfntExdfption if indfx hbs b nfgbtivf vbluf
+     * @sff #gftIndfx()
+     * @sindf 1.7
+     */
+    publid stbtid NftworkIntfrfbdf gftByIndfx(int indfx) throws SodkftExdfption {
+        if (indfx < 0)
+            throw nfw IllfgblArgumfntExdfption("Intfrfbdf indfx dbn't bf nfgbtivf");
+        rfturn gftByIndfx0(indfx);
+    }
+
+    /**
+     * Convfnifndf mfthod to sfbrdh for b nftwork intfrfbdf thbt
+     * hbs thf spfdififd Intfrnft Protodol (IP) bddrfss bound to
+     * it.
+     * <p>
+     * If thf spfdififd IP bddrfss is bound to multiplf nftwork
+     * intfrfbdfs it is not dffinfd whidh nftwork intfrfbdf is
+     * rfturnfd.
+     *
+     * @pbrbm   bddr
+     *          Thf {@dodf InftAddrfss} to sfbrdh with.
+     *
+     * @rfturn  A {@dodf NftworkIntfrfbdf}
+     *          or {@dodf null} if thfrf is no nftwork intfrfbdf
+     *          with thf spfdififd IP bddrfss.
+     *
+     * @throws  SodkftExdfption
+     *          If bn I/O frror oddurs.
+     *
+     * @throws  NullPointfrExdfption
+     *          If thf spfdififd bddrfss is {@dodf null}.
+     */
+    publid stbtid NftworkIntfrfbdf gftByInftAddrfss(InftAddrfss bddr) throws SodkftExdfption {
+        if (bddr == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        if (!(bddr instbndfof Inft4Addrfss || bddr instbndfof Inft6Addrfss)) {
+            throw nfw IllfgblArgumfntExdfption ("invblid bddrfss typf");
+        }
+        rfturn gftByInftAddrfss0(bddr);
+    }
+
+    /**
+     * Rfturns bll thf intfrfbdfs on this mbdhinf. Thf {@dodf Enumfrbtion}
+     * dontbins bt lfbst onf flfmfnt, possibly rfprfsfnting b loopbbdk
+     * intfrfbdf thbt only supports dommunidbtion bftwffn fntitifs on
+     * this mbdhinf.
+     *
+     * NOTE: dbn usf gftNftworkIntfrfbdfs()+gftInftAddrfssfs()
+     *       to obtbin bll IP bddrfssfs for this nodf
+     *
+     * @rfturn bn Enumfrbtion of NftworkIntfrfbdfs found on this mbdhinf
+     * @fxdfption  SodkftExdfption  if bn I/O frror oddurs.
+     */
+
+    publid stbtid Enumfrbtion<NftworkIntfrfbdf> gftNftworkIntfrfbdfs()
+        throws SodkftExdfption {
+        finbl NftworkIntfrfbdf[] nftifs = gftAll();
+
+        // spfdififd to rfturn null if no nftwork intfrfbdfs
+        if (nftifs == null)
+            rfturn null;
+
+        rfturn nfw Enumfrbtion<NftworkIntfrfbdf>() {
+            privbtf int i = 0;
+            publid NftworkIntfrfbdf nfxtElfmfnt() {
+                if (nftifs != null && i < nftifs.lfngth) {
+                    NftworkIntfrfbdf nftif = nftifs[i++];
+                    rfturn nftif;
+                } flsf {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+            }
+
+            publid boolfbn hbsMorfElfmfnts() {
+                rfturn (nftifs != null && i < nftifs.lfngth);
+            }
+        };
+    }
+
+    privbtf nbtivf stbtid NftworkIntfrfbdf[] gftAll()
+        throws SodkftExdfption;
+
+    privbtf nbtivf stbtid NftworkIntfrfbdf gftByNbmf0(String nbmf)
+        throws SodkftExdfption;
+
+    privbtf nbtivf stbtid NftworkIntfrfbdf gftByIndfx0(int indfx)
+        throws SodkftExdfption;
+
+    privbtf nbtivf stbtid NftworkIntfrfbdf gftByInftAddrfss0(InftAddrfss bddr)
+        throws SodkftExdfption;
+
+    /**
+     * Rfturns whfthfr b nftwork intfrfbdf is up bnd running.
+     *
+     * @rfturn  {@dodf truf} if thf intfrfbdf is up bnd running.
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
+     */
+
+    publid boolfbn isUp() throws SodkftExdfption {
+        rfturn isUp0(nbmf, indfx);
+    }
+
+    /**
+     * Rfturns whfthfr b nftwork intfrfbdf is b loopbbdk intfrfbdf.
+     *
+     * @rfturn  {@dodf truf} if thf intfrfbdf is b loopbbdk intfrfbdf.
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
+     */
+
+    publid boolfbn isLoopbbdk() throws SodkftExdfption {
+        rfturn isLoopbbdk0(nbmf, indfx);
+    }
+
+    /**
+     * Rfturns whfthfr b nftwork intfrfbdf is b point to point intfrfbdf.
+     * A typidbl point to point intfrfbdf would bf b PPP donnfdtion through
+     * b modfm.
+     *
+     * @rfturn  {@dodf truf} if thf intfrfbdf is b point to point
+     *          intfrfbdf.
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
+     */
+
+    publid boolfbn isPointToPoint() throws SodkftExdfption {
+        rfturn isP2P0(nbmf, indfx);
+    }
+
+    /**
+     * Rfturns whfthfr b nftwork intfrfbdf supports multidbsting or not.
+     *
+     * @rfturn  {@dodf truf} if thf intfrfbdf supports Multidbsting.
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
+     */
+
+    publid boolfbn supportsMultidbst() throws SodkftExdfption {
+        rfturn supportsMultidbst0(nbmf, indfx);
+    }
+
+    /**
+     * Rfturns thf hbrdwbrf bddrfss (usublly MAC) of thf intfrfbdf if it
+     * hbs onf bnd if it dbn bf bddfssfd givfn thf durrfnt privilfgfs.
+     * If b sfdurity mbnbgfr is sft, thfn thf dbllfr must hbvf
+     * thf pfrmission {@link NftPfrmission}("gftNftworkInformbtion").
+     *
+     * @rfturn  b bytf brrby dontbining thf bddrfss, or {@dodf null} if
+     *          thf bddrfss dofsn't fxist, is not bddfssiblf or b sfdurity
+     *          mbnbgfr is sft bnd thf dbllfr dofs not hbvf thf pfrmission
+     *          NftPfrmission("gftNftworkInformbtion")
+     *
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
+     */
+    publid bytf[] gftHbrdwbrfAddrfss() throws SodkftExdfption {
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            try {
+                sfd.dhfdkPfrmission(nfw NftPfrmission("gftNftworkInformbtion"));
+            } dbtdh (SfdurityExdfption f) {
+                if (!gftInftAddrfssfs().hbsMorfElfmfnts()) {
+                    // don't hbvf donnfdt pfrmission to bny lodbl bddrfss
+                    rfturn null;
+                }
+            }
+        }
+        for (InftAddrfss bddr : bddrs) {
+            if (bddr instbndfof Inft4Addrfss) {
+                rfturn gftMbdAddr0(((Inft4Addrfss)bddr).gftAddrfss(), nbmf, indfx);
+            }
+        }
+        rfturn gftMbdAddr0(null, nbmf, indfx);
+    }
+
+    /**
+     * Rfturns thf Mbximum Trbnsmission Unit (MTU) of this intfrfbdf.
+     *
+     * @rfturn thf vbluf of thf MTU for thbt intfrfbdf.
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
+     */
+    publid int gftMTU() throws SodkftExdfption {
+        rfturn gftMTU0(nbmf, indfx);
+    }
+
+    /**
+     * Rfturns whfthfr this intfrfbdf is b virtubl intfrfbdf (blso dbllfd
+     * subintfrfbdf).
+     * Virtubl intfrfbdfs brf, on somf systfms, intfrfbdfs drfbtfd bs b dhild
+     * of b physidbl intfrfbdf bnd givfn difffrfnt sfttings (likf bddrfss or
+     * MTU). Usublly thf nbmf of thf intfrfbdf will thf nbmf of thf pbrfnt
+     * followfd by b dolon (:) bnd b numbfr idfntifying thf dhild sindf thfrf
+     * dbn bf sfvfrbl virtubl intfrfbdfs bttbdhfd to b singlf physidbl
+     * intfrfbdf.
+     *
+     * @rfturn {@dodf truf} if this intfrfbdf is b virtubl intfrfbdf.
+     * @sindf 1.6
+     */
+    publid boolfbn isVirtubl() {
+        rfturn virtubl;
+    }
+
+    privbtf nbtivf stbtid boolfbn isUp0(String nbmf, int ind) throws SodkftExdfption;
+    privbtf nbtivf stbtid boolfbn isLoopbbdk0(String nbmf, int ind) throws SodkftExdfption;
+    privbtf nbtivf stbtid boolfbn supportsMultidbst0(String nbmf, int ind) throws SodkftExdfption;
+    privbtf nbtivf stbtid boolfbn isP2P0(String nbmf, int ind) throws SodkftExdfption;
+    privbtf nbtivf stbtid bytf[] gftMbdAddr0(bytf[] inAddr, String nbmf, int ind) throws SodkftExdfption;
+    privbtf nbtivf stbtid int gftMTU0(String nbmf, int ind) throws SodkftExdfption;
+
+    /**
+     * Compbrfs this objfdt bgbinst thf spfdififd objfdt.
+     * Thf rfsult is {@dodf truf} if bnd only if thf brgumfnt is
+     * not {@dodf null} bnd it rfprfsfnts thf sbmf NftworkIntfrfbdf
+     * bs this objfdt.
+     * <p>
+     * Two instbndfs of {@dodf NftworkIntfrfbdf} rfprfsfnt thf sbmf
+     * NftworkIntfrfbdf if both nbmf bnd bddrs brf thf sbmf for both.
+     *
+     * @pbrbm   obj   thf objfdt to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if thf objfdts brf thf sbmf;
+     *          {@dodf fblsf} othfrwisf.
+     * @sff     jbvb.nft.InftAddrfss#gftAddrfss()
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof NftworkIntfrfbdf)) {
+            rfturn fblsf;
+        }
+        NftworkIntfrfbdf thbt = (NftworkIntfrfbdf)obj;
+        if (this.nbmf != null ) {
+            if (!this.nbmf.fqubls(thbt.nbmf)) {
+                rfturn fblsf;
+            }
+        } flsf {
+            if (thbt.nbmf != null) {
+                rfturn fblsf;
+            }
+        }
+
+        if (this.bddrs == null) {
+            rfturn thbt.bddrs == null;
+        } flsf if (thbt.bddrs == null) {
+            rfturn fblsf;
+        }
+
+        /* Both bddrs not null. Compbrf numbfr of bddrfssfs */
+
+        if (this.bddrs.lfngth != thbt.bddrs.lfngth) {
+            rfturn fblsf;
+        }
+
+        InftAddrfss[] thbtAddrs = thbt.bddrs;
+        int dount = thbtAddrs.lfngth;
+
+        for (int i=0; i<dount; i++) {
+            boolfbn found = fblsf;
+            for (int j=0; j<dount; j++) {
+                if (bddrs[i].fqubls(thbtAddrs[j])) {
+                    found = truf;
+                    brfbk;
+                }
+            }
+            if (!found) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    publid int hbshCodf() {
+        rfturn nbmf == null? 0: nbmf.hbshCodf();
+    }
+
+    publid String toString() {
+        String rfsult = "nbmf:";
+        rfsult += nbmf == null? "null": nbmf;
+        if (displbyNbmf != null) {
+            rfsult += " (" + displbyNbmf + ")";
+        }
+        rfturn rfsult;
+    }
+
+    privbtf stbtid nbtivf void init();
+
+    /**
+     * Rfturns thf dffbult nftwork intfrfbdf of this systfm
+     *
+     * @rfturn thf dffbult intfrfbdf
+     */
+    stbtid NftworkIntfrfbdf gftDffbult() {
+        rfturn dffbultIntfrfbdf;
+    }
+}

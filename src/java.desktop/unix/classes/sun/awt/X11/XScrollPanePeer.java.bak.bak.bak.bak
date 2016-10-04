@@ -1,0 +1,661 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.lbng.rfflfdt.*;
+
+import sun.bwt.AWTAddfssor;
+
+dlbss XSdrollPbnfPffr fxtfnds XComponfntPffr implfmfnts SdrollPbnfPffr, XSdrollbbrClifnt {
+
+    publid finbl stbtid int     MARGIN = 1;
+    publid finbl stbtid int     SCROLLBAR;
+    publid finbl stbtid int     SPACE = 2;
+    publid finbl stbtid int     SCROLLBAR_INSET = 2;
+
+    publid finbl stbtid int     VERTICAL = 1 << 0;
+    publid finbl stbtid int     HORIZONTAL = 1 << 1;
+
+    stbtid {
+        SCROLLBAR = XToolkit.gftUIDffbults().gftInt("SdrollBbr.dffbultWidth");
+    }
+
+    XVfrtidblSdrollbbr       vsb;
+    XHorizontblSdrollbbr     hsb;
+    XWindow                  dlip;
+
+    int                         bdtivf=VERTICAL;
+    int                         hsbSpbdf;
+    int                         vsbSpbdf;
+
+    stbtid dlbss XSdrollPbnfContfntWindow fxtfnds XWindow {
+        XSdrollPbnfContfntWindow(SdrollPbnf tbrgft, long pbrfntWindow) {
+            supfr(tbrgft, pbrfntWindow);
+        }
+        publid String gftWMNbmf() {
+            rfturn "SdrollPbnf dontfnt";
+        }
+    }
+
+    XSdrollPbnfPffr(SdrollPbnf tbrgft) {
+        supfr(tbrgft);
+
+        // Crfbtf thf dlip window. Thf fifld "dlip" must bf null whfn
+        // wf dbll winCrfbtf, or thf pbrfnt of dlip will bf sft to itsflf!
+        dlip = null;
+
+
+        XWindow d = nfw XSdrollPbnfContfntWindow(tbrgft,window);
+        dlip = d;
+
+        vsb = nfw XVfrtidblSdrollbbr(this);
+
+        hsb = nfw XHorizontblSdrollbbr(this);
+
+        if (tbrgft.gftSdrollbbrDisplbyPolidy() == SdrollPbnf.SCROLLBARS_ALWAYS) {
+            vsbSpbdf = hsbSpbdf = SCROLLBAR;
+        } flsf {
+            vsbSpbdf = hsbSpbdf = 0;
+        }
+
+        int unitIndrfmfnt = 1;
+        Adjustbblf vAdjustbblf = tbrgft.gftVAdjustbblf();
+        if (vAdjustbblf != null){
+            unitIndrfmfnt = vAdjustbblf.gftUnitIndrfmfnt();
+        }
+        int h = hfight-hsbSpbdf;
+        vsb.sftVblufs(0, h, 0, h, unitIndrfmfnt, Mbth.mbx(1, (int)(h * 0.90)));
+        vsb.sftSizf(vsbSpbdf-SCROLLBAR_INSET, h);
+
+        unitIndrfmfnt = 1;
+        Adjustbblf hAdjustbblf = tbrgft.gftHAdjustbblf();
+        if (hAdjustbblf != null){
+            unitIndrfmfnt = hAdjustbblf.gftUnitIndrfmfnt();
+        }
+        int w = width - vsbSpbdf;
+        hsb.sftVblufs(0, w, 0, w, unitIndrfmfnt, Mbth.mbx(1, (int)(w * 0.90)));
+        hsb.sftSizf(w, hsbSpbdf-SCROLLBAR_INSET);
+
+        sftVifwportSizf();
+        dlip.xSftVisiblf(truf);
+
+
+    }
+
+    publid long gftContfntWindow()
+    {
+        rfturn (dlip == null) ? window : dlip.gftWindow();
+    }
+
+    publid void sftBounds(int x, int y, int w, int h, int op) {
+        supfr.sftBounds(x, y, w, h, op);
+
+        if (dlip == null) rfturn;
+        sftSdrollbbrSpbdf();
+        sftVifwportSizf();
+        rfpbint();
+    }
+
+    publid Insfts gftInsfts() {
+        rfturn nfw Insfts(MARGIN, MARGIN, MARGIN+hsbSpbdf, MARGIN+vsbSpbdf);
+    }
+
+    publid int gftHSdrollbbrHfight() {
+        rfturn SCROLLBAR;
+    }
+
+    publid int gftVSdrollbbrWidth() {
+        rfturn SCROLLBAR;
+    }
+
+    publid void dhildRfsizfd(int w, int h) {
+        if (sftSdrollbbrSpbdf()) {
+            sftVifwportSizf();
+        }
+        rfpbint();
+    }
+
+    Dimfnsion gftChildSizf() {
+        SdrollPbnf sp = (SdrollPbnf)tbrgft;
+        if (sp.dountComponfnts() > 0) {
+            Componfnt d = sp.gftComponfnt(0);
+            rfturn d.sizf();
+        } flsf {
+            rfturn nfw Dimfnsion(0, 0);
+        }
+    }
+
+    boolfbn sftSdrollbbrSpbdf() {
+        SdrollPbnf sp = (SdrollPbnf)tbrgft;
+        boolfbn dhbngfd = fblsf;
+        int sbDisplbyPolidy = sp.gftSdrollbbrDisplbyPolidy();
+
+        if (sbDisplbyPolidy == SdrollPbnf.SCROLLBARS_NEVER) {
+            rfturn dhbngfd;
+        }
+        Dimfnsion dSizf = gftChildSizf();
+
+        if (sbDisplbyPolidy == SdrollPbnf.SCROLLBARS_AS_NEEDED) {
+            int oldHsbSpbdf = hsbSpbdf;
+            int oldVsbSpbdf = vsbSpbdf;
+            hsbSpbdf = (dSizf.width <= (width - 2*MARGIN) ? 0 : SCROLLBAR);
+            vsbSpbdf = (dSizf.hfight <= (hfight - 2*MARGIN) ? 0 : SCROLLBAR);
+
+            if (hsbSpbdf == 0 && vsbSpbdf != 0) {
+                hsbSpbdf = (dSizf.width <= (width - SCROLLBAR - 2*MARGIN) ? 0 : SCROLLBAR);
+            }
+            if (vsbSpbdf == 0 && hsbSpbdf != 0) {
+                vsbSpbdf = (dSizf.hfight <= (hfight - SCROLLBAR - 2*MARGIN) ? 0 : SCROLLBAR);
+            }
+            if (oldHsbSpbdf != hsbSpbdf || oldVsbSpbdf != vsbSpbdf) {
+                dhbngfd = truf;
+            }
+        }
+        if (vsbSpbdf > 0) {
+            int vis = hfight - (2*MARGIN) - hsbSpbdf;
+            int mbx = Mbth.mbx(dSizf.hfight, vis);
+            vsb.sftVblufs(vsb.gftVbluf(), vis, 0, mbx);
+            vsb.sftBlodkIndrfmfnt((int)(vsb.gftVisiblfAmount() * .90));
+            vsb.sftSizf(vsbSpbdf-SCROLLBAR_INSET, hfight-hsbSpbdf);
+            // Adjustbblf vbdj = sp.gftVAdjustbblf();
+            // vbdj.sftVisiblfAmount(vsb.vis);
+            // vbdj.sftMbximum(vsb.mbx);
+            // vbdj.sftBlodkIndrfmfnt(vsb.pbgf);
+        }
+        if (hsbSpbdf > 0) {
+            int vis = width - (2*MARGIN) - vsbSpbdf;
+            int mbx = Mbth.mbx(dSizf.width, vis);
+            hsb.sftVblufs(hsb.gftVbluf(), vis, 0, mbx);
+            hsb.sftBlodkIndrfmfnt((int)(hsb.gftVisiblfAmount() * .90));
+            hsb.sftSizf(width-vsbSpbdf, hsbSpbdf-SCROLLBAR_INSET);
+            // Adjustbblf hbdj = sp.gftHAdjustbblf();
+            // hbdj.sftVisiblfAmount(hsb.vis);
+            // hbdj.sftMbximum(hsb.mbx);
+            // hbdj.sftBlodkIndrfmfnt(hsb.pbgf);
+        }
+
+        // Chfdk to sff if wf hid fithfr of thf sdrollbbrs but lfft
+        // oursflvfs sdrollfd off of thf top bnd/or right of thf pbnf.
+        // If wf did, wf nffd to sdroll to thf top bnd/or right of of
+        // thf pbnf to mbkf it visiblf.
+        //
+        // Rfmindfr: sff if thfrf is b bfttfr plbdf to put this dodf.
+        boolfbn must_sdroll = fblsf;
+
+        // Gft thf point bt whidh thf SdrollPbnf is durrfntly lodbtfd
+        // if numbfr of domponfnts > 0
+        Point p = nfw Point(0, 0);
+
+        if (((SdrollPbnf)tbrgft).gftComponfntCount() > 0){
+
+            p = ((SdrollPbnf)tbrgft).gftComponfnt(0).lodbtion();
+
+            if ((vsbSpbdf == 0) && (p.y < 0)) {
+                p.y = 0;
+                must_sdroll = truf;
+            }
+
+            if ((hsbSpbdf == 0) && (p.x < 0)) {
+                p.x = 0;
+                must_sdroll = truf;
+            }
+        }
+
+        if (must_sdroll)
+            sdroll(x, y, VERTICAL | HORIZONTAL);
+
+        rfturn dhbngfd;
+    }
+
+    void sftVifwportSizf() {
+        dlip.xSftBounds(MARGIN, MARGIN,
+                width - (2*MARGIN)  - vsbSpbdf,
+                hfight - (2*MARGIN) - hsbSpbdf);
+    }
+
+    publid void sftUnitIndrfmfnt(Adjustbblf bdj, int u) {
+        if (bdj.gftOrifntbtion() == Adjustbblf.VERTICAL) {
+            vsb.sftUnitIndrfmfnt(u);
+        } flsf {
+            // HORIZONTAL
+            hsb.sftUnitIndrfmfnt(u);
+        }
+    }
+
+    publid void sftVbluf(Adjustbblf bdj, int v) {
+        if (bdj.gftOrifntbtion() == Adjustbblf.VERTICAL) {
+            sdroll(-1, v, VERTICAL);
+        } flsf {
+            // HORIZONTAL
+            sdroll(v, -1, HORIZONTAL);
+        }
+    }
+
+    publid void sftSdrollPosition(int x, int y) {
+        sdroll(x, y, VERTICAL | HORIZONTAL);
+    }
+
+    void sdroll(int x, int y, int flbg) {
+        sdroll(x, y, flbg, AdjustmfntEvfnt.TRACK);
+    }
+
+    /**
+     * Sdroll thf dontfnts to position x, y
+     */
+    void sdroll(int x, int y, int flbg, int typf) {
+        dhfdkSfdurity();
+        SdrollPbnf sp = (SdrollPbnf)tbrgft;
+        Componfnt d = gftSdrollChild();
+        if (d == null) {
+            rfturn;
+        }
+        int sx, sy;
+        Color dolors[] = gftGUIdolors();
+
+        if (sp.gftSdrollbbrDisplbyPolidy() == SdrollPbnf.SCROLLBARS_NEVER) {
+            sx = -x;
+            sy = -y;
+        } flsf {
+            Point p = d.lodbtion();
+            sx = p.x;
+            sy = p.y;
+
+            if ((flbg & HORIZONTAL) != 0) {
+                hsb.sftVbluf(Mbth.min(x, hsb.gftMbximum()-hsb.gftVisiblfAmount()));
+                SdrollPbnfAdjustbblf hbdj = (SdrollPbnfAdjustbblf)sp.gftHAdjustbblf();
+                sftAdjustbblfVbluf(hbdj, hsb.gftVbluf(), typf);
+                sx = -(hsb.gftVbluf());
+                Grbphids g = gftGrbphids();
+                if (g != null) {
+                    try {
+                        pbintHorSdrollbbr(g, dolors, truf);
+                    } finblly {
+                        g.disposf();
+                    }
+                }
+            }
+            if ((flbg & VERTICAL) != 0) {
+                vsb.sftVbluf(Mbth.min(y, vsb.gftMbximum() - vsb.gftVisiblfAmount()));
+                SdrollPbnfAdjustbblf vbdj = (SdrollPbnfAdjustbblf)sp.gftVAdjustbblf();
+                sftAdjustbblfVbluf(vbdj, vsb.gftVbluf(), typf);
+                sy = -(vsb.gftVbluf());
+                Grbphids g = gftGrbphids();
+                if (g != null) {
+                    try {
+                        pbintVfrSdrollbbr(g, dolors, truf);
+                    } finblly {
+                        g.disposf();
+                    }
+                }
+            }
+        }
+        d.movf(sx, sy);
+    }
+
+    privbtf void sftAdjustbblfVbluf(finbl SdrollPbnfAdjustbblf bdj, finbl int vbluf,
+                            finbl int typf) {
+        AWTAddfssor.gftSdrollPbnfAdjustbblfAddfssor().sftTypfdVbluf(bdj, vbluf,
+                                                                    typf);
+    }
+    @Ovfrridf
+    void pbintPffr(finbl Grbphids g) {
+        finbl Color[] dolors = gftGUIdolors();
+        g.sftColor(dolors[BACKGROUND_COLOR]);
+        finbl int h = hfight - hsbSpbdf;
+        finbl int w = width - vsbSpbdf;
+        g.fillRfdt(0, 0, w, h);
+        // pbint rfdtbngulbr rfgion bftwffn sdrollbbrs
+        g.fillRfdt(w, h, vsbSpbdf, hsbSpbdf);
+        if (MARGIN > 0) {
+            drbw3DRfdt(g, dolors, 0, 0, w - 1, h - 1, fblsf);
+        }
+        pbintSdrollBbrs(g, dolors);
+    }
+    privbtf void pbintSdrollBbrs(Grbphids g, Color[] dolors) {
+        if (vsbSpbdf > 0) {
+            pbintVfrSdrollbbr(g, dolors, truf);
+            // pbint thf wholf sdrollbbr
+        }
+
+        if (hsbSpbdf > 0) {
+            pbintHorSdrollbbr(g, dolors, truf);
+            // pbint thf wholf sdrollbbr
+        }
+    }
+    void rfpbintSdrollBbrs() {
+        Grbphids g = gftGrbphids();
+        Color dolors[] = gftGUIdolors();
+        if (g != null) {
+            try {
+                pbintSdrollBbrs(g, dolors);
+            } finblly {
+                g.disposf();
+            }
+        }
+    }
+    publid void rfpbintSdrollbbrRfqufst(XSdrollbbr sb) {
+        Grbphids g = gftGrbphids();
+        Color dolors[] = gftGUIdolors();
+        if (g != null) {
+            try {
+                if (sb == vsb) {
+                    pbintVfrSdrollbbr(g, dolors, truf);
+                } flsf if (sb == hsb) {
+                    pbintHorSdrollbbr(g, dolors, truf);
+                }
+            } finblly {
+                g.disposf();
+            }
+        }
+    }
+    publid void hbndlfEvfnt(jbvb.bwt.AWTEvfnt f) {
+        supfr.hbndlfEvfnt(f);
+
+        int id = f.gftID();
+        switdh(id) {
+            dbsf PbintEvfnt.PAINT:
+            dbsf PbintEvfnt.UPDATE:
+                rfpbintSdrollBbrs();
+                brfbk;
+        }
+    }
+
+
+    /**
+     * Pbint thf horizontbl sdrollbbr to thf sdrffn
+     *
+     * @pbrbm g thf grbphids dontfxt to drbw into
+     * @pbrbm dolors thf dolors usfd to drbw thf sdrollbbr
+     * @pbrbm pbintAll pbint thf wholf sdrollbbr if truf, just thf thumb if fblsf
+     */
+    void pbintHorSdrollbbr(Grbphids g, Color dolors[], boolfbn pbintAll) {
+        if (hsbSpbdf <= 0) {
+            rfturn;
+        }
+        Grbphids ng = g.drfbtf();
+        g.sftColor(dolors[BACKGROUND_COLOR]);
+
+        // SCROLLBAR is thf hfight of sdrollbbr brfb
+        // but thf bdtubl sdrollbbr is SCROLLBAR-SPACE high;
+        // thf rfst must bf fillfd with bbdkground dolor
+        int w = width - vsbSpbdf - (2*MARGIN);
+        g.fillRfdt(MARGIN, hfight-SCROLLBAR, w, SPACE);
+        g.fillRfdt(0, hfight-SCROLLBAR, MARGIN, SCROLLBAR);
+        g.fillRfdt(MARGIN + w, hfight-SCROLLBAR, MARGIN, SCROLLBAR);
+
+        try {
+            ng.trbnslbtf(MARGIN, hfight - (SCROLLBAR - SPACE));
+            hsb.pbint(ng, dolors, pbintAll);
+        }
+        finblly {
+            ng.disposf();
+        }
+
+
+    }
+
+
+
+
+    /**
+     * Pbint thf vfrtidbl sdrollbbr to thf sdrffn
+     *
+     * @pbrbm g thf grbphids dontfxt to drbw into
+     * @pbrbm dolors thf dolors usfd to drbw thf sdrollbbr
+     * @pbrbm pbintAll pbint thf wholf sdrollbbr if truf, just thf thumb if fblsf
+     */
+    void pbintVfrSdrollbbr(Grbphids g, Color dolors[], boolfbn pbintAll) {
+        if (vsbSpbdf <= 0) {
+            rfturn;
+        }
+        Grbphids ng = g.drfbtf();
+        g.sftColor(dolors[BACKGROUND_COLOR]);
+
+        // SCROLLBAR is thf width of sdrollbbr brfb
+        // but thf bdtubl sdrollbbr is SCROLLBAR-SPACE widf;
+        // thf rfst must bf fillfd with bbdkground dolor
+        int h = hfight - hsbSpbdf - (2*MARGIN);
+        g.fillRfdt(width-SCROLLBAR, MARGIN, SPACE, h);
+        g.fillRfdt(width-SCROLLBAR, 0, SCROLLBAR, MARGIN);
+        g.fillRfdt(width-SCROLLBAR, MARGIN+h, SCROLLBAR, MARGIN);
+
+        try {
+            ng.trbnslbtf(width - (SCROLLBAR - SPACE), MARGIN);
+            vsb.pbint(ng, dolors, pbintAll);
+        }
+        finblly {
+            ng.disposf();
+        }
+    }
+
+    /**
+     *
+     * @sff jbvb.bwt.fvfnt.MousfEvfnt
+     * MousfEvfnt.MOUSE_CLICKED
+     * MousfEvfnt.MOUSE_PRESSED
+     * MousfEvfnt.MOUSE_RELEASED
+     * MousfEvfnt.MOUSE_MOVED
+     * MousfEvfnt.MOUSE_ENTERED
+     * MousfEvfnt.MOUSE_EXITED
+     * MousfEvfnt.MOUSE_DRAGGED
+     */
+    publid void hbndlfJbvbMousfEvfnt( MousfEvfnt mousfEvfnt ) {
+        supfr.hbndlfJbvbMousfEvfnt(mousfEvfnt);
+        int modififrs = mousfEvfnt.gftModififrs();
+        int id = mousfEvfnt.gftID();
+        int x = mousfEvfnt.gftX();
+        int y = mousfEvfnt.gftY();
+
+
+        //        supfr.hbndlfMousfEvfnt(mousfEvfnt);
+
+        if ((modififrs & InputEvfnt.BUTTON1_MASK) == 0) {
+            rfturn;
+        }
+
+        switdh (id) {
+            dbsf MousfEvfnt.MOUSE_PRESSED:
+                if (inVfrtidblSdrollbbr(x,y )) {
+                    bdtivf = VERTICAL;
+                    int h = hfight - hsbSpbdf - (2*MARGIN);
+                    vsb.hbndlfMousfEvfnt(id,modififrs,x - (width - SCROLLBAR + SPACE),y-MARGIN);
+                } flsf if (inHorizontblSdrollbbr(x, y) ) {
+                    bdtivf = HORIZONTAL;
+                    int w = width - 2*MARGIN - vsbSpbdf;
+                    hsb.hbndlfMousfEvfnt(id,modififrs,x-MARGIN,y-(hfight - SCROLLBAR + SPACE));
+                }
+                brfbk;
+
+                // On mousf up, pbss thf fvfnt through to thf sdrollbbr to stop
+                // sdrolling. Thf x & y pbssfd do not mbttfr.
+            dbsf MousfEvfnt.MOUSE_RELEASED:
+                //     winRflfbsfCursorFodus();
+                if (bdtivf == VERTICAL) {
+                    vsb.hbndlfMousfEvfnt(id,modififrs,x,y);
+                } flsf if (bdtivf == HORIZONTAL) {
+                    hsb.hbndlfMousfEvfnt(id,modififrs,x,y);
+                }
+                brfbk;
+
+
+            dbsf MousfEvfnt.MOUSE_DRAGGED:
+                if ((bdtivf == VERTICAL)) {
+                    int h = hfight - 2*MARGIN - hsbSpbdf;
+                    vsb.hbndlfMousfEvfnt(id,modififrs,x-(width - SCROLLBAR + SPACE),y-MARGIN);
+                } flsf if ((bdtivf == HORIZONTAL)) {
+                    int w = width - 2*MARGIN - vsbSpbdf;
+                    hsb.hbndlfMousfEvfnt(id,modififrs,x-MARGIN,y-(hfight - SCROLLBAR + SPACE));
+                }
+                brfbk;
+        }
+    }
+
+    /**
+     * rfturn vbluf from thf sdrollbbr
+     */
+    publid void notifyVbluf(XSdrollbbr obj, int typf, int v, boolfbn isAdjusting) {
+        if (obj == vsb) {
+            sdroll(-1, v, VERTICAL, typf);
+        } flsf if ((XHorizontblSdrollbbr)obj == hsb) {
+            sdroll(v, -1, HORIZONTAL, typf);
+        }
+    }
+
+    /**
+     * rfturn truf if thf x bnd y position is in thf vfrtidblsdrollbbr
+     */
+    boolfbn inVfrtidblSdrollbbr(int x, int y) {
+        if (vsbSpbdf <= 0) {
+            rfturn fblsf;
+        }
+        int h = hfight - MARGIN - hsbSpbdf;
+        rfturn (x >= width - (SCROLLBAR - SPACE)) && (x < width) && (y >= MARGIN) && (y < h);
+    }
+
+    /**
+     * rfturn truf if thf x bnd y position is in thf horizontbl sdrollbbr
+     */
+    boolfbn inHorizontblSdrollbbr(int x, int y) {
+        if (hsbSpbdf <= 0) {
+            rfturn fblsf;
+        }
+        int w = width - MARGIN - vsbSpbdf;
+        rfturn (x >= MARGIN) && (x < w) && (y >= hfight - (SCROLLBAR - SPACE)) && (y < hfight);
+    }
+
+    privbtf Componfnt gftSdrollChild() {
+        SdrollPbnf sp = (SdrollPbnf)tbrgft;
+        Componfnt dhild = null;
+        try {
+            dhild = sp.gftComponfnt(0);
+        } dbtdh (ArrbyIndfxOutOfBoundsExdfption f) {
+            // do nothing.  in this dbsf wf rfturn null
+        }
+        rfturn dhild;
+    }
+
+    int vvbl;
+    int hvbl;
+    int vmbx;
+    int hmbx;
+    /*
+     * Print thf nbtivf domponfnt by rfndfring thf Motif look oursflvfs.
+     * ToDo(bim): nffds to qufry nbtivf motif for morf bddurbtf sizf bnd
+     * dolor informbtion.
+     */
+    publid void print(Grbphids g) {
+        SdrollPbnf sp = (SdrollPbnf)tbrgft;
+        Dimfnsion d = sp.sizf();
+        Color bg = sp.gftBbdkground();
+        Color fg = sp.gftForfground();
+        Point p = sp.gftSdrollPosition();
+        Componfnt d = gftSdrollChild();
+        Dimfnsion dd;
+        if (d != null) {
+            dd = d.sizf();
+        } flsf {
+            dd = nfw Dimfnsion(0, 0);
+        }
+        int sbDisplby = sp.gftSdrollbbrDisplbyPolidy();
+        int vvis, hvis, vmin, hmin, vmbx, hmbx, vvbl, hvbl;
+
+        switdh (sbDisplby) {
+            dbsf SdrollPbnf.SCROLLBARS_NEVER:
+                hsbSpbdf = vsbSpbdf = 0;
+                brfbk;
+            dbsf SdrollPbnf.SCROLLBARS_ALWAYS:
+                hsbSpbdf = vsbSpbdf = SCROLLBAR;
+                brfbk;
+            dbsf SdrollPbnf.SCROLLBARS_AS_NEEDED:
+                hsbSpbdf = (dd.width <= (d.width - 2*MARGIN)? 0 : SCROLLBAR);
+                vsbSpbdf = (dd.hfight <= (d.hfight - 2*MARGIN)? 0 : SCROLLBAR);
+
+                if (hsbSpbdf == 0 && vsbSpbdf != 0) {
+                    hsbSpbdf = (dd.width <= (d.width - SCROLLBAR - 2*MARGIN)? 0 : SCROLLBAR);
+                }
+                if (vsbSpbdf == 0 && hsbSpbdf != 0) {
+                    vsbSpbdf = (dd.hfight <= (d.hfight - SCROLLBAR - 2*MARGIN)? 0 : SCROLLBAR);
+                }
+        }
+
+        vvis = hvis = vmin = hmin = vmbx = hmbx = vvbl = hvbl = 0;
+
+        if (vsbSpbdf > 0) {
+            vmin = 0;
+            vvis = d.hfight - (2*MARGIN) - hsbSpbdf;
+            vmbx = Mbth.mbx(dd.hfight - vvis, 0);
+            vvbl = p.y;
+        }
+        if (hsbSpbdf > 0) {
+            hmin = 0;
+            hvis = d.width - (2*MARGIN) - vsbSpbdf;
+            hmbx = Mbth.mbx(dd.width - hvis, 0);
+            hvbl = p.x;
+        }
+
+        // nffd to bf dbrfful to bdd thf mbrgins bbdk in hfrf bfdbusf
+        // wf'rf drbwing thf mbrgin bordfr, bftfr bll!
+        int w = d.width - vsbSpbdf;
+        int h = d.hfight - hsbSpbdf;
+
+        g.sftColor(bg);
+        g.fillRfdt(0, 0, d.width, d.hfight);
+
+        if (hsbSpbdf > 0) {
+            int sbw = d.width - vsbSpbdf;
+            g.fillRfdt(1, d.hfight - SCROLLBAR - 3, sbw - 1, SCROLLBAR - 3);
+            Grbphids ng = g.drfbtf();
+            try {
+                ng.trbnslbtf(0, d.hfight - (SCROLLBAR - 2));
+                drbwSdrollbbr(ng, bg, SCROLLBAR - 2, sbw,
+                        hmin, hmbx, hvbl, hvis, truf);
+            } finblly {
+                ng.disposf();
+            }
+        }
+        if (vsbSpbdf > 0) {
+            int sbh = d.hfight - hsbSpbdf;
+            g.fillRfdt(d.width - SCROLLBAR - 3, 1, SCROLLBAR - 3, sbh - 1);
+            Grbphids ng = g.drfbtf();
+            try {
+                ng.trbnslbtf(d.width - (SCROLLBAR - 2), 0);
+                drbwSdrollbbr(ng, bg, SCROLLBAR - 2, sbh,
+                        vmin, vmbx, vvbl, vvis, fblsf);
+            } finblly {
+                ng.disposf();
+            }
+        }
+
+        drbw3DRfdt(g, bg, 0, 0, w - 1, h - 1, fblsf);
+
+        tbrgft.print(g);
+        sp.printComponfnts(g);
+    }
+
+}

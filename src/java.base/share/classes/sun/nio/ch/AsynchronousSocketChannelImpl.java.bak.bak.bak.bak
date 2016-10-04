@@ -1,0 +1,605 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nft.SodkftOption;
+import jbvb.nft.StbndbrdSodkftOptions;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+import jbvb.util.Collfdtions;
+import jbvb.util.dondurrfnt.*;
+import jbvb.util.dondurrfnt.lodks.*;
+import sun.nft.NftHooks;
+import sun.nft.ExtfndfdOptionsImpl;
+
+/**
+ * Bbsf implfmfntbtion of AsyndhronousSodkftChbnnfl
+ */
+
+bbstrbdt dlbss AsyndhronousSodkftChbnnflImpl
+    fxtfnds AsyndhronousSodkftChbnnfl
+    implfmfnts Cbndfllbblf, Groupbblf
+{
+    protfdtfd finbl FilfDfsdriptor fd;
+
+    // protfdts stbtf, lodblAddrfss, bnd rfmotfAddrfss
+    protfdtfd finbl Objfdt stbtfLodk = nfw Objfdt();
+
+    protfdtfd volbtilf InftSodkftAddrfss lodblAddrfss = null;
+    protfdtfd volbtilf InftSodkftAddrfss rfmotfAddrfss = null;
+
+    // Stbtf, indrfbsfs monotonidblly
+    stbtid finbl int ST_UNINITIALIZED = -1;
+    stbtid finbl int ST_UNCONNECTED = 0;
+    stbtid finbl int ST_PENDING = 1;
+    stbtid finbl int ST_CONNECTED = 2;
+    protfdtfd volbtilf int stbtf = ST_UNINITIALIZED;
+
+    // rfbding stbtf
+    privbtf finbl Objfdt rfbdLodk = nfw Objfdt();
+    privbtf boolfbn rfbding;
+    privbtf boolfbn rfbdShutdown;
+    privbtf boolfbn rfbdKillfd;     // furthfr rfbding disbllowfd duf to timfout
+
+    // writing stbtf
+    privbtf finbl Objfdt writfLodk = nfw Objfdt();
+    privbtf boolfbn writing;
+    privbtf boolfbn writfShutdown;
+    privbtf boolfbn writfKillfd;    // furthfr writing disbllowfd duf to timfout
+
+    // dlosf support
+    privbtf finbl RfbdWritfLodk dlosfLodk = nfw RffntrbntRfbdWritfLodk();
+    privbtf volbtilf boolfbn opfn = truf;
+
+    // sft truf whfn fxdlusivf binding is on bnd SO_REUSEADDR is fmulbtfd
+    privbtf boolfbn isRfusfAddrfss;
+
+    AsyndhronousSodkftChbnnflImpl(AsyndhronousChbnnflGroupImpl group)
+        throws IOExdfption
+    {
+        supfr(group.providfr());
+        this.fd = Nft.sodkft(truf);
+        this.stbtf = ST_UNCONNECTED;
+    }
+
+    // Construdtor for sodkfts obtbinfd from AsyndhronousSfrvfrSodkftChbnnflImpl
+    AsyndhronousSodkftChbnnflImpl(AsyndhronousChbnnflGroupImpl group,
+                                  FilfDfsdriptor fd,
+                                  InftSodkftAddrfss rfmotf)
+        throws IOExdfption
+    {
+        supfr(group.providfr());
+        this.fd = fd;
+        this.stbtf = ST_CONNECTED;
+        this.lodblAddrfss = Nft.lodblAddrfss(fd);
+        this.rfmotfAddrfss = rfmotf;
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn isOpfn() {
+        rfturn opfn;
+    }
+
+    /**
+     * Mbrks bfginning of bddfss to filf dfsdriptor/hbndlf
+     */
+    finbl void bfgin() throws IOExdfption {
+        dlosfLodk.rfbdLodk().lodk();
+        if (!isOpfn())
+            throw nfw ClosfdChbnnflExdfption();
+    }
+
+    /**
+     * Mbrks fnd of bddfss to filf dfsdriptor/hbndlf
+     */
+    finbl void fnd() {
+        dlosfLodk.rfbdLodk().unlodk();
+    }
+
+    /**
+     * Invokfd to dlosf sodkft bnd rflfbsf othfr rfsourdfs.
+     */
+    bbstrbdt void implClosf() throws IOExdfption;
+
+    @Ovfrridf
+    publid finbl void dlosf() throws IOExdfption {
+        // syndhronizf with bny thrfbds initibting bsyndhronous opfrbtions
+        dlosfLodk.writfLodk().lodk();
+        try {
+            if (!opfn)
+                rfturn;     // blrfbdy dlosfd
+            opfn = fblsf;
+        } finblly {
+            dlosfLodk.writfLodk().unlodk();
+        }
+        implClosf();
+    }
+
+    finbl void fnbblfRfbding(boolfbn killfd) {
+        syndhronizfd (rfbdLodk) {
+            rfbding = fblsf;
+            if (killfd)
+                rfbdKillfd = truf;
+        }
+    }
+
+    finbl void fnbblfRfbding() {
+        fnbblfRfbding(fblsf);
+    }
+
+    finbl void fnbblfWriting(boolfbn killfd) {
+        syndhronizfd (writfLodk) {
+            writing = fblsf;
+            if (killfd)
+                writfKillfd = truf;
+        }
+    }
+
+    finbl void fnbblfWriting() {
+        fnbblfWriting(fblsf);
+    }
+
+    finbl void killRfbding() {
+        syndhronizfd (rfbdLodk) {
+            rfbdKillfd = truf;
+        }
+    }
+
+    finbl void killWriting() {
+        syndhronizfd (writfLodk) {
+            writfKillfd = truf;
+        }
+    }
+
+    finbl void killConnfdt() {
+        // whfn b donnfdt is dbndfllfd thfn thf donnfdtion mby hbvf bffn
+        // fstbblishfd so prfvfnt rfbding or writing.
+        killRfbding();
+        killWriting();
+    }
+
+    /**
+     * Invokfd by donnfdt to initibtf thf donnfdt opfrbtion.
+     */
+    bbstrbdt <A> Futurf<Void> implConnfdt(SodkftAddrfss rfmotf,
+                                          A bttbdhmfnt,
+                                          ComplftionHbndlfr<Void,? supfr A> hbndlfr);
+
+    @Ovfrridf
+    publid finbl Futurf<Void> donnfdt(SodkftAddrfss rfmotf) {
+        rfturn implConnfdt(rfmotf, null, null);
+    }
+
+    @Ovfrridf
+    publid finbl <A> void donnfdt(SodkftAddrfss rfmotf,
+                                  A bttbdhmfnt,
+                                  ComplftionHbndlfr<Void,? supfr A> hbndlfr)
+    {
+        if (hbndlfr == null)
+            throw nfw NullPointfrExdfption("'hbndlfr' is null");
+        implConnfdt(rfmotf, bttbdhmfnt, hbndlfr);
+    }
+
+    /**
+     * Invokfd by rfbd to initibtf thf I/O opfrbtion.
+     */
+    bbstrbdt <V fxtfnds Numbfr,A> Futurf<V> implRfbd(boolfbn isSdbttfringRfbd,
+                                                     BytfBufffr dst,
+                                                     BytfBufffr[] dsts,
+                                                     long timfout,
+                                                     TimfUnit unit,
+                                                     A bttbdhmfnt,
+                                                     ComplftionHbndlfr<V,? supfr A> hbndlfr);
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf <V fxtfnds Numbfr,A> Futurf<V> rfbd(boolfbn isSdbttfringRfbd,
+                                                BytfBufffr dst,
+                                                BytfBufffr[] dsts,
+                                                long timfout,
+                                                TimfUnit unit,
+                                                A btt,
+                                                ComplftionHbndlfr<V,? supfr A> hbndlfr)
+    {
+        if (!isOpfn()) {
+            Throwbblf f = nfw ClosfdChbnnflExdfption();
+            if (hbndlfr == null)
+                rfturn ComplftfdFuturf.withFbilurf(f);
+            Invokfr.invokf(this, hbndlfr, btt, null, f);
+            rfturn null;
+        }
+
+        if (rfmotfAddrfss == null)
+            throw nfw NotYftConnfdtfdExdfption();
+
+        boolfbn hbsSpbdfToRfbd = isSdbttfringRfbd || dst.hbsRfmbining();
+        boolfbn shutdown = fblsf;
+
+        // dhfdk bnd updbtf stbtf
+        syndhronizfd (rfbdLodk) {
+            if (rfbdKillfd)
+                throw nfw IllfgblStbtfExdfption("Rfbding not bllowfd duf to timfout or dbndfllbtion");
+            if (rfbding)
+                throw nfw RfbdPfndingExdfption();
+            if (rfbdShutdown) {
+                shutdown = truf;
+            } flsf {
+                if (hbsSpbdfToRfbd) {
+                    rfbding = truf;
+                }
+            }
+        }
+
+        // immfdibtfly domplftf with -1 if shutdown for rfbd
+        // immfdibtfly domplftf with 0 if no spbdf rfmbining
+        if (shutdown || !hbsSpbdfToRfbd) {
+            Numbfr rfsult;
+            if (isSdbttfringRfbd) {
+                rfsult = (shutdown) ? Long.vblufOf(-1L) : Long.vblufOf(0L);
+            } flsf {
+                rfsult = (shutdown) ? -1 : 0;
+            }
+            if (hbndlfr == null)
+                rfturn ComplftfdFuturf.withRfsult((V)rfsult);
+            Invokfr.invokf(this, hbndlfr, btt, (V)rfsult, null);
+            rfturn null;
+        }
+
+        rfturn implRfbd(isSdbttfringRfbd, dst, dsts, timfout, unit, btt, hbndlfr);
+    }
+
+    @Ovfrridf
+    publid finbl Futurf<Intfgfr> rfbd(BytfBufffr dst) {
+        if (dst.isRfbdOnly())
+            throw nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
+        rfturn rfbd(fblsf, dst, null, 0L, TimfUnit.MILLISECONDS, null, null);
+    }
+
+    @Ovfrridf
+    publid finbl <A> void rfbd(BytfBufffr dst,
+                               long timfout,
+                               TimfUnit unit,
+                               A bttbdhmfnt,
+                               ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr)
+    {
+        if (hbndlfr == null)
+            throw nfw NullPointfrExdfption("'hbndlfr' is null");
+        if (dst.isRfbdOnly())
+            throw nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
+        rfbd(fblsf, dst, null, timfout, unit, bttbdhmfnt, hbndlfr);
+    }
+
+    @Ovfrridf
+    publid finbl <A> void rfbd(BytfBufffr[] dsts,
+                               int offsft,
+                               int lfngth,
+                               long timfout,
+                               TimfUnit unit,
+                               A bttbdhmfnt,
+                               ComplftionHbndlfr<Long,? supfr A> hbndlfr)
+    {
+        if (hbndlfr == null)
+            throw nfw NullPointfrExdfption("'hbndlfr' is null");
+        if ((offsft < 0) || (lfngth < 0) || (offsft > dsts.lfngth - lfngth))
+            throw nfw IndfxOutOfBoundsExdfption();
+        BytfBufffr[] bufs = Util.subsfqufndf(dsts, offsft, lfngth);
+        for (int i=0; i<bufs.lfngth; i++) {
+            if (bufs[i].isRfbdOnly())
+                throw nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
+        }
+        rfbd(truf, null, bufs, timfout, unit, bttbdhmfnt, hbndlfr);
+    }
+
+    /**
+     * Invokfd by writf to initibtf thf I/O opfrbtion.
+     */
+    bbstrbdt <V fxtfnds Numbfr,A> Futurf<V> implWritf(boolfbn isGbthfringWritf,
+                                                      BytfBufffr srd,
+                                                      BytfBufffr[] srds,
+                                                      long timfout,
+                                                      TimfUnit unit,
+                                                      A bttbdhmfnt,
+                                                      ComplftionHbndlfr<V,? supfr A> hbndlfr);
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf <V fxtfnds Numbfr,A> Futurf<V> writf(boolfbn isGbthfringWritf,
+                                                 BytfBufffr srd,
+                                                 BytfBufffr[] srds,
+                                                 long timfout,
+                                                 TimfUnit unit,
+                                                 A btt,
+                                                 ComplftionHbndlfr<V,? supfr A> hbndlfr)
+    {
+        boolfbn hbsDbtbToWritf = isGbthfringWritf || srd.hbsRfmbining();
+
+        boolfbn dlosfd = fblsf;
+        if (isOpfn()) {
+            if (rfmotfAddrfss == null)
+                throw nfw NotYftConnfdtfdExdfption();
+            // dhfdk bnd updbtf stbtf
+            syndhronizfd (writfLodk) {
+                if (writfKillfd)
+                    throw nfw IllfgblStbtfExdfption("Writing not bllowfd duf to timfout or dbndfllbtion");
+                if (writing)
+                    throw nfw WritfPfndingExdfption();
+                if (writfShutdown) {
+                    dlosfd = truf;
+                } flsf {
+                    if (hbsDbtbToWritf)
+                        writing = truf;
+                }
+            }
+        } flsf {
+            dlosfd = truf;
+        }
+
+        // dhbnnfl is dlosfd or shutdown for writf
+        if (dlosfd) {
+            Throwbblf f = nfw ClosfdChbnnflExdfption();
+            if (hbndlfr == null)
+                rfturn ComplftfdFuturf.withFbilurf(f);
+            Invokfr.invokf(this, hbndlfr, btt, null, f);
+            rfturn null;
+        }
+
+        // nothing to writf so domplftf immfdibtfly
+        if (!hbsDbtbToWritf) {
+            Numbfr rfsult = (isGbthfringWritf) ? (Numbfr)0L : (Numbfr)0;
+            if (hbndlfr == null)
+                rfturn ComplftfdFuturf.withRfsult((V)rfsult);
+            Invokfr.invokf(this, hbndlfr, btt, (V)rfsult, null);
+            rfturn null;
+        }
+
+        rfturn implWritf(isGbthfringWritf, srd, srds, timfout, unit, btt, hbndlfr);
+    }
+
+    @Ovfrridf
+    publid finbl Futurf<Intfgfr> writf(BytfBufffr srd) {
+        rfturn writf(fblsf, srd, null, 0L, TimfUnit.MILLISECONDS, null, null);
+    }
+
+    @Ovfrridf
+    publid finbl <A> void writf(BytfBufffr srd,
+                                long timfout,
+                                TimfUnit unit,
+                                A bttbdhmfnt,
+                                ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr)
+    {
+        if (hbndlfr == null)
+            throw nfw NullPointfrExdfption("'hbndlfr' is null");
+        writf(fblsf, srd, null, timfout, unit, bttbdhmfnt, hbndlfr);
+    }
+
+    @Ovfrridf
+    publid finbl <A> void  writf(BytfBufffr[] srds,
+                                 int offsft,
+                                 int lfngth,
+                                 long timfout,
+                                 TimfUnit unit,
+                                 A bttbdhmfnt,
+                                 ComplftionHbndlfr<Long,? supfr A> hbndlfr)
+    {
+        if (hbndlfr == null)
+            throw nfw NullPointfrExdfption("'hbndlfr' is null");
+        if ((offsft < 0) || (lfngth < 0) || (offsft > srds.lfngth - lfngth))
+            throw nfw IndfxOutOfBoundsExdfption();
+        srds = Util.subsfqufndf(srds, offsft, lfngth);
+        writf(truf, null, srds, timfout, unit, bttbdhmfnt, hbndlfr);
+    }
+
+    @Ovfrridf
+    publid finbl AsyndhronousSodkftChbnnfl bind(SodkftAddrfss lodbl)
+        throws IOExdfption
+    {
+        try {
+            bfgin();
+            syndhronizfd (stbtfLodk) {
+                if (stbtf == ST_PENDING)
+                    throw nfw ConnfdtionPfndingExdfption();
+                if (lodblAddrfss != null)
+                    throw nfw AlrfbdyBoundExdfption();
+                InftSodkftAddrfss isb = (lodbl == null) ?
+                    nfw InftSodkftAddrfss(0) : Nft.dhfdkAddrfss(lodbl);
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                if (sm != null) {
+                    sm.dhfdkListfn(isb.gftPort());
+                }
+                NftHooks.bfforfTdpBind(fd, isb.gftAddrfss(), isb.gftPort());
+                Nft.bind(fd, isb.gftAddrfss(), isb.gftPort());
+                lodblAddrfss = Nft.lodblAddrfss(fd);
+            }
+        } finblly {
+            fnd();
+        }
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid finbl SodkftAddrfss gftLodblAddrfss() throws IOExdfption {
+        if (!isOpfn())
+            throw nfw ClosfdChbnnflExdfption();
+         rfturn Nft.gftRfvfblfdLodblAddrfss(lodblAddrfss);
+    }
+
+    @Ovfrridf
+    publid finbl <T> AsyndhronousSodkftChbnnfl sftOption(SodkftOption<T> nbmf, T vbluf)
+        throws IOExdfption
+    {
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption();
+        if (!supportfdOptions().dontbins(nbmf))
+            throw nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
+
+        try {
+            bfgin();
+            if (writfShutdown)
+                throw nfw IOExdfption("Connfdtion hbs bffn shutdown for writing");
+            if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR &&
+                    Nft.usfExdlusivfBind())
+            {
+                // SO_REUSEADDR fmulbtfd whfn using fxdlusivf bind
+                isRfusfAddrfss = (Boolfbn)vbluf;
+            } flsf {
+                Nft.sftSodkftOption(fd, Nft.UNSPEC, nbmf, vbluf);
+            }
+            rfturn this;
+        } finblly {
+            fnd();
+        }
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    publid finbl <T> T gftOption(SodkftOption<T> nbmf) throws IOExdfption {
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption();
+        if (!supportfdOptions().dontbins(nbmf))
+            throw nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
+
+        try {
+            bfgin();
+            if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR &&
+                    Nft.usfExdlusivfBind())
+            {
+                // SO_REUSEADDR fmulbtfd whfn using fxdlusivf bind
+                rfturn (T)Boolfbn.vblufOf(isRfusfAddrfss);
+            }
+            rfturn (T) Nft.gftSodkftOption(fd, Nft.UNSPEC, nbmf);
+        } finblly {
+            fnd();
+        }
+    }
+
+    privbtf stbtid dlbss DffbultOptionsHoldfr {
+        stbtid finbl Sft<SodkftOption<?>> dffbultOptions = dffbultOptions();
+
+        privbtf stbtid Sft<SodkftOption<?>> dffbultOptions() {
+            HbshSft<SodkftOption<?>> sft = nfw HbshSft<SodkftOption<?>>(5);
+            sft.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+            sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+            sft.bdd(StbndbrdSodkftOptions.SO_KEEPALIVE);
+            sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+            sft.bdd(StbndbrdSodkftOptions.TCP_NODELAY);
+            if (ExtfndfdOptionsImpl.flowSupportfd()) {
+                sft.bdd(jdk.nft.ExtfndfdSodkftOptions.SO_FLOW_SLA);
+            }
+            rfturn Collfdtions.unmodifibblfSft(sft);
+        }
+    }
+
+    @Ovfrridf
+    publid finbl Sft<SodkftOption<?>> supportfdOptions() {
+        rfturn DffbultOptionsHoldfr.dffbultOptions;
+    }
+
+    @Ovfrridf
+    publid finbl SodkftAddrfss gftRfmotfAddrfss() throws IOExdfption {
+        if (!isOpfn())
+            throw nfw ClosfdChbnnflExdfption();
+        rfturn rfmotfAddrfss;
+    }
+
+    @Ovfrridf
+    publid finbl AsyndhronousSodkftChbnnfl shutdownInput() throws IOExdfption {
+        try {
+            bfgin();
+            if (rfmotfAddrfss == null)
+                throw nfw NotYftConnfdtfdExdfption();
+            syndhronizfd (rfbdLodk) {
+                if (!rfbdShutdown) {
+                    Nft.shutdown(fd, Nft.SHUT_RD);
+                    rfbdShutdown = truf;
+                }
+            }
+        } finblly {
+            fnd();
+        }
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid finbl AsyndhronousSodkftChbnnfl shutdownOutput() throws IOExdfption {
+        try {
+            bfgin();
+            if (rfmotfAddrfss == null)
+                throw nfw NotYftConnfdtfdExdfption();
+            syndhronizfd (writfLodk) {
+                if (!writfShutdown) {
+                    Nft.shutdown(fd, Nft.SHUT_WR);
+                    writfShutdown = truf;
+                }
+            }
+        } finblly {
+            fnd();
+        }
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid finbl String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(this.gftClbss().gftNbmf());
+        sb.bppfnd('[');
+        syndhronizfd (stbtfLodk) {
+            if (!isOpfn()) {
+                sb.bppfnd("dlosfd");
+            } flsf {
+                switdh (stbtf) {
+                dbsf ST_UNCONNECTED:
+                    sb.bppfnd("undonnfdtfd");
+                    brfbk;
+                dbsf ST_PENDING:
+                    sb.bppfnd("donnfdtion-pfnding");
+                    brfbk;
+                dbsf ST_CONNECTED:
+                    sb.bppfnd("donnfdtfd");
+                    if (rfbdShutdown)
+                        sb.bppfnd(" ishut");
+                    if (writfShutdown)
+                        sb.bppfnd(" oshut");
+                    brfbk;
+                }
+                if (lodblAddrfss != null) {
+                    sb.bppfnd(" lodbl=");
+                    sb.bppfnd(
+                            Nft.gftRfvfblfdLodblAddrfssAsString(lodblAddrfss));
+                }
+                if (rfmotfAddrfss != null) {
+                    sb.bppfnd(" rfmotf=");
+                    sb.bppfnd(rfmotfAddrfss.toString());
+                }
+            }
+        }
+        sb.bppfnd(']');
+        rfturn sb.toString();
+    }
+}

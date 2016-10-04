@@ -1,0 +1,220 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.util.*;
+import jbvb.util.Vfdtor;
+import jbvb.io.IOExdfption;
+import jbvb.io.*;
+
+/**
+ * Implfmfnts thf ASN.1 EndTidkftPbrt typf.
+ *
+ * <xmp>
+ * EndTidkftPbrt   ::= [APPLICATION 3] SEQUENCE {
+ *         flbgs                   [0] TidkftFlbgs,
+ *         kfy                     [1] EndryptionKfy,
+ *         drfblm                  [2] Rfblm,
+ *         dnbmf                   [3] PrindipblNbmf,
+ *         trbnsitfd               [4] TrbnsitfdEndoding,
+ *         buthtimf                [5] KfrbfrosTimf,
+ *         stbrttimf               [6] KfrbfrosTimf OPTIONAL,
+ *         fndtimf                 [7] KfrbfrosTimf,
+ *         rfnfw-till              [8] KfrbfrosTimf OPTIONAL,
+ *         dbddr                   [9] HostAddrfssfs OPTIONAL,
+ *         buthorizbtion-dbtb      [10] AuthorizbtionDbtb OPTIONAL
+ * }
+ * </xmp>
+ *
+ * <p>
+ * This dffinition rfflfdts thf Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b hrff="http://www.iftf.org/rfd/rfd4120.txt">
+ * http://www.iftf.org/rfd/rfd4120.txt</b>.
+ */
+publid dlbss EndTidkftPbrt {
+
+    publid TidkftFlbgs flbgs;
+    publid EndryptionKfy kfy;
+    publid PrindipblNbmf dnbmf;
+    publid TrbnsitfdEndoding trbnsitfd;
+    publid KfrbfrosTimf buthtimf;
+    publid KfrbfrosTimf stbrttimf; //optionbl
+    publid KfrbfrosTimf fndtimf;
+    publid KfrbfrosTimf rfnfwTill; //optionbl
+    publid HostAddrfssfs dbddr; //optionbl
+    publid AuthorizbtionDbtb buthorizbtionDbtb; //optionbl
+
+    publid EndTidkftPbrt(
+            TidkftFlbgs nfw_flbgs,
+            EndryptionKfy nfw_kfy,
+            PrindipblNbmf nfw_dnbmf,
+            TrbnsitfdEndoding nfw_trbnsitfd,
+            KfrbfrosTimf nfw_buthtimf,
+            KfrbfrosTimf nfw_stbrttimf,
+            KfrbfrosTimf nfw_fndtimf,
+            KfrbfrosTimf nfw_rfnfwTill,
+            HostAddrfssfs nfw_dbddr,
+            AuthorizbtionDbtb nfw_buthorizbtionDbtb) {
+        flbgs = nfw_flbgs;
+        kfy = nfw_kfy;
+        dnbmf = nfw_dnbmf;
+        trbnsitfd = nfw_trbnsitfd;
+        buthtimf = nfw_buthtimf;
+        stbrttimf = nfw_stbrttimf;
+        fndtimf = nfw_fndtimf;
+        rfnfwTill = nfw_rfnfwTill;
+        dbddr = nfw_dbddr;
+        buthorizbtionDbtb = nfw_buthorizbtionDbtb;
+    }
+
+    publid EndTidkftPbrt(bytf[] dbtb)
+            throws Asn1Exdfption, KrbExdfption, IOExdfption {
+        init(nfw DfrVbluf(dbtb));
+    }
+
+    publid EndTidkftPbrt(DfrVbluf fndoding)
+            throws Asn1Exdfption, KrbExdfption, IOExdfption {
+        init(fndoding);
+    }
+
+    /**
+     * Initiblizfs bn EndTidkftPbrt objfdt.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     * @fxdfption RfblmExdfption if bn frror oddurs whilf pbrsing b Rfblm objfdt.
+     */
+    privbtf stbtid String gftHfxBytfs(bytf[] bytfs, int lfn)
+            throws IOExdfption {
+
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < lfn; i++) {
+
+            int b1 = (bytfs[i] >> 4) & 0x0f;
+            int b2 = bytfs[i] & 0x0f;
+
+            sb.bppfnd(Intfgfr.toHfxString(b1));
+            sb.bppfnd(Intfgfr.toHfxString(b2));
+            sb.bppfnd(' ');
+        }
+        rfturn sb.toString();
+    }
+
+    privbtf void init(DfrVbluf fndoding)
+            throws Asn1Exdfption, IOExdfption, RfblmExdfption {
+        DfrVbluf dfr, subDfr;
+
+        rfnfwTill = null;
+        dbddr = null;
+        buthorizbtionDbtb = null;
+        if (((fndoding.gftTbg() & (bytf) 0x1F) != (bytf) 0x03)
+                || (fndoding.isApplidbtion() != truf)
+                || (fndoding.isConstrudtfd() != truf)) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if (dfr.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        flbgs = TidkftFlbgs.pbrsf(dfr.gftDbtb(), (bytf) 0x00, fblsf);
+        kfy = EndryptionKfy.pbrsf(dfr.gftDbtb(), (bytf) 0x01, fblsf);
+        Rfblm drfblm = Rfblm.pbrsf(dfr.gftDbtb(), (bytf) 0x02, fblsf);
+        dnbmf = PrindipblNbmf.pbrsf(dfr.gftDbtb(), (bytf) 0x03, fblsf, drfblm);
+        trbnsitfd = TrbnsitfdEndoding.pbrsf(dfr.gftDbtb(), (bytf) 0x04, fblsf);
+        buthtimf = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x05, fblsf);
+        stbrttimf = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x06, truf);
+        fndtimf = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x07, fblsf);
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            rfnfwTill = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x08, truf);
+        }
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            dbddr = HostAddrfssfs.pbrsf(dfr.gftDbtb(), (bytf) 0x09, truf);
+        }
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            buthorizbtionDbtb = AuthorizbtionDbtb.pbrsf(dfr.gftDbtb(), (bytf) 0x0A, truf);
+        }
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+
+    }
+
+    /**
+     * Endodfs bn EndTidkftPbrt objfdt.
+     * @rfturn bytf brrby of fndodfd EndTidkftPbrt objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     */
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x00), flbgs.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x01), kfy.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x02), dnbmf.gftRfblm().bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x03), dnbmf.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x04), trbnsitfd.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x05), buthtimf.bsn1Endodf());
+        if (stbrttimf != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x06), stbrttimf.bsn1Endodf());
+        }
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x07), fndtimf.bsn1Endodf());
+
+        if (rfnfwTill != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x08), rfnfwTill.bsn1Endodf());
+        }
+
+        if (dbddr != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x09), dbddr.bsn1Endodf());
+        }
+
+        if (buthorizbtionDbtb != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x0A), buthorizbtionDbtb.bsn1Endodf());
+        }
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        bytfs = nfw DfrOutputStrfbm();
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_APPLICATION,
+                truf, (bytf) 0x03), tfmp);
+        rfturn bytfs.toBytfArrby();
+    }
+}

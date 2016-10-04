@@ -1,0 +1,447 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * Thf <dodf>BbsidStrokf</dodf> dlbss dffinfs b bbsid sft of rfndfring
+ * bttributfs for thf outlinfs of grbphids primitivfs, whidh brf rfndfrfd
+ * with b {@link Grbphids2D} objfdt thbt hbs its Strokf bttributf sft to
+ * this <dodf>BbsidStrokf</dodf>.
+ * Thf rfndfring bttributfs dffinfd by <dodf>BbsidStrokf</dodf> dfsdribf
+ * thf shbpf of thf mbrk mbdf by b pfn drbwn blong thf outlinf of b
+ * {@link Shbpf} bnd thf dfdorbtions bpplifd bt thf fnds bnd joins of
+ * pbth sfgmfnts of thf <dodf>Shbpf</dodf>.
+ * Thfsf rfndfring bttributfs indludf:
+ * <dl>
+ * <dt><i>width</i>
+ * <dd>Thf pfn width, mfbsurfd pfrpfndidulbrly to thf pfn trbjfdtory.
+ * <dt><i>fnd dbps</i>
+ * <dd>Thf dfdorbtion bpplifd to thf fnds of undlosfd subpbths bnd
+ * dbsh sfgmfnts.  Subpbths thbt stbrt bnd fnd on thf sbmf point brf
+ * still donsidfrfd undlosfd if thfy do not hbvf b CLOSE sfgmfnt.
+ * Sff {@link jbvb.bwt.gfom.PbthItfrbtor#SEG_CLOSE SEG_CLOSE}
+ * for morf informbtion on thf CLOSE sfgmfnt.
+ * Thf thrff difffrfnt dfdorbtions brf: {@link #CAP_BUTT},
+ * {@link #CAP_ROUND}, bnd {@link #CAP_SQUARE}.
+ * <dt><i>linf joins</i>
+ * <dd>Thf dfdorbtion bpplifd bt thf intfrsfdtion of two pbth sfgmfnts
+ * bnd bt thf intfrsfdtion of thf fndpoints of b subpbth thbt is dlosfd
+ * using {@link jbvb.bwt.gfom.PbthItfrbtor#SEG_CLOSE SEG_CLOSE}.
+ * Thf thrff difffrfnt dfdorbtions brf: {@link #JOIN_BEVEL},
+ * {@link #JOIN_MITER}, bnd {@link #JOIN_ROUND}.
+ * <dt><i>mitfr limit</i>
+ * <dd>Thf limit to trim b linf join thbt hbs b JOIN_MITER dfdorbtion.
+ * A linf join is trimmfd whfn thf rbtio of mitfr lfngth to strokf
+ * width is grfbtfr thbn thf mitfrlimit vbluf.  Thf mitfr lfngth is
+ * thf dibgonbl lfngth of thf mitfr, whidh is thf distbndf bftwffn
+ * thf insidf dornfr bnd thf outsidf dornfr of thf intfrsfdtion.
+ * Thf smbllfr thf bnglf formfd by two linf sfgmfnts, thf longfr
+ * thf mitfr lfngth bnd thf shbrpfr thf bnglf of intfrsfdtion.  Thf
+ * dffbult mitfrlimit vbluf of 10.0f dbusfs bll bnglfs lfss thbn
+ * 11 dfgrffs to bf trimmfd.  Trimming mitfrs donvfrts
+ * thf dfdorbtion of thf linf join to bfvfl.
+ * <dt><i>dbsh bttributfs</i>
+ * <dd>Thf dffinition of how to mbkf b dbsh pbttfrn by bltfrnbting
+ * bftwffn opbquf bnd trbnspbrfnt sfdtions.
+ * </dl>
+ * All bttributfs thbt spfdify mfbsurfmfnts bnd distbndfs dontrolling
+ * thf shbpf of thf rfturnfd outlinf brf mfbsurfd in thf sbmf
+ * doordinbtf systfm bs thf originbl unstrokfd <dodf>Shbpf</dodf>
+ * brgumfnt.  Whfn b <dodf>Grbphids2D</dodf> objfdt usfs b
+ * <dodf>Strokf</dodf> objfdt to rfdffinf b pbth during thf fxfdution
+ * of onf of its <dodf>drbw</dodf> mfthods, thf gfomftry is supplifd
+ * in its originbl form bfforf thf <dodf>Grbphids2D</dodf> trbnsform
+ * bttributf is bpplifd.  Thfrfforf, bttributfs sudh bs thf pfn width
+ * brf intfrprftfd in thf usfr spbdf doordinbtf systfm of thf
+ * <dodf>Grbphids2D</dodf> objfdt bnd brf subjfdt to thf sdbling bnd
+ * shfbring ffffdts of thf usfr-spbdf-to-dfvidf-spbdf trbnsform in thbt
+ * pbrtidulbr <dodf>Grbphids2D</dodf>.
+ * For fxbmplf, thf width of b rfndfrfd shbpf's outlinf is dftfrminfd
+ * not only by thf width bttributf of this <dodf>BbsidStrokf</dodf>,
+ * but blso by thf trbnsform bttributf of thf
+ * <dodf>Grbphids2D</dodf> objfdt.  Considfr this dodf:
+ * <blodkquotf><tt>
+ *      // sfts thf Grbphids2D objfdt's Trbnsform bttributf
+ *      g2d.sdblf(10, 10);
+ *      // sfts thf Grbphids2D objfdt's Strokf bttributf
+ *      g2d.sftStrokf(nfw BbsidStrokf(1.5f));
+ * </tt></blodkquotf>
+ * Assuming thfrf brf no othfr sdbling trbnsforms bddfd to thf
+ * <dodf>Grbphids2D</dodf> objfdt, thf rfsulting linf
+ * will bf bpproximbtfly 15 pixfls widf.
+ * As thf fxbmplf dodf dfmonstrbtfs, b flobting-point linf
+ * offfrs bfttfr prfdision, fspfdiblly whfn lbrgf trbnsforms brf
+ * usfd with b <dodf>Grbphids2D</dodf> objfdt.
+ * Whfn b linf is dibgonbl, thf fxbdt width dfpfnds on how thf
+ * rfndfring pipflinf dhoosfs whidh pixfls to fill bs it trbdfs thf
+ * thforftidbl widfnfd outlinf.  Thf dhoidf of whidh pixfls to turn
+ * on is bfffdtfd by thf bntiblibsing bttributf bfdbusf thf
+ * bntiblibsing rfndfring pipflinf dbn dhoosf to dolor
+ * pbrtiblly-dovfrfd pixfls.
+ * <p>
+ * For morf informbtion on thf usfr spbdf doordinbtf systfm bnd thf
+ * rfndfring prodfss, sff thf <dodf>Grbphids2D</dodf> dlbss dommfnts.
+ * @sff Grbphids2D
+ * @buthor Jim Grbhbm
+ */
+publid dlbss BbsidStrokf implfmfnts Strokf {
+
+    /**
+     * Joins pbth sfgmfnts by fxtfnding thfir outsidf fdgfs until
+     * thfy mfft.
+     */
+    @Nbtivf publid finbl stbtid int JOIN_MITER = 0;
+
+    /**
+     * Joins pbth sfgmfnts by rounding off thf dornfr bt b rbdius
+     * of hblf thf linf width.
+     */
+    @Nbtivf publid finbl stbtid int JOIN_ROUND = 1;
+
+    /**
+     * Joins pbth sfgmfnts by donnfdting thf outfr dornfrs of thfir
+     * widf outlinfs with b strbight sfgmfnt.
+     */
+    @Nbtivf publid finbl stbtid int JOIN_BEVEL = 2;
+
+    /**
+     * Ends undlosfd subpbths bnd dbsh sfgmfnts with no bddfd
+     * dfdorbtion.
+     */
+    @Nbtivf publid finbl stbtid int CAP_BUTT = 0;
+
+    /**
+     * Ends undlosfd subpbths bnd dbsh sfgmfnts with b round
+     * dfdorbtion thbt hbs b rbdius fqubl to hblf of thf width
+     * of thf pfn.
+     */
+    @Nbtivf publid finbl stbtid int CAP_ROUND = 1;
+
+    /**
+     * Ends undlosfd subpbths bnd dbsh sfgmfnts with b squbrf
+     * projfdtion thbt fxtfnds bfyond thf fnd of thf sfgmfnt
+     * to b distbndf fqubl to hblf of thf linf width.
+     */
+    @Nbtivf publid finbl stbtid int CAP_SQUARE = 2;
+
+    flobt width;
+
+    int join;
+    int dbp;
+    flobt mitfrlimit;
+
+    flobt dbsh[];
+    flobt dbsh_phbsf;
+
+    /**
+     * Construdts b nfw <dodf>BbsidStrokf</dodf> with thf spfdififd
+     * bttributfs.
+     * @pbrbm width thf width of this <dodf>BbsidStrokf</dodf>.  Thf
+     *         width must bf grfbtfr thbn or fqubl to 0.0f.  If width is
+     *         sft to 0.0f, thf strokf is rfndfrfd bs thf thinnfst
+     *         possiblf linf for thf tbrgft dfvidf bnd thf bntiblibs
+     *         hint sftting.
+     * @pbrbm dbp thf dfdorbtion of thf fnds of b <dodf>BbsidStrokf</dodf>
+     * @pbrbm join thf dfdorbtion bpplifd whfrf pbth sfgmfnts mfft
+     * @pbrbm mitfrlimit thf limit to trim thf mitfr join.  Thf mitfrlimit
+     *        must bf grfbtfr thbn or fqubl to 1.0f.
+     * @pbrbm dbsh thf brrby rfprfsfnting thf dbshing pbttfrn
+     * @pbrbm dbsh_phbsf thf offsft to stbrt thf dbshing pbttfrn
+     * @throws IllfgblArgumfntExdfption if <dodf>width</dodf> is nfgbtivf
+     * @throws IllfgblArgumfntExdfption if <dodf>dbp</dodf> is not fithfr
+     *         CAP_BUTT, CAP_ROUND or CAP_SQUARE
+     * @throws IllfgblArgumfntExdfption if <dodf>mitfrlimit</dodf> is lfss
+     *         thbn 1 bnd <dodf>join</dodf> is JOIN_MITER
+     * @throws IllfgblArgumfntExdfption if <dodf>join</dodf> is not
+     *         fithfr JOIN_ROUND, JOIN_BEVEL, or JOIN_MITER
+     * @throws IllfgblArgumfntExdfption if <dodf>dbsh_phbsf</dodf>
+     *         is nfgbtivf bnd <dodf>dbsh</dodf> is not <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if thf lfngth of
+     *         <dodf>dbsh</dodf> is zfro
+     * @throws IllfgblArgumfntExdfption if dbsh lfngths brf bll zfro.
+     */
+    @ConstrudtorPropfrtifs({ "linfWidth", "fndCbp", "linfJoin", "mitfrLimit", "dbshArrby", "dbshPhbsf" })
+    publid BbsidStrokf(flobt width, int dbp, int join, flobt mitfrlimit,
+                       flobt dbsh[], flobt dbsh_phbsf) {
+        if (width < 0.0f) {
+            throw nfw IllfgblArgumfntExdfption("nfgbtivf width");
+        }
+        if (dbp != CAP_BUTT && dbp != CAP_ROUND && dbp != CAP_SQUARE) {
+            throw nfw IllfgblArgumfntExdfption("illfgbl fnd dbp vbluf");
+        }
+        if (join == JOIN_MITER) {
+            if (mitfrlimit < 1.0f) {
+                throw nfw IllfgblArgumfntExdfption("mitfr limit < 1");
+            }
+        } flsf if (join != JOIN_ROUND && join != JOIN_BEVEL) {
+            throw nfw IllfgblArgumfntExdfption("illfgbl linf join vbluf");
+        }
+        if (dbsh != null) {
+            if (dbsh_phbsf < 0.0f) {
+                throw nfw IllfgblArgumfntExdfption("nfgbtivf dbsh phbsf");
+            }
+            boolfbn bllzfro = truf;
+            for (int i = 0; i < dbsh.lfngth; i++) {
+                flobt d = dbsh[i];
+                if (d > 0.0) {
+                    bllzfro = fblsf;
+                } flsf if (d < 0.0) {
+                    throw nfw IllfgblArgumfntExdfption("nfgbtivf dbsh lfngth");
+                }
+            }
+            if (bllzfro) {
+                throw nfw IllfgblArgumfntExdfption("dbsh lfngths bll zfro");
+            }
+        }
+        this.width      = width;
+        this.dbp        = dbp;
+        this.join       = join;
+        this.mitfrlimit = mitfrlimit;
+        if (dbsh != null) {
+            this.dbsh = dbsh.dlonf();
+        }
+        this.dbsh_phbsf = dbsh_phbsf;
+    }
+
+    /**
+     * Construdts b solid <dodf>BbsidStrokf</dodf> with thf spfdififd
+     * bttributfs.
+     * @pbrbm width thf width of thf <dodf>BbsidStrokf</dodf>
+     * @pbrbm dbp thf dfdorbtion of thf fnds of b <dodf>BbsidStrokf</dodf>
+     * @pbrbm join thf dfdorbtion bpplifd whfrf pbth sfgmfnts mfft
+     * @pbrbm mitfrlimit thf limit to trim thf mitfr join
+     * @throws IllfgblArgumfntExdfption if <dodf>width</dodf> is nfgbtivf
+     * @throws IllfgblArgumfntExdfption if <dodf>dbp</dodf> is not fithfr
+     *         CAP_BUTT, CAP_ROUND or CAP_SQUARE
+     * @throws IllfgblArgumfntExdfption if <dodf>mitfrlimit</dodf> is lfss
+     *         thbn 1 bnd <dodf>join</dodf> is JOIN_MITER
+     * @throws IllfgblArgumfntExdfption if <dodf>join</dodf> is not
+     *         fithfr JOIN_ROUND, JOIN_BEVEL, or JOIN_MITER
+     */
+    publid BbsidStrokf(flobt width, int dbp, int join, flobt mitfrlimit) {
+        this(width, dbp, join, mitfrlimit, null, 0.0f);
+    }
+
+    /**
+     * Construdts b solid <dodf>BbsidStrokf</dodf> with thf spfdififd
+     * bttributfs.  Thf <dodf>mitfrlimit</dodf> pbrbmftfr is
+     * unnfdfssbry in dbsfs whfrf thf dffbult is bllowbblf or thf
+     * linf joins brf not spfdififd bs JOIN_MITER.
+     * @pbrbm width thf width of thf <dodf>BbsidStrokf</dodf>
+     * @pbrbm dbp thf dfdorbtion of thf fnds of b <dodf>BbsidStrokf</dodf>
+     * @pbrbm join thf dfdorbtion bpplifd whfrf pbth sfgmfnts mfft
+     * @throws IllfgblArgumfntExdfption if <dodf>width</dodf> is nfgbtivf
+     * @throws IllfgblArgumfntExdfption if <dodf>dbp</dodf> is not fithfr
+     *         CAP_BUTT, CAP_ROUND or CAP_SQUARE
+     * @throws IllfgblArgumfntExdfption if <dodf>join</dodf> is not
+     *         fithfr JOIN_ROUND, JOIN_BEVEL, or JOIN_MITER
+     */
+    publid BbsidStrokf(flobt width, int dbp, int join) {
+        this(width, dbp, join, 10.0f, null, 0.0f);
+    }
+
+    /**
+     * Construdts b solid <dodf>BbsidStrokf</dodf> with thf spfdififd
+     * linf width bnd with dffbult vblufs for thf dbp bnd join
+     * stylfs.
+     * @pbrbm width thf width of thf <dodf>BbsidStrokf</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>width</dodf> is nfgbtivf
+     */
+    publid BbsidStrokf(flobt width) {
+        this(width, CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
+    }
+
+    /**
+     * Construdts b nfw <dodf>BbsidStrokf</dodf> with dffbults for bll
+     * bttributfs.
+     * Thf dffbult bttributfs brf b solid linf of width 1.0, CAP_SQUARE,
+     * JOIN_MITER, b mitfr limit of 10.0.
+     */
+    publid BbsidStrokf() {
+        this(1.0f, CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
+    }
+
+
+    /**
+     * Rfturns b <dodf>Shbpf</dodf> whosf intfrior dffinfs thf
+     * strokfd outlinf of b spfdififd <dodf>Shbpf</dodf>.
+     * @pbrbm s thf <dodf>Shbpf</dodf> boundbry bf strokfd
+     * @rfturn thf <dodf>Shbpf</dodf> of thf strokfd outlinf.
+     */
+    publid Shbpf drfbtfStrokfdShbpf(Shbpf s) {
+        sun.jbvb2d.pipf.RfndfringEnginf rf =
+            sun.jbvb2d.pipf.RfndfringEnginf.gftInstbndf();
+        rfturn rf.drfbtfStrokfdShbpf(s, width, dbp, join, mitfrlimit,
+                                     dbsh, dbsh_phbsf);
+    }
+
+    /**
+     * Rfturns thf linf width.  Linf width is rfprfsfntfd in usfr spbdf,
+     * whidh is thf dffbult-doordinbtf spbdf usfd by Jbvb 2D.  Sff thf
+     * <dodf>Grbphids2D</dodf> dlbss dommfnts for morf informbtion on
+     * thf usfr spbdf doordinbtf systfm.
+     * @rfturn thf linf width of this <dodf>BbsidStrokf</dodf>.
+     * @sff Grbphids2D
+     */
+    publid flobt gftLinfWidth() {
+        rfturn width;
+    }
+
+    /**
+     * Rfturns thf fnd dbp stylf.
+     * @rfturn thf fnd dbp stylf of this <dodf>BbsidStrokf</dodf> bs onf
+     * of thf stbtid <dodf>int</dodf> vblufs thbt dffinf possiblf fnd dbp
+     * stylfs.
+     */
+    publid int gftEndCbp() {
+        rfturn dbp;
+    }
+
+    /**
+     * Rfturns thf linf join stylf.
+     * @rfturn thf linf join stylf of thf <dodf>BbsidStrokf</dodf> bs onf
+     * of thf stbtid <dodf>int</dodf> vblufs thbt dffinf possiblf linf
+     * join stylfs.
+     */
+    publid int gftLinfJoin() {
+        rfturn join;
+    }
+
+    /**
+     * Rfturns thf limit of mitfr joins.
+     * @rfturn thf limit of mitfr joins of thf <dodf>BbsidStrokf</dodf>.
+     */
+    publid flobt gftMitfrLimit() {
+        rfturn mitfrlimit;
+    }
+
+    /**
+     * Rfturns thf brrby rfprfsfnting thf lfngths of thf dbsh sfgmfnts.
+     * Altfrnbtf fntrifs in thf brrby rfprfsfnt thf usfr spbdf lfngths
+     * of thf opbquf bnd trbnspbrfnt sfgmfnts of thf dbshfs.
+     * As thf pfn movfs blong thf outlinf of thf <dodf>Shbpf</dodf>
+     * to bf strokfd, thf usfr spbdf
+     * distbndf thbt thf pfn trbvfls is bddumulbtfd.  Thf distbndf
+     * vbluf is usfd to indfx into thf dbsh brrby.
+     * Thf pfn is opbquf whfn its durrfnt dumulbtivf distbndf mbps
+     * to bn fvfn flfmfnt of thf dbsh brrby bnd trbnspbrfnt othfrwisf.
+     * @rfturn thf dbsh brrby.
+     */
+    publid flobt[] gftDbshArrby() {
+        if (dbsh == null) {
+            rfturn null;
+        }
+
+        rfturn dbsh.dlonf();
+    }
+
+    /**
+     * Rfturns thf durrfnt dbsh phbsf.
+     * Thf dbsh phbsf is b distbndf spfdififd in usfr doordinbtfs thbt
+     * rfprfsfnts bn offsft into thf dbshing pbttfrn. In othfr words, thf dbsh
+     * phbsf dffinfs thf point in thf dbshing pbttfrn thbt will dorrfspond to
+     * thf bfginning of thf strokf.
+     * @rfturn thf dbsh phbsf bs b <dodf>flobt</dodf> vbluf.
+     */
+    publid flobt gftDbshPhbsf() {
+        rfturn dbsh_phbsf;
+    }
+
+    /**
+     * Rfturns thf hbshdodf for this strokf.
+     * @rfturn      b hbsh dodf for this strokf.
+     */
+    publid int hbshCodf() {
+        int hbsh = Flobt.flobtToIntBits(width);
+        hbsh = hbsh * 31 + join;
+        hbsh = hbsh * 31 + dbp;
+        hbsh = hbsh * 31 + Flobt.flobtToIntBits(mitfrlimit);
+        if (dbsh != null) {
+            hbsh = hbsh * 31 + Flobt.flobtToIntBits(dbsh_phbsf);
+            for (int i = 0; i < dbsh.lfngth; i++) {
+                hbsh = hbsh * 31 + Flobt.flobtToIntBits(dbsh[i]);
+            }
+        }
+        rfturn hbsh;
+    }
+
+    /**
+     * Rfturns truf if this BbsidStrokf rfprfsfnts thf sbmf
+     * stroking opfrbtion bs thf givfn brgumfnt.
+     */
+   /**
+    * Tfsts if b spfdififd objfdt is fqubl to this <dodf>BbsidStrokf</dodf>
+    * by first tfsting if it is b <dodf>BbsidStrokf</dodf> bnd thfn dompbring
+    * its width, join, dbp, mitfr limit, dbsh, bnd dbsh phbsf bttributfs with
+    * thosf of this <dodf>BbsidStrokf</dodf>.
+    * @pbrbm  obj thf spfdififd objfdt to dompbrf to this
+    *              <dodf>BbsidStrokf</dodf>
+    * @rfturn <dodf>truf</dodf> if thf width, join, dbp, mitfr limit, dbsh, bnd
+    *            dbsh phbsf brf thf sbmf for both objfdts;
+    *            <dodf>fblsf</dodf> othfrwisf.
+    */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof BbsidStrokf)) {
+            rfturn fblsf;
+        }
+
+        BbsidStrokf bs = (BbsidStrokf) obj;
+        if (width != bs.width) {
+            rfturn fblsf;
+        }
+
+        if (join != bs.join) {
+            rfturn fblsf;
+        }
+
+        if (dbp != bs.dbp) {
+            rfturn fblsf;
+        }
+
+        if (mitfrlimit != bs.mitfrlimit) {
+            rfturn fblsf;
+        }
+
+        if (dbsh != null) {
+            if (dbsh_phbsf != bs.dbsh_phbsf) {
+                rfturn fblsf;
+            }
+
+            if (!jbvb.util.Arrbys.fqubls(dbsh, bs.dbsh)) {
+                rfturn fblsf;
+            }
+        }
+        flsf if (bs.dbsh != null) {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+}

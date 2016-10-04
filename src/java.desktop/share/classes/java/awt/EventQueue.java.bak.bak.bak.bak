@@ -1,0 +1,1359 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.fvfnt.*;
+
+import jbvb.bwt.pffr.ComponfntPffr;
+
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+import jbvb.util.EmptyStbdkExdfption;
+
+import sun.bwt.*;
+import sun.bwt.dnd.SunDropTbrgftEvfnt;
+import sun.util.logging.PlbtformLoggfr;
+
+import jbvb.util.dondurrfnt.lodks.Condition;
+import jbvb.util.dondurrfnt.lodks.Lodk;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+
+import jbvb.sfdurity.AddfssControlContfxt;
+
+import sun.misd.ShbrfdSfdrfts;
+import sun.misd.JbvbSfdurityAddfss;
+
+/**
+ * <dodf>EvfntQufuf</dodf> is b plbtform-indfpfndfnt dlbss
+ * thbt qufufs fvfnts, both from thf undfrlying pffr dlbssfs
+ * bnd from trustfd bpplidbtion dlbssfs.
+ * <p>
+ * It fndbpsulbtfs bsyndhronous fvfnt dispbtdh mbdhinfry whidh
+ * fxtrbdts fvfnts from thf qufuf bnd dispbtdhfs thfm by dblling
+ * {@link #dispbtdhEvfnt(AWTEvfnt) dispbtdhEvfnt(AWTEvfnt)} mfthod
+ * on this <dodf>EvfntQufuf</dodf> with thf fvfnt to bf dispbtdhfd
+ * bs bn brgumfnt.  Thf pbrtidulbr bfhbvior of this mbdhinfry is
+ * implfmfntbtion-dfpfndfnt.  Thf only rfquirfmfnts brf thbt fvfnts
+ * whidh wfrf bdtublly fnqufufd to this qufuf (notf thbt fvfnts
+ * bfing postfd to thf <dodf>EvfntQufuf</dodf> dbn bf doblfsdfd)
+ * brf dispbtdhfd:
+ * <dl>
+ *   <dt> Sfqufntiblly.
+ *   <dd> Thbt is, it is not pfrmittfd thbt sfvfrbl fvfnts from
+ *        this qufuf brf dispbtdhfd simultbnfously.
+ *   <dt> In thf sbmf ordfr bs thfy brf fnqufufd.
+ *   <dd> Thbt is, if <dodf>AWTEvfnt</dodf>&nbsp;A is fnqufufd
+ *        to thf <dodf>EvfntQufuf</dodf> bfforf
+ *        <dodf>AWTEvfnt</dodf>&nbsp;B thfn fvfnt B will not bf
+ *        dispbtdhfd bfforf fvfnt A.
+ * </dl>
+ * <p>
+ * Somf browsfrs pbrtition bpplfts in difffrfnt dodf bbsfs into
+ * sfpbrbtf dontfxts, bnd fstbblish wblls bftwffn thfsf dontfxts.
+ * In sudh b sdfnbrio, thfrf will bf onf <dodf>EvfntQufuf</dodf>
+ * pfr dontfxt. Othfr browsfrs plbdf bll bpplfts into thf sbmf
+ * dontfxt, implying thbt thfrf will bf only b singlf, globbl
+ * <dodf>EvfntQufuf</dodf> for bll bpplfts. This bfhbvior is
+ * implfmfntbtion-dfpfndfnt.  Consult your browsfr's dodumfntbtion
+ * for morf informbtion.
+ * <p>
+ * For informbtion on thf thrfbding issufs of thf fvfnt dispbtdh
+ * mbdhinfry, sff <b hrff="dod-filfs/AWTThrfbdIssufs.html#Autoshutdown"
+ * >AWT Thrfbding Issufs</b>.
+ *
+ * @buthor Thombs Bbll
+ * @buthor Frfd Edks
+ * @buthor Dbvid Mfndfnhbll
+ *
+ * @sindf       1.1
+ */
+publid dlbss EvfntQufuf {
+    privbtf stbtid finbl AtomidIntfgfr thrfbdInitNumbfr = nfw AtomidIntfgfr(0);
+
+    privbtf stbtid finbl int LOW_PRIORITY = 0;
+    privbtf stbtid finbl int NORM_PRIORITY = 1;
+    privbtf stbtid finbl int HIGH_PRIORITY = 2;
+    privbtf stbtid finbl int ULTIMATE_PRIORITY = 3;
+
+    privbtf stbtid finbl int NUM_PRIORITIES = ULTIMATE_PRIORITY + 1;
+
+    /*
+     * Wf mbintbin onf Qufuf for fbdh priority thbt thf EvfntQufuf supports.
+     * Thbt is, thf EvfntQufuf objfdt is bdtublly implfmfntfd bs
+     * NUM_PRIORITIES qufufs bnd bll Evfnts on b pbrtidulbr intfrnbl Qufuf
+     * hbvf idfntidbl priority. Evfnts brf pullfd off thf EvfntQufuf stbrting
+     * with thf Qufuf of highfst priority. Wf progrfss in dfdrfbsing ordfr
+     * bdross bll Qufufs.
+     */
+    privbtf Qufuf[] qufufs = nfw Qufuf[NUM_PRIORITIES];
+
+    /*
+     * Thf nfxt EvfntQufuf on thf stbdk, or null if this EvfntQufuf is
+     * on thf top of thf stbdk.  If nfxtQufuf is non-null, rfqufsts to post
+     * bn fvfnt brf forwbrdfd to nfxtQufuf.
+     */
+    privbtf EvfntQufuf nfxtQufuf;
+
+    /*
+     * Thf prfvious EvfntQufuf on thf stbdk, or null if this is thf
+     * "bbsf" EvfntQufuf.
+     */
+    privbtf EvfntQufuf prfviousQufuf;
+
+    /*
+     * A singlf lodk to syndhronizf thf push()/pop() bnd rflbtfd opfrbtions with
+     * bll thf EvfntQufufs from thf AppContfxt. Syndhronizbtion on bny pbrtidulbr
+     * fvfnt qufuf(s) is not fnough: wf should lodk thf wholf stbdk.
+     */
+    privbtf finbl Lodk pushPopLodk;
+    privbtf finbl Condition pushPopCond;
+
+    /*
+     * Dummy runnbblf to wbkf up EDT from gftNfxtEvfnt() bftfr
+     push/pop is pfrformfd
+     */
+    privbtf finbl stbtid Runnbblf dummyRunnbblf = nfw Runnbblf() {
+        publid void run() {
+        }
+    };
+
+    privbtf EvfntDispbtdhThrfbd dispbtdhThrfbd;
+
+    privbtf finbl ThrfbdGroup thrfbdGroup =
+        Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+    privbtf finbl ClbssLobdfr dlbssLobdfr =
+        Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+
+    /*
+     * Thf timf stbmp of thf lbst dispbtdhfd InputEvfnt or AdtionEvfnt.
+     */
+    privbtf long mostRfdfntEvfntTimf = Systfm.durrfntTimfMillis();
+
+    /*
+     * Thf timf stbmp of thf lbst KfyEvfnt .
+     */
+    privbtf long mostRfdfntKfyEvfntTimf = Systfm.durrfntTimfMillis();
+
+    /**
+     * Thf modififrs fifld of thf durrfnt fvfnt, if thf durrfnt fvfnt is bn
+     * InputEvfnt or AdtionEvfnt.
+     */
+    privbtf WfbkRfffrfndf<AWTEvfnt> durrfntEvfnt;
+
+    /*
+     * Non-zfro if b thrfbd is wbiting in gftNfxtEvfnt(int) for bn fvfnt of
+     * b pbrtidulbr ID to bf postfd to thf qufuf.
+     */
+    privbtf volbtilf int wbitForID;
+
+    /*
+     * AppContfxt dorrfsponding to thf qufuf.
+     */
+    privbtf finbl AppContfxt bppContfxt;
+
+    privbtf finbl String nbmf = "AWT-EvfntQufuf-" + thrfbdInitNumbfr.gftAndIndrfmfnt();
+
+    privbtf FwDispbtdhfr fwDispbtdhfr;
+
+    privbtf stbtid finbl PlbtformLoggfr fvfntLog = PlbtformLoggfr.gftLoggfr("jbvb.bwt.fvfnt.EvfntQufuf");
+
+    stbtid {
+        AWTAddfssor.sftEvfntQufufAddfssor(
+            nfw AWTAddfssor.EvfntQufufAddfssor() {
+                publid Thrfbd gftDispbtdhThrfbd(EvfntQufuf fvfntQufuf) {
+                    rfturn fvfntQufuf.gftDispbtdhThrfbd();
+                }
+                publid boolfbn isDispbtdhThrfbdImpl(EvfntQufuf fvfntQufuf) {
+                    rfturn fvfntQufuf.isDispbtdhThrfbdImpl();
+                }
+                publid void rfmovfSourdfEvfnts(EvfntQufuf fvfntQufuf,
+                                               Objfdt sourdf,
+                                               boolfbn rfmovfAllEvfnts)
+                {
+                    fvfntQufuf.rfmovfSourdfEvfnts(sourdf, rfmovfAllEvfnts);
+                }
+                publid boolfbn noEvfnts(EvfntQufuf fvfntQufuf) {
+                    rfturn fvfntQufuf.noEvfnts();
+                }
+                publid void wbkfup(EvfntQufuf fvfntQufuf, boolfbn isShutdown) {
+                    fvfntQufuf.wbkfup(isShutdown);
+                }
+                publid void invokfAndWbit(Objfdt sourdf, Runnbblf r)
+                    throws IntfrruptfdExdfption, InvodbtionTbrgftExdfption
+                {
+                    EvfntQufuf.invokfAndWbit(sourdf, r);
+                }
+                publid void sftFwDispbtdhfr(EvfntQufuf fvfntQufuf,
+                                            FwDispbtdhfr dispbtdhfr) {
+                    fvfntQufuf.sftFwDispbtdhfr(dispbtdhfr);
+                }
+
+                @Ovfrridf
+                publid long gftMostRfdfntEvfntTimf(EvfntQufuf fvfntQufuf) {
+                    rfturn fvfntQufuf.gftMostRfdfntEvfntTimfImpl();
+                }
+            });
+    }
+
+    /**
+     * Initiblizfs b nfw instbndf of {@dodf EvfntQufuf}.
+     */
+    publid EvfntQufuf() {
+        for (int i = 0; i < NUM_PRIORITIES; i++) {
+            qufufs[i] = nfw Qufuf();
+        }
+        /*
+         * NOTE: if you fvfr hbvf to stbrt thf bssodibtfd fvfnt dispbtdh
+         * thrfbd bt this point, bf bwbrf of thf following problfm:
+         * If this EvfntQufuf instbndf is drfbtfd in
+         * SunToolkit.drfbtfNfwAppContfxt() thf stbrtfd dispbtdh thrfbd
+         * mby dbll AppContfxt.gftAppContfxt() bfforf drfbtfNfwAppContfxt()
+         * domplftfs thus dbusing mfss in thrfbd group to bppdontfxt mbpping.
+         */
+
+        bppContfxt = AppContfxt.gftAppContfxt();
+        pushPopLodk = (Lodk)bppContfxt.gft(AppContfxt.EVENT_QUEUE_LOCK_KEY);
+        pushPopCond = (Condition)bppContfxt.gft(AppContfxt.EVENT_QUEUE_COND_KEY);
+    }
+
+    /**
+     * Posts b 1.1-stylf fvfnt to thf <dodf>EvfntQufuf</dodf>.
+     * If thfrf is bn fxisting fvfnt on thf qufuf with thf sbmf ID
+     * bnd fvfnt sourdf, thf sourdf <dodf>Componfnt</dodf>'s
+     * <dodf>doblfsdfEvfnts</dodf> mfthod will bf dbllfd.
+     *
+     * @pbrbm thfEvfnt bn instbndf of <dodf>jbvb.bwt.AWTEvfnt</dodf>,
+     *          or b subdlbss of it
+     * @throws NullPointfrExdfption if <dodf>thfEvfnt</dodf> is <dodf>null</dodf>
+     */
+    publid void postEvfnt(AWTEvfnt thfEvfnt) {
+        SunToolkit.flushPfndingEvfnts(bppContfxt);
+        postEvfntPrivbtf(thfEvfnt);
+    }
+
+    /**
+     * Posts b 1.1-stylf fvfnt to thf <dodf>EvfntQufuf</dodf>.
+     * If thfrf is bn fxisting fvfnt on thf qufuf with thf sbmf ID
+     * bnd fvfnt sourdf, thf sourdf <dodf>Componfnt</dodf>'s
+     * <dodf>doblfsdfEvfnts</dodf> mfthod will bf dbllfd.
+     *
+     * @pbrbm thfEvfnt bn instbndf of <dodf>jbvb.bwt.AWTEvfnt</dodf>,
+     *          or b subdlbss of it
+     */
+    privbtf finbl void postEvfntPrivbtf(AWTEvfnt thfEvfnt) {
+        thfEvfnt.isPostfd = truf;
+        pushPopLodk.lodk();
+        try {
+            if (nfxtQufuf != null) {
+                // Forwbrd thf fvfnt to thf top of EvfntQufuf stbdk
+                nfxtQufuf.postEvfntPrivbtf(thfEvfnt);
+                rfturn;
+            }
+            if (dispbtdhThrfbd == null) {
+                if (thfEvfnt.gftSourdf() == AWTAutoShutdown.gftInstbndf()) {
+                    rfturn;
+                } flsf {
+                    initDispbtdhThrfbd();
+                }
+            }
+            postEvfnt(thfEvfnt, gftPriority(thfEvfnt));
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    privbtf stbtid int gftPriority(AWTEvfnt thfEvfnt) {
+        if (thfEvfnt instbndfof PffrEvfnt) {
+            PffrEvfnt pffrEvfnt = (PffrEvfnt)thfEvfnt;
+            if ((pffrEvfnt.gftFlbgs() & PffrEvfnt.ULTIMATE_PRIORITY_EVENT) != 0) {
+                rfturn ULTIMATE_PRIORITY;
+            }
+            if ((pffrEvfnt.gftFlbgs() & PffrEvfnt.PRIORITY_EVENT) != 0) {
+                rfturn HIGH_PRIORITY;
+            }
+            if ((pffrEvfnt.gftFlbgs() & PffrEvfnt.LOW_PRIORITY_EVENT) != 0) {
+                rfturn LOW_PRIORITY;
+            }
+        }
+        int id = thfEvfnt.gftID();
+        if ((id >= PbintEvfnt.PAINT_FIRST) && (id <= PbintEvfnt.PAINT_LAST)) {
+            rfturn LOW_PRIORITY;
+        }
+        rfturn NORM_PRIORITY;
+    }
+
+    /**
+     * Posts thf fvfnt to thf intfrnbl Qufuf of spfdififd priority,
+     * doblfsding bs bppropribtf.
+     *
+     * @pbrbm thfEvfnt bn instbndf of <dodf>jbvb.bwt.AWTEvfnt</dodf>,
+     *          or b subdlbss of it
+     * @pbrbm priority  thf dfsirfd priority of thf fvfnt
+     */
+    privbtf void postEvfnt(AWTEvfnt thfEvfnt, int priority) {
+        if (doblfsdfEvfnt(thfEvfnt, priority)) {
+            rfturn;
+        }
+
+        EvfntQufufItfm nfwItfm = nfw EvfntQufufItfm(thfEvfnt);
+
+        dbdhfEQItfm(nfwItfm);
+
+        boolfbn notifyID = (thfEvfnt.gftID() == this.wbitForID);
+
+        if (qufufs[priority].hfbd == null) {
+            boolfbn shouldNotify = noEvfnts();
+            qufufs[priority].hfbd = qufufs[priority].tbil = nfwItfm;
+
+            if (shouldNotify) {
+                if (thfEvfnt.gftSourdf() != AWTAutoShutdown.gftInstbndf()) {
+                    AWTAutoShutdown.gftInstbndf().notifyThrfbdBusy(dispbtdhThrfbd);
+                }
+                pushPopCond.signblAll();
+            } flsf if (notifyID) {
+                pushPopCond.signblAll();
+            }
+        } flsf {
+            // Thf fvfnt wbs not doblfsdfd or hbs non-Componfnt sourdf.
+            // Insfrt it bt thf fnd of thf bppropribtf Qufuf.
+            qufufs[priority].tbil.nfxt = nfwItfm;
+            qufufs[priority].tbil = nfwItfm;
+            if (notifyID) {
+                pushPopCond.signblAll();
+            }
+        }
+    }
+
+    privbtf boolfbn doblfsdfPbintEvfnt(PbintEvfnt f) {
+        ComponfntPffr sourdfPffr = ((Componfnt)f.gftSourdf()).pffr;
+        if (sourdfPffr != null) {
+            sourdfPffr.doblfsdfPbintEvfnt(f);
+        }
+        EvfntQufufItfm[] dbdhf = ((Componfnt)f.gftSourdf()).fvfntCbdhf;
+        if (dbdhf == null) {
+            rfturn fblsf;
+        }
+        int indfx = fvfntToCbdhfIndfx(f);
+
+        if (indfx != -1 && dbdhf[indfx] != null) {
+            PbintEvfnt mfrgfd = mfrgfPbintEvfnts(f, (PbintEvfnt)dbdhf[indfx].fvfnt);
+            if (mfrgfd != null) {
+                dbdhf[indfx].fvfnt = mfrgfd;
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    privbtf PbintEvfnt mfrgfPbintEvfnts(PbintEvfnt b, PbintEvfnt b) {
+        Rfdtbnglf bRfdt = b.gftUpdbtfRfdt();
+        Rfdtbnglf bRfdt = b.gftUpdbtfRfdt();
+        if (bRfdt.dontbins(bRfdt)) {
+            rfturn b;
+        }
+        if (bRfdt.dontbins(bRfdt)) {
+            rfturn b;
+        }
+        rfturn null;
+    }
+
+    privbtf boolfbn doblfsdfMousfEvfnt(MousfEvfnt f) {
+        EvfntQufufItfm[] dbdhf = ((Componfnt)f.gftSourdf()).fvfntCbdhf;
+        if (dbdhf == null) {
+            rfturn fblsf;
+        }
+        int indfx = fvfntToCbdhfIndfx(f);
+        if (indfx != -1 && dbdhf[indfx] != null) {
+            dbdhf[indfx].fvfnt = f;
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    privbtf boolfbn doblfsdfPffrEvfnt(PffrEvfnt f) {
+        EvfntQufufItfm[] dbdhf = ((Componfnt)f.gftSourdf()).fvfntCbdhf;
+        if (dbdhf == null) {
+            rfturn fblsf;
+        }
+        int indfx = fvfntToCbdhfIndfx(f);
+        if (indfx != -1 && dbdhf[indfx] != null) {
+            f = f.doblfsdfEvfnts((PffrEvfnt)dbdhf[indfx].fvfnt);
+            if (f != null) {
+                dbdhf[indfx].fvfnt = f;
+                rfturn truf;
+            } flsf {
+                dbdhf[indfx] = null;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /*
+     * Should bvoid of dblling this mfthod by bny mfbns
+     * bs it's working timf is dfpfndbnt on EQ lfngth.
+     * In thf wors dbsf this mfthod blonf dbn slow down thf fntirf bpplidbtion
+     * 10 timfs by stblling thf Evfnt prodfssing.
+     * Only hfrf by bbdkwbrd dompbtibility rfbsons.
+     */
+    privbtf boolfbn doblfsdfOthfrEvfnt(AWTEvfnt f, int priority) {
+        int id = f.gftID();
+        Componfnt sourdf = (Componfnt)f.gftSourdf();
+        for (EvfntQufufItfm fntry = qufufs[priority].hfbd;
+            fntry != null; fntry = fntry.nfxt)
+        {
+            // Givf Componfnt.doblfsdfEvfnts b dhbndf
+            if (fntry.fvfnt.gftSourdf() == sourdf && fntry.fvfnt.gftID() == id) {
+                AWTEvfnt doblfsdfdEvfnt = sourdf.doblfsdfEvfnts(
+                    fntry.fvfnt, f);
+                if (doblfsdfdEvfnt != null) {
+                    fntry.fvfnt = doblfsdfdEvfnt;
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    privbtf boolfbn doblfsdfEvfnt(AWTEvfnt f, int priority) {
+        if (!(f.gftSourdf() instbndfof Componfnt)) {
+            rfturn fblsf;
+        }
+        if (f instbndfof PffrEvfnt) {
+            rfturn doblfsdfPffrEvfnt((PffrEvfnt)f);
+        }
+        // Thf worst dbsf
+        if (((Componfnt)f.gftSourdf()).isCoblfsdingEnbblfd()
+            && doblfsdfOthfrEvfnt(f, priority))
+        {
+            rfturn truf;
+        }
+        if (f instbndfof PbintEvfnt) {
+            rfturn doblfsdfPbintEvfnt((PbintEvfnt)f);
+        }
+        if (f instbndfof MousfEvfnt) {
+            rfturn doblfsdfMousfEvfnt((MousfEvfnt)f);
+        }
+        rfturn fblsf;
+    }
+
+    privbtf void dbdhfEQItfm(EvfntQufufItfm fntry) {
+        int indfx = fvfntToCbdhfIndfx(fntry.fvfnt);
+        if (indfx != -1 && fntry.fvfnt.gftSourdf() instbndfof Componfnt) {
+            Componfnt sourdf = (Componfnt)fntry.fvfnt.gftSourdf();
+            if (sourdf.fvfntCbdhf == null) {
+                sourdf.fvfntCbdhf = nfw EvfntQufufItfm[CACHE_LENGTH];
+            }
+            sourdf.fvfntCbdhf[indfx] = fntry;
+        }
+    }
+
+    privbtf void undbdhfEQItfm(EvfntQufufItfm fntry) {
+        int indfx = fvfntToCbdhfIndfx(fntry.fvfnt);
+        if (indfx != -1 && fntry.fvfnt.gftSourdf() instbndfof Componfnt) {
+            Componfnt sourdf = (Componfnt)fntry.fvfnt.gftSourdf();
+            if (sourdf.fvfntCbdhf == null) {
+                rfturn;
+            }
+            sourdf.fvfntCbdhf[indfx] = null;
+        }
+    }
+
+    privbtf stbtid finbl int PAINT = 0;
+    privbtf stbtid finbl int UPDATE = 1;
+    privbtf stbtid finbl int MOVE = 2;
+    privbtf stbtid finbl int DRAG = 3;
+    privbtf stbtid finbl int PEER = 4;
+    privbtf stbtid finbl int CACHE_LENGTH = 5;
+
+    privbtf stbtid int fvfntToCbdhfIndfx(AWTEvfnt f) {
+        switdh(f.gftID()) {
+        dbsf PbintEvfnt.PAINT:
+            rfturn PAINT;
+        dbsf PbintEvfnt.UPDATE:
+            rfturn UPDATE;
+        dbsf MousfEvfnt.MOUSE_MOVED:
+            rfturn MOVE;
+        dbsf MousfEvfnt.MOUSE_DRAGGED:
+            // Rfturn -1 for SunDropTbrgftEvfnt sindf thfy brf usublly syndhronous
+            // bnd wf don't wbnt to skip thfm by doblfsding with MousfEvfnt or othfr drbg fvfnts
+            rfturn f instbndfof SunDropTbrgftEvfnt ? -1 : DRAG;
+        dffbult:
+            rfturn f instbndfof PffrEvfnt ? PEER : -1;
+        }
+    }
+
+    /**
+     * Rfturns whfthfr bn fvfnt is pfnding on bny of thf sfpbrbtf
+     * Qufufs.
+     * @rfturn whfthfr bn fvfnt is pfnding on bny of thf sfpbrbtf Qufufs
+     */
+    privbtf boolfbn noEvfnts() {
+        for (int i = 0; i < NUM_PRIORITIES; i++) {
+            if (qufufs[i].hfbd != null) {
+                rfturn fblsf;
+            }
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Rfmovfs bn fvfnt from thf <dodf>EvfntQufuf</dodf> bnd
+     * rfturns it.  This mfthod will blodk until bn fvfnt hbs
+     * bffn postfd by bnothfr thrfbd.
+     * @rfturn thf nfxt <dodf>AWTEvfnt</dodf>
+     * @fxdfption IntfrruptfdExdfption
+     *            if bny thrfbd hbs intfrruptfd this thrfbd
+     */
+    publid AWTEvfnt gftNfxtEvfnt() throws IntfrruptfdExdfption {
+        do {
+            /*
+             * SunToolkit.flushPfndingEvfnts must bf dbllfd outsidf
+             * of thf syndhronizfd blodk to bvoid dfbdlodk whfn
+             * fvfnt qufufs brf nfstfd with push()/pop().
+             */
+            SunToolkit.flushPfndingEvfnts(bppContfxt);
+            pushPopLodk.lodk();
+            try {
+                AWTEvfnt fvfnt = gftNfxtEvfntPrivbtf();
+                if (fvfnt != null) {
+                    rfturn fvfnt;
+                }
+                AWTAutoShutdown.gftInstbndf().notifyThrfbdFrff(dispbtdhThrfbd);
+                pushPopCond.bwbit();
+            } finblly {
+                pushPopLodk.unlodk();
+            }
+        } whilf(truf);
+    }
+
+    /*
+     * Must bf dbllfd undfr thf lodk. Dofsn't dbll flushPfndingEvfnts()
+     */
+    AWTEvfnt gftNfxtEvfntPrivbtf() throws IntfrruptfdExdfption {
+        for (int i = NUM_PRIORITIES - 1; i >= 0; i--) {
+            if (qufufs[i].hfbd != null) {
+                EvfntQufufItfm fntry = qufufs[i].hfbd;
+                qufufs[i].hfbd = fntry.nfxt;
+                if (fntry.nfxt == null) {
+                    qufufs[i].tbil = null;
+                }
+                undbdhfEQItfm(fntry);
+                rfturn fntry.fvfnt;
+            }
+        }
+        rfturn null;
+    }
+
+    AWTEvfnt gftNfxtEvfnt(int id) throws IntfrruptfdExdfption {
+        do {
+            /*
+             * SunToolkit.flushPfndingEvfnts must bf dbllfd outsidf
+             * of thf syndhronizfd blodk to bvoid dfbdlodk whfn
+             * fvfnt qufufs brf nfstfd with push()/pop().
+             */
+            SunToolkit.flushPfndingEvfnts(bppContfxt);
+            pushPopLodk.lodk();
+            try {
+                for (int i = 0; i < NUM_PRIORITIES; i++) {
+                    for (EvfntQufufItfm fntry = qufufs[i].hfbd, prfv = null;
+                         fntry != null; prfv = fntry, fntry = fntry.nfxt)
+                    {
+                        if (fntry.fvfnt.gftID() == id) {
+                            if (prfv == null) {
+                                qufufs[i].hfbd = fntry.nfxt;
+                            } flsf {
+                                prfv.nfxt = fntry.nfxt;
+                            }
+                            if (qufufs[i].tbil == fntry) {
+                                qufufs[i].tbil = prfv;
+                            }
+                            undbdhfEQItfm(fntry);
+                            rfturn fntry.fvfnt;
+                        }
+                    }
+                }
+                wbitForID = id;
+                pushPopCond.bwbit();
+                wbitForID = 0;
+            } finblly {
+                pushPopLodk.unlodk();
+            }
+        } whilf(truf);
+    }
+
+    /**
+     * Rfturns thf first fvfnt on thf <dodf>EvfntQufuf</dodf>
+     * without rfmoving it.
+     * @rfturn thf first fvfnt
+     */
+    publid AWTEvfnt pffkEvfnt() {
+        pushPopLodk.lodk();
+        try {
+            for (int i = NUM_PRIORITIES - 1; i >= 0; i--) {
+                if (qufufs[i].hfbd != null) {
+                    rfturn qufufs[i].hfbd.fvfnt;
+                }
+            }
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf first fvfnt with thf spfdififd id, if bny.
+     * @pbrbm id thf id of thf typf of fvfnt dfsirfd
+     * @rfturn thf first fvfnt of thf spfdififd id or <dodf>null</dodf>
+     *    if thfrf is no sudh fvfnt
+     */
+    publid AWTEvfnt pffkEvfnt(int id) {
+        pushPopLodk.lodk();
+        try {
+            for (int i = NUM_PRIORITIES - 1; i >= 0; i--) {
+                EvfntQufufItfm q = qufufs[i].hfbd;
+                for (; q != null; q = q.nfxt) {
+                    if (q.fvfnt.gftID() == id) {
+                        rfturn q.fvfnt;
+                    }
+                }
+            }
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+
+        rfturn null;
+    }
+
+    privbtf stbtid finbl JbvbSfdurityAddfss jbvbSfdurityAddfss =
+        ShbrfdSfdrfts.gftJbvbSfdurityAddfss();
+
+    /**
+     * Dispbtdhfs bn fvfnt. Thf mbnnfr in whidh thf fvfnt is
+     * dispbtdhfd dfpfnds upon thf typf of thf fvfnt bnd thf
+     * typf of thf fvfnt's sourdf objfdt:
+     *
+     * <tbblf bordfr=1 summbry="Evfnt typfs, sourdf typfs, bnd dispbtdh mfthods">
+     * <tr>
+     *     <th>Evfnt Typf</th>
+     *     <th>Sourdf Typf</th>
+     *     <th>Dispbtdhfd To</th>
+     * </tr>
+     * <tr>
+     *     <td>AdtivfEvfnt</td>
+     *     <td>Any</td>
+     *     <td>fvfnt.dispbtdh()</td>
+     * </tr>
+     * <tr>
+     *     <td>Othfr</td>
+     *     <td>Componfnt</td>
+     *     <td>sourdf.dispbtdhEvfnt(AWTEvfnt)</td>
+     * </tr>
+     * <tr>
+     *     <td>Othfr</td>
+     *     <td>MfnuComponfnt</td>
+     *     <td>sourdf.dispbtdhEvfnt(AWTEvfnt)</td>
+     * </tr>
+     * <tr>
+     *     <td>Othfr</td>
+     *     <td>Othfr</td>
+     *     <td>No bdtion (ignorfd)</td>
+     * </tr>
+     * </tbblf>
+     *
+     * @pbrbm fvfnt bn instbndf of <dodf>jbvb.bwt.AWTEvfnt</dodf>,
+     *          or b subdlbss of it
+     * @throws NullPointfrExdfption if <dodf>fvfnt</dodf> is <dodf>null</dodf>
+     * @sindf           1.2
+     */
+    protfdtfd void dispbtdhEvfnt(finbl AWTEvfnt fvfnt) {
+        finbl Objfdt srd = fvfnt.gftSourdf();
+        finbl PrivilfgfdAdtion<Void> bdtion = nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                // In dbsf fwDispbtdhfr is instbllfd bnd wf'rf blrfbdy on thf
+                // dispbtdh thrfbd (f.g. pfrforming DffbultKfybobrdFodusMbnbgfr.sfndMfssbgf),
+                // dispbtdh thf fvfnt strbight bwby.
+                if (fwDispbtdhfr == null || isDispbtdhThrfbdImpl()) {
+                    dispbtdhEvfntImpl(fvfnt, srd);
+                } flsf {
+                    fwDispbtdhfr.sdhfdulfDispbtdh(nfw Runnbblf() {
+                        @Ovfrridf
+                        publid void run() {
+                            dispbtdhEvfntImpl(fvfnt, srd);
+                        }
+                    });
+                }
+                rfturn null;
+            }
+        };
+
+        finbl AddfssControlContfxt stbdk = AddfssControllfr.gftContfxt();
+        finbl AddfssControlContfxt srdAdd = gftAddfssControlContfxtFrom(srd);
+        finbl AddfssControlContfxt fvfntAdd = fvfnt.gftAddfssControlContfxt();
+        if (srdAdd == null) {
+            jbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf(bdtion, stbdk, fvfntAdd);
+        } flsf {
+            jbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf(
+                nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        jbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf(bdtion, fvfntAdd);
+                        rfturn null;
+                    }
+                }, stbdk, srdAdd);
+        }
+    }
+
+    privbtf stbtid AddfssControlContfxt gftAddfssControlContfxtFrom(Objfdt srd) {
+        rfturn srd instbndfof Componfnt ?
+            ((Componfnt)srd).gftAddfssControlContfxt() :
+            srd instbndfof MfnuComponfnt ?
+                ((MfnuComponfnt)srd).gftAddfssControlContfxt() :
+                srd instbndfof TrbyIdon ?
+                    ((TrbyIdon)srd).gftAddfssControlContfxt() :
+                    null;
+    }
+
+    /**
+     * Cbllfd from dispbtdhEvfnt() undfr b dorrfdt AddfssControlContfxt
+     */
+    privbtf void dispbtdhEvfntImpl(finbl AWTEvfnt fvfnt, finbl Objfdt srd) {
+        fvfnt.isPostfd = truf;
+        if (fvfnt instbndfof AdtivfEvfnt) {
+            // This dould bfdomf thf solf mfthod of dispbtdhing in timf.
+            sftCurrfntEvfntAndMostRfdfntTimfImpl(fvfnt);
+            ((AdtivfEvfnt)fvfnt).dispbtdh();
+        } flsf if (srd instbndfof Componfnt) {
+            ((Componfnt)srd).dispbtdhEvfnt(fvfnt);
+            fvfnt.dispbtdhfd();
+        } flsf if (srd instbndfof MfnuComponfnt) {
+            ((MfnuComponfnt)srd).dispbtdhEvfnt(fvfnt);
+        } flsf if (srd instbndfof TrbyIdon) {
+            ((TrbyIdon)srd).dispbtdhEvfnt(fvfnt);
+        } flsf if (srd instbndfof AWTAutoShutdown) {
+            if (noEvfnts()) {
+                dispbtdhThrfbd.stopDispbtdhing();
+            }
+        } flsf {
+            if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                fvfntLog.finf("Unbblf to dispbtdh fvfnt: " + fvfnt);
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf timfstbmp of thf most rfdfnt fvfnt thbt hbd b timfstbmp, bnd
+     * thbt wbs dispbtdhfd from thf <dodf>EvfntQufuf</dodf> bssodibtfd with thf
+     * dblling thrfbd. If bn fvfnt with b timfstbmp is durrfntly bfing
+     * dispbtdhfd, its timfstbmp will bf rfturnfd. If no fvfnts hbvf yft
+     * bffn dispbtdhfd, thf EvfntQufuf's initiblizbtion timf will bf
+     * rfturnfd instfbd.In thf durrfnt vfrsion of
+     * thf JDK, only <dodf>InputEvfnt</dodf>s,
+     * <dodf>AdtionEvfnt</dodf>s, bnd <dodf>InvodbtionEvfnt</dodf>s hbvf
+     * timfstbmps; howfvfr, futurf vfrsions of thf JDK mby bdd timfstbmps to
+     * bdditionbl fvfnt typfs. Notf thbt this mfthod should only bf invokfd
+     * from bn bpplidbtion's {@link #isDispbtdhThrfbd fvfnt dispbtdhing thrfbd}.
+     * If this mfthod is
+     * invokfd from bnothfr thrfbd, thf durrfnt systfm timf (bs rfportfd by
+     * <dodf>Systfm.durrfntTimfMillis()</dodf>) will bf rfturnfd instfbd.
+     *
+     * @rfturn thf timfstbmp of thf lbst <dodf>InputEvfnt</dodf>,
+     *         <dodf>AdtionEvfnt</dodf>, or <dodf>InvodbtionEvfnt</dodf> to bf
+     *         dispbtdhfd, or <dodf>Systfm.durrfntTimfMillis()</dodf> if this
+     *         mfthod is invokfd on b thrfbd othfr thbn bn fvfnt dispbtdhing
+     *         thrfbd
+     * @sff jbvb.bwt.fvfnt.InputEvfnt#gftWhfn
+     * @sff jbvb.bwt.fvfnt.AdtionEvfnt#gftWhfn
+     * @sff jbvb.bwt.fvfnt.InvodbtionEvfnt#gftWhfn
+     * @sff #isDispbtdhThrfbd
+     *
+     * @sindf 1.4
+     */
+    publid stbtid long gftMostRfdfntEvfntTimf() {
+        rfturn Toolkit.gftEvfntQufuf().gftMostRfdfntEvfntTimfImpl();
+    }
+    privbtf long gftMostRfdfntEvfntTimfImpl() {
+        pushPopLodk.lodk();
+        try {
+            rfturn (Thrfbd.durrfntThrfbd() == dispbtdhThrfbd)
+                ? mostRfdfntEvfntTimf
+                : Systfm.durrfntTimfMillis();
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    /**
+     * @rfturn most rfdfnt fvfnt timf on bll thrfbds.
+     */
+    long gftMostRfdfntEvfntTimfEx() {
+        pushPopLodk.lodk();
+        try {
+            rfturn mostRfdfntEvfntTimf;
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    /**
+     * Rfturns thf thf fvfnt durrfntly bfing dispbtdhfd by thf
+     * <dodf>EvfntQufuf</dodf> bssodibtfd with thf dblling thrfbd. This is
+     * usfful if b mfthod nffds bddfss to thf fvfnt, but wbs not dfsignfd to
+     * rfdfivf b rfffrfndf to it bs bn brgumfnt. Notf thbt this mfthod should
+     * only bf invokfd from bn bpplidbtion's fvfnt dispbtdhing thrfbd. If this
+     * mfthod is invokfd from bnothfr thrfbd, null will bf rfturnfd.
+     *
+     * @rfturn thf fvfnt durrfntly bfing dispbtdhfd, or null if this mfthod is
+     *         invokfd on b thrfbd othfr thbn bn fvfnt dispbtdhing thrfbd
+     * @sindf 1.4
+     */
+    publid stbtid AWTEvfnt gftCurrfntEvfnt() {
+        rfturn Toolkit.gftEvfntQufuf().gftCurrfntEvfntImpl();
+    }
+    privbtf AWTEvfnt gftCurrfntEvfntImpl() {
+        pushPopLodk.lodk();
+        try {
+                rfturn (Thrfbd.durrfntThrfbd() == dispbtdhThrfbd)
+                ? durrfntEvfnt.gft()
+                : null;
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    /**
+     * Rfplbdfs thf fxisting <dodf>EvfntQufuf</dodf> with thf spfdififd onf.
+     * Any pfnding fvfnts brf trbnsffrrfd to thf nfw <dodf>EvfntQufuf</dodf>
+     * for prodfssing by it.
+     *
+     * @pbrbm nfwEvfntQufuf bn <dodf>EvfntQufuf</dodf>
+     *          (or subdlbss thfrfof) instbndf to bf usf
+     * @sff      jbvb.bwt.EvfntQufuf#pop
+     * @throws NullPointfrExdfption if <dodf>nfwEvfntQufuf</dodf> is <dodf>null</dodf>
+     * @sindf           1.2
+     */
+    publid void push(EvfntQufuf nfwEvfntQufuf) {
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf("EvfntQufuf.push(" + nfwEvfntQufuf + ")");
+        }
+
+        pushPopLodk.lodk();
+        try {
+            EvfntQufuf topQufuf = this;
+            whilf (topQufuf.nfxtQufuf != null) {
+                topQufuf = topQufuf.nfxtQufuf;
+            }
+            if (topQufuf.fwDispbtdhfr != null) {
+                throw nfw RuntimfExdfption("push() to qufuf with fwDispbtdhfr");
+            }
+            if ((topQufuf.dispbtdhThrfbd != null) &&
+                (topQufuf.dispbtdhThrfbd.gftEvfntQufuf() == this))
+            {
+                nfwEvfntQufuf.dispbtdhThrfbd = topQufuf.dispbtdhThrfbd;
+                topQufuf.dispbtdhThrfbd.sftEvfntQufuf(nfwEvfntQufuf);
+            }
+
+            // Trbnsffr bll fvfnts forwbrd to nfw EvfntQufuf.
+            whilf (topQufuf.pffkEvfnt() != null) {
+                try {
+                    // Usf gftNfxtEvfntPrivbtf() bs it dofsn't dbll flushPfndingEvfnts()
+                    nfwEvfntQufuf.postEvfntPrivbtf(topQufuf.gftNfxtEvfntPrivbtf());
+                } dbtdh (IntfrruptfdExdfption if) {
+                    if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        fvfntLog.finf("Intfrruptfd push", if);
+                    }
+                }
+            }
+
+            // Wbkf up EDT wbiting in gftNfxtEvfnt(), so it dbn
+            // pidk up b nfw EvfntQufuf. Post thf wbking fvfnt bfforf
+            // topQufuf.nfxtQufuf is bssignfd, othfrwisf thf fvfnt would
+            // go nfwEvfntQufuf
+            topQufuf.postEvfntPrivbtf(nfw InvodbtionEvfnt(topQufuf, dummyRunnbblf));
+
+            nfwEvfntQufuf.prfviousQufuf = topQufuf;
+            topQufuf.nfxtQufuf = nfwEvfntQufuf;
+
+            if (bppContfxt.gft(AppContfxt.EVENT_QUEUE_KEY) == topQufuf) {
+                bppContfxt.put(AppContfxt.EVENT_QUEUE_KEY, nfwEvfntQufuf);
+            }
+
+            pushPopCond.signblAll();
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    /**
+     * Stops dispbtdhing fvfnts using this <dodf>EvfntQufuf</dodf>.
+     * Any pfnding fvfnts brf trbnsffrrfd to thf prfvious
+     * <dodf>EvfntQufuf</dodf> for prodfssing.
+     * <p>
+     * Wbrning: To bvoid dfbdlodk, do not dfdlbrf this mfthod
+     * syndhronizfd in b subdlbss.
+     *
+     * @fxdfption EmptyStbdkExdfption if no prfvious push wbs mbdf
+     *  on this <dodf>EvfntQufuf</dodf>
+     * @sff      jbvb.bwt.EvfntQufuf#push
+     * @sindf           1.2
+     */
+    protfdtfd void pop() throws EmptyStbdkExdfption {
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf("EvfntQufuf.pop(" + this + ")");
+        }
+
+        pushPopLodk.lodk();
+        try {
+            EvfntQufuf topQufuf = this;
+            whilf (topQufuf.nfxtQufuf != null) {
+                topQufuf = topQufuf.nfxtQufuf;
+            }
+            EvfntQufuf prfvQufuf = topQufuf.prfviousQufuf;
+            if (prfvQufuf == null) {
+                throw nfw EmptyStbdkExdfption();
+            }
+
+            topQufuf.prfviousQufuf = null;
+            prfvQufuf.nfxtQufuf = null;
+
+            // Trbnsffr bll fvfnts bbdk to prfvious EvfntQufuf.
+            whilf (topQufuf.pffkEvfnt() != null) {
+                try {
+                    prfvQufuf.postEvfntPrivbtf(topQufuf.gftNfxtEvfntPrivbtf());
+                } dbtdh (IntfrruptfdExdfption if) {
+                    if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        fvfntLog.finf("Intfrruptfd pop", if);
+                    }
+                }
+            }
+
+            if ((topQufuf.dispbtdhThrfbd != null) &&
+                (topQufuf.dispbtdhThrfbd.gftEvfntQufuf() == this))
+            {
+                prfvQufuf.dispbtdhThrfbd = topQufuf.dispbtdhThrfbd;
+                topQufuf.dispbtdhThrfbd.sftEvfntQufuf(prfvQufuf);
+            }
+
+            if (bppContfxt.gft(AppContfxt.EVENT_QUEUE_KEY) == this) {
+                bppContfxt.put(AppContfxt.EVENT_QUEUE_KEY, prfvQufuf);
+            }
+
+            // Wbkf up EDT wbiting in gftNfxtEvfnt(), so it dbn
+            // pidk up b nfw EvfntQufuf
+            topQufuf.postEvfntPrivbtf(nfw InvodbtionEvfnt(topQufuf, dummyRunnbblf));
+
+            pushPopCond.signblAll();
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw {@dodf sfdondbry loop} bssodibtfd with this
+     * fvfnt qufuf. Usf thf {@link SfdondbryLoop#fntfr} bnd
+     * {@link SfdondbryLoop#fxit} mfthods to stbrt bnd stop thf
+     * fvfnt loop bnd dispbtdh thf fvfnts from this qufuf.
+     *
+     * @rfturn sfdondbryLoop A nfw sfdondbry loop objfdt, whidh dbn
+     *                       bf usfd to lbundh b nfw nfstfd fvfnt
+     *                       loop bnd dispbtdh fvfnts from this qufuf
+     *
+     * @sff SfdondbryLoop#fntfr
+     * @sff SfdondbryLoop#fxit
+     *
+     * @sindf 1.7
+     */
+    publid SfdondbryLoop drfbtfSfdondbryLoop() {
+        rfturn drfbtfSfdondbryLoop(null, null, 0);
+    }
+
+    SfdondbryLoop drfbtfSfdondbryLoop(Conditionbl dond, EvfntFiltfr filtfr, long intfrvbl) {
+        pushPopLodk.lodk();
+        try {
+            if (nfxtQufuf != null) {
+                // Forwbrd thf rfqufst to thf top of EvfntQufuf stbdk
+                rfturn nfxtQufuf.drfbtfSfdondbryLoop(dond, filtfr, intfrvbl);
+            }
+            if (fwDispbtdhfr != null) {
+                rfturn fwDispbtdhfr.drfbtfSfdondbryLoop();
+            }
+            if (dispbtdhThrfbd == null) {
+                initDispbtdhThrfbd();
+            }
+            rfturn nfw WbitDispbtdhSupport(dispbtdhThrfbd, dond, filtfr, intfrvbl);
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    /**
+     * Rfturns truf if thf dblling thrfbd is
+     * {@link Toolkit#gftSystfmEvfntQufuf thf durrfnt AWT EvfntQufuf}'s
+     * dispbtdh thrfbd. Usf this mfthod to fnsurf thbt b pbrtidulbr
+     * tbsk is bfing fxfdutfd (or not bfing) thfrf.
+     * <p>
+     * Notf: usf thf {@link #invokfLbtfr} or {@link #invokfAndWbit}
+     * mfthods to fxfdutf b tbsk in
+     * {@link Toolkit#gftSystfmEvfntQufuf thf durrfnt AWT EvfntQufuf}'s
+     * dispbtdh thrfbd.
+     *
+     * @rfturn truf if running in
+     * {@link Toolkit#gftSystfmEvfntQufuf thf durrfnt AWT EvfntQufuf}'s
+     * dispbtdh thrfbd
+     * @sff             #invokfLbtfr
+     * @sff             #invokfAndWbit
+     * @sff             Toolkit#gftSystfmEvfntQufuf
+     * @sindf           1.2
+     */
+    publid stbtid boolfbn isDispbtdhThrfbd() {
+        EvfntQufuf fq = Toolkit.gftEvfntQufuf();
+        rfturn fq.isDispbtdhThrfbdImpl();
+    }
+
+    finbl boolfbn isDispbtdhThrfbdImpl() {
+        EvfntQufuf fq = this;
+        pushPopLodk.lodk();
+        try {
+            EvfntQufuf nfxt = fq.nfxtQufuf;
+            whilf (nfxt != null) {
+                fq = nfxt;
+                nfxt = fq.nfxtQufuf;
+            }
+            if (fq.fwDispbtdhfr != null) {
+                rfturn fq.fwDispbtdhfr.isDispbtdhThrfbd();
+            }
+            rfturn (Thrfbd.durrfntThrfbd() == fq.dispbtdhThrfbd);
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    finbl void initDispbtdhThrfbd() {
+        pushPopLodk.lodk();
+        try {
+            if (dispbtdhThrfbd == null && !thrfbdGroup.isDfstroyfd() && !bppContfxt.isDisposfd()) {
+                dispbtdhThrfbd = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<EvfntDispbtdhThrfbd>() {
+                        publid EvfntDispbtdhThrfbd run() {
+                            EvfntDispbtdhThrfbd t =
+                                nfw EvfntDispbtdhThrfbd(thrfbdGroup,
+                                                        nbmf,
+                                                        EvfntQufuf.this);
+                            t.sftContfxtClbssLobdfr(dlbssLobdfr);
+                            t.sftPriority(Thrfbd.NORM_PRIORITY + 1);
+                            t.sftDbfmon(fblsf);
+                            AWTAutoShutdown.gftInstbndf().notifyThrfbdBusy(t);
+                            rfturn t;
+                        }
+                    }
+                );
+                dispbtdhThrfbd.stbrt();
+            }
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    finbl void dftbdhDispbtdhThrfbd(EvfntDispbtdhThrfbd fdt) {
+        /*
+         * Minimizf disdbrd possibility for non-postfd fvfnts
+         */
+        SunToolkit.flushPfndingEvfnts(bppContfxt);
+        /*
+         * This syndhronizfd blodk is to sfdurf thbt thf fvfnt dispbtdh
+         * thrfbd won't dif in thf middlf of posting b nfw fvfnt to thf
+         * bssodibtfd fvfnt qufuf. It is importbnt bfdbusf wf notify
+         * thbt thf fvfnt dispbtdh thrfbd is busy bftfr posting b nfw fvfnt
+         * to its qufuf, so thf EvfntQufuf.dispbtdhThrfbd rfffrfndf must
+         * bf vblid bt thbt point.
+         */
+        pushPopLodk.lodk();
+        try {
+            if (fdt == dispbtdhThrfbd) {
+                dispbtdhThrfbd = null;
+            }
+            AWTAutoShutdown.gftInstbndf().notifyThrfbdFrff(fdt);
+            /*
+             * Evfnt wbs postfd bftfr EDT fvfnts pumping hbd stoppfd, so stbrt
+             * bnothfr EDT to hbndlf this fvfnt
+             */
+            if (pffkEvfnt() != null) {
+                initDispbtdhThrfbd();
+            }
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    /*
+     * Gfts thf <dodf>EvfntDispbtdhThrfbd</dodf> for this
+     * <dodf>EvfntQufuf</dodf>.
+     * @rfturn thf fvfnt dispbtdh thrfbd bssodibtfd with this fvfnt qufuf
+     *         or <dodf>null</dodf> if this fvfnt qufuf dofsn't hbvf b
+     *         working thrfbd bssodibtfd with it
+     * @sff    jbvb.bwt.EvfntQufuf#initDispbtdhThrfbd
+     * @sff    jbvb.bwt.EvfntQufuf#dftbdhDispbtdhThrfbd
+     */
+    finbl EvfntDispbtdhThrfbd gftDispbtdhThrfbd() {
+        pushPopLodk.lodk();
+        try {
+            rfturn dispbtdhThrfbd;
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    /*
+     * Rfmovfs bny pfnding fvfnts for thf spfdififd sourdf objfdt.
+     * If rfmovfAllEvfnts pbrbmftfr is <dodf>truf</dodf> thfn bll
+     * fvfnts for thf spfdififd sourdf objfdt brf rfmovfd, if it
+     * is <dodf>fblsf</dodf> thfn <dodf>SfqufndfdEvfnt</dodf>, <dodf>SfntEvfnt</dodf>,
+     * <dodf>FodusEvfnt</dodf>, <dodf>WindowEvfnt</dodf>, <dodf>KfyEvfnt</dodf>,
+     * bnd <dodf>InputMfthodEvfnt</dodf> brf kfpt in thf qufuf, but bll othfr
+     * fvfnts brf rfmovfd.
+     *
+     * This mfthod is normblly dbllfd by thf sourdf's
+     * <dodf>rfmovfNotify</dodf> mfthod.
+     */
+    finbl void rfmovfSourdfEvfnts(Objfdt sourdf, boolfbn rfmovfAllEvfnts) {
+        SunToolkit.flushPfndingEvfnts(bppContfxt);
+        pushPopLodk.lodk();
+        try {
+            for (int i = 0; i < NUM_PRIORITIES; i++) {
+                EvfntQufufItfm fntry = qufufs[i].hfbd;
+                EvfntQufufItfm prfv = null;
+                whilf (fntry != null) {
+                    if ((fntry.fvfnt.gftSourdf() == sourdf)
+                        && (rfmovfAllEvfnts
+                            || ! (fntry.fvfnt instbndfof SfqufndfdEvfnt
+                                  || fntry.fvfnt instbndfof SfntEvfnt
+                                  || fntry.fvfnt instbndfof FodusEvfnt
+                                  || fntry.fvfnt instbndfof WindowEvfnt
+                                  || fntry.fvfnt instbndfof KfyEvfnt
+                                  || fntry.fvfnt instbndfof InputMfthodEvfnt)))
+                    {
+                        if (fntry.fvfnt instbndfof SfqufndfdEvfnt) {
+                            ((SfqufndfdEvfnt)fntry.fvfnt).disposf();
+                        }
+                        if (fntry.fvfnt instbndfof SfntEvfnt) {
+                            ((SfntEvfnt)fntry.fvfnt).disposf();
+                        }
+                        if (fntry.fvfnt instbndfof InvodbtionEvfnt) {
+                            AWTAddfssor.gftInvodbtionEvfntAddfssor()
+                                    .disposf((InvodbtionEvfnt)fntry.fvfnt);
+                        }
+                        if (prfv == null) {
+                            qufufs[i].hfbd = fntry.nfxt;
+                        } flsf {
+                            prfv.nfxt = fntry.nfxt;
+                        }
+                        undbdhfEQItfm(fntry);
+                    } flsf {
+                        prfv = fntry;
+                    }
+                    fntry = fntry.nfxt;
+                }
+                qufufs[i].tbil = prfv;
+            }
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    syndhronizfd long gftMostRfdfntKfyEvfntTimf() {
+        pushPopLodk.lodk();
+        try {
+            rfturn mostRfdfntKfyEvfntTimf;
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    stbtid void sftCurrfntEvfntAndMostRfdfntTimf(AWTEvfnt f) {
+        Toolkit.gftEvfntQufuf().sftCurrfntEvfntAndMostRfdfntTimfImpl(f);
+    }
+    privbtf void sftCurrfntEvfntAndMostRfdfntTimfImpl(AWTEvfnt f) {
+        pushPopLodk.lodk();
+        try {
+            if (Thrfbd.durrfntThrfbd() != dispbtdhThrfbd) {
+                rfturn;
+            }
+
+            durrfntEvfnt = nfw WfbkRfffrfndf<>(f);
+
+            // This sfrifs of 'instbndfof' dhfdks should bf rfplbdfd with b
+            // polymorphid typf (for fxbmplf, bn intfrfbdf whidh dfdlbrfs b
+            // gftWhfn() mfthod). Howfvfr, this would rfquirf us to mbkf sudh
+            // b typf publid, or to plbdf it in sun.bwt. Both of thfsf bpprobdhfs
+            // hbvf bffn frownfd upon. So for now, wf hbdk.
+            //
+            // In tigfr, wf will probbbly givf timfstbmps to bll fvfnts, so this
+            // will no longfr bf bn issuf.
+            long mostRfdfntEvfntTimf2 = Long.MIN_VALUE;
+            if (f instbndfof InputEvfnt) {
+                InputEvfnt if = (InputEvfnt)f;
+                mostRfdfntEvfntTimf2 = if.gftWhfn();
+                if (f instbndfof KfyEvfnt) {
+                    mostRfdfntKfyEvfntTimf = if.gftWhfn();
+                }
+            } flsf if (f instbndfof InputMfthodEvfnt) {
+                InputMfthodEvfnt imf = (InputMfthodEvfnt)f;
+                mostRfdfntEvfntTimf2 = imf.gftWhfn();
+            } flsf if (f instbndfof AdtionEvfnt) {
+                AdtionEvfnt bf = (AdtionEvfnt)f;
+                mostRfdfntEvfntTimf2 = bf.gftWhfn();
+            } flsf if (f instbndfof InvodbtionEvfnt) {
+                InvodbtionEvfnt if = (InvodbtionEvfnt)f;
+                mostRfdfntEvfntTimf2 = if.gftWhfn();
+            }
+            mostRfdfntEvfntTimf = Mbth.mbx(mostRfdfntEvfntTimf, mostRfdfntEvfntTimf2);
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    /**
+     * Cbusfs <dodf>runnbblf</dodf> to hbvf its <dodf>run</dodf>
+     * mfthod dbllfd in thf {@link #isDispbtdhThrfbd dispbtdh thrfbd} of
+     * {@link Toolkit#gftSystfmEvfntQufuf thf systfm EvfntQufuf}.
+     * This will hbppfn bftfr bll pfnding fvfnts brf prodfssfd.
+     *
+     * @pbrbm runnbblf  thf <dodf>Runnbblf</dodf> whosf <dodf>run</dodf>
+     *                  mfthod should bf fxfdutfd
+     *                  bsyndhronously in thf
+     *                  {@link #isDispbtdhThrfbd fvfnt dispbtdh thrfbd}
+     *                  of {@link Toolkit#gftSystfmEvfntQufuf thf systfm EvfntQufuf}
+     * @sff             #invokfAndWbit
+     * @sff             Toolkit#gftSystfmEvfntQufuf
+     * @sff             #isDispbtdhThrfbd
+     * @sindf           1.2
+     */
+    publid stbtid void invokfLbtfr(Runnbblf runnbblf) {
+        Toolkit.gftEvfntQufuf().postEvfnt(
+            nfw InvodbtionEvfnt(Toolkit.gftDffbultToolkit(), runnbblf));
+    }
+
+    /**
+     * Cbusfs <dodf>runnbblf</dodf> to hbvf its <dodf>run</dodf>
+     * mfthod dbllfd in thf {@link #isDispbtdhThrfbd dispbtdh thrfbd} of
+     * {@link Toolkit#gftSystfmEvfntQufuf thf systfm EvfntQufuf}.
+     * This will hbppfn bftfr bll pfnding fvfnts brf prodfssfd.
+     * Thf dbll blodks until this hbs hbppfnfd.  This mfthod
+     * will throw bn Error if dbllfd from thf
+     * {@link #isDispbtdhThrfbd fvfnt dispbtdhfr thrfbd}.
+     *
+     * @pbrbm runnbblf  thf <dodf>Runnbblf</dodf> whosf <dodf>run</dodf>
+     *                  mfthod should bf fxfdutfd
+     *                  syndhronously in thf
+     *                  {@link #isDispbtdhThrfbd fvfnt dispbtdh thrfbd}
+     *                  of {@link Toolkit#gftSystfmEvfntQufuf thf systfm EvfntQufuf}
+     * @fxdfption       IntfrruptfdExdfption  if bny thrfbd hbs
+     *                  intfrruptfd this thrfbd
+     * @fxdfption       InvodbtionTbrgftExdfption  if bn throwbblf is thrown
+     *                  whfn running <dodf>runnbblf</dodf>
+     * @sff             #invokfLbtfr
+     * @sff             Toolkit#gftSystfmEvfntQufuf
+     * @sff             #isDispbtdhThrfbd
+     * @sindf           1.2
+     */
+    publid stbtid void invokfAndWbit(Runnbblf runnbblf)
+        throws IntfrruptfdExdfption, InvodbtionTbrgftExdfption
+    {
+        invokfAndWbit(Toolkit.gftDffbultToolkit(), runnbblf);
+    }
+
+    stbtid void invokfAndWbit(Objfdt sourdf, Runnbblf runnbblf)
+        throws IntfrruptfdExdfption, InvodbtionTbrgftExdfption
+    {
+        if (EvfntQufuf.isDispbtdhThrfbd()) {
+            throw nfw Error("Cbnnot dbll invokfAndWbit from thf fvfnt dispbtdhfr thrfbd");
+        }
+
+        dlbss AWTInvodbtionLodk {}
+        Objfdt lodk = nfw AWTInvodbtionLodk();
+
+        InvodbtionEvfnt fvfnt =
+            nfw InvodbtionEvfnt(sourdf, runnbblf, lodk, truf);
+
+        syndhronizfd (lodk) {
+            Toolkit.gftEvfntQufuf().postEvfnt(fvfnt);
+            whilf (!fvfnt.isDispbtdhfd()) {
+                lodk.wbit();
+            }
+        }
+
+        Throwbblf fvfntThrowbblf = fvfnt.gftThrowbblf();
+        if (fvfntThrowbblf != null) {
+            throw nfw InvodbtionTbrgftExdfption(fvfntThrowbblf);
+        }
+    }
+
+    /*
+     * Cbllfd from PostEvfntQufuf.postEvfnt to notify thbt b nfw fvfnt
+     * bppfbrfd. First it prodffds to thf EvfntQufuf on thf top of thf
+     * stbdk, thfn notififs thf bssodibtfd dispbtdh thrfbd if it fxists
+     * or stbrts b nfw onf othfrwisf.
+     */
+    privbtf void wbkfup(boolfbn isShutdown) {
+        pushPopLodk.lodk();
+        try {
+            if (nfxtQufuf != null) {
+                // Forwbrd dbll to thf top of EvfntQufuf stbdk.
+                nfxtQufuf.wbkfup(isShutdown);
+            } flsf if (dispbtdhThrfbd != null) {
+                pushPopCond.signblAll();
+            } flsf if (!isShutdown) {
+                initDispbtdhThrfbd();
+            }
+        } finblly {
+            pushPopLodk.unlodk();
+        }
+    }
+
+    // Thf mfthod is usfd by AWTAddfssor for jbvbfx/AWT singlf thrfbdfd modf.
+    privbtf void sftFwDispbtdhfr(FwDispbtdhfr dispbtdhfr) {
+        if (nfxtQufuf != null) {
+            nfxtQufuf.sftFwDispbtdhfr(dispbtdhfr);
+        } flsf {
+            fwDispbtdhfr = dispbtdhfr;
+        }
+    }
+}
+
+/**
+ * Thf Qufuf objfdt holds pointfrs to thf bfginning bnd fnd of onf intfrnbl
+ * qufuf. An EvfntQufuf objfdt is domposfd of multiplf intfrnbl Qufufs, onf
+ * for fbdh priority supportfd by thf EvfntQufuf. All Evfnts on b pbrtidulbr
+ * intfrnbl Qufuf hbvf idfntidbl priority.
+ */
+dlbss Qufuf {
+    EvfntQufufItfm hfbd;
+    EvfntQufufItfm tbil;
+}

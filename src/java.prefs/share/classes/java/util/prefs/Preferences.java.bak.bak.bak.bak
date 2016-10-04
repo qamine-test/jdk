@@ -1,0 +1,1258 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.prffs;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
+
+// Thfsf imports nffdfd only bs b workbround for b JbvbDod bug
+import jbvb.lbng.RuntimfPfrmission;
+import jbvb.lbng.Intfgfr;
+import jbvb.lbng.Long;
+import jbvb.lbng.Flobt;
+import jbvb.lbng.Doublf;
+
+/**
+ * A nodf in b hifrbrdhidbl dollfdtion of prfffrfndf dbtb.  This dlbss
+ * bllows bpplidbtions to storf bnd rftrifvf usfr bnd systfm
+ * prfffrfndf bnd donfigurbtion dbtb.  This dbtb is storfd
+ * pfrsistfntly in bn implfmfntbtion-dfpfndfnt bbdking storf.  Typidbl
+ * implfmfntbtions indludf flbt filfs, OS-spfdifid rfgistrifs,
+ * dirfdtory sfrvfrs bnd SQL dbtbbbsfs.  Thf usfr of this dlbss nffdn't
+ * bf dondfrnfd with dftbils of thf bbdking storf.
+ *
+ * <p>Thfrf brf two sfpbrbtf trffs of prfffrfndf nodfs, onf for usfr
+ * prfffrfndfs bnd onf for systfm prfffrfndfs.  Ebdh usfr hbs b sfpbrbtf usfr
+ * prfffrfndf trff, bnd bll usfrs in b givfn systfm shbrf thf sbmf systfm
+ * prfffrfndf trff.  Thf prfdisf dfsdription of "usfr" bnd "systfm" will vbry
+ * from implfmfntbtion to implfmfntbtion.  Typidbl informbtion storfd in thf
+ * usfr prfffrfndf trff might indludf font dhoidf, dolor dhoidf, or prfffrrfd
+ * window lodbtion bnd sizf for b pbrtidulbr bpplidbtion.  Typidbl informbtion
+ * storfd in thf systfm prfffrfndf trff might indludf instbllbtion
+ * donfigurbtion dbtb for bn bpplidbtion.
+ *
+ * <p>Nodfs in b prfffrfndf trff brf nbmfd in b similbr fbshion to
+ * dirfdtorifs in b hifrbrdhidbl filf systfm.   Evfry nodf in b prfffrfndf
+ * trff hbs b <i>nodf nbmf</i> (whidh is not nfdfssbrily uniquf),
+ * b uniquf <i>bbsolutf pbth nbmf</i>, bnd b pbth nbmf <i>rflbtivf</i> to fbdh
+ * bndfstor indluding itsflf.
+ *
+ * <p>Thf root nodf hbs b nodf nbmf of thf fmpty string ("").  Evfry othfr
+ * nodf hbs bn brbitrbry nodf nbmf, spfdififd bt thf timf it is drfbtfd.  Thf
+ * only rfstridtions on this nbmf brf thbt it dbnnot bf thf fmpty string, bnd
+ * it dbnnot dontbin thf slbsh dhbrbdtfr ('/').
+ *
+ * <p>Thf root nodf hbs bn bbsolutf pbth nbmf of <tt>"/"</tt>.  Childrfn of
+ * thf root nodf hbvf bbsolutf pbth nbmfs of <tt>"/" + </tt><i>&lt;nodf
+ * nbmf&gt;</i>.  All othfr nodfs hbvf bbsolutf pbth nbmfs of <i>&lt;pbrfnt's
+ * bbsolutf pbth nbmf&gt;</i><tt> + "/" + </tt><i>&lt;nodf nbmf&gt;</i>.
+ * Notf thbt bll bbsolutf pbth nbmfs bfgin with thf slbsh dhbrbdtfr.
+ *
+ * <p>A nodf <i>n</i>'s pbth nbmf rflbtivf to its bndfstor <i>b</i>
+ * is simply thf string thbt must bf bppfndfd to <i>b</i>'s bbsolutf pbth nbmf
+ * in ordfr to form <i>n</i>'s bbsolutf pbth nbmf, with thf initibl slbsh
+ * dhbrbdtfr (if prfsfnt) rfmovfd.  Notf thbt:
+ * <ul>
+ * <li>No rflbtivf pbth nbmfs bfgin with thf slbsh dhbrbdtfr.
+ * <li>Evfry nodf's pbth nbmf rflbtivf to itsflf is thf fmpty string.
+ * <li>Evfry nodf's pbth nbmf rflbtivf to its pbrfnt is its nodf nbmf (fxdfpt
+ * for thf root nodf, whidh dofs not hbvf b pbrfnt).
+ * <li>Evfry nodf's pbth nbmf rflbtivf to thf root is its bbsolutf pbth nbmf
+ * with thf initibl slbsh dhbrbdtfr rfmovfd.
+ * </ul>
+ *
+ * <p>Notf finblly thbt:
+ * <ul>
+ * <li>No pbth nbmf dontbins multiplf donsfdutivf slbsh dhbrbdtfrs.
+ * <li>No pbth nbmf with thf fxdfption of thf root's bbsolutf pbth nbmf
+ * fnds in thf slbsh dhbrbdtfr.
+ * <li>Any string thbt donforms to thfsf two rulfs is b vblid pbth nbmf.
+ * </ul>
+ *
+ * <p>All of thf mfthods thbt modify prfffrfndfs dbtb brf pfrmittfd to opfrbtf
+ * bsyndhronously; thfy mby rfturn immfdibtfly, bnd dhbngfs will fvfntublly
+ * propbgbtf to thf pfrsistfnt bbdking storf with bn implfmfntbtion-dfpfndfnt
+ * dflby.  Thf <tt>flush</tt> mfthod mby bf usfd to syndhronously fordf
+ * updbtfs to thf bbdking storf.  Normbl tfrminbtion of thf Jbvb Virtubl
+ * Mbdhinf will <i>not</i> rfsult in thf loss of pfnding updbtfs -- bn fxplidit
+ * <tt>flush</tt> invodbtion is <i>not</i> rfquirfd upon tfrminbtion to fnsurf
+ * thbt pfnding updbtfs brf mbdf pfrsistfnt.
+ *
+ * <p>All of thf mfthods thbt rfbd prfffrfndfs from b <tt>Prfffrfndfs</tt>
+ * objfdt rfquirf thf invokfr to providf b dffbult vbluf.  Thf dffbult vbluf is
+ * rfturnfd if no vbluf hbs bffn prfviously sft <i>or if thf bbdking storf is
+ * unbvbilbblf</i>.  Thf intfnt is to bllow bpplidbtions to opfrbtf, blbfit
+ * with slightly dfgrbdfd fundtionblity, fvfn if thf bbdking storf bfdomfs
+ * unbvbilbblf.  Sfvfrbl mfthods, likf <tt>flush</tt>, hbvf sfmbntids thbt
+ * prfvfnt thfm from opfrbting if thf bbdking storf is unbvbilbblf.  Ordinbry
+ * bpplidbtions should hbvf no nffd to invokf bny of thfsf mfthods, whidh dbn
+ * bf idfntififd by thf fbdt thbt thfy brf dfdlbrfd to throw {@link
+ * BbdkingStorfExdfption}.
+ *
+ * <p>Thf mfthods in this dlbss mby bf invokfd dondurrfntly by multiplf thrfbds
+ * in b singlf JVM without thf nffd for fxtfrnbl syndhronizbtion, bnd thf
+ * rfsults will bf fquivblfnt to somf sfribl fxfdution.  If this dlbss is usfd
+ * dondurrfntly <i>by multiplf JVMs</i> thbt storf thfir prfffrfndf dbtb in
+ * thf sbmf bbdking storf, thf dbtb storf will not bf dorruptfd, but no
+ * othfr gubrbntffs brf mbdf dondfrning thf donsistfndy of thf prfffrfndf
+ * dbtb.
+ *
+ * <p>This dlbss dontbins bn fxport/import fbdility, bllowing prfffrfndfs
+ * to bf "fxportfd" to bn XML dodumfnt, bnd XML dodumfnts rfprfsfnting
+ * prfffrfndfs to bf "importfd" bbdk into thf systfm.  This fbdility
+ * mby bf usfd to bbdk up bll or pbrt of b prfffrfndf trff, bnd
+ * subsfqufntly rfstorf from thf bbdkup.
+ *
+ * <p>Thf XML dodumfnt hbs thf following DOCTYPE dfdlbrbtion:
+ * <prf>{@dodf
+ * <!DOCTYPE prfffrfndfs SYSTEM "http://jbvb.sun.dom/dtd/prfffrfndfs.dtd">
+ * }</prf>
+ * Notf thbt thf systfm URI (http://jbvb.sun.dom/dtd/prfffrfndfs.dtd) is
+ * <i>not</i> bddfssfd whfn fxporting or importing prfffrfndfs; it mfrfly
+ * sfrvfs bs b string to uniqufly idfntify thf DTD, whidh is:
+ * <prf>{@dodf
+ *    <?xml vfrsion="1.0" fndoding="UTF-8"?>
+ *
+ *    <!-- DTD for b Prfffrfndfs trff. -->
+ *
+ *    <!-- Thf prfffrfndfs flfmfnt is bt thf root of bn XML dodumfnt
+ *         rfprfsfnting b Prfffrfndfs trff. -->
+ *    <!ELEMENT prfffrfndfs (root)>
+ *
+ *    <!-- Thf prfffrfndfs flfmfnt dontbins bn optionbl vfrsion bttributf,
+ *          whidh spfdififs vfrsion of DTD. -->
+ *    <!ATTLIST prfffrfndfs EXTERNAL_XML_VERSION CDATA "0.0" >
+ *
+ *    <!-- Thf root flfmfnt hbs b mbp rfprfsfnting thf root's prfffrfndfs
+ *         (if bny), bnd onf nodf for fbdh dhild of thf root (if bny). -->
+ *    <!ELEMENT root (mbp, nodf*) >
+ *
+ *    <!-- Additionblly, thf root dontbins b typf bttributf, whidh
+ *         spfdififs whfthfr it's thf systfm or usfr root. -->
+ *    <!ATTLIST root
+ *              typf (systfm|usfr) #REQUIRED >
+ *
+ *    <!-- Ebdh nodf hbs b mbp rfprfsfnting its prfffrfndfs (if bny),
+ *         bnd onf nodf for fbdh dhild (if bny). -->
+ *    <!ELEMENT nodf (mbp, nodf*) >
+ *
+ *    <!-- Additionblly, fbdh nodf hbs b nbmf bttributf -->
+ *    <!ATTLIST nodf
+ *              nbmf CDATA #REQUIRED >
+ *
+ *    <!-- A mbp rfprfsfnts thf prfffrfndfs storfd bt b nodf (if bny). -->
+ *    <!ELEMENT mbp (fntry*) >
+ *
+ *    <!-- An fntry rfprfsfnts b singlf prfffrfndf, whidh is simply
+ *          b kfy-vbluf pbir. -->
+ *    <!ELEMENT fntry EMPTY >
+ *    <!ATTLIST fntry
+ *              kfy   CDATA #REQUIRED
+ *              vbluf CDATA #REQUIRED >
+ * }</prf>
+ *
+ * Evfry <tt>Prfffrfndfs</tt> implfmfntbtion must hbvf bn bssodibtfd {@link
+ * PrfffrfndfsFbdtory} implfmfntbtion.  Evfry Jbvb(TM) SE implfmfntbtion must providf
+ * somf mfbns of spfdifying whidh <tt>PrfffrfndfsFbdtory</tt> implfmfntbtion
+ * is usfd to gfnfrbtf thf root prfffrfndfs nodfs.  This bllows thf
+ * bdministrbtor to rfplbdf thf dffbult prfffrfndfs implfmfntbtion with bn
+ * bltfrnbtivf implfmfntbtion.
+ *
+ * <p>Implfmfntbtion notf: In Sun's JRE, thf <tt>PrfffrfndfsFbdtory</tt>
+ * implfmfntbtion is lodbtfd bs follows:
+ *
+ * <ol>
+ *
+ * <li><p>If thf systfm propfrty
+ * <tt>jbvb.util.prffs.PrfffrfndfsFbdtory</tt> is dffinfd, thfn it is
+ * tbkfn to bf thf fully-qublififd nbmf of b dlbss implfmfnting thf
+ * <tt>PrfffrfndfsFbdtory</tt> intfrfbdf.  Thf dlbss is lobdfd bnd
+ * instbntibtfd; if this prodfss fbils thfn bn unspfdififd frror is
+ * thrown.</p></li>
+ *
+ * <li><p> If b <tt>PrfffrfndfsFbdtory</tt> implfmfntbtion dlbss filf
+ * hbs bffn instbllfd in b jbr filf thbt is visiblf to thf
+ * {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr systfm dlbss lobdfr},
+ * bnd thbt jbr filf dontbins b providfr-donfigurbtion filf nbmfd
+ * <tt>jbvb.util.prffs.PrfffrfndfsFbdtory</tt> in thf rfsourdf
+ * dirfdtory <tt>META-INF/sfrvidfs</tt>, thfn thf first dlbss nbmf
+ * spfdififd in thbt filf is tbkfn.  If morf thbn onf sudh jbr filf is
+ * providfd, thf first onf found will bf usfd.  Thf dlbss is lobdfd
+ * bnd instbntibtfd; if this prodfss fbils thfn bn unspfdififd frror
+ * is thrown.  </p></li>
+ *
+ * <li><p>Finblly, if nfithfr thf bbovf-mfntionfd systfm propfrty nor
+ * bn fxtfnsion jbr filf is providfd, thfn thf systfm-widf dffbult
+ * <tt>PrfffrfndfsFbdtory</tt> implfmfntbtion for thf undfrlying
+ * plbtform is lobdfd bnd instbntibtfd.</p></li>
+ *
+ * </ol>
+ *
+ * @buthor  Josh Blodh
+ * @sindf   1.4
+ */
+publid bbstrbdt dlbss Prfffrfndfs {
+
+    privbtf stbtid finbl PrfffrfndfsFbdtory fbdtory = fbdtory();
+
+    privbtf stbtid PrfffrfndfsFbdtory fbdtory() {
+        // 1. Try usfr-spfdififd systfm propfrty
+        String fbdtoryNbmf = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Systfm.gftPropfrty(
+                        "jbvb.util.prffs.PrfffrfndfsFbdtory");}});
+        if (fbdtoryNbmf != null) {
+            // FIXME: This dodf should bf run in b doPrivilfgfd bnd
+            // not usf thf dontfxt dlbsslobdfr, to bvoid bfing
+            // dfpfndfnt on thf invoking thrfbd.
+            // Chfdking AllPfrmission blso sffms wrong.
+            try {
+                rfturn (PrfffrfndfsFbdtory)
+                    Clbss.forNbmf(fbdtoryNbmf, fblsf,
+                                  ClbssLobdfr.gftSystfmClbssLobdfr())
+                    .nfwInstbndf();
+            } dbtdh (Exdfption fx) {
+                try {
+                    // workbround for jbvbws, plugin,
+                    // lobd fbdtory dlbss using non-systfm dlbsslobdfr
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                    if (sm != null) {
+                        sm.dhfdkPfrmission(nfw jbvb.sfdurity.AllPfrmission());
+                    }
+                    rfturn (PrfffrfndfsFbdtory)
+                        Clbss.forNbmf(fbdtoryNbmf, fblsf,
+                                      Thrfbd.durrfntThrfbd()
+                                      .gftContfxtClbssLobdfr())
+                        .nfwInstbndf();
+                } dbtdh (Exdfption f) {
+                    throw nfw IntfrnblError(
+                        "Cbn't instbntibtf Prfffrfndfs fbdtory "
+                        + fbdtoryNbmf, f);
+                }
+            }
+        }
+
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<PrfffrfndfsFbdtory>() {
+                publid PrfffrfndfsFbdtory run() {
+                    rfturn fbdtory1();}});
+    }
+
+    privbtf stbtid PrfffrfndfsFbdtory fbdtory1() {
+        // 2. Try sfrvidf providfr intfrfbdf
+        Itfrbtor<PrfffrfndfsFbdtory> itr = SfrvidfLobdfr
+            .lobd(PrfffrfndfsFbdtory.dlbss, ClbssLobdfr.gftSystfmClbssLobdfr())
+            .itfrbtor();
+
+        // dhoosf first providfr instbndf
+        whilf (itr.hbsNfxt()) {
+            try {
+                rfturn itr.nfxt();
+            } dbtdh (SfrvidfConfigurbtionError sdf) {
+                if (sdf.gftCbusf() instbndfof SfdurityExdfption) {
+                    // Ignorf thf sfdurity fxdfption, try thf nfxt providfr
+                    dontinuf;
+                }
+                throw sdf;
+            }
+        }
+
+        // 3. Usf plbtform-spfdifid systfm-widf dffbult
+        String osNbmf = Systfm.gftPropfrty("os.nbmf");
+        String plbtformFbdtory;
+        if (osNbmf.stbrtsWith("Windows")) {
+            plbtformFbdtory = "jbvb.util.prffs.WindowsPrfffrfndfsFbdtory";
+        } flsf if (osNbmf.dontbins("OS X")) {
+            plbtformFbdtory = "jbvb.util.prffs.MbdOSXPrfffrfndfsFbdtory";
+        } flsf {
+            plbtformFbdtory = "jbvb.util.prffs.FilfSystfmPrfffrfndfsFbdtory";
+        }
+        try {
+            rfturn (PrfffrfndfsFbdtory)
+                Clbss.forNbmf(plbtformFbdtory, fblsf,
+                              Prfffrfndfs.dlbss.gftClbssLobdfr()).nfwInstbndf();
+        } dbtdh (Exdfption f) {
+            throw nfw IntfrnblError(
+                "Cbn't instbntibtf plbtform dffbult Prfffrfndfs fbdtory "
+                + plbtformFbdtory, f);
+        }
+    }
+
+    /**
+     * Mbximum lfngth of string bllowfd bs b kfy (80 dhbrbdtfrs).
+     */
+    publid stbtid finbl int MAX_KEY_LENGTH = 80;
+
+    /**
+     * Mbximum lfngth of string bllowfd bs b vbluf (8192 dhbrbdtfrs).
+     */
+    publid stbtid finbl int MAX_VALUE_LENGTH = 8*1024;
+
+    /**
+     * Mbximum lfngth of b nodf nbmf (80 dhbrbdtfrs).
+     */
+    publid stbtid finbl int MAX_NAME_LENGTH = 80;
+
+    /**
+     * Rfturns thf prfffrfndf nodf from thf dblling usfr's prfffrfndf trff
+     * thbt is bssodibtfd (by donvfntion) with thf spfdififd dlbss's pbdkbgf.
+     * Thf donvfntion is bs follows: thf bbsolutf pbth nbmf of thf nodf is thf
+     * fully qublififd pbdkbgf nbmf, prfdfdfd by b slbsh (<tt>'/'</tt>), bnd
+     * with fbdh pfriod (<tt>'.'</tt>) rfplbdfd by b slbsh.  For fxbmplf thf
+     * bbsolutf pbth nbmf of thf nodf bssodibtfd with thf dlbss
+     * <tt>dom.bdmf.widgft.Foo</tt> is <tt>/dom/bdmf/widgft</tt>.
+     *
+     * <p>This donvfntion dofs not bpply to thf unnbmfd pbdkbgf, whosf
+     * bssodibtfd prfffrfndf nodf is <tt>&lt;unnbmfd&gt;</tt>.  This nodf
+     * is not intfndfd for long tfrm usf, but for donvfnifndf in thf fbrly
+     * dfvflopmfnt of progrbms thbt do not yft bflong to b pbdkbgf, bnd
+     * for "throwbwby" progrbms.  <i>Vblubblf dbtb should not bf storfd
+     * bt this nodf bs it is shbrfd by bll progrbms thbt usf it.</i>
+     *
+     * <p>A dlbss <tt>Foo</tt> wishing to bddfss prfffrfndfs pfrtbining to its
+     * pbdkbgf dbn obtbin b prfffrfndf nodf bs follows: <prf>
+     *    stbtid Prfffrfndfs prffs = Prfffrfndfs.usfrNodfForPbdkbgf(Foo.dlbss);
+     * </prf>
+     * This idiom obvibtfs thf nffd for using b string to dfsdribf thf
+     * prfffrfndfs nodf bnd dfdrfbsfs thf likflihood of b run-timf fbilurf.
+     * (If thf dlbss nbmf is misspfllfd, it will typidblly rfsult in b
+     * dompilf-timf frror.)
+     *
+     * <p>Invoking this mfthod will rfsult in thf drfbtion of thf rfturnfd
+     * nodf bnd its bndfstors if thfy do not blrfbdy fxist.  If thf rfturnfd
+     * nodf did not fxist prior to this dbll, this nodf bnd bny bndfstors thbt
+     * wfrf drfbtfd by this dbll brf not gubrbntffd to bfdomf pfrmbnfnt until
+     * thf <tt>flush</tt> mfthod is dbllfd on thf rfturnfd nodf (or onf of its
+     * bndfstors or dfsdfndbnts).
+     *
+     * @pbrbm d thf dlbss for whosf pbdkbgf b usfr prfffrfndf nodf is dfsirfd.
+     * @rfturn thf usfr prfffrfndf nodf bssodibtfd with thf pbdkbgf of whidh
+     *         <tt>d</tt> is b mfmbfr.
+     * @throws NullPointfrExdfption if <tt>d</tt> is <tt>null</tt>.
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is prfsfnt bnd
+     *         it dfnifs <tt>RuntimfPfrmission("prfffrfndfs")</tt>.
+     * @sff    RuntimfPfrmission
+     */
+    publid stbtid Prfffrfndfs usfrNodfForPbdkbgf(Clbss<?> d) {
+        rfturn usfrRoot().nodf(nodfNbmf(d));
+    }
+
+    /**
+     * Rfturns thf prfffrfndf nodf from thf systfm prfffrfndf trff thbt is
+     * bssodibtfd (by donvfntion) with thf spfdififd dlbss's pbdkbgf.  Thf
+     * donvfntion is bs follows: thf bbsolutf pbth nbmf of thf nodf is thf
+     * fully qublififd pbdkbgf nbmf, prfdfdfd by b slbsh (<tt>'/'</tt>), bnd
+     * with fbdh pfriod (<tt>'.'</tt>) rfplbdfd by b slbsh.  For fxbmplf thf
+     * bbsolutf pbth nbmf of thf nodf bssodibtfd with thf dlbss
+     * <tt>dom.bdmf.widgft.Foo</tt> is <tt>/dom/bdmf/widgft</tt>.
+     *
+     * <p>This donvfntion dofs not bpply to thf unnbmfd pbdkbgf, whosf
+     * bssodibtfd prfffrfndf nodf is <tt>&lt;unnbmfd&gt;</tt>.  This nodf
+     * is not intfndfd for long tfrm usf, but for donvfnifndf in thf fbrly
+     * dfvflopmfnt of progrbms thbt do not yft bflong to b pbdkbgf, bnd
+     * for "throwbwby" progrbms.  <i>Vblubblf dbtb should not bf storfd
+     * bt this nodf bs it is shbrfd by bll progrbms thbt usf it.</i>
+     *
+     * <p>A dlbss <tt>Foo</tt> wishing to bddfss prfffrfndfs pfrtbining to its
+     * pbdkbgf dbn obtbin b prfffrfndf nodf bs follows: <prf>
+     *  stbtid Prfffrfndfs prffs = Prfffrfndfs.systfmNodfForPbdkbgf(Foo.dlbss);
+     * </prf>
+     * This idiom obvibtfs thf nffd for using b string to dfsdribf thf
+     * prfffrfndfs nodf bnd dfdrfbsfs thf likflihood of b run-timf fbilurf.
+     * (If thf dlbss nbmf is misspfllfd, it will typidblly rfsult in b
+     * dompilf-timf frror.)
+     *
+     * <p>Invoking this mfthod will rfsult in thf drfbtion of thf rfturnfd
+     * nodf bnd its bndfstors if thfy do not blrfbdy fxist.  If thf rfturnfd
+     * nodf did not fxist prior to this dbll, this nodf bnd bny bndfstors thbt
+     * wfrf drfbtfd by this dbll brf not gubrbntffd to bfdomf pfrmbnfnt until
+     * thf <tt>flush</tt> mfthod is dbllfd on thf rfturnfd nodf (or onf of its
+     * bndfstors or dfsdfndbnts).
+     *
+     * @pbrbm d thf dlbss for whosf pbdkbgf b systfm prfffrfndf nodf is dfsirfd.
+     * @rfturn thf systfm prfffrfndf nodf bssodibtfd with thf pbdkbgf of whidh
+     *         <tt>d</tt> is b mfmbfr.
+     * @throws NullPointfrExdfption if <tt>d</tt> is <tt>null</tt>.
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is prfsfnt bnd
+     *         it dfnifs <tt>RuntimfPfrmission("prfffrfndfs")</tt>.
+     * @sff    RuntimfPfrmission
+     */
+    publid stbtid Prfffrfndfs systfmNodfForPbdkbgf(Clbss<?> d) {
+        rfturn systfmRoot().nodf(nodfNbmf(d));
+    }
+
+    /**
+     * Rfturns thf bbsolutf pbth nbmf of thf nodf dorrfsponding to thf pbdkbgf
+     * of thf spfdififd objfdt.
+     *
+     * @throws IllfgblArgumfntExdfption if thf pbdkbgf hbs nodf prfffrfndfs
+     *         nodf bssodibtfd with it.
+     */
+    privbtf stbtid String nodfNbmf(Clbss<?> d) {
+        if (d.isArrby())
+            throw nfw IllfgblArgumfntExdfption(
+                "Arrbys hbvf no bssodibtfd prfffrfndfs nodf.");
+        String dlbssNbmf = d.gftNbmf();
+        int pkgEndIndfx = dlbssNbmf.lbstIndfxOf('.');
+        if (pkgEndIndfx < 0)
+            rfturn "/<unnbmfd>";
+        String pbdkbgfNbmf = dlbssNbmf.substring(0, pkgEndIndfx);
+        rfturn "/" + pbdkbgfNbmf.rfplbdf('.', '/');
+    }
+
+    /**
+     * This pfrmission objfdt rfprfsfnts thf pfrmission rfquirfd to gft
+     * bddfss to thf usfr or systfm root (whidh in turn bllows for bll
+     * othfr opfrbtions).
+     */
+    privbtf stbtid Pfrmission prffsPfrm = nfw RuntimfPfrmission("prfffrfndfs");
+
+    /**
+     * Rfturns thf root prfffrfndf nodf for thf dblling usfr.
+     *
+     * @rfturn thf root prfffrfndf nodf for thf dblling usfr.
+     * @throws SfdurityExdfption If b sfdurity mbnbgfr is prfsfnt bnd
+     *         it dfnifs <tt>RuntimfPfrmission("prfffrfndfs")</tt>.
+     * @sff    RuntimfPfrmission
+     */
+    publid stbtid Prfffrfndfs usfrRoot() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null)
+            sfdurity.dhfdkPfrmission(prffsPfrm);
+
+        rfturn fbdtory.usfrRoot();
+    }
+
+    /**
+     * Rfturns thf root prfffrfndf nodf for thf systfm.
+     *
+     * @rfturn thf root prfffrfndf nodf for thf systfm.
+     * @throws SfdurityExdfption If b sfdurity mbnbgfr is prfsfnt bnd
+     *         it dfnifs <tt>RuntimfPfrmission("prfffrfndfs")</tt>.
+     * @sff    RuntimfPfrmission
+     */
+    publid stbtid Prfffrfndfs systfmRoot() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null)
+            sfdurity.dhfdkPfrmission(prffsPfrm);
+
+        rfturn fbdtory.systfmRoot();
+    }
+
+    /**
+     * Solf donstrudtor. (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     */
+    protfdtfd Prfffrfndfs() {
+    }
+
+    /**
+     * Assodibtfs thf spfdififd vbluf with thf spfdififd kfy in this
+     * prfffrfndf nodf.
+     *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf to bf bssodibtfd with thf spfdififd kfy.
+     * @throws NullPointfrExdfption if kfy or vbluf is <tt>null</tt>.
+     * @throws IllfgblArgumfntExdfption if <tt>kfy.lfngth()</tt> fxdffds
+     *       <tt>MAX_KEY_LENGTH</tt> or if <tt>vbluf.lfngth</tt> fxdffds
+     *       <tt>MAX_VALUE_LENGTH</tt>.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     */
+    publid bbstrbdt void put(String kfy, String vbluf);
+
+    /**
+     * Rfturns thf vbluf bssodibtfd with thf spfdififd kfy in this prfffrfndf
+     * nodf.  Rfturns thf spfdififd dffbult if thfrf is no vbluf bssodibtfd
+     * with thf kfy, or thf bbdking storf is inbddfssiblf.
+     *
+     * <p>Somf implfmfntbtions mby storf dffbult vblufs in thfir bbdking
+     * storfs.  If thfrf is no vbluf bssodibtfd with thf spfdififd kfy
+     * but thfrf is sudh b <i>storfd dffbult</i>, it is rfturnfd in
+     * prfffrfndf to thf spfdififd dffbult.
+     *
+     * @pbrbm kfy kfy whosf bssodibtfd vbluf is to bf rfturnfd.
+     * @pbrbm dff thf vbluf to bf rfturnfd in thf fvfnt thbt this
+     *        prfffrfndf nodf hbs no vbluf bssodibtfd with <tt>kfy</tt>.
+     * @rfturn thf vbluf bssodibtfd with <tt>kfy</tt>, or <tt>dff</tt>
+     *         if no vbluf is bssodibtfd with <tt>kfy</tt>, or thf bbdking
+     *         storf is inbddfssiblf.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.  (A
+     *         <tt>null</tt> vbluf for <tt>dff</tt> <i>is</i> pfrmittfd.)
+     */
+    publid bbstrbdt String gft(String kfy, String dff);
+
+    /**
+     * Rfmovfs thf vbluf bssodibtfd with thf spfdififd kfy in this prfffrfndf
+     * nodf, if bny.
+     *
+     * <p>If this implfmfntbtion supports <i>storfd dffbults</i>, bnd thfrf is
+     * sudh b dffbult for thf spfdififd prfffrfndf, thf storfd dffbult will bf
+     * "fxposfd" by this dbll, in thf sfnsf thbt it will bf rfturnfd
+     * by b suddffding dbll to <tt>gft</tt>.
+     *
+     * @pbrbm kfy kfy whosf mbpping is to bf rfmovfd from thf prfffrfndf nodf.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     */
+    publid bbstrbdt void rfmovf(String kfy);
+
+    /**
+     * Rfmovfs bll of thf prfffrfndfs (kfy-vbluf bssodibtions) in this
+     * prfffrfndf nodf.  This dbll hbs no ffffdt on bny dfsdfndbnts
+     * of this nodf.
+     *
+     * <p>If this implfmfntbtion supports <i>storfd dffbults</i>, bnd this
+     * nodf in thf prfffrfndfs hifrbrdhy dontbins bny sudh dffbults,
+     * thf storfd dffbults will bf "fxposfd" by this dbll, in thf sfnsf thbt
+     * thfy will bf rfturnfd by suddffding dblls to <tt>gft</tt>.
+     *
+     * @throws BbdkingStorfExdfption if this opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in thf bbdking storf, or inbbility to
+     *         dommunidbtf with it.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #rfmovfNodf()
+     */
+    publid bbstrbdt void dlfbr() throws BbdkingStorfExdfption;
+
+    /**
+     * Assodibtfs b string rfprfsfnting thf spfdififd int vbluf with thf
+     * spfdififd kfy in this prfffrfndf nodf.  Thf bssodibtfd string is thf
+     * onf thbt would bf rfturnfd if thf int vbluf wfrf pbssfd to
+     * {@link Intfgfr#toString(int)}.  This mfthod is intfndfd for usf in
+     * donjundtion with {@link #gftInt}.
+     *
+     * @pbrbm kfy kfy with whidh thf string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf whosf string form is to bf bssodibtfd with kfy.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @throws IllfgblArgumfntExdfption if <tt>kfy.lfngth()</tt> fxdffds
+     *         <tt>MAX_KEY_LENGTH</tt>.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #gftInt(String,int)
+     */
+    publid bbstrbdt void putInt(String kfy, int vbluf);
+
+    /**
+     * Rfturns thf int vbluf rfprfsfntfd by thf string bssodibtfd with thf
+     * spfdififd kfy in this prfffrfndf nodf.  Thf string is donvfrtfd to
+     * bn intfgfr bs by {@link Intfgfr#pbrsfInt(String)}.  Rfturns thf
+     * spfdififd dffbult if thfrf is no vbluf bssodibtfd with thf kfy,
+     * thf bbdking storf is inbddfssiblf, or if
+     * <tt>Intfgfr.pbrsfInt(String)</tt> would throw b {@link
+     * NumbfrFormbtExdfption} if thf bssodibtfd vbluf wfrf pbssfd.  This
+     * mfthod is intfndfd for usf in donjundtion with {@link #putInt}.
+     *
+     * <p>If thf implfmfntbtion supports <i>storfd dffbults</i> bnd sudh b
+     * dffbult fxists, is bddfssiblf, bnd dould bf donvfrtfd to bn int
+     * with <tt>Intfgfr.pbrsfInt</tt>, this int is rfturnfd in prfffrfndf to
+     * thf spfdififd dffbult.
+     *
+     * @pbrbm kfy kfy whosf bssodibtfd vbluf is to bf rfturnfd bs bn int.
+     * @pbrbm dff thf vbluf to bf rfturnfd in thf fvfnt thbt this
+     *        prfffrfndf nodf hbs no vbluf bssodibtfd with <tt>kfy</tt>
+     *        or thf bssodibtfd vbluf dbnnot bf intfrprftfd bs bn int,
+     *        or thf bbdking storf is inbddfssiblf.
+     * @rfturn thf int vbluf rfprfsfntfd by thf string bssodibtfd with
+     *         <tt>kfy</tt> in this prfffrfndf nodf, or <tt>dff</tt> if thf
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         bn int.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @sff #putInt(String,int)
+     * @sff #gft(String,String)
+     */
+    publid bbstrbdt int gftInt(String kfy, int dff);
+
+    /**
+     * Assodibtfs b string rfprfsfnting thf spfdififd long vbluf with thf
+     * spfdififd kfy in this prfffrfndf nodf.  Thf bssodibtfd string is thf
+     * onf thbt would bf rfturnfd if thf long vbluf wfrf pbssfd to
+     * {@link Long#toString(long)}.  This mfthod is intfndfd for usf in
+     * donjundtion with {@link #gftLong}.
+     *
+     * @pbrbm kfy kfy with whidh thf string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf whosf string form is to bf bssodibtfd with kfy.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @throws IllfgblArgumfntExdfption if <tt>kfy.lfngth()</tt> fxdffds
+     *         <tt>MAX_KEY_LENGTH</tt>.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #gftLong(String,long)
+     */
+    publid bbstrbdt void putLong(String kfy, long vbluf);
+
+    /**
+     * Rfturns thf long vbluf rfprfsfntfd by thf string bssodibtfd with thf
+     * spfdififd kfy in this prfffrfndf nodf.  Thf string is donvfrtfd to
+     * b long bs by {@link Long#pbrsfLong(String)}.  Rfturns thf
+     * spfdififd dffbult if thfrf is no vbluf bssodibtfd with thf kfy,
+     * thf bbdking storf is inbddfssiblf, or if
+     * <tt>Long.pbrsfLong(String)</tt> would throw b {@link
+     * NumbfrFormbtExdfption} if thf bssodibtfd vbluf wfrf pbssfd.  This
+     * mfthod is intfndfd for usf in donjundtion with {@link #putLong}.
+     *
+     * <p>If thf implfmfntbtion supports <i>storfd dffbults</i> bnd sudh b
+     * dffbult fxists, is bddfssiblf, bnd dould bf donvfrtfd to b long
+     * with <tt>Long.pbrsfLong</tt>, this long is rfturnfd in prfffrfndf to
+     * thf spfdififd dffbult.
+     *
+     * @pbrbm kfy kfy whosf bssodibtfd vbluf is to bf rfturnfd bs b long.
+     * @pbrbm dff thf vbluf to bf rfturnfd in thf fvfnt thbt this
+     *        prfffrfndf nodf hbs no vbluf bssodibtfd with <tt>kfy</tt>
+     *        or thf bssodibtfd vbluf dbnnot bf intfrprftfd bs b long,
+     *        or thf bbdking storf is inbddfssiblf.
+     * @rfturn thf long vbluf rfprfsfntfd by thf string bssodibtfd with
+     *         <tt>kfy</tt> in this prfffrfndf nodf, or <tt>dff</tt> if thf
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b long.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @sff #putLong(String,long)
+     * @sff #gft(String,String)
+     */
+    publid bbstrbdt long gftLong(String kfy, long dff);
+
+    /**
+     * Assodibtfs b string rfprfsfnting thf spfdififd boolfbn vbluf with thf
+     * spfdififd kfy in this prfffrfndf nodf.  Thf bssodibtfd string is
+     * <tt>"truf"</tt> if thf vbluf is truf, bnd <tt>"fblsf"</tt> if it is
+     * fblsf.  This mfthod is intfndfd for usf in donjundtion with
+     * {@link #gftBoolfbn}.
+     *
+     * @pbrbm kfy kfy with whidh thf string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf whosf string form is to bf bssodibtfd with kfy.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @throws IllfgblArgumfntExdfption if <tt>kfy.lfngth()</tt> fxdffds
+     *         <tt>MAX_KEY_LENGTH</tt>.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #gftBoolfbn(String,boolfbn)
+     * @sff #gft(String,String)
+     */
+    publid bbstrbdt void putBoolfbn(String kfy, boolfbn vbluf);
+
+    /**
+     * Rfturns thf boolfbn vbluf rfprfsfntfd by thf string bssodibtfd with thf
+     * spfdififd kfy in this prfffrfndf nodf.  Vblid strings
+     * brf <tt>"truf"</tt>, whidh rfprfsfnts truf, bnd <tt>"fblsf"</tt>, whidh
+     * rfprfsfnts fblsf.  Cbsf is ignorfd, so, for fxbmplf, <tt>"TRUE"</tt>
+     * bnd <tt>"Fblsf"</tt> brf blso vblid.  This mfthod is intfndfd for usf in
+     * donjundtion with {@link #putBoolfbn}.
+     *
+     * <p>Rfturns thf spfdififd dffbult if thfrf is no vbluf
+     * bssodibtfd with thf kfy, thf bbdking storf is inbddfssiblf, or if thf
+     * bssodibtfd vbluf is somfthing othfr thbn <tt>"truf"</tt> or
+     * <tt>"fblsf"</tt>, ignoring dbsf.
+     *
+     * <p>If thf implfmfntbtion supports <i>storfd dffbults</i> bnd sudh b
+     * dffbult fxists bnd is bddfssiblf, it is usfd in prfffrfndf to thf
+     * spfdififd dffbult, unlfss thf storfd dffbult is somfthing othfr thbn
+     * <tt>"truf"</tt> or <tt>"fblsf"</tt>, ignoring dbsf, in whidh dbsf thf
+     * spfdififd dffbult is usfd.
+     *
+     * @pbrbm kfy kfy whosf bssodibtfd vbluf is to bf rfturnfd bs b boolfbn.
+     * @pbrbm dff thf vbluf to bf rfturnfd in thf fvfnt thbt this
+     *        prfffrfndf nodf hbs no vbluf bssodibtfd with <tt>kfy</tt>
+     *        or thf bssodibtfd vbluf dbnnot bf intfrprftfd bs b boolfbn,
+     *        or thf bbdking storf is inbddfssiblf.
+     * @rfturn thf boolfbn vbluf rfprfsfntfd by thf string bssodibtfd with
+     *         <tt>kfy</tt> in this prfffrfndf nodf, or <tt>dff</tt> if thf
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b boolfbn.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @sff #gft(String,String)
+     * @sff #putBoolfbn(String,boolfbn)
+     */
+    publid bbstrbdt boolfbn gftBoolfbn(String kfy, boolfbn dff);
+
+    /**
+     * Assodibtfs b string rfprfsfnting thf spfdififd flobt vbluf with thf
+     * spfdififd kfy in this prfffrfndf nodf.  Thf bssodibtfd string is thf
+     * onf thbt would bf rfturnfd if thf flobt vbluf wfrf pbssfd to
+     * {@link Flobt#toString(flobt)}.  This mfthod is intfndfd for usf in
+     * donjundtion with {@link #gftFlobt}.
+     *
+     * @pbrbm kfy kfy with whidh thf string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf whosf string form is to bf bssodibtfd with kfy.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @throws IllfgblArgumfntExdfption if <tt>kfy.lfngth()</tt> fxdffds
+     *         <tt>MAX_KEY_LENGTH</tt>.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #gftFlobt(String,flobt)
+     */
+    publid bbstrbdt void putFlobt(String kfy, flobt vbluf);
+
+    /**
+     * Rfturns thf flobt vbluf rfprfsfntfd by thf string bssodibtfd with thf
+     * spfdififd kfy in this prfffrfndf nodf.  Thf string is donvfrtfd to bn
+     * intfgfr bs by {@link Flobt#pbrsfFlobt(String)}.  Rfturns thf spfdififd
+     * dffbult if thfrf is no vbluf bssodibtfd with thf kfy, thf bbdking storf
+     * is inbddfssiblf, or if <tt>Flobt.pbrsfFlobt(String)</tt> would throw b
+     * {@link NumbfrFormbtExdfption} if thf bssodibtfd vbluf wfrf pbssfd.
+     * This mfthod is intfndfd for usf in donjundtion with {@link #putFlobt}.
+     *
+     * <p>If thf implfmfntbtion supports <i>storfd dffbults</i> bnd sudh b
+     * dffbult fxists, is bddfssiblf, bnd dould bf donvfrtfd to b flobt
+     * with <tt>Flobt.pbrsfFlobt</tt>, this flobt is rfturnfd in prfffrfndf to
+     * thf spfdififd dffbult.
+     *
+     * @pbrbm kfy kfy whosf bssodibtfd vbluf is to bf rfturnfd bs b flobt.
+     * @pbrbm dff thf vbluf to bf rfturnfd in thf fvfnt thbt this
+     *        prfffrfndf nodf hbs no vbluf bssodibtfd with <tt>kfy</tt>
+     *        or thf bssodibtfd vbluf dbnnot bf intfrprftfd bs b flobt,
+     *        or thf bbdking storf is inbddfssiblf.
+     * @rfturn thf flobt vbluf rfprfsfntfd by thf string bssodibtfd with
+     *         <tt>kfy</tt> in this prfffrfndf nodf, or <tt>dff</tt> if thf
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b flobt.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @sff #putFlobt(String,flobt)
+     * @sff #gft(String,String)
+     */
+    publid bbstrbdt flobt gftFlobt(String kfy, flobt dff);
+
+    /**
+     * Assodibtfs b string rfprfsfnting thf spfdififd doublf vbluf with thf
+     * spfdififd kfy in this prfffrfndf nodf.  Thf bssodibtfd string is thf
+     * onf thbt would bf rfturnfd if thf doublf vbluf wfrf pbssfd to
+     * {@link Doublf#toString(doublf)}.  This mfthod is intfndfd for usf in
+     * donjundtion with {@link #gftDoublf}.
+     *
+     * @pbrbm kfy kfy with whidh thf string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf whosf string form is to bf bssodibtfd with kfy.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @throws IllfgblArgumfntExdfption if <tt>kfy.lfngth()</tt> fxdffds
+     *         <tt>MAX_KEY_LENGTH</tt>.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #gftDoublf(String,doublf)
+     */
+    publid bbstrbdt void putDoublf(String kfy, doublf vbluf);
+
+    /**
+     * Rfturns thf doublf vbluf rfprfsfntfd by thf string bssodibtfd with thf
+     * spfdififd kfy in this prfffrfndf nodf.  Thf string is donvfrtfd to bn
+     * intfgfr bs by {@link Doublf#pbrsfDoublf(String)}.  Rfturns thf spfdififd
+     * dffbult if thfrf is no vbluf bssodibtfd with thf kfy, thf bbdking storf
+     * is inbddfssiblf, or if <tt>Doublf.pbrsfDoublf(String)</tt> would throw b
+     * {@link NumbfrFormbtExdfption} if thf bssodibtfd vbluf wfrf pbssfd.
+     * This mfthod is intfndfd for usf in donjundtion with {@link #putDoublf}.
+     *
+     * <p>If thf implfmfntbtion supports <i>storfd dffbults</i> bnd sudh b
+     * dffbult fxists, is bddfssiblf, bnd dould bf donvfrtfd to b doublf
+     * with <tt>Doublf.pbrsfDoublf</tt>, this doublf is rfturnfd in prfffrfndf
+     * to thf spfdififd dffbult.
+     *
+     * @pbrbm kfy kfy whosf bssodibtfd vbluf is to bf rfturnfd bs b doublf.
+     * @pbrbm dff thf vbluf to bf rfturnfd in thf fvfnt thbt this
+     *        prfffrfndf nodf hbs no vbluf bssodibtfd with <tt>kfy</tt>
+     *        or thf bssodibtfd vbluf dbnnot bf intfrprftfd bs b doublf,
+     *        or thf bbdking storf is inbddfssiblf.
+     * @rfturn thf doublf vbluf rfprfsfntfd by thf string bssodibtfd with
+     *         <tt>kfy</tt> in this prfffrfndf nodf, or <tt>dff</tt> if thf
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b doublf.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
+     * @sff #putDoublf(String,doublf)
+     * @sff #gft(String,String)
+     */
+    publid bbstrbdt doublf gftDoublf(String kfy, doublf dff);
+
+    /**
+     * Assodibtfs b string rfprfsfnting thf spfdififd bytf brrby with thf
+     * spfdififd kfy in this prfffrfndf nodf.  Thf bssodibtfd string is
+     * thf <i>Bbsf64</i> fndoding of thf bytf brrby, bs dffinfd in <b
+     * hrff=http://www.iftf.org/rfd/rfd2045.txt>RFC 2045</b>, Sfdtion 6.8,
+     * with onf minor dhbngf: thf string will donsist solfly of dhbrbdtfrs
+     * from thf <i>Bbsf64 Alphbbft</i>; it will not dontbin bny nfwlinf
+     * dhbrbdtfrs.  Notf thbt thf mbximum lfngth of thf bytf brrby is limitfd
+     * to thrff qubrtfrs of <tt>MAX_VALUE_LENGTH</tt> so thbt thf lfngth
+     * of thf Bbsf64 fndodfd String dofs not fxdffd <tt>MAX_VALUE_LENGTH</tt>.
+     * This mfthod is intfndfd for usf in donjundtion with
+     * {@link #gftBytfArrby}.
+     *
+     * @pbrbm kfy kfy with whidh thf string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf whosf string form is to bf bssodibtfd with kfy.
+     * @throws NullPointfrExdfption if kfy or vbluf is <tt>null</tt>.
+     * @throws IllfgblArgumfntExdfption if kfy.lfngth() fxdffds MAX_KEY_LENGTH
+     *         or if vbluf.lfngth fxdffds MAX_VALUE_LENGTH*3/4.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #gftBytfArrby(String,bytf[])
+     * @sff #gft(String,String)
+     */
+    publid bbstrbdt void putBytfArrby(String kfy, bytf[] vbluf);
+
+    /**
+     * Rfturns thf bytf brrby vbluf rfprfsfntfd by thf string bssodibtfd with
+     * thf spfdififd kfy in this prfffrfndf nodf.  Vblid strings brf
+     * <i>Bbsf64</i> fndodfd binbry dbtb, bs dffinfd in <b
+     * hrff=http://www.iftf.org/rfd/rfd2045.txt>RFC 2045</b>, Sfdtion 6.8,
+     * with onf minor dhbngf: thf string must donsist solfly of dhbrbdtfrs
+     * from thf <i>Bbsf64 Alphbbft</i>; no nfwlinf dhbrbdtfrs or
+     * fxtrbnfous dhbrbdtfrs brf pfrmittfd.  This mfthod is intfndfd for usf
+     * in donjundtion with {@link #putBytfArrby}.
+     *
+     * <p>Rfturns thf spfdififd dffbult if thfrf is no vbluf
+     * bssodibtfd with thf kfy, thf bbdking storf is inbddfssiblf, or if thf
+     * bssodibtfd vbluf is not b vblid Bbsf64 fndodfd bytf brrby
+     * (bs dffinfd bbovf).
+     *
+     * <p>If thf implfmfntbtion supports <i>storfd dffbults</i> bnd sudh b
+     * dffbult fxists bnd is bddfssiblf, it is usfd in prfffrfndf to thf
+     * spfdififd dffbult, unlfss thf storfd dffbult is not b vblid Bbsf64
+     * fndodfd bytf brrby (bs dffinfd bbovf), in whidh dbsf thf
+     * spfdififd dffbult is usfd.
+     *
+     * @pbrbm kfy kfy whosf bssodibtfd vbluf is to bf rfturnfd bs b bytf brrby.
+     * @pbrbm dff thf vbluf to bf rfturnfd in thf fvfnt thbt this
+     *        prfffrfndf nodf hbs no vbluf bssodibtfd with <tt>kfy</tt>
+     *        or thf bssodibtfd vbluf dbnnot bf intfrprftfd bs b bytf brrby,
+     *        or thf bbdking storf is inbddfssiblf.
+     * @rfturn thf bytf brrby vbluf rfprfsfntfd by thf string bssodibtfd with
+     *         <tt>kfy</tt> in this prfffrfndf nodf, or <tt>dff</tt> if thf
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b bytf brrby.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @throws NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.  (A
+     *         <tt>null</tt> vbluf for <tt>dff</tt> <i>is</i> pfrmittfd.)
+     * @sff #gft(String,String)
+     * @sff #putBytfArrby(String,bytf[])
+     */
+    publid bbstrbdt bytf[] gftBytfArrby(String kfy, bytf[] dff);
+
+    /**
+     * Rfturns bll of thf kfys thbt hbvf bn bssodibtfd vbluf in this
+     * prfffrfndf nodf.  (Thf rfturnfd brrby will bf of sizf zfro if
+     * this nodf hbs no prfffrfndfs.)
+     *
+     * <p>If thf implfmfntbtion supports <i>storfd dffbults</i> bnd thfrf
+     * brf bny sudh dffbults bt this nodf thbt hbvf not bffn ovfrriddfn,
+     * by fxplidit prfffrfndfs, thf dffbults brf rfturnfd in thf brrby in
+     * bddition to bny fxplidit prfffrfndfs.
+     *
+     * @rfturn bn brrby of thf kfys thbt hbvf bn bssodibtfd vbluf in this
+     *         prfffrfndf nodf.
+     * @throws BbdkingStorfExdfption if this opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in thf bbdking storf, or inbbility to
+     *         dommunidbtf with it.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     */
+    publid bbstrbdt String[] kfys() throws BbdkingStorfExdfption;
+
+    /**
+     * Rfturns thf nbmfs of thf dhildrfn of this prfffrfndf nodf, rflbtivf to
+     * this nodf.  (Thf rfturnfd brrby will bf of sizf zfro if this nodf hbs
+     * no dhildrfn.)
+     *
+     * @rfturn thf nbmfs of thf dhildrfn of this prfffrfndf nodf.
+     * @throws BbdkingStorfExdfption if this opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in thf bbdking storf, or inbbility to
+     *         dommunidbtf with it.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     */
+    publid bbstrbdt String[] dhildrfnNbmfs() throws BbdkingStorfExdfption;
+
+    /**
+     * Rfturns thf pbrfnt of this prfffrfndf nodf, or <tt>null</tt> if this is
+     * thf root.
+     *
+     * @rfturn thf pbrfnt of this prfffrfndf nodf.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     */
+    publid bbstrbdt Prfffrfndfs pbrfnt();
+
+    /**
+     * Rfturns thf nbmfd prfffrfndf nodf in thf sbmf trff bs this nodf,
+     * drfbting it bnd bny of its bndfstors if thfy do not blrfbdy fxist.
+     * Addfpts b rflbtivf or bbsolutf pbth nbmf.  Rflbtivf pbth nbmfs
+     * (whidh do not bfgin with thf slbsh dhbrbdtfr <tt>('/')</tt>) brf
+     * intfrprftfd rflbtivf to this prfffrfndf nodf.
+     *
+     * <p>If thf rfturnfd nodf did not fxist prior to this dbll, this nodf bnd
+     * bny bndfstors thbt wfrf drfbtfd by this dbll brf not gubrbntffd
+     * to bfdomf pfrmbnfnt until thf <tt>flush</tt> mfthod is dbllfd on
+     * thf rfturnfd nodf (or onf of its bndfstors or dfsdfndbnts).
+     *
+     * @pbrbm pbthNbmf thf pbth nbmf of thf prfffrfndf nodf to rfturn.
+     * @rfturn thf spfdififd prfffrfndf nodf.
+     * @throws IllfgblArgumfntExdfption if thf pbth nbmf is invblid (i.f.,
+     *         it dontbins multiplf donsfdutivf slbsh dhbrbdtfrs, or fnds
+     *         with b slbsh dhbrbdtfr bnd is morf thbn onf dhbrbdtfr long).
+     * @throws NullPointfrExdfption if pbth nbmf is <tt>null</tt>.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #flush()
+     */
+    publid bbstrbdt Prfffrfndfs nodf(String pbthNbmf);
+
+    /**
+     * Rfturns truf if thf nbmfd prfffrfndf nodf fxists in thf sbmf trff
+     * bs this nodf.  Rflbtivf pbth nbmfs (whidh do not bfgin with thf slbsh
+     * dhbrbdtfr <tt>('/')</tt>) brf intfrprftfd rflbtivf to this prfffrfndf
+     * nodf.
+     *
+     * <p>If this nodf (or bn bndfstor) hbs blrfbdy bffn rfmovfd with thf
+     * {@link #rfmovfNodf()} mfthod, it <i>is</i> lfgbl to invokf this mfthod,
+     * but only with thf pbth nbmf <tt>""</tt>; thf invodbtion will rfturn
+     * <tt>fblsf</tt>.  Thus, thf idiom <tt>p.nodfExists("")</tt> mby bf
+     * usfd to tfst whfthfr <tt>p</tt> hbs bffn rfmovfd.
+     *
+     * @pbrbm pbthNbmf thf pbth nbmf of thf nodf whosf fxistfndf
+     *        is to bf dhfdkfd.
+     * @rfturn truf if thf spfdififd nodf fxists.
+     * @throws BbdkingStorfExdfption if this opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in thf bbdking storf, or inbbility to
+     *         dommunidbtf with it.
+     * @throws IllfgblArgumfntExdfption if thf pbth nbmf is invblid (i.f.,
+     *         it dontbins multiplf donsfdutivf slbsh dhbrbdtfrs, or fnds
+     *         with b slbsh dhbrbdtfr bnd is morf thbn onf dhbrbdtfr long).
+     * @throws NullPointfrExdfption if pbth nbmf is <tt>null</tt>.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod bnd
+     *         <tt>pbthNbmf</tt> is not thf fmpty string (<tt>""</tt>).
+     */
+    publid bbstrbdt boolfbn nodfExists(String pbthNbmf)
+        throws BbdkingStorfExdfption;
+
+    /**
+     * Rfmovfs this prfffrfndf nodf bnd bll of its dfsdfndbnts, invblidbting
+     * bny prfffrfndfs dontbinfd in thf rfmovfd nodfs.  Ondf b nodf hbs bffn
+     * rfmovfd, bttfmpting bny mfthod othfr thbn {@link #nbmf()},
+     * {@link #bbsolutfPbth()}, {@link #isUsfrNodf()}, {@link #flush()} or
+     * {@link #nodf(String) nodfExists("")} on thf dorrfsponding
+     * <tt>Prfffrfndfs</tt> instbndf will fbil with bn
+     * <tt>IllfgblStbtfExdfption</tt>.  (Thf mfthods dffinfd on {@link Objfdt}
+     * dbn still bf invokfd on b nodf bftfr it hbs bffn rfmovfd; thfy will not
+     * throw <tt>IllfgblStbtfExdfption</tt>.)
+     *
+     * <p>Thf rfmovbl is not gubrbntffd to bf pfrsistfnt until thf
+     * <tt>flush</tt> mfthod is dbllfd on this nodf (or bn bndfstor).
+     *
+     * <p>If this implfmfntbtion supports <i>storfd dffbults</i>, rfmoving b
+     * nodf fxposfs bny storfd dffbults bt or bflow this nodf.  Thus, b
+     * subsfqufnt dbll to <tt>nodfExists</tt> on this nodf's pbth nbmf mby
+     * rfturn <tt>truf</tt>, bnd b subsfqufnt dbll to <tt>nodf</tt> on this
+     * pbth nbmf mby rfturn b (difffrfnt) <tt>Prfffrfndfs</tt> instbndf
+     * rfprfsfnting b non-fmpty dollfdtion of prfffrfndfs bnd/or dhildrfn.
+     *
+     * @throws BbdkingStorfExdfption if this opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in thf bbdking storf, or inbbility to
+     *         dommunidbtf with it.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs blrfbdy
+     *         bffn rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @throws UnsupportfdOpfrbtionExdfption if this mfthod is invokfd on
+     *         thf root nodf.
+     * @sff #flush()
+     */
+    publid bbstrbdt void rfmovfNodf() throws BbdkingStorfExdfption;
+
+    /**
+     * Rfturns this prfffrfndf nodf's nbmf, rflbtivf to its pbrfnt.
+     *
+     * @rfturn this prfffrfndf nodf's nbmf, rflbtivf to its pbrfnt.
+     */
+    publid bbstrbdt String nbmf();
+
+    /**
+     * Rfturns this prfffrfndf nodf's bbsolutf pbth nbmf.
+     *
+     * @rfturn this prfffrfndf nodf's bbsolutf pbth nbmf.
+     */
+    publid bbstrbdt String bbsolutfPbth();
+
+    /**
+     * Rfturns <tt>truf</tt> if this prfffrfndf nodf is in thf usfr
+     * prfffrfndf trff, <tt>fblsf</tt> if it's in thf systfm prfffrfndf trff.
+     *
+     * @rfturn <tt>truf</tt> if this prfffrfndf nodf is in thf usfr
+     *         prfffrfndf trff, <tt>fblsf</tt> if it's in thf systfm
+     *         prfffrfndf trff.
+     */
+    publid bbstrbdt boolfbn isUsfrNodf();
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this prfffrfndfs nodf,
+     * bs if domputfd by thf fxprfssion:<tt>(this.isUsfrNodf() ? "Usfr" :
+     * "Systfm") + " Prfffrfndf Nodf: " + this.bbsolutfPbth()</tt>.
+     */
+    publid bbstrbdt String toString();
+
+    /**
+     * Fordfs bny dhbngfs in thf dontfnts of this prfffrfndf nodf bnd its
+     * dfsdfndbnts to thf pfrsistfnt storf.  Ondf this mfthod rfturns
+     * suddfssfully, it is sbff to bssumf thbt bll dhbngfs mbdf in thf
+     * subtrff rootfd bt this nodf prior to thf mfthod invodbtion hbvf bfdomf
+     * pfrmbnfnt.
+     *
+     * <p>Implfmfntbtions brf frff to flush dhbngfs into thf pfrsistfnt storf
+     * bt bny timf.  Thfy do not nffd to wbit for this mfthod to bf dbllfd.
+     *
+     * <p>Whfn b flush oddurs on b nfwly drfbtfd nodf, it is mbdf pfrsistfnt,
+     * bs brf bny bndfstors (bnd dfsdfndbnts) thbt hbvf yft to bf mbdf
+     * pfrsistfnt.  Notf howfvfr thbt bny prfffrfndf vbluf dhbngfs in
+     * bndfstors brf <i>not</i> gubrbntffd to bf mbdf pfrsistfnt.
+     *
+     * <p> If this mfthod is invokfd on b nodf thbt hbs bffn rfmovfd with
+     * thf {@link #rfmovfNodf()} mfthod, flushSpi() is invokfd on this nodf,
+     * but not on othfrs.
+     *
+     * @throws BbdkingStorfExdfption if this opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in thf bbdking storf, or inbbility to
+     *         dommunidbtf with it.
+     * @sff    #synd()
+     */
+    publid bbstrbdt void flush() throws BbdkingStorfExdfption;
+
+    /**
+     * Ensurfs thbt futurf rfbds from this prfffrfndf nodf bnd its
+     * dfsdfndbnts rfflfdt bny dhbngfs thbt wfrf dommittfd to thf pfrsistfnt
+     * storf (from bny VM) prior to thf <tt>synd</tt> invodbtion.  As b
+     * sidf-ffffdt, fordfs bny dhbngfs in thf dontfnts of this prfffrfndf nodf
+     * bnd its dfsdfndbnts to thf pfrsistfnt storf, bs if thf <tt>flush</tt>
+     * mfthod hbd bffn invokfd on this nodf.
+     *
+     * @throws BbdkingStorfExdfption if this opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in thf bbdking storf, or inbbility to
+     *         dommunidbtf with it.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff    #flush()
+     */
+    publid bbstrbdt void synd() throws BbdkingStorfExdfption;
+
+    /**
+     * Rfgistfrs thf spfdififd listfnfr to rfdfivf <i>prfffrfndf dhbngf
+     * fvfnts</i> for this prfffrfndf nodf.  A prfffrfndf dhbngf fvfnt is
+     * gfnfrbtfd whfn b prfffrfndf is bddfd to this nodf, rfmovfd from this
+     * nodf, or whfn thf vbluf bssodibtfd with b prfffrfndf is dhbngfd.
+     * (Prfffrfndf dhbngf fvfnts brf <i>not</i> gfnfrbtfd by thf {@link
+     * #rfmovfNodf()} mfthod, whidh gfnfrbtfs b <i>nodf dhbngf fvfnt</i>.
+     * Prfffrfndf dhbngf fvfnts <i>brf</i> gfnfrbtfd by thf <tt>dlfbr</tt>
+     * mfthod.)
+     *
+     * <p>Evfnts brf only gubrbntffd for dhbngfs mbdf within thf sbmf JVM
+     * bs thf rfgistfrfd listfnfr, though somf implfmfntbtions mby gfnfrbtf
+     * fvfnts for dhbngfs mbdf outsidf this JVM.  Evfnts mby bf gfnfrbtfd
+     * bfforf thf dhbngfs hbvf bffn mbdf pfrsistfnt.  Evfnts brf not gfnfrbtfd
+     * whfn prfffrfndfs brf modififd in dfsdfndbnts of this nodf; b dbllfr
+     * dfsiring sudh fvfnts must rfgistfr with fbdh dfsdfndbnt.
+     *
+     * @pbrbm pdl Thf prfffrfndf dhbngf listfnfr to bdd.
+     * @throws NullPointfrExdfption if <tt>pdl</tt> is null.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #rfmovfPrfffrfndfChbngfListfnfr(PrfffrfndfChbngfListfnfr)
+     * @sff #bddNodfChbngfListfnfr(NodfChbngfListfnfr)
+     */
+    publid bbstrbdt void bddPrfffrfndfChbngfListfnfr(
+        PrfffrfndfChbngfListfnfr pdl);
+
+    /**
+     * Rfmovfs thf spfdififd prfffrfndf dhbngf listfnfr, so it no longfr
+     * rfdfivfs prfffrfndf dhbngf fvfnts.
+     *
+     * @pbrbm pdl Thf prfffrfndf dhbngf listfnfr to rfmovf.
+     * @throws IllfgblArgumfntExdfption if <tt>pdl</tt> wbs not b rfgistfrfd
+     *         prfffrfndf dhbngf listfnfr on this nodf.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #bddPrfffrfndfChbngfListfnfr(PrfffrfndfChbngfListfnfr)
+     */
+    publid bbstrbdt void rfmovfPrfffrfndfChbngfListfnfr(
+        PrfffrfndfChbngfListfnfr pdl);
+
+    /**
+     * Rfgistfrs thf spfdififd listfnfr to rfdfivf <i>nodf dhbngf fvfnts</i>
+     * for this nodf.  A nodf dhbngf fvfnt is gfnfrbtfd whfn b dhild nodf is
+     * bddfd to or rfmovfd from this nodf.  (A singlf {@link #rfmovfNodf()}
+     * invodbtion rfsults in multiplf <i>nodf dhbngf fvfnts</i>, onf for fvfry
+     * nodf in thf subtrff rootfd bt thf rfmovfd nodf.)
+     *
+     * <p>Evfnts brf only gubrbntffd for dhbngfs mbdf within thf sbmf JVM
+     * bs thf rfgistfrfd listfnfr, though somf implfmfntbtions mby gfnfrbtf
+     * fvfnts for dhbngfs mbdf outsidf this JVM.  Evfnts mby bf gfnfrbtfd
+     * bfforf thf dhbngfs hbvf bfdomf pfrmbnfnt.  Evfnts brf not gfnfrbtfd
+     * whfn indirfdt dfsdfndbnts of this nodf brf bddfd or rfmovfd; b
+     * dbllfr dfsiring sudh fvfnts must rfgistfr with fbdh dfsdfndbnt.
+     *
+     * <p>Ffw gubrbntffs dbn bf mbdf rfgbrding nodf drfbtion.  Bfdbusf nodfs
+     * brf drfbtfd impliditly upon bddfss, it mby not bf ffbsiblf for bn
+     * implfmfntbtion to dftfrminf whfthfr b dhild nodf fxistfd in thf bbdking
+     * storf prior to bddfss (for fxbmplf, bfdbusf thf bbdking storf is
+     * unrfbdhbblf or dbdhfd informbtion is out of dbtf).  Undfr thfsf
+     * dirdumstbndfs, implfmfntbtions brf nfithfr rfquirfd to gfnfrbtf nodf
+     * dhbngf fvfnts nor prohibitfd from doing so.
+     *
+     * @pbrbm ndl Thf <tt>NodfChbngfListfnfr</tt> to bdd.
+     * @throws NullPointfrExdfption if <tt>ndl</tt> is null.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #rfmovfNodfChbngfListfnfr(NodfChbngfListfnfr)
+     * @sff #bddPrfffrfndfChbngfListfnfr(PrfffrfndfChbngfListfnfr)
+     */
+    publid bbstrbdt void bddNodfChbngfListfnfr(NodfChbngfListfnfr ndl);
+
+    /**
+     * Rfmovfs thf spfdififd <tt>NodfChbngfListfnfr</tt>, so it no longfr
+     * rfdfivfs dhbngf fvfnts.
+     *
+     * @pbrbm ndl Thf <tt>NodfChbngfListfnfr</tt> to rfmovf.
+     * @throws IllfgblArgumfntExdfption if <tt>ndl</tt> wbs not b rfgistfrfd
+     *         <tt>NodfChbngfListfnfr</tt> on this nodf.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff #bddNodfChbngfListfnfr(NodfChbngfListfnfr)
+     */
+    publid bbstrbdt void rfmovfNodfChbngfListfnfr(NodfChbngfListfnfr ndl);
+
+    /**
+     * Emits on thf spfdififd output strfbm bn XML dodumfnt rfprfsfnting bll
+     * of thf prfffrfndfs dontbinfd in this nodf (but not its dfsdfndbnts).
+     * This XML dodumfnt is, in ffffdt, bn offlinf bbdkup of thf nodf.
+     *
+     * <p>Thf XML dodumfnt will hbvf thf following DOCTYPE dfdlbrbtion:
+     * <prf>{@dodf
+     * <!DOCTYPE prfffrfndfs SYSTEM "http://jbvb.sun.dom/dtd/prfffrfndfs.dtd">
+     * }</prf>
+     * Thf UTF-8 dhbrbdtfr fndoding will bf usfd.
+     *
+     * <p>This mfthod is bn fxdfption to thf gfnfrbl rulf thbt thf rfsults of
+     * dondurrfntly fxfduting multiplf mfthods in this dlbss yiflds
+     * rfsults fquivblfnt to somf sfribl fxfdution.  If thf prfffrfndfs
+     * bt this nodf brf modififd dondurrfntly with bn invodbtion of this
+     * mfthod, thf fxportfd prfffrfndfs domprisf b "fuzzy snbpshot" of thf
+     * prfffrfndfs dontbinfd in thf nodf; somf of thf dondurrfnt modifidbtions
+     * mby bf rfflfdtfd in thf fxportfd dbtb whilf othfrs mby not.
+     *
+     * @pbrbm os thf output strfbm on whidh to fmit thf XML dodumfnt.
+     * @throws IOExdfption if writing to thf spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @throws BbdkingStorfExdfption if prfffrfndf dbtb dbnnot bf rfbd from
+     *         bbdking storf.
+     * @sff    #importPrfffrfndfs(InputStrfbm)
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     */
+    publid bbstrbdt void fxportNodf(OutputStrfbm os)
+        throws IOExdfption, BbdkingStorfExdfption;
+
+    /**
+     * Emits bn XML dodumfnt rfprfsfnting bll of thf prfffrfndfs dontbinfd
+     * in this nodf bnd bll of its dfsdfndbnts.  This XML dodumfnt is, in
+     * ffffdt, bn offlinf bbdkup of thf subtrff rootfd bt thf nodf.
+     *
+     * <p>Thf XML dodumfnt will hbvf thf following DOCTYPE dfdlbrbtion:
+     * <prf>{@dodf
+     * <!DOCTYPE prfffrfndfs SYSTEM "http://jbvb.sun.dom/dtd/prfffrfndfs.dtd">
+     * }</prf>
+     * Thf UTF-8 dhbrbdtfr fndoding will bf usfd.
+     *
+     * <p>This mfthod is bn fxdfption to thf gfnfrbl rulf thbt thf rfsults of
+     * dondurrfntly fxfduting multiplf mfthods in this dlbss yiflds
+     * rfsults fquivblfnt to somf sfribl fxfdution.  If thf prfffrfndfs
+     * or nodfs in thf subtrff rootfd bt this nodf brf modififd dondurrfntly
+     * with bn invodbtion of this mfthod, thf fxportfd prfffrfndfs domprisf b
+     * "fuzzy snbpshot" of thf subtrff; somf of thf dondurrfnt modifidbtions
+     * mby bf rfflfdtfd in thf fxportfd dbtb whilf othfrs mby not.
+     *
+     * @pbrbm os thf output strfbm on whidh to fmit thf XML dodumfnt.
+     * @throws IOExdfption if writing to thf spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @throws BbdkingStorfExdfption if prfffrfndf dbtb dbnnot bf rfbd from
+     *         bbdking storf.
+     * @throws IllfgblStbtfExdfption if this nodf (or bn bndfstor) hbs bffn
+     *         rfmovfd with thf {@link #rfmovfNodf()} mfthod.
+     * @sff    #importPrfffrfndfs(InputStrfbm)
+     * @sff    #fxportNodf(OutputStrfbm)
+     */
+    publid bbstrbdt void fxportSubtrff(OutputStrfbm os)
+        throws IOExdfption, BbdkingStorfExdfption;
+
+    /**
+     * Imports bll of thf prfffrfndfs rfprfsfntfd by thf XML dodumfnt on thf
+     * spfdififd input strfbm.  Thf dodumfnt mby rfprfsfnt usfr prfffrfndfs or
+     * systfm prfffrfndfs.  If it rfprfsfnts usfr prfffrfndfs, thf prfffrfndfs
+     * will bf importfd into thf dblling usfr's prfffrfndf trff (fvfn if thfy
+     * originblly dbmf from b difffrfnt usfr's prfffrfndf trff).  If bny of
+     * thf prfffrfndfs dfsdribfd by thf dodumfnt inhbbit prfffrfndf nodfs thbt
+     * do not fxist, thf nodfs will bf drfbtfd.
+     *
+     * <p>Thf XML dodumfnt must hbvf thf following DOCTYPE dfdlbrbtion:
+     * <prf>{@dodf
+     * <!DOCTYPE prfffrfndfs SYSTEM "http://jbvb.sun.dom/dtd/prfffrfndfs.dtd">
+     * }</prf>
+     * (This mfthod is dfsignfd for usf in donjundtion with
+     * {@link #fxportNodf(OutputStrfbm)} bnd
+     * {@link #fxportSubtrff(OutputStrfbm)}.
+     *
+     * <p>This mfthod is bn fxdfption to thf gfnfrbl rulf thbt thf rfsults of
+     * dondurrfntly fxfduting multiplf mfthods in this dlbss yiflds
+     * rfsults fquivblfnt to somf sfribl fxfdution.  Thf mfthod bfhbvfs
+     * bs if implfmfntfd on top of thf othfr publid mfthods in this dlbss,
+     * notbbly {@link #nodf(String)} bnd {@link #put(String, String)}.
+     *
+     * @pbrbm is thf input strfbm from whidh to rfbd thf XML dodumfnt.
+     * @throws IOExdfption if rfbding from thf spfdififd input strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @throws InvblidPrfffrfndfsFormbtExdfption Dbtb on input strfbm dofs not
+     *         donstitutf b vblid XML dodumfnt with thf mbndbtfd dodumfnt typf.
+     * @throws SfdurityExdfption If b sfdurity mbnbgfr is prfsfnt bnd
+     *         it dfnifs <tt>RuntimfPfrmission("prfffrfndfs")</tt>.
+     * @sff    RuntimfPfrmission
+     */
+    publid stbtid void importPrfffrfndfs(InputStrfbm is)
+        throws IOExdfption, InvblidPrfffrfndfsFormbtExdfption
+    {
+        XmlSupport.importPrfffrfndfs(is);
+    }
+}

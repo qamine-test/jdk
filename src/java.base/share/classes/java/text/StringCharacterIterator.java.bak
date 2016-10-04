@@ -1,280 +1,280 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
 /**
- * <code>StringCharacterIterator</code> implements the
- * <code>CharacterIterator</code> protocol for a <code>String</code>.
- * The <code>StringCharacterIterator</code> class iterates over the
- * entire <code>String</code>.
+ * <dodf>StringCibrbdtfrItfrbtor</dodf> implfmfnts tif
+ * <dodf>CibrbdtfrItfrbtor</dodf> protodol for b <dodf>String</dodf>.
+ * Tif <dodf>StringCibrbdtfrItfrbtor</dodf> dlbss itfrbtfs ovfr tif
+ * fntirf <dodf>String</dodf>.
  *
- * @see CharacterIterator
+ * @sff CibrbdtfrItfrbtor
  */
 
-public final class StringCharacterIterator implements CharacterIterator
+publid finbl dlbss StringCibrbdtfrItfrbtor implfmfnts CibrbdtfrItfrbtor
 {
-    private String text;
-    private int begin;
-    private int end;
-    // invariant: begin <= pos <= end
-    private int pos;
+    privbtf String tfxt;
+    privbtf int bfgin;
+    privbtf int fnd;
+    // invbribnt: bfgin <= pos <= fnd
+    privbtf int pos;
 
     /**
-     * Constructs an iterator with an initial index of 0.
+     * Construdts bn itfrbtor witi bn initibl indfx of 0.
      *
-     * @param text the {@code String} to be iterated over
+     * @pbrbm tfxt tif {@dodf String} to bf itfrbtfd ovfr
      */
-    public StringCharacterIterator(String text)
+    publid StringCibrbdtfrItfrbtor(String tfxt)
     {
-        this(text, 0);
+        tiis(tfxt, 0);
     }
 
     /**
-     * Constructs an iterator with the specified initial index.
+     * Construdts bn itfrbtor witi tif spfdififd initibl indfx.
      *
-     * @param  text   The String to be iterated over
-     * @param  pos    Initial iterator position
+     * @pbrbm  tfxt   Tif String to bf itfrbtfd ovfr
+     * @pbrbm  pos    Initibl itfrbtor position
      */
-    public StringCharacterIterator(String text, int pos)
+    publid StringCibrbdtfrItfrbtor(String tfxt, int pos)
     {
-    this(text, 0, text.length(), pos);
+    tiis(tfxt, 0, tfxt.lfngti(), pos);
     }
 
     /**
-     * Constructs an iterator over the given range of the given string, with the
-     * index set at the specified position.
+     * Construdts bn itfrbtor ovfr tif givfn rbngf of tif givfn string, witi tif
+     * indfx sft bt tif spfdififd position.
      *
-     * @param  text   The String to be iterated over
-     * @param  begin  Index of the first character
-     * @param  end    Index of the character following the last character
-     * @param  pos    Initial iterator position
+     * @pbrbm  tfxt   Tif String to bf itfrbtfd ovfr
+     * @pbrbm  bfgin  Indfx of tif first dibrbdtfr
+     * @pbrbm  fnd    Indfx of tif dibrbdtfr following tif lbst dibrbdtfr
+     * @pbrbm  pos    Initibl itfrbtor position
      */
-    public StringCharacterIterator(String text, int begin, int end, int pos) {
-        if (text == null)
-            throw new NullPointerException();
-        this.text = text;
+    publid StringCibrbdtfrItfrbtor(String tfxt, int bfgin, int fnd, int pos) {
+        if (tfxt == null)
+            tirow nfw NullPointfrExdfption();
+        tiis.tfxt = tfxt;
 
-        if (begin < 0 || begin > end || end > text.length())
-            throw new IllegalArgumentException("Invalid substring range");
+        if (bfgin < 0 || bfgin > fnd || fnd > tfxt.lfngti())
+            tirow nfw IllfgblArgumfntExdfption("Invblid substring rbngf");
 
-        if (pos < begin || pos > end)
-            throw new IllegalArgumentException("Invalid position");
+        if (pos < bfgin || pos > fnd)
+            tirow nfw IllfgblArgumfntExdfption("Invblid position");
 
-        this.begin = begin;
-        this.end = end;
-        this.pos = pos;
+        tiis.bfgin = bfgin;
+        tiis.fnd = fnd;
+        tiis.pos = pos;
     }
 
     /**
-     * Reset this iterator to point to a new string.  This package-visible
-     * method is used by other java.text classes that want to avoid allocating
-     * new StringCharacterIterator objects every time their setText method
-     * is called.
+     * Rfsft tiis itfrbtor to point to b nfw string.  Tiis pbdkbgf-visiblf
+     * mftiod is usfd by otifr jbvb.tfxt dlbssfs tibt wbnt to bvoid bllodbting
+     * nfw StringCibrbdtfrItfrbtor objfdts fvfry timf tifir sftTfxt mftiod
+     * is dbllfd.
      *
-     * @param  text   The String to be iterated over
-     * @since 1.2
+     * @pbrbm  tfxt   Tif String to bf itfrbtfd ovfr
+     * @sindf 1.2
      */
-    public void setText(String text) {
-        if (text == null)
-            throw new NullPointerException();
-        this.text = text;
-        this.begin = 0;
-        this.end = text.length();
-        this.pos = 0;
+    publid void sftTfxt(String tfxt) {
+        if (tfxt == null)
+            tirow nfw NullPointfrExdfption();
+        tiis.tfxt = tfxt;
+        tiis.bfgin = 0;
+        tiis.fnd = tfxt.lfngti();
+        tiis.pos = 0;
     }
 
     /**
-     * Implements CharacterIterator.first() for String.
-     * @see CharacterIterator#first
+     * Implfmfnts CibrbdtfrItfrbtor.first() for String.
+     * @sff CibrbdtfrItfrbtor#first
      */
-    public char first()
+    publid dibr first()
     {
-        pos = begin;
-        return current();
+        pos = bfgin;
+        rfturn durrfnt();
     }
 
     /**
-     * Implements CharacterIterator.last() for String.
-     * @see CharacterIterator#last
+     * Implfmfnts CibrbdtfrItfrbtor.lbst() for String.
+     * @sff CibrbdtfrItfrbtor#lbst
      */
-    public char last()
+    publid dibr lbst()
     {
-        if (end != begin) {
-            pos = end - 1;
-        } else {
-            pos = end;
+        if (fnd != bfgin) {
+            pos = fnd - 1;
+        } flsf {
+            pos = fnd;
         }
-        return current();
+        rfturn durrfnt();
      }
 
     /**
-     * Implements CharacterIterator.setIndex() for String.
-     * @see CharacterIterator#setIndex
+     * Implfmfnts CibrbdtfrItfrbtor.sftIndfx() for String.
+     * @sff CibrbdtfrItfrbtor#sftIndfx
      */
-    public char setIndex(int p)
+    publid dibr sftIndfx(int p)
     {
-    if (p < begin || p > end)
-            throw new IllegalArgumentException("Invalid index");
+    if (p < bfgin || p > fnd)
+            tirow nfw IllfgblArgumfntExdfption("Invblid indfx");
         pos = p;
-        return current();
+        rfturn durrfnt();
     }
 
     /**
-     * Implements CharacterIterator.current() for String.
-     * @see CharacterIterator#current
+     * Implfmfnts CibrbdtfrItfrbtor.durrfnt() for String.
+     * @sff CibrbdtfrItfrbtor#durrfnt
      */
-    public char current()
+    publid dibr durrfnt()
     {
-        if (pos >= begin && pos < end) {
-            return text.charAt(pos);
+        if (pos >= bfgin && pos < fnd) {
+            rfturn tfxt.dibrAt(pos);
         }
-        else {
-            return DONE;
+        flsf {
+            rfturn DONE;
         }
     }
 
     /**
-     * Implements CharacterIterator.next() for String.
-     * @see CharacterIterator#next
+     * Implfmfnts CibrbdtfrItfrbtor.nfxt() for String.
+     * @sff CibrbdtfrItfrbtor#nfxt
      */
-    public char next()
+    publid dibr nfxt()
     {
-        if (pos < end - 1) {
+        if (pos < fnd - 1) {
             pos++;
-            return text.charAt(pos);
+            rfturn tfxt.dibrAt(pos);
         }
-        else {
-            pos = end;
-            return DONE;
+        flsf {
+            pos = fnd;
+            rfturn DONE;
         }
     }
 
     /**
-     * Implements CharacterIterator.previous() for String.
-     * @see CharacterIterator#previous
+     * Implfmfnts CibrbdtfrItfrbtor.prfvious() for String.
+     * @sff CibrbdtfrItfrbtor#prfvious
      */
-    public char previous()
+    publid dibr prfvious()
     {
-        if (pos > begin) {
+        if (pos > bfgin) {
             pos--;
-            return text.charAt(pos);
+            rfturn tfxt.dibrAt(pos);
         }
-        else {
-            return DONE;
+        flsf {
+            rfturn DONE;
         }
     }
 
     /**
-     * Implements CharacterIterator.getBeginIndex() for String.
-     * @see CharacterIterator#getBeginIndex
+     * Implfmfnts CibrbdtfrItfrbtor.gftBfginIndfx() for String.
+     * @sff CibrbdtfrItfrbtor#gftBfginIndfx
      */
-    public int getBeginIndex()
+    publid int gftBfginIndfx()
     {
-        return begin;
+        rfturn bfgin;
     }
 
     /**
-     * Implements CharacterIterator.getEndIndex() for String.
-     * @see CharacterIterator#getEndIndex
+     * Implfmfnts CibrbdtfrItfrbtor.gftEndIndfx() for String.
+     * @sff CibrbdtfrItfrbtor#gftEndIndfx
      */
-    public int getEndIndex()
+    publid int gftEndIndfx()
     {
-        return end;
+        rfturn fnd;
     }
 
     /**
-     * Implements CharacterIterator.getIndex() for String.
-     * @see CharacterIterator#getIndex
+     * Implfmfnts CibrbdtfrItfrbtor.gftIndfx() for String.
+     * @sff CibrbdtfrItfrbtor#gftIndfx
      */
-    public int getIndex()
+    publid int gftIndfx()
     {
-        return pos;
+        rfturn pos;
     }
 
     /**
-     * Compares the equality of two StringCharacterIterator objects.
-     * @param obj the StringCharacterIterator object to be compared with.
-     * @return true if the given obj is the same as this
-     * StringCharacterIterator object; false otherwise.
+     * Compbrfs tif fqublity of two StringCibrbdtfrItfrbtor objfdts.
+     * @pbrbm obj tif StringCibrbdtfrItfrbtor objfdt to bf dompbrfd witi.
+     * @rfturn truf if tif givfn obj is tif sbmf bs tiis
+     * StringCibrbdtfrItfrbtor objfdt; fblsf otifrwisf.
      */
-    public boolean equals(Object obj)
+    publid boolfbn fqubls(Objfdt obj)
     {
-        if (this == obj)
-            return true;
-        if (!(obj instanceof StringCharacterIterator))
-            return false;
+        if (tiis == obj)
+            rfturn truf;
+        if (!(obj instbndfof StringCibrbdtfrItfrbtor))
+            rfturn fblsf;
 
-        StringCharacterIterator that = (StringCharacterIterator) obj;
+        StringCibrbdtfrItfrbtor tibt = (StringCibrbdtfrItfrbtor) obj;
 
-        if (hashCode() != that.hashCode())
-            return false;
-        if (!text.equals(that.text))
-            return false;
-        if (pos != that.pos || begin != that.begin || end != that.end)
-            return false;
-        return true;
+        if (ibsiCodf() != tibt.ibsiCodf())
+            rfturn fblsf;
+        if (!tfxt.fqubls(tibt.tfxt))
+            rfturn fblsf;
+        if (pos != tibt.pos || bfgin != tibt.bfgin || fnd != tibt.fnd)
+            rfturn fblsf;
+        rfturn truf;
     }
 
     /**
-     * Computes a hashcode for this iterator.
-     * @return A hash code
+     * Computfs b ibsidodf for tiis itfrbtor.
+     * @rfturn A ibsi dodf
      */
-    public int hashCode()
+    publid int ibsiCodf()
     {
-        return text.hashCode() ^ pos ^ begin ^ end;
+        rfturn tfxt.ibsiCodf() ^ pos ^ bfgin ^ fnd;
     }
 
     /**
-     * Creates a copy of this iterator.
-     * @return A copy of this
+     * Crfbtfs b dopy of tiis itfrbtor.
+     * @rfturn A dopy of tiis
      */
-    public Object clone()
+    publid Objfdt dlonf()
     {
         try {
-            StringCharacterIterator other
-            = (StringCharacterIterator) super.clone();
-            return other;
+            StringCibrbdtfrItfrbtor otifr
+            = (StringCibrbdtfrItfrbtor) supfr.dlonf();
+            rfturn otifr;
         }
-        catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+        dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
     }
 

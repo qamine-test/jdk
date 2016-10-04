@@ -1,0 +1,394 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+
+/**
+ * Thf <dodf>Adtion</dodf> intfrfbdf providfs b usfful fxtfnsion to thf
+ * <dodf>AdtionListfnfr</dodf>
+ * intfrfbdf in dbsfs whfrf thf sbmf fundtionblity mby bf bddfssfd by
+ * sfvfrbl dontrols.
+ * <p>
+ * In bddition to thf <dodf>bdtionPfrformfd</dodf> mfthod dffinfd by thf
+ * <dodf>AdtionListfnfr</dodf> intfrfbdf, this intfrfbdf bllows thf
+ * bpplidbtion to dffinf, in b singlf plbdf:
+ * <ul>
+ * <li>Onf or morf tfxt strings thbt dfsdribf thf fundtion. Thfsf strings
+ *     dbn bf usfd, for fxbmplf, to displby thf flyovfr tfxt for b button
+ *     or to sft thf tfxt in b mfnu itfm.
+ * <li>Onf or morf idons thbt dfpidt thf fundtion. Thfsf idons dbn bf usfd
+ *     for thf imbgfs in b mfnu dontrol, or for dompositf fntrifs in b morf
+ *     sophistidbtfd usfr intfrfbdf.
+ * <li>Thf fnbblfd/disbblfd stbtf of thf fundtionblity. Instfbd of hbving
+ *     to sfpbrbtfly disbblf thf mfnu itfm bnd thf toolbbr button, thf
+ *     bpplidbtion dbn disbblf thf fundtion thbt implfmfnts this intfrfbdf.
+ *     All domponfnts whidh brf rfgistfrfd bs listfnfrs for thf stbtf dhbngf
+ *     thfn know to disbblf fvfnt gfnfrbtion for thbt itfm bnd to modify thf
+ *     displby bddordingly.
+ * </ul>
+ * <p>
+ * This intfrfbdf dbn bf bddfd to bn fxisting dlbss or usfd to drfbtf bn
+ * bdbptfr (typidblly, by subdlbssing <dodf>AbstrbdtAdtion</dodf>).
+ * Thf <dodf>Adtion</dodf> objfdt
+ * dbn thfn bf bddfd to multiplf <dodf>Adtion</dodf>-bwbrf dontbinfrs
+ * bnd donnfdtfd to <dodf>Adtion</dodf>-dbpbblf
+ * domponfnts. Thf GUI dontrols dbn thfn bf bdtivbtfd or
+ * dfbdtivbtfd bll bt ondf by invoking thf <dodf>Adtion</dodf> objfdt's
+ * <dodf>sftEnbblfd</dodf> mfthod.
+ * <p>
+ * Notf thbt <dodf>Adtion</dodf> implfmfntbtions tfnd to bf morf fxpfnsivf
+ * in tfrms of storbgf thbn b typidbl <dodf>AdtionListfnfr</dodf>,
+ * whidh dofs not offfr thf bfnffits of dfntrblizfd dontrol of
+ * fundtionblity bnd brobddbst of propfrty dhbngfs.  For this rfbson,
+ * you should tbkf dbrf to only usf <dodf>Adtion</dodf>s whfrf thfir bfnffits
+ * brf dfsirfd, bnd usf simplf <dodf>AdtionListfnfr</dodf>s flsfwhfrf.
+ * <br>
+ *
+ * <h3><b nbmf="buttonAdtions"></b>Swing Componfnts Supporting <dodf>Adtion</dodf></h3>
+ * <p>
+ * Mbny of Swing's domponfnts hbvf bn <dodf>Adtion</dodf> propfrty.  Whfn
+ * bn <dodf>Adtion</dodf> is sft on b domponfnt, thf following things
+ * hbppfn:
+ * <ul>
+ * <li>Thf <dodf>Adtion</dodf> is bddfd bs bn <dodf>AdtionListfnfr</dodf> to
+ *     thf domponfnt.
+ * <li>Thf domponfnt donfigurfs somf of its propfrtifs to mbtdh thf
+ *      <dodf>Adtion</dodf>.
+ * <li>Thf domponfnt instblls b <dodf>PropfrtyChbngfListfnfr</dodf> on thf
+ *     <dodf>Adtion</dodf> so thbt thf domponfnt dbn dhbngf its propfrtifs
+ *     to rfflfdt dhbngfs in thf <dodf>Adtion</dodf>'s propfrtifs.
+ * </ul>
+ * <p>
+ * Thf following tbblf dfsdribfs thf propfrtifs usfd by
+ * <dodf>Swing</dodf> domponfnts thbt support <dodf>Adtions</dodf>.
+ * In thf tbblf, <fm>button</fm> rfffrs to bny
+ * <dodf>AbstrbdtButton</dodf> subdlbss, whidh indludfs not only
+ * <dodf>JButton</dodf> but blso dlbssfs sudh bs
+ * <dodf>JMfnuItfm</dodf>. Unlfss othfrwisf stbtfd, b
+ * <dodf>null</dodf> propfrty vbluf in bn <dodf>Adtion</dodf> (or b
+ * <dodf>Adtion</dodf> thbt is <dodf>null</dodf>) rfsults in thf
+ * button's dorrfsponding propfrty bfing sft to <dodf>null</dodf>.
+ *
+ * <tbblf bordfr="1" dfllpbdding="1" dfllspbding="0"
+ *         summbry="Supportfd Adtion propfrtifs">
+ *  <tr vblign="top"  blign="lfft">
+ *    <th stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Componfnt Propfrty
+ *    <th stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Componfnts
+ *    <th stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Adtion Kfy
+ *    <th stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Notfs
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>fnbblfd</dodf></b>
+ *      <td>All
+ *      <td>Thf <dodf>isEnbblfd</dodf> mfthod
+ *      <td>&nbsp;
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>toolTipTfxt</dodf></b>
+ *      <td>All
+ *      <td><dodf>SHORT_DESCRIPTION</dodf>
+ *      <td>&nbsp;
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>bdtionCommbnd</dodf></b>
+ *      <td>All
+ *      <td><dodf>ACTION_COMMAND_KEY</dodf>
+ *      <td>&nbsp;
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>mnfmonid</dodf></b>
+ *      <td>All buttons
+ *      <td><dodf>MNEMONIC_KEY</dodf>
+ *      <td>A <dodf>null</dodf> vbluf or <dodf>Adtion</dodf> rfsults in thf
+ *          button's <dodf>mnfmonid</dodf> propfrty bfing sft to
+ *          <dodf>'\0'</dodf>.
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>tfxt</dodf></b>
+ *      <td>All buttons
+ *      <td><dodf>NAME</dodf>
+ *      <td>If you do not wbnt thf tfxt of thf button to mirror thbt
+ *          of thf <dodf>Adtion</dodf>, sft thf propfrty
+ *          <dodf>hidfAdtionTfxt</dodf> to <dodf>truf</dodf>.  If
+ *          <dodf>hidfAdtionTfxt</dodf> is <dodf>truf</dodf>, sftting thf
+ *          <dodf>Adtion</dodf> dhbngfs thf tfxt of thf button to
+ *          <dodf>null</dodf> bnd bny dhbngfs to <dodf>NAME</dodf>
+ *          brf ignorfd.  <dodf>hidfAdtionTfxt</dodf> is usfful for
+ *          tool bbr buttons thbt typidblly only show bn <dodf>Idon</dodf>.
+ *          <dodf>JToolBbr.bdd(Adtion)</dodf> sfts thf propfrty to
+ *          <dodf>truf</dodf> if thf <dodf>Adtion</dodf> hbs b
+ *          non-<dodf>null</dodf> vbluf for <dodf>LARGE_ICON_KEY</dodf> or
+ *          <dodf>SMALL_ICON</dodf>.
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>displbyfdMnfmonidIndfx</dodf></b>
+ *      <td>All buttons
+ *      <td><dodf>DISPLAYED_MNEMONIC_INDEX_KEY</dodf>
+ *      <td>If thf vbluf of <dodf>DISPLAYED_MNEMONIC_INDEX_KEY</dodf> is
+ *          bfyond thf bounds of thf tfxt, it is ignorfd.  Whfn
+ *          <dodf>sftAdtion</dodf> is dbllfd, if thf vbluf from thf
+ *          <dodf>Adtion</dodf> is <dodf>null</dodf>, thf displbyfd
+ *          mnfmonid indfx is not updbtfd.  In bny subsfqufnt dhbngfs to
+ *          <dodf>DISPLAYED_MNEMONIC_INDEX_KEY</dodf>, <dodf>null</dodf>
+ *          is trfbtfd bs -1.
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>idon</dodf></b>
+ *      <td>All buttons fxdfpt of <dodf>JChfdkBox</dodf>,
+ *      <dodf>JTogglfButton</dodf> bnd <dodf>JRbdioButton</dodf>.
+ *      <td>fithfr <dodf>LARGE_ICON_KEY</dodf> or
+ *          <dodf>SMALL_ICON</dodf>
+ *     <td>Thf <dodf>JMfnuItfm</dodf> subdlbssfs only usf
+ *         <dodf>SMALL_ICON</dodf>.  All othfr buttons will usf
+ *         <dodf>LARGE_ICON_KEY</dodf>; if thf vbluf is <dodf>null</dodf> thfy
+ *         usf <dodf>SMALL_ICON</dodf>.
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>bddflfrbtor</dodf></b>
+ *      <td>All <dodf>JMfnuItfm</dodf> subdlbssfs, with thf fxdfption of
+ *          <dodf>JMfnu</dodf>.
+ *      <td><dodf>ACCELERATOR_KEY</dodf>
+ *      <td>&nbsp;
+ *  <tr vblign="top"  blign="lfft">
+ *      <td><b><dodf>sflfdtfd</dodf></b>
+ *      <td><dodf>JTogglfButton</dodf>, <dodf>JChfdkBox</dodf>,
+ *          <dodf>JRbdioButton</dodf>, <dodf>JChfdkBoxMfnuItfm</dodf> bnd
+ *          <dodf>JRbdioButtonMfnuItfm</dodf>
+ *      <td><dodf>SELECTED_KEY</dodf>
+ *      <td>Componfnts thbt honor this propfrty only usf
+ *          thf vbluf if it is {@dodf non-null}. For fxbmplf, if
+ *          you sft bn {@dodf Adtion} thbt hbs b {@dodf null}
+ *          vbluf for {@dodf SELECTED_KEY} on b {@dodf JTogglfButton}, thf
+ *          {@dodf JTogglfButton} will not updbtf it's sflfdtfd stbtf in
+ *          bny wby. Similbrly, bny timf thf {@dodf JTogglfButton}'s
+ *          sflfdtfd stbtf dhbngfs it will only sft thf vbluf bbdk on
+ *          thf {@dodf Adtion} if thf {@dodf Adtion} hbs b {@dodf non-null}
+ *          vbluf for {@dodf SELECTED_KEY}.
+ *          <br>
+ *          Componfnts thbt honor this propfrty kffp thfir sflfdtfd stbtf
+ *          in synd with this propfrty. Whfn thf sbmf {@dodf Adtion} is usfd
+ *          with multiplf domponfnts, bll thf domponfnts kffp thfir sflfdtfd
+ *          stbtf in synd with this propfrty. Mutublly fxdlusivf
+ *          buttons, sudh bs {@dodf JTogglfButton}s in b {@dodf ButtonGroup},
+ *          fordf only onf of thf buttons to bf sflfdtfd. As sudh, do not
+ *          usf thf sbmf {@dodf Adtion} thbt dffinfs b vbluf for thf
+ *          {@dodf SELECTED_KEY} propfrty with multiplf mutublly
+ *          fxdlusivf buttons.
+ * </tbblf>
+ * <p>
+ * <dodf>JPopupMfnu</dodf>, <dodf>JToolBbr</dodf> bnd <dodf>JMfnu</dodf>
+ * bll providf donvfnifndf mfthods for drfbting b domponfnt bnd sftting thf
+ * <dodf>Adtion</dodf> on thf dorrfsponding domponfnt.  Rfffr to fbdh of
+ * thfsf dlbssfs for morf informbtion.
+ * <p>
+ * <dodf>Adtion</dodf> usfs <dodf>PropfrtyChbngfListfnfr</dodf> to
+ * inform listfnfrs thf <dodf>Adtion</dodf> hbs dhbngfd.  Thf bfbns
+ * spfdifidbtion indidbtfs thbt b <dodf>null</dodf> propfrty nbmf dbn
+ * bf usfd to indidbtf multiplf vblufs hbvf dhbngfd.  By dffbult Swing
+ * domponfnts thbt tbkf bn <dodf>Adtion</dodf> do not hbndlf sudh b
+ * dhbngf.  To indidbtf thbt Swing should trfbt <dodf>null</dodf>
+ * bddording to thf bfbns spfdifidbtion sft thf systfm propfrty
+ * <dodf>swing.bdtions.rfdonfigurfOnNull</dodf> to thf <dodf>String</dodf>
+ * vbluf <dodf>truf</dodf>.
+ *
+ * @buthor Gforgfs Sbbb
+ * @sff AbstrbdtAdtion
+ * @sindf 1.2
+ */
+publid intfrfbdf Adtion fxtfnds AdtionListfnfr {
+    /**
+     * Usfful donstbnts thbt dbn bf usfd bs thf storbgf-rftrifvbl kfy
+     * whfn sftting or gftting onf of this objfdt's propfrtifs (tfxt
+     * or idon).
+     */
+    /**
+     * Not durrfntly usfd.
+     */
+    publid stbtid finbl String DEFAULT = "Dffbult";
+    /**
+     * Thf kfy usfd for storing thf <dodf>String</dodf> nbmf
+     * for thf bdtion, usfd for b mfnu or button.
+     */
+    publid stbtid finbl String NAME = "Nbmf";
+    /**
+     * Thf kfy usfd for storing b short <dodf>String</dodf>
+     * dfsdription for thf bdtion, usfd for tooltip tfxt.
+     */
+    publid stbtid finbl String SHORT_DESCRIPTION = "ShortDfsdription";
+    /**
+     * Thf kfy usfd for storing b longfr <dodf>String</dodf>
+     * dfsdription for thf bdtion, dould bf usfd for dontfxt-sfnsitivf hflp.
+     */
+    publid stbtid finbl String LONG_DESCRIPTION = "LongDfsdription";
+    /**
+     * Thf kfy usfd for storing b smbll <dodf>Idon</dodf>, sudh
+     * bs <dodf>ImbgfIdon</dodf>.  This is typidblly usfd with
+     * mfnus sudh bs <dodf>JMfnuItfm</dodf>.
+     * <p>
+     * If thf sbmf <dodf>Adtion</dodf> is usfd with mfnus bnd buttons you'll
+     * typidblly spfdify both b <dodf>SMALL_ICON</dodf> bnd b
+     * <dodf>LARGE_ICON_KEY</dodf>.  Thf mfnu will usf thf
+     * <dodf>SMALL_ICON</dodf> bnd thf button will usf thf
+     * <dodf>LARGE_ICON_KEY</dodf>.
+     */
+    publid stbtid finbl String SMALL_ICON = "SmbllIdon";
+
+    /**
+     * Thf kfy usfd to dftfrminf thf dommbnd <dodf>String</dodf> for thf
+     * <dodf>AdtionEvfnt</dodf> thbt will bf drfbtfd whfn bn
+     * <dodf>Adtion</dodf> is going to bf notififd bs thf rfsult of
+     * rfsiding in b <dodf>Kfymbp</dodf> bssodibtfd with b
+     * <dodf>JComponfnt</dodf>.
+     */
+    publid stbtid finbl String ACTION_COMMAND_KEY = "AdtionCommbndKfy";
+
+    /**
+     * Thf kfy usfd for storing b <dodf>KfyStrokf</dodf> to bf usfd bs thf
+     * bddflfrbtor for thf bdtion.
+     *
+     * @sindf 1.3
+     */
+    publid stbtid finbl String ACCELERATOR_KEY="AddflfrbtorKfy";
+
+    /**
+     * Thf kfy usfd for storing bn <dodf>Intfgfr</dodf> thbt dorrfsponds to
+     * onf of thf <dodf>KfyEvfnt</dodf> kfy dodfs.  Thf vbluf is
+     * dommonly usfd to spfdify b mnfmonid.  For fxbmplf:
+     * <dodf>myAdtion.putVbluf(Adtion.MNEMONIC_KEY, KfyEvfnt.VK_A)</dodf>
+     * sfts thf mnfmonid of <dodf>myAdtion</dodf> to 'b', whilf
+     * <dodf>myAdtion.putVbluf(Adtion.MNEMONIC_KEY, KfyEvfnt.gftExtfndfdKfyCodfForChbr('\u0444'))</dodf>
+     * sfts thf mnfmonid of <dodf>myAdtion</dodf> to Cyrillid lfttfr "Ef".
+     *
+     * @sindf 1.3
+     */
+    publid stbtid finbl String MNEMONIC_KEY="MnfmonidKfy";
+
+    /**
+     * Thf kfy usfd for storing b <dodf>Boolfbn</dodf> thbt dorrfsponds
+     * to thf sflfdtfd stbtf.  This is typidblly usfd only for domponfnts
+     * thbt hbvf b mfbningful sflfdtion stbtf.  For fxbmplf,
+     * <dodf>JRbdioButton</dodf> bnd <dodf>JChfdkBox</dodf> mbkf usf of
+     * this but instbndfs of <dodf>JMfnu</dodf> don't.
+     * <p>
+     * This propfrty difffrs from thf othfrs in thbt it is both rfbd
+     * by thf domponfnt bnd sft by thf domponfnt.  For fxbmplf,
+     * if bn <dodf>Adtion</dodf> is bttbdhfd to b <dodf>JChfdkBox</dodf>
+     * thf sflfdtfd stbtf of thf <dodf>JChfdkBox</dodf> will bf sft from
+     * thbt of thf <dodf>Adtion</dodf>.  If thf usfr dlidks on thf
+     * <dodf>JChfdkBox</dodf> thf sflfdtfd stbtf of thf <dodf>JChfdkBox</dodf>
+     * <b>bnd</b> thf <dodf>Adtion</dodf> will <b>both</b> bf updbtfd.
+     * <p>
+     * Notf: thf vbluf of this fifld is prffixfd with 'Swing' to
+     * bvoid possiblf dollisions with fxisting <dodf>Adtions</dodf>.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl String SELECTED_KEY = "SwingSflfdtfdKfy";
+
+    /**
+     * Thf kfy usfd for storing bn <dodf>Intfgfr</dodf> thbt dorrfsponds
+     * to thf indfx in thf tfxt (idfntififd by thf <dodf>NAME</dodf>
+     * propfrty) thbt thf dfdorbtion for b mnfmonid should bf rfndfrfd bt.  If
+     * thf vbluf of this propfrty is grfbtfr thbn or fqubl to thf lfngth of
+     * thf tfxt, it will trfbtfd bs -1.
+     * <p>
+     * Notf: thf vbluf of this fifld is prffixfd with 'Swing' to
+     * bvoid possiblf dollisions with fxisting <dodf>Adtions</dodf>.
+     *
+     * @sff AbstrbdtButton#sftDisplbyfdMnfmonidIndfx
+     * @sindf 1.6
+     */
+    publid stbtid finbl String DISPLAYED_MNEMONIC_INDEX_KEY =
+                                 "SwingDisplbyfdMnfmonidIndfxKfy";
+
+    /**
+     * Thf kfy usfd for storing bn <dodf>Idon</dodf>.  This is typidblly
+     * usfd by buttons, sudh bs <dodf>JButton</dodf> bnd
+     * <dodf>JTogglfButton</dodf>.
+     * <p>
+     * If thf sbmf <dodf>Adtion</dodf> is usfd with mfnus bnd buttons you'll
+     * typidblly spfdify both b <dodf>SMALL_ICON</dodf> bnd b
+     * <dodf>LARGE_ICON_KEY</dodf>.  Thf mfnu will usf thf
+     * <dodf>SMALL_ICON</dodf> bnd thf button thf <dodf>LARGE_ICON_KEY</dodf>.
+     * <p>
+     * Notf: thf vbluf of this fifld is prffixfd with 'Swing' to
+     * bvoid possiblf dollisions with fxisting <dodf>Adtions</dodf>.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl String LARGE_ICON_KEY = "SwingLbrgfIdonKfy";
+
+    /**
+     * Gfts onf of this objfdt's propfrtifs
+     * using thf bssodibtfd kfy.
+     *
+     * @pbrbm kfy b {@dodf String} dontbining thf kfy
+     * @rfturn thf {@dodf Objfdt} vbluf
+     * @sff #putVbluf
+     */
+    publid Objfdt gftVbluf(String kfy);
+    /**
+     * Sfts onf of this objfdt's propfrtifs
+     * using thf bssodibtfd kfy. If thf vbluf hbs
+     * dhbngfd, b <dodf>PropfrtyChbngfEvfnt</dodf> is sfnt
+     * to listfnfrs.
+     *
+     * @pbrbm kfy    b <dodf>String</dodf> dontbining thf kfy
+     * @pbrbm vbluf  bn <dodf>Objfdt</dodf> vbluf
+     */
+    publid void putVbluf(String kfy, Objfdt vbluf);
+
+    /**
+     * Sfts thf fnbblfd stbtf of thf <dodf>Adtion</dodf>.  Whfn fnbblfd,
+     * bny domponfnt bssodibtfd with this objfdt is bdtivf bnd
+     * bblf to firf this objfdt's <dodf>bdtionPfrformfd</dodf> mfthod.
+     * If thf vbluf hbs dhbngfd, b <dodf>PropfrtyChbngfEvfnt</dodf> is sfnt
+     * to listfnfrs.
+     *
+     * @pbrbm  b truf to fnbblf this <dodf>Adtion</dodf>, fblsf to disbblf it
+     */
+    publid void sftEnbblfd(boolfbn b);
+    /**
+     * Rfturns thf fnbblfd stbtf of thf <dodf>Adtion</dodf>. Whfn fnbblfd,
+     * bny domponfnt bssodibtfd with this objfdt is bdtivf bnd
+     * bblf to firf this objfdt's <dodf>bdtionPfrformfd</dodf> mfthod.
+     *
+     * @rfturn truf if this <dodf>Adtion</dodf> is fnbblfd
+     */
+    publid boolfbn isEnbblfd();
+
+    /**
+     * Adds b <dodf>PropfrtyChbngf</dodf> listfnfr. Contbinfrs bnd bttbdhfd
+     * domponfnts usf thfsf mfthods to rfgistfr intfrfst in this
+     * <dodf>Adtion</dodf> objfdt. Whfn its fnbblfd stbtf or othfr propfrty
+     * dhbngfs, thf rfgistfrfd listfnfrs brf informfd of thf dhbngf.
+     *
+     * @pbrbm listfnfr  b <dodf>PropfrtyChbngfListfnfr</dodf> objfdt
+     */
+    publid void bddPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr);
+    /**
+     * Rfmovfs b <dodf>PropfrtyChbngf</dodf> listfnfr.
+     *
+     * @pbrbm listfnfr  b <dodf>PropfrtyChbngfListfnfr</dodf> objfdt
+     * @sff #bddPropfrtyChbngfListfnfr
+     */
+    publid void rfmovfPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr);
+
+}

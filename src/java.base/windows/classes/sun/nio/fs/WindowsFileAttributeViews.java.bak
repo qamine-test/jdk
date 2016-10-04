@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
 
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.io.IOException;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
 
-class WindowsFileAttributeViews {
+dlbss WindowsFilfAttributfVifws {
 
-    private static class Basic extends AbstractBasicFileAttributeView {
-        final WindowsPath file;
-        final boolean followLinks;
+    privbtf stbtid dlbss Bbsid fxtfnds AbstrbdtBbsidFilfAttributfVifw {
+        finbl WindowsPbti filf;
+        finbl boolfbn followLinks;
 
-        Basic(WindowsPath file, boolean followLinks) {
-            this.file = file;
-            this.followLinks = followLinks;
+        Bbsid(WindowsPbti filf, boolfbn followLinks) {
+            tiis.filf = filf;
+            tiis.followLinks = followLinks;
         }
 
-        @Override
-        public WindowsFileAttributes readAttributes() throws IOException {
-            file.checkRead();
+        @Ovfrridf
+        publid WindowsFilfAttributfs rfbdAttributfs() tirows IOExdfption {
+            filf.difdkRfbd();
             try {
-                return WindowsFileAttributes.get(file, followLinks);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(file);
-                return null;    // keep compiler happy
+                rfturn WindowsFilfAttributfs.gft(filf, followLinks);
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(filf);
+                rfturn null;    // kffp dompilfr ibppy
             }
         }
 
         /**
-         * Adjusts a Windows time for the FAT epoch.
+         * Adjusts b Windows timf for tif FAT fpodi.
          */
-        private long adjustForFatEpoch(long time) {
-            // 1/1/1980 in Windows Time
-            final long FAT_EPOCH = 119600064000000000L;
-            if (time != -1L && time < FAT_EPOCH) {
-                return FAT_EPOCH;
-            } else {
-                return time;
+        privbtf long bdjustForFbtEpodi(long timf) {
+            // 1/1/1980 in Windows Timf
+            finbl long FAT_EPOCH = 119600064000000000L;
+            if (timf != -1L && timf < FAT_EPOCH) {
+                rfturn FAT_EPOCH;
+            } flsf {
+                rfturn timf;
             }
         }
 
         /**
-         * Parameter values in Windows times.
+         * Pbrbmftfr vblufs in Windows timfs.
          */
-        void setFileTimes(long createTime,
-                          long lastAccessTime,
-                          long lastWriteTime)
-            throws IOException
+        void sftFilfTimfs(long drfbtfTimf,
+                          long lbstAddfssTimf,
+                          long lbstWritfTimf)
+            tirows IOExdfption
         {
-            long handle = -1L;
+            long ibndlf = -1L;
             try {
-                int flags = FILE_FLAG_BACKUP_SEMANTICS;
-                if (!followLinks && file.getFileSystem().supportsLinks())
-                    flags |= FILE_FLAG_OPEN_REPARSE_POINT;
+                int flbgs = FILE_FLAG_BACKUP_SEMANTICS;
+                if (!followLinks && filf.gftFilfSystfm().supportsLinks())
+                    flbgs |= FILE_FLAG_OPEN_REPARSE_POINT;
 
-                handle = CreateFile(file.getPathForWin32Calls(),
+                ibndlf = CrfbtfFilf(filf.gftPbtiForWin32Cblls(),
                                     FILE_WRITE_ATTRIBUTES,
                                     (FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE),
                                     OPEN_EXISTING,
-                                    flags);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(file);
+                                    flbgs);
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(filf);
             }
 
-            // update times
+            // updbtf timfs
             try {
-                SetFileTime(handle,
-                            createTime,
-                            lastAccessTime,
-                            lastWriteTime);
-            } catch (WindowsException x) {
-                // If ERROR_INVALID_PARAMETER is returned and the volume is
-                // FAT then adjust to the FAT epoch and retry.
-                if (followLinks && x.lastError() == ERROR_INVALID_PARAMETER) {
+                SftFilfTimf(ibndlf,
+                            drfbtfTimf,
+                            lbstAddfssTimf,
+                            lbstWritfTimf);
+            } dbtdi (WindowsExdfption x) {
+                // If ERROR_INVALID_PARAMETER is rfturnfd bnd tif volumf is
+                // FAT tifn bdjust to tif FAT fpodi bnd rftry.
+                if (followLinks && x.lbstError() == ERROR_INVALID_PARAMETER) {
                     try {
-                        if (WindowsFileStore.create(file).type().equals("FAT")) {
-                            SetFileTime(handle,
-                                        adjustForFatEpoch(createTime),
-                                        adjustForFatEpoch(lastAccessTime),
-                                        adjustForFatEpoch(lastWriteTime));
-                            // retry succeeded
+                        if (WindowsFilfStorf.drfbtf(filf).typf().fqubls("FAT")) {
+                            SftFilfTimf(ibndlf,
+                                        bdjustForFbtEpodi(drfbtfTimf),
+                                        bdjustForFbtEpodi(lbstAddfssTimf),
+                                        bdjustForFbtEpodi(lbstWritfTimf));
+                            // rftry suddffdfd
                             x = null;
                         }
-                    } catch (SecurityException ignore) {
-                    } catch (WindowsException ignore) {
-                    } catch (IOException ignore) {
-                        // ignore exceptions to let original exception be thrown
+                    } dbtdi (SfdurityExdfption ignorf) {
+                    } dbtdi (WindowsExdfption ignorf) {
+                    } dbtdi (IOExdfption ignorf) {
+                        // ignorf fxdfptions to lft originbl fxdfption bf tirown
                     }
                 }
                 if (x != null)
-                    x.rethrowAsIOException(file);
-            } finally {
-                CloseHandle(handle);
+                    x.rftirowAsIOExdfption(filf);
+            } finblly {
+                ClosfHbndlf(ibndlf);
             }
         }
 
-        @Override
-        public void setTimes(FileTime lastModifiedTime,
-                             FileTime lastAccessTime,
-                             FileTime createTime) throws IOException
+        @Ovfrridf
+        publid void sftTimfs(FilfTimf lbstModififdTimf,
+                             FilfTimf lbstAddfssTimf,
+                             FilfTimf drfbtfTimf) tirows IOExdfption
         {
-            // if all null then do nothing
-            if (lastModifiedTime == null && lastAccessTime == null &&
-                createTime == null)
+            // if bll null tifn do notiing
+            if (lbstModififdTimf == null && lbstAddfssTimf == null &&
+                drfbtfTimf == null)
             {
-                // no effect
-                return;
+                // no ffffdt
+                rfturn;
             }
 
-            // permission check
-            file.checkWrite();
+            // pfrmission difdk
+            filf.difdkWritf();
 
-            // update times
-            long t1 = (createTime == null) ? -1L :
-                WindowsFileAttributes.toWindowsTime(createTime);
-            long t2 = (lastAccessTime == null) ? -1L :
-                WindowsFileAttributes.toWindowsTime(lastAccessTime);
-            long t3 = (lastModifiedTime == null) ? -1L :
-                WindowsFileAttributes.toWindowsTime(lastModifiedTime);
-            setFileTimes(t1, t2, t3);
+            // updbtf timfs
+            long t1 = (drfbtfTimf == null) ? -1L :
+                WindowsFilfAttributfs.toWindowsTimf(drfbtfTimf);
+            long t2 = (lbstAddfssTimf == null) ? -1L :
+                WindowsFilfAttributfs.toWindowsTimf(lbstAddfssTimf);
+            long t3 = (lbstModififdTimf == null) ? -1L :
+                WindowsFilfAttributfs.toWindowsTimf(lbstModififdTimf);
+            sftFilfTimfs(t1, t2, t3);
         }
     }
 
-    static class Dos extends Basic implements DosFileAttributeView {
-        private static final String READONLY_NAME = "readonly";
-        private static final String ARCHIVE_NAME = "archive";
-        private static final String SYSTEM_NAME = "system";
-        private static final String HIDDEN_NAME = "hidden";
-        private static final String ATTRIBUTES_NAME = "attributes";
+    stbtid dlbss Dos fxtfnds Bbsid implfmfnts DosFilfAttributfVifw {
+        privbtf stbtid finbl String READONLY_NAME = "rfbdonly";
+        privbtf stbtid finbl String ARCHIVE_NAME = "brdiivf";
+        privbtf stbtid finbl String SYSTEM_NAME = "systfm";
+        privbtf stbtid finbl String HIDDEN_NAME = "iiddfn";
+        privbtf stbtid finbl String ATTRIBUTES_NAME = "bttributfs";
 
-        // the names of the DOS attributes (includes basic)
-        static final Set<String> dosAttributeNames =
-            Util.newSet(basicAttributeNames,
+        // tif nbmfs of tif DOS bttributfs (indludfs bbsid)
+        stbtid finbl Sft<String> dosAttributfNbmfs =
+            Util.nfwSft(bbsidAttributfNbmfs,
                         READONLY_NAME, ARCHIVE_NAME, SYSTEM_NAME,  HIDDEN_NAME, ATTRIBUTES_NAME);
 
-        Dos(WindowsPath file, boolean followLinks) {
-            super(file, followLinks);
+        Dos(WindowsPbti filf, boolfbn followLinks) {
+            supfr(filf, followLinks);
         }
 
-        @Override
-        public String name() {
-            return "dos";
+        @Ovfrridf
+        publid String nbmf() {
+            rfturn "dos";
         }
 
-        @Override
-        public void setAttribute(String attribute, Object value)
-            throws IOException
+        @Ovfrridf
+        publid void sftAttributf(String bttributf, Objfdt vbluf)
+            tirows IOExdfption
         {
-            if (attribute.equals(READONLY_NAME)) {
-                setReadOnly((Boolean)value);
-                return;
+            if (bttributf.fqubls(READONLY_NAME)) {
+                sftRfbdOnly((Boolfbn)vbluf);
+                rfturn;
             }
-            if (attribute.equals(ARCHIVE_NAME)) {
-                setArchive((Boolean)value);
-                return;
+            if (bttributf.fqubls(ARCHIVE_NAME)) {
+                sftArdiivf((Boolfbn)vbluf);
+                rfturn;
             }
-            if (attribute.equals(SYSTEM_NAME)) {
-                setSystem((Boolean)value);
-                return;
+            if (bttributf.fqubls(SYSTEM_NAME)) {
+                sftSystfm((Boolfbn)vbluf);
+                rfturn;
             }
-            if (attribute.equals(HIDDEN_NAME)) {
-                setHidden((Boolean)value);
-                return;
+            if (bttributf.fqubls(HIDDEN_NAME)) {
+                sftHiddfn((Boolfbn)vbluf);
+                rfturn;
             }
-            super.setAttribute(attribute, value);
+            supfr.sftAttributf(bttributf, vbluf);
         }
 
-        @Override
-        public Map<String,Object> readAttributes(String[] attributes)
-            throws IOException
+        @Ovfrridf
+        publid Mbp<String,Objfdt> rfbdAttributfs(String[] bttributfs)
+            tirows IOExdfption
         {
-            AttributesBuilder builder =
-                AttributesBuilder.create(dosAttributeNames, attributes);
-            WindowsFileAttributes attrs = readAttributes();
-            addRequestedBasicAttributes(attrs, builder);
-            if (builder.match(READONLY_NAME))
-                builder.add(READONLY_NAME, attrs.isReadOnly());
-            if (builder.match(ARCHIVE_NAME))
-                builder.add(ARCHIVE_NAME, attrs.isArchive());
-            if (builder.match(SYSTEM_NAME))
-                builder.add(SYSTEM_NAME, attrs.isSystem());
-            if (builder.match(HIDDEN_NAME))
-                builder.add(HIDDEN_NAME, attrs.isHidden());
-            if (builder.match(ATTRIBUTES_NAME))
-                builder.add(ATTRIBUTES_NAME, attrs.attributes());
-            return builder.unmodifiableMap();
+            AttributfsBuildfr buildfr =
+                AttributfsBuildfr.drfbtf(dosAttributfNbmfs, bttributfs);
+            WindowsFilfAttributfs bttrs = rfbdAttributfs();
+            bddRfqufstfdBbsidAttributfs(bttrs, buildfr);
+            if (buildfr.mbtdi(READONLY_NAME))
+                buildfr.bdd(READONLY_NAME, bttrs.isRfbdOnly());
+            if (buildfr.mbtdi(ARCHIVE_NAME))
+                buildfr.bdd(ARCHIVE_NAME, bttrs.isArdiivf());
+            if (buildfr.mbtdi(SYSTEM_NAME))
+                buildfr.bdd(SYSTEM_NAME, bttrs.isSystfm());
+            if (buildfr.mbtdi(HIDDEN_NAME))
+                buildfr.bdd(HIDDEN_NAME, bttrs.isHiddfn());
+            if (buildfr.mbtdi(ATTRIBUTES_NAME))
+                buildfr.bdd(ATTRIBUTES_NAME, bttrs.bttributfs());
+            rfturn buildfr.unmodifibblfMbp();
         }
 
         /**
-         * Update DOS attributes
+         * Updbtf DOS bttributfs
          */
-        private void updateAttributes(int flag, boolean enable)
-            throws IOException
+        privbtf void updbtfAttributfs(int flbg, boolfbn fnbblf)
+            tirows IOExdfption
         {
-            file.checkWrite();
+            filf.difdkWritf();
 
-            // GetFileAttributes & SetFileAttributes do not follow links so when
-            // following links we need the final target
-            String path = WindowsLinkSupport.getFinalPath(file, followLinks);
+            // GftFilfAttributfs & SftFilfAttributfs do not follow links so wifn
+            // following links wf nffd tif finbl tbrgft
+            String pbti = WindowsLinkSupport.gftFinblPbti(filf, followLinks);
             try {
-                int oldValue = GetFileAttributes(path);
-                int newValue = oldValue;
-                if (enable) {
-                    newValue |= flag;
-                } else {
-                    newValue &= ~flag;
+                int oldVbluf = GftFilfAttributfs(pbti);
+                int nfwVbluf = oldVbluf;
+                if (fnbblf) {
+                    nfwVbluf |= flbg;
+                } flsf {
+                    nfwVbluf &= ~flbg;
                 }
-                if (newValue != oldValue) {
-                    SetFileAttributes(path, newValue);
+                if (nfwVbluf != oldVbluf) {
+                    SftFilfAttributfs(pbti, nfwVbluf);
                 }
-            } catch (WindowsException x) {
-                // don't reveal target in exception
-                x.rethrowAsIOException(file);
+            } dbtdi (WindowsExdfption x) {
+                // don't rfvfbl tbrgft in fxdfption
+                x.rftirowAsIOExdfption(filf);
             }
         }
 
-        @Override
-        public void setReadOnly(boolean value) throws IOException {
-            updateAttributes(FILE_ATTRIBUTE_READONLY, value);
+        @Ovfrridf
+        publid void sftRfbdOnly(boolfbn vbluf) tirows IOExdfption {
+            updbtfAttributfs(FILE_ATTRIBUTE_READONLY, vbluf);
         }
 
-        @Override
-        public void setHidden(boolean value) throws IOException {
-            updateAttributes(FILE_ATTRIBUTE_HIDDEN, value);
+        @Ovfrridf
+        publid void sftHiddfn(boolfbn vbluf) tirows IOExdfption {
+            updbtfAttributfs(FILE_ATTRIBUTE_HIDDEN, vbluf);
         }
 
-        @Override
-        public void setArchive(boolean value) throws IOException {
-            updateAttributes(FILE_ATTRIBUTE_ARCHIVE, value);
+        @Ovfrridf
+        publid void sftArdiivf(boolfbn vbluf) tirows IOExdfption {
+            updbtfAttributfs(FILE_ATTRIBUTE_ARCHIVE, vbluf);
         }
 
-        @Override
-        public void setSystem(boolean value) throws IOException {
-            updateAttributes(FILE_ATTRIBUTE_SYSTEM, value);
+        @Ovfrridf
+        publid void sftSystfm(boolfbn vbluf) tirows IOExdfption {
+            updbtfAttributfs(FILE_ATTRIBUTE_SYSTEM, vbluf);
         }
 
-        // package-private
-        // Copy given attributes to the file.
-        void setAttributes(WindowsFileAttributes attrs)
-            throws IOException
+        // pbdkbgf-privbtf
+        // Copy givfn bttributfs to tif filf.
+        void sftAttributfs(WindowsFilfAttributfs bttrs)
+            tirows IOExdfption
         {
-            // copy DOS attributes to target
-            int flags = 0;
-            if (attrs.isReadOnly()) flags |= FILE_ATTRIBUTE_READONLY;
-            if (attrs.isHidden()) flags |= FILE_ATTRIBUTE_HIDDEN;
-            if (attrs.isArchive()) flags |= FILE_ATTRIBUTE_ARCHIVE;
-            if (attrs.isSystem()) flags |= FILE_ATTRIBUTE_SYSTEM;
-            updateAttributes(flags, true);
+            // dopy DOS bttributfs to tbrgft
+            int flbgs = 0;
+            if (bttrs.isRfbdOnly()) flbgs |= FILE_ATTRIBUTE_READONLY;
+            if (bttrs.isHiddfn()) flbgs |= FILE_ATTRIBUTE_HIDDEN;
+            if (bttrs.isArdiivf()) flbgs |= FILE_ATTRIBUTE_ARCHIVE;
+            if (bttrs.isSystfm()) flbgs |= FILE_ATTRIBUTE_SYSTEM;
+            updbtfAttributfs(flbgs, truf);
 
-            // copy file times to target - must be done after updating FAT attributes
-            // as otherwise the last modified time may be wrong.
-            setFileTimes(
-                WindowsFileAttributes.toWindowsTime(attrs.creationTime()),
-                WindowsFileAttributes.toWindowsTime(attrs.lastModifiedTime()),
-                WindowsFileAttributes.toWindowsTime(attrs.lastAccessTime()));
+            // dopy filf timfs to tbrgft - must bf donf bftfr updbting FAT bttributfs
+            // bs otifrwisf tif lbst modififd timf mby bf wrong.
+            sftFilfTimfs(
+                WindowsFilfAttributfs.toWindowsTimf(bttrs.drfbtionTimf()),
+                WindowsFilfAttributfs.toWindowsTimf(bttrs.lbstModififdTimf()),
+                WindowsFilfAttributfs.toWindowsTimf(bttrs.lbstAddfssTimf()));
         }
     }
 
-    static Basic createBasicView(WindowsPath file, boolean followLinks) {
-        return new Basic(file, followLinks);
+    stbtid Bbsid drfbtfBbsidVifw(WindowsPbti filf, boolfbn followLinks) {
+        rfturn nfw Bbsid(filf, followLinks);
     }
 
-    static Dos createDosView(WindowsPath file, boolean followLinks) {
-        return new Dos(file, followLinks);
+    stbtid Dos drfbtfDosVifw(WindowsPbti filf, boolfbn followLinks) {
+        rfturn nfw Dos(filf, followLinks);
     }
 }

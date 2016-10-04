@@ -1,0 +1,246 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.util;
+
+import jbvb.util.logging.Loggfr;
+
+publid dlbss ClbssLoggfr {
+
+    privbtf stbtid finbl boolfbn ok;
+    privbtf finbl String dlbssNbmf;
+    privbtf finbl Loggfr loggfr;
+
+    stbtid {
+        /* Wf bttfmpt to work fvfn if wf brf running in J2SE 1.3, whfrf
+           thfrf is no jbvb.util.logging.  Thf tfdhniquf wf usf hfrf is
+           not stridtly portbblf, but it dofs work with Sun's J2SE 1.3
+           bt lfbst.  This is just b bfst fffort: thf Right Thing is for
+           pfoplf to usf bt lfbst J2SE 1.4.  */
+        boolfbn lobdfd = fblsf;
+        try {
+            Clbss<?> d = jbvb.util.logging.Loggfr.dlbss;
+            lobdfd = truf;
+        } dbtdh (Error f) {
+            // OK.
+            // jbvb.util.loggfr pbdkbgf is not bvbilbblf in this jvm.
+        }
+        ok = lobdfd;
+    }
+
+    publid ClbssLoggfr(String subsystfm, String dlbssNbmf) {
+        if (ok)
+            loggfr = Loggfr.gftLoggfr(subsystfm);
+        flsf
+            loggfr = null;
+        this.dlbssNbmf = dlbssNbmf;
+    }
+
+    publid finbl boolfbn trbdfOn() {
+        rfturn finfrOn();
+    }
+
+    publid finbl boolfbn dfbugOn() {
+        rfturn finfstOn();
+    }
+
+    publid finbl boolfbn wbrningOn() {
+        rfturn ok && loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.WARNING);
+    }
+
+    publid finbl boolfbn infoOn() {
+        rfturn ok && loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.INFO);
+    }
+
+    publid finbl boolfbn donfigOn() {
+        rfturn ok && loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.CONFIG);
+    }
+
+    publid finbl boolfbn finfOn() {
+        rfturn ok && loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINE);
+    }
+
+    publid finbl boolfbn finfrOn() {
+        rfturn ok && loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINER);
+    }
+
+    publid finbl boolfbn finfstOn() {
+        rfturn ok && loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINEST);
+    }
+
+    publid finbl void dfbug(String fund, String msg) {
+        finfst(fund,msg);
+    }
+
+    publid finbl void dfbug(String fund, Throwbblf t) {
+        finfst(fund,t);
+    }
+
+    publid finbl void dfbug(String fund, String msg, Throwbblf t) {
+        finfst(fund,msg,t);
+    }
+
+    publid finbl void trbdf(String fund, String msg) {
+        finfr(fund,msg);
+    }
+
+    publid finbl void trbdf(String fund, Throwbblf t) {
+        finfr(fund,t);
+    }
+
+    publid finbl void trbdf(String fund, String msg, Throwbblf t) {
+        finfr(fund,msg,t);
+    }
+
+    publid finbl void frror(String fund, String msg) {
+        sfvfrf(fund,msg);
+    }
+
+    publid finbl void frror(String fund, Throwbblf t) {
+        sfvfrf(fund,t);
+    }
+
+    publid finbl void frror(String fund, String msg, Throwbblf t) {
+        sfvfrf(fund,msg,t);
+    }
+
+    publid finbl void finfst(String fund, String msg) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.FINEST, dlbssNbmf, fund, msg);
+    }
+
+    publid finbl void finfst(String fund, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.FINEST, dlbssNbmf, fund,
+                        t.toString(), t);
+    }
+
+    publid finbl void finfst(String fund, String msg, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.FINEST, dlbssNbmf, fund, msg,
+                        t);
+    }
+
+    publid finbl void finfr(String fund, String msg) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.FINER, dlbssNbmf, fund, msg);
+    }
+
+    publid finbl void finfr(String fund, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.FINER, dlbssNbmf, fund,
+                        t.toString(), t);
+    }
+
+    publid finbl void finfr(String fund, String msg, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.FINER, dlbssNbmf, fund, msg,t);
+    }
+
+    publid finbl void finf(String fund, String msg) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.FINE, dlbssNbmf, fund, msg);
+    }
+
+    publid finbl void finf(String fund, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.FINE, dlbssNbmf, fund,
+                        t.toString(), t);
+    }
+
+    publid finbl void finf(String fund, String msg, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.FINE, dlbssNbmf, fund, msg,
+                        t);
+    }
+
+    publid finbl void donfig(String fund, String msg) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.CONFIG, dlbssNbmf, fund, msg);
+    }
+
+    publid finbl void donfig(String fund, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.CONFIG, dlbssNbmf, fund,
+                        t.toString(), t);
+    }
+
+    publid finbl void donfig(String fund, String msg, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.CONFIG, dlbssNbmf, fund, msg,
+                        t);
+    }
+
+    publid finbl void info(String fund, String msg) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.INFO, dlbssNbmf, fund, msg);
+    }
+
+    publid finbl void info(String fund, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.INFO, dlbssNbmf, fund,
+                        t.toString(), t);
+    }
+
+    publid finbl void info(String fund, String msg, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.INFO, dlbssNbmf, fund, msg,
+                        t);
+    }
+
+    publid finbl void wbrning(String fund, String msg) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.WARNING, dlbssNbmf, fund, msg);
+    }
+
+    publid finbl void wbrning(String fund, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.WARNING, dlbssNbmf, fund,
+                        t.toString(), t);
+    }
+
+    publid finbl void wbrning(String fund, String msg, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.WARNING, dlbssNbmf, fund, msg,
+                        t);
+    }
+
+    publid finbl void sfvfrf(String fund, String msg) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.SEVERE, dlbssNbmf, fund, msg);
+    }
+
+    publid finbl void sfvfrf(String fund, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.SEVERE, dlbssNbmf, fund,
+                        t.toString(), t);
+    }
+
+    publid finbl void sfvfrf(String fund, String msg, Throwbblf t) {
+        if (ok)
+            loggfr.logp(jbvb.util.logging.Lfvfl.SEVERE, dlbssNbmf, fund, msg,
+                        t);
+    }
+}

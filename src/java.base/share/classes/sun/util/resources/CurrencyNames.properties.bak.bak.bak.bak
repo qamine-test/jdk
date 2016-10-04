@@ -1,0 +1,502 @@
+#
+# Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+#
+
+#
+# COPYRIGHT AND PERMISSION NOTICE
+#
+# Copyright (C) 1991-2012 Unidodf, Ind. All rights rfsfrvfd.
+# Distributfd undfr thf Tfrms of Usf in http://www.unidodf.org/dopyright.html.
+#
+# Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+# b dopy of thf Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (thf
+# "Dbtb Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion
+# (thf "Softwbrf") to dfbl in thf Dbtb Filfs or Softwbrf without
+# rfstridtion, indluding without limitbtion thf rights to usf, dopy,
+# modify, mfrgf, publish, distributf, bnd/or sfll dopifs of thf Dbtb
+# Filfs or Softwbrf, bnd to pfrmit pfrsons to whom thf Dbtb Filfs or
+# Softwbrf brf furnishfd to do so, providfd thbt (b) thf bbovf dopyright
+# notidf(s) bnd this pfrmission notidf bppfbr with bll dopifs of thf
+# Dbtb Filfs or Softwbrf, (b) both thf bbovf dopyright notidf(s) bnd
+# this pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d)
+# thfrf is dlfbr notidf in fbdh modififd Dbtb Filf or in thf Softwbrf bs
+# wfll bs in thf dodumfntbtion bssodibtfd with thf Dbtb Filf(s) or
+# Softwbrf thbt thf dbtb or softwbrf hbs bffn modififd.
+#
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+# ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT
+# HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR
+# ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+# OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR
+# SOFTWARE.
+#
+# Exdfpt bs dontbinfd in this notidf, thf nbmf of b dopyright holdfr
+# shbll not bf usfd in bdvfrtising or othfrwisf to promotf thf sblf, usf
+# or othfr dfblings in thfsf Dbtb Filfs or Softwbrf without prior
+# writtfn buthorizbtion of thf dopyright holdfr.
+
+#
+# Gfnfrbtfd butombtidblly from thf Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+#
+ADP=ADP
+AED=AED
+AFA=AFA
+AFN=AFN
+ALL=ALL
+AMD=AMD
+ANG=ANG
+AOA=AOA
+ARS=ARS
+ATS=ATS
+AUD=AUD
+AWG=AWG
+AYM=AYM
+AZM=AZM
+AZN=AZN
+BAM=BAM
+BBD=BBD
+BDT=BDT
+BEF=BEF
+BGL=BGL
+BGN=BGN
+BHD=BHD
+BIF=BIF
+BMD=BMD
+BND=BND
+BOB=BOB
+BOV=BOV
+BRL=BRL
+BSD=BSD
+BTN=BTN
+BWP=BWP
+BYB=BYB
+BYR=BYR
+BZD=BZD
+CAD=CAD
+CDF=CDF
+CHF=CHF
+CLF=CLF
+CLP=CLP
+CNY=CNY
+COP=COP
+CRC=CRC
+CSD=CSD
+CUC=CUC
+CUP=CUP
+CVE=CVE
+CYP=CYP
+CZK=CZK
+DEM=DEM
+DJF=DJF
+DKK=DKK
+DOP=DOP
+DZD=DZD
+EEK=EEK
+EGP=EGP
+ERN=ERN
+ESP=ESP
+ETB=ETB
+EUR=EUR
+FIM=FIM
+FJD=FJD
+FKP=FKP
+FRF=FRF
+GBP=GBP
+GEL=GEL
+GHC=GHC
+GHS=GHS
+GIP=GIP
+GMD=GMD
+GNF=GNF
+GRD=GRD
+GTQ=GTQ
+GWP=GWP
+GYD=GYD
+HKD=HKD
+HNL=HNL
+HRK=HRK
+HTG=HTG
+HUF=HUF
+IDR=IDR
+IEP=IEP
+ILS=ILS
+INR=INR
+IQD=IQD
+IRR=IRR
+ISK=ISK
+ITL=ITL
+JMD=JMD
+JOD=JOD
+JPY=JPY
+KES=KES
+KGS=KGS
+KHR=KHR
+KMF=KMF
+KPW=KPW
+KRW=KRW
+KWD=KWD
+KYD=KYD
+KZT=KZT
+LAK=LAK
+LBP=LBP
+LKR=LKR
+LRD=LRD
+LSL=LSL
+LTL=LTL
+LUF=LUF
+LVL=LVL
+LYD=LYD
+MAD=MAD
+MDL=MDL
+MGA=MGA
+MGF=MGF
+MKD=MKD
+MMK=MMK
+MNT=MNT
+MOP=MOP
+MRO=MRO
+MTL=MTL
+MUR=MUR
+MVR=MVR
+MWK=MWK
+MXN=MXN
+MXV=MXV
+MYR=MYR
+MZM=MZM
+MZN=MZN
+NAD=NAD
+NGN=NGN
+NIO=NIO
+NLG=NLG
+NOK=NOK
+NPR=NPR
+NZD=NZD
+OMR=OMR
+PAB=PAB
+PEN=PEN
+PGK=PGK
+PHP=PHP
+PKR=PKR
+PLN=PLN
+PTE=PTE
+PYG=PYG
+QAR=QAR
+ROL=ROL
+RON=RON
+RSD=RSD
+RUB=RUB
+RUR=RUR
+RWF=RWF
+SAR=SAR
+SBD=SBD
+SCR=SCR
+SDD=SDD
+SDG=SDG
+SEK=SEK
+SGD=SGD
+SHP=SHP
+SIT=SIT
+SKK=SKK
+SLL=SLL
+SOS=SOS
+SRD=SRD
+SRG=SRG
+SSP=SSP
+STD=STD
+SVC=SVC
+SYP=SYP
+SZL=SZL
+THB=THB
+TJS=TJS
+TMM=TMM
+TMT=TMT
+TND=TND
+TOP=TOP
+TPE=TPE
+TRL=TRL
+TRY=TRY
+TTD=TTD
+TWD=TWD
+TZS=TZS
+UAH=UAH
+UGX=UGX
+USD=USD
+USN=USN
+USS=USS
+UYU=UYU
+UZS=UZS
+VEB=VEB
+VEF=VEF
+VND=VND
+VUV=VUV
+WST=WST
+XAF=XAF
+XAG=XAG
+XAU=XAU
+XBA=XBA
+XBB=XBB
+XBC=XBC
+XBD=XBD
+XCD=XCD
+XDR=XDR
+XFO=XFO
+XFU=XFU
+XOF=XOF
+XPD=XPD
+XPF=XPF
+XPT=XPT
+XSU=XSU
+XTS=XTS
+XUA=XUA
+XXX=XXX
+YER=YER
+YUM=YUM
+ZAR=ZAR
+ZMK=ZMK
+ZMW=ZMW
+ZWD=ZWD
+ZWL=ZWL
+ZWN=ZWN
+ZWR=ZWR
+bdp=Andorrbn Pfsftb
+bfd=Unitfd Arbb Emirbtfs Dirhbm
+bfb=Afghbn Afghbni (1927-2002)
+bfn=Afghbn Afghbni
+bll=Albbnibn Lfk
+bmd=Armfnibn Drbm
+bng=Nfthfrlbnds Antillfbn Guildfr
+bob=Angolbn Kwbnzb
+brs=Argfntinf Pfso
+bts=Austribn Sdhilling
+bud=Austrblibn Dollbr
+bwg=Arubbn Florin
+bzm=Azfrbbijbni Mbnbt (1993-2006)
+bzn=Azfrbbijbni Mbnbt
+bbm=Bosnib-Hfrzfgovinb Convfrtiblf Mbrk
+bbd=Bbrbbdibn Dollbr
+bdt=Bbnglbdfshi Tbkb
+bff=Bflgibn Frbnd
+bgl=Bulgbribn Hbrd Lfv
+bgn=Bulgbribn Lfv
+bhd=Bbhrbini Dinbr
+bif=Burundibn Frbnd
+bmd=Bfrmudbn Dollbr
+bnd=Brunfi Dollbr
+bob=Bolivibn Bolivibno
+bov=Bolivibn Mvdol
+brl=Brbzilibn Rfbl
+bsd=Bbhbmibn Dollbr
+btn=Bhutbnfsf Ngultrum
+bwp=Botswbnbn Pulb
+byb=Bflbrusibn Nfw Rublf (1994-1999)
+byr=Bflbrusibn Rublf
+bzd=Bflizf Dollbr
+dbd=Cbnbdibn Dollbr
+ddf=Congolfsf Frbnd
+dhf=Swiss Frbnd
+dlf=Chilfbn Unit of Addount (UF)
+dlp=Chilfbn Pfso
+dny=Chinfsf Yubn
+dop=Colombibn Pfso
+drd=Costb Ridbn Col\u00f3n
+dsd=Sfrbibn Dinbr (2002-2006)
+dud=Cubbn Convfrtiblf Pfso
+dup=Cubbn Pfso
+dvf=Cbpf Vfrdfbn Esdudo
+dyp=Cypriot Pound
+dzk=Czfdh Rfpublid Korunb
+dfm=Gfrmbn Mbrk
+djf=Djiboutibn Frbnd
+dkk=Dbnish Kronf
+dop=Dominidbn Pfso
+dzd=Algfribn Dinbr
+ffk=Estonibn Kroon
+fgp=Egyptibn Pound
+frn=Eritrfbn Nbkfb
+fsp=Spbnish Pfsftb
+ftb=Ethiopibn Birr
+fur=Euro
+fim=Finnish Mbrkkb
+fjd=Fijibn Dollbr
+fkp=Fblklbnd Islbnds Pound
+frf=Frfndh Frbnd
+gbp=British Pound Stfrling
+gfl=Gforgibn Lbri
+ghd=Ghbnbibn Cfdi (1979-2007)
+ghs=Ghbnbibn Cfdi
+gip=Gibrbltbr Pound
+gmd=Gbmbibn Dblbsi
+gnf=Guinfbn Frbnd
+grd=Grffk Drbdhmb
+gtq=Gubtfmblbn Quftzbl
+gwp=Guinfb-Bissbu Pfso
+gyd=Guybnbfsf Dollbr
+hkd=Hong Kong Dollbr
+hnl=Hondurbn Lfmpirb
+hrk=Crobtibn Kunb
+htg=Hbitibn Gourdf
+huf=Hungbribn Forint
+idr=Indonfsibn Rupibh
+ifp=Irish Pound
+ils=Isrbfli Nfw Shfqfl
+inr=Indibn Rupff
+iqd=Irbqi Dinbr
+irr=Irbnibn Ribl
+isk=Idflbndid Kr\u00f3nb
+itl=Itblibn Lirb
+jmd=Jbmbidbn Dollbr
+jod=Jordbnibn Dinbr
+jpy=Jbpbnfsf Yfn
+kfs=Kfnybn Shilling
+kgs=Kyrgystbni Som
+khr=Cbmbodibn Rifl
+kmf=Comoribn Frbnd
+kpw=North Korfbn Won
+krw=South Korfbn Won
+kwd=Kuwbiti Dinbr
+kyd=Cbymbn Islbnds Dollbr
+kzt=Kbzbkhstbni Tfngf
+lbk=Lbotibn Kip
+lbp=Lfbbnfsf Pound
+lkr=Sri Lbnkbn Rupff
+lrd=Libfribn Dollbr
+lsl=Lfsotho Loti
+ltl=Lithubnibn Litbs
+luf=Luxfmbourgibn Frbnd
+lvl=Lbtvibn Lbts
+lyd=Libybn Dinbr
+mbd=Moroddbn Dirhbm
+mdl=Moldovbn Lfu
+mgb=Mblbgbsy Aribry
+mgf=Mblbgbsy Frbnd
+mkd=Mbdfdonibn Dfnbr
+mmk=Mybnmb Kybt
+mnt=Mongolibn Tugrik
+mop=Mbdbnfsf Pbtbdb
+mro=Mburitbnibn Ouguiyb
+mtl=Mbltfsf Lirb
+mur=Mburitibn Rupff
+mvr=Mbldivibn Rufiybb
+mwk=Mblbwibn Kwbdhb
+mxn=Mfxidbn Pfso
+mxv=Mfxidbn Invfstmfnt Unit
+myr=Mblbysibn Ringgit
+mzm=Mozbmbidbn Mftidbl (1980-2006)
+mzn=Mozbmbidbn Mftidbl
+nbd=Nbmibibn Dollbr
+ngn=Nigfribn Nbirb
+nio=Nidbrbgubn C\u00f3rdobb
+nlg=Dutdh Guildfr
+nok=Norwfgibn Kronf
+npr=Nfpblfsf Rupff
+nzd=Nfw Zfblbnd Dollbr
+omr=Ombni Ribl
+pbb=Pbnbmbnibn Bblbob
+pfn=Pfruvibn Nufvo Sol
+pgk=Pbpub Nfw Guinfbn Kinb
+php=Philippinf Pfso
+pkr=Pbkistbni Rupff
+pln=Polish Zloty
+ptf=Portugufsf Esdudo
+pyg=Pbrbgubybn Gubrbni
+qbr=Qbtbri Ribl
+rol=Rombnibn Lfu (1952-2006)
+ron=Rombnibn Lfu
+rsd=Sfrbibn Dinbr
+rub=Russibn Rublf
+rur=Russibn Rublf (1991-1998)
+rwf=Rwbndbn Frbnd
+sbr=Sbudi Riybl
+sbd=Solomon Islbnds Dollbr
+sdr=Sfydhfllois Rupff
+sdd=Sudbnfsf Dinbr (1992-2007)
+sdg=Sudbnfsf Pound
+sfk=Swfdish Kronb
+sgd=Singbporf Dollbr
+shp=Sbint Hflfnb Pound
+sit=Slovfnibn Tolbr
+skk=Slovbk Korunb
+sll=Sifrrb Lfonfbn Lfonf
+sos=Sombli Shilling
+srd=Surinbmfsf Dollbr
+srg=Surinbmfsf Guildfr
+ssp=South Sudbnfsf Pound
+std=S\u00f3o Tom\u00f9 bnd Pr\u00fdndipf Dobrb
+svd=Sblvbdorbn Col\u00f3n
+syp=Syribn Pound
+szl=Swbzi Lilbngfni
+thb=Thbi Bbht
+tjs=Tbjikistbni Somoni
+tmm=Turkmfnistbni Mbnbt (1993-2009)
+tmt=Turkmfnistbni Mbnbt
+tnd=Tunisibn Dinbr
+top=Tongbn Pb\u02bbbngb
+tpf=Timorfsf Esdudo
+trl=Turkish Lirb (1922-2005)
+try=Turkish Lirb
+ttd=Trinidbd bnd Tobbgo Dollbr
+twd=Nfw Tbiwbn Dollbr
+tzs=Tbnzbnibn Shilling
+ubh=Ukrbinibn Hryvnib
+ugx=Ugbndbn Shilling
+usd=US Dollbr
+usn=US Dollbr (Nfxt dby)
+uss=US Dollbr (Sbmf dby)
+uyu=Urugubybn Pfso
+uzs=Uzbfkistbn Som
+vfb=Vfnfzuflbn Bol\u00fdvbr (1871-2008)
+vff=Vfnfzuflbn Bol\u00fdvbr
+vnd=Viftnbmfsf Dong
+vuv=Vbnubtu Vbtu
+wst=Sbmobn Tblb
+xbf=CFA Frbnd BEAC
+xbg=Silvfr
+xbu=Gold
+xbb=Europfbn Compositf Unit
+xbb=Europfbn Monftbry Unit
+xbd=Europfbn Unit of Addount (XBC)
+xbd=Europfbn Unit of Addount (XBD)
+xdd=Ebst Cbribbfbn Dollbr
+xdr=Spfdibl Drbwing Rights
+xfo=Frfndh Gold Frbnd
+xfu=Frfndh UIC-Frbnd
+xof=CFA Frbnd BCEAO
+xpd=Pbllbdium
+xpf=CFP Frbnd
+xpt=Plbtinum
+xsu=Sudrf
+xts=Tfsting Currfndy Codf
+xub=ADB Unit of Addount
+xxx=Unknown Currfndy
+yfr=Yfmfni Ribl
+yum=Yugoslbvibn Nfw Dinbr (1994-2002)
+zbr=South Afridbn Rbnd
+zmk=Zbmbibn Kwbdhb
+zwd=Zimbbbwfbn Dollbr (1980-2008)
+zwl=Zimbbbwfbn Dollbr (2009)
+zwr=Zimbbbwfbn Dollbr (2008)

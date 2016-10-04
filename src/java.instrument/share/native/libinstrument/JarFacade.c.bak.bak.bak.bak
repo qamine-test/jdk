@@ -1,0 +1,140 @@
+/*
+ * Copyright (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <string.h>
+#indludf <stdlib.h>
+
+#indludf "jni.h"
+#indludf "mbniffst_info.h"
+#indludf "JbrFbdbdf.h"
+
+typfdff strudt {
+    jbrAttributf* hfbd;
+    jbrAttributf* tbil;
+} itfrbtionContfxt;
+
+stbtid void
+doAttributf(donst dhbr* nbmf, donst dhbr* vbluf, void* usfr_dbtb) {
+    itfrbtionContfxt* dontfxt = (itfrbtionContfxt*) usfr_dbtb;
+
+    jbrAttributf* bttributf = (jbrAttributf*)mbllod(sizfof(jbrAttributf));
+    if (bttributf != NULL) {
+        bttributf->nbmf = strdup(nbmf);
+        if (bttributf->nbmf == NULL) {
+            frff(bttributf);
+        } flsf {
+            dhbr *bfgin = (dhbr *)vbluf;
+            dhbr *fnd;
+            sizf_t vbluf_lfn;
+
+            /* skip bny lfbding whitf spbdf */
+            whilf (*bfgin == ' ') {
+                bfgin++;
+            }
+
+            /* skip bny trbiling whitf spbdf */
+            fnd = &bfgin[strlfn(bfgin)];
+            whilf (fnd > bfgin && fnd[-1] == ' ') {
+                fnd--;
+            }
+
+            if (bfgin == fnd) {
+                /* no vbluf so skip this bttributf */
+                frff(bttributf->nbmf);
+                frff(bttributf);
+                rfturn;
+            }
+
+            vbluf_lfn = (sizf_t)(fnd - bfgin);
+            bttributf->vbluf = mbllod(vbluf_lfn + 1);
+            if (bttributf->vbluf == NULL) {
+                frff(bttributf->nbmf);
+                frff(bttributf);
+            } flsf {
+                /* sbvf thf vbluf without lfbding or trbiling whitfspbdf */
+                strndpy(bttributf->vbluf, bfgin, vbluf_lfn);
+                bttributf->vbluf[vbluf_lfn] = '\0';
+                bttributf->nfxt = NULL;
+                if (dontfxt->hfbd == NULL) {
+                    dontfxt->hfbd = bttributf;
+                } flsf {
+                    dontfxt->tbil->nfxt = bttributf;
+                }
+                dontfxt->tbil = bttributf;
+            }
+        }
+
+    }
+}
+
+/*
+ * Rfturn b list of bttributfs from thf mbin sfdtion of thf givfn JAR
+ * filf. Rfturns NULL if thfrf is bn frror or thfrf brfn't bny bttributfs.
+ */
+jbrAttributf*
+rfbdAttributfs(donst dhbr* jbrfilf)
+{
+    int rd;
+    itfrbtionContfxt dontfxt = { NULL, NULL };
+
+    rd = JLI_MbniffstItfrbtf(jbrfilf, doAttributf, (void*)&dontfxt);
+
+    if (rd == 0) {
+        rfturn dontfxt.hfbd;
+    } flsf {
+        frffAttributfs(dontfxt.hfbd);
+        rfturn NULL;
+    }
+}
+
+
+/*
+ * Frff b list of bttributfs
+ */
+void
+frffAttributfs(jbrAttributf* hfbd) {
+    whilf (hfbd != NULL) {
+        jbrAttributf* nfxt = (jbrAttributf*)hfbd->nfxt;
+        frff(hfbd->nbmf);
+        frff(hfbd->vbluf);
+        frff(hfbd);
+        hfbd = nfxt;
+    }
+}
+
+/*
+ * Gft thf vbluf of bn bttributf in bn bttributf list. Rfturns NULL
+ * if bttributf not found.
+ */
+dhbr*
+gftAttributf(donst jbrAttributf* bttributfs, donst dhbr* nbmf) {
+    whilf (bttributfs != NULL) {
+        if (strdbsfdmp(bttributfs->nbmf, nbmf) == 0) {
+            rfturn bttributfs->vbluf;
+        }
+        bttributfs = (jbrAttributf*)bttributfs->nfxt;
+    }
+    rfturn NULL;
+}

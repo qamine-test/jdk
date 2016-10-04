@@ -1,404 +1,404 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Collfdtions;
 
-public class StackFrameImpl extends MirrorImpl
-                            implements StackFrame, ThreadListener
+publid dlbss StbdkFrbmfImpl fxtfnds MirrorImpl
+                            implfmfnts StbdkFrbmf, TirfbdListfnfr
 {
-    /* Once false, frame should not be used.
-     * access synchronized on (vm.state())
+    /* Ondf fblsf, frbmf siould not bf usfd.
+     * bddfss syndironizfd on (vm.stbtf())
      */
-    private boolean isValid = true;
+    privbtf boolfbn isVblid = truf;
 
-    private final ThreadReferenceImpl thread;
-    private final long id;
-    private final Location location;
-    private Map<String, LocalVariable> visibleVariables =  null;
-    private ObjectReference thisObject = null;
+    privbtf finbl TirfbdRfffrfndfImpl tirfbd;
+    privbtf finbl long id;
+    privbtf finbl Lodbtion lodbtion;
+    privbtf Mbp<String, LodblVbribblf> visiblfVbribblfs =  null;
+    privbtf ObjfdtRfffrfndf tiisObjfdt = null;
 
-    StackFrameImpl(VirtualMachine vm, ThreadReferenceImpl thread,
-                   long id, Location location) {
-        super(vm);
-        this.thread = thread;
-        this.id = id;
-        this.location = location;
-        thread.addListener(this);
+    StbdkFrbmfImpl(VirtublMbdiinf vm, TirfbdRfffrfndfImpl tirfbd,
+                   long id, Lodbtion lodbtion) {
+        supfr(vm);
+        tiis.tirfbd = tirfbd;
+        tiis.id = id;
+        tiis.lodbtion = lodbtion;
+        tirfbd.bddListfnfr(tiis);
     }
 
     /*
-     * ThreadListener implementation
-     * Must be synchronized since we must protect against
-     * sending defunct (isValid == false) stack ids to the back-end.
+     * TirfbdListfnfr implfmfntbtion
+     * Must bf syndironizfd sindf wf must protfdt bgbinst
+     * sfnding dffundt (isVblid == fblsf) stbdk ids to tif bbdk-fnd.
      */
-    public boolean threadResumable(ThreadAction action) {
-        synchronized (vm.state()) {
-            if (isValid) {
-                isValid = false;
-                return false;   /* remove this stack frame as a listener */
-            } else {
-                throw new InternalException(
-                                  "Invalid stack frame thread listener");
+    publid boolfbn tirfbdRfsumbblf(TirfbdAdtion bdtion) {
+        syndironizfd (vm.stbtf()) {
+            if (isVblid) {
+                isVblid = fblsf;
+                rfturn fblsf;   /* rfmovf tiis stbdk frbmf bs b listfnfr */
+            } flsf {
+                tirow nfw IntfrnblExdfption(
+                                  "Invblid stbdk frbmf tirfbd listfnfr");
             }
         }
     }
 
-    void validateStackFrame() {
-        if (!isValid) {
-            throw new InvalidStackFrameException("Thread has been resumed");
+    void vblidbtfStbdkFrbmf() {
+        if (!isVblid) {
+            tirow nfw InvblidStbdkFrbmfExdfption("Tirfbd ibs bffn rfsumfd");
         }
     }
 
     /**
-     * Return the frame location.
-     * Need not be synchronized since it cannot be provably stale.
+     * Rfturn tif frbmf lodbtion.
+     * Nffd not bf syndironizfd sindf it dbnnot bf provbbly stblf.
      */
-    public Location location() {
-        validateStackFrame();
-        return location;
+    publid Lodbtion lodbtion() {
+        vblidbtfStbdkFrbmf();
+        rfturn lodbtion;
     }
 
     /**
-     * Return the thread holding the frame.
-     * Need not be synchronized since it cannot be provably stale.
+     * Rfturn tif tirfbd iolding tif frbmf.
+     * Nffd not bf syndironizfd sindf it dbnnot bf provbbly stblf.
      */
-    public ThreadReference thread() {
-        validateStackFrame();
-        return thread;
+    publid TirfbdRfffrfndf tirfbd() {
+        vblidbtfStbdkFrbmf();
+        rfturn tirfbd;
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof StackFrameImpl)) {
-            StackFrameImpl other = (StackFrameImpl)obj;
-            return (id == other.id) &&
-                   (thread().equals(other.thread())) &&
-                   (location().equals(other.location())) &&
-                    super.equals(obj);
-        } else {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof StbdkFrbmfImpl)) {
+            StbdkFrbmfImpl otifr = (StbdkFrbmfImpl)obj;
+            rfturn (id == otifr.id) &&
+                   (tirfbd().fqubls(otifr.tirfbd())) &&
+                   (lodbtion().fqubls(otifr.lodbtion())) &&
+                    supfr.fqubls(obj);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public int hashCode() {
-        return (thread().hashCode() << 4) + ((int)id);
+    publid int ibsiCodf() {
+        rfturn (tirfbd().ibsiCodf() << 4) + ((int)id);
     }
 
-    public ObjectReference thisObject() {
-        validateStackFrame();
-        MethodImpl currentMethod = (MethodImpl)location.method();
-        if (currentMethod.isStatic() || currentMethod.isNative()) {
-            return null;
-        } else {
-            if (thisObject == null) {
-                PacketStream ps;
+    publid ObjfdtRfffrfndf tiisObjfdt() {
+        vblidbtfStbdkFrbmf();
+        MftiodImpl durrfntMftiod = (MftiodImpl)lodbtion.mftiod();
+        if (durrfntMftiod.isStbtid() || durrfntMftiod.isNbtivf()) {
+            rfturn null;
+        } flsf {
+            if (tiisObjfdt == null) {
+                PbdkftStrfbm ps;
 
-                /* protect against defunct frame id */
-                synchronized (vm.state()) {
-                    validateStackFrame();
-                    ps = JDWP.StackFrame.ThisObject.
-                                      enqueueCommand(vm, thread, id);
+                /* protfdt bgbinst dffundt frbmf id */
+                syndironizfd (vm.stbtf()) {
+                    vblidbtfStbdkFrbmf();
+                    ps = JDWP.StbdkFrbmf.TiisObjfdt.
+                                      fnqufufCommbnd(vm, tirfbd, id);
                 }
 
-                /* actually get it, now that order is guaranteed */
+                /* bdtublly gft it, now tibt ordfr is gubrbntffd */
                 try {
-                    thisObject = JDWP.StackFrame.ThisObject.
-                                      waitForReply(vm, ps).objectThis;
-                } catch (JDWPException exc) {
-                    switch (exc.errorCode()) {
-                    case JDWP.Error.INVALID_FRAMEID:
-                    case JDWP.Error.THREAD_NOT_SUSPENDED:
-                    case JDWP.Error.INVALID_THREAD:
-                        throw new InvalidStackFrameException();
-                    default:
-                        throw exc.toJDIException();
+                    tiisObjfdt = JDWP.StbdkFrbmf.TiisObjfdt.
+                                      wbitForRfply(vm, ps).objfdtTiis;
+                } dbtdi (JDWPExdfption fxd) {
+                    switdi (fxd.frrorCodf()) {
+                    dbsf JDWP.Error.INVALID_FRAMEID:
+                    dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+                    dbsf JDWP.Error.INVALID_THREAD:
+                        tirow nfw InvblidStbdkFrbmfExdfption();
+                    dffbult:
+                        tirow fxd.toJDIExdfption();
                     }
                 }
             }
         }
-        return thisObject;
+        rfturn tiisObjfdt;
     }
 
     /**
-     * Build the visible variable map.
-     * Need not be synchronized since it cannot be provably stale.
+     * Build tif visiblf vbribblf mbp.
+     * Nffd not bf syndironizfd sindf it dbnnot bf provbbly stblf.
      */
-    private void createVisibleVariables() throws AbsentInformationException {
-        if (visibleVariables == null) {
-            List<LocalVariable> allVariables = location.method().variables();
-            Map<String, LocalVariable> map = new HashMap<String, LocalVariable>(allVariables.size());
+    privbtf void drfbtfVisiblfVbribblfs() tirows AbsfntInformbtionExdfption {
+        if (visiblfVbribblfs == null) {
+            List<LodblVbribblf> bllVbribblfs = lodbtion.mftiod().vbribblfs();
+            Mbp<String, LodblVbribblf> mbp = nfw HbsiMbp<String, LodblVbribblf>(bllVbribblfs.sizf());
 
-            for (LocalVariable variable : allVariables) {
-                String name = variable.name();
-                if (variable.isVisible(this)) {
-                    LocalVariable existing = map.get(name);
-                    if ((existing == null) ||
-                        ((LocalVariableImpl)variable).hides(existing)) {
-                        map.put(name, variable);
+            for (LodblVbribblf vbribblf : bllVbribblfs) {
+                String nbmf = vbribblf.nbmf();
+                if (vbribblf.isVisiblf(tiis)) {
+                    LodblVbribblf fxisting = mbp.gft(nbmf);
+                    if ((fxisting == null) ||
+                        ((LodblVbribblfImpl)vbribblf).iidfs(fxisting)) {
+                        mbp.put(nbmf, vbribblf);
                     }
                 }
             }
-            visibleVariables = map;
+            visiblfVbribblfs = mbp;
         }
     }
 
     /**
-     * Return the list of visible variable in the frame.
-     * Need not be synchronized since it cannot be provably stale.
+     * Rfturn tif list of visiblf vbribblf in tif frbmf.
+     * Nffd not bf syndironizfd sindf it dbnnot bf provbbly stblf.
      */
-    public List<LocalVariable> visibleVariables() throws AbsentInformationException {
-        validateStackFrame();
-        createVisibleVariables();
-        List<LocalVariable> mapAsList = new ArrayList<LocalVariable>(visibleVariables.values());
-        Collections.sort(mapAsList);
-        return mapAsList;
+    publid List<LodblVbribblf> visiblfVbribblfs() tirows AbsfntInformbtionExdfption {
+        vblidbtfStbdkFrbmf();
+        drfbtfVisiblfVbribblfs();
+        List<LodblVbribblf> mbpAsList = nfw ArrbyList<LodblVbribblf>(visiblfVbribblfs.vblufs());
+        Collfdtions.sort(mbpAsList);
+        rfturn mbpAsList;
     }
 
     /**
-     * Return a particular variable in the frame.
-     * Need not be synchronized since it cannot be provably stale.
+     * Rfturn b pbrtidulbr vbribblf in tif frbmf.
+     * Nffd not bf syndironizfd sindf it dbnnot bf provbbly stblf.
      */
-    public LocalVariable visibleVariableByName(String name) throws AbsentInformationException  {
-        validateStackFrame();
-        createVisibleVariables();
-        return visibleVariables.get(name);
+    publid LodblVbribblf visiblfVbribblfByNbmf(String nbmf) tirows AbsfntInformbtionExdfption  {
+        vblidbtfStbdkFrbmf();
+        drfbtfVisiblfVbribblfs();
+        rfturn visiblfVbribblfs.gft(nbmf);
     }
 
-    public Value getValue(LocalVariable variable) {
-        List<LocalVariable> list = new ArrayList<LocalVariable>(1);
-        list.add(variable);
-        return getValues(list).get(variable);
+    publid Vbluf gftVbluf(LodblVbribblf vbribblf) {
+        List<LodblVbribblf> list = nfw ArrbyList<LodblVbribblf>(1);
+        list.bdd(vbribblf);
+        rfturn gftVblufs(list).gft(vbribblf);
     }
 
-    public Map<LocalVariable, Value> getValues(List<? extends LocalVariable> variables) {
-        validateStackFrame();
-        validateMirrors(variables);
+    publid Mbp<LodblVbribblf, Vbluf> gftVblufs(List<? fxtfnds LodblVbribblf> vbribblfs) {
+        vblidbtfStbdkFrbmf();
+        vblidbtfMirrors(vbribblfs);
 
-        int count = variables.size();
-        JDWP.StackFrame.GetValues.SlotInfo[] slots =
-                           new JDWP.StackFrame.GetValues.SlotInfo[count];
+        int dount = vbribblfs.sizf();
+        JDWP.StbdkFrbmf.GftVblufs.SlotInfo[] slots =
+                           nfw JDWP.StbdkFrbmf.GftVblufs.SlotInfo[dount];
 
-        for (int i=0; i<count; ++i) {
-            LocalVariableImpl variable = (LocalVariableImpl)variables.get(i);
-            if (!variable.isVisible(this)) {
-                throw new IllegalArgumentException(variable.name() +
-                                 " is not valid at this frame location");
+        for (int i=0; i<dount; ++i) {
+            LodblVbribblfImpl vbribblf = (LodblVbribblfImpl)vbribblfs.gft(i);
+            if (!vbribblf.isVisiblf(tiis)) {
+                tirow nfw IllfgblArgumfntExdfption(vbribblf.nbmf() +
+                                 " is not vblid bt tiis frbmf lodbtion");
             }
-            slots[i] = new JDWP.StackFrame.GetValues.SlotInfo(variable.slot(),
-                                      (byte)variable.signature().charAt(0));
+            slots[i] = nfw JDWP.StbdkFrbmf.GftVblufs.SlotInfo(vbribblf.slot(),
+                                      (bytf)vbribblf.signbturf().dibrAt(0));
         }
 
-        PacketStream ps;
+        PbdkftStrfbm ps;
 
-        /* protect against defunct frame id */
-        synchronized (vm.state()) {
-            validateStackFrame();
-            ps = JDWP.StackFrame.GetValues.enqueueCommand(vm, thread, id, slots);
+        /* protfdt bgbinst dffundt frbmf id */
+        syndironizfd (vm.stbtf()) {
+            vblidbtfStbdkFrbmf();
+            ps = JDWP.StbdkFrbmf.GftVblufs.fnqufufCommbnd(vm, tirfbd, id, slots);
         }
 
-        /* actually get it, now that order is guaranteed */
-        ValueImpl[] values;
+        /* bdtublly gft it, now tibt ordfr is gubrbntffd */
+        VblufImpl[] vblufs;
         try {
-            values = JDWP.StackFrame.GetValues.waitForReply(vm, ps).values;
-        } catch (JDWPException exc) {
-            switch (exc.errorCode()) {
-                case JDWP.Error.INVALID_FRAMEID:
-                case JDWP.Error.THREAD_NOT_SUSPENDED:
-                case JDWP.Error.INVALID_THREAD:
-                    throw new InvalidStackFrameException();
-                default:
-                    throw exc.toJDIException();
+            vblufs = JDWP.StbdkFrbmf.GftVblufs.wbitForRfply(vm, ps).vblufs;
+        } dbtdi (JDWPExdfption fxd) {
+            switdi (fxd.frrorCodf()) {
+                dbsf JDWP.Error.INVALID_FRAMEID:
+                dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+                dbsf JDWP.Error.INVALID_THREAD:
+                    tirow nfw InvblidStbdkFrbmfExdfption();
+                dffbult:
+                    tirow fxd.toJDIExdfption();
             }
         }
 
-        if (count != values.length) {
-            throw new InternalException(
-                      "Wrong number of values returned from target VM");
+        if (dount != vblufs.lfngti) {
+            tirow nfw IntfrnblExdfption(
+                      "Wrong numbfr of vblufs rfturnfd from tbrgft VM");
         }
-        Map<LocalVariable, Value> map = new HashMap<LocalVariable, Value>(count);
-        for (int i=0; i<count; ++i) {
-            LocalVariableImpl variable = (LocalVariableImpl)variables.get(i);
-            map.put(variable, values[i]);
+        Mbp<LodblVbribblf, Vbluf> mbp = nfw HbsiMbp<LodblVbribblf, Vbluf>(dount);
+        for (int i=0; i<dount; ++i) {
+            LodblVbribblfImpl vbribblf = (LodblVbribblfImpl)vbribblfs.gft(i);
+            mbp.put(vbribblf, vblufs[i]);
         }
-        return map;
+        rfturn mbp;
     }
 
-    public void setValue(LocalVariable variableIntf, Value valueIntf)
-        throws InvalidTypeException, ClassNotLoadedException {
+    publid void sftVbluf(LodblVbribblf vbribblfIntf, Vbluf vblufIntf)
+        tirows InvblidTypfExdfption, ClbssNotLobdfdExdfption {
 
-        validateStackFrame();
-        validateMirror(variableIntf);
-        validateMirrorOrNull(valueIntf);
+        vblidbtfStbdkFrbmf();
+        vblidbtfMirror(vbribblfIntf);
+        vblidbtfMirrorOrNull(vblufIntf);
 
-        LocalVariableImpl variable = (LocalVariableImpl)variableIntf;
-        ValueImpl value = (ValueImpl)valueIntf;
+        LodblVbribblfImpl vbribblf = (LodblVbribblfImpl)vbribblfIntf;
+        VblufImpl vbluf = (VblufImpl)vblufIntf;
 
-        if (!variable.isVisible(this)) {
-            throw new IllegalArgumentException(variable.name() +
-                             " is not valid at this frame location");
+        if (!vbribblf.isVisiblf(tiis)) {
+            tirow nfw IllfgblArgumfntExdfption(vbribblf.nbmf() +
+                             " is not vblid bt tiis frbmf lodbtion");
         }
 
         try {
-            // Validate and convert value if necessary
-            value = ValueImpl.prepareForAssignment(value, variable);
+            // Vblidbtf bnd donvfrt vbluf if nfdfssbry
+            vbluf = VblufImpl.prfpbrfForAssignmfnt(vbluf, vbribblf);
 
-            JDWP.StackFrame.SetValues.SlotInfo[] slotVals =
-                new JDWP.StackFrame.SetValues.SlotInfo[1];
-            slotVals[0] = new JDWP.StackFrame.SetValues.
-                                       SlotInfo(variable.slot(), value);
+            JDWP.StbdkFrbmf.SftVblufs.SlotInfo[] slotVbls =
+                nfw JDWP.StbdkFrbmf.SftVblufs.SlotInfo[1];
+            slotVbls[0] = nfw JDWP.StbdkFrbmf.SftVblufs.
+                                       SlotInfo(vbribblf.slot(), vbluf);
 
-            PacketStream ps;
+            PbdkftStrfbm ps;
 
-            /* protect against defunct frame id */
-            synchronized (vm.state()) {
-                validateStackFrame();
-                ps = JDWP.StackFrame.SetValues.
-                                     enqueueCommand(vm, thread, id, slotVals);
+            /* protfdt bgbinst dffundt frbmf id */
+            syndironizfd (vm.stbtf()) {
+                vblidbtfStbdkFrbmf();
+                ps = JDWP.StbdkFrbmf.SftVblufs.
+                                     fnqufufCommbnd(vm, tirfbd, id, slotVbls);
             }
 
-            /* actually set it, now that order is guaranteed */
+            /* bdtublly sft it, now tibt ordfr is gubrbntffd */
             try {
-                JDWP.StackFrame.SetValues.waitForReply(vm, ps);
-            } catch (JDWPException exc) {
-                switch (exc.errorCode()) {
-                case JDWP.Error.INVALID_FRAMEID:
-                case JDWP.Error.THREAD_NOT_SUSPENDED:
-                case JDWP.Error.INVALID_THREAD:
-                    throw new InvalidStackFrameException();
-                default:
-                    throw exc.toJDIException();
+                JDWP.StbdkFrbmf.SftVblufs.wbitForRfply(vm, ps);
+            } dbtdi (JDWPExdfption fxd) {
+                switdi (fxd.frrorCodf()) {
+                dbsf JDWP.Error.INVALID_FRAMEID:
+                dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+                dbsf JDWP.Error.INVALID_THREAD:
+                    tirow nfw InvblidStbdkFrbmfExdfption();
+                dffbult:
+                    tirow fxd.toJDIExdfption();
                 }
             }
-        } catch (ClassNotLoadedException e) {
+        } dbtdi (ClbssNotLobdfdExdfption f) {
             /*
-             * Since we got this exception,
-             * the variable type must be a reference type. The value
-             * we're trying to set is null, but if the variable's
-             * class has not yet been loaded through the enclosing
-             * class loader, then setting to null is essentially a
-             * no-op, and we should allow it without an exception.
+             * Sindf wf got tiis fxdfption,
+             * tif vbribblf typf must bf b rfffrfndf typf. Tif vbluf
+             * wf'rf trying to sft is null, but if tif vbribblf's
+             * dlbss ibs not yft bffn lobdfd tirougi tif fndlosing
+             * dlbss lobdfr, tifn sftting to null is fssfntiblly b
+             * no-op, bnd wf siould bllow it witiout bn fxdfption.
              */
-            if (value != null) {
-                throw e;
+            if (vbluf != null) {
+                tirow f;
             }
         }
     }
 
-    public List<Value> getArgumentValues() {
-        validateStackFrame();
-        MethodImpl mmm = (MethodImpl)location.method();
-        List<String> argSigs = mmm.argumentSignatures();
-        int count = argSigs.size();
-        JDWP.StackFrame.GetValues.SlotInfo[] slots =
-                           new JDWP.StackFrame.GetValues.SlotInfo[count];
+    publid List<Vbluf> gftArgumfntVblufs() {
+        vblidbtfStbdkFrbmf();
+        MftiodImpl mmm = (MftiodImpl)lodbtion.mftiod();
+        List<String> brgSigs = mmm.brgumfntSignbturfs();
+        int dount = brgSigs.sizf();
+        JDWP.StbdkFrbmf.GftVblufs.SlotInfo[] slots =
+                           nfw JDWP.StbdkFrbmf.GftVblufs.SlotInfo[dount];
 
         int slot;
-        if (mmm.isStatic()) {
+        if (mmm.isStbtid()) {
             slot = 0;
-        } else {
+        } flsf {
             slot = 1;
         }
-        for (int ii = 0; ii < count; ++ii) {
-            char sigChar = argSigs.get(ii).charAt(0);
-            slots[ii] = new JDWP.StackFrame.GetValues.SlotInfo(slot++,(byte)sigChar);
-            if (sigChar == 'J' || sigChar == 'D') {
+        for (int ii = 0; ii < dount; ++ii) {
+            dibr sigCibr = brgSigs.gft(ii).dibrAt(0);
+            slots[ii] = nfw JDWP.StbdkFrbmf.GftVblufs.SlotInfo(slot++,(bytf)sigCibr);
+            if (sigCibr == 'J' || sigCibr == 'D') {
                 slot++;
             }
         }
 
-        PacketStream ps;
+        PbdkftStrfbm ps;
 
-        /* protect against defunct frame id */
-        synchronized (vm.state()) {
-            validateStackFrame();
-            ps = JDWP.StackFrame.GetValues.enqueueCommand(vm, thread, id, slots);
+        /* protfdt bgbinst dffundt frbmf id */
+        syndironizfd (vm.stbtf()) {
+            vblidbtfStbdkFrbmf();
+            ps = JDWP.StbdkFrbmf.GftVblufs.fnqufufCommbnd(vm, tirfbd, id, slots);
         }
 
-        ValueImpl[] values;
+        VblufImpl[] vblufs;
         try {
-            values = JDWP.StackFrame.GetValues.waitForReply(vm, ps).values;
-        } catch (JDWPException exc) {
-            switch (exc.errorCode()) {
-                case JDWP.Error.INVALID_FRAMEID:
-                case JDWP.Error.THREAD_NOT_SUSPENDED:
-                case JDWP.Error.INVALID_THREAD:
-                    throw new InvalidStackFrameException();
-                default:
-                    throw exc.toJDIException();
+            vblufs = JDWP.StbdkFrbmf.GftVblufs.wbitForRfply(vm, ps).vblufs;
+        } dbtdi (JDWPExdfption fxd) {
+            switdi (fxd.frrorCodf()) {
+                dbsf JDWP.Error.INVALID_FRAMEID:
+                dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+                dbsf JDWP.Error.INVALID_THREAD:
+                    tirow nfw InvblidStbdkFrbmfExdfption();
+                dffbult:
+                    tirow fxd.toJDIExdfption();
             }
         }
 
-        if (count != values.length) {
-            throw new InternalException(
-                      "Wrong number of values returned from target VM");
+        if (dount != vblufs.lfngti) {
+            tirow nfw IntfrnblExdfption(
+                      "Wrong numbfr of vblufs rfturnfd from tbrgft VM");
         }
-        return Arrays.asList((Value[])values);
+        rfturn Arrbys.bsList((Vbluf[])vblufs);
     }
 
-    void pop() throws IncompatibleThreadStateException {
-        validateStackFrame();
-        // flush caches and disable caching until command completion
-        CommandSender sender =
-            new CommandSender() {
-                public PacketStream send() {
-                    return JDWP.StackFrame.PopFrames.enqueueCommand(vm,
-                                 thread, id);
+    void pop() tirows IndompbtiblfTirfbdStbtfExdfption {
+        vblidbtfStbdkFrbmf();
+        // flusi dbdifs bnd disbblf dbdiing until dommbnd domplftion
+        CommbndSfndfr sfndfr =
+            nfw CommbndSfndfr() {
+                publid PbdkftStrfbm sfnd() {
+                    rfturn JDWP.StbdkFrbmf.PopFrbmfs.fnqufufCommbnd(vm,
+                                 tirfbd, id);
                 }
         };
         try {
-            PacketStream stream = thread.sendResumingCommand(sender);
-            JDWP.StackFrame.PopFrames.waitForReply(vm, stream);
-        } catch (JDWPException exc) {
-            switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-                throw new IncompatibleThreadStateException(
-                         "Thread not current or suspended");
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException("zombie");
-            case JDWP.Error.NO_MORE_FRAMES:
-                throw new InvalidStackFrameException(
-                         "No more frames on the stack");
-            default:
-                throw exc.toJDIException();
+            PbdkftStrfbm strfbm = tirfbd.sfndRfsumingCommbnd(sfndfr);
+            JDWP.StbdkFrbmf.PopFrbmfs.wbitForRfply(vm, strfbm);
+        } dbtdi (JDWPExdfption fxd) {
+            switdi (fxd.frrorCodf()) {
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+                tirow nfw IndompbtiblfTirfbdStbtfExdfption(
+                         "Tirfbd not durrfnt or suspfndfd");
+            dbsf JDWP.Error.INVALID_THREAD:   /* zombif */
+                tirow nfw IndompbtiblfTirfbdStbtfExdfption("zombif");
+            dbsf JDWP.Error.NO_MORE_FRAMES:
+                tirow nfw InvblidStbdkFrbmfExdfption(
+                         "No morf frbmfs on tif stbdk");
+            dffbult:
+                tirow fxd.toJDIExdfption();
             }
         }
 
-        // enable caching - suspended again
-        vm.state().freeze();
+        // fnbblf dbdiing - suspfndfd bgbin
+        vm.stbtf().frffzf();
     }
 
-    public String toString() {
-       return location.toString() + " in thread " + thread.toString();
+    publid String toString() {
+       rfturn lodbtion.toString() + " in tirfbd " + tirfbd.toString();
     }
 }

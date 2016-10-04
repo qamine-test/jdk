@@ -1,334 +1,334 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <jni.h>
-#include <stdlib.h>
-#include "jvm.h"
-#include "management.h"
-#include "sun_management_VMManagementImpl.h"
+#indludf <jni.i>
+#indludf <stdlib.i>
+#indludf "jvm.i"
+#indludf "mbnbgfmfnt.i"
+#indludf "sun_mbnbgfmfnt_VMMbnbgfmfntImpl.i"
 
-#define MAX_VERSION_LEN   20
+#dffinf MAX_VERSION_LEN   20
 
 JNIEXPORT jstring JNICALL
-Java_sun_management_VMManagementImpl_getVersion0
-  (JNIEnv *env, jclass dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftVfrsion0
+  (JNIEnv *fnv, jdlbss dummy)
 {
-    char buf[MAX_VERSION_LEN];
-    jstring version_string = NULL;
+    dibr buf[MAX_VERSION_LEN];
+    jstring vfrsion_string = NULL;
 
-    unsigned int major = ((unsigned int) jmm_version & 0x0FFF0000) >> 16;
-    unsigned int minor = ((unsigned int) jmm_version & 0xFF00) >> 8;
+    unsignfd int mbjor = ((unsignfd int) jmm_vfrsion & 0x0FFF0000) >> 16;
+    unsignfd int minor = ((unsignfd int) jmm_vfrsion & 0xFF00) >> 8;
 
-    // for internal use
-    unsigned int micro = (unsigned int) jmm_version & 0xFF;
+    // for intfrnbl usf
+    unsignfd int midro = (unsignfd int) jmm_vfrsion & 0xFF;
 
-    sprintf(buf, "%d.%d", major, minor);
-    version_string = (*env)->NewStringUTF(env, buf);
-    return version_string;
+    sprintf(buf, "%d.%d", mbjor, minor);
+    vfrsion_string = (*fnv)->NfwStringUTF(fnv, buf);
+    rfturn vfrsion_string;
 }
 
-static void setStaticBooleanField
-   (JNIEnv* env, jclass cls, const char* name, jboolean value)
+stbtid void sftStbtidBoolfbnFifld
+   (JNIEnv* fnv, jdlbss dls, donst dibr* nbmf, jboolfbn vbluf)
 {
-    jfieldID fid;
-    fid = (*env)->GetStaticFieldID(env, cls, name, "Z");
+    jfifldID fid;
+    fid = (*fnv)->GftStbtidFifldID(fnv, dls, nbmf, "Z");
     if (fid != 0) {
-        (*env)->SetStaticBooleanField(env, cls, fid, value);
+        (*fnv)->SftStbtidBoolfbnFifld(fnv, dls, fid, vbluf);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_VMManagementImpl_initOptionalSupportFields
-  (JNIEnv *env, jclass cls)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_initOptionblSupportFiflds
+  (JNIEnv *fnv, jdlbss dls)
 {
-    jmmOptionalSupport mos;
-    jint ret = jmm_interface->GetOptionalSupport(env, &mos);
+    jmmOptionblSupport mos;
+    jint rft = jmm_intfrfbdf->GftOptionblSupport(fnv, &mos);
 
-    jboolean value;
+    jboolfbn vbluf;
 
-    value = mos.isCompilationTimeMonitoringSupported;
-    setStaticBooleanField(env, cls, "compTimeMonitoringSupport", value);
+    vbluf = mos.isCompilbtionTimfMonitoringSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "dompTimfMonitoringSupport", vbluf);
 
-    value = mos.isThreadContentionMonitoringSupported;
-    setStaticBooleanField(env, cls, "threadContentionMonitoringSupport", value);
+    vbluf = mos.isTirfbdContfntionMonitoringSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "tirfbdContfntionMonitoringSupport", vbluf);
 
-    value = mos.isCurrentThreadCpuTimeSupported;
-    setStaticBooleanField(env, cls, "currentThreadCpuTimeSupport", value);
+    vbluf = mos.isCurrfntTirfbdCpuTimfSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "durrfntTirfbdCpuTimfSupport", vbluf);
 
-    value = mos.isOtherThreadCpuTimeSupported;
-    setStaticBooleanField(env, cls, "otherThreadCpuTimeSupport", value);
+    vbluf = mos.isOtifrTirfbdCpuTimfSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "otifrTirfbdCpuTimfSupport", vbluf);
 
-    value = mos.isBootClassPathSupported;
-    setStaticBooleanField(env, cls, "bootClassPathSupport", value);
+    vbluf = mos.isBootClbssPbtiSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "bootClbssPbtiSupport", vbluf);
 
-    if (jmm_version >= JMM_VERSION_1_1) {
-        value = mos.isObjectMonitorUsageSupported;
-        setStaticBooleanField(env, cls, "objectMonitorUsageSupport", value);
+    if (jmm_vfrsion >= JMM_VERSION_1_1) {
+        vbluf = mos.isObjfdtMonitorUsbgfSupportfd;
+        sftStbtidBoolfbnFifld(fnv, dls, "objfdtMonitorUsbgfSupport", vbluf);
 
-        value = mos.isSynchronizerUsageSupported;
-        setStaticBooleanField(env, cls, "synchronizerUsageSupport", value);
-    } else {
-        setStaticBooleanField(env, cls, "objectMonitorUsageSupport", JNI_FALSE);
-        setStaticBooleanField(env, cls, "synchronizerUsageSupport", JNI_FALSE);
+        vbluf = mos.isSyndironizfrUsbgfSupportfd;
+        sftStbtidBoolfbnFifld(fnv, dls, "syndironizfrUsbgfSupport", vbluf);
+    } flsf {
+        sftStbtidBoolfbnFifld(fnv, dls, "objfdtMonitorUsbgfSupport", JNI_FALSE);
+        sftStbtidBoolfbnFifld(fnv, dls, "syndironizfrUsbgfSupport", JNI_FALSE);
     }
 
-    value = mos.isThreadAllocatedMemorySupported;
-    setStaticBooleanField(env, cls, "threadAllocatedMemorySupport", value);
+    vbluf = mos.isTirfbdAllodbtfdMfmorySupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "tirfbdAllodbtfdMfmorySupport", vbluf);
 
-    value = mos.isRemoteDiagnosticCommandsSupported;
-    setStaticBooleanField(env, cls, "remoteDiagnosticCommandsSupport", value);
+    vbluf = mos.isRfmotfDibgnostidCommbndsSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "rfmotfDibgnostidCommbndsSupport", vbluf);
 
-    if ((jmm_version > JMM_VERSION_1_2) ||
-        (jmm_version == JMM_VERSION_1_2 && ((jmm_version&0xFF) >= 1))) {
-        setStaticBooleanField(env, cls, "gcNotificationSupport", JNI_TRUE);
-    } else {
-        setStaticBooleanField(env, cls, "gcNotificationSupport", JNI_FALSE);
+    if ((jmm_vfrsion > JMM_VERSION_1_2) ||
+        (jmm_vfrsion == JMM_VERSION_1_2 && ((jmm_vfrsion&0xFF) >= 1))) {
+        sftStbtidBoolfbnFifld(fnv, dls, "gdNotifidbtionSupport", JNI_TRUE);
+    } flsf {
+        sftStbtidBoolfbnFifld(fnv, dls, "gdNotifidbtionSupport", JNI_FALSE);
     }
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_VMManagementImpl_getVmArguments0
-  (JNIEnv *env, jobject dummy)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftVmArgumfnts0
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetInputArgumentArray(env);
+    rfturn jmm_intfrfbdf->GftInputArgumfntArrby(fnv);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getTotalClassCount
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftTotblClbssCount
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    /* JMM_CLASS_LOADED_COUNT is the total number of classes loaded */
-    jlong count = jmm_interface->GetLongAttribute(env, NULL,
+    /* JMM_CLASS_LOADED_COUNT is tif totbl numbfr of dlbssfs lobdfd */
+    jlong dount = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                                   JMM_CLASS_LOADED_COUNT);
-    return count;
+    rfturn dount;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getUnloadedClassCount
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftUnlobdfdClbssCount
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    /* JMM_CLASS_UNLOADED_COUNT is the total number of classes unloaded */
-    jlong count = jmm_interface->GetLongAttribute(env, NULL,
+    /* JMM_CLASS_UNLOADED_COUNT is tif totbl numbfr of dlbssfs unlobdfd */
+    jlong dount = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                                   JMM_CLASS_UNLOADED_COUNT);
-    return count;
+    rfturn dount;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_management_VMManagementImpl_getVerboseGC
-  (JNIEnv *env, jobject dummy)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftVfrbosfGC
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetBoolAttribute(env, JMM_VERBOSE_GC);
+    rfturn jmm_intfrfbdf->GftBoolAttributf(fnv, JMM_VERBOSE_GC);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_management_VMManagementImpl_getVerboseClass
-  (JNIEnv *env, jobject dummy)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftVfrbosfClbss
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetBoolAttribute(env, JMM_VERBOSE_CLASS);
+    rfturn jmm_intfrfbdf->GftBoolAttributf(fnv, JMM_VERBOSE_CLASS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getTotalThreadCount
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftTotblTirfbdCount
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_THREAD_TOTAL_COUNT);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_management_VMManagementImpl_getLiveThreadCount
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftLivfTirfbdCount
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    jlong count = jmm_interface->GetLongAttribute(env, NULL,
+    jlong dount = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                                   JMM_THREAD_LIVE_COUNT);
-    return (jint) count;
+    rfturn (jint) dount;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_management_VMManagementImpl_getPeakThreadCount
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftPfbkTirfbdCount
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    jlong count = jmm_interface->GetLongAttribute(env, NULL,
+    jlong dount = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                                   JMM_THREAD_PEAK_COUNT);
-    return (jint) count;
+    rfturn (jint) dount;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_management_VMManagementImpl_getDaemonThreadCount
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftDbfmonTirfbdCount
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    jlong count = jmm_interface->GetLongAttribute(env, NULL,
+    jlong dount = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                                   JMM_THREAD_DAEMON_COUNT);
-    return (jint) count;
+    rfturn (jint) dount;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getTotalCompileTime
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftTotblCompilfTimf
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_COMPILE_TOTAL_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getStartupTime
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftStbrtupTimf
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_JVM_INIT_DONE_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getUptime0
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftUptimf0
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL, JMM_JVM_UPTIME_MS);
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL, JMM_JVM_UPTIME_MS);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_management_VMManagementImpl_isThreadContentionMonitoringEnabled
-  (JNIEnv *env, jobject dummy)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_isTirfbdContfntionMonitoringEnbblfd
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetBoolAttribute(env,
+    rfturn jmm_intfrfbdf->GftBoolAttributf(fnv,
                                            JMM_THREAD_CONTENTION_MONITORING);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_management_VMManagementImpl_isThreadCpuTimeEnabled
-  (JNIEnv *env, jobject dummy)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_isTirfbdCpuTimfEnbblfd
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetBoolAttribute(env, JMM_THREAD_CPU_TIME);
+    rfturn jmm_intfrfbdf->GftBoolAttributf(fnv, JMM_THREAD_CPU_TIME);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_management_VMManagementImpl_isThreadAllocatedMemoryEnabled
-  (JNIEnv *env, jobject dummy)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_isTirfbdAllodbtfdMfmoryEnbblfd
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetBoolAttribute(env, JMM_THREAD_ALLOCATED_MEMORY);
+    rfturn jmm_intfrfbdf->GftBoolAttributf(fnv, JMM_THREAD_ALLOCATED_MEMORY);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_management_VMManagementImpl_getProcessId
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftProdfssId
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    jlong pid = jmm_interface->GetLongAttribute(env, NULL,
+    jlong pid = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                                 JMM_OS_PROCESS_ID);
-    return (jint) pid;
+    rfturn (jint) pid;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_management_VMManagementImpl_getAvailableProcessors
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftAvbilbblfProdfssors
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return JVM_ActiveProcessorCount();
+    rfturn JVM_AdtivfProdfssorCount();
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getSafepointCount
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftSbffpointCount
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_SAFEPOINT_COUNT);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getTotalSafepointTime
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftTotblSbffpointTimf
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_TOTAL_STOPPED_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getSafepointSyncTime
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftSbffpointSyndTimf
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_TOTAL_SAFEPOINTSYNC_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getTotalApplicationNonStoppedTime
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftTotblApplidbtionNonStoppfdTimf
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_TOTAL_APP_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getLoadedClassSize
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftLobdfdClbssSizf
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_CLASS_LOADED_BYTES);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getUnloadedClassSize
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftUnlobdfdClbssSizf
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_CLASS_UNLOADED_BYTES);
 }
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getClassLoadingTime
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftClbssLobdingTimf
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_TOTAL_CLASSLOAD_TIME_MS);
 }
 
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getMethodDataSize
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftMftiodDbtbSizf
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_METHOD_DATA_SIZE_BYTES);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getInitializedClassCount
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftInitiblizfdClbssCount
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_CLASS_INIT_TOTAL_COUNT);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getClassInitializationTime
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftClbssInitiblizbtionTimf
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_CLASS_INIT_TOTAL_TIME_MS);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_VMManagementImpl_getClassVerificationTime
-  (JNIEnv *env, jobject dummy)
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftClbssVfrifidbtionTimf
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-    return jmm_interface->GetLongAttribute(env, NULL,
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                            JMM_CLASS_VERIFY_TOTAL_TIME_MS);
 }

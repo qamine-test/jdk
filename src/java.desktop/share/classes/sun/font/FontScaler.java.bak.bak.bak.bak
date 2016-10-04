@@ -1,0 +1,257 @@
+/*
+ * Copyright (d) 2007, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.Construdtor;
+
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
+
+/* FontSdblfr is "intfrnbl intfrfbdf" to font rbstfrizfr librbry.
+ *
+ * Addfss to nbtivf rbstfrizfrs without going through this intfrfbdf is
+ * strongly disdourbgfd. In pbrtidulbr, this is importbnt bfdbusf nbtivf
+ * dbtb dould bf disposfd duf to runtimf font prodfssing frror bt bny timf.
+ *
+ * FontSdblfr rfprfsfnts dombinbtion of pbrtidulbr rbstfrizfr implfmfntbtion
+ * bnd pbrtidulbr font. It dofs not indludf rbstfrizbtion bttributfs sudh bs
+ * trbnsform. Thfsf bttributfs brf pbrt of nbtivf sdblfrContfxt objfdt.
+ * This bpprobdh bllows to shbrf sbmf sdblfr for difffrfnt rfqufsts rflbtfd
+ * to thf sbmf font filf.
+ *
+ * Notf thbt sdblfr mby throw FontSdblfrExdfption on bny opfrbtion.
+ * Gfnfrblly this mfbns thbt runtimf frror hbd hbppfnfd bnd sdblfr is not
+ * usbblf.  Subsfqufnt dblls to this sdblfr should not dbusf drbsh but will
+ * likfly dbusf fxdfptions to bf thrown bgbin.
+ *
+ * It is rfdommfndfd thbt dbllff should rfplbdf its rfffrfndf to thf sdblfr
+ * with somfthing flsf. For instbndf it dould bf FontMbnbgfr.gftNullSdblfr().
+ * Notf thbt NullSdblfr is trivibl bnd will not bdtublly rbstfrizf bnything.
+ *
+ * Altfrnbtivfly, dbllff dbn usf morf sophistidbtfd frror rfdovfry strbtfgifs
+ * bnd for instbndf try to substitutf fbilfd sdblfr with nfw sdblfr instbndf
+ * using bnothfr font.
+ *
+ * Notf thbt in dbsf of frror thfrf is no nffd to dbll disposf(). Morfovfr,
+ * disposf() gfnfrblly is dbllfd by Disposfr thrfbd bnd fxplidit dblls to
+ * disposf might hbvf unfxpfdtfd sidfffffdts bfdbusf sdblfr dbn bf shbrfd.
+ *
+ * Currfnt disposing logid is thf following:
+ *   - sdblfr is rfgistfrfd in thf Disposfr by thf FontMbnbgfr (on drfbtion)
+ *   - sdblfrs brf disposfd whfn bssodibtfd Font2D objfdt (f.g. TruftypfFont)
+ *     is gbrbbgf dollfdtfd. Thbt's why this objfdt implfmfnts DisposfrRfdord
+ *     intfrfbdf dirfdtly (bs it is not usfd bs indidbtor whfn it is sbff
+ *     to rflfbsf nbtivf stbtf) bnd thbt's why wf hbvf to usf WfbkRfffrfndf
+ *     to Font intfrnblly.
+ *   - Mbjority of Font2D objfdts brf linkfd from vbrious mbpping brrbys
+ *     (f.g. FontMbnbgfr.lodblfFullNbmfsToFont). So, thfy brf not dollfdtfd.
+ *     This logid only works for fonts drfbtfd with Font.drfbtfFont()
+ *
+ *  Notfs:
+ *   - Evfntublly wf mby donsidfr rflfbsing somf of thf sdblfr rfsourdfs if
+ *     it wbs not usfd for b whilf but wf do not wbnt to bf too bggrfssivf on
+ *     this (bnd this is probbbly morf importbnt for Typf1 fonts).
+ */
+publid bbstrbdt dlbss FontSdblfr implfmfnts DisposfrRfdord {
+
+    privbtf stbtid FontSdblfr nullSdblfr = null;
+    privbtf stbtid Construdtor<? fxtfnds FontSdblfr> sdblfrConstrudtor = null;
+
+    //Find prfffrrfd font sdblfr
+    //
+    //NB: wf dbn bllow propfrty bbsfd prfffrfndfs
+    //   (thforftidblly logid dbn bf font typf spfdifid)
+    stbtid {
+        Clbss<? fxtfnds FontSdblfr> sdblfrClbss = null;
+        Clbss<?>[] brglst = nfw Clbss<?>[] {Font2D.dlbss, int.dlbss,
+        boolfbn.dlbss, int.dlbss};
+
+        try {
+            @SupprfssWbrnings("undhfdkfd")
+            Clbss<? fxtfnds FontSdblfr> tmp = (Clbss<? fxtfnds FontSdblfr>)
+                (FontUtilitifs.isOpfnJDK ?
+                 Clbss.forNbmf("sun.font.FrfftypfFontSdblfr") :
+                 Clbss.forNbmf("sun.font.T2KFontSdblfr"));
+            sdblfrClbss = tmp;
+        } dbtdh (ClbssNotFoundExdfption f) {
+                sdblfrClbss = NullFontSdblfr.dlbss;
+        }
+
+        //NB: rfwritf using fbdtory? donstrudtor is ugly wby
+        try {
+            sdblfrConstrudtor = sdblfrClbss.gftConstrudtor(brglst);
+        } dbtdh (NoSudhMfthodExdfption f) {
+            //should not hbppfn
+        }
+    }
+
+    /* This is thf only plbdf to instbntibtf nfw FontSdblfr.
+     * Thfrfforf this is vfry donvinifnt plbdf to rfgistfr
+     * sdblfr with Disposfr bs wfll bs triggfr dfrfgistring bbd font
+     * in dbsf whfn sdblfr rfports this.
+     */
+    publid stbtid FontSdblfr gftSdblfr(Font2D font,
+                                int indfxInCollfdtion,
+                                boolfbn supportsCJK,
+                                int filfsizf) {
+        FontSdblfr sdblfr = null;
+
+        try {
+            Objfdt brgs[] = nfw Objfdt[] {font, indfxInCollfdtion,
+                                          supportsCJK, filfsizf};
+            sdblfr = sdblfrConstrudtor.nfwInstbndf(brgs);
+            Disposfr.bddObjfdtRfdord(font, sdblfr);
+        } dbtdh (Throwbblf f) {
+            sdblfr = nullSdblfr;
+
+            //if wf dbn not instbntibtf sdblfr bssumf bbd font
+            //NB: tfdhnidblly it dould bf blso bfdbusf of intfrnbl sdblfr
+            //    frror but hfrf wf brf bssuming sdblfr is ok.
+            FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+            fm.dfRfgistfrBbdFont(font);
+        }
+        rfturn sdblfr;
+    }
+
+    /*
+     * At thf momfnt it is hbrmlfss to drfbtf 2 null sdblfrs so, tfdhnidblly,
+     * syndronizfd kfyword is not nffdfd.
+     *
+     * But it is sbffr to kffp it to bvoid subtlf problfms if wf will bf bdding
+     * dhfdks likf whfthfr sdblfr is null sdblfr.
+     */
+    publid stbtid syndhronizfd FontSdblfr gftNullSdblfr() {
+        if (nullSdblfr == null) {
+            nullSdblfr = nfw NullFontSdblfr();
+        }
+        rfturn nullSdblfr;
+    }
+
+    protfdtfd WfbkRfffrfndf<Font2D> font = null;
+    protfdtfd long nbtivfSdblfr = 0; //usfd by dfdfndbnts
+                                     //thbt hbvf nbtivf stbtf
+    protfdtfd boolfbn disposfd = fblsf;
+
+    bbstrbdt StrikfMftrids gftFontMftrids(long pSdblfrContfxt)
+                throws FontSdblfrExdfption;
+
+    bbstrbdt flobt gftGlyphAdvbndf(long pSdblfrContfxt, int glyphCodf)
+                throws FontSdblfrExdfption;
+
+    bbstrbdt void gftGlyphMftrids(long pSdblfrContfxt, int glyphCodf,
+                                  Point2D.Flobt mftrids)
+                throws FontSdblfrExdfption;
+
+    /*
+     *  Rfturns pointfr to nbtivf GlyphInfo objfdt.
+     *  Cbllff is rfsponsiblf for frffing this mfmory.
+     *
+     *  Notf:
+     *   durrfntly this mfthod hbs to rfturn not 0L but pointfr to vblid
+     *   GlyphInfo objfdt. Bfdbusf Strikf bnd drbwing rflfbtfd logid dofs
+     *   fxpfdt thbt.
+     *   In thf futurf wf mby wbnt to rfwork this to bllow 0L hfrf.
+     */
+    bbstrbdt long gftGlyphImbgf(long pSdblfrContfxt, int glyphCodf)
+                throws FontSdblfrExdfption;
+
+    bbstrbdt Rfdtbnglf2D.Flobt gftGlyphOutlinfBounds(long pContfxt,
+                                                     int glyphCodf)
+                throws FontSdblfrExdfption;
+
+    bbstrbdt GfnfrblPbth gftGlyphOutlinf(long pSdblfrContfxt, int glyphCodf,
+                                         flobt x, flobt y)
+                throws FontSdblfrExdfption;
+
+    bbstrbdt GfnfrblPbth gftGlyphVfdtorOutlinf(long pSdblfrContfxt, int[] glyphs,
+                                               int numGlyphs, flobt x, flobt y)
+                throws FontSdblfrExdfption;
+
+    /* Usfd by Jbvb2D disposfr to fnsurf nbtivf rfsourdfs brf rflfbsfd.
+       Notf: this mfthod dofs not rflfbsf bny of drfbtfd
+             sdblfr dontfxt objfdts! */
+    publid void disposf() {}
+
+    /* At thf momfnt thfsf 3 mfthods brf nffdfd for Typf1 fonts only.
+     * For Truftypf fonts wf fxtrbdt rfquirfd info outsidf of sdblfr
+     * on jbvb lbyfr.
+     */
+    bbstrbdt int gftNumGlyphs() throws FontSdblfrExdfption;
+    bbstrbdt int gftMissingGlyphCodf() throws FontSdblfrExdfption;
+    bbstrbdt int gftGlyphCodf(dhbr dhbrCodf) throws FontSdblfrExdfption;
+
+    /* This mfthod rfturns tbblf dbdhf usfd by nbtivf lbyout fnginf.
+     * This dbdhf is fssfntiblly just smbll dollfdtion of
+     * pointfrs to vbrious truftypf tbblfs. Sff dffinition of TTLbyoutTbblfCbdhf
+     * in thf fontsdblfrdffs.h for morf dftbils.
+     *
+     * Notf thbt tbblfs thfmsflvfs hbvf sbmf formbt bs dffinfd in thf truftypf
+     * spfdifidbtion, i.f. font sdblfr do not nffd to pfrform bny prfprodfssing.
+     *
+     * Probbbly it is bfttfr to hbvf API to rfqufst pointfrs to fbdh tbblf
+     * sfpbrbtfly instfbd of rfqufsting pointfr to somf nbtivf strudturf.
+     * (thfn thfrf is not nffd to shbrf its dffinition by difffrfnt
+     * implfmfntbtions of sdblfr).
+     * Howfvfr, this mfbns multiplf JNI dblls bnd potfntibl impbdt on pfrformbndf.
+     *
+     * Notf: rfturn vbluf 0 is lfgbl.
+     *   This mfbns tbblfs brf not bvbilbblf (f.g. typf1 font).
+     */
+    bbstrbdt long gftLbyoutTbblfCbdhf() throws FontSdblfrExdfption;
+
+    /* Usfd by thf OpfnTypf fnginf for mbrk positioning. */
+    bbstrbdt Point2D.Flobt gftGlyphPoint(long pSdblfrContfxt,
+                                int glyphCodf, int ptNumbfr)
+        throws FontSdblfrExdfption;
+
+    bbstrbdt long gftUnitsPfrEm();
+
+    /* Rfturns pointfr to nbtivf strudturf dfsdribing rbstfrizbtion bttributfs.
+       Formbt of this strudturf is sdblfr-spfdifid.
+
+       Cbllff is rfsponsiblf for frffing sdblfr dontfxt (using frff()).
+
+       Notf:
+         Contfxt is tightly bssodibtfd with strikf bnd it is bdtublly
+        frffd whfn dorrfsponding strikf is bfing rflfbsfd.
+     */
+    bbstrbdt long drfbtfSdblfrContfxt(doublf[] mbtrix,
+                                      int bb, int fm,
+                                      flobt boldnfss, flobt itblid,
+                                      boolfbn disbblfHinting);
+
+    /* Mbrks dontfxt bs invblid bfdbusf nbtivf sdblfr is invblid.
+       Notfs:
+         - pointfr itsflf is still vblid bnd hbs to bf rflfbsfd
+         - if pointfr to nbtivf sdblfr wbs dbdhfd it
+           should not bf nfithfr disposfd nor usfd.
+           it is vfry likfly it is blrfbdy disposfd by this momfnt. */
+    bbstrbdt void invblidbtfSdblfrContfxt(long ppSdblfrContfxt);
+}

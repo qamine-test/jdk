@@ -1,880 +1,880 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.net.*;
-import java.io.*;
-import java.nio.channels.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import javax.net.ssl.*;
-import com.sun.net.httpserver.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.net.httpserver.HttpConnection.State;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.util.logging.Loggfr;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.nft.ssl.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.nft.ittpsfrvfr.HttpConnfdtion.Stbtf;
 
 /**
- * Provides implementation for both HTTP and HTTPS
+ * Providfs implfmfntbtion for boti HTTP bnd HTTPS
  */
-class ServerImpl implements TimeSource {
+dlbss SfrvfrImpl implfmfnts TimfSourdf {
 
-    private String protocol;
-    private boolean https;
-    private Executor executor;
-    private HttpsConfigurator httpsConfig;
-    private SSLContext sslContext;
-    private ContextList contexts;
-    private InetSocketAddress address;
-    private ServerSocketChannel schan;
-    private Selector selector;
-    private SelectionKey listenerKey;
-    private Set<HttpConnection> idleConnections;
-    private Set<HttpConnection> allConnections;
-    /* following two are used to keep track of the times
-     * when a connection/request is first received
-     * and when we start to send the response
+    privbtf String protodol;
+    privbtf boolfbn ittps;
+    privbtf Exfdutor fxfdutor;
+    privbtf HttpsConfigurbtor ittpsConfig;
+    privbtf SSLContfxt sslContfxt;
+    privbtf ContfxtList dontfxts;
+    privbtf InftSodkftAddrfss bddrfss;
+    privbtf SfrvfrSodkftCibnnfl sdibn;
+    privbtf Sflfdtor sflfdtor;
+    privbtf SflfdtionKfy listfnfrKfy;
+    privbtf Sft<HttpConnfdtion> idlfConnfdtions;
+    privbtf Sft<HttpConnfdtion> bllConnfdtions;
+    /* following two brf usfd to kffp trbdk of tif timfs
+     * wifn b donnfdtion/rfqufst is first rfdfivfd
+     * bnd wifn wf stbrt to sfnd tif rfsponsf
      */
-    private Set<HttpConnection> reqConnections;
-    private Set<HttpConnection> rspConnections;
-    private List<Event> events;
-    private Object lolock = new Object();
-    private volatile boolean finished = false;
-    private volatile boolean terminating = false;
-    private boolean bound = false;
-    private boolean started = false;
-    private volatile long time;  /* current time */
-    private volatile long subticks = 0;
-    private volatile long ticks; /* number of clock ticks since server started */
-    private HttpServer wrapper;
+    privbtf Sft<HttpConnfdtion> rfqConnfdtions;
+    privbtf Sft<HttpConnfdtion> rspConnfdtions;
+    privbtf List<Evfnt> fvfnts;
+    privbtf Objfdt lolodk = nfw Objfdt();
+    privbtf volbtilf boolfbn finisifd = fblsf;
+    privbtf volbtilf boolfbn tfrminbting = fblsf;
+    privbtf boolfbn bound = fblsf;
+    privbtf boolfbn stbrtfd = fblsf;
+    privbtf volbtilf long timf;  /* durrfnt timf */
+    privbtf volbtilf long subtidks = 0;
+    privbtf volbtilf long tidks; /* numbfr of dlodk tidks sindf sfrvfr stbrtfd */
+    privbtf HttpSfrvfr wrbppfr;
 
-    final static int CLOCK_TICK = ServerConfig.getClockTick();
-    final static long IDLE_INTERVAL = ServerConfig.getIdleInterval();
-    final static int MAX_IDLE_CONNECTIONS = ServerConfig.getMaxIdleConnections();
-    final static long TIMER_MILLIS = ServerConfig.getTimerMillis ();
-    final static long MAX_REQ_TIME=getTimeMillis(ServerConfig.getMaxReqTime());
-    final static long MAX_RSP_TIME=getTimeMillis(ServerConfig.getMaxRspTime());
-    final static boolean timer1Enabled = MAX_REQ_TIME != -1 || MAX_RSP_TIME != -1;
+    finbl stbtid int CLOCK_TICK = SfrvfrConfig.gftClodkTidk();
+    finbl stbtid long IDLE_INTERVAL = SfrvfrConfig.gftIdlfIntfrvbl();
+    finbl stbtid int MAX_IDLE_CONNECTIONS = SfrvfrConfig.gftMbxIdlfConnfdtions();
+    finbl stbtid long TIMER_MILLIS = SfrvfrConfig.gftTimfrMillis ();
+    finbl stbtid long MAX_REQ_TIME=gftTimfMillis(SfrvfrConfig.gftMbxRfqTimf());
+    finbl stbtid long MAX_RSP_TIME=gftTimfMillis(SfrvfrConfig.gftMbxRspTimf());
+    finbl stbtid boolfbn timfr1Enbblfd = MAX_REQ_TIME != -1 || MAX_RSP_TIME != -1;
 
-    private Timer timer, timer1;
-    private Logger logger;
+    privbtf Timfr timfr, timfr1;
+    privbtf Loggfr loggfr;
 
-    ServerImpl (
-        HttpServer wrapper, String protocol, InetSocketAddress addr, int backlog
-    ) throws IOException {
+    SfrvfrImpl (
+        HttpSfrvfr wrbppfr, String protodol, InftSodkftAddrfss bddr, int bbdklog
+    ) tirows IOExdfption {
 
-        this.protocol = protocol;
-        this.wrapper = wrapper;
-        this.logger = Logger.getLogger ("com.sun.net.httpserver");
-        ServerConfig.checkLegacyProperties (logger);
-        https = protocol.equalsIgnoreCase ("https");
-        this.address = addr;
-        contexts = new ContextList();
-        schan = ServerSocketChannel.open();
-        if (addr != null) {
-            ServerSocket socket = schan.socket();
-            socket.bind (addr, backlog);
-            bound = true;
+        tiis.protodol = protodol;
+        tiis.wrbppfr = wrbppfr;
+        tiis.loggfr = Loggfr.gftLoggfr ("dom.sun.nft.ittpsfrvfr");
+        SfrvfrConfig.difdkLfgbdyPropfrtifs (loggfr);
+        ittps = protodol.fqublsIgnorfCbsf ("ittps");
+        tiis.bddrfss = bddr;
+        dontfxts = nfw ContfxtList();
+        sdibn = SfrvfrSodkftCibnnfl.opfn();
+        if (bddr != null) {
+            SfrvfrSodkft sodkft = sdibn.sodkft();
+            sodkft.bind (bddr, bbdklog);
+            bound = truf;
         }
-        selector = Selector.open ();
-        schan.configureBlocking (false);
-        listenerKey = schan.register (selector, SelectionKey.OP_ACCEPT);
-        dispatcher = new Dispatcher();
-        idleConnections = Collections.synchronizedSet (new HashSet<HttpConnection>());
-        allConnections = Collections.synchronizedSet (new HashSet<HttpConnection>());
-        reqConnections = Collections.synchronizedSet (new HashSet<HttpConnection>());
-        rspConnections = Collections.synchronizedSet (new HashSet<HttpConnection>());
-        time = System.currentTimeMillis();
-        timer = new Timer ("server-timer", true);
-        timer.schedule (new ServerTimerTask(), CLOCK_TICK, CLOCK_TICK);
-        if (timer1Enabled) {
-            timer1 = new Timer ("server-timer1", true);
-            timer1.schedule (new ServerTimerTask1(),TIMER_MILLIS,TIMER_MILLIS);
-            logger.config ("HttpServer timer1 enabled period in ms:  "+TIMER_MILLIS);
-            logger.config ("MAX_REQ_TIME:  "+MAX_REQ_TIME);
-            logger.config ("MAX_RSP_TIME:  "+MAX_RSP_TIME);
+        sflfdtor = Sflfdtor.opfn ();
+        sdibn.donfigurfBlodking (fblsf);
+        listfnfrKfy = sdibn.rfgistfr (sflfdtor, SflfdtionKfy.OP_ACCEPT);
+        dispbtdifr = nfw Dispbtdifr();
+        idlfConnfdtions = Collfdtions.syndironizfdSft (nfw HbsiSft<HttpConnfdtion>());
+        bllConnfdtions = Collfdtions.syndironizfdSft (nfw HbsiSft<HttpConnfdtion>());
+        rfqConnfdtions = Collfdtions.syndironizfdSft (nfw HbsiSft<HttpConnfdtion>());
+        rspConnfdtions = Collfdtions.syndironizfdSft (nfw HbsiSft<HttpConnfdtion>());
+        timf = Systfm.durrfntTimfMillis();
+        timfr = nfw Timfr ("sfrvfr-timfr", truf);
+        timfr.sdifdulf (nfw SfrvfrTimfrTbsk(), CLOCK_TICK, CLOCK_TICK);
+        if (timfr1Enbblfd) {
+            timfr1 = nfw Timfr ("sfrvfr-timfr1", truf);
+            timfr1.sdifdulf (nfw SfrvfrTimfrTbsk1(),TIMER_MILLIS,TIMER_MILLIS);
+            loggfr.donfig ("HttpSfrvfr timfr1 fnbblfd pfriod in ms:  "+TIMER_MILLIS);
+            loggfr.donfig ("MAX_REQ_TIME:  "+MAX_REQ_TIME);
+            loggfr.donfig ("MAX_RSP_TIME:  "+MAX_RSP_TIME);
         }
-        events = new LinkedList<Event>();
-        logger.config ("HttpServer created "+protocol+" "+ addr);
+        fvfnts = nfw LinkfdList<Evfnt>();
+        loggfr.donfig ("HttpSfrvfr drfbtfd "+protodol+" "+ bddr);
     }
 
-    public void bind (InetSocketAddress addr, int backlog) throws IOException {
+    publid void bind (InftSodkftAddrfss bddr, int bbdklog) tirows IOExdfption {
         if (bound) {
-            throw new BindException ("HttpServer already bound");
+            tirow nfw BindExdfption ("HttpSfrvfr blrfbdy bound");
         }
-        if (addr == null) {
-            throw new NullPointerException ("null address");
+        if (bddr == null) {
+            tirow nfw NullPointfrExdfption ("null bddrfss");
         }
-        ServerSocket socket = schan.socket();
-        socket.bind (addr, backlog);
-        bound = true;
+        SfrvfrSodkft sodkft = sdibn.sodkft();
+        sodkft.bind (bddr, bbdklog);
+        bound = truf;
     }
 
-    public void start () {
-        if (!bound || started || finished) {
-            throw new IllegalStateException ("server in wrong state");
+    publid void stbrt () {
+        if (!bound || stbrtfd || finisifd) {
+            tirow nfw IllfgblStbtfExdfption ("sfrvfr in wrong stbtf");
         }
-        if (executor == null) {
-            executor = new DefaultExecutor();
+        if (fxfdutor == null) {
+            fxfdutor = nfw DffbultExfdutor();
         }
-        Thread t = new Thread (dispatcher);
-        started = true;
-        t.start();
+        Tirfbd t = nfw Tirfbd (dispbtdifr);
+        stbrtfd = truf;
+        t.stbrt();
     }
 
-    public void setExecutor (Executor executor) {
-        if (started) {
-            throw new IllegalStateException ("server already started");
+    publid void sftExfdutor (Exfdutor fxfdutor) {
+        if (stbrtfd) {
+            tirow nfw IllfgblStbtfExdfption ("sfrvfr blrfbdy stbrtfd");
         }
-        this.executor = executor;
+        tiis.fxfdutor = fxfdutor;
     }
 
-    private static class DefaultExecutor implements Executor {
-        public void execute (Runnable task) {
-            task.run();
+    privbtf stbtid dlbss DffbultExfdutor implfmfnts Exfdutor {
+        publid void fxfdutf (Runnbblf tbsk) {
+            tbsk.run();
         }
     }
 
-    public Executor getExecutor () {
-        return executor;
+    publid Exfdutor gftExfdutor () {
+        rfturn fxfdutor;
     }
 
-    public void setHttpsConfigurator (HttpsConfigurator config) {
-        if (config == null) {
-            throw new NullPointerException ("null HttpsConfigurator");
+    publid void sftHttpsConfigurbtor (HttpsConfigurbtor donfig) {
+        if (donfig == null) {
+            tirow nfw NullPointfrExdfption ("null HttpsConfigurbtor");
         }
-        if (started) {
-            throw new IllegalStateException ("server already started");
+        if (stbrtfd) {
+            tirow nfw IllfgblStbtfExdfption ("sfrvfr blrfbdy stbrtfd");
         }
-        this.httpsConfig = config;
-        sslContext = config.getSSLContext();
+        tiis.ittpsConfig = donfig;
+        sslContfxt = donfig.gftSSLContfxt();
     }
 
-    public HttpsConfigurator getHttpsConfigurator () {
-        return httpsConfig;
+    publid HttpsConfigurbtor gftHttpsConfigurbtor () {
+        rfturn ittpsConfig;
     }
 
-    public void stop (int delay) {
-        if (delay < 0) {
-            throw new IllegalArgumentException ("negative delay parameter");
+    publid void stop (int dflby) {
+        if (dflby < 0) {
+            tirow nfw IllfgblArgumfntExdfption ("nfgbtivf dflby pbrbmftfr");
         }
-        terminating = true;
-        try { schan.close(); } catch (IOException e) {}
-        selector.wakeup();
-        long latest = System.currentTimeMillis() + delay * 1000;
-        while (System.currentTimeMillis() < latest) {
-            delay();
-            if (finished) {
-                break;
+        tfrminbting = truf;
+        try { sdibn.dlosf(); } dbtdi (IOExdfption f) {}
+        sflfdtor.wbkfup();
+        long lbtfst = Systfm.durrfntTimfMillis() + dflby * 1000;
+        wiilf (Systfm.durrfntTimfMillis() < lbtfst) {
+            dflby();
+            if (finisifd) {
+                brfbk;
             }
         }
-        finished = true;
-        selector.wakeup();
-        synchronized (allConnections) {
-            for (HttpConnection c : allConnections) {
-                c.close();
+        finisifd = truf;
+        sflfdtor.wbkfup();
+        syndironizfd (bllConnfdtions) {
+            for (HttpConnfdtion d : bllConnfdtions) {
+                d.dlosf();
             }
         }
-        allConnections.clear();
-        idleConnections.clear();
-        timer.cancel();
-        if (timer1Enabled) {
-            timer1.cancel();
+        bllConnfdtions.dlfbr();
+        idlfConnfdtions.dlfbr();
+        timfr.dbndfl();
+        if (timfr1Enbblfd) {
+            timfr1.dbndfl();
         }
     }
 
-    Dispatcher dispatcher;
+    Dispbtdifr dispbtdifr;
 
-    public synchronized HttpContextImpl createContext (String path, HttpHandler handler) {
-        if (handler == null || path == null) {
-            throw new NullPointerException ("null handler, or path parameter");
+    publid syndironizfd HttpContfxtImpl drfbtfContfxt (String pbti, HttpHbndlfr ibndlfr) {
+        if (ibndlfr == null || pbti == null) {
+            tirow nfw NullPointfrExdfption ("null ibndlfr, or pbti pbrbmftfr");
         }
-        HttpContextImpl context = new HttpContextImpl (protocol, path, handler, this);
-        contexts.add (context);
-        logger.config ("context created: " + path);
-        return context;
+        HttpContfxtImpl dontfxt = nfw HttpContfxtImpl (protodol, pbti, ibndlfr, tiis);
+        dontfxts.bdd (dontfxt);
+        loggfr.donfig ("dontfxt drfbtfd: " + pbti);
+        rfturn dontfxt;
     }
 
-    public synchronized HttpContextImpl createContext (String path) {
-        if (path == null) {
-            throw new NullPointerException ("null path parameter");
+    publid syndironizfd HttpContfxtImpl drfbtfContfxt (String pbti) {
+        if (pbti == null) {
+            tirow nfw NullPointfrExdfption ("null pbti pbrbmftfr");
         }
-        HttpContextImpl context = new HttpContextImpl (protocol, path, null, this);
-        contexts.add (context);
-        logger.config ("context created: " + path);
-        return context;
+        HttpContfxtImpl dontfxt = nfw HttpContfxtImpl (protodol, pbti, null, tiis);
+        dontfxts.bdd (dontfxt);
+        loggfr.donfig ("dontfxt drfbtfd: " + pbti);
+        rfturn dontfxt;
     }
 
-    public synchronized void removeContext (String path) throws IllegalArgumentException {
-        if (path == null) {
-            throw new NullPointerException ("null path parameter");
+    publid syndironizfd void rfmovfContfxt (String pbti) tirows IllfgblArgumfntExdfption {
+        if (pbti == null) {
+            tirow nfw NullPointfrExdfption ("null pbti pbrbmftfr");
         }
-        contexts.remove (protocol, path);
-        logger.config ("context removed: " + path);
+        dontfxts.rfmovf (protodol, pbti);
+        loggfr.donfig ("dontfxt rfmovfd: " + pbti);
     }
 
-    public synchronized void removeContext (HttpContext context) throws IllegalArgumentException {
-        if (!(context instanceof HttpContextImpl)) {
-            throw new IllegalArgumentException ("wrong HttpContext type");
+    publid syndironizfd void rfmovfContfxt (HttpContfxt dontfxt) tirows IllfgblArgumfntExdfption {
+        if (!(dontfxt instbndfof HttpContfxtImpl)) {
+            tirow nfw IllfgblArgumfntExdfption ("wrong HttpContfxt typf");
         }
-        contexts.remove ((HttpContextImpl)context);
-        logger.config ("context removed: " + context.getPath());
+        dontfxts.rfmovf ((HttpContfxtImpl)dontfxt);
+        loggfr.donfig ("dontfxt rfmovfd: " + dontfxt.gftPbti());
     }
 
-    public InetSocketAddress getAddress() {
-        return AccessController.doPrivileged(
-                new PrivilegedAction<InetSocketAddress>() {
-                    public InetSocketAddress run() {
-                        return
-                            (InetSocketAddress)schan.socket()
-                                .getLocalSocketAddress();
+    publid InftSodkftAddrfss gftAddrfss() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<InftSodkftAddrfss>() {
+                    publid InftSodkftAddrfss run() {
+                        rfturn
+                            (InftSodkftAddrfss)sdibn.sodkft()
+                                .gftLodblSodkftAddrfss();
                     }
                 });
     }
 
-    Selector getSelector () {
-        return selector;
+    Sflfdtor gftSflfdtor () {
+        rfturn sflfdtor;
     }
 
-    void addEvent (Event r) {
-        synchronized (lolock) {
-            events.add (r);
-            selector.wakeup();
+    void bddEvfnt (Evfnt r) {
+        syndironizfd (lolodk) {
+            fvfnts.bdd (r);
+            sflfdtor.wbkfup();
         }
     }
 
-    /* main server listener task */
+    /* mbin sfrvfr listfnfr tbsk */
 
-    class Dispatcher implements Runnable {
+    dlbss Dispbtdifr implfmfnts Runnbblf {
 
-        private void handleEvent (Event r) {
-            ExchangeImpl t = r.exchange;
-            HttpConnection c = t.getConnection();
+        privbtf void ibndlfEvfnt (Evfnt r) {
+            ExdibngfImpl t = r.fxdibngf;
+            HttpConnfdtion d = t.gftConnfdtion();
             try {
-                if (r instanceof WriteFinishedEvent) {
+                if (r instbndfof WritfFinisifdEvfnt) {
 
-                    int exchanges = endExchange();
-                    if (terminating && exchanges == 0) {
-                        finished = true;
+                    int fxdibngfs = fndExdibngf();
+                    if (tfrminbting && fxdibngfs == 0) {
+                        finisifd = truf;
                     }
-                    responseCompleted (c);
-                    LeftOverInputStream is = t.getOriginalInputStream();
+                    rfsponsfComplftfd (d);
+                    LfftOvfrInputStrfbm is = t.gftOriginblInputStrfbm();
                     if (!is.isEOF()) {
-                        t.close = true;
+                        t.dlosf = truf;
                     }
-                    if (t.close || idleConnections.size() >= MAX_IDLE_CONNECTIONS) {
-                        c.close();
-                        allConnections.remove (c);
-                    } else {
-                        if (is.isDataBuffered()) {
-                            /* don't re-enable the interestops, just handle it */
-                            requestStarted (c);
-                            handle (c.getChannel(), c);
-                        } else {
-                            connsToRegister.add (c);
+                    if (t.dlosf || idlfConnfdtions.sizf() >= MAX_IDLE_CONNECTIONS) {
+                        d.dlosf();
+                        bllConnfdtions.rfmovf (d);
+                    } flsf {
+                        if (is.isDbtbBufffrfd()) {
+                            /* don't rf-fnbblf tif intfrfstops, just ibndlf it */
+                            rfqufstStbrtfd (d);
+                            ibndlf (d.gftCibnnfl(), d);
+                        } flsf {
+                            donnsToRfgistfr.bdd (d);
                         }
                     }
                 }
-            } catch (IOException e) {
-                logger.log (
-                    Level.FINER, "Dispatcher (1)", e
+            } dbtdi (IOExdfption f) {
+                loggfr.log (
+                    Lfvfl.FINER, "Dispbtdifr (1)", f
                 );
-                c.close();
+                d.dlosf();
             }
         }
 
-        final LinkedList<HttpConnection> connsToRegister =
-                new LinkedList<HttpConnection>();
+        finbl LinkfdList<HttpConnfdtion> donnsToRfgistfr =
+                nfw LinkfdList<HttpConnfdtion>();
 
-        void reRegister (HttpConnection c) {
-            /* re-register with selector */
+        void rfRfgistfr (HttpConnfdtion d) {
+            /* rf-rfgistfr witi sflfdtor */
             try {
-                SocketChannel chan = c.getChannel();
-                chan.configureBlocking (false);
-                SelectionKey key = chan.register (selector, SelectionKey.OP_READ);
-                key.attach (c);
-                c.selectionKey = key;
-                c.time = getTime() + IDLE_INTERVAL;
-                idleConnections.add (c);
-            } catch (IOException e) {
-                dprint(e);
-                logger.log(Level.FINER, "Dispatcher(8)", e);
-                c.close();
+                SodkftCibnnfl dibn = d.gftCibnnfl();
+                dibn.donfigurfBlodking (fblsf);
+                SflfdtionKfy kfy = dibn.rfgistfr (sflfdtor, SflfdtionKfy.OP_READ);
+                kfy.bttbdi (d);
+                d.sflfdtionKfy = kfy;
+                d.timf = gftTimf() + IDLE_INTERVAL;
+                idlfConnfdtions.bdd (d);
+            } dbtdi (IOExdfption f) {
+                dprint(f);
+                loggfr.log(Lfvfl.FINER, "Dispbtdifr(8)", f);
+                d.dlosf();
             }
         }
 
-        public void run() {
-            while (!finished) {
+        publid void run() {
+            wiilf (!finisifd) {
                 try {
-                    List<Event> list = null;
-                    synchronized (lolock) {
-                        if (events.size() > 0) {
-                            list = events;
-                            events = new LinkedList<Event>();
+                    List<Evfnt> list = null;
+                    syndironizfd (lolodk) {
+                        if (fvfnts.sizf() > 0) {
+                            list = fvfnts;
+                            fvfnts = nfw LinkfdList<Evfnt>();
                         }
                     }
 
                     if (list != null) {
-                        for (Event r: list) {
-                            handleEvent (r);
+                        for (Evfnt r: list) {
+                            ibndlfEvfnt (r);
                         }
                     }
 
-                    for (HttpConnection c : connsToRegister) {
-                        reRegister(c);
+                    for (HttpConnfdtion d : donnsToRfgistfr) {
+                        rfRfgistfr(d);
                     }
-                    connsToRegister.clear();
+                    donnsToRfgistfr.dlfbr();
 
-                    selector.select(1000);
+                    sflfdtor.sflfdt(1000);
 
-                    /* process the selected list now  */
-                    Set<SelectionKey> selected = selector.selectedKeys();
-                    Iterator<SelectionKey> iter = selected.iterator();
-                    while (iter.hasNext()) {
-                        SelectionKey key = iter.next();
-                        iter.remove ();
-                        if (key.equals (listenerKey)) {
-                            if (terminating) {
-                                continue;
+                    /* prodfss tif sflfdtfd list now  */
+                    Sft<SflfdtionKfy> sflfdtfd = sflfdtor.sflfdtfdKfys();
+                    Itfrbtor<SflfdtionKfy> itfr = sflfdtfd.itfrbtor();
+                    wiilf (itfr.ibsNfxt()) {
+                        SflfdtionKfy kfy = itfr.nfxt();
+                        itfr.rfmovf ();
+                        if (kfy.fqubls (listfnfrKfy)) {
+                            if (tfrminbting) {
+                                dontinuf;
                             }
-                            SocketChannel chan = schan.accept();
+                            SodkftCibnnfl dibn = sdibn.bddfpt();
 
-                            // Set TCP_NODELAY, if appropriate
-                            if (ServerConfig.noDelay()) {
-                                chan.socket().setTcpNoDelay(true);
+                            // Sft TCP_NODELAY, if bppropribtf
+                            if (SfrvfrConfig.noDflby()) {
+                                dibn.sodkft().sftTdpNoDflby(truf);
                             }
 
-                            if (chan == null) {
-                                continue; /* cancel something ? */
+                            if (dibn == null) {
+                                dontinuf; /* dbndfl somftiing ? */
                             }
-                            chan.configureBlocking (false);
-                            SelectionKey newkey = chan.register (selector, SelectionKey.OP_READ);
-                            HttpConnection c = new HttpConnection ();
-                            c.selectionKey = newkey;
-                            c.setChannel (chan);
-                            newkey.attach (c);
-                            requestStarted (c);
-                            allConnections.add (c);
-                        } else {
+                            dibn.donfigurfBlodking (fblsf);
+                            SflfdtionKfy nfwkfy = dibn.rfgistfr (sflfdtor, SflfdtionKfy.OP_READ);
+                            HttpConnfdtion d = nfw HttpConnfdtion ();
+                            d.sflfdtionKfy = nfwkfy;
+                            d.sftCibnnfl (dibn);
+                            nfwkfy.bttbdi (d);
+                            rfqufstStbrtfd (d);
+                            bllConnfdtions.bdd (d);
+                        } flsf {
                             try {
-                                if (key.isReadable()) {
-                                    boolean closed;
-                                    SocketChannel chan = (SocketChannel)key.channel();
-                                    HttpConnection conn = (HttpConnection)key.attachment();
+                                if (kfy.isRfbdbblf()) {
+                                    boolfbn dlosfd;
+                                    SodkftCibnnfl dibn = (SodkftCibnnfl)kfy.dibnnfl();
+                                    HttpConnfdtion donn = (HttpConnfdtion)kfy.bttbdimfnt();
 
-                                    key.cancel();
-                                    chan.configureBlocking (true);
-                                    if (idleConnections.remove(conn)) {
-                                        // was an idle connection so add it
-                                        // to reqConnections set.
-                                        requestStarted (conn);
+                                    kfy.dbndfl();
+                                    dibn.donfigurfBlodking (truf);
+                                    if (idlfConnfdtions.rfmovf(donn)) {
+                                        // wbs bn idlf donnfdtion so bdd it
+                                        // to rfqConnfdtions sft.
+                                        rfqufstStbrtfd (donn);
                                     }
-                                    handle (chan, conn);
-                                } else {
-                                    assert false;
+                                    ibndlf (dibn, donn);
+                                } flsf {
+                                    bssfrt fblsf;
                                 }
-                            } catch (CancelledKeyException e) {
-                                handleException(key, null);
-                            } catch (IOException e) {
-                                handleException(key, e);
+                            } dbtdi (CbndfllfdKfyExdfption f) {
+                                ibndlfExdfption(kfy, null);
+                            } dbtdi (IOExdfption f) {
+                                ibndlfExdfption(kfy, f);
                             }
                         }
                     }
-                    // call the selector just to process the cancelled keys
-                    selector.selectNow();
-                } catch (IOException e) {
-                    logger.log (Level.FINER, "Dispatcher (4)", e);
-                } catch (Exception e) {
-                    logger.log (Level.FINER, "Dispatcher (7)", e);
+                    // dbll tif sflfdtor just to prodfss tif dbndfllfd kfys
+                    sflfdtor.sflfdtNow();
+                } dbtdi (IOExdfption f) {
+                    loggfr.log (Lfvfl.FINER, "Dispbtdifr (4)", f);
+                } dbtdi (Exdfption f) {
+                    loggfr.log (Lfvfl.FINER, "Dispbtdifr (7)", f);
                 }
             }
-            try {selector.close(); } catch (Exception e) {}
+            try {sflfdtor.dlosf(); } dbtdi (Exdfption f) {}
         }
 
-        private void handleException (SelectionKey key, Exception e) {
-            HttpConnection conn = (HttpConnection)key.attachment();
-            if (e != null) {
-                logger.log (Level.FINER, "Dispatcher (2)", e);
+        privbtf void ibndlfExdfption (SflfdtionKfy kfy, Exdfption f) {
+            HttpConnfdtion donn = (HttpConnfdtion)kfy.bttbdimfnt();
+            if (f != null) {
+                loggfr.log (Lfvfl.FINER, "Dispbtdifr (2)", f);
             }
-            closeConnection(conn);
+            dlosfConnfdtion(donn);
         }
 
-        public void handle (SocketChannel chan, HttpConnection conn)
-        throws IOException
+        publid void ibndlf (SodkftCibnnfl dibn, HttpConnfdtion donn)
+        tirows IOExdfption
         {
             try {
-                Exchange t = new Exchange (chan, protocol, conn);
-                executor.execute (t);
-            } catch (HttpError e1) {
-                logger.log (Level.FINER, "Dispatcher (4)", e1);
-                closeConnection(conn);
-            } catch (IOException e) {
-                logger.log (Level.FINER, "Dispatcher (5)", e);
-                closeConnection(conn);
+                Exdibngf t = nfw Exdibngf (dibn, protodol, donn);
+                fxfdutor.fxfdutf (t);
+            } dbtdi (HttpError f1) {
+                loggfr.log (Lfvfl.FINER, "Dispbtdifr (4)", f1);
+                dlosfConnfdtion(donn);
+            } dbtdi (IOExdfption f) {
+                loggfr.log (Lfvfl.FINER, "Dispbtdifr (5)", f);
+                dlosfConnfdtion(donn);
             }
         }
     }
 
-    static boolean debug = ServerConfig.debugEnabled ();
+    stbtid boolfbn dfbug = SfrvfrConfig.dfbugEnbblfd ();
 
-    static synchronized void dprint (String s) {
-        if (debug) {
-            System.out.println (s);
+    stbtid syndironizfd void dprint (String s) {
+        if (dfbug) {
+            Systfm.out.println (s);
         }
     }
 
-    static synchronized void dprint (Exception e) {
-        if (debug) {
-            System.out.println (e);
-            e.printStackTrace();
+    stbtid syndironizfd void dprint (Exdfption f) {
+        if (dfbug) {
+            Systfm.out.println (f);
+            f.printStbdkTrbdf();
         }
     }
 
-    Logger getLogger () {
-        return logger;
+    Loggfr gftLoggfr () {
+        rfturn loggfr;
     }
 
-    private void closeConnection(HttpConnection conn) {
-        conn.close();
-        allConnections.remove(conn);
-        switch (conn.getState()) {
-        case REQUEST:
-            reqConnections.remove(conn);
-            break;
-        case RESPONSE:
-            rspConnections.remove(conn);
-            break;
-        case IDLE:
-            idleConnections.remove(conn);
-            break;
+    privbtf void dlosfConnfdtion(HttpConnfdtion donn) {
+        donn.dlosf();
+        bllConnfdtions.rfmovf(donn);
+        switdi (donn.gftStbtf()) {
+        dbsf REQUEST:
+            rfqConnfdtions.rfmovf(donn);
+            brfbk;
+        dbsf RESPONSE:
+            rspConnfdtions.rfmovf(donn);
+            brfbk;
+        dbsf IDLE:
+            idlfConnfdtions.rfmovf(donn);
+            brfbk;
         }
-        assert !reqConnections.remove(conn);
-        assert !rspConnections.remove(conn);
-        assert !idleConnections.remove(conn);
+        bssfrt !rfqConnfdtions.rfmovf(donn);
+        bssfrt !rspConnfdtions.rfmovf(donn);
+        bssfrt !idlfConnfdtions.rfmovf(donn);
     }
 
-        /* per exchange task */
+        /* pfr fxdibngf tbsk */
 
-    class Exchange implements Runnable {
-        SocketChannel chan;
-        HttpConnection connection;
-        HttpContextImpl context;
-        InputStream rawin;
-        OutputStream rawout;
-        String protocol;
-        ExchangeImpl tx;
-        HttpContextImpl ctx;
-        boolean rejected = false;
+    dlbss Exdibngf implfmfnts Runnbblf {
+        SodkftCibnnfl dibn;
+        HttpConnfdtion donnfdtion;
+        HttpContfxtImpl dontfxt;
+        InputStrfbm rbwin;
+        OutputStrfbm rbwout;
+        String protodol;
+        ExdibngfImpl tx;
+        HttpContfxtImpl dtx;
+        boolfbn rfjfdtfd = fblsf;
 
-        Exchange (SocketChannel chan, String protocol, HttpConnection conn) throws IOException {
-            this.chan = chan;
-            this.connection = conn;
-            this.protocol = protocol;
+        Exdibngf (SodkftCibnnfl dibn, String protodol, HttpConnfdtion donn) tirows IOExdfption {
+            tiis.dibn = dibn;
+            tiis.donnfdtion = donn;
+            tiis.protodol = protodol;
         }
 
-        public void run () {
-            /* context will be null for new connections */
-            context = connection.getHttpContext();
-            boolean newconnection;
-            SSLEngine engine = null;
-            String requestLine = null;
-            SSLStreams sslStreams = null;
+        publid void run () {
+            /* dontfxt will bf null for nfw donnfdtions */
+            dontfxt = donnfdtion.gftHttpContfxt();
+            boolfbn nfwdonnfdtion;
+            SSLEnginf fnginf = null;
+            String rfqufstLinf = null;
+            SSLStrfbms sslStrfbms = null;
             try {
-                if (context != null ) {
-                    this.rawin = connection.getInputStream();
-                    this.rawout = connection.getRawOutputStream();
-                    newconnection = false;
-                } else {
-                    /* figure out what kind of connection this is */
-                    newconnection = true;
-                    if (https) {
-                        if (sslContext == null) {
-                            logger.warning ("SSL connection received. No https contxt created");
-                            throw new HttpError ("No SSL context established");
+                if (dontfxt != null ) {
+                    tiis.rbwin = donnfdtion.gftInputStrfbm();
+                    tiis.rbwout = donnfdtion.gftRbwOutputStrfbm();
+                    nfwdonnfdtion = fblsf;
+                } flsf {
+                    /* figurf out wibt kind of donnfdtion tiis is */
+                    nfwdonnfdtion = truf;
+                    if (ittps) {
+                        if (sslContfxt == null) {
+                            loggfr.wbrning ("SSL donnfdtion rfdfivfd. No ittps dontxt drfbtfd");
+                            tirow nfw HttpError ("No SSL dontfxt fstbblisifd");
                         }
-                        sslStreams = new SSLStreams (ServerImpl.this, sslContext, chan);
-                        rawin = sslStreams.getInputStream();
-                        rawout = sslStreams.getOutputStream();
-                        engine = sslStreams.getSSLEngine();
-                        connection.sslStreams = sslStreams;
-                    } else {
-                        rawin = new BufferedInputStream(
-                            new Request.ReadStream (
-                                ServerImpl.this, chan
+                        sslStrfbms = nfw SSLStrfbms (SfrvfrImpl.tiis, sslContfxt, dibn);
+                        rbwin = sslStrfbms.gftInputStrfbm();
+                        rbwout = sslStrfbms.gftOutputStrfbm();
+                        fnginf = sslStrfbms.gftSSLEnginf();
+                        donnfdtion.sslStrfbms = sslStrfbms;
+                    } flsf {
+                        rbwin = nfw BufffrfdInputStrfbm(
+                            nfw Rfqufst.RfbdStrfbm (
+                                SfrvfrImpl.tiis, dibn
                         ));
-                        rawout = new Request.WriteStream (
-                            ServerImpl.this, chan
+                        rbwout = nfw Rfqufst.WritfStrfbm (
+                            SfrvfrImpl.tiis, dibn
                         );
                     }
-                    connection.raw = rawin;
-                    connection.rawout = rawout;
+                    donnfdtion.rbw = rbwin;
+                    donnfdtion.rbwout = rbwout;
                 }
-                Request req = new Request (rawin, rawout);
-                requestLine = req.requestLine();
-                if (requestLine == null) {
-                    /* connection closed */
-                    closeConnection(connection);
-                    return;
+                Rfqufst rfq = nfw Rfqufst (rbwin, rbwout);
+                rfqufstLinf = rfq.rfqufstLinf();
+                if (rfqufstLinf == null) {
+                    /* donnfdtion dlosfd */
+                    dlosfConnfdtion(donnfdtion);
+                    rfturn;
                 }
-                int space = requestLine.indexOf (' ');
-                if (space == -1) {
-                    reject (Code.HTTP_BAD_REQUEST,
-                            requestLine, "Bad request line");
-                    return;
+                int spbdf = rfqufstLinf.indfxOf (' ');
+                if (spbdf == -1) {
+                    rfjfdt (Codf.HTTP_BAD_REQUEST,
+                            rfqufstLinf, "Bbd rfqufst linf");
+                    rfturn;
                 }
-                String method = requestLine.substring (0, space);
-                int start = space+1;
-                space = requestLine.indexOf(' ', start);
-                if (space == -1) {
-                    reject (Code.HTTP_BAD_REQUEST,
-                            requestLine, "Bad request line");
-                    return;
+                String mftiod = rfqufstLinf.substring (0, spbdf);
+                int stbrt = spbdf+1;
+                spbdf = rfqufstLinf.indfxOf(' ', stbrt);
+                if (spbdf == -1) {
+                    rfjfdt (Codf.HTTP_BAD_REQUEST,
+                            rfqufstLinf, "Bbd rfqufst linf");
+                    rfturn;
                 }
-                String uriStr = requestLine.substring (start, space);
-                URI uri = new URI (uriStr);
-                start = space+1;
-                String version = requestLine.substring (start);
-                Headers headers = req.headers();
-                String s = headers.getFirst ("Transfer-encoding");
-                long clen = 0L;
-                if (s !=null && s.equalsIgnoreCase ("chunked")) {
-                    clen = -1L;
-                } else {
-                    s = headers.getFirst ("Content-Length");
+                String uriStr = rfqufstLinf.substring (stbrt, spbdf);
+                URI uri = nfw URI (uriStr);
+                stbrt = spbdf+1;
+                String vfrsion = rfqufstLinf.substring (stbrt);
+                Hfbdfrs ifbdfrs = rfq.ifbdfrs();
+                String s = ifbdfrs.gftFirst ("Trbnsffr-fndoding");
+                long dlfn = 0L;
+                if (s !=null && s.fqublsIgnorfCbsf ("diunkfd")) {
+                    dlfn = -1L;
+                } flsf {
+                    s = ifbdfrs.gftFirst ("Contfnt-Lfngti");
                     if (s != null) {
-                        clen = Long.parseLong(s);
+                        dlfn = Long.pbrsfLong(s);
                     }
-                    if (clen == 0) {
-                        requestCompleted (connection);
+                    if (dlfn == 0) {
+                        rfqufstComplftfd (donnfdtion);
                     }
                 }
-                ctx = contexts.findContext (protocol, uri.getPath());
-                if (ctx == null) {
-                    reject (Code.HTTP_NOT_FOUND,
-                            requestLine, "No context found for request");
-                    return;
+                dtx = dontfxts.findContfxt (protodol, uri.gftPbti());
+                if (dtx == null) {
+                    rfjfdt (Codf.HTTP_NOT_FOUND,
+                            rfqufstLinf, "No dontfxt found for rfqufst");
+                    rfturn;
                 }
-                connection.setContext (ctx);
-                if (ctx.getHandler() == null) {
-                    reject (Code.HTTP_INTERNAL_ERROR,
-                            requestLine, "No handler for context");
-                    return;
+                donnfdtion.sftContfxt (dtx);
+                if (dtx.gftHbndlfr() == null) {
+                    rfjfdt (Codf.HTTP_INTERNAL_ERROR,
+                            rfqufstLinf, "No ibndlfr for dontfxt");
+                    rfturn;
                 }
-                tx = new ExchangeImpl (
-                    method, uri, req, clen, connection
+                tx = nfw ExdibngfImpl (
+                    mftiod, uri, rfq, dlfn, donnfdtion
                 );
-                String chdr = headers.getFirst("Connection");
-                Headers rheaders = tx.getResponseHeaders();
+                String didr = ifbdfrs.gftFirst("Connfdtion");
+                Hfbdfrs rifbdfrs = tx.gftRfsponsfHfbdfrs();
 
-                if (chdr != null && chdr.equalsIgnoreCase ("close")) {
-                    tx.close = true;
+                if (didr != null && didr.fqublsIgnorfCbsf ("dlosf")) {
+                    tx.dlosf = truf;
                 }
-                if (version.equalsIgnoreCase ("http/1.0")) {
-                    tx.http10 = true;
-                    if (chdr == null) {
-                        tx.close = true;
-                        rheaders.set ("Connection", "close");
-                    } else if (chdr.equalsIgnoreCase ("keep-alive")) {
-                        rheaders.set ("Connection", "keep-alive");
-                        int idle=(int)(ServerConfig.getIdleInterval()/1000);
-                        int max=ServerConfig.getMaxIdleConnections();
-                        String val = "timeout="+idle+", max="+max;
-                        rheaders.set ("Keep-Alive", val);
+                if (vfrsion.fqublsIgnorfCbsf ("ittp/1.0")) {
+                    tx.ittp10 = truf;
+                    if (didr == null) {
+                        tx.dlosf = truf;
+                        rifbdfrs.sft ("Connfdtion", "dlosf");
+                    } flsf if (didr.fqublsIgnorfCbsf ("kffp-blivf")) {
+                        rifbdfrs.sft ("Connfdtion", "kffp-blivf");
+                        int idlf=(int)(SfrvfrConfig.gftIdlfIntfrvbl()/1000);
+                        int mbx=SfrvfrConfig.gftMbxIdlfConnfdtions();
+                        String vbl = "timfout="+idlf+", mbx="+mbx;
+                        rifbdfrs.sft ("Kffp-Alivf", vbl);
                     }
                 }
 
-                if (newconnection) {
-                    connection.setParameters (
-                        rawin, rawout, chan, engine, sslStreams,
-                        sslContext, protocol, ctx, rawin
+                if (nfwdonnfdtion) {
+                    donnfdtion.sftPbrbmftfrs (
+                        rbwin, rbwout, dibn, fnginf, sslStrfbms,
+                        sslContfxt, protodol, dtx, rbwin
                     );
                 }
-                /* check if client sent an Expect 100 Continue.
-                 * In that case, need to send an interim response.
-                 * In future API may be modified to allow app to
-                 * be involved in this process.
+                /* difdk if dlifnt sfnt bn Expfdt 100 Continuf.
+                 * In tibt dbsf, nffd to sfnd bn intfrim rfsponsf.
+                 * In futurf API mby bf modififd to bllow bpp to
+                 * bf involvfd in tiis prodfss.
                  */
-                String exp = headers.getFirst("Expect");
-                if (exp != null && exp.equalsIgnoreCase ("100-continue")) {
-                    logReply (100, requestLine, null);
-                    sendReply (
-                        Code.HTTP_CONTINUE, false, null
+                String fxp = ifbdfrs.gftFirst("Expfdt");
+                if (fxp != null && fxp.fqublsIgnorfCbsf ("100-dontinuf")) {
+                    logRfply (100, rfqufstLinf, null);
+                    sfndRfply (
+                        Codf.HTTP_CONTINUE, fblsf, null
                     );
                 }
-                /* uf is the list of filters seen/set by the user.
-                 * sf is the list of filters established internally
-                 * and which are not visible to the user. uc and sc
-                 * are the corresponding Filter.Chains.
-                 * They are linked together by a LinkHandler
-                 * so that they can both be invoked in one call.
+                /* uf is tif list of filtfrs sffn/sft by tif usfr.
+                 * sf is tif list of filtfrs fstbblisifd intfrnblly
+                 * bnd wiidi brf not visiblf to tif usfr. ud bnd sd
+                 * brf tif dorrfsponding Filtfr.Cibins.
+                 * Tify brf linkfd togftifr by b LinkHbndlfr
+                 * so tibt tify dbn boti bf invokfd in onf dbll.
                  */
-                List<Filter> sf = ctx.getSystemFilters();
-                List<Filter> uf = ctx.getFilters();
+                List<Filtfr> sf = dtx.gftSystfmFiltfrs();
+                List<Filtfr> uf = dtx.gftFiltfrs();
 
-                Filter.Chain sc = new Filter.Chain(sf, ctx.getHandler());
-                Filter.Chain uc = new Filter.Chain(uf, new LinkHandler (sc));
+                Filtfr.Cibin sd = nfw Filtfr.Cibin(sf, dtx.gftHbndlfr());
+                Filtfr.Cibin ud = nfw Filtfr.Cibin(uf, nfw LinkHbndlfr (sd));
 
-                /* set up the two stream references */
-                tx.getRequestBody();
-                tx.getResponseBody();
-                if (https) {
-                    uc.doFilter (new HttpsExchangeImpl (tx));
-                } else {
-                    uc.doFilter (new HttpExchangeImpl (tx));
+                /* sft up tif two strfbm rfffrfndfs */
+                tx.gftRfqufstBody();
+                tx.gftRfsponsfBody();
+                if (ittps) {
+                    ud.doFiltfr (nfw HttpsExdibngfImpl (tx));
+                } flsf {
+                    ud.doFiltfr (nfw HttpExdibngfImpl (tx));
                 }
 
-            } catch (IOException e1) {
-                logger.log (Level.FINER, "ServerImpl.Exchange (1)", e1);
-                closeConnection(connection);
-            } catch (NumberFormatException e3) {
-                reject (Code.HTTP_BAD_REQUEST,
-                        requestLine, "NumberFormatException thrown");
-            } catch (URISyntaxException e) {
-                reject (Code.HTTP_BAD_REQUEST,
-                        requestLine, "URISyntaxException thrown");
-            } catch (Exception e4) {
-                logger.log (Level.FINER, "ServerImpl.Exchange (2)", e4);
-                closeConnection(connection);
+            } dbtdi (IOExdfption f1) {
+                loggfr.log (Lfvfl.FINER, "SfrvfrImpl.Exdibngf (1)", f1);
+                dlosfConnfdtion(donnfdtion);
+            } dbtdi (NumbfrFormbtExdfption f3) {
+                rfjfdt (Codf.HTTP_BAD_REQUEST,
+                        rfqufstLinf, "NumbfrFormbtExdfption tirown");
+            } dbtdi (URISyntbxExdfption f) {
+                rfjfdt (Codf.HTTP_BAD_REQUEST,
+                        rfqufstLinf, "URISyntbxExdfption tirown");
+            } dbtdi (Exdfption f4) {
+                loggfr.log (Lfvfl.FINER, "SfrvfrImpl.Exdibngf (2)", f4);
+                dlosfConnfdtion(donnfdtion);
             }
         }
 
-        /* used to link to 2 or more Filter.Chains together */
+        /* usfd to link to 2 or morf Filtfr.Cibins togftifr */
 
-        class LinkHandler implements HttpHandler {
-            Filter.Chain nextChain;
+        dlbss LinkHbndlfr implfmfnts HttpHbndlfr {
+            Filtfr.Cibin nfxtCibin;
 
-            LinkHandler (Filter.Chain nextChain) {
-                this.nextChain = nextChain;
+            LinkHbndlfr (Filtfr.Cibin nfxtCibin) {
+                tiis.nfxtCibin = nfxtCibin;
             }
 
-            public void handle (HttpExchange exchange) throws IOException {
-                nextChain.doFilter (exchange);
+            publid void ibndlf (HttpExdibngf fxdibngf) tirows IOExdfption {
+                nfxtCibin.doFiltfr (fxdibngf);
             }
         }
 
-        void reject (int code, String requestStr, String message) {
-            rejected = true;
-            logReply (code, requestStr, message);
-            sendReply (
-                code, false, "<h1>"+code+Code.msg(code)+"</h1>"+message
+        void rfjfdt (int dodf, String rfqufstStr, String mfssbgf) {
+            rfjfdtfd = truf;
+            logRfply (dodf, rfqufstStr, mfssbgf);
+            sfndRfply (
+                dodf, fblsf, "<i1>"+dodf+Codf.msg(dodf)+"</i1>"+mfssbgf
             );
-            closeConnection(connection);
+            dlosfConnfdtion(donnfdtion);
         }
 
-        void sendReply (
-            int code, boolean closeNow, String text)
+        void sfndRfply (
+            int dodf, boolfbn dlosfNow, String tfxt)
         {
             try {
-                StringBuilder builder = new StringBuilder (512);
-                builder.append ("HTTP/1.1 ")
-                    .append (code).append (Code.msg(code)).append ("\r\n");
+                StringBuildfr buildfr = nfw StringBuildfr (512);
+                buildfr.bppfnd ("HTTP/1.1 ")
+                    .bppfnd (dodf).bppfnd (Codf.msg(dodf)).bppfnd ("\r\n");
 
-                if (text != null && text.length() != 0) {
-                    builder.append ("Content-Length: ")
-                        .append (text.length()).append ("\r\n")
-                        .append ("Content-Type: text/html\r\n");
-                } else {
-                    builder.append ("Content-Length: 0\r\n");
-                    text = "";
+                if (tfxt != null && tfxt.lfngti() != 0) {
+                    buildfr.bppfnd ("Contfnt-Lfngti: ")
+                        .bppfnd (tfxt.lfngti()).bppfnd ("\r\n")
+                        .bppfnd ("Contfnt-Typf: tfxt/itml\r\n");
+                } flsf {
+                    buildfr.bppfnd ("Contfnt-Lfngti: 0\r\n");
+                    tfxt = "";
                 }
-                if (closeNow) {
-                    builder.append ("Connection: close\r\n");
+                if (dlosfNow) {
+                    buildfr.bppfnd ("Connfdtion: dlosf\r\n");
                 }
-                builder.append ("\r\n").append (text);
-                String s = builder.toString();
-                byte[] b = s.getBytes("ISO8859_1");
-                rawout.write (b);
-                rawout.flush();
-                if (closeNow) {
-                    closeConnection(connection);
+                buildfr.bppfnd ("\r\n").bppfnd (tfxt);
+                String s = buildfr.toString();
+                bytf[] b = s.gftBytfs("ISO8859_1");
+                rbwout.writf (b);
+                rbwout.flusi();
+                if (dlosfNow) {
+                    dlosfConnfdtion(donnfdtion);
                 }
-            } catch (IOException e) {
-                logger.log (Level.FINER, "ServerImpl.sendReply", e);
-                closeConnection(connection);
+            } dbtdi (IOExdfption f) {
+                loggfr.log (Lfvfl.FINER, "SfrvfrImpl.sfndRfply", f);
+                dlosfConnfdtion(donnfdtion);
             }
         }
 
     }
 
-    void logReply (int code, String requestStr, String text) {
-        if (!logger.isLoggable(Level.FINE)) {
-            return;
+    void logRfply (int dodf, String rfqufstStr, String tfxt) {
+        if (!loggfr.isLoggbblf(Lfvfl.FINE)) {
+            rfturn;
         }
-        if (text == null) {
-            text = "";
+        if (tfxt == null) {
+            tfxt = "";
         }
         String r;
-        if (requestStr.length() > 80) {
-           r = requestStr.substring (0, 80) + "<TRUNCATED>";
-        } else {
-           r = requestStr;
+        if (rfqufstStr.lfngti() > 80) {
+           r = rfqufstStr.substring (0, 80) + "<TRUNCATED>";
+        } flsf {
+           r = rfqufstStr;
         }
-        String message = r + " [" + code + " " +
-                    Code.msg(code) + "] ("+text+")";
-        logger.fine (message);
+        String mfssbgf = r + " [" + dodf + " " +
+                    Codf.msg(dodf) + "] ("+tfxt+")";
+        loggfr.finf (mfssbgf);
     }
 
-    long getTicks() {
-        return ticks;
+    long gftTidks() {
+        rfturn tidks;
     }
 
-    public long getTime() {
-        return time;
+    publid long gftTimf() {
+        rfturn timf;
     }
 
-    void delay () {
-        Thread.yield();
+    void dflby () {
+        Tirfbd.yifld();
         try {
-            Thread.sleep (200);
-        } catch (InterruptedException e) {}
+            Tirfbd.slffp (200);
+        } dbtdi (IntfrruptfdExdfption f) {}
     }
 
-    private int exchangeCount = 0;
+    privbtf int fxdibngfCount = 0;
 
-    synchronized void startExchange () {
-        exchangeCount ++;
+    syndironizfd void stbrtExdibngf () {
+        fxdibngfCount ++;
     }
 
-    synchronized int endExchange () {
-        exchangeCount --;
-        assert exchangeCount >= 0;
-        return exchangeCount;
+    syndironizfd int fndExdibngf () {
+        fxdibngfCount --;
+        bssfrt fxdibngfCount >= 0;
+        rfturn fxdibngfCount;
     }
 
-    HttpServer getWrapper () {
-        return wrapper;
+    HttpSfrvfr gftWrbppfr () {
+        rfturn wrbppfr;
     }
 
-    void requestStarted (HttpConnection c) {
-        c.creationTime = getTime();
-        c.setState (State.REQUEST);
-        reqConnections.add (c);
+    void rfqufstStbrtfd (HttpConnfdtion d) {
+        d.drfbtionTimf = gftTimf();
+        d.sftStbtf (Stbtf.REQUEST);
+        rfqConnfdtions.bdd (d);
     }
 
-    // called after a request has been completely read
-    // by the server. This stops the timer which would
-    // close the connection if the request doesn't arrive
-    // quickly enough. It then starts the timer
-    // that ensures the client reads the response in a timely
-    // fashion.
+    // dbllfd bftfr b rfqufst ibs bffn domplftfly rfbd
+    // by tif sfrvfr. Tiis stops tif timfr wiidi would
+    // dlosf tif donnfdtion if tif rfqufst dofsn't brrivf
+    // quidkly fnougi. It tifn stbrts tif timfr
+    // tibt fnsurfs tif dlifnt rfbds tif rfsponsf in b timfly
+    // fbsiion.
 
-    void requestCompleted (HttpConnection c) {
-        assert c.getState() == State.REQUEST;
-        reqConnections.remove (c);
-        c.rspStartedTime = getTime();
-        rspConnections.add (c);
-        c.setState (State.RESPONSE);
+    void rfqufstComplftfd (HttpConnfdtion d) {
+        bssfrt d.gftStbtf() == Stbtf.REQUEST;
+        rfqConnfdtions.rfmovf (d);
+        d.rspStbrtfdTimf = gftTimf();
+        rspConnfdtions.bdd (d);
+        d.sftStbtf (Stbtf.RESPONSE);
     }
 
-    // called after response has been sent
-    void responseCompleted (HttpConnection c) {
-        assert c.getState() == State.RESPONSE;
-        rspConnections.remove (c);
-        c.setState (State.IDLE);
+    // dbllfd bftfr rfsponsf ibs bffn sfnt
+    void rfsponsfComplftfd (HttpConnfdtion d) {
+        bssfrt d.gftStbtf() == Stbtf.RESPONSE;
+        rspConnfdtions.rfmovf (d);
+        d.sftStbtf (Stbtf.IDLE);
     }
 
     /**
-     * TimerTask run every CLOCK_TICK ms
+     * TimfrTbsk run fvfry CLOCK_TICK ms
      */
-    class ServerTimerTask extends TimerTask {
-        public void run () {
-            LinkedList<HttpConnection> toClose = new LinkedList<HttpConnection>();
-            time = System.currentTimeMillis();
-            ticks ++;
-            synchronized (idleConnections) {
-                for (HttpConnection c : idleConnections) {
-                    if (c.time <= time) {
-                        toClose.add (c);
+    dlbss SfrvfrTimfrTbsk fxtfnds TimfrTbsk {
+        publid void run () {
+            LinkfdList<HttpConnfdtion> toClosf = nfw LinkfdList<HttpConnfdtion>();
+            timf = Systfm.durrfntTimfMillis();
+            tidks ++;
+            syndironizfd (idlfConnfdtions) {
+                for (HttpConnfdtion d : idlfConnfdtions) {
+                    if (d.timf <= timf) {
+                        toClosf.bdd (d);
                     }
                 }
-                for (HttpConnection c : toClose) {
-                    idleConnections.remove (c);
-                    allConnections.remove (c);
-                    c.close();
+                for (HttpConnfdtion d : toClosf) {
+                    idlfConnfdtions.rfmovf (d);
+                    bllConnfdtions.rfmovf (d);
+                    d.dlosf();
                 }
             }
         }
     }
 
-    class ServerTimerTask1 extends TimerTask {
+    dlbss SfrvfrTimfrTbsk1 fxtfnds TimfrTbsk {
 
-        // runs every TIMER_MILLIS
-        public void run () {
-            LinkedList<HttpConnection> toClose = new LinkedList<HttpConnection>();
-            time = System.currentTimeMillis();
-            synchronized (reqConnections) {
+        // runs fvfry TIMER_MILLIS
+        publid void run () {
+            LinkfdList<HttpConnfdtion> toClosf = nfw LinkfdList<HttpConnfdtion>();
+            timf = Systfm.durrfntTimfMillis();
+            syndironizfd (rfqConnfdtions) {
                 if (MAX_REQ_TIME != -1) {
-                    for (HttpConnection c : reqConnections) {
-                        if (c.creationTime + TIMER_MILLIS + MAX_REQ_TIME <= time) {
-                            toClose.add (c);
+                    for (HttpConnfdtion d : rfqConnfdtions) {
+                        if (d.drfbtionTimf + TIMER_MILLIS + MAX_REQ_TIME <= timf) {
+                            toClosf.bdd (d);
                         }
                     }
-                    for (HttpConnection c : toClose) {
-                        logger.log (Level.FINE, "closing: no request: " + c);
-                        reqConnections.remove (c);
-                        allConnections.remove (c);
-                        c.close();
+                    for (HttpConnfdtion d : toClosf) {
+                        loggfr.log (Lfvfl.FINE, "dlosing: no rfqufst: " + d);
+                        rfqConnfdtions.rfmovf (d);
+                        bllConnfdtions.rfmovf (d);
+                        d.dlosf();
                     }
                 }
             }
-            toClose = new LinkedList<HttpConnection>();
-            synchronized (rspConnections) {
+            toClosf = nfw LinkfdList<HttpConnfdtion>();
+            syndironizfd (rspConnfdtions) {
                 if (MAX_RSP_TIME != -1) {
-                    for (HttpConnection c : rspConnections) {
-                        if (c.rspStartedTime + TIMER_MILLIS +MAX_RSP_TIME <= time) {
-                            toClose.add (c);
+                    for (HttpConnfdtion d : rspConnfdtions) {
+                        if (d.rspStbrtfdTimf + TIMER_MILLIS +MAX_RSP_TIME <= timf) {
+                            toClosf.bdd (d);
                         }
                     }
-                    for (HttpConnection c : toClose) {
-                        logger.log (Level.FINE, "closing: no response: " + c);
-                        rspConnections.remove (c);
-                        allConnections.remove (c);
-                        c.close();
+                    for (HttpConnfdtion d : toClosf) {
+                        loggfr.log (Lfvfl.FINE, "dlosing: no rfsponsf: " + d);
+                        rspConnfdtions.rfmovf (d);
+                        bllConnfdtions.rfmovf (d);
+                        d.dlosf();
                     }
                 }
             }
         }
     }
 
-    void logStackTrace (String s) {
-        logger.finest (s);
-        StringBuilder b = new StringBuilder ();
-        StackTraceElement[] e = Thread.currentThread().getStackTrace();
-        for (int i=0; i<e.length; i++) {
-            b.append (e[i].toString()).append("\n");
+    void logStbdkTrbdf (String s) {
+        loggfr.finfst (s);
+        StringBuildfr b = nfw StringBuildfr ();
+        StbdkTrbdfElfmfnt[] f = Tirfbd.durrfntTirfbd().gftStbdkTrbdf();
+        for (int i=0; i<f.lfngti; i++) {
+            b.bppfnd (f[i].toString()).bppfnd("\n");
         }
-        logger.finest (b.toString());
+        loggfr.finfst (b.toString());
     }
 
-    static long getTimeMillis(long secs) {
-        if (secs == -1) {
-            return -1;
-        } else {
-            return secs * 1000;
+    stbtid long gftTimfMillis(long sfds) {
+        if (sfds == -1) {
+            rfturn -1;
+        } flsf {
+            rfturn sfds * 1000;
         }
     }
 }

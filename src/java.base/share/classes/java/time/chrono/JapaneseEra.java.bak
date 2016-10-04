@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,334 +59,334 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import static java.time.chrono.JapaneseDate.MEIJI_6_ISODATE;
-import static java.time.temporal.ChronoField.ERA;
+import stbtid jbvb.timf.dirono.JbpbnfsfDbtf.MEIJI_6_ISODATE;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ERA;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamException;
-import java.io.Serializable;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Arrays;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Arrbys;
+import jbvb.util.Objfdts;
 
-import sun.util.calendar.CalendarDate;
+import sun.util.dblfndbr.CblfndbrDbtf;
 
 /**
- * An era in the Japanese Imperial calendar system.
+ * An frb in tif Jbpbnfsf Impfribl dblfndbr systfm.
  * <p>
- * This class defines the valid eras for the Japanese chronology.
- * Japan introduced the Gregorian calendar starting with Meiji 6.
- * Only Meiji and later eras are supported;
- * dates before Meiji 6, January 1 are not supported.
+ * Tiis dlbss dffinfs tif vblid frbs for tif Jbpbnfsf dironology.
+ * Jbpbn introdudfd tif Grfgoribn dblfndbr stbrting witi Mfiji 6.
+ * Only Mfiji bnd lbtfr frbs brf supportfd;
+ * dbtfs bfforf Mfiji 6, Jbnubry 1 brf not supportfd.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class JapaneseEra
-        implements Era, Serializable {
+publid finbl dlbss JbpbnfsfErb
+        implfmfnts Erb, Sfriblizbblf {
 
-    // The offset value to 0-based index from the era value.
-    // i.e., getValue() + ERA_OFFSET == 0-based index
-    static final int ERA_OFFSET = 2;
+    // Tif offsft vbluf to 0-bbsfd indfx from tif frb vbluf.
+    // i.f., gftVbluf() + ERA_OFFSET == 0-bbsfd indfx
+    stbtid finbl int ERA_OFFSET = 2;
 
-    static final sun.util.calendar.Era[] ERA_CONFIG;
-
-    /**
-     * The singleton instance for the 'Meiji' era (1868-01-01 - 1912-07-29)
-     * which has the value -1.
-     */
-    public static final JapaneseEra MEIJI = new JapaneseEra(-1, LocalDate.of(1868, 1, 1));
-    /**
-     * The singleton instance for the 'Taisho' era (1912-07-30 - 1926-12-24)
-     * which has the value 0.
-     */
-    public static final JapaneseEra TAISHO = new JapaneseEra(0, LocalDate.of(1912, 7, 30));
-    /**
-     * The singleton instance for the 'Showa' era (1926-12-25 - 1989-01-07)
-     * which has the value 1.
-     */
-    public static final JapaneseEra SHOWA = new JapaneseEra(1, LocalDate.of(1926, 12, 25));
-    /**
-     * The singleton instance for the 'Heisei' era (1989-01-08 - current)
-     * which has the value 2.
-     */
-    public static final JapaneseEra HEISEI = new JapaneseEra(2, LocalDate.of(1989, 1, 8));
-
-    // the number of defined JapaneseEra constants.
-    // There could be an extra era defined in its configuration.
-    private static final int N_ERA_CONSTANTS = HEISEI.getValue() + ERA_OFFSET;
+    stbtid finbl sun.util.dblfndbr.Erb[] ERA_CONFIG;
 
     /**
-     * Serialization version.
+     * Tif singlfton instbndf for tif 'Mfiji' frb (1868-01-01 - 1912-07-29)
+     * wiidi ibs tif vbluf -1.
      */
-    private static final long serialVersionUID = 1466499369062886794L;
+    publid stbtid finbl JbpbnfsfErb MEIJI = nfw JbpbnfsfErb(-1, LodblDbtf.of(1868, 1, 1));
+    /**
+     * Tif singlfton instbndf for tif 'Tbisio' frb (1912-07-30 - 1926-12-24)
+     * wiidi ibs tif vbluf 0.
+     */
+    publid stbtid finbl JbpbnfsfErb TAISHO = nfw JbpbnfsfErb(0, LodblDbtf.of(1912, 7, 30));
+    /**
+     * Tif singlfton instbndf for tif 'Siowb' frb (1926-12-25 - 1989-01-07)
+     * wiidi ibs tif vbluf 1.
+     */
+    publid stbtid finbl JbpbnfsfErb SHOWA = nfw JbpbnfsfErb(1, LodblDbtf.of(1926, 12, 25));
+    /**
+     * Tif singlfton instbndf for tif 'Hfisfi' frb (1989-01-08 - durrfnt)
+     * wiidi ibs tif vbluf 2.
+     */
+    publid stbtid finbl JbpbnfsfErb HEISEI = nfw JbpbnfsfErb(2, LodblDbtf.of(1989, 1, 8));
 
-    // array for the singleton JapaneseEra instances
-    private static final JapaneseEra[] KNOWN_ERAS;
+    // tif numbfr of dffinfd JbpbnfsfErb donstbnts.
+    // Tifrf dould bf bn fxtrb frb dffinfd in its donfigurbtion.
+    privbtf stbtid finbl int N_ERA_CONSTANTS = HEISEI.gftVbluf() + ERA_OFFSET;
 
-    static {
-        ERA_CONFIG = JapaneseChronology.JCAL.getEras();
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1466499369062886794L;
 
-        KNOWN_ERAS = new JapaneseEra[ERA_CONFIG.length];
+    // brrby for tif singlfton JbpbnfsfErb instbndfs
+    privbtf stbtid finbl JbpbnfsfErb[] KNOWN_ERAS;
+
+    stbtid {
+        ERA_CONFIG = JbpbnfsfCironology.JCAL.gftErbs();
+
+        KNOWN_ERAS = nfw JbpbnfsfErb[ERA_CONFIG.lfngti];
         KNOWN_ERAS[0] = MEIJI;
         KNOWN_ERAS[1] = TAISHO;
         KNOWN_ERAS[2] = SHOWA;
         KNOWN_ERAS[3] = HEISEI;
-        for (int i = N_ERA_CONSTANTS; i < ERA_CONFIG.length; i++) {
-            CalendarDate date = ERA_CONFIG[i].getSinceDate();
-            LocalDate isoDate = LocalDate.of(date.getYear(), date.getMonth(), date.getDayOfMonth());
-            KNOWN_ERAS[i] = new JapaneseEra(i - ERA_OFFSET + 1, isoDate);
+        for (int i = N_ERA_CONSTANTS; i < ERA_CONFIG.lfngti; i++) {
+            CblfndbrDbtf dbtf = ERA_CONFIG[i].gftSindfDbtf();
+            LodblDbtf isoDbtf = LodblDbtf.of(dbtf.gftYfbr(), dbtf.gftMonti(), dbtf.gftDbyOfMonti());
+            KNOWN_ERAS[i] = nfw JbpbnfsfErb(i - ERA_OFFSET + 1, isoDbtf);
         }
     };
 
     /**
-     * The era value.
-     * @serial
+     * Tif frb vbluf.
+     * @sfribl
      */
-    private final transient int eraValue;
+    privbtf finbl trbnsifnt int frbVbluf;
 
-    // the first day of the era
-    private final transient LocalDate since;
+    // tif first dby of tif frb
+    privbtf finbl trbnsifnt LodblDbtf sindf;
 
     /**
-     * Creates an instance.
+     * Crfbtfs bn instbndf.
      *
-     * @param eraValue  the era value, validated
-     * @param since  the date representing the first date of the era, validated not null
+     * @pbrbm frbVbluf  tif frb vbluf, vblidbtfd
+     * @pbrbm sindf  tif dbtf rfprfsfnting tif first dbtf of tif frb, vblidbtfd not null
      */
-    private JapaneseEra(int eraValue, LocalDate since) {
-        this.eraValue = eraValue;
-        this.since = since;
+    privbtf JbpbnfsfErb(int frbVbluf, LodblDbtf sindf) {
+        tiis.frbVbluf = frbVbluf;
+        tiis.sindf = sindf;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns the Sun private Era instance corresponding to this {@code JapaneseEra}.
+     * Rfturns tif Sun privbtf Erb instbndf dorrfsponding to tiis {@dodf JbpbnfsfErb}.
      *
-     * @return the Sun private Era instance for this {@code JapaneseEra}.
+     * @rfturn tif Sun privbtf Erb instbndf for tiis {@dodf JbpbnfsfErb}.
      */
-    sun.util.calendar.Era getPrivateEra() {
-        return ERA_CONFIG[ordinal(eraValue)];
+    sun.util.dblfndbr.Erb gftPrivbtfErb() {
+        rfturn ERA_CONFIG[ordinbl(frbVbluf)];
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code JapaneseEra} from an {@code int} value.
+     * Obtbins bn instbndf of {@dodf JbpbnfsfErb} from bn {@dodf int} vbluf.
      * <p>
-     * The {@link #SHOWA} era that contains 1970-01-01 (ISO calendar system) has the value 1
-     * Later era is numbered 2 ({@link #HEISEI}). Earlier eras are numbered 0 ({@link #TAISHO}),
-     * -1 ({@link #MEIJI}), only Meiji and later eras are supported.
+     * Tif {@link #SHOWA} frb tibt dontbins 1970-01-01 (ISO dblfndbr systfm) ibs tif vbluf 1
+     * Lbtfr frb is numbfrfd 2 ({@link #HEISEI}). Ebrlifr frbs brf numbfrfd 0 ({@link #TAISHO}),
+     * -1 ({@link #MEIJI}), only Mfiji bnd lbtfr frbs brf supportfd.
      *
-     * @param japaneseEra  the era to represent
-     * @return the {@code JapaneseEra} singleton, not null
-     * @throws DateTimeException if the value is invalid
+     * @pbrbm jbpbnfsfErb  tif frb to rfprfsfnt
+     * @rfturn tif {@dodf JbpbnfsfErb} singlfton, not null
+     * @tirows DbtfTimfExdfption if tif vbluf is invblid
      */
-    public static JapaneseEra of(int japaneseEra) {
-        if (japaneseEra < MEIJI.eraValue || japaneseEra + ERA_OFFSET > KNOWN_ERAS.length) {
-            throw new DateTimeException("Invalid era: " + japaneseEra);
+    publid stbtid JbpbnfsfErb of(int jbpbnfsfErb) {
+        if (jbpbnfsfErb < MEIJI.frbVbluf || jbpbnfsfErb + ERA_OFFSET > KNOWN_ERAS.lfngti) {
+            tirow nfw DbtfTimfExdfption("Invblid frb: " + jbpbnfsfErb);
         }
-        return KNOWN_ERAS[ordinal(japaneseEra)];
+        rfturn KNOWN_ERAS[ordinbl(jbpbnfsfErb)];
     }
 
     /**
-     * Returns the {@code JapaneseEra} with the name.
+     * Rfturns tif {@dodf JbpbnfsfErb} witi tif nbmf.
      * <p>
-     * The string must match exactly the name of the era.
-     * (Extraneous whitespace characters are not permitted.)
+     * Tif string must mbtdi fxbdtly tif nbmf of tif frb.
+     * (Extrbnfous wiitfspbdf dibrbdtfrs brf not pfrmittfd.)
      *
-     * @param japaneseEra  the japaneseEra name; non-null
-     * @return the {@code JapaneseEra} singleton, never null
-     * @throws IllegalArgumentException if there is not JapaneseEra with the specified name
+     * @pbrbm jbpbnfsfErb  tif jbpbnfsfErb nbmf; non-null
+     * @rfturn tif {@dodf JbpbnfsfErb} singlfton, nfvfr null
+     * @tirows IllfgblArgumfntExdfption if tifrf is not JbpbnfsfErb witi tif spfdififd nbmf
      */
-    public static JapaneseEra valueOf(String japaneseEra) {
-        Objects.requireNonNull(japaneseEra, "japaneseEra");
-        for (JapaneseEra era : KNOWN_ERAS) {
-            if (era.getName().equals(japaneseEra)) {
-                return era;
+    publid stbtid JbpbnfsfErb vblufOf(String jbpbnfsfErb) {
+        Objfdts.rfquirfNonNull(jbpbnfsfErb, "jbpbnfsfErb");
+        for (JbpbnfsfErb frb : KNOWN_ERAS) {
+            if (frb.gftNbmf().fqubls(jbpbnfsfErb)) {
+                rfturn frb;
             }
         }
-        throw new IllegalArgumentException("japaneseEra is invalid");
+        tirow nfw IllfgblArgumfntExdfption("jbpbnfsfErb is invblid");
     }
 
     /**
-     * Returns an array of JapaneseEras.
+     * Rfturns bn brrby of JbpbnfsfErbs.
      * <p>
-     * This method may be used to iterate over the JapaneseEras as follows:
-     * <pre>
-     * for (JapaneseEra c : JapaneseEra.values())
-     *     System.out.println(c);
-     * </pre>
+     * Tiis mftiod mby bf usfd to itfrbtf ovfr tif JbpbnfsfErbs bs follows:
+     * <prf>
+     * for (JbpbnfsfErb d : JbpbnfsfErb.vblufs())
+     *     Systfm.out.println(d);
+     * </prf>
      *
-     * @return an array of JapaneseEras
+     * @rfturn bn brrby of JbpbnfsfErbs
      */
-    public static JapaneseEra[] values() {
-        return Arrays.copyOf(KNOWN_ERAS, KNOWN_ERAS.length);
+    publid stbtid JbpbnfsfErb[] vblufs() {
+        rfturn Arrbys.dopyOf(KNOWN_ERAS, KNOWN_ERAS.lfngti);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code JapaneseEra} from a date.
+     * Obtbins bn instbndf of {@dodf JbpbnfsfErb} from b dbtf.
      *
-     * @param date  the date, not null
-     * @return the Era singleton, never null
+     * @pbrbm dbtf  tif dbtf, not null
+     * @rfturn tif Erb singlfton, nfvfr null
      */
-    static JapaneseEra from(LocalDate date) {
-        if (date.isBefore(MEIJI_6_ISODATE)) {
-            throw new DateTimeException("JapaneseDate before Meiji 6 are not supported");
+    stbtid JbpbnfsfErb from(LodblDbtf dbtf) {
+        if (dbtf.isBfforf(MEIJI_6_ISODATE)) {
+            tirow nfw DbtfTimfExdfption("JbpbnfsfDbtf bfforf Mfiji 6 brf not supportfd");
         }
-        for (int i = KNOWN_ERAS.length - 1; i > 0; i--) {
-            JapaneseEra era = KNOWN_ERAS[i];
-            if (date.compareTo(era.since) >= 0) {
-                return era;
+        for (int i = KNOWN_ERAS.lfngti - 1; i > 0; i--) {
+            JbpbnfsfErb frb = KNOWN_ERAS[i];
+            if (dbtf.dompbrfTo(frb.sindf) >= 0) {
+                rfturn frb;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    static JapaneseEra toJapaneseEra(sun.util.calendar.Era privateEra) {
-        for (int i = ERA_CONFIG.length - 1; i >= 0; i--) {
-            if (ERA_CONFIG[i].equals(privateEra)) {
-                return KNOWN_ERAS[i];
+    stbtid JbpbnfsfErb toJbpbnfsfErb(sun.util.dblfndbr.Erb privbtfErb) {
+        for (int i = ERA_CONFIG.lfngti - 1; i >= 0; i--) {
+            if (ERA_CONFIG[i].fqubls(privbtfErb)) {
+                rfturn KNOWN_ERAS[i];
             }
         }
-        return null;
+        rfturn null;
     }
 
-    static sun.util.calendar.Era privateEraFrom(LocalDate isoDate) {
-        for (int i = KNOWN_ERAS.length - 1; i > 0; i--) {
-            JapaneseEra era = KNOWN_ERAS[i];
-            if (isoDate.compareTo(era.since) >= 0) {
-                return ERA_CONFIG[i];
+    stbtid sun.util.dblfndbr.Erb privbtfErbFrom(LodblDbtf isoDbtf) {
+        for (int i = KNOWN_ERAS.lfngti - 1; i > 0; i--) {
+            JbpbnfsfErb frb = KNOWN_ERAS[i];
+            if (isoDbtf.dompbrfTo(frb.sindf) >= 0) {
+                rfturn ERA_CONFIG[i];
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the index into the arrays from the Era value.
-     * the eraValue is a valid Era number, -1..2.
+     * Rfturns tif indfx into tif brrbys from tif Erb vbluf.
+     * tif frbVbluf is b vblid Erb numbfr, -1..2.
      *
-     * @param eraValue  the era value to convert to the index
-     * @return the index of the current Era
+     * @pbrbm frbVbluf  tif frb vbluf to donvfrt to tif indfx
+     * @rfturn tif indfx of tif durrfnt Erb
      */
-    private static int ordinal(int eraValue) {
-        return eraValue + ERA_OFFSET - 1;
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Gets the numeric era {@code int} value.
-     * <p>
-     * The {@link #SHOWA} era that contains 1970-01-01 (ISO calendar system) has the value 1.
-     * Later eras are numbered from 2 ({@link #HEISEI}).
-     * Earlier eras are numbered 0 ({@link #TAISHO}), -1 ({@link #MEIJI})).
-     *
-     * @return the era value
-     */
-    @Override
-    public int getValue() {
-        return eraValue;
+    privbtf stbtid int ordinbl(int frbVbluf) {
+        rfturn frbVbluf + ERA_OFFSET - 1;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the range of valid values for the specified field.
+     * Gfts tif numfrid frb {@dodf int} vbluf.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This era is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
-     * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@code ERA} field returns the range.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
-     * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
-     * <p>
-     * The range of valid Japanese eras can change over time due to the nature
-     * of the Japanese calendar system.
+     * Tif {@link #SHOWA} frb tibt dontbins 1970-01-01 (ISO dblfndbr systfm) ibs tif vbluf 1.
+     * Lbtfr frbs brf numbfrfd from 2 ({@link #HEISEI}).
+     * Ebrlifr frbs brf numbfrfd 0 ({@link #TAISHO}), -1 ({@link #MEIJI})).
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @rfturn tif frb vbluf
      */
-    @Override  // override as super would return range from 0 to 1
-    public ValueRange range(TemporalField field) {
-        if (field == ERA) {
-            return JapaneseChronology.INSTANCE.range(ERA);
+    @Ovfrridf
+    publid int gftVbluf() {
+        rfturn frbVbluf;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts tif rbngf of vblid vblufs for tif spfdififd fifld.
+     * <p>
+     * Tif rbngf objfdt fxprfssfs tif minimum bnd mbximum vblid vblufs for b fifld.
+     * Tiis frb is usfd to fnibndf tif bddurbdy of tif rfturnfd rbngf.
+     * If it is not possiblf to rfturn tif rbngf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
+     * <p>
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif {@dodf ERA} fifld rfturns tif rbngf.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.rbngfRffinfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif rbngf dbn bf obtbinfd is dftfrminfd by tif fifld.
+     * <p>
+     * Tif rbngf of vblid Jbpbnfsf frbs dbn dibngf ovfr timf duf to tif nbturf
+     * of tif Jbpbnfsf dblfndbr systfm.
+     *
+     * @pbrbm fifld  tif fifld to qufry tif rbngf for, not null
+     * @rfturn tif rbngf of vblid vblufs for tif fifld, not null
+     * @tirows DbtfTimfExdfption if tif rbngf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd
+     */
+    @Ovfrridf  // ovfrridf bs supfr would rfturn rbngf from 0 to 1
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld == ERA) {
+            rfturn JbpbnfsfCironology.INSTANCE.rbngf(ERA);
         }
-        return Era.super.range(field);
+        rfturn Erb.supfr.rbngf(fifld);
     }
 
     //-----------------------------------------------------------------------
-    String getAbbreviation() {
-        int index = ordinal(getValue());
-        if (index == 0) {
-            return "";
+    String gftAbbrfvibtion() {
+        int indfx = ordinbl(gftVbluf());
+        if (indfx == 0) {
+            rfturn "";
         }
-        return ERA_CONFIG[index].getAbbreviation();
+        rfturn ERA_CONFIG[indfx].gftAbbrfvibtion();
     }
 
-    String getName() {
-        return ERA_CONFIG[ordinal(getValue())].getName();
+    String gftNbmf() {
+        rfturn ERA_CONFIG[ordinbl(gftVbluf())].gftNbmf();
     }
 
-    @Override
-    public String toString() {
-        return getName();
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Defend against malicious streams.
-     *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
-     */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    @Ovfrridf
+    publid String toString() {
+        rfturn gftNbmf();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
-     *  out.writeByte(5);        // identifies a JapaneseEra
-     *  out.writeInt(getValue());
-     * </pre>
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @return the instance of {@code Ser}, not null
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private Object writeReplace() {
-        return new Ser(Ser.JAPANESE_ERA_TYPE, this);
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeByte(this.getValue());
+    //-----------------------------------------------------------------------
+    /**
+     * Writfs tif objfdt using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(5);        // idfntififs b JbpbnfsfErb
+     *  out.writfInt(gftVbluf());
+     * </prf>
+     *
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     */
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.JAPANESE_ERA_TYPE, tiis);
     }
 
-    static JapaneseEra readExternal(DataInput in) throws IOException {
-        byte eraValue = in.readByte();
-        return JapaneseEra.of(eraValue);
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        out.writfBytf(tiis.gftVbluf());
+    }
+
+    stbtid JbpbnfsfErb rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+        bytf frbVbluf = in.rfbdBytf();
+        rfturn JbpbnfsfErb.of(frbVbluf);
     }
 
 }

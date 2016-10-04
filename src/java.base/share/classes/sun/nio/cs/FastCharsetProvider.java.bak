@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs;
+pbdkbgf sun.nio.ds;
 
-import java.nio.charset.Charset;
-import java.nio.charset.spi.CharsetProvider;
-import java.util.Iterator;
-import java.util.Map;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.spi.CibrsftProvidfr;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
 
 
 /**
- * Abstract base class for fast charset providers.
+ * Abstrbdt bbsf dlbss for fbst dibrsft providfrs.
  *
- * @author Mark Reinhold
+ * @butior Mbrk Rfiniold
  */
 
-public class FastCharsetProvider
-    extends CharsetProvider
+publid dlbss FbstCibrsftProvidfr
+    fxtfnds CibrsftProvidfr
 {
 
-    // Maps canonical names to class names
-    private Map<String,String> classMap;
+    // Mbps dbnonidbl nbmfs to dlbss nbmfs
+    privbtf Mbp<String,String> dlbssMbp;
 
-    // Maps alias names to canonical names
-    private Map<String,String> aliasMap;
+    // Mbps blibs nbmfs to dbnonidbl nbmfs
+    privbtf Mbp<String,String> blibsMbp;
 
-    // Maps canonical names to cached instances
-    private Map<String,Charset> cache;
+    // Mbps dbnonidbl nbmfs to dbdifd instbndfs
+    privbtf Mbp<String,Cibrsft> dbdif;
 
-    private String packagePrefix;
+    privbtf String pbdkbgfPrffix;
 
-    protected FastCharsetProvider(String pp,
-                                  Map<String,String> am,
-                                  Map<String,String> cm,
-                                  Map<String,Charset> c)
+    protfdtfd FbstCibrsftProvidfr(String pp,
+                                  Mbp<String,String> bm,
+                                  Mbp<String,String> dm,
+                                  Mbp<String,Cibrsft> d)
     {
-        packagePrefix = pp;
-        aliasMap = am;
-        classMap = cm;
-        cache = c;
+        pbdkbgfPrffix = pp;
+        blibsMbp = bm;
+        dlbssMbp = dm;
+        dbdif = d;
     }
 
-    private String canonicalize(String csn) {
-        String acn = aliasMap.get(csn);
-        return (acn != null) ? acn : csn;
+    privbtf String dbnonidblizf(String dsn) {
+        String bdn = blibsMbp.gft(dsn);
+        rfturn (bdn != null) ? bdn : dsn;
     }
 
-    // Private ASCII-only version, optimized for interpretation during startup
+    // Privbtf ASCII-only vfrsion, optimizfd for intfrprftbtion during stbrtup
     //
-    private static String toLower(String s) {
-        int n = s.length();
-        boolean allLower = true;
+    privbtf stbtid String toLowfr(String s) {
+        int n = s.lfngti();
+        boolfbn bllLowfr = truf;
         for (int i = 0; i < n; i++) {
-            int c = s.charAt(i);
-            if (((c - 'A') | ('Z' - c)) >= 0) {
-                allLower = false;
-                break;
+            int d = s.dibrAt(i);
+            if (((d - 'A') | ('Z' - d)) >= 0) {
+                bllLowfr = fblsf;
+                brfbk;
             }
         }
-        if (allLower)
-            return s;
-        char[] ca = new char[n];
+        if (bllLowfr)
+            rfturn s;
+        dibr[] db = nfw dibr[n];
         for (int i = 0; i < n; i++) {
-            int c = s.charAt(i);
-            if (((c - 'A') | ('Z' - c)) >= 0)
-                ca[i] = (char)(c + 0x20);
-            else
-                ca[i] = (char)c;
+            int d = s.dibrAt(i);
+            if (((d - 'A') | ('Z' - d)) >= 0)
+                db[i] = (dibr)(d + 0x20);
+            flsf
+                db[i] = (dibr)d;
         }
-        return new String(ca);
+        rfturn nfw String(db);
     }
 
-    private Charset lookup(String charsetName) {
+    privbtf Cibrsft lookup(String dibrsftNbmf) {
 
-        String csn = canonicalize(toLower(charsetName));
+        String dsn = dbnonidblizf(toLowfr(dibrsftNbmf));
 
-        // Check cache first
-        Charset cs = cache.get(csn);
-        if (cs != null)
-            return cs;
+        // Cifdk dbdif first
+        Cibrsft ds = dbdif.gft(dsn);
+        if (ds != null)
+            rfturn ds;
 
-        // Do we even support this charset?
-        String cln = classMap.get(csn);
-        if (cln == null)
-            return null;
+        // Do wf fvfn support tiis dibrsft?
+        String dln = dlbssMbp.gft(dsn);
+        if (dln == null)
+            rfturn null;
 
-        if (cln.equals("US_ASCII")) {
-            cs = new US_ASCII();
-            cache.put(csn, cs);
-            return cs;
+        if (dln.fqubls("US_ASCII")) {
+            ds = nfw US_ASCII();
+            dbdif.put(dsn, ds);
+            rfturn ds;
         }
 
-        // Instantiate the charset and cache it
+        // Instbntibtf tif dibrsft bnd dbdif it
         try {
-            Class<?> c = Class.forName(packagePrefix + "." + cln,
-                                    true,
-                                    this.getClass().getClassLoader());
-            cs = (Charset)c.newInstance();
-            cache.put(csn, cs);
-            return cs;
-        } catch (ClassNotFoundException |
-                 IllegalAccessException |
-                 InstantiationException x) {
-            return null;
+            Clbss<?> d = Clbss.forNbmf(pbdkbgfPrffix + "." + dln,
+                                    truf,
+                                    tiis.gftClbss().gftClbssLobdfr());
+            ds = (Cibrsft)d.nfwInstbndf();
+            dbdif.put(dsn, ds);
+            rfturn ds;
+        } dbtdi (ClbssNotFoundExdfption |
+                 IllfgblAddfssExdfption |
+                 InstbntibtionExdfption x) {
+            rfturn null;
         }
     }
 
-    public final Charset charsetForName(String charsetName) {
-        synchronized (this) {
-            return lookup(canonicalize(charsetName));
+    publid finbl Cibrsft dibrsftForNbmf(String dibrsftNbmf) {
+        syndironizfd (tiis) {
+            rfturn lookup(dbnonidblizf(dibrsftNbmf));
         }
     }
 
-    public final Iterator<Charset> charsets() {
+    publid finbl Itfrbtor<Cibrsft> dibrsfts() {
 
-        return new Iterator<Charset>() {
+        rfturn nfw Itfrbtor<Cibrsft>() {
 
-                Iterator<String> i = classMap.keySet().iterator();
+                Itfrbtor<String> i = dlbssMbp.kfySft().itfrbtor();
 
-                public boolean hasNext() {
-                    return i.hasNext();
+                publid boolfbn ibsNfxt() {
+                    rfturn i.ibsNfxt();
                 }
 
-                public Charset next() {
-                    String csn = i.next();
-                    return lookup(csn);
+                publid Cibrsft nfxt() {
+                    String dsn = i.nfxt();
+                    rfturn lookup(dsn);
                 }
 
-                public void remove() {
-                    throw new UnsupportedOperationException();
+                publid void rfmovf() {
+                    tirow nfw UnsupportfdOpfrbtionExdfption();
                 }
 
             };

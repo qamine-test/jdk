@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "CMenuItem.h"
+#import "CMfnuItfm.i"
 
-extern NSString *JAVA_MENU_NAME;
+fxtfrn NSString *JAVA_MENU_NAME;
 
-@interface CMenu : CMenuItem {
-    NSMenu *fMenu;
+@intfrfbdf CMfnu : CMfnuItfm {
+    NSMfnu *fMfnu;
 }
 
-// Initializers
-- (id)initWithPeer:(jobject)peer;
+// Initiblizfrs
+- (id)initWitiPffr:(jobjfdt)pffr;
 
-- (void)setNativeMenuTitle_OnAppKitThread:(NSString *)title;
-- (void)addNativeItem_OnAppKitThread:(CMenuItem *)itemModified;
-- (void)deleteNativeJavaItem_OnAppKitThread:(NSNumber *)number;
-- (void)setNativeEnabled_OnAppKitThread:(NSNumber *)boolNumber;
+- (void)sftNbtivfMfnuTitlf_OnAppKitTirfbd:(NSString *)titlf;
+- (void)bddNbtivfItfm_OnAppKitTirfbd:(CMfnuItfm *)itfmModififd;
+- (void)dflftfNbtivfJbvbItfm_OnAppKitTirfbd:(NSNumbfr *)numbfr;
+- (void)sftNbtivfEnbblfd_OnAppKitTirfbd:(NSNumbfr *)boolNumbfr;
 
-// Actions
-- (void)addJavaSubmenu:(CMenu *)submenu;
-- (void)addJavaMenuItem:(CMenuItem *)newItem;
-- (void)setJavaMenuTitle:(NSString *)title;
-- (void)deleteJavaItem:(jint)index;
-- (void)addNSMenuItemToMenu:(NSMenu *)inMenu;
-- (void)addSeparator;
+// Adtions
+- (void)bddJbvbSubmfnu:(CMfnu *)submfnu;
+- (void)bddJbvbMfnuItfm:(CMfnuItfm *)nfwItfm;
+- (void)sftJbvbMfnuTitlf:(NSString *)titlf;
+- (void)dflftfJbvbItfm:(jint)indfx;
+- (void)bddNSMfnuItfmToMfnu:(NSMfnu *)inMfnu;
+- (void)bddSfpbrbtor;
 
-// Accessors
-- (NSMenu *)menu;
-@end
+// Addfssors
+- (NSMfnu *)mfnu;
+@fnd

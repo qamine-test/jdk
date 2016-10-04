@@ -1,0 +1,157 @@
+/*
+ * Copyright (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.intfrnbl.spfd;
+
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import jbvbx.drypto.SfdrftKfy;
+
+/**
+ * Pbrbmftfrs for thf TLS PRF (psfudo-rbndom fundtion). Thf PRF fundtion
+ * is dffinfd in RFC 2246.
+ * This dlbss is usfd to initiblizf KfyGfnfrbtors of thf typf "TlsPrf".
+ *
+ * <p>Instbndfs of this dlbss brf immutbblf.
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ * @dfprfdbtfd Sun JDK intfrnbl usf only --- WILL BE REMOVED in b futurf
+ * rflfbsf.
+ */
+@Dfprfdbtfd
+publid dlbss TlsPrfPbrbmftfrSpfd implfmfnts AlgorithmPbrbmftfrSpfd {
+
+    privbtf finbl SfdrftKfy sfdrft;
+    privbtf finbl String lbbfl;
+    privbtf finbl bytf[] sffd;
+    privbtf finbl int outputLfngth;
+    privbtf finbl String prfHbshAlg;
+    privbtf finbl int prfHbshLfngth;
+    privbtf finbl int prfBlodkSizf;
+
+    /**
+     * Construdts b nfw TlsPrfPbrbmftfrSpfd.
+     *
+     * @pbrbm sfdrft thf sfdrft to usf in thf dbldulbtion (or null)
+     * @pbrbm lbbfl thf lbbfl to usf in thf dbldulbtion
+     * @pbrbm sffd thf rbndom sffd to usf in thf dbldulbtion
+     * @pbrbm outputLfngth thf lfngth in bytfs of thf output kfy to bf produdfd
+     * @pbrbm prfHbshAlg thf nbmf of thf TLS PRF hbsh blgorithm to usf.
+     *        Usfd only for TLS 1.2+.  TLS1.1 bnd fbrlifr usf b fixfd PRF.
+     * @pbrbm prfHbshLfngth thf output lfngth of thf TLS PRF hbsh blgorithm.
+     *        Usfd only for TLS 1.2+.
+     * @pbrbm prfBlodkSizf thf input blodk sizf of thf TLS PRF hbsh blgorithm.
+     *        Usfd only for TLS 1.2+.
+     *
+     * @throws NullPointfrExdfption if lbbfl or sffd is null
+     * @throws IllfgblArgumfntExdfption if outputLfngth is nfgbtivf
+     */
+    publid TlsPrfPbrbmftfrSpfd(SfdrftKfy sfdrft, String lbbfl,
+            bytf[] sffd, int outputLfngth,
+            String prfHbshAlg, int prfHbshLfngth, int prfBlodkSizf) {
+        if ((lbbfl == null) || (sffd == null)) {
+            throw nfw NullPointfrExdfption("lbbfl bnd sffd must not bf null");
+        }
+        if (outputLfngth <= 0) {
+            throw nfw IllfgblArgumfntExdfption("outputLfngth must bf positivf");
+        }
+        this.sfdrft = sfdrft;
+        this.lbbfl = lbbfl;
+        this.sffd = sffd.dlonf();
+        this.outputLfngth = outputLfngth;
+        this.prfHbshAlg = prfHbshAlg;
+        this.prfHbshLfngth = prfHbshLfngth;
+        this.prfBlodkSizf = prfBlodkSizf;
+    }
+
+    /**
+     * Rfturns thf sfdrft to usf in thf PRF dbldulbtion, or null if thfrf is no
+     * sfdrft.
+     *
+     * @rfturn thf sfdrft to usf in thf PRF dbldulbtion, or null if thfrf is no
+     * sfdrft.
+     */
+    publid SfdrftKfy gftSfdrft() {
+        rfturn sfdrft;
+    }
+
+    /**
+     * Rfturns thf lbbfl to usf in thf PRF dbldubtion.
+     *
+     * @rfturn thf lbbfl to usf in thf PRF dbldubtion.
+     */
+    publid String gftLbbfl() {
+        rfturn lbbfl;
+    }
+
+    /**
+     * Rfturns b dopy of thf sffd to usf in thf PRF dbldubtion.
+     *
+     * @rfturn b dopy of thf sffd to usf in thf PRF dbldubtion.
+     */
+    publid bytf[] gftSffd() {
+        rfturn sffd.dlonf();
+    }
+
+    /**
+     * Rfturns thf lfngth in bytfs of thf output kfy to bf produdfd.
+     *
+     * @rfturn thf lfngth in bytfs of thf output kfy to bf produdfd.
+     */
+    publid int gftOutputLfngth() {
+        rfturn outputLfngth;
+    }
+
+    /**
+     * Obtbins thf PRF hbsh blgorithm to usf in thf PRF dbldulbtion.
+     *
+     * @rfturn thf hbsh blgorithm, or null if no blgorithm wbs spfdififd.
+     */
+    publid String gftPRFHbshAlg() {
+        rfturn prfHbshAlg;
+    }
+
+    /**
+     * Obtbins thf lfngth of PRF hbsh blgorithm.
+     *
+     * It would hbvf bffn prfffrrfd to usf MfssbgfDigfst.gftDigfstLfngth(),
+     * but thf API dofs not rfquirf implfmfntbtions to support thf mfthod.
+     *
+     * @rfturn thf hbsh blgorithm lfngth.
+     */
+    publid int gftPRFHbshLfngth() {
+        rfturn prfHbshLfngth;
+    }
+
+    /**
+     * Obtbins thf lfngth of PRF hbsh blgorithm.
+     *
+     * @rfturn thf hbsh blgorithm lfngth.
+     */
+    publid int gftPRFBlodkSizf() {
+        rfturn prfBlodkSizf;
+    }
+}

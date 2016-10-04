@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.event.KeyEvent;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.Collfdtions;
+import jbvb.util.IdfntityHbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
 
 /**
- * Toolkit that provides resource support for JConsole.
+ * Toolkit tibt providfs rfsourdf support for JConsolf.
  */
-public final class Resources {
-    private static Map<String, Integer> MNEMONIC_LOOKUP = Collections
-            .synchronizedMap(new IdentityHashMap<String, Integer>());
+publid finbl dlbss Rfsourdfs {
+    privbtf stbtid Mbp<String, Intfgfr> MNEMONIC_LOOKUP = Collfdtions
+            .syndironizfdMbp(nfw IdfntityHbsiMbp<String, Intfgfr>());
 
-    private Resources() {
-        throw new AssertionError();
+    privbtf Rfsourdfs() {
+        tirow nfw AssfrtionError();
     }
 
     /**
-     * Convenience method for {@link MessageFormat#format(String, Object...)}.
+     * Convfnifndf mftiod for {@link MfssbgfFormbt#formbt(String, Objfdt...)}.
      *
-     * @param pattern the pattern
-     * @param objects the arguments for the pattern
+     * @pbrbm pbttfrn tif pbttfrn
+     * @pbrbm objfdts tif brgumfnts for tif pbttfrn
      *
-     * @return a formatted string
+     * @rfturn b formbttfd string
      */
-    public static String format(String pattern, Object... arguments) {
-            return MessageFormat.format(pattern, arguments);
+    publid stbtid String formbt(String pbttfrn, Objfdt... brgumfnts) {
+            rfturn MfssbgfFormbt.formbt(pbttfrn, brgumfnts);
     }
 
     /**
-     * Returns the mnemonic for a message.
+     * Rfturns tif mnfmonid for b mfssbgf.
      *
-     * @param message the message
+     * @pbrbm mfssbgf tif mfssbgf
      *
-     * @return the mnemonic <code>int</code>
+     * @rfturn tif mnfmonid <dodf>int</dodf>
      */
-    public static int getMnemonicInt(String message) {
-        Integer integer = MNEMONIC_LOOKUP.get(message);
-        if (integer != null) {
-            return integer.intValue();
+    publid stbtid int gftMnfmonidInt(String mfssbgf) {
+        Intfgfr intfgfr = MNEMONIC_LOOKUP.gft(mfssbgf);
+        if (intfgfr != null) {
+            rfturn intfgfr.intVbluf();
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Initializes all non-final public static fields in the given class with
-     * messages from a {@link ResourceBundle}.
+     * Initiblizfs bll non-finbl publid stbtid fiflds in tif givfn dlbss witi
+     * mfssbgfs from b {@link RfsourdfBundlf}.
      *
-     * @param clazz the class containing the fields
+     * @pbrbm dlbzz tif dlbss dontbining tif fiflds
      */
-    public static void initializeMessages(Class<?> clazz, String rbName) {
-        ResourceBundle rb = null;
+    publid stbtid void initiblizfMfssbgfs(Clbss<?> dlbzz, String rbNbmf) {
+        RfsourdfBundlf rb = null;
         try {
-            rb = ResourceBundle.getBundle(rbName);
-        } catch (MissingResourceException mre) {
-            // fall through, handled later
+            rb = RfsourdfBundlf.gftBundlf(rbNbmf);
+        } dbtdi (MissingRfsourdfExdfption mrf) {
+            // fbll tirougi, ibndlfd lbtfr
         }
-        for (Field field : clazz.getFields()) {
-            if (isWritableField(field)) {
-                String key = field.getName();
-                String message = getMessage(rb, key);
-                int mnemonicInt = findMnemonicInt(message);
-                message = removeMnemonicAmpersand(message);
-                message = replaceWithPlatformLineFeed(message);
-                setFieldValue(field, message);
-                MNEMONIC_LOOKUP.put(message, mnemonicInt);
+        for (Fifld fifld : dlbzz.gftFiflds()) {
+            if (isWritbblfFifld(fifld)) {
+                String kfy = fifld.gftNbmf();
+                String mfssbgf = gftMfssbgf(rb, kfy);
+                int mnfmonidInt = findMnfmonidInt(mfssbgf);
+                mfssbgf = rfmovfMnfmonidAmpfrsbnd(mfssbgf);
+                mfssbgf = rfplbdfWitiPlbtformLinfFffd(mfssbgf);
+                sftFifldVbluf(fifld, mfssbgf);
+                MNEMONIC_LOOKUP.put(mfssbgf, mnfmonidInt);
             }
         }
     }
 
-    private static boolean isWritableField(Field field) {
-        int modifiers = field.getModifiers();
-        return Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers)
-                && !Modifier.isFinal(modifiers);
+    privbtf stbtid boolfbn isWritbblfFifld(Fifld fifld) {
+        int modififrs = fifld.gftModififrs();
+        rfturn Modififr.isPublid(modififrs) && Modififr.isStbtid(modififrs)
+                && !Modififr.isFinbl(modififrs);
     }
 
     /**
-     * Returns the message corresponding to the key in the bundle or a text
-     * describing it's missing.
+     * Rfturns tif mfssbgf dorrfsponding to tif kfy in tif bundlf or b tfxt
+     * dfsdribing it's missing.
      *
-     * @param rb the resource bundle
-     * @param key the key
+     * @pbrbm rb tif rfsourdf bundlf
+     * @pbrbm kfy tif kfy
      *
-     * @return the message
+     * @rfturn tif mfssbgf
      */
-    private static String getMessage(ResourceBundle rb, String key) {
+    privbtf stbtid String gftMfssbgf(RfsourdfBundlf rb, String kfy) {
         if (rb == null) {
-            return "missing resource bundle";
+            rfturn "missing rfsourdf bundlf";
         }
         try {
-            return rb.getString(key);
-        } catch (MissingResourceException mre) {
-            return "missing message for key = \"" + key
-                    + "\" in resource bundle ";
+            rfturn rb.gftString(kfy);
+        } dbtdi (MissingRfsourdfExdfption mrf) {
+            rfturn "missing mfssbgf for kfy = \"" + kfy
+                    + "\" in rfsourdf bundlf ";
         }
     }
 
-    private static void setFieldValue(Field field, String value) {
+    privbtf stbtid void sftFifldVbluf(Fifld fifld, String vbluf) {
         try {
-            field.set(null, value);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new Error("Unable to access or set message for field " + field.getName());
+            fifld.sft(null, vbluf);
+        } dbtdi (IllfgblArgumfntExdfption | IllfgblAddfssExdfption f) {
+            tirow nfw Error("Unbblf to bddfss or sft mfssbgf for fifld " + fifld.gftNbmf());
         }
     }
 
     /**
-     * Returns a {@link String} where all <code>\n</code> in the <text> have
-     * been replaced with the line separator for the platform.
+     * Rfturns b {@link String} wifrf bll <dodf>\n</dodf> in tif <tfxt> ibvf
+     * bffn rfplbdfd witi tif linf sfpbrbtor for tif plbtform.
      *
-     * @param text the to be replaced
+     * @pbrbm tfxt tif to bf rfplbdfd
      *
-     * @return the replaced text
+     * @rfturn tif rfplbdfd tfxt
      */
-    private static String replaceWithPlatformLineFeed(String text) {
-        return text.replace("\n", System.getProperty("line.separator"));
+    privbtf stbtid String rfplbdfWitiPlbtformLinfFffd(String tfxt) {
+        rfturn tfxt.rfplbdf("\n", Systfm.gftPropfrty("linf.sfpbrbtor"));
     }
 
     /**
-     * Removes the mnemonic identifier (<code>&</code>) from a string unless
-     * it's escaped by <code>&&</code> or placed at the end.
+     * Rfmovfs tif mnfmonid idfntififr (<dodf>&</dodf>) from b string unlfss
+     * it's fsdbpfd by <dodf>&&</dodf> or plbdfd bt tif fnd.
      *
-     * @param message the message
+     * @pbrbm mfssbgf tif mfssbgf
      *
-     * @return a message with the mnemonic identifier removed
+     * @rfturn b mfssbgf witi tif mnfmonid idfntififr rfmovfd
      */
-    private static String removeMnemonicAmpersand(String message) {
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < message.length(); i++) {
-            char current = message.charAt(i);
-            if (current != '&' || i == message.length() - 1
-                    || message.charAt(i + 1) == '&') {
-                s.append(current);
+    privbtf stbtid String rfmovfMnfmonidAmpfrsbnd(String mfssbgf) {
+        StringBuildfr s = nfw StringBuildfr();
+        for (int i = 0; i < mfssbgf.lfngti(); i++) {
+            dibr durrfnt = mfssbgf.dibrAt(i);
+            if (durrfnt != '&' || i == mfssbgf.lfngti() - 1
+                    || mfssbgf.dibrAt(i + 1) == '&') {
+                s.bppfnd(durrfnt);
             }
         }
-        return s.toString();
+        rfturn s.toString();
     }
 
     /**
-     * Finds the mnemonic character in a message.
+     * Finds tif mnfmonid dibrbdtfr in b mfssbgf.
      *
-     * The mnemonic character is the first character followed by the first
-     * <code>&</code> that is not followed by another <code>&</code>.
+     * Tif mnfmonid dibrbdtfr is tif first dibrbdtfr followfd by tif first
+     * <dodf>&</dodf> tibt is not followfd by bnotifr <dodf>&</dodf>.
      *
-     * @return the mnemonic as an <code>int</code>, or <code>0</code> if it
-     *         can't be found.
+     * @rfturn tif mnfmonid bs bn <dodf>int</dodf>, or <dodf>0</dodf> if it
+     *         dbn't bf found.
      */
-    private static int findMnemonicInt(String s) {
-        for (int i = 0; i < s.length() - 1; i++) {
-            if (s.charAt(i) == '&') {
-                if (s.charAt(i + 1) != '&') {
-                    return lookupMnemonicInt(s.substring(i + 1, i + 2));
-                } else {
+    privbtf stbtid int findMnfmonidInt(String s) {
+        for (int i = 0; i < s.lfngti() - 1; i++) {
+            if (s.dibrAt(i) == '&') {
+                if (s.dibrAt(i + 1) != '&') {
+                    rfturn lookupMnfmonidInt(s.substring(i + 1, i + 2));
+                } flsf {
                     i++;
                 }
             }
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Lookups the mnemonic for a key in the {@link KeyEvent} class.
+     * Lookups tif mnfmonid for b kfy in tif {@link KfyEvfnt} dlbss.
      *
-     * @param c the character to lookup
+     * @pbrbm d tif dibrbdtfr to lookup
      *
-     * @return the mnemonic as an <code>int</code>, or <code>0</code> if it
-     *         can't be found.
+     * @rfturn tif mnfmonid bs bn <dodf>int</dodf>, or <dodf>0</dodf> if it
+     *         dbn't bf found.
      */
-    private static int lookupMnemonicInt(String c) {
+    privbtf stbtid int lookupMnfmonidInt(String d) {
         try {
-            return KeyEvent.class.getDeclaredField("VK_" + c.toUpperCase())
-                    .getInt(null);
-        } catch (IllegalArgumentException | IllegalAccessException
-                | NoSuchFieldException | SecurityException e) {
-            // Missing VK is okay
-            return 0;
+            rfturn KfyEvfnt.dlbss.gftDfdlbrfdFifld("VK_" + d.toUppfrCbsf())
+                    .gftInt(null);
+        } dbtdi (IllfgblArgumfntExdfption | IllfgblAddfssExdfption
+                | NoSudiFifldExdfption | SfdurityExdfption f) {
+            // Missing VK is okby
+            rfturn 0;
         }
     }
 }

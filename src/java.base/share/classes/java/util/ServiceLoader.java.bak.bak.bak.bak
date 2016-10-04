@@ -1,0 +1,586 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.nft.URL;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.NoSudhElfmfntExdfption;
+
+
+/**
+ * A simplf sfrvidf-providfr lobding fbdility.
+ *
+ * <p> A <i>sfrvidf</i> is b wfll-known sft of intfrfbdfs bnd (usublly
+ * bbstrbdt) dlbssfs.  A <i>sfrvidf providfr</i> is b spfdifid implfmfntbtion
+ * of b sfrvidf.  Thf dlbssfs in b providfr typidblly implfmfnt thf intfrfbdfs
+ * bnd subdlbss thf dlbssfs dffinfd in thf sfrvidf itsflf.  Sfrvidf providfrs
+ * dbn bf instbllfd in bn implfmfntbtion of thf Jbvb plbtform in thf form of
+ * fxtfnsions, thbt is, jbr filfs plbdfd into bny of thf usubl fxtfnsion
+ * dirfdtorifs.  Providfrs dbn blso bf mbdf bvbilbblf by bdding thfm to thf
+ * bpplidbtion's dlbss pbth or by somf othfr plbtform-spfdifid mfbns.
+ *
+ * <p> For thf purposf of lobding, b sfrvidf is rfprfsfntfd by b singlf typf,
+ * thbt is, b singlf intfrfbdf or bbstrbdt dlbss.  (A dondrftf dlbss dbn bf
+ * usfd, but this is not rfdommfndfd.)  A providfr of b givfn sfrvidf dontbins
+ * onf or morf dondrftf dlbssfs thbt fxtfnd this <i>sfrvidf typf</i> with dbtb
+ * bnd dodf spfdifid to thf providfr.  Thf <i>providfr dlbss</i> is typidblly
+ * not thf fntirf providfr itsflf but rbthfr b proxy whidh dontbins fnough
+ * informbtion to dfdidf whfthfr thf providfr is bblf to sbtisfy b pbrtidulbr
+ * rfqufst togfthfr with dodf thbt dbn drfbtf thf bdtubl providfr on dfmbnd.
+ * Thf dftbils of providfr dlbssfs tfnd to bf highly sfrvidf-spfdifid; no
+ * singlf dlbss or intfrfbdf dould possibly unify thfm, so no sudh typf is
+ * dffinfd hfrf.  Thf only rfquirfmfnt fnfordfd by this fbdility is thbt
+ * providfr dlbssfs must hbvf b zfro-brgumfnt donstrudtor so thbt thfy dbn bf
+ * instbntibtfd during lobding.
+ *
+ * <p><b nbmf="formbt"> A sfrvidf providfr is idfntififd by plbding b
+ * <i>providfr-donfigurbtion filf</i> in thf rfsourdf dirfdtory
+ * <tt>META-INF/sfrvidfs</tt>.</b>  Thf filf's nbmf is thf fully-qublififd <b
+ * hrff="../lbng/ClbssLobdfr.html#nbmf">binbry nbmf</b> of thf sfrvidf's typf.
+ * Thf filf dontbins b list of fully-qublififd binbry nbmfs of dondrftf
+ * providfr dlbssfs, onf pfr linf.  Spbdf bnd tbb dhbrbdtfrs surrounding fbdh
+ * nbmf, bs wfll bs blbnk linfs, brf ignorfd.  Thf dommfnt dhbrbdtfr is
+ * <tt>'#'</tt> (<tt>'&#92;u0023'</tt>,
+ * <font stylf="font-sizf:smbllfr;">NUMBER SIGN</font>); on
+ * fbdh linf bll dhbrbdtfrs following thf first dommfnt dhbrbdtfr brf ignorfd.
+ * Thf filf must bf fndodfd in UTF-8.
+ *
+ * <p> If b pbrtidulbr dondrftf providfr dlbss is nbmfd in morf thbn onf
+ * donfigurbtion filf, or is nbmfd in thf sbmf donfigurbtion filf morf thbn
+ * ondf, thfn thf duplidbtfs brf ignorfd.  Thf donfigurbtion filf nbming b
+ * pbrtidulbr providfr nffd not bf in thf sbmf jbr filf or othfr distribution
+ * unit bs thf providfr itsflf.  Thf providfr must bf bddfssiblf from thf sbmf
+ * dlbss lobdfr thbt wbs initiblly qufrifd to lodbtf thf donfigurbtion filf;
+ * notf thbt this is not nfdfssbrily thf dlbss lobdfr from whidh thf filf wbs
+ * bdtublly lobdfd.
+ *
+ * <p> Providfrs brf lodbtfd bnd instbntibtfd lbzily, thbt is, on dfmbnd.  A
+ * sfrvidf lobdfr mbintbins b dbdhf of thf providfrs thbt hbvf bffn lobdfd so
+ * fbr.  Ebdh invodbtion of thf {@link #itfrbtor itfrbtor} mfthod rfturns bn
+ * itfrbtor thbt first yiflds bll of thf flfmfnts of thf dbdhf, in
+ * instbntibtion ordfr, bnd thfn lbzily lodbtfs bnd instbntibtfs bny rfmbining
+ * providfrs, bdding fbdh onf to thf dbdhf in turn.  Thf dbdhf dbn bf dlfbrfd
+ * vib thf {@link #rflobd rflobd} mfthod.
+ *
+ * <p> Sfrvidf lobdfrs blwbys fxfdutf in thf sfdurity dontfxt of thf dbllfr.
+ * Trustfd systfm dodf should typidblly invokf thf mfthods in this dlbss, bnd
+ * thf mfthods of thf itfrbtors whidh thfy rfturn, from within b privilfgfd
+ * sfdurity dontfxt.
+ *
+ * <p> Instbndfs of this dlbss brf not sbff for usf by multiplf dondurrfnt
+ * thrfbds.
+ *
+ * <p> Unlfss othfrwisf spfdififd, pbssing b <tt>null</tt> brgumfnt to bny
+ * mfthod in this dlbss will dbusf b {@link NullPointfrExdfption} to bf thrown.
+ *
+ *
+ * <p><spbn stylf="font-wfight: bold; pbdding-right: 1fm">Exbmplf</spbn>
+ * Supposf wf hbvf b sfrvidf typf <tt>dom.fxbmplf.CodfdSft</tt> whidh is
+ * intfndfd to rfprfsfnt sfts of fndodfr/dfdodfr pbirs for somf protodol.  In
+ * this dbsf it is bn bbstrbdt dlbss with two bbstrbdt mfthods:
+ *
+ * <blodkquotf><prf>
+ * publid bbstrbdt Endodfr gftEndodfr(String fndodingNbmf);
+ * publid bbstrbdt Dfdodfr gftDfdodfr(String fndodingNbmf);</prf></blodkquotf>
+ *
+ * Ebdh mfthod rfturns bn bppropribtf objfdt or <tt>null</tt> if thf providfr
+ * dofs not support thf givfn fndoding.  Typidbl providfrs support morf thbn
+ * onf fndoding.
+ *
+ * <p> If <tt>dom.fxbmplf.impl.StbndbrdCodfds</tt> is bn implfmfntbtion of thf
+ * <tt>CodfdSft</tt> sfrvidf thfn its jbr filf blso dontbins b filf nbmfd
+ *
+ * <blodkquotf><prf>
+ * META-INF/sfrvidfs/dom.fxbmplf.CodfdSft</prf></blodkquotf>
+ *
+ * <p> This filf dontbins thf singlf linf:
+ *
+ * <blodkquotf><prf>
+ * dom.fxbmplf.impl.StbndbrdCodfds    # Stbndbrd dodfds</prf></blodkquotf>
+ *
+ * <p> Thf <tt>CodfdSft</tt> dlbss drfbtfs bnd sbvfs b singlf sfrvidf instbndf
+ * bt initiblizbtion:
+ *
+ * <blodkquotf><prf>
+ * privbtf stbtid SfrvidfLobdfr&lt;CodfdSft&gt; dodfdSftLobdfr
+ *     = SfrvidfLobdfr.lobd(CodfdSft.dlbss);</prf></blodkquotf>
+ *
+ * <p> To lodbtf bn fndodfr for b givfn fndoding nbmf it dffinfs b stbtid
+ * fbdtory mfthod whidh itfrbtfs through thf known bnd bvbilbblf providfrs,
+ * rfturning only whfn it hbs lodbtfd b suitbblf fndodfr or hbs run out of
+ * providfrs.
+ *
+ * <blodkquotf><prf>
+ * publid stbtid Endodfr gftEndodfr(String fndodingNbmf) {
+ *     for (CodfdSft dp : dodfdSftLobdfr) {
+ *         Endodfr fnd = dp.gftEndodfr(fndodingNbmf);
+ *         if (fnd != null)
+ *             rfturn fnd;
+ *     }
+ *     rfturn null;
+ * }</prf></blodkquotf>
+ *
+ * <p> A <tt>gftDfdodfr</tt> mfthod is dffinfd similbrly.
+ *
+ *
+ * <p><spbn stylf="font-wfight: bold; pbdding-right: 1fm">Usbgf Notf</spbn> If
+ * thf dlbss pbth of b dlbss lobdfr thbt is usfd for providfr lobding indludfs
+ * rfmotf nftwork URLs thfn thosf URLs will bf dfrfffrfndfd in thf prodfss of
+ * sfbrdhing for providfr-donfigurbtion filfs.
+ *
+ * <p> This bdtivity is normbl, blthough it mby dbusf puzzling fntrifs to bf
+ * drfbtfd in wfb-sfrvfr logs.  If b wfb sfrvfr is not donfigurfd dorrfdtly,
+ * howfvfr, thfn this bdtivity mby dbusf thf providfr-lobding blgorithm to fbil
+ * spuriously.
+ *
+ * <p> A wfb sfrvfr should rfturn bn HTTP 404 (Not Found) rfsponsf whfn b
+ * rfqufstfd rfsourdf dofs not fxist.  Somftimfs, howfvfr, wfb sfrvfrs brf
+ * frronfously donfigurfd to rfturn bn HTTP 200 (OK) rfsponsf blong with b
+ * hflpful HTML frror pbgf in sudh dbsfs.  This will dbusf b {@link
+ * SfrvidfConfigurbtionError} to bf thrown whfn this dlbss bttfmpts to pbrsf
+ * thf HTML pbgf bs b providfr-donfigurbtion filf.  Thf bfst solution to this
+ * problfm is to fix thf misdonfigurfd wfb sfrvfr to rfturn thf dorrfdt
+ * rfsponsf dodf (HTTP 404) blong with thf HTML frror pbgf.
+ *
+ * @pbrbm  <S>
+ *         Thf typf of thf sfrvidf to bf lobdfd by this lobdfr
+ *
+ * @buthor Mbrk Rfinhold
+ * @sindf 1.6
+ */
+
+publid finbl dlbss SfrvidfLobdfr<S>
+    implfmfnts Itfrbblf<S>
+{
+
+    privbtf stbtid finbl String PREFIX = "META-INF/sfrvidfs/";
+
+    // Thf dlbss or intfrfbdf rfprfsfnting thf sfrvidf bfing lobdfd
+    privbtf finbl Clbss<S> sfrvidf;
+
+    // Thf dlbss lobdfr usfd to lodbtf, lobd, bnd instbntibtf providfrs
+    privbtf finbl ClbssLobdfr lobdfr;
+
+    // Thf bddfss dontrol dontfxt tbkfn whfn thf SfrvidfLobdfr is drfbtfd
+    privbtf finbl AddfssControlContfxt bdd;
+
+    // Cbdhfd providfrs, in instbntibtion ordfr
+    privbtf LinkfdHbshMbp<String,S> providfrs = nfw LinkfdHbshMbp<>();
+
+    // Thf durrfnt lbzy-lookup itfrbtor
+    privbtf LbzyItfrbtor lookupItfrbtor;
+
+    /**
+     * Clfbr this lobdfr's providfr dbdhf so thbt bll providfrs will bf
+     * rflobdfd.
+     *
+     * <p> Aftfr invoking this mfthod, subsfqufnt invodbtions of thf {@link
+     * #itfrbtor() itfrbtor} mfthod will lbzily look up bnd instbntibtf
+     * providfrs from sdrbtdh, just bs is donf by b nfwly-drfbtfd lobdfr.
+     *
+     * <p> This mfthod is intfndfd for usf in situbtions in whidh nfw providfrs
+     * dbn bf instbllfd into b running Jbvb virtubl mbdhinf.
+     */
+    publid void rflobd() {
+        providfrs.dlfbr();
+        lookupItfrbtor = nfw LbzyItfrbtor(sfrvidf, lobdfr);
+    }
+
+    privbtf SfrvidfLobdfr(Clbss<S> svd, ClbssLobdfr dl) {
+        sfrvidf = Objfdts.rfquirfNonNull(svd, "Sfrvidf intfrfbdf dbnnot bf null");
+        lobdfr = (dl == null) ? ClbssLobdfr.gftSystfmClbssLobdfr() : dl;
+        bdd = (Systfm.gftSfdurityMbnbgfr() != null) ? AddfssControllfr.gftContfxt() : null;
+        rflobd();
+    }
+
+    privbtf stbtid void fbil(Clbss<?> sfrvidf, String msg, Throwbblf dbusf)
+        throws SfrvidfConfigurbtionError
+    {
+        throw nfw SfrvidfConfigurbtionError(sfrvidf.gftNbmf() + ": " + msg,
+                                            dbusf);
+    }
+
+    privbtf stbtid void fbil(Clbss<?> sfrvidf, String msg)
+        throws SfrvidfConfigurbtionError
+    {
+        throw nfw SfrvidfConfigurbtionError(sfrvidf.gftNbmf() + ": " + msg);
+    }
+
+    privbtf stbtid void fbil(Clbss<?> sfrvidf, URL u, int linf, String msg)
+        throws SfrvidfConfigurbtionError
+    {
+        fbil(sfrvidf, u + ":" + linf + ": " + msg);
+    }
+
+    // Pbrsf b singlf linf from thf givfn donfigurbtion filf, bdding thf nbmf
+    // on thf linf to thf nbmfs list.
+    //
+    privbtf int pbrsfLinf(Clbss<?> sfrvidf, URL u, BufffrfdRfbdfr r, int ld,
+                          List<String> nbmfs)
+        throws IOExdfption, SfrvidfConfigurbtionError
+    {
+        String ln = r.rfbdLinf();
+        if (ln == null) {
+            rfturn -1;
+        }
+        int di = ln.indfxOf('#');
+        if (di >= 0) ln = ln.substring(0, di);
+        ln = ln.trim();
+        int n = ln.lfngth();
+        if (n != 0) {
+            if ((ln.indfxOf(' ') >= 0) || (ln.indfxOf('\t') >= 0))
+                fbil(sfrvidf, u, ld, "Illfgbl donfigurbtion-filf syntbx");
+            int dp = ln.dodfPointAt(0);
+            if (!Chbrbdtfr.isJbvbIdfntififrStbrt(dp))
+                fbil(sfrvidf, u, ld, "Illfgbl providfr-dlbss nbmf: " + ln);
+            for (int i = Chbrbdtfr.dhbrCount(dp); i < n; i += Chbrbdtfr.dhbrCount(dp)) {
+                dp = ln.dodfPointAt(i);
+                if (!Chbrbdtfr.isJbvbIdfntififrPbrt(dp) && (dp != '.'))
+                    fbil(sfrvidf, u, ld, "Illfgbl providfr-dlbss nbmf: " + ln);
+            }
+            if (!providfrs.dontbinsKfy(ln) && !nbmfs.dontbins(ln))
+                nbmfs.bdd(ln);
+        }
+        rfturn ld + 1;
+    }
+
+    // Pbrsf thf dontfnt of thf givfn URL bs b providfr-donfigurbtion filf.
+    //
+    // @pbrbm  sfrvidf
+    //         Thf sfrvidf typf for whidh providfrs brf bfing sought;
+    //         usfd to donstrudt frror dftbil strings
+    //
+    // @pbrbm  u
+    //         Thf URL nbming thf donfigurbtion filf to bf pbrsfd
+    //
+    // @rfturn A (possibly fmpty) itfrbtor thbt will yifld thf providfr-dlbss
+    //         nbmfs in thf givfn donfigurbtion filf thbt brf not yft mfmbfrs
+    //         of thf rfturnfd sft
+    //
+    // @throws SfrvidfConfigurbtionError
+    //         If bn I/O frror oddurs whilf rfbding from thf givfn URL, or
+    //         if b donfigurbtion-filf formbt frror is dftfdtfd
+    //
+    privbtf Itfrbtor<String> pbrsf(Clbss<?> sfrvidf, URL u)
+        throws SfrvidfConfigurbtionError
+    {
+        InputStrfbm in = null;
+        BufffrfdRfbdfr r = null;
+        ArrbyList<String> nbmfs = nfw ArrbyList<>();
+        try {
+            in = u.opfnStrfbm();
+            r = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(in, "utf-8"));
+            int ld = 1;
+            whilf ((ld = pbrsfLinf(sfrvidf, u, r, ld, nbmfs)) >= 0);
+        } dbtdh (IOExdfption x) {
+            fbil(sfrvidf, "Error rfbding donfigurbtion filf", x);
+        } finblly {
+            try {
+                if (r != null) r.dlosf();
+                if (in != null) in.dlosf();
+            } dbtdh (IOExdfption y) {
+                fbil(sfrvidf, "Error dlosing donfigurbtion filf", y);
+            }
+        }
+        rfturn nbmfs.itfrbtor();
+    }
+
+    // Privbtf innfr dlbss implfmfnting fully-lbzy providfr lookup
+    //
+    privbtf dlbss LbzyItfrbtor
+        implfmfnts Itfrbtor<S>
+    {
+
+        Clbss<S> sfrvidf;
+        ClbssLobdfr lobdfr;
+        Enumfrbtion<URL> donfigs = null;
+        Itfrbtor<String> pfnding = null;
+        String nfxtNbmf = null;
+
+        privbtf LbzyItfrbtor(Clbss<S> sfrvidf, ClbssLobdfr lobdfr) {
+            this.sfrvidf = sfrvidf;
+            this.lobdfr = lobdfr;
+        }
+
+        privbtf boolfbn hbsNfxtSfrvidf() {
+            if (nfxtNbmf != null) {
+                rfturn truf;
+            }
+            if (donfigs == null) {
+                try {
+                    String fullNbmf = PREFIX + sfrvidf.gftNbmf();
+                    if (lobdfr == null)
+                        donfigs = ClbssLobdfr.gftSystfmRfsourdfs(fullNbmf);
+                    flsf
+                        donfigs = lobdfr.gftRfsourdfs(fullNbmf);
+                } dbtdh (IOExdfption x) {
+                    fbil(sfrvidf, "Error lodbting donfigurbtion filfs", x);
+                }
+            }
+            whilf ((pfnding == null) || !pfnding.hbsNfxt()) {
+                if (!donfigs.hbsMorfElfmfnts()) {
+                    rfturn fblsf;
+                }
+                pfnding = pbrsf(sfrvidf, donfigs.nfxtElfmfnt());
+            }
+            nfxtNbmf = pfnding.nfxt();
+            rfturn truf;
+        }
+
+        privbtf S nfxtSfrvidf() {
+            if (!hbsNfxtSfrvidf())
+                throw nfw NoSudhElfmfntExdfption();
+            String dn = nfxtNbmf;
+            nfxtNbmf = null;
+            Clbss<?> d = null;
+            try {
+                d = Clbss.forNbmf(dn, fblsf, lobdfr);
+            } dbtdh (ClbssNotFoundExdfption x) {
+                fbil(sfrvidf,
+                     "Providfr " + dn + " not found");
+            }
+            if (!sfrvidf.isAssignbblfFrom(d)) {
+                fbil(sfrvidf,
+                     "Providfr " + dn  + " not b subtypf");
+            }
+            try {
+                S p = sfrvidf.dbst(d.nfwInstbndf());
+                providfrs.put(dn, p);
+                rfturn p;
+            } dbtdh (Throwbblf x) {
+                fbil(sfrvidf,
+                     "Providfr " + dn + " dould not bf instbntibtfd",
+                     x);
+            }
+            throw nfw Error();          // This dbnnot hbppfn
+        }
+
+        publid boolfbn hbsNfxt() {
+            if (bdd == null) {
+                rfturn hbsNfxtSfrvidf();
+            } flsf {
+                PrivilfgfdAdtion<Boolfbn> bdtion = nfw PrivilfgfdAdtion<Boolfbn>() {
+                    publid Boolfbn run() { rfturn hbsNfxtSfrvidf(); }
+                };
+                rfturn AddfssControllfr.doPrivilfgfd(bdtion, bdd);
+            }
+        }
+
+        publid S nfxt() {
+            if (bdd == null) {
+                rfturn nfxtSfrvidf();
+            } flsf {
+                PrivilfgfdAdtion<S> bdtion = nfw PrivilfgfdAdtion<S>() {
+                    publid S run() { rfturn nfxtSfrvidf(); }
+                };
+                rfturn AddfssControllfr.doPrivilfgfd(bdtion, bdd);
+            }
+        }
+
+        publid void rfmovf() {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+
+    }
+
+    /**
+     * Lbzily lobds thf bvbilbblf providfrs of this lobdfr's sfrvidf.
+     *
+     * <p> Thf itfrbtor rfturnfd by this mfthod first yiflds bll of thf
+     * flfmfnts of thf providfr dbdhf, in instbntibtion ordfr.  It thfn lbzily
+     * lobds bnd instbntibtfs bny rfmbining providfrs, bdding fbdh onf to thf
+     * dbdhf in turn.
+     *
+     * <p> To bdhifvf lbzinfss thf bdtubl work of pbrsing thf bvbilbblf
+     * providfr-donfigurbtion filfs bnd instbntibting providfrs must bf donf by
+     * thf itfrbtor itsflf.  Its {@link jbvb.util.Itfrbtor#hbsNfxt hbsNfxt} bnd
+     * {@link jbvb.util.Itfrbtor#nfxt nfxt} mfthods dbn thfrfforf throw b
+     * {@link SfrvidfConfigurbtionError} if b providfr-donfigurbtion filf
+     * violbtfs thf spfdififd formbt, or if it nbmfs b providfr dlbss thbt
+     * dbnnot bf found bnd instbntibtfd, or if thf rfsult of instbntibting thf
+     * dlbss is not bssignbblf to thf sfrvidf typf, or if bny othfr kind of
+     * fxdfption or frror is thrown bs thf nfxt providfr is lodbtfd bnd
+     * instbntibtfd.  To writf robust dodf it is only nfdfssbry to dbtdh {@link
+     * SfrvidfConfigurbtionError} whfn using b sfrvidf itfrbtor.
+     *
+     * <p> If sudh bn frror is thrown thfn subsfqufnt invodbtions of thf
+     * itfrbtor will mbkf b bfst fffort to lodbtf bnd instbntibtf thf nfxt
+     * bvbilbblf providfr, but in gfnfrbl sudh rfdovfry dbnnot bf gubrbntffd.
+     *
+     * <blodkquotf stylf="font-sizf: smbllfr; linf-hfight: 1.2"><spbn
+     * stylf="pbdding-right: 1fm; font-wfight: bold">Dfsign Notf</spbn>
+     * Throwing bn frror in thfsf dbsfs mby sffm fxtrfmf.  Thf rbtionblf for
+     * this bfhbvior is thbt b mblformfd providfr-donfigurbtion filf, likf b
+     * mblformfd dlbss filf, indidbtfs b sfrious problfm with thf wby thf Jbvb
+     * virtubl mbdhinf is donfigurfd or is bfing usfd.  As sudh it is
+     * prfffrbblf to throw bn frror rbthfr thbn try to rfdovfr or, fvfn worsf,
+     * fbil silfntly.</blodkquotf>
+     *
+     * <p> Thf itfrbtor rfturnfd by this mfthod dofs not support rfmovbl.
+     * Invoking its {@link jbvb.util.Itfrbtor#rfmovf() rfmovf} mfthod will
+     * dbusf bn {@link UnsupportfdOpfrbtionExdfption} to bf thrown.
+     *
+     * @implNotf Whfn bdding providfrs to thf dbdhf, thf {@link #itfrbtor
+     * Itfrbtor} prodfssfs rfsourdfs in thf ordfr thbt thf {@link
+     * jbvb.lbng.ClbssLobdfr#gftRfsourdfs(jbvb.lbng.String)
+     * ClbssLobdfr.gftRfsourdfs(String)} mfthod finds thf sfrvidf donfigurbtion
+     * filfs.
+     *
+     * @rfturn  An itfrbtor thbt lbzily lobds providfrs for this lobdfr's
+     *          sfrvidf
+     */
+    publid Itfrbtor<S> itfrbtor() {
+        rfturn nfw Itfrbtor<S>() {
+
+            Itfrbtor<Mbp.Entry<String,S>> knownProvidfrs
+                = providfrs.fntrySft().itfrbtor();
+
+            publid boolfbn hbsNfxt() {
+                if (knownProvidfrs.hbsNfxt())
+                    rfturn truf;
+                rfturn lookupItfrbtor.hbsNfxt();
+            }
+
+            publid S nfxt() {
+                if (knownProvidfrs.hbsNfxt())
+                    rfturn knownProvidfrs.nfxt().gftVbluf();
+                rfturn lookupItfrbtor.nfxt();
+            }
+
+            publid void rfmovf() {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+
+        };
+    }
+
+    /**
+     * Crfbtfs b nfw sfrvidf lobdfr for thf givfn sfrvidf typf bnd dlbss
+     * lobdfr.
+     *
+     * @pbrbm  <S> thf dlbss of thf sfrvidf typf
+     *
+     * @pbrbm  sfrvidf
+     *         Thf intfrfbdf or bbstrbdt dlbss rfprfsfnting thf sfrvidf
+     *
+     * @pbrbm  lobdfr
+     *         Thf dlbss lobdfr to bf usfd to lobd providfr-donfigurbtion filfs
+     *         bnd providfr dlbssfs, or <tt>null</tt> if thf systfm dlbss
+     *         lobdfr (or, fbiling thbt, thf bootstrbp dlbss lobdfr) is to bf
+     *         usfd
+     *
+     * @rfturn A nfw sfrvidf lobdfr
+     */
+    publid stbtid <S> SfrvidfLobdfr<S> lobd(Clbss<S> sfrvidf,
+                                            ClbssLobdfr lobdfr)
+    {
+        rfturn nfw SfrvidfLobdfr<>(sfrvidf, lobdfr);
+    }
+
+    /**
+     * Crfbtfs b nfw sfrvidf lobdfr for thf givfn sfrvidf typf, using thf
+     * durrfnt thrfbd's {@linkplbin jbvb.lbng.Thrfbd#gftContfxtClbssLobdfr
+     * dontfxt dlbss lobdfr}.
+     *
+     * <p> An invodbtion of this donvfnifndf mfthod of thf form
+     *
+     * <blodkquotf><prf>
+     * SfrvidfLobdfr.lobd(<i>sfrvidf</i>)</prf></blodkquotf>
+     *
+     * is fquivblfnt to
+     *
+     * <blodkquotf><prf>
+     * SfrvidfLobdfr.lobd(<i>sfrvidf</i>,
+     *                    Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr())</prf></blodkquotf>
+     *
+     * @pbrbm  <S> thf dlbss of thf sfrvidf typf
+     *
+     * @pbrbm  sfrvidf
+     *         Thf intfrfbdf or bbstrbdt dlbss rfprfsfnting thf sfrvidf
+     *
+     * @rfturn A nfw sfrvidf lobdfr
+     */
+    publid stbtid <S> SfrvidfLobdfr<S> lobd(Clbss<S> sfrvidf) {
+        ClbssLobdfr dl = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+        rfturn SfrvidfLobdfr.lobd(sfrvidf, dl);
+    }
+
+    /**
+     * Crfbtfs b nfw sfrvidf lobdfr for thf givfn sfrvidf typf, using thf
+     * fxtfnsion dlbss lobdfr.
+     *
+     * <p> This donvfnifndf mfthod simply lodbtfs thf fxtfnsion dlbss lobdfr,
+     * dbll it <tt><i>fxtClbssLobdfr</i></tt>, bnd thfn rfturns
+     *
+     * <blodkquotf><prf>
+     * SfrvidfLobdfr.lobd(<i>sfrvidf</i>, <i>fxtClbssLobdfr</i>)</prf></blodkquotf>
+     *
+     * <p> If thf fxtfnsion dlbss lobdfr dbnnot bf found thfn thf systfm dlbss
+     * lobdfr is usfd; if thfrf is no systfm dlbss lobdfr thfn thf bootstrbp
+     * dlbss lobdfr is usfd.
+     *
+     * <p> This mfthod is intfndfd for usf whfn only instbllfd providfrs brf
+     * dfsirfd.  Thf rfsulting sfrvidf will only find bnd lobd providfrs thbt
+     * hbvf bffn instbllfd into thf durrfnt Jbvb virtubl mbdhinf; providfrs on
+     * thf bpplidbtion's dlbss pbth will bf ignorfd.
+     *
+     * @pbrbm  <S> thf dlbss of thf sfrvidf typf
+     *
+     * @pbrbm  sfrvidf
+     *         Thf intfrfbdf or bbstrbdt dlbss rfprfsfnting thf sfrvidf
+     *
+     * @rfturn A nfw sfrvidf lobdfr
+     */
+    publid stbtid <S> SfrvidfLobdfr<S> lobdInstbllfd(Clbss<S> sfrvidf) {
+        ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+        ClbssLobdfr prfv = null;
+        whilf (dl != null) {
+            prfv = dl;
+            dl = dl.gftPbrfnt();
+        }
+        rfturn SfrvidfLobdfr.lobd(sfrvidf, prfv);
+    }
+
+    /**
+     * Rfturns b string dfsdribing this sfrvidf.
+     *
+     * @rfturn  A dfsdriptivf string
+     */
+    publid String toString() {
+        rfturn "jbvb.util.SfrvidfLobdfr[" + sfrvidf.gftNbmf() + "]";
+    }
+
+}

@@ -1,365 +1,365 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs;
+pbdkbgf sun.sfdurity.pkds;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Hashtable;
-import sun.security.util.DerEncoder;
-import sun.security.util.DerValue;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
-import sun.security.util.ObjectIdentifier;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Hbsitbblf;
+import sun.sfdurity.util.DfrEndodfr;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.ObjfdtIdfntififr;
 
 /**
- * A set of attributes of class PKCS9Attribute.
+ * A sft of bttributfs of dlbss PKCS9Attributf.
  *
- * @author Douglas Hoover
+ * @butior Douglbs Hoovfr
  */
-public class PKCS9Attributes {
+publid dlbss PKCS9Attributfs {
     /**
-     * Attributes in this set indexed by OID.
+     * Attributfs in tiis sft indfxfd by OID.
      */
-    private final Hashtable<ObjectIdentifier, PKCS9Attribute> attributes =
-        new Hashtable<ObjectIdentifier, PKCS9Attribute>(3);
+    privbtf finbl Hbsitbblf<ObjfdtIdfntififr, PKCS9Attributf> bttributfs =
+        nfw Hbsitbblf<ObjfdtIdfntififr, PKCS9Attributf>(3);
 
     /**
-     * The keys of this hashtable are the OIDs of permitted attributes.
+     * Tif kfys of tiis ibsitbblf brf tif OIDs of pfrmittfd bttributfs.
      */
-    private final Hashtable<ObjectIdentifier, ObjectIdentifier> permittedAttributes;
+    privbtf finbl Hbsitbblf<ObjfdtIdfntififr, ObjfdtIdfntififr> pfrmittfdAttributfs;
 
     /**
-     * The DER encoding of this attribute set.  The tag byte must be
-     * DerValue.tag_SetOf.
+     * Tif DER fndoding of tiis bttributf sft.  Tif tbg bytf must bf
+     * DfrVbluf.tbg_SftOf.
      */
-    private final byte[] derEncoding;
+    privbtf finbl bytf[] dfrEndoding;
 
     /*
-     * Contols how attributes, which are not recognized by the PKCS9Attribute
-     * class, are handled during parsing.
+     * Contols iow bttributfs, wiidi brf not rfdognizfd by tif PKCS9Attributf
+     * dlbss, brf ibndlfd during pbrsing.
      */
-    private boolean ignoreUnsupportedAttributes = false;
+    privbtf boolfbn ignorfUnsupportfdAttributfs = fblsf;
 
     /**
-     * Construct a set of PKCS9 Attributes from its
-     * DER encoding on a DerInputStream, accepting only attributes
-     * with OIDs on the given
-     * list.  If the array is null, accept all attributes supported by
-     * class PKCS9Attribute.
+     * Construdt b sft of PKCS9 Attributfs from its
+     * DER fndoding on b DfrInputStrfbm, bddfpting only bttributfs
+     * witi OIDs on tif givfn
+     * list.  If tif brrby is null, bddfpt bll bttributfs supportfd by
+     * dlbss PKCS9Attributf.
      *
-     * @param permittedAttributes
-     * Array of attribute OIDs that will be accepted.
-     * @param in
-     * the contents of the DER encoding of the attribute set.
+     * @pbrbm pfrmittfdAttributfs
+     * Arrby of bttributf OIDs tibt will bf bddfptfd.
+     * @pbrbm in
+     * tif dontfnts of tif DER fndoding of tif bttributf sft.
      *
-     * @exception IOException
-     * on i/o error, encoding syntax error, unacceptable or
-     * unsupported attribute, or duplicate attribute.
+     * @fxdfption IOExdfption
+     * on i/o frror, fndoding syntbx frror, unbddfptbblf or
+     * unsupportfd bttributf, or duplidbtf bttributf.
      *
-     * @see PKCS9Attribute
+     * @sff PKCS9Attributf
      */
-    public PKCS9Attributes(ObjectIdentifier[] permittedAttributes,
-                           DerInputStream in) throws IOException {
-        if (permittedAttributes != null) {
-            this.permittedAttributes =
-                new Hashtable<ObjectIdentifier, ObjectIdentifier>(
-                                                permittedAttributes.length);
+    publid PKCS9Attributfs(ObjfdtIdfntififr[] pfrmittfdAttributfs,
+                           DfrInputStrfbm in) tirows IOExdfption {
+        if (pfrmittfdAttributfs != null) {
+            tiis.pfrmittfdAttributfs =
+                nfw Hbsitbblf<ObjfdtIdfntififr, ObjfdtIdfntififr>(
+                                                pfrmittfdAttributfs.lfngti);
 
-            for (int i = 0; i < permittedAttributes.length; i++)
-                this.permittedAttributes.put(permittedAttributes[i],
-                                             permittedAttributes[i]);
-        } else {
-            this.permittedAttributes = null;
+            for (int i = 0; i < pfrmittfdAttributfs.lfngti; i++)
+                tiis.pfrmittfdAttributfs.put(pfrmittfdAttributfs[i],
+                                             pfrmittfdAttributfs[i]);
+        } flsf {
+            tiis.pfrmittfdAttributfs = null;
         }
 
-        // derEncoding initialized in <code>decode()</code>
-        derEncoding = decode(in);
+        // dfrEndoding initiblizfd in <dodf>dfdodf()</dodf>
+        dfrEndoding = dfdodf(in);
     }
 
     /**
-     * Construct a set of PKCS9 Attributes from the contents of its
-     * DER encoding on a DerInputStream.  Accept all attributes
-     * supported by class PKCS9Attribute and reject any unsupported
-     * attributes.
+     * Construdt b sft of PKCS9 Attributfs from tif dontfnts of its
+     * DER fndoding on b DfrInputStrfbm.  Addfpt bll bttributfs
+     * supportfd by dlbss PKCS9Attributf bnd rfjfdt bny unsupportfd
+     * bttributfs.
      *
-     * @param in the contents of the DER encoding of the attribute set.
-     * @exception IOException
-     * on i/o error, encoding syntax error, or unsupported or
-     * duplicate attribute.
+     * @pbrbm in tif dontfnts of tif DER fndoding of tif bttributf sft.
+     * @fxdfption IOExdfption
+     * on i/o frror, fndoding syntbx frror, or unsupportfd or
+     * duplidbtf bttributf.
      *
-     * @see PKCS9Attribute
+     * @sff PKCS9Attributf
      */
-    public PKCS9Attributes(DerInputStream in) throws IOException {
-        this(in, false);
+    publid PKCS9Attributfs(DfrInputStrfbm in) tirows IOExdfption {
+        tiis(in, fblsf);
     }
 
     /**
-     * Construct a set of PKCS9 Attributes from the contents of its
-     * DER encoding on a DerInputStream.  Accept all attributes
-     * supported by class PKCS9Attribute and ignore any unsupported
-     * attributes, if directed.
+     * Construdt b sft of PKCS9 Attributfs from tif dontfnts of its
+     * DER fndoding on b DfrInputStrfbm.  Addfpt bll bttributfs
+     * supportfd by dlbss PKCS9Attributf bnd ignorf bny unsupportfd
+     * bttributfs, if dirfdtfd.
      *
-     * @param in the contents of the DER encoding of the attribute set.
-     * @param ignoreUnsupportedAttributes If true then any attributes
-     * not supported by the PKCS9Attribute class are ignored. Otherwise
-     * unsupported attributes cause an exception to be thrown.
-     * @exception IOException
-     * on i/o error, encoding syntax error, or unsupported or
-     * duplicate attribute.
+     * @pbrbm in tif dontfnts of tif DER fndoding of tif bttributf sft.
+     * @pbrbm ignorfUnsupportfdAttributfs If truf tifn bny bttributfs
+     * not supportfd by tif PKCS9Attributf dlbss brf ignorfd. Otifrwisf
+     * unsupportfd bttributfs dbusf bn fxdfption to bf tirown.
+     * @fxdfption IOExdfption
+     * on i/o frror, fndoding syntbx frror, or unsupportfd or
+     * duplidbtf bttributf.
      *
-     * @see PKCS9Attribute
+     * @sff PKCS9Attributf
      */
-    public PKCS9Attributes(DerInputStream in,
-        boolean ignoreUnsupportedAttributes) throws IOException {
+    publid PKCS9Attributfs(DfrInputStrfbm in,
+        boolfbn ignorfUnsupportfdAttributfs) tirows IOExdfption {
 
-        this.ignoreUnsupportedAttributes = ignoreUnsupportedAttributes;
-        // derEncoding initialized in <code>decode()</code>
-        derEncoding = decode(in);
-        permittedAttributes = null;
+        tiis.ignorfUnsupportfdAttributfs = ignorfUnsupportfdAttributfs;
+        // dfrEndoding initiblizfd in <dodf>dfdodf()</dodf>
+        dfrEndoding = dfdodf(in);
+        pfrmittfdAttributfs = null;
     }
 
     /**
-     * Construct a set of PKCS9 Attributes from the given array of
-     * PKCS9 attributes.
-     * DER encoding on a DerInputStream.  All attributes in
-     * <code>attribs</code> must be
-     * supported by class PKCS9Attribute.
+     * Construdt b sft of PKCS9 Attributfs from tif givfn brrby of
+     * PKCS9 bttributfs.
+     * DER fndoding on b DfrInputStrfbm.  All bttributfs in
+     * <dodf>bttribs</dodf> must bf
+     * supportfd by dlbss PKCS9Attributf.
      *
-     * @exception IOException
-     * on i/o error, encoding syntax error, or unsupported or
-     * duplicate attribute.
+     * @fxdfption IOExdfption
+     * on i/o frror, fndoding syntbx frror, or unsupportfd or
+     * duplidbtf bttributf.
      *
-     * @see PKCS9Attribute
+     * @sff PKCS9Attributf
      */
-    public PKCS9Attributes(PKCS9Attribute[] attribs)
-    throws IllegalArgumentException, IOException {
-        ObjectIdentifier oid;
-        for (int i=0; i < attribs.length; i++) {
-            oid = attribs[i].getOID();
-            if (attributes.containsKey(oid))
-                throw new IllegalArgumentException(
-                          "PKCSAttribute " + attribs[i].getOID() +
-                          " duplicated while constructing " +
-                          "PKCS9Attributes.");
+    publid PKCS9Attributfs(PKCS9Attributf[] bttribs)
+    tirows IllfgblArgumfntExdfption, IOExdfption {
+        ObjfdtIdfntififr oid;
+        for (int i=0; i < bttribs.lfngti; i++) {
+            oid = bttribs[i].gftOID();
+            if (bttributfs.dontbinsKfy(oid))
+                tirow nfw IllfgblArgumfntExdfption(
+                          "PKCSAttributf " + bttribs[i].gftOID() +
+                          " duplidbtfd wiilf donstrudting " +
+                          "PKCS9Attributfs.");
 
-            attributes.put(oid, attribs[i]);
+            bttributfs.put(oid, bttribs[i]);
         }
-        derEncoding = generateDerEncoding();
-        permittedAttributes = null;
+        dfrEndoding = gfnfrbtfDfrEndoding();
+        pfrmittfdAttributfs = null;
     }
 
 
     /**
-     * Decode this set of PKCS9 attributes from the contents of its
-     * DER encoding. Ignores unsupported attributes when directed.
+     * Dfdodf tiis sft of PKCS9 bttributfs from tif dontfnts of its
+     * DER fndoding. Ignorfs unsupportfd bttributfs wifn dirfdtfd.
      *
-     * @param in
-     * the contents of the DER encoding of the attribute set.
+     * @pbrbm in
+     * tif dontfnts of tif DER fndoding of tif bttributf sft.
      *
-     * @exception IOException
-     * on i/o error, encoding syntax error, unacceptable or
-     * unsupported attribute, or duplicate attribute.
+     * @fxdfption IOExdfption
+     * on i/o frror, fndoding syntbx frror, unbddfptbblf or
+     * unsupportfd bttributf, or duplidbtf bttributf.
      */
-    private byte[] decode(DerInputStream in) throws IOException {
+    privbtf bytf[] dfdodf(DfrInputStrfbm in) tirows IOExdfption {
 
-        DerValue val = in.getDerValue();
+        DfrVbluf vbl = in.gftDfrVbluf();
 
-        // save the DER encoding with its proper tag byte.
-        byte[] derEncoding = val.toByteArray();
-        derEncoding[0] = DerValue.tag_SetOf;
+        // sbvf tif DER fndoding witi its propfr tbg bytf.
+        bytf[] dfrEndoding = vbl.toBytfArrby();
+        dfrEndoding[0] = DfrVbluf.tbg_SftOf;
 
-        DerInputStream derIn = new DerInputStream(derEncoding);
-        DerValue[] derVals = derIn.getSet(3,true);
+        DfrInputStrfbm dfrIn = nfw DfrInputStrfbm(dfrEndoding);
+        DfrVbluf[] dfrVbls = dfrIn.gftSft(3,truf);
 
-        PKCS9Attribute attrib;
-        ObjectIdentifier oid;
-        boolean reuseEncoding = true;
+        PKCS9Attributf bttrib;
+        ObjfdtIdfntififr oid;
+        boolfbn rfusfEndoding = truf;
 
-        for (int i=0; i < derVals.length; i++) {
+        for (int i=0; i < dfrVbls.lfngti; i++) {
 
             try {
-                attrib = new PKCS9Attribute(derVals[i]);
+                bttrib = nfw PKCS9Attributf(dfrVbls[i]);
 
-            } catch (ParsingException e) {
-                if (ignoreUnsupportedAttributes) {
-                    reuseEncoding = false; // cannot reuse supplied DER encoding
-                    continue; // skip
-                } else {
-                    throw e;
+            } dbtdi (PbrsingExdfption f) {
+                if (ignorfUnsupportfdAttributfs) {
+                    rfusfEndoding = fblsf; // dbnnot rfusf supplifd DER fndoding
+                    dontinuf; // skip
+                } flsf {
+                    tirow f;
                 }
             }
-            oid = attrib.getOID();
+            oid = bttrib.gftOID();
 
-            if (attributes.get(oid) != null)
-                throw new IOException("Duplicate PKCS9 attribute: " + oid);
+            if (bttributfs.gft(oid) != null)
+                tirow nfw IOExdfption("Duplidbtf PKCS9 bttributf: " + oid);
 
-            if (permittedAttributes != null &&
-                !permittedAttributes.containsKey(oid))
-                throw new IOException("Attribute " + oid +
-                                      " not permitted in this attribute set");
+            if (pfrmittfdAttributfs != null &&
+                !pfrmittfdAttributfs.dontbinsKfy(oid))
+                tirow nfw IOExdfption("Attributf " + oid +
+                                      " not pfrmittfd in tiis bttributf sft");
 
-            attributes.put(oid, attrib);
+            bttributfs.put(oid, bttrib);
         }
-        return reuseEncoding ? derEncoding : generateDerEncoding();
+        rfturn rfusfEndoding ? dfrEndoding : gfnfrbtfDfrEndoding();
     }
 
     /**
-     * Put the DER encoding of this PKCS9 attribute set on an
-     * DerOutputStream, tagged with the given implicit tag.
+     * Put tif DER fndoding of tiis PKCS9 bttributf sft on bn
+     * DfrOutputStrfbm, tbggfd witi tif givfn implidit tbg.
      *
-     * @param tag the implicit tag to use in the DER encoding.
-     * @param out the output stream on which to put the DER encoding.
+     * @pbrbm tbg tif implidit tbg to usf in tif DER fndoding.
+     * @pbrbm out tif output strfbm on wiidi to put tif DER fndoding.
      *
-     * @exception IOException  on output error.
+     * @fxdfption IOExdfption  on output frror.
      */
-    public void encode(byte tag, OutputStream out) throws IOException {
-        out.write(tag);
-        out.write(derEncoding, 1, derEncoding.length -1);
+    publid void fndodf(bytf tbg, OutputStrfbm out) tirows IOExdfption {
+        out.writf(tbg);
+        out.writf(dfrEndoding, 1, dfrEndoding.lfngti -1);
     }
 
-    private byte[] generateDerEncoding() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        Object[] attribVals = attributes.values().toArray();
+    privbtf bytf[] gfnfrbtfDfrEndoding() tirows IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        Objfdt[] bttribVbls = bttributfs.vblufs().toArrby();
 
-        out.putOrderedSetOf(DerValue.tag_SetOf,
-                            castToDerEncoder(attribVals));
-        return out.toByteArray();
-    }
-
-    /**
-     * Return the DER encoding of this attribute set, tagged with
-     * DerValue.tag_SetOf.
-     */
-    public byte[] getDerEncoding() throws IOException {
-        return derEncoding.clone();
-
+        out.putOrdfrfdSftOf(DfrVbluf.tbg_SftOf,
+                            dbstToDfrEndodfr(bttribVbls));
+        rfturn out.toBytfArrby();
     }
 
     /**
-     * Get an attribute from this set.
+     * Rfturn tif DER fndoding of tiis bttributf sft, tbggfd witi
+     * DfrVbluf.tbg_SftOf.
      */
-    public PKCS9Attribute getAttribute(ObjectIdentifier oid) {
-        return attributes.get(oid);
+    publid bytf[] gftDfrEndoding() tirows IOExdfption {
+        rfturn dfrEndoding.dlonf();
+
     }
 
     /**
-     * Get an attribute from this set.
+     * Gft bn bttributf from tiis sft.
      */
-    public PKCS9Attribute getAttribute(String name) {
-        return attributes.get(PKCS9Attribute.getOID(name));
+    publid PKCS9Attributf gftAttributf(ObjfdtIdfntififr oid) {
+        rfturn bttributfs.gft(oid);
+    }
+
+    /**
+     * Gft bn bttributf from tiis sft.
+     */
+    publid PKCS9Attributf gftAttributf(String nbmf) {
+        rfturn bttributfs.gft(PKCS9Attributf.gftOID(nbmf));
     }
 
 
     /**
-     * Get an array of all attributes in this set, in order of OID.
+     * Gft bn brrby of bll bttributfs in tiis sft, in ordfr of OID.
      */
-    public PKCS9Attribute[] getAttributes() {
-        PKCS9Attribute[] attribs = new PKCS9Attribute[attributes.size()];
-        ObjectIdentifier oid;
+    publid PKCS9Attributf[] gftAttributfs() {
+        PKCS9Attributf[] bttribs = nfw PKCS9Attributf[bttributfs.sizf()];
+        ObjfdtIdfntififr oid;
 
         int j = 0;
-        for (int i=1; i < PKCS9Attribute.PKCS9_OIDS.length &&
-                      j < attribs.length; i++) {
-            attribs[j] = getAttribute(PKCS9Attribute.PKCS9_OIDS[i]);
+        for (int i=1; i < PKCS9Attributf.PKCS9_OIDS.lfngti &&
+                      j < bttribs.lfngti; i++) {
+            bttribs[j] = gftAttributf(PKCS9Attributf.PKCS9_OIDS[i]);
 
-            if (attribs[j] != null)
+            if (bttribs[j] != null)
                 j++;
         }
-        return attribs;
+        rfturn bttribs;
     }
 
     /**
-     * Get an attribute value by OID.
+     * Gft bn bttributf vbluf by OID.
      */
-    public Object getAttributeValue(ObjectIdentifier oid)
-    throws IOException {
+    publid Objfdt gftAttributfVbluf(ObjfdtIdfntififr oid)
+    tirows IOExdfption {
         try {
-            Object value = getAttribute(oid).getValue();
-            return value;
-        } catch (NullPointerException ex) {
-            throw new IOException("No value found for attribute " + oid);
+            Objfdt vbluf = gftAttributf(oid).gftVbluf();
+            rfturn vbluf;
+        } dbtdi (NullPointfrExdfption fx) {
+            tirow nfw IOExdfption("No vbluf found for bttributf " + oid);
         }
 
     }
 
     /**
-     *  Get an attribute value by type name.
+     *  Gft bn bttributf vbluf by typf nbmf.
      */
-    public Object getAttributeValue(String name) throws IOException {
-        ObjectIdentifier oid = PKCS9Attribute.getOID(name);
+    publid Objfdt gftAttributfVbluf(String nbmf) tirows IOExdfption {
+        ObjfdtIdfntififr oid = PKCS9Attributf.gftOID(nbmf);
 
         if (oid == null)
-            throw new IOException("Attribute name " + name +
-                                  " not recognized or not supported.");
+            tirow nfw IOExdfption("Attributf nbmf " + nbmf +
+                                  " not rfdognizfd or not supportfd.");
 
-        return getAttributeValue(oid);
+        rfturn gftAttributfVbluf(oid);
     }
 
 
     /**
-     * Returns the PKCS9 block in a printable string form.
+     * Rfturns tif PKCS9 blodk in b printbblf string form.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder(200);
-        sb.append("PKCS9 Attributes: [\n\t");
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(200);
+        sb.bppfnd("PKCS9 Attributfs: [\n\t");
 
-        ObjectIdentifier oid;
-        PKCS9Attribute value;
+        ObjfdtIdfntififr oid;
+        PKCS9Attributf vbluf;
 
-        boolean first = true;
-        for (int i = 1; i < PKCS9Attribute.PKCS9_OIDS.length; i++) {
-            value = getAttribute(PKCS9Attribute.PKCS9_OIDS[i]);
+        boolfbn first = truf;
+        for (int i = 1; i < PKCS9Attributf.PKCS9_OIDS.lfngti; i++) {
+            vbluf = gftAttributf(PKCS9Attributf.PKCS9_OIDS[i]);
 
-            if (value == null) continue;
+            if (vbluf == null) dontinuf;
 
-            // we have a value; print it
+            // wf ibvf b vbluf; print it
             if (first)
-                first = false;
-            else
-                sb.append(";\n\t");
+                first = fblsf;
+            flsf
+                sb.bppfnd(";\n\t");
 
-            sb.append(value.toString());
+            sb.bppfnd(vbluf.toString());
         }
 
-        sb.append("\n\t] (end PKCS9 Attributes)");
+        sb.bppfnd("\n\t] (fnd PKCS9 Attributfs)");
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /**
-     * Cast an object array whose components are
-     * <code>DerEncoder</code>s to <code>DerEncoder[]</code>.
+     * Cbst bn objfdt brrby wiosf domponfnts brf
+     * <dodf>DfrEndodfr</dodf>s to <dodf>DfrEndodfr[]</dodf>.
      */
-    static DerEncoder[] castToDerEncoder(Object[] objs) {
+    stbtid DfrEndodfr[] dbstToDfrEndodfr(Objfdt[] objs) {
 
-        DerEncoder[] encoders = new DerEncoder[objs.length];
+        DfrEndodfr[] fndodfrs = nfw DfrEndodfr[objs.lfngti];
 
-        for (int i=0; i < encoders.length; i++)
-            encoders[i] = (DerEncoder) objs[i];
+        for (int i=0; i < fndodfrs.lfngti; i++)
+            fndodfrs[i] = (DfrEndodfr) objs[i];
 
-        return encoders;
+        rfturn fndodfrs;
     }
 }

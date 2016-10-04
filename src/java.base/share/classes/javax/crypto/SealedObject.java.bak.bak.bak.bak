@@ -1,0 +1,493 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto;
+
+import jbvb.io.*;
+import jbvb.sfdurity.AlgorithmPbrbmftfrs;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.NoSudhProvidfrExdfption;
+
+/**
+ * This dlbss fnbblfs b progrbmmfr to drfbtf bn objfdt bnd protfdt its
+ * donfidfntiblity with b dryptogrbphid blgorithm.
+ *
+ * <p> Givfn bny Sfriblizbblf objfdt, onf dbn drfbtf b SfblfdObjfdt
+ * thbt fndbpsulbtfs thf originbl objfdt, in sfriblizfd
+ * formbt (i.f., b "dffp dopy"), bnd sfbls (fndrypts) its sfriblizfd dontfnts,
+ * using b dryptogrbphid blgorithm sudh bs DES, to protfdt its
+ * donfidfntiblity.  Thf fndryptfd dontfnt dbn lbtfr bf dfdryptfd (with
+ * thf dorrfsponding blgorithm using thf dorrfdt dfdryption kfy) bnd
+ * df-sfriblizfd, yiflding thf originbl objfdt.
+ *
+ * <p> Notf thbt thf Ciphfr objfdt must bf fully initiblizfd with thf
+ * dorrfdt blgorithm, kfy, pbdding sdhfmf, ftd., bfforf bfing bpplifd
+ * to b SfblfdObjfdt.
+ *
+ * <p> Thf originbl objfdt thbt wbs sfblfd dbn bf rfdovfrfd in two difffrfnt
+ * wbys:
+ *
+ * <ul>
+ *
+ * <li>by using thf {@link #gftObjfdt(jbvbx.drypto.Ciphfr) gftObjfdt}
+ * mfthod thbt tbkfs b <dodf>Ciphfr</dodf> objfdt.
+ *
+ * <p> This mfthod rfquirfs b fully initiblizfd <dodf>Ciphfr</dodf> objfdt,
+ * initiblizfd with thf
+ * fxbdt sbmf blgorithm, kfy, pbdding sdhfmf, ftd., thbt wfrf usfd to sfbl thf
+ * objfdt.
+ *
+ * <p> This bpprobdh hbs thf bdvbntbgf thbt thf pbrty who unsfbls thf
+ * sfblfd objfdt dofs not rfquirf knowlfdgf of thf dfdryption kfy. For fxbmplf,
+ * bftfr onf pbrty hbs initiblizfd thf diphfr objfdt with thf rfquirfd
+ * dfdryption kfy, it dould hbnd ovfr thf diphfr objfdt to
+ * bnothfr pbrty who thfn unsfbls thf sfblfd objfdt.
+ *
+ * <li>by using onf of thf
+ * {@link #gftObjfdt(jbvb.sfdurity.Kfy) gftObjfdt} mfthods
+ * thbt tbkf b <dodf>Kfy</dodf> objfdt.
+ *
+ * <p> In this bpprobdh, thf <dodf>gftObjfdt</dodf> mfthod drfbtfs b diphfr
+ * objfdt for thf bppropribtf dfdryption blgorithm bnd initiblizfs it with thf
+ * givfn dfdryption kfy bnd thf blgorithm pbrbmftfrs (if bny) thbt wfrf storfd
+ * in thf sfblfd objfdt.
+ *
+ * <p> This bpprobdh hbs thf bdvbntbgf thbt thf pbrty who
+ * unsfbls thf objfdt dofs not nffd to kffp trbdk of thf pbrbmftfrs (f.g., bn
+ * IV) thbt wfrf usfd to sfbl thf objfdt.
+ *
+ * </ul>
+ *
+ * @buthor Li Gong
+ * @buthor Jbn Lufhf
+ * @sff Ciphfr
+ * @sindf 1.4
+ */
+
+publid dlbss SfblfdObjfdt implfmfnts Sfriblizbblf {
+
+    stbtid finbl long sfriblVfrsionUID = 4482838265551344752L;
+
+    /**
+     * Thf sfriblizfd objfdt dontfnts in fndryptfd formbt.
+     *
+     * @sfribl
+     */
+    privbtf bytf[] fndryptfdContfnt = null;
+
+    /**
+     * Thf blgorithm thbt wbs usfd to sfbl this objfdt.
+     *
+     * @sfribl
+     */
+    privbtf String sfblAlg = null;
+
+    /**
+     * Thf blgorithm of thf pbrbmftfrs usfd.
+     *
+     * @sfribl
+     */
+    privbtf String pbrbmsAlg = null;
+
+    /**
+     * Thf dryptogrbphid pbrbmftfrs usfd by thf sfbling Ciphfr,
+     * fndodfd in thf dffbult formbt.
+     * <p>
+     * Thbt is, <dodf>diphfr.gftPbrbmftfrs().gftEndodfd()</dodf>.
+     *
+     * @sfribl
+     */
+    protfdtfd bytf[] fndodfdPbrbms = null;
+
+    /**
+     * Construdts b SfblfdObjfdt from bny Sfriblizbblf objfdt.
+     *
+     * <p>Thf givfn objfdt is sfriblizfd, bnd its sfriblizfd dontfnts brf
+     * fndryptfd using thf givfn Ciphfr, whidh must bf fully initiblizfd.
+     *
+     * <p>Any blgorithm pbrbmftfrs thbt mby bf usfd in thf fndryption
+     * opfrbtion brf storfd insidf of thf nfw <dodf>SfblfdObjfdt</dodf>.
+     *
+     * @pbrbm objfdt thf objfdt to bf sfblfd; dbn bf null.
+     * @pbrbm d thf diphfr usfd to sfbl thf objfdt.
+     *
+     * @fxdfption NullPointfrExdfption if thf givfn diphfr is null.
+     * @fxdfption IOExdfption if bn frror oddurs during sfriblizbtion
+     * @fxdfption IllfgblBlodkSizfExdfption if thf givfn diphfr is b blodk
+     * diphfr, no pbdding hbs bffn rfqufstfd, bnd thf totbl input lfngth
+     * (i.f., thf lfngth of thf sfriblizfd objfdt dontfnts) is not b multiplf
+     * of thf diphfr's blodk sizf
+     */
+    publid SfblfdObjfdt(Sfriblizbblf objfdt, Ciphfr d) throws IOExdfption,
+        IllfgblBlodkSizfExdfption
+    {
+        /*
+         * Sfriblizf thf objfdt
+         */
+
+        // drfbting b strfbm pipf-linf, from b to b
+        BytfArrbyOutputStrfbm b = nfw BytfArrbyOutputStrfbm();
+        ObjfdtOutput b = nfw ObjfdtOutputStrfbm(b);
+        bytf[] dontfnt;
+        try {
+            // writf bnd flush thf objfdt dontfnt to bytf brrby
+            b.writfObjfdt(objfdt);
+            b.flush();
+            dontfnt = b.toBytfArrby();
+        } finblly {
+            b.dlosf();
+        }
+
+        /*
+         * Sfbl thf objfdt
+         */
+        try {
+            this.fndryptfdContfnt = d.doFinbl(dontfnt);
+        }
+        dbtdh (BbdPbddingExdfption fx) {
+            // if sfbling is fndryption only
+            // Should nfvfr hbppfn??
+        }
+
+        // Sbvf thf pbrbmftfrs
+        if (d.gftPbrbmftfrs() != null) {
+            this.fndodfdPbrbms = d.gftPbrbmftfrs().gftEndodfd();
+            this.pbrbmsAlg = d.gftPbrbmftfrs().gftAlgorithm();
+        }
+
+        // Sbvf thf fndryption blgorithm
+        this.sfblAlg = d.gftAlgorithm();
+    }
+
+    /**
+     * Construdts b SfblfdObjfdt objfdt from thf pbssfd-in SfblfdObjfdt.
+     *
+     * @pbrbm so b SfblfdObjfdt objfdt
+     * @fxdfption NullPointfrExdfption if thf givfn sfblfd objfdt is null.
+     */
+    protfdtfd SfblfdObjfdt(SfblfdObjfdt so) {
+        this.fndryptfdContfnt = so.fndryptfdContfnt.dlonf();
+        this.sfblAlg = so.sfblAlg;
+        this.pbrbmsAlg = so.pbrbmsAlg;
+        if (so.fndodfdPbrbms != null) {
+            this.fndodfdPbrbms = so.fndodfdPbrbms.dlonf();
+        } flsf {
+            this.fndodfdPbrbms = null;
+        }
+    }
+
+    /**
+     * Rfturns thf blgorithm thbt wbs usfd to sfbl this objfdt.
+     *
+     * @rfturn thf blgorithm thbt wbs usfd to sfbl this objfdt.
+     */
+    publid finbl String gftAlgorithm() {
+        rfturn this.sfblAlg;
+    }
+
+    /**
+     * Rftrifvfs thf originbl (fndbpsulbtfd) objfdt.
+     *
+     * <p>This mfthod drfbtfs b diphfr for thf blgorithm thbt hbd bffn usfd in
+     * thf sfbling opfrbtion.
+     * If thf dffbult providfr pbdkbgf providfs bn implfmfntbtion of thbt
+     * blgorithm, bn instbndf of Ciphfr dontbining thbt implfmfntbtion is usfd.
+     * If thf blgorithm is not bvbilbblf in thf dffbult pbdkbgf, othfr
+     * pbdkbgfs brf sfbrdhfd.
+     * Thf Ciphfr objfdt is initiblizfd for dfdryption, using thf givfn
+     * <dodf>kfy</dodf> bnd thf pbrbmftfrs (if bny) thbt hbd bffn usfd in thf
+     * sfbling opfrbtion.
+     *
+     * <p>Thf fndbpsulbtfd objfdt is unsfblfd bnd df-sfriblizfd, bfforf it is
+     * rfturnfd.
+     *
+     * @pbrbm kfy thf kfy usfd to unsfbl thf objfdt.
+     *
+     * @rfturn thf originbl objfdt.
+     *
+     * @fxdfption IOExdfption if bn frror oddurs during df-sfriblibzbtion.
+     * @fxdfption ClbssNotFoundExdfption if bn frror oddurs during
+     * df-sfriblibzbtion.
+     * @fxdfption NoSudhAlgorithmExdfption if thf blgorithm to unsfbl thf
+     * objfdt is not bvbilbblf.
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy dbnnot bf usfd to unsfbl
+     * thf objfdt (f.g., it hbs thf wrong blgorithm).
+     * @fxdfption NullPointfrExdfption if <dodf>kfy</dodf> is null.
+     */
+    publid finbl Objfdt gftObjfdt(Kfy kfy)
+        throws IOExdfption, ClbssNotFoundExdfption, NoSudhAlgorithmExdfption,
+            InvblidKfyExdfption
+    {
+        if (kfy == null) {
+            throw nfw NullPointfrExdfption("kfy is null");
+        }
+
+        try {
+            rfturn unsfbl(kfy, null);
+        } dbtdh (NoSudhProvidfrExdfption nspf) {
+            // wf'vf blrfbdy dbught NoSudhProvidfrExdfption's bnd donvfrtfd
+            // thfm into NoSudhAlgorithmExdfption's with dftbils bbout
+            // thf fbiling blgorithm
+            throw nfw NoSudhAlgorithmExdfption("blgorithm not found");
+        } dbtdh (IllfgblBlodkSizfExdfption ibsf) {
+            throw nfw InvblidKfyExdfption(ibsf.gftMfssbgf());
+        } dbtdh (BbdPbddingExdfption bpf) {
+            throw nfw InvblidKfyExdfption(bpf.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Rftrifvfs thf originbl (fndbpsulbtfd) objfdt.
+     *
+     * <p>Thf fndbpsulbtfd objfdt is unsfblfd (using thf givfn Ciphfr,
+     * bssuming thbt thf Ciphfr is blrfbdy propfrly initiblizfd) bnd
+     * df-sfriblizfd, bfforf it is rfturnfd.
+     *
+     * @pbrbm d thf diphfr usfd to unsfbl thf objfdt
+     *
+     * @rfturn thf originbl objfdt.
+     *
+     * @fxdfption NullPointfrExdfption if thf givfn diphfr is null.
+     * @fxdfption IOExdfption if bn frror oddurs during df-sfriblibzbtion
+     * @fxdfption ClbssNotFoundExdfption if bn frror oddurs during
+     * df-sfriblibzbtion
+     * @fxdfption IllfgblBlodkSizfExdfption if thf givfn diphfr is b blodk
+     * diphfr, no pbdding hbs bffn rfqufstfd, bnd thf totbl input lfngth is
+     * not b multiplf of thf diphfr's blodk sizf
+     * @fxdfption BbdPbddingExdfption if thf givfn diphfr hbs bffn
+     * initiblizfd for dfdryption, bnd pbdding hbs bffn spfdififd, but
+     * thf input dbtb dofs not hbvf propfr fxpfdtfd pbdding bytfs
+     */
+    publid finbl Objfdt gftObjfdt(Ciphfr d)
+        throws IOExdfption, ClbssNotFoundExdfption, IllfgblBlodkSizfExdfption,
+            BbdPbddingExdfption
+    {
+        /*
+         * Unsfbl thf objfdt
+         */
+        bytf[] dontfnt = d.doFinbl(this.fndryptfdContfnt);
+
+        /*
+         * Df-sfriblizf it
+         */
+        // drfbting b strfbm pipf-linf, from b to b
+        BytfArrbyInputStrfbm b = nfw BytfArrbyInputStrfbm(dontfnt);
+        ObjfdtInput b = nfw fxtObjfdtInputStrfbm(b);
+        try {
+            Objfdt obj = b.rfbdObjfdt();
+            rfturn obj;
+        } finblly {
+            b.dlosf();
+        }
+    }
+
+    /**
+     * Rftrifvfs thf originbl (fndbpsulbtfd) objfdt.
+     *
+     * <p>This mfthod drfbtfs b diphfr for thf blgorithm thbt hbd bffn usfd in
+     * thf sfbling opfrbtion, using bn implfmfntbtion of thbt blgorithm from
+     * thf givfn <dodf>providfr</dodf>.
+     * Thf Ciphfr objfdt is initiblizfd for dfdryption, using thf givfn
+     * <dodf>kfy</dodf> bnd thf pbrbmftfrs (if bny) thbt hbd bffn usfd in thf
+     * sfbling opfrbtion.
+     *
+     * <p>Thf fndbpsulbtfd objfdt is unsfblfd bnd df-sfriblizfd, bfforf it is
+     * rfturnfd.
+     *
+     * @pbrbm kfy thf kfy usfd to unsfbl thf objfdt.
+     * @pbrbm providfr thf nbmf of thf providfr of thf blgorithm to unsfbl
+     * thf objfdt.
+     *
+     * @rfturn thf originbl objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn providfr is null
+     * or fmpty.
+     * @fxdfption IOExdfption if bn frror oddurs during df-sfriblibzbtion.
+     * @fxdfption ClbssNotFoundExdfption if bn frror oddurs during
+     * df-sfriblibzbtion.
+     * @fxdfption NoSudhAlgorithmExdfption if thf blgorithm to unsfbl thf
+     * objfdt is not bvbilbblf.
+     * @fxdfption NoSudhProvidfrExdfption if thf givfn providfr is not
+     * donfigurfd.
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy dbnnot bf usfd to unsfbl
+     * thf objfdt (f.g., it hbs thf wrong blgorithm).
+     * @fxdfption NullPointfrExdfption if <dodf>kfy</dodf> is null.
+     */
+    publid finbl Objfdt gftObjfdt(Kfy kfy, String providfr)
+        throws IOExdfption, ClbssNotFoundExdfption, NoSudhAlgorithmExdfption,
+            NoSudhProvidfrExdfption, InvblidKfyExdfption
+    {
+        if (kfy == null) {
+            throw nfw NullPointfrExdfption("kfy is null");
+        }
+        if (providfr == null || providfr.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption("missing providfr");
+        }
+
+        try {
+            rfturn unsfbl(kfy, providfr);
+        } dbtdh (IllfgblBlodkSizfExdfption | BbdPbddingExdfption fx) {
+            throw nfw InvblidKfyExdfption(fx.gftMfssbgf());
+        }
+    }
+
+
+    privbtf Objfdt unsfbl(Kfy kfy, String providfr)
+        throws IOExdfption, ClbssNotFoundExdfption, NoSudhAlgorithmExdfption,
+            NoSudhProvidfrExdfption, InvblidKfyExdfption,
+            IllfgblBlodkSizfExdfption, BbdPbddingExdfption
+    {
+        /*
+         * Crfbtf thf pbrbmftfr objfdt.
+         */
+        AlgorithmPbrbmftfrs pbrbms = null;
+        if (this.fndodfdPbrbms != null) {
+            try {
+                if (providfr != null)
+                    pbrbms = AlgorithmPbrbmftfrs.gftInstbndf(this.pbrbmsAlg,
+                                                             providfr);
+                flsf
+                    pbrbms = AlgorithmPbrbmftfrs.gftInstbndf(this.pbrbmsAlg);
+
+            } dbtdh (NoSudhProvidfrExdfption nspf) {
+                if (providfr == null) {
+                    throw nfw NoSudhAlgorithmExdfption(this.pbrbmsAlg
+                                                       + " not found");
+                } flsf {
+                    throw nfw NoSudhProvidfrExdfption(nspf.gftMfssbgf());
+                }
+            }
+            pbrbms.init(this.fndodfdPbrbms);
+        }
+
+        /*
+         * Crfbtf bnd initiblizf thf diphfr.
+         */
+        Ciphfr d;
+        try {
+            if (providfr != null)
+                d = Ciphfr.gftInstbndf(this.sfblAlg, providfr);
+            flsf
+                d = Ciphfr.gftInstbndf(this.sfblAlg);
+        } dbtdh (NoSudhPbddingExdfption nspf) {
+            throw nfw NoSudhAlgorithmExdfption("Pbdding thbt wbs usfd in "
+                                               + "sfbling opfrbtion not "
+                                               + "bvbilbblf");
+        } dbtdh (NoSudhProvidfrExdfption nspf) {
+            if (providfr == null) {
+                throw nfw NoSudhAlgorithmExdfption(this.sfblAlg+" not found");
+            } flsf {
+                throw nfw NoSudhProvidfrExdfption(nspf.gftMfssbgf());
+            }
+        }
+
+        try {
+            if (pbrbms != null)
+                d.init(Ciphfr.DECRYPT_MODE, kfy, pbrbms);
+            flsf
+                d.init(Ciphfr.DECRYPT_MODE, kfy);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption ibpf) {
+            // this should nfvfr hbppfn, bfdbusf wf usf thf fxbdt sbmf
+            // pbrbmftfrs thbt wfrf usfd in thf sfbling opfrbtion
+            throw nfw RuntimfExdfption(ibpf.gftMfssbgf());
+        }
+
+        /*
+         * Unsfbl thf objfdt
+         */
+        bytf[] dontfnt = d.doFinbl(this.fndryptfdContfnt);
+
+        /*
+         * Df-sfriblizf it
+         */
+        // drfbting b strfbm pipf-linf, from b to b
+        BytfArrbyInputStrfbm b = nfw BytfArrbyInputStrfbm(dontfnt);
+        ObjfdtInput b = nfw fxtObjfdtInputStrfbm(b);
+        try {
+            Objfdt obj = b.rfbdObjfdt();
+            rfturn obj;
+        } finblly {
+            b.dlosf();
+        }
+    }
+
+    /**
+     * Rfstorfs thf stbtf of thf SfblfdObjfdt from b strfbm.
+     * @pbrbm s thf objfdt input strfbm.
+     * @fxdfption NullPointfrExdfption if s is null.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        throws jbvb.io.IOExdfption, ClbssNotFoundExdfption
+    {
+        s.dffbultRfbdObjfdt();
+        if (fndryptfdContfnt != null)
+            fndryptfdContfnt = fndryptfdContfnt.dlonf();
+        if (fndodfdPbrbms != null)
+            fndodfdPbrbms = fndodfdPbrbms.dlonf();
+    }
+}
+
+finbl dlbss fxtObjfdtInputStrfbm fxtfnds ObjfdtInputStrfbm {
+
+    privbtf stbtid ClbssLobdfr systfmClbssLobdfr = null;
+
+    fxtObjfdtInputStrfbm(InputStrfbm in)
+        throws IOExdfption, StrfbmCorruptfdExdfption {
+        supfr(in);
+    }
+
+    protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss v)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+
+        try {
+            /*
+             * Cblling thf supfr.rfsolvfClbss() first
+             * will lft us pidk up bug fixfs in thf supfr
+             * dlbss (f.g., 4171142).
+             */
+            rfturn supfr.rfsolvfClbss(v);
+        } dbtdh (ClbssNotFoundExdfption dnff) {
+            /*
+             * This is b workbround for bug 4224921.
+             */
+            ClbssLobdfr lobdfr = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+            if (lobdfr == null) {
+                if (systfmClbssLobdfr == null) {
+                    systfmClbssLobdfr = ClbssLobdfr.gftSystfmClbssLobdfr();
+                }
+                lobdfr = systfmClbssLobdfr;
+                if (lobdfr == null) {
+                    throw nfw ClbssNotFoundExdfption(v.gftNbmf());
+                }
+            }
+
+            rfturn Clbss.forNbmf(v.gftNbmf(), fblsf, lobdfr);
+        }
+    }
+}

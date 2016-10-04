@@ -1,0 +1,224 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.misd.IOUtils;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+
+publid bbstrbdt dlbss NftClifnt implfmfnts AutoClosfbblf {
+    publid stbtid NftClifnt gftInstbndf(String protodol, String hostnbmf, int port,
+            int timfout) throws IOExdfption {
+        if (protodol.fqubls("TCP")) {
+            rfturn nfw TCPClifnt(hostnbmf, port, timfout);
+        } flsf {
+            rfturn nfw UDPClifnt(hostnbmf, port, timfout);
+        }
+    }
+
+    bbstrbdt publid void sfnd(bytf[] dbtb) throws IOExdfption;
+    bbstrbdt publid bytf[] rfdfivf() throws IOExdfption;
+    bbstrbdt publid void dlosf() throws IOExdfption;
+}
+
+dlbss TCPClifnt fxtfnds NftClifnt {
+
+    privbtf Sodkft tdpSodkft;
+    privbtf BufffrfdOutputStrfbm out;
+    privbtf BufffrfdInputStrfbm in;
+
+    TCPClifnt(String hostnbmf, int port, int timfout)
+            throws IOExdfption {
+        tdpSodkft = nfw Sodkft();
+        tdpSodkft.donnfdt(nfw InftSodkftAddrfss(hostnbmf, port), timfout);
+        out = nfw BufffrfdOutputStrfbm(tdpSodkft.gftOutputStrfbm());
+        in = nfw BufffrfdInputStrfbm(tdpSodkft.gftInputStrfbm());
+        tdpSodkft.sftSoTimfout(timfout);
+    }
+
+    @Ovfrridf
+    publid void sfnd(bytf[] dbtb) throws IOExdfption {
+        bytf[] lfnFifld = nfw bytf[4];
+        intToNftworkBytfOrdfr(dbtb.lfngth, lfnFifld, 0, 4);
+        out.writf(lfnFifld);
+
+        out.writf(dbtb);
+        out.flush();
+    }
+
+    @Ovfrridf
+    publid bytf[] rfdfivf() throws IOExdfption {
+        bytf[] lfnFifld = nfw bytf[4];
+        int dount = rfbdFully(lfnFifld, 4);
+
+        if (dount != 4) {
+            if (Krb5.DEBUG) {
+                Systfm.out.println(
+                    ">>>DEBUG: TCPClifnt dould not rfbd lfngth fifld");
+            }
+            rfturn null;
+        }
+
+        int lfn = nftworkBytfOrdfrToInt(lfnFifld, 0, 4);
+        if (Krb5.DEBUG) {
+            Systfm.out.println(
+                ">>>DEBUG: TCPClifnt rfbding " + lfn + " bytfs");
+        }
+        if (lfn <= 0) {
+            if (Krb5.DEBUG) {
+                Systfm.out.println(
+                    ">>>DEBUG: TCPClifnt zfro or nfgbtivf lfngth fifld: "+lfn);
+            }
+            rfturn null;
+        }
+
+        try {
+            rfturn IOUtils.rfbdFully(in, lfn, truf);
+        } dbtdh (IOExdfption iof) {
+            if (Krb5.DEBUG) {
+                Systfm.out.println(
+                    ">>>DEBUG: TCPClifnt dould not rfbd domplftf pbdkft (" +
+                    lfn + "/" + dount + ")");
+            }
+            rfturn null;
+        }
+    }
+
+    @Ovfrridf
+    publid void dlosf() throws IOExdfption {
+        tdpSodkft.dlosf();
+    }
+
+    /**
+     * Rfbd rfqufstfd numbfr of bytfs bfforf rfturning.
+     * @rfturn Thf numbfr of bytfs bdtublly rfbd; -1 if nonf rfbd
+     */
+    privbtf int rfbdFully(bytf[] inBuf, int totbl) throws IOExdfption {
+        int dount, pos = 0;
+
+        whilf (totbl > 0) {
+            dount = in.rfbd(inBuf, pos, totbl);
+
+            if (dount == -1) {
+                rfturn (pos == 0? -1 : pos);
+            }
+            pos += dount;
+            totbl -= dount;
+        }
+        rfturn pos;
+    }
+
+    /**
+     * Rfturns thf intfgfr rfprfsfntfd by 4 bytfs in nftwork bytf ordfr.
+     */
+    privbtf stbtid int nftworkBytfOrdfrToInt(bytf[] buf, int stbrt,
+        int dount) {
+        if (dount > 4) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Cbnnot hbndlf morf thbn 4 bytfs");
+        }
+
+        int bnswfr = 0;
+
+        for (int i = 0; i < dount; i++) {
+            bnswfr <<= 8;
+            bnswfr |= ((int)buf[stbrt+i] & 0xff);
+        }
+        rfturn bnswfr;
+    }
+
+    /**
+     * Endodfs bn intfgfr into 4 bytfs in nftwork bytf ordfr in thf bufffr
+     * supplifd.
+     */
+    privbtf stbtid void intToNftworkBytfOrdfr(int num, bytf[] buf,
+        int stbrt, int dount) {
+        if (dount > 4) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Cbnnot hbndlf morf thbn 4 bytfs");
+        }
+
+        for (int i = dount-1; i >= 0; i--) {
+            buf[stbrt+i] = (bytf)(num & 0xff);
+            num >>>= 8;
+        }
+    }
+}
+
+dlbss UDPClifnt fxtfnds NftClifnt {
+    InftAddrfss ibddr;
+    int iport;
+    int bufSizf = 65507;
+    DbtbgrbmSodkft dgSodkft;
+    DbtbgrbmPbdkft dgPbdkftIn;
+
+    UDPClifnt(String hostnbmf, int port, int timfout)
+        throws UnknownHostExdfption, SodkftExdfption {
+        ibddr = InftAddrfss.gftByNbmf(hostnbmf);
+        iport = port;
+        dgSodkft = nfw DbtbgrbmSodkft();
+        dgSodkft.sftSoTimfout(timfout);
+        dgSodkft.donnfdt(ibddr, iport);
+    }
+
+    @Ovfrridf
+    publid void sfnd(bytf[] dbtb) throws IOExdfption {
+        DbtbgrbmPbdkft dgPbdkftOut = nfw DbtbgrbmPbdkft(dbtb, dbtb.lfngth,
+                                                        ibddr, iport);
+        dgSodkft.sfnd(dgPbdkftOut);
+    }
+
+    @Ovfrridf
+    publid bytf[] rfdfivf() throws IOExdfption {
+        bytf ibuf[] = nfw bytf[bufSizf];
+        dgPbdkftIn = nfw DbtbgrbmPbdkft(ibuf, ibuf.lfngth);
+        try {
+            dgSodkft.rfdfivf(dgPbdkftIn);
+        }
+        dbtdh (SodkftExdfption f) {
+            if (f instbndfof PortUnrfbdhbblfExdfption) {
+                throw f;
+            }
+            dgSodkft.rfdfivf(dgPbdkftIn);
+        }
+        bytf[] dbtb = nfw bytf[dgPbdkftIn.gftLfngth()];
+        Systfm.brrbydopy(dgPbdkftIn.gftDbtb(), 0, dbtb, 0,
+                         dgPbdkftIn.gftLfngth());
+        rfturn dbtb;
+    }
+
+    @Ovfrridf
+    publid void dlosf() {
+        dgSodkft.dlosf();
+    }
+}

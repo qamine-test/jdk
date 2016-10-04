@@ -1,402 +1,402 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbdkbgf dom.sun.imbgfio.plugins.gif;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import org.w3c.dom.Node;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import org.w3d.dom.Nodf;
 
-class GIFWritableImageMetadata extends GIFImageMetadata {
+dlbss GIFWritbblfImbgfMftbdbtb fxtfnds GIFImbgfMftbdbtb {
 
-    // package scope
-    static final String
-    NATIVE_FORMAT_NAME = "javax_imageio_gif_image_1.0";
+    // pbdkbgf sdopf
+    stbtid finbl String
+    NATIVE_FORMAT_NAME = "jbvbx_imbgfio_gif_imbgf_1.0";
 
-    GIFWritableImageMetadata() {
-        super(true,
+    GIFWritbblfImbgfMftbdbtb() {
+        supfr(truf,
               NATIVE_FORMAT_NAME,
-              "com.sun.imageio.plugins.gif.GIFImageMetadataFormat",
+              "dom.sun.imbgfio.plugins.gif.GIFImbgfMftbdbtbFormbt",
               null, null);
     }
 
-    public boolean isReadOnly() {
-        return false;
+    publid boolfbn isRfbdOnly() {
+        rfturn fblsf;
     }
 
-    public void reset() {
-        // Fields from Image Descriptor
-        imageLeftPosition = 0;
-        imageTopPosition = 0;
-        imageWidth = 0;
-        imageHeight = 0;
-        interlaceFlag = false;
-        sortFlag = false;
-        localColorTable = null;
+    publid void rfsft() {
+        // Fiflds from Imbgf Dfsdriptor
+        imbgfLfftPosition = 0;
+        imbgfTopPosition = 0;
+        imbgfWidti = 0;
+        imbgfHfigit = 0;
+        intfrlbdfFlbg = fblsf;
+        sortFlbg = fblsf;
+        lodblColorTbblf = null;
 
-        // Fields from Graphic Control Extension
-        disposalMethod = 0;
-        userInputFlag = false;
-        transparentColorFlag = false;
-        delayTime = 0;
-        transparentColorIndex = 0;
+        // Fiflds from Grbpiid Control Extfnsion
+        disposblMftiod = 0;
+        usfrInputFlbg = fblsf;
+        trbnspbrfntColorFlbg = fblsf;
+        dflbyTimf = 0;
+        trbnspbrfntColorIndfx = 0;
 
-        // Fields from Plain Text Extension
-        hasPlainTextExtension = false;
-        textGridLeft = 0;
-        textGridTop = 0;
-        textGridWidth = 0;
-        textGridHeight = 0;
-        characterCellWidth = 0;
-        characterCellHeight = 0;
-        textForegroundColor = 0;
-        textBackgroundColor = 0;
-        text = null;
+        // Fiflds from Plbin Tfxt Extfnsion
+        ibsPlbinTfxtExtfnsion = fblsf;
+        tfxtGridLfft = 0;
+        tfxtGridTop = 0;
+        tfxtGridWidti = 0;
+        tfxtGridHfigit = 0;
+        dibrbdtfrCfllWidti = 0;
+        dibrbdtfrCfllHfigit = 0;
+        tfxtForfgroundColor = 0;
+        tfxtBbdkgroundColor = 0;
+        tfxt = null;
 
-        // Fields from ApplicationExtension
-        applicationIDs = null;
-        authenticationCodes = null;
-        applicationData = null;
+        // Fiflds from ApplidbtionExtfnsion
+        bpplidbtionIDs = null;
+        butifntidbtionCodfs = null;
+        bpplidbtionDbtb = null;
 
-        // Fields from CommentExtension
-        // List of byte[]
-        comments = null;
+        // Fiflds from CommfntExtfnsion
+        // List of bytf[]
+        dommfnts = null;
     }
 
-    private byte[] fromISO8859(String data) {
+    privbtf bytf[] fromISO8859(String dbtb) {
         try {
-            return data.getBytes("ISO-8859-1");
-        } catch (UnsupportedEncodingException e) {
-            return "".getBytes();
+            rfturn dbtb.gftBytfs("ISO-8859-1");
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            rfturn "".gftBytfs();
         }
     }
 
-    protected void mergeNativeTree(Node root) throws IIOInvalidTreeException {
-        Node node = root;
-        if (!node.getNodeName().equals(nativeMetadataFormatName)) {
-            fatal(node, "Root must be " + nativeMetadataFormatName);
+    protfdtfd void mfrgfNbtivfTrff(Nodf root) tirows IIOInvblidTrffExdfption {
+        Nodf nodf = root;
+        if (!nodf.gftNodfNbmf().fqubls(nbtivfMftbdbtbFormbtNbmf)) {
+            fbtbl(nodf, "Root must bf " + nbtivfMftbdbtbFormbtNbmf);
         }
 
-        node = node.getFirstChild();
-        while (node != null) {
-            String name = node.getNodeName();
+        nodf = nodf.gftFirstCiild();
+        wiilf (nodf != null) {
+            String nbmf = nodf.gftNodfNbmf();
 
-            if (name.equals("ImageDescriptor")) {
-                imageLeftPosition = getIntAttribute(node,
-                                                    "imageLeftPosition",
-                                                    -1, true,
-                                                    true, 0, 65535);
+            if (nbmf.fqubls("ImbgfDfsdriptor")) {
+                imbgfLfftPosition = gftIntAttributf(nodf,
+                                                    "imbgfLfftPosition",
+                                                    -1, truf,
+                                                    truf, 0, 65535);
 
-                imageTopPosition = getIntAttribute(node,
-                                                   "imageTopPosition",
-                                                   -1, true,
-                                                   true, 0, 65535);
+                imbgfTopPosition = gftIntAttributf(nodf,
+                                                   "imbgfTopPosition",
+                                                   -1, truf,
+                                                   truf, 0, 65535);
 
-                imageWidth = getIntAttribute(node,
-                                             "imageWidth",
-                                             -1, true,
-                                             true, 1, 65535);
+                imbgfWidti = gftIntAttributf(nodf,
+                                             "imbgfWidti",
+                                             -1, truf,
+                                             truf, 1, 65535);
 
-                imageHeight = getIntAttribute(node,
-                                              "imageHeight",
-                                              -1, true,
-                                              true, 1, 65535);
+                imbgfHfigit = gftIntAttributf(nodf,
+                                              "imbgfHfigit",
+                                              -1, truf,
+                                              truf, 1, 65535);
 
-                interlaceFlag = getBooleanAttribute(node, "interlaceFlag",
-                                                    false, true);
-            } else if (name.equals("LocalColorTable")) {
-                int sizeOfLocalColorTable =
-                    getIntAttribute(node, "sizeOfLocalColorTable",
-                                    true, 2, 256);
-                if (sizeOfLocalColorTable != 2 &&
-                    sizeOfLocalColorTable != 4 &&
-                    sizeOfLocalColorTable != 8 &&
-                    sizeOfLocalColorTable != 16 &&
-                    sizeOfLocalColorTable != 32 &&
-                    sizeOfLocalColorTable != 64 &&
-                    sizeOfLocalColorTable != 128 &&
-                    sizeOfLocalColorTable != 256) {
-                    fatal(node,
-                          "Bad value for LocalColorTable attribute sizeOfLocalColorTable!");
+                intfrlbdfFlbg = gftBoolfbnAttributf(nodf, "intfrlbdfFlbg",
+                                                    fblsf, truf);
+            } flsf if (nbmf.fqubls("LodblColorTbblf")) {
+                int sizfOfLodblColorTbblf =
+                    gftIntAttributf(nodf, "sizfOfLodblColorTbblf",
+                                    truf, 2, 256);
+                if (sizfOfLodblColorTbblf != 2 &&
+                    sizfOfLodblColorTbblf != 4 &&
+                    sizfOfLodblColorTbblf != 8 &&
+                    sizfOfLodblColorTbblf != 16 &&
+                    sizfOfLodblColorTbblf != 32 &&
+                    sizfOfLodblColorTbblf != 64 &&
+                    sizfOfLodblColorTbblf != 128 &&
+                    sizfOfLodblColorTbblf != 256) {
+                    fbtbl(nodf,
+                          "Bbd vbluf for LodblColorTbblf bttributf sizfOfLodblColorTbblf!");
                 }
 
-                sortFlag = getBooleanAttribute(node, "sortFlag", false, true);
+                sortFlbg = gftBoolfbnAttributf(nodf, "sortFlbg", fblsf, truf);
 
-                localColorTable = getColorTable(node, "ColorTableEntry",
-                                                true, sizeOfLocalColorTable);
-            } else if (name.equals("GraphicControlExtension")) {
-                String disposalMethodName =
-                    getStringAttribute(node, "disposalMethod", null,
-                                       true, disposalMethodNames);
-                disposalMethod = 0;
-                while(!disposalMethodName.equals(disposalMethodNames[disposalMethod])) {
-                    disposalMethod++;
+                lodblColorTbblf = gftColorTbblf(nodf, "ColorTbblfEntry",
+                                                truf, sizfOfLodblColorTbblf);
+            } flsf if (nbmf.fqubls("GrbpiidControlExtfnsion")) {
+                String disposblMftiodNbmf =
+                    gftStringAttributf(nodf, "disposblMftiod", null,
+                                       truf, disposblMftiodNbmfs);
+                disposblMftiod = 0;
+                wiilf(!disposblMftiodNbmf.fqubls(disposblMftiodNbmfs[disposblMftiod])) {
+                    disposblMftiod++;
                 }
 
-                userInputFlag = getBooleanAttribute(node, "userInputFlag",
-                                                    false, true);
+                usfrInputFlbg = gftBoolfbnAttributf(nodf, "usfrInputFlbg",
+                                                    fblsf, truf);
 
-                transparentColorFlag =
-                    getBooleanAttribute(node, "transparentColorFlag",
-                                        false, true);
+                trbnspbrfntColorFlbg =
+                    gftBoolfbnAttributf(nodf, "trbnspbrfntColorFlbg",
+                                        fblsf, truf);
 
-                delayTime = getIntAttribute(node,
-                                            "delayTime",
-                                            -1, true,
-                                            true, 0, 65535);
+                dflbyTimf = gftIntAttributf(nodf,
+                                            "dflbyTimf",
+                                            -1, truf,
+                                            truf, 0, 65535);
 
-                transparentColorIndex =
-                    getIntAttribute(node, "transparentColorIndex",
-                                    -1, true,
-                                    true, 0, 65535);
-            } else if (name.equals("PlainTextExtension")) {
-                hasPlainTextExtension = true;
+                trbnspbrfntColorIndfx =
+                    gftIntAttributf(nodf, "trbnspbrfntColorIndfx",
+                                    -1, truf,
+                                    truf, 0, 65535);
+            } flsf if (nbmf.fqubls("PlbinTfxtExtfnsion")) {
+                ibsPlbinTfxtExtfnsion = truf;
 
-                textGridLeft = getIntAttribute(node,
-                                               "textGridLeft",
-                                               -1, true,
-                                               true, 0, 65535);
+                tfxtGridLfft = gftIntAttributf(nodf,
+                                               "tfxtGridLfft",
+                                               -1, truf,
+                                               truf, 0, 65535);
 
-                textGridTop = getIntAttribute(node,
-                                              "textGridTop",
-                                              -1, true,
-                                              true, 0, 65535);
+                tfxtGridTop = gftIntAttributf(nodf,
+                                              "tfxtGridTop",
+                                              -1, truf,
+                                              truf, 0, 65535);
 
-                textGridWidth = getIntAttribute(node,
-                                                "textGridWidth",
-                                                -1, true,
-                                                true, 1, 65535);
+                tfxtGridWidti = gftIntAttributf(nodf,
+                                                "tfxtGridWidti",
+                                                -1, truf,
+                                                truf, 1, 65535);
 
-                textGridHeight = getIntAttribute(node,
-                                                 "textGridHeight",
-                                                 -1, true,
-                                                 true, 1, 65535);
+                tfxtGridHfigit = gftIntAttributf(nodf,
+                                                 "tfxtGridHfigit",
+                                                 -1, truf,
+                                                 truf, 1, 65535);
 
-                characterCellWidth = getIntAttribute(node,
-                                                     "characterCellWidth",
-                                                     -1, true,
-                                                     true, 1, 65535);
+                dibrbdtfrCfllWidti = gftIntAttributf(nodf,
+                                                     "dibrbdtfrCfllWidti",
+                                                     -1, truf,
+                                                     truf, 1, 65535);
 
-                characterCellHeight = getIntAttribute(node,
-                                                      "characterCellHeight",
-                                                      -1, true,
-                                                      true, 1, 65535);
+                dibrbdtfrCfllHfigit = gftIntAttributf(nodf,
+                                                      "dibrbdtfrCfllHfigit",
+                                                      -1, truf,
+                                                      truf, 1, 65535);
 
-                textForegroundColor = getIntAttribute(node,
-                                                      "textForegroundColor",
-                                                      -1, true,
-                                                      true, 0, 255);
+                tfxtForfgroundColor = gftIntAttributf(nodf,
+                                                      "tfxtForfgroundColor",
+                                                      -1, truf,
+                                                      truf, 0, 255);
 
-                textBackgroundColor = getIntAttribute(node,
-                                                      "textBackgroundColor",
-                                                      -1, true,
-                                                      true, 0, 255);
+                tfxtBbdkgroundColor = gftIntAttributf(nodf,
+                                                      "tfxtBbdkgroundColor",
+                                                      -1, truf,
+                                                      truf, 0, 255);
 
-                // XXX The "text" attribute of the PlainTextExtension element
-                // is not defined in the GIF image metadata format but it is
-                // present in the GIFImageMetadata class. Consequently it is
-                // used here but not required and with a default of "". See
+                // XXX Tif "tfxt" bttributf of tif PlbinTfxtExtfnsion flfmfnt
+                // is not dffinfd in tif GIF imbgf mftbdbtb formbt but it is
+                // prfsfnt in tif GIFImbgfMftbdbtb dlbss. Consfqufntly it is
+                // usfd ifrf but not rfquirfd bnd witi b dffbult of "". Sff
                 // bug 5082763.
 
-                String textString =
-                    getStringAttribute(node, "text", "", false, null);
-                text = fromISO8859(textString);
-            } else if (name.equals("ApplicationExtensions")) {
-                IIOMetadataNode applicationExtension =
-                    (IIOMetadataNode)node.getFirstChild();
+                String tfxtString =
+                    gftStringAttributf(nodf, "tfxt", "", fblsf, null);
+                tfxt = fromISO8859(tfxtString);
+            } flsf if (nbmf.fqubls("ApplidbtionExtfnsions")) {
+                IIOMftbdbtbNodf bpplidbtionExtfnsion =
+                    (IIOMftbdbtbNodf)nodf.gftFirstCiild();
 
-                if (!applicationExtension.getNodeName().equals("ApplicationExtension")) {
-                    fatal(node,
-                          "Only a ApplicationExtension may be a child of a ApplicationExtensions!");
+                if (!bpplidbtionExtfnsion.gftNodfNbmf().fqubls("ApplidbtionExtfnsion")) {
+                    fbtbl(nodf,
+                          "Only b ApplidbtionExtfnsion mby bf b diild of b ApplidbtionExtfnsions!");
                 }
 
-                String applicationIDString =
-                    getStringAttribute(applicationExtension, "applicationID",
-                                       null, true, null);
+                String bpplidbtionIDString =
+                    gftStringAttributf(bpplidbtionExtfnsion, "bpplidbtionID",
+                                       null, truf, null);
 
-                String authenticationCodeString =
-                    getStringAttribute(applicationExtension, "authenticationCode",
-                                       null, true, null);
+                String butifntidbtionCodfString =
+                    gftStringAttributf(bpplidbtionExtfnsion, "butifntidbtionCodf",
+                                       null, truf, null);
 
-                Object applicationExtensionData =
-                    applicationExtension.getUserObject();
-                if (applicationExtensionData == null ||
-                    !(applicationExtensionData instanceof byte[])) {
-                    fatal(applicationExtension,
-                          "Bad user object in ApplicationExtension!");
+                Objfdt bpplidbtionExtfnsionDbtb =
+                    bpplidbtionExtfnsion.gftUsfrObjfdt();
+                if (bpplidbtionExtfnsionDbtb == null ||
+                    !(bpplidbtionExtfnsionDbtb instbndfof bytf[])) {
+                    fbtbl(bpplidbtionExtfnsion,
+                          "Bbd usfr objfdt in ApplidbtionExtfnsion!");
                 }
 
-                if (applicationIDs == null) {
-                    applicationIDs = new ArrayList<>();
-                    authenticationCodes = new ArrayList<>();
-                    applicationData = new ArrayList<>();
+                if (bpplidbtionIDs == null) {
+                    bpplidbtionIDs = nfw ArrbyList<>();
+                    butifntidbtionCodfs = nfw ArrbyList<>();
+                    bpplidbtionDbtb = nfw ArrbyList<>();
                 }
 
-                applicationIDs.add(fromISO8859(applicationIDString));
-                authenticationCodes.add(fromISO8859(authenticationCodeString));
-                applicationData.add((byte[]) applicationExtensionData);
-            } else if (name.equals("CommentExtensions")) {
-                Node commentExtension = node.getFirstChild();
-                if (commentExtension != null) {
-                    while(commentExtension != null) {
-                        if (!commentExtension.getNodeName().equals("CommentExtension")) {
-                            fatal(node,
-                                  "Only a CommentExtension may be a child of a CommentExtensions!");
+                bpplidbtionIDs.bdd(fromISO8859(bpplidbtionIDString));
+                butifntidbtionCodfs.bdd(fromISO8859(butifntidbtionCodfString));
+                bpplidbtionDbtb.bdd((bytf[]) bpplidbtionExtfnsionDbtb);
+            } flsf if (nbmf.fqubls("CommfntExtfnsions")) {
+                Nodf dommfntExtfnsion = nodf.gftFirstCiild();
+                if (dommfntExtfnsion != null) {
+                    wiilf(dommfntExtfnsion != null) {
+                        if (!dommfntExtfnsion.gftNodfNbmf().fqubls("CommfntExtfnsion")) {
+                            fbtbl(nodf,
+                                  "Only b CommfntExtfnsion mby bf b diild of b CommfntExtfnsions!");
                         }
 
-                        if (comments == null) {
-                            comments = new ArrayList<>();
+                        if (dommfnts == null) {
+                            dommfnts = nfw ArrbyList<>();
                         }
 
-                        String comment =
-                            getStringAttribute(commentExtension, "value", null,
-                                               true, null);
+                        String dommfnt =
+                            gftStringAttributf(dommfntExtfnsion, "vbluf", null,
+                                               truf, null);
 
-                        comments.add(fromISO8859(comment));
+                        dommfnts.bdd(fromISO8859(dommfnt));
 
-                        commentExtension = commentExtension.getNextSibling();
+                        dommfntExtfnsion = dommfntExtfnsion.gftNfxtSibling();
                     }
                 }
-            } else {
-                fatal(node, "Unknown child of root node!");
+            } flsf {
+                fbtbl(nodf, "Unknown diild of root nodf!");
             }
 
-            node = node.getNextSibling();
+            nodf = nodf.gftNfxtSibling();
         }
     }
 
-    protected void mergeStandardTree(Node root)
-      throws IIOInvalidTreeException {
-        Node node = root;
-        if (!node.getNodeName()
-            .equals(IIOMetadataFormatImpl.standardMetadataFormatName)) {
-            fatal(node, "Root must be " +
-                  IIOMetadataFormatImpl.standardMetadataFormatName);
+    protfdtfd void mfrgfStbndbrdTrff(Nodf root)
+      tirows IIOInvblidTrffExdfption {
+        Nodf nodf = root;
+        if (!nodf.gftNodfNbmf()
+            .fqubls(IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
+            fbtbl(nodf, "Root must bf " +
+                  IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf);
         }
 
-        node = node.getFirstChild();
-        while (node != null) {
-            String name = node.getNodeName();
+        nodf = nodf.gftFirstCiild();
+        wiilf (nodf != null) {
+            String nbmf = nodf.gftNodfNbmf();
 
-            if (name.equals("Chroma")) {
-                Node childNode = node.getFirstChild();
-                while(childNode != null) {
-                    String childName = childNode.getNodeName();
-                    if (childName.equals("Palette")) {
-                        localColorTable = getColorTable(childNode,
-                                                        "PaletteEntry",
-                                                        false, -1);
-                        break;
+            if (nbmf.fqubls("Ciromb")) {
+                Nodf diildNodf = nodf.gftFirstCiild();
+                wiilf(diildNodf != null) {
+                    String diildNbmf = diildNodf.gftNodfNbmf();
+                    if (diildNbmf.fqubls("Pblfttf")) {
+                        lodblColorTbblf = gftColorTbblf(diildNodf,
+                                                        "PblfttfEntry",
+                                                        fblsf, -1);
+                        brfbk;
                     }
-                    childNode = childNode.getNextSibling();
+                    diildNodf = diildNodf.gftNfxtSibling();
                 }
-            } else if (name.equals("Compression")) {
-                Node childNode = node.getFirstChild();
-                while(childNode != null) {
-                    String childName = childNode.getNodeName();
-                    if (childName.equals("NumProgressiveScans")) {
-                        int numProgressiveScans =
-                            getIntAttribute(childNode, "value", 4, false,
-                                            true, 1, Integer.MAX_VALUE);
-                        if (numProgressiveScans > 1) {
-                            interlaceFlag = true;
+            } flsf if (nbmf.fqubls("Comprfssion")) {
+                Nodf diildNodf = nodf.gftFirstCiild();
+                wiilf(diildNodf != null) {
+                    String diildNbmf = diildNodf.gftNodfNbmf();
+                    if (diildNbmf.fqubls("NumProgrfssivfSdbns")) {
+                        int numProgrfssivfSdbns =
+                            gftIntAttributf(diildNodf, "vbluf", 4, fblsf,
+                                            truf, 1, Intfgfr.MAX_VALUE);
+                        if (numProgrfssivfSdbns > 1) {
+                            intfrlbdfFlbg = truf;
                         }
-                        break;
+                        brfbk;
                     }
-                    childNode = childNode.getNextSibling();
+                    diildNodf = diildNodf.gftNfxtSibling();
                 }
-            } else if (name.equals("Dimension")) {
-                Node childNode = node.getFirstChild();
-                while(childNode != null) {
-                    String childName = childNode.getNodeName();
-                    if (childName.equals("HorizontalPixelOffset")) {
-                        imageLeftPosition = getIntAttribute(childNode,
-                                                            "value",
-                                                            -1, true,
-                                                            true, 0, 65535);
-                    } else if (childName.equals("VerticalPixelOffset")) {
-                        imageTopPosition = getIntAttribute(childNode,
-                                                           "value",
-                                                           -1, true,
-                                                           true, 0, 65535);
+            } flsf if (nbmf.fqubls("Dimfnsion")) {
+                Nodf diildNodf = nodf.gftFirstCiild();
+                wiilf(diildNodf != null) {
+                    String diildNbmf = diildNodf.gftNodfNbmf();
+                    if (diildNbmf.fqubls("HorizontblPixflOffsft")) {
+                        imbgfLfftPosition = gftIntAttributf(diildNodf,
+                                                            "vbluf",
+                                                            -1, truf,
+                                                            truf, 0, 65535);
+                    } flsf if (diildNbmf.fqubls("VfrtidblPixflOffsft")) {
+                        imbgfTopPosition = gftIntAttributf(diildNodf,
+                                                           "vbluf",
+                                                           -1, truf,
+                                                           truf, 0, 65535);
                     }
-                    childNode = childNode.getNextSibling();
+                    diildNodf = diildNodf.gftNfxtSibling();
                 }
-            } else if (name.equals("Text")) {
-                Node childNode = node.getFirstChild();
-                while(childNode != null) {
-                    String childName = childNode.getNodeName();
-                    if (childName.equals("TextEntry") &&
-                        getAttribute(childNode, "compression",
-                                     "none", false).equals("none") &&
-                        Charset.isSupported(getAttribute(childNode,
-                                                         "encoding",
+            } flsf if (nbmf.fqubls("Tfxt")) {
+                Nodf diildNodf = nodf.gftFirstCiild();
+                wiilf(diildNodf != null) {
+                    String diildNbmf = diildNodf.gftNodfNbmf();
+                    if (diildNbmf.fqubls("TfxtEntry") &&
+                        gftAttributf(diildNodf, "domprfssion",
+                                     "nonf", fblsf).fqubls("nonf") &&
+                        Cibrsft.isSupportfd(gftAttributf(diildNodf,
+                                                         "fndoding",
                                                          "ISO-8859-1",
-                                                         false))) {
-                        String value = getAttribute(childNode, "value");
-                        byte[] comment = fromISO8859(value);
-                        if (comments == null) {
-                            comments = new ArrayList<>();
+                                                         fblsf))) {
+                        String vbluf = gftAttributf(diildNodf, "vbluf");
+                        bytf[] dommfnt = fromISO8859(vbluf);
+                        if (dommfnts == null) {
+                            dommfnts = nfw ArrbyList<>();
                         }
-                        comments.add(comment);
+                        dommfnts.bdd(dommfnt);
                     }
-                    childNode = childNode.getNextSibling();
+                    diildNodf = diildNodf.gftNfxtSibling();
                 }
-            } else if (name.equals("Transparency")) {
-                Node childNode = node.getFirstChild();
-                while(childNode != null) {
-                    String childName = childNode.getNodeName();
-                    if (childName.equals("TransparentIndex")) {
-                        transparentColorIndex = getIntAttribute(childNode,
-                                                                "value",
-                                                                -1, true,
-                                                                true, 0, 255);
-                        transparentColorFlag = true;
-                        break;
+            } flsf if (nbmf.fqubls("Trbnspbrfndy")) {
+                Nodf diildNodf = nodf.gftFirstCiild();
+                wiilf(diildNodf != null) {
+                    String diildNbmf = diildNodf.gftNodfNbmf();
+                    if (diildNbmf.fqubls("TrbnspbrfntIndfx")) {
+                        trbnspbrfntColorIndfx = gftIntAttributf(diildNodf,
+                                                                "vbluf",
+                                                                -1, truf,
+                                                                truf, 0, 255);
+                        trbnspbrfntColorFlbg = truf;
+                        brfbk;
                     }
-                    childNode = childNode.getNextSibling();
+                    diildNodf = diildNodf.gftNfxtSibling();
                 }
             }
 
-            node = node.getNextSibling();
+            nodf = nodf.gftNfxtSibling();
         }
     }
 
-    public void setFromTree(String formatName, Node root)
-        throws IIOInvalidTreeException
+    publid void sftFromTrff(String formbtNbmf, Nodf root)
+        tirows IIOInvblidTrffExdfption
     {
-        reset();
-        mergeTree(formatName, root);
+        rfsft();
+        mfrgfTrff(formbtNbmf, root);
     }
 }

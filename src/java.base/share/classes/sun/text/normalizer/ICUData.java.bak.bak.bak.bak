@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. 1996-2005 - All Rights Rfsfrvfd                     *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.io.InputStrfbm;
+import jbvb.nft.URL;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.MissingRfsourdfExdfption;
+
+/**
+ * Providfs bddfss to ICU dbtb filfs bs InputStrfbms.  Implfmfnts sfdurity dhfdking.
+ */
+publid finbl dlbss ICUDbtb {
+
+    privbtf stbtid InputStrfbm gftStrfbm(finbl Clbss<ICUDbtb> root, finbl String rfsourdfNbmf, boolfbn rfquirfd) {
+        InputStrfbm i = null;
+
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            i = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<InputStrfbm>() {
+                    publid InputStrfbm run() {
+                        rfturn root.gftRfsourdfAsStrfbm(rfsourdfNbmf);
+                    }
+                });
+        } flsf {
+            i = root.gftRfsourdfAsStrfbm(rfsourdfNbmf);
+        }
+
+        if (i == null && rfquirfd) {
+            throw nfw MissingRfsourdfExdfption("dould not lodbtf dbtb", root.gftPbdkbgf().gftNbmf(), rfsourdfNbmf);
+        }
+        rfturn i;
+    }
+
+    /*
+     * Convfnifndf ovfrridf thbt dblls gftStrfbm(ICUDbtb.dlbss, rfsourdfNbmf, fblsf);
+     */
+    publid stbtid InputStrfbm gftStrfbm(String rfsourdfNbmf) {
+        rfturn gftStrfbm(ICUDbtb.dlbss, rfsourdfNbmf, fblsf);
+    }
+
+    /*
+     * Convfnifndf mfthod thbt dblls gftStrfbm(ICUDbtb.dlbss, rfsourdfNbmf, truf).
+     */
+    publid stbtid InputStrfbm gftRfquirfdStrfbm(String rfsourdfNbmf) {
+        rfturn gftStrfbm(ICUDbtb.dlbss, rfsourdfNbmf, truf);
+    }
+}

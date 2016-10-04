@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
 
-import java.io.PrintWriter;
+import jbvb.io.PrintWritfr;
 
-import com.sun.tools.hat.internal.model.*;
-import com.sun.tools.hat.internal.util.Misc;
-import java.io.StringWriter;
+import dom.sun.tools.ibt.intfrnbl.modfl.*;
+import dom.sun.tools.ibt.intfrnbl.util.Misd;
+import jbvb.io.StringWritfr;
 
-import java.net.URLEncoder;
-import java.io.UnsupportedEncodingException;
+import jbvb.nft.URLEndodfr;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
 /**
  *
- * @author      Bill Foote
+ * @butior      Bill Footf
  */
 
 
-abstract class QueryHandler {
+bbstrbdt dlbss QufryHbndlfr {
 
-    protected String urlStart;
-    protected String query;
-    protected PrintWriter out;
-    protected Snapshot snapshot;
+    protfdtfd String urlStbrt;
+    protfdtfd String qufry;
+    protfdtfd PrintWritfr out;
+    protfdtfd Snbpsiot snbpsiot;
 
-    abstract void run();
+    bbstrbdt void run();
 
 
-    void setUrlStart(String s) {
-        urlStart = s;
+    void sftUrlStbrt(String s) {
+        urlStbrt = s;
     }
 
-    void setQuery(String s) {
-        query = s;
+    void sftQufry(String s) {
+        qufry = s;
     }
 
-    void setOutput(PrintWriter o) {
-        this.out = o;
+    void sftOutput(PrintWritfr o) {
+        tiis.out = o;
     }
 
-    void setSnapshot(Snapshot ss) {
-        this.snapshot = ss;
+    void sftSnbpsiot(Snbpsiot ss) {
+        tiis.snbpsiot = ss;
     }
 
-    protected String encodeForURL(String s) {
+    protfdtfd String fndodfForURL(String s) {
         try {
-            s = URLEncoder.encode(s, "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            // Should never happen
-            ex.printStackTrace();
+            s = URLEndodfr.fndodf(s, "UTF-8");
+        } dbtdi (UnsupportfdEndodingExdfption fx) {
+            // Siould nfvfr ibppfn
+            fx.printStbdkTrbdf();
         }
-        return s;
+        rfturn s;
     }
 
-    protected void startHtml(String title) {
-        out.print("<html><title>");
-        print(title);
-        out.println("</title>");
-        out.println("<body bgcolor=\"#ffffff\"><center><h1>");
-        print(title);
-        out.println("</h1></center>");
+    protfdtfd void stbrtHtml(String titlf) {
+        out.print("<itml><titlf>");
+        print(titlf);
+        out.println("</titlf>");
+        out.println("<body bgdolor=\"#ffffff\"><dfntfr><i1>");
+        print(titlf);
+        out.println("</i1></dfntfr>");
     }
 
-    protected void endHtml() {
-        out.println("</body></html>");
+    protfdtfd void fndHtml() {
+        out.println("</body></itml>");
     }
 
-    protected void error(String msg) {
+    protfdtfd void frror(String msg) {
         println(msg);
     }
 
-    protected void printAnchorStart() {
-        out.print("<a href=\"");
-        out.print(urlStart);
+    protfdtfd void printAndiorStbrt() {
+        out.print("<b irff=\"");
+        out.print(urlStbrt);
     }
 
-    protected void printThingAnchorTag(long id) {
-        printAnchorStart();
-        out.print("object/");
-        printHex(id);
+    protfdtfd void printTiingAndiorTbg(long id) {
+        printAndiorStbrt();
+        out.print("objfdt/");
+        printHfx(id);
         out.print("\">");
     }
 
-    protected void printObject(JavaObject obj) {
-        printThing(obj);
+    protfdtfd void printObjfdt(JbvbObjfdt obj) {
+        printTiing(obj);
     }
 
-    protected void printThing(JavaThing thing) {
-        if (thing == null) {
+    protfdtfd void printTiing(JbvbTiing tiing) {
+        if (tiing == null) {
             out.print("null");
-            return;
+            rfturn;
         }
-        if (thing instanceof JavaHeapObject) {
-            JavaHeapObject ho = (JavaHeapObject) thing;
-            long id = ho.getId();
+        if (tiing instbndfof JbvbHfbpObjfdt) {
+            JbvbHfbpObjfdt io = (JbvbHfbpObjfdt) tiing;
+            long id = io.gftId();
             if (id != -1L) {
-                if (ho.isNew())
+                if (io.isNfw())
                 out.println("<strong>");
-                printThingAnchorTag(id);
+                printTiingAndiorTbg(id);
             }
-            print(thing.toString());
+            print(tiing.toString());
             if (id != -1) {
-                if (ho.isNew())
-                    out.println("[new]</strong>");
-                out.print(" (" + ho.getSize() + " bytes)");
-                out.println("</a>");
+                if (io.isNfw())
+                    out.println("[nfw]</strong>");
+                out.print(" (" + io.gftSizf() + " bytfs)");
+                out.println("</b>");
             }
-        } else {
-            print(thing.toString());
+        } flsf {
+            print(tiing.toString());
         }
     }
 
-    protected void printRoot(Root root) {
-        StackTrace st = root.getStackTrace();
-        boolean traceAvailable = (st != null) && (st.getFrames().length != 0);
-        if (traceAvailable) {
-            printAnchorStart();
-            out.print("rootStack/");
-            printHex(root.getIndex());
+    protfdtfd void printRoot(Root root) {
+        StbdkTrbdf st = root.gftStbdkTrbdf();
+        boolfbn trbdfAvbilbblf = (st != null) && (st.gftFrbmfs().lfngti != 0);
+        if (trbdfAvbilbblf) {
+            printAndiorStbrt();
+            out.print("rootStbdk/");
+            printHfx(root.gftIndfx());
             out.print("\">");
         }
-        print(root.getDescription());
-        if (traceAvailable) {
-            out.print("</a>");
+        print(root.gftDfsdription());
+        if (trbdfAvbilbblf) {
+            out.print("</b>");
         }
     }
 
-    protected void printClass(JavaClass clazz) {
-        if (clazz == null) {
+    protfdtfd void printClbss(JbvbClbss dlbzz) {
+        if (dlbzz == null) {
             out.println("null");
-            return;
+            rfturn;
         }
-        printAnchorStart();
-        out.print("class/");
-        print(encodeForURL(clazz));
+        printAndiorStbrt();
+        out.print("dlbss/");
+        print(fndodfForURL(dlbzz));
         out.print("\">");
-        print(clazz.toString());
-        out.println("</a>");
+        print(dlbzz.toString());
+        out.println("</b>");
     }
 
-    protected String encodeForURL(JavaClass clazz) {
-        if (clazz.getId() == -1) {
-            return encodeForURL(clazz.getName());
-        } else {
-            return clazz.getIdString();
+    protfdtfd String fndodfForURL(JbvbClbss dlbzz) {
+        if (dlbzz.gftId() == -1) {
+            rfturn fndodfForURL(dlbzz.gftNbmf());
+        } flsf {
+            rfturn dlbzz.gftIdString();
         }
     }
 
-    protected void printField(JavaField field) {
-        print(field.getName() + " (" + field.getSignature() + ")");
+    protfdtfd void printFifld(JbvbFifld fifld) {
+        print(fifld.gftNbmf() + " (" + fifld.gftSignbturf() + ")");
     }
 
-    protected void printStatic(JavaStatic member) {
-        JavaField f = member.getField();
-        printField(f);
+    protfdtfd void printStbtid(JbvbStbtid mfmbfr) {
+        JbvbFifld f = mfmbfr.gftFifld();
+        printFifld(f);
         out.print(" : ");
-        if (f.hasId()) {
-            JavaThing t = member.getValue();
-            printThing(t);
-        } else {
-            print(member.getValue().toString());
+        if (f.ibsId()) {
+            JbvbTiing t = mfmbfr.gftVbluf();
+            printTiing(t);
+        } flsf {
+            print(mfmbfr.gftVbluf().toString());
         }
     }
 
-    protected void printStackTrace(StackTrace trace) {
-        StackFrame[] frames = trace.getFrames();
-        for (int i = 0; i < frames.length; i++) {
-            StackFrame f = frames[i];
-            String clazz = f.getClassName();
-            out.print("<font color=purple>");
-            print(clazz);
+    protfdtfd void printStbdkTrbdf(StbdkTrbdf trbdf) {
+        StbdkFrbmf[] frbmfs = trbdf.gftFrbmfs();
+        for (int i = 0; i < frbmfs.lfngti; i++) {
+            StbdkFrbmf f = frbmfs[i];
+            String dlbzz = f.gftClbssNbmf();
+            out.print("<font dolor=purplf>");
+            print(dlbzz);
             out.print("</font>");
-            print("." + f.getMethodName() + "(" + f.getMethodSignature() + ")");
+            print("." + f.gftMftiodNbmf() + "(" + f.gftMftiodSignbturf() + ")");
             out.print(" <bold>:</bold> ");
-            print(f.getSourceFileName() + " line " + f.getLineNumber());
+            print(f.gftSourdfFilfNbmf() + " linf " + f.gftLinfNumbfr());
             out.println("<br>");
         }
     }
 
-    protected void printException(Throwable t) {
-        println(t.getMessage());
-        out.println("<pre>");
-        StringWriter sw = new StringWriter();
-        t.printStackTrace(new PrintWriter(sw));
+    protfdtfd void printExdfption(Tirowbblf t) {
+        println(t.gftMfssbgf());
+        out.println("<prf>");
+        StringWritfr sw = nfw StringWritfr();
+        t.printStbdkTrbdf(nfw PrintWritfr(sw));
         print(sw.toString());
-        out.println("</pre>");
+        out.println("</prf>");
     }
 
-    protected void printHex(long addr) {
-        if (snapshot.getIdentifierSize() == 4) {
-            out.print(Misc.toHex((int)addr));
-        } else {
-            out.print(Misc.toHex(addr));
+    protfdtfd void printHfx(long bddr) {
+        if (snbpsiot.gftIdfntififrSizf() == 4) {
+            out.print(Misd.toHfx((int)bddr));
+        } flsf {
+            out.print(Misd.toHfx(bddr));
         }
     }
 
-    protected long parseHex(String value) {
-        return Misc.parseHex(value);
+    protfdtfd long pbrsfHfx(String vbluf) {
+        rfturn Misd.pbrsfHfx(vbluf);
     }
 
-    protected void print(String str) {
-        out.print(Misc.encodeHtml(str));
+    protfdtfd void print(String str) {
+        out.print(Misd.fndodfHtml(str));
     }
 
-    protected void println(String str) {
-        out.println(Misc.encodeHtml(str));
+    protfdtfd void println(String str) {
+        out.println(Misd.fndodfHtml(str));
     }
 }

@@ -1,422 +1,422 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6465 $"/>
-		<generation date="$Date: 2012-01-28 02:47:35 +0900 (Sat, 28 Jan 2012) $"/>
-		<language type="zh"/>
-		<script type="Hans"/>
-		<territory type="HK"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ast" draft="contributed">阿斯图里亚思文</language>
-			<language type="de_AT" draft="contributed">奥地利德文</language>
-			<language type="en_AU" draft="contributed">澳大利亚英文</language>
-			<language type="en_CA" draft="contributed">加拿大英文</language>
-			<language type="en_GB" draft="contributed">英国英文</language>
-			<language type="en_US" draft="contributed">美国英文</language>
-			<language type="es_419" draft="contributed">拉丁美洲西班牙文</language>
-			<language type="es_ES" draft="contributed">伊比利亚西班牙文</language>
-			<language type="fr_CA" draft="contributed">加拿大法文</language>
-			<language type="fr_CH" draft="contributed">瑞士法文</language>
-			<language type="gu" draft="contributed">古吉拉特文</language>
-			<language type="ml" draft="contributed">马拉雅拉姆文</language>
-			<language type="nl_BE" draft="contributed">佛兰芒文</language>
-			<language type="pag" draft="contributed">邦阿西楠文</language>
-			<language type="pt_BR" draft="contributed">巴西葡萄牙文</language>
-			<language type="pt_PT" draft="contributed">伊比利亚葡萄牙文</language>
-			<language type="su" draft="contributed">巽他文</language>
-			<language type="za" draft="contributed">壮文</language>
-			<language type="zh_Hans" draft="contributed">简体中文</language>
-			<language type="zh_Hant" draft="contributed">繁体中文</language>
-		</languages>
-		<scripts>
-			<script type="Arab" draft="contributed">阿拉伯文</script>
-			<script type="Armn" draft="contributed">亚美尼亚文</script>
-			<script type="Beng" draft="contributed">孟加拉文</script>
-			<script type="Cyrl" draft="contributed">西里尔文</script>
-			<script type="Deva" draft="contributed">天城文</script>
-			<script type="Ethi" draft="contributed">埃塞俄比亚文</script>
-			<script type="Geor" draft="contributed">格鲁吉亚文</script>
-			<script type="Grek" draft="contributed">希腊文</script>
-			<script type="Gujr" draft="contributed">古吉拉特文</script>
-			<script type="Hang" draft="contributed">韩文字</script>
-			<script type="Hebr" draft="contributed">希伯来文</script>
-			<script type="Jpan" draft="contributed">日文</script>
-			<script type="Khmr" draft="contributed">高棉文</script>
-			<script type="Knda" draft="contributed">卡纳塔克文</script>
-			<script type="Kore" draft="contributed">韩文</script>
-			<script type="Laoo" draft="contributed">老挝文</script>
-			<script type="Latn" draft="contributed">拉丁文</script>
-			<script type="Mlym" draft="contributed">马拉雅拉姆文</script>
-			<script type="Mymr" draft="contributed">缅甸文</script>
-			<script type="Orya" draft="contributed">奥里亚文</script>
-			<script type="Sinh" draft="contributed">辛哈拉文</script>
-			<script type="Taml" draft="contributed">泰米尔文</script>
-			<script type="Telu" draft="contributed">泰卢固文</script>
-			<script type="Thaa" draft="contributed">塔安娜文</script>
-			<script type="Thai" draft="contributed">泰文</script>
-			<script type="Zxxx" draft="contributed">非书面文字</script>
-			<script type="Zzzz" draft="contributed">未知语系</script>
-		</scripts>
-		<territories>
-			<territory type="CC" draft="contributed">科科斯（基林）群岛</territory>
-			<territory type="LA" draft="contributed">老挝</territory>
-			<territory type="ME" draft="contributed">黑山</territory>
-			<territory type="MQ" draft="contributed">马提尼克</territory>
-			<territory type="MS" draft="contributed">蒙特塞拉特</territory>
-			<territory type="SC" draft="contributed">塞舌尔</territory>
-		</territories>
-		<variants>
-			<variant type="1901" draft="contributed">传统德文拼字</variant>
-			<variant type="1996" draft="contributed">1996 年德文拼字</variant>
-			<variant type="AREVELA" draft="contributed">东亚美尼亚文</variant>
-			<variant type="AREVMDA" draft="contributed">西亚美尼亚文</variant>
-			<variant type="PINYIN" draft="contributed">拼音罗马字</variant>
-			<variant type="POLYTON" draft="contributed">多音字母</variant>
-			<variant type="REVISED" draft="contributed">修订的拼字</variant>
-			<variant type="SAAHO" draft="contributed">萨霍文</variant>
-			<variant type="WADEGILE" draft="contributed">韦氏拼音罗马字</variant>
-		</variants>
-		<types>
-			<type type="big5han" key="collation" draft="contributed">繁体中文排序顺序 (Big5)</type>
-			<type type="gb2312han" key="collation" draft="contributed">简体中文排序顺序 (GB2312)</type>
-			<type type="pinyin" key="collation" draft="contributed">拼音排序顺序</type>
-			<type type="stroke" key="collation" draft="contributed">笔画排序</type>
-		</types>
-		<codePatterns>
-			<codePattern type="script" draft="contributed">语系：{0}</codePattern>
-			<codePattern type="territory" draft="contributed">地区：{0}</codePattern>
-		</codePatterns>
-	</localeDisplayNames>
-	<dates>
-		<calendars>
-			<calendar type="buddhist">
-				<dateFormats>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="contributed">Gy年M月d日</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="contributed">Gd/M/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="M" draft="contributed">L</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">Gy年M月d日，E</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="wide">
-							<month type="1" draft="contributed">一月</month>
-							<month type="2" draft="contributed">二月</month>
-							<month type="3" draft="contributed">三月</month>
-							<month type="4" draft="contributed">四月</month>
-							<month type="5" draft="contributed">五月</month>
-							<month type="6" draft="contributed">六月</month>
-							<month type="7" draft="contributed">七月</month>
-							<month type="8" draft="contributed">八月</month>
-							<month type="9" draft="contributed">九月</month>
-							<month type="10" draft="contributed">十月</month>
-							<month type="11" draft="contributed">十一月</month>
-							<month type="12" draft="contributed">十二月</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="contributed">1月</month>
-							<month type="2" draft="contributed">2月</month>
-							<month type="3" draft="contributed">3月</month>
-							<month type="4" draft="contributed">4月</month>
-							<month type="5" draft="contributed">5月</month>
-							<month type="6" draft="contributed">6月</month>
-							<month type="7" draft="contributed">7月</month>
-							<month type="8" draft="contributed">8月</month>
-							<month type="9" draft="contributed">9月</month>
-							<month type="10" draft="contributed">10月</month>
-							<month type="11" draft="contributed">11月</month>
-							<month type="12" draft="contributed">12月</month>
-						</monthWidth>
-						<monthWidth type="narrow">
-							<month type="1" draft="contributed">1</month>
-							<month type="2" draft="contributed">2</month>
-							<month type="3" draft="contributed">3</month>
-							<month type="4" draft="contributed">4</month>
-							<month type="5" draft="contributed">5</month>
-							<month type="6" draft="contributed">6</month>
-							<month type="7" draft="contributed">7</month>
-							<month type="8" draft="contributed">8</month>
-							<month type="9" draft="contributed">9</month>
-							<month type="10" draft="contributed">10</month>
-							<month type="11" draft="contributed">11</month>
-							<month type="12" draft="contributed">12</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1" draft="contributed">1季度</quarter>
-							<quarter type="2" draft="contributed">2季度</quarter>
-							<quarter type="3" draft="contributed">3季度</quarter>
-							<quarter type="4" draft="contributed">4季度</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1" draft="contributed">第一季度</quarter>
-							<quarter type="2" draft="contributed">第二季度</quarter>
-							<quarter type="3" draft="contributed">第三季度</quarter>
-							<quarter type="4" draft="contributed">第四季度</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="abbreviated">
-							<quarter type="1" draft="contributed">1季度</quarter>
-							<quarter type="2" draft="contributed">2季度</quarter>
-							<quarter type="3" draft="contributed">3季度</quarter>
-							<quarter type="4" draft="contributed">4季度</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dateFormats>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="contributed">y年M月d日</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="contributed">d/M/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="contributed">zzzzah:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="contributed">zah:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="HHmm" draft="contributed">HH:mm</dateFormatItem>
-						<dateFormatItem id="M" draft="contributed">L</dateFormatItem>
-						<dateFormatItem id="yM" draft="contributed">y年M月</dateFormatItem>
-						<dateFormatItem id="yQ" draft="contributed">y年第Q季度</dateFormatItem>
-						<dateFormatItem id="yQQQ" draft="contributed">y年第Q季度</dateFormatItem>
-						<dateFormatItem id="yyMM" draft="contributed">yy年M月</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatItem id="h">
-							<greatestDifference id="a" draft="contributed">ah时至ah时</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="a" draft="contributed">vah时至ah时</greatestDifference>
-							<greatestDifference id="h" draft="contributed">vah时至h时</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y" draft="contributed">y–y年</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M" draft="contributed">yy年M月至yy年M月</greatestDifference>
-							<greatestDifference id="y" draft="contributed">yy年M月至yy年M月</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="contributed">d/M/yy至d/M/yy</greatestDifference>
-							<greatestDifference id="M" draft="contributed">d/M/yy至d/M/yy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">d/M/yy至d/M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="contributed">d/M/yyE至d/M/yyE</greatestDifference>
-							<greatestDifference id="M" draft="contributed">d/M/yyE至d/M/yyE</greatestDifference>
-							<greatestDifference id="y" draft="contributed">d/M/yyE至d/M/yyE</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d" draft="contributed">y年M月d日E至M月d日E</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName draft="contributed">纪元</displayName>
-					</field>
-					<field type="weekday">
-						<displayName draft="contributed">星期</displayName>
-					</field>
-					<field type="zone">
-						<displayName draft="contributed">时区</displayName>
-					</field>
-				</fields>
-			</calendar>
-			<calendar type="islamic">
-				<dateFormats>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="contributed">Gd/M/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="M" draft="contributed">L</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">y年M月d日，E</dateFormatItem>
-						<dateFormatItem id="yQ" draft="contributed">y年QQQ</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="japanese">
-				<eras>
-					<eraAbbr>
-						<era type="74" draft="contributed">康和</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="contributed">Gd/M/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-			</calendar>
-			<calendar type="roc">
-				<dateFormats>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="contributed">Gy年M月d日</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="contributed">Gd/M/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<zone type="Pacific/Pago_Pago">
-				<exemplarCity draft="contributed">帕果帕果</exemplarCity>
-			</zone>
-			<zone type="America/St_Barthelemy">
-				<exemplarCity draft="contributed">圣巴太累米</exemplarCity>
-			</zone>
-			<zone type="America/Cambridge_Bay">
-				<exemplarCity draft="contributed">剑桥湾</exemplarCity>
-			</zone>
-			<zone type="America/Rankin_Inlet">
-				<exemplarCity draft="contributed">兰今湾</exemplarCity>
-			</zone>
-			<zone type="America/Coral_Harbour">
-				<exemplarCity draft="contributed">阿蒂科肯</exemplarCity>
-			</zone>
-			<zone type="America/Santo_Domingo">
-				<exemplarCity draft="contributed">圣多明戈</exemplarCity>
-			</zone>
-			<zone type="America/Danmarkshavn">
-				<exemplarCity draft="contributed">丹马克沙伏</exemplarCity>
-			</zone>
-			<zone type="Asia/Qyzylorda">
-				<exemplarCity draft="contributed">克孜洛尔达</exemplarCity>
-			</zone>
-			<zone type="Indian/Antananarivo">
-				<exemplarCity draft="contributed">安塔那那利佛</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Azores">
-				<exemplarCity draft="contributed">亚速尔群岛</exemplarCity>
-			</zone>
-			<zone type="America/Grand_Turk">
-				<exemplarCity draft="contributed">大特克</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity draft="contributed">扎波罗什</exemplarCity>
-			</zone>
-			<zone type="America/North_Dakota/Center">
-				<exemplarCity draft="contributed">北达科他州申特</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Vincennes">
-				<exemplarCity draft="contributed">印第安纳州温森斯</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Petersburg">
-				<exemplarCity draft="contributed">印第安纳州彼得斯堡</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Knox">
-				<exemplarCity draft="contributed">印第安纳州诺克斯</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Marengo">
-				<exemplarCity draft="contributed">印第安纳州马伦戈</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Vevay">
-				<exemplarCity draft="contributed">印第安纳州维维市</exemplarCity>
-			</zone>
-			<zone type="America/Kentucky/Monticello">
-				<exemplarCity draft="contributed">肯塔基州蒙蒂塞洛</exemplarCity>
-			</zone>
-		</timeZoneNames>
-	</dates>
-	<numbers>
-		<currencies>
-			<currency type="AWG">
-				<displayName draft="contributed">阿鲁巴弗罗林</displayName>
-			</currency>
-			<currency type="BAM">
-				<displayName draft="contributed">波斯尼亚-黑塞哥维那可兑换马克</displayName>
-			</currency>
-			<currency type="FKP">
-				<displayName draft="contributed">福克兰群岛镑</displayName>
-			</currency>
-			<currency type="HKD">
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6465 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-01-28 02:47:35 +0900 (Sbt, 28 Jbn 2012) $"/>
+		<lbngubgf typf="zi"/>
+		<sdript typf="Hbns"/>
+		<tfrritory typf="HK"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bst" drbft="dontributfd">阿斯图里亚思文</lbngubgf>
+			<lbngubgf typf="df_AT" drbft="dontributfd">奥地利德文</lbngubgf>
+			<lbngubgf typf="fn_AU" drbft="dontributfd">澳大利亚英文</lbngubgf>
+			<lbngubgf typf="fn_CA" drbft="dontributfd">加拿大英文</lbngubgf>
+			<lbngubgf typf="fn_GB" drbft="dontributfd">英国英文</lbngubgf>
+			<lbngubgf typf="fn_US" drbft="dontributfd">美国英文</lbngubgf>
+			<lbngubgf typf="fs_419" drbft="dontributfd">拉丁美洲西班牙文</lbngubgf>
+			<lbngubgf typf="fs_ES" drbft="dontributfd">伊比利亚西班牙文</lbngubgf>
+			<lbngubgf typf="fr_CA" drbft="dontributfd">加拿大法文</lbngubgf>
+			<lbngubgf typf="fr_CH" drbft="dontributfd">瑞士法文</lbngubgf>
+			<lbngubgf typf="gu" drbft="dontributfd">古吉拉特文</lbngubgf>
+			<lbngubgf typf="ml" drbft="dontributfd">马拉雅拉姆文</lbngubgf>
+			<lbngubgf typf="nl_BE" drbft="dontributfd">佛兰芒文</lbngubgf>
+			<lbngubgf typf="pbg" drbft="dontributfd">邦阿西楠文</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="dontributfd">巴西葡萄牙文</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="dontributfd">伊比利亚葡萄牙文</lbngubgf>
+			<lbngubgf typf="su" drbft="dontributfd">巽他文</lbngubgf>
+			<lbngubgf typf="zb" drbft="dontributfd">壮文</lbngubgf>
+			<lbngubgf typf="zi_Hbns" drbft="dontributfd">简体中文</lbngubgf>
+			<lbngubgf typf="zi_Hbnt" drbft="dontributfd">繁体中文</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb" drbft="dontributfd">阿拉伯文</sdript>
+			<sdript typf="Armn" drbft="dontributfd">亚美尼亚文</sdript>
+			<sdript typf="Bfng" drbft="dontributfd">孟加拉文</sdript>
+			<sdript typf="Cyrl" drbft="dontributfd">西里尔文</sdript>
+			<sdript typf="Dfvb" drbft="dontributfd">天城文</sdript>
+			<sdript typf="Etii" drbft="dontributfd">埃塞俄比亚文</sdript>
+			<sdript typf="Gfor" drbft="dontributfd">格鲁吉亚文</sdript>
+			<sdript typf="Grfk" drbft="dontributfd">希腊文</sdript>
+			<sdript typf="Gujr" drbft="dontributfd">古吉拉特文</sdript>
+			<sdript typf="Hbng" drbft="dontributfd">韩文字</sdript>
+			<sdript typf="Hfbr" drbft="dontributfd">希伯来文</sdript>
+			<sdript typf="Jpbn" drbft="dontributfd">日文</sdript>
+			<sdript typf="Kimr" drbft="dontributfd">高棉文</sdript>
+			<sdript typf="Kndb" drbft="dontributfd">卡纳塔克文</sdript>
+			<sdript typf="Korf" drbft="dontributfd">韩文</sdript>
+			<sdript typf="Lboo" drbft="dontributfd">老挝文</sdript>
+			<sdript typf="Lbtn" drbft="dontributfd">拉丁文</sdript>
+			<sdript typf="Mlym" drbft="dontributfd">马拉雅拉姆文</sdript>
+			<sdript typf="Mymr" drbft="dontributfd">缅甸文</sdript>
+			<sdript typf="Oryb" drbft="dontributfd">奥里亚文</sdript>
+			<sdript typf="Sini" drbft="dontributfd">辛哈拉文</sdript>
+			<sdript typf="Tbml" drbft="dontributfd">泰米尔文</sdript>
+			<sdript typf="Tflu" drbft="dontributfd">泰卢固文</sdript>
+			<sdript typf="Tibb" drbft="dontributfd">塔安娜文</sdript>
+			<sdript typf="Tibi" drbft="dontributfd">泰文</sdript>
+			<sdript typf="Zxxx" drbft="dontributfd">非书面文字</sdript>
+			<sdript typf="Zzzz" drbft="dontributfd">未知语系</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="CC" drbft="dontributfd">科科斯（基林）群岛</tfrritory>
+			<tfrritory typf="LA" drbft="dontributfd">老挝</tfrritory>
+			<tfrritory typf="ME" drbft="dontributfd">黑山</tfrritory>
+			<tfrritory typf="MQ" drbft="dontributfd">马提尼克</tfrritory>
+			<tfrritory typf="MS" drbft="dontributfd">蒙特塞拉特</tfrritory>
+			<tfrritory typf="SC" drbft="dontributfd">塞舌尔</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="1901" drbft="dontributfd">传统德文拼字</vbribnt>
+			<vbribnt typf="1996" drbft="dontributfd">1996 年德文拼字</vbribnt>
+			<vbribnt typf="AREVELA" drbft="dontributfd">东亚美尼亚文</vbribnt>
+			<vbribnt typf="AREVMDA" drbft="dontributfd">西亚美尼亚文</vbribnt>
+			<vbribnt typf="PINYIN" drbft="dontributfd">拼音罗马字</vbribnt>
+			<vbribnt typf="POLYTON" drbft="dontributfd">多音字母</vbribnt>
+			<vbribnt typf="REVISED" drbft="dontributfd">修订的拼字</vbribnt>
+			<vbribnt typf="SAAHO" drbft="dontributfd">萨霍文</vbribnt>
+			<vbribnt typf="WADEGILE" drbft="dontributfd">韦氏拼音罗马字</vbribnt>
+		</vbribnts>
+		<typfs>
+			<typf typf="big5ibn" kfy="dollbtion" drbft="dontributfd">繁体中文排序顺序 (Big5)</typf>
+			<typf typf="gb2312ibn" kfy="dollbtion" drbft="dontributfd">简体中文排序顺序 (GB2312)</typf>
+			<typf typf="pinyin" kfy="dollbtion" drbft="dontributfd">拼音排序顺序</typf>
+			<typf typf="strokf" kfy="dollbtion" drbft="dontributfd">笔画排序</typf>
+		</typfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="sdript" drbft="dontributfd">语系：{0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory" drbft="dontributfd">地区：{0}</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="buddiist">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn drbft="dontributfd">Gy年M月d日</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn drbft="dontributfd">Gd/M/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="M" drbft="dontributfd">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd" drbft="dontributfd">Gy年M月d日，E</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="dontributfd">一月</monti>
+							<monti typf="2" drbft="dontributfd">二月</monti>
+							<monti typf="3" drbft="dontributfd">三月</monti>
+							<monti typf="4" drbft="dontributfd">四月</monti>
+							<monti typf="5" drbft="dontributfd">五月</monti>
+							<monti typf="6" drbft="dontributfd">六月</monti>
+							<monti typf="7" drbft="dontributfd">七月</monti>
+							<monti typf="8" drbft="dontributfd">八月</monti>
+							<monti typf="9" drbft="dontributfd">九月</monti>
+							<monti typf="10" drbft="dontributfd">十月</monti>
+							<monti typf="11" drbft="dontributfd">十一月</monti>
+							<monti typf="12" drbft="dontributfd">十二月</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">1月</monti>
+							<monti typf="2" drbft="dontributfd">2月</monti>
+							<monti typf="3" drbft="dontributfd">3月</monti>
+							<monti typf="4" drbft="dontributfd">4月</monti>
+							<monti typf="5" drbft="dontributfd">5月</monti>
+							<monti typf="6" drbft="dontributfd">6月</monti>
+							<monti typf="7" drbft="dontributfd">7月</monti>
+							<monti typf="8" drbft="dontributfd">8月</monti>
+							<monti typf="9" drbft="dontributfd">9月</monti>
+							<monti typf="10" drbft="dontributfd">10月</monti>
+							<monti typf="11" drbft="dontributfd">11月</monti>
+							<monti typf="12" drbft="dontributfd">12月</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1" drbft="dontributfd">1</monti>
+							<monti typf="2" drbft="dontributfd">2</monti>
+							<monti typf="3" drbft="dontributfd">3</monti>
+							<monti typf="4" drbft="dontributfd">4</monti>
+							<monti typf="5" drbft="dontributfd">5</monti>
+							<monti typf="6" drbft="dontributfd">6</monti>
+							<monti typf="7" drbft="dontributfd">7</monti>
+							<monti typf="8" drbft="dontributfd">8</monti>
+							<monti typf="9" drbft="dontributfd">9</monti>
+							<monti typf="10" drbft="dontributfd">10</monti>
+							<monti typf="11" drbft="dontributfd">11</monti>
+							<monti typf="12" drbft="dontributfd">12</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="dontributfd">1季度</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2季度</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3季度</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4季度</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1" drbft="dontributfd">第一季度</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">第二季度</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">第三季度</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">第四季度</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="dontributfd">1季度</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2季度</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3季度</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4季度</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn drbft="dontributfd">y年M月d日</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn drbft="dontributfd">d/M/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="dontributfd">zzzzbi:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="dontributfd">zbi:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="HHmm" drbft="dontributfd">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M" drbft="dontributfd">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM" drbft="dontributfd">y年M月</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ" drbft="dontributfd">y年第Q季度</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ" drbft="dontributfd">y年第Q季度</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMM" drbft="dontributfd">yy年M月</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtItfm id="i">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">bi时至bi时</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="iv">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">vbi时至bi时</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">vbi时至i时</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">y–y年</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">yy年M月至yy年M月</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">yy年M月至yy年M月</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">d/M/yy至d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">d/M/yy至d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">d/M/yy至d/M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">d/M/yyE至d/M/yyE</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">d/M/yyE至d/M/yyE</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">d/M/yyE至d/M/yyE</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">y年M月d日E至M月d日E</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf drbft="dontributfd">纪元</displbyNbmf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf drbft="dontributfd">星期</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf drbft="dontributfd">时区</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+			<dblfndbr typf="islbmid">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn drbft="dontributfd">Gd/M/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="M" drbft="dontributfd">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd" drbft="dontributfd">y年M月d日，E</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ" drbft="dontributfd">y年QQQ</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="jbpbnfsf">
+				<frbs>
+					<frbAbbr>
+						<frb typf="74" drbft="dontributfd">康和</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn drbft="dontributfd">Gd/M/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="rod">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn drbft="dontributfd">Gy年M月d日</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn drbft="dontributfd">Gd/M/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<zonf typf="Pbdifid/Pbgo_Pbgo">
+				<fxfmplbrCity drbft="dontributfd">帕果帕果</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Bbrtiflfmy">
+				<fxfmplbrCity drbft="dontributfd">圣巴太累米</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmbridgf_Bby">
+				<fxfmplbrCity drbft="dontributfd">剑桥湾</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbnkin_Inlft">
+				<fxfmplbrCity drbft="dontributfd">兰今湾</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Corbl_Hbrbour">
+				<fxfmplbrCity drbft="dontributfd">阿蒂科肯</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbnto_Domingo">
+				<fxfmplbrCity drbft="dontributfd">圣多明戈</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbnmbrksibvn">
+				<fxfmplbrCity drbft="dontributfd">丹马克沙伏</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qyzylordb">
+				<fxfmplbrCity drbft="dontributfd">克孜洛尔达</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Antbnbnbrivo">
+				<fxfmplbrCity drbft="dontributfd">安塔那那利佛</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Azorfs">
+				<fxfmplbrCity drbft="dontributfd">亚速尔群岛</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grbnd_Turk">
+				<fxfmplbrCity drbft="dontributfd">大特克</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbporoziyf">
+				<fxfmplbrCity drbft="dontributfd">扎波罗什</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Norti_Dbkotb/Cfntfr">
+				<fxfmplbrCity drbft="dontributfd">北达科他州申特</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vindfnnfs">
+				<fxfmplbrCity drbft="dontributfd">印第安纳州温森斯</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Pftfrsburg">
+				<fxfmplbrCity drbft="dontributfd">印第安纳州彼得斯堡</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Knox">
+				<fxfmplbrCity drbft="dontributfd">印第安纳州诺克斯</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Mbrfngo">
+				<fxfmplbrCity drbft="dontributfd">印第安纳州马伦戈</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vfvby">
+				<fxfmplbrCity drbft="dontributfd">印第安纳州维维市</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Kfntudky/Montidfllo">
+				<fxfmplbrCity drbft="dontributfd">肯塔基州蒙蒂塞洛</fxfmplbrCity>
+			</zonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<durrfndifs>
+			<durrfndy typf="AWG">
+				<displbyNbmf drbft="dontributfd">阿鲁巴弗罗林</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAM">
+				<displbyNbmf drbft="dontributfd">波斯尼亚-黑塞哥维那可兑换马克</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FKP">
+				<displbyNbmf drbft="dontributfd">福克兰群岛镑</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
 				<symbol>$</symbol>
-			</currency>
-			<currency type="KYD">
-				<displayName draft="contributed">开曼群岛元</displayName>
-			</currency>
-			<currency type="KZT">
-				<displayName draft="contributed">哈萨克斯坦腾格</displayName>
-			</currency>
-			<currency type="NIO">
-				<displayName>尼加拉瓜科多巴</displayName>
-			</currency>
-			<currency type="RUB">
-				<displayName draft="contributed">俄罗斯卢布</displayName>
-			</currency>
-			<currency type="UAH">
-				<displayName draft="contributed">乌克兰赫夫纳</displayName>
-			</currency>
-		</currencies>
-	</numbers>
+			</durrfndy>
+			<durrfndy typf="KYD">
+				<displbyNbmf drbft="dontributfd">开曼群岛元</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KZT">
+				<displbyNbmf drbft="dontributfd">哈萨克斯坦腾格</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIO">
+				<displbyNbmf>尼加拉瓜科多巴</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf drbft="dontributfd">俄罗斯卢布</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAH">
+				<displbyNbmf drbft="dontributfd">乌克兰赫夫纳</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<units>
-		<unit type="day">
-			<unitPattern count="other" draft="contributed">{0}天</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0}天</unitPattern>
+		<unit typf="dby">
+			<unitPbttfrn dount="otifr" drbft="dontributfd">{0}天</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort" drbft="dontributfd">{0}天</unitPbttfrn>
 		</unit>
-		<unit type="minute">
-			<unitPattern count="other" draft="contributed">{0}分钟</unitPattern>
+		<unit typf="minutf">
+			<unitPbttfrn dount="otifr" drbft="dontributfd">{0}分钟</unitPbttfrn>
 		</unit>
-		<unit type="month">
-			<unitPattern count="other" draft="contributed">{0}个月</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0}个月</unitPattern>
+		<unit typf="monti">
+			<unitPbttfrn dount="otifr" drbft="dontributfd">{0}个月</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort" drbft="dontributfd">{0}个月</unitPbttfrn>
 		</unit>
-		<unit type="second">
-			<unitPattern count="other" draft="contributed">{0}秒钟</unitPattern>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="otifr" drbft="dontributfd">{0}秒钟</unitPbttfrn>
 		</unit>
 	</units>
 	<posix>
-		<messages>
-			<yesstr draft="contributed">确定:是</yesstr>
-			<nostr draft="contributed">否定:否</nostr>
-		</messages>
+		<mfssbgfs>
+			<yfsstr drbft="dontributfd">确定:是</yfsstr>
+			<nostr drbft="dontributfd">否定:否</nostr>
+		</mfssbgfs>
 	</posix>
 </ldml>
 

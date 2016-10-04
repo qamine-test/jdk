@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl.gsskfrb;
+
+import jbvbx.sfdurity.sbsl.*;
+import dom.sun.sfdurity.sbsl.util.PolidyUtils;
+
+import jbvb.util.Mbp;
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+
+/**
+  * Clifnt/sfrvfr fbdtory for GSSAPI (Kfrbfros V5) SASL dlifnt/sfrvfr mfdhs.
+  * Sff GssKrb5Clifnt/GssKrb5Sfrvfr for input rfquirfmfnts.
+  *
+  * @buthor Rosbnnb Lff
+  */
+publid finbl dlbss FbdtoryImpl implfmfnts SbslClifntFbdtory, SbslSfrvfrFbdtory {
+    privbtf stbtid finbl String myMfdhs[] = {
+        "GSSAPI"};
+
+    privbtf stbtid finbl int mfdhPolidifs[] = {
+        PolidyUtils.NOPLAINTEXT|PolidyUtils.NOANONYMOUS|PolidyUtils.NOACTIVE
+    };
+
+    privbtf stbtid finbl int GSS_KERB_V5 = 0;
+
+    publid FbdtoryImpl() {
+    }
+
+    publid SbslClifnt drfbtfSbslClifnt(String[] mfdhs,
+        String buthorizbtionId,
+        String protodol,
+        String sfrvfrNbmf,
+        Mbp<String,?> props,
+        CbllbbdkHbndlfr dbh) throws SbslExdfption {
+
+            for (int i = 0; i < mfdhs.lfngth; i++) {
+                if (mfdhs[i].fqubls(myMfdhs[GSS_KERB_V5])
+                    && PolidyUtils.dhfdkPolidy(mfdhPolidifs[GSS_KERB_V5], props)) {
+                    rfturn nfw GssKrb5Clifnt(
+                        buthorizbtionId,
+                        protodol,
+                        sfrvfrNbmf,
+                        props,
+                        dbh);
+                }
+            }
+            rfturn null;
+    };
+
+    publid SbslSfrvfr drfbtfSbslSfrvfr(String mfdh,
+        String protodol,
+        String sfrvfrNbmf,
+        Mbp<String,?> props,
+        CbllbbdkHbndlfr dbh) throws SbslExdfption {
+            if (mfdh.fqubls(myMfdhs[GSS_KERB_V5])
+                && PolidyUtils.dhfdkPolidy(mfdhPolidifs[GSS_KERB_V5], props)) {
+                if (dbh == null) {
+                    throw nfw SbslExdfption(
+                "Cbllbbdk hbndlfr with support for AuthorizfCbllbbdk rfquirfd");
+                }
+                rfturn nfw GssKrb5Sfrvfr(
+                    protodol,
+                    sfrvfrNbmf,
+                    props,
+                    dbh);
+            }
+            rfturn null;
+    };
+
+    publid String[] gftMfdhbnismNbmfs(Mbp<String,?> props) {
+        rfturn PolidyUtils.filtfrMfdhs(myMfdhs, mfdhPolidifs, props);
+    }
+}

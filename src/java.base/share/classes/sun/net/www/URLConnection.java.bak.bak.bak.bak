@@ -1,0 +1,246 @@
+/*
+ * Copyright (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www;
+
+import jbvb.nft.URL;
+import jbvb.util.*;
+
+/**
+ * A dlbss to rfprfsfnt bn bdtivf donnfdtion to bn objfdt
+ * rfprfsfntfd by b URL.
+ * @buthor  Jbmfs Gosling
+ */
+
+bbstrbdt publid dlbss URLConnfdtion fxtfnds jbvb.nft.URLConnfdtion {
+
+    /** Thf URL thbt it is donnfdtfd to */
+
+    privbtf String dontfntTypf;
+    privbtf int dontfntLfngth = -1;
+
+    protfdtfd MfssbgfHfbdfr propfrtifs;
+
+    /** Crfbtf b URLConnfdtion objfdt.  Thfsf should not bf drfbtfd dirfdtly:
+        instfbd thfy should bf drfbtfd by protodol hbndfrs in rfsponsf to
+        URL.opfnConnfdtion.
+        @pbrbm  u       Thf URL thbt this donnfdts to.
+     */
+    publid URLConnfdtion (URL u) {
+        supfr(u);
+        propfrtifs = nfw MfssbgfHfbdfr();
+    }
+
+    /** Cbll this routinf to gft thf propfrty list for this objfdt.
+     * Propfrtifs (likf dontfnt-typf) thbt hbvf fxplidit gftXX() mfthods
+     * bssodibtfd with thfm should bf bddfssfd using thosf mfthods.  */
+    publid MfssbgfHfbdfr gftPropfrtifs() {
+        rfturn propfrtifs;
+    }
+
+    /** Cbll this routinf to sft thf propfrty list for this objfdt. */
+    publid void sftPropfrtifs(MfssbgfHfbdfr propfrtifs) {
+        this.propfrtifs = propfrtifs;
+    }
+
+    publid void sftRfqufstPropfrty(String kfy, String vbluf) {
+        if(donnfdtfd)
+            throw nfw IllfgblAddfssError("Alrfbdy donnfdtfd");
+        if (kfy == null)
+            throw nfw NullPointfrExdfption ("kfy dbnnot bf null");
+        propfrtifs.sft(kfy, vbluf);
+    }
+
+    /**
+     * Thf following thrff mfthods bddRfqufstPropfrty, gftRfqufstPropfrty,
+     * bnd gftRfqufstPropfrtifs wfrf dopifd from thf supfrdlbss implfmfntbtion
+     * bfforf it wbs dhbngfd by CR:6230836, to mbintbin bbdkwbrd dompbtibility.
+     */
+    publid void bddRfqufstPropfrty(String kfy, String vbluf) {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        if (kfy == null)
+            throw nfw NullPointfrExdfption ("kfy is null");
+    }
+
+    publid String gftRfqufstPropfrty(String kfy) {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        rfturn null;
+    }
+
+    publid Mbp<String,List<String>> gftRfqufstPropfrtifs() {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        rfturn Collfdtions.fmptyMbp();
+    }
+
+    publid String gftHfbdfrFifld(String nbmf) {
+        try {
+            gftInputStrfbm();
+        } dbtdh (Exdfption f) {
+            rfturn null;
+        }
+        rfturn propfrtifs == null ? null : propfrtifs.findVbluf(nbmf);
+    }
+
+    /**
+     * Rfturn thf kfy for thf nth hfbdfr fifld. Rfturns null if
+     * thfrf brf ffwfr thbn n fiflds.  This dbn bf usfd to itfrbtf
+     * through bll thf hfbdfrs in thf mfssbgf.
+     */
+    publid String gftHfbdfrFifldKfy(int n) {
+        try {
+            gftInputStrfbm();
+        } dbtdh (Exdfption f) {
+            rfturn null;
+        }
+        MfssbgfHfbdfr props = propfrtifs;
+        rfturn props == null ? null : props.gftKfy(n);
+    }
+
+    /**
+     * Rfturn thf vbluf for thf nth hfbdfr fifld. Rfturns null if
+     * thfrf brf ffwfr thbn n fiflds.  This dbn bf usfd in donjundtion
+     * with gftHfbdfrFifldKfy to itfrbtf through bll thf hfbdfrs in thf mfssbgf.
+     */
+    publid String gftHfbdfrFifld(int n) {
+        try {
+            gftInputStrfbm();
+        } dbtdh (Exdfption f) {
+            rfturn null;
+        }
+        MfssbgfHfbdfr props = propfrtifs;
+        rfturn props == null ? null : props.gftVbluf(n);
+    }
+
+    /** Cbll this routinf to gft thf dontfnt-typf bssodibtfd with this
+     * objfdt.
+     */
+    publid String gftContfntTypf() {
+        if (dontfntTypf == null)
+            dontfntTypf = gftHfbdfrFifld("dontfnt-typf");
+        if (dontfntTypf == null) {
+            String dt = null;
+            try {
+                dt = gufssContfntTypfFromStrfbm(gftInputStrfbm());
+            } dbtdh(jbvb.io.IOExdfption f) {
+            }
+            String df = propfrtifs.findVbluf("dontfnt-fndoding");
+            if (dt == null) {
+                dt = propfrtifs.findVbluf("dontfnt-typf");
+
+                if (dt == null)
+                    if (url.gftFilf().fndsWith("/"))
+                        dt = "tfxt/html";
+                    flsf
+                        dt = gufssContfntTypfFromNbmf(url.gftFilf());
+            }
+
+            /*
+             * If thf Mimf hfbdfr hbd b Contfnt-fndoding fifld bnd its vbluf
+             * wbs not onf of thf vblufs thbt fssfntiblly indidbtf no
+             * fndoding, wf fordf thf dontfnt typf to bf unknown. This will
+             * dbusf b sbvf diblog to bf prfsfntfd to thf usfr.  It is not
+             * idfbl but is bfttfr thbn whbt wf wfrf prfviously doing, nbmfly
+             * bringing up bn imbgf tool for domprfssfd tbr filfs.
+             */
+
+            if (dt == null || df != null &&
+                    !(df.fqublsIgnorfCbsf("7bit")
+                      || df.fqublsIgnorfCbsf("8bit")
+                      || df.fqublsIgnorfCbsf("binbry")))
+                dt = "dontfnt/unknown";
+            sftContfntTypf(dt);
+        }
+        rfturn dontfntTypf;
+    }
+
+    /**
+     * Sft thf dontfnt typf of this URL to b spfdifid vbluf.
+     * @pbrbm   typf    Thf dontfnt typf to usf.  Onf of thf
+     *                  dontfnt_* stbtid vbribblfs in this
+     *                  dlbss should bf usfd.
+     *                  fg. sftTypf(URL.dontfnt_html);
+     */
+    publid void sftContfntTypf(String typf) {
+        dontfntTypf = typf;
+        propfrtifs.sft("dontfnt-typf", typf);
+    }
+
+    /** Cbll this routinf to gft thf dontfnt-lfngth bssodibtfd with this
+     * objfdt.
+     */
+    publid int gftContfntLfngth() {
+        try {
+            gftInputStrfbm();
+        } dbtdh (Exdfption f) {
+            rfturn -1;
+        }
+        int l = dontfntLfngth;
+        if (l < 0) {
+            try {
+                l = Intfgfr.pbrsfInt(propfrtifs.findVbluf("dontfnt-lfngth"));
+                sftContfntLfngth(l);
+            } dbtdh(Exdfption f) {
+            }
+        }
+        rfturn l;
+    }
+
+    /** Cbll this routinf to sft thf dontfnt-lfngth bssodibtfd with this
+     * objfdt.
+     */
+    protfdtfd void sftContfntLfngth(int lfngth) {
+        dontfntLfngth = lfngth;
+        propfrtifs.sft("dontfnt-lfngth", String.vblufOf(lfngth));
+    }
+
+    /**
+     * Rfturns truf if thf dbtb bssodibtfd with this URL dbn bf dbdhfd.
+     */
+    publid boolfbn dbnCbdhf() {
+        rfturn url.gftFilf().indfxOf('?') < 0   /* && url.postDbtb == null
+                REMIND */ ;
+    }
+
+    /**
+     * Cbll this to dlosf thf donnfdtion bnd flush bny rfmbining dbtb.
+     * Ovfrridfrs must rfmfmbfr to dbll supfr.dlosf()
+     */
+    publid void dlosf() {
+        url = null;
+    }
+
+    privbtf stbtid HbshMbp<String,Void> proxifdHosts = nfw HbshMbp<>();
+
+    publid syndhronizfd stbtid void sftProxifdHost(String host) {
+        proxifdHosts.put(host.toLowfrCbsf(), null);
+    }
+
+    publid syndhronizfd stbtid boolfbn isProxifdHost(String host) {
+        rfturn proxifdHosts.dontbinsKfy(host.toLowfrCbsf());
+    }
+}

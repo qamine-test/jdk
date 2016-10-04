@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.url.rmi;
+pbdkbgf dom.sun.jndi.url.rmi;
 
-import java.util.Hashtable;
+import jbvb.util.Hbsitbblf;
 
-import javax.naming.*;
-import javax.naming.spi.ResolveResult;
-import com.sun.jndi.toolkit.url.GenericURLContext;
-import com.sun.jndi.rmi.registry.RegistryContext;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.RfsolvfRfsult;
+import dom.sun.jndi.toolkit.url.GfnfridURLContfxt;
+import dom.sun.jndi.rmi.rfgistry.RfgistryContfxt;
 
 
 /**
- * An RMI URL context resolves names that are URLs of the form
- * <pre>
- *   rmi://[host][:port][/[object]]
+ * An RMI URL dontfxt rfsolvfs nbmfs tibt brf URLs of tif form
+ * <prf>
+ *   rmi://[iost][:port][/[objfdt]]
  * or
- *   rmi:[/][object]
- * </pre>
- * If an object is specified, the URL resolves to the named object.
- * Otherwise, the URL resolves to the specified RMI registry.
+ *   rmi:[/][objfdt]
+ * </prf>
+ * If bn objfdt is spfdififd, tif URL rfsolvfs to tif nbmfd objfdt.
+ * Otifrwisf, tif URL rfsolvfs to tif spfdififd RMI rfgistry.
  *
- * @author Scott Seligman
+ * @butior Sdott Sfligmbn
  */
-public class rmiURLContext extends GenericURLContext {
+publid dlbss rmiURLContfxt fxtfnds GfnfridURLContfxt {
 
-    public rmiURLContext(Hashtable<?,?> env) {
-        super(env);
+    publid rmiURLContfxt(Hbsitbblf<?,?> fnv) {
+        supfr(fnv);
     }
 
     /**
-     * Resolves the registry portion of "url" to the corresponding
-     * RMI registry, and returns the atomic object name as the
-     * remaining name.
+     * Rfsolvfs tif rfgistry portion of "url" to tif dorrfsponding
+     * RMI rfgistry, bnd rfturns tif btomid objfdt nbmf bs tif
+     * rfmbining nbmf.
      */
-    protected ResolveResult getRootURLContext(String url, Hashtable<?,?> env)
-            throws NamingException
+    protfdtfd RfsolvfRfsult gftRootURLContfxt(String url, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption
     {
-        if (!url.startsWith("rmi:")) {
-            throw (new IllegalArgumentException(
-                    "rmiURLContext: name is not an RMI URL: " + url));
+        if (!url.stbrtsWiti("rmi:")) {
+            tirow (nfw IllfgblArgumfntExdfption(
+                    "rmiURLContfxt: nbmf is not bn RMI URL: " + url));
         }
 
-        // Parse the URL.
+        // Pbrsf tif URL.
 
-        String host = null;
+        String iost = null;
         int port = -1;
-        String objName = null;
+        String objNbmf = null;
 
-        int i = 4;              // index into url, following the "rmi:"
+        int i = 4;              // indfx into url, following tif "rmi:"
 
-        if (url.startsWith("//", i)) {          // parse "//host:port"
-            i += 2;                             // skip past "//"
-            int slash = url.indexOf('/', i);
-            if (slash < 0) {
-                slash = url.length();
+        if (url.stbrtsWiti("//", i)) {          // pbrsf "//iost:port"
+            i += 2;                             // skip pbst "//"
+            int slbsi = url.indfxOf('/', i);
+            if (slbsi < 0) {
+                slbsi = url.lfngti();
             }
-            if (url.startsWith("[", i)) {               // at IPv6 literal
-                int brac = url.indexOf(']', i + 1);
-                if (brac < 0 || brac > slash) {
-                    throw new IllegalArgumentException(
-                        "rmiURLContext: name is an Invalid URL: " + url);
+            if (url.stbrtsWiti("[", i)) {               // bt IPv6 litfrbl
+                int brbd = url.indfxOf(']', i + 1);
+                if (brbd < 0 || brbd > slbsi) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "rmiURLContfxt: nbmf is bn Invblid URL: " + url);
                 }
-                host = url.substring(i, brac + 1);      // include brackets
-                i = brac + 1;                           // skip past "[...]"
-            } else {                                    // at host name or IPv4
-                int colon = url.indexOf(':', i);
-                int hostEnd = (colon < 0 || colon > slash)
-                    ? slash
-                    : colon;
-                if (i < hostEnd) {
-                    host = url.substring(i, hostEnd);
+                iost = url.substring(i, brbd + 1);      // indludf brbdkfts
+                i = brbd + 1;                           // skip pbst "[...]"
+            } flsf {                                    // bt iost nbmf or IPv4
+                int dolon = url.indfxOf(':', i);
+                int iostEnd = (dolon < 0 || dolon > slbsi)
+                    ? slbsi
+                    : dolon;
+                if (i < iostEnd) {
+                    iost = url.substring(i, iostEnd);
                 }
-                i = hostEnd;                            // skip past host
+                i = iostEnd;                            // skip pbst iost
             }
-            if ((i + 1 < slash)) {
-                if ( url.startsWith(":", i)) {       // parse port
-                    i++;                             // skip past ":"
-                    port = Integer.parseInt(url.substring(i, slash));
-                } else {
-                    throw new IllegalArgumentException(
-                        "rmiURLContext: name is an Invalid URL: " + url);
+            if ((i + 1 < slbsi)) {
+                if ( url.stbrtsWiti(":", i)) {       // pbrsf port
+                    i++;                             // skip pbst ":"
+                    port = Intfgfr.pbrsfInt(url.substring(i, slbsi));
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "rmiURLContfxt: nbmf is bn Invblid URL: " + url);
                 }
             }
-            i = slash;
+            i = slbsi;
         }
-        if ("".equals(host)) {
-            host = null;
+        if ("".fqubls(iost)) {
+            iost = null;
         }
-        if (url.startsWith("/", i)) {           // skip "/" before object name
+        if (url.stbrtsWiti("/", i)) {           // skip "/" bfforf objfdt nbmf
             i++;
         }
-        if (i < url.length()) {
-            objName = url.substring(i);
+        if (i < url.lfngti()) {
+            objNbmf = url.substring(i);
         }
 
-        // Represent object name as empty or single-component composite name.
-        CompositeName remaining = new CompositeName();
-        if (objName != null) {
-            remaining.add(objName);
+        // Rfprfsfnt objfdt nbmf bs fmpty or singlf-domponfnt dompositf nbmf.
+        CompositfNbmf rfmbining = nfw CompositfNbmf();
+        if (objNbmf != null) {
+            rfmbining.bdd(objNbmf);
         }
 
-        // Debug
-        //System.out.println("host=" + host + " port=" + port +
-        //                 " objName=" + remaining.toString() + "\n");
+        // Dfbug
+        //Systfm.out.println("iost=" + iost + " port=" + port +
+        //                 " objNbmf=" + rfmbining.toString() + "\n");
 
-        // Create a registry context.
-        Context regCtx = new RegistryContext(host, port, env);
+        // Crfbtf b rfgistry dontfxt.
+        Contfxt rfgCtx = nfw RfgistryContfxt(iost, port, fnv);
 
-        return (new ResolveResult(regCtx, remaining));
+        rfturn (nfw RfsolvfRfsult(rfgCtx, rfmbining));
     }
 }

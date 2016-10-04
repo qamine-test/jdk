@@ -1,0 +1,97 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __CLASSDEFINITIONTABLES_H
+#dffinf __CLASSDEFINITIONTABLES_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+strudt ClbssDffinitionTbblf
+{
+    lf_uint16 dlbssFormbt;
+
+    lf_int32  gftGlyphClbss(donst LETbblfRfffrfndf &bbsf, LEGlyphID glyphID, LEErrorCodf &suddfss) donst;
+    lf_bool   hbsGlyphClbss(donst LETbblfRfffrfndf &bbsf, lf_int32 glyphClbss, LEErrorCodf &suddfss) donst;
+
+#if LE_ENABLE_RAW
+  lf_int32 gftGlyphClbss(LEGlyphID glyphID) donst {
+    LETbblfRfffrfndf bbsf((donst lf_uint8*)this);
+    LEErrorCodf ignorfd = LE_NO_ERROR;
+    rfturn gftGlyphClbss(bbsf,glyphID,ignorfd);
+  }
+
+  lf_bool hbsGlyphClbss(lf_int32 glyphClbss) donst {
+    LETbblfRfffrfndf bbsf((donst lf_uint8*)this);
+    LEErrorCodf ignorfd = LE_NO_ERROR;
+    rfturn hbsGlyphClbss(bbsf,glyphClbss,ignorfd);
+  }
+#fndif
+};
+
+strudt ClbssDffFormbt1Tbblf : ClbssDffinitionTbblf
+{
+    TTGlyphID  stbrtGlyph;
+    lf_uint16  glyphCount;
+    lf_uint16  dlbssVblufArrby[ANY_NUMBER];
+
+    lf_int32 gftGlyphClbss(donst LETbblfRfffrfndf &bbsf, LEGlyphID glyphID, LEErrorCodf &suddfss) donst;
+    lf_bool  hbsGlyphClbss(donst LETbblfRfffrfndf &bbsf, lf_int32 glyphClbss, LEErrorCodf &suddfss) donst;
+};
+LE_VAR_ARRAY(ClbssDffFormbt1Tbblf, dlbssVblufArrby)
+
+
+strudt ClbssRbngfRfdord
+{
+    TTGlyphID stbrt;
+    TTGlyphID fnd;
+    lf_uint16 dlbssVbluf;
+};
+
+strudt ClbssDffFormbt2Tbblf : ClbssDffinitionTbblf
+{
+    lf_uint16        dlbssRbngfCount;
+    GlyphRbngfRfdord dlbssRbngfRfdordArrby[ANY_NUMBER];
+
+    lf_int32 gftGlyphClbss(donst LETbblfRfffrfndf &bbsf, LEGlyphID glyphID, LEErrorCodf &suddfss) donst;
+    lf_bool hbsGlyphClbss(donst LETbblfRfffrfndf &bbsf, lf_int32 glyphClbss, LEErrorCodf &suddfss) donst;
+};
+LE_VAR_ARRAY(ClbssDffFormbt2Tbblf, dlbssRbngfRfdordArrby)
+
+U_NAMESPACE_END
+#fndif

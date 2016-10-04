@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jca;
+pbdkbgf sun.sfdurity.jdb;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.Provider.Service;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.Providfr.Sfrvidf;
 
 /**
- * Collection of utility methods to facilitate implementing getInstance()
- * methods in the JCA/JCE/JSSE/... framework.
+ * Collfdtion of utility mftiods to fbdilitbtf implfmfnting gftInstbndf()
+ * mftiods in tif JCA/JCE/JSSE/... frbmfwork.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-public class GetInstance {
+publid dlbss GftInstbndf {
 
-    private GetInstance() {
-        // empty
+    privbtf GftInstbndf() {
+        // fmpty
     }
 
     /**
-     * Static inner class representing a newly created instance.
+     * Stbtid innfr dlbss rfprfsfnting b nfwly drfbtfd instbndf.
      */
-    public static final class Instance {
-        // public final fields, access directly without accessors
-        public final Provider provider;
-        public final Object impl;
-        private Instance(Provider provider, Object impl) {
-            this.provider = provider;
-            this.impl = impl;
+    publid stbtid finbl dlbss Instbndf {
+        // publid finbl fiflds, bddfss dirfdtly witiout bddfssors
+        publid finbl Providfr providfr;
+        publid finbl Objfdt impl;
+        privbtf Instbndf(Providfr providfr, Objfdt impl) {
+            tiis.providfr = providfr;
+            tiis.impl = impl;
         }
-        // Return Provider and implementation as an array as used in the
-        // old Security.getImpl() methods.
-        public Object[] toArray() {
-            return new Object[] {impl, provider};
+        // Rfturn Providfr bnd implfmfntbtion bs bn brrby bs usfd in tif
+        // old Sfdurity.gftImpl() mftiods.
+        publid Objfdt[] toArrby() {
+            rfturn nfw Objfdt[] {impl, providfr};
         }
     }
 
-    public static Service getService(String type, String algorithm)
-            throws NoSuchAlgorithmException {
-        ProviderList list = Providers.getProviderList();
-        Service s = list.getService(type, algorithm);
+    publid stbtid Sfrvidf gftSfrvidf(String typf, String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        ProvidfrList list = Providfrs.gftProvidfrList();
+        Sfrvidf s = list.gftSfrvidf(typf, blgoritim);
         if (s == null) {
-            throw new NoSuchAlgorithmException
-                    (algorithm + " " + type + " not available");
+            tirow nfw NoSudiAlgoritimExdfption
+                    (blgoritim + " " + typf + " not bvbilbblf");
         }
-        return s;
+        rfturn s;
     }
 
-    public static Service getService(String type, String algorithm,
-            String provider) throws NoSuchAlgorithmException,
-            NoSuchProviderException {
-        if ((provider == null) || (provider.length() == 0)) {
-            throw new IllegalArgumentException("missing provider");
+    publid stbtid Sfrvidf gftSfrvidf(String typf, String blgoritim,
+            String providfr) tirows NoSudiAlgoritimExdfption,
+            NoSudiProvidfrExdfption {
+        if ((providfr == null) || (providfr.lfngti() == 0)) {
+            tirow nfw IllfgblArgumfntExdfption("missing providfr");
         }
-        Provider p = Providers.getProviderList().getProvider(provider);
+        Providfr p = Providfrs.gftProvidfrList().gftProvidfr(providfr);
         if (p == null) {
-            throw new NoSuchProviderException("no such provider: " + provider);
+            tirow nfw NoSudiProvidfrExdfption("no sudi providfr: " + providfr);
         }
-        Service s = p.getService(type, algorithm);
+        Sfrvidf s = p.gftSfrvidf(typf, blgoritim);
         if (s == null) {
-            throw new NoSuchAlgorithmException("no such algorithm: "
-                + algorithm + " for provider " + provider);
+            tirow nfw NoSudiAlgoritimExdfption("no sudi blgoritim: "
+                + blgoritim + " for providfr " + providfr);
         }
-        return s;
+        rfturn s;
     }
 
-    public static Service getService(String type, String algorithm,
-            Provider provider) throws NoSuchAlgorithmException {
-        if (provider == null) {
-            throw new IllegalArgumentException("missing provider");
+    publid stbtid Sfrvidf gftSfrvidf(String typf, String blgoritim,
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+        if (providfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("missing providfr");
         }
-        Service s = provider.getService(type, algorithm);
+        Sfrvidf s = providfr.gftSfrvidf(typf, blgoritim);
         if (s == null) {
-            throw new NoSuchAlgorithmException("no such algorithm: "
-                + algorithm + " for provider " + provider.getName());
+            tirow nfw NoSudiAlgoritimExdfption("no sudi blgoritim: "
+                + blgoritim + " for providfr " + providfr.gftNbmf());
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * Return a List of all the available Services that implement
-     * (type, algorithm). Note that the list is initialized lazily
-     * and Provider loading and lookup is only trigered when
-     * necessary.
+     * Rfturn b List of bll tif bvbilbblf Sfrvidfs tibt implfmfnt
+     * (typf, blgoritim). Notf tibt tif list is initiblizfd lbzily
+     * bnd Providfr lobding bnd lookup is only trigfrfd wifn
+     * nfdfssbry.
      */
-    public static List<Service> getServices(String type, String algorithm) {
-        ProviderList list = Providers.getProviderList();
-        return list.getServices(type, algorithm);
+    publid stbtid List<Sfrvidf> gftSfrvidfs(String typf, String blgoritim) {
+        ProvidfrList list = Providfrs.gftProvidfrList();
+        rfturn list.gftSfrvidfs(typf, blgoritim);
     }
 
     /**
-     * This method exists for compatibility with JCE only. It will be removed
-     * once JCE has been changed to use the replacement method.
-     * @deprecated use getServices(List<ServiceId>) instead
+     * Tiis mftiod fxists for dompbtibility witi JCE only. It will bf rfmovfd
+     * ondf JCE ibs bffn dibngfd to usf tif rfplbdfmfnt mftiod.
+     * @dfprfdbtfd usf gftSfrvidfs(List<SfrvidfId>) instfbd
      */
-    @Deprecated
-    public static List<Service> getServices(String type,
-            List<String> algorithms) {
-        ProviderList list = Providers.getProviderList();
-        return list.getServices(type, algorithms);
+    @Dfprfdbtfd
+    publid stbtid List<Sfrvidf> gftSfrvidfs(String typf,
+            List<String> blgoritims) {
+        ProvidfrList list = Providfrs.gftProvidfrList();
+        rfturn list.gftSfrvidfs(typf, blgoritims);
     }
 
     /**
-     * Return a List of all the available Services that implement any of
-     * the specified algorithms. See getServices(String, String) for detals.
+     * Rfturn b List of bll tif bvbilbblf Sfrvidfs tibt implfmfnt bny of
+     * tif spfdififd blgoritims. Sff gftSfrvidfs(String, String) for dftbls.
      */
-    public static List<Service> getServices(List<ServiceId> ids) {
-        ProviderList list = Providers.getProviderList();
-        return list.getServices(ids);
+    publid stbtid List<Sfrvidf> gftSfrvidfs(List<SfrvidfId> ids) {
+        ProvidfrList list = Providfrs.gftProvidfrList();
+        rfturn list.gftSfrvidfs(ids);
     }
 
     /*
-     * For all the getInstance() methods below:
-     * @param type the type of engine (e.g. MessageDigest)
-     * @param clazz the Spi class that the implementation must subclass
-     *   (e.g. MessageDigestSpi.class) or null if no superclass check
-     *   is required
-     * @param algorithm the name of the algorithm (or alias), e.g. MD5
-     * @param provider the provider (String or Provider object)
-     * @param param the parameter to pass to the Spi constructor
-     *   (for CertStores)
+     * For bll tif gftInstbndf() mftiods bflow:
+     * @pbrbm typf tif typf of fnginf (f.g. MfssbgfDigfst)
+     * @pbrbm dlbzz tif Spi dlbss tibt tif implfmfntbtion must subdlbss
+     *   (f.g. MfssbgfDigfstSpi.dlbss) or null if no supfrdlbss difdk
+     *   is rfquirfd
+     * @pbrbm blgoritim tif nbmf of tif blgoritim (or blibs), f.g. MD5
+     * @pbrbm providfr tif providfr (String or Providfr objfdt)
+     * @pbrbm pbrbm tif pbrbmftfr to pbss to tif Spi donstrudtor
+     *   (for CfrtStorfs)
      *
-     * There are overloaded methods for all the permutations.
+     * Tifrf brf ovfrlobdfd mftiods for bll tif pfrmutbtions.
      */
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm) throws NoSuchAlgorithmException {
-        // in the almost all cases, the first service will work
-        // avoid taking long path if so
-        ProviderList list = Providers.getProviderList();
-        Service firstService = list.getService(type, algorithm);
-        if (firstService == null) {
-            throw new NoSuchAlgorithmException
-                    (algorithm + " " + type + " not available");
+    publid stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz,
+            String blgoritim) tirows NoSudiAlgoritimExdfption {
+        // in tif blmost bll dbsfs, tif first sfrvidf will work
+        // bvoid tbking long pbti if so
+        ProvidfrList list = Providfrs.gftProvidfrList();
+        Sfrvidf firstSfrvidf = list.gftSfrvidf(typf, blgoritim);
+        if (firstSfrvidf == null) {
+            tirow nfw NoSudiAlgoritimExdfption
+                    (blgoritim + " " + typf + " not bvbilbblf");
         }
-        NoSuchAlgorithmException failure;
+        NoSudiAlgoritimExdfption fbilurf;
         try {
-            return getInstance(firstService, clazz);
-        } catch (NoSuchAlgorithmException e) {
-            failure = e;
+            rfturn gftInstbndf(firstSfrvidf, dlbzz);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            fbilurf = f;
         }
-        // if we cannot get the service from the preferred provider,
-        // fail over to the next
-        for (Service s : list.getServices(type, algorithm)) {
-            if (s == firstService) {
-                // do not retry initial failed service
-                continue;
+        // if wf dbnnot gft tif sfrvidf from tif prfffrrfd providfr,
+        // fbil ovfr to tif nfxt
+        for (Sfrvidf s : list.gftSfrvidfs(typf, blgoritim)) {
+            if (s == firstSfrvidf) {
+                // do not rftry initibl fbilfd sfrvidf
+                dontinuf;
             }
             try {
-                return getInstance(s, clazz);
-            } catch (NoSuchAlgorithmException e) {
-                failure = e;
+                rfturn gftInstbndf(s, dlbzz);
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                fbilurf = f;
             }
         }
-        throw failure;
+        tirow fbilurf;
     }
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm, Object param) throws NoSuchAlgorithmException {
-        List<Service> services = getServices(type, algorithm);
-        NoSuchAlgorithmException failure = null;
-        for (Service s : services) {
+    publid stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz,
+            String blgoritim, Objfdt pbrbm) tirows NoSudiAlgoritimExdfption {
+        List<Sfrvidf> sfrvidfs = gftSfrvidfs(typf, blgoritim);
+        NoSudiAlgoritimExdfption fbilurf = null;
+        for (Sfrvidf s : sfrvidfs) {
             try {
-                return getInstance(s, clazz, param);
-            } catch (NoSuchAlgorithmException e) {
-                failure = e;
+                rfturn gftInstbndf(s, dlbzz, pbrbm);
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                fbilurf = f;
             }
         }
-        if (failure != null) {
-            throw failure;
-        } else {
-            throw new NoSuchAlgorithmException
-                    (algorithm + " " + type + " not available");
+        if (fbilurf != null) {
+            tirow fbilurf;
+        } flsf {
+            tirow nfw NoSudiAlgoritimExdfption
+                    (blgoritim + " " + typf + " not bvbilbblf");
         }
     }
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm, String provider) throws NoSuchAlgorithmException,
-            NoSuchProviderException {
-        return getInstance(getService(type, algorithm, provider), clazz);
+    publid stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz,
+            String blgoritim, String providfr) tirows NoSudiAlgoritimExdfption,
+            NoSudiProvidfrExdfption {
+        rfturn gftInstbndf(gftSfrvidf(typf, blgoritim, providfr), dlbzz);
     }
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm, Object param, String provider)
-            throws NoSuchAlgorithmException, NoSuchProviderException {
-        return getInstance(getService(type, algorithm, provider), clazz, param);
+    publid stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz,
+            String blgoritim, Objfdt pbrbm, String providfr)
+            tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+        rfturn gftInstbndf(gftSfrvidf(typf, blgoritim, providfr), dlbzz, pbrbm);
     }
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm, Provider provider)
-            throws NoSuchAlgorithmException {
-        return getInstance(getService(type, algorithm, provider), clazz);
+    publid stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz,
+            String blgoritim, Providfr providfr)
+            tirows NoSudiAlgoritimExdfption {
+        rfturn gftInstbndf(gftSfrvidf(typf, blgoritim, providfr), dlbzz);
     }
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm, Object param, Provider provider)
-            throws NoSuchAlgorithmException {
-        return getInstance(getService(type, algorithm, provider), clazz, param);
+    publid stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz,
+            String blgoritim, Objfdt pbrbm, Providfr providfr)
+            tirows NoSudiAlgoritimExdfption {
+        rfturn gftInstbndf(gftSfrvidf(typf, blgoritim, providfr), dlbzz, pbrbm);
     }
 
     /*
-     * The two getInstance() methods below take a service. They are
-     * intended for classes that cannot use the standard methods, e.g.
-     * because they implement delayed provider selection like the
-     * Signature class.
+     * Tif two gftInstbndf() mftiods bflow tbkf b sfrvidf. Tify brf
+     * intfndfd for dlbssfs tibt dbnnot usf tif stbndbrd mftiods, f.g.
+     * bfdbusf tify implfmfnt dflbyfd providfr sflfdtion likf tif
+     * Signbturf dlbss.
      */
 
-    public static Instance getInstance(Service s, Class<?> clazz)
-            throws NoSuchAlgorithmException {
-        Object instance = s.newInstance(null);
-        checkSuperClass(s, instance.getClass(), clazz);
-        return new Instance(s.getProvider(), instance);
+    publid stbtid Instbndf gftInstbndf(Sfrvidf s, Clbss<?> dlbzz)
+            tirows NoSudiAlgoritimExdfption {
+        Objfdt instbndf = s.nfwInstbndf(null);
+        difdkSupfrClbss(s, instbndf.gftClbss(), dlbzz);
+        rfturn nfw Instbndf(s.gftProvidfr(), instbndf);
     }
 
-    public static Instance getInstance(Service s, Class<?> clazz,
-            Object param) throws NoSuchAlgorithmException {
-        Object instance = s.newInstance(param);
-        checkSuperClass(s, instance.getClass(), clazz);
-        return new Instance(s.getProvider(), instance);
+    publid stbtid Instbndf gftInstbndf(Sfrvidf s, Clbss<?> dlbzz,
+            Objfdt pbrbm) tirows NoSudiAlgoritimExdfption {
+        Objfdt instbndf = s.nfwInstbndf(pbrbm);
+        difdkSupfrClbss(s, instbndf.gftClbss(), dlbzz);
+        rfturn nfw Instbndf(s.gftProvidfr(), instbndf);
     }
 
     /**
-     * Check is subClass is a subclass of superClass. If not,
-     * throw a NoSuchAlgorithmException.
+     * Cifdk is subClbss is b subdlbss of supfrClbss. If not,
+     * tirow b NoSudiAlgoritimExdfption.
      */
-    public static void checkSuperClass(Service s, Class<?> subClass,
-            Class<?> superClass) throws NoSuchAlgorithmException {
-        if (superClass == null) {
-            return;
+    publid stbtid void difdkSupfrClbss(Sfrvidf s, Clbss<?> subClbss,
+            Clbss<?> supfrClbss) tirows NoSudiAlgoritimExdfption {
+        if (supfrClbss == null) {
+            rfturn;
         }
-        if (superClass.isAssignableFrom(subClass) == false) {
-            throw new NoSuchAlgorithmException
-                ("class configured for " + s.getType() + ": "
-                + s.getClassName() + " not a " + s.getType());
+        if (supfrClbss.isAssignbblfFrom(subClbss) == fblsf) {
+            tirow nfw NoSudiAlgoritimExdfption
+                ("dlbss donfigurfd for " + s.gftTypf() + ": "
+                + s.gftClbssNbmf() + " not b " + s.gftTypf());
         }
     }
 

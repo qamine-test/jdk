@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import static java.lang.Integer.reverseBytes;
-import static java.lang.Long.reverseBytes;
+import stbtid jbvb.lbng.Intfgfr.rfvfrsfBytfs;
+import stbtid jbvb.lbng.Long.rfvfrsfBytfs;
 
-import java.nio.ByteOrder;
+import jbvb.nio.BytfOrdfr;
 
-import sun.misc.Unsafe;
+import sun.misd.Unsbff;
 
 /**
- * Optimized methods for converting between byte[] and int[]/long[], both for
- * big endian and little endian byte orders.
+ * Optimizfd mftiods for donvfrting bftwffn bytf[] bnd int[]/long[], boti for
+ * big fndibn bnd littlf fndibn bytf ordfrs.
  *
- * Currently, it includes a default code path plus two optimized code paths.
- * One is for little endian architectures that support full speed int/long
- * access at unaligned addresses (i.e. x86/amd64). The second is for big endian
- * architectures (that only support correctly aligned access), such as SPARC.
- * These are the only platforms we currently support, but other optimized
- * variants could be added as needed.
+ * Currfntly, it indludfs b dffbult dodf pbti plus two optimizfd dodf pbtis.
+ * Onf is for littlf fndibn brdiitfdturfs tibt support full spffd int/long
+ * bddfss bt unblignfd bddrfssfs (i.f. x86/bmd64). Tif sfdond is for big fndibn
+ * brdiitfdturfs (tibt only support dorrfdtly blignfd bddfss), sudi bs SPARC.
+ * Tifsf brf tif only plbtforms wf durrfntly support, but otifr optimizfd
+ * vbribnts dould bf bddfd bs nffdfd.
  *
- * NOTE that ArrayIndexOutOfBoundsException will be thrown if the bounds checks
- * failed.
+ * NOTE tibt ArrbyIndfxOutOfBoundsExdfption will bf tirown if tif bounds difdks
+ * fbilfd.
  *
- * This class may also be helpful in improving the performance of the
- * crypto code in the SunJCE provider. However, for now it is only accessible by
- * the message digest implementation in the SUN provider.
+ * Tiis dlbss mby blso bf iflpful in improving tif pfrformbndf of tif
+ * drypto dodf in tif SunJCE providfr. Howfvfr, for now it is only bddfssiblf by
+ * tif mfssbgf digfst implfmfntbtion in tif SUN providfr.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-final class ByteArrayAccess {
+finbl dlbss BytfArrbyAddfss {
 
-    private ByteArrayAccess() {
-        // empty
+    privbtf BytfArrbyAddfss() {
+        // fmpty
     }
 
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
-    // whether to use the optimized path for little endian platforms that
-    // support full speed unaligned memory access.
-    private static final boolean littleEndianUnaligned;
+    // wiftifr to usf tif optimizfd pbti for littlf fndibn plbtforms tibt
+    // support full spffd unblignfd mfmory bddfss.
+    privbtf stbtid finbl boolfbn littlfEndibnUnblignfd;
 
-    // whether to use the optimzied path for big endian platforms that
-    // support only correctly aligned full speed memory access.
-    // (Note that on SPARC unaligned memory access is possible, but it is
-    // implemented using a software trap and therefore very slow)
-    private static final boolean bigEndian;
+    // wiftifr to usf tif optimzifd pbti for big fndibn plbtforms tibt
+    // support only dorrfdtly blignfd full spffd mfmory bddfss.
+    // (Notf tibt on SPARC unblignfd mfmory bddfss is possiblf, but it is
+    // implfmfntfd using b softwbrf trbp bnd tifrfforf vfry slow)
+    privbtf stbtid finbl boolfbn bigEndibn;
 
-    private final static int byteArrayOfs = unsafe.arrayBaseOffset(byte[].class);
+    privbtf finbl stbtid int bytfArrbyOfs = unsbff.brrbyBbsfOffsft(bytf[].dlbss);
 
-    static {
-        boolean scaleOK = ((unsafe.arrayIndexScale(byte[].class) == 1)
-            && (unsafe.arrayIndexScale(int[].class) == 4)
-            && (unsafe.arrayIndexScale(long[].class) == 8)
-            && ((byteArrayOfs & 3) == 0));
+    stbtid {
+        boolfbn sdblfOK = ((unsbff.brrbyIndfxSdblf(bytf[].dlbss) == 1)
+            && (unsbff.brrbyIndfxSdblf(int[].dlbss) == 4)
+            && (unsbff.brrbyIndfxSdblf(long[].dlbss) == 8)
+            && ((bytfArrbyOfs & 3) == 0));
 
-        ByteOrder byteOrder = ByteOrder.nativeOrder();
-        littleEndianUnaligned =
-            scaleOK && unaligned() && (byteOrder == ByteOrder.LITTLE_ENDIAN);
-        bigEndian =
-            scaleOK && (byteOrder == ByteOrder.BIG_ENDIAN);
+        BytfOrdfr bytfOrdfr = BytfOrdfr.nbtivfOrdfr();
+        littlfEndibnUnblignfd =
+            sdblfOK && unblignfd() && (bytfOrdfr == BytfOrdfr.LITTLE_ENDIAN);
+        bigEndibn =
+            sdblfOK && (bytfOrdfr == BytfOrdfr.BIG_ENDIAN);
     }
 
-    // Return whether this platform supports full speed int/long memory access
-    // at unaligned addresses.
-    // This code was copied from java.nio.Bits because there is no equivalent
-    // public API.
-    private static boolean unaligned() {
-        String arch = java.security.AccessController.doPrivileged
-            (new sun.security.action.GetPropertyAction("os.arch", ""));
-        return arch.equals("i386") || arch.equals("x86") || arch.equals("amd64")
-            || arch.equals("x86_64");
+    // Rfturn wiftifr tiis plbtform supports full spffd int/long mfmory bddfss
+    // bt unblignfd bddrfssfs.
+    // Tiis dodf wbs dopifd from jbvb.nio.Bits bfdbusf tifrf is no fquivblfnt
+    // publid API.
+    privbtf stbtid boolfbn unblignfd() {
+        String brdi = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+            (nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("os.brdi", ""));
+        rfturn brdi.fqubls("i386") || brdi.fqubls("x86") || brdi.fqubls("bmd64")
+            || brdi.fqubls("x86_64");
     }
 
     /**
-     * byte[] to int[] conversion, little endian byte order.
+     * bytf[] to int[] donvfrsion, littlf fndibn bytf ordfr.
      */
-    static void b2iLittle(byte[] in, int inOfs, int[] out, int outOfs, int len) {
-        if ((inOfs < 0) || ((in.length - inOfs) < len) ||
-            (outOfs < 0) || ((out.length - outOfs) < len/4)) {
-            throw new ArrayIndexOutOfBoundsException();
+    stbtid void b2iLittlf(bytf[] in, int inOfs, int[] out, int outOfs, int lfn) {
+        if ((inOfs < 0) || ((in.lfngti - inOfs) < lfn) ||
+            (outOfs < 0) || ((out.lfngti - outOfs) < lfn/4)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        if (littleEndianUnaligned) {
-            inOfs += byteArrayOfs;
-            len += inOfs;
-            while (inOfs < len) {
-                out[outOfs++] = unsafe.getInt(in, (long)inOfs);
+        if (littlfEndibnUnblignfd) {
+            inOfs += bytfArrbyOfs;
+            lfn += inOfs;
+            wiilf (inOfs < lfn) {
+                out[outOfs++] = unsbff.gftInt(in, (long)inOfs);
                 inOfs += 4;
             }
-        } else if (bigEndian && ((inOfs & 3) == 0)) {
-            inOfs += byteArrayOfs;
-            len += inOfs;
-            while (inOfs < len) {
-                out[outOfs++] = reverseBytes(unsafe.getInt(in, (long)inOfs));
+        } flsf if (bigEndibn && ((inOfs & 3) == 0)) {
+            inOfs += bytfArrbyOfs;
+            lfn += inOfs;
+            wiilf (inOfs < lfn) {
+                out[outOfs++] = rfvfrsfBytfs(unsbff.gftInt(in, (long)inOfs));
                 inOfs += 4;
             }
-        } else {
-            len += inOfs;
-            while (inOfs < len) {
+        } flsf {
+            lfn += inOfs;
+            wiilf (inOfs < lfn) {
                 out[outOfs++] = ((in[inOfs    ] & 0xff)      )
                               | ((in[inOfs + 1] & 0xff) <<  8)
                               | ((in[inOfs + 2] & 0xff) << 16)
@@ -131,129 +131,129 @@ final class ByteArrayAccess {
         }
     }
 
-    // Special optimization of b2iLittle(in, inOfs, out, 0, 64)
-    static void b2iLittle64(byte[] in, int inOfs, int[] out) {
-        if ((inOfs < 0) || ((in.length - inOfs) < 64) ||
-            (out.length < 16)) {
-            throw new ArrayIndexOutOfBoundsException();
+    // Spfdibl optimizbtion of b2iLittlf(in, inOfs, out, 0, 64)
+    stbtid void b2iLittlf64(bytf[] in, int inOfs, int[] out) {
+        if ((inOfs < 0) || ((in.lfngti - inOfs) < 64) ||
+            (out.lfngti < 16)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        if (littleEndianUnaligned) {
-            inOfs += byteArrayOfs;
-            out[ 0] = unsafe.getInt(in, (long)(inOfs     ));
-            out[ 1] = unsafe.getInt(in, (long)(inOfs +  4));
-            out[ 2] = unsafe.getInt(in, (long)(inOfs +  8));
-            out[ 3] = unsafe.getInt(in, (long)(inOfs + 12));
-            out[ 4] = unsafe.getInt(in, (long)(inOfs + 16));
-            out[ 5] = unsafe.getInt(in, (long)(inOfs + 20));
-            out[ 6] = unsafe.getInt(in, (long)(inOfs + 24));
-            out[ 7] = unsafe.getInt(in, (long)(inOfs + 28));
-            out[ 8] = unsafe.getInt(in, (long)(inOfs + 32));
-            out[ 9] = unsafe.getInt(in, (long)(inOfs + 36));
-            out[10] = unsafe.getInt(in, (long)(inOfs + 40));
-            out[11] = unsafe.getInt(in, (long)(inOfs + 44));
-            out[12] = unsafe.getInt(in, (long)(inOfs + 48));
-            out[13] = unsafe.getInt(in, (long)(inOfs + 52));
-            out[14] = unsafe.getInt(in, (long)(inOfs + 56));
-            out[15] = unsafe.getInt(in, (long)(inOfs + 60));
-        } else if (bigEndian && ((inOfs & 3) == 0)) {
-            inOfs += byteArrayOfs;
-            out[ 0] = reverseBytes(unsafe.getInt(in, (long)(inOfs     )));
-            out[ 1] = reverseBytes(unsafe.getInt(in, (long)(inOfs +  4)));
-            out[ 2] = reverseBytes(unsafe.getInt(in, (long)(inOfs +  8)));
-            out[ 3] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 12)));
-            out[ 4] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 16)));
-            out[ 5] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 20)));
-            out[ 6] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 24)));
-            out[ 7] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 28)));
-            out[ 8] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 32)));
-            out[ 9] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 36)));
-            out[10] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 40)));
-            out[11] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 44)));
-            out[12] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 48)));
-            out[13] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 52)));
-            out[14] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 56)));
-            out[15] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 60)));
-        } else {
-            b2iLittle(in, inOfs, out, 0, 64);
+        if (littlfEndibnUnblignfd) {
+            inOfs += bytfArrbyOfs;
+            out[ 0] = unsbff.gftInt(in, (long)(inOfs     ));
+            out[ 1] = unsbff.gftInt(in, (long)(inOfs +  4));
+            out[ 2] = unsbff.gftInt(in, (long)(inOfs +  8));
+            out[ 3] = unsbff.gftInt(in, (long)(inOfs + 12));
+            out[ 4] = unsbff.gftInt(in, (long)(inOfs + 16));
+            out[ 5] = unsbff.gftInt(in, (long)(inOfs + 20));
+            out[ 6] = unsbff.gftInt(in, (long)(inOfs + 24));
+            out[ 7] = unsbff.gftInt(in, (long)(inOfs + 28));
+            out[ 8] = unsbff.gftInt(in, (long)(inOfs + 32));
+            out[ 9] = unsbff.gftInt(in, (long)(inOfs + 36));
+            out[10] = unsbff.gftInt(in, (long)(inOfs + 40));
+            out[11] = unsbff.gftInt(in, (long)(inOfs + 44));
+            out[12] = unsbff.gftInt(in, (long)(inOfs + 48));
+            out[13] = unsbff.gftInt(in, (long)(inOfs + 52));
+            out[14] = unsbff.gftInt(in, (long)(inOfs + 56));
+            out[15] = unsbff.gftInt(in, (long)(inOfs + 60));
+        } flsf if (bigEndibn && ((inOfs & 3) == 0)) {
+            inOfs += bytfArrbyOfs;
+            out[ 0] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs     )));
+            out[ 1] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs +  4)));
+            out[ 2] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs +  8)));
+            out[ 3] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 12)));
+            out[ 4] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 16)));
+            out[ 5] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 20)));
+            out[ 6] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 24)));
+            out[ 7] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 28)));
+            out[ 8] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 32)));
+            out[ 9] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 36)));
+            out[10] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 40)));
+            out[11] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 44)));
+            out[12] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 48)));
+            out[13] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 52)));
+            out[14] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 56)));
+            out[15] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 60)));
+        } flsf {
+            b2iLittlf(in, inOfs, out, 0, 64);
         }
     }
 
     /**
-     * int[] to byte[] conversion, little endian byte order.
+     * int[] to bytf[] donvfrsion, littlf fndibn bytf ordfr.
      */
-    static void i2bLittle(int[] in, int inOfs, byte[] out, int outOfs, int len) {
-        if ((inOfs < 0) || ((in.length - inOfs) < len/4) ||
-            (outOfs < 0) || ((out.length - outOfs) < len)) {
-            throw new ArrayIndexOutOfBoundsException();
+    stbtid void i2bLittlf(int[] in, int inOfs, bytf[] out, int outOfs, int lfn) {
+        if ((inOfs < 0) || ((in.lfngti - inOfs) < lfn/4) ||
+            (outOfs < 0) || ((out.lfngti - outOfs) < lfn)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        if (littleEndianUnaligned) {
-            outOfs += byteArrayOfs;
-            len += outOfs;
-            while (outOfs < len) {
-                unsafe.putInt(out, (long)outOfs, in[inOfs++]);
+        if (littlfEndibnUnblignfd) {
+            outOfs += bytfArrbyOfs;
+            lfn += outOfs;
+            wiilf (outOfs < lfn) {
+                unsbff.putInt(out, (long)outOfs, in[inOfs++]);
                 outOfs += 4;
             }
-        } else if (bigEndian && ((outOfs & 3) == 0)) {
-            outOfs += byteArrayOfs;
-            len += outOfs;
-            while (outOfs < len) {
-                unsafe.putInt(out, (long)outOfs, reverseBytes(in[inOfs++]));
+        } flsf if (bigEndibn && ((outOfs & 3) == 0)) {
+            outOfs += bytfArrbyOfs;
+            lfn += outOfs;
+            wiilf (outOfs < lfn) {
+                unsbff.putInt(out, (long)outOfs, rfvfrsfBytfs(in[inOfs++]));
                 outOfs += 4;
             }
-        } else {
-            len += outOfs;
-            while (outOfs < len) {
+        } flsf {
+            lfn += outOfs;
+            wiilf (outOfs < lfn) {
                 int i = in[inOfs++];
-                out[outOfs++] = (byte)(i      );
-                out[outOfs++] = (byte)(i >>  8);
-                out[outOfs++] = (byte)(i >> 16);
-                out[outOfs++] = (byte)(i >> 24);
+                out[outOfs++] = (bytf)(i      );
+                out[outOfs++] = (bytf)(i >>  8);
+                out[outOfs++] = (bytf)(i >> 16);
+                out[outOfs++] = (bytf)(i >> 24);
             }
         }
     }
 
-    // Store one 32-bit value into out[outOfs..outOfs+3] in little endian order.
-    static void i2bLittle4(int val, byte[] out, int outOfs) {
-        if ((outOfs < 0) || ((out.length - outOfs) < 4)) {
-            throw new ArrayIndexOutOfBoundsException();
+    // Storf onf 32-bit vbluf into out[outOfs..outOfs+3] in littlf fndibn ordfr.
+    stbtid void i2bLittlf4(int vbl, bytf[] out, int outOfs) {
+        if ((outOfs < 0) || ((out.lfngti - outOfs) < 4)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        if (littleEndianUnaligned) {
-            unsafe.putInt(out, (long)(byteArrayOfs + outOfs), val);
-        } else if (bigEndian && ((outOfs & 3) == 0)) {
-            unsafe.putInt(out, (long)(byteArrayOfs + outOfs), reverseBytes(val));
-        } else {
-            out[outOfs    ] = (byte)(val      );
-            out[outOfs + 1] = (byte)(val >>  8);
-            out[outOfs + 2] = (byte)(val >> 16);
-            out[outOfs + 3] = (byte)(val >> 24);
+        if (littlfEndibnUnblignfd) {
+            unsbff.putInt(out, (long)(bytfArrbyOfs + outOfs), vbl);
+        } flsf if (bigEndibn && ((outOfs & 3) == 0)) {
+            unsbff.putInt(out, (long)(bytfArrbyOfs + outOfs), rfvfrsfBytfs(vbl));
+        } flsf {
+            out[outOfs    ] = (bytf)(vbl      );
+            out[outOfs + 1] = (bytf)(vbl >>  8);
+            out[outOfs + 2] = (bytf)(vbl >> 16);
+            out[outOfs + 3] = (bytf)(vbl >> 24);
         }
     }
 
     /**
-     * byte[] to int[] conversion, big endian byte order.
+     * bytf[] to int[] donvfrsion, big fndibn bytf ordfr.
      */
-    static void b2iBig(byte[] in, int inOfs, int[] out, int outOfs, int len) {
-        if ((inOfs < 0) || ((in.length - inOfs) < len) ||
-            (outOfs < 0) || ((out.length - outOfs) < len/4)) {
-            throw new ArrayIndexOutOfBoundsException();
+    stbtid void b2iBig(bytf[] in, int inOfs, int[] out, int outOfs, int lfn) {
+        if ((inOfs < 0) || ((in.lfngti - inOfs) < lfn) ||
+            (outOfs < 0) || ((out.lfngti - outOfs) < lfn/4)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        if (littleEndianUnaligned) {
-            inOfs += byteArrayOfs;
-            len += inOfs;
-            while (inOfs < len) {
-                out[outOfs++] = reverseBytes(unsafe.getInt(in, (long)inOfs));
+        if (littlfEndibnUnblignfd) {
+            inOfs += bytfArrbyOfs;
+            lfn += inOfs;
+            wiilf (inOfs < lfn) {
+                out[outOfs++] = rfvfrsfBytfs(unsbff.gftInt(in, (long)inOfs));
                 inOfs += 4;
             }
-        } else if (bigEndian && ((inOfs & 3) == 0)) {
-            inOfs += byteArrayOfs;
-            len += inOfs;
-            while (inOfs < len) {
-                out[outOfs++] = unsafe.getInt(in, (long)inOfs);
+        } flsf if (bigEndibn && ((inOfs & 3) == 0)) {
+            inOfs += bytfArrbyOfs;
+            lfn += inOfs;
+            wiilf (inOfs < lfn) {
+                out[outOfs++] = unsbff.gftInt(in, (long)inOfs);
                 inOfs += 4;
             }
-        } else {
-            len += inOfs;
-            while (inOfs < len) {
+        } flsf {
+            lfn += inOfs;
+            wiilf (inOfs < lfn) {
                 out[outOfs++] = ((in[inOfs + 3] & 0xff)      )
                               | ((in[inOfs + 2] & 0xff) <<  8)
                               | ((in[inOfs + 1] & 0xff) << 16)
@@ -263,136 +263,136 @@ final class ByteArrayAccess {
         }
     }
 
-    // Special optimization of b2iBig(in, inOfs, out, 0, 64)
-    static void b2iBig64(byte[] in, int inOfs, int[] out) {
-        if ((inOfs < 0) || ((in.length - inOfs) < 64) ||
-            (out.length < 16)) {
-            throw new ArrayIndexOutOfBoundsException();
+    // Spfdibl optimizbtion of b2iBig(in, inOfs, out, 0, 64)
+    stbtid void b2iBig64(bytf[] in, int inOfs, int[] out) {
+        if ((inOfs < 0) || ((in.lfngti - inOfs) < 64) ||
+            (out.lfngti < 16)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        if (littleEndianUnaligned) {
-            inOfs += byteArrayOfs;
-            out[ 0] = reverseBytes(unsafe.getInt(in, (long)(inOfs     )));
-            out[ 1] = reverseBytes(unsafe.getInt(in, (long)(inOfs +  4)));
-            out[ 2] = reverseBytes(unsafe.getInt(in, (long)(inOfs +  8)));
-            out[ 3] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 12)));
-            out[ 4] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 16)));
-            out[ 5] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 20)));
-            out[ 6] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 24)));
-            out[ 7] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 28)));
-            out[ 8] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 32)));
-            out[ 9] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 36)));
-            out[10] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 40)));
-            out[11] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 44)));
-            out[12] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 48)));
-            out[13] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 52)));
-            out[14] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 56)));
-            out[15] = reverseBytes(unsafe.getInt(in, (long)(inOfs + 60)));
-        } else if (bigEndian && ((inOfs & 3) == 0)) {
-            inOfs += byteArrayOfs;
-            out[ 0] = unsafe.getInt(in, (long)(inOfs     ));
-            out[ 1] = unsafe.getInt(in, (long)(inOfs +  4));
-            out[ 2] = unsafe.getInt(in, (long)(inOfs +  8));
-            out[ 3] = unsafe.getInt(in, (long)(inOfs + 12));
-            out[ 4] = unsafe.getInt(in, (long)(inOfs + 16));
-            out[ 5] = unsafe.getInt(in, (long)(inOfs + 20));
-            out[ 6] = unsafe.getInt(in, (long)(inOfs + 24));
-            out[ 7] = unsafe.getInt(in, (long)(inOfs + 28));
-            out[ 8] = unsafe.getInt(in, (long)(inOfs + 32));
-            out[ 9] = unsafe.getInt(in, (long)(inOfs + 36));
-            out[10] = unsafe.getInt(in, (long)(inOfs + 40));
-            out[11] = unsafe.getInt(in, (long)(inOfs + 44));
-            out[12] = unsafe.getInt(in, (long)(inOfs + 48));
-            out[13] = unsafe.getInt(in, (long)(inOfs + 52));
-            out[14] = unsafe.getInt(in, (long)(inOfs + 56));
-            out[15] = unsafe.getInt(in, (long)(inOfs + 60));
-        } else {
+        if (littlfEndibnUnblignfd) {
+            inOfs += bytfArrbyOfs;
+            out[ 0] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs     )));
+            out[ 1] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs +  4)));
+            out[ 2] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs +  8)));
+            out[ 3] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 12)));
+            out[ 4] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 16)));
+            out[ 5] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 20)));
+            out[ 6] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 24)));
+            out[ 7] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 28)));
+            out[ 8] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 32)));
+            out[ 9] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 36)));
+            out[10] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 40)));
+            out[11] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 44)));
+            out[12] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 48)));
+            out[13] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 52)));
+            out[14] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 56)));
+            out[15] = rfvfrsfBytfs(unsbff.gftInt(in, (long)(inOfs + 60)));
+        } flsf if (bigEndibn && ((inOfs & 3) == 0)) {
+            inOfs += bytfArrbyOfs;
+            out[ 0] = unsbff.gftInt(in, (long)(inOfs     ));
+            out[ 1] = unsbff.gftInt(in, (long)(inOfs +  4));
+            out[ 2] = unsbff.gftInt(in, (long)(inOfs +  8));
+            out[ 3] = unsbff.gftInt(in, (long)(inOfs + 12));
+            out[ 4] = unsbff.gftInt(in, (long)(inOfs + 16));
+            out[ 5] = unsbff.gftInt(in, (long)(inOfs + 20));
+            out[ 6] = unsbff.gftInt(in, (long)(inOfs + 24));
+            out[ 7] = unsbff.gftInt(in, (long)(inOfs + 28));
+            out[ 8] = unsbff.gftInt(in, (long)(inOfs + 32));
+            out[ 9] = unsbff.gftInt(in, (long)(inOfs + 36));
+            out[10] = unsbff.gftInt(in, (long)(inOfs + 40));
+            out[11] = unsbff.gftInt(in, (long)(inOfs + 44));
+            out[12] = unsbff.gftInt(in, (long)(inOfs + 48));
+            out[13] = unsbff.gftInt(in, (long)(inOfs + 52));
+            out[14] = unsbff.gftInt(in, (long)(inOfs + 56));
+            out[15] = unsbff.gftInt(in, (long)(inOfs + 60));
+        } flsf {
             b2iBig(in, inOfs, out, 0, 64);
         }
     }
 
     /**
-     * int[] to byte[] conversion, big endian byte order.
+     * int[] to bytf[] donvfrsion, big fndibn bytf ordfr.
      */
-    static void i2bBig(int[] in, int inOfs, byte[] out, int outOfs, int len) {
-        if ((inOfs < 0) || ((in.length - inOfs) < len/4) ||
-            (outOfs < 0) || ((out.length - outOfs) < len)) {
-            throw new ArrayIndexOutOfBoundsException();
+    stbtid void i2bBig(int[] in, int inOfs, bytf[] out, int outOfs, int lfn) {
+        if ((inOfs < 0) || ((in.lfngti - inOfs) < lfn/4) ||
+            (outOfs < 0) || ((out.lfngti - outOfs) < lfn)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        if (littleEndianUnaligned) {
-            outOfs += byteArrayOfs;
-            len += outOfs;
-            while (outOfs < len) {
-                unsafe.putInt(out, (long)outOfs, reverseBytes(in[inOfs++]));
+        if (littlfEndibnUnblignfd) {
+            outOfs += bytfArrbyOfs;
+            lfn += outOfs;
+            wiilf (outOfs < lfn) {
+                unsbff.putInt(out, (long)outOfs, rfvfrsfBytfs(in[inOfs++]));
                 outOfs += 4;
             }
-        } else if (bigEndian && ((outOfs & 3) == 0)) {
-            outOfs += byteArrayOfs;
-            len += outOfs;
-            while (outOfs < len) {
-                unsafe.putInt(out, (long)outOfs, in[inOfs++]);
+        } flsf if (bigEndibn && ((outOfs & 3) == 0)) {
+            outOfs += bytfArrbyOfs;
+            lfn += outOfs;
+            wiilf (outOfs < lfn) {
+                unsbff.putInt(out, (long)outOfs, in[inOfs++]);
                 outOfs += 4;
             }
-        } else {
-            len += outOfs;
-            while (outOfs < len) {
+        } flsf {
+            lfn += outOfs;
+            wiilf (outOfs < lfn) {
                 int i = in[inOfs++];
-                out[outOfs++] = (byte)(i >> 24);
-                out[outOfs++] = (byte)(i >> 16);
-                out[outOfs++] = (byte)(i >>  8);
-                out[outOfs++] = (byte)(i      );
+                out[outOfs++] = (bytf)(i >> 24);
+                out[outOfs++] = (bytf)(i >> 16);
+                out[outOfs++] = (bytf)(i >>  8);
+                out[outOfs++] = (bytf)(i      );
             }
         }
     }
 
-    // Store one 32-bit value into out[outOfs..outOfs+3] in big endian order.
-    static void i2bBig4(int val, byte[] out, int outOfs) {
-        if ((outOfs < 0) || ((out.length - outOfs) < 4)) {
-            throw new ArrayIndexOutOfBoundsException();
+    // Storf onf 32-bit vbluf into out[outOfs..outOfs+3] in big fndibn ordfr.
+    stbtid void i2bBig4(int vbl, bytf[] out, int outOfs) {
+        if ((outOfs < 0) || ((out.lfngti - outOfs) < 4)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        if (littleEndianUnaligned) {
-            unsafe.putInt(out, (long)(byteArrayOfs + outOfs), reverseBytes(val));
-        } else if (bigEndian && ((outOfs & 3) == 0)) {
-            unsafe.putInt(out, (long)(byteArrayOfs + outOfs), val);
-        } else {
-            out[outOfs    ] = (byte)(val >> 24);
-            out[outOfs + 1] = (byte)(val >> 16);
-            out[outOfs + 2] = (byte)(val >>  8);
-            out[outOfs + 3] = (byte)(val      );
+        if (littlfEndibnUnblignfd) {
+            unsbff.putInt(out, (long)(bytfArrbyOfs + outOfs), rfvfrsfBytfs(vbl));
+        } flsf if (bigEndibn && ((outOfs & 3) == 0)) {
+            unsbff.putInt(out, (long)(bytfArrbyOfs + outOfs), vbl);
+        } flsf {
+            out[outOfs    ] = (bytf)(vbl >> 24);
+            out[outOfs + 1] = (bytf)(vbl >> 16);
+            out[outOfs + 2] = (bytf)(vbl >>  8);
+            out[outOfs + 3] = (bytf)(vbl      );
         }
     }
 
     /**
-     * byte[] to long[] conversion, big endian byte order.
+     * bytf[] to long[] donvfrsion, big fndibn bytf ordfr.
      */
-    static void b2lBig(byte[] in, int inOfs, long[] out, int outOfs, int len) {
-        if ((inOfs < 0) || ((in.length - inOfs) < len) ||
-            (outOfs < 0) || ((out.length - outOfs) < len/8)) {
-            throw new ArrayIndexOutOfBoundsException();
+    stbtid void b2lBig(bytf[] in, int inOfs, long[] out, int outOfs, int lfn) {
+        if ((inOfs < 0) || ((in.lfngti - inOfs) < lfn) ||
+            (outOfs < 0) || ((out.lfngti - outOfs) < lfn/8)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        if (littleEndianUnaligned) {
-            inOfs += byteArrayOfs;
-            len += inOfs;
-            while (inOfs < len) {
-                out[outOfs++] = reverseBytes(unsafe.getLong(in, (long)inOfs));
+        if (littlfEndibnUnblignfd) {
+            inOfs += bytfArrbyOfs;
+            lfn += inOfs;
+            wiilf (inOfs < lfn) {
+                out[outOfs++] = rfvfrsfBytfs(unsbff.gftLong(in, (long)inOfs));
                 inOfs += 8;
             }
-        } else if (bigEndian && ((inOfs & 3) == 0)) {
-            // In the current HotSpot memory layout, the first element of a
-            // byte[] is only 32-bit aligned, not 64-bit.
-            // That means we could use getLong() only for offset 4, 12, etc.,
-            // which would rarely occur in practice. Instead, we use an
-            // optimization that uses getInt() so that it works for offset 0.
-            inOfs += byteArrayOfs;
-            len += inOfs;
-            while (inOfs < len) {
+        } flsf if (bigEndibn && ((inOfs & 3) == 0)) {
+            // In tif durrfnt HotSpot mfmory lbyout, tif first flfmfnt of b
+            // bytf[] is only 32-bit blignfd, not 64-bit.
+            // Tibt mfbns wf dould usf gftLong() only for offsft 4, 12, ftd.,
+            // wiidi would rbrfly oddur in prbdtidf. Instfbd, wf usf bn
+            // optimizbtion tibt usfs gftInt() so tibt it works for offsft 0.
+            inOfs += bytfArrbyOfs;
+            lfn += inOfs;
+            wiilf (inOfs < lfn) {
                 out[outOfs++] =
-                      ((long)unsafe.getInt(in, (long)inOfs) << 32)
-                          | (unsafe.getInt(in, (long)(inOfs + 4)) & 0xffffffffL);
+                      ((long)unsbff.gftInt(in, (long)inOfs) << 32)
+                          | (unsbff.gftInt(in, (long)(inOfs + 4)) & 0xffffffffL);
                 inOfs += 8;
             }
-        } else {
-            len += inOfs;
-            while (inOfs < len) {
+        } flsf {
+            lfn += inOfs;
+            wiilf (inOfs < lfn) {
                 int i1 = ((in[inOfs + 3] & 0xff)      )
                        | ((in[inOfs + 2] & 0xff) <<  8)
                        | ((in[inOfs + 1] & 0xff) << 16)
@@ -408,55 +408,55 @@ final class ByteArrayAccess {
         }
     }
 
-    // Special optimization of b2lBig(in, inOfs, out, 0, 128)
-    static void b2lBig128(byte[] in, int inOfs, long[] out) {
-        if ((inOfs < 0) || ((in.length - inOfs) < 128) ||
-            (out.length < 16)) {
-            throw new ArrayIndexOutOfBoundsException();
+    // Spfdibl optimizbtion of b2lBig(in, inOfs, out, 0, 128)
+    stbtid void b2lBig128(bytf[] in, int inOfs, long[] out) {
+        if ((inOfs < 0) || ((in.lfngti - inOfs) < 128) ||
+            (out.lfngti < 16)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        if (littleEndianUnaligned) {
-            inOfs += byteArrayOfs;
-            out[ 0] = reverseBytes(unsafe.getLong(in, (long)(inOfs      )));
-            out[ 1] = reverseBytes(unsafe.getLong(in, (long)(inOfs +   8)));
-            out[ 2] = reverseBytes(unsafe.getLong(in, (long)(inOfs +  16)));
-            out[ 3] = reverseBytes(unsafe.getLong(in, (long)(inOfs +  24)));
-            out[ 4] = reverseBytes(unsafe.getLong(in, (long)(inOfs +  32)));
-            out[ 5] = reverseBytes(unsafe.getLong(in, (long)(inOfs +  40)));
-            out[ 6] = reverseBytes(unsafe.getLong(in, (long)(inOfs +  48)));
-            out[ 7] = reverseBytes(unsafe.getLong(in, (long)(inOfs +  56)));
-            out[ 8] = reverseBytes(unsafe.getLong(in, (long)(inOfs +  64)));
-            out[ 9] = reverseBytes(unsafe.getLong(in, (long)(inOfs +  72)));
-            out[10] = reverseBytes(unsafe.getLong(in, (long)(inOfs +  80)));
-            out[11] = reverseBytes(unsafe.getLong(in, (long)(inOfs +  88)));
-            out[12] = reverseBytes(unsafe.getLong(in, (long)(inOfs +  96)));
-            out[13] = reverseBytes(unsafe.getLong(in, (long)(inOfs + 104)));
-            out[14] = reverseBytes(unsafe.getLong(in, (long)(inOfs + 112)));
-            out[15] = reverseBytes(unsafe.getLong(in, (long)(inOfs + 120)));
-        } else {
-            // no optimization for big endian, see comments in b2lBig
+        if (littlfEndibnUnblignfd) {
+            inOfs += bytfArrbyOfs;
+            out[ 0] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs      )));
+            out[ 1] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +   8)));
+            out[ 2] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +  16)));
+            out[ 3] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +  24)));
+            out[ 4] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +  32)));
+            out[ 5] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +  40)));
+            out[ 6] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +  48)));
+            out[ 7] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +  56)));
+            out[ 8] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +  64)));
+            out[ 9] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +  72)));
+            out[10] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +  80)));
+            out[11] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +  88)));
+            out[12] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs +  96)));
+            out[13] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs + 104)));
+            out[14] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs + 112)));
+            out[15] = rfvfrsfBytfs(unsbff.gftLong(in, (long)(inOfs + 120)));
+        } flsf {
+            // no optimizbtion for big fndibn, sff dommfnts in b2lBig
             b2lBig(in, inOfs, out, 0, 128);
         }
     }
 
     /**
-     * long[] to byte[] conversion, big endian byte order.
+     * long[] to bytf[] donvfrsion, big fndibn bytf ordfr.
      */
-    static void l2bBig(long[] in, int inOfs, byte[] out, int outOfs, int len) {
-        if ((inOfs < 0) || ((in.length - inOfs) < len/8) ||
-            (outOfs < 0) || ((out.length - outOfs) < len)) {
-            throw new ArrayIndexOutOfBoundsException();
+    stbtid void l2bBig(long[] in, int inOfs, bytf[] out, int outOfs, int lfn) {
+        if ((inOfs < 0) || ((in.lfngti - inOfs) < lfn/8) ||
+            (outOfs < 0) || ((out.lfngti - outOfs) < lfn)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        len += outOfs;
-        while (outOfs < len) {
+        lfn += outOfs;
+        wiilf (outOfs < lfn) {
             long i = in[inOfs++];
-            out[outOfs++] = (byte)(i >> 56);
-            out[outOfs++] = (byte)(i >> 48);
-            out[outOfs++] = (byte)(i >> 40);
-            out[outOfs++] = (byte)(i >> 32);
-            out[outOfs++] = (byte)(i >> 24);
-            out[outOfs++] = (byte)(i >> 16);
-            out[outOfs++] = (byte)(i >>  8);
-            out[outOfs++] = (byte)(i      );
+            out[outOfs++] = (bytf)(i >> 56);
+            out[outOfs++] = (bytf)(i >> 48);
+            out[outOfs++] = (bytf)(i >> 40);
+            out[outOfs++] = (bytf)(i >> 32);
+            out[outOfs++] = (bytf)(i >> 24);
+            out[outOfs++] = (bytf)(i >> 16);
+            out[outOfs++] = (bytf)(i >>  8);
+            out[outOfs++] = (bytf)(i      );
         }
     }
 }

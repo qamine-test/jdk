@@ -1,578 +1,578 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * Unix system and library calls.
+ * Unix systfm bnd librbry dblls.
  */
 
-class UnixNativeDispatcher {
-    protected UnixNativeDispatcher() { }
+dlbss UnixNbtivfDispbtdifr {
+    protfdtfd UnixNbtivfDispbtdifr() { }
 
-    // returns a NativeBuffer containing the given path
-    private static NativeBuffer copyToNativeBuffer(UnixPath path) {
-        byte[] cstr = path.getByteArrayForSysCalls();
-        int size = cstr.length + 1;
-        NativeBuffer buffer = NativeBuffers.getNativeBufferFromCache(size);
-        if (buffer == null) {
-            buffer = NativeBuffers.allocNativeBuffer(size);
-        } else {
-            // buffer already contains the path
-            if (buffer.owner() == path)
-                return buffer;
+    // rfturns b NbtivfBufffr dontbining tif givfn pbti
+    privbtf stbtid NbtivfBufffr dopyToNbtivfBufffr(UnixPbti pbti) {
+        bytf[] dstr = pbti.gftBytfArrbyForSysCblls();
+        int sizf = dstr.lfngti + 1;
+        NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffrFromCbdif(sizf);
+        if (bufffr == null) {
+            bufffr = NbtivfBufffrs.bllodNbtivfBufffr(sizf);
+        } flsf {
+            // bufffr blrfbdy dontbins tif pbti
+            if (bufffr.ownfr() == pbti)
+                rfturn bufffr;
         }
-        NativeBuffers.copyCStringToNativeBuffer(cstr, buffer);
-        buffer.setOwner(path);
-        return buffer;
+        NbtivfBufffrs.dopyCStringToNbtivfBufffr(dstr, bufffr);
+        bufffr.sftOwnfr(pbti);
+        rfturn bufffr;
     }
 
     /**
-     * char *getcwd(char *buf, size_t size);
+     * dibr *gftdwd(dibr *buf, sizf_t sizf);
      */
-    static native byte[] getcwd();
+    stbtid nbtivf bytf[] gftdwd();
 
     /**
-     * int dup(int filedes)
+     * int dup(int filfdfs)
      */
-    static native int dup(int filedes) throws UnixException;
+    stbtid nbtivf int dup(int filfdfs) tirows UnixExdfption;
 
     /**
-     * int open(const char* path, int oflag, mode_t mode)
+     * int opfn(donst dibr* pbti, int oflbg, modf_t modf)
      */
-    static int open(UnixPath path, int flags, int mode) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid int opfn(UnixPbti pbti, int flbgs, int modf) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            return open0(buffer.address(), flags, mode);
-        } finally {
-            buffer.release();
+            rfturn opfn0(bufffr.bddrfss(), flbgs, modf);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native int open0(long pathAddress, int flags, int mode)
-        throws UnixException;
+    privbtf stbtid nbtivf int opfn0(long pbtiAddrfss, int flbgs, int modf)
+        tirows UnixExdfption;
 
     /**
-     * int openat(int dfd, const char* path, int oflag, mode_t mode)
+     * int opfnbt(int dfd, donst dibr* pbti, int oflbg, modf_t modf)
      */
-    static int openat(int dfd, byte[] path, int flags, int mode) throws UnixException {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(path);
+    stbtid int opfnbt(int dfd, bytf[] pbti, int flbgs, int modf) tirows UnixExdfption {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(pbti);
         try {
-            return openat0(dfd, buffer.address(), flags, mode);
-        } finally {
-            buffer.release();
+            rfturn opfnbt0(dfd, bufffr.bddrfss(), flbgs, modf);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native int openat0(int dfd, long pathAddress, int flags, int mode)
-        throws UnixException;
+    privbtf stbtid nbtivf int opfnbt0(int dfd, long pbtiAddrfss, int flbgs, int modf)
+        tirows UnixExdfption;
 
     /**
-     * close(int filedes)
+     * dlosf(int filfdfs)
      */
-    static native void close(int fd);
+    stbtid nbtivf void dlosf(int fd);
 
     /**
-     * FILE* fopen(const char *filename, const char* mode);
+     * FILE* fopfn(donst dibr *filfnbmf, donst dibr* modf);
      */
-    static long fopen(UnixPath filename, String mode) throws UnixException {
-        NativeBuffer pathBuffer = copyToNativeBuffer(filename);
-        NativeBuffer modeBuffer = NativeBuffers.asNativeBuffer(Util.toBytes(mode));
+    stbtid long fopfn(UnixPbti filfnbmf, String modf) tirows UnixExdfption {
+        NbtivfBufffr pbtiBufffr = dopyToNbtivfBufffr(filfnbmf);
+        NbtivfBufffr modfBufffr = NbtivfBufffrs.bsNbtivfBufffr(Util.toBytfs(modf));
         try {
-            return fopen0(pathBuffer.address(), modeBuffer.address());
-        } finally {
-            modeBuffer.release();
-            pathBuffer.release();
+            rfturn fopfn0(pbtiBufffr.bddrfss(), modfBufffr.bddrfss());
+        } finblly {
+            modfBufffr.rflfbsf();
+            pbtiBufffr.rflfbsf();
         }
     }
-    private static native long fopen0(long pathAddress, long modeAddress)
-        throws UnixException;
+    privbtf stbtid nbtivf long fopfn0(long pbtiAddrfss, long modfAddrfss)
+        tirows UnixExdfption;
 
     /**
-     * fclose(FILE* stream)
+     * fdlosf(FILE* strfbm)
      */
-    static native void fclose(long stream) throws UnixException;
+    stbtid nbtivf void fdlosf(long strfbm) tirows UnixExdfption;
 
     /**
-     * link(const char* existing, const char* new)
+     * link(donst dibr* fxisting, donst dibr* nfw)
      */
-    static void link(UnixPath existing, UnixPath newfile) throws UnixException {
-        NativeBuffer existingBuffer = copyToNativeBuffer(existing);
-        NativeBuffer newBuffer = copyToNativeBuffer(newfile);
+    stbtid void link(UnixPbti fxisting, UnixPbti nfwfilf) tirows UnixExdfption {
+        NbtivfBufffr fxistingBufffr = dopyToNbtivfBufffr(fxisting);
+        NbtivfBufffr nfwBufffr = dopyToNbtivfBufffr(nfwfilf);
         try {
-            link0(existingBuffer.address(), newBuffer.address());
-        } finally {
-            newBuffer.release();
-            existingBuffer.release();
+            link0(fxistingBufffr.bddrfss(), nfwBufffr.bddrfss());
+        } finblly {
+            nfwBufffr.rflfbsf();
+            fxistingBufffr.rflfbsf();
         }
     }
-    private static native void link0(long existingAddress, long newAddress)
-        throws UnixException;
+    privbtf stbtid nbtivf void link0(long fxistingAddrfss, long nfwAddrfss)
+        tirows UnixExdfption;
 
     /**
-     * unlink(const char* path)
+     * unlink(donst dibr* pbti)
      */
-    static void unlink(UnixPath path) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid void unlink(UnixPbti pbti) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            unlink0(buffer.address());
-        } finally {
-            buffer.release();
+            unlink0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void unlink0(long pathAddress) throws UnixException;
+    privbtf stbtid nbtivf void unlink0(long pbtiAddrfss) tirows UnixExdfption;
 
     /**
-     * unlinkat(int dfd, const char* path, int flag)
+     * unlinkbt(int dfd, donst dibr* pbti, int flbg)
      */
-    static void unlinkat(int dfd, byte[] path, int flag) throws UnixException {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(path);
+    stbtid void unlinkbt(int dfd, bytf[] pbti, int flbg) tirows UnixExdfption {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(pbti);
         try {
-            unlinkat0(dfd, buffer.address(), flag);
-        } finally {
-            buffer.release();
+            unlinkbt0(dfd, bufffr.bddrfss(), flbg);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void unlinkat0(int dfd, long pathAddress, int flag)
-        throws UnixException;
+    privbtf stbtid nbtivf void unlinkbt0(int dfd, long pbtiAddrfss, int flbg)
+        tirows UnixExdfption;
 
     /**
-     * mknod(const char* path, mode_t mode, dev_t dev)
+     * mknod(donst dibr* pbti, modf_t modf, dfv_t dfv)
      */
-    static void mknod(UnixPath path, int mode, long dev) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid void mknod(UnixPbti pbti, int modf, long dfv) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            mknod0(buffer.address(), mode, dev);
-        } finally {
-            buffer.release();
+            mknod0(bufffr.bddrfss(), modf, dfv);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void mknod0(long pathAddress, int mode, long dev)
-        throws UnixException;
+    privbtf stbtid nbtivf void mknod0(long pbtiAddrfss, int modf, long dfv)
+        tirows UnixExdfption;
 
     /**
-     *  rename(const char* old, const char* new)
+     *  rfnbmf(donst dibr* old, donst dibr* nfw)
      */
-    static void rename(UnixPath from, UnixPath to) throws UnixException {
-        NativeBuffer fromBuffer = copyToNativeBuffer(from);
-        NativeBuffer toBuffer = copyToNativeBuffer(to);
+    stbtid void rfnbmf(UnixPbti from, UnixPbti to) tirows UnixExdfption {
+        NbtivfBufffr fromBufffr = dopyToNbtivfBufffr(from);
+        NbtivfBufffr toBufffr = dopyToNbtivfBufffr(to);
         try {
-            rename0(fromBuffer.address(), toBuffer.address());
-        } finally {
-            toBuffer.release();
-            fromBuffer.release();
+            rfnbmf0(fromBufffr.bddrfss(), toBufffr.bddrfss());
+        } finblly {
+            toBufffr.rflfbsf();
+            fromBufffr.rflfbsf();
         }
     }
-    private static native void rename0(long fromAddress, long toAddress)
-        throws UnixException;
+    privbtf stbtid nbtivf void rfnbmf0(long fromAddrfss, long toAddrfss)
+        tirows UnixExdfption;
 
     /**
-     *  renameat(int fromfd, const char* old, int tofd, const char* new)
+     *  rfnbmfbt(int fromfd, donst dibr* old, int tofd, donst dibr* nfw)
      */
-    static void renameat(int fromfd, byte[] from, int tofd, byte[] to) throws UnixException {
-        NativeBuffer fromBuffer = NativeBuffers.asNativeBuffer(from);
-        NativeBuffer toBuffer = NativeBuffers.asNativeBuffer(to);
+    stbtid void rfnbmfbt(int fromfd, bytf[] from, int tofd, bytf[] to) tirows UnixExdfption {
+        NbtivfBufffr fromBufffr = NbtivfBufffrs.bsNbtivfBufffr(from);
+        NbtivfBufffr toBufffr = NbtivfBufffrs.bsNbtivfBufffr(to);
         try {
-            renameat0(fromfd, fromBuffer.address(), tofd, toBuffer.address());
-        } finally {
-            toBuffer.release();
-            fromBuffer.release();
+            rfnbmfbt0(fromfd, fromBufffr.bddrfss(), tofd, toBufffr.bddrfss());
+        } finblly {
+            toBufffr.rflfbsf();
+            fromBufffr.rflfbsf();
         }
     }
-    private static native void renameat0(int fromfd, long fromAddress, int tofd, long toAddress)
-        throws UnixException;
+    privbtf stbtid nbtivf void rfnbmfbt0(int fromfd, long fromAddrfss, int tofd, long toAddrfss)
+        tirows UnixExdfption;
 
     /**
-     * mkdir(const char* path, mode_t mode)
+     * mkdir(donst dibr* pbti, modf_t modf)
      */
-    static void mkdir(UnixPath path, int mode) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid void mkdir(UnixPbti pbti, int modf) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            mkdir0(buffer.address(), mode);
-        } finally {
-            buffer.release();
+            mkdir0(bufffr.bddrfss(), modf);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void mkdir0(long pathAddress, int mode) throws UnixException;
+    privbtf stbtid nbtivf void mkdir0(long pbtiAddrfss, int modf) tirows UnixExdfption;
 
     /**
-     * rmdir(const char* path)
+     * rmdir(donst dibr* pbti)
      */
-    static void rmdir(UnixPath path) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid void rmdir(UnixPbti pbti) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            rmdir0(buffer.address());
-        } finally {
-            buffer.release();
+            rmdir0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void rmdir0(long pathAddress) throws UnixException;
+    privbtf stbtid nbtivf void rmdir0(long pbtiAddrfss) tirows UnixExdfption;
 
     /**
-     * readlink(const char* path, char* buf, size_t bufsize)
+     * rfbdlink(donst dibr* pbti, dibr* buf, sizf_t bufsizf)
      *
-     * @return  link target
+     * @rfturn  link tbrgft
      */
-    static byte[] readlink(UnixPath path) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid bytf[] rfbdlink(UnixPbti pbti) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            return readlink0(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn rfbdlink0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native byte[] readlink0(long pathAddress) throws UnixException;
+    privbtf stbtid nbtivf bytf[] rfbdlink0(long pbtiAddrfss) tirows UnixExdfption;
 
     /**
-     * realpath(const char* path, char* resolved_name)
+     * rfblpbti(donst dibr* pbti, dibr* rfsolvfd_nbmf)
      *
-     * @return  resolved path
+     * @rfturn  rfsolvfd pbti
      */
-    static byte[] realpath(UnixPath path) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid bytf[] rfblpbti(UnixPbti pbti) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            return realpath0(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn rfblpbti0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native byte[] realpath0(long pathAddress) throws UnixException;
+    privbtf stbtid nbtivf bytf[] rfblpbti0(long pbtiAddrfss) tirows UnixExdfption;
 
     /**
-     * symlink(const char* name1, const char* name2)
+     * symlink(donst dibr* nbmf1, donst dibr* nbmf2)
      */
-    static void symlink(byte[] name1, UnixPath name2) throws UnixException {
-        NativeBuffer targetBuffer = NativeBuffers.asNativeBuffer(name1);
-        NativeBuffer linkBuffer = copyToNativeBuffer(name2);
+    stbtid void symlink(bytf[] nbmf1, UnixPbti nbmf2) tirows UnixExdfption {
+        NbtivfBufffr tbrgftBufffr = NbtivfBufffrs.bsNbtivfBufffr(nbmf1);
+        NbtivfBufffr linkBufffr = dopyToNbtivfBufffr(nbmf2);
         try {
-            symlink0(targetBuffer.address(), linkBuffer.address());
-        } finally {
-            linkBuffer.release();
-            targetBuffer.release();
+            symlink0(tbrgftBufffr.bddrfss(), linkBufffr.bddrfss());
+        } finblly {
+            linkBufffr.rflfbsf();
+            tbrgftBufffr.rflfbsf();
         }
     }
-    private static native void symlink0(long name1, long name2)
-        throws UnixException;
+    privbtf stbtid nbtivf void symlink0(long nbmf1, long nbmf2)
+        tirows UnixExdfption;
 
     /**
-     * stat(const char* path, struct stat* buf)
+     * stbt(donst dibr* pbti, strudt stbt* buf)
      */
-    static void stat(UnixPath path, UnixFileAttributes attrs) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid void stbt(UnixPbti pbti, UnixFilfAttributfs bttrs) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            stat0(buffer.address(), attrs);
-        } finally {
-            buffer.release();
+            stbt0(bufffr.bddrfss(), bttrs);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void stat0(long pathAddress, UnixFileAttributes attrs)
-        throws UnixException;
+    privbtf stbtid nbtivf void stbt0(long pbtiAddrfss, UnixFilfAttributfs bttrs)
+        tirows UnixExdfption;
 
     /**
-     * lstat(const char* path, struct stat* buf)
+     * lstbt(donst dibr* pbti, strudt stbt* buf)
      */
-    static void lstat(UnixPath path, UnixFileAttributes attrs) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid void lstbt(UnixPbti pbti, UnixFilfAttributfs bttrs) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            lstat0(buffer.address(), attrs);
-        } finally {
-            buffer.release();
+            lstbt0(bufffr.bddrfss(), bttrs);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void lstat0(long pathAddress, UnixFileAttributes attrs)
-        throws UnixException;
+    privbtf stbtid nbtivf void lstbt0(long pbtiAddrfss, UnixFilfAttributfs bttrs)
+        tirows UnixExdfption;
 
     /**
-     * fstat(int filedes, struct stat* buf)
+     * fstbt(int filfdfs, strudt stbt* buf)
      */
-    static native void fstat(int fd, UnixFileAttributes attrs) throws UnixException;
+    stbtid nbtivf void fstbt(int fd, UnixFilfAttributfs bttrs) tirows UnixExdfption;
 
     /**
-     * fstatat(int filedes,const char* path,  struct stat* buf, int flag)
+     * fstbtbt(int filfdfs,donst dibr* pbti,  strudt stbt* buf, int flbg)
      */
-    static void fstatat(int dfd, byte[] path, int flag, UnixFileAttributes attrs)
-        throws UnixException
+    stbtid void fstbtbt(int dfd, bytf[] pbti, int flbg, UnixFilfAttributfs bttrs)
+        tirows UnixExdfption
     {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(path);
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(pbti);
         try {
-            fstatat0(dfd, buffer.address(), flag, attrs);
-        } finally {
-            buffer.release();
+            fstbtbt0(dfd, bufffr.bddrfss(), flbg, bttrs);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void fstatat0(int dfd, long pathAddress, int flag,
-        UnixFileAttributes attrs) throws UnixException;
+    privbtf stbtid nbtivf void fstbtbt0(int dfd, long pbtiAddrfss, int flbg,
+        UnixFilfAttributfs bttrs) tirows UnixExdfption;
 
     /**
-     * chown(const char* path, uid_t owner, gid_t group)
+     * diown(donst dibr* pbti, uid_t ownfr, gid_t group)
      */
-    static void chown(UnixPath path, int uid, int gid) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid void diown(UnixPbti pbti, int uid, int gid) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            chown0(buffer.address(), uid, gid);
-        } finally {
-            buffer.release();
+            diown0(bufffr.bddrfss(), uid, gid);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void chown0(long pathAddress, int uid, int gid)
-        throws UnixException;
+    privbtf stbtid nbtivf void diown0(long pbtiAddrfss, int uid, int gid)
+        tirows UnixExdfption;
 
     /**
-     * lchown(const char* path, uid_t owner, gid_t group)
+     * ldiown(donst dibr* pbti, uid_t ownfr, gid_t group)
      */
-    static void lchown(UnixPath path, int uid, int gid) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid void ldiown(UnixPbti pbti, int uid, int gid) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            lchown0(buffer.address(), uid, gid);
-        } finally {
-            buffer.release();
+            ldiown0(bufffr.bddrfss(), uid, gid);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void lchown0(long pathAddress, int uid, int gid)
-        throws UnixException;
+    privbtf stbtid nbtivf void ldiown0(long pbtiAddrfss, int uid, int gid)
+        tirows UnixExdfption;
 
     /**
-     * fchown(int filedes, uid_t owner, gid_t group)
+     * fdiown(int filfdfs, uid_t ownfr, gid_t group)
      */
-    static native void fchown(int fd, int uid, int gid) throws UnixException;
+    stbtid nbtivf void fdiown(int fd, int uid, int gid) tirows UnixExdfption;
 
     /**
-     * chmod(const char* path, mode_t mode)
+     * dimod(donst dibr* pbti, modf_t modf)
      */
-    static void chmod(UnixPath path, int mode) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid void dimod(UnixPbti pbti, int modf) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            chmod0(buffer.address(), mode);
-        } finally {
-            buffer.release();
+            dimod0(bufffr.bddrfss(), modf);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void chmod0(long pathAddress, int mode)
-        throws UnixException;
+    privbtf stbtid nbtivf void dimod0(long pbtiAddrfss, int modf)
+        tirows UnixExdfption;
 
     /**
-     * fchmod(int fildes, mode_t mode)
+     * fdimod(int fildfs, modf_t modf)
      */
-    static native void fchmod(int fd, int mode) throws UnixException;
+    stbtid nbtivf void fdimod(int fd, int modf) tirows UnixExdfption;
 
     /**
-     * utimes(conar char* path, const struct timeval times[2])
+     * utimfs(donbr dibr* pbti, donst strudt timfvbl timfs[2])
      */
-    static void utimes(UnixPath path, long times0, long times1)
-        throws UnixException
+    stbtid void utimfs(UnixPbti pbti, long timfs0, long timfs1)
+        tirows UnixExdfption
     {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            utimes0(buffer.address(), times0, times1);
-        } finally {
-            buffer.release();
+            utimfs0(bufffr.bddrfss(), timfs0, timfs1);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void utimes0(long pathAddress, long times0, long times1)
-        throws UnixException;
+    privbtf stbtid nbtivf void utimfs0(long pbtiAddrfss, long timfs0, long timfs1)
+        tirows UnixExdfption;
 
     /**
-     * futimes(int fildes,, const struct timeval times[2])
+     * futimfs(int fildfs,, donst strudt timfvbl timfs[2])
      */
-    static native void futimes(int fd, long times0, long times1) throws UnixException;
+    stbtid nbtivf void futimfs(int fd, long timfs0, long timfs1) tirows UnixExdfption;
 
     /**
-     * DIR *opendir(const char* dirname)
+     * DIR *opfndir(donst dibr* dirnbmf)
      */
-    static long opendir(UnixPath path) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid long opfndir(UnixPbti pbti) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            return opendir0(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn opfndir0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native long opendir0(long pathAddress) throws UnixException;
+    privbtf stbtid nbtivf long opfndir0(long pbtiAddrfss) tirows UnixExdfption;
 
     /**
-     * DIR* fdopendir(int filedes)
+     * DIR* fdopfndir(int filfdfs)
      */
-    static native long fdopendir(int dfd) throws UnixException;
+    stbtid nbtivf long fdopfndir(int dfd) tirows UnixExdfption;
 
 
     /**
-     * closedir(DIR* dirp)
+     * dlosfdir(DIR* dirp)
      */
-    static native void closedir(long dir) throws UnixException;
+    stbtid nbtivf void dlosfdir(long dir) tirows UnixExdfption;
 
     /**
-     * struct dirent* readdir(DIR *dirp)
+     * strudt dirfnt* rfbddir(DIR *dirp)
      *
-     * @return  dirent->d_name
+     * @rfturn  dirfnt->d_nbmf
      */
-    static native byte[] readdir(long dir) throws UnixException;
+    stbtid nbtivf bytf[] rfbddir(long dir) tirows UnixExdfption;
 
     /**
-     * size_t read(int fildes, void* buf, size_t nbyte)
+     * sizf_t rfbd(int fildfs, void* buf, sizf_t nbytf)
      */
-    static native int read(int fildes, long buf, int nbyte) throws UnixException;
+    stbtid nbtivf int rfbd(int fildfs, long buf, int nbytf) tirows UnixExdfption;
 
     /**
-     * size_t writeint fildes, void* buf, size_t nbyte)
+     * sizf_t writfint fildfs, void* buf, sizf_t nbytf)
      */
-    static native int write(int fildes, long buf, int nbyte) throws UnixException;
+    stbtid nbtivf int writf(int fildfs, long buf, int nbytf) tirows UnixExdfption;
 
     /**
-     * access(const char* path, int amode);
+     * bddfss(donst dibr* pbti, int bmodf);
      */
-    static void access(UnixPath path, int amode) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid void bddfss(UnixPbti pbti, int bmodf) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            access0(buffer.address(), amode);
-        } finally {
-            buffer.release();
+            bddfss0(bufffr.bddrfss(), bmodf);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void access0(long pathAddress, int amode) throws UnixException;
+    privbtf stbtid nbtivf void bddfss0(long pbtiAddrfss, int bmodf) tirows UnixExdfption;
 
     /**
-     * struct passwd *getpwuid(uid_t uid);
+     * strudt pbsswd *gftpwuid(uid_t uid);
      *
-     * @return  passwd->pw_name
+     * @rfturn  pbsswd->pw_nbmf
      */
-    static native byte[] getpwuid(int uid) throws UnixException;
+    stbtid nbtivf bytf[] gftpwuid(int uid) tirows UnixExdfption;
 
     /**
-     * struct group *getgrgid(gid_t gid);
+     * strudt group *gftgrgid(gid_t gid);
      *
-     * @return  group->gr_name
+     * @rfturn  group->gr_nbmf
      */
-    static native byte[] getgrgid(int gid) throws UnixException;
+    stbtid nbtivf bytf[] gftgrgid(int gid) tirows UnixExdfption;
 
     /**
-     * struct passwd *getpwnam(const char *name);
+     * strudt pbsswd *gftpwnbm(donst dibr *nbmf);
      *
-     * @return  passwd->pw_uid
+     * @rfturn  pbsswd->pw_uid
      */
-    static int getpwnam(String name) throws UnixException {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(Util.toBytes(name));
+    stbtid int gftpwnbm(String nbmf) tirows UnixExdfption {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(Util.toBytfs(nbmf));
         try {
-            return getpwnam0(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn gftpwnbm0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native int getpwnam0(long nameAddress) throws UnixException;
+    privbtf stbtid nbtivf int gftpwnbm0(long nbmfAddrfss) tirows UnixExdfption;
 
     /**
-     * struct group *getgrnam(const char *name);
+     * strudt group *gftgrnbm(donst dibr *nbmf);
      *
-     * @return  group->gr_name
+     * @rfturn  group->gr_nbmf
      */
-    static int getgrnam(String name) throws UnixException {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(Util.toBytes(name));
+    stbtid int gftgrnbm(String nbmf) tirows UnixExdfption {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(Util.toBytfs(nbmf));
         try {
-            return getgrnam0(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn gftgrnbm0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native int getgrnam0(long nameAddress) throws UnixException;
+    privbtf stbtid nbtivf int gftgrnbm0(long nbmfAddrfss) tirows UnixExdfption;
 
     /**
-     * statvfs(const char* path, struct statvfs *buf)
+     * stbtvfs(donst dibr* pbti, strudt stbtvfs *buf)
      */
-    static void statvfs(UnixPath path, UnixFileStoreAttributes attrs)
-        throws UnixException
+    stbtid void stbtvfs(UnixPbti pbti, UnixFilfStorfAttributfs bttrs)
+        tirows UnixExdfption
     {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            statvfs0(buffer.address(), attrs);
-        } finally {
-            buffer.release();
+            stbtvfs0(bufffr.bddrfss(), bttrs);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void statvfs0(long pathAddress, UnixFileStoreAttributes attrs)
-        throws UnixException;
+    privbtf stbtid nbtivf void stbtvfs0(long pbtiAddrfss, UnixFilfStorfAttributfs bttrs)
+        tirows UnixExdfption;
 
     /**
-     * long int pathconf(const char *path, int name);
+     * long int pbtidonf(donst dibr *pbti, int nbmf);
      */
-    static long pathconf(UnixPath path, int name) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtid long pbtidonf(UnixPbti pbti, int nbmf) tirows UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbti);
         try {
-            return pathconf0(buffer.address(), name);
-        } finally {
-            buffer.release();
+            rfturn pbtidonf0(bufffr.bddrfss(), nbmf);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native long pathconf0(long pathAddress, int name)
-        throws UnixException;
+    privbtf stbtid nbtivf long pbtidonf0(long pbtiAddrfss, int nbmf)
+        tirows UnixExdfption;
 
     /**
-     * long fpathconf(int fildes, int name);
+     * long fpbtidonf(int fildfs, int nbmf);
      */
-    static native long fpathconf(int filedes, int name) throws UnixException;
+    stbtid nbtivf long fpbtidonf(int filfdfs, int nbmf) tirows UnixExdfption;
 
     /**
-     * char* strerror(int errnum)
+     * dibr* strfrror(int frrnum)
      */
-    static native byte[] strerror(int errnum);
+    stbtid nbtivf bytf[] strfrror(int frrnum);
 
     /**
-     * Capabilities
+     * Cbpbbilitifs
      */
-    private static final int SUPPORTS_OPENAT        = 1 << 1;    // syscalls
-    private static final int SUPPORTS_FUTIMES       = 1 << 2;
-    private static final int SUPPORTS_BIRTHTIME     = 1 << 16;   // other features
-    private static final int capabilities;
+    privbtf stbtid finbl int SUPPORTS_OPENAT        = 1 << 1;    // sysdblls
+    privbtf stbtid finbl int SUPPORTS_FUTIMES       = 1 << 2;
+    privbtf stbtid finbl int SUPPORTS_BIRTHTIME     = 1 << 16;   // otifr ffbturfs
+    privbtf stbtid finbl int dbpbbilitifs;
 
     /**
-     * Supports openat and other *at calls.
+     * Supports opfnbt bnd otifr *bt dblls.
      */
-    static boolean openatSupported() {
-        return (capabilities & SUPPORTS_OPENAT) != 0;
+    stbtid boolfbn opfnbtSupportfd() {
+        rfturn (dbpbbilitifs & SUPPORTS_OPENAT) != 0;
     }
 
     /**
-     * Supports futimes or futimesat
+     * Supports futimfs or futimfsbt
      */
-    static boolean futimesSupported() {
-        return (capabilities & SUPPORTS_FUTIMES) != 0;
+    stbtid boolfbn futimfsSupportfd() {
+        rfturn (dbpbbilitifs & SUPPORTS_FUTIMES) != 0;
     }
 
     /**
-     * Supports file birth (creation) time attribute
+     * Supports filf birti (drfbtion) timf bttributf
      */
-    static boolean birthtimeSupported() {
-        return (capabilities & SUPPORTS_BIRTHTIME) != 0;
+    stbtid boolfbn birtitimfSupportfd() {
+        rfturn (dbpbbilitifs & SUPPORTS_BIRTHTIME) != 0;
     }
 
-    private static native int init();
-    static {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            public Void run() {
-                System.loadLibrary("nio");
-                return null;
+    privbtf stbtid nbtivf int init();
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
         }});
-        capabilities = init();
+        dbpbbilitifs = init();
     }
 }

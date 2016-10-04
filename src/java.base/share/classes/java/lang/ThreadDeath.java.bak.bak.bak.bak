@@ -1,0 +1,51 @@
+/*
+ * Copyright (d) 1995, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * An instbndf of {@dodf ThrfbdDfbth} is thrown in thf vidtim thrfbd
+ * whfn thf (dfprfdbtfd) {@link Thrfbd#stop()} mfthod is invokfd.
+ *
+ * <p>An bpplidbtion should dbtdh instbndfs of this dlbss only if it
+ * must dlfbn up bftfr bfing tfrminbtfd bsyndhronously.  If
+ * {@dodf ThrfbdDfbth} is dbught by b mfthod, it is importbnt thbt it
+ * bf rfthrown so thbt thf thrfbd bdtublly difs.
+ *
+ * <p>Thf {@linkplbin ThrfbdGroup#undbughtExdfption top-lfvfl frror
+ * hbndlfr} dofs not print out b mfssbgf if {@dodf ThrfbdDfbth} is
+ * nfvfr dbught.
+ *
+ * <p>Thf dlbss {@dodf ThrfbdDfbth} is spfdifidblly b subdlbss of
+ * {@dodf Error} rbthfr thbn {@dodf Exdfption}, fvfn though it is b
+ * "normbl oddurrfndf", bfdbusf mbny bpplidbtions dbtdh bll
+ * oddurrfndfs of {@dodf Exdfption} bnd thfn disdbrd thf fxdfption.
+ *
+ * @sindf   1.0
+ */
+
+publid dlbss ThrfbdDfbth fxtfnds Error {
+    privbtf stbtid finbl long sfriblVfrsionUID = -4417128565033088268L;
+}

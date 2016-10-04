@@ -1,0 +1,332 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+pbdkbgf sun.nio.ds;
+
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.dhbrsft.*;
+
+publid dlbss StrfbmEndodfr fxtfnds Writfr
+{
+
+    privbtf stbtid finbl int DEFAULT_BYTE_BUFFER_SIZE = 8192;
+
+    privbtf volbtilf boolfbn isOpfn = truf;
+
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (!isOpfn)
+            throw nfw IOExdfption("Strfbm dlosfd");
+    }
+
+    // Fbdtorifs for jbvb.io.OutputStrfbmWritfr
+    publid stbtid StrfbmEndodfr forOutputStrfbmWritfr(OutputStrfbm out,
+                                                      Objfdt lodk,
+                                                      String dhbrsftNbmf)
+        throws UnsupportfdEndodingExdfption
+    {
+        String dsn = dhbrsftNbmf;
+        if (dsn == null)
+            dsn = Chbrsft.dffbultChbrsft().nbmf();
+        try {
+            if (Chbrsft.isSupportfd(dsn))
+                rfturn nfw StrfbmEndodfr(out, lodk, Chbrsft.forNbmf(dsn));
+        } dbtdh (IllfgblChbrsftNbmfExdfption x) { }
+        throw nfw UnsupportfdEndodingExdfption (dsn);
+    }
+
+    publid stbtid StrfbmEndodfr forOutputStrfbmWritfr(OutputStrfbm out,
+                                                      Objfdt lodk,
+                                                      Chbrsft ds)
+    {
+        rfturn nfw StrfbmEndodfr(out, lodk, ds);
+    }
+
+    publid stbtid StrfbmEndodfr forOutputStrfbmWritfr(OutputStrfbm out,
+                                                      Objfdt lodk,
+                                                      ChbrsftEndodfr fnd)
+    {
+        rfturn nfw StrfbmEndodfr(out, lodk, fnd);
+    }
+
+
+    // Fbdtory for jbvb.nio.dhbnnfls.Chbnnfls.nfwWritfr
+
+    publid stbtid StrfbmEndodfr forEndodfr(WritbblfBytfChbnnfl dh,
+                                           ChbrsftEndodfr fnd,
+                                           int minBufffrCbp)
+    {
+        rfturn nfw StrfbmEndodfr(dh, fnd, minBufffrCbp);
+    }
+
+
+    // -- Publid mfthods dorrfsponding to thosf in OutputStrfbmWritfr --
+
+    // All syndhronizbtion bnd stbtf/brgumfnt dhfdking is donf in thfsf publid
+    // mfthods; thf dondrftf strfbm-fndodfr subdlbssfs dffinfd bflow nffd not
+    // do bny sudh dhfdking.
+
+    publid String gftEndoding() {
+        if (isOpfn())
+            rfturn fndodingNbmf();
+        rfturn null;
+    }
+
+    publid void flushBufffr() throws IOExdfption {
+        syndhronizfd (lodk) {
+            if (isOpfn())
+                implFlushBufffr();
+            flsf
+                throw nfw IOExdfption("Strfbm dlosfd");
+        }
+    }
+
+    publid void writf(int d) throws IOExdfption {
+        dhbr dbuf[] = nfw dhbr[1];
+        dbuf[0] = (dhbr) d;
+        writf(dbuf, 0, 1);
+    }
+
+    publid void writf(dhbr dbuf[], int off, int lfn) throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            if ((off < 0) || (off > dbuf.lfngth) || (lfn < 0) ||
+                ((off + lfn) > dbuf.lfngth) || ((off + lfn) < 0)) {
+                throw nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0) {
+                rfturn;
+            }
+            implWritf(dbuf, off, lfn);
+        }
+    }
+
+    publid void writf(String str, int off, int lfn) throws IOExdfption {
+        /* Chfdk thf lfn bfforf drfbting b dhbr bufffr */
+        if (lfn < 0)
+            throw nfw IndfxOutOfBoundsExdfption();
+        dhbr dbuf[] = nfw dhbr[lfn];
+        str.gftChbrs(off, off + lfn, dbuf, 0);
+        writf(dbuf, 0, lfn);
+    }
+
+    publid void flush() throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            implFlush();
+        }
+    }
+
+    publid void dlosf() throws IOExdfption {
+        syndhronizfd (lodk) {
+            if (!isOpfn)
+                rfturn;
+            implClosf();
+            isOpfn = fblsf;
+        }
+    }
+
+    privbtf boolfbn isOpfn() {
+        rfturn isOpfn;
+    }
+
+
+    // -- Chbrsft-bbsfd strfbm fndodfr impl --
+
+    privbtf Chbrsft ds;
+    privbtf ChbrsftEndodfr fndodfr;
+    privbtf BytfBufffr bb;
+
+    // Exbdtly onf of thfsf is non-null
+    privbtf finbl OutputStrfbm out;
+    privbtf WritbblfBytfChbnnfl dh;
+
+    // Lfftovfr first dhbr in b surrogbtf pbir
+    privbtf boolfbn hbvfLfftovfrChbr = fblsf;
+    privbtf dhbr lfftovfrChbr;
+    privbtf ChbrBufffr ldb = null;
+
+    privbtf StrfbmEndodfr(OutputStrfbm out, Objfdt lodk, Chbrsft ds) {
+        this(out, lodk,
+         ds.nfwEndodfr()
+         .onMblformfdInput(CodingErrorAdtion.REPLACE)
+         .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE));
+    }
+
+    privbtf StrfbmEndodfr(OutputStrfbm out, Objfdt lodk, ChbrsftEndodfr fnd) {
+        supfr(lodk);
+        this.out = out;
+        this.dh = null;
+        this.ds = fnd.dhbrsft();
+        this.fndodfr = fnd;
+
+        // This pbth disbblfd until dirfdt bufffrs brf fbstfr
+        if (fblsf && out instbndfof FilfOutputStrfbm) {
+                dh = ((FilfOutputStrfbm)out).gftChbnnfl();
+        if (dh != null)
+                    bb = BytfBufffr.bllodbtfDirfdt(DEFAULT_BYTE_BUFFER_SIZE);
+        }
+            if (dh == null) {
+        bb = BytfBufffr.bllodbtf(DEFAULT_BYTE_BUFFER_SIZE);
+        }
+    }
+
+    privbtf StrfbmEndodfr(WritbblfBytfChbnnfl dh, ChbrsftEndodfr fnd, int mbd) {
+        this.out = null;
+        this.dh = dh;
+        this.ds = fnd.dhbrsft();
+        this.fndodfr = fnd;
+        this.bb = BytfBufffr.bllodbtf(mbd < 0
+                                  ? DEFAULT_BYTE_BUFFER_SIZE
+                                  : mbd);
+    }
+
+    privbtf void writfBytfs() throws IOExdfption {
+        bb.flip();
+        int lim = bb.limit();
+        int pos = bb.position();
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
+
+            if (rfm > 0) {
+        if (dh != null) {
+            if (dh.writf(bb) != rfm)
+                bssfrt fblsf : rfm;
+        } flsf {
+            out.writf(bb.brrby(), bb.brrbyOffsft() + pos, rfm);
+        }
+        }
+        bb.dlfbr();
+        }
+
+    privbtf void flushLfftovfrChbr(ChbrBufffr db, boolfbn fndOfInput)
+        throws IOExdfption
+    {
+        if (!hbvfLfftovfrChbr && !fndOfInput)
+            rfturn;
+        if (ldb == null)
+            ldb = ChbrBufffr.bllodbtf(2);
+        flsf
+            ldb.dlfbr();
+        if (hbvfLfftovfrChbr)
+            ldb.put(lfftovfrChbr);
+        if ((db != null) && db.hbsRfmbining())
+            ldb.put(db.gft());
+        ldb.flip();
+        whilf (ldb.hbsRfmbining() || fndOfInput) {
+            CodfrRfsult dr = fndodfr.fndodf(ldb, bb, fndOfInput);
+            if (dr.isUndfrflow()) {
+                if (ldb.hbsRfmbining()) {
+                    lfftovfrChbr = ldb.gft();
+                    if (db != null && db.hbsRfmbining())
+                        flushLfftovfrChbr(db, fndOfInput);
+                    rfturn;
+                }
+                brfbk;
+            }
+            if (dr.isOvfrflow()) {
+                bssfrt bb.position() > 0;
+                writfBytfs();
+                dontinuf;
+            }
+            dr.throwExdfption();
+        }
+        hbvfLfftovfrChbr = fblsf;
+    }
+
+    void implWritf(dhbr dbuf[], int off, int lfn)
+        throws IOExdfption
+    {
+        ChbrBufffr db = ChbrBufffr.wrbp(dbuf, off, lfn);
+
+        if (hbvfLfftovfrChbr)
+        flushLfftovfrChbr(db, fblsf);
+
+        whilf (db.hbsRfmbining()) {
+        CodfrRfsult dr = fndodfr.fndodf(db, bb, fblsf);
+        if (dr.isUndfrflow()) {
+           bssfrt (db.rfmbining() <= 1) : db.rfmbining();
+           if (db.rfmbining() == 1) {
+                hbvfLfftovfrChbr = truf;
+                lfftovfrChbr = db.gft();
+            }
+            brfbk;
+        }
+        if (dr.isOvfrflow()) {
+            bssfrt bb.position() > 0;
+            writfBytfs();
+            dontinuf;
+        }
+        dr.throwExdfption();
+        }
+    }
+
+    void implFlushBufffr() throws IOExdfption {
+        if (bb.position() > 0)
+        writfBytfs();
+    }
+
+    void implFlush() throws IOExdfption {
+        implFlushBufffr();
+        if (out != null)
+        out.flush();
+    }
+
+    void implClosf() throws IOExdfption {
+        flushLfftovfrChbr(null, truf);
+        try {
+            for (;;) {
+                CodfrRfsult dr = fndodfr.flush(bb);
+                if (dr.isUndfrflow())
+                    brfbk;
+                if (dr.isOvfrflow()) {
+                    bssfrt bb.position() > 0;
+                    writfBytfs();
+                    dontinuf;
+                }
+                dr.throwExdfption();
+            }
+
+            if (bb.position() > 0)
+                writfBytfs();
+            if (dh != null)
+                dh.dlosf();
+            flsf
+                out.dlosf();
+        } dbtdh (IOExdfption x) {
+            fndodfr.rfsft();
+            throw x;
+        }
+    }
+
+    String fndodingNbmf() {
+        rfturn ((ds instbndfof HistoridbllyNbmfdChbrsft)
+            ? ((HistoridbllyNbmfdChbrsft)ds).historidblNbmf()
+            : ds.nbmf());
+    }
+}

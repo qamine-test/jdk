@@ -1,336 +1,336 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.util.*;
-import java.util.jar.*;
-import java.io.*;
-import java.net.URL;
-import java.security.*;
+import jbvb.util.*;
+import jbvb.util.jbr.*;
+import jbvb.io.*;
+import jbvb.nft.URL;
+import jbvb.sfdurity.*;
 
-import java.security.Provider.Service;
+import jbvb.sfdurity.Providfr.Sfrvidf;
 
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
 
 /**
- * This class instantiates implementations of JCE engine classes from
- * providers registered with the java.security.Security object.
+ * Tiis dlbss instbntibtfs implfmfntbtions of JCE fnginf dlbssfs from
+ * providfrs rfgistfrfd witi tif jbvb.sfdurity.Sfdurity objfdt.
  *
- * @author Jan Luehe
- * @author Sharon Liu
- * @since 1.4
+ * @butior Jbn Lufif
+ * @butior Sibron Liu
+ * @sindf 1.4
  */
 
-final class JceSecurity {
+finbl dlbss JdfSfdurity {
 
-    static final SecureRandom RANDOM = new SecureRandom();
+    stbtid finbl SfdurfRbndom RANDOM = nfw SfdurfRbndom();
 
-    // The defaultPolicy and exemptPolicy will be set up
-    // in the static initializer.
-    private static CryptoPermissions defaultPolicy = null;
-    private static CryptoPermissions exemptPolicy = null;
+    // Tif dffbultPolidy bnd fxfmptPolidy will bf sft up
+    // in tif stbtid initiblizfr.
+    privbtf stbtid CryptoPfrmissions dffbultPolidy = null;
+    privbtf stbtid CryptoPfrmissions fxfmptPolidy = null;
 
-    // Map<Provider,?> of the providers we already have verified
-    // value == PROVIDER_VERIFIED is successfully verified
-    // value is failure cause Exception in error case
-    private final static Map<Provider, Object> verificationResults =
-            new IdentityHashMap<>();
+    // Mbp<Providfr,?> of tif providfrs wf blrfbdy ibvf vfrififd
+    // vbluf == PROVIDER_VERIFIED is suddfssfully vfrififd
+    // vbluf is fbilurf dbusf Exdfption in frror dbsf
+    privbtf finbl stbtid Mbp<Providfr, Objfdt> vfrifidbtionRfsults =
+            nfw IdfntityHbsiMbp<>();
 
-    // Map<Provider,?> of the providers currently being verified
-    private final static Map<Provider, Object> verifyingProviders =
-            new IdentityHashMap<>();
+    // Mbp<Providfr,?> of tif providfrs durrfntly bfing vfrififd
+    privbtf finbl stbtid Mbp<Providfr, Objfdt> vfrifyingProvidfrs =
+            nfw IdfntityHbsiMbp<>();
 
-    // Set the default value. May be changed in the static initializer.
-    private static boolean isRestricted = true;
+    // Sft tif dffbult vbluf. Mby bf dibngfd in tif stbtid initiblizfr.
+    privbtf stbtid boolfbn isRfstridtfd = truf;
 
     /*
-     * Don't let anyone instantiate this.
+     * Don't lft bnyonf instbntibtf tiis.
      */
-    private JceSecurity() {
+    privbtf JdfSfdurity() {
     }
 
-    static {
+    stbtid {
         try {
-            AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Object>() {
-                    public Object run() throws Exception {
-                        setupJurisdictionPolicies();
-                        return null;
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Objfdt>() {
+                    publid Objfdt run() tirows Exdfption {
+                        sftupJurisdidtionPolidifs();
+                        rfturn null;
                     }
                 });
 
-            isRestricted = defaultPolicy.implies(
-                CryptoAllPermission.INSTANCE) ? false : true;
-        } catch (Exception e) {
-            throw new SecurityException(
-                    "Can not initialize cryptographic mechanism", e);
+            isRfstridtfd = dffbultPolidy.implifs(
+                CryptoAllPfrmission.INSTANCE) ? fblsf : truf;
+        } dbtdi (Exdfption f) {
+            tirow nfw SfdurityExdfption(
+                    "Cbn not initiblizf dryptogrbpiid mfdibnism", f);
         }
     }
 
-    static Instance getInstance(String type, Class<?> clazz, String algorithm,
-            String provider) throws NoSuchAlgorithmException,
-            NoSuchProviderException {
-        Service s = GetInstance.getService(type, algorithm, provider);
-        Exception ve = getVerificationResult(s.getProvider());
-        if (ve != null) {
-            String msg = "JCE cannot authenticate the provider " + provider;
-            throw (NoSuchProviderException)
-                                new NoSuchProviderException(msg).initCause(ve);
+    stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz, String blgoritim,
+            String providfr) tirows NoSudiAlgoritimExdfption,
+            NoSudiProvidfrExdfption {
+        Sfrvidf s = GftInstbndf.gftSfrvidf(typf, blgoritim, providfr);
+        Exdfption vf = gftVfrifidbtionRfsult(s.gftProvidfr());
+        if (vf != null) {
+            String msg = "JCE dbnnot butifntidbtf tif providfr " + providfr;
+            tirow (NoSudiProvidfrExdfption)
+                                nfw NoSudiProvidfrExdfption(msg).initCbusf(vf);
         }
-        return GetInstance.getInstance(s, clazz);
+        rfturn GftInstbndf.gftInstbndf(s, dlbzz);
     }
 
-    static Instance getInstance(String type, Class<?> clazz, String algorithm,
-            Provider provider) throws NoSuchAlgorithmException {
-        Service s = GetInstance.getService(type, algorithm, provider);
-        Exception ve = JceSecurity.getVerificationResult(provider);
-        if (ve != null) {
-            String msg = "JCE cannot authenticate the provider "
-                + provider.getName();
-            throw new SecurityException(msg, ve);
+    stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz, String blgoritim,
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+        Sfrvidf s = GftInstbndf.gftSfrvidf(typf, blgoritim, providfr);
+        Exdfption vf = JdfSfdurity.gftVfrifidbtionRfsult(providfr);
+        if (vf != null) {
+            String msg = "JCE dbnnot butifntidbtf tif providfr "
+                + providfr.gftNbmf();
+            tirow nfw SfdurityExdfption(msg, vf);
         }
-        return GetInstance.getInstance(s, clazz);
+        rfturn GftInstbndf.gftInstbndf(s, dlbzz);
     }
 
-    static Instance getInstance(String type, Class<?> clazz, String algorithm)
-            throws NoSuchAlgorithmException {
-        List<Service> services = GetInstance.getServices(type, algorithm);
-        NoSuchAlgorithmException failure = null;
-        for (Service s : services) {
-            if (canUseProvider(s.getProvider()) == false) {
-                // allow only signed providers
-                continue;
+    stbtid Instbndf gftInstbndf(String typf, Clbss<?> dlbzz, String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        List<Sfrvidf> sfrvidfs = GftInstbndf.gftSfrvidfs(typf, blgoritim);
+        NoSudiAlgoritimExdfption fbilurf = null;
+        for (Sfrvidf s : sfrvidfs) {
+            if (dbnUsfProvidfr(s.gftProvidfr()) == fblsf) {
+                // bllow only signfd providfrs
+                dontinuf;
             }
             try {
-                Instance instance = GetInstance.getInstance(s, clazz);
-                return instance;
-            } catch (NoSuchAlgorithmException e) {
-                failure = e;
+                Instbndf instbndf = GftInstbndf.gftInstbndf(s, dlbzz);
+                rfturn instbndf;
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                fbilurf = f;
             }
         }
-        throw new NoSuchAlgorithmException("Algorithm " + algorithm
-                + " not available", failure);
+        tirow nfw NoSudiAlgoritimExdfption("Algoritim " + blgoritim
+                + " not bvbilbblf", fbilurf);
     }
 
     /**
-     * Verify if the JAR at URL codeBase is a signed exempt application
-     * JAR file and returns the permissions bundled with the JAR.
+     * Vfrify if tif JAR bt URL dodfBbsf is b signfd fxfmpt bpplidbtion
+     * JAR filf bnd rfturns tif pfrmissions bundlfd witi tif JAR.
      *
-     * @throws Exception on error
+     * @tirows Exdfption on frror
      */
-    static CryptoPermissions verifyExemptJar(URL codeBase) throws Exception {
-        JarVerifier jv = new JarVerifier(codeBase, true);
-        jv.verify();
-        return jv.getPermissions();
+    stbtid CryptoPfrmissions vfrifyExfmptJbr(URL dodfBbsf) tirows Exdfption {
+        JbrVfrififr jv = nfw JbrVfrififr(dodfBbsf, truf);
+        jv.vfrify();
+        rfturn jv.gftPfrmissions();
     }
 
     /**
-     * Verify if the JAR at URL codeBase is a signed provider JAR file.
+     * Vfrify if tif JAR bt URL dodfBbsf is b signfd providfr JAR filf.
      *
-     * @throws Exception on error
+     * @tirows Exdfption on frror
      */
-    static void verifyProviderJar(URL codeBase) throws Exception {
-        // Verify the provider JAR file and all
-        // supporting JAR files if there are any.
-        JarVerifier jv = new JarVerifier(codeBase, false);
-        jv.verify();
+    stbtid void vfrifyProvidfrJbr(URL dodfBbsf) tirows Exdfption {
+        // Vfrify tif providfr JAR filf bnd bll
+        // supporting JAR filfs if tifrf brf bny.
+        JbrVfrififr jv = nfw JbrVfrififr(dodfBbsf, fblsf);
+        jv.vfrify();
     }
 
-    private final static Object PROVIDER_VERIFIED = Boolean.TRUE;
+    privbtf finbl stbtid Objfdt PROVIDER_VERIFIED = Boolfbn.TRUE;
 
     /*
-     * Verify that the provider JAR files are signed properly, which
-     * means the signer's certificate can be traced back to a
-     * JCE trusted CA.
-     * Return null if ok, failure Exception if verification failed.
+     * Vfrify tibt tif providfr JAR filfs brf signfd propfrly, wiidi
+     * mfbns tif signfr's dfrtifidbtf dbn bf trbdfd bbdk to b
+     * JCE trustfd CA.
+     * Rfturn null if ok, fbilurf Exdfption if vfrifidbtion fbilfd.
      */
-    static synchronized Exception getVerificationResult(Provider p) {
-        Object o = verificationResults.get(p);
+    stbtid syndironizfd Exdfption gftVfrifidbtionRfsult(Providfr p) {
+        Objfdt o = vfrifidbtionRfsults.gft(p);
         if (o == PROVIDER_VERIFIED) {
-            return null;
-        } else if (o != null) {
-            return (Exception)o;
+            rfturn null;
+        } flsf if (o != null) {
+            rfturn (Exdfption)o;
         }
-        if (verifyingProviders.get(p) != null) {
-            // this method is static synchronized, must be recursion
-            // return failure now but do not save the result
-            return new NoSuchProviderException("Recursion during verification");
+        if (vfrifyingProvidfrs.gft(p) != null) {
+            // tiis mftiod is stbtid syndironizfd, must bf rfdursion
+            // rfturn fbilurf now but do not sbvf tif rfsult
+            rfturn nfw NoSudiProvidfrExdfption("Rfdursion during vfrifidbtion");
         }
         try {
-            verifyingProviders.put(p, Boolean.FALSE);
-            URL providerURL = getCodeBase(p.getClass());
-            verifyProviderJar(providerURL);
-            // Verified ok, cache result
-            verificationResults.put(p, PROVIDER_VERIFIED);
-            return null;
-        } catch (Exception e) {
-            verificationResults.put(p, e);
-            return e;
-        } finally {
-            verifyingProviders.remove(p);
+            vfrifyingProvidfrs.put(p, Boolfbn.FALSE);
+            URL providfrURL = gftCodfBbsf(p.gftClbss());
+            vfrifyProvidfrJbr(providfrURL);
+            // Vfrififd ok, dbdif rfsult
+            vfrifidbtionRfsults.put(p, PROVIDER_VERIFIED);
+            rfturn null;
+        } dbtdi (Exdfption f) {
+            vfrifidbtionRfsults.put(p, f);
+            rfturn f;
+        } finblly {
+            vfrifyingProvidfrs.rfmovf(p);
         }
     }
 
-    // return whether this provider is properly signed and can be used by JCE
-    static boolean canUseProvider(Provider p) {
-        return getVerificationResult(p) == null;
+    // rfturn wiftifr tiis providfr is propfrly signfd bnd dbn bf usfd by JCE
+    stbtid boolfbn dbnUsfProvidfr(Providfr p) {
+        rfturn gftVfrifidbtionRfsult(p) == null;
     }
 
-    // dummy object to represent null
-    private static final URL NULL_URL;
+    // dummy objfdt to rfprfsfnt null
+    privbtf stbtid finbl URL NULL_URL;
 
-    static {
+    stbtid {
         try {
-            NULL_URL = new URL("http://null.sun.com/");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            NULL_URL = nfw URL("ittp://null.sun.dom/");
+        } dbtdi (Exdfption f) {
+            tirow nfw RuntimfExdfption(f);
         }
     }
 
-    // reference to a Map we use as a cache for codebases
-    private static final Map<Class<?>, URL> codeBaseCacheRef =
-            new WeakHashMap<>();
+    // rfffrfndf to b Mbp wf usf bs b dbdif for dodfbbsfs
+    privbtf stbtid finbl Mbp<Clbss<?>, URL> dodfBbsfCbdifRff =
+            nfw WfbkHbsiMbp<>();
 
     /*
-     * Returns the CodeBase for the given class.
+     * Rfturns tif CodfBbsf for tif givfn dlbss.
      */
-    static URL getCodeBase(final Class<?> clazz) {
-        synchronized (codeBaseCacheRef) {
-            URL url = codeBaseCacheRef.get(clazz);
+    stbtid URL gftCodfBbsf(finbl Clbss<?> dlbzz) {
+        syndironizfd (dodfBbsfCbdifRff) {
+            URL url = dodfBbsfCbdifRff.gft(dlbzz);
             if (url == null) {
-                url = AccessController.doPrivileged(new PrivilegedAction<URL>() {
-                    public URL run() {
-                        ProtectionDomain pd = clazz.getProtectionDomain();
+                url = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<URL>() {
+                    publid URL run() {
+                        ProtfdtionDombin pd = dlbzz.gftProtfdtionDombin();
                         if (pd != null) {
-                            CodeSource cs = pd.getCodeSource();
-                            if (cs != null) {
-                                return cs.getLocation();
+                            CodfSourdf ds = pd.gftCodfSourdf();
+                            if (ds != null) {
+                                rfturn ds.gftLodbtion();
                             }
                         }
-                        return NULL_URL;
+                        rfturn NULL_URL;
                     }
                 });
-                codeBaseCacheRef.put(clazz, url);
+                dodfBbsfCbdifRff.put(dlbzz, url);
             }
-            return (url == NULL_URL) ? null : url;
+            rfturn (url == NULL_URL) ? null : url;
         }
     }
 
-    private static void setupJurisdictionPolicies() throws Exception {
-        String javaHomeDir = System.getProperty("java.home");
-        String sep = File.separator;
-        String pathToPolicyJar = javaHomeDir + sep + "lib" + sep +
-            "security" + sep;
+    privbtf stbtid void sftupJurisdidtionPolidifs() tirows Exdfption {
+        String jbvbHomfDir = Systfm.gftPropfrty("jbvb.iomf");
+        String sfp = Filf.sfpbrbtor;
+        String pbtiToPolidyJbr = jbvbHomfDir + sfp + "lib" + sfp +
+            "sfdurity" + sfp;
 
-        File exportJar = new File(pathToPolicyJar, "US_export_policy.jar");
-        File importJar = new File(pathToPolicyJar, "local_policy.jar");
-        URL jceCipherURL = ClassLoader.getSystemResource
-                ("javax/crypto/Cipher.class");
+        Filf fxportJbr = nfw Filf(pbtiToPolidyJbr, "US_fxport_polidy.jbr");
+        Filf importJbr = nfw Filf(pbtiToPolidyJbr, "lodbl_polidy.jbr");
+        URL jdfCipifrURL = ClbssLobdfr.gftSystfmRfsourdf
+                ("jbvbx/drypto/Cipifr.dlbss");
 
-        if ((jceCipherURL == null) ||
-                !exportJar.exists() || !importJar.exists()) {
-            throw new SecurityException
-                                ("Cannot locate policy or framework files!");
+        if ((jdfCipifrURL == null) ||
+                !fxportJbr.fxists() || !importJbr.fxists()) {
+            tirow nfw SfdurityExdfption
+                                ("Cbnnot lodbtf polidy or frbmfwork filfs!");
         }
 
-        // Read jurisdiction policies.
-        CryptoPermissions defaultExport = new CryptoPermissions();
-        CryptoPermissions exemptExport = new CryptoPermissions();
-        loadPolicies(exportJar, defaultExport, exemptExport);
+        // Rfbd jurisdidtion polidifs.
+        CryptoPfrmissions dffbultExport = nfw CryptoPfrmissions();
+        CryptoPfrmissions fxfmptExport = nfw CryptoPfrmissions();
+        lobdPolidifs(fxportJbr, dffbultExport, fxfmptExport);
 
-        CryptoPermissions defaultImport = new CryptoPermissions();
-        CryptoPermissions exemptImport = new CryptoPermissions();
-        loadPolicies(importJar, defaultImport, exemptImport);
+        CryptoPfrmissions dffbultImport = nfw CryptoPfrmissions();
+        CryptoPfrmissions fxfmptImport = nfw CryptoPfrmissions();
+        lobdPolidifs(importJbr, dffbultImport, fxfmptImport);
 
-        // Merge the export and import policies for default applications.
-        if (defaultExport.isEmpty() || defaultImport.isEmpty()) {
-            throw new SecurityException("Missing mandatory jurisdiction " +
-                                        "policy files");
+        // Mfrgf tif fxport bnd import polidifs for dffbult bpplidbtions.
+        if (dffbultExport.isEmpty() || dffbultImport.isEmpty()) {
+            tirow nfw SfdurityExdfption("Missing mbndbtory jurisdidtion " +
+                                        "polidy filfs");
         }
-        defaultPolicy = defaultExport.getMinimum(defaultImport);
+        dffbultPolidy = dffbultExport.gftMinimum(dffbultImport);
 
-        // Merge the export and import policies for exempt applications.
-        if (exemptExport.isEmpty())  {
-            exemptPolicy = exemptImport.isEmpty() ? null : exemptImport;
-        } else {
-            exemptPolicy = exemptExport.getMinimum(exemptImport);
+        // Mfrgf tif fxport bnd import polidifs for fxfmpt bpplidbtions.
+        if (fxfmptExport.isEmpty())  {
+            fxfmptPolidy = fxfmptImport.isEmpty() ? null : fxfmptImport;
+        } flsf {
+            fxfmptPolidy = fxfmptExport.gftMinimum(fxfmptImport);
         }
     }
 
     /**
-     * Load the policies from the specified file. Also checks that the
-     * policies are correctly signed.
+     * Lobd tif polidifs from tif spfdififd filf. Also difdks tibt tif
+     * polidifs brf dorrfdtly signfd.
      */
-    private static void loadPolicies(File jarPathName,
-                                     CryptoPermissions defaultPolicy,
-                                     CryptoPermissions exemptPolicy)
-        throws Exception {
+    privbtf stbtid void lobdPolidifs(Filf jbrPbtiNbmf,
+                                     CryptoPfrmissions dffbultPolidy,
+                                     CryptoPfrmissions fxfmptPolidy)
+        tirows Exdfption {
 
-        JarFile jf = new JarFile(jarPathName);
+        JbrFilf jf = nfw JbrFilf(jbrPbtiNbmf);
 
-        Enumeration<JarEntry> entries = jf.entries();
-        while (entries.hasMoreElements()) {
-            JarEntry je = entries.nextElement();
-            InputStream is = null;
+        Enumfrbtion<JbrEntry> fntrifs = jf.fntrifs();
+        wiilf (fntrifs.ibsMorfElfmfnts()) {
+            JbrEntry jf = fntrifs.nfxtElfmfnt();
+            InputStrfbm is = null;
             try {
-                if (je.getName().startsWith("default_")) {
-                    is = jf.getInputStream(je);
-                    defaultPolicy.load(is);
-                } else if (je.getName().startsWith("exempt_")) {
-                    is = jf.getInputStream(je);
-                    exemptPolicy.load(is);
-                } else {
-                    continue;
+                if (jf.gftNbmf().stbrtsWiti("dffbult_")) {
+                    is = jf.gftInputStrfbm(jf);
+                    dffbultPolidy.lobd(is);
+                } flsf if (jf.gftNbmf().stbrtsWiti("fxfmpt_")) {
+                    is = jf.gftInputStrfbm(jf);
+                    fxfmptPolidy.lobd(is);
+                } flsf {
+                    dontinuf;
                 }
-            } finally {
+            } finblly {
                 if (is != null) {
-                    is.close();
+                    is.dlosf();
                 }
             }
 
-            // Enforce the signer restraint, i.e. signer of JCE framework
-            // jar should also be the signer of the two jurisdiction policy
-            // jar files.
-            JarVerifier.verifyPolicySigned(je.getCertificates());
+            // Enfordf tif signfr rfstrbint, i.f. signfr of JCE frbmfwork
+            // jbr siould blso bf tif signfr of tif two jurisdidtion polidy
+            // jbr filfs.
+            JbrVfrififr.vfrifyPolidySignfd(jf.gftCfrtifidbtfs());
         }
-        // Close and nullify the JarFile reference to help GC.
-        jf.close();
+        // Closf bnd nullify tif JbrFilf rfffrfndf to iflp GC.
+        jf.dlosf();
         jf = null;
     }
 
-    static CryptoPermissions getDefaultPolicy() {
-        return defaultPolicy;
+    stbtid CryptoPfrmissions gftDffbultPolidy() {
+        rfturn dffbultPolidy;
     }
 
-    static CryptoPermissions getExemptPolicy() {
-        return exemptPolicy;
+    stbtid CryptoPfrmissions gftExfmptPolidy() {
+        rfturn fxfmptPolidy;
     }
 
-    static boolean isRestricted() {
-        return isRestricted;
+    stbtid boolfbn isRfstridtfd() {
+        rfturn isRfstridtfd;
     }
 }

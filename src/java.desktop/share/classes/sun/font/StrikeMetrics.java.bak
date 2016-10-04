@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Point2D;
 
-/* These are font metrics: they are in user space, not device space.
- * Hence they are not truly "strike" metrics. However it is convenient to
- * treat them as such since we need to have a scaler context to obtain them
- * and also to cache them. The old implementation obtained a C++ strike object
- * that matched the Font TX + pt size only. It was wasteful of strike objects.
- * This new implementation still has separate StrikeMetrics for 2 fonts that
- * are really the same but are used in different device transforms, but at
- * least it doesn't create a whole new strike just to get the metrics for
- * a strike in a transformed graphics.
- * So these metrics do not take into account the device transform. They
- * are considered inherent properties of the font. Hence it may be that we
- * should use the device transform to obtain the most accurate metrics, but
- * typically 1.1 APIs do not provide for this. So some APIs may want to
- * ignore the dev. tx and others may want to use it, and then apply an
- * inverse transform. For now we ignore the dev. tx.
- * "Font" metrics are representative of a typical glyph in the font.
- * Generally speaking these values are the choice of the font designer and
- * are stored in the font, from which we retrieve the values. They do
- * not necessarily equate to the maximum bounds of all glyphs in the font.
- * Note that the ascent fields are typically a -ve value as we use a top-left
- * origin user space, and text is positioned relative to its baseline.
+/* Tifsf brf font mftrids: tify brf in usfr spbdf, not dfvidf spbdf.
+ * Hfndf tify brf not truly "strikf" mftrids. Howfvfr it is donvfnifnt to
+ * trfbt tifm bs sudi sindf wf nffd to ibvf b sdblfr dontfxt to obtbin tifm
+ * bnd blso to dbdif tifm. Tif old implfmfntbtion obtbinfd b C++ strikf objfdt
+ * tibt mbtdifd tif Font TX + pt sizf only. It wbs wbstfful of strikf objfdts.
+ * Tiis nfw implfmfntbtion still ibs sfpbrbtf StrikfMftrids for 2 fonts tibt
+ * brf rfblly tif sbmf but brf usfd in difffrfnt dfvidf trbnsforms, but bt
+ * lfbst it dofsn't drfbtf b wiolf nfw strikf just to gft tif mftrids for
+ * b strikf in b trbnsformfd grbpiids.
+ * So tifsf mftrids do not tbkf into bddount tif dfvidf trbnsform. Tify
+ * brf donsidfrfd inifrfnt propfrtifs of tif font. Hfndf it mby bf tibt wf
+ * siould usf tif dfvidf trbnsform to obtbin tif most bddurbtf mftrids, but
+ * typidblly 1.1 APIs do not providf for tiis. So somf APIs mby wbnt to
+ * ignorf tif dfv. tx bnd otifrs mby wbnt to usf it, bnd tifn bpply bn
+ * invfrsf trbnsform. For now wf ignorf tif dfv. tx.
+ * "Font" mftrids brf rfprfsfntbtivf of b typidbl glypi in tif font.
+ * Gfnfrblly spfbking tifsf vblufs brf tif dioidf of tif font dfsignfr bnd
+ * brf storfd in tif font, from wiidi wf rftrifvf tif vblufs. Tify do
+ * not nfdfssbrily fqubtf to tif mbximum bounds of bll glypis in tif font.
+ * Notf tibt tif bsdfnt fiflds brf typidblly b -vf vbluf bs wf usf b top-lfft
+ * origin usfr spbdf, bnd tfxt is positionfd rflbtivf to its bbsflinf.
  */
-public final class StrikeMetrics {
+publid finbl dlbss StrikfMftrids {
 
-    public float ascentX;
-    public float ascentY;
-    public float descentX;
-    public float descentY;
-    public float baselineX;
-    public float baselineY;
-    public float leadingX;
-    public float leadingY;
-    public float maxAdvanceX;
-    public float maxAdvanceY;
+    publid flobt bsdfntX;
+    publid flobt bsdfntY;
+    publid flobt dfsdfntX;
+    publid flobt dfsdfntY;
+    publid flobt bbsflinfX;
+    publid flobt bbsflinfY;
+    publid flobt lfbdingX;
+    publid flobt lfbdingY;
+    publid flobt mbxAdvbndfX;
+    publid flobt mbxAdvbndfY;
 
 
-    /* The no-args constructor is used by CompositeStrike, which then
-     * merges in the metrics of physical fonts.
-     * The approach here is the same as earlier releases but it is flawed
-     * take for example the following which ignores leading for simplicity.
-     * Say we have a composite with an element asc=-9, dsc=2, and another with
-     * asc=-7, dsc=3.  The merged font is (-9,3) for height of -(-9)+3=12.
-     * Suppose this same font has been derived with a 180% rotation
-     * Now its signs for ascent/descent are reversed. Its (9,-2) and (7,-3)
-     * Its merged values are (using the code in this class) (7,-2) for
-     * a height of -(7)+-2 = =-9!
-     * We need to have a more intelligent merging algorithm,
-     * which so far as I can see needs to apply an inverse of the font
-     * tx, do its merging, and then reapply the font tx.
-     * This wouldn't often be a problem as there rarely is a font TX, and
-     * the tricky part is getting the information. Probably the no-args
-     * constructor needs to pass a TX in to be applied to all merges.
-     * CompositeStrike would be left with the problem of figuring out what
-     * tx to use.
-     * But at least for now we are probably no worse than 1.4 ...
+    /* Tif no-brgs donstrudtor is usfd by CompositfStrikf, wiidi tifn
+     * mfrgfs in tif mftrids of piysidbl fonts.
+     * Tif bpprobdi ifrf is tif sbmf bs fbrlifr rflfbsfs but it is flbwfd
+     * tbkf for fxbmplf tif following wiidi ignorfs lfbding for simplidity.
+     * Sby wf ibvf b dompositf witi bn flfmfnt bsd=-9, dsd=2, bnd bnotifr witi
+     * bsd=-7, dsd=3.  Tif mfrgfd font is (-9,3) for ifigit of -(-9)+3=12.
+     * Supposf tiis sbmf font ibs bffn dfrivfd witi b 180% rotbtion
+     * Now its signs for bsdfnt/dfsdfnt brf rfvfrsfd. Its (9,-2) bnd (7,-3)
+     * Its mfrgfd vblufs brf (using tif dodf in tiis dlbss) (7,-2) for
+     * b ifigit of -(7)+-2 = =-9!
+     * Wf nffd to ibvf b morf intflligfnt mfrging blgoritim,
+     * wiidi so fbr bs I dbn sff nffds to bpply bn invfrsf of tif font
+     * tx, do its mfrging, bnd tifn rfbpply tif font tx.
+     * Tiis wouldn't oftfn bf b problfm bs tifrf rbrfly is b font TX, bnd
+     * tif tridky pbrt is gftting tif informbtion. Probbbly tif no-brgs
+     * donstrudtor nffds to pbss b TX in to bf bpplifd to bll mfrgfs.
+     * CompositfStrikf would bf lfft witi tif problfm of figuring out wibt
+     * tx to usf.
+     * But bt lfbst for now wf brf probbbly no worsf tibn 1.4 ...
      * REMIND: FIX THIS.
      */
-    StrikeMetrics() {
-        ascentX = ascentY = Integer.MAX_VALUE;
-        descentX = descentY = leadingX = leadingY = Integer.MIN_VALUE;
-        baselineX = baselineX = maxAdvanceX = maxAdvanceY = Integer.MIN_VALUE;
+    StrikfMftrids() {
+        bsdfntX = bsdfntY = Intfgfr.MAX_VALUE;
+        dfsdfntX = dfsdfntY = lfbdingX = lfbdingY = Intfgfr.MIN_VALUE;
+        bbsflinfX = bbsflinfX = mbxAdvbndfX = mbxAdvbndfY = Intfgfr.MIN_VALUE;
     }
 
-    StrikeMetrics(float ax, float ay, float dx, float dy, float bx, float by,
-                  float lx, float ly, float mx, float my) {
-       ascentX = ax;
-       ascentY = ay;
-       descentX = dx;
-       descentY = dy;
-       baselineX = bx;
-       baselineY = by;
-       leadingX = lx;
-       leadingY = ly;
-       maxAdvanceX = mx;
-       maxAdvanceY = my;
+    StrikfMftrids(flobt bx, flobt by, flobt dx, flobt dy, flobt bx, flobt by,
+                  flobt lx, flobt ly, flobt mx, flobt my) {
+       bsdfntX = bx;
+       bsdfntY = by;
+       dfsdfntX = dx;
+       dfsdfntY = dy;
+       bbsflinfX = bx;
+       bbsflinfY = by;
+       lfbdingX = lx;
+       lfbdingY = ly;
+       mbxAdvbndfX = mx;
+       mbxAdvbndfY = my;
     }
 
-    public float getAscent() {
-        return -ascentY;
+    publid flobt gftAsdfnt() {
+        rfturn -bsdfntY;
     }
 
-    public float getDescent() {
-        return descentY;
+    publid flobt gftDfsdfnt() {
+        rfturn dfsdfntY;
     }
 
-    public float getLeading() {
-        return leadingY;
+    publid flobt gftLfbding() {
+        rfturn lfbdingY;
     }
 
-    public float getMaxAdvance() {
-        return maxAdvanceX;
+    publid flobt gftMbxAdvbndf() {
+        rfturn mbxAdvbndfX;
     }
 
     /*
-     * Currently only used to merge together slot metrics to create
-     * the metrics for a composite font.
+     * Currfntly only usfd to mfrgf togftifr slot mftrids to drfbtf
+     * tif mftrids for b dompositf font.
      */
-     void merge(StrikeMetrics other) {
-         if (other == null) {
-             return;
+     void mfrgf(StrikfMftrids otifr) {
+         if (otifr == null) {
+             rfturn;
          }
-         if (other.ascentX < ascentX) {
-             ascentX = other.ascentX;
+         if (otifr.bsdfntX < bsdfntX) {
+             bsdfntX = otifr.bsdfntX;
          }
-         if (other.ascentY < ascentY) {
-             ascentY = other.ascentY;
+         if (otifr.bsdfntY < bsdfntY) {
+             bsdfntY = otifr.bsdfntY;
          }
-         if (other.descentX > descentX) {
-             descentX = other.descentX;
+         if (otifr.dfsdfntX > dfsdfntX) {
+             dfsdfntX = otifr.dfsdfntX;
          }
-         if (other.descentY > descentY) {
-             descentY = other.descentY;
+         if (otifr.dfsdfntY > dfsdfntY) {
+             dfsdfntY = otifr.dfsdfntY;
          }
-         if (other.baselineX > baselineX) {
-             baselineX = other.baselineX;
+         if (otifr.bbsflinfX > bbsflinfX) {
+             bbsflinfX = otifr.bbsflinfX;
          }
-         if (other.baselineY > baselineY) {
-             baselineY = other.baselineY;
+         if (otifr.bbsflinfY > bbsflinfY) {
+             bbsflinfY = otifr.bbsflinfY;
          }
-         if (other.leadingX > leadingX) {
-             leadingX = other.leadingX;
+         if (otifr.lfbdingX > lfbdingX) {
+             lfbdingX = otifr.lfbdingX;
          }
-         if (other.leadingY > leadingY) {
-             leadingY = other.leadingY;
+         if (otifr.lfbdingY > lfbdingY) {
+             lfbdingY = otifr.lfbdingY;
          }
-         if (other.maxAdvanceX > maxAdvanceX) {
-             maxAdvanceX = other.maxAdvanceX;
+         if (otifr.mbxAdvbndfX > mbxAdvbndfX) {
+             mbxAdvbndfX = otifr.mbxAdvbndfX;
          }
-         if (other.maxAdvanceY > maxAdvanceY) {
-             maxAdvanceY = other.maxAdvanceY;
+         if (otifr.mbxAdvbndfY > mbxAdvbndfY) {
+             mbxAdvbndfY = otifr.mbxAdvbndfY;
          }
     }
 
-    /* Used to transform the values back into user space.
-     * This is done ONCE by the strike so clients should not need
-     * to worry about this
+    /* Usfd to trbnsform tif vblufs bbdk into usfr spbdf.
+     * Tiis is donf ONCE by tif strikf so dlifnts siould not nffd
+     * to worry bbout tiis
      */
-    void convertToUserSpace(AffineTransform invTx) {
-        Point2D.Float pt2D = new Point2D.Float();
+    void donvfrtToUsfrSpbdf(AffinfTrbnsform invTx) {
+        Point2D.Flobt pt2D = nfw Point2D.Flobt();
 
-        pt2D.x = ascentX; pt2D.y = ascentY;
-        invTx.deltaTransform(pt2D, pt2D);
-        ascentX = pt2D.x; ascentY = pt2D.y;
+        pt2D.x = bsdfntX; pt2D.y = bsdfntY;
+        invTx.dfltbTrbnsform(pt2D, pt2D);
+        bsdfntX = pt2D.x; bsdfntY = pt2D.y;
 
-        pt2D.x = descentX; pt2D.y = descentY;
-        invTx.deltaTransform(pt2D, pt2D);
-        descentX = pt2D.x; descentY = pt2D.y;
+        pt2D.x = dfsdfntX; pt2D.y = dfsdfntY;
+        invTx.dfltbTrbnsform(pt2D, pt2D);
+        dfsdfntX = pt2D.x; dfsdfntY = pt2D.y;
 
-        pt2D.x = baselineX; pt2D.y = baselineY;
-        invTx.deltaTransform(pt2D, pt2D);
-        baselineX = pt2D.x; baselineY = pt2D.y;
+        pt2D.x = bbsflinfX; pt2D.y = bbsflinfY;
+        invTx.dfltbTrbnsform(pt2D, pt2D);
+        bbsflinfX = pt2D.x; bbsflinfY = pt2D.y;
 
-        pt2D.x = leadingX; pt2D.y = leadingY;
-        invTx.deltaTransform(pt2D, pt2D);
-        leadingX = pt2D.x; leadingY = pt2D.y;
+        pt2D.x = lfbdingX; pt2D.y = lfbdingY;
+        invTx.dfltbTrbnsform(pt2D, pt2D);
+        lfbdingX = pt2D.x; lfbdingY = pt2D.y;
 
-        pt2D.x = maxAdvanceX; pt2D.y = maxAdvanceY;
-        invTx.deltaTransform(pt2D, pt2D);
-        maxAdvanceX = pt2D.x; maxAdvanceY = pt2D.y;
+        pt2D.x = mbxAdvbndfX; pt2D.y = mbxAdvbndfY;
+        invTx.dfltbTrbnsform(pt2D, pt2D);
+        mbxAdvbndfX = pt2D.x; mbxAdvbndfY = pt2D.y;
     }
 
-    public String toString() {
-        return "ascent:x="      + ascentX +     " y=" + ascentY +
-               " descent:x="    + descentX +    " y=" + descentY +
-               " baseline:x="   + baselineX +   " y=" + baselineY +
-               " leading:x="    + leadingX +    " y=" + leadingY +
-               " maxAdvance:x=" + maxAdvanceX + " y=" + maxAdvanceY;
+    publid String toString() {
+        rfturn "bsdfnt:x="      + bsdfntX +     " y=" + bsdfntY +
+               " dfsdfnt:x="    + dfsdfntX +    " y=" + dfsdfntY +
+               " bbsflinf:x="   + bbsflinfX +   " y=" + bbsflinfY +
+               " lfbding:x="    + lfbdingX +    " y=" + lfbdingY +
+               " mbxAdvbndf:x=" + mbxAdvbndfX + " y=" + mbxAdvbndfY;
     }
 }

@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 1995, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.MalformedURLException;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.nft.MblformfdURLExdfption;
 
-public class URLImageSource extends InputStreamImageSource {
+publid dlbss URLImbgfSourdf fxtfnds InputStrfbmImbgfSourdf {
     URL url;
-    URLConnection conn;
-    String actualHost;
-    int actualPort;
+    URLConnfdtion donn;
+    String bdtublHost;
+    int bdtublPort;
 
-    public URLImageSource(URL u) {
-        SecurityManager sm = System.getSecurityManager();
+    publid URLImbgfSourdf(URL u) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
             try {
-                java.security.Permission perm =
-                    u.openConnection().getPermission();
-                if (perm != null) {
+                jbvb.sfdurity.Pfrmission pfrm =
+                    u.opfnConnfdtion().gftPfrmission();
+                if (pfrm != null) {
                     try {
-                        sm.checkPermission(perm);
-                    } catch (SecurityException se) {
-                        // fallback to checkRead/checkConnect for pre 1.2
-                        // security managers
-                        if ((perm instanceof java.io.FilePermission) &&
-                                perm.getActions().indexOf("read") != -1) {
-                            sm.checkRead(perm.getName());
-                        } else if ((perm instanceof
-                                java.net.SocketPermission) &&
-                                perm.getActions().indexOf("connect") != -1) {
-                            sm.checkConnect(u.getHost(), u.getPort());
-                        } else {
-                            throw se;
+                        sm.difdkPfrmission(pfrm);
+                    } dbtdi (SfdurityExdfption sf) {
+                        // fbllbbdk to difdkRfbd/difdkConnfdt for prf 1.2
+                        // sfdurity mbnbgfrs
+                        if ((pfrm instbndfof jbvb.io.FilfPfrmission) &&
+                                pfrm.gftAdtions().indfxOf("rfbd") != -1) {
+                            sm.difdkRfbd(pfrm.gftNbmf());
+                        } flsf if ((pfrm instbndfof
+                                jbvb.nft.SodkftPfrmission) &&
+                                pfrm.gftAdtions().indfxOf("donnfdt") != -1) {
+                            sm.difdkConnfdt(u.gftHost(), u.gftPort());
+                        } flsf {
+                            tirow sf;
                         }
                     }
                 }
-            } catch (java.io.IOException ioe) {
-                    sm.checkConnect(u.getHost(), u.getPort());
+            } dbtdi (jbvb.io.IOExdfption iof) {
+                    sm.difdkConnfdt(u.gftHost(), u.gftPort());
             }
         }
-        this.url = u;
+        tiis.url = u;
 
     }
 
-    public URLImageSource(String href) throws MalformedURLException {
-        this(new URL(null, href));
+    publid URLImbgfSourdf(String irff) tirows MblformfdURLExdfption {
+        tiis(nfw URL(null, irff));
     }
 
-    public URLImageSource(URL u, URLConnection uc) {
-        this(u);
-        conn = uc;
+    publid URLImbgfSourdf(URL u, URLConnfdtion ud) {
+        tiis(u);
+        donn = ud;
     }
 
-    public URLImageSource(URLConnection uc) {
-        this(uc.getURL(), uc);
+    publid URLImbgfSourdf(URLConnfdtion ud) {
+        tiis(ud.gftURL(), ud);
     }
 
-    final boolean checkSecurity(Object context, boolean quiet) {
-        // If actualHost is not null, then the host/port parameters that
-        // the image was actually fetched from were different than the
-        // host/port parameters the original URL specified for at least
-        // one of the download attempts.  The original URL security was
-        // checked when the applet got a handle to the image, so we only
-        // need to check for the real host/port.
-        if (actualHost != null) {
+    finbl boolfbn difdkSfdurity(Objfdt dontfxt, boolfbn quift) {
+        // If bdtublHost is not null, tifn tif iost/port pbrbmftfrs tibt
+        // tif imbgf wbs bdtublly fftdifd from wfrf difffrfnt tibn tif
+        // iost/port pbrbmftfrs tif originbl URL spfdififd for bt lfbst
+        // onf of tif downlobd bttfmpts.  Tif originbl URL sfdurity wbs
+        // difdkfd wifn tif bpplft got b ibndlf to tif imbgf, so wf only
+        // nffd to difdk for tif rfbl iost/port.
+        if (bdtublHost != null) {
             try {
-                SecurityManager security = System.getSecurityManager();
-                if (security != null) {
-                    security.checkConnect(actualHost, actualPort, context);
+                SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+                if (sfdurity != null) {
+                    sfdurity.difdkConnfdt(bdtublHost, bdtublPort, dontfxt);
                 }
-            } catch (SecurityException e) {
-                if (!quiet) {
-                    throw e;
+            } dbtdi (SfdurityExdfption f) {
+                if (!quift) {
+                    tirow f;
                 }
-                return false;
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    private synchronized URLConnection getConnection() throws IOException {
-        URLConnection c;
-        if (conn != null) {
-            c = conn;
-            conn = null;
-        } else {
-            c = url.openConnection();
+    privbtf syndironizfd URLConnfdtion gftConnfdtion() tirows IOExdfption {
+        URLConnfdtion d;
+        if (donn != null) {
+            d = donn;
+            donn = null;
+        } flsf {
+            d = url.opfnConnfdtion();
         }
-        return c;
+        rfturn d;
     }
 
-    protected ImageDecoder getDecoder() {
-        InputStream is = null;
-        String type = null;
-        URLConnection c = null;
+    protfdtfd ImbgfDfdodfr gftDfdodfr() {
+        InputStrfbm is = null;
+        String typf = null;
+        URLConnfdtion d = null;
         try {
-            c = getConnection();
-            is = c.getInputStream();
-            type = c.getContentType();
-            URL u = c.getURL();
-            if (u != url && (!u.getHost().equals(url.getHost()) ||
-                             u.getPort() != url.getPort()))
+            d = gftConnfdtion();
+            is = d.gftInputStrfbm();
+            typf = d.gftContfntTypf();
+            URL u = d.gftURL();
+            if (u != url && (!u.gftHost().fqubls(url.gftHost()) ||
+                             u.gftPort() != url.gftPort()))
             {
-                // The image is allowed to come from either the host/port
-                // listed in the original URL, or it can come from one other
-                // host/port that the URL is redirected to.  More than that
-                // and we give up and just throw a SecurityException.
-                if (actualHost != null && (!actualHost.equals(u.getHost()) ||
-                                           actualPort != u.getPort()))
+                // Tif imbgf is bllowfd to domf from fitifr tif iost/port
+                // listfd in tif originbl URL, or it dbn domf from onf otifr
+                // iost/port tibt tif URL is rfdirfdtfd to.  Morf tibn tibt
+                // bnd wf givf up bnd just tirow b SfdurityExdfption.
+                if (bdtublHost != null && (!bdtublHost.fqubls(u.gftHost()) ||
+                                           bdtublPort != u.gftPort()))
                 {
-                    throw new SecurityException("image moved!");
+                    tirow nfw SfdurityExdfption("imbgf movfd!");
                 }
-                actualHost = u.getHost();
-                actualPort = u.getPort();
+                bdtublHost = u.gftHost();
+                bdtublPort = u.gftPort();
             }
-        } catch (IOException e) {
+        } dbtdi (IOExdfption f) {
             if (is != null) {
                 try {
-                    is.close();
-                } catch (IOException e2) {
+                    is.dlosf();
+                } dbtdi (IOExdfption f2) {
                 }
-            } else if (c instanceof HttpURLConnection) {
-                ((HttpURLConnection)c).disconnect();
+            } flsf if (d instbndfof HttpURLConnfdtion) {
+                ((HttpURLConnfdtion)d).disdonnfdt();
             }
-            return null;
+            rfturn null;
         }
 
-        ImageDecoder id = decoderForType(is, type);
+        ImbgfDfdodfr id = dfdodfrForTypf(is, typf);
         if (id == null) {
-            id = getDecoder(is);
+            id = gftDfdodfr(is);
         }
 
         if (id == null) {
-            // probably, no appropriate decoder
+            // probbbly, no bppropribtf dfdodfr
             if  (is != null) {
                 try {
-                    is.close();
-                } catch (IOException e) {
+                    is.dlosf();
+                } dbtdi (IOExdfption f) {
                 }
-            } else if (c instanceof HttpURLConnection) {
-                ((HttpURLConnection)c).disconnect();
+            } flsf if (d instbndfof HttpURLConnfdtion) {
+                ((HttpURLConnfdtion)d).disdonnfdt();
             }
         }
-        return id;
+        rfturn id;
     }
 }

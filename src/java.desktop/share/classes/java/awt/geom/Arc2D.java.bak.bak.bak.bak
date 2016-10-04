@@ -1,0 +1,1474 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.gfom;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * <CODE>Ard2D</CODE> is thf bbstrbdt supfrdlbss for bll objfdts thbt
+ * storf b 2D brd dffinfd by b frbming rfdtbnglf,
+ * stbrt bnglf, bngulbr fxtfnt (lfngth of thf brd), bnd b dlosurf typf
+ * (<CODE>OPEN</CODE>, <CODE>CHORD</CODE>, or <CODE>PIE</CODE>).
+ * <p>
+ * <b nbmf="insdribfs">
+ * Thf brd is b pbrtibl sfdtion of b full fllipsf whidh
+ * insdribfs thf frbming rfdtbnglf of its pbrfnt</b> {@link RfdtbngulbrShbpf}.
+ *
+ * <b nbmf="bnglfs">
+ * Thf bnglfs brf spfdififd rflbtivf to thf non-squbrf
+ * frbming rfdtbnglf sudh thbt 45 dfgrffs blwbys fblls on thf linf from
+ * thf dfntfr of thf fllipsf to thf uppfr right dornfr of thf frbming
+ * rfdtbnglf.
+ * As b rfsult, if thf frbming rfdtbnglf is notidfbbly longfr blong onf
+ * bxis thbn thf othfr, thf bnglfs to thf stbrt bnd fnd of thf brd sfgmfnt
+ * will bf skfwfd fbrthfr blong thf longfr bxis of thf frbmf.
+ * </b>
+ * <p>
+ * Thf bdtubl storbgf rfprfsfntbtion of thf doordinbtfs is lfft to
+ * thf subdlbss.
+ *
+ * @buthor      Jim Grbhbm
+ * @sindf 1.2
+ */
+publid bbstrbdt dlbss Ard2D fxtfnds RfdtbngulbrShbpf {
+
+    /**
+     * Thf dlosurf typf for bn opfn brd with no pbth sfgmfnts
+     * donnfdting thf two fnds of thf brd sfgmfnt.
+     * @sindf 1.2
+     */
+    publid finbl stbtid int OPEN = 0;
+
+    /**
+     * Thf dlosurf typf for bn brd dlosfd by drbwing b strbight
+     * linf sfgmfnt from thf stbrt of thf brd sfgmfnt to thf fnd of thf
+     * brd sfgmfnt.
+     * @sindf 1.2
+     */
+    publid finbl stbtid int CHORD = 1;
+
+    /**
+     * Thf dlosurf typf for bn brd dlosfd by drbwing strbight linf
+     * sfgmfnts from thf stbrt of thf brd sfgmfnt to thf dfntfr
+     * of thf full fllipsf bnd from thbt point to thf fnd of thf brd sfgmfnt.
+     * @sindf 1.2
+     */
+    publid finbl stbtid int PIE = 2;
+
+    /**
+     * This dlbss dffinfs bn brd spfdififd in {@dodf flobt} prfdision.
+     * @sindf 1.2
+     */
+    publid stbtid dlbss Flobt fxtfnds Ard2D implfmfnts Sfriblizbblf {
+        /**
+         * Thf X doordinbtf of thf uppfr-lfft dornfr of thf frbming
+         * rfdtbnglf of thf brd.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt x;
+
+        /**
+         * Thf Y doordinbtf of thf uppfr-lfft dornfr of thf frbming
+         * rfdtbnglf of thf brd.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt y;
+
+        /**
+         * Thf ovfrbll width of thf full fllipsf of whidh this brd is
+         * b pbrtibl sfdtion (not donsidfring thf
+         * bngulbr fxtfnts).
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt width;
+
+        /**
+         * Thf ovfrbll hfight of thf full fllipsf of whidh this brd is
+         * b pbrtibl sfdtion (not donsidfring thf
+         * bngulbr fxtfnts).
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt hfight;
+
+        /**
+         * Thf stbrting bnglf of thf brd in dfgrffs.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt stbrt;
+
+        /**
+         * Thf bngulbr fxtfnt of thf brd in dfgrffs.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt fxtfnt;
+
+        /**
+         * Construdts b nfw OPEN brd, initiblizfd to lodbtion (0, 0),
+         * sizf (0, 0), bngulbr fxtfnts (stbrt = 0, fxtfnt = 0).
+         * @sindf 1.2
+         */
+        publid Flobt() {
+            supfr(OPEN);
+        }
+
+        /**
+         * Construdts b nfw brd, initiblizfd to lodbtion (0, 0),
+         * sizf (0, 0), bngulbr fxtfnts (stbrt = 0, fxtfnt = 0), bnd
+         * thf spfdififd dlosurf typf.
+         *
+         * @pbrbm typf Thf dlosurf typf for thf brd:
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * @sindf 1.2
+         */
+        publid Flobt(int typf) {
+            supfr(typf);
+        }
+
+        /**
+         * Construdts b nfw brd, initiblizfd to thf spfdififd lodbtion,
+         * sizf, bngulbr fxtfnts, bnd dlosurf typf.
+         *
+         * @pbrbm x Thf X doordinbtf of thf uppfr-lfft dornfr of
+         *          thf brd's frbming rfdtbnglf.
+         * @pbrbm y Thf Y doordinbtf of thf uppfr-lfft dornfr of
+         *          thf brd's frbming rfdtbnglf.
+         * @pbrbm w Thf ovfrbll width of thf full fllipsf of whidh
+         *          this brd is b pbrtibl sfdtion.
+         * @pbrbm h Thf ovfrbll hfight of thf full fllipsf of whidh this
+         *          brd is b pbrtibl sfdtion.
+         * @pbrbm stbrt Thf stbrting bnglf of thf brd in dfgrffs.
+         * @pbrbm fxtfnt Thf bngulbr fxtfnt of thf brd in dfgrffs.
+         * @pbrbm typf Thf dlosurf typf for thf brd:
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * @sindf 1.2
+         */
+        publid Flobt(flobt x, flobt y, flobt w, flobt h,
+                     flobt stbrt, flobt fxtfnt, int typf) {
+            supfr(typf);
+            this.x = x;
+            this.y = y;
+            this.width = w;
+            this.hfight = h;
+            this.stbrt = stbrt;
+            this.fxtfnt = fxtfnt;
+        }
+
+        /**
+         * Construdts b nfw brd, initiblizfd to thf spfdififd lodbtion,
+         * sizf, bngulbr fxtfnts, bnd dlosurf typf.
+         *
+         * @pbrbm fllipsfBounds Thf frbming rfdtbnglf thbt dffinfs thf
+         * outfr boundbry of thf full fllipsf of whidh this brd is b
+         * pbrtibl sfdtion.
+         * @pbrbm stbrt Thf stbrting bnglf of thf brd in dfgrffs.
+         * @pbrbm fxtfnt Thf bngulbr fxtfnt of thf brd in dfgrffs.
+         * @pbrbm typf Thf dlosurf typf for thf brd:
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * @sindf 1.2
+         */
+        publid Flobt(Rfdtbnglf2D fllipsfBounds,
+                     flobt stbrt, flobt fxtfnt, int typf) {
+            supfr(typf);
+            this.x = (flobt) fllipsfBounds.gftX();
+            this.y = (flobt) fllipsfBounds.gftY();
+            this.width = (flobt) fllipsfBounds.gftWidth();
+            this.hfight = (flobt) fllipsfBounds.gftHfight();
+            this.stbrt = stbrt;
+            this.fxtfnt = fxtfnt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * Notf thbt thf brd
+         * <b hrff="Ard2D.html#insdribfs">pbrtiblly insdribfs</b>
+         * thf frbming rfdtbnglf of this {@dodf RfdtbngulbrShbpf}.
+         *
+         * @sindf 1.2
+         */
+        publid doublf gftX() {
+            rfturn (doublf) x;
+        }
+
+        /**
+         * {@inhfritDod}
+         * Notf thbt thf brd
+         * <b hrff="Ard2D.html#insdribfs">pbrtiblly insdribfs</b>
+         * thf frbming rfdtbnglf of this {@dodf RfdtbngulbrShbpf}.
+         *
+         * @sindf 1.2
+         */
+        publid doublf gftY() {
+            rfturn (doublf) y;
+        }
+
+        /**
+         * {@inhfritDod}
+         * Notf thbt thf brd
+         * <b hrff="Ard2D.html#insdribfs">pbrtiblly insdribfs</b>
+         * thf frbming rfdtbnglf of this {@dodf RfdtbngulbrShbpf}.
+         *
+         * @sindf 1.2
+         */
+        publid doublf gftWidth() {
+            rfturn (doublf) width;
+        }
+
+        /**
+         * {@inhfritDod}
+         * Notf thbt thf brd
+         * <b hrff="Ard2D.html#insdribfs">pbrtiblly insdribfs</b>
+         * thf frbming rfdtbnglf of this {@dodf RfdtbngulbrShbpf}.
+         *
+         * @sindf 1.2
+         */
+        publid doublf gftHfight() {
+            rfturn (doublf) hfight;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftAnglfStbrt() {
+            rfturn (doublf) stbrt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftAnglfExtfnt() {
+            rfturn (doublf) fxtfnt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid boolfbn isEmpty() {
+            rfturn (width <= 0.0 || hfight <= 0.0);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftArd(doublf x, doublf y, doublf w, doublf h,
+                           doublf bngSt, doublf bngExt, int dlosurf) {
+            this.sftArdTypf(dlosurf);
+            this.x = (flobt) x;
+            this.y = (flobt) y;
+            this.width = (flobt) w;
+            this.hfight = (flobt) h;
+            this.stbrt = (flobt) bngSt;
+            this.fxtfnt = (flobt) bngExt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftAnglfStbrt(doublf bngSt) {
+            this.stbrt = (flobt) bngSt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftAnglfExtfnt(doublf bngExt) {
+            this.fxtfnt = (flobt) bngExt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        protfdtfd Rfdtbnglf2D mbkfBounds(doublf x, doublf y,
+                                         doublf w, doublf h) {
+            rfturn nfw Rfdtbnglf2D.Flobt((flobt) x, (flobt) y,
+                                         (flobt) w, (flobt) h);
+        }
+
+        /*
+         * JDK 1.6 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 9130893014586380278L;
+
+        /**
+         * Writfs thf dffbult sfriblizbblf fiflds to thf
+         * <dodf>ObjfdtOutputStrfbm</dodf> followfd by b bytf
+         * indidbting thf brd typf of this <dodf>Ard2D</dodf>
+         * instbndf.
+         *
+         * @sfriblDbtb
+         * <ol>
+         * <li>Thf dffbult sfriblizbblf fiflds.
+         * <li>
+         * followfd by b <dodf>bytf</dodf> indidbting thf brd typf
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * </ol>
+         */
+        privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            throws jbvb.io.IOExdfption
+        {
+            s.dffbultWritfObjfdt();
+
+            s.writfBytf(gftArdTypf());
+        }
+
+        /**
+         * Rfbds thf dffbult sfriblizbblf fiflds from thf
+         * <dodf>ObjfdtInputStrfbm</dodf> followfd by b bytf
+         * indidbting thf brd typf of this <dodf>Ard2D</dodf>
+         * instbndf.
+         *
+         * @sfriblDbtb
+         * <ol>
+         * <li>Thf dffbult sfriblizbblf fiflds.
+         * <li>
+         * followfd by b <dodf>bytf</dodf> indidbting thf brd typf
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * </ol>
+         */
+        privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            throws jbvb.lbng.ClbssNotFoundExdfption, jbvb.io.IOExdfption
+        {
+            s.dffbultRfbdObjfdt();
+
+            try {
+                sftArdTypf(s.rfbdBytf());
+            } dbtdh (IllfgblArgumfntExdfption ibf) {
+                throw nfw jbvb.io.InvblidObjfdtExdfption(ibf.gftMfssbgf());
+            }
+        }
+    }
+
+    /**
+     * This dlbss dffinfs bn brd spfdififd in {@dodf doublf} prfdision.
+     * @sindf 1.2
+     */
+    publid stbtid dlbss Doublf fxtfnds Ard2D implfmfnts Sfriblizbblf {
+        /**
+         * Thf X doordinbtf of thf uppfr-lfft dornfr of thf frbming
+         * rfdtbnglf of thf brd.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf x;
+
+        /**
+         * Thf Y doordinbtf of thf uppfr-lfft dornfr of thf frbming
+         * rfdtbnglf of thf brd.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf y;
+
+        /**
+         * Thf ovfrbll width of thf full fllipsf of whidh this brd is
+         * b pbrtibl sfdtion (not donsidfring thf bngulbr fxtfnts).
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf width;
+
+        /**
+         * Thf ovfrbll hfight of thf full fllipsf of whidh this brd is
+         * b pbrtibl sfdtion (not donsidfring thf bngulbr fxtfnts).
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf hfight;
+
+        /**
+         * Thf stbrting bnglf of thf brd in dfgrffs.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf stbrt;
+
+        /**
+         * Thf bngulbr fxtfnt of thf brd in dfgrffs.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf fxtfnt;
+
+        /**
+         * Construdts b nfw OPEN brd, initiblizfd to lodbtion (0, 0),
+         * sizf (0, 0), bngulbr fxtfnts (stbrt = 0, fxtfnt = 0).
+         * @sindf 1.2
+         */
+        publid Doublf() {
+            supfr(OPEN);
+        }
+
+        /**
+         * Construdts b nfw brd, initiblizfd to lodbtion (0, 0),
+         * sizf (0, 0), bngulbr fxtfnts (stbrt = 0, fxtfnt = 0), bnd
+         * thf spfdififd dlosurf typf.
+         *
+         * @pbrbm typf Thf dlosurf typf for thf brd:
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * @sindf 1.2
+         */
+        publid Doublf(int typf) {
+            supfr(typf);
+        }
+
+        /**
+         * Construdts b nfw brd, initiblizfd to thf spfdififd lodbtion,
+         * sizf, bngulbr fxtfnts, bnd dlosurf typf.
+         *
+         * @pbrbm x Thf X doordinbtf of thf uppfr-lfft dornfr
+         *          of thf brd's frbming rfdtbnglf.
+         * @pbrbm y Thf Y doordinbtf of thf uppfr-lfft dornfr
+         *          of thf brd's frbming rfdtbnglf.
+         * @pbrbm w Thf ovfrbll width of thf full fllipsf of whidh this
+         *          brd is b pbrtibl sfdtion.
+         * @pbrbm h Thf ovfrbll hfight of thf full fllipsf of whidh this
+         *          brd is b pbrtibl sfdtion.
+         * @pbrbm stbrt Thf stbrting bnglf of thf brd in dfgrffs.
+         * @pbrbm fxtfnt Thf bngulbr fxtfnt of thf brd in dfgrffs.
+         * @pbrbm typf Thf dlosurf typf for thf brd:
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * @sindf 1.2
+         */
+        publid Doublf(doublf x, doublf y, doublf w, doublf h,
+                      doublf stbrt, doublf fxtfnt, int typf) {
+            supfr(typf);
+            this.x = x;
+            this.y = y;
+            this.width = w;
+            this.hfight = h;
+            this.stbrt = stbrt;
+            this.fxtfnt = fxtfnt;
+        }
+
+        /**
+         * Construdts b nfw brd, initiblizfd to thf spfdififd lodbtion,
+         * sizf, bngulbr fxtfnts, bnd dlosurf typf.
+         *
+         * @pbrbm fllipsfBounds Thf frbming rfdtbnglf thbt dffinfs thf
+         * outfr boundbry of thf full fllipsf of whidh this brd is b
+         * pbrtibl sfdtion.
+         * @pbrbm stbrt Thf stbrting bnglf of thf brd in dfgrffs.
+         * @pbrbm fxtfnt Thf bngulbr fxtfnt of thf brd in dfgrffs.
+         * @pbrbm typf Thf dlosurf typf for thf brd:
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * @sindf 1.2
+         */
+        publid Doublf(Rfdtbnglf2D fllipsfBounds,
+                      doublf stbrt, doublf fxtfnt, int typf) {
+            supfr(typf);
+            this.x = fllipsfBounds.gftX();
+            this.y = fllipsfBounds.gftY();
+            this.width = fllipsfBounds.gftWidth();
+            this.hfight = fllipsfBounds.gftHfight();
+            this.stbrt = stbrt;
+            this.fxtfnt = fxtfnt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * Notf thbt thf brd
+         * <b hrff="Ard2D.html#insdribfs">pbrtiblly insdribfs</b>
+         * thf frbming rfdtbnglf of this {@dodf RfdtbngulbrShbpf}.
+         *
+         * @sindf 1.2
+         */
+        publid doublf gftX() {
+            rfturn x;
+        }
+
+        /**
+         * {@inhfritDod}
+         * Notf thbt thf brd
+         * <b hrff="Ard2D.html#insdribfs">pbrtiblly insdribfs</b>
+         * thf frbming rfdtbnglf of this {@dodf RfdtbngulbrShbpf}.
+         *
+         * @sindf 1.2
+         */
+        publid doublf gftY() {
+            rfturn y;
+        }
+
+        /**
+         * {@inhfritDod}
+         * Notf thbt thf brd
+         * <b hrff="Ard2D.html#insdribfs">pbrtiblly insdribfs</b>
+         * thf frbming rfdtbnglf of this {@dodf RfdtbngulbrShbpf}.
+         *
+         * @sindf 1.2
+         */
+        publid doublf gftWidth() {
+            rfturn width;
+        }
+
+        /**
+         * {@inhfritDod}
+         * Notf thbt thf brd
+         * <b hrff="Ard2D.html#insdribfs">pbrtiblly insdribfs</b>
+         * thf frbming rfdtbnglf of this {@dodf RfdtbngulbrShbpf}.
+         *
+         * @sindf 1.2
+         */
+        publid doublf gftHfight() {
+            rfturn hfight;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftAnglfStbrt() {
+            rfturn stbrt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftAnglfExtfnt() {
+            rfturn fxtfnt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid boolfbn isEmpty() {
+            rfturn (width <= 0.0 || hfight <= 0.0);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftArd(doublf x, doublf y, doublf w, doublf h,
+                           doublf bngSt, doublf bngExt, int dlosurf) {
+            this.sftArdTypf(dlosurf);
+            this.x = x;
+            this.y = y;
+            this.width = w;
+            this.hfight = h;
+            this.stbrt = bngSt;
+            this.fxtfnt = bngExt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftAnglfStbrt(doublf bngSt) {
+            this.stbrt = bngSt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftAnglfExtfnt(doublf bngExt) {
+            this.fxtfnt = bngExt;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        protfdtfd Rfdtbnglf2D mbkfBounds(doublf x, doublf y,
+                                         doublf w, doublf h) {
+            rfturn nfw Rfdtbnglf2D.Doublf(x, y, w, h);
+        }
+
+        /*
+         * JDK 1.6 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 728264085846882001L;
+
+        /**
+         * Writfs thf dffbult sfriblizbblf fiflds to thf
+         * <dodf>ObjfdtOutputStrfbm</dodf> followfd by b bytf
+         * indidbting thf brd typf of this <dodf>Ard2D</dodf>
+         * instbndf.
+         *
+         * @sfriblDbtb
+         * <ol>
+         * <li>Thf dffbult sfriblizbblf fiflds.
+         * <li>
+         * followfd by b <dodf>bytf</dodf> indidbting thf brd typf
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * </ol>
+         */
+        privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            throws jbvb.io.IOExdfption
+        {
+            s.dffbultWritfObjfdt();
+
+            s.writfBytf(gftArdTypf());
+        }
+
+        /**
+         * Rfbds thf dffbult sfriblizbblf fiflds from thf
+         * <dodf>ObjfdtInputStrfbm</dodf> followfd by b bytf
+         * indidbting thf brd typf of this <dodf>Ard2D</dodf>
+         * instbndf.
+         *
+         * @sfriblDbtb
+         * <ol>
+         * <li>Thf dffbult sfriblizbblf fiflds.
+         * <li>
+         * followfd by b <dodf>bytf</dodf> indidbting thf brd typf
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * </ol>
+         */
+        privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            throws jbvb.lbng.ClbssNotFoundExdfption, jbvb.io.IOExdfption
+        {
+            s.dffbultRfbdObjfdt();
+
+            try {
+                sftArdTypf(s.rfbdBytf());
+            } dbtdh (IllfgblArgumfntExdfption ibf) {
+                throw nfw jbvb.io.InvblidObjfdtExdfption(ibf.gftMfssbgf());
+            }
+        }
+    }
+
+    privbtf int typf;
+
+    /**
+     * This is bn bbstrbdt dlbss thbt dbnnot bf instbntibtfd dirfdtly.
+     * Typf-spfdifid implfmfntbtion subdlbssfs brf bvbilbblf for
+     * instbntibtion bnd providf b numbfr of formbts for storing
+     * thf informbtion nfdfssbry to sbtisfy thf vbrious bddfssor
+     * mfthods bflow.
+     * <p>
+     * This donstrudtor drfbtfs bn objfdt with b dffbult dlosurf
+     * typf of {@link #OPEN}.  It is providfd only to fnbblf
+     * sfriblizbtion of subdlbssfs.
+     *
+     * @sff jbvb.bwt.gfom.Ard2D.Flobt
+     * @sff jbvb.bwt.gfom.Ard2D.Doublf
+     */
+    protfdtfd Ard2D() {
+        this(OPEN);
+    }
+
+    /**
+     * This is bn bbstrbdt dlbss thbt dbnnot bf instbntibtfd dirfdtly.
+     * Typf-spfdifid implfmfntbtion subdlbssfs brf bvbilbblf for
+     * instbntibtion bnd providf b numbfr of formbts for storing
+     * thf informbtion nfdfssbry to sbtisfy thf vbrious bddfssor
+     * mfthods bflow.
+     *
+     * @pbrbm typf Thf dlosurf typf of this brd:
+     * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+     * @sff jbvb.bwt.gfom.Ard2D.Flobt
+     * @sff jbvb.bwt.gfom.Ard2D.Doublf
+     * @sindf 1.2
+     */
+    protfdtfd Ard2D(int typf) {
+        sftArdTypf(typf);
+    }
+
+    /**
+     * Rfturns thf stbrting bnglf of thf brd.
+     *
+     * @rfturn A doublf vbluf thbt rfprfsfnts thf stbrting bnglf
+     * of thf brd in dfgrffs.
+     * @sff #sftAnglfStbrt
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftAnglfStbrt();
+
+    /**
+     * Rfturns thf bngulbr fxtfnt of thf brd.
+     *
+     * @rfturn A doublf vbluf thbt rfprfsfnts thf bngulbr fxtfnt
+     * of thf brd in dfgrffs.
+     * @sff #sftAnglfExtfnt
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftAnglfExtfnt();
+
+    /**
+     * Rfturns thf brd dlosurf typf of thf brd: {@link #OPEN},
+     * {@link #CHORD}, or {@link #PIE}.
+     * @rfturn Onf of thf intfgfr donstbnt dlosurf typfs dffinfd
+     * in this dlbss.
+     * @sff #sftArdTypf
+     * @sindf 1.2
+     */
+    publid int gftArdTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns thf stbrting point of thf brd.  This point is thf
+     * intfrsfdtion of thf rby from thf dfntfr dffinfd by thf
+     * stbrting bnglf bnd thf flliptidbl boundbry of thf brd.
+     *
+     * @rfturn A <CODE>Point2D</CODE> objfdt rfprfsfnting thf
+     * x,y doordinbtfs of thf stbrting point of thf brd.
+     * @sindf 1.2
+     */
+    publid Point2D gftStbrtPoint() {
+        doublf bnglf = Mbth.toRbdibns(-gftAnglfStbrt());
+        doublf x = gftX() + (Mbth.dos(bnglf) * 0.5 + 0.5) * gftWidth();
+        doublf y = gftY() + (Mbth.sin(bnglf) * 0.5 + 0.5) * gftHfight();
+        rfturn nfw Point2D.Doublf(x, y);
+    }
+
+    /**
+     * Rfturns thf fnding point of thf brd.  This point is thf
+     * intfrsfdtion of thf rby from thf dfntfr dffinfd by thf
+     * stbrting bnglf plus thf bngulbr fxtfnt of thf brd bnd thf
+     * flliptidbl boundbry of thf brd.
+     *
+     * @rfturn A <CODE>Point2D</CODE> objfdt rfprfsfnting thf
+     * x,y doordinbtfs  of thf fnding point of thf brd.
+     * @sindf 1.2
+     */
+    publid Point2D gftEndPoint() {
+        doublf bnglf = Mbth.toRbdibns(-gftAnglfStbrt() - gftAnglfExtfnt());
+        doublf x = gftX() + (Mbth.dos(bnglf) * 0.5 + 0.5) * gftWidth();
+        doublf y = gftY() + (Mbth.sin(bnglf) * 0.5 + 0.5) * gftHfight();
+        rfturn nfw Point2D.Doublf(x, y);
+    }
+
+    /**
+     * Sfts thf lodbtion, sizf, bngulbr fxtfnts, bnd dlosurf typf of
+     * this brd to thf spfdififd doublf vblufs.
+     *
+     * @pbrbm x Thf X doordinbtf of thf uppfr-lfft dornfr of thf brd.
+     * @pbrbm y Thf Y doordinbtf of thf uppfr-lfft dornfr of thf brd.
+     * @pbrbm w Thf ovfrbll width of thf full fllipsf of whidh
+     *          this brd is b pbrtibl sfdtion.
+     * @pbrbm h Thf ovfrbll hfight of thf full fllipsf of whidh
+     *          this brd is b pbrtibl sfdtion.
+     * @pbrbm bngSt Thf stbrting bnglf of thf brd in dfgrffs.
+     * @pbrbm bngExt Thf bngulbr fxtfnt of thf brd in dfgrffs.
+     * @pbrbm dlosurf Thf dlosurf typf for thf brd:
+     * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+     * @sindf 1.2
+     */
+    publid bbstrbdt void sftArd(doublf x, doublf y, doublf w, doublf h,
+                                doublf bngSt, doublf bngExt, int dlosurf);
+
+    /**
+     * Sfts thf lodbtion, sizf, bngulbr fxtfnts, bnd dlosurf typf of
+     * this brd to thf spfdififd vblufs.
+     *
+     * @pbrbm lod Thf <CODE>Point2D</CODE> rfprfsfnting thf doordinbtfs of
+     * thf uppfr-lfft dornfr of thf brd.
+     * @pbrbm sizf Thf <CODE>Dimfnsion2D</CODE> rfprfsfnting thf width
+     * bnd hfight of thf full fllipsf of whidh this brd is
+     * b pbrtibl sfdtion.
+     * @pbrbm bngSt Thf stbrting bnglf of thf brd in dfgrffs.
+     * @pbrbm bngExt Thf bngulbr fxtfnt of thf brd in dfgrffs.
+     * @pbrbm dlosurf Thf dlosurf typf for thf brd:
+     * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+     * @sindf 1.2
+     */
+    publid void sftArd(Point2D lod, Dimfnsion2D sizf,
+                       doublf bngSt, doublf bngExt, int dlosurf) {
+        sftArd(lod.gftX(), lod.gftY(), sizf.gftWidth(), sizf.gftHfight(),
+               bngSt, bngExt, dlosurf);
+    }
+
+    /**
+     * Sfts thf lodbtion, sizf, bngulbr fxtfnts, bnd dlosurf typf of
+     * this brd to thf spfdififd vblufs.
+     *
+     * @pbrbm rfdt Thf frbming rfdtbnglf thbt dffinfs thf
+     * outfr boundbry of thf full fllipsf of whidh this brd is b
+     * pbrtibl sfdtion.
+     * @pbrbm bngSt Thf stbrting bnglf of thf brd in dfgrffs.
+     * @pbrbm bngExt Thf bngulbr fxtfnt of thf brd in dfgrffs.
+     * @pbrbm dlosurf Thf dlosurf typf for thf brd:
+     * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+     * @sindf 1.2
+     */
+    publid void sftArd(Rfdtbnglf2D rfdt, doublf bngSt, doublf bngExt,
+                       int dlosurf) {
+        sftArd(rfdt.gftX(), rfdt.gftY(), rfdt.gftWidth(), rfdt.gftHfight(),
+               bngSt, bngExt, dlosurf);
+    }
+
+    /**
+     * Sfts this brd to bf thf sbmf bs thf spfdififd brd.
+     *
+     * @pbrbm b Thf <CODE>Ard2D</CODE> to usf to sft thf brd's vblufs.
+     * @sindf 1.2
+     */
+    publid void sftArd(Ard2D b) {
+        sftArd(b.gftX(), b.gftY(), b.gftWidth(), b.gftHfight(),
+               b.gftAnglfStbrt(), b.gftAnglfExtfnt(), b.typf);
+    }
+
+    /**
+     * Sfts thf position, bounds, bngulbr fxtfnts, bnd dlosurf typf of
+     * this brd to thf spfdififd vblufs. Thf brd is dffinfd by b dfntfr
+     * point bnd b rbdius rbthfr thbn b frbming rfdtbnglf for thf full fllipsf.
+     *
+     * @pbrbm x Thf X doordinbtf of thf dfntfr of thf brd.
+     * @pbrbm y Thf Y doordinbtf of thf dfntfr of thf brd.
+     * @pbrbm rbdius Thf rbdius of thf brd.
+     * @pbrbm bngSt Thf stbrting bnglf of thf brd in dfgrffs.
+     * @pbrbm bngExt Thf bngulbr fxtfnt of thf brd in dfgrffs.
+     * @pbrbm dlosurf Thf dlosurf typf for thf brd:
+     * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+     * @sindf 1.2
+     */
+    publid void sftArdByCfntfr(doublf x, doublf y, doublf rbdius,
+                               doublf bngSt, doublf bngExt, int dlosurf) {
+        sftArd(x - rbdius, y - rbdius, rbdius * 2.0, rbdius * 2.0,
+               bngSt, bngExt, dlosurf);
+    }
+
+    /**
+     * Sfts thf position, bounds, bnd bngulbr fxtfnts of this brd to thf
+     * spfdififd vbluf. Thf stbrting bnglf of thf brd is tbngfnt to thf
+     * linf spfdififd by points (p1, p2), thf fnding bnglf is tbngfnt to
+     * thf linf spfdififd by points (p2, p3), bnd thf brd hbs thf
+     * spfdififd rbdius.
+     *
+     * @pbrbm p1 Thf first point thbt dffinfs thf brd. Thf stbrting
+     * bnglf of thf brd is tbngfnt to thf linf spfdififd by points (p1, p2).
+     * @pbrbm p2 Thf sfdond point thbt dffinfs thf brd. Thf stbrting
+     * bnglf of thf brd is tbngfnt to thf linf spfdififd by points (p1, p2).
+     * Thf fnding bnglf of thf brd is tbngfnt to thf linf spfdififd by
+     * points (p2, p3).
+     * @pbrbm p3 Thf third point thbt dffinfs thf brd. Thf fnding bnglf
+     * of thf brd is tbngfnt to thf linf spfdififd by points (p2, p3).
+     * @pbrbm rbdius Thf rbdius of thf brd.
+     * @sindf 1.2
+     */
+    publid void sftArdByTbngfnt(Point2D p1, Point2D p2, Point2D p3,
+                                doublf rbdius) {
+        doublf bng1 = Mbth.btbn2(p1.gftY() - p2.gftY(),
+                                 p1.gftX() - p2.gftX());
+        doublf bng2 = Mbth.btbn2(p3.gftY() - p2.gftY(),
+                                 p3.gftX() - p2.gftX());
+        doublf diff = bng2 - bng1;
+        if (diff > Mbth.PI) {
+            bng2 -= Mbth.PI * 2.0;
+        } flsf if (diff < -Mbth.PI) {
+            bng2 += Mbth.PI * 2.0;
+        }
+        doublf bisfdt = (bng1 + bng2) / 2.0;
+        doublf thftb = Mbth.bbs(bng2 - bisfdt);
+        doublf dist = rbdius / Mbth.sin(thftb);
+        doublf x = p2.gftX() + dist * Mbth.dos(bisfdt);
+        doublf y = p2.gftY() + dist * Mbth.sin(bisfdt);
+        // REMIND: This nffds somf work...
+        if (bng1 < bng2) {
+            bng1 -= Mbth.PI / 2.0;
+            bng2 += Mbth.PI / 2.0;
+        } flsf {
+            bng1 += Mbth.PI / 2.0;
+            bng2 -= Mbth.PI / 2.0;
+        }
+        bng1 = Mbth.toDfgrffs(-bng1);
+        bng2 = Mbth.toDfgrffs(-bng2);
+        diff = bng2 - bng1;
+        if (diff < 0) {
+            diff += 360;
+        } flsf {
+            diff -= 360;
+        }
+        sftArdByCfntfr(x, y, rbdius, bng1, diff, typf);
+    }
+
+    /**
+     * Sfts thf stbrting bnglf of this brd to thf spfdififd doublf
+     * vbluf.
+     *
+     * @pbrbm bngSt Thf stbrting bnglf of thf brd in dfgrffs.
+     * @sff #gftAnglfStbrt
+     * @sindf 1.2
+     */
+    publid bbstrbdt void sftAnglfStbrt(doublf bngSt);
+
+    /**
+     * Sfts thf bngulbr fxtfnt of this brd to thf spfdififd doublf
+     * vbluf.
+     *
+     * @pbrbm bngExt Thf bngulbr fxtfnt of thf brd in dfgrffs.
+     * @sff #gftAnglfExtfnt
+     * @sindf 1.2
+     */
+    publid bbstrbdt void sftAnglfExtfnt(doublf bngExt);
+
+    /**
+     * Sfts thf stbrting bnglf of this brd to thf bnglf thbt thf
+     * spfdififd point dffinfs rflbtivf to thf dfntfr of this brd.
+     * Thf bngulbr fxtfnt of thf brd will rfmbin thf sbmf.
+     *
+     * @pbrbm p Thf <CODE>Point2D</CODE> thbt dffinfs thf stbrting bnglf.
+     * @sff #gftAnglfStbrt
+     * @sindf 1.2
+     */
+    publid void sftAnglfStbrt(Point2D p) {
+        // Bibs thf dx bnd dy by thf hfight bnd width of thf ovbl.
+        doublf dx = gftHfight() * (p.gftX() - gftCfntfrX());
+        doublf dy = gftWidth() * (p.gftY() - gftCfntfrY());
+        sftAnglfStbrt(-Mbth.toDfgrffs(Mbth.btbn2(dy, dx)));
+    }
+
+    /**
+     * Sfts thf stbrting bnglf bnd bngulbr fxtfnt of this brd using two
+     * sfts of doordinbtfs. Thf first sft of doordinbtfs is usfd to
+     * dftfrminf thf bnglf of thf stbrting point rflbtivf to thf brd's
+     * dfntfr. Thf sfdond sft of doordinbtfs is usfd to dftfrminf thf
+     * bnglf of thf fnd point rflbtivf to thf brd's dfntfr.
+     * Thf brd will blwbys bf non-fmpty bnd fxtfnd dountfrdlodkwisf
+     * from thf first point bround to thf sfdond point.
+     *
+     * @pbrbm x1 Thf X doordinbtf of thf brd's stbrting point.
+     * @pbrbm y1 Thf Y doordinbtf of thf brd's stbrting point.
+     * @pbrbm x2 Thf X doordinbtf of thf brd's fnding point.
+     * @pbrbm y2 Thf Y doordinbtf of thf brd's fnding point.
+     * @sindf 1.2
+     */
+    publid void sftAnglfs(doublf x1, doublf y1, doublf x2, doublf y2) {
+        doublf x = gftCfntfrX();
+        doublf y = gftCfntfrY();
+        doublf w = gftWidth();
+        doublf h = gftHfight();
+        // Notf: rfvfrsing thf Y fqubtions nfgbtfs thf bnglf to bdjust
+        // for thf upsidf down doordinbtf systfm.
+        // Also wf should bibs btbns by thf hfight bnd width of thf ovbl.
+        doublf bng1 = Mbth.btbn2(w * (y - y1), h * (x1 - x));
+        doublf bng2 = Mbth.btbn2(w * (y - y2), h * (x2 - x));
+        bng2 -= bng1;
+        if (bng2 <= 0.0) {
+            bng2 += Mbth.PI * 2.0;
+        }
+        sftAnglfStbrt(Mbth.toDfgrffs(bng1));
+        sftAnglfExtfnt(Mbth.toDfgrffs(bng2));
+    }
+
+    /**
+     * Sfts thf stbrting bnglf bnd bngulbr fxtfnt of this brd using
+     * two points. Thf first point is usfd to dftfrminf thf bnglf of
+     * thf stbrting point rflbtivf to thf brd's dfntfr.
+     * Thf sfdond point is usfd to dftfrminf thf bnglf of thf fnd point
+     * rflbtivf to thf brd's dfntfr.
+     * Thf brd will blwbys bf non-fmpty bnd fxtfnd dountfrdlodkwisf
+     * from thf first point bround to thf sfdond point.
+     *
+     * @pbrbm p1 Thf <CODE>Point2D</CODE> thbt dffinfs thf brd's
+     * stbrting point.
+     * @pbrbm p2 Thf <CODE>Point2D</CODE> thbt dffinfs thf brd's
+     * fnding point.
+     * @sindf 1.2
+     */
+    publid void sftAnglfs(Point2D p1, Point2D p2) {
+        sftAnglfs(p1.gftX(), p1.gftY(), p2.gftX(), p2.gftY());
+    }
+
+    /**
+     * Sfts thf dlosurf typf of this brd to thf spfdififd vbluf:
+     * <CODE>OPEN</CODE>, <CODE>CHORD</CODE>, or <CODE>PIE</CODE>.
+     *
+     * @pbrbm typf Thf intfgfr donstbnt thbt rfprfsfnts thf dlosurf
+     * typf of this brd: {@link #OPEN}, {@link #CHORD}, or
+     * {@link #PIE}.
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>typf</dodf> is not
+     * 0, 1, or 2.+
+     * @sff #gftArdTypf
+     * @sindf 1.2
+     */
+    publid void sftArdTypf(int typf) {
+        if (typf < OPEN || typf > PIE) {
+            throw nfw IllfgblArgumfntExdfption("invblid typf for Ard: "+typf);
+        }
+        this.typf = typf;
+    }
+
+    /**
+     * {@inhfritDod}
+     * Notf thbt thf brd
+     * <b hrff="Ard2D.html#insdribfs">pbrtiblly insdribfs</b>
+     * thf frbming rfdtbnglf of this {@dodf RfdtbngulbrShbpf}.
+     *
+     * @sindf 1.2
+     */
+    publid void sftFrbmf(doublf x, doublf y, doublf w, doublf h) {
+        sftArd(x, y, w, h, gftAnglfStbrt(), gftAnglfExtfnt(), typf);
+    }
+
+    /**
+     * Rfturns thf high-prfdision frbming rfdtbnglf of thf brd.  Thf frbming
+     * rfdtbnglf dontbins only thf pbrt of this <dodf>Ard2D</dodf> thbt is
+     * in bftwffn thf stbrting bnd fnding bnglfs bnd dontbins thf pif
+     * wfdgf, if this <dodf>Ard2D</dodf> hbs b <dodf>PIE</dodf> dlosurf typf.
+     * <p>
+     * This mfthod difffrs from thf
+     * {@link RfdtbngulbrShbpf#gftBounds() gftBounds} in thbt thf
+     * <dodf>gftBounds</dodf> mfthod only rfturns thf bounds of thf
+     * fndlosing fllipsf of this <dodf>Ard2D</dodf> without donsidfring
+     * thf stbrting bnd fnding bnglfs of this <dodf>Ard2D</dodf>.
+     *
+     * @rfturn thf <CODE>Rfdtbnglf2D</CODE> thbt rfprfsfnts thf brd's
+     * frbming rfdtbnglf.
+     * @sindf 1.2
+     */
+    publid Rfdtbnglf2D gftBounds2D() {
+        if (isEmpty()) {
+            rfturn mbkfBounds(gftX(), gftY(), gftWidth(), gftHfight());
+        }
+        doublf x1, y1, x2, y2;
+        if (gftArdTypf() == PIE) {
+            x1 = y1 = x2 = y2 = 0.0;
+        } flsf {
+            x1 = y1 = 1.0;
+            x2 = y2 = -1.0;
+        }
+        doublf bnglf = 0.0;
+        for (int i = 0; i < 6; i++) {
+            if (i < 4) {
+                // 0-3 brf thf four qubdrbnts
+                bnglf += 90.0;
+                if (!dontbinsAnglf(bnglf)) {
+                    dontinuf;
+                }
+            } flsf if (i == 4) {
+                // 4 is stbrt bnglf
+                bnglf = gftAnglfStbrt();
+            } flsf {
+                // 5 is fnd bnglf
+                bnglf += gftAnglfExtfnt();
+            }
+            doublf rbds = Mbth.toRbdibns(-bnglf);
+            doublf xf = Mbth.dos(rbds);
+            doublf yf = Mbth.sin(rbds);
+            x1 = Mbth.min(x1, xf);
+            y1 = Mbth.min(y1, yf);
+            x2 = Mbth.mbx(x2, xf);
+            y2 = Mbth.mbx(y2, yf);
+        }
+        doublf w = gftWidth();
+        doublf h = gftHfight();
+        x2 = (x2 - x1) * 0.5 * w;
+        y2 = (y2 - y1) * 0.5 * h;
+        x1 = gftX() + (x1 * 0.5 + 0.5) * w;
+        y1 = gftY() + (y1 * 0.5 + 0.5) * h;
+        rfturn mbkfBounds(x1, y1, x2, y2);
+    }
+
+    /**
+     * Construdts b <dodf>Rfdtbnglf2D</dodf> of thf bppropribtf prfdision
+     * to hold thf pbrbmftfrs dbldulbtfd to bf thf frbming rfdtbnglf
+     * of this brd.
+     *
+     * @pbrbm x Thf X doordinbtf of thf uppfr-lfft dornfr of thf
+     * frbming rfdtbnglf.
+     * @pbrbm y Thf Y doordinbtf of thf uppfr-lfft dornfr of thf
+     * frbming rfdtbnglf.
+     * @pbrbm w Thf width of thf frbming rfdtbnglf.
+     * @pbrbm h Thf hfight of thf frbming rfdtbnglf.
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> thbt is thf frbming rfdtbnglf
+     *     of this brd.
+     * @sindf 1.2
+     */
+    protfdtfd bbstrbdt Rfdtbnglf2D mbkfBounds(doublf x, doublf y,
+                                              doublf w, doublf h);
+
+    /*
+     * Normblizfs thf spfdififd bnglf into thf rbngf -180 to 180.
+     */
+    stbtid doublf normblizfDfgrffs(doublf bnglf) {
+        if (bnglf > 180.0) {
+            if (bnglf <= (180.0 + 360.0)) {
+                bnglf = bnglf - 360.0;
+            } flsf {
+                bnglf = Mbth.IEEErfmbindfr(bnglf, 360.0);
+                // IEEErfmbindfr dbn rfturn -180 hfrf for somf input vblufs...
+                if (bnglf == -180.0) {
+                    bnglf = 180.0;
+                }
+            }
+        } flsf if (bnglf <= -180.0) {
+            if (bnglf > (-180.0 - 360.0)) {
+                bnglf = bnglf + 360.0;
+            } flsf {
+                bnglf = Mbth.IEEErfmbindfr(bnglf, 360.0);
+                // IEEErfmbindfr dbn rfturn -180 hfrf for somf input vblufs...
+                if (bnglf == -180.0) {
+                    bnglf = 180.0;
+                }
+            }
+        }
+        rfturn bnglf;
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf spfdififd bnglf is within thf
+     * bngulbr fxtfnts of thf brd.
+     *
+     * @pbrbm bnglf Thf bnglf to tfst.
+     *
+     * @rfturn <CODE>truf</CODE> if thf brd dontbins thf bnglf,
+     * <CODE>fblsf</CODE> if thf brd dofsn't dontbin thf bnglf.
+     * @sindf 1.2
+     */
+    publid boolfbn dontbinsAnglf(doublf bnglf) {
+        doublf bngExt = gftAnglfExtfnt();
+        boolfbn bbdkwbrds = (bngExt < 0.0);
+        if (bbdkwbrds) {
+            bngExt = -bngExt;
+        }
+        if (bngExt >= 360.0) {
+            rfturn truf;
+        }
+        bnglf = normblizfDfgrffs(bnglf) - normblizfDfgrffs(gftAnglfStbrt());
+        if (bbdkwbrds) {
+            bnglf = -bnglf;
+        }
+        if (bnglf < 0.0) {
+            bnglf += 360.0;
+        }
+
+
+        rfturn (bnglf >= 0.0) && (bnglf < bngExt);
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf spfdififd point is insidf thf boundbry
+     * of thf brd.
+     *
+     * @pbrbm x Thf X doordinbtf of thf point to tfst.
+     * @pbrbm y Thf Y doordinbtf of thf point to tfst.
+     *
+     * @rfturn <CODE>truf</CODE> if thf point lifs within thf bound of
+     * thf brd, <CODE>fblsf</CODE> if thf point lifs outsidf of thf
+     * brd's bounds.
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y) {
+        // Normblizf thf doordinbtfs dompbrfd to thf fllipsf
+        // hbving b dfntfr bt 0,0 bnd b rbdius of 0.5.
+        doublf fllw = gftWidth();
+        if (fllw <= 0.0) {
+            rfturn fblsf;
+        }
+        doublf normx = (x - gftX()) / fllw - 0.5;
+        doublf fllh = gftHfight();
+        if (fllh <= 0.0) {
+            rfturn fblsf;
+        }
+        doublf normy = (y - gftY()) / fllh - 0.5;
+        doublf distSq = (normx * normx + normy * normy);
+        if (distSq >= 0.25) {
+            rfturn fblsf;
+        }
+        doublf bngExt = Mbth.bbs(gftAnglfExtfnt());
+        if (bngExt >= 360.0) {
+            rfturn truf;
+        }
+        boolfbn inbrd = dontbinsAnglf(-Mbth.toDfgrffs(Mbth.btbn2(normy,
+                                                                 normx)));
+        if (typf == PIE) {
+            rfturn inbrd;
+        }
+        // CHORD bnd OPEN bfhbvf thf sbmf wby
+        if (inbrd) {
+            if (bngExt >= 180.0) {
+                rfturn truf;
+            }
+            // point must bf outsidf thf "pif tribnglf"
+        } flsf {
+            if (bngExt <= 180.0) {
+                rfturn fblsf;
+            }
+            // point must bf insidf thf "pif tribnglf"
+        }
+        // Thf point is insidf thf pif tribnglf iff it is on thf sbmf
+        // sidf of thf linf donnfdting thf fnds of thf brd bs thf dfntfr.
+        doublf bnglf = Mbth.toRbdibns(-gftAnglfStbrt());
+        doublf x1 = Mbth.dos(bnglf);
+        doublf y1 = Mbth.sin(bnglf);
+        bnglf += Mbth.toRbdibns(-gftAnglfExtfnt());
+        doublf x2 = Mbth.dos(bnglf);
+        doublf y2 = Mbth.sin(bnglf);
+        boolfbn insidf = (Linf2D.rflbtivfCCW(x1, y1, x2, y2, 2*normx, 2*normy) *
+                          Linf2D.rflbtivfCCW(x1, y1, x2, y2, 0, 0) >= 0);
+        rfturn inbrd ? !insidf : insidf;
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf intfrior of thf brd intfrsfdts
+     * thf intfrior of thf spfdififd rfdtbnglf.
+     *
+     * @pbrbm x Thf X doordinbtf of thf rfdtbnglf's uppfr-lfft dornfr.
+     * @pbrbm y Thf Y doordinbtf of thf rfdtbnglf's uppfr-lfft dornfr.
+     * @pbrbm w Thf width of thf rfdtbnglf.
+     * @pbrbm h Thf hfight of thf rfdtbnglf.
+     *
+     * @rfturn <CODE>truf</CODE> if thf brd intfrsfdts thf rfdtbnglf,
+     * <CODE>fblsf</CODE> if thf brd dofsn't intfrsfdt thf rfdtbnglf.
+     * @sindf 1.2
+     */
+    publid boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf h) {
+
+        doublf bw = gftWidth();
+        doublf bh = gftHfight();
+
+        if ( w <= 0 || h <= 0 || bw <= 0 || bh <= 0 ) {
+            rfturn fblsf;
+        }
+        doublf fxt = gftAnglfExtfnt();
+        if (fxt == 0) {
+            rfturn fblsf;
+        }
+
+        doublf bx  = gftX();
+        doublf by  = gftY();
+        doublf bxw = bx + bw;
+        doublf byh = by + bh;
+        doublf xw  = x + w;
+        doublf yh  = y + h;
+
+        // dhfdk bbox
+        if (x >= bxw || y >= byh || xw <= bx || yh <= by) {
+            rfturn fblsf;
+        }
+
+        // fxtrbdt nfdfssbry dbtb
+        doublf bxd = gftCfntfrX();
+        doublf byd = gftCfntfrY();
+        Point2D sp = gftStbrtPoint();
+        Point2D fp = gftEndPoint();
+        doublf sx = sp.gftX();
+        doublf sy = sp.gftY();
+        doublf fx = fp.gftX();
+        doublf fy = fp.gftY();
+
+        /*
+         * Try to dbtdh rfdtbnglfs thbt intfrsfdt brd in brfbs
+         * outsidf of rfdtbglf with lfft top dornfr doordinbtfs
+         * (min(dfntfr x, stbrt point x, fnd point x),
+         *  min(dfntfr y, stbrt point y, fnd point y))
+         * bnd rigth bottom dornfr doordinbtfs
+         * (mbx(dfntfr x, stbrt point x, fnd point x),
+         *  mbx(dfntfr y, stbrt point y, fnd point y)).
+         * So wf'll dhfdk bxis sfgmfnts outsidf of rfdtbnglf bbovf.
+         */
+        if (byd >= y && byd <= yh) { // 0 bnd 180
+            if ((sx < xw && fx < xw && bxd < xw &&
+                 bxw > x && dontbinsAnglf(0)) ||
+                (sx > x && fx > x && bxd > x &&
+                 bx < xw && dontbinsAnglf(180))) {
+                rfturn truf;
+            }
+        }
+        if (bxd >= x && bxd <= xw) { // 90 bnd 270
+            if ((sy > y && fy > y && byd > y &&
+                 by < yh && dontbinsAnglf(90)) ||
+                (sy < yh && fy < yh && byd < yh &&
+                 byh > y && dontbinsAnglf(270))) {
+                rfturn truf;
+            }
+        }
+
+        /*
+         * For PIE wf should dhfdk intfrsfdtion with pif slidfs;
+         * blso wf should do thf sbmf for brds with fxtfnt is grfbtfr
+         * thbn 180, bfdbusf wf should dovfr dbsf of rfdtbnglf, whidh
+         * situbtfd bftwffn dfntfr of brd bnd dhord, but dofs not
+         * intfrsfdt thf dhord.
+         */
+        Rfdtbnglf2D rfdt = nfw Rfdtbnglf2D.Doublf(x, y, w, h);
+        if (typf == PIE || Mbth.bbs(fxt) > 180) {
+            // for PIE: try to find intfrsfdtions with pif slidfs
+            if (rfdt.intfrsfdtsLinf(bxd, byd, sx, sy) ||
+                rfdt.intfrsfdtsLinf(bxd, byd, fx, fy)) {
+                rfturn truf;
+            }
+        } flsf {
+            // for CHORD bnd OPEN: try to find intfrsfdtions with dhord
+            if (rfdt.intfrsfdtsLinf(sx, sy, fx, fy)) {
+                rfturn truf;
+            }
+        }
+
+        // finblly dhfdk thf rfdtbnglf dornfrs insidf thf brd
+        if (dontbins(x, y) || dontbins(x + w, y) ||
+            dontbins(x, y + h) || dontbins(x + w, y + h)) {
+            rfturn truf;
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf intfrior of thf brd fntirfly dontbins
+     * thf spfdififd rfdtbnglf.
+     *
+     * @pbrbm x Thf X doordinbtf of thf rfdtbnglf's uppfr-lfft dornfr.
+     * @pbrbm y Thf Y doordinbtf of thf rfdtbnglf's uppfr-lfft dornfr.
+     * @pbrbm w Thf width of thf rfdtbnglf.
+     * @pbrbm h Thf hfight of thf rfdtbnglf.
+     *
+     * @rfturn <CODE>truf</CODE> if thf brd dontbins thf rfdtbnglf,
+     * <CODE>fblsf</CODE> if thf brd dofsn't dontbin thf rfdtbnglf.
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y, doublf w, doublf h) {
+        rfturn dontbins(x, y, w, h, null);
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf intfrior of thf brd fntirfly dontbins
+     * thf spfdififd rfdtbnglf.
+     *
+     * @pbrbm r Thf <CODE>Rfdtbnglf2D</CODE> to tfst.
+     *
+     * @rfturn <CODE>truf</CODE> if thf brd dontbins thf rfdtbnglf,
+     * <CODE>fblsf</CODE> if thf brd dofsn't dontbin thf rfdtbnglf.
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(Rfdtbnglf2D r) {
+        rfturn dontbins(r.gftX(), r.gftY(), r.gftWidth(), r.gftHfight(), r);
+    }
+
+    privbtf boolfbn dontbins(doublf x, doublf y, doublf w, doublf h,
+                             Rfdtbnglf2D origrfdt) {
+        if (!(dontbins(x, y) &&
+              dontbins(x + w, y) &&
+              dontbins(x, y + h) &&
+              dontbins(x + w, y + h))) {
+            rfturn fblsf;
+        }
+        // If thf shbpf is donvfx thfn wf hbvf donf bll thf tfsting
+        // wf nffd.  Only PIE brds dbn bf dondbvf bnd thfn only if
+        // thf bngulbr fxtfnts brf grfbtfr thbn 180 dfgrffs.
+        if (typf != PIE || Mbth.bbs(gftAnglfExtfnt()) <= 180.0) {
+            rfturn truf;
+        }
+        // For b PIE shbpf wf hbvf bn bdditionbl tfst for thf dbsf whfrf
+        // thf bngulbr fxtfnts brf grfbtfr thbn 180 dfgrffs bnd bll four
+        // rfdtbngulbr dornfrs brf insidf thf shbpf but onf of thf
+        // rfdtbnglf fdgfs spbns bdross thf "missing wfdgf" of thf brd.
+        // Wf dbn tfst for this dbsf by dhfdking if thf rfdtbnglf intfrsfdts
+        // fithfr of thf pif bnglf sfgmfnts.
+        if (origrfdt == null) {
+            origrfdt = nfw Rfdtbnglf2D.Doublf(x, y, w, h);
+        }
+        doublf hblfW = gftWidth() / 2.0;
+        doublf hblfH = gftHfight() / 2.0;
+        doublf xd = gftX() + hblfW;
+        doublf yd = gftY() + hblfH;
+        doublf bnglf = Mbth.toRbdibns(-gftAnglfStbrt());
+        doublf xf = xd + hblfW * Mbth.dos(bnglf);
+        doublf yf = yd + hblfH * Mbth.sin(bnglf);
+        if (origrfdt.intfrsfdtsLinf(xd, yd, xf, yf)) {
+            rfturn fblsf;
+        }
+        bnglf += Mbth.toRbdibns(-gftAnglfExtfnt());
+        xf = xd + hblfW * Mbth.dos(bnglf);
+        yf = yd + hblfH * Mbth.sin(bnglf);
+        rfturn !origrfdt.intfrsfdtsLinf(xd, yd, xf, yf);
+    }
+
+    /**
+     * Rfturns bn itfrbtion objfdt thbt dffinfs thf boundbry of thf
+     * brd.
+     * This itfrbtor is multithrfbd sbff.
+     * <dodf>Ard2D</dodf> gubrbntffs thbt
+     * modifidbtions to thf gfomftry of thf brd
+     * do not bfffdt bny itfrbtions of thbt gfomftry thbt
+     * brf blrfbdy in prodfss.
+     *
+     * @pbrbm bt bn optionbl <CODE>AffinfTrbnsform</CODE> to bf bpplifd
+     * to thf doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or null
+     * if thf untrbnsformfd doordinbtfs brf dfsirfd.
+     *
+     * @rfturn A <CODE>PbthItfrbtor</CODE> thbt dffinfs thf brd's boundbry.
+     * @sindf 1.2
+     */
+    publid PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt) {
+        rfturn nfw ArdItfrbtor(this, bt);
+    }
+
+    /**
+     * Rfturns thf hbshdodf for this <dodf>Ard2D</dodf>.
+     * @rfturn thf hbshdodf for this <dodf>Ard2D</dodf>.
+     * @sindf 1.6
+     */
+    publid int hbshCodf() {
+        long bits = jbvb.lbng.Doublf.doublfToLongBits(gftX());
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftY()) * 37;
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftWidth()) * 43;
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftHfight()) * 47;
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftAnglfStbrt()) * 53;
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftAnglfExtfnt()) * 59;
+        bits += gftArdTypf() * 61;
+        rfturn (((int) bits) ^ ((int) (bits >> 32)));
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf spfdififd <dodf>Objfdt</dodf> is
+     * fqubl to this <dodf>Ard2D</dodf>.  Thf spfdififd
+     * <dodf>Objfdt</dodf> is fqubl to this <dodf>Ard2D</dodf>
+     * if it is bn instbndf of <dodf>Ard2D</dodf> bnd if its
+     * lodbtion, sizf, brd fxtfnts bnd typf brf thf sbmf bs this
+     * <dodf>Ard2D</dodf>.
+     * @pbrbm obj  bn <dodf>Objfdt</dodf> to bf dompbrfd with this
+     *             <dodf>Ard2D</dodf>.
+     * @rfturn  <dodf>truf</dodf> if <dodf>obj</dodf> is bn instbndf
+     *          of <dodf>Ard2D</dodf> bnd hbs thf sbmf vblufs;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     * @sindf 1.6
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this) {
+            rfturn truf;
+        }
+        if (obj instbndfof Ard2D) {
+            Ard2D b2d = (Ard2D) obj;
+            rfturn ((gftX() == b2d.gftX()) &&
+                    (gftY() == b2d.gftY()) &&
+                    (gftWidth() == b2d.gftWidth()) &&
+                    (gftHfight() == b2d.gftHfight()) &&
+                    (gftAnglfStbrt() == b2d.gftAnglfStbrt()) &&
+                    (gftAnglfExtfnt() == b2d.gftAnglfExtfnt()) &&
+                    (gftArdTypf() == b2d.gftArdTypf()));
+        }
+        rfturn fblsf;
+    }
+}

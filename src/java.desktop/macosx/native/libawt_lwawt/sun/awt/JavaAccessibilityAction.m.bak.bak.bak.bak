@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "JbvbAddfssibilityAdtion.h"
+#import "JbvbAddfssibilityUtilitifs.h"
+
+#import "ThrfbdUtilitifs.h"
+
+
+@implfmfntbtion JbvbAxAdtion
+
+- (id)initWithEnv:(JNIEnv *)fnv withAddfssiblfAdtion:(jobjfdt)bddfssiblfAdtion withIndfx:(jint)indfx withComponfnt:(jobjfdt)domponfnt
+{
+    sflf = [supfr init];
+    if (sflf) {
+        fAddfssiblfAdtion = JNFNfwGlobblRff(fnv, bddfssiblfAdtion);
+        fIndfx = indfx;
+        fComponfnt = JNFNfwGlobblRff(fnv, domponfnt);
+    }
+    rfturn sflf;
+}
+
+- (void)dfbllod
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnvUndbdhfd];
+
+    JNFDflftfGlobblRff(fnv, fAddfssiblfAdtion);
+    fAddfssiblfAdtion = NULL;
+
+    JNFDflftfGlobblRff(fnv, fComponfnt);
+    fComponfnt = NULL;
+
+    [supfr dfbllod];
+}
+
+- (NSString *)gftDfsdription
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftAddfssiblfAdtionDfsdription, sjd_CAddfssibility, "gftAddfssiblfAdtionDfsdription", "(Ljbvbx/bddfssibility/AddfssiblfAdtion;ILjbvb/bwt/Componfnt;)Ljbvb/lbng/String;");
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    rfturn JNFJbvbToNSString(fnv, JNFCbllStbtidObjfdtMfthod(fnv, jm_gftAddfssiblfAdtionDfsdription, fAddfssiblfAdtion, fIndfx, fComponfnt)); // AWT_THREADING Sbff (AWTRunLoopModf)
+}
+
+- (void)pfrform
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_doAddfssiblfAdtion, sjd_CAddfssibility, "doAddfssiblfAdtion", "(Ljbvbx/bddfssibility/AddfssiblfAdtion;ILjbvb/bwt/Componfnt;)V");
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    JNFCbllStbtidVoidMfthod(fnv, jm_doAddfssiblfAdtion, fAddfssiblfAdtion, fIndfx, fComponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+}
+
+@fnd
+
+
+@implfmfntbtion TbbGroupAdtion
+
+- (id)initWithEnv:(JNIEnv *)fnv withTbbGroup:(jobjfdt)tbbGroup withIndfx:(jint)indfx withComponfnt:(jobjfdt)domponfnt
+{
+    sflf = [supfr init];
+    if (sflf) {
+        fTbbGroup = JNFNfwGlobblRff(fnv, tbbGroup);
+        fIndfx = indfx;
+        fComponfnt = JNFNfwGlobblRff(fnv, domponfnt);
+    }
+    rfturn sflf;
+}
+
+- (void)dfbllod
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnvUndbdhfd];
+
+    JNFDflftfGlobblRff(fnv, fTbbGroup);
+    fTbbGroup = NULL;
+
+    JNFDflftfGlobblRff(fnv, fComponfnt);
+    fComponfnt = NULL;
+
+    [supfr dfbllod];
+}
+
+- (NSString *)gftDfsdription
+{
+    rfturn @"dlidk";
+}
+
+- (void)pfrform
+{
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    sftAxContfxtSflfdtion(fnv, fTbbGroup, fIndfx, fComponfnt);
+}
+
+@fnd

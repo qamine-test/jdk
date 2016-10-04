@@ -1,772 +1,772 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 
 /**
- * This class holds the information for a particular graphics device.
- * Since a display change can cause the creation of new devices
- * at any time, there is no referencing of the devices array allowed.
- * Instead, anyone wishing to reference a device in the array (e.g.,
- * the current default device or a device for a given hWnd) must
- * call one of the static methods of this class with the index of
- * the device in question.  Those methods will then lock the devices
- * array and forward the request to the current device at that
- * array index.
+ * Tiis dlbss iolds tif informbtion for b pbrtidulbr grbpiids dfvidf.
+ * Sindf b displby dibngf dbn dbusf tif drfbtion of nfw dfvidfs
+ * bt bny timf, tifrf is no rfffrfnding of tif dfvidfs brrby bllowfd.
+ * Instfbd, bnyonf wisiing to rfffrfndf b dfvidf in tif brrby (f.g.,
+ * tif durrfnt dffbult dfvidf or b dfvidf for b givfn iWnd) must
+ * dbll onf of tif stbtid mftiods of tiis dlbss witi tif indfx of
+ * tif dfvidf in qufstion.  Tiosf mftiods will tifn lodk tif dfvidfs
+ * brrby bnd forwbrd tif rfqufst to tif durrfnt dfvidf bt tibt
+ * brrby indfx.
  */
 
-#include <awt.h>
-#include <sun_awt_Win32GraphicsDevice.h>
-#include "awt_Canvas.h"
-#include "awt_Win32GraphicsDevice.h"
-#include "awt_Window.h"
-#include "java_awt_Transparency.h"
-#include "java_awt_color_ColorSpace.h"
-#include "sun_awt_Win32GraphicsDevice.h"
-#include "java_awt_image_DataBuffer.h"
-#include "dither.h"
-#include "img_util_md.h"
-#include "Devices.h"
+#indludf <bwt.i>
+#indludf <sun_bwt_Win32GrbpiidsDfvidf.i>
+#indludf "bwt_Cbnvbs.i"
+#indludf "bwt_Win32GrbpiidsDfvidf.i"
+#indludf "bwt_Window.i"
+#indludf "jbvb_bwt_Trbnspbrfndy.i"
+#indludf "jbvb_bwt_dolor_ColorSpbdf.i"
+#indludf "sun_bwt_Win32GrbpiidsDfvidf.i"
+#indludf "jbvb_bwt_imbgf_DbtbBufffr.i"
+#indludf "ditifr.i"
+#indludf "img_util_md.i"
+#indludf "Dfvidfs.i"
 
-uns_ordered_dither_array img_oda_alpha;
+uns_ordfrfd_ditifr_brrby img_odb_blpib;
 
-jclass      AwtWin32GraphicsDevice::indexCMClass;
-jclass      AwtWin32GraphicsDevice::wToolkitClass;
-jfieldID    AwtWin32GraphicsDevice::dynamicColorModelID;
-jfieldID    AwtWin32GraphicsDevice::indexCMrgbID;
-jfieldID    AwtWin32GraphicsDevice::indexCMcacheID;
-jmethodID   AwtWin32GraphicsDevice::paletteChangedMID;
-BOOL        AwtWin32GraphicsDevice::primaryPalettized;
-int         AwtWin32GraphicsDevice::primaryIndex = 0;
+jdlbss      AwtWin32GrbpiidsDfvidf::indfxCMClbss;
+jdlbss      AwtWin32GrbpiidsDfvidf::wToolkitClbss;
+jfifldID    AwtWin32GrbpiidsDfvidf::dynbmidColorModflID;
+jfifldID    AwtWin32GrbpiidsDfvidf::indfxCMrgbID;
+jfifldID    AwtWin32GrbpiidsDfvidf::indfxCMdbdifID;
+jmftiodID   AwtWin32GrbpiidsDfvidf::pblfttfCibngfdMID;
+BOOL        AwtWin32GrbpiidsDfvidf::primbryPblfttizfd;
+int         AwtWin32GrbpiidsDfvidf::primbryIndfx = 0;
 
 
 /**
- * Construct this device.  Store the screen (index into the devices
- * array of this object), the array (used in static references via
- * particular device indices), the monitor/pMonitorInfo (which other
- * classes will inquire of this device), the bits per pixel of this
- * device, and information on whether the primary device is palettized.
+ * Construdt tiis dfvidf.  Storf tif sdrffn (indfx into tif dfvidfs
+ * brrby of tiis objfdt), tif brrby (usfd in stbtid rfffrfndfs vib
+ * pbrtidulbr dfvidf indidfs), tif monitor/pMonitorInfo (wiidi otifr
+ * dlbssfs will inquirf of tiis dfvidf), tif bits pfr pixfl of tiis
+ * dfvidf, bnd informbtion on wiftifr tif primbry dfvidf is pblfttizfd.
  */
-AwtWin32GraphicsDevice::AwtWin32GraphicsDevice(int screen,
-                                               HMONITOR mhnd, Devices *arr)
+AwtWin32GrbpiidsDfvidf::AwtWin32GrbpiidsDfvidf(int sdrffn,
+                                               HMONITOR mind, Dfvidfs *brr)
 {
-    this->screen  = screen;
-    this->devicesArray = arr;
-    javaDevice = NULL;
-    colorData = new ImgColorData;
-    colorData->grayscale = GS_NOTGRAY;
-    palette = NULL;
-    cData = NULL;
-    gpBitmapInfo = NULL;
-    monitor = mhnd;
-    pMonitorInfo = new MONITORINFOEX;
-    pMonitorInfo->cbSize = sizeof(MONITORINFOEX);
-    ::GetMonitorInfo(monitor, pMonitorInfo);
+    tiis->sdrffn  = sdrffn;
+    tiis->dfvidfsArrby = brr;
+    jbvbDfvidf = NULL;
+    dolorDbtb = nfw ImgColorDbtb;
+    dolorDbtb->grbysdblf = GS_NOTGRAY;
+    pblfttf = NULL;
+    dDbtb = NULL;
+    gpBitmbpInfo = NULL;
+    monitor = mind;
+    pMonitorInfo = nfw MONITORINFOEX;
+    pMonitorInfo->dbSizf = sizfof(MONITORINFOEX);
+    ::GftMonitorInfo(monitor, pMonitorInfo);
 
-    // Set primary device info: other devices will need to know
-    // whether the primary is palettized during the initialization
-    // process
-    HDC hDC = this->GetDC();
-    colorData->bitsperpixel = ::GetDeviceCaps(hDC, BITSPIXEL);
-    this->ReleaseDC(hDC);
-    if (MONITORINFOF_PRIMARY & pMonitorInfo->dwFlags) {
-        primaryIndex = screen;
-        if (colorData->bitsperpixel > 8) {
-            primaryPalettized = FALSE;
-        } else {
-            primaryPalettized = TRUE;
+    // Sft primbry dfvidf info: otifr dfvidfs will nffd to know
+    // wiftifr tif primbry is pblfttizfd during tif initiblizbtion
+    // prodfss
+    HDC iDC = tiis->GftDC();
+    dolorDbtb->bitspfrpixfl = ::GftDfvidfCbps(iDC, BITSPIXEL);
+    tiis->RflfbsfDC(iDC);
+    if (MONITORINFOF_PRIMARY & pMonitorInfo->dwFlbgs) {
+        primbryIndfx = sdrffn;
+        if (dolorDbtb->bitspfrpixfl > 8) {
+            primbryPblfttizfd = FALSE;
+        } flsf {
+            primbryPblfttizfd = TRUE;
         }
     }
 }
 
-AwtWin32GraphicsDevice::~AwtWin32GraphicsDevice()
+AwtWin32GrbpiidsDfvidf::~AwtWin32GrbpiidsDfvidf()
 {
-    delete colorData;
-    if (gpBitmapInfo) {
-        free(gpBitmapInfo);
+    dflftf dolorDbtb;
+    if (gpBitmbpInfo) {
+        frff(gpBitmbpInfo);
     }
-    if (palette) {
-        delete palette;
+    if (pblfttf) {
+        dflftf pblfttf;
     }
     if (pMonitorInfo) {
-        delete pMonitorInfo;
+        dflftf pMonitorInfo;
     }
-    if (javaDevice) {
-        JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        env->DeleteWeakGlobalRef(javaDevice);
+    if (jbvbDfvidf) {
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        fnv->DflftfWfbkGlobblRff(jbvbDfvidf);
     }
-    if (cData != NULL) {
-        freeICMColorData(cData);
+    if (dDbtb != NULL) {
+        frffICMColorDbtb(dDbtb);
     }
 }
 
-HDC AwtWin32GraphicsDevice::MakeDCFromMonitor(HMONITOR hmMonitor) {
-    HDC retCode = NULL;
-    if (NULL != hmMonitor) {
-        MONITORINFOEX mieInfo;
+HDC AwtWin32GrbpiidsDfvidf::MbkfDCFromMonitor(HMONITOR imMonitor) {
+    HDC rftCodf = NULL;
+    if (NULL != imMonitor) {
+        MONITORINFOEX mifInfo;
 
-        memset((void*)(&mieInfo), 0, sizeof(MONITORINFOEX));
-        mieInfo.cbSize = sizeof(MONITORINFOEX);
+        mfmsft((void*)(&mifInfo), 0, sizfof(MONITORINFOEX));
+        mifInfo.dbSizf = sizfof(MONITORINFOEX);
 
-        if (TRUE == ::GetMonitorInfo(hmMonitor, (LPMONITORINFOEX)(&mieInfo))) {
-            HDC hDC = CreateDC(mieInfo.szDevice, NULL, NULL, NULL);
-            if (NULL != hDC) {
-                retCode = hDC;
+        if (TRUE == ::GftMonitorInfo(imMonitor, (LPMONITORINFOEX)(&mifInfo))) {
+            HDC iDC = CrfbtfDC(mifInfo.szDfvidf, NULL, NULL, NULL);
+            if (NULL != iDC) {
+                rftCodf = iDC;
             }
         }
     }
-    return retCode;
+    rfturn rftCodf;
 }
 
-HDC AwtWin32GraphicsDevice::GetDC()
+HDC AwtWin32GrbpiidsDfvidf::GftDC()
 {
-    return MakeDCFromMonitor(monitor);
+    rfturn MbkfDCFromMonitor(monitor);
 }
 
-void AwtWin32GraphicsDevice::ReleaseDC(HDC hDC)
+void AwtWin32GrbpiidsDfvidf::RflfbsfDC(HDC iDC)
 {
-    if (hDC != NULL) {
-        ::DeleteDC(hDC);
+    if (iDC != NULL) {
+        ::DflftfDC(iDC);
     }
 }
 
 /**
- * Init this device.  This creates the bitmap structure
- * used to hold the device color data and initializes any
- * appropriate palette structures.
+ * Init tiis dfvidf.  Tiis drfbtfs tif bitmbp strudturf
+ * usfd to iold tif dfvidf dolor dbtb bnd initiblizfs bny
+ * bppropribtf pblfttf strudturfs.
  */
-void AwtWin32GraphicsDevice::Initialize()
+void AwtWin32GrbpiidsDfvidf::Initiblizf()
 {
-    unsigned int ri, gi, bi;
-    if (colorData->bitsperpixel < 8) {
-        // REMIND: how to handle?
+    unsignfd int ri, gi, bi;
+    if (dolorDbtb->bitspfrpixfl < 8) {
+        // REMIND: iow to ibndlf?
     }
 
-    // Create a BitmapInfo object for color data
-    if (!gpBitmapInfo) {
+    // Crfbtf b BitmbpInfo objfdt for dolor dbtb
+    if (!gpBitmbpInfo) {
         try {
-            gpBitmapInfo = (BITMAPINFO *)
-                safe_Malloc(sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD));
-        } catch (std::bad_alloc&) {
-            throw;
+            gpBitmbpInfo = (BITMAPINFO *)
+                sbff_Mbllod(sizfof(BITMAPINFOHEADER) + 256 * sizfof(RGBQUAD));
+        } dbtdi (std::bbd_bllod&) {
+            tirow;
         }
-        gpBitmapInfo->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+        gpBitmbpInfo->bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
     }
-    gpBitmapInfo->bmiHeader.biBitCount = 0;
-    HDC hBMDC = this->GetDC();
-    HBITMAP hBM = ::CreateCompatibleBitmap(hBMDC, 1, 1);
-    VERIFY(::GetDIBits(hBMDC, hBM, 0, 1, NULL, gpBitmapInfo, DIB_RGB_COLORS));
+    gpBitmbpInfo->bmiHfbdfr.biBitCount = 0;
+    HDC iBMDC = tiis->GftDC();
+    HBITMAP iBM = ::CrfbtfCompbtiblfBitmbp(iBMDC, 1, 1);
+    VERIFY(::GftDIBits(iBMDC, iBM, 0, 1, NULL, gpBitmbpInfo, DIB_RGB_COLORS));
 
-    if (colorData->bitsperpixel > 8) {
-        if (MONITORINFOF_PRIMARY & pMonitorInfo->dwFlags) {
-            primaryPalettized = FALSE;
+    if (dolorDbtb->bitspfrpixfl > 8) {
+        if (MONITORINFOF_PRIMARY & pMonitorInfo->dwFlbgs) {
+            primbryPblfttizfd = FALSE;
         }
-        if (colorData->bitsperpixel != 24) { // 15, 16, or 32 bpp
+        if (dolorDbtb->bitspfrpixfl != 24) { // 15, 16, or 32 bpp
             int foo;
-            gpBitmapInfo->bmiHeader.biCompression = BI_BITFIELDS;
-            if (::GetDIBits(hBMDC, hBM, 0, 1, &foo, gpBitmapInfo,
+            gpBitmbpInfo->bmiHfbdfr.biComprfssion = BI_BITFIELDS;
+            if (::GftDIBits(iBMDC, iBM, 0, 1, &foo, gpBitmbpInfo,
                             DIB_RGB_COLORS) == 0)
             {
-                // Bug 4684966: If GetDIBits returns an error, we could
-                // get stuck in an infinite loop setting the colorData
-                // fields.  Hardcode bitColors to reasonable values instead.
-                // These values are picked according to standard masks
-                // for these bit depths on win9x, according to MSDN docs.
-                switch (colorData->bitsperpixel) {
-                case 15:
-                    ((int *)gpBitmapInfo->bmiColors)[0] = 0x7c00;
-                    ((int *)gpBitmapInfo->bmiColors)[1] = 0x03e0;
-                    ((int *)gpBitmapInfo->bmiColors)[2] = 0x001f;
-                    break;
-                case 16:
-                    ((int *)gpBitmapInfo->bmiColors)[0] = 0xf800;
-                    ((int *)gpBitmapInfo->bmiColors)[1] = 0x07e0;
-                    ((int *)gpBitmapInfo->bmiColors)[2] = 0x001f;
-                    break;
-                case 32:
-                default:
-                    ((int *)gpBitmapInfo->bmiColors)[0] = 0xff0000;
-                    ((int *)gpBitmapInfo->bmiColors)[1] = 0x00ff00;
-                    ((int *)gpBitmapInfo->bmiColors)[2] = 0x0000ff;
-                    break;
+                // Bug 4684966: If GftDIBits rfturns bn frror, wf dould
+                // gft studk in bn infinitf loop sftting tif dolorDbtb
+                // fiflds.  Hbrddodf bitColors to rfbsonbblf vblufs instfbd.
+                // Tifsf vblufs brf pidkfd bddording to stbndbrd mbsks
+                // for tifsf bit dfptis on win9x, bddording to MSDN dods.
+                switdi (dolorDbtb->bitspfrpixfl) {
+                dbsf 15:
+                    ((int *)gpBitmbpInfo->bmiColors)[0] = 0x7d00;
+                    ((int *)gpBitmbpInfo->bmiColors)[1] = 0x03f0;
+                    ((int *)gpBitmbpInfo->bmiColors)[2] = 0x001f;
+                    brfbk;
+                dbsf 16:
+                    ((int *)gpBitmbpInfo->bmiColors)[0] = 0xf800;
+                    ((int *)gpBitmbpInfo->bmiColors)[1] = 0x07f0;
+                    ((int *)gpBitmbpInfo->bmiColors)[2] = 0x001f;
+                    brfbk;
+                dbsf 32:
+                dffbult:
+                    ((int *)gpBitmbpInfo->bmiColors)[0] = 0xff0000;
+                    ((int *)gpBitmbpInfo->bmiColors)[1] = 0x00ff00;
+                    ((int *)gpBitmbpInfo->bmiColors)[2] = 0x0000ff;
+                    brfbk;
                 }
             }
-            ri = ((unsigned int *)gpBitmapInfo->bmiColors)[0];
-            colorData->rOff = 0;
-            while ((ri & 1) == 0) {
-                colorData->rOff++;
+            ri = ((unsignfd int *)gpBitmbpInfo->bmiColors)[0];
+            dolorDbtb->rOff = 0;
+            wiilf ((ri & 1) == 0) {
+                dolorDbtb->rOff++;
                 ri >>= 1;
             }
-            colorData->rScale = 0;
-            while (ri < 0x80) {
-                colorData->rScale++;
+            dolorDbtb->rSdblf = 0;
+            wiilf (ri < 0x80) {
+                dolorDbtb->rSdblf++;
                 ri <<= 1;
             }
-            gi = ((unsigned int *)gpBitmapInfo->bmiColors)[1];
-            colorData->gOff = 0;
-            while ((gi & 1) == 0) {
-                colorData->gOff++;
+            gi = ((unsignfd int *)gpBitmbpInfo->bmiColors)[1];
+            dolorDbtb->gOff = 0;
+            wiilf ((gi & 1) == 0) {
+                dolorDbtb->gOff++;
                 gi >>= 1;
             }
-            colorData->gScale = 0;
-            while (gi < 0x80) {
-                colorData->gScale++;
+            dolorDbtb->gSdblf = 0;
+            wiilf (gi < 0x80) {
+                dolorDbtb->gSdblf++;
                 gi <<= 1;
             }
-            bi = ((unsigned int *)gpBitmapInfo->bmiColors)[2];
-            colorData->bOff = 0;
-            while ((bi & 1) == 0) {
-                colorData->bOff++;
+            bi = ((unsignfd int *)gpBitmbpInfo->bmiColors)[2];
+            dolorDbtb->bOff = 0;
+            wiilf ((bi & 1) == 0) {
+                dolorDbtb->bOff++;
                 bi >>= 1;
             }
-            colorData->bScale = 0;
-            while (bi < 0x80) {
-                colorData->bScale++;
+            dolorDbtb->bSdblf = 0;
+            wiilf (bi < 0x80) {
+                dolorDbtb->bSdblf++;
                 bi <<= 1;
             }
-            if (   (0 == colorData->bOff)
-                && (5 == colorData->gOff)
-                && (10 == colorData->rOff)
-                && (3 == colorData->bScale)
-                && (3 == colorData->gScale)
-                && (3 == colorData->rScale)) {
-                colorData->bitsperpixel = 15;
-                gpBitmapInfo->bmiHeader.biCompression = BI_RGB;
+            if (   (0 == dolorDbtb->bOff)
+                && (5 == dolorDbtb->gOff)
+                && (10 == dolorDbtb->rOff)
+                && (3 == dolorDbtb->bSdblf)
+                && (3 == dolorDbtb->gSdblf)
+                && (3 == dolorDbtb->rSdblf)) {
+                dolorDbtb->bitspfrpixfl = 15;
+                gpBitmbpInfo->bmiHfbdfr.biComprfssion = BI_RGB;
             }
-        } else {    // 24 bpp
-            gpBitmapInfo->bmiHeader.biBitCount = 24;
-            gpBitmapInfo->bmiHeader.biCompression = BI_RGB;
+        } flsf {    // 24 bpp
+            gpBitmbpInfo->bmiHfbdfr.biBitCount = 24;
+            gpBitmbpInfo->bmiHfbdfr.biComprfssion = BI_RGB;
 
-            // Fill these values in as a convenience for the screen
-            // ColorModel construction code below (see getColorModel())
-            ((int *)gpBitmapInfo->bmiColors)[0] = 0x0000ff;
-            ((int *)gpBitmapInfo->bmiColors)[1] = 0x00ff00;
-            ((int *)gpBitmapInfo->bmiColors)[2] = 0xff0000;
+            // Fill tifsf vblufs in bs b donvfnifndf for tif sdrffn
+            // ColorModfl donstrudtion dodf bflow (sff gftColorModfl())
+            ((int *)gpBitmbpInfo->bmiColors)[0] = 0x0000ff;
+            ((int *)gpBitmbpInfo->bmiColors)[1] = 0x00ff00;
+            ((int *)gpBitmbpInfo->bmiColors)[2] = 0xff0000;
         }
-    } else {
-        if (MONITORINFOF_PRIMARY & pMonitorInfo->dwFlags) {
-            primaryPalettized = TRUE;
+    } flsf {
+        if (MONITORINFOF_PRIMARY & pMonitorInfo->dwFlbgs) {
+            primbryPblfttizfd = TRUE;
         }
-        gpBitmapInfo->bmiHeader.biBitCount = 8;
-        gpBitmapInfo->bmiHeader.biCompression = BI_RGB;
-        gpBitmapInfo->bmiHeader.biClrUsed = 256;
-        gpBitmapInfo->bmiHeader.biClrImportant = 256;
+        gpBitmbpInfo->bmiHfbdfr.biBitCount = 8;
+        gpBitmbpInfo->bmiHfbdfr.biComprfssion = BI_RGB;
+        gpBitmbpInfo->bmiHfbdfr.biClrUsfd = 256;
+        gpBitmbpInfo->bmiHfbdfr.biClrImportbnt = 256;
 
-        // The initialization of cData is done prior to
-        // calling palette->Update() since we need it
-        // for calculating inverseGrayLut
-        if (cData == NULL) {
-            cData = (ColorData*)safe_Calloc(1, sizeof(ColorData));
-            memset(cData, 0, sizeof(ColorData));
-            initDitherTables(cData);
+        // Tif initiblizbtion of dDbtb is donf prior to
+        // dblling pblfttf->Updbtf() sindf wf nffd it
+        // for dbldulbting invfrsfGrbyLut
+        if (dDbtb == NULL) {
+            dDbtb = (ColorDbtb*)sbff_Cbllod(1, sizfof(ColorDbtb));
+            mfmsft(dDbtb, 0, sizfof(ColorDbtb));
+            initDitifrTbblfs(dDbtb);
         }
 
-        if (!palette) {
-            palette = new AwtPalette(this);
-        } else {
-            palette->Update();
+        if (!pblfttf) {
+            pblfttf = nfw AwtPblfttf(tiis);
+        } flsf {
+            pblfttf->Updbtf();
         }
-        palette->UpdateLogical();
+        pblfttf->UpdbtfLogidbl();
     }
-    VERIFY(::DeleteObject(hBM));
-    VERIFY(::DeleteDC(hBMDC));
+    VERIFY(::DflftfObjfdt(iBM));
+    VERIFY(::DflftfDC(iBMDC));
 }
 
 /**
- * Creates a new colorModel given the current device configuration.
- * The dynamic flag determines whether we use the system palette
- * (dynamic == TRUE) or our custom palette in creating a new
- * IndexedColorModel.
+ * Crfbtfs b nfw dolorModfl givfn tif durrfnt dfvidf donfigurbtion.
+ * Tif dynbmid flbg dftfrminfs wiftifr wf usf tif systfm pblfttf
+ * (dynbmid == TRUE) or our dustom pblfttf in drfbting b nfw
+ * IndfxfdColorModfl.
  */
-jobject AwtWin32GraphicsDevice::GetColorModel(JNIEnv *env, jboolean dynamic)
+jobjfdt AwtWin32GrbpiidsDfvidf::GftColorModfl(JNIEnv *fnv, jboolfbn dynbmid)
 {
-    jobject awt_colormodel;
+    jobjfdt bwt_dolormodfl;
     int i;
-    if (colorData->bitsperpixel == 24) {
-        awt_colormodel =
-            JNU_NewObjectByName(env, "sun/awt/Win32ColorModel24", "()V");
-    } else if (colorData->bitsperpixel > 8) {
-        int *masks = (int *)gpBitmapInfo->bmiColors;
+    if (dolorDbtb->bitspfrpixfl == 24) {
+        bwt_dolormodfl =
+            JNU_NfwObjfdtByNbmf(fnv, "sun/bwt/Win32ColorModfl24", "()V");
+    } flsf if (dolorDbtb->bitspfrpixfl > 8) {
+        int *mbsks = (int *)gpBitmbpInfo->bmiColors;
         int numbits = 0;
-        unsigned int bits = (masks[0] | masks[1] | masks[2]);
-        while (bits) {
+        unsignfd int bits = (mbsks[0] | mbsks[1] | mbsks[2]);
+        wiilf (bits) {
             numbits++;
             bits >>= 1;
         }
-        awt_colormodel = JNU_NewObjectByName(env,
-                                             "java/awt/image/DirectColorModel",
+        bwt_dolormodfl = JNU_NfwObjfdtByNbmf(fnv,
+                                             "jbvb/bwt/imbgf/DirfdtColorModfl",
                                              "(IIII)V", numbits,
-                                             masks[0], masks[1], masks[2]);
-    } else if (colorData->grayscale == GS_STATICGRAY) {
-        jclass clazz;
-        jclass clazz1;
-        jmethodID mid;
-        jobject cspace = NULL;
+                                             mbsks[0], mbsks[1], mbsks[2]);
+    } flsf if (dolorDbtb->grbysdblf == GS_STATICGRAY) {
+        jdlbss dlbzz;
+        jdlbss dlbzz1;
+        jmftiodID mid;
+        jobjfdt dspbdf = NULL;
         jint bits[1];
-        jintArray bitsArray;
+        jintArrby bitsArrby;
 
-        clazz1 = env->FindClass("java/awt/color/ColorSpace");
-        CHECK_NULL_RETURN(clazz1, NULL);
-        mid = env->GetStaticMethodID(clazz1, "getInstance",
-              "(I)Ljava/awt/color/ColorSpace;");
+        dlbzz1 = fnv->FindClbss("jbvb/bwt/dolor/ColorSpbdf");
+        CHECK_NULL_RETURN(dlbzz1, NULL);
+        mid = fnv->GftStbtidMftiodID(dlbzz1, "gftInstbndf",
+              "(I)Ljbvb/bwt/dolor/ColorSpbdf;");
         CHECK_NULL_RETURN(mid, NULL);
-        cspace = env->CallStaticObjectMethod(clazz1, mid,
-            java_awt_color_ColorSpace_CS_GRAY);
-        CHECK_NULL_RETURN(cspace, NULL);
+        dspbdf = fnv->CbllStbtidObjfdtMftiod(dlbzz1, mid,
+            jbvb_bwt_dolor_ColorSpbdf_CS_GRAY);
+        CHECK_NULL_RETURN(dspbdf, NULL);
 
         bits[0] = 8;
-        bitsArray = env->NewIntArray(1);
-        if (bitsArray == 0) {
-            return NULL;
-        } else {
-            env->SetIntArrayRegion(bitsArray, 0, 1, bits);
+        bitsArrby = fnv->NfwIntArrby(1);
+        if (bitsArrby == 0) {
+            rfturn NULL;
+        } flsf {
+            fnv->SftIntArrbyRfgion(bitsArrby, 0, 1, bits);
         }
 
-        clazz = env->FindClass("java/awt/image/ComponentColorModel");
-        CHECK_NULL_RETURN(clazz, NULL);
-        mid = env->GetMethodID(clazz,"<init>",
-            "(Ljava/awt/color/ColorSpace;[IZZII)V");
+        dlbzz = fnv->FindClbss("jbvb/bwt/imbgf/ComponfntColorModfl");
+        CHECK_NULL_RETURN(dlbzz, NULL);
+        mid = fnv->GftMftiodID(dlbzz,"<init>",
+            "(Ljbvb/bwt/dolor/ColorSpbdf;[IZZII)V");
         CHECK_NULL_RETURN(mid, NULL);
 
-        awt_colormodel = env->NewObject(clazz, mid,
-                                        cspace,
-                                        bitsArray,
+        bwt_dolormodfl = fnv->NfwObjfdt(dlbzz, mid,
+                                        dspbdf,
+                                        bitsArrby,
                                         JNI_FALSE,
                                         JNI_FALSE,
-                                        java_awt_Transparency_OPAQUE,
-                                        java_awt_image_DataBuffer_TYPE_BYTE);
-    } else {
-        jintArray hRGB = env->NewIntArray(256);
-        unsigned int *rgb = NULL, *rgbP = NULL;
-        jboolean allvalid = JNI_TRUE;
-        jbyte vbits[256/8];
-        jobject validBits = NULL;
+                                        jbvb_bwt_Trbnspbrfndy_OPAQUE,
+                                        jbvb_bwt_imbgf_DbtbBufffr_TYPE_BYTE);
+    } flsf {
+        jintArrby iRGB = fnv->NfwIntArrby(256);
+        unsignfd int *rgb = NULL, *rgbP = NULL;
+        jboolfbn bllvblid = JNI_TRUE;
+        jbytf vbits[256/8];
+        jobjfdt vblidBits = NULL;
 
-        CHECK_NULL_RETURN(hRGB, NULL);
-        /* Create the LUT from the color map */
+        CHECK_NULL_RETURN(iRGB, NULL);
+        /* Crfbtf tif LUT from tif dolor mbp */
         try {
-            rgb = (unsigned int *) env->GetPrimitiveArrayCritical(hRGB, 0);
+            rgb = (unsignfd int *) fnv->GftPrimitivfArrbyCritidbl(iRGB, 0);
             CHECK_NULL_RETURN(rgb, NULL);
             rgbP = rgb;
-            if (!palette) {
-                palette = new AwtPalette(this);
-                palette->UpdateLogical();
+            if (!pblfttf) {
+                pblfttf = nfw AwtPblfttf(tiis);
+                pblfttf->UpdbtfLogidbl();
             }
-            if (colorData->grayscale == GS_INDEXGRAY) {
-                /* For IndexColorModel, pretend first 10 colors and last
-                   10 colors are transparent black.  This makes
-                   ICM.allgrayopaque true.
+            if (dolorDbtb->grbysdblf == GS_INDEXGRAY) {
+                /* For IndfxColorModfl, prftfnd first 10 dolors bnd lbst
+                   10 dolors brf trbnspbrfnt blbdk.  Tiis mbkfs
+                   ICM.bllgrbyopbquf truf.
                 */
-                unsigned int *logicalEntries = palette->GetLogicalEntries();
+                unsignfd int *logidblEntrifs = pblfttf->GftLogidblEntrifs();
 
                 for (i=0; i < 10; i++) {
                     rgbP[i] = 0x00000000;
                     rgbP[i+246] = 0x00000000;
                 }
-                memcpy(&rgbP[10], &logicalEntries[10], 236 * sizeof(RGBQUAD));
-                // We need to specify which entries in the colormap are
-                // valid so that the transparent black entries we have
-                // created do not affect the Transparency setting of the
-                // IndexColorModel.  The vbits array is used to construct
-                // a BigInteger such that the most significant bit of vbits[0]
-                // indicates the validity of the last color (#256) and the
-                // least significant bit of vbits[256/8] indicates the
-                // validity of the first color (#0).  We need to fill vbits
-                // with all 1's and then turn off the first and last 10 bits.
-                memset(vbits, 0xff, sizeof(vbits));
+                mfmdpy(&rgbP[10], &logidblEntrifs[10], 236 * sizfof(RGBQUAD));
+                // Wf nffd to spfdify wiidi fntrifs in tif dolormbp brf
+                // vblid so tibt tif trbnspbrfnt blbdk fntrifs wf ibvf
+                // drfbtfd do not bfffdt tif Trbnspbrfndy sftting of tif
+                // IndfxColorModfl.  Tif vbits brrby is usfd to donstrudt
+                // b BigIntfgfr sudi tibt tif most signifidbnt bit of vbits[0]
+                // indidbtfs tif vblidity of tif lbst dolor (#256) bnd tif
+                // lfbst signifidbnt bit of vbits[256/8] indidbtfs tif
+                // vblidity of tif first dolor (#0).  Wf nffd to fill vbits
+                // witi bll 1's bnd tifn turn off tif first bnd lbst 10 bits.
+                mfmsft(vbits, 0xff, sizfof(vbits));
                 vbits[0] = 0;
-                vbits[1] = (jbyte) (0xff >> 2);
-                vbits[sizeof(vbits)-2] = (jbyte) (0xff << 2);
-                vbits[sizeof(vbits)-1] = 0;
-                allvalid = JNI_FALSE;
-            } else {
-                if (AwtPalette::UseCustomPalette() && !dynamic) {
-                    // If we plan to use our custom palette (i.e., we are
-                    // not running inside another app and we are not creating
-                    // a dynamic colorModel object), then setup ICM with
-                    // custom palette entries
-                    unsigned int *logicalEntries = palette->GetLogicalEntries();
-                    memcpy(rgbP, logicalEntries, 256 * sizeof(int));
-                } else {
-                    // Else, use current system palette entries.
-                    // REMIND: This may not give the result we want if
-                    // we are running inside another app and that
-                    // parent app is running in the background when we
-                    // reach here.  We could at least cache an "ideal" set of
-                    // system palette entries from the first time we are
-                    // running in the foreground and then future ICM's will
-                    // use that set instead.
-                    unsigned int *systemEntries = palette->GetSystemEntries();
-                    memcpy(rgbP, systemEntries, 256 * sizeof(int));
+                vbits[1] = (jbytf) (0xff >> 2);
+                vbits[sizfof(vbits)-2] = (jbytf) (0xff << 2);
+                vbits[sizfof(vbits)-1] = 0;
+                bllvblid = JNI_FALSE;
+            } flsf {
+                if (AwtPblfttf::UsfCustomPblfttf() && !dynbmid) {
+                    // If wf plbn to usf our dustom pblfttf (i.f., wf brf
+                    // not running insidf bnotifr bpp bnd wf brf not drfbting
+                    // b dynbmid dolorModfl objfdt), tifn sftup ICM witi
+                    // dustom pblfttf fntrifs
+                    unsignfd int *logidblEntrifs = pblfttf->GftLogidblEntrifs();
+                    mfmdpy(rgbP, logidblEntrifs, 256 * sizfof(int));
+                } flsf {
+                    // Elsf, usf durrfnt systfm pblfttf fntrifs.
+                    // REMIND: Tiis mby not givf tif rfsult wf wbnt if
+                    // wf brf running insidf bnotifr bpp bnd tibt
+                    // pbrfnt bpp is running in tif bbdkground wifn wf
+                    // rfbdi ifrf.  Wf dould bt lfbst dbdif bn "idfbl" sft of
+                    // systfm pblfttf fntrifs from tif first timf wf brf
+                    // running in tif forfground bnd tifn futurf ICM's will
+                    // usf tibt sft instfbd.
+                    unsignfd int *systfmEntrifs = pblfttf->GftSystfmEntrifs();
+                    mfmdpy(rgbP, systfmEntrifs, 256 * sizfof(int));
                 }
             }
-        } catch (...) {
-            env->ReleasePrimitiveArrayCritical(hRGB, rgb, 0);
-            throw;
+        } dbtdi (...) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(iRGB, rgb, 0);
+            tirow;
         }
 
-        env->ReleasePrimitiveArrayCritical(hRGB, rgb, 0);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(iRGB, rgb, 0);
 
-        // Construct a new color model
-        if (!allvalid) {
-            jbyteArray bArray = env->NewByteArray(sizeof(vbits));
-            CHECK_NULL_RETURN(bArray, NULL);
-            env->SetByteArrayRegion(bArray, 0, sizeof(vbits), vbits);
-            validBits = JNU_NewObjectByName(env,
-                                            "java/math/BigInteger",
-                                            "([B)V", bArray);
-            JNU_CHECK_EXCEPTION_RETURN(env, NULL);
+        // Construdt b nfw dolor modfl
+        if (!bllvblid) {
+            jbytfArrby bArrby = fnv->NfwBytfArrby(sizfof(vbits));
+            CHECK_NULL_RETURN(bArrby, NULL);
+            fnv->SftBytfArrbyRfgion(bArrby, 0, sizfof(vbits), vbits);
+            vblidBits = JNU_NfwObjfdtByNbmf(fnv,
+                                            "jbvb/mbti/BigIntfgfr",
+                                            "([B)V", bArrby);
+            JNU_CHECK_EXCEPTION_RETURN(fnv, NULL);
         }
-        awt_colormodel =
-            JNU_NewObjectByName(env,
-                                "java/awt/image/IndexColorModel",
-                                "(II[IIILjava/math/BigInteger;)V",
+        bwt_dolormodfl =
+            JNU_NfwObjfdtByNbmf(fnv,
+                                "jbvb/bwt/imbgf/IndfxColorModfl",
+                                "(II[IIILjbvb/mbti/BigIntfgfr;)V",
                                 8, 256,
-                                hRGB, 0,
-                                java_awt_image_DataBuffer_TYPE_BYTE,
-                                validBits);
+                                iRGB, 0,
+                                jbvb_bwt_imbgf_DbtbBufffr_TYPE_BYTE,
+                                vblidBits);
     }
-    return awt_colormodel;
+    rfturn bwt_dolormodfl;
 }
 
 /**
- * Called from AwtPalette code when it is determined what grayscale
- * value (if any) the current logical palette has
+ * Cbllfd from AwtPblfttf dodf wifn it is dftfrminfd wibt grbysdblf
+ * vbluf (if bny) tif durrfnt logidbl pblfttf ibs
  */
-void AwtWin32GraphicsDevice::SetGrayness(int grayValue)
+void AwtWin32GrbpiidsDfvidf::SftGrbynfss(int grbyVbluf)
 {
-    colorData->grayscale = grayValue;
+    dolorDbtb->grbysdblf = grbyVbluf;
 }
 
 
 /**
- * Update our dynamic IndexedColorModel.  This happens after
- * a change to the system palette.  Any surfaces stored in vram
- * (Win32OffScreenSurfaceData and GDIWindowSurfaceData objects)
- * refer to this colorModel and use its lookup table and inverse
- * lookup to calculate correct index values for rgb colors.  So
- * the colorModel must always reflect the current state of the
- * system palette.
+ * Updbtf our dynbmid IndfxfdColorModfl.  Tiis ibppfns bftfr
+ * b dibngf to tif systfm pblfttf.  Any surfbdfs storfd in vrbm
+ * (Win32OffSdrffnSurfbdfDbtb bnd GDIWindowSurfbdfDbtb objfdts)
+ * rfffr to tiis dolorModfl bnd usf its lookup tbblf bnd invfrsf
+ * lookup to dbldulbtf dorrfdt indfx vblufs for rgb dolors.  So
+ * tif dolorModfl must blwbys rfflfdt tif durrfnt stbtf of tif
+ * systfm pblfttf.
  */
-void AwtWin32GraphicsDevice::UpdateDynamicColorModel()
+void AwtWin32GrbpiidsDfvidf::UpdbtfDynbmidColorModfl()
 {
-    if (!javaDevice) {
-        // javaDevice may not be set yet.  If not, return.  In
-        // this situation, we probably don't need an update anyway
-        // since the colorModel will be created with the correct
-        // info when the java side is initialized.
-        return;
+    if (!jbvbDfvidf) {
+        // jbvbDfvidf mby not bf sft yft.  If not, rfturn.  In
+        // tiis situbtion, wf probbbly don't nffd bn updbtf bnywby
+        // sindf tif dolorModfl will bf drfbtfd witi tif dorrfdt
+        // info wifn tif jbvb sidf is initiblizfd.
+        rfturn;
     }
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject colorModel = env->GetObjectField(javaDevice,
-        dynamicColorModelID);
-    if (!colorModel) {
-        return;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt dolorModfl = fnv->GftObjfdtFifld(jbvbDfvidf,
+        dynbmidColorModflID);
+    if (!dolorModfl) {
+        rfturn;
     }
-    if (env->IsInstanceOf(colorModel, indexCMClass)) {
-        // If colorModel not of type ICM then we're not in 8-bit mode and
-        // don't need to update it
-        jboolean isCopy;
-        unsigned int *newEntries = palette->GetSystemEntries();
-        jintArray rgbArray = (jintArray)env->GetObjectField(colorModel,
-            AwtWin32GraphicsDevice::indexCMrgbID);
-        jintArray cacheArray = (jintArray)env->GetObjectField(colorModel,
-            AwtWin32GraphicsDevice::indexCMcacheID);
-        if (!rgbArray || !cacheArray) {
-            JNU_ThrowInternalError(env, "rgb or lookupcache array of IndexColorModel null");
-            return;
+    if (fnv->IsInstbndfOf(dolorModfl, indfxCMClbss)) {
+        // If dolorModfl not of typf ICM tifn wf'rf not in 8-bit modf bnd
+        // don't nffd to updbtf it
+        jboolfbn isCopy;
+        unsignfd int *nfwEntrifs = pblfttf->GftSystfmEntrifs();
+        jintArrby rgbArrby = (jintArrby)fnv->GftObjfdtFifld(dolorModfl,
+            AwtWin32GrbpiidsDfvidf::indfxCMrgbID);
+        jintArrby dbdifArrby = (jintArrby)fnv->GftObjfdtFifld(dolorModfl,
+            AwtWin32GrbpiidsDfvidf::indfxCMdbdifID);
+        if (!rgbArrby || !dbdifArrby) {
+            JNU_TirowIntfrnblError(fnv, "rgb or lookupdbdif brrby of IndfxColorModfl null");
+            rfturn;
         }
-        int rgbLength = env->GetArrayLength(rgbArray);
-        int cacheLength = env->GetArrayLength(cacheArray);
-        jint *cmEntries = (jint *)env->GetPrimitiveArrayCritical(rgbArray, &isCopy);
-        if (!cmEntries) {
-            env->ExceptionClear();
-            JNU_ThrowInternalError(env, "Problem retrieving rgb critical array");
-            return;
+        int rgbLfngti = fnv->GftArrbyLfngti(rgbArrby);
+        int dbdifLfngti = fnv->GftArrbyLfngti(dbdifArrby);
+        jint *dmEntrifs = (jint *)fnv->GftPrimitivfArrbyCritidbl(rgbArrby, &isCopy);
+        if (!dmEntrifs) {
+            fnv->ExdfptionClfbr();
+            JNU_TirowIntfrnblError(fnv, "Problfm rftrifving rgb dritidbl brrby");
+            rfturn;
         }
-        jint *cache = (jint *)env->GetPrimitiveArrayCritical(cacheArray, &isCopy);
-        if (!cache) {
-            env->ExceptionClear();
-            env->ReleasePrimitiveArrayCritical(rgbArray, cmEntries, JNI_ABORT);
-            JNU_ThrowInternalError(env, "Problem retrieving cache critical array");
-            return;
+        jint *dbdif = (jint *)fnv->GftPrimitivfArrbyCritidbl(dbdifArrby, &isCopy);
+        if (!dbdif) {
+            fnv->ExdfptionClfbr();
+            fnv->RflfbsfPrimitivfArrbyCritidbl(rgbArrby, dmEntrifs, JNI_ABORT);
+            JNU_TirowIntfrnblError(fnv, "Problfm rftrifving dbdif dritidbl brrby");
+            rfturn;
         }
-        // Set the new rgb values
+        // Sft tif nfw rgb vblufs
     int i;
-    for (i = 0; i < rgbLength; ++i) {
-            cmEntries[i] = newEntries[i];
+    for (i = 0; i < rgbLfngti; ++i) {
+            dmEntrifs[i] = nfwEntrifs[i];
         }
-        // clear out the old cache
-        for (i = 0; i < cacheLength; ++i) {
-            cache[i] = 0;
+        // dlfbr out tif old dbdif
+        for (i = 0; i < dbdifLfngti; ++i) {
+            dbdif[i] = 0;
         }
-        env->ReleasePrimitiveArrayCritical(cacheArray, cache, 0);
-        env->ReleasePrimitiveArrayCritical(rgbArray, cmEntries, 0);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(dbdifArrby, dbdif, 0);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(rgbArrby, dmEntrifs, 0);
 
-        // Call WToolkit::paletteChanged() method; this will invalidate
-        // the offscreen surfaces dependent on this dynamic colorModel
-        // to ensure that they get redrawn with the correct color indices
-        env->CallStaticVoidMethod(AwtWin32GraphicsDevice::wToolkitClass,
-            paletteChangedMID);
+        // Cbll WToolkit::pblfttfCibngfd() mftiod; tiis will invblidbtf
+        // tif offsdrffn surfbdfs dfpfndfnt on tiis dynbmid dolorModfl
+        // to fnsurf tibt tify gft rfdrbwn witi tif dorrfdt dolor indidfs
+        fnv->CbllStbtidVoidMftiod(AwtWin32GrbpiidsDfvidf::wToolkitClbss,
+            pblfttfCibngfdMID);
     }
 }
 
-unsigned int *AwtWin32GraphicsDevice::GetSystemPaletteEntries()
+unsignfd int *AwtWin32GrbpiidsDfvidf::GftSystfmPblfttfEntrifs()
 {
-    // REMIND: What to do if palette NULL?  Need to throw
-    // some kind of exception?
-    return palette->GetSystemEntries();
+    // REMIND: Wibt to do if pblfttf NULL?  Nffd to tirow
+    // somf kind of fxdfption?
+    rfturn pblfttf->GftSystfmEntrifs();
 }
 
-unsigned char *AwtWin32GraphicsDevice::GetSystemInverseLUT()
+unsignfd dibr *AwtWin32GrbpiidsDfvidf::GftSystfmInvfrsfLUT()
 {
-    // REMIND: What to do if palette NULL?  Need to throw
-    // some kind of exception?
-    return palette->GetSystemInverseLUT();
+    // REMIND: Wibt to do if pblfttf NULL?  Nffd to tirow
+    // somf kind of fxdfption?
+    rfturn pblfttf->GftSystfmInvfrsfLUT();
 }
 
 
-BOOL AwtWin32GraphicsDevice::UpdateSystemPalette()
+BOOL AwtWin32GrbpiidsDfvidf::UpdbtfSystfmPblfttf()
 {
-    if (colorData->bitsperpixel > 8) {
-        return FALSE;
-    } else {
-        return palette->Update();
+    if (dolorDbtb->bitspfrpixfl > 8) {
+        rfturn FALSE;
+    } flsf {
+        rfturn pblfttf->Updbtf();
     }
 }
 
-HPALETTE AwtWin32GraphicsDevice::SelectPalette(HDC hDC)
+HPALETTE AwtWin32GrbpiidsDfvidf::SflfdtPblfttf(HDC iDC)
 {
-    if (palette) {
-        return palette->Select(hDC);
-    } else {
-        return NULL;
+    if (pblfttf) {
+        rfturn pblfttf->Sflfdt(iDC);
+    } flsf {
+        rfturn NULL;
     }
 }
 
-void AwtWin32GraphicsDevice::RealizePalette(HDC hDC)
+void AwtWin32GrbpiidsDfvidf::RfblizfPblfttf(HDC iDC)
 {
-    if (palette) {
-        palette->Realize(hDC);
-    }
-}
-
-/**
- * Deterine which device the HWND exists on and return the
- * appropriate index into the devices array.
- */
-int AwtWin32GraphicsDevice::DeviceIndexForWindow(HWND hWnd)
-{
-    HMONITOR mon = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
-    int screen = AwtWin32GraphicsDevice::GetScreenFromHMONITOR(mon);
-    return screen;
-}
-
-/**
- * Get the HPALETTE associated with this device
- */
-HPALETTE AwtWin32GraphicsDevice::GetPalette()
-{
-    if (palette) {
-        return palette->GetPalette();
-    } else {
-        return NULL;
+    if (pblfttf) {
+        pblfttf->Rfblizf(iDC);
     }
 }
 
 /**
- * Object referring to this device is releasing that reference.
- * This allows the array holding all devices to be released (once
- * all references to the array have gone away).
+ * Dftfrinf wiidi dfvidf tif HWND fxists on bnd rfturn tif
+ * bppropribtf indfx into tif dfvidfs brrby.
  */
-void AwtWin32GraphicsDevice::Release()
+int AwtWin32GrbpiidsDfvidf::DfvidfIndfxForWindow(HWND iWnd)
 {
-    devicesArray->Release();
+    HMONITOR mon = MonitorFromWindow(iWnd, MONITOR_DEFAULTTONEAREST);
+    int sdrffn = AwtWin32GrbpiidsDfvidf::GftSdrffnFromHMONITOR(mon);
+    rfturn sdrffn;
 }
 
 /**
- * Links this native object with its java Win32GraphicsDevice.
- * Need this link because the colorModel of the java device
- * may be updated from native code.
+ * Gft tif HPALETTE bssodibtfd witi tiis dfvidf
  */
-void AwtWin32GraphicsDevice::SetJavaDevice(JNIEnv *env, jobject objPtr)
+HPALETTE AwtWin32GrbpiidsDfvidf::GftPblfttf()
 {
-    javaDevice = env->NewWeakGlobalRef(objPtr);
+    if (pblfttf) {
+        rfturn pblfttf->GftPblfttf();
+    } flsf {
+        rfturn NULL;
+    }
 }
 
 /**
- * Disables offscreen acceleration for this device.  This
- * sets a flag in the java object that is used to determine
- * whether offscreen surfaces can be created on the device.
+ * Objfdt rfffrring to tiis dfvidf is rflfbsing tibt rfffrfndf.
+ * Tiis bllows tif brrby iolding bll dfvidfs to bf rflfbsfd (ondf
+ * bll rfffrfndfs to tif brrby ibvf gonf bwby).
  */
-void AwtWin32GraphicsDevice::DisableOffscreenAcceleration()
+void AwtWin32GrbpiidsDfvidf::Rflfbsf()
+{
+    dfvidfsArrby->Rflfbsf();
+}
+
+/**
+ * Links tiis nbtivf objfdt witi its jbvb Win32GrbpiidsDfvidf.
+ * Nffd tiis link bfdbusf tif dolorModfl of tif jbvb dfvidf
+ * mby bf updbtfd from nbtivf dodf.
+ */
+void AwtWin32GrbpiidsDfvidf::SftJbvbDfvidf(JNIEnv *fnv, jobjfdt objPtr)
+{
+    jbvbDfvidf = fnv->NfwWfbkGlobblRff(objPtr);
+}
+
+/**
+ * Disbblfs offsdrffn bddflfrbtion for tiis dfvidf.  Tiis
+ * sfts b flbg in tif jbvb objfdt tibt is usfd to dftfrminf
+ * wiftifr offsdrffn surfbdfs dbn bf drfbtfd on tif dfvidf.
+ */
+void AwtWin32GrbpiidsDfvidf::DisbblfOffsdrffnAddflfrbtion()
 {
     // REMIND: noop for now
 }
 
 /**
- * Invalidates the GraphicsDevice object associated with this
- * device by disabling offscreen acceleration and calling
- * invalidate(defIndex) on the java object.
+ * Invblidbtfs tif GrbpiidsDfvidf objfdt bssodibtfd witi tiis
+ * dfvidf by disbbling offsdrffn bddflfrbtion bnd dblling
+ * invblidbtf(dffIndfx) on tif jbvb objfdt.
  */
-void AwtWin32GraphicsDevice::Invalidate(JNIEnv *env)
+void AwtWin32GrbpiidsDfvidf::Invblidbtf(JNIEnv *fnv)
 {
-    int defIndex = AwtWin32GraphicsDevice::GetDefaultDeviceIndex();
-    DisableOffscreenAcceleration();
-    jobject javaDevice = GetJavaDevice();
-    if (!JNU_IsNull(env, javaDevice)) {
-        JNU_CallMethodByName(env, NULL, javaDevice, "invalidate",
-                             "(I)V", defIndex);
+    int dffIndfx = AwtWin32GrbpiidsDfvidf::GftDffbultDfvidfIndfx();
+    DisbblfOffsdrffnAddflfrbtion();
+    jobjfdt jbvbDfvidf = GftJbvbDfvidf();
+    if (!JNU_IsNull(fnv, jbvbDfvidf)) {
+        JNU_CbllMftiodByNbmf(fnv, NULL, jbvbDfvidf, "invblidbtf",
+                             "(I)V", dffIndfx);
     }
 }
 
 /**
- * Static deviceIndex-based methods
+ * Stbtid dfvidfIndfx-bbsfd mftiods
  *
- * The following methods take a deviceIndex for the list of devices
- * and perform the appropriate action on that device.  This way of
- * dereferencing the list of devices allows us to do appropriate
- * locks around the list to ensure multi-threaded safety.
+ * Tif following mftiods tbkf b dfvidfIndfx for tif list of dfvidfs
+ * bnd pfrform tif bppropribtf bdtion on tibt dfvidf.  Tiis wby of
+ * dfrfffrfnding tif list of dfvidfs bllows us to do bppropribtf
+ * lodks bround tif list to fnsurf multi-tirfbdfd sbffty.
  */
 
 
-jobject AwtWin32GraphicsDevice::GetColorModel(JNIEnv *env, jboolean dynamic,
-                                              int deviceIndex)
+jobjfdt AwtWin32GrbpiidsDfvidf::GftColorModfl(JNIEnv *fnv, jboolfbn dynbmid,
+                                              int dfvidfIndfx)
 {
-    Devices::InstanceAccess devices;
-    return devices->GetDevice(deviceIndex)->GetColorModel(env, dynamic);
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftColorModfl(fnv, dynbmid);
 }
 
-LPMONITORINFO AwtWin32GraphicsDevice::GetMonitorInfo(int deviceIndex)
+LPMONITORINFO AwtWin32GrbpiidsDfvidf::GftMonitorInfo(int dfvidfIndfx)
 {
-    Devices::InstanceAccess devices;
-    return devices->GetDevice(deviceIndex)->GetMonitorInfo();
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftMonitorInfo();
 }
 
 /**
- * This function updates the data in the MONITORINFOEX structure pointed to by
- * pMonitorInfo for all monitors on the system.  Added for 4654713.
+ * Tiis fundtion updbtfs tif dbtb in tif MONITORINFOEX strudturf pointfd to by
+ * pMonitorInfo for bll monitors on tif systfm.  Addfd for 4654713.
  */
-void AwtWin32GraphicsDevice::ResetAllMonitorInfo()
+void AwtWin32GrbpiidsDfvidf::RfsftAllMonitorInfo()
 {
-    //IE in some circumstances generates WM_SETTINGCHANGE message on appearance
-    //and thus triggers this method
-    //but we may not have the devices list initialized yet.
-    if (!Devices::GetInstance()){
-        return;
+    //IE in somf dirdumstbndfs gfnfrbtfs WM_SETTINGCHANGE mfssbgf on bppfbrbndf
+    //bnd tius triggfrs tiis mftiod
+    //but wf mby not ibvf tif dfvidfs list initiblizfd yft.
+    if (!Dfvidfs::GftInstbndf()){
+        rfturn;
     }
-    Devices::InstanceAccess devices;
-    int devicesNum = devices->GetNumDevices();
-    for (int deviceIndex = 0; deviceIndex < devicesNum; deviceIndex++) {
-        HMONITOR monitor = devices->GetDevice(deviceIndex)->GetMonitor();
-        ::GetMonitorInfo(monitor,
-                         devices->GetDevice(deviceIndex)->pMonitorInfo);
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    int dfvidfsNum = dfvidfs->GftNumDfvidfs();
+    for (int dfvidfIndfx = 0; dfvidfIndfx < dfvidfsNum; dfvidfIndfx++) {
+        HMONITOR monitor = dfvidfs->GftDfvidf(dfvidfIndfx)->GftMonitor();
+        ::GftMonitorInfo(monitor,
+                         dfvidfs->GftDfvidf(dfvidfIndfx)->pMonitorInfo);
     }
 }
 
-void AwtWin32GraphicsDevice::DisableOffscreenAccelerationForDevice(
-    HMONITOR hMonitor)
+void AwtWin32GrbpiidsDfvidf::DisbblfOffsdrffnAddflfrbtionForDfvidf(
+    HMONITOR iMonitor)
 {
-    Devices::InstanceAccess devices;
-    if (hMonitor == NULL) {
-        devices->GetDevice(0)->DisableOffscreenAcceleration();
-    } else {
-        int devicesNum = devices->GetNumDevices();
-        for (int i = 0; i < devicesNum; ++i) {
-            if (devices->GetDevice(i)->GetMonitor() == hMonitor) {
-                devices->GetDevice(i)->DisableOffscreenAcceleration();
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    if (iMonitor == NULL) {
+        dfvidfs->GftDfvidf(0)->DisbblfOffsdrffnAddflfrbtion();
+    } flsf {
+        int dfvidfsNum = dfvidfs->GftNumDfvidfs();
+        for (int i = 0; i < dfvidfsNum; ++i) {
+            if (dfvidfs->GftDfvidf(i)->GftMonitor() == iMonitor) {
+                dfvidfs->GftDfvidf(i)->DisbblfOffsdrffnAddflfrbtion();
             }
         }
     }
 }
 
-HMONITOR AwtWin32GraphicsDevice::GetMonitor(int deviceIndex)
+HMONITOR AwtWin32GrbpiidsDfvidf::GftMonitor(int dfvidfIndfx)
 {
-    Devices::InstanceAccess devices;
-    return devices->GetDevice(deviceIndex)->GetMonitor();
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftMonitor();
 }
 
-HPALETTE AwtWin32GraphicsDevice::GetPalette(int deviceIndex)
+HPALETTE AwtWin32GrbpiidsDfvidf::GftPblfttf(int dfvidfIndfx)
 {
-    Devices::InstanceAccess devices;
-    return devices->GetDevice(deviceIndex)->GetPalette();
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftPblfttf();
 }
 
-void AwtWin32GraphicsDevice::UpdateDynamicColorModel(int deviceIndex)
+void AwtWin32GrbpiidsDfvidf::UpdbtfDynbmidColorModfl(int dfvidfIndfx)
 {
-    Devices::InstanceAccess devices;
-    devices->GetDevice(deviceIndex)->UpdateDynamicColorModel();
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    dfvidfs->GftDfvidf(dfvidfIndfx)->UpdbtfDynbmidColorModfl();
 }
 
-BOOL AwtWin32GraphicsDevice::UpdateSystemPalette(int deviceIndex)
+BOOL AwtWin32GrbpiidsDfvidf::UpdbtfSystfmPblfttf(int dfvidfIndfx)
 {
-    Devices::InstanceAccess devices;
-    return devices->GetDevice(deviceIndex)->UpdateSystemPalette();
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->UpdbtfSystfmPblfttf();
 }
 
-HPALETTE AwtWin32GraphicsDevice::SelectPalette(HDC hDC, int deviceIndex)
+HPALETTE AwtWin32GrbpiidsDfvidf::SflfdtPblfttf(HDC iDC, int dfvidfIndfx)
 {
-    Devices::InstanceAccess devices;
-    return devices->GetDevice(deviceIndex)->SelectPalette(hDC);
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->SflfdtPblfttf(iDC);
 }
 
-void AwtWin32GraphicsDevice::RealizePalette(HDC hDC, int deviceIndex)
+void AwtWin32GrbpiidsDfvidf::RfblizfPblfttf(HDC iDC, int dfvidfIndfx)
 {
-    Devices::InstanceAccess devices;
-    devices->GetDevice(deviceIndex)->RealizePalette(hDC);
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    dfvidfs->GftDfvidf(dfvidfIndfx)->RfblizfPblfttf(iDC);
 }
 
-ColorData *AwtWin32GraphicsDevice::GetColorData(int deviceIndex)
+ColorDbtb *AwtWin32GrbpiidsDfvidf::GftColorDbtb(int dfvidfIndfx)
 {
-    Devices::InstanceAccess devices;
-    return devices->GetDevice(deviceIndex)->GetColorData();
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftColorDbtb();
 }
 
 /**
- * Return the grayscale value for the indicated device.
+ * Rfturn tif grbysdblf vbluf for tif indidbtfd dfvidf.
  */
-int AwtWin32GraphicsDevice::GetGrayness(int deviceIndex)
+int AwtWin32GrbpiidsDfvidf::GftGrbynfss(int dfvidfIndfx)
 {
-    Devices::InstanceAccess devices;
-    return devices->GetDevice(deviceIndex)->GetGrayness();
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftGrbynfss();
 }
 
-HDC AwtWin32GraphicsDevice::GetDCFromScreen(int screen) {
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "AwtWin32GraphicsDevice::GetDCFromScreen screen=%d", screen);
-    Devices::InstanceAccess devices;
-    AwtWin32GraphicsDevice *dev = devices->GetDevice(screen);
-    return MakeDCFromMonitor(dev->GetMonitor());
+HDC AwtWin32GrbpiidsDfvidf::GftDCFromSdrffn(int sdrffn) {
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "AwtWin32GrbpiidsDfvidf::GftDCFromSdrffn sdrffn=%d", sdrffn);
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    AwtWin32GrbpiidsDfvidf *dfv = dfvidfs->GftDfvidf(sdrffn);
+    rfturn MbkfDCFromMonitor(dfv->GftMonitor());
 }
 
-/** Compare elements of MONITORINFOEX structures for the given HMONITORs.
- * If equal, return TRUE
+/** Compbrf flfmfnts of MONITORINFOEX strudturfs for tif givfn HMONITORs.
+ * If fqubl, rfturn TRUE
  */
-BOOL AwtWin32GraphicsDevice::AreSameMonitors(HMONITOR mon1, HMONITOR mon2) {
-    J2dTraceLn2(J2D_TRACE_INFO,
-                "AwtWin32GraphicsDevice::AreSameMonitors mhnd1=%x mhnd2=%x",
+BOOL AwtWin32GrbpiidsDfvidf::ArfSbmfMonitors(HMONITOR mon1, HMONITOR mon2) {
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "AwtWin32GrbpiidsDfvidf::ArfSbmfMonitors mind1=%x mind2=%x",
                 mon1, mon2);
     DASSERT(mon1 != NULL);
     DASSERT(mon2 != NULL);
@@ -774,500 +774,500 @@ BOOL AwtWin32GraphicsDevice::AreSameMonitors(HMONITOR mon1, HMONITOR mon2) {
     MONITORINFOEX mi1;
     MONITORINFOEX mi2;
 
-    memset((void*)(&mi1), 0, sizeof(MONITORINFOEX));
-    mi1.cbSize = sizeof(MONITORINFOEX);
-    memset((void*)(&mi2), 0, sizeof(MONITORINFOEX));
-    mi2.cbSize = sizeof(MONITORINFOEX);
+    mfmsft((void*)(&mi1), 0, sizfof(MONITORINFOEX));
+    mi1.dbSizf = sizfof(MONITORINFOEX);
+    mfmsft((void*)(&mi2), 0, sizfof(MONITORINFOEX));
+    mi2.dbSizf = sizfof(MONITORINFOEX);
 
-    if (::GetMonitorInfo(mon1, &mi1) != 0 &&
-        ::GetMonitorInfo(mon2, &mi2) != 0 )
+    if (::GftMonitorInfo(mon1, &mi1) != 0 &&
+        ::GftMonitorInfo(mon2, &mi2) != 0 )
     {
-        if (::EqualRect(&mi1.rcMonitor, &mi2.rcMonitor) &&
-            ::EqualRect(&mi1.rcWork, &mi2.rcWork) &&
-            (mi1.dwFlags  == mi1.dwFlags))
+        if (::EqublRfdt(&mi1.rdMonitor, &mi2.rdMonitor) &&
+            ::EqublRfdt(&mi1.rdWork, &mi2.rdWork) &&
+            (mi1.dwFlbgs  == mi1.dwFlbgs))
         {
 
-            J2dTraceLn(J2D_TRACE_VERBOSE, "  the monitors are the same");
-            return TRUE;
+            J2dTrbdfLn(J2D_TRACE_VERBOSE, "  tif monitors brf tif sbmf");
+            rfturn TRUE;
         }
     }
-    J2dTraceLn(J2D_TRACE_VERBOSE, "  the monitors are not the same");
-    return FALSE;
+    J2dTrbdfLn(J2D_TRACE_VERBOSE, "  tif monitors brf not tif sbmf");
+    rfturn FALSE;
 }
 
-int AwtWin32GraphicsDevice::GetScreenFromHMONITOR(HMONITOR mon) {
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "AwtWin32GraphicsDevice::GetScreenFromHMONITOR mhnd=%x", mon);
+int AwtWin32GrbpiidsDfvidf::GftSdrffnFromHMONITOR(HMONITOR mon) {
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "AwtWin32GrbpiidsDfvidf::GftSdrffnFromHMONITOR mind=%x", mon);
 
     DASSERT(mon != NULL);
-    Devices::InstanceAccess devices;
+    Dfvidfs::InstbndfAddfss dfvidfs;
 
-    for (int i = 0; i < devices->GetNumDevices(); i++) {
-        HMONITOR mhnd = devices->GetDevice(i)->GetMonitor();
-        if (AreSameMonitors(mon, mhnd)) {
-            J2dTraceLn1(J2D_TRACE_VERBOSE, "  Found device: %d", i);
-            return i;
+    for (int i = 0; i < dfvidfs->GftNumDfvidfs(); i++) {
+        HMONITOR mind = dfvidfs->GftDfvidf(i)->GftMonitor();
+        if (ArfSbmfMonitors(mon, mind)) {
+            J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  Found dfvidf: %d", i);
+            rfturn i;
         }
     }
 
-    J2dTraceLn1(J2D_TRACE_WARNING,
-                "AwtWin32GraphicsDevice::GetScreenFromHMONITOR(): "\
-                "couldn't find screen for HMONITOR %x, returning default", mon);
-    return AwtWin32GraphicsDevice::GetDefaultDeviceIndex();
+    J2dTrbdfLn1(J2D_TRACE_WARNING,
+                "AwtWin32GrbpiidsDfvidf::GftSdrffnFromHMONITOR(): "\
+                "douldn't find sdrffn for HMONITOR %x, rfturning dffbult", mon);
+    rfturn AwtWin32GrbpiidsDfvidf::GftDffbultDfvidfIndfx();
 }
 
 
 /**
- * End of static deviceIndex-based methods
+ * End of stbtid dfvidfIndfx-bbsfd mftiods
  */
 
 
-    const DWORD REQUIRED_FLAGS = (   //Flags which must be set in
-     PFD_SUPPORT_GDI |               //in the PixelFormatDescriptor.
-     PFD_DRAW_TO_WINDOW);            //Used to choose the default config
-                                     //and to check formats in
-                                     //isPixFmtSupported()
-extern "C" {
+    donst DWORD REQUIRED_FLAGS = (   //Flbgs wiidi must bf sft in
+     PFD_SUPPORT_GDI |               //in tif PixflFormbtDfsdriptor.
+     PFD_DRAW_TO_WINDOW);            //Usfd to dioosf tif dffbult donfig
+                                     //bnd to difdk formbts in
+                                     //isPixFmtSupportfd()
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_sun_awt_Win32GraphicsDevice_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_Win32GrbpiidsDfvidf_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
 
-    /* class ids */
-    AwtWin32GraphicsDevice::indexCMClass =
-        (jclass)env->NewGlobalRef(env->FindClass("java/awt/image/IndexColorModel"));
-    DASSERT(AwtWin32GraphicsDevice::indexCMClass);
-    CHECK_NULL(AwtWin32GraphicsDevice::indexCMClass);
+    /* dlbss ids */
+    AwtWin32GrbpiidsDfvidf::indfxCMClbss =
+        (jdlbss)fnv->NfwGlobblRff(fnv->FindClbss("jbvb/bwt/imbgf/IndfxColorModfl"));
+    DASSERT(AwtWin32GrbpiidsDfvidf::indfxCMClbss);
+    CHECK_NULL(AwtWin32GrbpiidsDfvidf::indfxCMClbss);
 
-    AwtWin32GraphicsDevice::wToolkitClass =
-        (jclass)env->NewGlobalRef(env->FindClass("sun/awt/windows/WToolkit"));
-    DASSERT(AwtWin32GraphicsDevice::wToolkitClass);
-    CHECK_NULL(AwtWin32GraphicsDevice::wToolkitClass);
+    AwtWin32GrbpiidsDfvidf::wToolkitClbss =
+        (jdlbss)fnv->NfwGlobblRff(fnv->FindClbss("sun/bwt/windows/WToolkit"));
+    DASSERT(AwtWin32GrbpiidsDfvidf::wToolkitClbss);
+    CHECK_NULL(AwtWin32GrbpiidsDfvidf::wToolkitClbss);
 
-    /* field ids */
-    AwtWin32GraphicsDevice::dynamicColorModelID = env->GetFieldID(cls,
-        "dynamicColorModel", "Ljava/awt/image/ColorModel;");
-    DASSERT(AwtWin32GraphicsDevice::dynamicColorModelID);
-    CHECK_NULL(AwtWin32GraphicsDevice::dynamicColorModelID);
+    /* fifld ids */
+    AwtWin32GrbpiidsDfvidf::dynbmidColorModflID = fnv->GftFifldID(dls,
+        "dynbmidColorModfl", "Ljbvb/bwt/imbgf/ColorModfl;");
+    DASSERT(AwtWin32GrbpiidsDfvidf::dynbmidColorModflID);
+    CHECK_NULL(AwtWin32GrbpiidsDfvidf::dynbmidColorModflID);
 
-    AwtWin32GraphicsDevice::indexCMrgbID =
-        env->GetFieldID(AwtWin32GraphicsDevice::indexCMClass, "rgb", "[I");
-    DASSERT(AwtWin32GraphicsDevice::indexCMrgbID);
-    CHECK_NULL(AwtWin32GraphicsDevice::indexCMrgbID);
+    AwtWin32GrbpiidsDfvidf::indfxCMrgbID =
+        fnv->GftFifldID(AwtWin32GrbpiidsDfvidf::indfxCMClbss, "rgb", "[I");
+    DASSERT(AwtWin32GrbpiidsDfvidf::indfxCMrgbID);
+    CHECK_NULL(AwtWin32GrbpiidsDfvidf::indfxCMrgbID);
 
-    AwtWin32GraphicsDevice::indexCMcacheID =
-        env->GetFieldID(AwtWin32GraphicsDevice::indexCMClass,
-        "lookupcache", "[I");
-    DASSERT(AwtWin32GraphicsDevice::indexCMcacheID);
-    CHECK_NULL(AwtWin32GraphicsDevice::indexCMcacheID);
+    AwtWin32GrbpiidsDfvidf::indfxCMdbdifID =
+        fnv->GftFifldID(AwtWin32GrbpiidsDfvidf::indfxCMClbss,
+        "lookupdbdif", "[I");
+    DASSERT(AwtWin32GrbpiidsDfvidf::indfxCMdbdifID);
+    CHECK_NULL(AwtWin32GrbpiidsDfvidf::indfxCMdbdifID);
 
-    /* method ids */
-    AwtWin32GraphicsDevice::paletteChangedMID = env->GetStaticMethodID(
-        AwtWin32GraphicsDevice::wToolkitClass, "paletteChanged", "()V");
-    DASSERT(AwtWin32GraphicsDevice::paletteChangedMID);
-    CHECK_NULL(AwtWin32GraphicsDevice::paletteChangedMID);
+    /* mftiod ids */
+    AwtWin32GrbpiidsDfvidf::pblfttfCibngfdMID = fnv->GftStbtidMftiodID(
+        AwtWin32GrbpiidsDfvidf::wToolkitClbss, "pblfttfCibngfd", "()V");
+    DASSERT(AwtWin32GrbpiidsDfvidf::pblfttfCibngfdMID);
+    CHECK_NULL(AwtWin32GrbpiidsDfvidf::pblfttfCibngfdMID);
 
-    // Only want to call this once per session
-    make_uns_ordered_dither_array(img_oda_alpha, 256);
+    // Only wbnt to dbll tiis ondf pfr sfssion
+    mbkf_uns_ordfrfd_ditifr_brrby(img_odb_blpib, 256);
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 
 /*
- * Class:     sun_awt_Win32GraphicsDevice
- * Method:    getMaxConfigsImpl
- * Signature: ()I
+ * Clbss:     sun_bwt_Win32GrbpiidsDfvidf
+ * Mftiod:    gftMbxConfigsImpl
+ * Signbturf: ()I
  */
 
-JNIEXPORT jint JNICALL Java_sun_awt_Win32GraphicsDevice_getMaxConfigsImpl
-    (JNIEnv* jniEnv, jobject theThis, jint screen) {
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_Win32GrbpiidsDfvidf_gftMbxConfigsImpl
+    (JNIEnv* jniEnv, jobjfdt tifTiis, jint sdrffn) {
         TRY;
-    HDC hDC = AwtWin32GraphicsDevice::GetDCFromScreen(screen);
+    HDC iDC = AwtWin32GrbpiidsDfvidf::GftDCFromSdrffn(sdrffn);
 
     PIXELFORMATDESCRIPTOR pfd;
-    int max = ::DescribePixelFormat(hDC, 1, sizeof(PIXELFORMATDESCRIPTOR),
+    int mbx = ::DfsdribfPixflFormbt(iDC, 1, sizfof(PIXELFORMATDESCRIPTOR),
         &pfd);
-    if (hDC != NULL) {
-        VERIFY(::DeleteDC(hDC));
-        hDC = NULL;
+    if (iDC != NULL) {
+        VERIFY(::DflftfDC(iDC));
+        iDC = NULL;
     }
-    //If ::DescribePixelFormat() fails, max = 0
-    //In this case, we return 1 config with visual number 0
-    if (max == 0) {
-        max = 1;
+    //If ::DfsdribfPixflFormbt() fbils, mbx = 0
+    //In tiis dbsf, wf rfturn 1 donfig witi visubl numbfr 0
+    if (mbx == 0) {
+        mbx = 1;
     }
-    return (jint)max;
+    rfturn (jint)mbx;
         CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsDevice
- * Method:    isPixFmtSupported
- * Signature: (I)Z
+ * Clbss:     sun_bwt_Win32GrbpiidsDfvidf
+ * Mftiod:    isPixFmtSupportfd
+ * Signbturf: (I)Z
  */
 
-JNIEXPORT jboolean JNICALL Java_sun_awt_Win32GraphicsDevice_isPixFmtSupported
-    (JNIEnv* env, jobject theThis, jint pixFmtID, jint screen) {
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_Win32GrbpiidsDfvidf_isPixFmtSupportfd
+    (JNIEnv* fnv, jobjfdt tifTiis, jint pixFmtID, jint sdrffn) {
         TRY;
-    jboolean suppColor = JNI_TRUE;
-    HDC hDC = AwtWin32GraphicsDevice::GetDCFromScreen(screen);
+    jboolfbn suppColor = JNI_TRUE;
+    HDC iDC = AwtWin32GrbpiidsDfvidf::GftDCFromSdrffn(sdrffn);
 
     if (pixFmtID == 0) {
-        return true;
+        rfturn truf;
     }
 
     PIXELFORMATDESCRIPTOR pfd;
-    int max = ::DescribePixelFormat(hDC, (int)pixFmtID,
-        sizeof(PIXELFORMATDESCRIPTOR), &pfd);
-    DASSERT(max);
+    int mbx = ::DfsdribfPixflFormbt(iDC, (int)pixFmtID,
+        sizfof(PIXELFORMATDESCRIPTOR), &pfd);
+    DASSERT(mbx);
 
-    //Check for supported ColorModel
-    if ((pfd.cColorBits < 8) ||
-       ((pfd.cColorBits == 8) && (pfd.iPixelType != PFD_TYPE_COLORINDEX))) {
-        //Note: this still allows for PixelFormats with > 8 color bits
-        //which use COLORINDEX instead of RGB.  This seems to work fine,
-        //although issues may crop up involving PFD_NEED_PALETTE, which
-        //is not currently taken into account.
-        //If changes are made, they should also be reflected in
-        //getDefaultPixID.
+    //Cifdk for supportfd ColorModfl
+    if ((pfd.dColorBits < 8) ||
+       ((pfd.dColorBits == 8) && (pfd.iPixflTypf != PFD_TYPE_COLORINDEX))) {
+        //Notf: tiis still bllows for PixflFormbts witi > 8 dolor bits
+        //wiidi usf COLORINDEX instfbd of RGB.  Tiis sffms to work finf,
+        //bltiougi issufs mby drop up involving PFD_NEED_PALETTE, wiidi
+        //is not durrfntly tbkfn into bddount.
+        //If dibngfs brf mbdf, tify siould blso bf rfflfdtfd in
+        //gftDffbultPixID.
         suppColor = JNI_FALSE;
     }
 
-    if (hDC != NULL) {
-        VERIFY(::DeleteDC(hDC));
-        hDC = NULL;
+    if (iDC != NULL) {
+        VERIFY(::DflftfDC(iDC));
+        iDC = NULL;
     }
-    return (((pfd.dwFlags & REQUIRED_FLAGS) == REQUIRED_FLAGS) && suppColor) ?
+    rfturn (((pfd.dwFlbgs & REQUIRED_FLAGS) == REQUIRED_FLAGS) && suppColor) ?
      JNI_TRUE : JNI_FALSE;
         CATCH_BAD_ALLOC_RET(FALSE);
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsDevice
- * Method:    getDefaultPixIDImpl
- * Signature: (I)I
+ * Clbss:     sun_bwt_Win32GrbpiidsDfvidf
+ * Mftiod:    gftDffbultPixIDImpl
+ * Signbturf: (I)I
  */
 
-JNIEXPORT jint JNICALL Java_sun_awt_Win32GraphicsDevice_getDefaultPixIDImpl
-    (JNIEnv* env, jobject theThis, jint screen) {
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_Win32GrbpiidsDfvidf_gftDffbultPixIDImpl
+    (JNIEnv* fnv, jobjfdt tifTiis, jint sdrffn) {
         TRY;
     int pixFmtID = 0;
-    HDC hDC = AwtWin32GraphicsDevice::GetDCFromScreen(screen);
+    HDC iDC = AwtWin32GrbpiidsDfvidf::GftDCFromSdrffn(sdrffn);
 
     PIXELFORMATDESCRIPTOR pfd = {
-        sizeof(PIXELFORMATDESCRIPTOR),
-        1,               //version
-        REQUIRED_FLAGS,  //flags
-        0,               //iPixelType
-        0,               //cColorBits
-        0,0,0,0,0,0,0,0, //cRedBits, cRedShift, green, blue, alpha
-        0,0,0,0,0,       //cAccumBits, cAccumRedBits, green, blue, alpha
-        0,0,0,0,0,0,0,0  //etc.
+        sizfof(PIXELFORMATDESCRIPTOR),
+        1,               //vfrsion
+        REQUIRED_FLAGS,  //flbgs
+        0,               //iPixflTypf
+        0,               //dColorBits
+        0,0,0,0,0,0,0,0, //dRfdBits, dRfdSiift, grffn, bluf, blpib
+        0,0,0,0,0,       //dAddumBits, dAddumRfdBits, grffn, bluf, blpib
+        0,0,0,0,0,0,0,0  //ftd.
     };
 
-    //If 8-bit mode, must use Indexed mode
-    if (8 == ::GetDeviceCaps(hDC, BITSPIXEL)) {
-        pfd.iPixelType = PFD_TYPE_COLORINDEX;
+    //If 8-bit modf, must usf Indfxfd modf
+    if (8 == ::GftDfvidfCbps(iDC, BITSPIXEL)) {
+        pfd.iPixflTypf = PFD_TYPE_COLORINDEX;
     }
 
-    pixFmtID = ::ChoosePixelFormat(hDC, &pfd);
+    pixFmtID = ::CioosfPixflFormbt(iDC, &pfd);
     if (pixFmtID == 0) {
-        //Return 0 if GDI call fails.
-        if (hDC != NULL) {
-            VERIFY(::DeleteDC(hDC));
-            hDC = NULL;
+        //Rfturn 0 if GDI dbll fbils.
+        if (iDC != NULL) {
+            VERIFY(::DflftfDC(iDC));
+            iDC = NULL;
         }
-        return pixFmtID;
+        rfturn pixFmtID;
     }
 
-    if (JNI_FALSE == Java_sun_awt_Win32GraphicsDevice_isPixFmtSupported(
-     env, theThis, pixFmtID, screen)) {
-        /* Can't find a suitable pixel format ID.  Fall back on 0. */
+    if (JNI_FALSE == Jbvb_sun_bwt_Win32GrbpiidsDfvidf_isPixFmtSupportfd(
+     fnv, tifTiis, pixFmtID, sdrffn)) {
+        /* Cbn't find b suitbblf pixfl formbt ID.  Fbll bbdk on 0. */
         pixFmtID = 0;
     }
 
-    VERIFY(::DeleteDC(hDC));
-    hDC = NULL;
-    return (jint)pixFmtID;
+    VERIFY(::DflftfDC(iDC));
+    iDC = NULL;
+    rfturn (jint)pixFmtID;
         CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsDevice
- * Method:    enterFullScreenExclusive
- * Signature: (Ljava/awt/peer/WindowPeer;)V
+ * Clbss:     sun_bwt_Win32GrbpiidsDfvidf
+ * Mftiod:    fntfrFullSdrffnExdlusivf
+ * Signbturf: (Ljbvb/bwt/pffr/WindowPffr;)V
  */
 
 JNIEXPORT void JNICALL
-Java_sun_awt_Win32GraphicsDevice_enterFullScreenExclusive(
-        JNIEnv* env, jobject graphicsDevice,
-        jint screen, jobject windowPeer) {
+Jbvb_sun_bwt_Win32GrbpiidsDfvidf_fntfrFullSdrffnExdlusivf(
+        JNIEnv* fnv, jobjfdt grbpiidsDfvidf,
+        jint sdrffn, jobjfdt windowPffr) {
 
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(windowPeer);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(windowPffr);
 
-    AwtWindow *window = (AwtWindow *)pData;  // safe cast since we are called
-                                             // with the WWindowPeer object
-    HWND hWnd = window->GetHWnd();
+    AwtWindow *window = (AwtWindow *)pDbtb;  // sbff dbst sindf wf brf dbllfd
+                                             // witi tif WWindowPffr objfdt
+    HWND iWnd = window->GftHWnd();
 
-    if (!::SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0,
+    if (!::SftWindowPos(iWnd, HWND_TOPMOST, 0, 0, 0, 0,
                         SWP_NOMOVE|SWP_NOOWNERZORDER|SWP_NOSIZE))
     {
-        J2dTraceLn1(J2D_TRACE_ERROR,
-                    "Error %d setting topmost attribute to fs window",
-                    ::GetLastError());
+        J2dTrbdfLn1(J2D_TRACE_ERROR,
+                    "Error %d sftting topmost bttributf to fs window",
+                    ::GftLbstError());
     }
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsDevice
- * Method:    exitFullScreenExclusive
- * Signature: (Ljava/awt/peer/WindowPeer;)V
+ * Clbss:     sun_bwt_Win32GrbpiidsDfvidf
+ * Mftiod:    fxitFullSdrffnExdlusivf
+ * Signbturf: (Ljbvb/bwt/pffr/WindowPffr;)V
  */
 
 JNIEXPORT void JNICALL
-Java_sun_awt_Win32GraphicsDevice_exitFullScreenExclusive(
-        JNIEnv* env, jobject graphicsDevice,
-        jint screen, jobject windowPeer) {
+Jbvb_sun_bwt_Win32GrbpiidsDfvidf_fxitFullSdrffnExdlusivf(
+        JNIEnv* fnv, jobjfdt grbpiidsDfvidf,
+        jint sdrffn, jobjfdt windowPffr) {
 
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(windowPeer);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(windowPffr);
 
-    AwtWindow *window = (AwtWindow *)pData;  // safe cast since we are called
-                                             // with the WWindowPeer object
-    HWND hWnd = window->GetHWnd();
+    AwtWindow *window = (AwtWindow *)pDbtb;  // sbff dbst sindf wf brf dbllfd
+                                             // witi tif WWindowPffr objfdt
+    HWND iWnd = window->GftHWnd();
 
-    jobject target = env->GetObjectField(windowPeer, AwtObject::targetID);
-    jboolean alwaysOnTop = JNU_GetFieldByName(env, NULL, target, "alwaysOnTop", "Z").z;
-    env->DeleteLocalRef(target);
+    jobjfdt tbrgft = fnv->GftObjfdtFifld(windowPffr, AwtObjfdt::tbrgftID);
+    jboolfbn blwbysOnTop = JNU_GftFifldByNbmf(fnv, NULL, tbrgft, "blwbysOnTop", "Z").z;
+    fnv->DflftfLodblRff(tbrgft);
 
-    if (!::SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0,
+    if (!::SftWindowPos(iWnd, HWND_NOTOPMOST, 0, 0, 0, 0,
                         SWP_NOMOVE|SWP_NOOWNERZORDER|SWP_NOSIZE))
     {
-        J2dTraceLn1(J2D_TRACE_ERROR,
-                    "Error %d unsetting topmost attribute to fs window",
-                    ::GetLastError());
+        J2dTrbdfLn1(J2D_TRACE_ERROR,
+                    "Error %d unsftting topmost bttributf to fs window",
+                    ::GftLbstError());
     }
 
-    // We should restore alwaysOnTop state as it's anyway dropped here
-    Java_sun_awt_windows_WWindowPeer_setAlwaysOnTopNative(env, windowPeer, alwaysOnTop);
+    // Wf siould rfstorf blwbysOnTop stbtf bs it's bnywby droppfd ifrf
+    Jbvb_sun_bwt_windows_WWindowPffr_sftAlwbysOnTopNbtivf(fnv, windowPffr, blwbysOnTop);
 
     CATCH_BAD_ALLOC;
 }
 
-jobject CreateDisplayMode(JNIEnv* env, jint width, jint height,
-    jint bitDepth, jint refreshRate) {
+jobjfdt CrfbtfDisplbyModf(JNIEnv* fnv, jint widti, jint ifigit,
+    jint bitDfpti, jint rffrfsiRbtf) {
 
     TRY;
 
-    jclass displayModeClass = env->FindClass("java/awt/DisplayMode");
-    if (JNU_IsNull(env, displayModeClass)) {
-        env->ExceptionClear();
-        JNU_ThrowInternalError(env, "Could not get display mode class");
-        return NULL;
+    jdlbss displbyModfClbss = fnv->FindClbss("jbvb/bwt/DisplbyModf");
+    if (JNU_IsNull(fnv, displbyModfClbss)) {
+        fnv->ExdfptionClfbr();
+        JNU_TirowIntfrnblError(fnv, "Could not gft displby modf dlbss");
+        rfturn NULL;
     }
 
-    jmethodID cid = env->GetMethodID(displayModeClass, "<init>", "(IIII)V");
-    if (cid == NULL) {
-        env->ExceptionClear();
-        JNU_ThrowInternalError(env, "Could not get display mode constructor");
-        return NULL;
+    jmftiodID did = fnv->GftMftiodID(displbyModfClbss, "<init>", "(IIII)V");
+    if (did == NULL) {
+        fnv->ExdfptionClfbr();
+        JNU_TirowIntfrnblError(fnv, "Could not gft displby modf donstrudtor");
+        rfturn NULL;
     }
 
-    jobject displayMode = env->NewObject(displayModeClass, cid, width,
-        height, bitDepth, refreshRate);
-    return displayMode;
+    jobjfdt displbyModf = fnv->NfwObjfdt(displbyModfClbss, did, widti,
+        ifigit, bitDfpti, rffrfsiRbtf);
+    rfturn displbyModf;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /**
- * A utility function which retrieves a DISPLAY_DEVICE information
- * given a screen number.
+ * A utility fundtion wiidi rftrifvfs b DISPLAY_DEVICE informbtion
+ * givfn b sdrffn numbfr.
  *
- * If the function was able to find an attached device for the given screen
- * number, the lpDisplayDevice will be initialized with the data and
- * the function will return TRUE, otherwise it returns FALSE and contents
- * of the structure pointed to by lpDisplayDevice is undefined.
+ * If tif fundtion wbs bblf to find bn bttbdifd dfvidf for tif givfn sdrffn
+ * numbfr, tif lpDisplbyDfvidf will bf initiblizfd witi tif dbtb bnd
+ * tif fundtion will rfturn TRUE, otifrwisf it rfturns FALSE bnd dontfnts
+ * of tif strudturf pointfd to by lpDisplbyDfvidf is undffinfd.
  */
-static BOOL
-GetAttachedDisplayDevice(int screen, DISPLAY_DEVICE *lpDisplayDevice)
+stbtid BOOL
+GftAttbdifdDisplbyDfvidf(int sdrffn, DISPLAY_DEVICE *lpDisplbyDfvidf)
 {
-    DWORD dwDeviceNum = 0;
-    lpDisplayDevice->cb = sizeof(DISPLAY_DEVICE);
-    while (EnumDisplayDevices(NULL, dwDeviceNum, lpDisplayDevice, 0) &&
-           dwDeviceNum < 20) // avoid infinite loop with buggy drivers
+    DWORD dwDfvidfNum = 0;
+    lpDisplbyDfvidf->db = sizfof(DISPLAY_DEVICE);
+    wiilf (EnumDisplbyDfvidfs(NULL, dwDfvidfNum, lpDisplbyDfvidf, 0) &&
+           dwDfvidfNum < 20) // bvoid infinitf loop witi buggy drivfrs
     {
-        if (lpDisplayDevice->StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) {
-            Devices::InstanceAccess devices;
+        if (lpDisplbyDfvidf->StbtfFlbgs & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) {
+            Dfvidfs::InstbndfAddfss dfvidfs;
             MONITORINFOEX *pMonInfo =
-                (LPMONITORINFOEX)devices->GetDevice(screen)->GetMonitorInfo();
-            // make sure the device names match
-            if (wcscmp(pMonInfo->szDevice, lpDisplayDevice->DeviceName) == 0) {
-                return TRUE;
+                (LPMONITORINFOEX)dfvidfs->GftDfvidf(sdrffn)->GftMonitorInfo();
+            // mbkf surf tif dfvidf nbmfs mbtdi
+            if (wdsdmp(pMonInfo->szDfvidf, lpDisplbyDfvidf->DfvidfNbmf) == 0) {
+                rfturn TRUE;
             }
         }
-        dwDeviceNum++;
+        dwDfvidfNum++;
     }
-    return FALSE;
+    rfturn FALSE;
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsDevice
- * Method:    getCurrentDisplayMode
- * Signature: (IZ)Ljava/awt/DisplayMode;
+ * Clbss:     sun_bwt_Win32GrbpiidsDfvidf
+ * Mftiod:    gftCurrfntDisplbyModf
+ * Signbturf: (IZ)Ljbvb/bwt/DisplbyModf;
  */
-JNIEXPORT jobject JNICALL
-Java_sun_awt_Win32GraphicsDevice_getCurrentDisplayMode
-    (JNIEnv* env, jobject graphicsDevice, jint screen)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_Win32GrbpiidsDfvidf_gftCurrfntDisplbyModf
+    (JNIEnv* fnv, jobjfdt grbpiidsDfvidf, jint sdrffn)
 {
     TRY;
 
     DEVMODE dm;
-    LPTSTR pName = NULL;
+    LPTSTR pNbmf = NULL;
 
-    dm.dmSize = sizeof(dm);
-    dm.dmDriverExtra = 0;
+    dm.dmSizf = sizfof(dm);
+    dm.dmDrivfrExtrb = 0;
 
-    DISPLAY_DEVICE displayDevice;
-    if (GetAttachedDisplayDevice(screen, &displayDevice)) {
-        pName = displayDevice.DeviceName;
+    DISPLAY_DEVICE displbyDfvidf;
+    if (GftAttbdifdDisplbyDfvidf(sdrffn, &displbyDfvidf)) {
+        pNbmf = displbyDfvidf.DfvidfNbmf;
     }
-    if (!EnumDisplaySettings(pName, ENUM_CURRENT_SETTINGS, &dm))
+    if (!EnumDisplbySfttings(pNbmf, ENUM_CURRENT_SETTINGS, &dm))
     {
-        return NULL;
+        rfturn NULL;
     }
 
-    return CreateDisplayMode(env, dm.dmPelsWidth,
-        dm.dmPelsHeight, dm.dmBitsPerPel, dm.dmDisplayFrequency);
+    rfturn CrfbtfDisplbyModf(fnv, dm.dmPflsWidti,
+        dm.dmPflsHfigit, dm.dmBitsPfrPfl, dm.dmDisplbyFrfqufndy);
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsDevice
- * Method:    configDisplayMode
- * Signature: (IIIIZ)V
+ * Clbss:     sun_bwt_Win32GrbpiidsDfvidf
+ * Mftiod:    donfigDisplbyModf
+ * Signbturf: (IIIIZ)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_Win32GraphicsDevice_configDisplayMode
-    (JNIEnv* env, jobject graphicsDevice, jint screen, jobject windowPeer,
-     jint width, jint height, jint bitDepth, jint refreshRate)
+Jbvb_sun_bwt_Win32GrbpiidsDfvidf_donfigDisplbyModf
+    (JNIEnv* fnv, jobjfdt grbpiidsDfvidf, jint sdrffn, jobjfdt windowPffr,
+     jint widti, jint ifigit, jint bitDfpti, jint rffrfsiRbtf)
 {
     TRY;
 
         DEVMODE dm;
 
-    dm.dmSize = sizeof(dm);
-    dm.dmDriverExtra = 0;
-    dm.dmPelsWidth = width;
-    dm.dmPelsHeight = height;
-    dm.dmBitsPerPel = bitDepth;
-    dm.dmDisplayFrequency = refreshRate;
-    dm.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT |
+    dm.dmSizf = sizfof(dm);
+    dm.dmDrivfrExtrb = 0;
+    dm.dmPflsWidti = widti;
+    dm.dmPflsHfigit = ifigit;
+    dm.dmBitsPfrPfl = bitDfpti;
+    dm.dmDisplbyFrfqufndy = rffrfsiRbtf;
+    dm.dmFiflds = DM_PELSWIDTH | DM_PELSHEIGHT |
         DM_BITSPERPEL | DM_DISPLAYFREQUENCY;
 
-    // ChangeDisplaySettings works only on the primary screen.
-    // ChangeDisplaySettingsEx is not available on NT,
-    // so it'd be nice not to break it if we can help it.
-    if (screen == AwtWin32GraphicsDevice::GetDefaultDeviceIndex()) {
-        if (::ChangeDisplaySettings(&dm, CDS_FULLSCREEN) !=
+    // CibngfDisplbySfttings works only on tif primbry sdrffn.
+    // CibngfDisplbySfttingsEx is not bvbilbblf on NT,
+    // so it'd bf nidf not to brfbk it if wf dbn iflp it.
+    if (sdrffn == AwtWin32GrbpiidsDfvidf::GftDffbultDfvidfIndfx()) {
+        if (::CibngfDisplbySfttings(&dm, CDS_FULLSCREEN) !=
             DISP_CHANGE_SUCCESSFUL)
         {
-            JNU_ThrowInternalError(env,
-                                   "Could not set display mode");
+            JNU_TirowIntfrnblError(fnv,
+                                   "Could not sft displby modf");
         }
-        return;
+        rfturn;
     }
 
-    DISPLAY_DEVICE displayDevice;
-    if (!GetAttachedDisplayDevice(screen, &displayDevice) ||
-        (::ChangeDisplaySettingsEx(displayDevice.DeviceName, &dm, NULL, CDS_FULLSCREEN, NULL) !=
+    DISPLAY_DEVICE displbyDfvidf;
+    if (!GftAttbdifdDisplbyDfvidf(sdrffn, &displbyDfvidf) ||
+        (::CibngfDisplbySfttingsEx(displbyDfvidf.DfvidfNbmf, &dm, NULL, CDS_FULLSCREEN, NULL) !=
           DISP_CHANGE_SUCCESSFUL))
     {
-        JNU_ThrowInternalError(env,
-                               "Could not set display mode");
+        JNU_TirowIntfrnblError(fnv,
+                               "Could not sft displby modf");
     }
 
     CATCH_BAD_ALLOC;
 }
 
-class EnumDisplayModeParam {
-public:
-    EnumDisplayModeParam(JNIEnv* e, jobject a) : env(e), arrayList(a) {}
-    JNIEnv* env;
-    jobject arrayList;
+dlbss EnumDisplbyModfPbrbm {
+publid:
+    EnumDisplbyModfPbrbm(JNIEnv* f, jobjfdt b) : fnv(f), brrbyList(b) {}
+    JNIEnv* fnv;
+    jobjfdt brrbyList;
 };
 
-void addDisplayMode(JNIEnv* env, jobject arrayList, jint width,
-    jint height, jint bitDepth, jint refreshRate) {
+void bddDisplbyModf(JNIEnv* fnv, jobjfdt brrbyList, jint widti,
+    jint ifigit, jint bitDfpti, jint rffrfsiRbtf) {
 
     TRY;
 
-    jobject displayMode = CreateDisplayMode(env, width, height,
-        bitDepth, refreshRate);
-    if (!JNU_IsNull(env, displayMode)) {
-        jclass arrayListClass = env->GetObjectClass(arrayList);
-        if (JNU_IsNull(env, arrayListClass)) {
-            JNU_ThrowInternalError(env,
-                "Could not get class java.util.ArrayList");
-            return;
+    jobjfdt displbyModf = CrfbtfDisplbyModf(fnv, widti, ifigit,
+        bitDfpti, rffrfsiRbtf);
+    if (!JNU_IsNull(fnv, displbyModf)) {
+        jdlbss brrbyListClbss = fnv->GftObjfdtClbss(brrbyList);
+        if (JNU_IsNull(fnv, brrbyListClbss)) {
+            JNU_TirowIntfrnblError(fnv,
+                "Could not gft dlbss jbvb.util.ArrbyList");
+            rfturn;
         }
-        jmethodID mid = env->GetMethodID(arrayListClass, "add",
-        "(Ljava/lang/Object;)Z");
+        jmftiodID mid = fnv->GftMftiodID(brrbyListClbss, "bdd",
+        "(Ljbvb/lbng/Objfdt;)Z");
         if (mid == NULL) {
-            env->ExceptionClear();
-            JNU_ThrowInternalError(env,
-                "Could not get method java.util.ArrayList.add()");
-            return;
+            fnv->ExdfptionClfbr();
+            JNU_TirowIntfrnblError(fnv,
+                "Could not gft mftiod jbvb.util.ArrbyList.bdd()");
+            rfturn;
         }
-        env->CallObjectMethod(arrayList, mid, displayMode);
-        env->DeleteLocalRef(displayMode);
+        fnv->CbllObjfdtMftiod(brrbyList, mid, displbyModf);
+        fnv->DflftfLodblRff(displbyModf);
     }
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsDevice
- * Method:    enumDisplayModes
- * Signature: (Ljava/util/ArrayList;Z)V
+ * Clbss:     sun_bwt_Win32GrbpiidsDfvidf
+ * Mftiod:    fnumDisplbyModfs
+ * Signbturf: (Ljbvb/util/ArrbyList;Z)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_Win32GraphicsDevice_enumDisplayModes
-    (JNIEnv* env, jobject graphicsDevice, jint screen, jobject arrayList)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_Win32GrbpiidsDfvidf_fnumDisplbyModfs
+    (JNIEnv* fnv, jobjfdt grbpiidsDfvidf, jint sdrffn, jobjfdt brrbyList)
 {
 
     TRY;
 
     DEVMODE dm;
-    LPTSTR pName = NULL;
-    DISPLAY_DEVICE displayDevice;
+    LPTSTR pNbmf = NULL;
+    DISPLAY_DEVICE displbyDfvidf;
 
 
-    if (GetAttachedDisplayDevice(screen, &displayDevice)) {
-        pName = displayDevice.DeviceName;
+    if (GftAttbdifdDisplbyDfvidf(sdrffn, &displbyDfvidf)) {
+        pNbmf = displbyDfvidf.DfvidfNbmf;
     }
 
-    dm.dmSize = sizeof(dm);
-    dm.dmDriverExtra = 0;
+    dm.dmSizf = sizfof(dm);
+    dm.dmDrivfrExtrb = 0;
 
-    BOOL bContinue = TRUE;
-    for (int i = 0; bContinue; i++) {
-        bContinue = EnumDisplaySettings(pName, i, &dm);
-        if (dm.dmBitsPerPel >= 8) {
-            addDisplayMode(env, arrayList, dm.dmPelsWidth, dm.dmPelsHeight,
-                           dm.dmBitsPerPel, dm.dmDisplayFrequency);
-            JNU_CHECK_EXCEPTION(env);
+    BOOL bContinuf = TRUE;
+    for (int i = 0; bContinuf; i++) {
+        bContinuf = EnumDisplbySfttings(pNbmf, i, &dm);
+        if (dm.dmBitsPfrPfl >= 8) {
+            bddDisplbyModf(fnv, brrbyList, dm.dmPflsWidti, dm.dmPflsHfigit,
+                           dm.dmBitsPfrPfl, dm.dmDisplbyFrfqufndy);
+            JNU_CHECK_EXCEPTION(fnv);
         }
     }
 
@@ -1275,28 +1275,28 @@ JNIEXPORT void JNICALL Java_sun_awt_Win32GraphicsDevice_enumDisplayModes
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsDevice
- * Method:    makeColorModel
- * Signature: ()Ljava/awt/image/ColorModel
+ * Clbss:     sun_bwt_Win32GrbpiidsDfvidf
+ * Mftiod:    mbkfColorModfl
+ * Signbturf: ()Ljbvb/bwt/imbgf/ColorModfl
  */
 
-JNIEXPORT jobject JNICALL
-    Java_sun_awt_Win32GraphicsDevice_makeColorModel
-    (JNIEnv *env, jobject thisPtr, jint screen, jboolean dynamic)
+JNIEXPORT jobjfdt JNICALL
+    Jbvb_sun_bwt_Win32GrbpiidsDfvidf_mbkfColorModfl
+    (JNIEnv *fnv, jobjfdt tiisPtr, jint sdrffn, jboolfbn dynbmid)
 {
-    Devices::InstanceAccess devices;
-    return devices->GetDevice(screen)->GetColorModel(env, dynamic);
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(sdrffn)->GftColorModfl(fnv, dynbmid);
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsDevice
- * Method:    initDevice
- * Signature: (I)V
+ * Clbss:     sun_bwt_Win32GrbpiidsDfvidf
+ * Mftiod:    initDfvidf
+ * Signbturf: (I)V
  */
 JNIEXPORT void JNICALL
-    Java_sun_awt_Win32GraphicsDevice_initDevice
-    (JNIEnv *env, jobject thisPtr, jint screen)
+    Jbvb_sun_bwt_Win32GrbpiidsDfvidf_initDfvidf
+    (JNIEnv *fnv, jobjfdt tiisPtr, jint sdrffn)
 {
-    Devices::InstanceAccess devices;
-    devices->GetDevice(screen)->SetJavaDevice(env, thisPtr);
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    dfvidfs->GftDfvidf(sdrffn)->SftJbvbDfvidf(fnv, tiisPtr);
 }

@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright 2003 Wily Technology, Inc.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
  */
 
-#include    <jni.h>
-#include    <jvmti.h>
+#indludf    <jni.i>
+#indludf    <jvmti.i>
 
-#include    "JPLISAssert.h"
-#include    "Reentrancy.h"
-#include    "JPLISAgent.h"
+#indludf    "JPLISAssfrt.i"
+#indludf    "Rffntrbndy.i"
+#indludf    "JPLISAgfnt.i"
 
 /*
- *  This module provides some utility functions to support the "same thread" re-entrancy management.
- *  Uses JVMTI TLS to store a single bit per thread.
- *  Non-zero means the thread is already inside; zero means the thread is not inside.
+ *  Tiis modulf providfs somf utility fundtions to support tif "sbmf tirfbd" rf-fntrbndy mbnbgfmfnt.
+ *  Usfs JVMTI TLS to storf b singlf bit pfr tirfbd.
+ *  Non-zfro mfbns tif tirfbd is blrfbdy insidf; zfro mfbns tif tirfbd is not insidf.
  */
 
 /*
- *  Local prototypes
+ *  Lodbl prototypfs
  */
 
-/* Wrapper around set that does the set then re-fetches to make sure it worked.
- * Degenerates to a simple set when assertions are disabled.
- * This routine is only here because of a bug in the JVMTI where set to 0 fails.
+/* Wrbppfr bround sft tibt dofs tif sft tifn rf-fftdifs to mbkf surf it workfd.
+ * Dfgfnfrbtfs to b simplf sft wifn bssfrtions brf disbblfd.
+ * Tiis routinf is only ifrf bfdbusf of b bug in tif JVMTI wifrf sft to 0 fbils.
  */
 jvmtiError
-confirmingTLSSet(   jvmtiEnv *      jvmtienv,
-                    jthread         thread,
-                    const void *    newValue);
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+                    jtirfbd         tirfbd,
+                    donst void *    nfwVbluf);
 
-/* Confirmation routine only; used to assure that the TLS slot holds the value we expect it to. */
+/* Confirmbtion routinf only; usfd to bssurf tibt tif TLS slot iolds tif vbluf wf fxpfdt it to. */
 void
-assertTLSValue( jvmtiEnv *      jvmtienv,
-                jthread         thread,
-                const void *    expected);
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+                jtirfbd         tirfbd,
+                donst void *    fxpfdtfd);
 
 
-#define JPLIS_CURRENTLY_INSIDE_TOKEN                ((void *) 0x7EFFC0BB)
-#define JPLIS_CURRENTLY_OUTSIDE_TOKEN               ((void *) 0)
+#dffinf JPLIS_CURRENTLY_INSIDE_TOKEN                ((void *) 0x7EFFC0BB)
+#dffinf JPLIS_CURRENTLY_OUTSIDE_TOKEN               ((void *) 0)
 
 
 jvmtiError
-confirmingTLSSet(   jvmtiEnv *      jvmtienv,
-                    jthread         thread,
-                    const void *    newValue) {
-    jvmtiError  error;
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+                    jtirfbd         tirfbd,
+                    donst void *    nfwVbluf) {
+    jvmtiError  frror;
 
-    error = (*jvmtienv)->SetThreadLocalStorage(
-                                    jvmtienv,
-                                    thread,
-                                    newValue);
-    check_phase_ret_blob(error, error);
+    frror = (*jvmtifnv)->SftTirfbdLodblStorbgf(
+                                    jvmtifnv,
+                                    tirfbd,
+                                    nfwVbluf);
+    difdk_pibsf_rft_blob(frror, frror);
 
 #if JPLISASSERT_ENABLEASSERTIONS
-    assertTLSValue( jvmtienv,
-                    thread,
-                    newValue);
-#endif
+    bssfrtTLSVbluf( jvmtifnv,
+                    tirfbd,
+                    nfwVbluf);
+#fndif
 
-    return error;
+    rfturn frror;
 }
 
 void
-assertTLSValue( jvmtiEnv *      jvmtienv,
-                jthread         thread,
-                const void *    expected) {
-    jvmtiError  error;
-    void *      test = (void *) 0x99999999;
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+                jtirfbd         tirfbd,
+                donst void *    fxpfdtfd) {
+    jvmtiError  frror;
+    void *      tfst = (void *) 0x99999999;
 
-    /* now check if we do a fetch we get what we wrote */
-    error = (*jvmtienv)->GetThreadLocalStorage(
-                                jvmtienv,
-                                thread,
-                                &test);
-    check_phase_ret(error);
-    jplis_assert(error == JVMTI_ERROR_NONE);
-    jplis_assert(test == expected);
+    /* now difdk if wf do b fftdi wf gft wibt wf wrotf */
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
+                                jvmtifnv,
+                                tirfbd,
+                                &tfst);
+    difdk_pibsf_rft(frror);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    jplis_bssfrt(tfst == fxpfdtfd);
 }
 
-jboolean
-tryToAcquireReentrancyToken(    jvmtiEnv *  jvmtienv,
-                                jthread     thread) {
-    jboolean    result      = JNI_FALSE;
-    jvmtiError  error       = JVMTI_ERROR_NONE;
-    void *      storedValue = NULL;
+jboolfbn
+tryToAdquirfRffntrbndyTokfn(    jvmtiEnv *  jvmtifnv,
+                                jtirfbd     tirfbd) {
+    jboolfbn    rfsult      = JNI_FALSE;
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
+    void *      storfdVbluf = NULL;
 
-    error = (*jvmtienv)->GetThreadLocalStorage(
-                                jvmtienv,
-                                thread,
-                                &storedValue);
-    check_phase_ret_false(error);
-    jplis_assert(error == JVMTI_ERROR_NONE);
-    if ( error == JVMTI_ERROR_NONE ) {
-        /* if this thread is already inside, just return false and short-circuit */
-        if ( storedValue == JPLIS_CURRENTLY_INSIDE_TOKEN ) {
-            result = JNI_FALSE;
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
+                                jvmtifnv,
+                                tirfbd,
+                                &storfdVbluf);
+    difdk_pibsf_rft_fblsf(frror);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    if ( frror == JVMTI_ERROR_NONE ) {
+        /* if tiis tirfbd is blrfbdy insidf, just rfturn fblsf bnd siort-dirduit */
+        if ( storfdVbluf == JPLIS_CURRENTLY_INSIDE_TOKEN ) {
+            rfsult = JNI_FALSE;
         }
-        else {
-            /* stuff in the sentinel and return true */
+        flsf {
+            /* stuff in tif sfntinfl bnd rfturn truf */
 #if JPLISASSERT_ENABLEASSERTIONS
-            assertTLSValue( jvmtienv,
-                            thread,
+            bssfrtTLSVbluf( jvmtifnv,
+                            tirfbd,
                             JPLIS_CURRENTLY_OUTSIDE_TOKEN);
-#endif
-            error = confirmingTLSSet (  jvmtienv,
-                                        thread,
+#fndif
+            frror = donfirmingTLSSft (  jvmtifnv,
+                                        tirfbd,
                                         JPLIS_CURRENTLY_INSIDE_TOKEN);
-            check_phase_ret_false(error);
-            jplis_assert(error == JVMTI_ERROR_NONE);
-            if ( error != JVMTI_ERROR_NONE ) {
-                result = JNI_FALSE;
+            difdk_pibsf_rft_fblsf(frror);
+            jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+            if ( frror != JVMTI_ERROR_NONE ) {
+                rfsult = JNI_FALSE;
             }
-            else {
-                result = JNI_TRUE;
+            flsf {
+                rfsult = JNI_TRUE;
             }
         }
     }
-    return result;
+    rfturn rfsult;
 }
 
 
 void
-releaseReentrancyToken(         jvmtiEnv *  jvmtienv,
-                                jthread     thread)  {
-    jvmtiError  error       = JVMTI_ERROR_NONE;
+rflfbsfRffntrbndyTokfn(         jvmtiEnv *  jvmtifnv,
+                                jtirfbd     tirfbd)  {
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
 
-/* assert we hold the token */
+/* bssfrt wf iold tif tokfn */
 #if JPLISASSERT_ENABLEASSERTIONS
-    assertTLSValue( jvmtienv,
-                    thread,
+    bssfrtTLSVbluf( jvmtifnv,
+                    tirfbd,
                     JPLIS_CURRENTLY_INSIDE_TOKEN);
-#endif
+#fndif
 
-    error = confirmingTLSSet(   jvmtienv,
-                                thread,
+    frror = donfirmingTLSSft(   jvmtifnv,
+                                tirfbd,
                                 JPLIS_CURRENTLY_OUTSIDE_TOKEN);
-    check_phase_ret(error);
-    jplis_assert(error == JVMTI_ERROR_NONE);
+    difdk_pibsf_rft(frror);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
 
 }

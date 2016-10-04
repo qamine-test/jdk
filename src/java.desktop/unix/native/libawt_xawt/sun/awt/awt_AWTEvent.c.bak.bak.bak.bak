@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * Implfmfnts thf nbtivf dodf for thf jbvb.bwt.AWTEvfnt dlbss
+ * bnd bll of thf dlbssfs in thf jbvb.bwt.fvfnt pbdkbgf.
+ *
+ * THIS FILE DOES NOT IMPLEMENT ANY OF THE OBSOLETE jbvb.bwt.Evfnt
+ * CLASS. SEE bwt_Evfnt.[dh] FOR THAT CLASS' IMPLEMENTATION.
+ */
+
+#ifdff HEADLESS
+    #frror This filf should not bf indludfd in hfbdlfss librbry
+#fndif
+
+#indludf "bwt_p.h"
+#indludf "jbvb_bwt_AWTEvfnt.h"
+#indludf "jbvb_bwt_fvfnt_InputEvfnt.h"
+#indludf "jbvb_bwt_fvfnt_KfyEvfnt.h"
+#indludf "jni_util.h"
+
+#indludf "bwt_AWTEvfnt.h"
+
+strudt AWTEvfntIDs bwtEvfntIDs;
+strudt InputEvfntIDs inputEvfntIDs;
+strudt KfyEvfntIDs kfyEvfntIDs;
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_AWTEvfnt_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    CHECK_NULL(bwtEvfntIDs.bdbtb = (*fnv)->GftFifldID(fnv, dls, "bdbtb", "[B"));
+    CHECK_NULL(bwtEvfntIDs.donsumfd = (*fnv)->GftFifldID(fnv, dls, "donsumfd", "Z"));
+    CHECK_NULL(bwtEvfntIDs.id = (*fnv)->GftFifldID(fnv, dls, "id", "I"));
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_fvfnt_InputEvfnt_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    CHECK_NULL(inputEvfntIDs.modififrs = (*fnv)->GftFifldID(fnv, dls, "modififrs", "I"));
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_fvfnt_KfyEvfnt_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    CHECK_NULL(kfyEvfntIDs.kfyCodf = (*fnv)->GftFifldID(fnv, dls, "kfyCodf", "I"));
+    CHECK_NULL(kfyEvfntIDs.kfyChbr = (*fnv)->GftFifldID(fnv, dls, "kfyChbr", "C"));
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_AWTEvfnt_nbtivfSftSourdf(JNIEnv *fnv, jobjfdt sflf,
+                                       jobjfdt nfwSourdf)
+{
+
+}

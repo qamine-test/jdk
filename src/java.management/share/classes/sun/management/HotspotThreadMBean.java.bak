@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import sun.management.counter.Counter;
+import sun.mbnbgfmfnt.dountfr.Countfr;
 
 /**
- * Hotspot internal management interface for the thread system.
+ * Hotspot intfrnbl mbnbgfmfnt intfrfbdf for tif tirfbd systfm.
  */
-public interface HotspotThreadMBean {
+publid intfrfbdf HotspotTirfbdMBfbn {
 
     /**
-     * Returns the current number of VM internal threads.
+     * Rfturns tif durrfnt numbfr of VM intfrnbl tirfbds.
      *
-     * @return the current number of VM internal threads.
+     * @rfturn tif durrfnt numbfr of VM intfrnbl tirfbds.
      */
-    public int getInternalThreadCount();
+    publid int gftIntfrnblTirfbdCount();
 
     /**
-     * Returns a <tt>Map</tt> of the name of all VM internal threads
-     * to the thread CPU time in nanoseconds.  The returned value is
-     * of nanoseconds precision but not necessarily nanoseconds accuracy.
+     * Rfturns b <tt>Mbp</tt> of tif nbmf of bll VM intfrnbl tirfbds
+     * to tif tirfbd CPU timf in nbnosfdonds.  Tif rfturnfd vbluf is
+     * of nbnosfdonds prfdision but not nfdfssbrily nbnosfdonds bddurbdy.
      * <p>
      *
-     * @return a <tt>Map</tt> object of the name of all VM internal threads
-     * to the thread CPU time in nanoseconds.
+     * @rfturn b <tt>Mbp</tt> objfdt of tif nbmf of bll VM intfrnbl tirfbds
+     * to tif tirfbd CPU timf in nbnosfdonds.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     * machine does not support CPU time measurement.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * mbdiinf dofs not support CPU timf mfbsurfmfnt.
      *
-     * @see java.lang.management.ThreadMBean#isThreadCpuTimeSupported
+     * @sff jbvb.lbng.mbnbgfmfnt.TirfbdMBfbn#isTirfbdCpuTimfSupportfd
      */
-    public java.util.Map<String,Long> getInternalThreadCpuTimes();
+    publid jbvb.util.Mbp<String,Long> gftIntfrnblTirfbdCpuTimfs();
 
     /**
-     * Returns a list of internal counters maintained in the Java
-     * virtual machine for the thread system.
+     * Rfturns b list of intfrnbl dountfrs mbintbinfd in tif Jbvb
+     * virtubl mbdiinf for tif tirfbd systfm.
      *
-     * @return a list of internal counters maintained in the VM
-     * for the thread system.
+     * @rfturn b list of intfrnbl dountfrs mbintbinfd in tif VM
+     * for tif tirfbd systfm.
      */
-    public java.util.List<Counter> getInternalThreadingCounters();
+    publid jbvb.util.List<Countfr> gftIntfrnblTirfbdingCountfrs();
 }

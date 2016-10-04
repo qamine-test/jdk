@@ -1,230 +1,230 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.MenuComponentPeer;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.MfnuComponfntPffr;
 
-import javax.swing.*;
-import javax.swing.plaf.ButtonUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ButtonUI;
 
-import com.apple.laf.AquaMenuItemUI.IndeterminateListener;
+import dom.bpplf.lbf.AqubMfnuItfmUI.IndftfrminbtfListfnfr;
 
-import sun.lwawt.macosx.*;
+import sun.lwbwt.mbdosx.*;
 
-@SuppressWarnings("serial") // JDK implementation class
-final class ScreenMenuItemCheckbox extends CheckboxMenuItem implements ActionListener, ComponentListener, ScreenMenuPropertyHandler, ItemListener {
-    JMenuItem fMenuItem;
-    MenuContainer fParent;
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+finbl dlbss SdrffnMfnuItfmCifdkbox fxtfnds CifdkboxMfnuItfm implfmfnts AdtionListfnfr, ComponfntListfnfr, SdrffnMfnuPropfrtyHbndlfr, ItfmListfnfr {
+    JMfnuItfm fMfnuItfm;
+    MfnuContbinfr fPbrfnt;
 
-    ScreenMenuItemCheckbox(final JCheckBoxMenuItem mi) {
-        super(mi.getText(), mi.getState());
+    SdrffnMfnuItfmCifdkbox(finbl JCifdkBoxMfnuItfm mi) {
+        supfr(mi.gftTfxt(), mi.gftStbtf());
         init(mi);
     }
 
-    ScreenMenuItemCheckbox(final JRadioButtonMenuItem mi) {
-        super(mi.getText(), mi.getModel().isSelected());
+    SdrffnMfnuItfmCifdkbox(finbl JRbdioButtonMfnuItfm mi) {
+        supfr(mi.gftTfxt(), mi.gftModfl().isSflfdtfd());
         init(mi);
     }
 
-    public void init(final JMenuItem mi) {
-        fMenuItem = mi;
-        setEnabled(fMenuItem.isEnabled());
+    publid void init(finbl JMfnuItfm mi) {
+        fMfnuItfm = mi;
+        sftEnbblfd(fMfnuItfm.isEnbblfd());
     }
 
-    ScreenMenuPropertyListener fPropertyListener;
-    public void addNotify() {
-        super.addNotify();
+    SdrffnMfnuPropfrtyListfnfr fPropfrtyListfnfr;
+    publid void bddNotify() {
+        supfr.bddNotify();
 
-        // Avoid the Auto toggle behavior of AWT CheckBoxMenuItem
-        CCheckboxMenuItem ccb = (CCheckboxMenuItem) getPeer();
-        ccb.setAutoToggle(false);
+        // Avoid tif Auto togglf bfibvior of AWT CifdkBoxMfnuItfm
+        CCifdkboxMfnuItfm ddb = (CCifdkboxMfnuItfm) gftPffr();
+        ddb.sftAutoTogglf(fblsf);
 
-        fMenuItem.addComponentListener(this);
-        fPropertyListener = new ScreenMenuPropertyListener(this);
-        fMenuItem.addPropertyChangeListener(fPropertyListener);
-        addActionListener(this);
-        addItemListener(this);
-        fMenuItem.addItemListener(this);
-        setIndeterminate(IndeterminateListener.isIndeterminate(fMenuItem));
+        fMfnuItfm.bddComponfntListfnfr(tiis);
+        fPropfrtyListfnfr = nfw SdrffnMfnuPropfrtyListfnfr(tiis);
+        fMfnuItfm.bddPropfrtyCibngfListfnfr(fPropfrtyListfnfr);
+        bddAdtionListfnfr(tiis);
+        bddItfmListfnfr(tiis);
+        fMfnuItfm.bddItfmListfnfr(tiis);
+        sftIndftfrminbtf(IndftfrminbtfListfnfr.isIndftfrminbtf(fMfnuItfm));
 
-        // can't setState or setAccelerator or setIcon till we have a peer
-        setAccelerator(fMenuItem.getAccelerator());
+        // dbn't sftStbtf or sftAddflfrbtor or sftIdon till wf ibvf b pffr
+        sftAddflfrbtor(fMfnuItfm.gftAddflfrbtor());
 
-        final Icon icon = fMenuItem.getIcon();
-        if (icon != null) {
-            this.setIcon(icon);
+        finbl Idon idon = fMfnuItfm.gftIdon();
+        if (idon != null) {
+            tiis.sftIdon(idon);
         }
 
-        final String tooltipText = fMenuItem.getToolTipText();
-        if (tooltipText != null) {
-            this.setToolTipText(tooltipText);
+        finbl String tooltipTfxt = fMfnuItfm.gftToolTipTfxt();
+        if (tooltipTfxt != null) {
+            tiis.sftToolTipTfxt(tooltipTfxt);
         }
 
-        // sja fix is this needed?
-        fMenuItem.addItemListener(this);
+        // sjb fix is tiis nffdfd?
+        fMfnuItfm.bddItfmListfnfr(tiis);
 
-        final ButtonUI ui = fMenuItem.getUI();
-        if (ui instanceof ScreenMenuItemUI) {
-            ((ScreenMenuItemUI)ui).updateListenersForScreenMenuItem();
+        finbl ButtonUI ui = fMfnuItfm.gftUI();
+        if (ui instbndfof SdrffnMfnuItfmUI) {
+            ((SdrffnMfnuItfmUI)ui).updbtfListfnfrsForSdrffnMfnuItfm();
         }
 
-        if (fMenuItem instanceof JCheckBoxMenuItem) {
-            forceSetState(fMenuItem.isSelected());
-        } else {
-            forceSetState(fMenuItem.getModel().isSelected());
+        if (fMfnuItfm instbndfof JCifdkBoxMfnuItfm) {
+            fordfSftStbtf(fMfnuItfm.isSflfdtfd());
+        } flsf {
+            fordfSftStbtf(fMfnuItfm.gftModfl().isSflfdtfd());
         }
     }
 
-    public void removeNotify() {
-        fMenuItem.removeComponentListener(this);
-        fMenuItem.removePropertyChangeListener(fPropertyListener);
-        fPropertyListener = null;
-        removeActionListener(this);
-        removeItemListener(this);
-        fMenuItem.removeItemListener(this);
+    publid void rfmovfNotify() {
+        fMfnuItfm.rfmovfComponfntListfnfr(tiis);
+        fMfnuItfm.rfmovfPropfrtyCibngfListfnfr(fPropfrtyListfnfr);
+        fPropfrtyListfnfr = null;
+        rfmovfAdtionListfnfr(tiis);
+        rfmovfItfmListfnfr(tiis);
+        fMfnuItfm.rfmovfItfmListfnfr(tiis);
 
-        super.removeNotify();
+        supfr.rfmovfNotify();
     }
 
-    @Override
-    public synchronized void setLabel(final String label) {
-        ScreenMenuItem.syncLabelAndKS(this, label, fMenuItem.getAccelerator());
+    @Ovfrridf
+    publid syndironizfd void sftLbbfl(finbl String lbbfl) {
+        SdrffnMfnuItfm.syndLbbflAndKS(tiis, lbbfl, fMfnuItfm.gftAddflfrbtor());
     }
 
-    @Override
-    public void setAccelerator(final KeyStroke ks) {
-        ScreenMenuItem.syncLabelAndKS(this, fMenuItem.getText(), ks);
+    @Ovfrridf
+    publid void sftAddflfrbtor(finbl KfyStrokf ks) {
+        SdrffnMfnuItfm.syndLbbflAndKS(tiis, fMfnuItfm.gftTfxt(), ks);
     }
 
-    public void actionPerformed(final ActionEvent e) {
-        fMenuItem.doClick(0); // This takes care of all the different events
+    publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+        fMfnuItfm.doClidk(0); // Tiis tbkfs dbrf of bll tif difffrfnt fvfnts
     }
 
     /**
-     * Invoked when the component's size changes.
+     * Invokfd wifn tif domponfnt's sizf dibngfs.
      */
-    public void componentResized(final ComponentEvent e) {}
+    publid void domponfntRfsizfd(finbl ComponfntEvfnt f) {}
 
     /**
-     * Invoked when the component's position changes.
+     * Invokfd wifn tif domponfnt's position dibngfs.
      */
-    public void componentMoved(final ComponentEvent e) {}
+    publid void domponfntMovfd(finbl ComponfntEvfnt f) {}
 
     /**
-     * Invoked when the component has been made visible.
-     * See componentHidden - we should still have a MenuItem
-     * it just isn't inserted
+     * Invokfd wifn tif domponfnt ibs bffn mbdf visiblf.
+     * Sff domponfntHiddfn - wf siould still ibvf b MfnuItfm
+     * it just isn't insfrtfd
      */
-    public void componentShown(final ComponentEvent e) {
-        setVisible(true);
+    publid void domponfntSiown(finbl ComponfntEvfnt f) {
+        sftVisiblf(truf);
     }
 
     /**
-     * Invoked when the component has been made invisible.
-     * MenuComponent.setVisible does nothing,
-     * so we remove the ScreenMenuItem from the ScreenMenu
-     * but leave it in fItems
+     * Invokfd wifn tif domponfnt ibs bffn mbdf invisiblf.
+     * MfnuComponfnt.sftVisiblf dofs notiing,
+     * so wf rfmovf tif SdrffnMfnuItfm from tif SdrffnMfnu
+     * but lfbvf it in fItfms
      */
-    public void componentHidden(final ComponentEvent e) {
-        setVisible(false);
+    publid void domponfntHiddfn(finbl ComponfntEvfnt f) {
+        sftVisiblf(fblsf);
     }
 
-    public void setToolTipText(final String text) {
-        final MenuComponentPeer peer = getPeer();
-        if (!(peer instanceof CMenuItem)) return;
+    publid void sftToolTipTfxt(finbl String tfxt) {
+        finbl MfnuComponfntPffr pffr = gftPffr();
+        if (!(pffr instbndfof CMfnuItfm)) rfturn;
 
-        ((CMenuItem)peer).setToolTipText(text);
+        ((CMfnuItfm)pffr).sftToolTipTfxt(tfxt);
     }
 
-    public void setIcon(final Icon i) {
-        final MenuComponentPeer peer = getPeer();
-        if (!(peer instanceof CMenuItem)) return;
+    publid void sftIdon(finbl Idon i) {
+        finbl MfnuComponfntPffr pffr = gftPffr();
+        if (!(pffr instbndfof CMfnuItfm)) rfturn;
 
-        final CMenuItem cmi = (CMenuItem)peer;
-        Image img = null;
+        finbl CMfnuItfm dmi = (CMfnuItfm)pffr;
+        Imbgf img = null;
 
         if (i != null) {
-            if (i.getIconWidth() > 0 && i.getIconHeight() > 0) {
-                img = AquaIcon.getImageForIcon(i);
+            if (i.gftIdonWidti() > 0 && i.gftIdonHfigit() > 0) {
+                img = AqubIdon.gftImbgfForIdon(i);
             }
         }
-        cmi.setImage(img);
+        dmi.sftImbgf(img);
     }
 
-    public void setVisible(final boolean b) {
-        // Tell our parent to add/remove us
-        // Hang on to our parent
-        if (fParent == null) fParent = getParent();
-        ((ScreenMenuPropertyHandler)fParent).setChildVisible(fMenuItem, b);
+    publid void sftVisiblf(finbl boolfbn b) {
+        // Tfll our pbrfnt to bdd/rfmovf us
+        // Hbng on to our pbrfnt
+        if (fPbrfnt == null) fPbrfnt = gftPbrfnt();
+        ((SdrffnMfnuPropfrtyHbndlfr)fPbrfnt).sftCiildVisiblf(fMfnuItfm, b);
     }
 
-    // we have no children
-    public void setChildVisible(final JMenuItem child, final boolean b) {}
+    // wf ibvf no diildrfn
+    publid void sftCiildVisiblf(finbl JMfnuItfm diild, finbl boolfbn b) {}
 
     /**
-     * Invoked when an item's state has been changed.
+     * Invokfd wifn bn itfm's stbtf ibs bffn dibngfd.
      */
-    public void itemStateChanged(final ItemEvent e) {
-        if (e.getSource() == this) {
-            fMenuItem.doClick(0);
-            return;
+    publid void itfmStbtfCibngfd(finbl ItfmEvfnt f) {
+        if (f.gftSourdf() == tiis) {
+            fMfnuItfm.doClidk(0);
+            rfturn;
         }
 
-            switch (e.getStateChange()) {
-                case ItemEvent.SELECTED:
-                    forceSetState(true);
-                    break;
-                case ItemEvent.DESELECTED:
-                    forceSetState(false);
-                    break;
+            switdi (f.gftStbtfCibngf()) {
+                dbsf ItfmEvfnt.SELECTED:
+                    fordfSftStbtf(truf);
+                    brfbk;
+                dbsf ItfmEvfnt.DESELECTED:
+                    fordfSftStbtf(fblsf);
+                    brfbk;
             }
         }
 
-    public void setIndeterminate(final boolean indeterminate) {
-        final MenuComponentPeer peer = getPeer();
-        if (peer instanceof CCheckboxMenuItem) {
-            ((CCheckboxMenuItem)peer).setIsIndeterminate(indeterminate);
+    publid void sftIndftfrminbtf(finbl boolfbn indftfrminbtf) {
+        finbl MfnuComponfntPffr pffr = gftPffr();
+        if (pffr instbndfof CCifdkboxMfnuItfm) {
+            ((CCifdkboxMfnuItfm)pffr).sftIsIndftfrminbtf(indftfrminbtf);
         }
     }
 
     /*
-     * The CCheckboxMenuItem peer is calling setState unconditionally every time user clicks the menu
-     * However for Swing controls in the screen menu bar it is wrong - the state should be changed only
-     * in response to the ITEM_STATE_CHANGED event. So the setState is overridden to no-op and all the
-     * correct state changes are made with forceSetState
+     * Tif CCifdkboxMfnuItfm pffr is dblling sftStbtf undonditionblly fvfry timf usfr dlidks tif mfnu
+     * Howfvfr for Swing dontrols in tif sdrffn mfnu bbr it is wrong - tif stbtf siould bf dibngfd only
+     * in rfsponsf to tif ITEM_STATE_CHANGED fvfnt. So tif sftStbtf is ovfrriddfn to no-op bnd bll tif
+     * dorrfdt stbtf dibngfs brf mbdf witi fordfSftStbtf
      */
 
-    @Override
-    public synchronized void setState(boolean b) {
+    @Ovfrridf
+    publid syndironizfd void sftStbtf(boolfbn b) {
         // No Op
     }
 
-    private void forceSetState(boolean b) {
-        super.setState(b);
+    privbtf void fordfSftStbtf(boolfbn b) {
+        supfr.sftStbtf(b);
     }
 }

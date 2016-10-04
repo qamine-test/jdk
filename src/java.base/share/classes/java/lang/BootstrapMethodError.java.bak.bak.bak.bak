@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Thrown to indidbtf thbt bn {@dodf invokfdynbmid} instrudtion hbs
+ * fbilfd to find its bootstrbp mfthod,
+ * or thf bootstrbp mfthod hbs fbilfd to providf b
+ * {@linkplbin jbvb.lbng.invokf.CbllSitf dbll sitf} with b {@linkplbin jbvb.lbng.invokf.CbllSitf#gftTbrgft tbrgft}
+ * of thf dorrfdt {@linkplbin jbvb.lbng.invokf.MfthodHbndlf#typf mfthod typf}.
+ *
+ * @buthor John Rosf, JSR 292 EG
+ * @sindf 1.7
+ */
+publid dlbss BootstrbpMfthodError fxtfnds LinkbgfError {
+    privbtf stbtid finbl long sfriblVfrsionUID = 292L;
+
+    /**
+     * Construdts b {@dodf BootstrbpMfthodError} with no dftbil mfssbgf.
+     */
+    publid BootstrbpMfthodError() {
+        supfr();
+    }
+
+    /**
+     * Construdts b {@dodf BootstrbpMfthodError} with thf spfdififd
+     * dftbil mfssbgf.
+     *
+     * @pbrbm s thf dftbil mfssbgf.
+     */
+    publid BootstrbpMfthodError(String s) {
+        supfr(s);
+    }
+
+    /**
+     * Construdts b {@dodf BootstrbpMfthodError} with thf spfdififd
+     * dftbil mfssbgf bnd dbusf.
+     *
+     * @pbrbm s thf dftbil mfssbgf.
+     * @pbrbm dbusf thf dbusf, mby bf {@dodf null}.
+     */
+    publid BootstrbpMfthodError(String s, Throwbblf dbusf) {
+        supfr(s, dbusf);
+    }
+
+    /**
+     * Construdts b {@dodf BootstrbpMfthodError} with thf spfdififd
+     * dbusf.
+     *
+     * @pbrbm dbusf thf dbusf, mby bf {@dodf null}.
+     */
+    publid BootstrbpMfthodError(Throwbblf dbusf) {
+        // df. Throwbblf(Throwbblf dbusf) donstrudtor.
+        supfr(dbusf == null ? null : dbusf.toString());
+        initCbusf(dbusf);
+    }
+}

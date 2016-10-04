@@ -1,716 +1,716 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect;
+pbdkbgf sun.rfflfdt;
 
-import java.lang.reflect.*;
-import sun.misc.Unsafe;
+import jbvb.lbng.rfflfdt.*;
+import sun.misd.Unsbff;
 
-/** Shared functionality for all accessor generators */
+/** Sibrfd fundtionblity for bll bddfssor gfnfrbtors */
 
-class AccessorGenerator implements ClassFileConstants {
-    static final Unsafe unsafe = Unsafe.getUnsafe();
+dlbss AddfssorGfnfrbtor implfmfnts ClbssFilfConstbnts {
+    stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
-    // Constants because there's no way to say "short integer constant",
-    // i.e., "1S"
-    protected static final short S0 = (short) 0;
-    protected static final short S1 = (short) 1;
-    protected static final short S2 = (short) 2;
-    protected static final short S3 = (short) 3;
-    protected static final short S4 = (short) 4;
-    protected static final short S5 = (short) 5;
-    protected static final short S6 = (short) 6;
+    // Constbnts bfdbusf tifrf's no wby to sby "siort intfgfr donstbnt",
+    // i.f., "1S"
+    protfdtfd stbtid finbl siort S0 = (siort) 0;
+    protfdtfd stbtid finbl siort S1 = (siort) 1;
+    protfdtfd stbtid finbl siort S2 = (siort) 2;
+    protfdtfd stbtid finbl siort S3 = (siort) 3;
+    protfdtfd stbtid finbl siort S4 = (siort) 4;
+    protfdtfd stbtid finbl siort S5 = (siort) 5;
+    protfdtfd stbtid finbl siort S6 = (siort) 6;
 
-    // Instance variables for shared functionality between
-    // FieldAccessorGenerator and MethodAccessorGenerator
-    protected ClassFileAssembler asm;
-    protected int   modifiers;
-    protected short thisClass;
-    protected short superClass;
-    protected short targetClass;
-    // Common constant pool entries to FieldAccessor and MethodAccessor
-    protected short throwableClass;
-    protected short classCastClass;
-    protected short nullPointerClass;
-    protected short illegalArgumentClass;
-    protected short invocationTargetClass;
-    protected short initIdx;
-    protected short initNameAndTypeIdx;
-    protected short initStringNameAndTypeIdx;
-    protected short nullPointerCtorIdx;
-    protected short illegalArgumentCtorIdx;
-    protected short illegalArgumentStringCtorIdx;
-    protected short invocationTargetCtorIdx;
-    protected short superCtorIdx;
-    protected short objectClass;
-    protected short toStringIdx;
-    protected short codeIdx;
-    protected short exceptionsIdx;
+    // Instbndf vbribblfs for sibrfd fundtionblity bftwffn
+    // FifldAddfssorGfnfrbtor bnd MftiodAddfssorGfnfrbtor
+    protfdtfd ClbssFilfAssfmblfr bsm;
+    protfdtfd int   modififrs;
+    protfdtfd siort tiisClbss;
+    protfdtfd siort supfrClbss;
+    protfdtfd siort tbrgftClbss;
+    // Common donstbnt pool fntrifs to FifldAddfssor bnd MftiodAddfssor
+    protfdtfd siort tirowbblfClbss;
+    protfdtfd siort dlbssCbstClbss;
+    protfdtfd siort nullPointfrClbss;
+    protfdtfd siort illfgblArgumfntClbss;
+    protfdtfd siort invodbtionTbrgftClbss;
+    protfdtfd siort initIdx;
+    protfdtfd siort initNbmfAndTypfIdx;
+    protfdtfd siort initStringNbmfAndTypfIdx;
+    protfdtfd siort nullPointfrCtorIdx;
+    protfdtfd siort illfgblArgumfntCtorIdx;
+    protfdtfd siort illfgblArgumfntStringCtorIdx;
+    protfdtfd siort invodbtionTbrgftCtorIdx;
+    protfdtfd siort supfrCtorIdx;
+    protfdtfd siort objfdtClbss;
+    protfdtfd siort toStringIdx;
+    protfdtfd siort dodfIdx;
+    protfdtfd siort fxdfptionsIdx;
     // Boxing
-    protected short booleanIdx;
-    protected short booleanCtorIdx;
-    protected short booleanUnboxIdx;
-    protected short byteIdx;
-    protected short byteCtorIdx;
-    protected short byteUnboxIdx;
-    protected short characterIdx;
-    protected short characterCtorIdx;
-    protected short characterUnboxIdx;
-    protected short doubleIdx;
-    protected short doubleCtorIdx;
-    protected short doubleUnboxIdx;
-    protected short floatIdx;
-    protected short floatCtorIdx;
-    protected short floatUnboxIdx;
-    protected short integerIdx;
-    protected short integerCtorIdx;
-    protected short integerUnboxIdx;
-    protected short longIdx;
-    protected short longCtorIdx;
-    protected short longUnboxIdx;
-    protected short shortIdx;
-    protected short shortCtorIdx;
-    protected short shortUnboxIdx;
+    protfdtfd siort boolfbnIdx;
+    protfdtfd siort boolfbnCtorIdx;
+    protfdtfd siort boolfbnUnboxIdx;
+    protfdtfd siort bytfIdx;
+    protfdtfd siort bytfCtorIdx;
+    protfdtfd siort bytfUnboxIdx;
+    protfdtfd siort dibrbdtfrIdx;
+    protfdtfd siort dibrbdtfrCtorIdx;
+    protfdtfd siort dibrbdtfrUnboxIdx;
+    protfdtfd siort doublfIdx;
+    protfdtfd siort doublfCtorIdx;
+    protfdtfd siort doublfUnboxIdx;
+    protfdtfd siort flobtIdx;
+    protfdtfd siort flobtCtorIdx;
+    protfdtfd siort flobtUnboxIdx;
+    protfdtfd siort intfgfrIdx;
+    protfdtfd siort intfgfrCtorIdx;
+    protfdtfd siort intfgfrUnboxIdx;
+    protfdtfd siort longIdx;
+    protfdtfd siort longCtorIdx;
+    protfdtfd siort longUnboxIdx;
+    protfdtfd siort siortIdx;
+    protfdtfd siort siortCtorIdx;
+    protfdtfd siort siortUnboxIdx;
 
-    protected final short NUM_COMMON_CPOOL_ENTRIES = (short) 30;
-    protected final short NUM_BOXING_CPOOL_ENTRIES = (short) 72;
+    protfdtfd finbl siort NUM_COMMON_CPOOL_ENTRIES = (siort) 30;
+    protfdtfd finbl siort NUM_BOXING_CPOOL_ENTRIES = (siort) 72;
 
-    // Requires that superClass has been set up
-    protected void emitCommonConstantPoolEntries() {
-        // +   [UTF-8] "java/lang/Throwable"
-        // +   [CONSTANT_Class_info] for above
-        // +   [UTF-8] "java/lang/ClassCastException"
-        // +   [CONSTANT_Class_info] for above
-        // +   [UTF-8] "java/lang/NullPointerException"
-        // +   [CONSTANT_Class_info] for above
-        // +   [UTF-8] "java/lang/IllegalArgumentException"
-        // +   [CONSTANT_Class_info] for above
-        // +   [UTF-8] "java/lang/InvocationTargetException"
-        // +   [CONSTANT_Class_info] for above
+    // Rfquirfs tibt supfrClbss ibs bffn sft up
+    protfdtfd void fmitCommonConstbntPoolEntrifs() {
+        // +   [UTF-8] "jbvb/lbng/Tirowbblf"
+        // +   [CONSTANT_Clbss_info] for bbovf
+        // +   [UTF-8] "jbvb/lbng/ClbssCbstExdfption"
+        // +   [CONSTANT_Clbss_info] for bbovf
+        // +   [UTF-8] "jbvb/lbng/NullPointfrExdfption"
+        // +   [CONSTANT_Clbss_info] for bbovf
+        // +   [UTF-8] "jbvb/lbng/IllfgblArgumfntExdfption"
+        // +   [CONSTANT_Clbss_info] for bbovf
+        // +   [UTF-8] "jbvb/lbng/InvodbtionTbrgftExdfption"
+        // +   [CONSTANT_Clbss_info] for bbovf
         // +   [UTF-8] "<init>"
         // +   [UTF-8] "()V"
-        // +   [CONSTANT_NameAndType_info] for above
-        // +   [CONSTANT_Methodref_info] for NullPointerException's constructor
-        // +   [CONSTANT_Methodref_info] for IllegalArgumentException's constructor
-        // +   [UTF-8] "(Ljava/lang/String;)V"
-        // +   [CONSTANT_NameAndType_info] for "<init>(Ljava/lang/String;)V"
-        // +   [CONSTANT_Methodref_info] for IllegalArgumentException's constructor taking a String
-        // +   [UTF-8] "(Ljava/lang/Throwable;)V"
-        // +   [CONSTANT_NameAndType_info] for "<init>(Ljava/lang/Throwable;)V"
-        // +   [CONSTANT_Methodref_info] for InvocationTargetException's constructor
-        // +   [CONSTANT_Methodref_info] for "super()"
-        // +   [UTF-8] "java/lang/Object"
-        // +   [CONSTANT_Class_info] for above
+        // +   [CONSTANT_NbmfAndTypf_info] for bbovf
+        // +   [CONSTANT_Mftiodrff_info] for NullPointfrExdfption's donstrudtor
+        // +   [CONSTANT_Mftiodrff_info] for IllfgblArgumfntExdfption's donstrudtor
+        // +   [UTF-8] "(Ljbvb/lbng/String;)V"
+        // +   [CONSTANT_NbmfAndTypf_info] for "<init>(Ljbvb/lbng/String;)V"
+        // +   [CONSTANT_Mftiodrff_info] for IllfgblArgumfntExdfption's donstrudtor tbking b String
+        // +   [UTF-8] "(Ljbvb/lbng/Tirowbblf;)V"
+        // +   [CONSTANT_NbmfAndTypf_info] for "<init>(Ljbvb/lbng/Tirowbblf;)V"
+        // +   [CONSTANT_Mftiodrff_info] for InvodbtionTbrgftExdfption's donstrudtor
+        // +   [CONSTANT_Mftiodrff_info] for "supfr()"
+        // +   [UTF-8] "jbvb/lbng/Objfdt"
+        // +   [CONSTANT_Clbss_info] for bbovf
         // +   [UTF-8] "toString"
-        // +   [UTF-8] "()Ljava/lang/String;"
-        // +   [CONSTANT_NameAndType_info] for "toString()Ljava/lang/String;"
-        // +   [CONSTANT_Methodref_info] for Object's toString method
-        // +   [UTF-8] "Code"
-        // +   [UTF-8] "Exceptions"
-        asm.emitConstantPoolUTF8("java/lang/Throwable");
-        asm.emitConstantPoolClass(asm.cpi());
-        throwableClass = asm.cpi();
-        asm.emitConstantPoolUTF8("java/lang/ClassCastException");
-        asm.emitConstantPoolClass(asm.cpi());
-        classCastClass = asm.cpi();
-        asm.emitConstantPoolUTF8("java/lang/NullPointerException");
-        asm.emitConstantPoolClass(asm.cpi());
-        nullPointerClass = asm.cpi();
-        asm.emitConstantPoolUTF8("java/lang/IllegalArgumentException");
-        asm.emitConstantPoolClass(asm.cpi());
-        illegalArgumentClass = asm.cpi();
-        asm.emitConstantPoolUTF8("java/lang/reflect/InvocationTargetException");
-        asm.emitConstantPoolClass(asm.cpi());
-        invocationTargetClass = asm.cpi();
-        asm.emitConstantPoolUTF8("<init>");
-        initIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("()V");
-        asm.emitConstantPoolNameAndType(initIdx, asm.cpi());
-        initNameAndTypeIdx = asm.cpi();
-        asm.emitConstantPoolMethodref(nullPointerClass, initNameAndTypeIdx);
-        nullPointerCtorIdx = asm.cpi();
-        asm.emitConstantPoolMethodref(illegalArgumentClass, initNameAndTypeIdx);
-        illegalArgumentCtorIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("(Ljava/lang/String;)V");
-        asm.emitConstantPoolNameAndType(initIdx, asm.cpi());
-        initStringNameAndTypeIdx = asm.cpi();
-        asm.emitConstantPoolMethodref(illegalArgumentClass, initStringNameAndTypeIdx);
-        illegalArgumentStringCtorIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("(Ljava/lang/Throwable;)V");
-        asm.emitConstantPoolNameAndType(initIdx, asm.cpi());
-        asm.emitConstantPoolMethodref(invocationTargetClass, asm.cpi());
-        invocationTargetCtorIdx = asm.cpi();
-        asm.emitConstantPoolMethodref(superClass, initNameAndTypeIdx);
-        superCtorIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("java/lang/Object");
-        asm.emitConstantPoolClass(asm.cpi());
-        objectClass = asm.cpi();
-        asm.emitConstantPoolUTF8("toString");
-        asm.emitConstantPoolUTF8("()Ljava/lang/String;");
-        asm.emitConstantPoolNameAndType(sub(asm.cpi(), S1), asm.cpi());
-        asm.emitConstantPoolMethodref(objectClass, asm.cpi());
-        toStringIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("Code");
-        codeIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("Exceptions");
-        exceptionsIdx = asm.cpi();
+        // +   [UTF-8] "()Ljbvb/lbng/String;"
+        // +   [CONSTANT_NbmfAndTypf_info] for "toString()Ljbvb/lbng/String;"
+        // +   [CONSTANT_Mftiodrff_info] for Objfdt's toString mftiod
+        // +   [UTF-8] "Codf"
+        // +   [UTF-8] "Exdfptions"
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Tirowbblf");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        tirowbblfClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/ClbssCbstExdfption");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        dlbssCbstClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/NullPointfrExdfption");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        nullPointfrClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/IllfgblArgumfntExdfption");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        illfgblArgumfntClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/rfflfdt/InvodbtionTbrgftExdfption");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        invodbtionTbrgftClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("<init>");
+        initIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("()V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        initNbmfAndTypfIdx = bsm.dpi();
+        bsm.fmitConstbntPoolMftiodrff(nullPointfrClbss, initNbmfAndTypfIdx);
+        nullPointfrCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolMftiodrff(illfgblArgumfntClbss, initNbmfAndTypfIdx);
+        illfgblArgumfntCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(Ljbvb/lbng/String;)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        initStringNbmfAndTypfIdx = bsm.dpi();
+        bsm.fmitConstbntPoolMftiodrff(illfgblArgumfntClbss, initStringNbmfAndTypfIdx);
+        illfgblArgumfntStringCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(Ljbvb/lbng/Tirowbblf;)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(invodbtionTbrgftClbss, bsm.dpi());
+        invodbtionTbrgftCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolMftiodrff(supfrClbss, initNbmfAndTypfIdx);
+        supfrCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Objfdt");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        objfdtClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("toString");
+        bsm.fmitConstbntPoolUTF8("()Ljbvb/lbng/String;");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(objfdtClbss, bsm.dpi());
+        toStringIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("Codf");
+        dodfIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("Exdfptions");
+        fxdfptionsIdx = bsm.dpi();
     }
 
-    /** Constant pool entries required to be able to box/unbox primitive
-        types. Note that we don't emit these if we don't need them. */
-    protected void emitBoxingContantPoolEntries() {
-        //  *  [UTF-8] "java/lang/Boolean"
-        //  *  [CONSTANT_Class_info] for above
+    /** Constbnt pool fntrifs rfquirfd to bf bblf to box/unbox primitivf
+        typfs. Notf tibt wf don't fmit tifsf if wf don't nffd tifm. */
+    protfdtfd void fmitBoxingContbntPoolEntrifs() {
+        //  *  [UTF-8] "jbvb/lbng/Boolfbn"
+        //  *  [CONSTANT_Clbss_info] for bbovf
         //  *  [UTF-8] "(Z)V"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "booleanValue"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "boolfbnVbluf"
         //  *  [UTF-8] "()Z"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "java/lang/Byte"
-        //  *  [CONSTANT_Class_info] for above
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Bytf"
+        //  *  [CONSTANT_Clbss_info] for bbovf
         //  *  [UTF-8] "(B)V"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "byteValue"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "bytfVbluf"
         //  *  [UTF-8] "()B"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "java/lang/Character"
-        //  *  [CONSTANT_Class_info] for above
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Cibrbdtfr"
+        //  *  [CONSTANT_Clbss_info] for bbovf
         //  *  [UTF-8] "(C)V"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "charValue"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "dibrVbluf"
         //  *  [UTF-8] "()C"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "java/lang/Double"
-        //  *  [CONSTANT_Class_info] for above
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Doublf"
+        //  *  [CONSTANT_Clbss_info] for bbovf
         //  *  [UTF-8] "(D)V"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "doubleValue"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "doublfVbluf"
         //  *  [UTF-8] "()D"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "java/lang/Float"
-        //  *  [CONSTANT_Class_info] for above
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Flobt"
+        //  *  [CONSTANT_Clbss_info] for bbovf
         //  *  [UTF-8] "(F)V"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "floatValue"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "flobtVbluf"
         //  *  [UTF-8] "()F"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "java/lang/Integer"
-        //  *  [CONSTANT_Class_info] for above
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Intfgfr"
+        //  *  [CONSTANT_Clbss_info] for bbovf
         //  *  [UTF-8] "(I)V"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "intValue"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "intVbluf"
         //  *  [UTF-8] "()I"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "java/lang/Long"
-        //  *  [CONSTANT_Class_info] for above
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Long"
+        //  *  [CONSTANT_Clbss_info] for bbovf
         //  *  [UTF-8] "(J)V"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "longValue"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "longVbluf"
         //  *  [UTF-8] "()J"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "java/lang/Short"
-        //  *  [CONSTANT_Class_info] for above
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Siort"
+        //  *  [CONSTANT_Clbss_info] for bbovf
         //  *  [UTF-8] "(S)V"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        //  *  [UTF-8] "shortValue"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "siortVbluf"
         //  *  [UTF-8] "()S"
-        //  *  [CONSTANT_NameAndType_info] for above
-        //  *  [CONSTANT_Methodref_info] for above
-        // Boolean
-        asm.emitConstantPoolUTF8("java/lang/Boolean");
-        asm.emitConstantPoolClass(asm.cpi());
-        booleanIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("(Z)V");
-        asm.emitConstantPoolNameAndType(initIdx, asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S2), asm.cpi());
-        booleanCtorIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("booleanValue");
-        asm.emitConstantPoolUTF8("()Z");
-        asm.emitConstantPoolNameAndType(sub(asm.cpi(), S1), asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S6), asm.cpi());
-        booleanUnboxIdx = asm.cpi();
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        // Boolfbn
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Boolfbn");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        boolfbnIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(Z)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        boolfbnCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("boolfbnVbluf");
+        bsm.fmitConstbntPoolUTF8("()Z");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        boolfbnUnboxIdx = bsm.dpi();
 
-        // Byte
-        asm.emitConstantPoolUTF8("java/lang/Byte");
-        asm.emitConstantPoolClass(asm.cpi());
-        byteIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("(B)V");
-        asm.emitConstantPoolNameAndType(initIdx, asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S2), asm.cpi());
-        byteCtorIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("byteValue");
-        asm.emitConstantPoolUTF8("()B");
-        asm.emitConstantPoolNameAndType(sub(asm.cpi(), S1), asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S6), asm.cpi());
-        byteUnboxIdx = asm.cpi();
+        // Bytf
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Bytf");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        bytfIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(B)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        bytfCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("bytfVbluf");
+        bsm.fmitConstbntPoolUTF8("()B");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        bytfUnboxIdx = bsm.dpi();
 
-        // Character
-        asm.emitConstantPoolUTF8("java/lang/Character");
-        asm.emitConstantPoolClass(asm.cpi());
-        characterIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("(C)V");
-        asm.emitConstantPoolNameAndType(initIdx, asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S2), asm.cpi());
-        characterCtorIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("charValue");
-        asm.emitConstantPoolUTF8("()C");
-        asm.emitConstantPoolNameAndType(sub(asm.cpi(), S1), asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S6), asm.cpi());
-        characterUnboxIdx = asm.cpi();
+        // Cibrbdtfr
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Cibrbdtfr");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        dibrbdtfrIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(C)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        dibrbdtfrCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("dibrVbluf");
+        bsm.fmitConstbntPoolUTF8("()C");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        dibrbdtfrUnboxIdx = bsm.dpi();
 
-        // Double
-        asm.emitConstantPoolUTF8("java/lang/Double");
-        asm.emitConstantPoolClass(asm.cpi());
-        doubleIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("(D)V");
-        asm.emitConstantPoolNameAndType(initIdx, asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S2), asm.cpi());
-        doubleCtorIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("doubleValue");
-        asm.emitConstantPoolUTF8("()D");
-        asm.emitConstantPoolNameAndType(sub(asm.cpi(), S1), asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S6), asm.cpi());
-        doubleUnboxIdx = asm.cpi();
+        // Doublf
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Doublf");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        doublfIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(D)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        doublfCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("doublfVbluf");
+        bsm.fmitConstbntPoolUTF8("()D");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        doublfUnboxIdx = bsm.dpi();
 
-        // Float
-        asm.emitConstantPoolUTF8("java/lang/Float");
-        asm.emitConstantPoolClass(asm.cpi());
-        floatIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("(F)V");
-        asm.emitConstantPoolNameAndType(initIdx, asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S2), asm.cpi());
-        floatCtorIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("floatValue");
-        asm.emitConstantPoolUTF8("()F");
-        asm.emitConstantPoolNameAndType(sub(asm.cpi(), S1), asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S6), asm.cpi());
-        floatUnboxIdx = asm.cpi();
+        // Flobt
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Flobt");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        flobtIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(F)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        flobtCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("flobtVbluf");
+        bsm.fmitConstbntPoolUTF8("()F");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        flobtUnboxIdx = bsm.dpi();
 
-        // Integer
-        asm.emitConstantPoolUTF8("java/lang/Integer");
-        asm.emitConstantPoolClass(asm.cpi());
-        integerIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("(I)V");
-        asm.emitConstantPoolNameAndType(initIdx, asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S2), asm.cpi());
-        integerCtorIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("intValue");
-        asm.emitConstantPoolUTF8("()I");
-        asm.emitConstantPoolNameAndType(sub(asm.cpi(), S1), asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S6), asm.cpi());
-        integerUnboxIdx = asm.cpi();
+        // Intfgfr
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Intfgfr");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        intfgfrIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(I)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        intfgfrCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("intVbluf");
+        bsm.fmitConstbntPoolUTF8("()I");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        intfgfrUnboxIdx = bsm.dpi();
 
         // Long
-        asm.emitConstantPoolUTF8("java/lang/Long");
-        asm.emitConstantPoolClass(asm.cpi());
-        longIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("(J)V");
-        asm.emitConstantPoolNameAndType(initIdx, asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S2), asm.cpi());
-        longCtorIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("longValue");
-        asm.emitConstantPoolUTF8("()J");
-        asm.emitConstantPoolNameAndType(sub(asm.cpi(), S1), asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S6), asm.cpi());
-        longUnboxIdx = asm.cpi();
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Long");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        longIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(J)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        longCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("longVbluf");
+        bsm.fmitConstbntPoolUTF8("()J");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        longUnboxIdx = bsm.dpi();
 
-        // Short
-        asm.emitConstantPoolUTF8("java/lang/Short");
-        asm.emitConstantPoolClass(asm.cpi());
-        shortIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("(S)V");
-        asm.emitConstantPoolNameAndType(initIdx, asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S2), asm.cpi());
-        shortCtorIdx = asm.cpi();
-        asm.emitConstantPoolUTF8("shortValue");
-        asm.emitConstantPoolUTF8("()S");
-        asm.emitConstantPoolNameAndType(sub(asm.cpi(), S1), asm.cpi());
-        asm.emitConstantPoolMethodref(sub(asm.cpi(), S6), asm.cpi());
-        shortUnboxIdx = asm.cpi();
+        // Siort
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Siort");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        siortIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(S)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        siortCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("siortVbluf");
+        bsm.fmitConstbntPoolUTF8("()S");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        siortUnboxIdx = bsm.dpi();
     }
 
-    // Necessary because of Java's annoying promotion rules
-    protected static short add(short s1, short s2) {
-        return (short) (s1 + s2);
+    // Nfdfssbry bfdbusf of Jbvb's bnnoying promotion rulfs
+    protfdtfd stbtid siort bdd(siort s1, siort s2) {
+        rfturn (siort) (s1 + s2);
     }
 
-    protected static short sub(short s1, short s2) {
-        return (short) (s1 - s2);
+    protfdtfd stbtid siort sub(siort s1, siort s2) {
+        rfturn (siort) (s1 - s2);
     }
 
-    protected boolean isStatic() {
-        return Modifier.isStatic(modifiers);
+    protfdtfd boolfbn isStbtid() {
+        rfturn Modififr.isStbtid(modififrs);
     }
 
-    protected boolean isPrivate() {
-        return Modifier.isPrivate(modifiers);
+    protfdtfd boolfbn isPrivbtf() {
+        rfturn Modififr.isPrivbtf(modififrs);
     }
 
-    /** Returns class name in "internal" form (i.e., '/' separators
-        instead of '.') */
-    protected static String getClassName
-        (Class<?> c, boolean addPrefixAndSuffixForNonPrimitiveTypes)
+    /** Rfturns dlbss nbmf in "intfrnbl" form (i.f., '/' sfpbrbtors
+        instfbd of '.') */
+    protfdtfd stbtid String gftClbssNbmf
+        (Clbss<?> d, boolfbn bddPrffixAndSuffixForNonPrimitivfTypfs)
     {
-        if (c.isPrimitive()) {
-            if (c == Boolean.TYPE) {
-                return "Z";
-            } else if (c == Byte.TYPE) {
-                return "B";
-            } else if (c == Character.TYPE) {
-                return "C";
-            } else if (c == Double.TYPE) {
-                return "D";
-            } else if (c == Float.TYPE) {
-                return "F";
-            } else if (c == Integer.TYPE) {
-                return "I";
-            } else if (c == Long.TYPE) {
-                return "J";
-            } else if (c == Short.TYPE) {
-                return "S";
-            } else if (c == Void.TYPE) {
-                return "V";
+        if (d.isPrimitivf()) {
+            if (d == Boolfbn.TYPE) {
+                rfturn "Z";
+            } flsf if (d == Bytf.TYPE) {
+                rfturn "B";
+            } flsf if (d == Cibrbdtfr.TYPE) {
+                rfturn "C";
+            } flsf if (d == Doublf.TYPE) {
+                rfturn "D";
+            } flsf if (d == Flobt.TYPE) {
+                rfturn "F";
+            } flsf if (d == Intfgfr.TYPE) {
+                rfturn "I";
+            } flsf if (d == Long.TYPE) {
+                rfturn "J";
+            } flsf if (d == Siort.TYPE) {
+                rfturn "S";
+            } flsf if (d == Void.TYPE) {
+                rfturn "V";
             }
-            throw new InternalError("Should have found primitive type");
-        } else if (c.isArray()) {
-            return "[" + getClassName(c.getComponentType(), true);
-        } else {
-            if (addPrefixAndSuffixForNonPrimitiveTypes) {
-                return internalize("L" + c.getName() + ";");
-            } else {
-                return internalize(c.getName());
+            tirow nfw IntfrnblError("Siould ibvf found primitivf typf");
+        } flsf if (d.isArrby()) {
+            rfturn "[" + gftClbssNbmf(d.gftComponfntTypf(), truf);
+        } flsf {
+            if (bddPrffixAndSuffixForNonPrimitivfTypfs) {
+                rfturn intfrnblizf("L" + d.gftNbmf() + ";");
+            } flsf {
+                rfturn intfrnblizf(d.gftNbmf());
             }
         }
     }
 
-    private static String internalize(String className) {
-        return className.replace('.', '/');
+    privbtf stbtid String intfrnblizf(String dlbssNbmf) {
+        rfturn dlbssNbmf.rfplbdf('.', '/');
     }
 
-    protected void emitConstructor() {
-        // Generate code into fresh code buffer
-        ClassFileAssembler cb = new ClassFileAssembler();
-        // 0 incoming arguments
-        cb.setMaxLocals(1);
-        cb.opc_aload_0();
-        cb.opc_invokespecial(superCtorIdx, 0, 0);
-        cb.opc_return();
+    protfdtfd void fmitConstrudtor() {
+        // Gfnfrbtf dodf into frfsi dodf bufffr
+        ClbssFilfAssfmblfr db = nfw ClbssFilfAssfmblfr();
+        // 0 indoming brgumfnts
+        db.sftMbxLodbls(1);
+        db.opd_blobd_0();
+        db.opd_invokfspfdibl(supfrCtorIdx, 0, 0);
+        db.opd_rfturn();
 
-        // Emit method
-        emitMethod(initIdx, cb.getMaxLocals(), cb, null, null);
+        // Emit mftiod
+        fmitMftiod(initIdx, db.gftMbxLodbls(), db, null, null);
     }
 
-    // The descriptor's index in the constant pool must be (1 +
-    // nameIdx). "numArgs" must indicate ALL arguments, including the
-    // implicit "this" argument; double and long arguments each count
-    // as 2 in this count. The code buffer must NOT contain the code
-    // length. The exception table may be null, but if non-null must
-    // NOT contain the exception table's length. The checked exception
-    // indices may be null.
-    protected void emitMethod(short nameIdx,
+    // Tif dfsdriptor's indfx in tif donstbnt pool must bf (1 +
+    // nbmfIdx). "numArgs" must indidbtf ALL brgumfnts, indluding tif
+    // implidit "tiis" brgumfnt; doublf bnd long brgumfnts fbdi dount
+    // bs 2 in tiis dount. Tif dodf bufffr must NOT dontbin tif dodf
+    // lfngti. Tif fxdfption tbblf mby bf null, but if non-null must
+    // NOT dontbin tif fxdfption tbblf's lfngti. Tif difdkfd fxdfption
+    // indidfs mby bf null.
+    protfdtfd void fmitMftiod(siort nbmfIdx,
                               int numArgs,
-                              ClassFileAssembler code,
-                              ClassFileAssembler exceptionTable,
-                              short[] checkedExceptionIndices)
+                              ClbssFilfAssfmblfr dodf,
+                              ClbssFilfAssfmblfr fxdfptionTbblf,
+                              siort[] difdkfdExdfptionIndidfs)
     {
-        int codeLen = code.getLength();
-        int excLen  = 0;
-        if (exceptionTable != null) {
-            excLen = exceptionTable.getLength();
-            if ((excLen % 8) != 0) {
-                throw new IllegalArgumentException("Illegal exception table");
+        int dodfLfn = dodf.gftLfngti();
+        int fxdLfn  = 0;
+        if (fxdfptionTbblf != null) {
+            fxdLfn = fxdfptionTbblf.gftLfngti();
+            if ((fxdLfn % 8) != 0) {
+                tirow nfw IllfgblArgumfntExdfption("Illfgbl fxdfption tbblf");
             }
         }
-        int attrLen = 12 + codeLen + excLen;
-        excLen = excLen / 8; // No-op if no exception table
+        int bttrLfn = 12 + dodfLfn + fxdLfn;
+        fxdLfn = fxdLfn / 8; // No-op if no fxdfption tbblf
 
-        asm.emitShort(ACC_PUBLIC);
-        asm.emitShort(nameIdx);
-        asm.emitShort(add(nameIdx, S1));
-        if (checkedExceptionIndices == null) {
-            // Code attribute only
-            asm.emitShort(S1);
-        } else {
-            // Code and Exceptions attributes
-            asm.emitShort(S2);
+        bsm.fmitSiort(ACC_PUBLIC);
+        bsm.fmitSiort(nbmfIdx);
+        bsm.fmitSiort(bdd(nbmfIdx, S1));
+        if (difdkfdExdfptionIndidfs == null) {
+            // Codf bttributf only
+            bsm.fmitSiort(S1);
+        } flsf {
+            // Codf bnd Exdfptions bttributfs
+            bsm.fmitSiort(S2);
         }
-        // Code attribute
-        asm.emitShort(codeIdx);
-        asm.emitInt(attrLen);
-        asm.emitShort(code.getMaxStack());
-        asm.emitShort((short) Math.max(numArgs, code.getMaxLocals()));
-        asm.emitInt(codeLen);
-        asm.append(code);
-        asm.emitShort((short) excLen);
-        if (exceptionTable != null) {
-            asm.append(exceptionTable);
+        // Codf bttributf
+        bsm.fmitSiort(dodfIdx);
+        bsm.fmitInt(bttrLfn);
+        bsm.fmitSiort(dodf.gftMbxStbdk());
+        bsm.fmitSiort((siort) Mbti.mbx(numArgs, dodf.gftMbxLodbls()));
+        bsm.fmitInt(dodfLfn);
+        bsm.bppfnd(dodf);
+        bsm.fmitSiort((siort) fxdLfn);
+        if (fxdfptionTbblf != null) {
+            bsm.bppfnd(fxdfptionTbblf);
         }
-        asm.emitShort(S0); // No additional attributes for Code attribute
-        if (checkedExceptionIndices != null) {
-            // Exceptions attribute
-            asm.emitShort(exceptionsIdx);
-            asm.emitInt(2 + 2 * checkedExceptionIndices.length);
-            asm.emitShort((short) checkedExceptionIndices.length);
-            for (int i = 0; i < checkedExceptionIndices.length; i++) {
-                asm.emitShort(checkedExceptionIndices[i]);
+        bsm.fmitSiort(S0); // No bdditionbl bttributfs for Codf bttributf
+        if (difdkfdExdfptionIndidfs != null) {
+            // Exdfptions bttributf
+            bsm.fmitSiort(fxdfptionsIdx);
+            bsm.fmitInt(2 + 2 * difdkfdExdfptionIndidfs.lfngti);
+            bsm.fmitSiort((siort) difdkfdExdfptionIndidfs.lfngti);
+            for (int i = 0; i < difdkfdExdfptionIndidfs.lfngti; i++) {
+                bsm.fmitSiort(difdkfdExdfptionIndidfs[i]);
             }
         }
     }
 
-    protected short indexForPrimitiveType(Class<?> type) {
-        if (type == Boolean.TYPE) {
-            return booleanIdx;
-        } else if (type == Byte.TYPE) {
-            return byteIdx;
-        } else if (type == Character.TYPE) {
-            return characterIdx;
-        } else if (type == Double.TYPE) {
-            return doubleIdx;
-        } else if (type == Float.TYPE) {
-            return floatIdx;
-        } else if (type == Integer.TYPE) {
-            return integerIdx;
-        } else if (type == Long.TYPE) {
-            return longIdx;
-        } else if (type == Short.TYPE) {
-            return shortIdx;
+    protfdtfd siort indfxForPrimitivfTypf(Clbss<?> typf) {
+        if (typf == Boolfbn.TYPE) {
+            rfturn boolfbnIdx;
+        } flsf if (typf == Bytf.TYPE) {
+            rfturn bytfIdx;
+        } flsf if (typf == Cibrbdtfr.TYPE) {
+            rfturn dibrbdtfrIdx;
+        } flsf if (typf == Doublf.TYPE) {
+            rfturn doublfIdx;
+        } flsf if (typf == Flobt.TYPE) {
+            rfturn flobtIdx;
+        } flsf if (typf == Intfgfr.TYPE) {
+            rfturn intfgfrIdx;
+        } flsf if (typf == Long.TYPE) {
+            rfturn longIdx;
+        } flsf if (typf == Siort.TYPE) {
+            rfturn siortIdx;
         }
-        throw new InternalError("Should have found primitive type");
+        tirow nfw IntfrnblError("Siould ibvf found primitivf typf");
     }
 
-    protected short ctorIndexForPrimitiveType(Class<?> type) {
-        if (type == Boolean.TYPE) {
-            return booleanCtorIdx;
-        } else if (type == Byte.TYPE) {
-            return byteCtorIdx;
-        } else if (type == Character.TYPE) {
-            return characterCtorIdx;
-        } else if (type == Double.TYPE) {
-            return doubleCtorIdx;
-        } else if (type == Float.TYPE) {
-            return floatCtorIdx;
-        } else if (type == Integer.TYPE) {
-            return integerCtorIdx;
-        } else if (type == Long.TYPE) {
-            return longCtorIdx;
-        } else if (type == Short.TYPE) {
-            return shortCtorIdx;
+    protfdtfd siort dtorIndfxForPrimitivfTypf(Clbss<?> typf) {
+        if (typf == Boolfbn.TYPE) {
+            rfturn boolfbnCtorIdx;
+        } flsf if (typf == Bytf.TYPE) {
+            rfturn bytfCtorIdx;
+        } flsf if (typf == Cibrbdtfr.TYPE) {
+            rfturn dibrbdtfrCtorIdx;
+        } flsf if (typf == Doublf.TYPE) {
+            rfturn doublfCtorIdx;
+        } flsf if (typf == Flobt.TYPE) {
+            rfturn flobtCtorIdx;
+        } flsf if (typf == Intfgfr.TYPE) {
+            rfturn intfgfrCtorIdx;
+        } flsf if (typf == Long.TYPE) {
+            rfturn longCtorIdx;
+        } flsf if (typf == Siort.TYPE) {
+            rfturn siortCtorIdx;
         }
-        throw new InternalError("Should have found primitive type");
+        tirow nfw IntfrnblError("Siould ibvf found primitivf typf");
     }
 
-    /** Returns true for widening or identity conversions for primitive
-        types only */
-    protected static boolean canWidenTo(Class<?> type, Class<?> otherType) {
-        if (!type.isPrimitive()) {
-            return false;
+    /** Rfturns truf for widfning or idfntity donvfrsions for primitivf
+        typfs only */
+    protfdtfd stbtid boolfbn dbnWidfnTo(Clbss<?> typf, Clbss<?> otifrTypf) {
+        if (!typf.isPrimitivf()) {
+            rfturn fblsf;
         }
 
-        // Widening conversions (from JVM spec):
-        //  byte to short, int, long, float, or double
-        //  short to int, long, float, or double
-        //  char to int, long, float, or double
-        //  int to long, float, or double
-        //  long to float or double
-        //  float to double
+        // Widfning donvfrsions (from JVM spfd):
+        //  bytf to siort, int, long, flobt, or doublf
+        //  siort to int, long, flobt, or doublf
+        //  dibr to int, long, flobt, or doublf
+        //  int to long, flobt, or doublf
+        //  long to flobt or doublf
+        //  flobt to doublf
 
-        if (type == Boolean.TYPE) {
-            if (otherType == Boolean.TYPE) {
-                return true;
+        if (typf == Boolfbn.TYPE) {
+            if (otifrTypf == Boolfbn.TYPE) {
+                rfturn truf;
             }
-        } else if (type == Byte.TYPE) {
-            if (   otherType == Byte.TYPE
-                   || otherType == Short.TYPE
-                   || otherType == Integer.TYPE
-                   || otherType == Long.TYPE
-                   || otherType == Float.TYPE
-                   || otherType == Double.TYPE) {
-                return true;
+        } flsf if (typf == Bytf.TYPE) {
+            if (   otifrTypf == Bytf.TYPE
+                   || otifrTypf == Siort.TYPE
+                   || otifrTypf == Intfgfr.TYPE
+                   || otifrTypf == Long.TYPE
+                   || otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
             }
-        } else if (type == Short.TYPE) {
-            if (   otherType == Short.TYPE
-                   || otherType == Integer.TYPE
-                   || otherType == Long.TYPE
-                   || otherType == Float.TYPE
-                   || otherType == Double.TYPE) {
-                return true;
+        } flsf if (typf == Siort.TYPE) {
+            if (   otifrTypf == Siort.TYPE
+                   || otifrTypf == Intfgfr.TYPE
+                   || otifrTypf == Long.TYPE
+                   || otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
             }
-        } else if (type == Character.TYPE) {
-            if (   otherType == Character.TYPE
-                   || otherType == Integer.TYPE
-                   || otherType == Long.TYPE
-                   || otherType == Float.TYPE
-                   || otherType == Double.TYPE) {
-                return true;
+        } flsf if (typf == Cibrbdtfr.TYPE) {
+            if (   otifrTypf == Cibrbdtfr.TYPE
+                   || otifrTypf == Intfgfr.TYPE
+                   || otifrTypf == Long.TYPE
+                   || otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
             }
-        } else if (type == Integer.TYPE) {
-            if (   otherType == Integer.TYPE
-                   || otherType == Long.TYPE
-                   || otherType == Float.TYPE
-                   || otherType == Double.TYPE) {
-                return true;
+        } flsf if (typf == Intfgfr.TYPE) {
+            if (   otifrTypf == Intfgfr.TYPE
+                   || otifrTypf == Long.TYPE
+                   || otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
             }
-        } else if (type == Long.TYPE) {
-            if (   otherType == Long.TYPE
-                   || otherType == Float.TYPE
-                   || otherType == Double.TYPE) {
-                return true;
+        } flsf if (typf == Long.TYPE) {
+            if (   otifrTypf == Long.TYPE
+                   || otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
             }
-        } else if (type == Float.TYPE) {
-            if (   otherType == Float.TYPE
-                   || otherType == Double.TYPE) {
-                return true;
+        } flsf if (typf == Flobt.TYPE) {
+            if (   otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
             }
-        } else if (type == Double.TYPE) {
-            if (otherType == Double.TYPE) {
-                return true;
+        } flsf if (typf == Doublf.TYPE) {
+            if (otifrTypf == Doublf.TYPE) {
+                rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    /** Emits the widening bytecode for the given primitive conversion
-        (or none if the identity conversion). Requires that a primitive
-        conversion exists; i.e., canWidenTo must have already been
-        called and returned true. */
-    protected static void emitWideningBytecodeForPrimitiveConversion
-        (ClassFileAssembler cb,
-         Class<?> fromType,
-         Class<?> toType)
+    /** Emits tif widfning bytfdodf for tif givfn primitivf donvfrsion
+        (or nonf if tif idfntity donvfrsion). Rfquirfs tibt b primitivf
+        donvfrsion fxists; i.f., dbnWidfnTo must ibvf blrfbdy bffn
+        dbllfd bnd rfturnfd truf. */
+    protfdtfd stbtid void fmitWidfningBytfdodfForPrimitivfConvfrsion
+        (ClbssFilfAssfmblfr db,
+         Clbss<?> fromTypf,
+         Clbss<?> toTypf)
     {
-        // Note that widening conversions for integral types (i.e., "b2s",
-        // "s2i") are no-ops since values on the Java stack are
-        // sign-extended.
+        // Notf tibt widfning donvfrsions for intfgrbl typfs (i.f., "b2s",
+        // "s2i") brf no-ops sindf vblufs on tif Jbvb stbdk brf
+        // sign-fxtfndfd.
 
-        // Widening conversions (from JVM spec):
-        //  byte to short, int, long, float, or double
-        //  short to int, long, float, or double
-        //  char to int, long, float, or double
-        //  int to long, float, or double
-        //  long to float or double
-        //  float to double
+        // Widfning donvfrsions (from JVM spfd):
+        //  bytf to siort, int, long, flobt, or doublf
+        //  siort to int, long, flobt, or doublf
+        //  dibr to int, long, flobt, or doublf
+        //  int to long, flobt, or doublf
+        //  long to flobt or doublf
+        //  flobt to doublf
 
-        if (   fromType == Byte.TYPE
-               || fromType == Short.TYPE
-               || fromType == Character.TYPE
-               || fromType == Integer.TYPE) {
-            if (toType == Long.TYPE) {
-                cb.opc_i2l();
-            } else if (toType == Float.TYPE) {
-                cb.opc_i2f();
-            } else if (toType == Double.TYPE) {
-                cb.opc_i2d();
+        if (   fromTypf == Bytf.TYPE
+               || fromTypf == Siort.TYPE
+               || fromTypf == Cibrbdtfr.TYPE
+               || fromTypf == Intfgfr.TYPE) {
+            if (toTypf == Long.TYPE) {
+                db.opd_i2l();
+            } flsf if (toTypf == Flobt.TYPE) {
+                db.opd_i2f();
+            } flsf if (toTypf == Doublf.TYPE) {
+                db.opd_i2d();
             }
-        } else if (fromType == Long.TYPE) {
-            if (toType == Float.TYPE) {
-                cb.opc_l2f();
-            } else if (toType == Double.TYPE) {
-                cb.opc_l2d();
+        } flsf if (fromTypf == Long.TYPE) {
+            if (toTypf == Flobt.TYPE) {
+                db.opd_l2f();
+            } flsf if (toTypf == Doublf.TYPE) {
+                db.opd_l2d();
             }
-        } else if (fromType == Float.TYPE) {
-            if (toType == Double.TYPE) {
-                cb.opc_f2d();
+        } flsf if (fromTypf == Flobt.TYPE) {
+            if (toTypf == Doublf.TYPE) {
+                db.opd_f2d();
             }
         }
 
-        // Otherwise, was identity or no-op conversion. Fall through.
+        // Otifrwisf, wbs idfntity or no-op donvfrsion. Fbll tirougi.
     }
 
-    protected short unboxingMethodForPrimitiveType(Class<?> primType) {
-        if (primType == Boolean.TYPE) {
-            return booleanUnboxIdx;
-        } else if (primType == Byte.TYPE) {
-            return byteUnboxIdx;
-        } else if (primType == Character.TYPE) {
-            return characterUnboxIdx;
-        } else if (primType == Short.TYPE) {
-            return shortUnboxIdx;
-        } else if (primType == Integer.TYPE) {
-            return integerUnboxIdx;
-        } else if (primType == Long.TYPE) {
-            return longUnboxIdx;
-        } else if (primType == Float.TYPE) {
-            return floatUnboxIdx;
-        } else if (primType == Double.TYPE) {
-            return doubleUnboxIdx;
+    protfdtfd siort unboxingMftiodForPrimitivfTypf(Clbss<?> primTypf) {
+        if (primTypf == Boolfbn.TYPE) {
+            rfturn boolfbnUnboxIdx;
+        } flsf if (primTypf == Bytf.TYPE) {
+            rfturn bytfUnboxIdx;
+        } flsf if (primTypf == Cibrbdtfr.TYPE) {
+            rfturn dibrbdtfrUnboxIdx;
+        } flsf if (primTypf == Siort.TYPE) {
+            rfturn siortUnboxIdx;
+        } flsf if (primTypf == Intfgfr.TYPE) {
+            rfturn intfgfrUnboxIdx;
+        } flsf if (primTypf == Long.TYPE) {
+            rfturn longUnboxIdx;
+        } flsf if (primTypf == Flobt.TYPE) {
+            rfturn flobtUnboxIdx;
+        } flsf if (primTypf == Doublf.TYPE) {
+            rfturn doublfUnboxIdx;
         }
-        throw new InternalError("Illegal primitive type " + primType.getName());
+        tirow nfw IntfrnblError("Illfgbl primitivf typf " + primTypf.gftNbmf());
     }
 
-    protected static final Class<?>[] primitiveTypes = new Class<?>[] {
-        Boolean.TYPE,
-        Byte.TYPE,
-        Character.TYPE,
-        Short.TYPE,
-        Integer.TYPE,
+    protfdtfd stbtid finbl Clbss<?>[] primitivfTypfs = nfw Clbss<?>[] {
+        Boolfbn.TYPE,
+        Bytf.TYPE,
+        Cibrbdtfr.TYPE,
+        Siort.TYPE,
+        Intfgfr.TYPE,
         Long.TYPE,
-        Float.TYPE,
-        Double.TYPE
+        Flobt.TYPE,
+        Doublf.TYPE
     };
 
-    /** We don't consider "Void" to be a primitive type */
-    protected static boolean isPrimitive(Class<?> c) {
-        return (c.isPrimitive() && c != Void.TYPE);
+    /** Wf don't donsidfr "Void" to bf b primitivf typf */
+    protfdtfd stbtid boolfbn isPrimitivf(Clbss<?> d) {
+        rfturn (d.isPrimitivf() && d != Void.TYPE);
     }
 
-    protected int typeSizeInStackSlots(Class<?> c) {
-        if (c == Void.TYPE) {
-            return 0;
+    protfdtfd int typfSizfInStbdkSlots(Clbss<?> d) {
+        if (d == Void.TYPE) {
+            rfturn 0;
         }
-        if (c == Long.TYPE || c == Double.TYPE) {
-            return 2;
+        if (d == Long.TYPE || d == Doublf.TYPE) {
+            rfturn 2;
         }
-        return 1;
+        rfturn 1;
     }
 
-    private ClassFileAssembler illegalArgumentCodeBuffer;
-    protected ClassFileAssembler illegalArgumentCodeBuffer() {
-        if (illegalArgumentCodeBuffer == null) {
-            illegalArgumentCodeBuffer = new ClassFileAssembler();
-            illegalArgumentCodeBuffer.opc_new(illegalArgumentClass);
-            illegalArgumentCodeBuffer.opc_dup();
-            illegalArgumentCodeBuffer.opc_invokespecial(illegalArgumentCtorIdx, 0, 0);
-            illegalArgumentCodeBuffer.opc_athrow();
+    privbtf ClbssFilfAssfmblfr illfgblArgumfntCodfBufffr;
+    protfdtfd ClbssFilfAssfmblfr illfgblArgumfntCodfBufffr() {
+        if (illfgblArgumfntCodfBufffr == null) {
+            illfgblArgumfntCodfBufffr = nfw ClbssFilfAssfmblfr();
+            illfgblArgumfntCodfBufffr.opd_nfw(illfgblArgumfntClbss);
+            illfgblArgumfntCodfBufffr.opd_dup();
+            illfgblArgumfntCodfBufffr.opd_invokfspfdibl(illfgblArgumfntCtorIdx, 0, 0);
+            illfgblArgumfntCodfBufffr.opd_btirow();
         }
 
-        return illegalArgumentCodeBuffer;
+        rfturn illfgblArgumfntCodfBufffr;
     }
 }

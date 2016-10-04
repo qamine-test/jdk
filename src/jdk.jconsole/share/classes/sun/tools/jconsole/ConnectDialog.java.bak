@@ -1,767 +1,767 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.util.List;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import jbvb.util.List;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.plaf.basic.BasicRadioButtonUI;
-import javax.swing.table.*;
-
-
-
-import static java.awt.BorderLayout.*;
-import static javax.swing.ListSelectionModel.*;
-import static sun.tools.jconsole.Utilities.*;
-
-@SuppressWarnings("serial")
-public class ConnectDialog extends InternalDialog
-                implements DocumentListener, FocusListener,
-                           ItemListener, ListSelectionListener, KeyListener {
-
-    private static final int COL_NAME = 0;
-    private static final int COL_PID  = 1;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.bbsid.BbsidRbdioButtonUI;
+import jbvbx.swing.tbblf.*;
 
 
-    JConsole jConsole;
-    JTextField userNameTF, passwordTF;
-    JRadioButton localRadioButton, remoteRadioButton;
-    JLabel localMessageLabel, remoteMessageLabel;
-    JTextField remoteTF;
-    JButton connectButton, cancelButton;
-    JPanel radioButtonPanel;
 
-    private Icon mastheadIcon =
-        new MastheadIcon(Messages.CONNECT_DIALOG_MASTHEAD_TITLE);
-    private Color hintTextColor, disabledTableCellColor;
+import stbtid jbvb.bwt.BordfrLbyout.*;
+import stbtid jbvbx.swing.ListSflfdtionModfl.*;
+import stbtid sun.tools.jdonsolf.Utilitifs.*;
 
-    // The table of managed VM (local process)
-    JTable vmTable;
-    ManagedVmTableModel vmModel = null;
+@SupprfssWbrnings("sfribl")
+publid dlbss ConnfdtDiblog fxtfnds IntfrnblDiblog
+                implfmfnts DodumfntListfnfr, FodusListfnfr,
+                           ItfmListfnfr, ListSflfdtionListfnfr, KfyListfnfr {
 
-    JScrollPane localTableScrollPane = null;
-
-    private Action connectAction, cancelAction;
+    privbtf stbtid finbl int COL_NAME = 0;
+    privbtf stbtid finbl int COL_PID  = 1;
 
 
-    public ConnectDialog(JConsole jConsole) {
-        super(jConsole, Messages.CONNECT_DIALOG_TITLE, true);
+    JConsolf jConsolf;
+    JTfxtFifld usfrNbmfTF, pbsswordTF;
+    JRbdioButton lodblRbdioButton, rfmotfRbdioButton;
+    JLbbfl lodblMfssbgfLbbfl, rfmotfMfssbgfLbbfl;
+    JTfxtFifld rfmotfTF;
+    JButton donnfdtButton, dbndflButton;
+    JPbnfl rbdioButtonPbnfl;
 
-        this.jConsole = jConsole;
-        setAccessibleDescription(this,
-                                 Messages.CONNECT_DIALOG_ACCESSIBLE_DESCRIPTION);
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
-        setResizable(false);
-        Container cp = (JComponent)getContentPane();
+    privbtf Idon mbstifbdIdon =
+        nfw MbstifbdIdon(Mfssbgfs.CONNECT_DIALOG_MASTHEAD_TITLE);
+    privbtf Color iintTfxtColor, disbblfdTbblfCfllColor;
 
-        radioButtonPanel = new JPanel(new BorderLayout(0, 12));
-        radioButtonPanel.setBorder(new EmptyBorder(6, 12, 12, 12));
-        ButtonGroup radioButtonGroup = new ButtonGroup();
-        JPanel bottomPanel = new JPanel(new BorderLayout());
+    // Tif tbblf of mbnbgfd VM (lodbl prodfss)
+    JTbblf vmTbblf;
+    MbnbgfdVmTbblfModfl vmModfl = null;
 
-        statusBar = new JLabel(" ", JLabel.CENTER);
-        setAccessibleName(statusBar,
-                          Messages.CONNECT_DIALOG_STATUS_BAR_ACCESSIBLE_NAME);
+    JSdrollPbnf lodblTbblfSdrollPbnf = null;
 
-        Font normalLabelFont = statusBar.getFont();
-        Font boldLabelFont = normalLabelFont.deriveFont(Font.BOLD);
-        Font smallLabelFont = normalLabelFont.deriveFont(normalLabelFont.getSize2D() - 1);
+    privbtf Adtion donnfdtAdtion, dbndflAdtion;
 
-        JLabel mastheadLabel = new JLabel(mastheadIcon);
-        setAccessibleName(mastheadLabel,
-                          Messages.CONNECT_DIALOG_MASTHEAD_ACCESSIBLE_NAME);
 
-        cp.add(mastheadLabel, NORTH);
-        cp.add(radioButtonPanel, CENTER);
-        cp.add(bottomPanel, SOUTH);
+    publid ConnfdtDiblog(JConsolf jConsolf) {
+        supfr(jConsolf, Mfssbgfs.CONNECT_DIALOG_TITLE, truf);
 
-        createActions();
+        tiis.jConsolf = jConsolf;
+        sftAddfssiblfDfsdription(tiis,
+                                 Mfssbgfs.CONNECT_DIALOG_ACCESSIBLE_DESCRIPTION);
+        sftDffbultClosfOpfrbtion(HIDE_ON_CLOSE);
+        sftRfsizbblf(fblsf);
+        Contbinfr dp = (JComponfnt)gftContfntPbnf();
 
-        remoteTF = new JTextField();
-        remoteTF.addActionListener(connectAction);
-        remoteTF.getDocument().addDocumentListener(this);
-        remoteTF.addFocusListener(this);
-        remoteTF.setPreferredSize(remoteTF.getPreferredSize());
-        setAccessibleName(remoteTF,
-                          Messages.REMOTE_PROCESS_TEXT_FIELD_ACCESSIBLE_NAME);
+        rbdioButtonPbnfl = nfw JPbnfl(nfw BordfrLbyout(0, 12));
+        rbdioButtonPbnfl.sftBordfr(nfw EmptyBordfr(6, 12, 12, 12));
+        ButtonGroup rbdioButtonGroup = nfw ButtonGroup();
+        JPbnfl bottomPbnfl = nfw JPbnfl(nfw BordfrLbyout());
+
+        stbtusBbr = nfw JLbbfl(" ", JLbbfl.CENTER);
+        sftAddfssiblfNbmf(stbtusBbr,
+                          Mfssbgfs.CONNECT_DIALOG_STATUS_BAR_ACCESSIBLE_NAME);
+
+        Font normblLbbflFont = stbtusBbr.gftFont();
+        Font boldLbbflFont = normblLbbflFont.dfrivfFont(Font.BOLD);
+        Font smbllLbbflFont = normblLbbflFont.dfrivfFont(normblLbbflFont.gftSizf2D() - 1);
+
+        JLbbfl mbstifbdLbbfl = nfw JLbbfl(mbstifbdIdon);
+        sftAddfssiblfNbmf(mbstifbdLbbfl,
+                          Mfssbgfs.CONNECT_DIALOG_MASTHEAD_ACCESSIBLE_NAME);
+
+        dp.bdd(mbstifbdLbbfl, NORTH);
+        dp.bdd(rbdioButtonPbnfl, CENTER);
+        dp.bdd(bottomPbnfl, SOUTH);
+
+        drfbtfAdtions();
+
+        rfmotfTF = nfw JTfxtFifld();
+        rfmotfTF.bddAdtionListfnfr(donnfdtAdtion);
+        rfmotfTF.gftDodumfnt().bddDodumfntListfnfr(tiis);
+        rfmotfTF.bddFodusListfnfr(tiis);
+        rfmotfTF.sftPrfffrrfdSizf(rfmotfTF.gftPrfffrrfdSizf());
+        sftAddfssiblfNbmf(rfmotfTF,
+                          Mfssbgfs.REMOTE_PROCESS_TEXT_FIELD_ACCESSIBLE_NAME);
 
         //
-        // If the VM supports the local attach mechanism (is: Sun
-        // implementation) then the Local Process panel is created.
+        // If tif VM supports tif lodbl bttbdi mfdibnism (is: Sun
+        // implfmfntbtion) tifn tif Lodbl Prodfss pbnfl is drfbtfd.
         //
-        if (JConsole.isLocalAttachAvailable()) {
-            vmModel = new ManagedVmTableModel();
-            vmTable = new LocalTabJTable(vmModel);
-            vmTable.setSelectionMode(SINGLE_SELECTION);
-            vmTable.setPreferredScrollableViewportSize(new Dimension(400, 250));
-            vmTable.setColumnSelectionAllowed(false);
-            vmTable.addFocusListener(this);
-            vmTable.getSelectionModel().addListSelectionListener(this);
+        if (JConsolf.isLodblAttbdiAvbilbblf()) {
+            vmModfl = nfw MbnbgfdVmTbblfModfl();
+            vmTbblf = nfw LodblTbbJTbblf(vmModfl);
+            vmTbblf.sftSflfdtionModf(SINGLE_SELECTION);
+            vmTbblf.sftPrfffrrfdSdrollbblfVifwportSizf(nfw Dimfnsion(400, 250));
+            vmTbblf.sftColumnSflfdtionAllowfd(fblsf);
+            vmTbblf.bddFodusListfnfr(tiis);
+            vmTbblf.gftSflfdtionModfl().bddListSflfdtionListfnfr(tiis);
 
-            TableColumnModel columnModel = vmTable.getColumnModel();
+            TbblfColumnModfl dolumnModfl = vmTbblf.gftColumnModfl();
 
-            TableColumn pidColumn = columnModel.getColumn(COL_PID);
-            pidColumn.setMaxWidth(getLabelWidth("9999999"));
-            pidColumn.setResizable(false);
+            TbblfColumn pidColumn = dolumnModfl.gftColumn(COL_PID);
+            pidColumn.sftMbxWidti(gftLbbflWidti("9999999"));
+            pidColumn.sftRfsizbblf(fblsf);
 
-            TableColumn cmdLineColumn = columnModel.getColumn(COL_NAME);
-            cmdLineColumn.setResizable(false);
+            TbblfColumn dmdLinfColumn = dolumnModfl.gftColumn(COL_NAME);
+            dmdLinfColumn.sftRfsizbblf(fblsf);
 
-            localRadioButton = new JRadioButton(Messages.LOCAL_PROCESS_COLON);
-            localRadioButton.setMnemonic(Resources.getMnemonicInt(Messages.LOCAL_PROCESS_COLON));
-            localRadioButton.setFont(boldLabelFont);
-            localRadioButton.addItemListener(this);
-            radioButtonGroup.add(localRadioButton);
+            lodblRbdioButton = nfw JRbdioButton(Mfssbgfs.LOCAL_PROCESS_COLON);
+            lodblRbdioButton.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.LOCAL_PROCESS_COLON));
+            lodblRbdioButton.sftFont(boldLbbflFont);
+            lodblRbdioButton.bddItfmListfnfr(tiis);
+            rbdioButtonGroup.bdd(lodblRbdioButton);
 
-            JPanel localPanel = new JPanel(new BorderLayout());
+            JPbnfl lodblPbnfl = nfw JPbnfl(nfw BordfrLbyout());
 
-            JPanel localTablePanel = new JPanel(new BorderLayout());
+            JPbnfl lodblTbblfPbnfl = nfw JPbnfl(nfw BordfrLbyout());
 
-            radioButtonPanel.add(localPanel, NORTH);
+            rbdioButtonPbnfl.bdd(lodblPbnfl, NORTH);
 
-            localPanel.add(localRadioButton, NORTH);
-            localPanel.add(new Padder(localRadioButton), LINE_START);
-            localPanel.add(localTablePanel, CENTER);
+            lodblPbnfl.bdd(lodblRbdioButton, NORTH);
+            lodblPbnfl.bdd(nfw Pbddfr(lodblRbdioButton), LINE_START);
+            lodblPbnfl.bdd(lodblTbblfPbnfl, CENTER);
 
-            localTableScrollPane = new JScrollPane(vmTable);
+            lodblTbblfSdrollPbnf = nfw JSdrollPbnf(vmTbblf);
 
-            localTablePanel.add(localTableScrollPane, NORTH);
+            lodblTbblfPbnfl.bdd(lodblTbblfSdrollPbnf, NORTH);
 
-            localMessageLabel = new JLabel(" ");
-            localMessageLabel.setFont(smallLabelFont);
-            localMessageLabel.setForeground(hintTextColor);
-            localTablePanel.add(localMessageLabel, SOUTH);
+            lodblMfssbgfLbbfl = nfw JLbbfl(" ");
+            lodblMfssbgfLbbfl.sftFont(smbllLbbflFont);
+            lodblMfssbgfLbbfl.sftForfground(iintTfxtColor);
+            lodblTbblfPbnfl.bdd(lodblMfssbgfLbbfl, SOUTH);
         }
 
-        remoteRadioButton = new JRadioButton(Messages.REMOTE_PROCESS_COLON);
-        remoteRadioButton.setMnemonic(Resources.getMnemonicInt(Messages.REMOTE_PROCESS_COLON));
-        remoteRadioButton.setFont(boldLabelFont);
-        radioButtonGroup.add(remoteRadioButton);
+        rfmotfRbdioButton = nfw JRbdioButton(Mfssbgfs.REMOTE_PROCESS_COLON);
+        rfmotfRbdioButton.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.REMOTE_PROCESS_COLON));
+        rfmotfRbdioButton.sftFont(boldLbbflFont);
+        rbdioButtonGroup.bdd(rfmotfRbdioButton);
 
-        JPanel remotePanel = new JPanel(new BorderLayout());
-        if (localRadioButton != null) {
-            remotePanel.add(remoteRadioButton, NORTH);
-            remotePanel.add(new Padder(remoteRadioButton), LINE_START);
+        JPbnfl rfmotfPbnfl = nfw JPbnfl(nfw BordfrLbyout());
+        if (lodblRbdioButton != null) {
+            rfmotfPbnfl.bdd(rfmotfRbdioButton, NORTH);
+            rfmotfPbnfl.bdd(nfw Pbddfr(rfmotfRbdioButton), LINE_START);
 
-            Action nextRadioButtonAction =
-                new AbstractAction("nextRadioButton") {
-                    public void actionPerformed(ActionEvent ev) {
-                        JRadioButton rb =
-                            (ev.getSource() == localRadioButton) ? remoteRadioButton
-                                                                 : localRadioButton;
-                        rb.doClick();
-                        rb.requestFocus();
+            Adtion nfxtRbdioButtonAdtion =
+                nfw AbstrbdtAdtion("nfxtRbdioButton") {
+                    publid void bdtionPfrformfd(AdtionEvfnt fv) {
+                        JRbdioButton rb =
+                            (fv.gftSourdf() == lodblRbdioButton) ? rfmotfRbdioButton
+                                                                 : lodblRbdioButton;
+                        rb.doClidk();
+                        rb.rfqufstFodus();
                     }
                 };
 
-            localRadioButton.getActionMap().put("nextRadioButton", nextRadioButtonAction);
-            remoteRadioButton.getActionMap().put("nextRadioButton", nextRadioButtonAction);
+            lodblRbdioButton.gftAdtionMbp().put("nfxtRbdioButton", nfxtRbdioButtonAdtion);
+            rfmotfRbdioButton.gftAdtionMbp().put("nfxtRbdioButton", nfxtRbdioButtonAdtion);
 
-            localRadioButton.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0),
-                                               "nextRadioButton");
-            remoteRadioButton.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0),
-                                                "nextRadioButton");
-        } else {
-            JLabel remoteLabel = new JLabel(remoteRadioButton.getText());
-            remoteLabel.setFont(boldLabelFont);
-            remotePanel.add(remoteLabel, NORTH);
+            lodblRbdioButton.gftInputMbp().put(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_DOWN, 0),
+                                               "nfxtRbdioButton");
+            rfmotfRbdioButton.gftInputMbp().put(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_UP, 0),
+                                                "nfxtRbdioButton");
+        } flsf {
+            JLbbfl rfmotfLbbfl = nfw JLbbfl(rfmotfRbdioButton.gftTfxt());
+            rfmotfLbbfl.sftFont(boldLbbflFont);
+            rfmotfPbnfl.bdd(rfmotfLbbfl, NORTH);
         }
-        radioButtonPanel.add(remotePanel, SOUTH);
+        rbdioButtonPbnfl.bdd(rfmotfPbnfl, SOUTH);
 
-        JPanel remoteTFPanel = new JPanel(new BorderLayout());
-        remotePanel.add(remoteTFPanel, CENTER);
+        JPbnfl rfmotfTFPbnfl = nfw JPbnfl(nfw BordfrLbyout());
+        rfmotfPbnfl.bdd(rfmotfTFPbnfl, CENTER);
 
-        remoteTFPanel.add(remoteTF, NORTH);
+        rfmotfTFPbnfl.bdd(rfmotfTF, NORTH);
 
-        remoteMessageLabel = new JLabel("<html>" + Messages.REMOTE_TF_USAGE + "</html>");
-        remoteMessageLabel.setFont(smallLabelFont);
-        remoteMessageLabel.setForeground(hintTextColor);
-        remoteTFPanel.add(remoteMessageLabel, CENTER);
+        rfmotfMfssbgfLbbfl = nfw JLbbfl("<itml>" + Mfssbgfs.REMOTE_TF_USAGE + "</itml>");
+        rfmotfMfssbgfLbbfl.sftFont(smbllLbbflFont);
+        rfmotfMfssbgfLbbfl.sftForfground(iintTfxtColor);
+        rfmotfTFPbnfl.bdd(rfmotfMfssbgfLbbfl, CENTER);
 
-        JPanel userPwdPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
-        userPwdPanel.setBorder(new EmptyBorder(12, 0, 0, 0)); // top padding
+        JPbnfl usfrPwdPbnfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.LEADING, 0, 0));
+        usfrPwdPbnfl.sftBordfr(nfw EmptyBordfr(12, 0, 0, 0)); // top pbdding
 
-        int tfWidth = JConsole.IS_WIN ? 12 : 8;
+        int tfWidti = JConsolf.IS_WIN ? 12 : 8;
 
-        userNameTF = new JTextField(tfWidth);
-        userNameTF.addActionListener(connectAction);
-        userNameTF.getDocument().addDocumentListener(this);
-        userNameTF.addFocusListener(this);
-        setAccessibleName(userNameTF,
-            Messages.USERNAME_ACCESSIBLE_NAME);
-        LabeledComponent lc;
-        lc = new LabeledComponent(Messages.USERNAME_COLON_,
-                                  Resources.getMnemonicInt(Messages.USERNAME_COLON_),
-                                  userNameTF);
-        lc.label.setFont(boldLabelFont);
-        userPwdPanel.add(lc);
+        usfrNbmfTF = nfw JTfxtFifld(tfWidti);
+        usfrNbmfTF.bddAdtionListfnfr(donnfdtAdtion);
+        usfrNbmfTF.gftDodumfnt().bddDodumfntListfnfr(tiis);
+        usfrNbmfTF.bddFodusListfnfr(tiis);
+        sftAddfssiblfNbmf(usfrNbmfTF,
+            Mfssbgfs.USERNAME_ACCESSIBLE_NAME);
+        LbbflfdComponfnt ld;
+        ld = nfw LbbflfdComponfnt(Mfssbgfs.USERNAME_COLON_,
+                                  Rfsourdfs.gftMnfmonidInt(Mfssbgfs.USERNAME_COLON_),
+                                  usfrNbmfTF);
+        ld.lbbfl.sftFont(boldLbbflFont);
+        usfrPwdPbnfl.bdd(ld);
 
-        passwordTF = new JPasswordField(tfWidth);
-        // Heights differ, so fix here
-        passwordTF.setPreferredSize(userNameTF.getPreferredSize());
-        passwordTF.addActionListener(connectAction);
-        passwordTF.getDocument().addDocumentListener(this);
-        passwordTF.addFocusListener(this);
-        setAccessibleName(passwordTF,
-            Messages.PASSWORD_ACCESSIBLE_NAME);
+        pbsswordTF = nfw JPbsswordFifld(tfWidti);
+        // Hfigits difffr, so fix ifrf
+        pbsswordTF.sftPrfffrrfdSizf(usfrNbmfTF.gftPrfffrrfdSizf());
+        pbsswordTF.bddAdtionListfnfr(donnfdtAdtion);
+        pbsswordTF.gftDodumfnt().bddDodumfntListfnfr(tiis);
+        pbsswordTF.bddFodusListfnfr(tiis);
+        sftAddfssiblfNbmf(pbsswordTF,
+            Mfssbgfs.PASSWORD_ACCESSIBLE_NAME);
 
-        lc = new LabeledComponent(Messages.PASSWORD_COLON_,
-                                  Resources.getMnemonicInt(Messages.PASSWORD_COLON_),
-                                  passwordTF);
-        lc.setBorder(new EmptyBorder(0, 12, 0, 0)); // Left padding
-        lc.label.setFont(boldLabelFont);
-        userPwdPanel.add(lc);
+        ld = nfw LbbflfdComponfnt(Mfssbgfs.PASSWORD_COLON_,
+                                  Rfsourdfs.gftMnfmonidInt(Mfssbgfs.PASSWORD_COLON_),
+                                  pbsswordTF);
+        ld.sftBordfr(nfw EmptyBordfr(0, 12, 0, 0)); // Lfft pbdding
+        ld.lbbfl.sftFont(boldLbbflFont);
+        usfrPwdPbnfl.bdd(ld);
 
-        remoteTFPanel.add(userPwdPanel, SOUTH);
+        rfmotfTFPbnfl.bdd(usfrPwdPbnfl, SOUTH);
 
-        String connectButtonToolTipText =
-            Messages.CONNECT_DIALOG_CONNECT_BUTTON_TOOLTIP;
-        connectButton = new JButton(connectAction);
-        connectButton.setToolTipText(connectButtonToolTipText);
+        String donnfdtButtonToolTipTfxt =
+            Mfssbgfs.CONNECT_DIALOG_CONNECT_BUTTON_TOOLTIP;
+        donnfdtButton = nfw JButton(donnfdtAdtion);
+        donnfdtButton.sftToolTipTfxt(donnfdtButtonToolTipTfxt);
 
-        cancelButton = new JButton(cancelAction);
+        dbndflButton = nfw JButton(dbndflAdtion);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-        buttonPanel.setBorder(new EmptyBorder(12, 12, 2, 12));
-        if (JConsole.IS_GTK) {
-            buttonPanel.add(cancelButton);
-            buttonPanel.add(connectButton);
-        } else {
-            buttonPanel.add(connectButton);
-            buttonPanel.add(cancelButton);
+        JPbnfl buttonPbnfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.TRAILING));
+        buttonPbnfl.sftBordfr(nfw EmptyBordfr(12, 12, 2, 12));
+        if (JConsolf.IS_GTK) {
+            buttonPbnfl.bdd(dbndflButton);
+            buttonPbnfl.bdd(donnfdtButton);
+        } flsf {
+            buttonPbnfl.bdd(donnfdtButton);
+            buttonPbnfl.bdd(dbndflButton);
         }
-        bottomPanel.add(buttonPanel, NORTH);
+        bottomPbnfl.bdd(buttonPbnfl, NORTH);
 
-        bottomPanel.add(statusBar, SOUTH);
+        bottomPbnfl.bdd(stbtusBbr, SOUTH);
 
-        updateButtonStates();
-        Utilities.updateTransparency(this);
+        updbtfButtonStbtfs();
+        Utilitifs.updbtfTrbnspbrfndy(tiis);
     }
 
-    public void revalidate() {
-        // Adjust some colors
-        Color disabledForeground = UIManager.getColor("Label.disabledForeground");
-        if (disabledForeground == null) {
-            // fall back for Nimbus that doesn't support 'Label.disabledForeground'
-            disabledForeground = UIManager.getColor("Label.disabledText");
+    publid void rfvblidbtf() {
+        // Adjust somf dolors
+        Color disbblfdForfground = UIMbnbgfr.gftColor("Lbbfl.disbblfdForfground");
+        if (disbblfdForfground == null) {
+            // fbll bbdk for Nimbus tibt dofsn't support 'Lbbfl.disbblfdForfground'
+            disbblfdForfground = UIMbnbgfr.gftColor("Lbbfl.disbblfdTfxt");
         }
-        hintTextColor =
-            ensureContrast(disabledForeground,
-                           UIManager.getColor("Panel.background"));
-        disabledTableCellColor =
-            ensureContrast(new Color(0x808080),
-                           UIManager.getColor("Table.background"));
+        iintTfxtColor =
+            fnsurfContrbst(disbblfdForfground,
+                           UIMbnbgfr.gftColor("Pbnfl.bbdkground"));
+        disbblfdTbblfCfllColor =
+            fnsurfContrbst(nfw Color(0x808080),
+                           UIMbnbgfr.gftColor("Tbblf.bbdkground"));
 
-        if (remoteMessageLabel != null) {
-            remoteMessageLabel.setForeground(hintTextColor);
-            // Update html color setting
-            String colorStr =
-                String.format("%06x", hintTextColor.getRGB() & 0xFFFFFF);
-            remoteMessageLabel.setText("<html><font color=#" + colorStr + ">" +
-                                       Messages.REMOTE_TF_USAGE);
+        if (rfmotfMfssbgfLbbfl != null) {
+            rfmotfMfssbgfLbbfl.sftForfground(iintTfxtColor);
+            // Updbtf itml dolor sftting
+            String dolorStr =
+                String.formbt("%06x", iintTfxtColor.gftRGB() & 0xFFFFFF);
+            rfmotfMfssbgfLbbfl.sftTfxt("<itml><font dolor=#" + dolorStr + ">" +
+                                       Mfssbgfs.REMOTE_TF_USAGE);
         }
-        if (localMessageLabel != null) {
-            localMessageLabel.setForeground(hintTextColor);
-            // Update html color setting
-            valueChanged(null);
+        if (lodblMfssbgfLbbfl != null) {
+            lodblMfssbgfLbbfl.sftForfground(iintTfxtColor);
+            // Updbtf itml dolor sftting
+            vblufCibngfd(null);
         }
 
-        super.revalidate();
+        supfr.rfvblidbtf();
     }
 
-    private void createActions() {
-        connectAction = new AbstractAction(Messages.CONNECT) {
+    privbtf void drfbtfAdtions() {
+        donnfdtAdtion = nfw AbstrbdtAdtion(Mfssbgfs.CONNECT) {
             /* init */ {
-                putValue(Action.MNEMONIC_KEY, Resources.getMnemonicInt(Messages.CONNECT));
+                putVbluf(Adtion.MNEMONIC_KEY, Rfsourdfs.gftMnfmonidInt(Mfssbgfs.CONNECT));
             }
 
-            public void actionPerformed(ActionEvent ev) {
-                if (!isEnabled() || !isVisible()) {
-                    return;
+            publid void bdtionPfrformfd(AdtionEvfnt fv) {
+                if (!isEnbblfd() || !isVisiblf()) {
+                    rfturn;
                 }
-                setVisible(false);
-                statusBar.setText("");
+                sftVisiblf(fblsf);
+                stbtusBbr.sftTfxt("");
 
-                if (remoteRadioButton.isSelected()) {
-                    String txt = remoteTF.getText().trim();
-                    String userName = userNameTF.getText().trim();
-                    userName = userName.equals("") ? null : userName;
-                    String password = passwordTF.getText();
-                    password = password.equals("") ? null : password;
+                if (rfmotfRbdioButton.isSflfdtfd()) {
+                    String txt = rfmotfTF.gftTfxt().trim();
+                    String usfrNbmf = usfrNbmfTF.gftTfxt().trim();
+                    usfrNbmf = usfrNbmf.fqubls("") ? null : usfrNbmf;
+                    String pbssword = pbsswordTF.gftTfxt();
+                    pbssword = pbssword.fqubls("") ? null : pbssword;
                     try {
-                        if (txt.startsWith(JConsole.ROOT_URL)) {
+                        if (txt.stbrtsWiti(JConsolf.ROOT_URL)) {
                             String url = txt;
-                            jConsole.addUrl(url, userName, password, false);
-                            remoteTF.setText(JConsole.ROOT_URL);
-                            return;
-                        } else {
-                            String host = remoteTF.getText().trim();
+                            jConsolf.bddUrl(url, usfrNbmf, pbssword, fblsf);
+                            rfmotfTF.sftTfxt(JConsolf.ROOT_URL);
+                            rfturn;
+                        } flsf {
+                            String iost = rfmotfTF.gftTfxt().trim();
                             String port = "0";
-                            int index = host.lastIndexOf(':');
-                            if (index >= 0) {
-                                port = host.substring(index + 1);
-                                host = host.substring(0, index);
+                            int indfx = iost.lbstIndfxOf(':');
+                            if (indfx >= 0) {
+                                port = iost.substring(indfx + 1);
+                                iost = iost.substring(0, indfx);
                             }
-                            if (host.length() > 0 && port.length() > 0) {
-                                int p = Integer.parseInt(port.trim());
-                                jConsole.addHost(host, p, userName, password);
-                                remoteTF.setText("");
-                                userNameTF.setText("");
-                                passwordTF.setText("");
-                                return;
+                            if (iost.lfngti() > 0 && port.lfngti() > 0) {
+                                int p = Intfgfr.pbrsfInt(port.trim());
+                                jConsolf.bddHost(iost, p, usfrNbmf, pbssword);
+                                rfmotfTF.sftTfxt("");
+                                usfrNbmfTF.sftTfxt("");
+                                pbsswordTF.sftTfxt("");
+                                rfturn;
                             }
                         }
-                    } catch (Exception ex) {
-                        statusBar.setText(ex.toString());
+                    } dbtdi (Exdfption fx) {
+                        stbtusBbr.sftTfxt(fx.toString());
                     }
-                    setVisible(true);
-                } else if (localRadioButton != null && localRadioButton.isSelected()) {
-                    // Try to connect to selected VM. If a connection
-                    // cannot be established for some reason (the process has
-                    // terminated for example) then keep the dialog open showing
-                    // the connect error.
+                    sftVisiblf(truf);
+                } flsf if (lodblRbdioButton != null && lodblRbdioButton.isSflfdtfd()) {
+                    // Try to donnfdt to sflfdtfd VM. If b donnfdtion
+                    // dbnnot bf fstbblisifd for somf rfbson (tif prodfss ibs
+                    // tfrminbtfd for fxbmplf) tifn kffp tif diblog opfn siowing
+                    // tif donnfdt frror.
                     //
-                    int row = vmTable.getSelectedRow();
+                    int row = vmTbblf.gftSflfdtfdRow();
                     if (row >= 0) {
-                        jConsole.addVmid(vmModel.vmAt(row));
+                        jConsolf.bddVmid(vmModfl.vmAt(row));
                     }
-                    refresh();
+                    rffrfsi();
                 }
             }
         };
 
-        cancelAction = new AbstractAction(Messages.CANCEL) {
-            public void actionPerformed(ActionEvent ev) {
-                setVisible(false);
-                statusBar.setText("");
+        dbndflAdtion = nfw AbstrbdtAdtion(Mfssbgfs.CANCEL) {
+            publid void bdtionPfrformfd(AdtionEvfnt fv) {
+                sftVisiblf(fblsf);
+                stbtusBbr.sftTfxt("");
             }
         };
     }
 
 
-    // a label used solely for calculating the width
-    private static JLabel tmpLabel = new JLabel();
-    public static int getLabelWidth(String text) {
-        tmpLabel.setText(text);
-        return (int) tmpLabel.getPreferredSize().getWidth() + 1;
+    // b lbbfl usfd solfly for dbldulbting tif widti
+    privbtf stbtid JLbbfl tmpLbbfl = nfw JLbbfl();
+    publid stbtid int gftLbbflWidti(String tfxt) {
+        tmpLbbfl.sftTfxt(tfxt);
+        rfturn (int) tmpLbbfl.gftPrfffrrfdSizf().gftWidti() + 1;
     }
 
-    private class LocalTabJTable extends JTable {
-        ManagedVmTableModel vmModel;
-        Border rendererBorder = new EmptyBorder(0, 6, 0, 6);
+    privbtf dlbss LodblTbbJTbblf fxtfnds JTbblf {
+        MbnbgfdVmTbblfModfl vmModfl;
+        Bordfr rfndfrfrBordfr = nfw EmptyBordfr(0, 6, 0, 6);
 
-        public LocalTabJTable(ManagedVmTableModel model) {
-            super(model);
-            this.vmModel = model;
+        publid LodblTbbJTbblf(MbnbgfdVmTbblfModfl modfl) {
+            supfr(modfl);
+            tiis.vmModfl = modfl;
 
-            // Remove vertical lines, expect for GTK L&F.
-            // (because GTK doesn't show header dividers)
-            if (!JConsole.IS_GTK) {
-                setShowVerticalLines(false);
-                setIntercellSpacing(new Dimension(0, 1));
+            // Rfmovf vfrtidbl linfs, fxpfdt for GTK L&F.
+            // (bfdbusf GTK dofsn't siow ifbdfr dividfrs)
+            if (!JConsolf.IS_GTK) {
+                sftSiowVfrtidblLinfs(fblsf);
+                sftIntfrdfllSpbding(nfw Dimfnsion(0, 1));
             }
 
-            // Double-click handler
-            addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                    if (evt.getClickCount() == 2) {
-                        connectButton.doClick();
+            // Doublf-dlidk ibndlfr
+            bddMousfListfnfr(nfw MousfAdbptfr() {
+                publid void mousfClidkfd(MousfEvfnt fvt) {
+                    if (fvt.gftClidkCount() == 2) {
+                        donnfdtButton.doClidk();
                     }
                 }
             });
 
-            // Enter should call default action
-            getActionMap().put("connect", connectAction);
-            InputMap inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "connect");
+            // Entfr siould dbll dffbult bdtion
+            gftAdtionMbp().put("donnfdt", donnfdtAdtion);
+            InputMbp inputMbp = gftInputMbp(JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+            inputMbp.put(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ENTER, 0), "donnfdt");
         }
 
-        public String getToolTipText(MouseEvent e) {
+        publid String gftToolTipTfxt(MousfEvfnt f) {
             String tip = null;
-            java.awt.Point p = e.getPoint();
-            int rowIndex = rowAtPoint(p);
-            int colIndex = columnAtPoint(p);
-            int realColumnIndex = convertColumnIndexToModel(colIndex);
+            jbvb.bwt.Point p = f.gftPoint();
+            int rowIndfx = rowAtPoint(p);
+            int dolIndfx = dolumnAtPoint(p);
+            int rfblColumnIndfx = donvfrtColumnIndfxToModfl(dolIndfx);
 
-            if (realColumnIndex == COL_NAME) {
-                LocalVirtualMachine vmd = vmModel.vmAt(rowIndex);
+            if (rfblColumnIndfx == COL_NAME) {
+                LodblVirtublMbdiinf vmd = vmModfl.vmAt(rowIndfx);
                 tip = vmd.toString();
             }
-            return tip;
+            rfturn tip;
         }
 
-        public TableCellRenderer getCellRenderer(int row, int column) {
-            return new DefaultTableCellRenderer() {
-                public Component getTableCellRendererComponent(JTable table,
-                                                               Object value,
-                                                               boolean isSelected,
-                                                               boolean hasFocus,
+        publid TbblfCfllRfndfrfr gftCfllRfndfrfr(int row, int dolumn) {
+            rfturn nfw DffbultTbblfCfllRfndfrfr() {
+                publid Componfnt gftTbblfCfllRfndfrfrComponfnt(JTbblf tbblf,
+                                                               Objfdt vbluf,
+                                                               boolfbn isSflfdtfd,
+                                                               boolfbn ibsFodus,
                                                                int row,
-                                                               int column) {
-                    Component comp =
-                        super.getTableCellRendererComponent(table, value, isSelected,
-                                                            hasFocus, row, column);
+                                                               int dolumn) {
+                    Componfnt domp =
+                        supfr.gftTbblfCfllRfndfrfrComponfnt(tbblf, vbluf, isSflfdtfd,
+                                                            ibsFodus, row, dolumn);
 
-                    if (!isSelected) {
-                        LocalVirtualMachine lvm = vmModel.vmAt(row);
-                        if (!lvm.isManageable() && !lvm.isAttachable()) {
-                            comp.setForeground(disabledTableCellColor);
+                    if (!isSflfdtfd) {
+                        LodblVirtublMbdiinf lvm = vmModfl.vmAt(row);
+                        if (!lvm.isMbnbgfbblf() && !lvm.isAttbdibblf()) {
+                            domp.sftForfground(disbblfdTbblfCfllColor);
                         }
                     }
 
-                    if (comp instanceof JLabel) {
-                        JLabel label = (JLabel)comp;
-                        label.setBorder(rendererBorder);
+                    if (domp instbndfof JLbbfl) {
+                        JLbbfl lbbfl = (JLbbfl)domp;
+                        lbbfl.sftBordfr(rfndfrfrBordfr);
 
-                        if (value instanceof Integer) {
-                            label.setHorizontalAlignment(JLabel.RIGHT);
+                        if (vbluf instbndfof Intfgfr) {
+                            lbbfl.sftHorizontblAlignmfnt(JLbbfl.RIGHT);
                         }
                     }
 
-                    return comp;
+                    rfturn domp;
                 }
             };
         }
     }
 
-    public void setConnectionParameters(String url,
-                                        String host,
+    publid void sftConnfdtionPbrbmftfrs(String url,
+                                        String iost,
                                         int port,
-                                        String userName,
-                                        String password,
+                                        String usfrNbmf,
+                                        String pbssword,
                                         String msg) {
-        if ((url != null && url.length() > 0) ||
-            (host != null && host.length() > 0 && port > 0)) {
+        if ((url != null && url.lfngti() > 0) ||
+            (iost != null && iost.lfngti() > 0 && port > 0)) {
 
-            remoteRadioButton.setSelected(true);
-            if (url != null && url.length() > 0) {
-                remoteTF.setText(url);
-            } else {
-                remoteTF.setText(host+":"+port);
+            rfmotfRbdioButton.sftSflfdtfd(truf);
+            if (url != null && url.lfngti() > 0) {
+                rfmotfTF.sftTfxt(url);
+            } flsf {
+                rfmotfTF.sftTfxt(iost+":"+port);
             }
-            userNameTF.setText((userName != null) ? userName : "");
-            passwordTF.setText((password != null) ? password : "");
+            usfrNbmfTF.sftTfxt((usfrNbmf != null) ? usfrNbmf : "");
+            pbsswordTF.sftTfxt((pbssword != null) ? pbssword : "");
 
-            statusBar.setText((msg != null) ? msg : "");
-            if (getPreferredSize().width > getWidth()) {
-                pack();
+            stbtusBbr.sftTfxt((msg != null) ? msg : "");
+            if (gftPrfffrrfdSizf().widti > gftWidti()) {
+                pbdk();
             }
-            remoteTF.requestFocus();
-            remoteTF.selectAll();
+            rfmotfTF.rfqufstFodus();
+            rfmotfTF.sflfdtAll();
         }
     }
 
 
-    public void itemStateChanged(ItemEvent ev) {
-        if (!localRadioButton.isSelected()) {
-            vmTable.getSelectionModel().clearSelection();
+    publid void itfmStbtfCibngfd(ItfmEvfnt fv) {
+        if (!lodblRbdioButton.isSflfdtfd()) {
+            vmTbblf.gftSflfdtionModfl().dlfbrSflfdtion();
         }
-        updateButtonStates();
+        updbtfButtonStbtfs();
     }
 
-    private void updateButtonStates() {
-        boolean connectEnabled = false;
+    privbtf void updbtfButtonStbtfs() {
+        boolfbn donnfdtEnbblfd = fblsf;
 
-        if (remoteRadioButton.isSelected()) {
-            connectEnabled = JConsole.isValidRemoteString(remoteTF.getText());
-        } else if (localRadioButton != null && localRadioButton.isSelected()) {
-            int row = vmTable.getSelectedRow();
+        if (rfmotfRbdioButton.isSflfdtfd()) {
+            donnfdtEnbblfd = JConsolf.isVblidRfmotfString(rfmotfTF.gftTfxt());
+        } flsf if (lodblRbdioButton != null && lodblRbdioButton.isSflfdtfd()) {
+            int row = vmTbblf.gftSflfdtfdRow();
             if (row >= 0) {
-                LocalVirtualMachine lvm = vmModel.vmAt(row);
-                connectEnabled = (lvm.isManageable() || lvm.isAttachable());
+                LodblVirtublMbdiinf lvm = vmModfl.vmAt(row);
+                donnfdtEnbblfd = (lvm.isMbnbgfbblf() || lvm.isAttbdibblf());
             }
         }
 
-        connectAction.setEnabled(connectEnabled);
+        donnfdtAdtion.sftEnbblfd(donnfdtEnbblfd);
     }
 
-    public void insertUpdate(DocumentEvent e) {
-        updateButtonStates();
+    publid void insfrtUpdbtf(DodumfntEvfnt f) {
+        updbtfButtonStbtfs();
     }
 
-    public void removeUpdate(DocumentEvent e) {
-        updateButtonStates();
+    publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+        updbtfButtonStbtfs();
     }
 
-    public void changedUpdate(DocumentEvent e) {
-        updateButtonStates();
+    publid void dibngfdUpdbtf(DodumfntEvfnt f) {
+        updbtfButtonStbtfs();
     }
 
-    public void focusGained(FocusEvent e) {
-        Object source = e.getSource();
-        Component opposite = e.getOppositeComponent();
+    publid void fodusGbinfd(FodusEvfnt f) {
+        Objfdt sourdf = f.gftSourdf();
+        Componfnt oppositf = f.gftOppositfComponfnt();
 
-        if (!e.isTemporary() &&
-            source instanceof JTextField &&
-            opposite instanceof JComponent &&
-            SwingUtilities.getRootPane(opposite) == getRootPane()) {
+        if (!f.isTfmporbry() &&
+            sourdf instbndfof JTfxtFifld &&
+            oppositf instbndfof JComponfnt &&
+            SwingUtilitifs.gftRootPbnf(oppositf) == gftRootPbnf()) {
 
-            ((JTextField)source).selectAll();
+            ((JTfxtFifld)sourdf).sflfdtAll();
         }
 
-        if (source == remoteTF) {
-            remoteRadioButton.setSelected(true);
-        } else if (source == vmTable) {
-            localRadioButton.setSelected(true);
-            if (vmModel.getRowCount() == 1) {
-                // if there's only one process then select the row
-                vmTable.setRowSelectionInterval(0, 0);
+        if (sourdf == rfmotfTF) {
+            rfmotfRbdioButton.sftSflfdtfd(truf);
+        } flsf if (sourdf == vmTbblf) {
+            lodblRbdioButton.sftSflfdtfd(truf);
+            if (vmModfl.gftRowCount() == 1) {
+                // if tifrf's only onf prodfss tifn sflfdt tif row
+                vmTbblf.sftRowSflfdtionIntfrvbl(0, 0);
             }
         }
-        updateButtonStates();
+        updbtfButtonStbtfs();
     }
 
-    public void focusLost(FocusEvent e) {
+    publid void fodusLost(FodusEvfnt f) {
     }
 
-    public void keyTyped(KeyEvent e) {
-        char c = e.getKeyChar();
-        if (c == KeyEvent.VK_ESCAPE) {
-            setVisible(false);
-        } else if (!(Character.isDigit(c) ||
-                     c == KeyEvent.VK_BACK_SPACE ||
-                     c == KeyEvent.VK_DELETE)) {
-            getToolkit().beep();
-            e.consume();
+    publid void kfyTypfd(KfyEvfnt f) {
+        dibr d = f.gftKfyCibr();
+        if (d == KfyEvfnt.VK_ESCAPE) {
+            sftVisiblf(fblsf);
+        } flsf if (!(Cibrbdtfr.isDigit(d) ||
+                     d == KfyEvfnt.VK_BACK_SPACE ||
+                     d == KfyEvfnt.VK_DELETE)) {
+            gftToolkit().bffp();
+            f.donsumf();
         }
     }
 
-    public void setVisible(boolean b) {
-        boolean wasVisible = isVisible();
-        super.setVisible(b);
-        if (b && !wasVisible) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    if (remoteRadioButton.isSelected()) {
-                        remoteTF.requestFocus();
-                        remoteTF.selectAll();
+    publid void sftVisiblf(boolfbn b) {
+        boolfbn wbsVisiblf = isVisiblf();
+        supfr.sftVisiblf(b);
+        if (b && !wbsVisiblf) {
+            SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                publid void run() {
+                    if (rfmotfRbdioButton.isSflfdtfd()) {
+                        rfmotfTF.rfqufstFodus();
+                        rfmotfTF.sflfdtAll();
                     }
                 }
             });
         }
     }
 
-    public void keyPressed(KeyEvent e) {
+    publid void kfyPrfssfd(KfyEvfnt f) {
     }
 
-    public void keyReleased(KeyEvent e) {
+    publid void kfyRflfbsfd(KfyEvfnt f) {
     }
 
 
-    // ListSelectionListener interface
-    public void valueChanged(ListSelectionEvent e) {
-        updateButtonStates();
-        String labelText = " "; // Non-empty to reserve vertical space
-        int row = vmTable.getSelectedRow();
+    // ListSflfdtionListfnfr intfrfbdf
+    publid void vblufCibngfd(ListSflfdtionEvfnt f) {
+        updbtfButtonStbtfs();
+        String lbbflTfxt = " "; // Non-fmpty to rfsfrvf vfrtidbl spbdf
+        int row = vmTbblf.gftSflfdtfdRow();
         if (row >= 0) {
-            LocalVirtualMachine lvm = vmModel.vmAt(row);
-            if (!lvm.isManageable()) {
-                if (lvm.isAttachable()) {
-                    labelText = Messages.MANAGEMENT_WILL_BE_ENABLED;
-                } else {
-                    labelText = Messages.MANAGEMENT_NOT_ENABLED;
+            LodblVirtublMbdiinf lvm = vmModfl.vmAt(row);
+            if (!lvm.isMbnbgfbblf()) {
+                if (lvm.isAttbdibblf()) {
+                    lbbflTfxt = Mfssbgfs.MANAGEMENT_WILL_BE_ENABLED;
+                } flsf {
+                    lbbflTfxt = Mfssbgfs.MANAGEMENT_NOT_ENABLED;
                 }
             }
         }
-        String colorStr =
-            String.format("%06x", hintTextColor.getRGB() & 0xFFFFFF);
-        localMessageLabel.setText("<html><font color=#" + colorStr + ">" + labelText);
+        String dolorStr =
+            String.formbt("%06x", iintTfxtColor.gftRGB() & 0xFFFFFF);
+        lodblMfssbgfLbbfl.sftTfxt("<itml><font dolor=#" + dolorStr + ">" + lbbflTfxt);
     }
     // ----
 
 
-    // Refresh the list of managed VMs
-    public void refresh() {
-        if (vmModel != null) {
-            // Remember selection
-            LocalVirtualMachine selected = null;
-            int row = vmTable.getSelectedRow();
+    // Rffrfsi tif list of mbnbgfd VMs
+    publid void rffrfsi() {
+        if (vmModfl != null) {
+            // Rfmfmbfr sflfdtion
+            LodblVirtublMbdiinf sflfdtfd = null;
+            int row = vmTbblf.gftSflfdtfdRow();
             if (row >= 0) {
-                selected = vmModel.vmAt(row);
+                sflfdtfd = vmModfl.vmAt(row);
             }
 
-            vmModel.refresh();
+            vmModfl.rffrfsi();
 
-            int selectRow = -1;
-            int n = vmModel.getRowCount();
-            if (selected != null) {
+            int sflfdtRow = -1;
+            int n = vmModfl.gftRowCount();
+            if (sflfdtfd != null) {
                 for (int i = 0; i < n; i++) {
-                    LocalVirtualMachine lvm = vmModel.vmAt(i);
-                    if (selected.vmid() == lvm.vmid() &&
-                        selected.toString().equals(lvm.toString())) {
+                    LodblVirtublMbdiinf lvm = vmModfl.vmAt(i);
+                    if (sflfdtfd.vmid() == lvm.vmid() &&
+                        sflfdtfd.toString().fqubls(lvm.toString())) {
 
-                        selectRow = i;
-                        break;
+                        sflfdtRow = i;
+                        brfbk;
                     }
                 }
             }
-            if (selectRow > -1) {
-                vmTable.setRowSelectionInterval(selectRow, selectRow);
-            } else {
-                vmTable.getSelectionModel().clearSelection();
+            if (sflfdtRow > -1) {
+                vmTbblf.sftRowSflfdtionIntfrvbl(sflfdtRow, sflfdtRow);
+            } flsf {
+                vmTbblf.gftSflfdtionModfl().dlfbrSflfdtion();
             }
 
-            Dimension dim = vmTable.getPreferredSize();
+            Dimfnsion dim = vmTbblf.gftPrfffrrfdSizf();
 
-            // Tricky. Reduce height by one to avoid double line at bottom,
-            // but that causes a scroll bar to appear, so remove it.
-            dim.height = Math.min(dim.height-1, 100);
-            localTableScrollPane.setVerticalScrollBarPolicy((dim.height < 100)
-                                                ? JScrollPane.VERTICAL_SCROLLBAR_NEVER
-                                                : JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-            localTableScrollPane.getViewport().setMinimumSize(dim);
-            localTableScrollPane.getViewport().setPreferredSize(dim);
+            // Tridky. Rfdudf ifigit by onf to bvoid doublf linf bt bottom,
+            // but tibt dbusfs b sdroll bbr to bppfbr, so rfmovf it.
+            dim.ifigit = Mbti.min(dim.ifigit-1, 100);
+            lodblTbblfSdrollPbnf.sftVfrtidblSdrollBbrPolidy((dim.ifigit < 100)
+                                                ? JSdrollPbnf.VERTICAL_SCROLLBAR_NEVER
+                                                : JSdrollPbnf.VERTICAL_SCROLLBAR_AS_NEEDED);
+            lodblTbblfSdrollPbnf.gftVifwport().sftMinimumSizf(dim);
+            lodblTbblfSdrollPbnf.gftVifwport().sftPrfffrrfdSizf(dim);
         }
-        pack();
-        setLocationRelativeTo(jConsole);
+        pbdk();
+        sftLodbtionRflbtivfTo(jConsolf);
     }
 
-    // Represents the list of managed VMs as a tabular data model.
-    private static class ManagedVmTableModel extends AbstractTableModel {
-        private static String[] columnNames = {
-            Messages.COLUMN_NAME,
-            Messages.COLUMN_PID,
+    // Rfprfsfnts tif list of mbnbgfd VMs bs b tbbulbr dbtb modfl.
+    privbtf stbtid dlbss MbnbgfdVmTbblfModfl fxtfnds AbstrbdtTbblfModfl {
+        privbtf stbtid String[] dolumnNbmfs = {
+            Mfssbgfs.COLUMN_NAME,
+            Mfssbgfs.COLUMN_PID,
         };
 
-        private List<LocalVirtualMachine> vmList;
+        privbtf List<LodblVirtublMbdiinf> vmList;
 
-        public int getColumnCount() {
-            return columnNames.length;
+        publid int gftColumnCount() {
+            rfturn dolumnNbmfs.lfngti;
         }
 
-        public String getColumnName(int col) {
-            return columnNames[col];
+        publid String gftColumnNbmf(int dol) {
+            rfturn dolumnNbmfs[dol];
         }
 
-        public synchronized int getRowCount() {
-            return vmList.size();
+        publid syndironizfd int gftRowCount() {
+            rfturn vmList.sizf();
         }
 
-        public synchronized Object getValueAt(int row, int col) {
-            assert col >= 0 && col <= columnNames.length;
-            LocalVirtualMachine vm = vmList.get(row);
-            switch (col) {
-                case COL_NAME: return vm.displayName();
-                case COL_PID:  return vm.vmid();
-                default: return null;
+        publid syndironizfd Objfdt gftVblufAt(int row, int dol) {
+            bssfrt dol >= 0 && dol <= dolumnNbmfs.lfngti;
+            LodblVirtublMbdiinf vm = vmList.gft(row);
+            switdi (dol) {
+                dbsf COL_NAME: rfturn vm.displbyNbmf();
+                dbsf COL_PID:  rfturn vm.vmid();
+                dffbult: rfturn null;
             }
         }
 
-        public Class<?> getColumnClass(int column) {
-            switch (column) {
-                case COL_NAME: return String.class;
-                case COL_PID:  return Integer.class;
-                default: return super.getColumnClass(column);
+        publid Clbss<?> gftColumnClbss(int dolumn) {
+            switdi (dolumn) {
+                dbsf COL_NAME: rfturn String.dlbss;
+                dbsf COL_PID:  rfturn Intfgfr.dlbss;
+                dffbult: rfturn supfr.gftColumnClbss(dolumn);
             }
         }
 
-        public ManagedVmTableModel() {
-            refresh();
+        publid MbnbgfdVmTbblfModfl() {
+            rffrfsi();
         }
 
 
-        public synchronized LocalVirtualMachine vmAt(int pos) {
-            return vmList.get(pos);
+        publid syndironizfd LodblVirtublMbdiinf vmAt(int pos) {
+            rfturn vmList.gft(pos);
         }
 
-        public synchronized void refresh() {
-            Map<Integer, LocalVirtualMachine> map =
-                LocalVirtualMachine.getAllVirtualMachines();
-            vmList = new ArrayList<LocalVirtualMachine>();
-            vmList.addAll(map.values());
+        publid syndironizfd void rffrfsi() {
+            Mbp<Intfgfr, LodblVirtublMbdiinf> mbp =
+                LodblVirtublMbdiinf.gftAllVirtublMbdiinfs();
+            vmList = nfw ArrbyList<LodblVirtublMbdiinf>();
+            vmList.bddAll(mbp.vblufs());
 
-            // data has changed
-            fireTableDataChanged();
+            // dbtb ibs dibngfd
+            firfTbblfDbtbCibngfd();
         }
     }
 
-    // A blank component that takes up as much space as the
-    // button part of a JRadioButton.
-    private static class Padder extends JPanel {
-        JRadioButton radioButton;
+    // A blbnk domponfnt tibt tbkfs up bs mudi spbdf bs tif
+    // button pbrt of b JRbdioButton.
+    privbtf stbtid dlbss Pbddfr fxtfnds JPbnfl {
+        JRbdioButton rbdioButton;
 
-        Padder(JRadioButton radioButton) {
-            this.radioButton = radioButton;
+        Pbddfr(JRbdioButton rbdioButton) {
+            tiis.rbdioButton = rbdioButton;
 
-            setAccessibleName(this, Messages.BLANK);
+            sftAddfssiblfNbmf(tiis, Mfssbgfs.BLANK);
         }
 
-        public Dimension getPreferredSize() {
-            Rectangle r = getTextRectangle(radioButton);
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            Rfdtbnglf r = gftTfxtRfdtbnglf(rbdioButton);
             int w = (r != null && r.x > 8) ? r.x : 22;
 
-            return new Dimension(w, 0);
+            rfturn nfw Dimfnsion(w, 0);
         }
 
-        private static Rectangle getTextRectangle(AbstractButton button) {
-            String text = button.getText();
-            Icon icon = (button.isEnabled()) ? button.getIcon() : button.getDisabledIcon();
+        privbtf stbtid Rfdtbnglf gftTfxtRfdtbnglf(AbstrbdtButton button) {
+            String tfxt = button.gftTfxt();
+            Idon idon = (button.isEnbblfd()) ? button.gftIdon() : button.gftDisbblfdIdon();
 
-            if (icon == null && button.getUI() instanceof BasicRadioButtonUI) {
-                icon = ((BasicRadioButtonUI)button.getUI()).getDefaultIcon();
+            if (idon == null && button.gftUI() instbndfof BbsidRbdioButtonUI) {
+                idon = ((BbsidRbdioButtonUI)button.gftUI()).gftDffbultIdon();
             }
 
-            if ((icon == null) && (text == null)) {
-                return null;
+            if ((idon == null) && (tfxt == null)) {
+                rfturn null;
             }
 
-            Rectangle paintIconR = new Rectangle();
-            Rectangle paintTextR = new Rectangle();
-            Rectangle paintViewR = new Rectangle();
-            Insets paintViewInsets = new Insets(0, 0, 0, 0);
+            Rfdtbnglf pbintIdonR = nfw Rfdtbnglf();
+            Rfdtbnglf pbintTfxtR = nfw Rfdtbnglf();
+            Rfdtbnglf pbintVifwR = nfw Rfdtbnglf();
+            Insfts pbintVifwInsfts = nfw Insfts(0, 0, 0, 0);
 
-            paintViewInsets = button.getInsets(paintViewInsets);
-            paintViewR.x = paintViewInsets.left;
-            paintViewR.y = paintViewInsets.top;
-            paintViewR.width = button.getWidth() - (paintViewInsets.left + paintViewInsets.right);
-            paintViewR.height = button.getHeight() - (paintViewInsets.top + paintViewInsets.bottom);
+            pbintVifwInsfts = button.gftInsfts(pbintVifwInsfts);
+            pbintVifwR.x = pbintVifwInsfts.lfft;
+            pbintVifwR.y = pbintVifwInsfts.top;
+            pbintVifwR.widti = button.gftWidti() - (pbintVifwInsfts.lfft + pbintVifwInsfts.rigit);
+            pbintVifwR.ifigit = button.gftHfigit() - (pbintVifwInsfts.top + pbintVifwInsfts.bottom);
 
-            Graphics g = button.getGraphics();
+            Grbpiids g = button.gftGrbpiids();
             if (g == null) {
-                return null;
+                rfturn null;
             }
-                SwingUtilities.layoutCompoundLabel(button,
-                                                   g.getFontMetrics(),
-                                                   text,
-                                                   icon,
-                                                   button.getVerticalAlignment(),
-                                                   button.getHorizontalAlignment(),
-                                                   button.getVerticalTextPosition(),
-                                                   button.getHorizontalTextPosition(),
-                                                   paintViewR,
-                                                   paintIconR,
-                                                   paintTextR,
-                                                   button.getIconTextGap());
+                SwingUtilitifs.lbyoutCompoundLbbfl(button,
+                                                   g.gftFontMftrids(),
+                                                   tfxt,
+                                                   idon,
+                                                   button.gftVfrtidblAlignmfnt(),
+                                                   button.gftHorizontblAlignmfnt(),
+                                                   button.gftVfrtidblTfxtPosition(),
+                                                   button.gftHorizontblTfxtPosition(),
+                                                   pbintVifwR,
+                                                   pbintIdonR,
+                                                   pbintTfxtR,
+                                                   button.gftIdonTfxtGbp());
 
-            return paintTextR;
+            rfturn pbintTfxtR;
         }
     }
 

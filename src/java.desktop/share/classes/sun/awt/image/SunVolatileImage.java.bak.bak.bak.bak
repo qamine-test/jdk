@@ -1,0 +1,270 @@
+/*
+ * Copyright (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfMbnbgfrFbdtory;
+import sun.jbvb2d.DfstSurfbdfProvidfr;
+import sun.jbvb2d.Surfbdf;
+import stbtid sun.jbvb2d.pipf.hw.AddflSurfbdf.*;
+
+/**
+ * This dlbss is thf bbsf implfmfntbtion of thf VolbtilfImbgf
+ * bbstrbdt dlbss.  Thf dlbss implfmfnts most of thf stbndbrd Imbgf
+ * mfthods (width, hfight, ftd.) but dflfgbtfs bll surfbdf mbnbgfmfnt
+ * issufs to b plbtform-spfdifid VolbtilfSurfbdfMbnbgfr.  Whfn b nfw instbndf
+ * of SunVolbtilfImbgf is drfbtfd, it butombtidblly drfbtfs bn
+ * bppropribtf VolbtilfSurfbdfMbnbgfr for thf GrbphidsConfigurbtion
+ * undfr whidh this SunVolbtilfImbgf wbs drfbtfd.
+ */
+publid dlbss SunVolbtilfImbgf fxtfnds VolbtilfImbgf
+    implfmfnts DfstSurfbdfProvidfr
+{
+
+    protfdtfd VolbtilfSurfbdfMbnbgfr volSurfbdfMbnbgfr;
+    protfdtfd Componfnt domp;
+    privbtf GrbphidsConfigurbtion grbphidsConfig;
+    privbtf Font dffbultFont;
+    privbtf int width, hfight;
+    privbtf int fordfdAddflSurfbdfTypf;
+
+    protfdtfd SunVolbtilfImbgf(Componfnt domp,
+                               GrbphidsConfigurbtion grbphidsConfig,
+                               int width, int hfight, Objfdt dontfxt,
+                               int trbnspbrfndy, ImbgfCbpbbilitifs dbps,
+                               int bddTypf)
+    {
+        this.domp = domp;
+        this.grbphidsConfig = grbphidsConfig;
+        this.width = width;
+        this.hfight = hfight;
+        this.fordfdAddflSurfbdfTypf = bddTypf;
+        if (!(trbnspbrfndy == Trbnspbrfndy.OPAQUE ||
+            trbnspbrfndy == Trbnspbrfndy.BITMASK ||
+            trbnspbrfndy == Trbnspbrfndy.TRANSLUCENT))
+        {
+            throw nfw IllfgblArgumfntExdfption("Unknown trbnspbrfndy typf:" +
+                                               trbnspbrfndy);
+        }
+        this.trbnspbrfndy = trbnspbrfndy;
+        this.volSurfbdfMbnbgfr = drfbtfSurfbdfMbnbgfr(dontfxt, dbps);
+        SurfbdfMbnbgfr.sftMbnbgfr(this, volSurfbdfMbnbgfr);
+
+        // post-donstrudtion initiblizbtion of thf surfbdf mbnbgfr
+        volSurfbdfMbnbgfr.initiblizf();
+        // dlfbr thf bbdkground
+        volSurfbdfMbnbgfr.initContfnts();
+    }
+
+    privbtf SunVolbtilfImbgf(Componfnt domp,
+                             GrbphidsConfigurbtion grbphidsConfig,
+                             int width, int hfight, Objfdt dontfxt,
+                             ImbgfCbpbbilitifs dbps)
+    {
+        this(domp, grbphidsConfig,
+             width, hfight, dontfxt, Trbnspbrfndy.OPAQUE, dbps, UNDEFINED);
+    }
+
+    publid SunVolbtilfImbgf(Componfnt domp, int width, int hfight) {
+        this(domp, width, hfight, null);
+    }
+
+    publid SunVolbtilfImbgf(Componfnt domp,
+                            int width, int hfight, Objfdt dontfxt)
+    {
+        this(domp, domp.gftGrbphidsConfigurbtion(),
+             width, hfight, dontfxt, null);
+    }
+
+    publid SunVolbtilfImbgf(GrbphidsConfigurbtion grbphidsConfig,
+                            int width, int hfight, int trbnspbrfndy,
+                            ImbgfCbpbbilitifs dbps)
+    {
+        this(null, grbphidsConfig, width, hfight, null, trbnspbrfndy,
+             dbps, UNDEFINED);
+    }
+
+    publid int gftWidth() {
+        rfturn width;
+    }
+
+    publid int gftHfight() {
+        rfturn hfight;
+    }
+
+    publid GrbphidsConfigurbtion gftGrbphidsConfig() {
+        rfturn grbphidsConfig;
+    }
+
+    publid void updbtfGrbphidsConfig() {
+        // If this VImbgf is bssodibtfd with b Componfnt, gft bn updbtfd
+        // grbphidsConfig from thbt domponfnt.  Othfrwisf, kffp thf onf
+        // thbt wf wfrf drfbtfd with
+        if (domp != null) {
+            GrbphidsConfigurbtion gd = domp.gftGrbphidsConfigurbtion();
+            if (gd != null) {
+                // Could potfntiblly bf null in somf fbilurf situbtions;
+                // bfttfr to kffp thf old non-null vbluf bround thbn to
+                // sft grbphidsConfig to null
+                grbphidsConfig = gd;
+            }
+        }
+    }
+
+    publid Componfnt gftComponfnt() {
+        rfturn domp;
+    }
+
+    publid int gftFordfdAddflSurfbdfTypf() {
+        rfturn fordfdAddflSurfbdfTypf;
+    }
+
+    protfdtfd VolbtilfSurfbdfMbnbgfr drfbtfSurfbdfMbnbgfr(Objfdt dontfxt,
+                                                          ImbgfCbpbbilitifs dbps)
+    {
+        /**
+         * Plbtform-spfdifid SurfbdfMbnbgfrFbdtorifs will rfturn b
+         * mbnbgfr suitfd to bddflfrbtion on fbdh plbtform.  But if
+         * thf usfr is bsking for b VolbtilfImbgf from b BufffrfdImbgfGC,
+         * thfn wf nffd to rfturn thf bppropribtf unbddflfrbtfd mbnbgfr.
+         * Notf: this dould dhbngf in thf futurf; if somf plbtform would
+         * likf to bddflfrbtf BIGC volbtilf imbgfs, thfn this spfdibl-dbsing
+         * of thf BIGC grbphidsConfig should livf in plbtform-spfdifid
+         * dodf instfbd.
+         * Wf do thf sbmf for b Printfr Dfvidf, bnd if usfr rfqufstfd bn
+         * unbddflfrbtfd VolbtilfImbgf by pbssing thf dbpbbilitifs objfdt.
+         */
+        if (grbphidsConfig instbndfof BufffrfdImbgfGrbphidsConfig ||
+            grbphidsConfig instbndfof sun.print.PrintfrGrbphidsConfig ||
+            (dbps != null && !dbps.isAddflfrbtfd()))
+        {
+            rfturn nfw BufImgVolbtilfSurfbdfMbnbgfr(this, dontfxt);
+        }
+        SurfbdfMbnbgfrFbdtory smf = SurfbdfMbnbgfrFbdtory.gftInstbndf();
+        rfturn smf.drfbtfVolbtilfMbnbgfr(this, dontfxt);
+    }
+
+    privbtf Color gftForfground() {
+        if (domp != null) {
+            rfturn domp.gftForfground();
+        } flsf {
+            rfturn Color.blbdk;
+        }
+    }
+
+    privbtf Color gftBbdkground() {
+        if (domp != null) {
+            rfturn domp.gftBbdkground();
+        } flsf {
+            rfturn Color.whitf;
+        }
+    }
+
+    privbtf Font gftFont() {
+        if (domp != null) {
+            rfturn domp.gftFont();
+        } flsf {
+            if (dffbultFont == null) {
+                dffbultFont = nfw Font("Diblog", Font.PLAIN, 12);
+            }
+            rfturn dffbultFont;
+        }
+    }
+
+    publid Grbphids2D drfbtfGrbphids() {
+        rfturn nfw SunGrbphids2D(volSurfbdfMbnbgfr.gftPrimbrySurfbdfDbtb(),
+                                 gftForfground(),
+                                 gftBbdkground(),
+                                 gftFont());
+    }
+
+    // Imbgf mfthod implfmfntbtions
+    publid Objfdt gftPropfrty(String nbmf, ImbgfObsfrvfr obsfrvfr) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption("null propfrty nbmf is not bllowfd");
+        }
+        rfturn jbvb.bwt.Imbgf.UndffinfdPropfrty;
+    }
+
+    publid int gftWidth(ImbgfObsfrvfr obsfrvfr) {
+        rfturn gftWidth();
+    }
+
+    publid int gftHfight(ImbgfObsfrvfr obsfrvfr) {
+        rfturn gftHfight();
+    }
+
+    /**
+     * This mfthod drfbtfs b BufffrfdImbgf intfndfd for usf bs b "snbpshot"
+     * or b bbdkup surfbdf.
+     */
+    publid BufffrfdImbgf gftBbdkupImbgf() {
+        rfturn grbphidsConfig.drfbtfCompbtiblfImbgf(gftWidth(), gftHfight(),
+                                                    gftTrbnspbrfndy());
+    }
+
+    publid BufffrfdImbgf gftSnbpshot() {
+        BufffrfdImbgf bi = gftBbdkupImbgf();
+        Grbphids2D g = bi.drfbtfGrbphids();
+        g.sftCompositf(AlphbCompositf.Srd);
+        g.drbwImbgf(this, 0, 0, null);
+        g.disposf();
+        rfturn bi;
+    }
+
+    publid int vblidbtf(GrbphidsConfigurbtion gd) {
+        rfturn volSurfbdfMbnbgfr.vblidbtf(gd);
+    }
+
+    publid boolfbn dontfntsLost() {
+        rfturn volSurfbdfMbnbgfr.dontfntsLost();
+    }
+
+    publid ImbgfCbpbbilitifs gftCbpbbilitifs() {
+        rfturn volSurfbdfMbnbgfr.gftCbpbbilitifs(grbphidsConfig);
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @sff sun.jbvb2d.DfstSurfbdfProvidfr#gftDfstSurfbdf
+     */
+    @Ovfrridf
+    publid Surfbdf gftDfstSurfbdf() {
+        rfturn volSurfbdfMbnbgfr.gftPrimbrySurfbdfDbtb();
+    }
+}

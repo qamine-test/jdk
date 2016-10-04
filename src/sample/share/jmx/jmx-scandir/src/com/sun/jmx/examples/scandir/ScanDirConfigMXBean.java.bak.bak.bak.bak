@@ -1,0 +1,351 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
+
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.SdbnMbnbgfrConfig;
+import jbvb.io.IOExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+
+/**
+ * <p>Thf <dodf>SdbnDirConfigMXBfbn</dodf> is in dhbrgf of thf
+ * <i>sdbndir</i> bpplidbtion donfigurbtion.
+ * </p>
+ * <p>Thf <dodf>SdbnDirConfigMXBfbn</dodf> is bn MBfbn whidh is bblf to
+ * lobd bnd sbvf thf <i>sdbndir</i> bpplidbtion donfigurbtion to bnd from bn
+ * XML filf.
+ * </p>
+ * <p>
+ * It will lft you blso intfrbdtivfly modify thbt donfigurbtion, whidh you
+ * dbn lbtfr sbvf to thf filf, by dblling {@link #sbvf}, or disdbrd, by
+ * rflobding thf filf without sbving - sff {@link #lobd}.
+ * </p>
+ * <p>
+ * Thfrf dbn bf bs mbny <dodf>SdbnDirConfigMXBfbn</dodf> rfgistfrfd
+ * in thf MBfbnSfrvfr bs you likf, but only onf of thfm will bf idfntififd bs
+ * thf durrfnt donfigurbtion of thf {@link SdbnMbnbgfrMXBfbn}.
+ * You dbn switdh to bnothfr donfigurbtion by dblling {@link
+ * SdbnMbnbgfrMXBfbn#sftConfigurbtionMBfbn
+ * SdbnMbnbgfrMXBfbn.sftConfigurbtionMBfbn}.
+ * </p>
+ * <p>
+ * Ondf thf durrfnt donfigurbtion hbs bffn lobdfd (by dblling {@link #lobd})
+ * or modififd (by dblling onf of {@link #bddDirfdtorySdbnnfr
+ * bddDirfdtorySdbnnfr}, {@link #rfmovfDirfdtorySdbnnfr rfmovfDirfdtorySdbnnfr}
+ * or {@link #sftConfigurbtion sftConfigurbtion}) it dbn bf pushfd
+ * to thf {@link SdbnMbnbgfrMXBfbn} by dblling {@link
+ * SdbnMbnbgfrMXBfbn#bpplyConfigurbtion
+ * SdbnMbnbgfrMXBfbn.bpplyConfigurbtion(truf)} -
+ * <dodf>truf</dodf> mfbns thbt wf bpply thf donfigurbtion from mfmory,
+ * without first rflobding thf filf.
+ * </p>
+ *
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ */
+publid intfrfbdf SdbnDirConfigMXBfbn {
+    /**
+     * This stbtf tflls whfthfr thf donfigurbtion rfflfdtfd by thf
+     * {@link SdbnDirConfigMXBfbn} wbs lobdfd in mfmory, sbvfd to thf
+     * donfigurbtion filf, or modififd sindf lbst sbvfd.
+     * Notf thbt this stbtf dofsn't tfll whfthfr thf donfigurbtion wbs
+     * bpplifd by thf {@link SdbnMbnbgfrMXBfbn}.
+     **/
+    publid fnum SbvfStbtf {
+        /**
+         * Initibl stbtf: thf {@link SdbnDirConfigMXBfbn} is drfbtfd, but
+         * nfithfr {@link #lobd} or  {@link #sbvf} wbs yft dbllfd.
+         **/
+        CREATED,
+
+        /**
+         * Thf donfigurbtion rfflfdtfd by thf {@link SdbnDirConfigMXBfbn} hbs
+         * bffn lobdfd, but not modififd yft.
+         **/
+        LOADED,
+
+        /**
+         * Thf donfigurbtion wbs modififd. Thf modifidbtions brf hfld in mfmory.
+         * Cbll {@link #sbvf} to sbvf thfm to thf filf, or {@link #lobd} to
+         * rflobd thf filf bnd disdbrd thfm.
+         **/
+        MODIFIED,
+
+        /**
+         * Thf donfigurbtion wbs sbvfd.
+         **/
+        SAVED
+    };
+
+    /**
+     * Lobds thf donfigurbtion from thf {@link
+     * #gftConfigFilfnbmf donfigurbtion filf}.
+     * <p>Any unsbvfd modifidbtion will bf lost. Thf {@link #gftSbvfStbtf stbtf}
+     * is switdhfd to {@link SbvfStbtf#LOADED LOADED}.
+     * </p>
+     * <p>
+     * This bdtion hbs no ffffdt on thf {@link SdbnMbnbgfrMXBfbn} until
+     * {@link SdbnMbnbgfrMXBfbn#gftConfigurbtionMBfbn SdbnMbnbgfrMXBfbn}
+     * points to this MBfbn bnd {@link SdbnMbnbgfrMXBfbn#bpplyConfigurbtion
+     * SdbnMbnbgfrMXBfbn.bpplyConfigurbtion} is dbllfd.
+     * </p>
+     * @sff #gftSbvfStbtf()
+     * @throws IOExdfption Thf donfigurbtion douldn't bf lobdfd from thf filf,
+     *                     f.g. bfdbusf thf filf dofsn't fxist or isn't
+     *                     rfbdbblf.
+     * @throws IOExdfption A donnfdtion problfm oddurrfd whfn bddfssing
+     *                     thf undfrlying rfsourdf.
+     * @throws InstbndfNotFoundExdfption Thf undfrlying MBfbn is not
+     *         rfgistfrfd in thf MBfbnSfrvfr.
+     **/
+    publid void lobd()
+        throws IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Sbvfs thf donfigurbtion to thf {@link
+     * #gftConfigFilfnbmf donfigurbtion filf}.
+     *
+     * <p>If thf donfigurbtion filf dofsn't fxists, this mfthod will
+     *    bttfmpt to drfbtf it. Othfrwisf, thf fxisting filf will
+     *    bf rfnbmfd by bppfnding b '~' to its nbmf, bnd b nfw filf
+     *    will bf drfbtfd, in whidh thf donfigurbtion will bf sbvfd.
+     * Thf {@link #gftSbvfStbtf stbtf}
+     * is switdhfd to {@link SbvfStbtf#SAVED SAVED}.
+     * </p>
+     * <p>
+     * This bdtion hbs no ffffdt on thf {@link SdbnMbnbgfrMXBfbn}.
+     * </p>
+     * @sff #gftSbvfStbtf()
+     *
+     * @throws IOExdfption Thf donfigurbtion douldn't bf sbvfd to thf filf,
+     *                     f.g. bfdbusf thf filf douldn't bf drfbtfd.
+     * @throws IOExdfption A donnfdtion problfm oddurrfd whfn bddfssing
+     *                     thf undfrlying rfsourdf.
+     * @throws InstbndfNotFoundExdfption Thf undfrlying MBfbn is not
+     *         rfgistfrfd in thf MBfbnSfrvfr.
+     **/
+    publid void sbvf()
+        throws IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Gfts thf nbmf of thf donfigurbtion filf.
+     * <p>If thf donfigurbtion filf dofsn't fxists, {@link #lobd} will fbil
+     * bnd {@link #sbvf} will bttfmpt to drfbtf thf filf.
+     * </p>
+     *
+     * @rfturn Thf donfigurbtion filf nbmf for this MBfbn.
+     * @throws IOExdfption A donnfdtion problfm oddurrfd whfn bddfssing
+     *                     thf undfrlying rfsourdf.
+     * @throws InstbndfNotFoundExdfption Thf undfrlying MBfbn is not
+     *         rfgistfrfd in thf MBfbnSfrvfr.
+     **/
+    publid String gftConfigFilfnbmf()
+        throws IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Gfts thf durrfnt donfigurbtion dbtb.
+     * <p>
+     * This mfthod rfturns thf donfigurbtion dbtb whidh is durrfntly hfld
+     * in mfmory.
+     * </p>
+     * <p>Cbll {@link #lobd} to rflobd thf dbtb from thf donfigurbtion
+     *    filf, bnd {@link #sbvf} to sbvf thf dbtb to thf donfigurbtion
+     *    filf.
+     * </p>
+     * @sff #gftSbvfStbtf()
+     * @rfturn Thf durrfnt donfigurbtion dbtb in mfmory.
+     * @throws IOExdfption A donnfdtion problfm oddurrfd whfn bddfssing
+     *                     thf undfrlying rfsourdf.
+     * @throws InstbndfNotFoundExdfption Thf undfrlying MBfbn is not
+     *         rfgistfrfd in thf MBfbnSfrvfr.
+     **/
+    publid SdbnMbnbgfrConfig gftConfigurbtion()
+        throws IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Sfts thf durrfnt donfigurbtion dbtb.
+     * <p>
+     * This mfthod rfplbdfs thf donfigurbtion dbtb in mfmory.
+     * Thf {@link #gftSbvfStbtf stbtf} is switdhfd to {@link
+     * SbvfStbtf#MODIFIED MODIFIED}.
+     * </p>
+     * <p>Cblling {@link #lobd} will rflobd thf dbtb from thf donfigurbtion
+     *    filf, bnd bll modifidbtions will bf lost.
+     *    Cblling {@link #sbvf} will sbvf thf modififd dbtb to thf donfigurbtion
+     *    filf.
+     * </p>
+     * <p>
+     * This bdtion hbs no ffffdt on thf {@link SdbnMbnbgfrMXBfbn} until
+     * {@link SdbnMbnbgfrMXBfbn#gftConfigurbtionMBfbn SdbnMbnbgfrMXBfbn}
+     * points to this MBfbn bnd {@link SdbnMbnbgfrMXBfbn#bpplyConfigurbtion
+     * SdbnMbnbgfrMXBfbn.bpplyConfigurbtion} is dbllfd.
+     * </p>
+     * @pbrbm donfig Thf nfw donfigurbtion dbtb.
+     * @sff #gftSbvfStbtf()
+     * @throws IOExdfption A donnfdtion problfm oddurrfd whfn bddfssing
+     *                     thf undfrlying rfsourdf.
+     * @throws InstbndfNotFoundExdfption Thf undfrlying MBfbn is not
+     *         rfgistfrfd in thf MBfbnSfrvfr.
+     */
+    publid void sftConfigurbtion(SdbnMbnbgfrConfig donfig)
+        throws IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Adds b nfw dirfdtory sdbnnfr to thf durrfnt donfigurbtion dbtb.
+     * <p>
+     * This mfthod updbtfs thf donfigurbtion dbtb in mfmory, bdding
+     * b {@link DirfdtorySdbnnfrConfig} to thf {@link
+     * SdbnMbnbgfrConfig#gftSdbnList dirfdtory sdbnnfr list}.
+     * Thf {@link #gftSbvfStbtf stbtf} is switdhfd to {@link
+     * SbvfStbtf#MODIFIED MODIFIED}.
+     * </p>
+     * <p>Cblling {@link #lobd} will rflobd thf dbtb from thf donfigurbtion
+     *    filf, bnd bll modifidbtions will bf lost.
+     *    Cblling {@link #sbvf} will sbvf thf modififd dbtb to thf donfigurbtion
+     *    filf.
+     * </p>
+     * <p>
+     * This bdtion hbs no ffffdt on thf {@link SdbnMbnbgfrMXBfbn} until
+     * {@link SdbnMbnbgfrMXBfbn#gftConfigurbtionMBfbn SdbnMbnbgfrMXBfbn}
+     * points to this MBfbn bnd {@link SdbnMbnbgfrMXBfbn#bpplyConfigurbtion
+     * SdbnMbnbgfrMXBfbn.bpplyConfigurbtion} is dbllfd.
+     * </p>
+     * @pbrbm nbmf A nbmf for thf nfw dirfdtory sdbnnfr. This is thf vbluf
+     *             thbt will bf lbtfr usfd in thf {@link DirfdtorySdbnnfrMXBfbn}
+     *             ObjfdtNbmf for thf <dodf>nbmf=</dodf> kfy.
+     * @pbrbm dir Thf root dirfdtory bt whidh this sdbnnfr will stbrt sdbnning.
+     * @pbrbm filfPbttfrn A {@link jbvb.util.rfgfx.Pbttfrn rfgulbr fxprfssion}
+     *        to mbtdh bgbinst b sflfdtfd filf nbmf.
+     * @pbrbm sizfExdffdsMbxBytfs Only filf whosf sizf fxdffds thbt limit will
+     *        bf sflfdtfd. <dodf.0</dodf> or  b
+     *        nfgbtivf vbluf mfbns no limit.
+     * @pbrbm sindfLbstModififd Sflfdt filfs whidh hbvfn't bffn modififd for
+     *        thbt numbfr of millisfdonds - i.f.
+     *        {@dodf sindfLbstModififd=3600000} will fxdludf filfs whidh
+     *        hbvf bffn modififd in thf lbst hour.
+     *        Thf dbtf of lbst modifidbtion is ignorfd if <dodf>0</dodf> or  b
+     *        nfgbtivf vbluf is providfd.
+     * @sff #gftSbvfStbtf()
+     * @rfturn Thf bddfd <dodf>DirfdtorySdbnnfrConfig</dodf>.
+     * @throws IOExdfption A donnfdtion problfm oddurrfd whfn bddfssing
+     *                     thf undfrlying rfsourdf.
+     * @throws InstbndfNotFoundExdfption Thf undfrlying MBfbn is not
+     *         rfgistfrfd in thf MBfbnSfrvfr.
+     **/
+    publid DirfdtorySdbnnfrConfig
+            bddDirfdtorySdbnnfr(String nbmf, String dir, String filfPbttfrn,
+                                long sizfExdffdsMbxBytfs, long sindfLbstModififd)
+        throws IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Rfmovfs b dirfdtory sdbnnfr from thf durrfnt donfigurbtion dbtb.
+     * <p>
+     * This mfthod updbtfs thf donfigurbtion dbtb in mfmory, rfmoving
+     * b {@link DirfdtorySdbnnfrConfig} from thf {@link
+     * SdbnMbnbgfrConfig#gftSdbnList dirfdtory sdbnnfr list}.
+     * Thf {@link #gftSbvfStbtf stbtf} is switdhfd to {@link
+     * SbvfStbtf#MODIFIED MODIFIED}.
+     * </p>
+     * <p>Cblling {@link #lobd} will rflobd thf dbtb from thf donfigurbtion
+     *    filf, bnd bll modifidbtions will bf lost.
+     *    Cblling {@link #sbvf} will sbvf thf modififd dbtb to thf donfigurbtion
+     *    filf.
+     * </p>
+     * <p>
+     * This bdtion hbs no ffffdt on thf {@link SdbnMbnbgfrMXBfbn} until
+     * {@link SdbnMbnbgfrMXBfbn#gftConfigurbtionMBfbn SdbnMbnbgfrMXBfbn}
+     * points to this MBfbn bnd {@link SdbnMbnbgfrMXBfbn#bpplyConfigurbtion
+     * SdbnMbnbgfrMXBfbn.bpplyConfigurbtion} is dbllfd.
+     * </p>
+     * @pbrbm nbmf Thf nbmf of thf nfw dirfdtory sdbnnfr. This is thf vbluf
+     *             thbt is usfd in thf {@link DirfdtorySdbnnfrMXBfbn}
+     *             ObjfdtNbmf for thf <dodf>nbmf=</dodf> kfy.
+     * @rfturn Thf rfmovfd <dodf>DirfdtorySdbnnfrConfig</dodf>.
+     * @throws IllfgblArgumfntExdfption if thfrf's no dirfdtory sdbnnfr by
+     *         thbt nbmf in thf durrfnt donfigurbtion dbtb.
+     * @throws IOExdfption A donnfdtion problfm oddurrfd whfn bddfssing
+     *                     thf undfrlying rfsourdf.
+     * @throws InstbndfNotFoundExdfption Thf undfrlying MBfbn is not
+     *         rfgistfrfd in thf MBfbnSfrvfr.
+     **/
+    publid DirfdtorySdbnnfrConfig
+            rfmovfDirfdtorySdbnnfr(String nbmf)
+        throws IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Gfts thf sbvf stbtf of thf durrfnt donfigurbtion dbtb.
+     * <p>
+     * {@link SbvfStbtf#CREATED CREATED} mfbns thbt thf donfigurbtion dbtb wbs just
+     * drfbtfd. It hbs not bffn lobdfd from thf donfigurbtion filf.
+     * Cblling {@link #lobd} will lobd thf dbtb from thf donfigurbtion filf.
+     * Cblling {@link #sbvf} will writf thf fmpty dbtb to thf donfigurbtion
+     * filf.
+     * </p>
+     * <p>
+     * {@link SbvfStbtf#LOADED LOADED} mfbns thbt thf donfigurbtion dbtb
+     * wbs lobdfd from thf donfigurbtion filf.
+     * </p>
+     * <p>
+     * {@link SbvfStbtf#MODIFIED MODIFIED} mfbns thbt thf donfigurbtion dbtb
+     * wbs modififd sindf it wbs lbst lobdfd or sbvfd.
+     * Cblling {@link #lobd} will rflobd thf dbtb from thf donfigurbtion filf,
+     * bnd bll modifidbtions will bf lost.
+     * Cblling {@link #sbvf} will writf thf modififd dbtb to thf donfigurbtion
+     * filf.
+     * </p>
+     * <p>
+     * {@link SbvfStbtf#SAVED SAVED} mfbns thbt thf donfigurbtion dbtb
+     * wbs sbvfd to thf donfigurbtion filf.
+     * </p>
+     * <p>
+     * This stbtf dofsn't indidbtf whfthfr this MBfbn donfigurbtion dbtb
+     * wbs {@link SdbnMbnbgfrMXBfbn#bpplyConfigurbtion bpplifd} by thf
+     * {@link SdbnMbnbgfrMXBfbn}.
+     * </p>
+     * @throws IOExdfption A donnfdtion problfm oddurrfd whfn bddfssing
+     *                     thf undfrlying rfsourdf.
+     * @throws InstbndfNotFoundExdfption Thf undfrlying MBfbn is not
+     *         rfgistfrfd in thf MBfbnSfrvfr.
+     * @rfturn Thf sbvf stbtf of thf {@dodf SdbnDirConfigMXBfbn}.
+     */
+    publid SbvfStbtf gftSbvfStbtf()
+        throws IOExdfption, InstbndfNotFoundExdfption;
+
+}

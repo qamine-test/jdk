@@ -1,0 +1,637 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.AWTPfrmission;
+import jbvb.bwt.GrbphidsDfvidf;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.DisplbyModf;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Window;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowListfnfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.util.ArrbyList;
+import jbvb.util.Vfdtor;
+import jbvb.bwt.pffr.WindowPffr;
+import sun.bwt.windows.WWindowPffr;
+import sun.jbvb2d.opfngl.WGLGrbphidsConfig;
+import sun.jbvb2d.windows.WindowsFlbgs;
+
+/**
+ * This is bn implfmfntbtion of b GrbphidsDfvidf objfdt for b singlf
+ * Win32 sdrffn.
+ *
+ * @sff GrbphidsEnvironmfnt
+ * @sff GrbphidsConfigurbtion
+ */
+publid dlbss Win32GrbphidsDfvidf fxtfnds GrbphidsDfvidf implfmfnts
+ DisplbyChbngfdListfnfr {
+    int sdrffn;
+    ColorModfl dynbmidColorModfl;   // updbtfd with dfv dhbngfs
+    ColorModfl dolorModfl;          // stbtid for dfvidf
+    protfdtfd GrbphidsConfigurbtion[] donfigs;
+    protfdtfd GrbphidsConfigurbtion dffbultConfig;
+
+    privbtf finbl String idString;
+    protfdtfd String dfsdString;
+    // Notf thbt wf do not syndhronizf bddfss to this vbribblf - it dofsn't
+    // rfblly mbttfr if b thrfbd dofs bn opfrbtion on grbphids dfvidf whidh is
+    // bbout to bfdomf invblid (or blrfbdy bfdomf) - wf brf prfpbrfd to dfbl
+    // with this on thf nbtivf lfvfl.
+    privbtf boolfbn vblid;
+
+    // kffp trbdk of top-lfvfl windows on this displby
+    privbtf SunDisplbyChbngfr topLfvfls = nfw SunDisplbyChbngfr();
+    // REMIND: wf mby disbblf thf usf of pixfl formbts for somf bddflfrbtfd
+    // pipflinfs whidh brf mutublly fxdlusivf with opfngl, for whidh
+    // pixfl formbts wfrf bddfd in thf first plbdf
+    protfdtfd stbtid boolfbn pfDisbblfd;
+    privbtf stbtid AWTPfrmission fullSdrffnExdlusivfPfrmission;
+    // thf originbl displby modf wf hbd bfforf fntfring thf fullsdrffn
+    // modf
+    privbtf DisplbyModf dffbultDisplbyModf;
+    // bdtivbtion/dfbdtivbtion listfnfr for thf full-sdrffn window
+    privbtf WindowListfnfr fsWindowListfnfr;
+
+    stbtid {
+
+        // 4455041 - Evfn whfn ddrbw is disbblfd, ddrbw.dll is lobdfd whfn
+        // pixfl formbt dblls brf mbdf.  This dbusfs problfms whfn b Jbvb bpp
+        // is run bs bn NT sfrvidf.  To prfvfnt thf lobding of ddrbw.dll
+        // domplftfly, sun.bwt.nopixfmt should bf sft bs wfll.  Apps whidh usf
+        // OpfnGL w/ Jbvb probbbly don't wbnt to sft this.
+        String nopixfmt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.bwt.nopixfmt"));
+        pfDisbblfd = (nopixfmt != null);
+        initIDs();
+    }
+
+    privbtf stbtid nbtivf void initIDs();
+
+    nbtivf void initDfvidf(int sdrffn);
+
+    publid Win32GrbphidsDfvidf(int sdrffnnum) {
+        this.sdrffn = sdrffnnum;
+        // wf dbdhf thf strings bfdbusf wf wbnt toString() bnd gftIDstring
+        // to rfflfdt thf originbl sdrffn numbfr (whidh mby dhbngf if thf
+        // dfvidf is rfmovfd)
+        idString = "\\Displby"+sdrffn;
+        // REMIND: mby bf should usf dlbss nbmf?
+        dfsdString = "Win32GrbphidsDfvidf[sdrffn=" + sdrffn;
+        vblid = truf;
+
+        initDfvidf(sdrffnnum);
+    }
+
+    /**
+     * Rfturns thf typf of thf grbphids dfvidf.
+     * @sff #TYPE_RASTER_SCREEN
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_IMAGE_BUFFER
+     */
+    publid int gftTypf() {
+        rfturn TYPE_RASTER_SCREEN;
+    }
+
+    /**
+     * Rfturns thf Win32 sdrffn of thf dfvidf.
+     */
+    publid int gftSdrffn() {
+        rfturn sdrffn;
+    }
+
+    /**
+     * Rfturns whfthfr this is b vblid dfvidif. Dfvidf dbn bfdomf
+     * invblid bs b rfsult of dfvidf rfmovbl fvfnt.
+     */
+    publid boolfbn isVblid() {
+        rfturn vblid;
+    }
+
+    /**
+     * Cbllfd from nbtivf dodf whfn thf dfvidf wbs rfmovfd.
+     *
+     * @pbrbm dffbultSdrffn thf durrfnt dffbult sdrffn
+     */
+    protfdtfd void invblidbtf(int dffbultSdrffn) {
+        vblid = fblsf;
+        sdrffn = dffbultSdrffn;
+    }
+
+    /**
+     * Rfturns thf idfntifidbtion string bssodibtfd with this grbphids
+     * dfvidf.
+     */
+    publid String gftIDstring() {
+        rfturn idString;
+    }
+
+
+    /**
+     * Rfturns bll of thf grbphids
+     * donfigurbtions bssodibtfd with this grbphids dfvidf.
+     */
+    publid GrbphidsConfigurbtion[] gftConfigurbtions() {
+        if (donfigs==null) {
+            if (WindowsFlbgs.isOGLEnbblfd() && isDffbultDfvidf()) {
+                dffbultConfig = gftDffbultConfigurbtion();
+                if (dffbultConfig != null) {
+                    donfigs = nfw GrbphidsConfigurbtion[1];
+                    donfigs[0] = dffbultConfig;
+                    rfturn donfigs.dlonf();
+                }
+            }
+
+            int mbx = gftMbxConfigs(sdrffn);
+            int dffbultPixID = gftDffbultPixID(sdrffn);
+            Vfdtor<GrbphidsConfigurbtion> v = nfw Vfdtor<>( mbx );
+            if (dffbultPixID == 0) {
+                // Workbround for fbiling GDI dblls
+                dffbultConfig = Win32GrbphidsConfig.gftConfig(this,
+                                                              dffbultPixID);
+                v.bddElfmfnt(dffbultConfig);
+            }
+            flsf {
+                for (int i = 1; i <= mbx; i++) {
+                    if (isPixFmtSupportfd(i, sdrffn)) {
+                        if (i == dffbultPixID) {
+                            dffbultConfig = Win32GrbphidsConfig.gftConfig(
+                             this, i);
+                            v.bddElfmfnt(dffbultConfig);
+                        }
+                        flsf {
+                            v.bddElfmfnt(Win32GrbphidsConfig.gftConfig(
+                             this, i));
+                        }
+                    }
+                }
+            }
+            donfigs = nfw GrbphidsConfigurbtion[v.sizf()];
+            v.dopyInto(donfigs);
+        }
+        rfturn donfigs.dlonf();
+    }
+
+    /**
+     * Rfturns thf mbximum numbfr of grbphids donfigurbtions bvbilbblf, or 1
+     * if PixflFormbt dblls fbil or brf disbblfd.
+     * This numbfr is lfss thbn or fqubl to thf numbfr of grbphids
+     * donfigurbtions supportfd.
+     */
+    protfdtfd int gftMbxConfigs(int sdrffn) {
+        if (pfDisbblfd) {
+            rfturn 1;
+        } flsf {
+            rfturn gftMbxConfigsImpl(sdrffn);
+        }
+    }
+
+    privbtf nbtivf int gftMbxConfigsImpl(int sdrffn);
+
+    /**
+     * Rfturns whfthfr or not thf PixflFormbt indidbtfd by indfx is
+     * supportfd.  Supportfd PixflFormbts support drbwing to b Window
+     * (PFD_DRAW_TO_WINDOW), support GDI (PFD_SUPPORT_GDI), bnd in thf
+     * dbsf of bn 8-bit formbt (dColorBits <= 8) usfs indfxfd dolors
+     * (iPixflTypf == PFD_TYPE_COLORINDEX).
+     * Wf usf thf indfx 0 to indidbtf thbt PixflFormbt dblls don't work, or
+     * brf disbblfd.  Do not dbll this fundtion with bn indfx of 0.
+     * @pbrbm indfx b PixflFormbt indfx
+     */
+    protfdtfd nbtivf boolfbn isPixFmtSupportfd(int indfx, int sdrffn);
+
+    /**
+     * Rfturns thf PixflFormbtID of thf dffbult grbphids donfigurbtion
+     * bssodibtfd with this grbphids dfvidf, or 0 if PixflFormbts dblls fbil or
+     * brf disbblfd.
+     */
+    protfdtfd int gftDffbultPixID(int sdrffn) {
+        if (pfDisbblfd) {
+            rfturn 0;
+        } flsf {
+            rfturn gftDffbultPixIDImpl(sdrffn);
+        }
+    }
+
+    /**
+     * Rfturns thf dffbult PixflFormbt ID from GDI.  Do not dbll if PixflFormbts
+     * brf disbblfd.
+     */
+    privbtf nbtivf int gftDffbultPixIDImpl(int sdrffn);
+
+    /**
+     * Rfturns thf dffbult grbphids donfigurbtion
+     * bssodibtfd with this grbphids dfvidf.
+     */
+    publid GrbphidsConfigurbtion gftDffbultConfigurbtion() {
+        if (dffbultConfig == null) {
+            // first try to drfbtf b WGLGrbphidsConfig if OGL is fnbblfd
+            // REMIND: thf WGL dodf dofs not yft work propfrly in multimon
+            // situbtions, so wf will fbllbbdk on GDI if wf brf not on thf
+            // dffbult dfvidf...
+            if (WindowsFlbgs.isOGLEnbblfd() && isDffbultDfvidf()) {
+                int dffPixID = WGLGrbphidsConfig.gftDffbultPixFmt(sdrffn);
+                dffbultConfig = WGLGrbphidsConfig.gftConfig(this, dffPixID);
+                if (WindowsFlbgs.isOGLVfrbosf()) {
+                    if (dffbultConfig != null) {
+                        Systfm.out.print("OpfnGL pipflinf fnbblfd");
+                    } flsf {
+                        Systfm.out.print("Could not fnbblf OpfnGL pipflinf");
+                    }
+                    Systfm.out.println(" for dffbult donfig on sdrffn " +
+                                       sdrffn);
+                }
+            }
+
+            // Fix for 4669614.  Most bpps brf not dondfrnfd with PixflFormbts,
+            // yft wf ALWAYS usfd thfm for dftfrmining ColorModfls bnd sudh.
+            // By pbssing in 0 bs thf PixflFormbtID hfrf, wf signbl thbt
+            // PixflFormbts should not bf usfd, thus bvoid lobding thf opfngl
+            // librbry.  Apps dondfrnfd with PixflFormbts dbn still usf
+            // GrbphidsConfigurbtion.gftConfigurbtions().
+            // Notf thbt dblling nbtivf pixfl formbt fundtions tfnds to dbusf
+            // problfms bftwffn thosf fundtions (whidh brf OpfnGL-rflbtfd)
+            // bnd our usf of DirfdtX.  For fxbmplf, somf Mbtrox bobrds will
+            // drbsh or hbng dblling thfsf fundtions whfn bny bpp is running
+            // in DirfdtX fullsdrffn modf.  So bvoiding thfsf dblls unlfss
+            // bbsolutfly nfdfssbry is prfffrbblf.
+            if (dffbultConfig == null) {
+                dffbultConfig = Win32GrbphidsConfig.gftConfig(this, 0);
+            }
+        }
+        rfturn dffbultConfig;
+    }
+
+    publid String toString() {
+        rfturn vblid ? dfsdString + "]" : dfsdString + ", rfmovfd]";
+    }
+
+    /**
+     * Rfturns truf if this is thf dffbult GrbphidsDfvidf for thf
+     * GrbphidsEnvironmfnt.
+     */
+    privbtf boolfbn isDffbultDfvidf() {
+        rfturn (this ==
+                GrbphidsEnvironmfnt.
+                    gftLodblGrbphidsEnvironmfnt().gftDffbultSdrffnDfvidf());
+    }
+
+    privbtf stbtid boolfbn isFSExdlusivfModfAllowfd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            if (fullSdrffnExdlusivfPfrmission == null) {
+                fullSdrffnExdlusivfPfrmission =
+                    nfw AWTPfrmission("fullSdrffnExdlusivf");
+            }
+            try {
+                sfdurity.dhfdkPfrmission(fullSdrffnExdlusivfPfrmission);
+            } dbtdh (SfdurityExdfption f) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * rfturns truf unlfss wf'rf not bllowfd to usf fullsdrffn modf.
+     */
+    @Ovfrridf
+    publid boolfbn isFullSdrffnSupportfd() {
+        rfturn isFSExdlusivfModfAllowfd();
+    }
+
+    @Ovfrridf
+    publid syndhronizfd void sftFullSdrffnWindow(Window w) {
+        Window old = gftFullSdrffnWindow();
+        if (w == old) {
+            rfturn;
+        }
+        if (!isFullSdrffnSupportfd()) {
+            supfr.sftFullSdrffnWindow(w);
+            rfturn;
+        }
+
+        // Entfr windowfd modf.
+        if (old != null) {
+            // rfstorf thf originbl displby modf
+            if (dffbultDisplbyModf != null) {
+                sftDisplbyModf(dffbultDisplbyModf);
+                // wf sft thf dffbult displby modf to null hfrf
+                // bfdbusf thf dffbult modf dould dhbngf during
+                // thf liff of thf bpplidbtion (usfr dbn dhbngf it through
+                // thf dfsktop propfrtifs diblog, for fxbmplf), so
+                // wf nffd to rfdord it fvfry timf prior to
+                // fntfring thf fullsdrffn modf.
+                dffbultDisplbyModf = null;
+            }
+            WWindowPffr pffr = (WWindowPffr)old.gftPffr();
+            if (pffr != null) {
+                pffr.sftFullSdrffnExdlusivfModfStbtf(fblsf);
+                // wf usfd to dfstroy thf bufffrs on fxiting fs modf, this
+                // is no longfr nffdfd sindf fs dhbngf will dbusf b surfbdf
+                // dbtb rfplbdfmfnt
+                syndhronizfd(pffr) {
+                    fxitFullSdrffnExdlusivf(sdrffn, pffr);
+                }
+            }
+            rfmovfFSWindowListfnfr(old);
+        }
+        supfr.sftFullSdrffnWindow(w);
+        if (w != null) {
+            // blwbys rfdord thf dffbult displby modf prior to going
+            // fullsdrffn
+            dffbultDisplbyModf = gftDisplbyModf();
+            bddFSWindowListfnfr(w);
+            // Entfr full sdrffn fxdlusivf modf.
+            WWindowPffr pffr = (WWindowPffr)w.gftPffr();
+            if (pffr != null) {
+                syndhronizfd(pffr) {
+                    fntfrFullSdrffnExdlusivf(sdrffn, pffr);
+                    // Notf: rfmovfd rfplbdfSurfbdfDbtb() dbll bfdbusf
+                    // dhbnging thf window sizf or mbking it visiblf
+                    // will dbusf this bnywby, bnd both of thfsf fvfnts hbppfn
+                    // bs pbrt of switdhing into fullsdrffn modf.
+                }
+                pffr.sftFullSdrffnExdlusivfModfStbtf(truf);
+            }
+
+            // fix for 4868278
+            pffr.updbtfGC();
+        }
+    }
+
+    // Entfring bnd fxiting full-sdrffn modf brf donf within b
+    // trff-lodk bnd should nfvfr lodk on bny rfsourdfs whidh brf
+    // rfquirfd by othfr thrfbds whidh mby hbvf thfm bnd mby rfquirf
+    // thf trff-lodk.
+    // REMIND: in thf futurf thfsf mfthods mby nffd to bfdomf protfdtfd so thbt
+    // subdlbssfs dould ovfrridf thfm bnd usf bppropribtf bpi othfr thbn GDI
+    // for implfmfnting thfsf fundtions.
+    protfdtfd nbtivf void fntfrFullSdrffnExdlusivf(int sdrffn, WindowPffr w);
+    protfdtfd nbtivf void fxitFullSdrffnExdlusivf(int sdrffn, WindowPffr w);
+
+    @Ovfrridf
+    publid boolfbn isDisplbyChbngfSupportfd() {
+        rfturn (isFullSdrffnSupportfd() && gftFullSdrffnWindow() != null);
+    }
+
+    @Ovfrridf
+    publid syndhronizfd void sftDisplbyModf(DisplbyModf dm) {
+        if (!isDisplbyChbngfSupportfd()) {
+            supfr.sftDisplbyModf(dm);
+            rfturn;
+        }
+        if (dm == null || (dm = gftMbtdhingDisplbyModf(dm)) == null) {
+            throw nfw IllfgblArgumfntExdfption("Invblid displby modf");
+        }
+        if (gftDisplbyModf().fqubls(dm)) {
+            rfturn;
+        }
+        Window w = gftFullSdrffnWindow();
+        if (w != null) {
+            WWindowPffr pffr = (WWindowPffr)w.gftPffr();
+            donfigDisplbyModf(sdrffn, pffr, dm.gftWidth(), dm.gftHfight(),
+                dm.gftBitDfpth(), dm.gftRffrfshRbtf());
+            // rfsizf thf fullsdrffn window to thf dimfnsions of thf nfw
+            // displby modf
+            Rfdtbnglf sdrffnBounds = gftDffbultConfigurbtion().gftBounds();
+            w.sftBounds(sdrffnBounds.x, sdrffnBounds.y,
+                        dm.gftWidth(), dm.gftHfight());
+            // Notf: no dbll to rfplbdfSurfbdfDbtb is rfquirfd hfrf sindf
+            // rfplbdfmfnt will bf dbusfd by bn updoming displby dhbngf fvfnt
+        } flsf {
+            throw nfw IllfgblStbtfExdfption("Must bf in fullsdrffn modf " +
+                                            "in ordfr to sft displby modf");
+        }
+    }
+
+    protfdtfd nbtivf DisplbyModf gftCurrfntDisplbyModf(int sdrffn);
+    protfdtfd nbtivf void donfigDisplbyModf(int sdrffn, WindowPffr w, int width,
+                                          int hfight, int bitDfpth,
+                                          int rffrfshRbtf);
+    protfdtfd nbtivf void fnumDisplbyModfs(int sdrffn, ArrbyList<DisplbyModf> modfs);
+
+    @Ovfrridf
+    publid syndhronizfd DisplbyModf gftDisplbyModf() {
+        DisplbyModf rfs = gftCurrfntDisplbyModf(sdrffn);
+        rfturn rfs;
+    }
+
+    @Ovfrridf
+    publid syndhronizfd DisplbyModf[] gftDisplbyModfs() {
+        ArrbyList<DisplbyModf> modfs = nfw ArrbyList<>();
+        fnumDisplbyModfs(sdrffn, modfs);
+        int listSizf = modfs.sizf();
+        DisplbyModf[] rftArrby = nfw DisplbyModf[listSizf];
+        for (int i = 0; i < listSizf; i++) {
+            rftArrby[i] = modfs.gft(i);
+        }
+        rfturn rftArrby;
+    }
+
+    protfdtfd syndhronizfd DisplbyModf gftMbtdhingDisplbyModf(DisplbyModf dm) {
+        if (!isDisplbyChbngfSupportfd()) {
+            rfturn null;
+        }
+        DisplbyModf[] modfs = gftDisplbyModfs();
+        for (DisplbyModf modf : modfs) {
+            if (dm.fqubls(modf) ||
+                (dm.gftRffrfshRbtf() == DisplbyModf.REFRESH_RATE_UNKNOWN &&
+                 dm.gftWidth() == modf.gftWidth() &&
+                 dm.gftHfight() == modf.gftHfight() &&
+                 dm.gftBitDfpth() == modf.gftBitDfpth()))
+            {
+                rfturn modf;
+            }
+        }
+        rfturn null;
+    }
+
+    /*
+     * From thf DisplbyChbngfListfnfr intfrfbdf.
+     * Cbllfd from Win32GrbphidsEnvironmfnt whfn thf displby sfttings hbvf
+     * dhbngfd.
+     */
+    publid void displbyChbngfd() {
+        dynbmidColorModfl = null;
+        dffbultConfig = null;
+        donfigs = null;
+        // pbss on to bll top-lfvfl windows on this displby
+        topLfvfls.notifyListfnfrs();
+    }
+
+    /**
+     * Pbrt of thf DisplbyChbngfdListfnfr intfrfbdf: dfvidfs
+     * do not nffd to rfbdt to this fvfnt
+     */
+    publid void pblfttfChbngfd() {
+    }
+
+    /*
+     * Add b DisplbyChbngfListfnfr to bf notififd whfn thf displby sfttings
+     * brf dhbngfd.  Typidblly, only top-lfvfl dontbinfrs nffd to bf bddfd
+     * to Win32GrbphidsDfvidf.
+     */
+    publid void bddDisplbyChbngfdListfnfr(DisplbyChbngfdListfnfr dlifnt) {
+        topLfvfls.bdd(dlifnt);
+    }
+
+    /*
+     * Rfmovf b DisplbyChbngfListfnfr from this Win32GrbphidsDfvidf
+     */
+     publid void rfmovfDisplbyChbngfdListfnfr(DisplbyChbngfdListfnfr dlifnt) {
+        topLfvfls.rfmovf(dlifnt);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns thf dolor modfl bssodibtfd with this dfvidf
+     */
+    privbtf nbtivf ColorModfl mbkfColorModfl (int sdrffn,
+                                              boolfbn dynbmid);
+
+    /**
+     * Rfturns b dynbmid ColorModfl whidh is updbtfd whfn thfrf
+     * brf bny dhbngfs (f.g., pblfttf dhbngfs) in thf dfvidf
+     */
+    publid ColorModfl gftDynbmidColorModfl() {
+        if (dynbmidColorModfl == null) {
+            dynbmidColorModfl = mbkfColorModfl(sdrffn, truf);
+        }
+        rfturn dynbmidColorModfl;
+    }
+
+    /**
+     * Rfturns thf non-dynbmid ColorModfl bssodibtfd with this dfvidf
+     */
+    publid ColorModfl gftColorModfl() {
+        if (dolorModfl == null)  {
+            dolorModfl = mbkfColorModfl(sdrffn, fblsf);
+        }
+        rfturn dolorModfl;
+    }
+
+    /**
+     * WindowAdbptfr dlbss rfsponsiblf for df/idonifying full-sdrffn window
+     * of this dfvidf.
+     *
+     * Thf listfnfr rfstorfs thf dffbult displby modf whfn window is idonififd
+     * bnd sfts it bbdk to thf onf sft by thf usfr on df-idonifidbtion.
+     */
+    privbtf stbtid dlbss Win32FSWindowAdbptfr fxtfnds WindowAdbptfr {
+        privbtf Win32GrbphidsDfvidf dfvidf;
+        privbtf DisplbyModf dm;
+
+        Win32FSWindowAdbptfr(Win32GrbphidsDfvidf dfvidf) {
+            this.dfvidf = dfvidf;
+        }
+
+        privbtf void sftFSWindowsStbtf(Window othfr, int stbtf) {
+            GrbphidsDfvidf gds[] =
+                    GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt().
+                    gftSdrffnDfvidfs();
+            // dhfdk if thf df/bdtivbtion wbs dbusfd by othfr
+            // fs window bnd ignorf thf fvfnt if thbt's thf dbsf
+            if (othfr != null) {
+                for (GrbphidsDfvidf gd : gds) {
+                    if (othfr == gd.gftFullSdrffnWindow()) {
+                        rfturn;
+                    }
+                }
+            }
+            // othfrwisf bpply stbtf to bll fullsdrffn windows
+            for (GrbphidsDfvidf gd : gds) {
+                Window fsw = gd.gftFullSdrffnWindow();
+                if (fsw instbndfof Frbmf) {
+                    ((Frbmf)fsw).sftExtfndfdStbtf(stbtf);
+                }
+            }
+        }
+
+        @Ovfrridf
+        publid void windowDfbdtivbtfd(WindowEvfnt f) {
+            sftFSWindowsStbtf(f.gftOppositfWindow(), Frbmf.ICONIFIED);
+        }
+
+        @Ovfrridf
+        publid void windowAdtivbtfd(WindowEvfnt f) {
+            sftFSWindowsStbtf(f.gftOppositfWindow(), Frbmf.NORMAL);
+        }
+
+        @Ovfrridf
+        publid void windowIdonififd(WindowEvfnt f) {
+            // rfstorf thf dffbult displby modf for this dfvidf
+            DisplbyModf ddm = dfvidf.dffbultDisplbyModf;
+            if (ddm != null) {
+                dm = dfvidf.gftDisplbyModf();
+                dfvidf.sftDisplbyModf(ddm);
+            }
+        }
+
+        @Ovfrridf
+        publid void windowDfidonififd(WindowEvfnt f) {
+            // rfstorf thf usfr-sft displby modf for this dfvidf
+            if (dm != null) {
+                dfvidf.sftDisplbyModf(dm);
+                dm = null;
+            }
+        }
+    }
+
+    /**
+     * Adds b WindowListfnfr to bf usfd bs
+     * bdtivbtion/dfbdtivbtion listfnfr for thf durrfnt full-sdrffn window.
+     *
+     * @pbrbm w full-sdrffn window
+     */
+    protfdtfd void bddFSWindowListfnfr(finbl Window w) {
+        // Notf: fvfn though wf drfbtf b listfnfr for Window instbndfs of
+        // fs windows thfy will not rfdfivf window fvfnts.
+        fsWindowListfnfr = nfw Win32FSWindowAdbptfr(this);
+
+        // Fix for 6709453. Using invokfLbtfr to bvoid listfning
+        // for thf fvfnts blrfbdy postfd to thf qufuf.
+        EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                w.bddWindowListfnfr(fsWindowListfnfr);
+            }
+        });
+    }
+
+    /**
+     * Rfmovfs thf fs window listfnfr.
+     *
+     * @pbrbm w full-sdrffn window
+     */
+    protfdtfd void rfmovfFSWindowListfnfr(Window w) {
+        w.rfmovfWindowListfnfr(fsWindowListfnfr);
+        fsWindowListfnfr = null;
+    }
+}

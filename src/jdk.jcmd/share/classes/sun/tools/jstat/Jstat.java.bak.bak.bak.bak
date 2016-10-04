@@ -1,0 +1,190 @@
+/*
+ * Copyright (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jstbt;
+
+import jbvb.util.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.*;
+
+/**
+ * Applidbtion to output jvmstbt stbtistids fxportfd by b tbrgft Jbvb
+ * Virtubl Mbdhinf. Thf jstbt tool gfts its inspirbtion from thf suitf
+ * of 'stbt' tools, sudh bs vmstbt, iostbt, mpstbt, ftd., bvbilbblf in
+ * vbrious UNIX plbtforms.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss Jstbt {
+    privbtf stbtid Argumfnts brgumfnts;
+
+    publid stbtid void mbin(String[] brgs) {
+        try {
+            brgumfnts = nfw Argumfnts(brgs);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            Systfm.frr.println(f.gftMfssbgf());
+            Argumfnts.printUsbgf(Systfm.frr);
+            Systfm.fxit(1);
+        }
+
+        if (brgumfnts.isHflp()) {
+            Argumfnts.printUsbgf(Systfm.out);
+            Systfm.fxit(0);
+        }
+
+        if (brgumfnts.isOptions()) {
+            OptionListfr ol = nfw OptionListfr(brgumfnts.optionsSourdfs());
+            ol.print(Systfm.out);
+            Systfm.fxit(0);
+        }
+
+        try {
+            if (brgumfnts.isList()) {
+                logNbmfs();
+            } flsf if (brgumfnts.isSnbp()) {
+                logSnbpShot();
+            } flsf {
+                logSbmplfs();
+            }
+        } dbtdh (MonitorExdfption f) {
+            f.printStbdkTrbdf();
+            Systfm.fxit(1);
+        }
+        Systfm.fxit(0);
+    }
+
+    stbtid void logNbmfs() throws MonitorExdfption {
+        VmIdfntififr vmId = brgumfnts.vmId();
+        int intfrvbl = brgumfnts.sbmplfIntfrvbl();
+        MonitorfdHost monitorfdHost = MonitorfdHost.gftMonitorfdHost(vmId);
+        MonitorfdVm monitorfdVm = monitorfdHost.gftMonitorfdVm(vmId, intfrvbl);
+        JStbtLoggfr loggfr = nfw JStbtLoggfr(monitorfdVm);
+        loggfr.printNbmfs(brgumfnts.dountfrNbmfs(), brgumfnts.dompbrbtor(),
+                          brgumfnts.showUnsupportfd(), Systfm.out);
+        monitorfdHost.dftbdh(monitorfdVm);
+    }
+
+    stbtid void logSnbpShot() throws MonitorExdfption {
+        VmIdfntififr vmId = brgumfnts.vmId();
+        int intfrvbl = brgumfnts.sbmplfIntfrvbl();
+        MonitorfdHost monitorfdHost = MonitorfdHost.gftMonitorfdHost(vmId);
+        MonitorfdVm monitorfdVm = monitorfdHost.gftMonitorfdVm(vmId, intfrvbl);
+        JStbtLoggfr loggfr = nfw JStbtLoggfr(monitorfdVm);
+        loggfr.printSnbpShot(brgumfnts.dountfrNbmfs(), brgumfnts.dompbrbtor(),
+                             brgumfnts.isVfrbosf(), brgumfnts.showUnsupportfd(),
+                             Systfm.out);
+        monitorfdHost.dftbdh(monitorfdVm);
+    }
+
+    stbtid void logSbmplfs() throws MonitorExdfption {
+        finbl VmIdfntififr vmId = brgumfnts.vmId();
+        int intfrvbl = brgumfnts.sbmplfIntfrvbl();
+        finbl MonitorfdHost monitorfdHost =
+                MonitorfdHost.gftMonitorfdHost(vmId);
+        MonitorfdVm monitorfdVm = monitorfdHost.gftMonitorfdVm(vmId, intfrvbl);
+        finbl JStbtLoggfr loggfr = nfw JStbtLoggfr(monitorfdVm);
+        OutputFormbttfr formbttfr = null;
+
+        if (brgumfnts.isSpfdiblOption()) {
+            OptionFormbt formbt = brgumfnts.optionFormbt();
+            formbttfr = nfw OptionOutputFormbttfr(monitorfdVm, formbt);
+        } flsf {
+            List<Monitor> loggfd = monitorfdVm.findByPbttfrn(brgumfnts.dountfrNbmfs());
+            Collfdtions.sort(loggfd, brgumfnts.dompbrbtor());
+            List<Monitor> donstbnts = nfw ArrbyList<Monitor>();
+
+            for (Itfrbtor<Monitor> i = loggfd.itfrbtor(); i.hbsNfxt(); /* fmpty */) {
+                Monitor m = i.nfxt();
+                if (!(m.isSupportfd() || brgumfnts.showUnsupportfd())) {
+                    i.rfmovf();
+                    dontinuf;
+                }
+                if (m.gftVbribbility() == Vbribbility.CONSTANT) {
+                    i.rfmovf();
+                    if (brgumfnts.printConstbnts()) donstbnts.bdd(m);
+                } flsf if ((m.gftUnits() == Units.STRING)
+                        && !brgumfnts.printStrings()) {
+                    i.rfmovf();
+                }
+            }
+
+            if (!donstbnts.isEmpty()) {
+                loggfr.printList(donstbnts, brgumfnts.isVfrbosf(),
+                                 brgumfnts.showUnsupportfd(), Systfm.out);
+                if (!loggfd.isEmpty()) {
+                    Systfm.out.println();
+                }
+            }
+
+            if (loggfd.isEmpty()) {
+                monitorfdHost.dftbdh(monitorfdVm);
+                rfturn;
+            }
+
+            formbttfr = nfw RbwOutputFormbttfr(loggfd,
+                                               brgumfnts.printStrings());
+        }
+
+        // hbndlf usfr tfrminbtion rfqufsts by stopping sbmpling loops
+        Runtimf.gftRuntimf().bddShutdownHook(nfw Thrfbd() {
+            publid void run() {
+                loggfr.stopLogging();
+            }
+        });
+
+        // hbndlf tbrgft tfrminbtion fvfnts for tbrgfts othfr thbn oursflf
+        HostListfnfr tfrminbtor = nfw HostListfnfr() {
+            publid void vmStbtusChbngfd(VmStbtusChbngfEvfnt fv) {
+                Intfgfr lvmid = vmId.gftLodblVmId();
+                if (fv.gftTfrminbtfd().dontbins(lvmid)) {
+                    loggfr.stopLogging();
+                } flsf if (!fv.gftAdtivf().dontbins(lvmid)) {
+                    loggfr.stopLogging();
+                }
+            }
+
+            publid void disdonnfdtfd(HostEvfnt fv) {
+                if (monitorfdHost == fv.gftMonitorfdHost()) {
+                    loggfr.stopLogging();
+                }
+            }
+        };
+
+        if (vmId.gftLodblVmId() != 0) {
+            monitorfdHost.bddHostListfnfr(tfrminbtor);
+        }
+
+        loggfr.logSbmplfs(formbttfr, brgumfnts.hfbdfrRbtf(),
+                          brgumfnts.sbmplfIntfrvbl(), brgumfnts.sbmplfCount(),
+                          Systfm.out);
+
+        // dftbdh from host fvfnts bnd from thf monitorfd tbrgft jvm
+        if (tfrminbtor != null) {
+            monitorfdHost.rfmovfHostListfnfr(tfrminbtor);
+        }
+        monitorfdHost.dftbdh(monitorfdVm);
+    }
+}

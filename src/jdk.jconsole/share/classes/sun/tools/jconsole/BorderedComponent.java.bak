@@ -1,563 +1,563 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidGrbpiidsUtils;
 
 
-import static javax.swing.SwingConstants.*;
+import stbtid jbvbx.swing.SwingConstbnts.*;
 
-import static sun.tools.jconsole.JConsole.*;
+import stbtid sun.tools.jdonsolf.JConsolf.*;
 
-@SuppressWarnings("serial")
-public class BorderedComponent extends JPanel implements ActionListener {
-    JButton moreOrLessButton;
-    String valueLabelStr;
-    JLabel label;
-    JComponent comp;
-    boolean collapsed = false;
+@SupprfssWbrnings("sfribl")
+publid dlbss BordfrfdComponfnt fxtfnds JPbnfl implfmfnts AdtionListfnfr {
+    JButton morfOrLfssButton;
+    String vblufLbbflStr;
+    JLbbfl lbbfl;
+    JComponfnt domp;
+    boolfbn dollbpsfd = fblsf;
 
-    private Icon collapseIcon;
-    private Icon expandIcon;
+    privbtf Idon dollbpsfIdon;
+    privbtf Idon fxpbndIdon;
 
-    private static Image getImage(String name) {
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        name = "resources/" + name + ".png";
-        return tk.getImage(BorderedComponent.class.getResource(name));
+    privbtf stbtid Imbgf gftImbgf(String nbmf) {
+        Toolkit tk = Toolkit.gftDffbultToolkit();
+        nbmf = "rfsourdfs/" + nbmf + ".png";
+        rfturn tk.gftImbgf(BordfrfdComponfnt.dlbss.gftRfsourdf(nbmf));
     }
 
-    public BorderedComponent(String text) {
-        this(text, null, false);
+    publid BordfrfdComponfnt(String tfxt) {
+        tiis(tfxt, null, fblsf);
     }
 
-    public BorderedComponent(String text, JComponent comp) {
-        this(text, comp, false);
+    publid BordfrfdComponfnt(String tfxt, JComponfnt domp) {
+        tiis(tfxt, domp, fblsf);
     }
 
-    public BorderedComponent(String text, JComponent comp, boolean collapsible) {
-        super(null);
+    publid BordfrfdComponfnt(String tfxt, JComponfnt domp, boolfbn dollbpsiblf) {
+        supfr(null);
 
-        this.comp = comp;
+        tiis.domp = domp;
 
-        // Only add border if text is not null
-        if (text != null) {
-            TitledBorder border;
-            if (collapsible) {
-                final JLabel textLabel = new JLabel(text);
-                JPanel borderLabel = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0)) {
-                    public int getBaseline(int w, int h) {
-                        Dimension dim = textLabel.getPreferredSize();
-                        return textLabel.getBaseline(dim.width, dim.height) + textLabel.getY();
+        // Only bdd bordfr if tfxt is not null
+        if (tfxt != null) {
+            TitlfdBordfr bordfr;
+            if (dollbpsiblf) {
+                finbl JLbbfl tfxtLbbfl = nfw JLbbfl(tfxt);
+                JPbnfl bordfrLbbfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.LEFT, 2, 0)) {
+                    publid int gftBbsflinf(int w, int i) {
+                        Dimfnsion dim = tfxtLbbfl.gftPrfffrrfdSizf();
+                        rfturn tfxtLbbfl.gftBbsflinf(dim.widti, dim.ifigit) + tfxtLbbfl.gftY();
                     }
                 };
-                borderLabel.add(textLabel);
-                border = new LabeledBorder(borderLabel);
-                textLabel.setForeground(border.getTitleColor());
+                bordfrLbbfl.bdd(tfxtLbbfl);
+                bordfr = nfw LbbflfdBordfr(bordfrLbbfl);
+                tfxtLbbfl.sftForfground(bordfr.gftTitlfColor());
 
                 if (IS_WIN) {
-                    collapseIcon = new ImageIcon(getImage("collapse-winlf"));
-                    expandIcon = new ImageIcon(getImage("expand-winlf"));
-                } else {
-                    collapseIcon = new ArrowIcon(SOUTH, textLabel);
-                    expandIcon = new ArrowIcon(EAST, textLabel);
+                    dollbpsfIdon = nfw ImbgfIdon(gftImbgf("dollbpsf-winlf"));
+                    fxpbndIdon = nfw ImbgfIdon(gftImbgf("fxpbnd-winlf"));
+                } flsf {
+                    dollbpsfIdon = nfw ArrowIdon(SOUTH, tfxtLbbfl);
+                    fxpbndIdon = nfw ArrowIdon(EAST, tfxtLbbfl);
                 }
 
-                moreOrLessButton = new JButton(collapseIcon);
-                moreOrLessButton.setContentAreaFilled(false);
-                moreOrLessButton.setBorderPainted(false);
-                moreOrLessButton.setMargin(new Insets(0, 0, 0, 0));
-                moreOrLessButton.addActionListener(this);
+                morfOrLfssButton = nfw JButton(dollbpsfIdon);
+                morfOrLfssButton.sftContfntArfbFillfd(fblsf);
+                morfOrLfssButton.sftBordfrPbintfd(fblsf);
+                morfOrLfssButton.sftMbrgin(nfw Insfts(0, 0, 0, 0));
+                morfOrLfssButton.bddAdtionListfnfr(tiis);
                 String toolTip =
-                    Messages.BORDERED_COMPONENT_MORE_OR_LESS_BUTTON_TOOLTIP;
-                moreOrLessButton.setToolTipText(toolTip);
-                borderLabel.add(moreOrLessButton);
-                borderLabel.setSize(borderLabel.getPreferredSize());
-                add(borderLabel);
-            } else {
-                border = new TitledBorder(text);
+                    Mfssbgfs.BORDERED_COMPONENT_MORE_OR_LESS_BUTTON_TOOLTIP;
+                morfOrLfssButton.sftToolTipTfxt(toolTip);
+                bordfrLbbfl.bdd(morfOrLfssButton);
+                bordfrLbbfl.sftSizf(bordfrLbbfl.gftPrfffrrfdSizf());
+                bdd(bordfrLbbfl);
+            } flsf {
+                bordfr = nfw TitlfdBordfr(tfxt);
             }
-            setBorder(new CompoundBorder(new FocusBorder(this), border));
-        } else {
-            setBorder(new FocusBorder(this));
+            sftBordfr(nfw CompoundBordfr(nfw FodusBordfr(tiis), bordfr));
+        } flsf {
+            sftBordfr(nfw FodusBordfr(tiis));
         }
-        if (comp != null) {
-            add(comp);
+        if (domp != null) {
+            bdd(domp);
         }
     }
 
-    public void setComponent(JComponent comp) {
-        if (this.comp != null) {
-            remove(this.comp);
+    publid void sftComponfnt(JComponfnt domp) {
+        if (tiis.domp != null) {
+            rfmovf(tiis.domp);
         }
-        this.comp = comp;
-        if (!collapsed) {
-            LayoutManager lm = getLayout();
-            if (lm instanceof BorderLayout) {
-                add(comp, BorderLayout.CENTER);
-            } else {
-                add(comp);
+        tiis.domp = domp;
+        if (!dollbpsfd) {
+            LbyoutMbnbgfr lm = gftLbyout();
+            if (lm instbndfof BordfrLbyout) {
+                bdd(domp, BordfrLbyout.CENTER);
+            } flsf {
+                bdd(domp);
             }
         }
-        revalidate();
+        rfvblidbtf();
     }
 
-    public void setValueLabel(String str) {
-        this.valueLabelStr = str;
-        if (label != null) {
-            label.setText(Resources.format(Messages.CURRENT_VALUE,
-                                           valueLabelStr));
+    publid void sftVblufLbbfl(String str) {
+        tiis.vblufLbbflStr = str;
+        if (lbbfl != null) {
+            lbbfl.sftTfxt(Rfsourdfs.formbt(Mfssbgfs.CURRENT_VALUE,
+                                           vblufLbbflStr));
         }
     }
 
-    public void actionPerformed(ActionEvent ev) {
-        if (collapsed) {
-            if (label != null) {
-                remove(label);
+    publid void bdtionPfrformfd(AdtionEvfnt fv) {
+        if (dollbpsfd) {
+            if (lbbfl != null) {
+                rfmovf(lbbfl);
             }
-            add(comp);
-            moreOrLessButton.setIcon(collapseIcon);
-        } else {
-            remove(comp);
-            if (valueLabelStr != null) {
-                if (label == null) {
-                    label = new JLabel(Resources.format(Messages.CURRENT_VALUE,
-                                                        valueLabelStr));
+            bdd(domp);
+            morfOrLfssButton.sftIdon(dollbpsfIdon);
+        } flsf {
+            rfmovf(domp);
+            if (vblufLbbflStr != null) {
+                if (lbbfl == null) {
+                    lbbfl = nfw JLbbfl(Rfsourdfs.formbt(Mfssbgfs.CURRENT_VALUE,
+                                                        vblufLbbflStr));
                 }
-                add(label);
+                bdd(lbbfl);
             }
-            moreOrLessButton.setIcon(expandIcon);
+            morfOrLfssButton.sftIdon(fxpbndIdon);
         }
-        collapsed = !collapsed;
+        dollbpsfd = !dollbpsfd;
 
-        JComponent container = (JComponent)getParent();
-        if (container != null &&
-            container.getLayout() instanceof VariableGridLayout) {
+        JComponfnt dontbinfr = (JComponfnt)gftPbrfnt();
+        if (dontbinfr != null &&
+            dontbinfr.gftLbyout() instbndfof VbribblfGridLbyout) {
 
-            ((VariableGridLayout)container.getLayout()).setFillRow(this, !collapsed);
-            container.revalidate();
+            ((VbribblfGridLbyout)dontbinfr.gftLbyout()).sftFillRow(tiis, !dollbpsfd);
+            dontbinfr.rfvblidbtf();
         }
     }
 
-    public Dimension getMinimumSize() {
-        if (getLayout() != null) {
-            // A layout manager has been set, so delegate to it
-            return super.getMinimumSize();
+    publid Dimfnsion gftMinimumSizf() {
+        if (gftLbyout() != null) {
+            // A lbyout mbnbgfr ibs bffn sft, so dflfgbtf to it
+            rfturn supfr.gftMinimumSizf();
         }
 
-        if (moreOrLessButton != null) {
-            Dimension d = moreOrLessButton.getMinimumSize();
-            Insets i = getInsets();
-            d.width  += i.left + i.right;
-            d.height += i.top + i.bottom;
-            return d;
-        } else {
-            return super.getMinimumSize();
+        if (morfOrLfssButton != null) {
+            Dimfnsion d = morfOrLfssButton.gftMinimumSizf();
+            Insfts i = gftInsfts();
+            d.widti  += i.lfft + i.rigit;
+            d.ifigit += i.top + i.bottom;
+            rfturn d;
+        } flsf {
+            rfturn supfr.gftMinimumSizf();
         }
     }
 
-    public void doLayout() {
-        if (getLayout() != null) {
-            // A layout manager has been set, so delegate to it
-            super.doLayout();
-            return;
+    publid void doLbyout() {
+        if (gftLbyout() != null) {
+            // A lbyout mbnbgfr ibs bffn sft, so dflfgbtf to it
+            supfr.doLbyout();
+            rfturn;
         }
 
-        Dimension d = getSize();
-        Insets i = getInsets();
+        Dimfnsion d = gftSizf();
+        Insfts i = gftInsfts();
 
-        if (collapsed) {
-            if (label != null) {
-                Dimension p = label.getPreferredSize();
-                label.setBounds(i.left,
-                                i.top + (d.height - i.top - i.bottom - p.height) / 2,
-                                p.width,
-                                p.height);
+        if (dollbpsfd) {
+            if (lbbfl != null) {
+                Dimfnsion p = lbbfl.gftPrfffrrfdSizf();
+                lbbfl.sftBounds(i.lfft,
+                                i.top + (d.ifigit - i.top - i.bottom - p.ifigit) / 2,
+                                p.widti,
+                                p.ifigit);
             }
-        } else {
-            if (comp != null) {
-                comp.setBounds(i.left,
+        } flsf {
+            if (domp != null) {
+                domp.sftBounds(i.lfft,
                                i.top,
-                               d.width - i.left - i.right,
-                               d.height - i.top - i.bottom);
+                               d.widti - i.lfft - i.rigit,
+                               d.ifigit - i.top - i.bottom);
             }
         }
     }
 
-    private static class ArrowIcon implements Icon {
-        private int direction;
-        private JLabel textLabel;
+    privbtf stbtid dlbss ArrowIdon implfmfnts Idon {
+        privbtf int dirfdtion;
+        privbtf JLbbfl tfxtLbbfl;
 
-        public ArrowIcon(int direction, JLabel textLabel) {
-            this.direction = direction;
-            this.textLabel = textLabel;
+        publid ArrowIdon(int dirfdtion, JLbbfl tfxtLbbfl) {
+            tiis.dirfdtion = dirfdtion;
+            tiis.tfxtLbbfl = tfxtLbbfl;
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            int w = getIconWidth();
-            int h = w;
-            Polygon p = new Polygon();
-            switch (direction) {
-              case EAST:
-                p.addPoint(x + 2,     y);
-                p.addPoint(x + w - 2, y + h / 2);
-                p.addPoint(x + 2,     y + h - 1);
-                break;
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            int w = gftIdonWidti();
+            int i = w;
+            Polygon p = nfw Polygon();
+            switdi (dirfdtion) {
+              dbsf EAST:
+                p.bddPoint(x + 2,     y);
+                p.bddPoint(x + w - 2, y + i / 2);
+                p.bddPoint(x + 2,     y + i - 1);
+                brfbk;
 
-              case SOUTH:
-                p.addPoint(x,         y + 2);
-                p.addPoint(x + w / 2, y + h - 2);
-                p.addPoint(x + w - 1, y + 2);
-                break;
+              dbsf SOUTH:
+                p.bddPoint(x,         y + 2);
+                p.bddPoint(x + w / 2, y + i - 2);
+                p.bddPoint(x + w - 1, y + 2);
+                brfbk;
             }
             g.fillPolygon(p);
         }
 
-        public int getIconWidth() {
-            return getIconHeight();
+        publid int gftIdonWidti() {
+            rfturn gftIdonHfigit();
         }
 
-        public int getIconHeight() {
-            Graphics g = textLabel.getGraphics();
+        publid int gftIdonHfigit() {
+            Grbpiids g = tfxtLbbfl.gftGrbpiids();
             if (g != null) {
-                int h = g.getFontMetrics(textLabel.getFont()).getAscent() * 6/10;
-                if (h % 2 == 0) {
-                    h += 1;     // Make it odd
+                int i = g.gftFontMftrids(tfxtLbbfl.gftFont()).gftAsdfnt() * 6/10;
+                if (i % 2 == 0) {
+                    i += 1;     // Mbkf it odd
                 }
-                return h;
-            } else {
-                return 7;
+                rfturn i;
+            } flsf {
+                rfturn 7;
             }
         }
     }
 
 
     /**
-     * A subclass of <code>TitledBorder</code> which implements an arbitrary border
-     * with the addition of a JComponent (JLabel, JPanel, etc) in the
-     * default position.
+     * A subdlbss of <dodf>TitlfdBordfr</dodf> wiidi implfmfnts bn brbitrbry bordfr
+     * witi tif bddition of b JComponfnt (JLbbfl, JPbnfl, ftd) in tif
+     * dffbult position.
      * <p>
-     * If the border property value is not
-     * specified in the constructor or by invoking the appropriate
-     * set method, the property value will be defined by the current
-     * look and feel, using the following property name in the
-     * Defaults Table:
+     * If tif bordfr propfrty vbluf is not
+     * spfdififd in tif donstrudtor or by invoking tif bppropribtf
+     * sft mftiod, tif propfrty vbluf will bf dffinfd by tif durrfnt
+     * look bnd fffl, using tif following propfrty nbmf in tif
+     * Dffbults Tbblf:
      * <ul>
-     * <li>&quot;TitledBorder.border&quot;
+     * <li>&quot;TitlfdBordfr.bordfr&quot;
      * </ul>
      */
-    protected static class LabeledBorder extends TitledBorder {
-        protected JComponent label;
+    protfdtfd stbtid dlbss LbbflfdBordfr fxtfnds TitlfdBordfr {
+        protfdtfd JComponfnt lbbfl;
 
-        private Point compLoc = new Point();
+        privbtf Point dompLod = nfw Point();
 
         /**
-         * Creates a LabeledBorder instance.
+         * Crfbtfs b LbbflfdBordfr instbndf.
          *
-         * @param label  the label the border should display
+         * @pbrbm lbbfl  tif lbbfl tif bordfr siould displby
          */
-        public LabeledBorder(JComponent label)     {
-            this(null, label);
+        publid LbbflfdBordfr(JComponfnt lbbfl)     {
+            tiis(null, lbbfl);
         }
 
         /**
-         * Creates a LabeledBorder instance with the specified border
-         * and an empty label.
+         * Crfbtfs b LbbflfdBordfr instbndf witi tif spfdififd bordfr
+         * bnd bn fmpty lbbfl.
          *
-         * @param border  the border
+         * @pbrbm bordfr  tif bordfr
          */
-        public LabeledBorder(Border border)       {
-            this(border, null);
+        publid LbbflfdBordfr(Bordfr bordfr)       {
+            tiis(bordfr, null);
         }
 
         /**
-         * Creates a LabeledBorder instance with the specified border and
-         * label.
+         * Crfbtfs b LbbflfdBordfr instbndf witi tif spfdififd bordfr bnd
+         * lbbfl.
          *
-         * @param border  the border
-         * @param label  the label the border should display
+         * @pbrbm bordfr  tif bordfr
+         * @pbrbm lbbfl  tif lbbfl tif bordfr siould displby
          */
-        public LabeledBorder(Border border, JComponent label) {
-            super(border);
+        publid LbbflfdBordfr(Bordfr bordfr, JComponfnt lbbfl) {
+            supfr(bordfr);
 
-            this.label = label;
+            tiis.lbbfl = lbbfl;
 
-            if (label instanceof JLabel &&
-                label.getForeground() instanceof ColorUIResource) {
+            if (lbbfl instbndfof JLbbfl &&
+                lbbfl.gftForfground() instbndfof ColorUIRfsourdf) {
 
-                label.setForeground(getTitleColor());
+                lbbfl.sftForfground(gftTitlfColor());
             }
 
         }
 
         /**
-         * Paints the border for the specified component with the
-         * specified position and size.
-         * @param c the component for which this border is being painted
-         * @param g the paint graphics
-         * @param x the x position of the painted border
-         * @param y the y position of the painted border
-         * @param width the width of the painted border
-         * @param height the height of the painted border
+         * Pbints tif bordfr for tif spfdififd domponfnt witi tif
+         * spfdififd position bnd sizf.
+         * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+         * @pbrbm g tif pbint grbpiids
+         * @pbrbm x tif x position of tif pbintfd bordfr
+         * @pbrbm y tif y position of tif pbintfd bordfr
+         * @pbrbm widti tif widti of tif pbintfd bordfr
+         * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
          */
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
 
-            Border border = getBorder();
+            Bordfr bordfr = gftBordfr();
 
-            if (label == null) {
-                if (border != null) {
-                    border.paintBorder(c, g, x, y, width, height);
+            if (lbbfl == null) {
+                if (bordfr != null) {
+                    bordfr.pbintBordfr(d, g, x, y, widti, ifigit);
                 }
-                return;
+                rfturn;
             }
 
-            Rectangle grooveRect = new Rectangle(x + EDGE_SPACING, y + EDGE_SPACING,
-                                                 width - (EDGE_SPACING * 2),
-                                                 height - (EDGE_SPACING * 2));
+            Rfdtbnglf groovfRfdt = nfw Rfdtbnglf(x + EDGE_SPACING, y + EDGE_SPACING,
+                                                 widti - (EDGE_SPACING * 2),
+                                                 ifigit - (EDGE_SPACING * 2));
 
-            Dimension   labelDim = label.getPreferredSize();
-            int baseline = label.getBaseline(labelDim.width, labelDim.height);
-            int         ascent = Math.max(0, baseline);
-            int         descent = labelDim.height - ascent;
+            Dimfnsion   lbbflDim = lbbfl.gftPrfffrrfdSizf();
+            int bbsflinf = lbbfl.gftBbsflinf(lbbflDim.widti, lbbflDim.ifigit);
+            int         bsdfnt = Mbti.mbx(0, bbsflinf);
+            int         dfsdfnt = lbbflDim.ifigit - bsdfnt;
             int         diff;
-            Insets      insets;
+            Insfts      insfts;
 
-            if (border != null) {
-                insets = border.getBorderInsets(c);
-            } else {
-                insets = new Insets(0, 0, 0, 0);
+            if (bordfr != null) {
+                insfts = bordfr.gftBordfrInsfts(d);
+            } flsf {
+                insfts = nfw Insfts(0, 0, 0, 0);
             }
 
-            diff = Math.max(0, ascent/2 + TEXT_SPACING - EDGE_SPACING);
-            grooveRect.y += diff;
-            grooveRect.height -= diff;
-            compLoc.y = grooveRect.y + insets.top/2 - (ascent + descent) / 2 - 1;
+            diff = Mbti.mbx(0, bsdfnt/2 + TEXT_SPACING - EDGE_SPACING);
+            groovfRfdt.y += diff;
+            groovfRfdt.ifigit -= diff;
+            dompLod.y = groovfRfdt.y + insfts.top/2 - (bsdfnt + dfsdfnt) / 2 - 1;
 
-            int justification;
-            if (c.getComponentOrientation().isLeftToRight()) {
-                justification = LEFT;
-            } else {
-                justification = RIGHT;
+            int justifidbtion;
+            if (d.gftComponfntOrifntbtion().isLfftToRigit()) {
+                justifidbtion = LEFT;
+            } flsf {
+                justifidbtion = RIGHT;
             }
 
-            switch (justification) {
-                case LEFT:
-                    compLoc.x = grooveRect.x + TEXT_INSET_H + insets.left;
-                    break;
-                case RIGHT:
-                    compLoc.x = (grooveRect.x + grooveRect.width
-                                 - (labelDim.width + TEXT_INSET_H + insets.right));
-                    break;
+            switdi (justifidbtion) {
+                dbsf LEFT:
+                    dompLod.x = groovfRfdt.x + TEXT_INSET_H + insfts.lfft;
+                    brfbk;
+                dbsf RIGHT:
+                    dompLod.x = (groovfRfdt.x + groovfRfdt.widti
+                                 - (lbbflDim.widti + TEXT_INSET_H + insfts.rigit));
+                    brfbk;
             }
 
-            // If title is positioned in middle of border AND its fontsize
-            // is greater than the border's thickness, we'll need to paint
-            // the border in sections to leave space for the component's background
-            // to show through the title.
+            // If titlf is positionfd in middlf of bordfr AND its fontsizf
+            // is grfbtfr tibn tif bordfr's tiidknfss, wf'll nffd to pbint
+            // tif bordfr in sfdtions to lfbvf spbdf for tif domponfnt's bbdkground
+            // to siow tirougi tif titlf.
             //
-            if (border != null) {
-                if (grooveRect.y > compLoc.y - ascent) {
-                    Rectangle clipRect = new Rectangle();
+            if (bordfr != null) {
+                if (groovfRfdt.y > dompLod.y - bsdfnt) {
+                    Rfdtbnglf dlipRfdt = nfw Rfdtbnglf();
 
-                    // save original clip
-                    Rectangle saveClip = g.getClipBounds();
+                    // sbvf originbl dlip
+                    Rfdtbnglf sbvfClip = g.gftClipBounds();
 
-                    // paint strip left of text
-                    clipRect.setBounds(saveClip);
-                    if (computeIntersection(clipRect, x, y, compLoc.x-1-x, height)) {
-                        g.setClip(clipRect);
-                        border.paintBorder(c, g, grooveRect.x, grooveRect.y,
-                                      grooveRect.width, grooveRect.height);
+                    // pbint strip lfft of tfxt
+                    dlipRfdt.sftBounds(sbvfClip);
+                    if (domputfIntfrsfdtion(dlipRfdt, x, y, dompLod.x-1-x, ifigit)) {
+                        g.sftClip(dlipRfdt);
+                        bordfr.pbintBordfr(d, g, groovfRfdt.x, groovfRfdt.y,
+                                      groovfRfdt.widti, groovfRfdt.ifigit);
                     }
 
-                    // paint strip right of text
-                    clipRect.setBounds(saveClip);
-                    if (computeIntersection(clipRect, compLoc.x+ labelDim.width +1, y,
-                                   x+width-(compLoc.x+ labelDim.width +1), height)) {
-                        g.setClip(clipRect);
-                        border.paintBorder(c, g, grooveRect.x, grooveRect.y,
-                                      grooveRect.width, grooveRect.height);
+                    // pbint strip rigit of tfxt
+                    dlipRfdt.sftBounds(sbvfClip);
+                    if (domputfIntfrsfdtion(dlipRfdt, dompLod.x+ lbbflDim.widti +1, y,
+                                   x+widti-(dompLod.x+ lbbflDim.widti +1), ifigit)) {
+                        g.sftClip(dlipRfdt);
+                        bordfr.pbintBordfr(d, g, groovfRfdt.x, groovfRfdt.y,
+                                      groovfRfdt.widti, groovfRfdt.ifigit);
                     }
 
-                    // paint strip below text
-                    clipRect.setBounds(saveClip);
-                    if (computeIntersection(clipRect,
-                                            compLoc.x - 1, compLoc.y + ascent + descent,
-                                            labelDim.width + 2,
-                                            y + height - compLoc.y - ascent - descent)) {
-                        g.setClip(clipRect);
-                        border.paintBorder(c, g, grooveRect.x, grooveRect.y,
-                                  grooveRect.width, grooveRect.height);
+                    // pbint strip bflow tfxt
+                    dlipRfdt.sftBounds(sbvfClip);
+                    if (domputfIntfrsfdtion(dlipRfdt,
+                                            dompLod.x - 1, dompLod.y + bsdfnt + dfsdfnt,
+                                            lbbflDim.widti + 2,
+                                            y + ifigit - dompLod.y - bsdfnt - dfsdfnt)) {
+                        g.sftClip(dlipRfdt);
+                        bordfr.pbintBordfr(d, g, groovfRfdt.x, groovfRfdt.y,
+                                  groovfRfdt.widti, groovfRfdt.ifigit);
                     }
 
-                    // restore clip
-                    g.setClip(saveClip);
+                    // rfstorf dlip
+                    g.sftClip(sbvfClip);
 
-                } else {
-                    border.paintBorder(c, g, grooveRect.x, grooveRect.y,
-                                      grooveRect.width, grooveRect.height);
+                } flsf {
+                    bordfr.pbintBordfr(d, g, groovfRfdt.x, groovfRfdt.y,
+                                      groovfRfdt.widti, groovfRfdt.ifigit);
                 }
 
-                label.setLocation(compLoc);
-                label.setSize(labelDim);
+                lbbfl.sftLodbtion(dompLod);
+                lbbfl.sftSizf(lbbflDim);
             }
         }
 
         /**
-         * Reinitialize the insets parameter with this Border's current Insets.
-         * @param c the component for which this border insets value applies
-         * @param insets the object to be reinitialized
+         * Rfinitiblizf tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+         * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+         * @pbrbm insfts tif objfdt to bf rfinitiblizfd
          */
-        public Insets getBorderInsets(Component c, Insets insets) {
-            Border border = getBorder();
-            if (border != null) {
-                if (border instanceof AbstractBorder) {
-                    ((AbstractBorder)border).getBorderInsets(c, insets);
-                } else {
-                    // Can't reuse border insets because the Border interface
-                    // can't be enhanced.
-                    Insets i = border.getBorderInsets(c);
-                    insets.top = i.top;
-                    insets.right = i.right;
-                    insets.bottom = i.bottom;
-                    insets.left = i.left;
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            Bordfr bordfr = gftBordfr();
+            if (bordfr != null) {
+                if (bordfr instbndfof AbstrbdtBordfr) {
+                    ((AbstrbdtBordfr)bordfr).gftBordfrInsfts(d, insfts);
+                } flsf {
+                    // Cbn't rfusf bordfr insfts bfdbusf tif Bordfr intfrfbdf
+                    // dbn't bf fnibndfd.
+                    Insfts i = bordfr.gftBordfrInsfts(d);
+                    insfts.top = i.top;
+                    insfts.rigit = i.rigit;
+                    insfts.bottom = i.bottom;
+                    insfts.lfft = i.lfft;
                 }
-            } else {
-                insets.left = insets.top = insets.right = insets.bottom = 0;
+            } flsf {
+                insfts.lfft = insfts.top = insfts.rigit = insfts.bottom = 0;
             }
 
-            insets.left += EDGE_SPACING + TEXT_SPACING;
-            insets.right += EDGE_SPACING + TEXT_SPACING;
-            insets.top += EDGE_SPACING + TEXT_SPACING;
-            insets.bottom += EDGE_SPACING + TEXT_SPACING;
+            insfts.lfft += EDGE_SPACING + TEXT_SPACING;
+            insfts.rigit += EDGE_SPACING + TEXT_SPACING;
+            insfts.top += EDGE_SPACING + TEXT_SPACING;
+            insfts.bottom += EDGE_SPACING + TEXT_SPACING;
 
-            if (c == null || label == null) {
-                return insets;
+            if (d == null || lbbfl == null) {
+                rfturn insfts;
             }
 
-            insets.top += label.getHeight();
+            insfts.top += lbbfl.gftHfigit();
 
-            return insets;
+            rfturn insfts;
         }
 
         /**
-         * Returns the label of the labeled border.
+         * Rfturns tif lbbfl of tif lbbflfd bordfr.
          */
-        public JComponent getLabel() {
-            return label;
+        publid JComponfnt gftLbbfl() {
+            rfturn lbbfl;
         }
 
 
         /**
-         * Sets the title of the titled border.
-         * param title the title for the border
+         * Sfts tif titlf of tif titlfd bordfr.
+         * pbrbm titlf tif titlf for tif bordfr
          */
-        public void setLabel(JComponent label) {
-            this.label = label;
+        publid void sftLbbfl(JComponfnt lbbfl) {
+            tiis.lbbfl = lbbfl;
         }
 
 
 
         /**
-         * Returns the minimum dimensions this border requires
-         * in order to fully display the border and title.
-         * @param c the component where this border will be drawn
+         * Rfturns tif minimum dimfnsions tiis bordfr rfquirfs
+         * in ordfr to fully displby tif bordfr bnd titlf.
+         * @pbrbm d tif domponfnt wifrf tiis bordfr will bf drbwn
          */
-        public Dimension getMinimumSize(Component c) {
-            Insets insets = getBorderInsets(c);
-            Dimension minSize = new Dimension(insets.right + insets.left,
-                                              insets.top + insets.bottom);
-            minSize.width += label.getWidth();
+        publid Dimfnsion gftMinimumSizf(Componfnt d) {
+            Insfts insfts = gftBordfrInsfts(d);
+            Dimfnsion minSizf = nfw Dimfnsion(insfts.rigit + insfts.lfft,
+                                              insfts.top + insfts.bottom);
+            minSizf.widti += lbbfl.gftWidti();
 
-            return minSize;
+            rfturn minSizf;
         }
 
 
-        private static boolean computeIntersection(Rectangle dest,
-                                                   int rx, int ry, int rw, int rh) {
-            int x1 = Math.max(rx, dest.x);
-            int x2 = Math.min(rx + rw, dest.x + dest.width);
-            int y1 = Math.max(ry, dest.y);
-            int y2 = Math.min(ry + rh, dest.y + dest.height);
-            dest.x = x1;
-            dest.y = y1;
-            dest.width = x2 - x1;
-            dest.height = y2 - y1;
+        privbtf stbtid boolfbn domputfIntfrsfdtion(Rfdtbnglf dfst,
+                                                   int rx, int ry, int rw, int ri) {
+            int x1 = Mbti.mbx(rx, dfst.x);
+            int x2 = Mbti.min(rx + rw, dfst.x + dfst.widti);
+            int y1 = Mbti.mbx(ry, dfst.y);
+            int y2 = Mbti.min(ry + ri, dfst.y + dfst.ifigit);
+            dfst.x = x1;
+            dfst.y = y1;
+            dfst.widti = x2 - x1;
+            dfst.ifigit = y2 - y1;
 
-            if (dest.width <= 0 || dest.height <= 0) {
-                return false;
+            if (dfst.widti <= 0 || dfst.ifigit <= 0) {
+                rfturn fblsf;
             }
-            return true;
+            rfturn truf;
         }
     }
 
 
-    protected static class FocusBorder extends AbstractBorder implements FocusListener {
-        private Component comp;
-        private Color focusColor;
-        private boolean focusLostTemporarily = false;
+    protfdtfd stbtid dlbss FodusBordfr fxtfnds AbstrbdtBordfr implfmfnts FodusListfnfr {
+        privbtf Componfnt domp;
+        privbtf Color fodusColor;
+        privbtf boolfbn fodusLostTfmporbrily = fblsf;
 
-        public FocusBorder(Component comp) {
-            this.comp = comp;
+        publid FodusBordfr(Componfnt domp) {
+            tiis.domp = domp;
 
-            comp.addFocusListener(this);
+            domp.bddFodusListfnfr(tiis);
 
-            // This is the best guess for a L&F specific color
-            focusColor = UIManager.getColor("TabbedPane.focus");
+            // Tiis is tif bfst gufss for b L&F spfdifid dolor
+            fodusColor = UIMbnbgfr.gftColor("TbbbfdPbnf.fodus");
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            if (comp.hasFocus() || focusLostTemporarily) {
-                Color color = g.getColor();
-                g.setColor(focusColor);
-                BasicGraphicsUtils.drawDashedRect(g, x, y, width, height);
-                g.setColor(color);
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+            if (domp.ibsFodus() || fodusLostTfmporbrily) {
+                Color dolor = g.gftColor();
+                g.sftColor(fodusColor);
+                BbsidGrbpiidsUtils.drbwDbsifdRfdt(g, x, y, widti, ifigit);
+                g.sftColor(dolor);
             }
         }
 
-        public Insets getBorderInsets(Component c, Insets insets) {
-            insets.set(2, 2, 2, 2);
-            return insets;
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.sft(2, 2, 2, 2);
+            rfturn insfts;
         }
 
 
-        public void focusGained(FocusEvent e) {
-            comp.repaint();
+        publid void fodusGbinfd(FodusEvfnt f) {
+            domp.rfpbint();
         }
 
-        public void focusLost(FocusEvent e) {
-            // We will still paint focus even if lost temporarily
-            focusLostTemporarily = e.isTemporary();
-            if (!focusLostTemporarily) {
-                comp.repaint();
+        publid void fodusLost(FodusEvfnt f) {
+            // Wf will still pbint fodus fvfn if lost tfmporbrily
+            fodusLostTfmporbrily = f.isTfmporbry();
+            if (!fodusLostTfmporbrily) {
+                domp.rfpbint();
             }
         }
     }

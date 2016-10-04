@@ -1,723 +1,723 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.attach;
+pbdkbgf dom.sun.tools.bttbdi;
 
-import com.sun.tools.attach.spi.AttachProvider;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.io.IOException;
+import dom.sun.tools.bttbdi.spi.AttbdiProvidfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Propfrtifs;
+import jbvb.io.IOExdfption;
 
 
 /**
- * A Java virtual machine.
+ * A Jbvb virtubl mbdiinf.
  *
- * <p> A <code>VirtualMachine</code> represents a Java virtual machine to which this
- * Java virtual machine has attached. The Java virtual machine to which it is
- * attached is sometimes called the <i>target virtual machine</i>, or <i>target VM</i>.
- * An application (typically a tool such as a managemet console or profiler) uses a
- * VirtualMachine to load an agent into the target VM. For example, a profiler tool
- * written in the Java Language might attach to a running application and load its
- * profiler agent to profile the running application. </p>
+ * <p> A <dodf>VirtublMbdiinf</dodf> rfprfsfnts b Jbvb virtubl mbdiinf to wiidi tiis
+ * Jbvb virtubl mbdiinf ibs bttbdifd. Tif Jbvb virtubl mbdiinf to wiidi it is
+ * bttbdifd is somftimfs dbllfd tif <i>tbrgft virtubl mbdiinf</i>, or <i>tbrgft VM</i>.
+ * An bpplidbtion (typidblly b tool sudi bs b mbnbgfmft donsolf or profilfr) usfs b
+ * VirtublMbdiinf to lobd bn bgfnt into tif tbrgft VM. For fxbmplf, b profilfr tool
+ * writtfn in tif Jbvb Lbngubgf migit bttbdi to b running bpplidbtion bnd lobd its
+ * profilfr bgfnt to profilf tif running bpplidbtion. </p>
  *
- * <p> A VirtualMachine is obtained by invoking the {@link #attach(String) attach} method
- * with an identifier that identifies the target virtual machine. The identifier is
- * implementation-dependent but is typically the process identifier (or pid) in
- * environments where each Java virtual machine runs in its own operating system process.
- * Alternatively, a <code>VirtualMachine</code> instance is obtained by invoking the
- * {@link #attach(VirtualMachineDescriptor) attach} method with a {@link
- * com.sun.tools.attach.VirtualMachineDescriptor VirtualMachineDescriptor} obtained
- * from the list of virtual machine descriptors returned by the {@link #list list} method.
- * Once a reference to a virtual machine is obtained, the {@link #loadAgent loadAgent},
- * {@link #loadAgentLibrary loadAgentLibrary}, and {@link #loadAgentPath loadAgentPath}
- * methods are used to load agents into target virtual machine. The {@link
- * #loadAgent loadAgent} method is used to load agents that are written in the Java
- * Language and deployed in a {@link java.util.jar.JarFile JAR file}. (See
- * {@link java.lang.instrument} for a detailed description on how these agents
- * are loaded and started). The {@link #loadAgentLibrary loadAgentLibrary} and
- * {@link #loadAgentPath loadAgentPath} methods are used to load agents that
- * are deployed either in a dynamic library or statically linked into the VM and make use of the <a
- * href="../../../../../../../../technotes/guides/jvmti/index.html">JVM Tools
- * Interface</a>. </p>
+ * <p> A VirtublMbdiinf is obtbinfd by invoking tif {@link #bttbdi(String) bttbdi} mftiod
+ * witi bn idfntififr tibt idfntififs tif tbrgft virtubl mbdiinf. Tif idfntififr is
+ * implfmfntbtion-dfpfndfnt but is typidblly tif prodfss idfntififr (or pid) in
+ * fnvironmfnts wifrf fbdi Jbvb virtubl mbdiinf runs in its own opfrbting systfm prodfss.
+ * Altfrnbtivfly, b <dodf>VirtublMbdiinf</dodf> instbndf is obtbinfd by invoking tif
+ * {@link #bttbdi(VirtublMbdiinfDfsdriptor) bttbdi} mftiod witi b {@link
+ * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor VirtublMbdiinfDfsdriptor} obtbinfd
+ * from tif list of virtubl mbdiinf dfsdriptors rfturnfd by tif {@link #list list} mftiod.
+ * Ondf b rfffrfndf to b virtubl mbdiinf is obtbinfd, tif {@link #lobdAgfnt lobdAgfnt},
+ * {@link #lobdAgfntLibrbry lobdAgfntLibrbry}, bnd {@link #lobdAgfntPbti lobdAgfntPbti}
+ * mftiods brf usfd to lobd bgfnts into tbrgft virtubl mbdiinf. Tif {@link
+ * #lobdAgfnt lobdAgfnt} mftiod is usfd to lobd bgfnts tibt brf writtfn in tif Jbvb
+ * Lbngubgf bnd dfployfd in b {@link jbvb.util.jbr.JbrFilf JAR filf}. (Sff
+ * {@link jbvb.lbng.instrumfnt} for b dftbilfd dfsdription on iow tifsf bgfnts
+ * brf lobdfd bnd stbrtfd). Tif {@link #lobdAgfntLibrbry lobdAgfntLibrbry} bnd
+ * {@link #lobdAgfntPbti lobdAgfntPbti} mftiods brf usfd to lobd bgfnts tibt
+ * brf dfployfd fitifr in b dynbmid librbry or stbtidblly linkfd into tif VM bnd mbkf usf of tif <b
+ * irff="../../../../../../../../tfdinotfs/guidfs/jvmti/indfx.itml">JVM Tools
+ * Intfrfbdf</b>. </p>
  *
- * <p> In addition to loading agents a VirtualMachine provides read access to the
- * {@link java.lang.System#getProperties() system properties} in the target VM.
- * This can be useful in some environments where properties such as
- * <code>java.home</code>, <code>os.name</code>, or <code>os.arch</code> are
- * used to construct the path to agent that will be loaded into the target VM.
+ * <p> In bddition to lobding bgfnts b VirtublMbdiinf providfs rfbd bddfss to tif
+ * {@link jbvb.lbng.Systfm#gftPropfrtifs() systfm propfrtifs} in tif tbrgft VM.
+ * Tiis dbn bf usfful in somf fnvironmfnts wifrf propfrtifs sudi bs
+ * <dodf>jbvb.iomf</dodf>, <dodf>os.nbmf</dodf>, or <dodf>os.brdi</dodf> brf
+ * usfd to donstrudt tif pbti to bgfnt tibt will bf lobdfd into tif tbrgft VM.
  *
- * <p> The following example demonstrates how VirtualMachine may be used:</p>
+ * <p> Tif following fxbmplf dfmonstrbtfs iow VirtublMbdiinf mby bf usfd:</p>
  *
- * <pre>
+ * <prf>
  *
- *      // attach to target VM
- *      VirtualMachine vm = VirtualMachine.attach("2177");
+ *      // bttbdi to tbrgft VM
+ *      VirtublMbdiinf vm = VirtublMbdiinf.bttbdi("2177");
  *
- *      // start management agent
- *      Properties props = new Properties();
- *      props.put("com.sun.management.jmxremote.port", "5000");
- *      vm.startManagementAgent(props);
+ *      // stbrt mbnbgfmfnt bgfnt
+ *      Propfrtifs props = nfw Propfrtifs();
+ *      props.put("dom.sun.mbnbgfmfnt.jmxrfmotf.port", "5000");
+ *      vm.stbrtMbnbgfmfntAgfnt(props);
  *
- *      // detach
- *      vm.detach();
+ *      // dftbdi
+ *      vm.dftbdi();
  *
- * </pre>
+ * </prf>
  *
- * <p> In this example we attach to a Java virtual machine that is identified by
- * the process identifier <code>2177</code>. Then the JMX management agent is
- * started in the target process using the supplied arguments. Finally, the
- * client detaches from the target VM. </p>
+ * <p> In tiis fxbmplf wf bttbdi to b Jbvb virtubl mbdiinf tibt is idfntififd by
+ * tif prodfss idfntififr <dodf>2177</dodf>. Tifn tif JMX mbnbgfmfnt bgfnt is
+ * stbrtfd in tif tbrgft prodfss using tif supplifd brgumfnts. Finblly, tif
+ * dlifnt dftbdifs from tif tbrgft VM. </p>
  *
- * <p> A VirtualMachine is safe for use by multiple concurrent threads. </p>
+ * <p> A VirtublMbdiinf is sbff for usf by multiplf dondurrfnt tirfbds. </p>
  *
- * @since 1.6
+ * @sindf 1.6
  */
 
-@jdk.Exported
-public abstract class VirtualMachine {
-    private AttachProvider provider;
-    private String id;
-    private volatile int hash;        // 0 => not computed
+@jdk.Exportfd
+publid bbstrbdt dlbss VirtublMbdiinf {
+    privbtf AttbdiProvidfr providfr;
+    privbtf String id;
+    privbtf volbtilf int ibsi;        // 0 => not domputfd
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @param   provider
-     *          The attach provider creating this class.
-     * @param   id
-     *          The abstract identifier that identifies the Java virtual machine.
+     * @pbrbm   providfr
+     *          Tif bttbdi providfr drfbting tiis dlbss.
+     * @pbrbm   id
+     *          Tif bbstrbdt idfntififr tibt idfntififs tif Jbvb virtubl mbdiinf.
      *
-     * @throws  NullPointerException
-     *          If <code>provider</code> or <code>id</code> is <code>null</code>.
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>providfr</dodf> or <dodf>id</dodf> is <dodf>null</dodf>.
      */
-    protected VirtualMachine(AttachProvider provider, String id) {
-        if (provider == null) {
-            throw new NullPointerException("provider cannot be null");
+    protfdtfd VirtublMbdiinf(AttbdiProvidfr providfr, String id) {
+        if (providfr == null) {
+            tirow nfw NullPointfrExdfption("providfr dbnnot bf null");
         }
         if (id == null) {
-            throw new NullPointerException("id cannot be null");
+            tirow nfw NullPointfrExdfption("id dbnnot bf null");
         }
-        this.provider = provider;
-        this.id = id;
+        tiis.providfr = providfr;
+        tiis.id = id;
     }
 
     /**
-     * Return a list of Java virtual machines.
+     * Rfturn b list of Jbvb virtubl mbdiinfs.
      *
-     * <p> This method returns a list of Java {@link
-     * com.sun.tools.attach.VirtualMachineDescriptor} elements.
-     * The list is an aggregation of the virtual machine
-     * descriptor lists obtained by invoking the {@link
-     * com.sun.tools.attach.spi.AttachProvider#listVirtualMachines
-     * listVirtualMachines} method of all installed
-     * {@link com.sun.tools.attach.spi.AttachProvider attach providers}.
-     * If there are no Java virtual machines known to any provider
-     * then an empty list is returned.
+     * <p> Tiis mftiod rfturns b list of Jbvb {@link
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor} flfmfnts.
+     * Tif list is bn bggrfgbtion of tif virtubl mbdiinf
+     * dfsdriptor lists obtbinfd by invoking tif {@link
+     * dom.sun.tools.bttbdi.spi.AttbdiProvidfr#listVirtublMbdiinfs
+     * listVirtublMbdiinfs} mftiod of bll instbllfd
+     * {@link dom.sun.tools.bttbdi.spi.AttbdiProvidfr bttbdi providfrs}.
+     * If tifrf brf no Jbvb virtubl mbdiinfs known to bny providfr
+     * tifn bn fmpty list is rfturnfd.
      *
-     * @return  The list of virtual machine descriptors.
+     * @rfturn  Tif list of virtubl mbdiinf dfsdriptors.
      */
-    public static List<VirtualMachineDescriptor> list() {
-        ArrayList<VirtualMachineDescriptor> l =
-            new ArrayList<VirtualMachineDescriptor>();
-        List<AttachProvider> providers = AttachProvider.providers();
-        for (AttachProvider provider: providers) {
-            l.addAll(provider.listVirtualMachines());
+    publid stbtid List<VirtublMbdiinfDfsdriptor> list() {
+        ArrbyList<VirtublMbdiinfDfsdriptor> l =
+            nfw ArrbyList<VirtublMbdiinfDfsdriptor>();
+        List<AttbdiProvidfr> providfrs = AttbdiProvidfr.providfrs();
+        for (AttbdiProvidfr providfr: providfrs) {
+            l.bddAll(providfr.listVirtublMbdiinfs());
         }
-        return l;
+        rfturn l;
     }
 
     /**
-     * Attaches to a Java virtual machine.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
      *
-     * <p> This method obtains the list of attach providers by invoking the
-     * {@link com.sun.tools.attach.spi.AttachProvider#providers()
-     * AttachProvider.providers()} method. It then iterates overs the list
-     * and invokes each provider's {@link
-     * com.sun.tools.attach.spi.AttachProvider#attachVirtualMachine(java.lang.String)
-     * attachVirtualMachine} method in turn. If a provider successfully
-     * attaches then the iteration terminates, and the VirtualMachine created
-     * by the provider that successfully attached is returned by this method.
-     * If the <code>attachVirtualMachine</code> method of all providers throws
-     * {@link com.sun.tools.attach.AttachNotSupportedException AttachNotSupportedException}
-     * then this method also throws <code>AttachNotSupportedException</code>.
-     * This means that <code>AttachNotSupportedException</code> is thrown when
-     * the identifier provided to this method is invalid, or the identifier
-     * corresponds to a Java virtual machine that does not exist, or none
-     * of the providers can attach to it. This exception is also thrown if
-     * {@link com.sun.tools.attach.spi.AttachProvider#providers()
-     * AttachProvider.providers()} returns an empty list. </p>
+     * <p> Tiis mftiod obtbins tif list of bttbdi providfrs by invoking tif
+     * {@link dom.sun.tools.bttbdi.spi.AttbdiProvidfr#providfrs()
+     * AttbdiProvidfr.providfrs()} mftiod. It tifn itfrbtfs ovfrs tif list
+     * bnd invokfs fbdi providfr's {@link
+     * dom.sun.tools.bttbdi.spi.AttbdiProvidfr#bttbdiVirtublMbdiinf(jbvb.lbng.String)
+     * bttbdiVirtublMbdiinf} mftiod in turn. If b providfr suddfssfully
+     * bttbdifs tifn tif itfrbtion tfrminbtfs, bnd tif VirtublMbdiinf drfbtfd
+     * by tif providfr tibt suddfssfully bttbdifd is rfturnfd by tiis mftiod.
+     * If tif <dodf>bttbdiVirtublMbdiinf</dodf> mftiod of bll providfrs tirows
+     * {@link dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption AttbdiNotSupportfdExdfption}
+     * tifn tiis mftiod blso tirows <dodf>AttbdiNotSupportfdExdfption</dodf>.
+     * Tiis mfbns tibt <dodf>AttbdiNotSupportfdExdfption</dodf> is tirown wifn
+     * tif idfntififr providfd to tiis mftiod is invblid, or tif idfntififr
+     * dorrfsponds to b Jbvb virtubl mbdiinf tibt dofs not fxist, or nonf
+     * of tif providfrs dbn bttbdi to it. Tiis fxdfption is blso tirown if
+     * {@link dom.sun.tools.bttbdi.spi.AttbdiProvidfr#providfrs()
+     * AttbdiProvidfr.providfrs()} rfturns bn fmpty list. </p>
      *
-     * @param   id
-     *          The abstract identifier that identifies the Java virtual machine.
+     * @pbrbm   id
+     *          Tif bbstrbdt idfntififr tibt idfntififs tif Jbvb virtubl mbdiinf.
      *
-     * @return  A VirtualMachine representing the target VM.
+     * @rfturn  A VirtublMbdiinf rfprfsfnting tif tbrgft VM.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link com.sun.tools.attach.AttachPermission AttachPermission}
-     *          <tt>("attachVirtualMachine")</tt>, or another permission
-     *          required by the implementation.
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or bnotifr pfrmission
+     *          rfquirfd by tif implfmfntbtion.
      *
-     * @throws  AttachNotSupportedException
-     *          If the <code>attachVirtualmachine</code> method of all installed
-     *          providers throws <code>AttachNotSupportedException</code>, or
-     *          there aren't any providers installed.
+     * @tirows  AttbdiNotSupportfdExdfption
+     *          If tif <dodf>bttbdiVirtublmbdiinf</dodf> mftiod of bll instbllfd
+     *          providfrs tirows <dodf>AttbdiNotSupportfdExdfption</dodf>, or
+     *          tifrf brfn't bny providfrs instbllfd.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @throws  NullPointerException
-     *          If <code>id</code> is <code>null</code>.
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>id</dodf> is <dodf>null</dodf>.
      */
-    public static VirtualMachine attach(String id)
-        throws AttachNotSupportedException, IOException
+    publid stbtid VirtublMbdiinf bttbdi(String id)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
     {
         if (id == null) {
-            throw new NullPointerException("id cannot be null");
+            tirow nfw NullPointfrExdfption("id dbnnot bf null");
         }
-        List<AttachProvider> providers = AttachProvider.providers();
-        if (providers.size() == 0) {
-            throw new AttachNotSupportedException("no providers installed");
+        List<AttbdiProvidfr> providfrs = AttbdiProvidfr.providfrs();
+        if (providfrs.sizf() == 0) {
+            tirow nfw AttbdiNotSupportfdExdfption("no providfrs instbllfd");
         }
-        AttachNotSupportedException lastExc = null;
-        for (AttachProvider provider: providers) {
+        AttbdiNotSupportfdExdfption lbstExd = null;
+        for (AttbdiProvidfr providfr: providfrs) {
             try {
-                return provider.attachVirtualMachine(id);
-            } catch (AttachNotSupportedException x) {
-                lastExc = x;
+                rfturn providfr.bttbdiVirtublMbdiinf(id);
+            } dbtdi (AttbdiNotSupportfdExdfption x) {
+                lbstExd = x;
             }
         }
-        throw lastExc;
+        tirow lbstExd;
     }
 
     /**
-     * Attaches to a Java virtual machine.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
      *
-     * <p> This method first invokes the {@link
-     * com.sun.tools.attach.VirtualMachineDescriptor#provider() provider()} method
-     * of the given virtual machine descriptor to obtain the attach provider. It
-     * then invokes the attach provider's {@link
-     * com.sun.tools.attach.spi.AttachProvider#attachVirtualMachine(VirtualMachineDescriptor)
-     * attachVirtualMachine} to attach to the target VM.
+     * <p> Tiis mftiod first invokfs tif {@link
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     * of tif givfn virtubl mbdiinf dfsdriptor to obtbin tif bttbdi providfr. It
+     * tifn invokfs tif bttbdi providfr's {@link
+     * dom.sun.tools.bttbdi.spi.AttbdiProvidfr#bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor)
+     * bttbdiVirtublMbdiinf} to bttbdi to tif tbrgft VM.
      *
-     * @param   vmd
-     *          The virtual machine descriptor.
+     * @pbrbm   vmd
+     *          Tif virtubl mbdiinf dfsdriptor.
      *
-     * @return  A VirtualMachine representing the target VM.
+     * @rfturn  A VirtublMbdiinf rfprfsfnting tif tbrgft VM.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link com.sun.tools.attach.AttachPermission AttachPermission}
-     *          <tt>("attachVirtualMachine")</tt>, or another permission
-     *          required by the implementation.
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or bnotifr pfrmission
+     *          rfquirfd by tif implfmfntbtion.
      *
-     * @throws  AttachNotSupportedException
-     *          If the attach provider's <code>attachVirtualmachine</code>
-     *          throws <code>AttachNotSupportedException</code>.
+     * @tirows  AttbdiNotSupportfdExdfption
+     *          If tif bttbdi providfr's <dodf>bttbdiVirtublmbdiinf</dodf>
+     *          tirows <dodf>AttbdiNotSupportfdExdfption</dodf>.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @throws  NullPointerException
-     *          If <code>vmd</code> is <code>null</code>.
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>vmd</dodf> is <dodf>null</dodf>.
      */
-    public static VirtualMachine attach(VirtualMachineDescriptor vmd)
-        throws AttachNotSupportedException, IOException
+    publid stbtid VirtublMbdiinf bttbdi(VirtublMbdiinfDfsdriptor vmd)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
     {
-        return vmd.provider().attachVirtualMachine(vmd);
+        rfturn vmd.providfr().bttbdiVirtublMbdiinf(vmd);
     }
 
     /**
-     * Detach from the virtual machine.
+     * Dftbdi from tif virtubl mbdiinf.
      *
-     * <p> After detaching from the virtual machine, any further attempt to invoke
-     * operations on that virtual machine will cause an {@link java.io.IOException
-     * IOException} to be thrown. If an operation (such as {@link #loadAgent
-     * loadAgent} for example) is in progress when this method is invoked then
-     * the behaviour is implementation dependent. In other words, it is
-     * implementation specific if the operation completes or throws
-     * <tt>IOException</tt>.
+     * <p> Aftfr dftbdiing from tif virtubl mbdiinf, bny furtifr bttfmpt to invokf
+     * opfrbtions on tibt virtubl mbdiinf will dbusf bn {@link jbvb.io.IOExdfption
+     * IOExdfption} to bf tirown. If bn opfrbtion (sudi bs {@link #lobdAgfnt
+     * lobdAgfnt} for fxbmplf) is in progrfss wifn tiis mftiod is invokfd tifn
+     * tif bfibviour is implfmfntbtion dfpfndfnt. In otifr words, it is
+     * implfmfntbtion spfdifid if tif opfrbtion domplftfs or tirows
+     * <tt>IOExdfption</tt>.
      *
-     * <p> If already detached from the virtual machine then invoking this
-     * method has no effect. </p>
+     * <p> If blrfbdy dftbdifd from tif virtubl mbdiinf tifn invoking tiis
+     * mftiod ibs no ffffdt. </p>
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public abstract void detach() throws IOException;
+    publid bbstrbdt void dftbdi() tirows IOExdfption;
 
     /**
-     * Returns the provider that created this virtual machine.
+     * Rfturns tif providfr tibt drfbtfd tiis virtubl mbdiinf.
      *
-     * @return  The provider that created this virtual machine.
+     * @rfturn  Tif providfr tibt drfbtfd tiis virtubl mbdiinf.
      */
-    public final AttachProvider provider() {
-        return provider;
+    publid finbl AttbdiProvidfr providfr() {
+        rfturn providfr;
     }
 
     /**
-     * Returns the identifier for this Java virtual machine.
+     * Rfturns tif idfntififr for tiis Jbvb virtubl mbdiinf.
      *
-     * @return  The identifier for this Java virtual machine.
+     * @rfturn  Tif idfntififr for tiis Jbvb virtubl mbdiinf.
      */
-    public final String id() {
-        return id;
+    publid finbl String id() {
+        rfturn id;
     }
 
     /**
-     * Loads an agent library.
+     * Lobds bn bgfnt librbry.
      *
-     * <p> A <a href="../../../../../../../../technotes/guides/jvmti/index.html">JVM
-     * TI</a> client is called an <i>agent</i>. It is developed in a native language.
-     * A JVM TI agent is deployed in a platform specific manner but it is typically the
-     * platform equivalent of a dynamic library. Alternatively, it may be statically linked into the VM.
-     * This method causes the given agent library to be loaded into the target
-     * VM (if not already loaded or if not statically linked into the VM).
-     * It then causes the target VM to invoke the <code>Agent_OnAttach</code> function
-     * or, for a statically linked agent named 'L', the <code>Agent_OnAttach_L</code> function
-     * as specified in the
-     * <a href="../../../../../../../../technotes/guides/jvmti/index.html"> JVM Tools
-     * Interface</a> specification. Note that the <code>Agent_OnAttach[_L]</code>
-     * function is invoked even if the agent library was loaded prior to invoking
-     * this method.
+     * <p> A <b irff="../../../../../../../../tfdinotfs/guidfs/jvmti/indfx.itml">JVM
+     * TI</b> dlifnt is dbllfd bn <i>bgfnt</i>. It is dfvflopfd in b nbtivf lbngubgf.
+     * A JVM TI bgfnt is dfployfd in b plbtform spfdifid mbnnfr but it is typidblly tif
+     * plbtform fquivblfnt of b dynbmid librbry. Altfrnbtivfly, it mby bf stbtidblly linkfd into tif VM.
+     * Tiis mftiod dbusfs tif givfn bgfnt librbry to bf lobdfd into tif tbrgft
+     * VM (if not blrfbdy lobdfd or if not stbtidblly linkfd into tif VM).
+     * It tifn dbusfs tif tbrgft VM to invokf tif <dodf>Agfnt_OnAttbdi</dodf> fundtion
+     * or, for b stbtidblly linkfd bgfnt nbmfd 'L', tif <dodf>Agfnt_OnAttbdi_L</dodf> fundtion
+     * bs spfdififd in tif
+     * <b irff="../../../../../../../../tfdinotfs/guidfs/jvmti/indfx.itml"> JVM Tools
+     * Intfrfbdf</b> spfdifidbtion. Notf tibt tif <dodf>Agfnt_OnAttbdi[_L]</dodf>
+     * fundtion is invokfd fvfn if tif bgfnt librbry wbs lobdfd prior to invoking
+     * tiis mftiod.
      *
-     * <p> The agent library provided is the name of the agent library. It is interpreted
-     * in the target virtual machine in an implementation-dependent manner. Typically an
-     * implementation will expand the library name into an operating system specific file
-     * name. For example, on UNIX systems, the name <tt>L</tt> might be expanded to
-     * <tt>libL.so</tt>, and located using the search path specified by the
-     * <tt>LD_LIBRARY_PATH</tt> environment variable. If the agent named 'L' is
-     * statically linked into the VM then the VM must export a function named
-     * <code>Agent_OnAttach_L</code>.</p>
+     * <p> Tif bgfnt librbry providfd is tif nbmf of tif bgfnt librbry. It is intfrprftfd
+     * in tif tbrgft virtubl mbdiinf in bn implfmfntbtion-dfpfndfnt mbnnfr. Typidblly bn
+     * implfmfntbtion will fxpbnd tif librbry nbmf into bn opfrbting systfm spfdifid filf
+     * nbmf. For fxbmplf, on UNIX systfms, tif nbmf <tt>L</tt> migit bf fxpbndfd to
+     * <tt>libL.so</tt>, bnd lodbtfd using tif sfbrdi pbti spfdififd by tif
+     * <tt>LD_LIBRARY_PATH</tt> fnvironmfnt vbribblf. If tif bgfnt nbmfd 'L' is
+     * stbtidblly linkfd into tif VM tifn tif VM must fxport b fundtion nbmfd
+     * <dodf>Agfnt_OnAttbdi_L</dodf>.</p>
      *
-     * <p> If the <code>Agent_OnAttach[_L]</code> function in the agent library returns
-     * an error then an {@link com.sun.tools.attach.AgentInitializationException} is
-     * thrown. The return value from the <code>Agent_OnAttach[_L]</code> can then be
-     * obtained by invoking the {@link
-     * com.sun.tools.attach.AgentInitializationException#returnValue() returnValue}
-     * method on the exception. </p>
+     * <p> If tif <dodf>Agfnt_OnAttbdi[_L]</dodf> fundtion in tif bgfnt librbry rfturns
+     * bn frror tifn bn {@link dom.sun.tools.bttbdi.AgfntInitiblizbtionExdfption} is
+     * tirown. Tif rfturn vbluf from tif <dodf>Agfnt_OnAttbdi[_L]</dodf> dbn tifn bf
+     * obtbinfd by invoking tif {@link
+     * dom.sun.tools.bttbdi.AgfntInitiblizbtionExdfption#rfturnVbluf() rfturnVbluf}
+     * mftiod on tif fxdfption. </p>
      *
-     * @param   agentLibrary
-     *          The name of the agent library.
+     * @pbrbm   bgfntLibrbry
+     *          Tif nbmf of tif bgfnt librbry.
      *
-     * @param   options
-     *          The options to provide to the <code>Agent_OnAttach[_L]</code>
-     *          function (can be <code>null</code>).
+     * @pbrbm   options
+     *          Tif options to providf to tif <dodf>Agfnt_OnAttbdi[_L]</dodf>
+     *          fundtion (dbn bf <dodf>null</dodf>).
      *
-     * @throws  AgentLoadException
-     *          If the agent library does not exist, the agent library is not
-     *          statically linked with the VM, or the agent library cannot be
-     *          loaded for another reason.
+     * @tirows  AgfntLobdExdfption
+     *          If tif bgfnt librbry dofs not fxist, tif bgfnt librbry is not
+     *          stbtidblly linkfd witi tif VM, or tif bgfnt librbry dbnnot bf
+     *          lobdfd for bnotifr rfbson.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>Agent_OnAttach[_L]</code> function returns an error.
+     * @tirows  AgfntInitiblizbtionExdfption
+     *          If tif <dodf>Agfnt_OnAttbdi[_L]</dodf> fundtion rfturns bn frror.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @throws  NullPointerException
-     *          If <code>agentLibrary</code> is <code>null</code>.
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>bgfntLibrbry</dodf> is <dodf>null</dodf>.
      *
-     * @see     com.sun.tools.attach.AgentInitializationException#returnValue()
+     * @sff     dom.sun.tools.bttbdi.AgfntInitiblizbtionExdfption#rfturnVbluf()
      */
-    public abstract void loadAgentLibrary(String agentLibrary, String options)
-        throws AgentLoadException, AgentInitializationException, IOException;
+    publid bbstrbdt void lobdAgfntLibrbry(String bgfntLibrbry, String options)
+        tirows AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption;
 
     /**
-     * Loads an agent library.
+     * Lobds bn bgfnt librbry.
      *
-     * <p> This convenience method works as if by invoking:
+     * <p> Tiis donvfnifndf mftiod works bs if by invoking:
      *
-     * <blockquote><tt>
-     * {@link #loadAgentLibrary(String, String) loadAgentLibrary}(agentLibrary,&nbsp;null);
-     * </tt></blockquote>
+     * <blodkquotf><tt>
+     * {@link #lobdAgfntLibrbry(String, String) lobdAgfntLibrbry}(bgfntLibrbry,&nbsp;null);
+     * </tt></blodkquotf>
      *
-     * @param   agentLibrary
-     *          The name of the agent library.
+     * @pbrbm   bgfntLibrbry
+     *          Tif nbmf of tif bgfnt librbry.
      *
-     * @throws  AgentLoadException
-     *          If the agent library does not exist, the agent library is not
-     *          statically linked with the VM, or the agent library cannot be
-     *          loaded for another reason.
+     * @tirows  AgfntLobdExdfption
+     *          If tif bgfnt librbry dofs not fxist, tif bgfnt librbry is not
+     *          stbtidblly linkfd witi tif VM, or tif bgfnt librbry dbnnot bf
+     *          lobdfd for bnotifr rfbson.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>Agent_OnAttach[_L]</code> function returns an error.
+     * @tirows  AgfntInitiblizbtionExdfption
+     *          If tif <dodf>Agfnt_OnAttbdi[_L]</dodf> fundtion rfturns bn frror.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @throws  NullPointerException
-     *          If <code>agentLibrary</code> is <code>null</code>.
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>bgfntLibrbry</dodf> is <dodf>null</dodf>.
      */
-    public void loadAgentLibrary(String agentLibrary)
-        throws AgentLoadException, AgentInitializationException, IOException
+    publid void lobdAgfntLibrbry(String bgfntLibrbry)
+        tirows AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption
     {
-        loadAgentLibrary(agentLibrary, null);
+        lobdAgfntLibrbry(bgfntLibrbry, null);
     }
 
     /**
-     * Load a native agent library by full pathname.
+     * Lobd b nbtivf bgfnt librbry by full pbtinbmf.
      *
-     * <p> A <a href="../../../../../../../../technotes/guides/jvmti/index.html">JVM
-     * TI</a> client is called an <i>agent</i>. It is developed in a native language.
-     * A JVM TI agent is deployed in a platform specific manner but it is typically the
-     * platform equivalent of a dynamic library. Alternatively, the native
-     * library specified by the agentPath parameter may be statically
-     * linked with the VM. The parsing of the agentPath parameter into
-     * a statically linked library name is done in a platform
-     * specific manner in the VM. For example, in UNIX, an agentPath parameter
-     * of <code>/a/b/libL.so</code> would name a library 'L'.
+     * <p> A <b irff="../../../../../../../../tfdinotfs/guidfs/jvmti/indfx.itml">JVM
+     * TI</b> dlifnt is dbllfd bn <i>bgfnt</i>. It is dfvflopfd in b nbtivf lbngubgf.
+     * A JVM TI bgfnt is dfployfd in b plbtform spfdifid mbnnfr but it is typidblly tif
+     * plbtform fquivblfnt of b dynbmid librbry. Altfrnbtivfly, tif nbtivf
+     * librbry spfdififd by tif bgfntPbti pbrbmftfr mby bf stbtidblly
+     * linkfd witi tif VM. Tif pbrsing of tif bgfntPbti pbrbmftfr into
+     * b stbtidblly linkfd librbry nbmf is donf in b plbtform
+     * spfdifid mbnnfr in tif VM. For fxbmplf, in UNIX, bn bgfntPbti pbrbmftfr
+     * of <dodf>/b/b/libL.so</dodf> would nbmf b librbry 'L'.
      *
-     * See the JVM TI Specification for more details.
+     * Sff tif JVM TI Spfdifidbtion for morf dftbils.
      *
-     * This method causes the given agent library to be loaded into the target
-     * VM (if not already loaded or if not statically linked into the VM).
-     * It then causes the target VM to invoke the <code>Agent_OnAttach</code>
-     * function or, for a statically linked agent named 'L', the
-     * <code>Agent_OnAttach_L</code> function as specified in the
-     * <a href="../../../../../../../../technotes/guides/jvmti/index.html"> JVM Tools
-     * Interface</a> specification.
-     * Note that the <code>Agent_OnAttach[_L]</code>
-     * function is invoked even if the agent library was loaded prior to invoking
-     * this method.
+     * Tiis mftiod dbusfs tif givfn bgfnt librbry to bf lobdfd into tif tbrgft
+     * VM (if not blrfbdy lobdfd or if not stbtidblly linkfd into tif VM).
+     * It tifn dbusfs tif tbrgft VM to invokf tif <dodf>Agfnt_OnAttbdi</dodf>
+     * fundtion or, for b stbtidblly linkfd bgfnt nbmfd 'L', tif
+     * <dodf>Agfnt_OnAttbdi_L</dodf> fundtion bs spfdififd in tif
+     * <b irff="../../../../../../../../tfdinotfs/guidfs/jvmti/indfx.itml"> JVM Tools
+     * Intfrfbdf</b> spfdifidbtion.
+     * Notf tibt tif <dodf>Agfnt_OnAttbdi[_L]</dodf>
+     * fundtion is invokfd fvfn if tif bgfnt librbry wbs lobdfd prior to invoking
+     * tiis mftiod.
      *
-     * <p> The agent library provided is the absolute path from which to load the
-     * agent library. Unlike {@link #loadAgentLibrary loadAgentLibrary}, the library name
-     * is not expanded in the target virtual machine. </p>
+     * <p> Tif bgfnt librbry providfd is tif bbsolutf pbti from wiidi to lobd tif
+     * bgfnt librbry. Unlikf {@link #lobdAgfntLibrbry lobdAgfntLibrbry}, tif librbry nbmf
+     * is not fxpbndfd in tif tbrgft virtubl mbdiinf. </p>
      *
-     * <p> If the <code>Agent_OnAttach[_L]</code> function in the agent library returns
-     * an error then an {@link com.sun.tools.attach.AgentInitializationException} is
-     * thrown. The return value from the <code>Agent_OnAttach[_L]</code> can then be
-     * obtained by invoking the {@link
-     * com.sun.tools.attach.AgentInitializationException#returnValue() returnValue}
-     * method on the exception. </p>
+     * <p> If tif <dodf>Agfnt_OnAttbdi[_L]</dodf> fundtion in tif bgfnt librbry rfturns
+     * bn frror tifn bn {@link dom.sun.tools.bttbdi.AgfntInitiblizbtionExdfption} is
+     * tirown. Tif rfturn vbluf from tif <dodf>Agfnt_OnAttbdi[_L]</dodf> dbn tifn bf
+     * obtbinfd by invoking tif {@link
+     * dom.sun.tools.bttbdi.AgfntInitiblizbtionExdfption#rfturnVbluf() rfturnVbluf}
+     * mftiod on tif fxdfption. </p>
      *
-     * @param   agentPath
-     *          The full path of the agent library.
+     * @pbrbm   bgfntPbti
+     *          Tif full pbti of tif bgfnt librbry.
      *
-     * @param   options
-     *          The options to provide to the <code>Agent_OnAttach[_L]</code>
-     *          function (can be <code>null</code>).
+     * @pbrbm   options
+     *          Tif options to providf to tif <dodf>Agfnt_OnAttbdi[_L]</dodf>
+     *          fundtion (dbn bf <dodf>null</dodf>).
      *
-     * @throws  AgentLoadException
-     *          If the agent library does not exist, the agent library is not
-     *          statically linked with the VM, or the agent library cannot be
-     *          loaded for another reason.
+     * @tirows  AgfntLobdExdfption
+     *          If tif bgfnt librbry dofs not fxist, tif bgfnt librbry is not
+     *          stbtidblly linkfd witi tif VM, or tif bgfnt librbry dbnnot bf
+     *          lobdfd for bnotifr rfbson.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>Agent_OnAttach[_L]</code> function returns an error.
+     * @tirows  AgfntInitiblizbtionExdfption
+     *          If tif <dodf>Agfnt_OnAttbdi[_L]</dodf> fundtion rfturns bn frror.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @throws  NullPointerException
-     *          If <code>agentPath</code> is <code>null</code>.
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>bgfntPbti</dodf> is <dodf>null</dodf>.
      *
-     * @see     com.sun.tools.attach.AgentInitializationException#returnValue()
+     * @sff     dom.sun.tools.bttbdi.AgfntInitiblizbtionExdfption#rfturnVbluf()
      */
-    public abstract void loadAgentPath(String agentPath, String options)
-        throws AgentLoadException, AgentInitializationException, IOException;
+    publid bbstrbdt void lobdAgfntPbti(String bgfntPbti, String options)
+        tirows AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption;
 
     /**
-     * Load a native agent library by full pathname.
+     * Lobd b nbtivf bgfnt librbry by full pbtinbmf.
      *
-     * <p> This convenience method works as if by invoking:
+     * <p> Tiis donvfnifndf mftiod works bs if by invoking:
      *
-     * <blockquote><tt>
-     * {@link #loadAgentPath(String, String) loadAgentPath}(agentLibrary,&nbsp;null);
-     * </tt></blockquote>
+     * <blodkquotf><tt>
+     * {@link #lobdAgfntPbti(String, String) lobdAgfntPbti}(bgfntLibrbry,&nbsp;null);
+     * </tt></blodkquotf>
      *
-     * @param   agentPath
-     *          The full path to the agent library.
+     * @pbrbm   bgfntPbti
+     *          Tif full pbti to tif bgfnt librbry.
      *
-     * @throws  AgentLoadException
-     *          If the agent library does not exist, the agent library is not
-     *          statically linked with the VM, or the agent library cannot be
-     *          loaded for another reason.
+     * @tirows  AgfntLobdExdfption
+     *          If tif bgfnt librbry dofs not fxist, tif bgfnt librbry is not
+     *          stbtidblly linkfd witi tif VM, or tif bgfnt librbry dbnnot bf
+     *          lobdfd for bnotifr rfbson.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>Agent_OnAttach[_L]</code> function returns an error.
+     * @tirows  AgfntInitiblizbtionExdfption
+     *          If tif <dodf>Agfnt_OnAttbdi[_L]</dodf> fundtion rfturns bn frror.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @throws  NullPointerException
-     *          If <code>agentPath</code> is <code>null</code>.
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>bgfntPbti</dodf> is <dodf>null</dodf>.
      */
-    public void loadAgentPath(String agentPath)
-       throws AgentLoadException, AgentInitializationException, IOException
+    publid void lobdAgfntPbti(String bgfntPbti)
+       tirows AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption
     {
-        loadAgentPath(agentPath, null);
+        lobdAgfntPbti(bgfntPbti, null);
     }
 
 
    /**
-     * Loads an agent.
+     * Lobds bn bgfnt.
      *
-     * <p> The agent provided to this method is a path name to a JAR file on the file
-     * system of the target virtual machine. This path is passed to the target virtual
-     * machine where it is interpreted. The target virtual machine attempts to start
-     * the agent as specified by the {@link java.lang.instrument} specification.
-     * That is, the specified JAR file is added to the system class path (of the target
-     * virtual machine), and the <code>agentmain</code> method of the agent class, specified
-     * by the <code>Agent-Class</code> attribute in the JAR manifest, is invoked. This
-     * method completes when the <code>agentmain</code> method completes.
+     * <p> Tif bgfnt providfd to tiis mftiod is b pbti nbmf to b JAR filf on tif filf
+     * systfm of tif tbrgft virtubl mbdiinf. Tiis pbti is pbssfd to tif tbrgft virtubl
+     * mbdiinf wifrf it is intfrprftfd. Tif tbrgft virtubl mbdiinf bttfmpts to stbrt
+     * tif bgfnt bs spfdififd by tif {@link jbvb.lbng.instrumfnt} spfdifidbtion.
+     * Tibt is, tif spfdififd JAR filf is bddfd to tif systfm dlbss pbti (of tif tbrgft
+     * virtubl mbdiinf), bnd tif <dodf>bgfntmbin</dodf> mftiod of tif bgfnt dlbss, spfdififd
+     * by tif <dodf>Agfnt-Clbss</dodf> bttributf in tif JAR mbniffst, is invokfd. Tiis
+     * mftiod domplftfs wifn tif <dodf>bgfntmbin</dodf> mftiod domplftfs.
      *
-     * @param   agent
-     *          Path to the JAR file containing the agent.
+     * @pbrbm   bgfnt
+     *          Pbti to tif JAR filf dontbining tif bgfnt.
      *
-     * @param   options
-     *          The options to provide to the agent's <code>agentmain</code>
-     *          method (can be <code>null</code>).
+     * @pbrbm   options
+     *          Tif options to providf to tif bgfnt's <dodf>bgfntmbin</dodf>
+     *          mftiod (dbn bf <dodf>null</dodf>).
      *
-     * @throws  AgentLoadException
-     *          If the agent does not exist, or cannot be started in the manner
-     *          specified in the {@link java.lang.instrument} specification.
+     * @tirows  AgfntLobdExdfption
+     *          If tif bgfnt dofs not fxist, or dbnnot bf stbrtfd in tif mbnnfr
+     *          spfdififd in tif {@link jbvb.lbng.instrumfnt} spfdifidbtion.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>agentmain</code> throws an exception
+     * @tirows  AgfntInitiblizbtionExdfption
+     *          If tif <dodf>bgfntmbin</dodf> tirows bn fxdfption
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @throws  NullPointerException
-     *          If <code>agent</code> is <code>null</code>.
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>bgfnt</dodf> is <dodf>null</dodf>.
      */
-    public abstract void loadAgent(String agent, String options)
-        throws AgentLoadException, AgentInitializationException, IOException;
+    publid bbstrbdt void lobdAgfnt(String bgfnt, String options)
+        tirows AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption;
 
     /**
-     * Loads an agent.
+     * Lobds bn bgfnt.
      *
-     * <p> This convenience method works as if by invoking:
+     * <p> Tiis donvfnifndf mftiod works bs if by invoking:
      *
-     * <blockquote><tt>
-     * {@link #loadAgent(String, String) loadAgent}(agent,&nbsp;null);
-     * </tt></blockquote>
+     * <blodkquotf><tt>
+     * {@link #lobdAgfnt(String, String) lobdAgfnt}(bgfnt,&nbsp;null);
+     * </tt></blodkquotf>
      *
-     * @param   agent
-     *          Path to the JAR file containing the agent.
+     * @pbrbm   bgfnt
+     *          Pbti to tif JAR filf dontbining tif bgfnt.
      *
-     * @throws  AgentLoadException
-     *          If the agent does not exist, or cannot be started in the manner
-     *          specified in the {@link java.lang.instrument} specification.
+     * @tirows  AgfntLobdExdfption
+     *          If tif bgfnt dofs not fxist, or dbnnot bf stbrtfd in tif mbnnfr
+     *          spfdififd in tif {@link jbvb.lbng.instrumfnt} spfdifidbtion.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>agentmain</code> throws an exception
+     * @tirows  AgfntInitiblizbtionExdfption
+     *          If tif <dodf>bgfntmbin</dodf> tirows bn fxdfption
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @throws  NullPointerException
-     *          If <code>agent</code> is <code>null</code>.
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>bgfnt</dodf> is <dodf>null</dodf>.
      */
-    public void loadAgent(String agent)
-        throws AgentLoadException, AgentInitializationException, IOException
+    publid void lobdAgfnt(String bgfnt)
+        tirows AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption
     {
-        loadAgent(agent, null);
+        lobdAgfnt(bgfnt, null);
     }
 
     /**
-     * Returns the current system properties in the target virtual machine.
+     * Rfturns tif durrfnt systfm propfrtifs in tif tbrgft virtubl mbdiinf.
      *
-     * <p> This method returns the system properties in the target virtual
-     * machine. Properties whose key or value is not a <tt>String</tt> are
-     * omitted. The method is approximately equivalent to the invocation of the
-     * method {@link java.lang.System#getProperties System.getProperties}
-     * in the target virtual machine except that properties with a key or
-     * value that is not a <tt>String</tt> are not included.
+     * <p> Tiis mftiod rfturns tif systfm propfrtifs in tif tbrgft virtubl
+     * mbdiinf. Propfrtifs wiosf kfy or vbluf is not b <tt>String</tt> brf
+     * omittfd. Tif mftiod is bpproximbtfly fquivblfnt to tif invodbtion of tif
+     * mftiod {@link jbvb.lbng.Systfm#gftPropfrtifs Systfm.gftPropfrtifs}
+     * in tif tbrgft virtubl mbdiinf fxdfpt tibt propfrtifs witi b kfy or
+     * vbluf tibt is not b <tt>String</tt> brf not indludfd.
      *
-     * <p> This method is typically used to decide which agent to load into
-     * the target virtual machine with {@link #loadAgent loadAgent}, or
-     * {@link #loadAgentLibrary loadAgentLibrary}. For example, the
-     * <code>java.home</code> or <code>user.dir</code> properties might be
-     * use to create the path to the agent library or JAR file.
+     * <p> Tiis mftiod is typidblly usfd to dfdidf wiidi bgfnt to lobd into
+     * tif tbrgft virtubl mbdiinf witi {@link #lobdAgfnt lobdAgfnt}, or
+     * {@link #lobdAgfntLibrbry lobdAgfntLibrbry}. For fxbmplf, tif
+     * <dodf>jbvb.iomf</dodf> or <dodf>usfr.dir</dodf> propfrtifs migit bf
+     * usf to drfbtf tif pbti to tif bgfnt librbry or JAR filf.
      *
-     * @return  The system properties
+     * @rfturn  Tif systfm propfrtifs
      *
-     * @throws  AttachOperationFailedException
-     *          If the target virtual machine is unable to complete the
-     *          attach operation. A more specific error message will be
-     *          given by {@link AttachOperationFailedException#getMessage()}.
+     * @tirows  AttbdiOpfrbtionFbilfdExdfption
+     *          If tif tbrgft virtubl mbdiinf is unbblf to domplftf tif
+     *          bttbdi opfrbtion. A morf spfdifid frror mfssbgf will bf
+     *          givfn by {@link AttbdiOpfrbtionFbilfdExdfption#gftMfssbgf()}.
      *
-     * @throws  IOException
-     *          If an I/O error occurs, a communication error for example,
-     *          that cannot be identified as an error to indicate that the
-     *          operation failed in the target VM.
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs, b dommunidbtion frror for fxbmplf,
+     *          tibt dbnnot bf idfntififd bs bn frror to indidbtf tibt tif
+     *          opfrbtion fbilfd in tif tbrgft VM.
      *
-     * @see     java.lang.System#getProperties
-     * @see     #loadAgentLibrary
-     * @see     #loadAgent
+     * @sff     jbvb.lbng.Systfm#gftPropfrtifs
+     * @sff     #lobdAgfntLibrbry
+     * @sff     #lobdAgfnt
      */
-    public abstract Properties getSystemProperties() throws IOException;
+    publid bbstrbdt Propfrtifs gftSystfmPropfrtifs() tirows IOExdfption;
 
     /**
-     * Returns the current <i>agent properties</i> in the target virtual
-     * machine.
+     * Rfturns tif durrfnt <i>bgfnt propfrtifs</i> in tif tbrgft virtubl
+     * mbdiinf.
      *
-     * <p> The target virtual machine can maintain a list of properties on
-     * behalf of agents. The manner in which this is done, the names of the
-     * properties, and the types of values that are allowed, is implementation
-     * specific. Agent properties are typically used to store communication
-     * end-points and other agent configuration details. For example, a debugger
-     * agent might create an agent property for its transport address.
+     * <p> Tif tbrgft virtubl mbdiinf dbn mbintbin b list of propfrtifs on
+     * bfiblf of bgfnts. Tif mbnnfr in wiidi tiis is donf, tif nbmfs of tif
+     * propfrtifs, bnd tif typfs of vblufs tibt brf bllowfd, is implfmfntbtion
+     * spfdifid. Agfnt propfrtifs brf typidblly usfd to storf dommunidbtion
+     * fnd-points bnd otifr bgfnt donfigurbtion dftbils. For fxbmplf, b dfbuggfr
+     * bgfnt migit drfbtf bn bgfnt propfrty for its trbnsport bddrfss.
      *
-     * <p> This method returns the agent properties whose key and value is a
-     * <tt>String</tt>. Properties whose key or value is not a <tt>String</tt>
-     * are omitted. If there are no agent properties maintained in the target
-     * virtual machine then an empty property list is returned.
+     * <p> Tiis mftiod rfturns tif bgfnt propfrtifs wiosf kfy bnd vbluf is b
+     * <tt>String</tt>. Propfrtifs wiosf kfy or vbluf is not b <tt>String</tt>
+     * brf omittfd. If tifrf brf no bgfnt propfrtifs mbintbinfd in tif tbrgft
+     * virtubl mbdiinf tifn bn fmpty propfrty list is rfturnfd.
      *
-     * @return       The agent properties
+     * @rfturn       Tif bgfnt propfrtifs
      *
-     * @throws       AttachOperationFailedException
-     *               If the target virtual machine is unable to complete the
-     *               attach operation. A more specific error message will be
-     *               given by {@link AttachOperationFailedException#getMessage()}.
+     * @tirows       AttbdiOpfrbtionFbilfdExdfption
+     *               If tif tbrgft virtubl mbdiinf is unbblf to domplftf tif
+     *               bttbdi opfrbtion. A morf spfdifid frror mfssbgf will bf
+     *               givfn by {@link AttbdiOpfrbtionFbilfdExdfption#gftMfssbgf()}.
      *
-     * @throws       IOException
-     *               If an I/O error occurs, a communication error for example,
-     *               that cannot be identified as an error to indicate that the
-     *               operation failed in the target VM.
+     * @tirows       IOExdfption
+     *               If bn I/O frror oddurs, b dommunidbtion frror for fxbmplf,
+     *               tibt dbnnot bf idfntififd bs bn frror to indidbtf tibt tif
+     *               opfrbtion fbilfd in tif tbrgft VM.
      */
-    public abstract Properties getAgentProperties() throws IOException;
+    publid bbstrbdt Propfrtifs gftAgfntPropfrtifs() tirows IOExdfption;
 
     /**
-     * Starts the JMX management agent in the target virtual machine.
+     * Stbrts tif JMX mbnbgfmfnt bgfnt in tif tbrgft virtubl mbdiinf.
      *
-     * <p> The configuration properties are the same as those specified on
-     * the command line when starting the JMX management agent. In the same
-     * way as on the command line, you need to specify at least the
-     * {@code com.sun.management.jmxremote.port} property.
+     * <p> Tif donfigurbtion propfrtifs brf tif sbmf bs tiosf spfdififd on
+     * tif dommbnd linf wifn stbrting tif JMX mbnbgfmfnt bgfnt. In tif sbmf
+     * wby bs on tif dommbnd linf, you nffd to spfdify bt lfbst tif
+     * {@dodf dom.sun.mbnbgfmfnt.jmxrfmotf.port} propfrty.
      *
-     * <p> See the online documentation for <a
-     * href="../../../../../../../../technotes/guides/management/agent.html">
-     * Monitoring and Management Using JMX Technology</a> for further details.
+     * <p> Sff tif onlinf dodumfntbtion for <b
+     * irff="../../../../../../../../tfdinotfs/guidfs/mbnbgfmfnt/bgfnt.itml">
+     * Monitoring bnd Mbnbgfmfnt Using JMX Tfdinology</b> for furtifr dftbils.
      *
-     * @param   agentProperties
-     *          A Properties object containing the configuration properties
-     *          for the agent.
+     * @pbrbm   bgfntPropfrtifs
+     *          A Propfrtifs objfdt dontbining tif donfigurbtion propfrtifs
+     *          for tif bgfnt.
      *
-     * @throws  AttachOperationFailedException
-     *          If the target virtual machine is unable to complete the
-     *          attach operation. A more specific error message will be
-     *          given by {@link AttachOperationFailedException#getMessage()}.
+     * @tirows  AttbdiOpfrbtionFbilfdExdfption
+     *          If tif tbrgft virtubl mbdiinf is unbblf to domplftf tif
+     *          bttbdi opfrbtion. A morf spfdifid frror mfssbgf will bf
+     *          givfn by {@link AttbdiOpfrbtionFbilfdExdfption#gftMfssbgf()}.
      *
-     * @throws  IOException
-     *          If an I/O error occurs, a communication error for example,
-     *          that cannot be identified as an error to indicate that the
-     *          operation failed in the target VM.
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs, b dommunidbtion frror for fxbmplf,
+     *          tibt dbnnot bf idfntififd bs bn frror to indidbtf tibt tif
+     *          opfrbtion fbilfd in tif tbrgft VM.
      *
-     * @throws  IllegalArgumentException
-     *          If keys or values in agentProperties are invalid.
+     * @tirows  IllfgblArgumfntExdfption
+     *          If kfys or vblufs in bgfntPropfrtifs brf invblid.
      *
-     * @throws  NullPointerException
-     *          If agentProperties is null.
+     * @tirows  NullPointfrExdfption
+     *          If bgfntPropfrtifs is null.
      *
-     * @since   1.9
+     * @sindf   1.9
      */
-    public abstract void startManagementAgent(Properties agentProperties) throws IOException;
+    publid bbstrbdt void stbrtMbnbgfmfntAgfnt(Propfrtifs bgfntPropfrtifs) tirows IOExdfption;
 
     /**
-     * Starts the local JMX management agent in the target virtual machine.
+     * Stbrts tif lodbl JMX mbnbgfmfnt bgfnt in tif tbrgft virtubl mbdiinf.
      *
-     * <p> See the online documentation for <a
-     * href="../../../../../../../../technotes/guides/management/agent.html">
-     * Monitoring and Management Using JMX Technology</a> for further details.
+     * <p> Sff tif onlinf dodumfntbtion for <b
+     * irff="../../../../../../../../tfdinotfs/guidfs/mbnbgfmfnt/bgfnt.itml">
+     * Monitoring bnd Mbnbgfmfnt Using JMX Tfdinology</b> for furtifr dftbils.
      *
-     * @return  The String representation of the local connector's service address.
-     *          The value can be parsed by the
-     *          {@link javax.management.remote.JMXServiceURL#JMXServiceURL(String)}
-     *          constructor.
+     * @rfturn  Tif String rfprfsfntbtion of tif lodbl donnfdtor's sfrvidf bddrfss.
+     *          Tif vbluf dbn bf pbrsfd by tif
+     *          {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL#JMXSfrvidfURL(String)}
+     *          donstrudtor.
      *
-     * @throws  AttachOperationFailedException
-     *          If the target virtual machine is unable to complete the
-     *          attach operation. A more specific error message will be
-     *          given by {@link AttachOperationFailedException#getMessage()}.
+     * @tirows  AttbdiOpfrbtionFbilfdExdfption
+     *          If tif tbrgft virtubl mbdiinf is unbblf to domplftf tif
+     *          bttbdi opfrbtion. A morf spfdifid frror mfssbgf will bf
+     *          givfn by {@link AttbdiOpfrbtionFbilfdExdfption#gftMfssbgf()}.
      *
-     * @throws  IOException
-     *          If an I/O error occurs, a communication error for example,
-     *          that cannot be identified as an error to indicate that the
-     *          operation failed in the target VM.
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs, b dommunidbtion frror for fxbmplf,
+     *          tibt dbnnot bf idfntififd bs bn frror to indidbtf tibt tif
+     *          opfrbtion fbilfd in tif tbrgft VM.
      *
-     * @since   1.9
+     * @sindf   1.9
      */
-    public abstract String startLocalManagementAgent() throws IOException;
+    publid bbstrbdt String stbrtLodblMbnbgfmfntAgfnt() tirows IOExdfption;
 
     /**
-     * Returns a hash-code value for this VirtualMachine. The hash
-     * code is based upon the VirtualMachine's components, and satifies
-     * the general contract of the {@link java.lang.Object#hashCode()
-     * Object.hashCode} method.
+     * Rfturns b ibsi-dodf vbluf for tiis VirtublMbdiinf. Tif ibsi
+     * dodf is bbsfd upon tif VirtublMbdiinf's domponfnts, bnd sbtififs
+     * tif gfnfrbl dontrbdt of tif {@link jbvb.lbng.Objfdt#ibsiCodf()
+     * Objfdt.ibsiCodf} mftiod.
      *
-     * @return  A hash-code value for this virtual machine
+     * @rfturn  A ibsi-dodf vbluf for tiis virtubl mbdiinf
      */
-    public int hashCode() {
-        if (hash != 0) {
-            return hash;
+    publid int ibsiCodf() {
+        if (ibsi != 0) {
+            rfturn ibsi;
         }
-        hash = provider.hashCode() * 127 + id.hashCode();
-        return hash;
+        ibsi = providfr.ibsiCodf() * 127 + id.ibsiCodf();
+        rfturn ibsi;
     }
 
     /**
-     * Tests this VirtualMachine for equality with another object.
+     * Tfsts tiis VirtublMbdiinf for fqublity witi bnotifr objfdt.
      *
-     * <p> If the given object is not a VirtualMachine then this
-     * method returns <tt>false</tt>. For two VirtualMachines to
-     * be considered equal requires that they both reference the same
-     * provider, and their {@link VirtualMachineDescriptor#id() identifiers} are equal. </p>
+     * <p> If tif givfn objfdt is not b VirtublMbdiinf tifn tiis
+     * mftiod rfturns <tt>fblsf</tt>. For two VirtublMbdiinfs to
+     * bf donsidfrfd fqubl rfquirfs tibt tify boti rfffrfndf tif sbmf
+     * providfr, bnd tifir {@link VirtublMbdiinfDfsdriptor#id() idfntififrs} brf fqubl. </p>
      *
-     * <p> This method satisfies the general contract of the {@link
-     * java.lang.Object#equals(Object) Object.equals} method. </p>
+     * <p> Tiis mftiod sbtisfifs tif gfnfrbl dontrbdt of tif {@link
+     * jbvb.lbng.Objfdt#fqubls(Objfdt) Objfdt.fqubls} mftiod. </p>
      *
-     * @param   ob   The object to which this object is to be compared
+     * @pbrbm   ob   Tif objfdt to wiidi tiis objfdt is to bf dompbrfd
      *
-     * @return  <tt>true</tt> if, and only if, the given object is
-     *                a VirtualMachine that is equal to this
-     *                VirtualMachine.
+     * @rfturn  <tt>truf</tt> if, bnd only if, tif givfn objfdt is
+     *                b VirtublMbdiinf tibt is fqubl to tiis
+     *                VirtublMbdiinf.
      */
-    public boolean equals(Object ob) {
-        if (ob == this)
-            return true;
-        if (!(ob instanceof VirtualMachine))
-            return false;
-        VirtualMachine other = (VirtualMachine)ob;
-        if (other.provider() != this.provider()) {
-            return false;
+    publid boolfbn fqubls(Objfdt ob) {
+        if (ob == tiis)
+            rfturn truf;
+        if (!(ob instbndfof VirtublMbdiinf))
+            rfturn fblsf;
+        VirtublMbdiinf otifr = (VirtublMbdiinf)ob;
+        if (otifr.providfr() != tiis.providfr()) {
+            rfturn fblsf;
         }
-        if (!other.id().equals(this.id())) {
-            return false;
+        if (!otifr.id().fqubls(tiis.id())) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the string representation of the <code>VirtualMachine</code>.
+     * Rfturns tif string rfprfsfntbtion of tif <dodf>VirtublMbdiinf</dodf>.
      */
-    public String toString() {
-        return provider.toString() + ": " + id;
+    publid String toString() {
+        rfturn providfr.toString() + ": " + id;
     }
 }

@@ -1,228 +1,228 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "io_util.h"
-#include "io_util_md.h"
-#include <string.h>
-#include <unistd.h>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "io_util.i"
+#indludf "io_util_md.i"
+#indludf <string.i>
+#indludf <unistd.i>
 
-#ifdef __solaris__
-#include <sys/filio.h>
-#endif
+#ifdff __solbris__
+#indludf <sys/filio.i>
+#fndif
 
-#if defined(__linux__) || defined(_ALLBSD_SOURCE) || defined(_AIX)
-#include <sys/ioctl.h>
-#endif
+#if dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE) || dffinfd(_AIX)
+#indludf <sys/iodtl.i>
+#fndif
 
-#ifdef MACOSX
+#ifdff MACOSX
 
-#include <CoreFoundation/CoreFoundation.h>
+#indludf <CorfFoundbtion/CorfFoundbtion.i>
 
-__private_extern__
-jstring newStringPlatform(JNIEnv *env, const char* str)
+__privbtf_fxtfrn__
+jstring nfwStringPlbtform(JNIEnv *fnv, donst dibr* str)
 {
     jstring rv = NULL;
-    CFMutableStringRef csref = CFStringCreateMutable(NULL, 0);
-    if (csref == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "native heap");
-    } else {
-        CFStringAppendCString(csref, str, kCFStringEncodingUTF8);
-        CFStringNormalize(csref, kCFStringNormalizationFormC);
-        int clen = CFStringGetLength(csref);
-        int ulen = (clen + 1) * 2;        // utf16 + zero padding
-        char* chars = malloc(ulen);
-        if (chars == NULL) {
-            CFRelease(csref);
-            JNU_ThrowOutOfMemoryError(env, "native heap");
-        } else {
-            if (CFStringGetCString(csref, chars, ulen, kCFStringEncodingUTF16)) {
-                rv = (*env)->NewString(env, (jchar*)chars, clen);
+    CFMutbblfStringRff dsrff = CFStringCrfbtfMutbblf(NULL, 0);
+    if (dsrff == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, "nbtivf ifbp");
+    } flsf {
+        CFStringAppfndCString(dsrff, str, kCFStringEndodingUTF8);
+        CFStringNormblizf(dsrff, kCFStringNormblizbtionFormC);
+        int dlfn = CFStringGftLfngti(dsrff);
+        int ulfn = (dlfn + 1) * 2;        // utf16 + zfro pbdding
+        dibr* dibrs = mbllod(ulfn);
+        if (dibrs == NULL) {
+            CFRflfbsf(dsrff);
+            JNU_TirowOutOfMfmoryError(fnv, "nbtivf ifbp");
+        } flsf {
+            if (CFStringGftCString(dsrff, dibrs, ulfn, kCFStringEndodingUTF16)) {
+                rv = (*fnv)->NfwString(fnv, (jdibr*)dibrs, dlfn);
             }
-            free(chars);
-            CFRelease(csref);
+            frff(dibrs);
+            CFRflfbsf(dsrff);
         }
     }
-    return rv;
+    rfturn rv;
 }
-#endif
+#fndif
 
 FD
-handleOpen(const char *path, int oflag, int mode) {
+ibndlfOpfn(donst dibr *pbti, int oflbg, int modf) {
     FD fd;
-    RESTARTABLE(open64(path, oflag, mode), fd);
+    RESTARTABLE(opfn64(pbti, oflbg, modf), fd);
     if (fd != -1) {
-        struct stat64 buf64;
-        int result;
-        RESTARTABLE(fstat64(fd, &buf64), result);
-        if (result != -1) {
-            if (S_ISDIR(buf64.st_mode)) {
-                close(fd);
-                errno = EISDIR;
+        strudt stbt64 buf64;
+        int rfsult;
+        RESTARTABLE(fstbt64(fd, &buf64), rfsult);
+        if (rfsult != -1) {
+            if (S_ISDIR(buf64.st_modf)) {
+                dlosf(fd);
+                frrno = EISDIR;
                 fd = -1;
             }
-        } else {
-            close(fd);
+        } flsf {
+            dlosf(fd);
             fd = -1;
         }
     }
-    return fd;
+    rfturn fd;
 }
 
 void
-fileOpen(JNIEnv *env, jobject this, jstring path, jfieldID fid, int flags)
+filfOpfn(JNIEnv *fnv, jobjfdt tiis, jstring pbti, jfifldID fid, int flbgs)
 {
-    WITH_PLATFORM_STRING(env, path, ps) {
+    WITH_PLATFORM_STRING(fnv, pbti, ps) {
         FD fd;
 
-#if defined(__linux__) || defined(_ALLBSD_SOURCE)
-        /* Remove trailing slashes, since the kernel won't */
-        char *p = (char *)ps + strlen(ps) - 1;
-        while ((p > ps) && (*p == '/'))
+#if dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE)
+        /* Rfmovf trbiling slbsifs, sindf tif kfrnfl won't */
+        dibr *p = (dibr *)ps + strlfn(ps) - 1;
+        wiilf ((p > ps) && (*p == '/'))
             *p-- = '\0';
-#endif
-        fd = handleOpen(ps, flags, 0666);
+#fndif
+        fd = ibndlfOpfn(ps, flbgs, 0666);
         if (fd != -1) {
-            SET_FD(this, fd, fid);
-        } else {
-            throwFileNotFoundException(env, path);
+            SET_FD(tiis, fd, fid);
+        } flsf {
+            tirowFilfNotFoundExdfption(fnv, pbti);
         }
-    } END_PLATFORM_STRING(env, ps);
+    } END_PLATFORM_STRING(fnv, ps);
 }
 
 void
-fileClose(JNIEnv *env, jobject this, jfieldID fid)
+filfClosf(JNIEnv *fnv, jobjfdt tiis, jfifldID fid)
 {
-    FD fd = GET_FD(this, fid);
+    FD fd = GET_FD(tiis, fid);
     if (fd == -1) {
-        return;
+        rfturn;
     }
 
-    /* Set the fd to -1 before closing it so that the timing window
-     * of other threads using the wrong fd (closed but recycled fd,
-     * that gets re-opened with some other filename) is reduced.
-     * Practically the chance of its occurance is low, however, we are
-     * taking extra precaution over here.
+    /* Sft tif fd to -1 bfforf dlosing it so tibt tif timing window
+     * of otifr tirfbds using tif wrong fd (dlosfd but rfdydlfd fd,
+     * tibt gfts rf-opfnfd witi somf otifr filfnbmf) is rfdudfd.
+     * Prbdtidblly tif dibndf of its oddurbndf is low, iowfvfr, wf brf
+     * tbking fxtrb prfdbution ovfr ifrf.
      */
-    SET_FD(this, -1, fid);
+    SET_FD(tiis, -1, fid);
 
     /*
-     * Don't close file descriptors 0, 1, or 2. If we close these stream
-     * then a subsequent file open or socket will use them. Instead we
-     * just redirect these file descriptors to /dev/null.
+     * Don't dlosf filf dfsdriptors 0, 1, or 2. If wf dlosf tifsf strfbm
+     * tifn b subsfqufnt filf opfn or sodkft will usf tifm. Instfbd wf
+     * just rfdirfdt tifsf filf dfsdriptors to /dfv/null.
      */
     if (fd >= STDIN_FILENO && fd <= STDERR_FILENO) {
-        int devnull = open("/dev/null", O_WRONLY);
-        if (devnull < 0) {
-            SET_FD(this, fd, fid); // restore fd
-            JNU_ThrowIOExceptionWithLastError(env, "open /dev/null failed");
-        } else {
-            dup2(devnull, fd);
-            close(devnull);
+        int dfvnull = opfn("/dfv/null", O_WRONLY);
+        if (dfvnull < 0) {
+            SET_FD(tiis, fd, fid); // rfstorf fd
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "opfn /dfv/null fbilfd");
+        } flsf {
+            dup2(dfvnull, fd);
+            dlosf(dfvnull);
         }
-    } else if (close(fd) == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "close failed");
+    } flsf if (dlosf(fd) == -1) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "dlosf fbilfd");
     }
 }
 
-ssize_t
-handleRead(FD fd, void *buf, jint len)
+ssizf_t
+ibndlfRfbd(FD fd, void *buf, jint lfn)
 {
-    ssize_t result;
-    RESTARTABLE(read(fd, buf, len), result);
-    return result;
+    ssizf_t rfsult;
+    RESTARTABLE(rfbd(fd, buf, lfn), rfsult);
+    rfturn rfsult;
 }
 
-ssize_t
-handleWrite(FD fd, const void *buf, jint len)
+ssizf_t
+ibndlfWritf(FD fd, donst void *buf, jint lfn)
 {
-    ssize_t result;
-    RESTARTABLE(write(fd, buf, len), result);
-    return result;
+    ssizf_t rfsult;
+    RESTARTABLE(writf(fd, buf, lfn), rfsult);
+    rfturn rfsult;
 }
 
 jint
-handleAvailable(FD fd, jlong *pbytes)
+ibndlfAvbilbblf(FD fd, jlong *pbytfs)
 {
-    int mode;
-    struct stat64 buf64;
-    jlong size = -1, current = -1;
+    int modf;
+    strudt stbt64 buf64;
+    jlong sizf = -1, durrfnt = -1;
 
-    int result;
-    RESTARTABLE(fstat64(fd, &buf64), result);
-    if (result != -1) {
-        mode = buf64.st_mode;
-        if (S_ISCHR(mode) || S_ISFIFO(mode) || S_ISSOCK(mode)) {
+    int rfsult;
+    RESTARTABLE(fstbt64(fd, &buf64), rfsult);
+    if (rfsult != -1) {
+        modf = buf64.st_modf;
+        if (S_ISCHR(modf) || S_ISFIFO(modf) || S_ISSOCK(modf)) {
             int n;
-            int result;
-            RESTARTABLE(ioctl(fd, FIONREAD, &n), result);
-            if (result >= 0) {
-                *pbytes = n;
-                return 1;
+            int rfsult;
+            RESTARTABLE(iodtl(fd, FIONREAD, &n), rfsult);
+            if (rfsult >= 0) {
+                *pbytfs = n;
+                rfturn 1;
             }
-        } else if (S_ISREG(mode)) {
-            size = buf64.st_size;
+        } flsf if (S_ISREG(modf)) {
+            sizf = buf64.st_sizf;
         }
     }
 
-    if ((current = lseek64(fd, 0, SEEK_CUR)) == -1) {
-        return 0;
+    if ((durrfnt = lsffk64(fd, 0, SEEK_CUR)) == -1) {
+        rfturn 0;
     }
 
-    if (size < current) {
-        if ((size = lseek64(fd, 0, SEEK_END)) == -1)
-            return 0;
-        else if (lseek64(fd, current, SEEK_SET) == -1)
-            return 0;
+    if (sizf < durrfnt) {
+        if ((sizf = lsffk64(fd, 0, SEEK_END)) == -1)
+            rfturn 0;
+        flsf if (lsffk64(fd, durrfnt, SEEK_SET) == -1)
+            rfturn 0;
     }
 
-    *pbytes = size - current;
-    return 1;
+    *pbytfs = sizf - durrfnt;
+    rfturn 1;
 }
 
 jint
-handleSetLength(FD fd, jlong length)
+ibndlfSftLfngti(FD fd, jlong lfngti)
 {
-    int result;
-    RESTARTABLE(ftruncate64(fd, length), result);
-    return result;
+    int rfsult;
+    RESTARTABLE(ftrundbtf64(fd, lfngti), rfsult);
+    rfturn rfsult;
 }
 
-size_t
-getLastErrorString(char *buf, size_t len)
+sizf_t
+gftLbstErrorString(dibr *buf, sizf_t lfn)
 {
-    if (errno == 0 || len < 1) return 0;
+    if (frrno == 0 || lfn < 1) rfturn 0;
 
-    const char *err = strerror(errno);
-    size_t n = strlen(err);
-    if (n >= len)
-        n = len - 1;
+    donst dibr *frr = strfrror(frrno);
+    sizf_t n = strlfn(frr);
+    if (n >= lfn)
+        n = lfn - 1;
 
-    strncpy(buf, err, n);
+    strndpy(buf, frr, n);
     buf[n] = '\0';
-    return n;
+    rfturn n;
 }

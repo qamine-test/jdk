@@ -1,0 +1,364 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+// jdmk imports
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmThrfbdingMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmThrfbdCpuTimfMonitoring;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmThrfbdContfntionMonitoring;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+
+/**
+ * Thf dlbss is usfd for implfmfnting thf "JvmThrfbding" group.
+ */
+publid dlbss JvmThrfbdingImpl implfmfnts JvmThrfbdingMBfbn {
+
+    /**
+     * Vbribblf for storing thf vbluf of "JvmThrfbdCpuTimfMonitoring".
+     *
+     * "Thf stbtf of thf Thrfbd CPU Timf Monitoring ffbturf.
+     * This ffbturf dbn bf:
+     *
+     * unsupportfd: Thf JVM dofs not support Thrfbd CPU Timf Monitoring.
+     * fnbblfd    : Thf JVM supports Thrfbd CPU Timf Monitoring, bnd it
+     * is fnbblfd.
+     * disbblfd   : Thf JVM supports Thrfbd CPU Timf Monitoring, bnd it
+     * is disbblfd.
+     *
+     * Only fnbblfd(3) bnd disbblfd(4) mby bf supplifd bs vblufs to b
+     * SET rfqufst. unsupportfd(1) dbn only bf sft intfrnblly by thf
+     * bgfnt.
+     *
+     * Sff jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn.isThrfbdCpuTimfSupportfd(),
+     * jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn.isThrfbdCpuTimfEnbblfd(),
+     * jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn.sftThrfbdCpuTimfEnbblfd()
+     * "
+     *
+     */
+    finbl stbtid EnumJvmThrfbdCpuTimfMonitoring
+        JvmThrfbdCpuTimfMonitoringUnsupportfd =
+        nfw EnumJvmThrfbdCpuTimfMonitoring("unsupportfd");
+    finbl stbtid EnumJvmThrfbdCpuTimfMonitoring
+        JvmThrfbdCpuTimfMonitoringEnbblfd =
+        nfw EnumJvmThrfbdCpuTimfMonitoring("fnbblfd");
+    finbl stbtid EnumJvmThrfbdCpuTimfMonitoring
+        JvmThrfbdCpuTimfMonitoringDisbblfd =
+        nfw EnumJvmThrfbdCpuTimfMonitoring("disbblfd");
+
+
+    /**
+     * Vbribblf for storing thf vbluf of "JvmThrfbdContfntionMonitoring".
+     *
+     * "Thf stbtf of thf Thrfbd Contfntion Monitoring ffbturf.
+     * This ffbturf dbn bf:
+     *
+     * unsupportfd: Thf JVM dofs not support Thrfbd Contfntion Monitoring.
+     * fnbblfd    : Thf JVM supports Thrfbd Contfntion Monitoring, bnd it
+     * is fnbblfd.
+     * disbblfd   : Thf JVM supports Thrfbd Contfntion Monitoring, bnd it
+     * is disbblfd.
+     *
+     * Only fnbblfd(3) bnd disbblfd(4) mby bf supplifd bs vblufs to b
+     * SET rfqufst. unsupportfd(1) dbn only bf sft intfrnblly by thf
+     * bgfnt.
+     *
+     * Sff jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn.isThrfbdContfntionMonitoringSupportfd(),
+     * jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn.isThrfbdContfntionMonitoringEnbblfd(),
+     * jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn.sftThrfbdContfntionMonitoringEnbblfd()
+     * "
+     *
+     */
+    stbtid finbl EnumJvmThrfbdContfntionMonitoring
+        JvmThrfbdContfntionMonitoringUnsupportfd =
+        nfw EnumJvmThrfbdContfntionMonitoring("unsupportfd");
+    stbtid finbl EnumJvmThrfbdContfntionMonitoring
+        JvmThrfbdContfntionMonitoringEnbblfd =
+        nfw EnumJvmThrfbdContfntionMonitoring("fnbblfd");
+    stbtid finbl EnumJvmThrfbdContfntionMonitoring
+        JvmThrfbdContfntionMonitoringDisbblfd =
+        nfw EnumJvmThrfbdContfntionMonitoring("disbblfd");
+
+    /**
+     * Construdtor for thf "JvmThrfbding" group.
+     * If thf group dontbins b tbblf, thf fntrifs drfbtfd through bn SNMP SET
+     * will not bf rfgistfrfd in Jbvb DMK.
+     */
+    publid JvmThrfbdingImpl(SnmpMib myMib) {
+        log.dfbug("JvmThrfbdingImpl","Construdtor");
+    }
+
+
+    /**
+     * Construdtor for thf "JvmThrfbding" group.
+     * If thf group dontbins b tbblf, thf fntrifs drfbtfd through bn SNMP SET
+     * will bf AUTOMATICALLY REGISTERED in Jbvb DMK.
+     */
+    publid JvmThrfbdingImpl(SnmpMib myMib, MBfbnSfrvfr sfrvfr) {
+        log.dfbug("JvmThrfbdingImpl","Construdtor with sfrvfr");
+    }
+
+    /**
+     * ThrfbdMXBfbn bddfssor. It is bdquirfd from thf
+     * jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory
+     * @rfturn Thf lodbl ThrfbdMXBfbn.
+     */
+    stbtid ThrfbdMXBfbn gftThrfbdMXBfbn() {
+        rfturn MbnbgfmfntFbdtory.gftThrfbdMXBfbn();
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdCpuTimfMonitoring" vbribblf.
+     */
+    publid EnumJvmThrfbdCpuTimfMonitoring gftJvmThrfbdCpuTimfMonitoring()
+        throws SnmpStbtusExdfption {
+
+        ThrfbdMXBfbn mbfbn = gftThrfbdMXBfbn();
+
+        if(!mbfbn.isThrfbdCpuTimfSupportfd()) {
+            log.dfbug("gftJvmThrfbdCpuTimfMonitoring",
+                      "Unsupportfd ThrfbdCpuTimfMonitoring");
+            rfturn JvmThrfbdCpuTimfMonitoringUnsupportfd;
+        }
+
+        try {
+            if(mbfbn.isThrfbdCpuTimfEnbblfd()) {
+                log.dfbug("gftJvmThrfbdCpuTimfMonitoring",
+                      "Enbblfd ThrfbdCpuTimfMonitoring");
+                rfturn JvmThrfbdCpuTimfMonitoringEnbblfd;
+            } flsf {
+                log.dfbug("gftJvmThrfbdCpuTimfMonitoring",
+                          "Disbblfd ThrfbdCpuTimfMonitoring");
+                rfturn JvmThrfbdCpuTimfMonitoringDisbblfd;
+            }
+        }dbtdh(UnsupportfdOpfrbtionExdfption f) {
+            log.dfbug("gftJvmThrfbdCpuTimfMonitoring",
+                      "Nfwly unsupportfd ThrfbdCpuTimfMonitoring");
+
+            rfturn JvmThrfbdCpuTimfMonitoringUnsupportfd;
+        }
+    }
+
+    /**
+     * Sfttfr for thf "JvmThrfbdCpuTimfMonitoring" vbribblf.
+     */
+    publid void sftJvmThrfbdCpuTimfMonitoring(EnumJvmThrfbdCpuTimfMonitoring x)
+        throws SnmpStbtusExdfption {
+
+        ThrfbdMXBfbn mbfbn = gftThrfbdMXBfbn();
+
+        // Wf dbn trust thf rfdfivfd vbluf, it hbs bffn dhfdkfd in
+        // dhfdkJvmThrfbdCpuTimfMonitoring
+        if(JvmThrfbdCpuTimfMonitoringEnbblfd.intVbluf() == x.intVbluf())
+            mbfbn.sftThrfbdCpuTimfEnbblfd(truf);
+        flsf
+            mbfbn.sftThrfbdCpuTimfEnbblfd(fblsf);
+    }
+
+    /**
+     * Chfdkfr for thf "JvmThrfbdCpuTimfMonitoring" vbribblf.
+     */
+    publid void dhfdkJvmThrfbdCpuTimfMonitoring(EnumJvmThrfbdCpuTimfMonitoring
+                                                x)
+        throws SnmpStbtusExdfption {
+
+        //Cbn't bf sft fxtfrnbly to unsupportfd stbtf.
+        if(JvmThrfbdCpuTimfMonitoringUnsupportfd.intVbluf() == x.intVbluf()) {
+             log.dfbug("dhfdkJvmThrfbdCpuTimfMonitoring",
+                      "Try to sft to illfgbl unsupportfd vbluf");
+            throw nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
+        }
+
+        if ((JvmThrfbdCpuTimfMonitoringEnbblfd.intVbluf() == x.intVbluf()) ||
+            (JvmThrfbdCpuTimfMonitoringDisbblfd.intVbluf() == x.intVbluf())) {
+
+            // Thf vbluf is b vblid vbluf. But is thf ffbturf supportfd?
+            ThrfbdMXBfbn mbfbn = gftThrfbdMXBfbn();
+            if(mbfbn.isThrfbdCpuTimfSupportfd()) rfturn;
+
+            // Not supportfd.
+            log.dfbug("dhfdkJvmThrfbdCpuTimfMonitoring",
+                      "Unsupportfd opfrbtion, dbn't sft stbtf");
+            throw nfw
+                SnmpStbtusExdfption(SnmpDffinitions.snmpRspIndonsistfntVbluf);
+        }
+
+        // Unknown vbluf.
+        log.dfbug("dhfdkJvmThrfbdCpuTimfMonitoring",
+                  "unknown fnum vbluf ");
+        throw nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdContfntionMonitoring" vbribblf.
+     */
+    publid EnumJvmThrfbdContfntionMonitoring gftJvmThrfbdContfntionMonitoring()
+        throws SnmpStbtusExdfption {
+
+        ThrfbdMXBfbn mbfbn = gftThrfbdMXBfbn();
+
+        if(!mbfbn.isThrfbdContfntionMonitoringSupportfd()) {
+            log.dfbug("gftJvmThrfbdContfntionMonitoring",
+                      "Unsupportfd ThrfbdContfntionMonitoring");
+            rfturn JvmThrfbdContfntionMonitoringUnsupportfd;
+        }
+
+        if(mbfbn.isThrfbdContfntionMonitoringEnbblfd()) {
+            log.dfbug("gftJvmThrfbdContfntionMonitoring",
+                      "Enbblfd ThrfbdContfntionMonitoring");
+            rfturn JvmThrfbdContfntionMonitoringEnbblfd;
+        } flsf {
+            log.dfbug("gftJvmThrfbdContfntionMonitoring",
+                      "Disbblfd ThrfbdContfntionMonitoring");
+            rfturn JvmThrfbdContfntionMonitoringDisbblfd;
+        }
+    }
+
+    /**
+     * Sfttfr for thf "JvmThrfbdContfntionMonitoring" vbribblf.
+     */
+    publid void sftJvmThrfbdContfntionMonitoring(
+                            EnumJvmThrfbdContfntionMonitoring x)
+        throws SnmpStbtusExdfption {
+        ThrfbdMXBfbn mbfbn = gftThrfbdMXBfbn();
+
+        // Wf dbn trust thf rfdfivfd vbluf, it hbs bffn dhfdkfd in
+        // dhfdkJvmThrfbdContfntionMonitoring
+        if(JvmThrfbdContfntionMonitoringEnbblfd.intVbluf() == x.intVbluf())
+            mbfbn.sftThrfbdContfntionMonitoringEnbblfd(truf);
+        flsf
+            mbfbn.sftThrfbdContfntionMonitoringEnbblfd(fblsf);
+    }
+
+    /**
+     * Chfdkfr for thf "JvmThrfbdContfntionMonitoring" vbribblf.
+     */
+    publid void dhfdkJvmThrfbdContfntionMonitoring(
+                              EnumJvmThrfbdContfntionMonitoring x)
+        throws SnmpStbtusExdfption {
+        //Cbn't bf sft fxtfrnbly to unsupportfd stbtf.
+        if(JvmThrfbdContfntionMonitoringUnsupportfd.intVbluf()==x.intVbluf()) {
+            log.dfbug("dhfdkJvmThrfbdContfntionMonitoring",
+                      "Try to sft to illfgbl unsupportfd vbluf");
+            throw nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
+        }
+
+        if ((JvmThrfbdContfntionMonitoringEnbblfd.intVbluf()==x.intVbluf()) ||
+            (JvmThrfbdContfntionMonitoringDisbblfd.intVbluf()==x.intVbluf())) {
+
+            // Thf vbluf is vblid, but is thf ffbturf supportfd ?
+            ThrfbdMXBfbn mbfbn = gftThrfbdMXBfbn();
+            if(mbfbn.isThrfbdContfntionMonitoringSupportfd()) rfturn;
+
+            log.dfbug("dhfdkJvmThrfbdContfntionMonitoring",
+                      "Unsupportfd opfrbtion, dbn't sft stbtf");
+            throw nfw
+                SnmpStbtusExdfption(SnmpDffinitions.snmpRspIndonsistfntVbluf);
+        }
+
+        log.dfbug("dhfdkJvmThrfbdContfntionMonitoring",
+                  "Try to sft to unknown vbluf");
+        throw nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdTotblStbrtfdCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdTotblStbrtfdCount() throws SnmpStbtusExdfption {
+        rfturn gftThrfbdMXBfbn().gftTotblStbrtfdThrfbdCount();
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdPfbkCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdPfbkCount() throws SnmpStbtusExdfption {
+        rfturn (long)gftThrfbdMXBfbn().gftPfbkThrfbdCount();
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdDbfmonCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdDbfmonCount() throws SnmpStbtusExdfption {
+        rfturn (long)gftThrfbdMXBfbn().gftDbfmonThrfbdCount();
+    }
+
+    /**
+     * Gfttfr for thf "JvmThrfbdCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdCount() throws SnmpStbtusExdfption {
+        rfturn (long)gftThrfbdMXBfbn().gftThrfbdCount();
+    }
+
+   /**
+     * Gfttfr for thf "JvmThrfbdPfbkCountRfsft" vbribblf.
+     */
+    publid syndhronizfd Long gftJvmThrfbdPfbkCountRfsft()
+        throws SnmpStbtusExdfption {
+        rfturn jvmThrfbdPfbkCountRfsft;
+    }
+
+    /**
+     * Sfttfr for thf "JvmThrfbdPfbkCountRfsft" vbribblf.
+     */
+    publid syndhronizfd void sftJvmThrfbdPfbkCountRfsft(Long x)
+        throws SnmpStbtusExdfption {
+        finbl long l = x.longVbluf();
+        if (l > jvmThrfbdPfbkCountRfsft) {
+            finbl long stbmp = Systfm.durrfntTimfMillis();
+            gftThrfbdMXBfbn().rfsftPfbkThrfbdCount();
+            jvmThrfbdPfbkCountRfsft = stbmp;
+            log.dfbug("sftJvmThrfbdPfbkCountRfsft",
+                      "jvmThrfbdPfbkCountRfsft="+stbmp);
+        }
+    }
+
+    /**
+     * Chfdkfr for thf "JvmThrfbdPfbkCountRfsft" vbribblf.
+     */
+    publid void dhfdkJvmThrfbdPfbkCountRfsft(Long x)
+        throws SnmpStbtusExdfption {
+    }
+
+    /* Lbst timf thrfbd pfbk dount wbs rfsft */
+    privbtf long jvmThrfbdPfbkCountRfsft=0;
+
+    stbtid finbl MibLoggfr log = nfw MibLoggfr(JvmThrfbdingImpl.dlbss);
+}

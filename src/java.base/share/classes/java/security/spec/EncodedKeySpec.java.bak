@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.spec;
+pbdkbgf jbvb.sfdurity.spfd;
 
 /**
- * This class represents a public or private key in encoded format.
+ * Tiis dlbss rfprfsfnts b publid or privbtf kfy in fndodfd formbt.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see java.security.Key
- * @see java.security.KeyFactory
- * @see KeySpec
- * @see X509EncodedKeySpec
- * @see PKCS8EncodedKeySpec
+ * @sff jbvb.sfdurity.Kfy
+ * @sff jbvb.sfdurity.KfyFbdtory
+ * @sff KfySpfd
+ * @sff X509EndodfdKfySpfd
+ * @sff PKCS8EndodfdKfySpfd
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public abstract class EncodedKeySpec implements KeySpec {
+publid bbstrbdt dlbss EndodfdKfySpfd implfmfnts KfySpfd {
 
-    private byte[] encodedKey;
+    privbtf bytf[] fndodfdKfy;
 
     /**
-     * Creates a new EncodedKeySpec with the given encoded key.
+     * Crfbtfs b nfw EndodfdKfySpfd witi tif givfn fndodfd kfy.
      *
-     * @param encodedKey the encoded key. The contents of the
-     * array are copied to protect against subsequent modification.
-     * @exception NullPointerException if {@code encodedKey}
+     * @pbrbm fndodfdKfy tif fndodfd kfy. Tif dontfnts of tif
+     * brrby brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @fxdfption NullPointfrExdfption if {@dodf fndodfdKfy}
      * is null.
      */
-    public EncodedKeySpec(byte[] encodedKey) {
-        this.encodedKey = encodedKey.clone();
+    publid EndodfdKfySpfd(bytf[] fndodfdKfy) {
+        tiis.fndodfdKfy = fndodfdKfy.dlonf();
     }
 
     /**
-     * Returns the encoded key.
+     * Rfturns tif fndodfd kfy.
      *
-     * @return the encoded key. Returns a new array each time
-     * this method is called.
+     * @rfturn tif fndodfd kfy. Rfturns b nfw brrby fbdi timf
+     * tiis mftiod is dbllfd.
      */
-    public byte[] getEncoded() {
-        return this.encodedKey.clone();
+    publid bytf[] gftEndodfd() {
+        rfturn tiis.fndodfdKfy.dlonf();
     }
 
     /**
-     * Returns the name of the encoding format associated with this
-     * key specification.
+     * Rfturns tif nbmf of tif fndoding formbt bssodibtfd witi tiis
+     * kfy spfdifidbtion.
      *
-     * <p>If the opaque representation of a key
-     * (see {@link java.security.Key Key}) can be transformed
-     * (see {@link java.security.KeyFactory KeyFactory})
-     * into this key specification (or a subclass of it),
-     * {@code getFormat} called
-     * on the opaque key returns the same value as the
-     * {@code getFormat} method
-     * of this key specification.
+     * <p>If tif opbquf rfprfsfntbtion of b kfy
+     * (sff {@link jbvb.sfdurity.Kfy Kfy}) dbn bf trbnsformfd
+     * (sff {@link jbvb.sfdurity.KfyFbdtory KfyFbdtory})
+     * into tiis kfy spfdifidbtion (or b subdlbss of it),
+     * {@dodf gftFormbt} dbllfd
+     * on tif opbquf kfy rfturns tif sbmf vbluf bs tif
+     * {@dodf gftFormbt} mftiod
+     * of tiis kfy spfdifidbtion.
      *
-     * @return a string representation of the encoding format.
+     * @rfturn b string rfprfsfntbtion of tif fndoding formbt.
      */
-    public abstract String getFormat();
+    publid bbstrbdt String gftFormbt();
 }

@@ -1,0 +1,543 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* ****************************************************************
+ ******************************************************************
+ ******************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd
+ *** Stbtfs Codf.  All rights rfsfrvfd.
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************/
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import sun.jbvb2d.StbtfTrbdkbblf.Stbtf;
+import stbtid sun.jbvb2d.StbtfTrbdkbblf.Stbtf.*;
+import sun.jbvb2d.StbtfTrbdkbblfDflfgbtf;
+
+import sun.bwt.imbgf.SunWritbblfRbstfr;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * This dlbss fxists to wrbp onf or morf dbtb brrbys.  Ebdh dbtb brrby in
+ * thf DbtbBufffr is rfffrrfd to bs b bbnk.  Addfssor mfthods for gftting
+ * bnd sftting flfmfnts of thf DbtbBufffr's bbnks fxist with bnd without
+ * b bbnk spfdififr.  Thf mfthods without b bbnk spfdififr usf thf dffbult 0th
+ * bbnk.  Thf DbtbBufffr dbn optionblly tbkf bn offsft pfr bbnk, so thbt
+ * dbtb in bn fxisting brrby dbn bf usfd fvfn if thf intfrfsting dbtb
+ * dofsn't stbrt bt brrby lodbtion zfro.  Gftting or sftting thf 0th
+ * flfmfnt of b bbnk, usfs thf (0+offsft)th flfmfnt of thf brrby.  Thf
+ * sizf fifld spfdififs how mudh of thf dbtb brrby is bvbilbblf for
+ * usf.  Sizf + offsft for b givfn bbnk should nfvfr bf grfbtfr
+ * thbn thf lfngth of thf bssodibtfd dbtb brrby.  Thf dbtb typf of
+ * b dbtb bufffr indidbtfs thf typf of thf dbtb brrby(s) bnd mby blso
+ * indidbtf bdditionbl sfmbntids, f.g. storing unsignfd 8-bit dbtb
+ * in flfmfnts of b bytf brrby.  Thf dbtb typf mby bf TYPE_UNDEFINED
+ * or onf of thf typfs dffinfd bflow.  Othfr typfs mby bf bddfd in
+ * thf futurf.  Gfnfrblly, bn objfdt of dlbss DbtbBufffr will bf dbst down
+ * to onf of its dbtb typf spfdifid subdlbssfs to bddfss dbtb typf spfdifid
+ * mfthods for improvfd pfrformbndf.  Currfntly, thf Jbvb 2D(tm) API
+ * imbgf dlbssfs usf TYPE_BYTE, TYPE_USHORT, TYPE_INT, TYPE_SHORT,
+ * TYPE_FLOAT, bnd TYPE_DOUBLE DbtbBufffrs to storf imbgf dbtb.
+ * @sff jbvb.bwt.imbgf.Rbstfr
+ * @sff jbvb.bwt.imbgf.SbmplfModfl
+ */
+publid bbstrbdt dlbss DbtbBufffr {
+
+    /** Tbg for unsignfd bytf dbtb. */
+    @Nbtivf publid stbtid finbl int TYPE_BYTE  = 0;
+
+    /** Tbg for unsignfd short dbtb. */
+    @Nbtivf publid stbtid finbl int TYPE_USHORT = 1;
+
+    /** Tbg for signfd short dbtb.  Plbdfholdfr for futurf usf. */
+    @Nbtivf publid stbtid finbl int TYPE_SHORT = 2;
+
+    /** Tbg for int dbtb. */
+    @Nbtivf publid stbtid finbl int TYPE_INT   = 3;
+
+    /** Tbg for flobt dbtb.  Plbdfholdfr for futurf usf. */
+    @Nbtivf publid stbtid finbl int TYPE_FLOAT  = 4;
+
+    /** Tbg for doublf dbtb.  Plbdfholdfr for futurf usf. */
+    @Nbtivf publid stbtid finbl int TYPE_DOUBLE  = 5;
+
+    /** Tbg for undffinfd dbtb. */
+    @Nbtivf publid stbtid finbl int TYPE_UNDEFINED = 32;
+
+    /** Thf dbtb typf of this DbtbBufffr. */
+    protfdtfd int dbtbTypf;
+
+    /** Thf numbfr of bbnks in this DbtbBufffr. */
+    protfdtfd int bbnks;
+
+    /** Offsft into dffbult (first) bbnk from whidh to gft thf first flfmfnt. */
+    protfdtfd int offsft;
+
+    /** Usbblf sizf of bll bbnks. */
+    protfdtfd int sizf;
+
+    /** Offsfts into bll bbnks. */
+    protfdtfd int offsfts[];
+
+    /* Thf durrfnt StbtfTrbdkbblf stbtf. */
+    StbtfTrbdkbblfDflfgbtf thfTrbdkbblf;
+
+    /** Sizf of thf dbtb typfs indfxfd by DbtbTypf tbgs dffinfd bbovf. */
+    privbtf stbtid finbl int dbtbTypfSizf[] = {8,16,16,32,32,64};
+
+    /** Rfturns thf sizf (in bits) of thf dbtb typf, givfn b dbtbtypf tbg.
+      * @pbrbm typf thf vbluf of onf of thf dffinfd dbtbtypf tbgs
+      * @rfturn thf sizf of thf dbtb typf
+      * @throws IllfgblArgumfntExdfption if <dodf>typf</dodf> is lfss thbn
+      *         zfro or grfbtfr thbn {@link #TYPE_DOUBLE}
+      */
+    publid stbtid int gftDbtbTypfSizf(int typf) {
+        if (typf < TYPE_BYTE || typf > TYPE_DOUBLE) {
+            throw nfw IllfgblArgumfntExdfption("Unknown dbtb typf "+typf);
+        }
+        rfturn dbtbTypfSizf[typf];
+    }
+
+    /**
+     *  Construdts b DbtbBufffr dontbining onf bbnk of thf spfdififd
+     *  dbtb typf bnd sizf.
+     *
+     *  @pbrbm dbtbTypf thf dbtb typf of this <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf thf sizf of thf bbnks
+     */
+    protfdtfd DbtbBufffr(int dbtbTypf, int sizf) {
+        this(UNTRACKABLE, dbtbTypf, sizf);
+    }
+
+    /**
+     *  Construdts b DbtbBufffr dontbining onf bbnk of thf spfdififd
+     *  dbtb typf bnd sizf with thf indidbtfd initibl {@link Stbtf Stbtf}.
+     *
+     *  @pbrbm initiblStbtf thf initibl {@link Stbtf Stbtf} stbtf of thf dbtb
+     *  @pbrbm dbtbTypf thf dbtb typf of this <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf thf sizf of thf bbnks
+     *  @sindf 1.7
+     */
+    DbtbBufffr(Stbtf initiblStbtf,
+               int dbtbTypf, int sizf)
+    {
+        this.thfTrbdkbblf = StbtfTrbdkbblfDflfgbtf.drfbtfInstbndf(initiblStbtf);
+        this.dbtbTypf = dbtbTypf;
+        this.bbnks = 1;
+        this.sizf = sizf;
+        this.offsft = 0;
+        this.offsfts = nfw int[1];  // init to 0 by nfw
+    }
+
+    /**
+     *  Construdts b DbtbBufffr dontbining thf spfdififd numbfr of
+     *  bbnks.  Ebdh bbnk hbs thf spfdififd sizf bnd bn offsft of 0.
+     *
+     *  @pbrbm dbtbTypf thf dbtb typf of this <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf thf sizf of thf bbnks
+     *  @pbrbm numBbnks thf numbfr of bbnks in this
+     *         <dodf>DbtbBufffr</dodf>
+     */
+    protfdtfd DbtbBufffr(int dbtbTypf, int sizf, int numBbnks) {
+        this(UNTRACKABLE, dbtbTypf, sizf, numBbnks);
+    }
+
+    /**
+     *  Construdts b DbtbBufffr dontbining thf spfdififd numbfr of
+     *  bbnks with thf indidbtfd initibl {@link Stbtf Stbtf}.
+     *  Ebdh bbnk hbs thf spfdififd sizf bnd bn offsft of 0.
+     *
+     *  @pbrbm initiblStbtf thf initibl {@link Stbtf Stbtf} stbtf of thf dbtb
+     *  @pbrbm dbtbTypf thf dbtb typf of this <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf thf sizf of thf bbnks
+     *  @pbrbm numBbnks thf numbfr of bbnks in this
+     *         <dodf>DbtbBufffr</dodf>
+     *  @sindf 1.7
+     */
+    DbtbBufffr(Stbtf initiblStbtf,
+               int dbtbTypf, int sizf, int numBbnks)
+    {
+        this.thfTrbdkbblf = StbtfTrbdkbblfDflfgbtf.drfbtfInstbndf(initiblStbtf);
+        this.dbtbTypf = dbtbTypf;
+        this.bbnks = numBbnks;
+        this.sizf = sizf;
+        this.offsft = 0;
+        this.offsfts = nfw int[bbnks]; // init to 0 by nfw
+    }
+
+    /**
+     *  Construdts b DbtbBufffr thbt dontbins thf spfdififd numbfr
+     *  of bbnks.  Ebdh bbnk hbs thf spfdififd dbtbtypf, sizf bnd offsft.
+     *
+     *  @pbrbm dbtbTypf thf dbtb typf of this <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf thf sizf of thf bbnks
+     *  @pbrbm numBbnks thf numbfr of bbnks in this
+     *         <dodf>DbtbBufffr</dodf>
+     *  @pbrbm offsft thf offsft for fbdh bbnk
+     */
+    protfdtfd DbtbBufffr(int dbtbTypf, int sizf, int numBbnks, int offsft) {
+        this(UNTRACKABLE, dbtbTypf, sizf, numBbnks, offsft);
+    }
+
+    /**
+     *  Construdts b DbtbBufffr thbt dontbins thf spfdififd numbfr
+     *  of bbnks with thf indidbtfd initibl {@link Stbtf Stbtf}.
+     *  Ebdh bbnk hbs thf spfdififd dbtbtypf, sizf bnd offsft.
+     *
+     *  @pbrbm initiblStbtf thf initibl {@link Stbtf Stbtf} stbtf of thf dbtb
+     *  @pbrbm dbtbTypf thf dbtb typf of this <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf thf sizf of thf bbnks
+     *  @pbrbm numBbnks thf numbfr of bbnks in this
+     *         <dodf>DbtbBufffr</dodf>
+     *  @pbrbm offsft thf offsft for fbdh bbnk
+     *  @sindf 1.7
+     */
+    DbtbBufffr(Stbtf initiblStbtf,
+               int dbtbTypf, int sizf, int numBbnks, int offsft)
+    {
+        this.thfTrbdkbblf = StbtfTrbdkbblfDflfgbtf.drfbtfInstbndf(initiblStbtf);
+        this.dbtbTypf = dbtbTypf;
+        this.bbnks = numBbnks;
+        this.sizf = sizf;
+        this.offsft = offsft;
+        this.offsfts = nfw int[numBbnks];
+        for (int i = 0; i < numBbnks; i++) {
+            this.offsfts[i] = offsft;
+        }
+    }
+
+    /**
+     *  Construdts b DbtbBufffr whidh dontbins thf spfdififd numbfr
+     *  of bbnks.  Ebdh bbnk hbs thf spfdififd dbtbtypf bnd sizf.  Thf
+     *  offsft for fbdh bbnk is spfdififd by its rfspfdtivf fntry in
+     *  thf offsfts brrby.
+     *
+     *  @pbrbm dbtbTypf thf dbtb typf of this <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf thf sizf of thf bbnks
+     *  @pbrbm numBbnks thf numbfr of bbnks in this
+     *         <dodf>DbtbBufffr</dodf>
+     *  @pbrbm offsfts bn brrby dontbining bn offsft for fbdh bbnk.
+     *  @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>numBbnks</dodf>
+     *          dofs not fqubl thf lfngth of <dodf>offsfts</dodf>
+     */
+    protfdtfd DbtbBufffr(int dbtbTypf, int sizf, int numBbnks, int offsfts[]) {
+        this(UNTRACKABLE, dbtbTypf, sizf, numBbnks, offsfts);
+    }
+
+    /**
+     *  Construdts b DbtbBufffr whidh dontbins thf spfdififd numbfr
+     *  of bbnks with thf indidbtfd initibl {@link Stbtf Stbtf}.
+     *  Ebdh bbnk hbs thf spfdififd dbtbtypf bnd sizf.  Thf
+     *  offsft for fbdh bbnk is spfdififd by its rfspfdtivf fntry in
+     *  thf offsfts brrby.
+     *
+     *  @pbrbm initiblStbtf thf initibl {@link Stbtf Stbtf} stbtf of thf dbtb
+     *  @pbrbm dbtbTypf thf dbtb typf of this <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf thf sizf of thf bbnks
+     *  @pbrbm numBbnks thf numbfr of bbnks in this
+     *         <dodf>DbtbBufffr</dodf>
+     *  @pbrbm offsfts bn brrby dontbining bn offsft for fbdh bbnk.
+     *  @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>numBbnks</dodf>
+     *          dofs not fqubl thf lfngth of <dodf>offsfts</dodf>
+     *  @sindf 1.7
+     */
+    DbtbBufffr(Stbtf initiblStbtf,
+               int dbtbTypf, int sizf, int numBbnks, int offsfts[])
+    {
+        if (numBbnks != offsfts.lfngth) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption("Numbfr of bbnks" +
+                 " dofs not mbtdh numbfr of bbnk offsfts");
+        }
+        this.thfTrbdkbblf = StbtfTrbdkbblfDflfgbtf.drfbtfInstbndf(initiblStbtf);
+        this.dbtbTypf = dbtbTypf;
+        this.bbnks = numBbnks;
+        this.sizf = sizf;
+        this.offsft = offsfts[0];
+        this.offsfts = offsfts.dlonf();
+    }
+
+    /**  Rfturns thf dbtb typf of this DbtbBufffr.
+     *   @rfturn thf dbtb typf of this <dodf>DbtbBufffr</dodf>.
+     */
+    publid int gftDbtbTypf() {
+        rfturn dbtbTypf;
+    }
+
+    /**  Rfturns thf sizf (in brrby flfmfnts) of bll bbnks.
+     *   @rfturn thf sizf of bll bbnks.
+     */
+    publid int gftSizf() {
+        rfturn sizf;
+    }
+
+    /** Rfturns thf offsft of thf dffbult bbnk in brrby flfmfnts.
+     *  @rfturn thf offsft of thf dffbult bbnk.
+     */
+    publid int gftOffsft() {
+        rfturn offsft;
+    }
+
+    /** Rfturns thf offsfts (in brrby flfmfnts) of bll thf bbnks.
+     *  @rfturn thf offsfts of bll bbnks.
+     */
+    publid int[] gftOffsfts() {
+        rfturn offsfts.dlonf();
+    }
+
+    /** Rfturns thf numbfr of bbnks in this DbtbBufffr.
+     *  @rfturn thf numbfr of bbnks.
+     */
+    publid int gftNumBbnks() {
+        rfturn bbnks;
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf first (dffbult) bbnk
+     * bs bn intfgfr.
+     * @pbrbm i thf indfx of thf rfqufstfd dbtb brrby flfmfnt
+     * @rfturn thf dbtb brrby flfmfnt bt thf spfdififd indfx.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
+     */
+    publid int gftElfm(int i) {
+        rfturn gftElfm(0,i);
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf spfdififd bbnk
+     * bs bn intfgfr.
+     * @pbrbm bbnk thf spfdififd bbnk
+     * @pbrbm i thf indfx of thf rfqufstfd dbtb brrby flfmfnt
+     * @rfturn thf dbtb brrby flfmfnt bt thf spfdififd indfx from thf
+     *         spfdififd bbnk bt thf spfdififd indfx.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
+     */
+    publid bbstrbdt int gftElfm(int bbnk, int i);
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf first (dffbult) bbnk
+     * from thf givfn intfgfr.
+     * @pbrbm i thf spfdififd indfx into thf dbtb brrby
+     * @pbrbm vbl thf dbtb to sft thf flfmfnt bt thf spfdififd indfx in
+     * thf dbtb brrby
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
+     */
+    publid void  sftElfm(int i, int vbl) {
+        sftElfm(0,i,vbl);
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf spfdififd bbnk
+     * from thf givfn intfgfr.
+     * @pbrbm bbnk thf spfdififd bbnk
+     * @pbrbm i thf spfdififd indfx into thf dbtb brrby
+     * @pbrbm vbl  thf dbtb to sft thf flfmfnt in thf spfdififd bbnk
+     * bt thf spfdififd indfx in thf dbtb brrby
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
+     */
+    publid bbstrbdt void sftElfm(int bbnk, int i, int vbl);
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf first (dffbult) bbnk
+     * bs b flobt.  Thf implfmfntbtion in this dlbss is to dbst gftElfm(i)
+     * to b flobt.  Subdlbssfs mby ovfrridf this mfthod if bnothfr
+     * implfmfntbtion is nffdfd.
+     * @pbrbm i thf indfx of thf rfqufstfd dbtb brrby flfmfnt
+     * @rfturn b flobt vbluf rfprfsfnting thf dbtb brrby flfmfnt bt thf
+     *  spfdififd indfx.
+     * @sff #sftElfmFlobt(int, flobt)
+     * @sff #sftElfmFlobt(int, int, flobt)
+     */
+    publid flobt gftElfmFlobt(int i) {
+        rfturn (flobt)gftElfm(i);
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf spfdififd bbnk
+     * bs b flobt.  Thf implfmfntbtion in this dlbss is to dbst
+     * {@link #gftElfm(int, int)}
+     * to b flobt.  Subdlbssfs dbn ovfrridf this mfthod if bnothfr
+     * implfmfntbtion is nffdfd.
+     * @pbrbm bbnk thf spfdififd bbnk
+     * @pbrbm i thf indfx of thf rfqufstfd dbtb brrby flfmfnt
+     * @rfturn b flobt vbluf rfprfsfnting thf dbtb brrby flfmfnt from thf
+     * spfdififd bbnk bt thf spfdififd indfx.
+     * @sff #sftElfmFlobt(int, flobt)
+     * @sff #sftElfmFlobt(int, int, flobt)
+     */
+    publid flobt gftElfmFlobt(int bbnk, int i) {
+        rfturn (flobt)gftElfm(bbnk,i);
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf first (dffbult) bbnk
+     * from thf givfn flobt.  Thf implfmfntbtion in this dlbss is to dbst
+     * vbl to bn int bnd dbll {@link #sftElfm(int, int)}.  Subdlbssfs
+     * dbn ovfrridf this mfthod if bnothfr implfmfntbtion is nffdfd.
+     * @pbrbm i thf spfdififd indfx
+     * @pbrbm vbl thf vbluf to sft thf flfmfnt bt thf spfdififd indfx in
+     * thf dbtb brrby
+     * @sff #gftElfmFlobt(int)
+     * @sff #gftElfmFlobt(int, int)
+     */
+    publid void sftElfmFlobt(int i, flobt vbl) {
+        sftElfm(i,(int)vbl);
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf spfdififd bbnk
+     * from thf givfn flobt.  Thf implfmfntbtion in this dlbss is to dbst
+     * vbl to bn int bnd dbll {@link #sftElfm(int, int)}.  Subdlbssfs dbn
+     * ovfrridf this mfthod if bnothfr implfmfntbtion is nffdfd.
+     * @pbrbm bbnk thf spfdififd bbnk
+     * @pbrbm i thf spfdififd indfx
+     * @pbrbm vbl thf vbluf to sft thf flfmfnt in thf spfdififd bbnk bt
+     * thf spfdififd indfx in thf dbtb brrby
+     * @sff #gftElfmFlobt(int)
+     * @sff #gftElfmFlobt(int, int)
+     */
+    publid void sftElfmFlobt(int bbnk, int i, flobt vbl) {
+        sftElfm(bbnk,i,(int)vbl);
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf first (dffbult) bbnk
+     * bs b doublf.  Thf implfmfntbtion in this dlbss is to dbst
+     * {@link #gftElfm(int)}
+     * to b doublf.  Subdlbssfs dbn ovfrridf this mfthod if bnothfr
+     * implfmfntbtion is nffdfd.
+     * @pbrbm i thf spfdififd indfx
+     * @rfturn b doublf vbluf rfprfsfnting thf flfmfnt bt thf spfdififd
+     * indfx in thf dbtb brrby.
+     * @sff #sftElfmDoublf(int, doublf)
+     * @sff #sftElfmDoublf(int, int, doublf)
+     */
+    publid doublf gftElfmDoublf(int i) {
+        rfturn (doublf)gftElfm(i);
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf spfdififd bbnk bs
+     * b doublf.  Thf implfmfntbtion in this dlbss is to dbst gftElfm(bbnk, i)
+     * to b doublf.  Subdlbssfs mby ovfrridf this mfthod if bnothfr
+     * implfmfntbtion is nffdfd.
+     * @pbrbm bbnk thf spfdififd bbnk
+     * @pbrbm i thf spfdififd indfx
+     * @rfturn b doublf vbluf rfprfsfnting thf flfmfnt from thf spfdififd
+     * bbnk bt thf spfdififd indfx in thf dbtb brrby.
+     * @sff #sftElfmDoublf(int, doublf)
+     * @sff #sftElfmDoublf(int, int, doublf)
+     */
+    publid doublf gftElfmDoublf(int bbnk, int i) {
+        rfturn (doublf)gftElfm(bbnk,i);
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf first (dffbult) bbnk
+     * from thf givfn doublf.  Thf implfmfntbtion in this dlbss is to dbst
+     * vbl to bn int bnd dbll {@link #sftElfm(int, int)}.  Subdlbssfs dbn
+     * ovfrridf this mfthod if bnothfr implfmfntbtion is nffdfd.
+     * @pbrbm i thf spfdififd indfx
+     * @pbrbm vbl thf vbluf to sft thf flfmfnt bt thf spfdififd indfx
+     * in thf dbtb brrby
+     * @sff #gftElfmDoublf(int)
+     * @sff #gftElfmDoublf(int, int)
+     */
+    publid void sftElfmDoublf(int i, doublf vbl) {
+        sftElfm(i,(int)vbl);
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf spfdififd bbnk
+     * from thf givfn doublf.  Thf implfmfntbtion in this dlbss is to dbst
+     * vbl to bn int bnd dbll {@link #sftElfm(int, int)}.  Subdlbssfs dbn
+     * ovfrridf this mfthod if bnothfr implfmfntbtion is nffdfd.
+     * @pbrbm bbnk thf spfdififd bbnk
+     * @pbrbm i thf spfdififd indfx
+     * @pbrbm vbl thf vbluf to sft thf flfmfnt in thf spfdififd bbnk
+     * bt thf spfdififd indfx of thf dbtb brrby
+     * @sff #gftElfmDoublf(int)
+     * @sff #gftElfmDoublf(int, int)
+     */
+    publid void sftElfmDoublf(int bbnk, int i, doublf vbl) {
+        sftElfm(bbnk,i,(int)vbl);
+    }
+
+    stbtid int[] toIntArrby(Objfdt obj) {
+        if (obj instbndfof int[]) {
+            rfturn (int[])obj;
+        } flsf if (obj == null) {
+            rfturn null;
+        } flsf if (obj instbndfof short[]) {
+            short sdbtb[] = (short[])obj;
+            int idbtb[] = nfw int[sdbtb.lfngth];
+            for (int i = 0; i < sdbtb.lfngth; i++) {
+                idbtb[i] = (int)sdbtb[i] & 0xffff;
+            }
+            rfturn idbtb;
+        } flsf if (obj instbndfof bytf[]) {
+            bytf bdbtb[] = (bytf[])obj;
+            int idbtb[] = nfw int[bdbtb.lfngth];
+            for (int i = 0; i < bdbtb.lfngth; i++) {
+                idbtb[i] = 0xff & (int)bdbtb[i];
+            }
+            rfturn idbtb;
+        }
+        rfturn null;
+    }
+
+    stbtid {
+        SunWritbblfRbstfr.sftDbtbStfblfr(nfw SunWritbblfRbstfr.DbtbStfblfr() {
+            publid bytf[] gftDbtb(DbtbBufffrBytf dbb, int bbnk) {
+                rfturn dbb.bbnkdbtb[bbnk];
+            }
+
+            publid short[] gftDbtb(DbtbBufffrUShort dbus, int bbnk) {
+                rfturn dbus.bbnkdbtb[bbnk];
+            }
+
+            publid int[] gftDbtb(DbtbBufffrInt dbi, int bbnk) {
+                rfturn dbi.bbnkdbtb[bbnk];
+            }
+
+            publid StbtfTrbdkbblfDflfgbtf gftTrbdkbblf(DbtbBufffr db) {
+                rfturn db.thfTrbdkbblf;
+            }
+
+            publid void sftTrbdkbblf(DbtbBufffr db,
+                                     StbtfTrbdkbblfDflfgbtf trbdkbblf)
+            {
+                db.thfTrbdkbblf = trbdkbblf;
+            }
+        });
+    }
+}

@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
 /**
- * Constants used to control the window-closing operation.
- * The <code>setDefaultCloseOperation</code> and
- * <code>getDefaultCloseOperation</code> methods
- * provided by <code>JFrame</code>,
- * <code>JInternalFrame</code>, and
- * <code>JDialog</code>
- * use these constants.
- * For examples of setting the default window-closing operation, see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/frame.html#windowevents">Responding to Window-Closing Events</a>,
- * a section in <em>The Java Tutorial</em>.
- * @see JFrame#setDefaultCloseOperation(int)
- * @see JDialog#setDefaultCloseOperation(int)
- * @see JInternalFrame#setDefaultCloseOperation(int)
+ * Constbnts usfd to dontrol tif window-dlosing opfrbtion.
+ * Tif <dodf>sftDffbultClosfOpfrbtion</dodf> bnd
+ * <dodf>gftDffbultClosfOpfrbtion</dodf> mftiods
+ * providfd by <dodf>JFrbmf</dodf>,
+ * <dodf>JIntfrnblFrbmf</dodf>, bnd
+ * <dodf>JDiblog</dodf>
+ * usf tifsf donstbnts.
+ * For fxbmplfs of sftting tif dffbult window-dlosing opfrbtion, sff
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/frbmf.itml#windowfvfnts">Rfsponding to Window-Closing Evfnts</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
+ * @sff JFrbmf#sftDffbultClosfOpfrbtion(int)
+ * @sff JDiblog#sftDffbultClosfOpfrbtion(int)
+ * @sff JIntfrnblFrbmf#sftDffbultClosfOpfrbtion(int)
  *
  *
- * @author Amy Fowler
- * @since 1.2
+ * @butior Amy Fowlfr
+ * @sindf 1.2
  */
-public interface WindowConstants
+publid intfrfbdf WindowConstbnts
 {
     /**
-     * The do-nothing default window close operation.
+     * Tif do-notiing dffbult window dlosf opfrbtion.
      */
-    public static final int DO_NOTHING_ON_CLOSE = 0;
+    publid stbtid finbl int DO_NOTHING_ON_CLOSE = 0;
 
     /**
-     * The hide-window default window close operation
+     * Tif iidf-window dffbult window dlosf opfrbtion
      */
-    public static final int HIDE_ON_CLOSE = 1;
+    publid stbtid finbl int HIDE_ON_CLOSE = 1;
 
     /**
-     * The dispose-window default window close operation.
+     * Tif disposf-window dffbult window dlosf opfrbtion.
      * <p>
-     * <b>Note</b>: When the last displayable window
-     * within the Java virtual machine (VM) is disposed of, the VM may
-     * terminate.  See <a href="../../java/awt/doc-files/AWTThreadIssues.html">
-     * AWT Threading Issues</a> for more information.
-     * @see java.awt.Window#dispose()
-     * @see JInternalFrame#dispose()
+     * <b>Notf</b>: Wifn tif lbst displbybblf window
+     * witiin tif Jbvb virtubl mbdiinf (VM) is disposfd of, tif VM mby
+     * tfrminbtf.  Sff <b irff="../../jbvb/bwt/dod-filfs/AWTTirfbdIssufs.itml">
+     * AWT Tirfbding Issufs</b> for morf informbtion.
+     * @sff jbvb.bwt.Window#disposf()
+     * @sff JIntfrnblFrbmf#disposf()
      */
-    public static final int DISPOSE_ON_CLOSE = 2;
+    publid stbtid finbl int DISPOSE_ON_CLOSE = 2;
 
     /**
-     * The exit application default window close operation. Attempting
-     * to set this on Windows that support this, such as
-     * <code>JFrame</code>, may throw a <code>SecurityException</code> based
-     * on the <code>SecurityManager</code>.
-     * It is recommended you only use this in an application.
+     * Tif fxit bpplidbtion dffbult window dlosf opfrbtion. Attfmpting
+     * to sft tiis on Windows tibt support tiis, sudi bs
+     * <dodf>JFrbmf</dodf>, mby tirow b <dodf>SfdurityExdfption</dodf> bbsfd
+     * on tif <dodf>SfdurityMbnbgfr</dodf>.
+     * It is rfdommfndfd you only usf tiis in bn bpplidbtion.
      *
-     * @since 1.4
-     * @see JFrame#setDefaultCloseOperation
+     * @sindf 1.4
+     * @sff JFrbmf#sftDffbultClosfOpfrbtion
      */
-    public static final int EXIT_ON_CLOSE = 3;
+    publid stbtid finbl int EXIT_ON_CLOSE = 3;
 
 }

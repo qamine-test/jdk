@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rff;
+
+
+/**
+ * Soft rfffrfndf objfdts, whidh brf dlfbrfd bt thf disdrftion of thf gbrbbgf
+ * dollfdtor in rfsponsf to mfmory dfmbnd.  Soft rfffrfndfs brf most oftfn usfd
+ * to implfmfnt mfmory-sfnsitivf dbdhfs.
+ *
+ * <p> Supposf thbt thf gbrbbgf dollfdtor dftfrminfs bt b dfrtbin point in timf
+ * thbt bn objfdt is <b hrff="pbdkbgf-summbry.html#rfbdhbbility">softly
+ * rfbdhbblf</b>.  At thbt timf it mby dhoosf to dlfbr btomidblly bll soft
+ * rfffrfndfs to thbt objfdt bnd bll soft rfffrfndfs to bny othfr
+ * softly-rfbdhbblf objfdts from whidh thbt objfdt is rfbdhbblf through b dhbin
+ * of strong rfffrfndfs.  At thf sbmf timf or bt somf lbtfr timf it will
+ * fnqufuf thosf nfwly-dlfbrfd soft rfffrfndfs thbt brf rfgistfrfd with
+ * rfffrfndf qufufs.
+ *
+ * <p> All soft rfffrfndfs to softly-rfbdhbblf objfdts brf gubrbntffd to hbvf
+ * bffn dlfbrfd bfforf thf virtubl mbdhinf throws bn
+ * <dodf>OutOfMfmoryError</dodf>.  Othfrwisf no donstrbints brf plbdfd upon thf
+ * timf bt whidh b soft rfffrfndf will bf dlfbrfd or thf ordfr in whidh b sft
+ * of sudh rfffrfndfs to difffrfnt objfdts will bf dlfbrfd.  Virtubl mbdhinf
+ * implfmfntbtions brf, howfvfr, fndourbgfd to bibs bgbinst dlfbring
+ * rfdfntly-drfbtfd or rfdfntly-usfd soft rfffrfndfs.
+ *
+ * <p> Dirfdt instbndfs of this dlbss mby bf usfd to implfmfnt simplf dbdhfs;
+ * this dlbss or dfrivfd subdlbssfs mby blso bf usfd in lbrgfr dbtb strudturfs
+ * to implfmfnt morf sophistidbtfd dbdhfs.  As long bs thf rfffrfnt of b soft
+ * rfffrfndf is strongly rfbdhbblf, thbt is, is bdtublly in usf, thf soft
+ * rfffrfndf will not bf dlfbrfd.  Thus b sophistidbtfd dbdhf dbn, for fxbmplf,
+ * prfvfnt its most rfdfntly usfd fntrifs from bfing disdbrdfd by kffping
+ * strong rfffrfnts to thosf fntrifs, lfbving thf rfmbining fntrifs to bf
+ * disdbrdfd bt thf disdrftion of thf gbrbbgf dollfdtor.
+ *
+ * @buthor   Mbrk Rfinhold
+ * @sindf    1.2
+ */
+
+publid dlbss SoftRfffrfndf<T> fxtfnds Rfffrfndf<T> {
+
+    /**
+     * Timfstbmp dlodk, updbtfd by thf gbrbbgf dollfdtor
+     */
+    stbtid privbtf long dlodk;
+
+    /**
+     * Timfstbmp updbtfd by fbdh invodbtion of thf gft mfthod.  Thf VM mby usf
+     * this fifld whfn sflfdting soft rfffrfndfs to bf dlfbrfd, but it is not
+     * rfquirfd to do so.
+     */
+    privbtf long timfstbmp;
+
+    /**
+     * Crfbtfs b nfw soft rfffrfndf thbt rfffrs to thf givfn objfdt.  Thf nfw
+     * rfffrfndf is not rfgistfrfd with bny qufuf.
+     *
+     * @pbrbm rfffrfnt objfdt thf nfw soft rfffrfndf will rfffr to
+     */
+    publid SoftRfffrfndf(T rfffrfnt) {
+        supfr(rfffrfnt);
+        this.timfstbmp = dlodk;
+    }
+
+    /**
+     * Crfbtfs b nfw soft rfffrfndf thbt rfffrs to thf givfn objfdt bnd is
+     * rfgistfrfd with thf givfn qufuf.
+     *
+     * @pbrbm rfffrfnt objfdt thf nfw soft rfffrfndf will rfffr to
+     * @pbrbm q thf qufuf with whidh thf rfffrfndf is to bf rfgistfrfd,
+     *          or <tt>null</tt> if rfgistrbtion is not rfquirfd
+     *
+     */
+    publid SoftRfffrfndf(T rfffrfnt, RfffrfndfQufuf<? supfr T> q) {
+        supfr(rfffrfnt, q);
+        this.timfstbmp = dlodk;
+    }
+
+    /**
+     * Rfturns this rfffrfndf objfdt's rfffrfnt.  If this rfffrfndf objfdt hbs
+     * bffn dlfbrfd, fithfr by thf progrbm or by thf gbrbbgf dollfdtor, thfn
+     * this mfthod rfturns <dodf>null</dodf>.
+     *
+     * @rfturn   Thf objfdt to whidh this rfffrfndf rfffrs, or
+     *           <dodf>null</dodf> if this rfffrfndf objfdt hbs bffn dlfbrfd
+     */
+    publid T gft() {
+        T o = supfr.gft();
+        if (o != null && this.timfstbmp != dlodk)
+            this.timfstbmp = dlodk;
+        rfturn o;
+    }
+
+}

@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.PathIterator;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import sun.jbvb2d.SunGrbpiids2D;
 
 /**
- * This class uses a Region iterator to modify the extents of alpha
- * tiles created during Shape rendering based upon a non-rectangular
- * clipping path.
+ * Tiis dlbss usfs b Rfgion itfrbtor to modify tif fxtfnts of blpib
+ * tilfs drfbtfd during Sibpf rfndfring bbsfd upon b non-rfdtbngulbr
+ * dlipping pbti.
  */
-public class SpanClipRenderer implements CompositePipe
+publid dlbss SpbnClipRfndfrfr implfmfnts CompositfPipf
 {
-    CompositePipe outpipe;
+    CompositfPipf outpipf;
 
-    static Class<?> RegionClass = Region.class;
-    static Class<?> RegionIteratorClass = RegionIterator.class;
+    stbtid Clbss<?> RfgionClbss = Rfgion.dlbss;
+    stbtid Clbss<?> RfgionItfrbtorClbss = RfgionItfrbtor.dlbss;
 
-    static {
-        initIDs(RegionClass, RegionIteratorClass);
+    stbtid {
+        initIDs(RfgionClbss, RfgionItfrbtorClbss);
     }
 
-    static native void initIDs(Class<?> rc, Class<?> ric);
+    stbtid nbtivf void initIDs(Clbss<?> rd, Clbss<?> rid);
 
-    public SpanClipRenderer(CompositePipe pipe) {
-        outpipe = pipe;
+    publid SpbnClipRfndfrfr(CompositfPipf pipf) {
+        outpipf = pipf;
     }
 
-    class SCRcontext {
-        RegionIterator iterator;
-        Object outcontext;
-        int band[];
-        byte tile[];
+    dlbss SCRdontfxt {
+        RfgionItfrbtor itfrbtor;
+        Objfdt outdontfxt;
+        int bbnd[];
+        bytf tilf[];
 
-        public SCRcontext(RegionIterator ri, Object outctx) {
-            iterator = ri;
-            outcontext = outctx;
-            band = new int[4];
+        publid SCRdontfxt(RfgionItfrbtor ri, Objfdt outdtx) {
+            itfrbtor = ri;
+            outdontfxt = outdtx;
+            bbnd = nfw int[4];
         }
     }
 
-    public Object startSequence(SunGraphics2D sg, Shape s, Rectangle devR,
-                                int[] abox) {
-        RegionIterator ri = sg.clipRegion.getIterator();
+    publid Objfdt stbrtSfqufndf(SunGrbpiids2D sg, Sibpf s, Rfdtbnglf dfvR,
+                                int[] bbox) {
+        RfgionItfrbtor ri = sg.dlipRfgion.gftItfrbtor();
 
-        return new SCRcontext(ri, outpipe.startSequence(sg, s, devR, abox));
+        rfturn nfw SCRdontfxt(ri, outpipf.stbrtSfqufndf(sg, s, dfvR, bbox));
     }
 
-    public boolean needTile(Object ctx, int x, int y, int w, int h) {
-        SCRcontext context = (SCRcontext) ctx;
-        return (outpipe.needTile(context.outcontext, x, y, w, h));
+    publid boolfbn nffdTilf(Objfdt dtx, int x, int y, int w, int i) {
+        SCRdontfxt dontfxt = (SCRdontfxt) dtx;
+        rfturn (outpipf.nffdTilf(dontfxt.outdontfxt, x, y, w, i));
     }
 
-    public void renderPathTile(Object ctx,
-                               byte[] atile, int offset, int tsize,
-                               int x, int y, int w, int h,
-                               ShapeSpanIterator sr) {
-        renderPathTile(ctx, atile, offset, tsize, x, y, w, h);
+    publid void rfndfrPbtiTilf(Objfdt dtx,
+                               bytf[] btilf, int offsft, int tsizf,
+                               int x, int y, int w, int i,
+                               SibpfSpbnItfrbtor sr) {
+        rfndfrPbtiTilf(dtx, btilf, offsft, tsizf, x, y, w, i);
     }
 
-    public void renderPathTile(Object ctx,
-                               byte[] atile, int offset, int tsize,
-                               int x, int y, int w, int h) {
-        SCRcontext context = (SCRcontext) ctx;
-        RegionIterator ri = context.iterator.createCopy();
-        int[] band = context.band;
-        band[0] = x;
-        band[1] = y;
-        band[2] = x + w;
-        band[3] = y + h;
-        if (atile == null) {
-            int size = w * h;
-            atile = context.tile;
-            if (atile != null && atile.length < size) {
-                atile = null;
+    publid void rfndfrPbtiTilf(Objfdt dtx,
+                               bytf[] btilf, int offsft, int tsizf,
+                               int x, int y, int w, int i) {
+        SCRdontfxt dontfxt = (SCRdontfxt) dtx;
+        RfgionItfrbtor ri = dontfxt.itfrbtor.drfbtfCopy();
+        int[] bbnd = dontfxt.bbnd;
+        bbnd[0] = x;
+        bbnd[1] = y;
+        bbnd[2] = x + w;
+        bbnd[3] = y + i;
+        if (btilf == null) {
+            int sizf = w * i;
+            btilf = dontfxt.tilf;
+            if (btilf != null && btilf.lfngti < sizf) {
+                btilf = null;
             }
-            if (atile == null) {
-                atile = new byte[size];
-                context.tile = atile;
+            if (btilf == null) {
+                btilf = nfw bytf[sizf];
+                dontfxt.tilf = btilf;
             }
-            offset = 0;
-            tsize = w;
-            fillTile(ri, atile, offset, tsize, band);
-        } else {
-            eraseTile(ri, atile, offset, tsize, band);
+            offsft = 0;
+            tsizf = w;
+            fillTilf(ri, btilf, offsft, tsizf, bbnd);
+        } flsf {
+            frbsfTilf(ri, btilf, offsft, tsizf, bbnd);
         }
 
-        if (band[2] > band[0] && band[3] > band[1]) {
-            offset += (band[1] - y) * tsize + (band[0] - x);
-            outpipe.renderPathTile(context.outcontext,
-                                   atile, offset, tsize,
-                                   band[0], band[1],
-                                   band[2] - band[0],
-                                   band[3] - band[1]);
+        if (bbnd[2] > bbnd[0] && bbnd[3] > bbnd[1]) {
+            offsft += (bbnd[1] - y) * tsizf + (bbnd[0] - x);
+            outpipf.rfndfrPbtiTilf(dontfxt.outdontfxt,
+                                   btilf, offsft, tsizf,
+                                   bbnd[0], bbnd[1],
+                                   bbnd[2] - bbnd[0],
+                                   bbnd[3] - bbnd[1]);
         }
     }
 
-    public native void fillTile(RegionIterator ri,
-                                byte[] alpha, int offset, int tsize,
-                                int[] band);
+    publid nbtivf void fillTilf(RfgionItfrbtor ri,
+                                bytf[] blpib, int offsft, int tsizf,
+                                int[] bbnd);
 
-    public native void eraseTile(RegionIterator ri,
-                                 byte[] alpha, int offset, int tsize,
-                                 int[] band);
+    publid nbtivf void frbsfTilf(RfgionItfrbtor ri,
+                                 bytf[] blpib, int offsft, int tsizf,
+                                 int[] bbnd);
 
-    public void skipTile(Object ctx, int x, int y) {
-        SCRcontext context = (SCRcontext) ctx;
-        outpipe.skipTile(context.outcontext, x, y);
+    publid void skipTilf(Objfdt dtx, int x, int y) {
+        SCRdontfxt dontfxt = (SCRdontfxt) dtx;
+        outpipf.skipTilf(dontfxt.outdontfxt, x, y);
     }
 
-    public void endSequence(Object ctx) {
-        SCRcontext context = (SCRcontext) ctx;
-        outpipe.endSequence(context.outcontext);
+    publid void fndSfqufndf(Objfdt dtx) {
+        SCRdontfxt dontfxt = (SCRdontfxt) dtx;
+        outpipf.fndSfqufndf(dontfxt.outdontfxt);
     }
 }

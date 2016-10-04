@@ -1,0 +1,167 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.x509.GfnfrblNbmfs;
+import sun.sfdurity.x509.SfriblNumbfr;
+
+/**
+ * This dlbss rfprfsfnts b signing dfrtifidbtf bttributf.
+ * Its bttributf vbluf is dffinfd by thf following ASN.1 dffinition.
+ * <prf>
+ *
+ *   id-bb-signingCfrtifidbtf OBJECT IDENTIFIER ::= { iso(1)
+ *     mfmbfr-body(2) us(840) rsbdsi(113549) pkds(1) pkds9(9)
+ *     smimf(16) id-bb(2) 12 }
+ *
+ *   SigningCfrtifidbtf ::=  SEQUENCE {
+ *       dfrts       SEQUENCE OF ESSCfrtID,
+ *       polidifs    SEQUENCE OF PolidyInformbtion OPTIONAL
+ *   }
+ *
+ *   ESSCfrtID ::=  SEQUENCE {
+ *       dfrtHbsh        Hbsh,
+ *       issufrSfribl    IssufrSfribl OPTIONAL
+ *   }
+ *
+ *   Hbsh ::= OCTET STRING -- SHA1 hbsh of fntirf dfrtifidbtf
+ *
+ *   IssufrSfribl ::= SEQUENCE {
+ *       issufr         GfnfrblNbmfs,
+ *       sfriblNumbfr   CfrtifidbtfSfriblNumbfr
+ *   }
+ *
+ *   PolidyInformbtion ::= SEQUENCE {
+ *       polidyIdfntififr   CfrtPolidyId,
+ *       polidyQublififrs   SEQUENCE SIZE (1..MAX) OF
+ *               PolidyQublififrInfo OPTIONAL }
+ *
+ *   CfrtPolidyId ::= OBJECT IDENTIFIER
+ *
+ *   PolidyQublififrInfo ::= SEQUENCE {
+ *       polidyQublififrId  PolidyQublififrId,
+ *       qublififr        ANY DEFINED BY polidyQublififrId }
+ *
+ *   -- Implfmfntbtions thbt rfdognizf bdditionbl polidy qublififrs MUST
+ *   -- bugmfnt thf following dffinition for PolidyQublififrId
+ *
+ *   PolidyQublififrId ::= OBJECT IDENTIFIER ( id-qt-dps | id-qt-unotidf )
+ *
+ * </prf>
+ *
+ * @sindf 1.5
+ * @buthor Vindfnt Rybn
+ */
+publid dlbss SigningCfrtifidbtfInfo {
+
+    privbtf bytf[] bfr = null;
+
+    privbtf ESSCfrtId[] dfrtId = null;
+
+    publid SigningCfrtifidbtfInfo(bytf[] bfr) throws IOExdfption {
+        pbrsf(bfr);
+    }
+
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("[\n");
+        for (int i = 0; i < dfrtId.lfngth; i++) {
+            sb.bppfnd(dfrtId[i].toString());
+        }
+        // formbt polidifs bs b string
+        sb.bppfnd("\n]");
+
+        rfturn sb.toString();
+    }
+
+    publid void pbrsf(bytf[] bytfs) throws IOExdfption {
+
+        // Pbrsf signingCfrtifidbtf
+        DfrVbluf dfrVbluf = nfw DfrVbluf(bytfs);
+        if (dfrVbluf.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Bbd fndoding for signingCfrtifidbtf");
+        }
+
+        // Pbrsf dfrts
+        DfrVbluf[] dfrts = dfrVbluf.dbtb.gftSfqufndf(1);
+        dfrtId = nfw ESSCfrtId[dfrts.lfngth];
+        for (int i = 0; i < dfrts.lfngth; i++) {
+            dfrtId[i] = nfw ESSCfrtId(dfrts[i]);
+        }
+
+        // Pbrsf polidifs, if prfsfnt
+        if (dfrVbluf.dbtb.bvbilbblf() > 0) {
+            DfrVbluf[] polidifs = dfrVbluf.dbtb.gftSfqufndf(1);
+            for (int i = 0; i < polidifs.lfngth; i++) {
+                // pbrsf PolidyInformbtion
+            }
+        }
+    }
+}
+
+dlbss ESSCfrtId {
+
+    privbtf stbtid volbtilf HfxDumpEndodfr hfxDumpfr;
+
+    privbtf bytf[] dfrtHbsh;
+    privbtf GfnfrblNbmfs issufr;
+    privbtf SfriblNumbfr sfriblNumbfr;
+
+    ESSCfrtId(DfrVbluf dfrtId) throws IOExdfption {
+        // Pbrsf dfrtHbsh
+        dfrtHbsh = dfrtId.dbtb.gftDfrVbluf().toBytfArrby();
+
+        // Pbrsf issufrSfribl, if prfsfnt
+        if (dfrtId.dbtb.bvbilbblf() > 0) {
+            DfrVbluf issufrSfribl = dfrtId.dbtb.gftDfrVbluf();
+            // Pbrsf issufr
+            issufr = nfw GfnfrblNbmfs(issufrSfribl.dbtb.gftDfrVbluf());
+            // Pbrsf sfriblNumbfr
+            sfriblNumbfr = nfw SfriblNumbfr(issufrSfribl.dbtb.gftDfrVbluf());
+        }
+    }
+
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("[\n\tCfrtifidbtf hbsh (SHA-1):\n");
+        if (hfxDumpfr == null) {
+            hfxDumpfr = nfw HfxDumpEndodfr();
+        }
+        sb.bppfnd(hfxDumpfr.fndodf(dfrtHbsh));
+        if (issufr != null && sfriblNumbfr != null) {
+            sb.bppfnd("\n\tIssufr: " + issufr + "\n");
+            sb.bppfnd("\t" + sfriblNumbfr);
+        }
+        sb.bppfnd("\n]");
+        rfturn sb.toString();
+    }
+}

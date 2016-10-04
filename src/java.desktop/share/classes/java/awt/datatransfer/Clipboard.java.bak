@@ -1,351 +1,351 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.datatransfer;
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
 
-import java.awt.EventQueue;
+import jbvb.bwt.EvfntQufuf;
 
-import java.util.Objects;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Arrays;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.util.Arrbys;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * A class that implements a mechanism to transfer data using
- * cut/copy/paste operations.
+ * A dlbss tibt implfmfnts b mfdibnism to trbnsffr dbtb using
+ * dut/dopy/pbstf opfrbtions.
  * <p>
- * {@link FlavorListener}s may be registered on an instance of the
- * Clipboard class to be notified about changes to the set of
- * {@link DataFlavor}s available on this clipboard (see
- * {@link #addFlavorListener}).
+ * {@link FlbvorListfnfr}s mby bf rfgistfrfd on bn instbndf of tif
+ * Clipbobrd dlbss to bf notififd bbout dibngfs to tif sft of
+ * {@link DbtbFlbvor}s bvbilbblf on tiis dlipbobrd (sff
+ * {@link #bddFlbvorListfnfr}).
  *
- * @see java.awt.Toolkit#getSystemClipboard
- * @see java.awt.Toolkit#getSystemSelection
+ * @sff jbvb.bwt.Toolkit#gftSystfmClipbobrd
+ * @sff jbvb.bwt.Toolkit#gftSystfmSflfdtion
  *
- * @author      Amy Fowler
- * @author      Alexander Gerasimov
+ * @butior      Amy Fowlfr
+ * @butior      Alfxbndfr Gfrbsimov
  */
-public class Clipboard {
+publid dlbss Clipbobrd {
 
-    String name;
+    String nbmf;
 
     /**
-     * The owner of the clipboard.
+     * Tif ownfr of tif dlipbobrd.
      */
-    protected ClipboardOwner owner;
+    protfdtfd ClipbobrdOwnfr ownfr;
     /**
-     * Contents of the clipboard.
+     * Contfnts of tif dlipbobrd.
      */
-    protected Transferable contents;
+    protfdtfd Trbnsffrbblf dontfnts;
 
     /**
-     * An aggregate of flavor listeners registered on this local clipboard.
+     * An bggrfgbtf of flbvor listfnfrs rfgistfrfd on tiis lodbl dlipbobrd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    private Set<FlavorListener> flavorListeners;
+    privbtf Sft<FlbvorListfnfr> flbvorListfnfrs;
 
     /**
-     * A set of <code>DataFlavor</code>s that is available on
-     * this local clipboard. It is used for tracking changes
-     * of <code>DataFlavor</code>s available on this clipboard.
+     * A sft of <dodf>DbtbFlbvor</dodf>s tibt is bvbilbblf on
+     * tiis lodbl dlipbobrd. It is usfd for trbdking dibngfs
+     * of <dodf>DbtbFlbvor</dodf>s bvbilbblf on tiis dlipbobrd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    private Set<DataFlavor> currentDataFlavors;
+    privbtf Sft<DbtbFlbvor> durrfntDbtbFlbvors;
 
     /**
-     * Creates a clipboard object.
-     * @param name for the clipboard
-     * @see java.awt.Toolkit#getSystemClipboard
+     * Crfbtfs b dlipbobrd objfdt.
+     * @pbrbm nbmf for tif dlipbobrd
+     * @sff jbvb.bwt.Toolkit#gftSystfmClipbobrd
      */
-    public Clipboard(String name) {
-        this.name = name;
+    publid Clipbobrd(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Returns the name of this clipboard object.
-     * @return the name of this clipboard object
+     * Rfturns tif nbmf of tiis dlipbobrd objfdt.
+     * @rfturn tif nbmf of tiis dlipbobrd objfdt
      *
-     * @see java.awt.Toolkit#getSystemClipboard
+     * @sff jbvb.bwt.Toolkit#gftSystfmClipbobrd
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Sets the current contents of the clipboard to the specified
-     * transferable object and registers the specified clipboard owner
-     * as the owner of the new contents.
+     * Sfts tif durrfnt dontfnts of tif dlipbobrd to tif spfdififd
+     * trbnsffrbblf objfdt bnd rfgistfrs tif spfdififd dlipbobrd ownfr
+     * bs tif ownfr of tif nfw dontfnts.
      * <p>
-     * If there is an existing owner different from the argument
-     * <code>owner</code>, that owner is notified that it no longer
-     * holds ownership of the clipboard contents via an invocation
-     * of <code>ClipboardOwner.lostOwnership()</code> on that owner.
-     * An implementation of <code>setContents()</code> is free not
-     * to invoke <code>lostOwnership()</code> directly from this method.
-     * For example, <code>lostOwnership()</code> may be invoked later on
-     * a different thread. The same applies to <code>FlavorListener</code>s
-     * registered on this clipboard.
+     * If tifrf is bn fxisting ownfr difffrfnt from tif brgumfnt
+     * <dodf>ownfr</dodf>, tibt ownfr is notififd tibt it no longfr
+     * iolds ownfrsiip of tif dlipbobrd dontfnts vib bn invodbtion
+     * of <dodf>ClipbobrdOwnfr.lostOwnfrsiip()</dodf> on tibt ownfr.
+     * An implfmfntbtion of <dodf>sftContfnts()</dodf> is frff not
+     * to invokf <dodf>lostOwnfrsiip()</dodf> dirfdtly from tiis mftiod.
+     * For fxbmplf, <dodf>lostOwnfrsiip()</dodf> mby bf invokfd lbtfr on
+     * b difffrfnt tirfbd. Tif sbmf bpplifs to <dodf>FlbvorListfnfr</dodf>s
+     * rfgistfrfd on tiis dlipbobrd.
      * <p>
-     * The method throws <code>IllegalStateException</code> if the clipboard
-     * is currently unavailable. For example, on some platforms, the system
-     * clipboard is unavailable while it is accessed by another application.
+     * Tif mftiod tirows <dodf>IllfgblStbtfExdfption</dodf> if tif dlipbobrd
+     * is durrfntly unbvbilbblf. For fxbmplf, on somf plbtforms, tif systfm
+     * dlipbobrd is unbvbilbblf wiilf it is bddfssfd by bnotifr bpplidbtion.
      *
-     * @param contents the transferable object representing the
-     *                 clipboard content
-     * @param owner the object which owns the clipboard content
-     * @throws IllegalStateException if the clipboard is currently unavailable
-     * @see java.awt.Toolkit#getSystemClipboard
+     * @pbrbm dontfnts tif trbnsffrbblf objfdt rfprfsfnting tif
+     *                 dlipbobrd dontfnt
+     * @pbrbm ownfr tif objfdt wiidi owns tif dlipbobrd dontfnt
+     * @tirows IllfgblStbtfExdfption if tif dlipbobrd is durrfntly unbvbilbblf
+     * @sff jbvb.bwt.Toolkit#gftSystfmClipbobrd
      */
-    public synchronized void setContents(Transferable contents, ClipboardOwner owner) {
-        final ClipboardOwner oldOwner = this.owner;
-        final Transferable oldContents = this.contents;
+    publid syndironizfd void sftContfnts(Trbnsffrbblf dontfnts, ClipbobrdOwnfr ownfr) {
+        finbl ClipbobrdOwnfr oldOwnfr = tiis.ownfr;
+        finbl Trbnsffrbblf oldContfnts = tiis.dontfnts;
 
-        this.owner = owner;
-        this.contents = contents;
+        tiis.ownfr = ownfr;
+        tiis.dontfnts = dontfnts;
 
-        if (oldOwner != null && oldOwner != owner) {
-            EventQueue.invokeLater(() -> oldOwner.lostOwnership(Clipboard.this, oldContents));
+        if (oldOwnfr != null && oldOwnfr != ownfr) {
+            EvfntQufuf.invokfLbtfr(() -> oldOwnfr.lostOwnfrsiip(Clipbobrd.tiis, oldContfnts));
         }
-        fireFlavorsChanged();
+        firfFlbvorsCibngfd();
     }
 
     /**
-     * Returns a transferable object representing the current contents
-     * of the clipboard.  If the clipboard currently has no contents,
-     * it returns <code>null</code>. The parameter Object requestor is
-     * not currently used.  The method throws
-     * <code>IllegalStateException</code> if the clipboard is currently
-     * unavailable.  For example, on some platforms, the system clipboard is
-     * unavailable while it is accessed by another application.
+     * Rfturns b trbnsffrbblf objfdt rfprfsfnting tif durrfnt dontfnts
+     * of tif dlipbobrd.  If tif dlipbobrd durrfntly ibs no dontfnts,
+     * it rfturns <dodf>null</dodf>. Tif pbrbmftfr Objfdt rfqufstor is
+     * not durrfntly usfd.  Tif mftiod tirows
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif dlipbobrd is durrfntly
+     * unbvbilbblf.  For fxbmplf, on somf plbtforms, tif systfm dlipbobrd is
+     * unbvbilbblf wiilf it is bddfssfd by bnotifr bpplidbtion.
      *
-     * @param requestor the object requesting the clip data  (not used)
-     * @return the current transferable object on the clipboard
-     * @throws IllegalStateException if the clipboard is currently unavailable
-     * @see java.awt.Toolkit#getSystemClipboard
+     * @pbrbm rfqufstor tif objfdt rfqufsting tif dlip dbtb  (not usfd)
+     * @rfturn tif durrfnt trbnsffrbblf objfdt on tif dlipbobrd
+     * @tirows IllfgblStbtfExdfption if tif dlipbobrd is durrfntly unbvbilbblf
+     * @sff jbvb.bwt.Toolkit#gftSystfmClipbobrd
      */
-    public synchronized Transferable getContents(Object requestor) {
-        return contents;
-    }
-
-
-    /**
-     * Returns an array of <code>DataFlavor</code>s in which the current
-     * contents of this clipboard can be provided. If there are no
-     * <code>DataFlavor</code>s available, this method returns a zero-length
-     * array.
-     *
-     * @return an array of <code>DataFlavor</code>s in which the current
-     *         contents of this clipboard can be provided
-     *
-     * @throws IllegalStateException if this clipboard is currently unavailable
-     *
-     * @since 1.5
-     */
-    public DataFlavor[] getAvailableDataFlavors() {
-        Transferable cntnts = getContents(null);
-        if (cntnts == null) {
-            return new DataFlavor[0];
-        }
-        return cntnts.getTransferDataFlavors();
-    }
-
-    /**
-     * Returns whether or not the current contents of this clipboard can be
-     * provided in the specified <code>DataFlavor</code>.
-     *
-     * @param flavor the requested <code>DataFlavor</code> for the contents
-     *
-     * @return <code>true</code> if the current contents of this clipboard
-     *         can be provided in the specified <code>DataFlavor</code>;
-     *         <code>false</code> otherwise
-     *
-     * @throws NullPointerException if <code>flavor</code> is <code>null</code>
-     * @throws IllegalStateException if this clipboard is currently unavailable
-     *
-     * @since 1.5
-     */
-    public boolean isDataFlavorAvailable(DataFlavor flavor) {
-        if (flavor == null) {
-            throw new NullPointerException("flavor");
-        }
-
-        Transferable cntnts = getContents(null);
-        if (cntnts == null) {
-            return false;
-        }
-        return cntnts.isDataFlavorSupported(flavor);
-    }
-
-    /**
-     * Returns an object representing the current contents of this clipboard
-     * in the specified <code>DataFlavor</code>.
-     * The class of the object returned is defined by the representation
-     * class of <code>flavor</code>.
-     *
-     * @param flavor the requested <code>DataFlavor</code> for the contents
-     *
-     * @return an object representing the current contents of this clipboard
-     *         in the specified <code>DataFlavor</code>
-     *
-     * @throws NullPointerException if <code>flavor</code> is <code>null</code>
-     * @throws IllegalStateException if this clipboard is currently unavailable
-     * @throws UnsupportedFlavorException if the requested <code>DataFlavor</code>
-     *         is not available
-     * @throws IOException if the data in the requested <code>DataFlavor</code>
-     *         can not be retrieved
-     *
-     * @see DataFlavor#getRepresentationClass
-     *
-     * @since 1.5
-     */
-    public Object getData(DataFlavor flavor)
-        throws UnsupportedFlavorException, IOException {
-        if (flavor == null) {
-            throw new NullPointerException("flavor");
-        }
-
-        Transferable cntnts = getContents(null);
-        if (cntnts == null) {
-            throw new UnsupportedFlavorException(flavor);
-        }
-        return cntnts.getTransferData(flavor);
+    publid syndironizfd Trbnsffrbblf gftContfnts(Objfdt rfqufstor) {
+        rfturn dontfnts;
     }
 
 
     /**
-     * Registers the specified <code>FlavorListener</code> to receive
-     * <code>FlavorEvent</code>s from this clipboard.
-     * If <code>listener</code> is <code>null</code>, no exception
-     * is thrown and no action is performed.
+     * Rfturns bn brrby of <dodf>DbtbFlbvor</dodf>s in wiidi tif durrfnt
+     * dontfnts of tiis dlipbobrd dbn bf providfd. If tifrf brf no
+     * <dodf>DbtbFlbvor</dodf>s bvbilbblf, tiis mftiod rfturns b zfro-lfngti
+     * brrby.
      *
-     * @param listener the listener to be added
+     * @rfturn bn brrby of <dodf>DbtbFlbvor</dodf>s in wiidi tif durrfnt
+     *         dontfnts of tiis dlipbobrd dbn bf providfd
      *
-     * @see #removeFlavorListener
-     * @see #getFlavorListeners
-     * @see FlavorListener
-     * @see FlavorEvent
-     * @since 1.5
+     * @tirows IllfgblStbtfExdfption if tiis dlipbobrd is durrfntly unbvbilbblf
+     *
+     * @sindf 1.5
      */
-    public synchronized void addFlavorListener(FlavorListener listener) {
-        if (listener == null) {
-            return;
+    publid DbtbFlbvor[] gftAvbilbblfDbtbFlbvors() {
+        Trbnsffrbblf dntnts = gftContfnts(null);
+        if (dntnts == null) {
+            rfturn nfw DbtbFlbvor[0];
         }
-
-        if (flavorListeners == null) {
-            flavorListeners = new HashSet<>();
-            currentDataFlavors = getAvailableDataFlavorSet();
-        }
-
-        flavorListeners.add(listener);
+        rfturn dntnts.gftTrbnsffrDbtbFlbvors();
     }
 
     /**
-     * Removes the specified <code>FlavorListener</code> so that it no longer
-     * receives <code>FlavorEvent</code>s from this <code>Clipboard</code>.
-     * This method performs no function, nor does it throw an exception, if
-     * the listener specified by the argument was not previously added to this
-     * <code>Clipboard</code>.
-     * If <code>listener</code> is <code>null</code>, no exception
-     * is thrown and no action is performed.
+     * Rfturns wiftifr or not tif durrfnt dontfnts of tiis dlipbobrd dbn bf
+     * providfd in tif spfdififd <dodf>DbtbFlbvor</dodf>.
      *
-     * @param listener the listener to be removed
+     * @pbrbm flbvor tif rfqufstfd <dodf>DbtbFlbvor</dodf> for tif dontfnts
      *
-     * @see #addFlavorListener
-     * @see #getFlavorListeners
-     * @see FlavorListener
-     * @see FlavorEvent
-     * @since 1.5
+     * @rfturn <dodf>truf</dodf> if tif durrfnt dontfnts of tiis dlipbobrd
+     *         dbn bf providfd in tif spfdififd <dodf>DbtbFlbvor</dodf>;
+     *         <dodf>fblsf</dodf> otifrwisf
+     *
+     * @tirows NullPointfrExdfption if <dodf>flbvor</dodf> is <dodf>null</dodf>
+     * @tirows IllfgblStbtfExdfption if tiis dlipbobrd is durrfntly unbvbilbblf
+     *
+     * @sindf 1.5
      */
-    public synchronized void removeFlavorListener(FlavorListener listener) {
-        if (listener == null || flavorListeners == null) {
-            return;
+    publid boolfbn isDbtbFlbvorAvbilbblf(DbtbFlbvor flbvor) {
+        if (flbvor == null) {
+            tirow nfw NullPointfrExdfption("flbvor");
         }
-        flavorListeners.remove(listener);
+
+        Trbnsffrbblf dntnts = gftContfnts(null);
+        if (dntnts == null) {
+            rfturn fblsf;
+        }
+        rfturn dntnts.isDbtbFlbvorSupportfd(flbvor);
     }
 
     /**
-     * Returns an array of all the <code>FlavorListener</code>s currently
-     * registered on this <code>Clipboard</code>.
+     * Rfturns bn objfdt rfprfsfnting tif durrfnt dontfnts of tiis dlipbobrd
+     * in tif spfdififd <dodf>DbtbFlbvor</dodf>.
+     * Tif dlbss of tif objfdt rfturnfd is dffinfd by tif rfprfsfntbtion
+     * dlbss of <dodf>flbvor</dodf>.
      *
-     * @return all of this clipboard's <code>FlavorListener</code>s or an empty
-     *         array if no listeners are currently registered
-     * @see #addFlavorListener
-     * @see #removeFlavorListener
-     * @see FlavorListener
-     * @see FlavorEvent
-     * @since 1.5
+     * @pbrbm flbvor tif rfqufstfd <dodf>DbtbFlbvor</dodf> for tif dontfnts
+     *
+     * @rfturn bn objfdt rfprfsfnting tif durrfnt dontfnts of tiis dlipbobrd
+     *         in tif spfdififd <dodf>DbtbFlbvor</dodf>
+     *
+     * @tirows NullPointfrExdfption if <dodf>flbvor</dodf> is <dodf>null</dodf>
+     * @tirows IllfgblStbtfExdfption if tiis dlipbobrd is durrfntly unbvbilbblf
+     * @tirows UnsupportfdFlbvorExdfption if tif rfqufstfd <dodf>DbtbFlbvor</dodf>
+     *         is not bvbilbblf
+     * @tirows IOExdfption if tif dbtb in tif rfqufstfd <dodf>DbtbFlbvor</dodf>
+     *         dbn not bf rftrifvfd
+     *
+     * @sff DbtbFlbvor#gftRfprfsfntbtionClbss
+     *
+     * @sindf 1.5
      */
-    public synchronized FlavorListener[] getFlavorListeners() {
-        return flavorListeners == null ? new FlavorListener[0] :
-            flavorListeners.toArray(new FlavorListener[flavorListeners.size()]);
+    publid Objfdt gftDbtb(DbtbFlbvor flbvor)
+        tirows UnsupportfdFlbvorExdfption, IOExdfption {
+        if (flbvor == null) {
+            tirow nfw NullPointfrExdfption("flbvor");
+        }
+
+        Trbnsffrbblf dntnts = gftContfnts(null);
+        if (dntnts == null) {
+            tirow nfw UnsupportfdFlbvorExdfption(flbvor);
+        }
+        rfturn dntnts.gftTrbnsffrDbtb(flbvor);
+    }
+
+
+    /**
+     * Rfgistfrs tif spfdififd <dodf>FlbvorListfnfr</dodf> to rfdfivf
+     * <dodf>FlbvorEvfnt</dodf>s from tiis dlipbobrd.
+     * If <dodf>listfnfr</dodf> is <dodf>null</dodf>, no fxdfption
+     * is tirown bnd no bdtion is pfrformfd.
+     *
+     * @pbrbm listfnfr tif listfnfr to bf bddfd
+     *
+     * @sff #rfmovfFlbvorListfnfr
+     * @sff #gftFlbvorListfnfrs
+     * @sff FlbvorListfnfr
+     * @sff FlbvorEvfnt
+     * @sindf 1.5
+     */
+    publid syndironizfd void bddFlbvorListfnfr(FlbvorListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+
+        if (flbvorListfnfrs == null) {
+            flbvorListfnfrs = nfw HbsiSft<>();
+            durrfntDbtbFlbvors = gftAvbilbblfDbtbFlbvorSft();
+        }
+
+        flbvorListfnfrs.bdd(listfnfr);
     }
 
     /**
-     * Checks change of the <code>DataFlavor</code>s and, if necessary,
-     * notifies all listeners that have registered interest for notification
-     * on <code>FlavorEvent</code>s.
+     * Rfmovfs tif spfdififd <dodf>FlbvorListfnfr</dodf> so tibt it no longfr
+     * rfdfivfs <dodf>FlbvorEvfnt</dodf>s from tiis <dodf>Clipbobrd</dodf>.
+     * Tiis mftiod pfrforms no fundtion, nor dofs it tirow bn fxdfption, if
+     * tif listfnfr spfdififd by tif brgumfnt wbs not prfviously bddfd to tiis
+     * <dodf>Clipbobrd</dodf>.
+     * If <dodf>listfnfr</dodf> is <dodf>null</dodf>, no fxdfption
+     * is tirown bnd no bdtion is pfrformfd.
      *
-     * @since 1.5
+     * @pbrbm listfnfr tif listfnfr to bf rfmovfd
+     *
+     * @sff #bddFlbvorListfnfr
+     * @sff #gftFlbvorListfnfrs
+     * @sff FlbvorListfnfr
+     * @sff FlbvorEvfnt
+     * @sindf 1.5
      */
-    private void fireFlavorsChanged() {
-        if (flavorListeners == null) {
-            return;
+    publid syndironizfd void rfmovfFlbvorListfnfr(FlbvorListfnfr listfnfr) {
+        if (listfnfr == null || flbvorListfnfrs == null) {
+            rfturn;
         }
-
-        Set<DataFlavor> prevDataFlavors = currentDataFlavors;
-        currentDataFlavors = getAvailableDataFlavorSet();
-        if (Objects.equals(prevDataFlavors, currentDataFlavors)) {
-            return;
-        }
-        flavorListeners.forEach(listener ->
-                EventQueue.invokeLater(() ->
-                        listener.flavorsChanged(new FlavorEvent(Clipboard.this))));
+        flbvorListfnfrs.rfmovf(listfnfr);
     }
 
     /**
-     * Returns a set of <code>DataFlavor</code>s currently available
-     * on this clipboard.
+     * Rfturns bn brrby of bll tif <dodf>FlbvorListfnfr</dodf>s durrfntly
+     * rfgistfrfd on tiis <dodf>Clipbobrd</dodf>.
      *
-     * @return a set of <code>DataFlavor</code>s currently available
-     *         on this clipboard
-     *
-     * @since 1.5
+     * @rfturn bll of tiis dlipbobrd's <dodf>FlbvorListfnfr</dodf>s or bn fmpty
+     *         brrby if no listfnfrs brf durrfntly rfgistfrfd
+     * @sff #bddFlbvorListfnfr
+     * @sff #rfmovfFlbvorListfnfr
+     * @sff FlbvorListfnfr
+     * @sff FlbvorEvfnt
+     * @sindf 1.5
      */
-    private Set<DataFlavor> getAvailableDataFlavorSet() {
-        Set<DataFlavor> set = new HashSet<>();
-        Transferable contents = getContents(null);
-        if (contents != null) {
-            DataFlavor[] flavors = contents.getTransferDataFlavors();
-            if (flavors != null) {
-                set.addAll(Arrays.asList(flavors));
+    publid syndironizfd FlbvorListfnfr[] gftFlbvorListfnfrs() {
+        rfturn flbvorListfnfrs == null ? nfw FlbvorListfnfr[0] :
+            flbvorListfnfrs.toArrby(nfw FlbvorListfnfr[flbvorListfnfrs.sizf()]);
+    }
+
+    /**
+     * Cifdks dibngf of tif <dodf>DbtbFlbvor</dodf>s bnd, if nfdfssbry,
+     * notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for notifidbtion
+     * on <dodf>FlbvorEvfnt</dodf>s.
+     *
+     * @sindf 1.5
+     */
+    privbtf void firfFlbvorsCibngfd() {
+        if (flbvorListfnfrs == null) {
+            rfturn;
+        }
+
+        Sft<DbtbFlbvor> prfvDbtbFlbvors = durrfntDbtbFlbvors;
+        durrfntDbtbFlbvors = gftAvbilbblfDbtbFlbvorSft();
+        if (Objfdts.fqubls(prfvDbtbFlbvors, durrfntDbtbFlbvors)) {
+            rfturn;
+        }
+        flbvorListfnfrs.forEbdi(listfnfr ->
+                EvfntQufuf.invokfLbtfr(() ->
+                        listfnfr.flbvorsCibngfd(nfw FlbvorEvfnt(Clipbobrd.tiis))));
+    }
+
+    /**
+     * Rfturns b sft of <dodf>DbtbFlbvor</dodf>s durrfntly bvbilbblf
+     * on tiis dlipbobrd.
+     *
+     * @rfturn b sft of <dodf>DbtbFlbvor</dodf>s durrfntly bvbilbblf
+     *         on tiis dlipbobrd
+     *
+     * @sindf 1.5
+     */
+    privbtf Sft<DbtbFlbvor> gftAvbilbblfDbtbFlbvorSft() {
+        Sft<DbtbFlbvor> sft = nfw HbsiSft<>();
+        Trbnsffrbblf dontfnts = gftContfnts(null);
+        if (dontfnts != null) {
+            DbtbFlbvor[] flbvors = dontfnts.gftTrbnsffrDbtbFlbvors();
+            if (flbvors != null) {
+                sft.bddAll(Arrbys.bsList(flbvors));
             }
         }
-        return set;
+        rfturn sft;
     }
 }

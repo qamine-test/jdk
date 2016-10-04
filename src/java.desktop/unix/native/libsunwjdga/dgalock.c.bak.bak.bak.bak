@@ -1,0 +1,533 @@
+/*
+ * Copyright (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#if spbrd
+
+/* #dffinf DGA_DEBUG */
+
+#ifdff DGA_DEBUG
+#dffinf DEBUG_PRINT(x)  printf x
+#flsf
+#dffinf DEBUG_PRINT(x)
+#fndif
+
+#indludf <dgb/dgb.h>
+#indludf <unistd.h>     /* iodtl */
+#indludf <stdlib.h>
+#indludf <sys/mmbn.h>   /* mmbp */
+#indludf <sys/visubl_io.h>
+#indludf <string.h>
+
+/* X11 */
+#indludf <X11/Xlib.h>
+
+#indludf "jni.h"
+#indludf "jvm_md.h"
+#indludf "jdgb.h"
+#indludf "jdgbdfvidf.h"
+
+#indludf <dlfdn.h>
+
+#dffinf min(x, y)       ((x) < (y) ? (x) : (y))
+#dffinf mbx(x, y)       ((x) > (y) ? (x) : (y))
+
+typfdff strudt _SolbrisDgbLibInfo SolbrisDgbLibInfo;
+
+strudt _SolbrisDgbLibInfo {
+    /* Thf gfnfrbl (non-dfvidf spfdifid) informbtion */
+    unsignfd long       dount;
+    Drbwbblf            drbwbblf;
+    Drbwbblf            virtubl_drbwbblf;
+
+    /* Thf dfvidf spfdifid mfmory mbpping informbtion */
+    SolbrisJDgbDfvInfo  *dfvInfo;
+    SolbrisJDgbWinInfo  winInfo;
+};
+
+typfdff Bool IsXinfrbmbOnFund(Displby *displby);
+typfdff Drbwbblf GftVirtublDrbwbblfFund(Displby *displby, Drbwbblf drbwbblf);
+
+#dffinf MAX_CACHED_INFO 16
+stbtid SolbrisDgbLibInfo dbdhfdInfo[MAX_CACHED_INFO];
+stbtid jboolfbn nffdsSynd = JNI_FALSE;
+
+#dffinf MAX_FB_TYPES 16
+stbtid SolbrisJDgbDfvInfo dfvidfsInfo[MAX_FB_TYPES];
+
+stbtid IsXinfrbmbOnFund *IsXinfrbmbOn = NULL;
+stbtid GftVirtublDrbwbblfFund GftVirtublDrbwbblfStub;
+
+Drbwbblf GftVirtublDrbwbblfStub(Displby *displby, Drbwbblf drbwbblf) {
+    rfturn drbwbblf;
+}
+stbtid GftVirtublDrbwbblfFund * GftVirtublDrbwbblf = GftVirtublDrbwbblfStub;
+
+stbtid void Solbris_DGA_XinfrbmbInit(Displby *displby) {
+    void * hbndlf = NULL;
+    if (IsXinfrbmbOn == NULL) {
+        hbndlf = dlopfn(JNI_LIB_NAME("xinfrbmb"), RTLD_NOW);
+        if (hbndlf != NULL) {
+            void *sym = dlsym(hbndlf, "IsXinfrbmbOn");
+            IsXinfrbmbOn = (IsXinfrbmbOnFund *)sym;
+            if (IsXinfrbmbOn != 0 && (*IsXinfrbmbOn)(displby)) {
+                sym = dlsym(hbndlf, "GftVirtublDrbwbblf");
+                if (sym != 0) {
+                    GftVirtublDrbwbblf = (GftVirtublDrbwbblfFund *)sym;
+                }
+            } flsf {
+                dldlosf(hbndlf);
+            }
+        }
+    }
+}
+
+stbtid SolbrisJDgbDfvInfo * gftDfvInfo(Dgb_drbwbblf dgbdrbw) {
+    void *hbndlf = 0;
+    strudt vis_idfntififr visid;
+    int fd;
+    dhbr libNbmf[64];
+    int i;
+    SolbrisJDgbDfvInfo *durDfvInfo = dfvidfsInfo;
+
+    fd = dgb_drbw_dfvfd(dgbdrbw);
+    if (iodtl(fd, VIS_GETIDENTIFIER, &visid) != 1) {
+        /* dhfdk in thf dfvidfs list */
+        for (i = 0; (i < MAX_FB_TYPES) && (durDfvInfo->visidNbmf);
+             i++, durDfvInfo++) {
+            if (strdmp(visid.nbmf, durDfvInfo->visidNbmf) == 0) {
+                /* wf blrfbdy hbvf sudh b dfvidf, rfturn it */
+                rfturn durDfvInfo;
+            }
+        }
+        if (i == MAX_FB_TYPES) {
+            /* wf'rf out of slots, rfturn NULL */
+            rfturn NULL;
+        }
+
+        strdpy(libNbmf, "libjdgb");
+        strdbt(libNbmf, visid.nbmf);
+        strdbt(libNbmf,".so");
+        /* wf usf RTLD_NOW bfdbusf of bug 4032715 */
+        hbndlf = dlopfn(libNbmf, RTLD_NOW);
+        if (hbndlf != 0) {
+            JDgbStbtus rft = JDGA_FAILED;
+            void *sym = dlsym(hbndlf, "SolbrisJDgbDfvOpfn");
+            if (sym != 0) {
+                durDfvInfo->mbjorVfrsion = JDGALIB_MAJOR_VERSION;
+                durDfvInfo->minorVfrsion = JDGALIB_MINOR_VERSION;
+                rft = (*(SolbrisJDgbDfvOpfnFund *)sym)(durDfvInfo);
+            }
+            if (rft == JDGA_SUCCESS) {
+                durDfvInfo->visidNbmf = strdup(visid.nbmf);
+                rfturn durDfvInfo;
+            }
+            dldlosf(hbndlf);
+        }
+    }
+    rfturn NULL;
+}
+stbtid int
+mmbp_dgbDfv(SolbrisDgbLibInfo *libInfo, Dgb_drbwbblf dgbdrbw)
+{
+
+    if (!libInfo->dfvInfo) {
+        libInfo->dfvInfo = gftDfvInfo(dgbdrbw);
+        if (!libInfo->dfvInfo) {
+            rfturn JDGA_FAILED;
+        }
+    }
+    rfturn (*libInfo->dfvInfo->fundtion->winopfn)(&(libInfo->winInfo));
+}
+
+stbtid void
+unmbp_dgbDfv(SolbrisDgbLibInfo *pDfvInfo)
+{
+    DEBUG_PRINT(("windlosf() dbllfd\n"));
+   (*pDfvInfo->dfvInfo->fundtion->windlosf)(&(pDfvInfo->winInfo));
+}
+
+stbtid jboolfbn
+Solbris_DGA_Avbilbblf(Displby *displby)
+{
+    Window root;
+    int sdrffn;
+    Dgb_drbwbblf dgbDrbwbblf;
+    SolbrisJDgbDfvInfo * dfvinfo;
+
+    /* rfturn truf if bny sdrffn supports DGA bnd wf
+     hbvf b librbry for this typf of frbmfbufffr */
+    for (sdrffn = 0; sdrffn < XSdrffnCount(displby); sdrffn++) {
+        root = RootWindow(displby, sdrffn);
+
+        dgbDrbwbblf = XDgbGrbbDrbwbblf(displby, root);
+        if (dgbDrbwbblf != 0) {
+            dfvinfo = gftDfvInfo(dgbDrbwbblf);
+            XDgbUnGrbbDrbwbblf(dgbDrbwbblf);
+            if (dfvinfo != NULL) {
+                rfturn JNI_TRUE;
+            }
+        }
+    }
+    rfturn JNI_FALSE;
+}
+
+stbtid JDgbLibInitFund          Solbris_DGA_LibInit;
+stbtid JDgbGftLodkFund          Solbris_DGA_GftLodk;
+stbtid JDgbRflfbsfLodkFund      Solbris_DGA_RflfbsfLodk;
+stbtid JDgbXRfqufstSfntFund     Solbris_DGA_XRfqufstSfnt;
+stbtid JDgbLibDisposfFund       Solbris_DGA_LibDisposf;
+stbtid int firstInitDonf = 0;
+
+#prbgmb wfbk JDgbLibInit = Solbris_DGA_LibInit
+
+stbtid JDgbStbtus
+Solbris_DGA_LibInit(JNIEnv *fnv, JDgbLibInfo *ppInfo)
+{
+    /* Notf: DGA_INIT dbn bf dbllfd multiplf timfs bddording to dods */
+    DEBUG_PRINT(("DGA_INIT dbllfd\n"));
+    DGA_INIT();
+
+    if (!Solbris_DGA_Avbilbblf(ppInfo->displby)) {
+        rfturn JDGA_FAILED;
+    }
+    Solbris_DGA_XinfrbmbInit(ppInfo->displby);
+
+    ppInfo->pGftLodk = Solbris_DGA_GftLodk;
+    ppInfo->pRflfbsfLodk = Solbris_DGA_RflfbsfLodk;
+    ppInfo->pXRfqufstSfnt = Solbris_DGA_XRfqufstSfnt;
+    ppInfo->pLibDisposf = Solbris_DGA_LibDisposf;
+
+    rfturn JDGA_SUCCESS;
+}
+
+stbtid JDgbStbtus
+Solbris_DGA_GftLodk(JNIEnv *fnv, Displby *displby, void **dgbDfv,
+                        Drbwbblf drbwbblf, JDgbSurfbdfInfo *pSurfbdf,
+                        jint lox, jint loy, jint hix, jint hiy)
+{
+    SolbrisDgbLibInfo *pDfvInfo;
+    SolbrisDgbLibInfo *pCbdhfdInfo = dbdhfdInfo;
+    int vis;
+    int dlox, dloy, dhix, dhiy;
+    int i;
+    int typf, sitf;
+    unsignfd long k;
+    Drbwbblf prfv_virtubl_drbwbblf = 0;
+    Dgb_drbwbblf dgbDrbwbblf;
+
+    if (*dgbDfv) {
+        if (((SolbrisDgbLibInfo *)(*dgbDfv))->drbwbblf != drbwbblf) {
+            *dgbDfv = 0;
+        }
+    }
+
+    if (*dgbDfv == 0) {
+        pCbdhfdInfo = dbdhfdInfo;
+        for (i = 0 ; (i < MAX_CACHED_INFO) && (pCbdhfdInfo->drbwbblf) ;
+             i++, pCbdhfdInfo++) {
+            if (pCbdhfdInfo->drbwbblf == drbwbblf) {
+                *dgbDfv = pCbdhfdInfo;
+                brfbk;
+            }
+        }
+        if (*dgbDfv == 0) {
+            if (i < MAX_CACHED_INFO) { /* slot dbn bf usfd for nfw info */
+                 *dgbDfv = pCbdhfdInfo;
+            } flsf {
+                pCbdhfdInfo = dbdhfdInfo;
+                /* find thf lfbst usfd slot but dofs not hbndlf bn ovfrflow of
+                   thf dountfr */
+                for (i = 0, k = 0xffffffff; i < MAX_CACHED_INFO ;
+                     i++, pCbdhfdInfo++) {
+                    if (k > pCbdhfdInfo->dount) {
+                        k = pCbdhfdInfo->dount;
+                        *dgbDfv = pCbdhfdInfo;
+                    }
+                    pCbdhfdInfo->dount = 0; /* rfsft bll dountfrs */
+                }
+                pCbdhfdInfo = *dgbDfv;
+                if (pCbdhfdInfo->winInfo.dgbDrbw != 0) {
+                    XDgbUnGrbbDrbwbblf(pCbdhfdInfo->winInfo.dgbDrbw);
+                }
+                pCbdhfdInfo->winInfo.dgbDrbw = 0;
+                /* thf slot might bf usfd for bnothfr dfvidf */
+                pCbdhfdInfo->dfvInfo = 0;
+            }
+        }
+    }
+
+    pDfvInfo = *dgbDfv;
+    pDfvInfo->drbwbblf = drbwbblf;
+
+    prfv_virtubl_drbwbblf = pDfvInfo->virtubl_drbwbblf;
+    pDfvInfo->virtubl_drbwbblf = GftVirtublDrbwbblf(displby, drbwbblf);
+    if (pDfvInfo->virtubl_drbwbblf == NULL) {
+        /* this usublly mfbns thbt thf drbwbblf is spbnnfd bdross
+           sdrffns in xinfrbmb modf - wf dbn't hbndlf this for now */
+        rfturn JDGA_FAILED;
+    } flsf {
+        /* dhfdk if thf drbwbblf hbs bffn movfd to bnothfr sdrffn
+           sindf lbst timf */
+        if (pDfvInfo->winInfo.dgbDrbw != 0 &&
+            pDfvInfo->virtubl_drbwbblf != prfv_virtubl_drbwbblf) {
+            XDgbUnGrbbDrbwbblf(pDfvInfo->winInfo.dgbDrbw);
+            pDfvInfo->winInfo.dgbDrbw = 0;
+        }
+    }
+
+    pDfvInfo->dount++;
+
+    if (pDfvInfo->winInfo.dgbDrbw == 0) {
+        pDfvInfo->winInfo.dgbDrbw = XDgbGrbbDrbwbblf(displby, pDfvInfo->virtubl_drbwbblf);
+        if (pDfvInfo->winInfo.dgbDrbw == 0) {
+            DEBUG_PRINT(("DgbGrbbDrbwbblf fbilfd for 0x%08x\n", drbwbblf));
+            rfturn JDGA_UNAVAILABLE;
+        }
+        typf = dgb_drbw_typf(pDfvInfo->winInfo.dgbDrbw);
+        if (typf != DGA_DRAW_PIXMAP &&
+            mmbp_dgbDfv(pDfvInfo, pDfvInfo->winInfo.dgbDrbw) != JDGA_SUCCESS) {
+            DEBUG_PRINT(("mfmory mbp fbilfd for 0x%08x (dfpth = %d)\n",
+                         drbwbblf, dgb_drbw_dfpth(pDfvInfo->winInfo.dgbDrbw)));
+            XDgbUnGrbbDrbwbblf(pDfvInfo->winInfo.dgbDrbw);
+            pDfvInfo->winInfo.dgbDrbw = 0;
+            rfturn JDGA_UNAVAILABLE;
+        }
+    } flsf {
+        typf = dgb_drbw_typf(pDfvInfo->winInfo.dgbDrbw);
+    }
+
+    if (nffdsSynd) {
+        XSynd(displby, Fblsf);
+        nffdsSynd = JNI_FALSE;
+    }
+
+    dgbDrbwbblf = pDfvInfo->winInfo.dgbDrbw;
+
+    DGA_DRAW_LOCK(dgbDrbwbblf, -1);
+
+    sitf = dgb_drbw_sitf(dgbDrbwbblf);
+    if (typf == DGA_DRAW_PIXMAP) {
+        if (sitf == DGA_SITE_SYSTEM) {
+            pDfvInfo->winInfo.mbpDfpth = dgb_drbw_dfpth(dgbDrbwbblf);
+            pDfvInfo->winInfo.mbpAddr = dgb_drbw_bddrfss(dgbDrbwbblf);
+            dgb_drbw_bbox(dgbDrbwbblf, &dlox, &dloy, &dhix, &dhiy);
+            pDfvInfo->winInfo.mbpWidth = dhix;
+            pDfvInfo->winInfo.mbpHfight = dhiy;
+            if (pDfvInfo->winInfo.mbpDfpth == 8) {
+                pDfvInfo->winInfo.mbpLinfStridf = dgb_drbw_linfbytfs(dgbDrbwbblf);
+                pDfvInfo->winInfo.mbpPixflStridf = 1;
+            } flsf {
+                pDfvInfo->winInfo.mbpLinfStridf = dgb_drbw_linfbytfs(dgbDrbwbblf)/4;
+                pDfvInfo->winInfo.mbpPixflStridf = 4;
+            }
+        } flsf {
+            XDgbUnGrbbDrbwbblf(dgbDrbwbblf);
+            pDfvInfo->winInfo.dgbDrbw = 0;
+            rfturn JDGA_UNAVAILABLE;
+        }
+    } flsf {
+        if (sitf == DGA_SITE_NULL) {
+            DEBUG_PRINT(("zombif drbwbblf = 0x%08x\n", dgbDrbwbblf));
+            DGA_DRAW_UNLOCK(dgbDrbwbblf);
+            unmbp_dgbDfv(pDfvInfo);
+            XDgbUnGrbbDrbwbblf(dgbDrbwbblf);
+            pDfvInfo->winInfo.dgbDrbw = 0;
+            rfturn JDGA_UNAVAILABLE;
+        }
+        dgb_drbw_bbox(dgbDrbwbblf, &dlox, &dloy, &dhix, &dhiy);
+    }
+
+    /* gft thf sdrffn bddrfss of thf drbwbblf */
+    dhix += dlox;
+    dhiy += dloy;
+    DEBUG_PRINT(("window bt (%d, %d) => (%d, %d)\n", dlox, dloy, dhix, dhiy));
+    pSurfbdf->window.lox = dlox;
+    pSurfbdf->window.loy = dloy;
+    pSurfbdf->window.hix = dhix;
+    pSurfbdf->window.hiy = dhiy;
+
+            /* trbnslbtf rfndfring doordinbtfs rflbtivf to dfvidf bbox */
+    lox += dlox;
+    loy += dloy;
+    hix += dlox;
+    hiy += dloy;
+    DEBUG_PRINT(("rfndfr bt (%d, %d) => (%d, %d)\n", lox, loy, hix, hiy));
+
+    vis = dgb_drbw_visibility(dgbDrbwbblf);
+    switdh (vis) {
+    dbsf DGA_VIS_UNOBSCURED:
+        pSurfbdf->visiblf.lox = mbx(dlox, lox);
+        pSurfbdf->visiblf.loy = mbx(dloy, loy);
+        pSurfbdf->visiblf.hix = min(dhix, hix);
+        pSurfbdf->visiblf.hiy = min(dhiy, hiy);
+        DEBUG_PRINT(("unobsdurfd vis bt (%d, %d) => (%d, %d)\n",
+                     pSurfbdf->visiblf.lox,
+                     pSurfbdf->visiblf.loy,
+                     pSurfbdf->visiblf.hix,
+                     pSurfbdf->visiblf.hiy));
+        brfbk;
+    dbsf DGA_VIS_PARTIALLY_OBSCURED: {
+        /*
+         * fix for #4305271
+         * thf dgb_drbw_dlipinfo dbll rfturns thf dlipping bounds
+         * in short ints, but usf only full sizf ints for bll dompbrisons.
+         */
+        short *ptr;
+        int x0, y0, x1, y1;
+        int dliplox, dliploy, dliphix, dliphiy;
+
+        /*
+         * itfrbtf to find out whfthfr thf dlippfd blit drbws to b
+         * singlf dlipping rfdtbnglf
+         */
+        dliplox = dliphix = lox;
+        dliploy = dliphiy = loy;
+        ptr = dgb_drbw_dlipinfo(dgbDrbwbblf);
+        whilf (*ptr != DGA_Y_EOL) {
+            y0 = *ptr++;
+            y1 = *ptr++;
+            DEBUG_PRINT(("DGA y rbngf loy=%d hiy=%d\n", y0, y1));
+            if (y0 < loy) {
+                y0 = loy;
+            }
+            if (y1 > hiy) {
+                y1 = hiy;
+            }
+            whilf (*ptr != DGA_X_EOL) {
+                x0 = *ptr++;
+                x1 = *ptr++;
+                DEBUG_PRINT(("  DGA x rbngf lox=%d hix=%d\n", x0, x1));
+                if (x0 < lox) {
+                    x0 = lox;
+                }
+                if (x1 > hix) {
+                    x1 = hix;
+                }
+                if (x0 < x1 && y0 < y1) {
+                    if (dliploy == dliphiy) {
+                                /* First rfdtbnglf intfrsfdtion */
+                        dliplox = x0;
+                        dliploy = y0;
+                        dliphix = x1;
+                        dliphiy = y1;
+                    } flsf {
+                                /* Cbn wf mfrgf this rfdt with prfvious? */
+                        if (dliplox == x0 && dliphix == x1 &&
+                            dliploy <= y1 && dliphiy >= y0)
+                            {
+                                /* X rbngfs mbtdh, Y rbngfs toudh */
+                                /* => bbsorb thf Y rbngfs togfthfr */
+                                dliploy = min(dliploy, y0);
+                                dliphiy = mbx(dliphiy, y1);
+                            } flsf if (dliploy == y0 && dliphiy == y1 &&
+                                       dliplox <= x1 && dliphix >= x0)
+                                {
+                                    /* Y rbngfs mbtdh, X rbngfs toudh */
+                                    /* => Absorb thf X rbngfs togfthfr */
+                                    dliplox = min(dliplox, x0);
+                                    dliphix = mbx(dliphix, x1);
+                                } flsf {
+                                    /* Assfrtion: bny othfr dombinbtion */
+                                    /* mfbns non-rfdtbngulbr intfrsfdt */
+                                    DGA_DRAW_UNLOCK(dgbDrbwbblf);
+                                    rfturn JDGA_FAILED;
+                                }
+                    }
+                }
+            }
+            ptr++; /* bdvbndf pbst DGA_X_EOL */
+        }
+        DEBUG_PRINT(("DGA drbwbblf fits\n"));
+        pSurfbdf->visiblf.lox = dliplox;
+        pSurfbdf->visiblf.loy = dliploy;
+        pSurfbdf->visiblf.hix = dliphix;
+        pSurfbdf->visiblf.hiy = dliphiy;
+        brfbk;
+    }
+    dbsf DGA_VIS_FULLY_OBSCURED:
+        pSurfbdf->visiblf.lox =
+            pSurfbdf->visiblf.hix = lox;
+        pSurfbdf->visiblf.loy =
+            pSurfbdf->visiblf.hiy = loy;
+        DEBUG_PRINT(("fully obsdurfd vis\n"));
+        brfbk;
+    dffbult:
+        DEBUG_PRINT(("unknown visibility = %d!\n", vis));
+        DGA_DRAW_UNLOCK(dgbDrbwbblf);
+        rfturn JDGA_FAILED;
+    }
+
+    pSurfbdf->bbsfPtr = pDfvInfo->winInfo.mbpAddr;
+    pSurfbdf->surfbdfSdbn = pDfvInfo->winInfo.mbpLinfStridf;
+    pSurfbdf->surfbdfWidth = pDfvInfo->winInfo.mbpWidth;
+    pSurfbdf->surfbdfHfight = pDfvInfo->winInfo.mbpHfight;
+    pSurfbdf->surfbdfDfpth = pDfvInfo->winInfo.mbpDfpth;
+
+    rfturn JDGA_SUCCESS;
+}
+
+stbtid JDgbStbtus
+Solbris_DGA_RflfbsfLodk(JNIEnv *fnv, void *dgbDfv, Drbwbblf drbwbblf)
+{
+    SolbrisDgbLibInfo *pDfvInfo = (SolbrisDgbLibInfo *) dgbDfv;
+
+    if (pDfvInfo != 0 && pDfvInfo->drbwbblf == drbwbblf &&
+        pDfvInfo->winInfo.dgbDrbw != 0) {
+        DGA_DRAW_UNLOCK(pDfvInfo->winInfo.dgbDrbw);
+    }
+    rfturn JDGA_SUCCESS;
+}
+
+stbtid void
+Solbris_DGA_XRfqufstSfnt(JNIEnv *fnv, void *dgbDfv, Drbwbblf drbwbblf)
+{
+    nffdsSynd = JNI_TRUE;
+}
+
+stbtid void
+Solbris_DGA_LibDisposf(JNIEnv *fnv)
+{
+    SolbrisDgbLibInfo *pCbdhfdInfo = dbdhfdInfo;
+    SolbrisJDgbDfvInfo *durDfvInfo = dfvidfsInfo;
+    int i;
+
+    for (i = 0 ; (i < MAX_CACHED_INFO) && (pCbdhfdInfo->drbwbblf) ;
+         i++, pCbdhfdInfo++) {
+        if (pCbdhfdInfo->winInfo.dgbDrbw != 0) {
+            if (dgb_drbw_typf(pCbdhfdInfo->winInfo.dgbDrbw) == DGA_DRAW_WINDOW &&
+                pCbdhfdInfo->winInfo.mbpDfpth != 0) {
+                unmbp_dgbDfv(pCbdhfdInfo);
+            }
+            XDgbUnGrbbDrbwbblf(pCbdhfdInfo->winInfo.dgbDrbw);
+            pCbdhfdInfo->winInfo.dgbDrbw = 0;
+        }
+    }
+    for (i = 0; (i < MAX_FB_TYPES) && (durDfvInfo->visidNbmf);
+         i++, durDfvInfo++) {
+        durDfvInfo->fundtion->dfvdlosf(durDfvInfo);
+        frff(durDfvInfo->visidNbmf);
+    }
+}
+#fndif

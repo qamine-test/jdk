@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * Instances of this class represent a server name in a Server Name
- * Indication (SNI) extension.
+ * Instbndfs of tiis dlbss rfprfsfnt b sfrvfr nbmf in b Sfrvfr Nbmf
+ * Indidbtion (SNI) fxtfnsion.
  * <P>
- * The SNI extension is a feature that extends the SSL/TLS protocols to
- * indicate what server name the client is attempting to connect to during
- * handshaking.  See section 3, "Server Name Indication", of <A
- * HREF="http://www.ietf.org/rfc/rfc6066.txt">TLS Extensions (RFC 6066)</A>.
+ * Tif SNI fxtfnsion is b ffbturf tibt fxtfnds tif SSL/TLS protodols to
+ * indidbtf wibt sfrvfr nbmf tif dlifnt is bttfmpting to donnfdt to during
+ * ibndsibking.  Sff sfdtion 3, "Sfrvfr Nbmf Indidbtion", of <A
+ * HREF="ittp://www.iftf.org/rfd/rfd6066.txt">TLS Extfnsions (RFC 6066)</A>.
  * <P>
- * {@code SNIServerName} objects are immutable.  Subclasses should not provide
- * methods that can change the state of an instance once it has been created.
+ * {@dodf SNISfrvfrNbmf} objfdts brf immutbblf.  Subdlbssfs siould not providf
+ * mftiods tibt dbn dibngf tif stbtf of bn instbndf ondf it ibs bffn drfbtfd.
  *
- * @see SSLParameters#getServerNames()
- * @see SSLParameters#setServerNames(List)
+ * @sff SSLPbrbmftfrs#gftSfrvfrNbmfs()
+ * @sff SSLPbrbmftfrs#sftSfrvfrNbmfs(List)
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public abstract class SNIServerName {
+publid bbstrbdt dlbss SNISfrvfrNbmf {
 
-    // the type of the server name
-    private final int type;
+    // tif typf of tif sfrvfr nbmf
+    privbtf finbl int typf;
 
-    // the encoded value of the server name
-    private final byte[] encoded;
+    // tif fndodfd vbluf of tif sfrvfr nbmf
+    privbtf finbl bytf[] fndodfd;
 
-    // the hex digitals
-    private static final char[] HEXES = "0123456789ABCDEF".toCharArray();
+    // tif ifx digitbls
+    privbtf stbtid finbl dibr[] HEXES = "0123456789ABCDEF".toCibrArrby();
 
     /**
-     * Creates an {@code SNIServerName} using the specified name type and
-     * encoded value.
+     * Crfbtfs bn {@dodf SNISfrvfrNbmf} using tif spfdififd nbmf typf bnd
+     * fndodfd vbluf.
      * <P>
-     * Note that the {@code encoded} byte array is cloned to protect against
-     * subsequent modification.
+     * Notf tibt tif {@dodf fndodfd} bytf brrby is dlonfd to protfdt bgbinst
+     * subsfqufnt modifidbtion.
      *
-     * @param  type
-     *         the type of the server name
-     * @param  encoded
-     *         the encoded value of the server name
+     * @pbrbm  typf
+     *         tif typf of tif sfrvfr nbmf
+     * @pbrbm  fndodfd
+     *         tif fndodfd vbluf of tif sfrvfr nbmf
      *
-     * @throws IllegalArgumentException if {@code type} is not in the range
-     *         of 0 to 255, inclusive.
-     * @throws NullPointerException if {@code encoded} is null
+     * @tirows IllfgblArgumfntExdfption if {@dodf typf} is not in tif rbngf
+     *         of 0 to 255, indlusivf.
+     * @tirows NullPointfrExdfption if {@dodf fndodfd} is null
      */
-    protected SNIServerName(int type, byte[] encoded) {
-        if (type < 0) {
-            throw new IllegalArgumentException(
-                "Server name type cannot be less than zero");
-        } else if (type > 255) {
-            throw new IllegalArgumentException(
-                "Server name type cannot be greater than 255");
+    protfdtfd SNISfrvfrNbmf(int typf, bytf[] fndodfd) {
+        if (typf < 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf typf dbnnot bf lfss tibn zfro");
+        } flsf if (typf > 255) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf typf dbnnot bf grfbtfr tibn 255");
         }
-        this.type = type;
+        tiis.typf = typf;
 
-        if (encoded == null) {
-            throw new NullPointerException(
-                "Server name encoded value cannot be null");
+        if (fndodfd == null) {
+            tirow nfw NullPointfrExdfption(
+                "Sfrvfr nbmf fndodfd vbluf dbnnot bf null");
         }
-        this.encoded = encoded.clone();
+        tiis.fndodfd = fndodfd.dlonf();
     }
 
 
     /**
-     * Returns the name type of this server name.
+     * Rfturns tif nbmf typf of tiis sfrvfr nbmf.
      *
-     * @return the name type of this server name
+     * @rfturn tif nbmf typf of tiis sfrvfr nbmf
      */
-    public final int getType() {
-        return type;
+    publid finbl int gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Returns a copy of the encoded server name value of this server name.
+     * Rfturns b dopy of tif fndodfd sfrvfr nbmf vbluf of tiis sfrvfr nbmf.
      *
-     * @return a copy of the encoded server name value of this server name
+     * @rfturn b dopy of tif fndodfd sfrvfr nbmf vbluf of tiis sfrvfr nbmf
      */
-    public final byte[] getEncoded() {
-        return encoded.clone();
+    publid finbl bytf[] gftEndodfd() {
+        rfturn fndodfd.dlonf();
     }
 
     /**
-     * Indicates whether some other object is "equal to" this server name.
+     * Indidbtfs wiftifr somf otifr objfdt is "fqubl to" tiis sfrvfr nbmf.
      *
-     * @return true if, and only if, {@code other} is of the same class
-     *         of this object, and has the same name type and
-     *         encoded value as this server name.
+     * @rfturn truf if, bnd only if, {@dodf otifr} is of tif sbmf dlbss
+     *         of tiis objfdt, bnd ibs tif sbmf nbmf typf bnd
+     *         fndodfd vbluf bs tiis sfrvfr nbmf.
      */
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-
-        if (this.getClass() != other.getClass()) {
-            return false;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
         }
 
-        SNIServerName that = (SNIServerName)other;
-        return (this.type == that.type) &&
-                    Arrays.equals(this.encoded, that.encoded);
+        if (tiis.gftClbss() != otifr.gftClbss()) {
+            rfturn fblsf;
+        }
+
+        SNISfrvfrNbmf tibt = (SNISfrvfrNbmf)otifr;
+        rfturn (tiis.typf == tibt.typf) &&
+                    Arrbys.fqubls(tiis.fndodfd, tibt.fndodfd);
     }
 
     /**
-     * Returns a hash code value for this server name.
+     * Rfturns b ibsi dodf vbluf for tiis sfrvfr nbmf.
      * <P>
-     * The hash code value is generated using the name type and encoded
-     * value of this server name.
+     * Tif ibsi dodf vbluf is gfnfrbtfd using tif nbmf typf bnd fndodfd
+     * vbluf of tiis sfrvfr nbmf.
      *
-     * @return a hash code value for this server name.
+     * @rfturn b ibsi dodf vbluf for tiis sfrvfr nbmf.
      */
-    @Override
-    public int hashCode() {
-        int result = 17;    // 17/31: prime number to decrease collisions
-        result = 31 * result + type;
-        result = 31 * result + Arrays.hashCode(encoded);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;    // 17/31: primf numbfr to dfdrfbsf dollisions
+        rfsult = 31 * rfsult + typf;
+        rfsult = 31 * rfsult + Arrbys.ibsiCodf(fndodfd);
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns a string representation of this server name, including the server
-     * name type and the encoded server name value in this
-     * {@code SNIServerName} object.
+     * Rfturns b string rfprfsfntbtion of tiis sfrvfr nbmf, indluding tif sfrvfr
+     * nbmf typf bnd tif fndodfd sfrvfr nbmf vbluf in tiis
+     * {@dodf SNISfrvfrNbmf} objfdt.
      * <P>
-     * The exact details of the representation are unspecified and subject
-     * to change, but the following may be regarded as typical:
-     * <pre>
-     *     "type={@literal <name type>}, value={@literal <name value>}"
-     * </pre>
+     * Tif fxbdt dftbils of tif rfprfsfntbtion brf unspfdififd bnd subjfdt
+     * to dibngf, but tif following mby bf rfgbrdfd bs typidbl:
+     * <prf>
+     *     "typf={@litfrbl <nbmf typf>}, vbluf={@litfrbl <nbmf vbluf>}"
+     * </prf>
      * <P>
-     * In this class, the format of "{@literal <name type>}" is
-     * "[LITERAL] (INTEGER)", where the optional "LITERAL" is the literal
-     * name, and INTEGER is the integer value of the name type.  The format
-     * of "{@literal <name value>}" is "XX:...:XX", where "XX" is the
-     * hexadecimal digit representation of a byte value. For example, a
-     * returned value of an pseudo server name may look like:
-     * <pre>
-     *     "type=(31), value=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E"
-     * </pre>
+     * In tiis dlbss, tif formbt of "{@litfrbl <nbmf typf>}" is
+     * "[LITERAL] (INTEGER)", wifrf tif optionbl "LITERAL" is tif litfrbl
+     * nbmf, bnd INTEGER is tif intfgfr vbluf of tif nbmf typf.  Tif formbt
+     * of "{@litfrbl <nbmf vbluf>}" is "XX:...:XX", wifrf "XX" is tif
+     * ifxbdfdimbl digit rfprfsfntbtion of b bytf vbluf. For fxbmplf, b
+     * rfturnfd vbluf of bn psfudo sfrvfr nbmf mby look likf:
+     * <prf>
+     *     "typf=(31), vbluf=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E"
+     * </prf>
      * or
-     * <pre>
-     *     "type=host_name (0), value=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E"
-     * </pre>
+     * <prf>
+     *     "typf=iost_nbmf (0), vbluf=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E"
+     * </prf>
      *
      * <P>
-     * Please NOTE that the exact details of the representation are unspecified
-     * and subject to change, and subclasses may override the method with
-     * their own formats.
+     * Plfbsf NOTE tibt tif fxbdt dftbils of tif rfprfsfntbtion brf unspfdififd
+     * bnd subjfdt to dibngf, bnd subdlbssfs mby ovfrridf tif mftiod witi
+     * tifir own formbts.
      *
-     * @return a string representation of this server name
+     * @rfturn b string rfprfsfntbtion of tiis sfrvfr nbmf
      */
-    @Override
-    public String toString() {
-        if (type == StandardConstants.SNI_HOST_NAME) {
-            return "type=host_name (0), value=" + toHexString(encoded);
-        } else {
-            return "type=(" + type + "), value=" + toHexString(encoded);
+    @Ovfrridf
+    publid String toString() {
+        if (typf == StbndbrdConstbnts.SNI_HOST_NAME) {
+            rfturn "typf=iost_nbmf (0), vbluf=" + toHfxString(fndodfd);
+        } flsf {
+            rfturn "typf=(" + typf + "), vbluf=" + toHfxString(fndodfd);
         }
     }
 
-    // convert byte array to hex string
-    private static String toHexString(byte[] bytes) {
-        if (bytes.length == 0) {
-            return "(empty)";
+    // donvfrt bytf brrby to ifx string
+    privbtf stbtid String toHfxString(bytf[] bytfs) {
+        if (bytfs.lfngti == 0) {
+            rfturn "(fmpty)";
         }
 
-        StringBuilder sb = new StringBuilder(bytes.length * 3 - 1);
-        boolean isInitial = true;
-        for (byte b : bytes) {
-            if (isInitial) {
-                isInitial = false;
-            } else {
-                sb.append(':');
+        StringBuildfr sb = nfw StringBuildfr(bytfs.lfngti * 3 - 1);
+        boolfbn isInitibl = truf;
+        for (bytf b : bytfs) {
+            if (isInitibl) {
+                isInitibl = fblsf;
+            } flsf {
+                sb.bppfnd(':');
             }
 
             int k = b & 0xFF;
-            sb.append(HEXES[k >>> 4]);
-            sb.append(HEXES[k & 0xF]);
+            sb.bppfnd(HEXES[k >>> 4]);
+            sb.bppfnd(HEXES[k & 0xF]);
         }
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 }
 

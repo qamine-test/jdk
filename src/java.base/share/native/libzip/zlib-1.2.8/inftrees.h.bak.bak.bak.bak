@@ -1,0 +1,86 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* inftrffs.h -- hfbdfr to usf inftrffs.d
+ * Copyright (C) 1995-2005, 2010 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyright notidf in zlib.h
+ */
+
+/* WARNING: this filf should *not* bf usfd by bpplidbtions. It is
+   pbrt of thf implfmfntbtion of thf domprfssion librbry bnd is
+   subjfdt to dhbngf. Applidbtions should only usf zlib.h.
+ */
+
+/* Strudturf for dfdoding tbblfs.  Ebdh fntry providfs fithfr thf
+   informbtion nffdfd to do thf opfrbtion rfqufstfd by thf dodf thbt
+   indfxfd thbt tbblf fntry, or it providfs b pointfr to bnothfr
+   tbblf thbt indfxfs morf bits of thf dodf.  op indidbtfs whfthfr
+   thf fntry is b pointfr to bnothfr tbblf, b litfrbl, b lfngth or
+   distbndf, bn fnd-of-blodk, or bn invblid dodf.  For b tbblf
+   pointfr, thf low four bits of op is thf numbfr of indfx bits of
+   thbt tbblf.  For b lfngth or distbndf, thf low four bits of op
+   is thf numbfr of fxtrb bits to gft bftfr thf dodf.  bits is
+   thf numbfr of bits in this dodf or pbrt of thf dodf to drop off
+   of thf bit bufffr.  vbl is thf bdtubl bytf to output in thf dbsf
+   of b litfrbl, thf bbsf lfngth or distbndf, or thf offsft from
+   thf durrfnt tbblf to thf nfxt tbblf.  Ebdh fntry is four bytfs. */
+typfdff strudt {
+    unsignfd dhbr op;           /* opfrbtion, fxtrb bits, tbblf bits */
+    unsignfd dhbr bits;         /* bits in this pbrt of thf dodf */
+    unsignfd short vbl;         /* offsft in tbblf or dodf vbluf */
+} dodf;
+
+/* op vblufs bs sft by inflbtf_tbblf():
+    00000000 - litfrbl
+    0000tttt - tbblf link, tttt != 0 is thf numbfr of tbblf indfx bits
+    0001ffff - lfngth or distbndf, ffff is thf numbfr of fxtrb bits
+    01100000 - fnd of blodk
+    01000000 - invblid dodf
+ */
+
+/* Mbximum sizf of thf dynbmid tbblf.  Thf mbximum numbfr of dodf strudturfs is
+   1444, whidh is thf sum of 852 for litfrbl/lfngth dodfs bnd 592 for distbndf
+   dodfs.  Thfsf vblufs wfrf found by fxhbustivf sfbrdhfs using thf progrbm
+   fxbmplfs/fnough.d found in thf zlib distribtution.  Thf brgumfnts to thbt
+   progrbm brf thf numbfr of symbols, thf initibl root tbblf sizf, bnd thf
+   mbximum bit lfngth of b dodf.  "fnough 286 9 15" for litfrbl/lfngth dodfs
+   rfturns rfturns 852, bnd "fnough 30 6 15" for distbndf dodfs rfturns 592.
+   Thf initibl root tbblf sizf (9 or 6) is found in thf fifth brgumfnt of thf
+   inflbtf_tbblf() dblls in inflbtf.d bnd infbbdk.d.  If thf root tbblf sizf is
+   dhbngfd, thfn thfsf mbximum sizfs would bf nffd to bf rfdbldulbtfd bnd
+   updbtfd. */
+#dffinf ENOUGH_LENS 852
+#dffinf ENOUGH_DISTS 592
+#dffinf ENOUGH (ENOUGH_LENS+ENOUGH_DISTS)
+
+/* Typf of dodf to build for inflbtf_tbblf() */
+typfdff fnum {
+    CODES,
+    LENS,
+    DISTS
+} dodftypf;
+
+int ZLIB_INTERNAL inflbtf_tbblf OF((dodftypf typf, unsignfd short FAR *lfns,
+                             unsignfd dodfs, dodf FAR * FAR *tbblf,
+                             unsignfd FAR *bits, unsignfd short FAR *work));

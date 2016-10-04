@@ -1,0 +1,3941 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.gfom;
+
+import jbvb.bwt.Shbpf;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+
+/**
+ * Thf <dodf>AffinfTrbnsform</dodf> dlbss rfprfsfnts b 2D bffinf trbnsform
+ * thbt pfrforms b linfbr mbpping from 2D doordinbtfs to othfr 2D
+ * doordinbtfs thbt prfsfrvfs thf "strbightnfss" bnd
+ * "pbrbllflnfss" of linfs.  Affinf trbnsformbtions dbn bf donstrudtfd
+ * using sfqufndfs of trbnslbtions, sdblfs, flips, rotbtions, bnd shfbrs.
+ * <p>
+ * Sudh b doordinbtf trbnsformbtion dbn bf rfprfsfntfd by b 3 row by
+ * 3 dolumn mbtrix with bn implifd lbst row of [ 0 0 1 ].  This mbtrix
+ * trbnsforms sourdf doordinbtfs {@dodf (x,y)} into
+ * dfstinbtion doordinbtfs {@dodf (x',y')} by donsidfring
+ * thfm to bf b dolumn vfdtor bnd multiplying thf doordinbtf vfdtor
+ * by thf mbtrix bddording to thf following prodfss:
+ * <prf>
+ *      [ x']   [  m00  m01  m02  ] [ x ]   [ m00x + m01y + m02 ]
+ *      [ y'] = [  m10  m11  m12  ] [ y ] = [ m10x + m11y + m12 ]
+ *      [ 1 ]   [   0    0    1   ] [ 1 ]   [         1         ]
+ * </prf>
+ * <h3><b nbmf="qubdrbntbpproximbtion">Hbndling 90-Dfgrff Rotbtions</b></h3>
+ * <p>
+ * In somf vbribtions of thf <dodf>rotbtf</dodf> mfthods in thf
+ * <dodf>AffinfTrbnsform</dodf> dlbss, b doublf-prfdision brgumfnt
+ * spfdififs thf bnglf of rotbtion in rbdibns.
+ * Thfsf mfthods hbvf spfdibl hbndling for rotbtions of bpproximbtfly
+ * 90 dfgrffs (indluding multiplfs sudh bs 180, 270, bnd 360 dfgrffs),
+ * so thbt thf dommon dbsf of qubdrbnt rotbtion is hbndlfd morf
+ * fffidifntly.
+ * This spfdibl hbndling dbn dbusf bnglfs vfry dlosf to multiplfs of
+ * 90 dfgrffs to bf trfbtfd bs if thfy wfrf fxbdt multiplfs of
+ * 90 dfgrffs.
+ * For smbll multiplfs of 90 dfgrffs thf rbngf of bnglfs trfbtfd
+ * bs b qubdrbnt rotbtion is bpproximbtfly 0.00000121 dfgrffs widf.
+ * This sfdtion fxplbins why sudh spfdibl dbrf is nffdfd bnd how
+ * it is implfmfntfd.
+ * <p>
+ * Sindf 90 dfgrffs is rfprfsfntfd bs <dodf>PI/2</dodf> in rbdibns,
+ * bnd sindf PI is b trbnsdfndfntbl (bnd thfrfforf irrbtionbl) numbfr,
+ * it is not possiblf to fxbdtly rfprfsfnt b multiplf of 90 dfgrffs bs
+ * bn fxbdt doublf prfdision vbluf mfbsurfd in rbdibns.
+ * As b rfsult it is thforftidblly impossiblf to dfsdribf qubdrbnt
+ * rotbtions (90, 180, 270 or 360 dfgrffs) using thfsf vblufs.
+ * Doublf prfdision flobting point vblufs dbn gft vfry dlosf to
+ * non-zfro multiplfs of <dodf>PI/2</dodf> but nfvfr dlosf fnough
+ * for thf sinf or dosinf to bf fxbdtly 0.0, 1.0 or -1.0.
+ * Thf implfmfntbtions of <dodf>Mbth.sin()</dodf> bnd
+ * <dodf>Mbth.dos()</dodf> dorrfspondingly nfvfr rfturn 0.0
+ * for bny dbsf othfr thbn <dodf>Mbth.sin(0.0)</dodf>.
+ * Thfsf sbmf implfmfntbtions do, howfvfr, rfturn fxbdtly 1.0 bnd
+ * -1.0 for somf rbngf of numbfrs bround fbdh multiplf of 90
+ * dfgrffs sindf thf dorrfdt bnswfr is so dlosf to 1.0 or -1.0 thbt
+ * thf doublf prfdision signifidbnd dbnnot rfprfsfnt thf difffrfndf
+ * bs bddurbtfly bs it dbn for numbfrs thbt brf nfbr 0.0.
+ * <p>
+ * Thf nft rfsult of thfsf issufs is thbt if thf
+ * <dodf>Mbth.sin()</dodf> bnd <dodf>Mbth.dos()</dodf> mfthods
+ * brf usfd to dirfdtly gfnfrbtf thf vblufs for thf mbtrix modifidbtions
+ * during thfsf rbdibn-bbsfd rotbtion opfrbtions thfn thf rfsulting
+ * trbnsform is nfvfr stridtly dlbssifibblf bs b qubdrbnt rotbtion
+ * fvfn for b simplf dbsf likf <dodf>rotbtf(Mbth.PI/2.0)</dodf>,
+ * duf to minor vbribtions in thf mbtrix dbusfd by thf non-0.0 vblufs
+ * obtbinfd for thf sinf bnd dosinf.
+ * If thfsf trbnsforms brf not dlbssififd bs qubdrbnt rotbtions thfn
+ * subsfqufnt dodf whidh bttfmpts to optimizf furthfr opfrbtions bbsfd
+ * upon thf typf of thf trbnsform will bf rflfgbtfd to its most gfnfrbl
+ * implfmfntbtion.
+ * <p>
+ * Bfdbusf qubdrbnt rotbtions brf fbirly dommon,
+ * this dlbss should hbndlf thfsf dbsfs rfbsonbbly quidkly, both in
+ * bpplying thf rotbtions to thf trbnsform bnd in bpplying thf rfsulting
+ * trbnsform to thf doordinbtfs.
+ * To fbdilitbtf this optimbl hbndling, thf mfthods whidh tbkf bn bnglf
+ * of rotbtion mfbsurfd in rbdibns bttfmpt to dftfdt bnglfs thbt brf
+ * intfndfd to bf qubdrbnt rotbtions bnd trfbt thfm bs sudh.
+ * Thfsf mfthods thfrfforf trfbt bn bnglf <fm>thftb</fm> bs b qubdrbnt
+ * rotbtion if fithfr <dodf>Mbth.sin(<fm>thftb</fm>)</dodf> or
+ * <dodf>Mbth.dos(<fm>thftb</fm>)</dodf> rfturns fxbdtly 1.0 or -1.0.
+ * As b rulf of thumb, this propfrty holds truf for b rbngf of
+ * bpproximbtfly 0.0000000211 rbdibns (or 0.00000121 dfgrffs) bround
+ * smbll multiplfs of <dodf>Mbth.PI/2.0</dodf>.
+ *
+ * @buthor Jim Grbhbm
+ * @sindf 1.2
+ */
+publid dlbss AffinfTrbnsform implfmfnts Clonfbblf, jbvb.io.Sfriblizbblf {
+
+    /*
+     * This donstbnt is only usfful for thf dbdhfd typf fifld.
+     * It indidbtfs thbt thf typf hbs bffn dfdbdhfd bnd must bf rfdbldulbtfd.
+     */
+    privbtf stbtid finbl int TYPE_UNKNOWN = -1;
+
+    /**
+     * This donstbnt indidbtfs thbt thf trbnsform dffinfd by this objfdt
+     * is bn idfntity trbnsform.
+     * An idfntity trbnsform is onf in whidh thf output doordinbtfs brf
+     * blwbys thf sbmf bs thf input doordinbtfs.
+     * If this trbnsform is bnything othfr thbn thf idfntity trbnsform,
+     * thf typf will fithfr bf thf donstbnt GENERAL_TRANSFORM or b
+     * dombinbtion of thf bppropribtf flbg bits for thf vbrious doordinbtf
+     * donvfrsions thbt this trbnsform pfrforms.
+     * @sff #TYPE_TRANSLATION
+     * @sff #TYPE_UNIFORM_SCALE
+     * @sff #TYPE_GENERAL_SCALE
+     * @sff #TYPE_FLIP
+     * @sff #TYPE_QUADRANT_ROTATION
+     * @sff #TYPE_GENERAL_ROTATION
+     * @sff #TYPE_GENERAL_TRANSFORM
+     * @sff #gftTypf
+     * @sindf 1.2
+     */
+    publid stbtid finbl int TYPE_IDENTITY = 0;
+
+    /**
+     * This flbg bit indidbtfs thbt thf trbnsform dffinfd by this objfdt
+     * pfrforms b trbnslbtion in bddition to thf donvfrsions indidbtfd
+     * by othfr flbg bits.
+     * A trbnslbtion movfs thf doordinbtfs by b donstbnt bmount in x
+     * bnd y without dhbnging thf lfngth or bnglf of vfdtors.
+     * @sff #TYPE_IDENTITY
+     * @sff #TYPE_UNIFORM_SCALE
+     * @sff #TYPE_GENERAL_SCALE
+     * @sff #TYPE_FLIP
+     * @sff #TYPE_QUADRANT_ROTATION
+     * @sff #TYPE_GENERAL_ROTATION
+     * @sff #TYPE_GENERAL_TRANSFORM
+     * @sff #gftTypf
+     * @sindf 1.2
+     */
+    publid stbtid finbl int TYPE_TRANSLATION = 1;
+
+    /**
+     * This flbg bit indidbtfs thbt thf trbnsform dffinfd by this objfdt
+     * pfrforms b uniform sdblf in bddition to thf donvfrsions indidbtfd
+     * by othfr flbg bits.
+     * A uniform sdblf multiplifs thf lfngth of vfdtors by thf sbmf bmount
+     * in both thf x bnd y dirfdtions without dhbnging thf bnglf bftwffn
+     * vfdtors.
+     * This flbg bit is mutublly fxdlusivf with thf TYPE_GENERAL_SCALE flbg.
+     * @sff #TYPE_IDENTITY
+     * @sff #TYPE_TRANSLATION
+     * @sff #TYPE_GENERAL_SCALE
+     * @sff #TYPE_FLIP
+     * @sff #TYPE_QUADRANT_ROTATION
+     * @sff #TYPE_GENERAL_ROTATION
+     * @sff #TYPE_GENERAL_TRANSFORM
+     * @sff #gftTypf
+     * @sindf 1.2
+     */
+    publid stbtid finbl int TYPE_UNIFORM_SCALE = 2;
+
+    /**
+     * This flbg bit indidbtfs thbt thf trbnsform dffinfd by this objfdt
+     * pfrforms b gfnfrbl sdblf in bddition to thf donvfrsions indidbtfd
+     * by othfr flbg bits.
+     * A gfnfrbl sdblf multiplifs thf lfngth of vfdtors by difffrfnt
+     * bmounts in thf x bnd y dirfdtions without dhbnging thf bnglf
+     * bftwffn pfrpfndidulbr vfdtors.
+     * This flbg bit is mutublly fxdlusivf with thf TYPE_UNIFORM_SCALE flbg.
+     * @sff #TYPE_IDENTITY
+     * @sff #TYPE_TRANSLATION
+     * @sff #TYPE_UNIFORM_SCALE
+     * @sff #TYPE_FLIP
+     * @sff #TYPE_QUADRANT_ROTATION
+     * @sff #TYPE_GENERAL_ROTATION
+     * @sff #TYPE_GENERAL_TRANSFORM
+     * @sff #gftTypf
+     * @sindf 1.2
+     */
+    publid stbtid finbl int TYPE_GENERAL_SCALE = 4;
+
+    /**
+     * This donstbnt is b bit mbsk for bny of thf sdblf flbg bits.
+     * @sff #TYPE_UNIFORM_SCALE
+     * @sff #TYPE_GENERAL_SCALE
+     * @sindf 1.2
+     */
+    publid stbtid finbl int TYPE_MASK_SCALE = (TYPE_UNIFORM_SCALE |
+                                               TYPE_GENERAL_SCALE);
+
+    /**
+     * This flbg bit indidbtfs thbt thf trbnsform dffinfd by this objfdt
+     * pfrforms b mirror imbgf flip bbout somf bxis whidh dhbngfs thf
+     * normblly right hbndfd doordinbtf systfm into b lfft hbndfd
+     * systfm in bddition to thf donvfrsions indidbtfd by othfr flbg bits.
+     * A right hbndfd doordinbtf systfm is onf whfrf thf positivf X
+     * bxis rotbtfs dountfrdlodkwisf to ovfrlby thf positivf Y bxis
+     * similbr to thf dirfdtion thbt thf fingfrs on your right hbnd
+     * durl whfn you stbrf fnd on bt your thumb.
+     * A lfft hbndfd doordinbtf systfm is onf whfrf thf positivf X
+     * bxis rotbtfs dlodkwisf to ovfrlby thf positivf Y bxis similbr
+     * to thf dirfdtion thbt thf fingfrs on your lfft hbnd durl.
+     * Thfrf is no mbthfmbtidbl wby to dftfrminf thf bnglf of thf
+     * originbl flipping or mirroring trbnsformbtion sindf bll bnglfs
+     * of flip brf idfntidbl givfn bn bppropribtf bdjusting rotbtion.
+     * @sff #TYPE_IDENTITY
+     * @sff #TYPE_TRANSLATION
+     * @sff #TYPE_UNIFORM_SCALE
+     * @sff #TYPE_GENERAL_SCALE
+     * @sff #TYPE_QUADRANT_ROTATION
+     * @sff #TYPE_GENERAL_ROTATION
+     * @sff #TYPE_GENERAL_TRANSFORM
+     * @sff #gftTypf
+     * @sindf 1.2
+     */
+    publid stbtid finbl int TYPE_FLIP = 64;
+    /* NOTE: TYPE_FLIP wbs bddfd bftfr GENERAL_TRANSFORM wbs in publid
+     * dirdulbtion bnd thf flbg bits dould no longfr bf donvfnifntly
+     * rfnumbfrfd without introduding binbry indompbtibility in outsidf
+     * dodf.
+     */
+
+    /**
+     * This flbg bit indidbtfs thbt thf trbnsform dffinfd by this objfdt
+     * pfrforms b qubdrbnt rotbtion by somf multiplf of 90 dfgrffs in
+     * bddition to thf donvfrsions indidbtfd by othfr flbg bits.
+     * A rotbtion dhbngfs thf bnglfs of vfdtors by thf sbmf bmount
+     * rfgbrdlfss of thf originbl dirfdtion of thf vfdtor bnd without
+     * dhbnging thf lfngth of thf vfdtor.
+     * This flbg bit is mutublly fxdlusivf with thf TYPE_GENERAL_ROTATION flbg.
+     * @sff #TYPE_IDENTITY
+     * @sff #TYPE_TRANSLATION
+     * @sff #TYPE_UNIFORM_SCALE
+     * @sff #TYPE_GENERAL_SCALE
+     * @sff #TYPE_FLIP
+     * @sff #TYPE_GENERAL_ROTATION
+     * @sff #TYPE_GENERAL_TRANSFORM
+     * @sff #gftTypf
+     * @sindf 1.2
+     */
+    publid stbtid finbl int TYPE_QUADRANT_ROTATION = 8;
+
+    /**
+     * This flbg bit indidbtfs thbt thf trbnsform dffinfd by this objfdt
+     * pfrforms b rotbtion by bn brbitrbry bnglf in bddition to thf
+     * donvfrsions indidbtfd by othfr flbg bits.
+     * A rotbtion dhbngfs thf bnglfs of vfdtors by thf sbmf bmount
+     * rfgbrdlfss of thf originbl dirfdtion of thf vfdtor bnd without
+     * dhbnging thf lfngth of thf vfdtor.
+     * This flbg bit is mutublly fxdlusivf with thf
+     * TYPE_QUADRANT_ROTATION flbg.
+     * @sff #TYPE_IDENTITY
+     * @sff #TYPE_TRANSLATION
+     * @sff #TYPE_UNIFORM_SCALE
+     * @sff #TYPE_GENERAL_SCALE
+     * @sff #TYPE_FLIP
+     * @sff #TYPE_QUADRANT_ROTATION
+     * @sff #TYPE_GENERAL_TRANSFORM
+     * @sff #gftTypf
+     * @sindf 1.2
+     */
+    publid stbtid finbl int TYPE_GENERAL_ROTATION = 16;
+
+    /**
+     * This donstbnt is b bit mbsk for bny of thf rotbtion flbg bits.
+     * @sff #TYPE_QUADRANT_ROTATION
+     * @sff #TYPE_GENERAL_ROTATION
+     * @sindf 1.2
+     */
+    publid stbtid finbl int TYPE_MASK_ROTATION = (TYPE_QUADRANT_ROTATION |
+                                                  TYPE_GENERAL_ROTATION);
+
+    /**
+     * This donstbnt indidbtfs thbt thf trbnsform dffinfd by this objfdt
+     * pfrforms bn brbitrbry donvfrsion of thf input doordinbtfs.
+     * If this trbnsform dbn bf dlbssififd by bny of thf bbovf donstbnts,
+     * thf typf will fithfr bf thf donstbnt TYPE_IDENTITY or b
+     * dombinbtion of thf bppropribtf flbg bits for thf vbrious doordinbtf
+     * donvfrsions thbt this trbnsform pfrforms.
+     * @sff #TYPE_IDENTITY
+     * @sff #TYPE_TRANSLATION
+     * @sff #TYPE_UNIFORM_SCALE
+     * @sff #TYPE_GENERAL_SCALE
+     * @sff #TYPE_FLIP
+     * @sff #TYPE_QUADRANT_ROTATION
+     * @sff #TYPE_GENERAL_ROTATION
+     * @sff #gftTypf
+     * @sindf 1.2
+     */
+    publid stbtid finbl int TYPE_GENERAL_TRANSFORM = 32;
+
+    /**
+     * This donstbnt is usfd for thf intfrnbl stbtf vbribblf to indidbtf
+     * thbt no dbldulbtions nffd to bf pfrformfd bnd thbt thf sourdf
+     * doordinbtfs only nffd to bf dopifd to thfir dfstinbtions to
+     * domplftf thf trbnsformbtion fqubtion of this trbnsform.
+     * @sff #APPLY_TRANSLATE
+     * @sff #APPLY_SCALE
+     * @sff #APPLY_SHEAR
+     * @sff #stbtf
+     */
+    stbtid finbl int APPLY_IDENTITY = 0;
+
+    /**
+     * This donstbnt is usfd for thf intfrnbl stbtf vbribblf to indidbtf
+     * thbt thf trbnslbtion domponfnts of thf mbtrix (m02 bnd m12) nffd
+     * to bf bddfd to domplftf thf trbnsformbtion fqubtion of this trbnsform.
+     * @sff #APPLY_IDENTITY
+     * @sff #APPLY_SCALE
+     * @sff #APPLY_SHEAR
+     * @sff #stbtf
+     */
+    stbtid finbl int APPLY_TRANSLATE = 1;
+
+    /**
+     * This donstbnt is usfd for thf intfrnbl stbtf vbribblf to indidbtf
+     * thbt thf sdbling domponfnts of thf mbtrix (m00 bnd m11) nffd
+     * to bf fbdtorfd in to domplftf thf trbnsformbtion fqubtion of
+     * this trbnsform.  If thf APPLY_SHEAR bit is blso sft thfn it
+     * indidbtfs thbt thf sdbling domponfnts brf not both 0.0.  If thf
+     * APPLY_SHEAR bit is not blso sft thfn it indidbtfs thbt thf
+     * sdbling domponfnts brf not both 1.0.  If nfithfr thf APPLY_SHEAR
+     * nor thf APPLY_SCALE bits brf sft thfn thf sdbling domponfnts
+     * brf both 1.0, whidh mfbns thbt thf x bnd y domponfnts dontributf
+     * to thf trbnsformfd doordinbtf, but thfy brf not multiplifd by
+     * bny sdbling fbdtor.
+     * @sff #APPLY_IDENTITY
+     * @sff #APPLY_TRANSLATE
+     * @sff #APPLY_SHEAR
+     * @sff #stbtf
+     */
+    stbtid finbl int APPLY_SCALE = 2;
+
+    /**
+     * This donstbnt is usfd for thf intfrnbl stbtf vbribblf to indidbtf
+     * thbt thf shfbring domponfnts of thf mbtrix (m01 bnd m10) nffd
+     * to bf fbdtorfd in to domplftf thf trbnsformbtion fqubtion of this
+     * trbnsform.  Thf prfsfndf of this bit in thf stbtf vbribblf dhbngfs
+     * thf intfrprftbtion of thf APPLY_SCALE bit bs indidbtfd in its
+     * dodumfntbtion.
+     * @sff #APPLY_IDENTITY
+     * @sff #APPLY_TRANSLATE
+     * @sff #APPLY_SCALE
+     * @sff #stbtf
+     */
+    stbtid finbl int APPLY_SHEAR = 4;
+
+    /*
+     * For mfthods whidh dombinf togfthfr thf stbtf of two sfpbrbtf
+     * trbnsforms bnd dispbtdh bbsfd upon thf dombinbtion, thfsf donstbnts
+     * spfdify how fbr to shift onf of thf stbtfs so thbt thf two stbtfs
+     * brf mutublly non-intfrffring bnd providf donstbnts for tfsting thf
+     * bits of thf shiftfd (HI) stbtf.  Thf mfthods in this dlbss usf
+     * thf donvfntion thbt thf stbtf of "this" trbnsform is unshiftfd bnd
+     * thf stbtf of thf "othfr" or "brgumfnt" trbnsform is shiftfd (HI).
+     */
+    privbtf stbtid finbl int HI_SHIFT = 3;
+    privbtf stbtid finbl int HI_IDENTITY = APPLY_IDENTITY << HI_SHIFT;
+    privbtf stbtid finbl int HI_TRANSLATE = APPLY_TRANSLATE << HI_SHIFT;
+    privbtf stbtid finbl int HI_SCALE = APPLY_SCALE << HI_SHIFT;
+    privbtf stbtid finbl int HI_SHEAR = APPLY_SHEAR << HI_SHIFT;
+
+    /**
+     * Thf X doordinbtf sdbling flfmfnt of thf 3x3
+     * bffinf trbnsformbtion mbtrix.
+     *
+     * @sfribl
+     */
+    doublf m00;
+
+    /**
+     * Thf Y doordinbtf shfbring flfmfnt of thf 3x3
+     * bffinf trbnsformbtion mbtrix.
+     *
+     * @sfribl
+     */
+     doublf m10;
+
+    /**
+     * Thf X doordinbtf shfbring flfmfnt of thf 3x3
+     * bffinf trbnsformbtion mbtrix.
+     *
+     * @sfribl
+     */
+     doublf m01;
+
+    /**
+     * Thf Y doordinbtf sdbling flfmfnt of thf 3x3
+     * bffinf trbnsformbtion mbtrix.
+     *
+     * @sfribl
+     */
+     doublf m11;
+
+    /**
+     * Thf X doordinbtf of thf trbnslbtion flfmfnt of thf
+     * 3x3 bffinf trbnsformbtion mbtrix.
+     *
+     * @sfribl
+     */
+     doublf m02;
+
+    /**
+     * Thf Y doordinbtf of thf trbnslbtion flfmfnt of thf
+     * 3x3 bffinf trbnsformbtion mbtrix.
+     *
+     * @sfribl
+     */
+     doublf m12;
+
+    /**
+     * This fifld kffps trbdk of whidh domponfnts of thf mbtrix nffd to
+     * bf bpplifd whfn pfrforming b trbnsformbtion.
+     * @sff #APPLY_IDENTITY
+     * @sff #APPLY_TRANSLATE
+     * @sff #APPLY_SCALE
+     * @sff #APPLY_SHEAR
+     */
+    trbnsifnt int stbtf;
+
+    /**
+     * This fifld dbdhfs thf durrfnt trbnsformbtion typf of thf mbtrix.
+     * @sff #TYPE_IDENTITY
+     * @sff #TYPE_TRANSLATION
+     * @sff #TYPE_UNIFORM_SCALE
+     * @sff #TYPE_GENERAL_SCALE
+     * @sff #TYPE_FLIP
+     * @sff #TYPE_QUADRANT_ROTATION
+     * @sff #TYPE_GENERAL_ROTATION
+     * @sff #TYPE_GENERAL_TRANSFORM
+     * @sff #TYPE_UNKNOWN
+     * @sff #gftTypf
+     */
+    privbtf trbnsifnt int typf;
+
+    privbtf AffinfTrbnsform(doublf m00, doublf m10,
+                            doublf m01, doublf m11,
+                            doublf m02, doublf m12,
+                            int stbtf) {
+        this.m00 = m00;
+        this.m10 = m10;
+        this.m01 = m01;
+        this.m11 = m11;
+        this.m02 = m02;
+        this.m12 = m12;
+        this.stbtf = stbtf;
+        this.typf = TYPE_UNKNOWN;
+    }
+
+    /**
+     * Construdts b nfw <dodf>AffinfTrbnsform</dodf> rfprfsfnting thf
+     * Idfntity trbnsformbtion.
+     * @sindf 1.2
+     */
+    publid AffinfTrbnsform() {
+        m00 = m11 = 1.0;
+        // m01 = m10 = m02 = m12 = 0.0;         /* Not nffdfd. */
+        // stbtf = APPLY_IDENTITY;              /* Not nffdfd. */
+        // typf = TYPE_IDENTITY;                /* Not nffdfd. */
+    }
+
+    /**
+     * Construdts b nfw <dodf>AffinfTrbnsform</dodf> thbt is b dopy of
+     * thf spfdififd <dodf>AffinfTrbnsform</dodf> objfdt.
+     * @pbrbm Tx thf <dodf>AffinfTrbnsform</dodf> objfdt to dopy
+     * @sindf 1.2
+     */
+    publid AffinfTrbnsform(AffinfTrbnsform Tx) {
+        this.m00 = Tx.m00;
+        this.m10 = Tx.m10;
+        this.m01 = Tx.m01;
+        this.m11 = Tx.m11;
+        this.m02 = Tx.m02;
+        this.m12 = Tx.m12;
+        this.stbtf = Tx.stbtf;
+        this.typf = Tx.typf;
+    }
+
+    /**
+     * Construdts b nfw <dodf>AffinfTrbnsform</dodf> from 6 flobting point
+     * vblufs rfprfsfnting thf 6 spfdifibblf fntrifs of thf 3x3
+     * trbnsformbtion mbtrix.
+     *
+     * @pbrbm m00 thf X doordinbtf sdbling flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m10 thf Y doordinbtf shfbring flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m01 thf X doordinbtf shfbring flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m11 thf Y doordinbtf sdbling flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m02 thf X doordinbtf trbnslbtion flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m12 thf Y doordinbtf trbnslbtion flfmfnt of thf 3x3 mbtrix
+     * @sindf 1.2
+     */
+    @ConstrudtorPropfrtifs({ "sdblfX", "shfbrY", "shfbrX", "sdblfY", "trbnslbtfX", "trbnslbtfY" })
+    publid AffinfTrbnsform(flobt m00, flobt m10,
+                           flobt m01, flobt m11,
+                           flobt m02, flobt m12) {
+        this.m00 = m00;
+        this.m10 = m10;
+        this.m01 = m01;
+        this.m11 = m11;
+        this.m02 = m02;
+        this.m12 = m12;
+        updbtfStbtf();
+    }
+
+    /**
+     * Construdts b nfw <dodf>AffinfTrbnsform</dodf> from bn brrby of
+     * flobting point vblufs rfprfsfnting fithfr thf 4 non-trbnslbtion
+     * fntrifs or thf 6 spfdifibblf fntrifs of thf 3x3 trbnsformbtion
+     * mbtrix.  Thf vblufs brf rftrifvfd from thf brrby bs
+     * {&nbsp;m00&nbsp;m10&nbsp;m01&nbsp;m11&nbsp;[m02&nbsp;m12]}.
+     * @pbrbm flbtmbtrix thf flobt brrby dontbining thf vblufs to bf sft
+     * in thf nfw <dodf>AffinfTrbnsform</dodf> objfdt. Thf lfngth of thf
+     * brrby is bssumfd to bf bt lfbst 4. If thf lfngth of thf brrby is
+     * lfss thbn 6, only thf first 4 vblufs brf tbkfn. If thf lfngth of
+     * thf brrby is grfbtfr thbn 6, thf first 6 vblufs brf tbkfn.
+     * @sindf 1.2
+     */
+    publid AffinfTrbnsform(flobt[] flbtmbtrix) {
+        m00 = flbtmbtrix[0];
+        m10 = flbtmbtrix[1];
+        m01 = flbtmbtrix[2];
+        m11 = flbtmbtrix[3];
+        if (flbtmbtrix.lfngth > 5) {
+            m02 = flbtmbtrix[4];
+            m12 = flbtmbtrix[5];
+        }
+        updbtfStbtf();
+    }
+
+    /**
+     * Construdts b nfw <dodf>AffinfTrbnsform</dodf> from 6 doublf
+     * prfdision vblufs rfprfsfnting thf 6 spfdifibblf fntrifs of thf 3x3
+     * trbnsformbtion mbtrix.
+     *
+     * @pbrbm m00 thf X doordinbtf sdbling flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m10 thf Y doordinbtf shfbring flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m01 thf X doordinbtf shfbring flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m11 thf Y doordinbtf sdbling flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m02 thf X doordinbtf trbnslbtion flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m12 thf Y doordinbtf trbnslbtion flfmfnt of thf 3x3 mbtrix
+     * @sindf 1.2
+     */
+    publid AffinfTrbnsform(doublf m00, doublf m10,
+                           doublf m01, doublf m11,
+                           doublf m02, doublf m12) {
+        this.m00 = m00;
+        this.m10 = m10;
+        this.m01 = m01;
+        this.m11 = m11;
+        this.m02 = m02;
+        this.m12 = m12;
+        updbtfStbtf();
+    }
+
+    /**
+     * Construdts b nfw <dodf>AffinfTrbnsform</dodf> from bn brrby of
+     * doublf prfdision vblufs rfprfsfnting fithfr thf 4 non-trbnslbtion
+     * fntrifs or thf 6 spfdifibblf fntrifs of thf 3x3 trbnsformbtion
+     * mbtrix. Thf vblufs brf rftrifvfd from thf brrby bs
+     * {&nbsp;m00&nbsp;m10&nbsp;m01&nbsp;m11&nbsp;[m02&nbsp;m12]}.
+     * @pbrbm flbtmbtrix thf doublf brrby dontbining thf vblufs to bf sft
+     * in thf nfw <dodf>AffinfTrbnsform</dodf> objfdt. Thf lfngth of thf
+     * brrby is bssumfd to bf bt lfbst 4. If thf lfngth of thf brrby is
+     * lfss thbn 6, only thf first 4 vblufs brf tbkfn. If thf lfngth of
+     * thf brrby is grfbtfr thbn 6, thf first 6 vblufs brf tbkfn.
+     * @sindf 1.2
+     */
+    publid AffinfTrbnsform(doublf[] flbtmbtrix) {
+        m00 = flbtmbtrix[0];
+        m10 = flbtmbtrix[1];
+        m01 = flbtmbtrix[2];
+        m11 = flbtmbtrix[3];
+        if (flbtmbtrix.lfngth > 5) {
+            m02 = flbtmbtrix[4];
+            m12 = flbtmbtrix[5];
+        }
+        updbtfStbtf();
+    }
+
+    /**
+     * Rfturns b trbnsform rfprfsfnting b trbnslbtion trbnsformbtion.
+     * Thf mbtrix rfprfsfnting thf rfturnfd trbnsform is:
+     * <prf>
+     *          [   1    0    tx  ]
+     *          [   0    1    ty  ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm tx thf distbndf by whidh doordinbtfs brf trbnslbtfd in thf
+     * X bxis dirfdtion
+     * @pbrbm ty thf distbndf by whidh doordinbtfs brf trbnslbtfd in thf
+     * Y bxis dirfdtion
+     * @rfturn bn <dodf>AffinfTrbnsform</dodf> objfdt thbt rfprfsfnts b
+     *  trbnslbtion trbnsformbtion, drfbtfd with thf spfdififd vfdtor.
+     * @sindf 1.2
+     */
+    publid stbtid AffinfTrbnsform gftTrbnslbtfInstbndf(doublf tx, doublf ty) {
+        AffinfTrbnsform Tx = nfw AffinfTrbnsform();
+        Tx.sftToTrbnslbtion(tx, ty);
+        rfturn Tx;
+    }
+
+    /**
+     * Rfturns b trbnsform rfprfsfnting b rotbtion trbnsformbtion.
+     * Thf mbtrix rfprfsfnting thf rfturnfd trbnsform is:
+     * <prf>
+     *          [   dos(thftb)    -sin(thftb)    0   ]
+     *          [   sin(thftb)     dos(thftb)    0   ]
+     *          [       0              0         1   ]
+     * </prf>
+     * Rotbting by b positivf bnglf thftb rotbtfs points on thf positivf
+     * X bxis towbrd thf positivf Y bxis.
+     * Notf blso thf disdussion of
+     * <b hrff="#qubdrbntbpproximbtion">Hbndling 90-Dfgrff Rotbtions</b>
+     * bbovf.
+     * @pbrbm thftb thf bnglf of rotbtion mfbsurfd in rbdibns
+     * @rfturn bn <dodf>AffinfTrbnsform</dodf> objfdt thbt is b rotbtion
+     *  trbnsformbtion, drfbtfd with thf spfdififd bnglf of rotbtion.
+     * @sindf 1.2
+     */
+    publid stbtid AffinfTrbnsform gftRotbtfInstbndf(doublf thftb) {
+        AffinfTrbnsform Tx = nfw AffinfTrbnsform();
+        Tx.sftToRotbtion(thftb);
+        rfturn Tx;
+    }
+
+    /**
+     * Rfturns b trbnsform thbt rotbtfs doordinbtfs bround bn bndhor point.
+     * This opfrbtion is fquivblfnt to trbnslbting thf doordinbtfs so
+     * thbt thf bndhor point is bt thf origin (S1), thfn rotbting thfm
+     * bbout thf nfw origin (S2), bnd finblly trbnslbting so thbt thf
+     * intfrmfdibtf origin is rfstorfd to thf doordinbtfs of thf originbl
+     * bndhor point (S3).
+     * <p>
+     * This opfrbtion is fquivblfnt to thf following sfqufndf of dblls:
+     * <prf>
+     *     AffinfTrbnsform Tx = nfw AffinfTrbnsform();
+     *     Tx.trbnslbtf(bndhorx, bndhory);    // S3: finbl trbnslbtion
+     *     Tx.rotbtf(thftb);                  // S2: rotbtf bround bndhor
+     *     Tx.trbnslbtf(-bndhorx, -bndhory);  // S1: trbnslbtf bndhor to origin
+     * </prf>
+     * Thf mbtrix rfprfsfnting thf rfturnfd trbnsform is:
+     * <prf>
+     *          [   dos(thftb)    -sin(thftb)    x-x*dos+y*sin  ]
+     *          [   sin(thftb)     dos(thftb)    y-x*sin-y*dos  ]
+     *          [       0              0               1        ]
+     * </prf>
+     * Rotbting by b positivf bnglf thftb rotbtfs points on thf positivf
+     * X bxis towbrd thf positivf Y bxis.
+     * Notf blso thf disdussion of
+     * <b hrff="#qubdrbntbpproximbtion">Hbndling 90-Dfgrff Rotbtions</b>
+     * bbovf.
+     *
+     * @pbrbm thftb thf bnglf of rotbtion mfbsurfd in rbdibns
+     * @pbrbm bndhorx thf X doordinbtf of thf rotbtion bndhor point
+     * @pbrbm bndhory thf Y doordinbtf of thf rotbtion bndhor point
+     * @rfturn bn <dodf>AffinfTrbnsform</dodf> objfdt thbt rotbtfs
+     *  doordinbtfs bround thf spfdififd point by thf spfdififd bnglf of
+     *  rotbtion.
+     * @sindf 1.2
+     */
+    publid stbtid AffinfTrbnsform gftRotbtfInstbndf(doublf thftb,
+                                                    doublf bndhorx,
+                                                    doublf bndhory)
+    {
+        AffinfTrbnsform Tx = nfw AffinfTrbnsform();
+        Tx.sftToRotbtion(thftb, bndhorx, bndhory);
+        rfturn Tx;
+    }
+
+    /**
+     * Rfturns b trbnsform thbt rotbtfs doordinbtfs bddording to
+     * b rotbtion vfdtor.
+     * All doordinbtfs rotbtf bbout thf origin by thf sbmf bmount.
+     * Thf bmount of rotbtion is sudh thbt doordinbtfs blong thf formfr
+     * positivf X bxis will subsfqufntly blign with thf vfdtor pointing
+     * from thf origin to thf spfdififd vfdtor doordinbtfs.
+     * If both <dodf>vfdx</dodf> bnd <dodf>vfdy</dodf> brf 0.0,
+     * bn idfntity trbnsform is rfturnfd.
+     * This opfrbtion is fquivblfnt to dblling:
+     * <prf>
+     *     AffinfTrbnsform.gftRotbtfInstbndf(Mbth.btbn2(vfdy, vfdx));
+     * </prf>
+     *
+     * @pbrbm vfdx thf X doordinbtf of thf rotbtion vfdtor
+     * @pbrbm vfdy thf Y doordinbtf of thf rotbtion vfdtor
+     * @rfturn bn <dodf>AffinfTrbnsform</dodf> objfdt thbt rotbtfs
+     *  doordinbtfs bddording to thf spfdififd rotbtion vfdtor.
+     * @sindf 1.6
+     */
+    publid stbtid AffinfTrbnsform gftRotbtfInstbndf(doublf vfdx, doublf vfdy) {
+        AffinfTrbnsform Tx = nfw AffinfTrbnsform();
+        Tx.sftToRotbtion(vfdx, vfdy);
+        rfturn Tx;
+    }
+
+    /**
+     * Rfturns b trbnsform thbt rotbtfs doordinbtfs bround bn bndhor
+     * point bddording to b rotbtion vfdtor.
+     * All doordinbtfs rotbtf bbout thf spfdififd bndhor doordinbtfs
+     * by thf sbmf bmount.
+     * Thf bmount of rotbtion is sudh thbt doordinbtfs blong thf formfr
+     * positivf X bxis will subsfqufntly blign with thf vfdtor pointing
+     * from thf origin to thf spfdififd vfdtor doordinbtfs.
+     * If both <dodf>vfdx</dodf> bnd <dodf>vfdy</dodf> brf 0.0,
+     * bn idfntity trbnsform is rfturnfd.
+     * This opfrbtion is fquivblfnt to dblling:
+     * <prf>
+     *     AffinfTrbnsform.gftRotbtfInstbndf(Mbth.btbn2(vfdy, vfdx),
+     *                                       bndhorx, bndhory);
+     * </prf>
+     *
+     * @pbrbm vfdx thf X doordinbtf of thf rotbtion vfdtor
+     * @pbrbm vfdy thf Y doordinbtf of thf rotbtion vfdtor
+     * @pbrbm bndhorx thf X doordinbtf of thf rotbtion bndhor point
+     * @pbrbm bndhory thf Y doordinbtf of thf rotbtion bndhor point
+     * @rfturn bn <dodf>AffinfTrbnsform</dodf> objfdt thbt rotbtfs
+     *  doordinbtfs bround thf spfdififd point bddording to thf
+     *  spfdififd rotbtion vfdtor.
+     * @sindf 1.6
+     */
+    publid stbtid AffinfTrbnsform gftRotbtfInstbndf(doublf vfdx,
+                                                    doublf vfdy,
+                                                    doublf bndhorx,
+                                                    doublf bndhory)
+    {
+        AffinfTrbnsform Tx = nfw AffinfTrbnsform();
+        Tx.sftToRotbtion(vfdx, vfdy, bndhorx, bndhory);
+        rfturn Tx;
+    }
+
+    /**
+     * Rfturns b trbnsform thbt rotbtfs doordinbtfs by thf spfdififd
+     * numbfr of qubdrbnts.
+     * This opfrbtion is fquivblfnt to dblling:
+     * <prf>
+     *     AffinfTrbnsform.gftRotbtfInstbndf(numqubdrbnts * Mbth.PI / 2.0);
+     * </prf>
+     * Rotbting by b positivf numbfr of qubdrbnts rotbtfs points on
+     * thf positivf X bxis towbrd thf positivf Y bxis.
+     * @pbrbm numqubdrbnts thf numbfr of 90 dfgrff brds to rotbtf by
+     * @rfturn bn <dodf>AffinfTrbnsform</dodf> objfdt thbt rotbtfs
+     *  doordinbtfs by thf spfdififd numbfr of qubdrbnts.
+     * @sindf 1.6
+     */
+    publid stbtid AffinfTrbnsform gftQubdrbntRotbtfInstbndf(int numqubdrbnts) {
+        AffinfTrbnsform Tx = nfw AffinfTrbnsform();
+        Tx.sftToQubdrbntRotbtion(numqubdrbnts);
+        rfturn Tx;
+    }
+
+    /**
+     * Rfturns b trbnsform thbt rotbtfs doordinbtfs by thf spfdififd
+     * numbfr of qubdrbnts bround thf spfdififd bndhor point.
+     * This opfrbtion is fquivblfnt to dblling:
+     * <prf>
+     *     AffinfTrbnsform.gftRotbtfInstbndf(numqubdrbnts * Mbth.PI / 2.0,
+     *                                       bndhorx, bndhory);
+     * </prf>
+     * Rotbting by b positivf numbfr of qubdrbnts rotbtfs points on
+     * thf positivf X bxis towbrd thf positivf Y bxis.
+     *
+     * @pbrbm numqubdrbnts thf numbfr of 90 dfgrff brds to rotbtf by
+     * @pbrbm bndhorx thf X doordinbtf of thf rotbtion bndhor point
+     * @pbrbm bndhory thf Y doordinbtf of thf rotbtion bndhor point
+     * @rfturn bn <dodf>AffinfTrbnsform</dodf> objfdt thbt rotbtfs
+     *  doordinbtfs by thf spfdififd numbfr of qubdrbnts bround thf
+     *  spfdififd bndhor point.
+     * @sindf 1.6
+     */
+    publid stbtid AffinfTrbnsform gftQubdrbntRotbtfInstbndf(int numqubdrbnts,
+                                                            doublf bndhorx,
+                                                            doublf bndhory)
+    {
+        AffinfTrbnsform Tx = nfw AffinfTrbnsform();
+        Tx.sftToQubdrbntRotbtion(numqubdrbnts, bndhorx, bndhory);
+        rfturn Tx;
+    }
+
+    /**
+     * Rfturns b trbnsform rfprfsfnting b sdbling trbnsformbtion.
+     * Thf mbtrix rfprfsfnting thf rfturnfd trbnsform is:
+     * <prf>
+     *          [   sx   0    0   ]
+     *          [   0    sy   0   ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm sx thf fbdtor by whidh doordinbtfs brf sdblfd blong thf
+     * X bxis dirfdtion
+     * @pbrbm sy thf fbdtor by whidh doordinbtfs brf sdblfd blong thf
+     * Y bxis dirfdtion
+     * @rfturn bn <dodf>AffinfTrbnsform</dodf> objfdt thbt sdblfs
+     *  doordinbtfs by thf spfdififd fbdtors.
+     * @sindf 1.2
+     */
+    publid stbtid AffinfTrbnsform gftSdblfInstbndf(doublf sx, doublf sy) {
+        AffinfTrbnsform Tx = nfw AffinfTrbnsform();
+        Tx.sftToSdblf(sx, sy);
+        rfturn Tx;
+    }
+
+    /**
+     * Rfturns b trbnsform rfprfsfnting b shfbring trbnsformbtion.
+     * Thf mbtrix rfprfsfnting thf rfturnfd trbnsform is:
+     * <prf>
+     *          [   1   shx   0   ]
+     *          [  shy   1    0   ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm shx thf multiplifr by whidh doordinbtfs brf shiftfd in thf
+     * dirfdtion of thf positivf X bxis bs b fbdtor of thfir Y doordinbtf
+     * @pbrbm shy thf multiplifr by whidh doordinbtfs brf shiftfd in thf
+     * dirfdtion of thf positivf Y bxis bs b fbdtor of thfir X doordinbtf
+     * @rfturn bn <dodf>AffinfTrbnsform</dodf> objfdt thbt shfbrs
+     *  doordinbtfs by thf spfdififd multiplifrs.
+     * @sindf 1.2
+     */
+    publid stbtid AffinfTrbnsform gftShfbrInstbndf(doublf shx, doublf shy) {
+        AffinfTrbnsform Tx = nfw AffinfTrbnsform();
+        Tx.sftToShfbr(shx, shy);
+        rfturn Tx;
+    }
+
+    /**
+     * Rftrifvfs thf flbg bits dfsdribing thf donvfrsion propfrtifs of
+     * this trbnsform.
+     * Thf rfturn vbluf is fithfr onf of thf donstbnts TYPE_IDENTITY
+     * or TYPE_GENERAL_TRANSFORM, or b dombinbtion of thf
+     * bppropribtf flbg bits.
+     * A vblid dombinbtion of flbg bits is bn fxdlusivf OR opfrbtion
+     * thbt dbn dombinf
+     * thf TYPE_TRANSLATION flbg bit
+     * in bddition to fithfr of thf
+     * TYPE_UNIFORM_SCALE or TYPE_GENERAL_SCALE flbg bits
+     * bs wfll bs fithfr of thf
+     * TYPE_QUADRANT_ROTATION or TYPE_GENERAL_ROTATION flbg bits.
+     * @rfturn thf OR dombinbtion of bny of thf indidbtfd flbgs thbt
+     * bpply to this trbnsform
+     * @sff #TYPE_IDENTITY
+     * @sff #TYPE_TRANSLATION
+     * @sff #TYPE_UNIFORM_SCALE
+     * @sff #TYPE_GENERAL_SCALE
+     * @sff #TYPE_QUADRANT_ROTATION
+     * @sff #TYPE_GENERAL_ROTATION
+     * @sff #TYPE_GENERAL_TRANSFORM
+     * @sindf 1.2
+     */
+    publid int gftTypf() {
+        if (typf == TYPE_UNKNOWN) {
+            dbldulbtfTypf();
+        }
+        rfturn typf;
+    }
+
+    /**
+     * This is thf utility fundtion to dbldulbtf thf flbg bits whfn
+     * thfy hbvf not bffn dbdhfd.
+     * @sff #gftTypf
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf void dbldulbtfTypf() {
+        int rft = TYPE_IDENTITY;
+        boolfbn sgn0, sgn1;
+        doublf M0, M1, M2, M3;
+        updbtfStbtf();
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            rft = TYPE_TRANSLATION;
+            /* NOBREAK */
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            if ((M0 = m00) * (M2 = m01) + (M3 = m10) * (M1 = m11) != 0) {
+                // Trbnsformfd unit vfdtors brf not pfrpfndidulbr...
+                this.typf = TYPE_GENERAL_TRANSFORM;
+                rfturn;
+            }
+            sgn0 = (M0 >= 0.0);
+            sgn1 = (M1 >= 0.0);
+            if (sgn0 == sgn1) {
+                // sgn(M0) == sgn(M1) thfrfforf sgn(M2) == -sgn(M3)
+                // This is thf "unflippfd" (right-hbndfd) stbtf
+                if (M0 != M1 || M2 != -M3) {
+                    rft |= (TYPE_GENERAL_ROTATION | TYPE_GENERAL_SCALE);
+                } flsf if (M0 * M1 - M2 * M3 != 1.0) {
+                    rft |= (TYPE_GENERAL_ROTATION | TYPE_UNIFORM_SCALE);
+                } flsf {
+                    rft |= TYPE_GENERAL_ROTATION;
+                }
+            } flsf {
+                // sgn(M0) == -sgn(M1) thfrfforf sgn(M2) == sgn(M3)
+                // This is thf "flippfd" (lfft-hbndfd) stbtf
+                if (M0 != -M1 || M2 != M3) {
+                    rft |= (TYPE_GENERAL_ROTATION |
+                            TYPE_FLIP |
+                            TYPE_GENERAL_SCALE);
+                } flsf if (M0 * M1 - M2 * M3 != 1.0) {
+                    rft |= (TYPE_GENERAL_ROTATION |
+                            TYPE_FLIP |
+                            TYPE_UNIFORM_SCALE);
+                } flsf {
+                    rft |= (TYPE_GENERAL_ROTATION | TYPE_FLIP);
+                }
+            }
+            brfbk;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            rft = TYPE_TRANSLATION;
+            /* NOBREAK */
+        dbsf (APPLY_SHEAR):
+            sgn0 = ((M0 = m01) >= 0.0);
+            sgn1 = ((M1 = m10) >= 0.0);
+            if (sgn0 != sgn1) {
+                // Difffrfnt signs - simplf 90 dfgrff rotbtion
+                if (M0 != -M1) {
+                    rft |= (TYPE_QUADRANT_ROTATION | TYPE_GENERAL_SCALE);
+                } flsf if (M0 != 1.0 && M0 != -1.0) {
+                    rft |= (TYPE_QUADRANT_ROTATION | TYPE_UNIFORM_SCALE);
+                } flsf {
+                    rft |= TYPE_QUADRANT_ROTATION;
+                }
+            } flsf {
+                // Sbmf signs - 90 dfgrff rotbtion plus bn bxis flip too
+                if (M0 == M1) {
+                    rft |= (TYPE_QUADRANT_ROTATION |
+                            TYPE_FLIP |
+                            TYPE_UNIFORM_SCALE);
+                } flsf {
+                    rft |= (TYPE_QUADRANT_ROTATION |
+                            TYPE_FLIP |
+                            TYPE_GENERAL_SCALE);
+                }
+            }
+            brfbk;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            rft = TYPE_TRANSLATION;
+            /* NOBREAK */
+        dbsf (APPLY_SCALE):
+            sgn0 = ((M0 = m00) >= 0.0);
+            sgn1 = ((M1 = m11) >= 0.0);
+            if (sgn0 == sgn1) {
+                if (sgn0) {
+                    // Both sdbling fbdtors non-nfgbtivf - simplf sdblf
+                    // Notf: APPLY_SCALE implifs M0, M1 brf not both 1
+                    if (M0 == M1) {
+                        rft |= TYPE_UNIFORM_SCALE;
+                    } flsf {
+                        rft |= TYPE_GENERAL_SCALE;
+                    }
+                } flsf {
+                    // Both sdbling fbdtors nfgbtivf - 180 dfgrff rotbtion
+                    if (M0 != M1) {
+                        rft |= (TYPE_QUADRANT_ROTATION | TYPE_GENERAL_SCALE);
+                    } flsf if (M0 != -1.0) {
+                        rft |= (TYPE_QUADRANT_ROTATION | TYPE_UNIFORM_SCALE);
+                    } flsf {
+                        rft |= TYPE_QUADRANT_ROTATION;
+                    }
+                }
+            } flsf {
+                // Sdbling fbdtor signs difffrfnt - flip bbout somf bxis
+                if (M0 == -M1) {
+                    if (M0 == 1.0 || M0 == -1.0) {
+                        rft |= TYPE_FLIP;
+                    } flsf {
+                        rft |= (TYPE_FLIP | TYPE_UNIFORM_SCALE);
+                    }
+                } flsf {
+                    rft |= (TYPE_FLIP | TYPE_GENERAL_SCALE);
+                }
+            }
+            brfbk;
+        dbsf (APPLY_TRANSLATE):
+            rft = TYPE_TRANSLATION;
+            brfbk;
+        dbsf (APPLY_IDENTITY):
+            brfbk;
+        }
+        this.typf = rft;
+    }
+
+    /**
+     * Rfturns thf dftfrminbnt of thf mbtrix rfprfsfntbtion of thf trbnsform.
+     * Thf dftfrminbnt is usfful both to dftfrminf if thf trbnsform dbn
+     * bf invfrtfd bnd to gft b singlf vbluf rfprfsfnting thf
+     * dombinfd X bnd Y sdbling of thf trbnsform.
+     * <p>
+     * If thf dftfrminbnt is non-zfro, thfn this trbnsform is
+     * invfrtiblf bnd thf vbrious mfthods thbt dfpfnd on thf invfrsf
+     * trbnsform do not nffd to throw b
+     * {@link NoninvfrtiblfTrbnsformExdfption}.
+     * If thf dftfrminbnt is zfro thfn this trbnsform dbn not bf
+     * invfrtfd sindf thf trbnsform mbps bll input doordinbtfs onto
+     * b linf or b point.
+     * If thf dftfrminbnt is nfbr fnough to zfro thfn invfrsf trbnsform
+     * opfrbtions might not dbrry fnough prfdision to produdf mfbningful
+     * rfsults.
+     * <p>
+     * If this trbnsform rfprfsfnts b uniform sdblf, bs indidbtfd by
+     * thf <dodf>gftTypf</dodf> mfthod thfn thf dftfrminbnt blso
+     * rfprfsfnts thf squbrf of thf uniform sdblf fbdtor by whidh bll of
+     * thf points brf fxpbndfd from or dontrbdtfd towbrds thf origin.
+     * If this trbnsform rfprfsfnts b non-uniform sdblf or morf gfnfrbl
+     * trbnsform thfn thf dftfrminbnt is not likfly to rfprfsfnt b
+     * vbluf usfful for bny purposf othfr thbn dftfrmining if invfrsf
+     * trbnsforms brf possiblf.
+     * <p>
+     * Mbthfmbtidblly, thf dftfrminbnt is dbldulbtfd using thf formulb:
+     * <prf>
+     *          |  m00  m01  m02  |
+     *          |  m10  m11  m12  |  =  m00 * m11 - m01 * m10
+     *          |   0    0    1   |
+     * </prf>
+     *
+     * @rfturn thf dftfrminbnt of thf mbtrix usfd to trbnsform thf
+     * doordinbtfs.
+     * @sff #gftTypf
+     * @sff #drfbtfInvfrsf
+     * @sff #invfrsfTrbnsform
+     * @sff #TYPE_UNIFORM_SCALE
+     * @sindf 1.2
+     */
+    @SupprfssWbrnings("fbllthrough")
+    publid doublf gftDftfrminbnt() {
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            rfturn m00 * m11 - m01 * m10;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (APPLY_SHEAR):
+            rfturn -(m01 * m10);
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (APPLY_SCALE):
+            rfturn m00 * m11;
+        dbsf (APPLY_TRANSLATE):
+        dbsf (APPLY_IDENTITY):
+            rfturn 1.0;
+        }
+    }
+
+    /**
+     * Mbnublly rfdbldulbtfs thf stbtf of thf trbnsform whfn thf mbtrix
+     * dhbngfs too mudh to prfdidt thf ffffdts on thf stbtf.
+     * Thf following tbblf spfdififs whbt thf vbrious sfttings of thf
+     * stbtf fifld sby bbout thf vblufs of thf dorrfsponding mbtrix
+     * flfmfnt fiflds.
+     * Notf thbt thf rulfs govfrning thf SCALE fiflds brf slightly
+     * difffrfnt dfpfnding on whfthfr thf SHEAR flbg is blso sft.
+     * <prf>
+     *                     SCALE            SHEAR          TRANSLATE
+     *                    m00/m11          m01/m10          m02/m12
+     *
+     * IDENTITY             1.0              0.0              0.0
+     * TRANSLATE (TR)       1.0              0.0          not both 0.0
+     * SCALE (SC)       not both 1.0         0.0              0.0
+     * TR | SC          not both 1.0         0.0          not both 0.0
+     * SHEAR (SH)           0.0          not both 0.0         0.0
+     * TR | SH              0.0          not both 0.0     not both 0.0
+     * SC | SH          not both 0.0     not both 0.0         0.0
+     * TR | SC | SH     not both 0.0     not both 0.0     not both 0.0
+     * </prf>
+     */
+    void updbtfStbtf() {
+        if (m01 == 0.0 && m10 == 0.0) {
+            if (m00 == 1.0 && m11 == 1.0) {
+                if (m02 == 0.0 && m12 == 0.0) {
+                    stbtf = APPLY_IDENTITY;
+                    typf = TYPE_IDENTITY;
+                } flsf {
+                    stbtf = APPLY_TRANSLATE;
+                    typf = TYPE_TRANSLATION;
+                }
+            } flsf {
+                if (m02 == 0.0 && m12 == 0.0) {
+                    stbtf = APPLY_SCALE;
+                    typf = TYPE_UNKNOWN;
+                } flsf {
+                    stbtf = (APPLY_SCALE | APPLY_TRANSLATE);
+                    typf = TYPE_UNKNOWN;
+                }
+            }
+        } flsf {
+            if (m00 == 0.0 && m11 == 0.0) {
+                if (m02 == 0.0 && m12 == 0.0) {
+                    stbtf = APPLY_SHEAR;
+                    typf = TYPE_UNKNOWN;
+                } flsf {
+                    stbtf = (APPLY_SHEAR | APPLY_TRANSLATE);
+                    typf = TYPE_UNKNOWN;
+                }
+            } flsf {
+                if (m02 == 0.0 && m12 == 0.0) {
+                    stbtf = (APPLY_SHEAR | APPLY_SCALE);
+                    typf = TYPE_UNKNOWN;
+                } flsf {
+                    stbtf = (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE);
+                    typf = TYPE_UNKNOWN;
+                }
+            }
+        }
+    }
+
+    /*
+     * Convfnifndf mfthod usfd intfrnblly to throw fxdfptions whfn
+     * b dbsf wbs forgottfn in b switdh stbtfmfnt.
+     */
+    privbtf void stbtfError() {
+        throw nfw IntfrnblError("missing dbsf in trbnsform stbtf switdh");
+    }
+
+    /**
+     * Rftrifvfs thf 6 spfdifibblf vblufs in thf 3x3 bffinf trbnsformbtion
+     * mbtrix bnd plbdfs thfm into bn brrby of doublf prfdisions vblufs.
+     * Thf vblufs brf storfd in thf brrby bs
+     * {&nbsp;m00&nbsp;m10&nbsp;m01&nbsp;m11&nbsp;m02&nbsp;m12&nbsp;}.
+     * An brrby of 4 doublfs dbn blso bf spfdififd, in whidh dbsf only thf
+     * first four flfmfnts rfprfsfnting thf non-trbnsform
+     * pbrts of thf brrby brf rftrifvfd bnd thf vblufs brf storfd into
+     * thf brrby bs {&nbsp;m00&nbsp;m10&nbsp;m01&nbsp;m11&nbsp;}
+     * @pbrbm flbtmbtrix thf doublf brrby usfd to storf thf rfturnfd
+     * vblufs.
+     * @sff #gftSdblfX
+     * @sff #gftSdblfY
+     * @sff #gftShfbrX
+     * @sff #gftShfbrY
+     * @sff #gftTrbnslbtfX
+     * @sff #gftTrbnslbtfY
+     * @sindf 1.2
+     */
+    publid void gftMbtrix(doublf[] flbtmbtrix) {
+        flbtmbtrix[0] = m00;
+        flbtmbtrix[1] = m10;
+        flbtmbtrix[2] = m01;
+        flbtmbtrix[3] = m11;
+        if (flbtmbtrix.lfngth > 5) {
+            flbtmbtrix[4] = m02;
+            flbtmbtrix[5] = m12;
+        }
+    }
+
+    /**
+     * Rfturns thf X doordinbtf sdbling flfmfnt (m00) of thf 3x3
+     * bffinf trbnsformbtion mbtrix.
+     * @rfturn b doublf vbluf thbt is thf X doordinbtf of thf sdbling
+     *  flfmfnt of thf bffinf trbnsformbtion mbtrix.
+     * @sff #gftMbtrix
+     * @sindf 1.2
+     */
+    publid doublf gftSdblfX() {
+        rfturn m00;
+    }
+
+    /**
+     * Rfturns thf Y doordinbtf sdbling flfmfnt (m11) of thf 3x3
+     * bffinf trbnsformbtion mbtrix.
+     * @rfturn b doublf vbluf thbt is thf Y doordinbtf of thf sdbling
+     *  flfmfnt of thf bffinf trbnsformbtion mbtrix.
+     * @sff #gftMbtrix
+     * @sindf 1.2
+     */
+    publid doublf gftSdblfY() {
+        rfturn m11;
+    }
+
+    /**
+     * Rfturns thf X doordinbtf shfbring flfmfnt (m01) of thf 3x3
+     * bffinf trbnsformbtion mbtrix.
+     * @rfturn b doublf vbluf thbt is thf X doordinbtf of thf shfbring
+     *  flfmfnt of thf bffinf trbnsformbtion mbtrix.
+     * @sff #gftMbtrix
+     * @sindf 1.2
+     */
+    publid doublf gftShfbrX() {
+        rfturn m01;
+    }
+
+    /**
+     * Rfturns thf Y doordinbtf shfbring flfmfnt (m10) of thf 3x3
+     * bffinf trbnsformbtion mbtrix.
+     * @rfturn b doublf vbluf thbt is thf Y doordinbtf of thf shfbring
+     *  flfmfnt of thf bffinf trbnsformbtion mbtrix.
+     * @sff #gftMbtrix
+     * @sindf 1.2
+     */
+    publid doublf gftShfbrY() {
+        rfturn m10;
+    }
+
+    /**
+     * Rfturns thf X doordinbtf of thf trbnslbtion flfmfnt (m02) of thf
+     * 3x3 bffinf trbnsformbtion mbtrix.
+     * @rfturn b doublf vbluf thbt is thf X doordinbtf of thf trbnslbtion
+     *  flfmfnt of thf bffinf trbnsformbtion mbtrix.
+     * @sff #gftMbtrix
+     * @sindf 1.2
+     */
+    publid doublf gftTrbnslbtfX() {
+        rfturn m02;
+    }
+
+    /**
+     * Rfturns thf Y doordinbtf of thf trbnslbtion flfmfnt (m12) of thf
+     * 3x3 bffinf trbnsformbtion mbtrix.
+     * @rfturn b doublf vbluf thbt is thf Y doordinbtf of thf trbnslbtion
+     *  flfmfnt of thf bffinf trbnsformbtion mbtrix.
+     * @sff #gftMbtrix
+     * @sindf 1.2
+     */
+    publid doublf gftTrbnslbtfY() {
+        rfturn m12;
+    }
+
+    /**
+     * Condbtfnbtfs this trbnsform with b trbnslbtion trbnsformbtion.
+     * This is fquivblfnt to dblling dondbtfnbtf(T), whfrf T is bn
+     * <dodf>AffinfTrbnsform</dodf> rfprfsfntfd by thf following mbtrix:
+     * <prf>
+     *          [   1    0    tx  ]
+     *          [   0    1    ty  ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm tx thf distbndf by whidh doordinbtfs brf trbnslbtfd in thf
+     * X bxis dirfdtion
+     * @pbrbm ty thf distbndf by whidh doordinbtfs brf trbnslbtfd in thf
+     * Y bxis dirfdtion
+     * @sindf 1.2
+     */
+    publid void trbnslbtf(doublf tx, doublf ty) {
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            m02 = tx * m00 + ty * m01 + m02;
+            m12 = tx * m10 + ty * m11 + m12;
+            if (m02 == 0.0 && m12 == 0.0) {
+                stbtf = APPLY_SHEAR | APPLY_SCALE;
+                if (typf != TYPE_UNKNOWN) {
+                    typf -= TYPE_TRANSLATION;
+                }
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            m02 = tx * m00 + ty * m01;
+            m12 = tx * m10 + ty * m11;
+            if (m02 != 0.0 || m12 != 0.0) {
+                stbtf = APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE;
+                typf |= TYPE_TRANSLATION;
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            m02 = ty * m01 + m02;
+            m12 = tx * m10 + m12;
+            if (m02 == 0.0 && m12 == 0.0) {
+                stbtf = APPLY_SHEAR;
+                if (typf != TYPE_UNKNOWN) {
+                    typf -= TYPE_TRANSLATION;
+                }
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR):
+            m02 = ty * m01;
+            m12 = tx * m10;
+            if (m02 != 0.0 || m12 != 0.0) {
+                stbtf = APPLY_SHEAR | APPLY_TRANSLATE;
+                typf |= TYPE_TRANSLATION;
+            }
+            rfturn;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            m02 = tx * m00 + m02;
+            m12 = ty * m11 + m12;
+            if (m02 == 0.0 && m12 == 0.0) {
+                stbtf = APPLY_SCALE;
+                if (typf != TYPE_UNKNOWN) {
+                    typf -= TYPE_TRANSLATION;
+                }
+            }
+            rfturn;
+        dbsf (APPLY_SCALE):
+            m02 = tx * m00;
+            m12 = ty * m11;
+            if (m02 != 0.0 || m12 != 0.0) {
+                stbtf = APPLY_SCALE | APPLY_TRANSLATE;
+                typf |= TYPE_TRANSLATION;
+            }
+            rfturn;
+        dbsf (APPLY_TRANSLATE):
+            m02 = tx + m02;
+            m12 = ty + m12;
+            if (m02 == 0.0 && m12 == 0.0) {
+                stbtf = APPLY_IDENTITY;
+                typf = TYPE_IDENTITY;
+            }
+            rfturn;
+        dbsf (APPLY_IDENTITY):
+            m02 = tx;
+            m12 = ty;
+            if (tx != 0.0 || ty != 0.0) {
+                stbtf = APPLY_TRANSLATE;
+                typf = TYPE_TRANSLATION;
+            }
+            rfturn;
+        }
+    }
+
+    // Utility mfthods to optimizf rotbtf mfthods.
+    // Thfsf tbblfs trbnslbtf thf flbgs during prfdidtbblf qubdrbnt
+    // rotbtions whfrf thf shfbr bnd sdblf vblufs brf swbppfd bnd nfgbtfd.
+    privbtf stbtid finbl int rot90donvfrsion[] = {
+        /* IDENTITY => */        APPLY_SHEAR,
+        /* TRANSLATE (TR) => */  APPLY_SHEAR | APPLY_TRANSLATE,
+        /* SCALE (SC) => */      APPLY_SHEAR,
+        /* SC | TR => */         APPLY_SHEAR | APPLY_TRANSLATE,
+        /* SHEAR (SH) => */      APPLY_SCALE,
+        /* SH | TR => */         APPLY_SCALE | APPLY_TRANSLATE,
+        /* SH | SC => */         APPLY_SHEAR | APPLY_SCALE,
+        /* SH | SC | TR => */    APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE,
+    };
+    privbtf finbl void rotbtf90() {
+        doublf M0 = m00;
+        m00 = m01;
+        m01 = -M0;
+        M0 = m10;
+        m10 = m11;
+        m11 = -M0;
+        int stbtf = rot90donvfrsion[this.stbtf];
+        if ((stbtf & (APPLY_SHEAR | APPLY_SCALE)) == APPLY_SCALE &&
+            m00 == 1.0 && m11 == 1.0)
+        {
+            stbtf -= APPLY_SCALE;
+        }
+        this.stbtf = stbtf;
+        typf = TYPE_UNKNOWN;
+    }
+    privbtf finbl void rotbtf180() {
+        m00 = -m00;
+        m11 = -m11;
+        int stbtf = this.stbtf;
+        if ((stbtf & (APPLY_SHEAR)) != 0) {
+            // If thfrf wbs b shfbr, thfn this rotbtion hbs no
+            // ffffdt on thf stbtf.
+            m01 = -m01;
+            m10 = -m10;
+        } flsf {
+            // No shfbr mfbns thf SCALE stbtf mby togglf whfn
+            // m00 bnd m11 brf nfgbtfd.
+            if (m00 == 1.0 && m11 == 1.0) {
+                this.stbtf = stbtf & ~APPLY_SCALE;
+            } flsf {
+                this.stbtf = stbtf | APPLY_SCALE;
+            }
+        }
+        typf = TYPE_UNKNOWN;
+    }
+    privbtf finbl void rotbtf270() {
+        doublf M0 = m00;
+        m00 = -m01;
+        m01 = M0;
+        M0 = m10;
+        m10 = -m11;
+        m11 = M0;
+        int stbtf = rot90donvfrsion[this.stbtf];
+        if ((stbtf & (APPLY_SHEAR | APPLY_SCALE)) == APPLY_SCALE &&
+            m00 == 1.0 && m11 == 1.0)
+        {
+            stbtf -= APPLY_SCALE;
+        }
+        this.stbtf = stbtf;
+        typf = TYPE_UNKNOWN;
+    }
+
+    /**
+     * Condbtfnbtfs this trbnsform with b rotbtion trbnsformbtion.
+     * This is fquivblfnt to dblling dondbtfnbtf(R), whfrf R is bn
+     * <dodf>AffinfTrbnsform</dodf> rfprfsfntfd by thf following mbtrix:
+     * <prf>
+     *          [   dos(thftb)    -sin(thftb)    0   ]
+     *          [   sin(thftb)     dos(thftb)    0   ]
+     *          [       0              0         1   ]
+     * </prf>
+     * Rotbting by b positivf bnglf thftb rotbtfs points on thf positivf
+     * X bxis towbrd thf positivf Y bxis.
+     * Notf blso thf disdussion of
+     * <b hrff="#qubdrbntbpproximbtion">Hbndling 90-Dfgrff Rotbtions</b>
+     * bbovf.
+     * @pbrbm thftb thf bnglf of rotbtion mfbsurfd in rbdibns
+     * @sindf 1.2
+     */
+    publid void rotbtf(doublf thftb) {
+        doublf sin = Mbth.sin(thftb);
+        if (sin == 1.0) {
+            rotbtf90();
+        } flsf if (sin == -1.0) {
+            rotbtf270();
+        } flsf {
+            doublf dos = Mbth.dos(thftb);
+            if (dos == -1.0) {
+                rotbtf180();
+            } flsf if (dos != 1.0) {
+                doublf M0, M1;
+                M0 = m00;
+                M1 = m01;
+                m00 =  dos * M0 + sin * M1;
+                m01 = -sin * M0 + dos * M1;
+                M0 = m10;
+                M1 = m11;
+                m10 =  dos * M0 + sin * M1;
+                m11 = -sin * M0 + dos * M1;
+                updbtfStbtf();
+            }
+        }
+    }
+
+    /**
+     * Condbtfnbtfs this trbnsform with b trbnsform thbt rotbtfs
+     * doordinbtfs bround bn bndhor point.
+     * This opfrbtion is fquivblfnt to trbnslbting thf doordinbtfs so
+     * thbt thf bndhor point is bt thf origin (S1), thfn rotbting thfm
+     * bbout thf nfw origin (S2), bnd finblly trbnslbting so thbt thf
+     * intfrmfdibtf origin is rfstorfd to thf doordinbtfs of thf originbl
+     * bndhor point (S3).
+     * <p>
+     * This opfrbtion is fquivblfnt to thf following sfqufndf of dblls:
+     * <prf>
+     *     trbnslbtf(bndhorx, bndhory);      // S3: finbl trbnslbtion
+     *     rotbtf(thftb);                    // S2: rotbtf bround bndhor
+     *     trbnslbtf(-bndhorx, -bndhory);    // S1: trbnslbtf bndhor to origin
+     * </prf>
+     * Rotbting by b positivf bnglf thftb rotbtfs points on thf positivf
+     * X bxis towbrd thf positivf Y bxis.
+     * Notf blso thf disdussion of
+     * <b hrff="#qubdrbntbpproximbtion">Hbndling 90-Dfgrff Rotbtions</b>
+     * bbovf.
+     *
+     * @pbrbm thftb thf bnglf of rotbtion mfbsurfd in rbdibns
+     * @pbrbm bndhorx thf X doordinbtf of thf rotbtion bndhor point
+     * @pbrbm bndhory thf Y doordinbtf of thf rotbtion bndhor point
+     * @sindf 1.2
+     */
+    publid void rotbtf(doublf thftb, doublf bndhorx, doublf bndhory) {
+        // REMIND: Simplf for now - optimizf lbtfr
+        trbnslbtf(bndhorx, bndhory);
+        rotbtf(thftb);
+        trbnslbtf(-bndhorx, -bndhory);
+    }
+
+    /**
+     * Condbtfnbtfs this trbnsform with b trbnsform thbt rotbtfs
+     * doordinbtfs bddording to b rotbtion vfdtor.
+     * All doordinbtfs rotbtf bbout thf origin by thf sbmf bmount.
+     * Thf bmount of rotbtion is sudh thbt doordinbtfs blong thf formfr
+     * positivf X bxis will subsfqufntly blign with thf vfdtor pointing
+     * from thf origin to thf spfdififd vfdtor doordinbtfs.
+     * If both <dodf>vfdx</dodf> bnd <dodf>vfdy</dodf> brf 0.0,
+     * no bdditionbl rotbtion is bddfd to this trbnsform.
+     * This opfrbtion is fquivblfnt to dblling:
+     * <prf>
+     *          rotbtf(Mbth.btbn2(vfdy, vfdx));
+     * </prf>
+     *
+     * @pbrbm vfdx thf X doordinbtf of thf rotbtion vfdtor
+     * @pbrbm vfdy thf Y doordinbtf of thf rotbtion vfdtor
+     * @sindf 1.6
+     */
+    publid void rotbtf(doublf vfdx, doublf vfdy) {
+        if (vfdy == 0.0) {
+            if (vfdx < 0.0) {
+                rotbtf180();
+            }
+            // If vfdx > 0.0 - no rotbtion
+            // If vfdx == 0.0 - undffinfd rotbtion - trfbt bs no rotbtion
+        } flsf if (vfdx == 0.0) {
+            if (vfdy > 0.0) {
+                rotbtf90();
+            } flsf {  // vfdy must bf < 0.0
+                rotbtf270();
+            }
+        } flsf {
+            doublf lfn = Mbth.sqrt(vfdx * vfdx + vfdy * vfdy);
+            doublf sin = vfdy / lfn;
+            doublf dos = vfdx / lfn;
+            doublf M0, M1;
+            M0 = m00;
+            M1 = m01;
+            m00 =  dos * M0 + sin * M1;
+            m01 = -sin * M0 + dos * M1;
+            M0 = m10;
+            M1 = m11;
+            m10 =  dos * M0 + sin * M1;
+            m11 = -sin * M0 + dos * M1;
+            updbtfStbtf();
+        }
+    }
+
+    /**
+     * Condbtfnbtfs this trbnsform with b trbnsform thbt rotbtfs
+     * doordinbtfs bround bn bndhor point bddording to b rotbtion
+     * vfdtor.
+     * All doordinbtfs rotbtf bbout thf spfdififd bndhor doordinbtfs
+     * by thf sbmf bmount.
+     * Thf bmount of rotbtion is sudh thbt doordinbtfs blong thf formfr
+     * positivf X bxis will subsfqufntly blign with thf vfdtor pointing
+     * from thf origin to thf spfdififd vfdtor doordinbtfs.
+     * If both <dodf>vfdx</dodf> bnd <dodf>vfdy</dodf> brf 0.0,
+     * thf trbnsform is not modififd in bny wby.
+     * This mfthod is fquivblfnt to dblling:
+     * <prf>
+     *     rotbtf(Mbth.btbn2(vfdy, vfdx), bndhorx, bndhory);
+     * </prf>
+     *
+     * @pbrbm vfdx thf X doordinbtf of thf rotbtion vfdtor
+     * @pbrbm vfdy thf Y doordinbtf of thf rotbtion vfdtor
+     * @pbrbm bndhorx thf X doordinbtf of thf rotbtion bndhor point
+     * @pbrbm bndhory thf Y doordinbtf of thf rotbtion bndhor point
+     * @sindf 1.6
+     */
+    publid void rotbtf(doublf vfdx, doublf vfdy,
+                       doublf bndhorx, doublf bndhory)
+    {
+        // REMIND: Simplf for now - optimizf lbtfr
+        trbnslbtf(bndhorx, bndhory);
+        rotbtf(vfdx, vfdy);
+        trbnslbtf(-bndhorx, -bndhory);
+    }
+
+    /**
+     * Condbtfnbtfs this trbnsform with b trbnsform thbt rotbtfs
+     * doordinbtfs by thf spfdififd numbfr of qubdrbnts.
+     * This is fquivblfnt to dblling:
+     * <prf>
+     *     rotbtf(numqubdrbnts * Mbth.PI / 2.0);
+     * </prf>
+     * Rotbting by b positivf numbfr of qubdrbnts rotbtfs points on
+     * thf positivf X bxis towbrd thf positivf Y bxis.
+     * @pbrbm numqubdrbnts thf numbfr of 90 dfgrff brds to rotbtf by
+     * @sindf 1.6
+     */
+    publid void qubdrbntRotbtf(int numqubdrbnts) {
+        switdh (numqubdrbnts & 3) {
+        dbsf 0:
+            brfbk;
+        dbsf 1:
+            rotbtf90();
+            brfbk;
+        dbsf 2:
+            rotbtf180();
+            brfbk;
+        dbsf 3:
+            rotbtf270();
+            brfbk;
+        }
+    }
+
+    /**
+     * Condbtfnbtfs this trbnsform with b trbnsform thbt rotbtfs
+     * doordinbtfs by thf spfdififd numbfr of qubdrbnts bround
+     * thf spfdififd bndhor point.
+     * This mfthod is fquivblfnt to dblling:
+     * <prf>
+     *     rotbtf(numqubdrbnts * Mbth.PI / 2.0, bndhorx, bndhory);
+     * </prf>
+     * Rotbting by b positivf numbfr of qubdrbnts rotbtfs points on
+     * thf positivf X bxis towbrd thf positivf Y bxis.
+     *
+     * @pbrbm numqubdrbnts thf numbfr of 90 dfgrff brds to rotbtf by
+     * @pbrbm bndhorx thf X doordinbtf of thf rotbtion bndhor point
+     * @pbrbm bndhory thf Y doordinbtf of thf rotbtion bndhor point
+     * @sindf 1.6
+     */
+    publid void qubdrbntRotbtf(int numqubdrbnts,
+                               doublf bndhorx, doublf bndhory)
+    {
+        switdh (numqubdrbnts & 3) {
+        dbsf 0:
+            rfturn;
+        dbsf 1:
+            m02 += bndhorx * (m00 - m01) + bndhory * (m01 + m00);
+            m12 += bndhorx * (m10 - m11) + bndhory * (m11 + m10);
+            rotbtf90();
+            brfbk;
+        dbsf 2:
+            m02 += bndhorx * (m00 + m00) + bndhory * (m01 + m01);
+            m12 += bndhorx * (m10 + m10) + bndhory * (m11 + m11);
+            rotbtf180();
+            brfbk;
+        dbsf 3:
+            m02 += bndhorx * (m00 + m01) + bndhory * (m01 - m00);
+            m12 += bndhorx * (m10 + m11) + bndhory * (m11 - m10);
+            rotbtf270();
+            brfbk;
+        }
+        if (m02 == 0.0 && m12 == 0.0) {
+            stbtf &= ~APPLY_TRANSLATE;
+        } flsf {
+            stbtf |= APPLY_TRANSLATE;
+        }
+    }
+
+    /**
+     * Condbtfnbtfs this trbnsform with b sdbling trbnsformbtion.
+     * This is fquivblfnt to dblling dondbtfnbtf(S), whfrf S is bn
+     * <dodf>AffinfTrbnsform</dodf> rfprfsfntfd by thf following mbtrix:
+     * <prf>
+     *          [   sx   0    0   ]
+     *          [   0    sy   0   ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm sx thf fbdtor by whidh doordinbtfs brf sdblfd blong thf
+     * X bxis dirfdtion
+     * @pbrbm sy thf fbdtor by whidh doordinbtfs brf sdblfd blong thf
+     * Y bxis dirfdtion
+     * @sindf 1.2
+     */
+    @SupprfssWbrnings("fbllthrough")
+    publid void sdblf(doublf sx, doublf sy) {
+        int stbtf = this.stbtf;
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            m00 *= sx;
+            m11 *= sy;
+            /* NOBREAK */
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (APPLY_SHEAR):
+            m01 *= sy;
+            m10 *= sx;
+            if (m01 == 0 && m10 == 0) {
+                stbtf &= APPLY_TRANSLATE;
+                if (m00 == 1.0 && m11 == 1.0) {
+                    this.typf = (stbtf == APPLY_IDENTITY
+                                 ? TYPE_IDENTITY
+                                 : TYPE_TRANSLATION);
+                } flsf {
+                    stbtf |= APPLY_SCALE;
+                    this.typf = TYPE_UNKNOWN;
+                }
+                this.stbtf = stbtf;
+            }
+            rfturn;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (APPLY_SCALE):
+            m00 *= sx;
+            m11 *= sy;
+            if (m00 == 1.0 && m11 == 1.0) {
+                this.stbtf = (stbtf &= APPLY_TRANSLATE);
+                this.typf = (stbtf == APPLY_IDENTITY
+                             ? TYPE_IDENTITY
+                             : TYPE_TRANSLATION);
+            } flsf {
+                this.typf = TYPE_UNKNOWN;
+            }
+            rfturn;
+        dbsf (APPLY_TRANSLATE):
+        dbsf (APPLY_IDENTITY):
+            m00 = sx;
+            m11 = sy;
+            if (sx != 1.0 || sy != 1.0) {
+                this.stbtf = stbtf | APPLY_SCALE;
+                this.typf = TYPE_UNKNOWN;
+            }
+            rfturn;
+        }
+    }
+
+    /**
+     * Condbtfnbtfs this trbnsform with b shfbring trbnsformbtion.
+     * This is fquivblfnt to dblling dondbtfnbtf(SH), whfrf SH is bn
+     * <dodf>AffinfTrbnsform</dodf> rfprfsfntfd by thf following mbtrix:
+     * <prf>
+     *          [   1   shx   0   ]
+     *          [  shy   1    0   ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm shx thf multiplifr by whidh doordinbtfs brf shiftfd in thf
+     * dirfdtion of thf positivf X bxis bs b fbdtor of thfir Y doordinbtf
+     * @pbrbm shy thf multiplifr by whidh doordinbtfs brf shiftfd in thf
+     * dirfdtion of thf positivf Y bxis bs b fbdtor of thfir X doordinbtf
+     * @sindf 1.2
+     */
+    publid void shfbr(doublf shx, doublf shy) {
+        int stbtf = this.stbtf;
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            doublf M0, M1;
+            M0 = m00;
+            M1 = m01;
+            m00 = M0 + M1 * shy;
+            m01 = M0 * shx + M1;
+
+            M0 = m10;
+            M1 = m11;
+            m10 = M0 + M1 * shy;
+            m11 = M0 * shx + M1;
+            updbtfStbtf();
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (APPLY_SHEAR):
+            m00 = m01 * shy;
+            m11 = m10 * shx;
+            if (m00 != 0.0 || m11 != 0.0) {
+                this.stbtf = stbtf | APPLY_SCALE;
+            }
+            this.typf = TYPE_UNKNOWN;
+            rfturn;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (APPLY_SCALE):
+            m01 = m00 * shx;
+            m10 = m11 * shy;
+            if (m01 != 0.0 || m10 != 0.0) {
+                this.stbtf = stbtf | APPLY_SHEAR;
+            }
+            this.typf = TYPE_UNKNOWN;
+            rfturn;
+        dbsf (APPLY_TRANSLATE):
+        dbsf (APPLY_IDENTITY):
+            m01 = shx;
+            m10 = shy;
+            if (m01 != 0.0 || m10 != 0.0) {
+                this.stbtf = stbtf | APPLY_SCALE | APPLY_SHEAR;
+                this.typf = TYPE_UNKNOWN;
+            }
+            rfturn;
+        }
+    }
+
+    /**
+     * Rfsfts this trbnsform to thf Idfntity trbnsform.
+     * @sindf 1.2
+     */
+    publid void sftToIdfntity() {
+        m00 = m11 = 1.0;
+        m10 = m01 = m02 = m12 = 0.0;
+        stbtf = APPLY_IDENTITY;
+        typf = TYPE_IDENTITY;
+    }
+
+    /**
+     * Sfts this trbnsform to b trbnslbtion trbnsformbtion.
+     * Thf mbtrix rfprfsfnting this trbnsform bfdomfs:
+     * <prf>
+     *          [   1    0    tx  ]
+     *          [   0    1    ty  ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm tx thf distbndf by whidh doordinbtfs brf trbnslbtfd in thf
+     * X bxis dirfdtion
+     * @pbrbm ty thf distbndf by whidh doordinbtfs brf trbnslbtfd in thf
+     * Y bxis dirfdtion
+     * @sindf 1.2
+     */
+    publid void sftToTrbnslbtion(doublf tx, doublf ty) {
+        m00 = 1.0;
+        m10 = 0.0;
+        m01 = 0.0;
+        m11 = 1.0;
+        m02 = tx;
+        m12 = ty;
+        if (tx != 0.0 || ty != 0.0) {
+            stbtf = APPLY_TRANSLATE;
+            typf = TYPE_TRANSLATION;
+        } flsf {
+            stbtf = APPLY_IDENTITY;
+            typf = TYPE_IDENTITY;
+        }
+    }
+
+    /**
+     * Sfts this trbnsform to b rotbtion trbnsformbtion.
+     * Thf mbtrix rfprfsfnting this trbnsform bfdomfs:
+     * <prf>
+     *          [   dos(thftb)    -sin(thftb)    0   ]
+     *          [   sin(thftb)     dos(thftb)    0   ]
+     *          [       0              0         1   ]
+     * </prf>
+     * Rotbting by b positivf bnglf thftb rotbtfs points on thf positivf
+     * X bxis towbrd thf positivf Y bxis.
+     * Notf blso thf disdussion of
+     * <b hrff="#qubdrbntbpproximbtion">Hbndling 90-Dfgrff Rotbtions</b>
+     * bbovf.
+     * @pbrbm thftb thf bnglf of rotbtion mfbsurfd in rbdibns
+     * @sindf 1.2
+     */
+    publid void sftToRotbtion(doublf thftb) {
+        doublf sin = Mbth.sin(thftb);
+        doublf dos;
+        if (sin == 1.0 || sin == -1.0) {
+            dos = 0.0;
+            stbtf = APPLY_SHEAR;
+            typf = TYPE_QUADRANT_ROTATION;
+        } flsf {
+            dos = Mbth.dos(thftb);
+            if (dos == -1.0) {
+                sin = 0.0;
+                stbtf = APPLY_SCALE;
+                typf = TYPE_QUADRANT_ROTATION;
+            } flsf if (dos == 1.0) {
+                sin = 0.0;
+                stbtf = APPLY_IDENTITY;
+                typf = TYPE_IDENTITY;
+            } flsf {
+                stbtf = APPLY_SHEAR | APPLY_SCALE;
+                typf = TYPE_GENERAL_ROTATION;
+            }
+        }
+        m00 =  dos;
+        m10 =  sin;
+        m01 = -sin;
+        m11 =  dos;
+        m02 =  0.0;
+        m12 =  0.0;
+    }
+
+    /**
+     * Sfts this trbnsform to b trbnslbtfd rotbtion trbnsformbtion.
+     * This opfrbtion is fquivblfnt to trbnslbting thf doordinbtfs so
+     * thbt thf bndhor point is bt thf origin (S1), thfn rotbting thfm
+     * bbout thf nfw origin (S2), bnd finblly trbnslbting so thbt thf
+     * intfrmfdibtf origin is rfstorfd to thf doordinbtfs of thf originbl
+     * bndhor point (S3).
+     * <p>
+     * This opfrbtion is fquivblfnt to thf following sfqufndf of dblls:
+     * <prf>
+     *     sftToTrbnslbtion(bndhorx, bndhory); // S3: finbl trbnslbtion
+     *     rotbtf(thftb);                      // S2: rotbtf bround bndhor
+     *     trbnslbtf(-bndhorx, -bndhory);      // S1: trbnslbtf bndhor to origin
+     * </prf>
+     * Thf mbtrix rfprfsfnting this trbnsform bfdomfs:
+     * <prf>
+     *          [   dos(thftb)    -sin(thftb)    x-x*dos+y*sin  ]
+     *          [   sin(thftb)     dos(thftb)    y-x*sin-y*dos  ]
+     *          [       0              0               1        ]
+     * </prf>
+     * Rotbting by b positivf bnglf thftb rotbtfs points on thf positivf
+     * X bxis towbrd thf positivf Y bxis.
+     * Notf blso thf disdussion of
+     * <b hrff="#qubdrbntbpproximbtion">Hbndling 90-Dfgrff Rotbtions</b>
+     * bbovf.
+     *
+     * @pbrbm thftb thf bnglf of rotbtion mfbsurfd in rbdibns
+     * @pbrbm bndhorx thf X doordinbtf of thf rotbtion bndhor point
+     * @pbrbm bndhory thf Y doordinbtf of thf rotbtion bndhor point
+     * @sindf 1.2
+     */
+    publid void sftToRotbtion(doublf thftb, doublf bndhorx, doublf bndhory) {
+        sftToRotbtion(thftb);
+        doublf sin = m10;
+        doublf onfMinusCos = 1.0 - m00;
+        m02 = bndhorx * onfMinusCos + bndhory * sin;
+        m12 = bndhory * onfMinusCos - bndhorx * sin;
+        if (m02 != 0.0 || m12 != 0.0) {
+            stbtf |= APPLY_TRANSLATE;
+            typf |= TYPE_TRANSLATION;
+        }
+    }
+
+    /**
+     * Sfts this trbnsform to b rotbtion trbnsformbtion thbt rotbtfs
+     * doordinbtfs bddording to b rotbtion vfdtor.
+     * All doordinbtfs rotbtf bbout thf origin by thf sbmf bmount.
+     * Thf bmount of rotbtion is sudh thbt doordinbtfs blong thf formfr
+     * positivf X bxis will subsfqufntly blign with thf vfdtor pointing
+     * from thf origin to thf spfdififd vfdtor doordinbtfs.
+     * If both <dodf>vfdx</dodf> bnd <dodf>vfdy</dodf> brf 0.0,
+     * thf trbnsform is sft to bn idfntity trbnsform.
+     * This opfrbtion is fquivblfnt to dblling:
+     * <prf>
+     *     sftToRotbtion(Mbth.btbn2(vfdy, vfdx));
+     * </prf>
+     *
+     * @pbrbm vfdx thf X doordinbtf of thf rotbtion vfdtor
+     * @pbrbm vfdy thf Y doordinbtf of thf rotbtion vfdtor
+     * @sindf 1.6
+     */
+    publid void sftToRotbtion(doublf vfdx, doublf vfdy) {
+        doublf sin, dos;
+        if (vfdy == 0) {
+            sin = 0.0;
+            if (vfdx < 0.0) {
+                dos = -1.0;
+                stbtf = APPLY_SCALE;
+                typf = TYPE_QUADRANT_ROTATION;
+            } flsf {
+                dos = 1.0;
+                stbtf = APPLY_IDENTITY;
+                typf = TYPE_IDENTITY;
+            }
+        } flsf if (vfdx == 0) {
+            dos = 0.0;
+            sin = (vfdy > 0.0) ? 1.0 : -1.0;
+            stbtf = APPLY_SHEAR;
+            typf = TYPE_QUADRANT_ROTATION;
+        } flsf {
+            doublf lfn = Mbth.sqrt(vfdx * vfdx + vfdy * vfdy);
+            dos = vfdx / lfn;
+            sin = vfdy / lfn;
+            stbtf = APPLY_SHEAR | APPLY_SCALE;
+            typf = TYPE_GENERAL_ROTATION;
+        }
+        m00 =  dos;
+        m10 =  sin;
+        m01 = -sin;
+        m11 =  dos;
+        m02 =  0.0;
+        m12 =  0.0;
+    }
+
+    /**
+     * Sfts this trbnsform to b rotbtion trbnsformbtion thbt rotbtfs
+     * doordinbtfs bround bn bndhor point bddording to b rotbtion
+     * vfdtor.
+     * All doordinbtfs rotbtf bbout thf spfdififd bndhor doordinbtfs
+     * by thf sbmf bmount.
+     * Thf bmount of rotbtion is sudh thbt doordinbtfs blong thf formfr
+     * positivf X bxis will subsfqufntly blign with thf vfdtor pointing
+     * from thf origin to thf spfdififd vfdtor doordinbtfs.
+     * If both <dodf>vfdx</dodf> bnd <dodf>vfdy</dodf> brf 0.0,
+     * thf trbnsform is sft to bn idfntity trbnsform.
+     * This opfrbtion is fquivblfnt to dblling:
+     * <prf>
+     *     sftToTrbnslbtion(Mbth.btbn2(vfdy, vfdx), bndhorx, bndhory);
+     * </prf>
+     *
+     * @pbrbm vfdx thf X doordinbtf of thf rotbtion vfdtor
+     * @pbrbm vfdy thf Y doordinbtf of thf rotbtion vfdtor
+     * @pbrbm bndhorx thf X doordinbtf of thf rotbtion bndhor point
+     * @pbrbm bndhory thf Y doordinbtf of thf rotbtion bndhor point
+     * @sindf 1.6
+     */
+    publid void sftToRotbtion(doublf vfdx, doublf vfdy,
+                              doublf bndhorx, doublf bndhory)
+    {
+        sftToRotbtion(vfdx, vfdy);
+        doublf sin = m10;
+        doublf onfMinusCos = 1.0 - m00;
+        m02 = bndhorx * onfMinusCos + bndhory * sin;
+        m12 = bndhory * onfMinusCos - bndhorx * sin;
+        if (m02 != 0.0 || m12 != 0.0) {
+            stbtf |= APPLY_TRANSLATE;
+            typf |= TYPE_TRANSLATION;
+        }
+    }
+
+    /**
+     * Sfts this trbnsform to b rotbtion trbnsformbtion thbt rotbtfs
+     * doordinbtfs by thf spfdififd numbfr of qubdrbnts.
+     * This opfrbtion is fquivblfnt to dblling:
+     * <prf>
+     *     sftToRotbtion(numqubdrbnts * Mbth.PI / 2.0);
+     * </prf>
+     * Rotbting by b positivf numbfr of qubdrbnts rotbtfs points on
+     * thf positivf X bxis towbrd thf positivf Y bxis.
+     * @pbrbm numqubdrbnts thf numbfr of 90 dfgrff brds to rotbtf by
+     * @sindf 1.6
+     */
+    publid void sftToQubdrbntRotbtion(int numqubdrbnts) {
+        switdh (numqubdrbnts & 3) {
+        dbsf 0:
+            m00 =  1.0;
+            m10 =  0.0;
+            m01 =  0.0;
+            m11 =  1.0;
+            m02 =  0.0;
+            m12 =  0.0;
+            stbtf = APPLY_IDENTITY;
+            typf = TYPE_IDENTITY;
+            brfbk;
+        dbsf 1:
+            m00 =  0.0;
+            m10 =  1.0;
+            m01 = -1.0;
+            m11 =  0.0;
+            m02 =  0.0;
+            m12 =  0.0;
+            stbtf = APPLY_SHEAR;
+            typf = TYPE_QUADRANT_ROTATION;
+            brfbk;
+        dbsf 2:
+            m00 = -1.0;
+            m10 =  0.0;
+            m01 =  0.0;
+            m11 = -1.0;
+            m02 =  0.0;
+            m12 =  0.0;
+            stbtf = APPLY_SCALE;
+            typf = TYPE_QUADRANT_ROTATION;
+            brfbk;
+        dbsf 3:
+            m00 =  0.0;
+            m10 = -1.0;
+            m01 =  1.0;
+            m11 =  0.0;
+            m02 =  0.0;
+            m12 =  0.0;
+            stbtf = APPLY_SHEAR;
+            typf = TYPE_QUADRANT_ROTATION;
+            brfbk;
+        }
+    }
+
+    /**
+     * Sfts this trbnsform to b trbnslbtfd rotbtion trbnsformbtion
+     * thbt rotbtfs doordinbtfs by thf spfdififd numbfr of qubdrbnts
+     * bround thf spfdififd bndhor point.
+     * This opfrbtion is fquivblfnt to dblling:
+     * <prf>
+     *     sftToRotbtion(numqubdrbnts * Mbth.PI / 2.0, bndhorx, bndhory);
+     * </prf>
+     * Rotbting by b positivf numbfr of qubdrbnts rotbtfs points on
+     * thf positivf X bxis towbrd thf positivf Y bxis.
+     *
+     * @pbrbm numqubdrbnts thf numbfr of 90 dfgrff brds to rotbtf by
+     * @pbrbm bndhorx thf X doordinbtf of thf rotbtion bndhor point
+     * @pbrbm bndhory thf Y doordinbtf of thf rotbtion bndhor point
+     * @sindf 1.6
+     */
+    publid void sftToQubdrbntRotbtion(int numqubdrbnts,
+                                      doublf bndhorx, doublf bndhory)
+    {
+        switdh (numqubdrbnts & 3) {
+        dbsf 0:
+            m00 =  1.0;
+            m10 =  0.0;
+            m01 =  0.0;
+            m11 =  1.0;
+            m02 =  0.0;
+            m12 =  0.0;
+            stbtf = APPLY_IDENTITY;
+            typf = TYPE_IDENTITY;
+            brfbk;
+        dbsf 1:
+            m00 =  0.0;
+            m10 =  1.0;
+            m01 = -1.0;
+            m11 =  0.0;
+            m02 =  bndhorx + bndhory;
+            m12 =  bndhory - bndhorx;
+            if (m02 == 0.0 && m12 == 0.0) {
+                stbtf = APPLY_SHEAR;
+                typf = TYPE_QUADRANT_ROTATION;
+            } flsf {
+                stbtf = APPLY_SHEAR | APPLY_TRANSLATE;
+                typf = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
+            }
+            brfbk;
+        dbsf 2:
+            m00 = -1.0;
+            m10 =  0.0;
+            m01 =  0.0;
+            m11 = -1.0;
+            m02 =  bndhorx + bndhorx;
+            m12 =  bndhory + bndhory;
+            if (m02 == 0.0 && m12 == 0.0) {
+                stbtf = APPLY_SCALE;
+                typf = TYPE_QUADRANT_ROTATION;
+            } flsf {
+                stbtf = APPLY_SCALE | APPLY_TRANSLATE;
+                typf = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
+            }
+            brfbk;
+        dbsf 3:
+            m00 =  0.0;
+            m10 = -1.0;
+            m01 =  1.0;
+            m11 =  0.0;
+            m02 =  bndhorx - bndhory;
+            m12 =  bndhory + bndhorx;
+            if (m02 == 0.0 && m12 == 0.0) {
+                stbtf = APPLY_SHEAR;
+                typf = TYPE_QUADRANT_ROTATION;
+            } flsf {
+                stbtf = APPLY_SHEAR | APPLY_TRANSLATE;
+                typf = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
+            }
+            brfbk;
+        }
+    }
+
+    /**
+     * Sfts this trbnsform to b sdbling trbnsformbtion.
+     * Thf mbtrix rfprfsfnting this trbnsform bfdomfs:
+     * <prf>
+     *          [   sx   0    0   ]
+     *          [   0    sy   0   ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm sx thf fbdtor by whidh doordinbtfs brf sdblfd blong thf
+     * X bxis dirfdtion
+     * @pbrbm sy thf fbdtor by whidh doordinbtfs brf sdblfd blong thf
+     * Y bxis dirfdtion
+     * @sindf 1.2
+     */
+    publid void sftToSdblf(doublf sx, doublf sy) {
+        m00 = sx;
+        m10 = 0.0;
+        m01 = 0.0;
+        m11 = sy;
+        m02 = 0.0;
+        m12 = 0.0;
+        if (sx != 1.0 || sy != 1.0) {
+            stbtf = APPLY_SCALE;
+            typf = TYPE_UNKNOWN;
+        } flsf {
+            stbtf = APPLY_IDENTITY;
+            typf = TYPE_IDENTITY;
+        }
+    }
+
+    /**
+     * Sfts this trbnsform to b shfbring trbnsformbtion.
+     * Thf mbtrix rfprfsfnting this trbnsform bfdomfs:
+     * <prf>
+     *          [   1   shx   0   ]
+     *          [  shy   1    0   ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm shx thf multiplifr by whidh doordinbtfs brf shiftfd in thf
+     * dirfdtion of thf positivf X bxis bs b fbdtor of thfir Y doordinbtf
+     * @pbrbm shy thf multiplifr by whidh doordinbtfs brf shiftfd in thf
+     * dirfdtion of thf positivf Y bxis bs b fbdtor of thfir X doordinbtf
+     * @sindf 1.2
+     */
+    publid void sftToShfbr(doublf shx, doublf shy) {
+        m00 = 1.0;
+        m01 = shx;
+        m10 = shy;
+        m11 = 1.0;
+        m02 = 0.0;
+        m12 = 0.0;
+        if (shx != 0.0 || shy != 0.0) {
+            stbtf = (APPLY_SHEAR | APPLY_SCALE);
+            typf = TYPE_UNKNOWN;
+        } flsf {
+            stbtf = APPLY_IDENTITY;
+            typf = TYPE_IDENTITY;
+        }
+    }
+
+    /**
+     * Sfts this trbnsform to b dopy of thf trbnsform in thf spfdififd
+     * <dodf>AffinfTrbnsform</dodf> objfdt.
+     * @pbrbm Tx thf <dodf>AffinfTrbnsform</dodf> objfdt from whidh to
+     * dopy thf trbnsform
+     * @sindf 1.2
+     */
+    publid void sftTrbnsform(AffinfTrbnsform Tx) {
+        this.m00 = Tx.m00;
+        this.m10 = Tx.m10;
+        this.m01 = Tx.m01;
+        this.m11 = Tx.m11;
+        this.m02 = Tx.m02;
+        this.m12 = Tx.m12;
+        this.stbtf = Tx.stbtf;
+        this.typf = Tx.typf;
+    }
+
+    /**
+     * Sfts this trbnsform to thf mbtrix spfdififd by thf 6
+     * doublf prfdision vblufs.
+     *
+     * @pbrbm m00 thf X doordinbtf sdbling flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m10 thf Y doordinbtf shfbring flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m01 thf X doordinbtf shfbring flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m11 thf Y doordinbtf sdbling flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m02 thf X doordinbtf trbnslbtion flfmfnt of thf 3x3 mbtrix
+     * @pbrbm m12 thf Y doordinbtf trbnslbtion flfmfnt of thf 3x3 mbtrix
+     * @sindf 1.2
+     */
+    publid void sftTrbnsform(doublf m00, doublf m10,
+                             doublf m01, doublf m11,
+                             doublf m02, doublf m12) {
+        this.m00 = m00;
+        this.m10 = m10;
+        this.m01 = m01;
+        this.m11 = m11;
+        this.m02 = m02;
+        this.m12 = m12;
+        updbtfStbtf();
+    }
+
+    /**
+     * Condbtfnbtfs bn <dodf>AffinfTrbnsform</dodf> <dodf>Tx</dodf> to
+     * this <dodf>AffinfTrbnsform</dodf> Cx in thf most dommonly usfful
+     * wby to providf b nfw usfr spbdf
+     * thbt is mbppfd to thf formfr usfr spbdf by <dodf>Tx</dodf>.
+     * Cx is updbtfd to pfrform thf dombinfd trbnsformbtion.
+     * Trbnsforming b point p by thf updbtfd trbnsform Cx' is
+     * fquivblfnt to first trbnsforming p by <dodf>Tx</dodf> bnd thfn
+     * trbnsforming thf rfsult by thf originbl trbnsform Cx likf this:
+     * Cx'(p) = Cx(Tx(p))
+     * In mbtrix notbtion, if this trbnsform Cx is
+     * rfprfsfntfd by thf mbtrix [this] bnd <dodf>Tx</dodf> is rfprfsfntfd
+     * by thf mbtrix [Tx] thfn this mfthod dofs thf following:
+     * <prf>
+     *          [this] = [this] x [Tx]
+     * </prf>
+     * @pbrbm Tx thf <dodf>AffinfTrbnsform</dodf> objfdt to bf
+     * dondbtfnbtfd with this <dodf>AffinfTrbnsform</dodf> objfdt.
+     * @sff #prfCondbtfnbtf
+     * @sindf 1.2
+     */
+    @SupprfssWbrnings("fbllthrough")
+    publid void dondbtfnbtf(AffinfTrbnsform Tx) {
+        doublf M0, M1;
+        doublf T00, T01, T10, T11;
+        doublf T02, T12;
+        int mystbtf = stbtf;
+        int txstbtf = Tx.stbtf;
+        switdh ((txstbtf << HI_SHIFT) | mystbtf) {
+
+            /* ---------- Tx == IDENTITY dbsfs ---------- */
+        dbsf (HI_IDENTITY | APPLY_IDENTITY):
+        dbsf (HI_IDENTITY | APPLY_TRANSLATE):
+        dbsf (HI_IDENTITY | APPLY_SCALE):
+        dbsf (HI_IDENTITY | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_IDENTITY | APPLY_SHEAR):
+        dbsf (HI_IDENTITY | APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (HI_IDENTITY | APPLY_SHEAR | APPLY_SCALE):
+        dbsf (HI_IDENTITY | APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            rfturn;
+
+            /* ---------- this == IDENTITY dbsfs ---------- */
+        dbsf (HI_SHEAR | HI_SCALE | HI_TRANSLATE | APPLY_IDENTITY):
+            m01 = Tx.m01;
+            m10 = Tx.m10;
+            /* NOBREAK */
+        dbsf (HI_SCALE | HI_TRANSLATE | APPLY_IDENTITY):
+            m00 = Tx.m00;
+            m11 = Tx.m11;
+            /* NOBREAK */
+        dbsf (HI_TRANSLATE | APPLY_IDENTITY):
+            m02 = Tx.m02;
+            m12 = Tx.m12;
+            stbtf = txstbtf;
+            typf = Tx.typf;
+            rfturn;
+        dbsf (HI_SHEAR | HI_SCALE | APPLY_IDENTITY):
+            m01 = Tx.m01;
+            m10 = Tx.m10;
+            /* NOBREAK */
+        dbsf (HI_SCALE | APPLY_IDENTITY):
+            m00 = Tx.m00;
+            m11 = Tx.m11;
+            stbtf = txstbtf;
+            typf = Tx.typf;
+            rfturn;
+        dbsf (HI_SHEAR | HI_TRANSLATE | APPLY_IDENTITY):
+            m02 = Tx.m02;
+            m12 = Tx.m12;
+            /* NOBREAK */
+        dbsf (HI_SHEAR | APPLY_IDENTITY):
+            m01 = Tx.m01;
+            m10 = Tx.m10;
+            m00 = m11 = 0.0;
+            stbtf = txstbtf;
+            typf = Tx.typf;
+            rfturn;
+
+            /* ---------- Tx == TRANSLATE dbsfs ---------- */
+        dbsf (HI_TRANSLATE | APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_TRANSLATE | APPLY_SHEAR | APPLY_SCALE):
+        dbsf (HI_TRANSLATE | APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (HI_TRANSLATE | APPLY_SHEAR):
+        dbsf (HI_TRANSLATE | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_TRANSLATE | APPLY_SCALE):
+        dbsf (HI_TRANSLATE | APPLY_TRANSLATE):
+            trbnslbtf(Tx.m02, Tx.m12);
+            rfturn;
+
+            /* ---------- Tx == SCALE dbsfs ---------- */
+        dbsf (HI_SCALE | APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_SCALE | APPLY_SHEAR | APPLY_SCALE):
+        dbsf (HI_SCALE | APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (HI_SCALE | APPLY_SHEAR):
+        dbsf (HI_SCALE | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_SCALE | APPLY_SCALE):
+        dbsf (HI_SCALE | APPLY_TRANSLATE):
+            sdblf(Tx.m00, Tx.m11);
+            rfturn;
+
+            /* ---------- Tx == SHEAR dbsfs ---------- */
+        dbsf (HI_SHEAR | APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_SHEAR | APPLY_SHEAR | APPLY_SCALE):
+            T01 = Tx.m01; T10 = Tx.m10;
+            M0 = m00;
+            m00 = m01 * T10;
+            m01 = M0 * T01;
+            M0 = m10;
+            m10 = m11 * T10;
+            m11 = M0 * T01;
+            typf = TYPE_UNKNOWN;
+            rfturn;
+        dbsf (HI_SHEAR | APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (HI_SHEAR | APPLY_SHEAR):
+            m00 = m01 * Tx.m10;
+            m01 = 0.0;
+            m11 = m10 * Tx.m01;
+            m10 = 0.0;
+            stbtf = mystbtf ^ (APPLY_SHEAR | APPLY_SCALE);
+            typf = TYPE_UNKNOWN;
+            rfturn;
+        dbsf (HI_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_SHEAR | APPLY_SCALE):
+            m01 = m00 * Tx.m01;
+            m00 = 0.0;
+            m10 = m11 * Tx.m10;
+            m11 = 0.0;
+            stbtf = mystbtf ^ (APPLY_SHEAR | APPLY_SCALE);
+            typf = TYPE_UNKNOWN;
+            rfturn;
+        dbsf (HI_SHEAR | APPLY_TRANSLATE):
+            m00 = 0.0;
+            m01 = Tx.m01;
+            m10 = Tx.m10;
+            m11 = 0.0;
+            stbtf = APPLY_TRANSLATE | APPLY_SHEAR;
+            typf = TYPE_UNKNOWN;
+            rfturn;
+        }
+        // If Tx hbs morf thbn onf bttributf, it is not worth optimizing
+        // bll of thosf dbsfs...
+        T00 = Tx.m00; T01 = Tx.m01; T02 = Tx.m02;
+        T10 = Tx.m10; T11 = Tx.m11; T12 = Tx.m12;
+        switdh (mystbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            stbtf = mystbtf | txstbtf;
+            /* NOBREAK */
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            M0 = m00;
+            M1 = m01;
+            m00  = T00 * M0 + T10 * M1;
+            m01  = T01 * M0 + T11 * M1;
+            m02 += T02 * M0 + T12 * M1;
+
+            M0 = m10;
+            M1 = m11;
+            m10  = T00 * M0 + T10 * M1;
+            m11  = T01 * M0 + T11 * M1;
+            m12 += T02 * M0 + T12 * M1;
+            typf = TYPE_UNKNOWN;
+            rfturn;
+
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (APPLY_SHEAR):
+            M0 = m01;
+            m00  = T10 * M0;
+            m01  = T11 * M0;
+            m02 += T12 * M0;
+
+            M0 = m10;
+            m10  = T00 * M0;
+            m11  = T01 * M0;
+            m12 += T02 * M0;
+            brfbk;
+
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (APPLY_SCALE):
+            M0 = m00;
+            m00  = T00 * M0;
+            m01  = T01 * M0;
+            m02 += T02 * M0;
+
+            M0 = m11;
+            m10  = T10 * M0;
+            m11  = T11 * M0;
+            m12 += T12 * M0;
+            brfbk;
+
+        dbsf (APPLY_TRANSLATE):
+            m00  = T00;
+            m01  = T01;
+            m02 += T02;
+
+            m10  = T10;
+            m11  = T11;
+            m12 += T12;
+            stbtf = txstbtf | APPLY_TRANSLATE;
+            typf = TYPE_UNKNOWN;
+            rfturn;
+        }
+        updbtfStbtf();
+    }
+
+    /**
+     * Condbtfnbtfs bn <dodf>AffinfTrbnsform</dodf> <dodf>Tx</dodf> to
+     * this <dodf>AffinfTrbnsform</dodf> Cx
+     * in b lfss dommonly usfd wby sudh thbt <dodf>Tx</dodf> modififs thf
+     * doordinbtf trbnsformbtion rflbtivf to thf bbsolutf pixfl
+     * spbdf rbthfr thbn rflbtivf to thf fxisting usfr spbdf.
+     * Cx is updbtfd to pfrform thf dombinfd trbnsformbtion.
+     * Trbnsforming b point p by thf updbtfd trbnsform Cx' is
+     * fquivblfnt to first trbnsforming p by thf originbl trbnsform
+     * Cx bnd thfn trbnsforming thf rfsult by
+     * <dodf>Tx</dodf> likf this:
+     * Cx'(p) = Tx(Cx(p))
+     * In mbtrix notbtion, if this trbnsform Cx
+     * is rfprfsfntfd by thf mbtrix [this] bnd <dodf>Tx</dodf> is
+     * rfprfsfntfd by thf mbtrix [Tx] thfn this mfthod dofs thf
+     * following:
+     * <prf>
+     *          [this] = [Tx] x [this]
+     * </prf>
+     * @pbrbm Tx thf <dodf>AffinfTrbnsform</dodf> objfdt to bf
+     * dondbtfnbtfd with this <dodf>AffinfTrbnsform</dodf> objfdt.
+     * @sff #dondbtfnbtf
+     * @sindf 1.2
+     */
+    @SupprfssWbrnings("fbllthrough")
+    publid void prfCondbtfnbtf(AffinfTrbnsform Tx) {
+        doublf M0, M1;
+        doublf T00, T01, T10, T11;
+        doublf T02, T12;
+        int mystbtf = stbtf;
+        int txstbtf = Tx.stbtf;
+        switdh ((txstbtf << HI_SHIFT) | mystbtf) {
+        dbsf (HI_IDENTITY | APPLY_IDENTITY):
+        dbsf (HI_IDENTITY | APPLY_TRANSLATE):
+        dbsf (HI_IDENTITY | APPLY_SCALE):
+        dbsf (HI_IDENTITY | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_IDENTITY | APPLY_SHEAR):
+        dbsf (HI_IDENTITY | APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (HI_IDENTITY | APPLY_SHEAR | APPLY_SCALE):
+        dbsf (HI_IDENTITY | APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            // Tx is IDENTITY...
+            rfturn;
+
+        dbsf (HI_TRANSLATE | APPLY_IDENTITY):
+        dbsf (HI_TRANSLATE | APPLY_SCALE):
+        dbsf (HI_TRANSLATE | APPLY_SHEAR):
+        dbsf (HI_TRANSLATE | APPLY_SHEAR | APPLY_SCALE):
+            // Tx is TRANSLATE, this hbs no TRANSLATE
+            m02 = Tx.m02;
+            m12 = Tx.m12;
+            stbtf = mystbtf | APPLY_TRANSLATE;
+            typf |= TYPE_TRANSLATION;
+            rfturn;
+
+        dbsf (HI_TRANSLATE | APPLY_TRANSLATE):
+        dbsf (HI_TRANSLATE | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_TRANSLATE | APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (HI_TRANSLATE | APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            // Tx is TRANSLATE, this hbs onf too
+            m02 = m02 + Tx.m02;
+            m12 = m12 + Tx.m12;
+            rfturn;
+
+        dbsf (HI_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_SCALE | APPLY_IDENTITY):
+            // Only thfsf two fxisting stbtfs nffd b nfw stbtf
+            stbtf = mystbtf | APPLY_SCALE;
+            /* NOBREAK */
+        dbsf (HI_SCALE | APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_SCALE | APPLY_SHEAR | APPLY_SCALE):
+        dbsf (HI_SCALE | APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (HI_SCALE | APPLY_SHEAR):
+        dbsf (HI_SCALE | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_SCALE | APPLY_SCALE):
+            // Tx is SCALE, this is bnything
+            T00 = Tx.m00;
+            T11 = Tx.m11;
+            if ((mystbtf & APPLY_SHEAR) != 0) {
+                m01 = m01 * T00;
+                m10 = m10 * T11;
+                if ((mystbtf & APPLY_SCALE) != 0) {
+                    m00 = m00 * T00;
+                    m11 = m11 * T11;
+                }
+            } flsf {
+                m00 = m00 * T00;
+                m11 = m11 * T11;
+            }
+            if ((mystbtf & APPLY_TRANSLATE) != 0) {
+                m02 = m02 * T00;
+                m12 = m12 * T11;
+            }
+            typf = TYPE_UNKNOWN;
+            rfturn;
+        dbsf (HI_SHEAR | APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (HI_SHEAR | APPLY_SHEAR):
+            mystbtf = mystbtf | APPLY_SCALE;
+            /* NOBREAK */
+        dbsf (HI_SHEAR | APPLY_TRANSLATE):
+        dbsf (HI_SHEAR | APPLY_IDENTITY):
+        dbsf (HI_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_SHEAR | APPLY_SCALE):
+            stbtf = mystbtf ^ APPLY_SHEAR;
+            /* NOBREAK */
+        dbsf (HI_SHEAR | APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (HI_SHEAR | APPLY_SHEAR | APPLY_SCALE):
+            // Tx is SHEAR, this is bnything
+            T01 = Tx.m01;
+            T10 = Tx.m10;
+
+            M0 = m00;
+            m00 = m10 * T01;
+            m10 = M0 * T10;
+
+            M0 = m01;
+            m01 = m11 * T01;
+            m11 = M0 * T10;
+
+            M0 = m02;
+            m02 = m12 * T01;
+            m12 = M0 * T10;
+            typf = TYPE_UNKNOWN;
+            rfturn;
+        }
+        // If Tx hbs morf thbn onf bttributf, it is not worth optimizing
+        // bll of thosf dbsfs...
+        T00 = Tx.m00; T01 = Tx.m01; T02 = Tx.m02;
+        T10 = Tx.m10; T11 = Tx.m11; T12 = Tx.m12;
+        switdh (mystbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            M0 = m02;
+            M1 = m12;
+            T02 += M0 * T00 + M1 * T01;
+            T12 += M0 * T10 + M1 * T11;
+
+            /* NOBREAK */
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            m02 = T02;
+            m12 = T12;
+
+            M0 = m00;
+            M1 = m10;
+            m00 = M0 * T00 + M1 * T01;
+            m10 = M0 * T10 + M1 * T11;
+
+            M0 = m01;
+            M1 = m11;
+            m01 = M0 * T00 + M1 * T01;
+            m11 = M0 * T10 + M1 * T11;
+            brfbk;
+
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            M0 = m02;
+            M1 = m12;
+            T02 += M0 * T00 + M1 * T01;
+            T12 += M0 * T10 + M1 * T11;
+
+            /* NOBREAK */
+        dbsf (APPLY_SHEAR):
+            m02 = T02;
+            m12 = T12;
+
+            M0 = m10;
+            m00 = M0 * T01;
+            m10 = M0 * T11;
+
+            M0 = m01;
+            m01 = M0 * T00;
+            m11 = M0 * T10;
+            brfbk;
+
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            M0 = m02;
+            M1 = m12;
+            T02 += M0 * T00 + M1 * T01;
+            T12 += M0 * T10 + M1 * T11;
+
+            /* NOBREAK */
+        dbsf (APPLY_SCALE):
+            m02 = T02;
+            m12 = T12;
+
+            M0 = m00;
+            m00 = M0 * T00;
+            m10 = M0 * T10;
+
+            M0 = m11;
+            m01 = M0 * T01;
+            m11 = M0 * T11;
+            brfbk;
+
+        dbsf (APPLY_TRANSLATE):
+            M0 = m02;
+            M1 = m12;
+            T02 += M0 * T00 + M1 * T01;
+            T12 += M0 * T10 + M1 * T11;
+
+            /* NOBREAK */
+        dbsf (APPLY_IDENTITY):
+            m02 = T02;
+            m12 = T12;
+
+            m00 = T00;
+            m10 = T10;
+
+            m01 = T01;
+            m11 = T11;
+
+            stbtf = mystbtf | txstbtf;
+            typf = TYPE_UNKNOWN;
+            rfturn;
+        }
+        updbtfStbtf();
+    }
+
+    /**
+     * Rfturns bn <dodf>AffinfTrbnsform</dodf> objfdt rfprfsfnting thf
+     * invfrsf trbnsformbtion.
+     * Thf invfrsf trbnsform Tx' of this trbnsform Tx
+     * mbps doordinbtfs trbnsformfd by Tx bbdk
+     * to thfir originbl doordinbtfs.
+     * In othfr words, Tx'(Tx(p)) = p = Tx(Tx'(p)).
+     * <p>
+     * If this trbnsform mbps bll doordinbtfs onto b point or b linf
+     * thfn it will not hbvf bn invfrsf, sindf doordinbtfs thbt do
+     * not lif on thf dfstinbtion point or linf will not hbvf bn invfrsf
+     * mbpping.
+     * Thf <dodf>gftDftfrminbnt</dodf> mfthod dbn bf usfd to dftfrminf if this
+     * trbnsform hbs no invfrsf, in whidh dbsf bn fxdfption will bf
+     * thrown if thf <dodf>drfbtfInvfrsf</dodf> mfthod is dbllfd.
+     * @rfturn b nfw <dodf>AffinfTrbnsform</dodf> objfdt rfprfsfnting thf
+     * invfrsf trbnsformbtion.
+     * @sff #gftDftfrminbnt
+     * @fxdfption NoninvfrtiblfTrbnsformExdfption
+     * if thf mbtrix dbnnot bf invfrtfd.
+     * @sindf 1.2
+     */
+    publid AffinfTrbnsform drfbtfInvfrsf()
+        throws NoninvfrtiblfTrbnsformExdfption
+    {
+        doublf dft;
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn null;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            dft = m00 * m11 - m01 * m10;
+            if (Mbth.bbs(dft) <= Doublf.MIN_VALUE) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is "+
+                                                          dft);
+            }
+            rfturn nfw AffinfTrbnsform( m11 / dft, -m10 / dft,
+                                       -m01 / dft,  m00 / dft,
+                                       (m01 * m12 - m11 * m02) / dft,
+                                       (m10 * m02 - m00 * m12) / dft,
+                                       (APPLY_SHEAR |
+                                        APPLY_SCALE |
+                                        APPLY_TRANSLATE));
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            dft = m00 * m11 - m01 * m10;
+            if (Mbth.bbs(dft) <= Doublf.MIN_VALUE) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is "+
+                                                          dft);
+            }
+            rfturn nfw AffinfTrbnsform( m11 / dft, -m10 / dft,
+                                       -m01 / dft,  m00 / dft,
+                                        0.0,        0.0,
+                                       (APPLY_SHEAR | APPLY_SCALE));
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            if (m01 == 0.0 || m10 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            rfturn nfw AffinfTrbnsform( 0.0,        1.0 / m01,
+                                        1.0 / m10,  0.0,
+                                       -m12 / m10, -m02 / m01,
+                                       (APPLY_SHEAR | APPLY_TRANSLATE));
+        dbsf (APPLY_SHEAR):
+            if (m01 == 0.0 || m10 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            rfturn nfw AffinfTrbnsform(0.0,       1.0 / m01,
+                                       1.0 / m10, 0.0,
+                                       0.0,       0.0,
+                                       (APPLY_SHEAR));
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            if (m00 == 0.0 || m11 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            rfturn nfw AffinfTrbnsform( 1.0 / m00,  0.0,
+                                        0.0,        1.0 / m11,
+                                       -m02 / m00, -m12 / m11,
+                                       (APPLY_SCALE | APPLY_TRANSLATE));
+        dbsf (APPLY_SCALE):
+            if (m00 == 0.0 || m11 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            rfturn nfw AffinfTrbnsform(1.0 / m00, 0.0,
+                                       0.0,       1.0 / m11,
+                                       0.0,       0.0,
+                                       (APPLY_SCALE));
+        dbsf (APPLY_TRANSLATE):
+            rfturn nfw AffinfTrbnsform( 1.0,  0.0,
+                                        0.0,  1.0,
+                                       -m02, -m12,
+                                       (APPLY_TRANSLATE));
+        dbsf (APPLY_IDENTITY):
+            rfturn nfw AffinfTrbnsform();
+        }
+
+        /* NOTREACHED */
+    }
+
+    /**
+     * Sfts this trbnsform to thf invfrsf of itsflf.
+     * Thf invfrsf trbnsform Tx' of this trbnsform Tx
+     * mbps doordinbtfs trbnsformfd by Tx bbdk
+     * to thfir originbl doordinbtfs.
+     * In othfr words, Tx'(Tx(p)) = p = Tx(Tx'(p)).
+     * <p>
+     * If this trbnsform mbps bll doordinbtfs onto b point or b linf
+     * thfn it will not hbvf bn invfrsf, sindf doordinbtfs thbt do
+     * not lif on thf dfstinbtion point or linf will not hbvf bn invfrsf
+     * mbpping.
+     * Thf <dodf>gftDftfrminbnt</dodf> mfthod dbn bf usfd to dftfrminf if this
+     * trbnsform hbs no invfrsf, in whidh dbsf bn fxdfption will bf
+     * thrown if thf <dodf>invfrt</dodf> mfthod is dbllfd.
+     * @sff #gftDftfrminbnt
+     * @fxdfption NoninvfrtiblfTrbnsformExdfption
+     * if thf mbtrix dbnnot bf invfrtfd.
+     * @sindf 1.6
+     */
+    publid void invfrt()
+        throws NoninvfrtiblfTrbnsformExdfption
+    {
+        doublf M00, M01, M02;
+        doublf M10, M11, M12;
+        doublf dft;
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M01 = m01; M02 = m02;
+            M10 = m10; M11 = m11; M12 = m12;
+            dft = M00 * M11 - M01 * M10;
+            if (Mbth.bbs(dft) <= Doublf.MIN_VALUE) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is "+
+                                                          dft);
+            }
+            m00 =  M11 / dft;
+            m10 = -M10 / dft;
+            m01 = -M01 / dft;
+            m11 =  M00 / dft;
+            m02 = (M01 * M12 - M11 * M02) / dft;
+            m12 = (M10 * M02 - M00 * M12) / dft;
+            brfbk;
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            M00 = m00; M01 = m01;
+            M10 = m10; M11 = m11;
+            dft = M00 * M11 - M01 * M10;
+            if (Mbth.bbs(dft) <= Doublf.MIN_VALUE) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is "+
+                                                          dft);
+            }
+            m00 =  M11 / dft;
+            m10 = -M10 / dft;
+            m01 = -M01 / dft;
+            m11 =  M00 / dft;
+            // m02 = 0.0;
+            // m12 = 0.0;
+            brfbk;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            M01 = m01; M02 = m02;
+            M10 = m10; M12 = m12;
+            if (M01 == 0.0 || M10 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            // m00 = 0.0;
+            m10 = 1.0 / M01;
+            m01 = 1.0 / M10;
+            // m11 = 0.0;
+            m02 = -M12 / M10;
+            m12 = -M02 / M01;
+            brfbk;
+        dbsf (APPLY_SHEAR):
+            M01 = m01;
+            M10 = m10;
+            if (M01 == 0.0 || M10 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            // m00 = 0.0;
+            m10 = 1.0 / M01;
+            m01 = 1.0 / M10;
+            // m11 = 0.0;
+            // m02 = 0.0;
+            // m12 = 0.0;
+            brfbk;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M02 = m02;
+            M11 = m11; M12 = m12;
+            if (M00 == 0.0 || M11 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            m00 = 1.0 / M00;
+            // m10 = 0.0;
+            // m01 = 0.0;
+            m11 = 1.0 / M11;
+            m02 = -M02 / M00;
+            m12 = -M12 / M11;
+            brfbk;
+        dbsf (APPLY_SCALE):
+            M00 = m00;
+            M11 = m11;
+            if (M00 == 0.0 || M11 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            m00 = 1.0 / M00;
+            // m10 = 0.0;
+            // m01 = 0.0;
+            m11 = 1.0 / M11;
+            // m02 = 0.0;
+            // m12 = 0.0;
+            brfbk;
+        dbsf (APPLY_TRANSLATE):
+            // m00 = 1.0;
+            // m10 = 0.0;
+            // m01 = 0.0;
+            // m11 = 1.0;
+            m02 = -m02;
+            m12 = -m12;
+            brfbk;
+        dbsf (APPLY_IDENTITY):
+            // m00 = 1.0;
+            // m10 = 0.0;
+            // m01 = 0.0;
+            // m11 = 1.0;
+            // m02 = 0.0;
+            // m12 = 0.0;
+            brfbk;
+        }
+    }
+
+    /**
+     * Trbnsforms thf spfdififd <dodf>ptSrd</dodf> bnd storfs thf rfsult
+     * in <dodf>ptDst</dodf>.
+     * If <dodf>ptDst</dodf> is <dodf>null</dodf>, b nfw {@link Point2D}
+     * objfdt is bllodbtfd bnd thfn thf rfsult of thf trbnsformbtion is
+     * storfd in this objfdt.
+     * In fithfr dbsf, <dodf>ptDst</dodf>, whidh dontbins thf
+     * trbnsformfd point, is rfturnfd for donvfnifndf.
+     * If <dodf>ptSrd</dodf> bnd <dodf>ptDst</dodf> brf thf sbmf
+     * objfdt, thf input point is dorrfdtly ovfrwrittfn with
+     * thf trbnsformfd point.
+     * @pbrbm ptSrd thf spfdififd <dodf>Point2D</dodf> to bf trbnsformfd
+     * @pbrbm ptDst thf spfdififd <dodf>Point2D</dodf> thbt storfs thf
+     * rfsult of trbnsforming <dodf>ptSrd</dodf>
+     * @rfturn thf <dodf>ptDst</dodf> bftfr trbnsforming
+     * <dodf>ptSrd</dodf> bnd storing thf rfsult in <dodf>ptDst</dodf>.
+     * @sindf 1.2
+     */
+    publid Point2D trbnsform(Point2D ptSrd, Point2D ptDst) {
+        if (ptDst == null) {
+            if (ptSrd instbndfof Point2D.Doublf) {
+                ptDst = nfw Point2D.Doublf();
+            } flsf {
+                ptDst = nfw Point2D.Flobt();
+            }
+        }
+        // Copy sourdf doords into lodbl vbribblfs in dbsf srd == dst
+        doublf x = ptSrd.gftX();
+        doublf y = ptSrd.gftY();
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn null;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            ptDst.sftLodbtion(x * m00 + y * m01 + m02,
+                              x * m10 + y * m11 + m12);
+            rfturn ptDst;
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            ptDst.sftLodbtion(x * m00 + y * m01, x * m10 + y * m11);
+            rfturn ptDst;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            ptDst.sftLodbtion(y * m01 + m02, x * m10 + m12);
+            rfturn ptDst;
+        dbsf (APPLY_SHEAR):
+            ptDst.sftLodbtion(y * m01, x * m10);
+            rfturn ptDst;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            ptDst.sftLodbtion(x * m00 + m02, y * m11 + m12);
+            rfturn ptDst;
+        dbsf (APPLY_SCALE):
+            ptDst.sftLodbtion(x * m00, y * m11);
+            rfturn ptDst;
+        dbsf (APPLY_TRANSLATE):
+            ptDst.sftLodbtion(x + m02, y + m12);
+            rfturn ptDst;
+        dbsf (APPLY_IDENTITY):
+            ptDst.sftLodbtion(x, y);
+            rfturn ptDst;
+        }
+
+        /* NOTREACHED */
+    }
+
+    /**
+     * Trbnsforms bn brrby of point objfdts by this trbnsform.
+     * If bny flfmfnt of thf <dodf>ptDst</dodf> brrby is
+     * <dodf>null</dodf>, b nfw <dodf>Point2D</dodf> objfdt is bllodbtfd
+     * bnd storfd into thbt flfmfnt bfforf storing thf rfsults of thf
+     * trbnsformbtion.
+     * <p>
+     * Notf thbt this mfthod dofs not tbkf bny prfdbutions to
+     * bvoid problfms dbusfd by storing rfsults into <dodf>Point2D</dodf>
+     * objfdts thbt will bf usfd bs thf sourdf for dbldulbtions
+     * furthfr down thf sourdf brrby.
+     * This mfthod dofs gubrbntff thbt if b spfdififd <dodf>Point2D</dodf>
+     * objfdt is both thf sourdf bnd dfstinbtion for thf sbmf singlf point
+     * trbnsform opfrbtion thfn thf rfsults will not bf storfd until
+     * thf dbldulbtions brf domplftf to bvoid storing thf rfsults on
+     * top of thf opfrbnds.
+     * If, howfvfr, thf dfstinbtion <dodf>Point2D</dodf> objfdt for onf
+     * opfrbtion is thf sbmf objfdt bs thf sourdf <dodf>Point2D</dodf>
+     * objfdt for bnothfr opfrbtion furthfr down thf sourdf brrby thfn
+     * thf originbl doordinbtfs in thbt point brf ovfrwrittfn bfforf
+     * thfy dbn bf donvfrtfd.
+     * @pbrbm ptSrd thf brrby dontbining thf sourdf point objfdts
+     * @pbrbm ptDst thf brrby into whidh thf trbnsform point objfdts brf
+     * rfturnfd
+     * @pbrbm srdOff thf offsft to thf first point objfdt to bf
+     * trbnsformfd in thf sourdf brrby
+     * @pbrbm dstOff thf offsft to thf lodbtion of thf first
+     * trbnsformfd point objfdt thbt is storfd in thf dfstinbtion brrby
+     * @pbrbm numPts thf numbfr of point objfdts to bf trbnsformfd
+     * @sindf 1.2
+     */
+    publid void trbnsform(Point2D[] ptSrd, int srdOff,
+                          Point2D[] ptDst, int dstOff,
+                          int numPts) {
+        int stbtf = this.stbtf;
+        whilf (--numPts >= 0) {
+            // Copy sourdf doords into lodbl vbribblfs in dbsf srd == dst
+            Point2D srd = ptSrd[srdOff++];
+            doublf x = srd.gftX();
+            doublf y = srd.gftY();
+            Point2D dst = ptDst[dstOff++];
+            if (dst == null) {
+                if (srd instbndfof Point2D.Doublf) {
+                    dst = nfw Point2D.Doublf();
+                } flsf {
+                    dst = nfw Point2D.Flobt();
+                }
+                ptDst[dstOff - 1] = dst;
+            }
+            switdh (stbtf) {
+            dffbult:
+                stbtfError();
+                /* NOTREACHED */
+                rfturn;
+            dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+                dst.sftLodbtion(x * m00 + y * m01 + m02,
+                                x * m10 + y * m11 + m12);
+                brfbk;
+            dbsf (APPLY_SHEAR | APPLY_SCALE):
+                dst.sftLodbtion(x * m00 + y * m01, x * m10 + y * m11);
+                brfbk;
+            dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+                dst.sftLodbtion(y * m01 + m02, x * m10 + m12);
+                brfbk;
+            dbsf (APPLY_SHEAR):
+                dst.sftLodbtion(y * m01, x * m10);
+                brfbk;
+            dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+                dst.sftLodbtion(x * m00 + m02, y * m11 + m12);
+                brfbk;
+            dbsf (APPLY_SCALE):
+                dst.sftLodbtion(x * m00, y * m11);
+                brfbk;
+            dbsf (APPLY_TRANSLATE):
+                dst.sftLodbtion(x + m02, y + m12);
+                brfbk;
+            dbsf (APPLY_IDENTITY):
+                dst.sftLodbtion(x, y);
+                brfbk;
+            }
+        }
+
+        /* NOTREACHED */
+    }
+
+    /**
+     * Trbnsforms bn brrby of flobting point doordinbtfs by this trbnsform.
+     * Thf two doordinbtf brrby sfdtions dbn bf fxbdtly thf sbmf or
+     * dbn bf ovfrlbpping sfdtions of thf sbmf brrby without bfffdting thf
+     * vblidity of thf rfsults.
+     * This mfthod fnsurfs thbt no sourdf doordinbtfs brf ovfrwrittfn by b
+     * prfvious opfrbtion bfforf thfy dbn bf trbnsformfd.
+     * Thf doordinbtfs brf storfd in thf brrbys stbrting bt thf spfdififd
+     * offsft in thf ordfr <dodf>[x0, y0, x1, y1, ..., xn, yn]</dodf>.
+     * @pbrbm srdPts thf brrby dontbining thf sourdf point doordinbtfs.
+     * Ebdh point is storfd bs b pbir of x,&nbsp;y doordinbtfs.
+     * @pbrbm dstPts thf brrby into whidh thf trbnsformfd point doordinbtfs
+     * brf rfturnfd.  Ebdh point is storfd bs b pbir of x,&nbsp;y
+     * doordinbtfs.
+     * @pbrbm srdOff thf offsft to thf first point to bf trbnsformfd
+     * in thf sourdf brrby
+     * @pbrbm dstOff thf offsft to thf lodbtion of thf first
+     * trbnsformfd point thbt is storfd in thf dfstinbtion brrby
+     * @pbrbm numPts thf numbfr of points to bf trbnsformfd
+     * @sindf 1.2
+     */
+    publid void trbnsform(flobt[] srdPts, int srdOff,
+                          flobt[] dstPts, int dstOff,
+                          int numPts) {
+        doublf M00, M01, M02, M10, M11, M12;    // For dbdhing
+        if (dstPts == srdPts &&
+            dstOff > srdOff && dstOff < srdOff + numPts * 2)
+        {
+            // If thf brrbys ovfrlbp pbrtiblly with thf dfstinbtion highfr
+            // thbn thf sourdf bnd wf trbnsform thf doordinbtfs normblly
+            // wf would ovfrwritf somf of thf lbtfr sourdf doordinbtfs
+            // with rfsults of prfvious trbnsformbtions.
+            // To gft bround this wf usf brrbydopy to dopy thf points
+            // to thfir finbl dfstinbtion with dorrfdt ovfrwritf
+            // hbndling bnd thfn trbnsform thfm in plbdf in thf nfw
+            // sbffr lodbtion.
+            Systfm.brrbydopy(srdPts, srdOff, dstPts, dstOff, numPts * 2);
+            // srdPts = dstPts;         // Thfy brf known to bf fqubl.
+            srdOff = dstOff;
+        }
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M01 = m01; M02 = m02;
+            M10 = m10; M11 = m11; M12 = m12;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                doublf y = srdPts[srdOff++];
+                dstPts[dstOff++] = (flobt) (M00 * x + M01 * y + M02);
+                dstPts[dstOff++] = (flobt) (M10 * x + M11 * y + M12);
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            M00 = m00; M01 = m01;
+            M10 = m10; M11 = m11;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                doublf y = srdPts[srdOff++];
+                dstPts[dstOff++] = (flobt) (M00 * x + M01 * y);
+                dstPts[dstOff++] = (flobt) (M10 * x + M11 * y);
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            M01 = m01; M02 = m02;
+            M10 = m10; M12 = m12;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                dstPts[dstOff++] = (flobt) (M01 * srdPts[srdOff++] + M02);
+                dstPts[dstOff++] = (flobt) (M10 * x + M12);
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR):
+            M01 = m01; M10 = m10;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                dstPts[dstOff++] = (flobt) (M01 * srdPts[srdOff++]);
+                dstPts[dstOff++] = (flobt) (M10 * x);
+            }
+            rfturn;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M02 = m02;
+            M11 = m11; M12 = m12;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = (flobt) (M00 * srdPts[srdOff++] + M02);
+                dstPts[dstOff++] = (flobt) (M11 * srdPts[srdOff++] + M12);
+            }
+            rfturn;
+        dbsf (APPLY_SCALE):
+            M00 = m00; M11 = m11;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = (flobt) (M00 * srdPts[srdOff++]);
+                dstPts[dstOff++] = (flobt) (M11 * srdPts[srdOff++]);
+            }
+            rfturn;
+        dbsf (APPLY_TRANSLATE):
+            M02 = m02; M12 = m12;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = (flobt) (srdPts[srdOff++] + M02);
+                dstPts[dstOff++] = (flobt) (srdPts[srdOff++] + M12);
+            }
+            rfturn;
+        dbsf (APPLY_IDENTITY):
+            if (srdPts != dstPts || srdOff != dstOff) {
+                Systfm.brrbydopy(srdPts, srdOff, dstPts, dstOff,
+                                 numPts * 2);
+            }
+            rfturn;
+        }
+
+        /* NOTREACHED */
+    }
+
+    /**
+     * Trbnsforms bn brrby of doublf prfdision doordinbtfs by this trbnsform.
+     * Thf two doordinbtf brrby sfdtions dbn bf fxbdtly thf sbmf or
+     * dbn bf ovfrlbpping sfdtions of thf sbmf brrby without bfffdting thf
+     * vblidity of thf rfsults.
+     * This mfthod fnsurfs thbt no sourdf doordinbtfs brf
+     * ovfrwrittfn by b prfvious opfrbtion bfforf thfy dbn bf trbnsformfd.
+     * Thf doordinbtfs brf storfd in thf brrbys stbrting bt thf indidbtfd
+     * offsft in thf ordfr <dodf>[x0, y0, x1, y1, ..., xn, yn]</dodf>.
+     * @pbrbm srdPts thf brrby dontbining thf sourdf point doordinbtfs.
+     * Ebdh point is storfd bs b pbir of x,&nbsp;y doordinbtfs.
+     * @pbrbm dstPts thf brrby into whidh thf trbnsformfd point
+     * doordinbtfs brf rfturnfd.  Ebdh point is storfd bs b pbir of
+     * x,&nbsp;y doordinbtfs.
+     * @pbrbm srdOff thf offsft to thf first point to bf trbnsformfd
+     * in thf sourdf brrby
+     * @pbrbm dstOff thf offsft to thf lodbtion of thf first
+     * trbnsformfd point thbt is storfd in thf dfstinbtion brrby
+     * @pbrbm numPts thf numbfr of point objfdts to bf trbnsformfd
+     * @sindf 1.2
+     */
+    publid void trbnsform(doublf[] srdPts, int srdOff,
+                          doublf[] dstPts, int dstOff,
+                          int numPts) {
+        doublf M00, M01, M02, M10, M11, M12;    // For dbdhing
+        if (dstPts == srdPts &&
+            dstOff > srdOff && dstOff < srdOff + numPts * 2)
+        {
+            // If thf brrbys ovfrlbp pbrtiblly with thf dfstinbtion highfr
+            // thbn thf sourdf bnd wf trbnsform thf doordinbtfs normblly
+            // wf would ovfrwritf somf of thf lbtfr sourdf doordinbtfs
+            // with rfsults of prfvious trbnsformbtions.
+            // To gft bround this wf usf brrbydopy to dopy thf points
+            // to thfir finbl dfstinbtion with dorrfdt ovfrwritf
+            // hbndling bnd thfn trbnsform thfm in plbdf in thf nfw
+            // sbffr lodbtion.
+            Systfm.brrbydopy(srdPts, srdOff, dstPts, dstOff, numPts * 2);
+            // srdPts = dstPts;         // Thfy brf known to bf fqubl.
+            srdOff = dstOff;
+        }
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M01 = m01; M02 = m02;
+            M10 = m10; M11 = m11; M12 = m12;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                doublf y = srdPts[srdOff++];
+                dstPts[dstOff++] = M00 * x + M01 * y + M02;
+                dstPts[dstOff++] = M10 * x + M11 * y + M12;
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            M00 = m00; M01 = m01;
+            M10 = m10; M11 = m11;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                doublf y = srdPts[srdOff++];
+                dstPts[dstOff++] = M00 * x + M01 * y;
+                dstPts[dstOff++] = M10 * x + M11 * y;
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            M01 = m01; M02 = m02;
+            M10 = m10; M12 = m12;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                dstPts[dstOff++] = M01 * srdPts[srdOff++] + M02;
+                dstPts[dstOff++] = M10 * x + M12;
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR):
+            M01 = m01; M10 = m10;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                dstPts[dstOff++] = M01 * srdPts[srdOff++];
+                dstPts[dstOff++] = M10 * x;
+            }
+            rfturn;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M02 = m02;
+            M11 = m11; M12 = m12;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = M00 * srdPts[srdOff++] + M02;
+                dstPts[dstOff++] = M11 * srdPts[srdOff++] + M12;
+            }
+            rfturn;
+        dbsf (APPLY_SCALE):
+            M00 = m00; M11 = m11;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = M00 * srdPts[srdOff++];
+                dstPts[dstOff++] = M11 * srdPts[srdOff++];
+            }
+            rfturn;
+        dbsf (APPLY_TRANSLATE):
+            M02 = m02; M12 = m12;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = srdPts[srdOff++] + M02;
+                dstPts[dstOff++] = srdPts[srdOff++] + M12;
+            }
+            rfturn;
+        dbsf (APPLY_IDENTITY):
+            if (srdPts != dstPts || srdOff != dstOff) {
+                Systfm.brrbydopy(srdPts, srdOff, dstPts, dstOff,
+                                 numPts * 2);
+            }
+            rfturn;
+        }
+
+        /* NOTREACHED */
+    }
+
+    /**
+     * Trbnsforms bn brrby of flobting point doordinbtfs by this trbnsform
+     * bnd storfs thf rfsults into bn brrby of doublfs.
+     * Thf doordinbtfs brf storfd in thf brrbys stbrting bt thf spfdififd
+     * offsft in thf ordfr <dodf>[x0, y0, x1, y1, ..., xn, yn]</dodf>.
+     * @pbrbm srdPts thf brrby dontbining thf sourdf point doordinbtfs.
+     * Ebdh point is storfd bs b pbir of x,&nbsp;y doordinbtfs.
+     * @pbrbm dstPts thf brrby into whidh thf trbnsformfd point doordinbtfs
+     * brf rfturnfd.  Ebdh point is storfd bs b pbir of x,&nbsp;y
+     * doordinbtfs.
+     * @pbrbm srdOff thf offsft to thf first point to bf trbnsformfd
+     * in thf sourdf brrby
+     * @pbrbm dstOff thf offsft to thf lodbtion of thf first
+     * trbnsformfd point thbt is storfd in thf dfstinbtion brrby
+     * @pbrbm numPts thf numbfr of points to bf trbnsformfd
+     * @sindf 1.2
+     */
+    publid void trbnsform(flobt[] srdPts, int srdOff,
+                          doublf[] dstPts, int dstOff,
+                          int numPts) {
+        doublf M00, M01, M02, M10, M11, M12;    // For dbdhing
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M01 = m01; M02 = m02;
+            M10 = m10; M11 = m11; M12 = m12;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                doublf y = srdPts[srdOff++];
+                dstPts[dstOff++] = M00 * x + M01 * y + M02;
+                dstPts[dstOff++] = M10 * x + M11 * y + M12;
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            M00 = m00; M01 = m01;
+            M10 = m10; M11 = m11;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                doublf y = srdPts[srdOff++];
+                dstPts[dstOff++] = M00 * x + M01 * y;
+                dstPts[dstOff++] = M10 * x + M11 * y;
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            M01 = m01; M02 = m02;
+            M10 = m10; M12 = m12;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                dstPts[dstOff++] = M01 * srdPts[srdOff++] + M02;
+                dstPts[dstOff++] = M10 * x + M12;
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR):
+            M01 = m01; M10 = m10;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                dstPts[dstOff++] = M01 * srdPts[srdOff++];
+                dstPts[dstOff++] = M10 * x;
+            }
+            rfturn;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M02 = m02;
+            M11 = m11; M12 = m12;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = M00 * srdPts[srdOff++] + M02;
+                dstPts[dstOff++] = M11 * srdPts[srdOff++] + M12;
+            }
+            rfturn;
+        dbsf (APPLY_SCALE):
+            M00 = m00; M11 = m11;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = M00 * srdPts[srdOff++];
+                dstPts[dstOff++] = M11 * srdPts[srdOff++];
+            }
+            rfturn;
+        dbsf (APPLY_TRANSLATE):
+            M02 = m02; M12 = m12;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = srdPts[srdOff++] + M02;
+                dstPts[dstOff++] = srdPts[srdOff++] + M12;
+            }
+            rfturn;
+        dbsf (APPLY_IDENTITY):
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = srdPts[srdOff++];
+                dstPts[dstOff++] = srdPts[srdOff++];
+            }
+            rfturn;
+        }
+
+        /* NOTREACHED */
+    }
+
+    /**
+     * Trbnsforms bn brrby of doublf prfdision doordinbtfs by this trbnsform
+     * bnd storfs thf rfsults into bn brrby of flobts.
+     * Thf doordinbtfs brf storfd in thf brrbys stbrting bt thf spfdififd
+     * offsft in thf ordfr <dodf>[x0, y0, x1, y1, ..., xn, yn]</dodf>.
+     * @pbrbm srdPts thf brrby dontbining thf sourdf point doordinbtfs.
+     * Ebdh point is storfd bs b pbir of x,&nbsp;y doordinbtfs.
+     * @pbrbm dstPts thf brrby into whidh thf trbnsformfd point
+     * doordinbtfs brf rfturnfd.  Ebdh point is storfd bs b pbir of
+     * x,&nbsp;y doordinbtfs.
+     * @pbrbm srdOff thf offsft to thf first point to bf trbnsformfd
+     * in thf sourdf brrby
+     * @pbrbm dstOff thf offsft to thf lodbtion of thf first
+     * trbnsformfd point thbt is storfd in thf dfstinbtion brrby
+     * @pbrbm numPts thf numbfr of point objfdts to bf trbnsformfd
+     * @sindf 1.2
+     */
+    publid void trbnsform(doublf[] srdPts, int srdOff,
+                          flobt[] dstPts, int dstOff,
+                          int numPts) {
+        doublf M00, M01, M02, M10, M11, M12;    // For dbdhing
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M01 = m01; M02 = m02;
+            M10 = m10; M11 = m11; M12 = m12;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                doublf y = srdPts[srdOff++];
+                dstPts[dstOff++] = (flobt) (M00 * x + M01 * y + M02);
+                dstPts[dstOff++] = (flobt) (M10 * x + M11 * y + M12);
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            M00 = m00; M01 = m01;
+            M10 = m10; M11 = m11;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                doublf y = srdPts[srdOff++];
+                dstPts[dstOff++] = (flobt) (M00 * x + M01 * y);
+                dstPts[dstOff++] = (flobt) (M10 * x + M11 * y);
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            M01 = m01; M02 = m02;
+            M10 = m10; M12 = m12;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                dstPts[dstOff++] = (flobt) (M01 * srdPts[srdOff++] + M02);
+                dstPts[dstOff++] = (flobt) (M10 * x + M12);
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR):
+            M01 = m01; M10 = m10;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                dstPts[dstOff++] = (flobt) (M01 * srdPts[srdOff++]);
+                dstPts[dstOff++] = (flobt) (M10 * x);
+            }
+            rfturn;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M02 = m02;
+            M11 = m11; M12 = m12;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = (flobt) (M00 * srdPts[srdOff++] + M02);
+                dstPts[dstOff++] = (flobt) (M11 * srdPts[srdOff++] + M12);
+            }
+            rfturn;
+        dbsf (APPLY_SCALE):
+            M00 = m00; M11 = m11;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = (flobt) (M00 * srdPts[srdOff++]);
+                dstPts[dstOff++] = (flobt) (M11 * srdPts[srdOff++]);
+            }
+            rfturn;
+        dbsf (APPLY_TRANSLATE):
+            M02 = m02; M12 = m12;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = (flobt) (srdPts[srdOff++] + M02);
+                dstPts[dstOff++] = (flobt) (srdPts[srdOff++] + M12);
+            }
+            rfturn;
+        dbsf (APPLY_IDENTITY):
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = (flobt) (srdPts[srdOff++]);
+                dstPts[dstOff++] = (flobt) (srdPts[srdOff++]);
+            }
+            rfturn;
+        }
+
+        /* NOTREACHED */
+    }
+
+    /**
+     * Invfrsf trbnsforms thf spfdififd <dodf>ptSrd</dodf> bnd storfs thf
+     * rfsult in <dodf>ptDst</dodf>.
+     * If <dodf>ptDst</dodf> is <dodf>null</dodf>, b nfw
+     * <dodf>Point2D</dodf> objfdt is bllodbtfd bnd thfn thf rfsult of thf
+     * trbnsform is storfd in this objfdt.
+     * In fithfr dbsf, <dodf>ptDst</dodf>, whidh dontbins thf trbnsformfd
+     * point, is rfturnfd for donvfnifndf.
+     * If <dodf>ptSrd</dodf> bnd <dodf>ptDst</dodf> brf thf sbmf
+     * objfdt, thf input point is dorrfdtly ovfrwrittfn with thf
+     * trbnsformfd point.
+     * @pbrbm ptSrd thf point to bf invfrsf trbnsformfd
+     * @pbrbm ptDst thf rfsulting trbnsformfd point
+     * @rfturn <dodf>ptDst</dodf>, whidh dontbins thf rfsult of thf
+     * invfrsf trbnsform.
+     * @fxdfption NoninvfrtiblfTrbnsformExdfption  if thf mbtrix dbnnot bf
+     *                                         invfrtfd.
+     * @sindf 1.2
+     */
+    @SupprfssWbrnings("fbllthrough")
+    publid Point2D invfrsfTrbnsform(Point2D ptSrd, Point2D ptDst)
+        throws NoninvfrtiblfTrbnsformExdfption
+    {
+        if (ptDst == null) {
+            if (ptSrd instbndfof Point2D.Doublf) {
+                ptDst = nfw Point2D.Doublf();
+            } flsf {
+                ptDst = nfw Point2D.Flobt();
+            }
+        }
+        // Copy sourdf doords into lodbl vbribblfs in dbsf srd == dst
+        doublf x = ptSrd.gftX();
+        doublf y = ptSrd.gftY();
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            x -= m02;
+            y -= m12;
+            /* NOBREAK */
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            doublf dft = m00 * m11 - m01 * m10;
+            if (Mbth.bbs(dft) <= Doublf.MIN_VALUE) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is "+
+                                                          dft);
+            }
+            ptDst.sftLodbtion((x * m11 - y * m01) / dft,
+                              (y * m00 - x * m10) / dft);
+            rfturn ptDst;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            x -= m02;
+            y -= m12;
+            /* NOBREAK */
+        dbsf (APPLY_SHEAR):
+            if (m01 == 0.0 || m10 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            ptDst.sftLodbtion(y / m10, x / m01);
+            rfturn ptDst;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            x -= m02;
+            y -= m12;
+            /* NOBREAK */
+        dbsf (APPLY_SCALE):
+            if (m00 == 0.0 || m11 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            ptDst.sftLodbtion(x / m00, y / m11);
+            rfturn ptDst;
+        dbsf (APPLY_TRANSLATE):
+            ptDst.sftLodbtion(x - m02, y - m12);
+            rfturn ptDst;
+        dbsf (APPLY_IDENTITY):
+            ptDst.sftLodbtion(x, y);
+            rfturn ptDst;
+        }
+
+        /* NOTREACHED */
+    }
+
+    /**
+     * Invfrsf trbnsforms bn brrby of doublf prfdision doordinbtfs by
+     * this trbnsform.
+     * Thf two doordinbtf brrby sfdtions dbn bf fxbdtly thf sbmf or
+     * dbn bf ovfrlbpping sfdtions of thf sbmf brrby without bfffdting thf
+     * vblidity of thf rfsults.
+     * This mfthod fnsurfs thbt no sourdf doordinbtfs brf
+     * ovfrwrittfn by b prfvious opfrbtion bfforf thfy dbn bf trbnsformfd.
+     * Thf doordinbtfs brf storfd in thf brrbys stbrting bt thf spfdififd
+     * offsft in thf ordfr <dodf>[x0, y0, x1, y1, ..., xn, yn]</dodf>.
+     * @pbrbm srdPts thf brrby dontbining thf sourdf point doordinbtfs.
+     * Ebdh point is storfd bs b pbir of x,&nbsp;y doordinbtfs.
+     * @pbrbm dstPts thf brrby into whidh thf trbnsformfd point
+     * doordinbtfs brf rfturnfd.  Ebdh point is storfd bs b pbir of
+     * x,&nbsp;y doordinbtfs.
+     * @pbrbm srdOff thf offsft to thf first point to bf trbnsformfd
+     * in thf sourdf brrby
+     * @pbrbm dstOff thf offsft to thf lodbtion of thf first
+     * trbnsformfd point thbt is storfd in thf dfstinbtion brrby
+     * @pbrbm numPts thf numbfr of point objfdts to bf trbnsformfd
+     * @fxdfption NoninvfrtiblfTrbnsformExdfption  if thf mbtrix dbnnot bf
+     *                                         invfrtfd.
+     * @sindf 1.2
+     */
+    publid void invfrsfTrbnsform(doublf[] srdPts, int srdOff,
+                                 doublf[] dstPts, int dstOff,
+                                 int numPts)
+        throws NoninvfrtiblfTrbnsformExdfption
+    {
+        doublf M00, M01, M02, M10, M11, M12;    // For dbdhing
+        doublf dft;
+        if (dstPts == srdPts &&
+            dstOff > srdOff && dstOff < srdOff + numPts * 2)
+        {
+            // If thf brrbys ovfrlbp pbrtiblly with thf dfstinbtion highfr
+            // thbn thf sourdf bnd wf trbnsform thf doordinbtfs normblly
+            // wf would ovfrwritf somf of thf lbtfr sourdf doordinbtfs
+            // with rfsults of prfvious trbnsformbtions.
+            // To gft bround this wf usf brrbydopy to dopy thf points
+            // to thfir finbl dfstinbtion with dorrfdt ovfrwritf
+            // hbndling bnd thfn trbnsform thfm in plbdf in thf nfw
+            // sbffr lodbtion.
+            Systfm.brrbydopy(srdPts, srdOff, dstPts, dstOff, numPts * 2);
+            // srdPts = dstPts;         // Thfy brf known to bf fqubl.
+            srdOff = dstOff;
+        }
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M01 = m01; M02 = m02;
+            M10 = m10; M11 = m11; M12 = m12;
+            dft = M00 * M11 - M01 * M10;
+            if (Mbth.bbs(dft) <= Doublf.MIN_VALUE) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is "+
+                                                          dft);
+            }
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++] - M02;
+                doublf y = srdPts[srdOff++] - M12;
+                dstPts[dstOff++] = (x * M11 - y * M01) / dft;
+                dstPts[dstOff++] = (y * M00 - x * M10) / dft;
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            M00 = m00; M01 = m01;
+            M10 = m10; M11 = m11;
+            dft = M00 * M11 - M01 * M10;
+            if (Mbth.bbs(dft) <= Doublf.MIN_VALUE) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is "+
+                                                          dft);
+            }
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                doublf y = srdPts[srdOff++];
+                dstPts[dstOff++] = (x * M11 - y * M01) / dft;
+                dstPts[dstOff++] = (y * M00 - x * M10) / dft;
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+            M01 = m01; M02 = m02;
+            M10 = m10; M12 = m12;
+            if (M01 == 0.0 || M10 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++] - M02;
+                dstPts[dstOff++] = (srdPts[srdOff++] - M12) / M10;
+                dstPts[dstOff++] = x / M01;
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR):
+            M01 = m01; M10 = m10;
+            if (M01 == 0.0 || M10 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                dstPts[dstOff++] = srdPts[srdOff++] / M10;
+                dstPts[dstOff++] = x / M01;
+            }
+            rfturn;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+            M00 = m00; M02 = m02;
+            M11 = m11; M12 = m12;
+            if (M00 == 0.0 || M11 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = (srdPts[srdOff++] - M02) / M00;
+                dstPts[dstOff++] = (srdPts[srdOff++] - M12) / M11;
+            }
+            rfturn;
+        dbsf (APPLY_SCALE):
+            M00 = m00; M11 = m11;
+            if (M00 == 0.0 || M11 == 0.0) {
+                throw nfw NoninvfrtiblfTrbnsformExdfption("Dftfrminbnt is 0");
+            }
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = srdPts[srdOff++] / M00;
+                dstPts[dstOff++] = srdPts[srdOff++] / M11;
+            }
+            rfturn;
+        dbsf (APPLY_TRANSLATE):
+            M02 = m02; M12 = m12;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = srdPts[srdOff++] - M02;
+                dstPts[dstOff++] = srdPts[srdOff++] - M12;
+            }
+            rfturn;
+        dbsf (APPLY_IDENTITY):
+            if (srdPts != dstPts || srdOff != dstOff) {
+                Systfm.brrbydopy(srdPts, srdOff, dstPts, dstOff,
+                                 numPts * 2);
+            }
+            rfturn;
+        }
+
+        /* NOTREACHED */
+    }
+
+    /**
+     * Trbnsforms thf rflbtivf distbndf vfdtor spfdififd by
+     * <dodf>ptSrd</dodf> bnd storfs thf rfsult in <dodf>ptDst</dodf>.
+     * A rflbtivf distbndf vfdtor is trbnsformfd without bpplying thf
+     * trbnslbtion domponfnts of thf bffinf trbnsformbtion mbtrix
+     * using thf following fqubtions:
+     * <prf>
+     *  [  x' ]   [  m00  m01 (m02) ] [  x  ]   [ m00x + m01y ]
+     *  [  y' ] = [  m10  m11 (m12) ] [  y  ] = [ m10x + m11y ]
+     *  [ (1) ]   [  (0)  (0) ( 1 ) ] [ (1) ]   [     (1)     ]
+     * </prf>
+     * If <dodf>ptDst</dodf> is <dodf>null</dodf>, b nfw
+     * <dodf>Point2D</dodf> objfdt is bllodbtfd bnd thfn thf rfsult of thf
+     * trbnsform is storfd in this objfdt.
+     * In fithfr dbsf, <dodf>ptDst</dodf>, whidh dontbins thf
+     * trbnsformfd point, is rfturnfd for donvfnifndf.
+     * If <dodf>ptSrd</dodf> bnd <dodf>ptDst</dodf> brf thf sbmf objfdt,
+     * thf input point is dorrfdtly ovfrwrittfn with thf trbnsformfd
+     * point.
+     * @pbrbm ptSrd thf distbndf vfdtor to bf dfltb trbnsformfd
+     * @pbrbm ptDst thf rfsulting trbnsformfd distbndf vfdtor
+     * @rfturn <dodf>ptDst</dodf>, whidh dontbins thf rfsult of thf
+     * trbnsformbtion.
+     * @sindf 1.2
+     */
+    publid Point2D dfltbTrbnsform(Point2D ptSrd, Point2D ptDst) {
+        if (ptDst == null) {
+            if (ptSrd instbndfof Point2D.Doublf) {
+                ptDst = nfw Point2D.Doublf();
+            } flsf {
+                ptDst = nfw Point2D.Flobt();
+            }
+        }
+        // Copy sourdf doords into lodbl vbribblfs in dbsf srd == dst
+        doublf x = ptSrd.gftX();
+        doublf y = ptSrd.gftY();
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn null;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            ptDst.sftLodbtion(x * m00 + y * m01, x * m10 + y * m11);
+            rfturn ptDst;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (APPLY_SHEAR):
+            ptDst.sftLodbtion(y * m01, x * m10);
+            rfturn ptDst;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (APPLY_SCALE):
+            ptDst.sftLodbtion(x * m00, y * m11);
+            rfturn ptDst;
+        dbsf (APPLY_TRANSLATE):
+        dbsf (APPLY_IDENTITY):
+            ptDst.sftLodbtion(x, y);
+            rfturn ptDst;
+        }
+
+        /* NOTREACHED */
+    }
+
+    /**
+     * Trbnsforms bn brrby of rflbtivf distbndf vfdtors by this
+     * trbnsform.
+     * A rflbtivf distbndf vfdtor is trbnsformfd without bpplying thf
+     * trbnslbtion domponfnts of thf bffinf trbnsformbtion mbtrix
+     * using thf following fqubtions:
+     * <prf>
+     *  [  x' ]   [  m00  m01 (m02) ] [  x  ]   [ m00x + m01y ]
+     *  [  y' ] = [  m10  m11 (m12) ] [  y  ] = [ m10x + m11y ]
+     *  [ (1) ]   [  (0)  (0) ( 1 ) ] [ (1) ]   [     (1)     ]
+     * </prf>
+     * Thf two doordinbtf brrby sfdtions dbn bf fxbdtly thf sbmf or
+     * dbn bf ovfrlbpping sfdtions of thf sbmf brrby without bfffdting thf
+     * vblidity of thf rfsults.
+     * This mfthod fnsurfs thbt no sourdf doordinbtfs brf
+     * ovfrwrittfn by b prfvious opfrbtion bfforf thfy dbn bf trbnsformfd.
+     * Thf doordinbtfs brf storfd in thf brrbys stbrting bt thf indidbtfd
+     * offsft in thf ordfr <dodf>[x0, y0, x1, y1, ..., xn, yn]</dodf>.
+     * @pbrbm srdPts thf brrby dontbining thf sourdf distbndf vfdtors.
+     * Ebdh vfdtor is storfd bs b pbir of rflbtivf x,&nbsp;y doordinbtfs.
+     * @pbrbm dstPts thf brrby into whidh thf trbnsformfd distbndf vfdtors
+     * brf rfturnfd.  Ebdh vfdtor is storfd bs b pbir of rflbtivf
+     * x,&nbsp;y doordinbtfs.
+     * @pbrbm srdOff thf offsft to thf first vfdtor to bf trbnsformfd
+     * in thf sourdf brrby
+     * @pbrbm dstOff thf offsft to thf lodbtion of thf first
+     * trbnsformfd vfdtor thbt is storfd in thf dfstinbtion brrby
+     * @pbrbm numPts thf numbfr of vfdtor doordinbtf pbirs to bf
+     * trbnsformfd
+     * @sindf 1.2
+     */
+    publid void dfltbTrbnsform(doublf[] srdPts, int srdOff,
+                               doublf[] dstPts, int dstOff,
+                               int numPts) {
+        doublf M00, M01, M10, M11;      // For dbdhing
+        if (dstPts == srdPts &&
+            dstOff > srdOff && dstOff < srdOff + numPts * 2)
+        {
+            // If thf brrbys ovfrlbp pbrtiblly with thf dfstinbtion highfr
+            // thbn thf sourdf bnd wf trbnsform thf doordinbtfs normblly
+            // wf would ovfrwritf somf of thf lbtfr sourdf doordinbtfs
+            // with rfsults of prfvious trbnsformbtions.
+            // To gft bround this wf usf brrbydopy to dopy thf points
+            // to thfir finbl dfstinbtion with dorrfdt ovfrwritf
+            // hbndling bnd thfn trbnsform thfm in plbdf in thf nfw
+            // sbffr lodbtion.
+            Systfm.brrbydopy(srdPts, srdOff, dstPts, dstOff, numPts * 2);
+            // srdPts = dstPts;         // Thfy brf known to bf fqubl.
+            srdOff = dstOff;
+        }
+        switdh (stbtf) {
+        dffbult:
+            stbtfError();
+            /* NOTREACHED */
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (APPLY_SHEAR | APPLY_SCALE):
+            M00 = m00; M01 = m01;
+            M10 = m10; M11 = m11;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                doublf y = srdPts[srdOff++];
+                dstPts[dstOff++] = x * M00 + y * M01;
+                dstPts[dstOff++] = x * M10 + y * M11;
+            }
+            rfturn;
+        dbsf (APPLY_SHEAR | APPLY_TRANSLATE):
+        dbsf (APPLY_SHEAR):
+            M01 = m01; M10 = m10;
+            whilf (--numPts >= 0) {
+                doublf x = srdPts[srdOff++];
+                dstPts[dstOff++] = srdPts[srdOff++] * M01;
+                dstPts[dstOff++] = x * M10;
+            }
+            rfturn;
+        dbsf (APPLY_SCALE | APPLY_TRANSLATE):
+        dbsf (APPLY_SCALE):
+            M00 = m00; M11 = m11;
+            whilf (--numPts >= 0) {
+                dstPts[dstOff++] = srdPts[srdOff++] * M00;
+                dstPts[dstOff++] = srdPts[srdOff++] * M11;
+            }
+            rfturn;
+        dbsf (APPLY_TRANSLATE):
+        dbsf (APPLY_IDENTITY):
+            if (srdPts != dstPts || srdOff != dstOff) {
+                Systfm.brrbydopy(srdPts, srdOff, dstPts, dstOff,
+                                 numPts * 2);
+            }
+            rfturn;
+        }
+
+        /* NOTREACHED */
+    }
+
+    /**
+     * Rfturns b nfw {@link Shbpf} objfdt dffinfd by thf gfomftry of thf
+     * spfdififd <dodf>Shbpf</dodf> bftfr it hbs bffn trbnsformfd by
+     * this trbnsform.
+     * @pbrbm pSrd thf spfdififd <dodf>Shbpf</dodf> objfdt to bf
+     * trbnsformfd by this trbnsform.
+     * @rfturn b nfw <dodf>Shbpf</dodf> objfdt thbt dffinfs thf gfomftry
+     * of thf trbnsformfd <dodf>Shbpf</dodf>, or null if {@dodf pSrd} is null.
+     * @sindf 1.2
+     */
+    publid Shbpf drfbtfTrbnsformfdShbpf(Shbpf pSrd) {
+        if (pSrd == null) {
+            rfturn null;
+        }
+        rfturn nfw Pbth2D.Doublf(pSrd, this);
+    }
+
+    // Round vblufs to sbnf prfdision for printing
+    // Notf thbt Mbth.sin(Mbth.PI) hbs bn frror of bbout 10^-16
+    privbtf stbtid doublf _mbtround(doublf mbtvbl) {
+        rfturn Mbth.rint(mbtvbl * 1E15) / 1E15;
+    }
+
+    /**
+     * Rfturns b <dodf>String</dodf> thbt rfprfsfnts thf vbluf of this
+     * {@link Objfdt}.
+     * @rfturn b <dodf>String</dodf> rfprfsfnting thf vbluf of this
+     * <dodf>Objfdt</dodf>.
+     * @sindf 1.2
+     */
+    publid String toString() {
+        rfturn ("AffinfTrbnsform[["
+                + _mbtround(m00) + ", "
+                + _mbtround(m01) + ", "
+                + _mbtround(m02) + "], ["
+                + _mbtround(m10) + ", "
+                + _mbtround(m11) + ", "
+                + _mbtround(m12) + "]]");
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this <dodf>AffinfTrbnsform</dodf> is
+     * bn idfntity trbnsform.
+     * @rfturn <dodf>truf</dodf> if this <dodf>AffinfTrbnsform</dodf> is
+     * bn idfntity trbnsform; <dodf>fblsf</dodf> othfrwisf.
+     * @sindf 1.2
+     */
+    publid boolfbn isIdfntity() {
+        rfturn (stbtf == APPLY_IDENTITY || (gftTypf() == TYPE_IDENTITY));
+    }
+
+    /**
+     * Rfturns b dopy of this <dodf>AffinfTrbnsform</dodf> objfdt.
+     * @rfturn bn <dodf>Objfdt</dodf> thbt is b dopy of this
+     * <dodf>AffinfTrbnsform</dodf> objfdt.
+     * @sindf 1.2
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /**
+     * Rfturns thf hbshdodf for this trbnsform.
+     * @rfturn      b hbsh dodf for this trbnsform.
+     * @sindf 1.2
+     */
+    publid int hbshCodf() {
+        long bits = Doublf.doublfToLongBits(m00);
+        bits = bits * 31 + Doublf.doublfToLongBits(m01);
+        bits = bits * 31 + Doublf.doublfToLongBits(m02);
+        bits = bits * 31 + Doublf.doublfToLongBits(m10);
+        bits = bits * 31 + Doublf.doublfToLongBits(m11);
+        bits = bits * 31 + Doublf.doublfToLongBits(m12);
+        rfturn (((int) bits) ^ ((int) (bits >> 32)));
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this <dodf>AffinfTrbnsform</dodf>
+     * rfprfsfnts thf sbmf bffinf doordinbtf trbnsform bs thf spfdififd
+     * brgumfnt.
+     * @pbrbm obj thf <dodf>Objfdt</dodf> to tfst for fqublity with this
+     * <dodf>AffinfTrbnsform</dodf>
+     * @rfturn <dodf>truf</dodf> if <dodf>obj</dodf> fqubls this
+     * <dodf>AffinfTrbnsform</dodf> objfdt; <dodf>fblsf</dodf> othfrwisf.
+     * @sindf 1.2
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof AffinfTrbnsform)) {
+            rfturn fblsf;
+        }
+
+        AffinfTrbnsform b = (AffinfTrbnsform)obj;
+
+        rfturn ((m00 == b.m00) && (m01 == b.m01) && (m02 == b.m02) &&
+                (m10 == b.m10) && (m11 == b.m11) && (m12 == b.m12));
+    }
+
+    /* Sfriblizbtion support.  A rfbdObjfdt mfthod is nfddfssbry bfdbusf
+     * thf stbtf fifld is pbrt of thf implfmfntbtion of this pbrtidulbr
+     * AffinfTrbnsform bnd not pbrt of thf publid spfdifidbtion.  Thf
+     * stbtf vbribblf's vbluf nffds to bf rfdbldulbtfd on thf fly by thf
+     * rfbdObjfdt mfthod bs it is in thf 6-brgumfnt mbtrix donstrudtor.
+     */
+
+    /*
+     * JDK 1.2 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1330973210523860834L;
+
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        throws jbvb.lbng.ClbssNotFoundExdfption, jbvb.io.IOExdfption
+    {
+        s.dffbultWritfObjfdt();
+    }
+
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        throws jbvb.lbng.ClbssNotFoundExdfption, jbvb.io.IOExdfption
+    {
+        s.dffbultRfbdObjfdt();
+        updbtfStbtf();
+    }
+}

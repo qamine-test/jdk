@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * An objfdt thbt mby hold rfsourdfs (sudh bs filf or sodkft hbndlfs)
+ * until it is dlosfd. Thf {@link #dlosf()} mfthod of bn {@dodf AutoClosfbblf}
+ * objfdt is dbllfd butombtidblly whfn fxiting b {@dodf
+ * try}-with-rfsourdfs blodk for whidh thf objfdt hbs bffn dfdlbrfd in
+ * thf rfsourdf spfdifidbtion hfbdfr. This donstrudtion fnsurfs prompt
+ * rflfbsf, bvoiding rfsourdf fxhbustion fxdfptions bnd frrors thbt
+ * mby othfrwisf oddur.
+ *
+ * @bpiNotf
+ * <p>It is possiblf, bnd in fbdt dommon, for b bbsf dlbss to
+ * implfmfnt AutoClosfbblf fvfn though not bll of its subdlbssfs or
+ * instbndfs will hold rflfbsbblf rfsourdfs.  For dodf thbt must opfrbtf
+ * in domplftf gfnfrblity, or whfn it is known thbt thf {@dodf AutoClosfbblf}
+ * instbndf rfquirfs rfsourdf rflfbsf, it is rfdommfndfd to usf {@dodf
+ * try}-with-rfsourdfs donstrudtions. Howfvfr, whfn using fbdilitifs sudh bs
+ * {@link jbvb.util.strfbm.Strfbm} thbt support both I/O-bbsfd bnd
+ * non-I/O-bbsfd forms, {@dodf try}-with-rfsourdfs blodks brf in
+ * gfnfrbl unnfdfssbry whfn using non-I/O-bbsfd forms.
+ *
+ * @buthor Josh Blodh
+ * @sindf 1.7
+ */
+publid intfrfbdf AutoClosfbblf {
+    /**
+     * Closfs this rfsourdf, rflinquishing bny undfrlying rfsourdfs.
+     * This mfthod is invokfd butombtidblly on objfdts mbnbgfd by thf
+     * {@dodf try}-with-rfsourdfs stbtfmfnt.
+     *
+     * <p>Whilf this intfrfbdf mfthod is dfdlbrfd to throw {@dodf
+     * Exdfption}, implfmfntfrs brf <fm>strongly</fm> fndourbgfd to
+     * dfdlbrf dondrftf implfmfntbtions of thf {@dodf dlosf} mfthod to
+     * throw morf spfdifid fxdfptions, or to throw no fxdfption bt bll
+     * if thf dlosf opfrbtion dbnnot fbil.
+     *
+     * <p> Cbsfs whfrf thf dlosf opfrbtion mby fbil rfquirf dbrfful
+     * bttfntion by implfmfntfrs. It is strongly bdvisfd to rflinquish
+     * thf undfrlying rfsourdfs bnd to intfrnblly <fm>mbrk</fm> thf
+     * rfsourdf bs dlosfd, prior to throwing thf fxdfption. Thf {@dodf
+     * dlosf} mfthod is unlikfly to bf invokfd morf thbn ondf bnd so
+     * this fnsurfs thbt thf rfsourdfs brf rflfbsfd in b timfly mbnnfr.
+     * Furthfrmorf it rfdudfs problfms thbt dould brisf whfn thf rfsourdf
+     * wrbps, or is wrbppfd, by bnothfr rfsourdf.
+     *
+     * <p><fm>Implfmfntfrs of this intfrfbdf brf blso strongly bdvisfd
+     * to not hbvf thf {@dodf dlosf} mfthod throw {@link
+     * IntfrruptfdExdfption}.</fm>
+     *
+     * This fxdfption intfrbdts with b thrfbd's intfrruptfd stbtus,
+     * bnd runtimf misbfhbvior is likfly to oddur if bn {@dodf
+     * IntfrruptfdExdfption} is {@linkplbin Throwbblf#bddSupprfssfd
+     * supprfssfd}.
+     *
+     * Morf gfnfrblly, if it would dbusf problfms for bn
+     * fxdfption to bf supprfssfd, thf {@dodf AutoClosfbblf.dlosf}
+     * mfthod should not throw it.
+     *
+     * <p>Notf thbt unlikf thf {@link jbvb.io.Closfbblf#dlosf dlosf}
+     * mfthod of {@link jbvb.io.Closfbblf}, this {@dodf dlosf} mfthod
+     * is <fm>not</fm> rfquirfd to bf idfmpotfnt.  In othfr words,
+     * dblling this {@dodf dlosf} mfthod morf thbn ondf mby hbvf somf
+     * visiblf sidf ffffdt, unlikf {@dodf Closfbblf.dlosf} whidh is
+     * rfquirfd to hbvf no ffffdt if dbllfd morf thbn ondf.
+     *
+     * Howfvfr, implfmfntfrs of this intfrfbdf brf strongly fndourbgfd
+     * to mbkf thfir {@dodf dlosf} mfthods idfmpotfnt.
+     *
+     * @throws Exdfption if this rfsourdf dbnnot bf dlosfd
+     */
+    void dlosf() throws Exdfption;
+}

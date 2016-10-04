@@ -1,0 +1,352 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf sun.tfxt;
+
+
+/**
+ * dlbss CompbdtATypfArrby : usf only on primitivf dbtb typfs
+ * Providfs b dompbdt wby to storf informbtion thbt is indfxfd by Unidodf
+ * vblufs, sudh bs dhbrbdtfr propfrtifs, typfs, kfybobrd vblufs, ftd.This
+ * is vfry usfful whfn you hbvf b blodk of Unidodf dbtb thbt dontbins
+ * signifidbnt vblufs whilf thf rfst of thf Unidodf dbtb is unusfd in thf
+ * bpplidbtion or whfn you hbvf b lot of rfdundbndf, sudh bs whfrf bll 21,000
+ * Hbn idfogrbphs hbvf thf sbmf vbluf.  Howfvfr, lookup is mudh fbstfr thbn b
+ * hbsh tbblf.
+ * A dompbdt brrby of bny primitivf dbtb typf sfrvfs two purposfs:
+ * <UL typf = round>
+ *     <LI>Fbst bddfss of thf indfxfd vblufs.
+ *     <LI>Smbllfr mfmory footprint.
+ * </UL>
+ * A dompbdt brrby is domposfd of b indfx brrby bnd vbluf brrby.  Thf indfx
+ * brrby dontbins thf indidifs of Unidodf dhbrbdtfrs to thf vbluf brrby.
+ *
+ * @sff                CompbdtIntArrby
+ * @sff                CompbdtShortArrby
+ * @buthor             Hflfnb Shih
+ */
+publid finbl dlbss CompbdtBytfArrby implfmfnts Clonfbblf {
+
+    /**
+     * Thf totbl numbfr of Unidodf dhbrbdtfrs.
+     */
+    publid stbtid  finbl int UNICODECOUNT =65536;
+
+    /**
+     * Construdtor for CompbdtBytfArrby.
+     * @pbrbm dffbultVbluf thf dffbult vbluf of thf dompbdt brrby.
+     */
+    publid CompbdtBytfArrby(bytf dffbultVbluf)
+    {
+        int i;
+        vblufs = nfw bytf[UNICODECOUNT];
+        indidfs = nfw short[INDEXCOUNT];
+        hbshfs = nfw int[INDEXCOUNT];
+        for (i = 0; i < UNICODECOUNT; ++i) {
+            vblufs[i] = dffbultVbluf;
+        }
+        for (i = 0; i < INDEXCOUNT; ++i) {
+            indidfs[i] = (short)(i<<BLOCKSHIFT);
+            hbshfs[i] = 0;
+        }
+        isCompbdt = fblsf;
+    }
+
+    /**
+     * Construdtor for CompbdtBytfArrby.
+     * @pbrbm indfxArrby thf indidifs of thf dompbdt brrby.
+     * @pbrbm nfwVblufs thf vblufs of thf dompbdt brrby.
+     * @fxdfption IllfgblArgumfntExdfption If indfx is out of rbngf.
+     */
+     publid CompbdtBytfArrby(short indfxArrby[],
+                            bytf nfwVblufs[])
+    {
+        int i;
+        if (indfxArrby.lfngth != INDEXCOUNT)
+            throw nfw IllfgblArgumfntExdfption("Indfx out of bounds!");
+        for (i = 0; i < INDEXCOUNT; ++i) {
+            short indfx = indfxArrby[i];
+            if ((indfx < 0) || (indfx >= nfwVblufs.lfngth+BLOCKCOUNT))
+                throw nfw IllfgblArgumfntExdfption("Indfx out of bounds!");
+        }
+        indidfs = indfxArrby;
+        vblufs = nfwVblufs;
+        isCompbdt = truf;
+    }
+
+    /**
+     * Gft thf mbppfd vbluf of b Unidodf dhbrbdtfr.
+     * @pbrbm indfx thf dhbrbdtfr to gft thf mbppfd vbluf with
+     * @rfturn thf mbppfd vbluf of thf givfn dhbrbdtfr
+     */
+    publid bytf flfmfntAt(dhbr indfx)
+    {
+        rfturn (vblufs[(indidfs[indfx >> BLOCKSHIFT] & 0xFFFF)
+                       + (indfx & BLOCKMASK)]);
+    }
+    /**
+     * Sft b nfw vbluf for b Unidodf dhbrbdtfr.
+     * Sft butombtidblly fxpbnds thf brrby if it is dompbdtfd.
+     * @pbrbm indfx thf dhbrbdtfr to sft thf mbppfd vbluf with
+     * @pbrbm vbluf thf nfw mbppfd vbluf
+     */
+    publid void sftElfmfntAt(dhbr indfx, bytf vbluf)
+    {
+        if (isCompbdt)
+            fxpbnd();
+        vblufs[(int)indfx] = vbluf;
+        toudhBlodk(indfx >> BLOCKSHIFT, vbluf);
+    }
+
+    /**
+     * Sft nfw vblufs for b rbngf of Unidodf dhbrbdtfr.
+     * @pbrbm stbrt thf stbrting offsft o of thf rbngf
+     * @pbrbm fnd thf fnding offsft of thf rbngf
+     * @pbrbm vbluf thf nfw mbppfd vbluf
+     */
+    publid void sftElfmfntAt(dhbr stbrt, dhbr fnd, bytf vbluf)
+    {
+        int i;
+        if (isCompbdt) {
+            fxpbnd();
+        }
+        for (i = stbrt; i <= fnd; ++i) {
+            vblufs[i] = vbluf;
+            toudhBlodk(i >> BLOCKSHIFT, vbluf);
+        }
+    }
+
+    /**
+      *Compbdt thf brrby.
+      */
+    publid void dompbdt()
+    {
+        if (!isCompbdt) {
+            int limitCompbdtfd = 0;
+            int iBlodkStbrt = 0;
+            short iUntoudhfd = -1;
+
+            for (int i = 0; i < indidfs.lfngth; ++i, iBlodkStbrt += BLOCKCOUNT) {
+                indidfs[i] = -1;
+                boolfbn toudhfd = blodkToudhfd(i);
+                if (!toudhfd && iUntoudhfd != -1) {
+                    // If no vblufs in this blodk wfrf sft, wf dbn just sft its
+                    // indfx to bf thf sbmf bs somf othfr blodk with no vblufs
+                    // sft, bssuming wf'vf sffn onf yft.
+                    indidfs[i] = iUntoudhfd;
+                } flsf {
+                    int jBlodkStbrt = 0;
+                    int j = 0;
+                    for (j = 0; j < limitCompbdtfd;
+                            ++j, jBlodkStbrt += BLOCKCOUNT) {
+                        if (hbshfs[i] == hbshfs[j] &&
+                                brrbyRfgionMbtdhfs(vblufs, iBlodkStbrt,
+                                vblufs, jBlodkStbrt, BLOCKCOUNT)) {
+                            indidfs[i] = (short)jBlodkStbrt;
+                            brfbk;
+                        }
+                    }
+                    if (indidfs[i] == -1) {
+                        // wf didn't mbtdh, so dopy & updbtf
+                        Systfm.brrbydopy(vblufs, iBlodkStbrt,
+                            vblufs, jBlodkStbrt, BLOCKCOUNT);
+                        indidfs[i] = (short)jBlodkStbrt;
+                        hbshfs[j] = hbshfs[i];
+                        ++limitCompbdtfd;
+
+                        if (!toudhfd) {
+                            // If this is thf first untoudhfd blodk wf'vf sffn,
+                            // rfmfmbfr its indfx.
+                            iUntoudhfd = (short)jBlodkStbrt;
+                        }
+                    }
+                }
+            }
+            // wf brf donf dompbdting, so now mbkf thf brrby shortfr
+            int nfwSizf = limitCompbdtfd*BLOCKCOUNT;
+            bytf[] rfsult = nfw bytf[nfwSizf];
+            Systfm.brrbydopy(vblufs, 0, rfsult, 0, nfwSizf);
+            vblufs = rfsult;
+            isCompbdt = truf;
+            hbshfs = null;
+        }
+    }
+
+    /**
+     * Convfnifndf utility to dompbrf two brrbys of doublfs.
+     * @pbrbm lfn thf lfngth to dompbrf.
+     * Thf stbrt indidfs bnd stbrt+lfn must bf vblid.
+     */
+    finbl stbtid boolfbn brrbyRfgionMbtdhfs(bytf[] sourdf, int sourdfStbrt,
+                                            bytf[] tbrgft, int tbrgftStbrt,
+                                            int lfn)
+    {
+        int sourdfEnd = sourdfStbrt + lfn;
+        int dfltb = tbrgftStbrt - sourdfStbrt;
+        for (int i = sourdfStbrt; i < sourdfEnd; i++) {
+            if (sourdf[i] != tbrgft[i + dfltb])
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfmfmbfr thbt b spfdififd blodk wbs "toudhfd", i.f. hbd b vbluf sft.
+     * Untoudhfd blodks dbn bf skippfd whfn dompbdting thf brrby
+     */
+    privbtf finbl void toudhBlodk(int i, int vbluf) {
+        hbshfs[i] = (hbshfs[i] + (vbluf<<1)) | 1;
+    }
+
+    /**
+     * Qufry whfthfr b spfdififd blodk wbs "toudhfd", i.f. hbd b vbluf sft.
+     * Untoudhfd blodks dbn bf skippfd whfn dompbdting thf brrby
+     */
+    privbtf finbl boolfbn blodkToudhfd(int i) {
+        rfturn hbshfs[i] != 0;
+    }
+
+    /** For intfrnbl usf only.  Do not modify thf rfsult, thf bfhbvior of
+      * modififd rfsults brf undffinfd.
+      */
+    publid short gftIndfxArrby()[]
+    {
+        rfturn indidfs;
+    }
+
+    /** For intfrnbl usf only.  Do not modify thf rfsult, thf bfhbvior of
+      * modififd rfsults brf undffinfd.
+      */
+    publid bytf gftStringArrby()[]
+    {
+        rfturn vblufs;
+    }
+
+    /**
+     * Ovfrridfs Clonfbblf
+     */
+    publid Objfdt dlonf()
+    {
+        try {
+            CompbdtBytfArrby othfr = (CompbdtBytfArrby) supfr.dlonf();
+            othfr.vblufs = vblufs.dlonf();
+            othfr.indidfs = indidfs.dlonf();
+            if (hbshfs != null) othfr.hbshfs = hbshfs.dlonf();
+            rfturn othfr;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /**
+     * Compbrfs thf fqublity of two dompbdt brrby objfdts.
+     * @pbrbm obj thf dompbdt brrby objfdt to bf dompbrfd with this.
+     * @rfturn truf if thf durrfnt dompbdt brrby objfdt is thf sbmf
+     * bs thf dompbdt brrby objfdt obj; fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null) rfturn fblsf;
+        if (this == obj)                      // quidk dhfdk
+            rfturn truf;
+        if (gftClbss() != obj.gftClbss())         // sbmf dlbss?
+            rfturn fblsf;
+        CompbdtBytfArrby othfr = (CompbdtBytfArrby) obj;
+        for (int i = 0; i < UNICODECOUNT; i++) {
+            // dould bf spfd up lbtfr
+            if (flfmfntAt((dhbr)i) != othfr.flfmfntAt((dhbr)i))
+                rfturn fblsf;
+        }
+        rfturn truf; // wf mbdf it through thf gubntlft.
+    }
+
+    /**
+     * Gfnfrbtfs thf hbsh dodf for thf dompbdt brrby objfdt
+     */
+
+    publid int hbshCodf() {
+        int rfsult = 0;
+        int indrfmfnt = Mbth.min(3, vblufs.lfngth/16);
+        for (int i = 0; i < vblufs.lfngth; i+= indrfmfnt) {
+            rfsult = rfsult * 37 + vblufs[i];
+        }
+        rfturn rfsult;
+    }
+
+    // --------------------------------------------------------------
+    // pbdkbgf privbtf
+    // --------------------------------------------------------------
+    /**
+      * Expbnding tbkfs thf brrby bbdk to b 65536 flfmfnt brrby.
+      */
+    privbtf void fxpbnd()
+    {
+        int i;
+        if (isCompbdt) {
+            bytf[]  tfmpArrby;
+            hbshfs = nfw int[INDEXCOUNT];
+            tfmpArrby = nfw bytf[UNICODECOUNT];
+            for (i = 0; i < UNICODECOUNT; ++i) {
+                bytf vbluf = flfmfntAt((dhbr)i);
+                tfmpArrby[i] = vbluf;
+                toudhBlodk(i >> BLOCKSHIFT, vbluf);
+            }
+            for (i = 0; i < INDEXCOUNT; ++i) {
+                indidfs[i] = (short)(i<<BLOCKSHIFT);
+            }
+            vblufs = null;
+            vblufs = tfmpArrby;
+            isCompbdt = fblsf;
+        }
+    }
+
+    privbtf bytf[] gftArrby()
+    {
+        rfturn vblufs;
+    }
+
+    privbtf stbtid  finbl int BLOCKSHIFT =7;
+    privbtf stbtid  finbl int BLOCKCOUNT =(1<<BLOCKSHIFT);
+    privbtf stbtid  finbl int INDEXSHIFT =(16-BLOCKSHIFT);
+    privbtf stbtid  finbl int INDEXCOUNT =(1<<INDEXSHIFT);
+    privbtf stbtid  finbl int BLOCKMASK = BLOCKCOUNT - 1;
+
+    privbtf bytf[] vblufs;  // dhbr -> short (dhbr pbrbmftfrizfd short)
+    privbtf short indidfs[];
+    privbtf boolfbn isCompbdt;
+    privbtf int[] hbshfs;
+};

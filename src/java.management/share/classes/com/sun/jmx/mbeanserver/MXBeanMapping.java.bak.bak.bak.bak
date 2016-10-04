@@ -1,0 +1,210 @@
+/*
+ * Copyright (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
+
+/**
+ * <p>A dustom mbpping bftwffn Jbvb typfs bnd Opfn typfs for usf in MXBfbns.
+ * To dffinf sudh b mbpping, subdlbss this dlbss bnd dffinf bt lfbst thf
+ * {@link #fromOpfnVbluf fromOpfnVbluf} bnd {@link #toOpfnVbluf toOpfnVbluf}
+ * mfthods, bnd optionblly thf {@link #dhfdkRfdonstrudtiblf} mfthod.
+ * Thfn fithfr usf bn {@link MXBfbnMbppingClbss} bnnotbtion on your dustom
+ * Jbvb typfs, or indludf this MXBfbnMbpping in bn
+ * {@link MXBfbnMbppingFbdtory}.</p>
+ *
+ * <p>For fxbmplf, supposf wf hbvf b dlbss {@dodf MyLinkfdList}, whidh looks
+ * likf this:</p>
+ *
+ * <prf>
+ * publid dlbss MyLinkfdList {
+ *     publid MyLinkfdList(String nbmf, MyLinkfdList nfxt) {...}
+ *     publid String gftNbmf() {...}
+ *     publid MyLinkfdList gftNfxt() {...}
+ * }
+ * </prf>
+ *
+ * <p>This is not b vblid typf for MXBfbns, bfdbusf it dontbins b
+ * sflf-rfffrfntibl propfrty "nfxt" dffinfd by thf {@dodf gftNfxt()}
+ * mfthod.  MXBfbns do not support rfdursivf typfs.  So wf would likf
+ * to spfdify b mbpping for {@dodf MyLinkfdList} fxpliditly. Whfn bn
+ * MXBfbn intfrfbdf dontbins {@dodf MyLinkfdList}, thbt will bf mbppfd
+ * into b {@dodf String[]}, whidh is b vblid Opfn Typf.</p>
+ *
+ * <p>To dffinf this mbpping, wf first subdlbss {@dodf MXBfbnMbpping}:</p>
+ *
+ * <prf>
+ * publid dlbss MyLinkfdListMbpping fxtfnds MXBfbnMbpping {
+ *     publid MyLinkfdListMbpping(Typf typf) throws OpfnDbtbExdfption {
+ *         supfr(MyLinkfdList.dlbss, ArrbyTypf.gftArrbyTypf(SimplfTypf.STRING));
+ *         if (typf != MyLinkfdList.dlbss)
+ *             throw nfw OpfnDbtbExdfption("Mbpping only vblid for MyLinkfdList");
+ *     }
+ *
+ *     {@litfrbl @Ovfrridf}
+ *     publid Objfdt fromOpfnVbluf(Objfdt opfnVbluf) throws InvblidObjfdtExdfption {
+ *         String[] brrby = (String[]) opfnVbluf;
+ *         MyLinkfdList list = null;
+ *         for (int i = brrby.lfngth - 1; i &gt;= 0; i--)
+ *             list = nfw MyLinkfdList(brrby[i], list);
+ *         rfturn list;
+ *     }
+ *
+ *     {@litfrbl @Ovfrridf}
+ *     publid Objfdt toOpfnVbluf(Objfdt jbvbVbluf) throws OpfnDbtbExdfption {
+ *         ArrbyList&lt;String&gt; brrby = nfw ArrbyList&lt;String&gt;();
+ *         for (MyLinkfdList list = (MyLinkfdList) jbvbVbluf; list != null;
+ *              list = list.gftNfxt())
+ *             brrby.bdd(list.gftNbmf());
+ *         rfturn brrby.toArrby(nfw String[0]);
+ *     }
+ * }
+ * </prf>
+ *
+ * <p>Thf dbll to thf supfrdlbss donstrudtor spfdififs whbt thf
+ * originbl Jbvb typf is ({@dodf MyLinkfdList.dlbss}) bnd whbt Opfn
+ * Typf it is mbppfd to ({@dodf
+ * ArrbyTypf.gftArrbyTypf(SimplfTypf.STRING)}). Thf {@dodf
+ * fromOpfnVbluf} mfthod sbys how wf go from thf Opfn Typf ({@dodf
+ * String[]}) to thf Jbvb typf ({@dodf MyLinkfdList}), bnd thf {@dodf
+ * toOpfnVbluf} mfthod sbys how wf go from thf Jbvb typf to thf Opfn
+ * Typf.</p>
+ *
+ * <p>With this mbpping dffinfd, wf dbn bnnotbtf thf {@dodf MyLinkfdList}
+ * dlbss bppropribtfly:</p>
+ *
+ * <prf>
+ * {@litfrbl @MXBfbnMbppingClbss}(MyLinkfdListMbpping.dlbss)
+ * publid dlbss MyLinkfdList {...}
+ * </prf>
+ *
+ * <p>Now wf dbn usf {@dodf MyLinkfdList} in bn MXBfbn intfrfbdf bnd it
+ * will work.</p>
+ *
+ * <p>If wf brf unbblf to modify thf {@dodf MyLinkfdList} dlbss,
+ * wf dbn dffinf bn {@link MXBfbnMbppingFbdtory}.  Sff thf dodumfntbtion
+ * of thbt dlbss for furthfr dftbils.</p>
+ *
+ * @sff <b hrff="../MXBfbn.html#dustom">MXBfbn spfdifidbtion, sfdtion
+ * "Custom MXBfbn typf mbppings"</b>
+ */
+publid bbstrbdt dlbss MXBfbnMbpping {
+    privbtf finbl Typf jbvbTypf;
+    privbtf finbl OpfnTypf<?> opfnTypf;
+    privbtf finbl Clbss<?> opfnClbss;
+
+    /**
+     * <p>Construdt b mbpping bftwffn thf givfn Jbvb typf bnd thf givfn
+     * Opfn Typf.</p>
+     *
+     * @pbrbm jbvbTypf thf Jbvb typf (for fxbmplf, {@dodf MyLinkfdList}).
+     * @pbrbm opfnTypf thf Opfn Typf (for fxbmplf, {@dodf
+     * ArrbyTypf.gftArrbyTypf(SimplfTypf.STRING)})
+     *
+     * @throws NullPointfrExdfption if fithfr brgumfnt is null.
+     */
+    protfdtfd MXBfbnMbpping(Typf jbvbTypf, OpfnTypf<?> opfnTypf) {
+        if (jbvbTypf == null || opfnTypf == null)
+            throw nfw NullPointfrExdfption("Null brgumfnt");
+        this.jbvbTypf = jbvbTypf;
+        this.opfnTypf = opfnTypf;
+        this.opfnClbss = mbkfOpfnClbss(jbvbTypf, opfnTypf);
+    }
+
+    /**
+     * <p>Thf Jbvb typf thbt wbs supplifd to thf donstrudtor.</p>
+     * @rfturn thf Jbvb typf thbt wbs supplifd to thf donstrudtor.
+     */
+    publid finbl Typf gftJbvbTypf() {
+        rfturn jbvbTypf;
+    }
+
+    /**
+     * <p>Thf Opfn Typf thbt wbs supplifd to thf donstrudtor.</p>
+     * @rfturn thf Opfn Typf thbt wbs supplifd to thf donstrudtor.
+     */
+    publid finbl OpfnTypf<?> gftOpfnTypf() {
+        rfturn opfnTypf;
+    }
+
+    /**
+     * <p>Thf Jbvb dlbss thbt dorrfsponds to instbndfs of thf
+     * {@linkplbin #gftOpfnTypf() Opfn Typf} for this mbpping.</p>
+     * @rfturn thf Jbvb dlbss thbt dorrfsponds to instbndfs of thf
+     * Opfn Typf for this mbpping.
+     * @sff OpfnTypf#gftClbssNbmf
+     */
+    publid finbl Clbss<?> gftOpfnClbss() {
+        rfturn opfnClbss;
+    }
+
+    privbtf stbtid Clbss<?> mbkfOpfnClbss(Typf jbvbTypf, OpfnTypf<?> opfnTypf) {
+        if (jbvbTypf instbndfof Clbss<?> && ((Clbss<?>) jbvbTypf).isPrimitivf())
+            rfturn (Clbss<?>) jbvbTypf;
+        try {
+            String dlbssNbmf = opfnTypf.gftClbssNbmf();
+            rfturn Clbss.forNbmf(dlbssNbmf, fblsf, MXBfbnMbpping.dlbss.gftClbssLobdfr());
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw nfw RuntimfExdfption(f);  // should not hbppfn
+        }
+    }
+
+    /**
+     * <p>Convfrt bn instbndf of thf Opfn Typf into thf Jbvb typf.
+     * @pbrbm opfnVbluf thf vbluf to bf donvfrtfd.
+     * @rfturn thf donvfrtfd vbluf.
+     * @throws InvblidObjfdtExdfption if thf vbluf dbnnot bf donvfrtfd.
+     */
+    publid bbstrbdt Objfdt fromOpfnVbluf(Objfdt opfnVbluf)
+    throws InvblidObjfdtExdfption;
+
+    /**
+     * <p>Convfrt bn instbndf of thf Jbvb typf into thf Opfn Typf.
+     * @pbrbm jbvbVbluf thf vbluf to bf donvfrtfd.
+     * @rfturn thf donvfrtfd vbluf.
+     * @throws OpfnDbtbExdfption if thf vbluf dbnnot bf donvfrtfd.
+     */
+    publid bbstrbdt Objfdt toOpfnVbluf(Objfdt jbvbVbluf)
+    throws OpfnDbtbExdfption;
+
+
+    /**
+     * <p>Throw bn bppropribtf InvblidObjfdtExdfption if wf will not
+     * bf bblf to donvfrt bbdk from thf opfn dbtb to thf originbl Jbvb
+     * objfdt.  Thf {@link #fromOpfnVbluf fromOpfnVbluf} throws bn
+     * fxdfption if b givfn opfn dbtb vbluf dbnnot bf donvfrtfd.  This
+     * mfthod throws bn fxdfption if <fm>no</fm> opfn dbtb vblufs dbn
+     * bf donvfrtfd.  Thf dffbult implfmfntbtion of this mfthod nfvfr
+     * throws bn fxdfption.  Subdlbssfs dbn ovfrridf it bs
+     * bppropribtf.</p>
+     * @throws InvblidObjfdtExdfption if {@dodf fromOpfnVbluf} will throw
+     * bn fxdfption no mbttfr whbt its brgumfnt is.
+     */
+    publid void dhfdkRfdonstrudtiblf() throws InvblidObjfdtExdfption {}
+}

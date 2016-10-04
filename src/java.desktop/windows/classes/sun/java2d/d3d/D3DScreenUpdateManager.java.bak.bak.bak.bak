@@ -1,0 +1,536 @@
+/*
+ * Copyright (d) 2007, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.d3d;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Window;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+
+import sun.bwt.AWTAddfssor;
+import sun.bwt.util.ThrfbdGroupUtils;
+import sun.bwt.Win32GrbphidsConfig;
+import sun.bwt.windows.WComponfntPffr;
+import sun.jbvb2d.InvblidPipfExdfption;
+import sun.jbvb2d.SdrffnUpdbtfMbnbgfr;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.windows.GDIWindowSurfbdfDbtb;
+import sun.jbvb2d.d3d.D3DSurfbdfDbtb.D3DWindowSurfbdfDbtb;
+import sun.jbvb2d.windows.WindowsFlbgs;
+
+/**
+ * This dlbss hbndlfs rfndfring to thf sdrffn with thf D3D pipflinf.
+ *
+ * Sindf it is not possiblf to rfndfr dirfdtly to thf front bufffr
+ * with D3D9, wf drfbtf b swbp dhbin surfbdf (with COPY ffffdt) in plbdf of thf
+ * GDIWindowSurfbdfDbtb. A bbdkground thrfbd hbndlfs thf swbp dhbin flips.
+ *
+ * Thfrf brf somf rfstridtions to whidh windows wf would usf this for.
+ * @sff #drfbtfSdrffnSurfbdf()
+ */
+publid dlbss D3DSdrffnUpdbtfMbnbgfr fxtfnds SdrffnUpdbtfMbnbgfr
+    implfmfnts Runnbblf
+{
+    /**
+     * A window must bf bt lfbst MIN_WIN_SIZE in onf or both dimfnsions
+     * to bf donsidfrfd for thf updbtf mbnbgfr.
+     */
+    privbtf stbtid finbl int MIN_WIN_SIZE = 150;
+
+    privbtf volbtilf boolfbn donf;
+    privbtf volbtilf Thrfbd sdrffnUpdbtfr;
+    privbtf boolfbn nffdsUpdbtfNow;
+
+    /**
+     * Objfdt usfd by thf sdrffn updbtfr thrfbd for wbiting
+     */
+    privbtf Objfdt runLodk = nfw Objfdt();
+    /**
+     * List of D3DWindowSurfbdfDbtb surfbdfs. Surfbdfs brf bddfd to thf
+     * list whfn b grbphids objfdt is drfbtfd, bnd rfmovfd whfn thf surfbdf
+     * is invblidbtfd.
+     */
+    privbtf ArrbyList<D3DWindowSurfbdfDbtb> d3dwSurfbdfs;
+    /**
+     * Cbdhf of GDIWindowSurfbdfDbtb surfbdfs dorrfsponding to thf
+     * D3DWindowSurfbdfDbtb surfbdfs. Surfbdfs brf bddfd to thf list whfn
+     * b d3dw surfbdf is lost bnd dould not bf rfstorfd (duf to lbdk of vrbm,
+     * for fxbmplf), bnd rfmovfd thfn thf d3dw surfbdf is invblidbtfd.
+     */
+    privbtf HbshMbp<D3DWindowSurfbdfDbtb, GDIWindowSurfbdfDbtb> gdiSurfbdfs;
+
+    publid D3DSdrffnUpdbtfMbnbgfr() {
+        donf = fblsf;
+        AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<Void>) () -> {
+                    ThrfbdGroup rootTG = ThrfbdGroupUtils.gftRootThrfbdGroup();
+                    Thrfbd shutdown = nfw Thrfbd(rootTG, () -> {
+                        donf = truf;
+                        wbkfUpUpdbtfThrfbd();
+                    });
+                    shutdown.sftContfxtClbssLobdfr(null);
+                    try {
+                        Runtimf.gftRuntimf().bddShutdownHook(shutdown);
+                    } dbtdh (Exdfption f) {
+                        donf = truf;
+                    }
+                    rfturn null;
+                }
+        );
+    }
+
+    /**
+     * If possiblf, drfbtfs b D3DWindowSurfbdfDbtb (whidh is bdtublly
+     * b bbdk-bufffr surfbdf). If thf drfbtion fbils, rfturns GDI
+     * onsdrffn surfbdf instfbd.
+     *
+     * Notf thbt thf drfbtfd D3D surfbdf dofs not initiblizf thf nbtivf
+     * rfsourdfs (bnd is mbrkfd lost) to bvoid wbsting vidfo mfmory. It is
+     * rfstorfd whfn b grbphids objfdt is rfqufstfd from thf pffr.
+     *
+     * Notf thbt this mfthod is dbllfd from b syndhronizfd blodk in
+     * WComponfntPffr, so wf don't nffd to syndhronizf
+     *
+     * Notf thbt wf only drfbtf b substibutf d3dw surfbdf if dfrtbin donditions
+     * brf mft
+     * <ul>
+     *  <li>thf fbkf d3d rfndfring on sdrffn is not disbblfd vib flbg
+     *  <li>d3d on thf dfvidf is fnbblfd
+     *  <li>surfbdf is lbrgfr thbn MIN_WIN_SIZE (don't bothfr for smbllfr onfs)
+     *  <li>it dofsn't hbvf b bbdkBufffr for b BufffrStrbtfgy blrfbdy
+     *  <li>thf pffr is fithfr Cbnvbs, Pbnfl, Window, Frbmf,
+     *  Diblog or EmbfddfdFrbmf
+     * </ul>
+     *
+     * @pbrbm gd GrbphidsConfigurbtion on bssodibtfd with thf surfbdf
+     * @pbrbm pffr pffr for whidh thf surfbdf is to bf drfbtfd
+     * @pbrbm bbNum numbfr of bbdk-bufffrs rfqufstfd. if this numbfr is >0,
+     * mfthod rfturns GDI surfbdf (wf don't wbnt to hbvf two swbp dhbins)
+     * @pbrbm isRfsizf whfthfr this surfbdf is bfing drfbtfd in rfsponsf to
+     * b domponfnt rfsizf fvfnt. This dftfrminfs whfthfr b rfpbint fvfnt will
+     * bf issufd bftfr b surfbdf is drfbtfd: it will bf if <dodf>isRfsizf</dodf>
+     * is <dodf>truf</dodf>.
+     * @rfturn surfbdf dbtb to bf usf for onsdrffn rfndfring
+     */
+    @Ovfrridf
+    publid SurfbdfDbtb drfbtfSdrffnSurfbdf(Win32GrbphidsConfig gd,
+                                           WComponfntPffr pffr,
+                                           int bbNum, boolfbn isRfsizf)
+    {
+        if (donf || !(gd instbndfof D3DGrbphidsConfig)) {
+            rfturn supfr.drfbtfSdrffnSurfbdf(gd, pffr, bbNum, isRfsizf);
+        }
+
+        SurfbdfDbtb sd = null;
+
+        if (dbnUsfD3DOnSdrffn(pffr, gd, bbNum)) {
+            try {
+                // notf thbt thf drfbtfd surfbdf will bf in thf "lost"
+                // stbtf, it will bf rfstorfd prior to rfndfring to it
+                // for thf first timf. This is donf so thbt vrbm is not
+                // wbstfd for surfbdfs nfvfr rfndfrfd to
+                sd = D3DSurfbdfDbtb.drfbtfDbtb(pffr);
+            }  dbtdh (InvblidPipfExdfption ipf) {
+                sd = null;
+            }
+        }
+        if (sd == null) {
+            sd = GDIWindowSurfbdfDbtb.drfbtfDbtb(pffr);
+            // notf thbt wf do not bdd this surfbdf to thf list of dbdhfd gdi
+            // surfbdfs bs thfrf's no d3dw surfbdf to bssodibtf it with;
+            // this pffr will hbvf b gdi surfbdf until nfxt timf b surfbdf
+            // will nffd to bf rfplbdfd
+        }
+
+        if (isRfsizf) {
+            // sindf wf'd potfntiblly rfplbdfd thf bbdk-bufffr surfbdf
+            // (fithfr with bnothfr bb, or b gdi onf), thf
+            // domponfnt will nffd to bf domplftfly rfpbintfd;
+            // this only nffd to bf donf whfn thf surfbdf is drfbtfd in
+            // rfsponsf to b rfsizf fvfnt sindf whfn b domponfnt is drfbtfd it
+            // will bf rfpbintfd bnywby
+            rfpbintPffrTbrgft(pffr);
+        }
+
+        rfturn sd;
+    }
+
+    /**
+     * Dftfrminfs if wf dbn usf b d3d surfbdf for onsdrffn rfndfring for this
+     * pffr.
+     * Wf only drfbtf onsdrffn d3d surfbdfs if thf following donditions brf mft:
+     *  - d3d is fnbblfd on this dfvidf bnd onsdrffn fmulbtion is fnbblfd
+     *  - window is big fnough to bothfr (fithfr dimfnsion > MIN_WIN_SIZE)
+     *  - this hfbvywfight dofsn't hbvf b BufffrStrbtfgy
+     *  - if wf brf in full-sdrffn modf thfn it must bf thf pffr of thf
+     *    full-sdrffn window (sindf thfrf dould bf only onf SwbpChbin in fs)
+     *    bnd it must not hbvf bny hfbvywfight dhildrfn
+     *    (bs Prfsfnt() dofsn't rfspfdt domponfnt dlipping in fullsdrffn modf)
+     *  - it's onf of thf dlbssfs likfly to hbvf dustom rfndfring worth
+     *    bddflfrbting
+     *
+     * @rfturns truf if wf dbn usf b d3d surfbdf for this pffr's onsdrffn
+     *          rfndfring
+     */
+    publid stbtid boolfbn dbnUsfD3DOnSdrffn(finbl WComponfntPffr pffr,
+                                            finbl Win32GrbphidsConfig gd,
+                                            finbl int bbNum)
+    {
+        if (!(gd instbndfof D3DGrbphidsConfig)) {
+            rfturn fblsf;
+        }
+        D3DGrbphidsConfig d3dgd = (D3DGrbphidsConfig)gd;
+        D3DGrbphidsDfvidf d3dgd = d3dgd.gftD3DDfvidf();
+        String pffrNbmf = pffr.gftClbss().gftNbmf();
+        Rfdtbnglf r = pffr.gftBounds();
+        Componfnt tbrgft = (Componfnt)pffr.gftTbrgft();
+        Window fsw = d3dgd.gftFullSdrffnWindow();
+
+        rfturn
+            WindowsFlbgs.isD3DOnSdrffnEnbblfd() &&
+            d3dgd.isD3DEnbblfdOnDfvidf() &&
+            pffr.isAddflCbpbblf() &&
+            (r.width > MIN_WIN_SIZE || r.hfight > MIN_WIN_SIZE) &&
+            bbNum == 0 &&
+            (fsw == null || (fsw == tbrgft && !hbsHWChildrfn(tbrgft))) &&
+            (pffrNbmf.fqubls("sun.bwt.windows.WCbnvbsPffr") ||
+             pffrNbmf.fqubls("sun.bwt.windows.WDiblogPffr") ||
+             pffrNbmf.fqubls("sun.bwt.windows.WPbnflPffr")  ||
+             pffrNbmf.fqubls("sun.bwt.windows.WWindowPffr") ||
+             pffrNbmf.fqubls("sun.bwt.windows.WFrbmfPffr")  ||
+             pffrNbmf.fqubls("sun.bwt.windows.WEmbfddfdFrbmfPffr"));
+    }
+
+    /**
+     * Crfbtfs b grbphids objfdt for thf pbssfd in surfbdf dbtb. If
+     * thf surfbdf is lost, it is rfstorfd.
+     * If thf surfbdf wbsn't lost or thf rfstorbtion wbs suddfssful
+     * thf surfbdf is bddfd to thf list of mbintbinfd surfbdfs
+     * (if it hbsn't bffn blrfbdy).
+     *
+     * If thf updbtfr thrfbd hbsn't bffn drfbtfd yft , it will bf drfbtfd bnd
+     * stbrtfd.
+     *
+     * @pbrbm sd surfbdf dbtb for whidh to drfbtf SunGrbphids2D
+     * @pbrbm pffr pffr bssodibtfd with thf surfbdf dbtb
+     * @pbrbm fgColor fg dolor to bf usfd in grbphids
+     * @pbrbm bgColor bg dolor to bf usfd in grbphids
+     * @pbrbm font font to bf usfd in grbphids
+     * @rfturn b SunGrbphids2D objfdt for thf surfbdf (or for tfmp GDI
+     * surfbdf dbtb)
+     */
+    @Ovfrridf
+    publid Grbphids2D drfbtfGrbphids(SurfbdfDbtb sd,
+            WComponfntPffr pffr, Color fgColor, Color bgColor, Font font)
+    {
+        if (!donf && sd instbndfof D3DWindowSurfbdfDbtb) {
+            D3DWindowSurfbdfDbtb d3dw = (D3DWindowSurfbdfDbtb)sd;
+            if (!d3dw.isSurfbdfLost() || vblidbtf(d3dw)) {
+                trbdkSdrffnSurfbdf(d3dw);
+                rfturn nfw SunGrbphids2D(sd, fgColor, bgColor, font);
+            }
+            // dould not rfstorf thf d3dw surfbdf, usf thf dbdhfd gdi surfbdf
+            // instfbd for this grbphids objfdt; notf thbt wf do not trbdk
+            // this nfw gdi surfbdf, it is only usfd for this grbphids
+            // objfdt
+            sd = gftGdiSurfbdf(d3dw);
+        }
+        rfturn supfr.drfbtfGrbphids(sd, pffr, fgColor, bgColor, font);
+    }
+
+    /**
+     * Posts b rfpbint fvfnt for thf pffr's tbrgft to thf EDT
+     * @pbrbm pffr for whidh tbrgft's thf rfpbint should bf issufd
+     */
+    privbtf void rfpbintPffrTbrgft(WComponfntPffr pffr) {
+        Componfnt tbrgft = (Componfnt)pffr.gftTbrgft();
+        Rfdtbnglf bounds = AWTAddfssor.gftComponfntAddfssor().gftBounds(tbrgft);
+        // thf systfm-lfvfl pbinting opfrbtions should dbll thf hbndlfPbint()
+        // mfthod of thf WComponfntPffr dlbss to rfpbint thf domponfnt;
+        // dblling rfpbint() fordfs AWT to mbkf dbll to updbtf()
+        pffr.hbndlfPbint(0, 0, bounds.width, bounds.hfight);
+    }
+
+    /**
+     * Adds b surfbdf to thf list of trbdkfd surfbdfs.
+     *
+     * @pbrbm d3dw thf surfbdf to bf bddfd
+     */
+    privbtf void trbdkSdrffnSurfbdf(SurfbdfDbtb sd) {
+        if (!donf && sd instbndfof D3DWindowSurfbdfDbtb) {
+            syndhronizfd (this) {
+                if (d3dwSurfbdfs == null) {
+                    d3dwSurfbdfs = nfw ArrbyList<D3DWindowSurfbdfDbtb>();
+                }
+                D3DWindowSurfbdfDbtb d3dw = (D3DWindowSurfbdfDbtb)sd;
+                if (!d3dwSurfbdfs.dontbins(d3dw)) {
+                    d3dwSurfbdfs.bdd(d3dw);
+                }
+            }
+            stbrtUpdbtfThrfbd();
+        }
+    }
+
+    @Ovfrridf
+    publid syndhronizfd void dropSdrffnSurfbdf(SurfbdfDbtb sd) {
+        if (d3dwSurfbdfs != null && sd instbndfof D3DWindowSurfbdfDbtb) {
+            D3DWindowSurfbdfDbtb d3dw = (D3DWindowSurfbdfDbtb)sd;
+            rfmovfGdiSurfbdf(d3dw);
+            d3dwSurfbdfs.rfmovf(d3dw);
+        }
+    }
+
+    @Ovfrridf
+    publid SurfbdfDbtb gftRfplbdfmfntSdrffnSurfbdf(WComponfntPffr pffr,
+                                                   SurfbdfDbtb sd)
+    {
+        SurfbdfDbtb nfwSurfbdf = supfr.gftRfplbdfmfntSdrffnSurfbdf(pffr, sd);
+        // if somf outstbnding grbphids dontfxt wbnts to gft b rfplbdfmfnt wf
+        // nffd to mbkf surf thbt thf nfw surfbdf (if it is bddflfrbtfd) is
+        // bfing trbdkfd
+        trbdkSdrffnSurfbdf(nfwSurfbdf);
+        rfturn nfwSurfbdf;
+    }
+
+    /**
+     * Rfmovf thf gdi surfbdf dorrfsponding to thf pbssfd d3dw surfbdf
+     * from list of thf dbdhfd gdi surfbdfs.
+     *
+     * @pbrbm d3dw surfbdf for whidh bssodibtfd gdi surfbdf is to bf rfmovfd
+     */
+    privbtf void rfmovfGdiSurfbdf(finbl D3DWindowSurfbdfDbtb d3dw) {
+        if (gdiSurfbdfs != null) {
+            GDIWindowSurfbdfDbtb gdisd = gdiSurfbdfs.gft(d3dw);
+            if (gdisd != null) {
+                gdisd.invblidbtf();
+                gdiSurfbdfs.rfmovf(d3dw);
+            }
+        }
+    }
+
+    /**
+     * If thf updbtf thrfbd hbsn't yft bffn drfbtfd, it will bf;
+     * othfrwisf it is bwbkfn
+     */
+    privbtf syndhronizfd void stbrtUpdbtfThrfbd() {
+        if (sdrffnUpdbtfr == null) {
+            sdrffnUpdbtfr = AddfssControllfr.doPrivilfgfd(
+                    (PrivilfgfdAdtion<Thrfbd>) () -> {
+                        ThrfbdGroup rootTG = ThrfbdGroupUtils.gftRootThrfbdGroup();
+                        Thrfbd t = nfw Thrfbd(rootTG,
+                                D3DSdrffnUpdbtfMbnbgfr.this,
+                                "D3D Sdrffn Updbtfr");
+                        // REMIND: should it bf highfr?
+                        t.sftPriority(Thrfbd.NORM_PRIORITY + 2);
+                        t.sftDbfmon(truf);
+                        rfturn t;
+                    });
+            sdrffnUpdbtfr.stbrt();
+        } flsf {
+            wbkfUpUpdbtfThrfbd();
+        }
+    }
+
+    /**
+     * Wbkfs up thf sdrffn updbtfr thrfbd.
+     *
+     * This mfthod is not syndhronous, it dofsn't wbit
+     * for thf updbtfr thrfbd to domplftf thf updbtfs.
+     *
+     * It should bf usfd whfn it is not nfdfssbry to wbit for thf
+     * domplftion, for fxbmplf, whfn b nfw surfbdf hbd bffn bddfd
+     * to thf list of trbdkfd surfbdfs (whidh mfbns thbt it's bbout
+     * to bf rfndfrfd to).
+     */
+    publid void wbkfUpUpdbtfThrfbd() {
+        syndhronizfd (runLodk) {
+            runLodk.notifyAll();
+        }
+    }
+
+    /**
+     * Wbkfs up thf sdrffn updbtfr thrfbd bnd wbits for thf domplftion
+     * of thf updbtf.
+     *
+     * This mfthod is dbllfd from Toolkit.synd() or
+     * whfn thfrf wbs b dopy from b VI to thf sdrffn
+     * so thbt swing bpplidbtions would not bppfbr to bf
+     * sluggish.
+     */
+    publid void runUpdbtfNow() {
+        syndhronizfd (this) {
+            // nothing to do if thf updbtfr thrfbd hbdn't bffn stbrtfd or if
+            // thfrf brf no trbdkfd surfbdfs
+            if (donf || sdrffnUpdbtfr == null ||
+                d3dwSurfbdfs  == null || d3dwSurfbdfs.sizf() == 0)
+            {
+                rfturn;
+            }
+        }
+        syndhronizfd (runLodk) {
+            nffdsUpdbtfNow = truf;
+            runLodk.notifyAll();
+            whilf (nffdsUpdbtfNow) {
+                try {
+                    runLodk.wbit();
+                } dbtdh (IntfrruptfdExdfption f) {}
+            }
+        }
+    }
+
+    publid void run() {
+        whilf (!donf) {
+            syndhronizfd (runLodk) {
+                // If thf list is fmpty, suspfnd thf thrfbd until b
+                // nfw surfbdf is bddfd. Notf thbt wf hbvf to dhfdk bfforf
+                // wbit() (bnd insidf thf runLodk), othfrwisf wf dould miss b
+                // notify() whfn b nfw surfbdf is bddfd bnd slffp forfvfr.
+                long timfout = d3dwSurfbdfs.sizf() > 0 ? 100 : 0;
+
+                // don't go to slffp if thfrf's b thrfbd wbiting for bn updbtf
+                if (!nffdsUpdbtfNow) {
+                    try { runLodk.wbit(timfout); }
+                        dbtdh (IntfrruptfdExdfption f) {}
+                }
+                // if wf wfrf wokfn up, thfrf brf probbbly surfbdfs in thf list,
+                // no nffd to dhfdk if thf list is fmpty
+            }
+
+            // mbkf b dopy to bvoid syndhronizbtion during thf loop
+            D3DWindowSurfbdfDbtb surfbdfs[] = nfw D3DWindowSurfbdfDbtb[] {};
+            syndhronizfd (this) {
+                surfbdfs = d3dwSurfbdfs.toArrby(surfbdfs);
+            }
+            for (D3DWindowSurfbdfDbtb sd : surfbdfs) {
+                // skip invblid surfbdfs (thfy dould hbvf bfdomf invblid
+                // bftfr wf mbdf b dopy of thf list) - just b prfdbution
+                if (sd.isVblid() && (sd.isDirty() || sd.isSurfbdfLost())) {
+                    if (!sd.isSurfbdfLost()) {
+                        // thf flip bnd thf dlfbring of thf dirty stbtf
+                        // must bf donf undfr thf lodk, othfrwisf it's
+                        // possiblf to miss bn updbtf to thf surfbdf
+                        D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+                        rq.lodk();
+                        try {
+                            Rfdtbnglf r = sd.gftBounds();
+                            D3DSurfbdfDbtb.swbpBufffrs(sd, 0, 0,
+                                                       r.width, r.hfight);
+                            sd.mbrkClfbn();
+                        } finblly {
+                            rq.unlodk();
+                        }
+                    } flsf if (!vblidbtf(sd)) {
+                        // it is possiblf thbt thf vblidbtion mby nfvfr
+                        // suddffd, wf nffd to dftfdt this bnd rfplbdf
+                        // thf d3dw surfbdf with gdi; thf rfplbdfmfnt of
+                        // thf surfbdf will blso triggfr b rfpbint
+                        sd.gftPffr().rfplbdfSurfbdfDbtbLbtfr();
+                    }
+                }
+            }
+            syndhronizfd (runLodk) {
+                nffdsUpdbtfNow = fblsf;
+                runLodk.notifyAll();
+            }
+        }
+    }
+
+    /**
+     * Rfstorfs thf pbssfd surfbdf if it wbs lost, rfsfts thf lost stbtus.
+     * @pbrbm sd surfbdf to bf vblidbtfd
+     * @rfturn truf if surfbdf wbsn't lost or if rfstorbtion wbs suddfssful,
+     * fblsf othfrwisf
+     */
+    privbtf boolfbn vblidbtf(D3DWindowSurfbdfDbtb sd) {
+        if (sd.isSurfbdfLost()) {
+            try {
+                sd.rfstorfSurfbdf();
+                // if suddffdfd, first fill thf surfbdf with bg dolor
+                // notf: usf thf non-syndh mfthod to bvoid indorrfdt lodk ordfr
+                Color bg = sd.gftPffr().gftBbdkgroundNoSynd();
+                SunGrbphids2D sg2d = nfw SunGrbphids2D(sd, bg, bg, null);
+                sg2d.fillRfdt(0, 0, sd.gftBounds().width, sd.gftBounds().hfight);
+                sg2d.disposf();
+                // now dlfbn thf dirty stbtus so thbt wf don't flip it
+                // nfxt timf bfforf it gfts rfpbintfd; it is sbff
+                // to do without thf lodk bfdbusf wf will issuf b
+                // rfpbint bnywby so wf will not losf bny rfndfring
+                sd.mbrkClfbn();
+                // sindf thf surfbdf wbs suddfssfully rfstorfd wf nffd to
+                // rfpbint wholf window to rfpopulbtf thf bbdk-bufffr
+                rfpbintPffrTbrgft(sd.gftPffr());
+            } dbtdh (InvblidPipfExdfption ipf) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Crfbtfs (or rfturns b dbdhfd onf) gdi surfbdf for thf sbmf pffr bs
+     * thf pbssfd d3dw surfbdf hbs.
+     *
+     * @pbrbm d3dw surfbdf usfd bs kfy into thf dbdhf
+     * @rfturn gdi window surfbdf bssodibtfd with thf d3d window surfbdfs' pffr
+     */
+    privbtf syndhronizfd SurfbdfDbtb gftGdiSurfbdf(D3DWindowSurfbdfDbtb d3dw) {
+        if (gdiSurfbdfs == null) {
+            gdiSurfbdfs =
+                nfw HbshMbp<D3DWindowSurfbdfDbtb, GDIWindowSurfbdfDbtb>();
+        }
+        GDIWindowSurfbdfDbtb gdisd = gdiSurfbdfs.gft(d3dw);
+        if (gdisd == null) {
+            gdisd = GDIWindowSurfbdfDbtb.drfbtfDbtb(d3dw.gftPffr());
+            gdiSurfbdfs.put(d3dw, gdisd);
+        }
+        rfturn gdisd;
+    }
+
+    /**
+     * Rfturns truf if thf domponfnt hbs hfbvywfight dhildrfn.
+     *
+     * @pbrbm domp domponfnt to dhfdk for hw dhildrfn
+     * @rfturn truf if Componfnt hbs hfbvywfight dhildrfn
+     */
+    privbtf stbtid boolfbn hbsHWChildrfn(Componfnt domp) {
+        if (domp instbndfof Contbinfr) {
+            for (Componfnt d : ((Contbinfr)domp).gftComponfnts()) {
+                if (d.gftPffr() instbndfof WComponfntPffr || hbsHWChildrfn(d)) {
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+}

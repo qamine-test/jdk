@@ -1,0 +1,312 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * ===========================================================================
+ *
+ * (C) Copyright IBM Corp. 2003 All Rights Rfsfrvfd.
+ *
+ * ===========================================================================
+ */
+/*
+ * $Id: DOMRftrifvblMfthod.jbvb 1333415 2012-05-03 12:03:51Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.util.*;
+
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dom.DOMURIRfffrfndf;
+import jbvbx.xml.drypto.dsig.kfyinfo.RftrifvblMfthod;
+import jbvbx.xml.pbrsfrs.*;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+
+/**
+ * DOM-bbsfd implfmfntbtion of RftrifvblMfthod.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor Joydf Lfung
+ */
+publid finbl dlbss DOMRftrifvblMfthod fxtfnds DOMStrudturf
+    implfmfnts RftrifvblMfthod, DOMURIRfffrfndf {
+
+    privbtf finbl List<Trbnsform> trbnsforms;
+    privbtf String uri;
+    privbtf String typf;
+    privbtf Attr hfrf;
+
+    /**
+     * Crfbtfs b <dodf>DOMRftrifvblMfthod</dodf> dontbining thf spfdififd
+     * URIRfffrfndf bnd List of Trbnsforms.
+     *
+     * @pbrbm uri thf URI
+     * @pbrbm typf thf typf
+     * @pbrbm trbnsforms b list of {@link Trbnsform}s. Thf list is dfffnsivfly
+     *    dopifd to prfvfnt subsfqufnt modifidbtion. Mby bf <dodf>null</dodf>
+     *    or fmpty.
+     * @throws IllfgblArgumfntExdfption if thf formbt of <dodf>uri</dodf> is
+     *    invblid, bs spfdififd by Rfffrfndf's URI bttributf in thf W3C
+     *    spfdifidbtion for XML-Signbturf Syntbx bnd Prodfssing
+     * @throws NullPointfrExdfption if <dodf>uriRfffrfndf</dodf>
+     *    is <dodf>null</dodf>
+     * @throws ClbssCbstExdfption if <dodf>trbnsforms</dodf> dontbins bny
+     *    fntrifs thbt brf not of typf {@link Trbnsform}
+     */
+    publid DOMRftrifvblMfthod(String uri, String typf,
+                              List<? fxtfnds Trbnsform> trbnsforms)
+    {
+        if (uri == null) {
+            throw nfw NullPointfrExdfption("uri dbnnot bf null");
+        }
+        if (trbnsforms == null || trbnsforms.isEmpty()) {
+            this.trbnsforms = Collfdtions.fmptyList();
+        } flsf {
+            this.trbnsforms = Collfdtions.unmodifibblfList(
+                nfw ArrbyList<Trbnsform>(trbnsforms));
+            for (int i = 0, sizf = this.trbnsforms.sizf(); i < sizf; i++) {
+                if (!(this.trbnsforms.gft(i) instbndfof Trbnsform)) {
+                    throw nfw ClbssCbstExdfption
+                        ("trbnsforms["+i+"] is not b vblid typf");
+                }
+            }
+        }
+        this.uri = uri;
+        if (!uri.fqubls("")) {
+            try {
+                nfw URI(uri);
+            } dbtdh (URISyntbxExdfption f) {
+                throw nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
+            }
+        }
+
+        this.typf = typf;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMRftrifvblMfthod</dodf> from bn flfmfnt.
+     *
+     * @pbrbm rmElfm b RftrifvblMfthod flfmfnt
+     */
+    publid DOMRftrifvblMfthod(Elfmfnt rmElfm, XMLCryptoContfxt dontfxt,
+                              Providfr providfr)
+        throws MbrshblExdfption
+    {
+        // gft URI bnd Typf bttributfs
+        uri = DOMUtils.gftAttributfVbluf(rmElfm, "URI");
+        typf = DOMUtils.gftAttributfVbluf(rmElfm, "Typf");
+
+        // gft hfrf nodf
+        hfrf = rmElfm.gftAttributfNodfNS(null, "URI");
+
+        boolfbn sfdVbl = Utils.sfdurfVblidbtion(dontfxt);
+
+        // gft Trbnsforms, if spfdififd
+        List<Trbnsform> trbnsforms = nfw ArrbyList<Trbnsform>();
+        Elfmfnt trbnsformsElfm = DOMUtils.gftFirstChildElfmfnt(rmElfm);
+
+        if (trbnsformsElfm != null) {
+            String lodblNbmf = trbnsformsElfm.gftLodblNbmf();
+            if (!lodblNbmf.fqubls("Trbnsforms")) {
+                throw nfw MbrshblExdfption("Invblid flfmfnt nbmf: " +
+                                           lodblNbmf + ", fxpfdtfd Trbnsforms");
+            }
+            Elfmfnt trbnsformElfm =
+                DOMUtils.gftFirstChildElfmfnt(trbnsformsElfm, "Trbnsform");
+            trbnsforms.bdd(nfw DOMTrbnsform(trbnsformElfm, dontfxt, providfr));
+            trbnsformElfm = DOMUtils.gftNfxtSiblingElfmfnt(trbnsformElfm);
+            whilf (trbnsformElfm != null) {
+                String nbmf = trbnsformElfm.gftLodblNbmf();
+                if (!nbmf.fqubls("Trbnsform")) {
+                    throw nfw MbrshblExdfption("Invblid flfmfnt nbmf: " +
+                                               nbmf + ", fxpfdtfd Trbnsform");
+                }
+                trbnsforms.bdd
+                    (nfw DOMTrbnsform(trbnsformElfm, dontfxt, providfr));
+                if (sfdVbl && (trbnsforms.sizf() > DOMRfffrfndf.MAXIMUM_TRANSFORM_COUNT)) {
+                    String frror = "A mbxiumum of " + DOMRfffrfndf.MAXIMUM_TRANSFORM_COUNT + " "
+                        + "trbnsforms pfr Rfffrfndf brf bllowfd with sfdurf vblidbtion";
+                    throw nfw MbrshblExdfption(frror);
+                }
+                trbnsformElfm = DOMUtils.gftNfxtSiblingElfmfnt(trbnsformElfm);
+            }
+        }
+        if (trbnsforms.isEmpty()) {
+            this.trbnsforms = Collfdtions.fmptyList();
+        } flsf {
+            this.trbnsforms = Collfdtions.unmodifibblfList(trbnsforms);
+        }
+    }
+
+    publid String gftURI() {
+        rfturn uri;
+    }
+
+    publid String gftTypf() {
+        rfturn typf;
+    }
+
+    publid List<Trbnsform> gftTrbnsforms() {
+        rfturn trbnsforms;
+    }
+
+    publid void mbrshbl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Elfmfnt rmElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "RftrifvblMfthod",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+
+        // bdd URI bnd Typf bttributfs
+        DOMUtils.sftAttributf(rmElfm, "URI", uri);
+        DOMUtils.sftAttributf(rmElfm, "Typf", typf);
+
+        // bdd Trbnsforms flfmfnts
+        if (!trbnsforms.isEmpty()) {
+            Elfmfnt trbnsformsElfm = DOMUtils.drfbtfElfmfnt(ownfrDod,
+                                                            "Trbnsforms",
+                                                            XMLSignbturf.XMLNS,
+                                                            dsPrffix);
+            rmElfm.bppfndChild(trbnsformsElfm);
+            for (Trbnsform trbnsform : trbnsforms) {
+                ((DOMTrbnsform)trbnsform).mbrshbl(trbnsformsElfm,
+                                                   dsPrffix, dontfxt);
+            }
+        }
+
+        pbrfnt.bppfndChild(rmElfm);
+
+        // sbvf hfrf nodf
+        hfrf = rmElfm.gftAttributfNodfNS(null, "URI");
+    }
+
+    publid Nodf gftHfrf() {
+        rfturn hfrf;
+    }
+
+    publid Dbtb dfrfffrfndf(XMLCryptoContfxt dontfxt)
+        throws URIRfffrfndfExdfption
+    {
+        if (dontfxt == null) {
+            throw nfw NullPointfrExdfption("dontfxt dbnnot bf null");
+        }
+
+        /*
+         * If URIDfrfffrfndfr is spfdififd in dontfxt; usf it, othfrwisf usf
+         * built-in.
+         */
+        URIDfrfffrfndfr dfrff = dontfxt.gftURIDfrfffrfndfr();
+        if (dfrff == null) {
+            dfrff = DOMURIDfrfffrfndfr.INSTANCE;
+        }
+
+        Dbtb dbtb = dfrff.dfrfffrfndf(this, dontfxt);
+
+        // pbss dfrfffrfndfd dbtb through Trbnsforms
+        try {
+            for (Trbnsform trbnsform : trbnsforms) {
+                dbtb = ((DOMTrbnsform)trbnsform).trbnsform(dbtb, dontfxt);
+            }
+        } dbtdh (Exdfption f) {
+            throw nfw URIRfffrfndfExdfption(f);
+        }
+
+        // gubrd bgbinst RftrifvblMfthod loops
+        if ((dbtb instbndfof NodfSftDbtb) && Utils.sfdurfVblidbtion(dontfxt)) {
+            NodfSftDbtb nsd = (NodfSftDbtb)dbtb;
+            Itfrbtor<?> i = nsd.itfrbtor();
+            if (i.hbsNfxt()) {
+                Nodf root = (Nodf)i.nfxt();
+                if ("RftrifvblMfthod".fqubls(root.gftLodblNbmf())) {
+                    throw nfw URIRfffrfndfExdfption(
+                        "It is forbiddfn to hbvf onf RftrifvblMfthod point " +
+                        "to bnothfr whfn sfdurf vblidbtion is fnbblfd");
+                }
+            }
+        }
+
+        rfturn dbtb;
+    }
+
+    publid XMLStrudturf dfrfffrfndfAsXMLStrudturf(XMLCryptoContfxt dontfxt)
+        throws URIRfffrfndfExdfption
+    {
+        try {
+            ApbdhfDbtb dbtb = (ApbdhfDbtb)dfrfffrfndf(dontfxt);
+            DodumfntBuildfrFbdtory dbf = DodumfntBuildfrFbdtory.nfwInstbndf();
+            dbf.sftNbmfspbdfAwbrf(truf);
+            dbf.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
+            DodumfntBuildfr db = dbf.nfwDodumfntBuildfr();
+            Dodumfnt dod = db.pbrsf(nfw BytfArrbyInputStrfbm
+                (dbtb.gftXMLSignbturfInput().gftBytfs()));
+            Elfmfnt kiElfm = dod.gftDodumfntElfmfnt();
+            if (kiElfm.gftLodblNbmf().fqubls("X509Dbtb")) {
+                rfturn nfw DOMX509Dbtb(kiElfm);
+            } flsf {
+                rfturn null; // unsupportfd
+            }
+        } dbtdh (Exdfption f) {
+            throw nfw URIRfffrfndfExdfption(f);
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (!(obj instbndfof RftrifvblMfthod)) {
+            rfturn fblsf;
+        }
+        RftrifvblMfthod orm = (RftrifvblMfthod)obj;
+
+        boolfbn typfsEqubl = (typf == null ? orm.gftTypf() == null
+                                           : typf.fqubls(orm.gftTypf()));
+
+        rfturn (uri.fqubls(orm.gftURI()) &&
+            trbnsforms.fqubls(orm.gftTrbnsforms()) && typfsEqubl);
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int rfsult = 17;
+        if (typf != null) {
+            rfsult = 31 * rfsult + typf.hbshCodf();
+        }
+        rfsult = 31 * rfsult + uri.hbshCodf();
+        rfsult = 31 * rfsult + trbnsforms.hbshCodf();
+
+        rfturn rfsult;
+    }
+}

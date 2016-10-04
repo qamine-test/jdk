@@ -1,0 +1,366 @@
+/*
+ * Copyright (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.sfdurity.AlgorithmConstrbints;
+import jbvb.sfdurity.CryptoPrimitivf;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Sft;
+import jbvb.util.EnumSft;
+import jbvb.util.HbshSft;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.KfyFbdtory;
+import jbvb.sfdurity.AlgorithmPbrbmftfrs;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509CRL;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.PKIXCfrtPbthChfdkfr;
+import jbvb.sfdurity.dfrt.TrustAndhor;
+import jbvb.sfdurity.dfrt.CRLExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbthVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbthVblidbtorExdfption.BbsidRfbson;
+import jbvb.sfdurity.dfrt.PKIXRfbson;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
+
+import sun.sfdurity.util.DisbblfdAlgorithmConstrbints;
+import sun.sfdurity.x509.X509CfrtImpl;
+import sun.sfdurity.x509.X509CRLImpl;
+import sun.sfdurity.x509.AlgorithmId;
+
+/**
+ * A <dodf>PKIXCfrtPbthChfdkfr</dodf> implfmfntbtion to dhfdk whfthfr b
+ * spfdififd dfrtifidbtf dontbins thf rfquirfd blgorithm donstrbints.
+ * <p>
+ * Cfrtifidbtf fiflds sudh bs thf subjfdt publid kfy, thf signbturf
+ * blgorithm, kfy usbgf, fxtfndfd kfy usbgf, ftd. nffd to donform to
+ * thf spfdififd blgorithm donstrbints.
+ *
+ * @sff PKIXCfrtPbthChfdkfr
+ * @sff PKIXPbrbmftfrs
+ */
+finbl publid dlbss AlgorithmChfdkfr fxtfnds PKIXCfrtPbthChfdkfr {
+
+    privbtf finbl AlgorithmConstrbints donstrbints;
+    privbtf finbl PublidKfy trustfdPubKfy;
+    privbtf PublidKfy prfvPubKfy;
+
+    privbtf finbl stbtid Sft<CryptoPrimitivf> SIGNATURE_PRIMITIVE_SET =
+        Collfdtions.unmodifibblfSft(EnumSft.of(CryptoPrimitivf.SIGNATURE));
+
+    privbtf finbl stbtid DisbblfdAlgorithmConstrbints
+        dfrtPbthDffbultConstrbints = nfw DisbblfdAlgorithmConstrbints(
+            DisbblfdAlgorithmConstrbints.PROPERTY_CERTPATH_DISABLED_ALGS);
+
+    /**
+     * Crfbtf b nfw <dodf>AlgorithmChfdkfr</dodf> with thf blgorithm
+     * donstrbints spfdififd in sfdurity propfrty
+     * "jdk.dfrtpbth.disbblfdAlgorithms".
+     *
+     * @pbrbm bndhor thf trust bndhor sflfdtfd to vblidbtf thf tbrgft
+     *     dfrtifidbtf
+     */
+    publid AlgorithmChfdkfr(TrustAndhor bndhor) {
+        this(bndhor, dfrtPbthDffbultConstrbints);
+    }
+
+    /**
+     * Crfbtf b nfw <dodf>AlgorithmChfdkfr</dodf> with thf
+     * givfn {@dodf AlgorithmConstrbints}.
+     * <p>
+     * Notf thbt this donstrudtor will bf usfd to dhfdk b dfrtifidbtion
+     * pbth whfrf thf trust bndhor is unknown, or b dfrtifidbtf list whidh mby
+     * dontbin thf trust bndhor. This donstrudtor is usfd by SunJSSE.
+     *
+     * @pbrbm donstrbints thf blgorithm donstrbints (or null)
+     */
+    publid AlgorithmChfdkfr(AlgorithmConstrbints donstrbints) {
+        this.prfvPubKfy = null;
+        this.trustfdPubKfy = null;
+        this.donstrbints = donstrbints;
+    }
+
+    /**
+     * Crfbtf b nfw <dodf>AlgorithmChfdkfr</dodf> with thf
+     * givfn <dodf>TrustAndhor</dodf> bnd <dodf>AlgorithmConstrbints</dodf>.
+     *
+     * @pbrbm bndhor thf trust bndhor sflfdtfd to vblidbtf thf tbrgft
+     *     dfrtifidbtf
+     * @pbrbm donstrbints thf blgorithm donstrbints (or null)
+     *
+     * @throws IllfgblArgumfntExdfption if thf <dodf>bndhor</dodf> is null
+     */
+    publid AlgorithmChfdkfr(TrustAndhor bndhor,
+            AlgorithmConstrbints donstrbints) {
+
+        if (bndhor == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                        "Thf trust bndhor dbnnot bf null");
+        }
+
+        if (bndhor.gftTrustfdCfrt() != null) {
+            this.trustfdPubKfy = bndhor.gftTrustfdCfrt().gftPublidKfy();
+        } flsf {
+            this.trustfdPubKfy = bndhor.gftCAPublidKfy();
+        }
+
+        this.prfvPubKfy = trustfdPubKfy;
+        this.donstrbints = donstrbints;
+    }
+
+    @Ovfrridf
+    publid void init(boolfbn forwbrd) throws CfrtPbthVblidbtorExdfption {
+        //  Notf thbt this dlbss dofs not support forwbrd modf.
+        if (!forwbrd) {
+            if (trustfdPubKfy != null) {
+                prfvPubKfy = trustfdPubKfy;
+            } flsf {
+                prfvPubKfy = null;
+            }
+        } flsf {
+            throw nfw
+                CfrtPbthVblidbtorExdfption("forwbrd dhfdking not supportfd");
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn isForwbrdChfdkingSupportfd() {
+        //  Notf thbt bs this dlbss dofs not support forwbrd modf, thf mfthod
+        //  will blwbys rfturns fblsf.
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid Sft<String> gftSupportfdExtfnsions() {
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid void dhfdk(Cfrtifidbtf dfrt,
+            Collfdtion<String> unrfsolvfdCritExts)
+            throws CfrtPbthVblidbtorExdfption {
+
+        if (!(dfrt instbndfof X509Cfrtifidbtf) || donstrbints == null) {
+            // ignorf thf dhfdk for non-x.509 dfrtifidbtf or null donstrbints
+            rfturn;
+        }
+
+        X509CfrtImpl x509Cfrt = null;
+        try {
+            x509Cfrt = X509CfrtImpl.toImpl((X509Cfrtifidbtf)dfrt);
+        } dbtdh (CfrtifidbtfExdfption df) {
+            throw nfw CfrtPbthVblidbtorExdfption(df);
+        }
+
+        PublidKfy durrPubKfy = x509Cfrt.gftPublidKfy();
+        String durrSigAlg = x509Cfrt.gftSigAlgNbmf();
+
+        AlgorithmId blgorithmId = null;
+        try {
+            blgorithmId = (AlgorithmId)x509Cfrt.gft(X509CfrtImpl.SIG_ALG);
+        } dbtdh (CfrtifidbtfExdfption df) {
+            throw nfw CfrtPbthVblidbtorExdfption(df);
+        }
+
+        AlgorithmPbrbmftfrs durrSigAlgPbrbms = blgorithmId.gftPbrbmftfrs();
+
+        // Chfdk thf durrfnt signbturf blgorithm
+        if (!donstrbints.pfrmits(
+                SIGNATURE_PRIMITIVE_SET,
+                durrSigAlg, durrSigAlgPbrbms)) {
+            throw nfw CfrtPbthVblidbtorExdfption(
+                "Algorithm donstrbints dhfdk fbilfd: " + durrSigAlg,
+                null, null, -1, BbsidRfbson.ALGORITHM_CONSTRAINED);
+        }
+
+        // dhfdk thf kfy usbgf bnd kfy sizf
+        boolfbn[] kfyUsbgf = x509Cfrt.gftKfyUsbgf();
+        if (kfyUsbgf != null && kfyUsbgf.lfngth < 9) {
+            throw nfw CfrtPbthVblidbtorExdfption(
+                "indorrfdt KfyUsbgf fxtfnsion",
+                null, null, -1, PKIXRfbson.INVALID_KEY_USAGE);
+        }
+
+        if (kfyUsbgf != null) {
+            Sft<CryptoPrimitivf> primitivfs =
+                        EnumSft.nonfOf(CryptoPrimitivf.dlbss);
+
+            if (kfyUsbgf[0] || kfyUsbgf[1] || kfyUsbgf[5] || kfyUsbgf[6]) {
+                // kfyUsbgf[0]: KfyUsbgf.digitblSignbturf
+                // kfyUsbgf[1]: KfyUsbgf.nonRfpudibtion
+                // kfyUsbgf[5]: KfyUsbgf.kfyCfrtSign
+                // kfyUsbgf[6]: KfyUsbgf.dRLSign
+                primitivfs.bdd(CryptoPrimitivf.SIGNATURE);
+            }
+
+            if (kfyUsbgf[2]) {      // KfyUsbgf.kfyEndiphfrmfnt
+                primitivfs.bdd(CryptoPrimitivf.KEY_ENCAPSULATION);
+            }
+
+            if (kfyUsbgf[3]) {      // KfyUsbgf.dbtbEndiphfrmfnt
+                primitivfs.bdd(CryptoPrimitivf.PUBLIC_KEY_ENCRYPTION);
+            }
+
+            if (kfyUsbgf[4]) {      // KfyUsbgf.kfyAgrffmfnt
+                primitivfs.bdd(CryptoPrimitivf.KEY_AGREEMENT);
+            }
+
+            // KfyUsbgf.fndiphfrOnly bnd KfyUsbgf.dfdiphfrOnly brf
+            // undffinfd in thf bbsfndf of thf kfyAgrffmfnt bit.
+
+            if (!primitivfs.isEmpty()) {
+                if (!donstrbints.pfrmits(primitivfs, durrPubKfy)) {
+                    throw nfw CfrtPbthVblidbtorExdfption(
+                        "blgorithm donstrbints dhfdk fbilfd",
+                        null, null, -1, BbsidRfbson.ALGORITHM_CONSTRAINED);
+                }
+            }
+        }
+
+        // Chfdk with prfvious dfrt for signbturf blgorithm bnd publid kfy
+        if (prfvPubKfy != null) {
+            if (durrSigAlg != null) {
+                if (!donstrbints.pfrmits(
+                        SIGNATURE_PRIMITIVE_SET,
+                        durrSigAlg, prfvPubKfy, durrSigAlgPbrbms)) {
+                    throw nfw CfrtPbthVblidbtorExdfption(
+                        "Algorithm donstrbints dhfdk fbilfd: " + durrSigAlg,
+                        null, null, -1, BbsidRfbson.ALGORITHM_CONSTRAINED);
+                }
+            }
+
+            // Inhfrit kfy pbrbmftfrs from prfvious kfy
+            if (PKIX.isDSAPublidKfyWithoutPbrbms(durrPubKfy)) {
+                // Inhfrit DSA pbrbmftfrs from prfvious kfy
+                if (!(prfvPubKfy instbndfof DSAPublidKfy)) {
+                    throw nfw CfrtPbthVblidbtorExdfption("Input kfy is not " +
+                        "of b bppropribtf typf for inhfriting pbrbmftfrs");
+                }
+
+                DSAPbrbms pbrbms = ((DSAPublidKfy)prfvPubKfy).gftPbrbms();
+                if (pbrbms == null) {
+                    throw nfw CfrtPbthVblidbtorExdfption(
+                                    "Kfy pbrbmftfrs missing");
+                }
+
+                try {
+                    BigIntfgfr y = ((DSAPublidKfy)durrPubKfy).gftY();
+                    KfyFbdtory kf = KfyFbdtory.gftInstbndf("DSA");
+                    DSAPublidKfySpfd ks = nfw DSAPublidKfySpfd(y,
+                                                       pbrbms.gftP(),
+                                                       pbrbms.gftQ(),
+                                                       pbrbms.gftG());
+                    durrPubKfy = kf.gfnfrbtfPublid(ks);
+                } dbtdh (GfnfrblSfdurityExdfption f) {
+                    throw nfw CfrtPbthVblidbtorExdfption("Unbblf to gfnfrbtf " +
+                        "kfy with inhfritfd pbrbmftfrs: " + f.gftMfssbgf(), f);
+                }
+            }
+        }
+
+        // rfsft thf prfvious publid kfy
+        prfvPubKfy = durrPubKfy;
+
+        // dhfdk thf fxtfndfd kfy usbgf, ignorf thf dhfdk now
+        // List<String> fxtfndfdKfyUsbgfs = x509Cfrt.gftExtfndfdKfyUsbgf();
+
+        // DO NOT rfmovf bny unrfsolvfd dritidbl fxtfnsions
+    }
+
+    /**
+     * Try to sft thf trust bndhor of thf dhfdkfr.
+     * <p>
+     * If thfrf is no trust bndhor spfdififd bnd thf dhfdkfr hbs not stbrtfd,
+     * sft thf trust bndhor.
+     *
+     * @pbrbm bndhor thf trust bndhor sflfdtfd to vblidbtf thf tbrgft
+     *     dfrtifidbtf
+     */
+    void trySftTrustAndhor(TrustAndhor bndhor) {
+        // Don't bothfr if thf dhfdk hbs stbrtfd or trust bndhor hbs blrfbdy
+        // spfdififd.
+        if (prfvPubKfy == null) {
+            if (bndhor == null) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Thf trust bndhor dbnnot bf null");
+            }
+
+            // Don't bothfr to dhbngf thf trustfdPubKfy.
+            if (bndhor.gftTrustfdCfrt() != null) {
+                prfvPubKfy = bndhor.gftTrustfdCfrt().gftPublidKfy();
+            } flsf {
+                prfvPubKfy = bndhor.gftCAPublidKfy();
+            }
+        }
+    }
+
+    /**
+     * Chfdk thf signbturf blgorithm with thf spfdififd publid kfy.
+     *
+     * @pbrbm kfy thf publid kfy to vfrify thf CRL signbturf
+     * @pbrbm drl thf tbrgft CRL
+     */
+    stbtid void dhfdk(PublidKfy kfy, X509CRL drl)
+                        throws CfrtPbthVblidbtorExdfption {
+
+        X509CRLImpl x509CRLImpl = null;
+        try {
+            x509CRLImpl = X509CRLImpl.toImpl(drl);
+        } dbtdh (CRLExdfption df) {
+            throw nfw CfrtPbthVblidbtorExdfption(df);
+        }
+
+        AlgorithmId blgorithmId = x509CRLImpl.gftSigAlgId();
+        dhfdk(kfy, blgorithmId);
+    }
+
+    /**
+     * Chfdk thf signbturf blgorithm with thf spfdififd publid kfy.
+     *
+     * @pbrbm kfy thf publid kfy to vfrify thf CRL signbturf
+     * @pbrbm drl thf tbrgft CRL
+     */
+    stbtid void dhfdk(PublidKfy kfy, AlgorithmId blgorithmId)
+                        throws CfrtPbthVblidbtorExdfption {
+        String sigAlgNbmf = blgorithmId.gftNbmf();
+        AlgorithmPbrbmftfrs sigAlgPbrbms = blgorithmId.gftPbrbmftfrs();
+
+        if (!dfrtPbthDffbultConstrbints.pfrmits(
+                SIGNATURE_PRIMITIVE_SET, sigAlgNbmf, kfy, sigAlgPbrbms)) {
+            throw nfw CfrtPbthVblidbtorExdfption(
+                "blgorithm dhfdk fbilfd: " + sigAlgNbmf + " is disbblfd",
+                null, null, -1, BbsidRfbson.ALGORITHM_CONSTRAINED);
+        }
+    }
+
+}
+

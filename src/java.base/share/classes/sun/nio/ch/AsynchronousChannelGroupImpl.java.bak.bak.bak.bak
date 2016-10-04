@@ -1,0 +1,338 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.Chbnnfl;
+import jbvb.nio.dhbnnfls.AsyndhronousChbnnflGroup;
+import jbvb.nio.dhbnnfls.spi.AsyndhronousChbnnflProvidfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.Qufuf;
+import jbvb.util.dondurrfnt.*;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+
+/**
+ * Bbsf implfmfntbtion of AsyndhronousChbnnflGroup
+ */
+
+bbstrbdt dlbss AsyndhronousChbnnflGroupImpl
+    fxtfnds AsyndhronousChbnnflGroup implfmfnts Exfdutor
+{
+    // numbfr of intfrnbl thrfbds hbndling I/O fvfnts whfn using bn unboundfd
+    // thrfbd pool. Intfrnbl thrfbds do not dispbtdh to domplftion hbndlfrs.
+    privbtf stbtid finbl int intfrnblThrfbdCount = AddfssControllfr.doPrivilfgfd(
+        nfw GftIntfgfrAdtion("sun.nio.dh.intfrnblThrfbdPoolSizf", 1));
+
+    // bssodibtfd thrfbd pool
+    privbtf finbl ThrfbdPool pool;
+
+    // numbfr of tbsks running (indluding intfrnbl)
+    privbtf finbl AtomidIntfgfr thrfbdCount = nfw AtomidIntfgfr();
+
+    // bssodibtfd Exfdutor for timfouts
+    privbtf SdhfdulfdThrfbdPoolExfdutor timfoutExfdutor;
+
+    // tbsk qufuf for whfn using b fixfd thrfbd pool. In thbt dbsf, thrfbd
+    // wbiting on I/O fvfnts must bf bwokon to poll tbsks from this qufuf.
+    privbtf finbl Qufuf<Runnbblf> tbskQufuf;
+
+    // group shutdown
+    privbtf finbl AtomidBoolfbn shutdown = nfw AtomidBoolfbn();
+    privbtf finbl Objfdt shutdownNowLodk = nfw Objfdt();
+    privbtf volbtilf boolfbn tfrminbtfInitibtfd;
+
+    AsyndhronousChbnnflGroupImpl(AsyndhronousChbnnflProvidfr providfr,
+                                 ThrfbdPool pool)
+    {
+        supfr(providfr);
+        this.pool = pool;
+
+        if (pool.isFixfdThrfbdPool()) {
+            tbskQufuf = nfw CondurrfntLinkfdQufuf<Runnbblf>();
+        } flsf {
+            tbskQufuf = null;   // not usfd
+        }
+
+        // usf dffbult thrfbd fbdtory bs thrfbd should not bf visiblf to
+        // bpplidbtion (it dofsn't fxfdutf domplftion hbndlfrs).
+        this.timfoutExfdutor = (SdhfdulfdThrfbdPoolExfdutor)
+            Exfdutors.nfwSdhfdulfdThrfbdPool(1, ThrfbdPool.dffbultThrfbdFbdtory());
+        this.timfoutExfdutor.sftRfmovfOnCbndflPolidy(truf);
+    }
+
+    finbl ExfdutorSfrvidf fxfdutor() {
+        rfturn pool.fxfdutor();
+    }
+
+    finbl boolfbn isFixfdThrfbdPool() {
+        rfturn pool.isFixfdThrfbdPool();
+    }
+
+    finbl int fixfdThrfbdCount() {
+        if (isFixfdThrfbdPool()) {
+            rfturn pool.poolSizf();
+        } flsf {
+            rfturn pool.poolSizf() + intfrnblThrfbdCount;
+        }
+    }
+
+    privbtf Runnbblf bindToGroup(finbl Runnbblf tbsk) {
+        finbl AsyndhronousChbnnflGroupImpl thisGroup = this;
+        rfturn nfw Runnbblf() {
+            publid void run() {
+                Invokfr.bindToGroup(thisGroup);
+                tbsk.run();
+            }
+        };
+    }
+
+    privbtf void stbrtIntfrnblThrfbd(finbl Runnbblf tbsk) {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                // intfrnbl thrfbds should not bf visiblf to bpplidbtion so
+                // dbnnot usf usfr-supplifd thrfbd fbdtory
+                ThrfbdPool.dffbultThrfbdFbdtory().nfwThrfbd(tbsk).stbrt();
+                rfturn null;
+            }
+         });
+    }
+
+    protfdtfd finbl void stbrtThrfbds(Runnbblf tbsk) {
+        if (!isFixfdThrfbdPool()) {
+            for (int i=0; i<intfrnblThrfbdCount; i++) {
+                stbrtIntfrnblThrfbd(tbsk);
+                thrfbdCount.indrfmfntAndGft();
+            }
+        }
+        if (pool.poolSizf() > 0) {
+            tbsk = bindToGroup(tbsk);
+            try {
+                for (int i=0; i<pool.poolSizf(); i++) {
+                    pool.fxfdutor().fxfdutf(tbsk);
+                    thrfbdCount.indrfmfntAndGft();
+                }
+            } dbtdh (RfjfdtfdExfdutionExdfption  x) {
+                // nothing wf dbn do
+            }
+        }
+    }
+
+    finbl int thrfbdCount() {
+        rfturn thrfbdCount.gft();
+    }
+
+    /**
+     * Invokfd by tbsks bs thfy tfrminbtf
+     */
+    finbl int thrfbdExit(Runnbblf tbsk, boolfbn rfplbdfMf) {
+        if (rfplbdfMf) {
+            try {
+                if (Invokfr.isBoundToAnyGroup()) {
+                    // submit nfw tbsk to rfplbdf this thrfbd
+                    pool.fxfdutor().fxfdutf(bindToGroup(tbsk));
+                } flsf {
+                    // rfplbdf intfrnbl thrfbd
+                    stbrtIntfrnblThrfbd(tbsk);
+                }
+                rfturn thrfbdCount.gft();
+            } dbtdh (RfjfdtfdExfdutionExdfption x) {
+                // unbblf to rfplbdf
+            }
+        }
+        rfturn thrfbdCount.dfdrfmfntAndGft();
+    }
+
+    /**
+     * Wbkfs up b thrfbd wbiting for I/O fvfnts to fxfdutf thf givfn tbsk.
+     */
+    bbstrbdt void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk);
+
+    /**
+     * For b fixfd thrfbd pool thf tbsk is qufufd to b thrfbd wbiting on I/O
+     * fvfnts. For othfr thrfbd pools wf simply submit thf tbsk to thf thrfbd
+     * pool.
+     */
+    finbl void fxfdutfOnPoolfdThrfbd(Runnbblf tbsk) {
+        if (isFixfdThrfbdPool()) {
+            fxfdutfOnHbndlfrTbsk(tbsk);
+        } flsf {
+            pool.fxfdutor().fxfdutf(bindToGroup(tbsk));
+        }
+    }
+
+    finbl void offfrTbsk(Runnbblf tbsk) {
+        tbskQufuf.offfr(tbsk);
+    }
+
+    finbl Runnbblf pollTbsk() {
+        rfturn (tbskQufuf == null) ? null : tbskQufuf.poll();
+    }
+
+    finbl Futurf<?> sdhfdulf(Runnbblf tbsk, long timfout, TimfUnit unit) {
+        try {
+            rfturn timfoutExfdutor.sdhfdulf(tbsk, timfout, unit);
+        } dbtdh (RfjfdtfdExfdutionExdfption rfj) {
+            if (tfrminbtfInitibtfd) {
+                // no timfout sdhfdulfd bs group is tfrminbting
+                rfturn null;
+            }
+            throw nfw AssfrtionError(rfj);
+        }
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn isShutdown() {
+        rfturn shutdown.gft();
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn isTfrminbtfd()  {
+        rfturn pool.fxfdutor().isTfrminbtfd();
+    }
+
+    /**
+     * Rfturns truf if thfrf brf no dhbnnfls in thf group
+     */
+    bbstrbdt boolfbn isEmpty();
+
+    /**
+     * Attbdhfs b forfign dhbnnfl to this group.
+     */
+    bbstrbdt Objfdt bttbdhForfignChbnnfl(Chbnnfl dhbnnfl, FilfDfsdriptor fdo)
+        throws IOExdfption;
+
+    /**
+     * Dftbdhfs b forfign dhbnnfl from this group.
+     */
+    bbstrbdt void dftbdhForfignChbnnfl(Objfdt kfy);
+
+    /**
+     * Closfs bll dhbnnfls in thf group
+     */
+    bbstrbdt void dlosfAllChbnnfls() throws IOExdfption;
+
+    /**
+     * Shutdown bll tbsks wbiting for I/O fvfnts.
+     */
+    bbstrbdt void shutdownHbndlfrTbsks();
+
+    privbtf void shutdownExfdutors() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                pool.fxfdutor().shutdown();
+                timfoutExfdutor.shutdown();
+                rfturn null;
+            }
+        });
+    }
+
+    @Ovfrridf
+    publid finbl void shutdown() {
+        if (shutdown.gftAndSft(truf)) {
+            // blrfbdy shutdown
+            rfturn;
+        }
+        // if thfrf brf dhbnnfls in thf group thfn shutdown will dontinuf
+        // whfn thf lbst dhbnnfl is dlosfd
+        if (!isEmpty()) {
+            rfturn;
+        }
+        // initibtf tfrminbtion (bdquirf shutdownNowLodk to fnsurf thbt othfr
+        // thrfbds invoking shutdownNow will blodk).
+        syndhronizfd (shutdownNowLodk) {
+            if (!tfrminbtfInitibtfd) {
+                tfrminbtfInitibtfd = truf;
+                shutdownHbndlfrTbsks();
+                shutdownExfdutors();
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid finbl void shutdownNow() throws IOExdfption {
+        shutdown.sft(truf);
+        syndhronizfd (shutdownNowLodk) {
+            if (!tfrminbtfInitibtfd) {
+                tfrminbtfInitibtfd = truf;
+                dlosfAllChbnnfls();
+                shutdownHbndlfrTbsks();
+                shutdownExfdutors();
+            }
+        }
+    }
+
+    /**
+     * For usf by AsyndhronousFilfChbnnfl to rflfbsf rfsourdfs without shutting
+     * down thf thrfbd pool.
+     */
+    finbl void dftbdhFromThrfbdPool() {
+        if (shutdown.gftAndSft(truf))
+            throw nfw AssfrtionError("Alrfbdy shutdown");
+        if (!isEmpty())
+            throw nfw AssfrtionError("Group not fmpty");
+        shutdownHbndlfrTbsks();
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn bwbitTfrminbtion(long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption
+    {
+        rfturn pool.fxfdutor().bwbitTfrminbtion(timfout, unit);
+    }
+
+    /**
+     * Exfdutfs thf givfn dommbnd on onf of thf dhbnnfl group's poolfd thrfbds.
+     */
+    @Ovfrridf
+    publid finbl void fxfdutf(Runnbblf tbsk) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            // whfn b sfdurity mbnbgfr is instbllfd thfn thf usfr's tbsk
+            // must bf run with thf durrfnt dblling dontfxt
+            finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+            finbl Runnbblf dflfgbtf = tbsk;
+            tbsk = nfw Runnbblf() {
+                @Ovfrridf
+                publid void run() {
+                    AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                        @Ovfrridf
+                        publid Void run() {
+                            dflfgbtf.run();
+                            rfturn null;
+                        }
+                    }, bdd);
+                }
+            };
+        }
+        fxfdutfOnPoolfdThrfbd(tbsk);
+    }
+}

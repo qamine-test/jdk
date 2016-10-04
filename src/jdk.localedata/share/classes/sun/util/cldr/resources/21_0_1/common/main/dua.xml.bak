@@ -1,287 +1,287 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="dua"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="dua">duálá</language>
-		</languages>
-		<territories>
-			<territory type="CM">Cameroun</territory>
-		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a á b ɓ c d ɗ e é ɛ {ɛ\u0301} f g i í j k l m n {ny} ŋ o ó ɔ {ɔ\u0301} p r s t u ú ū w y]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[h q v x z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B Ɓ C D Ɗ E Ɛ F G I J K L M N Ŋ O Ɔ P S T U W Y]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart>«</quotationStart>
-		<quotationEnd>»</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">di</month>
-							<month type="2">ŋgɔn</month>
-							<month type="3">sɔŋ</month>
-							<month type="4">diɓ</month>
-							<month type="5">emi</month>
-							<month type="6">esɔ</month>
-							<month type="7">mad</month>
-							<month type="8">diŋ</month>
-							<month type="9">nyɛt</month>
-							<month type="10">may</month>
-							<month type="11">tin</month>
-							<month type="12">elá</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">dimɔ́di</month>
-							<month type="2">ŋgɔndɛ</month>
-							<month type="3">sɔŋɛ</month>
-							<month type="4">diɓáɓá</month>
-							<month type="5">emiasele</month>
-							<month type="6">esɔpɛsɔpɛ</month>
-							<month type="7">madiɓɛ́díɓɛ́</month>
-							<month type="8">diŋgindi</month>
-							<month type="9">nyɛtɛki</month>
-							<month type="10">mayésɛ́</month>
-							<month type="11">tiníní</month>
-							<month type="12">eláŋgɛ́</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1">d</month>
-							<month type="2">ŋ</month>
-							<month type="3">s</month>
-							<month type="4">d</month>
-							<month type="5">e</month>
-							<month type="6">e</month>
-							<month type="7">m</month>
-							<month type="8">d</month>
-							<month type="9">n</month>
-							<month type="10">m</month>
-							<month type="11">t</month>
-							<month type="12">e</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">ét</day>
-							<day type="mon">mɔ́s</day>
-							<day type="tue">kwa</day>
-							<day type="wed">muk</day>
-							<day type="thu">ŋgi</day>
-							<day type="fri">ɗón</day>
-							<day type="sat">esa</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">éti</day>
-							<day type="mon">mɔ́sú</day>
-							<day type="tue">kwasú</day>
-							<day type="wed">mukɔ́sú</day>
-							<day type="thu">ŋgisú</day>
-							<day type="fri">ɗónɛsú</day>
-							<day type="sat">esaɓasú</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">e</day>
-							<day type="mon">m</day>
-							<day type="tue">k</day>
-							<day type="wed">m</day>
-							<day type="thu">ŋ</day>
-							<day type="fri">ɗ</day>
-							<day type="sat">e</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">ndu1</quarter>
-							<quarter type="2">ndu2</quarter>
-							<quarter type="3">ndu3</quarter>
-							<quarter type="4">ndu4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">ndúmbū nyá ɓosó</quarter>
-							<quarter type="2">ndúmbū ní lóndɛ́ íɓaá</quarter>
-							<quarter type="3">ndúmbū ní lóndɛ́ ílálo</quarter>
-							<quarter type="4">ndúmbū ní lóndɛ́ ínɛ́y</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">idiɓa</dayPeriod>
-							<dayPeriod type="pm">ebyámu</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">ɓoso ɓwá yáɓe lá</era>
-						<era type="1">mbúsa kwédi a Yés</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">ɓ.Ys</era>
-						<era type="1">mb.Ys</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E d/M</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="ms">m:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>póndá</displayName>
-					</field>
-					<field type="year">
-						<displayName>mbú</displayName>
-					</field>
-					<field type="month">
-						<displayName>mɔ́di</displayName>
-					</field>
-					<field type="week">
-						<displayName>disama</displayName>
-					</field>
-					<field type="day">
-						<displayName>búnyá</displayName>
-						<relative type="-1">kíɛlɛ nítómb́í</relative>
-						<relative type="0">wɛ́ŋgɛ̄</relative>
-						<relative type="1">kíɛlɛ</relative>
-					</field>
-					<field type="weekday">
-						<displayName>mínyá má disama</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>epasi a búnyá</displayName>
-					</field>
-					<field type="hour">
-						<displayName>ŋgandɛ</displayName>
-					</field>
-					<field type="minute">
-						<displayName>ndɔkɔ</displayName>
-					</field>
-					<field type="second">
-						<displayName>píndí</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-	</dates>
-	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="dub"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="dub">duálá</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="CM">Cbmfroun</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b á b ɓ d d ɗ f é ɛ {ɛ\u0301} f g i í j k l m n {ny} ŋ o ó ɔ {ɔ\u0301} p r s t u ú ū w y]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[i q v x z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[A B Ɓ C D Ɗ E Ɛ F G I J K L M N Ŋ O Ɔ P S T U W Y]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">di</monti>
+							<monti typf="2">ŋgɔn</monti>
+							<monti typf="3">sɔŋ</monti>
+							<monti typf="4">diɓ</monti>
+							<monti typf="5">fmi</monti>
+							<monti typf="6">fsɔ</monti>
+							<monti typf="7">mbd</monti>
+							<monti typf="8">diŋ</monti>
+							<monti typf="9">nyɛt</monti>
+							<monti typf="10">mby</monti>
+							<monti typf="11">tin</monti>
+							<monti typf="12">flá</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">dimɔ́di</monti>
+							<monti typf="2">ŋgɔndɛ</monti>
+							<monti typf="3">sɔŋɛ</monti>
+							<monti typf="4">diɓáɓá</monti>
+							<monti typf="5">fmibsflf</monti>
+							<monti typf="6">fsɔpɛsɔpɛ</monti>
+							<monti typf="7">mbdiɓɛ́díɓɛ́</monti>
+							<monti typf="8">diŋgindi</monti>
+							<monti typf="9">nyɛtɛki</monti>
+							<monti typf="10">mbyésɛ́</monti>
+							<monti typf="11">tiníní</monti>
+							<monti typf="12">fláŋgɛ́</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="nbrrow">
+							<monti typf="1">d</monti>
+							<monti typf="2">ŋ</monti>
+							<monti typf="3">s</monti>
+							<monti typf="4">d</monti>
+							<monti typf="5">f</monti>
+							<monti typf="6">f</monti>
+							<monti typf="7">m</monti>
+							<monti typf="8">d</monti>
+							<monti typf="9">n</monti>
+							<monti typf="10">m</monti>
+							<monti typf="11">t</monti>
+							<monti typf="12">f</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">ét</dby>
+							<dby typf="mon">mɔ́s</dby>
+							<dby typf="tuf">kwb</dby>
+							<dby typf="wfd">muk</dby>
+							<dby typf="tiu">ŋgi</dby>
+							<dby typf="fri">ɗón</dby>
+							<dby typf="sbt">fsb</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">éti</dby>
+							<dby typf="mon">mɔ́sú</dby>
+							<dby typf="tuf">kwbsú</dby>
+							<dby typf="wfd">mukɔ́sú</dby>
+							<dby typf="tiu">ŋgisú</dby>
+							<dby typf="fri">ɗónɛsú</dby>
+							<dby typf="sbt">fsbɓbsú</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">f</dby>
+							<dby typf="mon">m</dby>
+							<dby typf="tuf">k</dby>
+							<dby typf="wfd">m</dby>
+							<dby typf="tiu">ŋ</dby>
+							<dby typf="fri">ɗ</dby>
+							<dby typf="sbt">f</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">ndu1</qubrtfr>
+							<qubrtfr typf="2">ndu2</qubrtfr>
+							<qubrtfr typf="3">ndu3</qubrtfr>
+							<qubrtfr typf="4">ndu4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">ndúmbū nyá ɓosó</qubrtfr>
+							<qubrtfr typf="2">ndúmbū ní lóndɛ́ íɓbá</qubrtfr>
+							<qubrtfr typf="3">ndúmbū ní lóndɛ́ ílálo</qubrtfr>
+							<qubrtfr typf="4">ndúmbū ní lóndɛ́ ínɛ́y</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">idiɓb</dbyPfriod>
+							<dbyPfriod typf="pm">fbyámu</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">ɓoso ɓwá yáɓf lá</frb>
+						<frb typf="1">mbúsb kwédi b Yés</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">ɓ.Ys</frb>
+						<frb typf="1">mb.Ys</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">m:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>póndá</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>mbú</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>mɔ́di</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>disbmb</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>búnyá</displbyNbmf>
+						<rflbtivf typf="-1">kíɛlɛ nítómb́í</rflbtivf>
+						<rflbtivf typf="0">wɛ́ŋgɛ̄</rflbtivf>
+						<rflbtivf typf="1">kíɛlɛ</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>mínyá má disbmb</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>fpbsi b búnyá</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>ŋgbndɛ</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>ndɔkɔ</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>píndí</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
 			<group> </group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##0 %</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00 ¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-	</numbers>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0 %</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+	</numbfrs>
 	<posix>
-		<messages>
-			<yesstr>ee:e</yesstr>
+		<mfssbgfs>
+			<yfsstr>ff:f</yfsstr>
 			<nostr>kɛ́m:k</nostr>
-		</messages>
+		</mfssbgfs>
 	</posix>
 </ldml>

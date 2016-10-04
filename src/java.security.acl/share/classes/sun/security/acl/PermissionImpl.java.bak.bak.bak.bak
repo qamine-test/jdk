@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 1996, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.bdl;
+
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.bdl.*;
+
+/**
+ * Thf PfrmissionImpl dlbss implfmfnts thf pfrmission
+ * intfrfbdf for pfrmissions thbt brf strings.
+ * @buthor Sbtish Dhbrmbrbj
+ */
+publid dlbss PfrmissionImpl implfmfnts Pfrmission {
+
+    privbtf String pfrmission;
+
+    /**
+     * Construdt b pfrmission objfdt using b string.
+     * @pbrbm pfrmission thf stringififd vfrsion of thf pfrmission.
+     */
+    publid PfrmissionImpl(String pfrmission) {
+        this.pfrmission = pfrmission;
+    }
+
+    /**
+     * This fundtion rfturns truf if thf objfdt pbssfd mbtdhfs thf pfrmission
+     * rfprfsfntfd in this intfrfbdf.
+     * @pbrbm bnothfr Thf Pfrmission objfdt to dompbrf with.
+     * @rfturn truf if thf Pfrmission objfdts brf fqubl, fblsf othfrwisf
+     */
+    publid boolfbn fqubls(Objfdt bnothfr) {
+        if (bnothfr instbndfof Pfrmission) {
+            Pfrmission p = (Pfrmission) bnothfr;
+            rfturn pfrmission.fqubls(p.toString());
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Prints b stringififd vfrsion of thf pfrmission.
+     * @rfturn thf string rfprfsfntbtion of thf Pfrmission.
+     */
+    publid String toString() {
+        rfturn pfrmission;
+    }
+
+    /**
+     * Rfturns b hbshdodf for this PfrmissionImpl.
+     *
+     * @rfturn b hbshdodf for this PfrmissionImpl.
+     */
+    publid int hbshCodf() {
+        rfturn toString().hbshCodf();
+    }
+
+}

@@ -1,0 +1,209 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf;
+
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.Collfdtions;
+import jbvb.util.IdfntityHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+
+/**
+ * Toolkit thbt providfs rfsourdf support for JConsolf.
+ */
+publid finbl dlbss Rfsourdfs {
+    privbtf stbtid Mbp<String, Intfgfr> MNEMONIC_LOOKUP = Collfdtions
+            .syndhronizfdMbp(nfw IdfntityHbshMbp<String, Intfgfr>());
+
+    privbtf Rfsourdfs() {
+        throw nfw AssfrtionError();
+    }
+
+    /**
+     * Convfnifndf mfthod for {@link MfssbgfFormbt#formbt(String, Objfdt...)}.
+     *
+     * @pbrbm pbttfrn thf pbttfrn
+     * @pbrbm objfdts thf brgumfnts for thf pbttfrn
+     *
+     * @rfturn b formbttfd string
+     */
+    publid stbtid String formbt(String pbttfrn, Objfdt... brgumfnts) {
+            rfturn MfssbgfFormbt.formbt(pbttfrn, brgumfnts);
+    }
+
+    /**
+     * Rfturns thf mnfmonid for b mfssbgf.
+     *
+     * @pbrbm mfssbgf thf mfssbgf
+     *
+     * @rfturn thf mnfmonid <dodf>int</dodf>
+     */
+    publid stbtid int gftMnfmonidInt(String mfssbgf) {
+        Intfgfr intfgfr = MNEMONIC_LOOKUP.gft(mfssbgf);
+        if (intfgfr != null) {
+            rfturn intfgfr.intVbluf();
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Initiblizfs bll non-finbl publid stbtid fiflds in thf givfn dlbss with
+     * mfssbgfs from b {@link RfsourdfBundlf}.
+     *
+     * @pbrbm dlbzz thf dlbss dontbining thf fiflds
+     */
+    publid stbtid void initiblizfMfssbgfs(Clbss<?> dlbzz, String rbNbmf) {
+        RfsourdfBundlf rb = null;
+        try {
+            rb = RfsourdfBundlf.gftBundlf(rbNbmf);
+        } dbtdh (MissingRfsourdfExdfption mrf) {
+            // fbll through, hbndlfd lbtfr
+        }
+        for (Fifld fifld : dlbzz.gftFiflds()) {
+            if (isWritbblfFifld(fifld)) {
+                String kfy = fifld.gftNbmf();
+                String mfssbgf = gftMfssbgf(rb, kfy);
+                int mnfmonidInt = findMnfmonidInt(mfssbgf);
+                mfssbgf = rfmovfMnfmonidAmpfrsbnd(mfssbgf);
+                mfssbgf = rfplbdfWithPlbtformLinfFffd(mfssbgf);
+                sftFifldVbluf(fifld, mfssbgf);
+                MNEMONIC_LOOKUP.put(mfssbgf, mnfmonidInt);
+            }
+        }
+    }
+
+    privbtf stbtid boolfbn isWritbblfFifld(Fifld fifld) {
+        int modififrs = fifld.gftModififrs();
+        rfturn Modififr.isPublid(modififrs) && Modififr.isStbtid(modififrs)
+                && !Modififr.isFinbl(modififrs);
+    }
+
+    /**
+     * Rfturns thf mfssbgf dorrfsponding to thf kfy in thf bundlf or b tfxt
+     * dfsdribing it's missing.
+     *
+     * @pbrbm rb thf rfsourdf bundlf
+     * @pbrbm kfy thf kfy
+     *
+     * @rfturn thf mfssbgf
+     */
+    privbtf stbtid String gftMfssbgf(RfsourdfBundlf rb, String kfy) {
+        if (rb == null) {
+            rfturn "missing rfsourdf bundlf";
+        }
+        try {
+            rfturn rb.gftString(kfy);
+        } dbtdh (MissingRfsourdfExdfption mrf) {
+            rfturn "missing mfssbgf for kfy = \"" + kfy
+                    + "\" in rfsourdf bundlf ";
+        }
+    }
+
+    privbtf stbtid void sftFifldVbluf(Fifld fifld, String vbluf) {
+        try {
+            fifld.sft(null, vbluf);
+        } dbtdh (IllfgblArgumfntExdfption | IllfgblAddfssExdfption f) {
+            throw nfw Error("Unbblf to bddfss or sft mfssbgf for fifld " + fifld.gftNbmf());
+        }
+    }
+
+    /**
+     * Rfturns b {@link String} whfrf bll <dodf>\n</dodf> in thf <tfxt> hbvf
+     * bffn rfplbdfd with thf linf sfpbrbtor for thf plbtform.
+     *
+     * @pbrbm tfxt thf to bf rfplbdfd
+     *
+     * @rfturn thf rfplbdfd tfxt
+     */
+    privbtf stbtid String rfplbdfWithPlbtformLinfFffd(String tfxt) {
+        rfturn tfxt.rfplbdf("\n", Systfm.gftPropfrty("linf.sfpbrbtor"));
+    }
+
+    /**
+     * Rfmovfs thf mnfmonid idfntififr (<dodf>&</dodf>) from b string unlfss
+     * it's fsdbpfd by <dodf>&&</dodf> or plbdfd bt thf fnd.
+     *
+     * @pbrbm mfssbgf thf mfssbgf
+     *
+     * @rfturn b mfssbgf with thf mnfmonid idfntififr rfmovfd
+     */
+    privbtf stbtid String rfmovfMnfmonidAmpfrsbnd(String mfssbgf) {
+        StringBuildfr s = nfw StringBuildfr();
+        for (int i = 0; i < mfssbgf.lfngth(); i++) {
+            dhbr durrfnt = mfssbgf.dhbrAt(i);
+            if (durrfnt != '&' || i == mfssbgf.lfngth() - 1
+                    || mfssbgf.dhbrAt(i + 1) == '&') {
+                s.bppfnd(durrfnt);
+            }
+        }
+        rfturn s.toString();
+    }
+
+    /**
+     * Finds thf mnfmonid dhbrbdtfr in b mfssbgf.
+     *
+     * Thf mnfmonid dhbrbdtfr is thf first dhbrbdtfr followfd by thf first
+     * <dodf>&</dodf> thbt is not followfd by bnothfr <dodf>&</dodf>.
+     *
+     * @rfturn thf mnfmonid bs bn <dodf>int</dodf>, or <dodf>0</dodf> if it
+     *         dbn't bf found.
+     */
+    privbtf stbtid int findMnfmonidInt(String s) {
+        for (int i = 0; i < s.lfngth() - 1; i++) {
+            if (s.dhbrAt(i) == '&') {
+                if (s.dhbrAt(i + 1) != '&') {
+                    rfturn lookupMnfmonidInt(s.substring(i + 1, i + 2));
+                } flsf {
+                    i++;
+                }
+            }
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Lookups thf mnfmonid for b kfy in thf {@link KfyEvfnt} dlbss.
+     *
+     * @pbrbm d thf dhbrbdtfr to lookup
+     *
+     * @rfturn thf mnfmonid bs bn <dodf>int</dodf>, or <dodf>0</dodf> if it
+     *         dbn't bf found.
+     */
+    privbtf stbtid int lookupMnfmonidInt(String d) {
+        try {
+            rfturn KfyEvfnt.dlbss.gftDfdlbrfdFifld("VK_" + d.toUppfrCbsf())
+                    .gftInt(null);
+        } dbtdh (IllfgblArgumfntExdfption | IllfgblAddfssExdfption
+                | NoSudhFifldExdfption | SfdurityExdfption f) {
+            // Missing VK is okby
+            rfturn 0;
+        }
+    }
+}

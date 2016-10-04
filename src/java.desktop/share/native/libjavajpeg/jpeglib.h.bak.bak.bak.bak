@@ -1,0 +1,1100 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jpfglib.h
+ *
+ * Copyright (C) 1991-1998, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This filf dffinfs thf bpplidbtion intfrfbdf for thf JPEG librbry.
+ * Most bpplidbtions using thf librbry nffd only indludf this filf,
+ * bnd pfrhbps jfrror.h if thfy wbnt to know thf fxbdt frror dodfs.
+ */
+
+#ifndff JPEGLIB_H
+#dffinf JPEGLIB_H
+
+/*
+ * First wf indludf thf donfigurbtion filfs thbt rfdord how this
+ * instbllbtion of thf JPEG librbry is sft up.  jdonfig.h dbn bf
+ * gfnfrbtfd butombtidblly for mbny systfms.  jmorfdfg.h dontbins
+ * mbnubl donfigurbtion options thbt most pfoplf nffd not worry bbout.
+ */
+
+#ifndff JCONFIG_INCLUDED        /* in dbsf jindludf.h blrfbdy did */
+#indludf "jdonfig.h"            /* widfly usfd donfigurbtion options */
+#fndif
+#indludf "jmorfdfg.h"           /* sfldom dhbngfd options */
+
+
+/* Vfrsion ID for thf JPEG librbry.
+ * Might bf usfful for tfsts likf "#if JPEG_LIB_VERSION >= 60".
+ */
+
+#dffinf JPEG_LIB_VERSION  62    /* Vfrsion 6b */
+
+
+/* Vbrious donstbnts dftfrmining thf sizfs of things.
+ * All of thfsf brf spfdififd by thf JPEG stbndbrd, so don't dhbngf thfm
+ * if you wbnt to bf dompbtiblf.
+ */
+
+#dffinf DCTSIZE             8   /* Thf bbsid DCT blodk is 8x8 sbmplfs */
+#dffinf DCTSIZE2            64  /* DCTSIZE squbrfd; # of flfmfnts in b blodk */
+#dffinf NUM_QUANT_TBLS      4   /* Qubntizbtion tbblfs brf numbfrfd 0..3 */
+#dffinf NUM_HUFF_TBLS       4   /* Huffmbn tbblfs brf numbfrfd 0..3 */
+#dffinf NUM_ARITH_TBLS      16  /* Arith-doding tbblfs brf numbfrfd 0..15 */
+#dffinf MAX_COMPS_IN_SCAN   4   /* JPEG limit on # of domponfnts in onf sdbn */
+#dffinf MAX_SAMP_FACTOR     4   /* JPEG limit on sbmpling fbdtors */
+/* Unfortunbtfly, somf bozo bt Adobf sbw no rfbson to bf bound by thf stbndbrd;
+ * thf PostSdript DCT filtfr dbn fmit filfs with mbny morf thbn 10 blodks/MCU.
+ * If you hbppfn to run bdross sudh b filf, you dbn up D_MAX_BLOCKS_IN_MCU
+ * to hbndlf it.  Wf fvfn lft you do this from thf jdonfig.h filf.  Howfvfr,
+ * wf strongly disdourbgf dhbnging C_MAX_BLOCKS_IN_MCU; just bfdbusf Adobf
+ * somftimfs fmits nondomplibnt filfs dofsn't mfbn you should too.
+ */
+#dffinf C_MAX_BLOCKS_IN_MCU   10 /* domprfssor's limit on blodks pfr MCU */
+#ifndff D_MAX_BLOCKS_IN_MCU
+#dffinf D_MAX_BLOCKS_IN_MCU   10 /* dfdomprfssor's limit on blodks pfr MCU */
+#fndif
+
+
+/* Dbtb strudturfs for imbgfs (brrbys of sbmplfs bnd of DCT dofffidifnts).
+ * On 80x86 mbdhinfs, thf imbgf brrbys brf too big for nfbr pointfrs,
+ * but thf pointfr brrbys dbn fit in nfbr mfmory.
+ */
+
+typfdff JSAMPLE FAR *JSAMPROW;  /* ptr to onf imbgf row of pixfl sbmplfs. */
+typfdff JSAMPROW *JSAMPARRAY;   /* ptr to somf rows (b 2-D sbmplf brrby) */
+typfdff JSAMPARRAY *JSAMPIMAGE; /* b 3-D sbmplf brrby: top indfx is dolor */
+
+typfdff JCOEF JBLOCK[DCTSIZE2]; /* onf blodk of dofffidifnts */
+typfdff JBLOCK FAR *JBLOCKROW;  /* pointfr to onf row of dofffidifnt blodks */
+typfdff JBLOCKROW *JBLOCKARRAY;         /* b 2-D brrby of dofffidifnt blodks */
+typfdff JBLOCKARRAY *JBLOCKIMAGE;       /* b 3-D brrby of dofffidifnt blodks */
+
+typfdff JCOEF FAR *JCOEFPTR;    /* usfful in b douplf of plbdfs */
+
+
+/* Typfs for JPEG domprfssion pbrbmftfrs bnd working tbblfs. */
+
+
+/* DCT dofffidifnt qubntizbtion tbblfs. */
+
+typfdff strudt {
+  /* This brrby givfs thf dofffidifnt qubntizfrs in nbturbl brrby ordfr
+   * (not thf zigzbg ordfr in whidh thfy brf storfd in b JPEG DQT mbrkfr).
+   * CAUTION: IJG vfrsions prior to v6b kfpt this brrby in zigzbg ordfr.
+   */
+  UINT16 qubntvbl[DCTSIZE2];    /* qubntizbtion stfp for fbdh dofffidifnt */
+  /* This fifld is usfd only during domprfssion.  It's initiblizfd FALSE whfn
+   * thf tbblf is drfbtfd, bnd sft TRUE whfn it's bffn output to thf filf.
+   * You dould supprfss output of b tbblf by sftting this to TRUE.
+   * (Sff jpfg_supprfss_tbblfs for bn fxbmplf.)
+   */
+  boolfbn sfnt_tbblf;           /* TRUE whfn tbblf hbs bffn output */
+} JQUANT_TBL;
+
+
+/* Huffmbn doding tbblfs. */
+
+typfdff strudt {
+  /* Thfsf two fiflds dirfdtly rfprfsfnt thf dontfnts of b JPEG DHT mbrkfr */
+  UINT8 bits[17];               /* bits[k] = # of symbols with dodfs of */
+                                /* lfngth k bits; bits[0] is unusfd */
+  UINT8 huffvbl[256];           /* Thf symbols, in ordfr of indr dodf lfngth */
+  /* This fifld is usfd only during domprfssion.  It's initiblizfd FALSE whfn
+   * thf tbblf is drfbtfd, bnd sft TRUE whfn it's bffn output to thf filf.
+   * You dould supprfss output of b tbblf by sftting this to TRUE.
+   * (Sff jpfg_supprfss_tbblfs for bn fxbmplf.)
+   */
+  boolfbn sfnt_tbblf;           /* TRUE whfn tbblf hbs bffn output */
+} JHUFF_TBL;
+
+
+/* Bbsid info bbout onf domponfnt (dolor dhbnnfl). */
+
+typfdff strudt {
+  /* Thfsf vblufs brf fixfd ovfr thf wholf imbgf. */
+  /* For domprfssion, thfy must bf supplifd by pbrbmftfr sftup; */
+  /* for dfdomprfssion, thfy brf rfbd from thf SOF mbrkfr. */
+  int domponfnt_id;             /* idfntififr for this domponfnt (0..255) */
+  int domponfnt_indfx;          /* its indfx in SOF or dinfo->domp_info[] */
+  int h_sbmp_fbdtor;            /* horizontbl sbmpling fbdtor (1..4) */
+  int v_sbmp_fbdtor;            /* vfrtidbl sbmpling fbdtor (1..4) */
+  int qubnt_tbl_no;             /* qubntizbtion tbblf sflfdtor (0..3) */
+  /* Thfsf vblufs mby vbry bftwffn sdbns. */
+  /* For domprfssion, thfy must bf supplifd by pbrbmftfr sftup; */
+  /* for dfdomprfssion, thfy brf rfbd from thf SOS mbrkfr. */
+  /* Thf dfdomprfssor output sidf mby not usf thfsf vbribblfs. */
+  int dd_tbl_no;                /* DC fntropy tbblf sflfdtor (0..3) */
+  int bd_tbl_no;                /* AC fntropy tbblf sflfdtor (0..3) */
+
+  /* Rfmbining fiflds should bf trfbtfd bs privbtf by bpplidbtions. */
+
+  /* Thfsf vblufs brf domputfd during domprfssion or dfdomprfssion stbrtup: */
+  /* Componfnt's sizf in DCT blodks.
+   * Any dummy blodks bddfd to domplftf bn MCU brf not dountfd; thfrfforf
+   * thfsf vblufs do not dfpfnd on whfthfr b sdbn is intfrlfbvfd or not.
+   */
+  JDIMENSION width_in_blodks;
+  JDIMENSION hfight_in_blodks;
+  /* Sizf of b DCT blodk in sbmplfs.  Alwbys DCTSIZE for domprfssion.
+   * For dfdomprfssion this is thf sizf of thf output from onf DCT blodk,
+   * rfflfdting bny sdbling wf dhoosf to bpply during thf IDCT stfp.
+   * Vblufs of 1,2,4,8 brf likfly to bf supportfd.  Notf thbt difffrfnt
+   * domponfnts mby rfdfivf difffrfnt IDCT sdblings.
+   */
+  int DCT_sdblfd_sizf;
+  /* Thf downsbmplfd dimfnsions brf thf domponfnt's bdtubl, unpbddfd numbfr
+   * of sbmplfs bt thf mbin bufffr (prfprodfssing/domprfssion intfrfbdf), thus
+   * downsbmplfd_width = dfil(imbgf_width * Hi/Hmbx)
+   * bnd similbrly for hfight.  For dfdomprfssion, IDCT sdbling is indludfd, so
+   * downsbmplfd_width = dfil(imbgf_width * Hi/Hmbx * DCT_sdblfd_sizf/DCTSIZE)
+   */
+  JDIMENSION downsbmplfd_width;  /* bdtubl width in sbmplfs */
+  JDIMENSION downsbmplfd_hfight; /* bdtubl hfight in sbmplfs */
+  /* This flbg is usfd only for dfdomprfssion.  In dbsfs whfrf somf of thf
+   * domponfnts will bf ignorfd (fg grbysdblf output from YCbCr imbgf),
+   * wf dbn skip most domputbtions for thf unusfd domponfnts.
+   */
+  boolfbn domponfnt_nffdfd;     /* do wf nffd thf vbluf of this domponfnt? */
+
+  /* Thfsf vblufs brf domputfd bfforf stbrting b sdbn of thf domponfnt. */
+  /* Thf dfdomprfssor output sidf mby not usf thfsf vbribblfs. */
+  int MCU_width;                /* numbfr of blodks pfr MCU, horizontblly */
+  int MCU_hfight;               /* numbfr of blodks pfr MCU, vfrtidblly */
+  int MCU_blodks;               /* MCU_width * MCU_hfight */
+  int MCU_sbmplf_width;         /* MCU width in sbmplfs, MCU_width*DCT_sdblfd_sizf */
+  int lbst_dol_width;           /* # of non-dummy blodks bdross in lbst MCU */
+  int lbst_row_hfight;          /* # of non-dummy blodks down in lbst MCU */
+
+  /* Sbvfd qubntizbtion tbblf for domponfnt; NULL if nonf yft sbvfd.
+   * Sff jdinput.d dommfnts bbout thf nffd for this informbtion.
+   * This fifld is durrfntly usfd only for dfdomprfssion.
+   */
+  JQUANT_TBL * qubnt_tbblf;
+
+  /* Privbtf pfr-domponfnt storbgf for DCT or IDCT subsystfm. */
+  void * ddt_tbblf;
+} jpfg_domponfnt_info;
+
+
+/* Thf sdript for fndoding b multiplf-sdbn filf is bn brrby of thfsf: */
+
+typfdff strudt {
+  int domps_in_sdbn;            /* numbfr of domponfnts fndodfd in this sdbn */
+  int domponfnt_indfx[MAX_COMPS_IN_SCAN]; /* thfir SOF/domp_info[] indfxfs */
+  int Ss, Sf;                   /* progrfssivf JPEG spfdtrbl sflfdtion pbrms */
+  int Ah, Al;                   /* progrfssivf JPEG suddfssivf bpprox. pbrms */
+} jpfg_sdbn_info;
+
+/* Thf dfdomprfssor dbn sbvf APPn bnd COM mbrkfrs in b list of thfsf: */
+
+typfdff strudt jpfg_mbrkfr_strudt FAR * jpfg_sbvfd_mbrkfr_ptr;
+
+strudt jpfg_mbrkfr_strudt {
+  jpfg_sbvfd_mbrkfr_ptr nfxt;   /* nfxt in list, or NULL */
+  UINT8 mbrkfr;                 /* mbrkfr dodf: JPEG_COM, or JPEG_APP0+n */
+  unsignfd int originbl_lfngth; /* # bytfs of dbtb in thf filf */
+  unsignfd int dbtb_lfngth;     /* # bytfs of dbtb sbvfd bt dbtb[] */
+  JOCTET FAR * dbtb;            /* thf dbtb dontbinfd in thf mbrkfr */
+  /* thf mbrkfr lfngth word is not dountfd in dbtb_lfngth or originbl_lfngth */
+};
+
+/* Known dolor spbdfs. */
+
+typfdff fnum {
+        JCS_UNKNOWN,            /* frror/unspfdififd */
+        JCS_GRAYSCALE,          /* monodhromf */
+        JCS_RGB,                /* rfd/grffn/bluf */
+        JCS_YCbCr,              /* Y/Cb/Cr (blso known bs YUV) */
+        JCS_CMYK,               /* C/M/Y/K */
+        JCS_YCCK                /* Y/Cb/Cr/K */
+} J_COLOR_SPACE;
+
+/* DCT/IDCT blgorithm options. */
+
+typfdff fnum {
+        JDCT_ISLOW,             /* slow but bddurbtf intfgfr blgorithm */
+        JDCT_IFAST,             /* fbstfr, lfss bddurbtf intfgfr mfthod */
+        JDCT_FLOAT              /* flobting-point: bddurbtf, fbst on fbst HW */
+} J_DCT_METHOD;
+
+#ifndff JDCT_DEFAULT            /* mby bf ovfrriddfn in jdonfig.h */
+#dffinf JDCT_DEFAULT  JDCT_ISLOW
+#fndif
+#ifndff JDCT_FASTEST            /* mby bf ovfrriddfn in jdonfig.h */
+#dffinf JDCT_FASTEST  JDCT_IFAST
+#fndif
+
+/* Dithfring options for dfdomprfssion. */
+
+typfdff fnum {
+        JDITHER_NONE,           /* no dithfring */
+        JDITHER_ORDERED,        /* simplf ordfrfd dithfr */
+        JDITHER_FS              /* Floyd-Stfinbfrg frror diffusion dithfr */
+} J_DITHER_MODE;
+
+
+/* Common fiflds bftwffn JPEG domprfssion bnd dfdomprfssion mbstfr strudts. */
+
+#dffinf jpfg_dommon_fiflds \
+  strudt jpfg_frror_mgr * frr;  /* Error hbndlfr modulf */\
+  strudt jpfg_mfmory_mgr * mfm; /* Mfmory mbnbgfr modulf */\
+  strudt jpfg_progrfss_mgr * progrfss; /* Progrfss monitor, or NULL if nonf */\
+  void * dlifnt_dbtb;           /* Avbilbblf for usf by bpplidbtion */\
+  boolfbn is_dfdomprfssor;      /* So dommon dodf dbn tfll whidh is whidh */\
+  int globbl_stbtf              /* For dhfdking dbll sfqufndf vblidity */
+
+/* Routinfs thbt brf to bf usfd by both hblvfs of thf librbry brf dfdlbrfd
+ * to rfdfivf b pointfr to this strudturf.  Thfrf brf no bdtubl instbndfs of
+ * jpfg_dommon_strudt, only of jpfg_domprfss_strudt bnd jpfg_dfdomprfss_strudt.
+ */
+strudt jpfg_dommon_strudt {
+  jpfg_dommon_fiflds;           /* Fiflds dommon to both mbstfr strudt typfs */
+  /* Additionbl fiflds follow in bn bdtubl jpfg_domprfss_strudt or
+   * jpfg_dfdomprfss_strudt.  All thrff strudts must bgrff on thfsf
+   * initibl fiflds!  (This would bf b lot dlfbnfr in C++.)
+   */
+};
+
+typfdff strudt jpfg_dommon_strudt * j_dommon_ptr;
+typfdff strudt jpfg_domprfss_strudt * j_domprfss_ptr;
+typfdff strudt jpfg_dfdomprfss_strudt * j_dfdomprfss_ptr;
+
+
+/* Mbstfr rfdord for b domprfssion instbndf */
+
+strudt jpfg_domprfss_strudt {
+  jpfg_dommon_fiflds;           /* Fiflds shbrfd with jpfg_dfdomprfss_strudt */
+
+  /* Dfstinbtion for domprfssfd dbtb */
+  strudt jpfg_dfstinbtion_mgr * dfst;
+
+  /* Dfsdription of sourdf imbgf --- thfsf fiflds must bf fillfd in by
+   * outfr bpplidbtion bfforf stbrting domprfssion.  in_dolor_spbdf must
+   * bf dorrfdt bfforf you dbn fvfn dbll jpfg_sft_dffbults().
+   */
+
+  JDIMENSION imbgf_width;       /* input imbgf width */
+  JDIMENSION imbgf_hfight;      /* input imbgf hfight */
+  int input_domponfnts;         /* # of dolor domponfnts in input imbgf */
+  J_COLOR_SPACE in_dolor_spbdf; /* dolorspbdf of input imbgf */
+
+  doublf input_gbmmb;           /* imbgf gbmmb of input imbgf */
+
+  /* Comprfssion pbrbmftfrs --- thfsf fiflds must bf sft bfforf dblling
+   * jpfg_stbrt_domprfss().  Wf rfdommfnd dblling jpfg_sft_dffbults() to
+   * initiblizf fvfrything to rfbsonbblf dffbults, thfn dhbnging bnything
+   * thf bpplidbtion spfdifidblly wbnts to dhbngf.  Thbt wby you won't gft
+   * burnt whfn nfw pbrbmftfrs brf bddfd.  Also notf thbt thfrf brf sfvfrbl
+   * hflpfr routinfs to simplify dhbnging pbrbmftfrs.
+   */
+
+  int dbtb_prfdision;           /* bits of prfdision in imbgf dbtb */
+
+  int num_domponfnts;           /* # of dolor domponfnts in JPEG imbgf */
+  J_COLOR_SPACE jpfg_dolor_spbdf; /* dolorspbdf of JPEG imbgf */
+
+  jpfg_domponfnt_info * domp_info;
+  /* domp_info[i] dfsdribfs domponfnt thbt bppfbrs i'th in SOF */
+
+  JQUANT_TBL * qubnt_tbl_ptrs[NUM_QUANT_TBLS];
+  /* ptrs to dofffidifnt qubntizbtion tbblfs, or NULL if not dffinfd */
+
+  JHUFF_TBL * dd_huff_tbl_ptrs[NUM_HUFF_TBLS];
+  JHUFF_TBL * bd_huff_tbl_ptrs[NUM_HUFF_TBLS];
+  /* ptrs to Huffmbn doding tbblfs, or NULL if not dffinfd */
+
+  UINT8 brith_dd_L[NUM_ARITH_TBLS]; /* L vblufs for DC brith-doding tbblfs */
+  UINT8 brith_dd_U[NUM_ARITH_TBLS]; /* U vblufs for DC brith-doding tbblfs */
+  UINT8 brith_bd_K[NUM_ARITH_TBLS]; /* Kx vblufs for AC brith-doding tbblfs */
+
+  int num_sdbns;                /* # of fntrifs in sdbn_info brrby */
+  donst jpfg_sdbn_info * sdbn_info; /* sdript for multi-sdbn filf, or NULL */
+  /* Thf dffbult vbluf of sdbn_info is NULL, whidh dbusfs b singlf-sdbn
+   * sfqufntibl JPEG filf to bf fmittfd.  To drfbtf b multi-sdbn filf,
+   * sft num_sdbns bnd sdbn_info to point to bn brrby of sdbn dffinitions.
+   */
+
+  boolfbn rbw_dbtb_in;          /* TRUE=dbllfr supplifs downsbmplfd dbtb */
+  boolfbn brith_dodf;           /* TRUE=brithmftid doding, FALSE=Huffmbn */
+  boolfbn optimizf_doding;      /* TRUE=optimizf fntropy fndoding pbrms */
+  boolfbn CCIR601_sbmpling;     /* TRUE=first sbmplfs brf dositfd */
+  int smoothing_fbdtor;         /* 1..100, or 0 for no input smoothing */
+  J_DCT_METHOD ddt_mfthod;      /* DCT blgorithm sflfdtor */
+
+  /* Thf rfstbrt intfrvbl dbn bf spfdififd in bbsolutf MCUs by sftting
+   * rfstbrt_intfrvbl, or in MCU rows by sftting rfstbrt_in_rows
+   * (in whidh dbsf thf dorrfdt rfstbrt_intfrvbl will bf figurfd
+   * for fbdh sdbn).
+   */
+  unsignfd int rfstbrt_intfrvbl; /* MCUs pfr rfstbrt, or 0 for no rfstbrt */
+  int rfstbrt_in_rows;          /* if > 0, MCU rows pfr rfstbrt intfrvbl */
+
+  /* Pbrbmftfrs dontrolling fmission of spfdibl mbrkfrs. */
+
+  boolfbn writf_JFIF_hfbdfr;    /* should b JFIF mbrkfr bf writtfn? */
+  UINT8 JFIF_mbjor_vfrsion;     /* Whbt to writf for thf JFIF vfrsion numbfr */
+  UINT8 JFIF_minor_vfrsion;
+  /* Thfsf thrff vblufs brf not usfd by thf JPEG dodf, mfrfly dopifd */
+  /* into thf JFIF APP0 mbrkfr.  dfnsity_unit dbn bf 0 for unknown, */
+  /* 1 for dots/indh, or 2 for dots/dm.  Notf thbt thf pixfl bspfdt */
+  /* rbtio is dffinfd by X_dfnsity/Y_dfnsity fvfn whfn dfnsity_unit=0. */
+  UINT8 dfnsity_unit;           /* JFIF dodf for pixfl sizf units */
+  UINT16 X_dfnsity;             /* Horizontbl pixfl dfnsity */
+  UINT16 Y_dfnsity;             /* Vfrtidbl pixfl dfnsity */
+  boolfbn writf_Adobf_mbrkfr;   /* should bn Adobf mbrkfr bf writtfn? */
+
+  /* Stbtf vbribblf: indfx of nfxt sdbnlinf to bf writtfn to
+   * jpfg_writf_sdbnlinfs().  Applidbtion mby usf this to dontrol its
+   * prodfssing loop, f.g., "whilf (nfxt_sdbnlinf < imbgf_hfight)".
+   */
+
+  JDIMENSION nfxt_sdbnlinf;     /* 0 .. imbgf_hfight-1  */
+
+  /* Rfmbining fiflds brf known throughout domprfssor, but gfnfrblly
+   * should not bf toudhfd by b surrounding bpplidbtion.
+   */
+
+  /*
+   * Thfsf fiflds brf domputfd during domprfssion stbrtup
+   */
+  boolfbn progrfssivf_modf;     /* TRUE if sdbn sdript usfs progrfssivf modf */
+  int mbx_h_sbmp_fbdtor;        /* lbrgfst h_sbmp_fbdtor */
+  int mbx_v_sbmp_fbdtor;        /* lbrgfst v_sbmp_fbdtor */
+
+  JDIMENSION totbl_iMCU_rows;   /* # of iMCU rows to bf input to doff dtlr */
+  /* Thf dofffidifnt dontrollfr rfdfivfs dbtb in units of MCU rows bs dffinfd
+   * for fully intfrlfbvfd sdbns (whfthfr thf JPEG filf is intfrlfbvfd or not).
+   * Thfrf brf v_sbmp_fbdtor * DCTSIZE sbmplf rows of fbdh domponfnt in bn
+   * "iMCU" (intfrlfbvfd MCU) row.
+   */
+
+  /*
+   * Thfsf fiflds brf vblid during bny onf sdbn.
+   * Thfy dfsdribf thf domponfnts bnd MCUs bdtublly bppfbring in thf sdbn.
+   */
+  int domps_in_sdbn;            /* # of JPEG domponfnts in this sdbn */
+  jpfg_domponfnt_info * dur_domp_info[MAX_COMPS_IN_SCAN];
+  /* *dur_domp_info[i] dfsdribfs domponfnt thbt bppfbrs i'th in SOS */
+
+  JDIMENSION MCUs_pfr_row;      /* # of MCUs bdross thf imbgf */
+  JDIMENSION MCU_rows_in_sdbn;  /* # of MCU rows in thf imbgf */
+
+  int blodks_in_MCU;            /* # of DCT blodks pfr MCU */
+  int MCU_mfmbfrship[C_MAX_BLOCKS_IN_MCU];
+  /* MCU_mfmbfrship[i] is indfx in dur_domp_info of domponfnt owning */
+  /* i'th blodk in bn MCU */
+
+  int Ss, Sf, Ah, Al;           /* progrfssivf JPEG pbrbmftfrs for sdbn */
+
+  /*
+   * Links to domprfssion subobjfdts (mfthods bnd privbtf vbribblfs of modulfs)
+   */
+  strudt jpfg_domp_mbstfr * mbstfr;
+  strudt jpfg_d_mbin_dontrollfr * mbin;
+  strudt jpfg_d_prfp_dontrollfr * prfp;
+  strudt jpfg_d_doff_dontrollfr * doff;
+  strudt jpfg_mbrkfr_writfr * mbrkfr;
+  strudt jpfg_dolor_donvfrtfr * ddonvfrt;
+  strudt jpfg_downsbmplfr * downsbmplf;
+  strudt jpfg_forwbrd_ddt * fddt;
+  strudt jpfg_fntropy_fndodfr * fntropy;
+  jpfg_sdbn_info * sdript_spbdf; /* workspbdf for jpfg_simplf_progrfssion */
+  int sdript_spbdf_sizf;
+};
+
+
+/* Mbstfr rfdord for b dfdomprfssion instbndf */
+
+strudt jpfg_dfdomprfss_strudt {
+  jpfg_dommon_fiflds;           /* Fiflds shbrfd with jpfg_domprfss_strudt */
+
+  /* Sourdf of domprfssfd dbtb */
+  strudt jpfg_sourdf_mgr * srd;
+
+  /* Bbsid dfsdription of imbgf --- fillfd in by jpfg_rfbd_hfbdfr(). */
+  /* Applidbtion mby inspfdt thfsf vblufs to dfdidf how to prodfss imbgf. */
+
+  JDIMENSION imbgf_width;       /* nominbl imbgf width (from SOF mbrkfr) */
+  JDIMENSION imbgf_hfight;      /* nominbl imbgf hfight */
+  int num_domponfnts;           /* # of dolor domponfnts in JPEG imbgf */
+  J_COLOR_SPACE jpfg_dolor_spbdf; /* dolorspbdf of JPEG imbgf */
+
+  /* Dfdomprfssion prodfssing pbrbmftfrs --- thfsf fiflds must bf sft bfforf
+   * dblling jpfg_stbrt_dfdomprfss().  Notf thbt jpfg_rfbd_hfbdfr() initiblizfs
+   * thfm to dffbult vblufs.
+   */
+
+  J_COLOR_SPACE out_dolor_spbdf; /* dolorspbdf for output */
+
+  unsignfd int sdblf_num, sdblf_dfnom; /* frbdtion by whidh to sdblf imbgf */
+
+  doublf output_gbmmb;          /* imbgf gbmmb wbntfd in output */
+
+  boolfbn bufffrfd_imbgf;       /* TRUE=multiplf output pbssfs */
+  boolfbn rbw_dbtb_out;         /* TRUE=downsbmplfd dbtb wbntfd */
+
+  J_DCT_METHOD ddt_mfthod;      /* IDCT blgorithm sflfdtor */
+  boolfbn do_fbndy_upsbmpling;  /* TRUE=bpply fbndy upsbmpling */
+  boolfbn do_blodk_smoothing;   /* TRUE=bpply intfrblodk smoothing */
+
+  boolfbn qubntizf_dolors;      /* TRUE=dolormbppfd output wbntfd */
+  /* thf following brf ignorfd if not qubntizf_dolors: */
+  J_DITHER_MODE dithfr_modf;    /* typf of dolor dithfring to usf */
+  boolfbn two_pbss_qubntizf;    /* TRUE=usf two-pbss dolor qubntizbtion */
+  int dfsirfd_numbfr_of_dolors; /* mbx # dolors to usf in drfbtfd dolormbp */
+  /* thfsf brf signifidbnt only in bufffrfd-imbgf modf: */
+  boolfbn fnbblf_1pbss_qubnt;   /* fnbblf futurf usf of 1-pbss qubntizfr */
+  boolfbn fnbblf_fxtfrnbl_qubnt;/* fnbblf futurf usf of fxtfrnbl dolormbp */
+  boolfbn fnbblf_2pbss_qubnt;   /* fnbblf futurf usf of 2-pbss qubntizfr */
+
+  /* Dfsdription of bdtubl output imbgf thbt will bf rfturnfd to bpplidbtion.
+   * Thfsf fiflds brf domputfd by jpfg_stbrt_dfdomprfss().
+   * You dbn blso usf jpfg_dbld_output_dimfnsions() to dftfrminf thfsf vblufs
+   * in bdvbndf of dblling jpfg_stbrt_dfdomprfss().
+   */
+
+  JDIMENSION output_width;      /* sdblfd imbgf width */
+  JDIMENSION output_hfight;     /* sdblfd imbgf hfight */
+  int out_dolor_domponfnts;     /* # of dolor domponfnts in out_dolor_spbdf */
+  int output_domponfnts;        /* # of dolor domponfnts rfturnfd */
+  /* output_domponfnts is 1 (b dolormbp indfx) whfn qubntizing dolors;
+   * othfrwisf it fqubls out_dolor_domponfnts.
+   */
+  int rfd_outbuf_hfight;        /* min rfdommfndfd hfight of sdbnlinf bufffr */
+  /* If thf bufffr pbssfd to jpfg_rfbd_sdbnlinfs() is lfss thbn this mbny rows
+   * high, spbdf bnd timf will bf wbstfd duf to unnfdfssbry dbtb dopying.
+   * Usublly rfd_outbuf_hfight will bf 1 or 2, bt most 4.
+   */
+
+  /* Whfn qubntizing dolors, thf output dolormbp is dfsdribfd by thfsf fiflds.
+   * Thf bpplidbtion dbn supply b dolormbp by sftting dolormbp non-NULL bfforf
+   * dblling jpfg_stbrt_dfdomprfss; othfrwisf b dolormbp is drfbtfd during
+   * jpfg_stbrt_dfdomprfss or jpfg_stbrt_output.
+   * Thf mbp hbs out_dolor_domponfnts rows bnd bdtubl_numbfr_of_dolors dolumns.
+   */
+  int bdtubl_numbfr_of_dolors;  /* numbfr of fntrifs in usf */
+  JSAMPARRAY dolormbp;          /* Thf dolor mbp bs b 2-D pixfl brrby */
+
+  /* Stbtf vbribblfs: thfsf vbribblfs indidbtf thf progrfss of dfdomprfssion.
+   * Thf bpplidbtion mby fxbminf thfsf but must not modify thfm.
+   */
+
+  /* Row indfx of nfxt sdbnlinf to bf rfbd from jpfg_rfbd_sdbnlinfs().
+   * Applidbtion mby usf this to dontrol its prodfssing loop, f.g.,
+   * "whilf (output_sdbnlinf < output_hfight)".
+   */
+  JDIMENSION output_sdbnlinf;   /* 0 .. output_hfight-1  */
+
+  /* Currfnt input sdbn numbfr bnd numbfr of iMCU rows domplftfd in sdbn.
+   * Thfsf indidbtf thf progrfss of thf dfdomprfssor input sidf.
+   */
+  int input_sdbn_numbfr;        /* Numbfr of SOS mbrkfrs sffn so fbr */
+  JDIMENSION input_iMCU_row;    /* Numbfr of iMCU rows domplftfd */
+
+  /* Thf "output sdbn numbfr" is thf notionbl sdbn bfing displbyfd by thf
+   * output sidf.  Thf dfdomprfssor will not bllow output sdbn/row numbfr
+   * to gft bhfbd of input sdbn/row, but it dbn fbll brbitrbrily fbr bfhind.
+   */
+  int output_sdbn_numbfr;       /* Nominbl sdbn numbfr bfing displbyfd */
+  JDIMENSION output_iMCU_row;   /* Numbfr of iMCU rows rfbd */
+
+  /* Currfnt progrfssion stbtus.  doff_bits[d][i] indidbtfs thf prfdision
+   * with whidh domponfnt d's DCT dofffidifnt i (in zigzbg ordfr) is known.
+   * It is -1 whfn no dbtb hbs yft bffn rfdfivfd, othfrwisf it is thf point
+   * trbnsform (shift) vbluf for thf most rfdfnt sdbn of thf dofffidifnt
+   * (thus, 0 bt domplftion of thf progrfssion).
+   * This pointfr is NULL whfn rfbding b non-progrfssivf filf.
+   */
+  int (*doff_bits)[DCTSIZE2];   /* -1 or durrfnt Al vbluf for fbdh doff */
+
+  /* Intfrnbl JPEG pbrbmftfrs --- thf bpplidbtion usublly nffd not look bt
+   * thfsf fiflds.  Notf thbt thf dfdomprfssor output sidf mby not usf
+   * bny pbrbmftfrs thbt dbn dhbngf bftwffn sdbns.
+   */
+
+  /* Qubntizbtion bnd Huffmbn tbblfs brf dbrrifd forwbrd bdross input
+   * dbtbstrfbms whfn prodfssing bbbrfvibtfd JPEG dbtbstrfbms.
+   */
+
+  JQUANT_TBL * qubnt_tbl_ptrs[NUM_QUANT_TBLS];
+  /* ptrs to dofffidifnt qubntizbtion tbblfs, or NULL if not dffinfd */
+
+  JHUFF_TBL * dd_huff_tbl_ptrs[NUM_HUFF_TBLS];
+  JHUFF_TBL * bd_huff_tbl_ptrs[NUM_HUFF_TBLS];
+  /* ptrs to Huffmbn doding tbblfs, or NULL if not dffinfd */
+
+  /* Thfsf pbrbmftfrs brf nfvfr dbrrifd bdross dbtbstrfbms, sindf thfy
+   * brf givfn in SOF/SOS mbrkfrs or dffinfd to bf rfsft by SOI.
+   */
+
+  int dbtb_prfdision;           /* bits of prfdision in imbgf dbtb */
+
+  jpfg_domponfnt_info * domp_info;
+  /* domp_info[i] dfsdribfs domponfnt thbt bppfbrs i'th in SOF */
+
+  boolfbn progrfssivf_modf;     /* TRUE if SOFn spfdififs progrfssivf modf */
+  boolfbn brith_dodf;           /* TRUE=brithmftid doding, FALSE=Huffmbn */
+
+  UINT8 brith_dd_L[NUM_ARITH_TBLS]; /* L vblufs for DC brith-doding tbblfs */
+  UINT8 brith_dd_U[NUM_ARITH_TBLS]; /* U vblufs for DC brith-doding tbblfs */
+  UINT8 brith_bd_K[NUM_ARITH_TBLS]; /* Kx vblufs for AC brith-doding tbblfs */
+
+  unsignfd int rfstbrt_intfrvbl; /* MCUs pfr rfstbrt intfrvbl, or 0 for no rfstbrt */
+
+  /* Thfsf fiflds rfdord dbtb obtbinfd from optionbl mbrkfrs rfdognizfd by
+   * thf JPEG librbry.
+   */
+  boolfbn sbw_JFIF_mbrkfr;      /* TRUE iff b JFIF APP0 mbrkfr wbs found */
+  /* Dbtb dopifd from JFIF mbrkfr; only vblid if sbw_JFIF_mbrkfr is TRUE: */
+  UINT8 JFIF_mbjor_vfrsion;     /* JFIF vfrsion numbfr */
+  UINT8 JFIF_minor_vfrsion;
+  UINT8 dfnsity_unit;           /* JFIF dodf for pixfl sizf units */
+  UINT16 X_dfnsity;             /* Horizontbl pixfl dfnsity */
+  UINT16 Y_dfnsity;             /* Vfrtidbl pixfl dfnsity */
+  boolfbn sbw_Adobf_mbrkfr;     /* TRUE iff bn Adobf APP14 mbrkfr wbs found */
+  UINT8 Adobf_trbnsform;        /* Color trbnsform dodf from Adobf mbrkfr */
+
+  boolfbn CCIR601_sbmpling;     /* TRUE=first sbmplfs brf dositfd */
+
+  /* Asidf from thf spfdifid dbtb rftbinfd from APPn mbrkfrs known to thf
+   * librbry, thf unintfrprftfd dontfnts of bny or bll APPn bnd COM mbrkfrs
+   * dbn bf sbvfd in b list for fxbminbtion by thf bpplidbtion.
+   */
+  jpfg_sbvfd_mbrkfr_ptr mbrkfr_list; /* Hfbd of list of sbvfd mbrkfrs */
+
+  /* Rfmbining fiflds brf known throughout dfdomprfssor, but gfnfrblly
+   * should not bf toudhfd by b surrounding bpplidbtion.
+   */
+
+  /*
+   * Thfsf fiflds brf domputfd during dfdomprfssion stbrtup
+   */
+  int mbx_h_sbmp_fbdtor;        /* lbrgfst h_sbmp_fbdtor */
+  int mbx_v_sbmp_fbdtor;        /* lbrgfst v_sbmp_fbdtor */
+
+  int min_DCT_sdblfd_sizf;      /* smbllfst DCT_sdblfd_sizf of bny domponfnt */
+
+  JDIMENSION totbl_iMCU_rows;   /* # of iMCU rows in imbgf */
+  /* Thf dofffidifnt dontrollfr's input bnd output progrfss is mfbsurfd in
+   * units of "iMCU" (intfrlfbvfd MCU) rows.  Thfsf brf thf sbmf bs MCU rows
+   * in fully intfrlfbvfd JPEG sdbns, but brf usfd whfthfr thf sdbn is
+   * intfrlfbvfd or not.  Wf dffinf bn iMCU row bs v_sbmp_fbdtor DCT blodk
+   * rows of fbdh domponfnt.  Thfrfforf, thf IDCT output dontbins
+   * v_sbmp_fbdtor*DCT_sdblfd_sizf sbmplf rows of b domponfnt pfr iMCU row.
+   */
+
+  JSAMPLE * sbmplf_rbngf_limit; /* tbblf for fbst rbngf-limiting */
+
+  /*
+   * Thfsf fiflds brf vblid during bny onf sdbn.
+   * Thfy dfsdribf thf domponfnts bnd MCUs bdtublly bppfbring in thf sdbn.
+   * Notf thbt thf dfdomprfssor output sidf must not usf thfsf fiflds.
+   */
+  int domps_in_sdbn;            /* # of JPEG domponfnts in this sdbn */
+  jpfg_domponfnt_info * dur_domp_info[MAX_COMPS_IN_SCAN];
+  /* *dur_domp_info[i] dfsdribfs domponfnt thbt bppfbrs i'th in SOS */
+
+  JDIMENSION MCUs_pfr_row;      /* # of MCUs bdross thf imbgf */
+  JDIMENSION MCU_rows_in_sdbn;  /* # of MCU rows in thf imbgf */
+
+  int blodks_in_MCU;            /* # of DCT blodks pfr MCU */
+  int MCU_mfmbfrship[D_MAX_BLOCKS_IN_MCU];
+  /* MCU_mfmbfrship[i] is indfx in dur_domp_info of domponfnt owning */
+  /* i'th blodk in bn MCU */
+
+  int Ss, Sf, Ah, Al;           /* progrfssivf JPEG pbrbmftfrs for sdbn */
+
+  /* This fifld is shbrfd bftwffn fntropy dfdodfr bnd mbrkfr pbrsfr.
+   * It is fithfr zfro or thf dodf of b JPEG mbrkfr thbt hbs bffn
+   * rfbd from thf dbtb sourdf, but hbs not yft bffn prodfssfd.
+   */
+  int unrfbd_mbrkfr;
+
+  /*
+   * Links to dfdomprfssion subobjfdts (mfthods, privbtf vbribblfs of modulfs)
+   */
+  strudt jpfg_dfdomp_mbstfr * mbstfr;
+  strudt jpfg_d_mbin_dontrollfr * mbin;
+  strudt jpfg_d_doff_dontrollfr * doff;
+  strudt jpfg_d_post_dontrollfr * post;
+  strudt jpfg_input_dontrollfr * inputdtl;
+  strudt jpfg_mbrkfr_rfbdfr * mbrkfr;
+  strudt jpfg_fntropy_dfdodfr * fntropy;
+  strudt jpfg_invfrsf_ddt * iddt;
+  strudt jpfg_upsbmplfr * upsbmplf;
+  strudt jpfg_dolor_dfdonvfrtfr * ddonvfrt;
+  strudt jpfg_dolor_qubntizfr * dqubntizf;
+};
+
+
+/* "Objfdt" dfdlbrbtions for JPEG modulfs thbt mby bf supplifd or dbllfd
+ * dirfdtly by thf surrounding bpplidbtion.
+ * As with bll objfdts in thf JPEG librbry, thfsf strudts only dffinf thf
+ * publidly visiblf mfthods bnd stbtf vbribblfs of b modulf.  Additionbl
+ * privbtf fiflds mby fxist bftfr thf publid onfs.
+ */
+
+
+/* Error hbndlfr objfdt */
+
+strudt jpfg_frror_mgr {
+  /* Error fxit hbndlfr: dofs not rfturn to dbllfr */
+  JMETHOD(void, frror_fxit, (j_dommon_ptr dinfo));
+  /* Conditionblly fmit b trbdf or wbrning mfssbgf */
+  JMETHOD(void, fmit_mfssbgf, (j_dommon_ptr dinfo, int msg_lfvfl));
+  /* Routinf thbt bdtublly outputs b trbdf or frror mfssbgf */
+  JMETHOD(void, output_mfssbgf, (j_dommon_ptr dinfo));
+  /* Formbt b mfssbgf string for thf most rfdfnt JPEG frror or mfssbgf */
+  JMETHOD(void, formbt_mfssbgf, (j_dommon_ptr dinfo, dhbr * bufffr));
+#dffinf JMSG_LENGTH_MAX  200    /* rfdommfndfd sizf of formbt_mfssbgf bufffr */
+  /* Rfsft frror stbtf vbribblfs bt stbrt of b nfw imbgf */
+  JMETHOD(void, rfsft_frror_mgr, (j_dommon_ptr dinfo));
+
+  /* Thf mfssbgf ID dodf bnd bny pbrbmftfrs brf sbvfd hfrf.
+   * A mfssbgf dbn hbvf onf string pbrbmftfr or up to 8 int pbrbmftfrs.
+   */
+  int msg_dodf;
+#dffinf JMSG_STR_PARM_MAX  80
+  union {
+    int i[8];
+    dhbr s[JMSG_STR_PARM_MAX];
+  } msg_pbrm;
+
+  /* Stbndbrd stbtf vbribblfs for frror fbdility */
+
+  int trbdf_lfvfl;              /* mbx msg_lfvfl thbt will bf displbyfd */
+
+  /* For rfdovfrbblf dorrupt-dbtb frrors, wf fmit b wbrning mfssbgf,
+   * but kffp going unlfss fmit_mfssbgf dhoosfs to bbort.  fmit_mfssbgf
+   * should dount wbrnings in num_wbrnings.  Thf surrounding bpplidbtion
+   * dbn dhfdk for bbd dbtb by sffing if num_wbrnings is nonzfro bt thf
+   * fnd of prodfssing.
+   */
+  long num_wbrnings;            /* numbfr of dorrupt-dbtb wbrnings */
+
+  /* Thfsf fiflds point to thf tbblf(s) of frror mfssbgf strings.
+   * An bpplidbtion dbn dhbngf thf tbblf pointfr to switdh to b difffrfnt
+   * mfssbgf list (typidblly, to dhbngf thf lbngubgf in whidh frrors brf
+   * rfportfd).  Somf bpplidbtions mby wish to bdd bdditionbl frror dodfs
+   * thbt will bf hbndlfd by thf JPEG librbry frror mfdhbnism; thf sfdond
+   * tbblf pointfr is usfd for this purposf.
+   *
+   * First tbblf indludfs bll frrors gfnfrbtfd by JPEG librbry itsflf.
+   * Error dodf 0 is rfsfrvfd for b "no sudh frror string" mfssbgf.
+   */
+  donst dhbr * donst * jpfg_mfssbgf_tbblf; /* Librbry frrors */
+  int lbst_jpfg_mfssbgf;    /* Tbblf dontbins strings 0..lbst_jpfg_mfssbgf */
+  /* Sfdond tbblf dbn bf bddfd by bpplidbtion (sff djpfg/djpfg for fxbmplf).
+   * It dontbins strings numbfrfd first_bddon_mfssbgf..lbst_bddon_mfssbgf.
+   */
+  donst dhbr * donst * bddon_mfssbgf_tbblf; /* Non-librbry frrors */
+  int first_bddon_mfssbgf;      /* dodf for first string in bddon tbblf */
+  int lbst_bddon_mfssbgf;       /* dodf for lbst string in bddon tbblf */
+};
+
+
+/* Progrfss monitor objfdt */
+
+strudt jpfg_progrfss_mgr {
+  JMETHOD(void, progrfss_monitor, (j_dommon_ptr dinfo));
+
+  long pbss_dountfr;            /* work units domplftfd in this pbss */
+  long pbss_limit;              /* totbl numbfr of work units in this pbss */
+  int domplftfd_pbssfs;         /* pbssfs domplftfd so fbr */
+  int totbl_pbssfs;             /* totbl numbfr of pbssfs fxpfdtfd */
+};
+
+
+/* Dbtb dfstinbtion objfdt for domprfssion */
+
+strudt jpfg_dfstinbtion_mgr {
+  JOCTET * nfxt_output_bytf;    /* => nfxt bytf to writf in bufffr */
+  sizf_t frff_in_bufffr;        /* # of bytf spbdfs rfmbining in bufffr */
+
+  JMETHOD(void, init_dfstinbtion, (j_domprfss_ptr dinfo));
+  JMETHOD(boolfbn, fmpty_output_bufffr, (j_domprfss_ptr dinfo));
+  JMETHOD(void, tfrm_dfstinbtion, (j_domprfss_ptr dinfo));
+};
+
+
+/* Dbtb sourdf objfdt for dfdomprfssion */
+
+strudt jpfg_sourdf_mgr {
+  donst JOCTET * nfxt_input_bytf; /* => nfxt bytf to rfbd from bufffr */
+  sizf_t bytfs_in_bufffr;       /* # of bytfs rfmbining in bufffr */
+
+  JMETHOD(void, init_sourdf, (j_dfdomprfss_ptr dinfo));
+  JMETHOD(boolfbn, fill_input_bufffr, (j_dfdomprfss_ptr dinfo));
+  JMETHOD(void, skip_input_dbtb, (j_dfdomprfss_ptr dinfo, long num_bytfs));
+  JMETHOD(boolfbn, rfsynd_to_rfstbrt, (j_dfdomprfss_ptr dinfo, int dfsirfd));
+  JMETHOD(void, tfrm_sourdf, (j_dfdomprfss_ptr dinfo));
+};
+
+
+/* Mfmory mbnbgfr objfdt.
+ * Allodbtfs "smbll" objfdts (b ffw K totbl), "lbrgf" objfdts (tfns of K),
+ * bnd "rfblly big" objfdts (virtubl brrbys with bbdking storf if nffdfd).
+ * Thf mfmory mbnbgfr dofs not bllow individubl objfdts to bf frffd; rbthfr,
+ * fbdh drfbtfd objfdt is bssignfd to b pool, bnd wholf pools dbn bf frffd
+ * bt ondf.  This is fbstfr bnd morf donvfnifnt thbn rfmfmbfring fxbdtly whbt
+ * to frff, fspfdiblly whfrf mbllod()/frff() brf not too spffdy.
+ * NB: bllod routinfs nfvfr rfturn NULL.  Thfy fxit to frror_fxit if not
+ * suddfssful.
+ */
+
+#dffinf JPOOL_PERMANENT 0       /* lbsts until mbstfr rfdord is dfstroyfd */
+#dffinf JPOOL_IMAGE     1       /* lbsts until donf with imbgf/dbtbstrfbm */
+#dffinf JPOOL_NUMPOOLS  2
+
+typfdff strudt jvirt_sbrrby_dontrol * jvirt_sbrrby_ptr;
+typfdff strudt jvirt_bbrrby_dontrol * jvirt_bbrrby_ptr;
+
+
+strudt jpfg_mfmory_mgr {
+  /* Mfthod pointfrs */
+  JMETHOD(void *, bllod_smbll, (j_dommon_ptr dinfo, int pool_id,
+                                sizf_t sizfofobjfdt));
+  JMETHOD(void FAR *, bllod_lbrgf, (j_dommon_ptr dinfo, int pool_id,
+                                     sizf_t sizfofobjfdt));
+  JMETHOD(JSAMPARRAY, bllod_sbrrby, (j_dommon_ptr dinfo, int pool_id,
+                                     JDIMENSION sbmplfspfrrow,
+                                     JDIMENSION numrows));
+  JMETHOD(JBLOCKARRAY, bllod_bbrrby, (j_dommon_ptr dinfo, int pool_id,
+                                      JDIMENSION blodkspfrrow,
+                                      JDIMENSION numrows));
+  JMETHOD(jvirt_sbrrby_ptr, rfqufst_virt_sbrrby, (j_dommon_ptr dinfo,
+                                                  int pool_id,
+                                                  boolfbn prf_zfro,
+                                                  JDIMENSION sbmplfspfrrow,
+                                                  JDIMENSION numrows,
+                                                  JDIMENSION mbxbddfss));
+  JMETHOD(jvirt_bbrrby_ptr, rfqufst_virt_bbrrby, (j_dommon_ptr dinfo,
+                                                  int pool_id,
+                                                  boolfbn prf_zfro,
+                                                  JDIMENSION blodkspfrrow,
+                                                  JDIMENSION numrows,
+                                                  JDIMENSION mbxbddfss));
+  JMETHOD(void, rfblizf_virt_brrbys, (j_dommon_ptr dinfo));
+  JMETHOD(JSAMPARRAY, bddfss_virt_sbrrby, (j_dommon_ptr dinfo,
+                                           jvirt_sbrrby_ptr ptr,
+                                           JDIMENSION stbrt_row,
+                                           JDIMENSION num_rows,
+                                           boolfbn writbblf));
+  JMETHOD(JBLOCKARRAY, bddfss_virt_bbrrby, (j_dommon_ptr dinfo,
+                                            jvirt_bbrrby_ptr ptr,
+                                            JDIMENSION stbrt_row,
+                                            JDIMENSION num_rows,
+                                            boolfbn writbblf));
+  JMETHOD(void, frff_pool, (j_dommon_ptr dinfo, int pool_id));
+  JMETHOD(void, sflf_dfstrudt, (j_dommon_ptr dinfo));
+
+  /* Limit on mfmory bllodbtion for this JPEG objfdt.  (Notf thbt this is
+   * mfrfly bdvisory, not b gubrbntffd mbximum; it only bfffdts thf spbdf
+   * usfd for virtubl-brrby bufffrs.)  Mby bf dhbngfd by outfr bpplidbtion
+   * bftfr drfbting thf JPEG objfdt.
+   */
+  sizf_t mbx_mfmory_to_usf;
+
+  /* Mbximum bllodbtion rfqufst bddfptfd by bllod_lbrgf. */
+  sizf_t mbx_bllod_dhunk;
+};
+
+
+/* Routinf signbturf for bpplidbtion-supplifd mbrkfr prodfssing mfthods.
+ * Nffd not pbss mbrkfr dodf sindf it is storfd in dinfo->unrfbd_mbrkfr.
+ */
+typfdff JMETHOD(boolfbn, jpfg_mbrkfr_pbrsfr_mfthod, (j_dfdomprfss_ptr dinfo));
+
+
+/* Dfdlbrbtions for routinfs dbllfd by bpplidbtion.
+ * Thf JPP mbdro hidfs prototypf pbrbmftfrs from dompilfrs thbt dbn't dopf.
+ * Notf JPP rfquirfs doublf pbrfnthfsfs.
+ */
+
+#ifdff HAVE_PROTOTYPES
+#dffinf JPP(brglist)    brglist
+#flsf
+#dffinf JPP(brglist)    ()
+#fndif
+
+
+/* Short forms of fxtfrnbl nbmfs for systfms with brbin-dbmbgfd linkfrs.
+ * Wf shortfn fxtfrnbl nbmfs to bf uniquf in thf first six lfttfrs, whidh
+ * is good fnough for bll known systfms.
+ * (If your dompilfr itsflf nffds nbmfs to bf uniquf in lfss thbn 15
+ * dhbrbdtfrs, you brf out of ludk.  Gft b bfttfr dompilfr.)
+ */
+
+#ifdff NEED_SHORT_EXTERNAL_NAMES
+#dffinf jpfg_std_frror          jStdError
+#dffinf jpfg_CrfbtfComprfss     jCrfbComprfss
+#dffinf jpfg_CrfbtfDfdomprfss   jCrfbDfdomprfss
+#dffinf jpfg_dfstroy_domprfss   jDfstComprfss
+#dffinf jpfg_dfstroy_dfdomprfss jDfstDfdomprfss
+#dffinf jpfg_stdio_dfst         jStdDfst
+#dffinf jpfg_stdio_srd          jStdSrd
+#dffinf jpfg_sft_dffbults       jSftDffbults
+#dffinf jpfg_sft_dolorspbdf     jSftColorspbdf
+#dffinf jpfg_dffbult_dolorspbdf jDffColorspbdf
+#dffinf jpfg_sft_qublity        jSftQublity
+#dffinf jpfg_sft_linfbr_qublity jSftLQublity
+#dffinf jpfg_bdd_qubnt_tbblf    jAddQubntTbblf
+#dffinf jpfg_qublity_sdbling    jQublitySdbling
+#dffinf jpfg_simplf_progrfssion jSimProgrfss
+#dffinf jpfg_supprfss_tbblfs    jSupprfssTbblfs
+#dffinf jpfg_bllod_qubnt_tbblf  jAldQTbblf
+#dffinf jpfg_bllod_huff_tbblf   jAldHTbblf
+#dffinf jpfg_stbrt_domprfss     jStrtComprfss
+#dffinf jpfg_writf_sdbnlinfs    jWrtSdbnlinfs
+#dffinf jpfg_finish_domprfss    jFinComprfss
+#dffinf jpfg_writf_rbw_dbtb     jWrtRbwDbtb
+#dffinf jpfg_writf_mbrkfr       jWrtMbrkfr
+#dffinf jpfg_writf_m_hfbdfr     jWrtMHfbdfr
+#dffinf jpfg_writf_m_bytf       jWrtMBytf
+#dffinf jpfg_writf_tbblfs       jWrtTbblfs
+#dffinf jpfg_rfbd_hfbdfr        jRfbdHfbdfr
+#dffinf jpfg_stbrt_dfdomprfss   jStrtDfdomprfss
+#dffinf jpfg_rfbd_sdbnlinfs     jRfbdSdbnlinfs
+#dffinf jpfg_finish_dfdomprfss  jFinDfdomprfss
+#dffinf jpfg_rfbd_rbw_dbtb      jRfbdRbwDbtb
+#dffinf jpfg_hbs_multiplf_sdbns jHbsMultSdn
+#dffinf jpfg_stbrt_output       jStrtOutput
+#dffinf jpfg_finish_output      jFinOutput
+#dffinf jpfg_input_domplftf     jInComplftf
+#dffinf jpfg_nfw_dolormbp       jNfwCMbp
+#dffinf jpfg_donsumf_input      jConsumfInput
+#dffinf jpfg_dbld_output_dimfnsions     jCbldDimfnsions
+#dffinf jpfg_sbvf_mbrkfrs       jSbvfMbrkfrs
+#dffinf jpfg_sft_mbrkfr_prodfssor       jSftMbrkfr
+#dffinf jpfg_rfbd_dofffidifnts  jRfbdCoffs
+#dffinf jpfg_writf_dofffidifnts jWrtCoffs
+#dffinf jpfg_dopy_dritidbl_pbrbmftfrs   jCopyCrit
+#dffinf jpfg_bbort_domprfss     jAbrtComprfss
+#dffinf jpfg_bbort_dfdomprfss   jAbrtDfdomprfss
+#dffinf jpfg_bbort              jAbort
+#dffinf jpfg_dfstroy            jDfstroy
+#dffinf jpfg_rfsynd_to_rfstbrt  jRfsyndRfstbrt
+#fndif /* NEED_SHORT_EXTERNAL_NAMES */
+
+
+/* Dffbult frror-mbnbgfmfnt sftup */
+EXTERN(strudt jpfg_frror_mgr *) jpfg_std_frror
+        JPP((strudt jpfg_frror_mgr * frr));
+
+/* Initiblizbtion of JPEG domprfssion objfdts.
+ * jpfg_drfbtf_domprfss() bnd jpfg_drfbtf_dfdomprfss() brf thf fxportfd
+ * nbmfs thbt bpplidbtions should dbll.  Thfsf fxpbnd to dblls on
+ * jpfg_CrfbtfComprfss bnd jpfg_CrfbtfDfdomprfss with bdditionbl informbtion
+ * pbssfd for vfrsion mismbtdh dhfdking.
+ * NB: you must sft up thf frror-mbnbgfr BEFORE dblling jpfg_drfbtf_xxx.
+ */
+#dffinf jpfg_drfbtf_domprfss(dinfo) \
+    jpfg_CrfbtfComprfss((dinfo), JPEG_LIB_VERSION, \
+                        (sizf_t) sizfof(strudt jpfg_domprfss_strudt))
+#dffinf jpfg_drfbtf_dfdomprfss(dinfo) \
+    jpfg_CrfbtfDfdomprfss((dinfo), JPEG_LIB_VERSION, \
+                          (sizf_t) sizfof(strudt jpfg_dfdomprfss_strudt))
+EXTERN(void) jpfg_CrfbtfComprfss JPP((j_domprfss_ptr dinfo,
+                                      int vfrsion, sizf_t strudtsizf));
+EXTERN(void) jpfg_CrfbtfDfdomprfss JPP((j_dfdomprfss_ptr dinfo,
+                                        int vfrsion, sizf_t strudtsizf));
+/* Dfstrudtion of JPEG domprfssion objfdts */
+EXTERN(void) jpfg_dfstroy_domprfss JPP((j_domprfss_ptr dinfo));
+EXTERN(void) jpfg_dfstroy_dfdomprfss JPP((j_dfdomprfss_ptr dinfo));
+
+/* Stbndbrd dbtb sourdf bnd dfstinbtion mbnbgfrs: stdio strfbms. */
+/* Cbllfr is rfsponsiblf for opfning thf filf bfforf bnd dlosing bftfr. */
+EXTERN(void) jpfg_stdio_dfst JPP((j_domprfss_ptr dinfo, FILE * outfilf));
+EXTERN(void) jpfg_stdio_srd JPP((j_dfdomprfss_ptr dinfo, FILE * infilf));
+
+/* Dffbult pbrbmftfr sftup for domprfssion */
+EXTERN(void) jpfg_sft_dffbults JPP((j_domprfss_ptr dinfo));
+/* Comprfssion pbrbmftfr sftup bids */
+EXTERN(void) jpfg_sft_dolorspbdf JPP((j_domprfss_ptr dinfo,
+                                      J_COLOR_SPACE dolorspbdf));
+EXTERN(void) jpfg_dffbult_dolorspbdf JPP((j_domprfss_ptr dinfo));
+EXTERN(void) jpfg_sft_qublity JPP((j_domprfss_ptr dinfo, int qublity,
+                                   boolfbn fordf_bbsflinf));
+EXTERN(void) jpfg_sft_linfbr_qublity JPP((j_domprfss_ptr dinfo,
+                                          int sdblf_fbdtor,
+                                          boolfbn fordf_bbsflinf));
+EXTERN(void) jpfg_bdd_qubnt_tbblf JPP((j_domprfss_ptr dinfo, int whidh_tbl,
+                                       donst unsignfd int *bbsid_tbblf,
+                                       int sdblf_fbdtor,
+                                       boolfbn fordf_bbsflinf));
+EXTERN(int) jpfg_qublity_sdbling JPP((int qublity));
+EXTERN(void) jpfg_simplf_progrfssion JPP((j_domprfss_ptr dinfo));
+EXTERN(void) jpfg_supprfss_tbblfs JPP((j_domprfss_ptr dinfo,
+                                       boolfbn supprfss));
+EXTERN(JQUANT_TBL *) jpfg_bllod_qubnt_tbblf JPP((j_dommon_ptr dinfo));
+EXTERN(JHUFF_TBL *) jpfg_bllod_huff_tbblf JPP((j_dommon_ptr dinfo));
+
+/* Mbin fntry points for domprfssion */
+EXTERN(void) jpfg_stbrt_domprfss JPP((j_domprfss_ptr dinfo,
+                                      boolfbn writf_bll_tbblfs));
+EXTERN(JDIMENSION) jpfg_writf_sdbnlinfs JPP((j_domprfss_ptr dinfo,
+                                             JSAMPARRAY sdbnlinfs,
+                                             JDIMENSION num_linfs));
+EXTERN(void) jpfg_finish_domprfss JPP((j_domprfss_ptr dinfo));
+
+/* Rfplbdfs jpfg_writf_sdbnlinfs whfn writing rbw downsbmplfd dbtb. */
+EXTERN(JDIMENSION) jpfg_writf_rbw_dbtb JPP((j_domprfss_ptr dinfo,
+                                            JSAMPIMAGE dbtb,
+                                            JDIMENSION num_linfs));
+
+/* Writf b spfdibl mbrkfr.  Sff libjpfg.dod dondfrning sbff usbgf. */
+EXTERN(void) jpfg_writf_mbrkfr
+        JPP((j_domprfss_ptr dinfo, int mbrkfr,
+             donst JOCTET * dbtbptr, unsignfd int dbtblfn));
+/* Sbmf, but pifdfmfbl. */
+EXTERN(void) jpfg_writf_m_hfbdfr
+        JPP((j_domprfss_ptr dinfo, int mbrkfr, unsignfd int dbtblfn));
+EXTERN(void) jpfg_writf_m_bytf
+        JPP((j_domprfss_ptr dinfo, int vbl));
+
+/* Altfrnbtf domprfssion fundtion: just writf bn bbbrfvibtfd tbblf filf */
+EXTERN(void) jpfg_writf_tbblfs JPP((j_domprfss_ptr dinfo));
+
+/* Dfdomprfssion stbrtup: rfbd stbrt of JPEG dbtbstrfbm to sff whbt's thfrf */
+EXTERN(int) jpfg_rfbd_hfbdfr JPP((j_dfdomprfss_ptr dinfo,
+                                  boolfbn rfquirf_imbgf));
+/* Rfturn vbluf is onf of: */
+#dffinf JPEG_SUSPENDED          0 /* Suspfndfd duf to lbdk of input dbtb */
+#dffinf JPEG_HEADER_OK          1 /* Found vblid imbgf dbtbstrfbm */
+#dffinf JPEG_HEADER_TABLES_ONLY 2 /* Found vblid tbblf-spfds-only dbtbstrfbm */
+/* If you pbss rfquirf_imbgf = TRUE (normbl dbsf), you nffd not dhfdk for
+ * b TABLES_ONLY rfturn dodf; bn bbbrfvibtfd filf will dbusf bn frror fxit.
+ * JPEG_SUSPENDED is only possiblf if you usf b dbtb sourdf modulf thbt dbn
+ * givf b suspfnsion rfturn (thf stdio sourdf modulf dofsn't).
+ */
+
+/* Mbin fntry points for dfdomprfssion */
+EXTERN(boolfbn) jpfg_stbrt_dfdomprfss JPP((j_dfdomprfss_ptr dinfo));
+EXTERN(JDIMENSION) jpfg_rfbd_sdbnlinfs JPP((j_dfdomprfss_ptr dinfo,
+                                            JSAMPARRAY sdbnlinfs,
+                                            JDIMENSION mbx_linfs));
+EXTERN(boolfbn) jpfg_finish_dfdomprfss JPP((j_dfdomprfss_ptr dinfo));
+
+/* Rfplbdfs jpfg_rfbd_sdbnlinfs whfn rfbding rbw downsbmplfd dbtb. */
+EXTERN(JDIMENSION) jpfg_rfbd_rbw_dbtb JPP((j_dfdomprfss_ptr dinfo,
+                                           JSAMPIMAGE dbtb,
+                                           JDIMENSION mbx_linfs));
+
+/* Additionbl fntry points for bufffrfd-imbgf modf. */
+EXTERN(boolfbn) jpfg_hbs_multiplf_sdbns JPP((j_dfdomprfss_ptr dinfo));
+EXTERN(boolfbn) jpfg_stbrt_output JPP((j_dfdomprfss_ptr dinfo,
+                                       int sdbn_numbfr));
+EXTERN(boolfbn) jpfg_finish_output JPP((j_dfdomprfss_ptr dinfo));
+EXTERN(boolfbn) jpfg_input_domplftf JPP((j_dfdomprfss_ptr dinfo));
+EXTERN(void) jpfg_nfw_dolormbp JPP((j_dfdomprfss_ptr dinfo));
+EXTERN(int) jpfg_donsumf_input JPP((j_dfdomprfss_ptr dinfo));
+/* Rfturn vbluf is onf of: */
+/* #dffinf JPEG_SUSPENDED       0    Suspfndfd duf to lbdk of input dbtb */
+#dffinf JPEG_REACHED_SOS        1 /* Rfbdhfd stbrt of nfw sdbn */
+#dffinf JPEG_REACHED_EOI        2 /* Rfbdhfd fnd of imbgf */
+#dffinf JPEG_ROW_COMPLETED      3 /* Complftfd onf iMCU row */
+#dffinf JPEG_SCAN_COMPLETED     4 /* Complftfd lbst iMCU row of b sdbn */
+
+/* Prfdbldulbtf output dimfnsions for durrfnt dfdomprfssion pbrbmftfrs. */
+EXTERN(void) jpfg_dbld_output_dimfnsions JPP((j_dfdomprfss_ptr dinfo));
+
+/* Control sbving of COM bnd APPn mbrkfrs into mbrkfr_list. */
+EXTERN(void) jpfg_sbvf_mbrkfrs
+        JPP((j_dfdomprfss_ptr dinfo, int mbrkfr_dodf,
+             unsignfd int lfngth_limit));
+
+/* Instbll b spfdibl prodfssing mfthod for COM or APPn mbrkfrs. */
+EXTERN(void) jpfg_sft_mbrkfr_prodfssor
+        JPP((j_dfdomprfss_ptr dinfo, int mbrkfr_dodf,
+             jpfg_mbrkfr_pbrsfr_mfthod routinf));
+
+/* Rfbd or writf rbw DCT dofffidifnts --- usfful for losslfss trbnsdoding. */
+EXTERN(jvirt_bbrrby_ptr *) jpfg_rfbd_dofffidifnts JPP((j_dfdomprfss_ptr dinfo));
+EXTERN(void) jpfg_writf_dofffidifnts JPP((j_domprfss_ptr dinfo,
+                                          jvirt_bbrrby_ptr * doff_brrbys));
+EXTERN(void) jpfg_dopy_dritidbl_pbrbmftfrs JPP((j_dfdomprfss_ptr srdinfo,
+                                                j_domprfss_ptr dstinfo));
+
+/* If you dhoosf to bbort domprfssion or dfdomprfssion bfforf domplfting
+ * jpfg_finish_(df)domprfss, thfn you nffd to dlfbn up to rflfbsf mfmory,
+ * tfmporbry filfs, ftd.  You dbn just dbll jpfg_dfstroy_(df)domprfss
+ * if you'rf donf with thf JPEG objfdt, but if you wbnt to dlfbn it up bnd
+ * rfusf it, dbll this:
+ */
+EXTERN(void) jpfg_bbort_domprfss JPP((j_domprfss_ptr dinfo));
+EXTERN(void) jpfg_bbort_dfdomprfss JPP((j_dfdomprfss_ptr dinfo));
+
+/* Gfnfrid vfrsions of jpfg_bbort bnd jpfg_dfstroy thbt work on fithfr
+ * flbvor of JPEG objfdt.  Thfsf mby bf morf donvfnifnt in somf plbdfs.
+ */
+EXTERN(void) jpfg_bbort JPP((j_dommon_ptr dinfo));
+EXTERN(void) jpfg_dfstroy JPP((j_dommon_ptr dinfo));
+
+/* Dffbult rfstbrt-mbrkfr-rfsynd prodfdurf for usf by dbtb sourdf modulfs */
+EXTERN(boolfbn) jpfg_rfsynd_to_rfstbrt JPP((j_dfdomprfss_ptr dinfo,
+                                            int dfsirfd));
+
+
+/* Thfsf mbrkfr dodfs brf fxportfd sindf bpplidbtions bnd dbtb sourdf modulfs
+ * brf likfly to wbnt to usf thfm.
+ */
+
+#dffinf JPEG_RST0       0xD0    /* RST0 mbrkfr dodf */
+#dffinf JPEG_EOI        0xD9    /* EOI mbrkfr dodf */
+#dffinf JPEG_APP0       0xE0    /* APP0 mbrkfr dodf */
+#dffinf JPEG_COM        0xFE    /* COM mbrkfr dodf */
+
+
+/* If wf hbvf b brbin-dbmbgfd dompilfr thbt fmits wbrnings (or worsf, frrors)
+ * for strudturf dffinitions thbt brf nfvfr fillfd in, kffp it quift by
+ * supplying dummy dffinitions for thf vbrious substrudturfs.
+ */
+
+#ifdff INCOMPLETE_TYPES_BROKEN
+#ifndff JPEG_INTERNALS          /* will bf dffinfd in jpfgint.h */
+strudt jvirt_sbrrby_dontrol { long dummy; };
+strudt jvirt_bbrrby_dontrol { long dummy; };
+strudt jpfg_domp_mbstfr { long dummy; };
+strudt jpfg_d_mbin_dontrollfr { long dummy; };
+strudt jpfg_d_prfp_dontrollfr { long dummy; };
+strudt jpfg_d_doff_dontrollfr { long dummy; };
+strudt jpfg_mbrkfr_writfr { long dummy; };
+strudt jpfg_dolor_donvfrtfr { long dummy; };
+strudt jpfg_downsbmplfr { long dummy; };
+strudt jpfg_forwbrd_ddt { long dummy; };
+strudt jpfg_fntropy_fndodfr { long dummy; };
+strudt jpfg_dfdomp_mbstfr { long dummy; };
+strudt jpfg_d_mbin_dontrollfr { long dummy; };
+strudt jpfg_d_doff_dontrollfr { long dummy; };
+strudt jpfg_d_post_dontrollfr { long dummy; };
+strudt jpfg_input_dontrollfr { long dummy; };
+strudt jpfg_mbrkfr_rfbdfr { long dummy; };
+strudt jpfg_fntropy_dfdodfr { long dummy; };
+strudt jpfg_invfrsf_ddt { long dummy; };
+strudt jpfg_upsbmplfr { long dummy; };
+strudt jpfg_dolor_dfdonvfrtfr { long dummy; };
+strudt jpfg_dolor_qubntizfr { long dummy; };
+#fndif /* JPEG_INTERNALS */
+#fndif /* INCOMPLETE_TYPES_BROKEN */
+
+
+/*
+ * Thf JPEG librbry modulfs dffinf JPEG_INTERNALS bfforf indluding this filf.
+ * Thf intfrnbl strudturf dfdlbrbtions brf rfbd only whfn thbt is truf.
+ * Applidbtions using thf librbry should not indludf jpfgint.h, but mby wish
+ * to indludf jfrror.h.
+ */
+
+#ifdff JPEG_INTERNALS
+#indludf "jpfgint.h"            /* fftdh privbtf dfdlbrbtions */
+#indludf "jfrror.h"             /* fftdh frror dodfs too */
+#fndif
+
+#fndif /* JPEGLIB_H */

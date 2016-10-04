@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+/**
+ * This dlbss rfprfsfnts b boolfbn vbluf. A BoolfbnVblufExp mby bf
+ * usfd bnywhfrf b VblufExp is rfquirfd.
+ * @sfribl indludf
+ *
+ * @sindf 1.5
+ */
+dlbss BoolfbnVblufExp fxtfnds QufryEvbl implfmfnts VblufExp {
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 7754922052666594581L;
+
+    /**
+     * @sfribl Thf boolfbn vbluf
+     */
+    privbtf boolfbn vbl = fblsf;
+
+
+    /** Crfbtfs b nfw BoolfbnVblufExp rfprfsfnting thf boolfbn litfrbl {@dodf vbl}.*/
+    BoolfbnVblufExp(boolfbn vbl) {
+        this.vbl = vbl;
+    }
+
+    /**Crfbtfs b nfw BoolfbnVblufExp rfprfsfnting thf Boolfbn objfdt {@dodf vbl}.*/
+    BoolfbnVblufExp(Boolfbn vbl) {
+        this.vbl = vbl.boolfbnVbluf();
+    }
+
+
+    /** Rfturns thf  Boolfbn objfdt rfprfsfnting thf vbluf of thf BoolfbnVblufExp objfdt.*/
+    publid Boolfbn gftVbluf()  {
+        rfturn Boolfbn.vblufOf(vbl);
+    }
+
+    /**
+     * Rfturns thf string rfprfsfnting thf objfdt.
+     */
+    publid String toString()  {
+        rfturn String.vblufOf(vbl);
+    }
+
+    /**
+     * Applifs thf VblufExp on b MBfbn.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn on whidh thf VblufExp will bf bpplifd.
+     *
+     * @rfturn  Thf <CODE>VblufExp</CODE>.
+     *
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
+     */
+    publid VblufExp bpply(ObjfdtNbmf nbmf) throws BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption  {
+        rfturn this;
+    }
+
+    @Dfprfdbtfd
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr s) {
+        supfr.sftMBfbnSfrvfr(s);
+    }
+
+
+ }

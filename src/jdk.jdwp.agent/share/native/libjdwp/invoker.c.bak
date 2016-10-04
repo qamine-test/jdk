@@ -1,774 +1,774 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "invoker.h"
-#include "eventHandler.h"
-#include "threadControl.h"
-#include "outStream.h"
+#indludf "util.i"
+#indludf "invokfr.i"
+#indludf "fvfntHbndlfr.i"
+#indludf "tirfbdControl.i"
+#indludf "outStrfbm.i"
 
-static jrawMonitorID invokerLock;
-
-void
-invoker_initialize(void)
-{
-    invokerLock = debugMonitorCreate("JDWP Invocation Lock");
-}
+stbtid jrbwMonitorID invokfrLodk;
 
 void
-invoker_reset(void)
+invokfr_initiblizf(void)
+{
+    invokfrLodk = dfbugMonitorCrfbtf("JDWP Invodbtion Lodk");
+}
+
+void
+invokfr_rfsft(void)
 {
 }
 
-void invoker_lock(void)
+void invokfr_lodk(void)
 {
-    debugMonitorEnter(invokerLock);
+    dfbugMonitorEntfr(invokfrLodk);
 }
 
-void invoker_unlock(void)
+void invokfr_unlodk(void)
 {
-    debugMonitorExit(invokerLock);
+    dfbugMonitorExit(invokfrLodk);
 }
 
-static jbyte
-returnTypeTag(char *signature)
+stbtid jbytf
+rfturnTypfTbg(dibr *signbturf)
 {
-    char *tagPtr = strchr(signature, SIGNATURE_END_ARGS);
-    JDI_ASSERT(tagPtr);
-    tagPtr++;    /* 1st character after the end of args */
-    return (jbyte)*tagPtr;
+    dibr *tbgPtr = strdir(signbturf, SIGNATURE_END_ARGS);
+    JDI_ASSERT(tbgPtr);
+    tbgPtr++;    /* 1st dibrbdtfr bftfr tif fnd of brgs */
+    rfturn (jbytf)*tbgPtr;
 }
 
-static jbyte
-nextArgumentTypeTag(void **cursor)
+stbtid jbytf
+nfxtArgumfntTypfTbg(void **dursor)
 {
-    char *tagPtr = *cursor;
-    jbyte argumentTag = (jbyte)*tagPtr;
+    dibr *tbgPtr = *dursor;
+    jbytf brgumfntTbg = (jbytf)*tbgPtr;
 
-    if (*tagPtr != SIGNATURE_END_ARGS) {
-        /* Skip any array modifiers */
-        while (*tagPtr == JDWP_TAG(ARRAY)) {
-            tagPtr++;
+    if (*tbgPtr != SIGNATURE_END_ARGS) {
+        /* Skip bny brrby modififrs */
+        wiilf (*tbgPtr == JDWP_TAG(ARRAY)) {
+            tbgPtr++;
         }
-        /* Skip class name */
-        if (*tagPtr == JDWP_TAG(OBJECT)) {
-            tagPtr = strchr(tagPtr, SIGNATURE_END_CLASS) + 1;
-            JDI_ASSERT(tagPtr);
-        } else {
-            /* Skip primitive sig */
-            tagPtr++;
+        /* Skip dlbss nbmf */
+        if (*tbgPtr == JDWP_TAG(OBJECT)) {
+            tbgPtr = strdir(tbgPtr, SIGNATURE_END_CLASS) + 1;
+            JDI_ASSERT(tbgPtr);
+        } flsf {
+            /* Skip primitivf sig */
+            tbgPtr++;
         }
     }
 
-    *cursor = tagPtr;
-    return argumentTag;
+    *dursor = tbgPtr;
+    rfturn brgumfntTbg;
 }
 
-static jbyte
-firstArgumentTypeTag(char *signature, void **cursor)
+stbtid jbytf
+firstArgumfntTypfTbg(dibr *signbturf, void **dursor)
 {
-    JDI_ASSERT(signature[0] == SIGNATURE_BEGIN_ARGS);
-    *cursor = signature + 1; /* skip to the first arg */
-    return nextArgumentTypeTag(cursor);
+    JDI_ASSERT(signbturf[0] == SIGNATURE_BEGIN_ARGS);
+    *dursor = signbturf + 1; /* skip to tif first brg */
+    rfturn nfxtArgumfntTypfTbg(dursor);
 }
 
 
 /*
- * Note: argument refs may be destroyed on out-of-memory error
+ * Notf: brgumfnt rffs mby bf dfstroyfd on out-of-mfmory frror
  */
-static jvmtiError
-createGlobalRefs(JNIEnv *env, InvokeRequest *request)
+stbtid jvmtiError
+drfbtfGlobblRffs(JNIEnv *fnv, InvokfRfqufst *rfqufst)
 {
-    jvmtiError error;
-    jclass clazz = NULL;
-    jobject instance = NULL;
-    jint argIndex;
-    jbyte argumentTag;
-    jvalue *argument;
-    void *cursor;
-    jobject *argRefs = NULL;
+    jvmtiError frror;
+    jdlbss dlbzz = NULL;
+    jobjfdt instbndf = NULL;
+    jint brgIndfx;
+    jbytf brgumfntTbg;
+    jvbluf *brgumfnt;
+    void *dursor;
+    jobjfdt *brgRffs = NULL;
 
-    error = JVMTI_ERROR_NONE;
+    frror = JVMTI_ERROR_NONE;
 
-    if ( request->argumentCount > 0 ) {
+    if ( rfqufst->brgumfntCount > 0 ) {
         /*LINTED*/
-        argRefs = jvmtiAllocate((jint)(request->argumentCount*sizeof(jobject)));
-        if ( argRefs==NULL ) {
-            error = AGENT_ERROR_OUT_OF_MEMORY;
-        } else {
+        brgRffs = jvmtiAllodbtf((jint)(rfqufst->brgumfntCount*sizfof(jobjfdt)));
+        if ( brgRffs==NULL ) {
+            frror = AGENT_ERROR_OUT_OF_MEMORY;
+        } flsf {
             /*LINTED*/
-            (void)memset(argRefs, 0, request->argumentCount*sizeof(jobject));
+            (void)mfmsft(brgRffs, 0, rfqufst->brgumfntCount*sizfof(jobjfdt));
         }
     }
 
-    if ( error == JVMTI_ERROR_NONE ) {
-        saveGlobalRef(env, request->clazz, &clazz);
-        if (clazz == NULL) {
-            error = AGENT_ERROR_OUT_OF_MEMORY;
+    if ( frror == JVMTI_ERROR_NONE ) {
+        sbvfGlobblRff(fnv, rfqufst->dlbzz, &dlbzz);
+        if (dlbzz == NULL) {
+            frror = AGENT_ERROR_OUT_OF_MEMORY;
         }
     }
 
-    if ( error == JVMTI_ERROR_NONE && request->instance != NULL ) {
-        saveGlobalRef(env, request->instance, &instance);
-        if (instance == NULL) {
-            error = AGENT_ERROR_OUT_OF_MEMORY;
+    if ( frror == JVMTI_ERROR_NONE && rfqufst->instbndf != NULL ) {
+        sbvfGlobblRff(fnv, rfqufst->instbndf, &instbndf);
+        if (instbndf == NULL) {
+            frror = AGENT_ERROR_OUT_OF_MEMORY;
         }
     }
 
-    if ( error == JVMTI_ERROR_NONE && argRefs!=NULL ) {
-        argIndex = 0;
-        argumentTag = firstArgumentTypeTag(request->methodSignature, &cursor);
-        argument = request->arguments;
-        while (argumentTag != SIGNATURE_END_ARGS) {
-            if ( argIndex > request->argumentCount ) {
-                break;
+    if ( frror == JVMTI_ERROR_NONE && brgRffs!=NULL ) {
+        brgIndfx = 0;
+        brgumfntTbg = firstArgumfntTypfTbg(rfqufst->mftiodSignbturf, &dursor);
+        brgumfnt = rfqufst->brgumfnts;
+        wiilf (brgumfntTbg != SIGNATURE_END_ARGS) {
+            if ( brgIndfx > rfqufst->brgumfntCount ) {
+                brfbk;
             }
-            if ((argumentTag == JDWP_TAG(OBJECT)) ||
-                (argumentTag == JDWP_TAG(ARRAY))) {
-                /* Create a global ref for any non-null argument */
-                if (argument->l != NULL) {
-                    saveGlobalRef(env, argument->l, &argRefs[argIndex]);
-                    if (argRefs[argIndex] == NULL) {
-                        error = AGENT_ERROR_OUT_OF_MEMORY;
-                        break;
+            if ((brgumfntTbg == JDWP_TAG(OBJECT)) ||
+                (brgumfntTbg == JDWP_TAG(ARRAY))) {
+                /* Crfbtf b globbl rff for bny non-null brgumfnt */
+                if (brgumfnt->l != NULL) {
+                    sbvfGlobblRff(fnv, brgumfnt->l, &brgRffs[brgIndfx]);
+                    if (brgRffs[brgIndfx] == NULL) {
+                        frror = AGENT_ERROR_OUT_OF_MEMORY;
+                        brfbk;
                     }
                 }
             }
-            argument++;
-            argIndex++;
-            argumentTag = nextArgumentTypeTag(&cursor);
+            brgumfnt++;
+            brgIndfx++;
+            brgumfntTbg = nfxtArgumfntTypfTbg(&dursor);
         }
     }
 
-#ifdef FIXUP /* Why isn't this an error? */
-    /* Make sure the argument count matches */
-    if ( error == JVMTI_ERROR_NONE && argIndex != request->argumentCount ) {
-        error = AGENT_ERROR_INVALID_COUNT;
+#ifdff FIXUP /* Wiy isn't tiis bn frror? */
+    /* Mbkf surf tif brgumfnt dount mbtdifs */
+    if ( frror == JVMTI_ERROR_NONE && brgIndfx != rfqufst->brgumfntCount ) {
+        frror = AGENT_ERROR_INVALID_COUNT;
     }
-#endif
+#fndif
 
-    /* Finally, put the global refs into the request if no errors */
-    if ( error == JVMTI_ERROR_NONE ) {
-        request->clazz = clazz;
-        request->instance = instance;
-        if ( argRefs!=NULL ) {
-            argIndex = 0;
-            argumentTag = firstArgumentTypeTag(request->methodSignature, &cursor);
-            argument = request->arguments;
-            while ( argIndex < request->argumentCount ) {
-                if ((argumentTag == JDWP_TAG(OBJECT)) ||
-                    (argumentTag == JDWP_TAG(ARRAY))) {
-                    argument->l = argRefs[argIndex];
+    /* Finblly, put tif globbl rffs into tif rfqufst if no frrors */
+    if ( frror == JVMTI_ERROR_NONE ) {
+        rfqufst->dlbzz = dlbzz;
+        rfqufst->instbndf = instbndf;
+        if ( brgRffs!=NULL ) {
+            brgIndfx = 0;
+            brgumfntTbg = firstArgumfntTypfTbg(rfqufst->mftiodSignbturf, &dursor);
+            brgumfnt = rfqufst->brgumfnts;
+            wiilf ( brgIndfx < rfqufst->brgumfntCount ) {
+                if ((brgumfntTbg == JDWP_TAG(OBJECT)) ||
+                    (brgumfntTbg == JDWP_TAG(ARRAY))) {
+                    brgumfnt->l = brgRffs[brgIndfx];
                 }
-                argument++;
-                argIndex++;
-                argumentTag = nextArgumentTypeTag(&cursor);
+                brgumfnt++;
+                brgIndfx++;
+                brgumfntTbg = nfxtArgumfntTypfTbg(&dursor);
             }
-            jvmtiDeallocate(argRefs);
+            jvmtiDfbllodbtf(brgRffs);
         }
-        return JVMTI_ERROR_NONE;
+        rfturn JVMTI_ERROR_NONE;
 
-    } else {
-        /* Delete global references */
-        if ( clazz != NULL ) {
-            tossGlobalRef(env, &clazz);
+    } flsf {
+        /* Dflftf globbl rfffrfndfs */
+        if ( dlbzz != NULL ) {
+            tossGlobblRff(fnv, &dlbzz);
         }
-        if ( instance != NULL ) {
-            tossGlobalRef(env, &instance);
+        if ( instbndf != NULL ) {
+            tossGlobblRff(fnv, &instbndf);
         }
-        if ( argRefs!=NULL ) {
-            for ( argIndex=0; argIndex < request->argumentCount; argIndex++ ) {
-                if ( argRefs[argIndex] != NULL ) {
-                    tossGlobalRef(env, &argRefs[argIndex]);
+        if ( brgRffs!=NULL ) {
+            for ( brgIndfx=0; brgIndfx < rfqufst->brgumfntCount; brgIndfx++ ) {
+                if ( brgRffs[brgIndfx] != NULL ) {
+                    tossGlobblRff(fnv, &brgRffs[brgIndfx]);
                 }
             }
-            jvmtiDeallocate(argRefs);
+            jvmtiDfbllodbtf(brgRffs);
         }
     }
 
-    return error;
+    rfturn frror;
 }
 
-static jvmtiError
-fillInvokeRequest(JNIEnv *env, InvokeRequest *request,
-                  jbyte invokeType, jbyte options, jint id,
-                  jthread thread, jclass clazz, jmethodID method,
-                  jobject instance,
-                  jvalue *arguments, jint argumentCount)
+stbtid jvmtiError
+fillInvokfRfqufst(JNIEnv *fnv, InvokfRfqufst *rfqufst,
+                  jbytf invokfTypf, jbytf options, jint id,
+                  jtirfbd tirfbd, jdlbss dlbzz, jmftiodID mftiod,
+                  jobjfdt instbndf,
+                  jvbluf *brgumfnts, jint brgumfntCount)
 {
-    jvmtiError error;
-    if (!request->available) {
+    jvmtiError frror;
+    if (!rfqufst->bvbilbblf) {
         /*
-         * Thread is not at a point where it can invoke.
+         * Tirfbd is not bt b point wifrf it dbn invokf.
          */
-        return AGENT_ERROR_INVALID_THREAD;
+        rfturn AGENT_ERROR_INVALID_THREAD;
     }
-    if (request->pending) {
+    if (rfqufst->pfnding) {
         /*
-         * Pending invoke
+         * Pfnding invokf
          */
-        return AGENT_ERROR_ALREADY_INVOKING;
+        rfturn AGENT_ERROR_ALREADY_INVOKING;
     }
 
-    request->invokeType = invokeType;
-    request->options = options;
-    request->detached = JNI_FALSE;
-    request->id = id;
-    request->clazz = clazz;
-    request->method = method;
-    request->instance = instance;
-    request->arguments = arguments;
-    request->arguments = arguments;
-    request->argumentCount = argumentCount;
+    rfqufst->invokfTypf = invokfTypf;
+    rfqufst->options = options;
+    rfqufst->dftbdifd = JNI_FALSE;
+    rfqufst->id = id;
+    rfqufst->dlbzz = dlbzz;
+    rfqufst->mftiod = mftiod;
+    rfqufst->instbndf = instbndf;
+    rfqufst->brgumfnts = brgumfnts;
+    rfqufst->brgumfnts = brgumfnts;
+    rfqufst->brgumfntCount = brgumfntCount;
 
-    request->returnValue.j = 0;
-    request->exception = 0;
+    rfqufst->rfturnVbluf.j = 0;
+    rfqufst->fxdfption = 0;
 
     /*
-     * Squirrel away the method signature
+     * Squirrfl bwby tif mftiod signbturf
      */
-    error = methodSignature(method, NULL, &request->methodSignature,  NULL);
-    if (error != JVMTI_ERROR_NONE) {
-        return error;
+    frror = mftiodSignbturf(mftiod, NULL, &rfqufst->mftiodSignbturf,  NULL);
+    if (frror != JVMTI_ERROR_NONE) {
+        rfturn frror;
     }
 
     /*
-     * The given references for class and instance are not guaranteed
-     * to be around long enough for invocation, so create new ones
-     * here.
+     * Tif givfn rfffrfndfs for dlbss bnd instbndf brf not gubrbntffd
+     * to bf bround long fnougi for invodbtion, so drfbtf nfw onfs
+     * ifrf.
      */
-    error = createGlobalRefs(env, request);
-    if (error != JVMTI_ERROR_NONE) {
-        jvmtiDeallocate(request->methodSignature);
-        return error;
+    frror = drfbtfGlobblRffs(fnv, rfqufst);
+    if (frror != JVMTI_ERROR_NONE) {
+        jvmtiDfbllodbtf(rfqufst->mftiodSignbturf);
+        rfturn frror;
     }
 
-    request->pending = JNI_TRUE;
-    request->available = JNI_FALSE;
-    return JVMTI_ERROR_NONE;
+    rfqufst->pfnding = JNI_TRUE;
+    rfqufst->bvbilbblf = JNI_FALSE;
+    rfturn JVMTI_ERROR_NONE;
 }
 
 void
-invoker_enableInvokeRequests(jthread thread)
+invokfr_fnbblfInvokfRfqufsts(jtirfbd tirfbd)
 {
-    InvokeRequest *request;
+    InvokfRfqufst *rfqufst;
 
-    JDI_ASSERT(thread);
+    JDI_ASSERT(tirfbd);
 
-    request = threadControl_getInvokeRequest(thread);
-    if (request == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting thread invoke request");
+    rfqufst = tirfbdControl_gftInvokfRfqufst(tirfbd);
+    if (rfqufst == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting tirfbd invokf rfqufst");
     }
 
-    request->available = JNI_TRUE;
+    rfqufst->bvbilbblf = JNI_TRUE;
 }
 
 jvmtiError
-invoker_requestInvoke(jbyte invokeType, jbyte options, jint id,
-                      jthread thread, jclass clazz, jmethodID method,
-                      jobject instance,
-                      jvalue *arguments, jint argumentCount)
+invokfr_rfqufstInvokf(jbytf invokfTypf, jbytf options, jint id,
+                      jtirfbd tirfbd, jdlbss dlbzz, jmftiodID mftiod,
+                      jobjfdt instbndf,
+                      jvbluf *brgumfnts, jint brgumfntCount)
 {
-    JNIEnv *env = getEnv();
-    InvokeRequest *request;
-    jvmtiError error = JVMTI_ERROR_NONE;
+    JNIEnv *fnv = gftEnv();
+    InvokfRfqufst *rfqufst;
+    jvmtiError frror = JVMTI_ERROR_NONE;
 
-    debugMonitorEnter(invokerLock);
-    request = threadControl_getInvokeRequest(thread);
-    if (request != NULL) {
-        error = fillInvokeRequest(env, request, invokeType, options, id,
-                                  thread, clazz, method, instance,
-                                  arguments, argumentCount);
+    dfbugMonitorEntfr(invokfrLodk);
+    rfqufst = tirfbdControl_gftInvokfRfqufst(tirfbd);
+    if (rfqufst != NULL) {
+        frror = fillInvokfRfqufst(fnv, rfqufst, invokfTypf, options, id,
+                                  tirfbd, dlbzz, mftiod, instbndf,
+                                  brgumfnts, brgumfntCount);
     }
-    debugMonitorExit(invokerLock);
+    dfbugMonitorExit(invokfrLodk);
 
-    if (error == JVMTI_ERROR_NONE) {
+    if (frror == JVMTI_ERROR_NONE) {
         if (options & JDWP_INVOKE_OPTIONS(SINGLE_THREADED) ) {
-            /* true means it is okay to unblock the commandLoop thread */
-            (void)threadControl_resumeThread(thread, JNI_TRUE);
-        } else {
-            (void)threadControl_resumeAll();
+            /* truf mfbns it is okby to unblodk tif dommbndLoop tirfbd */
+            (void)tirfbdControl_rfsumfTirfbd(tirfbd, JNI_TRUE);
+        } flsf {
+            (void)tirfbdControl_rfsumfAll();
         }
     }
 
-    return error;
+    rfturn frror;
 }
 
-static void
-invokeConstructor(JNIEnv *env, InvokeRequest *request)
+stbtid void
+invokfConstrudtor(JNIEnv *fnv, InvokfRfqufst *rfqufst)
 {
-    jobject object;
-    object = JNI_FUNC_PTR(env,NewObjectA)(env, request->clazz,
-                                     request->method,
-                                     request->arguments);
-    request->returnValue.l = NULL;
-    if (object != NULL) {
-        saveGlobalRef(env, object, &(request->returnValue.l));
+    jobjfdt objfdt;
+    objfdt = JNI_FUNC_PTR(fnv,NfwObjfdtA)(fnv, rfqufst->dlbzz,
+                                     rfqufst->mftiod,
+                                     rfqufst->brgumfnts);
+    rfqufst->rfturnVbluf.l = NULL;
+    if (objfdt != NULL) {
+        sbvfGlobblRff(fnv, objfdt, &(rfqufst->rfturnVbluf.l));
     }
 }
 
-static void
-invokeStatic(JNIEnv *env, InvokeRequest *request)
+stbtid void
+invokfStbtid(JNIEnv *fnv, InvokfRfqufst *rfqufst)
 {
-    switch(returnTypeTag(request->methodSignature)) {
-        case JDWP_TAG(OBJECT):
-        case JDWP_TAG(ARRAY): {
-            jobject object;
-            object = JNI_FUNC_PTR(env,CallStaticObjectMethodA)(env,
-                                       request->clazz,
-                                       request->method,
-                                       request->arguments);
-            request->returnValue.l = NULL;
-            if (object != NULL) {
-                saveGlobalRef(env, object, &(request->returnValue.l));
+    switdi(rfturnTypfTbg(rfqufst->mftiodSignbturf)) {
+        dbsf JDWP_TAG(OBJECT):
+        dbsf JDWP_TAG(ARRAY): {
+            jobjfdt objfdt;
+            objfdt = JNI_FUNC_PTR(fnv,CbllStbtidObjfdtMftiodA)(fnv,
+                                       rfqufst->dlbzz,
+                                       rfqufst->mftiod,
+                                       rfqufst->brgumfnts);
+            rfqufst->rfturnVbluf.l = NULL;
+            if (objfdt != NULL) {
+                sbvfGlobblRff(fnv, objfdt, &(rfqufst->rfturnVbluf.l));
             }
-            break;
+            brfbk;
         }
 
 
-        case JDWP_TAG(BYTE):
-            request->returnValue.b = JNI_FUNC_PTR(env,CallStaticByteMethodA)(env,
-                                                       request->clazz,
-                                                       request->method,
-                                                       request->arguments);
-            break;
+        dbsf JDWP_TAG(BYTE):
+            rfqufst->rfturnVbluf.b = JNI_FUNC_PTR(fnv,CbllStbtidBytfMftiodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mftiod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(CHAR):
-            request->returnValue.c = JNI_FUNC_PTR(env,CallStaticCharMethodA)(env,
-                                                       request->clazz,
-                                                       request->method,
-                                                       request->arguments);
-            break;
+        dbsf JDWP_TAG(CHAR):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllStbtidCibrMftiodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mftiod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(FLOAT):
-            request->returnValue.f = JNI_FUNC_PTR(env,CallStaticFloatMethodA)(env,
-                                                       request->clazz,
-                                                       request->method,
-                                                       request->arguments);
-            break;
+        dbsf JDWP_TAG(FLOAT):
+            rfqufst->rfturnVbluf.f = JNI_FUNC_PTR(fnv,CbllStbtidFlobtMftiodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mftiod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(DOUBLE):
-            request->returnValue.d = JNI_FUNC_PTR(env,CallStaticDoubleMethodA)(env,
-                                                       request->clazz,
-                                                       request->method,
-                                                       request->arguments);
-            break;
+        dbsf JDWP_TAG(DOUBLE):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllStbtidDoublfMftiodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mftiod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(INT):
-            request->returnValue.i = JNI_FUNC_PTR(env,CallStaticIntMethodA)(env,
-                                                       request->clazz,
-                                                       request->method,
-                                                       request->arguments);
-            break;
+        dbsf JDWP_TAG(INT):
+            rfqufst->rfturnVbluf.i = JNI_FUNC_PTR(fnv,CbllStbtidIntMftiodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mftiod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(LONG):
-            request->returnValue.j = JNI_FUNC_PTR(env,CallStaticLongMethodA)(env,
-                                                       request->clazz,
-                                                       request->method,
-                                                       request->arguments);
-            break;
+        dbsf JDWP_TAG(LONG):
+            rfqufst->rfturnVbluf.j = JNI_FUNC_PTR(fnv,CbllStbtidLongMftiodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mftiod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(SHORT):
-            request->returnValue.s = JNI_FUNC_PTR(env,CallStaticShortMethodA)(env,
-                                                       request->clazz,
-                                                       request->method,
-                                                       request->arguments);
-            break;
+        dbsf JDWP_TAG(SHORT):
+            rfqufst->rfturnVbluf.s = JNI_FUNC_PTR(fnv,CbllStbtidSiortMftiodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mftiod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(BOOLEAN):
-            request->returnValue.z = JNI_FUNC_PTR(env,CallStaticBooleanMethodA)(env,
-                                                       request->clazz,
-                                                       request->method,
-                                                       request->arguments);
-            break;
+        dbsf JDWP_TAG(BOOLEAN):
+            rfqufst->rfturnVbluf.z = JNI_FUNC_PTR(fnv,CbllStbtidBoolfbnMftiodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mftiod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(VOID):
-            JNI_FUNC_PTR(env,CallStaticVoidMethodA)(env,
-                                          request->clazz,
-                                          request->method,
-                                          request->arguments);
-            break;
+        dbsf JDWP_TAG(VOID):
+            JNI_FUNC_PTR(fnv,CbllStbtidVoidMftiodA)(fnv,
+                                          rfqufst->dlbzz,
+                                          rfqufst->mftiod,
+                                          rfqufst->brgumfnts);
+            brfbk;
 
-        default:
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invalid method signature");
-            break;
+        dffbult:
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invblid mftiod signbturf");
+            brfbk;
     }
 }
 
-static void
-invokeVirtual(JNIEnv *env, InvokeRequest *request)
+stbtid void
+invokfVirtubl(JNIEnv *fnv, InvokfRfqufst *rfqufst)
 {
-    switch(returnTypeTag(request->methodSignature)) {
-        case JDWP_TAG(OBJECT):
-        case JDWP_TAG(ARRAY): {
-            jobject object;
-            object = JNI_FUNC_PTR(env,CallObjectMethodA)(env,
-                                 request->instance,
-                                 request->method,
-                                 request->arguments);
-            request->returnValue.l = NULL;
-            if (object != NULL) {
-                saveGlobalRef(env, object, &(request->returnValue.l));
+    switdi(rfturnTypfTbg(rfqufst->mftiodSignbturf)) {
+        dbsf JDWP_TAG(OBJECT):
+        dbsf JDWP_TAG(ARRAY): {
+            jobjfdt objfdt;
+            objfdt = JNI_FUNC_PTR(fnv,CbllObjfdtMftiodA)(fnv,
+                                 rfqufst->instbndf,
+                                 rfqufst->mftiod,
+                                 rfqufst->brgumfnts);
+            rfqufst->rfturnVbluf.l = NULL;
+            if (objfdt != NULL) {
+                sbvfGlobblRff(fnv, objfdt, &(rfqufst->rfturnVbluf.l));
             }
-            break;
+            brfbk;
         }
 
-        case JDWP_TAG(BYTE):
-            request->returnValue.b = JNI_FUNC_PTR(env,CallByteMethodA)(env,
-                                                 request->instance,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(BYTE):
+            rfqufst->rfturnVbluf.b = JNI_FUNC_PTR(fnv,CbllBytfMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(CHAR):
-            request->returnValue.c = JNI_FUNC_PTR(env,CallCharMethodA)(env,
-                                                 request->instance,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(CHAR):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllCibrMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(FLOAT):
-            request->returnValue.f = JNI_FUNC_PTR(env,CallFloatMethodA)(env,
-                                                 request->instance,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(FLOAT):
+            rfqufst->rfturnVbluf.f = JNI_FUNC_PTR(fnv,CbllFlobtMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(DOUBLE):
-            request->returnValue.d = JNI_FUNC_PTR(env,CallDoubleMethodA)(env,
-                                                 request->instance,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(DOUBLE):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllDoublfMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(INT):
-            request->returnValue.i = JNI_FUNC_PTR(env,CallIntMethodA)(env,
-                                                 request->instance,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(INT):
+            rfqufst->rfturnVbluf.i = JNI_FUNC_PTR(fnv,CbllIntMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(LONG):
-            request->returnValue.j = JNI_FUNC_PTR(env,CallLongMethodA)(env,
-                                                 request->instance,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(LONG):
+            rfqufst->rfturnVbluf.j = JNI_FUNC_PTR(fnv,CbllLongMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(SHORT):
-            request->returnValue.s = JNI_FUNC_PTR(env,CallShortMethodA)(env,
-                                                 request->instance,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(SHORT):
+            rfqufst->rfturnVbluf.s = JNI_FUNC_PTR(fnv,CbllSiortMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(BOOLEAN):
-            request->returnValue.z = JNI_FUNC_PTR(env,CallBooleanMethodA)(env,
-                                                 request->instance,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(BOOLEAN):
+            rfqufst->rfturnVbluf.z = JNI_FUNC_PTR(fnv,CbllBoolfbnMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(VOID):
-            JNI_FUNC_PTR(env,CallVoidMethodA)(env,
-                                    request->instance,
-                                    request->method,
-                                    request->arguments);
-            break;
+        dbsf JDWP_TAG(VOID):
+            JNI_FUNC_PTR(fnv,CbllVoidMftiodA)(fnv,
+                                    rfqufst->instbndf,
+                                    rfqufst->mftiod,
+                                    rfqufst->brgumfnts);
+            brfbk;
 
-        default:
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invalid method signature");
-            break;
+        dffbult:
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invblid mftiod signbturf");
+            brfbk;
     }
 }
 
-static void
-invokeNonvirtual(JNIEnv *env, InvokeRequest *request)
+stbtid void
+invokfNonvirtubl(JNIEnv *fnv, InvokfRfqufst *rfqufst)
 {
-    switch(returnTypeTag(request->methodSignature)) {
-        case JDWP_TAG(OBJECT):
-        case JDWP_TAG(ARRAY): {
-            jobject object;
-            object = JNI_FUNC_PTR(env,CallNonvirtualObjectMethodA)(env,
-                                           request->instance,
-                                           request->clazz,
-                                           request->method,
-                                           request->arguments);
-            request->returnValue.l = NULL;
-            if (object != NULL) {
-                saveGlobalRef(env, object, &(request->returnValue.l));
+    switdi(rfturnTypfTbg(rfqufst->mftiodSignbturf)) {
+        dbsf JDWP_TAG(OBJECT):
+        dbsf JDWP_TAG(ARRAY): {
+            jobjfdt objfdt;
+            objfdt = JNI_FUNC_PTR(fnv,CbllNonvirtublObjfdtMftiodA)(fnv,
+                                           rfqufst->instbndf,
+                                           rfqufst->dlbzz,
+                                           rfqufst->mftiod,
+                                           rfqufst->brgumfnts);
+            rfqufst->rfturnVbluf.l = NULL;
+            if (objfdt != NULL) {
+                sbvfGlobblRff(fnv, objfdt, &(rfqufst->rfturnVbluf.l));
             }
-            break;
+            brfbk;
         }
 
-        case JDWP_TAG(BYTE):
-            request->returnValue.b = JNI_FUNC_PTR(env,CallNonvirtualByteMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(BYTE):
+            rfqufst->rfturnVbluf.b = JNI_FUNC_PTR(fnv,CbllNonvirtublBytfMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(CHAR):
-            request->returnValue.c = JNI_FUNC_PTR(env,CallNonvirtualCharMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(CHAR):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllNonvirtublCibrMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(FLOAT):
-            request->returnValue.f = JNI_FUNC_PTR(env,CallNonvirtualFloatMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(FLOAT):
+            rfqufst->rfturnVbluf.f = JNI_FUNC_PTR(fnv,CbllNonvirtublFlobtMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(DOUBLE):
-            request->returnValue.d = JNI_FUNC_PTR(env,CallNonvirtualDoubleMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(DOUBLE):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllNonvirtublDoublfMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(INT):
-            request->returnValue.i = JNI_FUNC_PTR(env,CallNonvirtualIntMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(INT):
+            rfqufst->rfturnVbluf.i = JNI_FUNC_PTR(fnv,CbllNonvirtublIntMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(LONG):
-            request->returnValue.j = JNI_FUNC_PTR(env,CallNonvirtualLongMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(LONG):
+            rfqufst->rfturnVbluf.j = JNI_FUNC_PTR(fnv,CbllNonvirtublLongMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(SHORT):
-            request->returnValue.s = JNI_FUNC_PTR(env,CallNonvirtualShortMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(SHORT):
+            rfqufst->rfturnVbluf.s = JNI_FUNC_PTR(fnv,CbllNonvirtublSiortMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(BOOLEAN):
-            request->returnValue.z = JNI_FUNC_PTR(env,CallNonvirtualBooleanMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
-                                                 request->method,
-                                                 request->arguments);
-            break;
+        dbsf JDWP_TAG(BOOLEAN):
+            rfqufst->rfturnVbluf.z = JNI_FUNC_PTR(fnv,CbllNonvirtublBoolfbnMftiodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mftiod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
 
-        case JDWP_TAG(VOID):
-            JNI_FUNC_PTR(env,CallNonvirtualVoidMethodA)(env,
-                                    request->instance,
-                                    request->clazz,
-                                    request->method,
-                                    request->arguments);
-            break;
+        dbsf JDWP_TAG(VOID):
+            JNI_FUNC_PTR(fnv,CbllNonvirtublVoidMftiodA)(fnv,
+                                    rfqufst->instbndf,
+                                    rfqufst->dlbzz,
+                                    rfqufst->mftiod,
+                                    rfqufst->brgumfnts);
+            brfbk;
 
-        default:
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invalid method signature");
-            break;
+        dffbult:
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invblid mftiod signbturf");
+            brfbk;
     }
 }
 
-jboolean
-invoker_doInvoke(jthread thread)
+jboolfbn
+invokfr_doInvokf(jtirfbd tirfbd)
 {
-    JNIEnv *env;
-    jboolean startNow;
-    InvokeRequest *request;
+    JNIEnv *fnv;
+    jboolfbn stbrtNow;
+    InvokfRfqufst *rfqufst;
 
-    JDI_ASSERT(thread);
+    JDI_ASSERT(tirfbd);
 
-    debugMonitorEnter(invokerLock);
+    dfbugMonitorEntfr(invokfrLodk);
 
-    request = threadControl_getInvokeRequest(thread);
-    if (request == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting thread invoke request");
+    rfqufst = tirfbdControl_gftInvokfRfqufst(tirfbd);
+    if (rfqufst == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting tirfbd invokf rfqufst");
     }
 
-    request->available = JNI_FALSE;
-    startNow = request->pending && !request->started;
+    rfqufst->bvbilbblf = JNI_FALSE;
+    stbrtNow = rfqufst->pfnding && !rfqufst->stbrtfd;
 
-    if (startNow) {
-        request->started = JNI_TRUE;
+    if (stbrtNow) {
+        rfqufst->stbrtfd = JNI_TRUE;
     }
-    debugMonitorExit(invokerLock);
+    dfbugMonitorExit(invokfrLodk);
 
-    if (!startNow) {
-        return JNI_FALSE;
+    if (!stbrtNow) {
+        rfturn JNI_FALSE;
     }
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    WITH_LOCAL_REFS(env, 2) {  /* 1 for obj return values, 1 for exception */
+    WITH_LOCAL_REFS(fnv, 2) {  /* 1 for obj rfturn vblufs, 1 for fxdfption */
 
-        jobject exception;
+        jobjfdt fxdfption;
 
-        JNI_FUNC_PTR(env,ExceptionClear)(env);
+        JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
 
-        switch (request->invokeType) {
-            case INVOKE_CONSTRUCTOR:
-                invokeConstructor(env, request);
-                break;
-            case INVOKE_STATIC:
-                invokeStatic(env, request);
-                break;
-            case INVOKE_INSTANCE:
-                if (request->options & JDWP_INVOKE_OPTIONS(NONVIRTUAL) ) {
-                    invokeNonvirtual(env, request);
-                } else {
-                    invokeVirtual(env, request);
+        switdi (rfqufst->invokfTypf) {
+            dbsf INVOKE_CONSTRUCTOR:
+                invokfConstrudtor(fnv, rfqufst);
+                brfbk;
+            dbsf INVOKE_STATIC:
+                invokfStbtid(fnv, rfqufst);
+                brfbk;
+            dbsf INVOKE_INSTANCE:
+                if (rfqufst->options & JDWP_INVOKE_OPTIONS(NONVIRTUAL) ) {
+                    invokfNonvirtubl(fnv, rfqufst);
+                } flsf {
+                    invokfVirtubl(fnv, rfqufst);
                 }
-                break;
-            default:
+                brfbk;
+            dffbult:
                 JDI_ASSERT(JNI_FALSE);
         }
-        request->exception = NULL;
-        exception = JNI_FUNC_PTR(env,ExceptionOccurred)(env);
-        if (exception != NULL) {
-            JNI_FUNC_PTR(env,ExceptionClear)(env);
-            saveGlobalRef(env, exception, &(request->exception));
+        rfqufst->fxdfption = NULL;
+        fxdfption = JNI_FUNC_PTR(fnv,ExdfptionOddurrfd)(fnv);
+        if (fxdfption != NULL) {
+            JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
+            sbvfGlobblRff(fnv, fxdfption, &(rfqufst->fxdfption));
         }
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 void
-invoker_completeInvokeRequest(jthread thread)
+invokfr_domplftfInvokfRfqufst(jtirfbd tirfbd)
 {
-    JNIEnv *env = getEnv();
-    PacketOutputStream out;
-    jbyte tag;
-    jobject exc;
-    jvalue returnValue;
+    JNIEnv *fnv = gftEnv();
+    PbdkftOutputStrfbm out;
+    jbytf tbg;
+    jobjfdt fxd;
+    jvbluf rfturnVbluf;
     jint id;
-    InvokeRequest *request;
-    jboolean detached;
+    InvokfRfqufst *rfqufst;
+    jboolfbn dftbdifd;
 
-    JDI_ASSERT(thread);
+    JDI_ASSERT(tirfbd);
 
-    /* Prevent gcc errors on uninitialized variables. */
-    tag = 0;
-    exc = NULL;
+    /* Prfvfnt gdd frrors on uninitiblizfd vbribblfs. */
+    tbg = 0;
+    fxd = NULL;
     id  = 0;
 
-    eventHandler_lock(); /* for proper lock order */
-    debugMonitorEnter(invokerLock);
+    fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
+    dfbugMonitorEntfr(invokfrLodk);
 
-    request = threadControl_getInvokeRequest(thread);
-    if (request == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting thread invoke request");
+    rfqufst = tirfbdControl_gftInvokfRfqufst(tirfbd);
+    if (rfqufst == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting tirfbd invokf rfqufst");
     }
 
-    JDI_ASSERT(request->pending);
-    JDI_ASSERT(request->started);
+    JDI_ASSERT(rfqufst->pfnding);
+    JDI_ASSERT(rfqufst->stbrtfd);
 
-    request->pending = JNI_FALSE;
-    request->started = JNI_FALSE;
-    request->available = JNI_TRUE; /* For next time around */
+    rfqufst->pfnding = JNI_FALSE;
+    rfqufst->stbrtfd = JNI_FALSE;
+    rfqufst->bvbilbblf = JNI_TRUE; /* For nfxt timf bround */
 
-    detached = request->detached;
-    if (!detached) {
-        if (request->options & JDWP_INVOKE_OPTIONS(SINGLE_THREADED)) {
-            (void)threadControl_suspendThread(thread, JNI_FALSE);
-        } else {
-            (void)threadControl_suspendAll();
+    dftbdifd = rfqufst->dftbdifd;
+    if (!dftbdifd) {
+        if (rfqufst->options & JDWP_INVOKE_OPTIONS(SINGLE_THREADED)) {
+            (void)tirfbdControl_suspfndTirfbd(tirfbd, JNI_FALSE);
+        } flsf {
+            (void)tirfbdControl_suspfndAll();
         }
 
-        if (request->invokeType == INVOKE_CONSTRUCTOR) {
+        if (rfqufst->invokfTypf == INVOKE_CONSTRUCTOR) {
             /*
-             * Although constructors technically have a return type of
-             * void, we return the object created.
+             * Altiougi donstrudtors tfdinidblly ibvf b rfturn typf of
+             * void, wf rfturn tif objfdt drfbtfd.
              */
-            tag = specificTypeKey(env, request->returnValue.l);
-        } else {
-            tag = returnTypeTag(request->methodSignature);
+            tbg = spfdifidTypfKfy(fnv, rfqufst->rfturnVbluf.l);
+        } flsf {
+            tbg = rfturnTypfTbg(rfqufst->mftiodSignbturf);
         }
-        id = request->id;
-        exc = request->exception;
-        returnValue = request->returnValue;
+        id = rfqufst->id;
+        fxd = rfqufst->fxdfption;
+        rfturnVbluf = rfqufst->rfturnVbluf;
     }
 
     /*
-     * Give up the lock before I/O operation
+     * Givf up tif lodk bfforf I/O opfrbtion
      */
-    debugMonitorExit(invokerLock);
-    eventHandler_unlock();
+    dfbugMonitorExit(invokfrLodk);
+    fvfntHbndlfr_unlodk();
 
 
-    if (!detached) {
-        outStream_initReply(&out, id);
-        (void)outStream_writeValue(env, &out, tag, returnValue);
-        (void)outStream_writeObjectTag(env, &out, exc);
-        (void)outStream_writeObjectRef(env, &out, exc);
-        outStream_sendReply(&out);
+    if (!dftbdifd) {
+        outStrfbm_initRfply(&out, id);
+        (void)outStrfbm_writfVbluf(fnv, &out, tbg, rfturnVbluf);
+        (void)outStrfbm_writfObjfdtTbg(fnv, &out, fxd);
+        (void)outStrfbm_writfObjfdtRff(fnv, &out, fxd);
+        outStrfbm_sfndRfply(&out);
     }
 }
 
-jboolean
-invoker_isPending(jthread thread)
+jboolfbn
+invokfr_isPfnding(jtirfbd tirfbd)
 {
-    InvokeRequest *request;
+    InvokfRfqufst *rfqufst;
 
-    JDI_ASSERT(thread);
-    request = threadControl_getInvokeRequest(thread);
-    if (request == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting thread invoke request");
+    JDI_ASSERT(tirfbd);
+    rfqufst = tirfbdControl_gftInvokfRfqufst(tirfbd);
+    if (rfqufst == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting tirfbd invokf rfqufst");
     }
-    return request->pending;
+    rfturn rfqufst->pfnding;
 }
 
-jboolean
-invoker_isEnabled(jthread thread)
+jboolfbn
+invokfr_isEnbblfd(jtirfbd tirfbd)
 {
-    InvokeRequest *request;
+    InvokfRfqufst *rfqufst;
 
-    JDI_ASSERT(thread);
-    request = threadControl_getInvokeRequest(thread);
-    if (request == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting thread invoke request");
+    JDI_ASSERT(tirfbd);
+    rfqufst = tirfbdControl_gftInvokfRfqufst(tirfbd);
+    if (rfqufst == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting tirfbd invokf rfqufst");
     }
-    return request->available;
+    rfturn rfqufst->bvbilbblf;
 }
 
 void
-invoker_detach(InvokeRequest *request)
+invokfr_dftbdi(InvokfRfqufst *rfqufst)
 {
-    JDI_ASSERT(request);
-    debugMonitorEnter(invokerLock);
-    request->detached = JNI_TRUE;
-    debugMonitorExit(invokerLock);
+    JDI_ASSERT(rfqufst);
+    dfbugMonitorEntfr(invokfrLodk);
+    rfqufst->dftbdifd = JNI_TRUE;
+    dfbugMonitorExit(invokfrLodk);
 }

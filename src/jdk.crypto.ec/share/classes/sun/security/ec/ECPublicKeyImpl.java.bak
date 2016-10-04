@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ec;
+pbdkbgf sun.sfdurity.fd;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
 
-import sun.security.util.ECParameters;
-import sun.security.util.ECUtil;
+import sun.sfdurity.util.ECPbrbmftfrs;
+import sun.sfdurity.util.ECUtil;
 
-import sun.security.x509.*;
+import sun.sfdurity.x509.*;
 
 /**
- * Key implementation for EC public keys.
+ * Kfy implfmfntbtion for EC publid kfys.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-public final class ECPublicKeyImpl extends X509Key implements ECPublicKey {
+publid finbl dlbss ECPublidKfyImpl fxtfnds X509Kfy implfmfnts ECPublidKfy {
 
-    private static final long serialVersionUID = -2462037275160462289L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2462037275160462289L;
 
-    private ECPoint w;
-    private ECParameterSpec params;
-
-    /**
-     * Construct a key from its components. Used by the
-     * ECKeyFactory.
-     */
-    @SuppressWarnings("deprecation")
-    ECPublicKeyImpl(ECPoint w, ECParameterSpec params)
-            throws InvalidKeyException {
-        this.w = w;
-        this.params = params;
-        // generate the encoding
-        algid = new AlgorithmId
-            (AlgorithmId.EC_oid, ECParameters.getAlgorithmParameters(params));
-        key = ECUtil.encodePoint(w, params.getCurve());
-    }
+    privbtf ECPoint w;
+    privbtf ECPbrbmftfrSpfd pbrbms;
 
     /**
-     * Construct a key from its encoding.
+     * Construdt b kfy from its domponfnts. Usfd by tif
+     * ECKfyFbdtory.
      */
-    ECPublicKeyImpl(byte[] encoded) throws InvalidKeyException {
-        decode(encoded);
-    }
-
-    // see JCA doc
-    public String getAlgorithm() {
-        return "EC";
-    }
-
-    // see JCA doc
-    public ECPoint getW() {
-        return w;
-    }
-
-    // see JCA doc
-    public ECParameterSpec getParams() {
-        return params;
-    }
-
-    // Internal API to get the encoded point. Currently used by SunPKCS11.
-    // This may change/go away depending on what we do with the public API.
-    @SuppressWarnings("deprecation")
-    public byte[] getEncodedPublicValue() {
-        return key.clone();
+    @SupprfssWbrnings("dfprfdbtion")
+    ECPublidKfyImpl(ECPoint w, ECPbrbmftfrSpfd pbrbms)
+            tirows InvblidKfyExdfption {
+        tiis.w = w;
+        tiis.pbrbms = pbrbms;
+        // gfnfrbtf tif fndoding
+        blgid = nfw AlgoritimId
+            (AlgoritimId.EC_oid, ECPbrbmftfrs.gftAlgoritimPbrbmftfrs(pbrbms));
+        kfy = ECUtil.fndodfPoint(w, pbrbms.gftCurvf());
     }
 
     /**
-     * Parse the key. Called by X509Key.
+     * Construdt b kfy from its fndoding.
      */
-    @SuppressWarnings("deprecation")
-    protected void parseKeyBits() throws InvalidKeyException {
-        AlgorithmParameters algParams = this.algid.getParameters();
-        if (algParams == null) {
-            throw new InvalidKeyException("EC domain parameters must be " +
-                "encoded in the algorithm identifier");
+    ECPublidKfyImpl(bytf[] fndodfd) tirows InvblidKfyExdfption {
+        dfdodf(fndodfd);
+    }
+
+    // sff JCA dod
+    publid String gftAlgoritim() {
+        rfturn "EC";
+    }
+
+    // sff JCA dod
+    publid ECPoint gftW() {
+        rfturn w;
+    }
+
+    // sff JCA dod
+    publid ECPbrbmftfrSpfd gftPbrbms() {
+        rfturn pbrbms;
+    }
+
+    // Intfrnbl API to gft tif fndodfd point. Currfntly usfd by SunPKCS11.
+    // Tiis mby dibngf/go bwby dfpfnding on wibt wf do witi tif publid API.
+    @SupprfssWbrnings("dfprfdbtion")
+    publid bytf[] gftEndodfdPublidVbluf() {
+        rfturn kfy.dlonf();
+    }
+
+    /**
+     * Pbrsf tif kfy. Cbllfd by X509Kfy.
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    protfdtfd void pbrsfKfyBits() tirows InvblidKfyExdfption {
+        AlgoritimPbrbmftfrs blgPbrbms = tiis.blgid.gftPbrbmftfrs();
+        if (blgPbrbms == null) {
+            tirow nfw InvblidKfyExdfption("EC dombin pbrbmftfrs must bf " +
+                "fndodfd in tif blgoritim idfntififr");
         }
 
         try {
-            params = algParams.getParameterSpec(ECParameterSpec.class);
-            w = ECUtil.decodePoint(key, params.getCurve());
-        } catch (IOException e) {
-            throw new InvalidKeyException("Invalid EC key", e);
-        } catch (InvalidParameterSpecException e) {
-            throw new InvalidKeyException("Invalid EC key", e);
+            pbrbms = blgPbrbms.gftPbrbmftfrSpfd(ECPbrbmftfrSpfd.dlbss);
+            w = ECUtil.dfdodfPoint(kfy, pbrbms.gftCurvf());
+        } dbtdi (IOExdfption f) {
+            tirow nfw InvblidKfyExdfption("Invblid EC kfy", f);
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption f) {
+            tirow nfw InvblidKfyExdfption("Invblid EC kfy", f);
         }
     }
 
-    // return a string representation of this key for debugging
-    public String toString() {
-        return "Sun EC public key, " + params.getCurve().getField().getFieldSize()
-            + " bits\n  public x coord: " + w.getAffineX()
-            + "\n  public y coord: " + w.getAffineY()
-            + "\n  parameters: " + params;
+    // rfturn b string rfprfsfntbtion of tiis kfy for dfbugging
+    publid String toString() {
+        rfturn "Sun EC publid kfy, " + pbrbms.gftCurvf().gftFifld().gftFifldSizf()
+            + " bits\n  publid x doord: " + w.gftAffinfX()
+            + "\n  publid y doord: " + w.gftAffinfY()
+            + "\n  pbrbmftfrs: " + pbrbms;
     }
 
-    protected Object writeReplace() throws java.io.ObjectStreamException {
-        return new KeyRep(KeyRep.Type.PUBLIC,
-                        getAlgorithm(),
-                        getFormat(),
-                        getEncoded());
+    protfdtfd Objfdt writfRfplbdf() tirows jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn nfw KfyRfp(KfyRfp.Typf.PUBLIC,
+                        gftAlgoritim(),
+                        gftFormbt(),
+                        gftEndodfd());
     }
 }

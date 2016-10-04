@@ -1,35 +1,35 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,31 +45,31 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
 
 
 
 /**
- * class CK_X9_42_DH2_DERIVE_PARAMS provides the parameters to the
- * CKM_X9_42_DH_HYBRID_DERIVE and CKM_X9_42_MQV_DERIVE mechanisms.<p>
- * <B>PKCS#11 structure:</B>
+ * dlbss CK_X9_42_DH2_DERIVE_PARAMS providfs tif pbrbmftfrs to tif
+ * CKM_X9_42_DH_HYBRID_DERIVE bnd CKM_X9_42_MQV_DERIVE mfdibnisms.<p>
+ * <B>PKCS#11 strudturf:</B>
  * <PRE>
- * typedef struct CK_X9_42_DH2_DERIVE_PARAMS {
+ * typfdff strudt CK_X9_42_DH2_DERIVE_PARAMS {
  *   CK_X9_42_DH_KDF_TYPE kdf;
- *   CK_ULONG ulOtherInfoLen;
- *   CK_BYTE_PTR pOtherInfo;
- *   CK_ULONG ulPublicDataLen;
- *   CK_BYTE_PTR pPublicData;
- *   CK_ULONG ulPrivateDataLen;
- *   CK_OBJECT_HANDLE hPrivateData;
- *   CK_ULONG ulPublicDataLen2;
- *   CK_BYTE_PTR pPublicData2;
+ *   CK_ULONG ulOtifrInfoLfn;
+ *   CK_BYTE_PTR pOtifrInfo;
+ *   CK_ULONG ulPublidDbtbLfn;
+ *   CK_BYTE_PTR pPublidDbtb;
+ *   CK_ULONG ulPrivbtfDbtbLfn;
+ *   CK_OBJECT_HANDLE iPrivbtfDbtb;
+ *   CK_ULONG ulPublidDbtbLfn2;
+ *   CK_BYTE_PTR pPublidDbtb2;
  * } CK_X9_42_DH2_DERIVE_PARAMS;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
+ * @butior Kbrl Sdifibflioffr <Kbrl.Sdifibflioffr@ibik.bt>
  */
-public class CK_X9_42_DH2_DERIVE_PARAMS {
+publid dlbss CK_X9_42_DH2_DERIVE_PARAMS {
 
     /**
      * <B>PKCS#11:</B>
@@ -77,105 +77,105 @@ public class CK_X9_42_DH2_DERIVE_PARAMS {
      *   CK_X9_42_DH_KDF_TYPE kdf;
      * </PRE>
      */
-    public long kdf;
+    publid long kdf;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulOtherInfoLen;
-     *   CK_BYTE_PTR pOtherInfo;
+     *   CK_ULONG ulOtifrInfoLfn;
+     *   CK_BYTE_PTR pOtifrInfo;
      * </PRE>
      */
-    public byte[] pOtherInfo;
+    publid bytf[] pOtifrInfo;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulPublicDataLen;
-     *   CK_BYTE_PTR pPublicData;
+     *   CK_ULONG ulPublidDbtbLfn;
+     *   CK_BYTE_PTR pPublidDbtb;
      * </PRE>
      */
-    public byte[] pPublicData;
+    publid bytf[] pPublidDbtb;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulPrivateDataLen;
+     *   CK_ULONG ulPrivbtfDbtbLfn;
      * </PRE>
      */
-    public long ulPrivateDataLen;
+    publid long ulPrivbtfDbtbLfn;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_OBJECT_HANDLE hPrivateData;
+     *   CK_OBJECT_HANDLE iPrivbtfDbtb;
      * </PRE>
      */
-    public long hPrivateData;
+    publid long iPrivbtfDbtb;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulPublicDataLen2;
-     *   CK_BYTE_PTR pPublicData2;
+     *   CK_ULONG ulPublidDbtbLfn2;
+     *   CK_BYTE_PTR pPublidDbtb2;
      * </PRE>
      */
-    public byte[] pPublicData2;
+    publid bytf[] pPublidDbtb2;
 
     /**
-     * Returns the string representation of CK_PKCS5_PBKD2_PARAMS.
+     * Rfturns tif string rfprfsfntbtion of CK_PKCS5_PBKD2_PARAMS.
      *
-     * @return the string representation of CK_PKCS5_PBKD2_PARAMS
+     * @rfturn tif string rfprfsfntbtion of CK_PKCS5_PBKD2_PARAMS
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append(Constants.INDENT);
-        sb.append("kdf: 0x");
-        sb.append(Functions.toFullHexString(kdf));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("kdf: 0x");
+        sb.bppfnd(Fundtions.toFullHfxString(kdf));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pOtherInfoLen: ");
-        sb.append(pOtherInfo.length);
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("pOtifrInfoLfn: ");
+        sb.bppfnd(pOtifrInfo.lfngti);
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pOtherInfo: ");
-        sb.append(Functions.toHexString(pOtherInfo));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("pOtifrInfo: ");
+        sb.bppfnd(Fundtions.toHfxString(pOtifrInfo));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pPublicDataLen: ");
-        sb.append(pPublicData.length);
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("pPublidDbtbLfn: ");
+        sb.bppfnd(pPublidDbtb.lfngti);
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pPublicData: ");
-        sb.append(Functions.toHexString(pPublicData));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("pPublidDbtb: ");
+        sb.bppfnd(Fundtions.toHfxString(pPublidDbtb));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulPrivateDataLen: ");
-        sb.append(ulPrivateDataLen);
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulPrivbtfDbtbLfn: ");
+        sb.bppfnd(ulPrivbtfDbtbLfn);
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("hPrivateData: ");
-        sb.append(hPrivateData);
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("iPrivbtfDbtb: ");
+        sb.bppfnd(iPrivbtfDbtb);
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pPublicDataLen2: ");
-        sb.append(pPublicData2.length);
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("pPublidDbtbLfn2: ");
+        sb.bppfnd(pPublidDbtb2.lfngti);
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pPublicData2: ");
-        sb.append(Functions.toHexString(pPublicData2));
-        //buffer.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("pPublidDbtb2: ");
+        sb.bppfnd(Fundtions.toHfxString(pPublidDbtb2));
+        //bufffr.bppfnd(Constbnts.NEWLINE);
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 }

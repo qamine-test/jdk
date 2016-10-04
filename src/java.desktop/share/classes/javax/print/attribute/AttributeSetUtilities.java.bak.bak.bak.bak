@@ -1,0 +1,589 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.print.bttributf;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Clbss AttributfSftUtilitifs providfs stbtid mfthods for mbnipulbting
+ * AttributfSfts.
+ * <ul>
+ * <li>Mfthods for drfbting unmodifibblf bnd syndhronizfd vifws of bttributf
+ * sfts.
+ * <li>opfrbtions usfful for building
+ * implfmfntbtions of intfrfbdf {@link AttributfSft AttributfSft}
+ * </ul>
+ * <P>
+ * An <B>unmodifibblf vifw</B> <I>U</I> of bn AttributfSft <I>S</I> providfs b
+ * dlifnt with "rfbd-only" bddfss to <I>S</I>. Qufry opfrbtions on <I>U</I>
+ * "rfbd through" to <I>S</I>; thus, dhbngfs in <I>S</I> brf rfflfdtfd in
+ * <I>U</I>. Howfvfr, bny bttfmpt to modify <I>U</I>,
+ *  rfsults in bn UnmodifibblfSftExdfption.
+ * Thf unmodifibblf vifw objfdt <I>U</I> will bf sfriblizbblf if thf
+ * bttributf sft objfdt <I>S</I> is sfriblizbblf.
+ * <P>
+ * A <B>syndhronizfd vifw</B> <I>V</I> of bn bttributf sft <I>S</I> providfs b
+ * dlifnt with syndhronizfd (multiplf thrfbd sbff) bddfss to <I>S</I>. Ebdh
+ * opfrbtion of <I>V</I> is syndhronizfd using <I>V</I> itsflf bs thf lodk
+ * objfdt bnd thfn mfrfly invokfs thf dorrfsponding opfrbtion of <I>S</I>. In
+ * ordfr to gubrbntff mutublly fxdlusivf bddfss, it is dritidbl thbt bll
+ * bddfss to <I>S</I> is bddomplishfd through <I>V</I>. Thf syndhronizfd vifw
+ * objfdt <I>V</I> will bf sfriblizbblf if thf bttributf sft objfdt <I>S</I>
+ * is sfriblizbblf.
+ * <P>
+ * As mfntionfd in thf pbdkbgf dfsdription of jbvbx.print, b null rfffrfndf
+ * pbrbmftfr to mfthods is
+ * indorrfdt unlfss fxpliditly dodumfntfd on thf mfthod bs hbving b mfbningful
+ * intfrprftbtion.  Usbgf to thf dontrbry is indorrfdt doding bnd mby rfsult in
+ * b run timf fxdfption fithfr immfdibtfly
+ * or bt somf lbtfr timf. IllfgblArgumfntExdfption bnd NullPointfrExdfption
+ * brf fxbmplfs of typidbl bnd bddfptbblf run timf fxdfptions for sudh dbsfs.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss AttributfSftUtilitifs {
+
+    /* Supprfss dffbult donstrudtor, fnsuring non-instbntibbility.
+     */
+    privbtf AttributfSftUtilitifs() {
+    }
+
+    /**
+      * @sfribl indludf
+      */
+    privbtf stbtid dlbss UnmodifibblfAttributfSft
+        implfmfnts AttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -6131802583863447813L;
+
+        privbtf AttributfSft bttrsft;
+
+        /* Unmodifibblf vifw of thf undfrlying bttributf sft.
+         */
+        publid UnmodifibblfAttributfSft(AttributfSft bttributfSft) {
+
+            bttrsft = bttributfSft;
+        }
+
+        publid Attributf gft(Clbss<?> kfy) {
+            rfturn bttrsft.gft(kfy);
+        }
+
+        publid boolfbn bdd(Attributf bttributf) {
+            throw nfw UnmodifibblfSftExdfption();
+        }
+
+        publid syndhronizfd boolfbn rfmovf(Clbss<?> dbtfgory) {
+            throw nfw UnmodifibblfSftExdfption();
+        }
+
+        publid boolfbn rfmovf(Attributf bttributf) {
+            throw nfw UnmodifibblfSftExdfption();
+        }
+
+        publid boolfbn dontbinsKfy(Clbss<?> dbtfgory) {
+            rfturn bttrsft.dontbinsKfy(dbtfgory);
+        }
+
+        publid boolfbn dontbinsVbluf(Attributf bttributf) {
+            rfturn bttrsft.dontbinsVbluf(bttributf);
+        }
+
+        publid boolfbn bddAll(AttributfSft bttributfs) {
+            throw nfw UnmodifibblfSftExdfption();
+        }
+
+        publid int sizf() {
+            rfturn bttrsft.sizf();
+        }
+
+        publid Attributf[] toArrby() {
+            rfturn bttrsft.toArrby();
+        }
+
+        publid void dlfbr() {
+            throw nfw UnmodifibblfSftExdfption();
+        }
+
+        publid boolfbn isEmpty() {
+            rfturn bttrsft.isEmpty();
+        }
+
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn bttrsft.fqubls (o);
+        }
+
+        publid int hbshCodf() {
+            rfturn bttrsft.hbshCodf();
+        }
+
+    }
+
+    /**
+      * @sfribl indludf
+      */
+    privbtf stbtid dlbss UnmodifibblfDodAttributfSft
+        fxtfnds UnmodifibblfAttributfSft
+        implfmfnts DodAttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -6349408326066898956L;
+
+        publid UnmodifibblfDodAttributfSft(DodAttributfSft bttributfSft) {
+
+            supfr (bttributfSft);
+        }
+    }
+
+    /**
+      * @sfribl indludf
+      */
+    privbtf stbtid dlbss UnmodifibblfPrintRfqufstAttributfSft
+        fxtfnds UnmodifibblfAttributfSft
+        implfmfnts PrintRfqufstAttributfSft, Sfriblizbblf
+    {
+        privbtf stbtid finbl long sfriblVfrsionUID = 7799373532614825073L;
+        publid UnmodifibblfPrintRfqufstAttributfSft
+            (PrintRfqufstAttributfSft bttributfSft) {
+
+            supfr (bttributfSft);
+        }
+    }
+
+    /**
+      * @sfribl indludf
+      */
+    privbtf stbtid dlbss UnmodifibblfPrintJobAttributfSft
+        fxtfnds UnmodifibblfAttributfSft
+        implfmfnts PrintJobAttributfSft, Sfriblizbblf
+    {
+        privbtf stbtid finbl long sfriblVfrsionUID = -8002245296274522112L;
+        publid UnmodifibblfPrintJobAttributfSft
+            (PrintJobAttributfSft bttributfSft) {
+
+            supfr (bttributfSft);
+        }
+    }
+
+    /**
+      * @sfribl indludf
+      */
+    privbtf stbtid dlbss UnmodifibblfPrintSfrvidfAttributfSft
+        fxtfnds UnmodifibblfAttributfSft
+        implfmfnts PrintSfrvidfAttributfSft, Sfriblizbblf
+    {
+        privbtf stbtid finbl long sfriblVfrsionUID = -7112165137107826819L;
+        publid UnmodifibblfPrintSfrvidfAttributfSft
+            (PrintSfrvidfAttributfSft bttributfSft) {
+
+            supfr (bttributfSft);
+        }
+    }
+
+    /**
+     * Crfbtfs bn unmodifibblf vifw of thf givfn bttributf sft.
+     *
+     * @pbrbm  bttributfSft  Undfrlying bttributf sft.
+     *
+     * @rfturn  Unmodifibblf vifw of <CODE>bttributfSft</CODE>.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     Thrown if <CODE>bttributfSft</CODE> is null. Null is nfvfr b
+     */
+    publid stbtid AttributfSft unmodifibblfVifw(AttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        rfturn nfw UnmodifibblfAttributfSft(bttributfSft);
+    }
+
+    /**
+     * Crfbtfs bn unmodifibblf vifw of thf givfn dod bttributf sft.
+     *
+     * @pbrbm  bttributfSft  Undfrlying dod bttributf sft.
+     *
+     * @rfturn  Unmodifibblf vifw of <CODE>bttributfSft</CODE>.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     Thrown if <CODE>bttributfSft</CODE> is null.
+     */
+    publid stbtid DodAttributfSft unmodifibblfVifw
+        (DodAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn nfw UnmodifibblfDodAttributfSft(bttributfSft);
+    }
+
+    /**
+     * Crfbtfs bn unmodifibblf vifw of thf givfn print rfqufst bttributf sft.
+     *
+     * @pbrbm  bttributfSft  Undfrlying print rfqufst bttributf sft.
+     *
+     * @rfturn  Unmodifibblf vifw of <CODE>bttributfSft</CODE>.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     Thrown if <CODE>bttributfSft</CODE> is null.
+     */
+    publid stbtid PrintRfqufstAttributfSft
+        unmodifibblfVifw(PrintRfqufstAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn nfw UnmodifibblfPrintRfqufstAttributfSft(bttributfSft);
+    }
+
+    /**
+     * Crfbtfs bn unmodifibblf vifw of thf givfn print job bttributf sft.
+     *
+     * @pbrbm  bttributfSft  Undfrlying print job bttributf sft.
+     *
+     * @rfturn  Unmodifibblf vifw of <CODE>bttributfSft</CODE>.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     Thrown if <CODE>bttributfSft</CODE> is null.
+     */
+    publid stbtid PrintJobAttributfSft
+        unmodifibblfVifw(PrintJobAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn nfw UnmodifibblfPrintJobAttributfSft(bttributfSft);
+    }
+
+    /**
+     * Crfbtfs bn unmodifibblf vifw of thf givfn print sfrvidf bttributf sft.
+     *
+     * @pbrbm  bttributfSft  Undfrlying print sfrvidf bttributf sft.
+     *
+     * @rfturn  Unmodifibblf vifw of <CODE>bttributfSft</CODE>.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     Thrown if <CODE>bttributfSft</CODE> is null.
+     */
+    publid stbtid PrintSfrvidfAttributfSft
+        unmodifibblfVifw(PrintSfrvidfAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn nfw UnmodifibblfPrintSfrvidfAttributfSft (bttributfSft);
+    }
+
+    /**
+      * @sfribl indludf
+      */
+    privbtf stbtid dlbss SyndhronizfdAttributfSft
+                        implfmfnts AttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 8365731020128564925L;
+
+        privbtf AttributfSft bttrsft;
+
+        publid SyndhronizfdAttributfSft(AttributfSft bttributfSft) {
+            bttrsft = bttributfSft;
+        }
+
+        publid syndhronizfd Attributf gft(Clbss<?> dbtfgory) {
+            rfturn bttrsft.gft(dbtfgory);
+        }
+
+        publid syndhronizfd boolfbn bdd(Attributf bttributf) {
+            rfturn bttrsft.bdd(bttributf);
+        }
+
+        publid syndhronizfd boolfbn rfmovf(Clbss<?> dbtfgory) {
+            rfturn bttrsft.rfmovf(dbtfgory);
+        }
+
+        publid syndhronizfd boolfbn rfmovf(Attributf bttributf) {
+            rfturn bttrsft.rfmovf(bttributf);
+        }
+
+        publid syndhronizfd boolfbn dontbinsKfy(Clbss<?> dbtfgory) {
+            rfturn bttrsft.dontbinsKfy(dbtfgory);
+        }
+
+        publid syndhronizfd boolfbn dontbinsVbluf(Attributf bttributf) {
+            rfturn bttrsft.dontbinsVbluf(bttributf);
+        }
+
+        publid syndhronizfd boolfbn bddAll(AttributfSft bttributfs) {
+            rfturn bttrsft.bddAll(bttributfs);
+        }
+
+        publid syndhronizfd int sizf() {
+            rfturn bttrsft.sizf();
+        }
+
+        publid syndhronizfd Attributf[] toArrby() {
+            rfturn bttrsft.toArrby();
+        }
+
+        publid syndhronizfd void dlfbr() {
+            bttrsft.dlfbr();
+        }
+
+        publid syndhronizfd boolfbn isEmpty() {
+            rfturn bttrsft.isEmpty();
+        }
+
+        publid syndhronizfd boolfbn fqubls(Objfdt o) {
+            rfturn bttrsft.fqubls (o);
+        }
+
+        publid syndhronizfd int hbshCodf() {
+            rfturn bttrsft.hbshCodf();
+        }
+    }
+
+    /**
+      * @sfribl indludf
+      */
+    privbtf stbtid dlbss SyndhronizfdDodAttributfSft
+        fxtfnds SyndhronizfdAttributfSft
+        implfmfnts DodAttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 6455869095246629354L;
+
+        publid SyndhronizfdDodAttributfSft(DodAttributfSft bttributfSft) {
+            supfr(bttributfSft);
+        }
+    }
+
+    /**
+      * @sfribl indludf
+      */
+    privbtf stbtid dlbss SyndhronizfdPrintRfqufstAttributfSft
+        fxtfnds SyndhronizfdAttributfSft
+        implfmfnts PrintRfqufstAttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 5671237023971169027L;
+
+        publid SyndhronizfdPrintRfqufstAttributfSft
+            (PrintRfqufstAttributfSft bttributfSft) {
+            supfr(bttributfSft);
+        }
+    }
+
+    /**
+      * @sfribl indludf
+      */
+    privbtf stbtid dlbss SyndhronizfdPrintJobAttributfSft
+        fxtfnds SyndhronizfdAttributfSft
+        implfmfnts PrintJobAttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 2117188707856965749L;
+
+        publid SyndhronizfdPrintJobAttributfSft
+            (PrintJobAttributfSft bttributfSft) {
+            supfr(bttributfSft);
+        }
+    }
+
+    /**
+      * @sfribl indludf
+      */
+    privbtf stbtid dlbss SyndhronizfdPrintSfrvidfAttributfSft
+        fxtfnds SyndhronizfdAttributfSft
+        implfmfnts PrintSfrvidfAttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -2830705374001675073L;
+
+        publid SyndhronizfdPrintSfrvidfAttributfSft
+            (PrintSfrvidfAttributfSft bttributfSft) {
+            supfr(bttributfSft);
+        }
+    }
+
+    /**
+     * Crfbtfs b syndhronizfd vifw of thf givfn bttributf sft.
+     *
+     * @pbrbm  bttributfSft  Undfrlying bttributf sft.
+     *
+     * @rfturn  Syndhronizfd vifw of <CODE>bttributfSft</CODE>.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     Thrown if <CODE>bttributfSft</CODE> is null.
+     */
+    publid stbtid AttributfSft syndhronizfdVifw
+        (AttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn nfw SyndhronizfdAttributfSft(bttributfSft);
+    }
+
+    /**
+     * Crfbtfs b syndhronizfd vifw of thf givfn dod bttributf sft.
+     *
+     * @pbrbm  bttributfSft  Undfrlying dod bttributf sft.
+     *
+     * @rfturn  Syndhronizfd vifw of <CODE>bttributfSft</CODE>.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     Thrown if <CODE>bttributfSft</CODE> is null.
+     */
+    publid stbtid DodAttributfSft
+        syndhronizfdVifw(DodAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn nfw SyndhronizfdDodAttributfSft(bttributfSft);
+    }
+
+    /**
+     * Crfbtfs b syndhronizfd vifw of thf givfn print rfqufst bttributf sft.
+     *
+     * @pbrbm  bttributfSft  Undfrlying print rfqufst bttributf sft.
+     *
+     * @rfturn  Syndhronizfd vifw of <CODE>bttributfSft</CODE>.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     Thrown if <CODE>bttributfSft</CODE> is null.
+     */
+    publid stbtid PrintRfqufstAttributfSft
+        syndhronizfdVifw(PrintRfqufstAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn nfw SyndhronizfdPrintRfqufstAttributfSft(bttributfSft);
+    }
+
+    /**
+     * Crfbtfs b syndhronizfd vifw of thf givfn print job bttributf sft.
+     *
+     * @pbrbm  bttributfSft  Undfrlying print job bttributf sft.
+     *
+     * @rfturn  Syndhronizfd vifw of <CODE>bttributfSft</CODE>.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     Thrown if <CODE>bttributfSft</CODE> is null.
+     */
+    publid stbtid PrintJobAttributfSft
+        syndhronizfdVifw(PrintJobAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn nfw SyndhronizfdPrintJobAttributfSft(bttributfSft);
+    }
+
+    /**
+     * Crfbtfs b syndhronizfd vifw of thf givfn print sfrvidf bttributf sft.
+     *
+     * @pbrbm  bttributfSft  Undfrlying print sfrvidf bttributf sft.
+     *
+     * @rfturn  Syndhronizfd vifw of <CODE>bttributfSft</CODE>.
+     */
+    publid stbtid PrintSfrvidfAttributfSft
+        syndhronizfdVifw(PrintSfrvidfAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn nfw SyndhronizfdPrintSfrvidfAttributfSft(bttributfSft);
+    }
+
+
+    /**
+     * Vfrify thbt thf givfn objfdt is b {@link jbvb.lbng.Clbss Clbss} thbt
+     * implfmfnts thf givfn intfrfbdf, whidh is bssumfd to bf intfrfbdf {@link
+     * Attributf Attributf} or b subintfrfbdf thfrfof.
+     *
+     * @pbrbm  objfdt     Objfdt to tfst.
+     * @pbrbm  intfrfbdfNbmf  Intfrfbdf thf objfdt must implfmfnt.
+     *
+     * @rfturn  If <CODE>objfdt</CODE> is b {@link jbvb.lbng.Clbss Clbss}
+     *          thbt implfmfnts <CODE>intfrfbdfNbmf</CODE>,
+     *          <CODE>objfdt</CODE> is rfturnfd downdbst to typf {@link
+     *          jbvb.lbng.Clbss Clbss}; othfrwisf bn fxdfption is thrown.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>objfdt</CODE> is null.
+     * @fxdfption  ClbssCbstExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>objfdt</CODE> is not b
+     *     {@link jbvb.lbng.Clbss Clbss} thbt implfmfnts
+     *     <CODE>intfrfbdfNbmf</CODE>.
+     */
+    publid stbtid Clbss<?>
+        vfrifyAttributfCbtfgory(Objfdt objfdt, Clbss<?> intfrfbdfNbmf) {
+
+        Clbss<?> rfsult = (Clbss<?>) objfdt;
+        if (intfrfbdfNbmf.isAssignbblfFrom (rfsult)) {
+            rfturn rfsult;
+        }
+        flsf {
+            throw nfw ClbssCbstExdfption();
+        }
+    }
+
+    /**
+     * Vfrify thbt thf givfn objfdt is bn instbndf of thf givfn intfrfbdf, whidh
+     * is bssumfd to bf intfrfbdf {@link Attributf Attributf} or b subintfrfbdf
+     * thfrfof.
+     *
+     * @pbrbm  objfdt     Objfdt to tfst.
+     * @pbrbm  intfrfbdfNbmf  Intfrfbdf of whidh thf objfdt must bf bn instbndf.
+     *
+     * @rfturn  If <CODE>objfdt</CODE> is bn instbndf of
+     *          <CODE>intfrfbdfNbmf</CODE>, <CODE>objfdt</CODE> is rfturnfd
+     *          downdbst to typf {@link Attributf Attributf}; othfrwisf bn
+     *          fxdfption is thrown.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>objfdt</CODE> is null.
+     * @fxdfption  ClbssCbstExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>objfdt</CODE> is not bn
+     *     instbndf of <CODE>intfrfbdfNbmf</CODE>.
+     */
+    publid stbtid Attributf
+        vfrifyAttributfVbluf(Objfdt objfdt, Clbss<?> intfrfbdfNbmf) {
+
+        if (objfdt == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        flsf if (intfrfbdfNbmf.isInstbndf (objfdt)) {
+            rfturn (Attributf) objfdt;
+        } flsf {
+            throw nfw ClbssCbstExdfption();
+        }
+    }
+
+    /**
+     * Vfrify thbt thf givfn bttributf dbtfgory objfdt is fqubl to thf
+     * dbtfgory of thf givfn bttributf vbluf objfdt. If so, this mfthod
+     * rfturns doing nothing. If not, this mfthod throws bn fxdfption.
+     *
+     * @pbrbm  dbtfgory   Attributf dbtfgory to tfst.
+     * @pbrbm  bttributf  Attributf vbluf to tfst.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if thf <CODE>dbtfgory</CODE> is
+     *     null or if thf <CODE>bttributf</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if thf <CODE>dbtfgory</CODE> is not
+     *     fqubl to thf dbtfgory of thf <CODE>bttributf</CODE>.
+     */
+    publid stbtid void
+        vfrifyCbtfgoryForVbluf(Clbss<?> dbtfgory, Attributf bttributf) {
+
+        if (!dbtfgory.fqubls (bttributf.gftCbtfgory())) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+    }
+}

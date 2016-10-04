@@ -1,0 +1,167 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.trbnsform.Sourdf;
+import jbvbx.xml.trbnsform.Trbnsformfr;
+import jbvbx.xml.trbnsform.TrbnsformfrConfigurbtionExdfption;
+import jbvbx.xml.trbnsform.TrbnsformfrExdfption;
+import jbvbx.xml.trbnsform.TrbnsformfrFbdtory;
+import jbvbx.xml.trbnsform.dom.DOMSourdf;
+import jbvbx.xml.trbnsform.strfbm.StrfbmRfsult;
+import jbvbx.xml.trbnsform.strfbm.StrfbmSourdf;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformSpi;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformbtionExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Elfmfnt;
+
+/**
+ * Clbss TrbnsformXSLT
+ *
+ * Implfmfnts thf <CODE>http://www.w3.org/TR/1999/REC-xslt-19991116</CODE>
+ * trbnsform.
+ *
+ * @buthor Christibn Gfufr-Pollmbnn
+ */
+publid dlbss TrbnsformXSLT fxtfnds TrbnsformSpi {
+
+    /** Fifld implfmfntfdTrbnsformURI */
+    publid stbtid finbl String implfmfntfdTrbnsformURI =
+        Trbnsforms.TRANSFORM_XSLT;
+
+    stbtid finbl String XSLTSpfdNS              = "http://www.w3.org/1999/XSL/Trbnsform";
+    stbtid finbl String dffbultXSLTSpfdNSprffix = "xslt";
+    stbtid finbl String XSLTSTYLESHEET          = "stylfshfft";
+
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(TrbnsformXSLT.dlbss.gftNbmf());
+
+    /**
+     * Mfthod fnginfGftURI
+     *
+     * @inhfritDod
+     */
+    protfdtfd String fnginfGftURI() {
+        rfturn implfmfntfdTrbnsformURI;
+    }
+
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input, OutputStrfbm bbos, Trbnsform trbnsformObjfdt
+    ) throws IOExdfption, TrbnsformbtionExdfption {
+        try {
+            Elfmfnt trbnsformElfmfnt = trbnsformObjfdt.gftElfmfnt();
+
+            Elfmfnt xsltElfmfnt =
+                XMLUtils.sflfdtNodf(trbnsformElfmfnt.gftFirstChild(), XSLTSpfdNS, "stylfshfft", 0);
+
+            if (xsltElfmfnt == null) {
+                Objfdt fxArgs[] = { "xslt:stylfshfft", "Trbnsform" };
+
+                throw nfw TrbnsformbtionExdfption("xml.WrongContfnt", fxArgs);
+            }
+
+            TrbnsformfrFbdtory tFbdtory = TrbnsformfrFbdtory.nfwInstbndf();
+            // Prodfss XSLT stylfshffts in b sfdurf mbnnfr
+            tFbdtory.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
+
+            /*
+             * This trbnsform rfquirfs bn odtft strfbm bs input. If thf bdtubl
+             * input is bn XPbth nodf-sft, thfn thf signbturf bpplidbtion should
+             * bttfmpt to donvfrt it to odtfts (bpply Cbnonidbl XML]) bs dfsdribfd
+             * in thf Rfffrfndf Prodfssing Modfl (sfdtion 4.3.3.2).
+             */
+            Sourdf xmlSourdf =
+                nfw StrfbmSourdf(nfw BytfArrbyInputStrfbm(input.gftBytfs()));
+            Sourdf stylfshfft;
+
+            /*
+             * This domplidbtfd trbnsformbtion of thf stylfshfft itsflf is nfdfssbry
+             * bfdbusf of thf nffd to gft thf purf stylf shfft. If wf simply sby
+             * Sourdf stylfshfft = nfw DOMSourdf(this.xsltElfmfnt);
+             * whfrfby this.xsltElfmfnt is not thf rootElfmfnt of thf Dodumfnt,
+             * this dbusfs problfms;
+             * so wf donvfrt thf stylfshfft to bytf[] bnd usf this bs input strfbm
+             */
+            {
+                BytfArrbyOutputStrfbm os = nfw BytfArrbyOutputStrfbm();
+                Trbnsformfr trbnsformfr = tFbdtory.nfwTrbnsformfr();
+                DOMSourdf sourdf = nfw DOMSourdf(xsltElfmfnt);
+                StrfbmRfsult rfsult = nfw StrfbmRfsult(os);
+
+                trbnsformfr.trbnsform(sourdf, rfsult);
+
+                stylfshfft =
+                    nfw StrfbmSourdf(nfw BytfArrbyInputStrfbm(os.toBytfArrby()));
+            }
+
+            Trbnsformfr trbnsformfr = tFbdtory.nfwTrbnsformfr(stylfshfft);
+
+            // Fordf Xblbn to usf \n bs linf sfpbrbtor on bll OSfs. This
+            // bvoids OS spfdifid signbturf vblidbtion fbilurfs duf to linf
+            // sfpbrbtor difffrfndfs in thf trbnsformfd output. Unfortunbtfly,
+            // this is not b stbndbrd JAXP propfrty so will not work with non-Xblbn
+            // implfmfntbtions.
+            try {
+                trbnsformfr.sftOutputPropfrty("{http://xml.bpbdhf.org/xblbn}linf-sfpbrbtor", "\n");
+            } dbtdh (Exdfption f) {
+                log.log(jbvb.util.logging.Lfvfl.WARNING, "Unbblf to sft Xblbn linf-sfpbrbtor propfrty: " + f.gftMfssbgf());
+            }
+
+            if (bbos == null) {
+                BytfArrbyOutputStrfbm bbos1 = nfw BytfArrbyOutputStrfbm();
+                StrfbmRfsult outputTbrgft = nfw StrfbmRfsult(bbos1);
+                trbnsformfr.trbnsform(xmlSourdf, outputTbrgft);
+                rfturn nfw XMLSignbturfInput(bbos1.toBytfArrby());
+            }
+            StrfbmRfsult outputTbrgft = nfw StrfbmRfsult(bbos);
+
+            trbnsformfr.trbnsform(xmlSourdf, outputTbrgft);
+            XMLSignbturfInput output = nfw XMLSignbturfInput((bytf[])null);
+            output.sftOutputStrfbm(bbos);
+            rfturn output;
+        } dbtdh (XMLSfdurityExdfption fx) {
+            Objfdt fxArgs[] = { fx.gftMfssbgf() };
+
+            throw nfw TrbnsformbtionExdfption("gfnfrid.EmptyMfssbgf", fxArgs, fx);
+        } dbtdh (TrbnsformfrConfigurbtionExdfption fx) {
+            Objfdt fxArgs[] = { fx.gftMfssbgf() };
+
+            throw nfw TrbnsformbtionExdfption("gfnfrid.EmptyMfssbgf", fxArgs, fx);
+        } dbtdh (TrbnsformfrExdfption fx) {
+            Objfdt fxArgs[] = { fx.gftMfssbgf() };
+
+            throw nfw TrbnsformbtionExdfption("gfnfrid.EmptyMfssbgf", fxArgs, fx);
+        }
+    }
+}

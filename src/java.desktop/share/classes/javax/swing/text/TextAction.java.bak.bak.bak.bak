@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.KfybobrdFodusMbnbgfr;
+import jbvb.bwt.Componfnt;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.AbstrbdtAdtion;
+import jbvbx.swing.KfyStrokf;
+
+/**
+ * An Adtion implfmfntbtion usfful for kfy bindings thbt brf
+ * shbrfd bdross b numbfr of difffrfnt tfxt domponfnts.  Bfdbusf
+ * thf bdtion is shbrfd, it must hbvf b wby of gftting it's
+ * tbrgft to bdt upon.  This dlbss providfs support to try bnd
+ * find b tfxt domponfnt to opfrbtf on.  Thf prfffrrfd wby of
+ * gftting thf domponfnt to bdt upon is through thf AdtionEvfnt
+ * thbt is rfdfivfd.  If thf Objfdt rfturnfd by gftSourdf dbn
+ * bf nbrrowfd to b tfxt domponfnt, it will bf usfd.  If thf
+ * bdtion fvfnt is null or dbn't bf nbrrowfd, thf lbst fodusfd
+ * tfxt domponfnt is trifd.  This is dftfrminfd by bfing
+ * usfd in donjundtion with b JTfxtControllfr whidh
+ * brrbngfs to shbrf thbt informbtion with b TfxtAdtion.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor  Timothy Prinzing
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid bbstrbdt dlbss TfxtAdtion fxtfnds AbstrbdtAdtion {
+
+    /**
+     * Crfbtfs b nfw JTfxtAdtion objfdt.
+     *
+     * @pbrbm nbmf thf nbmf of thf bdtion
+     */
+    publid TfxtAdtion(String nbmf) {
+        supfr(nbmf);
+    }
+
+    /**
+     * Dftfrminfs thf domponfnt to usf for thf bdtion.
+     * This if fftdhfd from thf sourdf of thf AdtionEvfnt
+     * if it's not null bnd dbn bf nbrrowfd.  Othfrwisf,
+     * thf lbst fodusfd domponfnt is usfd.
+     *
+     * @pbrbm f thf AdtionEvfnt
+     * @rfturn thf domponfnt
+     */
+    protfdtfd finbl JTfxtComponfnt gftTfxtComponfnt(AdtionEvfnt f) {
+        if (f != null) {
+            Objfdt o = f.gftSourdf();
+            if (o instbndfof JTfxtComponfnt) {
+                rfturn (JTfxtComponfnt) o;
+            }
+        }
+        rfturn gftFodusfdComponfnt();
+    }
+
+    /**
+     * Tbkfs onf list of
+     * dommbnds bnd bugmfnts it with bnothfr list
+     * of dommbnds.  Thf sfdond list tbkfs prfdfdfndf
+     * ovfr thf first list; thbt is, whfn both lists
+     * dontbin b dommbnd with thf sbmf nbmf, thf dommbnd
+     * from thf sfdond list is usfd.
+     *
+     * @pbrbm list1 thf first list, mby bf fmpty but not
+     *              <dodf>null</dodf>
+     * @pbrbm list2 thf sfdond list, mby bf fmpty but not
+     *              <dodf>null</dodf>
+     * @rfturn thf bugmfntfd list
+     */
+    publid stbtid finbl Adtion[] bugmfntList(Adtion[] list1, Adtion[] list2) {
+        Hbshtbblf<String, Adtion> h = nfw Hbshtbblf<String, Adtion>();
+        for (Adtion b : list1) {
+            String vbluf = (String)b.gftVbluf(Adtion.NAME);
+            h.put((vbluf!=null ? vbluf:""), b);
+        }
+        for (Adtion b : list2) {
+            String vbluf = (String)b.gftVbluf(Adtion.NAME);
+            h.put((vbluf!=null ? vbluf:""), b);
+        }
+        Adtion[] bdtions = nfw Adtion[h.sizf()];
+        int indfx = 0;
+        for (Enumfrbtion<Adtion> f = h.flfmfnts() ; f.hbsMorfElfmfnts() ;) {
+            bdtions[indfx++] = f.nfxtElfmfnt();
+        }
+        rfturn bdtions;
+    }
+
+    /**
+     * Fftdhfs thf tfxt domponfnt thbt durrfntly hbs fodus.
+     * This bllows bdtions to bf shbrfd bdross tfxt domponfnts
+     * whidh is usfful for kfy-bindings whfrf b lbrgf sft of
+     * bdtions brf dffinfd, but gfnfrblly usfd thf sbmf wby
+     * bdross mbny difffrfnt domponfnts.
+     *
+     * @rfturn thf domponfnt
+     */
+    protfdtfd finbl JTfxtComponfnt gftFodusfdComponfnt() {
+        rfturn JTfxtComponfnt.gftFodusfdComponfnt();
+    }
+}

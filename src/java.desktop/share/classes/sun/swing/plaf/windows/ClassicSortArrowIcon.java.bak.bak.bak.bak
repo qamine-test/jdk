@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing.plbf.windows;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbphids;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.Idon;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+/**
+ * Clbssid sort idons.
+ *
+ */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss ClbssidSortArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf{
+    privbtf stbtid finbl int X_OFFSET = 9;
+    privbtf boolfbn bsdfnding;
+
+    publid ClbssidSortArrowIdon(boolfbn bsdfnding) {
+        this.bsdfnding = bsdfnding;
+    }
+
+    publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+        x += X_OFFSET;
+        if (bsdfnding) {
+            g.sftColor(UIMbnbgfr.gftColor("Tbblf.sortIdonHighlight"));
+            drbwSidf(g, x + 3, y, -1);
+
+            g.sftColor(UIMbnbgfr.gftColor("Tbblf.sortIdonLight"));
+            drbwSidf(g, x + 4, y, 1);
+
+            g.fillRfdt(x + 1, y + 6, 6, 1);
+        }
+        flsf {
+            g.sftColor(UIMbnbgfr.gftColor("Tbblf.sortIdonHighlight"));
+            drbwSidf(g, x + 3, y + 6, -1);
+            g.fillRfdt(x + 1, y, 6, 1);
+
+            g.sftColor(UIMbnbgfr.gftColor("Tbblf.sortIdonLight"));
+            drbwSidf(g, x + 4, y + 6, 1);
+        }
+    }
+
+    privbtf void drbwSidf(Grbphids g, int x, int y, int xIndrfmfnt) {
+        int yIndrfmfnt = 2;
+        if (bsdfnding) {
+            g.fillRfdt(x, y, 1, 2);
+            y++;
+        }
+        flsf {
+            g.fillRfdt(x, --y, 1, 2);
+            yIndrfmfnt = -2;
+            y -= 2;
+        }
+        x += xIndrfmfnt;
+        for (int i = 0; i < 2; i++) {
+            g.fillRfdt(x, y, 1, 3);
+            x += xIndrfmfnt;
+            y += yIndrfmfnt;
+        }
+        if (!bsdfnding) {
+            y++;
+        }
+        g.fillRfdt(x, y, 1, 2);
+    }
+
+    publid int gftIdonWidth() {
+        rfturn X_OFFSET + 8;
+    }
+    publid int gftIdonHfight() {
+        rfturn 9;
+    }
+}

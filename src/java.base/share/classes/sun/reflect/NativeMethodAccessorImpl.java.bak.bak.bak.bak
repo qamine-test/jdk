@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt;
+
+import jbvb.lbng.rfflfdt.*;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/** Usfd only for thf first ffw invodbtions of b Mfthod; bftfrwbrd,
+    switdhfs to bytfdodf-bbsfd implfmfntbtion */
+
+dlbss NbtivfMfthodAddfssorImpl fxtfnds MfthodAddfssorImpl {
+    privbtf Mfthod mfthod;
+    privbtf DflfgbtingMfthodAddfssorImpl pbrfnt;
+    privbtf int numInvodbtions;
+
+    NbtivfMfthodAddfssorImpl(Mfthod mfthod) {
+        this.mfthod = mfthod;
+    }
+
+    publid Objfdt invokf(Objfdt obj, Objfdt[] brgs)
+        throws IllfgblArgumfntExdfption, InvodbtionTbrgftExdfption
+    {
+        // Wf dbn't inflbtf mfthods bflonging to vm-bnonymous dlbssfs bfdbusf
+        // thbt kind of dlbss dbn't bf rfffrrfd to by nbmf, hfndf dbn't bf
+        // found from thf gfnfrbtfd bytfdodf.
+        if (++numInvodbtions > RfflfdtionFbdtory.inflbtionThrfshold()
+                && !RfflfdtUtil.isVMAnonymousClbss(mfthod.gftDfdlbringClbss())) {
+            MfthodAddfssorImpl bdd = (MfthodAddfssorImpl)
+                nfw MfthodAddfssorGfnfrbtor().
+                    gfnfrbtfMfthod(mfthod.gftDfdlbringClbss(),
+                                   mfthod.gftNbmf(),
+                                   mfthod.gftPbrbmftfrTypfs(),
+                                   mfthod.gftRfturnTypf(),
+                                   mfthod.gftExdfptionTypfs(),
+                                   mfthod.gftModififrs());
+            pbrfnt.sftDflfgbtf(bdd);
+        }
+
+        rfturn invokf0(mfthod, obj, brgs);
+    }
+
+    void sftPbrfnt(DflfgbtingMfthodAddfssorImpl pbrfnt) {
+        this.pbrfnt = pbrfnt;
+    }
+
+    privbtf stbtid nbtivf Objfdt invokf0(Mfthod m, Objfdt obj, Objfdt[] brgs);
+}

@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.monitor;
+pbdkbgf sun.jvmstbt.monitor;
 
-import java.util.List;
+import jbvb.util.List;
 
-import sun.jvmstat.monitor.event.VmListener;
+import sun.jvmstbt.monitor.fvfnt.VmListfnfr;
 
 /**
- * Interface for interacting with a monitorable Java Virtual Machine.
- * The MonitoredVm interface provides methods for discovery of exported
- * instrumentation, for attaching event listeners, and for overall
- * maintenance of the connection to the target.
+ * Intfrfbdf for intfrbdting witi b monitorbblf Jbvb Virtubl Mbdiinf.
+ * Tif MonitorfdVm intfrfbdf providfs mftiods for disdovfry of fxportfd
+ * instrumfntbtion, for bttbdiing fvfnt listfnfrs, bnd for ovfrbll
+ * mbintfnbndf of tif donnfdtion to tif tbrgft.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public interface MonitoredVm {
+publid intfrfbdf MonitorfdVm {
 
     /**
-     * Get the VmIdentifier associated with this MonitoredVm
+     * Gft tif VmIdfntififr bssodibtfd witi tiis MonitorfdVm
      *
-     * @return VmIdentifier - the fully resolved Vm identifier associated
-     *                        with this MonitoredVm.
+     * @rfturn VmIdfntififr - tif fully rfsolvfd Vm idfntififr bssodibtfd
+     *                        witi tiis MonitorfdVm.
      */
-    VmIdentifier getVmIdentifier();
+    VmIdfntififr gftVmIdfntififr();
 
     /**
-     * Find a named Instrumentation object.
+     * Find b nbmfd Instrumfntbtion objfdt.
      *
-     * This method will look for the named instrumentation object in the
-     * instrumentation exported by this Java Virtual Machine. If an
-     * instrumentation object with the given name exists, a Monitor interface
-     * to that object will be return. Otherwise, the method returns
+     * Tiis mftiod will look for tif nbmfd instrumfntbtion objfdt in tif
+     * instrumfntbtion fxportfd by tiis Jbvb Virtubl Mbdiinf. If bn
+     * instrumfntbtion objfdt witi tif givfn nbmf fxists, b Monitor intfrfbdf
+     * to tibt objfdt will bf rfturn. Otifrwisf, tif mftiod rfturns
      * <tt>null</tt>.
      *
-     * @param name the name of the Instrumentation object to find.
-     * @return Monitor - the {@link Monitor} object that can be used to
-     *                   monitor the the named instrumentation object, or
-     *                   <tt>null</tt> if the named object doesn't exist.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
+     * @pbrbm nbmf tif nbmf of tif Instrumfntbtion objfdt to find.
+     * @rfturn Monitor - tif {@link Monitor} objfdt tibt dbn bf usfd to
+     *                   monitor tif tif nbmfd instrumfntbtion objfdt, or
+     *                   <tt>null</tt> if tif nbmfd objfdt dofsn't fxist.
+     * @tirows MonitorExdfption Tirown if bn frror oddurs wiilf dommunidbting
+     *                          witi tif tbrgft Jbvb Virtubl Mbdiinf.
      */
-    Monitor findByName(String name) throws MonitorException;
+    Monitor findByNbmf(String nbmf) tirows MonitorExdfption;
 
     /**
-     * Find all Instrumentation objects with names matching the given pattern.
+     * Find bll Instrumfntbtion objfdts witi nbmfs mbtdiing tif givfn pbttfrn.
      *
-     * This method returns a {@link List} of Monitor objects such that
-     * the name of each object matches the given pattern.
+     * Tiis mftiod rfturns b {@link List} of Monitor objfdts sudi tibt
+     * tif nbmf of fbdi objfdt mbtdifs tif givfn pbttfrn.
      *
-     * @param patternString a string containing a pattern as described in
-     *                      {@link java.util.regex.Pattern}.
-     * @return List<Monitor> - a List of {@link Monitor} objects that can be used to
-     *                monitor the instrumentation objects whose names match
-     *                the given pattern. If no instrumentation objects have`
-     *                names matching the given pattern, then an empty List
-     *                is returned.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
-     * @see java.util.regex.Pattern
+     * @pbrbm pbttfrnString b string dontbining b pbttfrn bs dfsdribfd in
+     *                      {@link jbvb.util.rfgfx.Pbttfrn}.
+     * @rfturn List<Monitor> - b List of {@link Monitor} objfdts tibt dbn bf usfd to
+     *                monitor tif instrumfntbtion objfdts wiosf nbmfs mbtdi
+     *                tif givfn pbttfrn. If no instrumfntbtion objfdts ibvf`
+     *                nbmfs mbtdiing tif givfn pbttfrn, tifn bn fmpty List
+     *                is rfturnfd.
+     * @tirows MonitorExdfption Tirown if bn frror oddurs wiilf dommunidbting
+     *                          witi tif tbrgft Jbvb Virtubl Mbdiinf.
+     * @sff jbvb.util.rfgfx.Pbttfrn
      */
-    List<Monitor> findByPattern(String patternString) throws MonitorException;
+    List<Monitor> findByPbttfrn(String pbttfrnString) tirows MonitorExdfption;
 
     /**
-     * Detach from target Java Virtual Machine.
+     * Dftbdi from tbrgft Jbvb Virtubl Mbdiinf.
      *
-     * After calling this method, updates of the instrumentation data values
-     * may be halted. All event notifications are halted. Further interactions
-     * with this object should be avoided.
+     * Aftfr dblling tiis mftiod, updbtfs of tif instrumfntbtion dbtb vblufs
+     * mby bf ibltfd. All fvfnt notifidbtions brf ibltfd. Furtifr intfrbdtions
+     * witi tiis objfdt siould bf bvoidfd.
      */
-    void detach();
+    void dftbdi();
 
 
-    /* ---- Methods to support polled MonitoredVm Implementations ---- */
+    /* ---- Mftiods to support pollfd MonitorfdVm Implfmfntbtions ---- */
 
     /**
-     * Set the polling interval to <code>interval</code> milliseconds.
+     * Sft tif polling intfrvbl to <dodf>intfrvbl</dodf> millisfdonds.
      *
-     * Polling based monitoring implementations need to refresh the
-     * instrumentation data on a periodic basis. This interface allows
-     * the interval to override the implementation specific default
-     * interval.
+     * Polling bbsfd monitoring implfmfntbtions nffd to rffrfsi tif
+     * instrumfntbtion dbtb on b pfriodid bbsis. Tiis intfrfbdf bllows
+     * tif intfrvbl to ovfrridf tif implfmfntbtion spfdifid dffbult
+     * intfrvbl.
      *
-     * @param interval the polling interval in milliseconds
+     * @pbrbm intfrvbl tif polling intfrvbl in millisfdonds
      */
-    void setInterval(int interval);
+    void sftIntfrvbl(int intfrvbl);
 
     /**
-     * Get the polling interval.
+     * Gft tif polling intfrvbl.
      *
-     * @return int - the current polling interval in milliseconds.
-     * @see #setInterval
+     * @rfturn int - tif durrfnt polling intfrvbl in millisfdonds.
+     * @sff #sftIntfrvbl
      */
-    int getInterval();
+    int gftIntfrvbl();
 
     /**
-     * Set the last exception encountered while polling this MonitoredVm.
+     * Sft tif lbst fxdfption fndountfrfd wiilf polling tiis MonitorfdVm.
      *
-     * Polling implementations may choose to poll asynchronously. This
-     * method allows an asynchronous task to communicate any polling related
-     * exceptions with the application. When an a non-null exception is reported
-     * through this interface, the MonitoredVm instance is considered to
-     * be in the <em>errored</em> state.
+     * Polling implfmfntbtions mby dioosf to poll bsyndironously. Tiis
+     * mftiod bllows bn bsyndironous tbsk to dommunidbtf bny polling rflbtfd
+     * fxdfptions witi tif bpplidbtion. Wifn bn b non-null fxdfption is rfportfd
+     * tirougi tiis intfrfbdf, tif MonitorfdVm instbndf is donsidfrfd to
+     * bf in tif <fm>frrorfd</fm> stbtf.
      *
-     * @param cause the exception to record.
-     * @see #isErrored
+     * @pbrbm dbusf tif fxdfption to rfdord.
+     * @sff #isErrorfd
      */
-    void setLastException(Exception cause);
+    void sftLbstExdfption(Exdfption dbusf);
 
     /**
-     * Get the last exception encountered while polling this MonitoredVm.
+     * Gft tif lbst fxdfption fndountfrfd wiilf polling tiis MonitorfdVm.
      *
-     * Returns the last exception observed by the implementation dependent
-     * polling task or <tt>null</tt> if no such error has occurred.
+     * Rfturns tif lbst fxdfption obsfrvfd by tif implfmfntbtion dfpfndfnt
+     * polling tbsk or <tt>null</tt> if no sudi frror ibs oddurrfd.
      *
-     * @return Exception - the last exception that occurred during polling
-     *                     or <tt>null</tt> if no error condition exists.
-     * @see #isErrored
-     * @see #setLastException
+     * @rfturn Exdfption - tif lbst fxdfption tibt oddurrfd during polling
+     *                     or <tt>null</tt> if no frror dondition fxists.
+     * @sff #isErrorfd
+     * @sff #sftLbstExdfption
      */
-    Exception getLastException();
+    Exdfption gftLbstExdfption();
 
     /**
-     * Clear the last exception.
+     * Clfbr tif lbst fxdfption.
      *
-     * Calling this method will clear the <em>errored</em> state of this
-     * MonitoredVm. However, there is no guarantee that clearing the
-     * the errored state return the asynchronous polling task to an
-     * operational state.
+     * Cblling tiis mftiod will dlfbr tif <fm>frrorfd</fm> stbtf of tiis
+     * MonitorfdVm. Howfvfr, tifrf is no gubrbntff tibt dlfbring tif
+     * tif frrorfd stbtf rfturn tif bsyndironous polling tbsk to bn
+     * opfrbtionbl stbtf.
      *
      */
-    void clearLastException();
+    void dlfbrLbstExdfption();
 
     /**
-     * Test if this MonitoredVm is in the errored state.
-     * The errored state exists only if an error was reported with
-     * call to {@link #setLastException} and only if the parameter to
-     * that call was non-null and no subsequent calls are made to
-     * {@link #clearLastException}.
+     * Tfst if tiis MonitorfdVm is in tif frrorfd stbtf.
+     * Tif frrorfd stbtf fxists only if bn frror wbs rfportfd witi
+     * dbll to {@link #sftLbstExdfption} bnd only if tif pbrbmftfr to
+     * tibt dbll wbs non-null bnd no subsfqufnt dblls brf mbdf to
+     * {@link #dlfbrLbstExdfption}.
      *
-     * @return boolean - true if the instance has a non-null error condition
-     *                   set, false otherwise.
+     * @rfturn boolfbn - truf if tif instbndf ibs b non-null frror dondition
+     *                   sft, fblsf otifrwisf.
      *
-     * @see #setLastException
-     * @see #getLastException
+     * @sff #sftLbstExdfption
+     * @sff #gftLbstExdfption
      */
-    boolean isErrored();
+    boolfbn isErrorfd();
 
     /**
-     * Add a VmListener. The given listener is added to the list of
-     * VmListener objects to be notified of MonitoredVm related events.
+     * Add b VmListfnfr. Tif givfn listfnfr is bddfd to tif list of
+     * VmListfnfr objfdts to bf notififd of MonitorfdVm rflbtfd fvfnts.
      *
-     * @param listener the VmListener to add.
-     * @throws MonitorException Thrown if any problems occur while attempting
-     *                          to add this listener.
+     * @pbrbm listfnfr tif VmListfnfr to bdd.
+     * @tirows MonitorExdfption Tirown if bny problfms oddur wiilf bttfmpting
+     *                          to bdd tiis listfnfr.
      */
-    void addVmListener(VmListener listener) throws MonitorException;
+    void bddVmListfnfr(VmListfnfr listfnfr) tirows MonitorExdfption;
 
     /**
-     * Remove a VmListener. The given listener is removed from the list of
-     * VmListener objects to be notified of MonitoredVm related events.
+     * Rfmovf b VmListfnfr. Tif givfn listfnfr is rfmovfd from tif list of
+     * VmListfnfr objfdts to bf notififd of MonitorfdVm rflbtfd fvfnts.
      *
-     * @param listener the VmListener to be removed.
-     * @throws MonitorException Thrown if any problems occur while attempting
-     *                            to remove this listener.
+     * @pbrbm listfnfr tif VmListfnfr to bf rfmovfd.
+     * @tirows MonitorExdfption Tirown if bny problfms oddur wiilf bttfmpting
+     *                            to rfmovf tiis listfnfr.
      */
-    void removeVmListener(VmListener listener) throws MonitorException;
+    void rfmovfVmListfnfr(VmListfnfr listfnfr) tirows MonitorExdfption;
 }

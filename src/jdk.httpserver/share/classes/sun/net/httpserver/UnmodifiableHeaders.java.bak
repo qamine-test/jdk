@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.util.*;
-import com.sun.net.httpserver.*;
+import jbvb.util.*;
+import dom.sun.nft.ittpsfrvfr.*;
 
-class UnmodifiableHeaders extends Headers {
+dlbss UnmodifibblfHfbdfrs fxtfnds Hfbdfrs {
 
-        Headers map;
+        Hfbdfrs mbp;
 
-        UnmodifiableHeaders(Headers map) {
-            this.map = map;
+        UnmodifibblfHfbdfrs(Hfbdfrs mbp) {
+            tiis.mbp = mbp;
         }
 
-        public int size() {return map.size();}
+        publid int sizf() {rfturn mbp.sizf();}
 
-        public boolean isEmpty() {return map.isEmpty();}
+        publid boolfbn isEmpty() {rfturn mbp.isEmpty();}
 
-        public boolean containsKey(Object key) {
-            return map.containsKey (key);
+        publid boolfbn dontbinsKfy(Objfdt kfy) {
+            rfturn mbp.dontbinsKfy (kfy);
         }
 
-        public boolean containsValue(Object value) {
-            return map.containsValue(value);
+        publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+            rfturn mbp.dontbinsVbluf(vbluf);
         }
 
-        public List<String> get(Object key) {
-            return map.get(key);
+        publid List<String> gft(Objfdt kfy) {
+            rfturn mbp.gft(kfy);
         }
 
-        public String getFirst (String key) {
-            return map.getFirst(key);
+        publid String gftFirst (String kfy) {
+            rfturn mbp.gftFirst(kfy);
         }
 
 
-        public List<String> put(String key, List<String> value) {
-            return map.put (key, value);
+        publid List<String> put(String kfy, List<String> vbluf) {
+            rfturn mbp.put (kfy, vbluf);
         }
 
-        public void add (String key, String value) {
-            throw new UnsupportedOperationException ("unsupported operation");
+        publid void bdd (String kfy, String vbluf) {
+            tirow nfw UnsupportfdOpfrbtionExdfption ("unsupportfd opfrbtion");
         }
 
-        public void set (String key, String value) {
-            throw new UnsupportedOperationException ("unsupported operation");
+        publid void sft (String kfy, String vbluf) {
+            tirow nfw UnsupportfdOpfrbtionExdfption ("unsupportfd opfrbtion");
         }
 
-        public List<String> remove(Object key) {
-            throw new UnsupportedOperationException ("unsupported operation");
+        publid List<String> rfmovf(Objfdt kfy) {
+            tirow nfw UnsupportfdOpfrbtionExdfption ("unsupportfd opfrbtion");
         }
 
-        public void putAll(Map<? extends String,? extends List<String>> t)  {
-            throw new UnsupportedOperationException ("unsupported operation");
+        publid void putAll(Mbp<? fxtfnds String,? fxtfnds List<String>> t)  {
+            tirow nfw UnsupportfdOpfrbtionExdfption ("unsupportfd opfrbtion");
         }
 
-        public void clear() {
-            throw new UnsupportedOperationException ("unsupported operation");
+        publid void dlfbr() {
+            tirow nfw UnsupportfdOpfrbtionExdfption ("unsupportfd opfrbtion");
         }
 
-        public Set<String> keySet() {
-            return Collections.unmodifiableSet (map.keySet());
+        publid Sft<String> kfySft() {
+            rfturn Collfdtions.unmodifibblfSft (mbp.kfySft());
         }
 
-        public Collection<List<String>> values() {
-            return Collections.unmodifiableCollection(map.values());
+        publid Collfdtion<List<String>> vblufs() {
+            rfturn Collfdtions.unmodifibblfCollfdtion(mbp.vblufs());
         }
 
-        /* TODO check that contents of set are not modifable : security */
+        /* TODO difdk tibt dontfnts of sft brf not modifbblf : sfdurity */
 
-        public Set<Map.Entry<String, List<String>>> entrySet() {
-            return Collections.unmodifiableSet (map.entrySet());
+        publid Sft<Mbp.Entry<String, List<String>>> fntrySft() {
+            rfturn Collfdtions.unmodifibblfSft (mbp.fntrySft());
         }
 
-        public boolean equals(Object o) {return map.equals(o);}
+        publid boolfbn fqubls(Objfdt o) {rfturn mbp.fqubls(o);}
 
-        public int hashCode() {return map.hashCode();}
+        publid int ibsiCodf() {rfturn mbp.ibsiCodf();}
     }

@@ -1,0 +1,473 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+import jbvb.util.List;
+
+/**
+ * A thrfbd objfdt from thf tbrgft VM.
+ * A ThrfbdRfffrfndf is bn {@link ObjfdtRfffrfndf} with bdditionbl
+ * bddfss to thrfbd-spfdifid informbtion from thf tbrgft VM.
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf ThrfbdRfffrfndf fxtfnds ObjfdtRfffrfndf {
+    /** Thrfbd stbtus is unknown */
+    publid finbl int THREAD_STATUS_UNKNOWN  =-1;
+    /** Thrfbd hbs domplftfd fxfdution */
+    publid finbl int THREAD_STATUS_ZOMBIE = 0;
+    /** Thrfbd is runnbblf */
+    publid finbl int THREAD_STATUS_RUNNING = 1;
+    /** Thrfbd is slffping - Thrfbd.slffp() or JVM_Slffp() wbs dbllfd */
+    publid finbl int THREAD_STATUS_SLEEPING = 2;
+    /** Thrfbd is wbiting on b jbvb monitor */
+    publid finbl int THREAD_STATUS_MONITOR = 3;
+    /** Thrfbd is wbiting - Objfdt.wbit() or JVM_MonitorWbit() wbs dbllfd */
+    publid finbl int THREAD_STATUS_WAIT = 4;
+    /** Thrfbd hbs not yft bffn stbrtfd */
+    publid finbl int THREAD_STATUS_NOT_STARTED = 5;
+
+    /**
+     * Rfturns thf nbmf of this thrfbd.
+     *
+     * @rfturn thf string dontbining thf thrfbd nbmf.
+     */
+    String nbmf();
+
+    /**
+     * Suspfnds this thrfbd. Thf thrfbd dbn bf rfsumfd through
+     * {@link #rfsumf} or rfsumfd with othfr thrfbds through
+     * {@link VirtublMbdhinf#rfsumf}.
+     * <p>
+     * Unlikf {@link jbvb.lbng.Thrfbd#suspfnd},
+     * suspfnds of both thf virtubl mbdhinf bnd individubl thrfbds brf
+     * dountfd. Bfforf b thrfbd will run bgbin, it must bf rfsumfd
+     * (through {@link #rfsumf} or {@link ThrfbdRfffrfndf#rfsumf})
+     * thf sbmf numbfr of timfs it hbs bffn suspfndfd.
+     * <p>
+     * Suspfnding singlf thrfbds with this mfthod hbs thf sbmf dbngfrs
+     * bs {@link jbvb.lbng.Thrfbd#suspfnd()}. If thf suspfndfd thrfbd
+     * holds b monitor nffdfd by bnothfr running thrfbd, dfbdlodk is
+     * possiblf in thf tbrgft VM (bt lfbst until thf suspfndfd thrfbd
+     * is rfsumfd bgbin).
+     * <p>
+     * Thf suspfndfd thrfbd is gubrbntffd to rfmbin suspfndfd until
+     * rfsumfd through onf of thf JDI rfsumf mfthods mfntionfd bbovf;
+     * thf bpplidbtion in thf tbrgft VM dbnnot rfsumf thf suspfndfd thrfbd
+     * through {@link jbvb.lbng.Thrfbd#rfsumf}.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    void suspfnd();
+
+    /**
+     * Rfsumfs this thrfbd. If this thrfbd wbs not prfviously suspfndfd
+     * through {@link #suspfnd} or through {@link VirtublMbdhinf#suspfnd},
+     * or bfdbusf of b SUSPEND_ALL or SUSPEND_EVENT_THREAD fvfnt, thfn
+     * invoking this mfthod hbs no ffffdt. Othfrwisf, thf dount of pfnding
+     * suspfnds on this thrfbd is dfdrfmfntfd. If it is dfdrfmfntfd to 0,
+     * thf thrfbd will dontinuf to fxfdutf.
+     * Notf: thf normbl wby to rfsumf from bn fvfnt rflbtfd suspfnsion is
+     * vib {@link dom.sun.jdi.fvfnt.EvfntSft#rfsumf}.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    void rfsumf();
+
+    /**
+     * Rfturns thf numbfr of pfnding suspfnds for this thrfbd. Sff
+     * {@link #suspfnd} for bn fxplbnbtion of dountfd suspfnds.
+     * @rfturn pfnding suspfnd dount bs bn intfgfr
+     */
+    int suspfndCount();
+
+    /**
+     * Stops this thrfbd with bn bsyndhronous fxdfption.
+     * A dfbuggfr thrfbd in thf tbrgft VM will stop this thrfbd
+     * with thf givfn {@link jbvb.lbng.Throwbblf} objfdt.
+     *
+     * @pbrbm throwbblf thf bsyndhronous fxdfption to throw.
+     * @throws InvblidTypfExdfption if <dodf>throwbblf</dodf> is not
+     * bn instbndf of jbvb.lbng.Throwbblf in thf tbrgft VM.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     * @sff jbvb.lbng.Thrfbd#stop(Throwbblf)
+     */
+    void stop(ObjfdtRfffrfndf throwbblf) throws InvblidTypfExdfption;
+
+    /**
+     * Intfrrupts this thrfbd unlfss thf thrfbd hbs bffn suspfndfd by thf
+     * dfbuggfr.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     *
+     * @sff jbvb.lbng.Thrfbd#intfrrupt()
+     */
+    void intfrrupt();
+
+    /**
+     * Rfturns thf thrfbd's stbtus. If thf thrfbd is not suspfndfd thf
+     * thrfbd's durrfnt stbtus is rfturnfd. If thf thrfbd is suspfndfd, thf
+     * thrfbd's stbtus bfforf thf suspfnsion is rfturnfd (or
+     * {@link #THREAD_STATUS_UNKNOWN} if this informbtion is not bvbilbblf.
+     * {@link #isSuspfndfd} dbn bf usfd to dftfrminf if thf thrfbd hbs bffn
+     * suspfndfd.
+     *
+     * @rfturn onf of
+     * {@link #THREAD_STATUS_UNKNOWN},
+     * {@link #THREAD_STATUS_ZOMBIE},
+     * {@link #THREAD_STATUS_RUNNING},
+     * {@link #THREAD_STATUS_SLEEPING},
+     * {@link #THREAD_STATUS_MONITOR},
+     * {@link #THREAD_STATUS_WAIT},
+     * {@link #THREAD_STATUS_NOT_STARTED},
+     */
+    int stbtus();
+
+    /**
+     * Dftfrminfs whfthfr thf thrfbd hbs bffn suspfndfd by thf
+     * thf dfbuggfr.
+     *
+     * @rfturn <dodf>truf</dodf> if thf thrfbd is durrfntly suspfndfd;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    boolfbn isSuspfndfd();
+
+    /**
+     * Dftfrminfs whfthfr thf thrfbd is suspfndfd bt b brfbkpoint.
+     *
+     * @rfturn <dodf>truf</dodf> if thf thrfbd is durrfntly stoppfd bt
+     * b brfbkpoint; <dodf>fblsf</dodf> othfrwisf.
+     */
+    boolfbn isAtBrfbkpoint();
+
+    /**
+     * Rfturns this thrfbd's thrfbd group.
+     * @rfturn b {@link ThrfbdGroupRfffrfndf} thbt mirrors this thrfbd's
+     * thrfbd group in thf tbrgft VM.
+     */
+    ThrfbdGroupRfffrfndf thrfbdGroup();
+
+    /**
+     * Rfturns thf numbfr of stbdk frbmfs in thf thrfbd's durrfnt
+     * dbll stbdk.
+     * Thf thrfbd must bf suspfndfd (normblly through bn intfrruption
+     * to thf VM) to gft this informbtion, bnd
+     * it is only vblid until thf thrfbd is rfsumfd bgbin.
+     *
+     * @rfturn bn intfgfr frbmf dount
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf thrfbd is
+     * not suspfndfd in thf tbrgft VM
+     */
+    int frbmfCount() throws IndompbtiblfThrfbdStbtfExdfption;
+
+    /**
+     * Rfturns b List dontbining fbdh {@link StbdkFrbmf} in thf
+     * thrfbd's durrfnt dbll stbdk.
+     * Thf thrfbd must bf suspfndfd (normblly through bn intfrruption
+     * to thf VM) to gft this informbtion, bnd
+     * it is only vblid until thf thrfbd is rfsumfd bgbin.
+     *
+     * @rfturn b List of {@link StbdkFrbmf} with thf durrfnt frbmf first
+     * followfd by fbdh dbllfr's frbmf.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf thrfbd is
+     * not suspfndfd in thf tbrgft VM
+     */
+    List<StbdkFrbmf> frbmfs() throws IndompbtiblfThrfbdStbtfExdfption;
+
+    /**
+     * Rfturns thf {@link StbdkFrbmf} bt thf givfn indfx in thf
+     * thrfbd's durrfnt dbll stbdk. Indfx 0 rftrifvfs thf durrfnt
+     * frbmf; highfr indidfs rftrifvf dbllfr frbmfs.
+     * Thf thrfbd must bf suspfndfd (normblly through bn intfrruption
+     * to thf VM) to gft this informbtion, bnd
+     * it is only vblid until thf thrfbd is rfsumfd bgbin.
+     *
+     * @pbrbm indfx thf dfsirfd frbmf
+     * @rfturn thf rfqufstfd {@link StbdkFrbmf}
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf thrfbd is
+     * not suspfndfd in thf tbrgft VM
+     * @throws jbvb.lbng.IndfxOutOfBoundsExdfption if thf indfx is grfbtfr thbn
+     * or fqubl to {@link #frbmfCount} or is nfgbtivf.
+     */
+    StbdkFrbmf frbmf(int indfx) throws IndompbtiblfThrfbdStbtfExdfption;
+
+    /**
+     * Rfturns b List dontbining b rbngf of {@link StbdkFrbmf} mirrors
+     * from thf thrfbd's durrfnt dbll stbdk.
+     * Thf thrfbd must bf suspfndfd (normblly through bn intfrruption
+     * to thf VM) to gft this informbtion, bnd
+     * it is only vblid until thf thrfbd is rfsumfd bgbin.
+     *
+     * @pbrbm stbrt thf indfx of thf first frbmf to rftrifvf.
+     *       Indfx 0 rfprfsfnts thf durrfnt frbmf.
+     * @pbrbm lfngth thf numbfr of frbmfs to rftrifvf
+     * @rfturn b List of {@link StbdkFrbmf} with thf durrfnt frbmf first
+     * followfd by fbdh dbllfr's frbmf.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf thrfbd is
+     * not suspfndfd in thf tbrgft VM
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd rbngf is not
+     * within thf rbngf of stbdk frbmf indidifs.
+     * Thbt is, thf fxdfption is thrown if bny of thf following brf truf:
+     * <prf>    stbrt &lt; 0
+     *    stbrt &gt;= {@link #frbmfCount}
+     *    lfngth &lt; 0
+     *    (stbrt+lfngth) &gt; {@link #frbmfCount}</prf>
+     */
+    List<StbdkFrbmf> frbmfs(int stbrt, int lfngth)
+        throws IndompbtiblfThrfbdStbtfExdfption;
+
+    /**
+     * Rfturns b List dontbining bn {@link ObjfdtRfffrfndf} for
+     * fbdh monitor ownfd by thf thrfbd.
+     * A monitor is ownfd by b thrfbd if it hbs bffn fntfrfd
+     * (vib thf syndhronizfd stbtfmfnt or fntry into b syndhronizfd
+     * mfthod) bnd hbs not bffn rflinquishfd through {@link Objfdt#wbit}.
+     * <p>
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnGftOwnfdMonitorInfo()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn b List of {@link ObjfdtRfffrfndf} objfdts. Thf list
+     * hbs zfro lfngth if no monitors brf ownfd by this thrfbd.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf thrfbd is
+     * not suspfndfd in thf tbrgft VM
+     */
+    List<ObjfdtRfffrfndf> ownfdMonitors()
+        throws IndompbtiblfThrfbdStbtfExdfption;
+
+    /**
+     * Rfturns b List dontbining b {@link MonitorInfo} objfdt for
+     * fbdh monitor ownfd by thf thrfbd.
+     * A monitor is ownfd by b thrfbd if it hbs bffn fntfrfd
+     * (vib thf syndhronizfd stbtfmfnt or fntry into b syndhronizfd
+     * mfthod) bnd hbs not bffn rflinquishfd through {@link Objfdt#wbit}.
+     * <p>
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnGftMonitorFrbmfInfo()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn b List of {@link MonitorInfo} objfdts. Thf list
+     * hbs zfro lfngth if no monitors brf ownfd by this thrfbd.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf thrfbd is
+     * not suspfndfd in thf tbrgft VM
+     *
+     * @sindf 1.6
+     */
+    List<MonitorInfo> ownfdMonitorsAndFrbmfs()
+        throws IndompbtiblfThrfbdStbtfExdfption;
+
+    /**
+     * Rfturns bn {@link ObjfdtRfffrfndf} for thf monitor, if bny,
+     * for whidh this thrfbd is durrfntly wbiting.
+     * Thf thrfbd dbn bf wbiting for b monitor through fntry into b
+     * syndhronizfd mfthod, thf syndhronizfd stbtfmfnt, or
+     * {@link Objfdt#wbit}.  Thf {@link #stbtus} mfthod dbn bf usfd
+     * to difffrfntibtf bftwffn thf first two dbsfs bnd thf third.
+     * <p>
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnGftCurrfntContfndfdMonitor()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn thf {@link ObjfdtRfffrfndf} dorrfsponding to thf
+     * dontfndfd monitor, or null if it is not wbiting for b monitor.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf thrfbd is
+     * not suspfndfd in thf tbrgft VM
+     */
+    ObjfdtRfffrfndf durrfntContfndfdMonitor() throws IndompbtiblfThrfbdStbtfExdfption;
+
+    /**
+     * Pop stbdk frbmfs.
+     * <P>
+     * All frbmfs up to bnd indluding thf <CODE>frbmf</CODE> brf
+     * poppfd off thf stbdk.
+     * Thf frbmf prfvious to thf pbrbmftfr <CODE>frbmf</CODE>
+     * will bfdomf thf durrfnt frbmf.
+     * <P>
+     * Aftfr this opfrbtion, this thrfbd will bf
+     * suspfndfd bt thf invokf instrudtion of thf tbrgft mfthod
+     * thbt drfbtfd <CODE>frbmf</CODE>.
+     * Thf <CODE>frbmf</CODE>'s mfthod dbn bf rffntfrfd with b stfp into
+     * thf instrudtion.
+     * <P>
+     * Thf opfrbnd stbdk is rfstorfd, howfvfr, bny dhbngfs
+     * to thf brgumfnts thbt oddurrfd in thf dbllfd mfthod, rfmbin.
+     * For fxbmplf, if thf mfthod <CODE>foo</CODE>:
+     * <PRE>
+     *    void foo(int x) {
+     *        Systfm.out.println("Foo: " + x);
+     *        x = 4;
+     *        Systfm.out.println("pop hfrf");
+     *    }
+     * </PRE>
+     * wbs dbllfd with <CODE>foo(7)</CODE> bnd <CODE>foo</CODE>
+     * is poppfd bt thf sfdond <CODE>println</CODE> bnd rfsumfd,
+     * it will print: <CODE>Foo: 4</CODE>.
+     * <P>
+     * Lodks bdquirfd by b poppfd frbmf brf rflfbsfd whfn it
+     * is poppfd. This bpplifs to syndhronizfd mfthods thbt
+     * brf poppfd, bnd to bny syndhronizfd blodks within thfm.
+     * <P>
+     * Finblly blodks brf not fxfdutfd.
+     * <P>
+     * No bspfdt of stbtf, othfr thbn this thrfbd's fxfdution point bnd
+     * lodks, is bfffdtfd by this dbll.  Spfdifidblly, thf vblufs of
+     * fiflds brf undhbngfd, bs brf fxtfrnbl rfsourdfs sudh bs
+     * I/O strfbms.  Additionblly, thf tbrgft progrbm might bf
+     * plbdfd in b stbtf thbt is impossiblf with normbl progrbm flow;
+     * for fxbmplf, ordfr of lodk bdquisition might bf pfrturbfd.
+     * Thus thf tbrgft progrbm mby
+     * prodffd difffrfntly thbn thf usfr would fxpfdt.
+     * <P>
+     * Thf spfdififd thrfbd must bf suspfndfd.
+     * <P>
+     * All <dodf>StbdkFrbmf</dodf> objfdts for this thrfbd brf
+     * invblidbtfd.
+     * <P>
+     * No fvfnts brf gfnfrbtfd by this mfthod.
+     * <P>
+     * Nonf of thf frbmfs through bnd indluding thf frbmf for thf dbllfr
+     * of <i>frbmf</i> mby bf nbtivf.
+     * <P>
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnPopFrbmfs() VirtublMbdhinf.dbnPopFrbmfs()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @pbrbm frbmf Stbdk frbmf to pop.  <CODE>frbmf</CODE> is on this
+     * thrfbd's dbll stbdk.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion - sff
+     * {@link VirtublMbdhinf#dbnPopFrbmfs() VirtublMbdhinf.dbnPopFrbmfs()}.
+     *
+     * @throws IndompbtiblfThrfbdStbtfExdfption if this
+     * thrfbd is not suspfndfd.
+     *
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if <CODE>frbmf</CODE>
+     * is not on this thrfbd's dbll stbdk.
+     *
+     * @throws NbtivfMfthodExdfption if onf of thf frbmfs thbt would bf
+     * poppfd is thbt of b nbtivf mfthod or if thf frbmf prfvious to
+     * <i>frbmf</i> is nbtivf.
+     *
+     * @throws InvblidStbdkFrbmfExdfption if <CODE>frbmf</CODE> hbs bfdomf
+     * invblid. Ondf this thrfbd is rfsumfd, thf stbdk frbmf is
+     * no longfr vblid.  This fxdfption is blso thrown if thfrf brf no
+     * morf frbmfs.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     *
+     * @sindf 1.4 */
+    void popFrbmfs(StbdkFrbmf frbmf) throws IndompbtiblfThrfbdStbtfExdfption;
+
+
+    /**
+     * Fordf b mfthod to rfturn bfforf it rfbdhfs b rfturn
+     * stbtfmfnt.
+     * <p>
+     * Thf mfthod whidh will rfturn fbrly is rfffrrfd to bs thf
+     * dbllfd mfthod. Thf dbllfd mfthod is thf durrfnt mfthod (bs
+     * dffinfd by thf Frbmfs sfdtion in thf Jbvb Virtubl Mbdhinf
+     * Spfdifidbtion) for thf spfdififd thrfbd bt thf timf this
+     * mfthod is dbllfd.
+     * <p>
+     * Thf thrfbd must bf suspfndfd.
+     * Thf rfturn oddurs whfn fxfdution of Jbvb progrbmming
+     * lbngubgf dodf is rfsumfd on this thrfbd. Bftwffn thf dbll to
+     * this mfthod bnd rfsumption of thrfbd fxfdution, thf
+     * stbtf of thf stbdk is undffinfd.
+     * <p>
+     * No furthfr instrudtions brf fxfdutfd in thf dbllfd
+     * mfthod. Spfdifidblly, finblly blodks brf not fxfdutfd. Notf:
+     * this dbn dbusf indonsistfnt stbtfs in thf bpplidbtion.
+     * <p>
+     * A lodk bdquirfd by dblling thf dbllfd mfthod (if it is b
+     * syndhronizfd mfthod) bnd lodks bdquirfd by fntfring
+     * syndhronizfd blodks within thf dbllfd mfthod brf
+     * rflfbsfd. Notf: this dofs not bpply to nbtivf lodks or
+     * jbvb.util.dondurrfnt.lodks lodks.
+     * <p>
+     * Evfnts, sudh bs MfthodExit, brf gfnfrbtfd bs thfy would bf in
+     * b normbl rfturn.
+     * <p>
+     * Thf dbllfd mfthod must bf b non-nbtivf Jbvb progrbmming
+     * lbngubgf mfthod. Fording rfturn on b thrfbd with only onf
+     * frbmf on thf stbdk dbusfs thf thrfbd to fxit whfn rfsumfd.
+     * <p>
+     * Thf <dodf>vbluf</dodf> brgumfnt is thf vbluf thbt thf
+     * mfthod is to rfturn.
+     * If thf rfturn typf of thf mfthod is void, thfn vbluf must
+     * bf b  {@link VoidVbluf VoidVbluf}.
+     * Objfdt vblufs must bf bssignmfnt dompbtiblf with thf mfthod rfturn typf
+     * (This implifs thbt thf mfthod rfturn typf must bf lobdfd through thf
+     * fndlosing dlbss's dlbss lobdfr). Primitivf vblufs must bf
+     * fithfr bssignmfnt dompbtiblf with thf mfthod rfturn typf or must bf
+     * donvfrtiblf to thf vbribblf typf without loss of informbtion.
+     * Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     * dompbtibility.
+     * <p>
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnFordfEbrlyRfturn()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @pbrbm vbluf thf vbluf thf mfthod is to rfturn.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion - sff
+     * {@link VirtublMbdhinf#dbnGftInstbndfInfo() dbnFordfEbrlyRfturn()}
+     *
+     * @throws IndompbtiblfThrfbdStbtfExdfption if this
+     * thrfbd is not suspfndfd.
+     *
+     * @throws NbtivfMfthodExdfption if thf frbmf to bf rfturnfd from
+     * is thbt of b nbtivf mfthod.
+     *
+     * @throws InvblidStbdkFrbmfExdfption if thfrf brf no frbmfs.
+     *
+     * @throws InvblidTypfExdfption if thf vbluf's typf dofs not mbtdh
+     * thf mfthod's rfturn typf.
+     *
+     * @throws ClbssNotLobdfdExdfption if thf mfthod's rfturn typf hbs not yft
+     * bffn lobdfd through thf bppropribtf dlbss lobdfr.
+     *
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     *
+     * @sindf 1.6
+     */
+    void fordfEbrlyRfturn(Vbluf vbluf) throws InvblidTypfExdfption,
+                                              ClbssNotLobdfdExdfption,
+                                              IndompbtiblfThrfbdStbtfExdfption;
+
+}

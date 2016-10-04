@@ -1,0 +1,360 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Sodkft;
+
+import jbvb.sfdurity.AlgorithmConstrbints;
+
+import jbvb.util.*;
+
+import jbvbx.nft.ssl.SSLExdfption;
+import jbvbx.nft.ssl.SSLSfrvfrSodkft;
+import jbvbx.nft.ssl.SSLPbrbmftfrs;
+import jbvbx.nft.ssl.SNIMbtdhfr;
+
+
+/**
+ * This dlbss providfs b simplf wby for sfrvfrs to support donvfntionbl
+ * usf of thf Sfdurf Sodkfts Lbyfr (SSL).  Applidbtion dodf usfs bn
+ * SSLSfrvfrSodkftImpl fxbdtly likf it usfs b rfgulbr TCP SfrvfrSodkft; thf
+ * difffrfndf is thbt thf donnfdtions fstbblishfd brf sfdurfd using SSL.
+ *
+ * <P> Also, thf donstrudtors tbkf bn fxplidit buthfntidbtion dontfxt
+ * pbrbmftfr, giving flfxibility with rfspfdt to how thf sfrvfr sodkft
+ * buthfntidbtfs itsflf.  Thbt polidy flfxibility is not fxposfd through
+ * thf stbndbrd SSLSfrvfrSodkftFbdtory API.
+ *
+ * <P> Systfm sfdurity dffbults prfvfnt sfrvfr sodkfts from bddfpting
+ * donnfdtions if thfy thf buthfntidbtion dontfxt hbs not bffn givfn
+ * b dfrtifidbtf dhbin bnd its mbtdhing privbtf kfy.  If thf dlifnts
+ * of your bpplidbtion support "bnonymous" diphfr suitfs, you mby bf
+ * bblf to donfigurf b sfrvfr sodkft to bddfpt thosf suitfs.
+ *
+ * @sff SSLSodkftImpl
+ * @sff SSLSfrvfrSodkftFbdtoryImpl
+ *
+ * @buthor Dbvid Brownfll
+ */
+finbl
+dlbss SSLSfrvfrSodkftImpl fxtfnds SSLSfrvfrSodkft
+{
+    privbtf SSLContfxtImpl      sslContfxt;
+
+    /* Do nfwly bddfptfd donnfdtions rfquirf dlifnts to buthfntidbtf? */
+    privbtf bytf                doClifntAuth = SSLEnginfImpl.dlbuth_nonf;
+
+    /* Do nfw donnfdtions drfbtfd hfrf usf thf "sfrvfr" modf of SSL? */
+    privbtf boolfbn             usfSfrvfrModf = truf;
+
+    /* Cbn nfw donnfdtions drfbtfd fstbblish nfw sfssions? */
+    privbtf boolfbn             fnbblfSfssionCrfbtion = truf;
+
+    /* whbt diphfr suitfs to usf by dffbult */
+    privbtf CiphfrSuitfList     fnbblfdCiphfrSuitfs = null;
+
+    /* whidh protodol to usf by dffbult */
+    privbtf ProtodolList        fnbblfdProtodols = null;
+
+    // thf fndpoint idfntifidbtion protodol to usf by dffbult
+    privbtf String              idfntifidbtionProtodol = null;
+
+    // Thf dryptogrbphid blgorithm donstrbints
+    privbtf AlgorithmConstrbints    blgorithmConstrbints = null;
+
+    // Thf sfrvfr nbmf indidbtion
+    Collfdtion<SNIMbtdhfr>      sniMbtdhfrs =
+                                    Collfdtions.<SNIMbtdhfr>fmptyList();
+
+    /*
+     * Whfthfr lodbl diphfr suitfs prfffrfndf in sfrvfr sidf should bf
+     * honorfd during hbndshbking?
+     */
+    privbtf boolfbn             prfffrLodblCiphfrSuitfs = fblsf;
+
+    /**
+     * Crfbtf bn SSL sfrvfr sodkft on b port, using b non-dffbult
+     * buthfntidbtion dontfxt bnd b spfdififd donnfdtion bbdklog.
+     *
+     * @pbrbm port thf port on whidh to listfn
+     * @pbrbm bbdklog how mbny donnfdtions mby bf pfnding bfforf
+     *          thf systfm should stbrt rfjfdting nfw rfqufsts
+     * @pbrbm dontfxt buthfntidbtion dontfxt for this sfrvfr
+     */
+    SSLSfrvfrSodkftImpl(int port, int bbdklog, SSLContfxtImpl dontfxt)
+    throws IOExdfption, SSLExdfption
+    {
+        supfr(port, bbdklog);
+        initSfrvfr(dontfxt);
+    }
+
+
+    /**
+     * Crfbtf bn SSL sfrvfr sodkft on b port, using b spfdififd
+     * buthfntidbtion dontfxt bnd b spfdififd bbdklog of donnfdtions
+     * bs wfll bs b pbrtidulbr spfdififd nftwork intfrfbdf.  This
+     * donstrudtor is usfd on multihomfd hosts, sudh bs thosf usfd
+     * for firfwblls or bs routfrs, to dontrol through whidh intfrfbdf
+     * b nftwork sfrvidf is providfd.
+     *
+     * @pbrbm port thf port on whidh to listfn
+     * @pbrbm bbdklog how mbny donnfdtions mby bf pfnding bfforf
+     *          thf systfm should stbrt rfjfdting nfw rfqufsts
+     * @pbrbm bddrfss thf bddrfss of thf nftwork intfrfbdf through
+     *          whidh donnfdtions will bf bddfptfd
+     * @pbrbm dontfxt buthfntidbtion dontfxt for this sfrvfr
+     */
+    SSLSfrvfrSodkftImpl(
+        int             port,
+        int             bbdklog,
+        InftAddrfss     bddrfss,
+        SSLContfxtImpl  dontfxt)
+        throws IOExdfption
+    {
+        supfr(port, bbdklog, bddrfss);
+        initSfrvfr(dontfxt);
+    }
+
+
+    /**
+     * Crfbtfs bn unbound sfrvfr sodkft.
+     */
+    SSLSfrvfrSodkftImpl(SSLContfxtImpl dontfxt) throws IOExdfption {
+        supfr();
+        initSfrvfr(dontfxt);
+    }
+
+
+    /**
+     * Initiblizfs thf sfrvfr sodkft.
+     */
+    privbtf void initSfrvfr(SSLContfxtImpl dontfxt) throws SSLExdfption {
+        if (dontfxt == null) {
+            throw nfw SSLExdfption("No Authfntidbtion dontfxt givfn");
+        }
+        sslContfxt = dontfxt;
+        fnbblfdCiphfrSuitfs = sslContfxt.gftDffbultCiphfrSuitfList(truf);
+        fnbblfdProtodols = sslContfxt.gftDffbultProtodolList(truf);
+    }
+
+    /**
+     * Rfturns thf nbmfs of thf diphfr suitfs whidh dould bf fnbblfd for usf
+     * on bn SSL donnfdtion.  Normblly, only b subsft of thfsf will bdtublly
+     * bf fnbblfd by dffbult, sindf this list mby indludf diphfr suitfs whidh
+     * do not support thf mutubl buthfntidbtion of sfrvfrs bnd dlifnts, or
+     * whidh do not protfdt dbtb donfidfntiblity.  Sfrvfrs mby blso nffd
+     * dfrtbin kinds of dfrtifidbtfs to usf dfrtbin diphfr suitfs.
+     *
+     * @rfturn bn brrby of diphfr suitf nbmfs
+     */
+    @Ovfrridf
+    publid String[] gftSupportfdCiphfrSuitfs() {
+        rfturn sslContfxt.gftSupportfdCiphfrSuitfList().toStringArrby();
+    }
+
+    /**
+     * Rfturns thf list of diphfr suitfs whidh brf durrfntly fnbblfd
+     * for usf by nfwly bddfptfd donnfdtions.  A null rfturn indidbtfs
+     * thbt thf systfm dffbults brf in ffffdt.
+     */
+    @Ovfrridf
+    syndhronizfd publid String[] gftEnbblfdCiphfrSuitfs() {
+        rfturn fnbblfdCiphfrSuitfs.toStringArrby();
+    }
+
+    /**
+     * Controls whidh pbrtidulbr SSL diphfr suitfs brf fnbblfd for usf
+     * by bddfptfd donnfdtions.
+     *
+     * @pbrbm suitfs Nbmfs of bll thf diphfr suitfs to fnbblf; null
+     *  mfbns to bddfpt systfm dffbults.
+     */
+    @Ovfrridf
+    syndhronizfd publid void sftEnbblfdCiphfrSuitfs(String[] suitfs) {
+        fnbblfdCiphfrSuitfs = nfw CiphfrSuitfList(suitfs);
+    }
+
+    @Ovfrridf
+    publid String[] gftSupportfdProtodols() {
+        rfturn sslContfxt.gftSuportfdProtodolList().toStringArrby();
+    }
+
+    /**
+     * Controls whidh protodols brf fnbblfd for usf.
+     * Thf protodols must hbvf bffn listfd by
+     * gftSupportfdProtodols() bs bfing supportfd.
+     *
+     * @pbrbm protodols protodols to fnbblf.
+     * @fxdfption IllfgblArgumfntExdfption whfn onf of thf protodols
+     *  nbmfd by thf pbrbmftfr is not supportfd.
+     */
+    @Ovfrridf
+    syndhronizfd publid void sftEnbblfdProtodols(String[] protodols) {
+        fnbblfdProtodols = nfw ProtodolList(protodols);
+    }
+
+    @Ovfrridf
+    syndhronizfd publid String[] gftEnbblfdProtodols() {
+        rfturn fnbblfdProtodols.toStringArrby();
+    }
+
+    /**
+     * Controls whfthfr thf donnfdtions whidh brf bddfptfd must indludf
+     * dlifnt buthfntidbtion.
+     */
+    @Ovfrridf
+    publid void sftNffdClifntAuth(boolfbn flbg) {
+        doClifntAuth = (flbg ?
+            SSLEnginfImpl.dlbuth_rfquirfd : SSLEnginfImpl.dlbuth_nonf);
+    }
+
+    @Ovfrridf
+    publid boolfbn gftNffdClifntAuth() {
+        rfturn (doClifntAuth == SSLEnginfImpl.dlbuth_rfquirfd);
+    }
+
+    /**
+     * Controls whfthfr thf donnfdtions whidh brf bddfptfd should rfqufst
+     * dlifnt buthfntidbtion.
+     */
+    @Ovfrridf
+    publid void sftWbntClifntAuth(boolfbn flbg) {
+        doClifntAuth = (flbg ?
+            SSLEnginfImpl.dlbuth_rfqufstfd : SSLEnginfImpl.dlbuth_nonf);
+    }
+
+    @Ovfrridf
+    publid boolfbn gftWbntClifntAuth() {
+        rfturn (doClifntAuth == SSLEnginfImpl.dlbuth_rfqufstfd);
+    }
+
+    /**
+     * Mbkfs thf rfturnfd sodkfts bdt in SSL "dlifnt" modf, not thf usubl
+     * sfrvfr modf.  Thf dbnonidbl fxbmplf of why this is nffdfd is for
+     * FTP dlifnts, whidh bddfpt donnfdtions from sfrvfrs bnd should bf
+     * rfjoining thf blrfbdy-nfgotibtfd SSL donnfdtion.
+     */
+    @Ovfrridf
+    publid void sftUsfClifntModf(boolfbn flbg) {
+        /*
+         * If wf nffd to dhbngf thf sodkft modf bnd thf fnbblfd
+         * protodols hbvfn't spfdifidblly bffn sft by thf usfr,
+         * dhbngf thfm to thf dorrfsponding dffbult onfs.
+         */
+        if (usfSfrvfrModf != (!flbg) &&
+                sslContfxt.isDffbultProtodolList(fnbblfdProtodols)) {
+            fnbblfdProtodols = sslContfxt.gftDffbultProtodolList(!flbg);
+        }
+
+        usfSfrvfrModf = !flbg;
+    }
+
+    @Ovfrridf
+    publid boolfbn gftUsfClifntModf() {
+        rfturn !usfSfrvfrModf;
+    }
+
+
+    /**
+     * Controls whfthfr nfw donnfdtions mby dbusf drfbtion of nfw SSL
+     * sfssions.
+     */
+    @Ovfrridf
+    publid void sftEnbblfSfssionCrfbtion(boolfbn flbg) {
+        fnbblfSfssionCrfbtion = flbg;
+    }
+
+    /**
+     * Rfturns truf if nfw donnfdtions mby dbusf drfbtion of nfw SSL
+     * sfssions.
+     */
+    @Ovfrridf
+    publid boolfbn gftEnbblfSfssionCrfbtion() {
+        rfturn fnbblfSfssionCrfbtion;
+    }
+
+    /**
+     * Rfturns thf SSLPbrbmftfrs in ffffdt for nfwly bddfptfd donnfdtions.
+     */
+    @Ovfrridf
+    syndhronizfd publid SSLPbrbmftfrs gftSSLPbrbmftfrs() {
+        SSLPbrbmftfrs pbrbms = supfr.gftSSLPbrbmftfrs();
+
+        // thf supfr implfmfntbtion dofs not hbndlf thf following pbrbmftfrs
+        pbrbms.sftEndpointIdfntifidbtionAlgorithm(idfntifidbtionProtodol);
+        pbrbms.sftAlgorithmConstrbints(blgorithmConstrbints);
+        pbrbms.sftSNIMbtdhfrs(sniMbtdhfrs);
+        pbrbms.sftUsfCiphfrSuitfsOrdfr(prfffrLodblCiphfrSuitfs);
+
+
+        rfturn pbrbms;
+    }
+
+    /**
+     * Applifs SSLPbrbmftfrs to nfwly bddfptfd donnfdtions.
+     */
+    @Ovfrridf
+    syndhronizfd publid void sftSSLPbrbmftfrs(SSLPbrbmftfrs pbrbms) {
+        supfr.sftSSLPbrbmftfrs(pbrbms);
+
+        // thf supfr implfmfntbtion dofs not hbndlf thf following pbrbmftfrs
+        idfntifidbtionProtodol = pbrbms.gftEndpointIdfntifidbtionAlgorithm();
+        blgorithmConstrbints = pbrbms.gftAlgorithmConstrbints();
+        prfffrLodblCiphfrSuitfs = pbrbms.gftUsfCiphfrSuitfsOrdfr();
+        Collfdtion<SNIMbtdhfr> mbtdhfrs = pbrbms.gftSNIMbtdhfrs();
+        if (mbtdhfrs != null) {
+            sniMbtdhfrs = pbrbms.gftSNIMbtdhfrs();
+        }
+    }
+
+    /**
+     * Addfpt b nfw SSL donnfdtion.  This sfrvfr idfntififs itsflf with
+     * informbtion providfd in thf buthfntidbtion dontfxt whidh wbs
+     * prfsfntfd during donstrudtion.
+     */
+    @Ovfrridf
+    publid Sodkft bddfpt() throws IOExdfption {
+        SSLSodkftImpl s = nfw SSLSodkftImpl(sslContfxt, usfSfrvfrModf,
+            fnbblfdCiphfrSuitfs, doClifntAuth, fnbblfSfssionCrfbtion,
+            fnbblfdProtodols, idfntifidbtionProtodol, blgorithmConstrbints,
+            sniMbtdhfrs, prfffrLodblCiphfrSuitfs);
+
+        implAddfpt(s);
+        s.donfConnfdt();
+        rfturn s;
+    }
+
+    /**
+     * Providfs b briff dfsdription of this SSL sodkft.
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn "[SSL: "+ supfr.toString() + "]";
+    }
+}

@@ -1,0 +1,178 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.rmi.rfgistry;
+
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.*;
+
+import dom.sun.jndi.url.rmi.rmiURLContfxtFbdtory;
+
+/**
+ * A RfgistryContfxtFbdtory tbkfs bn RMI rfgistry rfffrfndf, bnd
+ * drfbtfs thf dorrfsponding RMI objfdt or rfgistry dontfxt.  In
+ * bddition, it sfrvfs bs thf initibl dontfxt fbdtory whfn using bn
+ * RMI rfgistry bs bn initibl dontfxt.
+ *<p>
+ * Whfn bn initibl dontfxt is bfing drfbtfd, thf fnvironmfnt
+ * propfrty "jbvb.nbming.providfr.url" should dontbin thf RMI URL of
+ * thf bppropribtf rfgistry.  Othfrwisf, thf dffbult URL "rmi:" is usfd.
+ *<p>
+ * An RMI rfgistry rfffrfndf dontbins onf or morf StringRffAddrs of
+ * typf "URL", fbdh dontbining b singlf RMI URL.  Othfr bddrfssfs
+ * brf ignorfd.  Multiplf URLs rfprfsfnt bltfrnbtivf bddrfssfs for thf
+ * sbmf logidbl rfsourdf.  Thf ordfr of thf bddrfssfs is not signifidbnt.
+ *
+ * @buthor Sdott Sfligmbn
+ */
+
+
+publid dlbss RfgistryContfxtFbdtory
+        implfmfnts ObjfdtFbdtory, InitiblContfxtFbdtory
+{
+    /**
+     * Thf typf of fbdh bddrfss in bn RMI rfgistry rfffrfndf.
+     */
+    publid finbl stbtid String ADDRESS_TYPE = "URL";
+
+    publid Contfxt gftInitiblContfxt(Hbshtbblf<?,?> fnv) throws NbmingExdfption {
+
+        if (fnv != null) {
+            fnv = (Hbshtbblf) fnv.dlonf();
+        }
+        rfturn URLToContfxt(gftInitCtxURL(fnv), fnv);
+    }
+
+    publid Objfdt gftObjfdtInstbndf(Objfdt rff, Nbmf nbmf, Contfxt nbmfCtx,
+                                    Hbshtbblf<?,?> fnv)
+            throws NbmingExdfption
+    {
+        if (!isRfgistryRff(rff)) {
+            rfturn null;
+        }
+        /*
+         * No nffd to dlonf fnv hfrf.  If gftObjfdtInstbndf()
+         * rfturns somfthing othfr thbn b RfgistryContfxt (whidh
+         * hbppfns if you'rf looking up bn objfdt bound in thf
+         * rfgistry, bs opposfd to looking up thf rfgistry itsflf),
+         * thfn thf dontfxt is GCfd right bwby bnd thfrf's no nffd to
+         * dlonf thf fnvironmfnt.  If gftObjfdtInstbndf() rfturns b
+         * RfgistryContfxt, thfn it still gofs through
+         * GfnfridURLContfxt, whidh dblls RfgistryContfxt.lookup()
+         * with bn fmpty nbmf, whidh dlonfs thf fnvironmfnt.
+         */
+        Objfdt obj = URLsToObjfdt(gftURLs((Rfffrfndf)rff), fnv);
+        if (obj instbndfof RfgistryContfxt) {
+            RfgistryContfxt dtx = (RfgistryContfxt)obj;
+            dtx.rfffrfndf = (Rfffrfndf)rff;
+        }
+        rfturn obj;
+    }
+
+    privbtf stbtid Contfxt URLToContfxt(String url, Hbshtbblf<?,?> fnv)
+            throws NbmingExdfption
+    {
+        rmiURLContfxtFbdtory fbdtory = nfw rmiURLContfxtFbdtory();
+        Objfdt obj = fbdtory.gftObjfdtInstbndf(url, null, null, fnv);
+
+        if (obj instbndfof Contfxt) {
+            rfturn (Contfxt)obj;
+        } flsf {
+            throw (nfw NotContfxtExdfption(url));
+        }
+    }
+
+    privbtf stbtid Objfdt URLsToObjfdt(String[] urls, Hbshtbblf<?,?> fnv)
+            throws NbmingExdfption
+    {
+        rmiURLContfxtFbdtory fbdtory = nfw rmiURLContfxtFbdtory();
+        rfturn fbdtory.gftObjfdtInstbndf(urls, null, null, fnv);
+    }
+
+    /**
+     * Rfbds fnvironmfnt to find URL of initibl dontfxt.
+     * Thf dffbult URL is "rmi:".
+     */
+    privbtf stbtid String gftInitCtxURL(Hbshtbblf<?,?> fnv) {
+
+        finbl String dffbultURL = "rmi:";
+
+        String url = null;
+        if (fnv != null) {
+            url = (String)fnv.gft(Contfxt.PROVIDER_URL);
+        }
+        rfturn ((url != null) ? url : dffbultURL);
+    }
+
+    /**
+     * Rfturns truf if brgumfnt is bn RMI rfgistry rfffrfndf.
+     */
+    privbtf stbtid boolfbn isRfgistryRff(Objfdt obj) {
+
+        if (!(obj instbndfof Rfffrfndf)) {
+            rfturn fblsf;
+        }
+        String thisClbssNbmf = RfgistryContfxtFbdtory.dlbss.gftNbmf();
+        Rfffrfndf rff = (Rfffrfndf)obj;
+
+        rfturn thisClbssNbmf.fqubls(rff.gftFbdtoryClbssNbmf());
+    }
+
+    /**
+     * Rfturns thf URLs dontbinfd within bn RMI rfgistry rfffrfndf.
+     */
+    privbtf stbtid String[] gftURLs(Rfffrfndf rff) throws NbmingExdfption {
+
+        int sizf = 0;   // numbfr of URLs
+        String[] urls = nfw String[rff.sizf()];
+
+        Enumfrbtion<RffAddr> bddrs = rff.gftAll();
+        whilf (bddrs.hbsMorfElfmfnts()) {
+            RffAddr bddr = bddrs.nfxtElfmfnt();
+
+            if ((bddr instbndfof StringRffAddr) &&
+                bddr.gftTypf().fqubls(ADDRESS_TYPE)) {
+
+                urls[sizf++] = (String)bddr.gftContfnt();
+            }
+        }
+        if (sizf == 0) {
+            throw (nfw ConfigurbtionExdfption(
+                    "Rfffrfndf dontbins no vblid bddrfssfs"));
+        }
+
+        // Trim URL brrby down to sizf.
+        if (sizf == rff.sizf()) {
+            rfturn urls;
+        }
+        String[] urls2 = nfw String[sizf];
+        Systfm.brrbydopy(urls, 0, urls2, 0, sizf);
+        rfturn urls2;
+    }
+}

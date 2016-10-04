@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1996, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * ObjectOutput extends the DataOutput interface to include writing of objects.
- * DataOutput includes methods for output of primitive types, ObjectOutput
- * extends that interface to include objects, arrays, and Strings.
+ * ObjfdtOutput fxtfnds tif DbtbOutput intfrfbdf to indludf writing of objfdts.
+ * DbtbOutput indludfs mftiods for output of primitivf typfs, ObjfdtOutput
+ * fxtfnds tibt intfrfbdf to indludf objfdts, brrbys, bnd Strings.
  *
- * @author  unascribed
- * @see java.io.InputStream
- * @see java.io.ObjectOutputStream
- * @see java.io.ObjectInputStream
- * @since   1.1
+ * @butior  unbsdribfd
+ * @sff jbvb.io.InputStrfbm
+ * @sff jbvb.io.ObjfdtOutputStrfbm
+ * @sff jbvb.io.ObjfdtInputStrfbm
+ * @sindf   1.1
  */
-public interface ObjectOutput extends DataOutput, AutoCloseable {
+publid intfrfbdf ObjfdtOutput fxtfnds DbtbOutput, AutoClosfbblf {
     /**
-     * Write an object to the underlying storage or stream.  The
-     * class that implements this interface defines how the object is
-     * written.
+     * Writf bn objfdt to tif undfrlying storbgf or strfbm.  Tif
+     * dlbss tibt implfmfnts tiis intfrfbdf dffinfs iow tif objfdt is
+     * writtfn.
      *
-     * @param obj the object to be written
-     * @exception IOException Any of the usual Input/Output related exceptions.
+     * @pbrbm obj tif objfdt to bf writtfn
+     * @fxdfption IOExdfption Any of tif usubl Input/Output rflbtfd fxdfptions.
      */
-    public void writeObject(Object obj)
-      throws IOException;
+    publid void writfObjfdt(Objfdt obj)
+      tirows IOExdfption;
 
     /**
-     * Writes a byte. This method will block until the byte is actually
-     * written.
-     * @param b the byte
-     * @exception IOException If an I/O error has occurred.
+     * Writfs b bytf. Tiis mftiod will blodk until tif bytf is bdtublly
+     * writtfn.
+     * @pbrbm b tif bytf
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void write(int b) throws IOException;
+    publid void writf(int b) tirows IOExdfption;
 
     /**
-     * Writes an array of bytes. This method will block until the bytes
-     * are actually written.
-     * @param b the data to be written
-     * @exception IOException If an I/O error has occurred.
+     * Writfs bn brrby of bytfs. Tiis mftiod will blodk until tif bytfs
+     * brf bdtublly writtfn.
+     * @pbrbm b tif dbtb to bf writtfn
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void write(byte b[]) throws IOException;
+    publid void writf(bytf b[]) tirows IOExdfption;
 
     /**
-     * Writes a sub array of bytes.
-     * @param b the data to be written
-     * @param off       the start offset in the data
-     * @param len       the number of bytes that are written
-     * @exception IOException If an I/O error has occurred.
+     * Writfs b sub brrby of bytfs.
+     * @pbrbm b tif dbtb to bf writtfn
+     * @pbrbm off       tif stbrt offsft in tif dbtb
+     * @pbrbm lfn       tif numbfr of bytfs tibt brf writtfn
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void write(byte b[], int off, int len) throws IOException;
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption;
 
     /**
-     * Flushes the stream. This will write any buffered
-     * output bytes.
-     * @exception IOException If an I/O error has occurred.
+     * Flusifs tif strfbm. Tiis will writf bny bufffrfd
+     * output bytfs.
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void flush() throws IOException;
+    publid void flusi() tirows IOExdfption;
 
     /**
-     * Closes the stream. This method must be called
-     * to release any resources associated with the
-     * stream.
-     * @exception IOException If an I/O error has occurred.
+     * Closfs tif strfbm. Tiis mftiod must bf dbllfd
+     * to rflfbsf bny rfsourdfs bssodibtfd witi tif
+     * strfbm.
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void close() throws IOException;
+    publid void dlosf() tirows IOExdfption;
 }

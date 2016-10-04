@@ -1,1167 +1,1167 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
-import sun.reflect.CallerSensitive;
-import sun.reflect.FieldAccessor;
-import sun.reflect.Reflection;
-import sun.reflect.generics.repository.FieldRepository;
-import sun.reflect.generics.factory.CoreReflectionFactory;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.scope.ClassScope;
-import java.lang.annotation.Annotation;
-import java.util.Map;
-import java.util.Objects;
-import sun.reflect.annotation.AnnotationParser;
-import sun.reflect.annotation.AnnotationSupport;
-import sun.reflect.annotation.TypeAnnotation;
-import sun.reflect.annotation.TypeAnnotationParser;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.FifldAddfssor;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.gfnfrids.rfpository.FifldRfpository;
+import sun.rfflfdt.gfnfrids.fbdtory.CorfRfflfdtionFbdtory;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.sdopf.ClbssSdopf;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import sun.rfflfdt.bnnotbtion.AnnotbtionPbrsfr;
+import sun.rfflfdt.bnnotbtion.AnnotbtionSupport;
+import sun.rfflfdt.bnnotbtion.TypfAnnotbtion;
+import sun.rfflfdt.bnnotbtion.TypfAnnotbtionPbrsfr;
 
 /**
- * A {@code Field} provides information about, and dynamic access to, a
- * single field of a class or an interface.  The reflected field may
- * be a class (static) field or an instance field.
+ * A {@dodf Fifld} providfs informbtion bbout, bnd dynbmid bddfss to, b
+ * singlf fifld of b dlbss or bn intfrfbdf.  Tif rfflfdtfd fifld mby
+ * bf b dlbss (stbtid) fifld or bn instbndf fifld.
  *
- * <p>A {@code Field} permits widening conversions to occur during a get or
- * set access operation, but throws an {@code IllegalArgumentException} if a
- * narrowing conversion would occur.
+ * <p>A {@dodf Fifld} pfrmits widfning donvfrsions to oddur during b gft or
+ * sft bddfss opfrbtion, but tirows bn {@dodf IllfgblArgumfntExdfption} if b
+ * nbrrowing donvfrsion would oddur.
  *
- * @see Member
- * @see java.lang.Class
- * @see java.lang.Class#getFields()
- * @see java.lang.Class#getField(String)
- * @see java.lang.Class#getDeclaredFields()
- * @see java.lang.Class#getDeclaredField(String)
+ * @sff Mfmbfr
+ * @sff jbvb.lbng.Clbss
+ * @sff jbvb.lbng.Clbss#gftFiflds()
+ * @sff jbvb.lbng.Clbss#gftFifld(String)
+ * @sff jbvb.lbng.Clbss#gftDfdlbrfdFiflds()
+ * @sff jbvb.lbng.Clbss#gftDfdlbrfdFifld(String)
  *
- * @author Kenneth Russell
- * @author Nakul Saraiya
+ * @butior Kfnnfti Russfll
+ * @butior Nbkul Sbrbiyb
  */
-public final
-class Field extends AccessibleObject implements Member {
+publid finbl
+dlbss Fifld fxtfnds AddfssiblfObjfdt implfmfnts Mfmbfr {
 
-    private Class<?>            clazz;
-    private int                 slot;
-    // This is guaranteed to be interned by the VM in the 1.4
-    // reflection implementation
-    private String              name;
-    private Class<?>            type;
-    private int                 modifiers;
-    // Generics and annotations support
-    private transient String    signature;
-    // generic info repository; lazily initialized
-    private transient FieldRepository genericInfo;
-    private byte[]              annotations;
-    // Cached field accessor created without override
-    private FieldAccessor fieldAccessor;
-    // Cached field accessor created with override
-    private FieldAccessor overrideFieldAccessor;
-    // For sharing of FieldAccessors. This branching structure is
-    // currently only two levels deep (i.e., one root Field and
-    // potentially many Field objects pointing to it.)
-    private Field               root;
+    privbtf Clbss<?>            dlbzz;
+    privbtf int                 slot;
+    // Tiis is gubrbntffd to bf intfrnfd by tif VM in tif 1.4
+    // rfflfdtion implfmfntbtion
+    privbtf String              nbmf;
+    privbtf Clbss<?>            typf;
+    privbtf int                 modififrs;
+    // Gfnfrids bnd bnnotbtions support
+    privbtf trbnsifnt String    signbturf;
+    // gfnfrid info rfpository; lbzily initiblizfd
+    privbtf trbnsifnt FifldRfpository gfnfridInfo;
+    privbtf bytf[]              bnnotbtions;
+    // Cbdifd fifld bddfssor drfbtfd witiout ovfrridf
+    privbtf FifldAddfssor fifldAddfssor;
+    // Cbdifd fifld bddfssor drfbtfd witi ovfrridf
+    privbtf FifldAddfssor ovfrridfFifldAddfssor;
+    // For sibring of FifldAddfssors. Tiis brbndiing strudturf is
+    // durrfntly only two lfvfls dffp (i.f., onf root Fifld bnd
+    // potfntiblly mbny Fifld objfdts pointing to it.)
+    privbtf Fifld               root;
 
-    // Generics infrastructure
+    // Gfnfrids infrbstrudturf
 
-    private String getGenericSignature() {return signature;}
+    privbtf String gftGfnfridSignbturf() {rfturn signbturf;}
 
-    // Accessor for factory
-    private GenericsFactory getFactory() {
-        Class<?> c = getDeclaringClass();
-        // create scope and factory
-        return CoreReflectionFactory.make(c, ClassScope.make(c));
+    // Addfssor for fbdtory
+    privbtf GfnfridsFbdtory gftFbdtory() {
+        Clbss<?> d = gftDfdlbringClbss();
+        // drfbtf sdopf bnd fbdtory
+        rfturn CorfRfflfdtionFbdtory.mbkf(d, ClbssSdopf.mbkf(d));
     }
 
-    // Accessor for generic info repository
-    private FieldRepository getGenericInfo() {
-        // lazily initialize repository if necessary
-        if (genericInfo == null) {
-            // create and cache generic info repository
-            genericInfo = FieldRepository.make(getGenericSignature(),
-                                               getFactory());
+    // Addfssor for gfnfrid info rfpository
+    privbtf FifldRfpository gftGfnfridInfo() {
+        // lbzily initiblizf rfpository if nfdfssbry
+        if (gfnfridInfo == null) {
+            // drfbtf bnd dbdif gfnfrid info rfpository
+            gfnfridInfo = FifldRfpository.mbkf(gftGfnfridSignbturf(),
+                                               gftFbdtory());
         }
-        return genericInfo; //return cached repository
+        rfturn gfnfridInfo; //rfturn dbdifd rfpository
     }
 
 
     /**
-     * Package-private constructor used by ReflectAccess to enable
-     * instantiation of these objects in Java code from the java.lang
-     * package via sun.reflect.LangReflectAccess.
+     * Pbdkbgf-privbtf donstrudtor usfd by RfflfdtAddfss to fnbblf
+     * instbntibtion of tifsf objfdts in Jbvb dodf from tif jbvb.lbng
+     * pbdkbgf vib sun.rfflfdt.LbngRfflfdtAddfss.
      */
-    Field(Class<?> declaringClass,
-          String name,
-          Class<?> type,
-          int modifiers,
+    Fifld(Clbss<?> dfdlbringClbss,
+          String nbmf,
+          Clbss<?> typf,
+          int modififrs,
           int slot,
-          String signature,
-          byte[] annotations)
+          String signbturf,
+          bytf[] bnnotbtions)
     {
-        this.clazz = declaringClass;
-        this.name = name;
-        this.type = type;
-        this.modifiers = modifiers;
-        this.slot = slot;
-        this.signature = signature;
-        this.annotations = annotations;
+        tiis.dlbzz = dfdlbringClbss;
+        tiis.nbmf = nbmf;
+        tiis.typf = typf;
+        tiis.modififrs = modififrs;
+        tiis.slot = slot;
+        tiis.signbturf = signbturf;
+        tiis.bnnotbtions = bnnotbtions;
     }
 
     /**
-     * Package-private routine (exposed to java.lang.Class via
-     * ReflectAccess) which returns a copy of this Field. The copy's
-     * "root" field points to this Field.
+     * Pbdkbgf-privbtf routinf (fxposfd to jbvb.lbng.Clbss vib
+     * RfflfdtAddfss) wiidi rfturns b dopy of tiis Fifld. Tif dopy's
+     * "root" fifld points to tiis Fifld.
      */
-    Field copy() {
-        // This routine enables sharing of FieldAccessor objects
-        // among Field objects which refer to the same underlying
-        // method in the VM. (All of this contortion is only necessary
-        // because of the "accessibility" bit in AccessibleObject,
-        // which implicitly requires that new java.lang.reflect
-        // objects be fabricated for each reflective call on Class
-        // objects.)
-        Field res = new Field(clazz, name, type, modifiers, slot, signature, annotations);
-        res.root = this;
-        // Might as well eagerly propagate this if already present
-        res.fieldAccessor = fieldAccessor;
-        res.overrideFieldAccessor = overrideFieldAccessor;
+    Fifld dopy() {
+        // Tiis routinf fnbblfs sibring of FifldAddfssor objfdts
+        // bmong Fifld objfdts wiidi rfffr to tif sbmf undfrlying
+        // mftiod in tif VM. (All of tiis dontortion is only nfdfssbry
+        // bfdbusf of tif "bddfssibility" bit in AddfssiblfObjfdt,
+        // wiidi impliditly rfquirfs tibt nfw jbvb.lbng.rfflfdt
+        // objfdts bf fbbridbtfd for fbdi rfflfdtivf dbll on Clbss
+        // objfdts.)
+        Fifld rfs = nfw Fifld(dlbzz, nbmf, typf, modififrs, slot, signbturf, bnnotbtions);
+        rfs.root = tiis;
+        // Migit bs wfll fbgfrly propbgbtf tiis if blrfbdy prfsfnt
+        rfs.fifldAddfssor = fifldAddfssor;
+        rfs.ovfrridfFifldAddfssor = ovfrridfFifldAddfssor;
 
-        return res;
+        rfturn rfs;
     }
 
     /**
-     * Returns the {@code Class} object representing the class or interface
-     * that declares the field represented by this {@code Field} object.
+     * Rfturns tif {@dodf Clbss} objfdt rfprfsfnting tif dlbss or intfrfbdf
+     * tibt dfdlbrfs tif fifld rfprfsfntfd by tiis {@dodf Fifld} objfdt.
      */
-    public Class<?> getDeclaringClass() {
-        return clazz;
+    publid Clbss<?> gftDfdlbringClbss() {
+        rfturn dlbzz;
     }
 
     /**
-     * Returns the name of the field represented by this {@code Field} object.
+     * Rfturns tif nbmf of tif fifld rfprfsfntfd by tiis {@dodf Fifld} objfdt.
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns the Java language modifiers for the field represented
-     * by this {@code Field} object, as an integer. The {@code Modifier} class should
-     * be used to decode the modifiers.
+     * Rfturns tif Jbvb lbngubgf modififrs for tif fifld rfprfsfntfd
+     * by tiis {@dodf Fifld} objfdt, bs bn intfgfr. Tif {@dodf Modififr} dlbss siould
+     * bf usfd to dfdodf tif modififrs.
      *
-     * @see Modifier
+     * @sff Modififr
      */
-    public int getModifiers() {
-        return modifiers;
+    publid int gftModififrs() {
+        rfturn modififrs;
     }
 
     /**
-     * Returns {@code true} if this field represents an element of
-     * an enumerated type; returns {@code false} otherwise.
+     * Rfturns {@dodf truf} if tiis fifld rfprfsfnts bn flfmfnt of
+     * bn fnumfrbtfd typf; rfturns {@dodf fblsf} otifrwisf.
      *
-     * @return {@code true} if and only if this field represents an element of
-     * an enumerated type.
-     * @since 1.5
+     * @rfturn {@dodf truf} if bnd only if tiis fifld rfprfsfnts bn flfmfnt of
+     * bn fnumfrbtfd typf.
+     * @sindf 1.5
      */
-    public boolean isEnumConstant() {
-        return (getModifiers() & Modifier.ENUM) != 0;
+    publid boolfbn isEnumConstbnt() {
+        rfturn (gftModififrs() & Modififr.ENUM) != 0;
     }
 
     /**
-     * Returns {@code true} if this field is a synthetic
-     * field; returns {@code false} otherwise.
+     * Rfturns {@dodf truf} if tiis fifld is b syntiftid
+     * fifld; rfturns {@dodf fblsf} otifrwisf.
      *
-     * @return true if and only if this field is a synthetic
-     * field as defined by the Java Language Specification.
-     * @since 1.5
+     * @rfturn truf if bnd only if tiis fifld is b syntiftid
+     * fifld bs dffinfd by tif Jbvb Lbngubgf Spfdifidbtion.
+     * @sindf 1.5
      */
-    public boolean isSynthetic() {
-        return Modifier.isSynthetic(getModifiers());
+    publid boolfbn isSyntiftid() {
+        rfturn Modififr.isSyntiftid(gftModififrs());
     }
 
     /**
-     * Returns a {@code Class} object that identifies the
-     * declared type for the field represented by this
-     * {@code Field} object.
+     * Rfturns b {@dodf Clbss} objfdt tibt idfntififs tif
+     * dfdlbrfd typf for tif fifld rfprfsfntfd by tiis
+     * {@dodf Fifld} objfdt.
      *
-     * @return a {@code Class} object identifying the declared
-     * type of the field represented by this object
+     * @rfturn b {@dodf Clbss} objfdt idfntifying tif dfdlbrfd
+     * typf of tif fifld rfprfsfntfd by tiis objfdt
      */
-    public Class<?> getType() {
-        return type;
+    publid Clbss<?> gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Returns a {@code Type} object that represents the declared type for
-     * the field represented by this {@code Field} object.
+     * Rfturns b {@dodf Typf} objfdt tibt rfprfsfnts tif dfdlbrfd typf for
+     * tif fifld rfprfsfntfd by tiis {@dodf Fifld} objfdt.
      *
-     * <p>If the {@code Type} is a parameterized type, the
-     * {@code Type} object returned must accurately reflect the
-     * actual type parameters used in the source code.
+     * <p>If tif {@dodf Typf} is b pbrbmftfrizfd typf, tif
+     * {@dodf Typf} objfdt rfturnfd must bddurbtfly rfflfdt tif
+     * bdtubl typf pbrbmftfrs usfd in tif sourdf dodf.
      *
-     * <p>If the type of the underlying field is a type variable or a
-     * parameterized type, it is created. Otherwise, it is resolved.
+     * <p>If tif typf of tif undfrlying fifld is b typf vbribblf or b
+     * pbrbmftfrizfd typf, it is drfbtfd. Otifrwisf, it is rfsolvfd.
      *
-     * @return a {@code Type} object that represents the declared type for
-     *     the field represented by this {@code Field} object
-     * @throws GenericSignatureFormatError if the generic field
-     *     signature does not conform to the format specified in
-     *     <cite>The Java&trade; Virtual Machine Specification</cite>
-     * @throws TypeNotPresentException if the generic type
-     *     signature of the underlying field refers to a non-existent
-     *     type declaration
-     * @throws MalformedParameterizedTypeException if the generic
-     *     signature of the underlying field refers to a parameterized type
-     *     that cannot be instantiated for any reason
-     * @since 1.5
+     * @rfturn b {@dodf Typf} objfdt tibt rfprfsfnts tif dfdlbrfd typf for
+     *     tif fifld rfprfsfntfd by tiis {@dodf Fifld} objfdt
+     * @tirows GfnfridSignbturfFormbtError if tif gfnfrid fifld
+     *     signbturf dofs not donform to tif formbt spfdififd in
+     *     <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>
+     * @tirows TypfNotPrfsfntExdfption if tif gfnfrid typf
+     *     signbturf of tif undfrlying fifld rfffrs to b non-fxistfnt
+     *     typf dfdlbrbtion
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption if tif gfnfrid
+     *     signbturf of tif undfrlying fifld rfffrs to b pbrbmftfrizfd typf
+     *     tibt dbnnot bf instbntibtfd for bny rfbson
+     * @sindf 1.5
      */
-    public Type getGenericType() {
-        if (getGenericSignature() != null)
-            return getGenericInfo().getGenericType();
-        else
-            return getType();
+    publid Typf gftGfnfridTypf() {
+        if (gftGfnfridSignbturf() != null)
+            rfturn gftGfnfridInfo().gftGfnfridTypf();
+        flsf
+            rfturn gftTypf();
     }
 
 
     /**
-     * Compares this {@code Field} against the specified object.  Returns
-     * true if the objects are the same.  Two {@code Field} objects are the same if
-     * they were declared by the same class and have the same name
-     * and type.
+     * Compbrfs tiis {@dodf Fifld} bgbinst tif spfdififd objfdt.  Rfturns
+     * truf if tif objfdts brf tif sbmf.  Two {@dodf Fifld} objfdts brf tif sbmf if
+     * tify wfrf dfdlbrfd by tif sbmf dlbss bnd ibvf tif sbmf nbmf
+     * bnd typf.
      */
-    public boolean equals(Object obj) {
-        if (obj != null && obj instanceof Field) {
-            Field other = (Field)obj;
-            return (getDeclaringClass() == other.getDeclaringClass())
-                && (getName() == other.getName())
-                && (getType() == other.getType());
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj != null && obj instbndfof Fifld) {
+            Fifld otifr = (Fifld)obj;
+            rfturn (gftDfdlbringClbss() == otifr.gftDfdlbringClbss())
+                && (gftNbmf() == otifr.gftNbmf())
+                && (gftTypf() == otifr.gftTypf());
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hashcode for this {@code Field}.  This is computed as the
-     * exclusive-or of the hashcodes for the underlying field's
-     * declaring class name and its name.
+     * Rfturns b ibsidodf for tiis {@dodf Fifld}.  Tiis is domputfd bs tif
+     * fxdlusivf-or of tif ibsidodfs for tif undfrlying fifld's
+     * dfdlbring dlbss nbmf bnd its nbmf.
      */
-    public int hashCode() {
-        return getDeclaringClass().getName().hashCode() ^ getName().hashCode();
+    publid int ibsiCodf() {
+        rfturn gftDfdlbringClbss().gftNbmf().ibsiCodf() ^ gftNbmf().ibsiCodf();
     }
 
     /**
-     * Returns a string describing this {@code Field}.  The format is
-     * the access modifiers for the field, if any, followed
-     * by the field type, followed by a space, followed by
-     * the fully-qualified name of the class declaring the field,
-     * followed by a period, followed by the name of the field.
-     * For example:
-     * <pre>
-     *    public static final int java.lang.Thread.MIN_PRIORITY
-     *    private int java.io.FileDescriptor.fd
-     * </pre>
+     * Rfturns b string dfsdribing tiis {@dodf Fifld}.  Tif formbt is
+     * tif bddfss modififrs for tif fifld, if bny, followfd
+     * by tif fifld typf, followfd by b spbdf, followfd by
+     * tif fully-qublififd nbmf of tif dlbss dfdlbring tif fifld,
+     * followfd by b pfriod, followfd by tif nbmf of tif fifld.
+     * For fxbmplf:
+     * <prf>
+     *    publid stbtid finbl int jbvb.lbng.Tirfbd.MIN_PRIORITY
+     *    privbtf int jbvb.io.FilfDfsdriptor.fd
+     * </prf>
      *
-     * <p>The modifiers are placed in canonical order as specified by
-     * "The Java Language Specification".  This is {@code public},
-     * {@code protected} or {@code private} first, and then other
-     * modifiers in the following order: {@code static}, {@code final},
-     * {@code transient}, {@code volatile}.
+     * <p>Tif modififrs brf plbdfd in dbnonidbl ordfr bs spfdififd by
+     * "Tif Jbvb Lbngubgf Spfdifidbtion".  Tiis is {@dodf publid},
+     * {@dodf protfdtfd} or {@dodf privbtf} first, bnd tifn otifr
+     * modififrs in tif following ordfr: {@dodf stbtid}, {@dodf finbl},
+     * {@dodf trbnsifnt}, {@dodf volbtilf}.
      *
-     * @return a string describing this {@code Field}
-     * @jls 8.3.1 Field Modifiers
+     * @rfturn b string dfsdribing tiis {@dodf Fifld}
+     * @jls 8.3.1 Fifld Modififrs
      */
-    public String toString() {
-        int mod = getModifiers();
-        return (((mod == 0) ? "" : (Modifier.toString(mod) + " "))
-            + getType().getTypeName() + " "
-            + getDeclaringClass().getTypeName() + "."
-            + getName());
+    publid String toString() {
+        int mod = gftModififrs();
+        rfturn (((mod == 0) ? "" : (Modififr.toString(mod) + " "))
+            + gftTypf().gftTypfNbmf() + " "
+            + gftDfdlbringClbss().gftTypfNbmf() + "."
+            + gftNbmf());
     }
 
     /**
-     * Returns a string describing this {@code Field}, including
-     * its generic type.  The format is the access modifiers for the
-     * field, if any, followed by the generic field type, followed by
-     * a space, followed by the fully-qualified name of the class
-     * declaring the field, followed by a period, followed by the name
-     * of the field.
+     * Rfturns b string dfsdribing tiis {@dodf Fifld}, indluding
+     * its gfnfrid typf.  Tif formbt is tif bddfss modififrs for tif
+     * fifld, if bny, followfd by tif gfnfrid fifld typf, followfd by
+     * b spbdf, followfd by tif fully-qublififd nbmf of tif dlbss
+     * dfdlbring tif fifld, followfd by b pfriod, followfd by tif nbmf
+     * of tif fifld.
      *
-     * <p>The modifiers are placed in canonical order as specified by
-     * "The Java Language Specification".  This is {@code public},
-     * {@code protected} or {@code private} first, and then other
-     * modifiers in the following order: {@code static}, {@code final},
-     * {@code transient}, {@code volatile}.
+     * <p>Tif modififrs brf plbdfd in dbnonidbl ordfr bs spfdififd by
+     * "Tif Jbvb Lbngubgf Spfdifidbtion".  Tiis is {@dodf publid},
+     * {@dodf protfdtfd} or {@dodf privbtf} first, bnd tifn otifr
+     * modififrs in tif following ordfr: {@dodf stbtid}, {@dodf finbl},
+     * {@dodf trbnsifnt}, {@dodf volbtilf}.
      *
-     * @return a string describing this {@code Field}, including
-     * its generic type
+     * @rfturn b string dfsdribing tiis {@dodf Fifld}, indluding
+     * its gfnfrid typf
      *
-     * @since 1.5
-     * @jls 8.3.1 Field Modifiers
+     * @sindf 1.5
+     * @jls 8.3.1 Fifld Modififrs
      */
-    public String toGenericString() {
-        int mod = getModifiers();
-        Type fieldType = getGenericType();
-        return (((mod == 0) ? "" : (Modifier.toString(mod) + " "))
-            + fieldType.getTypeName() + " "
-            + getDeclaringClass().getTypeName() + "."
-            + getName());
+    publid String toGfnfridString() {
+        int mod = gftModififrs();
+        Typf fifldTypf = gftGfnfridTypf();
+        rfturn (((mod == 0) ? "" : (Modififr.toString(mod) + " "))
+            + fifldTypf.gftTypfNbmf() + " "
+            + gftDfdlbringClbss().gftTypfNbmf() + "."
+            + gftNbmf());
     }
 
     /**
-     * Returns the value of the field represented by this {@code Field}, on
-     * the specified object. The value is automatically wrapped in an
-     * object if it has a primitive type.
+     * Rfturns tif vbluf of tif fifld rfprfsfntfd by tiis {@dodf Fifld}, on
+     * tif spfdififd objfdt. Tif vbluf is butombtidblly wrbppfd in bn
+     * objfdt if it ibs b primitivf typf.
      *
-     * <p>The underlying field's value is obtained as follows:
+     * <p>Tif undfrlying fifld's vbluf is obtbinfd bs follows:
      *
-     * <p>If the underlying field is a static field, the {@code obj} argument
-     * is ignored; it may be null.
+     * <p>If tif undfrlying fifld is b stbtid fifld, tif {@dodf obj} brgumfnt
+     * is ignorfd; it mby bf null.
      *
-     * <p>Otherwise, the underlying field is an instance field.  If the
-     * specified {@code obj} argument is null, the method throws a
-     * {@code NullPointerException}. If the specified object is not an
-     * instance of the class or interface declaring the underlying
-     * field, the method throws an {@code IllegalArgumentException}.
+     * <p>Otifrwisf, tif undfrlying fifld is bn instbndf fifld.  If tif
+     * spfdififd {@dodf obj} brgumfnt is null, tif mftiod tirows b
+     * {@dodf NullPointfrExdfption}. If tif spfdififd objfdt is not bn
+     * instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     * fifld, tif mftiod tirows bn {@dodf IllfgblArgumfntExdfption}.
      *
-     * <p>If this {@code Field} object is enforcing Java language access control, and
-     * the underlying field is inaccessible, the method throws an
-     * {@code IllegalAccessException}.
-     * If the underlying field is static, the class that declared the
-     * field is initialized if it has not already been initialized.
+     * <p>If tiis {@dodf Fifld} objfdt is fnfording Jbvb lbngubgf bddfss dontrol, bnd
+     * tif undfrlying fifld is inbddfssiblf, tif mftiod tirows bn
+     * {@dodf IllfgblAddfssExdfption}.
+     * If tif undfrlying fifld is stbtid, tif dlbss tibt dfdlbrfd tif
+     * fifld is initiblizfd if it ibs not blrfbdy bffn initiblizfd.
      *
-     * <p>Otherwise, the value is retrieved from the underlying instance
-     * or static field.  If the field has a primitive type, the value
-     * is wrapped in an object before being returned, otherwise it is
-     * returned as is.
+     * <p>Otifrwisf, tif vbluf is rftrifvfd from tif undfrlying instbndf
+     * or stbtid fifld.  If tif fifld ibs b primitivf typf, tif vbluf
+     * is wrbppfd in bn objfdt bfforf bfing rfturnfd, otifrwisf it is
+     * rfturnfd bs is.
      *
-     * <p>If the field is hidden in the type of {@code obj},
-     * the field's value is obtained according to the preceding rules.
+     * <p>If tif fifld is iiddfn in tif typf of {@dodf obj},
+     * tif fifld's vbluf is obtbinfd bddording to tif prfdfding rulfs.
      *
-     * @param obj object from which the represented field's value is
-     * to be extracted
-     * @return the value of the represented field in object
-     * {@code obj}; primitive values are wrapped in an appropriate
-     * object before being returned
+     * @pbrbm obj objfdt from wiidi tif rfprfsfntfd fifld's vbluf is
+     * to bf fxtrbdtfd
+     * @rfturn tif vbluf of tif rfprfsfntfd fifld in objfdt
+     * {@dodf obj}; primitivf vblufs brf wrbppfd in bn bppropribtf
+     * objfdt bfforf bfing rfturnfd
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is inaccessible.
-     * @exception IllegalArgumentException  if the specified object is not an
-     *              instance of the class or interface declaring the underlying
-     *              field (or a subclass or implementor thereof).
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not bn
+     *              instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     *              fifld (or b subdlbss or implfmfntor tifrfof).
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
      */
-    @CallerSensitive
-    public Object get(Object obj)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid Objfdt gft(Objfdt obj)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        return getFieldAccessor(obj).get(obj);
+        rfturn gftFifldAddfssor(obj).gft(obj);
     }
 
     /**
-     * Gets the value of a static or instance {@code boolean} field.
+     * Gfts tif vbluf of b stbtid or instbndf {@dodf boolfbn} fifld.
      *
-     * @param obj the object to extract the {@code boolean} value
+     * @pbrbm obj tif objfdt to fxtrbdt tif {@dodf boolfbn} vbluf
      * from
-     * @return the value of the {@code boolean} field
+     * @rfturn tif vbluf of tif {@dodf boolfbn} fifld
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is inaccessible.
-     * @exception IllegalArgumentException  if the specified object is not
-     *              an instance of the class or interface declaring the
-     *              underlying field (or a subclass or implementor
-     *              thereof), or if the field value cannot be
-     *              converted to the type {@code boolean} by a
-     *              widening conversion.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#get
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not
+     *              bn instbndf of tif dlbss or intfrfbdf dfdlbring tif
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              tifrfof), or if tif fifld vbluf dbnnot bf
+     *              donvfrtfd to tif typf {@dodf boolfbn} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#gft
      */
-    @CallerSensitive
-    public boolean getBoolean(Object obj)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid boolfbn gftBoolfbn(Objfdt obj)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        return getFieldAccessor(obj).getBoolean(obj);
+        rfturn gftFifldAddfssor(obj).gftBoolfbn(obj);
     }
 
     /**
-     * Gets the value of a static or instance {@code byte} field.
+     * Gfts tif vbluf of b stbtid or instbndf {@dodf bytf} fifld.
      *
-     * @param obj the object to extract the {@code byte} value
+     * @pbrbm obj tif objfdt to fxtrbdt tif {@dodf bytf} vbluf
      * from
-     * @return the value of the {@code byte} field
+     * @rfturn tif vbluf of tif {@dodf bytf} fifld
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is inaccessible.
-     * @exception IllegalArgumentException  if the specified object is not
-     *              an instance of the class or interface declaring the
-     *              underlying field (or a subclass or implementor
-     *              thereof), or if the field value cannot be
-     *              converted to the type {@code byte} by a
-     *              widening conversion.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#get
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not
+     *              bn instbndf of tif dlbss or intfrfbdf dfdlbring tif
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              tifrfof), or if tif fifld vbluf dbnnot bf
+     *              donvfrtfd to tif typf {@dodf bytf} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#gft
      */
-    @CallerSensitive
-    public byte getByte(Object obj)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid bytf gftBytf(Objfdt obj)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        return getFieldAccessor(obj).getByte(obj);
+        rfturn gftFifldAddfssor(obj).gftBytf(obj);
     }
 
     /**
-     * Gets the value of a static or instance field of type
-     * {@code char} or of another primitive type convertible to
-     * type {@code char} via a widening conversion.
+     * Gfts tif vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf dibr} or of bnotifr primitivf typf donvfrtiblf to
+     * typf {@dodf dibr} vib b widfning donvfrsion.
      *
-     * @param obj the object to extract the {@code char} value
+     * @pbrbm obj tif objfdt to fxtrbdt tif {@dodf dibr} vbluf
      * from
-     * @return the value of the field converted to type {@code char}
+     * @rfturn tif vbluf of tif fifld donvfrtfd to typf {@dodf dibr}
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is inaccessible.
-     * @exception IllegalArgumentException  if the specified object is not
-     *              an instance of the class or interface declaring the
-     *              underlying field (or a subclass or implementor
-     *              thereof), or if the field value cannot be
-     *              converted to the type {@code char} by a
-     *              widening conversion.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see Field#get
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not
+     *              bn instbndf of tif dlbss or intfrfbdf dfdlbring tif
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              tifrfof), or if tif fifld vbluf dbnnot bf
+     *              donvfrtfd to tif typf {@dodf dibr} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff Fifld#gft
      */
-    @CallerSensitive
-    public char getChar(Object obj)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid dibr gftCibr(Objfdt obj)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        return getFieldAccessor(obj).getChar(obj);
+        rfturn gftFifldAddfssor(obj).gftCibr(obj);
     }
 
     /**
-     * Gets the value of a static or instance field of type
-     * {@code short} or of another primitive type convertible to
-     * type {@code short} via a widening conversion.
+     * Gfts tif vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf siort} or of bnotifr primitivf typf donvfrtiblf to
+     * typf {@dodf siort} vib b widfning donvfrsion.
      *
-     * @param obj the object to extract the {@code short} value
+     * @pbrbm obj tif objfdt to fxtrbdt tif {@dodf siort} vbluf
      * from
-     * @return the value of the field converted to type {@code short}
+     * @rfturn tif vbluf of tif fifld donvfrtfd to typf {@dodf siort}
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is inaccessible.
-     * @exception IllegalArgumentException  if the specified object is not
-     *              an instance of the class or interface declaring the
-     *              underlying field (or a subclass or implementor
-     *              thereof), or if the field value cannot be
-     *              converted to the type {@code short} by a
-     *              widening conversion.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#get
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not
+     *              bn instbndf of tif dlbss or intfrfbdf dfdlbring tif
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              tifrfof), or if tif fifld vbluf dbnnot bf
+     *              donvfrtfd to tif typf {@dodf siort} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#gft
      */
-    @CallerSensitive
-    public short getShort(Object obj)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid siort gftSiort(Objfdt obj)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        return getFieldAccessor(obj).getShort(obj);
+        rfturn gftFifldAddfssor(obj).gftSiort(obj);
     }
 
     /**
-     * Gets the value of a static or instance field of type
-     * {@code int} or of another primitive type convertible to
-     * type {@code int} via a widening conversion.
+     * Gfts tif vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf int} or of bnotifr primitivf typf donvfrtiblf to
+     * typf {@dodf int} vib b widfning donvfrsion.
      *
-     * @param obj the object to extract the {@code int} value
+     * @pbrbm obj tif objfdt to fxtrbdt tif {@dodf int} vbluf
      * from
-     * @return the value of the field converted to type {@code int}
+     * @rfturn tif vbluf of tif fifld donvfrtfd to typf {@dodf int}
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is inaccessible.
-     * @exception IllegalArgumentException  if the specified object is not
-     *              an instance of the class or interface declaring the
-     *              underlying field (or a subclass or implementor
-     *              thereof), or if the field value cannot be
-     *              converted to the type {@code int} by a
-     *              widening conversion.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#get
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not
+     *              bn instbndf of tif dlbss or intfrfbdf dfdlbring tif
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              tifrfof), or if tif fifld vbluf dbnnot bf
+     *              donvfrtfd to tif typf {@dodf int} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#gft
      */
-    @CallerSensitive
-    public int getInt(Object obj)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid int gftInt(Objfdt obj)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        return getFieldAccessor(obj).getInt(obj);
+        rfturn gftFifldAddfssor(obj).gftInt(obj);
     }
 
     /**
-     * Gets the value of a static or instance field of type
-     * {@code long} or of another primitive type convertible to
-     * type {@code long} via a widening conversion.
+     * Gfts tif vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf long} or of bnotifr primitivf typf donvfrtiblf to
+     * typf {@dodf long} vib b widfning donvfrsion.
      *
-     * @param obj the object to extract the {@code long} value
+     * @pbrbm obj tif objfdt to fxtrbdt tif {@dodf long} vbluf
      * from
-     * @return the value of the field converted to type {@code long}
+     * @rfturn tif vbluf of tif fifld donvfrtfd to typf {@dodf long}
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is inaccessible.
-     * @exception IllegalArgumentException  if the specified object is not
-     *              an instance of the class or interface declaring the
-     *              underlying field (or a subclass or implementor
-     *              thereof), or if the field value cannot be
-     *              converted to the type {@code long} by a
-     *              widening conversion.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#get
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not
+     *              bn instbndf of tif dlbss or intfrfbdf dfdlbring tif
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              tifrfof), or if tif fifld vbluf dbnnot bf
+     *              donvfrtfd to tif typf {@dodf long} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#gft
      */
-    @CallerSensitive
-    public long getLong(Object obj)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid long gftLong(Objfdt obj)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        return getFieldAccessor(obj).getLong(obj);
+        rfturn gftFifldAddfssor(obj).gftLong(obj);
     }
 
     /**
-     * Gets the value of a static or instance field of type
-     * {@code float} or of another primitive type convertible to
-     * type {@code float} via a widening conversion.
+     * Gfts tif vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf flobt} or of bnotifr primitivf typf donvfrtiblf to
+     * typf {@dodf flobt} vib b widfning donvfrsion.
      *
-     * @param obj the object to extract the {@code float} value
+     * @pbrbm obj tif objfdt to fxtrbdt tif {@dodf flobt} vbluf
      * from
-     * @return the value of the field converted to type {@code float}
+     * @rfturn tif vbluf of tif fifld donvfrtfd to typf {@dodf flobt}
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is inaccessible.
-     * @exception IllegalArgumentException  if the specified object is not
-     *              an instance of the class or interface declaring the
-     *              underlying field (or a subclass or implementor
-     *              thereof), or if the field value cannot be
-     *              converted to the type {@code float} by a
-     *              widening conversion.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see Field#get
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not
+     *              bn instbndf of tif dlbss or intfrfbdf dfdlbring tif
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              tifrfof), or if tif fifld vbluf dbnnot bf
+     *              donvfrtfd to tif typf {@dodf flobt} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff Fifld#gft
      */
-    @CallerSensitive
-    public float getFloat(Object obj)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid flobt gftFlobt(Objfdt obj)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        return getFieldAccessor(obj).getFloat(obj);
+        rfturn gftFifldAddfssor(obj).gftFlobt(obj);
     }
 
     /**
-     * Gets the value of a static or instance field of type
-     * {@code double} or of another primitive type convertible to
-     * type {@code double} via a widening conversion.
+     * Gfts tif vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf doublf} or of bnotifr primitivf typf donvfrtiblf to
+     * typf {@dodf doublf} vib b widfning donvfrsion.
      *
-     * @param obj the object to extract the {@code double} value
+     * @pbrbm obj tif objfdt to fxtrbdt tif {@dodf doublf} vbluf
      * from
-     * @return the value of the field converted to type {@code double}
+     * @rfturn tif vbluf of tif fifld donvfrtfd to typf {@dodf doublf}
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is inaccessible.
-     * @exception IllegalArgumentException  if the specified object is not
-     *              an instance of the class or interface declaring the
-     *              underlying field (or a subclass or implementor
-     *              thereof), or if the field value cannot be
-     *              converted to the type {@code double} by a
-     *              widening conversion.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#get
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not
+     *              bn instbndf of tif dlbss or intfrfbdf dfdlbring tif
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              tifrfof), or if tif fifld vbluf dbnnot bf
+     *              donvfrtfd to tif typf {@dodf doublf} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#gft
      */
-    @CallerSensitive
-    public double getDouble(Object obj)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid doublf gftDoublf(Objfdt obj)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        return getFieldAccessor(obj).getDouble(obj);
+        rfturn gftFifldAddfssor(obj).gftDoublf(obj);
     }
 
     /**
-     * Sets the field represented by this {@code Field} object on the
-     * specified object argument to the specified new value. The new
-     * value is automatically unwrapped if the underlying field has a
-     * primitive type.
+     * Sfts tif fifld rfprfsfntfd by tiis {@dodf Fifld} objfdt on tif
+     * spfdififd objfdt brgumfnt to tif spfdififd nfw vbluf. Tif nfw
+     * vbluf is butombtidblly unwrbppfd if tif undfrlying fifld ibs b
+     * primitivf typf.
      *
-     * <p>The operation proceeds as follows:
+     * <p>Tif opfrbtion prodffds bs follows:
      *
-     * <p>If the underlying field is static, the {@code obj} argument is
-     * ignored; it may be null.
+     * <p>If tif undfrlying fifld is stbtid, tif {@dodf obj} brgumfnt is
+     * ignorfd; it mby bf null.
      *
-     * <p>Otherwise the underlying field is an instance field.  If the
-     * specified object argument is null, the method throws a
-     * {@code NullPointerException}.  If the specified object argument is not
-     * an instance of the class or interface declaring the underlying
-     * field, the method throws an {@code IllegalArgumentException}.
+     * <p>Otifrwisf tif undfrlying fifld is bn instbndf fifld.  If tif
+     * spfdififd objfdt brgumfnt is null, tif mftiod tirows b
+     * {@dodf NullPointfrExdfption}.  If tif spfdififd objfdt brgumfnt is not
+     * bn instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     * fifld, tif mftiod tirows bn {@dodf IllfgblArgumfntExdfption}.
      *
-     * <p>If this {@code Field} object is enforcing Java language access control, and
-     * the underlying field is inaccessible, the method throws an
-     * {@code IllegalAccessException}.
+     * <p>If tiis {@dodf Fifld} objfdt is fnfording Jbvb lbngubgf bddfss dontrol, bnd
+     * tif undfrlying fifld is inbddfssiblf, tif mftiod tirows bn
+     * {@dodf IllfgblAddfssExdfption}.
      *
-     * <p>If the underlying field is final, the method throws an
-     * {@code IllegalAccessException} unless {@code setAccessible(true)}
-     * has succeeded for this {@code Field} object
-     * and the field is non-static. Setting a final field in this way
-     * is meaningful only during deserialization or reconstruction of
-     * instances of classes with blank final fields, before they are
-     * made available for access by other parts of a program. Use in
-     * any other context may have unpredictable effects, including cases
-     * in which other parts of a program continue to use the original
-     * value of this field.
+     * <p>If tif undfrlying fifld is finbl, tif mftiod tirows bn
+     * {@dodf IllfgblAddfssExdfption} unlfss {@dodf sftAddfssiblf(truf)}
+     * ibs suddffdfd for tiis {@dodf Fifld} objfdt
+     * bnd tif fifld is non-stbtid. Sftting b finbl fifld in tiis wby
+     * is mfbningful only during dfsfriblizbtion or rfdonstrudtion of
+     * instbndfs of dlbssfs witi blbnk finbl fiflds, bfforf tify brf
+     * mbdf bvbilbblf for bddfss by otifr pbrts of b progrbm. Usf in
+     * bny otifr dontfxt mby ibvf unprfdidtbblf ffffdts, indluding dbsfs
+     * in wiidi otifr pbrts of b progrbm dontinuf to usf tif originbl
+     * vbluf of tiis fifld.
      *
-     * <p>If the underlying field is of a primitive type, an unwrapping
-     * conversion is attempted to convert the new value to a value of
-     * a primitive type.  If this attempt fails, the method throws an
-     * {@code IllegalArgumentException}.
+     * <p>If tif undfrlying fifld is of b primitivf typf, bn unwrbpping
+     * donvfrsion is bttfmptfd to donvfrt tif nfw vbluf to b vbluf of
+     * b primitivf typf.  If tiis bttfmpt fbils, tif mftiod tirows bn
+     * {@dodf IllfgblArgumfntExdfption}.
      *
-     * <p>If, after possible unwrapping, the new value cannot be
-     * converted to the type of the underlying field by an identity or
-     * widening conversion, the method throws an
-     * {@code IllegalArgumentException}.
+     * <p>If, bftfr possiblf unwrbpping, tif nfw vbluf dbnnot bf
+     * donvfrtfd to tif typf of tif undfrlying fifld by bn idfntity or
+     * widfning donvfrsion, tif mftiod tirows bn
+     * {@dodf IllfgblArgumfntExdfption}.
      *
-     * <p>If the underlying field is static, the class that declared the
-     * field is initialized if it has not already been initialized.
+     * <p>If tif undfrlying fifld is stbtid, tif dlbss tibt dfdlbrfd tif
+     * fifld is initiblizfd if it ibs not blrfbdy bffn initiblizfd.
      *
-     * <p>The field is set to the possibly unwrapped and widened new value.
+     * <p>Tif fifld is sft to tif possibly unwrbppfd bnd widfnfd nfw vbluf.
      *
-     * <p>If the field is hidden in the type of {@code obj},
-     * the field's value is set according to the preceding rules.
+     * <p>If tif fifld is iiddfn in tif typf of {@dodf obj},
+     * tif fifld's vbluf is sft bddording to tif prfdfding rulfs.
      *
-     * @param obj the object whose field should be modified
-     * @param value the new value for the field of {@code obj}
-     * being modified
+     * @pbrbm obj tif objfdt wiosf fifld siould bf modififd
+     * @pbrbm vbluf tif nfw vbluf for tif fifld of {@dodf obj}
+     * bfing modififd
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is either inaccessible or final.
-     * @exception IllegalArgumentException  if the specified object is not an
-     *              instance of the class or interface declaring the underlying
-     *              field (or a subclass or implementor thereof),
-     *              or if an unwrapping conversion fails.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is fitifr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not bn
+     *              instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     *              fifld (or b subdlbss or implfmfntor tifrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
      */
-    @CallerSensitive
-    public void set(Object obj, Object value)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid void sft(Objfdt obj, Objfdt vbluf)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        getFieldAccessor(obj).set(obj, value);
+        gftFifldAddfssor(obj).sft(obj, vbluf);
     }
 
     /**
-     * Sets the value of a field as a {@code boolean} on the specified object.
-     * This method is equivalent to
-     * {@code set(obj, zObj)},
-     * where {@code zObj} is a {@code Boolean} object and
-     * {@code zObj.booleanValue() == z}.
+     * Sfts tif vbluf of b fifld bs b {@dodf boolfbn} on tif spfdififd objfdt.
+     * Tiis mftiod is fquivblfnt to
+     * {@dodf sft(obj, zObj)},
+     * wifrf {@dodf zObj} is b {@dodf Boolfbn} objfdt bnd
+     * {@dodf zObj.boolfbnVbluf() == z}.
      *
-     * @param obj the object whose field should be modified
-     * @param z   the new value for the field of {@code obj}
-     * being modified
+     * @pbrbm obj tif objfdt wiosf fifld siould bf modififd
+     * @pbrbm z   tif nfw vbluf for tif fifld of {@dodf obj}
+     * bfing modififd
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is either inaccessible or final.
-     * @exception IllegalArgumentException  if the specified object is not an
-     *              instance of the class or interface declaring the underlying
-     *              field (or a subclass or implementor thereof),
-     *              or if an unwrapping conversion fails.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#set
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is fitifr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not bn
+     *              instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     *              fifld (or b subdlbss or implfmfntor tifrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#sft
      */
-    @CallerSensitive
-    public void setBoolean(Object obj, boolean z)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid void sftBoolfbn(Objfdt obj, boolfbn z)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        getFieldAccessor(obj).setBoolean(obj, z);
+        gftFifldAddfssor(obj).sftBoolfbn(obj, z);
     }
 
     /**
-     * Sets the value of a field as a {@code byte} on the specified object.
-     * This method is equivalent to
-     * {@code set(obj, bObj)},
-     * where {@code bObj} is a {@code Byte} object and
-     * {@code bObj.byteValue() == b}.
+     * Sfts tif vbluf of b fifld bs b {@dodf bytf} on tif spfdififd objfdt.
+     * Tiis mftiod is fquivblfnt to
+     * {@dodf sft(obj, bObj)},
+     * wifrf {@dodf bObj} is b {@dodf Bytf} objfdt bnd
+     * {@dodf bObj.bytfVbluf() == b}.
      *
-     * @param obj the object whose field should be modified
-     * @param b   the new value for the field of {@code obj}
-     * being modified
+     * @pbrbm obj tif objfdt wiosf fifld siould bf modififd
+     * @pbrbm b   tif nfw vbluf for tif fifld of {@dodf obj}
+     * bfing modififd
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is either inaccessible or final.
-     * @exception IllegalArgumentException  if the specified object is not an
-     *              instance of the class or interface declaring the underlying
-     *              field (or a subclass or implementor thereof),
-     *              or if an unwrapping conversion fails.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#set
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is fitifr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not bn
+     *              instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     *              fifld (or b subdlbss or implfmfntor tifrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#sft
      */
-    @CallerSensitive
-    public void setByte(Object obj, byte b)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid void sftBytf(Objfdt obj, bytf b)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        getFieldAccessor(obj).setByte(obj, b);
+        gftFifldAddfssor(obj).sftBytf(obj, b);
     }
 
     /**
-     * Sets the value of a field as a {@code char} on the specified object.
-     * This method is equivalent to
-     * {@code set(obj, cObj)},
-     * where {@code cObj} is a {@code Character} object and
-     * {@code cObj.charValue() == c}.
+     * Sfts tif vbluf of b fifld bs b {@dodf dibr} on tif spfdififd objfdt.
+     * Tiis mftiod is fquivblfnt to
+     * {@dodf sft(obj, dObj)},
+     * wifrf {@dodf dObj} is b {@dodf Cibrbdtfr} objfdt bnd
+     * {@dodf dObj.dibrVbluf() == d}.
      *
-     * @param obj the object whose field should be modified
-     * @param c   the new value for the field of {@code obj}
-     * being modified
+     * @pbrbm obj tif objfdt wiosf fifld siould bf modififd
+     * @pbrbm d   tif nfw vbluf for tif fifld of {@dodf obj}
+     * bfing modififd
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is either inaccessible or final.
-     * @exception IllegalArgumentException  if the specified object is not an
-     *              instance of the class or interface declaring the underlying
-     *              field (or a subclass or implementor thereof),
-     *              or if an unwrapping conversion fails.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#set
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is fitifr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not bn
+     *              instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     *              fifld (or b subdlbss or implfmfntor tifrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#sft
      */
-    @CallerSensitive
-    public void setChar(Object obj, char c)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid void sftCibr(Objfdt obj, dibr d)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        getFieldAccessor(obj).setChar(obj, c);
+        gftFifldAddfssor(obj).sftCibr(obj, d);
     }
 
     /**
-     * Sets the value of a field as a {@code short} on the specified object.
-     * This method is equivalent to
-     * {@code set(obj, sObj)},
-     * where {@code sObj} is a {@code Short} object and
-     * {@code sObj.shortValue() == s}.
+     * Sfts tif vbluf of b fifld bs b {@dodf siort} on tif spfdififd objfdt.
+     * Tiis mftiod is fquivblfnt to
+     * {@dodf sft(obj, sObj)},
+     * wifrf {@dodf sObj} is b {@dodf Siort} objfdt bnd
+     * {@dodf sObj.siortVbluf() == s}.
      *
-     * @param obj the object whose field should be modified
-     * @param s   the new value for the field of {@code obj}
-     * being modified
+     * @pbrbm obj tif objfdt wiosf fifld siould bf modififd
+     * @pbrbm s   tif nfw vbluf for tif fifld of {@dodf obj}
+     * bfing modififd
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is either inaccessible or final.
-     * @exception IllegalArgumentException  if the specified object is not an
-     *              instance of the class or interface declaring the underlying
-     *              field (or a subclass or implementor thereof),
-     *              or if an unwrapping conversion fails.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#set
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is fitifr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not bn
+     *              instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     *              fifld (or b subdlbss or implfmfntor tifrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#sft
      */
-    @CallerSensitive
-    public void setShort(Object obj, short s)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid void sftSiort(Objfdt obj, siort s)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        getFieldAccessor(obj).setShort(obj, s);
+        gftFifldAddfssor(obj).sftSiort(obj, s);
     }
 
     /**
-     * Sets the value of a field as an {@code int} on the specified object.
-     * This method is equivalent to
-     * {@code set(obj, iObj)},
-     * where {@code iObj} is a {@code Integer} object and
-     * {@code iObj.intValue() == i}.
+     * Sfts tif vbluf of b fifld bs bn {@dodf int} on tif spfdififd objfdt.
+     * Tiis mftiod is fquivblfnt to
+     * {@dodf sft(obj, iObj)},
+     * wifrf {@dodf iObj} is b {@dodf Intfgfr} objfdt bnd
+     * {@dodf iObj.intVbluf() == i}.
      *
-     * @param obj the object whose field should be modified
-     * @param i   the new value for the field of {@code obj}
-     * being modified
+     * @pbrbm obj tif objfdt wiosf fifld siould bf modififd
+     * @pbrbm i   tif nfw vbluf for tif fifld of {@dodf obj}
+     * bfing modififd
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is either inaccessible or final.
-     * @exception IllegalArgumentException  if the specified object is not an
-     *              instance of the class or interface declaring the underlying
-     *              field (or a subclass or implementor thereof),
-     *              or if an unwrapping conversion fails.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#set
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is fitifr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not bn
+     *              instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     *              fifld (or b subdlbss or implfmfntor tifrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#sft
      */
-    @CallerSensitive
-    public void setInt(Object obj, int i)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid void sftInt(Objfdt obj, int i)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        getFieldAccessor(obj).setInt(obj, i);
+        gftFifldAddfssor(obj).sftInt(obj, i);
     }
 
     /**
-     * Sets the value of a field as a {@code long} on the specified object.
-     * This method is equivalent to
-     * {@code set(obj, lObj)},
-     * where {@code lObj} is a {@code Long} object and
-     * {@code lObj.longValue() == l}.
+     * Sfts tif vbluf of b fifld bs b {@dodf long} on tif spfdififd objfdt.
+     * Tiis mftiod is fquivblfnt to
+     * {@dodf sft(obj, lObj)},
+     * wifrf {@dodf lObj} is b {@dodf Long} objfdt bnd
+     * {@dodf lObj.longVbluf() == l}.
      *
-     * @param obj the object whose field should be modified
-     * @param l   the new value for the field of {@code obj}
-     * being modified
+     * @pbrbm obj tif objfdt wiosf fifld siould bf modififd
+     * @pbrbm l   tif nfw vbluf for tif fifld of {@dodf obj}
+     * bfing modififd
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is either inaccessible or final.
-     * @exception IllegalArgumentException  if the specified object is not an
-     *              instance of the class or interface declaring the underlying
-     *              field (or a subclass or implementor thereof),
-     *              or if an unwrapping conversion fails.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#set
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is fitifr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not bn
+     *              instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     *              fifld (or b subdlbss or implfmfntor tifrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#sft
      */
-    @CallerSensitive
-    public void setLong(Object obj, long l)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid void sftLong(Objfdt obj, long l)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        getFieldAccessor(obj).setLong(obj, l);
+        gftFifldAddfssor(obj).sftLong(obj, l);
     }
 
     /**
-     * Sets the value of a field as a {@code float} on the specified object.
-     * This method is equivalent to
-     * {@code set(obj, fObj)},
-     * where {@code fObj} is a {@code Float} object and
-     * {@code fObj.floatValue() == f}.
+     * Sfts tif vbluf of b fifld bs b {@dodf flobt} on tif spfdififd objfdt.
+     * Tiis mftiod is fquivblfnt to
+     * {@dodf sft(obj, fObj)},
+     * wifrf {@dodf fObj} is b {@dodf Flobt} objfdt bnd
+     * {@dodf fObj.flobtVbluf() == f}.
      *
-     * @param obj the object whose field should be modified
-     * @param f   the new value for the field of {@code obj}
-     * being modified
+     * @pbrbm obj tif objfdt wiosf fifld siould bf modififd
+     * @pbrbm f   tif nfw vbluf for tif fifld of {@dodf obj}
+     * bfing modififd
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is either inaccessible or final.
-     * @exception IllegalArgumentException  if the specified object is not an
-     *              instance of the class or interface declaring the underlying
-     *              field (or a subclass or implementor thereof),
-     *              or if an unwrapping conversion fails.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#set
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is fitifr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not bn
+     *              instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     *              fifld (or b subdlbss or implfmfntor tifrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#sft
      */
-    @CallerSensitive
-    public void setFloat(Object obj, float f)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid void sftFlobt(Objfdt obj, flobt f)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        getFieldAccessor(obj).setFloat(obj, f);
+        gftFifldAddfssor(obj).sftFlobt(obj, f);
     }
 
     /**
-     * Sets the value of a field as a {@code double} on the specified object.
-     * This method is equivalent to
-     * {@code set(obj, dObj)},
-     * where {@code dObj} is a {@code Double} object and
-     * {@code dObj.doubleValue() == d}.
+     * Sfts tif vbluf of b fifld bs b {@dodf doublf} on tif spfdififd objfdt.
+     * Tiis mftiod is fquivblfnt to
+     * {@dodf sft(obj, dObj)},
+     * wifrf {@dodf dObj} is b {@dodf Doublf} objfdt bnd
+     * {@dodf dObj.doublfVbluf() == d}.
      *
-     * @param obj the object whose field should be modified
-     * @param d   the new value for the field of {@code obj}
-     * being modified
+     * @pbrbm obj tif objfdt wiosf fifld siould bf modififd
+     * @pbrbm d   tif nfw vbluf for tif fifld of {@dodf obj}
+     * bfing modififd
      *
-     * @exception IllegalAccessException    if this {@code Field} object
-     *              is enforcing Java language access control and the underlying
-     *              field is either inaccessible or final.
-     * @exception IllegalArgumentException  if the specified object is not an
-     *              instance of the class or interface declaring the underlying
-     *              field (or a subclass or implementor thereof),
-     *              or if an unwrapping conversion fails.
-     * @exception NullPointerException      if the specified object is null
-     *              and the field is an instance field.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
-     * @see       Field#set
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              fifld is fitifr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if tif spfdififd objfdt is not bn
+     *              instbndf of tif dlbss or intfrfbdf dfdlbring tif undfrlying
+     *              fifld (or b subdlbss or implfmfntor tifrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
+     * @sff       Fifld#sft
      */
-    @CallerSensitive
-    public void setDouble(Object obj, double d)
-        throws IllegalArgumentException, IllegalAccessException
+    @CbllfrSfnsitivf
+    publid void sftDoublf(Objfdt obj, doublf d)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        getFieldAccessor(obj).setDouble(obj, d);
+        gftFifldAddfssor(obj).sftDoublf(obj, d);
     }
 
-    // security check is done before calling this method
-    private FieldAccessor getFieldAccessor(Object obj)
-        throws IllegalAccessException
+    // sfdurity difdk is donf bfforf dblling tiis mftiod
+    privbtf FifldAddfssor gftFifldAddfssor(Objfdt obj)
+        tirows IllfgblAddfssExdfption
     {
-        boolean ov = override;
-        FieldAccessor a = (ov) ? overrideFieldAccessor : fieldAccessor;
-        return (a != null) ? a : acquireFieldAccessor(ov);
+        boolfbn ov = ovfrridf;
+        FifldAddfssor b = (ov) ? ovfrridfFifldAddfssor : fifldAddfssor;
+        rfturn (b != null) ? b : bdquirfFifldAddfssor(ov);
     }
 
-    // NOTE that there is no synchronization used here. It is correct
-    // (though not efficient) to generate more than one FieldAccessor
-    // for a given Field. However, avoiding synchronization will
-    // probably make the implementation more scalable.
-    private FieldAccessor acquireFieldAccessor(boolean overrideFinalCheck) {
-        // First check to see if one has been created yet, and take it
+    // NOTE tibt tifrf is no syndironizbtion usfd ifrf. It is dorrfdt
+    // (tiougi not fffidifnt) to gfnfrbtf morf tibn onf FifldAddfssor
+    // for b givfn Fifld. Howfvfr, bvoiding syndironizbtion will
+    // probbbly mbkf tif implfmfntbtion morf sdblbblf.
+    privbtf FifldAddfssor bdquirfFifldAddfssor(boolfbn ovfrridfFinblCifdk) {
+        // First difdk to sff if onf ibs bffn drfbtfd yft, bnd tbkf it
         // if so
-        FieldAccessor tmp = null;
-        if (root != null) tmp = root.getFieldAccessor(overrideFinalCheck);
+        FifldAddfssor tmp = null;
+        if (root != null) tmp = root.gftFifldAddfssor(ovfrridfFinblCifdk);
         if (tmp != null) {
-            if (overrideFinalCheck)
-                overrideFieldAccessor = tmp;
-            else
-                fieldAccessor = tmp;
-        } else {
-            // Otherwise fabricate one and propagate it up to the root
-            tmp = reflectionFactory.newFieldAccessor(this, overrideFinalCheck);
-            setFieldAccessor(tmp, overrideFinalCheck);
+            if (ovfrridfFinblCifdk)
+                ovfrridfFifldAddfssor = tmp;
+            flsf
+                fifldAddfssor = tmp;
+        } flsf {
+            // Otifrwisf fbbridbtf onf bnd propbgbtf it up to tif root
+            tmp = rfflfdtionFbdtory.nfwFifldAddfssor(tiis, ovfrridfFinblCifdk);
+            sftFifldAddfssor(tmp, ovfrridfFinblCifdk);
         }
 
-        return tmp;
+        rfturn tmp;
     }
 
-    // Returns FieldAccessor for this Field object, not looking up
-    // the chain to the root
-    private FieldAccessor getFieldAccessor(boolean overrideFinalCheck) {
-        return (overrideFinalCheck)? overrideFieldAccessor : fieldAccessor;
+    // Rfturns FifldAddfssor for tiis Fifld objfdt, not looking up
+    // tif dibin to tif root
+    privbtf FifldAddfssor gftFifldAddfssor(boolfbn ovfrridfFinblCifdk) {
+        rfturn (ovfrridfFinblCifdk)? ovfrridfFifldAddfssor : fifldAddfssor;
     }
 
-    // Sets the FieldAccessor for this Field object and
-    // (recursively) its root
-    private void setFieldAccessor(FieldAccessor accessor, boolean overrideFinalCheck) {
-        if (overrideFinalCheck)
-            overrideFieldAccessor = accessor;
-        else
-            fieldAccessor = accessor;
-        // Propagate up
+    // Sfts tif FifldAddfssor for tiis Fifld objfdt bnd
+    // (rfdursivfly) its root
+    privbtf void sftFifldAddfssor(FifldAddfssor bddfssor, boolfbn ovfrridfFinblCifdk) {
+        if (ovfrridfFinblCifdk)
+            ovfrridfFifldAddfssor = bddfssor;
+        flsf
+            fifldAddfssor = bddfssor;
+        // Propbgbtf up
         if (root != null) {
-            root.setFieldAccessor(accessor, overrideFinalCheck);
+            root.sftFifldAddfssor(bddfssor, ovfrridfFinblCifdk);
         }
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
-     * @since 1.5
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sindf 1.5
      */
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return annotationClass.cast(declaredAnnotations().get(annotationClass));
+    publid <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
+        rfturn bnnotbtionClbss.dbst(dfdlbrfdAnnotbtions().gft(bnnotbtionClbss));
     }
 
     /**
-     * {@inheritDoc}
-     * @throws NullPointerException {@inheritDoc}
-     * @since 1.8
+     * {@inifritDod}
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sindf 1.8
      */
-    @Override
-    public <T extends Annotation> T[] getAnnotationsByType(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T[] gftAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
 
-        return AnnotationSupport.getDirectlyAndIndirectlyPresent(declaredAnnotations(), annotationClass);
+        rfturn AnnotbtionSupport.gftDirfdtlyAndIndirfdtlyPrfsfnt(dfdlbrfdAnnotbtions(), bnnotbtionClbss);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public Annotation[] getDeclaredAnnotations()  {
-        return AnnotationParser.toArray(declaredAnnotations());
+    publid Annotbtion[] gftDfdlbrfdAnnotbtions()  {
+        rfturn AnnotbtionPbrsfr.toArrby(dfdlbrfdAnnotbtions());
     }
 
-    private transient Map<Class<? extends Annotation>, Annotation> declaredAnnotations;
+    privbtf trbnsifnt Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> dfdlbrfdAnnotbtions;
 
-    private synchronized  Map<Class<? extends Annotation>, Annotation> declaredAnnotations() {
-        if (declaredAnnotations == null) {
-            declaredAnnotations = AnnotationParser.parseAnnotations(
-                annotations, sun.misc.SharedSecrets.getJavaLangAccess().
-                getConstantPool(getDeclaringClass()),
-                getDeclaringClass());
+    privbtf syndironizfd  Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> dfdlbrfdAnnotbtions() {
+        if (dfdlbrfdAnnotbtions == null) {
+            dfdlbrfdAnnotbtions = AnnotbtionPbrsfr.pbrsfAnnotbtions(
+                bnnotbtions, sun.misd.SibrfdSfdrfts.gftJbvbLbngAddfss().
+                gftConstbntPool(gftDfdlbringClbss()),
+                gftDfdlbringClbss());
         }
-        return declaredAnnotations;
+        rfturn dfdlbrfdAnnotbtions;
     }
 
-    private native byte[] getTypeAnnotationBytes0();
+    privbtf nbtivf bytf[] gftTypfAnnotbtionBytfs0();
 
     /**
-     * Returns an AnnotatedType object that represents the use of a type to specify
-     * the declared type of the field represented by this Field.
-     * @return an object representing the declared type of the field
-     * represented by this Field
+     * Rfturns bn AnnotbtfdTypf objfdt tibt rfprfsfnts tif usf of b typf to spfdify
+     * tif dfdlbrfd typf of tif fifld rfprfsfntfd by tiis Fifld.
+     * @rfturn bn objfdt rfprfsfnting tif dfdlbrfd typf of tif fifld
+     * rfprfsfntfd by tiis Fifld
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public AnnotatedType getAnnotatedType() {
-        return TypeAnnotationParser.buildAnnotatedType(getTypeAnnotationBytes0(),
-                                                       sun.misc.SharedSecrets.getJavaLangAccess().
-                                                           getConstantPool(getDeclaringClass()),
-                                                       this,
-                                                       getDeclaringClass(),
-                                                       getGenericType(),
-                                                       TypeAnnotation.TypeAnnotationTarget.FIELD);
+    publid AnnotbtfdTypf gftAnnotbtfdTypf() {
+        rfturn TypfAnnotbtionPbrsfr.buildAnnotbtfdTypf(gftTypfAnnotbtionBytfs0(),
+                                                       sun.misd.SibrfdSfdrfts.gftJbvbLbngAddfss().
+                                                           gftConstbntPool(gftDfdlbringClbss()),
+                                                       tiis,
+                                                       gftDfdlbringClbss(),
+                                                       gftGfnfridTypf(),
+                                                       TypfAnnotbtion.TypfAnnotbtionTbrgft.FIELD);
 }
 }

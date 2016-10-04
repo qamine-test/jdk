@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.dbllbbdk;
+
+/**
+ * <p> An bpplidbtion implfmfnts b {@dodf CbllbbdkHbndlfr} bnd pbssfs
+ * it to undfrlying sfdurity sfrvidfs so thbt thfy mby intfrbdt with
+ * thf bpplidbtion to rftrifvf spfdifid buthfntidbtion dbtb,
+ * sudh bs usfrnbmfs bnd pbsswords, or to displby dfrtbin informbtion,
+ * sudh bs frror bnd wbrning mfssbgfs.
+ *
+ * <p> CbllbbdkHbndlfrs brf implfmfntfd in bn bpplidbtion-dfpfndfnt fbshion.
+ * For fxbmplf, implfmfntbtions for bn bpplidbtion with b grbphidbl usfr
+ * intfrfbdf (GUI) mby pop up windows to prompt for rfqufstfd informbtion
+ * or to displby frror mfssbgfs.  An implfmfntbtion mby blso dhoosf to obtbin
+ * rfqufstfd informbtion from bn bltfrnbtf sourdf without bsking thf fnd usfr.
+ *
+ * <p> Undfrlying sfdurity sfrvidfs mbkf rfqufsts for difffrfnt typfs
+ * of informbtion by pbssing individubl Cbllbbdks to thf
+ * {@dodf CbllbbdkHbndlfr}.  Thf {@dodf CbllbbdkHbndlfr}
+ * implfmfntbtion dfdidfs how to rftrifvf bnd displby informbtion
+ * dfpfnding on thf Cbllbbdks pbssfd to it.  For fxbmplf,
+ * if thf undfrlying sfrvidf nffds b usfrnbmf bnd pbssword to
+ * buthfntidbtf b usfr, it usfs b {@dodf NbmfCbllbbdk} bnd
+ * {@dodf PbsswordCbllbbdk}.  Thf {@dodf CbllbbdkHbndlfr}
+ * dbn thfn dhoosf to prompt for b usfrnbmf bnd pbssword sfriblly,
+ * or to prompt for both in b singlf window.
+ *
+ * <p> A dffbult {@dodf CbllbbdkHbndlfr} dlbss implfmfntbtion
+ * mby bf spfdififd by sftting thf vbluf of thf
+ * {@dodf buth.login.dffbultCbllbbdkHbndlfr} sfdurity propfrty.
+ *
+ * <p> If thf sfdurity propfrty is sft to thf fully qublififd nbmf of b
+ * {@dodf CbllbbdkHbndlfr} implfmfntbtion dlbss,
+ * thfn b {@dodf LoginContfxt} will lobd thf spfdififd
+ * {@dodf CbllbbdkHbndlfr} bnd pbss it to thf undfrlying LoginModulfs.
+ * Thf {@dodf LoginContfxt} only lobds thf dffbult hbndlfr
+ * if it wbs not providfd onf.
+ *
+ * <p> All dffbult hbndlfr implfmfntbtions must providf b publid
+ * zfro-brgumfnt donstrudtor.
+ *
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+ */
+publid intfrfbdf CbllbbdkHbndlfr {
+
+    /**
+     * <p> Rftrifvf or displby thf informbtion rfqufstfd in thf
+     * providfd Cbllbbdks.
+     *
+     * <p> Thf {@dodf hbndlf} mfthod implfmfntbtion dhfdks thf
+     * instbndf(s) of thf {@dodf Cbllbbdk} objfdt(s) pbssfd in
+     * to rftrifvf or displby thf rfqufstfd informbtion.
+     * Thf following fxbmplf is providfd to hflp dfmonstrbtf whbt bn
+     * {@dodf hbndlf} mfthod implfmfntbtion might look likf.
+     * This fxbmplf dodf is for guidbndf only.  Mbny dftbils,
+     * indluding propfr frror hbndling, brf lfft out for simplidity.
+     *
+     * <prf>{@dodf
+     * publid void hbndlf(Cbllbbdk[] dbllbbdks)
+     * throws IOExdfption, UnsupportfdCbllbbdkExdfption {
+     *
+     *   for (int i = 0; i < dbllbbdks.lfngth; i++) {
+     *      if (dbllbbdks[i] instbndfof TfxtOutputCbllbbdk) {
+     *
+     *          // displby thf mfssbgf bddording to thf spfdififd typf
+     *          TfxtOutputCbllbbdk tod = (TfxtOutputCbllbbdk)dbllbbdks[i];
+     *          switdh (tod.gftMfssbgfTypf()) {
+     *          dbsf TfxtOutputCbllbbdk.INFORMATION:
+     *              Systfm.out.println(tod.gftMfssbgf());
+     *              brfbk;
+     *          dbsf TfxtOutputCbllbbdk.ERROR:
+     *              Systfm.out.println("ERROR: " + tod.gftMfssbgf());
+     *              brfbk;
+     *          dbsf TfxtOutputCbllbbdk.WARNING:
+     *              Systfm.out.println("WARNING: " + tod.gftMfssbgf());
+     *              brfbk;
+     *          dffbult:
+     *              throw nfw IOExdfption("Unsupportfd mfssbgf typf: " +
+     *                                  tod.gftMfssbgfTypf());
+     *          }
+     *
+     *      } flsf if (dbllbbdks[i] instbndfof NbmfCbllbbdk) {
+     *
+     *          // prompt thf usfr for b usfrnbmf
+     *          NbmfCbllbbdk nd = (NbmfCbllbbdk)dbllbbdks[i];
+     *
+     *          // ignorf thf providfd dffbultNbmf
+     *          Systfm.frr.print(nd.gftPrompt());
+     *          Systfm.frr.flush();
+     *          nd.sftNbmf((nfw BufffrfdRfbdfr
+     *                  (nfw InputStrfbmRfbdfr(Systfm.in))).rfbdLinf());
+     *
+     *      } flsf if (dbllbbdks[i] instbndfof PbsswordCbllbbdk) {
+     *
+     *          // prompt thf usfr for sfnsitivf informbtion
+     *          PbsswordCbllbbdk pd = (PbsswordCbllbbdk)dbllbbdks[i];
+     *          Systfm.frr.print(pd.gftPrompt());
+     *          Systfm.frr.flush();
+     *          pd.sftPbssword(rfbdPbssword(Systfm.in));
+     *
+     *      } flsf {
+     *          throw nfw UnsupportfdCbllbbdkExdfption
+     *                  (dbllbbdks[i], "Unrfdognizfd Cbllbbdk");
+     *      }
+     *   }
+     * }
+     *
+     * // Rfbds usfr pbssword from givfn input strfbm.
+     * privbtf dhbr[] rfbdPbssword(InputStrfbm in) throws IOExdfption {
+     *    // insfrt dodf to rfbd b usfr pbssword from thf input strfbm
+     * }
+     * }</prf>
+     *
+     * @pbrbm dbllbbdks bn brrby of {@dodf Cbllbbdk} objfdts providfd
+     *          by bn undfrlying sfdurity sfrvidf whidh dontbins
+     *          thf informbtion rfqufstfd to bf rftrifvfd or displbyfd.
+     *
+     * @fxdfption jbvb.io.IOExdfption if bn input or output frror oddurs. <p>
+     *
+     * @fxdfption UnsupportfdCbllbbdkExdfption if thf implfmfntbtion of this
+     *          mfthod dofs not support onf or morf of thf Cbllbbdks
+     *          spfdififd in thf {@dodf dbllbbdks} pbrbmftfr.
+     */
+    void hbndlf(Cbllbbdk[] dbllbbdks)
+    throws jbvb.io.IOExdfption, UnsupportfdCbllbbdkExdfption;
+}

@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.lang.ref.Reference;
-import javax.swing.SwingContainer;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvbx.swing.SwingContbinfr;
 
 /**
- * A BeanDescriptor provides global information about a "bean",
- * including its Java class, its displayName, etc.
+ * A BfbnDfsdriptor providfs globbl informbtion bbout b "bfbn",
+ * indluding its Jbvb dlbss, its displbyNbmf, ftd.
  * <p>
- * This is one of the kinds of descriptor returned by a BeanInfo object,
- * which also returns descriptors for properties, method, and events.
+ * Tiis is onf of tif kinds of dfsdriptor rfturnfd by b BfbnInfo objfdt,
+ * wiidi blso rfturns dfsdriptors for propfrtifs, mftiod, bnd fvfnts.
  *
- * @since 1.1
+ * @sindf 1.1
  */
 
-public class BeanDescriptor extends FeatureDescriptor {
+publid dlbss BfbnDfsdriptor fxtfnds FfbturfDfsdriptor {
 
-    private Reference<? extends Class<?>> beanClassRef;
-    private Reference<? extends Class<?>> customizerClassRef;
+    privbtf Rfffrfndf<? fxtfnds Clbss<?>> bfbnClbssRff;
+    privbtf Rfffrfndf<? fxtfnds Clbss<?>> dustomizfrClbssRff;
 
     /**
-     * Create a BeanDescriptor for a bean that doesn't have a customizer.
+     * Crfbtf b BfbnDfsdriptor for b bfbn tibt dofsn't ibvf b dustomizfr.
      *
-     * @param beanClass  The Class object of the Java class that implements
-     *          the bean.  For example sun.beans.OurButton.class.
+     * @pbrbm bfbnClbss  Tif Clbss objfdt of tif Jbvb dlbss tibt implfmfnts
+     *          tif bfbn.  For fxbmplf sun.bfbns.OurButton.dlbss.
      */
-    public BeanDescriptor(Class<?> beanClass) {
-        this(beanClass, null);
+    publid BfbnDfsdriptor(Clbss<?> bfbnClbss) {
+        tiis(bfbnClbss, null);
     }
 
     /**
-     * Create a BeanDescriptor for a bean that has a customizer.
+     * Crfbtf b BfbnDfsdriptor for b bfbn tibt ibs b dustomizfr.
      *
-     * @param beanClass  The Class object of the Java class that implements
-     *          the bean.  For example sun.beans.OurButton.class.
-     * @param customizerClass  The Class object of the Java class that implements
-     *          the bean's Customizer.  For example sun.beans.OurButtonCustomizer.class.
+     * @pbrbm bfbnClbss  Tif Clbss objfdt of tif Jbvb dlbss tibt implfmfnts
+     *          tif bfbn.  For fxbmplf sun.bfbns.OurButton.dlbss.
+     * @pbrbm dustomizfrClbss  Tif Clbss objfdt of tif Jbvb dlbss tibt implfmfnts
+     *          tif bfbn's Customizfr.  For fxbmplf sun.bfbns.OurButtonCustomizfr.dlbss.
      */
-    public BeanDescriptor(Class<?> beanClass, Class<?> customizerClass) {
-        this.beanClassRef = getWeakReference(beanClass);
-        this.customizerClassRef = getWeakReference(customizerClass);
+    publid BfbnDfsdriptor(Clbss<?> bfbnClbss, Clbss<?> dustomizfrClbss) {
+        tiis.bfbnClbssRff = gftWfbkRfffrfndf(bfbnClbss);
+        tiis.dustomizfrClbssRff = gftWfbkRfffrfndf(dustomizfrClbss);
 
-        String name = beanClass.getName();
-        while (name.indexOf('.') >= 0) {
-            name = name.substring(name.indexOf('.')+1);
+        String nbmf = bfbnClbss.gftNbmf();
+        wiilf (nbmf.indfxOf('.') >= 0) {
+            nbmf = nbmf.substring(nbmf.indfxOf('.')+1);
         }
-        setName(name);
+        sftNbmf(nbmf);
 
-        JavaBean annotation = beanClass.getAnnotation(JavaBean.class);
-        if (annotation != null) {
-            setPreferred(true);
-            String description = annotation.description();
-            if (!description.isEmpty()) {
-                setShortDescription(description);
+        JbvbBfbn bnnotbtion = bfbnClbss.gftAnnotbtion(JbvbBfbn.dlbss);
+        if (bnnotbtion != null) {
+            sftPrfffrrfd(truf);
+            String dfsdription = bnnotbtion.dfsdription();
+            if (!dfsdription.isEmpty()) {
+                sftSiortDfsdription(dfsdription);
             }
         }
-        SwingContainer container = beanClass.getAnnotation(SwingContainer.class);
-        if (container != null) {
-            setValue("isContainer", container.value());
-            String delegate = container.delegate();
-            if (!delegate.isEmpty()) {
-                setValue("containerDelegate", delegate);
+        SwingContbinfr dontbinfr = bfbnClbss.gftAnnotbtion(SwingContbinfr.dlbss);
+        if (dontbinfr != null) {
+            sftVbluf("isContbinfr", dontbinfr.vbluf());
+            String dflfgbtf = dontbinfr.dflfgbtf();
+            if (!dflfgbtf.isEmpty()) {
+                sftVbluf("dontbinfrDflfgbtf", dflfgbtf);
             }
         }
     }
 
     /**
-     * Gets the bean's Class object.
+     * Gfts tif bfbn's Clbss objfdt.
      *
-     * @return The Class object for the bean.
+     * @rfturn Tif Clbss objfdt for tif bfbn.
      */
-    public Class<?> getBeanClass() {
-        return (this.beanClassRef != null)
-                ? this.beanClassRef.get()
+    publid Clbss<?> gftBfbnClbss() {
+        rfturn (tiis.bfbnClbssRff != null)
+                ? tiis.bfbnClbssRff.gft()
                 : null;
     }
 
     /**
-     * Gets the Class object for the bean's customizer.
+     * Gfts tif Clbss objfdt for tif bfbn's dustomizfr.
      *
-     * @return The Class object for the bean's customizer.  This may
-     * be null if the bean doesn't have a customizer.
+     * @rfturn Tif Clbss objfdt for tif bfbn's dustomizfr.  Tiis mby
+     * bf null if tif bfbn dofsn't ibvf b dustomizfr.
      */
-    public Class<?> getCustomizerClass() {
-        return (this.customizerClassRef != null)
-                ? this.customizerClassRef.get()
+    publid Clbss<?> gftCustomizfrClbss() {
+        rfturn (tiis.dustomizfrClbssRff != null)
+                ? tiis.dustomizfrClbssRff.gft()
                 : null;
     }
 
     /*
-     * Package-private dup constructor
-     * This must isolate the new object from any changes to the old object.
+     * Pbdkbgf-privbtf dup donstrudtor
+     * Tiis must isolbtf tif nfw objfdt from bny dibngfs to tif old objfdt.
      */
-    BeanDescriptor(BeanDescriptor old) {
-        super(old);
-        beanClassRef = old.beanClassRef;
-        customizerClassRef = old.customizerClassRef;
+    BfbnDfsdriptor(BfbnDfsdriptor old) {
+        supfr(old);
+        bfbnClbssRff = old.bfbnClbssRff;
+        dustomizfrClbssRff = old.dustomizfrClbssRff;
     }
 
-    void appendTo(StringBuilder sb) {
-        appendTo(sb, "beanClass", this.beanClassRef);
-        appendTo(sb, "customizerClass", this.customizerClassRef);
+    void bppfndTo(StringBuildfr sb) {
+        bppfndTo(sb, "bfbnClbss", tiis.bfbnClbssRff);
+        bppfndTo(sb, "dustomizfrClbss", tiis.dustomizfrClbssRff);
     }
 }

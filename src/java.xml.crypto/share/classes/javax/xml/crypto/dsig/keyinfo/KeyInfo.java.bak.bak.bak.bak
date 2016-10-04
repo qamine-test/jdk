@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: KfyInfo.jbvb,v 1.7 2005/05/10 16:35:34 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig.kfyinfo;
+
+import jbvb.util.List;
+import jbvbx.xml.drypto.MbrshblExdfption;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvbx.xml.drypto.XMLStrudturf;
+
+/**
+ * A rfprfsfntbtion of thf XML <dodf>KfyInfo</dodf> flfmfnt bs dffinfd in
+ * thf <b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * A <dodf>KfyInfo</dodf> dontbins b list of {@link XMLStrudturf}s, fbdh of
+ * whidh dontbin informbtion thbt fnbblfs thf rfdipifnt(s) to obtbin thf kfy
+ * nffdfd to vblidbtf bn XML signbturf. Thf XML Sdhfmb Dffinition is dffinfd bs:
+ *
+ * <prf>
+ * &lt;flfmfnt nbmf="KfyInfo" typf="ds:KfyInfoTypf"/&gt;
+ * &lt;domplfxTypf nbmf="KfyInfoTypf" mixfd="truf"&gt;
+ *   &lt;dhoidf mbxOddurs="unboundfd"&gt;
+ *     &lt;flfmfnt rff="ds:KfyNbmf"/&gt;
+ *     &lt;flfmfnt rff="ds:KfyVbluf"/&gt;
+ *     &lt;flfmfnt rff="ds:RftrifvblMfthod"/&gt;
+ *     &lt;flfmfnt rff="ds:X509Dbtb"/&gt;
+ *     &lt;flfmfnt rff="ds:PGPDbtb"/&gt;
+ *     &lt;flfmfnt rff="ds:SPKIDbtb"/&gt;
+ *     &lt;flfmfnt rff="ds:MgmtDbtb"/&gt;
+ *     &lt;bny prodfssContfnts="lbx" nbmfspbdf="##othfr"/&gt;
+ *     &lt;!-- (1,1) flfmfnts from (0,unboundfd) nbmfspbdfs --&gt;
+ *   &lt;/dhoidf&gt;
+ *   &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+ * &lt;/domplfxTypf&gt;
+ * </prf>
+ *
+ * A <dodf>KfyInfo</dodf> instbndf mby bf drfbtfd by invoking onf of thf
+ * {@link KfyInfoFbdtory#nfwKfyInfo nfwKfyInfo} mfthods of thf
+ * {@link KfyInfoFbdtory} dlbss, bnd pbssing it b list of onf or morf
+ * <dodf>XMLStrudturf</dodf>s bnd bn optionbl id pbrbmftfr;
+ * for fxbmplf:
+ * <prf>
+ *   KfyInfoFbdtory fbdtory = KfyInfoFbdtory.gftInstbndf("DOM");
+ *   KfyInfo kfyInfo = fbdtory.nfwKfyInfo
+ *      (Collfdtions.singlftonList(fbdtory.nfwKfyNbmf("Alidf"), "kfyinfo-1"));
+ * </prf>
+ *
+ * <p><dodf>KfyInfo</dodf> objfdts dbn blso bf mbrshbllfd to XML by invoking
+ * thf {@link #mbrshbl mbrshbl} mfthod.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff KfyInfoFbdtory#nfwKfyInfo(List)
+ * @sff KfyInfoFbdtory#nfwKfyInfo(List, String)
+ */
+publid intfrfbdf KfyInfo fxtfnds XMLStrudturf {
+
+    /**
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * list} dontbining thf kfy informbtion. Ebdh fntry of thf list is
+     * bn {@link XMLStrudturf}.
+     *
+     * <p>If thfrf is b publid subdlbss rfprfsfnting thf typf of
+     * <dodf>XMLStrudturf</dodf>, it is rfturnfd bs bn instbndf of thbt
+     * dlbss (fx: bn <dodf>X509Dbtb</dodf> flfmfnt would bf rfturnfd bs bn
+     * instbndf of {@link jbvbx.xml.drypto.dsig.kfyinfo.X509Dbtb}).
+     *
+     * @rfturn bn unmodifibblf list of onf or morf <dodf>XMLStrudturf</dodf>s
+     *    in this <dodf>KfyInfo</dodf>. Nfvfr rfturns <dodf>null</dodf> or bn
+     *    fmpty list.
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    List gftContfnt();
+
+    /**
+     * Rfturn thf optionbl Id bttributf of this <dodf>KfyInfo</dodf>, whidh
+     * mby bf usfful for rfffrfnding this <dodf>KfyInfo</dodf> from othfr
+     * XML strudturfs.
+     *
+     * @rfturn thf Id bttributf of this <dodf>KfyInfo</dodf> (mby bf
+     *    <dodf>null</dodf> if not spfdififd)
+     */
+    String gftId();
+
+    /**
+     * Mbrshbls thf kfy info to XML.
+     *
+     * @pbrbm pbrfnt b mfdhbnism-spfdifid strudturf dontbining thf pbrfnt nodf
+     *    thbt thf mbrshbllfd kfy info will bf bppfndfd to
+     * @pbrbm dontfxt thf <dodf>XMLCryptoContfxt</dodf> dontbining bdditionbl
+     *    dontfxt (mby bf null if not bpplidbblf)
+     * @throws ClbssCbstExdfption if thf typf of <dodf>pbrfnt</dodf> or
+     *    <dodf>dontfxt</dodf> is not dompbtiblf with this kfy info
+     * @throws MbrshblExdfption if thf kfy info dbnnot bf mbrshbllfd
+     * @throws NullPointfrExdfption if <dodf>pbrfnt</dodf> is <dodf>null</dodf>
+     */
+    void mbrshbl(XMLStrudturf pbrfnt, XMLCryptoContfxt dontfxt)
+        throws MbrshblExdfption;
+}

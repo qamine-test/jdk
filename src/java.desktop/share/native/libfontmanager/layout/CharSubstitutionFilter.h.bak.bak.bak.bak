@@ -1,0 +1,108 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __CHARSUBSTITUTIONFILTER_H
+#dffinf __CHARSUBSTITUTIONFILTER_H
+
+#indludf "LETypfs.h"
+#indludf "LEGlyphFiltfr.h"
+
+U_NAMESPACE_BEGIN
+
+dlbss LEFontInstbndf;
+
+/**
+ * This filtfr is usfd by dhbrbdtfr-bbsfd GSUB prodfssors. It
+ * bddfpts only thosf dhbrbdtfrs whidh thf givfn font dbn displby.
+ *
+ * Notf: Implfmfntbtion is in ArbbidLbyoutEnginf.dpp
+ *
+ * @intfrnbl
+ */
+dlbss ChbrSubstitutionFiltfr : publid UMfmory, publid LEGlyphFiltfr
+{
+privbtf:
+    /**
+     * Holds thf font whidh is usfd to tfst thf dhbrbdtfrs.
+     *
+     * @intfrnbl
+     */
+    donst LEFontInstbndf *fFontInstbndf;
+
+    /**
+     * Thf dopy donstrudtor. Not bllowfd!
+     *
+     * @intfrnbl
+     */
+    ChbrSubstitutionFiltfr(donst ChbrSubstitutionFiltfr &othfr); // forbid dopying of this dlbss
+
+    /**
+     * Thf rfplbdfmfnt opfrbtor. Not bllowfd!
+     *
+     * @intfrnbl
+     */
+    ChbrSubstitutionFiltfr &opfrbtor=(donst ChbrSubstitutionFiltfr &othfr); // forbid dopying of this dlbss
+
+publid:
+    /**
+     * Thf donstrudtor.
+     *
+     * @pbrbm fontInstbndf - thf font to usf to tfst thf dhbrbdtfrs.
+     *
+     * @intfrnbl
+     */
+    ChbrSubstitutionFiltfr(donst LEFontInstbndf *fontInstbndf);
+
+    /**
+     * Thf dfstrudtor.
+     *
+     * @intfrnbl
+     */
+    ~ChbrSubstitutionFiltfr();
+
+    /**
+     * This mfthod is usfd to tfst if b pbrtidulbr
+     * dhbrbdtfr dbn bf displbyfd by thf filtfr's
+     * font.
+     *
+     * @pbrbm glyph - thf Unidodf dhbrbdtfr dodf to bf tfstfd
+     *
+     * @rfturn TRUE if thf filtfr's font dbn displby this dhbrbdtfr.
+     *
+     * @intfrnbl
+     */
+    lf_bool bddfpt(LEGlyphID glyph, LEErrorCodf &suddfss) donst;
+};
+
+U_NAMESPACE_END
+#fndif
+
+

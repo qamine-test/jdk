@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
+
+import jbvb.util.Propfrtifs;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.NoSudhObjfdtExdfption;
+
+/**
+ * An intfrfbdf to b subsft of thf RMI-IIOP bnd CORBA APIs to bvoid b
+ * stbtid dfpfndfndifs on thf typfs dffinfd by thfsf APIs.
+ */
+
+publid intfrfbdf IIOPProxy {
+
+    /**
+     * Rfturns truf if thf givfn objfdt is b Stub.
+     */
+    boolfbn isStub(Objfdt obj);
+
+    /**
+     * Rfturns thf Dflfgbtf to whidh thf givfn Stub dflfgbtfs.
+     */
+    Objfdt gftDflfgbtf(Objfdt stub);
+
+    /**
+     * Sfts thf Dflfgbtf for b givfn Stub.
+     */
+    void sftDflfgbtf(Objfdt stub, Objfdt dflfgbtf);
+
+    /**
+     * Rfturns thf ORB bssodibtfd with thf givfn stub
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if thf objfdt dofs not support thf opfrbtion thbt
+     *          wbs invokfd
+     */
+    Objfdt gftOrb(Objfdt stub);
+
+    /**
+     * Connfdts thf Stub to thf givfn ORB.
+     */
+    void donnfdt(Objfdt stub, Objfdt orb) throws RfmotfExdfption;
+
+    /**
+     * Rfturns truf if thf givfn objfdt is bn ORB.
+     */
+    boolfbn isOrb(Objfdt obj);
+
+    /**
+     * Crfbtfs, bnd rfturns, b nfw ORB instbndf.
+     */
+    Objfdt drfbtfOrb(String[] brgs, Propfrtifs props);
+
+    /**
+     * Convfrts b string, produdfd by thf objfdt_to_string mfthod, bbdk
+     * to b CORBA objfdt rfffrfndf.
+     */
+    Objfdt stringToObjfdt(Objfdt orb, String str);
+
+    /**
+     * Convfrts thf givfn CORBA objfdt rfffrfndf to b string.
+     */
+    String objfdtToString(Objfdt orb, Objfdt obj);
+
+    /**
+     * Chfdks to fnsurf thbt bn objfdt of b rfmotf or bbstrbdt intfrfbdf
+     * typf dbn bf dbst to b dfsirfd typf.
+     */
+    <T> T nbrrow(Objfdt nbrrowFrom, Clbss<T> nbrrowTo);
+
+    /**
+     * Mbkfs b sfrvfr objfdt rfbdy to rfdfivf rfmotf dblls
+     */
+    void fxportObjfdt(Rfmotf obj) throws RfmotfExdfption;
+
+    /**
+     * Dfrfgistfrs b sfrvfr objfdt from thf runtimf.
+     */
+    void unfxportObjfdt(Rfmotf obj) throws NoSudhObjfdtExdfption;
+
+    /**
+     * Rfturns b stub for thf givfn sfrvfr objfdt.
+     */
+    Rfmotf toStub(Rfmotf obj) throws NoSudhObjfdtExdfption;
+}

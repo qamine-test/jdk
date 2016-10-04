@@ -1,206 +1,206 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.ldap;
+pbdkbgf jbvbx.nbming.ldbp;
 
-import java.io.IOException;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.HostnameVerifier;
+import jbvb.io.IOExdfption;
+import jbvbx.nft.ssl.SSLSfssion;
+import jbvbx.nft.ssl.SSLSodkftFbdtory;
+import jbvbx.nft.ssl.HostnbmfVfrififr;
 
 /**
- * This class implements the LDAPv3 Extended Response for StartTLS as
- * defined in
- * <a href="http://www.ietf.org/rfc/rfc2830.txt">Lightweight Directory
- * Access Protocol (v3): Extension for Transport Layer Security</a>
+ * Tiis dlbss implfmfnts tif LDAPv3 Extfndfd Rfsponsf for StbrtTLS bs
+ * dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd2830.txt">Ligitwfigit Dirfdtory
+ * Addfss Protodol (v3): Extfnsion for Trbnsport Lbyfr Sfdurity</b>
  *
- * The object identifier for StartTLS is 1.3.6.1.4.1.1466.20037
- * and no extended response value is defined.
+ * Tif objfdt idfntififr for StbrtTLS is 1.3.6.1.4.1.1466.20037
+ * bnd no fxtfndfd rfsponsf vbluf is dffinfd.
  *
  *<p>
- * The Start TLS extended request and response are used to establish
- * a TLS connection over the existing LDAP connection associated with
- * the JNDI context on which <tt>extendedOperation()</tt> is invoked.
- * Typically, a JNDI program uses the StartTLS extended request and response
- * classes as follows.
- * <blockquote><pre>
- * import javax.naming.ldap.*;
+ * Tif Stbrt TLS fxtfndfd rfqufst bnd rfsponsf brf usfd to fstbblisi
+ * b TLS donnfdtion ovfr tif fxisting LDAP donnfdtion bssodibtfd witi
+ * tif JNDI dontfxt on wiidi <tt>fxtfndfdOpfrbtion()</tt> is invokfd.
+ * Typidblly, b JNDI progrbm usfs tif StbrtTLS fxtfndfd rfqufst bnd rfsponsf
+ * dlbssfs bs follows.
+ * <blodkquotf><prf>
+ * import jbvbx.nbming.ldbp.*;
  *
- * // Open an LDAP association
- * LdapContext ctx = new InitialLdapContext();
+ * // Opfn bn LDAP bssodibtion
+ * LdbpContfxt dtx = nfw InitiblLdbpContfxt();
  *
- * // Perform a StartTLS extended operation
- * StartTlsResponse tls =
- *     (StartTlsResponse) ctx.extendedOperation(new StartTlsRequest());
+ * // Pfrform b StbrtTLS fxtfndfd opfrbtion
+ * StbrtTlsRfsponsf tls =
+ *     (StbrtTlsRfsponsf) dtx.fxtfndfdOpfrbtion(nfw StbrtTlsRfqufst());
  *
- * // Open a TLS connection (over the existing LDAP association) and get details
- * // of the negotiated TLS session: cipher suite, peer certificate, ...
- * SSLSession session = tls.negotiate();
+ * // Opfn b TLS donnfdtion (ovfr tif fxisting LDAP bssodibtion) bnd gft dftbils
+ * // of tif nfgotibtfd TLS sfssion: dipifr suitf, pffr dfrtifidbtf, ...
+ * SSLSfssion sfssion = tls.nfgotibtf();
  *
- * // ... use ctx to perform protected LDAP operations
+ * // ... usf dtx to pfrform protfdtfd LDAP opfrbtions
  *
- * // Close the TLS connection (revert back to the underlying LDAP association)
- * tls.close();
+ * // Closf tif TLS donnfdtion (rfvfrt bbdk to tif undfrlying LDAP bssodibtion)
+ * tls.dlosf();
  *
- * // ... use ctx to perform unprotected LDAP operations
+ * // ... usf dtx to pfrform unprotfdtfd LDAP opfrbtions
  *
- * // Close the LDAP association
- * ctx.close;
- * </pre></blockquote>
+ * // Closf tif LDAP bssodibtion
+ * dtx.dlosf;
+ * </prf></blodkquotf>
  *
- * @since 1.4
- * @see StartTlsRequest
- * @author Vincent Ryan
+ * @sindf 1.4
+ * @sff StbrtTlsRfqufst
+ * @butior Vindfnt Rybn
  */
-public abstract class StartTlsResponse implements ExtendedResponse {
+publid bbstrbdt dlbss StbrtTlsRfsponsf implfmfnts ExtfndfdRfsponsf {
 
-    // Constant
+    // Constbnt
 
     /**
-     * The StartTLS extended response's assigned object identifier
+     * Tif StbrtTLS fxtfndfd rfsponsf's bssignfd objfdt idfntififr
      * is 1.3.6.1.4.1.1466.20037.
      */
-    public static final String OID = "1.3.6.1.4.1.1466.20037";
+    publid stbtid finbl String OID = "1.3.6.1.4.1.1466.20037";
 
 
-    // Called by subclass
+    // Cbllfd by subdlbss
 
     /**
-     * Constructs a StartTLS extended response.
-     * A concrete subclass must have a public no-arg constructor.
+     * Construdts b StbrtTLS fxtfndfd rfsponsf.
+     * A dondrftf subdlbss must ibvf b publid no-brg donstrudtor.
      */
-    protected StartTlsResponse() {
+    protfdtfd StbrtTlsRfsponsf() {
     }
 
 
-    // ExtendedResponse methods
+    // ExtfndfdRfsponsf mftiods
 
     /**
-     * Retrieves the StartTLS response's object identifier string.
+     * Rftrifvfs tif StbrtTLS rfsponsf's objfdt idfntififr string.
      *
-     * @return The object identifier string, "1.3.6.1.4.1.1466.20037".
+     * @rfturn Tif objfdt idfntififr string, "1.3.6.1.4.1.1466.20037".
      */
-    public String getID() {
-        return OID;
+    publid String gftID() {
+        rfturn OID;
     }
 
     /**
-     * Retrieves the StartTLS response's ASN.1 BER encoded value.
-     * Since the response has no defined value, null is always
-     * returned.
+     * Rftrifvfs tif StbrtTLS rfsponsf's ASN.1 BER fndodfd vbluf.
+     * Sindf tif rfsponsf ibs no dffinfd vbluf, null is blwbys
+     * rfturnfd.
      *
-     * @return The null value.
+     * @rfturn Tif null vbluf.
      */
-    public byte[] getEncodedValue() {
-        return null;
+    publid bytf[] gftEndodfdVbluf() {
+        rfturn null;
     }
 
-    // StartTls-specific methods
+    // StbrtTls-spfdifid mftiods
 
     /**
-     * Overrides the default list of cipher suites enabled for use on the
-     * TLS connection. The cipher suites must have already been listed by
-     * <tt>SSLSocketFactory.getSupportedCipherSuites()</tt> as being supported.
-     * Even if a suite has been enabled, it still might not be used because
-     * the peer does not support it, or because the requisite certificates
-     * (and private keys) are not available.
+     * Ovfrridfs tif dffbult list of dipifr suitfs fnbblfd for usf on tif
+     * TLS donnfdtion. Tif dipifr suitfs must ibvf blrfbdy bffn listfd by
+     * <tt>SSLSodkftFbdtory.gftSupportfdCipifrSuitfs()</tt> bs bfing supportfd.
+     * Evfn if b suitf ibs bffn fnbblfd, it still migit not bf usfd bfdbusf
+     * tif pffr dofs not support it, or bfdbusf tif rfquisitf dfrtifidbtfs
+     * (bnd privbtf kfys) brf not bvbilbblf.
      *
-     * @param suites The non-null list of names of all the cipher suites to
-     * enable.
-     * @see #negotiate
+     * @pbrbm suitfs Tif non-null list of nbmfs of bll tif dipifr suitfs to
+     * fnbblf.
+     * @sff #nfgotibtf
      */
-    public abstract void setEnabledCipherSuites(String[] suites);
+    publid bbstrbdt void sftEnbblfdCipifrSuitfs(String[] suitfs);
 
     /**
-     * Sets the hostname verifier used by <tt>negotiate()</tt>
-     * after the TLS handshake has completed and the default hostname
-     * verification has failed.
-     * <tt>setHostnameVerifier()</tt> must be called before
-     * <tt>negotiate()</tt> is invoked for it to have effect.
-     * If called after
-     * <tt>negotiate()</tt>, this method does not do anything.
+     * Sfts tif iostnbmf vfrififr usfd by <tt>nfgotibtf()</tt>
+     * bftfr tif TLS ibndsibkf ibs domplftfd bnd tif dffbult iostnbmf
+     * vfrifidbtion ibs fbilfd.
+     * <tt>sftHostnbmfVfrififr()</tt> must bf dbllfd bfforf
+     * <tt>nfgotibtf()</tt> is invokfd for it to ibvf ffffdt.
+     * If dbllfd bftfr
+     * <tt>nfgotibtf()</tt>, tiis mftiod dofs not do bnytiing.
      *
-     * @param verifier The non-null hostname verifier callback.
-     * @see #negotiate
+     * @pbrbm vfrififr Tif non-null iostnbmf vfrififr dbllbbdk.
+     * @sff #nfgotibtf
      */
-    public abstract void setHostnameVerifier(HostnameVerifier verifier);
+    publid bbstrbdt void sftHostnbmfVfrififr(HostnbmfVfrififr vfrififr);
 
     /**
-     * Negotiates a TLS session using the default SSL socket factory.
+     * Nfgotibtfs b TLS sfssion using tif dffbult SSL sodkft fbdtory.
      * <p>
-     * This method is equivalent to <tt>negotiate(null)</tt>.
+     * Tiis mftiod is fquivblfnt to <tt>nfgotibtf(null)</tt>.
      *
-     * @return The negotiated SSL session
-     * @throws IOException If an IO error was encountered while establishing
-     * the TLS session.
-     * @see #setEnabledCipherSuites
-     * @see #setHostnameVerifier
+     * @rfturn Tif nfgotibtfd SSL sfssion
+     * @tirows IOExdfption If bn IO frror wbs fndountfrfd wiilf fstbblisiing
+     * tif TLS sfssion.
+     * @sff #sftEnbblfdCipifrSuitfs
+     * @sff #sftHostnbmfVfrififr
      */
-    public abstract SSLSession negotiate() throws IOException;
+    publid bbstrbdt SSLSfssion nfgotibtf() tirows IOExdfption;
 
     /**
-     * Negotiates a TLS session using an SSL socket factory.
+     * Nfgotibtfs b TLS sfssion using bn SSL sodkft fbdtory.
      * <p>
-     * Creates an SSL socket using the supplied SSL socket factory and
-     * attaches it to the existing connection. Performs the TLS handshake
-     * and returns the negotiated session information.
+     * Crfbtfs bn SSL sodkft using tif supplifd SSL sodkft fbdtory bnd
+     * bttbdifs it to tif fxisting donnfdtion. Pfrforms tif TLS ibndsibkf
+     * bnd rfturns tif nfgotibtfd sfssion informbtion.
      * <p>
-     * If cipher suites have been set via <tt>setEnabledCipherSuites</tt>
-     * then they are enabled before the TLS handshake begins.
+     * If dipifr suitfs ibvf bffn sft vib <tt>sftEnbblfdCipifrSuitfs</tt>
+     * tifn tify brf fnbblfd bfforf tif TLS ibndsibkf bfgins.
      * <p>
-     * Hostname verification is performed after the TLS handshake completes.
-     * The default hostname verification performs a match of the server's
-     * hostname against the hostname information found in the server's certificate.
-     * If this verification fails and no callback has been set via
-     * <tt>setHostnameVerifier</tt> then the negotiation fails.
-     * If this verification fails and a callback has been set via
-     * <tt>setHostnameVerifier</tt>, then the callback is used to determine whether
-     * the negotiation succeeds.
+     * Hostnbmf vfrifidbtion is pfrformfd bftfr tif TLS ibndsibkf domplftfs.
+     * Tif dffbult iostnbmf vfrifidbtion pfrforms b mbtdi of tif sfrvfr's
+     * iostnbmf bgbinst tif iostnbmf informbtion found in tif sfrvfr's dfrtifidbtf.
+     * If tiis vfrifidbtion fbils bnd no dbllbbdk ibs bffn sft vib
+     * <tt>sftHostnbmfVfrififr</tt> tifn tif nfgotibtion fbils.
+     * If tiis vfrifidbtion fbils bnd b dbllbbdk ibs bffn sft vib
+     * <tt>sftHostnbmfVfrififr</tt>, tifn tif dbllbbdk is usfd to dftfrminf wiftifr
+     * tif nfgotibtion suddffds.
      * <p>
-     * If an error occurs then the SSL socket is closed and an IOException
-     * is thrown. The underlying connection remains intact.
+     * If bn frror oddurs tifn tif SSL sodkft is dlosfd bnd bn IOExdfption
+     * is tirown. Tif undfrlying donnfdtion rfmbins intbdt.
      *
-     * @param factory The possibly null SSL socket factory to use.
-     * If null, the default SSL socket factory is used.
-     * @return The negotiated SSL session
-     * @throws IOException If an IO error was encountered while establishing
-     * the TLS session.
-     * @see #setEnabledCipherSuites
-     * @see #setHostnameVerifier
+     * @pbrbm fbdtory Tif possibly null SSL sodkft fbdtory to usf.
+     * If null, tif dffbult SSL sodkft fbdtory is usfd.
+     * @rfturn Tif nfgotibtfd SSL sfssion
+     * @tirows IOExdfption If bn IO frror wbs fndountfrfd wiilf fstbblisiing
+     * tif TLS sfssion.
+     * @sff #sftEnbblfdCipifrSuitfs
+     * @sff #sftHostnbmfVfrififr
      */
-    public abstract SSLSession negotiate(SSLSocketFactory factory)
-        throws IOException;
+    publid bbstrbdt SSLSfssion nfgotibtf(SSLSodkftFbdtory fbdtory)
+        tirows IOExdfption;
 
     /**
-     * Closes the TLS connection gracefully and reverts back to the underlying
-     * connection.
+     * Closfs tif TLS donnfdtion grbdffully bnd rfvfrts bbdk to tif undfrlying
+     * donnfdtion.
      *
-     * @throws IOException If an IO error was encountered while closing the
-     * TLS connection
+     * @tirows IOExdfption If bn IO frror wbs fndountfrfd wiilf dlosing tif
+     * TLS donnfdtion
      */
-    public abstract void close() throws IOException;
+    publid bbstrbdt void dlosf() tirows IOExdfption;
 
-    private static final long serialVersionUID = 8372842182579276418L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8372842182579276418L;
 }

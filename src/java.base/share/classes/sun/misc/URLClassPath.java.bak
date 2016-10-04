@@ -1,463 +1,463 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.util.*;
-import java.util.jar.JarFile;
-import sun.misc.JarIndex;
-import sun.misc.InvalidJarIndexException;
-import sun.net.www.ParseUtil;
-import java.util.zip.ZipEntry;
-import java.util.jar.JarEntry;
-import java.util.jar.Manifest;
-import java.util.jar.Attributes;
-import java.util.jar.Attributes.Name;
-import java.net.JarURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.HttpURLConnection;
-import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
-import java.io.*;
-import java.security.AccessController;
-import java.security.AccessControlException;
-import java.security.CodeSigner;
-import java.security.Permission;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.cert.Certificate;
-import sun.misc.FileURLMapper;
-import sun.net.util.URLUtil;
+import jbvb.util.*;
+import jbvb.util.jbr.JbrFilf;
+import sun.misd.JbrIndfx;
+import sun.misd.InvblidJbrIndfxExdfption;
+import sun.nft.www.PbrsfUtil;
+import jbvb.util.zip.ZipEntry;
+import jbvb.util.jbr.JbrEntry;
+import jbvb.util.jbr.Mbniffst;
+import jbvb.util.jbr.Attributfs;
+import jbvb.util.jbr.Attributfs.Nbmf;
+import jbvb.nft.JbrURLConnfdtion;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.nft.URLStrfbmHbndlfr;
+import jbvb.nft.URLStrfbmHbndlfrFbdtory;
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlExdfption;
+import jbvb.sfdurity.CodfSignfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import sun.misd.FilfURLMbppfr;
+import sun.nft.util.URLUtil;
 
 /**
- * This class is used to maintain a search path of URLs for loading classes
- * and resources from both JAR files and directories.
+ * Tiis dlbss is usfd to mbintbin b sfbrdi pbti of URLs for lobding dlbssfs
+ * bnd rfsourdfs from boti JAR filfs bnd dirfdtorifs.
  *
- * @author  David Connelly
+ * @butior  Dbvid Connflly
  */
-public class URLClassPath {
-    final static String USER_AGENT_JAVA_VERSION = "UA-Java-Version";
-    final static String JAVA_VERSION;
-    private static final boolean DEBUG;
-    private static final boolean DISABLE_JAR_CHECKING;
+publid dlbss URLClbssPbti {
+    finbl stbtid String USER_AGENT_JAVA_VERSION = "UA-Jbvb-Vfrsion";
+    finbl stbtid String JAVA_VERSION;
+    privbtf stbtid finbl boolfbn DEBUG;
+    privbtf stbtid finbl boolfbn DISABLE_JAR_CHECKING;
 
-    static {
-        JAVA_VERSION = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("java.version"));
-        DEBUG        = (java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("sun.misc.URLClassPath.debug")) != null);
-        String p = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("sun.misc.URLClassPath.disableJarChecking"));
-        DISABLE_JAR_CHECKING = p != null ? p.equals("true") || p.equals("") : false;
+    stbtid {
+        JAVA_VERSION = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("jbvb.vfrsion"));
+        DEBUG        = (jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.misd.URLClbssPbti.dfbug")) != null);
+        String p = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.misd.URLClbssPbti.disbblfJbrCifdking"));
+        DISABLE_JAR_CHECKING = p != null ? p.fqubls("truf") || p.fqubls("") : fblsf;
     }
 
-    /* The original search path of URLs. */
-    private ArrayList<URL> path = new ArrayList<URL>();
+    /* Tif originbl sfbrdi pbti of URLs. */
+    privbtf ArrbyList<URL> pbti = nfw ArrbyList<URL>();
 
-    /* The stack of unopened URLs */
-    Stack<URL> urls = new Stack<URL>();
+    /* Tif stbdk of unopfnfd URLs */
+    Stbdk<URL> urls = nfw Stbdk<URL>();
 
-    /* The resulting search path of Loaders */
-    ArrayList<Loader> loaders = new ArrayList<Loader>();
+    /* Tif rfsulting sfbrdi pbti of Lobdfrs */
+    ArrbyList<Lobdfr> lobdfrs = nfw ArrbyList<Lobdfr>();
 
-    /* Map of each URL opened to its corresponding Loader */
-    HashMap<String, Loader> lmap = new HashMap<String, Loader>();
+    /* Mbp of fbdi URL opfnfd to its dorrfsponding Lobdfr */
+    HbsiMbp<String, Lobdfr> lmbp = nfw HbsiMbp<String, Lobdfr>();
 
-    /* The jar protocol handler to use when creating new URLs */
-    private URLStreamHandler jarHandler;
+    /* Tif jbr protodol ibndlfr to usf wifn drfbting nfw URLs */
+    privbtf URLStrfbmHbndlfr jbrHbndlfr;
 
-    /* Whether this URLClassLoader has been closed yet */
-    private boolean closed = false;
+    /* Wiftifr tiis URLClbssLobdfr ibs bffn dlosfd yft */
+    privbtf boolfbn dlosfd = fblsf;
 
     /**
-     * Creates a new URLClassPath for the given URLs. The URLs will be
-     * searched in the order specified for classes and resources. A URL
-     * ending with a '/' is assumed to refer to a directory. Otherwise,
-     * the URL is assumed to refer to a JAR file.
+     * Crfbtfs b nfw URLClbssPbti for tif givfn URLs. Tif URLs will bf
+     * sfbrdifd in tif ordfr spfdififd for dlbssfs bnd rfsourdfs. A URL
+     * fnding witi b '/' is bssumfd to rfffr to b dirfdtory. Otifrwisf,
+     * tif URL is bssumfd to rfffr to b JAR filf.
      *
-     * @param urls the directory and JAR file URLs to search for classes
-     *        and resources
-     * @param factory the URLStreamHandlerFactory to use when creating new URLs
+     * @pbrbm urls tif dirfdtory bnd JAR filf URLs to sfbrdi for dlbssfs
+     *        bnd rfsourdfs
+     * @pbrbm fbdtory tif URLStrfbmHbndlfrFbdtory to usf wifn drfbting nfw URLs
      */
-    public URLClassPath(URL[] urls, URLStreamHandlerFactory factory) {
-        for (int i = 0; i < urls.length; i++) {
-            path.add(urls[i]);
+    publid URLClbssPbti(URL[] urls, URLStrfbmHbndlfrFbdtory fbdtory) {
+        for (int i = 0; i < urls.lfngti; i++) {
+            pbti.bdd(urls[i]);
         }
-        push(urls);
-        if (factory != null) {
-            jarHandler = factory.createURLStreamHandler("jar");
+        pusi(urls);
+        if (fbdtory != null) {
+            jbrHbndlfr = fbdtory.drfbtfURLStrfbmHbndlfr("jbr");
         }
     }
 
-    public URLClassPath(URL[] urls) {
-        this(urls, null);
+    publid URLClbssPbti(URL[] urls) {
+        tiis(urls, null);
     }
 
-    public synchronized List<IOException> closeLoaders() {
-        if (closed) {
-            return Collections.emptyList();
+    publid syndironizfd List<IOExdfption> dlosfLobdfrs() {
+        if (dlosfd) {
+            rfturn Collfdtions.fmptyList();
         }
-        List<IOException> result = new LinkedList<IOException>();
-        for (Loader loader : loaders) {
+        List<IOExdfption> rfsult = nfw LinkfdList<IOExdfption>();
+        for (Lobdfr lobdfr : lobdfrs) {
             try {
-                loader.close();
-            } catch (IOException e) {
-                result.add (e);
+                lobdfr.dlosf();
+            } dbtdi (IOExdfption f) {
+                rfsult.bdd (f);
             }
         }
-        closed = true;
-        return result;
+        dlosfd = truf;
+        rfturn rfsult;
     }
 
     /**
-     * Appends the specified URL to the search path of directory and JAR
-     * file URLs from which to load classes and resources.
+     * Appfnds tif spfdififd URL to tif sfbrdi pbti of dirfdtory bnd JAR
+     * filf URLs from wiidi to lobd dlbssfs bnd rfsourdfs.
      * <p>
-     * If the URL specified is null or is already in the list of
-     * URLs, then invoking this method has no effect.
+     * If tif URL spfdififd is null or is blrfbdy in tif list of
+     * URLs, tifn invoking tiis mftiod ibs no ffffdt.
      */
-    public synchronized void addURL(URL url) {
-        if (closed)
-            return;
-        synchronized (urls) {
-            if (url == null || path.contains(url))
-                return;
+    publid syndironizfd void bddURL(URL url) {
+        if (dlosfd)
+            rfturn;
+        syndironizfd (urls) {
+            if (url == null || pbti.dontbins(url))
+                rfturn;
 
-            urls.add(0, url);
-            path.add(url);
+            urls.bdd(0, url);
+            pbti.bdd(url);
         }
     }
 
     /**
-     * Returns the original search path of URLs.
+     * Rfturns tif originbl sfbrdi pbti of URLs.
      */
-    public URL[] getURLs() {
-        synchronized (urls) {
-            return path.toArray(new URL[path.size()]);
+    publid URL[] gftURLs() {
+        syndironizfd (urls) {
+            rfturn pbti.toArrby(nfw URL[pbti.sizf()]);
         }
     }
 
     /**
-     * Finds the resource with the specified name on the URL search path
-     * or null if not found or security check fails.
+     * Finds tif rfsourdf witi tif spfdififd nbmf on tif URL sfbrdi pbti
+     * or null if not found or sfdurity difdk fbils.
      *
-     * @param name      the name of the resource
-     * @param check     whether to perform a security check
-     * @return a <code>URL</code> for the resource, or <code>null</code>
-     * if the resource could not be found.
+     * @pbrbm nbmf      tif nbmf of tif rfsourdf
+     * @pbrbm difdk     wiftifr to pfrform b sfdurity difdk
+     * @rfturn b <dodf>URL</dodf> for tif rfsourdf, or <dodf>null</dodf>
+     * if tif rfsourdf dould not bf found.
      */
-    public URL findResource(String name, boolean check) {
-        Loader loader;
-        for (int i = 0; (loader = getLoader(i)) != null; i++) {
-            URL url = loader.findResource(name, check);
+    publid URL findRfsourdf(String nbmf, boolfbn difdk) {
+        Lobdfr lobdfr;
+        for (int i = 0; (lobdfr = gftLobdfr(i)) != null; i++) {
+            URL url = lobdfr.findRfsourdf(nbmf, difdk);
             if (url != null) {
-                return url;
+                rfturn url;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Finds the first Resource on the URL search path which has the specified
-     * name. Returns null if no Resource could be found.
+     * Finds tif first Rfsourdf on tif URL sfbrdi pbti wiidi ibs tif spfdififd
+     * nbmf. Rfturns null if no Rfsourdf dould bf found.
      *
-     * @param name the name of the Resource
-     * @param check     whether to perform a security check
-     * @return the Resource, or null if not found
+     * @pbrbm nbmf tif nbmf of tif Rfsourdf
+     * @pbrbm difdk     wiftifr to pfrform b sfdurity difdk
+     * @rfturn tif Rfsourdf, or null if not found
      */
-    public Resource getResource(String name, boolean check) {
+    publid Rfsourdf gftRfsourdf(String nbmf, boolfbn difdk) {
         if (DEBUG) {
-            System.err.println("URLClassPath.getResource(\"" + name + "\")");
+            Systfm.frr.println("URLClbssPbti.gftRfsourdf(\"" + nbmf + "\")");
         }
 
-        Loader loader;
-        for (int i = 0; (loader = getLoader(i)) != null; i++) {
-            Resource res = loader.getResource(name, check);
-            if (res != null) {
-                return res;
+        Lobdfr lobdfr;
+        for (int i = 0; (lobdfr = gftLobdfr(i)) != null; i++) {
+            Rfsourdf rfs = lobdfr.gftRfsourdf(nbmf, difdk);
+            if (rfs != null) {
+                rfturn rfs;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Finds all resources on the URL search path with the given name.
-     * Returns an enumeration of the URL objects.
+     * Finds bll rfsourdfs on tif URL sfbrdi pbti witi tif givfn nbmf.
+     * Rfturns bn fnumfrbtion of tif URL objfdts.
      *
-     * @param name the resource name
-     * @return an Enumeration of all the urls having the specified name
+     * @pbrbm nbmf tif rfsourdf nbmf
+     * @rfturn bn Enumfrbtion of bll tif urls ibving tif spfdififd nbmf
      */
-    public Enumeration<URL> findResources(final String name,
-                                     final boolean check) {
-        return new Enumeration<URL>() {
-            private int index = 0;
-            private URL url = null;
+    publid Enumfrbtion<URL> findRfsourdfs(finbl String nbmf,
+                                     finbl boolfbn difdk) {
+        rfturn nfw Enumfrbtion<URL>() {
+            privbtf int indfx = 0;
+            privbtf URL url = null;
 
-            private boolean next() {
+            privbtf boolfbn nfxt() {
                 if (url != null) {
-                    return true;
-                } else {
-                    Loader loader;
-                    while ((loader = getLoader(index++)) != null) {
-                        url = loader.findResource(name, check);
+                    rfturn truf;
+                } flsf {
+                    Lobdfr lobdfr;
+                    wiilf ((lobdfr = gftLobdfr(indfx++)) != null) {
+                        url = lobdfr.findRfsourdf(nbmf, difdk);
                         if (url != null) {
-                            return true;
+                            rfturn truf;
                         }
                     }
-                    return false;
+                    rfturn fblsf;
                 }
             }
 
-            public boolean hasMoreElements() {
-                return next();
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn nfxt();
             }
 
-            public URL nextElement() {
-                if (!next()) {
-                    throw new NoSuchElementException();
+            publid URL nfxtElfmfnt() {
+                if (!nfxt()) {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
                 URL u = url;
                 url = null;
-                return u;
+                rfturn u;
             }
         };
     }
 
-    public Resource getResource(String name) {
-        return getResource(name, true);
+    publid Rfsourdf gftRfsourdf(String nbmf) {
+        rfturn gftRfsourdf(nbmf, truf);
     }
 
     /**
-     * Finds all resources on the URL search path with the given name.
-     * Returns an enumeration of the Resource objects.
+     * Finds bll rfsourdfs on tif URL sfbrdi pbti witi tif givfn nbmf.
+     * Rfturns bn fnumfrbtion of tif Rfsourdf objfdts.
      *
-     * @param name the resource name
-     * @return an Enumeration of all the resources having the specified name
+     * @pbrbm nbmf tif rfsourdf nbmf
+     * @rfturn bn Enumfrbtion of bll tif rfsourdfs ibving tif spfdififd nbmf
      */
-    public Enumeration<Resource> getResources(final String name,
-                                    final boolean check) {
-        return new Enumeration<Resource>() {
-            private int index = 0;
-            private Resource res = null;
+    publid Enumfrbtion<Rfsourdf> gftRfsourdfs(finbl String nbmf,
+                                    finbl boolfbn difdk) {
+        rfturn nfw Enumfrbtion<Rfsourdf>() {
+            privbtf int indfx = 0;
+            privbtf Rfsourdf rfs = null;
 
-            private boolean next() {
-                if (res != null) {
-                    return true;
-                } else {
-                    Loader loader;
-                    while ((loader = getLoader(index++)) != null) {
-                        res = loader.getResource(name, check);
-                        if (res != null) {
-                            return true;
+            privbtf boolfbn nfxt() {
+                if (rfs != null) {
+                    rfturn truf;
+                } flsf {
+                    Lobdfr lobdfr;
+                    wiilf ((lobdfr = gftLobdfr(indfx++)) != null) {
+                        rfs = lobdfr.gftRfsourdf(nbmf, difdk);
+                        if (rfs != null) {
+                            rfturn truf;
                         }
                     }
-                    return false;
+                    rfturn fblsf;
                 }
             }
 
-            public boolean hasMoreElements() {
-                return next();
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn nfxt();
             }
 
-            public Resource nextElement() {
-                if (!next()) {
-                    throw new NoSuchElementException();
+            publid Rfsourdf nfxtElfmfnt() {
+                if (!nfxt()) {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
-                Resource r = res;
-                res = null;
-                return r;
+                Rfsourdf r = rfs;
+                rfs = null;
+                rfturn r;
             }
         };
     }
 
-    public Enumeration<Resource> getResources(final String name) {
-        return getResources(name, true);
+    publid Enumfrbtion<Rfsourdf> gftRfsourdfs(finbl String nbmf) {
+        rfturn gftRfsourdfs(nbmf, truf);
     }
 
     /*
-     * Returns the Loader at the specified position in the URL search
-     * path. The URLs are opened and expanded as needed. Returns null
-     * if the specified index is out of range.
+     * Rfturns tif Lobdfr bt tif spfdififd position in tif URL sfbrdi
+     * pbti. Tif URLs brf opfnfd bnd fxpbndfd bs nffdfd. Rfturns null
+     * if tif spfdififd indfx is out of rbngf.
      */
-     private synchronized Loader getLoader(int index) {
-        if (closed) {
-            return null;
+     privbtf syndironizfd Lobdfr gftLobdfr(int indfx) {
+        if (dlosfd) {
+            rfturn null;
         }
-         // Expand URL search path until the request can be satisfied
-         // or the URL stack is empty.
-        while (loaders.size() < index + 1) {
-            // Pop the next URL from the URL stack
+         // Expbnd URL sfbrdi pbti until tif rfqufst dbn bf sbtisfifd
+         // or tif URL stbdk is fmpty.
+        wiilf (lobdfrs.sizf() < indfx + 1) {
+            // Pop tif nfxt URL from tif URL stbdk
             URL url;
-            synchronized (urls) {
-                if (urls.empty()) {
-                    return null;
-                } else {
+            syndironizfd (urls) {
+                if (urls.fmpty()) {
+                    rfturn null;
+                } flsf {
                     url = urls.pop();
                 }
             }
-            // Skip this URL if it already has a Loader. (Loader
-            // may be null in the case where URL has not been opened
-            // but is referenced by a JAR index.)
-            String urlNoFragString = URLUtil.urlNoFragString(url);
-            if (lmap.containsKey(urlNoFragString)) {
-                continue;
+            // Skip tiis URL if it blrfbdy ibs b Lobdfr. (Lobdfr
+            // mby bf null in tif dbsf wifrf URL ibs not bffn opfnfd
+            // but is rfffrfndfd by b JAR indfx.)
+            String urlNoFrbgString = URLUtil.urlNoFrbgString(url);
+            if (lmbp.dontbinsKfy(urlNoFrbgString)) {
+                dontinuf;
             }
-            // Otherwise, create a new Loader for the URL.
-            Loader loader;
+            // Otifrwisf, drfbtf b nfw Lobdfr for tif URL.
+            Lobdfr lobdfr;
             try {
-                loader = getLoader(url);
-                // If the loader defines a local class path then add the
-                // URLs to the list of URLs to be opened.
-                URL[] urls = loader.getClassPath();
+                lobdfr = gftLobdfr(url);
+                // If tif lobdfr dffinfs b lodbl dlbss pbti tifn bdd tif
+                // URLs to tif list of URLs to bf opfnfd.
+                URL[] urls = lobdfr.gftClbssPbti();
                 if (urls != null) {
-                    push(urls);
+                    pusi(urls);
                 }
-            } catch (IOException e) {
-                // Silently ignore for now...
-                continue;
+            } dbtdi (IOExdfption f) {
+                // Silfntly ignorf for now...
+                dontinuf;
             }
-            // Finally, add the Loader to the search path.
-            loaders.add(loader);
-            lmap.put(urlNoFragString, loader);
+            // Finblly, bdd tif Lobdfr to tif sfbrdi pbti.
+            lobdfrs.bdd(lobdfr);
+            lmbp.put(urlNoFrbgString, lobdfr);
         }
-        return loaders.get(index);
+        rfturn lobdfrs.gft(indfx);
     }
 
     /*
-     * Returns the Loader for the specified base URL.
+     * Rfturns tif Lobdfr for tif spfdififd bbsf URL.
      */
-    private Loader getLoader(final URL url) throws IOException {
+    privbtf Lobdfr gftLobdfr(finbl URL url) tirows IOExdfption {
         try {
-            return java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedExceptionAction<Loader>() {
-                public Loader run() throws IOException {
-                    String file = url.getFile();
-                    if (file != null && file.endsWith("/")) {
-                        if ("file".equals(url.getProtocol())) {
-                            return new FileLoader(url);
-                        } else {
-                            return new Loader(url);
+            rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Lobdfr>() {
+                publid Lobdfr run() tirows IOExdfption {
+                    String filf = url.gftFilf();
+                    if (filf != null && filf.fndsWiti("/")) {
+                        if ("filf".fqubls(url.gftProtodol())) {
+                            rfturn nfw FilfLobdfr(url);
+                        } flsf {
+                            rfturn nfw Lobdfr(url);
                         }
-                    } else {
-                        return new JarLoader(url, jarHandler, lmap);
+                    } flsf {
+                        rfturn nfw JbrLobdfr(url, jbrHbndlfr, lmbp);
                     }
                 }
             });
-        } catch (java.security.PrivilegedActionException pae) {
-            throw (IOException)pae.getException();
+        } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+            tirow (IOExdfption)pbf.gftExdfption();
         }
     }
 
     /*
-     * Pushes the specified URLs onto the list of unopened URLs.
+     * Pusifs tif spfdififd URLs onto tif list of unopfnfd URLs.
      */
-    private void push(URL[] us) {
-        synchronized (urls) {
-            for (int i = us.length - 1; i >= 0; --i) {
-                urls.push(us[i]);
+    privbtf void pusi(URL[] us) {
+        syndironizfd (urls) {
+            for (int i = us.lfngti - 1; i >= 0; --i) {
+                urls.pusi(us[i]);
             }
         }
     }
 
     /**
-     * Convert class path specification into an array of file URLs.
+     * Convfrt dlbss pbti spfdifidbtion into bn brrby of filf URLs.
      *
-     * The path of the file is encoded before conversion into URL
-     * form so that reserved characters can safely appear in the path.
+     * Tif pbti of tif filf is fndodfd bfforf donvfrsion into URL
+     * form so tibt rfsfrvfd dibrbdtfrs dbn sbffly bppfbr in tif pbti.
      */
-    public static URL[] pathToURLs(String path) {
-        StringTokenizer st = new StringTokenizer(path, File.pathSeparator);
-        URL[] urls = new URL[st.countTokens()];
-        int count = 0;
-        while (st.hasMoreTokens()) {
-            File f = new File(st.nextToken());
+    publid stbtid URL[] pbtiToURLs(String pbti) {
+        StringTokfnizfr st = nfw StringTokfnizfr(pbti, Filf.pbtiSfpbrbtor);
+        URL[] urls = nfw URL[st.dountTokfns()];
+        int dount = 0;
+        wiilf (st.ibsMorfTokfns()) {
+            Filf f = nfw Filf(st.nfxtTokfn());
             try {
-                f = new File(f.getCanonicalPath());
-            } catch (IOException x) {
-                // use the non-canonicalized filename
+                f = nfw Filf(f.gftCbnonidblPbti());
+            } dbtdi (IOExdfption x) {
+                // usf tif non-dbnonidblizfd filfnbmf
             }
             try {
-                urls[count++] = ParseUtil.fileToEncodedURL(f);
-            } catch (IOException x) { }
+                urls[dount++] = PbrsfUtil.filfToEndodfdURL(f);
+            } dbtdi (IOExdfption x) { }
         }
 
-        if (urls.length != count) {
-            URL[] tmp = new URL[count];
-            System.arraycopy(urls, 0, tmp, 0, count);
+        if (urls.lfngti != dount) {
+            URL[] tmp = nfw URL[dount];
+            Systfm.brrbydopy(urls, 0, tmp, 0, dount);
             urls = tmp;
         }
-        return urls;
+        rfturn urls;
     }
 
     /*
-     * Check whether the resource URL should be returned.
-     * Return null on security check failure.
-     * Called by java.net.URLClassLoader.
+     * Cifdk wiftifr tif rfsourdf URL siould bf rfturnfd.
+     * Rfturn null on sfdurity difdk fbilurf.
+     * Cbllfd by jbvb.nft.URLClbssLobdfr.
      */
-    public URL checkURL(URL url) {
+    publid URL difdkURL(URL url) {
         try {
-            check(url);
-        } catch (Exception e) {
-            return null;
+            difdk(url);
+        } dbtdi (Exdfption f) {
+            rfturn null;
         }
 
-        return url;
+        rfturn url;
     }
 
     /*
-     * Check whether the resource URL should be returned.
-     * Throw exception on failure.
-     * Called internally within this file.
+     * Cifdk wiftifr tif rfsourdf URL siould bf rfturnfd.
+     * Tirow fxdfption on fbilurf.
+     * Cbllfd intfrnblly witiin tiis filf.
      */
-    static void check(URL url) throws IOException {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            URLConnection urlConnection = url.openConnection();
-            Permission perm = urlConnection.getPermission();
-            if (perm != null) {
+    stbtid void difdk(URL url) tirows IOExdfption {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            URLConnfdtion urlConnfdtion = url.opfnConnfdtion();
+            Pfrmission pfrm = urlConnfdtion.gftPfrmission();
+            if (pfrm != null) {
                 try {
-                    security.checkPermission(perm);
-                } catch (SecurityException se) {
-                    // fallback to checkRead/checkConnect for pre 1.2
-                    // security managers
-                    if ((perm instanceof java.io.FilePermission) &&
-                        perm.getActions().indexOf("read") != -1) {
-                        security.checkRead(perm.getName());
-                    } else if ((perm instanceof
-                        java.net.SocketPermission) &&
-                        perm.getActions().indexOf("connect") != -1) {
-                        URL locUrl = url;
-                        if (urlConnection instanceof JarURLConnection) {
-                            locUrl = ((JarURLConnection)urlConnection).getJarFileURL();
+                    sfdurity.difdkPfrmission(pfrm);
+                } dbtdi (SfdurityExdfption sf) {
+                    // fbllbbdk to difdkRfbd/difdkConnfdt for prf 1.2
+                    // sfdurity mbnbgfrs
+                    if ((pfrm instbndfof jbvb.io.FilfPfrmission) &&
+                        pfrm.gftAdtions().indfxOf("rfbd") != -1) {
+                        sfdurity.difdkRfbd(pfrm.gftNbmf());
+                    } flsf if ((pfrm instbndfof
+                        jbvb.nft.SodkftPfrmission) &&
+                        pfrm.gftAdtions().indfxOf("donnfdt") != -1) {
+                        URL lodUrl = url;
+                        if (urlConnfdtion instbndfof JbrURLConnfdtion) {
+                            lodUrl = ((JbrURLConnfdtion)urlConnfdtion).gftJbrFilfURL();
                         }
-                        security.checkConnect(locUrl.getHost(),
-                                              locUrl.getPort());
-                    } else {
-                        throw se;
+                        sfdurity.difdkConnfdt(lodUrl.gftHost(),
+                                              lodUrl.gftPort());
+                    } flsf {
+                        tirow sf;
                     }
                 }
             }
@@ -465,634 +465,634 @@ public class URLClassPath {
     }
 
     /**
-     * Inner class used to represent a loader of resources and classes
-     * from a base URL.
+     * Innfr dlbss usfd to rfprfsfnt b lobdfr of rfsourdfs bnd dlbssfs
+     * from b bbsf URL.
      */
-    private static class Loader implements Closeable {
-        private final URL base;
-        private JarFile jarfile; // if this points to a jar file
+    privbtf stbtid dlbss Lobdfr implfmfnts Closfbblf {
+        privbtf finbl URL bbsf;
+        privbtf JbrFilf jbrfilf; // if tiis points to b jbr filf
 
         /*
-         * Creates a new Loader for the specified URL.
+         * Crfbtfs b nfw Lobdfr for tif spfdififd URL.
          */
-        Loader(URL url) {
-            base = url;
+        Lobdfr(URL url) {
+            bbsf = url;
         }
 
         /*
-         * Returns the base URL for this Loader.
+         * Rfturns tif bbsf URL for tiis Lobdfr.
          */
-        URL getBaseURL() {
-            return base;
+        URL gftBbsfURL() {
+            rfturn bbsf;
         }
 
-        URL findResource(final String name, boolean check) {
+        URL findRfsourdf(finbl String nbmf, boolfbn difdk) {
             URL url;
             try {
-                url = new URL(base, ParseUtil.encodePath(name, false));
-            } catch (MalformedURLException e) {
-                throw new IllegalArgumentException("name");
+                url = nfw URL(bbsf, PbrsfUtil.fndodfPbti(nbmf, fblsf));
+            } dbtdi (MblformfdURLExdfption f) {
+                tirow nfw IllfgblArgumfntExdfption("nbmf");
             }
 
             try {
-                if (check) {
-                    URLClassPath.check(url);
+                if (difdk) {
+                    URLClbssPbti.difdk(url);
                 }
 
                 /*
-                 * For a HTTP connection we use the HEAD method to
-                 * check if the resource exists.
+                 * For b HTTP donnfdtion wf usf tif HEAD mftiod to
+                 * difdk if tif rfsourdf fxists.
                  */
-                URLConnection uc = url.openConnection();
-                if (uc instanceof HttpURLConnection) {
-                    HttpURLConnection hconn = (HttpURLConnection)uc;
-                    hconn.setRequestMethod("HEAD");
-                    if (hconn.getResponseCode() >= HttpURLConnection.HTTP_BAD_REQUEST) {
-                        return null;
+                URLConnfdtion ud = url.opfnConnfdtion();
+                if (ud instbndfof HttpURLConnfdtion) {
+                    HttpURLConnfdtion idonn = (HttpURLConnfdtion)ud;
+                    idonn.sftRfqufstMftiod("HEAD");
+                    if (idonn.gftRfsponsfCodf() >= HttpURLConnfdtion.HTTP_BAD_REQUEST) {
+                        rfturn null;
                     }
-                } else {
-                    // our best guess for the other cases
-                    uc.setUseCaches(false);
-                    InputStream is = uc.getInputStream();
-                    is.close();
+                } flsf {
+                    // our bfst gufss for tif otifr dbsfs
+                    ud.sftUsfCbdifs(fblsf);
+                    InputStrfbm is = ud.gftInputStrfbm();
+                    is.dlosf();
                 }
-                return url;
-            } catch (Exception e) {
-                return null;
+                rfturn url;
+            } dbtdi (Exdfption f) {
+                rfturn null;
             }
         }
 
-        Resource getResource(final String name, boolean check) {
-            final URL url;
+        Rfsourdf gftRfsourdf(finbl String nbmf, boolfbn difdk) {
+            finbl URL url;
             try {
-                url = new URL(base, ParseUtil.encodePath(name, false));
-            } catch (MalformedURLException e) {
-                throw new IllegalArgumentException("name");
+                url = nfw URL(bbsf, PbrsfUtil.fndodfPbti(nbmf, fblsf));
+            } dbtdi (MblformfdURLExdfption f) {
+                tirow nfw IllfgblArgumfntExdfption("nbmf");
             }
-            final URLConnection uc;
+            finbl URLConnfdtion ud;
             try {
-                if (check) {
-                    URLClassPath.check(url);
+                if (difdk) {
+                    URLClbssPbti.difdk(url);
                 }
-                uc = url.openConnection();
-                InputStream in = uc.getInputStream();
-                if (uc instanceof JarURLConnection) {
-                    /* Need to remember the jar file so it can be closed
-                     * in a hurry.
+                ud = url.opfnConnfdtion();
+                InputStrfbm in = ud.gftInputStrfbm();
+                if (ud instbndfof JbrURLConnfdtion) {
+                    /* Nffd to rfmfmbfr tif jbr filf so it dbn bf dlosfd
+                     * in b iurry.
                      */
-                    JarURLConnection juc = (JarURLConnection)uc;
-                    jarfile = JarLoader.checkJar(juc.getJarFile());
+                    JbrURLConnfdtion jud = (JbrURLConnfdtion)ud;
+                    jbrfilf = JbrLobdfr.difdkJbr(jud.gftJbrFilf());
                 }
-            } catch (Exception e) {
-                return null;
+            } dbtdi (Exdfption f) {
+                rfturn null;
             }
-            return new Resource() {
-                public String getName() { return name; }
-                public URL getURL() { return url; }
-                public URL getCodeSourceURL() { return base; }
-                public InputStream getInputStream() throws IOException {
-                    return uc.getInputStream();
+            rfturn nfw Rfsourdf() {
+                publid String gftNbmf() { rfturn nbmf; }
+                publid URL gftURL() { rfturn url; }
+                publid URL gftCodfSourdfURL() { rfturn bbsf; }
+                publid InputStrfbm gftInputStrfbm() tirows IOExdfption {
+                    rfturn ud.gftInputStrfbm();
                 }
-                public int getContentLength() throws IOException {
-                    return uc.getContentLength();
+                publid int gftContfntLfngti() tirows IOExdfption {
+                    rfturn ud.gftContfntLfngti();
                 }
             };
         }
 
         /*
-         * Returns the Resource for the specified name, or null if not
-         * found or the caller does not have the permission to get the
-         * resource.
+         * Rfturns tif Rfsourdf for tif spfdififd nbmf, or null if not
+         * found or tif dbllfr dofs not ibvf tif pfrmission to gft tif
+         * rfsourdf.
          */
-        Resource getResource(final String name) {
-            return getResource(name, true);
+        Rfsourdf gftRfsourdf(finbl String nbmf) {
+            rfturn gftRfsourdf(nbmf, truf);
         }
 
         /*
-         * close this loader and release all resources
-         * method overridden in sub-classes
+         * dlosf tiis lobdfr bnd rflfbsf bll rfsourdfs
+         * mftiod ovfrriddfn in sub-dlbssfs
          */
-        public void close () throws IOException {
-            if (jarfile != null) {
-                jarfile.close();
+        publid void dlosf () tirows IOExdfption {
+            if (jbrfilf != null) {
+                jbrfilf.dlosf();
             }
         }
 
         /*
-         * Returns the local class path for this loader, or null if none.
+         * Rfturns tif lodbl dlbss pbti for tiis lobdfr, or null if nonf.
          */
-        URL[] getClassPath() throws IOException {
-            return null;
+        URL[] gftClbssPbti() tirows IOExdfption {
+            rfturn null;
         }
     }
 
     /*
-     * Inner class used to represent a Loader of resources from a JAR URL.
+     * Innfr dlbss usfd to rfprfsfnt b Lobdfr of rfsourdfs from b JAR URL.
      */
-    static class JarLoader extends Loader {
-        private JarFile jar;
-        private URL csu;
-        private JarIndex index;
-        private MetaIndex metaIndex;
-        private URLStreamHandler handler;
-        private HashMap<String, Loader> lmap;
-        private boolean closed = false;
-        private static final sun.misc.JavaUtilZipFileAccess zipAccess =
-                sun.misc.SharedSecrets.getJavaUtilZipFileAccess();
+    stbtid dlbss JbrLobdfr fxtfnds Lobdfr {
+        privbtf JbrFilf jbr;
+        privbtf URL dsu;
+        privbtf JbrIndfx indfx;
+        privbtf MftbIndfx mftbIndfx;
+        privbtf URLStrfbmHbndlfr ibndlfr;
+        privbtf HbsiMbp<String, Lobdfr> lmbp;
+        privbtf boolfbn dlosfd = fblsf;
+        privbtf stbtid finbl sun.misd.JbvbUtilZipFilfAddfss zipAddfss =
+                sun.misd.SibrfdSfdrfts.gftJbvbUtilZipFilfAddfss();
 
         /*
-         * Creates a new JarLoader for the specified URL referring to
-         * a JAR file.
+         * Crfbtfs b nfw JbrLobdfr for tif spfdififd URL rfffrring to
+         * b JAR filf.
          */
-        JarLoader(URL url, URLStreamHandler jarHandler,
-                  HashMap<String, Loader> loaderMap)
-            throws IOException
+        JbrLobdfr(URL url, URLStrfbmHbndlfr jbrHbndlfr,
+                  HbsiMbp<String, Lobdfr> lobdfrMbp)
+            tirows IOExdfption
         {
-            super(new URL("jar", "", -1, url + "!/", jarHandler));
-            csu = url;
-            handler = jarHandler;
-            lmap = loaderMap;
+            supfr(nfw URL("jbr", "", -1, url + "!/", jbrHbndlfr));
+            dsu = url;
+            ibndlfr = jbrHbndlfr;
+            lmbp = lobdfrMbp;
 
-            if (!isOptimizable(url)) {
-                ensureOpen();
-            } else {
-                 String fileName = url.getFile();
-                if (fileName != null) {
-                    fileName = ParseUtil.decode(fileName);
-                    File f = new File(fileName);
-                    metaIndex = MetaIndex.forJar(f);
-                    // If the meta index is found but the file is not
-                    // installed, set metaIndex to null. A typical
-                    // senario is charsets.jar which won't be installed
-                    // when the user is running in certain locale environment.
-                    // The side effect of null metaIndex will cause
-                    // ensureOpen get called so that IOException is thrown.
-                    if (metaIndex != null && !f.exists()) {
-                        metaIndex = null;
+            if (!isOptimizbblf(url)) {
+                fnsurfOpfn();
+            } flsf {
+                 String filfNbmf = url.gftFilf();
+                if (filfNbmf != null) {
+                    filfNbmf = PbrsfUtil.dfdodf(filfNbmf);
+                    Filf f = nfw Filf(filfNbmf);
+                    mftbIndfx = MftbIndfx.forJbr(f);
+                    // If tif mftb indfx is found but tif filf is not
+                    // instbllfd, sft mftbIndfx to null. A typidbl
+                    // sfnbrio is dibrsfts.jbr wiidi won't bf instbllfd
+                    // wifn tif usfr is running in dfrtbin lodblf fnvironmfnt.
+                    // Tif sidf ffffdt of null mftbIndfx will dbusf
+                    // fnsurfOpfn gft dbllfd so tibt IOExdfption is tirown.
+                    if (mftbIndfx != null && !f.fxists()) {
+                        mftbIndfx = null;
                     }
                 }
 
-                // metaIndex is null when either there is no such jar file
-                // entry recorded in meta-index file or such jar file is
-                // missing in JRE. See bug 6340399.
-                if (metaIndex == null) {
-                    ensureOpen();
+                // mftbIndfx is null wifn fitifr tifrf is no sudi jbr filf
+                // fntry rfdordfd in mftb-indfx filf or sudi jbr filf is
+                // missing in JRE. Sff bug 6340399.
+                if (mftbIndfx == null) {
+                    fnsurfOpfn();
                 }
             }
         }
 
-        @Override
-        public void close () throws IOException {
-            // closing is synchronized at higher level
-            if (!closed) {
-                closed = true;
-                // in case not already open.
-                ensureOpen();
-                jar.close();
+        @Ovfrridf
+        publid void dlosf () tirows IOExdfption {
+            // dlosing is syndironizfd bt iigifr lfvfl
+            if (!dlosfd) {
+                dlosfd = truf;
+                // in dbsf not blrfbdy opfn.
+                fnsurfOpfn();
+                jbr.dlosf();
             }
         }
 
-        JarFile getJarFile () {
-            return jar;
+        JbrFilf gftJbrFilf () {
+            rfturn jbr;
         }
 
-        private boolean isOptimizable(URL url) {
-            return "file".equals(url.getProtocol());
+        privbtf boolfbn isOptimizbblf(URL url) {
+            rfturn "filf".fqubls(url.gftProtodol());
         }
 
-        private void ensureOpen() throws IOException {
-            if (jar == null) {
+        privbtf void fnsurfOpfn() tirows IOExdfption {
+            if (jbr == null) {
                 try {
-                    java.security.AccessController.doPrivileged(
-                        new java.security.PrivilegedExceptionAction<Void>() {
-                            public Void run() throws IOException {
+                    jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Void>() {
+                            publid Void run() tirows IOExdfption {
                                 if (DEBUG) {
-                                    System.err.println("Opening " + csu);
-                                    Thread.dumpStack();
+                                    Systfm.frr.println("Opfning " + dsu);
+                                    Tirfbd.dumpStbdk();
                                 }
 
-                                jar = getJarFile(csu);
-                                index = JarIndex.getJarIndex(jar, metaIndex);
-                                if (index != null) {
-                                    String[] jarfiles = index.getJarFiles();
-                                // Add all the dependent URLs to the lmap so that loaders
-                                // will not be created for them by URLClassPath.getLoader(int)
-                                // if the same URL occurs later on the main class path.  We set
-                                // Loader to null here to avoid creating a Loader for each
-                                // URL until we actually need to try to load something from them.
-                                    for(int i = 0; i < jarfiles.length; i++) {
+                                jbr = gftJbrFilf(dsu);
+                                indfx = JbrIndfx.gftJbrIndfx(jbr, mftbIndfx);
+                                if (indfx != null) {
+                                    String[] jbrfilfs = indfx.gftJbrFilfs();
+                                // Add bll tif dfpfndfnt URLs to tif lmbp so tibt lobdfrs
+                                // will not bf drfbtfd for tifm by URLClbssPbti.gftLobdfr(int)
+                                // if tif sbmf URL oddurs lbtfr on tif mbin dlbss pbti.  Wf sft
+                                // Lobdfr to null ifrf to bvoid drfbting b Lobdfr for fbdi
+                                // URL until wf bdtublly nffd to try to lobd somftiing from tifm.
+                                    for(int i = 0; i < jbrfilfs.lfngti; i++) {
                                         try {
-                                            URL jarURL = new URL(csu, jarfiles[i]);
-                                            // If a non-null loader already exists, leave it alone.
-                                            String urlNoFragString = URLUtil.urlNoFragString(jarURL);
-                                            if (!lmap.containsKey(urlNoFragString)) {
-                                                lmap.put(urlNoFragString, null);
+                                            URL jbrURL = nfw URL(dsu, jbrfilfs[i]);
+                                            // If b non-null lobdfr blrfbdy fxists, lfbvf it blonf.
+                                            String urlNoFrbgString = URLUtil.urlNoFrbgString(jbrURL);
+                                            if (!lmbp.dontbinsKfy(urlNoFrbgString)) {
+                                                lmbp.put(urlNoFrbgString, null);
                                             }
-                                        } catch (MalformedURLException e) {
-                                            continue;
+                                        } dbtdi (MblformfdURLExdfption f) {
+                                            dontinuf;
                                         }
                                     }
                                 }
-                                return null;
+                                rfturn null;
                             }
                         }
                     );
-                } catch (java.security.PrivilegedActionException pae) {
-                    throw (IOException)pae.getException();
+                } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+                    tirow (IOExdfption)pbf.gftExdfption();
                 }
             }
         }
 
-        /* Throws if the given jar file is does not start with the correct LOC */
-        static JarFile checkJar(JarFile jar) throws IOException {
-            if (System.getSecurityManager() != null && !DISABLE_JAR_CHECKING
-                && !zipAccess.startsWithLocHeader(jar)) {
-                IOException x = new IOException("Invalid Jar file");
+        /* Tirows if tif givfn jbr filf is dofs not stbrt witi tif dorrfdt LOC */
+        stbtid JbrFilf difdkJbr(JbrFilf jbr) tirows IOExdfption {
+            if (Systfm.gftSfdurityMbnbgfr() != null && !DISABLE_JAR_CHECKING
+                && !zipAddfss.stbrtsWitiLodHfbdfr(jbr)) {
+                IOExdfption x = nfw IOExdfption("Invblid Jbr filf");
                 try {
-                    jar.close();
-                } catch (IOException ex) {
-                    x.addSuppressed(ex);
+                    jbr.dlosf();
+                } dbtdi (IOExdfption fx) {
+                    x.bddSupprfssfd(fx);
                 }
-                throw x;
+                tirow x;
             }
 
-            return jar;
+            rfturn jbr;
         }
 
-        private JarFile getJarFile(URL url) throws IOException {
-            // Optimize case where url refers to a local jar file
-            if (isOptimizable(url)) {
-                FileURLMapper p = new FileURLMapper (url);
-                if (!p.exists()) {
-                    throw new FileNotFoundException(p.getPath());
+        privbtf JbrFilf gftJbrFilf(URL url) tirows IOExdfption {
+            // Optimizf dbsf wifrf url rfffrs to b lodbl jbr filf
+            if (isOptimizbblf(url)) {
+                FilfURLMbppfr p = nfw FilfURLMbppfr (url);
+                if (!p.fxists()) {
+                    tirow nfw FilfNotFoundExdfption(p.gftPbti());
                 }
-                return checkJar(new JarFile(p.getPath()));
+                rfturn difdkJbr(nfw JbrFilf(p.gftPbti()));
             }
-            URLConnection uc = getBaseURL().openConnection();
-            uc.setRequestProperty(USER_AGENT_JAVA_VERSION, JAVA_VERSION);
-            JarFile jarFile = ((JarURLConnection)uc).getJarFile();
-            return checkJar(jarFile);
-        }
-
-        /*
-         * Returns the index of this JarLoader if it exists.
-         */
-        JarIndex getIndex() {
-            try {
-                ensureOpen();
-            } catch (IOException e) {
-                throw new InternalError(e);
-            }
-            return index;
+            URLConnfdtion ud = gftBbsfURL().opfnConnfdtion();
+            ud.sftRfqufstPropfrty(USER_AGENT_JAVA_VERSION, JAVA_VERSION);
+            JbrFilf jbrFilf = ((JbrURLConnfdtion)ud).gftJbrFilf();
+            rfturn difdkJbr(jbrFilf);
         }
 
         /*
-         * Creates the resource and if the check flag is set to true, checks if
-         * is its okay to return the resource.
+         * Rfturns tif indfx of tiis JbrLobdfr if it fxists.
          */
-        Resource checkResource(final String name, boolean check,
-            final JarEntry entry) {
-
-            final URL url;
+        JbrIndfx gftIndfx() {
             try {
-                url = new URL(getBaseURL(), ParseUtil.encodePath(name, false));
-                if (check) {
-                    URLClassPath.check(url);
+                fnsurfOpfn();
+            } dbtdi (IOExdfption f) {
+                tirow nfw IntfrnblError(f);
+            }
+            rfturn indfx;
+        }
+
+        /*
+         * Crfbtfs tif rfsourdf bnd if tif difdk flbg is sft to truf, difdks if
+         * is its okby to rfturn tif rfsourdf.
+         */
+        Rfsourdf difdkRfsourdf(finbl String nbmf, boolfbn difdk,
+            finbl JbrEntry fntry) {
+
+            finbl URL url;
+            try {
+                url = nfw URL(gftBbsfURL(), PbrsfUtil.fndodfPbti(nbmf, fblsf));
+                if (difdk) {
+                    URLClbssPbti.difdk(url);
                 }
-            } catch (MalformedURLException e) {
-                return null;
-                // throw new IllegalArgumentException("name");
-            } catch (IOException e) {
-                return null;
-            } catch (AccessControlException e) {
-                return null;
+            } dbtdi (MblformfdURLExdfption f) {
+                rfturn null;
+                // tirow nfw IllfgblArgumfntExdfption("nbmf");
+            } dbtdi (IOExdfption f) {
+                rfturn null;
+            } dbtdi (AddfssControlExdfption f) {
+                rfturn null;
             }
 
-            return new Resource() {
-                public String getName() { return name; }
-                public URL getURL() { return url; }
-                public URL getCodeSourceURL() { return csu; }
-                public InputStream getInputStream() throws IOException
-                    { return jar.getInputStream(entry); }
-                public int getContentLength()
-                    { return (int)entry.getSize(); }
-                public Manifest getManifest() throws IOException
-                    { return jar.getManifest(); };
-                public Certificate[] getCertificates()
-                    { return entry.getCertificates(); };
-                public CodeSigner[] getCodeSigners()
-                    { return entry.getCodeSigners(); };
+            rfturn nfw Rfsourdf() {
+                publid String gftNbmf() { rfturn nbmf; }
+                publid URL gftURL() { rfturn url; }
+                publid URL gftCodfSourdfURL() { rfturn dsu; }
+                publid InputStrfbm gftInputStrfbm() tirows IOExdfption
+                    { rfturn jbr.gftInputStrfbm(fntry); }
+                publid int gftContfntLfngti()
+                    { rfturn (int)fntry.gftSizf(); }
+                publid Mbniffst gftMbniffst() tirows IOExdfption
+                    { rfturn jbr.gftMbniffst(); };
+                publid Cfrtifidbtf[] gftCfrtifidbtfs()
+                    { rfturn fntry.gftCfrtifidbtfs(); };
+                publid CodfSignfr[] gftCodfSignfrs()
+                    { rfturn fntry.gftCodfSignfrs(); };
             };
         }
 
 
         /*
-         * Returns true iff atleast one resource in the jar file has the same
-         * package name as that of the specified resource name.
+         * Rfturns truf iff btlfbst onf rfsourdf in tif jbr filf ibs tif sbmf
+         * pbdkbgf nbmf bs tibt of tif spfdififd rfsourdf nbmf.
          */
-        boolean validIndex(final String name) {
-            String packageName = name;
+        boolfbn vblidIndfx(finbl String nbmf) {
+            String pbdkbgfNbmf = nbmf;
             int pos;
-            if((pos = name.lastIndexOf('/')) != -1) {
-                packageName = name.substring(0, pos);
+            if((pos = nbmf.lbstIndfxOf('/')) != -1) {
+                pbdkbgfNbmf = nbmf.substring(0, pos);
             }
 
-            String entryName;
-            ZipEntry entry;
-            Enumeration<JarEntry> enum_ = jar.entries();
-            while (enum_.hasMoreElements()) {
-                entry = enum_.nextElement();
-                entryName = entry.getName();
-                if((pos = entryName.lastIndexOf('/')) != -1)
-                    entryName = entryName.substring(0, pos);
-                if (entryName.equals(packageName)) {
-                    return true;
+            String fntryNbmf;
+            ZipEntry fntry;
+            Enumfrbtion<JbrEntry> fnum_ = jbr.fntrifs();
+            wiilf (fnum_.ibsMorfElfmfnts()) {
+                fntry = fnum_.nfxtElfmfnt();
+                fntryNbmf = fntry.gftNbmf();
+                if((pos = fntryNbmf.lbstIndfxOf('/')) != -1)
+                    fntryNbmf = fntryNbmf.substring(0, pos);
+                if (fntryNbmf.fqubls(pbdkbgfNbmf)) {
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
         /*
-         * Returns the URL for a resource with the specified name
+         * Rfturns tif URL for b rfsourdf witi tif spfdififd nbmf
          */
-        URL findResource(final String name, boolean check) {
-            Resource rsc = getResource(name, check);
-            if (rsc != null) {
-                return rsc.getURL();
+        URL findRfsourdf(finbl String nbmf, boolfbn difdk) {
+            Rfsourdf rsd = gftRfsourdf(nbmf, difdk);
+            if (rsd != null) {
+                rfturn rsd.gftURL();
             }
-            return null;
+            rfturn null;
         }
 
         /*
-         * Returns the JAR Resource for the specified name.
+         * Rfturns tif JAR Rfsourdf for tif spfdififd nbmf.
          */
-        Resource getResource(final String name, boolean check) {
-            if (metaIndex != null) {
-                if (!metaIndex.mayContain(name)) {
-                    return null;
+        Rfsourdf gftRfsourdf(finbl String nbmf, boolfbn difdk) {
+            if (mftbIndfx != null) {
+                if (!mftbIndfx.mbyContbin(nbmf)) {
+                    rfturn null;
                 }
             }
 
             try {
-                ensureOpen();
-            } catch (IOException e) {
-                throw new InternalError(e);
+                fnsurfOpfn();
+            } dbtdi (IOExdfption f) {
+                tirow nfw IntfrnblError(f);
             }
-            final JarEntry entry = jar.getJarEntry(name);
-            if (entry != null)
-                return checkResource(name, check, entry);
+            finbl JbrEntry fntry = jbr.gftJbrEntry(nbmf);
+            if (fntry != null)
+                rfturn difdkRfsourdf(nbmf, difdk, fntry);
 
-            if (index == null)
-                return null;
+            if (indfx == null)
+                rfturn null;
 
-            HashSet<String> visited = new HashSet<String>();
-            return getResource(name, check, visited);
+            HbsiSft<String> visitfd = nfw HbsiSft<String>();
+            rfturn gftRfsourdf(nbmf, difdk, visitfd);
         }
 
         /*
-         * Version of getResource() that tracks the jar files that have been
-         * visited by linking through the index files. This helper method uses
-         * a HashSet to store the URLs of jar files that have been searched and
-         * uses it to avoid going into an infinite loop, looking for a
-         * non-existent resource
+         * Vfrsion of gftRfsourdf() tibt trbdks tif jbr filfs tibt ibvf bffn
+         * visitfd by linking tirougi tif indfx filfs. Tiis iflpfr mftiod usfs
+         * b HbsiSft to storf tif URLs of jbr filfs tibt ibvf bffn sfbrdifd bnd
+         * usfs it to bvoid going into bn infinitf loop, looking for b
+         * non-fxistfnt rfsourdf
          */
-        Resource getResource(final String name, boolean check,
-                             Set<String> visited) {
+        Rfsourdf gftRfsourdf(finbl String nbmf, boolfbn difdk,
+                             Sft<String> visitfd) {
 
-            Resource res;
-            String[] jarFiles;
-            int count = 0;
-            LinkedList<String> jarFilesList = null;
+            Rfsourdf rfs;
+            String[] jbrFilfs;
+            int dount = 0;
+            LinkfdList<String> jbrFilfsList = null;
 
-            /* If there no jar files in the index that can potential contain
-             * this resource then return immediately.
+            /* If tifrf no jbr filfs in tif indfx tibt dbn potfntibl dontbin
+             * tiis rfsourdf tifn rfturn immfdibtfly.
              */
-            if((jarFilesList = index.get(name)) == null)
-                return null;
+            if((jbrFilfsList = indfx.gft(nbmf)) == null)
+                rfturn null;
 
             do {
-                int size = jarFilesList.size();
-                jarFiles = jarFilesList.toArray(new String[size]);
-                /* loop through the mapped jar file list */
-                while(count < size) {
-                    String jarName = jarFiles[count++];
-                    JarLoader newLoader;
-                    final URL url;
+                int sizf = jbrFilfsList.sizf();
+                jbrFilfs = jbrFilfsList.toArrby(nfw String[sizf]);
+                /* loop tirougi tif mbppfd jbr filf list */
+                wiilf(dount < sizf) {
+                    String jbrNbmf = jbrFilfs[dount++];
+                    JbrLobdfr nfwLobdfr;
+                    finbl URL url;
 
                     try{
-                        url = new URL(csu, jarName);
-                        String urlNoFragString = URLUtil.urlNoFragString(url);
-                        if ((newLoader = (JarLoader)lmap.get(urlNoFragString)) == null) {
-                            /* no loader has been set up for this jar file
-                             * before
+                        url = nfw URL(dsu, jbrNbmf);
+                        String urlNoFrbgString = URLUtil.urlNoFrbgString(url);
+                        if ((nfwLobdfr = (JbrLobdfr)lmbp.gft(urlNoFrbgString)) == null) {
+                            /* no lobdfr ibs bffn sft up for tiis jbr filf
+                             * bfforf
                              */
-                            newLoader = AccessController.doPrivileged(
-                                new PrivilegedExceptionAction<JarLoader>() {
-                                    public JarLoader run() throws IOException {
-                                        return new JarLoader(url, handler,
-                                            lmap);
+                            nfwLobdfr = AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdExdfptionAdtion<JbrLobdfr>() {
+                                    publid JbrLobdfr run() tirows IOExdfption {
+                                        rfturn nfw JbrLobdfr(url, ibndlfr,
+                                            lmbp);
                                     }
                                 });
 
-                            /* this newly opened jar file has its own index,
-                             * merge it into the parent's index, taking into
-                             * account the relative path.
+                            /* tiis nfwly opfnfd jbr filf ibs its own indfx,
+                             * mfrgf it into tif pbrfnt's indfx, tbking into
+                             * bddount tif rflbtivf pbti.
                              */
-                            JarIndex newIndex = newLoader.getIndex();
-                            if(newIndex != null) {
-                                int pos = jarName.lastIndexOf('/');
-                                newIndex.merge(this.index, (pos == -1 ?
-                                    null : jarName.substring(0, pos + 1)));
+                            JbrIndfx nfwIndfx = nfwLobdfr.gftIndfx();
+                            if(nfwIndfx != null) {
+                                int pos = jbrNbmf.lbstIndfxOf('/');
+                                nfwIndfx.mfrgf(tiis.indfx, (pos == -1 ?
+                                    null : jbrNbmf.substring(0, pos + 1)));
                             }
 
-                            /* put it in the global hashtable */
-                            lmap.put(urlNoFragString, newLoader);
+                            /* put it in tif globbl ibsitbblf */
+                            lmbp.put(urlNoFrbgString, nfwLobdfr);
                         }
-                    } catch (java.security.PrivilegedActionException pae) {
-                        continue;
-                    } catch (MalformedURLException e) {
-                        continue;
+                    } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+                        dontinuf;
+                    } dbtdi (MblformfdURLExdfption f) {
+                        dontinuf;
                     }
 
 
-                    /* Note that the addition of the url to the list of visited
-                     * jars incorporates a check for presence in the hashmap
+                    /* Notf tibt tif bddition of tif url to tif list of visitfd
+                     * jbrs indorporbtfs b difdk for prfsfndf in tif ibsimbp
                      */
-                    boolean visitedURL = !visited.add(URLUtil.urlNoFragString(url));
-                    if (!visitedURL) {
+                    boolfbn visitfdURL = !visitfd.bdd(URLUtil.urlNoFrbgString(url));
+                    if (!visitfdURL) {
                         try {
-                            newLoader.ensureOpen();
-                        } catch (IOException e) {
-                            throw new InternalError(e);
+                            nfwLobdfr.fnsurfOpfn();
+                        } dbtdi (IOExdfption f) {
+                            tirow nfw IntfrnblError(f);
                         }
-                        final JarEntry entry = newLoader.jar.getJarEntry(name);
-                        if (entry != null) {
-                            return newLoader.checkResource(name, check, entry);
+                        finbl JbrEntry fntry = nfwLobdfr.jbr.gftJbrEntry(nbmf);
+                        if (fntry != null) {
+                            rfturn nfwLobdfr.difdkRfsourdf(nbmf, difdk, fntry);
                         }
 
-                        /* Verify that at least one other resource with the
-                         * same package name as the lookedup resource is
-                         * present in the new jar
+                        /* Vfrify tibt bt lfbst onf otifr rfsourdf witi tif
+                         * sbmf pbdkbgf nbmf bs tif lookfdup rfsourdf is
+                         * prfsfnt in tif nfw jbr
                          */
-                        if (!newLoader.validIndex(name)) {
-                            /* the mapping is wrong */
-                            throw new InvalidJarIndexException("Invalid index");
+                        if (!nfwLobdfr.vblidIndfx(nbmf)) {
+                            /* tif mbpping is wrong */
+                            tirow nfw InvblidJbrIndfxExdfption("Invblid indfx");
                         }
                     }
 
-                    /* If newLoader is the current loader or if it is a
-                     * loader that has already been searched or if the new
-                     * loader does not have an index then skip it
-                     * and move on to the next loader.
+                    /* If nfwLobdfr is tif durrfnt lobdfr or if it is b
+                     * lobdfr tibt ibs blrfbdy bffn sfbrdifd or if tif nfw
+                     * lobdfr dofs not ibvf bn indfx tifn skip it
+                     * bnd movf on to tif nfxt lobdfr.
                      */
-                    if (visitedURL || newLoader == this ||
-                            newLoader.getIndex() == null) {
-                        continue;
+                    if (visitfdURL || nfwLobdfr == tiis ||
+                            nfwLobdfr.gftIndfx() == null) {
+                        dontinuf;
                     }
 
-                    /* Process the index of the new loader
+                    /* Prodfss tif indfx of tif nfw lobdfr
                      */
-                    if((res = newLoader.getResource(name, check, visited))
+                    if((rfs = nfwLobdfr.gftRfsourdf(nbmf, difdk, visitfd))
                             != null) {
-                        return res;
+                        rfturn rfs;
                     }
                 }
-                // Get the list of jar files again as the list could have grown
-                // due to merging of index files.
-                jarFilesList = index.get(name);
+                // Gft tif list of jbr filfs bgbin bs tif list dould ibvf grown
+                // duf to mfrging of indfx filfs.
+                jbrFilfsList = indfx.gft(nbmf);
 
-            // If the count is unchanged, we are done.
-            } while(count < jarFilesList.size());
-            return null;
+            // If tif dount is undibngfd, wf brf donf.
+            } wiilf(dount < jbrFilfsList.sizf());
+            rfturn null;
         }
 
 
         /*
-         * Returns the JAR file local class path, or null if none.
+         * Rfturns tif JAR filf lodbl dlbss pbti, or null if nonf.
          */
-        URL[] getClassPath() throws IOException {
-            if (index != null) {
-                return null;
+        URL[] gftClbssPbti() tirows IOExdfption {
+            if (indfx != null) {
+                rfturn null;
             }
 
-            if (metaIndex != null) {
-                return null;
+            if (mftbIndfx != null) {
+                rfturn null;
             }
 
-            ensureOpen();
-            parseExtensionsDependencies();
+            fnsurfOpfn();
+            pbrsfExtfnsionsDfpfndfndifs();
 
-            if (SharedSecrets.javaUtilJarAccess().jarFileHasClassPathAttribute(jar)) { // Only get manifest when necessary
-                Manifest man = jar.getManifest();
-                if (man != null) {
-                    Attributes attr = man.getMainAttributes();
-                    if (attr != null) {
-                        String value = attr.getValue(Name.CLASS_PATH);
-                        if (value != null) {
-                            return parseClassPath(csu, value);
+            if (SibrfdSfdrfts.jbvbUtilJbrAddfss().jbrFilfHbsClbssPbtiAttributf(jbr)) { // Only gft mbniffst wifn nfdfssbry
+                Mbniffst mbn = jbr.gftMbniffst();
+                if (mbn != null) {
+                    Attributfs bttr = mbn.gftMbinAttributfs();
+                    if (bttr != null) {
+                        String vbluf = bttr.gftVbluf(Nbmf.CLASS_PATH);
+                        if (vbluf != null) {
+                            rfturn pbrsfClbssPbti(dsu, vbluf);
                         }
                     }
                 }
             }
-            return null;
+            rfturn null;
         }
 
         /*
-         * parse the standard extension dependencies
+         * pbrsf tif stbndbrd fxtfnsion dfpfndfndifs
          */
-        private void  parseExtensionsDependencies() throws IOException {
-            ExtensionDependency.checkExtensionsDependencies(jar);
+        privbtf void  pbrsfExtfnsionsDfpfndfndifs() tirows IOExdfption {
+            ExtfnsionDfpfndfndy.difdkExtfnsionsDfpfndfndifs(jbr);
         }
 
         /*
-         * Parses value of the Class-Path manifest attribute and returns
-         * an array of URLs relative to the specified base URL.
+         * Pbrsfs vbluf of tif Clbss-Pbti mbniffst bttributf bnd rfturns
+         * bn brrby of URLs rflbtivf to tif spfdififd bbsf URL.
          */
-        private URL[] parseClassPath(URL base, String value)
-            throws MalformedURLException
+        privbtf URL[] pbrsfClbssPbti(URL bbsf, String vbluf)
+            tirows MblformfdURLExdfption
         {
-            StringTokenizer st = new StringTokenizer(value);
-            URL[] urls = new URL[st.countTokens()];
+            StringTokfnizfr st = nfw StringTokfnizfr(vbluf);
+            URL[] urls = nfw URL[st.dountTokfns()];
             int i = 0;
-            while (st.hasMoreTokens()) {
-                String path = st.nextToken();
-                urls[i] = new URL(base, path);
+            wiilf (st.ibsMorfTokfns()) {
+                String pbti = st.nfxtTokfn();
+                urls[i] = nfw URL(bbsf, pbti);
                 i++;
             }
-            return urls;
+            rfturn urls;
         }
     }
 
     /*
-     * Inner class used to represent a loader of classes and resources
-     * from a file URL that refers to a directory.
+     * Innfr dlbss usfd to rfprfsfnt b lobdfr of dlbssfs bnd rfsourdfs
+     * from b filf URL tibt rfffrs to b dirfdtory.
      */
-    private static class FileLoader extends Loader {
-        /* Canonicalized File */
-        private File dir;
+    privbtf stbtid dlbss FilfLobdfr fxtfnds Lobdfr {
+        /* Cbnonidblizfd Filf */
+        privbtf Filf dir;
 
-        FileLoader(URL url) throws IOException {
-            super(url);
-            if (!"file".equals(url.getProtocol())) {
-                throw new IllegalArgumentException("url");
+        FilfLobdfr(URL url) tirows IOExdfption {
+            supfr(url);
+            if (!"filf".fqubls(url.gftProtodol())) {
+                tirow nfw IllfgblArgumfntExdfption("url");
             }
-            String path = url.getFile().replace('/', File.separatorChar);
-            path = ParseUtil.decode(path);
-            dir = (new File(path)).getCanonicalFile();
+            String pbti = url.gftFilf().rfplbdf('/', Filf.sfpbrbtorCibr);
+            pbti = PbrsfUtil.dfdodf(pbti);
+            dir = (nfw Filf(pbti)).gftCbnonidblFilf();
         }
 
         /*
-         * Returns the URL for a resource with the specified name
+         * Rfturns tif URL for b rfsourdf witi tif spfdififd nbmf
          */
-        URL findResource(final String name, boolean check) {
-            Resource rsc = getResource(name, check);
-            if (rsc != null) {
-                return rsc.getURL();
+        URL findRfsourdf(finbl String nbmf, boolfbn difdk) {
+            Rfsourdf rsd = gftRfsourdf(nbmf, difdk);
+            if (rsd != null) {
+                rfturn rsd.gftURL();
             }
-            return null;
+            rfturn null;
         }
 
-        Resource getResource(final String name, boolean check) {
-            final URL url;
+        Rfsourdf gftRfsourdf(finbl String nbmf, boolfbn difdk) {
+            finbl URL url;
             try {
-                URL normalizedBase = new URL(getBaseURL(), ".");
-                url = new URL(getBaseURL(), ParseUtil.encodePath(name, false));
+                URL normblizfdBbsf = nfw URL(gftBbsfURL(), ".");
+                url = nfw URL(gftBbsfURL(), PbrsfUtil.fndodfPbti(nbmf, fblsf));
 
-                if (url.getFile().startsWith(normalizedBase.getFile()) == false) {
-                    // requested resource had ../..'s in path
-                    return null;
+                if (url.gftFilf().stbrtsWiti(normblizfdBbsf.gftFilf()) == fblsf) {
+                    // rfqufstfd rfsourdf ibd ../..'s in pbti
+                    rfturn null;
                 }
 
-                if (check)
-                    URLClassPath.check(url);
+                if (difdk)
+                    URLClbssPbti.difdk(url);
 
-                final File file;
-                if (name.indexOf("..") != -1) {
-                    file = (new File(dir, name.replace('/', File.separatorChar)))
-                          .getCanonicalFile();
-                    if ( !((file.getPath()).startsWith(dir.getPath())) ) {
-                        /* outside of base dir */
-                        return null;
+                finbl Filf filf;
+                if (nbmf.indfxOf("..") != -1) {
+                    filf = (nfw Filf(dir, nbmf.rfplbdf('/', Filf.sfpbrbtorCibr)))
+                          .gftCbnonidblFilf();
+                    if ( !((filf.gftPbti()).stbrtsWiti(dir.gftPbti())) ) {
+                        /* outsidf of bbsf dir */
+                        rfturn null;
                     }
-                } else {
-                    file = new File(dir, name.replace('/', File.separatorChar));
+                } flsf {
+                    filf = nfw Filf(dir, nbmf.rfplbdf('/', Filf.sfpbrbtorCibr));
                 }
 
-                if (file.exists()) {
-                    return new Resource() {
-                        public String getName() { return name; };
-                        public URL getURL() { return url; };
-                        public URL getCodeSourceURL() { return getBaseURL(); };
-                        public InputStream getInputStream() throws IOException
-                            { return new FileInputStream(file); };
-                        public int getContentLength() throws IOException
-                            { return (int)file.length(); };
+                if (filf.fxists()) {
+                    rfturn nfw Rfsourdf() {
+                        publid String gftNbmf() { rfturn nbmf; };
+                        publid URL gftURL() { rfturn url; };
+                        publid URL gftCodfSourdfURL() { rfturn gftBbsfURL(); };
+                        publid InputStrfbm gftInputStrfbm() tirows IOExdfption
+                            { rfturn nfw FilfInputStrfbm(filf); };
+                        publid int gftContfntLfngti() tirows IOExdfption
+                            { rfturn (int)filf.lfngti(); };
                     };
                 }
-            } catch (Exception e) {
-                return null;
+            } dbtdi (Exdfption f) {
+                rfturn null;
             }
-            return null;
+            rfturn null;
         }
     }
 }

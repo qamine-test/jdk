@@ -1,340 +1,340 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
 
-import java.awt.Component;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.Graphics;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
 
 /**
- * Factory object that can vend Borders appropriate for the Windows 95 L & F.
- * @author Rich Schiavi
+ * Fbdtory objfdt tibt dbn vfnd Bordfrs bppropribtf for tif Windows 95 L & F.
+ * @butior Ridi Sdiibvi
  */
 
-public class WindowsBorders {
+publid dlbss WindowsBordfrs {
 
     /**
-     * Returns a  border instance for a Windows Progress Bar
-     * @since 1.4
+     * Rfturns b  bordfr instbndf for b Windows Progrfss Bbr
+     * @sindf 1.4
      */
-    public static Border getProgressBarBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Border progressBarBorder = new BorderUIResource.CompoundBorderUIResource(
-                                         new WindowsBorders.ProgressBarBorder(
-                                              table.getColor("ProgressBar.shadow"),
-                                              table.getColor("ProgressBar.highlight")),
-                                              new EmptyBorder(1,1,1,1)
+    publid stbtid Bordfr gftProgrfssBbrBordfr() {
+        UIDffbults tbblf = UIMbnbgfr.gftLookAndFfflDffbults();
+        Bordfr progrfssBbrBordfr = nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                                         nfw WindowsBordfrs.ProgrfssBbrBordfr(
+                                              tbblf.gftColor("ProgrfssBbr.sibdow"),
+                                              tbblf.gftColor("ProgrfssBbr.iigiligit")),
+                                              nfw EmptyBordfr(1,1,1,1)
                                         );
-        return progressBarBorder;
+        rfturn progrfssBbrBordfr;
     }
 
     /**
-     * Returns a border instance for a Windows ToolBar
+     * Rfturns b bordfr instbndf for b Windows ToolBbr
      *
-     * @return a border used for the toolbar
-     * @since 1.4
+     * @rfturn b bordfr usfd for tif toolbbr
+     * @sindf 1.4
      */
-    public static Border getToolBarBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Border toolBarBorder = new WindowsBorders.ToolBarBorder(
-                                        table.getColor("ToolBar.shadow"),
-                                        table.getColor("ToolBar.highlight"));
-        return toolBarBorder;
+    publid stbtid Bordfr gftToolBbrBordfr() {
+        UIDffbults tbblf = UIMbnbgfr.gftLookAndFfflDffbults();
+        Bordfr toolBbrBordfr = nfw WindowsBordfrs.ToolBbrBordfr(
+                                        tbblf.gftColor("ToolBbr.sibdow"),
+                                        tbblf.gftColor("ToolBbr.iigiligit"));
+        rfturn toolBbrBordfr;
     }
 
     /**
-     * Returns an new instance of a border used to indicate which cell item
-     * has focus.
+     * Rfturns bn nfw instbndf of b bordfr usfd to indidbtf wiidi dfll itfm
+     * ibs fodus.
      *
-     * @return a border to indicate which cell item has focus
-     * @since 1.4
+     * @rfturn b bordfr to indidbtf wiidi dfll itfm ibs fodus
+     * @sindf 1.4
      */
-    public static Border getFocusCellHighlightBorder() {
-        return new ComplementDashedBorder();
+    publid stbtid Bordfr gftFodusCfllHigiligitBordfr() {
+        rfturn nfw ComplfmfntDbsifdBordfr();
     }
 
-    public static Border getTableHeaderBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Border tableHeaderBorder = new BorderUIResource.CompoundBorderUIResource(
-                           new BasicBorders.ButtonBorder(
-                                           table.getColor("Table.shadow"),
-                                           table.getColor("Table.darkShadow"),
-                                           table.getColor("Table.light"),
-                                           table.getColor("Table.highlight")),
-                                     new BasicBorders.MarginBorder());
-        return tableHeaderBorder;
+    publid stbtid Bordfr gftTbblfHfbdfrBordfr() {
+        UIDffbults tbblf = UIMbnbgfr.gftLookAndFfflDffbults();
+        Bordfr tbblfHfbdfrBordfr = nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                           nfw BbsidBordfrs.ButtonBordfr(
+                                           tbblf.gftColor("Tbblf.sibdow"),
+                                           tbblf.gftColor("Tbblf.dbrkSibdow"),
+                                           tbblf.gftColor("Tbblf.ligit"),
+                                           tbblf.gftColor("Tbblf.iigiligit")),
+                                     nfw BbsidBordfrs.MbrginBordfr());
+        rfturn tbblfHfbdfrBordfr;
     }
 
-    public static Border getInternalFrameBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Border internalFrameBorder = new
-            BorderUIResource.CompoundBorderUIResource(
-                BorderFactory.createBevelBorder(BevelBorder.RAISED,
-                    table.getColor("InternalFrame.borderColor"),
-                    table.getColor("InternalFrame.borderHighlight"),
-                    table.getColor("InternalFrame.borderDarkShadow"),
-                    table.getColor("InternalFrame.borderShadow")),
-                new WindowsBorders.InternalFrameLineBorder(
-                    table.getColor("InternalFrame.activeBorderColor"),
-                    table.getColor("InternalFrame.inactiveBorderColor"),
-                    table.getInt("InternalFrame.borderWidth")));
+    publid stbtid Bordfr gftIntfrnblFrbmfBordfr() {
+        UIDffbults tbblf = UIMbnbgfr.gftLookAndFfflDffbults();
+        Bordfr intfrnblFrbmfBordfr = nfw
+            BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                BordfrFbdtory.drfbtfBfvflBordfr(BfvflBordfr.RAISED,
+                    tbblf.gftColor("IntfrnblFrbmf.bordfrColor"),
+                    tbblf.gftColor("IntfrnblFrbmf.bordfrHigiligit"),
+                    tbblf.gftColor("IntfrnblFrbmf.bordfrDbrkSibdow"),
+                    tbblf.gftColor("IntfrnblFrbmf.bordfrSibdow")),
+                nfw WindowsBordfrs.IntfrnblFrbmfLinfBordfr(
+                    tbblf.gftColor("IntfrnblFrbmf.bdtivfBordfrColor"),
+                    tbblf.gftColor("IntfrnblFrbmf.inbdtivfBordfrColor"),
+                    tbblf.gftInt("IntfrnblFrbmf.bordfrWidti")));
 
-        return internalFrameBorder;
+        rfturn intfrnblFrbmfBordfr;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class ProgressBarBorder extends AbstractBorder implements UIResource {
-        protected Color shadow;
-        protected Color highlight;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss ProgrfssBbrBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
+        protfdtfd Color sibdow;
+        protfdtfd Color iigiligit;
 
-        public ProgressBarBorder(Color shadow, Color highlight) {
-            this.highlight = highlight;
-            this.shadow = shadow;
+        publid ProgrfssBbrBordfr(Color sibdow, Color iigiligit) {
+            tiis.iigiligit = iigiligit;
+            tiis.sibdow = sibdow;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
-                                int width, int height) {
-            g.setColor(shadow);
-            g.drawLine(x,y, width-1,y); // draw top
-            g.drawLine(x,y, x,height-1); // draw left
-            g.setColor(highlight);
-            g.drawLine(x,height-1, width-1,height-1); // draw bottom
-            g.drawLine(width-1,y, width-1,height-1); // draw right
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y,
+                                int widti, int ifigit) {
+            g.sftColor(sibdow);
+            g.drbwLinf(x,y, widti-1,y); // drbw top
+            g.drbwLinf(x,y, x,ifigit-1); // drbw lfft
+            g.sftColor(iigiligit);
+            g.drbwLinf(x,ifigit-1, widti-1,ifigit-1); // drbw bottom
+            g.drbwLinf(widti-1,y, widti-1,ifigit-1); // drbw rigit
         }
 
-        public Insets getBorderInsets(Component c, Insets insets) {
-            insets.set(1,1,1,1);
-            return insets;
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.sft(1,1,1,1);
+            rfturn insfts;
         }
     }
 
     /**
-     * A border for the ToolBar. If the ToolBar is floatable then the handle grip is drawn
+     * A bordfr for tif ToolBbr. If tif ToolBbr is flobtbblf tifn tif ibndlf grip is drbwn
      * <p>
-     * @since 1.4
+     * @sindf 1.4
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class ToolBarBorder extends AbstractBorder implements UIResource, SwingConstants {
-        protected Color shadow;
-        protected Color highlight;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss ToolBbrBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf, SwingConstbnts {
+        protfdtfd Color sibdow;
+        protfdtfd Color iigiligit;
 
-        public ToolBarBorder(Color shadow, Color highlight) {
-            this.highlight = highlight;
-            this.shadow = shadow;
+        publid ToolBbrBordfr(Color sibdow, Color iigiligit) {
+            tiis.iigiligit = iigiligit;
+            tiis.sibdow = sibdow;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
-                                int width, int height) {
-            if (!(c instanceof JToolBar)) {
-                return;
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y,
+                                int widti, int ifigit) {
+            if (!(d instbndfof JToolBbr)) {
+                rfturn;
             }
-            g.translate(x, y);
+            g.trbnslbtf(x, y);
 
-            XPStyle xp = XPStyle.getXP();
+            XPStylf xp = XPStylf.gftXP();
             if (xp != null) {
-                Border xpBorder = xp.getBorder(c, Part.TP_TOOLBAR);
-                if (xpBorder != null) {
-                    xpBorder.paintBorder(c, g, 0, 0, width, height);
+                Bordfr xpBordfr = xp.gftBordfr(d, Pbrt.TP_TOOLBAR);
+                if (xpBordfr != null) {
+                    xpBordfr.pbintBordfr(d, g, 0, 0, widti, ifigit);
                 }
             }
-            if (((JToolBar)c).isFloatable()) {
-                boolean vertical = ((JToolBar)c).getOrientation() == VERTICAL;
+            if (((JToolBbr)d).isFlobtbblf()) {
+                boolfbn vfrtidbl = ((JToolBbr)d).gftOrifntbtion() == VERTICAL;
 
                 if (xp != null) {
-                    Part part = vertical ? Part.RP_GRIPPERVERT : Part.RP_GRIPPER;
-                    Skin skin = xp.getSkin(c, part);
-                    int dx, dy, dw, dh;
-                    if (vertical) {
+                    Pbrt pbrt = vfrtidbl ? Pbrt.RP_GRIPPERVERT : Pbrt.RP_GRIPPER;
+                    Skin skin = xp.gftSkin(d, pbrt);
+                    int dx, dy, dw, di;
+                    if (vfrtidbl) {
                         dx = 0;
                         dy = 2;
-                        dw = width - 1;
-                        dh = skin.getHeight();
-                    } else {
-                        dw = skin.getWidth();
-                        dh = height - 1;
-                        dx = c.getComponentOrientation().isLeftToRight() ? 2 : (width-dw-2);
+                        dw = widti - 1;
+                        di = skin.gftHfigit();
+                    } flsf {
+                        dw = skin.gftWidti();
+                        di = ifigit - 1;
+                        dx = d.gftComponfntOrifntbtion().isLfftToRigit() ? 2 : (widti-dw-2);
                         dy = 0;
                     }
-                    skin.paintSkin(g, dx, dy, dw, dh, State.NORMAL);
+                    skin.pbintSkin(g, dx, dy, dw, di, Stbtf.NORMAL);
 
-                } else {
+                } flsf {
 
-                    if (!vertical) {
-                        if (c.getComponentOrientation().isLeftToRight()) {
-                            g.setColor(shadow);
-                            g.drawLine(4, 3, 4, height - 4);
-                            g.drawLine(4, height - 4, 2, height - 4);
+                    if (!vfrtidbl) {
+                        if (d.gftComponfntOrifntbtion().isLfftToRigit()) {
+                            g.sftColor(sibdow);
+                            g.drbwLinf(4, 3, 4, ifigit - 4);
+                            g.drbwLinf(4, ifigit - 4, 2, ifigit - 4);
 
-                            g.setColor(highlight);
-                            g.drawLine(2, 3, 3, 3);
-                            g.drawLine(2, 3, 2, height - 5);
-                        } else {
-                            g.setColor(shadow);
-                            g.drawLine(width - 3, 3, width - 3, height - 4);
-                            g.drawLine(width - 4, height - 4, width - 4, height - 4);
+                            g.sftColor(iigiligit);
+                            g.drbwLinf(2, 3, 3, 3);
+                            g.drbwLinf(2, 3, 2, ifigit - 5);
+                        } flsf {
+                            g.sftColor(sibdow);
+                            g.drbwLinf(widti - 3, 3, widti - 3, ifigit - 4);
+                            g.drbwLinf(widti - 4, ifigit - 4, widti - 4, ifigit - 4);
 
-                            g.setColor(highlight);
-                            g.drawLine(width - 5, 3, width - 4, 3);
-                            g.drawLine(width - 5, 3, width - 5, height - 5);
+                            g.sftColor(iigiligit);
+                            g.drbwLinf(widti - 5, 3, widti - 4, 3);
+                            g.drbwLinf(widti - 5, 3, widti - 5, ifigit - 5);
                         }
-                    } else { // Vertical
-                        g.setColor(shadow);
-                        g.drawLine(3, 4, width - 4, 4);
-                        g.drawLine(width - 4, 2, width - 4, 4);
+                    } flsf { // Vfrtidbl
+                        g.sftColor(sibdow);
+                        g.drbwLinf(3, 4, widti - 4, 4);
+                        g.drbwLinf(widti - 4, 2, widti - 4, 4);
 
-                        g.setColor(highlight);
-                        g.drawLine(3, 2, width - 4, 2);
-                        g.drawLine(3, 2, 3, 3);
+                        g.sftColor(iigiligit);
+                        g.drbwLinf(3, 2, widti - 4, 2);
+                        g.drbwLinf(3, 2, 3, 3);
                     }
                 }
             }
 
-            g.translate(-x, -y);
+            g.trbnslbtf(-x, -y);
         }
 
-        public Insets getBorderInsets(Component c, Insets insets) {
-            insets.set(1,1,1,1);
-            if (!(c instanceof JToolBar)) {
-                return insets;
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.sft(1,1,1,1);
+            if (!(d instbndfof JToolBbr)) {
+                rfturn insfts;
             }
-            if (((JToolBar)c).isFloatable()) {
-                int gripInset = (XPStyle.getXP() != null) ? 12 : 9;
-                if (((JToolBar)c).getOrientation() == HORIZONTAL) {
-                    if (c.getComponentOrientation().isLeftToRight()) {
-                        insets.left = gripInset;
-                    } else {
-                        insets.right = gripInset;
+            if (((JToolBbr)d).isFlobtbblf()) {
+                int gripInsft = (XPStylf.gftXP() != null) ? 12 : 9;
+                if (((JToolBbr)d).gftOrifntbtion() == HORIZONTAL) {
+                    if (d.gftComponfntOrifntbtion().isLfftToRigit()) {
+                        insfts.lfft = gripInsft;
+                    } flsf {
+                        insfts.rigit = gripInsft;
                     }
-                } else {
-                    insets.top = gripInset;
+                } flsf {
+                    insfts.top = gripInsft;
                 }
             }
-            return insets;
+            rfturn insfts;
         }
     }
 
     /**
-     * This class is an implementation of a dashed border.
-     * @since 1.4
+     * Tiis dlbss is bn implfmfntbtion of b dbsifd bordfr.
+     * @sindf 1.4
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class DashedBorder extends LineBorder implements UIResource {
-        public DashedBorder(Color color) {
-            super(color);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss DbsifdBordfr fxtfnds LinfBordfr implfmfnts UIRfsourdf {
+        publid DbsifdBordfr(Color dolor) {
+            supfr(dolor);
         }
 
-        public DashedBorder(Color color, int thickness)  {
-            super(color, thickness);
+        publid DbsifdBordfr(Color dolor, int tiidknfss)  {
+            supfr(dolor, tiidknfss);
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Color oldColor = g.getColor();
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+            Color oldColor = g.gftColor();
             int i;
 
-            g.setColor(lineColor);
-            for(i = 0; i < thickness; i++)  {
-                BasicGraphicsUtils.drawDashedRect(g, x+i, y+i, width-i-i, height-i-i);
+            g.sftColor(linfColor);
+            for(i = 0; i < tiidknfss; i++)  {
+                BbsidGrbpiidsUtils.drbwDbsifdRfdt(g, x+i, y+i, widti-i-i, ifigit-i-i);
             }
-            g.setColor(oldColor);
+            g.sftColor(oldColor);
         }
     }
 
     /**
-     * A dashed border that paints itself in the complementary color
-     * of the component's background color.
+     * A dbsifd bordfr tibt pbints itsflf in tif domplfmfntbry dolor
+     * of tif domponfnt's bbdkground dolor.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class ComplementDashedBorder extends LineBorder implements UIResource {
-        private Color origColor;
-        private Color paintColor;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss ComplfmfntDbsifdBordfr fxtfnds LinfBordfr implfmfnts UIRfsourdf {
+        privbtf Color origColor;
+        privbtf Color pbintColor;
 
-        public ComplementDashedBorder() {
-            super(null);
+        publid ComplfmfntDbsifdBordfr() {
+            supfr(null);
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Color color = c.getBackground();
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+            Color dolor = d.gftBbdkground();
 
-            if (origColor != color) {
-                origColor = color;
-                paintColor = new Color(~origColor.getRGB());
+            if (origColor != dolor) {
+                origColor = dolor;
+                pbintColor = nfw Color(~origColor.gftRGB());
             }
 
-            g.setColor(paintColor);
-            BasicGraphicsUtils.drawDashedRect(g, x, y, width, height);
+            g.sftColor(pbintColor);
+            BbsidGrbpiidsUtils.drbwDbsifdRfdt(g, x, y, widti, ifigit);
         }
     }
 
     /**
-     * This class is an implementation of the InternalFrameLine border.
-     * @since 1.4
+     * Tiis dlbss is bn implfmfntbtion of tif IntfrnblFrbmfLinf bordfr.
+     * @sindf 1.4
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class InternalFrameLineBorder extends LineBorder implements
-            UIResource {
-        protected Color activeColor;
-        protected Color inactiveColor;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss IntfrnblFrbmfLinfBordfr fxtfnds LinfBordfr implfmfnts
+            UIRfsourdf {
+        protfdtfd Color bdtivfColor;
+        protfdtfd Color inbdtivfColor;
 
-        public InternalFrameLineBorder(Color activeBorderColor,
-                                       Color inactiveBorderColor,
-                                       int thickness) {
-            super(activeBorderColor, thickness);
-            activeColor = activeBorderColor;
-            inactiveColor = inactiveBorderColor;
+        publid IntfrnblFrbmfLinfBordfr(Color bdtivfBordfrColor,
+                                       Color inbdtivfBordfrColor,
+                                       int tiidknfss) {
+            supfr(bdtivfBordfrColor, tiidknfss);
+            bdtivfColor = bdtivfBordfrColor;
+            inbdtivfColor = inbdtivfBordfrColor;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
-                int width, int height) {
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y,
+                int widti, int ifigit) {
 
-            JInternalFrame jif = null;
-            if (c instanceof JInternalFrame) {
-                jif = (JInternalFrame)c;
-            } else if (c instanceof JInternalFrame.JDesktopIcon) {
-                jif = ((JInternalFrame.JDesktopIcon)c).getInternalFrame();
-            } else {
-                return;
+            JIntfrnblFrbmf jif = null;
+            if (d instbndfof JIntfrnblFrbmf) {
+                jif = (JIntfrnblFrbmf)d;
+            } flsf if (d instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+                jif = ((JIntfrnblFrbmf.JDfsktopIdon)d).gftIntfrnblFrbmf();
+            } flsf {
+                rfturn;
             }
 
-            if (jif.isSelected()) {
-                // Set the line color so the line border gets the correct
-                // color.
-                lineColor = activeColor;
-                super.paintBorder(c, g, x, y, width, height);
-            } else {
-                lineColor = inactiveColor;
-                super.paintBorder(c, g, x, y, width, height);
+            if (jif.isSflfdtfd()) {
+                // Sft tif linf dolor so tif linf bordfr gfts tif dorrfdt
+                // dolor.
+                linfColor = bdtivfColor;
+                supfr.pbintBordfr(d, g, x, y, widti, ifigit);
+            } flsf {
+                linfColor = inbdtivfColor;
+                supfr.pbintBordfr(d, g, x, y, widti, ifigit);
             }
         }
     }

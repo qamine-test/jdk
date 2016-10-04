@@ -1,0 +1,892 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.implfmfntbtions;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.CbnonidblizfrSpi;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.hflpfr.AttrCompbrf;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.NodfFiltfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.UnsyndBytfArrbyOutputStrfbm;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Commfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.NbmfdNodfMbp;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.ProdfssingInstrudtion;
+import org.xml.sbx.SAXExdfption;
+
+/**
+ * Abstrbdt bbsf dlbss for dbnonidblizbtion blgorithms.
+ *
+ * @buthor Christibn Gfufr-Pollmbnn <gfufrp@bpbdhf.org>
+ */
+publid bbstrbdt dlbss CbnonidblizfrBbsf fxtfnds CbnonidblizfrSpi {
+    publid stbtid finbl String XML = "xml";
+    publid stbtid finbl String XMLNS = "xmlns";
+
+    protfdtfd stbtid finbl AttrCompbrf COMPARE = nfw AttrCompbrf();
+
+    // Mbkf surf you dlonf thf following mutbblf brrbys bfforf pbssing to
+    // potfntiblly untrustfd objfdts sudh bs OutputStrfbms.
+    privbtf stbtid finbl bytf[] END_PI = {'?','>'};
+    privbtf stbtid finbl bytf[] BEGIN_PI = {'<','?'};
+    privbtf stbtid finbl bytf[] END_COMM = {'-','-','>'};
+    privbtf stbtid finbl bytf[] BEGIN_COMM = {'<','!','-','-'};
+    privbtf stbtid finbl bytf[] XA = {'&','#','x','A',';'};
+    privbtf stbtid finbl bytf[] X9 = {'&','#','x','9',';'};
+    privbtf stbtid finbl bytf[] QUOT = {'&','q','u','o','t',';'};
+    privbtf stbtid finbl bytf[] XD = {'&','#','x','D',';'};
+    privbtf stbtid finbl bytf[] GT = {'&','g','t',';'};
+    privbtf stbtid finbl bytf[] LT = {'&','l','t',';'};
+    privbtf stbtid finbl bytf[] END_TAG = {'<','/'};
+    privbtf stbtid finbl bytf[] AMP = {'&','b','m','p',';'};
+    privbtf stbtid finbl bytf[] EQUALS_STR = {'=','\"'};
+
+    protfdtfd stbtid finbl int NODE_BEFORE_DOCUMENT_ELEMENT = -1;
+    protfdtfd stbtid finbl int NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT = 0;
+    protfdtfd stbtid finbl int NODE_AFTER_DOCUMENT_ELEMENT = 1;
+
+    privbtf List<NodfFiltfr> nodfFiltfr;
+
+    privbtf boolfbn indludfCommfnts;
+    privbtf Sft<Nodf> xpbthNodfSft;
+
+    /**
+     * Thf nodf to bf skippfd/fxdludfd from thf DOM trff
+     * in subtrff dbnonidblizbtions.
+     */
+    privbtf Nodf fxdludfNodf;
+    privbtf OutputStrfbm writfr = nfw BytfArrbyOutputStrfbm();
+
+    /**
+     * Thf null xmlns dffinition.
+     */
+    privbtf Attr nullNodf;
+
+    /**
+     * Construdtor CbnonidblizfrBbsf
+     *
+     * @pbrbm indludfCommfnts
+     */
+    publid CbnonidblizfrBbsf(boolfbn indludfCommfnts) {
+        this.indludfCommfnts = indludfCommfnts;
+    }
+
+    /**
+     * Mfthod fnginfCbnonidblizfSubTrff
+     * @inhfritDod
+     * @pbrbm rootNodf
+     * @throws CbnonidblizbtionExdfption
+     */
+    publid bytf[] fnginfCbnonidblizfSubTrff(Nodf rootNodf)
+        throws CbnonidblizbtionExdfption {
+        rfturn fnginfCbnonidblizfSubTrff(rootNodf, (Nodf)null);
+    }
+
+    /**
+     * Mfthod fnginfCbnonidblizfXPbthNodfSft
+     * @inhfritDod
+     * @pbrbm xpbthNodfSft
+     * @throws CbnonidblizbtionExdfption
+     */
+    publid bytf[] fnginfCbnonidblizfXPbthNodfSft(Sft<Nodf> xpbthNodfSft)
+        throws CbnonidblizbtionExdfption {
+        this.xpbthNodfSft = xpbthNodfSft;
+        rfturn fnginfCbnonidblizfXPbthNodfSftIntfrnbl(XMLUtils.gftOwnfrDodumfnt(this.xpbthNodfSft));
+    }
+
+    /**
+     * Cbnonidblizfs b Subtrff nodf.
+     * @pbrbm input thf root of thf subtrff to dbnidblizf
+     * @rfturn Thf dbnonidblizf strfbm.
+     * @throws CbnonidblizbtionExdfption
+     */
+    publid bytf[] fnginfCbnonidblizf(XMLSignbturfInput input) throws CbnonidblizbtionExdfption {
+        try {
+            if (input.isExdludfCommfnts()) {
+                indludfCommfnts = fblsf;
+            }
+            if (input.isOdtftStrfbm()) {
+                rfturn fnginfCbnonidblizf(input.gftBytfs());
+            }
+            if (input.isElfmfnt()) {
+                rfturn fnginfCbnonidblizfSubTrff(input.gftSubNodf(), input.gftExdludfNodf());
+            } flsf if (input.isNodfSft()) {
+                nodfFiltfr = input.gftNodfFiltfrs();
+
+                dirdumvfntBugIfNffdfd(input);
+
+                if (input.gftSubNodf() != null) {
+                    rfturn fnginfCbnonidblizfXPbthNodfSftIntfrnbl(input.gftSubNodf());
+                } flsf {
+                    rfturn fnginfCbnonidblizfXPbthNodfSft(input.gftNodfSft());
+                }
+            }
+            rfturn null;
+        } dbtdh (CbnonidblizbtionExdfption fx) {
+            throw nfw CbnonidblizbtionExdfption("fmpty", fx);
+        } dbtdh (PbrsfrConfigurbtionExdfption fx) {
+            throw nfw CbnonidblizbtionExdfption("fmpty", fx);
+        } dbtdh (IOExdfption fx) {
+            throw nfw CbnonidblizbtionExdfption("fmpty", fx);
+        } dbtdh (SAXExdfption fx) {
+            throw nfw CbnonidblizbtionExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * @pbrbm writfr Thf writfr to sft.
+     */
+    publid void sftWritfr(OutputStrfbm writfr) {
+        this.writfr = writfr;
+    }
+
+    /**
+     * Cbnonidblizfs b Subtrff nodf.
+     *
+     * @pbrbm rootNodf
+     *            thf root of thf subtrff to dbnonidblizf
+     * @pbrbm fxdludfNodf
+     *            b nodf to bf fxdludfd from thf dbnonidblizf opfrbtion
+     * @rfturn Thf dbnonidblizf strfbm.
+     * @throws CbnonidblizbtionExdfption
+     */
+    protfdtfd bytf[] fnginfCbnonidblizfSubTrff(Nodf rootNodf, Nodf fxdludfNodf)
+        throws CbnonidblizbtionExdfption {
+        this.fxdludfNodf = fxdludfNodf;
+        try {
+            NbmfSpbdfSymbTbblf ns = nfw NbmfSpbdfSymbTbblf();
+            int nodfLfvfl = NODE_BEFORE_DOCUMENT_ELEMENT;
+            if (rootNodf != null && Nodf.ELEMENT_NODE == rootNodf.gftNodfTypf()) {
+                //Fills thf nssymbtbblf with thf dffinitions of thf pbrfnt of thf root subnodf
+                gftPbrfntNbmfSpbdfs((Elfmfnt)rootNodf, ns);
+                nodfLfvfl = NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
+            }
+            this.dbnonidblizfSubTrff(rootNodf, ns, rootNodf, nodfLfvfl);
+            this.writfr.flush();
+            if (this.writfr instbndfof BytfArrbyOutputStrfbm) {
+                bytf[] rfsult = ((BytfArrbyOutputStrfbm)this.writfr).toBytfArrby();
+                if (rfsft) {
+                    ((BytfArrbyOutputStrfbm)this.writfr).rfsft();
+                } flsf {
+                    this.writfr.dlosf();
+                }
+                rfturn rfsult;
+            } flsf if (this.writfr instbndfof UnsyndBytfArrbyOutputStrfbm) {
+                bytf[] rfsult = ((UnsyndBytfArrbyOutputStrfbm)this.writfr).toBytfArrby();
+                if (rfsft) {
+                    ((UnsyndBytfArrbyOutputStrfbm)this.writfr).rfsft();
+                } flsf {
+                    this.writfr.dlosf();
+                }
+                rfturn rfsult;
+            } flsf {
+                this.writfr.dlosf();
+            }
+            rfturn null;
+
+        } dbtdh (UnsupportfdEndodingExdfption fx) {
+            throw nfw CbnonidblizbtionExdfption("fmpty", fx);
+        } dbtdh (IOExdfption fx) {
+            throw nfw CbnonidblizbtionExdfption("fmpty", fx);
+        }
+    }
+
+
+    /**
+     * Mfthod dbnonidblizfSubTrff, this fundtion is b rfdursivf onf.
+     *
+     * @pbrbm durrfntNodf
+     * @pbrbm ns
+     * @pbrbm fndnodf
+     * @throws CbnonidblizbtionExdfption
+     * @throws IOExdfption
+     */
+    protfdtfd finbl void dbnonidblizfSubTrff(
+        Nodf durrfntNodf, NbmfSpbdfSymbTbblf ns, Nodf fndnodf, int dodumfntLfvfl
+    ) throws CbnonidblizbtionExdfption, IOExdfption {
+        if (isVisiblfInt(durrfntNodf) == -1) {
+            rfturn;
+        }
+        Nodf sibling = null;
+        Nodf pbrfntNodf = null;
+        finbl OutputStrfbm writfr = this.writfr;
+        finbl Nodf fxdludfNodf = this.fxdludfNodf;
+        finbl boolfbn indludfCommfnts = this.indludfCommfnts;
+        Mbp<String, bytf[]> dbdhf = nfw HbshMbp<String, bytf[]>();
+        do {
+            switdh (durrfntNodf.gftNodfTypf()) {
+
+            dbsf Nodf.ENTITY_NODE :
+            dbsf Nodf.NOTATION_NODE :
+            dbsf Nodf.ATTRIBUTE_NODE :
+                // illfgbl nodf typf during trbvfrsbl
+                throw nfw CbnonidblizbtionExdfption("fmpty");
+
+            dbsf Nodf.DOCUMENT_FRAGMENT_NODE :
+            dbsf Nodf.DOCUMENT_NODE :
+                ns.outputNodfPush();
+                sibling = durrfntNodf.gftFirstChild();
+                brfbk;
+
+            dbsf Nodf.COMMENT_NODE :
+                if (indludfCommfnts) {
+                    outputCommfntToWritfr((Commfnt) durrfntNodf, writfr, dodumfntLfvfl);
+                }
+                brfbk;
+
+            dbsf Nodf.PROCESSING_INSTRUCTION_NODE :
+                outputPItoWritfr((ProdfssingInstrudtion) durrfntNodf, writfr, dodumfntLfvfl);
+                brfbk;
+
+            dbsf Nodf.TEXT_NODE :
+            dbsf Nodf.CDATA_SECTION_NODE :
+                outputTfxtToWritfr(durrfntNodf.gftNodfVbluf(), writfr);
+                brfbk;
+
+            dbsf Nodf.ELEMENT_NODE :
+                dodumfntLfvfl = NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
+                if (durrfntNodf == fxdludfNodf) {
+                    brfbk;
+                }
+                Elfmfnt durrfntElfmfnt = (Elfmfnt)durrfntNodf;
+                //Add b lfvfl to thf nssymbtbblf. So lbttfr dbn bf pop-bbdk.
+                ns.outputNodfPush();
+                writfr.writf('<');
+                String nbmf = durrfntElfmfnt.gftTbgNbmf();
+                UtfHflppfr.writfBytf(nbmf, writfr, dbdhf);
+
+                Itfrbtor<Attr> bttrs = this.hbndlfAttributfsSubtrff(durrfntElfmfnt, ns);
+                if (bttrs != null) {
+                    //wf output bll Attrs whidh brf bvbilbblf
+                    whilf (bttrs.hbsNfxt()) {
+                        Attr bttr = bttrs.nfxt();
+                        outputAttrToWritfr(bttr.gftNodfNbmf(), bttr.gftNodfVbluf(), writfr, dbdhf);
+                    }
+                }
+                writfr.writf('>');
+                sibling = durrfntNodf.gftFirstChild();
+                if (sibling == null) {
+                    writfr.writf(END_TAG.dlonf());
+                    UtfHflppfr.writfStringToUtf8(nbmf, writfr);
+                    writfr.writf('>');
+                    //Wf finishfd with this lfvfl, pop to thf prfvious dffinitions.
+                    ns.outputNodfPop();
+                    if (pbrfntNodf != null) {
+                        sibling = durrfntNodf.gftNfxtSibling();
+                    }
+                } flsf {
+                    pbrfntNodf = durrfntElfmfnt;
+                }
+                brfbk;
+
+            dbsf Nodf.DOCUMENT_TYPE_NODE :
+            dffbult :
+                brfbk;
+            }
+            whilf (sibling == null && pbrfntNodf != null) {
+                writfr.writf(END_TAG.dlonf());
+                UtfHflppfr.writfBytf(((Elfmfnt)pbrfntNodf).gftTbgNbmf(), writfr, dbdhf);
+                writfr.writf('>');
+                //Wf finishfd with this lfvfl, pop to thf prfvious dffinitions.
+                ns.outputNodfPop();
+                if (pbrfntNodf == fndnodf) {
+                    rfturn;
+                }
+                sibling = pbrfntNodf.gftNfxtSibling();
+                pbrfntNodf = pbrfntNodf.gftPbrfntNodf();
+                if (pbrfntNodf == null || Nodf.ELEMENT_NODE != pbrfntNodf.gftNodfTypf()) {
+                    dodumfntLfvfl = NODE_AFTER_DOCUMENT_ELEMENT;
+                    pbrfntNodf = null;
+                }
+            }
+            if (sibling == null) {
+                rfturn;
+            }
+            durrfntNodf = sibling;
+            sibling = durrfntNodf.gftNfxtSibling();
+        } whilf(truf);
+    }
+
+
+    privbtf bytf[] fnginfCbnonidblizfXPbthNodfSftIntfrnbl(Nodf dod)
+        throws CbnonidblizbtionExdfption {
+        try {
+            this.dbnonidblizfXPbthNodfSft(dod, dod);
+            this.writfr.flush();
+            if (this.writfr instbndfof BytfArrbyOutputStrfbm) {
+                bytf[] sol = ((BytfArrbyOutputStrfbm)this.writfr).toBytfArrby();
+                if (rfsft) {
+                    ((BytfArrbyOutputStrfbm)this.writfr).rfsft();
+                } flsf {
+                    this.writfr.dlosf();
+                }
+                rfturn sol;
+            } flsf if (this.writfr instbndfof UnsyndBytfArrbyOutputStrfbm) {
+                bytf[] rfsult = ((UnsyndBytfArrbyOutputStrfbm)this.writfr).toBytfArrby();
+                if (rfsft) {
+                    ((UnsyndBytfArrbyOutputStrfbm)this.writfr).rfsft();
+                } flsf {
+                    this.writfr.dlosf();
+                }
+                rfturn rfsult;
+            } flsf {
+                this.writfr.dlosf();
+            }
+            rfturn null;
+        } dbtdh (UnsupportfdEndodingExdfption fx) {
+            throw nfw CbnonidblizbtionExdfption("fmpty", fx);
+        } dbtdh (IOExdfption fx) {
+            throw nfw CbnonidblizbtionExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * Cbnonidblizfs bll thf nodfs indludfd in thf durrfntNodf bnd dontbinfd in thf
+     * xpbthNodfSft fifld.
+     *
+     * @pbrbm durrfntNodf
+     * @pbrbm fndnodf
+     * @throws CbnonidblizbtionExdfption
+     * @throws IOExdfption
+     */
+    protfdtfd finbl void dbnonidblizfXPbthNodfSft(Nodf durrfntNodf, Nodf fndnodf)
+        throws CbnonidblizbtionExdfption, IOExdfption {
+        if (isVisiblfInt(durrfntNodf) == -1) {
+            rfturn;
+        }
+        boolfbn durrfntNodfIsVisiblf = fblsf;
+        NbmfSpbdfSymbTbblf ns = nfw NbmfSpbdfSymbTbblf();
+        if (durrfntNodf != null && Nodf.ELEMENT_NODE == durrfntNodf.gftNodfTypf()) {
+            gftPbrfntNbmfSpbdfs((Elfmfnt)durrfntNodf, ns);
+        }
+        if (durrfntNodf == null) {
+            rfturn;
+        }
+        Nodf sibling = null;
+        Nodf pbrfntNodf = null;
+        OutputStrfbm writfr = this.writfr;
+        int dodumfntLfvfl = NODE_BEFORE_DOCUMENT_ELEMENT;
+        Mbp<String, bytf[]> dbdhf = nfw HbshMbp<String, bytf[]>();
+        do {
+            switdh (durrfntNodf.gftNodfTypf()) {
+
+            dbsf Nodf.ENTITY_NODE :
+            dbsf Nodf.NOTATION_NODE :
+            dbsf Nodf.ATTRIBUTE_NODE :
+                // illfgbl nodf typf during trbvfrsbl
+                throw nfw CbnonidblizbtionExdfption("fmpty");
+
+            dbsf Nodf.DOCUMENT_FRAGMENT_NODE :
+            dbsf Nodf.DOCUMENT_NODE :
+                ns.outputNodfPush();
+                sibling = durrfntNodf.gftFirstChild();
+                brfbk;
+
+            dbsf Nodf.COMMENT_NODE :
+                if (this.indludfCommfnts && (isVisiblfDO(durrfntNodf, ns.gftLfvfl()) == 1)) {
+                    outputCommfntToWritfr((Commfnt) durrfntNodf, writfr, dodumfntLfvfl);
+                }
+                brfbk;
+
+            dbsf Nodf.PROCESSING_INSTRUCTION_NODE :
+                if (isVisiblf(durrfntNodf)) {
+                    outputPItoWritfr((ProdfssingInstrudtion) durrfntNodf, writfr, dodumfntLfvfl);
+                }
+                brfbk;
+
+            dbsf Nodf.TEXT_NODE :
+            dbsf Nodf.CDATA_SECTION_NODE :
+                if (isVisiblf(durrfntNodf)) {
+                    outputTfxtToWritfr(durrfntNodf.gftNodfVbluf(), writfr);
+                    for (Nodf nfxtSibling = durrfntNodf.gftNfxtSibling();
+                        (nfxtSibling != null) && ((nfxtSibling.gftNodfTypf() == Nodf.TEXT_NODE)
+                            || (nfxtSibling.gftNodfTypf() == Nodf.CDATA_SECTION_NODE));
+                        nfxtSibling = nfxtSibling.gftNfxtSibling()) {
+                        outputTfxtToWritfr(nfxtSibling.gftNodfVbluf(), writfr);
+                        durrfntNodf = nfxtSibling;
+                        sibling = durrfntNodf.gftNfxtSibling();
+                    }
+                }
+                brfbk;
+
+            dbsf Nodf.ELEMENT_NODE :
+                dodumfntLfvfl = NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
+                Elfmfnt durrfntElfmfnt = (Elfmfnt) durrfntNodf;
+                //Add b lfvfl to thf nssymbtbblf. So lbttfr dbn bf pop-bbdk.
+                String nbmf = null;
+                int i = isVisiblfDO(durrfntNodf, ns.gftLfvfl());
+                if (i == -1) {
+                    sibling = durrfntNodf.gftNfxtSibling();
+                    brfbk;
+                }
+                durrfntNodfIsVisiblf = (i == 1);
+                if (durrfntNodfIsVisiblf) {
+                    ns.outputNodfPush();
+                    writfr.writf('<');
+                    nbmf = durrfntElfmfnt.gftTbgNbmf();
+                    UtfHflppfr.writfBytf(nbmf, writfr, dbdhf);
+                } flsf {
+                    ns.push();
+                }
+
+                Itfrbtor<Attr> bttrs = hbndlfAttributfs(durrfntElfmfnt,ns);
+                if (bttrs != null) {
+                    //wf output bll Attrs whidh brf bvbilbblf
+                    whilf (bttrs.hbsNfxt()) {
+                        Attr bttr = bttrs.nfxt();
+                        outputAttrToWritfr(bttr.gftNodfNbmf(), bttr.gftNodfVbluf(), writfr, dbdhf);
+                    }
+                }
+                if (durrfntNodfIsVisiblf) {
+                    writfr.writf('>');
+                }
+                sibling = durrfntNodf.gftFirstChild();
+
+                if (sibling == null) {
+                    if (durrfntNodfIsVisiblf) {
+                        writfr.writf(END_TAG.dlonf());
+                        UtfHflppfr.writfBytf(nbmf, writfr, dbdhf);
+                        writfr.writf('>');
+                        //Wf finishfd with this lfvfl, pop to thf prfvious dffinitions.
+                        ns.outputNodfPop();
+                    } flsf {
+                        ns.pop();
+                    }
+                    if (pbrfntNodf != null) {
+                        sibling = durrfntNodf.gftNfxtSibling();
+                    }
+                } flsf {
+                    pbrfntNodf = durrfntElfmfnt;
+                }
+                brfbk;
+
+            dbsf Nodf.DOCUMENT_TYPE_NODE :
+            dffbult :
+                brfbk;
+            }
+            whilf (sibling == null && pbrfntNodf != null) {
+                if (isVisiblf(pbrfntNodf)) {
+                    writfr.writf(END_TAG.dlonf());
+                    UtfHflppfr.writfBytf(((Elfmfnt)pbrfntNodf).gftTbgNbmf(), writfr, dbdhf);
+                    writfr.writf('>');
+                    //Wf finishfd with this lfvfl, pop to thf prfvious dffinitions.
+                    ns.outputNodfPop();
+                } flsf {
+                    ns.pop();
+                }
+                if (pbrfntNodf == fndnodf) {
+                    rfturn;
+                }
+                sibling = pbrfntNodf.gftNfxtSibling();
+                pbrfntNodf = pbrfntNodf.gftPbrfntNodf();
+                if (pbrfntNodf == null || Nodf.ELEMENT_NODE != pbrfntNodf.gftNodfTypf()) {
+                    pbrfntNodf = null;
+                    dodumfntLfvfl = NODE_AFTER_DOCUMENT_ELEMENT;
+                }
+            }
+            if (sibling == null) {
+                rfturn;
+            }
+            durrfntNodf = sibling;
+            sibling = durrfntNodf.gftNfxtSibling();
+        } whilf(truf);
+    }
+
+    protfdtfd int isVisiblfDO(Nodf durrfntNodf, int lfvfl) {
+        if (nodfFiltfr != null) {
+            Itfrbtor<NodfFiltfr> it = nodfFiltfr.itfrbtor();
+            whilf (it.hbsNfxt()) {
+                int i = (it.nfxt()).isNodfIndludfDO(durrfntNodf, lfvfl);
+                if (i != 1) {
+                    rfturn i;
+                }
+            }
+        }
+        if ((this.xpbthNodfSft != null) && !this.xpbthNodfSft.dontbins(durrfntNodf)) {
+            rfturn 0;
+        }
+        rfturn 1;
+    }
+
+    protfdtfd int isVisiblfInt(Nodf durrfntNodf) {
+        if (nodfFiltfr != null) {
+            Itfrbtor<NodfFiltfr> it = nodfFiltfr.itfrbtor();
+            whilf (it.hbsNfxt()) {
+                int i = (it.nfxt()).isNodfIndludf(durrfntNodf);
+                if (i != 1) {
+                    rfturn i;
+                }
+            }
+        }
+        if ((this.xpbthNodfSft != null) && !this.xpbthNodfSft.dontbins(durrfntNodf)) {
+            rfturn 0;
+        }
+        rfturn 1;
+    }
+
+    protfdtfd boolfbn isVisiblf(Nodf durrfntNodf) {
+        if (nodfFiltfr != null) {
+            Itfrbtor<NodfFiltfr> it = nodfFiltfr.itfrbtor();
+            whilf (it.hbsNfxt()) {
+                if (it.nfxt().isNodfIndludf(durrfntNodf) != 1) {
+                    rfturn fblsf;
+                }
+            }
+        }
+        if ((this.xpbthNodfSft != null) && !this.xpbthNodfSft.dontbins(durrfntNodf)) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    protfdtfd void hbndlfPbrfnt(Elfmfnt f, NbmfSpbdfSymbTbblf ns) {
+        if (!f.hbsAttributfs() && f.gftNbmfspbdfURI() == null) {
+            rfturn;
+        }
+        NbmfdNodfMbp bttrs = f.gftAttributfs();
+        int bttrsLfngth = bttrs.gftLfngth();
+        for (int i = 0; i < bttrsLfngth; i++) {
+            Attr bttributf = (Attr) bttrs.itfm(i);
+            String NNbmf = bttributf.gftLodblNbmf();
+            String NVbluf = bttributf.gftNodfVbluf();
+
+            if (Constbnts.NbmfspbdfSpfdNS.fqubls(bttributf.gftNbmfspbdfURI())
+                && (!XML.fqubls(NNbmf) || !Constbnts.XML_LANG_SPACE_SpfdNS.fqubls(NVbluf))) {
+                ns.bddMbpping(NNbmf, NVbluf, bttributf);
+            }
+        }
+        if (f.gftNbmfspbdfURI() != null) {
+            String NNbmf = f.gftPrffix();
+            String NVbluf = f.gftNbmfspbdfURI();
+            String Nbmf;
+            if (NNbmf == null || NNbmf.fqubls("")) {
+                NNbmf = XMLNS;
+                Nbmf = XMLNS;
+            } flsf {
+                Nbmf = XMLNS + ":" + NNbmf;
+            }
+            Attr n = f.gftOwnfrDodumfnt().drfbtfAttributfNS("http://www.w3.org/2000/xmlns/", Nbmf);
+            n.sftVbluf(NVbluf);
+            ns.bddMbpping(NNbmf, NVbluf, n);
+        }
+    }
+
+    /**
+     * Adds to ns thf dffinitions from thf pbrfnt flfmfnts of fl
+     * @pbrbm fl
+     * @pbrbm ns
+     */
+    protfdtfd finbl void gftPbrfntNbmfSpbdfs(Elfmfnt fl, NbmfSpbdfSymbTbblf ns)  {
+        Nodf n1 = fl.gftPbrfntNodf();
+        if (n1 == null || Nodf.ELEMENT_NODE != n1.gftNodfTypf()) {
+            rfturn;
+        }
+        //Obtbin bll thf pbrfnts of thf flfmfnt
+        List<Elfmfnt> pbrfnts = nfw ArrbyList<Elfmfnt>();
+        Nodf pbrfnt = n1;
+        whilf (pbrfnt != null && Nodf.ELEMENT_NODE == pbrfnt.gftNodfTypf()) {
+            pbrfnts.bdd((Elfmfnt)pbrfnt);
+            pbrfnt = pbrfnt.gftPbrfntNodf();
+        }
+        //Visit thfm in rfvfrsf ordfr.
+        ListItfrbtor<Elfmfnt> it = pbrfnts.listItfrbtor(pbrfnts.sizf());
+        whilf (it.hbsPrfvious()) {
+            Elfmfnt flf = it.prfvious();
+            hbndlfPbrfnt(flf, ns);
+        }
+        pbrfnts.dlfbr();
+        Attr nsprffix;
+        if (((nsprffix = ns.gftMbppingWithoutRfndfrfd(XMLNS)) != null)
+                && "".fqubls(nsprffix.gftVbluf())) {
+            ns.bddMbppingAndRfndfr(
+                    XMLNS, "", gftNullNodf(nsprffix.gftOwnfrDodumfnt()));
+        }
+    }
+
+    /**
+     * Obtbin thf bttributfs to output for this nodf in XPbthNodfSft d14n.
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm ns
+     * @rfturn thf bttributfs nodfs to output.
+     * @throws CbnonidblizbtionExdfption
+     */
+    bbstrbdt Itfrbtor<Attr> hbndlfAttributfs(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        throws CbnonidblizbtionExdfption;
+
+    /**
+     * Obtbin thf bttributfs to output for this nodf in b Subtrff d14n.
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm ns
+     * @rfturn thf bttributfs nodfs to output.
+     * @throws CbnonidblizbtionExdfption
+     */
+    bbstrbdt Itfrbtor<Attr> hbndlfAttributfsSubtrff(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        throws CbnonidblizbtionExdfption;
+
+    bbstrbdt void dirdumvfntBugIfNffdfd(XMLSignbturfInput input)
+        throws CbnonidblizbtionExdfption, PbrsfrConfigurbtionExdfption, IOExdfption, SAXExdfption;
+
+    /**
+     * Outputs bn Attributf to thf intfrnbl Writfr.
+     *
+     * Thf string vbluf of thf nodf is modififd by rfplbding
+     * <UL>
+     * <LI>bll bmpfrsbnds (&) with <CODE>&bmp;bmp;</CODE></LI>
+     * <LI>bll opfn bnglf brbdkfts (<) with <CODE>&bmp;lt;</CODE></LI>
+     * <LI>bll quotbtion mbrk dhbrbdtfrs with <CODE>&bmp;quot;</CODE></LI>
+     * <LI>bnd thf whitfspbdf dhbrbdtfrs <CODE>#x9</CODE>, #xA, bnd #xD, with dhbrbdtfr
+     * rfffrfndfs. Thf dhbrbdtfr rfffrfndfs brf writtfn in uppfrdbsf
+     * hfxbdfdimbl with no lfbding zfrofs (for fxbmplf, <CODE>#xD</CODE> is rfprfsfntfd
+     * by thf dhbrbdtfr rfffrfndf <CODE>&bmp;#xD;</CODE>)</LI>
+     * </UL>
+     *
+     * @pbrbm nbmf
+     * @pbrbm vbluf
+     * @pbrbm writfr
+     * @throws IOExdfption
+     */
+    protfdtfd stbtid finbl void outputAttrToWritfr(
+        finbl String nbmf, finbl String vbluf,
+        finbl OutputStrfbm writfr, finbl Mbp<String, bytf[]> dbdhf
+    ) throws IOExdfption {
+        writfr.writf(' ');
+        UtfHflppfr.writfBytf(nbmf, writfr, dbdhf);
+        writfr.writf(EQUALS_STR.dlonf());
+        bytf[] toWritf;
+        finbl int lfngth = vbluf.lfngth();
+        int i = 0;
+        whilf (i < lfngth) {
+            dhbr d = vbluf.dhbrAt(i++);
+
+            switdh (d) {
+
+            dbsf '&' :
+                toWritf = AMP.dlonf();
+                brfbk;
+
+            dbsf '<' :
+                toWritf = LT.dlonf();
+                brfbk;
+
+            dbsf '"' :
+                toWritf = QUOT.dlonf();
+                brfbk;
+
+            dbsf 0x09 :    // '\t'
+                toWritf = X9.dlonf();
+                brfbk;
+
+            dbsf 0x0A :    // '\n'
+                toWritf = XA.dlonf();
+                brfbk;
+
+            dbsf 0x0D :    // '\r'
+                toWritf = XD.dlonf();
+                brfbk;
+
+            dffbult :
+                if (d < 0x80) {
+                    writfr.writf(d);
+                } flsf {
+                    UtfHflppfr.writfChbrToUtf8(d, writfr);
+                }
+                dontinuf;
+            }
+            writfr.writf(toWritf);
+        }
+
+        writfr.writf('\"');
+    }
+
+    /**
+     * Outputs b PI to thf intfrnbl Writfr.
+     *
+     * @pbrbm durrfntPI
+     * @pbrbm writfr whfrf to writf thf things
+     * @throws IOExdfption
+     */
+    protfdtfd void outputPItoWritfr(
+        ProdfssingInstrudtion durrfntPI, OutputStrfbm writfr, int position
+    ) throws IOExdfption {
+        if (position == NODE_AFTER_DOCUMENT_ELEMENT) {
+            writfr.writf('\n');
+        }
+        writfr.writf(BEGIN_PI.dlonf());
+
+        finbl String tbrgft = durrfntPI.gftTbrgft();
+        int lfngth = tbrgft.lfngth();
+
+        for (int i = 0; i < lfngth; i++) {
+            dhbr d = tbrgft.dhbrAt(i);
+            if (d == 0x0D) {
+                writfr.writf(XD.dlonf());
+            } flsf {
+                if (d < 0x80) {
+                    writfr.writf(d);
+                } flsf {
+                    UtfHflppfr.writfChbrToUtf8(d, writfr);
+                }
+            }
+        }
+
+        finbl String dbtb = durrfntPI.gftDbtb();
+
+        lfngth = dbtb.lfngth();
+
+        if (lfngth > 0) {
+            writfr.writf(' ');
+
+            for (int i = 0; i < lfngth; i++) {
+                dhbr d = dbtb.dhbrAt(i);
+                if (d == 0x0D) {
+                    writfr.writf(XD.dlonf());
+                } flsf {
+                    UtfHflppfr.writfChbrToUtf8(d, writfr);
+                }
+            }
+        }
+
+        writfr.writf(END_PI.dlonf());
+        if (position == NODE_BEFORE_DOCUMENT_ELEMENT) {
+            writfr.writf('\n');
+        }
+    }
+
+    /**
+     * Mfthod outputCommfntToWritfr
+     *
+     * @pbrbm durrfntCommfnt
+     * @pbrbm writfr writfr whfrf to writf thf things
+     * @throws IOExdfption
+     */
+    protfdtfd void outputCommfntToWritfr(
+        Commfnt durrfntCommfnt, OutputStrfbm writfr, int position
+    ) throws IOExdfption {
+        if (position == NODE_AFTER_DOCUMENT_ELEMENT) {
+            writfr.writf('\n');
+        }
+        writfr.writf(BEGIN_COMM.dlonf());
+
+        finbl String dbtb = durrfntCommfnt.gftDbtb();
+        finbl int lfngth = dbtb.lfngth();
+
+        for (int i = 0; i < lfngth; i++) {
+            dhbr d = dbtb.dhbrAt(i);
+            if (d == 0x0D) {
+                writfr.writf(XD.dlonf());
+            } flsf {
+                if (d < 0x80) {
+                    writfr.writf(d);
+                } flsf {
+                    UtfHflppfr.writfChbrToUtf8(d, writfr);
+                }
+            }
+        }
+
+        writfr.writf(END_COMM.dlonf());
+        if (position == NODE_BEFORE_DOCUMENT_ELEMENT) {
+            writfr.writf('\n');
+        }
+    }
+
+    /**
+     * Outputs b Tfxt of CDATA sfdtion to thf intfrnbl Writfr.
+     *
+     * @pbrbm tfxt
+     * @pbrbm writfr writfr whfrf to writf thf things
+     * @throws IOExdfption
+     */
+    protfdtfd stbtid finbl void outputTfxtToWritfr(
+        finbl String tfxt, finbl OutputStrfbm writfr
+    ) throws IOExdfption {
+        finbl int lfngth = tfxt.lfngth();
+        bytf[] toWritf;
+        for (int i = 0; i < lfngth; i++) {
+            dhbr d = tfxt.dhbrAt(i);
+
+            switdh (d) {
+
+            dbsf '&' :
+                toWritf = AMP.dlonf();
+                brfbk;
+
+            dbsf '<' :
+                toWritf = LT.dlonf();
+                brfbk;
+
+            dbsf '>' :
+                toWritf = GT.dlonf();
+                brfbk;
+
+            dbsf 0xD :
+                toWritf = XD.dlonf();
+                brfbk;
+
+            dffbult :
+                if (d < 0x80) {
+                    writfr.writf(d);
+                } flsf {
+                    UtfHflppfr.writfChbrToUtf8(d, writfr);
+                }
+                dontinuf;
+            }
+            writfr.writf(toWritf);
+        }
+    }
+
+    // Thf null xmlns dffinition.
+    protfdtfd Attr gftNullNodf(Dodumfnt ownfrDodumfnt) {
+        if (nullNodf == null) {
+            try {
+                nullNodf = ownfrDodumfnt.drfbtfAttributfNS(
+                                    Constbnts.NbmfspbdfSpfdNS, XMLNS);
+                nullNodf.sftVbluf("");
+            } dbtdh (Exdfption f) {
+                throw nfw RuntimfExdfption("Unbblf to drfbtf nullNodf: " + f);
+            }
+        }
+        rfturn nullNodf;
+    }
+
+}

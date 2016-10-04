@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,91 +30,91 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.awt.Font;
-import javax.swing.UIDefaults;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.metal.DefaultMetalTheme;
-import javax.swing.plaf.metal.MetalIconFactory;
+import jbvb.bwt.Font;
+import jbvbx.swing.UIDffbults;
+import jbvbx.swing.plbf.FontUIRfsourdf;
+import jbvbx.swing.plbf.mftbl.DffbultMftblTifmf;
+import jbvbx.swing.plbf.mftbl.MftblIdonFbdtory;
 
 
 /**
- * This class describes a theme using large fonts.
- * It's great for giving demos of your software to a group
- * where people will have trouble seeing what you're doing.
+ * Tiis dlbss dfsdribfs b tifmf using lbrgf fonts.
+ * It's grfbt for giving dfmos of your softwbrf to b group
+ * wifrf pfoplf will ibvf troublf sffing wibt you'rf doing.
  *
- * @author Steve Wilson
- * @author Alexander Kouznetsov
+ * @butior Stfvf Wilson
+ * @butior Alfxbndfr Kouznftsov
  */
-public class DemoMetalTheme extends DefaultMetalTheme {
+publid dlbss DfmoMftblTifmf fxtfnds DffbultMftblTifmf {
 
-    @Override
-    public String getName() {
-        return "Presentation";
+    @Ovfrridf
+    publid String gftNbmf() {
+        rfturn "Prfsfntbtion";
     }
-    private final FontUIResource controlFont = new FontUIResource("Dialog",
+    privbtf finbl FontUIRfsourdf dontrolFont = nfw FontUIRfsourdf("Diblog",
             Font.BOLD, 18);
-    private final FontUIResource systemFont = new FontUIResource("Dialog",
+    privbtf finbl FontUIRfsourdf systfmFont = nfw FontUIRfsourdf("Diblog",
             Font.PLAIN, 18);
-    private final FontUIResource userFont = new FontUIResource("SansSerif",
+    privbtf finbl FontUIRfsourdf usfrFont = nfw FontUIRfsourdf("SbnsSfrif",
             Font.PLAIN, 18);
-    private final FontUIResource smallFont = new FontUIResource("Dialog",
+    privbtf finbl FontUIRfsourdf smbllFont = nfw FontUIRfsourdf("Diblog",
             Font.PLAIN, 14);
 
-    @Override
-    public FontUIResource getControlTextFont() {
-        return controlFont;
+    @Ovfrridf
+    publid FontUIRfsourdf gftControlTfxtFont() {
+        rfturn dontrolFont;
     }
 
-    @Override
-    public FontUIResource getSystemTextFont() {
-        return systemFont;
+    @Ovfrridf
+    publid FontUIRfsourdf gftSystfmTfxtFont() {
+        rfturn systfmFont;
     }
 
-    @Override
-    public FontUIResource getUserTextFont() {
-        return userFont;
+    @Ovfrridf
+    publid FontUIRfsourdf gftUsfrTfxtFont() {
+        rfturn usfrFont;
     }
 
-    @Override
-    public FontUIResource getMenuTextFont() {
-        return controlFont;
+    @Ovfrridf
+    publid FontUIRfsourdf gftMfnuTfxtFont() {
+        rfturn dontrolFont;
     }
 
-    @Override
-    public FontUIResource getWindowTitleFont() {
-        return controlFont;
+    @Ovfrridf
+    publid FontUIRfsourdf gftWindowTitlfFont() {
+        rfturn dontrolFont;
     }
 
-    @Override
-    public FontUIResource getSubTextFont() {
-        return smallFont;
+    @Ovfrridf
+    publid FontUIRfsourdf gftSubTfxtFont() {
+        rfturn smbllFont;
     }
 
-    @Override
-    public void addCustomEntriesToTable(UIDefaults table) {
-        super.addCustomEntriesToTable(table);
+    @Ovfrridf
+    publid void bddCustomEntrifsToTbblf(UIDffbults tbblf) {
+        supfr.bddCustomEntrifsToTbblf(tbblf);
 
-        final int internalFrameIconSize = 22;
-        table.put("InternalFrame.closeIcon", MetalIconFactory.
-                getInternalFrameCloseIcon(internalFrameIconSize));
-        table.put("InternalFrame.maximizeIcon", MetalIconFactory.
-                getInternalFrameMaximizeIcon(internalFrameIconSize));
-        table.put("InternalFrame.iconifyIcon", MetalIconFactory.
-                getInternalFrameMinimizeIcon(internalFrameIconSize));
-        table.put("InternalFrame.minimizeIcon", MetalIconFactory.
-                getInternalFrameAltMaximizeIcon(internalFrameIconSize));
+        finbl int intfrnblFrbmfIdonSizf = 22;
+        tbblf.put("IntfrnblFrbmf.dlosfIdon", MftblIdonFbdtory.
+                gftIntfrnblFrbmfClosfIdon(intfrnblFrbmfIdonSizf));
+        tbblf.put("IntfrnblFrbmf.mbximizfIdon", MftblIdonFbdtory.
+                gftIntfrnblFrbmfMbximizfIdon(intfrnblFrbmfIdonSizf));
+        tbblf.put("IntfrnblFrbmf.idonifyIdon", MftblIdonFbdtory.
+                gftIntfrnblFrbmfMinimizfIdon(intfrnblFrbmfIdonSizf));
+        tbblf.put("IntfrnblFrbmf.minimizfIdon", MftblIdonFbdtory.
+                gftIntfrnblFrbmfAltMbximizfIdon(intfrnblFrbmfIdonSizf));
 
 
-        table.put("ScrollBar.width", 21);
+        tbblf.put("SdrollBbr.widti", 21);
 
 
 

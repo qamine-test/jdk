@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.motif;
+
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbrsft.*;
+import sun.nio.ds.fxt.*;
+import stbtid sun.nio.ds.ChbrsftMbpping.*;
+
+publid dlbss X11KSC5601 fxtfnds Chbrsft {
+    publid X11KSC5601 () {
+        supfr("X11KSC5601", null);
+    }
+    publid ChbrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(this);
+    }
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(this);
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ds instbndfof X11KSC5601;
+    }
+
+    privbtf dlbss Endodfr fxtfnds ChbrsftEndodfr {
+        privbtf DoublfBytf.Endodfr fnd = (DoublfBytf.Endodfr)nfw EUC_KR().nfwEndodfr();
+
+        publid Endodfr(Chbrsft ds) {
+            supfr(ds, 2.0f, 2.0f);
+        }
+
+        publid boolfbn dbnEndodf(dhbr d) {
+            if (d <= 0x7F) {
+                rfturn fblsf;
+            }
+            rfturn fnd.dbnEndodf(d);
+        }
+
+        protfdtfd int fndodfDoublf(dhbr d) {
+            rfturn fnd.fndodfChbr(d);
+        }
+
+        protfdtfd CodfrRfsult fndodfLoop(ChbrBufffr srd, BytfBufffr dst) {
+            dhbr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+
+            try {
+                whilf (sp < sl) {
+                    dhbr d = sb[sp];
+                    if (d <= '\u007f')
+                        rfturn CodfrRfsult.unmbppbblfForLfngth(1);
+                    int ndodf = fndodfDoublf(d);
+                    if (ndodf != 0 && d != '\u0000' ) {
+                        db[dp++] = (bytf) ((ndodf  >> 8) & 0x7f);
+                        db[dp++] = (bytf) (ndodf & 0x7f);
+                        sp++;
+                        dontinuf;
+                    }
+                    rfturn CodfrRfsult.unmbppbblfForLfngth(1);
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
+            }
+        }
+        publid boolfbn isLfgblRfplbdfmfnt(bytf[] rfpl) {
+            rfturn truf;
+        }
+    }
+
+    privbtf dlbss Dfdodfr fxtfnds  ChbrsftDfdodfr {
+        privbtf DoublfBytf.Dfdodfr dfd = (DoublfBytf.Dfdodfr)nfw EUC_KR().nfwDfdodfr();
+
+        publid Dfdodfr(Chbrsft ds) {
+            supfr(ds, 0.5f, 1.0f);
+        }
+
+        protfdtfd dhbr dfdodfDoublf(int b1, int b2) {
+            rfturn dfd.dfdodfDoublf(b1, b2);
+        }
+
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd, ChbrBufffr dst) {
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
+            sp = (sp <= sl ? sp : sl);
+            dhbr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
+            dp = (dp <= dl ? dp : dl);
+
+
+            try {
+                whilf (sp < sl) {
+                    if ( sl - sp < 2) {
+                        rfturn CodfrRfsult.UNDERFLOW;
+                    }
+                    int b1 = sb[sp] & 0xFF | 0x80;
+                    int b2 = sb[sp + 1] & 0xFF | 0x80;
+                    dhbr d = dfdodfDoublf(b1, b2);
+                    if (d == UNMAPPABLE_DECODING) {
+                        rfturn CodfrRfsult.unmbppbblfForLfngth(2);
+                    }
+                    if (dl - dp < 1)
+                        rfturn CodfrRfsult.OVERFLOW;
+                    db[dp++] = d;
+                    sp +=2;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
+            }
+
+        }
+    }
+}

@@ -1,742 +1,742 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.table;
+pbdkbgf jbvbx.swing.tbblf;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.EventListener;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.io.Serializable;
-import sun.swing.SwingUtilities2;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.EvfntListfnfr;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.io.Sfriblizbblf;
+import sun.swing.SwingUtilitifs2;
 
 /**
- * The standard column-handler for a <code>JTable</code>.
+ * Tif stbndbrd dolumn-ibndlfr for b <dodf>JTbblf</dodf>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Alan Chung
- * @author Philip Milne
- * @see JTable
+ * @butior Albn Ciung
+ * @butior Piilip Milnf
+ * @sff JTbblf
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultTableColumnModel implements TableColumnModel,
-                        PropertyChangeListener, ListSelectionListener, Serializable
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultTbblfColumnModfl implfmfnts TbblfColumnModfl,
+                        PropfrtyCibngfListfnfr, ListSflfdtionListfnfr, Sfriblizbblf
 {
 //
-// Instance Variables
+// Instbndf Vbribblfs
 //
 
-    /** Array of TableColumn objects in this model */
-    protected Vector<TableColumn> tableColumns;
+    /** Arrby of TbblfColumn objfdts in tiis modfl */
+    protfdtfd Vfdtor<TbblfColumn> tbblfColumns;
 
-    /** Model for keeping track of column selections */
-    protected ListSelectionModel selectionModel;
+    /** Modfl for kffping trbdk of dolumn sflfdtions */
+    protfdtfd ListSflfdtionModfl sflfdtionModfl;
 
-    /** Width margin between each column */
-    protected int columnMargin;
+    /** Widti mbrgin bftwffn fbdi dolumn */
+    protfdtfd int dolumnMbrgin;
 
-    /** List of TableColumnModelListener */
-    protected EventListenerList listenerList = new EventListenerList();
+    /** List of TbblfColumnModflListfnfr */
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
 
-    /** Change event (only one needed) */
-    transient protected ChangeEvent changeEvent = null;
+    /** Cibngf fvfnt (only onf nffdfd) */
+    trbnsifnt protfdtfd CibngfEvfnt dibngfEvfnt = null;
 
-    /** Column selection allowed in this column model */
-    protected boolean columnSelectionAllowed;
+    /** Column sflfdtion bllowfd in tiis dolumn modfl */
+    protfdtfd boolfbn dolumnSflfdtionAllowfd;
 
-    /** A local cache of the combined width of all columns */
-    protected int totalColumnWidth;
+    /** A lodbl dbdif of tif dombinfd widti of bll dolumns */
+    protfdtfd int totblColumnWidti;
 
 //
-// Constructors
+// Construdtors
 //
     /**
-     * Creates a default table column model.
+     * Crfbtfs b dffbult tbblf dolumn modfl.
      */
-    public DefaultTableColumnModel() {
-        super();
+    publid DffbultTbblfColumnModfl() {
+        supfr();
 
-        // Initialize local ivars to default
-        tableColumns = new Vector<TableColumn>();
-        setSelectionModel(createSelectionModel());
-        setColumnMargin(1);
-        invalidateWidthCache();
-        setColumnSelectionAllowed(false);
+        // Initiblizf lodbl ivbrs to dffbult
+        tbblfColumns = nfw Vfdtor<TbblfColumn>();
+        sftSflfdtionModfl(drfbtfSflfdtionModfl());
+        sftColumnMbrgin(1);
+        invblidbtfWidtiCbdif();
+        sftColumnSflfdtionAllowfd(fblsf);
     }
 
 //
-// Modifying the model
+// Modifying tif modfl
 //
 
     /**
-     *  Appends <code>aColumn</code> to the end of the
-     *  <code>tableColumns</code> array.
-     *  This method also posts the <code>columnAdded</code>
-     *  event to its listeners.
+     *  Appfnds <dodf>bColumn</dodf> to tif fnd of tif
+     *  <dodf>tbblfColumns</dodf> brrby.
+     *  Tiis mftiod blso posts tif <dodf>dolumnAddfd</dodf>
+     *  fvfnt to its listfnfrs.
      *
-     * @param   aColumn         the <code>TableColumn</code> to be added
-     * @exception IllegalArgumentException      if <code>aColumn</code> is
-     *                          <code>null</code>
-     * @see     #removeColumn
+     * @pbrbm   bColumn         tif <dodf>TbblfColumn</dodf> to bf bddfd
+     * @fxdfption IllfgblArgumfntExdfption      if <dodf>bColumn</dodf> is
+     *                          <dodf>null</dodf>
+     * @sff     #rfmovfColumn
      */
-    public void addColumn(TableColumn aColumn) {
-        if (aColumn == null) {
-            throw new IllegalArgumentException("Object is null");
+    publid void bddColumn(TbblfColumn bColumn) {
+        if (bColumn == null) {
+            tirow nfw IllfgblArgumfntExdfption("Objfdt is null");
         }
 
-        tableColumns.addElement(aColumn);
-        aColumn.addPropertyChangeListener(this);
-        invalidateWidthCache();
+        tbblfColumns.bddElfmfnt(bColumn);
+        bColumn.bddPropfrtyCibngfListfnfr(tiis);
+        invblidbtfWidtiCbdif();
 
-        // Post columnAdded event notification
-        fireColumnAdded(new TableColumnModelEvent(this, 0,
-                                                  getColumnCount() - 1));
+        // Post dolumnAddfd fvfnt notifidbtion
+        firfColumnAddfd(nfw TbblfColumnModflEvfnt(tiis, 0,
+                                                  gftColumnCount() - 1));
     }
 
     /**
-     *  Deletes the <code>column</code> from the
-     *  <code>tableColumns</code> array.  This method will do nothing if
-     *  <code>column</code> is not in the table's columns list.
-     *  <code>tile</code> is called
-     *  to resize both the header and table views.
-     *  This method also posts a <code>columnRemoved</code>
-     *  event to its listeners.
+     *  Dflftfs tif <dodf>dolumn</dodf> from tif
+     *  <dodf>tbblfColumns</dodf> brrby.  Tiis mftiod will do notiing if
+     *  <dodf>dolumn</dodf> is not in tif tbblf's dolumns list.
+     *  <dodf>tilf</dodf> is dbllfd
+     *  to rfsizf boti tif ifbdfr bnd tbblf vifws.
+     *  Tiis mftiod blso posts b <dodf>dolumnRfmovfd</dodf>
+     *  fvfnt to its listfnfrs.
      *
-     * @param   column          the <code>TableColumn</code> to be removed
-     * @see     #addColumn
+     * @pbrbm   dolumn          tif <dodf>TbblfColumn</dodf> to bf rfmovfd
+     * @sff     #bddColumn
      */
-    public void removeColumn(TableColumn column) {
-        int columnIndex = tableColumns.indexOf(column);
+    publid void rfmovfColumn(TbblfColumn dolumn) {
+        int dolumnIndfx = tbblfColumns.indfxOf(dolumn);
 
-        if (columnIndex != -1) {
-            // Adjust for the selection
-            if (selectionModel != null) {
-                selectionModel.removeIndexInterval(columnIndex,columnIndex);
+        if (dolumnIndfx != -1) {
+            // Adjust for tif sflfdtion
+            if (sflfdtionModfl != null) {
+                sflfdtionModfl.rfmovfIndfxIntfrvbl(dolumnIndfx,dolumnIndfx);
             }
 
-            column.removePropertyChangeListener(this);
-            tableColumns.removeElementAt(columnIndex);
-            invalidateWidthCache();
+            dolumn.rfmovfPropfrtyCibngfListfnfr(tiis);
+            tbblfColumns.rfmovfElfmfntAt(dolumnIndfx);
+            invblidbtfWidtiCbdif();
 
-            // Post columnAdded event notification.  (JTable and JTableHeader
-            // listens so they can adjust size and redraw)
-            fireColumnRemoved(new TableColumnModelEvent(this,
-                                           columnIndex, 0));
+            // Post dolumnAddfd fvfnt notifidbtion.  (JTbblf bnd JTbblfHfbdfr
+            // listfns so tify dbn bdjust sizf bnd rfdrbw)
+            firfColumnRfmovfd(nfw TbblfColumnModflEvfnt(tiis,
+                                           dolumnIndfx, 0));
         }
     }
 
     /**
-     * Moves the column and heading at <code>columnIndex</code> to
-     * <code>newIndex</code>.  The old column at <code>columnIndex</code>
-     * will now be found at <code>newIndex</code>.  The column
-     * that used to be at <code>newIndex</code> is shifted
-     * left or right to make room.  This will not move any columns if
-     * <code>columnIndex</code> equals <code>newIndex</code>.  This method
-     * also posts a <code>columnMoved</code> event to its listeners.
+     * Movfs tif dolumn bnd ifbding bt <dodf>dolumnIndfx</dodf> to
+     * <dodf>nfwIndfx</dodf>.  Tif old dolumn bt <dodf>dolumnIndfx</dodf>
+     * will now bf found bt <dodf>nfwIndfx</dodf>.  Tif dolumn
+     * tibt usfd to bf bt <dodf>nfwIndfx</dodf> is siiftfd
+     * lfft or rigit to mbkf room.  Tiis will not movf bny dolumns if
+     * <dodf>dolumnIndfx</dodf> fqubls <dodf>nfwIndfx</dodf>.  Tiis mftiod
+     * blso posts b <dodf>dolumnMovfd</dodf> fvfnt to its listfnfrs.
      *
-     * @param   columnIndex                     the index of column to be moved
-     * @param   newIndex                        new index to move the column
-     * @exception IllegalArgumentException      if <code>column</code> or
-     *                                          <code>newIndex</code>
-     *                                          are not in the valid range
+     * @pbrbm   dolumnIndfx                     tif indfx of dolumn to bf movfd
+     * @pbrbm   nfwIndfx                        nfw indfx to movf tif dolumn
+     * @fxdfption IllfgblArgumfntExdfption      if <dodf>dolumn</dodf> or
+     *                                          <dodf>nfwIndfx</dodf>
+     *                                          brf not in tif vblid rbngf
      */
-    public void moveColumn(int columnIndex, int newIndex) {
-        if ((columnIndex < 0) || (columnIndex >= getColumnCount()) ||
-            (newIndex < 0) || (newIndex >= getColumnCount()))
-            throw new IllegalArgumentException("moveColumn() - Index out of range");
+    publid void movfColumn(int dolumnIndfx, int nfwIndfx) {
+        if ((dolumnIndfx < 0) || (dolumnIndfx >= gftColumnCount()) ||
+            (nfwIndfx < 0) || (nfwIndfx >= gftColumnCount()))
+            tirow nfw IllfgblArgumfntExdfption("movfColumn() - Indfx out of rbngf");
 
-        TableColumn aColumn;
+        TbblfColumn bColumn;
 
-        // If the column has not yet moved far enough to change positions
-        // post the event anyway, the "draggedDistance" property of the
-        // tableHeader will say how far the column has been dragged.
-        // Here we are really trying to get the best out of an
-        // API that could do with some rethinking. We preserve backward
-        // compatibility by slightly bending the meaning of these methods.
-        if (columnIndex == newIndex) {
-            fireColumnMoved(new TableColumnModelEvent(this, columnIndex, newIndex));
-            return;
+        // If tif dolumn ibs not yft movfd fbr fnougi to dibngf positions
+        // post tif fvfnt bnywby, tif "drbggfdDistbndf" propfrty of tif
+        // tbblfHfbdfr will sby iow fbr tif dolumn ibs bffn drbggfd.
+        // Hfrf wf brf rfblly trying to gft tif bfst out of bn
+        // API tibt dould do witi somf rftiinking. Wf prfsfrvf bbdkwbrd
+        // dompbtibility by sligitly bfnding tif mfbning of tifsf mftiods.
+        if (dolumnIndfx == nfwIndfx) {
+            firfColumnMovfd(nfw TbblfColumnModflEvfnt(tiis, dolumnIndfx, nfwIndfx));
+            rfturn;
         }
-        aColumn = tableColumns.elementAt(columnIndex);
+        bColumn = tbblfColumns.flfmfntAt(dolumnIndfx);
 
-        tableColumns.removeElementAt(columnIndex);
-        boolean selected = selectionModel.isSelectedIndex(columnIndex);
-        selectionModel.removeIndexInterval(columnIndex,columnIndex);
+        tbblfColumns.rfmovfElfmfntAt(dolumnIndfx);
+        boolfbn sflfdtfd = sflfdtionModfl.isSflfdtfdIndfx(dolumnIndfx);
+        sflfdtionModfl.rfmovfIndfxIntfrvbl(dolumnIndfx,dolumnIndfx);
 
-        tableColumns.insertElementAt(aColumn, newIndex);
-        selectionModel.insertIndexInterval(newIndex, 1, true);
-        if (selected) {
-            selectionModel.addSelectionInterval(newIndex, newIndex);
+        tbblfColumns.insfrtElfmfntAt(bColumn, nfwIndfx);
+        sflfdtionModfl.insfrtIndfxIntfrvbl(nfwIndfx, 1, truf);
+        if (sflfdtfd) {
+            sflfdtionModfl.bddSflfdtionIntfrvbl(nfwIndfx, nfwIndfx);
         }
-        else {
-            selectionModel.removeSelectionInterval(newIndex, newIndex);
+        flsf {
+            sflfdtionModfl.rfmovfSflfdtionIntfrvbl(nfwIndfx, nfwIndfx);
         }
 
-        fireColumnMoved(new TableColumnModelEvent(this, columnIndex,
-                                                               newIndex));
+        firfColumnMovfd(nfw TbblfColumnModflEvfnt(tiis, dolumnIndfx,
+                                                               nfwIndfx));
     }
 
     /**
-     * Sets the column margin to <code>newMargin</code>.  This method
-     * also posts a <code>columnMarginChanged</code> event to its
-     * listeners.
+     * Sfts tif dolumn mbrgin to <dodf>nfwMbrgin</dodf>.  Tiis mftiod
+     * blso posts b <dodf>dolumnMbrginCibngfd</dodf> fvfnt to its
+     * listfnfrs.
      *
-     * @param   newMargin               the new margin width, in pixels
-     * @see     #getColumnMargin
-     * @see     #getTotalColumnWidth
+     * @pbrbm   nfwMbrgin               tif nfw mbrgin widti, in pixfls
+     * @sff     #gftColumnMbrgin
+     * @sff     #gftTotblColumnWidti
      */
-    public void setColumnMargin(int newMargin) {
-        if (newMargin != columnMargin) {
-            columnMargin = newMargin;
-            // Post columnMarginChanged event notification.
-            fireColumnMarginChanged();
+    publid void sftColumnMbrgin(int nfwMbrgin) {
+        if (nfwMbrgin != dolumnMbrgin) {
+            dolumnMbrgin = nfwMbrgin;
+            // Post dolumnMbrginCibngfd fvfnt notifidbtion.
+            firfColumnMbrginCibngfd();
         }
     }
 
 //
-// Querying the model
+// Qufrying tif modfl
 //
 
     /**
-     * Returns the number of columns in the <code>tableColumns</code> array.
+     * Rfturns tif numbfr of dolumns in tif <dodf>tbblfColumns</dodf> brrby.
      *
-     * @return  the number of columns in the <code>tableColumns</code> array
-     * @see     #getColumns
+     * @rfturn  tif numbfr of dolumns in tif <dodf>tbblfColumns</dodf> brrby
+     * @sff     #gftColumns
      */
-    public int getColumnCount() {
-        return tableColumns.size();
+    publid int gftColumnCount() {
+        rfturn tbblfColumns.sizf();
     }
 
     /**
-     * Returns an <code>Enumeration</code> of all the columns in the model.
-     * @return an <code>Enumeration</code> of the columns in the model
+     * Rfturns bn <dodf>Enumfrbtion</dodf> of bll tif dolumns in tif modfl.
+     * @rfturn bn <dodf>Enumfrbtion</dodf> of tif dolumns in tif modfl
      */
-    public Enumeration<TableColumn> getColumns() {
-        return tableColumns.elements();
+    publid Enumfrbtion<TbblfColumn> gftColumns() {
+        rfturn tbblfColumns.flfmfnts();
     }
 
     /**
-     * Returns the index of the first column in the <code>tableColumns</code>
-     * array whose identifier is equal to <code>identifier</code>,
-     * when compared using <code>equals</code>.
+     * Rfturns tif indfx of tif first dolumn in tif <dodf>tbblfColumns</dodf>
+     * brrby wiosf idfntififr is fqubl to <dodf>idfntififr</dodf>,
+     * wifn dompbrfd using <dodf>fqubls</dodf>.
      *
-     * @param           identifier              the identifier object
-     * @return          the index of the first column in the
-     *                  <code>tableColumns</code> array whose identifier
-     *                  is equal to <code>identifier</code>
-     * @exception       IllegalArgumentException  if <code>identifier</code>
-     *                          is <code>null</code>, or if no
-     *                          <code>TableColumn</code> has this
-     *                          <code>identifier</code>
-     * @see             #getColumn
+     * @pbrbm           idfntififr              tif idfntififr objfdt
+     * @rfturn          tif indfx of tif first dolumn in tif
+     *                  <dodf>tbblfColumns</dodf> brrby wiosf idfntififr
+     *                  is fqubl to <dodf>idfntififr</dodf>
+     * @fxdfption       IllfgblArgumfntExdfption  if <dodf>idfntififr</dodf>
+     *                          is <dodf>null</dodf>, or if no
+     *                          <dodf>TbblfColumn</dodf> ibs tiis
+     *                          <dodf>idfntififr</dodf>
+     * @sff             #gftColumn
      */
-    public int getColumnIndex(Object identifier) {
-        if (identifier == null) {
-            throw new IllegalArgumentException("Identifier is null");
+    publid int gftColumnIndfx(Objfdt idfntififr) {
+        if (idfntififr == null) {
+            tirow nfw IllfgblArgumfntExdfption("Idfntififr is null");
         }
 
-        Enumeration<TableColumn> enumeration = getColumns();
-        TableColumn aColumn;
-        int index = 0;
+        Enumfrbtion<TbblfColumn> fnumfrbtion = gftColumns();
+        TbblfColumn bColumn;
+        int indfx = 0;
 
-        while (enumeration.hasMoreElements()) {
-            aColumn = enumeration.nextElement();
-            // Compare them this way in case the column's identifier is null.
-            if (identifier.equals(aColumn.getIdentifier()))
-                return index;
-            index++;
+        wiilf (fnumfrbtion.ibsMorfElfmfnts()) {
+            bColumn = fnumfrbtion.nfxtElfmfnt();
+            // Compbrf tifm tiis wby in dbsf tif dolumn's idfntififr is null.
+            if (idfntififr.fqubls(bColumn.gftIdfntififr()))
+                rfturn indfx;
+            indfx++;
         }
-        throw new IllegalArgumentException("Identifier not found");
+        tirow nfw IllfgblArgumfntExdfption("Idfntififr not found");
     }
 
     /**
-     * Returns the <code>TableColumn</code> object for the column
-     * at <code>columnIndex</code>.
+     * Rfturns tif <dodf>TbblfColumn</dodf> objfdt for tif dolumn
+     * bt <dodf>dolumnIndfx</dodf>.
      *
-     * @param   columnIndex     the index of the column desired
-     * @return  the <code>TableColumn</code> object for the column
-     *                          at <code>columnIndex</code>
+     * @pbrbm   dolumnIndfx     tif indfx of tif dolumn dfsirfd
+     * @rfturn  tif <dodf>TbblfColumn</dodf> objfdt for tif dolumn
+     *                          bt <dodf>dolumnIndfx</dodf>
      */
-    public TableColumn getColumn(int columnIndex) {
-        return tableColumns.elementAt(columnIndex);
+    publid TbblfColumn gftColumn(int dolumnIndfx) {
+        rfturn tbblfColumns.flfmfntAt(dolumnIndfx);
     }
 
     /**
-     * Returns the width margin for <code>TableColumn</code>.
-     * The default <code>columnMargin</code> is 1.
+     * Rfturns tif widti mbrgin for <dodf>TbblfColumn</dodf>.
+     * Tif dffbult <dodf>dolumnMbrgin</dodf> is 1.
      *
-     * @return  the maximum width for the <code>TableColumn</code>
-     * @see     #setColumnMargin
+     * @rfturn  tif mbximum widti for tif <dodf>TbblfColumn</dodf>
+     * @sff     #sftColumnMbrgin
      */
-    public int getColumnMargin() {
-        return columnMargin;
+    publid int gftColumnMbrgin() {
+        rfturn dolumnMbrgin;
     }
 
     /**
-     * Returns the index of the column that lies at position <code>x</code>,
-     * or -1 if no column covers this point.
+     * Rfturns tif indfx of tif dolumn tibt lifs bt position <dodf>x</dodf>,
+     * or -1 if no dolumn dovfrs tiis point.
      *
-     * In keeping with Swing's separable model architecture, a
-     * TableColumnModel does not know how the table columns actually appear on
-     * screen.  The visual presentation of the columns is the responsibility
-     * of the view/controller object using this model (typically JTable).  The
-     * view/controller need not display the columns sequentially from left to
-     * right.  For example, columns could be displayed from right to left to
-     * accommodate a locale preference or some columns might be hidden at the
-     * request of the user.  Because the model does not know how the columns
-     * are laid out on screen, the given <code>xPosition</code> should not be
-     * considered to be a coordinate in 2D graphics space.  Instead, it should
-     * be considered to be a width from the start of the first column in the
-     * model.  If the column index for a given X coordinate in 2D space is
-     * required, <code>JTable.columnAtPoint</code> can be used instead.
+     * In kffping witi Swing's sfpbrbblf modfl brdiitfdturf, b
+     * TbblfColumnModfl dofs not know iow tif tbblf dolumns bdtublly bppfbr on
+     * sdrffn.  Tif visubl prfsfntbtion of tif dolumns is tif rfsponsibility
+     * of tif vifw/dontrollfr objfdt using tiis modfl (typidblly JTbblf).  Tif
+     * vifw/dontrollfr nffd not displby tif dolumns sfqufntiblly from lfft to
+     * rigit.  For fxbmplf, dolumns dould bf displbyfd from rigit to lfft to
+     * bddommodbtf b lodblf prfffrfndf or somf dolumns migit bf iiddfn bt tif
+     * rfqufst of tif usfr.  Bfdbusf tif modfl dofs not know iow tif dolumns
+     * brf lbid out on sdrffn, tif givfn <dodf>xPosition</dodf> siould not bf
+     * donsidfrfd to bf b doordinbtf in 2D grbpiids spbdf.  Instfbd, it siould
+     * bf donsidfrfd to bf b widti from tif stbrt of tif first dolumn in tif
+     * modfl.  If tif dolumn indfx for b givfn X doordinbtf in 2D spbdf is
+     * rfquirfd, <dodf>JTbblf.dolumnAtPoint</dodf> dbn bf usfd instfbd.
      *
-     * @param  x  the horizontal location of interest
-     * @return  the index of the column or -1 if no column is found
-     * @see javax.swing.JTable#columnAtPoint
+     * @pbrbm  x  tif iorizontbl lodbtion of intfrfst
+     * @rfturn  tif indfx of tif dolumn or -1 if no dolumn is found
+     * @sff jbvbx.swing.JTbblf#dolumnAtPoint
      */
-    public int getColumnIndexAtX(int x) {
+    publid int gftColumnIndfxAtX(int x) {
         if (x < 0) {
-            return -1;
+            rfturn -1;
         }
-        int cc = getColumnCount();
-        for(int column = 0; column < cc; column++) {
-            x = x - getColumn(column).getWidth();
+        int dd = gftColumnCount();
+        for(int dolumn = 0; dolumn < dd; dolumn++) {
+            x = x - gftColumn(dolumn).gftWidti();
             if (x < 0) {
-                return column;
+                rfturn dolumn;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the total combined width of all columns.
-     * @return the <code>totalColumnWidth</code> property
+     * Rfturns tif totbl dombinfd widti of bll dolumns.
+     * @rfturn tif <dodf>totblColumnWidti</dodf> propfrty
      */
-    public int getTotalColumnWidth() {
-        if (totalColumnWidth == -1) {
-            recalcWidthCache();
+    publid int gftTotblColumnWidti() {
+        if (totblColumnWidti == -1) {
+            rfdbldWidtiCbdif();
         }
-        return totalColumnWidth;
+        rfturn totblColumnWidti;
     }
 
 //
-// Selection model
+// Sflfdtion modfl
 //
 
     /**
-     *  Sets the selection model for this <code>TableColumnModel</code>
-     *  to <code>newModel</code>
-     *  and registers for listener notifications from the new selection
-     *  model.  If <code>newModel</code> is <code>null</code>,
-     *  an exception is thrown.
+     *  Sfts tif sflfdtion modfl for tiis <dodf>TbblfColumnModfl</dodf>
+     *  to <dodf>nfwModfl</dodf>
+     *  bnd rfgistfrs for listfnfr notifidbtions from tif nfw sflfdtion
+     *  modfl.  If <dodf>nfwModfl</dodf> is <dodf>null</dodf>,
+     *  bn fxdfption is tirown.
      *
-     * @param   newModel        the new selection model
-     * @exception IllegalArgumentException      if <code>newModel</code>
-     *                                          is <code>null</code>
-     * @see     #getSelectionModel
+     * @pbrbm   nfwModfl        tif nfw sflfdtion modfl
+     * @fxdfption IllfgblArgumfntExdfption      if <dodf>nfwModfl</dodf>
+     *                                          is <dodf>null</dodf>
+     * @sff     #gftSflfdtionModfl
      */
-    public void setSelectionModel(ListSelectionModel newModel) {
-        if (newModel == null) {
-            throw new IllegalArgumentException("Cannot set a null SelectionModel");
+    publid void sftSflfdtionModfl(ListSflfdtionModfl nfwModfl) {
+        if (nfwModfl == null) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot sft b null SflfdtionModfl");
         }
 
-        ListSelectionModel oldModel = selectionModel;
+        ListSflfdtionModfl oldModfl = sflfdtionModfl;
 
-        if (newModel != oldModel) {
-            if (oldModel != null) {
-                oldModel.removeListSelectionListener(this);
+        if (nfwModfl != oldModfl) {
+            if (oldModfl != null) {
+                oldModfl.rfmovfListSflfdtionListfnfr(tiis);
             }
 
-            selectionModel= newModel;
-            newModel.addListSelectionListener(this);
+            sflfdtionModfl= nfwModfl;
+            nfwModfl.bddListSflfdtionListfnfr(tiis);
         }
     }
 
     /**
-     * Returns the <code>ListSelectionModel</code> that is used to
-     * maintain column selection state.
+     * Rfturns tif <dodf>ListSflfdtionModfl</dodf> tibt is usfd to
+     * mbintbin dolumn sflfdtion stbtf.
      *
-     * @return  the object that provides column selection state.  Or
-     *          <code>null</code> if row selection is not allowed.
-     * @see     #setSelectionModel
+     * @rfturn  tif objfdt tibt providfs dolumn sflfdtion stbtf.  Or
+     *          <dodf>null</dodf> if row sflfdtion is not bllowfd.
+     * @sff     #sftSflfdtionModfl
      */
-    public ListSelectionModel getSelectionModel() {
-        return selectionModel;
+    publid ListSflfdtionModfl gftSflfdtionModfl() {
+        rfturn sflfdtionModfl;
     }
 
-    // implements javax.swing.table.TableColumnModel
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
     /**
-     * Sets whether column selection is allowed.  The default is false.
-     * @param  flag true if column selection will be allowed, false otherwise
+     * Sfts wiftifr dolumn sflfdtion is bllowfd.  Tif dffbult is fblsf.
+     * @pbrbm  flbg truf if dolumn sflfdtion will bf bllowfd, fblsf otifrwisf
      */
-    public void setColumnSelectionAllowed(boolean flag) {
-        columnSelectionAllowed = flag;
+    publid void sftColumnSflfdtionAllowfd(boolfbn flbg) {
+        dolumnSflfdtionAllowfd = flbg;
     }
 
-    // implements javax.swing.table.TableColumnModel
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
     /**
-     * Returns true if column selection is allowed, otherwise false.
-     * The default is false.
-     * @return the <code>columnSelectionAllowed</code> property
+     * Rfturns truf if dolumn sflfdtion is bllowfd, otifrwisf fblsf.
+     * Tif dffbult is fblsf.
+     * @rfturn tif <dodf>dolumnSflfdtionAllowfd</dodf> propfrty
      */
-    public boolean getColumnSelectionAllowed() {
-        return columnSelectionAllowed;
+    publid boolfbn gftColumnSflfdtionAllowfd() {
+        rfturn dolumnSflfdtionAllowfd;
     }
 
-    // implements javax.swing.table.TableColumnModel
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
     /**
-     * Returns an array of selected columns.  If <code>selectionModel</code>
-     * is <code>null</code>, returns an empty array.
-     * @return an array of selected columns or an empty array if nothing
-     *                  is selected or the <code>selectionModel</code> is
-     *                  <code>null</code>
+     * Rfturns bn brrby of sflfdtfd dolumns.  If <dodf>sflfdtionModfl</dodf>
+     * is <dodf>null</dodf>, rfturns bn fmpty brrby.
+     * @rfturn bn brrby of sflfdtfd dolumns or bn fmpty brrby if notiing
+     *                  is sflfdtfd or tif <dodf>sflfdtionModfl</dodf> is
+     *                  <dodf>null</dodf>
      */
-    public int[] getSelectedColumns() {
-        if (selectionModel != null) {
-            int iMin = selectionModel.getMinSelectionIndex();
-            int iMax = selectionModel.getMaxSelectionIndex();
+    publid int[] gftSflfdtfdColumns() {
+        if (sflfdtionModfl != null) {
+            int iMin = sflfdtionModfl.gftMinSflfdtionIndfx();
+            int iMbx = sflfdtionModfl.gftMbxSflfdtionIndfx();
 
-            if ((iMin == -1) || (iMax == -1)) {
-                return new int[0];
+            if ((iMin == -1) || (iMbx == -1)) {
+                rfturn nfw int[0];
             }
 
-            int[] rvTmp = new int[1+ (iMax - iMin)];
+            int[] rvTmp = nfw int[1+ (iMbx - iMin)];
             int n = 0;
-            for(int i = iMin; i <= iMax; i++) {
-                if (selectionModel.isSelectedIndex(i)) {
+            for(int i = iMin; i <= iMbx; i++) {
+                if (sflfdtionModfl.isSflfdtfdIndfx(i)) {
                     rvTmp[n++] = i;
                 }
             }
-            int[] rv = new int[n];
-            System.arraycopy(rvTmp, 0, rv, 0, n);
-            return rv;
+            int[] rv = nfw int[n];
+            Systfm.brrbydopy(rvTmp, 0, rv, 0, n);
+            rfturn rv;
         }
-        return  new int[0];
+        rfturn  nfw int[0];
     }
 
-    // implements javax.swing.table.TableColumnModel
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
     /**
-     * Returns the number of columns selected.
-     * @return the number of columns selected
+     * Rfturns tif numbfr of dolumns sflfdtfd.
+     * @rfturn tif numbfr of dolumns sflfdtfd
      */
-    public int getSelectedColumnCount() {
-        if (selectionModel != null) {
-            int iMin = selectionModel.getMinSelectionIndex();
-            int iMax = selectionModel.getMaxSelectionIndex();
-            int count = 0;
+    publid int gftSflfdtfdColumnCount() {
+        if (sflfdtionModfl != null) {
+            int iMin = sflfdtionModfl.gftMinSflfdtionIndfx();
+            int iMbx = sflfdtionModfl.gftMbxSflfdtionIndfx();
+            int dount = 0;
 
-            for(int i = iMin; i <= iMax; i++) {
-                if (selectionModel.isSelectedIndex(i)) {
-                    count++;
+            for(int i = iMin; i <= iMbx; i++) {
+                if (sflfdtionModfl.isSflfdtfdIndfx(i)) {
+                    dount++;
                 }
             }
-            return count;
+            rfturn dount;
         }
-        return 0;
+        rfturn 0;
     }
 
 //
-// Listener Support Methods
+// Listfnfr Support Mftiods
 //
 
-    // implements javax.swing.table.TableColumnModel
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
     /**
-     * Adds a listener for table column model events.
-     * @param x  a <code>TableColumnModelListener</code> object
+     * Adds b listfnfr for tbblf dolumn modfl fvfnts.
+     * @pbrbm x  b <dodf>TbblfColumnModflListfnfr</dodf> objfdt
      */
-    public void addColumnModelListener(TableColumnModelListener x) {
-        listenerList.add(TableColumnModelListener.class, x);
+    publid void bddColumnModflListfnfr(TbblfColumnModflListfnfr x) {
+        listfnfrList.bdd(TbblfColumnModflListfnfr.dlbss, x);
     }
 
-    // implements javax.swing.table.TableColumnModel
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
     /**
-     * Removes a listener for table column model events.
-     * @param x  a <code>TableColumnModelListener</code> object
+     * Rfmovfs b listfnfr for tbblf dolumn modfl fvfnts.
+     * @pbrbm x  b <dodf>TbblfColumnModflListfnfr</dodf> objfdt
      */
-    public void removeColumnModelListener(TableColumnModelListener x) {
-        listenerList.remove(TableColumnModelListener.class, x);
+    publid void rfmovfColumnModflListfnfr(TbblfColumnModflListfnfr x) {
+        listfnfrList.rfmovf(TbblfColumnModflListfnfr.dlbss, x);
     }
 
     /**
-     * Returns an array of all the column model listeners
-     * registered on this model.
+     * Rfturns bn brrby of bll tif dolumn modfl listfnfrs
+     * rfgistfrfd on tiis modfl.
      *
-     * @return all of this default table column model's <code>ColumnModelListener</code>s
-     *         or an empty
-     *         array if no column model listeners are currently registered
+     * @rfturn bll of tiis dffbult tbblf dolumn modfl's <dodf>ColumnModflListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no dolumn modfl listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see #addColumnModelListener
-     * @see #removeColumnModelListener
+     * @sff #bddColumnModflListfnfr
+     * @sff #rfmovfColumnModflListfnfr
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public TableColumnModelListener[] getColumnModelListeners() {
-        return listenerList.getListeners(TableColumnModelListener.class);
+    publid TbblfColumnModflListfnfr[] gftColumnModflListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(TbblfColumnModflListfnfr.dlbss);
     }
 
 //
-//   Event firing methods
+//   Evfnt firing mftiods
 //
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
-     * @param e  the event received
-     * @see EventListenerList
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
+     * @pbrbm f  tif fvfnt rfdfivfd
+     * @sff EvfntListfnfrList
      */
-    protected void fireColumnAdded(TableColumnModelEvent e) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TableColumnModelListener.class) {
-                // Lazily create the event:
-                // if (e == null)
-                //  e = new ChangeEvent(this);
-                ((TableColumnModelListener)listeners[i+1]).
-                    columnAdded(e);
+    protfdtfd void firfColumnAddfd(TbblfColumnModflEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TbblfColumnModflListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                // if (f == null)
+                //  f = nfw CibngfEvfnt(tiis);
+                ((TbblfColumnModflListfnfr)listfnfrs[i+1]).
+                    dolumnAddfd(f);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
-     * @param  e  the event received
-     * @see EventListenerList
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
+     * @pbrbm  f  tif fvfnt rfdfivfd
+     * @sff EvfntListfnfrList
      */
-    protected void fireColumnRemoved(TableColumnModelEvent e) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TableColumnModelListener.class) {
-                // Lazily create the event:
-                // if (e == null)
-                //  e = new ChangeEvent(this);
-                ((TableColumnModelListener)listeners[i+1]).
-                    columnRemoved(e);
+    protfdtfd void firfColumnRfmovfd(TbblfColumnModflEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TbblfColumnModflListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                // if (f == null)
+                //  f = nfw CibngfEvfnt(tiis);
+                ((TbblfColumnModflListfnfr)listfnfrs[i+1]).
+                    dolumnRfmovfd(f);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
-     * @param  e the event received
-     * @see EventListenerList
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
+     * @pbrbm  f tif fvfnt rfdfivfd
+     * @sff EvfntListfnfrList
      */
-    protected void fireColumnMoved(TableColumnModelEvent e) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TableColumnModelListener.class) {
-                // Lazily create the event:
-                // if (e == null)
-                //  e = new ChangeEvent(this);
-                ((TableColumnModelListener)listeners[i+1]).
-                    columnMoved(e);
+    protfdtfd void firfColumnMovfd(TbblfColumnModflEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TbblfColumnModflListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                // if (f == null)
+                //  f = nfw CibngfEvfnt(tiis);
+                ((TbblfColumnModflListfnfr)listfnfrs[i+1]).
+                    dolumnMovfd(f);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
-     * @param e the event received
-     * @see EventListenerList
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
+     * @pbrbm f tif fvfnt rfdfivfd
+     * @sff EvfntListfnfrList
      */
-    protected void fireColumnSelectionChanged(ListSelectionEvent e) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TableColumnModelListener.class) {
-                // Lazily create the event:
-                // if (e == null)
-                //  e = new ChangeEvent(this);
-                ((TableColumnModelListener)listeners[i+1]).
-                    columnSelectionChanged(e);
+    protfdtfd void firfColumnSflfdtionCibngfd(ListSflfdtionEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TbblfColumnModflListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                // if (f == null)
+                //  f = nfw CibngfEvfnt(tiis);
+                ((TbblfColumnModflListfnfr)listfnfrs[i+1]).
+                    dolumnSflfdtionCibngfd(f);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
-     * @see EventListenerList
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
+     * @sff EvfntListfnfrList
      */
-    protected void fireColumnMarginChanged() {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TableColumnModelListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((TableColumnModelListener)listeners[i+1]).
-                    columnMarginChanged(changeEvent);
+    protfdtfd void firfColumnMbrginCibngfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TbblfColumnModflListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (dibngfEvfnt == null)
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                ((TbblfColumnModflListfnfr)listfnfrs[i+1]).
+                    dolumnMbrginCibngfd(dibngfEvfnt);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this model.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis modfl.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using tif
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      *
      * <p>
      *
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal,
-     * such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>DefaultTableColumnModel</code> <code>m</code>
-     * for its column model listeners with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl,
+     * sudi bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>DffbultTbblfColumnModfl</dodf> <dodf>m</dodf>
+     * for its dolumn modfl listfnfrs witi tif following dodf:
      *
-     * <pre>ColumnModelListener[] cmls = (ColumnModelListener[])(m.getListeners(ColumnModelListener.class));</pre>
+     * <prf>ColumnModflListfnfr[] dmls = (ColumnModflListfnfr[])(m.gftListfnfrs(ColumnModflListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no sudi listfnfrs fxist, tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s on this model,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm listfnfrTypf tif typf of listfnfrs rfqufstfd; tiis pbrbmftfr
+     *          siould spfdify bn intfrfbdf tibt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on tiis modfl,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @see #getColumnModelListeners
-     * @since 1.3
+     * @sff #gftColumnModflListfnfrs
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        return listenerList.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
     }
 
 //
-// Implementing the PropertyChangeListener interface
+// Implfmfnting tif PropfrtyCibngfListfnfr intfrfbdf
 //
 
-    // PENDING(alan)
-    // implements java.beans.PropertyChangeListener
+    // PENDING(blbn)
+    // implfmfnts jbvb.bfbns.PropfrtyCibngfListfnfr
     /**
-     * Property Change Listener change method.  Used to track changes
-     * to the column width or preferred column width.
+     * Propfrty Cibngf Listfnfr dibngf mftiod.  Usfd to trbdk dibngfs
+     * to tif dolumn widti or prfffrrfd dolumn widti.
      *
-     * @param  evt  <code>PropertyChangeEvent</code>
+     * @pbrbm  fvt  <dodf>PropfrtyCibngfEvfnt</dodf>
      */
-    public void propertyChange(PropertyChangeEvent evt) {
-        String name = evt.getPropertyName();
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+        String nbmf = fvt.gftPropfrtyNbmf();
 
-        if (name == "width" || name == "preferredWidth") {
-            invalidateWidthCache();
-            // This is a misnomer, we're using this method
-            // simply to cause a relayout.
-            fireColumnMarginChanged();
+        if (nbmf == "widti" || nbmf == "prfffrrfdWidti") {
+            invblidbtfWidtiCbdif();
+            // Tiis is b misnomfr, wf'rf using tiis mftiod
+            // simply to dbusf b rflbyout.
+            firfColumnMbrginCibngfd();
         }
 
     }
 
 //
-// Implementing ListSelectionListener interface
+// Implfmfnting ListSflfdtionListfnfr intfrfbdf
 //
 
-    // implements javax.swing.event.ListSelectionListener
+    // implfmfnts jbvbx.swing.fvfnt.ListSflfdtionListfnfr
     /**
-     * A <code>ListSelectionListener</code> that forwards
-     * <code>ListSelectionEvents</code> when there is a column
-     * selection change.
+     * A <dodf>ListSflfdtionListfnfr</dodf> tibt forwbrds
+     * <dodf>ListSflfdtionEvfnts</dodf> wifn tifrf is b dolumn
+     * sflfdtion dibngf.
      *
-     * @param e  the change event
+     * @pbrbm f  tif dibngf fvfnt
      */
-    public void valueChanged(ListSelectionEvent e) {
-        fireColumnSelectionChanged(e);
+    publid void vblufCibngfd(ListSflfdtionEvfnt f) {
+        firfColumnSflfdtionCibngfd(f);
     }
 
 //
-// Protected Methods
+// Protfdtfd Mftiods
 //
 
     /**
-     * Creates a new default list selection model.
+     * Crfbtfs b nfw dffbult list sflfdtion modfl.
      *
-     * @return a newly created default list selection model.
+     * @rfturn b nfwly drfbtfd dffbult list sflfdtion modfl.
      */
-    protected ListSelectionModel createSelectionModel() {
-        return new DefaultListSelectionModel();
+    protfdtfd ListSflfdtionModfl drfbtfSflfdtionModfl() {
+        rfturn nfw DffbultListSflfdtionModfl();
     }
 
     /**
-     * Recalculates the total combined width of all columns.  Updates the
-     * <code>totalColumnWidth</code> property.
+     * Rfdbldulbtfs tif totbl dombinfd widti of bll dolumns.  Updbtfs tif
+     * <dodf>totblColumnWidti</dodf> propfrty.
      */
-    protected void recalcWidthCache() {
-        Enumeration<TableColumn> enumeration = getColumns();
-        totalColumnWidth = 0;
-        while (enumeration.hasMoreElements()) {
-            totalColumnWidth += enumeration.nextElement().getWidth();
+    protfdtfd void rfdbldWidtiCbdif() {
+        Enumfrbtion<TbblfColumn> fnumfrbtion = gftColumns();
+        totblColumnWidti = 0;
+        wiilf (fnumfrbtion.ibsMorfElfmfnts()) {
+            totblColumnWidti += fnumfrbtion.nfxtElfmfnt().gftWidti();
         }
     }
 
-    private void invalidateWidthCache() {
-        totalColumnWidth = -1;
+    privbtf void invblidbtfWidtiCbdif() {
+        totblColumnWidti = -1;
     }
 
-} // End of class DefaultTableColumnModel
+} // End of dlbss DffbultTbblfColumnModfl

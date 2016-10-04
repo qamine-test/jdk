@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.sfdurity.spfd;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Arrbys;
+
+/**
+ * This immutbblf dlbss dffinfs bn flliptid durvf (EC) primf
+ * finitf fifld.
+ *
+ * @sff ECFifld
+ *
+ * @buthor Vblfrif Pfng
+ *
+ * @sindf 1.5
+ */
+publid dlbss ECFifldFp implfmfnts ECFifld {
+
+    privbtf BigIntfgfr p;
+
+    /**
+     * Crfbtfs bn flliptid durvf primf finitf fifld
+     * with thf spfdififd primf {@dodf p}.
+     * @pbrbm p thf primf.
+     * @fxdfption NullPointfrExdfption if {@dodf p} is null.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf p}
+     * is not positivf.
+     */
+    publid ECFifldFp(BigIntfgfr p) {
+        if (p.signum() != 1) {
+            throw nfw IllfgblArgumfntExdfption("p is not positivf");
+        }
+        this.p = p;
+    }
+
+    /**
+     * Rfturns thf fifld sizf in bits whidh is sizf of primf p
+     * for this primf finitf fifld.
+     * @rfturn thf fifld sizf in bits.
+     */
+    publid int gftFifldSizf() {
+        rfturn p.bitLfngth();
+    };
+
+    /**
+     * Rfturns thf primf {@dodf p} of this primf finitf fifld.
+     * @rfturn thf primf.
+     */
+    publid BigIntfgfr gftP() {
+        rfturn p;
+    }
+
+    /**
+     * Compbrfs this primf finitf fifld for fqublity with thf
+     * spfdififd objfdt.
+     * @pbrbm obj thf objfdt to bf dompbrfd.
+     * @rfturn truf if {@dodf obj} is bn instbndf
+     * of ECFifldFp bnd thf primf vbluf mbtdh, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj)  rfturn truf;
+        if (obj instbndfof ECFifldFp) {
+            rfturn (p.fqubls(((ECFifldFp)obj).p));
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this primf finitf fifld.
+     * @rfturn b hbsh dodf vbluf.
+     */
+    publid int hbshCodf() {
+        rfturn p.hbshCodf();
+    }
+}

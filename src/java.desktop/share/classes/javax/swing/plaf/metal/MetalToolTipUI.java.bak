@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import sun.swing.SwingUtilities2;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicToolTipUI;
-import javax.swing.plaf.basic.BasicHTML;
-import javax.swing.text.View;
+import sun.swing.SwingUtilitifs2;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.BordfrFbdtory;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidToolTipUI;
+import jbvbx.swing.plbf.bbsid.BbsidHTML;
+import jbvbx.swing.tfxt.Vifw;
 
 
 /**
- * A Metal L&amp;F extension of BasicToolTipUI.
+ * A Mftbl L&bmp;F fxtfnsion of BbsidToolTipUI.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Steve Wilson
+ * @butior Stfvf Wilson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalToolTipUI extends BasicToolTipUI {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblToolTipUI fxtfnds BbsidToolTipUI {
 
-    static MetalToolTipUI sharedInstance = new MetalToolTipUI();
-    private Font smallFont;
-    // Refer to note in getAcceleratorString about this field.
-    private JToolTip tip;
-
-    /**
-     * The space between strings.
-     */
-    public static final int padSpaceBetweenStrings = 12;
-    private String acceleratorDelimiter;
+    stbtid MftblToolTipUI sibrfdInstbndf = nfw MftblToolTipUI();
+    privbtf Font smbllFont;
+    // Rfffr to notf in gftAddflfrbtorString bbout tiis fifld.
+    privbtf JToolTip tip;
 
     /**
-     * Constructs an instance of the {@code MetalToolTipUI}.
+     * Tif spbdf bftwffn strings.
      */
-    public MetalToolTipUI() {
-        super();
+    publid stbtid finbl int pbdSpbdfBftwffnStrings = 12;
+    privbtf String bddflfrbtorDflimitfr;
+
+    /**
+     * Construdts bn instbndf of tif {@dodf MftblToolTipUI}.
+     */
+    publid MftblToolTipUI() {
+        supfr();
     }
 
     /**
-     * Returns an instance of the {@code MetalToolTipUI}.
+     * Rfturns bn instbndf of tif {@dodf MftblToolTipUI}.
      *
-     * @param c a component
-     * @return an instance of the {@code MetalToolTipUI}.
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of tif {@dodf MftblToolTipUI}.
      */
-    public static ComponentUI createUI(JComponent c) {
-        return sharedInstance;
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn sibrfdInstbndf;
     }
 
-    public void installUI(JComponent c) {
-        super.installUI(c);
-        tip = (JToolTip)c;
-        Font f = c.getFont();
-        smallFont = new Font( f.getName(), f.getStyle(), f.getSize() - 2 );
-        acceleratorDelimiter = UIManager.getString( "MenuItem.acceleratorDelimiter" );
-        if ( acceleratorDelimiter == null ) { acceleratorDelimiter = "-"; }
+    publid void instbllUI(JComponfnt d) {
+        supfr.instbllUI(d);
+        tip = (JToolTip)d;
+        Font f = d.gftFont();
+        smbllFont = nfw Font( f.gftNbmf(), f.gftStylf(), f.gftSizf() - 2 );
+        bddflfrbtorDflimitfr = UIMbnbgfr.gftString( "MfnuItfm.bddflfrbtorDflimitfr" );
+        if ( bddflfrbtorDflimitfr == null ) { bddflfrbtorDflimitfr = "-"; }
     }
 
-    public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
+    publid void uninstbllUI(JComponfnt d) {
+        supfr.uninstbllUI(d);
         tip = null;
     }
 
-    public void paint(Graphics g, JComponent c) {
-        JToolTip tip = (JToolTip)c;
-        Font font = c.getFont();
-        FontMetrics metrics = SwingUtilities2.getFontMetrics(c, g, font);
-        Dimension size = c.getSize();
-        int accelBL;
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        JToolTip tip = (JToolTip)d;
+        Font font = d.gftFont();
+        FontMftrids mftrids = SwingUtilitifs2.gftFontMftrids(d, g, font);
+        Dimfnsion sizf = d.gftSizf();
+        int bddflBL;
 
-        g.setColor(c.getForeground());
+        g.sftColor(d.gftForfground());
         // fix for bug 4153892
-        String tipText = tip.getTipText();
-        if (tipText == null) {
-            tipText = "";
+        String tipTfxt = tip.gftTipTfxt();
+        if (tipTfxt == null) {
+            tipTfxt = "";
         }
 
-        String accelString = getAcceleratorString(tip);
-        FontMetrics accelMetrics = SwingUtilities2.getFontMetrics(c, g, smallFont);
-        int accelSpacing = calcAccelSpacing(c, accelMetrics, accelString);
+        String bddflString = gftAddflfrbtorString(tip);
+        FontMftrids bddflMftrids = SwingUtilitifs2.gftFontMftrids(d, g, smbllFont);
+        int bddflSpbding = dbldAddflSpbding(d, bddflMftrids, bddflString);
 
-        Insets insets = tip.getInsets();
-        Rectangle paintTextR = new Rectangle(
-            insets.left + 3,
-            insets.top,
-            size.width - (insets.left + insets.right) - 6 - accelSpacing,
-            size.height - (insets.top + insets.bottom));
-        View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+        Insfts insfts = tip.gftInsfts();
+        Rfdtbnglf pbintTfxtR = nfw Rfdtbnglf(
+            insfts.lfft + 3,
+            insfts.top,
+            sizf.widti - (insfts.lfft + insfts.rigit) - 6 - bddflSpbding,
+            sizf.ifigit - (insfts.top + insfts.bottom));
+        Vifw v = (Vifw) d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
         if (v != null) {
-            v.paint(g, paintTextR);
-            accelBL = BasicHTML.getHTMLBaseline(v, paintTextR.width,
-                                                  paintTextR.height);
-        } else {
-            g.setFont(font);
-            SwingUtilities2.drawString(tip, g, tipText, paintTextR.x,
-                                  paintTextR.y + metrics.getAscent());
-            accelBL = metrics.getAscent();
+            v.pbint(g, pbintTfxtR);
+            bddflBL = BbsidHTML.gftHTMLBbsflinf(v, pbintTfxtR.widti,
+                                                  pbintTfxtR.ifigit);
+        } flsf {
+            g.sftFont(font);
+            SwingUtilitifs2.drbwString(tip, g, tipTfxt, pbintTfxtR.x,
+                                  pbintTfxtR.y + mftrids.gftAsdfnt());
+            bddflBL = mftrids.gftAsdfnt();
         }
 
-        if (!accelString.equals("")) {
-            g.setFont(smallFont);
-            g.setColor( MetalLookAndFeel.getPrimaryControlDarkShadow() );
-            SwingUtilities2.drawString(tip, g, accelString,
-                                       tip.getWidth() - 1 - insets.right
-                                           - accelSpacing
-                                           + padSpaceBetweenStrings
+        if (!bddflString.fqubls("")) {
+            g.sftFont(smbllFont);
+            g.sftColor( MftblLookAndFffl.gftPrimbryControlDbrkSibdow() );
+            SwingUtilitifs2.drbwString(tip, g, bddflString,
+                                       tip.gftWidti() - 1 - insfts.rigit
+                                           - bddflSpbding
+                                           + pbdSpbdfBftwffnStrings
                                            - 3,
-                                       paintTextR.y + accelBL);
+                                       pbintTfxtR.y + bddflBL);
         }
     }
 
-    private int calcAccelSpacing(JComponent c, FontMetrics fm, String accel) {
-        return accel.equals("")
+    privbtf int dbldAddflSpbding(JComponfnt d, FontMftrids fm, String bddfl) {
+        rfturn bddfl.fqubls("")
                ? 0
-               : padSpaceBetweenStrings +
-                 SwingUtilities2.stringWidth(c, fm, accel);
+               : pbdSpbdfBftwffnStrings +
+                 SwingUtilitifs2.stringWidti(d, fm, bddfl);
     }
 
-    public Dimension getPreferredSize(JComponent c) {
-        Dimension d = super.getPreferredSize(c);
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        Dimfnsion d = supfr.gftPrfffrrfdSizf(d);
 
-        String key = getAcceleratorString((JToolTip)c);
-        if (!(key.equals(""))) {
-            d.width += calcAccelSpacing(c, c.getFontMetrics(smallFont), key);
+        String kfy = gftAddflfrbtorString((JToolTip)d);
+        if (!(kfy.fqubls(""))) {
+            d.widti += dbldAddflSpbding(d, d.gftFontMftrids(smbllFont), kfy);
         }
-        return d;
-    }
-
-    /**
-     * If the accelerator is hidden, the method returns {@code true},
-     * otherwise, returns {@code false}.
-     *
-     * @return {@code true} if the accelerator is hidden.
-     */
-    protected boolean isAcceleratorHidden() {
-        Boolean b = (Boolean)UIManager.get("ToolTip.hideAccelerator");
-        return b != null && b.booleanValue();
-    }
-
-    private String getAcceleratorString(JToolTip tip) {
-        this.tip = tip;
-
-        String retValue = getAcceleratorString();
-
-        this.tip = null;
-        return retValue;
+        rfturn d;
     }
 
     /**
-     * Returns the accelerator string.
+     * If tif bddflfrbtor is iiddfn, tif mftiod rfturns {@dodf truf},
+     * otifrwisf, rfturns {@dodf fblsf}.
      *
-     * @return the accelerator string.
+     * @rfturn {@dodf truf} if tif bddflfrbtor is iiddfn.
      */
-    // NOTE: This requires the tip field to be set before this is invoked.
-    // As MetalToolTipUI is shared between all JToolTips the tip field is
-    // set appropriately before this is invoked. Unfortunately this means
-    // that subclasses that randomly invoke this method will see varying
-    // results. If this becomes an issue, MetalToolTipUI should no longer be
-    // shared.
-    public String getAcceleratorString() {
-        if (tip == null || isAcceleratorHidden()) {
-            return "";
+    protfdtfd boolfbn isAddflfrbtorHiddfn() {
+        Boolfbn b = (Boolfbn)UIMbnbgfr.gft("ToolTip.iidfAddflfrbtor");
+        rfturn b != null && b.boolfbnVbluf();
+    }
+
+    privbtf String gftAddflfrbtorString(JToolTip tip) {
+        tiis.tip = tip;
+
+        String rftVbluf = gftAddflfrbtorString();
+
+        tiis.tip = null;
+        rfturn rftVbluf;
+    }
+
+    /**
+     * Rfturns tif bddflfrbtor string.
+     *
+     * @rfturn tif bddflfrbtor string.
+     */
+    // NOTE: Tiis rfquirfs tif tip fifld to bf sft bfforf tiis is invokfd.
+    // As MftblToolTipUI is sibrfd bftwffn bll JToolTips tif tip fifld is
+    // sft bppropribtfly bfforf tiis is invokfd. Unfortunbtfly tiis mfbns
+    // tibt subdlbssfs tibt rbndomly invokf tiis mftiod will sff vbrying
+    // rfsults. If tiis bfdomfs bn issuf, MftblToolTipUI siould no longfr bf
+    // sibrfd.
+    publid String gftAddflfrbtorString() {
+        if (tip == null || isAddflfrbtorHiddfn()) {
+            rfturn "";
         }
-        JComponent comp = tip.getComponent();
-        if (!(comp instanceof AbstractButton)) {
-            return "";
+        JComponfnt domp = tip.gftComponfnt();
+        if (!(domp instbndfof AbstrbdtButton)) {
+            rfturn "";
         }
 
-        KeyStroke[] keys = comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).keys();
-        if (keys == null) {
-            return "";
+        KfyStrokf[] kfys = domp.gftInputMbp(JComponfnt.WHEN_IN_FOCUSED_WINDOW).kfys();
+        if (kfys == null) {
+            rfturn "";
         }
 
-        String controlKeyStr = "";
+        String dontrolKfyStr = "";
 
-        for (int i = 0; i < keys.length; i++) {
-            int mod = keys[i].getModifiers();
-            controlKeyStr = KeyEvent.getKeyModifiersText(mod) +
-                            acceleratorDelimiter +
-                            KeyEvent.getKeyText(keys[i].getKeyCode());
-            break;
+        for (int i = 0; i < kfys.lfngti; i++) {
+            int mod = kfys[i].gftModififrs();
+            dontrolKfyStr = KfyEvfnt.gftKfyModififrsTfxt(mod) +
+                            bddflfrbtorDflimitfr +
+                            KfyEvfnt.gftKfyTfxt(kfys[i].gftKfyCodf());
+            brfbk;
         }
 
-        return controlKeyStr;
+        rfturn dontrolKfyStr;
     }
 
 }

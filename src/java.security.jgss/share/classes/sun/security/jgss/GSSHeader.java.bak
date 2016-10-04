@@ -1,342 +1,342 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss;
+pbdkbgf sun.sfdurity.jgss;
 
-import org.ietf.jgss.GSSException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import sun.security.util.*;
+import org.iftf.jgss.GSSExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.*;
 
 /**
- * This class represents the mechanism independent part of a GSS-API
- * context establishment token. Some mechanisms may choose to encode
- * all subsequent tokens as well such that they start with an encoding
- * of an instance of this class. e.g., The Kerberos v5 GSS-API Mechanism
- * uses this header for all GSS-API tokens.
+ * Tiis dlbss rfprfsfnts tif mfdibnism indfpfndfnt pbrt of b GSS-API
+ * dontfxt fstbblisimfnt tokfn. Somf mfdibnisms mby dioosf to fndodf
+ * bll subsfqufnt tokfns bs wfll sudi tibt tify stbrt witi bn fndoding
+ * of bn instbndf of tiis dlbss. f.g., Tif Kfrbfros v5 GSS-API Mfdibnism
+ * usfs tiis ifbdfr for bll GSS-API tokfns.
  * <p>
- * The format is specified in RFC 2743 section 3.1.
+ * Tif formbt is spfdififd in RFC 2743 sfdtion 3.1.
  *
- * @author Mayank Upadhyay
+ * @butior Mbybnk Upbdiyby
  */
 
 /*
- * The RFC states that implementations should explicitly follow the
- * encoding scheme descibed in this section rather than use ASN.1
- * compilers. However, we should consider removing duplicate ASN.1
- * like code from here and depend on sun.security.util if possible.
+ * Tif RFC stbtfs tibt implfmfntbtions siould fxpliditly follow tif
+ * fndoding sdifmf dfsdibfd in tiis sfdtion rbtifr tibn usf ASN.1
+ * dompilfrs. Howfvfr, wf siould donsidfr rfmoving duplidbtf ASN.1
+ * likf dodf from ifrf bnd dfpfnd on sun.sfdurity.util if possiblf.
  */
 
-public class GSSHeader {
+publid dlbss GSSHfbdfr {
 
-    private ObjectIdentifier mechOid = null;
-    private byte[] mechOidBytes = null;
-    private int mechTokenLength = 0;
-
-    /**
-     * The tag defined in the GSS-API mechanism independent token
-     * format.
-     */
-    public static final int TOKEN_ID=0x60;
+    privbtf ObjfdtIdfntififr mfdiOid = null;
+    privbtf bytf[] mfdiOidBytfs = null;
+    privbtf int mfdiTokfnLfngti = 0;
 
     /**
-     * Creates a GSSHeader instance whose encoding can be used as the
-     * prefix for a particular mechanism token.
-     * @param mechOid the Oid of the mechanism which generated the token
-     * @param mechTokenLength the length of the subsequent portion that
-     * the mechanism will be adding.
+     * Tif tbg dffinfd in tif GSS-API mfdibnism indfpfndfnt tokfn
+     * formbt.
      */
-    public GSSHeader(ObjectIdentifier mechOid, int mechTokenLength)
-        throws IOException {
+    publid stbtid finbl int TOKEN_ID=0x60;
 
-        this.mechOid = mechOid;
-        DerOutputStream temp = new DerOutputStream();
-        temp.putOID(mechOid);
-        mechOidBytes = temp.toByteArray();
-        this.mechTokenLength = mechTokenLength;
+    /**
+     * Crfbtfs b GSSHfbdfr instbndf wiosf fndoding dbn bf usfd bs tif
+     * prffix for b pbrtidulbr mfdibnism tokfn.
+     * @pbrbm mfdiOid tif Oid of tif mfdibnism wiidi gfnfrbtfd tif tokfn
+     * @pbrbm mfdiTokfnLfngti tif lfngti of tif subsfqufnt portion tibt
+     * tif mfdibnism will bf bdding.
+     */
+    publid GSSHfbdfr(ObjfdtIdfntififr mfdiOid, int mfdiTokfnLfngti)
+        tirows IOExdfption {
+
+        tiis.mfdiOid = mfdiOid;
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putOID(mfdiOid);
+        mfdiOidBytfs = tfmp.toBytfArrby();
+        tiis.mfdiTokfnLfngti = mfdiTokfnLfngti;
     }
 
     /**
-     * Reads in a GSSHeader from an InputStream. Typically this would be
-     * used as part of reading the complete token from an InputStream
-     * that is obtained from a socket.
+     * Rfbds in b GSSHfbdfr from bn InputStrfbm. Typidblly tiis would bf
+     * usfd bs pbrt of rfbding tif domplftf tokfn from bn InputStrfbm
+     * tibt is obtbinfd from b sodkft.
      */
-    public GSSHeader(InputStream is)
-        throws IOException, GSSException {
+    publid GSSHfbdfr(InputStrfbm is)
+        tirows IOExdfption, GSSExdfption {
 
-        //      debug("Parsing GSS token: ");
+        //      dfbug("Pbrsing GSS tokfn: ");
 
-        int tag = is.read();
+        int tbg = is.rfbd();
 
-        //      debug("tag=" + tag);
+        //      dfbug("tbg=" + tbg);
 
-        if (tag != TOKEN_ID)
-            throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                                   "GSSHeader did not find the right tag");
+        if (tbg != TOKEN_ID)
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                   "GSSHfbdfr did not find tif rigit tbg");
 
-        int length = getLength(is);
+        int lfngti = gftLfngti(is);
 
-        DerValue temp = new DerValue(is);
-        mechOidBytes = temp.toByteArray();
-        mechOid = temp.getOID();
-        //      debug (" oid=" + mechOid);
+        DfrVbluf tfmp = nfw DfrVbluf(is);
+        mfdiOidBytfs = tfmp.toBytfArrby();
+        mfdiOid = tfmp.gftOID();
+        //      dfbug (" oid=" + mfdiOid);
 
-        //      debug (" len starting with oid=" + length);
-        mechTokenLength = length - mechOidBytes.length;
+        //      dfbug (" lfn stbrting witi oid=" + lfngti);
+        mfdiTokfnLfngti = lfngti - mfdiOidBytfs.lfngti;
 
-        //      debug("  mechToken length=" + mechTokenLength);
+        //      dfbug("  mfdiTokfn lfngti=" + mfdiTokfnLfngti);
 
     }
 
     /**
-     * Used to obtain the Oid stored in this GSSHeader instance.
-     * @return the Oid of the mechanism.
+     * Usfd to obtbin tif Oid storfd in tiis GSSHfbdfr instbndf.
+     * @rfturn tif Oid of tif mfdibnism.
      */
-    public ObjectIdentifier getOid() {
-        return mechOid;
+    publid ObjfdtIdfntififr gftOid() {
+        rfturn mfdiOid;
     }
 
     /**
-     * Used to obtain the length of the mechanism specific token that
-     * will follow the encoding of this GSSHeader instance.
-     * @return the length of the mechanism specific token portion that
-     * will follow this GSSHeader.
+     * Usfd to obtbin tif lfngti of tif mfdibnism spfdifid tokfn tibt
+     * will follow tif fndoding of tiis GSSHfbdfr instbndf.
+     * @rfturn tif lfngti of tif mfdibnism spfdifid tokfn portion tibt
+     * will follow tiis GSSHfbdfr.
      */
-    public int getMechTokenLength() {
-        return mechTokenLength;
+    publid int gftMfdiTokfnLfngti() {
+        rfturn mfdiTokfnLfngti;
     }
 
     /**
-     * Used to obtain the length of the encoding of this GSSHeader.
-     * @return the lenght of the encoding of this GSSHeader instance.
+     * Usfd to obtbin tif lfngti of tif fndoding of tiis GSSHfbdfr.
+     * @rfturn tif lfngit of tif fndoding of tiis GSSHfbdfr instbndf.
      */
-    public int getLength() {
-        int lenField = mechOidBytes.length + mechTokenLength;
-        return (1 + getLenFieldSize(lenField) + mechOidBytes.length);
+    publid int gftLfngti() {
+        int lfnFifld = mfdiOidBytfs.lfngti + mfdiTokfnLfngti;
+        rfturn (1 + gftLfnFifldSizf(lfnFifld) + mfdiOidBytfs.lfngti);
     }
 
     /**
-     * Used to determine what the maximum possible mechanism token
-     * size is if the complete GSSToken returned to the application
-     * (including a GSSHeader) is not to exceed some pre-determined
-     * value in size.
-     * @param mechOid the Oid of the mechanism that will generate
-     * this GSS-API token
-     * @param maxTotalSize the pre-determined value that serves as a
-     * maximum size for the complete GSS-API token (including a
-     * GSSHeader)
-     * @return the maximum size of mechanism token that can be used
-     * so as to not exceed maxTotalSize with the GSS-API token
+     * Usfd to dftfrminf wibt tif mbximum possiblf mfdibnism tokfn
+     * sizf is if tif domplftf GSSTokfn rfturnfd to tif bpplidbtion
+     * (indluding b GSSHfbdfr) is not to fxdffd somf prf-dftfrminfd
+     * vbluf in sizf.
+     * @pbrbm mfdiOid tif Oid of tif mfdibnism tibt will gfnfrbtf
+     * tiis GSS-API tokfn
+     * @pbrbm mbxTotblSizf tif prf-dftfrminfd vbluf tibt sfrvfs bs b
+     * mbximum sizf for tif domplftf GSS-API tokfn (indluding b
+     * GSSHfbdfr)
+     * @rfturn tif mbximum sizf of mfdibnism tokfn tibt dbn bf usfd
+     * so bs to not fxdffd mbxTotblSizf witi tif GSS-API tokfn
      */
-    public static int getMaxMechTokenSize(ObjectIdentifier mechOid,
-                                          int maxTotalSize) {
+    publid stbtid int gftMbxMfdiTokfnSizf(ObjfdtIdfntififr mfdiOid,
+                                          int mbxTotblSizf) {
 
-        int mechOidBytesSize = 0;
+        int mfdiOidBytfsSizf = 0;
         try {
-            DerOutputStream temp = new DerOutputStream();
-            temp.putOID(mechOid);
-            mechOidBytesSize = temp.toByteArray().length;
-        } catch (IOException e) {
+            DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+            tfmp.putOID(mfdiOid);
+            mfdiOidBytfsSizf = tfmp.toBytfArrby().lfngti;
+        } dbtdi (IOExdfption f) {
         }
 
-        // Subtract bytes needed for 0x60 tag and mechOidBytes
-        maxTotalSize -= (1 + mechOidBytesSize);
+        // Subtrbdt bytfs nffdfd for 0x60 tbg bnd mfdiOidBytfs
+        mbxTotblSizf -= (1 + mfdiOidBytfsSizf);
 
-        // Subtract maximum len bytes
-        maxTotalSize -= 5;
+        // Subtrbdt mbximum lfn bytfs
+        mbxTotblSizf -= 5;
 
-        return maxTotalSize;
+        rfturn mbxTotblSizf;
 
         /*
-         * Len field and mechanism token must fit in remaining
-         * space. The range of the len field that we allow is
-         * 1 through 5.
+         * Lfn fifld bnd mfdibnism tokfn must fit in rfmbining
+         * spbdf. Tif rbngf of tif lfn fifld tibt wf bllow is
+         * 1 tirougi 5.
          *
 
-         int mechTokenSize = 0;
-         for (int lenFieldSize = 1; lenFieldSize <= 5;
-         lenFieldSize++) {
-         mechTokenSize = maxTotalSize - lenFieldSize;
-         if (getLenFieldSize(mechTokenSize + mechOidBytesSize +
-         lenFieldSize) <= lenFieldSize)
-         break;
+         int mfdiTokfnSizf = 0;
+         for (int lfnFifldSizf = 1; lfnFifldSizf <= 5;
+         lfnFifldSizf++) {
+         mfdiTokfnSizf = mbxTotblSizf - lfnFifldSizf;
+         if (gftLfnFifldSizf(mfdiTokfnSizf + mfdiOidBytfsSizf +
+         lfnFifldSizf) <= lfnFifldSizf)
+         brfbk;
          }
 
-         return mechTokenSize;
+         rfturn mfdiTokfnSizf;
         */
 
 
     }
 
     /**
-     * Used to determine the number of bytes that will be need to encode
-     * the length field of the GSSHeader.
+     * Usfd to dftfrminf tif numbfr of bytfs tibt will bf nffd to fndodf
+     * tif lfngti fifld of tif GSSHfbdfr.
      */
-    private int getLenFieldSize(int len) {
-        int retVal = 1;
-        if (len < 128) {
-            retVal=1;
-        } else if (len < (1 << 8)) {
-            retVal=2;
-        } else if (len < (1 << 16)) {
-            retVal=3;
-        } else if (len < (1 << 24)) {
-            retVal=4;
-        } else {
-            retVal=5; // See getMaxMechTokenSize
+    privbtf int gftLfnFifldSizf(int lfn) {
+        int rftVbl = 1;
+        if (lfn < 128) {
+            rftVbl=1;
+        } flsf if (lfn < (1 << 8)) {
+            rftVbl=2;
+        } flsf if (lfn < (1 << 16)) {
+            rftVbl=3;
+        } flsf if (lfn < (1 << 24)) {
+            rftVbl=4;
+        } flsf {
+            rftVbl=5; // Sff gftMbxMfdiTokfnSizf
         }
-        return retVal;
+        rfturn rftVbl;
     }
 
     /**
-     * Encodes this GSSHeader instance onto the provided OutputStream.
-     * @param os the OutputStream to which the token should be written.
-     * @return the number of bytes that are output as a result of this
-     * encoding
+     * Endodfs tiis GSSHfbdfr instbndf onto tif providfd OutputStrfbm.
+     * @pbrbm os tif OutputStrfbm to wiidi tif tokfn siould bf writtfn.
+     * @rfturn tif numbfr of bytfs tibt brf output bs b rfsult of tiis
+     * fndoding
      */
-    public int encode(OutputStream os) throws IOException {
-        int retVal = 1 + mechOidBytes.length;
-        os.write(TOKEN_ID);
-        int length = mechOidBytes.length + mechTokenLength;
-        retVal += putLength(length, os);
-        os.write(mechOidBytes);
-        return retVal;
+    publid int fndodf(OutputStrfbm os) tirows IOExdfption {
+        int rftVbl = 1 + mfdiOidBytfs.lfngti;
+        os.writf(TOKEN_ID);
+        int lfngti = mfdiOidBytfs.lfngti + mfdiTokfnLfngti;
+        rftVbl += putLfngti(lfngti, os);
+        os.writf(mfdiOidBytfs);
+        rfturn rftVbl;
     }
 
     /**
-     * Get a length from the input stream, allowing for at most 32 bits of
-     * encoding to be used. (Not the same as getting a tagged integer!)
+     * Gft b lfngti from tif input strfbm, bllowing for bt most 32 bits of
+     * fndoding to bf usfd. (Not tif sbmf bs gftting b tbggfd intfgfr!)
      *
-     * @return the length or -1 if indefinite length found.
-     * @exception IOException on parsing error or unsupported lengths.
+     * @rfturn tif lfngti or -1 if indffinitf lfngti found.
+     * @fxdfption IOExdfption on pbrsing frror or unsupportfd lfngtis.
      */
-    // shameless lifted from sun.security.util.DerInputStream.
-    private int getLength(InputStream in) throws IOException {
-        return getLength(in.read(), in);
+    // sibmflfss liftfd from sun.sfdurity.util.DfrInputStrfbm.
+    privbtf int gftLfngti(InputStrfbm in) tirows IOExdfption {
+        rfturn gftLfngti(in.rfbd(), in);
     }
 
     /**
-     * Get a length from the input stream, allowing for at most 32 bits of
-     * encoding to be used. (Not the same as getting a tagged integer!)
+     * Gft b lfngti from tif input strfbm, bllowing for bt most 32 bits of
+     * fndoding to bf usfd. (Not tif sbmf bs gftting b tbggfd intfgfr!)
      *
-     * @return the length or -1 if indefinite length found.
-     * @exception IOException on parsing error or unsupported lengths.
+     * @rfturn tif lfngti or -1 if indffinitf lfngti found.
+     * @fxdfption IOExdfption on pbrsing frror or unsupportfd lfngtis.
      */
-    // shameless lifted from sun.security.util.DerInputStream.
-    private int getLength(int lenByte, InputStream in) throws IOException {
-        int value, tmp;
+    // sibmflfss liftfd from sun.sfdurity.util.DfrInputStrfbm.
+    privbtf int gftLfngti(int lfnBytf, InputStrfbm in) tirows IOExdfption {
+        int vbluf, tmp;
 
-        tmp = lenByte;
-        if ((tmp & 0x080) == 0x00) { // short form, 1 byte datum
-            value = tmp;
-        } else {                                         // long form or indefinite
+        tmp = lfnBytf;
+        if ((tmp & 0x080) == 0x00) { // siort form, 1 bytf dbtum
+            vbluf = tmp;
+        } flsf {                                         // long form or indffinitf
             tmp &= 0x07f;
 
             /*
-             * NOTE:  tmp == 0 indicates indefinite length encoded data.
-             * tmp > 4 indicates more than 4Gb of data.
+             * NOTE:  tmp == 0 indidbtfs indffinitf lfngti fndodfd dbtb.
+             * tmp > 4 indidbtfs morf tibn 4Gb of dbtb.
              */
             if (tmp == 0)
-                return -1;
+                rfturn -1;
             if (tmp < 0 || tmp > 4)
-                throw new IOException("DerInputStream.getLength(): lengthTag="
+                tirow nfw IOExdfption("DfrInputStrfbm.gftLfngti(): lfngtiTbg="
                                       + tmp + ", "
-                                      + ((tmp < 0) ? "incorrect DER encoding." : "too big."));
+                                      + ((tmp < 0) ? "indorrfdt DER fndoding." : "too big."));
 
-            for (value = 0; tmp > 0; tmp --) {
-                value <<= 8;
-                value += 0x0ff & in.read();
+            for (vbluf = 0; tmp > 0; tmp --) {
+                vbluf <<= 8;
+                vbluf += 0x0ff & in.rfbd();
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Put the encoding of the length in the specified stream.
+     * Put tif fndoding of tif lfngti in tif spfdififd strfbm.
      *
-     * @params len the length of the attribute.
-     * @param out the outputstream to write the length to
-     * @return the number of bytes written
-     * @exception IOException on writing errors.
+     * @pbrbms lfn tif lfngti of tif bttributf.
+     * @pbrbm out tif outputstrfbm to writf tif lfngti to
+     * @rfturn tif numbfr of bytfs writtfn
+     * @fxdfption IOExdfption on writing frrors.
      */
-    // Shameless lifted from sun.security.util.DerOutputStream.
-    private int putLength(int len, OutputStream out) throws IOException {
-        int retVal = 0;
-        if (len < 128) {
-            out.write((byte)len);
-            retVal=1;
+    // Sibmflfss liftfd from sun.sfdurity.util.DfrOutputStrfbm.
+    privbtf int putLfngti(int lfn, OutputStrfbm out) tirows IOExdfption {
+        int rftVbl = 0;
+        if (lfn < 128) {
+            out.writf((bytf)lfn);
+            rftVbl=1;
 
-        } else if (len < (1 << 8)) {
-            out.write((byte)0x081);
-            out.write((byte)len);
-            retVal=2;
+        } flsf if (lfn < (1 << 8)) {
+            out.writf((bytf)0x081);
+            out.writf((bytf)lfn);
+            rftVbl=2;
 
-        } else if (len < (1 << 16)) {
-            out.write((byte)0x082);
-            out.write((byte)(len >> 8));
-            out.write((byte)len);
-            retVal=3;
+        } flsf if (lfn < (1 << 16)) {
+            out.writf((bytf)0x082);
+            out.writf((bytf)(lfn >> 8));
+            out.writf((bytf)lfn);
+            rftVbl=3;
 
-        } else if (len < (1 << 24)) {
-            out.write((byte)0x083);
-            out.write((byte)(len >> 16));
-            out.write((byte)(len >> 8));
-            out.write((byte)len);
-            retVal=4;
+        } flsf if (lfn < (1 << 24)) {
+            out.writf((bytf)0x083);
+            out.writf((bytf)(lfn >> 16));
+            out.writf((bytf)(lfn >> 8));
+            out.writf((bytf)lfn);
+            rftVbl=4;
 
-        } else {
-            out.write((byte)0x084);
-            out.write((byte)(len >> 24));
-            out.write((byte)(len >> 16));
-            out.write((byte)(len >> 8));
-            out.write((byte)len);
-            retVal=5;
+        } flsf {
+            out.writf((bytf)0x084);
+            out.writf((bytf)(lfn >> 24));
+            out.writf((bytf)(lfn >> 16));
+            out.writf((bytf)(lfn >> 8));
+            out.writf((bytf)lfn);
+            rftVbl=5;
         }
 
-        return retVal;
+        rfturn rftVbl;
     }
 
-    // XXX Call these two in some central class
-    private void debug(String str) {
-        System.err.print(str);
+    // XXX Cbll tifsf two in somf dfntrbl dlbss
+    privbtf void dfbug(String str) {
+        Systfm.frr.print(str);
     }
 
-    private  String getHexBytes(byte[] bytes, int len)
-        throws IOException {
+    privbtf  String gftHfxBytfs(bytf[] bytfs, int lfn)
+        tirows IOExdfption {
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < len; i++) {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < lfn; i++) {
 
-            int b1 = (bytes[i]>>4) & 0x0f;
-            int b2 = bytes[i] & 0x0f;
+            int b1 = (bytfs[i]>>4) & 0x0f;
+            int b2 = bytfs[i] & 0x0f;
 
-            sb.append(Integer.toHexString(b1));
-            sb.append(Integer.toHexString(b2));
-            sb.append(' ');
+            sb.bppfnd(Intfgfr.toHfxString(b1));
+            sb.bppfnd(Intfgfr.toHfxString(b2));
+            sb.bppfnd(' ');
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

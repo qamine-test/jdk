@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.table;
+pbdkbgf jbvbx.swing.tbblf;
 
-import javax.swing.*;
-import javax.swing.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
 
 /**
- *  The <code>TableModel</code> interface specifies the methods the
- *  <code>JTable</code> will use to interrogate a tabular data model. <p>
+ *  Tif <dodf>TbblfModfl</dodf> intfrfbdf spfdififs tif mftiods tif
+ *  <dodf>JTbblf</dodf> will usf to intfrrogbtf b tbbulbr dbtb modfl. <p>
  *
- *  The <code>JTable</code> can be set up to display any data
- *  model which implements the
- *  <code>TableModel</code> interface with a couple of lines of code:
- *  <pre>
- *      TableModel myData = new MyTableModel();
- *      JTable table = new JTable(myData);
- *  </pre><p>
+ *  Tif <dodf>JTbblf</dodf> dbn bf sft up to displby bny dbtb
+ *  modfl wiidi implfmfnts tif
+ *  <dodf>TbblfModfl</dodf> intfrfbdf witi b douplf of linfs of dodf:
+ *  <prf>
+ *      TbblfModfl myDbtb = nfw MyTbblfModfl();
+ *      JTbblf tbblf = nfw JTbblf(myDbtb);
+ *  </prf><p>
  *
- * For further documentation, see <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/table.html#data">Creating a Table Model</a>
- * in <em>The Java Tutorial</em>.
+ * For furtifr dodumfntbtion, sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/tbblf.itml#dbtb">Crfbting b Tbblf Modfl</b>
+ * in <fm>Tif Jbvb Tutoribl</fm>.
  *
- * @author Philip Milne
- * @see JTable
+ * @butior Piilip Milnf
+ * @sff JTbblf
  */
 
-public interface TableModel
+publid intfrfbdf TbblfModfl
 {
     /**
-     * Returns the number of rows in the model. A
-     * <code>JTable</code> uses this method to determine how many rows it
-     * should display.  This method should be quick, as it
-     * is called frequently during rendering.
+     * Rfturns tif numbfr of rows in tif modfl. A
+     * <dodf>JTbblf</dodf> usfs tiis mftiod to dftfrminf iow mbny rows it
+     * siould displby.  Tiis mftiod siould bf quidk, bs it
+     * is dbllfd frfqufntly during rfndfring.
      *
-     * @return the number of rows in the model
-     * @see #getColumnCount
+     * @rfturn tif numbfr of rows in tif modfl
+     * @sff #gftColumnCount
      */
-    public int getRowCount();
+    publid int gftRowCount();
 
     /**
-     * Returns the number of columns in the model. A
-     * <code>JTable</code> uses this method to determine how many columns it
-     * should create and display by default.
+     * Rfturns tif numbfr of dolumns in tif modfl. A
+     * <dodf>JTbblf</dodf> usfs tiis mftiod to dftfrminf iow mbny dolumns it
+     * siould drfbtf bnd displby by dffbult.
      *
-     * @return the number of columns in the model
-     * @see #getRowCount
+     * @rfturn tif numbfr of dolumns in tif modfl
+     * @sff #gftRowCount
      */
-    public int getColumnCount();
+    publid int gftColumnCount();
 
     /**
-     * Returns the name of the column at <code>columnIndex</code>.  This is used
-     * to initialize the table's column header name.  Note: this name does
-     * not need to be unique; two columns in a table can have the same name.
+     * Rfturns tif nbmf of tif dolumn bt <dodf>dolumnIndfx</dodf>.  Tiis is usfd
+     * to initiblizf tif tbblf's dolumn ifbdfr nbmf.  Notf: tiis nbmf dofs
+     * not nffd to bf uniquf; two dolumns in b tbblf dbn ibvf tif sbmf nbmf.
      *
-     * @param   columnIndex     the index of the column
-     * @return  the name of the column
+     * @pbrbm   dolumnIndfx     tif indfx of tif dolumn
+     * @rfturn  tif nbmf of tif dolumn
      */
-    public String getColumnName(int columnIndex);
+    publid String gftColumnNbmf(int dolumnIndfx);
 
     /**
-     * Returns the most specific superclass for all the cell values
-     * in the column.  This is used by the <code>JTable</code> to set up a
-     * default renderer and editor for the column.
+     * Rfturns tif most spfdifid supfrdlbss for bll tif dfll vblufs
+     * in tif dolumn.  Tiis is usfd by tif <dodf>JTbblf</dodf> to sft up b
+     * dffbult rfndfrfr bnd fditor for tif dolumn.
      *
-     * @param columnIndex  the index of the column
-     * @return the common ancestor class of the object values in the model.
+     * @pbrbm dolumnIndfx  tif indfx of tif dolumn
+     * @rfturn tif dommon bndfstor dlbss of tif objfdt vblufs in tif modfl.
      */
-    public Class<?> getColumnClass(int columnIndex);
+    publid Clbss<?> gftColumnClbss(int dolumnIndfx);
 
     /**
-     * Returns true if the cell at <code>rowIndex</code> and
-     * <code>columnIndex</code>
-     * is editable.  Otherwise, <code>setValueAt</code> on the cell will not
-     * change the value of that cell.
+     * Rfturns truf if tif dfll bt <dodf>rowIndfx</dodf> bnd
+     * <dodf>dolumnIndfx</dodf>
+     * is fditbblf.  Otifrwisf, <dodf>sftVblufAt</dodf> on tif dfll will not
+     * dibngf tif vbluf of tibt dfll.
      *
-     * @param   rowIndex        the row whose value to be queried
-     * @param   columnIndex     the column whose value to be queried
-     * @return  true if the cell is editable
-     * @see #setValueAt
+     * @pbrbm   rowIndfx        tif row wiosf vbluf to bf qufrifd
+     * @pbrbm   dolumnIndfx     tif dolumn wiosf vbluf to bf qufrifd
+     * @rfturn  truf if tif dfll is fditbblf
+     * @sff #sftVblufAt
      */
-    public boolean isCellEditable(int rowIndex, int columnIndex);
+    publid boolfbn isCfllEditbblf(int rowIndfx, int dolumnIndfx);
 
     /**
-     * Returns the value for the cell at <code>columnIndex</code> and
-     * <code>rowIndex</code>.
+     * Rfturns tif vbluf for tif dfll bt <dodf>dolumnIndfx</dodf> bnd
+     * <dodf>rowIndfx</dodf>.
      *
-     * @param   rowIndex        the row whose value is to be queried
-     * @param   columnIndex     the column whose value is to be queried
-     * @return  the value Object at the specified cell
+     * @pbrbm   rowIndfx        tif row wiosf vbluf is to bf qufrifd
+     * @pbrbm   dolumnIndfx     tif dolumn wiosf vbluf is to bf qufrifd
+     * @rfturn  tif vbluf Objfdt bt tif spfdififd dfll
      */
-    public Object getValueAt(int rowIndex, int columnIndex);
+    publid Objfdt gftVblufAt(int rowIndfx, int dolumnIndfx);
 
     /**
-     * Sets the value in the cell at <code>columnIndex</code> and
-     * <code>rowIndex</code> to <code>aValue</code>.
+     * Sfts tif vbluf in tif dfll bt <dodf>dolumnIndfx</dodf> bnd
+     * <dodf>rowIndfx</dodf> to <dodf>bVbluf</dodf>.
      *
-     * @param   aValue           the new value
-     * @param   rowIndex         the row whose value is to be changed
-     * @param   columnIndex      the column whose value is to be changed
-     * @see #getValueAt
-     * @see #isCellEditable
+     * @pbrbm   bVbluf           tif nfw vbluf
+     * @pbrbm   rowIndfx         tif row wiosf vbluf is to bf dibngfd
+     * @pbrbm   dolumnIndfx      tif dolumn wiosf vbluf is to bf dibngfd
+     * @sff #gftVblufAt
+     * @sff #isCfllEditbblf
      */
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex);
+    publid void sftVblufAt(Objfdt bVbluf, int rowIndfx, int dolumnIndfx);
 
     /**
-     * Adds a listener to the list that is notified each time a change
-     * to the data model occurs.
+     * Adds b listfnfr to tif list tibt is notififd fbdi timf b dibngf
+     * to tif dbtb modfl oddurs.
      *
-     * @param   l               the TableModelListener
+     * @pbrbm   l               tif TbblfModflListfnfr
      */
-    public void addTableModelListener(TableModelListener l);
+    publid void bddTbblfModflListfnfr(TbblfModflListfnfr l);
 
     /**
-     * Removes a listener from the list that is notified each time a
-     * change to the data model occurs.
+     * Rfmovfs b listfnfr from tif list tibt is notififd fbdi timf b
+     * dibngf to tif dbtb modfl oddurs.
      *
-     * @param   l               the TableModelListener
+     * @pbrbm   l               tif TbblfModflListfnfr
      */
-    public void removeTableModelListener(TableModelListener l);
+    publid void rfmovfTbblfModflListfnfr(TbblfModflListfnfr l);
 }

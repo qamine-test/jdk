@@ -1,0 +1,206 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+import jbvb.io.IOExdfption;
+import jbvbx.nft.ssl.SSLSfssion;
+import jbvbx.nft.ssl.SSLSodkftFbdtory;
+import jbvbx.nft.ssl.HostnbmfVfrififr;
+
+/**
+ * This dlbss implfmfnts thf LDAPv3 Extfndfd Rfsponsf for StbrtTLS bs
+ * dffinfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd2830.txt">Lightwfight Dirfdtory
+ * Addfss Protodol (v3): Extfnsion for Trbnsport Lbyfr Sfdurity</b>
+ *
+ * Thf objfdt idfntififr for StbrtTLS is 1.3.6.1.4.1.1466.20037
+ * bnd no fxtfndfd rfsponsf vbluf is dffinfd.
+ *
+ *<p>
+ * Thf Stbrt TLS fxtfndfd rfqufst bnd rfsponsf brf usfd to fstbblish
+ * b TLS donnfdtion ovfr thf fxisting LDAP donnfdtion bssodibtfd with
+ * thf JNDI dontfxt on whidh <tt>fxtfndfdOpfrbtion()</tt> is invokfd.
+ * Typidblly, b JNDI progrbm usfs thf StbrtTLS fxtfndfd rfqufst bnd rfsponsf
+ * dlbssfs bs follows.
+ * <blodkquotf><prf>
+ * import jbvbx.nbming.ldbp.*;
+ *
+ * // Opfn bn LDAP bssodibtion
+ * LdbpContfxt dtx = nfw InitiblLdbpContfxt();
+ *
+ * // Pfrform b StbrtTLS fxtfndfd opfrbtion
+ * StbrtTlsRfsponsf tls =
+ *     (StbrtTlsRfsponsf) dtx.fxtfndfdOpfrbtion(nfw StbrtTlsRfqufst());
+ *
+ * // Opfn b TLS donnfdtion (ovfr thf fxisting LDAP bssodibtion) bnd gft dftbils
+ * // of thf nfgotibtfd TLS sfssion: diphfr suitf, pffr dfrtifidbtf, ...
+ * SSLSfssion sfssion = tls.nfgotibtf();
+ *
+ * // ... usf dtx to pfrform protfdtfd LDAP opfrbtions
+ *
+ * // Closf thf TLS donnfdtion (rfvfrt bbdk to thf undfrlying LDAP bssodibtion)
+ * tls.dlosf();
+ *
+ * // ... usf dtx to pfrform unprotfdtfd LDAP opfrbtions
+ *
+ * // Closf thf LDAP bssodibtion
+ * dtx.dlosf;
+ * </prf></blodkquotf>
+ *
+ * @sindf 1.4
+ * @sff StbrtTlsRfqufst
+ * @buthor Vindfnt Rybn
+ */
+publid bbstrbdt dlbss StbrtTlsRfsponsf implfmfnts ExtfndfdRfsponsf {
+
+    // Constbnt
+
+    /**
+     * Thf StbrtTLS fxtfndfd rfsponsf's bssignfd objfdt idfntififr
+     * is 1.3.6.1.4.1.1466.20037.
+     */
+    publid stbtid finbl String OID = "1.3.6.1.4.1.1466.20037";
+
+
+    // Cbllfd by subdlbss
+
+    /**
+     * Construdts b StbrtTLS fxtfndfd rfsponsf.
+     * A dondrftf subdlbss must hbvf b publid no-brg donstrudtor.
+     */
+    protfdtfd StbrtTlsRfsponsf() {
+    }
+
+
+    // ExtfndfdRfsponsf mfthods
+
+    /**
+     * Rftrifvfs thf StbrtTLS rfsponsf's objfdt idfntififr string.
+     *
+     * @rfturn Thf objfdt idfntififr string, "1.3.6.1.4.1.1466.20037".
+     */
+    publid String gftID() {
+        rfturn OID;
+    }
+
+    /**
+     * Rftrifvfs thf StbrtTLS rfsponsf's ASN.1 BER fndodfd vbluf.
+     * Sindf thf rfsponsf hbs no dffinfd vbluf, null is blwbys
+     * rfturnfd.
+     *
+     * @rfturn Thf null vbluf.
+     */
+    publid bytf[] gftEndodfdVbluf() {
+        rfturn null;
+    }
+
+    // StbrtTls-spfdifid mfthods
+
+    /**
+     * Ovfrridfs thf dffbult list of diphfr suitfs fnbblfd for usf on thf
+     * TLS donnfdtion. Thf diphfr suitfs must hbvf blrfbdy bffn listfd by
+     * <tt>SSLSodkftFbdtory.gftSupportfdCiphfrSuitfs()</tt> bs bfing supportfd.
+     * Evfn if b suitf hbs bffn fnbblfd, it still might not bf usfd bfdbusf
+     * thf pffr dofs not support it, or bfdbusf thf rfquisitf dfrtifidbtfs
+     * (bnd privbtf kfys) brf not bvbilbblf.
+     *
+     * @pbrbm suitfs Thf non-null list of nbmfs of bll thf diphfr suitfs to
+     * fnbblf.
+     * @sff #nfgotibtf
+     */
+    publid bbstrbdt void sftEnbblfdCiphfrSuitfs(String[] suitfs);
+
+    /**
+     * Sfts thf hostnbmf vfrififr usfd by <tt>nfgotibtf()</tt>
+     * bftfr thf TLS hbndshbkf hbs domplftfd bnd thf dffbult hostnbmf
+     * vfrifidbtion hbs fbilfd.
+     * <tt>sftHostnbmfVfrififr()</tt> must bf dbllfd bfforf
+     * <tt>nfgotibtf()</tt> is invokfd for it to hbvf ffffdt.
+     * If dbllfd bftfr
+     * <tt>nfgotibtf()</tt>, this mfthod dofs not do bnything.
+     *
+     * @pbrbm vfrififr Thf non-null hostnbmf vfrififr dbllbbdk.
+     * @sff #nfgotibtf
+     */
+    publid bbstrbdt void sftHostnbmfVfrififr(HostnbmfVfrififr vfrififr);
+
+    /**
+     * Nfgotibtfs b TLS sfssion using thf dffbult SSL sodkft fbdtory.
+     * <p>
+     * This mfthod is fquivblfnt to <tt>nfgotibtf(null)</tt>.
+     *
+     * @rfturn Thf nfgotibtfd SSL sfssion
+     * @throws IOExdfption If bn IO frror wbs fndountfrfd whilf fstbblishing
+     * thf TLS sfssion.
+     * @sff #sftEnbblfdCiphfrSuitfs
+     * @sff #sftHostnbmfVfrififr
+     */
+    publid bbstrbdt SSLSfssion nfgotibtf() throws IOExdfption;
+
+    /**
+     * Nfgotibtfs b TLS sfssion using bn SSL sodkft fbdtory.
+     * <p>
+     * Crfbtfs bn SSL sodkft using thf supplifd SSL sodkft fbdtory bnd
+     * bttbdhfs it to thf fxisting donnfdtion. Pfrforms thf TLS hbndshbkf
+     * bnd rfturns thf nfgotibtfd sfssion informbtion.
+     * <p>
+     * If diphfr suitfs hbvf bffn sft vib <tt>sftEnbblfdCiphfrSuitfs</tt>
+     * thfn thfy brf fnbblfd bfforf thf TLS hbndshbkf bfgins.
+     * <p>
+     * Hostnbmf vfrifidbtion is pfrformfd bftfr thf TLS hbndshbkf domplftfs.
+     * Thf dffbult hostnbmf vfrifidbtion pfrforms b mbtdh of thf sfrvfr's
+     * hostnbmf bgbinst thf hostnbmf informbtion found in thf sfrvfr's dfrtifidbtf.
+     * If this vfrifidbtion fbils bnd no dbllbbdk hbs bffn sft vib
+     * <tt>sftHostnbmfVfrififr</tt> thfn thf nfgotibtion fbils.
+     * If this vfrifidbtion fbils bnd b dbllbbdk hbs bffn sft vib
+     * <tt>sftHostnbmfVfrififr</tt>, thfn thf dbllbbdk is usfd to dftfrminf whfthfr
+     * thf nfgotibtion suddffds.
+     * <p>
+     * If bn frror oddurs thfn thf SSL sodkft is dlosfd bnd bn IOExdfption
+     * is thrown. Thf undfrlying donnfdtion rfmbins intbdt.
+     *
+     * @pbrbm fbdtory Thf possibly null SSL sodkft fbdtory to usf.
+     * If null, thf dffbult SSL sodkft fbdtory is usfd.
+     * @rfturn Thf nfgotibtfd SSL sfssion
+     * @throws IOExdfption If bn IO frror wbs fndountfrfd whilf fstbblishing
+     * thf TLS sfssion.
+     * @sff #sftEnbblfdCiphfrSuitfs
+     * @sff #sftHostnbmfVfrififr
+     */
+    publid bbstrbdt SSLSfssion nfgotibtf(SSLSodkftFbdtory fbdtory)
+        throws IOExdfption;
+
+    /**
+     * Closfs thf TLS donnfdtion grbdffully bnd rfvfrts bbdk to thf undfrlying
+     * donnfdtion.
+     *
+     * @throws IOExdfption If bn IO frror wbs fndountfrfd whilf dlosing thf
+     * TLS donnfdtion
+     */
+    publid bbstrbdt void dlosf() throws IOExdfption;
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8372842182579276418L;
+}

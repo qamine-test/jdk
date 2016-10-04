@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.LongBuffer;
-import java.security.AccessController;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfOrdfr;
+import jbvb.nio.LongBufffr;
+import jbvb.sfdurity.AddfssControllfr;
 
 /**
- * Performance counter support for internal JRE classes.
- * This class defines a fixed list of counters for the platform
- * to use as an interim solution until RFE# 6209222 is implemented.
- * The perf counters will be created in the jvmstat perf buffer
- * that the HotSpot VM creates. The default size is 32K and thus
- * the number of counters is bounded.  You can alter the size
- * with -XX:PerfDataMemorySize=<bytes> option. If there is
- * insufficient memory in the jvmstat perf buffer, the C heap memory
- * will be used and thus the application will continue to run if
- * the counters added exceeds the buffer size but the counters
- * will be missing.
+ * Pfrformbndf dountfr support for intfrnbl JRE dlbssfs.
+ * Tiis dlbss dffinfs b fixfd list of dountfrs for tif plbtform
+ * to usf bs bn intfrim solution until RFE# 6209222 is implfmfntfd.
+ * Tif pfrf dountfrs will bf drfbtfd in tif jvmstbt pfrf bufffr
+ * tibt tif HotSpot VM drfbtfs. Tif dffbult sizf is 32K bnd tius
+ * tif numbfr of dountfrs is boundfd.  You dbn bltfr tif sizf
+ * witi -XX:PfrfDbtbMfmorySizf=<bytfs> option. If tifrf is
+ * insuffidifnt mfmory in tif jvmstbt pfrf bufffr, tif C ifbp mfmory
+ * will bf usfd bnd tius tif bpplidbtion will dontinuf to run if
+ * tif dountfrs bddfd fxdffds tif bufffr sizf but tif dountfrs
+ * will bf missing.
  *
- * See HotSpot jvmstat implementation for certain circumstances
- * that the jvmstat perf buffer is not supported.
+ * Sff HotSpot jvmstbt implfmfntbtion for dfrtbin dirdumstbndfs
+ * tibt tif jvmstbt pfrf bufffr is not supportfd.
  *
  */
-public class PerfCounter {
-    private static final Perf perf =
-        AccessController.doPrivileged(new Perf.GetPerfAction());
+publid dlbss PfrfCountfr {
+    privbtf stbtid finbl Pfrf pfrf =
+        AddfssControllfr.doPrivilfgfd(nfw Pfrf.GftPfrfAdtion());
 
-    // Must match values defined in hotspot/src/share/vm/runtime/perfdata.hpp
-    private final static int V_Constant  = 1;
-    private final static int V_Monotonic = 2;
-    private final static int V_Variable  = 3;
-    private final static int U_None      = 1;
+    // Must mbtdi vblufs dffinfd in iotspot/srd/sibrf/vm/runtimf/pfrfdbtb.ipp
+    privbtf finbl stbtid int V_Constbnt  = 1;
+    privbtf finbl stbtid int V_Monotonid = 2;
+    privbtf finbl stbtid int V_Vbribblf  = 3;
+    privbtf finbl stbtid int U_Nonf      = 1;
 
-    private final String name;
-    private final LongBuffer lb;
+    privbtf finbl String nbmf;
+    privbtf finbl LongBufffr lb;
 
-    private PerfCounter(String name, int type) {
-        this.name = name;
-        ByteBuffer bb = perf.createLong(name, type, U_None, 0L);
-        bb.order(ByteOrder.nativeOrder());
-        this.lb = bb.asLongBuffer();
+    privbtf PfrfCountfr(String nbmf, int typf) {
+        tiis.nbmf = nbmf;
+        BytfBufffr bb = pfrf.drfbtfLong(nbmf, typf, U_Nonf, 0L);
+        bb.ordfr(BytfOrdfr.nbtivfOrdfr());
+        tiis.lb = bb.bsLongBufffr();
     }
 
-    static PerfCounter newPerfCounter(String name) {
-        return new PerfCounter(name, V_Variable);
+    stbtid PfrfCountfr nfwPfrfCountfr(String nbmf) {
+        rfturn nfw PfrfCountfr(nbmf, V_Vbribblf);
     }
 
-    static PerfCounter newConstantPerfCounter(String name) {
-        PerfCounter c = new PerfCounter(name, V_Constant);
-        return c;
-    }
-
-    /**
-     * Returns the current value of the perf counter.
-     */
-    public synchronized long get() {
-        return lb.get(0);
+    stbtid PfrfCountfr nfwConstbntPfrfCountfr(String nbmf) {
+        PfrfCountfr d = nfw PfrfCountfr(nbmf, V_Constbnt);
+        rfturn d;
     }
 
     /**
-     * Sets the value of the perf counter to the given newValue.
+     * Rfturns tif durrfnt vbluf of tif pfrf dountfr.
      */
-    public synchronized void set(long newValue) {
-        lb.put(0, newValue);
+    publid syndironizfd long gft() {
+        rfturn lb.gft(0);
     }
 
     /**
-     * Adds the given value to the perf counter.
+     * Sfts tif vbluf of tif pfrf dountfr to tif givfn nfwVbluf.
      */
-    public synchronized void add(long value) {
-        long res = get() + value;
-        lb.put(0, res);
+    publid syndironizfd void sft(long nfwVbluf) {
+        lb.put(0, nfwVbluf);
     }
 
     /**
-     * Increments the perf counter with 1.
+     * Adds tif givfn vbluf to tif pfrf dountfr.
      */
-    public void increment() {
-        add(1);
+    publid syndironizfd void bdd(long vbluf) {
+        long rfs = gft() + vbluf;
+        lb.put(0, rfs);
     }
 
     /**
-     * Adds the given interval to the perf counter.
+     * Indrfmfnts tif pfrf dountfr witi 1.
      */
-    public void addTime(long interval) {
-        add(interval);
+    publid void indrfmfnt() {
+        bdd(1);
     }
 
     /**
-     * Adds the elapsed time from the given start time (ns) to the perf counter.
+     * Adds tif givfn intfrvbl to tif pfrf dountfr.
      */
-    public void addElapsedTimeFrom(long startTime) {
-        add(System.nanoTime() - startTime);
-    }
-
-    @Override
-    public String toString() {
-        return name + " = " + get();
-    }
-
-    static class CoreCounters {
-        static final PerfCounter pdt   = newPerfCounter("sun.classloader.parentDelegationTime");
-        static final PerfCounter lc    = newPerfCounter("sun.classloader.findClasses");
-        static final PerfCounter lct   = newPerfCounter("sun.classloader.findClassTime");
-        static final PerfCounter rcbt  = newPerfCounter("sun.urlClassLoader.readClassBytesTime");
-        static final PerfCounter zfc   = newPerfCounter("sun.zip.zipFiles");
-        static final PerfCounter zfot  = newPerfCounter("sun.zip.zipFile.openTime");
-    }
-
-    static class WindowsClientCounters {
-        static final PerfCounter d3dAvailable = newConstantPerfCounter("sun.java2d.d3d.available");
+    publid void bddTimf(long intfrvbl) {
+        bdd(intfrvbl);
     }
 
     /**
-     * Number of findClass calls
+     * Adds tif flbpsfd timf from tif givfn stbrt timf (ns) to tif pfrf dountfr.
      */
-    public static PerfCounter getFindClasses() {
-        return CoreCounters.lc;
+    publid void bddElbpsfdTimfFrom(long stbrtTimf) {
+        bdd(Systfm.nbnoTimf() - stbrtTimf);
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn nbmf + " = " + gft();
+    }
+
+    stbtid dlbss CorfCountfrs {
+        stbtid finbl PfrfCountfr pdt   = nfwPfrfCountfr("sun.dlbsslobdfr.pbrfntDflfgbtionTimf");
+        stbtid finbl PfrfCountfr ld    = nfwPfrfCountfr("sun.dlbsslobdfr.findClbssfs");
+        stbtid finbl PfrfCountfr ldt   = nfwPfrfCountfr("sun.dlbsslobdfr.findClbssTimf");
+        stbtid finbl PfrfCountfr rdbt  = nfwPfrfCountfr("sun.urlClbssLobdfr.rfbdClbssBytfsTimf");
+        stbtid finbl PfrfCountfr zfd   = nfwPfrfCountfr("sun.zip.zipFilfs");
+        stbtid finbl PfrfCountfr zfot  = nfwPfrfCountfr("sun.zip.zipFilf.opfnTimf");
+    }
+
+    stbtid dlbss WindowsClifntCountfrs {
+        stbtid finbl PfrfCountfr d3dAvbilbblf = nfwConstbntPfrfCountfr("sun.jbvb2d.d3d.bvbilbblf");
     }
 
     /**
-     * Time (ns) spent in finding classes that includes
-     * lookup and read class bytes and defineClass
+     * Numbfr of findClbss dblls
      */
-    public static PerfCounter getFindClassTime() {
-        return CoreCounters.lct;
+    publid stbtid PfrfCountfr gftFindClbssfs() {
+        rfturn CorfCountfrs.ld;
     }
 
     /**
-     * Time (ns) spent in finding classes
+     * Timf (ns) spfnt in finding dlbssfs tibt indludfs
+     * lookup bnd rfbd dlbss bytfs bnd dffinfClbss
      */
-    public static PerfCounter getReadClassBytesTime() {
-        return CoreCounters.rcbt;
+    publid stbtid PfrfCountfr gftFindClbssTimf() {
+        rfturn CorfCountfrs.ldt;
     }
 
     /**
-     * Time (ns) spent in the parent delegation to
-     * the parent of the defining class loader
+     * Timf (ns) spfnt in finding dlbssfs
      */
-    public static PerfCounter getParentDelegationTime() {
-        return CoreCounters.pdt;
+    publid stbtid PfrfCountfr gftRfbdClbssBytfsTimf() {
+        rfturn CorfCountfrs.rdbt;
     }
 
     /**
-     * Number of zip files opened.
+     * Timf (ns) spfnt in tif pbrfnt dflfgbtion to
+     * tif pbrfnt of tif dffining dlbss lobdfr
      */
-    public static PerfCounter getZipFileCount() {
-        return CoreCounters.zfc;
+    publid stbtid PfrfCountfr gftPbrfntDflfgbtionTimf() {
+        rfturn CorfCountfrs.pdt;
     }
 
     /**
-     * Time (ns) spent in opening the zip files that
-     * includes building the entries hash table
+     * Numbfr of zip filfs opfnfd.
      */
-    public static PerfCounter getZipFileOpenTime() {
-        return CoreCounters.zfot;
+    publid stbtid PfrfCountfr gftZipFilfCount() {
+        rfturn CorfCountfrs.zfd;
     }
 
     /**
-     * D3D graphic pipeline available
+     * Timf (ns) spfnt in opfning tif zip filfs tibt
+     * indludfs building tif fntrifs ibsi tbblf
      */
-    public static PerfCounter getD3DAvailable() {
-        return WindowsClientCounters.d3dAvailable;
+    publid stbtid PfrfCountfr gftZipFilfOpfnTimf() {
+        rfturn CorfCountfrs.zfot;
+    }
+
+    /**
+     * D3D grbpiid pipflinf bvbilbblf
+     */
+    publid stbtid PfrfCountfr gftD3DAvbilbblf() {
+        rfturn WindowsClifntCountfrs.d3dAvbilbblf;
     }
 }

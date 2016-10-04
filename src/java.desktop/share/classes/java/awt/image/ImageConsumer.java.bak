@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.util.Hashtable;
+import jbvb.util.Hbsitbblf;
 
 
 /**
- * The interface for objects expressing interest in image data through
- * the ImageProducer interfaces.  When a consumer is added to an image
- * producer, the producer delivers all of the data about the image
- * using the method calls defined in this interface.
+ * Tif intfrfbdf for objfdts fxprfssing intfrfst in imbgf dbtb tirougi
+ * tif ImbgfProdudfr intfrfbdfs.  Wifn b donsumfr is bddfd to bn imbgf
+ * produdfr, tif produdfr dflivfrs bll of tif dbtb bbout tif imbgf
+ * using tif mftiod dblls dffinfd in tiis intfrfbdf.
  *
- * @see ImageProducer
+ * @sff ImbgfProdudfr
  *
- * @author      Jim Graham
+ * @butior      Jim Grbibm
  */
-public interface ImageConsumer {
+publid intfrfbdf ImbgfConsumfr {
     /**
-     * The dimensions of the source image are reported using the
-     * setDimensions method call.
-     * @param width the width of the source image
-     * @param height the height of the source image
+     * Tif dimfnsions of tif sourdf imbgf brf rfportfd using tif
+     * sftDimfnsions mftiod dbll.
+     * @pbrbm widti tif widti of tif sourdf imbgf
+     * @pbrbm ifigit tif ifigit of tif sourdf imbgf
      */
-    void setDimensions(int width, int height);
+    void sftDimfnsions(int widti, int ifigit);
 
     /**
-     * Sets the extensible list of properties associated with this image.
-     * @param props the list of properties to be associated with this
-     *        image
+     * Sfts tif fxtfnsiblf list of propfrtifs bssodibtfd witi tiis imbgf.
+     * @pbrbm props tif list of propfrtifs to bf bssodibtfd witi tiis
+     *        imbgf
      */
-    void setProperties(Hashtable<?,?> props);
+    void sftPropfrtifs(Hbsitbblf<?,?> props);
 
     /**
-     * Sets the ColorModel object used for the majority of
-     * the pixels reported using the setPixels method
-     * calls.  Note that each set of pixels delivered using setPixels
-     * contains its own ColorModel object, so no assumption should
-     * be made that this model will be the only one used in delivering
-     * pixel values.  A notable case where multiple ColorModel objects
-     * may be seen is a filtered image when for each set of pixels
-     * that it filters, the filter
-     * determines  whether the
-     * pixels can be sent on untouched, using the original ColorModel,
-     * or whether the pixels should be modified (filtered) and passed
-     * on using a ColorModel more convenient for the filtering process.
-     * @param model the specified <code>ColorModel</code>
-     * @see ColorModel
+     * Sfts tif ColorModfl objfdt usfd for tif mbjority of
+     * tif pixfls rfportfd using tif sftPixfls mftiod
+     * dblls.  Notf tibt fbdi sft of pixfls dflivfrfd using sftPixfls
+     * dontbins its own ColorModfl objfdt, so no bssumption siould
+     * bf mbdf tibt tiis modfl will bf tif only onf usfd in dflivfring
+     * pixfl vblufs.  A notbblf dbsf wifrf multiplf ColorModfl objfdts
+     * mby bf sffn is b filtfrfd imbgf wifn for fbdi sft of pixfls
+     * tibt it filtfrs, tif filtfr
+     * dftfrminfs  wiftifr tif
+     * pixfls dbn bf sfnt on untoudifd, using tif originbl ColorModfl,
+     * or wiftifr tif pixfls siould bf modififd (filtfrfd) bnd pbssfd
+     * on using b ColorModfl morf donvfnifnt for tif filtfring prodfss.
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @sff ColorModfl
      */
-    void setColorModel(ColorModel model);
+    void sftColorModfl(ColorModfl modfl);
 
     /**
-     * Sets the hints that the ImageConsumer uses to process the
-     * pixels delivered by the ImageProducer.
-     * The ImageProducer can deliver the pixels in any order, but
-     * the ImageConsumer may be able to scale or convert the pixels
-     * to the destination ColorModel more efficiently or with higher
-     * quality if it knows some information about how the pixels will
-     * be delivered up front.  The setHints method should be called
-     * before any calls to any of the setPixels methods with a bit mask
-     * of hints about the manner in which the pixels will be delivered.
-     * If the ImageProducer does not follow the guidelines for the
-     * indicated hint, the results are undefined.
-     * @param hintflags a set of hints that the ImageConsumer uses to
-     *        process the pixels
+     * Sfts tif iints tibt tif ImbgfConsumfr usfs to prodfss tif
+     * pixfls dflivfrfd by tif ImbgfProdudfr.
+     * Tif ImbgfProdudfr dbn dflivfr tif pixfls in bny ordfr, but
+     * tif ImbgfConsumfr mby bf bblf to sdblf or donvfrt tif pixfls
+     * to tif dfstinbtion ColorModfl morf fffidifntly or witi iigifr
+     * qublity if it knows somf informbtion bbout iow tif pixfls will
+     * bf dflivfrfd up front.  Tif sftHints mftiod siould bf dbllfd
+     * bfforf bny dblls to bny of tif sftPixfls mftiods witi b bit mbsk
+     * of iints bbout tif mbnnfr in wiidi tif pixfls will bf dflivfrfd.
+     * If tif ImbgfProdudfr dofs not follow tif guidflinfs for tif
+     * indidbtfd iint, tif rfsults brf undffinfd.
+     * @pbrbm iintflbgs b sft of iints tibt tif ImbgfConsumfr usfs to
+     *        prodfss tif pixfls
      */
-    void setHints(int hintflags);
+    void sftHints(int iintflbgs);
 
     /**
-     * The pixels will be delivered in a random order.  This tells the
-     * ImageConsumer not to use any optimizations that depend on the
-     * order of pixel delivery, which should be the default assumption
-     * in the absence of any call to the setHints method.
-     * @see #setHints
+     * Tif pixfls will bf dflivfrfd in b rbndom ordfr.  Tiis tflls tif
+     * ImbgfConsumfr not to usf bny optimizbtions tibt dfpfnd on tif
+     * ordfr of pixfl dflivfry, wiidi siould bf tif dffbult bssumption
+     * in tif bbsfndf of bny dbll to tif sftHints mftiod.
+     * @sff #sftHints
      */
     int RANDOMPIXELORDER = 1;
 
     /**
-     * The pixels will be delivered in top-down, left-to-right order.
-     * @see #setHints
+     * Tif pixfls will bf dflivfrfd in top-down, lfft-to-rigit ordfr.
+     * @sff #sftHints
      */
     int TOPDOWNLEFTRIGHT = 2;
 
     /**
-     * The pixels will be delivered in (multiples of) complete scanlines
-     * at a time.
-     * @see #setHints
+     * Tif pixfls will bf dflivfrfd in (multiplfs of) domplftf sdbnlinfs
+     * bt b timf.
+     * @sff #sftHints
      */
     int COMPLETESCANLINES = 4;
 
     /**
-     * The pixels will be delivered in a single pass.  Each pixel will
-     * appear in only one call to any of the setPixels methods.  An
-     * example of an image format which does not meet this criterion
-     * is a progressive JPEG image which defines pixels in multiple
-     * passes, each more refined than the previous.
-     * @see #setHints
+     * Tif pixfls will bf dflivfrfd in b singlf pbss.  Ebdi pixfl will
+     * bppfbr in only onf dbll to bny of tif sftPixfls mftiods.  An
+     * fxbmplf of bn imbgf formbt wiidi dofs not mfft tiis dritfrion
+     * is b progrfssivf JPEG imbgf wiidi dffinfs pixfls in multiplf
+     * pbssfs, fbdi morf rffinfd tibn tif prfvious.
+     * @sff #sftHints
      */
     int SINGLEPASS = 8;
 
     /**
-     * The image contain a single static image.  The pixels will be defined
-     * in calls to the setPixels methods and then the imageComplete method
-     * will be called with the STATICIMAGEDONE flag after which no more
-     * image data will be delivered.  An example of an image type which
-     * would not meet these criteria would be the output of a video feed,
-     * or the representation of a 3D rendering being manipulated
-     * by the user.  The end of each frame in those types of images will
-     * be indicated by calling imageComplete with the SINGLEFRAMEDONE flag.
-     * @see #setHints
-     * @see #imageComplete
+     * Tif imbgf dontbin b singlf stbtid imbgf.  Tif pixfls will bf dffinfd
+     * in dblls to tif sftPixfls mftiods bnd tifn tif imbgfComplftf mftiod
+     * will bf dbllfd witi tif STATICIMAGEDONE flbg bftfr wiidi no morf
+     * imbgf dbtb will bf dflivfrfd.  An fxbmplf of bn imbgf typf wiidi
+     * would not mfft tifsf dritfrib would bf tif output of b vidfo fffd,
+     * or tif rfprfsfntbtion of b 3D rfndfring bfing mbnipulbtfd
+     * by tif usfr.  Tif fnd of fbdi frbmf in tiosf typfs of imbgfs will
+     * bf indidbtfd by dblling imbgfComplftf witi tif SINGLEFRAMEDONE flbg.
+     * @sff #sftHints
+     * @sff #imbgfComplftf
      */
     int SINGLEFRAME = 16;
 
     /**
-     * Delivers the pixels of the image with one or more calls
-     * to this method.  Each call specifies the location and
-     * size of the rectangle of source pixels that are contained in
-     * the array of pixels.  The specified ColorModel object should
-     * be used to convert the pixels into their corresponding color
-     * and alpha components.  Pixel (m,n) is stored in the pixels array
-     * at index (n * scansize + m + off).  The pixels delivered using
-     * this method are all stored as bytes.
-     * @param x the X coordinate of the upper-left corner of the
-     *        area of pixels to be set
-     * @param y the Y coordinate of the upper-left corner of the
-     *        area of pixels to be set
-     * @param w the width of the area of pixels
-     * @param h the height of the area of pixels
-     * @param model the specified <code>ColorModel</code>
-     * @param pixels the array of pixels
-     * @param off the offset into the <code>pixels</code> array
-     * @param scansize the distance from one row of pixels to the next in
-     * the <code>pixels</code> array
-     * @see ColorModel
+     * Dflivfrs tif pixfls of tif imbgf witi onf or morf dblls
+     * to tiis mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * tiis mftiod brf bll storfd bs bytfs.
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     *        brfb of pixfls to bf sft
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     *        brfb of pixfls to bf sft
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * tif <dodf>pixfls</dodf> brrby
+     * @sff ColorModfl
      */
-    void setPixels(int x, int y, int w, int h,
-                   ColorModel model, byte pixels[], int off, int scansize);
+    void sftPixfls(int x, int y, int w, int i,
+                   ColorModfl modfl, bytf pixfls[], int off, int sdbnsizf);
 
     /**
-     * The pixels of the image are delivered using one or more calls
-     * to the setPixels method.  Each call specifies the location and
-     * size of the rectangle of source pixels that are contained in
-     * the array of pixels.  The specified ColorModel object should
-     * be used to convert the pixels into their corresponding color
-     * and alpha components.  Pixel (m,n) is stored in the pixels array
-     * at index (n * scansize + m + off).  The pixels delivered using
-     * this method are all stored as ints.
-     * this method are all stored as ints.
-     * @param x the X coordinate of the upper-left corner of the
-     *        area of pixels to be set
-     * @param y the Y coordinate of the upper-left corner of the
-     *        area of pixels to be set
-     * @param w the width of the area of pixels
-     * @param h the height of the area of pixels
-     * @param model the specified <code>ColorModel</code>
-     * @param pixels the array of pixels
-     * @param off the offset into the <code>pixels</code> array
-     * @param scansize the distance from one row of pixels to the next in
-     * the <code>pixels</code> array
-     * @see ColorModel
+     * Tif pixfls of tif imbgf brf dflivfrfd using onf or morf dblls
+     * to tif sftPixfls mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * tiis mftiod brf bll storfd bs ints.
+     * tiis mftiod brf bll storfd bs ints.
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     *        brfb of pixfls to bf sft
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     *        brfb of pixfls to bf sft
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * tif <dodf>pixfls</dodf> brrby
+     * @sff ColorModfl
      */
-    void setPixels(int x, int y, int w, int h,
-                   ColorModel model, int pixels[], int off, int scansize);
+    void sftPixfls(int x, int y, int w, int i,
+                   ColorModfl modfl, int pixfls[], int off, int sdbnsizf);
 
     /**
-     * The imageComplete method is called when the ImageProducer is
-     * finished delivering all of the pixels that the source image
-     * contains, or when a single frame of a multi-frame animation has
-     * been completed, or when an error in loading or producing the
-     * image has occurred.  The ImageConsumer should remove itself from the
-     * list of consumers registered with the ImageProducer at this time,
-     * unless it is interested in successive frames.
-     * @param status the status of image loading
-     * @see ImageProducer#removeConsumer
+     * Tif imbgfComplftf mftiod is dbllfd wifn tif ImbgfProdudfr is
+     * finisifd dflivfring bll of tif pixfls tibt tif sourdf imbgf
+     * dontbins, or wifn b singlf frbmf of b multi-frbmf bnimbtion ibs
+     * bffn domplftfd, or wifn bn frror in lobding or produding tif
+     * imbgf ibs oddurrfd.  Tif ImbgfConsumfr siould rfmovf itsflf from tif
+     * list of donsumfrs rfgistfrfd witi tif ImbgfProdudfr bt tiis timf,
+     * unlfss it is intfrfstfd in suddfssivf frbmfs.
+     * @pbrbm stbtus tif stbtus of imbgf lobding
+     * @sff ImbgfProdudfr#rfmovfConsumfr
      */
-    void imageComplete(int status);
+    void imbgfComplftf(int stbtus);
 
     /**
-     * An error was encountered while producing the image.
-     * @see #imageComplete
+     * An frror wbs fndountfrfd wiilf produding tif imbgf.
+     * @sff #imbgfComplftf
      */
     int IMAGEERROR = 1;
 
     /**
-     * One frame of the image is complete but there are more frames
-     * to be delivered.
-     * @see #imageComplete
+     * Onf frbmf of tif imbgf is domplftf but tifrf brf morf frbmfs
+     * to bf dflivfrfd.
+     * @sff #imbgfComplftf
      */
     int SINGLEFRAMEDONE = 2;
 
     /**
-     * The image is complete and there are no more pixels or frames
-     * to be delivered.
-     * @see #imageComplete
+     * Tif imbgf is domplftf bnd tifrf brf no morf pixfls or frbmfs
+     * to bf dflivfrfd.
+     * @sff #imbgfComplftf
      */
     int STATICIMAGEDONE = 3;
 
     /**
-     * The image creation process was deliberately aborted.
-     * @see #imageComplete
+     * Tif imbgf drfbtion prodfss wbs dflibfrbtfly bbortfd.
+     * @sff #imbgfComplftf
      */
     int IMAGEABORTED = 4;
 }

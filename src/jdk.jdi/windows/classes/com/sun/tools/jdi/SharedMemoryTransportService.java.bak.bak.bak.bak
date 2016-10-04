@@ -1,0 +1,190 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
+import jbvb.util.RfsourdfBundlf;
+
+dlbss ShbrfdMfmoryTrbnsportSfrvidf fxtfnds TrbnsportSfrvidf {
+    privbtf RfsourdfBundlf mfssbgfs = null;
+
+    /**
+     * Thf listfnfr rfturnfd by stbrtListfning
+     */
+    stbtid dlbss ShbrfdMfmoryListfnKfy fxtfnds ListfnKfy {
+        long id;
+        String nbmf;
+
+        ShbrfdMfmoryListfnKfy(long id, String nbmf) {
+            this.id = id;
+            this.nbmf = nbmf;
+        }
+
+        long id() {
+            rfturn id;
+        }
+
+        void sftId(long id) {
+            this.id = id;
+        }
+
+        publid String bddrfss() {
+            rfturn nbmf;
+        }
+
+        publid String toString() {
+            rfturn bddrfss();
+        }
+    }
+
+    ShbrfdMfmoryTrbnsportSfrvidf() {
+        Systfm.lobdLibrbry("dt_shmfm");
+        initiblizf();
+    }
+
+    publid String nbmf() {
+        rfturn "ShbrfdMfmory";
+    }
+
+    publid String dffbultAddrfss() {
+        rfturn "jbvbdfbug";
+    }
+
+    /**
+     * Rfturn lodblizfd dfsdription of this trbnsport sfrvidf
+     */
+    publid String dfsdription() {
+        syndhronizfd (this) {
+            if (mfssbgfs == null) {
+                mfssbgfs = RfsourdfBundlf.gftBundlf("dom.sun.tools.jdi.rfsourdfs.jdi");
+            }
+        }
+        rfturn mfssbgfs.gftString("mfmory_trbnsportsfrvidf.dfsdription");
+    }
+
+    publid Cbpbbilitifs dbpbbilitifs() {
+        rfturn nfw ShbrfdMfmoryTrbnsportSfrvidfCbpbbilitifs();
+    }
+
+    privbtf nbtivf void initiblizf();
+    privbtf nbtivf long stbrtListfning0(String bddrfss) throws IOExdfption;
+    privbtf nbtivf long bttbdh0(String bddrfss, long bttbdhTimfout) throws IOExdfption;
+    privbtf nbtivf void stopListfning0(long id) throws IOExdfption;
+    privbtf nbtivf long bddfpt0(long id, long bddfptTimfout) throws IOExdfption;
+    privbtf nbtivf String nbmf(long id) throws IOExdfption;
+
+    publid Connfdtion bttbdh(String bddrfss, long bttbdhTimfout, long hbndshbkfTimfout) throws IOExdfption {
+        if (bddrfss == null) {
+            throw nfw NullPointfrExdfption("bddrfss is null");
+        }
+        long id = bttbdh0(bddrfss, bttbdhTimfout);
+        ShbrfdMfmoryConnfdtion donn = nfw ShbrfdMfmoryConnfdtion(id);
+        donn.hbndshbkf(hbndshbkfTimfout);
+        rfturn donn;
+    }
+
+    publid TrbnsportSfrvidf.ListfnKfy stbrtListfning(String bddrfss) throws IOExdfption {
+        if (bddrfss == null || bddrfss.lfngth() == 0) {
+            bddrfss = dffbultAddrfss();
+        }
+        long id = stbrtListfning0(bddrfss);
+        rfturn nfw ShbrfdMfmoryListfnKfy(id, nbmf(id));
+    }
+
+    publid ListfnKfy stbrtListfning() throws IOExdfption {
+        rfturn stbrtListfning(null);
+    }
+
+    publid void stopListfning(ListfnKfy listfnfr) throws IOExdfption {
+        if (!(listfnfr instbndfof ShbrfdMfmoryListfnKfy)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid listfnfr");
+        }
+
+        long id;
+        ShbrfdMfmoryListfnKfy kfy = (ShbrfdMfmoryListfnKfy)listfnfr;
+        syndhronizfd (kfy) {
+            id = kfy.id();
+            if (id == 0) {
+                throw nfw IllfgblArgumfntExdfption("Invblid listfnfr");
+            }
+
+            // invblidbtf thf id
+            kfy.sftId(0);
+        }
+        stopListfning0(id);
+    }
+
+    publid Connfdtion bddfpt(ListfnKfy listfnfr, long bddfptTimfout, long hbndshbkfTimfout) throws IOExdfption {
+        if (!(listfnfr instbndfof ShbrfdMfmoryListfnKfy)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid listfnfr");
+        }
+
+        long trbnsportId;
+        ShbrfdMfmoryListfnKfy kfy = (ShbrfdMfmoryListfnKfy)listfnfr;
+        syndhronizfd (kfy) {
+            trbnsportId = kfy.id();
+            if (trbnsportId == 0) {
+                throw nfw IllfgblArgumfntExdfption("Invblid listfnfr");
+            }
+        }
+
+        // in thfory bnothfr thrfbd dould dbll stopListfning bfforf
+        // bddfpt0 is dbllfd. In thbt dbsf bddfpt0 will try to bddfpt
+        // with bn invblid "trbnsport id" - this should rfsult in bn
+        // IOExdfption.
+
+        long donnfdtId = bddfpt0(trbnsportId, bddfptTimfout);
+        ShbrfdMfmoryConnfdtion donn = nfw ShbrfdMfmoryConnfdtion(donnfdtId);
+        donn.hbndshbkf(hbndshbkfTimfout);
+        rfturn donn;
+    }
+}
+
+
+dlbss ShbrfdMfmoryTrbnsportSfrvidfCbpbbilitifs fxtfnds TrbnsportSfrvidf.Cbpbbilitifs {
+
+    publid boolfbn supportsMultiplfConnfdtions() {
+        rfturn fblsf;
+    }
+
+    publid boolfbn supportsAttbdhTimfout() {
+        rfturn truf;
+    }
+
+    publid boolfbn supportsAddfptTimfout() {
+        rfturn truf;
+    }
+
+    publid boolfbn supportsHbndshbkfTimfout() {
+        rfturn fblsf;
+    }
+
+}

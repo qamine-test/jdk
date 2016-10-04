@@ -1,562 +1,562 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.zip;
+pbdkbgf jbvb.util.zip;
 
-import static java.util.zip.ZipUtils.*;
-import java.nio.file.attribute.FileTime;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import stbtid jbvb.util.zip.ZipUtils.*;
+import jbvb.nio.filf.bttributf.FilfTimf;
+import jbvb.util.Objfdts;
+import jbvb.util.dondurrfnt.TimfUnit;
 
-import static java.util.zip.ZipConstants64.*;
+import stbtid jbvb.util.zip.ZipConstbnts64.*;
 
 /**
- * This class is used to represent a ZIP file entry.
+ * Tiis dlbss is usfd to rfprfsfnt b ZIP filf fntry.
  *
- * @author      David Connelly
+ * @butior      Dbvid Connflly
  */
-public
-class ZipEntry implements ZipConstants, Cloneable {
+publid
+dlbss ZipEntry implfmfnts ZipConstbnts, Clonfbblf {
 
-    String name;        // entry name
-    long time = -1;     // last modification time
-    FileTime mtime;     // last modification time, from extra field data
-    FileTime atime;     // last access time, from extra field data
-    FileTime ctime;     // creation time, from extra field data
-    long crc = -1;      // crc-32 of entry data
-    long size = -1;     // uncompressed size of entry data
-    long csize = -1;    // compressed size of entry data
-    int method = -1;    // compression method
-    int flag = 0;       // general purpose flag
-    byte[] extra;       // optional extra field data for entry
-    String comment;     // optional comment string for entry
+    String nbmf;        // fntry nbmf
+    long timf = -1;     // lbst modifidbtion timf
+    FilfTimf mtimf;     // lbst modifidbtion timf, from fxtrb fifld dbtb
+    FilfTimf btimf;     // lbst bddfss timf, from fxtrb fifld dbtb
+    FilfTimf dtimf;     // drfbtion timf, from fxtrb fifld dbtb
+    long drd = -1;      // drd-32 of fntry dbtb
+    long sizf = -1;     // undomprfssfd sizf of fntry dbtb
+    long dsizf = -1;    // domprfssfd sizf of fntry dbtb
+    int mftiod = -1;    // domprfssion mftiod
+    int flbg = 0;       // gfnfrbl purposf flbg
+    bytf[] fxtrb;       // optionbl fxtrb fifld dbtb for fntry
+    String dommfnt;     // optionbl dommfnt string for fntry
 
     /**
-     * Compression method for uncompressed entries.
+     * Comprfssion mftiod for undomprfssfd fntrifs.
      */
-    public static final int STORED = 0;
+    publid stbtid finbl int STORED = 0;
 
     /**
-     * Compression method for compressed (deflated) entries.
+     * Comprfssion mftiod for domprfssfd (dfflbtfd) fntrifs.
      */
-    public static final int DEFLATED = 8;
+    publid stbtid finbl int DEFLATED = 8;
 
     /**
-     * Creates a new zip entry with the specified name.
+     * Crfbtfs b nfw zip fntry witi tif spfdififd nbmf.
      *
-     * @param  name
-     *         The entry name
+     * @pbrbm  nbmf
+     *         Tif fntry nbmf
      *
-     * @throws NullPointerException if the entry name is null
-     * @throws IllegalArgumentException if the entry name is longer than
-     *         0xFFFF bytes
+     * @tirows NullPointfrExdfption if tif fntry nbmf is null
+     * @tirows IllfgblArgumfntExdfption if tif fntry nbmf is longfr tibn
+     *         0xFFFF bytfs
      */
-    public ZipEntry(String name) {
-        Objects.requireNonNull(name, "name");
-        if (name.length() > 0xFFFF) {
-            throw new IllegalArgumentException("entry name too long");
+    publid ZipEntry(String nbmf) {
+        Objfdts.rfquirfNonNull(nbmf, "nbmf");
+        if (nbmf.lfngti() > 0xFFFF) {
+            tirow nfw IllfgblArgumfntExdfption("fntry nbmf too long");
         }
-        this.name = name;
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Creates a new zip entry with fields taken from the specified
-     * zip entry.
+     * Crfbtfs b nfw zip fntry witi fiflds tbkfn from tif spfdififd
+     * zip fntry.
      *
-     * @param  e
-     *         A zip Entry object
+     * @pbrbm  f
+     *         A zip Entry objfdt
      *
-     * @throws NullPointerException if the entry object is null
+     * @tirows NullPointfrExdfption if tif fntry objfdt is null
      */
-    public ZipEntry(ZipEntry e) {
-        Objects.requireNonNull(e, "entry");
-        name = e.name;
-        time = e.time;
-        mtime = e.mtime;
-        atime = e.atime;
-        ctime = e.ctime;
-        crc = e.crc;
-        size = e.size;
-        csize = e.csize;
-        method = e.method;
-        flag = e.flag;
-        extra = e.extra;
-        comment = e.comment;
+    publid ZipEntry(ZipEntry f) {
+        Objfdts.rfquirfNonNull(f, "fntry");
+        nbmf = f.nbmf;
+        timf = f.timf;
+        mtimf = f.mtimf;
+        btimf = f.btimf;
+        dtimf = f.dtimf;
+        drd = f.drd;
+        sizf = f.sizf;
+        dsizf = f.dsizf;
+        mftiod = f.mftiod;
+        flbg = f.flbg;
+        fxtrb = f.fxtrb;
+        dommfnt = f.dommfnt;
     }
 
     /**
-     * Creates a new un-initialized zip entry
+     * Crfbtfs b nfw un-initiblizfd zip fntry
      */
     ZipEntry() {}
 
     /**
-     * Returns the name of the entry.
-     * @return the name of the entry
+     * Rfturns tif nbmf of tif fntry.
+     * @rfturn tif nbmf of tif fntry
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Sets the last modification time of the entry.
+     * Sfts tif lbst modifidbtion timf of tif fntry.
      *
-     * <p> If the entry is output to a ZIP file or ZIP file formatted
-     * output stream the last modification time set by this method will
-     * be stored into the {@code date and time fields} of the zip file
-     * entry and encoded in standard {@code MS-DOS date and time format}.
-     * The {@link java.util.TimeZone#getDefault() default TimeZone} is
-     * used to convert the epoch time to the MS-DOS data and time.
+     * <p> If tif fntry is output to b ZIP filf or ZIP filf formbttfd
+     * output strfbm tif lbst modifidbtion timf sft by tiis mftiod will
+     * bf storfd into tif {@dodf dbtf bnd timf fiflds} of tif zip filf
+     * fntry bnd fndodfd in stbndbrd {@dodf MS-DOS dbtf bnd timf formbt}.
+     * Tif {@link jbvb.util.TimfZonf#gftDffbult() dffbult TimfZonf} is
+     * usfd to donvfrt tif fpodi timf to tif MS-DOS dbtb bnd timf.
      *
-     * @param  time
-     *         The last modification time of the entry in milliseconds
-     *         since the epoch
+     * @pbrbm  timf
+     *         Tif lbst modifidbtion timf of tif fntry in millisfdonds
+     *         sindf tif fpodi
      *
-     * @see #getTime()
-     * @see #getLastModifiedTime()
+     * @sff #gftTimf()
+     * @sff #gftLbstModififdTimf()
      */
-    public void setTime(long time) {
-        this.time = time;
-        this.mtime = null;
+    publid void sftTimf(long timf) {
+        tiis.timf = timf;
+        tiis.mtimf = null;
     }
 
     /**
-     * Returns the last modification time of the entry.
+     * Rfturns tif lbst modifidbtion timf of tif fntry.
      *
-     * <p> If the entry is read from a ZIP file or ZIP file formatted
-     * input stream, this is the last modification time from the {@code
-     * date and time fields} of the zip file entry. The
-     * {@link java.util.TimeZone#getDefault() default TimeZone} is used
-     * to convert the standard MS-DOS formatted date and time to the
-     * epoch time.
+     * <p> If tif fntry is rfbd from b ZIP filf or ZIP filf formbttfd
+     * input strfbm, tiis is tif lbst modifidbtion timf from tif {@dodf
+     * dbtf bnd timf fiflds} of tif zip filf fntry. Tif
+     * {@link jbvb.util.TimfZonf#gftDffbult() dffbult TimfZonf} is usfd
+     * to donvfrt tif stbndbrd MS-DOS formbttfd dbtf bnd timf to tif
+     * fpodi timf.
      *
-     * @return  The last modification time of the entry in milliseconds
-     *          since the epoch, or -1 if not specified
+     * @rfturn  Tif lbst modifidbtion timf of tif fntry in millisfdonds
+     *          sindf tif fpodi, or -1 if not spfdififd
      *
-     * @see #setTime(long)
-     * @see #setLastModifiedTime(FileTime)
+     * @sff #sftTimf(long)
+     * @sff #sftLbstModififdTimf(FilfTimf)
      */
-    public long getTime() {
-        return time;
+    publid long gftTimf() {
+        rfturn timf;
     }
 
     /**
-     * Sets the last modification time of the entry.
+     * Sfts tif lbst modifidbtion timf of tif fntry.
      *
-     * <p> When output to a ZIP file or ZIP file formatted output stream
-     * the last modification time set by this method will be stored into
-     * zip file entry's {@code date and time fields} in {@code standard
-     * MS-DOS date and time format}), and the extended timestamp fields
-     * in {@code optional extra data} in UTC time.
+     * <p> Wifn output to b ZIP filf or ZIP filf formbttfd output strfbm
+     * tif lbst modifidbtion timf sft by tiis mftiod will bf storfd into
+     * zip filf fntry's {@dodf dbtf bnd timf fiflds} in {@dodf stbndbrd
+     * MS-DOS dbtf bnd timf formbt}), bnd tif fxtfndfd timfstbmp fiflds
+     * in {@dodf optionbl fxtrb dbtb} in UTC timf.
      *
-     * @param  time
-     *         The last modification time of the entry
-     * @return This zip entry
+     * @pbrbm  timf
+     *         Tif lbst modifidbtion timf of tif fntry
+     * @rfturn Tiis zip fntry
      *
-     * @throws NullPointerException if the {@code time} is null
+     * @tirows NullPointfrExdfption if tif {@dodf timf} is null
      *
-     * @see #getLastModifiedTime()
-     * @since 1.8
+     * @sff #gftLbstModififdTimf()
+     * @sindf 1.8
      */
-    public ZipEntry setLastModifiedTime(FileTime time) {
-        Objects.requireNonNull(name, "time");
-        this.mtime = time;
-        this.time = time.to(TimeUnit.MILLISECONDS);
-        return this;
+    publid ZipEntry sftLbstModififdTimf(FilfTimf timf) {
+        Objfdts.rfquirfNonNull(nbmf, "timf");
+        tiis.mtimf = timf;
+        tiis.timf = timf.to(TimfUnit.MILLISECONDS);
+        rfturn tiis;
     }
 
     /**
-     * Returns the last modification time of the entry.
+     * Rfturns tif lbst modifidbtion timf of tif fntry.
      *
-     * <p> If the entry is read from a ZIP file or ZIP file formatted
-     * input stream, this is the last modification time from the zip
-     * file entry's {@code optional extra data} if the extended timestamp
-     * fields are present. Otherwise the last modification time is read
-     * from the entry's {@code date and time fields}, the {@link
-     * java.util.TimeZone#getDefault() default TimeZone} is used to convert
-     * the standard MS-DOS formatted date and time to the epoch time.
+     * <p> If tif fntry is rfbd from b ZIP filf or ZIP filf formbttfd
+     * input strfbm, tiis is tif lbst modifidbtion timf from tif zip
+     * filf fntry's {@dodf optionbl fxtrb dbtb} if tif fxtfndfd timfstbmp
+     * fiflds brf prfsfnt. Otifrwisf tif lbst modifidbtion timf is rfbd
+     * from tif fntry's {@dodf dbtf bnd timf fiflds}, tif {@link
+     * jbvb.util.TimfZonf#gftDffbult() dffbult TimfZonf} is usfd to donvfrt
+     * tif stbndbrd MS-DOS formbttfd dbtf bnd timf to tif fpodi timf.
      *
-     * @return The last modification time of the entry, null if not specified
+     * @rfturn Tif lbst modifidbtion timf of tif fntry, null if not spfdififd
      *
-     * @see #setLastModifiedTime(FileTime)
-     * @since 1.8
+     * @sff #sftLbstModififdTimf(FilfTimf)
+     * @sindf 1.8
      */
-    public FileTime getLastModifiedTime() {
-        if (mtime != null)
-            return mtime;
-        if (time == -1)
-            return null;
-        return FileTime.from(time, TimeUnit.MILLISECONDS);
+    publid FilfTimf gftLbstModififdTimf() {
+        if (mtimf != null)
+            rfturn mtimf;
+        if (timf == -1)
+            rfturn null;
+        rfturn FilfTimf.from(timf, TimfUnit.MILLISECONDS);
     }
 
     /**
-     * Sets the last access time of the entry.
+     * Sfts tif lbst bddfss timf of tif fntry.
      *
-     * <p> If set, the last access time will be stored into the extended
-     * timestamp fields of entry's {@code optional extra data}, when output
-     * to a ZIP file or ZIP file formatted stream.
+     * <p> If sft, tif lbst bddfss timf will bf storfd into tif fxtfndfd
+     * timfstbmp fiflds of fntry's {@dodf optionbl fxtrb dbtb}, wifn output
+     * to b ZIP filf or ZIP filf formbttfd strfbm.
      *
-     * @param  time
-     *         The last access time of the entry
-     * @return This zip entry
+     * @pbrbm  timf
+     *         Tif lbst bddfss timf of tif fntry
+     * @rfturn Tiis zip fntry
      *
-     * @throws NullPointerException if the {@code time} is null
+     * @tirows NullPointfrExdfption if tif {@dodf timf} is null
      *
-     * @see #getLastAccessTime()
-     * @since 1.8
+     * @sff #gftLbstAddfssTimf()
+     * @sindf 1.8
      */
-    public ZipEntry setLastAccessTime(FileTime time) {
-        Objects.requireNonNull(name, "time");
-        this.atime = time;
-        return this;
+    publid ZipEntry sftLbstAddfssTimf(FilfTimf timf) {
+        Objfdts.rfquirfNonNull(nbmf, "timf");
+        tiis.btimf = timf;
+        rfturn tiis;
     }
 
     /**
-     * Returns the last access time of the entry.
+     * Rfturns tif lbst bddfss timf of tif fntry.
      *
-     * <p> The last access time is from the extended timestamp fields
-     * of entry's {@code optional extra data} when read from a ZIP file
-     * or ZIP file formatted stream.
+     * <p> Tif lbst bddfss timf is from tif fxtfndfd timfstbmp fiflds
+     * of fntry's {@dodf optionbl fxtrb dbtb} wifn rfbd from b ZIP filf
+     * or ZIP filf formbttfd strfbm.
      *
-     * @return The last access time of the entry, null if not specified
+     * @rfturn Tif lbst bddfss timf of tif fntry, null if not spfdififd
 
-     * @see #setLastAccessTime(FileTime)
-     * @since 1.8
+     * @sff #sftLbstAddfssTimf(FilfTimf)
+     * @sindf 1.8
      */
-    public FileTime getLastAccessTime() {
-        return atime;
+    publid FilfTimf gftLbstAddfssTimf() {
+        rfturn btimf;
     }
 
     /**
-     * Sets the creation time of the entry.
+     * Sfts tif drfbtion timf of tif fntry.
      *
-     * <p> If set, the creation time will be stored into the extended
-     * timestamp fields of entry's {@code optional extra data}, when
-     * output to a ZIP file or ZIP file formatted stream.
+     * <p> If sft, tif drfbtion timf will bf storfd into tif fxtfndfd
+     * timfstbmp fiflds of fntry's {@dodf optionbl fxtrb dbtb}, wifn
+     * output to b ZIP filf or ZIP filf formbttfd strfbm.
      *
-     * @param  time
-     *         The creation time of the entry
-     * @return This zip entry
+     * @pbrbm  timf
+     *         Tif drfbtion timf of tif fntry
+     * @rfturn Tiis zip fntry
      *
-     * @throws NullPointerException if the {@code time} is null
+     * @tirows NullPointfrExdfption if tif {@dodf timf} is null
      *
-     * @see #getCreationTime()
-     * @since 1.8
+     * @sff #gftCrfbtionTimf()
+     * @sindf 1.8
      */
-    public ZipEntry setCreationTime(FileTime time) {
-        Objects.requireNonNull(name, "time");
-        this.ctime = time;
-        return this;
+    publid ZipEntry sftCrfbtionTimf(FilfTimf timf) {
+        Objfdts.rfquirfNonNull(nbmf, "timf");
+        tiis.dtimf = timf;
+        rfturn tiis;
     }
 
     /**
-     * Returns the creation time of the entry.
+     * Rfturns tif drfbtion timf of tif fntry.
      *
-     * <p> The creation time is from the extended timestamp fields of
-     * entry's {@code optional extra data} when read from a ZIP file
-     * or ZIP file formatted stream.
+     * <p> Tif drfbtion timf is from tif fxtfndfd timfstbmp fiflds of
+     * fntry's {@dodf optionbl fxtrb dbtb} wifn rfbd from b ZIP filf
+     * or ZIP filf formbttfd strfbm.
      *
-     * @return the creation time of the entry, null if not specified
-     * @see #setCreationTime(FileTime)
-     * @since 1.8
+     * @rfturn tif drfbtion timf of tif fntry, null if not spfdififd
+     * @sff #sftCrfbtionTimf(FilfTimf)
+     * @sindf 1.8
      */
-    public FileTime getCreationTime() {
-        return ctime;
+    publid FilfTimf gftCrfbtionTimf() {
+        rfturn dtimf;
     }
 
     /**
-     * Sets the uncompressed size of the entry data.
+     * Sfts tif undomprfssfd sizf of tif fntry dbtb.
      *
-     * @param size the uncompressed size in bytes
+     * @pbrbm sizf tif undomprfssfd sizf in bytfs
      *
-     * @throws IllegalArgumentException if the specified size is less
-     *         than 0, is greater than 0xFFFFFFFF when
-     *         <a href="package-summary.html#zip64">ZIP64 format</a> is not supported,
-     *         or is less than 0 when ZIP64 is supported
-     * @see #getSize()
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd sizf is lfss
+     *         tibn 0, is grfbtfr tibn 0xFFFFFFFF wifn
+     *         <b irff="pbdkbgf-summbry.itml#zip64">ZIP64 formbt</b> is not supportfd,
+     *         or is lfss tibn 0 wifn ZIP64 is supportfd
+     * @sff #gftSizf()
      */
-    public void setSize(long size) {
-        if (size < 0) {
-            throw new IllegalArgumentException("invalid entry size");
+    publid void sftSizf(long sizf) {
+        if (sizf < 0) {
+            tirow nfw IllfgblArgumfntExdfption("invblid fntry sizf");
         }
-        this.size = size;
+        tiis.sizf = sizf;
     }
 
     /**
-     * Returns the uncompressed size of the entry data.
+     * Rfturns tif undomprfssfd sizf of tif fntry dbtb.
      *
-     * @return the uncompressed size of the entry data, or -1 if not known
-     * @see #setSize(long)
+     * @rfturn tif undomprfssfd sizf of tif fntry dbtb, or -1 if not known
+     * @sff #sftSizf(long)
      */
-    public long getSize() {
-        return size;
+    publid long gftSizf() {
+        rfturn sizf;
     }
 
     /**
-     * Returns the size of the compressed entry data.
+     * Rfturns tif sizf of tif domprfssfd fntry dbtb.
      *
-     * <p> In the case of a stored entry, the compressed size will be the same
-     * as the uncompressed size of the entry.
+     * <p> In tif dbsf of b storfd fntry, tif domprfssfd sizf will bf tif sbmf
+     * bs tif undomprfssfd sizf of tif fntry.
      *
-     * @return the size of the compressed entry data, or -1 if not known
-     * @see #setCompressedSize(long)
+     * @rfturn tif sizf of tif domprfssfd fntry dbtb, or -1 if not known
+     * @sff #sftComprfssfdSizf(long)
      */
-    public long getCompressedSize() {
-        return csize;
+    publid long gftComprfssfdSizf() {
+        rfturn dsizf;
     }
 
     /**
-     * Sets the size of the compressed entry data.
+     * Sfts tif sizf of tif domprfssfd fntry dbtb.
      *
-     * @param csize the compressed size to set to
+     * @pbrbm dsizf tif domprfssfd sizf to sft to
      *
-     * @see #getCompressedSize()
+     * @sff #gftComprfssfdSizf()
      */
-    public void setCompressedSize(long csize) {
-        this.csize = csize;
+    publid void sftComprfssfdSizf(long dsizf) {
+        tiis.dsizf = dsizf;
     }
 
     /**
-     * Sets the CRC-32 checksum of the uncompressed entry data.
+     * Sfts tif CRC-32 difdksum of tif undomprfssfd fntry dbtb.
      *
-     * @param crc the CRC-32 value
+     * @pbrbm drd tif CRC-32 vbluf
      *
-     * @throws IllegalArgumentException if the specified CRC-32 value is
-     *         less than 0 or greater than 0xFFFFFFFF
-     * @see #getCrc()
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd CRC-32 vbluf is
+     *         lfss tibn 0 or grfbtfr tibn 0xFFFFFFFF
+     * @sff #gftCrd()
      */
-    public void setCrc(long crc) {
-        if (crc < 0 || crc > 0xFFFFFFFFL) {
-            throw new IllegalArgumentException("invalid entry crc-32");
+    publid void sftCrd(long drd) {
+        if (drd < 0 || drd > 0xFFFFFFFFL) {
+            tirow nfw IllfgblArgumfntExdfption("invblid fntry drd-32");
         }
-        this.crc = crc;
+        tiis.drd = drd;
     }
 
     /**
-     * Returns the CRC-32 checksum of the uncompressed entry data.
+     * Rfturns tif CRC-32 difdksum of tif undomprfssfd fntry dbtb.
      *
-     * @return the CRC-32 checksum of the uncompressed entry data, or -1 if
+     * @rfturn tif CRC-32 difdksum of tif undomprfssfd fntry dbtb, or -1 if
      * not known
      *
-     * @see #setCrc(long)
+     * @sff #sftCrd(long)
      */
-    public long getCrc() {
-        return crc;
+    publid long gftCrd() {
+        rfturn drd;
     }
 
     /**
-     * Sets the compression method for the entry.
+     * Sfts tif domprfssion mftiod for tif fntry.
      *
-     * @param method the compression method, either STORED or DEFLATED
+     * @pbrbm mftiod tif domprfssion mftiod, fitifr STORED or DEFLATED
      *
-     * @throws  IllegalArgumentException if the specified compression
-     *          method is invalid
-     * @see #getMethod()
+     * @tirows  IllfgblArgumfntExdfption if tif spfdififd domprfssion
+     *          mftiod is invblid
+     * @sff #gftMftiod()
      */
-    public void setMethod(int method) {
-        if (method != STORED && method != DEFLATED) {
-            throw new IllegalArgumentException("invalid compression method");
+    publid void sftMftiod(int mftiod) {
+        if (mftiod != STORED && mftiod != DEFLATED) {
+            tirow nfw IllfgblArgumfntExdfption("invblid domprfssion mftiod");
         }
-        this.method = method;
+        tiis.mftiod = mftiod;
     }
 
     /**
-     * Returns the compression method of the entry.
+     * Rfturns tif domprfssion mftiod of tif fntry.
      *
-     * @return the compression method of the entry, or -1 if not specified
-     * @see #setMethod(int)
+     * @rfturn tif domprfssion mftiod of tif fntry, or -1 if not spfdififd
+     * @sff #sftMftiod(int)
      */
-    public int getMethod() {
-        return method;
+    publid int gftMftiod() {
+        rfturn mftiod;
     }
 
     /**
-     * Sets the optional extra field data for the entry.
+     * Sfts tif optionbl fxtrb fifld dbtb for tif fntry.
      *
-     * <p> Invoking this method may change this entry's last modification
-     * time, last access time and creation time, if the {@code extra} field
-     * data includes the extensible timestamp fields, such as {@code NTFS tag
-     * 0x0001} or {@code Info-ZIP Extended Timestamp}, as specified in
-     * <a href="http://www.info-zip.org/doc/appnote-19970311-iz.zip">Info-ZIP
-     * Application Note 970311</a>.
+     * <p> Invoking tiis mftiod mby dibngf tiis fntry's lbst modifidbtion
+     * timf, lbst bddfss timf bnd drfbtion timf, if tif {@dodf fxtrb} fifld
+     * dbtb indludfs tif fxtfnsiblf timfstbmp fiflds, sudi bs {@dodf NTFS tbg
+     * 0x0001} or {@dodf Info-ZIP Extfndfd Timfstbmp}, bs spfdififd in
+     * <b irff="ittp://www.info-zip.org/dod/bppnotf-19970311-iz.zip">Info-ZIP
+     * Applidbtion Notf 970311</b>.
      *
-     * @param  extra
-     *         The extra field data bytes
+     * @pbrbm  fxtrb
+     *         Tif fxtrb fifld dbtb bytfs
      *
-     * @throws IllegalArgumentException if the length of the specified
-     *         extra field data is greater than 0xFFFF bytes
+     * @tirows IllfgblArgumfntExdfption if tif lfngti of tif spfdififd
+     *         fxtrb fifld dbtb is grfbtfr tibn 0xFFFF bytfs
      *
-     * @see #getExtra()
+     * @sff #gftExtrb()
      */
-    public void setExtra(byte[] extra) {
-        setExtra0(extra, false);
+    publid void sftExtrb(bytf[] fxtrb) {
+        sftExtrb0(fxtrb, fblsf);
     }
 
     /**
-     * Sets the optional extra field data for the entry.
+     * Sfts tif optionbl fxtrb fifld dbtb for tif fntry.
      *
-     * @param extra
-     *        the extra field data bytes
-     * @param doZIP64
-     *        if true, set size and csize from ZIP64 fields if present
+     * @pbrbm fxtrb
+     *        tif fxtrb fifld dbtb bytfs
+     * @pbrbm doZIP64
+     *        if truf, sft sizf bnd dsizf from ZIP64 fiflds if prfsfnt
      */
-    void setExtra0(byte[] extra, boolean doZIP64) {
-        if (extra != null) {
-            if (extra.length > 0xFFFF) {
-                throw new IllegalArgumentException("invalid extra field length");
+    void sftExtrb0(bytf[] fxtrb, boolfbn doZIP64) {
+        if (fxtrb != null) {
+            if (fxtrb.lfngti > 0xFFFF) {
+                tirow nfw IllfgblArgumfntExdfption("invblid fxtrb fifld lfngti");
             }
-            // extra fields are in "HeaderID(2)DataSize(2)Data... format
+            // fxtrb fiflds brf in "HfbdfrID(2)DbtbSizf(2)Dbtb... formbt
             int off = 0;
-            int len = extra.length;
-            while (off + 4 < len) {
-                int tag = get16(extra, off);
-                int sz = get16(extra, off + 2);
+            int lfn = fxtrb.lfngti;
+            wiilf (off + 4 < lfn) {
+                int tbg = gft16(fxtrb, off);
+                int sz = gft16(fxtrb, off + 2);
                 off += 4;
-                if (off + sz > len)         // invalid data
-                    break;
-                switch (tag) {
-                case EXTID_ZIP64:
+                if (off + sz > lfn)         // invblid dbtb
+                    brfbk;
+                switdi (tbg) {
+                dbsf EXTID_ZIP64:
                     if (doZIP64) {
-                        // LOC extra zip64 entry MUST include BOTH original
-                        // and compressed file size fields.
-                        // If invalid zip64 extra fields, simply skip. Even
-                        // it's rare, it's possible the entry size happens to
-                        // be the magic value and it "accidently" has some
-                        // bytes in extra match the id.
+                        // LOC fxtrb zip64 fntry MUST indludf BOTH originbl
+                        // bnd domprfssfd filf sizf fiflds.
+                        // If invblid zip64 fxtrb fiflds, simply skip. Evfn
+                        // it's rbrf, it's possiblf tif fntry sizf ibppfns to
+                        // bf tif mbgid vbluf bnd it "bddidfntly" ibs somf
+                        // bytfs in fxtrb mbtdi tif id.
                         if (sz >= 16) {
-                            size = get64(extra, off);
-                            csize = get64(extra, off + 8);
+                            sizf = gft64(fxtrb, off);
+                            dsizf = gft64(fxtrb, off + 8);
                         }
                     }
-                    break;
-                case EXTID_NTFS:
-                    int pos = off + 4;               // reserved 4 bytes
-                    if (get16(extra, pos) !=  0x0001 || get16(extra, pos + 2) != 24)
-                        break;
-                    mtime = winTimeToFileTime(get64(extra, pos + 4));
-                    atime = winTimeToFileTime(get64(extra, pos + 12));
-                    ctime = winTimeToFileTime(get64(extra, pos + 20));
-                    break;
-                case EXTID_EXTT:
-                    int flag = Byte.toUnsignedInt(extra[off]);
+                    brfbk;
+                dbsf EXTID_NTFS:
+                    int pos = off + 4;               // rfsfrvfd 4 bytfs
+                    if (gft16(fxtrb, pos) !=  0x0001 || gft16(fxtrb, pos + 2) != 24)
+                        brfbk;
+                    mtimf = winTimfToFilfTimf(gft64(fxtrb, pos + 4));
+                    btimf = winTimfToFilfTimf(gft64(fxtrb, pos + 12));
+                    dtimf = winTimfToFilfTimf(gft64(fxtrb, pos + 20));
+                    brfbk;
+                dbsf EXTID_EXTT:
+                    int flbg = Bytf.toUnsignfdInt(fxtrb[off]);
                     int sz0 = 1;
-                    // The CEN-header extra field contains the modification
-                    // time only, or no timestamp at all. 'sz' is used to
-                    // flag its presence or absence. But if mtime is present
-                    // in LOC it must be present in CEN as well.
-                    if ((flag & 0x1) != 0 && (sz0 + 4) <= sz) {
-                        mtime = unixTimeToFileTime(get32(extra, off + sz0));
+                    // Tif CEN-ifbdfr fxtrb fifld dontbins tif modifidbtion
+                    // timf only, or no timfstbmp bt bll. 'sz' is usfd to
+                    // flbg its prfsfndf or bbsfndf. But if mtimf is prfsfnt
+                    // in LOC it must bf prfsfnt in CEN bs wfll.
+                    if ((flbg & 0x1) != 0 && (sz0 + 4) <= sz) {
+                        mtimf = unixTimfToFilfTimf(gft32(fxtrb, off + sz0));
                         sz0 += 4;
                     }
-                    if ((flag & 0x2) != 0 && (sz0 + 4) <= sz) {
-                        atime = unixTimeToFileTime(get32(extra, off + sz0));
+                    if ((flbg & 0x2) != 0 && (sz0 + 4) <= sz) {
+                        btimf = unixTimfToFilfTimf(gft32(fxtrb, off + sz0));
                         sz0 += 4;
                     }
-                    if ((flag & 0x4) != 0 && (sz0 + 4) <= sz) {
-                        ctime = unixTimeToFileTime(get32(extra, off + sz0));
+                    if ((flbg & 0x4) != 0 && (sz0 + 4) <= sz) {
+                        dtimf = unixTimfToFilfTimf(gft32(fxtrb, off + sz0));
                         sz0 += 4;
                     }
-                    break;
-                 default:
+                    brfbk;
+                 dffbult:
                 }
                 off += sz;
             }
         }
-        this.extra = extra;
+        tiis.fxtrb = fxtrb;
     }
 
     /**
-     * Returns the extra field data for the entry.
+     * Rfturns tif fxtrb fifld dbtb for tif fntry.
      *
-     * @return the extra field data for the entry, or null if none
+     * @rfturn tif fxtrb fifld dbtb for tif fntry, or null if nonf
      *
-     * @see #setExtra(byte[])
+     * @sff #sftExtrb(bytf[])
      */
-    public byte[] getExtra() {
-        return extra;
+    publid bytf[] gftExtrb() {
+        rfturn fxtrb;
     }
 
     /**
-     * Sets the optional comment string for the entry.
+     * Sfts tif optionbl dommfnt string for tif fntry.
      *
-     * <p>ZIP entry comments have maximum length of 0xffff. If the length of the
-     * specified comment string is greater than 0xFFFF bytes after encoding, only
-     * the first 0xFFFF bytes are output to the ZIP file entry.
+     * <p>ZIP fntry dommfnts ibvf mbximum lfngti of 0xffff. If tif lfngti of tif
+     * spfdififd dommfnt string is grfbtfr tibn 0xFFFF bytfs bftfr fndoding, only
+     * tif first 0xFFFF bytfs brf output to tif ZIP filf fntry.
      *
-     * @param comment the comment string
+     * @pbrbm dommfnt tif dommfnt string
      *
-     * @see #getComment()
+     * @sff #gftCommfnt()
      */
-    public void setComment(String comment) {
-        this.comment = comment;
+    publid void sftCommfnt(String dommfnt) {
+        tiis.dommfnt = dommfnt;
     }
 
     /**
-     * Returns the comment string for the entry.
+     * Rfturns tif dommfnt string for tif fntry.
      *
-     * @return the comment string for the entry, or null if none
+     * @rfturn tif dommfnt string for tif fntry, or null if nonf
      *
-     * @see #setComment(String)
+     * @sff #sftCommfnt(String)
      */
-    public String getComment() {
-        return comment;
+    publid String gftCommfnt() {
+        rfturn dommfnt;
     }
 
     /**
-     * Returns true if this is a directory entry. A directory entry is
-     * defined to be one whose name ends with a '/'.
-     * @return true if this is a directory entry
+     * Rfturns truf if tiis is b dirfdtory fntry. A dirfdtory fntry is
+     * dffinfd to bf onf wiosf nbmf fnds witi b '/'.
+     * @rfturn truf if tiis is b dirfdtory fntry
      */
-    public boolean isDirectory() {
-        return name.endsWith("/");
+    publid boolfbn isDirfdtory() {
+        rfturn nbmf.fndsWiti("/");
     }
 
     /**
-     * Returns a string representation of the ZIP entry.
+     * Rfturns b string rfprfsfntbtion of tif ZIP fntry.
      */
-    public String toString() {
-        return getName();
+    publid String toString() {
+        rfturn gftNbmf();
     }
 
     /**
-     * Returns the hash code value for this entry.
+     * Rfturns tif ibsi dodf vbluf for tiis fntry.
      */
-    public int hashCode() {
-        return name.hashCode();
+    publid int ibsiCodf() {
+        rfturn nbmf.ibsiCodf();
     }
 
     /**
-     * Returns a copy of this entry.
+     * Rfturns b dopy of tiis fntry.
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            ZipEntry e = (ZipEntry)super.clone();
-            e.extra = (extra == null) ? null : extra.clone();
-            return e;
-        } catch (CloneNotSupportedException e) {
-            // This should never happen, since we are Cloneable
-            throw new InternalError(e);
+            ZipEntry f = (ZipEntry)supfr.dlonf();
+            f.fxtrb = (fxtrb == null) ? null : fxtrb.dlonf();
+            rfturn f;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // Tiis siould nfvfr ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError(f);
         }
     }
 }

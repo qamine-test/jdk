@@ -1,283 +1,283 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.text.View;
-import sun.swing.SwingUtilities2;
-import sun.awt.AppContext;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.Vifw;
+import sun.swing.SwingUtilitifs2;
+import sun.bwt.AppContfxt;
 
 
 /**
- * RadioButtonUI implementation for BasicRadioButtonUI
+ * RbdioButtonUI implfmfntbtion for BbsidRbdioButtonUI
  *
- * @author Jeff Dinkins
+ * @butior Jfff Dinkins
  */
-public class BasicRadioButtonUI extends BasicToggleButtonUI
+publid dlbss BbsidRbdioButtonUI fxtfnds BbsidTogglfButtonUI
 {
-    private static final Object BASIC_RADIO_BUTTON_UI_KEY = new Object();
+    privbtf stbtid finbl Objfdt BASIC_RADIO_BUTTON_UI_KEY = nfw Objfdt();
 
     /**
-     * The icon.
+     * Tif idon.
      */
-    protected Icon icon;
+    protfdtfd Idon idon;
 
-    private boolean defaults_initialized = false;
+    privbtf boolfbn dffbults_initiblizfd = fblsf;
 
-    private final static String propertyPrefix = "RadioButton" + ".";
+    privbtf finbl stbtid String propfrtyPrffix = "RbdioButton" + ".";
 
     // ********************************
-    //        Create PLAF
+    //        Crfbtf PLAF
     // ********************************
 
     /**
-     * Returns an instance of {@code BasicRadioButtonUI}.
+     * Rfturns bn instbndf of {@dodf BbsidRbdioButtonUI}.
      *
-     * @param b a component
-     * @return an instance of {@code BasicRadioButtonUI}
+     * @pbrbm b b domponfnt
+     * @rfturn bn instbndf of {@dodf BbsidRbdioButtonUI}
      */
-    public static ComponentUI createUI(JComponent b) {
-        AppContext appContext = AppContext.getAppContext();
-        BasicRadioButtonUI radioButtonUI =
-                (BasicRadioButtonUI) appContext.get(BASIC_RADIO_BUTTON_UI_KEY);
-        if (radioButtonUI == null) {
-            radioButtonUI = new BasicRadioButtonUI();
-            appContext.put(BASIC_RADIO_BUTTON_UI_KEY, radioButtonUI);
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt b) {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        BbsidRbdioButtonUI rbdioButtonUI =
+                (BbsidRbdioButtonUI) bppContfxt.gft(BASIC_RADIO_BUTTON_UI_KEY);
+        if (rbdioButtonUI == null) {
+            rbdioButtonUI = nfw BbsidRbdioButtonUI();
+            bppContfxt.put(BASIC_RADIO_BUTTON_UI_KEY, rbdioButtonUI);
         }
-        return radioButtonUI;
+        rfturn rbdioButtonUI;
     }
 
-    protected String getPropertyPrefix() {
-        return propertyPrefix;
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn propfrtyPrffix;
     }
 
     // ********************************
-    //        Install PLAF
+    //        Instbll PLAF
     // ********************************
-    protected void installDefaults(AbstractButton b){
-        super.installDefaults(b);
-        if(!defaults_initialized) {
-            icon = UIManager.getIcon(getPropertyPrefix() + "icon");
-            defaults_initialized = true;
+    protfdtfd void instbllDffbults(AbstrbdtButton b){
+        supfr.instbllDffbults(b);
+        if(!dffbults_initiblizfd) {
+            idon = UIMbnbgfr.gftIdon(gftPropfrtyPrffix() + "idon");
+            dffbults_initiblizfd = truf;
         }
     }
 
     // ********************************
-    //        Uninstall PLAF
+    //        Uninstbll PLAF
     // ********************************
-    protected void uninstallDefaults(AbstractButton b){
-        super.uninstallDefaults(b);
-        defaults_initialized = false;
+    protfdtfd void uninstbllDffbults(AbstrbdtButton b){
+        supfr.uninstbllDffbults(b);
+        dffbults_initiblizfd = fblsf;
     }
 
     /**
-     * Returns the default icon.
+     * Rfturns tif dffbult idon.
      *
-     * @return the default icon
+     * @rfturn tif dffbult idon
      */
-    public Icon getDefaultIcon() {
-        return icon;
+    publid Idon gftDffbultIdon() {
+        rfturn idon;
     }
 
 
-    /* These Dimensions/Rectangles are allocated once for all
-     * RadioButtonUI.paint() calls.  Re-using rectangles
-     * rather than allocating them in each paint call substantially
-     * reduced the time it took paint to run.  Obviously, this
-     * method can't be re-entered.
+    /* Tifsf Dimfnsions/Rfdtbnglfs brf bllodbtfd ondf for bll
+     * RbdioButtonUI.pbint() dblls.  Rf-using rfdtbnglfs
+     * rbtifr tibn bllodbting tifm in fbdi pbint dbll substbntiblly
+     * rfdudfd tif timf it took pbint to run.  Obviously, tiis
+     * mftiod dbn't bf rf-fntfrfd.
      */
-    private static Dimension size = new Dimension();
-    private static Rectangle viewRect = new Rectangle();
-    private static Rectangle iconRect = new Rectangle();
-    private static Rectangle textRect = new Rectangle();
+    privbtf stbtid Dimfnsion sizf = nfw Dimfnsion();
+    privbtf stbtid Rfdtbnglf vifwRfdt = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf idonRfdt = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf tfxtRfdt = nfw Rfdtbnglf();
 
     /**
-     * paint the radio button
+     * pbint tif rbdio button
      */
-    public synchronized void paint(Graphics g, JComponent c) {
-        AbstractButton b = (AbstractButton) c;
-        ButtonModel model = b.getModel();
+    publid syndironizfd void pbint(Grbpiids g, JComponfnt d) {
+        AbstrbdtButton b = (AbstrbdtButton) d;
+        ButtonModfl modfl = b.gftModfl();
 
-        Font f = c.getFont();
-        g.setFont(f);
-        FontMetrics fm = SwingUtilities2.getFontMetrics(c, g, f);
+        Font f = d.gftFont();
+        g.sftFont(f);
+        FontMftrids fm = SwingUtilitifs2.gftFontMftrids(d, g, f);
 
-        Insets i = c.getInsets();
-        size = b.getSize(size);
-        viewRect.x = i.left;
-        viewRect.y = i.top;
-        viewRect.width = size.width - (i.right + viewRect.x);
-        viewRect.height = size.height - (i.bottom + viewRect.y);
-        iconRect.x = iconRect.y = iconRect.width = iconRect.height = 0;
-        textRect.x = textRect.y = textRect.width = textRect.height = 0;
+        Insfts i = d.gftInsfts();
+        sizf = b.gftSizf(sizf);
+        vifwRfdt.x = i.lfft;
+        vifwRfdt.y = i.top;
+        vifwRfdt.widti = sizf.widti - (i.rigit + vifwRfdt.x);
+        vifwRfdt.ifigit = sizf.ifigit - (i.bottom + vifwRfdt.y);
+        idonRfdt.x = idonRfdt.y = idonRfdt.widti = idonRfdt.ifigit = 0;
+        tfxtRfdt.x = tfxtRfdt.y = tfxtRfdt.widti = tfxtRfdt.ifigit = 0;
 
-        Icon altIcon = b.getIcon();
-        Icon selectedIcon = null;
-        Icon disabledIcon = null;
+        Idon bltIdon = b.gftIdon();
+        Idon sflfdtfdIdon = null;
+        Idon disbblfdIdon = null;
 
-        String text = SwingUtilities.layoutCompoundLabel(
-            c, fm, b.getText(), altIcon != null ? altIcon : getDefaultIcon(),
-            b.getVerticalAlignment(), b.getHorizontalAlignment(),
-            b.getVerticalTextPosition(), b.getHorizontalTextPosition(),
-            viewRect, iconRect, textRect,
-            b.getText() == null ? 0 : b.getIconTextGap());
+        String tfxt = SwingUtilitifs.lbyoutCompoundLbbfl(
+            d, fm, b.gftTfxt(), bltIdon != null ? bltIdon : gftDffbultIdon(),
+            b.gftVfrtidblAlignmfnt(), b.gftHorizontblAlignmfnt(),
+            b.gftVfrtidblTfxtPosition(), b.gftHorizontblTfxtPosition(),
+            vifwRfdt, idonRfdt, tfxtRfdt,
+            b.gftTfxt() == null ? 0 : b.gftIdonTfxtGbp());
 
-        // fill background
-        if(c.isOpaque()) {
-            g.setColor(b.getBackground());
-            g.fillRect(0,0, size.width, size.height);
+        // fill bbdkground
+        if(d.isOpbquf()) {
+            g.sftColor(b.gftBbdkground());
+            g.fillRfdt(0,0, sizf.widti, sizf.ifigit);
         }
 
 
-        // Paint the radio button
-        if(altIcon != null) {
+        // Pbint tif rbdio button
+        if(bltIdon != null) {
 
-            if(!model.isEnabled()) {
-                if(model.isSelected()) {
-                   altIcon = b.getDisabledSelectedIcon();
-                } else {
-                   altIcon = b.getDisabledIcon();
+            if(!modfl.isEnbblfd()) {
+                if(modfl.isSflfdtfd()) {
+                   bltIdon = b.gftDisbblfdSflfdtfdIdon();
+                } flsf {
+                   bltIdon = b.gftDisbblfdIdon();
                 }
-            } else if(model.isPressed() && model.isArmed()) {
-                altIcon = b.getPressedIcon();
-                if(altIcon == null) {
-                    // Use selected icon
-                    altIcon = b.getSelectedIcon();
+            } flsf if(modfl.isPrfssfd() && modfl.isArmfd()) {
+                bltIdon = b.gftPrfssfdIdon();
+                if(bltIdon == null) {
+                    // Usf sflfdtfd idon
+                    bltIdon = b.gftSflfdtfdIdon();
                 }
-            } else if(model.isSelected()) {
-                if(b.isRolloverEnabled() && model.isRollover()) {
-                        altIcon = b.getRolloverSelectedIcon();
-                        if (altIcon == null) {
-                                altIcon = b.getSelectedIcon();
+            } flsf if(modfl.isSflfdtfd()) {
+                if(b.isRollovfrEnbblfd() && modfl.isRollovfr()) {
+                        bltIdon = b.gftRollovfrSflfdtfdIdon();
+                        if (bltIdon == null) {
+                                bltIdon = b.gftSflfdtfdIdon();
                         }
-                } else {
-                        altIcon = b.getSelectedIcon();
+                } flsf {
+                        bltIdon = b.gftSflfdtfdIdon();
                 }
-            } else if(b.isRolloverEnabled() && model.isRollover()) {
-                altIcon = b.getRolloverIcon();
+            } flsf if(b.isRollovfrEnbblfd() && modfl.isRollovfr()) {
+                bltIdon = b.gftRollovfrIdon();
             }
 
-            if(altIcon == null) {
-                altIcon = b.getIcon();
+            if(bltIdon == null) {
+                bltIdon = b.gftIdon();
             }
 
-            altIcon.paintIcon(c, g, iconRect.x, iconRect.y);
+            bltIdon.pbintIdon(d, g, idonRfdt.x, idonRfdt.y);
 
-        } else {
-            getDefaultIcon().paintIcon(c, g, iconRect.x, iconRect.y);
+        } flsf {
+            gftDffbultIdon().pbintIdon(d, g, idonRfdt.x, idonRfdt.y);
         }
 
 
-        // Draw the Text
-        if(text != null) {
-            View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+        // Drbw tif Tfxt
+        if(tfxt != null) {
+            Vifw v = (Vifw) d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
             if (v != null) {
-                v.paint(g, textRect);
-            } else {
-                paintText(g, b, textRect, text);
+                v.pbint(g, tfxtRfdt);
+            } flsf {
+                pbintTfxt(g, b, tfxtRfdt, tfxt);
             }
-            if(b.hasFocus() && b.isFocusPainted() &&
-               textRect.width > 0 && textRect.height > 0 ) {
-                paintFocus(g, textRect, size);
+            if(b.ibsFodus() && b.isFodusPbintfd() &&
+               tfxtRfdt.widti > 0 && tfxtRfdt.ifigit > 0 ) {
+                pbintFodus(g, tfxtRfdt, sizf);
             }
         }
     }
 
     /**
-     * Paints focused radio button.
+     * Pbints fodusfd rbdio button.
      *
-     * @param g an instance of {@code Graphics}
-     * @param textRect bounds
-     * @param size the size of radio button
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm tfxtRfdt bounds
+     * @pbrbm sizf tif sizf of rbdio button
      */
-    protected void paintFocus(Graphics g, Rectangle textRect, Dimension size){
+    protfdtfd void pbintFodus(Grbpiids g, Rfdtbnglf tfxtRfdt, Dimfnsion sizf){
     }
 
 
-    /* These Insets/Rectangles are allocated once for all
-     * RadioButtonUI.getPreferredSize() calls.  Re-using rectangles
-     * rather than allocating them in each call substantially
-     * reduced the time it took getPreferredSize() to run.  Obviously,
-     * this method can't be re-entered.
+    /* Tifsf Insfts/Rfdtbnglfs brf bllodbtfd ondf for bll
+     * RbdioButtonUI.gftPrfffrrfdSizf() dblls.  Rf-using rfdtbnglfs
+     * rbtifr tibn bllodbting tifm in fbdi dbll substbntiblly
+     * rfdudfd tif timf it took gftPrfffrrfdSizf() to run.  Obviously,
+     * tiis mftiod dbn't bf rf-fntfrfd.
      */
-    private static Rectangle prefViewRect = new Rectangle();
-    private static Rectangle prefIconRect = new Rectangle();
-    private static Rectangle prefTextRect = new Rectangle();
-    private static Insets prefInsets = new Insets(0, 0, 0, 0);
+    privbtf stbtid Rfdtbnglf prffVifwRfdt = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf prffIdonRfdt = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf prffTfxtRfdt = nfw Rfdtbnglf();
+    privbtf stbtid Insfts prffInsfts = nfw Insfts(0, 0, 0, 0);
 
     /**
-     * The preferred size of the radio button
+     * Tif prfffrrfd sizf of tif rbdio button
      */
-    public Dimension getPreferredSize(JComponent c) {
-        if(c.getComponentCount() > 0) {
-            return null;
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        if(d.gftComponfntCount() > 0) {
+            rfturn null;
         }
 
-        AbstractButton b = (AbstractButton) c;
+        AbstrbdtButton b = (AbstrbdtButton) d;
 
-        String text = b.getText();
+        String tfxt = b.gftTfxt();
 
-        Icon buttonIcon = b.getIcon();
-        if(buttonIcon == null) {
-            buttonIcon = getDefaultIcon();
+        Idon buttonIdon = b.gftIdon();
+        if(buttonIdon == null) {
+            buttonIdon = gftDffbultIdon();
         }
 
-        Font font = b.getFont();
-        FontMetrics fm = b.getFontMetrics(font);
+        Font font = b.gftFont();
+        FontMftrids fm = b.gftFontMftrids(font);
 
-        prefViewRect.x = prefViewRect.y = 0;
-        prefViewRect.width = Short.MAX_VALUE;
-        prefViewRect.height = Short.MAX_VALUE;
-        prefIconRect.x = prefIconRect.y = prefIconRect.width = prefIconRect.height = 0;
-        prefTextRect.x = prefTextRect.y = prefTextRect.width = prefTextRect.height = 0;
+        prffVifwRfdt.x = prffVifwRfdt.y = 0;
+        prffVifwRfdt.widti = Siort.MAX_VALUE;
+        prffVifwRfdt.ifigit = Siort.MAX_VALUE;
+        prffIdonRfdt.x = prffIdonRfdt.y = prffIdonRfdt.widti = prffIdonRfdt.ifigit = 0;
+        prffTfxtRfdt.x = prffTfxtRfdt.y = prffTfxtRfdt.widti = prffTfxtRfdt.ifigit = 0;
 
-        SwingUtilities.layoutCompoundLabel(
-            c, fm, text, buttonIcon,
-            b.getVerticalAlignment(), b.getHorizontalAlignment(),
-            b.getVerticalTextPosition(), b.getHorizontalTextPosition(),
-            prefViewRect, prefIconRect, prefTextRect,
-            text == null ? 0 : b.getIconTextGap());
+        SwingUtilitifs.lbyoutCompoundLbbfl(
+            d, fm, tfxt, buttonIdon,
+            b.gftVfrtidblAlignmfnt(), b.gftHorizontblAlignmfnt(),
+            b.gftVfrtidblTfxtPosition(), b.gftHorizontblTfxtPosition(),
+            prffVifwRfdt, prffIdonRfdt, prffTfxtRfdt,
+            tfxt == null ? 0 : b.gftIdonTfxtGbp());
 
-        // find the union of the icon and text rects (from Rectangle.java)
-        int x1 = Math.min(prefIconRect.x, prefTextRect.x);
-        int x2 = Math.max(prefIconRect.x + prefIconRect.width,
-                          prefTextRect.x + prefTextRect.width);
-        int y1 = Math.min(prefIconRect.y, prefTextRect.y);
-        int y2 = Math.max(prefIconRect.y + prefIconRect.height,
-                          prefTextRect.y + prefTextRect.height);
-        int width = x2 - x1;
-        int height = y2 - y1;
+        // find tif union of tif idon bnd tfxt rfdts (from Rfdtbnglf.jbvb)
+        int x1 = Mbti.min(prffIdonRfdt.x, prffTfxtRfdt.x);
+        int x2 = Mbti.mbx(prffIdonRfdt.x + prffIdonRfdt.widti,
+                          prffTfxtRfdt.x + prffTfxtRfdt.widti);
+        int y1 = Mbti.min(prffIdonRfdt.y, prffTfxtRfdt.y);
+        int y2 = Mbti.mbx(prffIdonRfdt.y + prffIdonRfdt.ifigit,
+                          prffTfxtRfdt.y + prffTfxtRfdt.ifigit);
+        int widti = x2 - x1;
+        int ifigit = y2 - y1;
 
-        prefInsets = b.getInsets(prefInsets);
-        width += prefInsets.left + prefInsets.right;
-        height += prefInsets.top + prefInsets.bottom;
-        return new Dimension(width, height);
+        prffInsfts = b.gftInsfts(prffInsfts);
+        widti += prffInsfts.lfft + prffInsfts.rigit;
+        ifigit += prffInsfts.top + prffInsfts.bottom;
+        rfturn nfw Dimfnsion(widti, ifigit);
     }
 }

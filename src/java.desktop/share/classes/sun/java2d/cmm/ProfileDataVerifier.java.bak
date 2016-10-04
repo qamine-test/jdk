@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.cmm;
+pbdkbgf sun.jbvb2d.dmm;
 
-public class ProfileDataVerifier {
+publid dlbss ProfilfDbtbVfrififr {
     /**
-     * Throws an IllegalArgumentException if the data does not correspond
-     * to a valid ICC Profile.
+     * Tirows bn IllfgblArgumfntExdfption if tif dbtb dofs not dorrfspond
+     * to b vblid ICC Profilf.
      *
-     * @param data the specified profile data.
+     * @pbrbm dbtb tif spfdififd profilf dbtb.
      */
-    public static void verify(byte[] data) {
-        if (data == null) {
-            throw new IllegalArgumentException("Invalid ICC Profile Data");
+    publid stbtid void vfrify(bytf[] dbtb) {
+        if (dbtb == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid ICC Profilf Dbtb");
         }
 
-        if (data.length < TOC_OFFSET) {
-            // not enough data for profile header
-            throw new IllegalArgumentException("Invalid ICC Profile Data");
+        if (dbtb.lfngti < TOC_OFFSET) {
+            // not fnougi dbtb for profilf ifbdfr
+            tirow nfw IllfgblArgumfntExdfption("Invblid ICC Profilf Dbtb");
         }
 
-        // check profile size
-        final int size = readInt32(data, 0);
-        final int tagCount = readInt32(data, HEADER_SIZE);
+        // difdk profilf sizf
+        finbl int sizf = rfbdInt32(dbtb, 0);
+        finbl int tbgCount = rfbdInt32(dbtb, HEADER_SIZE);
 
-        if (tagCount < 0 || tagCount > MAX_TAG_COUNT) {
-            throw new IllegalArgumentException("Invalid ICC Profile Data");
+        if (tbgCount < 0 || tbgCount > MAX_TAG_COUNT) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid ICC Profilf Dbtb");
         }
 
-        if (size < (TOC_OFFSET + (tagCount * TOC_RECORD_SIZE)) ||
-            size > data.length)
+        if (sizf < (TOC_OFFSET + (tbgCount * TOC_RECORD_SIZE)) ||
+            sizf > dbtb.lfngti)
         {
-            throw new IllegalArgumentException("Invalid ICC Profile Data");
+            tirow nfw IllfgblArgumfntExdfption("Invblid ICC Profilf Dbtb");
         }
 
-        final int sig = readInt32(data, 36);
+        finbl int sig = rfbdInt32(dbtb, 36);
 
         if (PROFILE_FILE_SIGNATURE != sig) {
-            throw new IllegalArgumentException("Invalid ICC Profile Data");
+            tirow nfw IllfgblArgumfntExdfption("Invblid ICC Profilf Dbtb");
         }
 
-        // verify table of content
-        for (int i = 0; i < tagCount; i++) {
-            final int tag_offset = getTagOffset(i, data);
-            final int tag_size = getTagSize(i, data);
+        // vfrify tbblf of dontfnt
+        for (int i = 0; i < tbgCount; i++) {
+            finbl int tbg_offsft = gftTbgOffsft(i, dbtb);
+            finbl int tbg_sizf = gftTbgSizf(i, dbtb);
 
-            if (tag_offset < TOC_OFFSET || tag_offset > size) {
-                throw new IllegalArgumentException("Invalid ICC Profile Data");
+            if (tbg_offsft < TOC_OFFSET || tbg_offsft > sizf) {
+                tirow nfw IllfgblArgumfntExdfption("Invblid ICC Profilf Dbtb");
             }
 
-            if (tag_size < 0 ||
-                tag_size > (Integer.MAX_VALUE - tag_offset) ||
-                tag_size + tag_offset > size)
+            if (tbg_sizf < 0 ||
+                tbg_sizf > (Intfgfr.MAX_VALUE - tbg_offsft) ||
+                tbg_sizf + tbg_offsft > sizf)
             {
-                throw new IllegalArgumentException("Invalid ICC Profile Data");
+                tirow nfw IllfgblArgumfntExdfption("Invblid ICC Profilf Dbtb");
             }
         }
     }
 
-    private static int getTagOffset(int idx, byte[] data) {
-        final int pos = TOC_OFFSET + idx * TOC_RECORD_SIZE + 4;
-        return readInt32(data, pos);
+    privbtf stbtid int gftTbgOffsft(int idx, bytf[] dbtb) {
+        finbl int pos = TOC_OFFSET + idx * TOC_RECORD_SIZE + 4;
+        rfturn rfbdInt32(dbtb, pos);
     }
 
-    private static int getTagSize(int idx, byte[] data) {
-        final int pos = TOC_OFFSET + idx * TOC_RECORD_SIZE + 8;
-        return readInt32(data, pos);
+    privbtf stbtid int gftTbgSizf(int idx, bytf[] dbtb) {
+        finbl int pos = TOC_OFFSET + idx * TOC_RECORD_SIZE + 8;
+        rfturn rfbdInt32(dbtb, pos);
     }
 
-    private static int readInt32(byte[] data, int off) {
-        int res = 0;
+    privbtf stbtid int rfbdInt32(bytf[] dbtb, int off) {
+        int rfs = 0;
         for (int i = 0; i < 4; i++) {
-            res = res << 8;
+            rfs = rfs << 8;
 
-            res |= (0xff & data[off++]);
+            rfs |= (0xff & dbtb[off++]);
         }
-        return res;
+        rfturn rfs;
     }
 
     /**
-     * Lcms limit for the number of tags: 100
-     * Kcms limit for the number of tags: N/A
+     * Ldms limit for tif numbfr of tbgs: 100
+     * Kdms limit for tif numbfr of tbgs: N/A
      */
-    private static final int MAX_TAG_COUNT = 100;
+    privbtf stbtid finbl int MAX_TAG_COUNT = 100;
 
-    private static final int HEADER_SIZE = 128;
-    private static final int TOC_OFFSET = HEADER_SIZE + 4;
-    private static final int TOC_RECORD_SIZE = 12;
+    privbtf stbtid finbl int HEADER_SIZE = 128;
+    privbtf stbtid finbl int TOC_OFFSET = HEADER_SIZE + 4;
+    privbtf stbtid finbl int TOC_RECORD_SIZE = 12;
 
-    private static final int PROFILE_FILE_SIGNATURE = 0x61637370;
+    privbtf stbtid finbl int PROFILE_FILE_SIGNATURE = 0x61637370;
 }

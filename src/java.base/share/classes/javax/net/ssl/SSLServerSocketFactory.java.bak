@@ -1,200 +1,200 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.SocketException;
-import javax.net.ServerSocketFactory;
-import java.security.*;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.SodkftExdfption;
+import jbvbx.nft.SfrvfrSodkftFbdtory;
+import jbvb.sfdurity.*;
 
 /**
- * <code>SSLServerSocketFactory</code>s create
- * <code>SSLServerSocket</code>s.
+ * <dodf>SSLSfrvfrSodkftFbdtory</dodf>s drfbtf
+ * <dodf>SSLSfrvfrSodkft</dodf>s.
  *
- * @since 1.4
- * @see SSLSocket
- * @see SSLServerSocket
- * @author David Brownell
+ * @sindf 1.4
+ * @sff SSLSodkft
+ * @sff SSLSfrvfrSodkft
+ * @butior Dbvid Brownfll
  */
-public abstract class SSLServerSocketFactory extends ServerSocketFactory
+publid bbstrbdt dlbss SSLSfrvfrSodkftFbdtory fxtfnds SfrvfrSodkftFbdtory
 {
-    private static SSLServerSocketFactory theFactory;
+    privbtf stbtid SSLSfrvfrSodkftFbdtory tifFbdtory;
 
-    private static boolean propertyChecked;
+    privbtf stbtid boolfbn propfrtyCifdkfd;
 
-    private static void log(String msg) {
-        if (SSLSocketFactory.DEBUG) {
-            System.out.println(msg);
+    privbtf stbtid void log(String msg) {
+        if (SSLSodkftFbdtory.DEBUG) {
+            Systfm.out.println(msg);
         }
     }
 
     /**
-     * Constructor is used only by subclasses.
+     * Construdtor is usfd only by subdlbssfs.
      */
-    protected SSLServerSocketFactory() { /* NOTHING */ }
+    protfdtfd SSLSfrvfrSodkftFbdtory() { /* NOTHING */ }
 
     /**
-     * Returns the default SSL server socket factory.
+     * Rfturns tif dffbult SSL sfrvfr sodkft fbdtory.
      *
-     * <p>The first time this method is called, the security property
-     * "ssl.ServerSocketFactory.provider" is examined. If it is non-null, a
-     * class by that name is loaded and instantiated. If that is successful and
-     * the object is an instance of SSLServerSocketFactory, it is made the
-     * default SSL server socket factory.
+     * <p>Tif first timf tiis mftiod is dbllfd, tif sfdurity propfrty
+     * "ssl.SfrvfrSodkftFbdtory.providfr" is fxbminfd. If it is non-null, b
+     * dlbss by tibt nbmf is lobdfd bnd instbntibtfd. If tibt is suddfssful bnd
+     * tif objfdt is bn instbndf of SSLSfrvfrSodkftFbdtory, it is mbdf tif
+     * dffbult SSL sfrvfr sodkft fbdtory.
      *
-     * <p>Otherwise, this method returns
-     * <code>SSLContext.getDefault().getServerSocketFactory()</code>. If that
-     * call fails, an inoperative factory is returned.
+     * <p>Otifrwisf, tiis mftiod rfturns
+     * <dodf>SSLContfxt.gftDffbult().gftSfrvfrSodkftFbdtory()</dodf>. If tibt
+     * dbll fbils, bn inopfrbtivf fbdtory is rfturnfd.
      *
-     * @return the default <code>ServerSocketFactory</code>
-     * @see SSLContext#getDefault
+     * @rfturn tif dffbult <dodf>SfrvfrSodkftFbdtory</dodf>
+     * @sff SSLContfxt#gftDffbult
      */
-    public static synchronized ServerSocketFactory getDefault() {
-        if (theFactory != null) {
-            return theFactory;
+    publid stbtid syndironizfd SfrvfrSodkftFbdtory gftDffbult() {
+        if (tifFbdtory != null) {
+            rfturn tifFbdtory;
         }
 
-        if (propertyChecked == false) {
-            propertyChecked = true;
-            String clsName = SSLSocketFactory.getSecurityProperty
-                                        ("ssl.ServerSocketFactory.provider");
-            if (clsName != null) {
-                log("setting up default SSLServerSocketFactory");
+        if (propfrtyCifdkfd == fblsf) {
+            propfrtyCifdkfd = truf;
+            String dlsNbmf = SSLSodkftFbdtory.gftSfdurityPropfrty
+                                        ("ssl.SfrvfrSodkftFbdtory.providfr");
+            if (dlsNbmf != null) {
+                log("sftting up dffbult SSLSfrvfrSodkftFbdtory");
                 try {
-                    Class<?> cls = null;
+                    Clbss<?> dls = null;
                     try {
-                        cls = Class.forName(clsName);
-                    } catch (ClassNotFoundException e) {
-                        ClassLoader cl = ClassLoader.getSystemClassLoader();
-                        if (cl != null) {
-                            cls = cl.loadClass(clsName);
+                        dls = Clbss.forNbmf(dlsNbmf);
+                    } dbtdi (ClbssNotFoundExdfption f) {
+                        ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                        if (dl != null) {
+                            dls = dl.lobdClbss(dlsNbmf);
                         }
                     }
-                    log("class " + clsName + " is loaded");
-                    SSLServerSocketFactory fac = (SSLServerSocketFactory)cls.newInstance();
-                    log("instantiated an instance of class " + clsName);
-                    theFactory = fac;
-                    return fac;
-                } catch (Exception e) {
-                    log("SSLServerSocketFactory instantiation failed: " + e);
-                    theFactory = new DefaultSSLServerSocketFactory(e);
-                    return theFactory;
+                    log("dlbss " + dlsNbmf + " is lobdfd");
+                    SSLSfrvfrSodkftFbdtory fbd = (SSLSfrvfrSodkftFbdtory)dls.nfwInstbndf();
+                    log("instbntibtfd bn instbndf of dlbss " + dlsNbmf);
+                    tifFbdtory = fbd;
+                    rfturn fbd;
+                } dbtdi (Exdfption f) {
+                    log("SSLSfrvfrSodkftFbdtory instbntibtion fbilfd: " + f);
+                    tifFbdtory = nfw DffbultSSLSfrvfrSodkftFbdtory(f);
+                    rfturn tifFbdtory;
                 }
             }
         }
 
         try {
-            return SSLContext.getDefault().getServerSocketFactory();
-        } catch (NoSuchAlgorithmException e) {
-            return new DefaultSSLServerSocketFactory(e);
+            rfturn SSLContfxt.gftDffbult().gftSfrvfrSodkftFbdtory();
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            rfturn nfw DffbultSSLSfrvfrSodkftFbdtory(f);
         }
     }
 
     /**
-     * Returns the list of cipher suites which are enabled by default.
-     * Unless a different list is enabled, handshaking on an SSL connection
-     * will use one of these cipher suites.  The minimum quality of service
-     * for these defaults requires confidentiality protection and server
-     * authentication (that is, no anonymous cipher suites).
+     * Rfturns tif list of dipifr suitfs wiidi brf fnbblfd by dffbult.
+     * Unlfss b difffrfnt list is fnbblfd, ibndsibking on bn SSL donnfdtion
+     * will usf onf of tifsf dipifr suitfs.  Tif minimum qublity of sfrvidf
+     * for tifsf dffbults rfquirfs donfidfntiblity protfdtion bnd sfrvfr
+     * butifntidbtion (tibt is, no bnonymous dipifr suitfs).
      *
-     * @see #getSupportedCipherSuites()
-     * @return array of the cipher suites enabled by default
+     * @sff #gftSupportfdCipifrSuitfs()
+     * @rfturn brrby of tif dipifr suitfs fnbblfd by dffbult
      */
-    public abstract String [] getDefaultCipherSuites();
+    publid bbstrbdt String [] gftDffbultCipifrSuitfs();
 
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on an SSL connection created by this factory.
-     * Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not meet quality of service requirements for those defaults.  Such
-     * cipher suites are useful in specialized applications.
+     * Rfturns tif nbmfs of tif dipifr suitfs wiidi dould bf fnbblfd for usf
+     * on bn SSL donnfdtion drfbtfd by tiis fbdtory.
+     * Normblly, only b subsft of tifsf will bdtublly
+     * bf fnbblfd by dffbult, sindf tiis list mby indludf dipifr suitfs wiidi
+     * do not mfft qublity of sfrvidf rfquirfmfnts for tiosf dffbults.  Sudi
+     * dipifr suitfs brf usfful in spfdiblizfd bpplidbtions.
      *
-     * @return an array of cipher suite names
-     * @see #getDefaultCipherSuites()
+     * @rfturn bn brrby of dipifr suitf nbmfs
+     * @sff #gftDffbultCipifrSuitfs()
      */
-    public abstract String [] getSupportedCipherSuites();
+    publid bbstrbdt String [] gftSupportfdCipifrSuitfs();
 }
 
 
 //
-// The default factory does NOTHING.
+// Tif dffbult fbdtory dofs NOTHING.
 //
-class DefaultSSLServerSocketFactory extends SSLServerSocketFactory {
+dlbss DffbultSSLSfrvfrSodkftFbdtory fxtfnds SSLSfrvfrSodkftFbdtory {
 
-    private final Exception reason;
+    privbtf finbl Exdfption rfbson;
 
-    DefaultSSLServerSocketFactory(Exception reason) {
-        this.reason = reason;
+    DffbultSSLSfrvfrSodkftFbdtory(Exdfption rfbson) {
+        tiis.rfbson = rfbson;
     }
 
-    private ServerSocket throwException() throws SocketException {
-        throw (SocketException)
-            new SocketException(reason.toString()).initCause(reason);
+    privbtf SfrvfrSodkft tirowExdfption() tirows SodkftExdfption {
+        tirow (SodkftExdfption)
+            nfw SodkftExdfption(rfbson.toString()).initCbusf(rfbson);
     }
 
-    @Override
-    public ServerSocket createServerSocket() throws IOException {
-        return throwException();
+    @Ovfrridf
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft() tirows IOExdfption {
+        rfturn tirowExdfption();
     }
 
 
-    @Override
-    public ServerSocket createServerSocket(int port)
-    throws IOException
+    @Ovfrridf
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port)
+    tirows IOExdfption
     {
-        return throwException();
+        rfturn tirowExdfption();
     }
 
-    @Override
-    public ServerSocket createServerSocket(int port, int backlog)
-    throws IOException
+    @Ovfrridf
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port, int bbdklog)
+    tirows IOExdfption
     {
-        return throwException();
+        rfturn tirowExdfption();
     }
 
-    @Override
-    public ServerSocket
-    createServerSocket(int port, int backlog, InetAddress ifAddress)
-    throws IOException
+    @Ovfrridf
+    publid SfrvfrSodkft
+    drfbtfSfrvfrSodkft(int port, int bbdklog, InftAddrfss ifAddrfss)
+    tirows IOExdfption
     {
-        return throwException();
+        rfturn tirowExdfption();
     }
 
-    @Override
-    public String [] getDefaultCipherSuites() {
-        return new String[0];
+    @Ovfrridf
+    publid String [] gftDffbultCipifrSuitfs() {
+        rfturn nfw String[0];
     }
 
-    @Override
-    public String [] getSupportedCipherSuites() {
-        return new String[0];
+    @Ovfrridf
+    publid String [] gftSupportfdCipifrSuitfs() {
+        rfturn nfw String[0];
     }
 }

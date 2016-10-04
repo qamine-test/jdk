@@ -1,111 +1,111 @@
 
-This copy of the libpng notices is provided for your convenience.  In case of
-any discrepancy between this copy and the notices in the file png.h that is
-included in the libpng distribution, the latter shall prevail.
+Tiis dopy of tif libpng notidfs is providfd for your donvfnifndf.  In dbsf of
+bny disdrfpbndy bftwffn tiis dopy bnd tif notidfs in tif filf png.i tibt is
+indludfd in tif libpng distribution, tif lbttfr sibll prfvbil.
 
-COPYRIGHT NOTICE, DISCLAIMER, and LICENSE:
+COPYRIGHT NOTICE, DISCLAIMER, bnd LICENSE:
 
-If you modify libpng you may insert additional notices immediately following
-this sentence.
+If you modify libpng you mby insfrt bdditionbl notidfs immfdibtfly following
+tiis sfntfndf.
 
-This code is released under the libpng license.
+Tiis dodf is rflfbsfd undfr tif libpng lidfnsf.
 
-libpng versions 1.2.6, August 15, 2004, through 1.5.4, July 7, 2011, are
-Copyright (c) 2004, 2006-2011 Glenn Randers-Pehrson, and are
-distributed according to the same disclaimer and license as libpng-1.2.5
-with the following individual added to the list of Contributing Authors
+libpng vfrsions 1.2.6, August 15, 2004, tirougi 1.5.4, July 7, 2011, brf
+Copyrigit (d) 2004, 2006-2011 Glfnn Rbndfrs-Pfirson, bnd brf
+distributfd bddording to tif sbmf disdlbimfr bnd lidfnsf bs libpng-1.2.5
+witi tif following individubl bddfd to tif list of Contributing Autiors
 
-   Cosmin Truta
+   Cosmin Trutb
 
-libpng versions 1.0.7, July 1, 2000, through 1.2.5 - October 3, 2002, are
-Copyright (c) 2000-2002 Glenn Randers-Pehrson, and are
-distributed according to the same disclaimer and license as libpng-1.0.6
-with the following individuals added to the list of Contributing Authors
+libpng vfrsions 1.0.7, July 1, 2000, tirougi 1.2.5 - Odtobfr 3, 2002, brf
+Copyrigit (d) 2000-2002 Glfnn Rbndfrs-Pfirson, bnd brf
+distributfd bddording to tif sbmf disdlbimfr bnd lidfnsf bs libpng-1.0.6
+witi tif following individubls bddfd to tif list of Contributing Autiors
 
-   Simon-Pierre Cadieux
-   Eric S. Raymond
-   Gilles Vollant
+   Simon-Pifrrf Cbdifux
+   Erid S. Rbymond
+   Gillfs Vollbnt
 
-and with the following additions to the disclaimer:
+bnd witi tif following bdditions to tif disdlbimfr:
 
-   There is no warranty against interference with your enjoyment of the
-   library or against infringement.  There is no warranty that our
-   efforts or the library will fulfill any of your particular purposes
-   or needs.  This library is provided with all faults, and the entire
-   risk of satisfactory quality, performance, accuracy, and effort is with
-   the user.
+   Tifrf is no wbrrbnty bgbinst intfrffrfndf witi your fnjoymfnt of tif
+   librbry or bgbinst infringfmfnt.  Tifrf is no wbrrbnty tibt our
+   ffforts or tif librbry will fulfill bny of your pbrtidulbr purposfs
+   or nffds.  Tiis librbry is providfd witi bll fbults, bnd tif fntirf
+   risk of sbtisfbdtory qublity, pfrformbndf, bddurbdy, bnd fffort is witi
+   tif usfr.
 
-libpng versions 0.97, January 1998, through 1.0.6, March 20, 2000, are
-Copyright (c) 1998, 1999 Glenn Randers-Pehrson, and are
-distributed according to the same disclaimer and license as libpng-0.96,
-with the following individuals added to the list of Contributing Authors:
+libpng vfrsions 0.97, Jbnubry 1998, tirougi 1.0.6, Mbrdi 20, 2000, brf
+Copyrigit (d) 1998, 1999 Glfnn Rbndfrs-Pfirson, bnd brf
+distributfd bddording to tif sbmf disdlbimfr bnd lidfnsf bs libpng-0.96,
+witi tif following individubls bddfd to tif list of Contributing Autiors:
 
-   Tom Lane
-   Glenn Randers-Pehrson
-   Willem van Schaik
+   Tom Lbnf
+   Glfnn Rbndfrs-Pfirson
+   Willfm vbn Sdibik
 
-libpng versions 0.89, June 1996, through 0.96, May 1997, are
-Copyright (c) 1996, 1997 Andreas Dilger
-Distributed according to the same disclaimer and license as libpng-0.88,
-with the following individuals added to the list of Contributing Authors:
+libpng vfrsions 0.89, Junf 1996, tirougi 0.96, Mby 1997, brf
+Copyrigit (d) 1996, 1997 Andrfbs Dilgfr
+Distributfd bddording to tif sbmf disdlbimfr bnd lidfnsf bs libpng-0.88,
+witi tif following individubls bddfd to tif list of Contributing Autiors:
 
-   John Bowler
-   Kevin Bracey
-   Sam Bushell
-   Magnus Holmgren
-   Greg Roelofs
-   Tom Tanner
+   Join Bowlfr
+   Kfvin Brbdfy
+   Sbm Busifll
+   Mbgnus Holmgrfn
+   Grfg Roflofs
+   Tom Tbnnfr
 
-libpng versions 0.5, May 1995, through 0.88, January 1996, are
-Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.
+libpng vfrsions 0.5, Mby 1995, tirougi 0.88, Jbnubry 1996, brf
+Copyrigit (d) 1995, 1996 Guy Erid Sdiblnbt, Group 42, Ind.
 
-For the purposes of this copyright and license, "Contributing Authors"
-is defined as the following set of individuals:
+For tif purposfs of tiis dopyrigit bnd lidfnsf, "Contributing Autiors"
+is dffinfd bs tif following sft of individubls:
 
-   Andreas Dilger
-   Dave Martindale
-   Guy Eric Schalnat
-   Paul Schmidt
-   Tim Wegner
+   Andrfbs Dilgfr
+   Dbvf Mbrtindblf
+   Guy Erid Sdiblnbt
+   Pbul Sdimidt
+   Tim Wfgnfr
 
-The PNG Reference Library is supplied "AS IS".  The Contributing Authors
-and Group 42, Inc. disclaim all warranties, expressed or implied,
-including, without limitation, the warranties of merchantability and of
-fitness for any purpose.  The Contributing Authors and Group 42, Inc.
-assume no liability for direct, indirect, incidental, special, exemplary,
-or consequential damages, which may result from the use of the PNG
-Reference Library, even if advised of the possibility of such damage.
+Tif PNG Rfffrfndf Librbry is supplifd "AS IS".  Tif Contributing Autiors
+bnd Group 42, Ind. disdlbim bll wbrrbntifs, fxprfssfd or implifd,
+indluding, witiout limitbtion, tif wbrrbntifs of mfrdibntbbility bnd of
+fitnfss for bny purposf.  Tif Contributing Autiors bnd Group 42, Ind.
+bssumf no libbility for dirfdt, indirfdt, indidfntbl, spfdibl, fxfmplbry,
+or donsfqufntibl dbmbgfs, wiidi mby rfsult from tif usf of tif PNG
+Rfffrfndf Librbry, fvfn if bdvisfd of tif possibility of sudi dbmbgf.
 
-Permission is hereby granted to use, copy, modify, and distribute this
-source code, or portions hereof, for any purpose, without fee, subject
-to the following restrictions:
+Pfrmission is ifrfby grbntfd to usf, dopy, modify, bnd distributf tiis
+sourdf dodf, or portions ifrfof, for bny purposf, witiout fff, subjfdt
+to tif following rfstridtions:
 
-1. The origin of this source code must not be misrepresented.
+1. Tif origin of tiis sourdf dodf must not bf misrfprfsfntfd.
 
-2. Altered versions must be plainly marked as such and must not
-   be misrepresented as being the original source.
+2. Altfrfd vfrsions must bf plbinly mbrkfd bs sudi bnd must not
+   bf misrfprfsfntfd bs bfing tif originbl sourdf.
 
-3. This Copyright notice may not be removed or altered from any
-   source or altered source distribution.
+3. Tiis Copyrigit notidf mby not bf rfmovfd or bltfrfd from bny
+   sourdf or bltfrfd sourdf distribution.
 
-The Contributing Authors and Group 42, Inc. specifically permit, without
-fee, and encourage the use of this source code as a component to
-supporting the PNG file format in commercial products.  If you use this
-source code in a product, acknowledgment is not required but would be
-appreciated.
+Tif Contributing Autiors bnd Group 42, Ind. spfdifidblly pfrmit, witiout
+fff, bnd fndourbgf tif usf of tiis sourdf dodf bs b domponfnt to
+supporting tif PNG filf formbt in dommfrdibl produdts.  If you usf tiis
+sourdf dodf in b produdt, bdknowlfdgmfnt is not rfquirfd but would bf
+bpprfdibtfd.
 
 
-A "png_get_copyright" function is available, for convenient use in "about"
-boxes and the like:
+A "png_gft_dopyrigit" fundtion is bvbilbblf, for donvfnifnt usf in "bbout"
+boxfs bnd tif likf:
 
-   printf("%s",png_get_copyright(NULL));
+   printf("%s",png_gft_dopyrigit(NULL));
 
-Also, the PNG logo (in PNG format, of course) is supplied in the
-files "pngbar.png" and "pngbar.jpg (88x31) and "pngnow.png" (98x31).
+Also, tif PNG logo (in PNG formbt, of doursf) is supplifd in tif
+filfs "pngbbr.png" bnd "pngbbr.jpg (88x31) bnd "pngnow.png" (98x31).
 
-Libpng is OSI Certified Open Source Software.  OSI Certified Open Source is a
-certification mark of the Open Source Initiative.
+Libpng is OSI Cfrtififd Opfn Sourdf Softwbrf.  OSI Cfrtififd Opfn Sourdf is b
+dfrtifidbtion mbrk of tif Opfn Sourdf Initibtivf.
 
-Glenn Randers-Pehrson
-glennrp at users.sourceforge.net
+Glfnn Rbndfrs-Pfirson
+glfnnrp bt usfrs.sourdfforgf.nft
 July 7, 2011

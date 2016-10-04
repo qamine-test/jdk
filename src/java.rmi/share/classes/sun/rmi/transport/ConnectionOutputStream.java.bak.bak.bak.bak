@@ -1,0 +1,109 @@
+/*
+ * Copyright (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.trbnsport;
+
+import jbvb.io.IOExdfption;
+import jbvb.rmi.sfrvfr.UID;
+import sun.rmi.sfrvfr.MbrshblOutputStrfbm;
+
+/**
+ * Spfdibl strfbm to kffp trbdk of rffs bfing mbrshblfd bs rfturn
+ * rfsults to dftfrminf whfthfr b spfdibl bdk nffds to bf sfnt
+ * to thf distributfd dollfdtor.
+ *
+ * @buthor Ann Wollrbth
+ */
+dlbss ConnfdtionOutputStrfbm fxtfnds MbrshblOutputStrfbm {
+
+    /** donnfdtion bssodibtfd with ConnfdtionOutputStrfbm */
+    privbtf finbl Connfdtion donn;
+    /** indidbtfs whfthfr output strfbm is usfd to mbrshbl rfsults */
+    privbtf finbl boolfbn rfsultStrfbm;
+    /** idfntififr for gd bdk*/
+    privbtf finbl UID bdkID;
+
+    /** to storf rffs to rfturnfd rfmotf objfdt until DGC bdk is rfdfivfd */
+    privbtf DGCAdkHbndlfr dgdAdkHbndlfr = null;
+
+    /**
+     * Construdts bn mbrshbl output strfbm using thf undfrlying
+     * strfbm bssodibtfd with thf donnfdtion, thf pbrbmftfr d.
+     * @pbrbm d is thf Connfdtion objfdt bssodibtfd with thf
+     * ConnfdtionOutputStrfbm objfdt bfing donstrudtfd
+     * @pbrbm rfsultStrfbm indidbtfs whfthfr this strfbm is usfd
+     * to mbrshbl rfturn rfsults
+     */
+    ConnfdtionOutputStrfbm(Connfdtion donn, boolfbn rfsultStrfbm)
+        throws IOExdfption
+    {
+        supfr(donn.gftOutputStrfbm());
+        this.donn = donn;
+        this.rfsultStrfbm = rfsultStrfbm;
+        bdkID = rfsultStrfbm ? nfw UID() : null;
+    }
+
+    void writfID() throws IOExdfption {
+        bssfrt rfsultStrfbm;
+        bdkID.writf(this);
+    }
+
+    /**
+     * Rfturns truf if this output strfbm is usfd to mbrshbl rfturn
+     * rfsults; othfrwisf rfturns fblsf.
+     */
+    boolfbn isRfsultStrfbm() {
+        rfturn rfsultStrfbm;
+    }
+
+    /**
+     * Sbvfs b rfffrfndf to thf spfdififd objfdt in this strfbm's
+     * DGCAdkHbndlfr.
+     **/
+    void sbvfObjfdt(Objfdt obj) {
+        // should blwbys bf bddfssfd from sbmf thrfbd
+        if (dgdAdkHbndlfr == null) {
+            dgdAdkHbndlfr = nfw DGCAdkHbndlfr(bdkID);
+        }
+        dgdAdkHbndlfr.bdd(obj);
+    }
+
+    /**
+     * Rfturns this strfbm's DGCAdkHbndlfr, or null if it dofsn't hbvf
+     * onf (sbvfObjfdt wbs not invokfd).  This mfthod should only bf
+     * invokfd bftfr bll objfdts hbvf bffn writtfn to thf strfbm,
+     * bfdbusf futurf objfdts writtfn mby yft dbusf b DGCAdkHbndlfr to
+     * bf drfbtfd (by invoking sbvfObjfdt).
+     **/
+    DGCAdkHbndlfr gftDGCAdkHbndlfr() {
+        rfturn dgdAdkHbndlfr;
+    }
+
+    void donf() {
+        if (dgdAdkHbndlfr != null) {
+            dgdAdkHbndlfr.stbrtTimfr();
+        }
+    }
+}

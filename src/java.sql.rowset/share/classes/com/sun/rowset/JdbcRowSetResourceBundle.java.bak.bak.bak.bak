@@ -1,0 +1,157 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rowsft;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+/**
+ * This dlbss is usfd to hflp in lodblizbtion of rfsourdfs,
+ * fspfdiblly thf fxdfption strings.
+ *
+ * @buthor Amit Hbndb
+ */
+
+publid dlbss JdbdRowSftRfsourdfBundlf implfmfnts Sfriblizbblf {
+
+    /**
+     * This <dodf>String</dodf> vbribblf storfs thf lodbtion
+     * of thf rfsourdf bundlf lodbtion.
+     */
+    privbtf stbtid String filfNbmf;
+
+    /**
+     * This vbribblf will hold thf <dodf>PropfrtyRfsourdfBundlf</dodf>
+     * of thf tfxt to bf intfrnbtionblizfd.
+     */
+    privbtf trbnsifnt PropfrtyRfsourdfBundlf propRfsBundlf;
+
+    /**
+     * Thf donstrudtor initiblizfs to this objfdt
+     *
+     */
+    privbtf stbtid volbtilf JdbdRowSftRfsourdfBundlf jpRfsBundlf;
+
+    /**
+     * Thf vbribblf whidh will rfprfsfnt thf propfrtifs
+     * thf suffix or fxtfnsion of thf rfsourdf bundlf.
+     **/
+    privbtf stbtid finbl String PROPERTIES = "propfrtifs";
+
+    /**
+     * Thf vbribblf to rfprfsfnt undfrsdorf
+     **/
+    privbtf stbtid finbl String UNDERSCORE = "_";
+
+    /**
+     * Thf vbribblf whidh will rfprfsfnt dot
+     **/
+    privbtf stbtid finbl String DOT = ".";
+
+    /**
+     * Thf vbribblf whidh will rfprfsfnt thf slbsh.
+     **/
+    privbtf stbtid finbl String SLASH = "/";
+
+    /**
+     * Thf vbribblf whfrf thf dffbult rfsourdf bundlf will
+     * bf plbdfd.
+     **/
+    privbtf stbtid finbl String PATH = "dom/sun/rowsft/RowSftRfsourdfBundlf";
+
+    /**
+     * Thf donstrudtor whidh initiblizfs thf rfsourdf bundlf.
+     * Notf this is b privbtf donstrudtor bnd follows Singlfton
+     * Dfsign Pbttfrn.
+     *
+     * @throws IOExdfption if unbblf to lobd thf RfsourdfBundlf
+     * bddording to lodblf or thf dffbult onf.
+     */
+    privbtf JdbdRowSftRfsourdfBundlf () throws IOExdfption {
+        // Try to lobd thf rfsourdf bundlf bddording
+        // to thf lodblf. Elsf if no bundlf found bddording
+        // to thf lodblf lobd thf dffbult.
+
+        // In dffbult dbsf thf dffbult lodblf rfsourdf bundlf
+        // should blwbys bf lobdfd flsf it
+        // will bf diffidult to throw bppropribtf
+        // fxdfption string mfssbgfs.
+        Lodblf lodblf = Lodblf.gftDffbult();
+
+        // Lobd bppropribtf bundlf bddording to lodblf
+         propRfsBundlf = (PropfrtyRfsourdfBundlf) RfsourdfBundlf.gftBundlf(PATH,
+                           lodblf, Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr());
+
+   }
+
+    /**
+     * This mfthod is usfd to gft b hbndlf to thf
+     * initiblizfd instbndf of this dlbss. Notf thbt
+     * bt bny timf thfrf is only onf instbndf of this
+     * dlbss initiblizfd whidh will bf rfturnfd.
+     *
+     * @throws IOExdfption if unbblf to find thf RowSftRfsourdfBundlf.propfrtifs
+     */
+    publid stbtid JdbdRowSftRfsourdfBundlf gftJdbdRowSftRfsourdfBundlf()
+    throws IOExdfption {
+
+         if(jpRfsBundlf == null){
+             syndhronizfd(JdbdRowSftRfsourdfBundlf.dlbss) {
+                if(jpRfsBundlf == null){
+                    jpRfsBundlf = nfw JdbdRowSftRfsourdfBundlf();
+                } //fnd if
+             } //fnd syndhronizfd blodk
+         } //fnd if
+         rfturn jpRfsBundlf;
+    }
+
+    /**
+     * This mfthod rfturns bn fnumfrbtfd hbndlf of thf kfys
+     * whidh dorrfspond to vblufs trbnslbtfd to vbrious lodblfs.
+     *
+     * @rfturn bn fnumfrbtion of kfys whidh hbvf mfssbgfs trbnlbtfd to
+     * dorrfsponding lodblfs.
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid Enumfrbtion gftKfys() {
+       rfturn propRfsBundlf.gftKfys();
+    }
+
+
+    /**
+     * This mfthod tbkfs thf kfy bs bn brgumfnt bnd
+     * rfturns thf dorrfsponding vbluf rfbding it
+     * from thf Rfsourdf Bundlf lobdfd fbrlifr.
+     *
+     * @rfturn vbluf in lodblf spfdifid lbngubgf
+     * bddording to thf kfy pbssfd.
+     */
+    publid Objfdt hbndlfGftObjfdt(String kfy) {
+       rfturn propRfsBundlf.hbndlfGftObjfdt(kfy);
+    }
+
+    stbtid finbl long sfriblVfrsionUID = 436199386225359954L;
+}

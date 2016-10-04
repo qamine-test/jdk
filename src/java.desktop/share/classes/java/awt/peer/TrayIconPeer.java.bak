@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2005, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.peer;
+pbdkbgf jbvb.bwt.pffr;
 
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
+import jbvb.bwt.SystfmTrby;
+import jbvb.bwt.TrbyIdon;
 
 /**
- * The peer interface for the {@link TrayIcon}. This doesn't need to be
- * implemented if {@link SystemTray#isSupported()} returns false.
+ * Tif pffr intfrfbdf for tif {@link TrbyIdon}. Tiis dofsn't nffd to bf
+ * implfmfntfd if {@link SystfmTrby#isSupportfd()} rfturns fblsf.
  */
-public interface TrayIconPeer {
+publid intfrfbdf TrbyIdonPffr {
 
     /**
-     * Disposes the tray icon and releases and resources held by it.
+     * Disposfs tif trby idon bnd rflfbsfs bnd rfsourdfs ifld by it.
      *
-     * @see TrayIcon#removeNotify()
+     * @sff TrbyIdon#rfmovfNotify()
      */
-    void dispose();
+    void disposf();
 
     /**
-     * Sets the tool tip for the tray icon.
+     * Sfts tif tool tip for tif trby idon.
      *
-     * @param tooltip the tooltip to set
+     * @pbrbm tooltip tif tooltip to sft
      *
-     * @see TrayIcon#setToolTip(String)
+     * @sff TrbyIdon#sftToolTip(String)
      */
-    void setToolTip(String tooltip);
+    void sftToolTip(String tooltip);
 
     /**
-     * Updates the icon image. This is supposed to display the current icon
-     * from the TrayIcon component in the actual tray icon.
+     * Updbtfs tif idon imbgf. Tiis is supposfd to displby tif durrfnt idon
+     * from tif TrbyIdon domponfnt in tif bdtubl trby idon.
      *
-     * @see TrayIcon#setImage(java.awt.Image)
-     * @see TrayIcon#setImageAutoSize(boolean)
+     * @sff TrbyIdon#sftImbgf(jbvb.bwt.Imbgf)
+     * @sff TrbyIdon#sftImbgfAutoSizf(boolfbn)
      */
-    void updateImage();
+    void updbtfImbgf();
 
     /**
-     * Displays a message at the tray icon.
+     * Displbys b mfssbgf bt tif trby idon.
      *
-     * @param caption the message caption
-     * @param text the actual message text
-     * @param messageType the message type
+     * @pbrbm dbption tif mfssbgf dbption
+     * @pbrbm tfxt tif bdtubl mfssbgf tfxt
+     * @pbrbm mfssbgfTypf tif mfssbgf typf
      *
-     * @see TrayIcon#displayMessage(String, String, java.awt.TrayIcon.MessageType)
+     * @sff TrbyIdon#displbyMfssbgf(String, String, jbvb.bwt.TrbyIdon.MfssbgfTypf)
      */
-    void displayMessage(String caption, String text, String messageType);
+    void displbyMfssbgf(String dbption, String tfxt, String mfssbgfTypf);
 
     /**
-     * Shows the popup menu of this tray icon at the specified position.
+     * Siows tif popup mfnu of tiis trby idon bt tif spfdififd position.
      *
-     * @param x the X location for the popup menu
-     * @param y the Y location for the popup menu
+     * @pbrbm x tif X lodbtion for tif popup mfnu
+     * @pbrbm y tif Y lodbtion for tif popup mfnu
      */
-    void showPopupMenu(int x, int y);
+    void siowPopupMfnu(int x, int y);
 }

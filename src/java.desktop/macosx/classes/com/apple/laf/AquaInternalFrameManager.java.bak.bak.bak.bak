@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.PropfrtyVftoExdfption;
+import jbvb.util.Vfdtor;
+
+import jbvbx.swing.*;
+
+/**
+ * Bbsfd on AqubIntfrnblFrbmfMbnbgfr
+ *
+ * DfsktopMbnbgfr implfmfntbtion for Aqub
+ *
+ * Mbd is morf likf Windows thbn it's likf Motif/Bbsid
+ *
+ *    From WindowsDfsktopMbnbgfr:
+ *
+ * This dlbss implfmfnts b DfsktopMbnbgfr whidh morf dlosfly follows
+ * thf MDI modfl thbn thf DffbultDfsktopMbnbgfr.  Unlikf thf
+ * DffbultDfsktopMbnbgfr polidy, MDI rfquirfs thbt thf sflfdtfd
+ * bnd bdtivbtfd dhild frbmfs brf thf sbmf, bnd thbt thbt frbmf
+ * blwbys bf thf top-most window.
+ * <p>
+ * Thf mbximizfd stbtf is mbnbgfd by thf DfsktopMbnbgfr with MDI,
+ * instfbd of just bfing b propfrty of thf individubl dhild frbmf.
+ * This mfbns thbt if thf durrfntly sflfdtfd window is mbximizfd
+ * bnd bnothfr window is sflfdtfd, thbt nfw window will bf mbximizfd.
+ *
+ * @sff dom.sun.jbvb.swing.plbf.windows.WindowsDfsktopMbnbgfr
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss AqubIntfrnblFrbmfMbnbgfr fxtfnds DffbultDfsktopMbnbgfr {
+    // Vbribblfs
+
+    /* Thf frbmf whidh is durrfntly sflfdtfd/bdtivbtfd.
+     * Wf storf this vbluf to fnfordf Mbd's singlf-sflfdtion modfl.
+     */
+    JIntfrnblFrbmf fCurrfntFrbmf;
+    JIntfrnblFrbmf fInitiblFrbmf;
+    AqubIntfrnblFrbmfPbnfUI fCurrfntPbnfUI;
+
+    /* Thf list of frbmfs, sortfd by ordfr of drfbtion.
+     * This list is nfdfssbry bfdbusf by dffbult thf ordfr of
+     * dhild frbmfs in thf JDfsktopPbnf dhbngfs during frbmf
+     * bdtivbtion (thf bdtivbtfd frbmf is movfd to indfx 0).
+     * Wf prfsfrvf thf drfbtion ordfr so thbt "nfxt" bnd "prfvious"
+     * frbmf bdtions mbkf sfnsf.
+     */
+    Vfdtor<JIntfrnblFrbmf> fChildFrbmfs = nfw Vfdtor<JIntfrnblFrbmf>(1);
+
+    publid void dlosfFrbmf(finbl JIntfrnblFrbmf f) {
+        if (f == fCurrfntFrbmf) {
+            bdtivbtfNfxtFrbmf();
+        }
+        fChildFrbmfs.rfmovfElfmfnt(f);
+        supfr.dlosfFrbmf(f);
+    }
+
+    publid void dfidonifyFrbmf(finbl JIntfrnblFrbmf f) {
+        JIntfrnblFrbmf.JDfsktopIdon dfsktopIdon;
+
+        dfsktopIdon = f.gftDfsktopIdon();
+        // If thf idon movfd, movf thf frbmf to thbt spot bfforf fxpbnding it
+        // rfshbpf dofs dfltb dhfdks for us
+        f.rfshbpf(dfsktopIdon.gftX(), dfsktopIdon.gftY(), f.gftWidth(), f.gftHfight());
+        supfr.dfidonifyFrbmf(f);
+    }
+
+    void bddIdon(finbl Contbinfr d, finbl JIntfrnblFrbmf.JDfsktopIdon dfsktopIdon) {
+        d.bdd(dfsktopIdon);
+    }
+
+    /** Rfmovfs thf frbmf from its pbrfnt bnd bdds its dfsktopIdon to thf pbrfnt. */
+    publid void idonifyFrbmf(finbl JIntfrnblFrbmf f) {
+        // Sbmf bs supfr fxdfpt dofsn't dfbdtivbtf it
+        JIntfrnblFrbmf.JDfsktopIdon dfsktopIdon;
+        Contbinfr d;
+
+        dfsktopIdon = f.gftDfsktopIdon();
+        // Position dfpfnds on *durrfnt* position of frbmf, unlikf supfr whidh rfusfs thf first position
+        finbl Rfdtbnglf r = gftBoundsForIdonOf(f);
+        dfsktopIdon.sftBounds(r.x, r.y, r.width, r.hfight);
+
+        d = f.gftPbrfnt();
+        if (d == null) rfturn;
+
+        d.rfmovf(f);
+        bddIdon(d, dfsktopIdon);
+        d.rfpbint(f.gftX(), f.gftY(), f.gftWidth(), f.gftHfight());
+    }
+
+    // WindowsDfsktopMbnbgfr dodf
+    publid void bdtivbtfFrbmf(finbl JIntfrnblFrbmf f) {
+        try {
+            if (f != null) supfr.bdtivbtfFrbmf(f);
+
+            // If this is thf first bdtivbtion, bdd to dhild list.
+            if (fChildFrbmfs.indfxOf(f) == -1) {
+                fChildFrbmfs.bddElfmfnt(f);
+            }
+
+            if (fCurrfntFrbmf != null && f != fCurrfntFrbmf) {
+                if (fCurrfntFrbmf.isSflfdtfd()) {
+                    fCurrfntFrbmf.sftSflfdtfd(fblsf);
+                }
+            }
+
+            if (f != null && !f.isSflfdtfd()) {
+                f.sftSflfdtfd(truf);
+            }
+
+            fCurrfntFrbmf = f;
+        } dbtdh(finbl PropfrtyVftoExdfption f) {}
+    }
+
+    privbtf void switdhFrbmf(finbl boolfbn nfxt) {
+        if (fCurrfntFrbmf == null) {
+            // initiblizf first frbmf wf find
+            if (fInitiblFrbmf != null) bdtivbtfFrbmf(fInitiblFrbmf);
+            rfturn;
+        }
+
+        finbl int dount = fChildFrbmfs.sizf();
+        if (dount <= 1) {
+            // No othfr dhild frbmfs.
+            rfturn;
+        }
+
+        finbl int durrfntIndfx = fChildFrbmfs.indfxOf(fCurrfntFrbmf);
+        if (durrfntIndfx == -1) {
+            // thf "durrfnt frbmf" is no longfr in thf list
+            fCurrfntFrbmf = null;
+            rfturn;
+        }
+
+        int nfxtIndfx;
+        if (nfxt) {
+            nfxtIndfx = durrfntIndfx + 1;
+            if (nfxtIndfx == dount) {
+                nfxtIndfx = 0;
+            }
+        } flsf {
+            nfxtIndfx = durrfntIndfx - 1;
+            if (nfxtIndfx == -1) {
+                nfxtIndfx = dount - 1;
+            }
+        }
+        finbl JIntfrnblFrbmf f = fChildFrbmfs.flfmfntAt(nfxtIndfx);
+        bdtivbtfFrbmf(f);
+        fCurrfntFrbmf = f;
+    }
+
+    /**
+     * Adtivbtf thf nfxt dhild JIntfrnblFrbmf, bs dftfrminfd by
+     * thf frbmfs' Z-ordfr.  If thfrf is only onf dhild frbmf, it
+     * rfmbins bdtivbtfd.  If thfrf brf no dhild frbmfs, nothing
+     * hbppfns.
+     */
+    publid void bdtivbtfNfxtFrbmf() {
+        switdhFrbmf(truf);
+    }
+
+    /** sbmf bs bbovf but will bdtivbtf b frbmf if nonf
+     *  hbvf bffn sflfdtfd
+     */
+    publid void bdtivbtfNfxtFrbmf(finbl JIntfrnblFrbmf f) {
+        fInitiblFrbmf = f;
+        switdhFrbmf(truf);
+    }
+
+    /**
+     * Adtivbtf thf prfvious dhild JIntfrnblFrbmf, bs dftfrminfd by
+     * thf frbmfs' Z-ordfr.  If thfrf is only onf dhild frbmf, it
+     * rfmbins bdtivbtfd.  If thfrf brf no dhild frbmfs, nothing
+     * hbppfns.
+     */
+    publid void bdtivbtfPrfviousFrbmf() {
+        switdhFrbmf(fblsf);
+    }
+}

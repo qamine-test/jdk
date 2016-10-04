@@ -1,0 +1,172 @@
+/*
+ * Copyright (d) 1995, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * This dlbss bllows bn bpplidbtion to drfbtf bn input strfbm in
+ * whidh thf bytfs rfbd brf supplifd by thf dontfnts of b string.
+ * Applidbtions dbn blso rfbd bytfs from b bytf brrby by using b
+ * <dodf>BytfArrbyInputStrfbm</dodf>.
+ * <p>
+ * Only thf low fight bits of fbdh dhbrbdtfr in thf string brf usfd by
+ * this dlbss.
+ *
+ * @buthor     Arthur vbn Hoff
+ * @sff        jbvb.io.BytfArrbyInputStrfbm
+ * @sff        jbvb.io.StringRfbdfr
+ * @sindf      1.0
+ * @dfprfdbtfd This dlbss dofs not propfrly donvfrt dhbrbdtfrs into bytfs.  As
+ *             of JDK&nbsp;1.1, thf prfffrrfd wby to drfbtf b strfbm from b
+ *             string is vib thf <dodf>StringRfbdfr</dodf> dlbss.
+ */
+@Dfprfdbtfd
+publid
+dlbss StringBufffrInputStrfbm fxtfnds InputStrfbm {
+    /**
+     * Thf string from whidh bytfs brf rfbd.
+     */
+    protfdtfd String bufffr;
+
+    /**
+     * Thf indfx of thf nfxt dhbrbdtfr to rfbd from thf input strfbm bufffr.
+     *
+     * @sff        jbvb.io.StringBufffrInputStrfbm#bufffr
+     */
+    protfdtfd int pos;
+
+    /**
+     * Thf numbfr of vblid dhbrbdtfrs in thf input strfbm bufffr.
+     *
+     * @sff        jbvb.io.StringBufffrInputStrfbm#bufffr
+     */
+    protfdtfd int dount;
+
+    /**
+     * Crfbtfs b string input strfbm to rfbd dbtb from thf spfdififd string.
+     *
+     * @pbrbm      s   thf undfrlying input bufffr.
+     */
+    publid StringBufffrInputStrfbm(String s) {
+        this.bufffr = s;
+        dount = s.lfngth();
+    }
+
+    /**
+     * Rfbds thf nfxt bytf of dbtb from this input strfbm. Thf vbluf
+     * bytf is rfturnfd bs bn <dodf>int</dodf> in thf rbngf
+     * <dodf>0</dodf> to <dodf>255</dodf>. If no bytf is bvbilbblf
+     * bfdbusf thf fnd of thf strfbm hbs bffn rfbdhfd, thf vbluf
+     * <dodf>-1</dodf> is rfturnfd.
+     * <p>
+     * Thf <dodf>rfbd</dodf> mfthod of
+     * <dodf>StringBufffrInputStrfbm</dodf> dbnnot blodk. It rfturns thf
+     * low fight bits of thf nfxt dhbrbdtfr in this input strfbm's bufffr.
+     *
+     * @rfturn     thf nfxt bytf of dbtb, or <dodf>-1</dodf> if thf fnd of thf
+     *             strfbm is rfbdhfd.
+     */
+    publid syndhronizfd int rfbd() {
+        rfturn (pos < dount) ? (bufffr.dhbrAt(pos++) & 0xFF) : -1;
+    }
+
+    /**
+     * Rfbds up to <dodf>lfn</dodf> bytfs of dbtb from this input strfbm
+     * into bn brrby of bytfs.
+     * <p>
+     * Thf <dodf>rfbd</dodf> mfthod of
+     * <dodf>StringBufffrInputStrfbm</dodf> dbnnot blodk. It dopifs thf
+     * low fight bits from thf dhbrbdtfrs in this input strfbm's bufffr into
+     * thf bytf brrby brgumfnt.
+     *
+     * @pbrbm      b     thf bufffr into whidh thf dbtb is rfbd.
+     * @pbrbm      off   thf stbrt offsft of thf dbtb.
+     * @pbrbm      lfn   thf mbximum numbfr of bytfs rfbd.
+     * @rfturn     thf totbl numbfr of bytfs rfbd into thf bufffr, or
+     *             <dodf>-1</dodf> if thfrf is no morf dbtb bfdbusf thf fnd of
+     *             thf strfbm hbs bffn rfbdhfd.
+     */
+    publid syndhronizfd int rfbd(bytf b[], int off, int lfn) {
+        if (b == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf if ((off < 0) || (off > b.lfngth) || (lfn < 0) ||
+                   ((off + lfn) > b.lfngth) || ((off + lfn) < 0)) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+        if (pos >= dount) {
+            rfturn -1;
+        }
+        if (pos + lfn > dount) {
+            lfn = dount - pos;
+        }
+        if (lfn <= 0) {
+            rfturn 0;
+        }
+        String  s = bufffr;
+        int dnt = lfn;
+        whilf (--dnt >= 0) {
+            b[off++] = (bytf)s.dhbrAt(pos++);
+        }
+
+        rfturn lfn;
+    }
+
+    /**
+     * Skips <dodf>n</dodf> bytfs of input from this input strfbm. Ffwfr
+     * bytfs might bf skippfd if thf fnd of thf input strfbm is rfbdhfd.
+     *
+     * @pbrbm      n   thf numbfr of bytfs to bf skippfd.
+     * @rfturn     thf bdtubl numbfr of bytfs skippfd.
+     */
+    publid syndhronizfd long skip(long n) {
+        if (n < 0) {
+            rfturn 0;
+        }
+        if (n > dount - pos) {
+            n = dount - pos;
+        }
+        pos += n;
+        rfturn n;
+    }
+
+    /**
+     * Rfturns thf numbfr of bytfs thbt dbn bf rfbd from thf input
+     * strfbm without blodking.
+     *
+     * @rfturn     thf vbluf of <dodf>dount&nbsp;-&nbsp;pos</dodf>, whidh is thf
+     *             numbfr of bytfs rfmbining to bf rfbd from thf input bufffr.
+     */
+    publid syndhronizfd int bvbilbblf() {
+        rfturn dount - pos;
+    }
+
+    /**
+     * Rfsfts thf input strfbm to bfgin rfbding from thf first dhbrbdtfr
+     * of this input strfbm's undfrlying bufffr.
+     */
+    publid syndhronizfd void rfsft() {
+        pos = 0;
+    }
+}

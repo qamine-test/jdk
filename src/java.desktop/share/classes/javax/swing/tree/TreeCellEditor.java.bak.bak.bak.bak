@@ -1,0 +1,65 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.trff;
+
+import jbvb.bwt.Componfnt;
+import jbvbx.swing.CfllEditor;
+import jbvbx.swing.JTrff;
+
+/**
+  * Adds to CfllEditor thf fxtfnsions nfdfssbry to donfigurf bn fditor
+  * in b trff.
+  *
+  * @sff jbvbx.swing.JTrff
+  *
+  * @buthor Sdott Violft
+  */
+
+publid intfrfbdf TrffCfllEditor fxtfnds CfllEditor
+{
+    /**
+     * Sfts bn initibl <I>vbluf</I> for thf fditor.  This will dbusf
+     * thf fditor to stopEditing bnd losf bny pbrtiblly fditfd vbluf
+     * if thf fditor is fditing whfn this mfthod is dbllfd. <p>
+     *
+     * Rfturns thf domponfnt thbt should bf bddfd to thf dlifnt's
+     * Componfnt hifrbrdhy.  Ondf instbllfd in thf dlifnt's hifrbrdhy
+     * this domponfnt will thfn bf bblf to drbw bnd rfdfivf usfr input.
+     *
+     * @pbrbm   trff            thf JTrff thbt is bsking thf fditor to fdit;
+     *                          this pbrbmftfr dbn bf null
+     * @pbrbm   vbluf           thf vbluf of thf dfll to bf fditfd
+     * @pbrbm   isSflfdtfd      truf if thf dfll is to bf rfndfrfd with
+     *                          sflfdtion highlighting
+     * @pbrbm   fxpbndfd        truf if thf nodf is fxpbndfd
+     * @pbrbm   lfbf            truf if thf nodf is b lfbf nodf
+     * @pbrbm   row             thf row indfx of thf nodf bfing fditfd
+     * @rfturn  thf domponfnt for fditing
+     */
+    Componfnt gftTrffCfllEditorComponfnt(JTrff trff, Objfdt vbluf,
+                                         boolfbn isSflfdtfd, boolfbn fxpbndfd,
+                                         boolfbn lfbf, int row);
+}

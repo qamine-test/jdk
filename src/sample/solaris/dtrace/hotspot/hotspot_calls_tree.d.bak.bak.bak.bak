@@ -1,0 +1,117 @@
+#!/usr/sbin/dtrbdf -Zs
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+*/
+
+/*
+ * Usbgf:
+ *   1. hotspot_dblls_trff.d -d "jbvb ..."
+ *   2. hotspot_dblls_trff.d -p JAVA_PID
+ *
+ * This sdript prints dblls trff of firfd 'hotspot' probfs.
+ *
+ * Notfs: 
+ *    Thf sdript usfs 'monitors' probfs whidh brf disbblfd by dffbult sindf
+ *    it indurs pfrformbndf ovfrhfbd to thf bpplidbtion. To fnbblf thfm, you
+ *    nffd to turn on thf ExtfndfdDTrbdfProbfs VM option. You dbn fithfr
+ *    stbrt thf bpplidbtion with -XX:+ExtfndfdDTrbdfProbfs option or usf thf
+ *    jinfo dommbnd to fnbblf it bt runtimf bs follows:
+ *
+ *       jinfo -flbg +ExtfndfdDTrbdfProbfs <jbvb_pid>
+ *
+ */
+
+#prbgmb D option quift
+#prbgmb D option dfstrudtivf
+#prbgmb D option dffbultbrgs
+#prbgmb D option bggrbtf=100ms
+
+sflf int indfnt;
+string PAUSE_AT_STARTUP_FILE;
+
+:::BEGIN
+{
+    SAMPLE_NAME = "hotspot probfs trbding";
+
+    printf("BEGIN %s\n\n", SAMPLE_NAME);
+
+    sflf->indfnt = 10;
+}
+
+hotspot$tbrgft:::dlbss-lobdfd,
+hotspot$tbrgft:::dlbss-unlobdfd,
+hotspot$tbrgft:::dompilfd-mfthod-lobd,
+hotspot$tbrgft:::dompilfd-mfthod-unlobd,
+hotspot$tbrgft:::monitor-notify,
+hotspot$tbrgft:::monitor-notifyAll
+{
+    printf("%d %*s <-> %s\n", durdpu->dpu_id, sflf->indfnt, "", probfnbmf);
+}
+
+hotspot$tbrgft:::vm-init-bfgin,
+hotspot$tbrgft:::gd-bfgin,
+hotspot$tbrgft:::mfm-pool-gd-bfgin,
+hotspot$tbrgft:::thrfbd-stbrt,
+hotspot$tbrgft:::mfthod-dompilf-bfgin,
+hotspot$tbrgft:::monitor-dontfndfd-fntfr,
+hotspot$tbrgft:::monitor-wbit
+{
+    sflf->indfnt ++;
+    printf("%d %*s -> %s\n", durdpu->dpu_id, sflf->indfnt, "", probfnbmf);
+}
+
+hotspot$tbrgft:::vm-init-fnd,
+hotspot$tbrgft:::vm-shutdown,
+hotspot$tbrgft:::gd-fnd,
+hotspot$tbrgft:::mfm-pool-gd-fnd,
+hotspot$tbrgft:::thrfbd-stop,
+hotspot$tbrgft:::mfthod-dompilf-fnd,
+hotspot$tbrgft:::monitor-dontfndfd-fntfrfd,
+hotspot$tbrgft:::monitor-dontfndfd-fxit,
+hotspot$tbrgft:::monitor-wbitfd
+{
+    printf("%d %*s <- %s\n", durdpu->dpu_id, sflf->indfnt, "", probfnbmf);
+    sflf->indfnt --;
+}
+
+:::END
+{
+    printf("\nEND of %s\n", SAMPLE_NAME);
+}
+
+sysdbll::rfxit:fntry,
+sysdbll::fxit:fntry
+/pid == $tbrgft/
+{
+    fxit(0);
+}

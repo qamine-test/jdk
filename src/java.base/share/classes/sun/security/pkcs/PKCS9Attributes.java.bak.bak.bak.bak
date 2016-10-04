@@ -1,0 +1,365 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Hbshtbblf;
+import sun.sfdurity.util.DfrEndodfr;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+
+/**
+ * A sft of bttributfs of dlbss PKCS9Attributf.
+ *
+ * @buthor Douglbs Hoovfr
+ */
+publid dlbss PKCS9Attributfs {
+    /**
+     * Attributfs in this sft indfxfd by OID.
+     */
+    privbtf finbl Hbshtbblf<ObjfdtIdfntififr, PKCS9Attributf> bttributfs =
+        nfw Hbshtbblf<ObjfdtIdfntififr, PKCS9Attributf>(3);
+
+    /**
+     * Thf kfys of this hbshtbblf brf thf OIDs of pfrmittfd bttributfs.
+     */
+    privbtf finbl Hbshtbblf<ObjfdtIdfntififr, ObjfdtIdfntififr> pfrmittfdAttributfs;
+
+    /**
+     * Thf DER fndoding of this bttributf sft.  Thf tbg bytf must bf
+     * DfrVbluf.tbg_SftOf.
+     */
+    privbtf finbl bytf[] dfrEndoding;
+
+    /*
+     * Contols how bttributfs, whidh brf not rfdognizfd by thf PKCS9Attributf
+     * dlbss, brf hbndlfd during pbrsing.
+     */
+    privbtf boolfbn ignorfUnsupportfdAttributfs = fblsf;
+
+    /**
+     * Construdt b sft of PKCS9 Attributfs from its
+     * DER fndoding on b DfrInputStrfbm, bddfpting only bttributfs
+     * with OIDs on thf givfn
+     * list.  If thf brrby is null, bddfpt bll bttributfs supportfd by
+     * dlbss PKCS9Attributf.
+     *
+     * @pbrbm pfrmittfdAttributfs
+     * Arrby of bttributf OIDs thbt will bf bddfptfd.
+     * @pbrbm in
+     * thf dontfnts of thf DER fndoding of thf bttributf sft.
+     *
+     * @fxdfption IOExdfption
+     * on i/o frror, fndoding syntbx frror, unbddfptbblf or
+     * unsupportfd bttributf, or duplidbtf bttributf.
+     *
+     * @sff PKCS9Attributf
+     */
+    publid PKCS9Attributfs(ObjfdtIdfntififr[] pfrmittfdAttributfs,
+                           DfrInputStrfbm in) throws IOExdfption {
+        if (pfrmittfdAttributfs != null) {
+            this.pfrmittfdAttributfs =
+                nfw Hbshtbblf<ObjfdtIdfntififr, ObjfdtIdfntififr>(
+                                                pfrmittfdAttributfs.lfngth);
+
+            for (int i = 0; i < pfrmittfdAttributfs.lfngth; i++)
+                this.pfrmittfdAttributfs.put(pfrmittfdAttributfs[i],
+                                             pfrmittfdAttributfs[i]);
+        } flsf {
+            this.pfrmittfdAttributfs = null;
+        }
+
+        // dfrEndoding initiblizfd in <dodf>dfdodf()</dodf>
+        dfrEndoding = dfdodf(in);
+    }
+
+    /**
+     * Construdt b sft of PKCS9 Attributfs from thf dontfnts of its
+     * DER fndoding on b DfrInputStrfbm.  Addfpt bll bttributfs
+     * supportfd by dlbss PKCS9Attributf bnd rfjfdt bny unsupportfd
+     * bttributfs.
+     *
+     * @pbrbm in thf dontfnts of thf DER fndoding of thf bttributf sft.
+     * @fxdfption IOExdfption
+     * on i/o frror, fndoding syntbx frror, or unsupportfd or
+     * duplidbtf bttributf.
+     *
+     * @sff PKCS9Attributf
+     */
+    publid PKCS9Attributfs(DfrInputStrfbm in) throws IOExdfption {
+        this(in, fblsf);
+    }
+
+    /**
+     * Construdt b sft of PKCS9 Attributfs from thf dontfnts of its
+     * DER fndoding on b DfrInputStrfbm.  Addfpt bll bttributfs
+     * supportfd by dlbss PKCS9Attributf bnd ignorf bny unsupportfd
+     * bttributfs, if dirfdtfd.
+     *
+     * @pbrbm in thf dontfnts of thf DER fndoding of thf bttributf sft.
+     * @pbrbm ignorfUnsupportfdAttributfs If truf thfn bny bttributfs
+     * not supportfd by thf PKCS9Attributf dlbss brf ignorfd. Othfrwisf
+     * unsupportfd bttributfs dbusf bn fxdfption to bf thrown.
+     * @fxdfption IOExdfption
+     * on i/o frror, fndoding syntbx frror, or unsupportfd or
+     * duplidbtf bttributf.
+     *
+     * @sff PKCS9Attributf
+     */
+    publid PKCS9Attributfs(DfrInputStrfbm in,
+        boolfbn ignorfUnsupportfdAttributfs) throws IOExdfption {
+
+        this.ignorfUnsupportfdAttributfs = ignorfUnsupportfdAttributfs;
+        // dfrEndoding initiblizfd in <dodf>dfdodf()</dodf>
+        dfrEndoding = dfdodf(in);
+        pfrmittfdAttributfs = null;
+    }
+
+    /**
+     * Construdt b sft of PKCS9 Attributfs from thf givfn brrby of
+     * PKCS9 bttributfs.
+     * DER fndoding on b DfrInputStrfbm.  All bttributfs in
+     * <dodf>bttribs</dodf> must bf
+     * supportfd by dlbss PKCS9Attributf.
+     *
+     * @fxdfption IOExdfption
+     * on i/o frror, fndoding syntbx frror, or unsupportfd or
+     * duplidbtf bttributf.
+     *
+     * @sff PKCS9Attributf
+     */
+    publid PKCS9Attributfs(PKCS9Attributf[] bttribs)
+    throws IllfgblArgumfntExdfption, IOExdfption {
+        ObjfdtIdfntififr oid;
+        for (int i=0; i < bttribs.lfngth; i++) {
+            oid = bttribs[i].gftOID();
+            if (bttributfs.dontbinsKfy(oid))
+                throw nfw IllfgblArgumfntExdfption(
+                          "PKCSAttributf " + bttribs[i].gftOID() +
+                          " duplidbtfd whilf donstrudting " +
+                          "PKCS9Attributfs.");
+
+            bttributfs.put(oid, bttribs[i]);
+        }
+        dfrEndoding = gfnfrbtfDfrEndoding();
+        pfrmittfdAttributfs = null;
+    }
+
+
+    /**
+     * Dfdodf this sft of PKCS9 bttributfs from thf dontfnts of its
+     * DER fndoding. Ignorfs unsupportfd bttributfs whfn dirfdtfd.
+     *
+     * @pbrbm in
+     * thf dontfnts of thf DER fndoding of thf bttributf sft.
+     *
+     * @fxdfption IOExdfption
+     * on i/o frror, fndoding syntbx frror, unbddfptbblf or
+     * unsupportfd bttributf, or duplidbtf bttributf.
+     */
+    privbtf bytf[] dfdodf(DfrInputStrfbm in) throws IOExdfption {
+
+        DfrVbluf vbl = in.gftDfrVbluf();
+
+        // sbvf thf DER fndoding with its propfr tbg bytf.
+        bytf[] dfrEndoding = vbl.toBytfArrby();
+        dfrEndoding[0] = DfrVbluf.tbg_SftOf;
+
+        DfrInputStrfbm dfrIn = nfw DfrInputStrfbm(dfrEndoding);
+        DfrVbluf[] dfrVbls = dfrIn.gftSft(3,truf);
+
+        PKCS9Attributf bttrib;
+        ObjfdtIdfntififr oid;
+        boolfbn rfusfEndoding = truf;
+
+        for (int i=0; i < dfrVbls.lfngth; i++) {
+
+            try {
+                bttrib = nfw PKCS9Attributf(dfrVbls[i]);
+
+            } dbtdh (PbrsingExdfption f) {
+                if (ignorfUnsupportfdAttributfs) {
+                    rfusfEndoding = fblsf; // dbnnot rfusf supplifd DER fndoding
+                    dontinuf; // skip
+                } flsf {
+                    throw f;
+                }
+            }
+            oid = bttrib.gftOID();
+
+            if (bttributfs.gft(oid) != null)
+                throw nfw IOExdfption("Duplidbtf PKCS9 bttributf: " + oid);
+
+            if (pfrmittfdAttributfs != null &&
+                !pfrmittfdAttributfs.dontbinsKfy(oid))
+                throw nfw IOExdfption("Attributf " + oid +
+                                      " not pfrmittfd in this bttributf sft");
+
+            bttributfs.put(oid, bttrib);
+        }
+        rfturn rfusfEndoding ? dfrEndoding : gfnfrbtfDfrEndoding();
+    }
+
+    /**
+     * Put thf DER fndoding of this PKCS9 bttributf sft on bn
+     * DfrOutputStrfbm, tbggfd with thf givfn implidit tbg.
+     *
+     * @pbrbm tbg thf implidit tbg to usf in thf DER fndoding.
+     * @pbrbm out thf output strfbm on whidh to put thf DER fndoding.
+     *
+     * @fxdfption IOExdfption  on output frror.
+     */
+    publid void fndodf(bytf tbg, OutputStrfbm out) throws IOExdfption {
+        out.writf(tbg);
+        out.writf(dfrEndoding, 1, dfrEndoding.lfngth -1);
+    }
+
+    privbtf bytf[] gfnfrbtfDfrEndoding() throws IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        Objfdt[] bttribVbls = bttributfs.vblufs().toArrby();
+
+        out.putOrdfrfdSftOf(DfrVbluf.tbg_SftOf,
+                            dbstToDfrEndodfr(bttribVbls));
+        rfturn out.toBytfArrby();
+    }
+
+    /**
+     * Rfturn thf DER fndoding of this bttributf sft, tbggfd with
+     * DfrVbluf.tbg_SftOf.
+     */
+    publid bytf[] gftDfrEndoding() throws IOExdfption {
+        rfturn dfrEndoding.dlonf();
+
+    }
+
+    /**
+     * Gft bn bttributf from this sft.
+     */
+    publid PKCS9Attributf gftAttributf(ObjfdtIdfntififr oid) {
+        rfturn bttributfs.gft(oid);
+    }
+
+    /**
+     * Gft bn bttributf from this sft.
+     */
+    publid PKCS9Attributf gftAttributf(String nbmf) {
+        rfturn bttributfs.gft(PKCS9Attributf.gftOID(nbmf));
+    }
+
+
+    /**
+     * Gft bn brrby of bll bttributfs in this sft, in ordfr of OID.
+     */
+    publid PKCS9Attributf[] gftAttributfs() {
+        PKCS9Attributf[] bttribs = nfw PKCS9Attributf[bttributfs.sizf()];
+        ObjfdtIdfntififr oid;
+
+        int j = 0;
+        for (int i=1; i < PKCS9Attributf.PKCS9_OIDS.lfngth &&
+                      j < bttribs.lfngth; i++) {
+            bttribs[j] = gftAttributf(PKCS9Attributf.PKCS9_OIDS[i]);
+
+            if (bttribs[j] != null)
+                j++;
+        }
+        rfturn bttribs;
+    }
+
+    /**
+     * Gft bn bttributf vbluf by OID.
+     */
+    publid Objfdt gftAttributfVbluf(ObjfdtIdfntififr oid)
+    throws IOExdfption {
+        try {
+            Objfdt vbluf = gftAttributf(oid).gftVbluf();
+            rfturn vbluf;
+        } dbtdh (NullPointfrExdfption fx) {
+            throw nfw IOExdfption("No vbluf found for bttributf " + oid);
+        }
+
+    }
+
+    /**
+     *  Gft bn bttributf vbluf by typf nbmf.
+     */
+    publid Objfdt gftAttributfVbluf(String nbmf) throws IOExdfption {
+        ObjfdtIdfntififr oid = PKCS9Attributf.gftOID(nbmf);
+
+        if (oid == null)
+            throw nfw IOExdfption("Attributf nbmf " + nbmf +
+                                  " not rfdognizfd or not supportfd.");
+
+        rfturn gftAttributfVbluf(oid);
+    }
+
+
+    /**
+     * Rfturns thf PKCS9 blodk in b printbblf string form.
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(200);
+        sb.bppfnd("PKCS9 Attributfs: [\n\t");
+
+        ObjfdtIdfntififr oid;
+        PKCS9Attributf vbluf;
+
+        boolfbn first = truf;
+        for (int i = 1; i < PKCS9Attributf.PKCS9_OIDS.lfngth; i++) {
+            vbluf = gftAttributf(PKCS9Attributf.PKCS9_OIDS[i]);
+
+            if (vbluf == null) dontinuf;
+
+            // wf hbvf b vbluf; print it
+            if (first)
+                first = fblsf;
+            flsf
+                sb.bppfnd(";\n\t");
+
+            sb.bppfnd(vbluf.toString());
+        }
+
+        sb.bppfnd("\n\t] (fnd PKCS9 Attributfs)");
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Cbst bn objfdt brrby whosf domponfnts brf
+     * <dodf>DfrEndodfr</dodf>s to <dodf>DfrEndodfr[]</dodf>.
+     */
+    stbtid DfrEndodfr[] dbstToDfrEndodfr(Objfdt[] objs) {
+
+        DfrEndodfr[] fndodfrs = nfw DfrEndodfr[objs.lfngth];
+
+        for (int i=0; i < fndodfrs.lfngth; i++)
+            fndodfrs[i] = (DfrEndodfr) objs[i];
+
+        rfturn fndodfrs;
+    }
+}

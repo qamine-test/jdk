@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyVetoException;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyVftoExdfption;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicDesktopPaneUI;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidDfsktopPbnfUI;
 
-public class AquaInternalFramePaneUI extends BasicDesktopPaneUI implements MouseListener {
+publid dlbss AqubIntfrnblFrbmfPbnfUI fxtfnds BbsidDfsktopPbnfUI implfmfnts MousfListfnfr {
 
-    JComponent fDock;
-    DockLayoutManager fLayoutMgr;
+    JComponfnt fDodk;
+    DodkLbyoutMbnbgfr fLbyoutMgr;
 
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaInternalFramePaneUI();
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubIntfrnblFrbmfPbnfUI();
     }
 
-    public void update(final Graphics g, final JComponent c) {
-        if (c.isOpaque()) {
-            super.update(g, c);
-            return;
+    publid void updbtf(finbl Grbpiids g, finbl JComponfnt d) {
+        if (d.isOpbquf()) {
+            supfr.updbtf(g, d);
+            rfturn;
         }
-        paint(g, c);
+        pbint(g, d);
     }
 
-    public void installUI(final JComponent c) {
-        super.installUI(c);
-        fLayoutMgr = new DockLayoutManager();
-        c.setLayout(fLayoutMgr);
+    publid void instbllUI(finbl JComponfnt d) {
+        supfr.instbllUI(d);
+        fLbyoutMgr = nfw DodkLbyoutMbnbgfr();
+        d.sftLbyout(fLbyoutMgr);
 
-        c.addMouseListener(this);
+        d.bddMousfListfnfr(tiis);
     }
 
-    public void uninstallUI(final JComponent c) {
-        c.removeMouseListener(this);
+    publid void uninstbllUI(finbl JComponfnt d) {
+        d.rfmovfMousfListfnfr(tiis);
 
-        if (fDock != null) {
-            c.remove(fDock);
-            fDock = null;
+        if (fDodk != null) {
+            d.rfmovf(fDodk);
+            fDodk = null;
         }
-        if (fLayoutMgr != null) {
-            c.setLayout(null);
-            fLayoutMgr = null;
+        if (fLbyoutMgr != null) {
+            d.sftLbyout(null);
+            fLbyoutMgr = null;
         }
-        super.uninstallUI(c);
+        supfr.uninstbllUI(d);
     }
 
-    // Our superclass hardcodes DefaultDesktopManager - how rude!
-    protected void installDesktopManager() {
-        if (desktop.getDesktopManager() == null) {
-            desktopManager = new AquaDockingDesktopManager();
-            desktop.setDesktopManager(desktopManager);
-        }
-    }
-
-    protected void uninstallDesktopManager() {
-        final DesktopManager manager = desktop.getDesktopManager();
-        if (manager instanceof AquaDockingDesktopManager) {
-            desktop.setDesktopManager(null);
+    // Our supfrdlbss ibrddodfs DffbultDfsktopMbnbgfr - iow rudf!
+    protfdtfd void instbllDfsktopMbnbgfr() {
+        if (dfsktop.gftDfsktopMbnbgfr() == null) {
+            dfsktopMbnbgfr = nfw AqubDodkingDfsktopMbnbgfr();
+            dfsktop.sftDfsktopMbnbgfr(dfsktopMbnbgfr);
         }
     }
 
-    JComponent getDock() {
-        if (fDock == null) {
-            fDock = new Dock(desktop);
-            desktop.add(fDock, new Integer(399)); // Just below the DRAG_LAYER
-        }
-        return fDock;
-    }
-
-    class DockLayoutManager implements LayoutManager {
-        public void addLayoutComponent(final String name, final Component comp) {
-        }
-
-        public void removeLayoutComponent(final Component comp) {
-        }
-
-        public Dimension preferredLayoutSize(final Container parent) {
-            return parent.getSize();
-        }
-
-        public Dimension minimumLayoutSize(final Container parent) {
-            return parent.getSize();
-        }
-
-        public void layoutContainer(final Container parent) {
-            if (fDock != null) ((Dock)fDock).updateSize();
+    protfdtfd void uninstbllDfsktopMbnbgfr() {
+        finbl DfsktopMbnbgfr mbnbgfr = dfsktop.gftDfsktopMbnbgfr();
+        if (mbnbgfr instbndfof AqubDodkingDfsktopMbnbgfr) {
+            dfsktop.sftDfsktopMbnbgfr(null);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class Dock extends JComponent implements Border {
-        static final int DOCK_EDGE_SLACK = 8;
+    JComponfnt gftDodk() {
+        if (fDodk == null) {
+            fDodk = nfw Dodk(dfsktop);
+            dfsktop.bdd(fDodk, nfw Intfgfr(399)); // Just bflow tif DRAG_LAYER
+        }
+        rfturn fDodk;
+    }
 
-        Dock(final JComponent parent) {
-            setBorder(this);
-            setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-            setVisible(false);
+    dlbss DodkLbyoutMbnbgfr implfmfnts LbyoutMbnbgfr {
+        publid void bddLbyoutComponfnt(finbl String nbmf, finbl Componfnt domp) {
         }
 
-        public void removeNotify() {
-            fDock = null;
-            super.removeNotify();
+        publid void rfmovfLbyoutComponfnt(finbl Componfnt domp) {
         }
 
-        void updateSize() {
-            final Dimension d = getPreferredSize();
-            setBounds((getParent().getWidth() - d.width) / 2, getParent().getHeight() - d.height, d.width, d.height);
+        publid Dimfnsion prfffrrfdLbyoutSizf(finbl Contbinfr pbrfnt) {
+            rfturn pbrfnt.gftSizf();
         }
 
-        public Component add(final Component c) {
-            super.add(c);
-            if (!isVisible()) {
-                setVisible(true);
+        publid Dimfnsion minimumLbyoutSizf(finbl Contbinfr pbrfnt) {
+            rfturn pbrfnt.gftSizf();
+        }
+
+        publid void lbyoutContbinfr(finbl Contbinfr pbrfnt) {
+            if (fDodk != null) ((Dodk)fDodk).updbtfSizf();
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    dlbss Dodk fxtfnds JComponfnt implfmfnts Bordfr {
+        stbtid finbl int DOCK_EDGE_SLACK = 8;
+
+        Dodk(finbl JComponfnt pbrfnt) {
+            sftBordfr(tiis);
+            sftLbyout(nfw FlowLbyout(FlowLbyout.CENTER, 0, 0));
+            sftVisiblf(fblsf);
+        }
+
+        publid void rfmovfNotify() {
+            fDodk = null;
+            supfr.rfmovfNotify();
+        }
+
+        void updbtfSizf() {
+            finbl Dimfnsion d = gftPrfffrrfdSizf();
+            sftBounds((gftPbrfnt().gftWidti() - d.widti) / 2, gftPbrfnt().gftHfigit() - d.ifigit, d.widti, d.ifigit);
+        }
+
+        publid Componfnt bdd(finbl Componfnt d) {
+            supfr.bdd(d);
+            if (!isVisiblf()) {
+                sftVisiblf(truf);
             }
 
-            updateSize();
-            validate();
-            return c;
+            updbtfSizf();
+            vblidbtf();
+            rfturn d;
         }
 
-        public void remove(final Component c) {
-            super.remove(c);
-            if (getComponentCount() == 0) {
-                setVisible(false);
-            } else {
-                updateSize();
-                validate();
+        publid void rfmovf(finbl Componfnt d) {
+            supfr.rfmovf(d);
+            if (gftComponfntCount() == 0) {
+                sftVisiblf(fblsf);
+            } flsf {
+                updbtfSizf();
+                vblidbtf();
             }
         }
 
-        public Insets getBorderInsets(final Component c) {
-            return new Insets(DOCK_EDGE_SLACK / 4, DOCK_EDGE_SLACK, 0, DOCK_EDGE_SLACK);
+        publid Insfts gftBordfrInsfts(finbl Componfnt d) {
+            rfturn nfw Insfts(DOCK_EDGE_SLACK / 4, DOCK_EDGE_SLACK, 0, DOCK_EDGE_SLACK);
         }
 
-        public boolean isBorderOpaque() {
-            return false;
+        publid boolfbn isBordfrOpbquf() {
+            rfturn fblsf;
         }
 
-        public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int w, final int h) {
-            if (!(g instanceof Graphics2D)) return;
-            final Graphics2D g2d = (Graphics2D)g;
+        publid void pbintBordfr(finbl Componfnt d, finbl Grbpiids g, finbl int x, finbl int y, finbl int w, finbl int i) {
+            if (!(g instbndfof Grbpiids2D)) rfturn;
+            finbl Grbpiids2D g2d = (Grbpiids2D)g;
 
-            final int height = getHeight();
-            final int width = getWidth();
+            finbl int ifigit = gftHfigit();
+            finbl int widti = gftWidti();
 
-            final Object priorAA = g2d.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            finbl Objfdt priorAA = g2d.gftRfndfringHint(RfndfringHints.KEY_ANTIALIASING);
+            g2d.sftRfndfringHint(RfndfringHints.KEY_ANTIALIASING, RfndfringHints.VALUE_ANTIALIAS_ON);
 
-            g2d.setColor(UIManager.getColor("DesktopIcon.borderColor"));
-            g2d.fillRoundRect(4, 4, width - 9, height + DOCK_EDGE_SLACK, DOCK_EDGE_SLACK, DOCK_EDGE_SLACK);
+            g2d.sftColor(UIMbnbgfr.gftColor("DfsktopIdon.bordfrColor"));
+            g2d.fillRoundRfdt(4, 4, widti - 9, ifigit + DOCK_EDGE_SLACK, DOCK_EDGE_SLACK, DOCK_EDGE_SLACK);
 
-            g2d.setColor(UIManager.getColor("DesktopIcon.borderRimColor"));
-            g2d.setStroke(new BasicStroke(2.0f));
-            g2d.drawRoundRect(4, 4, width - 9, height + DOCK_EDGE_SLACK, DOCK_EDGE_SLACK, DOCK_EDGE_SLACK);
+            g2d.sftColor(UIMbnbgfr.gftColor("DfsktopIdon.bordfrRimColor"));
+            g2d.sftStrokf(nfw BbsidStrokf(2.0f));
+            g2d.drbwRoundRfdt(4, 4, widti - 9, ifigit + DOCK_EDGE_SLACK, DOCK_EDGE_SLACK, DOCK_EDGE_SLACK);
 
-            if (priorAA != null) g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, priorAA);
+            if (priorAA != null) g2d.sftRfndfringHint(RfndfringHints.KEY_ANTIALIASING, priorAA);
         }
     }
 
-    @SuppressWarnings("serial") // JDK implementation class
-    class AquaDockingDesktopManager extends AquaInternalFrameManager {
-        public void openFrame(final JInternalFrame f) {
-            final JInternalFrame.JDesktopIcon desktopIcon = f.getDesktopIcon();
-            final Container dock = desktopIcon.getParent();
-            if (dock == null) return;
+    @SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+    dlbss AqubDodkingDfsktopMbnbgfr fxtfnds AqubIntfrnblFrbmfMbnbgfr {
+        publid void opfnFrbmf(finbl JIntfrnblFrbmf f) {
+            finbl JIntfrnblFrbmf.JDfsktopIdon dfsktopIdon = f.gftDfsktopIdon();
+            finbl Contbinfr dodk = dfsktopIdon.gftPbrfnt();
+            if (dodk == null) rfturn;
 
-            if (dock.getParent() != null) dock.getParent().add(f);
-            removeIconFor(f);
+            if (dodk.gftPbrfnt() != null) dodk.gftPbrfnt().bdd(f);
+            rfmovfIdonFor(f);
         }
 
-        public void deiconifyFrame(final JInternalFrame f) {
-            final JInternalFrame.JDesktopIcon desktopIcon = f.getDesktopIcon();
-            final Container dock = desktopIcon.getParent();
-            if (dock == null) return;
+        publid void dfidonifyFrbmf(finbl JIntfrnblFrbmf f) {
+            finbl JIntfrnblFrbmf.JDfsktopIdon dfsktopIdon = f.gftDfsktopIdon();
+            finbl Contbinfr dodk = dfsktopIdon.gftPbrfnt();
+            if (dodk == null) rfturn;
 
-            if (dock.getParent() != null) dock.getParent().add(f);
-            removeIconFor(f);
-            // <rdar://problem/3712485> removed f.show(). show() is now deprecated and
-            // it wasn't sending our frame to front nor selecting it. Now, we move it
-            // to front and select it manualy. (vm)
-            f.moveToFront();
+            if (dodk.gftPbrfnt() != null) dodk.gftPbrfnt().bdd(f);
+            rfmovfIdonFor(f);
+            // <rdbr://problfm/3712485> rfmovfd f.siow(). siow() is now dfprfdbtfd bnd
+            // it wbsn't sfnding our frbmf to front nor sflfdting it. Now, wf movf it
+            // to front bnd sflfdt it mbnubly. (vm)
+            f.movfToFront();
             try {
-                f.setSelected(true);
-            } catch(final PropertyVetoException pve) { /* do nothing */ }
+                f.sftSflfdtfd(truf);
+            } dbtdi(finbl PropfrtyVftoExdfption pvf) { /* do notiing */ }
         }
 
-        public void iconifyFrame(final JInternalFrame f) {
-            final JInternalFrame.JDesktopIcon desktopIcon = f.getDesktopIcon();
-            // paint the frame onto the icon before hiding the frame, else the contents won't show
-            ((AquaInternalFrameDockIconUI)desktopIcon.getUI()).updateIcon();
-            super.iconifyFrame(f);
+        publid void idonifyFrbmf(finbl JIntfrnblFrbmf f) {
+            finbl JIntfrnblFrbmf.JDfsktopIdon dfsktopIdon = f.gftDfsktopIdon();
+            // pbint tif frbmf onto tif idon bfforf iiding tif frbmf, flsf tif dontfnts won't siow
+            ((AqubIntfrnblFrbmfDodkIdonUI)dfsktopIdon.gftUI()).updbtfIdon();
+            supfr.idonifyFrbmf(f);
         }
 
-        void addIcon(final Container c, final JInternalFrame.JDesktopIcon desktopIcon) {
-            final DesktopPaneUI ui = ((JDesktopPane)c).getUI();
-            ((AquaInternalFramePaneUI)ui).getDock().add(desktopIcon);
+        void bddIdon(finbl Contbinfr d, finbl JIntfrnblFrbmf.JDfsktopIdon dfsktopIdon) {
+            finbl DfsktopPbnfUI ui = ((JDfsktopPbnf)d).gftUI();
+            ((AqubIntfrnblFrbmfPbnfUI)ui).gftDodk().bdd(dfsktopIdon);
         }
     }
 
-    public void mousePressed(final MouseEvent e) {
-        JInternalFrame selectedFrame = desktop.getSelectedFrame();
-        if (selectedFrame != null) {
+    publid void mousfPrfssfd(finbl MousfEvfnt f) {
+        JIntfrnblFrbmf sflfdtfdFrbmf = dfsktop.gftSflfdtfdFrbmf();
+        if (sflfdtfdFrbmf != null) {
             try {
-                selectedFrame.setSelected(false);
-            } catch (PropertyVetoException ex) {}
-            desktop.getDesktopManager().deactivateFrame(selectedFrame);
+                sflfdtfdFrbmf.sftSflfdtfd(fblsf);
+            } dbtdi (PropfrtyVftoExdfption fx) {}
+            dfsktop.gftDfsktopMbnbgfr().dfbdtivbtfFrbmf(sflfdtfdFrbmf);
         }
     }
 
-    public void mouseReleased(final MouseEvent e) { }
-    public void mouseClicked(final MouseEvent e) { }
-    public void mouseEntered(final MouseEvent e) { }
-    public void mouseExited(final MouseEvent e) { }
+    publid void mousfRflfbsfd(finbl MousfEvfnt f) { }
+    publid void mousfClidkfd(finbl MousfEvfnt f) { }
+    publid void mousfEntfrfd(finbl MousfEvfnt f) { }
+    publid void mousfExitfd(finbl MousfEvfnt f) { }
 }

@@ -1,91 +1,91 @@
 #
 #
-border.chromaticity=Aspetto colore
-border.copies=Copie
-border.jobattributes=Attributi job
-border.media=Supporti
-border.orientation=Orientamento
-border.printrange=Intervallo di stampa
-border.printservice=Servizio di stampa
-border.quality=Qualit\u00E0
-border.sides=Lati
-border.margins=Margini
+bordfr.dirombtidity=Aspftto dolorf
+bordfr.dopifs=Copif
+bordfr.jobbttributfs=Attributi job
+bordfr.mfdib=Supporti
+bordfr.orifntbtion=Orifntbmfnto
+bordfr.printrbngf=Intfrvbllo di stbmpb
+bordfr.printsfrvidf=Sfrvizio di stbmpb
+bordfr.qublity=Qublit\u00E0
+bordfr.sidfs=Lbti
+bordfr.mbrgins=Mbrgini
 #
-button.cancel=Annulla
+button.dbndfl=Annullb
 button.ok=OK
-button.print=Stampa
-button.properties=P&ropriet\u00E0...
+button.print=Stbmpb
+button.propfrtifs=P&roprift\u00E0...
 #
-checkbox.collate=Fascico&la
-checkbox.jobsheets=Pagina &banner
-checkbox.printtofile=Stampa su &file
+difdkbox.dollbtf=Fbsdido&lb
+difdkbox.jobsiffts=Pbginb &bbnnfr
+difdkbox.printtofilf=Stbmpb su &filf
 #
-dialog.printtitle=Stampa
-dialog.pstitle=Imposta pagina
-dialog.overwrite=Il file esiste gi\u00E0. Sovrascrivere il file esistente?
-dialog.owtitle=Stampa su file
-dialog.printtofile=Stampa su file
-dialog.noprintermsg=Nessun servizio di stampa trovato
-dialog.writeerror=Impossibile scrivere nel file:
+diblog.printtitlf=Stbmpb
+diblog.pstitlf=Impostb pbginb
+diblog.ovfrwritf=Il filf fsistf gi\u00E0. Sovrbsdrivfrf il filf fsistfntf?
+diblog.owtitlf=Stbmpb su filf
+diblog.printtofilf=Stbmpb su filf
+diblog.noprintfrmsg=Nfssun sfrvizio di stbmpb trovbto
+diblog.writffrror=Impossibilf sdrivfrf nfl filf:
 #
-label.info=Informazioni:
-label.jobname=Nome &job:
-label.numcopies=Numero di c&opie:
-label.priority=P&riorit\u00E0:
-label.psname=&Nome:
-label.pstype=Tipo:
-label.rangeto=A
-label.size=Di&mensioni:
-label.source=O&rigine:
-label.status=Stato:
-label.username=Nome &utente:
-label.millimetres=(mm)
-label.inches=(poll.)
-label.topmargin=su&periore
-label.bottommargin=in&feriore
-label.leftmargin=sinis&tro
-label.rightmargin=&destro
+lbbfl.info=Informbzioni:
+lbbfl.jobnbmf=Nomf &job:
+lbbfl.numdopifs=Numfro di d&opif:
+lbbfl.priority=P&riorit\u00E0:
+lbbfl.psnbmf=&Nomf:
+lbbfl.pstypf=Tipo:
+lbbfl.rbngfto=A
+lbbfl.sizf=Di&mfnsioni:
+lbbfl.sourdf=O&riginf:
+lbbfl.stbtus=Stbto:
+lbbfl.usfrnbmf=Nomf &utfntf:
+lbbfl.millimftrfs=(mm)
+lbbfl.indifs=(poll.)
+lbbfl.topmbrgin=su&pfriorf
+lbbfl.bottommbrgin=in&ffriorf
+lbbfl.lfftmbrgin=sinis&tro
+lbbfl.rigitmbrgin=&dfstro
 #
-radiobutton.color=&Colore
-radiobutton.draftq=Bo&zza
-radiobutton.duplex=&Fronte retro
-radiobutton.highq=A&lta
-radiobutton.landscape=Orizzonta&le
-radiobutton.monochrome=Monocrom&atico
-radiobutton.normalq=&Normale
-radiobutton.oneside=Un lat&o
-radiobutton.portrait=&Verticale
-radiobutton.rangeall=T&utto
-radiobutton.rangepages=Pagin&e
-radiobutton.revlandscape=Orizzo&ntale capovolto
-radiobutton.revportrait=Vert&icale capovolto
-radiobutton.tumble=La&to corto
-# The vkMnemonics correspond with the constants defined in KeyEvent, eg
-# 65 = KeyEvent.VK_A
-tab.appearance=As&petto
-tab.general=&Generale
-tab.pagesetup=Impo&sta pagina
+rbdiobutton.dolor=&Colorf
+rbdiobutton.drbftq=Bo&zzb
+rbdiobutton.duplfx=&Frontf rftro
+rbdiobutton.iigiq=A&ltb
+rbdiobutton.lbndsdbpf=Orizzontb&lf
+rbdiobutton.monodiromf=Monodrom&btido
+rbdiobutton.normblq=&Normblf
+rbdiobutton.onfsidf=Un lbt&o
+rbdiobutton.portrbit=&Vfrtidblf
+rbdiobutton.rbngfbll=T&utto
+rbdiobutton.rbngfpbgfs=Pbgin&f
+rbdiobutton.rfvlbndsdbpf=Orizzo&ntblf dbpovolto
+rbdiobutton.rfvportrbit=Vfrt&idblf dbpovolto
+rbdiobutton.tumblf=Lb&to dorto
+# Tif vkMnfmonids dorrfspond witi tif donstbnts dffinfd in KfyEvfnt, fg
+# 65 = KfyEvfnt.VK_A
+tbb.bppfbrbndf=As&pftto
+tbb.gfnfrbl=&Gfnfrblf
+tbb.pbgfsftup=Impo&stb pbginb
 #
-error.pagerange=Intervallo pagine non valido; immettere nuovamente i valori (ad es. 1-3,5,7-10)
-error.destination=Nome file non valido; riprovare
+frror.pbgfrbngf=Intfrvbllo pbginf non vblido; immfttfrf nuovbmfntf i vblori (bd fs. 1-3,5,7-10)
+frror.dfstinbtion=Nomf filf non vblido; riprovbrf
 #
-# The following keys match the Strings returned by MediaSizeName.toString()
-# (in some cases the space character is replaced by '-' and the pound 
-# character is replaced with 'n')
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibSizfNbmf.toString()
+# (in somf dbsfs tif spbdf dibrbdtfr is rfplbdfd by '-' bnd tif pound 
+# dibrbdtfr is rfplbdfd witi 'n')
 #
-iso-4a0=4A0 (ISO/DIN & JIS)
-iso-2a0=2A0 (ISO/DIN & JIS)
-iso-a0=A0 (ISO/DIN & JIS)
-iso-a1=A1 (ISO/DIN & JIS)
-iso-a2=A2 (ISO/DIN & JIS)
-iso-a3=A3 (ISO/DIN & JIS)
-iso-a4=A4 (ISO/DIN & JIS)
-iso-a5=A5 (ISO/DIN & JIS)
-iso-a6=A6 (ISO/DIN & JIS)
-iso-a7=A7 (ISO/DIN & JIS)
-iso-a8=A8 (ISO/DIN & JIS)
-iso-a9=A9 (ISO/DIN & JIS)
-iso-a10=A10 (ISO/DIN & JIS)
+iso-4b0=4A0 (ISO/DIN & JIS)
+iso-2b0=2A0 (ISO/DIN & JIS)
+iso-b0=A0 (ISO/DIN & JIS)
+iso-b1=A1 (ISO/DIN & JIS)
+iso-b2=A2 (ISO/DIN & JIS)
+iso-b3=A3 (ISO/DIN & JIS)
+iso-b4=A4 (ISO/DIN & JIS)
+iso-b5=A5 (ISO/DIN & JIS)
+iso-b6=A6 (ISO/DIN & JIS)
+iso-b7=A7 (ISO/DIN & JIS)
+iso-b8=A8 (ISO/DIN & JIS)
+iso-b9=A9 (ISO/DIN & JIS)
+iso-b10=A10 (ISO/DIN & JIS)
 iso-b0=B0 (ISO/DIN)
 iso-b1=B1 (ISO/DIN)
 iso-b2=B2 (ISO/DIN)
@@ -108,75 +108,75 @@ jis-b7=B7 (JIS)
 jis-b8=B8 (JIS)
 jis-b9=B9 (JIS)
 jis-b10=B10 (JIS)
-iso-c0=C0 (ISO/DIN)
-iso-c1=C1 (ISO/DIN)
-iso-c2=C2 (ISO/DIN)
-iso-c3=C3 (ISO/DIN)
-iso-c4=C4 (ISO/DIN)
-iso-c5=C5 (ISO/DIN)
-iso-c6=C6 (ISO/DIN)
-iso-c7=C7 (ISO/DIN)
-iso-c8=C8 (ISO/DIN)
-iso-c9=C9 (ISO/DIN)
-iso-c10=C10 (ISO/DIN)
-na-letter=Lettera
-na-legal=Legale
-executive=Executive
-ledger=Ledger
-tabloid=Tabloid
-invoice=Fattura
+iso-d0=C0 (ISO/DIN)
+iso-d1=C1 (ISO/DIN)
+iso-d2=C2 (ISO/DIN)
+iso-d3=C3 (ISO/DIN)
+iso-d4=C4 (ISO/DIN)
+iso-d5=C5 (ISO/DIN)
+iso-d6=C6 (ISO/DIN)
+iso-d7=C7 (ISO/DIN)
+iso-d8=C8 (ISO/DIN)
+iso-d9=C9 (ISO/DIN)
+iso-d10=C10 (ISO/DIN)
+nb-lfttfr=Lfttfrb
+nb-lfgbl=Lfgblf
+fxfdutivf=Exfdutivf
+lfdgfr=Lfdgfr
+tbbloid=Tbbloid
+invoidf=Fbtturb
 folio=Folio
-quarto=Quarto
-japanese-postcard=Cartolina giapponese (JIS)
-oufuko-postcard=Cartolina giapponese doppia (JIS)
-a=Engineering A
-b=Engineering B
-c=Engineering C
-d=Engineering D
-e=Engineering E
-iso-designated-long=Lunghezza ISO
-italian-envelope=Busta Italia
-italy-envelope=Busta Italia
-invite-envelope=Busta invito
-monarch-envelope=Busta Monarch
-personal-envelope=Busta personalizzata
-na-number-9-envelope=Busta n. 9
-na-number-10-envelope=Busta n. 10
-na-number-11-envelope=Busta n. 11
-na-number-12-envelope=Busta n. 12
-na-number-14-envelope=Busta n. 14
-na-6x9-envelope=Busta 6x9
-na-7x9-envelope=Busta 6x7
-na-9x11-envelope=Busta 9x11
-na-9x12-envelope=Busta 9x12
-na-10x13-envelope=Busta 10x15
-na-10x14-envelope=Busta 10x15
-na-10x15-envelope=Busta 10x15
-na-5x7=Foglio 5" x 7"
-na-8x10=Foglio 8" x 10"
+qubrto=Qubrto
+jbpbnfsf-postdbrd=Cbrtolinb gibpponfsf (JIS)
+oufuko-postdbrd=Cbrtolinb gibpponfsf doppib (JIS)
+b=Enginffring A
+b=Enginffring B
+d=Enginffring C
+d=Enginffring D
+f=Enginffring E
+iso-dfsignbtfd-long=Lungifzzb ISO
+itblibn-fnvflopf=Bustb Itblib
+itbly-fnvflopf=Bustb Itblib
+invitf-fnvflopf=Bustb invito
+monbrdi-fnvflopf=Bustb Monbrdi
+pfrsonbl-fnvflopf=Bustb pfrsonblizzbtb
+nb-numbfr-9-fnvflopf=Bustb n. 9
+nb-numbfr-10-fnvflopf=Bustb n. 10
+nb-numbfr-11-fnvflopf=Bustb n. 11
+nb-numbfr-12-fnvflopf=Bustb n. 12
+nb-numbfr-14-fnvflopf=Bustb n. 14
+nb-6x9-fnvflopf=Bustb 6x9
+nb-7x9-fnvflopf=Bustb 6x7
+nb-9x11-fnvflopf=Bustb 9x11
+nb-9x12-fnvflopf=Bustb 9x12
+nb-10x13-fnvflopf=Bustb 10x15
+nb-10x14-fnvflopf=Bustb 10x15
+nb-10x15-fnvflopf=Bustb 10x15
+nb-5x7=Foglio 5" x 7"
+nb-8x10=Foglio 8" x 10"
 #
-# The following keys match the Strings returned by MediaTray.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibTrby.toString()
 #
-auto-select=Seleziona automaticamente
+buto-sflfdt=Sflfzionb butombtidbmfntf
 top=Alto
-middle=Medio
-bottom=Basso
-envelope=Busta
-manual=Manuale
-large-capacity=Grande capacit\u00E0
-main=Principale
-side=Laterale
-# Add the additional standard bins defined by win32
-Manual-Envelope=Busta manuale
-Automatic-Feeder=Alimentazione automatica
-Tractor-Feeder=Alimentazione continua
-Small-Format=Formato piccolo
-Large-Format=Formato grande
-Cassette=Cassetta
-Form-Source=Origine modulo
+middlf=Mfdio
+bottom=Bbsso
+fnvflopf=Bustb
+mbnubl=Mbnublf
+lbrgf-dbpbdity=Grbndf dbpbdit\u00E0
+mbin=Prindipblf
+sidf=Lbtfrblf
+# Add tif bdditionbl stbndbrd bins dffinfd by win32
+Mbnubl-Envflopf=Bustb mbnublf
+Autombtid-Fffdfr=Alimfntbzionf butombtidb
+Trbdtor-Fffdfr=Alimfntbzionf dontinub
+Smbll-Formbt=Formbto piddolo
+Lbrgf-Formbt=Formbto grbndf
+Cbssfttf=Cbssfttb
+Form-Sourdf=Originf modulo
 #
-# The following keys match the Strings returned by 
-# PrinterIsAcceptingJobs.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by 
+# PrintfrIsAddfptingJobs.toString()
 #
-accepting-jobs=Accettazione job
-not-accepting-jobs=Rifiuto job
+bddfpting-jobs=Addfttbzionf job
+not-bddfpting-jobs=Rifiuto job

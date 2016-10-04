@@ -1,0 +1,387 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.StringTokfnizfr;
+
+/**
+ * This dlbss is for runtimf pfrmissions. A RuntimfPfrmission
+ * dontbins b nbmf (blso rfffrrfd to bs b "tbrgft nbmf") but
+ * no bdtions list; you fithfr hbvf thf nbmfd pfrmission
+ * or you don't.
+ *
+ * <P>
+ * Thf tbrgft nbmf is thf nbmf of thf runtimf pfrmission (sff bflow). Thf
+ * nbming donvfntion follows thf  hifrbrdhidbl propfrty nbming donvfntion.
+ * Also, bn bstfrisk
+ * mby bppfbr bt thf fnd of thf nbmf, following b ".", or by itsflf, to
+ * signify b wilddbrd mbtdh. For fxbmplf: "lobdLibrbry.*" bnd "*" signify b
+ * wilddbrd mbtdh, whilf "*lobdLibrbry" bnd "b*b" do not.
+ * <P>
+ * Thf following tbblf lists bll thf possiblf RuntimfPfrmission tbrgft nbmfs,
+ * bnd for fbdh providfs b dfsdription of whbt thf pfrmission bllows
+ * bnd b disdussion of thf risks of grbnting dodf thf pfrmission.
+ *
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="pfrmission tbrgft nbmf,
+ *  whbt thf tbrgft bllows,bnd bssodibtfd risks">
+ * <tr>
+ * <th>Pfrmission Tbrgft Nbmf</th>
+ * <th>Whbt thf Pfrmission Allows</th>
+ * <th>Risks of Allowing this Pfrmission</th>
+ * </tr>
+ *
+ * <tr>
+ *   <td>drfbtfClbssLobdfr</td>
+ *   <td>Crfbtion of b dlbss lobdfr</td>
+ *   <td>This is bn fxtrfmfly dbngfrous pfrmission to grbnt.
+ * Mblidious bpplidbtions thbt dbn instbntibtf thfir own dlbss
+ * lobdfrs dould thfn lobd thfir own roguf dlbssfs into thf systfm.
+ * Thfsf nfwly lobdfd dlbssfs dould bf plbdfd into bny protfdtion
+ * dombin by thf dlbss lobdfr, thfrfby butombtidblly grbnting thf
+ * dlbssfs thf pfrmissions for thbt dombin.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>gftClbssLobdfr</td>
+ *   <td>Rftrifvbl of b dlbss lobdfr (f.g., thf dlbss lobdfr for thf dblling
+ * dlbss)</td>
+ *   <td>This would grbnt bn bttbdkfr pfrmission to gft thf
+ * dlbss lobdfr for b pbrtidulbr dlbss. This is dbngfrous bfdbusf
+ * hbving bddfss to b dlbss's dlbss lobdfr bllows thf bttbdkfr to
+ * lobd othfr dlbssfs bvbilbblf to thbt dlbss lobdfr. Thf bttbdkfr
+ * would typidblly othfrwisf not hbvf bddfss to thosf dlbssfs.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftContfxtClbssLobdfr</td>
+ *   <td>Sftting of thf dontfxt dlbss lobdfr usfd by b thrfbd</td>
+ *   <td>Thf dontfxt dlbss lobdfr is usfd by systfm dodf bnd fxtfnsions
+ * whfn thfy nffd to lookup rfsourdfs thbt might not fxist in thf systfm
+ * dlbss lobdfr. Grbnting sftContfxtClbssLobdfr pfrmission would bllow
+ * dodf to dhbngf whidh dontfxt dlbss lobdfr is usfd
+ * for b pbrtidulbr thrfbd, indluding systfm thrfbds.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>fnbblfContfxtClbssLobdfrOvfrridf</td>
+ *   <td>Subdlbss implfmfntbtion of thf thrfbd dontfxt dlbss lobdfr mfthods</td>
+ *   <td>Thf dontfxt dlbss lobdfr is usfd by systfm dodf bnd fxtfnsions
+ * whfn thfy nffd to lookup rfsourdfs thbt might not fxist in thf systfm
+ * dlbss lobdfr. Grbnting fnbblfContfxtClbssLobdfrOvfrridf pfrmission would bllow
+ * b subdlbss of Thrfbd to ovfrridf thf mfthods thbt brf usfd
+ * to gft or sft thf dontfxt dlbss lobdfr for b pbrtidulbr thrfbd.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>dlosfClbssLobdfr</td>
+ *   <td>Closing of b ClbssLobdfr</td>
+ *   <td>Grbnting this pfrmission bllows dodf to dlosf bny URLClbssLobdfr
+ * thbt it hbs b rfffrfndf to.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftSfdurityMbnbgfr</td>
+ *   <td>Sftting of thf sfdurity mbnbgfr (possibly rfplbding bn fxisting onf)
+ * </td>
+ *   <td>Thf sfdurity mbnbgfr is b dlbss thbt bllows
+ * bpplidbtions to implfmfnt b sfdurity polidy. Grbnting thf sftSfdurityMbnbgfr
+ * pfrmission would bllow dodf to dhbngf whidh sfdurity mbnbgfr is usfd by
+ * instblling b difffrfnt, possibly lfss rfstridtivf sfdurity mbnbgfr,
+ * thfrfby bypbssing dhfdks thbt would hbvf bffn fnfordfd by thf originbl
+ * sfdurity mbnbgfr.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>drfbtfSfdurityMbnbgfr</td>
+ *   <td>Crfbtion of b nfw sfdurity mbnbgfr</td>
+ *   <td>This givfs dodf bddfss to protfdtfd, sfnsitivf mfthods thbt mby
+ * disdlosf informbtion bbout othfr dlbssfs or thf fxfdution stbdk.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>gftfnv.{vbribblf nbmf}</td>
+ *   <td>Rfbding of thf vbluf of thf spfdififd fnvironmfnt vbribblf</td>
+ *   <td>This would bllow dodf to rfbd thf vbluf, or dftfrminf thf
+ *       fxistfndf, of b pbrtidulbr fnvironmfnt vbribblf.  This is
+ *       dbngfrous if thf vbribblf dontbins donfidfntibl dbtb.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>fxitVM.{fxit stbtus}</td>
+ *   <td>Hblting of thf Jbvb Virtubl Mbdhinf with thf spfdififd fxit stbtus</td>
+ *   <td>This bllows bn bttbdkfr to mount b dfnibl-of-sfrvidf bttbdk
+ * by butombtidblly fording thf virtubl mbdhinf to hblt.
+ * Notf: Thf "fxitVM.*" pfrmission is butombtidblly grbntfd to bll dodf
+ * lobdfd from thf bpplidbtion dlbss pbth, thus fnbbling bpplidbtions
+ * to tfrminbtf thfmsflvfs. Also, thf "fxitVM" pfrmission is fquivblfnt to
+ * "fxitVM.*".</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>shutdownHooks</td>
+ *   <td>Rfgistrbtion bnd dbndfllbtion of virtubl-mbdhinf shutdown hooks</td>
+ *   <td>This bllows bn bttbdkfr to rfgistfr b mblidious shutdown
+ * hook thbt intfrffrfs with thf dlfbn shutdown of thf virtubl mbdhinf.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftFbdtory</td>
+ *   <td>Sftting of thf sodkft fbdtory usfd by SfrvfrSodkft or Sodkft,
+ * or of thf strfbm hbndlfr fbdtory usfd by URL</td>
+ *   <td>This bllows dodf to sft thf bdtubl implfmfntbtion
+ * for thf sodkft, sfrvfr sodkft, strfbm hbndlfr, or RMI sodkft fbdtory.
+ * An bttbdkfr mby sft b fbulty implfmfntbtion whidh mbnglfs thf dbtb
+ * strfbm.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftIO</td>
+ *   <td>Sftting of Systfm.out, Systfm.in, bnd Systfm.frr</td>
+ *   <td>This bllows dhbnging thf vbluf of thf stbndbrd systfm strfbms.
+ * An bttbdkfr mby dhbngf Systfm.in to monitor bnd
+ * stfbl usfr input, or mby sft Systfm.frr to b "null" OutputStrfbm,
+ * whidh would hidf bny frror mfssbgfs sfnt to Systfm.frr. </td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>modifyThrfbd</td>
+ *   <td>Modifidbtion of thrfbds, f.g., vib dblls to Thrfbd
+ * <tt>intfrrupt</tt>, <tt>stop</tt>, <tt>suspfnd</tt>,
+ * <tt>rfsumf</tt>, <tt>sftDbfmon</tt>, <tt>sftPriority</tt>,
+ * <tt>sftNbmf</tt> bnd <tt>sftUndbughtExdfptionHbndlfr</tt>
+ * mfthods</td>
+ * <td>This bllows bn bttbdkfr to modify thf bfhbviour of
+ * bny thrfbd in thf systfm.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>stopThrfbd</td>
+ *   <td>Stopping of thrfbds vib dblls to thf Thrfbd <dodf>stop</dodf>
+ * mfthod</td>
+ *   <td>This bllows dodf to stop bny thrfbd in thf systfm providfd thbt it is
+ * blrfbdy grbntfd pfrmission to bddfss thbt thrfbd.
+ * This posfs bs b thrfbt, bfdbusf thbt dodf mby dorrupt thf systfm by
+ * killing fxisting thrfbds.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>modifyThrfbdGroup</td>
+ *   <td>modifidbtion of thrfbd groups, f.g., vib dblls to ThrfbdGroup
+ * <dodf>dfstroy</dodf>, <dodf>gftPbrfnt</dodf>, <dodf>rfsumf</dodf>,
+ * <dodf>sftDbfmon</dodf>, <dodf>sftMbxPriority</dodf>, <dodf>stop</dodf>,
+ * bnd <dodf>suspfnd</dodf> mfthods</td>
+ *   <td>This bllows bn bttbdkfr to drfbtf thrfbd groups bnd
+ * sft thfir run priority.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>gftProtfdtionDombin</td>
+ *   <td>Rftrifvbl of thf ProtfdtionDombin for b dlbss</td>
+ *   <td>This bllows dodf to obtbin polidy informbtion
+ * for b pbrtidulbr dodf sourdf. Whilf obtbining polidy informbtion
+ * dofs not dompromisf thf sfdurity of thf systfm, it dofs givf
+ * bttbdkfrs bdditionbl informbtion, sudh bs lodbl filf nbmfs for
+ * fxbmplf, to bfttfr bim bn bttbdk.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>gftFilfSystfmAttributfs</td>
+ *   <td>Rftrifvbl of filf systfm bttributfs</td>
+ *   <td>This bllows dodf to obtbin filf systfm informbtion sudh bs disk usbgf
+ *       or disk spbdf bvbilbblf to thf dbllfr.  This is potfntiblly dbngfrous
+ *       bfdbusf it disdlosfs informbtion bbout thf systfm hbrdwbrf
+ *       donfigurbtion bnd somf informbtion bbout thf dbllfr's privilfgf to
+ *       writf filfs.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>rfbdFilfDfsdriptor</td>
+ *   <td>Rfbding of filf dfsdriptors</td>
+ *   <td>This would bllow dodf to rfbd thf pbrtidulbr filf bssodibtfd
+ *       with thf filf dfsdriptor rfbd. This is dbngfrous if thf filf
+ *       dontbins donfidfntibl dbtb.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>writfFilfDfsdriptor</td>
+ *   <td>Writing to filf dfsdriptors</td>
+ *   <td>This bllows dodf to writf to b pbrtidulbr filf bssodibtfd
+ *       with thf dfsdriptor. This is dbngfrous bfdbusf it mby bllow
+ *       mblidious dodf to plbnt virusfs or bt thf vfry lfbst, fill up
+ *       your fntirf disk.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>lobdLibrbry.{librbry nbmf}</td>
+ *   <td>Dynbmid linking of thf spfdififd librbry</td>
+ *   <td>It is dbngfrous to bllow bn bpplft pfrmission to lobd nbtivf dodf
+ * librbrifs, bfdbusf thf Jbvb sfdurity brdhitfdturf is not dfsignfd to bnd
+ * dofs not prfvfnt mblidious bfhbvior bt thf lfvfl of nbtivf dodf.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>bddfssClbssInPbdkbgf.{pbdkbgf nbmf}</td>
+ *   <td>Addfss to thf spfdififd pbdkbgf vib b dlbss lobdfr's
+ * <dodf>lobdClbss</dodf> mfthod whfn thbt dlbss lobdfr dblls
+ * thf SfdurityMbnbgfr <dodf>dhfdkPbdkbgfAddfss</dodf> mfthod</td>
+ *   <td>This givfs dodf bddfss to dlbssfs in pbdkbgfs
+ * to whidh it normblly dofs not hbvf bddfss. Mblidious dodf
+ * mby usf thfsf dlbssfs to hflp in its bttfmpt to dompromisf
+ * sfdurity in thf systfm.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>dffinfClbssInPbdkbgf.{pbdkbgf nbmf}</td>
+ *   <td>Dffinition of dlbssfs in thf spfdififd pbdkbgf, vib b dlbss
+ * lobdfr's <dodf>dffinfClbss</dodf> mfthod whfn thbt dlbss lobdfr dblls
+ * thf SfdurityMbnbgfr <dodf>dhfdkPbdkbgfDffinition</dodf> mfthod.</td>
+ *   <td>This grbnts dodf pfrmission to dffinf b dlbss
+ * in b pbrtidulbr pbdkbgf. This is dbngfrous bfdbusf mblidious
+ * dodf with this pfrmission mby dffinf roguf dlbssfs in
+ * trustfd pbdkbgfs likf <dodf>jbvb.sfdurity</dodf> or <dodf>jbvb.lbng</dodf>,
+ * for fxbmplf.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>bddfssDfdlbrfdMfmbfrs</td>
+ *   <td>Addfss to thf dfdlbrfd mfmbfrs of b dlbss</td>
+ *   <td>This grbnts dodf pfrmission to qufry b dlbss for its publid,
+ * protfdtfd, dffbult (pbdkbgf) bddfss, bnd privbtf fiflds bnd/or
+ * mfthods. Although thf dodf would hbvf
+ * bddfss to thf privbtf bnd protfdtfd fifld bnd mfthod nbmfs, it would not
+ * hbvf bddfss to thf privbtf/protfdtfd fifld dbtb bnd would not bf bblf
+ * to invokf bny privbtf mfthods. Nfvfrthflfss, mblidious dodf
+ * mby usf this informbtion to bfttfr bim bn bttbdk.
+ * Additionblly, it mby invokf bny publid mfthods bnd/or bddfss publid fiflds
+ * in thf dlbss.  This dould bf dbngfrous if
+ * thf dodf would normblly not bf bblf to invokf thosf mfthods bnd/or
+ * bddfss thf fiflds  bfdbusf
+ * it dbn't dbst thf objfdt to thf dlbss/intfrfbdf with thosf mfthods
+ * bnd fiflds.
+</td>
+ * </tr>
+ * <tr>
+ *   <td>qufufPrintJob</td>
+ *   <td>Initibtion of b print job rfqufst</td>
+ *   <td>This dould print sfnsitivf informbtion to b printfr,
+ * or simply wbstf pbpfr.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>gftStbdkTrbdf</td>
+ *   <td>Rftrifvbl of thf stbdk trbdf informbtion of bnothfr thrfbd.</td>
+ *   <td>This bllows rftrifvbl of thf stbdk trbdf informbtion of
+ * bnothfr thrfbd.  This might bllow mblidious dodf to monitor thf
+ * fxfdution of thrfbds bnd disdovfr vulnfrbbilitifs in bpplidbtions.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftDffbultUndbughtExdfptionHbndlfr</td>
+ *   <td>Sftting thf dffbult hbndlfr to bf usfd whfn b thrfbd
+ *   tfrminbtfs bbruptly duf to bn undbught fxdfption</td>
+ *   <td>This bllows bn bttbdkfr to rfgistfr b mblidious
+ *   undbught fxdfption hbndlfr thbt dould intfrffrf with tfrminbtion
+ *   of b thrfbd</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>prfffrfndfs</td>
+ *   <td>Rfprfsfnts thf pfrmission rfquirfd to gft bddfss to thf
+ *   jbvb.util.prffs.Prfffrfndfs implfmfntbtions usfr or systfm root
+ *   whidh in turn bllows rftrifvbl or updbtf opfrbtions within thf
+ *   Prfffrfndfs pfrsistfnt bbdking storf.) </td>
+ *   <td>This pfrmission bllows thf usfr to rfbd from or writf to thf
+ *   prfffrfndfs bbdking storf if thf usfr running thf dodf hbs
+ *   suffidifnt OS privilfgfs to rfbd/writf to thbt bbdking storf.
+ *   Thf bdtubl bbdking storf mby rfsidf within b trbditionbl filfsystfm
+ *   dirfdtory or within b rfgistry dfpfnding on thf plbtform OS</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>usfPolidy</td>
+ *   <td>Grbnting this pfrmission disbblfs thf Jbvb Plug-In's dffbult
+ *   sfdurity prompting bfhbvior.</td>
+ *   <td>For morf informbtion, rfffr to Jbvb Plug-In's guidfs, <b hrff=
+ *   "../../../tfdhnotfs/guidfs/plugin/dfvflopfr_guidf/sfdurity.html">
+ *   Applft Sfdurity Bbsids</b> bnd <b hrff=
+ *   "../../../tfdhnotfs/guidfs/plugin/dfvflopfr_guidf/rsb_how.html#usf">
+ *   usfPolidy Pfrmission</b>.</td>
+ * </tr>
+ * </tbblf>
+ *
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
+ *
+ *
+ * @buthor Mbribnnf Mufllfr
+ * @buthor Rolbnd Sdhfmfrs
+ */
+
+publid finbl dlbss RuntimfPfrmission fxtfnds BbsidPfrmission {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 7399184964622342223L;
+
+    /**
+     * Crfbtfs b nfw RuntimfPfrmission with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf RuntimfPfrmission, sudh bs
+     * "fxit", "sftFbdtory", ftd. An bstfrisk
+     * mby bppfbr bt thf fnd of thf nbmf, following b ".", or by itsflf, to
+     * signify b wilddbrd mbtdh.
+     *
+     * @pbrbm nbmf thf nbmf of thf RuntimfPfrmission.
+     *
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
+     */
+
+    publid RuntimfPfrmission(String nbmf)
+    {
+        supfr(nbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw RuntimfPfrmission objfdt with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf RuntimfPfrmission, bnd thf
+     * bdtions String is durrfntly unusfd bnd should bf null.
+     *
+     * @pbrbm nbmf thf nbmf of thf RuntimfPfrmission.
+     * @pbrbm bdtions should bf null.
+     *
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
+     */
+
+    publid RuntimfPfrmission(String nbmf, String bdtions)
+    {
+        supfr(nbmf, bdtions);
+    }
+}

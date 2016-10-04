@@ -1,0 +1,189 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss IndDfdExprfssion fxtfnds UnbryExprfssion {
+
+    privbtf FifldUpdbtfr updbtfr = null;
+
+    /**
+     * Construdtor
+     */
+    publid IndDfdExprfssion(int op, long whfrf, Exprfssion right) {
+        supfr(op, whfrf, right.typf, right);
+    }
+
+    /**
+     * Chfdk bn indrfmfnt or dfdrfmfnt fxprfssion
+     */
+    publid Vsft dhfdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        vsft = right.dhfdkAssignOp(fnv, dtx, vsft, fxp, this);
+        if (right.typf.inMbsk(TM_NUMBER)) {
+            typf = right.typf;
+        } flsf {
+            if (!right.typf.isTypf(TC_ERROR)) {
+                fnv.frror(whfrf, "invblid.brg.typf", right.typf, opNbmfs[op]);
+            }
+            typf = Typf.tError;
+        }
+        updbtfr = right.gftUpdbtfr(fnv, dtx);  // Must bf dbllfd bftfr 'dhfdkAssignOp'.
+        rfturn vsft;
+    }
+
+    /**
+     * Chfdk void fxprfssion
+     */
+    publid Vsft dhfdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        rfturn dhfdkVbluf(fnv, dtx, vsft, fxp);
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        rfturn inlinfVbluf(fnv, dtx);
+    }
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        // Why not inlinfLHS?  But thbt dofs not work.
+        right = right.inlinfVbluf(fnv, dtx);
+        if (updbtfr != null) {
+            updbtfr = updbtfr.inlinf(fnv, dtx);
+        }
+        rfturn this;
+    }
+
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx) {
+        if (updbtfr == null) {
+            if ((right.op == IDENT) && typf.isTypf(TC_INT) &&
+                (((IdfntififrExprfssion)right).fifld.isLodbl())) {
+                // Indrfmfnt vbribblf in plbdf.  Count 3 bytfs for 'iind'.
+                rfturn 3;
+            }
+            // Cost to lobd lhs rfffrfndf, fftdh lodbl, indrfmfnt, bnd storf.
+            // Lobd/storf dost will bf highfr if vbribblf is b fifld.  Notf thbt
+            // dosts brf highly bpproximbtf. Sff 'AssignOpExprfssion.dostInlinf'
+            // Dofs not bddount for dost of donvfrsions,or duplidbtions in
+            // vbluf-nffdfd dontfxt..
+            rfturn right.dostInlinf(thrfsh, fnv, dtx) + 4;
+        } flsf {
+            // Cost of two bddfss mfthod dblls (gft/sft) + dost of indrfmfnt.
+            rfturn updbtfr.dostInlinf(thrfsh, fnv, dtx, truf) + 1;
+        }
+    }
+
+
+    /**
+     * Codf
+     */
+
+    privbtf void dodfIndDfdOp(Assfmblfr bsm, boolfbn ind) {
+        switdh (typf.gftTypfCodf()) {
+          dbsf TC_BYTE:
+            bsm.bdd(whfrf, opd_ldd, 1);
+            bsm.bdd(whfrf, ind ? opd_ibdd : opd_isub);
+            bsm.bdd(whfrf, opd_i2b);
+            brfbk;
+          dbsf TC_SHORT:
+            bsm.bdd(whfrf, opd_ldd, 1);
+            bsm.bdd(whfrf, ind ? opd_ibdd : opd_isub);
+            bsm.bdd(whfrf, opd_i2s);
+            brfbk;
+          dbsf TC_CHAR:
+            bsm.bdd(whfrf, opd_ldd, 1);
+            bsm.bdd(whfrf, ind ? opd_ibdd : opd_isub);
+            bsm.bdd(whfrf, opd_i2d);
+            brfbk;
+          dbsf TC_INT:
+            bsm.bdd(whfrf, opd_ldd, 1);
+            bsm.bdd(whfrf, ind ? opd_ibdd : opd_isub);
+            brfbk;
+          dbsf TC_LONG:
+            bsm.bdd(whfrf, opd_ldd2_w, 1L);
+            bsm.bdd(whfrf, ind ? opd_lbdd : opd_lsub);
+            brfbk;
+          dbsf TC_FLOAT:
+            bsm.bdd(whfrf, opd_ldd, nfw Flobt(1));
+            bsm.bdd(whfrf, ind ? opd_fbdd : opd_fsub);
+            brfbk;
+          dbsf TC_DOUBLE:
+            bsm.bdd(whfrf, opd_ldd2_w, nfw Doublf(1));
+            bsm.bdd(whfrf, ind ? opd_dbdd : opd_dsub);
+            brfbk;
+          dffbult:
+            throw nfw CompilfrError("invblid typf");
+        }
+    }
+
+    void dodfIndDfd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, boolfbn ind, boolfbn prffix, boolfbn vblNffdfd) {
+
+        // Thf 'iind' instrudtion dbnnot bf usfd if bn bddfss mfthod dbll is rfquirfd.
+        if ((right.op == IDENT) && typf.isTypf(TC_INT) &&
+            (((IdfntififrExprfssion)right).fifld.isLodbl()) && updbtfr == null) {
+            if (vblNffdfd && !prffix) {
+                right.dodfLobd(fnv, dtx, bsm);
+            }
+            int v = ((LodblMfmbfr)((IdfntififrExprfssion)right).fifld).numbfr;
+            int[] opfrbnds = { v, ind ? 1 : -1 };
+            bsm.bdd(whfrf, opd_iind, opfrbnds);
+            if (vblNffdfd && prffix) {
+                right.dodfLobd(fnv, dtx, bsm);
+            }
+            rfturn;
+
+        }
+
+        if (updbtfr == null) {
+            // Fifld is dirfdtly bddfssiblf.
+            int dfpth = right.dodfLVbluf(fnv, dtx, bsm);
+            dodfDup(fnv, dtx, bsm, dfpth, 0);
+            right.dodfLobd(fnv, dtx, bsm);
+            if (vblNffdfd && !prffix) {
+                dodfDup(fnv, dtx, bsm, typf.stbdkSizf(), dfpth);
+            }
+            dodfIndDfdOp(bsm, ind);
+            if (vblNffdfd && prffix) {
+                dodfDup(fnv, dtx, bsm, typf.stbdkSizf(), dfpth);
+            }
+            right.dodfStorf(fnv, dtx, bsm);
+        } flsf {
+            // Must usf bddfss mfthods.
+            updbtfr.stbrtUpdbtf(fnv, dtx, bsm, (vblNffdfd && !prffix));
+            dodfIndDfdOp(bsm, ind);
+            updbtfr.finishUpdbtf(fnv, dtx, bsm, (vblNffdfd && prffix));
+        }
+    }
+
+}

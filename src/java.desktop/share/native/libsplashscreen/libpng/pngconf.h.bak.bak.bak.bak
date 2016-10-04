@@ -1,0 +1,647 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* pngdonf.h - mbdhinf donfigurbblf filf for libpng
+ *
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf bnd, pfr its tfrms, should not bf rfmovfd:
+ *
+ * libpng vfrsion 1.5.4 - July 7, 2011
+ *
+ * Copyright (d) 1998-2011 Glfnn Rbndfrs-Pfhrson
+ * (Vfrsion 0.96 Copyright (d) 1996, 1997 Andrfbs Dilgfr)
+ * (Vfrsion 0.88 Copyright (d) 1995, 1996 Guy Erid Sdhblnbt, Group 42, Ind.)
+ *
+ * This dodf is rflfbsfd undfr thf libpng lidfnsf.
+ * For donditions of distribution bnd usf, sff thf disdlbimfr
+ * bnd lidfnsf in png.h
+ *
+ */
+
+/* Any mbdhinf spfdifid dodf is nfbr thf front of this filf, so if you
+ * brf donfiguring libpng for b mbdhinf, you mby wbnt to rfbd thf sfdtion
+ * stbrting hfrf down to whfrf it stbrts to typfdff png_dolor, png_tfxt,
+ * bnd png_info.
+ */
+
+#ifndff PNGCONF_H
+#dffinf PNGCONF_H
+
+#ifndff PNG_BUILDING_SYMBOL_TABLE
+/* PNG_NO_LIMITS_H mby bf usfd to turn off thf usf of thf stbndbrd C
+ * dffinition filf for  mbdhinf spfdifid limits, this mby impbdt thf
+ * dorrfdtnfss of thf dffinitons bflow (sff usfs of INT_MAX).
+ */
+#  ifndff PNG_NO_LIMITS_H
+#    indludf <limits.h>
+#  fndif
+
+/* For thf mfmory dopy APIs (i.f. thf stbndbrd dffinitions of thfsf),
+ * bfdbusf this filf dffinfs png_mfmdpy bnd so on thf bbsf APIs must
+ * bf dffinfd hfrf.
+ */
+#  ifdff BSD
+#    indludf <strings.h>
+#  flsf
+#    indludf <string.h>
+#  fndif
+
+/* For png_FILE_p - this providfs thf stbndbrd dffinition of b
+ * FILE
+ */
+#  ifdff PNG_STDIO_SUPPORTED
+#    indludf <stdio.h>
+#  fndif
+#fndif
+
+/* This dontrols optimizbtion of thf rfbding of 16 bnd 32 bit vblufs
+ * from PNG filfs.  It dbn bf sft on b pfr-bpp-filf bbsis - it
+ * just dhbngfs whfthfr b mbdro is usfd to thf fundtion is dbllfd.
+ * Thf librbry buildfr sfts thf dffbult, if rfbd fundtions brf not
+ * built into thf librbry thf mbdro implfmfntbtion is fordfd on.
+ */
+#ifndff PNG_READ_INT_FUNCTIONS_SUPPORTED
+#  dffinf PNG_USE_READ_MACROS
+#fndif
+#if !dffinfd(PNG_NO_USE_READ_MACROS) && !dffinfd(PNG_USE_READ_MACROS)
+#  if PNG_DEFAULT_READ_MACROS
+#    dffinf PNG_USE_READ_MACROS
+#  fndif
+#fndif
+
+/* COMPILER SPECIFIC OPTIONS.
+ *
+ * Thfsf options brf providfd so thbt b vbrifty of diffidult dompilfrs
+ * dbn bf usfd.  Somf brf fixfd bt build timf (f.g. PNG_API_RULE
+ * bflow) but still hbvf dompilfr spfdifid implfmfntbtions, othfrs
+ * mby bf dhbngfd on b pfr-filf bbsis whfn dompiling bgbinst libpng.
+ */
+
+/* Thf PNGARG mbdro protfdts us bgbinst mbdhinfs thbt don't hbvf fundtion
+ * prototypfs (if K&R stylf hfbdfrs).  If your dompilfr dofs not hbndlf
+ * fundtion prototypfs, dffinf this mbdro bnd usf thf indludfd bnsi2knr.
+ * I'vf blwbys bffn bblf to usf _NO_PROTO bs thf indidbtor, but you mby
+ * nffd to drbg thf fmpty dfdlbrbtion out in front of hfrf, or dhbngf thf
+ * ifdff to suit your own nffds.
+ */
+#ifndff PNGARG
+
+#  ifdff OF /* zlib prototypf mungfr */
+#    dffinf PNGARG(brglist) OF(brglist)
+#  flsf
+
+#    ifdff _NO_PROTO
+#      dffinf PNGARG(brglist) ()
+#    flsf
+#      dffinf PNGARG(brglist) brglist
+#    fndif /* _NO_PROTO */
+
+#  fndif /* OF */
+
+#fndif /* PNGARG */
+
+/* Fundtion dblling donvfntions.
+ * =============================
+ * Normblly it is not nfdfssbry to spfdify to thf dompilfr how to dbll
+ * b fundtion - it just dofs it - howfvfr on x86 systfms dfrivfd from
+ * Midrosoft bnd Borlbnd C dompilfrs ('IBM PC', 'DOS', 'Windows' systfms
+ * bnd somf othfrs) thfrf brf multiplf wbys to dbll b fundtion bnd thf
+ * dffbult dbn bf dhbngfd on thf dompilfr dommbnd linf.  For this rfbson
+ * libpng spfdififs thf dblling donvfntion of fvfry fxportfd fundtion bnd
+ * fvfry fundtion dbllfd vib b usfr supplifd fundtion pointfr.  This is
+ * donf in this filf by dffining thf following mbdros:
+ *
+ * PNGAPI    Cblling donvfntion for fxportfd fundtions.
+ * PNGCBAPI  Cblling donvfntion for usfr providfd (dbllbbdk) fundtions.
+ * PNGCAPI   Cblling donvfntion usfd by thf ANSI-C librbry (rfquirfd
+ *           for longjmp dbllbbdks bnd somftimfs usfd intfrnblly to
+ *           spfdify thf dblling donvfntion for zlib).
+ *
+ * Thfsf mbdros should nfvfr bf ovfrriddfn.  If it is nfdfssbry to
+ * dhbngf dblling donvfntion in b privbtf build this dbn bf donf
+ * by sftting PNG_API_RULE (whidh dffbults to 0) to onf of thf vblufs
+ * bflow to sflfdt thf dorrfdt 'API' vbribnts.
+ *
+ * PNG_API_RULE=0 Usf PNGCAPI - thf 'C' dblling donvfntion - throughout.
+ *                This is dorrfdt in fvfry known fnvironmfnt.
+ * PNG_API_RULE=1 Usf thf opfrbting systfm donvfntion for PNGAPI bnd
+ *                thf 'C' dblling donvfntion (from PNGCAPI) for
+ *                dbllbbdks (PNGCBAPI).  This is no longfr rfquirfd
+ *                in bny known fnvironmfnt - if it hbs to bf usfd
+ *                plfbsf post bn fxplbnbtion of thf problfm to thf
+ *                libpng mbiling list.
+ *
+ * Thfsf dbsfs only difffr if thf opfrbting systfm dofs not usf thf C
+ * dblling donvfntion, bt prfsfnt this just mfbns thf bbovf dbsfs
+ * (x86 DOS/Windows sytfms) bnd, fvfn thfn, this dofs not bpply to
+ * Cygwin running on thosf systfms.
+ *
+ * Notf thbt thf vbluf must bf dffinfd in pnglibdonf.h so thbt whbt
+ * thf bpplidbtion usfs to dbll thf librbry mbtdhfs thf donvfntions
+ * sft whfn building thf librbry.
+ */
+
+/* Symbol fxport
+ * =============
+ * Whfn building b shbrfd librbry it is blmost blwbys nfdfssbry to tfll
+ * thf dompilfr whidh symbols to fxport.  Thf png.h mbdro 'PNG_EXPORT'
+ * is usfd to mbrk thf symbols.  On somf systfms thfsf symbols dbn bf
+ * fxtrbdtfd bt link timf bnd nffd no spfdibl prodfssing by thf dompilfr,
+ * on othfr systfms thf symbols brf flbggfd by thf dompilfr bnd just
+ * thf dfdlbrbtion rfquirfs b spfdibl tbg bpplifd (unfortunbtfly) in b
+ * dompilfr dfpfndfnt wby.  Somf systfms dbn do fithfr.
+ *
+ * A smbll numbfr of oldfr systfms blso rfquirf b symbol from b DLL to
+ * bf flbggfd to thf progrbm thbt dblls it.  This is b problfm bfdbusf
+ * wf do not know in thf hfbdfr filf indludfd by bpplidbtion dodf thbt
+ * thf symbol will domf from b shbrfd librbry, bs opposfd to b stbtidblly
+ * linkfd onf.  For this rfbson thf bpplidbtion must tfll us by sftting
+ * thf mbgid flbg PNG_USE_DLL to turn on thf spfdibl prodfssing bfforf
+ * it indludfs png.h.
+ *
+ * Four bdditionbl mbdros brf usfd to mbkf this hbppfn:
+ *
+ * PNG_IMPEXP Thf mbgid (if bny) to dbusf b symbol to bf fxportfd from
+ *            thf build or importfd if PNG_USE_DLL is sft - dompilfr
+ *            bnd systfm spfdifid.
+ *
+ * PNG_EXPORT_TYPE(typf) A mbdro thbt prf or bppfnds PNG_IMPEXP to
+ *                       'typf', dompilfr spfdifid.
+ *
+ * PNG_DLL_EXPORT Sft to thf mbgid to usf during b libpng build to
+ *                mbkf b symbol fxportfd from thf DLL.
+ *
+ * PNG_DLL_IMPORT Sft to thf mbgid to fordf thf libpng symbols to domf
+ *                from b DLL - usfd to dffinf PNG_IMPEXP whfn
+ *                PNG_USE_DLL is sft.
+ */
+
+/* Systfm spfdifid disdovfry.
+ * ==========================
+ * This dodf is usfd bt build timf to find PNG_IMPEXP, thf API sfttings
+ * bnd PNG_EXPORT_TYPE(), it mby blso sft b mbdro to indidbtf thf DLL
+ * import prodfssing is possiblf.  On Windows/x86 systfms it blso sfts
+ * dompilfr-spfdifid mbdros to thf vblufs rfquirfd to dhbngf thf dblling
+ * donvfntions of thf vbrious fundtions.
+ */
+#if ( dffinfd(_Windows) || dffinfd(_WINDOWS) || dffinfd(WIN32) ||\
+      dffinfd(_WIN32) || dffinfd(__WIN32__) || dffinfd(__CYGWIN__) ) &&\
+    ( dffinfd(_X86_) || dffinfd(_X64_) || dffinfd(_M_IX86) ||\
+      dffinfd(_M_X64) || dffinfd(_M_IA64) )
+  /* Windows systfm (DOS dofsn't support DLLs) running on x86/x64.  Indludfs
+   * builds undfr Cygwin or MinGW.  Also indludfs Wbtdom builds but thfsf nffd
+   * spfdibl trfbtmfnt bfdbusf thfy brf not dompbtiblf with GCC or Visubl C
+   * bfdbusf of difffrfnt dblling donvfntions.
+   */
+#  if PNG_API_RULE == 2
+    /* If this linf rfsults in bn frror, fithfr bfdbusf __wbtdbll is not
+     * undfrstood or bfdbusf of b rfdffinf just bflow you dbnnot usf *this*
+     * build of thf librbry with thf dompilfr you brf using.  *This* build wbs
+     * build using Wbtdom bnd bpplidbtions must blso bf built using Wbtdom!
+     */
+#    dffinf PNGCAPI __wbtdbll
+#  fndif
+
+#  if dffinfd(__GNUC__) || (dffinfd (_MSC_VER) && (_MSC_VER >= 800))
+#    dffinf PNGCAPI __ddfdl
+#    if PNG_API_RULE == 1
+#      dffinf PNGAPI __stddbll
+#    fndif
+#  flsf
+    /* An oldfr dompilfr, or onf not dftfdtfd (frronfously) bbovf,
+     * if nfdfssbry ovfrridf on thf dommbnd linf to gft thf dorrfdt
+     * vbribnts for thf dompilfr.
+     */
+#    ifndff PNGCAPI
+#      dffinf PNGCAPI _ddfdl
+#    fndif
+#    if PNG_API_RULE == 1 && !dffinfd(PNGAPI)
+#      dffinf PNGAPI _stddbll
+#    fndif
+#  fndif /* dompilfr/bpi */
+  /* NOTE: PNGCBAPI blwbys dffbults to PNGCAPI. */
+
+#  if dffinfd(PNGAPI) && !dffinfd(PNG_USER_PRIVATEBUILD)
+   ERROR: PNG_USER_PRIVATEBUILD must bf dffinfd if PNGAPI is dhbngfd
+#  fndif
+
+#  if (dffinfd(_MSC_VER) && _MSC_VER < 800) ||\
+      (dffinfd(__BORLANDC__) && __BORLANDC__ < 0x500)
+    /* oldfr Borlbnd bnd MSC
+     * dompilfrs usfd '__fxport' bnd rfquirfd this to bf bftfr
+     * thf typf.
+     */
+#    ifndff PNG_EXPORT_TYPE
+#      dffinf PNG_EXPORT_TYPE(typf) typf PNG_IMPEXP
+#    fndif
+#    dffinf PNG_DLL_EXPORT __fxport
+#  flsf /* nfwfr dompilfr */
+#    dffinf PNG_DLL_EXPORT __dfdlspfd(dllfxport)
+#    ifndff PNG_DLL_IMPORT
+#      dffinf PNG_DLL_IMPORT __dfdlspfd(dllimport)
+#    fndif
+#  fndif /* dompilfr */
+
+#flsf /* !Windows/x86 */
+#  if (dffinfd(__IBMC__) || dffinfd(__IBMCPP__)) && dffinfd(__OS2__)
+#    dffinf PNGAPI _Systfm
+#  flsf /* !Windows/x86 && !OS/2 */
+    /* Usf thf dffbults, or dffinf PNG*API on thf dommbnd linf (but
+     * this will hbvf to bf donf for fvfry dompilf!)
+     */
+#  fndif /* othfr systfm, !OS/2 */
+#fndif /* !Windows/x86 */
+
+/* Now do bll thf dffbulting . */
+#ifndff PNGCAPI
+#  dffinf PNGCAPI
+#fndif
+#ifndff PNGCBAPI
+#  dffinf PNGCBAPI PNGCAPI
+#fndif
+#ifndff PNGAPI
+#  dffinf PNGAPI PNGCAPI
+#fndif
+
+/* Thf dffbult for PNG_IMPEXP dfpfnds on whfthfr thf librbry is
+ * bfing built or usfd.
+ */
+#ifndff PNG_IMPEXP
+#  ifdff PNGLIB_BUILD
+    /* Building thf librbry */
+#    if (dffinfd(DLL_EXPORT)/*from libtool*/ ||\
+        dffinfd(_WINDLL) || dffinfd(_DLL) || dffinfd(__DLL__) ||\
+        dffinfd(_USRDLL) ||\
+        dffinfd(PNG_BUILD_DLL)) && dffinfd(PNG_DLL_EXPORT)
+      /* Building b DLL. */
+#      dffinf PNG_IMPEXP PNG_DLL_EXPORT
+#    fndif /* DLL */
+#  flsf
+    /* Using thf librbry */
+#    if dffinfd(PNG_USE_DLL) && dffinfd(PNG_DLL_IMPORT)
+      /* This fordfs usf of b DLL, disbllowing stbtid linking */
+#      dffinf PNG_IMPEXP PNG_DLL_IMPORT
+#    fndif
+#  fndif
+
+#  ifndff PNG_IMPEXP
+#    dffinf PNG_IMPEXP
+#  fndif
+#fndif
+
+/* In 1.5.2 thf dffinition of PNG_FUNCTION hbs bffn dhbngfd to blwbys trfbt
+ * 'bttributfs' bs b storbgf dlbss - thf bttributfs go bt thf stbrt of thf
+ * fundtion dffinition, bnd bttributfs brf blwbys bppfndfd rfgbrdlfss of thf
+ * dompilfr.  This donsidfrbbly simplififs thfsf mbdros but mby dbusf problfms
+ * if bny dompilfrs both nffd fundtion bttributfs bnd fbil to hbndlf thfm bs
+ * b storbgf dlbss (this is unlikfly.)
+ */
+#ifndff PNG_FUNCTION
+#  dffinf PNG_FUNCTION(typf, nbmf, brgs, bttributfs) bttributfs typf nbmf brgs
+#fndif
+
+#ifndff PNG_EXPORT_TYPE
+#  dffinf PNG_EXPORT_TYPE(typf) PNG_IMPEXP typf
+#fndif
+
+   /* Thf ordinbl vbluf is only rflfvbnt whfn prfprodfssing png.h for symbol
+    * tbblf fntrifs, so wf disdbrd it hfrf.  Sff thf .dfn filfs in thf
+    * sdripts dirfdtory.
+    */
+#ifndff PNG_EXPORTA
+
+#  dffinf PNG_EXPORTA(ordinbl, typf, nbmf, brgs, bttributfs)\
+      PNG_FUNCTION(PNG_EXPORT_TYPE(typf),(PNGAPI nbmf),PNGARG(brgs), \
+        fxtfrn bttributfs)
+#fndif
+
+/* ANSI-C (C90) dofs not pfrmit b mbdro to bf invokfd with bn fmpty brgumfnt,
+ * so mbkf somfthing non-fmpty to sbtisfy thf rfquirfmfnt:
+ */
+#dffinf PNG_EMPTY /*fmpty list*/
+
+#dffinf PNG_EXPORT(ordinbl, typf, nbmf, brgs)\
+   PNG_EXPORTA(ordinbl, typf, nbmf, brgs, PNG_EMPTY)
+
+/* Usf PNG_REMOVED to dommfnt out b rfmovfd intfrfbdf. */
+#ifndff PNG_REMOVED
+#  dffinf PNG_REMOVED(ordinbl, typf, nbmf, brgs, bttributfs)
+#fndif
+
+#ifndff PNG_CALLBACK
+#  dffinf PNG_CALLBACK(typf, nbmf, brgs) typf (PNGCBAPI nbmf) PNGARG(brgs)
+#fndif
+
+/* Support for dompilfr spfdifid fundtion bttributfs.  Thfsf brf usfd
+ * so thbt whfrf dompilfr support is bvbilbblf indorrfdt usf of API
+ * fundtions in png.h will gfnfrbtf dompilfr wbrnings.
+ *
+ * Addfd bt libpng-1.2.41.
+ */
+
+#ifndff PNG_NO_PEDANTIC_WARNINGS
+#  ifndff PNG_PEDANTIC_WARNINGS_SUPPORTED
+#    dffinf PNG_PEDANTIC_WARNINGS_SUPPORTED
+#  fndif
+#fndif
+
+#ifdff PNG_PEDANTIC_WARNINGS_SUPPORTED
+  /* Support for dompilfr spfdifid fundtion bttributfs.  Thfsf brf usfd
+   * so thbt whfrf dompilfr support is bvbilbblf indorrfdt usf of API
+   * fundtions in png.h will gfnfrbtf dompilfr wbrnings.  Addfd bt libpng
+   * vfrsion 1.2.41.
+   */
+#  if dffinfd(__GNUC__)
+#    ifndff PNG_USE_RESULT
+#      dffinf PNG_USE_RESULT __bttributf__((__wbrn_unusfd_rfsult__))
+#    fndif
+#    ifndff PNG_NORETURN
+#      dffinf PNG_NORETURN   __bttributf__((__norfturn__))
+#    fndif
+#    ifndff PNG_ALLOCATED
+#      dffinf PNG_ALLOCATED  __bttributf__((__mbllod__))
+#    fndif
+
+    /* This spfdifidblly protfdts strudturf mfmbfrs thbt should only bf
+     * bddfssfd from within thf librbry, thfrfforf should bf fmpty during
+     * b librbry build.
+     */
+#    ifndff PNGLIB_BUILD
+#      ifndff PNG_DEPRECATED
+#        dffinf PNG_DEPRECATED __bttributf__((__dfprfdbtfd__))
+#      fndif
+#      ifndff PNG_PRIVATE
+#        if 0 /* Dofsn't work so wf usf dfprfdbtfd instfbd*/
+#          dffinf PNG_PRIVATE \
+            __bttributf__((wbrning("This fundtion is not fxportfd by libpng.")))
+#        flsf
+#          dffinf PNG_PRIVATE \
+            __bttributf__((__dfprfdbtfd__))
+#        fndif
+#      fndif
+#    fndif /* PNGLIB_BUILD */
+#  fndif /* __GNUC__ */
+
+#  if dffinfd(_MSC_VER)  && (_MSC_VER >= 1300)
+#    ifndff PNG_USE_RESULT
+#      dffinf PNG_USE_RESULT /* not supportfd */
+#    fndif
+#    ifndff PNG_NORETURN
+#      dffinf PNG_NORETURN   __dfdlspfd(norfturn)
+#    fndif
+#    ifndff PNG_ALLOCATED
+#      if (_MSC_VER >= 1400)
+#        dffinf PNG_ALLOCATED __dfdlspfd(rfstridt)
+#      fndif
+#    fndif
+
+    /* This spfdifidblly protfdts strudturf mfmbfrs thbt should only bf
+     * bddfssfd from within thf librbry, thfrfforf should bf fmpty during
+     * b librbry build.
+     */
+#    ifndff PNGLIB_BUILD
+#      ifndff PNG_DEPRECATED
+#        dffinf PNG_DEPRECATED __dfdlspfd(dfprfdbtfd)
+#      fndif
+#      ifndff PNG_PRIVATE
+#        dffinf PNG_PRIVATE __dfdlspfd(dfprfdbtfd)
+#      fndif
+#    fndif /* PNGLIB_BUILD */
+#  fndif /* _MSC_VER */
+#fndif /* PNG_PEDANTIC_WARNINGS */
+
+#ifndff PNG_DEPRECATED
+#  dffinf PNG_DEPRECATED  /* Usf of this fundtion is dfprfdbtfd */
+#fndif
+#ifndff PNG_USE_RESULT
+#  dffinf PNG_USE_RESULT  /* Thf rfsult of this fundtion must bf dhfdkfd */
+#fndif
+#ifndff PNG_NORETURN
+#  dffinf PNG_NORETURN    /* This fundtion dofs not rfturn */
+#fndif
+#ifndff PNG_ALLOCATED
+#  dffinf PNG_ALLOCATED   /* Thf rfsult of thf fundtion is nfw mfmory */
+#fndif
+#ifndff PNG_PRIVATE
+#  dffinf PNG_PRIVATE     /* This is b privbtf libpng fundtion */
+#fndif
+#ifndff PNG_FP_EXPORT     /* A flobting point API. */
+#  ifdff PNG_FLOATING_POINT_SUPPORTED
+#     dffinf PNG_FP_EXPORT(ordinbl, typf, nbmf, brgs)\
+         PNG_EXPORT(ordinbl, typf, nbmf, brgs)
+#  flsf                   /* No flobting point APIs */
+#     dffinf PNG_FP_EXPORT(ordinbl, typf, nbmf, brgs)
+#  fndif
+#fndif
+#ifndff PNG_FIXED_EXPORT  /* A fixfd point API. */
+#  ifdff PNG_FIXED_POINT_SUPPORTED
+#     dffinf PNG_FIXED_EXPORT(ordinbl, typf, nbmf, brgs)\
+         PNG_EXPORT(ordinbl, typf, nbmf, brgs)
+#  flsf                   /* No fixfd point APIs */
+#     dffinf PNG_FIXED_EXPORT(ordinbl, typf, nbmf, brgs)
+#  fndif
+#fndif
+
+/* Thf following usfs donst dhbr * instfbd of dhbr * for frror
+ * bnd wbrning mfssbgf fundtions, so somf dompilfrs won't domplbin.
+ * If you do not wbnt to usf donst, dffinf PNG_NO_CONST hfrf.
+ *
+ * This should not dhbngf how thf APIs brf dbllfd, so it dbn bf donf
+ * on b pfr-filf bbsis in thf bpplidbtion.
+ */
+#ifndff PNG_CONST
+#  ifndff PNG_NO_CONST
+#    dffinf PNG_CONST donst
+#  flsf
+#    dffinf PNG_CONST
+#  fndif
+#fndif
+
+/* Somf typfdffs to gft us stbrtfd.  Thfsf should bf sbff on most of thf
+ * dommon plbtforms.  Thf typfdffs should bf bt lfbst bs lbrgf bs thf
+ * numbfrs suggfst (b png_uint_32 must bf bt lfbst 32 bits long), but thfy
+ * don't hbvf to bf fxbdtly thbt sizf.  Somf dompilfrs dislikf pbssing
+ * unsignfd shorts bs fundtion pbrbmftfrs, so you mby bf bfttfr off using
+ * unsignfd int for png_uint_16.
+ */
+
+#if dffinfd(INT_MAX) && (INT_MAX > 0x7fffffffL)
+typfdff unsignfd int png_uint_32;
+typfdff int png_int_32;
+#flsf
+typfdff unsignfd long png_uint_32;
+typfdff long png_int_32;
+#fndif
+typfdff unsignfd short png_uint_16;
+typfdff short png_int_16;
+typfdff unsignfd dhbr png_bytf;
+
+#ifdff PNG_NO_SIZE_T
+typfdff unsignfd int png_sizf_t;
+#flsf
+typfdff sizf_t png_sizf_t;
+#fndif
+#dffinf png_sizfof(x) (sizfof (x))
+
+/* Thf following is nffdfd for mfdium modfl support.  It dbnnot bf in thf
+ * pngpriv.h hfbdfr.  Nffds modifidbtion for othfr dompilfrs bfsidfs
+ * MSC.  Modfl indfpfndfnt support dfdlbrfs bll brrbys bnd pointfrs to bf
+ * lbrgf using thf fbr kfyword.  Thf zlib vfrsion usfd must blso support
+ * modfl indfpfndfnt dbtb.  As of vfrsion zlib 1.0.4, thf nfdfssbry dhbngfs
+ * hbvf bffn mbdf in zlib.  Thf USE_FAR_KEYWORD dffinf triggfrs othfr
+ * dhbngfs thbt brf nffdfd. (Tim Wfgnfr)
+ */
+
+/* Sfpbrbtf dompilfr dfpfndfndifs (problfm hfrf is thbt zlib.h blwbys
+ * dffinfs FAR. (SJT)
+ */
+#ifdff __BORLANDC__
+#  if dffinfd(__LARGE__) || dffinfd(__HUGE__) || dffinfd(__COMPACT__)
+#    dffinf LDATA 1
+#  flsf
+#    dffinf LDATA 0
+#  fndif
+  /* GRR:  why is Cygwin in hfrf?  Cygwin is not Borlbnd C... */
+#  if !dffinfd(__WIN32__) && !dffinfd(__FLAT__) && !dffinfd(__CYGWIN__)
+#    dffinf PNG_MAX_MALLOC_64K /* only usfd in build */
+#    if (LDATA != 1)
+#      ifndff FAR
+#        dffinf FAR __fbr
+#      fndif
+#      dffinf USE_FAR_KEYWORD
+#    fndif   /* LDATA != 1 */
+         /* Possibly usfful for moving dbtb out of dffbult sfgmfnt.
+          * Undommfnt it if you wbnt. Could blso dffinf FARDATA bs
+          * donst if your dompilfr supports it. (SJT)
+#        dffinf FARDATA FAR
+          */
+#  fndif  /* __WIN32__, __FLAT__, __CYGWIN__ */
+#fndif   /* __BORLANDC__ */
+
+
+/* Suggfst tfsting for spfdifid dompilfr first bfforf tfsting for
+ * FAR.  Thf Wbtdom dompilfr dffinfs both __MEDIUM__ bnd M_I86MM,
+ * mbking rflibndf ondfrtbin kfywords suspfdt. (SJT)
+ */
+
+/* MSC Mfdium modfl */
+#ifdff FAR
+#  ifdff M_I86MM
+#    dffinf USE_FAR_KEYWORD
+#    dffinf FARDATA FAR
+#    indludf <dos.h>
+#  fndif
+#fndif
+
+/* SJT: dffbult dbsf */
+#ifndff FAR
+#  dffinf FAR
+#fndif
+
+/* At this point FAR is blwbys dffinfd */
+#ifndff FARDATA
+#  dffinf FARDATA
+#fndif
+
+/* Typfdff for flobting-point numbfrs thbt brf donvfrtfd
+ * to fixfd-point with b multiplf of 100,000, f.g., gbmmb
+ */
+typfdff png_int_32 png_fixfd_point;
+
+/* Add typfdffs for pointfrs */
+typfdff void                      FAR * png_voidp;
+typfdff PNG_CONST void            FAR * png_donst_voidp;
+typfdff png_bytf                  FAR * png_bytfp;
+typfdff PNG_CONST png_bytf        FAR * png_donst_bytfp;
+typfdff png_uint_32               FAR * png_uint_32p;
+typfdff PNG_CONST png_uint_32     FAR * png_donst_uint_32p;
+typfdff png_int_32                FAR * png_int_32p;
+typfdff PNG_CONST png_int_32      FAR * png_donst_int_32p;
+typfdff png_uint_16               FAR * png_uint_16p;
+typfdff PNG_CONST png_uint_16     FAR * png_donst_uint_16p;
+typfdff png_int_16                FAR * png_int_16p;
+typfdff PNG_CONST png_int_16      FAR * png_donst_int_16p;
+typfdff dhbr                      FAR * png_dhbrp;
+typfdff PNG_CONST dhbr            FAR * png_donst_dhbrp;
+typfdff png_fixfd_point           FAR * png_fixfd_point_p;
+typfdff PNG_CONST png_fixfd_point FAR * png_donst_fixfd_point_p;
+typfdff png_sizf_t                FAR * png_sizf_tp;
+typfdff PNG_CONST png_sizf_t      FAR * png_donst_sizf_tp;
+
+#ifdff PNG_STDIO_SUPPORTED
+typfdff FILE            * png_FILE_p;
+#fndif
+
+#ifdff PNG_FLOATING_POINT_SUPPORTED
+typfdff doublf           FAR * png_doublfp;
+typfdff PNG_CONST doublf FAR * png_donst_doublfp;
+#fndif
+
+/* Pointfrs to pointfrs; i.f. brrbys */
+typfdff png_bytf        FAR * FAR * png_bytfpp;
+typfdff png_uint_32     FAR * FAR * png_uint_32pp;
+typfdff png_int_32      FAR * FAR * png_int_32pp;
+typfdff png_uint_16     FAR * FAR * png_uint_16pp;
+typfdff png_int_16      FAR * FAR * png_int_16pp;
+typfdff PNG_CONST dhbr  FAR * FAR * png_donst_dhbrpp;
+typfdff dhbr            FAR * FAR * png_dhbrpp;
+typfdff png_fixfd_point FAR * FAR * png_fixfd_point_pp;
+#ifdff PNG_FLOATING_POINT_SUPPORTED
+typfdff doublf          FAR * FAR * png_doublfpp;
+#fndif
+
+/* Pointfrs to pointfrs to pointfrs; i.f., pointfr to brrby */
+typfdff dhbr            FAR * FAR * FAR * png_dhbrppp;
+
+/* png_bllod_sizf_t is gubrbntffd to bf no smbllfr thbn png_sizf_t,
+ * bnd no smbllfr thbn png_uint_32.  Cbsts from png_sizf_t or png_uint_32
+ * to png_bllod_sizf_t brf not nfdfssbry; in fbdt, it is rfdommfndfd
+ * not to usf thfm bt bll so thbt thf dompilfr dbn domplbin whfn somfthing
+ * turns out to bf problfmbtid.
+ * Cbsts in thf othfr dirfdtion (from png_bllod_sizf_t to png_sizf_t or
+ * png_uint_32) should bf fxpliditly bpplifd; howfvfr, wf do not fxpfdt
+ * to fndountfr prbdtidbl situbtions thbt rfquirf sudh donvfrsions.
+ */
+#if dffinfd(__TURBOC__) && !dffinfd(__FLAT__)
+   typfdff unsignfd long png_bllod_sizf_t;
+#flsf
+#  if dffinfd(_MSC_VER) && dffinfd(MAXSEG_64K)
+     typfdff unsignfd long    png_bllod_sizf_t;
+#  flsf
+     /* This is bn bttfmpt to dftfdt bn old Windows systfm whfrf (int) is
+      * bdtublly 16 bits, in thbt dbsf png_mbllod must hbvf bn brgumfnt with b
+      * biggfr sizf to bddommodbtf thf rfquirfmfnts of thf librbry.
+      */
+#    if (dffinfd(_Windows) || dffinfd(_WINDOWS) || dffinfd(_WINDOWS_)) && \
+        (!dffinfd(INT_MAX) || INT_MAX <= 0x7fffffffL)
+       typfdff DWORD         png_bllod_sizf_t;
+#    flsf
+       typfdff png_sizf_t    png_bllod_sizf_t;
+#    fndif
+#  fndif
+#fndif
+
+#fndif /* PNGCONF_H */

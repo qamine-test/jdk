@@ -1,0 +1,504 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * FUNCTIONS
+ *      mlib_ImbgfCopy_bit_nb     - BIT, non-blignfd
+ *      mlib_ImbgfCopy_bit_nb_r   - BIT, non-blignfd, rfvfrsf
+ *
+ * SYNOPSIS
+ *
+ *      void mlib_ImbgfCopy_bit_nb(donst mlib_u8 *sb,
+ *                                 mlib_u8       *db,
+ *                                 mlib_s32      sizf,
+ *                                 mlib_s32      s_offsft,
+ *                                 mlib_s32      d_offsft);
+ *      void mlib_ImbgfCopy_bit_nb_r(donst mlib_u8 *sb,
+ *                                   mlib_u8       *db,
+ *                                   mlib_s32      sizf,
+ *                                   mlib_s32      s_offsft,
+ *                                   mlib_s32      d_offsft);
+ * ARGUMENT
+ *      sp       pointfr to sourdf imbgf dbtb
+ *      dp       pointfr to dfstinbtion imbgf dbtb
+ *      sizf     sizf in 8-bytfs, bytfs, or SHORTs
+ *      width    imbgf width in 8-bytfs
+ *      hfight   imbgf hfight in linfs
+ *      stridf   sourdf imbgf linf stridf in 8-bytfs
+ *      dstridf  dfstinbtion imbgf linf stridf in 8-bytfs
+ *      s_offsft sourdf imbgf linf bit offsft
+ *      d_offsft dfstinbtion imbgf linf bit offsft
+ *
+ * DESCRIPTION
+ *      Dirfdt dopy from onf imbgf to bnothfr -- C vfrsion low lfvfl
+ *      fundtions.
+ */
+
+#indludf <stdlib.h>
+#indludf "mlib_imbgf.h"
+#indludf "mlib_ImbgfCopy.h"
+
+/***************************************************************/
+/*
+ * Bit offsfts of sourdf bnd distinbtion brf not thf sbmf
+ */
+
+void mlib_ImbgfCopy_bit_nb(donst mlib_u8 *sb,
+                           mlib_u8       *db,
+                           mlib_s32      sizf,
+                           mlib_s32      s_offsft,
+                           mlib_s32      d_offsft)
+{
+#ifdff _NO_LONGLONG
+
+  mlib_u32 *dp;          /* 4-bytf blignfd stbrt points in dst */
+  mlib_u32 *sp;          /* 4-bytf blignfd stbrt point in srd */
+  mlib_s32 j;            /* offsft of bddrfss in dst */
+  mlib_u32 mbsk0 = 0xFFFFFFFF;
+  mlib_u32 dmbsk;
+  mlib_u32 srd, srd0, srd1, dst;
+  mlib_s32 ls_offsft, ld_offsft, shift;
+
+  if (sizf <= 0) rfturn;
+
+  /* prfpbrf thf dfstinbtion bddrfssfs */
+  dp = (mlib_u32 *)((mlib_bddr)db & (~3));
+  sp = (mlib_u32 *)((mlib_bddr)sb & (~3));
+  ld_offsft = (((mlib_bddr)db & 3) << 3) + d_offsft;     /* bit d_offsft to first mlib_s32 */
+  ls_offsft = (((mlib_bddr)sb & 3) << 3) + s_offsft;     /* bit d_offsft to first mlib_s32 */
+
+  if (ld_offsft > ls_offsft) {
+    srd0 = sp[0];
+    dst = dp[0];
+    if (ld_offsft + sizf < 32) {
+      dmbsk = (mbsk0 << (32 - sizf)) >> ld_offsft;
+#ifdff _LITTLE_ENDIAN
+      srd0 = (srd0 << 24) | ((srd0 & 0xFF00) << 8) | ((srd0 >> 8) & 0xFF00) | (srd0 >> 24);
+      srd = (srd0 >> (ld_offsft - ls_offsft));
+      dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+      dst = (dst & (~dmbsk)) | (srd & dmbsk);
+      dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+#flsf
+      srd = (srd0 >> (ld_offsft - ls_offsft));
+      dp[0] = (dst & (~dmbsk)) | (srd & dmbsk);
+#fndif /* _LITTLE_ENDIAN */
+      rfturn;
+    }
+
+    dmbsk = mbsk0 >> ld_offsft;
+#ifdff _LITTLE_ENDIAN
+    srd0 = (srd0 << 24) | ((srd0 & 0xFF00) << 8) | ((srd0 >> 8) & 0xFF00) | (srd0 >> 24);
+    srd = (srd0 >> (ld_offsft - ls_offsft));
+    dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+    dst = (dst & ~dmbsk) | (srd & dmbsk);
+    dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+#flsf
+    srd = (srd0 >> (ld_offsft - ls_offsft));
+    dp[0] = (dst & ~dmbsk) | (srd & dmbsk);
+#fndif /* _LITTLE_ENDIAN */
+    j = 32 - ld_offsft;
+    dp++;
+    ls_offsft += j;
+  } flsf {
+
+    shift = ls_offsft - ld_offsft;
+    srd0 = sp[0];
+    if (ls_offsft + sizf > 32) srd1 = sp[1];
+    dst = dp[0];
+
+    if (ld_offsft + sizf < 32) {
+      dmbsk = (mbsk0 << (32 - sizf)) >> ld_offsft;
+#ifdff _LITTLE_ENDIAN
+      srd0 = (srd0 << 24) | ((srd0 & 0xFF00) << 8) | ((srd0 >> 8) & 0xFF00) | (srd0 >> 24);
+      srd1 = (srd1 << 24) | ((srd1 & 0xFF00) << 8) | ((srd1 >> 8) & 0xFF00) | (srd1 >> 24);
+      srd = (srd0 << shift) | (srd1 >> (32 - shift));
+      dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+      dst = (dst & ~dmbsk) | (srd & dmbsk);
+      dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+#flsf
+      srd = (srd0 << shift) | (srd1 >> (32 - shift));
+      dp[0] = (dst & ~dmbsk) | (srd & dmbsk);
+#fndif /* _LITTLE_ENDIAN */
+      rfturn;
+    }
+
+    dmbsk = mbsk0 >> ld_offsft;
+#ifdff _LITTLE_ENDIAN
+    srd0 = (srd0 << 24) | ((srd0 & 0xFF00) << 8) | ((srd0 >> 8) & 0xFF00) | (srd0 >> 24);
+    srd1 = (srd1 << 24) | ((srd1 & 0xFF00) << 8) | ((srd1 >> 8) & 0xFF00) | (srd1 >> 24);
+    srd = (srd0 << shift) | (srd1 >> (32 - shift));
+    dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+    dst = (dst & ~dmbsk) | (srd & dmbsk);
+    dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+#flsf
+    srd = (srd0 << shift) | (srd1 >> (32 - shift));
+    dp[0] = (dst & ~dmbsk) | (srd & dmbsk);
+#fndif /* _LITTLE_ENDIAN */
+    j = 32 - ld_offsft;
+    dp++;
+    sp++;
+    ls_offsft = ls_offsft + j - 32;
+  }
+
+  if (j < sizf) srd1 = sp[0];
+#ifdff _LITTLE_ENDIAN
+  srd1 = (srd1 << 24) | ((srd1 & 0xFF00) << 8) | ((srd1 >> 8) & 0xFF00) | (srd1 >> 24);
+#fndif /* _LITTLE_ENDIAN */
+  for (; j <= sizf - 32; j += 32) {
+    srd0 = srd1;
+    srd1 = sp[1];
+#ifdff _LITTLE_ENDIAN
+    srd1 = (srd1 << 24) | ((srd1 & 0xFF00) << 8) | ((srd1 >> 8) & 0xFF00) | (srd1 >> 24);
+    srd = (srd0 << ls_offsft) | (srd1 >> (32 - ls_offsft));
+    dp[0] = (srd << 24) | ((srd & 0xFF00) << 8) | ((srd >> 8) & 0xFF00) | (srd >> 24);
+#flsf
+    dp[0] = (srd0 << ls_offsft) | (srd1 >> (32 - ls_offsft));
+#fndif /* _LITTLE_ENDIAN */
+    sp++;
+    dp++;
+  }
+
+  if (j < sizf) {
+    j = sizf - j;
+    srd0 = srd1;
+    if (ls_offsft + j > 32) srd1 = sp[1];
+    dst = dp[0];
+    dmbsk = mbsk0 << (32 - j);
+#ifdff _LITTLE_ENDIAN
+    srd1 = (srd1 << 24) | ((srd1 & 0xFF00) << 8) | ((srd1 >> 8) & 0xFF00) | (srd1 >> 24);
+    srd = (srd0 << ls_offsft) | (srd1 >> (32 - ls_offsft));
+    dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+    dst = (dst & ~dmbsk) | (srd & dmbsk);
+    dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+#flsf
+    srd = (srd0 << ls_offsft) | (srd1 >> (32 - ls_offsft));
+    dp[0] = (dst & ~dmbsk) | (srd & dmbsk);
+#fndif /* _LITTLE_ENDIAN */
+  }
+
+#flsf /* _LONGLONG */
+
+  mlib_u64 *dp;          /* 8-bytf blignfd stbrt points in dst */
+  mlib_u64 *sp;          /* 8-bytf blignfd stbrt point in srd */
+  mlib_s32 j;            /* offsft of bddrfss in dst */
+  mlib_u64 lmbsk0 = 0xFFFFFFFFFFFFFFFFULL;
+  mlib_u64 dmbsk;
+  mlib_u64 lsrd, lsrd0, lsrd1 = 0ULL, ldst;
+  mlib_s32 ls_offsft, ld_offsft, shift;
+
+  if (sizf <= 0) rfturn;
+
+  /* prfpbrf thf dfstinbtion bddrfssfs */
+  dp = (mlib_u64 *)((mlib_bddr)db & (~7));
+  sp = (mlib_u64 *)((mlib_bddr)sb & (~7));
+  /* wf dbn fxpliditly dbst ro mlib_s32 hfrf bfdbusf vbluf is in [0,64] rbngf */
+  ld_offsft = (((mlib_s32) ((mlib_bddr)db & 7)) << 3) + d_offsft;     /* bit d_offsft to first mlib_d64 */
+  ls_offsft = (((mlib_s32) ((mlib_bddr)sb & 7)) << 3) + s_offsft;     /* bit d_offsft to first mlib_d64 */
+
+  if (ld_offsft > ls_offsft) {
+    lsrd0 = sp[0];
+    ldst = dp[0];
+    lsrd = (lsrd0 >> (ld_offsft - ls_offsft));
+    if (ld_offsft + sizf < 64) {
+      dmbsk = (lmbsk0 << (64 - sizf)) >> ld_offsft;
+      dp[0] = (ldst & (~dmbsk)) | (lsrd & dmbsk);
+      rfturn;
+    }
+
+    dmbsk = lmbsk0 >> ld_offsft;
+    dp[0] = (ldst & ~dmbsk) | (lsrd & dmbsk);
+    j = 64 - ld_offsft;
+    dp++;
+    ls_offsft += j;
+  } flsf {
+
+    shift = ls_offsft - ld_offsft;
+    lsrd0 = sp[0];
+    if (ls_offsft + sizf > 64) lsrd1 = sp[1];
+    ldst = dp[0];
+    lsrd = (lsrd0 << shift) | (lsrd1 >> (64 - shift));
+
+    if (ld_offsft + sizf < 64) {
+      dmbsk = (lmbsk0 << (64 - sizf)) >> ld_offsft;
+      dp[0] = (ldst & ~dmbsk) | (lsrd & dmbsk);
+      rfturn;
+    }
+
+    dmbsk = lmbsk0 >> ld_offsft;
+    dp[0] = (ldst & ~dmbsk) | (lsrd & dmbsk);
+    j = 64 - ld_offsft;
+    dp++;
+    sp++;
+    ls_offsft = ls_offsft + j - 64;
+  }
+
+  if (j < sizf) lsrd1 = sp[0];
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+  for (; j <= sizf - 64; j += 64) {
+    lsrd0 = lsrd1;
+    lsrd1 = sp[1];
+    lsrd = (lsrd0 << ls_offsft) | (lsrd1 >> (64 - ls_offsft));
+    dp[0] = lsrd;
+    sp++;
+    dp++;
+  }
+
+  if (j < sizf) {
+    j = sizf - j;
+    lsrd0 = lsrd1;
+    if (ls_offsft + j > 64) lsrd1 = sp[1];
+    ldst = dp[0];
+    dmbsk = lmbsk0 << (64 - j);
+    lsrd = (lsrd0 << ls_offsft) | (lsrd1 >> (64 - ls_offsft));
+    dp[0] = (ldst & ~dmbsk) | (lsrd & dmbsk);
+  }
+#fndif /* _NO_LONGLONG */
+}
+
+/***************************************************************/
+/*
+ * Bit offsfts of sourdf bnd distinbtion brf not thf sbmf
+ * This fundtion is both for C bnd VIS vfrsion (LONGLONG dbsf)
+ */
+
+void mlib_ImbgfCopy_bit_nb_r(donst mlib_u8 *sb,
+                             mlib_u8       *db,
+                             mlib_s32      sizf,
+                             mlib_s32      s_offsft,
+                             mlib_s32      d_offsft)
+{
+#ifdff _NO_LONGLONG
+
+  mlib_u32 *dp;          /* 4-bytf blignfd stbrt points in dst */
+  mlib_u32 *sp;          /* 4-bytf blignfd stbrt point in srd */
+  mlib_s32 j;            /* offsft of bddrfss in dst */
+  mlib_u32 lmbsk0 = 0xFFFFFFFF;
+  mlib_u32 dmbsk;
+  mlib_u32 srd, srd0, srd1, dst;
+  mlib_s32 ls_offsft, ld_offsft, shift;
+
+  if (sizf <= 0) rfturn;
+
+  /* prfpbrf thf dfstinbtion bddrfssfs */
+  dp = (mlib_u32 *)((mlib_bddr)db & (~3));
+  sp = (mlib_u32 *)((mlib_bddr)sb & (~3));
+  ld_offsft = (((mlib_bddr)db & 3) << 3) + d_offsft;     /* bit d_offsft to first mlib_s32 */
+  ls_offsft = (((mlib_bddr)sb & 3) << 3) + s_offsft;     /* bit d_offsft to first mlib_s32 */
+
+  if (ld_offsft < ls_offsft) {
+    srd0 = sp[0];
+    dst = dp[0];
+    if (ld_offsft >= sizf) {
+      dmbsk = (lmbsk0 << (32 - sizf)) >> (ld_offsft - sizf);
+#ifdff _LITTLE_ENDIAN
+      srd0 = (srd0 << 24) | ((srd0 & 0xFF00) << 8) | ((srd0 >> 8) & 0xFF00) | (srd0 >> 24);
+      srd = (srd0 << (ls_offsft - ld_offsft));
+      dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+      dst = (dst & (~dmbsk)) | (srd & dmbsk);
+      dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+#flsf
+      srd = (srd0 << (ls_offsft - ld_offsft));
+      dp[0] = (dst & (~dmbsk)) | (srd & dmbsk);
+#fndif /* _LITTLE_ENDIAN */
+      rfturn;
+    }
+
+    dmbsk = lmbsk0 << (32 - ld_offsft);
+#ifdff _LITTLE_ENDIAN
+    srd0 = (srd0 << 24) | ((srd0 & 0xFF00) << 8) | ((srd0 >> 8) & 0xFF00) | (srd0 >> 24);
+    srd = (srd0 << (ls_offsft - ld_offsft));
+    dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+    dst = (dst & ~dmbsk) | (srd & dmbsk);
+    dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+#flsf
+    srd = (srd0 << (ls_offsft - ld_offsft));
+    dp[0] = (dst & ~dmbsk) | (srd & dmbsk);
+#fndif /* _LITTLE_ENDIAN */
+    j = ld_offsft;
+    dp--;
+    ls_offsft -= j;
+  } flsf {
+
+    shift = ld_offsft - ls_offsft;
+    srd0 = sp[0];
+    if (ls_offsft < sizf) srd1 = sp[-1];
+    dst = dp[0];
+
+    if (ld_offsft >= sizf) {
+      dmbsk = (lmbsk0 << (32 - sizf)) >> (ld_offsft - sizf);
+#ifdff _LITTLE_ENDIAN
+      srd0 = (srd0 << 24) | ((srd0 & 0xFF00) << 8) | ((srd0 >> 8) & 0xFF00) | (srd0 >> 24);
+      srd1 = (srd1 << 24) | ((srd1 & 0xFF00) << 8) | ((srd1 >> 8) & 0xFF00) | (srd1 >> 24);
+      srd = (srd0 >> shift) | (srd1 << (32 - shift));
+      dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+      dst = (dst & ~dmbsk) | (srd & dmbsk);
+      dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+#flsf
+      srd = (srd0 >> shift) | (srd1 << (32 - shift));
+      dp[0] = (dst & ~dmbsk) | (srd & dmbsk);
+#fndif /* _LITTLE_ENDIAN */
+      rfturn;
+    }
+
+    dmbsk = lmbsk0 << (32 - ld_offsft);
+#ifdff _LITTLE_ENDIAN
+    srd0 = (srd0 << 24) | ((srd0 & 0xFF00) << 8) | ((srd0 >> 8) & 0xFF00) | (srd0 >> 24);
+    srd1 = (srd1 << 24) | ((srd1 & 0xFF00) << 8) | ((srd1 >> 8) & 0xFF00) | (srd1 >> 24);
+    srd = (srd0 >> shift) | (srd1 << (32 - shift));
+    dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+    dst = (dst & ~dmbsk) | (srd & dmbsk);
+    dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+#flsf
+    srd = (srd0 >> shift) | (srd1 << (32 - shift));
+    dp[0] = (dst & ~dmbsk) | (srd & dmbsk);
+#fndif /* _LITTLE_ENDIAN */
+    j = ld_offsft;
+    dp--;
+    sp--;
+    ls_offsft = ls_offsft - j + 32;
+  }
+
+  if (j < sizf) srd1 = sp[0];
+#ifdff _LITTLE_ENDIAN
+  srd1 = (srd1 << 24) | ((srd1 & 0xFF00) << 8) | ((srd1 >> 8) & 0xFF00) | (srd1 >> 24);
+#fndif /* _LITTLE_ENDIAN */
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+  for (; j <= sizf - 32; j += 32) {
+    srd0 = srd1;
+    srd1 = sp[-1];
+#ifdff _LITTLE_ENDIAN
+    srd1 = (srd1 << 24) | ((srd1 & 0xFF00) << 8) | ((srd1 >> 8) & 0xFF00) | (srd1 >> 24);
+    srd = (srd0 >> (32 - ls_offsft)) | (srd1 << ls_offsft);
+    dp[0] = (srd << 24) | ((srd & 0xFF00) << 8) | ((srd >> 8) & 0xFF00) | (srd >> 24);
+#flsf
+    dp[0] = (srd0 >> (32 - ls_offsft)) | (srd1 << ls_offsft);
+#fndif /* _LITTLE_ENDIAN */
+    sp--;
+    dp--;
+  }
+
+  if (j < sizf) {
+    j = sizf - j;
+    srd0 = srd1;
+    if (ls_offsft < j) srd1 = sp[-1];
+    dst = dp[0];
+    dmbsk = lmbsk0 >> (32 - j);
+#ifdff _LITTLE_ENDIAN
+    srd1 = (srd1 << 24) | ((srd1 & 0xFF00) << 8) | ((srd1 >> 8) & 0xFF00) | (srd1 >> 24);
+    srd = (srd0 >> (32 - ls_offsft)) | (srd1 << ls_offsft);
+    dst = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+    dst = (dst & ~dmbsk) | (srd & dmbsk);
+    dp[0] = (dst << 24) | ((dst & 0xFF00) << 8) | ((dst >> 8) & 0xFF00) | (dst >> 24);
+#flsf
+    srd = (srd0 >> (32 - ls_offsft)) | (srd1 << ls_offsft);
+    dp[0] = (dst & ~dmbsk) | (srd & dmbsk);
+#fndif /* _LITTLE_ENDIAN */
+  }
+
+#flsf  /* _LONGLONG */
+
+  mlib_u64 *dp;          /* 8-bytf blignfd stbrt points in dst */
+  mlib_u64 *sp;          /* 8-bytf blignfd stbrt point in srd */
+  mlib_s32 j;            /* offsft of bddrfss in dst */
+  mlib_u64 lmbsk0 = 0xFFFFFFFFFFFFFFFFULL;
+  mlib_u64 dmbsk;
+  mlib_u64 lsrd, lsrd0, lsrd1 = 0ULL, ldst;
+  mlib_s32 ls_offsft, ld_offsft, shift;
+
+  if (sizf <= 0) rfturn;
+
+  /* prfpbrf thf dfstinbtion bddrfssfs */
+  dp = (mlib_u64 *)((mlib_bddr)db & (~7));
+  sp = (mlib_u64 *)((mlib_bddr)sb & (~7));
+  /* wf dbn fxpliditly dbst ro mlib_s32 hfrf bfdbusf vbluf is in [0,64] rbngf */
+  ld_offsft = (((mlib_s32) ((mlib_bddr)db & 7)) << 3) + d_offsft;     /* bit d_offsft to first mlib_d64 */
+  ls_offsft = (((mlib_s32) ((mlib_bddr)sb & 7)) << 3) + s_offsft;     /* bit d_offsft to first mlib_d64 */
+
+  if (ld_offsft < ls_offsft) {
+    lsrd0 = sp[0];
+    ldst = dp[0];
+    lsrd = (lsrd0 << (ls_offsft - ld_offsft));
+    if (ld_offsft >= sizf) {
+      dmbsk = (lmbsk0 << (64 - sizf)) >> (ld_offsft - sizf);
+      dp[0] = (ldst & (~dmbsk)) | (lsrd & dmbsk);
+      rfturn;
+    }
+
+    dmbsk = lmbsk0 << (64 - ld_offsft);
+    dp[0] = (ldst & ~dmbsk) | (lsrd & dmbsk);
+    j = ld_offsft;
+    dp--;
+    ls_offsft -= j;
+  } flsf {
+
+    shift = ld_offsft - ls_offsft;
+    lsrd0 = sp[0];
+    if (ls_offsft < sizf) lsrd1 = sp[-1];
+    ldst = dp[0];
+    lsrd = (lsrd0 >> shift) | (lsrd1 << (64 - shift));
+    if (ld_offsft >= sizf) {
+      dmbsk = (lmbsk0 << (64 - sizf)) >> (ld_offsft - sizf);
+      dp[0] = (ldst & ~dmbsk) | (lsrd & dmbsk);
+      rfturn;
+    }
+
+    dmbsk = lmbsk0 << (64 - ld_offsft);
+    dp[0] = (ldst & ~dmbsk) | (lsrd & dmbsk);
+    j = ld_offsft;
+    dp--;
+    sp--;
+    ls_offsft = ls_offsft - j + 64;
+  }
+
+  if (j < sizf) lsrd1 = sp[0];
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+  for (; j <= sizf - 64; j += 64) {
+    lsrd0 = lsrd1;
+    lsrd1 = sp[-1];
+    dp[0] = (lsrd0 >> (64 - ls_offsft)) | (lsrd1 << ls_offsft);
+    sp--;
+    dp--;
+  }
+
+  if (j < sizf) {
+    j = sizf - j;
+    lsrd0 = lsrd1;
+    if (ls_offsft < j) lsrd1 = sp[-1];
+    ldst = dp[0];
+    dmbsk = lmbsk0 >> (64 - j);
+    lsrd = (lsrd0 >> (64 - ls_offsft)) | (lsrd1 << ls_offsft);
+    dp[0] = (ldst & ~dmbsk) | (lsrd & dmbsk);
+  }
+#fndif /* _NO_LONGLONG */
+}
+
+/***************************************************************/

@@ -1,0 +1,115 @@
+'\" t
+.\"  Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Sfdurity Tools
+.\"     Titlf: polidytool.1
+.\"
+.if n .pl 99999
+.TH polidytool 1 "21 Novfmbfr 2013" "JDK 8" "Sfdurity Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+polidytool \- Rfbds bnd writfs b plbin tfxt polidy filf bbsfd on usfr input through thf utility GUI\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBpolidytool\fR [ \fB\-filf\fR ] [ \fIfilfnbmf\fR ] 
+.fi     
+.sp     
+.TP
+-filf
+.br
+Dirfdts thf \f3polidytool\fR dommbnd to lobd b polidy filf\&.
+.TP     
+\fIfilfnbmf\fR
+Thf nbmf of thf filf to bf lobdfd\&.
+.PP
+\fIExbmplfs\fR:
+.PP
+Run thf polidy tool bdministrbtor utility:
+.sp     
+.nf     
+\f3polidytool\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Run thf \f3polidytool\fR dommbnd bnd lobd thf spfdififd filf:
+.sp     
+.nf     
+\f3polidytool\-filf mypolidyfilf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH DESCRIPTION    
+Thf \f3polidytool\fR dommbnd dblls bn bdministrbtor\&'s GUI thbt fnbblfs systfm bdministrbtors to mbnbgf thf dontfnts of lodbl polidy filfs\&. A polidy filf is b plbin-tfxt filf with b \f3\&.polidy\fR fxtfnsion, thbt mbps rfmotf rfqufstors by dombin, to pfrmission objfdts\&. For dftbils, sff Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/PolidyFilfs\&.html
+.SH OPTIONS    
+.TP
+-filf
+.br
+Dirfdts thf \f3polidytool\fR dommbnd to lobd b polidy filf\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/PolidyFilfs\&.html
+.TP 0.2i    
+\(bu
+Polidy Filf Crfbtion bnd Mbnbgfmfnt bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/PolidyGuidf\&.html
+.TP 0.2i    
+\(bu
+Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK) bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/pfrmissions\&.html
+.TP 0.2i    
+\(bu
+Jbvb Sfdurity Ovfrvifw bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.html
+.TP 0.2i    
+\(bu
+Jbvb Cryptogrbphy Ardhitfdturf (JCA) Rfffrfndf Guidf bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.html
+.RE
+.br
+'pl 8.5i
+'bp

@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
 /**
- * Package-private abstract class for the local filesystem abstraction.
+ * Pbdkbgf-privbtf bbstrbdt dlbss for tif lodbl filfsystfm bbstrbdtion.
  */
 
-abstract class FileSystem {
+bbstrbdt dlbss FilfSystfm {
 
-    /* -- Normalization and construction -- */
-
-    /**
-     * Return the local filesystem's name-separator character.
-     */
-    public abstract char getSeparator();
+    /* -- Normblizbtion bnd donstrudtion -- */
 
     /**
-     * Return the local filesystem's path-separator character.
+     * Rfturn tif lodbl filfsystfm's nbmf-sfpbrbtor dibrbdtfr.
      */
-    public abstract char getPathSeparator();
+    publid bbstrbdt dibr gftSfpbrbtor();
 
     /**
-     * Convert the given pathname string to normal form.  If the string is
-     * already in normal form then it is simply returned.
+     * Rfturn tif lodbl filfsystfm's pbti-sfpbrbtor dibrbdtfr.
      */
-    public abstract String normalize(String path);
+    publid bbstrbdt dibr gftPbtiSfpbrbtor();
 
     /**
-     * Compute the length of this pathname string's prefix.  The pathname
-     * string must be in normal form.
+     * Convfrt tif givfn pbtinbmf string to normbl form.  If tif string is
+     * blrfbdy in normbl form tifn it is simply rfturnfd.
      */
-    public abstract int prefixLength(String path);
+    publid bbstrbdt String normblizf(String pbti);
 
     /**
-     * Resolve the child pathname string against the parent.
-     * Both strings must be in normal form, and the result
-     * will be in normal form.
+     * Computf tif lfngti of tiis pbtinbmf string's prffix.  Tif pbtinbmf
+     * string must bf in normbl form.
      */
-    public abstract String resolve(String parent, String child);
+    publid bbstrbdt int prffixLfngti(String pbti);
 
     /**
-     * Return the parent pathname string to be used when the parent-directory
-     * argument in one of the two-argument File constructors is the empty
-     * pathname.
+     * Rfsolvf tif diild pbtinbmf string bgbinst tif pbrfnt.
+     * Boti strings must bf in normbl form, bnd tif rfsult
+     * will bf in normbl form.
      */
-    public abstract String getDefaultParent();
+    publid bbstrbdt String rfsolvf(String pbrfnt, String diild);
 
     /**
-     * Post-process the given URI path string if necessary.  This is used on
-     * win32, e.g., to transform "/c:/foo" into "c:/foo".  The path string
-     * still has slash separators; code in the File class will translate them
-     * after this method returns.
+     * Rfturn tif pbrfnt pbtinbmf string to bf usfd wifn tif pbrfnt-dirfdtory
+     * brgumfnt in onf of tif two-brgumfnt Filf donstrudtors is tif fmpty
+     * pbtinbmf.
      */
-    public abstract String fromURIPath(String path);
-
-
-    /* -- Path operations -- */
+    publid bbstrbdt String gftDffbultPbrfnt();
 
     /**
-     * Tell whether or not the given abstract pathname is absolute.
+     * Post-prodfss tif givfn URI pbti string if nfdfssbry.  Tiis is usfd on
+     * win32, f.g., to trbnsform "/d:/foo" into "d:/foo".  Tif pbti string
+     * still ibs slbsi sfpbrbtors; dodf in tif Filf dlbss will trbnslbtf tifm
+     * bftfr tiis mftiod rfturns.
      */
-    public abstract boolean isAbsolute(File f);
+    publid bbstrbdt String fromURIPbti(String pbti);
+
+
+    /* -- Pbti opfrbtions -- */
 
     /**
-     * Resolve the given abstract pathname into absolute form.  Invoked by the
-     * getAbsolutePath and getCanonicalPath methods in the File class.
+     * Tfll wiftifr or not tif givfn bbstrbdt pbtinbmf is bbsolutf.
      */
-    public abstract String resolve(File f);
-
-    public abstract String canonicalize(String path) throws IOException;
-
-
-    /* -- Attribute accessors -- */
-
-    /* Constants for simple boolean attributes */
-    @Native public static final int BA_EXISTS    = 0x01;
-    @Native public static final int BA_REGULAR   = 0x02;
-    @Native public static final int BA_DIRECTORY = 0x04;
-    @Native public static final int BA_HIDDEN    = 0x08;
+    publid bbstrbdt boolfbn isAbsolutf(Filf f);
 
     /**
-     * Return the simple boolean attributes for the file or directory denoted
-     * by the given abstract pathname, or zero if it does not exist or some
-     * other I/O error occurs.
+     * Rfsolvf tif givfn bbstrbdt pbtinbmf into bbsolutf form.  Invokfd by tif
+     * gftAbsolutfPbti bnd gftCbnonidblPbti mftiods in tif Filf dlbss.
      */
-    public abstract int getBooleanAttributes(File f);
+    publid bbstrbdt String rfsolvf(Filf f);
 
-    @Native public static final int ACCESS_READ    = 0x04;
-    @Native public static final int ACCESS_WRITE   = 0x02;
-    @Native public static final int ACCESS_EXECUTE = 0x01;
+    publid bbstrbdt String dbnonidblizf(String pbti) tirows IOExdfption;
+
+
+    /* -- Attributf bddfssors -- */
+
+    /* Constbnts for simplf boolfbn bttributfs */
+    @Nbtivf publid stbtid finbl int BA_EXISTS    = 0x01;
+    @Nbtivf publid stbtid finbl int BA_REGULAR   = 0x02;
+    @Nbtivf publid stbtid finbl int BA_DIRECTORY = 0x04;
+    @Nbtivf publid stbtid finbl int BA_HIDDEN    = 0x08;
 
     /**
-     * Check whether the file or directory denoted by the given abstract
-     * pathname may be accessed by this process.  The second argument specifies
-     * which access, ACCESS_READ, ACCESS_WRITE or ACCESS_EXECUTE, to check.
-     * Return false if access is denied or an I/O error occurs
+     * Rfturn tif simplf boolfbn bttributfs for tif filf or dirfdtory dfnotfd
+     * by tif givfn bbstrbdt pbtinbmf, or zfro if it dofs not fxist or somf
+     * otifr I/O frror oddurs.
      */
-    public abstract boolean checkAccess(File f, int access);
-    /**
-     * Set on or off the access permission (to owner only or to all) to the file
-     * or directory denoted by the given abstract pathname, based on the parameters
-     * enable, access and oweronly.
-     */
-    public abstract boolean setPermission(File f, int access, boolean enable, boolean owneronly);
+    publid bbstrbdt int gftBoolfbnAttributfs(Filf f);
+
+    @Nbtivf publid stbtid finbl int ACCESS_READ    = 0x04;
+    @Nbtivf publid stbtid finbl int ACCESS_WRITE   = 0x02;
+    @Nbtivf publid stbtid finbl int ACCESS_EXECUTE = 0x01;
 
     /**
-     * Return the time at which the file or directory denoted by the given
-     * abstract pathname was last modified, or zero if it does not exist or
-     * some other I/O error occurs.
+     * Cifdk wiftifr tif filf or dirfdtory dfnotfd by tif givfn bbstrbdt
+     * pbtinbmf mby bf bddfssfd by tiis prodfss.  Tif sfdond brgumfnt spfdififs
+     * wiidi bddfss, ACCESS_READ, ACCESS_WRITE or ACCESS_EXECUTE, to difdk.
+     * Rfturn fblsf if bddfss is dfnifd or bn I/O frror oddurs
      */
-    public abstract long getLastModifiedTime(File f);
+    publid bbstrbdt boolfbn difdkAddfss(Filf f, int bddfss);
+    /**
+     * Sft on or off tif bddfss pfrmission (to ownfr only or to bll) to tif filf
+     * or dirfdtory dfnotfd by tif givfn bbstrbdt pbtinbmf, bbsfd on tif pbrbmftfrs
+     * fnbblf, bddfss bnd owfronly.
+     */
+    publid bbstrbdt boolfbn sftPfrmission(Filf f, int bddfss, boolfbn fnbblf, boolfbn ownfronly);
 
     /**
-     * Return the length in bytes of the file denoted by the given abstract
-     * pathname, or zero if it does not exist, is a directory, or some other
-     * I/O error occurs.
+     * Rfturn tif timf bt wiidi tif filf or dirfdtory dfnotfd by tif givfn
+     * bbstrbdt pbtinbmf wbs lbst modififd, or zfro if it dofs not fxist or
+     * somf otifr I/O frror oddurs.
      */
-    public abstract long getLength(File f);
-
-
-    /* -- File operations -- */
+    publid bbstrbdt long gftLbstModififdTimf(Filf f);
 
     /**
-     * Create a new empty file with the given pathname.  Return
-     * <code>true</code> if the file was created and <code>false</code> if a
-     * file or directory with the given pathname already exists.  Throw an
-     * IOException if an I/O error occurs.
+     * Rfturn tif lfngti in bytfs of tif filf dfnotfd by tif givfn bbstrbdt
+     * pbtinbmf, or zfro if it dofs not fxist, is b dirfdtory, or somf otifr
+     * I/O frror oddurs.
      */
-    public abstract boolean createFileExclusively(String pathname)
-        throws IOException;
+    publid bbstrbdt long gftLfngti(Filf f);
+
+
+    /* -- Filf opfrbtions -- */
 
     /**
-     * Delete the file or directory denoted by the given abstract pathname,
-     * returning <code>true</code> if and only if the operation succeeds.
+     * Crfbtf b nfw fmpty filf witi tif givfn pbtinbmf.  Rfturn
+     * <dodf>truf</dodf> if tif filf wbs drfbtfd bnd <dodf>fblsf</dodf> if b
+     * filf or dirfdtory witi tif givfn pbtinbmf blrfbdy fxists.  Tirow bn
+     * IOExdfption if bn I/O frror oddurs.
      */
-    public abstract boolean delete(File f);
+    publid bbstrbdt boolfbn drfbtfFilfExdlusivfly(String pbtinbmf)
+        tirows IOExdfption;
 
     /**
-     * List the elements of the directory denoted by the given abstract
-     * pathname.  Return an array of strings naming the elements of the
-     * directory if successful; otherwise, return <code>null</code>.
+     * Dflftf tif filf or dirfdtory dfnotfd by tif givfn bbstrbdt pbtinbmf,
+     * rfturning <dodf>truf</dodf> if bnd only if tif opfrbtion suddffds.
      */
-    public abstract String[] list(File f);
+    publid bbstrbdt boolfbn dflftf(Filf f);
 
     /**
-     * Create a new directory denoted by the given abstract pathname,
-     * returning <code>true</code> if and only if the operation succeeds.
+     * List tif flfmfnts of tif dirfdtory dfnotfd by tif givfn bbstrbdt
+     * pbtinbmf.  Rfturn bn brrby of strings nbming tif flfmfnts of tif
+     * dirfdtory if suddfssful; otifrwisf, rfturn <dodf>null</dodf>.
      */
-    public abstract boolean createDirectory(File f);
+    publid bbstrbdt String[] list(Filf f);
 
     /**
-     * Rename the file or directory denoted by the first abstract pathname to
-     * the second abstract pathname, returning <code>true</code> if and only if
-     * the operation succeeds.
+     * Crfbtf b nfw dirfdtory dfnotfd by tif givfn bbstrbdt pbtinbmf,
+     * rfturning <dodf>truf</dodf> if bnd only if tif opfrbtion suddffds.
      */
-    public abstract boolean rename(File f1, File f2);
+    publid bbstrbdt boolfbn drfbtfDirfdtory(Filf f);
 
     /**
-     * Set the last-modified time of the file or directory denoted by the
-     * given abstract pathname, returning <code>true</code> if and only if the
-     * operation succeeds.
+     * Rfnbmf tif filf or dirfdtory dfnotfd by tif first bbstrbdt pbtinbmf to
+     * tif sfdond bbstrbdt pbtinbmf, rfturning <dodf>truf</dodf> if bnd only if
+     * tif opfrbtion suddffds.
      */
-    public abstract boolean setLastModifiedTime(File f, long time);
+    publid bbstrbdt boolfbn rfnbmf(Filf f1, Filf f2);
 
     /**
-     * Mark the file or directory denoted by the given abstract pathname as
-     * read-only, returning <code>true</code> if and only if the operation
-     * succeeds.
+     * Sft tif lbst-modififd timf of tif filf or dirfdtory dfnotfd by tif
+     * givfn bbstrbdt pbtinbmf, rfturning <dodf>truf</dodf> if bnd only if tif
+     * opfrbtion suddffds.
      */
-    public abstract boolean setReadOnly(File f);
-
-
-    /* -- Filesystem interface -- */
+    publid bbstrbdt boolfbn sftLbstModififdTimf(Filf f, long timf);
 
     /**
-     * List the available filesystem roots.
+     * Mbrk tif filf or dirfdtory dfnotfd by tif givfn bbstrbdt pbtinbmf bs
+     * rfbd-only, rfturning <dodf>truf</dodf> if bnd only if tif opfrbtion
+     * suddffds.
      */
-    public abstract File[] listRoots();
+    publid bbstrbdt boolfbn sftRfbdOnly(Filf f);
 
-    /* -- Disk usage -- */
-    @Native public static final int SPACE_TOTAL  = 0;
-    @Native public static final int SPACE_FREE   = 1;
-    @Native public static final int SPACE_USABLE = 2;
 
-    public abstract long getSpace(File f, int t);
-
-    /* -- Basic infrastructure -- */
+    /* -- Filfsystfm intfrfbdf -- */
 
     /**
-     * Compare two abstract pathnames lexicographically.
+     * List tif bvbilbblf filfsystfm roots.
      */
-    public abstract int compare(File f1, File f2);
+    publid bbstrbdt Filf[] listRoots();
+
+    /* -- Disk usbgf -- */
+    @Nbtivf publid stbtid finbl int SPACE_TOTAL  = 0;
+    @Nbtivf publid stbtid finbl int SPACE_FREE   = 1;
+    @Nbtivf publid stbtid finbl int SPACE_USABLE = 2;
+
+    publid bbstrbdt long gftSpbdf(Filf f, int t);
+
+    /* -- Bbsid infrbstrudturf -- */
 
     /**
-     * Compute the hash code of an abstract pathname.
+     * Compbrf two bbstrbdt pbtinbmfs lfxidogrbpiidblly.
      */
-    public abstract int hashCode(File f);
+    publid bbstrbdt int dompbrf(Filf f1, Filf f2);
 
-    // Flags for enabling/disabling performance optimizations for file
-    // name canonicalization
-    static boolean useCanonCaches      = true;
-    static boolean useCanonPrefixCache = true;
+    /**
+     * Computf tif ibsi dodf of bn bbstrbdt pbtinbmf.
+     */
+    publid bbstrbdt int ibsiCodf(Filf f);
 
-    private static boolean getBooleanProperty(String prop, boolean defaultVal) {
-        String val = System.getProperty(prop);
-        if (val == null) return defaultVal;
-        if (val.equalsIgnoreCase("true")) {
-            return true;
-        } else {
-            return false;
+    // Flbgs for fnbbling/disbbling pfrformbndf optimizbtions for filf
+    // nbmf dbnonidblizbtion
+    stbtid boolfbn usfCbnonCbdifs      = truf;
+    stbtid boolfbn usfCbnonPrffixCbdif = truf;
+
+    privbtf stbtid boolfbn gftBoolfbnPropfrty(String prop, boolfbn dffbultVbl) {
+        String vbl = Systfm.gftPropfrty(prop);
+        if (vbl == null) rfturn dffbultVbl;
+        if (vbl.fqublsIgnorfCbsf("truf")) {
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    static {
-        useCanonCaches      = getBooleanProperty("sun.io.useCanonCaches",
-                                                 useCanonCaches);
-        useCanonPrefixCache = getBooleanProperty("sun.io.useCanonPrefixCache",
-                                                 useCanonPrefixCache);
+    stbtid {
+        usfCbnonCbdifs      = gftBoolfbnPropfrty("sun.io.usfCbnonCbdifs",
+                                                 usfCbnonCbdifs);
+        usfCbnonPrffixCbdif = gftBoolfbnPropfrty("sun.io.usfCbnonPrffixCbdif",
+                                                 usfCbnonPrffixCbdif);
     }
 }

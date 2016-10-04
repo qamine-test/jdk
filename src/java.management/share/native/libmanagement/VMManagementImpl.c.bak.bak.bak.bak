@@ -1,0 +1,334 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#indludf <stdlib.h>
+#indludf "jvm.h"
+#indludf "mbnbgfmfnt.h"
+#indludf "sun_mbnbgfmfnt_VMMbnbgfmfntImpl.h"
+
+#dffinf MAX_VERSION_LEN   20
+
+JNIEXPORT jstring JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftVfrsion0
+  (JNIEnv *fnv, jdlbss dummy)
+{
+    dhbr buf[MAX_VERSION_LEN];
+    jstring vfrsion_string = NULL;
+
+    unsignfd int mbjor = ((unsignfd int) jmm_vfrsion & 0x0FFF0000) >> 16;
+    unsignfd int minor = ((unsignfd int) jmm_vfrsion & 0xFF00) >> 8;
+
+    // for intfrnbl usf
+    unsignfd int midro = (unsignfd int) jmm_vfrsion & 0xFF;
+
+    sprintf(buf, "%d.%d", mbjor, minor);
+    vfrsion_string = (*fnv)->NfwStringUTF(fnv, buf);
+    rfturn vfrsion_string;
+}
+
+stbtid void sftStbtidBoolfbnFifld
+   (JNIEnv* fnv, jdlbss dls, donst dhbr* nbmf, jboolfbn vbluf)
+{
+    jfifldID fid;
+    fid = (*fnv)->GftStbtidFifldID(fnv, dls, nbmf, "Z");
+    if (fid != 0) {
+        (*fnv)->SftStbtidBoolfbnFifld(fnv, dls, fid, vbluf);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_initOptionblSupportFiflds
+  (JNIEnv *fnv, jdlbss dls)
+{
+    jmmOptionblSupport mos;
+    jint rft = jmm_intfrfbdf->GftOptionblSupport(fnv, &mos);
+
+    jboolfbn vbluf;
+
+    vbluf = mos.isCompilbtionTimfMonitoringSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "dompTimfMonitoringSupport", vbluf);
+
+    vbluf = mos.isThrfbdContfntionMonitoringSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "thrfbdContfntionMonitoringSupport", vbluf);
+
+    vbluf = mos.isCurrfntThrfbdCpuTimfSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "durrfntThrfbdCpuTimfSupport", vbluf);
+
+    vbluf = mos.isOthfrThrfbdCpuTimfSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "othfrThrfbdCpuTimfSupport", vbluf);
+
+    vbluf = mos.isBootClbssPbthSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "bootClbssPbthSupport", vbluf);
+
+    if (jmm_vfrsion >= JMM_VERSION_1_1) {
+        vbluf = mos.isObjfdtMonitorUsbgfSupportfd;
+        sftStbtidBoolfbnFifld(fnv, dls, "objfdtMonitorUsbgfSupport", vbluf);
+
+        vbluf = mos.isSyndhronizfrUsbgfSupportfd;
+        sftStbtidBoolfbnFifld(fnv, dls, "syndhronizfrUsbgfSupport", vbluf);
+    } flsf {
+        sftStbtidBoolfbnFifld(fnv, dls, "objfdtMonitorUsbgfSupport", JNI_FALSE);
+        sftStbtidBoolfbnFifld(fnv, dls, "syndhronizfrUsbgfSupport", JNI_FALSE);
+    }
+
+    vbluf = mos.isThrfbdAllodbtfdMfmorySupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "thrfbdAllodbtfdMfmorySupport", vbluf);
+
+    vbluf = mos.isRfmotfDibgnostidCommbndsSupportfd;
+    sftStbtidBoolfbnFifld(fnv, dls, "rfmotfDibgnostidCommbndsSupport", vbluf);
+
+    if ((jmm_vfrsion > JMM_VERSION_1_2) ||
+        (jmm_vfrsion == JMM_VERSION_1_2 && ((jmm_vfrsion&0xFF) >= 1))) {
+        sftStbtidBoolfbnFifld(fnv, dls, "gdNotifidbtionSupport", JNI_TRUE);
+    } flsf {
+        sftStbtidBoolfbnFifld(fnv, dls, "gdNotifidbtionSupport", JNI_FALSE);
+    }
+}
+
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftVmArgumfnts0
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftInputArgumfntArrby(fnv);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftTotblClbssCount
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    /* JMM_CLASS_LOADED_COUNT is thf totbl numbfr of dlbssfs lobdfd */
+    jlong dount = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                                  JMM_CLASS_LOADED_COUNT);
+    rfturn dount;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftUnlobdfdClbssCount
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    /* JMM_CLASS_UNLOADED_COUNT is thf totbl numbfr of dlbssfs unlobdfd */
+    jlong dount = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                                  JMM_CLASS_UNLOADED_COUNT);
+    rfturn dount;
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftVfrbosfGC
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftBoolAttributf(fnv, JMM_VERBOSE_GC);
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftVfrbosfClbss
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftBoolAttributf(fnv, JMM_VERBOSE_CLASS);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftTotblThrfbdCount
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_THREAD_TOTAL_COUNT);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftLivfThrfbdCount
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    jlong dount = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                                  JMM_THREAD_LIVE_COUNT);
+    rfturn (jint) dount;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftPfbkThrfbdCount
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    jlong dount = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                                  JMM_THREAD_PEAK_COUNT);
+    rfturn (jint) dount;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftDbfmonThrfbdCount
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    jlong dount = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                                  JMM_THREAD_DAEMON_COUNT);
+    rfturn (jint) dount;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftTotblCompilfTimf
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_COMPILE_TOTAL_TIME_MS);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftStbrtupTimf
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_JVM_INIT_DONE_TIME_MS);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftUptimf0
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL, JMM_JVM_UPTIME_MS);
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_isThrfbdContfntionMonitoringEnbblfd
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftBoolAttributf(fnv,
+                                           JMM_THREAD_CONTENTION_MONITORING);
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_isThrfbdCpuTimfEnbblfd
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftBoolAttributf(fnv, JMM_THREAD_CPU_TIME);
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_isThrfbdAllodbtfdMfmoryEnbblfd
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftBoolAttributf(fnv, JMM_THREAD_ALLOCATED_MEMORY);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftProdfssId
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    jlong pid = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                                JMM_OS_PROCESS_ID);
+    rfturn (jint) pid;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftAvbilbblfProdfssors
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn JVM_AdtivfProdfssorCount();
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftSbffpointCount
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_SAFEPOINT_COUNT);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftTotblSbffpointTimf
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_TOTAL_STOPPED_TIME_MS);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftSbffpointSyndTimf
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_TOTAL_SAFEPOINTSYNC_TIME_MS);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftTotblApplidbtionNonStoppfdTimf
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_TOTAL_APP_TIME_MS);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftLobdfdClbssSizf
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_CLASS_LOADED_BYTES);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftUnlobdfdClbssSizf
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_CLASS_UNLOADED_BYTES);
+}
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftClbssLobdingTimf
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_TOTAL_CLASSLOAD_TIME_MS);
+}
+
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftMfthodDbtbSizf
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_METHOD_DATA_SIZE_BYTES);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftInitiblizfdClbssCount
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_CLASS_INIT_TOTAL_COUNT);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftClbssInitiblizbtionTimf
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_CLASS_INIT_TOTAL_TIME_MS);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_VMMbnbgfmfntImpl_gftClbssVfrifidbtionTimf
+  (JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
+                                           JMM_CLASS_VERIFY_TOTAL_TIME_MS);
+}

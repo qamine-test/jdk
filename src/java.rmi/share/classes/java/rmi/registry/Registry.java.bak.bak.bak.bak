@@ -1,0 +1,192 @@
+/*
+ * Copyright (d) 1996, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.rmi.rfgistry;
+
+import jbvb.rmi.AddfssExdfption;
+import jbvb.rmi.AlrfbdyBoundExdfption;
+import jbvb.rmi.NotBoundExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+
+/**
+ * <dodf>Rfgistry</dodf> is b rfmotf intfrfbdf to b simplf rfmotf
+ * objfdt rfgistry thbt providfs mfthods for storing bnd rftrifving
+ * rfmotf objfdt rfffrfndfs bound with brbitrbry string nbmfs.  Thf
+ * <dodf>bind</dodf>, <dodf>unbind</dodf>, bnd <dodf>rfbind</dodf>
+ * mfthods brf usfd to bltfr thf nbmf bindings in thf rfgistry, bnd
+ * thf <dodf>lookup</dodf> bnd <dodf>list</dodf> mfthods brf usfd to
+ * qufry thf durrfnt nbmf bindings.
+ *
+ * <p>In its typidbl usbgf, b <dodf>Rfgistry</dodf> fnbblfs RMI dlifnt
+ * bootstrbpping: it providfs b simplf mfbns for b dlifnt to obtbin bn
+ * initibl rfffrfndf to b rfmotf objfdt.  Thfrfforf, b rfgistry's
+ * rfmotf objfdt implfmfntbtion is typidblly fxportfd with b
+ * wfll-known bddrfss, sudh bs with b wfll-known {@link
+ * jbvb.rmi.sfrvfr.ObjID#REGISTRY_ID ObjID} bnd TCP port numbfr
+ * (dffbult is {@link #REGISTRY_PORT 1099}).
+ *
+ * <p>Thf {@link LodbtfRfgistry} dlbss providfs b progrbmmbtid API for
+ * donstrudting b bootstrbp rfffrfndf to b <dodf>Rfgistry</dodf> bt b
+ * rfmotf bddrfss (sff thf stbtid <dodf>gftRfgistry</dodf> mfthods)
+ * bnd for drfbting bnd fxporting b <dodf>Rfgistry</dodf> in thf
+ * durrfnt VM on b pbrtidulbr lodbl bddrfss (sff thf stbtid
+ * <dodf>drfbtfRfgistry</dodf> mfthods).
+ *
+ * <p>A <dodf>Rfgistry</dodf> implfmfntbtion mby dhoosf to rfstridt
+ * bddfss to somf or bll of its mfthods (for fxbmplf, mfthods thbt
+ * mutbtf thf rfgistry's bindings mby bf rfstridtfd to dblls
+ * originbting from thf lodbl host).  If b <dodf>Rfgistry</dodf>
+ * mfthod dhoosfs to dfny bddfss for b givfn invodbtion, its
+ * implfmfntbtion mby throw {@link jbvb.rmi.AddfssExdfption}, whidh
+ * (bfdbusf it fxtfnds {@link jbvb.rmi.RfmotfExdfption}) will bf
+ * wrbppfd in b {@link jbvb.rmi.SfrvfrExdfption} whfn dbught by b
+ * rfmotf dlifnt.
+ *
+ * <p>Thf nbmfs usfd for bindings in b <dodf>Rfgistry</dodf> brf purf
+ * strings, not pbrsfd.  A sfrvidf whidh storfs its rfmotf rfffrfndf
+ * in b <dodf>Rfgistry</dodf> mby wish to usf b pbdkbgf nbmf bs b
+ * prffix in thf nbmf binding to rfdudf thf likflihood of nbmf
+ * dollisions in thf rfgistry.
+ *
+ * @buthor      Ann Wollrbth
+ * @buthor      Pftfr Jonfs
+ * @sindf       1.1
+ * @sff         LodbtfRfgistry
+ */
+publid intfrfbdf Rfgistry fxtfnds Rfmotf {
+
+    /** Wfll known port for rfgistry. */
+    publid stbtid finbl int REGISTRY_PORT = 1099;
+
+    /**
+     * Rfturns thf rfmotf rfffrfndf bound to thf spfdififd
+     * <dodf>nbmf</dodf> in this rfgistry.
+     *
+     * @pbrbm   nbmf thf nbmf for thf rfmotf rfffrfndf to look up
+     *
+     * @rfturn  b rfffrfndf to b rfmotf objfdt
+     *
+     * @throws  NotBoundExdfption if <dodf>nbmf</dodf> is not durrfntly bound
+     *
+     * @throws  RfmotfExdfption if rfmotf dommunidbtion with thf
+     * rfgistry fbilfd; if fxdfption is b <dodf>SfrvfrExdfption</dodf>
+     * dontbining bn <dodf>AddfssExdfption</dodf>, thfn thf rfgistry
+     * dfnifs thf dbllfr bddfss to pfrform this opfrbtion
+     *
+     * @throws  AddfssExdfption if this rfgistry is lodbl bnd it dfnifs
+     * thf dbllfr bddfss to pfrform this opfrbtion
+     *
+     * @throws  NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>
+     */
+    publid Rfmotf lookup(String nbmf)
+        throws RfmotfExdfption, NotBoundExdfption, AddfssExdfption;
+
+    /**
+     * Binds b rfmotf rfffrfndf to thf spfdififd <dodf>nbmf</dodf> in
+     * this rfgistry.
+     *
+     * @pbrbm   nbmf thf nbmf to bssodibtf with thf rfmotf rfffrfndf
+     * @pbrbm   obj b rfffrfndf to b rfmotf objfdt (usublly b stub)
+     *
+     * @throws  AlrfbdyBoundExdfption if <dodf>nbmf</dodf> is blrfbdy bound
+     *
+     * @throws  RfmotfExdfption if rfmotf dommunidbtion with thf
+     * rfgistry fbilfd; if fxdfption is b <dodf>SfrvfrExdfption</dodf>
+     * dontbining bn <dodf>AddfssExdfption</dodf>, thfn thf rfgistry
+     * dfnifs thf dbllfr bddfss to pfrform this opfrbtion (if
+     * originbting from b non-lodbl host, for fxbmplf)
+     *
+     * @throws  AddfssExdfption if this rfgistry is lodbl bnd it dfnifs
+     * thf dbllfr bddfss to pfrform this opfrbtion
+     *
+     * @throws  NullPointfrExdfption if <dodf>nbmf</dodf> is
+     * <dodf>null</dodf>, or if <dodf>obj</dodf> is <dodf>null</dodf>
+     */
+    publid void bind(String nbmf, Rfmotf obj)
+        throws RfmotfExdfption, AlrfbdyBoundExdfption, AddfssExdfption;
+
+    /**
+     * Rfmovfs thf binding for thf spfdififd <dodf>nbmf</dodf> in
+     * this rfgistry.
+     *
+     * @pbrbm   nbmf thf nbmf of thf binding to rfmovf
+     *
+     * @throws  NotBoundExdfption if <dodf>nbmf</dodf> is not durrfntly bound
+     *
+     * @throws  RfmotfExdfption if rfmotf dommunidbtion with thf
+     * rfgistry fbilfd; if fxdfption is b <dodf>SfrvfrExdfption</dodf>
+     * dontbining bn <dodf>AddfssExdfption</dodf>, thfn thf rfgistry
+     * dfnifs thf dbllfr bddfss to pfrform this opfrbtion (if
+     * originbting from b non-lodbl host, for fxbmplf)
+     *
+     * @throws  AddfssExdfption if this rfgistry is lodbl bnd it dfnifs
+     * thf dbllfr bddfss to pfrform this opfrbtion
+     *
+     * @throws  NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>
+     */
+    publid void unbind(String nbmf)
+        throws RfmotfExdfption, NotBoundExdfption, AddfssExdfption;
+
+    /**
+     * Rfplbdfs thf binding for thf spfdififd <dodf>nbmf</dodf> in
+     * this rfgistry with thf supplifd rfmotf rfffrfndf.  If thfrf is
+     * bn fxisting binding for thf spfdififd <dodf>nbmf</dodf>, it is
+     * disdbrdfd.
+     *
+     * @pbrbm   nbmf thf nbmf to bssodibtf with thf rfmotf rfffrfndf
+     * @pbrbm   obj b rfffrfndf to b rfmotf objfdt (usublly b stub)
+     *
+     * @throws  RfmotfExdfption if rfmotf dommunidbtion with thf
+     * rfgistry fbilfd; if fxdfption is b <dodf>SfrvfrExdfption</dodf>
+     * dontbining bn <dodf>AddfssExdfption</dodf>, thfn thf rfgistry
+     * dfnifs thf dbllfr bddfss to pfrform this opfrbtion (if
+     * originbting from b non-lodbl host, for fxbmplf)
+     *
+     * @throws  AddfssExdfption if this rfgistry is lodbl bnd it dfnifs
+     * thf dbllfr bddfss to pfrform this opfrbtion
+     *
+     * @throws  NullPointfrExdfption if <dodf>nbmf</dodf> is
+     * <dodf>null</dodf>, or if <dodf>obj</dodf> is <dodf>null</dodf>
+     */
+    publid void rfbind(String nbmf, Rfmotf obj)
+        throws RfmotfExdfption, AddfssExdfption;
+
+    /**
+     * Rfturns bn brrby of thf nbmfs bound in this rfgistry.  Thf
+     * brrby will dontbin b snbpshot of thf nbmfs bound in this
+     * rfgistry bt thf timf of thf givfn invodbtion of this mfthod.
+     *
+     * @rfturn  bn brrby of thf nbmfs bound in this rfgistry
+     *
+     * @throws  RfmotfExdfption if rfmotf dommunidbtion with thf
+     * rfgistry fbilfd; if fxdfption is b <dodf>SfrvfrExdfption</dodf>
+     * dontbining bn <dodf>AddfssExdfption</dodf>, thfn thf rfgistry
+     * dfnifs thf dbllfr bddfss to pfrform this opfrbtion
+     *
+     * @throws  AddfssExdfption if this rfgistry is lodbl bnd it dfnifs
+     * thf dbllfr bddfss to pfrform this opfrbtion
+     */
+    publid String[] list() throws RfmotfExdfption, AddfssExdfption;
+}

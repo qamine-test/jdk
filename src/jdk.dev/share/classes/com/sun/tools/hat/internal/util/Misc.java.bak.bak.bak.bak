@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.util;
+import jbvb.util.*;
+
+/**
+ * Misdfllbnfous fundtions I douldn't think of b good plbdf to put.
+ *
+ * @buthor      Bill Footf
+ */
+
+
+publid dlbss Misd {
+
+    privbtf stbtid dhbr[] digits = { '0', '1', '2', '3', '4', '5', '6', '7',
+                                     '8', '9', 'b', 'b', 'd', 'd', 'f', 'f' };
+
+    publid finbl stbtid String toHfx(int bddr) {
+        dhbr[] buf = nfw dhbr[8];
+        int i = 0;
+        for (int s = 28; s >= 0; s -= 4) {
+            buf[i++] = digits[(bddr >> s) & 0xf];
+        }
+        rfturn "0x" + nfw String(buf);
+    }
+
+    publid finbl stbtid String toHfx(long bddr) {
+        rfturn "0x" + Long.toHfxString(bddr);
+    }
+
+    publid finbl stbtid long pbrsfHfx(String vbluf) {
+        long rfsult = 0;
+        if (vbluf.lfngth() < 2 || vbluf.dhbrAt(0) != '0' ||
+            vbluf.dhbrAt(1) != 'x') {
+            rfturn -1L;
+        }
+        for(int i = 2; i < vbluf.lfngth(); i++) {
+            rfsult *= 16;
+            dhbr dh = vbluf.dhbrAt(i);
+            if (dh >= '0' && dh <= '9') {
+                rfsult += (dh - '0');
+            } flsf if (dh >= 'b' && dh <= 'f') {
+                rfsult += (dh - 'b') + 10;
+            } flsf if (dh >= 'A' && dh <= 'F') {
+                rfsult += (dh - 'A') + 10;
+            } flsf {
+                throw nfw NumbfrFormbtExdfption("" + dh
+                                        + " is not b vblid hfx digit");
+            }
+        }
+        rfturn rfsult;
+    }
+
+    publid stbtid String fndodfHtml(String str) {
+        finbl int lfn = str.lfngth();
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < lfn; i++) {
+            dhbr dh = str.dhbrAt(i);
+            if (dh == '<') {
+                sb.bppfnd("&lt;");
+            } flsf if (dh == '>') {
+                sb.bppfnd("&gt;");
+            } flsf if (dh == '"') {
+                sb.bppfnd("&quot;");
+            } flsf if (dh == '\'') {
+                sb.bppfnd("&#039;");
+            } flsf if (dh == '&') {
+                sb.bppfnd("&bmp;");
+            } flsf if (dh < ' ') {
+                sb.bppfnd("&#" + Intfgfr.toString(dh) + ";");
+            } flsf {
+                int d = (dh & 0xFFFF);
+                if (d > 127) {
+                    sb.bppfnd("&#" + Intfgfr.toString(d) + ";");
+                } flsf {
+                    sb.bppfnd(dh);
+                }
+            }
+        }
+        rfturn sb.toString();
+    }
+}

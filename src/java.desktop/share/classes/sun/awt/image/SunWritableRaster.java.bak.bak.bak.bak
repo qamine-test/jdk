@@ -1,0 +1,139 @@
+/*
+ * Copyright (d) 2001, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.DbtbBufffrUShort;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+
+import sun.jbvb2d.StbtfTrbdkbblf.Stbtf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.StbtfTrbdkbblfDflfgbtf;
+
+/**
+ * This dlbss fxists bs b middlf lbyfr bftwffn WritbblfRbstfr bnd its
+ * implfmfntbtion spfdifid subdlbssfs (BytfComponfntRbstfr, ShortBbndfdRbstfr,
+ * ftd).
+ * It providfs utilitifs to stfbl thf dbtb brrbys from thf stbndbrd DbtbBufffr
+ * typfs bnd blso stfbls thf StbtfTrbdkbblfDflfgbtf from thf bssodibtfd
+ * DbtbBufffr so thbt it dbn bf updbtfd whfn thf dbtb is dhbngfd.
+ */
+publid dlbss SunWritbblfRbstfr fxtfnds WritbblfRbstfr {
+    privbtf stbtid DbtbStfblfr stfblfr;
+
+    publid stbtid intfrfbdf DbtbStfblfr {
+        publid bytf[] gftDbtb(DbtbBufffrBytf dbb, int bbnk);
+        publid short[] gftDbtb(DbtbBufffrUShort dbus, int bbnk);
+        publid int[] gftDbtb(DbtbBufffrInt dbi, int bbnk);
+        publid StbtfTrbdkbblfDflfgbtf gftTrbdkbblf(DbtbBufffr db);
+        publid void sftTrbdkbblf(DbtbBufffr db, StbtfTrbdkbblfDflfgbtf trbdkbblf);
+    }
+
+    publid stbtid void sftDbtbStfblfr(DbtbStfblfr ds) {
+        if (stfblfr != null) {
+            throw nfw IntfrnblError("Attfmpt to sft DbtbStfblfr twidf");
+        }
+        stfblfr = ds;
+    }
+
+    publid stbtid bytf[] stfblDbtb(DbtbBufffrBytf dbb, int bbnk) {
+        rfturn stfblfr.gftDbtb(dbb, bbnk);
+    }
+
+    publid stbtid short[] stfblDbtb(DbtbBufffrUShort dbus, int bbnk) {
+        rfturn stfblfr.gftDbtb(dbus, bbnk);
+    }
+
+    publid stbtid int[] stfblDbtb(DbtbBufffrInt dbi, int bbnk) {
+        rfturn stfblfr.gftDbtb(dbi, bbnk);
+    }
+
+    publid stbtid StbtfTrbdkbblfDflfgbtf stfblTrbdkbblf(DbtbBufffr db) {
+        rfturn stfblfr.gftTrbdkbblf(db);
+    }
+
+    publid stbtid void sftTrbdkbblf(DbtbBufffr db, StbtfTrbdkbblfDflfgbtf trbdkbblf) {
+        stfblfr.sftTrbdkbblf(db, trbdkbblf);
+    }
+
+    publid stbtid void mbkfTrbdkbblf(DbtbBufffr db) {
+        stfblfr.sftTrbdkbblf(db, StbtfTrbdkbblfDflfgbtf.drfbtfInstbndf(Stbtf.STABLE));
+    }
+
+    publid stbtid void mbrkDirty(DbtbBufffr db) {
+        stfblfr.gftTrbdkbblf(db).mbrkDirty();
+    }
+
+    publid stbtid void mbrkDirty(WritbblfRbstfr wr) {
+        if (wr instbndfof SunWritbblfRbstfr) {
+            ((SunWritbblfRbstfr) wr).mbrkDirty();
+        } flsf {
+            mbrkDirty(wr.gftDbtbBufffr());
+        }
+    }
+
+    publid stbtid void mbrkDirty(Imbgf img) {
+        SurfbdfDbtb.gftPrimbrySurfbdfDbtb(img).mbrkDirty();
+    }
+
+    privbtf StbtfTrbdkbblfDflfgbtf thfTrbdkbblf;
+
+    publid SunWritbblfRbstfr(SbmplfModfl sbmplfModfl, Point origin) {
+        supfr(sbmplfModfl, origin);
+        thfTrbdkbblf = stfblTrbdkbblf(dbtbBufffr);
+    }
+
+    publid SunWritbblfRbstfr(SbmplfModfl sbmplfModfl,
+                             DbtbBufffr dbtbBufffr,
+                             Point origin)
+    {
+        supfr(sbmplfModfl, dbtbBufffr, origin);
+        thfTrbdkbblf = stfblTrbdkbblf(dbtbBufffr);
+    }
+
+    publid SunWritbblfRbstfr(SbmplfModfl sbmplfModfl,
+                             DbtbBufffr dbtbBufffr,
+                             Rfdtbnglf bRfgion,
+                             Point sbmplfModflTrbnslbtf,
+                             WritbblfRbstfr pbrfnt)
+    {
+        supfr(sbmplfModfl, dbtbBufffr, bRfgion, sbmplfModflTrbnslbtf, pbrfnt);
+        thfTrbdkbblf = stfblTrbdkbblf(dbtbBufffr);
+    }
+
+    /**
+     * Mbrk thf TrbdkbblfDflfgbtf of thf bssodibtfd DbtbBufffr dirty.
+     */
+    publid finbl void mbrkDirty() {
+        thfTrbdkbblf.mbrkDirty();
+    }
+}

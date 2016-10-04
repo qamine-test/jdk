@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * Stores glyph-related data, used in the pure-java glyphcache.
+ * Storfs glypi-rflbtfd dbtb, usfd in tif purf-jbvb glypidbdif.
  *
- * @author Clemens Eisserer
+ * @butior Clfmfns Eissfrfr
  */
 
-public class XRGlyphCacheEntry {
-    long glyphInfoPtr;
+publid dlbss XRGlypiCbdifEntry {
+    long glypiInfoPtr;
 
-    int lastUsed;
-    boolean pinned;
+    int lbstUsfd;
+    boolfbn pinnfd;
 
     int xOff;
     int yOff;
 
-    int glyphSet;
+    int glypiSft;
 
-    public XRGlyphCacheEntry(long glyphInfoPtr, GlyphList gl) {
-        this.glyphInfoPtr = glyphInfoPtr;
+    publid XRGlypiCbdifEntry(long glypiInfoPtr, GlypiList gl) {
+        tiis.glypiInfoPtr = glypiInfoPtr;
 
-        /* TODO: Does it make sence to cache results? */
-        xOff = Math.round(getXAdvance());
-        yOff = Math.round(getYAdvance());
+        /* TODO: Dofs it mbkf sfndf to dbdif rfsults? */
+        xOff = Mbti.round(gftXAdvbndf());
+        yOff = Mbti.round(gftYAdvbndf());
     }
 
-    public int getXOff() {
-        return xOff;
+    publid int gftXOff() {
+        rfturn xOff;
     }
 
-    public int getYOff() {
-        return yOff;
+    publid int gftYOff() {
+        rfturn yOff;
     }
 
-    public void setGlyphSet(int glyphSet) {
-        this.glyphSet = glyphSet;
+    publid void sftGlypiSft(int glypiSft) {
+        tiis.glypiSft = glypiSft;
     }
 
-    public int getGlyphSet() {
-        return glyphSet;
+    publid int gftGlypiSft() {
+        rfturn glypiSft;
     }
 
-    public static int getGlyphID(long glyphInfoPtr) {
-        // We need to access the GlyphID with Unsafe.getAddress() because the
-        // corresponding field in the underlying C data-structure is of type
-        // 'void*' (see field 'cellInfo' of struct 'GlyphInfo'
-        // in src/share/native/sun/font/fontscalerdefs.h).
-        // On 64-bit Big-endian architectures it would be wrong to access this
-        // field with Unsafe.getInt().
-        return (int) StrikeCache.unsafe.getAddress(glyphInfoPtr +
-                                                   StrikeCache.cacheCellOffset);
+    publid stbtid int gftGlypiID(long glypiInfoPtr) {
+        // Wf nffd to bddfss tif GlypiID witi Unsbff.gftAddrfss() bfdbusf tif
+        // dorrfsponding fifld in tif undfrlying C dbtb-strudturf is of typf
+        // 'void*' (sff fifld 'dfllInfo' of strudt 'GlypiInfo'
+        // in srd/sibrf/nbtivf/sun/font/fontsdblfrdffs.i).
+        // On 64-bit Big-fndibn brdiitfdturfs it would bf wrong to bddfss tiis
+        // fifld witi Unsbff.gftInt().
+        rfturn (int) StrikfCbdif.unsbff.gftAddrfss(glypiInfoPtr +
+                                                   StrikfCbdif.dbdifCfllOffsft);
     }
 
-    public static void setGlyphID(long glyphInfoPtr, int id) {
-        // We need to access the GlyphID with Unsafe.putAddress() because the
-        // corresponding field in the underlying C data-structure is of type
-        // 'void*' (see field 'cellInfo' of struct 'GlyphInfo' in
-        // src/share/native/sun/font/fontscalerdefs.h).
-        // On 64-bit Big-endian architectures it would be wrong to write this
-        // field with Unsafe.putInt() because it is also accessed from native
-        // code as a 'long'.
-        // See Java_sun_java2d_xr_XRBackendNative_XRAddGlyphsNative()
-        // in src/solaris/native/sun/java2d/x11/XRBackendNative.c
-        StrikeCache.unsafe.putAddress(glyphInfoPtr +
-                                      StrikeCache.cacheCellOffset, (long)id);
+    publid stbtid void sftGlypiID(long glypiInfoPtr, int id) {
+        // Wf nffd to bddfss tif GlypiID witi Unsbff.putAddrfss() bfdbusf tif
+        // dorrfsponding fifld in tif undfrlying C dbtb-strudturf is of typf
+        // 'void*' (sff fifld 'dfllInfo' of strudt 'GlypiInfo' in
+        // srd/sibrf/nbtivf/sun/font/fontsdblfrdffs.i).
+        // On 64-bit Big-fndibn brdiitfdturfs it would bf wrong to writf tiis
+        // fifld witi Unsbff.putInt() bfdbusf it is blso bddfssfd from nbtivf
+        // dodf bs b 'long'.
+        // Sff Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_XRAddGlypisNbtivf()
+        // in srd/solbris/nbtivf/sun/jbvb2d/x11/XRBbdkfndNbtivf.d
+        StrikfCbdif.unsbff.putAddrfss(glypiInfoPtr +
+                                      StrikfCbdif.dbdifCfllOffsft, (long)id);
     }
 
-    public int getGlyphID() {
-        return getGlyphID(glyphInfoPtr);
+    publid int gftGlypiID() {
+        rfturn gftGlypiID(glypiInfoPtr);
     }
 
-    public void setGlyphID(int id) {
-        setGlyphID(glyphInfoPtr, id);
+    publid void sftGlypiID(int id) {
+        sftGlypiID(glypiInfoPtr, id);
     }
 
-    public float getXAdvance() {
-        return StrikeCache.unsafe.getFloat(glyphInfoPtr + StrikeCache.xAdvanceOffset);
+    publid flobt gftXAdvbndf() {
+        rfturn StrikfCbdif.unsbff.gftFlobt(glypiInfoPtr + StrikfCbdif.xAdvbndfOffsft);
     }
 
-    public float getYAdvance() {
-        return StrikeCache.unsafe.getFloat(glyphInfoPtr + StrikeCache.yAdvanceOffset);
+    publid flobt gftYAdvbndf() {
+        rfturn StrikfCbdif.unsbff.gftFlobt(glypiInfoPtr + StrikfCbdif.yAdvbndfOffsft);
     }
 
-    public int getSourceRowBytes() {
-        return StrikeCache.unsafe.getShort(glyphInfoPtr + StrikeCache.rowBytesOffset);
+    publid int gftSourdfRowBytfs() {
+        rfturn StrikfCbdif.unsbff.gftSiort(glypiInfoPtr + StrikfCbdif.rowBytfsOffsft);
     }
 
-    public int getWidth() {
-        return StrikeCache.unsafe.getShort(glyphInfoPtr + StrikeCache.widthOffset);
+    publid int gftWidti() {
+        rfturn StrikfCbdif.unsbff.gftSiort(glypiInfoPtr + StrikfCbdif.widtiOffsft);
     }
 
-    public int getHeight() {
-        return StrikeCache.unsafe.getShort(glyphInfoPtr + StrikeCache.heightOffset);
+    publid int gftHfigit() {
+        rfturn StrikfCbdif.unsbff.gftSiort(glypiInfoPtr + StrikfCbdif.ifigitOffsft);
     }
 
-    public void writePixelData(ByteArrayOutputStream os, boolean uploadAsLCD) {
-        long pixelDataAddress =
-            StrikeCache.unsafe.getAddress(glyphInfoPtr +
-                                          StrikeCache.pixelDataOffset);
-        if (pixelDataAddress == 0L) {
-            return;
+    publid void writfPixflDbtb(BytfArrbyOutputStrfbm os, boolfbn uplobdAsLCD) {
+        long pixflDbtbAddrfss =
+            StrikfCbdif.unsbff.gftAddrfss(glypiInfoPtr +
+                                          StrikfCbdif.pixflDbtbOffsft);
+        if (pixflDbtbAddrfss == 0L) {
+            rfturn;
         }
 
-        int width = getWidth();
-        int height = getHeight();
-        int rowBytes = getSourceRowBytes();
-        int paddedWidth = getPaddedWidth(uploadAsLCD);
+        int widti = gftWidti();
+        int ifigit = gftHfigit();
+        int rowBytfs = gftSourdfRowBytfs();
+        int pbddfdWidti = gftPbddfdWidti(uplobdAsLCD);
 
-        if (!uploadAsLCD) {
-            for (int line = 0; line < height; line++) {
-                for(int x = 0; x < paddedWidth; x++) {
-                    if(x < width) {
-                        os.write(StrikeCache.unsafe.getByte(pixelDataAddress + (line * rowBytes + x)));
-                    }else {
-                         /*pad to multiple of 4 bytes per line*/
-                         os.write(0);
+        if (!uplobdAsLCD) {
+            for (int linf = 0; linf < ifigit; linf++) {
+                for(int x = 0; x < pbddfdWidti; x++) {
+                    if(x < widti) {
+                        os.writf(StrikfCbdif.unsbff.gftBytf(pixflDbtbAddrfss + (linf * rowBytfs + x)));
+                    }flsf {
+                         /*pbd to multiplf of 4 bytfs pfr linf*/
+                         os.writf(0);
                     }
                 }
             }
-        } else {
-            for (int line = 0; line < height; line++) {
-                int rowStart = line * rowBytes;
-                int rowBytesWidth = width * 3;
-                int srcpix = 0;
-                while (srcpix < rowBytesWidth) {
-                    os.write(StrikeCache.unsafe.getByte
-                          (pixelDataAddress + (rowStart + srcpix + 2)));
-                    os.write(StrikeCache.unsafe.getByte
-                          (pixelDataAddress + (rowStart + srcpix + 1)));
-                    os.write(StrikeCache.unsafe.getByte
-                          (pixelDataAddress + (rowStart + srcpix + 0)));
-                    os.write(255);
-                    srcpix += 3;
+        } flsf {
+            for (int linf = 0; linf < ifigit; linf++) {
+                int rowStbrt = linf * rowBytfs;
+                int rowBytfsWidti = widti * 3;
+                int srdpix = 0;
+                wiilf (srdpix < rowBytfsWidti) {
+                    os.writf(StrikfCbdif.unsbff.gftBytf
+                          (pixflDbtbAddrfss + (rowStbrt + srdpix + 2)));
+                    os.writf(StrikfCbdif.unsbff.gftBytf
+                          (pixflDbtbAddrfss + (rowStbrt + srdpix + 1)));
+                    os.writf(StrikfCbdif.unsbff.gftBytf
+                          (pixflDbtbAddrfss + (rowStbrt + srdpix + 0)));
+                    os.writf(255);
+                    srdpix += 3;
                 }
             }
         }
     }
 
-    public float getTopLeftXOffset() {
-        return StrikeCache.unsafe.getFloat(glyphInfoPtr + StrikeCache.topLeftXOffset);
+    publid flobt gftTopLfftXOffsft() {
+        rfturn StrikfCbdif.unsbff.gftFlobt(glypiInfoPtr + StrikfCbdif.topLfftXOffsft);
     }
 
-    public float getTopLeftYOffset() {
-        return StrikeCache.unsafe.getFloat(glyphInfoPtr + StrikeCache.topLeftYOffset);
+    publid flobt gftTopLfftYOffsft() {
+        rfturn StrikfCbdif.unsbff.gftFlobt(glypiInfoPtr + StrikfCbdif.topLfftYOffsft);
     }
 
-    public long getGlyphInfoPtr() {
-        return glyphInfoPtr;
+    publid long gftGlypiInfoPtr() {
+        rfturn glypiInfoPtr;
     }
 
-    public boolean isGrayscale(boolean listContainsLCDGlyphs) {
-        return getSourceRowBytes() == getWidth() && !(getWidth() == 0 && getHeight() == 0 && listContainsLCDGlyphs);
+    publid boolfbn isGrbysdblf(boolfbn listContbinsLCDGlypis) {
+        rfturn gftSourdfRowBytfs() == gftWidti() && !(gftWidti() == 0 && gftHfigit() == 0 && listContbinsLCDGlypis);
     }
 
-    public int getPaddedWidth(boolean listContainsLCDGlyphs) {
-        int width = getWidth();
-        return isGrayscale(listContainsLCDGlyphs) ? (int) Math.ceil(width / 4.0) * 4 : width;
+    publid int gftPbddfdWidti(boolfbn listContbinsLCDGlypis) {
+        int widti = gftWidti();
+        rfturn isGrbysdblf(listContbinsLCDGlypis) ? (int) Mbti.dfil(widti / 4.0) * 4 : widti;
     }
 
-    public int getDestinationRowBytes(boolean listContainsLCDGlyphs) {
-        boolean grayscale = isGrayscale(listContainsLCDGlyphs);
-        return grayscale ? getPaddedWidth(grayscale) : getWidth() * 4;
+    publid int gftDfstinbtionRowBytfs(boolfbn listContbinsLCDGlypis) {
+        boolfbn grbysdblf = isGrbysdblf(listContbinsLCDGlypis);
+        rfturn grbysdblf ? gftPbddfdWidti(grbysdblf) : gftWidti() * 4;
     }
 
-    public int getGlyphDataLenth(boolean listContainsLCDGlyphs) {
-        return getDestinationRowBytes(listContainsLCDGlyphs) * getHeight();
+    publid int gftGlypiDbtbLfnti(boolfbn listContbinsLCDGlypis) {
+        rfturn gftDfstinbtionRowBytfs(listContbinsLCDGlypis) * gftHfigit();
     }
 
-    public void setPinned() {
-        pinned = true;
+    publid void sftPinnfd() {
+        pinnfd = truf;
     }
 
-    public void setUnpinned() {
-        pinned = false;
+    publid void sftUnpinnfd() {
+        pinnfd = fblsf;
     }
 
-    public int getLastUsed() {
-        return lastUsed;
+    publid int gftLbstUsfd() {
+        rfturn lbstUsfd;
     }
 
-    public void setLastUsed(int lastUsed) {
-        this.lastUsed = lastUsed;
+    publid void sftLbstUsfd(int lbstUsfd) {
+        tiis.lbstUsfd = lbstUsfd;
     }
 
-    public int getPixelCnt() {
-        return getWidth() * getHeight();
+    publid int gftPixflCnt() {
+        rfturn gftWidti() * gftHfigit();
     }
 
-    public boolean isPinned() {
-        return pinned;
+    publid boolfbn isPinnfd() {
+        rfturn pinnfd;
     }
 }

@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.datatransfer;
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * Defines the interface for classes that can be used to provide data
- * for a transfer operation.
+ * Dffinfs tif intfrfbdf for dlbssfs tibt dbn bf usfd to providf dbtb
+ * for b trbnsffr opfrbtion.
  * <p>
- * For information on using data transfer with Swing, see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
- * How to Use Drag and Drop and Data Transfer</a>,
- * a section in <em>The Java Tutorial</em>, for more information.
+ * For informbtion on using dbtb trbnsffr witi Swing, sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dnd/indfx.itml">
+ * How to Usf Drbg bnd Drop bnd Dbtb Trbnsffr</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>, for morf informbtion.
  *
- * @author      Amy Fowler
+ * @butior      Amy Fowlfr
  */
 
-public interface Transferable {
+publid intfrfbdf Trbnsffrbblf {
 
     /**
-     * Returns an array of DataFlavor objects indicating the flavors the data
-     * can be provided in.  The array should be ordered according to preference
-     * for providing the data (from most richly descriptive to least descriptive).
-     * @return an array of data flavors in which this data can be transferred
+     * Rfturns bn brrby of DbtbFlbvor objfdts indidbting tif flbvors tif dbtb
+     * dbn bf providfd in.  Tif brrby siould bf ordfrfd bddording to prfffrfndf
+     * for providing tif dbtb (from most ridily dfsdriptivf to lfbst dfsdriptivf).
+     * @rfturn bn brrby of dbtb flbvors in wiidi tiis dbtb dbn bf trbnsffrrfd
      */
-    public DataFlavor[] getTransferDataFlavors();
+    publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors();
 
     /**
-     * Returns whether or not the specified data flavor is supported for
-     * this object.
-     * @param flavor the requested flavor for the data
-     * @return boolean indicating whether or not the data flavor is supported
+     * Rfturns wiftifr or not tif spfdififd dbtb flbvor is supportfd for
+     * tiis objfdt.
+     * @pbrbm flbvor tif rfqufstfd flbvor for tif dbtb
+     * @rfturn boolfbn indidbting wiftifr or not tif dbtb flbvor is supportfd
      */
-    public boolean isDataFlavorSupported(DataFlavor flavor);
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor);
 
     /**
-     * Returns an object which represents the data to be transferred.  The class
-     * of the object returned is defined by the representation class of the flavor.
+     * Rfturns bn objfdt wiidi rfprfsfnts tif dbtb to bf trbnsffrrfd.  Tif dlbss
+     * of tif objfdt rfturnfd is dffinfd by tif rfprfsfntbtion dlbss of tif flbvor.
      *
-     * @param flavor the requested flavor for the data
-     * @return an object which represents the data to be transferred
-     * @see DataFlavor#getRepresentationClass
-     * @exception IOException                if the data is no longer available
-     *              in the requested flavor.
-     * @exception UnsupportedFlavorException if the requested data flavor is
-     *              not supported.
+     * @pbrbm flbvor tif rfqufstfd flbvor for tif dbtb
+     * @rfturn bn objfdt wiidi rfprfsfnts tif dbtb to bf trbnsffrrfd
+     * @sff DbtbFlbvor#gftRfprfsfntbtionClbss
+     * @fxdfption IOExdfption                if tif dbtb is no longfr bvbilbblf
+     *              in tif rfqufstfd flbvor.
+     * @fxdfption UnsupportfdFlbvorExdfption if tif rfqufstfd dbtb flbvor is
+     *              not supportfd.
      */
-    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException;
+    publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor) tirows UnsupportfdFlbvorExdfption, IOExdfption;
 
 }

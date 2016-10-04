@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.spi.FilfSystfmProvidfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
+
+/**
+ * Bbsf implfmfntbtion dlbss of FilfSystfmProvidfr
+ */
+
+bbstrbdt dlbss AbstrbdtFilfSystfmProvidfr fxtfnds FilfSystfmProvidfr {
+    protfdtfd AbstrbdtFilfSystfmProvidfr() { }
+
+    /**
+     * Splits thf givfn bttributf nbmf into thf nbmf of bn bttributf vifw bnd
+     * thf bttributf. If thf bttributf vifw is not idfntififd thfn it bssumfd
+     * to bf "bbsid".
+     */
+    privbtf stbtid String[] split(String bttributf) {
+        String[] s = nfw String[2];
+        int pos = bttributf.indfxOf(':');
+        if (pos == -1) {
+            s[0] = "bbsid";
+            s[1] = bttributf;
+        } flsf {
+            s[0] = bttributf.substring(0, pos++);
+            s[1] = (pos == bttributf.lfngth()) ? "" : bttributf.substring(pos);
+        }
+        rfturn s;
+    }
+
+    /**
+     * Gfts b DynbmidFilfAttributfVifw by nbmf. Rfturns {@dodf null} if thf
+     * vifw is not bvbilbblf.
+     */
+    bbstrbdt DynbmidFilfAttributfVifw gftFilfAttributfVifw(Pbth filf,
+                                                           String nbmf,
+                                                           LinkOption... options);
+
+    @Ovfrridf
+    publid finbl void sftAttributf(Pbth filf,
+                                   String bttributf,
+                                   Objfdt vbluf,
+                                   LinkOption... options)
+        throws IOExdfption
+    {
+        String[] s = split(bttributf);
+        if (s[0].lfngth() == 0)
+            throw nfw IllfgblArgumfntExdfption(bttributf);
+        DynbmidFilfAttributfVifw vifw = gftFilfAttributfVifw(filf, s[0], options);
+        if (vifw == null)
+            throw nfw UnsupportfdOpfrbtionExdfption("Vifw '" + s[0] + "' not bvbilbblf");
+        vifw.sftAttributf(s[1], vbluf);
+    }
+
+    @Ovfrridf
+    publid finbl Mbp<String,Objfdt> rfbdAttributfs(Pbth filf, String bttributfs, LinkOption... options)
+        throws IOExdfption
+    {
+        String[] s = split(bttributfs);
+        if (s[0].lfngth() == 0)
+            throw nfw IllfgblArgumfntExdfption(bttributfs);
+        DynbmidFilfAttributfVifw vifw = gftFilfAttributfVifw(filf, s[0], options);
+        if (vifw == null)
+            throw nfw UnsupportfdOpfrbtionExdfption("Vifw '" + s[0] + "' not bvbilbblf");
+        rfturn vifw.rfbdAttributfs(s[1].split(","));
+    }
+
+    /**
+     * Dflftfs b filf. Thf {@dodf fbilIfNotExists} pbrbmftfrs dftfrminfs if bn
+     * {@dodf IOExdfption} is thrown whfn thf filf dofs not fxist.
+     */
+    bbstrbdt boolfbn implDflftf(Pbth filf, boolfbn fbilIfNotExists) throws IOExdfption;
+
+    @Ovfrridf
+    publid finbl void dflftf(Pbth filf) throws IOExdfption {
+        implDflftf(filf, truf);
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn dflftfIfExists(Pbth filf) throws IOExdfption {
+        rfturn implDflftf(filf, fblsf);
+    }
+}

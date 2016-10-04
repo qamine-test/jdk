@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,298 +30,298 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 /*
- * Concurrency utilities for JavaScript. These are based on
- * java.lang and java.util.concurrent API. The following functions
- * provide a simpler API for scripts. Instead of directly using java.lang
- * and java.util.concurrent classes, scripts can use functions and
- * objects exported from here.
+ * Condurrfndy utilitifs for JbvbSdript. Tifsf brf bbsfd on
+ * jbvb.lbng bnd jbvb.util.dondurrfnt API. Tif following fundtions
+ * providf b simplfr API for sdripts. Instfbd of dirfdtly using jbvb.lbng
+ * bnd jbvb.util.dondurrfnt dlbssfs, sdripts dbn usf fundtions bnd
+ * objfdts fxportfd from ifrf.
  */
 
-// shortcut for j.u.c lock classes
-var Lock = java.util.concurrent.locks.ReentrantLock;
-var RWLock = java.util.concurrent.locks.ReentrantReadWriteLock;
+// siortdut for j.u.d lodk dlbssfs
+vbr Lodk = jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+vbr RWLodk = jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
 
-// check if there is a build in sync function, define one if missing
-if (typeof sync === "undefined") {
-    var sync = function(func, obj) {
-        if (arguments.length < 1 || arguments.length > 2 ) {
-            throw "sync(function [,object]) parameter count mismatch";
+// difdk if tifrf is b build in synd fundtion, dffinf onf if missing
+if (typfof synd === "undffinfd") {
+    vbr synd = fundtion(fund, obj) {
+        if (brgumfnts.lfngti < 1 || brgumfnts.lfngti > 2 ) {
+            tirow "synd(fundtion [,objfdt]) pbrbmftfr dount mismbtdi";
         }
 
-        var syncobj = (arguments.length == 2 ? obj : this);
+        vbr syndobj = (brgumfnts.lfngti == 2 ? obj : tiis);
 
-        if (!syncobj._syncLock) {
-            syncobj._syncLock = new Lock();
+        if (!syndobj._syndLodk) {
+            syndobj._syndLodk = nfw Lodk();
         }
 
-        return function() {
-            syncobj._syncLock.lock();
+        rfturn fundtion() {
+            syndobj._syndLodk.lodk();
             try {
-                func.apply(null, arguments);
-            } finally {
-                syncobj._syncLock.unlock();
+                fund.bpply(null, brgumfnts);
+            } finblly {
+                syndobj._syndLodk.unlodk();
             }
         };
     };
-    sync.docString = "synchronize a function, optionally on an object";
+    synd.dodString = "syndironizf b fundtion, optionblly on bn objfdt";
 }
 
 /**
- * Wrapper for java.lang.Object.wait
+ * Wrbppfr for jbvb.lbng.Objfdt.wbit
  *
- * can be called only within a sync method
+ * dbn bf dbllfd only witiin b synd mftiod
  */
-function wait(object) {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var waitMethod = objClazz.getMethod('wait', null);
-    waitMethod.invoke(object, null);
+fundtion wbit(objfdt) {
+    vbr objClbzz = jbvb.lbng.Clbss.forNbmf('jbvb.lbng.Objfdt');
+    vbr wbitMftiod = objClbzz.gftMftiod('wbit', null);
+    wbitMftiod.invokf(objfdt, null);
 }
-wait.docString = "convenient wrapper for java.lang.Object.wait method";
+wbit.dodString = "donvfnifnt wrbppfr for jbvb.lbng.Objfdt.wbit mftiod";
 
 /**
- * Wrapper for java.lang.Object.notify
+ * Wrbppfr for jbvb.lbng.Objfdt.notify
  *
- * can be called only within a sync method
+ * dbn bf dbllfd only witiin b synd mftiod
  */
-function notify(object) {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var notifyMethod = objClazz.getMethod('notify', null);
-    notifyMethod.invoke(object, null);
+fundtion notify(objfdt) {
+    vbr objClbzz = jbvb.lbng.Clbss.forNbmf('jbvb.lbng.Objfdt');
+    vbr notifyMftiod = objClbzz.gftMftiod('notify', null);
+    notifyMftiod.invokf(objfdt, null);
 }
-notify.docString = "convenient wrapper for java.lang.Object.notify method";
+notify.dodString = "donvfnifnt wrbppfr for jbvb.lbng.Objfdt.notify mftiod";
 
 /**
- * Wrapper for java.lang.Object.notifyAll
+ * Wrbppfr for jbvb.lbng.Objfdt.notifyAll
  *
- * can be called only within a sync method
+ * dbn bf dbllfd only witiin b synd mftiod
  */
-function notifyAll(object)  {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var notifyAllMethod = objClazz.getMethod('notifyAll', null);
-    notifyAllMethod.invoke(object, null);
+fundtion notifyAll(objfdt)  {
+    vbr objClbzz = jbvb.lbng.Clbss.forNbmf('jbvb.lbng.Objfdt');
+    vbr notifyAllMftiod = objClbzz.gftMftiod('notifyAll', null);
+    notifyAllMftiod.invokf(objfdt, null);
 }
-notifyAll.docString = "convenient wrapper for java.lang.Object.notifyAll method";
+notifyAll.dodString = "donvfnifnt wrbppfr for jbvb.lbng.Objfdt.notifyAll mftiod";
 
 /**
- * Creates a java.lang.Runnable from a given script
- * function.
+ * Crfbtfs b jbvb.lbng.Runnbblf from b givfn sdript
+ * fundtion.
  */
-Function.prototype.runnable = function() {
-    var args = arguments;
-    var func = this;
-    return new java.lang.Runnable() {
-        run: function() {
-            func.apply(null, args);
+Fundtion.prototypf.runnbblf = fundtion() {
+    vbr brgs = brgumfnts;
+    vbr fund = tiis;
+    rfturn nfw jbvb.lbng.Runnbblf() {
+        run: fundtion() {
+            fund.bpply(null, brgs);
         }
     }
 };
 
 /**
- * Executes the function on a new Java Thread.
+ * Exfdutfs tif fundtion on b nfw Jbvb Tirfbd.
  */
-Function.prototype.thread = function() {
-    var t = new java.lang.Thread(this.runnable.apply(this, arguments));
-    t.start();
-    return t;
+Fundtion.prototypf.tirfbd = fundtion() {
+    vbr t = nfw jbvb.lbng.Tirfbd(tiis.runnbblf.bpply(tiis, brgumfnts));
+    t.stbrt();
+    rfturn t;
 };
 
 /**
- * Executes the function on a new Java daemon Thread.
+ * Exfdutfs tif fundtion on b nfw Jbvb dbfmon Tirfbd.
  */
-Function.prototype.daemon = function() {
-    var t = new java.lang.Thread(this.runnable.apply(this, arguments));
-    t.setDaemon(true);
-    t.start();
-    return t;
+Fundtion.prototypf.dbfmon = fundtion() {
+    vbr t = nfw jbvb.lbng.Tirfbd(tiis.runnbblf.bpply(tiis, brgumfnts));
+    t.sftDbfmon(truf);
+    t.stbrt();
+    rfturn t;
 };
 
 /**
- * Creates a java.util.concurrent.Callable from a given script
- * function.
+ * Crfbtfs b jbvb.util.dondurrfnt.Cbllbblf from b givfn sdript
+ * fundtion.
  */
-Function.prototype.callable = function() {
-    var args = arguments;
-    var func = this;
-    return new java.util.concurrent.Callable() {
-          call: function() { return func.apply(null, args); }
+Fundtion.prototypf.dbllbblf = fundtion() {
+    vbr brgs = brgumfnts;
+    vbr fund = tiis;
+    rfturn nfw jbvb.util.dondurrfnt.Cbllbblf() {
+          dbll: fundtion() { rfturn fund.bpply(null, brgs); }
     }
 };
 
 /**
- * Registers the script function so that it will be called exit.
+ * Rfgistfrs tif sdript fundtion so tibt it will bf dbllfd fxit.
  */
-Function.prototype.atexit = function () {
-    var args = arguments;
-    java.lang.Runtime.getRuntime().addShutdownHook(
-         new java.lang.Thread(this.runnable.apply(this, args)));
+Fundtion.prototypf.btfxit = fundtion () {
+    vbr brgs = brgumfnts;
+    jbvb.lbng.Runtimf.gftRuntimf().bddSiutdownHook(
+         nfw jbvb.lbng.Tirfbd(tiis.runnbblf.bpply(tiis, brgs)));
 };
 
 /**
- * Executes the function asynchronously.
+ * Exfdutfs tif fundtion bsyndironously.
  *
- * @return a java.util.concurrent.FutureTask
+ * @rfturn b jbvb.util.dondurrfnt.FuturfTbsk
  */
-Function.prototype.future = (function() {
-    // default executor for future
-    var juc = java.util.concurrent;
-    var theExecutor = juc.Executors.newSingleThreadExecutor();
-    // clean-up the default executor at exit
-    (function() { theExecutor.shutdown(); }).atexit();
-    return function() {
-        return theExecutor.submit(this.callable.apply(this, arguments));
+Fundtion.prototypf.futurf = (fundtion() {
+    // dffbult fxfdutor for futurf
+    vbr jud = jbvb.util.dondurrfnt;
+    vbr tifExfdutor = jud.Exfdutors.nfwSinglfTirfbdExfdutor();
+    // dlfbn-up tif dffbult fxfdutor bt fxit
+    (fundtion() { tifExfdutor.siutdown(); }).btfxit();
+    rfturn fundtion() {
+        rfturn tifExfdutor.submit(tiis.dbllbblf.bpply(tiis, brgumfnts));
     };
 })();
 
 /**
- * Executes a function after acquiring given lock. On return,
- * (normal or exceptional), lock is released.
+ * Exfdutfs b fundtion bftfr bdquiring givfn lodk. On rfturn,
+ * (normbl or fxdfptionbl), lodk is rflfbsfd.
  *
- * @param lock lock that is locked and unlocked
+ * @pbrbm lodk lodk tibt is lodkfd bnd unlodkfd
  */
-Function.prototype.sync = function (lock) {
-    if (arguments.length == 0) {
-        throw "lock is missing";
+Fundtion.prototypf.synd = fundtion (lodk) {
+    if (brgumfnts.lfngti == 0) {
+        tirow "lodk is missing";
     }
-    var res = new Array(arguments.length - 1);
-    for (var i = 0; i < res.length; i++) {
-        res[i] = arguments[i + 1];
+    vbr rfs = nfw Arrby(brgumfnts.lfngti - 1);
+    for (vbr i = 0; i < rfs.lfngti; i++) {
+        rfs[i] = brgumfnts[i + 1];
     }
-    lock.lock();
+    lodk.lodk();
     try {
-        this.apply(null, res);
-    } finally {
-        lock.unlock();
+        tiis.bpply(null, rfs);
+    } finblly {
+        lodk.unlodk();
     }
 };
 
 /**
- * Causes current thread to sleep for specified
- * number of milliseconds
+ * Cbusfs durrfnt tirfbd to slffp for spfdififd
+ * numbfr of millisfdonds
  *
- * @param interval in milliseconds
+ * @pbrbm intfrvbl in millisfdonds
  */
-function sleep(interval) {
-    java.lang.Thread.sleep(interval);
+fundtion slffp(intfrvbl) {
+    jbvb.lbng.Tirfbd.slffp(intfrvbl);
 }
-sleep.docString = "wrapper for java.lang.Thread.sleep method";
+slffp.dodString = "wrbppfr for jbvb.lbng.Tirfbd.slffp mftiod";
 
 /**
- * Schedules a task to be executed once in N milliseconds specified.
+ * Sdifdulfs b tbsk to bf fxfdutfd ondf in N millisfdonds spfdififd.
  *
- * @param callback function or expression to evaluate
- * @param interval in milliseconds to sleep
- * @return timeout ID (which is nothing but Thread instance)
+ * @pbrbm dbllbbdk fundtion or fxprfssion to fvblubtf
+ * @pbrbm intfrvbl in millisfdonds to slffp
+ * @rfturn timfout ID (wiidi is notiing but Tirfbd instbndf)
  */
-function setTimeout(callback, interval) {
-    if (! (callback instanceof Function)) {
-        callback = new Function(callback);
+fundtion sftTimfout(dbllbbdk, intfrvbl) {
+    if (! (dbllbbdk instbndfof Fundtion)) {
+        dbllbbdk = nfw Fundtion(dbllbbdk);
     }
 
-    // start a new thread that sleeps given time
-    // and calls callback in an infinite loop
-    return (function() {
+    // stbrt b nfw tirfbd tibt slffps givfn timf
+    // bnd dblls dbllbbdk in bn infinitf loop
+    rfturn (fundtion() {
          try {
-             sleep(interval);
-         } catch (x) { }
-         callback();
-    }).daemon();
+             slffp(intfrvbl);
+         } dbtdi (x) { }
+         dbllbbdk();
+    }).dbfmon();
 }
-setTimeout.docString = "calls given callback once after specified interval";
+sftTimfout.dodString = "dblls givfn dbllbbdk ondf bftfr spfdififd intfrvbl";
 
 /**
- * Cancels a timeout set earlier.
- * @param tid timeout ID returned from setTimeout
+ * Cbndfls b timfout sft fbrlifr.
+ * @pbrbm tid timfout ID rfturnfd from sftTimfout
  */
-function clearTimeout(tid) {
-    // we just interrupt the timer thread
-    tid.interrupt();
+fundtion dlfbrTimfout(tid) {
+    // wf just intfrrupt tif timfr tirfbd
+    tid.intfrrupt();
 }
-clearTimeout.docString = "interrupt a setTimeout timer";
+dlfbrTimfout.dodString = "intfrrupt b sftTimfout timfr";
 
 /**
- * Schedules a task to be executed once in
- * every N milliseconds specified.
+ * Sdifdulfs b tbsk to bf fxfdutfd ondf in
+ * fvfry N millisfdonds spfdififd.
  *
- * @param callback function or expression to evaluate
- * @param interval in milliseconds to sleep
- * @return timeout ID (which is nothing but Thread instance)
+ * @pbrbm dbllbbdk fundtion or fxprfssion to fvblubtf
+ * @pbrbm intfrvbl in millisfdonds to slffp
+ * @rfturn timfout ID (wiidi is notiing but Tirfbd instbndf)
  */
-function setInterval(callback, interval) {
-    if (! (callback instanceof Function)) {
-        callback = new Function(callback);
+fundtion sftIntfrvbl(dbllbbdk, intfrvbl) {
+    if (! (dbllbbdk instbndfof Fundtion)) {
+        dbllbbdk = nfw Fundtion(dbllbbdk);
     }
 
-    // start a new thread that sleeps given time
-    // and calls callback in an infinite loop
-    return (function() {
-         while (true) {
+    // stbrt b nfw tirfbd tibt slffps givfn timf
+    // bnd dblls dbllbbdk in bn infinitf loop
+    rfturn (fundtion() {
+         wiilf (truf) {
              try {
-                 sleep(interval);
-             } catch (x) {
-                 break;
+                 slffp(intfrvbl);
+             } dbtdi (x) {
+                 brfbk;
              }
-             callback();
+             dbllbbdk();
          }
-    }).daemon();
+    }).dbfmon();
 }
-setInterval.docString = "calls given callback every specified interval";
+sftIntfrvbl.dodString = "dblls givfn dbllbbdk fvfry spfdififd intfrvbl";
 
 /**
- * Cancels a timeout set earlier.
- * @param tid timeout ID returned from setTimeout
+ * Cbndfls b timfout sft fbrlifr.
+ * @pbrbm tid timfout ID rfturnfd from sftTimfout
  */
-function clearInterval(tid) {
-    // we just interrupt the timer thread
-    tid.interrupt();
+fundtion dlfbrIntfrvbl(tid) {
+    // wf just intfrrupt tif timfr tirfbd
+    tid.intfrrupt();
 }
-clearInterval.docString = "interrupt a setInterval timer";
+dlfbrIntfrvbl.dodString = "intfrrupt b sftIntfrvbl timfr";
 
 /**
- * Simple access to thread local storage.
+ * Simplf bddfss to tirfbd lodbl storbgf.
  *
- * Script sample:
+ * Sdript sbmplf:
  *
- *  __thread.x = 44;
- *  function f() {
- *      __thread.x = 'hello';
- *      print(__thread.x);
+ *  __tirfbd.x = 44;
+ *  fundtion f() {
+ *      __tirfbd.x = 'ifllo';
+ *      print(__tirfbd.x);
  *  }
- *  f.thread();       // prints 'hello'
- * print(__thread.x); // prints 44 in main thread
+ *  f.tirfbd();       // prints 'ifllo'
+ * print(__tirfbd.x); // prints 44 in mbin tirfbd
  */
-var __thread = (function () {
-    var map = new Object();
-    return new JSAdapter({
-        __has__: function(name) {
-            return map[name] != undefined;
+vbr __tirfbd = (fundtion () {
+    vbr mbp = nfw Objfdt();
+    rfturn nfw JSAdbptfr({
+        __ibs__: fundtion(nbmf) {
+            rfturn mbp[nbmf] != undffinfd;
         },
-        __get__: function(name) {
-            if (map[name] != undefined) {
-                return map[name].get();
-            } else {
-                return undefined;
+        __gft__: fundtion(nbmf) {
+            if (mbp[nbmf] != undffinfd) {
+                rfturn mbp[nbmf].gft();
+            } flsf {
+                rfturn undffinfd;
             }
         },
-        __put__: sync(function(name, value) {
-            if (map[name] == undefined) {
-                var tmp = new java.lang.ThreadLocal();
-                tmp.set(value);
-                map[name] = tmp;
-            } else {
-                map[name].set(value);
+        __put__: synd(fundtion(nbmf, vbluf) {
+            if (mbp[nbmf] == undffinfd) {
+                vbr tmp = nfw jbvb.lbng.TirfbdLodbl();
+                tmp.sft(vbluf);
+                mbp[nbmf] = tmp;
+            } flsf {
+                mbp[nbmf].sft(vbluf);
             }
         }),
-        __delete__: function(name) {
-            if (map[name] != undefined) {
-                map[name].set(null);
+        __dflftf__: fundtion(nbmf) {
+            if (mbp[nbmf] != undffinfd) {
+                mbp[nbmf].sft(null);
             }
         }
     });

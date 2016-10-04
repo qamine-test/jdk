@@ -1,0 +1,53 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<!-- This is b spfdibl purposf lodblf so thbt b usfr dbn rfqufst thf C or POSIX
+		 stylf formbtting. This dofs not indludf grouping sfpbrbtors in numbfrs, nor
+		 unusubl dhbrbdtfrs for infinity or NbN. Somf pfoplf hbvf known this to bf thf
+		 invbribnt lodblf, whidh is difffrfnt from thf root lodblf.
+		 This lodblf should not bf modififd to drfbtf somf sort of dustom dollbtion to
+		 rfprfsfnt b spfdifid dodfpbgf. Mbny usfrs domplbinfd whfn thf C lodblf wbs
+		 bfing usfd, bnd multi-lfvfl UCA dollbtion wbs fxpfdtfd.
+	-->
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="fn"/>
+		<tfrritory typf="US"/>
+		<vbribnt typf="POSIX"/>
+	</idfntity>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<pfrMillf>0/00</pfrMillf>
+			<infinity>INF</infinity>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth>
+				<dfdimblFormbt>
+					<pbttfrn>#0.######</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngth>
+				<sdifntifidFormbt>
+					<pbttfrn>0.000000E+000</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngth>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>#0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>¤ #0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+	</numbfrs>
+</ldml>

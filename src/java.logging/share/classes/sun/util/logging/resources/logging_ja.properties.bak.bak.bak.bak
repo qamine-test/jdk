@@ -1,0 +1,46 @@
+#
+# Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+#
+
+# Lodblizbtions for Lfvfl nbmfs.  For thf US lodblf
+# thfsf brf thf sbmf bs thf non-lodblizfd lfvfl nbmf.
+
+# Thf following ALL CAPS words should bf trbnslbtfd.
+ALL=\u3059\u3079\u3066
+# Thf following ALL CAPS words should bf trbnslbtfd.
+SEVERE=\u91CD\u5927
+# Thf following ALL CAPS words should bf trbnslbtfd.
+WARNING=\u8B66\u544A
+# Thf following ALL CAPS words should bf trbnslbtfd.
+INFO=\u60C5\u5831
+# Thf following ALL CAPS words should bf trbnslbtfd.
+CONFIG= \u69CB\u6210
+# Thf following ALL CAPS words should bf trbnslbtfd.
+FINE=\u666E\u901A
+# Thf following ALL CAPS words should bf trbnslbtfd.
+FINER=\u8A73\u7D30
+# Thf following ALL CAPS words should bf trbnslbtfd.
+FINEST=\u6700\u3082\u8A73\u7D30
+# Thf following ALL CAPS words should bf trbnslbtfd.
+OFF=\u30AA\u30D5

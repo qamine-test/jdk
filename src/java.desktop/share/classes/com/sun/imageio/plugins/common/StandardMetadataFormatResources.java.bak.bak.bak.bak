@@ -1,0 +1,210 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
+
+import jbvb.util.ListRfsourdfBundlf;
+
+publid dlbss StbndbrdMftbdbtbFormbtRfsourdfs fxtfnds ListRfsourdfBundlf {
+
+    publid StbndbrdMftbdbtbFormbtRfsourdfs() {}
+
+    protfdtfd Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+
+        // Nodf nbmf, followfd by dfsdription, or
+        // Nodf nbmf + "/" + AttributfNbmf, followfd by dfsdription
+
+        { "Chromb", "Chromb (dolor) informbtion" },
+
+        { "ColorSpbdfTypf", "Thf rbw dolor spbdf of thf imbgf" },
+
+        { "NumChbnnfls",
+          "Thf numbfr of dhbnnfls in thf rbw imbgf, indluding blphb" },
+
+        { "Gbmmb", "Thf imbgf gbmmb" },
+
+        { "BlbdkIsZfro",
+          "Truf if smbllfr vblufs rfprfsfnt dbrkfr shbdfs"},
+
+        { "Pblfttf", "Pblfttf-dolor informbtion" },
+
+        { "PblfttfEntry", "A pblfttf fntry" },
+        { "PblfttfEntry/indfx", "Thf indfx of thf pblfttf fntry" },
+        { "PblfttfEntry/rfd", "Thf rfd vbluf for thf pblfttf fntry" },
+        { "PblfttfEntry/grffn", "Thf grffn vbluf for thf pblfttf fntry" },
+        { "PblfttfEntry/bluf", "Thf bluf vbluf for thf pblfttf fntry" },
+        { "PblfttfEntry/blphb", "Thf blphb vbluf for thf pblfttf fntry" },
+
+        { "BbdkgroundIndfx", "A pblfttf indfx to bf usfd bs b bbdkground" },
+
+        { "BbdkgroundColor", "An RGB triplf to bf usfd bs b bbdkground" },
+        { "BbdkgroundColor/rfd", "Thf rfd bbdkground vbluf" },
+        { "BbdkgroundColor/grffn", "Thf grffn bbdkground vbluf" },
+        { "BbdkgroundColor/bluf", "Thf bluf bbdkground vbluf" },
+
+        { "Comprfssion", "Comprfssion informbtion" },
+
+        { "ComprfssionTypfNbmf", "Thf nbmf of thf domprfssion sdhfmf in usf" },
+
+        { "Losslfss",
+          "Truf if thf domprfssion sdhfmf is losslfss" },
+
+        { "BitRbtf", "Thf fstimbtfd bit rbtf of thf domprfssion sdhfmf" },
+
+        { "NumProgrfssivfSdbns",
+          "Thf numbfr of progrfssivf sdbns usfd in thf imbgf fndoding"},
+
+        { "Dbtb", "Informbtion on thf imbgf lbyout" },
+
+        { "PlbnbrConfigurbtion",
+          "Thf orgbnizbtion of imbgf sbmplfs in thf strfbm" },
+
+        { "SbmplfFormbt", "Thf numfrid formbt of imbgf sbmplfs" },
+
+        { "BitsPfrSbmplf", "Thf numbfr of bits pfr sbmplf"},
+        { "BitsPfrSbmplf/vbluf",
+          "A list of intfgfrs, onf pfr dhbnnfl" },
+
+        { "SignifidbntBitsPfrSbmplf",
+          "Thf numbfr of signifidbnt bits pfr sbmplf"},
+        { "SignifidbntBitsPfrSbmplf/vbluf",
+          "A list of intfgfrs, onf pfr dhbnnfl" },
+
+        { "SbmplfMSB",
+          "Thf position of thf most signifidbnt bit of fbdh sbmplf"},
+        { "SbmplfMSB/vbluf",
+          "A list of intfgfrs, onf pfr dhbnnfl" },
+
+        { "Dimfnsion", "Dimfnsion informbtion" },
+
+        { "PixflAspfdtRbtio", "Thf width of b pixfl dividfd by its hfight" },
+
+        { "ImbgfOrifntbtion", "Thf dfsirfd orifntbtion of thf imbgf in tfrms of flips bnd dountfr-dlodkwisf rotbtions" },
+
+        { "HorizontblPixflSizf",
+  "Thf width of b pixfl, in millimftfrs, bs it should bf rfndfrfd on mfdib" },
+
+        { "VfrtidblPixflSizf",
+  "Thf hfight of b pixfl, in millimftfrs, bs it should bf rfndfrfd on mfdib" },
+
+        { "HorizontblPhysidblPixflSpbding",
+          "Thf horizontbl distbndf in thf subjfdt of thf imbgf, in millimftfrs, rfprfsfntfd by onf pixfl bt thf dfntfr of thf imbgf" },
+
+        { "VfrtidblPhysidblPixflSpbding",
+          "Thf vfrtidbl distbndf in thf subjfdt of thf imbgf, in millimftfrs, rfprfsfntfd by onf pixfl bt thf dfntfr of thf imbgf" },
+
+        { "HorizontblPosition",
+          "Thf horizontbl position, in millimftfrs, whfrf thf imbgf should bf rfndfrfd on mfdib " },
+
+        { "VfrtidblPosition",
+          "Thf vfrtidbl position, in millimftfrs, whfrf thf imbgf should bf rfndfrfd on mfdib " },
+
+        { "HorizontblPixflOffsft",
+          "Thf horizontbl position, in pixfls, whfrf thf imbgf should bf rfndfrfd onto b rbstfr displby" },
+
+        { "VfrtidblPixflOffsft",
+          "Thf vfrtidbl position, in pixfls, whfrf thf imbgf should bf rfndfrfd onto b rbstfr displby" },
+
+        { "HorizontblSdrffnSizf",
+          "Thf width, in pixfls, of thf rbstfr displby into whidh thf imbgf should bf rfndfrfd" },
+
+        { "VfrtidblSdrffnSizf",
+          "Thf hfight, in pixfls, of thf rbstfr displby into whidh thf imbgf should bf rfndfrfd" },
+
+        { "Dodumfnt", "Dodumfnt informbtion" },
+
+        { "FormbtVfrsion",
+          "Thf vfrsion of thf formbt usfd by thf strfbm" },
+
+        { "SubimbgfIntfrprftbtion",
+          "Thf intfrprftbtion of this imbgf in rflbtion to thf othfr imbgfs storfd in thf sbmf strfbm" },
+
+        { "ImbgfCrfbtionTimf", "Thf timf of imbgf drfbtion" },
+        { "ImbgfCrfbtionTimf/yfbr",
+          "Thf full yfbr (f.g., 1967, not 67)" },
+        { "ImbgfCrfbtionTimf/month",
+          "Thf month, with Jbnubry = 1" },
+        { "ImbgfCrfbtionTimf/dby",
+          "Thf dby of thf month" },
+        { "ImbgfCrfbtionTimf/hour",
+          "Thf hour from 0 to 23" },
+        { "ImbgfCrfbtionTimf/minutf",
+          "Thf minutf from 0 to 59" },
+        { "ImbgfCrfbtionTimf/sfdond",
+          "Thf sfdond from 0 to 60 (60 = lfbp sfdond)" },
+
+        { "ImbgfModifidbtionTimf", "Thf timf of thf lbst imbgf modifidbtion" },
+        { "ImbgfModifidbtionTimf/yfbr",
+          "Thf full yfbr (f.g., 1967, not 67)" },
+        { "ImbgfModifidbtionTimf/month",
+          "Thf month, with Jbnubry = 1" },
+        { "ImbgfModifidbtionTimf/dby",
+          "Thf dby of thf month" },
+        { "ImbgfModifidbtionTimf/hour",
+          "Thf hour from 0 to 23" },
+        { "ImbgfModifidbtionTimf/minutf",
+          "Thf minutf from 0 to 59" },
+        { "ImbgfModifidbtionTimf/sfdond",
+          "Thf sfdond from 0 to 60 (60 = lfbp sfdond)" },
+
+        { "Tfxt", "Tfxt informbtion" },
+
+        { "TfxtEntry", "A tfxt fntry"},
+        { "TfxtEntry/kfyword", "A kfyword bssodibtfd with thf tfxt fntry" },
+        { "TfxtEntry/vbluf", "thf tfxt fntry" },
+        { "TfxtEntry/lbngubgf", "Thf lbngubgf of thf tfxt" },
+        { "TfxtEntry/fndoding", "Thf fndoding of thf tfxt" },
+        { "TfxtEntry/domprfssion", "Thf mfthod usfd to domprfss thf tfxt" },
+
+        { "Trbnspbrfndy", "Trbnspbrfndy informbtion" },
+
+        { "Alphb", "Thf typf of blphb informbtion dontbinfd in thf imbgf" },
+
+        { "TrbnspbrfntIndfx", "A pblfttf indfx to bf trfbtfd bs trbnspbrfnt" },
+
+        { "TrbnspbrfntColor", "An RGB dolor to bf trfbtfd bs trbnspbrfnt" },
+        { "TrbnspbrfntColor/rfd",
+          "Thf rfd dhbnnfl of thf trbnspbrfnt dolor" },
+        { "TrbnspbrfntColor/grffn",
+          "Thf grffn dhbnnfl of thf trbnspbrfnt dolor" },
+        { "TrbnspbrfntColor/bluf",
+          "Thf bluf dhbnnfl of thf trbnspbrfnt dolor" },
+
+        { "TilfTrbnspbrfndifs", "A list of domplftfly trbnspbrfnt tilfs" },
+
+        { "TrbnspbrfntTilf", "Thf indfx of b domplftfly trbnspbrfnt tilf" },
+        { "TrbnspbrfntTilf/x", "Thf tilf's X indfx" },
+        { "TrbnspbrfntTilf/y", "Thf tilf's Y indfx" },
+
+        { "TilfOpbditifs", "A list of domplftfly opbquf tilfs" },
+
+        { "OpbqufTilf", "Thf indfx of b domplftfly opbquf tilf" },
+        { "OpbqufTilf/x", "Thf tilf's X indfx" },
+        { "OpbqufTilf/y", "Thf tilf's Y indfx" },
+
+        };
+    }
+}

@@ -1,0 +1,260 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.util.Lodblf;
+import jbvb.util.Vfdtor;
+
+import jbvbx.bddfssibility.*;
+
+/**
+ * This dlbss is insfrtfd in bftwffn dfll rfndfrfrs bnd thf domponfnts thbt
+ * usf thfm.  It just fxists to thwbrt thf rfpbint() bnd invblidbtf() mfthods
+ * whidh would othfrwisf propbgbtf up thf trff whfn thf rfndfrfr wbs donfigurfd.
+ * It's usfd by thf implfmfntbtions of JTbblf, JTrff, bnd JList.  For fxbmplf,
+ * hfrf's how CfllRfndfrfrPbnf is usfd in thf dodf thf pbints fbdh row
+ * in b JList:
+ * <prf>
+ *   dfllRfndfrfrPbnf = nfw CfllRfndfrfrPbnf();
+ *   ...
+ *   Componfnt rfndfrfrComponfnt = rfndfrfr.gftListCfllRfndfrfrComponfnt();
+ *   rfndfrfr.donfigurfListCfllRfndfrfr(dbtbModfl.gftElfmfntAt(row), row);
+ *   dfllRfndfrfrPbnf.pbintComponfnt(g, rfndfrfrComponfnt, this, x, y, w, h);
+ * </prf>
+ * <p>
+ * A rfndfrfr domponfnt must ovfrridf isShowing() bnd undonditionblly rfturn
+ * truf to work dorrfdtly bfdbusf thf Swing pbint dofs nothing for domponfnts
+ * with isShowing fblsf.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Hbns Mullfr
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss CfllRfndfrfrPbnf fxtfnds Contbinfr implfmfnts Addfssiblf
+{
+    /**
+     * Construdt b CfllRfndfrfrPbnf objfdt.
+     */
+    publid CfllRfndfrfrPbnf() {
+        supfr();
+        sftLbyout(null);
+        sftVisiblf(fblsf);
+    }
+
+    /**
+     * Ovfrriddfn to bvoid propbgbting b invblidbtf up thf trff whfn thf
+     * dfll rfndfrfr dhild is donfigurfd.
+     */
+    publid void invblidbtf() { }
+
+
+    /**
+     * Shouldn't bf dbllfd.
+     */
+    publid void pbint(Grbphids g) { }
+
+
+    /**
+     * Shouldn't bf dbllfd.
+     */
+    publid void updbtf(Grbphids g) { }
+
+
+    /**
+     * If thf spfdififd domponfnt is blrfbdy b dhild of this thfn wf don't
+     * bothfr doing bnything - stbdking ordfr dofsn't mbttfr for dfll
+     * rfndfrfr domponfnts (CfllRfndfrfrPbnf dofsn't pbint bnywby).
+     */
+    protfdtfd void bddImpl(Componfnt x, Objfdt donstrbints, int indfx) {
+        if (x.gftPbrfnt() == this) {
+            rfturn;
+        }
+        flsf {
+            supfr.bddImpl(x, donstrbints, indfx);
+        }
+    }
+
+
+    /**
+     * Pbint b dfll rfndfrfr domponfnt d on grbphids objfdt g.  Bfforf thf domponfnt
+     * is drbwn it's rfpbrfntfd to this (if thbt's nfdfssbry), it's bounds
+     * brf sft to w,h bnd thf grbphids objfdt is (ffffdtivfly) trbnslbtfd to x,y.
+     * If it's b JComponfnt, doublf bufffring is tfmporbrily turnfd off. Aftfr
+     * thf domponfnt is pbintfd it's bounds brf rfsft to -w, -h, 0, 0 so thbt, if
+     * it's thf lbst rfndfrfr domponfnt pbintfd, it will not stbrt donsuming input.
+     * Thf Contbinfr p is thf domponfnt wf'rf bdtublly drbwing on, typidblly it's
+     * fqubl to this.gftPbrfnt(). If shouldVblidbtf is truf thf domponfnt d will bf
+     * vblidbtfd bfforf pbintfd.
+     *
+     * @pbrbm g  thf {@dodf Grbphids} objfdt to drbw on
+     * @pbrbm d  thf {@dodf Componfnt} to drbw
+     * @pbrbm p  thf {@dodf Contbinfr} domponfnt bdtublly drbwn on
+     * @pbrbm x  bn int spfdifying thf lfft sidf of thf brfb drbw in, in pixfls,
+     *           mfbsurfd from thf lfft fdgf of thf grbphids dontfxt
+     * @pbrbm y  bn int spfdifying thf top of thf brfb to drbw in, in pixfls
+     *           mfbsurfd down from thf top fdgf of thf grbphids dontfxt
+     * @pbrbm w  bn int spfdifying thf width of thf brfb drbw in, in pixfls
+     * @pbrbm h  bn int spfdifying thf hfight of thf brfb drbw in, in pixfls
+     * @pbrbm shouldVblidbtf  if truf, domponfnt {@dodf d} will bf vblidbtfd
+     *                        bfforf bfing pbintfd
+     */
+    publid void pbintComponfnt(Grbphids g, Componfnt d, Contbinfr p, int x, int y, int w, int h, boolfbn shouldVblidbtf) {
+        if (d == null) {
+            if (p != null) {
+                Color oldColor = g.gftColor();
+                g.sftColor(p.gftBbdkground());
+                g.fillRfdt(x, y, w, h);
+                g.sftColor(oldColor);
+            }
+            rfturn;
+        }
+
+        if (d.gftPbrfnt() != this) {
+            this.bdd(d);
+        }
+
+        d.sftBounds(x, y, w, h);
+
+        if(shouldVblidbtf) {
+            d.vblidbtf();
+        }
+
+        boolfbn wbsDoublfBufffrfd = fblsf;
+        if ((d instbndfof JComponfnt) && ((JComponfnt)d).isDoublfBufffrfd()) {
+            wbsDoublfBufffrfd = truf;
+            ((JComponfnt)d).sftDoublfBufffrfd(fblsf);
+        }
+
+        Grbphids dg = g.drfbtf(x, y, w, h);
+        try {
+            d.pbint(dg);
+        }
+        finblly {
+            dg.disposf();
+        }
+
+        if (wbsDoublfBufffrfd && (d instbndfof JComponfnt)) {
+            ((JComponfnt)d).sftDoublfBufffrfd(truf);
+        }
+
+        d.sftBounds(-w, -h, 0, 0);
+    }
+
+
+    /**
+     * Cblls this.pbintComponfnt(g, d, p, x, y, w, h, fblsf).
+     *
+     * @pbrbm g  thf {@dodf Grbphids} objfdt to drbw on
+     * @pbrbm d  thf {@dodf Componfnt} to drbw
+     * @pbrbm p  thf {@dodf Contbinfr} domponfnt bdtublly drbwn on
+     * @pbrbm x  bn int spfdifying thf lfft sidf of thf brfb drbw in, in pixfls,
+     *           mfbsurfd from thf lfft fdgf of thf grbphids dontfxt
+     * @pbrbm y  bn int spfdifying thf top of thf brfb to drbw in, in pixfls
+     *           mfbsurfd down from thf top fdgf of thf grbphids dontfxt
+     * @pbrbm w  bn int spfdifying thf width of thf brfb drbw in, in pixfls
+     * @pbrbm h  bn int spfdifying thf hfight of thf brfb drbw in, in pixfls
+     */
+    publid void pbintComponfnt(Grbphids g, Componfnt d, Contbinfr p, int x, int y, int w, int h) {
+        pbintComponfnt(g, d, p, x, y, w, h, fblsf);
+    }
+
+
+    /**
+     * Cblls this.pbintComponfnt() with thf rfdtbnglfs x,y,width,hfight fiflds.
+     *
+     * @pbrbm g  thf {@dodf Grbphids} objfdt to drbw on
+     * @pbrbm d  thf {@dodf Componfnt} to drbw
+     * @pbrbm p  thf {@dodf Contbinfr} domponfnt bdtublly drbwn on
+     * @pbrbm r  thf {@dodf Rfdtbnglf} to drbw in
+     */
+    publid void pbintComponfnt(Grbphids g, Componfnt d, Contbinfr p, Rfdtbnglf r) {
+        pbintComponfnt(g, d, p, r.x, r.y, r.width, r.hfight);
+    }
+
+
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        rfmovfAll();
+        s.dffbultWritfObjfdt();
+    }
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * {@dodf AddfssiblfContfxt} bssodibtfd with this {@dodf CfllRfndfrfrPbn}
+     */
+    protfdtfd AddfssiblfContfxt bddfssiblfContfxt = null;
+
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this CfllRfndfrfrPbnf.
+     * For CfllRfndfrfrPbnfs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfCfllRfndfrfrPbnf.
+     * A nfw AddfssiblfCfllRfndfrfrPbnf instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfCfllRfndfrfrPbnf thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this CfllRfndfrfrPbnf
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfCfllRfndfrfrPbnf();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>CfllRfndfrfrPbnf</dodf> dlbss.
+     */
+    protfdtfd dlbss AddfssiblfCfllRfndfrfrPbnf fxtfnds AddfssiblfAWTContbinfr {
+        // AddfssiblfContfxt mfthods
+        //
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PANEL;
+        }
+    } // innfr dlbss AddfssiblfCfllRfndfrfrPbnf
+}

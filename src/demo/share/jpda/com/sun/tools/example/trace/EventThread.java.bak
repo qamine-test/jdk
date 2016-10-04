@@ -1,353 +1,353 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.trace;
+pbdkbgf dom.sun.tools.fxbmplf.trbdf;
 
-import com.sun.jdi.*;
-import com.sun.jdi.request.*;
-import com.sun.jdi.event.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.*;
+import dom.sun.jdi.fvfnt.*;
 
-import java.util.*;
-import java.io.PrintWriter;
+import jbvb.util.*;
+import jbvb.io.PrintWritfr;
 
 /**
- * This class processes incoming JDI events and displays them
+ * Tiis dlbss prodfssfs indoming JDI fvfnts bnd displbys tifm
  *
- * @author Robert Field
+ * @butior Robfrt Fifld
  */
-public class EventThread extends Thread {
+publid dlbss EvfntTirfbd fxtfnds Tirfbd {
 
-    private final VirtualMachine vm;   // Running VM
-    private final String[] excludes;   // Packages to exclude
-    private final PrintWriter writer;  // Where output goes
+    privbtf finbl VirtublMbdiinf vm;   // Running VM
+    privbtf finbl String[] fxdludfs;   // Pbdkbgfs to fxdludf
+    privbtf finbl PrintWritfr writfr;  // Wifrf output gofs
 
-    static String nextBaseIndent = ""; // Starting indent for next thread
+    stbtid String nfxtBbsfIndfnt = ""; // Stbrting indfnt for nfxt tirfbd
 
-    private boolean connected = true;  // Connected to VM
-    private boolean vmDied = true;     // VMDeath occurred
+    privbtf boolfbn donnfdtfd = truf;  // Connfdtfd to VM
+    privbtf boolfbn vmDifd = truf;     // VMDfbti oddurrfd
 
-    // Maps ThreadReference to ThreadTrace instances
-    private Map<ThreadReference, ThreadTrace> traceMap =
-       new HashMap<>();
+    // Mbps TirfbdRfffrfndf to TirfbdTrbdf instbndfs
+    privbtf Mbp<TirfbdRfffrfndf, TirfbdTrbdf> trbdfMbp =
+       nfw HbsiMbp<>();
 
-    EventThread(VirtualMachine vm, String[] excludes, PrintWriter writer) {
-        super("event-handler");
-        this.vm = vm;
-        this.excludes = excludes;
-        this.writer = writer;
+    EvfntTirfbd(VirtublMbdiinf vm, String[] fxdludfs, PrintWritfr writfr) {
+        supfr("fvfnt-ibndlfr");
+        tiis.vm = vm;
+        tiis.fxdludfs = fxdludfs;
+        tiis.writfr = writfr;
     }
 
     /**
-     * Run the event handling thread.
-     * As long as we are connected, get event sets off
-     * the queue and dispatch the events within them.
+     * Run tif fvfnt ibndling tirfbd.
+     * As long bs wf brf donnfdtfd, gft fvfnt sfts off
+     * tif qufuf bnd dispbtdi tif fvfnts witiin tifm.
      */
-    @Override
-    public void run() {
-        EventQueue queue = vm.eventQueue();
-        while (connected) {
+    @Ovfrridf
+    publid void run() {
+        EvfntQufuf qufuf = vm.fvfntQufuf();
+        wiilf (donnfdtfd) {
             try {
-                EventSet eventSet = queue.remove();
-                EventIterator it = eventSet.eventIterator();
-                while (it.hasNext()) {
-                    handleEvent(it.nextEvent());
+                EvfntSft fvfntSft = qufuf.rfmovf();
+                EvfntItfrbtor it = fvfntSft.fvfntItfrbtor();
+                wiilf (it.ibsNfxt()) {
+                    ibndlfEvfnt(it.nfxtEvfnt());
                 }
-                eventSet.resume();
-            } catch (InterruptedException exc) {
-                // Ignore
-            } catch (VMDisconnectedException discExc) {
-                handleDisconnectedException();
-                break;
+                fvfntSft.rfsumf();
+            } dbtdi (IntfrruptfdExdfption fxd) {
+                // Ignorf
+            } dbtdi (VMDisdonnfdtfdExdfption disdExd) {
+                ibndlfDisdonnfdtfdExdfption();
+                brfbk;
             }
         }
     }
 
     /**
-     * Create the desired event requests, and enable
-     * them so that we will get events.
-     * @param excludes     Class patterns for which we don't want events
-     * @param watchFields  Do we want to watch assignments to fields
+     * Crfbtf tif dfsirfd fvfnt rfqufsts, bnd fnbblf
+     * tifm so tibt wf will gft fvfnts.
+     * @pbrbm fxdludfs     Clbss pbttfrns for wiidi wf don't wbnt fvfnts
+     * @pbrbm wbtdiFiflds  Do wf wbnt to wbtdi bssignmfnts to fiflds
      */
-    void setEventRequests(boolean watchFields) {
-        EventRequestManager mgr = vm.eventRequestManager();
+    void sftEvfntRfqufsts(boolfbn wbtdiFiflds) {
+        EvfntRfqufstMbnbgfr mgr = vm.fvfntRfqufstMbnbgfr();
 
-        // want all exceptions
-        ExceptionRequest excReq = mgr.createExceptionRequest(null,
-                                                             true, true);
-        // suspend so we can step
-        excReq.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-        excReq.enable();
+        // wbnt bll fxdfptions
+        ExdfptionRfqufst fxdRfq = mgr.drfbtfExdfptionRfqufst(null,
+                                                             truf, truf);
+        // suspfnd so wf dbn stfp
+        fxdRfq.sftSuspfndPolidy(EvfntRfqufst.SUSPEND_ALL);
+        fxdRfq.fnbblf();
 
-        MethodEntryRequest menr = mgr.createMethodEntryRequest();
-        for (int i=0; i<excludes.length; ++i) {
-            menr.addClassExclusionFilter(excludes[i]);
+        MftiodEntryRfqufst mfnr = mgr.drfbtfMftiodEntryRfqufst();
+        for (int i=0; i<fxdludfs.lfngti; ++i) {
+            mfnr.bddClbssExdlusionFiltfr(fxdludfs[i]);
         }
-        menr.setSuspendPolicy(EventRequest.SUSPEND_NONE);
-        menr.enable();
+        mfnr.sftSuspfndPolidy(EvfntRfqufst.SUSPEND_NONE);
+        mfnr.fnbblf();
 
-        MethodExitRequest mexr = mgr.createMethodExitRequest();
-        for (int i=0; i<excludes.length; ++i) {
-            mexr.addClassExclusionFilter(excludes[i]);
+        MftiodExitRfqufst mfxr = mgr.drfbtfMftiodExitRfqufst();
+        for (int i=0; i<fxdludfs.lfngti; ++i) {
+            mfxr.bddClbssExdlusionFiltfr(fxdludfs[i]);
         }
-        mexr.setSuspendPolicy(EventRequest.SUSPEND_NONE);
-        mexr.enable();
+        mfxr.sftSuspfndPolidy(EvfntRfqufst.SUSPEND_NONE);
+        mfxr.fnbblf();
 
-        ThreadDeathRequest tdr = mgr.createThreadDeathRequest();
-        // Make sure we sync on thread death
-        tdr.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-        tdr.enable();
+        TirfbdDfbtiRfqufst tdr = mgr.drfbtfTirfbdDfbtiRfqufst();
+        // Mbkf surf wf synd on tirfbd dfbti
+        tdr.sftSuspfndPolidy(EvfntRfqufst.SUSPEND_ALL);
+        tdr.fnbblf();
 
-        if (watchFields) {
-            ClassPrepareRequest cpr = mgr.createClassPrepareRequest();
-            for (int i=0; i<excludes.length; ++i) {
-                cpr.addClassExclusionFilter(excludes[i]);
+        if (wbtdiFiflds) {
+            ClbssPrfpbrfRfqufst dpr = mgr.drfbtfClbssPrfpbrfRfqufst();
+            for (int i=0; i<fxdludfs.lfngti; ++i) {
+                dpr.bddClbssExdlusionFiltfr(fxdludfs[i]);
             }
-            cpr.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-            cpr.enable();
+            dpr.sftSuspfndPolidy(EvfntRfqufst.SUSPEND_ALL);
+            dpr.fnbblf();
         }
     }
 
     /**
-     * This class keeps context on events in one thread.
-     * In this implementation, context is the indentation prefix.
+     * Tiis dlbss kffps dontfxt on fvfnts in onf tirfbd.
+     * In tiis implfmfntbtion, dontfxt is tif indfntbtion prffix.
      */
-    class ThreadTrace {
-        final ThreadReference thread;
-        final String baseIndent;
-        static final String threadDelta = "                     ";
-        StringBuffer indent;
+    dlbss TirfbdTrbdf {
+        finbl TirfbdRfffrfndf tirfbd;
+        finbl String bbsfIndfnt;
+        stbtid finbl String tirfbdDfltb = "                     ";
+        StringBufffr indfnt;
 
-        ThreadTrace(ThreadReference thread) {
-            this.thread = thread;
-            this.baseIndent = nextBaseIndent;
-            indent = new StringBuffer(baseIndent);
-            nextBaseIndent += threadDelta;
-            println("====== " + thread.name() + " ======");
+        TirfbdTrbdf(TirfbdRfffrfndf tirfbd) {
+            tiis.tirfbd = tirfbd;
+            tiis.bbsfIndfnt = nfxtBbsfIndfnt;
+            indfnt = nfw StringBufffr(bbsfIndfnt);
+            nfxtBbsfIndfnt += tirfbdDfltb;
+            println("====== " + tirfbd.nbmf() + " ======");
         }
 
-        private void println(String str) {
-            writer.print(indent);
-            writer.println(str);
+        privbtf void println(String str) {
+            writfr.print(indfnt);
+            writfr.println(str);
         }
 
-        void methodEntryEvent(MethodEntryEvent event)  {
-            println(event.method().name() + "  --  "
-                    + event.method().declaringType().name());
-            indent.append("| ");
+        void mftiodEntryEvfnt(MftiodEntryEvfnt fvfnt)  {
+            println(fvfnt.mftiod().nbmf() + "  --  "
+                    + fvfnt.mftiod().dfdlbringTypf().nbmf());
+            indfnt.bppfnd("| ");
         }
 
-        void methodExitEvent(MethodExitEvent event)  {
-            indent.setLength(indent.length()-2);
+        void mftiodExitEvfnt(MftiodExitEvfnt fvfnt)  {
+            indfnt.sftLfngti(indfnt.lfngti()-2);
         }
 
-        void fieldWatchEvent(ModificationWatchpointEvent event)  {
-            Field field = event.field();
-            Value value = event.valueToBe();
-            println("    " + field.name() + " = " + value);
+        void fifldWbtdiEvfnt(ModifidbtionWbtdipointEvfnt fvfnt)  {
+            Fifld fifld = fvfnt.fifld();
+            Vbluf vbluf = fvfnt.vblufToBf();
+            println("    " + fifld.nbmf() + " = " + vbluf);
         }
 
-        void exceptionEvent(ExceptionEvent event) {
-            println("Exception: " + event.exception() +
-                    " catch: " + event.catchLocation());
+        void fxdfptionEvfnt(ExdfptionEvfnt fvfnt) {
+            println("Exdfption: " + fvfnt.fxdfption() +
+                    " dbtdi: " + fvfnt.dbtdiLodbtion());
 
-            // Step to the catch
-            EventRequestManager mgr = vm.eventRequestManager();
-            StepRequest req = mgr.createStepRequest(thread,
-                                                    StepRequest.STEP_MIN,
-                                                    StepRequest.STEP_INTO);
-            req.addCountFilter(1);  // next step only
-            req.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-            req.enable();
+            // Stfp to tif dbtdi
+            EvfntRfqufstMbnbgfr mgr = vm.fvfntRfqufstMbnbgfr();
+            StfpRfqufst rfq = mgr.drfbtfStfpRfqufst(tirfbd,
+                                                    StfpRfqufst.STEP_MIN,
+                                                    StfpRfqufst.STEP_INTO);
+            rfq.bddCountFiltfr(1);  // nfxt stfp only
+            rfq.sftSuspfndPolidy(EvfntRfqufst.SUSPEND_ALL);
+            rfq.fnbblf();
         }
 
-        // Step to exception catch
-        void stepEvent(StepEvent event)  {
-            // Adjust call depth
-            int cnt = 0;
-            indent = new StringBuffer(baseIndent);
+        // Stfp to fxdfption dbtdi
+        void stfpEvfnt(StfpEvfnt fvfnt)  {
+            // Adjust dbll dfpti
+            int dnt = 0;
+            indfnt = nfw StringBufffr(bbsfIndfnt);
             try {
-                cnt = thread.frameCount();
-            } catch (IncompatibleThreadStateException exc) {
+                dnt = tirfbd.frbmfCount();
+            } dbtdi (IndompbtiblfTirfbdStbtfExdfption fxd) {
             }
-            while (cnt-- > 0) {
-                indent.append("| ");
+            wiilf (dnt-- > 0) {
+                indfnt.bppfnd("| ");
             }
 
-            EventRequestManager mgr = vm.eventRequestManager();
-            mgr.deleteEventRequest(event.request());
+            EvfntRfqufstMbnbgfr mgr = vm.fvfntRfqufstMbnbgfr();
+            mgr.dflftfEvfntRfqufst(fvfnt.rfqufst());
         }
 
-        void threadDeathEvent(ThreadDeathEvent event)  {
-            indent = new StringBuffer(baseIndent);
-            println("====== " + thread.name() + " end ======");
+        void tirfbdDfbtiEvfnt(TirfbdDfbtiEvfnt fvfnt)  {
+            indfnt = nfw StringBufffr(bbsfIndfnt);
+            println("====== " + tirfbd.nbmf() + " fnd ======");
         }
     }
 
     /**
-     * Returns the ThreadTrace instance for the specified thread,
-     * creating one if needed.
+     * Rfturns tif TirfbdTrbdf instbndf for tif spfdififd tirfbd,
+     * drfbting onf if nffdfd.
      */
-    ThreadTrace threadTrace(ThreadReference thread) {
-        ThreadTrace trace = traceMap.get(thread);
-        if (trace == null) {
-            trace = new ThreadTrace(thread);
-            traceMap.put(thread, trace);
+    TirfbdTrbdf tirfbdTrbdf(TirfbdRfffrfndf tirfbd) {
+        TirfbdTrbdf trbdf = trbdfMbp.gft(tirfbd);
+        if (trbdf == null) {
+            trbdf = nfw TirfbdTrbdf(tirfbd);
+            trbdfMbp.put(tirfbd, trbdf);
         }
-        return trace;
+        rfturn trbdf;
     }
 
     /**
-     * Dispatch incoming events
+     * Dispbtdi indoming fvfnts
      */
-    private void handleEvent(Event event) {
-        if (event instanceof ExceptionEvent) {
-            exceptionEvent((ExceptionEvent)event);
-        } else if (event instanceof ModificationWatchpointEvent) {
-            fieldWatchEvent((ModificationWatchpointEvent)event);
-        } else if (event instanceof MethodEntryEvent) {
-            methodEntryEvent((MethodEntryEvent)event);
-        } else if (event instanceof MethodExitEvent) {
-            methodExitEvent((MethodExitEvent)event);
-        } else if (event instanceof StepEvent) {
-            stepEvent((StepEvent)event);
-        } else if (event instanceof ThreadDeathEvent) {
-            threadDeathEvent((ThreadDeathEvent)event);
-        } else if (event instanceof ClassPrepareEvent) {
-            classPrepareEvent((ClassPrepareEvent)event);
-        } else if (event instanceof VMStartEvent) {
-            vmStartEvent((VMStartEvent)event);
-        } else if (event instanceof VMDeathEvent) {
-            vmDeathEvent((VMDeathEvent)event);
-        } else if (event instanceof VMDisconnectEvent) {
-            vmDisconnectEvent((VMDisconnectEvent)event);
-        } else {
-            throw new Error("Unexpected event type");
+    privbtf void ibndlfEvfnt(Evfnt fvfnt) {
+        if (fvfnt instbndfof ExdfptionEvfnt) {
+            fxdfptionEvfnt((ExdfptionEvfnt)fvfnt);
+        } flsf if (fvfnt instbndfof ModifidbtionWbtdipointEvfnt) {
+            fifldWbtdiEvfnt((ModifidbtionWbtdipointEvfnt)fvfnt);
+        } flsf if (fvfnt instbndfof MftiodEntryEvfnt) {
+            mftiodEntryEvfnt((MftiodEntryEvfnt)fvfnt);
+        } flsf if (fvfnt instbndfof MftiodExitEvfnt) {
+            mftiodExitEvfnt((MftiodExitEvfnt)fvfnt);
+        } flsf if (fvfnt instbndfof StfpEvfnt) {
+            stfpEvfnt((StfpEvfnt)fvfnt);
+        } flsf if (fvfnt instbndfof TirfbdDfbtiEvfnt) {
+            tirfbdDfbtiEvfnt((TirfbdDfbtiEvfnt)fvfnt);
+        } flsf if (fvfnt instbndfof ClbssPrfpbrfEvfnt) {
+            dlbssPrfpbrfEvfnt((ClbssPrfpbrfEvfnt)fvfnt);
+        } flsf if (fvfnt instbndfof VMStbrtEvfnt) {
+            vmStbrtEvfnt((VMStbrtEvfnt)fvfnt);
+        } flsf if (fvfnt instbndfof VMDfbtiEvfnt) {
+            vmDfbtiEvfnt((VMDfbtiEvfnt)fvfnt);
+        } flsf if (fvfnt instbndfof VMDisdonnfdtEvfnt) {
+            vmDisdonnfdtEvfnt((VMDisdonnfdtEvfnt)fvfnt);
+        } flsf {
+            tirow nfw Error("Unfxpfdtfd fvfnt typf");
         }
     }
 
     /***
-     * A VMDisconnectedException has happened while dealing with
-     * another event. We need to flush the event queue, dealing only
-     * with exit events (VMDeath, VMDisconnect) so that we terminate
-     * correctly.
+     * A VMDisdonnfdtfdExdfption ibs ibppfnfd wiilf dfbling witi
+     * bnotifr fvfnt. Wf nffd to flusi tif fvfnt qufuf, dfbling only
+     * witi fxit fvfnts (VMDfbti, VMDisdonnfdt) so tibt wf tfrminbtf
+     * dorrfdtly.
      */
-    synchronized void handleDisconnectedException() {
-        EventQueue queue = vm.eventQueue();
-        while (connected) {
+    syndironizfd void ibndlfDisdonnfdtfdExdfption() {
+        EvfntQufuf qufuf = vm.fvfntQufuf();
+        wiilf (donnfdtfd) {
             try {
-                EventSet eventSet = queue.remove();
-                EventIterator iter = eventSet.eventIterator();
-                while (iter.hasNext()) {
-                    Event event = iter.nextEvent();
-                    if (event instanceof VMDeathEvent) {
-                        vmDeathEvent((VMDeathEvent)event);
-                    } else if (event instanceof VMDisconnectEvent) {
-                        vmDisconnectEvent((VMDisconnectEvent)event);
+                EvfntSft fvfntSft = qufuf.rfmovf();
+                EvfntItfrbtor itfr = fvfntSft.fvfntItfrbtor();
+                wiilf (itfr.ibsNfxt()) {
+                    Evfnt fvfnt = itfr.nfxtEvfnt();
+                    if (fvfnt instbndfof VMDfbtiEvfnt) {
+                        vmDfbtiEvfnt((VMDfbtiEvfnt)fvfnt);
+                    } flsf if (fvfnt instbndfof VMDisdonnfdtEvfnt) {
+                        vmDisdonnfdtEvfnt((VMDisdonnfdtEvfnt)fvfnt);
                     }
                 }
-                eventSet.resume(); // Resume the VM
-            } catch (InterruptedException exc) {
-                // ignore
+                fvfntSft.rfsumf(); // Rfsumf tif VM
+            } dbtdi (IntfrruptfdExdfption fxd) {
+                // ignorf
             }
         }
     }
 
-    private void vmStartEvent(VMStartEvent event)  {
-         writer.println("-- VM Started --");
+    privbtf void vmStbrtEvfnt(VMStbrtEvfnt fvfnt)  {
+         writfr.println("-- VM Stbrtfd --");
     }
 
-    // Forward event for thread specific processing
-    private void methodEntryEvent(MethodEntryEvent event)  {
-         threadTrace(event.thread()).methodEntryEvent(event);
+    // Forwbrd fvfnt for tirfbd spfdifid prodfssing
+    privbtf void mftiodEntryEvfnt(MftiodEntryEvfnt fvfnt)  {
+         tirfbdTrbdf(fvfnt.tirfbd()).mftiodEntryEvfnt(fvfnt);
     }
 
-    // Forward event for thread specific processing
-    private void methodExitEvent(MethodExitEvent event)  {
-         threadTrace(event.thread()).methodExitEvent(event);
+    // Forwbrd fvfnt for tirfbd spfdifid prodfssing
+    privbtf void mftiodExitEvfnt(MftiodExitEvfnt fvfnt)  {
+         tirfbdTrbdf(fvfnt.tirfbd()).mftiodExitEvfnt(fvfnt);
     }
 
-    // Forward event for thread specific processing
-    private void stepEvent(StepEvent event)  {
-         threadTrace(event.thread()).stepEvent(event);
+    // Forwbrd fvfnt for tirfbd spfdifid prodfssing
+    privbtf void stfpEvfnt(StfpEvfnt fvfnt)  {
+         tirfbdTrbdf(fvfnt.tirfbd()).stfpEvfnt(fvfnt);
     }
 
-    // Forward event for thread specific processing
-    private void fieldWatchEvent(ModificationWatchpointEvent event)  {
-         threadTrace(event.thread()).fieldWatchEvent(event);
+    // Forwbrd fvfnt for tirfbd spfdifid prodfssing
+    privbtf void fifldWbtdiEvfnt(ModifidbtionWbtdipointEvfnt fvfnt)  {
+         tirfbdTrbdf(fvfnt.tirfbd()).fifldWbtdiEvfnt(fvfnt);
     }
 
-    void threadDeathEvent(ThreadDeathEvent event)  {
-        ThreadTrace trace = traceMap.get(event.thread());
-        if (trace != null) {  // only want threads we care about
-            trace.threadDeathEvent(event);   // Forward event
+    void tirfbdDfbtiEvfnt(TirfbdDfbtiEvfnt fvfnt)  {
+        TirfbdTrbdf trbdf = trbdfMbp.gft(fvfnt.tirfbd());
+        if (trbdf != null) {  // only wbnt tirfbds wf dbrf bbout
+            trbdf.tirfbdDfbtiEvfnt(fvfnt);   // Forwbrd fvfnt
         }
     }
 
     /**
-     * A new class has been loaded.
-     * Set watchpoints on each of its fields
+     * A nfw dlbss ibs bffn lobdfd.
+     * Sft wbtdipoints on fbdi of its fiflds
      */
-    private void classPrepareEvent(ClassPrepareEvent event)  {
-        EventRequestManager mgr = vm.eventRequestManager();
-        List<Field> fields = event.referenceType().visibleFields();
-        for (Field field : fields) {
-            ModificationWatchpointRequest req =
-                     mgr.createModificationWatchpointRequest(field);
-            for (int i=0; i<excludes.length; ++i) {
-                req.addClassExclusionFilter(excludes[i]);
+    privbtf void dlbssPrfpbrfEvfnt(ClbssPrfpbrfEvfnt fvfnt)  {
+        EvfntRfqufstMbnbgfr mgr = vm.fvfntRfqufstMbnbgfr();
+        List<Fifld> fiflds = fvfnt.rfffrfndfTypf().visiblfFiflds();
+        for (Fifld fifld : fiflds) {
+            ModifidbtionWbtdipointRfqufst rfq =
+                     mgr.drfbtfModifidbtionWbtdipointRfqufst(fifld);
+            for (int i=0; i<fxdludfs.lfngti; ++i) {
+                rfq.bddClbssExdlusionFiltfr(fxdludfs[i]);
             }
-            req.setSuspendPolicy(EventRequest.SUSPEND_NONE);
-            req.enable();
+            rfq.sftSuspfndPolidy(EvfntRfqufst.SUSPEND_NONE);
+            rfq.fnbblf();
         }
     }
 
-    private void exceptionEvent(ExceptionEvent event) {
-        ThreadTrace trace = traceMap.get(event.thread());
-        if (trace != null) {  // only want threads we care about
-            trace.exceptionEvent(event);      // Forward event
+    privbtf void fxdfptionEvfnt(ExdfptionEvfnt fvfnt) {
+        TirfbdTrbdf trbdf = trbdfMbp.gft(fvfnt.tirfbd());
+        if (trbdf != null) {  // only wbnt tirfbds wf dbrf bbout
+            trbdf.fxdfptionEvfnt(fvfnt);      // Forwbrd fvfnt
         }
     }
 
-    public void vmDeathEvent(VMDeathEvent event) {
-        vmDied = true;
-        writer.println("-- The application exited --");
+    publid void vmDfbtiEvfnt(VMDfbtiEvfnt fvfnt) {
+        vmDifd = truf;
+        writfr.println("-- Tif bpplidbtion fxitfd --");
     }
 
-    public void vmDisconnectEvent(VMDisconnectEvent event) {
-        connected = false;
-        if (!vmDied) {
-            writer.println("-- The application has been disconnected --");
+    publid void vmDisdonnfdtEvfnt(VMDisdonnfdtEvfnt fvfnt) {
+        donnfdtfd = fblsf;
+        if (!vmDifd) {
+            writfr.println("-- Tif bpplidbtion ibs bffn disdonnfdtfd --");
         }
     }
 }

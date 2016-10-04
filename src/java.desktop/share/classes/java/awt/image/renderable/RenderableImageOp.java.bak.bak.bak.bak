@@ -1,0 +1,350 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* ********************************************************************
+ **********************************************************************
+ **********************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd    ***
+ *** Stbtfs Codf.  All rights rfsfrvfd.                             ***
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************/
+
+pbdkbgf jbvb.bwt.imbgf.rfndfrbblf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Vfdtor;
+
+/**
+ * This dlbss hbndlfs thf rfndfrbblf bspfdts of bn opfrbtion with hflp
+ * from its bssodibtfd instbndf of b ContfxtublRfndfrfdImbgfFbdtory.
+ */
+publid dlbss RfndfrbblfImbgfOp implfmfnts RfndfrbblfImbgf {
+
+    /** A PbrbmftfrBlodk dontbining sourdf bnd pbrbmftfrs. */
+    PbrbmftfrBlodk pbrbmBlodk;
+
+    /** Thf bssodibtfd ContfxtublRfndfrfdImbgfFbdtory. */
+    ContfxtublRfndfrfdImbgfFbdtory myCRIF;
+
+    /** Thf bounding box of thf rfsults of this RfndfrbblfImbgfOp. */
+    Rfdtbnglf2D boundingBox;
+
+
+    /**
+     * Construdts b RfndfrfdImbgfOp givfn b
+     * ContfxtublRfndfrfdImbgfFbdtory objfdt, bnd
+     * b PbrbmftfrBlodk dontbining RfndfrbblfImbgf sourdfs bnd othfr
+     * pbrbmftfrs.  Any RfndfrfdImbgf sourdfs rfffrfndfd by thf
+     * PbrbmftfrBlodk will bf ignorfd.
+     *
+     * @pbrbm CRIF b ContfxtublRfndfrfdImbgfFbdtory objfdt
+     * @pbrbm pbrbmBlodk b PbrbmftfrBlodk dontbining this opfrbtion's sourdf
+     *        imbgfs bnd othfr pbrbmftfrs nfdfssbry for thf opfrbtion
+     *        to run.
+     */
+    publid RfndfrbblfImbgfOp(ContfxtublRfndfrfdImbgfFbdtory CRIF,
+                             PbrbmftfrBlodk pbrbmBlodk) {
+        this.myCRIF = CRIF;
+        this.pbrbmBlodk = (PbrbmftfrBlodk) pbrbmBlodk.dlonf();
+    }
+
+    /**
+     * Rfturns b vfdtor of RfndfrbblfImbgfs thbt brf thf sourdfs of
+     * imbgf dbtb for this RfndfrbblfImbgf. Notf thbt this mfthod mby
+     * rfturn bn fmpty vfdtor, to indidbtf thbt thf imbgf hbs no sourdfs,
+     * or null, to indidbtf thbt no informbtion is bvbilbblf.
+     *
+     * @rfturn b (possibly fmpty) Vfdtor of RfndfrbblfImbgfs, or null.
+     */
+    publid Vfdtor<RfndfrbblfImbgf> gftSourdfs() {
+        rfturn gftRfndfrbblfSourdfs();
+    }
+
+    privbtf Vfdtor<RfndfrbblfImbgf> gftRfndfrbblfSourdfs() {
+        Vfdtor<RfndfrbblfImbgf> sourdfs = null;
+
+        if (pbrbmBlodk.gftNumSourdfs() > 0) {
+            sourdfs = nfw Vfdtor<>();
+            int i = 0;
+            whilf (i < pbrbmBlodk.gftNumSourdfs()) {
+                Objfdt o = pbrbmBlodk.gftSourdf(i);
+                if (o instbndfof RfndfrbblfImbgf) {
+                    sourdfs.bdd((RfndfrbblfImbgf)o);
+                    i++;
+                } flsf {
+                    brfbk;
+                }
+            }
+        }
+        rfturn sourdfs;
+    }
+
+    /**
+     * Gfts b propfrty from thf propfrty sft of this imbgf.
+     * If thf propfrty nbmf is not rfdognizfd, jbvb.bwt.Imbgf.UndffinfdPropfrty
+     * will bf rfturnfd.
+     *
+     * @pbrbm nbmf thf nbmf of thf propfrty to gft, bs b String.
+     * @rfturn b rfffrfndf to thf propfrty Objfdt, or thf vbluf
+     *         jbvb.bwt.Imbgf.UndffinfdPropfrty.
+     */
+    publid Objfdt gftPropfrty(String nbmf) {
+        rfturn myCRIF.gftPropfrty(pbrbmBlodk, nbmf);
+    }
+
+    /**
+     * Rfturn b list of nbmfs rfdognizfd by gftPropfrty.
+     * @rfturn b list of propfrty nbmfs.
+     */
+    publid String[] gftPropfrtyNbmfs() {
+        rfturn myCRIF.gftPropfrtyNbmfs();
+    }
+
+    /**
+     * Rfturns truf if suddfssivf rfndfrings (thbt is, dblls to
+     * drfbtfRfndfring() or drfbtfSdblfdRfndfring()) with thf sbmf brgumfnts
+     * mby produdf difffrfnt rfsults.  This mfthod mby bf usfd to
+     * dftfrminf whfthfr bn fxisting rfndfring mby bf dbdhfd bnd
+     * rfusfd.  Thf CRIF's isDynbmid mfthod will bf dbllfd.
+     * @rfturn <dodf>truf</dodf> if suddfssivf rfndfrings with thf
+     *         sbmf brgumfnts might produdf difffrfnt rfsults;
+     *         <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isDynbmid() {
+        rfturn myCRIF.isDynbmid();
+    }
+
+    /**
+     * Gfts thf width in usfr doordinbtf spbdf.  By donvfntion, thf
+     * usubl width of b RfndfrbblfImbgf is fqubl to thf imbgf's bspfdt
+     * rbtio (width dividfd by hfight).
+     *
+     * @rfturn thf width of thf imbgf in usfr doordinbtfs.
+     */
+    publid flobt gftWidth() {
+        if (boundingBox == null) {
+            boundingBox = myCRIF.gftBounds2D(pbrbmBlodk);
+        }
+        rfturn (flobt)boundingBox.gftWidth();
+    }
+
+    /**
+     * Gfts thf hfight in usfr doordinbtf spbdf.  By donvfntion, thf
+     * usubl hfight of b RfndfrfdImbgf is fqubl to 1.0F.
+     *
+     * @rfturn thf hfight of thf imbgf in usfr doordinbtfs.
+     */
+    publid flobt gftHfight() {
+        if (boundingBox == null) {
+            boundingBox = myCRIF.gftBounds2D(pbrbmBlodk);
+        }
+        rfturn (flobt)boundingBox.gftHfight();
+    }
+
+    /**
+     * Gfts thf minimum X doordinbtf of thf rfndfring-indfpfndfnt imbgf dbtb.
+     */
+    publid flobt gftMinX() {
+        if (boundingBox == null) {
+            boundingBox = myCRIF.gftBounds2D(pbrbmBlodk);
+        }
+        rfturn (flobt)boundingBox.gftMinX();
+    }
+
+    /**
+     * Gfts thf minimum Y doordinbtf of thf rfndfring-indfpfndfnt imbgf dbtb.
+     */
+    publid flobt gftMinY() {
+        if (boundingBox == null) {
+            boundingBox = myCRIF.gftBounds2D(pbrbmBlodk);
+        }
+        rfturn (flobt)boundingBox.gftMinY();
+    }
+
+    /**
+     * Chbngf thf durrfnt PbrbmftfrBlodk of thf opfrbtion, bllowing
+     * fditing of imbgf rfndfring dhbins.  Thf ffffdts of sudh b
+     * dhbngf will bf visiblf whfn b nfw rfndfring is drfbtfd from
+     * this RfndfrbblfImbgfOp or bny dfpfndfnt RfndfrbblfImbgfOp.
+     *
+     * @pbrbm pbrbmBlodk thf nfw PbrbmftfrBlodk.
+     * @rfturn thf old PbrbmftfrBlodk.
+     * @sff #gftPbrbmftfrBlodk
+     */
+    publid PbrbmftfrBlodk sftPbrbmftfrBlodk(PbrbmftfrBlodk pbrbmBlodk) {
+        PbrbmftfrBlodk oldPbrbmBlodk = this.pbrbmBlodk;
+        this.pbrbmBlodk = (PbrbmftfrBlodk)pbrbmBlodk.dlonf();
+        rfturn oldPbrbmBlodk;
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf durrfnt pbrbmftfr blodk.
+     * @rfturn thf <dodf>PbrbmftfrBlodk</dodf> of this
+     *         <dodf>RfndfrbblfImbgfOp</dodf>.
+     * @sff #sftPbrbmftfrBlodk(PbrbmftfrBlodk)
+     */
+    publid PbrbmftfrBlodk gftPbrbmftfrBlodk() {
+        rfturn pbrbmBlodk;
+    }
+
+    /**
+     * Crfbtfs b RfndfrfdImbgf instbndf of this imbgf with width w, bnd
+     * hfight h in pixfls.  Thf RfndfrContfxt is built butombtidblly
+     * with bn bppropribtf usr2dfv trbnsform bnd bn brfb of intfrfst
+     * of thf full imbgf.  All thf rfndfring hints domf from hints
+     * pbssfd in.
+     *
+     * <p> If w == 0, it will bf tbkfn to fqubl
+     * Mbth.round(h*(gftWidth()/gftHfight())).
+     * Similbrly, if h == 0, it will bf tbkfn to fqubl
+     * Mbth.round(w*(gftHfight()/gftWidth())).  Onf of
+     * w or h must bf non-zfro or flsf bn IllfgblArgumfntExdfption
+     * will bf thrown.
+     *
+     * <p> Thf drfbtfd RfndfrfdImbgf mby hbvf b propfrty idfntififd
+     * by thf String HINTS_OBSERVED to indidbtf whidh RfndfringHints
+     * wfrf usfd to drfbtf thf imbgf.  In bddition bny RfndfrfdImbgfs
+     * thbt brf obtbinfd vib thf gftSourdfs() mfthod on thf drfbtfd
+     * RfndfrfdImbgf mby hbvf sudh b propfrty.
+     *
+     * @pbrbm w thf width of rfndfrfd imbgf in pixfls, or 0.
+     * @pbrbm h thf hfight of rfndfrfd imbgf in pixfls, or 0.
+     * @pbrbm hints b RfndfringHints objfdt dontbining hints.
+     * @rfturn b RfndfrfdImbgf dontbining thf rfndfrfd dbtb.
+     */
+    publid RfndfrfdImbgf drfbtfSdblfdRfndfring(int w, int h,
+                                               RfndfringHints hints) {
+        // DSR -- dodf to try to gft b unit sdblf
+        doublf sx = (doublf)w/gftWidth();
+        doublf sy = (doublf)h/gftHfight();
+        if (Mbth.bbs(sx/sy - 1.0) < 0.01) {
+            sx = sy;
+        }
+        AffinfTrbnsform usr2dfv = AffinfTrbnsform.gftSdblfInstbndf(sx, sy);
+        RfndfrContfxt nfwRC = nfw RfndfrContfxt(usr2dfv, hints);
+        rfturn drfbtfRfndfring(nfwRC);
+    }
+
+    /**
+     * Gfts b RfndfrfdImbgf instbndf of this imbgf with b dffbult
+     * width bnd hfight in pixfls.  Thf RfndfrContfxt is built
+     * butombtidblly with bn bppropribtf usr2dfv trbnsform bnd bn brfb
+     * of intfrfst of thf full imbgf.  All thf rfndfring hints domf
+     * from hints pbssfd in.  Implfmfntors of this intfrfbdf must bf
+     * surf thbt thfrf is b dffinfd dffbult width bnd hfight.
+     *
+     * @rfturn b RfndfrfdImbgf dontbining thf rfndfrfd dbtb.
+     */
+    publid RfndfrfdImbgf drfbtfDffbultRfndfring() {
+        AffinfTrbnsform usr2dfv = nfw AffinfTrbnsform(); // Idfntity
+        RfndfrContfxt nfwRC = nfw RfndfrContfxt(usr2dfv);
+        rfturn drfbtfRfndfring(nfwRC);
+    }
+
+    /**
+     * Crfbtfs b RfndfrfdImbgf whidh rfprfsfnts this
+     * RfndfrbblfImbgfOp (indluding its Rfndfrbblf sourdfs) rfndfrfd
+     * bddording to thf givfn RfndfrContfxt.
+     *
+     * <p> This mfthod supports dhbining of fithfr Rfndfrbblf or
+     * RfndfrfdImbgf opfrbtions.  If sourdfs in
+     * thf PbrbmftfrBlodk usfd to donstrudt thf RfndfrbblfImbgfOp brf
+     * RfndfrbblfImbgfs, thfn b thrff stfp prodfss is followfd:
+     *
+     * <ol>
+     * <li> mbpRfndfrContfxt() is dbllfd on thf bssodibtfd CRIF for
+     * fbdh RfndfrbblfImbgf sourdf;
+     * <li> drfbtfRfndfring() is dbllfd on fbdh of thf RfndfrbblfImbgf sourdfs
+     * using thf bbdkwbrds-mbppfd RfndfrContfxts obtbinfd in stfp 1,
+     * rfsulting in b rfndfring of fbdh sourdf;
+     * <li> ContfxtublRfndfrfdImbgfFbdtory.drfbtf() is dbllfd
+     * with b nfw PbrbmftfrBlodk dontbining thf pbrbmftfrs of
+     * thf RfndfrbblfImbgfOp bnd thf RfndfrfdImbgfs thbt wfrf drfbtfd by thf
+     * drfbtfRfndfring() dblls.
+     * </ol>
+     *
+     * <p> If thf flfmfnts of thf sourdf Vfdtor of
+     * thf PbrbmftfrBlodk usfd to donstrudt thf RfndfrbblfImbgfOp brf
+     * instbndfs of RfndfrfdImbgf, thfn thf CRIF.drfbtf() mfthod is
+     * dbllfd immfdibtfly using thf originbl PbrbmftfrBlodk.
+     * This providfs b bbsis dbsf for thf rfdursion.
+     *
+     * <p> Thf drfbtfd RfndfrfdImbgf mby hbvf b propfrty idfntififd
+     * by thf String HINTS_OBSERVED to indidbtf whidh RfndfringHints
+     * (from thf RfndfrContfxt) wfrf usfd to drfbtf thf imbgf.
+     * In bddition bny RfndfrfdImbgfs
+     * thbt brf obtbinfd vib thf gftSourdfs() mfthod on thf drfbtfd
+     * RfndfrfdImbgf mby hbvf sudh b propfrty.
+     *
+     * @pbrbm rfndfrContfxt Thf RfndfrContfxt to usf to pfrform thf rfndfring.
+     * @rfturn b RfndfrfdImbgf dontbining thf dfsirfd output imbgf.
+     */
+    publid RfndfrfdImbgf drfbtfRfndfring(RfndfrContfxt rfndfrContfxt) {
+        RfndfrfdImbgf imbgf = null;
+        RfndfrContfxt rdOut = null;
+
+        // Clonf thf originbl PbrbmftfrBlodk; if thf PbrbmftfrBlodk
+        // dontbins RfndfrbblfImbgf sourdfs, thfy will bf rfplbdfd by
+        // RfndfrfdImbgfs.
+        PbrbmftfrBlodk rfndfrfdPbrbmBlodk = (PbrbmftfrBlodk)pbrbmBlodk.dlonf();
+        Vfdtor<? fxtfnds Objfdt> sourdfs = gftRfndfrbblfSourdfs();
+
+        try {
+            // This bssumfs thbt if thfrf is no rfndfrbblf sourdf, thbt thfrf
+            // is b rfndfrfd sourdf in pbrbmBlodk
+
+            if (sourdfs != null) {
+                Vfdtor<Objfdt> rfndfrfdSourdfs = nfw Vfdtor<>();
+                for (int i = 0; i < sourdfs.sizf(); i++) {
+                    rdOut = myCRIF.mbpRfndfrContfxt(i, rfndfrContfxt,
+                                                    pbrbmBlodk, this);
+                    RfndfrfdImbgf rdrdImbgf =
+                        ((RfndfrbblfImbgf)sourdfs.flfmfntAt(i)).drfbtfRfndfring(rdOut);
+                    if (rdrdImbgf == null) {
+                        rfturn null;
+                    }
+
+                    // Add this rfndfrfd imbgf to thf PbrbmftfrBlodk's
+                    // list of RfndfrfdImbgfs.
+                    rfndfrfdSourdfs.bddElfmfnt(rdrdImbgf);
+                }
+
+                if (rfndfrfdSourdfs.sizf() > 0) {
+                    rfndfrfdPbrbmBlodk.sftSourdfs(rfndfrfdSourdfs);
+                }
+            }
+
+            rfturn myCRIF.drfbtf(rfndfrContfxt, rfndfrfdPbrbmBlodk);
+        } dbtdh (ArrbyIndfxOutOfBoundsExdfption f) {
+            // This should nfvfr hbppfn
+            rfturn null;
+        }
+    }
+}

@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jconsole;
+pbdkbgf dom.sun.tools.jdonsolf;
 
-import javax.management.MBeanServerConnection;
-import java.beans.PropertyChangeListener;
-import javax.swing.event.SwingPropertyChangeSupport;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvbx.swing.fvfnt.SwingPropfrtyCibngfSupport;
 
 /**
- * {@code JConsoleContext} represents a JConsole connection to a target
- * application.
+ * {@dodf JConsolfContfxt} rfprfsfnts b JConsolf donnfdtion to b tbrgft
+ * bpplidbtion.
  * <p>
- * {@code JConsoleContext} notifies any {@code PropertyChangeListeners}
- * about the {@linkplain #CONNECTION_STATE_PROPERTY <i>ConnectionState</i>}
- * property change to {@link ConnectionState#CONNECTED CONNECTED} and
- * {@link ConnectionState#DISCONNECTED DISCONNECTED}.
- * The {@code JConsoleContext} instance will be the source for
- * any generated events.
+ * {@dodf JConsolfContfxt} notififs bny {@dodf PropfrtyCibngfListfnfrs}
+ * bbout tif {@linkplbin #CONNECTION_STATE_PROPERTY <i>ConnfdtionStbtf</i>}
+ * propfrty dibngf to {@link ConnfdtionStbtf#CONNECTED CONNECTED} bnd
+ * {@link ConnfdtionStbtf#DISCONNECTED DISCONNECTED}.
+ * Tif {@dodf JConsolfContfxt} instbndf will bf tif sourdf for
+ * bny gfnfrbtfd fvfnts.
  * <p>
  *
- * @since 1.6
+ * @sindf 1.6
  */
-@jdk.Exported
-public interface JConsoleContext {
+@jdk.Exportfd
+publid intfrfbdf JConsolfContfxt {
     /**
-     * The {@link ConnectionState ConnectionState} bound property name.
+     * Tif {@link ConnfdtionStbtf ConnfdtionStbtf} bound propfrty nbmf.
      */
-    public static String CONNECTION_STATE_PROPERTY = "connectionState";
+    publid stbtid String CONNECTION_STATE_PROPERTY = "donnfdtionStbtf";
 
     /**
-     * Values for the {@linkplain #CONNECTION_STATE_PROPERTY
-     * <i>ConnectionState</i>} bound property.
+     * Vblufs for tif {@linkplbin #CONNECTION_STATE_PROPERTY
+     * <i>ConnfdtionStbtf</i>} bound propfrty.
      */
-    @jdk.Exported
-    public enum ConnectionState {
+    @jdk.Exportfd
+    publid fnum ConnfdtionStbtf {
         /**
-         * The connection has been successfully established.
+         * Tif donnfdtion ibs bffn suddfssfully fstbblisifd.
          */
         CONNECTED,
         /**
-         * No connection present.
+         * No donnfdtion prfsfnt.
          */
         DISCONNECTED,
         /**
-         * The connection is being attempted.
+         * Tif donnfdtion is bfing bttfmptfd.
          */
         CONNECTING
     }
 
     /**
-     * Returns the {@link MBeanServerConnection MBeanServerConnection} for the
-     * connection to an application.  The returned
-     * {@code MBeanServerConnection} object becomes invalid when
-     * the connection state is changed to the
-     * {@link ConnectionState#DISCONNECTED DISCONNECTED} state.
+     * Rfturns tif {@link MBfbnSfrvfrConnfdtion MBfbnSfrvfrConnfdtion} for tif
+     * donnfdtion to bn bpplidbtion.  Tif rfturnfd
+     * {@dodf MBfbnSfrvfrConnfdtion} objfdt bfdomfs invblid wifn
+     * tif donnfdtion stbtf is dibngfd to tif
+     * {@link ConnfdtionStbtf#DISCONNECTED DISCONNECTED} stbtf.
      *
-     * @return the {@code MBeanServerConnection} for the
-     * connection to an application.
+     * @rfturn tif {@dodf MBfbnSfrvfrConnfdtion} for tif
+     * donnfdtion to bn bpplidbtion.
      */
-    public MBeanServerConnection getMBeanServerConnection();
+    publid MBfbnSfrvfrConnfdtion gftMBfbnSfrvfrConnfdtion();
 
     /**
-     * Returns the current connection state.
-     * @return the current connection state.
+     * Rfturns tif durrfnt donnfdtion stbtf.
+     * @rfturn tif durrfnt donnfdtion stbtf.
      */
-    public ConnectionState getConnectionState();
+    publid ConnfdtionStbtf gftConnfdtionStbtf();
 
     /**
-     * Add a {@link java.beans.PropertyChangeListener PropertyChangeListener}
-     * to the listener list.
-     * The listener is registered for all properties.
-     * The same listener object may be added more than once, and will be called
-     * as many times as it is added.
-     * If {@code listener} is {@code null}, no exception is thrown and
-     * no action is taken.
+     * Add b {@link jbvb.bfbns.PropfrtyCibngfListfnfr PropfrtyCibngfListfnfr}
+     * to tif listfnfr list.
+     * Tif listfnfr is rfgistfrfd for bll propfrtifs.
+     * Tif sbmf listfnfr objfdt mby bf bddfd morf tibn ondf, bnd will bf dbllfd
+     * bs mbny timfs bs it is bddfd.
+     * If {@dodf listfnfr} is {@dodf null}, no fxdfption is tirown bnd
+     * no bdtion is tbkfn.
      *
-     * @param listener  The {@code PropertyChangeListener} to be added
+     * @pbrbm listfnfr  Tif {@dodf PropfrtyCibngfListfnfr} to bf bddfd
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener);
+    publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr);
 
     /**
-     * Removes a {@link java.beans.PropertyChangeListener PropertyChangeListener}
-     * from the listener list. This
-     * removes a {@code PropertyChangeListener} that was registered for all
-     * properties. If {@code listener} was added more than once to the same
-     * event source, it will be notified one less time after being removed. If
-     * {@code listener} is {@code null}, or was never added, no exception is
-     * thrown and no action is taken.
+     * Rfmovfs b {@link jbvb.bfbns.PropfrtyCibngfListfnfr PropfrtyCibngfListfnfr}
+     * from tif listfnfr list. Tiis
+     * rfmovfs b {@dodf PropfrtyCibngfListfnfr} tibt wbs rfgistfrfd for bll
+     * propfrtifs. If {@dodf listfnfr} wbs bddfd morf tibn ondf to tif sbmf
+     * fvfnt sourdf, it will bf notififd onf lfss timf bftfr bfing rfmovfd. If
+     * {@dodf listfnfr} is {@dodf null}, or wbs nfvfr bddfd, no fxdfption is
+     * tirown bnd no bdtion is tbkfn.
      *
-     * @param listener the {@code PropertyChangeListener} to be removed
+     * @pbrbm listfnfr tif {@dodf PropfrtyCibngfListfnfr} to bf rfmovfd
      */
-    public void removePropertyChangeListener(PropertyChangeListener listener);
+    publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr);
 }

@@ -1,611 +1,611 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * @author Charlton Innovations, Inc.
+ * @butior Cibrlton Innovbtions, Ind.
  */
 
-package java.awt.font;
+pbdkbgf jbvb.bwt.font;
 
-import java.awt.Graphics2D;
-import java.awt.Font;
-import java.awt.Polygon;        // remind - need a floating point version
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
-import java.awt.Shape;
-import java.awt.font.GlyphMetrics;
-import java.awt.font.GlyphJustificationInfo;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Font;
+import jbvb.bwt.Polygon;        // rfmind - nffd b flobting point vfrsion
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.font.GlypiMftrids;
+import jbvb.bwt.font.GlypiJustifidbtionInfo;
 
 /**
- * A <code>GlyphVector</code> object is a collection of glyphs
- * containing geometric information for the placement of each glyph
- * in a transformed coordinate space which corresponds to the
- * device on which the <code>GlyphVector</code> is ultimately
- * displayed.
+ * A <dodf>GlypiVfdtor</dodf> objfdt is b dollfdtion of glypis
+ * dontbining gfomftrid informbtion for tif plbdfmfnt of fbdi glypi
+ * in b trbnsformfd doordinbtf spbdf wiidi dorrfsponds to tif
+ * dfvidf on wiidi tif <dodf>GlypiVfdtor</dodf> is ultimbtfly
+ * displbyfd.
  * <p>
- * The <code>GlyphVector</code> does not attempt any interpretation of
- * the sequence of glyphs it contains.  Relationships between adjacent
- * glyphs in sequence are solely used to determine the placement of
- * the glyphs in the visual coordinate space.
+ * Tif <dodf>GlypiVfdtor</dodf> dofs not bttfmpt bny intfrprftbtion of
+ * tif sfqufndf of glypis it dontbins.  Rflbtionsiips bftwffn bdjbdfnt
+ * glypis in sfqufndf brf solfly usfd to dftfrminf tif plbdfmfnt of
+ * tif glypis in tif visubl doordinbtf spbdf.
  * <p>
- * Instances of <code>GlyphVector</code> are created by a {@link Font}.
+ * Instbndfs of <dodf>GlypiVfdtor</dodf> brf drfbtfd by b {@link Font}.
  * <p>
- * In a text processing application that can cache intermediate
- * representations of text, creation and subsequent caching of a
- * <code>GlyphVector</code> for use during rendering is the fastest
- * method to present the visual representation of characters to a user.
+ * In b tfxt prodfssing bpplidbtion tibt dbn dbdif intfrmfdibtf
+ * rfprfsfntbtions of tfxt, drfbtion bnd subsfqufnt dbdiing of b
+ * <dodf>GlypiVfdtor</dodf> for usf during rfndfring is tif fbstfst
+ * mftiod to prfsfnt tif visubl rfprfsfntbtion of dibrbdtfrs to b usfr.
  * <p>
- * A <code>GlyphVector</code> is associated with exactly one
- * <code>Font</code>, and can provide data useful only in relation to
- * this <code>Font</code>.  In addition, metrics obtained from a
- * <code>GlyphVector</code> are not generally geometrically scaleable
- * since the pixelization and spacing are dependent on grid-fitting
- * algorithms within a <code>Font</code>.  To facilitate accurate
- * measurement of a <code>GlyphVector</code> and its component
- * glyphs, you must specify a scaling transform, anti-alias mode, and
- * fractional metrics mode when creating the <code>GlyphVector</code>.
- * These characteristics can be derived from the destination device.
+ * A <dodf>GlypiVfdtor</dodf> is bssodibtfd witi fxbdtly onf
+ * <dodf>Font</dodf>, bnd dbn providf dbtb usfful only in rflbtion to
+ * tiis <dodf>Font</dodf>.  In bddition, mftrids obtbinfd from b
+ * <dodf>GlypiVfdtor</dodf> brf not gfnfrblly gfomftridblly sdblfbblf
+ * sindf tif pixflizbtion bnd spbding brf dfpfndfnt on grid-fitting
+ * blgoritims witiin b <dodf>Font</dodf>.  To fbdilitbtf bddurbtf
+ * mfbsurfmfnt of b <dodf>GlypiVfdtor</dodf> bnd its domponfnt
+ * glypis, you must spfdify b sdbling trbnsform, bnti-blibs modf, bnd
+ * frbdtionbl mftrids modf wifn drfbting tif <dodf>GlypiVfdtor</dodf>.
+ * Tifsf dibrbdtfristids dbn bf dfrivfd from tif dfstinbtion dfvidf.
  * <p>
- * For each glyph in the <code>GlyphVector</code>, you can obtain:
+ * For fbdi glypi in tif <dodf>GlypiVfdtor</dodf>, you dbn obtbin:
  * <ul>
- * <li>the position of the glyph
- * <li>the transform associated with the glyph
- * <li>the metrics of the glyph in the context of the
- *   <code>GlyphVector</code>.  The metrics of the glyph may be
- *   different under different transforms, application specified
- *   rendering hints, and the specific instance of the glyph within
- *   the <code>GlyphVector</code>.
+ * <li>tif position of tif glypi
+ * <li>tif trbnsform bssodibtfd witi tif glypi
+ * <li>tif mftrids of tif glypi in tif dontfxt of tif
+ *   <dodf>GlypiVfdtor</dodf>.  Tif mftrids of tif glypi mby bf
+ *   difffrfnt undfr difffrfnt trbnsforms, bpplidbtion spfdififd
+ *   rfndfring iints, bnd tif spfdifid instbndf of tif glypi witiin
+ *   tif <dodf>GlypiVfdtor</dodf>.
  * </ul>
  * <p>
- * Altering the data used to create the <code>GlyphVector</code> does not
- * alter the state of the <code>GlyphVector</code>.
+ * Altfring tif dbtb usfd to drfbtf tif <dodf>GlypiVfdtor</dodf> dofs not
+ * bltfr tif stbtf of tif <dodf>GlypiVfdtor</dodf>.
  * <p>
- * Methods are provided to adjust the positions of the glyphs
- * within the <code>GlyphVector</code>.  These methods are most
- * appropriate for applications that are performing justification
- * operations for the presentation of the glyphs.
+ * Mftiods brf providfd to bdjust tif positions of tif glypis
+ * witiin tif <dodf>GlypiVfdtor</dodf>.  Tifsf mftiods brf most
+ * bppropribtf for bpplidbtions tibt brf pfrforming justifidbtion
+ * opfrbtions for tif prfsfntbtion of tif glypis.
  * <p>
- * Methods are provided to transform individual glyphs within the
- * <code>GlyphVector</code>.  These methods are primarily useful for
- * special effects.
+ * Mftiods brf providfd to trbnsform individubl glypis witiin tif
+ * <dodf>GlypiVfdtor</dodf>.  Tifsf mftiods brf primbrily usfful for
+ * spfdibl ffffdts.
  * <p>
- * Methods are provided to return both the visual, logical, and pixel bounds
- * of the entire <code>GlyphVector</code> or of individual glyphs within
- * the <code>GlyphVector</code>.
+ * Mftiods brf providfd to rfturn boti tif visubl, logidbl, bnd pixfl bounds
+ * of tif fntirf <dodf>GlypiVfdtor</dodf> or of individubl glypis witiin
+ * tif <dodf>GlypiVfdtor</dodf>.
  * <p>
- * Methods are provided to return a {@link Shape} for the
- * <code>GlyphVector</code>, and for individual glyphs within the
- * <code>GlyphVector</code>.
- * @see Font
- * @see GlyphMetrics
- * @see TextLayout
- * @author Charlton Innovations, Inc.
+ * Mftiods brf providfd to rfturn b {@link Sibpf} for tif
+ * <dodf>GlypiVfdtor</dodf>, bnd for individubl glypis witiin tif
+ * <dodf>GlypiVfdtor</dodf>.
+ * @sff Font
+ * @sff GlypiMftrids
+ * @sff TfxtLbyout
+ * @butior Cibrlton Innovbtions, Ind.
  */
 
-public abstract class GlyphVector implements Cloneable {
+publid bbstrbdt dlbss GlypiVfdtor implfmfnts Clonfbblf {
 
     //
-    // methods associated with creation-time state
-    //
-
-    /**
-     * Returns the <code>Font</code> associated with this
-     * <code>GlyphVector</code>.
-     * @return <code>Font</code> used to create this
-     * <code>GlyphVector</code>.
-     * @see Font
-     */
-    public abstract Font getFont();
-
-    /**
-     * Returns the {@link FontRenderContext} associated with this
-     * <code>GlyphVector</code>.
-     * @return <code>FontRenderContext</code> used to create this
-     * <code>GlyphVector</code>.
-     * @see FontRenderContext
-     * @see Font
-     */
-    public abstract FontRenderContext getFontRenderContext();
-
-    //
-    // methods associated with the GlyphVector as a whole
+    // mftiods bssodibtfd witi drfbtion-timf stbtf
     //
 
     /**
-     * Assigns default positions to each glyph in this
-     * <code>GlyphVector</code>. This can destroy information
-     * generated during initial layout of this <code>GlyphVector</code>.
+     * Rfturns tif <dodf>Font</dodf> bssodibtfd witi tiis
+     * <dodf>GlypiVfdtor</dodf>.
+     * @rfturn <dodf>Font</dodf> usfd to drfbtf tiis
+     * <dodf>GlypiVfdtor</dodf>.
+     * @sff Font
      */
-    public abstract void performDefaultLayout();
+    publid bbstrbdt Font gftFont();
 
     /**
-     * Returns the number of glyphs in this <code>GlyphVector</code>.
-     * @return number of glyphs in this <code>GlyphVector</code>.
+     * Rfturns tif {@link FontRfndfrContfxt} bssodibtfd witi tiis
+     * <dodf>GlypiVfdtor</dodf>.
+     * @rfturn <dodf>FontRfndfrContfxt</dodf> usfd to drfbtf tiis
+     * <dodf>GlypiVfdtor</dodf>.
+     * @sff FontRfndfrContfxt
+     * @sff Font
      */
-    public abstract int getNumGlyphs();
+    publid bbstrbdt FontRfndfrContfxt gftFontRfndfrContfxt();
+
+    //
+    // mftiods bssodibtfd witi tif GlypiVfdtor bs b wiolf
+    //
 
     /**
-     * Returns the glyphcode of the specified glyph.
-     * This return value is meaningless to anything other
-     * than the <code>Font</code> object that created this
-     * <code>GlyphVector</code>.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * that corresponds to the glyph from which to retrieve the
-     * glyphcode.
-     * @return the glyphcode of the glyph at the specified
-     * <code>glyphIndex</code>.
-     * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     * is less than 0 or greater than or equal to the
-     * number of glyphs in this <code>GlyphVector</code>
+     * Assigns dffbult positions to fbdi glypi in tiis
+     * <dodf>GlypiVfdtor</dodf>. Tiis dbn dfstroy informbtion
+     * gfnfrbtfd during initibl lbyout of tiis <dodf>GlypiVfdtor</dodf>.
      */
-    public abstract int getGlyphCode(int glyphIndex);
+    publid bbstrbdt void pfrformDffbultLbyout();
 
     /**
-     * Returns an array of glyphcodes for the specified glyphs.
-     * The contents of this return value are meaningless to anything other
-     * than the <code>Font</code> used to create this
-     * <code>GlyphVector</code>.  This method is used
-     * for convenience and performance when processing glyphcodes.
-     * If no array is passed in, a new array is created.
-     * @param beginGlyphIndex the index into this
-     *   <code>GlyphVector</code> at which to start retrieving glyphcodes
-     * @param numEntries the number of glyphcodes to retrieve
-     * @param codeReturn the array that receives the glyphcodes and is
-     *   then returned
-     * @return an array of glyphcodes for the specified glyphs.
-     * @throws IllegalArgumentException if <code>numEntries</code> is
-     *   less than 0
-     * @throws IndexOutOfBoundsException if <code>beginGlyphIndex</code>
-     *   is less than 0
-     * @throws IndexOutOfBoundsException if the sum of
-     *   <code>beginGlyphIndex</code> and <code>numEntries</code> is
-     *   greater than the number of glyphs in this
-     *   <code>GlyphVector</code>
+     * Rfturns tif numbfr of glypis in tiis <dodf>GlypiVfdtor</dodf>.
+     * @rfturn numbfr of glypis in tiis <dodf>GlypiVfdtor</dodf>.
      */
-    public abstract int[] getGlyphCodes(int beginGlyphIndex, int numEntries,
-                                        int[] codeReturn);
+    publid bbstrbdt int gftNumGlypis();
 
     /**
-     * Returns the character index of the specified glyph.
-     * The character index is the index of the first logical
-     * character represented by the glyph.  The default
-     * implementation assumes a one-to-one, left-to-right mapping
-     * of glyphs to characters.
-     * @param glyphIndex the index of the glyph
-     * @return the index of the first character represented by the glyph
-     * @since 1.4
+     * Rfturns tif glypidodf of tif spfdififd glypi.
+     * Tiis rfturn vbluf is mfbninglfss to bnytiing otifr
+     * tibn tif <dodf>Font</dodf> objfdt tibt drfbtfd tiis
+     * <dodf>GlypiVfdtor</dodf>.
+     * @pbrbm glypiIndfx tif indfx into tiis <dodf>GlypiVfdtor</dodf>
+     * tibt dorrfsponds to tif glypi from wiidi to rftrifvf tif
+     * glypidodf.
+     * @rfturn tif glypidodf of tif glypi bt tif spfdififd
+     * <dodf>glypiIndfx</dodf>.
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>glypiIndfx</dodf>
+     * is lfss tibn 0 or grfbtfr tibn or fqubl to tif
+     * numbfr of glypis in tiis <dodf>GlypiVfdtor</dodf>
      */
-    public int getGlyphCharIndex(int glyphIndex) {
-        return glyphIndex;
+    publid bbstrbdt int gftGlypiCodf(int glypiIndfx);
+
+    /**
+     * Rfturns bn brrby of glypidodfs for tif spfdififd glypis.
+     * Tif dontfnts of tiis rfturn vbluf brf mfbninglfss to bnytiing otifr
+     * tibn tif <dodf>Font</dodf> usfd to drfbtf tiis
+     * <dodf>GlypiVfdtor</dodf>.  Tiis mftiod is usfd
+     * for donvfnifndf bnd pfrformbndf wifn prodfssing glypidodfs.
+     * If no brrby is pbssfd in, b nfw brrby is drfbtfd.
+     * @pbrbm bfginGlypiIndfx tif indfx into tiis
+     *   <dodf>GlypiVfdtor</dodf> bt wiidi to stbrt rftrifving glypidodfs
+     * @pbrbm numEntrifs tif numbfr of glypidodfs to rftrifvf
+     * @pbrbm dodfRfturn tif brrby tibt rfdfivfs tif glypidodfs bnd is
+     *   tifn rfturnfd
+     * @rfturn bn brrby of glypidodfs for tif spfdififd glypis.
+     * @tirows IllfgblArgumfntExdfption if <dodf>numEntrifs</dodf> is
+     *   lfss tibn 0
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>bfginGlypiIndfx</dodf>
+     *   is lfss tibn 0
+     * @tirows IndfxOutOfBoundsExdfption if tif sum of
+     *   <dodf>bfginGlypiIndfx</dodf> bnd <dodf>numEntrifs</dodf> is
+     *   grfbtfr tibn tif numbfr of glypis in tiis
+     *   <dodf>GlypiVfdtor</dodf>
+     */
+    publid bbstrbdt int[] gftGlypiCodfs(int bfginGlypiIndfx, int numEntrifs,
+                                        int[] dodfRfturn);
+
+    /**
+     * Rfturns tif dibrbdtfr indfx of tif spfdififd glypi.
+     * Tif dibrbdtfr indfx is tif indfx of tif first logidbl
+     * dibrbdtfr rfprfsfntfd by tif glypi.  Tif dffbult
+     * implfmfntbtion bssumfs b onf-to-onf, lfft-to-rigit mbpping
+     * of glypis to dibrbdtfrs.
+     * @pbrbm glypiIndfx tif indfx of tif glypi
+     * @rfturn tif indfx of tif first dibrbdtfr rfprfsfntfd by tif glypi
+     * @sindf 1.4
+     */
+    publid int gftGlypiCibrIndfx(int glypiIndfx) {
+        rfturn glypiIndfx;
     }
 
     /**
-     * Returns the character indices of the specified glyphs.
-     * The character index is the index of the first logical
-     * character represented by the glyph.  Indices are returned
-     * in glyph order.  The default implementation invokes
-     * getGlyphCharIndex for each glyph, and subclassers will probably
-     * want to override this implementation for performance reasons.
-     * Use this method for convenience and performance
-     * in processing of glyphcodes. If no array is passed in,
-     * a new array is created.
-     * @param beginGlyphIndex the index of the first glyph
-     * @param numEntries the number of glyph indices
-     * @param codeReturn the array into which to return the character indices
-     * @return an array of character indices, one per glyph.
-     * @since 1.4
+     * Rfturns tif dibrbdtfr indidfs of tif spfdififd glypis.
+     * Tif dibrbdtfr indfx is tif indfx of tif first logidbl
+     * dibrbdtfr rfprfsfntfd by tif glypi.  Indidfs brf rfturnfd
+     * in glypi ordfr.  Tif dffbult implfmfntbtion invokfs
+     * gftGlypiCibrIndfx for fbdi glypi, bnd subdlbssfrs will probbbly
+     * wbnt to ovfrridf tiis implfmfntbtion for pfrformbndf rfbsons.
+     * Usf tiis mftiod for donvfnifndf bnd pfrformbndf
+     * in prodfssing of glypidodfs. If no brrby is pbssfd in,
+     * b nfw brrby is drfbtfd.
+     * @pbrbm bfginGlypiIndfx tif indfx of tif first glypi
+     * @pbrbm numEntrifs tif numbfr of glypi indidfs
+     * @pbrbm dodfRfturn tif brrby into wiidi to rfturn tif dibrbdtfr indidfs
+     * @rfturn bn brrby of dibrbdtfr indidfs, onf pfr glypi.
+     * @sindf 1.4
      */
-    public int[] getGlyphCharIndices(int beginGlyphIndex, int numEntries,
-                                     int[] codeReturn) {
-        if (codeReturn == null) {
-            codeReturn = new int[numEntries];
+    publid int[] gftGlypiCibrIndidfs(int bfginGlypiIndfx, int numEntrifs,
+                                     int[] dodfRfturn) {
+        if (dodfRfturn == null) {
+            dodfRfturn = nfw int[numEntrifs];
         }
-        for (int i = 0, j = beginGlyphIndex; i < numEntries; ++i, ++j) {
-            codeReturn[i] = getGlyphCharIndex(j);
+        for (int i = 0, j = bfginGlypiIndfx; i < numEntrifs; ++i, ++j) {
+            dodfRfturn[i] = gftGlypiCibrIndfx(j);
         }
-        return codeReturn;
+        rfturn dodfRfturn;
      }
 
     /**
-     * Returns the logical bounds of this <code>GlyphVector</code>.
-     * This method is used when positioning this <code>GlyphVector</code>
-     * in relation to visually adjacent <code>GlyphVector</code> objects.
-     * @return a {@link Rectangle2D} that is the logical bounds of this
-     * <code>GlyphVector</code>.
+     * Rfturns tif logidbl bounds of tiis <dodf>GlypiVfdtor</dodf>.
+     * Tiis mftiod is usfd wifn positioning tiis <dodf>GlypiVfdtor</dodf>
+     * in rflbtion to visublly bdjbdfnt <dodf>GlypiVfdtor</dodf> objfdts.
+     * @rfturn b {@link Rfdtbnglf2D} tibt is tif logidbl bounds of tiis
+     * <dodf>GlypiVfdtor</dodf>.
      */
-    public abstract Rectangle2D getLogicalBounds();
+    publid bbstrbdt Rfdtbnglf2D gftLogidblBounds();
 
     /**
-     * Returns the visual bounds of this <code>GlyphVector</code>
-     * The visual bounds is the bounding box of the outline of this
-     * <code>GlyphVector</code>.  Because of rasterization and
-     * alignment of pixels, it is possible that this box does not
-     * enclose all pixels affected by rendering this <code>GlyphVector</code>.
-     * @return a <code>Rectangle2D</code> that is the bounding box
-     * of this <code>GlyphVector</code>.
+     * Rfturns tif visubl bounds of tiis <dodf>GlypiVfdtor</dodf>
+     * Tif visubl bounds is tif bounding box of tif outlinf of tiis
+     * <dodf>GlypiVfdtor</dodf>.  Bfdbusf of rbstfrizbtion bnd
+     * blignmfnt of pixfls, it is possiblf tibt tiis box dofs not
+     * fndlosf bll pixfls bfffdtfd by rfndfring tiis <dodf>GlypiVfdtor</dodf>.
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> tibt is tif bounding box
+     * of tiis <dodf>GlypiVfdtor</dodf>.
      */
-    public abstract Rectangle2D getVisualBounds();
+    publid bbstrbdt Rfdtbnglf2D gftVisublBounds();
 
     /**
-     * Returns the pixel bounds of this <code>GlyphVector</code> when
-     * rendered in a graphics with the given
-     * <code>FontRenderContext</code> at the given location.  The
-     * renderFRC need not be the same as the
-     * <code>FontRenderContext</code> of this
-     * <code>GlyphVector</code>, and can be null.  If it is null, the
-     * <code>FontRenderContext</code> of this <code>GlyphVector</code>
-     * is used.  The default implementation returns the visual bounds,
-     * offset to x, y and rounded out to the next integer value (i.e. returns an
-     * integer rectangle which encloses the visual bounds) and
-     * ignores the FRC.  Subclassers should override this method.
-     * @param renderFRC the <code>FontRenderContext</code> of the <code>Graphics</code>.
-     * @param x the x-coordinate at which to render this <code>GlyphVector</code>.
-     * @param y the y-coordinate at which to render this <code>GlyphVector</code>.
-     * @return a <code>Rectangle</code> bounding the pixels that would be affected.
-     * @since 1.4
+     * Rfturns tif pixfl bounds of tiis <dodf>GlypiVfdtor</dodf> wifn
+     * rfndfrfd in b grbpiids witi tif givfn
+     * <dodf>FontRfndfrContfxt</dodf> bt tif givfn lodbtion.  Tif
+     * rfndfrFRC nffd not bf tif sbmf bs tif
+     * <dodf>FontRfndfrContfxt</dodf> of tiis
+     * <dodf>GlypiVfdtor</dodf>, bnd dbn bf null.  If it is null, tif
+     * <dodf>FontRfndfrContfxt</dodf> of tiis <dodf>GlypiVfdtor</dodf>
+     * is usfd.  Tif dffbult implfmfntbtion rfturns tif visubl bounds,
+     * offsft to x, y bnd roundfd out to tif nfxt intfgfr vbluf (i.f. rfturns bn
+     * intfgfr rfdtbnglf wiidi fndlosfs tif visubl bounds) bnd
+     * ignorfs tif FRC.  Subdlbssfrs siould ovfrridf tiis mftiod.
+     * @pbrbm rfndfrFRC tif <dodf>FontRfndfrContfxt</dodf> of tif <dodf>Grbpiids</dodf>.
+     * @pbrbm x tif x-doordinbtf bt wiidi to rfndfr tiis <dodf>GlypiVfdtor</dodf>.
+     * @pbrbm y tif y-doordinbtf bt wiidi to rfndfr tiis <dodf>GlypiVfdtor</dodf>.
+     * @rfturn b <dodf>Rfdtbnglf</dodf> bounding tif pixfls tibt would bf bfffdtfd.
+     * @sindf 1.4
      */
-    public Rectangle getPixelBounds(FontRenderContext renderFRC, float x, float y) {
-                Rectangle2D rect = getVisualBounds();
-                int l = (int)Math.floor(rect.getX() + x);
-                int t = (int)Math.floor(rect.getY() + y);
-                int r = (int)Math.ceil(rect.getMaxX() + x);
-                int b = (int)Math.ceil(rect.getMaxY() + y);
-                return new Rectangle(l, t, r - l, b - t);
+    publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt rfndfrFRC, flobt x, flobt y) {
+                Rfdtbnglf2D rfdt = gftVisublBounds();
+                int l = (int)Mbti.floor(rfdt.gftX() + x);
+                int t = (int)Mbti.floor(rfdt.gftY() + y);
+                int r = (int)Mbti.dfil(rfdt.gftMbxX() + x);
+                int b = (int)Mbti.dfil(rfdt.gftMbxY() + y);
+                rfturn nfw Rfdtbnglf(l, t, r - l, b - t);
         }
 
 
     /**
-     * Returns a <code>Shape</code> whose interior corresponds to the
-     * visual representation of this <code>GlyphVector</code>.
-     * @return a <code>Shape</code> that is the outline of this
-     * <code>GlyphVector</code>.
+     * Rfturns b <dodf>Sibpf</dodf> wiosf intfrior dorrfsponds to tif
+     * visubl rfprfsfntbtion of tiis <dodf>GlypiVfdtor</dodf>.
+     * @rfturn b <dodf>Sibpf</dodf> tibt is tif outlinf of tiis
+     * <dodf>GlypiVfdtor</dodf>.
      */
-    public abstract Shape getOutline();
+    publid bbstrbdt Sibpf gftOutlinf();
 
     /**
-     * Returns a <code>Shape</code> whose interior corresponds to the
-     * visual representation of this <code>GlyphVector</code> when
-     * rendered at x,&nbsp;y.
-     * @param x the X coordinate of this <code>GlyphVector</code>.
-     * @param y the Y coordinate of this <code>GlyphVector</code>.
-     * @return a <code>Shape</code> that is the outline of this
-     *   <code>GlyphVector</code> when rendered at the specified
-     *   coordinates.
+     * Rfturns b <dodf>Sibpf</dodf> wiosf intfrior dorrfsponds to tif
+     * visubl rfprfsfntbtion of tiis <dodf>GlypiVfdtor</dodf> wifn
+     * rfndfrfd bt x,&nbsp;y.
+     * @pbrbm x tif X doordinbtf of tiis <dodf>GlypiVfdtor</dodf>.
+     * @pbrbm y tif Y doordinbtf of tiis <dodf>GlypiVfdtor</dodf>.
+     * @rfturn b <dodf>Sibpf</dodf> tibt is tif outlinf of tiis
+     *   <dodf>GlypiVfdtor</dodf> wifn rfndfrfd bt tif spfdififd
+     *   doordinbtfs.
      */
-    public abstract Shape getOutline(float x, float y);
+    publid bbstrbdt Sibpf gftOutlinf(flobt x, flobt y);
 
     /**
-     * Returns a <code>Shape</code> whose interior corresponds to the
-     * visual representation of the specified glyph
-     * within this <code>GlyphVector</code>.
-     * The outline returned by this method is positioned around the
-     * origin of each individual glyph.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @return a <code>Shape</code> that is the outline of the glyph
-     *   at the specified <code>glyphIndex</code> of this
-     *   <code>GlyphVector</code>.
-     * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
-     *   of glyphs in this <code>GlyphVector</code>
+     * Rfturns b <dodf>Sibpf</dodf> wiosf intfrior dorrfsponds to tif
+     * visubl rfprfsfntbtion of tif spfdififd glypi
+     * witiin tiis <dodf>GlypiVfdtor</dodf>.
+     * Tif outlinf rfturnfd by tiis mftiod is positionfd bround tif
+     * origin of fbdi individubl glypi.
+     * @pbrbm glypiIndfx tif indfx into tiis <dodf>GlypiVfdtor</dodf>
+     * @rfturn b <dodf>Sibpf</dodf> tibt is tif outlinf of tif glypi
+     *   bt tif spfdififd <dodf>glypiIndfx</dodf> of tiis
+     *   <dodf>GlypiVfdtor</dodf>.
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>glypiIndfx</dodf>
+     *   is lfss tibn 0 or grfbtfr tibn or fqubl to tif numbfr
+     *   of glypis in tiis <dodf>GlypiVfdtor</dodf>
      */
-    public abstract Shape getGlyphOutline(int glyphIndex);
+    publid bbstrbdt Sibpf gftGlypiOutlinf(int glypiIndfx);
 
     /**
-     * Returns a <code>Shape</code> whose interior corresponds to the
-     * visual representation of the specified glyph
-     * within this <code>GlyphVector</code>, offset to x,&nbsp;y.
-     * The outline returned by this method is positioned around the
-     * origin of each individual glyph.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @param x the X coordinate of the location of this {@code GlyphVector}
-     * @param y the Y coordinate of the location of this {@code GlyphVector}
-     * @return a <code>Shape</code> that is the outline of the glyph
-     *   at the specified <code>glyphIndex</code> of this
-     *   <code>GlyphVector</code> when rendered at the specified
-     *   coordinates.
-     * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
-     *   of glyphs in this <code>GlyphVector</code>
-     * @since 1.4
+     * Rfturns b <dodf>Sibpf</dodf> wiosf intfrior dorrfsponds to tif
+     * visubl rfprfsfntbtion of tif spfdififd glypi
+     * witiin tiis <dodf>GlypiVfdtor</dodf>, offsft to x,&nbsp;y.
+     * Tif outlinf rfturnfd by tiis mftiod is positionfd bround tif
+     * origin of fbdi individubl glypi.
+     * @pbrbm glypiIndfx tif indfx into tiis <dodf>GlypiVfdtor</dodf>
+     * @pbrbm x tif X doordinbtf of tif lodbtion of tiis {@dodf GlypiVfdtor}
+     * @pbrbm y tif Y doordinbtf of tif lodbtion of tiis {@dodf GlypiVfdtor}
+     * @rfturn b <dodf>Sibpf</dodf> tibt is tif outlinf of tif glypi
+     *   bt tif spfdififd <dodf>glypiIndfx</dodf> of tiis
+     *   <dodf>GlypiVfdtor</dodf> wifn rfndfrfd bt tif spfdififd
+     *   doordinbtfs.
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>glypiIndfx</dodf>
+     *   is lfss tibn 0 or grfbtfr tibn or fqubl to tif numbfr
+     *   of glypis in tiis <dodf>GlypiVfdtor</dodf>
+     * @sindf 1.4
      */
-    public Shape getGlyphOutline(int glyphIndex, float x, float y) {
-        Shape s = getGlyphOutline(glyphIndex);
-        AffineTransform at = AffineTransform.getTranslateInstance(x,y);
-        return at.createTransformedShape(s);
+    publid Sibpf gftGlypiOutlinf(int glypiIndfx, flobt x, flobt y) {
+        Sibpf s = gftGlypiOutlinf(glypiIndfx);
+        AffinfTrbnsform bt = AffinfTrbnsform.gftTrbnslbtfInstbndf(x,y);
+        rfturn bt.drfbtfTrbnsformfdSibpf(s);
         }
 
     /**
-     * Returns the position of the specified glyph relative to the
-     * origin of this <code>GlyphVector</code>.
-     * If <code>glyphIndex</code> equals the number of of glyphs in
-     * this <code>GlyphVector</code>, this method returns the position after
-     * the last glyph. This position is used to define the advance of
-     * the entire <code>GlyphVector</code>.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @return a {@link Point2D} object that is the position of the glyph
-     *   at the specified <code>glyphIndex</code>.
-     * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than the number of glyphs
-     *   in this <code>GlyphVector</code>
-     * @see #setGlyphPosition
+     * Rfturns tif position of tif spfdififd glypi rflbtivf to tif
+     * origin of tiis <dodf>GlypiVfdtor</dodf>.
+     * If <dodf>glypiIndfx</dodf> fqubls tif numbfr of of glypis in
+     * tiis <dodf>GlypiVfdtor</dodf>, tiis mftiod rfturns tif position bftfr
+     * tif lbst glypi. Tiis position is usfd to dffinf tif bdvbndf of
+     * tif fntirf <dodf>GlypiVfdtor</dodf>.
+     * @pbrbm glypiIndfx tif indfx into tiis <dodf>GlypiVfdtor</dodf>
+     * @rfturn b {@link Point2D} objfdt tibt is tif position of tif glypi
+     *   bt tif spfdififd <dodf>glypiIndfx</dodf>.
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>glypiIndfx</dodf>
+     *   is lfss tibn 0 or grfbtfr tibn tif numbfr of glypis
+     *   in tiis <dodf>GlypiVfdtor</dodf>
+     * @sff #sftGlypiPosition
      */
-    public abstract Point2D getGlyphPosition(int glyphIndex);
+    publid bbstrbdt Point2D gftGlypiPosition(int glypiIndfx);
 
     /**
-     * Sets the position of the specified glyph within this
-     * <code>GlyphVector</code>.
-     * If <code>glyphIndex</code> equals the number of of glyphs in
-     * this <code>GlyphVector</code>, this method sets the position after
-     * the last glyph. This position is used to define the advance of
-     * the entire <code>GlyphVector</code>.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @param newPos the <code>Point2D</code> at which to position the
-     *   glyph at the specified <code>glyphIndex</code>
-     * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than the number of glyphs
-     *   in this <code>GlyphVector</code>
-     * @see #getGlyphPosition
+     * Sfts tif position of tif spfdififd glypi witiin tiis
+     * <dodf>GlypiVfdtor</dodf>.
+     * If <dodf>glypiIndfx</dodf> fqubls tif numbfr of of glypis in
+     * tiis <dodf>GlypiVfdtor</dodf>, tiis mftiod sfts tif position bftfr
+     * tif lbst glypi. Tiis position is usfd to dffinf tif bdvbndf of
+     * tif fntirf <dodf>GlypiVfdtor</dodf>.
+     * @pbrbm glypiIndfx tif indfx into tiis <dodf>GlypiVfdtor</dodf>
+     * @pbrbm nfwPos tif <dodf>Point2D</dodf> bt wiidi to position tif
+     *   glypi bt tif spfdififd <dodf>glypiIndfx</dodf>
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>glypiIndfx</dodf>
+     *   is lfss tibn 0 or grfbtfr tibn tif numbfr of glypis
+     *   in tiis <dodf>GlypiVfdtor</dodf>
+     * @sff #gftGlypiPosition
      */
-    public abstract void setGlyphPosition(int glyphIndex, Point2D newPos);
+    publid bbstrbdt void sftGlypiPosition(int glypiIndfx, Point2D nfwPos);
 
     /**
-     * Returns the transform of the specified glyph within this
-     * <code>GlyphVector</code>.  The transform is relative to the
-     * glyph position.  If no special transform has been applied,
-     * <code>null</code> can be returned.  A null return indicates
-     * an identity transform.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @return an {@link AffineTransform} that is the transform of
-     *   the glyph at the specified <code>glyphIndex</code>.
-     * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
-     *   of glyphs in this <code>GlyphVector</code>
-     * @see #setGlyphTransform
+     * Rfturns tif trbnsform of tif spfdififd glypi witiin tiis
+     * <dodf>GlypiVfdtor</dodf>.  Tif trbnsform is rflbtivf to tif
+     * glypi position.  If no spfdibl trbnsform ibs bffn bpplifd,
+     * <dodf>null</dodf> dbn bf rfturnfd.  A null rfturn indidbtfs
+     * bn idfntity trbnsform.
+     * @pbrbm glypiIndfx tif indfx into tiis <dodf>GlypiVfdtor</dodf>
+     * @rfturn bn {@link AffinfTrbnsform} tibt is tif trbnsform of
+     *   tif glypi bt tif spfdififd <dodf>glypiIndfx</dodf>.
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>glypiIndfx</dodf>
+     *   is lfss tibn 0 or grfbtfr tibn or fqubl to tif numbfr
+     *   of glypis in tiis <dodf>GlypiVfdtor</dodf>
+     * @sff #sftGlypiTrbnsform
      */
-    public abstract AffineTransform getGlyphTransform(int glyphIndex);
+    publid bbstrbdt AffinfTrbnsform gftGlypiTrbnsform(int glypiIndfx);
 
     /**
-     * Sets the transform of the specified glyph within this
-     * <code>GlyphVector</code>.  The transform is relative to the glyph
-     * position.  A <code>null</code> argument for <code>newTX</code>
-     * indicates that no special transform is applied for the specified
-     * glyph.
-     * This method can be used to rotate, mirror, translate and scale the
-     * glyph.  Adding a transform can result in significant performance changes.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @param newTX the new transform of the glyph at <code>glyphIndex</code>
-     * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
-     *   of glyphs in this <code>GlyphVector</code>
-     * @see #getGlyphTransform
+     * Sfts tif trbnsform of tif spfdififd glypi witiin tiis
+     * <dodf>GlypiVfdtor</dodf>.  Tif trbnsform is rflbtivf to tif glypi
+     * position.  A <dodf>null</dodf> brgumfnt for <dodf>nfwTX</dodf>
+     * indidbtfs tibt no spfdibl trbnsform is bpplifd for tif spfdififd
+     * glypi.
+     * Tiis mftiod dbn bf usfd to rotbtf, mirror, trbnslbtf bnd sdblf tif
+     * glypi.  Adding b trbnsform dbn rfsult in signifidbnt pfrformbndf dibngfs.
+     * @pbrbm glypiIndfx tif indfx into tiis <dodf>GlypiVfdtor</dodf>
+     * @pbrbm nfwTX tif nfw trbnsform of tif glypi bt <dodf>glypiIndfx</dodf>
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>glypiIndfx</dodf>
+     *   is lfss tibn 0 or grfbtfr tibn or fqubl to tif numbfr
+     *   of glypis in tiis <dodf>GlypiVfdtor</dodf>
+     * @sff #gftGlypiTrbnsform
      */
-    public abstract void setGlyphTransform(int glyphIndex, AffineTransform newTX);
+    publid bbstrbdt void sftGlypiTrbnsform(int glypiIndfx, AffinfTrbnsform nfwTX);
 
     /**
-     * Returns flags describing the global state of the GlyphVector.
-     * Flags not described below are reserved.  The default
-     * implementation returns 0 (meaning false) for the position adjustments,
-     * transforms, rtl, and complex flags.
-     * Subclassers should override this method, and make sure
-     * it correctly describes the GlyphVector and corresponds
-     * to the results of related calls.
-     * @return an int containing the flags describing the state
-     * @see #FLAG_HAS_POSITION_ADJUSTMENTS
-     * @see #FLAG_HAS_TRANSFORMS
-     * @see #FLAG_RUN_RTL
-     * @see #FLAG_COMPLEX_GLYPHS
-     * @see #FLAG_MASK
-     * @since 1.4
+     * Rfturns flbgs dfsdribing tif globbl stbtf of tif GlypiVfdtor.
+     * Flbgs not dfsdribfd bflow brf rfsfrvfd.  Tif dffbult
+     * implfmfntbtion rfturns 0 (mfbning fblsf) for tif position bdjustmfnts,
+     * trbnsforms, rtl, bnd domplfx flbgs.
+     * Subdlbssfrs siould ovfrridf tiis mftiod, bnd mbkf surf
+     * it dorrfdtly dfsdribfs tif GlypiVfdtor bnd dorrfsponds
+     * to tif rfsults of rflbtfd dblls.
+     * @rfturn bn int dontbining tif flbgs dfsdribing tif stbtf
+     * @sff #FLAG_HAS_POSITION_ADJUSTMENTS
+     * @sff #FLAG_HAS_TRANSFORMS
+     * @sff #FLAG_RUN_RTL
+     * @sff #FLAG_COMPLEX_GLYPHS
+     * @sff #FLAG_MASK
+     * @sindf 1.4
      */
-    public int getLayoutFlags() {
-                return 0;
+    publid int gftLbyoutFlbgs() {
+                rfturn 0;
         }
 
     /**
-     * A flag used with getLayoutFlags that indicates that this <code>GlyphVector</code> has
-     * per-glyph transforms.
-     * @since 1.4
+     * A flbg usfd witi gftLbyoutFlbgs tibt indidbtfs tibt tiis <dodf>GlypiVfdtor</dodf> ibs
+     * pfr-glypi trbnsforms.
+     * @sindf 1.4
      */
-    public static final int FLAG_HAS_TRANSFORMS = 1;
+    publid stbtid finbl int FLAG_HAS_TRANSFORMS = 1;
 
     /**
-     * A flag used with getLayoutFlags that indicates that this <code>GlyphVector</code> has
-     * position adjustments.  When this is true, the glyph positions don't match the
-     * accumulated default advances of the glyphs (for example, if kerning has been done).
-     * @since 1.4
+     * A flbg usfd witi gftLbyoutFlbgs tibt indidbtfs tibt tiis <dodf>GlypiVfdtor</dodf> ibs
+     * position bdjustmfnts.  Wifn tiis is truf, tif glypi positions don't mbtdi tif
+     * bddumulbtfd dffbult bdvbndfs of tif glypis (for fxbmplf, if kfrning ibs bffn donf).
+     * @sindf 1.4
      */
-    public static final int FLAG_HAS_POSITION_ADJUSTMENTS = 2;
+    publid stbtid finbl int FLAG_HAS_POSITION_ADJUSTMENTS = 2;
 
     /**
-     * A flag used with getLayoutFlags that indicates that this <code>GlyphVector</code> has
-     * a right-to-left run direction.  This refers to the glyph-to-char mapping and does
-     * not imply that the visual locations of the glyphs are necessarily in this order,
-     * although generally they will be.
-     * @since 1.4
+     * A flbg usfd witi gftLbyoutFlbgs tibt indidbtfs tibt tiis <dodf>GlypiVfdtor</dodf> ibs
+     * b rigit-to-lfft run dirfdtion.  Tiis rfffrs to tif glypi-to-dibr mbpping bnd dofs
+     * not imply tibt tif visubl lodbtions of tif glypis brf nfdfssbrily in tiis ordfr,
+     * bltiougi gfnfrblly tify will bf.
+     * @sindf 1.4
      */
-    public static final int FLAG_RUN_RTL = 4;
+    publid stbtid finbl int FLAG_RUN_RTL = 4;
 
     /**
-     * A flag used with getLayoutFlags that indicates that this <code>GlyphVector</code> has
-     * a complex glyph-to-char mapping (one that does not map glyphs to chars one-to-one in
-     * strictly ascending or descending order matching the run direction).
-     * @since 1.4
+     * A flbg usfd witi gftLbyoutFlbgs tibt indidbtfs tibt tiis <dodf>GlypiVfdtor</dodf> ibs
+     * b domplfx glypi-to-dibr mbpping (onf tibt dofs not mbp glypis to dibrs onf-to-onf in
+     * stridtly bsdfnding or dfsdfnding ordfr mbtdiing tif run dirfdtion).
+     * @sindf 1.4
      */
-    public static final int FLAG_COMPLEX_GLYPHS = 8;
+    publid stbtid finbl int FLAG_COMPLEX_GLYPHS = 8;
 
     /**
-     * A mask for supported flags from getLayoutFlags.  Only bits covered by the mask
-     * should be tested.
-     * @since 1.4
+     * A mbsk for supportfd flbgs from gftLbyoutFlbgs.  Only bits dovfrfd by tif mbsk
+     * siould bf tfstfd.
+     * @sindf 1.4
      */
-    public static final int FLAG_MASK =
+    publid stbtid finbl int FLAG_MASK =
         FLAG_HAS_TRANSFORMS |
         FLAG_HAS_POSITION_ADJUSTMENTS |
         FLAG_RUN_RTL |
         FLAG_COMPLEX_GLYPHS;
 
     /**
-     * Returns an array of glyph positions for the specified glyphs.
-     * This method is used for convenience and performance when
-     * processing glyph positions.
-     * If no array is passed in, a new array is created.
-     * Even numbered array entries beginning with position zero are the X
-     * coordinates of the glyph numbered <code>beginGlyphIndex + position/2</code>.
-     * Odd numbered array entries beginning with position one are the Y
-     * coordinates of the glyph numbered <code>beginGlyphIndex + (position-1)/2</code>.
-     * If <code>beginGlyphIndex</code> equals the number of of glyphs in
-     * this <code>GlyphVector</code>, this method gets the position after
-     * the last glyph and this position is used to define the advance of
-     * the entire <code>GlyphVector</code>.
-     * @param beginGlyphIndex the index at which to begin retrieving
-     *   glyph positions
-     * @param numEntries the number of glyphs to retrieve
-     * @param positionReturn the array that receives the glyph positions
-     *   and is then returned.
-     * @return an array of glyph positions specified by
-     *  <code>beginGlyphIndex</code> and <code>numEntries</code>.
-     * @throws IllegalArgumentException if <code>numEntries</code> is
-     *   less than 0
-     * @throws IndexOutOfBoundsException if <code>beginGlyphIndex</code>
-     *   is less than 0
-     * @throws IndexOutOfBoundsException if the sum of
-     *   <code>beginGlyphIndex</code> and <code>numEntries</code>
-     *   is greater than the number of glyphs in this
-     *   <code>GlyphVector</code> plus one
+     * Rfturns bn brrby of glypi positions for tif spfdififd glypis.
+     * Tiis mftiod is usfd for donvfnifndf bnd pfrformbndf wifn
+     * prodfssing glypi positions.
+     * If no brrby is pbssfd in, b nfw brrby is drfbtfd.
+     * Evfn numbfrfd brrby fntrifs bfginning witi position zfro brf tif X
+     * doordinbtfs of tif glypi numbfrfd <dodf>bfginGlypiIndfx + position/2</dodf>.
+     * Odd numbfrfd brrby fntrifs bfginning witi position onf brf tif Y
+     * doordinbtfs of tif glypi numbfrfd <dodf>bfginGlypiIndfx + (position-1)/2</dodf>.
+     * If <dodf>bfginGlypiIndfx</dodf> fqubls tif numbfr of of glypis in
+     * tiis <dodf>GlypiVfdtor</dodf>, tiis mftiod gfts tif position bftfr
+     * tif lbst glypi bnd tiis position is usfd to dffinf tif bdvbndf of
+     * tif fntirf <dodf>GlypiVfdtor</dodf>.
+     * @pbrbm bfginGlypiIndfx tif indfx bt wiidi to bfgin rftrifving
+     *   glypi positions
+     * @pbrbm numEntrifs tif numbfr of glypis to rftrifvf
+     * @pbrbm positionRfturn tif brrby tibt rfdfivfs tif glypi positions
+     *   bnd is tifn rfturnfd.
+     * @rfturn bn brrby of glypi positions spfdififd by
+     *  <dodf>bfginGlypiIndfx</dodf> bnd <dodf>numEntrifs</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>numEntrifs</dodf> is
+     *   lfss tibn 0
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>bfginGlypiIndfx</dodf>
+     *   is lfss tibn 0
+     * @tirows IndfxOutOfBoundsExdfption if tif sum of
+     *   <dodf>bfginGlypiIndfx</dodf> bnd <dodf>numEntrifs</dodf>
+     *   is grfbtfr tibn tif numbfr of glypis in tiis
+     *   <dodf>GlypiVfdtor</dodf> plus onf
      */
-    public abstract float[] getGlyphPositions(int beginGlyphIndex, int numEntries,
-                                              float[] positionReturn);
+    publid bbstrbdt flobt[] gftGlypiPositions(int bfginGlypiIndfx, int numEntrifs,
+                                              flobt[] positionRfturn);
 
     /**
-     * Returns the logical bounds of the specified glyph within this
-     * <code>GlyphVector</code>.
-     * These logical bounds have a total of four edges, with two edges
-     * parallel to the baseline under the glyph's transform and the other two
-     * edges are shared with adjacent glyphs if they are present.  This
-     * method is useful for hit-testing of the specified glyph,
-     * positioning of a caret at the leading or trailing edge of a glyph,
-     * and for drawing a highlight region around the specified glyph.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     *   that corresponds to the glyph from which to retrieve its logical
+     * Rfturns tif logidbl bounds of tif spfdififd glypi witiin tiis
+     * <dodf>GlypiVfdtor</dodf>.
+     * Tifsf logidbl bounds ibvf b totbl of four fdgfs, witi two fdgfs
+     * pbrbllfl to tif bbsflinf undfr tif glypi's trbnsform bnd tif otifr two
+     * fdgfs brf sibrfd witi bdjbdfnt glypis if tify brf prfsfnt.  Tiis
+     * mftiod is usfful for iit-tfsting of tif spfdififd glypi,
+     * positioning of b dbrft bt tif lfbding or trbiling fdgf of b glypi,
+     * bnd for drbwing b iigiligit rfgion bround tif spfdififd glypi.
+     * @pbrbm glypiIndfx tif indfx into tiis <dodf>GlypiVfdtor</dodf>
+     *   tibt dorrfsponds to tif glypi from wiidi to rftrifvf its logidbl
      *   bounds
-     * @return  a <code>Shape</code> that is the logical bounds of the
-     *   glyph at the specified <code>glyphIndex</code>.
-     * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
-     *   of glyphs in this <code>GlyphVector</code>
-     * @see #getGlyphVisualBounds
+     * @rfturn  b <dodf>Sibpf</dodf> tibt is tif logidbl bounds of tif
+     *   glypi bt tif spfdififd <dodf>glypiIndfx</dodf>.
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>glypiIndfx</dodf>
+     *   is lfss tibn 0 or grfbtfr tibn or fqubl to tif numbfr
+     *   of glypis in tiis <dodf>GlypiVfdtor</dodf>
+     * @sff #gftGlypiVisublBounds
      */
-    public abstract Shape getGlyphLogicalBounds(int glyphIndex);
+    publid bbstrbdt Sibpf gftGlypiLogidblBounds(int glypiIndfx);
 
     /**
-     * Returns the visual bounds of the specified glyph within the
-     * <code>GlyphVector</code>.
-     * The bounds returned by this method is positioned around the
-     * origin of each individual glyph.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     *   that corresponds to the glyph from which to retrieve its visual
+     * Rfturns tif visubl bounds of tif spfdififd glypi witiin tif
+     * <dodf>GlypiVfdtor</dodf>.
+     * Tif bounds rfturnfd by tiis mftiod is positionfd bround tif
+     * origin of fbdi individubl glypi.
+     * @pbrbm glypiIndfx tif indfx into tiis <dodf>GlypiVfdtor</dodf>
+     *   tibt dorrfsponds to tif glypi from wiidi to rftrifvf its visubl
      *   bounds
-     * @return a <code>Shape</code> that is the visual bounds of the
-     *   glyph at the specified <code>glyphIndex</code>.
-     * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
-     *   of glyphs in this <code>GlyphVector</code>
-     * @see #getGlyphLogicalBounds
+     * @rfturn b <dodf>Sibpf</dodf> tibt is tif visubl bounds of tif
+     *   glypi bt tif spfdififd <dodf>glypiIndfx</dodf>.
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>glypiIndfx</dodf>
+     *   is lfss tibn 0 or grfbtfr tibn or fqubl to tif numbfr
+     *   of glypis in tiis <dodf>GlypiVfdtor</dodf>
+     * @sff #gftGlypiLogidblBounds
      */
-    public abstract Shape getGlyphVisualBounds(int glyphIndex);
+    publid bbstrbdt Sibpf gftGlypiVisublBounds(int glypiIndfx);
 
     /**
-     * Returns the pixel bounds of the glyph at index when this
-     * <code>GlyphVector</code> is rendered in a <code>Graphics</code> with the
-     * given <code>FontRenderContext</code> at the given location. The
-     * renderFRC need not be the same as the
-     * <code>FontRenderContext</code> of this
-     * <code>GlyphVector</code>, and can be null.  If it is null, the
-     * <code>FontRenderContext</code> of this <code>GlyphVector</code>
-     * is used.  The default implementation returns the visual bounds of the glyph,
-     * offset to x, y and rounded out to the next integer value, and
-     * ignores the FRC.  Subclassers should override this method.
-     * @param index the index of the glyph.
-     * @param renderFRC the <code>FontRenderContext</code> of the <code>Graphics</code>.
-     * @param x the X position at which to render this <code>GlyphVector</code>.
-     * @param y the Y position at which to render this <code>GlyphVector</code>.
-     * @return a <code>Rectangle</code> bounding the pixels that would be affected.
-     * @since 1.4
+     * Rfturns tif pixfl bounds of tif glypi bt indfx wifn tiis
+     * <dodf>GlypiVfdtor</dodf> is rfndfrfd in b <dodf>Grbpiids</dodf> witi tif
+     * givfn <dodf>FontRfndfrContfxt</dodf> bt tif givfn lodbtion. Tif
+     * rfndfrFRC nffd not bf tif sbmf bs tif
+     * <dodf>FontRfndfrContfxt</dodf> of tiis
+     * <dodf>GlypiVfdtor</dodf>, bnd dbn bf null.  If it is null, tif
+     * <dodf>FontRfndfrContfxt</dodf> of tiis <dodf>GlypiVfdtor</dodf>
+     * is usfd.  Tif dffbult implfmfntbtion rfturns tif visubl bounds of tif glypi,
+     * offsft to x, y bnd roundfd out to tif nfxt intfgfr vbluf, bnd
+     * ignorfs tif FRC.  Subdlbssfrs siould ovfrridf tiis mftiod.
+     * @pbrbm indfx tif indfx of tif glypi.
+     * @pbrbm rfndfrFRC tif <dodf>FontRfndfrContfxt</dodf> of tif <dodf>Grbpiids</dodf>.
+     * @pbrbm x tif X position bt wiidi to rfndfr tiis <dodf>GlypiVfdtor</dodf>.
+     * @pbrbm y tif Y position bt wiidi to rfndfr tiis <dodf>GlypiVfdtor</dodf>.
+     * @rfturn b <dodf>Rfdtbnglf</dodf> bounding tif pixfls tibt would bf bfffdtfd.
+     * @sindf 1.4
      */
-    public Rectangle getGlyphPixelBounds(int index, FontRenderContext renderFRC, float x, float y) {
-                Rectangle2D rect = getGlyphVisualBounds(index).getBounds2D();
-                int l = (int)Math.floor(rect.getX() + x);
-                int t = (int)Math.floor(rect.getY() + y);
-                int r = (int)Math.ceil(rect.getMaxX() + x);
-                int b = (int)Math.ceil(rect.getMaxY() + y);
-                return new Rectangle(l, t, r - l, b - t);
+    publid Rfdtbnglf gftGlypiPixflBounds(int indfx, FontRfndfrContfxt rfndfrFRC, flobt x, flobt y) {
+                Rfdtbnglf2D rfdt = gftGlypiVisublBounds(indfx).gftBounds2D();
+                int l = (int)Mbti.floor(rfdt.gftX() + x);
+                int t = (int)Mbti.floor(rfdt.gftY() + y);
+                int r = (int)Mbti.dfil(rfdt.gftMbxX() + x);
+                int b = (int)Mbti.dfil(rfdt.gftMbxY() + y);
+                rfturn nfw Rfdtbnglf(l, t, r - l, b - t);
         }
 
     /**
-     * Returns the metrics of the glyph at the specified index into
-     * this <code>GlyphVector</code>.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     *   that corresponds to the glyph from which to retrieve its metrics
-     * @return a {@link GlyphMetrics} object that represents the
-     *   metrics of the glyph at the specified <code>glyphIndex</code>
-     *   into this <code>GlyphVector</code>.
-     * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
-     *   of glyphs in this <code>GlyphVector</code>
+     * Rfturns tif mftrids of tif glypi bt tif spfdififd indfx into
+     * tiis <dodf>GlypiVfdtor</dodf>.
+     * @pbrbm glypiIndfx tif indfx into tiis <dodf>GlypiVfdtor</dodf>
+     *   tibt dorrfsponds to tif glypi from wiidi to rftrifvf its mftrids
+     * @rfturn b {@link GlypiMftrids} objfdt tibt rfprfsfnts tif
+     *   mftrids of tif glypi bt tif spfdififd <dodf>glypiIndfx</dodf>
+     *   into tiis <dodf>GlypiVfdtor</dodf>.
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>glypiIndfx</dodf>
+     *   is lfss tibn 0 or grfbtfr tibn or fqubl to tif numbfr
+     *   of glypis in tiis <dodf>GlypiVfdtor</dodf>
      */
-    public abstract GlyphMetrics getGlyphMetrics(int glyphIndex);
+    publid bbstrbdt GlypiMftrids gftGlypiMftrids(int glypiIndfx);
 
     /**
-     * Returns the justification information for the glyph at
-     * the specified index into this <code>GlyphVector</code>.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     *   that corresponds to the glyph from which to retrieve its
-     *   justification properties
-     * @return a {@link GlyphJustificationInfo} object that
-     *   represents the justification properties of the glyph at the
-     *   specified <code>glyphIndex</code> into this
-     *   <code>GlyphVector</code>.
-     * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
-     *   of glyphs in this <code>GlyphVector</code>
+     * Rfturns tif justifidbtion informbtion for tif glypi bt
+     * tif spfdififd indfx into tiis <dodf>GlypiVfdtor</dodf>.
+     * @pbrbm glypiIndfx tif indfx into tiis <dodf>GlypiVfdtor</dodf>
+     *   tibt dorrfsponds to tif glypi from wiidi to rftrifvf its
+     *   justifidbtion propfrtifs
+     * @rfturn b {@link GlypiJustifidbtionInfo} objfdt tibt
+     *   rfprfsfnts tif justifidbtion propfrtifs of tif glypi bt tif
+     *   spfdififd <dodf>glypiIndfx</dodf> into tiis
+     *   <dodf>GlypiVfdtor</dodf>.
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>glypiIndfx</dodf>
+     *   is lfss tibn 0 or grfbtfr tibn or fqubl to tif numbfr
+     *   of glypis in tiis <dodf>GlypiVfdtor</dodf>
      */
-    public abstract GlyphJustificationInfo getGlyphJustificationInfo(int glyphIndex);
+    publid bbstrbdt GlypiJustifidbtionInfo gftGlypiJustifidbtionInfo(int glypiIndfx);
 
     //
-    // general utility methods
+    // gfnfrbl utility mftiods
     //
 
     /**
-     * Tests if the specified <code>GlyphVector</code> exactly
-     * equals this <code>GlyphVector</code>.
-     * @param set the specified <code>GlyphVector</code> to test
-     * @return <code>true</code> if the specified
-     *   <code>GlyphVector</code> equals this <code>GlyphVector</code>;
-     *   <code>false</code> otherwise.
+     * Tfsts if tif spfdififd <dodf>GlypiVfdtor</dodf> fxbdtly
+     * fqubls tiis <dodf>GlypiVfdtor</dodf>.
+     * @pbrbm sft tif spfdififd <dodf>GlypiVfdtor</dodf> to tfst
+     * @rfturn <dodf>truf</dodf> if tif spfdififd
+     *   <dodf>GlypiVfdtor</dodf> fqubls tiis <dodf>GlypiVfdtor</dodf>;
+     *   <dodf>fblsf</dodf> otifrwisf.
      */
-    public abstract boolean equals(GlyphVector set);
+    publid bbstrbdt boolfbn fqubls(GlypiVfdtor sft);
 }

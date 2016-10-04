@@ -1,555 +1,555 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.util.*;
-import java.awt.*;
-import java.text.AttributedCharacterIterator;
-import java.text.BreakIterator;
-import java.awt.font.*;
-import java.awt.geom.AffineTransform;
-import javax.swing.JComponent;
-import javax.swing.event.DocumentEvent;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvb.bwt.font.*;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
 import sun.font.BidiUtils;
 
 /**
- * A flow strategy that uses java.awt.font.LineBreakMeasureer to
- * produce java.awt.font.TextLayout for i18n capable rendering.
- * If the child view being placed into the flow is of type
- * GlyphView and can be rendered by TextLayout, a GlyphPainter
- * that uses TextLayout is plugged into the GlyphView.
+ * A flow strbtfgy tibt usfs jbvb.bwt.font.LinfBrfbkMfbsurffr to
+ * produdf jbvb.bwt.font.TfxtLbyout for i18n dbpbblf rfndfring.
+ * If tif diild vifw bfing plbdfd into tif flow is of typf
+ * GlypiVifw bnd dbn bf rfndfrfd by TfxtLbyout, b GlypiPbintfr
+ * tibt usfs TfxtLbyout is pluggfd into tif GlypiVifw.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-class TextLayoutStrategy extends FlowView.FlowStrategy {
+dlbss TfxtLbyoutStrbtfgy fxtfnds FlowVifw.FlowStrbtfgy {
 
     /**
-     * Constructs a layout strategy for paragraphs based
-     * upon java.awt.font.LineBreakMeasurer.
+     * Construdts b lbyout strbtfgy for pbrbgrbpis bbsfd
+     * upon jbvb.bwt.font.LinfBrfbkMfbsurfr.
      */
-    public TextLayoutStrategy() {
-        text = new AttributedSegment();
+    publid TfxtLbyoutStrbtfgy() {
+        tfxt = nfw AttributfdSfgmfnt();
     }
 
-    // --- FlowStrategy methods --------------------------------------------
+    // --- FlowStrbtfgy mftiods --------------------------------------------
 
     /**
-     * Gives notification that something was inserted into the document
-     * in a location that the given flow view is responsible for.  The
-     * strategy should update the appropriate changed region (which
-     * depends upon the strategy used for repair).
+     * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+     * in b lodbtion tibt tif givfn flow vifw is rfsponsiblf for.  Tif
+     * strbtfgy siould updbtf tif bppropribtf dibngfd rfgion (wiidi
+     * dfpfnds upon tif strbtfgy usfd for rfpbir).
      *
-     * @param e the change information from the associated document
-     * @param alloc the current allocation of the view inside of the insets.
-     *   This value will be null if the view has not yet been displayed.
-     * @see View#insertUpdate
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm bllod tif durrfnt bllodbtion of tif vifw insidf of tif insfts.
+     *   Tiis vbluf will bf null if tif vifw ibs not yft bffn displbyfd.
+     * @sff Vifw#insfrtUpdbtf
      */
-    public void insertUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
-        sync(fv);
-        super.insertUpdate(fv, e, alloc);
-    }
-
-    /**
-     * Gives notification that something was removed from the document
-     * in a location that the given flow view is responsible for.
-     *
-     * @param e the change information from the associated document
-     * @param alloc the current allocation of the view inside of the insets.
-     * @see View#removeUpdate
-     */
-    public void removeUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
-        sync(fv);
-        super.removeUpdate(fv, e, alloc);
+    publid void insfrtUpdbtf(FlowVifw fv, DodumfntEvfnt f, Rfdtbnglf bllod) {
+        synd(fv);
+        supfr.insfrtUpdbtf(fv, f, bllod);
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
+     * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+     * in b lodbtion tibt tif givfn flow vifw is rfsponsiblf for.
      *
-     * @param changes the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm bllod tif durrfnt bllodbtion of tif vifw insidf of tif insfts.
+     * @sff Vifw#rfmovfUpdbtf
      */
-    public void changedUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
-        sync(fv);
-        super.changedUpdate(fv, e, alloc);
+    publid void rfmovfUpdbtf(FlowVifw fv, DodumfntEvfnt f, Rfdtbnglf bllod) {
+        synd(fv);
+        supfr.rfmovfUpdbtf(fv, f, bllod);
     }
 
     /**
-     * Does a a full layout on the given View.  This causes all of
-     * the rows (child views) to be rebuilt to match the given
-     * constraints for each row.  This is called by a FlowView.layout
-     * to update the child views in the flow.
+     * Givfs notifidbtion from tif dodumfnt tibt bttributfs wfrf dibngfd
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
      *
-     * @param fv the view to reflow
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#dibngfdUpdbtf
      */
-    public void layout(FlowView fv) {
-        super.layout(fv);
+    publid void dibngfdUpdbtf(FlowVifw fv, DodumfntEvfnt f, Rfdtbnglf bllod) {
+        synd(fv);
+        supfr.dibngfdUpdbtf(fv, f, bllod);
     }
 
     /**
-     * Creates a row of views that will fit within the
-     * layout span of the row.  This is implemented to execute the
-     * superclass functionality (which fills the row with child
-     * views or view fragments) and follow that with bidi reordering
-     * of the unidirectional view fragments.
+     * Dofs b b full lbyout on tif givfn Vifw.  Tiis dbusfs bll of
+     * tif rows (diild vifws) to bf rfbuilt to mbtdi tif givfn
+     * donstrbints for fbdi row.  Tiis is dbllfd by b FlowVifw.lbyout
+     * to updbtf tif diild vifws in tif flow.
      *
-     * @param row the row to fill in with views.  This is assumed
-     *   to be empty on entry.
-     * @param pos  The current position in the children of
-     *   this views element from which to start.
-     * @return the position to start the next row
+     * @pbrbm fv tif vifw to rfflow
      */
-    protected int layoutRow(FlowView fv, int rowIndex, int p0) {
-        int p1 = super.layoutRow(fv, rowIndex, p0);
-        View row = fv.getView(rowIndex);
-        Document doc = fv.getDocument();
-        Object i18nFlag = doc.getProperty(AbstractDocument.I18NProperty);
-        if ((i18nFlag != null) && i18nFlag.equals(Boolean.TRUE)) {
-            int n = row.getViewCount();
+    publid void lbyout(FlowVifw fv) {
+        supfr.lbyout(fv);
+    }
+
+    /**
+     * Crfbtfs b row of vifws tibt will fit witiin tif
+     * lbyout spbn of tif row.  Tiis is implfmfntfd to fxfdutf tif
+     * supfrdlbss fundtionblity (wiidi fills tif row witi diild
+     * vifws or vifw frbgmfnts) bnd follow tibt witi bidi rfordfring
+     * of tif unidirfdtionbl vifw frbgmfnts.
+     *
+     * @pbrbm row tif row to fill in witi vifws.  Tiis is bssumfd
+     *   to bf fmpty on fntry.
+     * @pbrbm pos  Tif durrfnt position in tif diildrfn of
+     *   tiis vifws flfmfnt from wiidi to stbrt.
+     * @rfturn tif position to stbrt tif nfxt row
+     */
+    protfdtfd int lbyoutRow(FlowVifw fv, int rowIndfx, int p0) {
+        int p1 = supfr.lbyoutRow(fv, rowIndfx, p0);
+        Vifw row = fv.gftVifw(rowIndfx);
+        Dodumfnt dod = fv.gftDodumfnt();
+        Objfdt i18nFlbg = dod.gftPropfrty(AbstrbdtDodumfnt.I18NPropfrty);
+        if ((i18nFlbg != null) && i18nFlbg.fqubls(Boolfbn.TRUE)) {
+            int n = row.gftVifwCount();
             if (n > 1) {
-                AbstractDocument d = (AbstractDocument)fv.getDocument();
-                Element bidiRoot = d.getBidiRootElement();
-                byte[] levels = new byte[n];
-                View[] reorder = new View[n];
+                AbstrbdtDodumfnt d = (AbstrbdtDodumfnt)fv.gftDodumfnt();
+                Elfmfnt bidiRoot = d.gftBidiRootElfmfnt();
+                bytf[] lfvfls = nfw bytf[n];
+                Vifw[] rfordfr = nfw Vifw[n];
 
                 for( int i=0; i<n; i++ ) {
-                    View v = row.getView(i);
-                    int bidiIndex =bidiRoot.getElementIndex(v.getStartOffset());
-                    Element bidiElem = bidiRoot.getElement( bidiIndex );
-                    levels[i] = (byte)StyleConstants.getBidiLevel(bidiElem.getAttributes());
-                    reorder[i] = v;
+                    Vifw v = row.gftVifw(i);
+                    int bidiIndfx =bidiRoot.gftElfmfntIndfx(v.gftStbrtOffsft());
+                    Elfmfnt bidiElfm = bidiRoot.gftElfmfnt( bidiIndfx );
+                    lfvfls[i] = (bytf)StylfConstbnts.gftBidiLfvfl(bidiElfm.gftAttributfs());
+                    rfordfr[i] = v;
                 }
 
-                BidiUtils.reorderVisually( levels, reorder );
-                row.replace(0, n, reorder);
+                BidiUtils.rfordfrVisublly( lfvfls, rfordfr );
+                row.rfplbdf(0, n, rfordfr);
             }
         }
-        return p1;
+        rfturn p1;
     }
 
     /**
-     * Adjusts the given row if possible to fit within the
-     * layout span.  Since all adjustments were already
-     * calculated by the LineBreakMeasurer, this is implemented
-     * to do nothing.
+     * Adjusts tif givfn row if possiblf to fit witiin tif
+     * lbyout spbn.  Sindf bll bdjustmfnts wfrf blrfbdy
+     * dbldulbtfd by tif LinfBrfbkMfbsurfr, tiis is implfmfntfd
+     * to do notiing.
      *
-     * @param r the row to adjust to the current layout
-     *  span.
-     * @param desiredSpan the current layout span >= 0
-     * @param x the location r starts at.
+     * @pbrbm r tif row to bdjust to tif durrfnt lbyout
+     *  spbn.
+     * @pbrbm dfsirfdSpbn tif durrfnt lbyout spbn >= 0
+     * @pbrbm x tif lodbtion r stbrts bt.
      */
-    protected void adjustRow(FlowView fv, int rowIndex, int desiredSpan, int x) {
+    protfdtfd void bdjustRow(FlowVifw fv, int rowIndfx, int dfsirfdSpbn, int x) {
     }
 
     /**
-     * Creates a unidirectional view that can be used to represent the
-     * current chunk.  This can be either an entire view from the
-     * logical view, or a fragment of the view.
+     * Crfbtfs b unidirfdtionbl vifw tibt dbn bf usfd to rfprfsfnt tif
+     * durrfnt diunk.  Tiis dbn bf fitifr bn fntirf vifw from tif
+     * logidbl vifw, or b frbgmfnt of tif vifw.
      *
-     * @param fv the view holding the flow
-     * @param startOffset the start location for the view being created
-     * @param spanLeft the about of span left to fill in the row
-     * @param rowIndex the row the view will be placed into
+     * @pbrbm fv tif vifw iolding tif flow
+     * @pbrbm stbrtOffsft tif stbrt lodbtion for tif vifw bfing drfbtfd
+     * @pbrbm spbnLfft tif bbout of spbn lfft to fill in tif row
+     * @pbrbm rowIndfx tif row tif vifw will bf plbdfd into
      */
-    protected View createView(FlowView fv, int startOffset, int spanLeft, int rowIndex) {
-        // Get the child view that contains the given starting position
-        View lv = getLogicalView(fv);
-        View row = fv.getView(rowIndex);
-        boolean requireNextWord = (viewBuffer.size() == 0) ? false : true;
-        int childIndex = lv.getViewIndex(startOffset, Position.Bias.Forward);
-        View v = lv.getView(childIndex);
+    protfdtfd Vifw drfbtfVifw(FlowVifw fv, int stbrtOffsft, int spbnLfft, int rowIndfx) {
+        // Gft tif diild vifw tibt dontbins tif givfn stbrting position
+        Vifw lv = gftLogidblVifw(fv);
+        Vifw row = fv.gftVifw(rowIndfx);
+        boolfbn rfquirfNfxtWord = (vifwBufffr.sizf() == 0) ? fblsf : truf;
+        int diildIndfx = lv.gftVifwIndfx(stbrtOffsft, Position.Bibs.Forwbrd);
+        Vifw v = lv.gftVifw(diildIndfx);
 
-        int endOffset = getLimitingOffset(v, startOffset, spanLeft, requireNextWord);
-        if (endOffset == startOffset) {
-            return null;
+        int fndOffsft = gftLimitingOffsft(v, stbrtOffsft, spbnLfft, rfquirfNfxtWord);
+        if (fndOffsft == stbrtOffsft) {
+            rfturn null;
         }
 
-        View frag;
-        if ((startOffset==v.getStartOffset()) && (endOffset == v.getEndOffset())) {
-            // return the entire view
-            frag = v;
-        } else {
-            // return a unidirectional fragment.
-            frag = v.createFragment(startOffset, endOffset);
+        Vifw frbg;
+        if ((stbrtOffsft==v.gftStbrtOffsft()) && (fndOffsft == v.gftEndOffsft())) {
+            // rfturn tif fntirf vifw
+            frbg = v;
+        } flsf {
+            // rfturn b unidirfdtionbl frbgmfnt.
+            frbg = v.drfbtfFrbgmfnt(stbrtOffsft, fndOffsft);
         }
 
-        if ((frag instanceof GlyphView) && (measurer != null)) {
-            // install a TextLayout based renderer if the view is responsible
-            // for glyphs.  If the view represents a tab, the default
-            // glyph painter is used (may want to handle tabs differently).
-            boolean isTab = false;
-            int p0 = frag.getStartOffset();
-            int p1 = frag.getEndOffset();
+        if ((frbg instbndfof GlypiVifw) && (mfbsurfr != null)) {
+            // instbll b TfxtLbyout bbsfd rfndfrfr if tif vifw is rfsponsiblf
+            // for glypis.  If tif vifw rfprfsfnts b tbb, tif dffbult
+            // glypi pbintfr is usfd (mby wbnt to ibndlf tbbs difffrfntly).
+            boolfbn isTbb = fblsf;
+            int p0 = frbg.gftStbrtOffsft();
+            int p1 = frbg.gftEndOffsft();
             if ((p1 - p0) == 1) {
-                // check for tab
-                Segment s = ((GlyphView)frag).getText(p0, p1);
-                char ch = s.first();
-                if (ch == '\t') {
-                    isTab = true;
+                // difdk for tbb
+                Sfgmfnt s = ((GlypiVifw)frbg).gftTfxt(p0, p1);
+                dibr di = s.first();
+                if (di == '\t') {
+                    isTbb = truf;
                 }
             }
-            TextLayout tl = (isTab) ? null :
-                measurer.nextLayout(spanLeft, text.toIteratorIndex(endOffset),
-                                    requireNextWord);
+            TfxtLbyout tl = (isTbb) ? null :
+                mfbsurfr.nfxtLbyout(spbnLfft, tfxt.toItfrbtorIndfx(fndOffsft),
+                                    rfquirfNfxtWord);
             if (tl != null) {
-                ((GlyphView)frag).setGlyphPainter(new GlyphPainter2(tl));
+                ((GlypiVifw)frbg).sftGlypiPbintfr(nfw GlypiPbintfr2(tl));
             }
         }
-        return frag;
+        rfturn frbg;
     }
 
     /**
-     * Calculate the limiting offset for the next view fragment.
-     * At most this would be the entire view (i.e. the limiting
-     * offset would be the end offset in that case).  If the range
-     * contains a tab or a direction change, that will limit the
-     * offset to something less.  This value is then fed to the
-     * LineBreakMeasurer as a limit to consider in addition to the
-     * remaining span.
+     * Cbldulbtf tif limiting offsft for tif nfxt vifw frbgmfnt.
+     * At most tiis would bf tif fntirf vifw (i.f. tif limiting
+     * offsft would bf tif fnd offsft in tibt dbsf).  If tif rbngf
+     * dontbins b tbb or b dirfdtion dibngf, tibt will limit tif
+     * offsft to somftiing lfss.  Tiis vbluf is tifn ffd to tif
+     * LinfBrfbkMfbsurfr bs b limit to donsidfr in bddition to tif
+     * rfmbining spbn.
      *
-     * @param v the logical view representing the starting offset.
-     * @param startOffset the model location to start at.
+     * @pbrbm v tif logidbl vifw rfprfsfnting tif stbrting offsft.
+     * @pbrbm stbrtOffsft tif modfl lodbtion to stbrt bt.
      */
-    int getLimitingOffset(View v, int startOffset, int spanLeft, boolean requireNextWord) {
-        int endOffset = v.getEndOffset();
+    int gftLimitingOffsft(Vifw v, int stbrtOffsft, int spbnLfft, boolfbn rfquirfNfxtWord) {
+        int fndOffsft = v.gftEndOffsft();
 
-        // check for direction change
-        Document doc = v.getDocument();
-        if (doc instanceof AbstractDocument) {
-            AbstractDocument d = (AbstractDocument) doc;
-            Element bidiRoot = d.getBidiRootElement();
-            if( bidiRoot.getElementCount() > 1 ) {
-                int bidiIndex = bidiRoot.getElementIndex( startOffset );
-                Element bidiElem = bidiRoot.getElement( bidiIndex );
-                endOffset = Math.min( bidiElem.getEndOffset(), endOffset );
+        // difdk for dirfdtion dibngf
+        Dodumfnt dod = v.gftDodumfnt();
+        if (dod instbndfof AbstrbdtDodumfnt) {
+            AbstrbdtDodumfnt d = (AbstrbdtDodumfnt) dod;
+            Elfmfnt bidiRoot = d.gftBidiRootElfmfnt();
+            if( bidiRoot.gftElfmfntCount() > 1 ) {
+                int bidiIndfx = bidiRoot.gftElfmfntIndfx( stbrtOffsft );
+                Elfmfnt bidiElfm = bidiRoot.gftElfmfnt( bidiIndfx );
+                fndOffsft = Mbti.min( bidiElfm.gftEndOffsft(), fndOffsft );
             }
         }
 
-        // check for tab
-        if (v instanceof GlyphView) {
-            Segment s = ((GlyphView)v).getText(startOffset, endOffset);
-            char ch = s.first();
-            if (ch == '\t') {
-                // if the first character is a tab, create a dedicated
-                // view for just the tab
-                endOffset = startOffset + 1;
-            } else {
-                for (ch = s.next(); ch != Segment.DONE; ch = s.next()) {
-                    if (ch == '\t') {
-                        // found a tab, don't include it in the text
-                        endOffset = startOffset + s.getIndex() - s.getBeginIndex();
-                        break;
+        // difdk for tbb
+        if (v instbndfof GlypiVifw) {
+            Sfgmfnt s = ((GlypiVifw)v).gftTfxt(stbrtOffsft, fndOffsft);
+            dibr di = s.first();
+            if (di == '\t') {
+                // if tif first dibrbdtfr is b tbb, drfbtf b dfdidbtfd
+                // vifw for just tif tbb
+                fndOffsft = stbrtOffsft + 1;
+            } flsf {
+                for (di = s.nfxt(); di != Sfgmfnt.DONE; di = s.nfxt()) {
+                    if (di == '\t') {
+                        // found b tbb, don't indludf it in tif tfxt
+                        fndOffsft = stbrtOffsft + s.gftIndfx() - s.gftBfginIndfx();
+                        brfbk;
                     }
                 }
             }
         }
 
-        // determine limit from LineBreakMeasurer
-        int limitIndex = text.toIteratorIndex(endOffset);
-        if (measurer != null) {
-            int index = text.toIteratorIndex(startOffset);
-            if (measurer.getPosition() != index) {
-                measurer.setPosition(index);
+        // dftfrminf limit from LinfBrfbkMfbsurfr
+        int limitIndfx = tfxt.toItfrbtorIndfx(fndOffsft);
+        if (mfbsurfr != null) {
+            int indfx = tfxt.toItfrbtorIndfx(stbrtOffsft);
+            if (mfbsurfr.gftPosition() != indfx) {
+                mfbsurfr.sftPosition(indfx);
             }
-            limitIndex = measurer.nextOffset(spanLeft, limitIndex, requireNextWord);
+            limitIndfx = mfbsurfr.nfxtOffsft(spbnLfft, limitIndfx, rfquirfNfxtWord);
         }
-        int pos = text.toModelPosition(limitIndex);
-        return pos;
+        int pos = tfxt.toModflPosition(limitIndfx);
+        rfturn pos;
     }
 
     /**
-     * Synchronize the strategy with its FlowView.  Allows the strategy
-     * to update its state to account for changes in that portion of the
-     * model represented by the FlowView.  Also allows the strategy
-     * to update the FlowView in response to these changes.
+     * Syndironizf tif strbtfgy witi its FlowVifw.  Allows tif strbtfgy
+     * to updbtf its stbtf to bddount for dibngfs in tibt portion of tif
+     * modfl rfprfsfntfd by tif FlowVifw.  Also bllows tif strbtfgy
+     * to updbtf tif FlowVifw in rfsponsf to tifsf dibngfs.
      */
-    void sync(FlowView fv) {
-        View lv = getLogicalView(fv);
-        text.setView(lv);
+    void synd(FlowVifw fv) {
+        Vifw lv = gftLogidblVifw(fv);
+        tfxt.sftVifw(lv);
 
-        Container container = fv.getContainer();
-        FontRenderContext frc = sun.swing.SwingUtilities2.
-                                    getFontRenderContext(container);
-        BreakIterator iter;
-        Container c = fv.getContainer();
-        if (c != null) {
-            iter = BreakIterator.getLineInstance(c.getLocale());
-        } else {
-            iter = BreakIterator.getLineInstance();
+        Contbinfr dontbinfr = fv.gftContbinfr();
+        FontRfndfrContfxt frd = sun.swing.SwingUtilitifs2.
+                                    gftFontRfndfrContfxt(dontbinfr);
+        BrfbkItfrbtor itfr;
+        Contbinfr d = fv.gftContbinfr();
+        if (d != null) {
+            itfr = BrfbkItfrbtor.gftLinfInstbndf(d.gftLodblf());
+        } flsf {
+            itfr = BrfbkItfrbtor.gftLinfInstbndf();
         }
 
-        Object shaper = null;
-        if (c instanceof JComponent) {
-            shaper = ((JComponent) c).getClientProperty(
-                                            TextAttribute.NUMERIC_SHAPING);
+        Objfdt sibpfr = null;
+        if (d instbndfof JComponfnt) {
+            sibpfr = ((JComponfnt) d).gftClifntPropfrty(
+                                            TfxtAttributf.NUMERIC_SHAPING);
         }
-        text.setShaper(shaper);
+        tfxt.sftSibpfr(sibpfr);
 
-        measurer = new LineBreakMeasurer(text, iter, frc);
+        mfbsurfr = nfw LinfBrfbkMfbsurfr(tfxt, itfr, frd);
 
-        // If the children of the FlowView's logical view are GlyphViews, they
-        // need to have their painters updated.
-        int n = lv.getViewCount();
+        // If tif diildrfn of tif FlowVifw's logidbl vifw brf GlypiVifws, tify
+        // nffd to ibvf tifir pbintfrs updbtfd.
+        int n = lv.gftVifwCount();
         for( int i=0; i<n; i++ ) {
-            View child = lv.getView(i);
-            if( child instanceof GlyphView ) {
-                int p0 = child.getStartOffset();
-                int p1 = child.getEndOffset();
-                measurer.setPosition(text.toIteratorIndex(p0));
-                TextLayout layout
-                    = measurer.nextLayout( Float.MAX_VALUE,
-                                           text.toIteratorIndex(p1), false );
-                ((GlyphView)child).setGlyphPainter(new GlyphPainter2(layout));
+            Vifw diild = lv.gftVifw(i);
+            if( diild instbndfof GlypiVifw ) {
+                int p0 = diild.gftStbrtOffsft();
+                int p1 = diild.gftEndOffsft();
+                mfbsurfr.sftPosition(tfxt.toItfrbtorIndfx(p0));
+                TfxtLbyout lbyout
+                    = mfbsurfr.nfxtLbyout( Flobt.MAX_VALUE,
+                                           tfxt.toItfrbtorIndfx(p1), fblsf );
+                ((GlypiVifw)diild).sftGlypiPbintfr(nfw GlypiPbintfr2(lbyout));
             }
         }
 
-        // Reset measurer.
-        measurer.setPosition(text.getBeginIndex());
+        // Rfsft mfbsurfr.
+        mfbsurfr.sftPosition(tfxt.gftBfginIndfx());
 
     }
 
-    // --- variables -------------------------------------------------------
+    // --- vbribblfs -------------------------------------------------------
 
-    private LineBreakMeasurer measurer;
-    private AttributedSegment text;
+    privbtf LinfBrfbkMfbsurfr mfbsurfr;
+    privbtf AttributfdSfgmfnt tfxt;
 
     /**
-     * Implementation of AttributedCharacterIterator that supports
-     * the GlyphView attributes for rendering the glyphs through a
-     * TextLayout.
+     * Implfmfntbtion of AttributfdCibrbdtfrItfrbtor tibt supports
+     * tif GlypiVifw bttributfs for rfndfring tif glypis tirougi b
+     * TfxtLbyout.
      */
-    static class AttributedSegment extends Segment implements AttributedCharacterIterator {
+    stbtid dlbss AttributfdSfgmfnt fxtfnds Sfgmfnt implfmfnts AttributfdCibrbdtfrItfrbtor {
 
-        AttributedSegment() {
+        AttributfdSfgmfnt() {
         }
 
-        View getView() {
-            return v;
+        Vifw gftVifw() {
+            rfturn v;
         }
 
-        void setView(View v) {
-            this.v = v;
-            Document doc = v.getDocument();
-            int p0 = v.getStartOffset();
-            int p1 = v.getEndOffset();
+        void sftVifw(Vifw v) {
+            tiis.v = v;
+            Dodumfnt dod = v.gftDodumfnt();
+            int p0 = v.gftStbrtOffsft();
+            int p1 = v.gftEndOffsft();
             try {
-                doc.getText(p0, p1 - p0, this);
-            } catch (BadLocationException bl) {
-                throw new IllegalArgumentException("Invalid view");
+                dod.gftTfxt(p0, p1 - p0, tiis);
+            } dbtdi (BbdLodbtionExdfption bl) {
+                tirow nfw IllfgblArgumfntExdfption("Invblid vifw");
             }
             first();
         }
 
         /**
-         * Get a boundary position for the font.
-         * This is implemented to assume that two fonts are
-         * equal if their references are equal (i.e. that the
-         * font came from a cache).
+         * Gft b boundbry position for tif font.
+         * Tiis is implfmfntfd to bssumf tibt two fonts brf
+         * fqubl if tifir rfffrfndfs brf fqubl (i.f. tibt tif
+         * font dbmf from b dbdif).
          *
-         * @return the location in model coordinates.  This is
-         *  not the same as the Segment coordinates.
+         * @rfturn tif lodbtion in modfl doordinbtfs.  Tiis is
+         *  not tif sbmf bs tif Sfgmfnt doordinbtfs.
          */
-        int getFontBoundary(int childIndex, int dir) {
-            View child = v.getView(childIndex);
-            Font f = getFont(childIndex);
-            for (childIndex += dir; (childIndex >= 0) && (childIndex < v.getViewCount());
-                 childIndex += dir) {
-                Font next = getFont(childIndex);
-                if (next != f) {
-                    // this run is different
-                    break;
+        int gftFontBoundbry(int diildIndfx, int dir) {
+            Vifw diild = v.gftVifw(diildIndfx);
+            Font f = gftFont(diildIndfx);
+            for (diildIndfx += dir; (diildIndfx >= 0) && (diildIndfx < v.gftVifwCount());
+                 diildIndfx += dir) {
+                Font nfxt = gftFont(diildIndfx);
+                if (nfxt != f) {
+                    // tiis run is difffrfnt
+                    brfbk;
                 }
-                child = v.getView(childIndex);
+                diild = v.gftVifw(diildIndfx);
             }
-            return (dir < 0) ? child.getStartOffset() : child.getEndOffset();
+            rfturn (dir < 0) ? diild.gftStbrtOffsft() : diild.gftEndOffsft();
         }
 
         /**
-         * Get the font at the given child index.
+         * Gft tif font bt tif givfn diild indfx.
          */
-        Font getFont(int childIndex) {
-            View child = v.getView(childIndex);
-            if (child instanceof GlyphView) {
-                return ((GlyphView)child).getFont();
+        Font gftFont(int diildIndfx) {
+            Vifw diild = v.gftVifw(diildIndfx);
+            if (diild instbndfof GlypiVifw) {
+                rfturn ((GlypiVifw)diild).gftFont();
             }
-            return null;
+            rfturn null;
         }
 
-        int toModelPosition(int index) {
-            return v.getStartOffset() + (index - getBeginIndex());
+        int toModflPosition(int indfx) {
+            rfturn v.gftStbrtOffsft() + (indfx - gftBfginIndfx());
         }
 
-        int toIteratorIndex(int pos) {
-            return pos - v.getStartOffset() + getBeginIndex();
+        int toItfrbtorIndfx(int pos) {
+            rfturn pos - v.gftStbrtOffsft() + gftBfginIndfx();
         }
 
-        private void setShaper(Object shaper) {
-            this.shaper = shaper;
+        privbtf void sftSibpfr(Objfdt sibpfr) {
+            tiis.sibpfr = sibpfr;
         }
 
-        // --- AttributedCharacterIterator methods -------------------------
+        // --- AttributfdCibrbdtfrItfrbtor mftiods -------------------------
 
         /**
-         * Returns the index of the first character of the run
-         * with respect to all attributes containing the current character.
+         * Rfturns tif indfx of tif first dibrbdtfr of tif run
+         * witi rfspfdt to bll bttributfs dontbining tif durrfnt dibrbdtfr.
          */
-        public int getRunStart() {
-            int pos = toModelPosition(getIndex());
-            int i = v.getViewIndex(pos, Position.Bias.Forward);
-            View child = v.getView(i);
-            return toIteratorIndex(child.getStartOffset());
-        }
-
-        /**
-         * Returns the index of the first character of the run
-         * with respect to the given attribute containing the current character.
-         */
-        public int getRunStart(AttributedCharacterIterator.Attribute attribute) {
-            if (attribute instanceof TextAttribute) {
-                int pos = toModelPosition(getIndex());
-                int i = v.getViewIndex(pos, Position.Bias.Forward);
-                if (attribute == TextAttribute.FONT) {
-                    return toIteratorIndex(getFontBoundary(i, -1));
-                }
-            }
-            return getBeginIndex();
+        publid int gftRunStbrt() {
+            int pos = toModflPosition(gftIndfx());
+            int i = v.gftVifwIndfx(pos, Position.Bibs.Forwbrd);
+            Vifw diild = v.gftVifw(i);
+            rfturn toItfrbtorIndfx(diild.gftStbrtOffsft());
         }
 
         /**
-         * Returns the index of the first character of the run
-         * with respect to the given attributes containing the current character.
+         * Rfturns tif indfx of tif first dibrbdtfr of tif run
+         * witi rfspfdt to tif givfn bttributf dontbining tif durrfnt dibrbdtfr.
          */
-        public int getRunStart(Set<? extends Attribute> attributes) {
-            int index = getBeginIndex();
-            Object[] a = attributes.toArray();
-            for (int i = 0; i < a.length; i++) {
-                TextAttribute attr = (TextAttribute) a[i];
-                index = Math.max(getRunStart(attr), index);
-            }
-            return Math.min(getIndex(), index);
-        }
-
-        /**
-         * Returns the index of the first character following the run
-         * with respect to all attributes containing the current character.
-         */
-        public int getRunLimit() {
-            int pos = toModelPosition(getIndex());
-            int i = v.getViewIndex(pos, Position.Bias.Forward);
-            View child = v.getView(i);
-            return toIteratorIndex(child.getEndOffset());
-        }
-
-        /**
-         * Returns the index of the first character following the run
-         * with respect to the given attribute containing the current character.
-         */
-        public int getRunLimit(AttributedCharacterIterator.Attribute attribute) {
-            if (attribute instanceof TextAttribute) {
-                int pos = toModelPosition(getIndex());
-                int i = v.getViewIndex(pos, Position.Bias.Forward);
-                if (attribute == TextAttribute.FONT) {
-                    return toIteratorIndex(getFontBoundary(i, 1));
+        publid int gftRunStbrt(AttributfdCibrbdtfrItfrbtor.Attributf bttributf) {
+            if (bttributf instbndfof TfxtAttributf) {
+                int pos = toModflPosition(gftIndfx());
+                int i = v.gftVifwIndfx(pos, Position.Bibs.Forwbrd);
+                if (bttributf == TfxtAttributf.FONT) {
+                    rfturn toItfrbtorIndfx(gftFontBoundbry(i, -1));
                 }
             }
-            return getEndIndex();
+            rfturn gftBfginIndfx();
         }
 
         /**
-         * Returns the index of the first character following the run
-         * with respect to the given attributes containing the current character.
+         * Rfturns tif indfx of tif first dibrbdtfr of tif run
+         * witi rfspfdt to tif givfn bttributfs dontbining tif durrfnt dibrbdtfr.
          */
-        public int getRunLimit(Set<? extends Attribute> attributes) {
-            int index = getEndIndex();
-            Object[] a = attributes.toArray();
-            for (int i = 0; i < a.length; i++) {
-                TextAttribute attr = (TextAttribute) a[i];
-                index = Math.min(getRunLimit(attr), index);
+        publid int gftRunStbrt(Sft<? fxtfnds Attributf> bttributfs) {
+            int indfx = gftBfginIndfx();
+            Objfdt[] b = bttributfs.toArrby();
+            for (int i = 0; i < b.lfngti; i++) {
+                TfxtAttributf bttr = (TfxtAttributf) b[i];
+                indfx = Mbti.mbx(gftRunStbrt(bttr), indfx);
             }
-            return Math.max(getIndex(), index);
+            rfturn Mbti.min(gftIndfx(), indfx);
         }
 
         /**
-         * Returns a map with the attributes defined on the current
-         * character.
+         * Rfturns tif indfx of tif first dibrbdtfr following tif run
+         * witi rfspfdt to bll bttributfs dontbining tif durrfnt dibrbdtfr.
          */
-        public Map<Attribute, Object> getAttributes() {
-            Object[] ka = keys.toArray();
-            Hashtable<Attribute, Object> h = new Hashtable<Attribute, Object>();
-            for (int i = 0; i < ka.length; i++) {
-                TextAttribute a = (TextAttribute) ka[i];
-                Object value = getAttribute(a);
-                if (value != null) {
-                    h.put(a, value);
+        publid int gftRunLimit() {
+            int pos = toModflPosition(gftIndfx());
+            int i = v.gftVifwIndfx(pos, Position.Bibs.Forwbrd);
+            Vifw diild = v.gftVifw(i);
+            rfturn toItfrbtorIndfx(diild.gftEndOffsft());
+        }
+
+        /**
+         * Rfturns tif indfx of tif first dibrbdtfr following tif run
+         * witi rfspfdt to tif givfn bttributf dontbining tif durrfnt dibrbdtfr.
+         */
+        publid int gftRunLimit(AttributfdCibrbdtfrItfrbtor.Attributf bttributf) {
+            if (bttributf instbndfof TfxtAttributf) {
+                int pos = toModflPosition(gftIndfx());
+                int i = v.gftVifwIndfx(pos, Position.Bibs.Forwbrd);
+                if (bttributf == TfxtAttributf.FONT) {
+                    rfturn toItfrbtorIndfx(gftFontBoundbry(i, 1));
                 }
             }
-            return h;
+            rfturn gftEndIndfx();
         }
 
         /**
-         * Returns the value of the named attribute for the current character.
-         * Returns null if the attribute is not defined.
-         * @param attribute the key of the attribute whose value is requested.
+         * Rfturns tif indfx of tif first dibrbdtfr following tif run
+         * witi rfspfdt to tif givfn bttributfs dontbining tif durrfnt dibrbdtfr.
          */
-        public Object getAttribute(AttributedCharacterIterator.Attribute attribute) {
-            int pos = toModelPosition(getIndex());
-            int childIndex = v.getViewIndex(pos, Position.Bias.Forward);
-            if (attribute == TextAttribute.FONT) {
-                return getFont(childIndex);
-            } else if( attribute == TextAttribute.RUN_DIRECTION ) {
-                return
-                    v.getDocument().getProperty(TextAttribute.RUN_DIRECTION);
-            } else if (attribute == TextAttribute.NUMERIC_SHAPING) {
-                return shaper;
+        publid int gftRunLimit(Sft<? fxtfnds Attributf> bttributfs) {
+            int indfx = gftEndIndfx();
+            Objfdt[] b = bttributfs.toArrby();
+            for (int i = 0; i < b.lfngti; i++) {
+                TfxtAttributf bttr = (TfxtAttributf) b[i];
+                indfx = Mbti.min(gftRunLimit(bttr), indfx);
             }
-            return null;
+            rfturn Mbti.mbx(gftIndfx(), indfx);
         }
 
         /**
-         * Returns the keys of all attributes defined on the
-         * iterator's text range. The set is empty if no
-         * attributes are defined.
+         * Rfturns b mbp witi tif bttributfs dffinfd on tif durrfnt
+         * dibrbdtfr.
          */
-        public Set<Attribute> getAllAttributeKeys() {
-            return keys;
+        publid Mbp<Attributf, Objfdt> gftAttributfs() {
+            Objfdt[] kb = kfys.toArrby();
+            Hbsitbblf<Attributf, Objfdt> i = nfw Hbsitbblf<Attributf, Objfdt>();
+            for (int i = 0; i < kb.lfngti; i++) {
+                TfxtAttributf b = (TfxtAttributf) kb[i];
+                Objfdt vbluf = gftAttributf(b);
+                if (vbluf != null) {
+                    i.put(b, vbluf);
+                }
+            }
+            rfturn i;
         }
 
-        View v;
-
-        static Set<Attribute> keys;
-
-        static {
-            keys = new HashSet<Attribute>();
-            keys.add(TextAttribute.FONT);
-            keys.add(TextAttribute.RUN_DIRECTION);
-            keys.add(TextAttribute.NUMERIC_SHAPING);
+        /**
+         * Rfturns tif vbluf of tif nbmfd bttributf for tif durrfnt dibrbdtfr.
+         * Rfturns null if tif bttributf is not dffinfd.
+         * @pbrbm bttributf tif kfy of tif bttributf wiosf vbluf is rfqufstfd.
+         */
+        publid Objfdt gftAttributf(AttributfdCibrbdtfrItfrbtor.Attributf bttributf) {
+            int pos = toModflPosition(gftIndfx());
+            int diildIndfx = v.gftVifwIndfx(pos, Position.Bibs.Forwbrd);
+            if (bttributf == TfxtAttributf.FONT) {
+                rfturn gftFont(diildIndfx);
+            } flsf if( bttributf == TfxtAttributf.RUN_DIRECTION ) {
+                rfturn
+                    v.gftDodumfnt().gftPropfrty(TfxtAttributf.RUN_DIRECTION);
+            } flsf if (bttributf == TfxtAttributf.NUMERIC_SHAPING) {
+                rfturn sibpfr;
+            }
+            rfturn null;
         }
 
-        private Object shaper = null;
+        /**
+         * Rfturns tif kfys of bll bttributfs dffinfd on tif
+         * itfrbtor's tfxt rbngf. Tif sft is fmpty if no
+         * bttributfs brf dffinfd.
+         */
+        publid Sft<Attributf> gftAllAttributfKfys() {
+            rfturn kfys;
+        }
+
+        Vifw v;
+
+        stbtid Sft<Attributf> kfys;
+
+        stbtid {
+            kfys = nfw HbsiSft<Attributf>();
+            kfys.bdd(TfxtAttributf.FONT);
+            kfys.bdd(TfxtAttributf.RUN_DIRECTION);
+            kfys.bdd(TfxtAttributf.NUMERIC_SHAPING);
+        }
+
+        privbtf Objfdt sibpfr = null;
     }
 
 }

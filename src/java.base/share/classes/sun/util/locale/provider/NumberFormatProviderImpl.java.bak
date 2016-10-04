@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 2002 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 2002 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  */
 
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.spi.NumberFormatProvider;
-import java.util.Currency;
-import java.util.Locale;
-import java.util.Set;
+import jbvb.tfxt.DfdimblFormbt;
+import jbvb.tfxt.DfdimblFormbtSymbols;
+import jbvb.tfxt.NumbfrFormbt;
+import jbvb.tfxt.spi.NumbfrFormbtProvidfr;
+import jbvb.util.Currfndy;
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
 
 /**
- * Concrete implementation of the  {@link java.text.spi.NumberFormatProvider
- * NumberFormatProvider} class for the JRE LocaleProviderAdapter.
+ * Condrftf implfmfntbtion of tif  {@link jbvb.tfxt.spi.NumbfrFormbtProvidfr
+ * NumbfrFormbtProvidfr} dlbss for tif JRE LodblfProvidfrAdbptfr.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @butior Nboto Sbto
+ * @butior Mbsbyosii Okutsu
  */
-public class NumberFormatProviderImpl extends NumberFormatProvider implements AvailableLanguageTags {
+publid dlbss NumbfrFormbtProvidfrImpl fxtfnds NumbfrFormbtProvidfr implfmfnts AvbilbblfLbngubgfTbgs {
 
-    // Constants used by factory methods to specify a style of format.
-    private static final int NUMBERSTYLE = 0;
-    private static final int CURRENCYSTYLE = 1;
-    private static final int PERCENTSTYLE = 2;
-    private static final int SCIENTIFICSTYLE = 3;
-    private static final int INTEGERSTYLE = 4;
+    // Constbnts usfd by fbdtory mftiods to spfdify b stylf of formbt.
+    privbtf stbtid finbl int NUMBERSTYLE = 0;
+    privbtf stbtid finbl int CURRENCYSTYLE = 1;
+    privbtf stbtid finbl int PERCENTSTYLE = 2;
+    privbtf stbtid finbl int SCIENTIFICSTYLE = 3;
+    privbtf stbtid finbl int INTEGERSTYLE = 4;
 
-    private final LocaleProviderAdapter.Type type;
-    private final Set<String> langtags;
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+    privbtf finbl Sft<String> lbngtbgs;
 
-    public NumberFormatProviderImpl(LocaleProviderAdapter.Type type, Set<String> langtags) {
-        this.type = type;
-        this.langtags = langtags;
+    publid NumbfrFormbtProvidfrImpl(LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        tiis.typf = typf;
+        tiis.lbngtbgs = lbngtbgs;
     }
 
     /**
-     * Returns an array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * Rfturns bn brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
      *
-     * @return An array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * @rfturn An brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
      */
-    @Override
-    public Locale[] getAvailableLocales() {
-        return LocaleProviderAdapter.forType(type).getAvailableLocales();
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn LodblfProvidfrAdbptfr.forTypf(typf).gftAvbilbblfLodblfs();
     }
 
-    @Override
-    public boolean isSupportedLocale(Locale locale) {
-        return LocaleProviderAdapter.isSupportedLocale(locale, type, langtags);
+    @Ovfrridf
+    publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+        rfturn LodblfProvidfrAdbptfr.isSupportfdLodblf(lodblf, typf, lbngtbgs);
     }
 
     /**
-     * Returns a new <code>NumberFormat</code> instance which formats
-     * monetary values for the specified locale.
+     * Rfturns b nfw <dodf>NumbfrFormbt</dodf> instbndf wiidi formbts
+     * monftbry vblufs for tif spfdififd lodblf.
      *
-     * @param locale the desired locale.
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @return a currency formatter
-     * @see java.text.NumberFormat#getCurrencyInstance(java.util.Locale)
+     * @pbrbm lodblf tif dfsirfd lodblf.
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b durrfndy formbttfr
+     * @sff jbvb.tfxt.NumbfrFormbt#gftCurrfndyInstbndf(jbvb.util.Lodblf)
      */
-    @Override
-    public NumberFormat getCurrencyInstance(Locale locale) {
-        return getInstance(locale, CURRENCYSTYLE);
+    @Ovfrridf
+    publid NumbfrFormbt gftCurrfndyInstbndf(Lodblf lodblf) {
+        rfturn gftInstbndf(lodblf, CURRENCYSTYLE);
     }
 
     /**
-     * Returns a new <code>NumberFormat</code> instance which formats
-     * integer values for the specified locale.
-     * The returned number format is configured to
-     * round floating point numbers to the nearest integer using
-     * half-even rounding (see {@link java.math.RoundingMode#HALF_EVEN HALF_EVEN})
-     * for formatting, and to parse only the integer part of
-     * an input string (see {@link
-     * java.text.NumberFormat#isParseIntegerOnly isParseIntegerOnly}).
+     * Rfturns b nfw <dodf>NumbfrFormbt</dodf> instbndf wiidi formbts
+     * intfgfr vblufs for tif spfdififd lodblf.
+     * Tif rfturnfd numbfr formbt is donfigurfd to
+     * round flobting point numbfrs to tif nfbrfst intfgfr using
+     * iblf-fvfn rounding (sff {@link jbvb.mbti.RoundingModf#HALF_EVEN HALF_EVEN})
+     * for formbtting, bnd to pbrsf only tif intfgfr pbrt of
+     * bn input string (sff {@link
+     * jbvb.tfxt.NumbfrFormbt#isPbrsfIntfgfrOnly isPbrsfIntfgfrOnly}).
      *
-     * @param locale the desired locale
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @return a number format for integer values
-     * @see java.text.NumberFormat#getIntegerInstance(java.util.Locale)
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b numbfr formbt for intfgfr vblufs
+     * @sff jbvb.tfxt.NumbfrFormbt#gftIntfgfrInstbndf(jbvb.util.Lodblf)
      */
-    @Override
-    public NumberFormat getIntegerInstance(Locale locale) {
-        return getInstance(locale, INTEGERSTYLE);
+    @Ovfrridf
+    publid NumbfrFormbt gftIntfgfrInstbndf(Lodblf lodblf) {
+        rfturn gftInstbndf(lodblf, INTEGERSTYLE);
     }
 
     /**
-     * Returns a new general-purpose <code>NumberFormat</code> instance for
-     * the specified locale.
+     * Rfturns b nfw gfnfrbl-purposf <dodf>NumbfrFormbt</dodf> instbndf for
+     * tif spfdififd lodblf.
      *
-     * @param locale the desired locale
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @return a general-purpose number formatter
-     * @see java.text.NumberFormat#getNumberInstance(java.util.Locale)
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b gfnfrbl-purposf numbfr formbttfr
+     * @sff jbvb.tfxt.NumbfrFormbt#gftNumbfrInstbndf(jbvb.util.Lodblf)
      */
-    @Override
-    public NumberFormat getNumberInstance(Locale locale) {
-        return getInstance(locale, NUMBERSTYLE);
+    @Ovfrridf
+    publid NumbfrFormbt gftNumbfrInstbndf(Lodblf lodblf) {
+        rfturn gftInstbndf(lodblf, NUMBERSTYLE);
     }
 
     /**
-     * Returns a new <code>NumberFormat</code> instance which formats
-     * percentage values for the specified locale.
+     * Rfturns b nfw <dodf>NumbfrFormbt</dodf> instbndf wiidi formbts
+     * pfrdfntbgf vblufs for tif spfdififd lodblf.
      *
-     * @param locale the desired locale
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @return a percent formatter
-     * @see java.text.NumberFormat#getPercentInstance(java.util.Locale)
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b pfrdfnt formbttfr
+     * @sff jbvb.tfxt.NumbfrFormbt#gftPfrdfntInstbndf(jbvb.util.Lodblf)
      */
-    @Override
-    public NumberFormat getPercentInstance(Locale locale) {
-        return getInstance(locale, PERCENTSTYLE);
+    @Ovfrridf
+    publid NumbfrFormbt gftPfrdfntInstbndf(Lodblf lodblf) {
+        rfturn gftInstbndf(lodblf, PERCENTSTYLE);
     }
 
-    private NumberFormat getInstance(Locale locale,
-                                            int choice) {
-        if (locale == null) {
-            throw new NullPointerException();
+    privbtf NumbfrFormbt gftInstbndf(Lodblf lodblf,
+                                            int dioidf) {
+        if (lodblf == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        LocaleProviderAdapter adapter = LocaleProviderAdapter.forType(type);
-        String[] numberPatterns = adapter.getLocaleResources(locale).getNumberPatterns();
-        DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(locale);
-        int entry = (choice == INTEGERSTYLE) ? NUMBERSTYLE : choice;
-        DecimalFormat format = new DecimalFormat(numberPatterns[entry], symbols);
+        LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.forTypf(typf);
+        String[] numbfrPbttfrns = bdbptfr.gftLodblfRfsourdfs(lodblf).gftNumbfrPbttfrns();
+        DfdimblFormbtSymbols symbols = DfdimblFormbtSymbols.gftInstbndf(lodblf);
+        int fntry = (dioidf == INTEGERSTYLE) ? NUMBERSTYLE : dioidf;
+        DfdimblFormbt formbt = nfw DfdimblFormbt(numbfrPbttfrns[fntry], symbols);
 
-        if (choice == INTEGERSTYLE) {
-            format.setMaximumFractionDigits(0);
-            format.setDecimalSeparatorAlwaysShown(false);
-            format.setParseIntegerOnly(true);
-        } else if (choice == CURRENCYSTYLE) {
-            adjustForCurrencyDefaultFractionDigits(format, symbols);
+        if (dioidf == INTEGERSTYLE) {
+            formbt.sftMbximumFrbdtionDigits(0);
+            formbt.sftDfdimblSfpbrbtorAlwbysSiown(fblsf);
+            formbt.sftPbrsfIntfgfrOnly(truf);
+        } flsf if (dioidf == CURRENCYSTYLE) {
+            bdjustForCurrfndyDffbultFrbdtionDigits(formbt, symbols);
         }
 
-        return format;
+        rfturn formbt;
     }
 
     /**
-     * Adjusts the minimum and maximum fraction digits to values that
-     * are reasonable for the currency's default fraction digits.
+     * Adjusts tif minimum bnd mbximum frbdtion digits to vblufs tibt
+     * brf rfbsonbblf for tif durrfndy's dffbult frbdtion digits.
      */
-    private static void adjustForCurrencyDefaultFractionDigits(
-            DecimalFormat format, DecimalFormatSymbols symbols) {
-        Currency currency = symbols.getCurrency();
-        if (currency == null) {
+    privbtf stbtid void bdjustForCurrfndyDffbultFrbdtionDigits(
+            DfdimblFormbt formbt, DfdimblFormbtSymbols symbols) {
+        Currfndy durrfndy = symbols.gftCurrfndy();
+        if (durrfndy == null) {
             try {
-                currency = Currency.getInstance(symbols.getInternationalCurrencySymbol());
-            } catch (IllegalArgumentException e) {
+                durrfndy = Currfndy.gftInstbndf(symbols.gftIntfrnbtionblCurrfndySymbol());
+            } dbtdi (IllfgblArgumfntExdfption f) {
             }
         }
-        if (currency != null) {
-            int digits = currency.getDefaultFractionDigits();
+        if (durrfndy != null) {
+            int digits = durrfndy.gftDffbultFrbdtionDigits();
             if (digits != -1) {
-                int oldMinDigits = format.getMinimumFractionDigits();
-                // Common patterns are "#.##", "#.00", "#".
-                // Try to adjust all of them in a reasonable way.
-                if (oldMinDigits == format.getMaximumFractionDigits()) {
-                    format.setMinimumFractionDigits(digits);
-                    format.setMaximumFractionDigits(digits);
-                } else {
-                    format.setMinimumFractionDigits(Math.min(digits, oldMinDigits));
-                    format.setMaximumFractionDigits(digits);
+                int oldMinDigits = formbt.gftMinimumFrbdtionDigits();
+                // Common pbttfrns brf "#.##", "#.00", "#".
+                // Try to bdjust bll of tifm in b rfbsonbblf wby.
+                if (oldMinDigits == formbt.gftMbximumFrbdtionDigits()) {
+                    formbt.sftMinimumFrbdtionDigits(digits);
+                    formbt.sftMbximumFrbdtionDigits(digits);
+                } flsf {
+                    formbt.sftMinimumFrbdtionDigits(Mbti.min(digits, oldMinDigits));
+                    formbt.sftMbximumFrbdtionDigits(digits);
                 }
             }
         }
     }
 
-    @Override
-    public Set<String> getAvailableLanguageTags() {
-        return langtags;
+    @Ovfrridf
+    publid Sft<String> gftAvbilbblfLbngubgfTbgs() {
+        rfturn lbngtbgs;
     }
 }

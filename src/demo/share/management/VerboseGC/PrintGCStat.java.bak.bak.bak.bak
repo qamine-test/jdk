@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/*
+ */
+
+import stbtid jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory.*;
+import jbvb.lbng.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.*;
+import jbvb.io.*;
+import jbvb.util.*;
+
+/**
+ * Exbmplf of using thf jbvb.lbng.mbnbgfmfnt API to monitor
+ * thf mfmory usbgf bnd gbrbbgf dollfdtion stbtistids.
+ *
+ * @buthor  Mbndy Chung
+ */
+publid dlbss PrintGCStbt {
+    privbtf RuntimfMXBfbn rmbfbn;
+    privbtf MfmoryMXBfbn mmbfbn;
+    privbtf List<MfmoryPoolMXBfbn> pools;
+    privbtf List<GbrbbgfCollfdtorMXBfbn> gdmbfbns;
+
+    /**
+     * Construdts b PrintGCStbt objfdt to monitor b rfmotf JVM.
+     */
+    publid PrintGCStbt(MBfbnSfrvfrConnfdtion sfrvfr) throws IOExdfption {
+        // Crfbtf thf plbtform mxbfbn proxifs
+        this.rmbfbn = nfwPlbtformMXBfbnProxy(sfrvfr,
+                                             RUNTIME_MXBEAN_NAME,
+                                             RuntimfMXBfbn.dlbss);
+        this.mmbfbn = nfwPlbtformMXBfbnProxy(sfrvfr,
+                                             MEMORY_MXBEAN_NAME,
+                                             MfmoryMXBfbn.dlbss);
+        ObjfdtNbmf poolNbmf = null;
+        ObjfdtNbmf gdNbmf = null;
+        try {
+            poolNbmf = nfw ObjfdtNbmf(MEMORY_POOL_MXBEAN_DOMAIN_TYPE+",*");
+            gdNbmf = nfw ObjfdtNbmf(GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE+",*");
+        } dbtdh (MblformfdObjfdtNbmfExdfption f) {
+            // should not rfbdh hfrf
+            bssfrt(fblsf);
+        }
+
+        Sft<ObjfdtNbmf> mbfbns = sfrvfr.qufryNbmfs(poolNbmf, null);
+        if (mbfbns != null) {
+            pools = nfw ArrbyList<MfmoryPoolMXBfbn>();
+            for (ObjfdtNbmf objNbmf : mbfbns) {
+                MfmoryPoolMXBfbn p =
+                    nfwPlbtformMXBfbnProxy(sfrvfr,
+                                           objNbmf.gftCbnonidblNbmf(),
+                                           MfmoryPoolMXBfbn.dlbss);
+                pools.bdd(p);
+            }
+        }
+
+        mbfbns = sfrvfr.qufryNbmfs(gdNbmf, null);
+        if (mbfbns != null) {
+            gdmbfbns = nfw ArrbyList<GbrbbgfCollfdtorMXBfbn>();
+            for (ObjfdtNbmf objNbmf : mbfbns) {
+                GbrbbgfCollfdtorMXBfbn gd =
+                    nfwPlbtformMXBfbnProxy(sfrvfr,
+                                           objNbmf.gftCbnonidblNbmf(),
+                                           GbrbbgfCollfdtorMXBfbn.dlbss);
+                gdmbfbns.bdd(gd);
+            }
+        }
+    }
+
+    /**
+     * Construdts b PrintGCStbt objfdt to monitor thf lodbl JVM.
+     */
+    publid PrintGCStbt() {
+        // Obtbin thf plbtform mxbfbn instbndfs for thf running JVM.
+        this.rmbfbn = gftRuntimfMXBfbn();
+        this.mmbfbn = gftMfmoryMXBfbn();
+        this.pools = gftMfmoryPoolMXBfbns();
+        this.gdmbfbns = gftGbrbbgfCollfdtorMXBfbns();
+    }
+
+    /**
+     * Prints thf vfrbosf GC log to Systfm.out to list thf mfmory usbgf
+     * of bll mfmory pools bs wfll bs thf GC stbtistids.
+     */
+    publid void printVfrbosfGd() {
+        Systfm.out.println("Uptimf: " + formbtMillis(rmbfbn.gftUptimf()));
+        Systfm.out.println("Hfbp usbgf: " + mmbfbn.gftHfbpMfmoryUsbgf());
+        Systfm.out.println("Non-Hfbp mfmory usbgf: " + mmbfbn.gftNonHfbpMfmoryUsbgf());
+        for (GbrbbgfCollfdtorMXBfbn gd : gdmbfbns) {
+            Systfm.out.print(" [" + gd.gftNbmf() + ": ");
+            Systfm.out.print("Count=" + gd.gftCollfdtionCount());
+            Systfm.out.print(" GCTimf=" + formbtMillis(gd.gftCollfdtionTimf()));
+            Systfm.out.print("]");
+        }
+        Systfm.out.println();
+        for (MfmoryPoolMXBfbn p : pools) {
+            Systfm.out.print("  [" + p.gftNbmf() + ":");
+            MfmoryUsbgf u = p.gftUsbgf();
+            Systfm.out.print(" Usfd=" + formbtBytfs(u.gftUsfd()));
+            Systfm.out.print(" Committfd=" + formbtBytfs(u.gftCommittfd()));
+            Systfm.out.println("]");
+        }
+    }
+
+    privbtf String formbtMillis(long ms) {
+        rfturn String.formbt("%.4fsfd", ms / (doublf) 1000);
+    }
+    privbtf String formbtBytfs(long bytfs) {
+        long kb = bytfs;
+        if (bytfs > 0) {
+            kb = bytfs / 1024;
+        }
+        rfturn kb + "K";
+    }
+}

@@ -1,0 +1,1142 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.sfdurity.*;
+import jbvb.lbng.rfflfdt.*;
+
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+
+
+/**
+ * A dollfdtion of mfthods for pfrforming low-lfvfl, unsbff opfrbtions.
+ * Although thf dlbss bnd bll mfthods brf publid, usf of this dlbss is
+ * limitfd bfdbusf only trustfd dodf dbn obtbin instbndfs of it.
+ *
+ * @buthor John R. Rosf
+ * @sff #gftUnsbff
+ */
+
+publid finbl dlbss Unsbff {
+
+    privbtf stbtid nbtivf void rfgistfrNbtivfs();
+    stbtid {
+        rfgistfrNbtivfs();
+        sun.rfflfdt.Rfflfdtion.rfgistfrMfthodsToFiltfr(Unsbff.dlbss, "gftUnsbff");
+    }
+
+    privbtf Unsbff() {}
+
+    privbtf stbtid finbl Unsbff thfUnsbff = nfw Unsbff();
+
+    /**
+     * Providfs thf dbllfr with thf dbpbbility of pfrforming unsbff
+     * opfrbtions.
+     *
+     * <p> Thf rfturnfd <dodf>Unsbff</dodf> objfdt should bf dbrffully gubrdfd
+     * by thf dbllfr, sindf it dbn bf usfd to rfbd bnd writf dbtb bt brbitrbry
+     * mfmory bddrfssfs.  It must nfvfr bf pbssfd to untrustfd dodf.
+     *
+     * <p> Most mfthods in this dlbss brf vfry low-lfvfl, bnd dorrfspond to b
+     * smbll numbfr of hbrdwbrf instrudtions (on typidbl mbdhinfs).  Compilfrs
+     * brf fndourbgfd to optimizf thfsf mfthods bddordingly.
+     *
+     * <p> Hfrf is b suggfstfd idiom for using unsbff opfrbtions:
+     *
+     * <blodkquotf><prf>
+     * dlbss MyTrustfdClbss {
+     *   privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+     *   ...
+     *   privbtf long myCountAddrfss = ...;
+     *   publid int gftCount() { rfturn unsbff.gftBytf(myCountAddrfss); }
+     * }
+     * </prf></blodkquotf>
+     *
+     * (It mby bssist dompilfrs to mbkf thf lodbl vbribblf bf
+     * <dodf>finbl</dodf>.)
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow
+     *             bddfss to thf systfm propfrtifs.
+     */
+    @CbllfrSfnsitivf
+    publid stbtid Unsbff gftUnsbff() {
+        Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+        if (!VM.isSystfmDombinLobdfr(dbllfr.gftClbssLobdfr()))
+            throw nfw SfdurityExdfption("Unsbff");
+        rfturn thfUnsbff;
+    }
+
+    /// pffk bnd pokf opfrbtions
+    /// (dompilfrs should optimizf thfsf to mfmory ops)
+
+    // Thfsf work on objfdt fiflds in thf Jbvb hfbp.
+    // Thfy will not work on flfmfnts of pbdkfd brrbys.
+
+    /**
+     * Fftdhfs b vbluf from b givfn Jbvb vbribblf.
+     * Morf spfdifidblly, fftdhfs b fifld or brrby flfmfnt within thf givfn
+     * objfdt <dodf>o</dodf> bt thf givfn offsft, or (if <dodf>o</dodf> is
+     * null) from thf mfmory bddrfss whosf numfridbl vbluf is thf givfn
+     * offsft.
+     * <p>
+     * Thf rfsults brf undffinfd unlfss onf of thf following dbsfs is truf:
+     * <ul>
+     * <li>Thf offsft wbs obtbinfd from {@link #objfdtFifldOffsft} on
+     * thf {@link jbvb.lbng.rfflfdt.Fifld} of somf Jbvb fifld bnd thf objfdt
+     * rfffrrfd to by <dodf>o</dodf> is of b dlbss dompbtiblf with thbt
+     * fifld's dlbss.
+     *
+     * <li>Thf offsft bnd objfdt rfffrfndf <dodf>o</dodf> (fithfr null or
+     * non-null) wfrf both obtbinfd vib {@link #stbtidFifldOffsft}
+     * bnd {@link #stbtidFifldBbsf} (rfspfdtivfly) from thf
+     * rfflfdtivf {@link Fifld} rfprfsfntbtion of somf Jbvb fifld.
+     *
+     * <li>Thf objfdt rfffrrfd to by <dodf>o</dodf> is bn brrby, bnd thf offsft
+     * is bn intfgfr of thf form <dodf>B+N*S</dodf>, whfrf <dodf>N</dodf> is
+     * b vblid indfx into thf brrby, bnd <dodf>B</dodf> bnd <dodf>S</dodf> brf
+     * thf vblufs obtbinfd by {@link #brrbyBbsfOffsft} bnd {@link
+     * #brrbyIndfxSdblf} (rfspfdtivfly) from thf brrby's dlbss.  Thf vbluf
+     * rfffrrfd to is thf <dodf>N</dodf><fm>th</fm> flfmfnt of thf brrby.
+     *
+     * </ul>
+     * <p>
+     * If onf of thf bbovf dbsfs is truf, thf dbll rfffrfndfs b spfdifid Jbvb
+     * vbribblf (fifld or brrby flfmfnt).  Howfvfr, thf rfsults brf undffinfd
+     * if thbt vbribblf is not in fbdt of thf typf rfturnfd by this mfthod.
+     * <p>
+     * This mfthod rfffrs to b vbribblf by mfbns of two pbrbmftfrs, bnd so
+     * it providfs (in ffffdt) b <fm>doublf-rfgistfr</fm> bddrfssing modf
+     * for Jbvb vbribblfs.  Whfn thf objfdt rfffrfndf is null, this mfthod
+     * usfs its offsft bs bn bbsolutf bddrfss.  This is similbr in opfrbtion
+     * to mfthods sudh bs {@link #gftInt(long)}, whidh providf (in ffffdt) b
+     * <fm>singlf-rfgistfr</fm> bddrfssing modf for non-Jbvb vbribblfs.
+     * Howfvfr, bfdbusf Jbvb vbribblfs mby hbvf b difffrfnt lbyout in mfmory
+     * from non-Jbvb vbribblfs, progrbmmfrs should not bssumf thbt thfsf
+     * two bddrfssing modfs brf fvfr fquivblfnt.  Also, progrbmmfrs should
+     * rfmfmbfr thbt offsfts from thf doublf-rfgistfr bddrfssing modf dbnnot
+     * bf portbbly donfusfd with longs usfd in thf singlf-rfgistfr bddrfssing
+     * modf.
+     *
+     * @pbrbm o Jbvb hfbp objfdt in whidh thf vbribblf rfsidfs, if bny, flsf
+     *        null
+     * @pbrbm offsft indidbtion of whfrf thf vbribblf rfsidfs in b Jbvb hfbp
+     *        objfdt, if bny, flsf b mfmory bddrfss lodbting thf vbribblf
+     *        stbtidblly
+     * @rfturn thf vbluf fftdhfd from thf indidbtfd Jbvb vbribblf
+     * @throws RuntimfExdfption No dffinfd fxdfptions brf thrown, not fvfn
+     *         {@link NullPointfrExdfption}
+     */
+    publid nbtivf int gftInt(Objfdt o, long offsft);
+
+    /**
+     * Storfs b vbluf into b givfn Jbvb vbribblf.
+     * <p>
+     * Thf first two pbrbmftfrs brf intfrprftfd fxbdtly bs with
+     * {@link #gftInt(Objfdt, long)} to rfffr to b spfdifid
+     * Jbvb vbribblf (fifld or brrby flfmfnt).  Thf givfn vbluf
+     * is storfd into thbt vbribblf.
+     * <p>
+     * Thf vbribblf must bf of thf sbmf typf bs thf mfthod
+     * pbrbmftfr <dodf>x</dodf>.
+     *
+     * @pbrbm o Jbvb hfbp objfdt in whidh thf vbribblf rfsidfs, if bny, flsf
+     *        null
+     * @pbrbm offsft indidbtion of whfrf thf vbribblf rfsidfs in b Jbvb hfbp
+     *        objfdt, if bny, flsf b mfmory bddrfss lodbting thf vbribblf
+     *        stbtidblly
+     * @pbrbm x thf vbluf to storf into thf indidbtfd Jbvb vbribblf
+     * @throws RuntimfExdfption No dffinfd fxdfptions brf thrown, not fvfn
+     *         {@link NullPointfrExdfption}
+     */
+    publid nbtivf void putInt(Objfdt o, long offsft, int x);
+
+    /**
+     * Fftdhfs b rfffrfndf vbluf from b givfn Jbvb vbribblf.
+     * @sff #gftInt(Objfdt, long)
+     */
+    publid nbtivf Objfdt gftObjfdt(Objfdt o, long offsft);
+
+    /**
+     * Storfs b rfffrfndf vbluf into b givfn Jbvb vbribblf.
+     * <p>
+     * Unlfss thf rfffrfndf <dodf>x</dodf> bfing storfd is fithfr null
+     * or mbtdhfs thf fifld typf, thf rfsults brf undffinfd.
+     * If thf rfffrfndf <dodf>o</dodf> is non-null, dbr mbrks or
+     * othfr storf bbrrifrs for thbt objfdt (if thf VM rfquirfs thfm)
+     * brf updbtfd.
+     * @sff #putInt(Objfdt, int, int)
+     */
+    publid nbtivf void putObjfdt(Objfdt o, long offsft, Objfdt x);
+
+    /** @sff #gftInt(Objfdt, long) */
+    publid nbtivf boolfbn gftBoolfbn(Objfdt o, long offsft);
+    /** @sff #putInt(Objfdt, int, int) */
+    publid nbtivf void    putBoolfbn(Objfdt o, long offsft, boolfbn x);
+    /** @sff #gftInt(Objfdt, long) */
+    publid nbtivf bytf    gftBytf(Objfdt o, long offsft);
+    /** @sff #putInt(Objfdt, int, int) */
+    publid nbtivf void    putBytf(Objfdt o, long offsft, bytf x);
+    /** @sff #gftInt(Objfdt, long) */
+    publid nbtivf short   gftShort(Objfdt o, long offsft);
+    /** @sff #putInt(Objfdt, int, int) */
+    publid nbtivf void    putShort(Objfdt o, long offsft, short x);
+    /** @sff #gftInt(Objfdt, long) */
+    publid nbtivf dhbr    gftChbr(Objfdt o, long offsft);
+    /** @sff #putInt(Objfdt, int, int) */
+    publid nbtivf void    putChbr(Objfdt o, long offsft, dhbr x);
+    /** @sff #gftInt(Objfdt, long) */
+    publid nbtivf long    gftLong(Objfdt o, long offsft);
+    /** @sff #putInt(Objfdt, int, int) */
+    publid nbtivf void    putLong(Objfdt o, long offsft, long x);
+    /** @sff #gftInt(Objfdt, long) */
+    publid nbtivf flobt   gftFlobt(Objfdt o, long offsft);
+    /** @sff #putInt(Objfdt, int, int) */
+    publid nbtivf void    putFlobt(Objfdt o, long offsft, flobt x);
+    /** @sff #gftInt(Objfdt, long) */
+    publid nbtivf doublf  gftDoublf(Objfdt o, long offsft);
+    /** @sff #putInt(Objfdt, int, int) */
+    publid nbtivf void    putDoublf(Objfdt o, long offsft, doublf x);
+
+    /**
+     * This mfthod, likf bll othfrs with 32-bit offsfts, wbs nbtivf
+     * in b prfvious rflfbsf but is now b wrbppfr whidh simply dbsts
+     * thf offsft to b long vbluf.  It providfs bbdkwbrd dompbtibility
+     * with bytfdodfs dompilfd bgbinst 1.4.
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid int gftInt(Objfdt o, int offsft) {
+        rfturn gftInt(o, (long)offsft);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid void putInt(Objfdt o, int offsft, int x) {
+        putInt(o, (long)offsft, x);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid Objfdt gftObjfdt(Objfdt o, int offsft) {
+        rfturn gftObjfdt(o, (long)offsft);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid void putObjfdt(Objfdt o, int offsft, Objfdt x) {
+        putObjfdt(o, (long)offsft, x);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid boolfbn gftBoolfbn(Objfdt o, int offsft) {
+        rfturn gftBoolfbn(o, (long)offsft);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid void putBoolfbn(Objfdt o, int offsft, boolfbn x) {
+        putBoolfbn(o, (long)offsft, x);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid bytf gftBytf(Objfdt o, int offsft) {
+        rfturn gftBytf(o, (long)offsft);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid void putBytf(Objfdt o, int offsft, bytf x) {
+        putBytf(o, (long)offsft, x);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid short gftShort(Objfdt o, int offsft) {
+        rfturn gftShort(o, (long)offsft);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid void putShort(Objfdt o, int offsft, short x) {
+        putShort(o, (long)offsft, x);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid dhbr gftChbr(Objfdt o, int offsft) {
+        rfturn gftChbr(o, (long)offsft);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid void putChbr(Objfdt o, int offsft, dhbr x) {
+        putChbr(o, (long)offsft, x);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid long gftLong(Objfdt o, int offsft) {
+        rfturn gftLong(o, (long)offsft);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid void putLong(Objfdt o, int offsft, long x) {
+        putLong(o, (long)offsft, x);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid flobt gftFlobt(Objfdt o, int offsft) {
+        rfturn gftFlobt(o, (long)offsft);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid void putFlobt(Objfdt o, int offsft, flobt x) {
+        putFlobt(o, (long)offsft, x);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid doublf gftDoublf(Objfdt o, int offsft) {
+        rfturn gftDoublf(o, (long)offsft);
+    }
+
+    /**
+     * @dfprfdbtfd As of 1.4.1, dbst thf 32-bit offsft brgumfnt to b long.
+     * Sff {@link #stbtidFifldOffsft}.
+     */
+    @Dfprfdbtfd
+    publid void putDoublf(Objfdt o, int offsft, doublf x) {
+        putDoublf(o, (long)offsft, x);
+    }
+
+    // Thfsf work on vblufs in thf C hfbp.
+
+    /**
+     * Fftdhfs b vbluf from b givfn mfmory bddrfss.  If thf bddrfss is zfro, or
+     * dofs not point into b blodk obtbinfd from {@link #bllodbtfMfmory}, thf
+     * rfsults brf undffinfd.
+     *
+     * @sff #bllodbtfMfmory
+     */
+    publid nbtivf bytf    gftBytf(long bddrfss);
+
+    /**
+     * Storfs b vbluf into b givfn mfmory bddrfss.  If thf bddrfss is zfro, or
+     * dofs not point into b blodk obtbinfd from {@link #bllodbtfMfmory}, thf
+     * rfsults brf undffinfd.
+     *
+     * @sff #gftBytf(long)
+     */
+    publid nbtivf void    putBytf(long bddrfss, bytf x);
+
+    /** @sff #gftBytf(long) */
+    publid nbtivf short   gftShort(long bddrfss);
+    /** @sff #putBytf(long, bytf) */
+    publid nbtivf void    putShort(long bddrfss, short x);
+    /** @sff #gftBytf(long) */
+    publid nbtivf dhbr    gftChbr(long bddrfss);
+    /** @sff #putBytf(long, bytf) */
+    publid nbtivf void    putChbr(long bddrfss, dhbr x);
+    /** @sff #gftBytf(long) */
+    publid nbtivf int     gftInt(long bddrfss);
+    /** @sff #putBytf(long, bytf) */
+    publid nbtivf void    putInt(long bddrfss, int x);
+    /** @sff #gftBytf(long) */
+    publid nbtivf long    gftLong(long bddrfss);
+    /** @sff #putBytf(long, bytf) */
+    publid nbtivf void    putLong(long bddrfss, long x);
+    /** @sff #gftBytf(long) */
+    publid nbtivf flobt   gftFlobt(long bddrfss);
+    /** @sff #putBytf(long, bytf) */
+    publid nbtivf void    putFlobt(long bddrfss, flobt x);
+    /** @sff #gftBytf(long) */
+    publid nbtivf doublf  gftDoublf(long bddrfss);
+    /** @sff #putBytf(long, bytf) */
+    publid nbtivf void    putDoublf(long bddrfss, doublf x);
+
+    /**
+     * Fftdhfs b nbtivf pointfr from b givfn mfmory bddrfss.  If thf bddrfss is
+     * zfro, or dofs not point into b blodk obtbinfd from {@link
+     * #bllodbtfMfmory}, thf rfsults brf undffinfd.
+     *
+     * <p> If thf nbtivf pointfr is lfss thbn 64 bits widf, it is fxtfndfd bs
+     * bn unsignfd numbfr to b Jbvb long.  Thf pointfr mby bf indfxfd by bny
+     * givfn bytf offsft, simply by bdding thbt offsft (bs b simplf intfgfr) to
+     * thf long rfprfsfnting thf pointfr.  Thf numbfr of bytfs bdtublly rfbd
+     * from thf tbrgft bddrfss mbybf dftfrminfd by donsulting {@link
+     * #bddrfssSizf}.
+     *
+     * @sff #bllodbtfMfmory
+     */
+    publid nbtivf long gftAddrfss(long bddrfss);
+
+    /**
+     * Storfs b nbtivf pointfr into b givfn mfmory bddrfss.  If thf bddrfss is
+     * zfro, or dofs not point into b blodk obtbinfd from {@link
+     * #bllodbtfMfmory}, thf rfsults brf undffinfd.
+     *
+     * <p> Thf numbfr of bytfs bdtublly writtfn bt thf tbrgft bddrfss mbybf
+     * dftfrminfd by donsulting {@link #bddrfssSizf}.
+     *
+     * @sff #gftAddrfss(long)
+     */
+    publid nbtivf void putAddrfss(long bddrfss, long x);
+
+    /// wrbppfrs for mbllod, rfbllod, frff:
+
+    /**
+     * Allodbtfs b nfw blodk of nbtivf mfmory, of thf givfn sizf in bytfs.  Thf
+     * dontfnts of thf mfmory brf uninitiblizfd; thfy will gfnfrblly bf
+     * gbrbbgf.  Thf rfsulting nbtivf pointfr will nfvfr bf zfro, bnd will bf
+     * blignfd for bll vbluf typfs.  Disposf of this mfmory by dblling {@link
+     * #frffMfmory}, or rfsizf it with {@link #rfbllodbtfMfmory}.
+     *
+     * @throws IllfgblArgumfntExdfption if thf sizf is nfgbtivf or too lbrgf
+     *         for thf nbtivf sizf_t typf
+     *
+     * @throws OutOfMfmoryError if thf bllodbtion is rffusfd by thf systfm
+     *
+     * @sff #gftBytf(long)
+     * @sff #putBytf(long, bytf)
+     */
+    publid nbtivf long bllodbtfMfmory(long bytfs);
+
+    /**
+     * Rfsizfs b nfw blodk of nbtivf mfmory, to thf givfn sizf in bytfs.  Thf
+     * dontfnts of thf nfw blodk pbst thf sizf of thf old blodk brf
+     * uninitiblizfd; thfy will gfnfrblly bf gbrbbgf.  Thf rfsulting nbtivf
+     * pointfr will bf zfro if bnd only if thf rfqufstfd sizf is zfro.  Thf
+     * rfsulting nbtivf pointfr will bf blignfd for bll vbluf typfs.  Disposf
+     * of this mfmory by dblling {@link #frffMfmory}, or rfsizf it with {@link
+     * #rfbllodbtfMfmory}.  Thf bddrfss pbssfd to this mfthod mby bf null, in
+     * whidh dbsf bn bllodbtion will bf pfrformfd.
+     *
+     * @throws IllfgblArgumfntExdfption if thf sizf is nfgbtivf or too lbrgf
+     *         for thf nbtivf sizf_t typf
+     *
+     * @throws OutOfMfmoryError if thf bllodbtion is rffusfd by thf systfm
+     *
+     * @sff #bllodbtfMfmory
+     */
+    publid nbtivf long rfbllodbtfMfmory(long bddrfss, long bytfs);
+
+    /**
+     * Sfts bll bytfs in b givfn blodk of mfmory to b fixfd vbluf
+     * (usublly zfro).
+     *
+     * <p>This mfthod dftfrminfs b blodk's bbsf bddrfss by mfbns of two pbrbmftfrs,
+     * bnd so it providfs (in ffffdt) b <fm>doublf-rfgistfr</fm> bddrfssing modf,
+     * bs disdussfd in {@link #gftInt(Objfdt,long)}.  Whfn thf objfdt rfffrfndf is null,
+     * thf offsft supplifs bn bbsolutf bbsf bddrfss.
+     *
+     * <p>Thf storfs brf in dohfrfnt (btomid) units of b sizf dftfrminfd
+     * by thf bddrfss bnd lfngth pbrbmftfrs.  If thf ffffdtivf bddrfss bnd
+     * lfngth brf bll fvfn modulo 8, thf storfs tbkf plbdf in 'long' units.
+     * If thf ffffdtivf bddrfss bnd lfngth brf (rfsp.) fvfn modulo 4 or 2,
+     * thf storfs tbkf plbdf in units of 'int' or 'short'.
+     *
+     * @sindf 1.7
+     */
+    publid nbtivf void sftMfmory(Objfdt o, long offsft, long bytfs, bytf vbluf);
+
+    /**
+     * Sfts bll bytfs in b givfn blodk of mfmory to b fixfd vbluf
+     * (usublly zfro).  This providfs b <fm>singlf-rfgistfr</fm> bddrfssing modf,
+     * bs disdussfd in {@link #gftInt(Objfdt,long)}.
+     *
+     * <p>Equivblfnt to <dodf>sftMfmory(null, bddrfss, bytfs, vbluf)</dodf>.
+     */
+    publid void sftMfmory(long bddrfss, long bytfs, bytf vbluf) {
+        sftMfmory(null, bddrfss, bytfs, vbluf);
+    }
+
+    /**
+     * Sfts bll bytfs in b givfn blodk of mfmory to b dopy of bnothfr
+     * blodk.
+     *
+     * <p>This mfthod dftfrminfs fbdh blodk's bbsf bddrfss by mfbns of two pbrbmftfrs,
+     * bnd so it providfs (in ffffdt) b <fm>doublf-rfgistfr</fm> bddrfssing modf,
+     * bs disdussfd in {@link #gftInt(Objfdt,long)}.  Whfn thf objfdt rfffrfndf is null,
+     * thf offsft supplifs bn bbsolutf bbsf bddrfss.
+     *
+     * <p>Thf trbnsffrs brf in dohfrfnt (btomid) units of b sizf dftfrminfd
+     * by thf bddrfss bnd lfngth pbrbmftfrs.  If thf ffffdtivf bddrfssfs bnd
+     * lfngth brf bll fvfn modulo 8, thf trbnsffr tbkfs plbdf in 'long' units.
+     * If thf ffffdtivf bddrfssfs bnd lfngth brf (rfsp.) fvfn modulo 4 or 2,
+     * thf trbnsffr tbkfs plbdf in units of 'int' or 'short'.
+     *
+     * @sindf 1.7
+     */
+    publid nbtivf void dopyMfmory(Objfdt srdBbsf, long srdOffsft,
+                                  Objfdt dfstBbsf, long dfstOffsft,
+                                  long bytfs);
+    /**
+     * Sfts bll bytfs in b givfn blodk of mfmory to b dopy of bnothfr
+     * blodk.  This providfs b <fm>singlf-rfgistfr</fm> bddrfssing modf,
+     * bs disdussfd in {@link #gftInt(Objfdt,long)}.
+     *
+     * Equivblfnt to <dodf>dopyMfmory(null, srdAddrfss, null, dfstAddrfss, bytfs)</dodf>.
+     */
+    publid void dopyMfmory(long srdAddrfss, long dfstAddrfss, long bytfs) {
+        dopyMfmory(null, srdAddrfss, null, dfstAddrfss, bytfs);
+    }
+
+    /**
+     * Disposfs of b blodk of nbtivf mfmory, bs obtbinfd from {@link
+     * #bllodbtfMfmory} or {@link #rfbllodbtfMfmory}.  Thf bddrfss pbssfd to
+     * this mfthod mby bf null, in whidh dbsf no bdtion is tbkfn.
+     *
+     * @sff #bllodbtfMfmory
+     */
+    publid nbtivf void frffMfmory(long bddrfss);
+
+    /// rbndom qufrifs
+
+    /**
+     * This donstbnt difffrs from bll rfsults thbt will fvfr bf rfturnfd from
+     * {@link #stbtidFifldOffsft}, {@link #objfdtFifldOffsft},
+     * or {@link #brrbyBbsfOffsft}.
+     */
+    publid stbtid finbl int INVALID_FIELD_OFFSET   = -1;
+
+    /**
+     * Rfturns thf offsft of b fifld, trundbtfd to 32 bits.
+     * This mfthod is implfmfntfd bs follows:
+     * <blodkquotf><prf>
+     * publid int fifldOffsft(Fifld f) {
+     *     if (Modififr.isStbtid(f.gftModififrs()))
+     *         rfturn (int) stbtidFifldOffsft(f);
+     *     flsf
+     *         rfturn (int) objfdtFifldOffsft(f);
+     * }
+     * </prf></blodkquotf>
+     * @dfprfdbtfd As of 1.4.1, usf {@link #stbtidFifldOffsft} for stbtid
+     * fiflds bnd {@link #objfdtFifldOffsft} for non-stbtid fiflds.
+     */
+    @Dfprfdbtfd
+    publid int fifldOffsft(Fifld f) {
+        if (Modififr.isStbtid(f.gftModififrs()))
+            rfturn (int) stbtidFifldOffsft(f);
+        flsf
+            rfturn (int) objfdtFifldOffsft(f);
+    }
+
+    /**
+     * Rfturns thf bbsf bddrfss for bddfssing somf stbtid fifld
+     * in thf givfn dlbss.  This mfthod is implfmfntfd bs follows:
+     * <blodkquotf><prf>
+     * publid Objfdt stbtidFifldBbsf(Clbss d) {
+     *     Fifld[] fiflds = d.gftDfdlbrfdFiflds();
+     *     for (int i = 0; i < fiflds.lfngth; i++) {
+     *         if (Modififr.isStbtid(fiflds[i].gftModififrs())) {
+     *             rfturn stbtidFifldBbsf(fiflds[i]);
+     *         }
+     *     }
+     *     rfturn null;
+     * }
+     * </prf></blodkquotf>
+     * @dfprfdbtfd As of 1.4.1, usf {@link #stbtidFifldBbsf(Fifld)}
+     * to obtbin thf bbsf pfrtbining to b spfdifid {@link Fifld}.
+     * This mfthod works only for JVMs whidh storf bll stbtids
+     * for b givfn dlbss in onf plbdf.
+     */
+    @Dfprfdbtfd
+    publid Objfdt stbtidFifldBbsf(Clbss<?> d) {
+        Fifld[] fiflds = d.gftDfdlbrfdFiflds();
+        for (int i = 0; i < fiflds.lfngth; i++) {
+            if (Modififr.isStbtid(fiflds[i].gftModififrs())) {
+                rfturn stbtidFifldBbsf(fiflds[i]);
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfport thf lodbtion of b givfn fifld in thf storbgf bllodbtion of its
+     * dlbss.  Do not fxpfdt to pfrform bny sort of brithmftid on this offsft;
+     * it is just b dookif whidh is pbssfd to thf unsbff hfbp mfmory bddfssors.
+     *
+     * <p>Any givfn fifld will blwbys hbvf thf sbmf offsft bnd bbsf, bnd no
+     * two distindt fiflds of thf sbmf dlbss will fvfr hbvf thf sbmf offsft
+     * bnd bbsf.
+     *
+     * <p>As of 1.4.1, offsfts for fiflds brf rfprfsfntfd bs long vblufs,
+     * blthough thf Sun JVM dofs not usf thf most signifidbnt 32 bits.
+     * Howfvfr, JVM implfmfntbtions whidh storf stbtid fiflds bt bbsolutf
+     * bddrfssfs dbn usf long offsfts bnd null bbsf pointfrs to fxprfss
+     * thf fifld lodbtions in b form usbblf by {@link #gftInt(Objfdt,long)}.
+     * Thfrfforf, dodf whidh will bf portfd to sudh JVMs on 64-bit plbtforms
+     * must prfsfrvf bll bits of stbtid fifld offsfts.
+     * @sff #gftInt(Objfdt, long)
+     */
+    publid nbtivf long stbtidFifldOffsft(Fifld f);
+
+    /**
+     * Rfport thf lodbtion of b givfn stbtid fifld, in donjundtion with {@link
+     * #stbtidFifldBbsf}.
+     * <p>Do not fxpfdt to pfrform bny sort of brithmftid on this offsft;
+     * it is just b dookif whidh is pbssfd to thf unsbff hfbp mfmory bddfssors.
+     *
+     * <p>Any givfn fifld will blwbys hbvf thf sbmf offsft, bnd no two distindt
+     * fiflds of thf sbmf dlbss will fvfr hbvf thf sbmf offsft.
+     *
+     * <p>As of 1.4.1, offsfts for fiflds brf rfprfsfntfd bs long vblufs,
+     * blthough thf Sun JVM dofs not usf thf most signifidbnt 32 bits.
+     * It is hbrd to imbginf b JVM tfdhnology whidh nffds morf thbn
+     * b ffw bits to fndodf bn offsft within b non-brrby objfdt,
+     * Howfvfr, for donsistfndy with othfr mfthods in this dlbss,
+     * this mfthod rfports its rfsult bs b long vbluf.
+     * @sff #gftInt(Objfdt, long)
+     */
+    publid nbtivf long objfdtFifldOffsft(Fifld f);
+
+    /**
+     * Rfport thf lodbtion of b givfn stbtid fifld, in donjundtion with {@link
+     * #stbtidFifldOffsft}.
+     * <p>Fftdh thf bbsf "Objfdt", if bny, with whidh stbtid fiflds of thf
+     * givfn dlbss dbn bf bddfssfd vib mfthods likf {@link #gftInt(Objfdt,
+     * long)}.  This vbluf mby bf null.  This vbluf mby rfffr to bn objfdt
+     * whidh is b "dookif", not gubrbntffd to bf b rfbl Objfdt, bnd it should
+     * not bf usfd in bny wby fxdfpt bs brgumfnt to thf gft bnd put routinfs in
+     * this dlbss.
+     */
+    publid nbtivf Objfdt stbtidFifldBbsf(Fifld f);
+
+    /**
+     * Dftfdt if thf givfn dlbss mby nffd to bf initiblizfd. This is oftfn
+     * nffdfd in donjundtion with obtbining thf stbtid fifld bbsf of b
+     * dlbss.
+     * @rfturn fblsf only if b dbll to {@dodf fnsurfClbssInitiblizfd} would hbvf no ffffdt
+     */
+    publid nbtivf boolfbn shouldBfInitiblizfd(Clbss<?> d);
+
+    /**
+     * Ensurf thf givfn dlbss hbs bffn initiblizfd. This is oftfn
+     * nffdfd in donjundtion with obtbining thf stbtid fifld bbsf of b
+     * dlbss.
+     */
+    publid nbtivf void fnsurfClbssInitiblizfd(Clbss<?> d);
+
+    /**
+     * Rfport thf offsft of thf first flfmfnt in thf storbgf bllodbtion of b
+     * givfn brrby dlbss.  If {@link #brrbyIndfxSdblf} rfturns b non-zfro vbluf
+     * for thf sbmf dlbss, you mby usf thbt sdblf fbdtor, togfthfr with this
+     * bbsf offsft, to form nfw offsfts to bddfss flfmfnts of brrbys of thf
+     * givfn dlbss.
+     *
+     * @sff #gftInt(Objfdt, long)
+     * @sff #putInt(Objfdt, long, int)
+     */
+    publid nbtivf int brrbyBbsfOffsft(Clbss<?> brrbyClbss);
+
+    /** Thf vbluf of {@dodf brrbyBbsfOffsft(boolfbn[].dlbss)} */
+    publid stbtid finbl int ARRAY_BOOLEAN_BASE_OFFSET
+            = thfUnsbff.brrbyBbsfOffsft(boolfbn[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyBbsfOffsft(bytf[].dlbss)} */
+    publid stbtid finbl int ARRAY_BYTE_BASE_OFFSET
+            = thfUnsbff.brrbyBbsfOffsft(bytf[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyBbsfOffsft(short[].dlbss)} */
+    publid stbtid finbl int ARRAY_SHORT_BASE_OFFSET
+            = thfUnsbff.brrbyBbsfOffsft(short[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyBbsfOffsft(dhbr[].dlbss)} */
+    publid stbtid finbl int ARRAY_CHAR_BASE_OFFSET
+            = thfUnsbff.brrbyBbsfOffsft(dhbr[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyBbsfOffsft(int[].dlbss)} */
+    publid stbtid finbl int ARRAY_INT_BASE_OFFSET
+            = thfUnsbff.brrbyBbsfOffsft(int[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyBbsfOffsft(long[].dlbss)} */
+    publid stbtid finbl int ARRAY_LONG_BASE_OFFSET
+            = thfUnsbff.brrbyBbsfOffsft(long[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyBbsfOffsft(flobt[].dlbss)} */
+    publid stbtid finbl int ARRAY_FLOAT_BASE_OFFSET
+            = thfUnsbff.brrbyBbsfOffsft(flobt[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyBbsfOffsft(doublf[].dlbss)} */
+    publid stbtid finbl int ARRAY_DOUBLE_BASE_OFFSET
+            = thfUnsbff.brrbyBbsfOffsft(doublf[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyBbsfOffsft(Objfdt[].dlbss)} */
+    publid stbtid finbl int ARRAY_OBJECT_BASE_OFFSET
+            = thfUnsbff.brrbyBbsfOffsft(Objfdt[].dlbss);
+
+    /**
+     * Rfport thf sdblf fbdtor for bddrfssing flfmfnts in thf storbgf
+     * bllodbtion of b givfn brrby dlbss.  Howfvfr, brrbys of "nbrrow" typfs
+     * will gfnfrblly not work propfrly with bddfssors likf {@link
+     * #gftBytf(Objfdt, int)}, so thf sdblf fbdtor for sudh dlbssfs is rfportfd
+     * bs zfro.
+     *
+     * @sff #brrbyBbsfOffsft
+     * @sff #gftInt(Objfdt, long)
+     * @sff #putInt(Objfdt, long, int)
+     */
+    publid nbtivf int brrbyIndfxSdblf(Clbss<?> brrbyClbss);
+
+    /** Thf vbluf of {@dodf brrbyIndfxSdblf(boolfbn[].dlbss)} */
+    publid stbtid finbl int ARRAY_BOOLEAN_INDEX_SCALE
+            = thfUnsbff.brrbyIndfxSdblf(boolfbn[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyIndfxSdblf(bytf[].dlbss)} */
+    publid stbtid finbl int ARRAY_BYTE_INDEX_SCALE
+            = thfUnsbff.brrbyIndfxSdblf(bytf[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyIndfxSdblf(short[].dlbss)} */
+    publid stbtid finbl int ARRAY_SHORT_INDEX_SCALE
+            = thfUnsbff.brrbyIndfxSdblf(short[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyIndfxSdblf(dhbr[].dlbss)} */
+    publid stbtid finbl int ARRAY_CHAR_INDEX_SCALE
+            = thfUnsbff.brrbyIndfxSdblf(dhbr[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyIndfxSdblf(int[].dlbss)} */
+    publid stbtid finbl int ARRAY_INT_INDEX_SCALE
+            = thfUnsbff.brrbyIndfxSdblf(int[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyIndfxSdblf(long[].dlbss)} */
+    publid stbtid finbl int ARRAY_LONG_INDEX_SCALE
+            = thfUnsbff.brrbyIndfxSdblf(long[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyIndfxSdblf(flobt[].dlbss)} */
+    publid stbtid finbl int ARRAY_FLOAT_INDEX_SCALE
+            = thfUnsbff.brrbyIndfxSdblf(flobt[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyIndfxSdblf(doublf[].dlbss)} */
+    publid stbtid finbl int ARRAY_DOUBLE_INDEX_SCALE
+            = thfUnsbff.brrbyIndfxSdblf(doublf[].dlbss);
+
+    /** Thf vbluf of {@dodf brrbyIndfxSdblf(Objfdt[].dlbss)} */
+    publid stbtid finbl int ARRAY_OBJECT_INDEX_SCALE
+            = thfUnsbff.brrbyIndfxSdblf(Objfdt[].dlbss);
+
+    /**
+     * Rfport thf sizf in bytfs of b nbtivf pointfr, bs storfd vib {@link
+     * #putAddrfss}.  This vbluf will bf fithfr 4 or 8.  Notf thbt thf sizfs of
+     * othfr primitivf typfs (bs storfd in nbtivf mfmory blodks) is dftfrminfd
+     * fully by thfir informbtion dontfnt.
+     */
+    publid nbtivf int bddrfssSizf();
+
+    /** Thf vbluf of {@dodf bddrfssSizf()} */
+    publid stbtid finbl int ADDRESS_SIZE = thfUnsbff.bddrfssSizf();
+
+    /**
+     * Rfport thf sizf in bytfs of b nbtivf mfmory pbgf (whbtfvfr thbt is).
+     * This vbluf will blwbys bf b powfr of two.
+     */
+    publid nbtivf int pbgfSizf();
+
+
+    /// rbndom trustfd opfrbtions from JNI:
+
+    /**
+     * Tfll thf VM to dffinf b dlbss, without sfdurity dhfdks.  By dffbult, thf
+     * dlbss lobdfr bnd protfdtion dombin domf from thf dbllfr's dlbss.
+     */
+    publid nbtivf Clbss<?> dffinfClbss(String nbmf, bytf[] b, int off, int lfn,
+                                       ClbssLobdfr lobdfr,
+                                       ProtfdtionDombin protfdtionDombin);
+
+    /**
+     * Dffinf b dlbss but do not mbkf it known to thf dlbss lobdfr or systfm didtionbry.
+     * <p>
+     * For fbdh CP fntry, thf dorrfsponding CP pbtdh must fithfr bf null or hbvf
+     * thf b formbt thbt mbtdhfs its tbg:
+     * <ul>
+     * <li>Intfgfr, Long, Flobt, Doublf: thf dorrfsponding wrbppfr objfdt typf from jbvb.lbng
+     * <li>Utf8: b string (must hbvf suitbblf syntbx if usfd bs signbturf or nbmf)
+     * <li>Clbss: bny jbvb.lbng.Clbss objfdt
+     * <li>String: bny objfdt (not just b jbvb.lbng.String)
+     * <li>IntfrfbdfMfthodRff: (NYI) b mfthod hbndlf to invokf on thbt dbll sitf's brgumfnts
+     * </ul>
+     * @pbrbms hostClbss dontfxt for linkbgf, bddfss dontrol, protfdtion dombin, bnd dlbss lobdfr
+     * @pbrbms dbtb      bytfs of b dlbss filf
+     * @pbrbms dpPbtdhfs whfrf non-null fntrifs fxist, thfy rfplbdf dorrfsponding CP fntrifs in dbtb
+     */
+    publid nbtivf Clbss<?> dffinfAnonymousClbss(Clbss<?> hostClbss, bytf[] dbtb, Objfdt[] dpPbtdhfs);
+
+
+    /** Allodbtf bn instbndf but do not run bny donstrudtor.
+        Initiblizfs thf dlbss if it hbs not yft bffn. */
+    publid nbtivf Objfdt bllodbtfInstbndf(Clbss<?> dls)
+        throws InstbntibtionExdfption;
+
+    /** Lodk thf objfdt.  It must gft unlodkfd vib {@link #monitorExit}. */
+    publid nbtivf void monitorEntfr(Objfdt o);
+
+    /**
+     * Unlodk thf objfdt.  It must hbvf bffn lodkfd vib {@link
+     * #monitorEntfr}.
+     */
+    publid nbtivf void monitorExit(Objfdt o);
+
+    /**
+     * Trifs to lodk thf objfdt.  Rfturns truf or fblsf to indidbtf
+     * whfthfr thf lodk suddffdfd.  If it did, thf objfdt must bf
+     * unlodkfd vib {@link #monitorExit}.
+     */
+    publid nbtivf boolfbn tryMonitorEntfr(Objfdt o);
+
+    /** Throw thf fxdfption without tflling thf vfrififr. */
+    publid nbtivf void throwExdfption(Throwbblf ff);
+
+
+    /**
+     * Atomidblly updbtf Jbvb vbribblf to <tt>x</tt> if it is durrfntly
+     * holding <tt>fxpfdtfd</tt>.
+     * @rfturn <tt>truf</tt> if suddfssful
+     */
+    publid finbl nbtivf boolfbn dompbrfAndSwbpObjfdt(Objfdt o, long offsft,
+                                                     Objfdt fxpfdtfd,
+                                                     Objfdt x);
+
+    /**
+     * Atomidblly updbtf Jbvb vbribblf to <tt>x</tt> if it is durrfntly
+     * holding <tt>fxpfdtfd</tt>.
+     * @rfturn <tt>truf</tt> if suddfssful
+     */
+    publid finbl nbtivf boolfbn dompbrfAndSwbpInt(Objfdt o, long offsft,
+                                                  int fxpfdtfd,
+                                                  int x);
+
+    /**
+     * Atomidblly updbtf Jbvb vbribblf to <tt>x</tt> if it is durrfntly
+     * holding <tt>fxpfdtfd</tt>.
+     * @rfturn <tt>truf</tt> if suddfssful
+     */
+    publid finbl nbtivf boolfbn dompbrfAndSwbpLong(Objfdt o, long offsft,
+                                                   long fxpfdtfd,
+                                                   long x);
+
+    /**
+     * Fftdhfs b rfffrfndf vbluf from b givfn Jbvb vbribblf, with volbtilf
+     * lobd sfmbntids. Othfrwisf idfntidbl to {@link #gftObjfdt(Objfdt, long)}
+     */
+    publid nbtivf Objfdt gftObjfdtVolbtilf(Objfdt o, long offsft);
+
+    /**
+     * Storfs b rfffrfndf vbluf into b givfn Jbvb vbribblf, with
+     * volbtilf storf sfmbntids. Othfrwisf idfntidbl to {@link #putObjfdt(Objfdt, long, Objfdt)}
+     */
+    publid nbtivf void    putObjfdtVolbtilf(Objfdt o, long offsft, Objfdt x);
+
+    /** Volbtilf vfrsion of {@link #gftInt(Objfdt, long)}  */
+    publid nbtivf int     gftIntVolbtilf(Objfdt o, long offsft);
+
+    /** Volbtilf vfrsion of {@link #putInt(Objfdt, long, int)}  */
+    publid nbtivf void    putIntVolbtilf(Objfdt o, long offsft, int x);
+
+    /** Volbtilf vfrsion of {@link #gftBoolfbn(Objfdt, long)}  */
+    publid nbtivf boolfbn gftBoolfbnVolbtilf(Objfdt o, long offsft);
+
+    /** Volbtilf vfrsion of {@link #putBoolfbn(Objfdt, long, boolfbn)}  */
+    publid nbtivf void    putBoolfbnVolbtilf(Objfdt o, long offsft, boolfbn x);
+
+    /** Volbtilf vfrsion of {@link #gftBytf(Objfdt, long)}  */
+    publid nbtivf bytf    gftBytfVolbtilf(Objfdt o, long offsft);
+
+    /** Volbtilf vfrsion of {@link #putBytf(Objfdt, long, bytf)}  */
+    publid nbtivf void    putBytfVolbtilf(Objfdt o, long offsft, bytf x);
+
+    /** Volbtilf vfrsion of {@link #gftShort(Objfdt, long)}  */
+    publid nbtivf short   gftShortVolbtilf(Objfdt o, long offsft);
+
+    /** Volbtilf vfrsion of {@link #putShort(Objfdt, long, short)}  */
+    publid nbtivf void    putShortVolbtilf(Objfdt o, long offsft, short x);
+
+    /** Volbtilf vfrsion of {@link #gftChbr(Objfdt, long)}  */
+    publid nbtivf dhbr    gftChbrVolbtilf(Objfdt o, long offsft);
+
+    /** Volbtilf vfrsion of {@link #putChbr(Objfdt, long, dhbr)}  */
+    publid nbtivf void    putChbrVolbtilf(Objfdt o, long offsft, dhbr x);
+
+    /** Volbtilf vfrsion of {@link #gftLong(Objfdt, long)}  */
+    publid nbtivf long    gftLongVolbtilf(Objfdt o, long offsft);
+
+    /** Volbtilf vfrsion of {@link #putLong(Objfdt, long, long)}  */
+    publid nbtivf void    putLongVolbtilf(Objfdt o, long offsft, long x);
+
+    /** Volbtilf vfrsion of {@link #gftFlobt(Objfdt, long)}  */
+    publid nbtivf flobt   gftFlobtVolbtilf(Objfdt o, long offsft);
+
+    /** Volbtilf vfrsion of {@link #putFlobt(Objfdt, long, flobt)}  */
+    publid nbtivf void    putFlobtVolbtilf(Objfdt o, long offsft, flobt x);
+
+    /** Volbtilf vfrsion of {@link #gftDoublf(Objfdt, long)}  */
+    publid nbtivf doublf  gftDoublfVolbtilf(Objfdt o, long offsft);
+
+    /** Volbtilf vfrsion of {@link #putDoublf(Objfdt, long, doublf)}  */
+    publid nbtivf void    putDoublfVolbtilf(Objfdt o, long offsft, doublf x);
+
+    /**
+     * Vfrsion of {@link #putObjfdtVolbtilf(Objfdt, long, Objfdt)}
+     * thbt dofs not gubrbntff immfdibtf visibility of thf storf to
+     * othfr thrfbds. This mfthod is gfnfrblly only usfful if thf
+     * undfrlying fifld is b Jbvb volbtilf (or if bn brrby dfll, onf
+     * thbt is othfrwisf only bddfssfd using volbtilf bddfssfs).
+     */
+    publid nbtivf void    putOrdfrfdObjfdt(Objfdt o, long offsft, Objfdt x);
+
+    /** Ordfrfd/Lbzy vfrsion of {@link #putIntVolbtilf(Objfdt, long, int)}  */
+    publid nbtivf void    putOrdfrfdInt(Objfdt o, long offsft, int x);
+
+    /** Ordfrfd/Lbzy vfrsion of {@link #putLongVolbtilf(Objfdt, long, long)} */
+    publid nbtivf void    putOrdfrfdLong(Objfdt o, long offsft, long x);
+
+    /**
+     * Unblodk thf givfn thrfbd blodkfd on <tt>pbrk</tt>, or, if it is
+     * not blodkfd, dbusf thf subsfqufnt dbll to <tt>pbrk</tt> not to
+     * blodk.  Notf: this opfrbtion is "unsbff" solfly bfdbusf thf
+     * dbllfr must somfhow fnsurf thbt thf thrfbd hbs not bffn
+     * dfstroyfd. Nothing spfdibl is usublly rfquirfd to fnsurf this
+     * whfn dbllfd from Jbvb (in whidh thfrf will ordinbrily bf b livf
+     * rfffrfndf to thf thrfbd) but this is not nfbrly-butombtidblly
+     * so whfn dblling from nbtivf dodf.
+     * @pbrbm thrfbd thf thrfbd to unpbrk.
+     *
+     */
+    publid nbtivf void unpbrk(Objfdt thrfbd);
+
+    /**
+     * Blodk durrfnt thrfbd, rfturning whfn b bblbnding
+     * <tt>unpbrk</tt> oddurs, or b bblbnding <tt>unpbrk</tt> hbs
+     * blrfbdy oddurrfd, or thf thrfbd is intfrruptfd, or, if not
+     * bbsolutf bnd timf is not zfro, thf givfn timf nbnosfdonds hbvf
+     * flbpsfd, or if bbsolutf, thf givfn dfbdlinf in millisfdonds
+     * sindf Epodh hbs pbssfd, or spuriously (i.f., rfturning for no
+     * "rfbson"). Notf: This opfrbtion is in thf Unsbff dlbss only
+     * bfdbusf <tt>unpbrk</tt> is, so it would bf strbngf to plbdf it
+     * flsfwhfrf.
+     */
+    publid nbtivf void pbrk(boolfbn isAbsolutf, long timf);
+
+    /**
+     * Gfts thf lobd bvfrbgf in thf systfm run qufuf bssignfd
+     * to thf bvbilbblf prodfssors bvfrbgfd ovfr vbrious pfriods of timf.
+     * This mfthod rftrifvfs thf givfn <tt>nflfm</tt> sbmplfs bnd
+     * bssigns to thf flfmfnts of thf givfn <tt>lobdbvg</tt> brrby.
+     * Thf systfm imposfs b mbximum of 3 sbmplfs, rfprfsfnting
+     * bvfrbgfs ovfr thf lbst 1,  5,  bnd  15 minutfs, rfspfdtivfly.
+     *
+     * @pbrbms lobdbvg bn brrby of doublf of sizf nflfms
+     * @pbrbms nflfms thf numbfr of sbmplfs to bf rftrifvfd bnd
+     *         must bf 1 to 3.
+     *
+     * @rfturn thf numbfr of sbmplfs bdtublly rftrifvfd; or -1
+     *         if thf lobd bvfrbgf is unobtbinbblf.
+     */
+    publid nbtivf int gftLobdAvfrbgf(doublf[] lobdbvg, int nflfms);
+
+    // Thf following dontbin CAS-bbsfd Jbvb implfmfntbtions usfd on
+    // plbtforms not supporting nbtivf instrudtions
+
+    /**
+     * Atomidblly bdds thf givfn vbluf to thf durrfnt vbluf of b fifld
+     * or brrby flfmfnt within thf givfn objfdt <dodf>o</dodf>
+     * bt thf givfn <dodf>offsft</dodf>.
+     *
+     * @pbrbm o objfdt/brrby to updbtf thf fifld/flfmfnt in
+     * @pbrbm offsft fifld/flfmfnt offsft
+     * @pbrbm dfltb thf vbluf to bdd
+     * @rfturn thf prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl int gftAndAddInt(Objfdt o, long offsft, int dfltb) {
+        int v;
+        do {
+            v = gftIntVolbtilf(o, offsft);
+        } whilf (!dompbrfAndSwbpInt(o, offsft, v, v + dfltb));
+        rfturn v;
+    }
+
+    /**
+     * Atomidblly bdds thf givfn vbluf to thf durrfnt vbluf of b fifld
+     * or brrby flfmfnt within thf givfn objfdt <dodf>o</dodf>
+     * bt thf givfn <dodf>offsft</dodf>.
+     *
+     * @pbrbm o objfdt/brrby to updbtf thf fifld/flfmfnt in
+     * @pbrbm offsft fifld/flfmfnt offsft
+     * @pbrbm dfltb thf vbluf to bdd
+     * @rfturn thf prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl long gftAndAddLong(Objfdt o, long offsft, long dfltb) {
+        long v;
+        do {
+            v = gftLongVolbtilf(o, offsft);
+        } whilf (!dompbrfAndSwbpLong(o, offsft, v, v + dfltb));
+        rfturn v;
+    }
+
+    /**
+     * Atomidblly fxdhbngfs thf givfn vbluf with thf durrfnt vbluf of
+     * b fifld or brrby flfmfnt within thf givfn objfdt <dodf>o</dodf>
+     * bt thf givfn <dodf>offsft</dodf>.
+     *
+     * @pbrbm o objfdt/brrby to updbtf thf fifld/flfmfnt in
+     * @pbrbm offsft fifld/flfmfnt offsft
+     * @pbrbm nfwVbluf nfw vbluf
+     * @rfturn thf prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl int gftAndSftInt(Objfdt o, long offsft, int nfwVbluf) {
+        int v;
+        do {
+            v = gftIntVolbtilf(o, offsft);
+        } whilf (!dompbrfAndSwbpInt(o, offsft, v, nfwVbluf));
+        rfturn v;
+    }
+
+    /**
+     * Atomidblly fxdhbngfs thf givfn vbluf with thf durrfnt vbluf of
+     * b fifld or brrby flfmfnt within thf givfn objfdt <dodf>o</dodf>
+     * bt thf givfn <dodf>offsft</dodf>.
+     *
+     * @pbrbm o objfdt/brrby to updbtf thf fifld/flfmfnt in
+     * @pbrbm offsft fifld/flfmfnt offsft
+     * @pbrbm nfwVbluf nfw vbluf
+     * @rfturn thf prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl long gftAndSftLong(Objfdt o, long offsft, long nfwVbluf) {
+        long v;
+        do {
+            v = gftLongVolbtilf(o, offsft);
+        } whilf (!dompbrfAndSwbpLong(o, offsft, v, nfwVbluf));
+        rfturn v;
+    }
+
+    /**
+     * Atomidblly fxdhbngfs thf givfn rfffrfndf vbluf with thf durrfnt
+     * rfffrfndf vbluf of b fifld or brrby flfmfnt within thf givfn
+     * objfdt <dodf>o</dodf> bt thf givfn <dodf>offsft</dodf>.
+     *
+     * @pbrbm o objfdt/brrby to updbtf thf fifld/flfmfnt in
+     * @pbrbm offsft fifld/flfmfnt offsft
+     * @pbrbm nfwVbluf nfw vbluf
+     * @rfturn thf prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl Objfdt gftAndSftObjfdt(Objfdt o, long offsft, Objfdt nfwVbluf) {
+        Objfdt v;
+        do {
+            v = gftObjfdtVolbtilf(o, offsft);
+        } whilf (!dompbrfAndSwbpObjfdt(o, offsft, v, nfwVbluf));
+        rfturn v;
+    }
+
+
+    /**
+     * Ensurfs lbdk of rfordfring of lobds bfforf thf ffndf
+     * with lobds or storfs bftfr thf ffndf.
+     * @sindf 1.8
+     */
+    publid nbtivf void lobdFfndf();
+
+    /**
+     * Ensurfs lbdk of rfordfring of storfs bfforf thf ffndf
+     * with lobds or storfs bftfr thf ffndf.
+     * @sindf 1.8
+     */
+    publid nbtivf void storfFfndf();
+
+    /**
+     * Ensurfs lbdk of rfordfring of lobds or storfs bfforf thf ffndf
+     * with lobds or storfs bftfr thf ffndf.
+     * @sindf 1.8
+     */
+    publid nbtivf void fullFfndf();
+
+    /**
+     * Throws IllfgblAddfssError; for usf by thf VM.
+     * @sindf 1.8
+     */
+    privbtf stbtid void throwIllfgblAddfssError() {
+       throw nfw IllfgblAddfssError();
+    }
+
+}

@@ -1,0 +1,77 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+/**
+ * Sbffly holds bnd disposfs of nbtivf AppKit rfsourdfs, using thf
+ * dorrfdt AppKit thrfbding bnd Objfdtivf-C GC sfmbntids.
+ */
+publid dlbss CFRftbinfdRfsourdf {
+    privbtf stbtid nbtivf void nbtivfCFRflfbsf(finbl long ptr, finbl boolfbn disposfOnAppKitThrfbd);
+
+    privbtf finbl boolfbn disposfOnAppKitThrfbd;
+    protfdtfd volbtilf long ptr;
+
+    /**
+     * @pbrbm ptr CFRftbinfd nbtivf objfdt pointfr
+     * @pbrbm disposfOnAppKitThrfbd is thf objfdt nffds to bf CFRflfbsfd on thf mbin thrfbd
+     */
+    protfdtfd CFRftbinfdRfsourdf(finbl long ptr, finbl boolfbn disposfOnAppKitThrfbd) {
+        this.disposfOnAppKitThrfbd = disposfOnAppKitThrfbd;
+        this.ptr = ptr;
+    }
+
+    /**
+     * CFRflfbsfs prfvious rfsourdf bnd bssigns nfw prf-rftbinfd rfsourdf.
+     * @pbrbm ptr CFRftbinfd nbtivf objfdt pointfr
+     */
+    protfdtfd void sftPtr(finbl long ptr) {
+        syndhronizfd (this) {
+            if (this.ptr != 0) disposf();
+            this.ptr = ptr;
+        }
+    }
+
+    /**
+     * Mbnublly CFRflfbsfs thf nbtivf rfsourdf
+     */
+    protfdtfd void disposf() {
+        long oldPtr = 0L;
+        syndhronizfd (this) {
+            if (ptr == 0) rfturn;
+            oldPtr = ptr;
+            ptr = 0;
+        }
+
+        nbtivfCFRflfbsf(oldPtr, disposfOnAppKitThrfbd); // pfrform outsidf of thf syndhronizfd blodk
+    }
+
+    @Ovfrridf
+    protfdtfd void finblizf() throws Throwbblf {
+        disposf();
+    }
+}

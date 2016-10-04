@@ -1,1324 +1,1324 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#pragma push_macro("bad_alloc")
-//"bad_alloc" would be introduced in STL as "std::zbad_alloc" and discarded by linker
-//by this action we avoid the conflict with AWT implementation of "bad_alloc"
-//we need <new> inclusion for STL "new" oprators set.
-#define bad_alloc zbad_alloc
-#include <new>
+#prbgmb pusi_mbdro("bbd_bllod")
+//"bbd_bllod" would bf introdudfd in STL bs "std::zbbd_bllod" bnd disdbrdfd by linkfr
+//by tiis bdtion wf bvoid tif donflidt witi AWT implfmfntbtion of "bbd_bllod"
+//wf nffd <nfw> indlusion for STL "nfw" oprbtors sft.
+#dffinf bbd_bllod zbbd_bllod
+#indludf <nfw>
 
-#if defined(_DEBUG) || defined(DEBUG)
-extern void * operator new(size_t size, const char * filename, int linenumber);
-void * operator new(size_t size) {return operator new(size, "stl", 1);}
-#endif
-#include <map>
+#if dffinfd(_DEBUG) || dffinfd(DEBUG)
+fxtfrn void * opfrbtor nfw(sizf_t sizf, donst dibr * filfnbmf, int linfnumbfr);
+void * opfrbtor nfw(sizf_t sizf) {rfturn opfrbtor nfw(sizf, "stl", 1);}
+#fndif
+#indludf <mbp>
 
-#pragma pop_macro("bad_alloc")
-//"bad_alloc" is undefined from here
+#prbgmb pop_mbdro("bbd_bllod")
+//"bbd_bllod" is undffinfd from ifrf
 
-#include <awt.h>
-#include <shlobj.h>
+#indludf <bwt.i>
+#indludf <silobj.i>
 
-#include "jlong.h"
-#include "awt_DataTransferer.h"
-#include "awt_DnDDS.h"
-#include "awt_DnDDT.h"
-#include "awt_Cursor.h"
-#include "awt_Toolkit.h"
-#include "awt_Component.h"
+#indludf "jlong.i"
+#indludf "bwt_DbtbTrbnsffrfr.i"
+#indludf "bwt_DnDDS.i"
+#indludf "bwt_DnDDT.i"
+#indludf "bwt_Cursor.i"
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_Componfnt.i"
 
-#include "java_awt_event_InputEvent.h"
-#include "java_awt_dnd_DnDConstants.h"
-#include "sun_awt_windows_WDragSourceContextPeer.h"
+#indludf "jbvb_bwt_fvfnt_InputEvfnt.i"
+#indludf "jbvb_bwt_dnd_DnDConstbnts.i"
+#indludf "sun_bwt_windows_WDrbgSourdfContfxtPffr.i"
 
-#include "awt_ole.h"
-#include "awt_DCHolder.h"
+#indludf "bwt_olf.i"
+#indludf "bwt_DCHoldfr.i"
 
-bool operator < (const FORMATETC &fr, const FORMATETC &fl) {
-    return memcmp(&fr, &fl, sizeof(FORMATETC)) < 0;
+bool opfrbtor < (donst FORMATETC &fr, donst FORMATETC &fl) {
+    rfturn mfmdmp(&fr, &fl, sizfof(FORMATETC)) < 0;
 }
 
-typedef std::map<FORMATETC, STGMEDIUM> CDataMap;
+typfdff std::mbp<FORMATETC, STGMEDIUM> CDbtbMbp;
 
-#define GALLOCFLG (GMEM_DDESHARE | GMEM_MOVEABLE | GMEM_ZEROINIT)
-#define JAVA_BUTTON_MASK (java_awt_event_InputEvent_BUTTON1_DOWN_MASK | \
-                          java_awt_event_InputEvent_BUTTON2_DOWN_MASK | \
-                          java_awt_event_InputEvent_BUTTON3_DOWN_MASK)
+#dffinf GALLOCFLG (GMEM_DDESHARE | GMEM_MOVEABLE | GMEM_ZEROINIT)
+#dffinf JAVA_BUTTON_MASK (jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK | \
+                          jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_DOWN_MASK | \
+                          jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_DOWN_MASK)
 
-extern "C" {
-DWORD __cdecl convertActionsToDROPEFFECT(jint actions);
-jint  __cdecl convertDROPEFFECTToActions(DWORD effects);
+fxtfrn "C" {
+DWORD __ddfdl donvfrtAdtionsToDROPEFFECT(jint bdtions);
+jint  __ddfdl donvfrtDROPEFFECTToAdtions(DWORD ffffdts);
 }
 
-class PictureDragHelper
+dlbss PidturfDrbgHflpfr
 {
-private:
-    static CDataMap st;
-    static IDragSourceHelper *pHelper;
-public:
-    static HRESULT Create(
-        JNIEnv* env,
-        jintArray imageData,
-        int imageWidth,
-        int imageHeight,
-        int anchorX,
-        int anchorY,
-        IDataObject *pIDataObject)
+privbtf:
+    stbtid CDbtbMbp st;
+    stbtid IDrbgSourdfHflpfr *pHflpfr;
+publid:
+    stbtid HRESULT Crfbtf(
+        JNIEnv* fnv,
+        jintArrby imbgfDbtb,
+        int imbgfWidti,
+        int imbgfHfigit,
+        int bndiorX,
+        int bndiorY,
+        IDbtbObjfdt *pIDbtbObjfdt)
     {
-        if (NULL == imageData) {
-            return S_FALSE;
+        if (NULL == imbgfDbtb) {
+            rfturn S_FALSE;
         }
         OLE_TRY
-        OLE_HRT( CoCreateInstance(
-            CLSID_DragDropHelper,
+        OLE_HRT( CoCrfbtfInstbndf(
+            CLSID_DrbgDropHflpfr,
             NULL,
             CLSCTX_ALL,
-            IID_IDragSourceHelper,
-            (LPVOID*)&pHelper))
+            IID_IDrbgSourdfHflpfr,
+            (LPVOID*)&pHflpfr))
 
-        jintArray ia = imageData;
-        jsize iPointCoint = env->GetArrayLength(ia);
+        jintArrby ib = imbgfDbtb;
+        jsizf iPointCoint = fnv->GftArrbyLfngti(ib);
 
-        DCHolder ph;
-        ph.Create(NULL, imageWidth, imageHeight, TRUE);
-        env->GetIntArrayRegion(ia, 0, iPointCoint, (jint*)ph.m_pPoints);
+        DCHoldfr pi;
+        pi.Crfbtf(NULL, imbgfWidti, imbgfHfigit, TRUE);
+        fnv->GftIntArrbyRfgion(ib, 0, iPointCoint, (jint*)pi.m_pPoints);
 
         SHDRAGIMAGE sdi;
-        sdi.sizeDragImage.cx = imageWidth;
-        sdi.sizeDragImage.cy = imageHeight;
-        sdi.ptOffset.x = anchorX;
-        sdi.ptOffset.y = anchorY;
-        sdi.crColorKey = 0xFFFFFFFF;
-        sdi.hbmpDragImage = ph;
+        sdi.sizfDrbgImbgf.dx = imbgfWidti;
+        sdi.sizfDrbgImbgf.dy = imbgfHfigit;
+        sdi.ptOffsft.x = bndiorX;
+        sdi.ptOffsft.y = bndiorY;
+        sdi.drColorKfy = 0xFFFFFFFF;
+        sdi.ibmpDrbgImbgf = pi;
 
-        // this call assures that the bitmap will be dragged around
-        OLE_HR = pHelper->InitializeFromBitmap(
+        // tiis dbll bssurfs tibt tif bitmbp will bf drbggfd bround
+        OLE_HR = pHflpfr->InitiblizfFromBitmbp(
             &sdi,
-            pIDataObject
+            pIDbtbObjfdt
         );
-        // in case of an error we need to destroy the image, else the helper object takes ownership
+        // in dbsf of bn frror wf nffd to dfstroy tif imbgf, flsf tif iflpfr objfdt tbkfs ownfrsiip
         if (FAILED(OLE_HR)) {
-            DeleteObject(sdi.hbmpDragImage);
+            DflftfObjfdt(sdi.ibmpDrbgImbgf);
         }
         OLE_CATCH
         OLE_RETURN_HR
     }
 
-    static void Destroy()
+    stbtid void Dfstroy()
     {
-        if (NULL!=pHelper) {
-            CleanFormatMap();
-            pHelper->Release();
-            pHelper = NULL;
+        if (NULL!=pHflpfr) {
+            ClfbnFormbtMbp();
+            pHflpfr->Rflfbsf();
+            pHflpfr = NULL;
         }
     }
 
-    static void CleanFormatMap()
+    stbtid void ClfbnFormbtMbp()
     {
-        for (CDataMap::iterator i = st.begin(); st.end() != i; i = st.erase(i)) {
-            ::ReleaseStgMedium(&i->second);
+        for (CDbtbMbp::itfrbtor i = st.bfgin(); st.fnd() != i; i = st.frbsf(i)) {
+            ::RflfbsfStgMfdium(&i->sfdond);
         }
     }
-    static void SetData(const FORMATETC &format, const STGMEDIUM &medium)
+    stbtid void SftDbtb(donst FORMATETC &formbt, donst STGMEDIUM &mfdium)
     {
-        CDataMap::iterator i = st.find(format);
-        if (st.end() != i) {
-            ::ReleaseStgMedium(&i->second);
-            i->second = medium;
-        } else {
-            st[format] = medium;
+        CDbtbMbp::itfrbtor i = st.find(formbt);
+        if (st.fnd() != i) {
+            ::RflfbsfStgMfdium(&i->sfdond);
+            i->sfdond = mfdium;
+        } flsf {
+            st[formbt] = mfdium;
         }
     }
-    static const FORMATETC *FindFormat(const FORMATETC &format)
+    stbtid donst FORMATETC *FindFormbt(donst FORMATETC &formbt)
     {
-        static FORMATETC fm = {0};
-        CDataMap::iterator i = st.find(format);
-        if (st.end() != i) {
-            return &i->first;
+        stbtid FORMATETC fm = {0};
+        CDbtbMbp::itfrbtor i = st.find(formbt);
+        if (st.fnd() != i) {
+            rfturn &i->first;
         }
-        for (i = st.begin(); st.end() != i; ++i) {
-            if (i->first.cfFormat==format.cfFormat) {
-                return &i->first;
+        for (i = st.bfgin(); st.fnd() != i; ++i) {
+            if (i->first.dfFormbt==formbt.dfFormbt) {
+                rfturn &i->first;
             }
         }
-        return NULL;
+        rfturn NULL;
     }
-    static STGMEDIUM *FindData(const FORMATETC &format)
+    stbtid STGMEDIUM *FindDbtb(donst FORMATETC &formbt)
     {
-        CDataMap::iterator i = st.find(format);
-        if (st.end() != i) {
-            return &i->second;
+        CDbtbMbp::itfrbtor i = st.find(formbt);
+        if (st.fnd() != i) {
+            rfturn &i->sfdond;
         }
-        for (i = st.begin(); st.end() != i; ++i) {
-            const FORMATETC &f = i->first;
-            if (f.cfFormat==format.cfFormat && (f.tymed == (f.tymed & format.tymed))) {
-                return &i->second;
+        for (i = st.bfgin(); st.fnd() != i; ++i) {
+            donst FORMATETC &f = i->first;
+            if (f.dfFormbt==formbt.dfFormbt && (f.tymfd == (f.tymfd & formbt.tymfd))) {
+                rfturn &i->sfdond;
             }
         }
-        return NULL;
+        rfturn NULL;
     }
 };
 
 
-CDataMap PictureDragHelper::st;
-IDragSourceHelper *PictureDragHelper::pHelper = NULL;
+CDbtbMbp PidturfDrbgHflpfr::st;
+IDrbgSourdfHflpfr *PidturfDrbgHflpfr::pHflpfr = NULL;
 
-extern const CLIPFORMAT CF_PERFORMEDDROPEFFECT = ::RegisterClipboardFormat(CFSTR_PERFORMEDDROPEFFECT);
-extern const CLIPFORMAT CF_FILEGROUPDESCRIPTORW = ::RegisterClipboardFormat(CFSTR_FILEDESCRIPTORW);
-extern const CLIPFORMAT CF_FILEGROUPDESCRIPTORA = ::RegisterClipboardFormat(CFSTR_FILEDESCRIPTORA);
-extern const CLIPFORMAT CF_FILECONTENTS = ::RegisterClipboardFormat(CFSTR_FILECONTENTS);
+fxtfrn donst CLIPFORMAT CF_PERFORMEDDROPEFFECT = ::RfgistfrClipbobrdFormbt(CFSTR_PERFORMEDDROPEFFECT);
+fxtfrn donst CLIPFORMAT CF_FILEGROUPDESCRIPTORW = ::RfgistfrClipbobrdFormbt(CFSTR_FILEDESCRIPTORW);
+fxtfrn donst CLIPFORMAT CF_FILEGROUPDESCRIPTORA = ::RfgistfrClipbobrdFormbt(CFSTR_FILEDESCRIPTORA);
+fxtfrn donst CLIPFORMAT CF_FILECONTENTS = ::RfgistfrClipbobrdFormbt(CFSTR_FILECONTENTS);
 
-typedef struct {
-    AwtDragSource* dragSource;
-    jobject        cursor;
-    jintArray      imageData;
-    jint           imageWidth;
-    jint           imageHeight;
+typfdff strudt {
+    AwtDrbgSourdf* drbgSourdf;
+    jobjfdt        dursor;
+    jintArrby      imbgfDbtb;
+    jint           imbgfWidti;
+    jint           imbgfHfigit;
     jint           x;
     jint           y;
-} StartDragRec;
+} StbrtDrbgRfd;
 
 /**
- * StartDrag
+ * StbrtDrbg
  */
 
-void AwtDragSource::StartDrag(
-    AwtDragSource* self,
-    jobject cursor,
-    jintArray imageData,
-    jint imageWidth,
-    jint imageHeight,
+void AwtDrbgSourdf::StbrtDrbg(
+    AwtDrbgSourdf* sflf,
+    jobjfdt dursor,
+    jintArrby imbgfDbtb,
+    jint imbgfWidti,
+    jint imbgfHfigit,
     jint x,
     jint y)
 {
-    StartDragRec* sdrp = new StartDragRec;
-    sdrp->dragSource = self;
-    sdrp->imageData = imageData;
-    sdrp->cursor = cursor;
-    sdrp->imageWidth = imageWidth;
-    sdrp->imageHeight = imageHeight;
+    StbrtDrbgRfd* sdrp = nfw StbrtDrbgRfd;
+    sdrp->drbgSourdf = sflf;
+    sdrp->imbgfDbtb = imbgfDbtb;
+    sdrp->dursor = dursor;
+    sdrp->imbgfWidti = imbgfWidti;
+    sdrp->imbgfHfigit = imbgfHfigit;
     sdrp->x = x;
     sdrp->y = y;
 
-    AwtToolkit::GetInstance().WaitForSingleObject(self->m_mutex);
+    AwtToolkit::GftInstbndf().WbitForSinglfObjfdt(sflf->m_mutfx);
 
-    AwtToolkit::GetInstance().InvokeFunctionLater((void (*)(void *))&AwtDragSource::_DoDragDrop, (void *)sdrp);
+    AwtToolkit::GftInstbndf().InvokfFundtionLbtfr((void (*)(void *))&AwtDrbgSourdf::_DoDrbgDrop, (void *)sdrp);
 
-    self->WaitUntilSignalled(FALSE);
+    sflf->WbitUntilSignbllfd(FALSE);
 }
 
 /**
- * DoDragDrop - called from message pump thread
+ * DoDrbgDrop - dbllfd from mfssbgf pump tirfbd
  */
 
-void AwtDragSource::_DoDragDrop(void* param) {
-    StartDragRec*  sdrp         = (StartDragRec*)param;
-    AwtDragSource* dragSource   = sdrp->dragSource;
-    DWORD          effects      = DROPEFFECT_NONE;
-    JNIEnv*        env          = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject        peer         = env->NewLocalRef(dragSource->GetPeer());
+void AwtDrbgSourdf::_DoDrbgDrop(void* pbrbm) {
+    StbrtDrbgRfd*  sdrp         = (StbrtDrbgRfd*)pbrbm;
+    AwtDrbgSourdf* drbgSourdf   = sdrp->drbgSourdf;
+    DWORD          ffffdts      = DROPEFFECT_NONE;
+    JNIEnv*        fnv          = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt        pffr         = fnv->NfwLodblRff(drbgSourdf->GftPffr());
 
-    if (sdrp->imageData) {
-        PictureDragHelper::Create(
-            env,
-            sdrp->imageData,
-            sdrp->imageWidth,
-            sdrp->imageHeight,
+    if (sdrp->imbgfDbtb) {
+        PidturfDrbgHflpfr::Crfbtf(
+            fnv,
+            sdrp->imbgfDbtb,
+            sdrp->imbgfWidti,
+            sdrp->imbgfHfigit,
             sdrp->x,
             sdrp->y,
-            (IDataObject*)dragSource);
-        env->DeleteGlobalRef(sdrp->imageData);
+            (IDbtbObjfdt*)drbgSourdf);
+        fnv->DflftfGlobblRff(sdrp->imbgfDbtb);
     }
-    dragSource->SetCursor(sdrp->cursor);
-    env->DeleteGlobalRef(sdrp->cursor);
-    delete sdrp;
+    drbgSourdf->SftCursor(sdrp->dursor);
+    fnv->DflftfGlobblRff(sdrp->dursor);
+    dflftf sdrp;
 
-    HRESULT        res;
+    HRESULT        rfs;
 
-    // StartDrag has caused dragSource->m_mutex to be held by our thread now
+    // StbrtDrbg ibs dbusfd drbgSourdf->m_mutfx to bf ifld by our tirfbd now
 
-    AwtDropTarget::SetCurrentDnDDataObject(dragSource);
+    AwtDropTbrgft::SftCurrfntDnDDbtbObjfdt(drbgSourdf);
 
-    ::GetCursorPos(&dragSource->m_dragPoint);
+    ::GftCursorPos(&drbgSourdf->m_drbgPoint);
 
-    dragSource->Signal();
+    drbgSourdf->Signbl();
 
-    res = ::DoDragDrop(dragSource,
-                       dragSource,
-                       convertActionsToDROPEFFECT(dragSource->m_actions),
-                       &effects
+    rfs = ::DoDrbgDrop(drbgSourdf,
+                       drbgSourdf,
+                       donvfrtAdtionsToDROPEFFECT(drbgSourdf->m_bdtions),
+                       &ffffdts
           );
 
-    if (effects == DROPEFFECT_NONE && dragSource->m_dwPerformedDropEffect != DROPEFFECT_NONE) {
-        effects = dragSource->m_dwPerformedDropEffect;
+    if (ffffdts == DROPEFFECT_NONE && drbgSourdf->m_dwPfrformfdDropEfffdt != DROPEFFECT_NONE) {
+        ffffdts = drbgSourdf->m_dwPfrformfdDropEfffdt;
     }
-    dragSource->m_dwPerformedDropEffect = DROPEFFECT_NONE;
+    drbgSourdf->m_dwPfrformfdDropEfffdt = DROPEFFECT_NONE;
 
-    call_dSCddfinished(env, peer, res == DRAGDROP_S_DROP && effects != DROPEFFECT_NONE,
-                       convertDROPEFFECTToActions(effects),
-                       dragSource->m_dragPoint.x, dragSource->m_dragPoint.y);
+    dbll_dSCddfinisifd(fnv, pffr, rfs == DRAGDROP_S_DROP && ffffdts != DROPEFFECT_NONE,
+                       donvfrtDROPEFFECTToAdtions(ffffdts),
+                       drbgSourdf->m_drbgPoint.x, drbgSourdf->m_drbgPoint.y);
 
-    env->DeleteLocalRef(peer);
+    fnv->DflftfLodblRff(pffr);
 
-    DASSERT(AwtDropTarget::IsCurrentDnDDataObject(dragSource));
-    AwtDropTarget::SetCurrentDnDDataObject(NULL);
+    DASSERT(AwtDropTbrgft::IsCurrfntDnDDbtbObjfdt(drbgSourdf));
+    AwtDropTbrgft::SftCurrfntDnDDbtbObjfdt(NULL);
 
-    PictureDragHelper::Destroy();
-    dragSource->Release();
+    PidturfDrbgHflpfr::Dfstroy();
+    drbgSourdf->Rflfbsf();
 }
 
 /**
- * constructor
+ * donstrudtor
  */
 
-AwtDragSource::AwtDragSource(JNIEnv* env, jobject peer, jobject component,
-                             jobject transferable, jobject trigger,
-                             jint actions, jlongArray formats,
-                             jobject formatMap) {
-    m_peer      = env->NewGlobalRef(peer);
+AwtDrbgSourdf::AwtDrbgSourdf(JNIEnv* fnv, jobjfdt pffr, jobjfdt domponfnt,
+                             jobjfdt trbnsffrbblf, jobjfdt triggfr,
+                             jint bdtions, jlongArrby formbts,
+                             jobjfdt formbtMbp) {
+    m_pffr      = fnv->NfwGlobblRff(pffr);
 
-    m_refs      = 1;
+    m_rffs      = 1;
 
-    m_actions   = actions;
+    m_bdtions   = bdtions;
 
-    m_ntypes    = 0;
+    m_ntypfs    = 0;
 
     m_initmods  = 0;
-    m_lastmods  = 0;
+    m_lbstmods  = 0;
 
-    m_droptarget   = NULL;
-    m_enterpending = TRUE;
+    m_droptbrgft   = NULL;
+    m_fntfrpfnding = TRUE;
 
-    m_cursor     = NULL;
+    m_dursor     = NULL;
 
-    m_mutex      = ::CreateMutex(NULL, FALSE, NULL);
+    m_mutfx      = ::CrfbtfMutfx(NULL, FALSE, NULL);
 
-    m_component     = env->NewGlobalRef(component);
-    m_transferable  = env->NewGlobalRef(transferable);
-    m_formatMap     = env->NewGlobalRef(formatMap);
+    m_domponfnt     = fnv->NfwGlobblRff(domponfnt);
+    m_trbnsffrbblf  = fnv->NfwGlobblRff(trbnsffrbblf);
+    m_formbtMbp     = fnv->NfwGlobblRff(formbtMbp);
 
-    m_dragPoint.x = 0;
-    m_dragPoint.y = 0;
+    m_drbgPoint.x = 0;
+    m_drbgPoint.y = 0;
 
     m_fNC         = TRUE;
     m_dropPoint.x = 0;
     m_dropPoint.y = 0;
 
-    m_dwPerformedDropEffect = DROPEFFECT_NONE;
-    m_bRestoreNodropCustomCursor = FALSE;
+    m_dwPfrformfdDropEfffdt = DROPEFFECT_NONE;
+    m_bRfstorfNodropCustomCursor = FALSE;
 
-    LoadCache(formats);
+    LobdCbdif(formbts);
 }
 
 /**
- * destructor
+ * dfstrudtor
  */
 
-AwtDragSource::~AwtDragSource() {
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+AwtDrbgSourdf::~AwtDrbgSourdf() {
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    // fix for 6212440: on application shutdown, this object's
-    // destruction might be suppressed due to dangling COM references.
-    // On destruction, VM might be shut down already, so we should make
-    // a null check on env.
-    if (env) {
-        env->DeleteGlobalRef(m_peer);
-        env->DeleteGlobalRef(m_component);
-        env->DeleteGlobalRef(m_transferable);
-        env->DeleteGlobalRef(m_formatMap);
+    // fix for 6212440: on bpplidbtion siutdown, tiis objfdt's
+    // dfstrudtion migit bf supprfssfd duf to dbngling COM rfffrfndfs.
+    // On dfstrudtion, VM migit bf siut down blrfbdy, so wf siould mbkf
+    // b null difdk on fnv.
+    if (fnv) {
+        fnv->DflftfGlobblRff(m_pffr);
+        fnv->DflftfGlobblRff(m_domponfnt);
+        fnv->DflftfGlobblRff(m_trbnsffrbblf);
+        fnv->DflftfGlobblRff(m_formbtMbp);
     }
 
-    ::CloseHandle(m_mutex);
+    ::ClosfHbndlf(m_mutfx);
 
-    UnloadCache();
+    UnlobdCbdif();
 }
 
 /**
- * _compar
+ * _dompbr
  *
- * compare format's then tymed's .... only one tymed bit may be set
- * at any time in a FORMATETC in the cache.
+ * dompbrf formbt's tifn tymfd's .... only onf tymfd bit mby bf sft
+ * bt bny timf in b FORMATETC in tif dbdif.
  */
 
-int AwtDragSource::_compar(const void* first, const void* second) {
+int AwtDrbgSourdf::_dompbr(donst void* first, donst void* sfdond) {
     FORMATETC *fp = (FORMATETC *)first;
-    FORMATETC *sp = (FORMATETC *)second;
-    int      r  = fp->cfFormat - sp->cfFormat;
+    FORMATETC *sp = (FORMATETC *)sfdond;
+    int      r  = fp->dfFormbt - sp->dfFormbt;
 
-    return r != 0 ? r : fp->tymed - sp->tymed;
+    rfturn r != 0 ? r : fp->tymfd - sp->tymfd;
 }
 
 /**
- * LoadCache
+ * LobdCbdif
  */
 
-void AwtDragSource::LoadCache(jlongArray formats) {
-    JNIEnv*      env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    unsigned int items = 0;
-    unsigned int i = 0;
-    unsigned int idx = 0;
+void AwtDrbgSourdf::LobdCbdif(jlongArrby formbts) {
+    JNIEnv*      fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    unsignfd int itfms = 0;
+    unsignfd int i = 0;
+    unsignfd int idx = 0;
 
-    if (m_types != (FORMATETC *)NULL) {
-        UnloadCache();
+    if (m_typfs != (FORMATETC *)NULL) {
+        UnlobdCbdif();
     }
 
-    items = env->GetArrayLength(formats);
+    itfms = fnv->GftArrbyLfngti(formbts);
 
-    if (items == 0) {
-        return;
+    if (itfms == 0) {
+        rfturn;
     }
 
-    jboolean isCopy;
-    jlong *lFormats = env->GetLongArrayElements(formats, &isCopy),
-        *saveFormats = lFormats;
+    jboolfbn isCopy;
+    jlong *lFormbts = fnv->GftLongArrbyElfmfnts(formbts, &isCopy),
+        *sbvfFormbts = lFormbts;
 
-    for (i = 0, m_ntypes = 0; i < items; i++, lFormats++) {
-        // Warning C4244.
-        // Cast from jlong to CLIPFORMAT (WORD).
-        CLIPFORMAT fmt = (CLIPFORMAT)*lFormats;
-        switch (fmt) {
-        case CF_ENHMETAFILE:
-            m_ntypes++;    // Only TYMED_ENHMF
-            break;
-        case CF_METAFILEPICT:
-            m_ntypes++;    // Only TYMED_MFPICT
-            break;
-        case CF_HDROP:
-            m_ntypes++;    // Only TYMED_HGLOBAL
-            break;
-        default:
-            m_ntypes += 2; // TYMED_HGLOBAL and TYMED_ISTREAM
-            break;
+    for (i = 0, m_ntypfs = 0; i < itfms; i++, lFormbts++) {
+        // Wbrning C4244.
+        // Cbst from jlong to CLIPFORMAT (WORD).
+        CLIPFORMAT fmt = (CLIPFORMAT)*lFormbts;
+        switdi (fmt) {
+        dbsf CF_ENHMETAFILE:
+            m_ntypfs++;    // Only TYMED_ENHMF
+            brfbk;
+        dbsf CF_METAFILEPICT:
+            m_ntypfs++;    // Only TYMED_MFPICT
+            brfbk;
+        dbsf CF_HDROP:
+            m_ntypfs++;    // Only TYMED_HGLOBAL
+            brfbk;
+        dffbult:
+            m_ntypfs += 2; // TYMED_HGLOBAL bnd TYMED_ISTREAM
+            brfbk;
         }
     }
 
     try {
-        m_types = (FORMATETC *)safe_Calloc(sizeof(FORMATETC), m_ntypes);
-    } catch (std::bad_alloc&) {
-        m_ntypes = 0;
-        throw;
+        m_typfs = (FORMATETC *)sbff_Cbllod(sizfof(FORMATETC), m_ntypfs);
+    } dbtdi (std::bbd_bllod&) {
+        m_ntypfs = 0;
+        tirow;
     }
 
-    lFormats = saveFormats;
+    lFormbts = sbvfFormbts;
 
-    for (i = 0, idx = 0; i < items; i++, lFormats++) {
-        // Warning C4244.
-        // Cast from jlong to CLIPFORMAT (WORD).
-        CLIPFORMAT fmt = (CLIPFORMAT)*lFormats;
+    for (i = 0, idx = 0; i < itfms; i++, lFormbts++) {
+        // Wbrning C4244.
+        // Cbst from jlong to CLIPFORMAT (WORD).
+        CLIPFORMAT fmt = (CLIPFORMAT)*lFormbts;
 
-        m_types[idx].cfFormat = fmt;
-        m_types[idx].dwAspect = DVASPECT_CONTENT;
-        m_types[idx].lindex   = -1;
+        m_typfs[idx].dfFormbt = fmt;
+        m_typfs[idx].dwAspfdt = DVASPECT_CONTENT;
+        m_typfs[idx].lindfx   = -1;
 
-        switch (fmt) {
-        default:
-            m_types[idx].tymed = TYMED_ISTREAM;
+        switdi (fmt) {
+        dffbult:
+            m_typfs[idx].tymfd = TYMED_ISTREAM;
             idx++;
 
-            // now make a copy, but with a TYMED of HGLOBAL
-            m_types[idx] = m_types[idx-1];
-            m_types[idx].tymed = TYMED_HGLOBAL;
+            // now mbkf b dopy, but witi b TYMED of HGLOBAL
+            m_typfs[idx] = m_typfs[idx-1];
+            m_typfs[idx].tymfd = TYMED_HGLOBAL;
             idx++;
-            break;
-        case CF_HDROP:
-            m_types[idx].tymed = TYMED_HGLOBAL;
+            brfbk;
+        dbsf CF_HDROP:
+            m_typfs[idx].tymfd = TYMED_HGLOBAL;
             idx++;
-            break;
-        case CF_ENHMETAFILE:
-            m_types[idx].tymed = TYMED_ENHMF;
+            brfbk;
+        dbsf CF_ENHMETAFILE:
+            m_typfs[idx].tymfd = TYMED_ENHMF;
             idx++;
-            break;
-        case CF_METAFILEPICT:
-            m_types[idx].tymed = TYMED_MFPICT;
+            brfbk;
+        dbsf CF_METAFILEPICT:
+            m_typfs[idx].tymfd = TYMED_MFPICT;
             idx++;
-            break;
+            brfbk;
         }
     }
-    DASSERT(idx == m_ntypes);
+    DASSERT(idx == m_ntypfs);
 
-    env->ReleaseLongArrayElements(formats, saveFormats, 0);
+    fnv->RflfbsfLongArrbyElfmfnts(formbts, sbvfFormbts, 0);
 
-    // sort them in ascending order of format
-    qsort((void *)m_types, (size_t)m_ntypes, (size_t)sizeof(FORMATETC),
-          _compar);
+    // sort tifm in bsdfnding ordfr of formbt
+    qsort((void *)m_typfs, (sizf_t)m_ntypfs, (sizf_t)sizfof(FORMATETC),
+          _dompbr);
 }
 
 /**
- * UnloadCache
+ * UnlobdCbdif
  */
 
-void AwtDragSource::UnloadCache() {
-    if (m_ntypes == 0) {
-        return;
+void AwtDrbgSourdf::UnlobdCbdif() {
+    if (m_ntypfs == 0) {
+        rfturn;
     }
 
-    free((void*)m_types);
-    m_ntypes = 0;
-    m_types  = (FORMATETC *)NULL;
+    frff((void*)m_typfs);
+    m_ntypfs = 0;
+    m_typfs  = (FORMATETC *)NULL;
 }
 
 /**
- * ChangeCursor
+ * CibngfCursor
  */
-HRESULT AwtDragSource::ChangeCursor()
+HRESULT AwtDrbgSourdf::CibngfCursor()
 {
-    if (m_cursor != NULL) {
-        ::SetCursor(m_cursor->GetHCursor());
-        return S_OK;
+    if (m_dursor != NULL) {
+        ::SftCursor(m_dursor->GftHCursor());
+        rfturn S_OK;
     }
-    return DRAGDROP_S_USEDEFAULTCURSORS;
+    rfturn DRAGDROP_S_USEDEFAULTCURSORS;
 }
 
 /**
- * SetCursor
+ * SftCursor
  */
-void AwtDragSource::SetCursor(jobject cursor) {
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+void AwtDrbgSourdf::SftCursor(jobjfdt dursor) {
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    if (JNU_IsNull(env, cursor)) {
-        m_cursor = NULL;
-        return;
+    if (JNU_IsNull(fnv, dursor)) {
+        m_dursor = NULL;
+        rfturn;
     }
 
-    jlong pData = env->GetLongField(cursor, AwtCursor::pDataID);
-    // Warning C4312.
-    // Cast jlong (__int64) to pointer.
-    m_cursor = (AwtCursor*)pData;
+    jlong pDbtb = fnv->GftLongFifld(dursor, AwtCursor::pDbtbID);
+    // Wbrning C4312.
+    // Cbst jlong (__int64) to pointfr.
+    m_dursor = (AwtCursor*)pDbtb;
 
-    if (m_cursor == NULL) {
-        m_cursor = AwtCursor::CreateSystemCursor(cursor);
+    if (m_dursor == NULL) {
+        m_dursor = AwtCursor::CrfbtfSystfmCursor(dursor);
     }
 }
 
 /**
- * MatchFormatEtc
+ * MbtdiFormbtEtd
  */
 
-HRESULT __stdcall
-AwtDragSource::MatchFormatEtc(FORMATETC __RPC_FAR *pFormatEtcIn,
-                              FORMATETC *cacheEnt) {
+HRESULT __stddbll
+AwtDrbgSourdf::MbtdiFormbtEtd(FORMATETC __RPC_FAR *pFormbtEtdIn,
+                              FORMATETC *dbdifEnt) {
     TRY;
 
-    const FORMATETC *pFormat = PictureDragHelper::FindFormat(*pFormatEtcIn);
-    if (NULL != pFormat) {
-        if (NULL != cacheEnt) {
-            *cacheEnt = *pFormat;
+    donst FORMATETC *pFormbt = PidturfDrbgHflpfr::FindFormbt(*pFormbtEtdIn);
+    if (NULL != pFormbt) {
+        if (NULL != dbdifEnt) {
+            *dbdifEnt = *pFormbt;
         }
-        return S_OK;
+        rfturn S_OK;
     }
 
-    if ((pFormatEtcIn->tymed & (TYMED_HGLOBAL | TYMED_ISTREAM | TYMED_ENHMF |
+    if ((pFormbtEtdIn->tymfd & (TYMED_HGLOBAL | TYMED_ISTREAM | TYMED_ENHMF |
                                 TYMED_MFPICT)) == 0) {
-        return DV_E_TYMED;
-    } else if (pFormatEtcIn->lindex != -1) {
-        return DV_E_LINDEX;
-    } else if (pFormatEtcIn->dwAspect != DVASPECT_CONTENT) {
-        return DV_E_DVASPECT;
+        rfturn DV_E_TYMED;
+    } flsf if (pFormbtEtdIn->lindfx != -1) {
+        rfturn DV_E_LINDEX;
+    } flsf if (pFormbtEtdIn->dwAspfdt != DVASPECT_CONTENT) {
+        rfturn DV_E_DVASPECT;
     }
 
-    FORMATETC tmp = *pFormatEtcIn;
+    FORMATETC tmp = *pFormbtEtdIn;
 
-    static const DWORD supportedTymeds[] =
+    stbtid donst DWORD supportfdTymfds[] =
         { TYMED_ISTREAM, TYMED_HGLOBAL, TYMED_ENHMF, TYMED_MFPICT };
-    static const int nSupportedTymeds = 4;
+    stbtid donst int nSupportfdTymfds = 4;
 
-    for (int i = 0; i < nSupportedTymeds; i++) {
+    for (int i = 0; i < nSupportfdTymfds; i++) {
         /*
-         * Fix for BugTraq Id 4426805.
-         * Match only if the tymed is supported by the requester.
+         * Fix for BugTrbq Id 4426805.
+         * Mbtdi only if tif tymfd is supportfd by tif rfqufstfr.
          */
-        if ((pFormatEtcIn->tymed & supportedTymeds[i]) == 0) {
-            continue;
+        if ((pFormbtEtdIn->tymfd & supportfdTymfds[i]) == 0) {
+            dontinuf;
         }
 
-        tmp.tymed = supportedTymeds[i];
-        pFormat = (const FORMATETC *)bsearch((const void *)&tmp,
-                                             (const void *)m_types,
-                                             (size_t)      m_ntypes,
-                                             (size_t)      sizeof(FORMATETC),
-                                                           _compar
+        tmp.tymfd = supportfdTymfds[i];
+        pFormbt = (donst FORMATETC *)bsfbrdi((donst void *)&tmp,
+                                             (donst void *)m_typfs,
+                                             (sizf_t)      m_ntypfs,
+                                             (sizf_t)      sizfof(FORMATETC),
+                                                           _dompbr
                                              );
-        if (NULL != pFormat) {
-            if (cacheEnt != (FORMATETC *)NULL) {
-                *cacheEnt = *pFormat;
+        if (NULL != pFormbt) {
+            if (dbdifEnt != (FORMATETC *)NULL) {
+                *dbdifEnt = *pFormbt;
             }
-            return S_OK;
+            rfturn S_OK;
         }
     }
 
-    return DV_E_FORMATETC;
+    rfturn DV_E_FORMATETC;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * QueryInterface
+ * QufryIntfrfbdf
  */
 
-HRESULT __stdcall AwtDragSource::QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject) {
+HRESULT __stddbll AwtDrbgSourdf::QufryIntfrfbdf(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObjfdt) {
     TRY;
 
     if (riid == IID_IUnknown) {
-        *ppvObject = (void __RPC_FAR *__RPC_FAR)(IUnknown*)(IDropSource*)this;
-        AddRef();
-        return S_OK;
-    } else if (riid == IID_IDropSource) {
-        *ppvObject = (void __RPC_FAR *__RPC_FAR)(IDropSource*)this;
-        AddRef();
-        return S_OK;
-    } else if (riid == IID_IDataObject) {
-        *ppvObject = (void __RPC_FAR *__RPC_FAR)(IDataObject*)this;
-        AddRef();
-        return S_OK;
-    } else {
-        *ppvObject = (void __RPC_FAR *__RPC_FAR)NULL;
-        return E_NOINTERFACE;
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IUnknown*)(IDropSourdf*)tiis;
+        AddRff();
+        rfturn S_OK;
+    } flsf if (riid == IID_IDropSourdf) {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IDropSourdf*)tiis;
+        AddRff();
+        rfturn S_OK;
+    } flsf if (riid == IID_IDbtbObjfdt) {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IDbtbObjfdt*)tiis;
+        AddRff();
+        rfturn S_OK;
+    } flsf {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)NULL;
+        rfturn E_NOINTERFACE;
     }
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * AddRef
+ * AddRff
  */
 
-ULONG __stdcall AwtDragSource::AddRef() {
-    return (ULONG)++m_refs;
+ULONG __stddbll AwtDrbgSourdf::AddRff() {
+    rfturn (ULONG)++m_rffs;
 }
 
 /**
- * Release
+ * Rflfbsf
  */
 
-ULONG __stdcall AwtDragSource::Release() {
-    int refs;
+ULONG __stddbll AwtDrbgSourdf::Rflfbsf() {
+    int rffs;
 
-    if ((refs = --m_refs) == 0) delete this;
+    if ((rffs = --m_rffs) == 0) dflftf tiis;
 
-    return (ULONG)refs;
+    rfturn (ULONG)rffs;
 }
 
 /**
- * QueryContinueDrag
+ * QufryContinufDrbg
  */
 
-HRESULT __stdcall  AwtDragSource::QueryContinueDrag(BOOL fEscapeKeyPressed, DWORD grfKeyState) {
+HRESULT __stddbll  AwtDrbgSourdf::QufryContinufDrbg(BOOL fEsdbpfKfyPrfssfd, DWORD grfKfyStbtf) {
     TRY;
 
-    JNIEnv* env       = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv* fnv       = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    if (fEscapeKeyPressed)
-        return DRAGDROP_S_CANCEL;
+    if (fEsdbpfKfyPrfssfd)
+        rfturn DRAGDROP_S_CANCEL;
 
-    jint modifiers = AwtComponent::GetJavaModifiers();
+    jint modififrs = AwtComponfnt::GftJbvbModififrs();
 
-    POINT dragPoint;
+    POINT drbgPoint;
 
-    ::GetCursorPos(&dragPoint);
+    ::GftCursorPos(&drbgPoint);
 
-    if ( (dragPoint.x != m_dragPoint.x || dragPoint.y != m_dragPoint.y) &&
-         m_lastmods == modifiers) {//cannot move before cursor change
-        call_dSCmouseMoved(env, m_peer,
-                           m_actions, modifiers, dragPoint.x, dragPoint.y);
-        JNU_CHECK_EXCEPTION_RETURN(env, E_UNEXPECTED);
-        m_dragPoint = dragPoint;
+    if ( (drbgPoint.x != m_drbgPoint.x || drbgPoint.y != m_drbgPoint.y) &&
+         m_lbstmods == modififrs) {//dbnnot movf bfforf dursor dibngf
+        dbll_dSCmousfMovfd(fnv, m_pffr,
+                           m_bdtions, modififrs, drbgPoint.x, drbgPoint.y);
+        JNU_CHECK_EXCEPTION_RETURN(fnv, E_UNEXPECTED);
+        m_drbgPoint = drbgPoint;
     }
 
-    if ((modifiers & JAVA_BUTTON_MASK) == 0) {
-        return DRAGDROP_S_DROP;
-    } else if (m_initmods == 0) {
-        m_initmods = modifiers;
-    } else if ((modifiers & JAVA_BUTTON_MASK) != (m_initmods & JAVA_BUTTON_MASK)) {
-        return DRAGDROP_S_CANCEL;
-    } else if (m_lastmods != modifiers) {
-        call_dSCchanged(env, m_peer,
-                        m_actions, modifiers, dragPoint.x, dragPoint.y);
-        m_bRestoreNodropCustomCursor = TRUE;
+    if ((modififrs & JAVA_BUTTON_MASK) == 0) {
+        rfturn DRAGDROP_S_DROP;
+    } flsf if (m_initmods == 0) {
+        m_initmods = modififrs;
+    } flsf if ((modififrs & JAVA_BUTTON_MASK) != (m_initmods & JAVA_BUTTON_MASK)) {
+        rfturn DRAGDROP_S_CANCEL;
+    } flsf if (m_lbstmods != modififrs) {
+        dbll_dSCdibngfd(fnv, m_pffr,
+                        m_bdtions, modififrs, drbgPoint.x, drbgPoint.y);
+        m_bRfstorfNodropCustomCursor = TRUE;
     }
 
-    m_lastmods = modifiers;
+    m_lbstmods = modififrs;
 
-    //CR 6480706 - MS Bug on hold
-    HCURSOR hNeedCursor;
+    //CR 6480706 - MS Bug on iold
+    HCURSOR iNffdCursor;
     if (
-        m_bRestoreNodropCustomCursor &&
-        m_cursor != NULL &&
-        (hNeedCursor = m_cursor->GetHCursor()) != ::GetCursor() )
+        m_bRfstorfNodropCustomCursor &&
+        m_dursor != NULL &&
+        (iNffdCursor = m_dursor->GftHCursor()) != ::GftCursor() )
     {
-        ChangeCursor();
-        m_bRestoreNodropCustomCursor = FALSE;
+        CibngfCursor();
+        m_bRfstorfNodropCustomCursor = FALSE;
     }
-    return S_OK;
+    rfturn S_OK;
 
    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * GiveFeedback
+ * GivfFffdbbdk
  */
 
-HRESULT __stdcall  AwtDragSource::GiveFeedback(DWORD dwEffect) {
+HRESULT __stddbll  AwtDrbgSourdf::GivfFffdbbdk(DWORD dwEfffdt) {
     TRY;
 
-    JNIEnv* env       = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jint    modifiers = 0;
+    JNIEnv* fnv       = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jint    modififrs = 0;
     SHORT   mods = 0;
 
-    m_actions = convertDROPEFFECTToActions(dwEffect);
+    m_bdtions = donvfrtDROPEFFECTToAdtions(dwEfffdt);
 
-    if (::GetKeyState(VK_LBUTTON) & 0xff00) {
+    if (::GftKfyStbtf(VK_LBUTTON) & 0xff00) {
         mods |= MK_LBUTTON;
-    } else if (::GetKeyState(VK_MBUTTON) & 0xff00) {
+    } flsf if (::GftKfyStbtf(VK_MBUTTON) & 0xff00) {
         mods |= MK_MBUTTON;
-    } else if (::GetKeyState(VK_RBUTTON) & 0xff00) {
+    } flsf if (::GftKfyStbtf(VK_RBUTTON) & 0xff00) {
         mods |= MK_RBUTTON;
     }
 
-    if (::GetKeyState(VK_SHIFT)   & 0xff00)
+    if (::GftKfyStbtf(VK_SHIFT)   & 0xff00)
         mods |= MK_SHIFT;
-    if (::GetKeyState(VK_CONTROL) & 0xff00)
+    if (::GftKfyStbtf(VK_CONTROL) & 0xff00)
         mods |= MK_CONTROL;
-    if (::GetKeyState(VK_MENU) & 0xff00)
+    if (::GftKfyStbtf(VK_MENU) & 0xff00)
         mods |= MK_ALT;
 
-    modifiers = AwtComponent::GetJavaModifiers();
+    modififrs = AwtComponfnt::GftJbvbModififrs();
 
-    POINT curs;
+    POINT durs;
 
-    ::GetCursorPos(&curs);
+    ::GftCursorPos(&durs);
 
-    m_droptarget = ::WindowFromPoint(curs);
+    m_droptbrgft = ::WindowFromPoint(durs);
 
-    int invalid = (dwEffect == DROPEFFECT_NONE);
+    int invblid = (dwEfffdt == DROPEFFECT_NONE);
 
-    if (invalid) {
-        // Don't call dragExit if dragEnter and dragOver haven't been called.
-        if (!m_enterpending) {
-            call_dSCexit(env, m_peer, curs.x, curs.y);
+    if (invblid) {
+        // Don't dbll drbgExit if drbgEntfr bnd drbgOvfr ibvfn't bffn dbllfd.
+        if (!m_fntfrpfnding) {
+            dbll_dSCfxit(fnv, m_pffr, durs.x, durs.y);
         }
-        m_droptarget = (HWND)NULL;
-        m_enterpending = TRUE;
-    } else if (m_droptarget != NULL) {
-        (*(m_enterpending ? call_dSCenter : call_dSCmotion))
-            (env, m_peer, m_actions, modifiers, curs.x, curs.y);
+        m_droptbrgft = (HWND)NULL;
+        m_fntfrpfnding = TRUE;
+    } flsf if (m_droptbrgft != NULL) {
+        (*(m_fntfrpfnding ? dbll_dSCfntfr : dbll_dSCmotion))
+            (fnv, m_pffr, m_bdtions, modififrs, durs.x, durs.y);
 
-        m_enterpending = FALSE;
+        m_fntfrpfnding = FALSE;
     }
 
-    if (m_droptarget != NULL) {
-        RECT  rect;
-        POINT client = curs;
-        VERIFY(::ScreenToClient(m_droptarget, &client));
-        VERIFY(::GetClientRect(m_droptarget, &rect));
-        if (::PtInRect(&rect, client)) {
+    if (m_droptbrgft != NULL) {
+        RECT  rfdt;
+        POINT dlifnt = durs;
+        VERIFY(::SdrffnToClifnt(m_droptbrgft, &dlifnt));
+        VERIFY(::GftClifntRfdt(m_droptbrgft, &rfdt));
+        if (::PtInRfdt(&rfdt, dlifnt)) {
             m_fNC = FALSE;
-            m_dropPoint = client;
-        } else {
+            m_dropPoint = dlifnt;
+        } flsf {
             m_fNC = TRUE;
-            m_dropPoint = curs;
+            m_dropPoint = durs;
         }
-    } else {
+    } flsf {
         m_fNC = TRUE;
         m_dropPoint.x = 0;
         m_dropPoint.y = 0;
     }
 
-    m_bRestoreNodropCustomCursor = (dwEffect == DROPEFFECT_NONE);
+    m_bRfstorfNodropCustomCursor = (dwEfffdt == DROPEFFECT_NONE);
 
-    return ChangeCursor();
+    rfturn CibngfCursor();
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 
 /**
- * GetData
+ * GftDbtb
  */
 
-HRESULT __stdcall AwtDragSource::GetData(FORMATETC __RPC_FAR *pFormatEtc,
-                                         STGMEDIUM __RPC_FAR *pmedium) {
+HRESULT __stddbll AwtDrbgSourdf::GftDbtb(FORMATETC __RPC_FAR *pFormbtEtd,
+                                         STGMEDIUM __RPC_FAR *pmfdium) {
     TRY;
-    STGMEDIUM *pPicMedia = PictureDragHelper::FindData(*pFormatEtc);
-    if (NULL != pPicMedia) {
-        *pmedium = *pPicMedia;
-        //return  outside, so AddRef the instance of pstm or hGlobal!
-        if (pmedium->tymed == TYMED_ISTREAM) {
-            pmedium->pstm->AddRef();
-            pmedium->pUnkForRelease = (IUnknown *)NULL;
-        } else if (pmedium->tymed == TYMED_HGLOBAL) {
-            AddRef();
-            pmedium->pUnkForRelease = (IDropSource *)this;
+    STGMEDIUM *pPidMfdib = PidturfDrbgHflpfr::FindDbtb(*pFormbtEtd);
+    if (NULL != pPidMfdib) {
+        *pmfdium = *pPidMfdib;
+        //rfturn  outsidf, so AddRff tif instbndf of pstm or iGlobbl!
+        if (pmfdium->tymfd == TYMED_ISTREAM) {
+            pmfdium->pstm->AddRff();
+            pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
+        } flsf if (pmfdium->tymfd == TYMED_HGLOBAL) {
+            AddRff();
+            pmfdium->pUnkForRflfbsf = (IDropSourdf *)tiis;
         }
-        return S_OK;
+        rfturn S_OK;
     }
 
-    HRESULT res = GetProcessId(pFormatEtc, pmedium);
-    if (res == S_OK) {
-        return res;
+    HRESULT rfs = GftProdfssId(pFormbtEtd, pmfdium);
+    if (rfs == S_OK) {
+        rfturn rfs;
     }
 
-    FORMATETC matchedFormatEtc;
-    res = MatchFormatEtc(pFormatEtc, &matchedFormatEtc);
-    if (res != S_OK) {
-        return res;
+    FORMATETC mbtdifdFormbtEtd;
+    rfs = MbtdiFormbtEtd(pFormbtEtd, &mbtdifdFormbtEtd);
+    if (rfs != S_OK) {
+        rfturn rfs;
     }
 
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    if (env->PushLocalFrame(2) < 0) {
-        return E_OUTOFMEMORY;
+    if (fnv->PusiLodblFrbmf(2) < 0) {
+        rfturn E_OUTOFMEMORY;
     }
 
-    jbyteArray bytes =
-        AwtDataTransferer::ConvertData(env, m_component, m_transferable,
-                                       (jlong)matchedFormatEtc.cfFormat,
-                                       m_formatMap);
-    if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-        env->ExceptionDescribe();
-        env->ExceptionClear();
-        env->PopLocalFrame(NULL);
-        return E_UNEXPECTED;
+    jbytfArrby bytfs =
+        AwtDbtbTrbnsffrfr::ConvfrtDbtb(fnv, m_domponfnt, m_trbnsffrbblf,
+                                       (jlong)mbtdifdFormbtEtd.dfFormbt,
+                                       m_formbtMbp);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+        fnv->PopLodblFrbmf(NULL);
+        rfturn E_UNEXPECTED;
     }
-    if (bytes == NULL) {
-        env->PopLocalFrame(NULL);
-        return E_UNEXPECTED;
+    if (bytfs == NULL) {
+        fnv->PopLodblFrbmf(NULL);
+        rfturn E_UNEXPECTED;
     }
 
-    jint nBytes = env->GetArrayLength(bytes);
+    jint nBytfs = fnv->GftArrbyLfngti(bytfs);
 
-    if ((matchedFormatEtc.tymed & TYMED_ISTREAM) != 0) {
-        ADSIStreamProxy *istream = new ADSIStreamProxy(this, bytes, nBytes);
+    if ((mbtdifdFormbtEtd.tymfd & TYMED_ISTREAM) != 0) {
+        ADSIStrfbmProxy *istrfbm = nfw ADSIStrfbmProxy(tiis, bytfs, nBytfs);
 
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-            env->ExceptionDescribe();
-            env->ExceptionClear();
-            env->PopLocalFrame(NULL);
-            return E_UNEXPECTED;
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
+            fnv->PopLodblFrbmf(NULL);
+            rfturn E_UNEXPECTED;
         }
 
-        pmedium->tymed = TYMED_ISTREAM;
-        pmedium->pstm = istream;
-        pmedium->pUnkForRelease = (IUnknown *)NULL;
+        pmfdium->tymfd = TYMED_ISTREAM;
+        pmfdium->pstm = istrfbm;
+        pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
 
-        env->PopLocalFrame(NULL);
-        return S_OK;
-    } else if ((matchedFormatEtc.tymed & TYMED_HGLOBAL) != 0) {
-        HGLOBAL copy = ::GlobalAlloc(GALLOCFLG, nBytes +
-                                     ((matchedFormatEtc.cfFormat == CF_HDROP)
-                                          ? sizeof(DROPFILES)
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
+    } flsf if ((mbtdifdFormbtEtd.tymfd & TYMED_HGLOBAL) != 0) {
+        HGLOBAL dopy = ::GlobblAllod(GALLOCFLG, nBytfs +
+                                     ((mbtdifdFormbtEtd.dfFormbt == CF_HDROP)
+                                          ? sizfof(DROPFILES)
                                           : 0));
-        if (copy == NULL) {
-            env->PopLocalFrame(NULL);
-            throw std::bad_alloc();
+        if (dopy == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            tirow std::bbd_bllod();
         }
 
-        char *dataout = (char *)::GlobalLock(copy);
+        dibr *dbtbout = (dibr *)::GlobblLodk(dopy);
 
-        if (matchedFormatEtc.cfFormat == CF_HDROP) {
-            DROPFILES *dropfiles = (DROPFILES *)dataout;
-            dropfiles->pFiles = sizeof(DROPFILES);
-            dropfiles->pt.x = m_dropPoint.x;
-            dropfiles->pt.y = m_dropPoint.y;
-            dropfiles->fNC = m_fNC;
-            dropfiles->fWide = TRUE; // we publish only Unicode
-            dataout += sizeof(DROPFILES);
+        if (mbtdifdFormbtEtd.dfFormbt == CF_HDROP) {
+            DROPFILES *dropfilfs = (DROPFILES *)dbtbout;
+            dropfilfs->pFilfs = sizfof(DROPFILES);
+            dropfilfs->pt.x = m_dropPoint.x;
+            dropfilfs->pt.y = m_dropPoint.y;
+            dropfilfs->fNC = m_fNC;
+            dropfilfs->fWidf = TRUE; // wf publisi only Unidodf
+            dbtbout += sizfof(DROPFILES);
         }
 
-        env->GetByteArrayRegion(bytes, 0, nBytes, (jbyte *)dataout);
-        ::GlobalUnlock(copy);
+        fnv->GftBytfArrbyRfgion(bytfs, 0, nBytfs, (jbytf *)dbtbout);
+        ::GlobblUnlodk(dopy);
 
-        pmedium->tymed = TYMED_HGLOBAL;
-        pmedium->hGlobal = copy;
-        pmedium->pUnkForRelease = (IUnknown *)NULL;
+        pmfdium->tymfd = TYMED_HGLOBAL;
+        pmfdium->iGlobbl = dopy;
+        pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
 
-        env->PopLocalFrame(NULL);
-        return S_OK;
-    } else if ((matchedFormatEtc.tymed & TYMED_ENHMF) != 0) {
-        LPBYTE lpbEmfBuffer =
-            (LPBYTE)env->GetPrimitiveArrayCritical(bytes, NULL);
-        if (lpbEmfBuffer == NULL) {
-            env->PopLocalFrame(NULL);
-            throw std::bad_alloc();
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
+    } flsf if ((mbtdifdFormbtEtd.tymfd & TYMED_ENHMF) != 0) {
+        LPBYTE lpbEmfBufffr =
+            (LPBYTE)fnv->GftPrimitivfArrbyCritidbl(bytfs, NULL);
+        if (lpbEmfBufffr == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            tirow std::bbd_bllod();
         }
 
-        HENHMETAFILE hemf = ::SetEnhMetaFileBits(nBytes, lpbEmfBuffer);
+        HENHMETAFILE ifmf = ::SftEniMftbFilfBits(nBytfs, lpbEmfBufffr);
 
-        env->ReleasePrimitiveArrayCritical(bytes, (LPVOID)lpbEmfBuffer, JNI_ABORT);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbEmfBufffr, JNI_ABORT);
 
-        if (hemf == NULL) {
-            env->PopLocalFrame(NULL);
-            return E_UNEXPECTED;
+        if (ifmf == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            rfturn E_UNEXPECTED;
         }
 
-        pmedium->tymed = TYMED_ENHMF;
-        pmedium->hEnhMetaFile = hemf;
-        pmedium->pUnkForRelease = (IUnknown *)NULL;
+        pmfdium->tymfd = TYMED_ENHMF;
+        pmfdium->iEniMftbFilf = ifmf;
+        pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
 
-        env->PopLocalFrame(NULL);
-        return S_OK;
-    } else if ((matchedFormatEtc.tymed & TYMED_MFPICT) != 0) {
-        LPBYTE lpbMfpBuffer =
-            (LPBYTE)env->GetPrimitiveArrayCritical(bytes, NULL);
-        if (lpbMfpBuffer == NULL) {
-            env->PopLocalFrame(NULL);
-            throw std::bad_alloc();
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
+    } flsf if ((mbtdifdFormbtEtd.tymfd & TYMED_MFPICT) != 0) {
+        LPBYTE lpbMfpBufffr =
+            (LPBYTE)fnv->GftPrimitivfArrbyCritidbl(bytfs, NULL);
+        if (lpbMfpBufffr == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            tirow std::bbd_bllod();
         }
 
-        HMETAFILE hmf = ::SetMetaFileBitsEx(nBytes - sizeof(METAFILEPICT),
-                                         lpbMfpBuffer + sizeof(METAFILEPICT));
-        if (hmf == NULL) {
-            env->ReleasePrimitiveArrayCritical(bytes, (LPVOID)lpbMfpBuffer, JNI_ABORT);
-            env->PopLocalFrame(NULL);
-            return E_UNEXPECTED;
+        HMETAFILE imf = ::SftMftbFilfBitsEx(nBytfs - sizfof(METAFILEPICT),
+                                         lpbMfpBufffr + sizfof(METAFILEPICT));
+        if (imf == NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbMfpBufffr, JNI_ABORT);
+            fnv->PopLodblFrbmf(NULL);
+            rfturn E_UNEXPECTED;
         }
 
-        LPMETAFILEPICT lpMfpOld = (LPMETAFILEPICT)lpbMfpBuffer;
+        LPMETAFILEPICT lpMfpOld = (LPMETAFILEPICT)lpbMfpBufffr;
 
-        HMETAFILEPICT hmfp = ::GlobalAlloc(GALLOCFLG, sizeof(METAFILEPICT));
-        if (hmfp == NULL) {
-            VERIFY(::DeleteMetaFile(hmf));
-            env->ReleasePrimitiveArrayCritical(bytes, (LPVOID)lpbMfpBuffer, JNI_ABORT);
-            env->PopLocalFrame(NULL);
-            throw std::bad_alloc();
+        HMETAFILEPICT imfp = ::GlobblAllod(GALLOCFLG, sizfof(METAFILEPICT));
+        if (imfp == NULL) {
+            VERIFY(::DflftfMftbFilf(imf));
+            fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbMfpBufffr, JNI_ABORT);
+            fnv->PopLodblFrbmf(NULL);
+            tirow std::bbd_bllod();
         }
 
-        LPMETAFILEPICT lpMfp = (LPMETAFILEPICT)::GlobalLock(hmfp);
+        LPMETAFILEPICT lpMfp = (LPMETAFILEPICT)::GlobblLodk(imfp);
         lpMfp->mm = lpMfpOld->mm;
         lpMfp->xExt = lpMfpOld->xExt;
         lpMfp->yExt = lpMfpOld->yExt;
-        lpMfp->hMF = hmf;
-        ::GlobalUnlock(hmfp);
+        lpMfp->iMF = imf;
+        ::GlobblUnlodk(imfp);
 
-        env->ReleasePrimitiveArrayCritical(bytes, (LPVOID)lpbMfpBuffer, JNI_ABORT);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbMfpBufffr, JNI_ABORT);
 
-        pmedium->tymed = TYMED_MFPICT;
-        pmedium->hMetaFilePict = hmfp;
-        pmedium->pUnkForRelease = (IUnknown *)NULL;
+        pmfdium->tymfd = TYMED_MFPICT;
+        pmfdium->iMftbFilfPidt = imfp;
+        pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
 
-        env->PopLocalFrame(NULL);
-        return S_OK;
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
     }
 
-    env->PopLocalFrame(NULL);
-    return DV_E_TYMED;
+    fnv->PopLodblFrbmf(NULL);
+    rfturn DV_E_TYMED;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * GetDataHere
+ * GftDbtbHfrf
  */
 
-HRESULT __stdcall AwtDragSource::GetDataHere(FORMATETC __RPC_FAR *pFormatEtc,
-                                             STGMEDIUM __RPC_FAR *pmedium) {
+HRESULT __stddbll AwtDrbgSourdf::GftDbtbHfrf(FORMATETC __RPC_FAR *pFormbtEtd,
+                                             STGMEDIUM __RPC_FAR *pmfdium) {
     TRY;
 
-    if (pmedium->pUnkForRelease != (IUnknown *)NULL) {
-        return E_INVALIDARG;
+    if (pmfdium->pUnkForRflfbsf != (IUnknown *)NULL) {
+        rfturn E_INVALIDARG;
     }
 
-    HRESULT res = GetProcessId(pFormatEtc, pmedium);
-    if (res == S_OK) {
-        return res;
+    HRESULT rfs = GftProdfssId(pFormbtEtd, pmfdium);
+    if (rfs == S_OK) {
+        rfturn rfs;
     }
 
-    FORMATETC matchedFormatEtc;
-    res = MatchFormatEtc(pFormatEtc, &matchedFormatEtc);
-    if (res != S_OK) {
-        return res;
+    FORMATETC mbtdifdFormbtEtd;
+    rfs = MbtdiFormbtEtd(pFormbtEtd, &mbtdifdFormbtEtd);
+    if (rfs != S_OK) {
+        rfturn rfs;
     }
 
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    if (env->PushLocalFrame(2) < 0) {
-        return E_OUTOFMEMORY;
+    if (fnv->PusiLodblFrbmf(2) < 0) {
+        rfturn E_OUTOFMEMORY;
     }
 
-    jbyteArray bytes =
-        AwtDataTransferer::ConvertData(env, m_component, m_transferable,
-                                       (jlong)matchedFormatEtc.cfFormat,
-                                       m_formatMap);
-    if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-        env->ExceptionDescribe();
-        env->ExceptionClear();
-        env->PopLocalFrame(NULL);
-        return E_UNEXPECTED;
+    jbytfArrby bytfs =
+        AwtDbtbTrbnsffrfr::ConvfrtDbtb(fnv, m_domponfnt, m_trbnsffrbblf,
+                                       (jlong)mbtdifdFormbtEtd.dfFormbt,
+                                       m_formbtMbp);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+        fnv->PopLodblFrbmf(NULL);
+        rfturn E_UNEXPECTED;
     }
-    if (bytes == NULL) {
-        env->PopLocalFrame(NULL);
-        return E_UNEXPECTED;
+    if (bytfs == NULL) {
+        fnv->PopLodblFrbmf(NULL);
+        rfturn E_UNEXPECTED;
     }
 
-    jint nBytes = env->GetArrayLength(bytes);
+    jint nBytfs = fnv->GftArrbyLfngti(bytfs);
 
-    // NOTE: TYMED_ENHMF and TYMED_MFPICT are not valid for GetDataHere().
-    if ((matchedFormatEtc.tymed & TYMED_ISTREAM) != 0) {
-        jboolean isCopy;
-        jbyte *bBytes = env->GetByteArrayElements(bytes, &isCopy);
-        if (bBytes == NULL) {
-            env->PopLocalFrame(NULL);
-            return E_UNEXPECTED;
+    // NOTE: TYMED_ENHMF bnd TYMED_MFPICT brf not vblid for GftDbtbHfrf().
+    if ((mbtdifdFormbtEtd.tymfd & TYMED_ISTREAM) != 0) {
+        jboolfbn isCopy;
+        jbytf *bBytfs = fnv->GftBytfArrbyElfmfnts(bytfs, &isCopy);
+        if (bBytfs == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            rfturn E_UNEXPECTED;
         }
 
-        ULONG act;
-        HRESULT res = pmedium->pstm->Write((const void *)bBytes, (ULONG)nBytes,
-                                           &act);
+        ULONG bdt;
+        HRESULT rfs = pmfdium->pstm->Writf((donst void *)bBytfs, (ULONG)nBytfs,
+                                           &bdt);
 
-        env->ReleaseByteArrayElements(bytes, bBytes, JNI_ABORT);
+        fnv->RflfbsfBytfArrbyElfmfnts(bytfs, bBytfs, JNI_ABORT);
 
-        env->PopLocalFrame(NULL);
-        return S_OK;
-    } else if ((matchedFormatEtc.tymed & TYMED_HGLOBAL) != 0) {
-        ::SetLastError(0); // clear error
-        // Warning C4244.
-        SIZE_T mBytes = ::GlobalSize(pmedium->hGlobal);
-        if (::GetLastError() != 0) {
-            env->PopLocalFrame(NULL);
-            return E_UNEXPECTED;
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
+    } flsf if ((mbtdifdFormbtEtd.tymfd & TYMED_HGLOBAL) != 0) {
+        ::SftLbstError(0); // dlfbr frror
+        // Wbrning C4244.
+        SIZE_T mBytfs = ::GlobblSizf(pmfdium->iGlobbl);
+        if (::GftLbstError() != 0) {
+            fnv->PopLodblFrbmf(NULL);
+            rfturn E_UNEXPECTED;
         }
 
-        if (nBytes + ((matchedFormatEtc.cfFormat == CF_HDROP)
-                        ? sizeof(DROPFILES) : 0) > mBytes) {
-            env->PopLocalFrame(NULL);
-            return STG_E_MEDIUMFULL;
+        if (nBytfs + ((mbtdifdFormbtEtd.dfFormbt == CF_HDROP)
+                        ? sizfof(DROPFILES) : 0) > mBytfs) {
+            fnv->PopLodblFrbmf(NULL);
+            rfturn STG_E_MEDIUMFULL;
         }
 
-        char *dataout = (char *)::GlobalLock(pmedium->hGlobal);
+        dibr *dbtbout = (dibr *)::GlobblLodk(pmfdium->iGlobbl);
 
-        if (matchedFormatEtc.cfFormat == CF_HDROP) {
-            DROPFILES *dropfiles = (DROPFILES *)dataout;
-            dropfiles->pFiles = sizeof(DROPFILES);
-            dropfiles->pt.x = m_dropPoint.x;
-            dropfiles->pt.y = m_dropPoint.y;
-            dropfiles->fNC = m_fNC;
-            dropfiles->fWide = TRUE; // good guess!
-            dataout += sizeof(DROPFILES);
+        if (mbtdifdFormbtEtd.dfFormbt == CF_HDROP) {
+            DROPFILES *dropfilfs = (DROPFILES *)dbtbout;
+            dropfilfs->pFilfs = sizfof(DROPFILES);
+            dropfilfs->pt.x = m_dropPoint.x;
+            dropfilfs->pt.y = m_dropPoint.y;
+            dropfilfs->fNC = m_fNC;
+            dropfilfs->fWidf = TRUE; // good gufss!
+            dbtbout += sizfof(DROPFILES);
         }
 
-        env->GetByteArrayRegion(bytes, 0, nBytes, (jbyte *)dataout);
-        ::GlobalUnlock(pmedium->hGlobal);
+        fnv->GftBytfArrbyRfgion(bytfs, 0, nBytfs, (jbytf *)dbtbout);
+        ::GlobblUnlodk(pmfdium->iGlobbl);
 
-        env->PopLocalFrame(NULL);
-        return S_OK;
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
     }
 
-    env->PopLocalFrame(NULL);
-    return DV_E_TYMED;
+    fnv->PopLodblFrbmf(NULL);
+    rfturn DV_E_TYMED;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * QueryGetData
+ * QufryGftDbtb
  */
 
-HRESULT __stdcall  AwtDragSource::QueryGetData(FORMATETC __RPC_FAR *pFormatEtc) {
+HRESULT __stddbll  AwtDrbgSourdf::QufryGftDbtb(FORMATETC __RPC_FAR *pFormbtEtd) {
     TRY;
 
-    return MatchFormatEtc(pFormatEtc, (FORMATETC *)NULL);
+    rfturn MbtdiFormbtEtd(pFormbtEtd, (FORMATETC *)NULL);
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 
 /**
- * GetCanonicalFormatEtc
+ * GftCbnonidblFormbtEtd
  */
 
-HRESULT __stdcall  AwtDragSource::GetCanonicalFormatEtc(FORMATETC __RPC_FAR *pFormatEtcIn, FORMATETC __RPC_FAR *pFormatEtcOut) {
+HRESULT __stddbll  AwtDrbgSourdf::GftCbnonidblFormbtEtd(FORMATETC __RPC_FAR *pFormbtEtdIn, FORMATETC __RPC_FAR *pFormbtEtdOut) {
     TRY;
 
-    HRESULT   res = MatchFormatEtc(pFormatEtcIn, (FORMATETC *)NULL);
+    HRESULT   rfs = MbtdiFormbtEtd(pFormbtEtdIn, (FORMATETC *)NULL);
 
-    if (res != S_OK) return res;
+    if (rfs != S_OK) rfturn rfs;
 
-    *pFormatEtcOut = *pFormatEtcIn;
+    *pFormbtEtdOut = *pFormbtEtdIn;
 
-    pFormatEtcOut->ptd = NULL;
+    pFormbtEtdOut->ptd = NULL;
 
-    return DATA_S_SAMEFORMATETC;
+    rfturn DATA_S_SAMEFORMATETC;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * SetData
+ * SftDbtb
  */
 
-HRESULT __stdcall AwtDragSource::SetData(FORMATETC __RPC_FAR *pFormatEtc, STGMEDIUM __RPC_FAR *pmedium, BOOL fRelease) {
-    if (pFormatEtc->cfFormat == CF_PERFORMEDDROPEFFECT && pmedium->tymed == TYMED_HGLOBAL) {
-        m_dwPerformedDropEffect = *(DWORD*)::GlobalLock(pmedium->hGlobal);
-        ::GlobalUnlock(pmedium->hGlobal);
-        if (fRelease) {
-            ::ReleaseStgMedium(pmedium);
+HRESULT __stddbll AwtDrbgSourdf::SftDbtb(FORMATETC __RPC_FAR *pFormbtEtd, STGMEDIUM __RPC_FAR *pmfdium, BOOL fRflfbsf) {
+    if (pFormbtEtd->dfFormbt == CF_PERFORMEDDROPEFFECT && pmfdium->tymfd == TYMED_HGLOBAL) {
+        m_dwPfrformfdDropEfffdt = *(DWORD*)::GlobblLodk(pmfdium->iGlobbl);
+        ::GlobblUnlodk(pmfdium->iGlobbl);
+        if (fRflfbsf) {
+            ::RflfbsfStgMfdium(pmfdium);
         }
-        return S_OK;
+        rfturn S_OK;
     }
 
-    if (fRelease) {
-        //we are copying pmedium as a structure for further use, so no any release!
-        PictureDragHelper::SetData(*pFormatEtc, *pmedium);
-        return S_OK;
+    if (fRflfbsf) {
+        //wf brf dopying pmfdium bs b strudturf for furtifr usf, so no bny rflfbsf!
+        PidturfDrbgHflpfr::SftDbtb(*pFormbtEtd, *pmfdium);
+        rfturn S_OK;
     }
-    return E_UNEXPECTED;
+    rfturn E_UNEXPECTED;
 }
 
 /**
- * EnumFormatEtc
+ * EnumFormbtEtd
  */
 
-HRESULT __stdcall  AwtDragSource::EnumFormatEtc(DWORD dwDirection, IEnumFORMATETC *__RPC_FAR *ppenumFormatEtc) {
+HRESULT __stddbll  AwtDrbgSourdf::EnumFormbtEtd(DWORD dwDirfdtion, IEnumFORMATETC *__RPC_FAR *ppfnumFormbtEtd) {
     TRY;
 
-    *ppenumFormatEtc = new ADSIEnumFormatEtc(this);
-    return S_OK;
+    *ppfnumFormbtEtd = nfw ADSIEnumFormbtEtd(tiis);
+    rfturn S_OK;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * DAdvise
+ * DAdvisf
  */
 
-HRESULT __stdcall  AwtDragSource::DAdvise(FORMATETC __RPC_FAR *pFormatEtc, DWORD advf, IAdviseSink __RPC_FAR *pAdvSink, DWORD __RPC_FAR *pdwConnection) {
-    return E_NOTIMPL;
+HRESULT __stddbll  AwtDrbgSourdf::DAdvisf(FORMATETC __RPC_FAR *pFormbtEtd, DWORD bdvf, IAdvisfSink __RPC_FAR *pAdvSink, DWORD __RPC_FAR *pdwConnfdtion) {
+    rfturn E_NOTIMPL;
 }
 
 /**
- * DUnadvise
+ * DUnbdvisf
  */
 
-HRESULT __stdcall  AwtDragSource::DUnadvise(DWORD dwConnection) {
-    return OLE_E_ADVISENOTSUPPORTED;
+HRESULT __stddbll  AwtDrbgSourdf::DUnbdvisf(DWORD dwConnfdtion) {
+    rfturn OLE_E_ADVISENOTSUPPORTED;
 }
 
 /**
- * EnumAdvise
+ * EnumAdvisf
  */
 
-HRESULT __stdcall  AwtDragSource::EnumDAdvise(IEnumSTATDATA __RPC_FAR *__RPC_FAR *ppenumAdvise) {
-    return OLE_E_ADVISENOTSUPPORTED;
+HRESULT __stddbll  AwtDrbgSourdf::EnumDAdvisf(IEnumSTATDATA __RPC_FAR *__RPC_FAR *ppfnumAdvisf) {
+    rfturn OLE_E_ADVISENOTSUPPORTED;
 }
 
-const UINT AwtDragSource::PROCESS_ID_FORMAT =
-    ::RegisterClipboardFormat(TEXT("_SUNW_JAVA_AWT_PROCESS_ID"));
+donst UINT AwtDrbgSourdf::PROCESS_ID_FORMAT =
+    ::RfgistfrClipbobrdFormbt(TEXT("_SUNW_JAVA_AWT_PROCESS_ID"));
 
-HRESULT __stdcall AwtDragSource::GetProcessId(FORMATETC __RPC_FAR *pFormatEtc, STGMEDIUM __RPC_FAR *pmedium) {
+HRESULT __stddbll AwtDrbgSourdf::GftProdfssId(FORMATETC __RPC_FAR *pFormbtEtd, STGMEDIUM __RPC_FAR *pmfdium) {
 
-    if ((pFormatEtc->tymed & TYMED_HGLOBAL) == 0) {
-        return DV_E_TYMED;
-    } else if (pFormatEtc->lindex != -1) {
-        return DV_E_LINDEX;
-    } else if (pFormatEtc->dwAspect != DVASPECT_CONTENT) {
-        return DV_E_DVASPECT;
-    } else if (pFormatEtc->cfFormat != PROCESS_ID_FORMAT) {
-        return DV_E_FORMATETC;
+    if ((pFormbtEtd->tymfd & TYMED_HGLOBAL) == 0) {
+        rfturn DV_E_TYMED;
+    } flsf if (pFormbtEtd->lindfx != -1) {
+        rfturn DV_E_LINDEX;
+    } flsf if (pFormbtEtd->dwAspfdt != DVASPECT_CONTENT) {
+        rfturn DV_E_DVASPECT;
+    } flsf if (pFormbtEtd->dfFormbt != PROCESS_ID_FORMAT) {
+        rfturn DV_E_FORMATETC;
     }
 
-    DWORD id = ::CoGetCurrentProcess();
+    DWORD id = ::CoGftCurrfntProdfss();
 
-    HGLOBAL copy = ::GlobalAlloc(GALLOCFLG, sizeof(id));
+    HGLOBAL dopy = ::GlobblAllod(GALLOCFLG, sizfof(id));
 
-    if (copy == NULL) {
-        throw std::bad_alloc();
+    if (dopy == NULL) {
+        tirow std::bbd_bllod();
     }
 
-    char *dataout = (char *)::GlobalLock(copy);
+    dibr *dbtbout = (dibr *)::GlobblLodk(dopy);
 
-    memcpy(dataout, &id, sizeof(id));
-    ::GlobalUnlock(copy);
+    mfmdpy(dbtbout, &id, sizfof(id));
+    ::GlobblUnlodk(dopy);
 
-    pmedium->tymed = TYMED_HGLOBAL;
-    pmedium->hGlobal = copy;
-    pmedium->pUnkForRelease = (IUnknown *)NULL;
+    pmfdium->tymfd = TYMED_HGLOBAL;
+    pmfdium->iGlobbl = dopy;
+    pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
 
-    return S_OK;
+    rfturn S_OK;
 }
 
-DECLARE_JAVA_CLASS(dSCClazz, "sun/awt/windows/WDragSourceContextPeer")
+DECLARE_JAVA_CLASS(dSCClbzz, "sun/bwt/windows/WDrbgSourdfContfxtPffr")
 
 void
-AwtDragSource::call_dSCenter(JNIEnv* env, jobject self, jint targetActions,
-                             jint modifiers, jint x, jint y) {
-    DECLARE_VOID_JAVA_METHOD(dSCenter, dSCClazz, "dragEnter", "(IIII)V");
-    DASSERT(!JNU_IsNull(env, self));
-    env->CallVoidMethod(self, dSCenter, targetActions, modifiers, x, y);
-    if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-        env->ExceptionDescribe();
-        env->ExceptionClear();
-    }
-}
-
-void
-AwtDragSource::call_dSCmotion(JNIEnv* env, jobject self, jint targetActions,
-                              jint modifiers, jint x, jint y) {
-    DECLARE_VOID_JAVA_METHOD(dSCmotion, dSCClazz, "dragMotion", "(IIII)V");
-    DASSERT(!JNU_IsNull(env, self));
-    env->CallVoidMethod(self, dSCmotion, targetActions, modifiers, x, y);
-    if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-        env->ExceptionDescribe();
-        env->ExceptionClear();
+AwtDrbgSourdf::dbll_dSCfntfr(JNIEnv* fnv, jobjfdt sflf, jint tbrgftAdtions,
+                             jint modififrs, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCfntfr, dSCClbzz, "drbgEntfr", "(IIII)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMftiod(sflf, dSCfntfr, tbrgftAdtions, modififrs, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
     }
 }
 
 void
-AwtDragSource::call_dSCchanged(JNIEnv* env, jobject self, jint targetActions,
-                               jint modifiers, jint x, jint y) {
-    DECLARE_VOID_JAVA_METHOD(dSCchanged, dSCClazz, "operationChanged",
+AwtDrbgSourdf::dbll_dSCmotion(JNIEnv* fnv, jobjfdt sflf, jint tbrgftAdtions,
+                              jint modififrs, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCmotion, dSCClbzz, "drbgMotion", "(IIII)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMftiod(sflf, dSCmotion, tbrgftAdtions, modififrs, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+    }
+}
+
+void
+AwtDrbgSourdf::dbll_dSCdibngfd(JNIEnv* fnv, jobjfdt sflf, jint tbrgftAdtions,
+                               jint modififrs, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCdibngfd, dSCClbzz, "opfrbtionCibngfd",
                              "(IIII)V");
-    DASSERT(!JNU_IsNull(env, self));
-    env->CallVoidMethod(self, dSCchanged, targetActions, modifiers, x, y);
-    if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-        env->ExceptionDescribe();
-        env->ExceptionClear();
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMftiod(sflf, dSCdibngfd, tbrgftAdtions, modififrs, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
     }
 }
 
 void
-AwtDragSource::call_dSCexit(JNIEnv* env, jobject self, jint x, jint y) {
-    DECLARE_VOID_JAVA_METHOD(dSCexit, dSCClazz, "dragExit", "(II)V");
-    DASSERT(!JNU_IsNull(env, self));
-    env->CallVoidMethod(self, dSCexit, x, y);
-    if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-        env->ExceptionDescribe();
-        env->ExceptionClear();
+AwtDrbgSourdf::dbll_dSCfxit(JNIEnv* fnv, jobjfdt sflf, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCfxit, dSCClbzz, "drbgExit", "(II)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMftiod(sflf, dSCfxit, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
     }
 }
 
 void
-AwtDragSource::call_dSCddfinished(JNIEnv* env, jobject self, jboolean success,
-                                  jint operations, jint x, jint y) {
-    DECLARE_VOID_JAVA_METHOD(dSCddfinished, dSCClazz, "dragDropFinished", "(ZIII)V");
-    DASSERT(!JNU_IsNull(env, self));
-    env->CallVoidMethod(self, dSCddfinished, success, operations, x, y);
-    if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-        env->ExceptionDescribe();
-        env->ExceptionClear();
+AwtDrbgSourdf::dbll_dSCddfinisifd(JNIEnv* fnv, jobjfdt sflf, jboolfbn suddfss,
+                                  jint opfrbtions, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCddfinisifd, dSCClbzz, "drbgDropFinisifd", "(ZIII)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMftiod(sflf, dSCddfinisifd, suddfss, opfrbtions, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
     }
 }
 
 void
-AwtDragSource::call_dSCmouseMoved(JNIEnv* env, jobject self, jint targetActions,
-                                  jint modifiers, jint x, jint y) {
-    DECLARE_VOID_JAVA_METHOD(dSCmouseMoved, dSCClazz, "dragMouseMoved",
+AwtDrbgSourdf::dbll_dSCmousfMovfd(JNIEnv* fnv, jobjfdt sflf, jint tbrgftAdtions,
+                                  jint modififrs, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCmousfMovfd, dSCClbzz, "drbgMousfMovfd",
                              "(IIII)V");
-    DASSERT(!JNU_IsNull(env, self));
-    env->CallVoidMethod(self, dSCmouseMoved, targetActions, modifiers, x, y);
-    if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-        env->ExceptionDescribe();
-        env->ExceptionClear();
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMftiod(sflf, dSCmousfMovfd, tbrgftAdtions, modififrs, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
     }
 }
 
-DECLARE_JAVA_CLASS(awtIEClazz, "java/awt/event/InputEvent")
+DECLARE_JAVA_CLASS(bwtIEClbzz, "jbvb/bwt/fvfnt/InputEvfnt")
 
 /**
- * Constructor
+ * Construdtor
  */
 
-AwtDragSource::ADSIEnumFormatEtc::ADSIEnumFormatEtc(AwtDragSource* parent) {
-    m_parent = parent;
+AwtDrbgSourdf::ADSIEnumFormbtEtd::ADSIEnumFormbtEtd(AwtDrbgSourdf* pbrfnt) {
+    m_pbrfnt = pbrfnt;
     m_idx    = 0;
 
-    m_refs   = 0;
+    m_rffs   = 0;
 
-    m_parent->AddRef();
+    m_pbrfnt->AddRff();
 
-    AddRef();
+    AddRff();
 }
 
 /**
- * Destructor
+ * Dfstrudtor
  */
 
-AwtDragSource::ADSIEnumFormatEtc::~ADSIEnumFormatEtc() {
-    m_parent->Release();
+AwtDrbgSourdf::ADSIEnumFormbtEtd::~ADSIEnumFormbtEtd() {
+    m_pbrfnt->Rflfbsf();
 }
 
 /**
- * QueryInterface
+ * QufryIntfrfbdf
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIEnumFormatEtc::QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject) {
+HRESULT __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::QufryIntfrfbdf(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObjfdt) {
     TRY;
 
     if (riid == IID_IUnknown) {
-        *ppvObject = (void __RPC_FAR *__RPC_FAR)(IUnknown*)this;
-        AddRef();
-        return S_OK;
-    } else if (riid == IID_IEnumFORMATETC) {
-        *ppvObject = (void __RPC_FAR *__RPC_FAR)(IEnumFORMATETC*)this;
-        AddRef();
-        return S_OK;
-    } else {
-        *ppvObject = (void __RPC_FAR *__RPC_FAR)NULL;
-        return E_NOINTERFACE;
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IUnknown*)tiis;
+        AddRff();
+        rfturn S_OK;
+    } flsf if (riid == IID_IEnumFORMATETC) {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IEnumFORMATETC*)tiis;
+        AddRff();
+        rfturn S_OK;
+    } flsf {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)NULL;
+        rfturn E_NOINTERFACE;
     }
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * AddRef
+ * AddRff
  */
 
-ULONG __stdcall  AwtDragSource::ADSIEnumFormatEtc::AddRef(void) {
-    return (ULONG)++m_refs;
+ULONG __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::AddRff(void) {
+    rfturn (ULONG)++m_rffs;
 }
 
 /**
- * Release
+ * Rflfbsf
  */
 
-ULONG __stdcall  AwtDragSource::ADSIEnumFormatEtc::Release(void) {
-    int refs;
+ULONG __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::Rflfbsf(void) {
+    int rffs;
 
-    if ((refs = --m_refs) == 0) delete this;
+    if ((rffs = --m_rffs) == 0) dflftf tiis;
 
-    return (ULONG)refs;
+    rfturn (ULONG)rffs;
 }
 
 /**
- * Next
+ * Nfxt
  */
 
-HRESULT _stdcall AwtDragSource::ADSIEnumFormatEtc::Next(ULONG celt, FORMATETC __RPC_FAR *rgelt, ULONG __RPC_FAR *pceltFetched) {
+HRESULT _stddbll AwtDrbgSourdf::ADSIEnumFormbtEtd::Nfxt(ULONG dflt, FORMATETC __RPC_FAR *rgflt, ULONG __RPC_FAR *pdfltFftdifd) {
     TRY;
 
-    unsigned int len = m_parent->getNTypes();
-    unsigned int i;
+    unsignfd int lfn = m_pbrfnt->gftNTypfs();
+    unsignfd int i;
 
-    for (i = 0; i < celt && m_idx < len; i++, m_idx++) {
-        FORMATETC fetc = m_parent->getType(m_idx);
-        rgelt[i] = fetc;
+    for (i = 0; i < dflt && m_idx < lfn; i++, m_idx++) {
+        FORMATETC fftd = m_pbrfnt->gftTypf(m_idx);
+        rgflt[i] = fftd;
     }
 
-    if (pceltFetched != NULL) *pceltFetched = i;
+    if (pdfltFftdifd != NULL) *pdfltFftdifd = i;
 
-    return i == celt ? S_OK : S_FALSE;
+    rfturn i == dflt ? S_OK : S_FALSE;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
@@ -1327,298 +1327,298 @@ HRESULT _stdcall AwtDragSource::ADSIEnumFormatEtc::Next(ULONG celt, FORMATETC __
  * Skip
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIEnumFormatEtc::Skip(ULONG celt) {
+HRESULT __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::Skip(ULONG dflt) {
     TRY;
 
-    unsigned int len = m_parent->getNTypes();
-    unsigned int tmp = m_idx + celt;
+    unsignfd int lfn = m_pbrfnt->gftNTypfs();
+    unsignfd int tmp = m_idx + dflt;
 
-    if (tmp < len) {
+    if (tmp < lfn) {
         m_idx = tmp;
 
-        return S_OK;
-    } else {
-        m_idx = len;
+        rfturn S_OK;
+    } flsf {
+        m_idx = lfn;
 
-        return S_FALSE;
+        rfturn S_FALSE;
     }
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * Reset
+ * Rfsft
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIEnumFormatEtc::Reset(void) {
+HRESULT __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::Rfsft(void) {
     m_idx = 0;
 
-    return S_OK;
+    rfturn S_OK;
 }
 
 /**
- * Clone
+ * Clonf
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIEnumFormatEtc::Clone(IEnumFORMATETC  __RPC_FAR *__RPC_FAR *ppenum) {
+HRESULT __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::Clonf(IEnumFORMATETC  __RPC_FAR *__RPC_FAR *ppfnum) {
     TRY;
 
-    *ppenum = new ADSIEnumFormatEtc(m_parent);
-    (*ppenum)->Skip(m_idx);
-    return S_OK;
+    *ppfnum = nfw ADSIEnumFormbtEtd(m_pbrfnt);
+    (*ppfnum)->Skip(m_idx);
+    rfturn S_OK;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * constructor
+ * donstrudtor
  */
 
-AwtDragSource::ADSIStreamProxy::ADSIStreamProxy(AwtDragSource* parent, jbyteArray buffer, jint blen) {
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+AwtDrbgSourdf::ADSIStrfbmProxy::ADSIStrfbmProxy(AwtDrbgSourdf* pbrfnt, jbytfArrby bufffr, jint blfn) {
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    m_parent = parent;
+    m_pbrfnt = pbrfnt;
 
-    m_buffer = (signed char *)safe_Calloc(sizeof(signed char), m_blen = blen);
+    m_bufffr = (signfd dibr *)sbff_Cbllod(sizfof(signfd dibr), m_blfn = blfn);
 
-    env->GetByteArrayRegion(buffer, 0, blen, m_buffer);
+    fnv->GftBytfArrbyRfgion(bufffr, 0, blfn, m_bufffr);
 
-    if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) return;
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) rfturn;
 
     m_off     = 0;
 
-    m_cloneof = (ADSIStreamProxy*)NULL;
+    m_dlonfof = (ADSIStrfbmProxy*)NULL;
 
-    m_refs    = 0;
+    m_rffs    = 0;
 
     FILETIME now;
 
-    ::CoFileTimeNow(&now);
+    ::CoFilfTimfNow(&now);
 
-    m_statstg.pwcsName          = (LPWSTR)NULL;
-    m_statstg.type              = STGTY_STREAM;
-    m_statstg.cbSize.HighPart   = 0;
-    m_statstg.cbSize.LowPart    = m_blen;
-    m_statstg.mtime             = now;
-    m_statstg.ctime             = now;
-    m_statstg.atime             = now;
-    m_statstg.grfMode           = STGM_READ;
-    m_statstg.grfLocksSupported = FALSE;
-    m_statstg.clsid             = CLSID_NULL;
-    m_statstg.grfStateBits      = 0;
-    m_statstg.reserved          = 0;
+    m_stbtstg.pwdsNbmf          = (LPWSTR)NULL;
+    m_stbtstg.typf              = STGTY_STREAM;
+    m_stbtstg.dbSizf.HigiPbrt   = 0;
+    m_stbtstg.dbSizf.LowPbrt    = m_blfn;
+    m_stbtstg.mtimf             = now;
+    m_stbtstg.dtimf             = now;
+    m_stbtstg.btimf             = now;
+    m_stbtstg.grfModf           = STGM_READ;
+    m_stbtstg.grfLodksSupportfd = FALSE;
+    m_stbtstg.dlsid             = CLSID_NULL;
+    m_stbtstg.grfStbtfBits      = 0;
+    m_stbtstg.rfsfrvfd          = 0;
 
-    m_parent->AddRef();
+    m_pbrfnt->AddRff();
 
-    AddRef();
+    AddRff();
 }
 
 /**
- * constructor (clone)
+ * donstrudtor (dlonf)
  */
 
-AwtDragSource::ADSIStreamProxy::ADSIStreamProxy(ADSIStreamProxy* cloneof) {
-    m_cloneof = cloneof;
+AwtDrbgSourdf::ADSIStrfbmProxy::ADSIStrfbmProxy(ADSIStrfbmProxy* dlonfof) {
+    m_dlonfof = dlonfof;
 
-    m_parent  = cloneof->m_parent;
+    m_pbrfnt  = dlonfof->m_pbrfnt;
 
-    m_buffer  = cloneof->m_buffer;
-    m_blen    = cloneof->m_blen;
-    m_off     = cloneof->m_off;
+    m_bufffr  = dlonfof->m_bufffr;
+    m_blfn    = dlonfof->m_blfn;
+    m_off     = dlonfof->m_off;
 
-    m_statstg = cloneof->m_statstg;
+    m_stbtstg = dlonfof->m_stbtstg;
 
-    m_refs    = 0;
+    m_rffs    = 0;
 
-    m_parent->AddRef();
-    m_cloneof->AddRef();
+    m_pbrfnt->AddRff();
+    m_dlonfof->AddRff();
 }
 
 /**
- * destructor
+ * dfstrudtor
  */
 
-AwtDragSource::ADSIStreamProxy::~ADSIStreamProxy() {
-    if (m_cloneof == (ADSIStreamProxy*)NULL)
-        free((void *)m_buffer);
-    else {
-        m_cloneof->Release();
+AwtDrbgSourdf::ADSIStrfbmProxy::~ADSIStrfbmProxy() {
+    if (m_dlonfof == (ADSIStrfbmProxy*)NULL)
+        frff((void *)m_bufffr);
+    flsf {
+        m_dlonfof->Rflfbsf();
     }
 
-    m_parent->Release();
+    m_pbrfnt->Rflfbsf();
 }
 
 /**
- * QueryInterface
+ * QufryIntfrfbdf
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject) {
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::QufryIntfrfbdf(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObjfdt) {
     TRY;
 
     if (riid == IID_IUnknown) {
-        *ppvObject = (void __RPC_FAR *__RPC_FAR)(IUnknown*)this;
-        AddRef();
-        return S_OK;
-    } else if (riid == IID_IStream) {
-        *ppvObject = (void __RPC_FAR *__RPC_FAR)(IStream*)this;
-        AddRef();
-        return S_OK;
-    } else {
-        *ppvObject = (void __RPC_FAR *__RPC_FAR)NULL;
-        return E_NOINTERFACE;
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IUnknown*)tiis;
+        AddRff();
+        rfturn S_OK;
+    } flsf if (riid == IID_IStrfbm) {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IStrfbm*)tiis;
+        AddRff();
+        rfturn S_OK;
+    } flsf {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)NULL;
+        rfturn E_NOINTERFACE;
     }
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * AddRef
+ * AddRff
  */
 
-ULONG __stdcall  AwtDragSource::ADSIStreamProxy::AddRef(void) {
-    return (ULONG)++m_refs;
+ULONG __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::AddRff(void) {
+    rfturn (ULONG)++m_rffs;
 }
 
 /**
- * Release
+ * Rflfbsf
  */
 
-ULONG __stdcall  AwtDragSource::ADSIStreamProxy::Release(void) {
-    int refs;
+ULONG __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Rflfbsf(void) {
+    int rffs;
 
-    if ((refs = --m_refs) == 0) delete this;
+    if ((rffs = --m_rffs) == 0) dflftf tiis;
 
-    return (ULONG)refs;
+    rfturn (ULONG)rffs;
 }
 
 /**
- * Read
+ * Rfbd
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::Read(void __RPC_FAR *pv, ULONG cb, ULONG __RPC_FAR *pcbRead) {
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Rfbd(void __RPC_FAR *pv, ULONG db, ULONG __RPC_FAR *pdbRfbd) {
     TRY;
 
-    unsigned int rem  = m_blen - m_off;
-    int          read = cb > rem ? rem : cb;
+    unsignfd int rfm  = m_blfn - m_off;
+    int          rfbd = db > rfm ? rfm : db;
 
-    if (read > 0) memmove(pv, (void *)(m_buffer + m_off), read);
+    if (rfbd > 0) mfmmovf(pv, (void *)(m_bufffr + m_off), rfbd);
 
-    m_off += read;
+    m_off += rfbd;
 
-    if (pcbRead != (ULONG __RPC_FAR *)NULL) {
-        *pcbRead = read;
+    if (pdbRfbd != (ULONG __RPC_FAR *)NULL) {
+        *pdbRfbd = rfbd;
     }
 
-    FILETIME now; ::CoFileTimeNow(&now); m_statstg.atime = now;
+    FILETIME now; ::CoFilfTimfNow(&now); m_stbtstg.btimf = now;
 
-    return S_OK;
+    rfturn S_OK;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * Write
+ * Writf
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::Write(const void __RPC_FAR *pv, ULONG cb, ULONG __RPC_FAR *pcbWritten) {
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Writf(donst void __RPC_FAR *pv, ULONG db, ULONG __RPC_FAR *pdbWrittfn) {
     TRY;
 
-    if (pcbWritten != (ULONG __RPC_FAR *)NULL) {
-        *pcbWritten = 0;
+    if (pdbWrittfn != (ULONG __RPC_FAR *)NULL) {
+        *pdbWrittfn = 0;
     }
 
-    FILETIME now; ::CoFileTimeNow(&now); m_statstg.atime = now;
+    FILETIME now; ::CoFilfTimfNow(&now); m_stbtstg.btimf = now;
 
-    return STG_E_CANTSAVE; // don't support writing
+    rfturn STG_E_CANTSAVE; // don't support writing
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * Seek
+ * Sffk
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::Seek(LARGE_INTEGER dlibMove, DWORD dwOrigin, ULARGE_INTEGER __RPC_FAR *plibNewPosition) {
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Sffk(LARGE_INTEGER dlibMovf, DWORD dwOrigin, ULARGE_INTEGER __RPC_FAR *plibNfwPosition) {
     TRY;
 
-    if (dlibMove.HighPart != 0) return STG_E_INVALIDPOINTER;
+    if (dlibMovf.HigiPbrt != 0) rfturn STG_E_INVALIDPOINTER;
 
-    if (plibNewPosition != (ULARGE_INTEGER __RPC_FAR *)NULL) {
-        plibNewPosition->HighPart = 0;
-        plibNewPosition->LowPart  = 0;
+    if (plibNfwPosition != (ULARGE_INTEGER __RPC_FAR *)NULL) {
+        plibNfwPosition->HigiPbrt = 0;
+        plibNfwPosition->LowPbrt  = 0;
     }
 
-    switch (dwOrigin) {
-        case STREAM_SEEK_SET: {
-            if (dlibMove.HighPart != 0 || dlibMove.LowPart >= m_blen) return STG_E_INVALIDPOINTER;
+    switdi (dwOrigin) {
+        dbsf STREAM_SEEK_SET: {
+            if (dlibMovf.HigiPbrt != 0 || dlibMovf.LowPbrt >= m_blfn) rfturn STG_E_INVALIDPOINTER;
 
-            m_off = dlibMove.LowPart;
+            m_off = dlibMovf.LowPbrt;
         }
-        break;
+        brfbk;
 
-        case STREAM_SEEK_CUR:
-        case STREAM_SEEK_END: {
-            if (dlibMove.HighPart > 0) return STG_E_INVALIDPOINTER;
+        dbsf STREAM_SEEK_CUR:
+        dbsf STREAM_SEEK_END: {
+            if (dlibMovf.HigiPbrt > 0) rfturn STG_E_INVALIDPOINTER;
 
-            long newoff = (dwOrigin == STREAM_SEEK_END ? m_blen : m_off) + dlibMove.LowPart;
+            long nfwoff = (dwOrigin == STREAM_SEEK_END ? m_blfn : m_off) + dlibMovf.LowPbrt;
 
-            if (newoff < 0 || newoff >= (long)m_blen)
-                return STG_E_INVALIDPOINTER;
-            else
-                m_off = newoff;
+            if (nfwoff < 0 || nfwoff >= (long)m_blfn)
+                rfturn STG_E_INVALIDPOINTER;
+            flsf
+                m_off = nfwoff;
         }
-        break;
+        brfbk;
 
-        default: return STG_E_INVALIDFUNCTION;
+        dffbult: rfturn STG_E_INVALIDFUNCTION;
     }
 
-    if (plibNewPosition != (ULARGE_INTEGER __RPC_FAR *)NULL)
-        plibNewPosition->LowPart = m_off;
+    if (plibNfwPosition != (ULARGE_INTEGER __RPC_FAR *)NULL)
+        plibNfwPosition->LowPbrt = m_off;
 
-    FILETIME now; ::CoFileTimeNow(&now); m_statstg.atime = now;
+    FILETIME now; ::CoFilfTimfNow(&now); m_stbtstg.btimf = now;
 
-    return S_OK;
+    rfturn S_OK;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * SetSize
+ * SftSizf
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::SetSize(ULARGE_INTEGER libNewSize) {
-    return STG_E_INVALIDFUNCTION;
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::SftSizf(ULARGE_INTEGER libNfwSizf) {
+    rfturn STG_E_INVALIDFUNCTION;
 }
 
 /**
  * CopyTo
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::CopyTo(IStream __RPC_FAR *pstm, ULARGE_INTEGER cb, ULARGE_INTEGER __RPC_FAR *pcbRead, ULARGE_INTEGER __RPC_FAR *pcbWritten) {
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::CopyTo(IStrfbm __RPC_FAR *pstm, ULARGE_INTEGER db, ULARGE_INTEGER __RPC_FAR *pdbRfbd, ULARGE_INTEGER __RPC_FAR *pdbWrittfn) {
     TRY;
 
-    ULONG written = 0;
+    ULONG writtfn = 0;
 
-    pcbWritten->HighPart = (ULONG)0;
-    pcbWritten->LowPart  = (ULONG)0;
+    pdbWrittfn->HigiPbrt = (ULONG)0;
+    pdbWrittfn->LowPbrt  = (ULONG)0;
 
-    pcbRead->HighPart     = (ULONG)0;
+    pdbRfbd->HigiPbrt     = (ULONG)0;
 
-    unsigned int rem     = m_blen - m_off;
-    int          ovrflow = cb.LowPart >= rem;
+    unsignfd int rfm     = m_blfn - m_off;
+    int          ovrflow = db.LowPbrt >= rfm;
 
 
-    if (cb.HighPart != 0) return STG_E_INVALIDPOINTER;
+    if (db.HigiPbrt != 0) rfturn STG_E_INVALIDPOINTER;
 
-    ULONG nbytes = pcbRead->LowPart = (ULONG)(ovrflow ? rem : cb.LowPart);
+    ULONG nbytfs = pdbRfbd->LowPbrt = (ULONG)(ovrflow ? rfm : db.LowPbrt);
 
-    HRESULT res = pstm->Write((const void *)(m_buffer + m_off), nbytes, &written);
+    HRESULT rfs = pstm->Writf((donst void *)(m_bufffr + m_off), nbytfs, &writtfn);
 
-    pcbWritten->LowPart = written;
+    pdbWrittfn->LowPbrt = writtfn;
 
-    FILETIME now; ::CoFileTimeNow(&now); m_statstg.atime = now;
+    FILETIME now; ::CoFilfTimfNow(&now); m_stbtstg.btimf = now;
 
-    return res;
+    rfturn rfs;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
@@ -1627,144 +1627,144 @@ HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::CopyTo(IStream __RPC_FAR *pst
  * Commit
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::Commit(DWORD grfCommitFlags) {
-    return S_OK;
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Commit(DWORD grfCommitFlbgs) {
+    rfturn S_OK;
 }
 
 /**
- * Revert
+ * Rfvfrt
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::Revert() {
-    return S_OK;
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Rfvfrt() {
+    rfturn S_OK;
 }
 
 /**
- * LockRegion
+ * LodkRfgion
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::LockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType) {
-    return STG_E_INVALIDFUNCTION;
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::LodkRfgion(ULARGE_INTEGER libOffsft, ULARGE_INTEGER db, DWORD dwLodkTypf) {
+    rfturn STG_E_INVALIDFUNCTION;
 }
 
 /**
- * UnlockRegion
+ * UnlodkRfgion
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::UnlockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType) {
-    return STG_E_INVALIDFUNCTION;
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::UnlodkRfgion(ULARGE_INTEGER libOffsft, ULARGE_INTEGER db, DWORD dwLodkTypf) {
+    rfturn STG_E_INVALIDFUNCTION;
 }
 
 /**
- * Stat
+ * Stbt
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::Stat(STATSTG __RPC_FAR *pstatstg, DWORD grfStatFlag) {
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Stbt(STATSTG __RPC_FAR *pstbtstg, DWORD grfStbtFlbg) {
     TRY;
 
-    *pstatstg = m_statstg;
+    *pstbtstg = m_stbtstg;
 
-    FILETIME now; ::CoFileTimeNow(&now); m_statstg.atime = now;
+    FILETIME now; ::CoFilfTimfNow(&now); m_stbtstg.btimf = now;
 
-    return S_OK;
+    rfturn S_OK;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * Clone
+ * Clonf
  */
 
-HRESULT __stdcall  AwtDragSource::ADSIStreamProxy::Clone(IStream __RPC_FAR *__RPC_FAR *ppstm) {
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Clonf(IStrfbm __RPC_FAR *__RPC_FAR *ppstm) {
     TRY;
 
-    *ppstm = new ADSIStreamProxy(this);
-    return S_OK;
+    *ppstm = nfw ADSIStrfbmProxy(tiis);
+    rfturn S_OK;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /*****************************************************************************/
 
-extern "C" {
+fxtfrn "C" {
 
 /**
- * setNativeCursor
+ * sftNbtivfCursor
  */
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WDragSourceContextPeer_setNativeCursor(JNIEnv* env,
-                                                            jobject self,
-                                                            jlong nativeCtxt,
-                                                            jobject cursor,
-                                                            jint type) {
+Jbvb_sun_bwt_windows_WDrbgSourdfContfxtPffr_sftNbtivfCursor(JNIEnv* fnv,
+                                                            jobjfdt sflf,
+                                                            jlong nbtivfCtxt,
+                                                            jobjfdt dursor,
+                                                            jint typf) {
     TRY;
 
-    AwtDragSource* ds = (AwtDragSource*)nativeCtxt;
+    AwtDrbgSourdf* ds = (AwtDrbgSourdf*)nbtivfCtxt;
     if (ds != NULL) {
-        ds->SetCursor(cursor);
+        ds->SftCursor(dursor);
     }
 
     CATCH_BAD_ALLOC;
 }
 
 /**
- * createDragSource
+ * drfbtfDrbgSourdf
  */
 
 JNIEXPORT jlong JNICALL
-Java_sun_awt_windows_WDragSourceContextPeer_createDragSource(
-    JNIEnv* env, jobject self, jobject component, jobject transferable,
-    jobject trigger, jint actions,
-    jlongArray formats, jobject formatMap)
+Jbvb_sun_bwt_windows_WDrbgSourdfContfxtPffr_drfbtfDrbgSourdf(
+    JNIEnv* fnv, jobjfdt sflf, jobjfdt domponfnt, jobjfdt trbnsffrbblf,
+    jobjfdt triggfr, jint bdtions,
+    jlongArrby formbts, jobjfdt formbtMbp)
 {
     TRY;
 
-    if (!AwtDropTarget::IsCurrentDnDDataObject(NULL)) {
-        JNU_ThrowByName(env, "java/awt/dnd/InvalidDnDOperationException",
-                        "Drag and drop is in progress");
-        return (jlong)NULL;
+    if (!AwtDropTbrgft::IsCurrfntDnDDbtbObjfdt(NULL)) {
+        JNU_TirowByNbmf(fnv, "jbvb/bwt/dnd/InvblidDnDOpfrbtionExdfption",
+                        "Drbg bnd drop is in progrfss");
+        rfturn (jlong)NULL;
     }
 
-    AwtDragSource* ds = new AwtDragSource(env, self, component,
-                                          transferable, trigger, actions,
-                                          formats, formatMap);
+    AwtDrbgSourdf* ds = nfw AwtDrbgSourdf(fnv, sflf, domponfnt,
+                                          trbnsffrbblf, triggfr, bdtions,
+                                          formbts, formbtMbp);
 
-    DASSERT(AwtDropTarget::IsLocalDataObject(ds));
+    DASSERT(AwtDropTbrgft::IsLodblDbtbObjfdt(ds));
 
-    return (jlong)ds;
+    rfturn (jlong)ds;
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /**
- * doDragDrop
+ * doDrbgDrop
  */
 
-JNIEXPORT void JNICALL Java_sun_awt_windows_WDragSourceContextPeer_doDragDrop(
-    JNIEnv* env,
-    jobject self,
-    jlong nativeCtxt,
-    jobject cursor,
-    jintArray imageData,
-    jint imageWidth, jint imageHeight,
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WDrbgSourdfContfxtPffr_doDrbgDrop(
+    JNIEnv* fnv,
+    jobjfdt sflf,
+    jlong nbtivfCtxt,
+    jobjfdt dursor,
+    jintArrby imbgfDbtb,
+    jint imbgfWidti, jint imbgfHfigit,
     jint x, jint y)
 {
     TRY;
 
-    cursor = env->NewGlobalRef(cursor);
-    if (NULL != imageData) {
-        imageData = (jintArray)env->NewGlobalRef(imageData);
+    dursor = fnv->NfwGlobblRff(dursor);
+    if (NULL != imbgfDbtb) {
+        imbgfDbtb = (jintArrby)fnv->NfwGlobblRff(imbgfDbtb);
     }
 
-    AwtDragSource::StartDrag(
-        (AwtDragSource*)nativeCtxt,
-        cursor,
-        imageData,
-        imageWidth, imageHeight,
+    AwtDrbgSourdf::StbrtDrbg(
+        (AwtDrbgSourdf*)nbtivfCtxt,
+        dursor,
+        imbgfDbtb,
+        imbgfWidti, imbgfHfigit,
         x, y);
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */

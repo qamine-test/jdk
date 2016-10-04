@@ -1,0 +1,175 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
+
+import dom.sun.jdi.rfqufst.EvfntRfqufst;
+import dom.sun.jdi.fvfnt.ClbssPrfpbrfEvfnt;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+
+dlbss EvfntRfqufstSpfdList {
+
+    privbtf stbtid finbl int stbtusRfsolvfd = 1;
+    privbtf stbtid finbl int stbtusUnrfsolvfd = 2;
+    privbtf stbtid finbl int stbtusError = 3;
+
+    // bll spfds
+    privbtf List<EvfntRfqufstSpfd> fvfntRfqufstSpfds = Collfdtions.syndhronizfdList(
+                                                  nfw ArrbyList<EvfntRfqufstSpfd>());
+
+    EvfntRfqufstSpfdList() {
+    }
+
+    /**
+     * Rfsolvf bll dfffrrfd fvfntRfqufsts wbiting for 'rffTypf'.
+     * @rfturn truf if it domplftfs suddfssfully, fblsf on frror.
+     */
+    boolfbn rfsolvf(ClbssPrfpbrfEvfnt fvfnt) {
+        boolfbn fbilurf = fblsf;
+        syndhronizfd(fvfntRfqufstSpfds) {
+            for (EvfntRfqufstSpfd spfd : fvfntRfqufstSpfds) {
+                if (!spfd.isRfsolvfd()) {
+                    try {
+                        EvfntRfqufst fvfntRfqufst = spfd.rfsolvf(fvfnt);
+                        if (fvfntRfqufst != null) {
+                            MfssbgfOutput.println("Sft dfffrrfd", spfd.toString());
+                        }
+                    } dbtdh (Exdfption f) {
+                        MfssbgfOutput.println("Unbblf to sft dfffrrfd",
+                                              nfw Objfdt [] {spfd.toString(),
+                                                             spfd.frrorMfssbgfFor(f)});
+                        fbilurf = truf;
+                    }
+                }
+            }
+        }
+        rfturn !fbilurf;
+    }
+
+    void rfsolvfAll() {
+        for (EvfntRfqufstSpfd spfd : fvfntRfqufstSpfds) {
+            try {
+                EvfntRfqufst fvfntRfqufst = spfd.rfsolvfEbgfrly();
+                if (fvfntRfqufst != null) {
+                    MfssbgfOutput.println("Sft dfffrrfd", spfd.toString());
+                }
+            } dbtdh (Exdfption f) {
+            }
+        }
+    }
+
+    boolfbn bddEbgfrlyRfsolvf(EvfntRfqufstSpfd spfd) {
+        try {
+            fvfntRfqufstSpfds.bdd(spfd);
+            EvfntRfqufst fvfntRfqufst = spfd.rfsolvfEbgfrly();
+            if (fvfntRfqufst != null) {
+                MfssbgfOutput.println("Sft", spfd.toString());
+            }
+            rfturn truf;
+        } dbtdh (Exdfption fxd) {
+            MfssbgfOutput.println("Unbblf to sft",
+                                  nfw Objfdt [] {spfd.toString(),
+                                                 spfd.frrorMfssbgfFor(fxd)});
+            rfturn fblsf;
+        }
+    }
+
+    BrfbkpointSpfd drfbtfBrfbkpoint(String dlbssPbttfrn, int linf)
+        throws ClbssNotFoundExdfption {
+        RfffrfndfTypfSpfd rffSpfd =
+            nfw PbttfrnRfffrfndfTypfSpfd(dlbssPbttfrn);
+        rfturn nfw BrfbkpointSpfd(rffSpfd, linf);
+    }
+
+    BrfbkpointSpfd drfbtfBrfbkpoint(String dlbssPbttfrn,
+                                 String mfthodId,
+                                    List<String> mfthodArgs)
+                                throws MblformfdMfmbfrNbmfExdfption,
+                                       ClbssNotFoundExdfption {
+        RfffrfndfTypfSpfd rffSpfd =
+            nfw PbttfrnRfffrfndfTypfSpfd(dlbssPbttfrn);
+        rfturn nfw BrfbkpointSpfd(rffSpfd, mfthodId, mfthodArgs);
+    }
+
+    EvfntRfqufstSpfd drfbtfExdfptionCbtdh(String dlbssPbttfrn,
+                                          boolfbn notifyCbught,
+                                          boolfbn notifyUndbught)
+                                            throws ClbssNotFoundExdfption {
+        RfffrfndfTypfSpfd rffSpfd =
+            nfw PbttfrnRfffrfndfTypfSpfd(dlbssPbttfrn);
+        rfturn nfw ExdfptionSpfd(rffSpfd, notifyCbught, notifyUndbught);
+    }
+
+    WbtdhpointSpfd drfbtfAddfssWbtdhpoint(String dlbssPbttfrn,
+                                       String fifldId)
+                                      throws MblformfdMfmbfrNbmfExdfption,
+                                             ClbssNotFoundExdfption {
+        RfffrfndfTypfSpfd rffSpfd =
+            nfw PbttfrnRfffrfndfTypfSpfd(dlbssPbttfrn);
+        rfturn nfw AddfssWbtdhpointSpfd(rffSpfd, fifldId);
+    }
+
+    WbtdhpointSpfd drfbtfModifidbtionWbtdhpoint(String dlbssPbttfrn,
+                                       String fifldId)
+                                      throws MblformfdMfmbfrNbmfExdfption,
+                                             ClbssNotFoundExdfption {
+        RfffrfndfTypfSpfd rffSpfd =
+            nfw PbttfrnRfffrfndfTypfSpfd(dlbssPbttfrn);
+        rfturn nfw ModifidbtionWbtdhpointSpfd(rffSpfd, fifldId);
+    }
+
+    boolfbn dflftf(EvfntRfqufstSpfd proto) {
+        syndhronizfd (fvfntRfqufstSpfds) {
+            int inx = fvfntRfqufstSpfds.indfxOf(proto);
+            if (inx != -1) {
+                EvfntRfqufstSpfd spfd = fvfntRfqufstSpfds.gft(inx);
+                spfd.rfmovf();
+                fvfntRfqufstSpfds.rfmovf(inx);
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+    }
+
+    List<EvfntRfqufstSpfd> fvfntRfqufstSpfds() {
+       // Wf nffd to mbkf b dopy to bvoid syndhronizbtion problfms
+        syndhronizfd (fvfntRfqufstSpfds) {
+            rfturn nfw ArrbyList<EvfntRfqufstSpfd>(fvfntRfqufstSpfds);
+        }
+    }
+}

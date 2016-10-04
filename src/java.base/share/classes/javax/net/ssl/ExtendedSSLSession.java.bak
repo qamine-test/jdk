@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * Extends the <code>SSLSession</code> interface to support additional
- * session attributes.
+ * Extfnds tif <dodf>SSLSfssion</dodf> intfrfbdf to support bdditionbl
+ * sfssion bttributfs.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public abstract class ExtendedSSLSession implements SSLSession {
+publid bbstrbdt dlbss ExtfndfdSSLSfssion implfmfnts SSLSfssion {
     /**
-     * Obtains an array of supported signature algorithms that the local side
-     * is willing to use.
+     * Obtbins bn brrby of supportfd signbturf blgoritims tibt tif lodbl sidf
+     * is willing to usf.
      * <p>
-     * Note: this method is used to indicate to the peer which signature
-     * algorithms may be used for digital signatures in TLS 1.2. It is
-     * not meaningful for TLS versions prior to 1.2.
+     * Notf: tiis mftiod is usfd to indidbtf to tif pffr wiidi signbturf
+     * blgoritims mby bf usfd for digitbl signbturfs in TLS 1.2. It is
+     * not mfbningful for TLS vfrsions prior to 1.2.
      * <p>
-     * The signature algorithm name must be a standard Java Security
-     * name (such as "SHA1withRSA", "SHA256withECDSA", and so on).
-     * See Appendix A in the <a href=
-     * "{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture API Specification &amp; Reference </a>
-     * for information about standard algorithm names.
+     * Tif signbturf blgoritim nbmf must bf b stbndbrd Jbvb Sfdurity
+     * nbmf (sudi bs "SHA1witiRSA", "SHA256witiECDSA", bnd so on).
+     * Sff Appfndix A in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml#AppA">
+     * Jbvb Cryptogrbpiy Ardiitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      * <p>
-     * Note: the local supported signature algorithms should conform to
-     * the algorithm constraints specified by
-     * {@link SSLParameters#getAlgorithmConstraints getAlgorithmConstraints()}
-     * method in <code>SSLParameters</code>.
+     * Notf: tif lodbl supportfd signbturf blgoritims siould donform to
+     * tif blgoritim donstrbints spfdififd by
+     * {@link SSLPbrbmftfrs#gftAlgoritimConstrbints gftAlgoritimConstrbints()}
+     * mftiod in <dodf>SSLPbrbmftfrs</dodf>.
      *
-     * @return An array of supported signature algorithms, in descending
-     *     order of preference.  The return value is an empty array if
-     *     no signature algorithm is supported.
+     * @rfturn An brrby of supportfd signbturf blgoritims, in dfsdfnding
+     *     ordfr of prfffrfndf.  Tif rfturn vbluf is bn fmpty brrby if
+     *     no signbturf blgoritim is supportfd.
      *
-     * @see SSLParameters#getAlgorithmConstraints
+     * @sff SSLPbrbmftfrs#gftAlgoritimConstrbints
      */
-    public abstract String[] getLocalSupportedSignatureAlgorithms();
+    publid bbstrbdt String[] gftLodblSupportfdSignbturfAlgoritims();
 
     /**
-     * Obtains an array of supported signature algorithms that the peer is
-     * able to use.
+     * Obtbins bn brrby of supportfd signbturf blgoritims tibt tif pffr is
+     * bblf to usf.
      * <p>
-     * Note: this method is used to indicate to the local side which signature
-     * algorithms may be used for digital signatures in TLS 1.2. It is
-     * not meaningful for TLS versions prior to 1.2.
+     * Notf: tiis mftiod is usfd to indidbtf to tif lodbl sidf wiidi signbturf
+     * blgoritims mby bf usfd for digitbl signbturfs in TLS 1.2. It is
+     * not mfbningful for TLS vfrsions prior to 1.2.
      * <p>
-     * The signature algorithm name must be a standard Java Security
-     * name (such as "SHA1withRSA", "SHA256withECDSA", and so on).
-     * See Appendix A in the <a href=
-     * "{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture API Specification &amp; Reference </a>
-     * for information about standard algorithm names.
+     * Tif signbturf blgoritim nbmf must bf b stbndbrd Jbvb Sfdurity
+     * nbmf (sudi bs "SHA1witiRSA", "SHA256witiECDSA", bnd so on).
+     * Sff Appfndix A in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml#AppA">
+     * Jbvb Cryptogrbpiy Ardiitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @return An array of supported signature algorithms, in descending
-     *     order of preference.  The return value is an empty array if
-     *     the peer has not sent the supported signature algorithms.
+     * @rfturn An brrby of supportfd signbturf blgoritims, in dfsdfnding
+     *     ordfr of prfffrfndf.  Tif rfturn vbluf is bn fmpty brrby if
+     *     tif pffr ibs not sfnt tif supportfd signbturf blgoritims.
      *
-     * @see X509KeyManager
-     * @see X509ExtendedKeyManager
+     * @sff X509KfyMbnbgfr
+     * @sff X509ExtfndfdKfyMbnbgfr
      */
-    public abstract String[] getPeerSupportedSignatureAlgorithms();
+    publid bbstrbdt String[] gftPffrSupportfdSignbturfAlgoritims();
 
     /**
-     * Obtains a {@link List} containing all {@link SNIServerName}s
-     * of the requested Server Name Indication (SNI) extension.
+     * Obtbins b {@link List} dontbining bll {@link SNISfrvfrNbmf}s
+     * of tif rfqufstfd Sfrvfr Nbmf Indidbtion (SNI) fxtfnsion.
      * <P>
-     * In server mode, unless the return {@link List} is empty,
-     * the server should use the requested server names to guide its
-     * selection of an appropriate authentication certificate, and/or
-     * other aspects of security policy.
+     * In sfrvfr modf, unlfss tif rfturn {@link List} is fmpty,
+     * tif sfrvfr siould usf tif rfqufstfd sfrvfr nbmfs to guidf its
+     * sflfdtion of bn bppropribtf butifntidbtion dfrtifidbtf, bnd/or
+     * otifr bspfdts of sfdurity polidy.
      * <P>
-     * In client mode, unless the return {@link List} is empty,
-     * the client should use the requested server names to guide its
-     * endpoint identification of the peer's identity, and/or
-     * other aspects of security policy.
+     * In dlifnt modf, unlfss tif rfturn {@link List} is fmpty,
+     * tif dlifnt siould usf tif rfqufstfd sfrvfr nbmfs to guidf its
+     * fndpoint idfntifidbtion of tif pffr's idfntity, bnd/or
+     * otifr bspfdts of sfdurity polidy.
      *
-     * @return a non-null immutable list of {@link SNIServerName}s of the
-     *         requested server name indications. The returned list may be
-     *         empty if no server name indications were requested.
-     * @throws UnsupportedOperationException if the underlying provider
-     *         does not implement the operation
+     * @rfturn b non-null immutbblf list of {@link SNISfrvfrNbmf}s of tif
+     *         rfqufstfd sfrvfr nbmf indidbtions. Tif rfturnfd list mby bf
+     *         fmpty if no sfrvfr nbmf indidbtions wfrf rfqufstfd.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif undfrlying providfr
+     *         dofs not implfmfnt tif opfrbtion
      *
-     * @see SNIServerName
-     * @see X509ExtendedTrustManager
-     * @see X509ExtendedKeyManager
+     * @sff SNISfrvfrNbmf
+     * @sff X509ExtfndfdTrustMbnbgfr
+     * @sff X509ExtfndfdKfyMbnbgfr
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public List<SNIServerName> getRequestedServerNames() {
-        throw new UnsupportedOperationException();
+    publid List<SNISfrvfrNbmf> gftRfqufstfdSfrvfrNbmfs() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 }

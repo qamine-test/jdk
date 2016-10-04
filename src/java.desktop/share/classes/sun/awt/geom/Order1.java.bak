@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.geom;
+pbdkbgf sun.bwt.gfom;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.PathIterator;
-import java.util.Vector;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.util.Vfdtor;
 
-final class Order1 extends Curve {
-    private double x0;
-    private double y0;
-    private double x1;
-    private double y1;
-    private double xmin;
-    private double xmax;
+finbl dlbss Ordfr1 fxtfnds Curvf {
+    privbtf doublf x0;
+    privbtf doublf y0;
+    privbtf doublf x1;
+    privbtf doublf y1;
+    privbtf doublf xmin;
+    privbtf doublf xmbx;
 
-    public Order1(double x0, double y0,
-                  double x1, double y1,
-                  int direction)
+    publid Ordfr1(doublf x0, doublf y0,
+                  doublf x1, doublf y1,
+                  int dirfdtion)
     {
-        super(direction);
-        this.x0 = x0;
-        this.y0 = y0;
-        this.x1 = x1;
-        this.y1 = y1;
+        supfr(dirfdtion);
+        tiis.x0 = x0;
+        tiis.y0 = y0;
+        tiis.x1 = x1;
+        tiis.y1 = y1;
         if (x0 < x1) {
-            this.xmin = x0;
-            this.xmax = x1;
-        } else {
-            this.xmin = x1;
-            this.xmax = x0;
+            tiis.xmin = x0;
+            tiis.xmbx = x1;
+        } flsf {
+            tiis.xmin = x1;
+            tiis.xmbx = x0;
         }
     }
 
-    public int getOrder() {
-        return 1;
+    publid int gftOrdfr() {
+        rfturn 1;
     }
 
-    public double getXTop() {
-        return x0;
+    publid doublf gftXTop() {
+        rfturn x0;
     }
 
-    public double getYTop() {
-        return y0;
+    publid doublf gftYTop() {
+        rfturn y0;
     }
 
-    public double getXBot() {
-        return x1;
+    publid doublf gftXBot() {
+        rfturn x1;
     }
 
-    public double getYBot() {
-        return y1;
+    publid doublf gftYBot() {
+        rfturn y1;
     }
 
-    public double getXMin() {
-        return xmin;
+    publid doublf gftXMin() {
+        rfturn xmin;
     }
 
-    public double getXMax() {
-        return xmax;
+    publid doublf gftXMbx() {
+        rfturn xmbx;
     }
 
-    public double getX0() {
-        return (direction == INCREASING) ? x0 : x1;
+    publid doublf gftX0() {
+        rfturn (dirfdtion == INCREASING) ? x0 : x1;
     }
 
-    public double getY0() {
-        return (direction == INCREASING) ? y0 : y1;
+    publid doublf gftY0() {
+        rfturn (dirfdtion == INCREASING) ? y0 : y1;
     }
 
-    public double getX1() {
-        return (direction == DECREASING) ? x0 : x1;
+    publid doublf gftX1() {
+        rfturn (dirfdtion == DECREASING) ? x0 : x1;
     }
 
-    public double getY1() {
-        return (direction == DECREASING) ? y0 : y1;
+    publid doublf gftY1() {
+        rfturn (dirfdtion == DECREASING) ? y0 : y1;
     }
 
-    public double XforY(double y) {
+    publid doublf XforY(doublf y) {
         if (x0 == x1 || y <= y0) {
-            return x0;
+            rfturn x0;
         }
         if (y >= y1) {
-            return x1;
+            rfturn x1;
         }
-        // assert(y0 != y1); /* No horizontal lines... */
-        return (x0 + (y - y0) * (x1 - x0) / (y1 - y0));
+        // bssfrt(y0 != y1); /* No iorizontbl linfs... */
+        rfturn (x0 + (y - y0) * (x1 - x0) / (y1 - y0));
     }
 
-    public double TforY(double y) {
+    publid doublf TforY(doublf y) {
         if (y <= y0) {
-            return 0;
+            rfturn 0;
         }
         if (y >= y1) {
-            return 1;
+            rfturn 1;
         }
-        return (y - y0) / (y1 - y0);
+        rfturn (y - y0) / (y1 - y0);
     }
 
-    public double XforT(double t) {
-        return x0 + t * (x1 - x0);
+    publid doublf XforT(doublf t) {
+        rfturn x0 + t * (x1 - x0);
     }
 
-    public double YforT(double t) {
-        return y0 + t * (y1 - y0);
+    publid doublf YforT(doublf t) {
+        rfturn y0 + t * (y1 - y0);
     }
 
-    public double dXforT(double t, int deriv) {
-        switch (deriv) {
-        case 0:
-            return x0 + t * (x1 - x0);
-        case 1:
-            return (x1 - x0);
-        default:
-            return 0;
-        }
-    }
-
-    public double dYforT(double t, int deriv) {
-        switch (deriv) {
-        case 0:
-            return y0 + t * (y1 - y0);
-        case 1:
-            return (y1 - y0);
-        default:
-            return 0;
+    publid doublf dXforT(doublf t, int dfriv) {
+        switdi (dfriv) {
+        dbsf 0:
+            rfturn x0 + t * (x1 - x0);
+        dbsf 1:
+            rfturn (x1 - x0);
+        dffbult:
+            rfturn 0;
         }
     }
 
-    public double nextVertical(double t0, double t1) {
-        return t1;
+    publid doublf dYforT(doublf t, int dfriv) {
+        switdi (dfriv) {
+        dbsf 0:
+            rfturn y0 + t * (y1 - y0);
+        dbsf 1:
+            rfturn (y1 - y0);
+        dffbult:
+            rfturn 0;
+        }
     }
 
-    public boolean accumulateCrossings(Crossings c) {
-        double xlo = c.getXLo();
-        double ylo = c.getYLo();
-        double xhi = c.getXHi();
-        double yhi = c.getYHi();
-        if (xmin >= xhi) {
-            return false;
+    publid doublf nfxtVfrtidbl(doublf t0, doublf t1) {
+        rfturn t1;
+    }
+
+    publid boolfbn bddumulbtfCrossings(Crossings d) {
+        doublf xlo = d.gftXLo();
+        doublf ylo = d.gftYLo();
+        doublf xii = d.gftXHi();
+        doublf yii = d.gftYHi();
+        if (xmin >= xii) {
+            rfturn fblsf;
         }
-        double xstart, ystart, xend, yend;
+        doublf xstbrt, ystbrt, xfnd, yfnd;
         if (y0 < ylo) {
             if (y1 <= ylo) {
-                return false;
+                rfturn fblsf;
             }
-            ystart = ylo;
-            xstart = XforY(ylo);
-        } else {
-            if (y0 >= yhi) {
-                return false;
+            ystbrt = ylo;
+            xstbrt = XforY(ylo);
+        } flsf {
+            if (y0 >= yii) {
+                rfturn fblsf;
             }
-            ystart = y0;
-            xstart = x0;
+            ystbrt = y0;
+            xstbrt = x0;
         }
-        if (y1 > yhi) {
-            yend = yhi;
-            xend = XforY(yhi);
-        } else {
-            yend = y1;
-            xend = x1;
+        if (y1 > yii) {
+            yfnd = yii;
+            xfnd = XforY(yii);
+        } flsf {
+            yfnd = y1;
+            xfnd = x1;
         }
-        if (xstart >= xhi && xend >= xhi) {
-            return false;
+        if (xstbrt >= xii && xfnd >= xii) {
+            rfturn fblsf;
         }
-        if (xstart > xlo || xend > xlo) {
-            return true;
+        if (xstbrt > xlo || xfnd > xlo) {
+            rfturn truf;
         }
-        c.record(ystart, yend, direction);
-        return false;
+        d.rfdord(ystbrt, yfnd, dirfdtion);
+        rfturn fblsf;
     }
 
-    public void enlarge(Rectangle2D r) {
-        r.add(x0, y0);
-        r.add(x1, y1);
+    publid void fnlbrgf(Rfdtbnglf2D r) {
+        r.bdd(x0, y0);
+        r.bdd(x1, y1);
     }
 
-    public Curve getSubCurve(double ystart, double yend, int dir) {
-        if (ystart == y0 && yend == y1) {
-            return getWithDirection(dir);
+    publid Curvf gftSubCurvf(doublf ystbrt, doublf yfnd, int dir) {
+        if (ystbrt == y0 && yfnd == y1) {
+            rfturn gftWitiDirfdtion(dir);
         }
         if (x0 == x1) {
-            return new Order1(x0, ystart, x1, yend, dir);
+            rfturn nfw Ordfr1(x0, ystbrt, x1, yfnd, dir);
         }
-        double num = x0 - x1;
-        double denom = y0 - y1;
-        double xstart = (x0 + (ystart - y0) * num / denom);
-        double xend = (x0 + (yend - y0) * num / denom);
-        return new Order1(xstart, ystart, xend, yend, dir);
+        doublf num = x0 - x1;
+        doublf dfnom = y0 - y1;
+        doublf xstbrt = (x0 + (ystbrt - y0) * num / dfnom);
+        doublf xfnd = (x0 + (yfnd - y0) * num / dfnom);
+        rfturn nfw Ordfr1(xstbrt, ystbrt, xfnd, yfnd, dir);
     }
 
-    public Curve getReversedCurve() {
-        return new Order1(x0, y0, x1, y1, -direction);
+    publid Curvf gftRfvfrsfdCurvf() {
+        rfturn nfw Ordfr1(x0, y0, x1, y1, -dirfdtion);
     }
 
-    public int compareTo(Curve other, double yrange[]) {
-        if (!(other instanceof Order1)) {
-            return super.compareTo(other, yrange);
+    publid int dompbrfTo(Curvf otifr, doublf yrbngf[]) {
+        if (!(otifr instbndfof Ordfr1)) {
+            rfturn supfr.dompbrfTo(otifr, yrbngf);
         }
-        Order1 c1 = (Order1) other;
-        if (yrange[1] <= yrange[0]) {
-            throw new InternalError("yrange already screwed up...");
+        Ordfr1 d1 = (Ordfr1) otifr;
+        if (yrbngf[1] <= yrbngf[0]) {
+            tirow nfw IntfrnblError("yrbngf blrfbdy sdrfwfd up...");
         }
-        yrange[1] = Math.min(Math.min(yrange[1], y1), c1.y1);
-        if (yrange[1] <= yrange[0]) {
-            throw new InternalError("backstepping from "+yrange[0]+" to "+yrange[1]);
+        yrbngf[1] = Mbti.min(Mbti.min(yrbngf[1], y1), d1.y1);
+        if (yrbngf[1] <= yrbngf[0]) {
+            tirow nfw IntfrnblError("bbdkstfpping from "+yrbngf[0]+" to "+yrbngf[1]);
         }
-        if (xmax <= c1.xmin) {
-            return (xmin == c1.xmax) ? 0 : -1;
+        if (xmbx <= d1.xmin) {
+            rfturn (xmin == d1.xmbx) ? 0 : -1;
         }
-        if (xmin >= c1.xmax) {
-            return 1;
+        if (xmin >= d1.xmbx) {
+            rfturn 1;
         }
         /*
-         * If "this" is curve A and "other" is curve B, then...
+         * If "tiis" is durvf A bnd "otifr" is durvf B, tifn...
          * xA(y) = x0A + (y - y0A) (x1A - x0A) / (y1A - y0A)
          * xB(y) = x0B + (y - y0B) (x1B - x0B) / (y1B - y0B)
          * xA(y) == xB(y)
@@ -246,7 +246,7 @@ final class Order1 extends Curve {
          * 0 == (x0A - x0B) (y1A - y0A) (y1B - y0B)
          *    + (y - y0A) (x1A - x0A) (y1B - y0B)
          *    - (y - y0B) (x1B - x0B) (y1A - y0A)
-         * If (dxA == x1A - x0A), etc...
+         * If (dxA == x1A - x0A), ftd...
          * 0 == (x0A - x0B) * dyA * dyB
          *    + (y - y0A) * dxA * dyB
          *    - (y - y0B) * dxB * dyA
@@ -266,47 +266,47 @@ final class Order1 extends Curve {
          *       - y0A * dxA * dyB + y0B * dxB * dyA)
          *    / (dxB * dyA - dxA * dyB)
          */
-        double dxa = x1 - x0;
-        double dya = y1 - y0;
-        double dxb = c1.x1 - c1.x0;
-        double dyb = c1.y1 - c1.y0;
-        double denom = dxb * dya - dxa * dyb;
-        double y;
-        if (denom != 0) {
-            double num = ((x0 - c1.x0) * dya * dyb
-                          - y0 * dxa * dyb
-                          + c1.y0 * dxb * dya);
-            y = num / denom;
-            if (y <= yrange[0]) {
-                // intersection is above us
-                // Use bottom-most common y for comparison
-                y = Math.min(y1, c1.y1);
-            } else {
-                // intersection is below the top of our range
-                if (y < yrange[1]) {
-                    // If intersection is in our range, adjust valid range
-                    yrange[1] = y;
+        doublf dxb = x1 - x0;
+        doublf dyb = y1 - y0;
+        doublf dxb = d1.x1 - d1.x0;
+        doublf dyb = d1.y1 - d1.y0;
+        doublf dfnom = dxb * dyb - dxb * dyb;
+        doublf y;
+        if (dfnom != 0) {
+            doublf num = ((x0 - d1.x0) * dyb * dyb
+                          - y0 * dxb * dyb
+                          + d1.y0 * dxb * dyb);
+            y = num / dfnom;
+            if (y <= yrbngf[0]) {
+                // intfrsfdtion is bbovf us
+                // Usf bottom-most dommon y for dompbrison
+                y = Mbti.min(y1, d1.y1);
+            } flsf {
+                // intfrsfdtion is bflow tif top of our rbngf
+                if (y < yrbngf[1]) {
+                    // If intfrsfdtion is in our rbngf, bdjust vblid rbngf
+                    yrbngf[1] = y;
                 }
-                // Use top-most common y for comparison
-                y = Math.max(y0, c1.y0);
+                // Usf top-most dommon y for dompbrison
+                y = Mbti.mbx(y0, d1.y0);
             }
-        } else {
-            // lines are parallel, choose any common y for comparison
-            // Note - prefer an endpoint for speed of calculating the X
-            // (see shortcuts in Order1.XforY())
-            y = Math.max(y0, c1.y0);
+        } flsf {
+            // linfs brf pbrbllfl, dioosf bny dommon y for dompbrison
+            // Notf - prfffr bn fndpoint for spffd of dbldulbting tif X
+            // (sff siortduts in Ordfr1.XforY())
+            y = Mbti.mbx(y0, d1.y0);
         }
-        return orderof(XforY(y), c1.XforY(y));
+        rfturn ordfrof(XforY(y), d1.XforY(y));
     }
 
-    public int getSegment(double coords[]) {
-        if (direction == INCREASING) {
-            coords[0] = x1;
-            coords[1] = y1;
-        } else {
-            coords[0] = x0;
-            coords[1] = y0;
+    publid int gftSfgmfnt(doublf doords[]) {
+        if (dirfdtion == INCREASING) {
+            doords[0] = x1;
+            doords[1] = y1;
+        } flsf {
+            doords[0] = x0;
+            doords[1] = y0;
         }
-        return PathIterator.SEG_LINETO;
+        rfturn PbtiItfrbtor.SEG_LINETO;
     }
 }

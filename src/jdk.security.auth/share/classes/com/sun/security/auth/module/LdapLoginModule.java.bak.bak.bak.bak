@@ -1,0 +1,1018 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.buth.modulf;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Arrbys;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Mbp;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.rfgfx.Mbtdhfr;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.Sft;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.ldbp.*;
+import jbvbx.sfdurity.buth.*;
+import jbvbx.sfdurity.buth.dbllbbdk.*;
+import jbvbx.sfdurity.buth.login.*;
+import jbvbx.sfdurity.buth.spi.*;
+
+import dom.sun.sfdurity.buth.LdbpPrindipbl;
+import dom.sun.sfdurity.buth.UsfrPrindipbl;
+
+
+/**
+ * This {@link LoginModulf} pfrforms LDAP-bbsfd buthfntidbtion.
+ * A usfrnbmf bnd pbssword is vfrififd bgbinst thf dorrfsponding usfr
+ * drfdfntibls storfd in bn LDAP dirfdtory.
+ * This modulf rfquirfs thf supplifd {@link CbllbbdkHbndlfr} to support b
+ * {@link NbmfCbllbbdk} bnd b {@link PbsswordCbllbbdk}.
+ * If buthfntidbtion is suddfssful thfn b nfw {@link LdbpPrindipbl} is drfbtfd
+ * using thf usfr's distinguishfd nbmf bnd b nfw {@link UsfrPrindipbl} is
+ * drfbtfd using thf usfr's usfrnbmf bnd both brf bssodibtfd
+ * with thf durrfnt {@link Subjfdt}.
+ *
+ * <p> This modulf opfrbtfs in onf of thrff modfs: <i>sfbrdh-first</i>,
+ * <i>buthfntidbtion-first</i> or <i>buthfntidbtion-only</i>.
+ * A modf is sflfdtfd by spfdifying b pbrtidulbr sft of options.
+ *
+ * <p> In sfbrdh-first modf, thf LDAP dirfdtory is sfbrdhfd to dftfrminf thf
+ * usfr's distinguishfd nbmf bnd thfn buthfntidbtion is bttfmptfd.
+ * An (bnonymous) sfbrdh is pfrformfd using thf supplifd usfrnbmf in
+ * donjundtion with b spfdififd sfbrdh filtfr.
+ * If suddfssful thfn buthfntidbtion is bttfmptfd using thf usfr's
+ * distinguishfd nbmf bnd thf supplifd pbssword.
+ * To fnbblf this modf, sft thf <dodf>usfrFiltfr</dodf> option bnd omit thf
+ * <dodf>buthIdfntity</dodf> option.
+ * Usf sfbrdh-first modf whfn thf usfr's distinguishfd nbmf is not
+ * known in bdvbndf.
+ *
+ * <p> In buthfntidbtion-first modf, buthfntidbtion is bttfmptfd using thf
+ * supplifd usfrnbmf bnd pbssword bnd thfn thf LDAP dirfdtory is sfbrdhfd.
+ * If buthfntidbtion is suddfssful thfn b sfbrdh is pfrformfd using thf
+ * supplifd usfrnbmf in donjundtion with b spfdififd sfbrdh filtfr.
+ * To fnbblf this modf, sft thf <dodf>buthIdfntity</dodf> bnd thf
+ * <dodf>usfrFiltfr</dodf> options.
+ * Usf buthfntidbtion-first modf whfn bddfssing bn LDAP dirfdtory
+ * thbt hbs bffn donfigurfd to disbllow bnonymous sfbrdhfs.
+ *
+ * <p> In buthfntidbtion-only modf, buthfntidbtion is bttfmptfd using thf
+ * supplifd usfrnbmf bnd pbssword. Thf LDAP dirfdtory is not sfbrdhfd bfdbusf
+ * thf usfr's distinguishfd nbmf is blrfbdy known.
+ * To fnbblf this modf, sft thf <dodf>buthIdfntity</dodf> option to b vblid
+ * distinguishfd nbmf bnd omit thf <dodf>usfrFiltfr</dodf> option.
+ * Usf buthfntidbtion-only modf whfn thf usfr's distinguishfd nbmf is
+ * known in bdvbndf.
+ *
+ * <p> Thf following option is mbndbtory bnd must bf spfdififd in this
+ * modulf's login {@link Configurbtion}:
+ * <dl><dt></dt><dd>
+ * <dl>
+ * <dt> <dodf>usfrProvidfr=<b>ldbp_urls</b></dodf>
+ * </dt>
+ * <dd> This option idfntififs thf LDAP dirfdtory thbt storfs usfr fntrifs.
+ *      <b>ldbp_urls</b> is b list of spbdf-sfpbrbtfd LDAP URLs
+ *      (<b hrff="http://www.iftf.org/rfd/rfd2255.txt">RFC 2255</b>)
+ *      thbt idfntififs thf LDAP sfrvfr to usf bnd thf position in
+ *      its dirfdtory trff whfrf usfr fntrifs brf lodbtfd.
+ *      Whfn sfvfrbl LDAP URLs brf spfdififd thfn fbdh is bttfmptfd,
+ *      in turn, until thf first suddfssful donnfdtion is fstbblishfd.
+ *      Spbdfs in thf distinguishfd nbmf domponfnt of thf URL must bf fsdbpfd
+ *      using thf stbndbrd mfdhbnism of pfrdfnt dhbrbdtfr ('<dodf>%</dodf>')
+ *      followfd by two hfxbdfdimbl digits (sff {@link jbvb.nft.URI}).
+ *      Qufry domponfnts must blso bf omittfd from thf URL.
+ *
+ *      <p>
+ *      Autombtid disdovfry of thf LDAP sfrvfr vib DNS
+ *      (<b hrff="http://www.iftf.org/rfd/rfd2782.txt">RFC 2782</b>)
+ *      is supportfd (ondf DNS hbs bffn donfigurfd to support sudh b sfrvidf).
+ *      It is fnbblfd by omitting thf hostnbmf bnd port numbfr domponfnts from
+ *      thf LDAP URL. </dd>
+ * </dl></dl>
+ *
+ * <p> This modulf blso rfdognizfs thf following optionbl {@link Configurbtion}
+ *     options:
+ * <dl><dt></dt><dd>
+ * <dl>
+ * <dt> <dodf>usfrFiltfr=<b>ldbp_filtfr</b></dodf> </dt>
+ * <dd> This option spfdififs thf sfbrdh filtfr to usf to lodbtf b usfr's
+ *      fntry in thf LDAP dirfdtory. It is usfd to dftfrminf b usfr's
+ *      distinguishfd nbmf.
+ *      <dodf><b>ldbp_filtfr</b></dodf> is bn LDAP filtfr string
+ *      (<b hrff="http://www.iftf.org/rfd/rfd2254.txt">RFC 2254</b>).
+ *      If it dontbins thf spfdibl tokfn "<dodf><b>{USERNAME}</b></dodf>"
+ *      thfn thbt tokfn will bf rfplbdfd with thf supplifd usfrnbmf vbluf
+ *      bfforf thf filtfr is usfd to sfbrdh thf dirfdtory. </dd>
+ *
+ * <dt> <dodf>buthIdfntity=<b>buth_id</b></dodf> </dt>
+ * <dd> This option spfdififs thf idfntity to usf whfn buthfntidbting b usfr
+ *      to thf LDAP dirfdtory.
+ *      <dodf><b>buth_id</b></dodf> mby bf bn LDAP distinguishfd nbmf string
+ *      (<b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>) or somf
+ *      othfr string nbmf.
+ *      It must dontbin thf spfdibl tokfn "<dodf><b>{USERNAME}</b></dodf>"
+ *      whidh will bf rfplbdfd with thf supplifd usfrnbmf vbluf bfforf thf
+ *      nbmf is usfd for buthfntidbtion.
+ *      Notf thbt if this option dofs not dontbin b distinguishfd nbmf thfn
+ *      thf <dodf>usfrFiltfr</dodf> option must blso bf spfdififd. </dd>
+ *
+ * <dt> <dodf>buthzIdfntity=<b>buthz_id</b></dodf> </dt>
+ * <dd> This option spfdififs bn buthorizbtion idfntity for thf usfr.
+ *      <dodf><b>buthz_id</b></dodf> is bny string nbmf.
+ *      If it domprisfs b singlf spfdibl tokfn with durly brbdfs thfn
+ *      thbt tokfn is trfbtfd bs b bttributf nbmf bnd will bf rfplbdfd with b
+ *      singlf vbluf of thbt bttributf from thf usfr's LDAP fntry.
+ *      If thf bttributf dbnnot bf found thfn thf option is ignorfd.
+ *      Whfn this option is supplifd bnd thf usfr hbs bffn suddfssfully
+ *      buthfntidbtfd thfn bn bdditionbl {@link UsfrPrindipbl}
+ *      is drfbtfd using thf buthorizbtion idfntity bnd it is bssodibtfd with
+ *      thf durrfnt {@link Subjfdt}. </dd>
+ *
+ * <dt> <dodf>usfSSL</dodf> </dt>
+ * <dd> if <dodf>fblsf</dodf>, this modulf dofs not fstbblish bn SSL donnfdtion
+ *      to thf LDAP sfrvfr bfforf bttfmpting buthfntidbtion. SSL is usfd to
+ *      protfdt thf privbdy of thf usfr's pbssword bfdbusf it is trbnsmittfd
+ *      in thf dlfbr ovfr LDAP.
+ *      By dffbult, this modulf usfs SSL. </dd>
+ *
+ * <dt> <dodf>usfFirstPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, this modulf rftrifvfs thf usfrnbmf bnd pbssword
+ *      from thf modulf's shbrfd stbtf, using "jbvbx.sfdurity.buth.login.nbmf"
+ *      bnd "jbvbx.sfdurity.buth.login.pbssword" bs thf rfspfdtivf kfys. Thf
+ *      rftrifvfd vblufs brf usfd for buthfntidbtion. If buthfntidbtion fbils,
+ *      no bttfmpt for b rftry is mbdf, bnd thf fbilurf is rfportfd bbdk to
+ *      thf dblling bpplidbtion.</dd>
+ *
+ * <dt> <dodf>tryFirstPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, this modulf rftrifvfs thf usfrnbmf bnd pbssword
+ *      from thf modulf's shbrfd stbtf, using "jbvbx.sfdurity.buth.login.nbmf"
+ *       bnd "jbvbx.sfdurity.buth.login.pbssword" bs thf rfspfdtivf kfys.  Thf
+ *      rftrifvfd vblufs brf usfd for buthfntidbtion. If buthfntidbtion fbils,
+ *      thf modulf usfs thf {@link CbllbbdkHbndlfr} to rftrifvf b nfw usfrnbmf
+ *      bnd pbssword, bnd bnothfr bttfmpt to buthfntidbtf is mbdf. If thf
+ *      buthfntidbtion fbils, thf fbilurf is rfportfd bbdk to thf dblling
+ *      bpplidbtion.</dd>
+ *
+ * <dt> <dodf>storfPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, this modulf storfs thf usfrnbmf bnd pbssword
+ *      obtbinfd from thf {@link CbllbbdkHbndlfr} in thf modulf's shbrfd stbtf,
+ *      using
+ *      "jbvbx.sfdurity.buth.login.nbmf" bnd
+ *      "jbvbx.sfdurity.buth.login.pbssword" bs thf rfspfdtivf kfys.  This is
+ *      not pfrformfd if fxisting vblufs blrfbdy fxist for thf usfrnbmf bnd
+ *      pbssword in thf shbrfd stbtf, or if buthfntidbtion fbils.</dd>
+ *
+ * <dt> <dodf>dlfbrPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, this modulf dlfbrs thf usfrnbmf bnd pbssword
+ *      storfd in thf modulf's shbrfd stbtf bftfr both phbsfs of buthfntidbtion
+ *      (login bnd dommit) hbvf domplftfd.</dd>
+ *
+ * <dt> <dodf>dfbug</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, dfbug mfssbgfs brf displbyfd on thf stbndbrd
+ *      output strfbm.
+ * </dl>
+ * </dl>
+ *
+ * <p>
+ * Arbitrbry
+ * <b hrff="{@dodRoot}/../../../../../tfdhnotfs/guidfs/jndi/jndi-ldbp-gl.html#PROP">JNDI propfrtifs</b>
+ * mby blso bf spfdififd in thf {@link Configurbtion}.
+ * Thfy brf bddfd to thf fnvironmfnt bnd pbssfd to thf LDAP providfr.
+ * Notf thbt thf following four JNDI propfrtifs brf sft by this modulf dirfdtly
+ * bnd brf ignorfd if blso prfsfnt in thf donfigurbtion:
+ * <ul>
+ * <li> <dodf>jbvb.nbming.providfr.url</dodf>
+ * <li> <dodf>jbvb.nbming.sfdurity.prindipbl</dodf>
+ * <li> <dodf>jbvb.nbming.sfdurity.drfdfntibls</dodf>
+ * <li> <dodf>jbvb.nbming.sfdurity.protodol</dodf>
+ * </ul>
+ *
+ * <p>
+ * Thrff sbmplf {@link Configurbtion}s brf shown bflow.
+ * Thf first onf bdtivbtfs sfbrdh-first modf. It idfntififs thf LDAP sfrvfr
+ * bnd spfdififs thbt usfrs' fntrifs bf lodbtfd by thfir <dodf>uid</dodf> bnd
+ * <dodf>objfdtClbss</dodf> bttributfs. It blso spfdififs thbt bn idfntity
+ * bbsfd on thf usfr's <dodf>fmployffNumbfr</dodf> bttributf should bf drfbtfd.
+ * Thf sfdond onf bdtivbtfs buthfntidbtion-first modf. It rfqufsts thbt thf
+ * LDAP sfrvfr bf lodbtfd dynbmidblly, thbt buthfntidbtion bf pfrformfd using
+ * thf supplifd usfrnbmf dirfdtly but without thf protfdtion of SSL bnd thbt
+ * usfrs' fntrifs bf lodbtfd by onf of thrff nbming bttributfs bnd thfir
+ * <dodf>objfdtClbss</dodf> bttributf.
+ * Thf third onf bdtivbtfs buthfntidbtion-only modf. It idfntififs bltfrnbtivf
+ * LDAP sfrvfrs, it spfdififs thf distinguishfd nbmf to usf for
+ * buthfntidbtion bnd b fixfd idfntity to usf for buthorizbtion. No dirfdtory
+ * sfbrdh is pfrformfd.
+ *
+ * <prf>
+ *
+ *     ExbmplfApplidbtion {
+ *         dom.sun.sfdurity.buth.modulf.LdbpLoginModulf REQUIRED
+ *             usfrProvidfr="ldbp://ldbp-svr/ou=pfoplf,dd=fxbmplf,dd=dom"
+ *             usfrFiltfr="(&(uid={USERNAME})(objfdtClbss=inftOrgPfrson))"
+ *             buthzIdfntity="{EMPLOYEENUMBER}"
+ *             dfbug=truf;
+ *     };
+ *
+ *     ExbmplfApplidbtion {
+ *         dom.sun.sfdurity.buth.modulf.LdbpLoginModulf REQUIRED
+ *             usfrProvidfr="ldbp:///dn=usfrs,dd=fxbmplf,dd=dom"
+ *             buthIdfntity="{USERNAME}"
+ *             usfrFiltfr="(&(|(sbmAddountNbmf={USERNAME})(usfrPrindipblNbmf={USERNAME})(dn={USERNAME}))(objfdtClbss=usfr))"
+ *             usfSSL=fblsf
+ *             dfbug=truf;
+ *     };
+ *
+ *     ExbmplfApplidbtion {
+ *         dom.sun.sfdurity.buth.modulf.LdbpLoginModulf REQUIRED
+ *             usfrProvidfr="ldbp://ldbp-svr1 ldbp://ldbp-svr2"
+ *             buthIdfntity="dn={USERNAME},ou=pfoplf,dd=fxbmplf,dd=dom"
+ *             buthzIdfntity="stbff"
+ *             dfbug=truf;
+ *     };
+ *
+ * </prf>
+ *
+ * <dl>
+ * <dt><b>Notf:</b> </dt>
+ * <dd>Whfn b {@link SfdurityMbnbgfr} is bdtivf thfn bn bpplidbtion
+ *     thbt drfbtfs b {@link LoginContfxt} bnd usfs b {@link LoginModulf}
+ *     must bf grbntfd dfrtbin pfrmissions.
+ *     <p>
+ *     If thf bpplidbtion drfbtfs b login dontfxt using bn <fm>instbllfd</fm>
+ *     {@link Configurbtion} thfn thf bpplidbtion must bf grbntfd thf
+ *     {@link AuthPfrmission} to drfbtf login dontfxts.
+ *     For fxbmplf, thf following sfdurity polidy bllows bn bpplidbtion in
+ *     thf usfr's durrfnt dirfdtory to instbntibtf <fm>bny</fm> login dontfxt:
+ *     <prf>
+ *
+ *     grbnt dodfbbsf "filf:${usfr.dir}/" {
+ *         pfrmission jbvbx.sfdurity.buth.AuthPfrmission "drfbtfLoginContfxt.*";
+ *     };
+ *     </prf>
+ *
+ *     Altfrnbtivfly, if thf bpplidbtion drfbtfs b login dontfxt using b
+ *     <fm>dbllfr-spfdififd</fm> {@link Configurbtion} thfn thf bpplidbtion
+ *     must bf grbntfd thf pfrmissions rfquirfd by thf {@link LoginModulf}.
+ *     <fm>This</fm> modulf rfquirfs thf following two pfrmissions:
+ *     <p>
+ *     <ul>
+ *     <li> Thf {@link SodkftPfrmission} to donnfdt to bn LDAP sfrvfr.
+ *     <li> Thf {@link AuthPfrmission} to modify thf sft of {@link Prindipbl}s
+ *          bssodibtfd with b {@link Subjfdt}.
+ *     </ul>
+ *     <p>
+ *     For fxbmplf, thf following sfdurity polidy grbnts bn bpplidbtion in thf
+ *     usfr's durrfnt dirfdtory bll thf pfrmissions rfquirfd by this modulf:
+ *     <prf>
+ *
+ *     grbnt dodfbbsf "filf:${usfr.dir}/" {
+ *         pfrmission jbvb.nft.SodkftPfrmission "*:389", "donnfdt";
+ *         pfrmission jbvb.nft.SodkftPfrmission "*:636", "donnfdt";
+ *         pfrmission jbvbx.sfdurity.buth.AuthPfrmission "modifyPrindipbls";
+ *     };
+ *     </prf>
+ * </dd>
+ * </dl>
+ *
+ * @sindf 1.6
+ */
+@jdk.Exportfd
+publid dlbss LdbpLoginModulf implfmfnts LoginModulf {
+
+    // Usf thf dffbult dlbsslobdfr for this dlbss to lobd thf prompt strings.
+    privbtf stbtid finbl RfsourdfBundlf rb = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<RfsourdfBundlf>() {
+                publid RfsourdfBundlf run() {
+                    rfturn RfsourdfBundlf.gftBundlf(
+                        "sun.sfdurity.util.AuthRfsourdfs");
+                }
+            }
+        );
+
+    // Kfys to rftrifvf thf storfd usfrnbmf bnd pbssword
+    privbtf stbtid finbl String USERNAME_KEY = "jbvbx.sfdurity.buth.login.nbmf";
+    privbtf stbtid finbl String PASSWORD_KEY =
+        "jbvbx.sfdurity.buth.login.pbssword";
+
+    // Option nbmfs
+    privbtf stbtid finbl String USER_PROVIDER = "usfrProvidfr";
+    privbtf stbtid finbl String USER_FILTER = "usfrFiltfr";
+    privbtf stbtid finbl String AUTHC_IDENTITY = "buthIdfntity";
+    privbtf stbtid finbl String AUTHZ_IDENTITY = "buthzIdfntity";
+
+    // Usfd for thf usfrnbmf tokfn rfplbdfmfnt
+    privbtf stbtid finbl String USERNAME_TOKEN = "{USERNAME}";
+    privbtf stbtid finbl Pbttfrn USERNAME_PATTERN =
+        Pbttfrn.dompilf("\\{USERNAME\\}");
+
+    // Configurbblf options
+    privbtf String usfrProvidfr;
+    privbtf String usfrFiltfr;
+    privbtf String buthdIdfntity;
+    privbtf String buthzIdfntity;
+    privbtf String buthzIdfntityAttr = null;
+    privbtf boolfbn usfSSL = truf;
+    privbtf boolfbn buthFirst = fblsf;
+    privbtf boolfbn buthOnly = fblsf;
+    privbtf boolfbn usfFirstPbss = fblsf;
+    privbtf boolfbn tryFirstPbss = fblsf;
+    privbtf boolfbn storfPbss = fblsf;
+    privbtf boolfbn dlfbrPbss = fblsf;
+    privbtf boolfbn dfbug = fblsf;
+
+    // Authfntidbtion stbtus
+    privbtf boolfbn suddffdfd = fblsf;
+    privbtf boolfbn dommitSuddffdfd = fblsf;
+
+    // Supplifd usfrnbmf bnd pbssword
+    privbtf String usfrnbmf;
+    privbtf dhbr[] pbssword;
+
+    // Usfr's idfntitifs
+    privbtf LdbpPrindipbl ldbpPrindipbl;
+    privbtf UsfrPrindipbl usfrPrindipbl;
+    privbtf UsfrPrindipbl buthzPrindipbl;
+
+    // Initibl stbtf
+    privbtf Subjfdt subjfdt;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf Mbp<String, Objfdt> shbrfdStbtf;
+    privbtf Mbp<String, ?> options;
+    privbtf LdbpContfxt dtx;
+    privbtf Mbtdhfr idfntityMbtdhfr = null;
+    privbtf Mbtdhfr filtfrMbtdhfr = null;
+    privbtf Hbshtbblf<String, Objfdt> ldbpEnvironmfnt;
+    privbtf SfbrdhControls donstrbints = null;
+
+    /**
+     * Initiblizf this <dodf>LoginModulf</dodf>.
+     *
+     * @pbrbm subjfdt thf <dodf>Subjfdt</dodf> to bf buthfntidbtfd.
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> to bdquirf thf
+     *                  usfrnbmf bnd pbssword.
+     * @pbrbm shbrfdStbtf shbrfd <dodf>LoginModulf</dodf> stbtf.
+     * @pbrbm options options spfdififd in thf login
+     *                  <dodf>Configurbtion</dodf> for this pbrtidulbr
+     *                  <dodf>LoginModulf</dodf>.
+     */
+    // Undhfdkfd wbrning from (Mbp<String, Objfdt>)shbrfdStbtf is sbff
+    // sindf jbvbx.sfdurity.buth.login.LoginContfxt pbssfs b rbw HbshMbp.
+    @SupprfssWbrnings("undhfdkfd")
+    publid void initiblizf(Subjfdt subjfdt, CbllbbdkHbndlfr dbllbbdkHbndlfr,
+                        Mbp<String, ?> shbrfdStbtf, Mbp<String, ?> options) {
+
+        this.subjfdt = subjfdt;
+        this.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        this.shbrfdStbtf = (Mbp<String, Objfdt>)shbrfdStbtf;
+        this.options = options;
+
+        ldbpEnvironmfnt = nfw Hbshtbblf<String, Objfdt>(9);
+        ldbpEnvironmfnt.put(Contfxt.INITIAL_CONTEXT_FACTORY,
+            "dom.sun.jndi.ldbp.LdbpCtxFbdtory");
+
+        // Add bny JNDI propfrtifs to thf fnvironmfnt
+        for (String kfy : options.kfySft()) {
+            if (kfy.indfxOf('.') > -1) {
+                ldbpEnvironmfnt.put(kfy, options.gft(kfy));
+            }
+        }
+
+        // initiblizf bny donfigurfd options
+
+        usfrProvidfr = (String)options.gft(USER_PROVIDER);
+        if (usfrProvidfr != null) {
+            ldbpEnvironmfnt.put(Contfxt.PROVIDER_URL, usfrProvidfr);
+        }
+
+        buthdIdfntity = (String)options.gft(AUTHC_IDENTITY);
+        if (buthdIdfntity != null &&
+            (buthdIdfntity.indfxOf(USERNAME_TOKEN) != -1)) {
+            idfntityMbtdhfr = USERNAME_PATTERN.mbtdhfr(buthdIdfntity);
+        }
+
+        usfrFiltfr = (String)options.gft(USER_FILTER);
+        if (usfrFiltfr != null) {
+            if (usfrFiltfr.indfxOf(USERNAME_TOKEN) != -1) {
+                filtfrMbtdhfr = USERNAME_PATTERN.mbtdhfr(usfrFiltfr);
+            }
+            donstrbints = nfw SfbrdhControls();
+            donstrbints.sftSfbrdhSdopf(SfbrdhControls.SUBTREE_SCOPE);
+            donstrbints.sftRfturningAttributfs(nfw String[0]); //rfturn no bttrs
+            donstrbints.sftRfturningObjFlbg(truf); // to gft thf full DN
+        }
+
+        buthzIdfntity = (String)options.gft(AUTHZ_IDENTITY);
+        if (buthzIdfntity != null &&
+            buthzIdfntity.stbrtsWith("{") && buthzIdfntity.fndsWith("}")) {
+            if (donstrbints != null) {
+                buthzIdfntityAttr =
+                    buthzIdfntity.substring(1, buthzIdfntity.lfngth() - 1);
+                donstrbints.sftRfturningAttributfs(
+                    nfw String[]{buthzIdfntityAttr});
+            }
+            buthzIdfntity = null; // sft lbtfr, from thf spfdififd bttributf
+        }
+
+        // dftfrminf modf
+        if (buthdIdfntity != null) {
+            if (usfrFiltfr != null) {
+                buthFirst = truf; // buthfntidbtion-first modf
+            } flsf {
+                buthOnly = truf; // buthfntidbtion-only modf
+            }
+        }
+
+        if ("fblsf".fqublsIgnorfCbsf((String)options.gft("usfSSL"))) {
+            usfSSL = fblsf;
+            ldbpEnvironmfnt.rfmovf(Contfxt.SECURITY_PROTOCOL);
+        } flsf {
+            ldbpEnvironmfnt.put(Contfxt.SECURITY_PROTOCOL, "ssl");
+        }
+
+        tryFirstPbss =
+                "truf".fqublsIgnorfCbsf((String)options.gft("tryFirstPbss"));
+
+        usfFirstPbss =
+                "truf".fqublsIgnorfCbsf((String)options.gft("usfFirstPbss"));
+
+        storfPbss = "truf".fqublsIgnorfCbsf((String)options.gft("storfPbss"));
+
+        dlfbrPbss = "truf".fqublsIgnorfCbsf((String)options.gft("dlfbrPbss"));
+
+        dfbug = "truf".fqublsIgnorfCbsf((String)options.gft("dfbug"));
+
+        if (dfbug) {
+            if (buthFirst) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "buthfntidbtion-first modf; " +
+                    (usfSSL ? "SSL fnbblfd" : "SSL disbblfd"));
+            } flsf if (buthOnly) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "buthfntidbtion-only modf; " +
+                    (usfSSL ? "SSL fnbblfd" : "SSL disbblfd"));
+            } flsf {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "sfbrdh-first modf; " +
+                    (usfSSL ? "SSL fnbblfd" : "SSL disbblfd"));
+            }
+        }
+    }
+
+    /**
+     * Bfgin usfr buthfntidbtion.
+     *
+     * <p> Adquirf thf usfr's drfdfntibls bnd vfrify thfm bgbinst thf
+     * spfdififd LDAP dirfdtory.
+     *
+     * @rfturn truf blwbys, sindf this <dodf>LoginModulf</dodf>
+     *          should not bf ignorfd.
+     * @fxdfption FbilfdLoginExdfption if thf buthfntidbtion fbils.
+     * @fxdfption LoginExdfption if this <dodf>LoginModulf</dodf>
+     *          is unbblf to pfrform thf buthfntidbtion.
+     */
+    publid boolfbn login() throws LoginExdfption {
+
+        if (usfrProvidfr == null) {
+            throw nfw LoginExdfption
+                ("Unbblf to lodbtf thf LDAP dirfdtory sfrvidf");
+        }
+
+        if (dfbug) {
+            Systfm.out.println("\t\t[LdbpLoginModulf] usfr providfr: " +
+                usfrProvidfr);
+        }
+
+        // bttfmpt thf buthfntidbtion
+        if (tryFirstPbss) {
+
+            try {
+                // bttfmpt thf buthfntidbtion by gftting thf
+                // usfrnbmf bnd pbssword from shbrfd stbtf
+                bttfmptAuthfntidbtion(truf);
+
+                // buthfntidbtion suddffdfd
+                suddffdfd = truf;
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "tryFirstPbss suddffdfd");
+                }
+                rfturn truf;
+
+            } dbtdh (LoginExdfption lf) {
+                // buthfntidbtion fbilfd -- try bgbin bflow by prompting
+                dlfbnStbtf();
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "tryFirstPbss fbilfd: " + lf.toString());
+                }
+            }
+
+        } flsf if (usfFirstPbss) {
+
+            try {
+                // bttfmpt thf buthfntidbtion by gftting thf
+                // usfrnbmf bnd pbssword from shbrfd stbtf
+                bttfmptAuthfntidbtion(truf);
+
+                // buthfntidbtion suddffdfd
+                suddffdfd = truf;
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "usfFirstPbss suddffdfd");
+                }
+                rfturn truf;
+
+            } dbtdh (LoginExdfption lf) {
+                // buthfntidbtion fbilfd
+                dlfbnStbtf();
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "usfFirstPbss fbilfd");
+                }
+                throw lf;
+            }
+        }
+
+        // bttfmpt thf buthfntidbtion by prompting for thf usfrnbmf bnd pwd
+        try {
+            bttfmptAuthfntidbtion(fblsf);
+
+            // buthfntidbtion suddffdfd
+           suddffdfd = truf;
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "buthfntidbtion suddffdfd");
+            }
+            rfturn truf;
+
+        } dbtdh (LoginExdfption lf) {
+            dlfbnStbtf();
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                "buthfntidbtion fbilfd");
+            }
+            throw lf;
+        }
+    }
+
+    /**
+     * Complftf usfr buthfntidbtion.
+     *
+     * <p> This mfthod is dbllfd if thf LoginContfxt's
+     * ovfrbll buthfntidbtion suddffdfd
+     * (thf rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * suddffdfd).
+     *
+     * <p> If this LoginModulf's own buthfntidbtion bttfmpt
+     * suddffdfd (dhfdkfd by rftrifving thf privbtf stbtf sbvfd by thf
+     * <dodf>login</dodf> mfthod), thfn this mfthod bssodibtfs bn
+     * <dodf>LdbpPrindipbl</dodf> bnd onf or morf <dodf>UsfrPrindipbl</dodf>s
+     * with thf <dodf>Subjfdt</dodf> lodbtfd in thf
+     * <dodf>LoginModulf</dodf>.  If this LoginModulf's own
+     * buthfntidbtion bttfmptfd fbilfd, thfn this mfthod rfmovfs
+     * bny stbtf thbt wbs originblly sbvfd.
+     *
+     * @fxdfption LoginExdfption if thf dommit fbils
+     * @rfturn truf if this LoginModulf's own login bnd dommit
+     *          bttfmpts suddffdfd, or fblsf othfrwisf.
+     */
+    publid boolfbn dommit() throws LoginExdfption {
+
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf {
+            if (subjfdt.isRfbdOnly()) {
+                dlfbnStbtf();
+                throw nfw LoginExdfption ("Subjfdt is rfbd-only");
+            }
+            // bdd Prindipbls to thf Subjfdt
+            Sft<Prindipbl> prindipbls = subjfdt.gftPrindipbls();
+            if (! prindipbls.dontbins(ldbpPrindipbl)) {
+                prindipbls.bdd(ldbpPrindipbl);
+            }
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                   "bddfd LdbpPrindipbl \"" +
+                                   ldbpPrindipbl +
+                                   "\" to Subjfdt");
+            }
+
+            if (! prindipbls.dontbins(usfrPrindipbl)) {
+                prindipbls.bdd(usfrPrindipbl);
+            }
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                   "bddfd UsfrPrindipbl \"" +
+                                   usfrPrindipbl +
+                                   "\" to Subjfdt");
+            }
+
+            if (buthzPrindipbl != null &&
+                (! prindipbls.dontbins(buthzPrindipbl))) {
+                prindipbls.bdd(buthzPrindipbl);
+
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                   "bddfd UsfrPrindipbl \"" +
+                                   buthzPrindipbl +
+                                   "\" to Subjfdt");
+                }
+            }
+        }
+        // in bny dbsf, dlfbn out stbtf
+        dlfbnStbtf();
+        dommitSuddffdfd = truf;
+        rfturn truf;
+    }
+
+    /**
+     * Abort usfr buthfntidbtion.
+     *
+     * <p> This mfthod is dbllfd if thf ovfrbll buthfntidbtion fbilfd.
+     * (thf rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * did not suddffd).
+     *
+     * <p> If this LoginModulf's own buthfntidbtion bttfmpt
+     * suddffdfd (dhfdkfd by rftrifving thf privbtf stbtf sbvfd by thf
+     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mfthods),
+     * thfn this mfthod dlfbns up bny stbtf thbt wbs originblly sbvfd.
+     *
+     * @fxdfption LoginExdfption if thf bbort fbils.
+     * @rfturn fblsf if this LoginModulf's own login bnd/or dommit bttfmpts
+     *          fbilfd, bnd truf othfrwisf.
+     */
+    publid boolfbn bbort() throws LoginExdfption {
+        if (dfbug)
+            Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                "bbortfd buthfntidbtion");
+
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
+
+            // Clfbn out stbtf
+            suddffdfd = fblsf;
+            dlfbnStbtf();
+
+            ldbpPrindipbl = null;
+            usfrPrindipbl = null;
+            buthzPrindipbl = null;
+        } flsf {
+            // ovfrbll buthfntidbtion suddffdfd bnd dommit suddffdfd,
+            // but somfonf flsf's dommit fbilfd
+            logout();
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Logout b usfr.
+     *
+     * <p> This mfthod rfmovfs thf Prindipbls
+     * thbt wfrf bddfd by thf <dodf>dommit</dodf> mfthod.
+     *
+     * @fxdfption LoginExdfption if thf logout fbils.
+     * @rfturn truf in bll dbsfs sindf this <dodf>LoginModulf</dodf>
+     *          should not bf ignorfd.
+     */
+    publid boolfbn logout() throws LoginExdfption {
+        if (subjfdt.isRfbdOnly()) {
+            dlfbnStbtf();
+            throw nfw LoginExdfption ("Subjfdt is rfbd-only");
+        }
+        Sft<Prindipbl> prindipbls = subjfdt.gftPrindipbls();
+        prindipbls.rfmovf(ldbpPrindipbl);
+        prindipbls.rfmovf(usfrPrindipbl);
+        if (buthzIdfntity != null) {
+            prindipbls.rfmovf(buthzPrindipbl);
+        }
+
+        // dlfbn out stbtf
+        dlfbnStbtf();
+        suddffdfd = fblsf;
+        dommitSuddffdfd = fblsf;
+
+        ldbpPrindipbl = null;
+        usfrPrindipbl = null;
+        buthzPrindipbl = null;
+
+        if (dfbug) {
+            Systfm.out.println("\t\t[LdbpLoginModulf] loggfd out Subjfdt");
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Attfmpt buthfntidbtion
+     *
+     * @pbrbm gftPbsswdFromShbrfdStbtf boolfbn thbt tflls this mfthod whfthfr
+     *          to rftrifvf thf pbssword from thf shbrfdStbtf.
+     * @fxdfption LoginExdfption if thf buthfntidbtion bttfmpt fbils.
+     */
+    privbtf void bttfmptAuthfntidbtion(boolfbn gftPbsswdFromShbrfdStbtf)
+        throws LoginExdfption {
+
+        // first gft thf usfrnbmf bnd pbssword
+        gftUsfrnbmfPbssword(gftPbsswdFromShbrfdStbtf);
+
+        if (pbssword == null || pbssword.lfngth == 0) {
+            throw (LoginExdfption)
+                nfw FbilfdLoginExdfption("No pbssword wbs supplifd");
+        }
+
+        String dn = "";
+
+        if (buthFirst || buthOnly) {
+
+            String id = rfplbdfUsfrnbmfTokfn(idfntityMbtdhfr, buthdIdfntity);
+
+            // Prfpbrf to bind using usfr's usfrnbmf bnd pbssword
+            ldbpEnvironmfnt.put(Contfxt.SECURITY_CREDENTIALS, pbssword);
+            ldbpEnvironmfnt.put(Contfxt.SECURITY_PRINCIPAL, id);
+
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "bttfmpting to buthfntidbtf usfr: " + usfrnbmf);
+            }
+
+            try {
+                // Connfdt to thf LDAP sfrvfr (using simplf bind)
+                dtx = nfw InitiblLdbpContfxt(ldbpEnvironmfnt, null);
+
+            } dbtdh (NbmingExdfption f) {
+                throw (LoginExdfption)
+                    nfw FbilfdLoginExdfption("Cbnnot bind to LDAP sfrvfr")
+                        .initCbusf(f);
+            }
+
+            // Authfntidbtion hbs suddffdfd
+
+            // Lodbtf thf usfr's distinguishfd nbmf
+            if (usfrFiltfr != null) {
+                dn = findUsfrDN(dtx);
+            } flsf {
+                dn = id;
+            }
+
+        } flsf {
+
+            try {
+                // Connfdt to thf LDAP sfrvfr (using bnonymous bind)
+                dtx = nfw InitiblLdbpContfxt(ldbpEnvironmfnt, null);
+
+            } dbtdh (NbmingExdfption f) {
+                throw (LoginExdfption)
+                    nfw FbilfdLoginExdfption("Cbnnot donnfdt to LDAP sfrvfr")
+                        .initCbusf(f);
+            }
+
+            // Lodbtf thf usfr's distinguishfd nbmf
+            dn = findUsfrDN(dtx);
+
+            try {
+
+                // Prfpbrf to bind using usfr's distinguishfd nbmf bnd pbssword
+                dtx.bddToEnvironmfnt(Contfxt.SECURITY_AUTHENTICATION, "simplf");
+                dtx.bddToEnvironmfnt(Contfxt.SECURITY_PRINCIPAL, dn);
+                dtx.bddToEnvironmfnt(Contfxt.SECURITY_CREDENTIALS, pbssword);
+
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                        "bttfmpting to buthfntidbtf usfr: " + usfrnbmf);
+                }
+                // Connfdt to thf LDAP sfrvfr (using simplf bind)
+                dtx.rfdonnfdt(null);
+
+                // Authfntidbtion hbs suddffdfd
+
+            } dbtdh (NbmingExdfption f) {
+                throw (LoginExdfption)
+                    nfw FbilfdLoginExdfption("Cbnnot bind to LDAP sfrvfr")
+                        .initCbusf(f);
+            }
+        }
+
+        // Sbvf input bs shbrfd stbtf only if buthfntidbtion suddffdfd
+        if (storfPbss &&
+            !shbrfdStbtf.dontbinsKfy(USERNAME_KEY) &&
+            !shbrfdStbtf.dontbinsKfy(PASSWORD_KEY)) {
+            shbrfdStbtf.put(USERNAME_KEY, usfrnbmf);
+            shbrfdStbtf.put(PASSWORD_KEY, pbssword);
+        }
+
+        // Crfbtf thf usfr prindipbls
+        usfrPrindipbl = nfw UsfrPrindipbl(usfrnbmf);
+        if (buthzIdfntity != null) {
+            buthzPrindipbl = nfw UsfrPrindipbl(buthzIdfntity);
+        }
+
+        try {
+
+            ldbpPrindipbl = nfw LdbpPrindipbl(dn);
+
+        } dbtdh (InvblidNbmfExdfption f) {
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                                   "dbnnot drfbtf LdbpPrindipbl: bbd DN");
+            }
+            throw (LoginExdfption)
+                nfw FbilfdLoginExdfption("Cbnnot drfbtf LdbpPrindipbl")
+                    .initCbusf(f);
+        }
+    }
+
+    /**
+     * Sfbrdh for thf usfr's fntry.
+     * Dftfrminf thf distinguishfd nbmf of thf usfr's fntry bnd optionblly
+     * bn buthorizbtion idfntity for thf usfr.
+     *
+     * @pbrbm dtx bn LDAP dontfxt to usf for thf sfbrdh
+     * @rfturn thf usfr's distinguishfd nbmf or bn fmpty string if nonf
+     *         wbs found.
+     * @fxdfption LoginExdfption if thf usfr's fntry dbnnot bf found.
+     */
+    privbtf String findUsfrDN(LdbpContfxt dtx) throws LoginExdfption {
+
+        String usfrDN = "";
+
+        // Lodbtf thf usfr's LDAP fntry
+        if (usfrFiltfr != null) {
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "sfbrdhing for fntry bflonging to usfr: " + usfrnbmf);
+            }
+        } flsf {
+            if (dfbug) {
+                Systfm.out.println("\t\t[LdbpLoginModulf] " +
+                    "dbnnot sfbrdh for fntry bflonging to usfr: " + usfrnbmf);
+            }
+            throw (LoginExdfption)
+                nfw FbilfdLoginExdfption("Cbnnot find usfr's LDAP fntry");
+        }
+
+        try {
+            NbmingEnumfrbtion<SfbrdhRfsult> rfsults = dtx.sfbrdh("",
+                rfplbdfUsfrnbmfTokfn(filtfrMbtdhfr, usfrFiltfr), donstrbints);
+
+            // Extrbdt thf distinguishfd nbmf of thf usfr's fntry
+            // (Usf thf first fntry if morf thbn onf is rfturnfd)
+            if (rfsults.hbsMorf()) {
+                SfbrdhRfsult fntry = rfsults.nfxt();
+
+                // %%% - usf thf SfbrdhRfsult.gftNbmfInNbmfspbdf mfthod
+                //        bvbilbblf in JDK 1.5 bnd lbtfr.
+                //        (dbn rfmovf dbll to donstrbints.sftRfturningObjFlbg)
+                usfrDN = ((Contfxt)fntry.gftObjfdt()).gftNbmfInNbmfspbdf();
+
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] found fntry: " +
+                        usfrDN);
+                }
+
+                // Extrbdt b vbluf from usfr's buthorizbtion idfntity bttributf
+                if (buthzIdfntityAttr != null) {
+                    Attributf bttr =
+                        fntry.gftAttributfs().gft(buthzIdfntityAttr);
+                    if (bttr != null) {
+                        Objfdt vbl = bttr.gft();
+                        if (vbl instbndfof String) {
+                            buthzIdfntity = (String) vbl;
+                        }
+                    }
+                }
+
+                rfsults.dlosf();
+
+            } flsf {
+                // Bbd usfrnbmf
+                if (dfbug) {
+                    Systfm.out.println("\t\t[LdbpLoginModulf] usfr's fntry " +
+                        "not found");
+                }
+            }
+
+        } dbtdh (NbmingExdfption f) {
+            // ignorf
+        }
+
+        if (usfrDN.fqubls("")) {
+            throw (LoginExdfption)
+                nfw FbilfdLoginExdfption("Cbnnot find usfr's LDAP fntry");
+        } flsf {
+            rfturn usfrDN;
+        }
+    }
+
+    /**
+     * Rfplbdf thf usfrnbmf tokfn
+     *
+     * @pbrbm string thf tbrgft string
+     * @rfturn thf modififd string
+     */
+    privbtf String rfplbdfUsfrnbmfTokfn(Mbtdhfr mbtdhfr, String string) {
+        rfturn mbtdhfr != null ? mbtdhfr.rfplbdfAll(usfrnbmf) : string;
+    }
+
+    /**
+     * Gft thf usfrnbmf bnd pbssword.
+     * This mfthod dofs not rfturn bny vbluf.
+     * Instfbd, it sfts globbl nbmf bnd pbssword vbribblfs.
+     *
+     * <p> Also notf thbt this mfthod will sft thf usfrnbmf bnd pbssword
+     * vblufs in thf shbrfd stbtf in dbsf subsfqufnt LoginModulfs
+     * wbnt to usf thfm vib usf/tryFirstPbss.
+     *
+     * @pbrbm gftPbsswdFromShbrfdStbtf boolfbn thbt tflls this mfthod whfthfr
+     *          to rftrifvf thf pbssword from thf shbrfdStbtf.
+     * @fxdfption LoginExdfption if thf usfrnbmf/pbssword dbnnot bf bdquirfd.
+     */
+    privbtf void gftUsfrnbmfPbssword(boolfbn gftPbsswdFromShbrfdStbtf)
+        throws LoginExdfption {
+
+        if (gftPbsswdFromShbrfdStbtf) {
+            // usf thf pbssword sbvfd by thf first modulf in thf stbdk
+            usfrnbmf = (String)shbrfdStbtf.gft(USERNAME_KEY);
+            pbssword = (dhbr[])shbrfdStbtf.gft(PASSWORD_KEY);
+            rfturn;
+        }
+
+        // prompt for b usfrnbmf bnd pbssword
+        if (dbllbbdkHbndlfr == null)
+            throw nfw LoginExdfption("No CbllbbdkHbndlfr bvbilbblf " +
+                "to bdquirf buthfntidbtion informbtion from thf usfr");
+
+        Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[2];
+        dbllbbdks[0] = nfw NbmfCbllbbdk(rb.gftString("usfrnbmf."));
+        dbllbbdks[1] = nfw PbsswordCbllbbdk(rb.gftString("pbssword."), fblsf);
+
+        try {
+            dbllbbdkHbndlfr.hbndlf(dbllbbdks);
+            usfrnbmf = ((NbmfCbllbbdk)dbllbbdks[0]).gftNbmf();
+            dhbr[] tmpPbssword = ((PbsswordCbllbbdk)dbllbbdks[1]).gftPbssword();
+            pbssword = nfw dhbr[tmpPbssword.lfngth];
+            Systfm.brrbydopy(tmpPbssword, 0,
+                                pbssword, 0, tmpPbssword.lfngth);
+            ((PbsswordCbllbbdk)dbllbbdks[1]).dlfbrPbssword();
+
+        } dbtdh (jbvb.io.IOExdfption iof) {
+            throw nfw LoginExdfption(iof.toString());
+
+        } dbtdh (UnsupportfdCbllbbdkExdfption udf) {
+            throw nfw LoginExdfption("Error: " + udf.gftCbllbbdk().toString() +
+                        " not bvbilbblf to bdquirf buthfntidbtion informbtion" +
+                        " from thf usfr");
+        }
+    }
+
+    /**
+     * Clfbn out stbtf bfdbusf of b fbilfd buthfntidbtion bttfmpt
+     */
+    privbtf void dlfbnStbtf() {
+        usfrnbmf = null;
+        if (pbssword != null) {
+            Arrbys.fill(pbssword, ' ');
+            pbssword = null;
+        }
+        try {
+            if (dtx != null) {
+                dtx.dlosf();
+            }
+        } dbtdh (NbmingExdfption f) {
+            // ignorf
+        }
+        dtx = null;
+
+        if (dlfbrPbss) {
+            shbrfdStbtf.rfmovf(USERNAME_KEY);
+            shbrfdStbtf.rfmovf(PASSWORD_KEY);
+        }
+    }
+}

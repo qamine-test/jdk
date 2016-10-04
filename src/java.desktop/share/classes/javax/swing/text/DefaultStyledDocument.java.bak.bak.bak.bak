@@ -1,0 +1,2749 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Stbdk;
+import jbvb.util.Vfdtor;
+import jbvb.util.ArrbyList;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.undo.AbstrbdtUndobblfEdit;
+import jbvbx.swing.undo.CbnnotRfdoExdfption;
+import jbvbx.swing.undo.CbnnotUndoExdfption;
+import jbvbx.swing.undo.UndobblfEdit;
+import jbvbx.swing.SwingUtilitifs;
+import stbtid sun.swing.SwingUtilitifs2.IMPLIED_CR;
+
+/**
+ * A dodumfnt thbt dbn bf mbrkfd up with dhbrbdtfr bnd pbrbgrbph
+ * stylfs in b mbnnfr similbr to thf Ridh Tfxt Formbt.  Thf flfmfnt
+ * strudturf for this dodumfnt rfprfsfnts stylf drossings for
+ * stylf runs.  Thfsf stylf runs brf mbppfd into b pbrbgrbph flfmfnt
+ * strudturf (whidh mby rfsidf in somf othfr strudturf).  Thf
+ * stylf runs brfbk bt pbrbgrbph boundbrifs sindf logidbl stylfs brf
+ * bssignfd to pbrbgrbph boundbrifs.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor  Timothy Prinzing
+ * @sff     Dodumfnt
+ * @sff     AbstrbdtDodumfnt
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultStylfdDodumfnt fxtfnds AbstrbdtDodumfnt implfmfnts StylfdDodumfnt {
+
+    /**
+     * Construdts b stylfd dodumfnt.
+     *
+     * @pbrbm d  thf dontbinfr for thf dontfnt
+     * @pbrbm stylfs rfsourdfs bnd stylf dffinitions whidh mby
+     *  bf shbrfd bdross dodumfnts
+     */
+    publid DffbultStylfdDodumfnt(Contfnt d, StylfContfxt stylfs) {
+        supfr(d, stylfs);
+        listfningStylfs = nfw Vfdtor<Stylf>();
+        bufffr = nfw ElfmfntBufffr(drfbtfDffbultRoot());
+        Stylf dffbultStylf = stylfs.gftStylf(StylfContfxt.DEFAULT_STYLE);
+        sftLogidblStylf(0, dffbultStylf);
+    }
+
+    /**
+     * Construdts b stylfd dodumfnt with thf dffbult dontfnt
+     * storbgf implfmfntbtion bnd b shbrfd sft of stylfs.
+     *
+     * @pbrbm stylfs thf stylfs
+     */
+    publid DffbultStylfdDodumfnt(StylfContfxt stylfs) {
+        this(nfw GbpContfnt(BUFFER_SIZE_DEFAULT), stylfs);
+    }
+
+    /**
+     * Construdts b dffbult stylfd dodumfnt.  This bufffrs
+     * input dontfnt by b sizf of <fm>BUFFER_SIZE_DEFAULT</fm>
+     * bnd hbs b stylf dontfxt thbt is sdopfd by thf lifftimf
+     * of thf dodumfnt bnd is not shbrfd with othfr dodumfnts.
+     */
+    publid DffbultStylfdDodumfnt() {
+        this(nfw GbpContfnt(BUFFER_SIZE_DEFAULT), nfw StylfContfxt());
+    }
+
+    /**
+     * Gfts thf dffbult root flfmfnt.
+     *
+     * @rfturn thf root
+     * @sff Dodumfnt#gftDffbultRootElfmfnt
+     */
+    publid Elfmfnt gftDffbultRootElfmfnt() {
+        rfturn bufffr.gftRootElfmfnt();
+    }
+
+    /**
+     * Initiblizf thf dodumfnt to rfflfdt thf givfn flfmfnt
+     * strudturf (i.f. thf strudturf rfportfd by thf
+     * <dodf>gftDffbultRootElfmfnt</dodf> mfthod.  If thf
+     * dodumfnt dontbinfd bny dbtb it will first bf rfmovfd.
+     */
+    protfdtfd void drfbtf(ElfmfntSpfd[] dbtb) {
+        try {
+            if (gftLfngth() != 0) {
+                rfmovf(0, gftLfngth());
+            }
+            writfLodk();
+
+            // instbll thf dontfnt
+            Contfnt d = gftContfnt();
+            int n = dbtb.lfngth;
+            StringBuildfr sb = nfw StringBuildfr();
+            for (int i = 0; i < n; i++) {
+                ElfmfntSpfd fs = dbtb[i];
+                if (fs.gftLfngth() > 0) {
+                    sb.bppfnd(fs.gftArrby(), fs.gftOffsft(),  fs.gftLfngth());
+                }
+            }
+            UndobblfEdit dEdit = d.insfrtString(0, sb.toString());
+
+            // build thf fvfnt bnd flfmfnt strudturf
+            int lfngth = sb.lfngth();
+            DffbultDodumfntEvfnt fvnt =
+                nfw DffbultDodumfntEvfnt(0, lfngth, DodumfntEvfnt.EvfntTypf.INSERT);
+            fvnt.bddEdit(dEdit);
+            bufffr.drfbtf(lfngth, dbtb, fvnt);
+
+            // updbtf bidi (possibly)
+            supfr.insfrtUpdbtf(fvnt, null);
+
+            // notify thf listfnfrs
+            fvnt.fnd();
+            firfInsfrtUpdbtf(fvnt);
+            firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(this, fvnt));
+        } dbtdh (BbdLodbtionExdfption blf) {
+            throw nfw StbtfInvbribntError("problfm initiblizing");
+        } finblly {
+            writfUnlodk();
+        }
+
+    }
+
+    /**
+     * Insfrts nfw flfmfnts in bulk.  This is usfful to bllow
+     * pbrsing with thf dodumfnt in bn unlodkfd stbtf bnd
+     * prfpbrf bn flfmfnt strudturf modifidbtion.  This mfthod
+     * tbkfs bn brrby of tokfns thbt dfsdribf how to updbtf bn
+     * flfmfnt strudturf so thf timf within b writf lodk dbn
+     * bf grfbtly rfdudfd in bn bsyndhronous updbtf situbtion.
+     * <p>
+     * This mfthod is thrfbd sbff, blthough most Swing mfthods
+     * brf not. Plfbsf sff
+     * <A HREF="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.html">Condurrfndy
+     * in Swing</A> for morf informbtion.
+     *
+     * @pbrbm offsft thf stbrting offsft &gt;= 0
+     * @pbrbm dbtb thf flfmfnt dbtb
+     * @fxdfption BbdLodbtionExdfption for bn invblid stbrting offsft
+     */
+    protfdtfd void insfrt(int offsft, ElfmfntSpfd[] dbtb) throws BbdLodbtionExdfption {
+        if (dbtb == null || dbtb.lfngth == 0) {
+            rfturn;
+        }
+
+        try {
+            writfLodk();
+
+            // instbll thf dontfnt
+            Contfnt d = gftContfnt();
+            int n = dbtb.lfngth;
+            StringBuildfr sb = nfw StringBuildfr();
+            for (int i = 0; i < n; i++) {
+                ElfmfntSpfd fs = dbtb[i];
+                if (fs.gftLfngth() > 0) {
+                    sb.bppfnd(fs.gftArrby(), fs.gftOffsft(),  fs.gftLfngth());
+                }
+            }
+            if (sb.lfngth() == 0) {
+                // Nothing to insfrt, bbil.
+                rfturn;
+            }
+            UndobblfEdit dEdit = d.insfrtString(offsft, sb.toString());
+
+            // drfbtf fvfnt bnd build thf flfmfnt strudturf
+            int lfngth = sb.lfngth();
+            DffbultDodumfntEvfnt fvnt =
+                nfw DffbultDodumfntEvfnt(offsft, lfngth, DodumfntEvfnt.EvfntTypf.INSERT);
+            fvnt.bddEdit(dEdit);
+            bufffr.insfrt(offsft, lfngth, dbtb, fvnt);
+
+            // updbtf bidi (possibly)
+            supfr.insfrtUpdbtf(fvnt, null);
+
+            // notify thf listfnfrs
+            fvnt.fnd();
+            firfInsfrtUpdbtf(fvnt);
+            firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(this, fvnt));
+        } finblly {
+            writfUnlodk();
+        }
+    }
+
+    /**
+     * Rfmovfs bn flfmfnt from this dodumfnt.
+     *
+     * <p>Thf flfmfnt is rfmovfd from its pbrfnt flfmfnt, bs wfll bs
+     * thf tfxt in thf rbngf idfntififd by thf flfmfnt.  If thf
+     * flfmfnt isn't bssodibtfd with thf dodumfnt, {@dodf
+     * IllfgblArgumfntExdfption} is thrown.</p>
+     *
+     * <p>As fmpty brbndh flfmfnts brf not bllowfd in thf dodumfnt, if thf
+     * flfmfnt is thf solf dhild, its pbrfnt flfmfnt is rfmovfd bs wfll,
+     * rfdursivfly.  This mfbns thbt whfn rfplbding bll thf dhildrfn of b
+     * pbrtidulbr flfmfnt, nfw dhildrfn should bf bddfd <fm>bfforf</fm>
+     * rfmoving old dhildrfn.
+     *
+     * <p>Elfmfnt rfmovbl rfsults in two fvfnts bfing firfd, thf
+     * {@dodf DodumfntEvfnt} for dhbngfs in flfmfnt strudturf bnd {@dodf
+     * UndobblfEditEvfnt} for dhbngfs in dodumfnt dontfnt.</p>
+     *
+     * <p>If thf flfmfnt dontbins fnd-of-dontfnt mbrk (thf lbst {@dodf
+     * "\n"} dhbrbdtfr in dodumfnt), this dhbrbdtfr is not rfmovfd;
+     * instfbd, prfdfding lfbf flfmfnt is fxtfndfd to dovfr thf
+     * dhbrbdtfr.  If thf lbst lfbf blrfbdy fnds with {@dodf "\n",} it is
+     * indludfd in dontfnt rfmovbl.</p>
+     *
+     * <p>If thf flfmfnt is {@dodf null,} {@dodf NullPointfrExdfption} is
+     * thrown.  If thf flfmfnt strudturf would bfdomf invblid bftfr thf rfmovbl,
+     * for fxbmplf if thf flfmfnt is thf dodumfnt root flfmfnt, {@dodf
+     * IllfgblArgumfntExdfption} is thrown.  If thf durrfnt flfmfnt strudturf is
+     * invblid, {@dodf IllfgblStbtfExdfption} is thrown.</p>
+     *
+     * @pbrbm  flfm                      thf flfmfnt to rfmovf
+     * @throws NullPointfrExdfption      if thf flfmfnt is {@dodf null}
+     * @throws IllfgblArgumfntExdfption  if thf flfmfnt dould not bf rfmovfd
+     * @throws IllfgblStbtfExdfption     if thf flfmfnt strudturf is invblid
+     *
+     * @sindf  1.7
+     */
+    publid void rfmovfElfmfnt(Elfmfnt flfm) {
+        try {
+            writfLodk();
+            rfmovfElfmfntImpl(flfm);
+        } finblly {
+            writfUnlodk();
+        }
+    }
+
+    privbtf void rfmovfElfmfntImpl(Elfmfnt flfm) {
+        if (flfm.gftDodumfnt() != this) {
+            throw nfw IllfgblArgumfntExdfption("flfmfnt dofsn't bflong to dodumfnt");
+        }
+        BrbndhElfmfnt pbrfnt = (BrbndhElfmfnt) flfm.gftPbrfntElfmfnt();
+        if (pbrfnt == null) {
+            throw nfw IllfgblArgumfntExdfption("dbn't rfmovf thf root flfmfnt");
+        }
+
+        int stbrtOffsft = flfm.gftStbrtOffsft();
+        int rfmovfFrom = stbrtOffsft;
+        int fndOffsft = flfm.gftEndOffsft();
+        int rfmovfTo = fndOffsft;
+        int lbstEndOffsft = gftLfngth() + 1;
+        Contfnt dontfnt = gftContfnt();
+        boolfbn btEnd = fblsf;
+        boolfbn isComposfdTfxt = Utilitifs.isComposfdTfxtElfmfnt(flfm);
+
+        if (fndOffsft >= lbstEndOffsft) {
+            // flfmfnt indludfs thf lbst "\n" dhbrbdtfr, nffds spfdibl hbndling
+            if (stbrtOffsft <= 0) {
+                throw nfw IllfgblArgumfntExdfption("dbn't rfmovf thf wholf dontfnt");
+            }
+            rfmovfTo = lbstEndOffsft - 1; // lbst "\n" must not bf rfmovfd
+            try {
+                if (dontfnt.gftString(stbrtOffsft - 1, 1).dhbrAt(0) == '\n') {
+                    rfmovfFrom--; // prfdfding lfbf fnds with "\n", rfmovf it
+                }
+            } dbtdh (BbdLodbtionExdfption blf) { // dbn't hbppfn
+                throw nfw IllfgblStbtfExdfption(blf);
+            }
+            btEnd = truf;
+        }
+        int lfngth = rfmovfTo - rfmovfFrom;
+
+        DffbultDodumfntEvfnt ddf = nfw DffbultDodumfntEvfnt(rfmovfFrom,
+                lfngth, DffbultDodumfntEvfnt.EvfntTypf.REMOVE);
+        UndobblfEdit uf = null;
+        // do not lfbvf fmpty brbndh flfmfnts
+        whilf (pbrfnt.gftElfmfntCount() == 1) {
+            flfm = pbrfnt;
+            pbrfnt = (BrbndhElfmfnt) pbrfnt.gftPbrfntElfmfnt();
+            if (pbrfnt == null) { // shouldn't hbppfn
+                throw nfw IllfgblStbtfExdfption("invblid flfmfnt strudturf");
+            }
+        }
+        Elfmfnt[] rfmovfd = { flfm };
+        Elfmfnt[] bddfd = {};
+        int indfx = pbrfnt.gftElfmfntIndfx(stbrtOffsft);
+        pbrfnt.rfplbdf(indfx, 1, bddfd);
+        ddf.bddEdit(nfw ElfmfntEdit(pbrfnt, indfx, rfmovfd, bddfd));
+        if (lfngth > 0) {
+            try {
+                uf = dontfnt.rfmovf(rfmovfFrom, lfngth);
+                if (uf != null) {
+                    ddf.bddEdit(uf);
+                }
+            } dbtdh (BbdLodbtionExdfption blf) {
+                // dbn only hbppfn if thf flfmfnt strudturf is sfvfrfly brokfn
+                throw nfw IllfgblStbtfExdfption(blf);
+            }
+            lbstEndOffsft -= lfngth;
+        }
+
+        if (btEnd) {
+            // prfdfding lfbf flfmfnt should bf fxtfndfd to dovfr orphbnfd "\n"
+            Elfmfnt prfvLfbf = pbrfnt.gftElfmfnt(pbrfnt.gftElfmfntCount() - 1);
+            whilf ((prfvLfbf != null) && !prfvLfbf.isLfbf()) {
+                prfvLfbf = prfvLfbf.gftElfmfnt(prfvLfbf.gftElfmfntCount() - 1);
+            }
+            if (prfvLfbf == null) { // shouldn't hbppfn
+                throw nfw IllfgblStbtfExdfption("invblid flfmfnt strudturf");
+            }
+            int prfvStbrtOffsft = prfvLfbf.gftStbrtOffsft();
+            BrbndhElfmfnt prfvPbrfnt = (BrbndhElfmfnt) prfvLfbf.gftPbrfntElfmfnt();
+            int prfvIndfx = prfvPbrfnt.gftElfmfntIndfx(prfvStbrtOffsft);
+            Elfmfnt nfwElfm;
+            nfwElfm = drfbtfLfbfElfmfnt(prfvPbrfnt, prfvLfbf.gftAttributfs(),
+                                            prfvStbrtOffsft, lbstEndOffsft);
+            Elfmfnt[] prfvRfmovfd = { prfvLfbf };
+            Elfmfnt[] prfvAddfd = { nfwElfm };
+            prfvPbrfnt.rfplbdf(prfvIndfx, 1, prfvAddfd);
+            ddf.bddEdit(nfw ElfmfntEdit(prfvPbrfnt, prfvIndfx,
+                                                    prfvRfmovfd, prfvAddfd));
+        }
+
+        postRfmovfUpdbtf(ddf);
+        ddf.fnd();
+        firfRfmovfUpdbtf(ddf);
+        if (! (isComposfdTfxt && (uf != null))) {
+            // do not firf UndobbfEdit fvfnt for domposfd tfxt fdit (unsupportfd)
+            firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(this, ddf));
+        }
+    }
+
+    /**
+     * Adds b nfw stylf into thf logidbl stylf hifrbrdhy.  Stylf bttributfs
+     * rfsolvf from bottom up so bn bttributf spfdififd in b dhild
+     * will ovfrridf bn bttributf spfdififd in thf pbrfnt.
+     *
+     * @pbrbm nm   thf nbmf of thf stylf (must bf uniquf within thf
+     *   dollfdtion of nbmfd stylfs).  Thf nbmf mby bf null if thf stylf
+     *   is unnbmfd, but thf dbllfr is rfsponsiblf
+     *   for mbnbging thf rfffrfndf rfturnfd bs bn unnbmfd stylf dbn't
+     *   bf fftdhfd by nbmf.  An unnbmfd stylf mby bf usfful for things
+     *   likf dhbrbdtfr bttributf ovfrridfs sudh bs found in b stylf
+     *   run.
+     * @pbrbm pbrfnt thf pbrfnt stylf.  This mby bf null if unspfdififd
+     *   bttributfs nffd not bf rfsolvfd in somf othfr stylf.
+     * @rfturn thf stylf
+     */
+    publid Stylf bddStylf(String nm, Stylf pbrfnt) {
+        StylfContfxt stylfs = (StylfContfxt) gftAttributfContfxt();
+        rfturn stylfs.bddStylf(nm, pbrfnt);
+    }
+
+    /**
+     * Rfmovfs b nbmfd stylf prfviously bddfd to thf dodumfnt.
+     *
+     * @pbrbm nm  thf nbmf of thf stylf to rfmovf
+     */
+    publid void rfmovfStylf(String nm) {
+        StylfContfxt stylfs = (StylfContfxt) gftAttributfContfxt();
+        stylfs.rfmovfStylf(nm);
+    }
+
+    /**
+     * Fftdhfs b nbmfd stylf prfviously bddfd.
+     *
+     * @pbrbm nm  thf nbmf of thf stylf
+     * @rfturn thf stylf
+     */
+    publid Stylf gftStylf(String nm) {
+        StylfContfxt stylfs = (StylfContfxt) gftAttributfContfxt();
+        rfturn stylfs.gftStylf(nm);
+    }
+
+
+    /**
+     * Fftdhfs thf list of of stylf nbmfs.
+     *
+     * @rfturn bll thf stylf nbmfs
+     */
+    publid Enumfrbtion<?> gftStylfNbmfs() {
+        rfturn ((StylfContfxt) gftAttributfContfxt()).gftStylfNbmfs();
+    }
+
+    /**
+     * Sfts thf logidbl stylf to usf for thf pbrbgrbph bt thf
+     * givfn position.  If bttributfs brfn't fxpliditly sft
+     * for dhbrbdtfr bnd pbrbgrbph bttributfs thfy will rfsolvf
+     * through thf logidbl stylf bssignfd to thf pbrbgrbph, whidh
+     * in turn mby rfsolvf through somf hifrbrdhy domplftfly
+     * indfpfndfnt of thf flfmfnt hifrbrdhy in thf dodumfnt.
+     * <p>
+     * This mfthod is thrfbd sbff, blthough most Swing mfthods
+     * brf not. Plfbsf sff
+     * <A HREF="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.html">Condurrfndy
+     * in Swing</A> for morf informbtion.
+     *
+     * @pbrbm pos thf offsft from thf stbrt of thf dodumfnt &gt;= 0
+     * @pbrbm s  thf logidbl stylf to bssign to thf pbrbgrbph, null if nonf
+     */
+    publid void sftLogidblStylf(int pos, Stylf s) {
+        Elfmfnt pbrbgrbph = gftPbrbgrbphElfmfnt(pos);
+        if ((pbrbgrbph != null) && (pbrbgrbph instbndfof AbstrbdtElfmfnt)) {
+            try {
+                writfLodk();
+                StylfChbngfUndobblfEdit fdit = nfw StylfChbngfUndobblfEdit((AbstrbdtElfmfnt)pbrbgrbph, s);
+                ((AbstrbdtElfmfnt)pbrbgrbph).sftRfsolvfPbrfnt(s);
+                int p0 = pbrbgrbph.gftStbrtOffsft();
+                int p1 = pbrbgrbph.gftEndOffsft();
+                DffbultDodumfntEvfnt f =
+                  nfw DffbultDodumfntEvfnt(p0, p1 - p0, DodumfntEvfnt.EvfntTypf.CHANGE);
+                f.bddEdit(fdit);
+                f.fnd();
+                firfChbngfdUpdbtf(f);
+                firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(this, f));
+            } finblly {
+                writfUnlodk();
+            }
+        }
+    }
+
+    /**
+     * Fftdhfs thf logidbl stylf bssignfd to thf pbrbgrbph
+     * rfprfsfntfd by thf givfn position.
+     *
+     * @pbrbm p thf lodbtion to trbnslbtf to b pbrbgrbph
+     *  bnd dftfrminf thf logidbl stylf bssignfd &gt;= 0.  This
+     *  is bn offsft from thf stbrt of thf dodumfnt.
+     * @rfturn thf stylf, null if nonf
+     */
+    publid Stylf gftLogidblStylf(int p) {
+        Stylf s = null;
+        Elfmfnt pbrbgrbph = gftPbrbgrbphElfmfnt(p);
+        if (pbrbgrbph != null) {
+            AttributfSft b = pbrbgrbph.gftAttributfs();
+            AttributfSft pbrfnt = b.gftRfsolvfPbrfnt();
+            if (pbrfnt instbndfof Stylf) {
+                s = (Stylf) pbrfnt;
+            }
+        }
+        rfturn s;
+    }
+
+    /**
+     * Sfts bttributfs for somf pbrt of thf dodumfnt.
+     * A writf lodk is hfld by this opfrbtion whilf dhbngfs
+     * brf bfing mbdf, bnd b DodumfntEvfnt is sfnt to thf listfnfrs
+     * bftfr thf dhbngf hbs bffn suddfssfully domplftfd.
+     * <p>
+     * This mfthod is thrfbd sbff, blthough most Swing mfthods
+     * brf not. Plfbsf sff
+     * <A HREF="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.html">Condurrfndy
+     * in Swing</A> for morf informbtion.
+     *
+     * @pbrbm offsft thf offsft in thf dodumfnt &gt;= 0
+     * @pbrbm lfngth thf lfngth &gt;= 0
+     * @pbrbm s thf bttributfs
+     * @pbrbm rfplbdf truf if thf prfvious bttributfs should bf rfplbdfd
+     *  bfforf sftting thf nfw bttributfs
+     */
+    publid void sftChbrbdtfrAttributfs(int offsft, int lfngth, AttributfSft s, boolfbn rfplbdf) {
+        if (lfngth == 0) {
+            rfturn;
+        }
+        try {
+            writfLodk();
+            DffbultDodumfntEvfnt dhbngfs =
+                nfw DffbultDodumfntEvfnt(offsft, lfngth, DodumfntEvfnt.EvfntTypf.CHANGE);
+
+            // split flfmfnts thbt nffd it
+            bufffr.dhbngf(offsft, lfngth, dhbngfs);
+
+            AttributfSft sCopy = s.dopyAttributfs();
+
+            // PENDING(prinz) - this isn't b vfry fffidifnt wby to itfrbtf
+            int lbstEnd;
+            for (int pos = offsft; pos < (offsft + lfngth); pos = lbstEnd) {
+                Elfmfnt run = gftChbrbdtfrElfmfnt(pos);
+                lbstEnd = run.gftEndOffsft();
+                if (pos == lbstEnd) {
+                    // offsft + lfngth bfyond lfngth of dodumfnt, bbil.
+                    brfbk;
+                }
+                MutbblfAttributfSft bttr = (MutbblfAttributfSft) run.gftAttributfs();
+                dhbngfs.bddEdit(nfw AttributfUndobblfEdit(run, sCopy, rfplbdf));
+                if (rfplbdf) {
+                    bttr.rfmovfAttributfs(bttr);
+                }
+                bttr.bddAttributfs(s);
+            }
+            dhbngfs.fnd();
+            firfChbngfdUpdbtf(dhbngfs);
+            firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(this, dhbngfs));
+        } finblly {
+            writfUnlodk();
+        }
+
+    }
+
+    /**
+     * Sfts bttributfs for b pbrbgrbph.
+     * <p>
+     * This mfthod is thrfbd sbff, blthough most Swing mfthods
+     * brf not. Plfbsf sff
+     * <A HREF="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.html">Condurrfndy
+     * in Swing</A> for morf informbtion.
+     *
+     * @pbrbm offsft thf offsft into thf pbrbgrbph &gt;= 0
+     * @pbrbm lfngth thf numbfr of dhbrbdtfrs bfffdtfd &gt;= 0
+     * @pbrbm s thf bttributfs
+     * @pbrbm rfplbdf whfthfr to rfplbdf fxisting bttributfs, or mfrgf thfm
+     */
+    publid void sftPbrbgrbphAttributfs(int offsft, int lfngth, AttributfSft s,
+                                       boolfbn rfplbdf) {
+        try {
+            writfLodk();
+            DffbultDodumfntEvfnt dhbngfs =
+                nfw DffbultDodumfntEvfnt(offsft, lfngth, DodumfntEvfnt.EvfntTypf.CHANGE);
+
+            AttributfSft sCopy = s.dopyAttributfs();
+
+            // PENDING(prinz) - this bssumfs b pbrtidulbr flfmfnt strudturf
+            Elfmfnt sfdtion = gftDffbultRootElfmfnt();
+            int indfx0 = sfdtion.gftElfmfntIndfx(offsft);
+            int indfx1 = sfdtion.gftElfmfntIndfx(offsft + ((lfngth > 0) ? lfngth - 1 : 0));
+            boolfbn isI18N = Boolfbn.TRUE.fqubls(gftPropfrty(I18NPropfrty));
+            boolfbn hbsRuns = fblsf;
+            for (int i = indfx0; i <= indfx1; i++) {
+                Elfmfnt pbrbgrbph = sfdtion.gftElfmfnt(i);
+                MutbblfAttributfSft bttr = (MutbblfAttributfSft) pbrbgrbph.gftAttributfs();
+                dhbngfs.bddEdit(nfw AttributfUndobblfEdit(pbrbgrbph, sCopy, rfplbdf));
+                if (rfplbdf) {
+                    bttr.rfmovfAttributfs(bttr);
+                }
+                bttr.bddAttributfs(s);
+                if (isI18N && !hbsRuns) {
+                    hbsRuns = (bttr.gftAttributf(TfxtAttributf.RUN_DIRECTION) != null);
+                }
+            }
+
+            if (hbsRuns) {
+                updbtfBidi( dhbngfs );
+            }
+
+            dhbngfs.fnd();
+            firfChbngfdUpdbtf(dhbngfs);
+            firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(this, dhbngfs));
+        } finblly {
+            writfUnlodk();
+        }
+    }
+
+    /**
+     * Gfts thf pbrbgrbph flfmfnt bt thf offsft <dodf>pos</dodf>.
+     * A pbrbgrbph donsists of bt lfbst onf dhild Elfmfnt, whidh is usublly
+     * b lfbf.
+     *
+     * @pbrbm pos thf stbrting offsft &gt;= 0
+     * @rfturn thf flfmfnt
+     */
+    publid Elfmfnt gftPbrbgrbphElfmfnt(int pos) {
+        Elfmfnt f;
+        for (f = gftDffbultRootElfmfnt(); ! f.isLfbf(); ) {
+            int indfx = f.gftElfmfntIndfx(pos);
+            f = f.gftElfmfnt(indfx);
+        }
+        if(f != null)
+            rfturn f.gftPbrfntElfmfnt();
+        rfturn f;
+    }
+
+    /**
+     * Gfts b dhbrbdtfr flfmfnt bbsfd on b position.
+     *
+     * @pbrbm pos thf position in thf dodumfnt &gt;= 0
+     * @rfturn thf flfmfnt
+     */
+    publid Elfmfnt gftChbrbdtfrElfmfnt(int pos) {
+        Elfmfnt f;
+        for (f = gftDffbultRootElfmfnt(); ! f.isLfbf(); ) {
+            int indfx = f.gftElfmfntIndfx(pos);
+            f = f.gftElfmfnt(indfx);
+        }
+        rfturn f;
+    }
+
+    // --- lodbl mfthods -------------------------------------------------
+
+    /**
+     * Updbtfs dodumfnt strudturf bs b rfsult of tfxt insfrtion.  This
+     * will hbppfn within b writf lodk.  This implfmfntbtion simply
+     * pbrsfs thf insfrtfd dontfnt for linf brfbks bnd builds up b sft
+     * of instrudtions for thf flfmfnt bufffr.
+     *
+     * @pbrbm dhng b dfsdription of thf dodumfnt dhbngf
+     * @pbrbm bttr thf bttributfs
+     */
+    protfdtfd void insfrtUpdbtf(DffbultDodumfntEvfnt dhng, AttributfSft bttr) {
+        int offsft = dhng.gftOffsft();
+        int lfngth = dhng.gftLfngth();
+        if (bttr == null) {
+            bttr = SimplfAttributfSft.EMPTY;
+        }
+
+        // Pbrbgrbph bttributfs should domf from point bftfr insfrtion.
+        // You rfblly only notidf this whfn insfrting bt b pbrbgrbph
+        // boundbry.
+        Elfmfnt pbrbgrbph = gftPbrbgrbphElfmfnt(offsft + lfngth);
+        AttributfSft pbttr = pbrbgrbph.gftAttributfs();
+        // Chbrbdtfr bttributfs should domf from bdtubl insfrtion point.
+        Elfmfnt pPbrbgrbph = gftPbrbgrbphElfmfnt(offsft);
+        Elfmfnt run = pPbrbgrbph.gftElfmfnt(pPbrbgrbph.gftElfmfntIndfx
+                                            (offsft));
+        int fndOffsft = offsft + lfngth;
+        boolfbn insfrtingAtBoundry = (run.gftEndOffsft() == fndOffsft);
+        AttributfSft dbttr = run.gftAttributfs();
+
+        try {
+            Sfgmfnt s = nfw Sfgmfnt();
+            Vfdtor<ElfmfntSpfd> pbrsfBufffr = nfw Vfdtor<ElfmfntSpfd>();
+            ElfmfntSpfd lbstStbrtSpfd = null;
+            boolfbn insfrtingAftfrNfwlinf = fblsf;
+            short lbstStbrtDirfdtion = ElfmfntSpfd.OriginbtfDirfdtion;
+            // Chfdk if thf prfvious dhbrbdtfr wbs b nfwlinf.
+            if (offsft > 0) {
+                gftTfxt(offsft - 1, 1, s);
+                if (s.brrby[s.offsft] == '\n') {
+                    // Insfrting bftfr b nfwlinf.
+                    insfrtingAftfrNfwlinf = truf;
+                    lbstStbrtDirfdtion = drfbtfSpfdsForInsfrtAftfrNfwlinf
+                                  (pbrbgrbph, pPbrbgrbph, pbttr, pbrsfBufffr,
+                                   offsft, fndOffsft);
+                    for(int dountfr = pbrsfBufffr.sizf() - 1; dountfr >= 0;
+                        dountfr--) {
+                        ElfmfntSpfd spfd = pbrsfBufffr.flfmfntAt(dountfr);
+                        if(spfd.gftTypf() == ElfmfntSpfd.StbrtTbgTypf) {
+                            lbstStbrtSpfd = spfd;
+                            brfbk;
+                        }
+                    }
+                }
+            }
+            // If not insfrting bftfr b nfw linf, pull thf bttributfs for
+            // nfw pbrbgrbphs from thf pbrbgrbph undfr thf insfrtion point.
+            if(!insfrtingAftfrNfwlinf)
+                pbttr = pPbrbgrbph.gftAttributfs();
+
+            gftTfxt(offsft, lfngth, s);
+            dhbr[] txt = s.brrby;
+            int n = s.offsft + s.dount;
+            int lbstOffsft = s.offsft;
+
+            for (int i = s.offsft; i < n; i++) {
+                if (txt[i] == '\n') {
+                    int brfbkOffsft = i + 1;
+                    pbrsfBufffr.bddElfmfnt(
+                        nfw ElfmfntSpfd(bttr, ElfmfntSpfd.ContfntTypf,
+                                               brfbkOffsft - lbstOffsft));
+                    pbrsfBufffr.bddElfmfnt(
+                        nfw ElfmfntSpfd(null, ElfmfntSpfd.EndTbgTypf));
+                    lbstStbrtSpfd = nfw ElfmfntSpfd(pbttr, ElfmfntSpfd.
+                                                   StbrtTbgTypf);
+                    pbrsfBufffr.bddElfmfnt(lbstStbrtSpfd);
+                    lbstOffsft = brfbkOffsft;
+                }
+            }
+            if (lbstOffsft < n) {
+                pbrsfBufffr.bddElfmfnt(
+                    nfw ElfmfntSpfd(bttr, ElfmfntSpfd.ContfntTypf,
+                                           n - lbstOffsft));
+            }
+
+            ElfmfntSpfd first = pbrsfBufffr.firstElfmfnt();
+
+            int dodLfngth = gftLfngth();
+
+            // Chfdk for join prfvious of first dontfnt.
+            if(first.gftTypf() == ElfmfntSpfd.ContfntTypf &&
+               dbttr.isEqubl(bttr)) {
+                first.sftDirfdtion(ElfmfntSpfd.JoinPrfviousDirfdtion);
+            }
+
+            // Do b join frbdturf/nfxt for lbst stbrt spfd if nfdfssbry.
+            if(lbstStbrtSpfd != null) {
+                if(insfrtingAftfrNfwlinf) {
+                    lbstStbrtSpfd.sftDirfdtion(lbstStbrtDirfdtion);
+                }
+                // Join to thf frbdturf if NOT insfrting bt thf fnd
+                // (frbdturf only hbppfns whfn not insfrting bt fnd of
+                // pbrbgrbph).
+                flsf if(pPbrbgrbph.gftEndOffsft() != fndOffsft) {
+                    lbstStbrtSpfd.sftDirfdtion(ElfmfntSpfd.
+                                               JoinFrbdturfDirfdtion);
+                }
+                // Join to nfxt if pbrfnt of pPbrbgrbph hbs bnothfr
+                // flfmfnt bftfr pPbrbgrbph, bnd it isn't b lfbf.
+                flsf {
+                    Elfmfnt pbrfnt = pPbrbgrbph.gftPbrfntElfmfnt();
+                    int pPbrbgrbphIndfx = pbrfnt.gftElfmfntIndfx(offsft);
+                    if((pPbrbgrbphIndfx + 1) < pbrfnt.gftElfmfntCount() &&
+                       !pbrfnt.gftElfmfnt(pPbrbgrbphIndfx + 1).isLfbf()) {
+                        lbstStbrtSpfd.sftDirfdtion(ElfmfntSpfd.
+                                                   JoinNfxtDirfdtion);
+                    }
+                }
+            }
+
+            // Do b JoinNfxt for lbst spfd if it is dontfnt, it dofsn't
+            // blrfbdy hbvf b dirfdtion sft, no nfw pbrbgrbphs hbvf bffn
+            // insfrtfd or b nfw pbrbgrbph hbs bffn insfrtfd bnd its join
+            // dirfdtion isn't originbtf, bnd thf flfmfnt bt fndOffsft
+            // is b lfbf.
+            if(insfrtingAtBoundry && fndOffsft < dodLfngth) {
+                ElfmfntSpfd lbst = pbrsfBufffr.lbstElfmfnt();
+                if(lbst.gftTypf() == ElfmfntSpfd.ContfntTypf &&
+                   lbst.gftDirfdtion() != ElfmfntSpfd.JoinPrfviousDirfdtion &&
+                   ((lbstStbrtSpfd == null && (pbrbgrbph == pPbrbgrbph ||
+                                               insfrtingAftfrNfwlinf)) ||
+                    (lbstStbrtSpfd != null && lbstStbrtSpfd.gftDirfdtion() !=
+                     ElfmfntSpfd.OriginbtfDirfdtion))) {
+                    Elfmfnt nfxtRun = pbrbgrbph.gftElfmfnt(pbrbgrbph.
+                                           gftElfmfntIndfx(fndOffsft));
+                    // Don't try joining to b brbndh!
+                    if(nfxtRun.isLfbf() &&
+                       bttr.isEqubl(nfxtRun.gftAttributfs())) {
+                        lbst.sftDirfdtion(ElfmfntSpfd.JoinNfxtDirfdtion);
+                    }
+                }
+            }
+            // If not insfrting bt boundbry bnd thfrf is going to bf b
+            // frbdturf, thfn dbn join nfxt on lbst dontfnt if dbttr
+            // mbtdhfs thf nfw bttributfs.
+            flsf if(!insfrtingAtBoundry && lbstStbrtSpfd != null &&
+                    lbstStbrtSpfd.gftDirfdtion() ==
+                    ElfmfntSpfd.JoinFrbdturfDirfdtion) {
+                ElfmfntSpfd lbst = pbrsfBufffr.lbstElfmfnt();
+                if(lbst.gftTypf() == ElfmfntSpfd.ContfntTypf &&
+                   lbst.gftDirfdtion() != ElfmfntSpfd.JoinPrfviousDirfdtion &&
+                   bttr.isEqubl(dbttr)) {
+                    lbst.sftDirfdtion(ElfmfntSpfd.JoinNfxtDirfdtion);
+                }
+            }
+
+            // Chfdk for thf domposfd tfxt flfmfnt. If it is, mfrgf thf dhbrbdtfr bttributfs
+            // into this flfmfnt bs wfll.
+            if (Utilitifs.isComposfdTfxtAttributfDffinfd(bttr)) {
+                MutbblfAttributfSft mbttr = (MutbblfAttributfSft) bttr;
+                mbttr.bddAttributfs(dbttr);
+                mbttr.bddAttributf(AbstrbdtDodumfnt.ElfmfntNbmfAttributf,
+                        AbstrbdtDodumfnt.ContfntElfmfntNbmf);
+
+                // Assurf thbt thf domposfd tfxt flfmfnt is nbmfd propfrly
+                // bnd dofsn't hbvf thf CR bttributf dffinfd.
+                mbttr.bddAttributf(StylfConstbnts.NbmfAttributf,
+                        AbstrbdtDodumfnt.ContfntElfmfntNbmf);
+                if (mbttr.isDffinfd(IMPLIED_CR)) {
+                    mbttr.rfmovfAttributf(IMPLIED_CR);
+                }
+            }
+
+            ElfmfntSpfd[] spfd = nfw ElfmfntSpfd[pbrsfBufffr.sizf()];
+            pbrsfBufffr.dopyInto(spfd);
+            bufffr.insfrt(offsft, lfngth, spfd, dhng);
+        } dbtdh (BbdLodbtionExdfption bl) {
+        }
+
+        supfr.insfrtUpdbtf( dhng, bttr );
+    }
+
+    /**
+     * This is dbllfd by insfrtUpdbtf whfn insfrting bftfr b nfw linf.
+     * It gfnfrbtfs, in <dodf>pbrsfBufffr</dodf>, ElfmfntSpfds thbt will
+     * position thf stbdk in <dodf>pbrbgrbph</dodf>.<p>
+     * It rfturns thf dirfdtion thf lbst StbrtSpfd should hbvf (this don't
+     * nfdfssbrily drfbtf thf lbst stbrt spfd).
+     */
+    short drfbtfSpfdsForInsfrtAftfrNfwlinf(Elfmfnt pbrbgrbph,
+            Elfmfnt pPbrbgrbph, AttributfSft pbttr, Vfdtor<ElfmfntSpfd> pbrsfBufffr,
+                                                 int offsft, int fndOffsft) {
+        // Nffd to find thf dommon pbrfnt of pPbrbgrbph bnd pbrbgrbph.
+        if(pbrbgrbph.gftPbrfntElfmfnt() == pPbrbgrbph.gftPbrfntElfmfnt()) {
+            // Thf simplf (bnd dommon) dbsf thbt pPbrbgrbph bnd
+            // pbrbgrbph hbvf thf sbmf pbrfnt.
+            ElfmfntSpfd spfd = nfw ElfmfntSpfd(pbttr, ElfmfntSpfd.EndTbgTypf);
+            pbrsfBufffr.bddElfmfnt(spfd);
+            spfd = nfw ElfmfntSpfd(pbttr, ElfmfntSpfd.StbrtTbgTypf);
+            pbrsfBufffr.bddElfmfnt(spfd);
+            if(pPbrbgrbph.gftEndOffsft() != fndOffsft)
+                rfturn ElfmfntSpfd.JoinFrbdturfDirfdtion;
+
+            Elfmfnt pbrfnt = pPbrbgrbph.gftPbrfntElfmfnt();
+            if((pbrfnt.gftElfmfntIndfx(offsft) + 1) < pbrfnt.gftElfmfntCount())
+                rfturn ElfmfntSpfd.JoinNfxtDirfdtion;
+        }
+        flsf {
+            // Will only hbppfn for tfxt with morf thbn 2 lfvfls.
+            // Find thf dommon pbrfnt of b pbrbgrbph bnd pPbrbgrbph
+            Vfdtor<Elfmfnt> lfftPbrfnts = nfw Vfdtor<Elfmfnt>();
+            Vfdtor<Elfmfnt> rightPbrfnts = nfw Vfdtor<Elfmfnt>();
+            Elfmfnt f = pPbrbgrbph;
+            whilf(f != null) {
+                lfftPbrfnts.bddElfmfnt(f);
+                f = f.gftPbrfntElfmfnt();
+            }
+            f = pbrbgrbph;
+            int lfftIndfx = -1;
+            whilf(f != null && (lfftIndfx = lfftPbrfnts.indfxOf(f)) == -1) {
+                rightPbrfnts.bddElfmfnt(f);
+                f = f.gftPbrfntElfmfnt();
+            }
+            if(f != null) {
+                // f idfntififs thf dommon pbrfnt.
+                // Build thf fnds.
+                for(int dountfr = 0; dountfr < lfftIndfx;
+                    dountfr++) {
+                    pbrsfBufffr.bddElfmfnt(nfw ElfmfntSpfd
+                                              (null, ElfmfntSpfd.EndTbgTypf));
+                }
+                // And thf stbrts.
+                ElfmfntSpfd spfd;
+                for(int dountfr = rightPbrfnts.sizf() - 1;
+                    dountfr >= 0; dountfr--) {
+                    spfd = nfw ElfmfntSpfd(rightPbrfnts.flfmfntAt(dountfr).gftAttributfs(),
+                                   ElfmfntSpfd.StbrtTbgTypf);
+                    if(dountfr > 0)
+                        spfd.sftDirfdtion(ElfmfntSpfd.JoinNfxtDirfdtion);
+                    pbrsfBufffr.bddElfmfnt(spfd);
+                }
+                // If thfrf brf right pbrfnts, thfn wf gfnfrbtfd stbrts
+                // down thf right subtrff bnd thfrf will bf bn flfmfnt to
+                // join to.
+                if(rightPbrfnts.sizf() > 0)
+                    rfturn ElfmfntSpfd.JoinNfxtDirfdtion;
+                // No right subtrff, f.gftElfmfnt(fndOffsft) is b
+                // lfbf. Thfrf will bf b fbdturf.
+                rfturn ElfmfntSpfd.JoinFrbdturfDirfdtion;
+            }
+            // flsf: Could throw bn fxdfption hfrf, but should nfvfr gft hfrf!
+        }
+        rfturn ElfmfntSpfd.OriginbtfDirfdtion;
+    }
+
+    /**
+     * Updbtfs dodumfnt strudturf bs b rfsult of tfxt rfmovbl.
+     *
+     * @pbrbm dhng b dfsdription of thf dodumfnt dhbngf
+     */
+    protfdtfd void rfmovfUpdbtf(DffbultDodumfntEvfnt dhng) {
+        supfr.rfmovfUpdbtf(dhng);
+        bufffr.rfmovf(dhng.gftOffsft(), dhng.gftLfngth(), dhng);
+    }
+
+    /**
+     * Crfbtfs thf root flfmfnt to bf usfd to rfprfsfnt thf
+     * dffbult dodumfnt strudturf.
+     *
+     * @rfturn thf flfmfnt bbsf
+     */
+    protfdtfd AbstrbdtElfmfnt drfbtfDffbultRoot() {
+        // grbbs b writf-lodk for this initiblizbtion bnd
+        // bbbndon it during initiblizbtion so in normbl
+        // opfrbtion wf dbn dftfdt bn illfgitimbtf bttfmpt
+        // to mutbtf bttributfs.
+        writfLodk();
+        BrbndhElfmfnt sfdtion = nfw SfdtionElfmfnt();
+        BrbndhElfmfnt pbrbgrbph = nfw BrbndhElfmfnt(sfdtion, null);
+
+        LfbfElfmfnt brk = nfw LfbfElfmfnt(pbrbgrbph, null, 0, 1);
+        Elfmfnt[] buff = nfw Elfmfnt[1];
+        buff[0] = brk;
+        pbrbgrbph.rfplbdf(0, 0, buff);
+
+        buff[0] = pbrbgrbph;
+        sfdtion.rfplbdf(0, 0, buff);
+        writfUnlodk();
+        rfturn sfdtion;
+    }
+
+    /**
+     * Gfts thf forfground dolor from bn bttributf sft.
+     *
+     * @pbrbm bttr thf bttributf sft
+     * @rfturn thf dolor
+     */
+    publid Color gftForfground(AttributfSft bttr) {
+        StylfContfxt stylfs = (StylfContfxt) gftAttributfContfxt();
+        rfturn stylfs.gftForfground(bttr);
+    }
+
+    /**
+     * Gfts thf bbdkground dolor from bn bttributf sft.
+     *
+     * @pbrbm bttr thf bttributf sft
+     * @rfturn thf dolor
+     */
+    publid Color gftBbdkground(AttributfSft bttr) {
+        StylfContfxt stylfs = (StylfContfxt) gftAttributfContfxt();
+        rfturn stylfs.gftBbdkground(bttr);
+    }
+
+    /**
+     * Gfts thf font from bn bttributf sft.
+     *
+     * @pbrbm bttr thf bttributf sft
+     * @rfturn thf font
+     */
+    publid Font gftFont(AttributfSft bttr) {
+        StylfContfxt stylfs = (StylfContfxt) gftAttributfContfxt();
+        rfturn stylfs.gftFont(bttr);
+    }
+
+    /**
+     * Cbllfd whfn bny of this dodumfnt's stylfs hbvf dhbngfd.
+     * Subdlbssfs mby wish to bf intflligfnt bbout whbt gfts dbmbgfd.
+     *
+     * @pbrbm stylf Thf Stylf thbt hbs dhbngfd.
+     */
+    protfdtfd void stylfChbngfd(Stylf stylf) {
+        // Only propbgbtf dhbngf updbtfd if hbvf dontfnt
+        if (gftLfngth() != 0) {
+            // lbzily drfbtf b ChbngfUpdbtfRunnbblf
+            if (updbtfRunnbblf == null) {
+                updbtfRunnbblf = nfw ChbngfUpdbtfRunnbblf();
+            }
+
+            // Wf mby gft b wholf bbtdh of thfsf bt ondf, so only
+            // qufuf thf runnbblf if it is not blrfbdy pfnding
+            syndhronizfd(updbtfRunnbblf) {
+                if (!updbtfRunnbblf.isPfnding) {
+                    SwingUtilitifs.invokfLbtfr(updbtfRunnbblf);
+                    updbtfRunnbblf.isPfnding = truf;
+                }
+            }
+        }
+    }
+
+    /**
+     * Adds b dodumfnt listfnfr for notifidbtion of bny dhbngfs.
+     *
+     * @pbrbm listfnfr thf listfnfr
+     * @sff Dodumfnt#bddDodumfntListfnfr
+     */
+    publid void bddDodumfntListfnfr(DodumfntListfnfr listfnfr) {
+        syndhronizfd(listfningStylfs) {
+            int oldDLCount = listfnfrList.gftListfnfrCount
+                                          (DodumfntListfnfr.dlbss);
+            supfr.bddDodumfntListfnfr(listfnfr);
+            if (oldDLCount == 0) {
+                if (stylfContfxtChbngfListfnfr == null) {
+                    stylfContfxtChbngfListfnfr =
+                                      drfbtfStylfContfxtChbngfListfnfr();
+                }
+                if (stylfContfxtChbngfListfnfr != null) {
+                    StylfContfxt stylfs = (StylfContfxt)gftAttributfContfxt();
+                    List<ChbngfListfnfr> stblfListfnfrs =
+                        AbstrbdtChbngfHbndlfr.gftStblfListfnfrs(stylfContfxtChbngfListfnfr);
+                    for (ChbngfListfnfr l: stblfListfnfrs) {
+                        stylfs.rfmovfChbngfListfnfr(l);
+                    }
+                    stylfs.bddChbngfListfnfr(stylfContfxtChbngfListfnfr);
+                }
+                updbtfStylfsListfningTo();
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs b dodumfnt listfnfr.
+     *
+     * @pbrbm listfnfr thf listfnfr
+     * @sff Dodumfnt#rfmovfDodumfntListfnfr
+     */
+    publid void rfmovfDodumfntListfnfr(DodumfntListfnfr listfnfr) {
+        syndhronizfd(listfningStylfs) {
+            supfr.rfmovfDodumfntListfnfr(listfnfr);
+            if (listfnfrList.gftListfnfrCount(DodumfntListfnfr.dlbss) == 0) {
+                for (int dountfr = listfningStylfs.sizf() - 1; dountfr >= 0;
+                     dountfr--) {
+                    listfningStylfs.flfmfntAt(dountfr).
+                                    rfmovfChbngfListfnfr(stylfChbngfListfnfr);
+                }
+                listfningStylfs.rfmovfAllElfmfnts();
+                if (stylfContfxtChbngfListfnfr != null) {
+                    StylfContfxt stylfs = (StylfContfxt)gftAttributfContfxt();
+                    stylfs.rfmovfChbngfListfnfr(stylfContfxtChbngfListfnfr);
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns b nfw instbndf of StylfChbngfHbndlfr.
+     */
+    ChbngfListfnfr drfbtfStylfChbngfListfnfr() {
+        rfturn nfw StylfChbngfHbndlfr(this);
+    }
+
+    /**
+     * Rfturns b nfw instbndf of StylfContfxtChbngfHbndlfr.
+     */
+    ChbngfListfnfr drfbtfStylfContfxtChbngfListfnfr() {
+        rfturn nfw StylfContfxtChbngfHbndlfr(this);
+    }
+
+    /**
+     * Adds b ChbngfListfnfr to nfw stylfs, bnd rfmovfs ChbngfListfnfr from
+     * old stylfs.
+     */
+    void updbtfStylfsListfningTo() {
+        syndhronizfd(listfningStylfs) {
+            StylfContfxt stylfs = (StylfContfxt)gftAttributfContfxt();
+            if (stylfChbngfListfnfr == null) {
+                stylfChbngfListfnfr = drfbtfStylfChbngfListfnfr();
+            }
+            if (stylfChbngfListfnfr != null && stylfs != null) {
+                Enumfrbtion<?> stylfNbmfs = stylfs.gftStylfNbmfs();
+                @SupprfssWbrnings("undhfdkfd")
+                Vfdtor<Stylf> v = (Vfdtor<Stylf>)listfningStylfs.dlonf();
+                listfningStylfs.rfmovfAllElfmfnts();
+                List<ChbngfListfnfr> stblfListfnfrs =
+                    AbstrbdtChbngfHbndlfr.gftStblfListfnfrs(stylfChbngfListfnfr);
+                whilf (stylfNbmfs.hbsMorfElfmfnts()) {
+                    String nbmf = (String)stylfNbmfs.nfxtElfmfnt();
+                    Stylf bStylf = stylfs.gftStylf(nbmf);
+                    int indfx = v.indfxOf(bStylf);
+                    listfningStylfs.bddElfmfnt(bStylf);
+                    if (indfx == -1) {
+                        for (ChbngfListfnfr l: stblfListfnfrs) {
+                            bStylf.rfmovfChbngfListfnfr(l);
+                        }
+                        bStylf.bddChbngfListfnfr(stylfChbngfListfnfr);
+                    }
+                    flsf {
+                        v.rfmovfElfmfntAt(indfx);
+                    }
+                }
+                for (int dountfr = v.sizf() - 1; dountfr >= 0; dountfr--) {
+                    Stylf bStylf = v.flfmfntAt(dountfr);
+                    bStylf.rfmovfChbngfListfnfr(stylfChbngfListfnfr);
+                }
+                if (listfningStylfs.sizf() == 0) {
+                    stylfChbngfListfnfr = null;
+                }
+            }
+        }
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            throws ClbssNotFoundExdfption, IOExdfption {
+        listfningStylfs = nfw Vfdtor<Stylf>();
+        s.dffbultRfbdObjfdt();
+        // Rfinstbll stylf listfnfrs.
+        if (stylfContfxtChbngfListfnfr == null &&
+            listfnfrList.gftListfnfrCount(DodumfntListfnfr.dlbss) > 0) {
+            stylfContfxtChbngfListfnfr = drfbtfStylfContfxtChbngfListfnfr();
+            if (stylfContfxtChbngfListfnfr != null) {
+                StylfContfxt stylfs = (StylfContfxt)gftAttributfContfxt();
+                stylfs.bddChbngfListfnfr(stylfContfxtChbngfListfnfr);
+            }
+            updbtfStylfsListfningTo();
+        }
+    }
+
+    // --- mfmbfr vbribblfs -----------------------------------------------------------
+
+    /**
+     * Thf dffbult sizf of thf initibl dontfnt bufffr.
+     */
+    publid stbtid finbl int BUFFER_SIZE_DEFAULT = 4096;
+
+    protfdtfd ElfmfntBufffr bufffr;
+
+    /** Stylfs listfning to. */
+    privbtf trbnsifnt Vfdtor<Stylf> listfningStylfs;
+
+    /** Listfns to Stylfs. */
+    privbtf trbnsifnt ChbngfListfnfr stylfChbngfListfnfr;
+
+    /** Listfns to Stylfs. */
+    privbtf trbnsifnt ChbngfListfnfr stylfContfxtChbngfListfnfr;
+
+    /** Run to drfbtf b dhbngf fvfnt for thf dodumfnt */
+    privbtf trbnsifnt ChbngfUpdbtfRunnbblf updbtfRunnbblf;
+
+    /**
+     * Dffbult root flfmfnt for b dodumfnt... mbps out thf
+     * pbrbgrbphs/linfs dontbinfd.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss SfdtionElfmfnt fxtfnds BrbndhElfmfnt {
+
+        /**
+         * Crfbtfs b nfw SfdtionElfmfnt.
+         */
+        publid SfdtionElfmfnt() {
+            supfr(null, null);
+        }
+
+        /**
+         * Gfts thf nbmf of thf flfmfnt.
+         *
+         * @rfturn thf nbmf
+         */
+        publid String gftNbmf() {
+            rfturn SfdtionElfmfntNbmf;
+        }
+    }
+
+    /**
+     * Spfdifidbtion for building flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss ElfmfntSpfd {
+
+        /**
+         * A possiblf vbluf for gftTypf.  This spfdififs
+         * thbt this rfdord typf is b stbrt tbg bnd
+         * rfprfsfnts mbrkup thbt spfdififs thf stbrt
+         * of bn flfmfnt.
+         */
+        publid stbtid finbl short StbrtTbgTypf = 1;
+
+        /**
+         * A possiblf vbluf for gftTypf.  This spfdififs
+         * thbt this rfdord typf is b fnd tbg bnd
+         * rfprfsfnts mbrkup thbt spfdififs thf fnd
+         * of bn flfmfnt.
+         */
+        publid stbtid finbl short EndTbgTypf = 2;
+
+        /**
+         * A possiblf vbluf for gftTypf.  This spfdififs
+         * thbt this rfdord typf rfprfsfnts dontfnt.
+         */
+        publid stbtid finbl short ContfntTypf = 3;
+
+        /**
+         * A possiblf vbluf for gftDirfdtion.  This spfdififs
+         * thbt thf dbtb bssodibtfd with this rfdord should
+         * bf joinfd to whbt prfdfdfs it.
+         */
+        publid stbtid finbl short JoinPrfviousDirfdtion = 4;
+
+        /**
+         * A possiblf vbluf for gftDirfdtion.  This spfdififs
+         * thbt thf dbtb bssodibtfd with this rfdord should
+         * bf joinfd to whbt follows it.
+         */
+        publid stbtid finbl short JoinNfxtDirfdtion = 5;
+
+        /**
+         * A possiblf vbluf for gftDirfdtion.  This spfdififs
+         * thbt thf dbtb bssodibtfd with this rfdord should
+         * bf usfd to originbtf b nfw flfmfnt.  This would bf
+         * thf normbl vbluf.
+         */
+        publid stbtid finbl short OriginbtfDirfdtion = 6;
+
+        /**
+         * A possiblf vbluf for gftDirfdtion.  This spfdififs
+         * thbt thf dbtb bssodibtfd with this rfdord should
+         * bf joinfd to thf frbdturfd flfmfnt.
+         */
+        publid stbtid finbl short JoinFrbdturfDirfdtion = 7;
+
+
+        /**
+         * Construdtor usfful for mbrkup whfn thf mbrkup will not
+         * bf storfd in thf dodumfnt.
+         *
+         * @pbrbm b thf bttributfs for thf flfmfnt
+         * @pbrbm typf thf typf of thf flfmfnt (StbrtTbgTypf, EndTbgTypf,
+         *  ContfntTypf)
+         */
+        publid ElfmfntSpfd(AttributfSft b, short typf) {
+            this(b, typf, null, 0, 0);
+        }
+
+        /**
+         * Construdtor for pbrsing insidf thf dodumfnt whfn
+         * thf dbtb hbs blrfbdy bffn bddfd, but lfn informbtion
+         * is nffdfd.
+         *
+         * @pbrbm b thf bttributfs for thf flfmfnt
+         * @pbrbm typf thf typf of thf flfmfnt (StbrtTbgTypf, EndTbgTypf,
+         *  ContfntTypf)
+         * @pbrbm lfn thf lfngth &gt;= 0
+         */
+        publid ElfmfntSpfd(AttributfSft b, short typf, int lfn) {
+            this(b, typf, null, 0, lfn);
+        }
+
+        /**
+         * Construdtor for drfbting b spfd fxtfrnblly for bbtdh
+         * input of dontfnt bnd mbrkup into thf dodumfnt.
+         *
+         * @pbrbm b thf bttributfs for thf flfmfnt
+         * @pbrbm typf thf typf of thf flfmfnt (StbrtTbgTypf, EndTbgTypf,
+         *  ContfntTypf)
+         * @pbrbm txt thf tfxt for thf flfmfnt
+         * @pbrbm offs thf offsft into thf tfxt &gt;= 0
+         * @pbrbm lfn thf lfngth of thf tfxt &gt;= 0
+         */
+        publid ElfmfntSpfd(AttributfSft b, short typf, dhbr[] txt,
+                                  int offs, int lfn) {
+            bttr = b;
+            this.typf = typf;
+            this.dbtb = txt;
+            this.offs = offs;
+            this.lfn = lfn;
+            this.dirfdtion = OriginbtfDirfdtion;
+        }
+
+        /**
+         * Sfts thf flfmfnt typf.
+         *
+         * @pbrbm typf thf typf of thf flfmfnt (StbrtTbgTypf, EndTbgTypf,
+         *  ContfntTypf)
+         */
+        publid void sftTypf(short typf) {
+            this.typf = typf;
+        }
+
+        /**
+         * Gfts thf flfmfnt typf.
+         *
+         * @rfturn  thf typf of thf flfmfnt (StbrtTbgTypf, EndTbgTypf,
+         *  ContfntTypf)
+         */
+        publid short gftTypf() {
+            rfturn typf;
+        }
+
+        /**
+         * Sfts thf dirfdtion.
+         *
+         * @pbrbm dirfdtion thf dirfdtion (JoinPrfviousDirfdtion,
+         *   JoinNfxtDirfdtion)
+         */
+        publid void sftDirfdtion(short dirfdtion) {
+            this.dirfdtion = dirfdtion;
+        }
+
+        /**
+         * Gfts thf dirfdtion.
+         *
+         * @rfturn thf dirfdtion (JoinPrfviousDirfdtion, JoinNfxtDirfdtion)
+         */
+        publid short gftDirfdtion() {
+            rfturn dirfdtion;
+        }
+
+        /**
+         * Gfts thf flfmfnt bttributfs.
+         *
+         * @rfturn thf bttributf sft
+         */
+        publid AttributfSft gftAttributfs() {
+            rfturn bttr;
+        }
+
+        /**
+         * Gfts thf brrby of dhbrbdtfrs.
+         *
+         * @rfturn thf brrby
+         */
+        publid dhbr[] gftArrby() {
+            rfturn dbtb;
+        }
+
+
+        /**
+         * Gfts thf stbrting offsft.
+         *
+         * @rfturn thf offsft &gt;= 0
+         */
+        publid int gftOffsft() {
+            rfturn offs;
+        }
+
+        /**
+         * Gfts thf lfngth.
+         *
+         * @rfturn thf lfngth &gt;= 0
+         */
+        publid int gftLfngth() {
+            rfturn lfn;
+        }
+
+        /**
+         * Convfrts thf flfmfnt to b string.
+         *
+         * @rfturn thf string
+         */
+        publid String toString() {
+            String tlbl = "??";
+            String plbl = "??";
+            switdh(typf) {
+            dbsf StbrtTbgTypf:
+                tlbl = "StbrtTbg";
+                brfbk;
+            dbsf ContfntTypf:
+                tlbl = "Contfnt";
+                brfbk;
+            dbsf EndTbgTypf:
+                tlbl = "EndTbg";
+                brfbk;
+            }
+            switdh(dirfdtion) {
+            dbsf JoinPrfviousDirfdtion:
+                plbl = "JoinPrfvious";
+                brfbk;
+            dbsf JoinNfxtDirfdtion:
+                plbl = "JoinNfxt";
+                brfbk;
+            dbsf OriginbtfDirfdtion:
+                plbl = "Originbtf";
+                brfbk;
+            dbsf JoinFrbdturfDirfdtion:
+                plbl = "Frbdturf";
+                brfbk;
+            }
+            rfturn tlbl + ":" + plbl + ":" + gftLfngth();
+        }
+
+        privbtf AttributfSft bttr;
+        privbtf int lfn;
+        privbtf short typf;
+        privbtf short dirfdtion;
+
+        privbtf int offs;
+        privbtf dhbr[] dbtb;
+    }
+
+    /**
+     * Clbss to mbnbgf dhbngfs to thf flfmfnt
+     * hifrbrdhy.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid dlbss ElfmfntBufffr implfmfnts Sfriblizbblf {
+
+        /**
+         * Crfbtfs b nfw ElfmfntBufffr.
+         *
+         * @pbrbm root thf root flfmfnt
+         * @sindf 1.4
+         */
+        publid ElfmfntBufffr(Elfmfnt root) {
+            this.root = root;
+            dhbngfs = nfw Vfdtor<ElfmChbngfs>();
+            pbth = nfw Stbdk<ElfmChbngfs>();
+        }
+
+        /**
+         * Gfts thf root flfmfnt.
+         *
+         * @rfturn thf root flfmfnt
+         */
+        publid Elfmfnt gftRootElfmfnt() {
+            rfturn root;
+        }
+
+        /**
+         * Insfrts nfw dontfnt.
+         *
+         * @pbrbm offsft thf stbrting offsft &gt;= 0
+         * @pbrbm lfngth thf lfngth &gt;= 0
+         * @pbrbm dbtb thf dbtb to insfrt
+         * @pbrbm df thf fvfnt dbpturing this fdit
+         */
+        publid void insfrt(int offsft, int lfngth, ElfmfntSpfd[] dbtb,
+                                 DffbultDodumfntEvfnt df) {
+            if (lfngth == 0) {
+                // Nothing wbs insfrtfd, no strudturf dhbngf.
+                rfturn;
+            }
+            insfrtOp = truf;
+            bfginEdits(offsft, lfngth);
+            insfrtUpdbtf(dbtb);
+            fndEdits(df);
+
+            insfrtOp = fblsf;
+        }
+
+        void drfbtf(int lfngth, ElfmfntSpfd[] dbtb, DffbultDodumfntEvfnt df) {
+            insfrtOp = truf;
+            bfginEdits(offsft, lfngth);
+
+            // PENDING(prinz) this nffds to bf fixfd to drfbtf b nfw
+            // root flfmfnt bs wfll, but rfquirfs dhbngfs to thf
+            // DodumfntEvfnt to inform thf vifws thbt thfrf is b nfw
+            // root flfmfnt.
+
+            // Rfdrfbtf thf fnding fbkf flfmfnt to hbvf thf dorrfdt offsfts.
+            Elfmfnt flfm = root;
+            int indfx = flfm.gftElfmfntIndfx(0);
+            whilf (! flfm.isLfbf()) {
+                Elfmfnt dhild = flfm.gftElfmfnt(indfx);
+                push(flfm, indfx);
+                flfm = dhild;
+                indfx = flfm.gftElfmfntIndfx(0);
+            }
+            ElfmChbngfs fd = pbth.pffk();
+            Elfmfnt dhild = fd.pbrfnt.gftElfmfnt(fd.indfx);
+            fd.bddfd.bddElfmfnt(drfbtfLfbfElfmfnt(fd.pbrfnt,
+                                dhild.gftAttributfs(), gftLfngth(),
+                                dhild.gftEndOffsft()));
+            fd.rfmovfd.bddElfmfnt(dhild);
+            whilf (pbth.sizf() > 1) {
+                pop();
+            }
+
+            int n = dbtb.lfngth;
+
+            // Rfsft thf root flfmfnts bttributfs.
+            AttributfSft nfwAttrs = null;
+            if (n > 0 && dbtb[0].gftTypf() == ElfmfntSpfd.StbrtTbgTypf) {
+                nfwAttrs = dbtb[0].gftAttributfs();
+            }
+            if (nfwAttrs == null) {
+                nfwAttrs = SimplfAttributfSft.EMPTY;
+            }
+            MutbblfAttributfSft bttr = (MutbblfAttributfSft)root.
+                                       gftAttributfs();
+            df.bddEdit(nfw AttributfUndobblfEdit(root, nfwAttrs, truf));
+            bttr.rfmovfAttributfs(bttr);
+            bttr.bddAttributfs(nfwAttrs);
+
+            // fold in thf spfdififd subtrff
+            for (int i = 1; i < n; i++) {
+                insfrtElfmfnt(dbtb[i]);
+            }
+
+            // pop thf rfmbining pbth
+            whilf (pbth.sizf() != 0) {
+                pop();
+            }
+
+            fndEdits(df);
+            insfrtOp = fblsf;
+        }
+
+        /**
+         * Rfmovfs dontfnt.
+         *
+         * @pbrbm offsft thf stbrting offsft &gt;= 0
+         * @pbrbm lfngth thf lfngth &gt;= 0
+         * @pbrbm df thf fvfnt dbpturing this fdit
+         */
+        publid void rfmovf(int offsft, int lfngth, DffbultDodumfntEvfnt df) {
+            bfginEdits(offsft, lfngth);
+            rfmovfUpdbtf();
+            fndEdits(df);
+        }
+
+        /**
+         * Chbngfs dontfnt.
+         *
+         * @pbrbm offsft thf stbrting offsft &gt;= 0
+         * @pbrbm lfngth thf lfngth &gt;= 0
+         * @pbrbm df thf fvfnt dbpturing this fdit
+         */
+        publid void dhbngf(int offsft, int lfngth, DffbultDodumfntEvfnt df) {
+            bfginEdits(offsft, lfngth);
+            dhbngfUpdbtf();
+            fndEdits(df);
+        }
+
+        /**
+         * Insfrts bn updbtf into thf dodumfnt.
+         *
+         * @pbrbm dbtb thf flfmfnts to insfrt
+         */
+        protfdtfd void insfrtUpdbtf(ElfmfntSpfd[] dbtb) {
+            // push thf pbth
+            Elfmfnt flfm = root;
+            int indfx = flfm.gftElfmfntIndfx(offsft);
+            whilf (! flfm.isLfbf()) {
+                Elfmfnt dhild = flfm.gftElfmfnt(indfx);
+                push(flfm, (dhild.isLfbf() ? indfx : indfx+1));
+                flfm = dhild;
+                indfx = flfm.gftElfmfntIndfx(offsft);
+            }
+
+            // Build b dopy of thf originbl pbth.
+            insfrtPbth = nfw ElfmChbngfs[pbth.sizf()];
+            pbth.dopyInto(insfrtPbth);
+
+            // Hbvfn't drfbtfd thf frbdturf yft.
+            drfbtfdFrbdturf = fblsf;
+
+            // Insfrt thf first dontfnt.
+            int i;
+
+            rfdrfbtfLfbfs = fblsf;
+            if(dbtb[0].gftTypf() == ElfmfntSpfd.ContfntTypf) {
+                insfrtFirstContfnt(dbtb);
+                pos += dbtb[0].gftLfngth();
+                i = 1;
+            }
+            flsf {
+                frbdturfDffpfstLfbf(dbtb);
+                i = 0;
+            }
+
+            // fold in thf spfdififd subtrff
+            int n = dbtb.lfngth;
+            for (; i < n; i++) {
+                insfrtElfmfnt(dbtb[i]);
+            }
+
+            // Frbdturf, if wf hbvfn't yft.
+            if(!drfbtfdFrbdturf)
+                frbdturf(-1);
+
+            // pop thf rfmbining pbth
+            whilf (pbth.sizf() != 0) {
+                pop();
+            }
+
+            // Offsft thf lbst indfx if nfdfssbry.
+            if(offsftLbstIndfx && offsftLbstIndfxOnRfplbdf) {
+                insfrtPbth[insfrtPbth.lfngth - 1].indfx++;
+            }
+
+            // Mbkf surf bn fdit is going to bf drfbtfd for fbdh of thf
+            // originbl pbth itfms thbt hbvf b dhbngf.
+            for(int dountfr = insfrtPbth.lfngth - 1; dountfr >= 0;
+                dountfr--) {
+                ElfmChbngfs dhbngf = insfrtPbth[dountfr];
+                if(dhbngf.pbrfnt == frbdturfdPbrfnt)
+                    dhbngf.bddfd.bddElfmfnt(frbdturfdChild);
+                if((dhbngf.bddfd.sizf() > 0 ||
+                    dhbngf.rfmovfd.sizf() > 0) && !dhbngfs.dontbins(dhbngf)) {
+                    // PENDING(sky): Do I nffd to worry bbout ordfr hfrf?
+                    dhbngfs.bddElfmfnt(dhbngf);
+                }
+            }
+
+            // An insfrt bt 0 with bn initibl fnd implifs somf flfmfnts
+            // will hbvf no dhildrfn (thf bottomost lfbf would hbvf lfngth 0)
+            // this will find whbt flfmfnt nffd to bf rfmovfd bnd rfmovf it.
+            if (offsft == 0 && frbdturfdPbrfnt != null &&
+                dbtb[0].gftTypf() == ElfmfntSpfd.EndTbgTypf) {
+                int dountfr = 0;
+                whilf (dountfr < dbtb.lfngth &&
+                       dbtb[dountfr].gftTypf() == ElfmfntSpfd.EndTbgTypf) {
+                    dountfr++;
+                }
+                ElfmChbngfs dhbngf = insfrtPbth[insfrtPbth.lfngth -
+                                               dountfr - 1];
+                dhbngf.rfmovfd.insfrtElfmfntAt(dhbngf.pbrfnt.gftElfmfnt
+                                               (--dhbngf.indfx), 0);
+            }
+        }
+
+        /**
+         * Updbtfs thf flfmfnt strudturf in rfsponsf to b rfmovbl from thf
+         * bssodibtfd sfqufndf in thf dodumfnt.  Any flfmfnts donsumfd by thf
+         * spbn of thf rfmovbl brf rfmovfd.
+         */
+        protfdtfd void rfmovfUpdbtf() {
+            rfmovfElfmfnts(root, offsft, offsft + lfngth);
+        }
+
+        /**
+         * Updbtfs thf flfmfnt strudturf in rfsponsf to b dhbngf in thf
+         * dodumfnt.
+         */
+        protfdtfd void dhbngfUpdbtf() {
+            boolfbn didEnd = split(offsft, lfngth);
+            if (! didEnd) {
+                // nffd to do thf othfr fnd
+                whilf (pbth.sizf() != 0) {
+                    pop();
+                }
+                split(offsft + lfngth, 0);
+            }
+            whilf (pbth.sizf() != 0) {
+                pop();
+            }
+        }
+
+        boolfbn split(int offs, int lfn) {
+            boolfbn splitEnd = fblsf;
+            // push thf pbth
+            Elfmfnt f = root;
+            int indfx = f.gftElfmfntIndfx(offs);
+            whilf (! f.isLfbf()) {
+                push(f, indfx);
+                f = f.gftElfmfnt(indfx);
+                indfx = f.gftElfmfntIndfx(offs);
+            }
+
+            ElfmChbngfs fd = pbth.pffk();
+            Elfmfnt dhild = fd.pbrfnt.gftElfmfnt(fd.indfx);
+            // mbkf surf thfrf is somfthing to do... if thf
+            // offsft is blrfbdy bt b boundbry thfn thfrf is
+            // nothing to do.
+            if (dhild.gftStbrtOffsft() < offs && offs < dhild.gftEndOffsft()) {
+                // wf nffd to split, now sff if thf othfr fnd is within
+                // thf sbmf pbrfnt.
+                int indfx0 = fd.indfx;
+                int indfx1 = indfx0;
+                if (((offs + lfn) < fd.pbrfnt.gftEndOffsft()) && (lfn != 0)) {
+                    // it's b rbngf split in thf sbmf pbrfnt
+                    indfx1 = fd.pbrfnt.gftElfmfntIndfx(offs+lfn);
+                    if (indfx1 == indfx0) {
+                        // it's b thrff-wby split
+                        fd.rfmovfd.bddElfmfnt(dhild);
+                        f = drfbtfLfbfElfmfnt(fd.pbrfnt, dhild.gftAttributfs(),
+                                              dhild.gftStbrtOffsft(), offs);
+                        fd.bddfd.bddElfmfnt(f);
+                        f = drfbtfLfbfElfmfnt(fd.pbrfnt, dhild.gftAttributfs(),
+                                          offs, offs + lfn);
+                        fd.bddfd.bddElfmfnt(f);
+                        f = drfbtfLfbfElfmfnt(fd.pbrfnt, dhild.gftAttributfs(),
+                                              offs + lfn, dhild.gftEndOffsft());
+                        fd.bddfd.bddElfmfnt(f);
+                        rfturn truf;
+                    } flsf {
+                        dhild = fd.pbrfnt.gftElfmfnt(indfx1);
+                        if ((offs + lfn) == dhild.gftStbrtOffsft()) {
+                            // fnd is blrfbdy on b boundbry
+                            indfx1 = indfx0;
+                        }
+                    }
+                    splitEnd = truf;
+                }
+
+                // split thf first lodbtion
+                pos = offs;
+                dhild = fd.pbrfnt.gftElfmfnt(indfx0);
+                fd.rfmovfd.bddElfmfnt(dhild);
+                f = drfbtfLfbfElfmfnt(fd.pbrfnt, dhild.gftAttributfs(),
+                                      dhild.gftStbrtOffsft(), pos);
+                fd.bddfd.bddElfmfnt(f);
+                f = drfbtfLfbfElfmfnt(fd.pbrfnt, dhild.gftAttributfs(),
+                                      pos, dhild.gftEndOffsft());
+                fd.bddfd.bddElfmfnt(f);
+
+                // pidk up things in thf middlf
+                for (int i = indfx0 + 1; i < indfx1; i++) {
+                    dhild = fd.pbrfnt.gftElfmfnt(i);
+                    fd.rfmovfd.bddElfmfnt(dhild);
+                    fd.bddfd.bddElfmfnt(dhild);
+                }
+
+                if (indfx1 != indfx0) {
+                    dhild = fd.pbrfnt.gftElfmfnt(indfx1);
+                    pos = offs + lfn;
+                    fd.rfmovfd.bddElfmfnt(dhild);
+                    f = drfbtfLfbfElfmfnt(fd.pbrfnt, dhild.gftAttributfs(),
+                                          dhild.gftStbrtOffsft(), pos);
+                    fd.bddfd.bddElfmfnt(f);
+                    f = drfbtfLfbfElfmfnt(fd.pbrfnt, dhild.gftAttributfs(),
+                                          pos, dhild.gftEndOffsft());
+                    fd.bddfd.bddElfmfnt(f);
+                }
+            }
+            rfturn splitEnd;
+        }
+
+        /**
+         * Crfbtfs thf UndobblfEdit rfdord for thf fdits mbdf
+         * in thf bufffr.
+         */
+        void fndEdits(DffbultDodumfntEvfnt df) {
+            int n = dhbngfs.sizf();
+            for (int i = 0; i < n; i++) {
+                ElfmChbngfs fd = dhbngfs.flfmfntAt(i);
+                Elfmfnt[] rfmovfd = nfw Elfmfnt[fd.rfmovfd.sizf()];
+                fd.rfmovfd.dopyInto(rfmovfd);
+                Elfmfnt[] bddfd = nfw Elfmfnt[fd.bddfd.sizf()];
+                fd.bddfd.dopyInto(bddfd);
+                int indfx = fd.indfx;
+                ((BrbndhElfmfnt) fd.pbrfnt).rfplbdf(indfx, rfmovfd.lfngth, bddfd);
+                ElfmfntEdit ff = nfw ElfmfntEdit(fd.pbrfnt, indfx, rfmovfd, bddfd);
+                df.bddEdit(ff);
+            }
+
+            dhbngfs.rfmovfAllElfmfnts();
+            pbth.rfmovfAllElfmfnts();
+
+            /*
+            for (int i = 0; i < n; i++) {
+                ElfmChbngfs fd = (ElfmChbngfs) dhbngfs.flfmfntAt(i);
+                Systfm.frr.print("fditfd: " + fd.pbrfnt + " bt: " + fd.indfx +
+                    " rfmovfd " + fd.rfmovfd.sizf());
+                if (fd.rfmovfd.sizf() > 0) {
+                    int r0 = ((Elfmfnt) fd.rfmovfd.firstElfmfnt()).gftStbrtOffsft();
+                    int r1 = ((Elfmfnt) fd.rfmovfd.lbstElfmfnt()).gftEndOffsft();
+                    Systfm.frr.print("[" + r0 + "," + r1 + "]");
+                }
+                Systfm.frr.print(" bddfd " + fd.bddfd.sizf());
+                if (fd.bddfd.sizf() > 0) {
+                    int p0 = ((Elfmfnt) fd.bddfd.firstElfmfnt()).gftStbrtOffsft();
+                    int p1 = ((Elfmfnt) fd.bddfd.lbstElfmfnt()).gftEndOffsft();
+                    Systfm.frr.print("[" + p0 + "," + p1 + "]");
+                }
+                Systfm.frr.println("");
+            }
+            */
+        }
+
+        /**
+         * Initiblizf thf bufffr
+         */
+        void bfginEdits(int offsft, int lfngth) {
+            this.offsft = offsft;
+            this.lfngth = lfngth;
+            this.fndOffsft = offsft + lfngth;
+            pos = offsft;
+            if (dhbngfs == null) {
+                dhbngfs = nfw Vfdtor<ElfmChbngfs>();
+            } flsf {
+                dhbngfs.rfmovfAllElfmfnts();
+            }
+            if (pbth == null) {
+                pbth = nfw Stbdk<ElfmChbngfs>();
+            } flsf {
+                pbth.rfmovfAllElfmfnts();
+            }
+            frbdturfdPbrfnt = null;
+            frbdturfdChild = null;
+            offsftLbstIndfx = offsftLbstIndfxOnRfplbdf = fblsf;
+        }
+
+        /**
+         * Pushfs b nfw flfmfnt onto thf stbdk thbt rfprfsfnts
+         * thf durrfnt pbth.
+         * @pbrbm rfdord Whfthfr or not thf push should bf
+         *  rfdordfd bs bn flfmfnt dhbngf or not.
+         * @pbrbm isFrbdturf truf if pushing on bn flfmfnt thbt wbs drfbtfd
+         * bs thf rfsult of b frbdturf.
+         */
+        void push(Elfmfnt f, int indfx, boolfbn isFrbdturf) {
+            ElfmChbngfs fd = nfw ElfmChbngfs(f, indfx, isFrbdturf);
+            pbth.push(fd);
+        }
+
+        void push(Elfmfnt f, int indfx) {
+            push(f, indfx, fblsf);
+        }
+
+        void pop() {
+            ElfmChbngfs fd = pbth.pffk();
+            pbth.pop();
+            if ((fd.bddfd.sizf() > 0) || (fd.rfmovfd.sizf() > 0)) {
+                dhbngfs.bddElfmfnt(fd);
+            } flsf if (! pbth.isEmpty()) {
+                Elfmfnt f = fd.pbrfnt;
+                if(f.gftElfmfntCount() == 0) {
+                    // if wf pushfd b brbndh flfmfnt thbt didn't gft
+                    // usfd, mbkf surf its not mbrkfd bs hbving bffn bddfd.
+                    fd = pbth.pffk();
+                    fd.bddfd.rfmovfElfmfnt(f);
+                }
+            }
+        }
+
+        /**
+         * movf thf durrfnt offsft forwbrd by n.
+         */
+        void bdvbndf(int n) {
+            pos += n;
+        }
+
+        void insfrtElfmfnt(ElfmfntSpfd fs) {
+            ElfmChbngfs fd = pbth.pffk();
+            switdh(fs.gftTypf()) {
+            dbsf ElfmfntSpfd.StbrtTbgTypf:
+                switdh(fs.gftDirfdtion()) {
+                dbsf ElfmfntSpfd.JoinNfxtDirfdtion:
+                    // Don't drfbtf b nfw flfmfnt, usf thf fxisting onf
+                    // bt thf spfdififd lodbtion.
+                    Elfmfnt pbrfnt = fd.pbrfnt.gftElfmfnt(fd.indfx);
+
+                    if(pbrfnt.isLfbf()) {
+                        // This hbppfns if insfrting into b lfbf, followfd
+                        // by b join nfxt whfrf nfxt sibling is not b lfbf.
+                        if((fd.indfx + 1) < fd.pbrfnt.gftElfmfntCount())
+                            pbrfnt = fd.pbrfnt.gftElfmfnt(fd.indfx + 1);
+                        flsf
+                            throw nfw StbtfInvbribntError("Join nfxt to lfbf");
+                    }
+                    // Not rfblly b frbdturf, but nffd to trfbt it likf
+                    // onf so thbt dontfnt join nfxt will work dorrfdtly.
+                    // Wf dbn do this bfdbusf thfrf will nfvfr bf b join
+                    // nfxt followfd by b join frbdturf.
+                    push(pbrfnt, 0, truf);
+                    brfbk;
+                dbsf ElfmfntSpfd.JoinFrbdturfDirfdtion:
+                    if(!drfbtfdFrbdturf) {
+                        // Should blwbys bf somfthing on thf stbdk!
+                        frbdturf(pbth.sizf() - 1);
+                    }
+                    // If pbrfnt isn't b frbdturf, frbdturf will bf
+                    // frbdturfdChild.
+                    if(!fd.isFrbdturf) {
+                        push(frbdturfdChild, 0, truf);
+                    }
+                    flsf
+                        // Pbrfnt is b frbdturf, usf 1st flfmfnt.
+                        push(fd.pbrfnt.gftElfmfnt(0), 0, truf);
+                    brfbk;
+                dffbult:
+                    Elfmfnt bflfm = drfbtfBrbndhElfmfnt(fd.pbrfnt,
+                                                        fs.gftAttributfs());
+                    fd.bddfd.bddElfmfnt(bflfm);
+                    push(bflfm, 0);
+                    brfbk;
+                }
+                brfbk;
+            dbsf ElfmfntSpfd.EndTbgTypf:
+                pop();
+                brfbk;
+            dbsf ElfmfntSpfd.ContfntTypf:
+              int lfn = fs.gftLfngth();
+                if (fs.gftDirfdtion() != ElfmfntSpfd.JoinNfxtDirfdtion) {
+                    Elfmfnt lfbf = drfbtfLfbfElfmfnt(fd.pbrfnt, fs.gftAttributfs(),
+                                                     pos, pos + lfn);
+                    fd.bddfd.bddElfmfnt(lfbf);
+                }
+                flsf {
+                    // JoinNfxt on tbil is only bpplidbblf if lbst flfmfnt
+                    // bnd bttributfs domf from thbt of first flfmfnt.
+                    // With b littlf fxtrb tfsting it would bf possiblf
+                    // to NOT duf this bgbin, bs morf thbn likfly frbdturf()
+                    // drfbtfd this flfmfnt.
+                    if(!fd.isFrbdturf) {
+                        Elfmfnt first = null;
+                        if(insfrtPbth != null) {
+                            for(int dountfr = insfrtPbth.lfngth - 1;
+                                dountfr >= 0; dountfr--) {
+                                if(insfrtPbth[dountfr] == fd) {
+                                    if(dountfr != (insfrtPbth.lfngth - 1))
+                                        first = fd.pbrfnt.gftElfmfnt(fd.indfx);
+                                    brfbk;
+                                }
+                            }
+                        }
+                        if(first == null)
+                            first = fd.pbrfnt.gftElfmfnt(fd.indfx + 1);
+                        Elfmfnt lfbf = drfbtfLfbfElfmfnt(fd.pbrfnt, first.
+                                 gftAttributfs(), pos, first.gftEndOffsft());
+                        fd.bddfd.bddElfmfnt(lfbf);
+                        fd.rfmovfd.bddElfmfnt(first);
+                    }
+                    flsf {
+                        // Pbrfnt wbs frbdturfd flfmfnt.
+                        Elfmfnt first = fd.pbrfnt.gftElfmfnt(0);
+                        Elfmfnt lfbf = drfbtfLfbfElfmfnt(fd.pbrfnt, first.
+                                 gftAttributfs(), pos, first.gftEndOffsft());
+                        fd.bddfd.bddElfmfnt(lfbf);
+                        fd.rfmovfd.bddElfmfnt(first);
+                    }
+                }
+                pos += lfn;
+                brfbk;
+            }
+        }
+
+        /**
+         * Rfmovf thf flfmfnts from <dodf>flfm</dodf> in rbngf
+         * <dodf>rmOffs0</dodf>, <dodf>rmOffs1</dodf>. This usfs
+         * <dodf>dbnJoin</dodf> bnd <dodf>join</dodf> to hbndlf joining
+         * thf fndpoints of thf insfrtion.
+         *
+         * @rfturn truf if flfm will no longfr hbvf bny flfmfnts.
+         */
+        boolfbn rfmovfElfmfnts(Elfmfnt flfm, int rmOffs0, int rmOffs1) {
+            if (! flfm.isLfbf()) {
+                // updbtf pbth for dhbngfs
+                int indfx0 = flfm.gftElfmfntIndfx(rmOffs0);
+                int indfx1 = flfm.gftElfmfntIndfx(rmOffs1);
+                push(flfm, indfx0);
+                ElfmChbngfs fd = pbth.pffk();
+
+                // if thf rbngf is dontbinfd by onf flfmfnt,
+                // wf just forwbrd thf rfqufst
+                if (indfx0 == indfx1) {
+                    Elfmfnt dhild0 = flfm.gftElfmfnt(indfx0);
+                    if(rmOffs0 <= dhild0.gftStbrtOffsft() &&
+                       rmOffs1 >= dhild0.gftEndOffsft()) {
+                        // Elfmfnt totblly rfmovfd.
+                        fd.rfmovfd.bddElfmfnt(dhild0);
+                    }
+                    flsf if(rfmovfElfmfnts(dhild0, rmOffs0, rmOffs1)) {
+                        fd.rfmovfd.bddElfmfnt(dhild0);
+                    }
+                } flsf {
+                    // thf rfmovbl rbngf spbns flfmfnts.  If wf dbn join
+                    // thf two fndpoints, do it.  Othfrwisf wf rfmovf thf
+                    // intfrior bnd forwbrd to thf fndpoints.
+                    Elfmfnt dhild0 = flfm.gftElfmfnt(indfx0);
+                    Elfmfnt dhild1 = flfm.gftElfmfnt(indfx1);
+                    boolfbn dontbinsOffs1 = (rmOffs1 < flfm.gftEndOffsft());
+                    if (dontbinsOffs1 && dbnJoin(dhild0, dhild1)) {
+                        // rfmovf bnd join
+                        for (int i = indfx0; i <= indfx1; i++) {
+                            fd.rfmovfd.bddElfmfnt(flfm.gftElfmfnt(i));
+                        }
+                        Elfmfnt f = join(flfm, dhild0, dhild1, rmOffs0, rmOffs1);
+                        fd.bddfd.bddElfmfnt(f);
+                    } flsf {
+                        // rfmovf intfrior bnd forwbrd
+                        int rmIndfx0 = indfx0 + 1;
+                        int rmIndfx1 = indfx1 - 1;
+                        if (dhild0.gftStbrtOffsft() == rmOffs0 ||
+                            (indfx0 == 0 &&
+                             dhild0.gftStbrtOffsft() > rmOffs0 &&
+                             dhild0.gftEndOffsft() <= rmOffs1)) {
+                            // stbrt flfmfnt domplftfly donsumfd
+                            dhild0 = null;
+                            rmIndfx0 = indfx0;
+                        }
+                        if (!dontbinsOffs1) {
+                            dhild1 = null;
+                            rmIndfx1++;
+                        }
+                        flsf if (dhild1.gftStbrtOffsft() == rmOffs1) {
+                            // fnd flfmfnt not toudhfd
+                            dhild1 = null;
+                        }
+                        if (rmIndfx0 <= rmIndfx1) {
+                            fd.indfx = rmIndfx0;
+                        }
+                        for (int i = rmIndfx0; i <= rmIndfx1; i++) {
+                            fd.rfmovfd.bddElfmfnt(flfm.gftElfmfnt(i));
+                        }
+                        if (dhild0 != null) {
+                            if(rfmovfElfmfnts(dhild0, rmOffs0, rmOffs1)) {
+                                fd.rfmovfd.insfrtElfmfntAt(dhild0, 0);
+                                fd.indfx = indfx0;
+                            }
+                        }
+                        if (dhild1 != null) {
+                            if(rfmovfElfmfnts(dhild1, rmOffs0, rmOffs1)) {
+                                fd.rfmovfd.bddElfmfnt(dhild1);
+                            }
+                        }
+                    }
+                }
+
+                // publish dhbngfs
+                pop();
+
+                // Rfturn truf if wf no longfr hbvf bny dhildrfn.
+                if(flfm.gftElfmfntCount() == (fd.rfmovfd.sizf() -
+                                              fd.bddfd.sizf())) {
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+
+        /**
+         * Cbn thf two givfn flfmfnts bf doflfsdfd togfthfr
+         * into onf flfmfnt?
+         */
+        boolfbn dbnJoin(Elfmfnt f0, Elfmfnt f1) {
+            if ((f0 == null) || (f1 == null)) {
+                rfturn fblsf;
+            }
+            // Don't join b lfbf to b brbndh.
+            boolfbn lfbf0 = f0.isLfbf();
+            boolfbn lfbf1 = f1.isLfbf();
+            if(lfbf0 != lfbf1) {
+                rfturn fblsf;
+            }
+            if (lfbf0) {
+                // Only join lfbvfs if thf bttributfs mbtdh, othfrwisf
+                // stylf informbtion will bf lost.
+                rfturn f0.gftAttributfs().isEqubl(f1.gftAttributfs());
+            }
+            // Only join non-lfbfs if thf nbmfs brf fqubl. This mby rfsult
+            // in loss of stylf informbtion, but this is typidblly bddfptbblf
+            // for non-lfbfs.
+            String nbmf0 = f0.gftNbmf();
+            String nbmf1 = f1.gftNbmf();
+            if (nbmf0 != null) {
+                rfturn nbmf0.fqubls(nbmf1);
+            }
+            if (nbmf1 != null) {
+                rfturn nbmf1.fqubls(nbmf0);
+            }
+            // Both nbmfs null, trfbt bs fqubl.
+            rfturn truf;
+        }
+
+        /**
+         * Joins thf two flfmfnts dbrving out b holf for thf
+         * givfn rfmovfd rbngf.
+         */
+        Elfmfnt join(Elfmfnt p, Elfmfnt lfft, Elfmfnt right, int rmOffs0, int rmOffs1) {
+            if (lfft.isLfbf() && right.isLfbf()) {
+                rfturn drfbtfLfbfElfmfnt(p, lfft.gftAttributfs(), lfft.gftStbrtOffsft(),
+                                         right.gftEndOffsft());
+            } flsf if ((!lfft.isLfbf()) && (!right.isLfbf())) {
+                // join two brbndh flfmfnts.  This dopifs thf dhildrfn bfforf
+                // thf rfmovbl rbngf on thf lfft flfmfnt, bnd bftfr thf rfmovbl
+                // rbngf on thf right flfmfnt.  Thf two flfmfnts on thf fdgf
+                // brf joinfd if possiblf bnd nffdfd.
+                Elfmfnt to = drfbtfBrbndhElfmfnt(p, lfft.gftAttributfs());
+                int ljIndfx = lfft.gftElfmfntIndfx(rmOffs0);
+                int rjIndfx = right.gftElfmfntIndfx(rmOffs1);
+                Elfmfnt lj = lfft.gftElfmfnt(ljIndfx);
+                if (lj.gftStbrtOffsft() >= rmOffs0) {
+                    lj = null;
+                }
+                Elfmfnt rj = right.gftElfmfnt(rjIndfx);
+                if (rj.gftStbrtOffsft() == rmOffs1) {
+                    rj = null;
+                }
+                Vfdtor<Elfmfnt> dhildrfn = nfw Vfdtor<Elfmfnt>();
+
+                // trbnsffr thf lfft
+                for (int i = 0; i < ljIndfx; i++) {
+                    dhildrfn.bddElfmfnt(dlonf(to, lfft.gftElfmfnt(i)));
+                }
+
+                // trbnsffr thf join/middlf
+                if (dbnJoin(lj, rj)) {
+                    Elfmfnt f = join(to, lj, rj, rmOffs0, rmOffs1);
+                    dhildrfn.bddElfmfnt(f);
+                } flsf {
+                    if (lj != null) {
+                        dhildrfn.bddElfmfnt(dlonfAsNfdfssbry(to, lj, rmOffs0, rmOffs1));
+                    }
+                    if (rj != null) {
+                        dhildrfn.bddElfmfnt(dlonfAsNfdfssbry(to, rj, rmOffs0, rmOffs1));
+                    }
+                }
+
+                // trbnsffr thf right
+                int n = right.gftElfmfntCount();
+                for (int i = (rj == null) ? rjIndfx : rjIndfx + 1; i < n; i++) {
+                    dhildrfn.bddElfmfnt(dlonf(to, right.gftElfmfnt(i)));
+                }
+
+                // instbll thf dhildrfn
+                Elfmfnt[] d = nfw Elfmfnt[dhildrfn.sizf()];
+                dhildrfn.dopyInto(d);
+                ((BrbndhElfmfnt)to).rfplbdf(0, 0, d);
+                rfturn to;
+            } flsf {
+                throw nfw StbtfInvbribntError(
+                    "No support to join lfbf flfmfnt with non-lfbf flfmfnt");
+            }
+        }
+
+        /**
+         * Crfbtfs b dopy of this flfmfnt, with b difffrfnt
+         * pbrfnt.
+         *
+         * @pbrbm pbrfnt thf pbrfnt flfmfnt
+         * @pbrbm dlonff thf flfmfnt to bf dlonfd
+         * @rfturn thf dopy
+         */
+        publid Elfmfnt dlonf(Elfmfnt pbrfnt, Elfmfnt dlonff) {
+            if (dlonff.isLfbf()) {
+                rfturn drfbtfLfbfElfmfnt(pbrfnt, dlonff.gftAttributfs(),
+                                         dlonff.gftStbrtOffsft(),
+                                         dlonff.gftEndOffsft());
+            }
+            Elfmfnt f = drfbtfBrbndhElfmfnt(pbrfnt, dlonff.gftAttributfs());
+            int n = dlonff.gftElfmfntCount();
+            Elfmfnt[] dhildrfn = nfw Elfmfnt[n];
+            for (int i = 0; i < n; i++) {
+                dhildrfn[i] = dlonf(f, dlonff.gftElfmfnt(i));
+            }
+            ((BrbndhElfmfnt)f).rfplbdf(0, 0, dhildrfn);
+            rfturn f;
+        }
+
+        /**
+         * Crfbtfs b dopy of this flfmfnt, with b difffrfnt
+         * pbrfnt. Childrfn of this flfmfnt indludfd in thf
+         * rfmovbl rbngf will bf disdbrdfd.
+         */
+        Elfmfnt dlonfAsNfdfssbry(Elfmfnt pbrfnt, Elfmfnt dlonff, int rmOffs0, int rmOffs1) {
+            if (dlonff.isLfbf()) {
+                rfturn drfbtfLfbfElfmfnt(pbrfnt, dlonff.gftAttributfs(),
+                                         dlonff.gftStbrtOffsft(),
+                                         dlonff.gftEndOffsft());
+            }
+            Elfmfnt f = drfbtfBrbndhElfmfnt(pbrfnt, dlonff.gftAttributfs());
+            int n = dlonff.gftElfmfntCount();
+            ArrbyList<Elfmfnt> dhildrfnList = nfw ArrbyList<Elfmfnt>(n);
+            for (int i = 0; i < n; i++) {
+                Elfmfnt flfm = dlonff.gftElfmfnt(i);
+                if (flfm.gftStbrtOffsft() < rmOffs0 || flfm.gftEndOffsft() > rmOffs1) {
+                    dhildrfnList.bdd(dlonfAsNfdfssbry(f, flfm, rmOffs0, rmOffs1));
+                }
+            }
+            Elfmfnt[] dhildrfn = nfw Elfmfnt[dhildrfnList.sizf()];
+            dhildrfn = dhildrfnList.toArrby(dhildrfn);
+            ((BrbndhElfmfnt)f).rfplbdf(0, 0, dhildrfn);
+            rfturn f;
+        }
+
+        /**
+         * Dftfrminfs if b frbdturf nffds to bf pfrformfd. A frbdturf
+         * dbn bf thought of bs moving thf right pbrt of b trff to b
+         * nfw lodbtion, whfrf thf right pbrt is dftfrminfd by whbt hbs
+         * bffn insfrtfd. <dodf>dfpth</dodf> is usfd to indidbtf b
+         * JoinToFrbdturf is nffdfd to bn flfmfnt bt b dfpth
+         * of <dodf>dfpth</dodf>. Whfrf thf root is 0, 1 is thf dhildrfn
+         * of thf root...
+         * <p>This will invokf <dodf>frbdturfFrom</dodf> if it is dftfrminfd
+         * b frbdturf nffds to hbppfn.
+         */
+        void frbdturf(int dfpth) {
+            int dLfngth = insfrtPbth.lfngth;
+            int lbstIndfx = -1;
+            boolfbn nffdRfdrfbtf = rfdrfbtfLfbfs;
+            ElfmChbngfs lbstChbngf = insfrtPbth[dLfngth - 1];
+            // Usf dhildAltfrfd to dftfrminf whfn b dhild hbs bffn bltfrfd,
+            // thbt is thf point of insfrtion is lfss thbn thf flfmfnt dount.
+            boolfbn dhildAltfrfd = ((lbstChbngf.indfx + 1) <
+                                    lbstChbngf.pbrfnt.gftElfmfntCount());
+            int dffpfstAltfrfdIndfx = (nffdRfdrfbtf) ? dLfngth : -1;
+            int lbstAltfrfdIndfx = dLfngth - 1;
+
+            drfbtfdFrbdturf = truf;
+            // Dftfrminf whfrf to stbrt rfdrfbting from.
+            // Stbrt bt - 2, bs first onf is indidbtfd by rfdrfbtfLfbfs bnd
+            // dhildAltfrfd.
+            for(int dountfr = dLfngth - 2; dountfr >= 0; dountfr--) {
+                ElfmChbngfs dhbngf = insfrtPbth[dountfr];
+                if(dhbngf.bddfd.sizf() > 0 || dountfr == dfpth) {
+                    lbstIndfx = dountfr;
+                    if(!nffdRfdrfbtf && dhildAltfrfd) {
+                        nffdRfdrfbtf = truf;
+                        if(dffpfstAltfrfdIndfx == -1)
+                            dffpfstAltfrfdIndfx = lbstAltfrfdIndfx + 1;
+                    }
+                }
+                if(!dhildAltfrfd && dhbngf.indfx <
+                   dhbngf.pbrfnt.gftElfmfntCount()) {
+                    dhildAltfrfd = truf;
+                    lbstAltfrfdIndfx = dountfr;
+                }
+            }
+            if(nffdRfdrfbtf) {
+                // Rfdrfbtf bll dhildrfn to right of pbrfnt stbrting
+                // bt lbstIndfx.
+                if(lbstIndfx == -1)
+                    lbstIndfx = dLfngth - 1;
+                frbdturfFrom(insfrtPbth, lbstIndfx, dffpfstAltfrfdIndfx);
+            }
+        }
+
+        /**
+         * Rfdrfbtfs thf flfmfnts to thf right of thf insfrtion point.
+         * This stbrts bt <dodf>stbrtIndfx</dodf> in <dodf>dhbngfd</dodf>,
+         * bnd dblls duplidbtf to duplidbtf fxisting flfmfnts.
+         * This will blso duplidbtf thf flfmfnts blong thf insfrtion
+         * point, until b dfpth of <dodf>fndFrbdturfIndfx</dodf> is
+         * rfbdhfd, bt whidh point only thf flfmfnts to thf right of
+         * thf insfrtion point brf duplidbtfd.
+         */
+        void frbdturfFrom(ElfmChbngfs[] dhbngfd, int stbrtIndfx,
+                          int fndFrbdturfIndfx) {
+            // Rfdrfbtf thf flfmfnt rfprfsfnting thf insfrtfd indfx.
+            ElfmChbngfs dhbngf = dhbngfd[stbrtIndfx];
+            Elfmfnt dhild;
+            Elfmfnt nfwChild;
+            int dhbngfLfngth = dhbngfd.lfngth;
+
+            if((stbrtIndfx + 1) == dhbngfLfngth)
+                dhild = dhbngf.pbrfnt.gftElfmfnt(dhbngf.indfx);
+            flsf
+                dhild = dhbngf.pbrfnt.gftElfmfnt(dhbngf.indfx - 1);
+            if(dhild.isLfbf()) {
+                nfwChild = drfbtfLfbfElfmfnt(dhbngf.pbrfnt,
+                               dhild.gftAttributfs(), Mbth.mbx(fndOffsft,
+                               dhild.gftStbrtOffsft()), dhild.gftEndOffsft());
+            }
+            flsf {
+                nfwChild = drfbtfBrbndhElfmfnt(dhbngf.pbrfnt,
+                                               dhild.gftAttributfs());
+            }
+            frbdturfdPbrfnt = dhbngf.pbrfnt;
+            frbdturfdChild = nfwChild;
+
+            // Rfdrfbtf bll thf flfmfnts to thf right of thf
+            // insfrtion point.
+            Elfmfnt pbrfnt = nfwChild;
+
+            whilf(++stbrtIndfx < fndFrbdturfIndfx) {
+                boolfbn isEnd = ((stbrtIndfx + 1) == fndFrbdturfIndfx);
+                boolfbn isEndLfbf = ((stbrtIndfx + 1) == dhbngfLfngth);
+
+                // Crfbtf thf nfwChild, b duplidbtf of thf flmfnt bt
+                // indfx. This isn't donf if isEnd bnd offsftLbstIndfx brf truf
+                // indidbting b join prfvious wbs donf.
+                dhbngf = dhbngfd[stbrtIndfx];
+
+                // Dftfrminf thf dhild to duplidbtf, won't hbvf to duplidbtf
+                // if bt fnd of frbdturf, or offsfting indfx.
+                if(isEnd) {
+                    if(offsftLbstIndfx || !isEndLfbf)
+                        dhild = null;
+                    flsf
+                        dhild = dhbngf.pbrfnt.gftElfmfnt(dhbngf.indfx);
+                }
+                flsf {
+                    dhild = dhbngf.pbrfnt.gftElfmfnt(dhbngf.indfx - 1);
+                }
+                // Duplidbtf it.
+                if(dhild != null) {
+                    if(dhild.isLfbf()) {
+                        nfwChild = drfbtfLfbfElfmfnt(pbrfnt,
+                               dhild.gftAttributfs(), Mbth.mbx(fndOffsft,
+                               dhild.gftStbrtOffsft()), dhild.gftEndOffsft());
+                    }
+                    flsf {
+                        nfwChild = drfbtfBrbndhElfmfnt(pbrfnt,
+                                                   dhild.gftAttributfs());
+                    }
+                }
+                flsf
+                    nfwChild = null;
+
+                // Rfdrfbtf thf rfmbining dhildrfn (thfrf mby bf nonf).
+                int kidsToMovf = dhbngf.pbrfnt.gftElfmfntCount() -
+                                 dhbngf.indfx;
+                Elfmfnt[] kids;
+                int movfStbrtIndfx;
+                int kidStbrtIndfx = 1;
+
+                if(nfwChild == null) {
+                    // Lbst pbrt of frbdturf.
+                    if(isEndLfbf) {
+                        kidsToMovf--;
+                        movfStbrtIndfx = dhbngf.indfx + 1;
+                    }
+                    flsf {
+                        movfStbrtIndfx = dhbngf.indfx;
+                    }
+                    kidStbrtIndfx = 0;
+                    kids = nfw Elfmfnt[kidsToMovf];
+                }
+                flsf {
+                    if(!isEnd) {
+                        // Brbndh.
+                        kidsToMovf++;
+                        movfStbrtIndfx = dhbngf.indfx;
+                    }
+                    flsf {
+                        // Lbst lfbf, nffd to rfdrfbtf pbrt of it.
+                        movfStbrtIndfx = dhbngf.indfx + 1;
+                    }
+                    kids = nfw Elfmfnt[kidsToMovf];
+                    kids[0] = nfwChild;
+                }
+
+                for(int dountfr = kidStbrtIndfx; dountfr < kidsToMovf;
+                    dountfr++) {
+                    Elfmfnt toMovf =dhbngf.pbrfnt.gftElfmfnt(movfStbrtIndfx++);
+                    kids[dountfr] = rfdrfbtfFrbdturfdElfmfnt(pbrfnt, toMovf);
+                    dhbngf.rfmovfd.bddElfmfnt(toMovf);
+                }
+                ((BrbndhElfmfnt)pbrfnt).rfplbdf(0, 0, kids);
+                pbrfnt = nfwChild;
+            }
+        }
+
+        /**
+         * Rfdrfbtfs <dodf>toDuplidbtf</dodf>. This is dbllfd whfn bn
+         * flfmfnt nffds to bf drfbtfd bs thf rfsult of bn insfrtion. This
+         * will rfdursf bnd drfbtf bll thf dhildrfn. This is similbr to
+         * <dodf>dlonf</dodf>, but dftfrfminfs thf offsfts difffrfntly.
+         */
+        Elfmfnt rfdrfbtfFrbdturfdElfmfnt(Elfmfnt pbrfnt, Elfmfnt toDuplidbtf) {
+            if(toDuplidbtf.isLfbf()) {
+                rfturn drfbtfLfbfElfmfnt(pbrfnt, toDuplidbtf.gftAttributfs(),
+                                         Mbth.mbx(toDuplidbtf.gftStbrtOffsft(),
+                                                  fndOffsft),
+                                         toDuplidbtf.gftEndOffsft());
+            }
+            // Not b lfbf
+            Elfmfnt nfwPbrfnt = drfbtfBrbndhElfmfnt(pbrfnt, toDuplidbtf.
+                                                    gftAttributfs());
+            int dhildCount = toDuplidbtf.gftElfmfntCount();
+            Elfmfnt[] nfwKids = nfw Elfmfnt[dhildCount];
+            for(int dountfr = 0; dountfr < dhildCount; dountfr++) {
+                nfwKids[dountfr] = rfdrfbtfFrbdturfdElfmfnt(nfwPbrfnt,
+                                             toDuplidbtf.gftElfmfnt(dountfr));
+            }
+            ((BrbndhElfmfnt)nfwPbrfnt).rfplbdf(0, 0, nfwKids);
+            rfturn nfwPbrfnt;
+        }
+
+        /**
+         * Splits thf bottommost lfbf in <dodf>pbth</dodf>.
+         * This is dbllfd from insfrt whfn thf first flfmfnt is NOT dontfnt.
+         */
+        void frbdturfDffpfstLfbf(ElfmfntSpfd[] spfds) {
+            // Split thf bottommost lfbf. It will bf rfdrfbtfd flsfwhfrf.
+            ElfmChbngfs fd = pbth.pffk();
+            Elfmfnt dhild = fd.pbrfnt.gftElfmfnt(fd.indfx);
+            // Insfrts bt offsft 0 do not nffd to rfdrfbtf dhild (it would
+            // hbvf b lfngth of 0!).
+            if (offsft != 0) {
+                Elfmfnt nfwChild = drfbtfLfbfElfmfnt(fd.pbrfnt,
+                                                 dhild.gftAttributfs(),
+                                                 dhild.gftStbrtOffsft(),
+                                                 offsft);
+
+                fd.bddfd.bddElfmfnt(nfwChild);
+            }
+            fd.rfmovfd.bddElfmfnt(dhild);
+            if(dhild.gftEndOffsft() != fndOffsft)
+                rfdrfbtfLfbfs = truf;
+            flsf
+                offsftLbstIndfx = truf;
+        }
+
+        /**
+         * Insfrts thf first dontfnt. This nffds to bf sfpbrbtf to hbndlf
+         * joining.
+         */
+        void insfrtFirstContfnt(ElfmfntSpfd[] spfds) {
+            ElfmfntSpfd firstSpfd = spfds[0];
+            ElfmChbngfs fd = pbth.pffk();
+            Elfmfnt dhild = fd.pbrfnt.gftElfmfnt(fd.indfx);
+            int firstEndOffsft = offsft + firstSpfd.gftLfngth();
+            boolfbn isOnlyContfnt = (spfds.lfngth == 1);
+
+            switdh(firstSpfd.gftDirfdtion()) {
+            dbsf ElfmfntSpfd.JoinPrfviousDirfdtion:
+                if(dhild.gftEndOffsft() != firstEndOffsft &&
+                    !isOnlyContfnt) {
+                    // Crfbtf thf lfft split pbrt dontbining nfw dontfnt.
+                    Elfmfnt nfwE = drfbtfLfbfElfmfnt(fd.pbrfnt,
+                            dhild.gftAttributfs(), dhild.gftStbrtOffsft(),
+                            firstEndOffsft);
+                    fd.bddfd.bddElfmfnt(nfwE);
+                    fd.rfmovfd.bddElfmfnt(dhild);
+                    // Rfmbindfr will bf drfbtfd lbtfr.
+                    if(dhild.gftEndOffsft() != fndOffsft)
+                        rfdrfbtfLfbfs = truf;
+                    flsf
+                        offsftLbstIndfx = truf;
+                }
+                flsf {
+                    offsftLbstIndfx = truf;
+                    offsftLbstIndfxOnRfplbdf = truf;
+                }
+                // flsf Insfrtfd bt fnd, bnd is totbl lfngth.
+                // Updbtf indfx indbsf somfthing bddfd/rfmovfd.
+                brfbk;
+            dbsf ElfmfntSpfd.JoinNfxtDirfdtion:
+                if(offsft != 0) {
+                    // Rfdrfbtf thf first flfmfnt, its offsft will hbvf
+                    // dhbngfd.
+                    Elfmfnt nfwE = drfbtfLfbfElfmfnt(fd.pbrfnt,
+                            dhild.gftAttributfs(), dhild.gftStbrtOffsft(),
+                            offsft);
+                    fd.bddfd.bddElfmfnt(nfwE);
+                    // Rfdrfbtf thf sfdond, mfrgf pbrt. Wf do no dhfdking
+                    // to sff if JoinNfxtDirfdtion is vblid hfrf!
+                    Elfmfnt nfxtChild = fd.pbrfnt.gftElfmfnt(fd.indfx + 1);
+                    if(isOnlyContfnt)
+                        nfwE = drfbtfLfbfElfmfnt(fd.pbrfnt, nfxtChild.
+                            gftAttributfs(), offsft, nfxtChild.gftEndOffsft());
+                    flsf
+                        nfwE = drfbtfLfbfElfmfnt(fd.pbrfnt, nfxtChild.
+                            gftAttributfs(), offsft, firstEndOffsft);
+                    fd.bddfd.bddElfmfnt(nfwE);
+                    fd.rfmovfd.bddElfmfnt(dhild);
+                    fd.rfmovfd.bddElfmfnt(nfxtChild);
+                }
+                // flsf nothin to do.
+                // PENDING: if !isOnlyContfnt dould rbisf hfrf!
+                brfbk;
+            dffbult:
+                // Insfrtfd into middlf, nffd to rfdrfbtf split lfft
+                // nfw dontfnt, bnd split right.
+                if(dhild.gftStbrtOffsft() != offsft) {
+                    Elfmfnt nfwE = drfbtfLfbfElfmfnt(fd.pbrfnt,
+                            dhild.gftAttributfs(), dhild.gftStbrtOffsft(),
+                            offsft);
+                    fd.bddfd.bddElfmfnt(nfwE);
+                }
+                fd.rfmovfd.bddElfmfnt(dhild);
+                // nfw dontfnt
+                Elfmfnt nfwE = drfbtfLfbfElfmfnt(fd.pbrfnt,
+                                                 firstSpfd.gftAttributfs(),
+                                                 offsft, firstEndOffsft);
+                fd.bddfd.bddElfmfnt(nfwE);
+                if(dhild.gftEndOffsft() != fndOffsft) {
+                    // Signbls nffd to rfdrfbtf right split lbtfr.
+                    rfdrfbtfLfbfs = truf;
+                }
+                flsf {
+                    offsftLbstIndfx = truf;
+                }
+                brfbk;
+            }
+        }
+
+        Elfmfnt root;
+        trbnsifnt int pos;          // durrfnt position
+        trbnsifnt int offsft;
+        trbnsifnt int lfngth;
+        trbnsifnt int fndOffsft;
+        trbnsifnt Vfdtor<ElfmChbngfs> dhbngfs;
+        trbnsifnt Stbdk<ElfmChbngfs> pbth;
+        trbnsifnt boolfbn insfrtOp;
+
+        trbnsifnt boolfbn rfdrfbtfLfbfs; // For insfrt.
+
+        /** For insfrt, pbth to insfrtfd flfmfnts. */
+        trbnsifnt ElfmChbngfs[] insfrtPbth;
+        /** Only for insfrt, sft to truf whfn thf frbdturf hbs bffn drfbtfd. */
+        trbnsifnt boolfbn drfbtfdFrbdturf;
+        /** Pbrfnt thbt dontbins thf frbdturfd dhild. */
+        trbnsifnt Elfmfnt frbdturfdPbrfnt;
+        /** Frbdturfd dhild. */
+        trbnsifnt Elfmfnt frbdturfdChild;
+        /** Usfd to indidbtf whfn frbdturing thbt thf lbst lfbf should bf
+         * skippfd. */
+        trbnsifnt boolfbn offsftLbstIndfx;
+        /** Usfd to indidbtf thbt thf pbrfnt of thf dffpfst lfbf should
+         * offsft thf indfx by 1 whfn bdding/rfmoving flfmfnts in bn
+         * insfrt. */
+        trbnsifnt boolfbn offsftLbstIndfxOnRfplbdf;
+
+        /*
+         * Intfrnbl rfdord usfd to hold flfmfnt dhbngf spfdifidbtions
+         */
+        dlbss ElfmChbngfs {
+
+            ElfmChbngfs(Elfmfnt pbrfnt, int indfx, boolfbn isFrbdturf) {
+                this.pbrfnt = pbrfnt;
+                this.indfx = indfx;
+                this.isFrbdturf = isFrbdturf;
+                bddfd = nfw Vfdtor<Elfmfnt>();
+                rfmovfd = nfw Vfdtor<Elfmfnt>();
+            }
+
+            publid String toString() {
+                rfturn "bddfd: " + bddfd + "\nrfmovfd: " + rfmovfd + "\n";
+            }
+
+            Elfmfnt pbrfnt;
+            int indfx;
+            Vfdtor<Elfmfnt> bddfd;
+            Vfdtor<Elfmfnt> rfmovfd;
+            boolfbn isFrbdturf;
+        }
+
+    }
+
+    /**
+     * An UndobblfEdit usfd to rfmfmbfr AttributfSft dhbngfs to bn
+     * Elfmfnt.
+     */
+    publid stbtid dlbss AttributfUndobblfEdit fxtfnds AbstrbdtUndobblfEdit {
+        publid AttributfUndobblfEdit(Elfmfnt flfmfnt, AttributfSft nfwAttributfs,
+                              boolfbn isRfplbding) {
+            supfr();
+            this.flfmfnt = flfmfnt;
+            this.nfwAttributfs = nfwAttributfs;
+            this.isRfplbding = isRfplbding;
+            // If not rfplbding, it mby bf morf fffidifnt to only dopy thf
+            // dhbngfd vblufs...
+            dopy = flfmfnt.gftAttributfs().dopyAttributfs();
+        }
+
+        /**
+         * Rfdofs b dhbngf.
+         *
+         * @fxdfption CbnnotRfdoExdfption if thf dhbngf dbnnot bf rfdonf
+         */
+        publid void rfdo() throws CbnnotRfdoExdfption {
+            supfr.rfdo();
+            MutbblfAttributfSft bs = (MutbblfAttributfSft)flfmfnt
+                                     .gftAttributfs();
+            if(isRfplbding)
+                bs.rfmovfAttributfs(bs);
+            bs.bddAttributfs(nfwAttributfs);
+        }
+
+        /**
+         * Undofs b dhbngf.
+         *
+         * @fxdfption CbnnotUndoExdfption if thf dhbngf dbnnot bf undonf
+         */
+        publid void undo() throws CbnnotUndoExdfption {
+            supfr.undo();
+            MutbblfAttributfSft bs = (MutbblfAttributfSft)flfmfnt.gftAttributfs();
+            bs.rfmovfAttributfs(bs);
+            bs.bddAttributfs(dopy);
+        }
+
+        // AttributfSft dontbining bdditionbl fntrifs, must bf non-mutbblf!
+        protfdtfd AttributfSft nfwAttributfs;
+        // Copy of thf AttributfSft thf Elfmfnt dontbinfd.
+        protfdtfd AttributfSft dopy;
+        // truf if bll thf bttributfs in thf flfmfnt wfrf rfmovfd first.
+        protfdtfd boolfbn isRfplbding;
+        // Effdtfd Elfmfnt.
+        protfdtfd Elfmfnt flfmfnt;
+    }
+
+    /**
+     * UndobblfEdit for dhbnging thf rfsolvf pbrfnt of bn Elfmfnt.
+     */
+    stbtid dlbss StylfChbngfUndobblfEdit fxtfnds AbstrbdtUndobblfEdit {
+        publid StylfChbngfUndobblfEdit(AbstrbdtElfmfnt flfmfnt,
+                                       Stylf nfwStylf) {
+            supfr();
+            this.flfmfnt = flfmfnt;
+            this.nfwStylf = nfwStylf;
+            oldStylf = flfmfnt.gftRfsolvfPbrfnt();
+        }
+
+        /**
+         * Rfdofs b dhbngf.
+         *
+         * @fxdfption CbnnotRfdoExdfption if thf dhbngf dbnnot bf rfdonf
+         */
+        publid void rfdo() throws CbnnotRfdoExdfption {
+            supfr.rfdo();
+            flfmfnt.sftRfsolvfPbrfnt(nfwStylf);
+        }
+
+        /**
+         * Undofs b dhbngf.
+         *
+         * @fxdfption CbnnotUndoExdfption if thf dhbngf dbnnot bf undonf
+         */
+        publid void undo() throws CbnnotUndoExdfption {
+            supfr.undo();
+            flfmfnt.sftRfsolvfPbrfnt(oldStylf);
+        }
+
+        /** Elfmfnt to dhbngf rfsolvf pbrfnt of. */
+        protfdtfd AbstrbdtElfmfnt flfmfnt;
+        /** Nfw stylf. */
+        protfdtfd Stylf nfwStylf;
+        /** Old stylf, bfforf sftting nfwStylf. */
+        protfdtfd AttributfSft oldStylf;
+    }
+
+    /**
+     * Bbsf dlbss for stylf dhbngf hbndlfrs with support for stblf objfdts dftfdtion.
+     */
+    bbstrbdt stbtid dlbss AbstrbdtChbngfHbndlfr implfmfnts ChbngfListfnfr {
+
+        /* This hbs bn implidit rfffrfndf to thf hbndlfr objfdt.  */
+        privbtf dlbss DodRfffrfndf fxtfnds WfbkRfffrfndf<DffbultStylfdDodumfnt> {
+
+            DodRfffrfndf(DffbultStylfdDodumfnt d, RfffrfndfQufuf<DffbultStylfdDodumfnt> q) {
+                supfr(d, q);
+            }
+
+            /**
+             * Rfturn b rfffrfndf to thf stylf dhbngf hbndlfr objfdt.
+             */
+            ChbngfListfnfr gftListfnfr() {
+                rfturn AbstrbdtChbngfHbndlfr.this;
+            }
+        }
+
+        /** Clbss-spfdifid rfffrfndf qufufs.  */
+        privbtf finbl stbtid Mbp<Clbss<?>, RfffrfndfQufuf<DffbultStylfdDodumfnt>> qufufMbp
+                = nfw HbshMbp<Clbss<?>, RfffrfndfQufuf<DffbultStylfdDodumfnt>>();
+
+        /** A wfbk rfffrfndf to thf dodumfnt objfdt.  */
+        privbtf DodRfffrfndf dod;
+
+        AbstrbdtChbngfHbndlfr(DffbultStylfdDodumfnt d) {
+            Clbss<?> d = gftClbss();
+            RfffrfndfQufuf<DffbultStylfdDodumfnt> q;
+            syndhronizfd (qufufMbp) {
+                q = qufufMbp.gft(d);
+                if (q == null) {
+                    q = nfw RfffrfndfQufuf<DffbultStylfdDodumfnt>();
+                    qufufMbp.put(d, q);
+                }
+            }
+            dod = nfw DodRfffrfndf(d, q);
+        }
+
+        /**
+         * Rfturn b list of stblf dhbngf listfnfrs.
+         *
+         * A dhbngf listfnfr bfdomfs "stblf" whfn its dodumfnt is dlfbnfd by GC.
+         */
+        stbtid List<ChbngfListfnfr> gftStblfListfnfrs(ChbngfListfnfr l) {
+            List<ChbngfListfnfr> stblfListfnfrs = nfw ArrbyList<ChbngfListfnfr>();
+            RfffrfndfQufuf<DffbultStylfdDodumfnt> q = qufufMbp.gft(l.gftClbss());
+
+            if (q != null) {
+                DodRfffrfndf r;
+                syndhronizfd (q) {
+                    whilf ((r = (DodRfffrfndf) q.poll()) != null) {
+                        stblfListfnfrs.bdd(r.gftListfnfr());
+                    }
+                }
+            }
+
+            rfturn stblfListfnfrs;
+        }
+
+        /**
+         * Thf ChbngfListfnfr wrbppfr whidh gubrds bgbinst dfbd dodumfnts.
+         */
+        publid void stbtfChbngfd(ChbngfEvfnt f) {
+            DffbultStylfdDodumfnt d = dod.gft();
+            if (d != null) {
+                firfStbtfChbngfd(d, f);
+            }
+        }
+
+        /** Run thf bdtubl dlbss-spfdifid stbtfChbngfd() mfthod.  */
+        bbstrbdt void firfStbtfChbngfd(DffbultStylfdDodumfnt d, ChbngfEvfnt f);
+    }
+
+    /**
+     * Addfd to bll thf Stylfs. Whfn instbndfs of this rfdfivf b
+     * stbtfChbngfd mfthod, stylfChbngfd is invokfd.
+     */
+    stbtid dlbss StylfChbngfHbndlfr fxtfnds AbstrbdtChbngfHbndlfr {
+
+        StylfChbngfHbndlfr(DffbultStylfdDodumfnt d) {
+            supfr(d);
+        }
+
+        void firfStbtfChbngfd(DffbultStylfdDodumfnt d, ChbngfEvfnt f) {
+            Objfdt sourdf = f.gftSourdf();
+            if (sourdf instbndfof Stylf) {
+                d.stylfChbngfd((Stylf) sourdf);
+            } flsf {
+                d.stylfChbngfd(null);
+            }
+        }
+    }
+
+
+    /**
+     * Addfd to thf StylfContfxt. Whfn thf StylfContfxt dhbngfs, this invokfs
+     * <dodf>updbtfStylfsListfningTo</dodf>.
+     */
+    stbtid dlbss StylfContfxtChbngfHbndlfr fxtfnds AbstrbdtChbngfHbndlfr {
+
+        StylfContfxtChbngfHbndlfr(DffbultStylfdDodumfnt d) {
+            supfr(d);
+        }
+
+        void firfStbtfChbngfd(DffbultStylfdDodumfnt d, ChbngfEvfnt f) {
+            d.updbtfStylfsListfningTo();
+        }
+    }
+
+
+    /**
+     * Whfn run this drfbtfs b dhbngf fvfnt for thf domplftf dodumfnt
+     * bnd firfs it.
+     */
+    dlbss ChbngfUpdbtfRunnbblf implfmfnts Runnbblf {
+        boolfbn isPfnding = fblsf;
+
+        publid void run() {
+            syndhronizfd(this) {
+                isPfnding = fblsf;
+            }
+
+            try {
+                writfLodk();
+                DffbultDodumfntEvfnt ddf = nfw DffbultDodumfntEvfnt(0,
+                                              gftLfngth(),
+                                              DodumfntEvfnt.EvfntTypf.CHANGE);
+                ddf.fnd();
+                firfChbngfdUpdbtf(ddf);
+            } finblly {
+                writfUnlodk();
+            }
+        }
+    }
+}

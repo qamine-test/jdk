@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.Attribute;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.Attributf;
 
 /**
- * Class Severity is a printing attribute class, an enumeration, that denotes
- * the severity of a {@link PrinterStateReason PrinterStateReason} attribute.
+ * Clbss Sfvfrity is b printing bttributf dlbss, bn fnumfrbtion, tibt dfnotfs
+ * tif sfvfrity of b {@link PrintfrStbtfRfbson PrintfrStbtfRfbson} bttributf.
  * <P>
- * Instances of Severity do not appear in a Print Service's attribute set
- * directly. Rather, a {@link PrinterStateReasons PrinterStateReasons}
- * attribute appears in the Print Service's attribute set.
- *  The {@link PrinterStateReasons
- * PrinterStateReasons} attribute contains zero, one, or more than one {@link
- * PrinterStateReason PrinterStateReason} objects which pertain to the Print
- * Service's status, and each {@link PrinterStateReason PrinterStateReason}
- * object is associated with a Severity level of REPORT (least severe),
- * WARNING, or ERROR (most severe).
- * The printer adds a {@link PrinterStateReason
- * PrinterStateReason} object to the Print Service's
- * {@link PrinterStateReasons PrinterStateReasons} attribute when the
- * corresponding condition becomes true
- * of the printer, and the printer removes the {@link PrinterStateReason
- * PrinterStateReason} object again when the corresponding condition becomes
- * false, regardless of whether the Print Service's overall
- * {@link PrinterState PrinterState} also changed.
+ * Instbndfs of Sfvfrity do not bppfbr in b Print Sfrvidf's bttributf sft
+ * dirfdtly. Rbtifr, b {@link PrintfrStbtfRfbsons PrintfrStbtfRfbsons}
+ * bttributf bppfbrs in tif Print Sfrvidf's bttributf sft.
+ *  Tif {@link PrintfrStbtfRfbsons
+ * PrintfrStbtfRfbsons} bttributf dontbins zfro, onf, or morf tibn onf {@link
+ * PrintfrStbtfRfbson PrintfrStbtfRfbson} objfdts wiidi pfrtbin to tif Print
+ * Sfrvidf's stbtus, bnd fbdi {@link PrintfrStbtfRfbson PrintfrStbtfRfbson}
+ * objfdt is bssodibtfd witi b Sfvfrity lfvfl of REPORT (lfbst sfvfrf),
+ * WARNING, or ERROR (most sfvfrf).
+ * Tif printfr bdds b {@link PrintfrStbtfRfbson
+ * PrintfrStbtfRfbson} objfdt to tif Print Sfrvidf's
+ * {@link PrintfrStbtfRfbsons PrintfrStbtfRfbsons} bttributf wifn tif
+ * dorrfsponding dondition bfdomfs truf
+ * of tif printfr, bnd tif printfr rfmovfs tif {@link PrintfrStbtfRfbson
+ * PrintfrStbtfRfbson} objfdt bgbin wifn tif dorrfsponding dondition bfdomfs
+ * fblsf, rfgbrdlfss of wiftifr tif Print Sfrvidf's ovfrbll
+ * {@link PrintfrStbtf PrintfrStbtf} blso dibngfd.
  * <P>
- * <B>IPP Compatibility:</B>
- * <code>Severity.toString()</code> returns either "error", "warning", or
- * "report".  The string values returned by
- * each individual {@link PrinterStateReason} and
- * associated {@link Severity} object's <CODE>toString()</CODE>
- * methods, concatenated together with a hyphen (<CODE>"-"</CODE>) in
- * between, gives the IPP keyword value for a {@link PrinterStateReasons}.
- * The category name returned by <CODE>getName()</CODE> gives the IPP
- * attribute name.
+ * <B>IPP Compbtibility:</B>
+ * <dodf>Sfvfrity.toString()</dodf> rfturns fitifr "frror", "wbrning", or
+ * "rfport".  Tif string vblufs rfturnfd by
+ * fbdi individubl {@link PrintfrStbtfRfbson} bnd
+ * bssodibtfd {@link Sfvfrity} objfdt's <CODE>toString()</CODE>
+ * mftiods, dondbtfnbtfd togftifr witi b iypifn (<CODE>"-"</CODE>) in
+ * bftwffn, givfs tif IPP kfyword vbluf for b {@link PrintfrStbtfRfbsons}.
+ * Tif dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs tif IPP
+ * bttributf nbmf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class Severity extends EnumSyntax implements Attribute {
+publid finbl dlbss Sfvfrity fxtfnds EnumSyntbx implfmfnts Attributf {
 
-    private static final long serialVersionUID = 8781881462717925380L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8781881462717925380L;
 
     /**
-     * Indicates that the {@link PrinterStateReason PrinterStateReason} is a
-     * "report" (least severe). An implementation may choose to omit some or
-     * all reports.
-     * Some reports specify finer granularity about the printer state;
-     * others serve as a precursor to a warning. A report must contain nothing
-     * that could affect the printed output.
+     * Indidbtfs tibt tif {@link PrintfrStbtfRfbson PrintfrStbtfRfbson} is b
+     * "rfport" (lfbst sfvfrf). An implfmfntbtion mby dioosf to omit somf or
+     * bll rfports.
+     * Somf rfports spfdify finfr grbnulbrity bbout tif printfr stbtf;
+     * otifrs sfrvf bs b prfdursor to b wbrning. A rfport must dontbin notiing
+     * tibt dould bfffdt tif printfd output.
      */
-    public static final Severity REPORT = new Severity (0);
+    publid stbtid finbl Sfvfrity REPORT = nfw Sfvfrity (0);
 
     /**
-     * Indicates that the {@link PrinterStateReason PrinterStateReason} is a
-     * "warning." An implementation may choose to omit some or all warnings.
-     * Warnings serve as a precursor to an error. A warning must contain
-     * nothing  that prevents a job from completing, though in some cases the
-     * output may be of lower quality.
+     * Indidbtfs tibt tif {@link PrintfrStbtfRfbson PrintfrStbtfRfbson} is b
+     * "wbrning." An implfmfntbtion mby dioosf to omit somf or bll wbrnings.
+     * Wbrnings sfrvf bs b prfdursor to bn frror. A wbrning must dontbin
+     * notiing  tibt prfvfnts b job from domplfting, tiougi in somf dbsfs tif
+     * output mby bf of lowfr qublity.
      */
-    public static final Severity WARNING = new Severity (1);
+    publid stbtid finbl Sfvfrity WARNING = nfw Sfvfrity (1);
 
     /**
-     * Indicates that the {@link PrinterStateReason PrinterStateReason} is an
-     * "error" (most severe). An implementation must include all errors.
-     * If this attribute contains one or more errors, the printer's
-     * {@link PrinterState PrinterState} must be STOPPED.
+     * Indidbtfs tibt tif {@link PrintfrStbtfRfbson PrintfrStbtfRfbson} is bn
+     * "frror" (most sfvfrf). An implfmfntbtion must indludf bll frrors.
+     * If tiis bttributf dontbins onf or morf frrors, tif printfr's
+     * {@link PrintfrStbtf PrintfrStbtf} must bf STOPPED.
      */
-    public static final Severity ERROR = new Severity (2);
+    publid stbtid finbl Sfvfrity ERROR = nfw Sfvfrity (2);
 
     /**
-     * Construct a new severity enumeration value with the given integer
-     * value.
+     * Construdt b nfw sfvfrity fnumfrbtion vbluf witi tif givfn intfgfr
+     * vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected Severity(int value) {
-        super (value);
+    protfdtfd Sfvfrity(int vbluf) {
+        supfr (vbluf);
     }
 
-    private static final String[] myStringTable = {
-        "report",
-        "warning",
-        "error"
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "rfport",
+        "wbrning",
+        "frror"
     };
 
-    private static final Severity[] myEnumValueTable = {
+    privbtf stbtid finbl Sfvfrity[] myEnumVblufTbblf = {
         REPORT,
         WARNING,
         ERROR
     };
 
     /**
-     * Returns the string table for class Severity.
+     * Rfturns tif string tbblf for dlbss Sfvfrity.
      */
-    protected String[] getStringTable() {
-        return myStringTable;
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf;
     }
 
     /**
-     * Returns the enumeration value table for class Severity.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss Sfvfrity.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return myEnumValueTable;
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn myEnumVblufTbblf;
     }
 
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class Severity, the category is class Severity itself.
+     * For dlbss Sfvfrity, tif dbtfgory is dlbss Sfvfrity itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return Severity.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn Sfvfrity.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class Severit, the category name is <CODE>"severity"</CODE>.
+     * For dlbss Sfvfrit, tif dbtfgory nbmf is <CODE>"sfvfrity"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "severity";
+    publid finbl String gftNbmf() {
+        rfturn "sfvfrity";
     }
 
 }

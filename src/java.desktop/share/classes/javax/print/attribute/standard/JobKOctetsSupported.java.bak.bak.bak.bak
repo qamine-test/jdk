@@ -1,0 +1,127 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.SftOfIntfgfrSyntbx;
+import jbvbx.print.bttributf.SupportfdVblufsAttributf;
+
+/**
+ * Clbss JobKOdtftsSupportfd is b printing bttributf dlbss, b sft of intfgfrs,
+ * thbt givfs thf supportfd vblufs for b {@link JobKOdtfts JobKOdtfts}
+ * bttributf. It is rfstridtfd to b singlf dontiguous rbngf of intfgfrs;
+ * multiplf non-ovfrlbpping rbngfs brf not bllowfd. This givfs thf lowfr bnd
+ * uppfr bounds of thf totbl sizfs of print jobs in units of K odtfts (1024
+ * odtfts) thbt thf printfr will bddfpt.
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf JobKOdtftsSupportfd bttributf's dbnonidbl brrby
+ * form givfs thf lowfr bnd uppfr bound for thf rbngf of vblufs to bf indludfd
+ * in bn IPP "job-k-odtfts-supportfd" bttributf. Sff dlbss {@link
+ * jbvbx.print.bttributf.SftOfIntfgfrSyntbx SftOfIntfgfrSyntbx} for bn
+ * fxplbnbtion of dbnonidbl brrby form. Thf dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> givfs thf IPP bttributf nbmf.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss JobKOdtftsSupportfd fxtfnds SftOfIntfgfrSyntbx
+    implfmfnts SupportfdVblufsAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2867871140549897443L;
+
+    /**
+     * Construdt b nfw job K odtfts supportfd bttributf dontbining b singlf
+     * rbngf of intfgfrs. Thbt is, only thosf vblufs of JobKOdtfts in thf onf
+     * rbngf brf supportfd.
+     *
+     * @pbrbm  lowfrBound  Lowfr bound of thf rbngf.
+     * @pbrbm  uppfrBound  Uppfr bound of thf rbngf.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *  (Undhfdkfd fxdfption) Thrown if b null rbngf is spfdififd or if b
+     *  non-null rbngf is spfdififd with <CODE>lowfrBound</CODE> lfss thbn
+     *   0.
+     */
+    publid JobKOdtftsSupportfd(int lowfrBound, int uppfrBound) {
+        supfr (lowfrBound, uppfrBound);
+        if (lowfrBound > uppfrBound) {
+            throw nfw IllfgblArgumfntExdfption("Null rbngf spfdififd");
+        } flsf if (lowfrBound < 0) {
+            throw nfw IllfgblArgumfntExdfption
+                ("Job K odtfts vbluf < 0 spfdififd");
+        }
+    }
+
+    /**
+     * Rfturns whfthfr this job K odtfts supportfd bttributf is fquivblfnt to
+     * thf pbssfd in objfdt. To bf fquivblfnt, bll of thf following donditions
+     * must bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss JobKOdtftsSupportfd.
+     * <LI>
+     * This job K odtfts supportfd bttributf's mfmbfrs bnd
+     * <CODE>objfdt</CODE>'s mfmbfrs brf thf sbmf.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this job K
+     *          odtfts supportfd bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls (objfdt) &&
+                objfdt instbndfof JobKOdtftsSupportfd);
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss JobKOdtftsSupportfd, thf dbtfgory is dlbss
+     * JobKOdtftsSupportfd itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobKOdtftsSupportfd.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss JobKOdtftsSupportfd, thf dbtfgory nbmf is
+     * <CODE>"job-k-odtfts-supportfd"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "job-k-odtfts-supportfd";
+    }
+
+}

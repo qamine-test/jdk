@@ -1,297 +1,297 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text.html.parser;
+pbdkbgf jbvbx.swing.tfxt.itml.pbrsfr;
 
 /**
- * A content model state. This is basically a list of pointers to
- * the BNF expression representing the model (the ContentModel).
- * Each element in a DTD has a content model which describes the
- * elements that may occur inside, and the order in which they can
- * occur.
+ * A dontfnt modfl stbtf. Tiis is bbsidblly b list of pointfrs to
+ * tif BNF fxprfssion rfprfsfnting tif modfl (tif ContfntModfl).
+ * Ebdi flfmfnt in b DTD ibs b dontfnt modfl wiidi dfsdribfs tif
+ * flfmfnts tibt mby oddur insidf, bnd tif ordfr in wiidi tify dbn
+ * oddur.
  * <p>
- * Each time a token is reduced a new state is created.
+ * Ebdi timf b tokfn is rfdudfd b nfw stbtf is drfbtfd.
  * <p>
- * See Annex H on page 556 of the SGML handbook for more information.
+ * Sff Annfx H on pbgf 556 of tif SGML ibndbook for morf informbtion.
  *
- * @see Parser
- * @see DTD
- * @see Element
- * @see ContentModel
- * @author Arthur van Hoff
+ * @sff Pbrsfr
+ * @sff DTD
+ * @sff Elfmfnt
+ * @sff ContfntModfl
+ * @butior Artiur vbn Hoff
  */
-class ContentModelState {
-    ContentModel model;
-    long value;
-    ContentModelState next;
+dlbss ContfntModflStbtf {
+    ContfntModfl modfl;
+    long vbluf;
+    ContfntModflStbtf nfxt;
 
     /**
-     * Create a content model state for a content model.
+     * Crfbtf b dontfnt modfl stbtf for b dontfnt modfl.
      */
-    public ContentModelState(ContentModel model) {
-        this(model, null, 0);
+    publid ContfntModflStbtf(ContfntModfl modfl) {
+        tiis(modfl, null, 0);
     }
 
     /**
-     * Create a content model state for a content model given the
-     * remaining state that needs to be reduce.
+     * Crfbtf b dontfnt modfl stbtf for b dontfnt modfl givfn tif
+     * rfmbining stbtf tibt nffds to bf rfdudf.
      */
-    ContentModelState(Object content, ContentModelState next) {
-        this(content, next, 0);
+    ContfntModflStbtf(Objfdt dontfnt, ContfntModflStbtf nfxt) {
+        tiis(dontfnt, nfxt, 0);
     }
 
     /**
-     * Create a content model state for a content model given the
-     * remaining state that needs to be reduce.
+     * Crfbtf b dontfnt modfl stbtf for b dontfnt modfl givfn tif
+     * rfmbining stbtf tibt nffds to bf rfdudf.
      */
-    ContentModelState(Object content, ContentModelState next, long value) {
-        this.model = (ContentModel)content;
-        this.next = next;
-        this.value = value;
+    ContfntModflStbtf(Objfdt dontfnt, ContfntModflStbtf nfxt, long vbluf) {
+        tiis.modfl = (ContfntModfl)dontfnt;
+        tiis.nfxt = nfxt;
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * Return the content model that is relevant to the current state.
+     * Rfturn tif dontfnt modfl tibt is rflfvbnt to tif durrfnt stbtf.
      */
-    public ContentModel getModel() {
-        ContentModel m = model;
-        for (int i = 0; i < value; i++) {
-            if (m.next != null) {
-                m = m.next;
-            } else {
-                return null;
+    publid ContfntModfl gftModfl() {
+        ContfntModfl m = modfl;
+        for (int i = 0; i < vbluf; i++) {
+            if (m.nfxt != null) {
+                m = m.nfxt;
+            } flsf {
+                rfturn null;
             }
         }
-        return m;
+        rfturn m;
     }
 
     /**
-     * Check if the state can be terminated. That is there are no more
-     * tokens required in the input stream.
-     * @return true if the model can terminate without further input
+     * Cifdk if tif stbtf dbn bf tfrminbtfd. Tibt is tifrf brf no morf
+     * tokfns rfquirfd in tif input strfbm.
+     * @rfturn truf if tif modfl dbn tfrminbtf witiout furtifr input
      */
-    @SuppressWarnings("fallthrough")
-    public boolean terminate() {
-        switch (model.type) {
-          case '+':
-            if ((value == 0) && !(model).empty()) {
-                return false;
+    @SupprfssWbrnings("fblltirougi")
+    publid boolfbn tfrminbtf() {
+        switdi (modfl.typf) {
+          dbsf '+':
+            if ((vbluf == 0) && !(modfl).fmpty()) {
+                rfturn fblsf;
             }
-            // Fall through
-          case '*':
-          case '?':
-            return (next == null) || next.terminate();
+            // Fbll tirougi
+          dbsf '*':
+          dbsf '?':
+            rfturn (nfxt == null) || nfxt.tfrminbtf();
 
-          case '|':
-            for (ContentModel m = (ContentModel)model.content ; m != null ; m = m.next) {
-                if (m.empty()) {
-                    return (next == null) || next.terminate();
+          dbsf '|':
+            for (ContfntModfl m = (ContfntModfl)modfl.dontfnt ; m != null ; m = m.nfxt) {
+                if (m.fmpty()) {
+                    rfturn (nfxt == null) || nfxt.tfrminbtf();
                 }
             }
-            return false;
+            rfturn fblsf;
 
-          case '&': {
-            ContentModel m = (ContentModel)model.content;
+          dbsf '&': {
+            ContfntModfl m = (ContfntModfl)modfl.dontfnt;
 
-            for (int i = 0 ; m != null ; i++, m = m.next) {
-                if ((value & (1L << i)) == 0) {
-                    if (!m.empty()) {
-                        return false;
+            for (int i = 0 ; m != null ; i++, m = m.nfxt) {
+                if ((vbluf & (1L << i)) == 0) {
+                    if (!m.fmpty()) {
+                        rfturn fblsf;
                     }
                 }
             }
-            return (next == null) || next.terminate();
+            rfturn (nfxt == null) || nfxt.tfrminbtf();
           }
 
-          case ',': {
-            ContentModel m = (ContentModel)model.content;
-            for (int i = 0 ; i < value ; i++, m = m.next);
+          dbsf ',': {
+            ContfntModfl m = (ContfntModfl)modfl.dontfnt;
+            for (int i = 0 ; i < vbluf ; i++, m = m.nfxt);
 
-            for (; (m != null) && m.empty() ; m = m.next);
+            for (; (m != null) && m.fmpty() ; m = m.nfxt);
             if (m != null) {
-                return false;
+                rfturn fblsf;
             }
-            return (next == null) || next.terminate();
+            rfturn (nfxt == null) || nfxt.tfrminbtf();
           }
 
-        default:
-          return false;
+        dffbult:
+          rfturn fblsf;
         }
     }
 
     /**
-     * Check if the state can be terminated. That is there are no more
-     * tokens required in the input stream.
-     * @return the only possible element that can occur next
+     * Cifdk if tif stbtf dbn bf tfrminbtfd. Tibt is tifrf brf no morf
+     * tokfns rfquirfd in tif input strfbm.
+     * @rfturn tif only possiblf flfmfnt tibt dbn oddur nfxt
      */
-    public Element first() {
-        switch (model.type) {
-          case '*':
-          case '?':
-          case '|':
-          case '&':
-            return null;
+    publid Elfmfnt first() {
+        switdi (modfl.typf) {
+          dbsf '*':
+          dbsf '?':
+          dbsf '|':
+          dbsf '&':
+            rfturn null;
 
-          case '+':
-            return model.first();
+          dbsf '+':
+            rfturn modfl.first();
 
-          case ',': {
-              ContentModel m = (ContentModel)model.content;
-              for (int i = 0 ; i < value ; i++, m = m.next);
-              return m.first();
+          dbsf ',': {
+              ContfntModfl m = (ContfntModfl)modfl.dontfnt;
+              for (int i = 0 ; i < vbluf ; i++, m = m.nfxt);
+              rfturn m.first();
           }
 
-          default:
-            return model.first();
+          dffbult:
+            rfturn modfl.first();
         }
     }
 
     /**
-     * Advance this state to a new state. An exception is thrown if the
-     * token is illegal at this point in the content model.
-     * @return next state after reducing a token
+     * Advbndf tiis stbtf to b nfw stbtf. An fxdfption is tirown if tif
+     * tokfn is illfgbl bt tiis point in tif dontfnt modfl.
+     * @rfturn nfxt stbtf bftfr rfduding b tokfn
      */
-    public ContentModelState advance(Object token) {
-        switch (model.type) {
-          case '+':
-            if (model.first(token)) {
-                return new ContentModelState(model.content,
-                        new ContentModelState(model, next, value + 1)).advance(token);
+    publid ContfntModflStbtf bdvbndf(Objfdt tokfn) {
+        switdi (modfl.typf) {
+          dbsf '+':
+            if (modfl.first(tokfn)) {
+                rfturn nfw ContfntModflStbtf(modfl.dontfnt,
+                        nfw ContfntModflStbtf(modfl, nfxt, vbluf + 1)).bdvbndf(tokfn);
             }
-            if (value != 0) {
-                if (next != null) {
-                    return next.advance(token);
-                } else {
-                    return null;
+            if (vbluf != 0) {
+                if (nfxt != null) {
+                    rfturn nfxt.bdvbndf(tokfn);
+                } flsf {
+                    rfturn null;
                 }
             }
-            break;
+            brfbk;
 
-          case '*':
-            if (model.first(token)) {
-                return new ContentModelState(model.content, this).advance(token);
+          dbsf '*':
+            if (modfl.first(tokfn)) {
+                rfturn nfw ContfntModflStbtf(modfl.dontfnt, tiis).bdvbndf(tokfn);
             }
-            if (next != null) {
-                return next.advance(token);
-            } else {
-                return null;
-            }
-
-          case '?':
-            if (model.first(token)) {
-                return new ContentModelState(model.content, next).advance(token);
-            }
-            if (next != null) {
-                return next.advance(token);
-            } else {
-                return null;
+            if (nfxt != null) {
+                rfturn nfxt.bdvbndf(tokfn);
+            } flsf {
+                rfturn null;
             }
 
-          case '|':
-            for (ContentModel m = (ContentModel)model.content ; m != null ; m = m.next) {
-                if (m.first(token)) {
-                    return new ContentModelState(m, next).advance(token);
+          dbsf '?':
+            if (modfl.first(tokfn)) {
+                rfturn nfw ContfntModflStbtf(modfl.dontfnt, nfxt).bdvbndf(tokfn);
+            }
+            if (nfxt != null) {
+                rfturn nfxt.bdvbndf(tokfn);
+            } flsf {
+                rfturn null;
+            }
+
+          dbsf '|':
+            for (ContfntModfl m = (ContfntModfl)modfl.dontfnt ; m != null ; m = m.nfxt) {
+                if (m.first(tokfn)) {
+                    rfturn nfw ContfntModflStbtf(m, nfxt).bdvbndf(tokfn);
                 }
             }
-            break;
+            brfbk;
 
-          case ',': {
-            ContentModel m = (ContentModel)model.content;
-            for (int i = 0 ; i < value ; i++, m = m.next);
+          dbsf ',': {
+            ContfntModfl m = (ContfntModfl)modfl.dontfnt;
+            for (int i = 0 ; i < vbluf ; i++, m = m.nfxt);
 
-            if (m.first(token) || m.empty()) {
-                if (m.next == null) {
-                    return new ContentModelState(m, next).advance(token);
-                } else {
-                    return new ContentModelState(m,
-                            new ContentModelState(model, next, value + 1)).advance(token);
+            if (m.first(tokfn) || m.fmpty()) {
+                if (m.nfxt == null) {
+                    rfturn nfw ContfntModflStbtf(m, nfxt).bdvbndf(tokfn);
+                } flsf {
+                    rfturn nfw ContfntModflStbtf(m,
+                            nfw ContfntModflStbtf(modfl, nfxt, vbluf + 1)).bdvbndf(tokfn);
                 }
             }
-            break;
+            brfbk;
           }
 
-          case '&': {
-            ContentModel m = (ContentModel)model.content;
-            boolean complete = true;
+          dbsf '&': {
+            ContfntModfl m = (ContfntModfl)modfl.dontfnt;
+            boolfbn domplftf = truf;
 
-            for (int i = 0 ; m != null ; i++, m = m.next) {
-                if ((value & (1L << i)) == 0) {
-                    if (m.first(token)) {
-                        return new ContentModelState(m,
-                                new ContentModelState(model, next, value | (1L << i))).advance(token);
+            for (int i = 0 ; m != null ; i++, m = m.nfxt) {
+                if ((vbluf & (1L << i)) == 0) {
+                    if (m.first(tokfn)) {
+                        rfturn nfw ContfntModflStbtf(m,
+                                nfw ContfntModflStbtf(modfl, nfxt, vbluf | (1L << i))).bdvbndf(tokfn);
                     }
-                    if (!m.empty()) {
-                        complete = false;
+                    if (!m.fmpty()) {
+                        domplftf = fblsf;
                     }
                 }
             }
-            if (complete) {
-                if (next != null) {
-                    return next.advance(token);
-                } else {
-                    return null;
+            if (domplftf) {
+                if (nfxt != null) {
+                    rfturn nfxt.bdvbndf(tokfn);
+                } flsf {
+                    rfturn null;
                 }
             }
-            break;
+            brfbk;
           }
 
-          default:
-            if (model.content == token) {
-                if (next == null && (token instanceof Element) &&
-                    ((Element)token).content != null) {
-                    return new ContentModelState(((Element)token).content);
+          dffbult:
+            if (modfl.dontfnt == tokfn) {
+                if (nfxt == null && (tokfn instbndfof Elfmfnt) &&
+                    ((Elfmfnt)tokfn).dontfnt != null) {
+                    rfturn nfw ContfntModflStbtf(((Elfmfnt)tokfn).dontfnt);
                 }
-                return next;
+                rfturn nfxt;
             }
-            // PENDING: Currently we don't correctly deal with optional start
-            // tags. This can most notably be seen with the 4.01 spec where
-            // TBODY's start and end tags are optional.
-            // Uncommenting this and the PENDING in ContentModel will
-            // correctly skip the omit tags, but the delegate is not notified.
-            // Some additional API needs to be added to track skipped tags,
-            // and this can then be added back.
+            // PENDING: Currfntly wf don't dorrfdtly dfbl witi optionbl stbrt
+            // tbgs. Tiis dbn most notbbly bf sffn witi tif 4.01 spfd wifrf
+            // TBODY's stbrt bnd fnd tbgs brf optionbl.
+            // Undommfnting tiis bnd tif PENDING in ContfntModfl will
+            // dorrfdtly skip tif omit tbgs, but tif dflfgbtf is not notififd.
+            // Somf bdditionbl API nffds to bf bddfd to trbdk skippfd tbgs,
+            // bnd tiis dbn tifn bf bddfd bbdk.
 /*
-            if ((model.content instanceof Element)) {
-                Element e = (Element)model.content;
+            if ((modfl.dontfnt instbndfof Elfmfnt)) {
+                Elfmfnt f = (Elfmfnt)modfl.dontfnt;
 
-                if (e.omitStart() && e.content != null) {
-                    return new ContentModelState(e.content, next).advance(
-                                           token);
+                if (f.omitStbrt() && f.dontfnt != null) {
+                    rfturn nfw ContfntModflStbtf(f.dontfnt, nfxt).bdvbndf(
+                                           tokfn);
                 }
             }
 */
         }
 
-        // We used to throw this exception at this point.  However, it
-        // was determined that throwing this exception was more expensive
-        // than returning null, and we could not justify to ourselves why
-        // it was necessary to throw an exception, rather than simply
-        // returning null.  I'm leaving it in a commented out state so
-        // that it can be easily restored if the situation ever arises.
+        // Wf usfd to tirow tiis fxdfption bt tiis point.  Howfvfr, it
+        // wbs dftfrminfd tibt tirowing tiis fxdfption wbs morf fxpfnsivf
+        // tibn rfturning null, bnd wf dould not justify to oursflvfs wiy
+        // it wbs nfdfssbry to tirow bn fxdfption, rbtifr tibn simply
+        // rfturning null.  I'm lfbving it in b dommfntfd out stbtf so
+        // tibt it dbn bf fbsily rfstorfd if tif situbtion fvfr brisfs.
         //
-        // throw new IllegalArgumentException("invalid token: " + token);
-        return null;
+        // tirow nfw IllfgblArgumfntExdfption("invblid tokfn: " + tokfn);
+        rfturn null;
     }
 }

@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.border;
+pbdkbgf jbvbx.swing.bordfr;
 
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Component;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Componfnt;
 
 /**
- * Interface describing an object capable of rendering a border
- * around the edges of a swing component.
- * For examples of using borders see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/border.htmll">How to Use Borders</a>,
- * a section in <em>The Java Tutorial.</em>
+ * Intfrfbdf dfsdribing bn objfdt dbpbblf of rfndfring b bordfr
+ * bround tif fdgfs of b swing domponfnt.
+ * For fxbmplfs of using bordfrs sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/bordfr.itmll">How to Usf Bordfrs</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  * <p>
- * In the Swing component set, borders supercede Insets as the
- * mechanism for creating a (decorated or plain) area around the
- * edge of a component.
+ * In tif Swing domponfnt sft, bordfrs supfrdfdf Insfts bs tif
+ * mfdibnism for drfbting b (dfdorbtfd or plbin) brfb bround tif
+ * fdgf of b domponfnt.
  * <p>
- * Usage Notes:
+ * Usbgf Notfs:
  * <ul>
- * <li>Use EmptyBorder to create a plain border (this mechanism
- *     replaces its predecessor, <code>setInsets</code>).
- * <li>Use CompoundBorder to nest multiple border objects, creating
- *     a single, combined border.
- * <li>Border instances are designed to be shared. Rather than creating
- *     a new border object using one of border classes, use the
- *     BorderFactory methods, which produces a shared instance of the
- *     common border types.
- * <li>Additional border styles include BevelBorder, SoftBevelBorder,
- *     EtchedBorder, LineBorder, TitledBorder, and MatteBorder.
- * <li>To create a new border class, subclass AbstractBorder.
+ * <li>Usf EmptyBordfr to drfbtf b plbin bordfr (tiis mfdibnism
+ *     rfplbdfs its prfdfdfssor, <dodf>sftInsfts</dodf>).
+ * <li>Usf CompoundBordfr to nfst multiplf bordfr objfdts, drfbting
+ *     b singlf, dombinfd bordfr.
+ * <li>Bordfr instbndfs brf dfsignfd to bf sibrfd. Rbtifr tibn drfbting
+ *     b nfw bordfr objfdt using onf of bordfr dlbssfs, usf tif
+ *     BordfrFbdtory mftiods, wiidi produdfs b sibrfd instbndf of tif
+ *     dommon bordfr typfs.
+ * <li>Additionbl bordfr stylfs indludf BfvflBordfr, SoftBfvflBordfr,
+ *     EtdifdBordfr, LinfBordfr, TitlfdBordfr, bnd MbttfBordfr.
+ * <li>To drfbtf b nfw bordfr dlbss, subdlbss AbstrbdtBordfr.
  * </ul>
  *
- * @author David Kloba
- * @author Amy Fowler
- * @see javax.swing.BorderFactory
- * @see EmptyBorder
- * @see CompoundBorder
+ * @butior Dbvid Klobb
+ * @butior Amy Fowlfr
+ * @sff jbvbx.swing.BordfrFbdtory
+ * @sff EmptyBordfr
+ * @sff CompoundBordfr
  */
-public interface Border
+publid intfrfbdf Bordfr
 {
     /**
-     * Paints the border for the specified component with the specified
-     * position and size.
+     * Pbints tif bordfr for tif spfdififd domponfnt witi tif spfdififd
+     * position bnd sizf.
      *
-     * @param c the component for which this border is being painted
-     * @param g the paint graphics
-     * @param x the x position of the painted border
-     * @param y the y position of the painted border
-     * @param width the width of the painted border
-     * @param height the height of the painted border
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
      */
-    void paintBorder(Component c, Graphics g, int x, int y, int width, int height);
+    void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit);
 
     /**
-     * Returns the insets of the border.
+     * Rfturns tif insfts of tif bordfr.
      *
-     * @param c the component for which this border insets value applies
-     * @return an {@code Insets} object containing the insets from top, left,
-     *         bottom and right of this {@code Border}
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @rfturn bn {@dodf Insfts} objfdt dontbining tif insfts from top, lfft,
+     *         bottom bnd rigit of tiis {@dodf Bordfr}
      */
-    Insets getBorderInsets(Component c);
+    Insfts gftBordfrInsfts(Componfnt d);
 
     /**
-     * Returns whether or not the border is opaque.  If the border
-     * is opaque, it is responsible for filling in it's own
-     * background when painting.
+     * Rfturns wiftifr or not tif bordfr is opbquf.  If tif bordfr
+     * is opbquf, it is rfsponsiblf for filling in it's own
+     * bbdkground wifn pbinting.
      *
-     * @return true if this {@code Border} is opaque
+     * @rfturn truf if tiis {@dodf Bordfr} is opbquf
      */
-    boolean isBorderOpaque();
+    boolfbn isBordfrOpbquf();
 }

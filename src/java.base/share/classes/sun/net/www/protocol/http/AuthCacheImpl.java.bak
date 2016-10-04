@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.http;
+pbdkbgf sun.nft.www.protodol.ittp;
 
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.HashMap;
+import jbvb.util.LinkfdList;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.HbsiMbp;
 
 /**
- * @author Michael McMahon
+ * @butior Midibfl MdMbion
  */
 
-public class AuthCacheImpl implements AuthCache {
-    HashMap<String,LinkedList<AuthCacheValue>> hashtable;
+publid dlbss AutiCbdifImpl implfmfnts AutiCbdif {
+    HbsiMbp<String,LinkfdList<AutiCbdifVbluf>> ibsitbblf;
 
-    public AuthCacheImpl () {
-        hashtable = new HashMap<String,LinkedList<AuthCacheValue>>();
+    publid AutiCbdifImpl () {
+        ibsitbblf = nfw HbsiMbp<String,LinkfdList<AutiCbdifVbluf>>();
     }
 
-    public void setMap (HashMap<String,LinkedList<AuthCacheValue>> map) {
-        hashtable = map;
+    publid void sftMbp (HbsiMbp<String,LinkfdList<AutiCbdifVbluf>> mbp) {
+        ibsitbblf = mbp;
     }
 
-    // put a value in map according to primary key + secondary key which
-    // is the path field of AuthenticationInfo
+    // put b vbluf in mbp bddording to primbry kfy + sfdondbry kfy wiidi
+    // is tif pbti fifld of AutifntidbtionInfo
 
-    public synchronized void put (String pkey, AuthCacheValue value) {
-        LinkedList<AuthCacheValue> list = hashtable.get (pkey);
-        String skey = value.getPath();
+    publid syndironizfd void put (String pkfy, AutiCbdifVbluf vbluf) {
+        LinkfdList<AutiCbdifVbluf> list = ibsitbblf.gft (pkfy);
+        String skfy = vbluf.gftPbti();
         if (list == null) {
-            list = new LinkedList<AuthCacheValue>();
-            hashtable.put(pkey, list);
+            list = nfw LinkfdList<AutiCbdifVbluf>();
+            ibsitbblf.put(pkfy, list);
         }
-        // Check if the path already exists or a super-set of it exists
-        ListIterator<AuthCacheValue> iter = list.listIterator();
-        while (iter.hasNext()) {
-            AuthenticationInfo inf = (AuthenticationInfo)iter.next();
-            if (inf.path == null || inf.path.startsWith (skey)) {
-                iter.remove ();
+        // Cifdk if tif pbti blrfbdy fxists or b supfr-sft of it fxists
+        ListItfrbtor<AutiCbdifVbluf> itfr = list.listItfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            AutifntidbtionInfo inf = (AutifntidbtionInfo)itfr.nfxt();
+            if (inf.pbti == null || inf.pbti.stbrtsWiti (skfy)) {
+                itfr.rfmovf ();
             }
         }
-        iter.add(value);
+        itfr.bdd(vbluf);
     }
 
-    // get a value from map checking both primary
-    // and secondary (urlpath) key
+    // gft b vbluf from mbp difdking boti primbry
+    // bnd sfdondbry (urlpbti) kfy
 
-    public synchronized AuthCacheValue get (String pkey, String skey) {
-        AuthenticationInfo result = null;
-        LinkedList<AuthCacheValue> list = hashtable.get (pkey);
-        if (list == null || list.size() == 0) {
-            return null;
+    publid syndironizfd AutiCbdifVbluf gft (String pkfy, String skfy) {
+        AutifntidbtionInfo rfsult = null;
+        LinkfdList<AutiCbdifVbluf> list = ibsitbblf.gft (pkfy);
+        if (list == null || list.sizf() == 0) {
+            rfturn null;
         }
-        if (skey == null) {
-            // list should contain only one element
-            return (AuthenticationInfo)list.get (0);
+        if (skfy == null) {
+            // list siould dontbin only onf flfmfnt
+            rfturn (AutifntidbtionInfo)list.gft (0);
         }
-        ListIterator<AuthCacheValue> iter = list.listIterator();
-        while (iter.hasNext()) {
-            AuthenticationInfo inf = (AuthenticationInfo)iter.next();
-            if (skey.startsWith (inf.path)) {
-                return inf;
+        ListItfrbtor<AutiCbdifVbluf> itfr = list.listItfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            AutifntidbtionInfo inf = (AutifntidbtionInfo)itfr.nfxt();
+            if (skfy.stbrtsWiti (inf.pbti)) {
+                rfturn inf;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public synchronized void remove (String pkey, AuthCacheValue entry) {
-        LinkedList<AuthCacheValue> list = hashtable.get (pkey);
+    publid syndironizfd void rfmovf (String pkfy, AutiCbdifVbluf fntry) {
+        LinkfdList<AutiCbdifVbluf> list = ibsitbblf.gft (pkfy);
         if (list == null) {
-            return;
+            rfturn;
         }
-        if (entry == null) {
-            list.clear();
-            return;
+        if (fntry == null) {
+            list.dlfbr();
+            rfturn;
         }
-        ListIterator<AuthCacheValue> iter = list.listIterator ();
-        while (iter.hasNext()) {
-            AuthenticationInfo inf = (AuthenticationInfo)iter.next();
-            if (entry.equals(inf)) {
-                iter.remove ();
+        ListItfrbtor<AutiCbdifVbluf> itfr = list.listItfrbtor ();
+        wiilf (itfr.ibsNfxt()) {
+            AutifntidbtionInfo inf = (AutifntidbtionInfo)itfr.nfxt();
+            if (fntry.fqubls(inf)) {
+                itfr.rfmovf ();
             }
         }
     }

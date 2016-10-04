@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.util.Arrbys;
+
+/**
+ * This dlbss rfprfsfnts bn SSL/TLS mfssbgf buthfntidbtion tokfn,
+ * whidh fndbpsulbtfs b sfqufndf numbfr bnd fnsurfs thbt bttfmpts to
+ * dflftf or rfordfr mfssbgfs dbn bf dftfdtfd.
+ *
+ * Ebdh SSL/TLS donnfdtion stbtf dontbins b sfqufndf numbfr, whidh
+ * is mbintbinfd sfpbrbtfly for rfbd bnd writf stbtfs.  Thf sfqufndf
+ * numbfr MUST bf sft to zfro whfnfvfr b donnfdtion stbtf is mbdf thf
+ * bdtivf stbtf.  Sfqufndf numbfrs brf of typf uint64 bnd mby not
+ * fxdffd 2^64-1.  Sfqufndf numbfrs do not wrbp.  If b SSL/TLS
+ * implfmfntbtion would nffd to wrbp b sfqufndf numbfr, it must
+ * rfnfgotibtf instfbd.  A sfqufndf numbfr is indrfmfntfd bftfr fbdh
+ * rfdord: spfdifidblly, thf first rfdord trbnsmittfd undfr b
+ * pbrtidulbr donnfdtion stbtf MUST usf sfqufndf numbfr 0.
+ */
+dlbss Authfntidbtor {
+
+    // bytf brrby dontbining thf bdditionbl buthfntidbtion informbtion for
+    // fbdh rfdord
+    privbtf finbl bytf[] blodk;
+
+    // thf blodk sizf of SSL v3.0:
+    // sfqufndf numbfr + rfdord typf + + rfdord lfngth
+    privbtf stbtid finbl int BLOCK_SIZE_SSL = 8 + 1 + 2;
+
+    // thf blodk sizf of TLS v1.0 bnd lbtfr:
+    // sfqufndf numbfr + rfdord typf + protodol vfrsion + rfdord lfngth
+    privbtf stbtid finbl int BLOCK_SIZE_TLS = 8 + 1 + 2 + 2;
+
+    /**
+     * Dffbult donstrudt, no mfssbgf buthfntidbtion tokfn is initiblizfd.
+     *
+     * Notf thbt this donstrudt dbn only bf dbllfd for null MAC
+     */
+    Authfntidbtor() {
+        blodk = nfw bytf[0];
+    }
+
+    /**
+     * Construdts thf mfssbgf buthfntidbtion tokfn for thf spfdififd
+     * SSL/TLS protodol.
+     */
+    Authfntidbtor(ProtodolVfrsion protodolVfrsion) {
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS10.v) {
+            blodk = nfw bytf[BLOCK_SIZE_TLS];
+            blodk[9] = protodolVfrsion.mbjor;
+            blodk[10] = protodolVfrsion.minor;
+        } flsf {
+            blodk = nfw bytf[BLOCK_SIZE_SSL];
+        }
+    }
+
+    /**
+     * Chfdks whfthfr thf sfqufndf numbfr is dlosf to wrbp.
+     *
+     * Sfqufndf numbfrs brf of typf uint64 bnd mby not fxdffd 2^64-1.
+     * Sfqufndf numbfrs do not wrbp. Whfn thf sfqufndf numbfr is nfbr
+     * to wrbp, wf nffd to dlosf thf donnfdtion immfdibtfly.
+     *
+     * @rfturn truf if thf sfqufndf numbfr is dlosf to wrbp
+     */
+    finbl boolfbn sfqNumOvfrflow() {
+        /*
+         * Consfrvbtivfly, wf don't bllow morf rfdords to bf gfnfrbtfd
+         * whfn thfrf brf only 2^8 sfqufndf numbfrs lfft.
+         */
+        rfturn (blodk.lfngth != 0 &&
+                blodk[0] == (bytf)0xFF && blodk[1] == (bytf)0xFF &&
+                blodk[2] == (bytf)0xFF && blodk[3] == (bytf)0xFF &&
+                blodk[4] == (bytf)0xFF && blodk[5] == (bytf)0xFF &&
+                blodk[6] == (bytf)0xFF);
+    }
+
+    /**
+     * Chfdks whfthfr thf sfqufndf numbfr dlosf to rfnfw.
+     *
+     * Sfqufndf numbfrs brf of typf uint64 bnd mby not fxdffd 2^64-1.
+     * Sfqufndf numbfrs do not wrbp.  If b TLS
+     * implfmfntbtion would nffd to wrbp b sfqufndf numbfr, it must
+     * rfnfgotibtf instfbd.
+     *
+     * @rfturn truf if thf sfqufndf numbfr is hugf fnough to rfnfw
+     */
+    finbl boolfbn sfqNumIsHugf() {
+        /*
+         * Consfrvbtivfly, wf should bsk for rfnfgotibtion whfn thfrf brf
+         * only 2^48 sfqufndf numbfrs lfft.
+         */
+        rfturn (blodk.lfngth != 0 &&
+                blodk[0] == (bytf)0xFF && blodk[1] == (bytf)0xFF);
+    }
+
+    /**
+     * Gfts thf durrfnt sfqufndf numbfr.
+     *
+     * @rfturn thf bytf brrby of thf durrfnt sfqufndf numbfr
+     */
+    finbl bytf[] sfqufndfNumbfr() {
+        rfturn Arrbys.dopyOf(blodk, 8);
+    }
+
+    /**
+     * Adquirfs thf durrfnt mfssbgf buthfntidbtion informbtion with thf
+     * spfdififd rfdord typf bnd frbgmfnt lfngth, bnd thfn indrfbsfs thf
+     * sfqufndf numbfr.
+     *
+     * @pbrbm  typf thf rfdord typf
+     * @pbrbm  lfngth thf frbgmfnt of thf rfdord
+     * @rfturn thf bytf brrby of thf durrfnt mfssbgf buthfntidbtion informbtion
+     */
+    finbl bytf[] bdquirfAuthfntidbtionBytfs(bytf typf, int lfngth) {
+        bytf[] dopy = blodk.dlonf();
+
+        if (blodk.lfngth != 0) {
+            dopy[8] = typf;
+            dopy[dopy.lfngth - 2] = (bytf)(lfngth >> 8);
+            dopy[dopy.lfngth - 1] = (bytf)(lfngth);
+
+            /*
+             * Indrfbsf thf sfqufndf numbfr in thf blodk brrby
+             * it is b 64-bit numbfr storfd in big-fndibn formbt
+             */
+            int k = 7;
+            whilf ((k >= 0) && (++blodk[k] == 0)) {
+                k--;
+            }
+        }
+
+        rfturn dopy;
+    }
+
+}

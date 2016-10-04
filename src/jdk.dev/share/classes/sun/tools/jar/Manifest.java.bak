@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jar;
+pbdkbgf sun.tools.jbr;
 
-import java.io.*;
-import java.util.*;
-import java.security.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
 
-import sun.net.www.MessageHeader;
-import java.util.Base64;
+import sun.nft.www.MfssbgfHfbdfr;
+import jbvb.util.Bbsf64;
 
 /**
- * This is OBSOLETE. DO NOT USE THIS. Use java.util.jar.Manifest
- * instead. It has to stay here because some apps (namely HJ and HJV)
- * call directly into it.
+ * Tiis is OBSOLETE. DO NOT USE THIS. Usf jbvb.util.jbr.Mbniffst
+ * instfbd. It ibs to stby ifrf bfdbusf somf bpps (nbmfly HJ bnd HJV)
+ * dbll dirfdtly into it.
  *
- * @author David Brown
- * @author Benjamin Renaud
+ * @butior Dbvid Brown
+ * @butior Bfnjbmin Rfnbud
  */
 
-public class Manifest {
+publid dlbss Mbniffst {
 
-    /* list of headers that all pertain to a particular
-     * file in the archive
+    /* list of ifbdfrs tibt bll pfrtbin to b pbrtidulbr
+     * filf in tif brdiivf
      */
-    private Vector<MessageHeader> entries = new Vector<>();
-    private byte[] tmpbuf = new byte[512];
-    /* a hashtable of entries, for fast lookup */
-    private Hashtable<String, MessageHeader> tableEntries = new Hashtable<>();
+    privbtf Vfdtor<MfssbgfHfbdfr> fntrifs = nfw Vfdtor<>();
+    privbtf bytf[] tmpbuf = nfw bytf[512];
+    /* b ibsitbblf of fntrifs, for fbst lookup */
+    privbtf Hbsitbblf<String, MfssbgfHfbdfr> tbblfEntrifs = nfw Hbsitbblf<>();
 
-    static final String[] hashes = {"SHA"};
-    static final byte[] EOL = {(byte)'\r', (byte)'\n'};
+    stbtid finbl String[] ibsifs = {"SHA"};
+    stbtid finbl bytf[] EOL = {(bytf)'\r', (bytf)'\n'};
 
-    static final boolean debug = false;
-    static final String VERSION = "1.0";
-    static final void debug(String s) {
-        if (debug)
-            System.out.println("man> " + s);
+    stbtid finbl boolfbn dfbug = fblsf;
+    stbtid finbl String VERSION = "1.0";
+    stbtid finbl void dfbug(String s) {
+        if (dfbug)
+            Systfm.out.println("mbn> " + s);
     }
 
-    public Manifest() {}
+    publid Mbniffst() {}
 
-    public Manifest(byte[] bytes) throws IOException {
-        this(new ByteArrayInputStream(bytes), false);
+    publid Mbniffst(bytf[] bytfs) tirows IOExdfption {
+        tiis(nfw BytfArrbyInputStrfbm(bytfs), fblsf);
     }
 
-    public Manifest(InputStream is) throws IOException {
-        this(is, true);
+    publid Mbniffst(InputStrfbm is) tirows IOExdfption {
+        tiis(is, truf);
     }
 
     /**
-     * Parse a manifest from a stream, optionally computing hashes
-     * for the files.
+     * Pbrsf b mbniffst from b strfbm, optionblly domputing ibsifs
+     * for tif filfs.
      */
-    public Manifest(InputStream is, boolean compute) throws IOException {
-        if (!is.markSupported()) {
-            is = new BufferedInputStream(is);
+    publid Mbniffst(InputStrfbm is, boolfbn domputf) tirows IOExdfption {
+        if (!is.mbrkSupportfd()) {
+            is = nfw BufffrfdInputStrfbm(is);
         }
-        /* do not rely on available() here! */
-        while (true) {
-            is.mark(1);
-            if (is.read() == -1) { // EOF
-                break;
+        /* do not rfly on bvbilbblf() ifrf! */
+        wiilf (truf) {
+            is.mbrk(1);
+            if (is.rfbd() == -1) { // EOF
+                brfbk;
             }
-            is.reset();
-            MessageHeader m = new MessageHeader(is);
-            if (compute) {
-                doHashes(m);
+            is.rfsft();
+            MfssbgfHfbdfr m = nfw MfssbgfHfbdfr(is);
+            if (domputf) {
+                doHbsifs(m);
             }
-            addEntry(m);
+            bddEntry(m);
         }
     }
 
-    /* recursively generate manifests from directory tree */
-    public Manifest(String[] files) throws IOException {
-        MessageHeader globals = new MessageHeader();
-        globals.add("Manifest-Version", VERSION);
-        String jdkVersion = System.getProperty("java.version");
-        globals.add("Created-By", "Manifest JDK "+jdkVersion);
-        addEntry(globals);
-        addFiles(null, files);
+    /* rfdursivfly gfnfrbtf mbniffsts from dirfdtory trff */
+    publid Mbniffst(String[] filfs) tirows IOExdfption {
+        MfssbgfHfbdfr globbls = nfw MfssbgfHfbdfr();
+        globbls.bdd("Mbniffst-Vfrsion", VERSION);
+        String jdkVfrsion = Systfm.gftPropfrty("jbvb.vfrsion");
+        globbls.bdd("Crfbtfd-By", "Mbniffst JDK "+jdkVfrsion);
+        bddEntry(globbls);
+        bddFilfs(null, filfs);
     }
 
-    public void addEntry(MessageHeader entry) {
-        entries.addElement(entry);
-        String name = entry.findValue("Name");
-        debug("addEntry for name: "+name);
-        if (name != null) {
-            tableEntries.put(name, entry);
+    publid void bddEntry(MfssbgfHfbdfr fntry) {
+        fntrifs.bddElfmfnt(fntry);
+        String nbmf = fntry.findVbluf("Nbmf");
+        dfbug("bddEntry for nbmf: "+nbmf);
+        if (nbmf != null) {
+            tbblfEntrifs.put(nbmf, fntry);
         }
     }
 
-    public MessageHeader getEntry(String name) {
-        return tableEntries.get(name);
+    publid MfssbgfHfbdfr gftEntry(String nbmf) {
+        rfturn tbblfEntrifs.gft(nbmf);
     }
 
-    public MessageHeader entryAt(int i) {
-        return entries.elementAt(i);
+    publid MfssbgfHfbdfr fntryAt(int i) {
+        rfturn fntrifs.flfmfntAt(i);
     }
 
-    public Enumeration<MessageHeader> entries() {
-        return entries.elements();
+    publid Enumfrbtion<MfssbgfHfbdfr> fntrifs() {
+        rfturn fntrifs.flfmfnts();
     }
 
-    public void addFiles(File dir, String[] files) throws IOException {
-        if (files == null)
-            return;
-        for (int i = 0; i < files.length; i++) {
-            File file;
+    publid void bddFilfs(Filf dir, String[] filfs) tirows IOExdfption {
+        if (filfs == null)
+            rfturn;
+        for (int i = 0; i < filfs.lfngti; i++) {
+            Filf filf;
             if (dir == null) {
-                file = new File(files[i]);
-            } else {
-                file = new File(dir, files[i]);
+                filf = nfw Filf(filfs[i]);
+            } flsf {
+                filf = nfw Filf(dir, filfs[i]);
             }
-            if (file.isDirectory()) {
-                addFiles(file, file.list());
-            } else {
-                addFile(file);
+            if (filf.isDirfdtory()) {
+                bddFilfs(filf, filf.list());
+            } flsf {
+                bddFilf(filf);
             }
         }
     }
 
     /**
-     * File names are represented internally using "/";
-     * they are converted to the local format for anything else
+     * Filf nbmfs brf rfprfsfntfd intfrnblly using "/";
+     * tify brf donvfrtfd to tif lodbl formbt for bnytiing flsf
      */
 
-    private final String stdToLocal(String name) {
-        return name.replace('/', java.io.File.separatorChar);
+    privbtf finbl String stdToLodbl(String nbmf) {
+        rfturn nbmf.rfplbdf('/', jbvb.io.Filf.sfpbrbtorCibr);
     }
 
-    private final String localToStd(String name) {
-        name = name.replace(java.io.File.separatorChar, '/');
-        if (name.startsWith("./"))
-            name = name.substring(2);
-        else if (name.startsWith("/"))
-            name = name.substring(1);
-        return name;
+    privbtf finbl String lodblToStd(String nbmf) {
+        nbmf = nbmf.rfplbdf(jbvb.io.Filf.sfpbrbtorCibr, '/');
+        if (nbmf.stbrtsWiti("./"))
+            nbmf = nbmf.substring(2);
+        flsf if (nbmf.stbrtsWiti("/"))
+            nbmf = nbmf.substring(1);
+        rfturn nbmf;
     }
 
-    public void addFile(File f) throws IOException {
-        String stdName = localToStd(f.getPath());
-        if (tableEntries.get(stdName) == null) {
-            MessageHeader mh = new MessageHeader();
-            mh.add("Name", stdName);
-            addEntry(mh);
+    publid void bddFilf(Filf f) tirows IOExdfption {
+        String stdNbmf = lodblToStd(f.gftPbti());
+        if (tbblfEntrifs.gft(stdNbmf) == null) {
+            MfssbgfHfbdfr mi = nfw MfssbgfHfbdfr();
+            mi.bdd("Nbmf", stdNbmf);
+            bddEntry(mi);
         }
     }
 
-    public void doHashes(MessageHeader mh) throws IOException {
-        // If unnamed or is a directory return immediately
-        String name = mh.findValue("Name");
-        if (name == null || name.endsWith("/")) {
-            return;
+    publid void doHbsifs(MfssbgfHfbdfr mi) tirows IOExdfption {
+        // If unnbmfd or is b dirfdtory rfturn immfdibtfly
+        String nbmf = mi.findVbluf("Nbmf");
+        if (nbmf == null || nbmf.fndsWiti("/")) {
+            rfturn;
         }
 
 
-        /* compute hashes, write over any other "Hash-Algorithms" (?) */
-        for (int j = 0; j < hashes.length; ++j) {
-            InputStream is = new FileInputStream(stdToLocal(name));
+        /* domputf ibsifs, writf ovfr bny otifr "Hbsi-Algoritims" (?) */
+        for (int j = 0; j < ibsifs.lfngti; ++j) {
+            InputStrfbm is = nfw FilfInputStrfbm(stdToLodbl(nbmf));
             try {
-                MessageDigest dig = MessageDigest.getInstance(hashes[j]);
+                MfssbgfDigfst dig = MfssbgfDigfst.gftInstbndf(ibsifs[j]);
 
-                int len;
-                while ((len = is.read(tmpbuf, 0, tmpbuf.length)) != -1) {
-                    dig.update(tmpbuf, 0, len);
+                int lfn;
+                wiilf ((lfn = is.rfbd(tmpbuf, 0, tmpbuf.lfngti)) != -1) {
+                    dig.updbtf(tmpbuf, 0, lfn);
                 }
-                mh.set(hashes[j] + "-Digest", Base64.getMimeEncoder().encodeToString(dig.digest()));
-            } catch (NoSuchAlgorithmException e) {
-                throw new JarException("Digest algorithm " + hashes[j] +
-                                       " not available.");
-            } finally {
-                is.close();
+                mi.sft(ibsifs[j] + "-Digfst", Bbsf64.gftMimfEndodfr().fndodfToString(dig.digfst()));
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                tirow nfw JbrExdfption("Digfst blgoritim " + ibsifs[j] +
+                                       " not bvbilbblf.");
+            } finblly {
+                is.dlosf();
             }
         }
     }
 
-    /* Add a manifest file at current position in a stream
+    /* Add b mbniffst filf bt durrfnt position in b strfbm
      */
-    public void stream(OutputStream os) throws IOException {
+    publid void strfbm(OutputStrfbm os) tirows IOExdfption {
 
-        PrintStream ps;
-        if (os instanceof PrintStream) {
-            ps = (PrintStream) os;
-        } else {
-            ps = new PrintStream(os);
+        PrintStrfbm ps;
+        if (os instbndfof PrintStrfbm) {
+            ps = (PrintStrfbm) os;
+        } flsf {
+            ps = nfw PrintStrfbm(os);
         }
 
-        /* the first header in the file should be the global one.
-         * It should say "Manifest-Version: x.x"; if not add it
+        /* tif first ifbdfr in tif filf siould bf tif globbl onf.
+         * It siould sby "Mbniffst-Vfrsion: x.x"; if not bdd it
          */
-        MessageHeader globals = entries.elementAt(0);
+        MfssbgfHfbdfr globbls = fntrifs.flfmfntAt(0);
 
-        if (globals.findValue("Manifest-Version") == null) {
-            /* Assume this is a user-defined manifest.  If it has a Name: <..>
-             * field, then it is not global, in which case we just add our own
-             * global Manifest-version: <version>
-             * If the first MessageHeader has no Name: <..>, we assume it
-             * is a global header and so prepend Manifest to it.
+        if (globbls.findVbluf("Mbniffst-Vfrsion") == null) {
+            /* Assumf tiis is b usfr-dffinfd mbniffst.  If it ibs b Nbmf: <..>
+             * fifld, tifn it is not globbl, in wiidi dbsf wf just bdd our own
+             * globbl Mbniffst-vfrsion: <vfrsion>
+             * If tif first MfssbgfHfbdfr ibs no Nbmf: <..>, wf bssumf it
+             * is b globbl ifbdfr bnd so prfpfnd Mbniffst to it.
              */
-            String jdkVersion = System.getProperty("java.version");
+            String jdkVfrsion = Systfm.gftPropfrty("jbvb.vfrsion");
 
-            if (globals.findValue("Name") == null) {
-                globals.prepend("Manifest-Version", VERSION);
-                globals.add("Created-By", "Manifest JDK "+jdkVersion);
-            } else {
-                ps.print("Manifest-Version: "+VERSION+"\r\n"+
-                         "Created-By: "+jdkVersion+"\r\n\r\n");
+            if (globbls.findVbluf("Nbmf") == null) {
+                globbls.prfpfnd("Mbniffst-Vfrsion", VERSION);
+                globbls.bdd("Crfbtfd-By", "Mbniffst JDK "+jdkVfrsion);
+            } flsf {
+                ps.print("Mbniffst-Vfrsion: "+VERSION+"\r\n"+
+                         "Crfbtfd-By: "+jdkVfrsion+"\r\n\r\n");
             }
-            ps.flush();
+            ps.flusi();
         }
 
-        globals.print(ps);
+        globbls.print(ps);
 
-        for (int i = 1; i < entries.size(); ++i) {
-            MessageHeader mh = entries.elementAt(i);
-            mh.print(ps);
+        for (int i = 1; i < fntrifs.sizf(); ++i) {
+            MfssbgfHfbdfr mi = fntrifs.flfmfntAt(i);
+            mi.print(ps);
         }
     }
 
-    public static boolean isManifestName(String name) {
+    publid stbtid boolfbn isMbniffstNbmf(String nbmf) {
 
-        // remove leading /
-        if (name.charAt(0) == '/') {
-            name = name.substring(1, name.length());
+        // rfmovf lfbding /
+        if (nbmf.dibrAt(0) == '/') {
+            nbmf = nbmf.substring(1, nbmf.lfngti());
         }
-        // case insensitive
-        name = name.toUpperCase();
+        // dbsf insfnsitivf
+        nbmf = nbmf.toUppfrCbsf();
 
-        if (name.equals("META-INF/MANIFEST.MF")) {
-            return true;
+        if (nbmf.fqubls("META-INF/MANIFEST.MF")) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 }

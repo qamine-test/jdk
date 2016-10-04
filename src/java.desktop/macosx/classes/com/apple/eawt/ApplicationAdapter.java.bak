@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.eawt;
+pbdkbgf dom.bpplf.fbwt;
 
 /**
- * An abstract adapter class for receiving <code>ApplicationEvents</code>.
+ * An bbstrbdt bdbptfr dlbss for rfdfiving <dodf>ApplidbtionEvfnts</dodf>.
  *
- * ApplicationEvents are deprecated. Use individual app event listeners or handlers instead.
+ * ApplidbtionEvfnts brf dfprfdbtfd. Usf individubl bpp fvfnt listfnfrs or ibndlfrs instfbd.
  *
- * @see Application#addAppEventListener(AppEventListener)
+ * @sff Applidbtion#bddAppEvfntListfnfr(AppEvfntListfnfr)
  *
- * @see AboutHandler
- * @see PreferencesHandler
- * @see OpenURIHandler
- * @see OpenFilesHandler
- * @see PrintFilesHandler
- * @see QuitHandler
+ * @sff AboutHbndlfr
+ * @sff PrfffrfndfsHbndlfr
+ * @sff OpfnURIHbndlfr
+ * @sff OpfnFilfsHbndlfr
+ * @sff PrintFilfsHbndlfr
+ * @sff QuitHbndlfr
  *
- * @see AppReOpenedListener
- * @see AppForegroundListener
- * @see AppHiddenListener
- * @see UserSessionListener
- * @see ScreenSleepListener
- * @see SystemSleepListener
+ * @sff AppRfOpfnfdListfnfr
+ * @sff AppForfgroundListfnfr
+ * @sff AppHiddfnListfnfr
+ * @sff UsfrSfssionListfnfr
+ * @sff SdrffnSlffpListfnfr
+ * @sff SystfmSlffpListfnfr
  *
- * @deprecated replaced by {@link AboutHandler}, {@link PreferencesHandler}, {@link AppReOpenedListener}, {@link OpenFilesHandler}, {@link PrintFilesHandler}, {@link QuitHandler}, {@link QuitResponse}.
- * @since 1.4
+ * @dfprfdbtfd rfplbdfd by {@link AboutHbndlfr}, {@link PrfffrfndfsHbndlfr}, {@link AppRfOpfnfdListfnfr}, {@link OpfnFilfsHbndlfr}, {@link PrintFilfsHbndlfr}, {@link QuitHbndlfr}, {@link QuitRfsponsf}.
+ * @sindf 1.4
  */
-@SuppressWarnings("deprecation")
-@Deprecated
-public class ApplicationAdapter implements ApplicationListener {
-    @Deprecated
-    public void handleAbout(final ApplicationEvent event) { }
+@SupprfssWbrnings("dfprfdbtion")
+@Dfprfdbtfd
+publid dlbss ApplidbtionAdbptfr implfmfnts ApplidbtionListfnfr {
+    @Dfprfdbtfd
+    publid void ibndlfAbout(finbl ApplidbtionEvfnt fvfnt) { }
 
-    @Deprecated
-    public void handleOpenApplication(final ApplicationEvent event) { }
+    @Dfprfdbtfd
+    publid void ibndlfOpfnApplidbtion(finbl ApplidbtionEvfnt fvfnt) { }
 
-    @Deprecated
-    public void handleOpenFile(final ApplicationEvent event) { }
+    @Dfprfdbtfd
+    publid void ibndlfOpfnFilf(finbl ApplidbtionEvfnt fvfnt) { }
 
-    @Deprecated
-    public void handlePreferences(final ApplicationEvent event) { }
+    @Dfprfdbtfd
+    publid void ibndlfPrfffrfndfs(finbl ApplidbtionEvfnt fvfnt) { }
 
-    @Deprecated
-    public void handlePrintFile(final ApplicationEvent event) { }
+    @Dfprfdbtfd
+    publid void ibndlfPrintFilf(finbl ApplidbtionEvfnt fvfnt) { }
 
-    @Deprecated
-    public void handleQuit(final ApplicationEvent event) { }
+    @Dfprfdbtfd
+    publid void ibndlfQuit(finbl ApplidbtionEvfnt fvfnt) { }
 
-    @Deprecated
-    public void handleReOpenApplication(final ApplicationEvent event) { }
+    @Dfprfdbtfd
+    publid void ibndlfRfOpfnApplidbtion(finbl ApplidbtionEvfnt fvfnt) { }
 }

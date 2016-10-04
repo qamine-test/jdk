@@ -1,2332 +1,2332 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import java.awt.event.ComponentEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.WindowEvent;
+import jbvb.bwt.fvfnt.ComponfntEvfnt;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
 
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.WindowPeer;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.pffr.WindowPffr;
 
-import java.io.UnsupportedEncodingException;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Vector;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+import jbvb.util.Vfdtor;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
-import sun.awt.AWTAccessor;
-import sun.awt.DisplayChangedListener;
-import sun.awt.SunToolkit;
-import sun.awt.X11GraphicsDevice;
-import sun.awt.X11GraphicsEnvironment;
-import sun.awt.IconInfo;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.DisplbyCibngfdListfnfr;
+import sun.bwt.SunToolkit;
+import sun.bwt.X11GrbpiidsDfvidf;
+import sun.bwt.X11GrbpiidsEnvironmfnt;
+import sun.bwt.IdonInfo;
 
-import sun.java2d.pipe.Region;
+import sun.jbvb2d.pipf.Rfgion;
 
-class XWindowPeer extends XPanelPeer implements WindowPeer,
-                                                DisplayChangedListener {
+dlbss XWindowPffr fxtfnds XPbnflPffr implfmfnts WindowPffr,
+                                                DisplbyCibngfdListfnfr {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XWindowPeer");
-    private static final PlatformLogger focusLog = PlatformLogger.getLogger("sun.awt.X11.focus.XWindowPeer");
-    private static final PlatformLogger insLog = PlatformLogger.getLogger("sun.awt.X11.insets.XWindowPeer");
-    private static final PlatformLogger grabLog = PlatformLogger.getLogger("sun.awt.X11.grab.XWindowPeer");
-    private static final PlatformLogger iconLog = PlatformLogger.getLogger("sun.awt.X11.icon.XWindowPeer");
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XWindowPffr");
+    privbtf stbtid finbl PlbtformLoggfr fodusLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.fodus.XWindowPffr");
+    privbtf stbtid finbl PlbtformLoggfr insLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.insfts.XWindowPffr");
+    privbtf stbtid finbl PlbtformLoggfr grbbLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.grbb.XWindowPffr");
+    privbtf stbtid finbl PlbtformLoggfr idonLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.idon.XWindowPffr");
 
-    // should be synchronized on awtLock
-    private static Set<XWindowPeer> windows = new HashSet<XWindowPeer>();
+    // siould bf syndironizfd on bwtLodk
+    privbtf stbtid Sft<XWindowPffr> windows = nfw HbsiSft<XWindowPffr>();
 
 
-    private boolean cachedFocusableWindow;
-    XWarningWindow warningWindow;
+    privbtf boolfbn dbdifdFodusbblfWindow;
+    XWbrningWindow wbrningWindow;
 
-    private boolean alwaysOnTop;
-    private boolean locationByPlatform;
+    privbtf boolfbn blwbysOnTop;
+    privbtf boolfbn lodbtionByPlbtform;
 
-    Dialog modalBlocker;
-    boolean delayedModalBlocking = false;
-    Dimension targetMinimumSize = null;
+    Diblog modblBlodkfr;
+    boolfbn dflbyfdModblBlodking = fblsf;
+    Dimfnsion tbrgftMinimumSizf = null;
 
-    private XWindowPeer ownerPeer;
+    privbtf XWindowPffr ownfrPffr;
 
-    // used for modal blocking to keep existing z-order
-    protected XWindowPeer prevTransientFor, nextTransientFor;
-    // value of WM_TRANSIENT_FOR hint set on this window
-    private XWindowPeer curRealTransientFor;
+    // usfd for modbl blodking to kffp fxisting z-ordfr
+    protfdtfd XWindowPffr prfvTrbnsifntFor, nfxtTrbnsifntFor;
+    // vbluf of WM_TRANSIENT_FOR iint sft on tiis window
+    privbtf XWindowPffr durRfblTrbnsifntFor;
 
-    private boolean grab = false; // Whether to do a grab during showing
+    privbtf boolfbn grbb = fblsf; // Wiftifr to do b grbb during siowing
 
-    private boolean isMapped = false; // Is this window mapped or not
-    private boolean mustControlStackPosition = false; // Am override-redirect not on top
-    private XEventDispatcher rootPropertyEventDispatcher = null;
+    privbtf boolfbn isMbppfd = fblsf; // Is tiis window mbppfd or not
+    privbtf boolfbn mustControlStbdkPosition = fblsf; // Am ovfrridf-rfdirfdt not on top
+    privbtf XEvfntDispbtdifr rootPropfrtyEvfntDispbtdifr = null;
 
-    private static final AtomicBoolean isStartupNotificationRemoved = new AtomicBoolean();
+    privbtf stbtid finbl AtomidBoolfbn isStbrtupNotifidbtionRfmovfd = nfw AtomidBoolfbn();
 
     /*
-     * Focus related flags
+     * Fodus rflbtfd flbgs
      */
-    private boolean isUnhiding = false;             // Is the window unhiding.
-    private boolean isBeforeFirstMapNotify = false; // Is the window (being shown) between
-                                                    //    setVisible(true) & handleMapNotify().
+    privbtf boolfbn isUniiding = fblsf;             // Is tif window uniiding.
+    privbtf boolfbn isBfforfFirstMbpNotify = fblsf; // Is tif window (bfing siown) bftwffn
+                                                    //    sftVisiblf(truf) & ibndlfMbpNotify().
 
     /**
-     * The type of the window.
+     * Tif typf of tif window.
      *
-     * The type is supposed to be immutable while the peer object exists.
-     * The value gets initialized in the preInit() method.
+     * Tif typf is supposfd to bf immutbblf wiilf tif pffr objfdt fxists.
+     * Tif vbluf gfts initiblizfd in tif prfInit() mftiod.
      */
-    private Window.Type windowType = Window.Type.NORMAL;
+    privbtf Window.Typf windowTypf = Window.Typf.NORMAL;
 
-    public final Window.Type getWindowType() {
-        return windowType;
+    publid finbl Window.Typf gftWindowTypf() {
+        rfturn windowTypf;
     }
 
-    // It need to be accessed from XFramePeer.
-    protected Vector <ToplevelStateListener> toplevelStateListeners = new Vector<ToplevelStateListener>();
-    XWindowPeer(XCreateWindowParams params) {
-        super(params.putIfNull(PARENT_WINDOW, Long.valueOf(0)));
+    // It nffd to bf bddfssfd from XFrbmfPffr.
+    protfdtfd Vfdtor <ToplfvflStbtfListfnfr> toplfvflStbtfListfnfrs = nfw Vfdtor<ToplfvflStbtfListfnfr>();
+    XWindowPffr(XCrfbtfWindowPbrbms pbrbms) {
+        supfr(pbrbms.putIfNull(PARENT_WINDOW, Long.vblufOf(0)));
     }
 
-    XWindowPeer(Window target) {
-        super(new XCreateWindowParams(new Object[] {
-            TARGET, target,
-            PARENT_WINDOW, Long.valueOf(0)}));
+    XWindowPffr(Window tbrgft) {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
+            TARGET, tbrgft,
+            PARENT_WINDOW, Long.vblufOf(0)}));
     }
 
     /*
-     * This constant defines icon size recommended for using.
-     * Apparently, we should use XGetIconSizes which should
-     * return icon sizes would be most appreciated by the WM.
-     * However, XGetIconSizes always returns 0 for some reason.
-     * So the constant has been introduced.
+     * Tiis donstbnt dffinfs idon sizf rfdommfndfd for using.
+     * Appbrfntly, wf siould usf XGftIdonSizfs wiidi siould
+     * rfturn idon sizfs would bf most bpprfdibtfd by tif WM.
+     * Howfvfr, XGftIdonSizfs blwbys rfturns 0 for somf rfbson.
+     * So tif donstbnt ibs bffn introdudfd.
      */
-    private static final int PREFERRED_SIZE_FOR_ICON = 128;
+    privbtf stbtid finbl int PREFERRED_SIZE_FOR_ICON = 128;
 
     /*
-     * Sometimes XChangeProperty(_NET_WM_ICON) doesn't work if
-     * image buffer is too large. This constant holds maximum
-     * length of buffer which can be used with _NET_WM_ICON hint.
-     * It holds int's value.
+     * Somftimfs XCibngfPropfrty(_NET_WM_ICON) dofsn't work if
+     * imbgf bufffr is too lbrgf. Tiis donstbnt iolds mbximum
+     * lfngti of bufffr wiidi dbn bf usfd witi _NET_WM_ICON iint.
+     * It iolds int's vbluf.
      */
-    private static final int MAXIMUM_BUFFER_LENGTH_NET_WM_ICON = (2<<15) - 1;
+    privbtf stbtid finbl int MAXIMUM_BUFFER_LENGTH_NET_WM_ICON = (2<<15) - 1;
 
-    void preInit(XCreateWindowParams params) {
-        target = (Component)params.get(TARGET);
-        windowType = ((Window)target).getType();
-        params.put(REPARENTED,
-                   Boolean.valueOf(isOverrideRedirect() || isSimpleWindow()));
-        super.preInit(params);
-        params.putIfNull(BIT_GRAVITY, Integer.valueOf(XConstants.NorthWestGravity));
+    void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        tbrgft = (Componfnt)pbrbms.gft(TARGET);
+        windowTypf = ((Window)tbrgft).gftTypf();
+        pbrbms.put(REPARENTED,
+                   Boolfbn.vblufOf(isOvfrridfRfdirfdt() || isSimplfWindow()));
+        supfr.prfInit(pbrbms);
+        pbrbms.putIfNull(BIT_GRAVITY, Intfgfr.vblufOf(XConstbnts.NortiWfstGrbvity));
 
-        long eventMask = 0;
-        if (params.containsKey(EVENT_MASK)) {
-            eventMask = ((Long)params.get(EVENT_MASK));
+        long fvfntMbsk = 0;
+        if (pbrbms.dontbinsKfy(EVENT_MASK)) {
+            fvfntMbsk = ((Long)pbrbms.gft(EVENT_MASK));
         }
-        eventMask |= XConstants.VisibilityChangeMask;
-        params.put(EVENT_MASK, eventMask);
+        fvfntMbsk |= XConstbnts.VisibilityCibngfMbsk;
+        pbrbms.put(EVENT_MASK, fvfntMbsk);
 
-        XA_NET_WM_STATE = XAtom.get("_NET_WM_STATE");
+        XA_NET_WM_STATE = XAtom.gft("_NET_WM_STATE");
 
 
-        params.put(OVERRIDE_REDIRECT, Boolean.valueOf(isOverrideRedirect()));
+        pbrbms.put(OVERRIDE_REDIRECT, Boolfbn.vblufOf(isOvfrridfRfdirfdt()));
 
-        SunToolkit.awtLock();
+        SunToolkit.bwtLodk();
         try {
-            windows.add(this);
-        } finally {
-            SunToolkit.awtUnlock();
+            windows.bdd(tiis);
+        } finblly {
+            SunToolkit.bwtUnlodk();
         }
 
-        cachedFocusableWindow = isFocusableWindow();
+        dbdifdFodusbblfWindow = isFodusbblfWindow();
 
-        Font f = target.getFont();
+        Font f = tbrgft.gftFont();
         if (f == null) {
-            f = XWindow.getDefaultFont();
-            target.setFont(f);
-            // we should not call setFont because it will call a repaint
-            // which the peer may not be ready to do yet.
+            f = XWindow.gftDffbultFont();
+            tbrgft.sftFont(f);
+            // wf siould not dbll sftFont bfdbusf it will dbll b rfpbint
+            // wiidi tif pffr mby not bf rfbdy to do yft.
         }
-        Color c = target.getBackground();
-        if (c == null) {
-            Color background = SystemColor.window;
-            target.setBackground(background);
-            // we should not call setBackGround because it will call a repaint
-            // which the peer may not be ready to do yet.
+        Color d = tbrgft.gftBbdkground();
+        if (d == null) {
+            Color bbdkground = SystfmColor.window;
+            tbrgft.sftBbdkground(bbdkground);
+            // wf siould not dbll sftBbdkGround bfdbusf it will dbll b rfpbint
+            // wiidi tif pffr mby not bf rfbdy to do yft.
         }
-        c = target.getForeground();
-        if (c == null) {
-            target.setForeground(SystemColor.windowText);
-            // we should not call setForeGround because it will call a repaint
-            // which the peer may not be ready to do yet.
+        d = tbrgft.gftForfground();
+        if (d == null) {
+            tbrgft.sftForfground(SystfmColor.windowTfxt);
+            // wf siould not dbll sftForfGround bfdbusf it will dbll b rfpbint
+            // wiidi tif pffr mby not bf rfbdy to do yft.
         }
 
-        alwaysOnTop = ((Window)target).isAlwaysOnTop() && ((Window)target).isAlwaysOnTopSupported();
+        blwbysOnTop = ((Window)tbrgft).isAlwbysOnTop() && ((Window)tbrgft).isAlwbysOnTopSupportfd();
 
-        GraphicsConfiguration gc = getGraphicsConfiguration();
-        ((X11GraphicsDevice)gc.getDevice()).addDisplayChangedListener(this);
+        GrbpiidsConfigurbtion gd = gftGrbpiidsConfigurbtion();
+        ((X11GrbpiidsDfvidf)gd.gftDfvidf()).bddDisplbyCibngfdListfnfr(tiis);
     }
 
-    protected String getWMName() {
-        String name = target.getName();
-        if (name == null || name.trim().equals("")) {
-            name = " ";
+    protfdtfd String gftWMNbmf() {
+        String nbmf = tbrgft.gftNbmf();
+        if (nbmf == null || nbmf.trim().fqubls("")) {
+            nbmf = " ";
         }
-        return name;
+        rfturn nbmf;
     }
 
-    private static native String getLocalHostname();
-    private static native int getJvmPID();
+    privbtf stbtid nbtivf String gftLodblHostnbmf();
+    privbtf stbtid nbtivf int gftJvmPID();
 
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
+    void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.postInit(pbrbms);
 
-        // Init WM_PROTOCOLS atom
-        initWMProtocols();
+        // Init WM_PROTOCOLS btom
+        initWMProtodols();
 
-        // Set _NET_WM_PID and WM_CLIENT_MACHINE using this JVM
-        XAtom.get("WM_CLIENT_MACHINE").setProperty(getWindow(), getLocalHostname());
-        XAtom.get("_NET_WM_PID").setCard32Property(getWindow(), getJvmPID());
+        // Sft _NET_WM_PID bnd WM_CLIENT_MACHINE using tiis JVM
+        XAtom.gft("WM_CLIENT_MACHINE").sftPropfrty(gftWindow(), gftLodblHostnbmf());
+        XAtom.gft("_NET_WM_PID").sftCbrd32Propfrty(gftWindow(), gftJvmPID());
 
-        // Set WM_TRANSIENT_FOR and group_leader
-        Window t_window = (Window)target;
-        Window owner = t_window.getOwner();
-        if (owner != null) {
-            ownerPeer = (XWindowPeer)owner.getPeer();
-            if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
-                focusLog.finer("Owner is " + owner);
-                focusLog.finer("Owner peer is " + ownerPeer);
-                focusLog.finer("Owner X window " + Long.toHexString(ownerPeer.getWindow()));
-                focusLog.finer("Owner content X window " + Long.toHexString(ownerPeer.getContentWindow()));
+        // Sft WM_TRANSIENT_FOR bnd group_lfbdfr
+        Window t_window = (Window)tbrgft;
+        Window ownfr = t_window.gftOwnfr();
+        if (ownfr != null) {
+            ownfrPffr = (XWindowPffr)ownfr.gftPffr();
+            if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                fodusLog.finfr("Ownfr is " + ownfr);
+                fodusLog.finfr("Ownfr pffr is " + ownfrPffr);
+                fodusLog.finfr("Ownfr X window " + Long.toHfxString(ownfrPffr.gftWindow()));
+                fodusLog.finfr("Ownfr dontfnt X window " + Long.toHfxString(ownfrPffr.gftContfntWindow()));
             }
-            // as owner window may be an embedded window, we must get a toplevel window
-            // to set as TRANSIENT_FOR hint
-            long ownerWindow = ownerPeer.getWindow();
-            if (ownerWindow != 0) {
-                XToolkit.awtLock();
+            // bs ownfr window mby bf bn fmbfddfd window, wf must gft b toplfvfl window
+            // to sft bs TRANSIENT_FOR iint
+            long ownfrWindow = ownfrPffr.gftWindow();
+            if (ownfrWindow != 0) {
+                XToolkit.bwtLodk();
                 try {
-                    // Set WM_TRANSIENT_FOR
-                    if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
-                        focusLog.fine("Setting transient on " + Long.toHexString(getWindow())
-                                      + " for " + Long.toHexString(ownerWindow));
+                    // Sft WM_TRANSIENT_FOR
+                    if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        fodusLog.finf("Sftting trbnsifnt on " + Long.toHfxString(gftWindow())
+                                      + " for " + Long.toHfxString(ownfrWindow));
                     }
-                    setToplevelTransientFor(this, ownerPeer, false, true);
+                    sftToplfvflTrbnsifntFor(tiis, ownfrPffr, fblsf, truf);
 
-                    // Set group leader
-                    XWMHints hints = getWMHints();
-                    hints.set_flags(hints.get_flags() | (int)XUtilConstants.WindowGroupHint);
-                    hints.set_window_group(ownerWindow);
-                    XlibWrapper.XSetWMHints(XToolkit.getDisplay(), getWindow(), hints.pData);
+                    // Sft group lfbdfr
+                    XWMHints iints = gftWMHints();
+                    iints.sft_flbgs(iints.gft_flbgs() | (int)XUtilConstbnts.WindowGroupHint);
+                    iints.sft_window_group(ownfrWindow);
+                    XlibWrbppfr.XSftWMHints(XToolkit.gftDisplby(), gftWindow(), iints.pDbtb);
                 }
-                finally {
-                    XToolkit.awtUnlock();
+                finblly {
+                    XToolkit.bwtUnlodk();
                 }
             }
         }
 
-        if (owner != null || isSimpleWindow()) {
-            XNETProtocol protocol = XWM.getWM().getNETProtocol();
-            if (protocol != null && protocol.active()) {
-                XToolkit.awtLock();
+        if (ownfr != null || isSimplfWindow()) {
+            XNETProtodol protodol = XWM.gftWM().gftNETProtodol();
+            if (protodol != null && protodol.bdtivf()) {
+                XToolkit.bwtLodk();
                 try {
-                    XAtomList net_wm_state = getNETWMState();
-                    net_wm_state.add(protocol.XA_NET_WM_STATE_SKIP_TASKBAR);
-                    setNETWMState(net_wm_state);
-                } finally {
-                    XToolkit.awtUnlock();
+                    XAtomList nft_wm_stbtf = gftNETWMStbtf();
+                    nft_wm_stbtf.bdd(protodol.XA_NET_WM_STATE_SKIP_TASKBAR);
+                    sftNETWMStbtf(nft_wm_stbtf);
+                } finblly {
+                    XToolkit.bwtUnlodk();
                 }
 
             }
         }
 
-         // Init warning window(for applets)
-        if (((Window)target).getWarningString() != null) {
-            // accessSystemTray permission allows to display TrayIcon, TrayIcon tooltip
-            // and TrayIcon balloon windows without a warning window.
-            if (!AWTAccessor.getWindowAccessor().isTrayIconWindow((Window)target)) {
-                warningWindow = new XWarningWindow((Window)target, getWindow(), this);
+         // Init wbrning window(for bpplfts)
+        if (((Window)tbrgft).gftWbrningString() != null) {
+            // bddfssSystfmTrby pfrmission bllows to displby TrbyIdon, TrbyIdon tooltip
+            // bnd TrbyIdon bblloon windows witiout b wbrning window.
+            if (!AWTAddfssor.gftWindowAddfssor().isTrbyIdonWindow((Window)tbrgft)) {
+                wbrningWindow = nfw XWbrningWindow((Window)tbrgft, gftWindow(), tiis);
             }
         }
 
-        setSaveUnder(true);
+        sftSbvfUndfr(truf);
 
-        updateIconImages();
+        updbtfIdonImbgfs();
 
-        updateShape();
-        updateOpacity();
-        // no need in updateOpaque() as it is no-op
+        updbtfSibpf();
+        updbtfOpbdity();
+        // no nffd in updbtfOpbquf() bs it is no-op
     }
 
-    public void updateIconImages() {
-        Window target = (Window)this.target;
-        java.util.List<Image> iconImages = target.getIconImages();
-        XWindowPeer ownerPeer = getOwnerPeer();
-        winAttr.icons = new ArrayList<IconInfo>();
-        if (iconImages.size() != 0) {
-            //read icon images from target
-            winAttr.iconsInherited = false;
-            for (Iterator<Image> i = iconImages.iterator(); i.hasNext(); ) {
-                Image image = i.next();
-                if (image == null) {
-                    if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                        log.finest("XWindowPeer.updateIconImages: Skipping the image passed into Java because it's null.");
+    publid void updbtfIdonImbgfs() {
+        Window tbrgft = (Window)tiis.tbrgft;
+        jbvb.util.List<Imbgf> idonImbgfs = tbrgft.gftIdonImbgfs();
+        XWindowPffr ownfrPffr = gftOwnfrPffr();
+        winAttr.idons = nfw ArrbyList<IdonInfo>();
+        if (idonImbgfs.sizf() != 0) {
+            //rfbd idon imbgfs from tbrgft
+            winAttr.idonsInifritfd = fblsf;
+            for (Itfrbtor<Imbgf> i = idonImbgfs.itfrbtor(); i.ibsNfxt(); ) {
+                Imbgf imbgf = i.nfxt();
+                if (imbgf == null) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                        log.finfst("XWindowPffr.updbtfIdonImbgfs: Skipping tif imbgf pbssfd into Jbvb bfdbusf it's null.");
                     }
-                    continue;
+                    dontinuf;
                 }
-                IconInfo iconInfo;
+                IdonInfo idonInfo;
                 try {
-                    iconInfo = new IconInfo(image);
-                } catch (Exception e){
-                    if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                        log.finest("XWindowPeer.updateIconImages: Perhaps the image passed into Java is broken. Skipping this icon.");
+                    idonInfo = nfw IdonInfo(imbgf);
+                } dbtdi (Exdfption f){
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                        log.finfst("XWindowPffr.updbtfIdonImbgfs: Pfribps tif imbgf pbssfd into Jbvb is brokfn. Skipping tiis idon.");
                     }
-                    continue;
+                    dontinuf;
                 }
-                if (iconInfo.isValid()) {
-                    winAttr.icons.add(iconInfo);
+                if (idonInfo.isVblid()) {
+                    winAttr.idons.bdd(idonInfo);
                 }
             }
         }
 
         // Fix for CR#6425089
-        winAttr.icons = normalizeIconImages(winAttr.icons);
+        winAttr.idons = normblizfIdonImbgfs(winAttr.idons);
 
-        if (winAttr.icons.size() == 0) {
-            //target.icons is empty or all icon images are broken
-            if (ownerPeer != null) {
-                //icon is inherited from parent
-                winAttr.iconsInherited = true;
-                winAttr.icons = ownerPeer.getIconInfo();
-            } else {
-                //default icon is used
-                winAttr.iconsInherited = false;
-                winAttr.icons = getDefaultIconInfo();
+        if (winAttr.idons.sizf() == 0) {
+            //tbrgft.idons is fmpty or bll idon imbgfs brf brokfn
+            if (ownfrPffr != null) {
+                //idon is inifritfd from pbrfnt
+                winAttr.idonsInifritfd = truf;
+                winAttr.idons = ownfrPffr.gftIdonInfo();
+            } flsf {
+                //dffbult idon is usfd
+                winAttr.idonsInifritfd = fblsf;
+                winAttr.idons = gftDffbultIdonInfo();
             }
         }
-        recursivelySetIcon(winAttr.icons);
+        rfdursivflySftIdon(winAttr.idons);
     }
 
     /*
-     * Sometimes XChangeProperty(_NET_WM_ICON) doesn't work if
-     * image buffer is too large. This function help us accommodate
-     * initial list of the icon images to certainly-acceptable.
-     * It does scale some of these icons to appropriate size
-     * if it's necessary.
+     * Somftimfs XCibngfPropfrty(_NET_WM_ICON) dofsn't work if
+     * imbgf bufffr is too lbrgf. Tiis fundtion iflp us bddommodbtf
+     * initibl list of tif idon imbgfs to dfrtbinly-bddfptbblf.
+     * It dofs sdblf somf of tifsf idons to bppropribtf sizf
+     * if it's nfdfssbry.
      */
-    static java.util.List<IconInfo> normalizeIconImages(java.util.List<IconInfo> icons) {
-        java.util.List<IconInfo> result = new ArrayList<IconInfo>();
-        int totalLength = 0;
-        boolean haveLargeIcon = false;
+    stbtid jbvb.util.List<IdonInfo> normblizfIdonImbgfs(jbvb.util.List<IdonInfo> idons) {
+        jbvb.util.List<IdonInfo> rfsult = nfw ArrbyList<IdonInfo>();
+        int totblLfngti = 0;
+        boolfbn ibvfLbrgfIdon = fblsf;
 
-        for (IconInfo icon : icons) {
-            int width = icon.getWidth();
-            int height = icon.getHeight();
-            int length = icon.getRawLength();
+        for (IdonInfo idon : idons) {
+            int widti = idon.gftWidti();
+            int ifigit = idon.gftHfigit();
+            int lfngti = idon.gftRbwLfngti();
 
-            if (width > PREFERRED_SIZE_FOR_ICON || height > PREFERRED_SIZE_FOR_ICON) {
-                if (haveLargeIcon) {
-                    continue;
+            if (widti > PREFERRED_SIZE_FOR_ICON || ifigit > PREFERRED_SIZE_FOR_ICON) {
+                if (ibvfLbrgfIdon) {
+                    dontinuf;
                 }
-                int scaledWidth = width;
-                int scaledHeight = height;
-                while (scaledWidth > PREFERRED_SIZE_FOR_ICON ||
-                       scaledHeight > PREFERRED_SIZE_FOR_ICON) {
-                    scaledWidth = scaledWidth / 2;
-                    scaledHeight = scaledHeight / 2;
+                int sdblfdWidti = widti;
+                int sdblfdHfigit = ifigit;
+                wiilf (sdblfdWidti > PREFERRED_SIZE_FOR_ICON ||
+                       sdblfdHfigit > PREFERRED_SIZE_FOR_ICON) {
+                    sdblfdWidti = sdblfdWidti / 2;
+                    sdblfdHfigit = sdblfdHfigit / 2;
                 }
 
-                icon.setScaledSize(scaledWidth, scaledHeight);
-                length = icon.getRawLength();
+                idon.sftSdblfdSizf(sdblfdWidti, sdblfdHfigit);
+                lfngti = idon.gftRbwLfngti();
             }
 
-            if (totalLength + length <= MAXIMUM_BUFFER_LENGTH_NET_WM_ICON) {
-                totalLength += length;
-                result.add(icon);
-                if (width > PREFERRED_SIZE_FOR_ICON || height > PREFERRED_SIZE_FOR_ICON) {
-                    haveLargeIcon = true;
+            if (totblLfngti + lfngti <= MAXIMUM_BUFFER_LENGTH_NET_WM_ICON) {
+                totblLfngti += lfngti;
+                rfsult.bdd(idon);
+                if (widti > PREFERRED_SIZE_FOR_ICON || ifigit > PREFERRED_SIZE_FOR_ICON) {
+                    ibvfLbrgfIdon = truf;
                 }
             }
         }
 
-        if (iconLog.isLoggable(PlatformLogger.Level.FINEST)) {
-            iconLog.finest(">>> Length_ of buffer of icons data: " + totalLength +
-                           ", maximum length: " + MAXIMUM_BUFFER_LENGTH_NET_WM_ICON);
+        if (idonLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            idonLog.finfst(">>> Lfngti_ of bufffr of idons dbtb: " + totblLfngti +
+                           ", mbximum lfngti: " + MAXIMUM_BUFFER_LENGTH_NET_WM_ICON);
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /*
-     * Dumps each icon from the list
+     * Dumps fbdi idon from tif list
      */
-    static void dumpIcons(java.util.List<IconInfo> icons) {
-        if (iconLog.isLoggable(PlatformLogger.Level.FINEST)) {
-            iconLog.finest(">>> Sizes of icon images:");
-            for (Iterator<IconInfo> i = icons.iterator(); i.hasNext(); ) {
-                iconLog.finest("    {0}", i.next());
+    stbtid void dumpIdons(jbvb.util.List<IdonInfo> idons) {
+        if (idonLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            idonLog.finfst(">>> Sizfs of idon imbgfs:");
+            for (Itfrbtor<IdonInfo> i = idons.itfrbtor(); i.ibsNfxt(); ) {
+                idonLog.finfst("    {0}", i.nfxt());
             }
         }
     }
 
-    public void recursivelySetIcon(java.util.List<IconInfo> icons) {
-        dumpIcons(winAttr.icons);
-        setIconHints(icons);
-        Window target = (Window)this.target;
-        Window[] children = target.getOwnedWindows();
-        int cnt = children.length;
-        for (int i = 0; i < cnt; i++) {
-            ComponentPeer childPeer = children[i].getPeer();
-            if (childPeer != null && childPeer instanceof XWindowPeer) {
-                if (((XWindowPeer)childPeer).winAttr.iconsInherited) {
-                    ((XWindowPeer)childPeer).winAttr.icons = icons;
-                    ((XWindowPeer)childPeer).recursivelySetIcon(icons);
+    publid void rfdursivflySftIdon(jbvb.util.List<IdonInfo> idons) {
+        dumpIdons(winAttr.idons);
+        sftIdonHints(idons);
+        Window tbrgft = (Window)tiis.tbrgft;
+        Window[] diildrfn = tbrgft.gftOwnfdWindows();
+        int dnt = diildrfn.lfngti;
+        for (int i = 0; i < dnt; i++) {
+            ComponfntPffr diildPffr = diildrfn[i].gftPffr();
+            if (diildPffr != null && diildPffr instbndfof XWindowPffr) {
+                if (((XWindowPffr)diildPffr).winAttr.idonsInifritfd) {
+                    ((XWindowPffr)diildPffr).winAttr.idons = idons;
+                    ((XWindowPffr)diildPffr).rfdursivflySftIdon(idons);
                 }
             }
         }
     }
 
-    java.util.List<IconInfo> getIconInfo() {
-        return winAttr.icons;
+    jbvb.util.List<IdonInfo> gftIdonInfo() {
+        rfturn winAttr.idons;
     }
-    void setIconHints(java.util.List<IconInfo> icons) {
-        //This does nothing for XWindowPeer,
-        //It's overriden in XDecoratedPeer
+    void sftIdonHints(jbvb.util.List<IdonInfo> idons) {
+        //Tiis dofs notiing for XWindowPffr,
+        //It's ovfrridfn in XDfdorbtfdPffr
     }
 
-    private static ArrayList<IconInfo> defaultIconInfo;
-    protected synchronized static java.util.List<IconInfo> getDefaultIconInfo() {
-        if (defaultIconInfo == null) {
-            defaultIconInfo = new ArrayList<IconInfo>();
-            if (XlibWrapper.dataModel == 32) {
-                defaultIconInfo.add(new IconInfo(sun.awt.AWTIcon32_java_icon16_png.java_icon16_png));
-                defaultIconInfo.add(new IconInfo(sun.awt.AWTIcon32_java_icon24_png.java_icon24_png));
-                defaultIconInfo.add(new IconInfo(sun.awt.AWTIcon32_java_icon32_png.java_icon32_png));
-                defaultIconInfo.add(new IconInfo(sun.awt.AWTIcon32_java_icon48_png.java_icon48_png));
-            } else {
-                defaultIconInfo.add(new IconInfo(sun.awt.AWTIcon64_java_icon16_png.java_icon16_png));
-                defaultIconInfo.add(new IconInfo(sun.awt.AWTIcon64_java_icon24_png.java_icon24_png));
-                defaultIconInfo.add(new IconInfo(sun.awt.AWTIcon64_java_icon32_png.java_icon32_png));
-                defaultIconInfo.add(new IconInfo(sun.awt.AWTIcon64_java_icon48_png.java_icon48_png));
+    privbtf stbtid ArrbyList<IdonInfo> dffbultIdonInfo;
+    protfdtfd syndironizfd stbtid jbvb.util.List<IdonInfo> gftDffbultIdonInfo() {
+        if (dffbultIdonInfo == null) {
+            dffbultIdonInfo = nfw ArrbyList<IdonInfo>();
+            if (XlibWrbppfr.dbtbModfl == 32) {
+                dffbultIdonInfo.bdd(nfw IdonInfo(sun.bwt.AWTIdon32_jbvb_idon16_png.jbvb_idon16_png));
+                dffbultIdonInfo.bdd(nfw IdonInfo(sun.bwt.AWTIdon32_jbvb_idon24_png.jbvb_idon24_png));
+                dffbultIdonInfo.bdd(nfw IdonInfo(sun.bwt.AWTIdon32_jbvb_idon32_png.jbvb_idon32_png));
+                dffbultIdonInfo.bdd(nfw IdonInfo(sun.bwt.AWTIdon32_jbvb_idon48_png.jbvb_idon48_png));
+            } flsf {
+                dffbultIdonInfo.bdd(nfw IdonInfo(sun.bwt.AWTIdon64_jbvb_idon16_png.jbvb_idon16_png));
+                dffbultIdonInfo.bdd(nfw IdonInfo(sun.bwt.AWTIdon64_jbvb_idon24_png.jbvb_idon24_png));
+                dffbultIdonInfo.bdd(nfw IdonInfo(sun.bwt.AWTIdon64_jbvb_idon32_png.jbvb_idon32_png));
+                dffbultIdonInfo.bdd(nfw IdonInfo(sun.bwt.AWTIdon64_jbvb_idon48_png.jbvb_idon48_png));
             }
         }
-        return defaultIconInfo;
+        rfturn dffbultIdonInfo;
     }
 
-    private void updateShape() {
-        // Shape shape = ((Window)target).getShape();
-        Shape shape = AWTAccessor.getWindowAccessor().getShape((Window)target);
-        if (shape != null) {
-            applyShape(Region.getInstance(shape, null));
+    privbtf void updbtfSibpf() {
+        // Sibpf sibpf = ((Window)tbrgft).gftSibpf();
+        Sibpf sibpf = AWTAddfssor.gftWindowAddfssor().gftSibpf((Window)tbrgft);
+        if (sibpf != null) {
+            bpplySibpf(Rfgion.gftInstbndf(sibpf, null));
         }
     }
 
-    private void updateOpacity() {
-        // float opacity = ((Window)target).getOpacity();
-        float opacity = AWTAccessor.getWindowAccessor().getOpacity((Window)target);
-        if (opacity < 1.0f) {
-            setOpacity(opacity);
+    privbtf void updbtfOpbdity() {
+        // flobt opbdity = ((Window)tbrgft).gftOpbdity();
+        flobt opbdity = AWTAddfssor.gftWindowAddfssor().gftOpbdity((Window)tbrgft);
+        if (opbdity < 1.0f) {
+            sftOpbdity(opbdity);
         }
     }
 
-    public void updateMinimumSize() {
-        //This function only saves minimumSize value in XWindowPeer
-        //Setting WMSizeHints is implemented in XDecoratedPeer
-        targetMinimumSize = (target.isMinimumSizeSet()) ?
-            target.getMinimumSize() : null;
+    publid void updbtfMinimumSizf() {
+        //Tiis fundtion only sbvfs minimumSizf vbluf in XWindowPffr
+        //Sftting WMSizfHints is implfmfntfd in XDfdorbtfdPffr
+        tbrgftMinimumSizf = (tbrgft.isMinimumSizfSft()) ?
+            tbrgft.gftMinimumSizf() : null;
     }
 
-    public Dimension getTargetMinimumSize() {
-        return (targetMinimumSize == null) ? null : new Dimension(targetMinimumSize);
+    publid Dimfnsion gftTbrgftMinimumSizf() {
+        rfturn (tbrgftMinimumSizf == null) ? null : nfw Dimfnsion(tbrgftMinimumSizf);
     }
 
-    public XWindowPeer getOwnerPeer() {
-        return ownerPeer;
+    publid XWindowPffr gftOwnfrPffr() {
+        rfturn ownfrPffr;
     }
 
-    //Fix for 6318144: PIT:Setting Min Size bigger than current size enlarges
-    //the window but fails to revalidate, Sol-CDE
-    //This bug is regression for
-    //5025858: Resizing a decorated frame triggers componentResized event twice.
-    //Since events are not posted from Component.setBounds we need to send them here.
-    //Note that this function is overriden in XDecoratedPeer so event
-    //posting is not changing for decorated peers
-    public void setBounds(int x, int y, int width, int height, int op) {
-        XToolkit.awtLock();
+    //Fix for 6318144: PIT:Sftting Min Sizf biggfr tibn durrfnt sizf fnlbrgfs
+    //tif window but fbils to rfvblidbtf, Sol-CDE
+    //Tiis bug is rfgrfssion for
+    //5025858: Rfsizing b dfdorbtfd frbmf triggfrs domponfntRfsizfd fvfnt twidf.
+    //Sindf fvfnts brf not postfd from Componfnt.sftBounds wf nffd to sfnd tifm ifrf.
+    //Notf tibt tiis fundtion is ovfrridfn in XDfdorbtfdPffr so fvfnt
+    //posting is not dibnging for dfdorbtfd pffrs
+    publid void sftBounds(int x, int y, int widti, int ifigit, int op) {
+        XToolkit.bwtLodk();
         try {
-            Rectangle oldBounds = getBounds();
+            Rfdtbnglf oldBounds = gftBounds();
 
-            super.setBounds(x, y, width, height, op);
+            supfr.sftBounds(x, y, widti, ifigit, op);
 
-            Rectangle bounds = getBounds();
+            Rfdtbnglf bounds = gftBounds();
 
-            XSizeHints hints = getHints();
-            setSizeHints(hints.get_flags() | XUtilConstants.PPosition | XUtilConstants.PSize,
-                             bounds.x, bounds.y, bounds.width, bounds.height);
-            XWM.setMotifDecor(this, false, 0, 0);
+            XSizfHints iints = gftHints();
+            sftSizfHints(iints.gft_flbgs() | XUtilConstbnts.PPosition | XUtilConstbnts.PSizf,
+                             bounds.x, bounds.y, bounds.widti, bounds.ifigit);
+            XWM.sftMotifDfdor(tiis, fblsf, 0, 0);
 
-            boolean isResized = !bounds.getSize().equals(oldBounds.getSize());
-            boolean isMoved = !bounds.getLocation().equals(oldBounds.getLocation());
-            if (isMoved || isResized) {
-                repositionSecurityWarning();
+            boolfbn isRfsizfd = !bounds.gftSizf().fqubls(oldBounds.gftSizf());
+            boolfbn isMovfd = !bounds.gftLodbtion().fqubls(oldBounds.gftLodbtion());
+            if (isMovfd || isRfsizfd) {
+                rfpositionSfdurityWbrning();
             }
-            if (isResized) {
-                postEventToEventQueue(new ComponentEvent(getEventSource(), ComponentEvent.COMPONENT_RESIZED));
+            if (isRfsizfd) {
+                postEvfntToEvfntQufuf(nfw ComponfntEvfnt(gftEvfntSourdf(), ComponfntEvfnt.COMPONENT_RESIZED));
             }
-            if (isMoved) {
-                postEventToEventQueue(new ComponentEvent(getEventSource(), ComponentEvent.COMPONENT_MOVED));
+            if (isMovfd) {
+                postEvfntToEvfntQufuf(nfw ComponfntEvfnt(gftEvfntSourdf(), ComponfntEvfnt.COMPONENT_MOVED));
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    void updateFocusability() {
-        updateFocusableWindowState();
-        XToolkit.awtLock();
+    void updbtfFodusbbility() {
+        updbtfFodusbblfWindowStbtf();
+        XToolkit.bwtLodk();
         try {
-            XWMHints hints = getWMHints();
-            hints.set_flags(hints.get_flags() | (int)XUtilConstants.InputHint);
-            hints.set_input(false/*isNativelyNonFocusableWindow() ? (0):(1)*/);
-            XlibWrapper.XSetWMHints(XToolkit.getDisplay(), getWindow(), hints.pData);
+            XWMHints iints = gftWMHints();
+            iints.sft_flbgs(iints.gft_flbgs() | (int)XUtilConstbnts.InputHint);
+            iints.sft_input(fblsf/*isNbtivflyNonFodusbblfWindow() ? (0):(1)*/);
+            XlibWrbppfr.XSftWMHints(XToolkit.gftDisplby(), gftWindow(), iints.pDbtb);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    public Insets getInsets() {
-        return new Insets(0, 0, 0, 0);
+    publid Insfts gftInsfts() {
+        rfturn nfw Insfts(0, 0, 0, 0);
     }
 
-    // NOTE: This method may be called by privileged threads.
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void handleIconify() {
-        postEvent(new WindowEvent((Window)target, WindowEvent.WINDOW_ICONIFIED));
+    publid void ibndlfIdonify() {
+        postEvfnt(nfw WindowEvfnt((Window)tbrgft, WindowEvfnt.WINDOW_ICONIFIED));
     }
 
-    // NOTE: This method may be called by privileged threads.
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void handleDeiconify() {
-        postEvent(new WindowEvent((Window)target, WindowEvent.WINDOW_DEICONIFIED));
+    publid void ibndlfDfidonify() {
+        postEvfnt(nfw WindowEvfnt((Window)tbrgft, WindowEvfnt.WINDOW_DEICONIFIED));
     }
 
-    // NOTE: This method may be called by privileged threads.
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void handleStateChange(int oldState, int newState) {
-        postEvent(new WindowEvent((Window)target,
-                                  WindowEvent.WINDOW_STATE_CHANGED,
-                                  oldState, newState));
+    publid void ibndlfStbtfCibngf(int oldStbtf, int nfwStbtf) {
+        postEvfnt(nfw WindowEvfnt((Window)tbrgft,
+                                  WindowEvfnt.WINDOW_STATE_CHANGED,
+                                  oldStbtf, nfwStbtf));
     }
 
     /**
-     * DEPRECATED:  Replaced by getInsets().
+     * DEPRECATED:  Rfplbdfd by gftInsfts().
      */
-    public Insets insets() {
-        return getInsets();
+    publid Insfts insfts() {
+        rfturn gftInsfts();
     }
 
-    boolean isAutoRequestFocus() {
-        if (XToolkit.isToolkitThread()) {
-            return AWTAccessor.getWindowAccessor().isAutoRequestFocus((Window)target);
-        } else {
-            return ((Window)target).isAutoRequestFocus();
+    boolfbn isAutoRfqufstFodus() {
+        if (XToolkit.isToolkitTirfbd()) {
+            rfturn AWTAddfssor.gftWindowAddfssor().isAutoRfqufstFodus((Window)tbrgft);
+        } flsf {
+            rfturn ((Window)tbrgft).isAutoRfqufstFodus();
         }
     }
 
     /*
-     * Retrives real native focused window and converts it into Java peer.
+     * Rftrivfs rfbl nbtivf fodusfd window bnd donvfrts it into Jbvb pffr.
      */
-    static XWindowPeer getNativeFocusedWindowPeer() {
-        XBaseWindow baseWindow = XToolkit.windowToXWindow(xGetInputFocus());
-        return (baseWindow instanceof XWindowPeer) ? (XWindowPeer)baseWindow :
-               (baseWindow instanceof XFocusProxyWindow) ?
-               ((XFocusProxyWindow)baseWindow).getOwner() : null;
+    stbtid XWindowPffr gftNbtivfFodusfdWindowPffr() {
+        XBbsfWindow bbsfWindow = XToolkit.windowToXWindow(xGftInputFodus());
+        rfturn (bbsfWindow instbndfof XWindowPffr) ? (XWindowPffr)bbsfWindow :
+               (bbsfWindow instbndfof XFodusProxyWindow) ?
+               ((XFodusProxyWindow)bbsfWindow).gftOwnfr() : null;
     }
 
     /*
-     * Retrives real native focused window and converts it into Java window.
+     * Rftrivfs rfbl nbtivf fodusfd window bnd donvfrts it into Jbvb window.
      */
-    static Window getNativeFocusedWindow() {
-        XWindowPeer peer = getNativeFocusedWindowPeer();
-        return peer != null ? (Window)peer.target : null;
+    stbtid Window gftNbtivfFodusfdWindow() {
+        XWindowPffr pffr = gftNbtivfFodusfdWindowPffr();
+        rfturn pffr != null ? (Window)pffr.tbrgft : null;
     }
 
-    boolean isFocusableWindow() {
-        if (XToolkit.isToolkitThread() || SunToolkit.isAWTLockHeldByCurrentThread())
+    boolfbn isFodusbblfWindow() {
+        if (XToolkit.isToolkitTirfbd() || SunToolkit.isAWTLodkHfldByCurrfntTirfbd())
         {
-            return cachedFocusableWindow;
-        } else {
-            return ((Window)target).isFocusableWindow();
+            rfturn dbdifdFodusbblfWindow;
+        } flsf {
+            rfturn ((Window)tbrgft).isFodusbblfWindow();
         }
     }
 
-    /* WARNING: don't call client code in this method! */
-    boolean isFocusedWindowModalBlocker() {
-        return false;
+    /* WARNING: don't dbll dlifnt dodf in tiis mftiod! */
+    boolfbn isFodusfdWindowModblBlodkfr() {
+        rfturn fblsf;
     }
 
-    long getFocusTargetWindow() {
-        return getContentWindow();
+    long gftFodusTbrgftWindow() {
+        rfturn gftContfntWindow();
     }
 
     /**
-     * Returns whether or not this window peer has native X window
-     * configured as non-focusable window. It might happen if:
-     * - Java window is non-focusable
-     * - Java window is simple Window(not Frame or Dialog)
+     * Rfturns wiftifr or not tiis window pffr ibs nbtivf X window
+     * donfigurfd bs non-fodusbblf window. It migit ibppfn if:
+     * - Jbvb window is non-fodusbblf
+     * - Jbvb window is simplf Window(not Frbmf or Diblog)
      */
-    boolean isNativelyNonFocusableWindow() {
-        if (XToolkit.isToolkitThread() || SunToolkit.isAWTLockHeldByCurrentThread())
+    boolfbn isNbtivflyNonFodusbblfWindow() {
+        if (XToolkit.isToolkitTirfbd() || SunToolkit.isAWTLodkHfldByCurrfntTirfbd())
         {
-            return isSimpleWindow() || !cachedFocusableWindow;
-        } else {
-            return isSimpleWindow() || !(((Window)target).isFocusableWindow());
+            rfturn isSimplfWindow() || !dbdifdFodusbblfWindow;
+        } flsf {
+            rfturn isSimplfWindow() || !(((Window)tbrgft).isFodusbblfWindow());
         }
     }
 
-    public void handleWindowFocusIn_Dispatch() {
-        if (EventQueue.isDispatchThread()) {
-            XKeyboardFocusManagerPeer.getInstance().setCurrentFocusedWindow((Window) target);
-            WindowEvent we = new WindowEvent((Window)target, WindowEvent.WINDOW_GAINED_FOCUS);
-            SunToolkit.setSystemGenerated(we);
-            target.dispatchEvent(we);
+    publid void ibndlfWindowFodusIn_Dispbtdi() {
+        if (EvfntQufuf.isDispbtdiTirfbd()) {
+            XKfybobrdFodusMbnbgfrPffr.gftInstbndf().sftCurrfntFodusfdWindow((Window) tbrgft);
+            WindowEvfnt wf = nfw WindowEvfnt((Window)tbrgft, WindowEvfnt.WINDOW_GAINED_FOCUS);
+            SunToolkit.sftSystfmGfnfrbtfd(wf);
+            tbrgft.dispbtdiEvfnt(wf);
         }
     }
 
-    public void handleWindowFocusInSync(long serial) {
-        WindowEvent we = new WindowEvent((Window)target, WindowEvent.WINDOW_GAINED_FOCUS);
-        XKeyboardFocusManagerPeer.getInstance().setCurrentFocusedWindow((Window) target);
-        sendEvent(we);
+    publid void ibndlfWindowFodusInSynd(long sfribl) {
+        WindowEvfnt wf = nfw WindowEvfnt((Window)tbrgft, WindowEvfnt.WINDOW_GAINED_FOCUS);
+        XKfybobrdFodusMbnbgfrPffr.gftInstbndf().sftCurrfntFodusfdWindow((Window) tbrgft);
+        sfndEvfnt(wf);
     }
-    // NOTE: This method may be called by privileged threads.
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void handleWindowFocusIn(long serial) {
-        WindowEvent we = new WindowEvent((Window)target, WindowEvent.WINDOW_GAINED_FOCUS);
-        /* wrap in Sequenced, then post*/
-        XKeyboardFocusManagerPeer.getInstance().setCurrentFocusedWindow((Window) target);
-        postEvent(wrapInSequenced((AWTEvent) we));
+    publid void ibndlfWindowFodusIn(long sfribl) {
+        WindowEvfnt wf = nfw WindowEvfnt((Window)tbrgft, WindowEvfnt.WINDOW_GAINED_FOCUS);
+        /* wrbp in Sfqufndfd, tifn post*/
+        XKfybobrdFodusMbnbgfrPffr.gftInstbndf().sftCurrfntFodusfdWindow((Window) tbrgft);
+        postEvfnt(wrbpInSfqufndfd((AWTEvfnt) wf));
     }
 
-    // NOTE: This method may be called by privileged threads.
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void handleWindowFocusOut(Window oppositeWindow, long serial) {
-        WindowEvent we = new WindowEvent((Window)target, WindowEvent.WINDOW_LOST_FOCUS, oppositeWindow);
-        XKeyboardFocusManagerPeer.getInstance().setCurrentFocusedWindow(null);
-        XKeyboardFocusManagerPeer.getInstance().setCurrentFocusOwner(null);
-        /* wrap in Sequenced, then post*/
-        postEvent(wrapInSequenced((AWTEvent) we));
+    publid void ibndlfWindowFodusOut(Window oppositfWindow, long sfribl) {
+        WindowEvfnt wf = nfw WindowEvfnt((Window)tbrgft, WindowEvfnt.WINDOW_LOST_FOCUS, oppositfWindow);
+        XKfybobrdFodusMbnbgfrPffr.gftInstbndf().sftCurrfntFodusfdWindow(null);
+        XKfybobrdFodusMbnbgfrPffr.gftInstbndf().sftCurrfntFodusOwnfr(null);
+        /* wrbp in Sfqufndfd, tifn post*/
+        postEvfnt(wrbpInSfqufndfd((AWTEvfnt) wf));
     }
-    public void handleWindowFocusOutSync(Window oppositeWindow, long serial) {
-        WindowEvent we = new WindowEvent((Window)target, WindowEvent.WINDOW_LOST_FOCUS, oppositeWindow);
-        XKeyboardFocusManagerPeer.getInstance().setCurrentFocusedWindow(null);
-        XKeyboardFocusManagerPeer.getInstance().setCurrentFocusOwner(null);
-        sendEvent(we);
+    publid void ibndlfWindowFodusOutSynd(Window oppositfWindow, long sfribl) {
+        WindowEvfnt wf = nfw WindowEvfnt((Window)tbrgft, WindowEvfnt.WINDOW_LOST_FOCUS, oppositfWindow);
+        XKfybobrdFodusMbnbgfrPffr.gftInstbndf().sftCurrfntFodusfdWindow(null);
+        XKfybobrdFodusMbnbgfrPffr.gftInstbndf().sftCurrfntFodusOwnfr(null);
+        sfndEvfnt(wf);
     }
 
-/* --- DisplayChangedListener Stuff --- */
+/* --- DisplbyCibngfdListfnfr Stuff --- */
 
-    /* Xinerama
-     * called to check if we've been moved onto a different screen
-     * Based on checkNewXineramaScreen() in awt_GraphicsEnv.c
+    /* Xinfrbmb
+     * dbllfd to difdk if wf'vf bffn movfd onto b difffrfnt sdrffn
+     * Bbsfd on difdkNfwXinfrbmbSdrffn() in bwt_GrbpiidsEnv.d
      */
-    public void checkIfOnNewScreen(Rectangle newBounds) {
-        if (!XToolkit.localEnv.runningXinerama()) {
-            return;
+    publid void difdkIfOnNfwSdrffn(Rfdtbnglf nfwBounds) {
+        if (!XToolkit.lodblEnv.runningXinfrbmb()) {
+            rfturn;
         }
 
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-            log.finest("XWindowPeer: Check if we've been moved to a new screen since we're running in Xinerama mode");
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            log.finfst("XWindowPffr: Cifdk if wf'vf bffn movfd to b nfw sdrffn sindf wf'rf running in Xinfrbmb modf");
         }
 
-        int area = newBounds.width * newBounds.height;
-        int intAmt, vertAmt, horizAmt;
-        int largestAmt = 0;
-        int curScreenNum = ((X11GraphicsDevice)getGraphicsConfiguration().getDevice()).getScreen();
-        int newScreenNum = 0;
-        GraphicsDevice gds[] = XToolkit.localEnv.getScreenDevices();
-        GraphicsConfiguration newGC = null;
-        Rectangle screenBounds;
+        int brfb = nfwBounds.widti * nfwBounds.ifigit;
+        int intAmt, vfrtAmt, iorizAmt;
+        int lbrgfstAmt = 0;
+        int durSdrffnNum = ((X11GrbpiidsDfvidf)gftGrbpiidsConfigurbtion().gftDfvidf()).gftSdrffn();
+        int nfwSdrffnNum = 0;
+        GrbpiidsDfvidf gds[] = XToolkit.lodblEnv.gftSdrffnDfvidfs();
+        GrbpiidsConfigurbtion nfwGC = null;
+        Rfdtbnglf sdrffnBounds;
 
-        for (int i = 0; i < gds.length; i++) {
-            screenBounds = gds[i].getDefaultConfiguration().getBounds();
-            if (newBounds.intersects(screenBounds)) {
-                horizAmt = Math.min(newBounds.x + newBounds.width,
-                                    screenBounds.x + screenBounds.width) -
-                           Math.max(newBounds.x, screenBounds.x);
-                vertAmt = Math.min(newBounds.y + newBounds.height,
-                                   screenBounds.y + screenBounds.height)-
-                          Math.max(newBounds.y, screenBounds.y);
-                intAmt = horizAmt * vertAmt;
-                if (intAmt == area) {
-                    // Completely on this screen - done!
-                    newScreenNum = i;
-                    newGC = gds[i].getDefaultConfiguration();
-                    break;
+        for (int i = 0; i < gds.lfngti; i++) {
+            sdrffnBounds = gds[i].gftDffbultConfigurbtion().gftBounds();
+            if (nfwBounds.intfrsfdts(sdrffnBounds)) {
+                iorizAmt = Mbti.min(nfwBounds.x + nfwBounds.widti,
+                                    sdrffnBounds.x + sdrffnBounds.widti) -
+                           Mbti.mbx(nfwBounds.x, sdrffnBounds.x);
+                vfrtAmt = Mbti.min(nfwBounds.y + nfwBounds.ifigit,
+                                   sdrffnBounds.y + sdrffnBounds.ifigit)-
+                          Mbti.mbx(nfwBounds.y, sdrffnBounds.y);
+                intAmt = iorizAmt * vfrtAmt;
+                if (intAmt == brfb) {
+                    // Complftfly on tiis sdrffn - donf!
+                    nfwSdrffnNum = i;
+                    nfwGC = gds[i].gftDffbultConfigurbtion();
+                    brfbk;
                 }
-                if (intAmt > largestAmt) {
-                    largestAmt = intAmt;
-                    newScreenNum = i;
-                    newGC = gds[i].getDefaultConfiguration();
+                if (intAmt > lbrgfstAmt) {
+                    lbrgfstAmt = intAmt;
+                    nfwSdrffnNum = i;
+                    nfwGC = gds[i].gftDffbultConfigurbtion();
                 }
             }
         }
-        if (newScreenNum != curScreenNum) {
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("XWindowPeer: Moved to a new screen");
+        if (nfwSdrffnNum != durSdrffnNum) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst("XWindowPffr: Movfd to b nfw sdrffn");
             }
-            executeDisplayChangedOnEDT(newGC);
+            fxfdutfDisplbyCibngfdOnEDT(nfwGC);
         }
     }
 
     /**
-     * Helper method that executes the displayChanged(screen) method on
-     * the event dispatch thread.  This method is used in the Xinerama case
-     * and after display mode change events.
+     * Hflpfr mftiod tibt fxfdutfs tif displbyCibngfd(sdrffn) mftiod on
+     * tif fvfnt dispbtdi tirfbd.  Tiis mftiod is usfd in tif Xinfrbmb dbsf
+     * bnd bftfr displby modf dibngf fvfnts.
      */
-    private void executeDisplayChangedOnEDT(final GraphicsConfiguration gc) {
-        Runnable dc = new Runnable() {
-            public void run() {
-                AWTAccessor.getComponentAccessor().
-                    setGraphicsConfiguration(target, gc);
+    privbtf void fxfdutfDisplbyCibngfdOnEDT(finbl GrbpiidsConfigurbtion gd) {
+        Runnbblf dd = nfw Runnbblf() {
+            publid void run() {
+                AWTAddfssor.gftComponfntAddfssor().
+                    sftGrbpiidsConfigurbtion(tbrgft, gd);
             }
         };
-        SunToolkit.executeOnEventHandlerThread(target, dc);
+        SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(tbrgft, dd);
     }
 
     /**
-     * From the DisplayChangedListener interface; called from
-     * X11GraphicsDevice when the display mode has been changed.
+     * From tif DisplbyCibngfdListfnfr intfrfbdf; dbllfd from
+     * X11GrbpiidsDfvidf wifn tif displby modf ibs bffn dibngfd.
      */
-    public void displayChanged() {
-        executeDisplayChangedOnEDT(getGraphicsConfiguration());
+    publid void displbyCibngfd() {
+        fxfdutfDisplbyCibngfdOnEDT(gftGrbpiidsConfigurbtion());
     }
 
     /**
-     * From the DisplayChangedListener interface; top-levels do not need
-     * to react to this event.
+     * From tif DisplbyCibngfdListfnfr intfrfbdf; top-lfvfls do not nffd
+     * to rfbdt to tiis fvfnt.
      */
-    public void paletteChanged() {
+    publid void pblfttfCibngfd() {
     }
 
-    private Point queryXLocation()
+    privbtf Point qufryXLodbtion()
     {
-        return XlibUtil.translateCoordinates(
-            getContentWindow(),
-            XlibWrapper.RootWindow(XToolkit.getDisplay(), getScreenNumber()),
-            new Point(0, 0));
+        rfturn XlibUtil.trbnslbtfCoordinbtfs(
+            gftContfntWindow(),
+            XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), gftSdrffnNumbfr()),
+            nfw Point(0, 0));
     }
 
-    protected Point getNewLocation(XConfigureEvent xe, int leftInset, int topInset) {
-        // Bounds of the window
-        Rectangle targetBounds = AWTAccessor.getComponentAccessor().getBounds(target);
+    protfdtfd Point gftNfwLodbtion(XConfigurfEvfnt xf, int lfftInsft, int topInsft) {
+        // Bounds of tif window
+        Rfdtbnglf tbrgftBounds = AWTAddfssor.gftComponfntAddfssor().gftBounds(tbrgft);
 
-        int runningWM = XWM.getWMID();
-        Point newLocation = targetBounds.getLocation();
-        if (xe.get_send_event() || runningWM == XWM.NO_WM || XWM.isNonReparentingWM()) {
-            // Location, Client size + insets
-            newLocation = new Point(xe.get_x() - leftInset, xe.get_y() - topInset);
-        } else {
-            // ICCCM 4.1.5 states that a real ConfigureNotify will be sent when
-            // a window is resized but the client can not tell if the window was
-            // moved or not. The client should consider the position as unkown
-            // and use TranslateCoordinates to find the actual position.
+        int runningWM = XWM.gftWMID();
+        Point nfwLodbtion = tbrgftBounds.gftLodbtion();
+        if (xf.gft_sfnd_fvfnt() || runningWM == XWM.NO_WM || XWM.isNonRfpbrfntingWM()) {
+            // Lodbtion, Clifnt sizf + insfts
+            nfwLodbtion = nfw Point(xf.gft_x() - lfftInsft, xf.gft_y() - topInsft);
+        } flsf {
+            // ICCCM 4.1.5 stbtfs tibt b rfbl ConfigurfNotify will bf sfnt wifn
+            // b window is rfsizfd but tif dlifnt dbn not tfll if tif window wbs
+            // movfd or not. Tif dlifnt siould donsidfr tif position bs unkown
+            // bnd usf TrbnslbtfCoordinbtfs to find tif bdtubl position.
             //
-            // TODO this should be the default for every case.
-            switch (runningWM) {
-                case XWM.CDE_WM:
-                case XWM.MOTIF_WM:
-                case XWM.METACITY_WM:
-                case XWM.MUTTER_WM:
-                case XWM.SAWFISH_WM:
+            // TODO tiis siould bf tif dffbult for fvfry dbsf.
+            switdi (runningWM) {
+                dbsf XWM.CDE_WM:
+                dbsf XWM.MOTIF_WM:
+                dbsf XWM.METACITY_WM:
+                dbsf XWM.MUTTER_WM:
+                dbsf XWM.SAWFISH_WM:
                 {
-                    Point xlocation = queryXLocation();
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("New X location: {0}", xlocation);
+                    Point xlodbtion = qufryXLodbtion();
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("Nfw X lodbtion: {0}", xlodbtion);
                     }
-                    if (xlocation != null) {
-                        newLocation = xlocation;
+                    if (xlodbtion != null) {
+                        nfwLodbtion = xlodbtion;
                     }
-                    break;
+                    brfbk;
                 }
-                default:
-                    break;
+                dffbult:
+                    brfbk;
             }
         }
-        return newLocation;
+        rfturn nfwLodbtion;
     }
 
     /*
-     * Overridden to check if we need to update our GraphicsDevice/Config
-     * Added for 4934052.
+     * Ovfrriddfn to difdk if wf nffd to updbtf our GrbpiidsDfvidf/Config
+     * Addfd for 4934052.
      */
-    @Override
-    public void handleConfigureNotifyEvent(XEvent xev) {
-        XConfigureEvent xe = xev.get_xconfigure();
+    @Ovfrridf
+    publid void ibndlfConfigurfNotifyEvfnt(XEvfnt xfv) {
+        XConfigurfEvfnt xf = xfv.gft_xdonfigurf();
         /*
-         * Correct window location which could be wrong in some cases.
-         * See getNewLocation() for the details.
+         * Corrfdt window lodbtion wiidi dould bf wrong in somf dbsfs.
+         * Sff gftNfwLodbtion() for tif dftbils.
          */
-        Point newLocation = getNewLocation(xe, 0, 0);
-        xe.set_x(newLocation.x);
-        xe.set_y(newLocation.y);
-        checkIfOnNewScreen(new Rectangle(xe.get_x(),
-                                         xe.get_y(),
-                                         xe.get_width(),
-                                         xe.get_height()));
+        Point nfwLodbtion = gftNfwLodbtion(xf, 0, 0);
+        xf.sft_x(nfwLodbtion.x);
+        xf.sft_y(nfwLodbtion.y);
+        difdkIfOnNfwSdrffn(nfw Rfdtbnglf(xf.gft_x(),
+                                         xf.gft_y(),
+                                         xf.gft_widti(),
+                                         xf.gft_ifigit()));
 
-        // Don't call super until we've handled a screen change.  Otherwise
-        // there could be a race condition in which a ComponentListener could
-        // see the old screen.
-        super.handleConfigureNotifyEvent(xev);
-        repositionSecurityWarning();
+        // Don't dbll supfr until wf'vf ibndlfd b sdrffn dibngf.  Otifrwisf
+        // tifrf dould bf b rbdf dondition in wiidi b ComponfntListfnfr dould
+        // sff tif old sdrffn.
+        supfr.ibndlfConfigurfNotifyEvfnt(xfv);
+        rfpositionSfdurityWbrning();
     }
 
-    final void requestXFocus(long time) {
-        requestXFocus(time, true);
+    finbl void rfqufstXFodus(long timf) {
+        rfqufstXFodus(timf, truf);
     }
 
-    final void requestXFocus() {
-        requestXFocus(0, false);
+    finbl void rfqufstXFodus() {
+        rfqufstXFodus(0, fblsf);
     }
 
     /**
-     * Requests focus to this top-level. Descendants should override to provide
-     * implementations based on a class of top-level.
+     * Rfqufsts fodus to tiis top-lfvfl. Dfsdfndbnts siould ovfrridf to providf
+     * implfmfntbtions bbsfd on b dlbss of top-lfvfl.
      */
-    protected void requestXFocus(long time, boolean timeProvided) {
-        // Since in XAWT focus is synthetic and all basic Windows are
-        // override_redirect all we can do is check whether our parent
-        // is active. If it is - we can freely synthesize focus transfer.
-        // Luckily, this logic is already implemented in requestWindowFocus.
-        if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
-            focusLog.fine("Requesting window focus");
+    protfdtfd void rfqufstXFodus(long timf, boolfbn timfProvidfd) {
+        // Sindf in XAWT fodus is syntiftid bnd bll bbsid Windows brf
+        // ovfrridf_rfdirfdt bll wf dbn do is difdk wiftifr our pbrfnt
+        // is bdtivf. If it is - wf dbn frffly syntifsizf fodus trbnsffr.
+        // Ludkily, tiis logid is blrfbdy implfmfntfd in rfqufstWindowFodus.
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fodusLog.finf("Rfqufsting window fodus");
         }
-        requestWindowFocus(time, timeProvided);
+        rfqufstWindowFodus(timf, timfProvidfd);
     }
 
-    public final boolean focusAllowedFor() {
-        if (isNativelyNonFocusableWindow()) {
-            return false;
+    publid finbl boolfbn fodusAllowfdFor() {
+        if (isNbtivflyNonFodusbblfWindow()) {
+            rfturn fblsf;
         }
 /*
-        Window target = (Window)this.target;
-        if (!target.isVisible() ||
-            !target.isEnabled() ||
-            !target.isFocusable())
+        Window tbrgft = (Window)tiis.tbrgft;
+        if (!tbrgft.isVisiblf() ||
+            !tbrgft.isEnbblfd() ||
+            !tbrgft.isFodusbblf())
         {
-            return false;
+            rfturn fblsf;
         }
 */
-        if (isModalBlocked()) {
-            return false;
+        if (isModblBlodkfd()) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    public void handleFocusEvent(XEvent xev) {
-        XFocusChangeEvent xfe = xev.get_xfocus();
-        FocusEvent fe;
-        if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
-            focusLog.fine("{0}", xfe);
+    publid void ibndlfFodusEvfnt(XEvfnt xfv) {
+        XFodusCibngfEvfnt xff = xfv.gft_xfodus();
+        FodusEvfnt ff;
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fodusLog.finf("{0}", xff);
         }
-        if (isEventDisabled(xev)) {
-            return;
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
         }
-        if (xev.get_type() == XConstants.FocusIn)
+        if (xfv.gft_typf() == XConstbnts.FodusIn)
         {
-            // If this window is non-focusable don't post any java focus event
-            if (focusAllowedFor()) {
-                if (xfe.get_mode() == XConstants.NotifyNormal // Normal notify
-                    || xfe.get_mode() == XConstants.NotifyWhileGrabbed) // Alt-Tab notify
+            // If tiis window is non-fodusbblf don't post bny jbvb fodus fvfnt
+            if (fodusAllowfdFor()) {
+                if (xff.gft_modf() == XConstbnts.NotifyNormbl // Normbl notify
+                    || xff.gft_modf() == XConstbnts.NotifyWiilfGrbbbfd) // Alt-Tbb notify
                 {
-                    handleWindowFocusIn(xfe.get_serial());
+                    ibndlfWindowFodusIn(xff.gft_sfribl());
                 }
             }
         }
-        else
+        flsf
         {
-            if (xfe.get_mode() == XConstants.NotifyNormal // Normal notify
-                || xfe.get_mode() == XConstants.NotifyWhileGrabbed) // Alt-Tab notify
+            if (xff.gft_modf() == XConstbnts.NotifyNormbl // Normbl notify
+                || xff.gft_modf() == XConstbnts.NotifyWiilfGrbbbfd) // Alt-Tbb notify
             {
-                // If this window is non-focusable don't post any java focus event
-                if (!isNativelyNonFocusableWindow()) {
-                    XWindowPeer oppositeXWindow = getNativeFocusedWindowPeer();
-                    Object oppositeTarget = (oppositeXWindow!=null)? oppositeXWindow.getTarget() : null;
-                    Window oppositeWindow = null;
-                    if (oppositeTarget instanceof Window) {
-                        oppositeWindow = (Window) oppositeTarget;
+                // If tiis window is non-fodusbblf don't post bny jbvb fodus fvfnt
+                if (!isNbtivflyNonFodusbblfWindow()) {
+                    XWindowPffr oppositfXWindow = gftNbtivfFodusfdWindowPffr();
+                    Objfdt oppositfTbrgft = (oppositfXWindow!=null)? oppositfXWindow.gftTbrgft() : null;
+                    Window oppositfWindow = null;
+                    if (oppositfTbrgft instbndfof Window) {
+                        oppositfWindow = (Window) oppositfTbrgft;
                     }
-                    // Check if opposite window is non-focusable. In that case we don't want to
-                    // post any event.
-                    if (oppositeXWindow != null && oppositeXWindow.isNativelyNonFocusableWindow()) {
-                        return;
+                    // Cifdk if oppositf window is non-fodusbblf. In tibt dbsf wf don't wbnt to
+                    // post bny fvfnt.
+                    if (oppositfXWindow != null && oppositfXWindow.isNbtivflyNonFodusbblfWindow()) {
+                        rfturn;
                     }
-                    if (this == oppositeXWindow) {
-                        oppositeWindow = null;
-                    } else if (oppositeXWindow instanceof XDecoratedPeer) {
-                        if (((XDecoratedPeer) oppositeXWindow).actualFocusedWindow != null) {
-                            oppositeXWindow = ((XDecoratedPeer) oppositeXWindow).actualFocusedWindow;
-                            oppositeTarget = oppositeXWindow.getTarget();
-                            if (oppositeTarget instanceof Window
-                                && oppositeXWindow.isVisible()
-                                && oppositeXWindow.isNativelyNonFocusableWindow())
+                    if (tiis == oppositfXWindow) {
+                        oppositfWindow = null;
+                    } flsf if (oppositfXWindow instbndfof XDfdorbtfdPffr) {
+                        if (((XDfdorbtfdPffr) oppositfXWindow).bdtublFodusfdWindow != null) {
+                            oppositfXWindow = ((XDfdorbtfdPffr) oppositfXWindow).bdtublFodusfdWindow;
+                            oppositfTbrgft = oppositfXWindow.gftTbrgft();
+                            if (oppositfTbrgft instbndfof Window
+                                && oppositfXWindow.isVisiblf()
+                                && oppositfXWindow.isNbtivflyNonFodusbblfWindow())
                             {
-                                oppositeWindow = ((Window) oppositeTarget);
+                                oppositfWindow = ((Window) oppositfTbrgft);
                             }
                         }
                     }
-                    handleWindowFocusOut(oppositeWindow, xfe.get_serial());
+                    ibndlfWindowFodusOut(oppositfWindow, xff.gft_sfribl());
                 }
             }
         }
     }
 
-    void setSaveUnder(boolean state) {}
+    void sftSbvfUndfr(boolfbn stbtf) {}
 
-    public void toFront() {
-        if (isOverrideRedirect() && mustControlStackPosition) {
-            mustControlStackPosition = false;
-            removeRootPropertyEventDispatcher();
+    publid void toFront() {
+        if (isOvfrridfRfdirfdt() && mustControlStbdkPosition) {
+            mustControlStbdkPosition = fblsf;
+            rfmovfRootPropfrtyEvfntDispbtdifr();
         }
-        if (isVisible()) {
-            super.toFront();
-            if (isFocusableWindow() && isAutoRequestFocus() &&
-                !isModalBlocked() && !isWithdrawn())
+        if (isVisiblf()) {
+            supfr.toFront();
+            if (isFodusbblfWindow() && isAutoRfqufstFodus() &&
+                !isModblBlodkfd() && !isWitidrbwn())
             {
-                requestInitialFocus();
+                rfqufstInitiblFodus();
             }
-        } else {
-            setVisible(true);
+        } flsf {
+            sftVisiblf(truf);
         }
     }
 
-    public void toBack() {
-        XToolkit.awtLock();
+    publid void toBbdk() {
+        XToolkit.bwtLodk();
         try {
-            if(!isOverrideRedirect()) {
-                XlibWrapper.XLowerWindow(XToolkit.getDisplay(), getWindow());
-            }else{
-                lowerOverrideRedirect();
+            if(!isOvfrridfRfdirfdt()) {
+                XlibWrbppfr.XLowfrWindow(XToolkit.gftDisplby(), gftWindow());
+            }flsf{
+                lowfrOvfrridfRfdirfdt();
             }
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlodk();
         }
     }
-    private void lowerOverrideRedirect() {
+    privbtf void lowfrOvfrridfRfdirfdt() {
         //
-        // make new hash of toplevels of all windows from 'windows' hash.
-        // FIXME: do not call them "toplevel" as it is misleading.
+        // mbkf nfw ibsi of toplfvfls of bll windows from 'windows' ibsi.
+        // FIXME: do not dbll tifm "toplfvfl" bs it is mislfbding.
         //
-        HashSet<Long> toplevels = new HashSet<>();
+        HbsiSft<Long> toplfvfls = nfw HbsiSft<>();
         long topl = 0, mytopl = 0;
 
-        for (XWindowPeer xp : windows) {
-            topl = getToplevelWindow( xp.getWindow() );
-            if( xp.equals( this ) ) {
+        for (XWindowPffr xp : windows) {
+            topl = gftToplfvflWindow( xp.gftWindow() );
+            if( xp.fqubls( tiis ) ) {
                 mytopl = topl;
             }
             if( topl > 0 )
-                toplevels.add( Long.valueOf( topl ) );
+                toplfvfls.bdd( Long.vblufOf( topl ) );
         }
 
         //
-        // find in the root's tree:
-        // (1) my toplevel, (2) lowest java toplevel, (3) desktop
-        // We must enforce (3), (1), (2) order, upward;
-        // note that nautilus on the next restacking will do (1),(3),(2).
+        // find in tif root's trff:
+        // (1) my toplfvfl, (2) lowfst jbvb toplfvfl, (3) dfsktop
+        // Wf must fnfordf (3), (1), (2) ordfr, upwbrd;
+        // notf tibt nbutilus on tif nfxt rfstbdking will do (1),(3),(2).
         //
-        long laux,     wDesktop = -1, wBottom = -1;
-        int  iMy = -1, iDesktop = -1, iBottom = -1;
+        long lbux,     wDfsktop = -1, wBottom = -1;
+        int  iMy = -1, iDfsktop = -1, iBottom = -1;
         int i = 0;
-        XQueryTree xqt = new XQueryTree(XToolkit.getDefaultRootWindow());
+        XQufryTrff xqt = nfw XQufryTrff(XToolkit.gftDffbultRootWindow());
         try {
-            if( xqt.execute() > 0 ) {
-                int nchildren = xqt.get_nchildren();
-                long children = xqt.get_children();
-                for(i = 0; i < nchildren; i++) {
-                    laux = Native.getWindow(children, i);
-                    if( laux == mytopl ) {
+            if( xqt.fxfdutf() > 0 ) {
+                int ndiildrfn = xqt.gft_ndiildrfn();
+                long diildrfn = xqt.gft_diildrfn();
+                for(i = 0; i < ndiildrfn; i++) {
+                    lbux = Nbtivf.gftWindow(diildrfn, i);
+                    if( lbux == mytopl ) {
                         iMy = i;
-                    }else if( isDesktopWindow( laux ) ) {
-                        // we need topmost desktop of them all.
-                        iDesktop = i;
-                        wDesktop = laux;
-                    }else if(iBottom < 0 &&
-                             toplevels.contains( Long.valueOf(laux) ) &&
-                             laux != mytopl) {
+                    }flsf if( isDfsktopWindow( lbux ) ) {
+                        // wf nffd topmost dfsktop of tifm bll.
+                        iDfsktop = i;
+                        wDfsktop = lbux;
+                    }flsf if(iBottom < 0 &&
+                             toplfvfls.dontbins( Long.vblufOf(lbux) ) &&
+                             lbux != mytopl) {
                         iBottom = i;
-                        wBottom = laux;
+                        wBottom = lbux;
                     }
                 }
             }
 
-            if( (iMy < iBottom || iBottom < 0 )&& iDesktop < iMy)
-                return; // no action necessary
+            if( (iMy < iBottom || iBottom < 0 )&& iDfsktop < iMy)
+                rfturn; // no bdtion nfdfssbry
 
-            long to_restack = Native.allocateLongArray(2);
-            Native.putLong(to_restack, 0, wBottom);
-            Native.putLong(to_restack, 1,  mytopl);
-            XlibWrapper.XRestackWindows(XToolkit.getDisplay(), to_restack, 2);
-            XlibWrapper.unsafe.freeMemory(to_restack);
+            long to_rfstbdk = Nbtivf.bllodbtfLongArrby(2);
+            Nbtivf.putLong(to_rfstbdk, 0, wBottom);
+            Nbtivf.putLong(to_rfstbdk, 1,  mytopl);
+            XlibWrbppfr.XRfstbdkWindows(XToolkit.gftDisplby(), to_rfstbdk, 2);
+            XlibWrbppfr.unsbff.frffMfmory(to_rfstbdk);
 
 
-            if( !mustControlStackPosition ) {
-                mustControlStackPosition = true;
-                // add root window property listener:
-                // somebody (eg nautilus desktop) may obscure us
-                addRootPropertyEventDispatcher();
+            if( !mustControlStbdkPosition ) {
+                mustControlStbdkPosition = truf;
+                // bdd root window propfrty listfnfr:
+                // somfbody (fg nbutilus dfsktop) mby obsdurf us
+                bddRootPropfrtyEvfntDispbtdifr();
             }
-        } finally {
-            xqt.dispose();
+        } finblly {
+            xqt.disposf();
         }
     }
     /**
-        Get XID of closest to root window in a given window hierarchy.
-        FIXME: do not call it "toplevel" as it is misleading.
-        On error return 0.
+        Gft XID of dlosfst to root window in b givfn window iifrbrdiy.
+        FIXME: do not dbll it "toplfvfl" bs it is mislfbding.
+        On frror rfturn 0.
     */
-    private long getToplevelWindow( long w ) {
-        long wi = w, ret, root;
+    privbtf long gftToplfvflWindow( long w ) {
+        long wi = w, rft, root;
         do {
-            ret = wi;
-            XQueryTree qt = new XQueryTree(wi);
+            rft = wi;
+            XQufryTrff qt = nfw XQufryTrff(wi);
             try {
-                if (qt.execute() == 0) {
-                    return 0;
+                if (qt.fxfdutf() == 0) {
+                    rfturn 0;
                 }
-                root = qt.get_root();
-                wi = qt.get_parent();
-            } finally {
-                qt.dispose();
+                root = qt.gft_root();
+                wi = qt.gft_pbrfnt();
+            } finblly {
+                qt.disposf();
             }
 
-        } while (wi != root);
+        } wiilf (wi != root);
 
-        return ret;
+        rfturn rft;
     }
 
-    private static boolean isDesktopWindow( long wi ) {
-        return XWM.getWM().isDesktopWindow( wi );
+    privbtf stbtid boolfbn isDfsktopWindow( long wi ) {
+        rfturn XWM.gftWM().isDfsktopWindow( wi );
     }
 
-    private void updateAlwaysOnTop() {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Promoting always-on-top state {0}", Boolean.valueOf(alwaysOnTop));
+    privbtf void updbtfAlwbysOnTop() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Promoting blwbys-on-top stbtf {0}", Boolfbn.vblufOf(blwbysOnTop));
         }
-        XWM.getWM().setLayer(this,
-                             alwaysOnTop ?
-                             XLayerProtocol.LAYER_ALWAYS_ON_TOP :
-                             XLayerProtocol.LAYER_NORMAL);
+        XWM.gftWM().sftLbyfr(tiis,
+                             blwbysOnTop ?
+                             XLbyfrProtodol.LAYER_ALWAYS_ON_TOP :
+                             XLbyfrProtodol.LAYER_NORMAL);
     }
 
-    public void updateAlwaysOnTopState() {
-        this.alwaysOnTop = ((Window) this.target).isAlwaysOnTop();
-        updateAlwaysOnTop();
+    publid void updbtfAlwbysOnTopStbtf() {
+        tiis.blwbysOnTop = ((Window) tiis.tbrgft).isAlwbysOnTop();
+        updbtfAlwbysOnTop();
     }
 
-    boolean isLocationByPlatform() {
-        return locationByPlatform;
+    boolfbn isLodbtionByPlbtform() {
+        rfturn lodbtionByPlbtform;
     }
 
-    private void promoteDefaultPosition() {
-        this.locationByPlatform = ((Window)target).isLocationByPlatform();
-        if (locationByPlatform) {
-            XToolkit.awtLock();
+    privbtf void promotfDffbultPosition() {
+        tiis.lodbtionByPlbtform = ((Window)tbrgft).isLodbtionByPlbtform();
+        if (lodbtionByPlbtform) {
+            XToolkit.bwtLodk();
             try {
-                Rectangle bounds = getBounds();
-                XSizeHints hints = getHints();
-                setSizeHints(hints.get_flags() & ~(XUtilConstants.USPosition | XUtilConstants.PPosition),
-                             bounds.x, bounds.y, bounds.width, bounds.height);
-            } finally {
-                XToolkit.awtUnlock();
+                Rfdtbnglf bounds = gftBounds();
+                XSizfHints iints = gftHints();
+                sftSizfHints(iints.gft_flbgs() & ~(XUtilConstbnts.USPosition | XUtilConstbnts.PPosition),
+                             bounds.x, bounds.y, bounds.widti, bounds.ifigit);
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
         }
     }
 
-    public void setVisible(boolean vis) {
-        if (!isVisible() && vis) {
-            isBeforeFirstMapNotify = true;
-            winAttr.initialFocus = isAutoRequestFocus();
-            if (!winAttr.initialFocus) {
+    publid void sftVisiblf(boolfbn vis) {
+        if (!isVisiblf() && vis) {
+            isBfforfFirstMbpNotify = truf;
+            winAttr.initiblFodus = isAutoRfqufstFodus();
+            if (!winAttr.initiblFodus) {
                 /*
-                 * It's easier and safer to temporary suppress WM_TAKE_FOCUS
-                 * protocol itself than to ignore WM_TAKE_FOCUS client message.
-                 * Because we will have to make the difference between
-                 * the message come after showing and the message come after
-                 * activation. Also, on Metacity, for some reason, we have _two_
-                 * WM_TAKE_FOCUS client messages when showing a frame/dialog.
+                 * It's fbsifr bnd sbffr to tfmporbry supprfss WM_TAKE_FOCUS
+                 * protodol itsflf tibn to ignorf WM_TAKE_FOCUS dlifnt mfssbgf.
+                 * Bfdbusf wf will ibvf to mbkf tif difffrfndf bftwffn
+                 * tif mfssbgf domf bftfr siowing bnd tif mfssbgf domf bftfr
+                 * bdtivbtion. Also, on Mftbdity, for somf rfbson, wf ibvf _two_
+                 * WM_TAKE_FOCUS dlifnt mfssbgfs wifn siowing b frbmf/diblog.
                  */
-                suppressWmTakeFocus(true);
+                supprfssWmTbkfFodus(truf);
             }
         }
-        updateFocusability();
-        promoteDefaultPosition();
-        if (!vis && warningWindow != null) {
-            warningWindow.setSecurityWarningVisible(false, false);
+        updbtfFodusbbility();
+        promotfDffbultPosition();
+        if (!vis && wbrningWindow != null) {
+            wbrningWindow.sftSfdurityWbrningVisiblf(fblsf, fblsf);
         }
-        super.setVisible(vis);
-        if (!vis && !isWithdrawn()) {
-            // ICCCM, 4.1.4. Changing Window State:
-            // "Iconic -> Withdrawn - The client should unmap the window and follow it
-            // with a synthetic UnmapNotify event as described later in this section."
-            // The same is true for Normal -> Withdrawn
-            XToolkit.awtLock();
+        supfr.sftVisiblf(vis);
+        if (!vis && !isWitidrbwn()) {
+            // ICCCM, 4.1.4. Cibnging Window Stbtf:
+            // "Idonid -> Witidrbwn - Tif dlifnt siould unmbp tif window bnd follow it
+            // witi b syntiftid UnmbpNotify fvfnt bs dfsdribfd lbtfr in tiis sfdtion."
+            // Tif sbmf is truf for Normbl -> Witidrbwn
+            XToolkit.bwtLodk();
             try {
-                XUnmapEvent unmap = new XUnmapEvent();
-                unmap.set_window(window);
-                unmap.set_event(XToolkit.getDefaultRootWindow());
-                unmap.set_type(XConstants.UnmapNotify);
-                unmap.set_from_configure(false);
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(), XToolkit.getDefaultRootWindow(),
-                        false, XConstants.SubstructureNotifyMask | XConstants.SubstructureRedirectMask,
-                        unmap.pData);
-                unmap.dispose();
+                XUnmbpEvfnt unmbp = nfw XUnmbpEvfnt();
+                unmbp.sft_window(window);
+                unmbp.sft_fvfnt(XToolkit.gftDffbultRootWindow());
+                unmbp.sft_typf(XConstbnts.UnmbpNotify);
+                unmbp.sft_from_donfigurf(fblsf);
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), XToolkit.gftDffbultRootWindow(),
+                        fblsf, XConstbnts.SubstrudturfNotifyMbsk | XConstbnts.SubstrudturfRfdirfdtMbsk,
+                        unmbp.pDbtb);
+                unmbp.disposf();
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlodk();
             }
         }
-        // method called somewhere in parent does not generate configure-notify
-        // event for override-redirect.
-        // Ergo, no reshape and bugs like 5085647 in case setBounds was
-        // called before setVisible.
-        if (isOverrideRedirect() && vis) {
-            updateChildrenSizes();
+        // mftiod dbllfd somfwifrf in pbrfnt dofs not gfnfrbtf donfigurf-notify
+        // fvfnt for ovfrridf-rfdirfdt.
+        // Ergo, no rfsibpf bnd bugs likf 5085647 in dbsf sftBounds wbs
+        // dbllfd bfforf sftVisiblf.
+        if (isOvfrridfRfdirfdt() && vis) {
+            updbtfCiildrfnSizfs();
         }
-        repositionSecurityWarning();
+        rfpositionSfdurityWbrning();
     }
 
-    protected void suppressWmTakeFocus(boolean doSuppress) {
+    protfdtfd void supprfssWmTbkfFodus(boolfbn doSupprfss) {
     }
 
-    final boolean isSimpleWindow() {
-        return !(target instanceof Frame || target instanceof Dialog);
+    finbl boolfbn isSimplfWindow() {
+        rfturn !(tbrgft instbndfof Frbmf || tbrgft instbndfof Diblog);
     }
-    boolean hasWarningWindow() {
-        return ((Window)target).getWarningString() != null;
-    }
-
-    // The height of menu bar window
-    int getMenuBarHeight() {
-        return 0;
+    boolfbn ibsWbrningWindow() {
+        rfturn ((Window)tbrgft).gftWbrningString() != null;
     }
 
-    // Called when shell changes its size and requires children windows
-    // to update their sizes appropriately
-    void updateChildrenSizes() {
+    // Tif ifigit of mfnu bbr window
+    int gftMfnuBbrHfigit() {
+        rfturn 0;
     }
 
-    public void repositionSecurityWarning() {
-        // NOTE: On KWin if the window/border snapping option is enabled,
-        // the Java window may be swinging while it's being moved.
-        // This doesn't make the application unusable though looks quite ugly.
-        // Probobly we need to find some hint to assign to our Security
-        // Warning window in order to exclude it from the snapping option.
-        // We are not currently aware of existance of such a property.
-        if (warningWindow != null) {
-            // We can't use the coordinates stored in the XBaseWindow since
-            // they are zeros for decorated frames.
-            AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
-            int x = compAccessor.getX(target);
-            int y = compAccessor.getY(target);
-            int width = compAccessor.getWidth(target);
-            int height = compAccessor.getHeight(target);
-            warningWindow.reposition(x, y, width, height);
+    // Cbllfd wifn sifll dibngfs its sizf bnd rfquirfs diildrfn windows
+    // to updbtf tifir sizfs bppropribtfly
+    void updbtfCiildrfnSizfs() {
+    }
+
+    publid void rfpositionSfdurityWbrning() {
+        // NOTE: On KWin if tif window/bordfr snbpping option is fnbblfd,
+        // tif Jbvb window mby bf swinging wiilf it's bfing movfd.
+        // Tiis dofsn't mbkf tif bpplidbtion unusbblf tiougi looks quitf ugly.
+        // Probobly wf nffd to find somf iint to bssign to our Sfdurity
+        // Wbrning window in ordfr to fxdludf it from tif snbpping option.
+        // Wf brf not durrfntly bwbrf of fxistbndf of sudi b propfrty.
+        if (wbrningWindow != null) {
+            // Wf dbn't usf tif doordinbtfs storfd in tif XBbsfWindow sindf
+            // tify brf zfros for dfdorbtfd frbmfs.
+            AWTAddfssor.ComponfntAddfssor dompAddfssor = AWTAddfssor.gftComponfntAddfssor();
+            int x = dompAddfssor.gftX(tbrgft);
+            int y = dompAddfssor.gftY(tbrgft);
+            int widti = dompAddfssor.gftWidti(tbrgft);
+            int ifigit = dompAddfssor.gftHfigit(tbrgft);
+            wbrningWindow.rfposition(x, y, widti, ifigit);
         }
     }
 
-    @Override
-    protected void setMouseAbove(boolean above) {
-        super.setMouseAbove(above);
-        updateSecurityWarningVisibility();
+    @Ovfrridf
+    protfdtfd void sftMousfAbovf(boolfbn bbovf) {
+        supfr.sftMousfAbovf(bbovf);
+        updbtfSfdurityWbrningVisibility();
     }
 
-    @Override
-    public void setFullScreenExclusiveModeState(boolean state) {
-        super.setFullScreenExclusiveModeState(state);
-        updateSecurityWarningVisibility();
+    @Ovfrridf
+    publid void sftFullSdrffnExdlusivfModfStbtf(boolfbn stbtf) {
+        supfr.sftFullSdrffnExdlusivfModfStbtf(stbtf);
+        updbtfSfdurityWbrningVisibility();
     }
 
-    public void updateSecurityWarningVisibility() {
-        if (warningWindow == null) {
-            return;
-        }
-
-        if (!isVisible()) {
-            return; // The warning window should already be hidden.
+    publid void updbtfSfdurityWbrningVisibility() {
+        if (wbrningWindow == null) {
+            rfturn;
         }
 
-        boolean show = false;
+        if (!isVisiblf()) {
+            rfturn; // Tif wbrning window siould blrfbdy bf iiddfn.
+        }
 
-        if (!isFullScreenExclusiveMode()) {
-            int state = getWMState();
+        boolfbn siow = fblsf;
 
-            // getWMState() always returns 0 (Withdrawn) for simple windows. Hence
-            // we ignore the state for such windows.
-            if (isVisible() && (state == XUtilConstants.NormalState || isSimpleWindow())) {
-                if (XKeyboardFocusManagerPeer.getInstance().getCurrentFocusedWindow() ==
-                        getTarget())
+        if (!isFullSdrffnExdlusivfModf()) {
+            int stbtf = gftWMStbtf();
+
+            // gftWMStbtf() blwbys rfturns 0 (Witidrbwn) for simplf windows. Hfndf
+            // wf ignorf tif stbtf for sudi windows.
+            if (isVisiblf() && (stbtf == XUtilConstbnts.NormblStbtf || isSimplfWindow())) {
+                if (XKfybobrdFodusMbnbgfrPffr.gftInstbndf().gftCurrfntFodusfdWindow() ==
+                        gftTbrgft())
                 {
-                    show = true;
+                    siow = truf;
                 }
 
-                if (isMouseAbove() || warningWindow.isMouseAbove())
+                if (isMousfAbovf() || wbrningWindow.isMousfAbovf())
                 {
-                    show = true;
+                    siow = truf;
                 }
             }
         }
 
-        warningWindow.setSecurityWarningVisible(show, true);
+        wbrningWindow.sftSfdurityWbrningVisiblf(siow, truf);
     }
 
-    boolean isOverrideRedirect() {
-        return XWM.getWMID() == XWM.OPENLOOK_WM ||
-            Window.Type.POPUP.equals(getWindowType());
+    boolfbn isOvfrridfRfdirfdt() {
+        rfturn XWM.gftWMID() == XWM.OPENLOOK_WM ||
+            Window.Typf.POPUP.fqubls(gftWindowTypf());
     }
 
-    final boolean isOLWMDecorBug() {
-        return XWM.getWMID() == XWM.OPENLOOK_WM &&
-            winAttr.nativeDecor == false;
+    finbl boolfbn isOLWMDfdorBug() {
+        rfturn XWM.gftWMID() == XWM.OPENLOOK_WM &&
+            winAttr.nbtivfDfdor == fblsf;
     }
 
-    public void dispose() {
-        if (isGrabbed()) {
-            if (grabLog.isLoggable(PlatformLogger.Level.FINE)) {
-                grabLog.fine("Generating UngrabEvent on {0} because of the window disposal", this);
+    publid void disposf() {
+        if (isGrbbbfd()) {
+            if (grbbLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                grbbLog.finf("Gfnfrbting UngrbbEvfnt on {0} bfdbusf of tif window disposbl", tiis);
             }
-            postEventToEventQueue(new sun.awt.UngrabEvent(getEventSource()));
+            postEvfntToEvfntQufuf(nfw sun.bwt.UngrbbEvfnt(gftEvfntSourdf()));
         }
 
-        SunToolkit.awtLock();
+        SunToolkit.bwtLodk();
 
         try {
-            windows.remove(this);
-        } finally {
-            SunToolkit.awtUnlock();
+            windows.rfmovf(tiis);
+        } finblly {
+            SunToolkit.bwtUnlodk();
         }
 
-        if (warningWindow != null) {
-            warningWindow.destroy();
+        if (wbrningWindow != null) {
+            wbrningWindow.dfstroy();
         }
 
-        removeRootPropertyEventDispatcher();
-        mustControlStackPosition = false;
-        super.dispose();
+        rfmovfRootPropfrtyEvfntDispbtdifr();
+        mustControlStbdkPosition = fblsf;
+        supfr.disposf();
 
         /*
          * Fix for 6457980.
-         * When disposing an owned Window we should implicitly
-         * return focus to its decorated owner because it won't
-         * receive WM_TAKE_FOCUS.
+         * Wifn disposing bn ownfd Window wf siould impliditly
+         * rfturn fodus to its dfdorbtfd ownfr bfdbusf it won't
+         * rfdfivf WM_TAKE_FOCUS.
          */
-        if (isSimpleWindow()) {
-            if (target == XKeyboardFocusManagerPeer.getInstance().getCurrentFocusedWindow()) {
-                Window owner = getDecoratedOwner((Window)target);
-                ((XWindowPeer)AWTAccessor.getComponentAccessor().getPeer(owner)).requestWindowFocus();
+        if (isSimplfWindow()) {
+            if (tbrgft == XKfybobrdFodusMbnbgfrPffr.gftInstbndf().gftCurrfntFodusfdWindow()) {
+                Window ownfr = gftDfdorbtfdOwnfr((Window)tbrgft);
+                ((XWindowPffr)AWTAddfssor.gftComponfntAddfssor().gftPffr(ownfr)).rfqufstWindowFodus();
             }
         }
     }
 
-    boolean isResizable() {
-        return winAttr.isResizable;
+    boolfbn isRfsizbblf() {
+        rfturn winAttr.isRfsizbblf;
     }
 
-    public void handleVisibilityEvent(XEvent xev) {
-        super.handleVisibilityEvent(xev);
-        XVisibilityEvent ve = xev.get_xvisibility();
-        winAttr.visibilityState = ve.get_state();
-//         if (ve.get_state() == XlibWrapper.VisibilityUnobscured) {
-//             // raiseInputMethodWindow
+    publid void ibndlfVisibilityEvfnt(XEvfnt xfv) {
+        supfr.ibndlfVisibilityEvfnt(xfv);
+        XVisibilityEvfnt vf = xfv.gft_xvisibility();
+        winAttr.visibilityStbtf = vf.gft_stbtf();
+//         if (vf.gft_stbtf() == XlibWrbppfr.VisibilityUnobsdurfd) {
+//             // rbisfInputMftiodWindow
 //         }
-        repositionSecurityWarning();
+        rfpositionSfdurityWbrning();
     }
 
-    void handleRootPropertyNotify(XEvent xev) {
-        XPropertyEvent ev = xev.get_xproperty();
-        if( mustControlStackPosition &&
-            ev.get_atom() == XAtom.get("_NET_CLIENT_LIST_STACKING").getAtom()){
-            // Restore stack order unhadled/spoiled by WM or some app (nautilus).
-            // As of now, don't use any generic machinery: just
-            // do toBack() again.
-            if(isOverrideRedirect()) {
-                toBack();
+    void ibndlfRootPropfrtyNotify(XEvfnt xfv) {
+        XPropfrtyEvfnt fv = xfv.gft_xpropfrty();
+        if( mustControlStbdkPosition &&
+            fv.gft_btom() == XAtom.gft("_NET_CLIENT_LIST_STACKING").gftAtom()){
+            // Rfstorf stbdk ordfr unibdlfd/spoilfd by WM or somf bpp (nbutilus).
+            // As of now, don't usf bny gfnfrid mbdiinfry: just
+            // do toBbdk() bgbin.
+            if(isOvfrridfRfdirfdt()) {
+                toBbdk();
             }
         }
     }
 
-    private void removeStartupNotification() {
-        if (isStartupNotificationRemoved.getAndSet(true)) {
-            return;
+    privbtf void rfmovfStbrtupNotifidbtion() {
+        if (isStbrtupNotifidbtionRfmovfd.gftAndSft(truf)) {
+            rfturn;
         }
 
-        final String desktopStartupId = AccessController.doPrivileged(new PrivilegedAction<String>() {
-            public String run() {
-                return XToolkit.getEnv("DESKTOP_STARTUP_ID");
+        finbl String dfsktopStbrtupId = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn XToolkit.gftEnv("DESKTOP_STARTUP_ID");
             }
         });
-        if (desktopStartupId == null) {
-            return;
+        if (dfsktopStbrtupId == null) {
+            rfturn;
         }
 
-        final StringBuilder messageBuilder = new StringBuilder("remove: ID=");
-        messageBuilder.append('"');
-        for (int i = 0; i < desktopStartupId.length(); i++) {
-            if (desktopStartupId.charAt(i) == '"' || desktopStartupId.charAt(i) == '\\') {
-                messageBuilder.append('\\');
+        finbl StringBuildfr mfssbgfBuildfr = nfw StringBuildfr("rfmovf: ID=");
+        mfssbgfBuildfr.bppfnd('"');
+        for (int i = 0; i < dfsktopStbrtupId.lfngti(); i++) {
+            if (dfsktopStbrtupId.dibrAt(i) == '"' || dfsktopStbrtupId.dibrAt(i) == '\\') {
+                mfssbgfBuildfr.bppfnd('\\');
             }
-            messageBuilder.append(desktopStartupId.charAt(i));
+            mfssbgfBuildfr.bppfnd(dfsktopStbrtupId.dibrAt(i));
         }
-        messageBuilder.append('"');
-        messageBuilder.append('\0');
-        final byte[] message;
+        mfssbgfBuildfr.bppfnd('"');
+        mfssbgfBuildfr.bppfnd('\0');
+        finbl bytf[] mfssbgf;
         try {
-            message = messageBuilder.toString().getBytes("UTF-8");
-        } catch (UnsupportedEncodingException cannotHappen) {
-            return;
+            mfssbgf = mfssbgfBuildfr.toString().gftBytfs("UTF-8");
+        } dbtdi (UnsupportfdEndodingExdfption dbnnotHbppfn) {
+            rfturn;
         }
 
-        XClientMessageEvent req = null;
+        XClifntMfssbgfEvfnt rfq = null;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            final XAtom netStartupInfoBeginAtom = XAtom.get("_NET_STARTUP_INFO_BEGIN");
-            final XAtom netStartupInfoAtom = XAtom.get("_NET_STARTUP_INFO");
+            finbl XAtom nftStbrtupInfoBfginAtom = XAtom.gft("_NET_STARTUP_INFO_BEGIN");
+            finbl XAtom nftStbrtupInfoAtom = XAtom.gft("_NET_STARTUP_INFO");
 
-            req = new XClientMessageEvent();
-            req.set_type(XConstants.ClientMessage);
-            req.set_window(getWindow());
-            req.set_message_type(netStartupInfoBeginAtom.getAtom());
-            req.set_format(8);
+            rfq = nfw XClifntMfssbgfEvfnt();
+            rfq.sft_typf(XConstbnts.ClifntMfssbgf);
+            rfq.sft_window(gftWindow());
+            rfq.sft_mfssbgf_typf(nftStbrtupInfoBfginAtom.gftAtom());
+            rfq.sft_formbt(8);
 
-            for (int pos = 0; pos < message.length; pos += 20) {
-                final int msglen = Math.min(message.length - pos, 20);
+            for (int pos = 0; pos < mfssbgf.lfngti; pos += 20) {
+                finbl int msglfn = Mbti.min(mfssbgf.lfngti - pos, 20);
                 int i = 0;
-                for (; i < msglen; i++) {
-                    XlibWrapper.unsafe.putByte(req.get_data() + i, message[pos + i]);
+                for (; i < msglfn; i++) {
+                    XlibWrbppfr.unsbff.putBytf(rfq.gft_dbtb() + i, mfssbgf[pos + i]);
                 }
                 for (; i < 20; i++) {
-                    XlibWrapper.unsafe.putByte(req.get_data() + i, (byte)0);
+                    XlibWrbppfr.unsbff.putBytf(rfq.gft_dbtb() + i, (bytf)0);
                 }
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(),
-                    XlibWrapper.RootWindow(XToolkit.getDisplay(), getScreenNumber()),
-                    false,
-                    XConstants.PropertyChangeMask,
-                    req.pData);
-                req.set_message_type(netStartupInfoAtom.getAtom());
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(),
+                    XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), gftSdrffnNumbfr()),
+                    fblsf,
+                    XConstbnts.PropfrtyCibngfMbsk,
+                    rfq.pDbtb);
+                rfq.sft_mfssbgf_typf(nftStbrtupInfoAtom.gftAtom());
             }
-        } finally {
-            XToolkit.awtUnlock();
-            if (req != null) {
-                req.dispose();
+        } finblly {
+            XToolkit.bwtUnlodk();
+            if (rfq != null) {
+                rfq.disposf();
             }
         }
     }
 
-    public void handleMapNotifyEvent(XEvent xev) {
-        removeStartupNotification();
+    publid void ibndlfMbpNotifyEvfnt(XEvfnt xfv) {
+        rfmovfStbrtupNotifidbtion();
 
-        // See 6480534.
-        isUnhiding |= isWMStateNetHidden();
+        // Sff 6480534.
+        isUniiding |= isWMStbtfNftHiddfn();
 
-        super.handleMapNotifyEvent(xev);
-        if (!winAttr.initialFocus) {
-            suppressWmTakeFocus(false); // restore the protocol.
+        supfr.ibndlfMbpNotifyEvfnt(xfv);
+        if (!winAttr.initiblFodus) {
+            supprfssWmTbkfFodus(fblsf); // rfstorf tif protodol.
             /*
-             * For some reason, on Metacity, a frame/dialog being shown
-             * without WM_TAKE_FOCUS protocol doesn't get moved to the front.
-             * So, we do it evidently.
+             * For somf rfbson, on Mftbdity, b frbmf/diblog bfing siown
+             * witiout WM_TAKE_FOCUS protodol dofsn't gft movfd to tif front.
+             * So, wf do it fvidfntly.
              */
-            XToolkit.awtLock();
+            XToolkit.bwtLodk();
             try {
-                XlibWrapper.XRaiseWindow(XToolkit.getDisplay(), getWindow());
-            } finally {
-                XToolkit.awtUnlock();
+                XlibWrbppfr.XRbisfWindow(XToolkit.gftDisplby(), gftWindow());
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
         }
-        if (shouldFocusOnMapNotify()) {
-            focusLog.fine("Automatically request focus on window");
-            requestInitialFocus();
+        if (siouldFodusOnMbpNotify()) {
+            fodusLog.finf("Autombtidblly rfqufst fodus on window");
+            rfqufstInitiblFodus();
         }
-        isUnhiding = false;
-        isBeforeFirstMapNotify = false;
-        updateAlwaysOnTop();
+        isUniiding = fblsf;
+        isBfforfFirstMbpNotify = fblsf;
+        updbtfAlwbysOnTop();
 
-        synchronized (getStateLock()) {
-            if (!isMapped) {
-                isMapped = true;
-            }
-        }
-    }
-
-    public void handleUnmapNotifyEvent(XEvent xev) {
-        super.handleUnmapNotifyEvent(xev);
-
-        // On Metacity UnmapNotify comes before PropertyNotify (for _NET_WM_STATE_HIDDEN).
-        // So we also check for the property later in MapNotify. See 6480534.
-        isUnhiding |= isWMStateNetHidden();
-
-        synchronized (getStateLock()) {
-            if (isMapped) {
-                isMapped = false;
+        syndironizfd (gftStbtfLodk()) {
+            if (!isMbppfd) {
+                isMbppfd = truf;
             }
         }
     }
 
-    private boolean shouldFocusOnMapNotify() {
-        boolean res = false;
+    publid void ibndlfUnmbpNotifyEvfnt(XEvfnt xfv) {
+        supfr.ibndlfUnmbpNotifyEvfnt(xfv);
 
-        if (isBeforeFirstMapNotify) {
-            res = (winAttr.initialFocus ||          // Window.autoRequestFocus
-                   isFocusedWindowModalBlocker());
-        } else {
-            res = isUnhiding;                       // Unhiding
+        // On Mftbdity UnmbpNotify domfs bfforf PropfrtyNotify (for _NET_WM_STATE_HIDDEN).
+        // So wf blso difdk for tif propfrty lbtfr in MbpNotify. Sff 6480534.
+        isUniiding |= isWMStbtfNftHiddfn();
+
+        syndironizfd (gftStbtfLodk()) {
+            if (isMbppfd) {
+                isMbppfd = fblsf;
+            }
         }
-        res = res &&
-            isFocusableWindow() &&                  // General focusability
-            !isModalBlocked();                      // Modality
-
-        return res;
     }
 
-    protected boolean isWMStateNetHidden() {
-        XNETProtocol protocol = XWM.getWM().getNETProtocol();
-        return (protocol != null && protocol.isWMStateNetHidden(this));
+    privbtf boolfbn siouldFodusOnMbpNotify() {
+        boolfbn rfs = fblsf;
+
+        if (isBfforfFirstMbpNotify) {
+            rfs = (winAttr.initiblFodus ||          // Window.butoRfqufstFodus
+                   isFodusfdWindowModblBlodkfr());
+        } flsf {
+            rfs = isUniiding;                       // Uniiding
+        }
+        rfs = rfs &&
+            isFodusbblfWindow() &&                  // Gfnfrbl fodusbbility
+            !isModblBlodkfd();                      // Modblity
+
+        rfturn rfs;
     }
 
-    protected void requestInitialFocus() {
-        requestXFocus();
+    protfdtfd boolfbn isWMStbtfNftHiddfn() {
+        XNETProtodol protodol = XWM.gftWM().gftNETProtodol();
+        rfturn (protodol != null && protodol.isWMStbtfNftHiddfn(tiis));
     }
 
-    public void addToplevelStateListener(ToplevelStateListener l){
-        toplevelStateListeners.add(l);
+    protfdtfd void rfqufstInitiblFodus() {
+        rfqufstXFodus();
     }
 
-    public void removeToplevelStateListener(ToplevelStateListener l){
-        toplevelStateListeners.remove(l);
+    publid void bddToplfvflStbtfListfnfr(ToplfvflStbtfListfnfr l){
+        toplfvflStbtfListfnfrs.bdd(l);
+    }
+
+    publid void rfmovfToplfvflStbtfListfnfr(ToplfvflStbtfListfnfr l){
+        toplfvflStbtfListfnfrs.rfmovf(l);
     }
 
     /**
-     * Override this methods to get notifications when top-level window state changes. The state is
-     * meant in terms of ICCCM: WithdrawnState, IconicState, NormalState
+     * Ovfrridf tiis mftiods to gft notifidbtions wifn top-lfvfl window stbtf dibngfs. Tif stbtf is
+     * mfbnt in tfrms of ICCCM: WitidrbwnStbtf, IdonidStbtf, NormblStbtf
      */
-    @Override
-    protected void stateChanged(long time, int oldState, int newState) {
+    @Ovfrridf
+    protfdtfd void stbtfCibngfd(long timf, int oldStbtf, int nfwStbtf) {
         // Fix for 6401700, 6412803
-        // If this window is modal blocked, it is put into the transient_for
-        // chain using prevTransientFor and nextTransientFor hints. However,
-        // the real WM_TRANSIENT_FOR hint shouldn't be set for windows in
-        // different WM states (except for owner-window relationship), so
-        // if the window changes its state, its real WM_TRANSIENT_FOR hint
-        // should be updated accordingly.
-        updateTransientFor();
+        // If tiis window is modbl blodkfd, it is put into tif trbnsifnt_for
+        // dibin using prfvTrbnsifntFor bnd nfxtTrbnsifntFor iints. Howfvfr,
+        // tif rfbl WM_TRANSIENT_FOR iint siouldn't bf sft for windows in
+        // difffrfnt WM stbtfs (fxdfpt for ownfr-window rflbtionsiip), so
+        // if tif window dibngfs its stbtf, its rfbl WM_TRANSIENT_FOR iint
+        // siould bf updbtfd bddordingly.
+        updbtfTrbnsifntFor();
 
-        for (ToplevelStateListener topLevelListenerTmp : toplevelStateListeners) {
-            topLevelListenerTmp.stateChangedICCCM(oldState, newState);
+        for (ToplfvflStbtfListfnfr topLfvflListfnfrTmp : toplfvflStbtfListfnfrs) {
+            topLfvflListfnfrTmp.stbtfCibngfdICCCM(oldStbtf, nfwStbtf);
         }
 
-        updateSecurityWarningVisibility();
+        updbtfSfdurityWbrningVisibility();
     }
 
-    boolean isWithdrawn() {
-        return getWMState() == XUtilConstants.WithdrawnState;
+    boolfbn isWitidrbwn() {
+        rfturn gftWMStbtf() == XUtilConstbnts.WitidrbwnStbtf;
     }
 
-    boolean hasDecorations(int decor) {
-        if (!winAttr.nativeDecor) {
-            return false;
+    boolfbn ibsDfdorbtions(int dfdor) {
+        if (!winAttr.nbtivfDfdor) {
+            rfturn fblsf;
         }
-        else {
-            int myDecor = winAttr.decorations;
-            boolean hasBits = ((myDecor & decor) == decor);
-            if ((myDecor & XWindowAttributesData.AWT_DECOR_ALL) != 0)
-                return !hasBits;
-            else
-                return hasBits;
+        flsf {
+            int myDfdor = winAttr.dfdorbtions;
+            boolfbn ibsBits = ((myDfdor & dfdor) == dfdor);
+            if ((myDfdor & XWindowAttributfsDbtb.AWT_DECOR_ALL) != 0)
+                rfturn !ibsBits;
+            flsf
+                rfturn ibsBits;
         }
     }
 
-    void setReparented(boolean newValue) {
-        super.setReparented(newValue);
-        XToolkit.awtLock();
+    void sftRfpbrfntfd(boolfbn nfwVbluf) {
+        supfr.sftRfpbrfntfd(nfwVbluf);
+        XToolkit.bwtLodk();
         try {
-            if (isReparented() && delayedModalBlocking) {
-                addToTransientFors((XDialogPeer) AWTAccessor.getComponentAccessor().getPeer(modalBlocker));
-                delayedModalBlocking = false;
+            if (isRfpbrfntfd() && dflbyfdModblBlodking) {
+                bddToTrbnsifntFors((XDiblogPffr) AWTAddfssor.gftComponfntAddfssor().gftPffr(modblBlodkfr));
+                dflbyfdModblBlodking = fblsf;
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /*
-     * Returns a Vector of all Java top-level windows,
-     * sorted by their current Z-order
+     * Rfturns b Vfdtor of bll Jbvb top-lfvfl windows,
+     * sortfd by tifir durrfnt Z-ordfr
      */
-    static Vector<XWindowPeer> collectJavaToplevels() {
-        Vector<XWindowPeer> javaToplevels = new Vector<XWindowPeer>();
-        Vector<Long> v = new Vector<Long>();
-        X11GraphicsEnvironment ge =
-            (X11GraphicsEnvironment)GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice[] gds = ge.getScreenDevices();
-        if (!ge.runningXinerama() && (gds.length > 1)) {
-            for (GraphicsDevice gd : gds) {
-                int screen = ((X11GraphicsDevice)gd).getScreen();
-                long rootWindow = XlibWrapper.RootWindow(XToolkit.getDisplay(), screen);
-                v.add(rootWindow);
+    stbtid Vfdtor<XWindowPffr> dollfdtJbvbToplfvfls() {
+        Vfdtor<XWindowPffr> jbvbToplfvfls = nfw Vfdtor<XWindowPffr>();
+        Vfdtor<Long> v = nfw Vfdtor<Long>();
+        X11GrbpiidsEnvironmfnt gf =
+            (X11GrbpiidsEnvironmfnt)GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+        GrbpiidsDfvidf[] gds = gf.gftSdrffnDfvidfs();
+        if (!gf.runningXinfrbmb() && (gds.lfngti > 1)) {
+            for (GrbpiidsDfvidf gd : gds) {
+                int sdrffn = ((X11GrbpiidsDfvidf)gd).gftSdrffn();
+                long rootWindow = XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), sdrffn);
+                v.bdd(rootWindow);
             }
-        } else {
-            v.add(XToolkit.getDefaultRootWindow());
+        } flsf {
+            v.bdd(XToolkit.gftDffbultRootWindow());
         }
-        final int windowsCount = windows.size();
-        while ((v.size() > 0) && (javaToplevels.size() < windowsCount)) {
-            long win = v.remove(0);
-            XQueryTree qt = new XQueryTree(win);
+        finbl int windowsCount = windows.sizf();
+        wiilf ((v.sizf() > 0) && (jbvbToplfvfls.sizf() < windowsCount)) {
+            long win = v.rfmovf(0);
+            XQufryTrff qt = nfw XQufryTrff(win);
             try {
-                if (qt.execute() != 0) {
-                    int nchildren = qt.get_nchildren();
-                    long children = qt.get_children();
-                    // XQueryTree returns window children ordered by z-order
-                    for (int i = 0; i < nchildren; i++) {
-                        long child = Native.getWindow(children, i);
-                        XBaseWindow childWindow = XToolkit.windowToXWindow(child);
-                        // filter out Java non-toplevels
-                        if ((childWindow != null) && !(childWindow instanceof XWindowPeer)) {
-                            continue;
-                        } else {
-                            v.add(child);
+                if (qt.fxfdutf() != 0) {
+                    int ndiildrfn = qt.gft_ndiildrfn();
+                    long diildrfn = qt.gft_diildrfn();
+                    // XQufryTrff rfturns window diildrfn ordfrfd by z-ordfr
+                    for (int i = 0; i < ndiildrfn; i++) {
+                        long diild = Nbtivf.gftWindow(diildrfn, i);
+                        XBbsfWindow diildWindow = XToolkit.windowToXWindow(diild);
+                        // filtfr out Jbvb non-toplfvfls
+                        if ((diildWindow != null) && !(diildWindow instbndfof XWindowPffr)) {
+                            dontinuf;
+                        } flsf {
+                            v.bdd(diild);
                         }
-                        if (childWindow instanceof XWindowPeer) {
-                            XWindowPeer np = (XWindowPeer)childWindow;
-                            javaToplevels.add(np);
-                            // XQueryTree returns windows sorted by their z-order. However,
-                            // if WM has not handled transient for hint for a child window,
-                            // it may appear in javaToplevels before its owner. Move such
-                            // children after their owners.
+                        if (diildWindow instbndfof XWindowPffr) {
+                            XWindowPffr np = (XWindowPffr)diildWindow;
+                            jbvbToplfvfls.bdd(np);
+                            // XQufryTrff rfturns windows sortfd by tifir z-ordfr. Howfvfr,
+                            // if WM ibs not ibndlfd trbnsifnt for iint for b diild window,
+                            // it mby bppfbr in jbvbToplfvfls bfforf its ownfr. Movf sudi
+                            // diildrfn bftfr tifir ownfrs.
                             int k = 0;
-                            XWindowPeer toCheck = javaToplevels.get(k);
-                            while (toCheck != np) {
-                                XWindowPeer toCheckOwnerPeer = toCheck.getOwnerPeer();
-                                if (toCheckOwnerPeer == np) {
-                                    javaToplevels.remove(k);
-                                    javaToplevels.add(toCheck);
-                                } else {
+                            XWindowPffr toCifdk = jbvbToplfvfls.gft(k);
+                            wiilf (toCifdk != np) {
+                                XWindowPffr toCifdkOwnfrPffr = toCifdk.gftOwnfrPffr();
+                                if (toCifdkOwnfrPffr == np) {
+                                    jbvbToplfvfls.rfmovf(k);
+                                    jbvbToplfvfls.bdd(toCifdk);
+                                } flsf {
                                     k++;
                                 }
-                                toCheck = javaToplevels.get(k);
+                                toCifdk = jbvbToplfvfls.gft(k);
                             }
                         }
                     }
                 }
-            } finally {
-                qt.dispose();
+            } finblly {
+                qt.disposf();
             }
         }
-        return javaToplevels;
+        rfturn jbvbToplfvfls;
     }
 
-    public void setModalBlocked(Dialog d, boolean blocked) {
-        setModalBlocked(d, blocked, null);
+    publid void sftModblBlodkfd(Diblog d, boolfbn blodkfd) {
+        sftModblBlodkfd(d, blodkfd, null);
     }
-    public void setModalBlocked(Dialog d, boolean blocked,
-                                Vector<XWindowPeer> javaToplevels)
+    publid void sftModblBlodkfd(Diblog d, boolfbn blodkfd,
+                                Vfdtor<XWindowPffr> jbvbToplfvfls)
     {
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            // State lock should always be after awtLock
-            synchronized(getStateLock()) {
-                XDialogPeer blockerPeer = (XDialogPeer) AWTAccessor.getComponentAccessor().getPeer(d);
-                if (blocked) {
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("{0} is blocked by {1}", this, blockerPeer);
+            // Stbtf lodk siould blwbys bf bftfr bwtLodk
+            syndironizfd(gftStbtfLodk()) {
+                XDiblogPffr blodkfrPffr = (XDiblogPffr) AWTAddfssor.gftComponfntAddfssor().gftPffr(d);
+                if (blodkfd) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("{0} is blodkfd by {1}", tiis, blodkfrPffr);
                     }
-                    modalBlocker = d;
+                    modblBlodkfr = d;
 
-                    if (isReparented() || XWM.isNonReparentingWM()) {
-                        addToTransientFors(blockerPeer, javaToplevels);
-                    } else {
-                        delayedModalBlocking = true;
+                    if (isRfpbrfntfd() || XWM.isNonRfpbrfntingWM()) {
+                        bddToTrbnsifntFors(blodkfrPffr, jbvbToplfvfls);
+                    } flsf {
+                        dflbyfdModblBlodking = truf;
                     }
-                } else {
-                    if (d != modalBlocker) {
-                        throw new IllegalStateException("Trying to unblock window blocked by another dialog");
+                } flsf {
+                    if (d != modblBlodkfr) {
+                        tirow nfw IllfgblStbtfExdfption("Trying to unblodk window blodkfd by bnotifr diblog");
                     }
-                    modalBlocker = null;
+                    modblBlodkfr = null;
 
-                    if (isReparented() || XWM.isNonReparentingWM()) {
-                        removeFromTransientFors();
-                    } else {
-                        delayedModalBlocking = false;
+                    if (isRfpbrfntfd() || XWM.isNonRfpbrfntingWM()) {
+                        rfmovfFromTrbnsifntFors();
+                    } flsf {
+                        dflbyfdModblBlodking = fblsf;
                     }
                 }
 
-                updateTransientFor();
+                updbtfTrbnsifntFor();
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /*
-     * Sets the TRANSIENT_FOR hint to the given top-level window. This
-     *  method is used when a window is modal blocked/unblocked or
-     *  changed its state from/to NormalState to/from other states.
-     * If window or transientForWindow are embedded frames, the containing
-     *  top-level windows are used.
+     * Sfts tif TRANSIENT_FOR iint to tif givfn top-lfvfl window. Tiis
+     *  mftiod is usfd wifn b window is modbl blodkfd/unblodkfd or
+     *  dibngfd its stbtf from/to NormblStbtf to/from otifr stbtfs.
+     * If window or trbnsifntForWindow brf fmbfddfd frbmfs, tif dontbining
+     *  top-lfvfl windows brf usfd.
      *
-     * @param window specifies the top-level window that the hint
-     *  is to be set to
-     * @param transientForWindow the top-level window
-     * @param updateChain specifies if next/prevTransientFor fields are
-     *  to be updated
-     * @param allStates if set to <code>true</code> then TRANSIENT_FOR hint
-     *  is set regardless of the state of window and transientForWindow,
-     *  otherwise it is set only if both are in the same state
+     * @pbrbm window spfdififs tif top-lfvfl window tibt tif iint
+     *  is to bf sft to
+     * @pbrbm trbnsifntForWindow tif top-lfvfl window
+     * @pbrbm updbtfCibin spfdififs if nfxt/prfvTrbnsifntFor fiflds brf
+     *  to bf updbtfd
+     * @pbrbm bllStbtfs if sft to <dodf>truf</dodf> tifn TRANSIENT_FOR iint
+     *  is sft rfgbrdlfss of tif stbtf of window bnd trbnsifntForWindow,
+     *  otifrwisf it is sft only if boti brf in tif sbmf stbtf
      */
-    static void setToplevelTransientFor(XWindowPeer window, XWindowPeer transientForWindow,
-                                                boolean updateChain, boolean allStates)
+    stbtid void sftToplfvflTrbnsifntFor(XWindowPffr window, XWindowPffr trbnsifntForWindow,
+                                                boolfbn updbtfCibin, boolfbn bllStbtfs)
     {
-        if ((window == null) || (transientForWindow == null)) {
-            return;
+        if ((window == null) || (trbnsifntForWindow == null)) {
+            rfturn;
         }
-        if (updateChain) {
-            window.prevTransientFor = transientForWindow;
-            transientForWindow.nextTransientFor = window;
+        if (updbtfCibin) {
+            window.prfvTrbnsifntFor = trbnsifntForWindow;
+            trbnsifntForWindow.nfxtTrbnsifntFor = window;
         }
-        if (window.curRealTransientFor == transientForWindow) {
-            return;
+        if (window.durRfblTrbnsifntFor == trbnsifntForWindow) {
+            rfturn;
         }
-        if (!allStates && (window.getWMState() != transientForWindow.getWMState())) {
-            return;
+        if (!bllStbtfs && (window.gftWMStbtf() != trbnsifntForWindow.gftWMStbtf())) {
+            rfturn;
         }
-        if (window.getScreenNumber() != transientForWindow.getScreenNumber()) {
-            return;
+        if (window.gftSdrffnNumbfr() != trbnsifntForWindow.gftSdrffnNumbfr()) {
+            rfturn;
         }
-        long bpw = window.getWindow();
-        while (!XlibUtil.isToplevelWindow(bpw) && !XlibUtil.isXAWTToplevelWindow(bpw)) {
-            bpw = XlibUtil.getParentWindow(bpw);
+        long bpw = window.gftWindow();
+        wiilf (!XlibUtil.isToplfvflWindow(bpw) && !XlibUtil.isXAWTToplfvflWindow(bpw)) {
+            bpw = XlibUtil.gftPbrfntWindow(bpw);
         }
-        long tpw = transientForWindow.getWindow();
-        while (!XlibUtil.isToplevelWindow(tpw) && !XlibUtil.isXAWTToplevelWindow(tpw)) {
-            tpw = XlibUtil.getParentWindow(tpw);
+        long tpw = trbnsifntForWindow.gftWindow();
+        wiilf (!XlibUtil.isToplfvflWindow(tpw) && !XlibUtil.isXAWTToplfvflWindow(tpw)) {
+            tpw = XlibUtil.gftPbrfntWindow(tpw);
         }
-        XlibWrapper.XSetTransientFor(XToolkit.getDisplay(), bpw, tpw);
-        window.curRealTransientFor = transientForWindow;
+        XlibWrbppfr.XSftTrbnsifntFor(XToolkit.gftDisplby(), bpw, tpw);
+        window.durRfblTrbnsifntFor = trbnsifntForWindow;
     }
 
     /*
-     * This method does nothing if this window is not blocked by any modal dialog.
-     * For modal blocked windows this method looks up for the nearest
-     *  prevTransiendFor window that is in the same state (Normal/Iconified/Withdrawn)
-     *  as this one and makes this window transient for it. The same operation is
-     *  performed for nextTransientFor window.
-     * Values of prevTransientFor and nextTransientFor fields are not changed.
+     * Tiis mftiod dofs notiing if tiis window is not blodkfd by bny modbl diblog.
+     * For modbl blodkfd windows tiis mftiod looks up for tif nfbrfst
+     *  prfvTrbnsifndFor window tibt is in tif sbmf stbtf (Normbl/Idonififd/Witidrbwn)
+     *  bs tiis onf bnd mbkfs tiis window trbnsifnt for it. Tif sbmf opfrbtion is
+     *  pfrformfd for nfxtTrbnsifntFor window.
+     * Vblufs of prfvTrbnsifntFor bnd nfxtTrbnsifntFor fiflds brf not dibngfd.
      */
-    void updateTransientFor() {
-        int state = getWMState();
-        XWindowPeer p = prevTransientFor;
-        while ((p != null) && ((p.getWMState() != state) || (p.getScreenNumber() != getScreenNumber()))) {
-            p = p.prevTransientFor;
+    void updbtfTrbnsifntFor() {
+        int stbtf = gftWMStbtf();
+        XWindowPffr p = prfvTrbnsifntFor;
+        wiilf ((p != null) && ((p.gftWMStbtf() != stbtf) || (p.gftSdrffnNumbfr() != gftSdrffnNumbfr()))) {
+            p = p.prfvTrbnsifntFor;
         }
         if (p != null) {
-            setToplevelTransientFor(this, p, false, false);
-        } else {
-            restoreTransientFor(this);
+            sftToplfvflTrbnsifntFor(tiis, p, fblsf, fblsf);
+        } flsf {
+            rfstorfTrbnsifntFor(tiis);
         }
-        XWindowPeer n = nextTransientFor;
-        while ((n != null) && ((n.getWMState() != state) || (n.getScreenNumber() != getScreenNumber()))) {
-            n = n.nextTransientFor;
+        XWindowPffr n = nfxtTrbnsifntFor;
+        wiilf ((n != null) && ((n.gftWMStbtf() != stbtf) || (n.gftSdrffnNumbfr() != gftSdrffnNumbfr()))) {
+            n = n.nfxtTrbnsifntFor;
         }
         if (n != null) {
-            setToplevelTransientFor(n, this, false, false);
+            sftToplfvflTrbnsifntFor(n, tiis, fblsf, fblsf);
         }
     }
 
     /*
-     * Removes the TRANSIENT_FOR hint from the given top-level window.
-     * If window or transientForWindow are embedded frames, the containing
-     *  top-level windows are used.
+     * Rfmovfs tif TRANSIENT_FOR iint from tif givfn top-lfvfl window.
+     * If window or trbnsifntForWindow brf fmbfddfd frbmfs, tif dontbining
+     *  top-lfvfl windows brf usfd.
      *
-     * @param window specifies the top-level window that the hint
-     *  is to be removed from
+     * @pbrbm window spfdififs tif top-lfvfl window tibt tif iint
+     *  is to bf rfmovfd from
      */
-    private static void removeTransientForHint(XWindowPeer window) {
-        XAtom XA_WM_TRANSIENT_FOR = XAtom.get(XAtom.XA_WM_TRANSIENT_FOR);
-        long bpw = window.getWindow();
-        while (!XlibUtil.isToplevelWindow(bpw) && !XlibUtil.isXAWTToplevelWindow(bpw)) {
-            bpw = XlibUtil.getParentWindow(bpw);
+    privbtf stbtid void rfmovfTrbnsifntForHint(XWindowPffr window) {
+        XAtom XA_WM_TRANSIENT_FOR = XAtom.gft(XAtom.XA_WM_TRANSIENT_FOR);
+        long bpw = window.gftWindow();
+        wiilf (!XlibUtil.isToplfvflWindow(bpw) && !XlibUtil.isXAWTToplfvflWindow(bpw)) {
+            bpw = XlibUtil.gftPbrfntWindow(bpw);
         }
-        XlibWrapper.XDeleteProperty(XToolkit.getDisplay(), bpw, XA_WM_TRANSIENT_FOR.getAtom());
-        window.curRealTransientFor = null;
+        XlibWrbppfr.XDflftfPropfrty(XToolkit.gftDisplby(), bpw, XA_WM_TRANSIENT_FOR.gftAtom());
+        window.durRfblTrbnsifntFor = null;
     }
 
     /*
-     * When a modal dialog is shown, all its blocked windows are lined up into
-     *  a chain in such a way that each window is a transient_for window for
-     *  the next one. That allows us to keep the modal dialog above all its
-     *  blocked windows (even if there are some another modal dialogs between
-     *  them).
-     * This method adds this top-level window to the chain of the given modal
-     *  dialog. To keep the current relative z-order, we should use the
-     *  XQueryTree to find the place to insert this window to. As each window
-     *  can be blocked by only one modal dialog (such checks are performed in
-     *  shared code), both this and blockerPeer are on the top of their chains
-     *  (chains may be empty).
-     * If this window is a modal dialog and has its own chain, these chains are
-     *  merged according to the current z-order (XQueryTree is used again).
-     *  Below are some simple examples (z-order is from left to right, -- is
-     *  modal blocking).
+     * Wifn b modbl diblog is siown, bll its blodkfd windows brf linfd up into
+     *  b dibin in sudi b wby tibt fbdi window is b trbnsifnt_for window for
+     *  tif nfxt onf. Tibt bllows us to kffp tif modbl diblog bbovf bll its
+     *  blodkfd windows (fvfn if tifrf brf somf bnotifr modbl diblogs bftwffn
+     *  tifm).
+     * Tiis mftiod bdds tiis top-lfvfl window to tif dibin of tif givfn modbl
+     *  diblog. To kffp tif durrfnt rflbtivf z-ordfr, wf siould usf tif
+     *  XQufryTrff to find tif plbdf to insfrt tiis window to. As fbdi window
+     *  dbn bf blodkfd by only onf modbl diblog (sudi difdks brf pfrformfd in
+     *  sibrfd dodf), boti tiis bnd blodkfrPffr brf on tif top of tifir dibins
+     *  (dibins mby bf fmpty).
+     * If tiis window is b modbl diblog bnd ibs its own dibin, tifsf dibins brf
+     *  mfrgfd bddording to tif durrfnt z-ordfr (XQufryTrff is usfd bgbin).
+     *  Bflow brf somf simplf fxbmplfs (z-ordfr is from lfft to rigit, -- is
+     *  modbl blodking).
      *
-     * Example 0:
-     *     T (current chain of this, no windows are blocked by this)
-     *  W1---B (current chain of blockerPeer, W2 is blocked by blockerPeer)
-     *  Result is:
-     *  W1-T-B (merged chain, all the windows are blocked by blockerPeer)
+     * Exbmplf 0:
+     *     T (durrfnt dibin of tiis, no windows brf blodkfd by tiis)
+     *  W1---B (durrfnt dibin of blodkfrPffr, W2 is blodkfd by blodkfrPffr)
+     *  Rfsult is:
+     *  W1-T-B (mfrgfd dibin, bll tif windows brf blodkfd by blodkfrPffr)
      *
-     * Example 1:
-     *  W1-T (current chain of this, W1 is blocked by this)
-     *       W2-B (current chain of blockerPeer, W2 is blocked by blockerPeer)
-     *  Result is:
-     *  W1-T-W2-B (merged chain, all the windows are blocked by blockerPeer)
+     * Exbmplf 1:
+     *  W1-T (durrfnt dibin of tiis, W1 is blodkfd by tiis)
+     *       W2-B (durrfnt dibin of blodkfrPffr, W2 is blodkfd by blodkfrPffr)
+     *  Rfsult is:
+     *  W1-T-W2-B (mfrgfd dibin, bll tif windows brf blodkfd by blodkfrPffr)
      *
-     * Example 2:
-     *  W1----T (current chain of this, W1 is blocked by this)
-     *     W2---B (current chain of blockerPeer, W2 is blocked by blockerPeer)
-     *  Result is:
-     *  W1-W2-T-B (merged chain, all the windows are blocked by blockerPeer)
+     * Exbmplf 2:
+     *  W1----T (durrfnt dibin of tiis, W1 is blodkfd by tiis)
+     *     W2---B (durrfnt dibin of blodkfrPffr, W2 is blodkfd by blodkfrPffr)
+     *  Rfsult is:
+     *  W1-W2-T-B (mfrgfd dibin, bll tif windows brf blodkfd by blodkfrPffr)
      *
-     * This method should be called under the AWT lock.
+     * Tiis mftiod siould bf dbllfd undfr tif AWT lodk.
      *
-     * @see #removeFromTransientFors
-     * @see #setModalBlocked
+     * @sff #rfmovfFromTrbnsifntFors
+     * @sff #sftModblBlodkfd
      */
-    private void addToTransientFors(XDialogPeer blockerPeer) {
-        addToTransientFors(blockerPeer, null);
+    privbtf void bddToTrbnsifntFors(XDiblogPffr blodkfrPffr) {
+        bddToTrbnsifntFors(blodkfrPffr, null);
     }
 
-    private void addToTransientFors(XDialogPeer blockerPeer, Vector<XWindowPeer> javaToplevels)
+    privbtf void bddToTrbnsifntFors(XDiblogPffr blodkfrPffr, Vfdtor<XWindowPffr> jbvbToplfvfls)
     {
-        // blockerPeer chain iterator
-        XWindowPeer blockerChain = blockerPeer;
-        while (blockerChain.prevTransientFor != null) {
-            blockerChain = blockerChain.prevTransientFor;
+        // blodkfrPffr dibin itfrbtor
+        XWindowPffr blodkfrCibin = blodkfrPffr;
+        wiilf (blodkfrCibin.prfvTrbnsifntFor != null) {
+            blodkfrCibin = blodkfrCibin.prfvTrbnsifntFor;
         }
-        // this window chain iterator
-        // each window can be blocked no more than once, so this window
-        //   is on top of its chain
-        XWindowPeer thisChain = this;
-        while (thisChain.prevTransientFor != null) {
-            thisChain = thisChain.prevTransientFor;
+        // tiis window dibin itfrbtor
+        // fbdi window dbn bf blodkfd no morf tibn ondf, so tiis window
+        //   is on top of its dibin
+        XWindowPffr tiisCibin = tiis;
+        wiilf (tiisCibin.prfvTrbnsifntFor != null) {
+            tiisCibin = tiisCibin.prfvTrbnsifntFor;
         }
-        // if there are no windows blocked by modalBlocker, simply add this window
-        //  and its chain to blocker's chain
-        if (blockerChain == blockerPeer) {
-            setToplevelTransientFor(blockerPeer, this, true, false);
-        } else {
-            // Collect all the Java top-levels, if required
-            if (javaToplevels == null) {
-                javaToplevels = collectJavaToplevels();
+        // if tifrf brf no windows blodkfd by modblBlodkfr, simply bdd tiis window
+        //  bnd its dibin to blodkfr's dibin
+        if (blodkfrCibin == blodkfrPffr) {
+            sftToplfvflTrbnsifntFor(blodkfrPffr, tiis, truf, fblsf);
+        } flsf {
+            // Collfdt bll tif Jbvb top-lfvfls, if rfquirfd
+            if (jbvbToplfvfls == null) {
+                jbvbToplfvfls = dollfdtJbvbToplfvfls();
             }
-            // merged chain tail
-            XWindowPeer mergedChain = null;
-            for (XWindowPeer w : javaToplevels) {
-                XWindowPeer prevMergedChain = mergedChain;
-                if (w == thisChain) {
-                    if (thisChain == this) {
-                        if (prevMergedChain != null) {
-                            setToplevelTransientFor(this, prevMergedChain, true, false);
+            // mfrgfd dibin tbil
+            XWindowPffr mfrgfdCibin = null;
+            for (XWindowPffr w : jbvbToplfvfls) {
+                XWindowPffr prfvMfrgfdCibin = mfrgfdCibin;
+                if (w == tiisCibin) {
+                    if (tiisCibin == tiis) {
+                        if (prfvMfrgfdCibin != null) {
+                            sftToplfvflTrbnsifntFor(tiis, prfvMfrgfdCibin, truf, fblsf);
                         }
-                        setToplevelTransientFor(blockerChain, this, true, false);
-                        break;
-                    } else {
-                        mergedChain = thisChain;
-                        thisChain = thisChain.nextTransientFor;
+                        sftToplfvflTrbnsifntFor(blodkfrCibin, tiis, truf, fblsf);
+                        brfbk;
+                    } flsf {
+                        mfrgfdCibin = tiisCibin;
+                        tiisCibin = tiisCibin.nfxtTrbnsifntFor;
                     }
-                } else if (w == blockerChain) {
-                    mergedChain = blockerChain;
-                    blockerChain = blockerChain.nextTransientFor;
-                } else {
-                    continue;
+                } flsf if (w == blodkfrCibin) {
+                    mfrgfdCibin = blodkfrCibin;
+                    blodkfrCibin = blodkfrCibin.nfxtTrbnsifntFor;
+                } flsf {
+                    dontinuf;
                 }
-                if (prevMergedChain == null) {
-                    mergedChain.prevTransientFor = null;
-                } else {
-                    setToplevelTransientFor(mergedChain, prevMergedChain, true, false);
-                    mergedChain.updateTransientFor();
+                if (prfvMfrgfdCibin == null) {
+                    mfrgfdCibin.prfvTrbnsifntFor = null;
+                } flsf {
+                    sftToplfvflTrbnsifntFor(mfrgfdCibin, prfvMfrgfdCibin, truf, fblsf);
+                    mfrgfdCibin.updbtfTrbnsifntFor();
                 }
-                if (blockerChain == blockerPeer) {
-                    setToplevelTransientFor(thisChain, mergedChain, true, false);
-                    setToplevelTransientFor(blockerChain, this, true, false);
-                    break;
+                if (blodkfrCibin == blodkfrPffr) {
+                    sftToplfvflTrbnsifntFor(tiisCibin, mfrgfdCibin, truf, fblsf);
+                    sftToplfvflTrbnsifntFor(blodkfrCibin, tiis, truf, fblsf);
+                    brfbk;
                 }
             }
         }
 
-        XToolkit.XSync();
+        XToolkit.XSynd();
     }
 
-    static void restoreTransientFor(XWindowPeer window) {
-        XWindowPeer ownerPeer = window.getOwnerPeer();
-        if (ownerPeer != null) {
-            setToplevelTransientFor(window, ownerPeer, false, true);
-        } else {
-            removeTransientForHint(window);
+    stbtid void rfstorfTrbnsifntFor(XWindowPffr window) {
+        XWindowPffr ownfrPffr = window.gftOwnfrPffr();
+        if (ownfrPffr != null) {
+            sftToplfvflTrbnsifntFor(window, ownfrPffr, fblsf, truf);
+        } flsf {
+            rfmovfTrbnsifntForHint(window);
         }
     }
 
     /*
-     * When a window is modally unblocked, it should be removed from its blocker
-     *  chain, see {@link #addToTransientFor addToTransientFors} method for the
-     *  chain definition.
-     * The problem is that we cannot simply restore window's original
-     *  TRANSIENT_FOR hint (if any) and link prevTransientFor and
-     *  nextTransientFor together as the whole chain could be created as a merge
-     *  of two other chains in addToTransientFors. In that case, if this window is
-     *  a modal dialog, it would lost all its own chain, if we simply exclude it
-     *  from the chain.
-     * The correct behaviour of this method should be to split the chain, this
-     *  window is currently in, into two chains. First chain is this window own
-     *  chain (i. e. all the windows blocked by this one, directly or indirectly),
-     *  if any, and the rest windows from the current chain.
+     * Wifn b window is modblly unblodkfd, it siould bf rfmovfd from its blodkfr
+     *  dibin, sff {@link #bddToTrbnsifntFor bddToTrbnsifntFors} mftiod for tif
+     *  dibin dffinition.
+     * Tif problfm is tibt wf dbnnot simply rfstorf window's originbl
+     *  TRANSIENT_FOR iint (if bny) bnd link prfvTrbnsifntFor bnd
+     *  nfxtTrbnsifntFor togftifr bs tif wiolf dibin dould bf drfbtfd bs b mfrgf
+     *  of two otifr dibins in bddToTrbnsifntFors. In tibt dbsf, if tiis window is
+     *  b modbl diblog, it would lost bll its own dibin, if wf simply fxdludf it
+     *  from tif dibin.
+     * Tif dorrfdt bfibviour of tiis mftiod siould bf to split tif dibin, tiis
+     *  window is durrfntly in, into two dibins. First dibin is tiis window own
+     *  dibin (i. f. bll tif windows blodkfd by tiis onf, dirfdtly or indirfdtly),
+     *  if bny, bnd tif rfst windows from tif durrfnt dibin.
      *
-     * Example:
-     *  Original state:
-     *   W1-B1 (window W1 is blocked by B1)
-     *   W2-B2 (window W2 is blocked by B2)
-     *  B3 is shown and blocks B1 and B2:
-     *   W1-W2-B1-B2-B3 (a single chain after B1.addToTransientFors() and B2.addToTransientFors())
-     *  If we then unblock B1, the state should be:
-     *   W1-B1 (window W1 is blocked by B1)
-     *   W2-B2-B3 (window W2 is blocked by B2 and B2 is blocked by B3)
+     * Exbmplf:
+     *  Originbl stbtf:
+     *   W1-B1 (window W1 is blodkfd by B1)
+     *   W2-B2 (window W2 is blodkfd by B2)
+     *  B3 is siown bnd blodks B1 bnd B2:
+     *   W1-W2-B1-B2-B3 (b singlf dibin bftfr B1.bddToTrbnsifntFors() bnd B2.bddToTrbnsifntFors())
+     *  If wf tifn unblodk B1, tif stbtf siould bf:
+     *   W1-B1 (window W1 is blodkfd by B1)
+     *   W2-B2-B3 (window W2 is blodkfd by B2 bnd B2 is blodkfd by B3)
      *
-     * This method should be called under the AWT lock.
+     * Tiis mftiod siould bf dbllfd undfr tif AWT lodk.
      *
-     * @see #addToTransientFors
-     * @see #setModalBlocked
+     * @sff #bddToTrbnsifntFors
+     * @sff #sftModblBlodkfd
      */
-    private void removeFromTransientFors() {
-        // the head of the chain of this window
-        XWindowPeer thisChain = this;
-        // the head of the current chain
-        // nextTransientFor is always not null as this window is in the chain
-        XWindowPeer otherChain = nextTransientFor;
-        // the set of blockers in this chain: if this dialog blocks some other
-        // modal dialogs, their blocked windows should stay in this dialog's chain
-        Set<XWindowPeer> thisChainBlockers = new HashSet<XWindowPeer>();
-        thisChainBlockers.add(this);
-        // current chain iterator in the order from next to prev
-        XWindowPeer chainToSplit = prevTransientFor;
-        while (chainToSplit != null) {
-            XWindowPeer blocker = (XWindowPeer) AWTAccessor.getComponentAccessor().getPeer(chainToSplit.modalBlocker);
-            if (thisChainBlockers.contains(blocker)) {
-                // add to this dialog's chain
-                setToplevelTransientFor(thisChain, chainToSplit, true, false);
-                thisChain = chainToSplit;
-                thisChainBlockers.add(chainToSplit);
-            } else {
-                // leave in the current chain
-                setToplevelTransientFor(otherChain, chainToSplit, true, false);
-                otherChain = chainToSplit;
+    privbtf void rfmovfFromTrbnsifntFors() {
+        // tif ifbd of tif dibin of tiis window
+        XWindowPffr tiisCibin = tiis;
+        // tif ifbd of tif durrfnt dibin
+        // nfxtTrbnsifntFor is blwbys not null bs tiis window is in tif dibin
+        XWindowPffr otifrCibin = nfxtTrbnsifntFor;
+        // tif sft of blodkfrs in tiis dibin: if tiis diblog blodks somf otifr
+        // modbl diblogs, tifir blodkfd windows siould stby in tiis diblog's dibin
+        Sft<XWindowPffr> tiisCibinBlodkfrs = nfw HbsiSft<XWindowPffr>();
+        tiisCibinBlodkfrs.bdd(tiis);
+        // durrfnt dibin itfrbtor in tif ordfr from nfxt to prfv
+        XWindowPffr dibinToSplit = prfvTrbnsifntFor;
+        wiilf (dibinToSplit != null) {
+            XWindowPffr blodkfr = (XWindowPffr) AWTAddfssor.gftComponfntAddfssor().gftPffr(dibinToSplit.modblBlodkfr);
+            if (tiisCibinBlodkfrs.dontbins(blodkfr)) {
+                // bdd to tiis diblog's dibin
+                sftToplfvflTrbnsifntFor(tiisCibin, dibinToSplit, truf, fblsf);
+                tiisCibin = dibinToSplit;
+                tiisCibinBlodkfrs.bdd(dibinToSplit);
+            } flsf {
+                // lfbvf in tif durrfnt dibin
+                sftToplfvflTrbnsifntFor(otifrCibin, dibinToSplit, truf, fblsf);
+                otifrCibin = dibinToSplit;
             }
-            chainToSplit = chainToSplit.prevTransientFor;
+            dibinToSplit = dibinToSplit.prfvTrbnsifntFor;
         }
-        restoreTransientFor(thisChain);
-        thisChain.prevTransientFor = null;
-        restoreTransientFor(otherChain);
-        otherChain.prevTransientFor = null;
-        nextTransientFor = null;
+        rfstorfTrbnsifntFor(tiisCibin);
+        tiisCibin.prfvTrbnsifntFor = null;
+        rfstorfTrbnsifntFor(otifrCibin);
+        otifrCibin.prfvTrbnsifntFor = null;
+        nfxtTrbnsifntFor = null;
 
-        XToolkit.XSync();
+        XToolkit.XSynd();
     }
 
-    boolean isModalBlocked() {
-        return modalBlocker != null;
+    boolfbn isModblBlodkfd() {
+        rfturn modblBlodkfr != null;
     }
 
-    static Window getDecoratedOwner(Window window) {
-        while ((null != window) && !(window instanceof Frame || window instanceof Dialog)) {
-            window = (Window) AWTAccessor.getComponentAccessor().getParent(window);
+    stbtid Window gftDfdorbtfdOwnfr(Window window) {
+        wiilf ((null != window) && !(window instbndfof Frbmf || window instbndfof Diblog)) {
+            window = (Window) AWTAddfssor.gftComponfntAddfssor().gftPbrfnt(window);
         }
-        return window;
+        rfturn window;
     }
 
-    public boolean requestWindowFocus(XWindowPeer actualFocusedWindow) {
-        setActualFocusedWindow(actualFocusedWindow);
-        return requestWindowFocus();
+    publid boolfbn rfqufstWindowFodus(XWindowPffr bdtublFodusfdWindow) {
+        sftAdtublFodusfdWindow(bdtublFodusfdWindow);
+        rfturn rfqufstWindowFodus();
     }
 
-    public boolean requestWindowFocus() {
-        return requestWindowFocus(0, false);
+    publid boolfbn rfqufstWindowFodus() {
+        rfturn rfqufstWindowFodus(0, fblsf);
     }
 
-    public boolean requestWindowFocus(long time, boolean timeProvided) {
-        focusLog.fine("Request for window focus");
-        // If this is Frame or Dialog we can't assure focus request success - but we still can try
-        // If this is Window and its owner Frame is active we can be sure request succedded.
-        Window ownerWindow  = XWindowPeer.getDecoratedOwner((Window)target);
-        Window focusedWindow = XKeyboardFocusManagerPeer.getInstance().getCurrentFocusedWindow();
-        Window activeWindow = XWindowPeer.getDecoratedOwner(focusedWindow);
+    publid boolfbn rfqufstWindowFodus(long timf, boolfbn timfProvidfd) {
+        fodusLog.finf("Rfqufst for window fodus");
+        // If tiis is Frbmf or Diblog wf dbn't bssurf fodus rfqufst suddfss - but wf still dbn try
+        // If tiis is Window bnd its ownfr Frbmf is bdtivf wf dbn bf surf rfqufst suddfddfd.
+        Window ownfrWindow  = XWindowPffr.gftDfdorbtfdOwnfr((Window)tbrgft);
+        Window fodusfdWindow = XKfybobrdFodusMbnbgfrPffr.gftInstbndf().gftCurrfntFodusfdWindow();
+        Window bdtivfWindow = XWindowPffr.gftDfdorbtfdOwnfr(fodusfdWindow);
 
-        if (isWMStateNetHidden()) {
-            focusLog.fine("The window is unmapped, so rejecting the request");
-            return false;
+        if (isWMStbtfNftHiddfn()) {
+            fodusLog.finf("Tif window is unmbppfd, so rfjfdting tif rfqufst");
+            rfturn fblsf;
         }
-        if (activeWindow == ownerWindow) {
-            focusLog.fine("Parent window is active - generating focus for this window");
-            handleWindowFocusInSync(-1);
-            return true;
+        if (bdtivfWindow == ownfrWindow) {
+            fodusLog.finf("Pbrfnt window is bdtivf - gfnfrbting fodus for tiis window");
+            ibndlfWindowFodusInSynd(-1);
+            rfturn truf;
         }
-        focusLog.fine("Parent window is not active");
+        fodusLog.finf("Pbrfnt window is not bdtivf");
 
-        XDecoratedPeer wpeer = (XDecoratedPeer)AWTAccessor.getComponentAccessor().getPeer(ownerWindow);
-        if (wpeer != null && wpeer.requestWindowFocus(this, time, timeProvided)) {
-            focusLog.fine("Parent window accepted focus request - generating focus for this window");
-            return true;
+        XDfdorbtfdPffr wpffr = (XDfdorbtfdPffr)AWTAddfssor.gftComponfntAddfssor().gftPffr(ownfrWindow);
+        if (wpffr != null && wpffr.rfqufstWindowFodus(tiis, timf, timfProvidfd)) {
+            fodusLog.finf("Pbrfnt window bddfptfd fodus rfqufst - gfnfrbting fodus for tiis window");
+            rfturn truf;
         }
-        focusLog.fine("Denied - parent window is not active and didn't accept focus request");
-        return false;
+        fodusLog.finf("Dfnifd - pbrfnt window is not bdtivf bnd didn't bddfpt fodus rfqufst");
+        rfturn fblsf;
     }
 
-    // This method is to be overriden in XDecoratedPeer.
-    void setActualFocusedWindow(XWindowPeer actualFocusedWindow) {
+    // Tiis mftiod is to bf ovfrridfn in XDfdorbtfdPffr.
+    void sftAdtublFodusfdWindow(XWindowPffr bdtublFodusfdWindow) {
     }
 
     /**
-     * Applies the current window type.
+     * Applifs tif durrfnt window typf.
      */
-    private void applyWindowType() {
-        XNETProtocol protocol = XWM.getWM().getNETProtocol();
-        if (protocol == null) {
-            return;
+    privbtf void bpplyWindowTypf() {
+        XNETProtodol protodol = XWM.gftWM().gftNETProtodol();
+        if (protodol == null) {
+            rfturn;
         }
 
-        XAtom typeAtom = null;
+        XAtom typfAtom = null;
 
-        switch (getWindowType())
+        switdi (gftWindowTypf())
         {
-            case NORMAL:
-                typeAtom = (ownerPeer == null) ?
-                               protocol.XA_NET_WM_WINDOW_TYPE_NORMAL :
-                               protocol.XA_NET_WM_WINDOW_TYPE_DIALOG;
-                break;
-            case UTILITY:
-                typeAtom = protocol.XA_NET_WM_WINDOW_TYPE_UTILITY;
-                break;
-            case POPUP:
-                typeAtom = protocol.XA_NET_WM_WINDOW_TYPE_POPUP_MENU;
-                break;
+            dbsf NORMAL:
+                typfAtom = (ownfrPffr == null) ?
+                               protodol.XA_NET_WM_WINDOW_TYPE_NORMAL :
+                               protodol.XA_NET_WM_WINDOW_TYPE_DIALOG;
+                brfbk;
+            dbsf UTILITY:
+                typfAtom = protodol.XA_NET_WM_WINDOW_TYPE_UTILITY;
+                brfbk;
+            dbsf POPUP:
+                typfAtom = protodol.XA_NET_WM_WINDOW_TYPE_POPUP_MENU;
+                brfbk;
         }
 
-        if (typeAtom != null) {
-            XAtomList wtype = new XAtomList();
-            wtype.add(typeAtom);
-            protocol.XA_NET_WM_WINDOW_TYPE.
-                setAtomListProperty(getWindow(), wtype);
-        } else {
-            protocol.XA_NET_WM_WINDOW_TYPE.
-                DeleteProperty(getWindow());
+        if (typfAtom != null) {
+            XAtomList wtypf = nfw XAtomList();
+            wtypf.bdd(typfAtom);
+            protodol.XA_NET_WM_WINDOW_TYPE.
+                sftAtomListPropfrty(gftWindow(), wtypf);
+        } flsf {
+            protodol.XA_NET_WM_WINDOW_TYPE.
+                DflftfPropfrty(gftWindow());
         }
     }
 
-    @Override
-    public void xSetVisible(boolean visible) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Setting visible on " + this + " to " + visible);
+    @Ovfrridf
+    publid void xSftVisiblf(boolfbn visiblf) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Sftting visiblf on " + tiis + " to " + visiblf);
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            this.visible = visible;
-            if (visible) {
-                applyWindowType();
-                XlibWrapper.XMapRaised(XToolkit.getDisplay(), getWindow());
-            } else {
-                XlibWrapper.XUnmapWindow(XToolkit.getDisplay(), getWindow());
+            tiis.visiblf = visiblf;
+            if (visiblf) {
+                bpplyWindowTypf();
+                XlibWrbppfr.XMbpRbisfd(XToolkit.gftDisplby(), gftWindow());
+            } flsf {
+                XlibWrbppfr.XUnmbpWindow(XToolkit.gftDisplby(), gftWindow());
             }
-            XlibWrapper.XFlush(XToolkit.getDisplay());
+            XlibWrbppfr.XFlusi(XToolkit.gftDisplby());
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    // should be synchronized on awtLock
-    private int dropTargetCount = 0;
+    // siould bf syndironizfd on bwtLodk
+    privbtf int dropTbrgftCount = 0;
 
-    public void addDropTarget() {
-        XToolkit.awtLock();
+    publid void bddDropTbrgft() {
+        XToolkit.bwtLodk();
         try {
-            if (dropTargetCount == 0) {
-                long window = getWindow();
+            if (dropTbrgftCount == 0) {
+                long window = gftWindow();
                 if (window != 0) {
-                    XDropTargetRegistry.getRegistry().registerDropSite(window);
+                    XDropTbrgftRfgistry.gftRfgistry().rfgistfrDropSitf(window);
                 }
             }
-            dropTargetCount++;
-        } finally {
-            XToolkit.awtUnlock();
+            dropTbrgftCount++;
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    public void removeDropTarget() {
-        XToolkit.awtLock();
+    publid void rfmovfDropTbrgft() {
+        XToolkit.bwtLodk();
         try {
-            dropTargetCount--;
-            if (dropTargetCount == 0) {
-                long window = getWindow();
+            dropTbrgftCount--;
+            if (dropTbrgftCount == 0) {
+                long window = gftWindow();
                 if (window != 0) {
-                    XDropTargetRegistry.getRegistry().unregisterDropSite(window);
+                    XDropTbrgftRfgistry.gftRfgistry().unrfgistfrDropSitf(window);
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
-    void addRootPropertyEventDispatcher() {
-        if( rootPropertyEventDispatcher == null ) {
-            rootPropertyEventDispatcher = new XEventDispatcher() {
-                public void dispatchEvent(XEvent ev) {
-                    if( ev.get_type() == XConstants.PropertyNotify ) {
-                        handleRootPropertyNotify( ev );
+    void bddRootPropfrtyEvfntDispbtdifr() {
+        if( rootPropfrtyEvfntDispbtdifr == null ) {
+            rootPropfrtyEvfntDispbtdifr = nfw XEvfntDispbtdifr() {
+                publid void dispbtdiEvfnt(XEvfnt fv) {
+                    if( fv.gft_typf() == XConstbnts.PropfrtyNotify ) {
+                        ibndlfRootPropfrtyNotify( fv );
                     }
                 }
             };
-            XlibWrapper.XSelectInput( XToolkit.getDisplay(),
-                                      XToolkit.getDefaultRootWindow(),
-                                      XConstants.PropertyChangeMask);
-            XToolkit.addEventDispatcher(XToolkit.getDefaultRootWindow(),
-                                                rootPropertyEventDispatcher);
+            XlibWrbppfr.XSflfdtInput( XToolkit.gftDisplby(),
+                                      XToolkit.gftDffbultRootWindow(),
+                                      XConstbnts.PropfrtyCibngfMbsk);
+            XToolkit.bddEvfntDispbtdifr(XToolkit.gftDffbultRootWindow(),
+                                                rootPropfrtyEvfntDispbtdifr);
         }
     }
-    void removeRootPropertyEventDispatcher() {
-        if( rootPropertyEventDispatcher != null ) {
-            XToolkit.removeEventDispatcher(XToolkit.getDefaultRootWindow(),
-                                                rootPropertyEventDispatcher);
-            rootPropertyEventDispatcher = null;
+    void rfmovfRootPropfrtyEvfntDispbtdifr() {
+        if( rootPropfrtyEvfntDispbtdifr != null ) {
+            XToolkit.rfmovfEvfntDispbtdifr(XToolkit.gftDffbultRootWindow(),
+                                                rootPropfrtyEvfntDispbtdifr);
+            rootPropfrtyEvfntDispbtdifr = null;
         }
     }
-    public void updateFocusableWindowState() {
-        cachedFocusableWindow = isFocusableWindow();
+    publid void updbtfFodusbblfWindowStbtf() {
+        dbdifdFodusbblfWindow = isFodusbblfWindow();
     }
 
     XAtom XA_NET_WM_STATE;
-    XAtomList net_wm_state;
-    public XAtomList getNETWMState() {
-        if (net_wm_state == null) {
-            net_wm_state = XA_NET_WM_STATE.getAtomListPropertyList(this);
+    XAtomList nft_wm_stbtf;
+    publid XAtomList gftNETWMStbtf() {
+        if (nft_wm_stbtf == null) {
+            nft_wm_stbtf = XA_NET_WM_STATE.gftAtomListPropfrtyList(tiis);
         }
-        return net_wm_state;
+        rfturn nft_wm_stbtf;
     }
 
-    public void setNETWMState(XAtomList state) {
-        net_wm_state = state;
-        if (state != null) {
-            XA_NET_WM_STATE.setAtomListProperty(this, state);
+    publid void sftNETWMStbtf(XAtomList stbtf) {
+        nft_wm_stbtf = stbtf;
+        if (stbtf != null) {
+            XA_NET_WM_STATE.sftAtomListPropfrty(tiis, stbtf);
         }
     }
 
-    public PropMwmHints getMWMHints() {
-        if (mwm_hints == null) {
-            mwm_hints = new PropMwmHints();
-            if (!XWM.XA_MWM_HINTS.getAtomData(getWindow(), mwm_hints.pData, MWMConstants.PROP_MWM_HINTS_ELEMENTS)) {
-                mwm_hints.zero();
+    publid PropMwmHints gftMWMHints() {
+        if (mwm_iints == null) {
+            mwm_iints = nfw PropMwmHints();
+            if (!XWM.XA_MWM_HINTS.gftAtomDbtb(gftWindow(), mwm_iints.pDbtb, MWMConstbnts.PROP_MWM_HINTS_ELEMENTS)) {
+                mwm_iints.zfro();
             }
         }
-        return mwm_hints;
+        rfturn mwm_iints;
     }
 
-    public void setMWMHints(PropMwmHints hints) {
-        mwm_hints = hints;
-        if (hints != null) {
-            XWM.XA_MWM_HINTS.setAtomData(getWindow(), mwm_hints.pData, MWMConstants.PROP_MWM_HINTS_ELEMENTS);
+    publid void sftMWMHints(PropMwmHints iints) {
+        mwm_iints = iints;
+        if (iints != null) {
+            XWM.XA_MWM_HINTS.sftAtomDbtb(gftWindow(), mwm_iints.pDbtb, MWMConstbnts.PROP_MWM_HINTS_ELEMENTS);
         }
     }
 
-    protected void updateDropTarget() {
-        XToolkit.awtLock();
+    protfdtfd void updbtfDropTbrgft() {
+        XToolkit.bwtLodk();
         try {
-            if (dropTargetCount > 0) {
-                long window = getWindow();
+            if (dropTbrgftCount > 0) {
+                long window = gftWindow();
                 if (window != 0) {
-                    XDropTargetRegistry.getRegistry().unregisterDropSite(window);
-                    XDropTargetRegistry.getRegistry().registerDropSite(window);
+                    XDropTbrgftRfgistry.gftRfgistry().unrfgistfrDropSitf(window);
+                    XDropTbrgftRfgistry.gftRfgistry().rfgistfrDropSitf(window);
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    public void setGrab(boolean grab) {
-        this.grab = grab;
-        if (grab) {
-            pressTarget = this;
-            grabInput();
-        } else {
-            ungrabInput();
+    publid void sftGrbb(boolfbn grbb) {
+        tiis.grbb = grbb;
+        if (grbb) {
+            prfssTbrgft = tiis;
+            grbbInput();
+        } flsf {
+            ungrbbInput();
         }
     }
 
-    public boolean isGrabbed() {
-        return grab && XAwtState.getGrabWindow() == this;
+    publid boolfbn isGrbbbfd() {
+        rfturn grbb && XAwtStbtf.gftGrbbWindow() == tiis;
     }
 
-    public void handleXCrossingEvent(XEvent xev) {
-        XCrossingEvent xce = xev.get_xcrossing();
-        if (grabLog.isLoggable(PlatformLogger.Level.FINE)) {
-            grabLog.fine("{0}, when grabbed {1}, contains {2}",
-                         xce, isGrabbed(), containsGlobal(xce.get_x_root(), xce.get_y_root()));
+    publid void ibndlfXCrossingEvfnt(XEvfnt xfv) {
+        XCrossingEvfnt xdf = xfv.gft_xdrossing();
+        if (grbbLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            grbbLog.finf("{0}, wifn grbbbfd {1}, dontbins {2}",
+                         xdf, isGrbbbfd(), dontbinsGlobbl(xdf.gft_x_root(), xdf.gft_y_root()));
         }
-        if (isGrabbed()) {
-            // When window is grabbed, all events are dispatched to
-            // it.  Retarget them to the corresponding windows (notice
-            // that XBaseWindow.dispatchEvent does the opposite
-            // translation)
-            // Note that we need to retarget XCrossingEvents to content window
-            // since it generates MOUSE_ENTERED/MOUSE_EXITED for frame and dialog.
+        if (isGrbbbfd()) {
+            // Wifn window is grbbbfd, bll fvfnts brf dispbtdifd to
+            // it.  Rftbrgft tifm to tif dorrfsponding windows (notidf
+            // tibt XBbsfWindow.dispbtdiEvfnt dofs tif oppositf
+            // trbnslbtion)
+            // Notf tibt wf nffd to rftbrgft XCrossingEvfnts to dontfnt window
+            // sindf it gfnfrbtfs MOUSE_ENTERED/MOUSE_EXITED for frbmf bnd diblog.
             // (fix for 6390326)
-            XBaseWindow target = XToolkit.windowToXWindow(xce.get_window());
-            if (grabLog.isLoggable(PlatformLogger.Level.FINER)) {
-                grabLog.finer("  -  Grab event target {0}", target);
+            XBbsfWindow tbrgft = XToolkit.windowToXWindow(xdf.gft_window());
+            if (grbbLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                grbbLog.finfr("  -  Grbb fvfnt tbrgft {0}", tbrgft);
             }
-            if (target != null && target != this) {
-                target.dispatchEvent(xev);
-                return;
+            if (tbrgft != null && tbrgft != tiis) {
+                tbrgft.dispbtdiEvfnt(xfv);
+                rfturn;
             }
         }
-        super.handleXCrossingEvent(xev);
+        supfr.ibndlfXCrossingEvfnt(xfv);
     }
 
-    public void handleMotionNotify(XEvent xev) {
-        XMotionEvent xme = xev.get_xmotion();
-        if (grabLog.isLoggable(PlatformLogger.Level.FINER)) {
-            grabLog.finer("{0}, when grabbed {1}, contains {2}",
-                          xme, isGrabbed(), containsGlobal(xme.get_x_root(), xme.get_y_root()));
+    publid void ibndlfMotionNotify(XEvfnt xfv) {
+        XMotionEvfnt xmf = xfv.gft_xmotion();
+        if (grbbLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            grbbLog.finfr("{0}, wifn grbbbfd {1}, dontbins {2}",
+                          xmf, isGrbbbfd(), dontbinsGlobbl(xmf.gft_x_root(), xmf.gft_y_root()));
         }
-        if (isGrabbed()) {
-            boolean dragging = false;
-            final int buttonsNumber = XToolkit.getNumberOfButtonsForMask();
+        if (isGrbbbfd()) {
+            boolfbn drbgging = fblsf;
+            finbl int buttonsNumbfr = XToolkit.gftNumbfrOfButtonsForMbsk();
 
-            for (int i = 0; i < buttonsNumber; i++){
-                // here is the bug in WM: extra buttons doesn't have state!=0 as they should.
+            for (int i = 0; i < buttonsNumbfr; i++){
+                // ifrf is tif bug in WM: fxtrb buttons dofsn't ibvf stbtf!=0 bs tify siould.
                 if ((i != 4) && (i != 5)){
-                    dragging = dragging || ((xme.get_state() & XlibUtil.getButtonMask(i + 1)) != 0);
+                    drbgging = drbgging || ((xmf.gft_stbtf() & XlibUtil.gftButtonMbsk(i + 1)) != 0);
                 }
             }
-            // When window is grabbed, all events are dispatched to
-            // it.  Retarget them to the corresponding windows (notice
-            // that XBaseWindow.dispatchEvent does the opposite
-            // translation)
-            XBaseWindow target = XToolkit.windowToXWindow(xme.get_window());
-            if (dragging && pressTarget != target) {
-                // for some reasons if we grab input MotionNotify for drag is reported with target
-                // to underlying window, not to window on which we have initiated drag
-                // so we need to retarget them.  Here I use simplified logic which retarget all
-                // such events to source of mouse press (or the grabber).  It helps with fix for 6390326.
-                // So, I do not want to implement complicated logic for better retargeting.
-                target = pressTarget.isVisible() ? pressTarget : this;
-                xme.set_window(target.getWindow());
-                Point localCoord = target.toLocal(xme.get_x_root(), xme.get_y_root());
-                xme.set_x(localCoord.x);
-                xme.set_y(localCoord.y);
+            // Wifn window is grbbbfd, bll fvfnts brf dispbtdifd to
+            // it.  Rftbrgft tifm to tif dorrfsponding windows (notidf
+            // tibt XBbsfWindow.dispbtdiEvfnt dofs tif oppositf
+            // trbnslbtion)
+            XBbsfWindow tbrgft = XToolkit.windowToXWindow(xmf.gft_window());
+            if (drbgging && prfssTbrgft != tbrgft) {
+                // for somf rfbsons if wf grbb input MotionNotify for drbg is rfportfd witi tbrgft
+                // to undfrlying window, not to window on wiidi wf ibvf initibtfd drbg
+                // so wf nffd to rftbrgft tifm.  Hfrf I usf simplififd logid wiidi rftbrgft bll
+                // sudi fvfnts to sourdf of mousf prfss (or tif grbbbfr).  It iflps witi fix for 6390326.
+                // So, I do not wbnt to implfmfnt domplidbtfd logid for bfttfr rftbrgfting.
+                tbrgft = prfssTbrgft.isVisiblf() ? prfssTbrgft : tiis;
+                xmf.sft_window(tbrgft.gftWindow());
+                Point lodblCoord = tbrgft.toLodbl(xmf.gft_x_root(), xmf.gft_y_root());
+                xmf.sft_x(lodblCoord.x);
+                xmf.sft_y(lodblCoord.y);
             }
-            if (grabLog.isLoggable(PlatformLogger.Level.FINER)) {
-                grabLog.finer("  -  Grab event target {0}", target);
+            if (grbbLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                grbbLog.finfr("  -  Grbb fvfnt tbrgft {0}", tbrgft);
             }
-            if (target != null) {
-                if (target != getContentXWindow() && target != this) {
-                    target.dispatchEvent(xev);
-                    return;
+            if (tbrgft != null) {
+                if (tbrgft != gftContfntXWindow() && tbrgft != tiis) {
+                    tbrgft.dispbtdiEvfnt(xfv);
+                    rfturn;
                 }
             }
 
-            // note that we need to pass dragging events to the grabber (6390326)
-            // see comment above for more inforamtion.
-            if (!containsGlobal(xme.get_x_root(), xme.get_y_root()) && !dragging) {
-                // Outside of Java
-                return;
+            // notf tibt wf nffd to pbss drbgging fvfnts to tif grbbbfr (6390326)
+            // sff dommfnt bbovf for morf inforbmtion.
+            if (!dontbinsGlobbl(xmf.gft_x_root(), xmf.gft_y_root()) && !drbgging) {
+                // Outsidf of Jbvb
+                rfturn;
             }
         }
-        super.handleMotionNotify(xev);
+        supfr.ibndlfMotionNotify(xfv);
     }
 
-    // we use it to retarget mouse drag and mouse release during grab.
-    private XBaseWindow pressTarget = this;
+    // wf usf it to rftbrgft mousf drbg bnd mousf rflfbsf during grbb.
+    privbtf XBbsfWindow prfssTbrgft = tiis;
 
-    public void handleButtonPressRelease(XEvent xev) {
-        XButtonEvent xbe = xev.get_xbutton();
+    publid void ibndlfButtonPrfssRflfbsf(XEvfnt xfv) {
+        XButtonEvfnt xbf = xfv.gft_xbutton();
 
         /*
-         * Ignore the buttons above 20 due to the bit limit for
-         * InputEvent.BUTTON_DOWN_MASK.
-         * One more bit is reserved for FIRST_HIGH_BIT.
+         * Ignorf tif buttons bbovf 20 duf to tif bit limit for
+         * InputEvfnt.BUTTON_DOWN_MASK.
+         * Onf morf bit is rfsfrvfd for FIRST_HIGH_BIT.
          */
-        if (xbe.get_button() > SunToolkit.MAX_BUTTONS_SUPPORTED) {
-            return;
+        if (xbf.gft_button() > SunToolkit.MAX_BUTTONS_SUPPORTED) {
+            rfturn;
         }
-        if (grabLog.isLoggable(PlatformLogger.Level.FINE)) {
-            grabLog.fine("{0}, when grabbed {1}, contains {2} ({3}, {4}, {5}x{6})",
-                         xbe, isGrabbed(), containsGlobal(xbe.get_x_root(), xbe.get_y_root()), getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
+        if (grbbLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            grbbLog.finf("{0}, wifn grbbbfd {1}, dontbins {2} ({3}, {4}, {5}x{6})",
+                         xbf, isGrbbbfd(), dontbinsGlobbl(xbf.gft_x_root(), xbf.gft_y_root()), gftAbsolutfX(), gftAbsolutfY(), gftWidti(), gftHfigit());
         }
-        if (isGrabbed()) {
-            // When window is grabbed, all events are dispatched to
-            // it.  Retarget them to the corresponding windows (notice
-            // that XBaseWindow.dispatchEvent does the opposite
-            // translation)
-            XBaseWindow target = XToolkit.windowToXWindow(xbe.get_window());
+        if (isGrbbbfd()) {
+            // Wifn window is grbbbfd, bll fvfnts brf dispbtdifd to
+            // it.  Rftbrgft tifm to tif dorrfsponding windows (notidf
+            // tibt XBbsfWindow.dispbtdiEvfnt dofs tif oppositf
+            // trbnslbtion)
+            XBbsfWindow tbrgft = XToolkit.windowToXWindow(xbf.gft_window());
             try {
-                if (grabLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    grabLog.finer("  -  Grab event target {0} (press target {1})", target, pressTarget);
+                if (grbbLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    grbbLog.finfr("  -  Grbb fvfnt tbrgft {0} (prfss tbrgft {1})", tbrgft, prfssTbrgft);
                 }
-                if (xbe.get_type() == XConstants.ButtonPress
-                    && xbe.get_button() == XConstants.buttons[0])
+                if (xbf.gft_typf() == XConstbnts.ButtonPrfss
+                    && xbf.gft_button() == XConstbnts.buttons[0])
                 {
-                    // need to keep it to retarget mouse release
-                    pressTarget = target;
-                } else if (xbe.get_type() == XConstants.ButtonRelease
-                           && xbe.get_button() == XConstants.buttons[0]
-                           && pressTarget != target)
+                    // nffd to kffp it to rftbrgft mousf rflfbsf
+                    prfssTbrgft = tbrgft;
+                } flsf if (xbf.gft_typf() == XConstbnts.ButtonRflfbsf
+                           && xbf.gft_button() == XConstbnts.buttons[0]
+                           && prfssTbrgft != tbrgft)
                 {
-                    // during grab we do receive mouse release on different component (not on the source
-                    // of mouse press).  So we need to retarget it.
-                    // see 6390326 for more information.
-                    target = pressTarget.isVisible() ? pressTarget : this;
-                    xbe.set_window(target.getWindow());
-                    Point localCoord = target.toLocal(xbe.get_x_root(), xbe.get_y_root());
-                    xbe.set_x(localCoord.x);
-                    xbe.set_y(localCoord.y);
-                    pressTarget = this;
+                    // during grbb wf do rfdfivf mousf rflfbsf on difffrfnt domponfnt (not on tif sourdf
+                    // of mousf prfss).  So wf nffd to rftbrgft it.
+                    // sff 6390326 for morf informbtion.
+                    tbrgft = prfssTbrgft.isVisiblf() ? prfssTbrgft : tiis;
+                    xbf.sft_window(tbrgft.gftWindow());
+                    Point lodblCoord = tbrgft.toLodbl(xbf.gft_x_root(), xbf.gft_y_root());
+                    xbf.sft_x(lodblCoord.x);
+                    xbf.sft_y(lodblCoord.y);
+                    prfssTbrgft = tiis;
                 }
-                if (target != null && target != getContentXWindow() && target != this) {
-                    target.dispatchEvent(xev);
-                    return;
+                if (tbrgft != null && tbrgft != gftContfntXWindow() && tbrgft != tiis) {
+                    tbrgft.dispbtdiEvfnt(xfv);
+                    rfturn;
                 }
-            } finally {
-                if (target != null) {
-                    // Target is either us or our content window -
-                    // check that event is inside.  'Us' in case of
-                    // shell will mean that this will also filter out press on title
-                    if ((target == this || target == getContentXWindow()) && !containsGlobal(xbe.get_x_root(), xbe.get_y_root())) {
-                        // Outside this toplevel hierarchy
-                        // According to the specification of UngrabEvent, post it
-                        // when press occurs outside of the window and not on its owned windows
-                        if (xbe.get_type() == XConstants.ButtonPress) {
-                            if (grabLog.isLoggable(PlatformLogger.Level.FINE)) {
-                                grabLog.fine("Generating UngrabEvent on {0} because not inside of shell", this);
+            } finblly {
+                if (tbrgft != null) {
+                    // Tbrgft is fitifr us or our dontfnt window -
+                    // difdk tibt fvfnt is insidf.  'Us' in dbsf of
+                    // sifll will mfbn tibt tiis will blso filtfr out prfss on titlf
+                    if ((tbrgft == tiis || tbrgft == gftContfntXWindow()) && !dontbinsGlobbl(xbf.gft_x_root(), xbf.gft_y_root())) {
+                        // Outsidf tiis toplfvfl iifrbrdiy
+                        // Addording to tif spfdifidbtion of UngrbbEvfnt, post it
+                        // wifn prfss oddurs outsidf of tif window bnd not on its ownfd windows
+                        if (xbf.gft_typf() == XConstbnts.ButtonPrfss) {
+                            if (grbbLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                                grbbLog.finf("Gfnfrbting UngrbbEvfnt on {0} bfdbusf not insidf of sifll", tiis);
                             }
-                            postEventToEventQueue(new sun.awt.UngrabEvent(getEventSource()));
-                            return;
+                            postEvfntToEvfntQufuf(nfw sun.bwt.UngrbbEvfnt(gftEvfntSourdf()));
+                            rfturn;
                         }
                     }
-                    // First, get the toplevel
-                    XWindowPeer toplevel = target.getToplevelXWindow();
-                    if (toplevel != null) {
-                        Window w = (Window)toplevel.target;
-                        while (w != null && toplevel != this && !(toplevel instanceof XDialogPeer)) {
-                            w = (Window) AWTAccessor.getComponentAccessor().getParent(w);
+                    // First, gft tif toplfvfl
+                    XWindowPffr toplfvfl = tbrgft.gftToplfvflXWindow();
+                    if (toplfvfl != null) {
+                        Window w = (Window)toplfvfl.tbrgft;
+                        wiilf (w != null && toplfvfl != tiis && !(toplfvfl instbndfof XDiblogPffr)) {
+                            w = (Window) AWTAddfssor.gftComponfntAddfssor().gftPbrfnt(w);
                             if (w != null) {
-                                toplevel = (XWindowPeer) AWTAccessor.getComponentAccessor().getPeer(w);
+                                toplfvfl = (XWindowPffr) AWTAddfssor.gftComponfntAddfssor().gftPffr(w);
                             }
                         }
-                        if (w == null || (w != this.target && w instanceof Dialog)) {
-                            // toplevel == null - outside of
-                            // hierarchy, toplevel is Dialog - should
-                            // send ungrab (but shouldn't for Window)
-                            if (grabLog.isLoggable(PlatformLogger.Level.FINE)) {
-                                grabLog.fine("Generating UngrabEvent on {0} because hierarchy ended", this);
+                        if (w == null || (w != tiis.tbrgft && w instbndfof Diblog)) {
+                            // toplfvfl == null - outsidf of
+                            // iifrbrdiy, toplfvfl is Diblog - siould
+                            // sfnd ungrbb (but siouldn't for Window)
+                            if (grbbLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                                grbbLog.finf("Gfnfrbting UngrbbEvfnt on {0} bfdbusf iifrbrdiy fndfd", tiis);
                             }
-                            postEventToEventQueue(new sun.awt.UngrabEvent(getEventSource()));
+                            postEvfntToEvfntQufuf(nfw sun.bwt.UngrbbEvfnt(gftEvfntSourdf()));
                         }
-                    } else {
-                        // toplevel is null - outside of hierarchy
-                        if (grabLog.isLoggable(PlatformLogger.Level.FINE)) {
-                            grabLog.fine("Generating UngrabEvent on {0} because toplevel is null", this);
+                    } flsf {
+                        // toplfvfl is null - outsidf of iifrbrdiy
+                        if (grbbLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            grbbLog.finf("Gfnfrbting UngrbbEvfnt on {0} bfdbusf toplfvfl is null", tiis);
                         }
-                        postEventToEventQueue(new sun.awt.UngrabEvent(getEventSource()));
-                        return;
+                        postEvfntToEvfntQufuf(nfw sun.bwt.UngrbbEvfnt(gftEvfntSourdf()));
+                        rfturn;
                     }
-                } else {
-                    // target doesn't map to XAWT window - outside of hierarchy
-                    if (grabLog.isLoggable(PlatformLogger.Level.FINE)) {
-                        grabLog.fine("Generating UngrabEvent on because target is null {0}", this);
+                } flsf {
+                    // tbrgft dofsn't mbp to XAWT window - outsidf of iifrbrdiy
+                    if (grbbLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        grbbLog.finf("Gfnfrbting UngrbbEvfnt on bfdbusf tbrgft is null {0}", tiis);
                     }
-                    postEventToEventQueue(new sun.awt.UngrabEvent(getEventSource()));
-                    return;
+                    postEvfntToEvfntQufuf(nfw sun.bwt.UngrbbEvfnt(gftEvfntSourdf()));
+                    rfturn;
                 }
             }
         }
-        super.handleButtonPressRelease(xev);
+        supfr.ibndlfButtonPrfssRflfbsf(xfv);
     }
 
-    public void print(Graphics g) {
-        // We assume we print the whole frame,
-        // so we expect no clip was set previously
-        Shape shape = AWTAccessor.getWindowAccessor().getShape((Window)target);
-        if (shape != null) {
-            g.setClip(shape);
+    publid void print(Grbpiids g) {
+        // Wf bssumf wf print tif wiolf frbmf,
+        // so wf fxpfdt no dlip wbs sft prfviously
+        Sibpf sibpf = AWTAddfssor.gftWindowAddfssor().gftSibpf((Window)tbrgft);
+        if (sibpf != null) {
+            g.sftClip(sibpf);
         }
-        super.print(g);
+        supfr.print(g);
     }
 
-    @Override
-    public void setOpacity(float opacity) {
-        final long maxOpacity = 0xffffffffl;
-        long iOpacity = (long)(opacity * maxOpacity);
-        if (iOpacity < 0) {
-            iOpacity = 0;
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {
+        finbl long mbxOpbdity = 0xffffffffl;
+        long iOpbdity = (long)(opbdity * mbxOpbdity);
+        if (iOpbdity < 0) {
+            iOpbdity = 0;
         }
-        if (iOpacity > maxOpacity) {
-            iOpacity = maxOpacity;
+        if (iOpbdity > mbxOpbdity) {
+            iOpbdity = mbxOpbdity;
         }
 
-        XAtom netWmWindowOpacityAtom = XAtom.get("_NET_WM_WINDOW_OPACITY");
+        XAtom nftWmWindowOpbdityAtom = XAtom.gft("_NET_WM_WINDOW_OPACITY");
 
-        if (iOpacity == maxOpacity) {
-            netWmWindowOpacityAtom.DeleteProperty(getWindow());
-        } else {
-            netWmWindowOpacityAtom.setCard32Property(getWindow(), iOpacity);
+        if (iOpbdity == mbxOpbdity) {
+            nftWmWindowOpbdityAtom.DflftfPropfrty(gftWindow());
+        } flsf {
+            nftWmWindowOpbdityAtom.sftCbrd32Propfrty(gftWindow(), iOpbdity);
         }
     }
 
-    @Override
-    public void setOpaque(boolean isOpaque) {
+    @Ovfrridf
+    publid void sftOpbquf(boolfbn isOpbquf) {
         // no-op
     }
 
-    @Override
-    public void updateWindow() {
+    @Ovfrridf
+    publid void updbtfWindow() {
         // no-op
     }
 }

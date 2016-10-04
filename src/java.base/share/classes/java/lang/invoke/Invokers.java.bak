@@ -1,461 +1,461 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import java.util.Arrays;
-import sun.invoke.empty.Empty;
-import static java.lang.invoke.MethodHandleStatics.*;
-import static java.lang.invoke.MethodHandleNatives.Constants.*;
-import static java.lang.invoke.MethodHandles.Lookup.IMPL_LOOKUP;
-import static java.lang.invoke.LambdaForm.*;
+import jbvb.util.Arrbys;
+import sun.invokf.fmpty.Empty;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfStbtids.*;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfNbtivfs.Constbnts.*;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfs.Lookup.IMPL_LOOKUP;
+import stbtid jbvb.lbng.invokf.LbmbdbForm.*;
 
 /**
- * Construction and caching of often-used invokers.
- * @author jrose
+ * Construdtion bnd dbdiing of oftfn-usfd invokfrs.
+ * @butior jrosf
  */
-class Invokers {
-    // exact type (sans leading taget MH) for the outgoing call
-    private final MethodType targetType;
+dlbss Invokfrs {
+    // fxbdt typf (sbns lfbding tbgft MH) for tif outgoing dbll
+    privbtf finbl MftiodTypf tbrgftTypf;
 
-    // FIXME: Get rid of the invokers that are not useful.
+    // FIXME: Gft rid of tif invokfrs tibt brf not usfful.
 
-    // exact invoker for the outgoing call
-    private /*lazy*/ MethodHandle exactInvoker;
-    private /*lazy*/ MethodHandle basicInvoker;  // invokeBasic (unchecked exact)
+    // fxbdt invokfr for tif outgoing dbll
+    privbtf /*lbzy*/ MftiodHbndlf fxbdtInvokfr;
+    privbtf /*lbzy*/ MftiodHbndlf bbsidInvokfr;  // invokfBbsid (undifdkfd fxbdt)
 
-    // erased (partially untyped but with primitives) invoker for the outgoing call
-    // FIXME: get rid of
-    private /*lazy*/ MethodHandle erasedInvoker;
-    // FIXME: get rid of
-    /*lazy*/ MethodHandle erasedInvokerWithDrops;  // for InvokeGeneric
+    // frbsfd (pbrtiblly untypfd but witi primitivfs) invokfr for tif outgoing dbll
+    // FIXME: gft rid of
+    privbtf /*lbzy*/ MftiodHbndlf frbsfdInvokfr;
+    // FIXME: gft rid of
+    /*lbzy*/ MftiodHbndlf frbsfdInvokfrWitiDrops;  // for InvokfGfnfrid
 
-    // general invoker for the outgoing call
-    private /*lazy*/ MethodHandle generalInvoker;
+    // gfnfrbl invokfr for tif outgoing dbll
+    privbtf /*lbzy*/ MftiodHbndlf gfnfrblInvokfr;
 
-    // general invoker for the outgoing call, uses varargs
-    private /*lazy*/ MethodHandle varargsInvoker;
+    // gfnfrbl invokfr for tif outgoing dbll, usfs vbrbrgs
+    privbtf /*lbzy*/ MftiodHbndlf vbrbrgsInvokfr;
 
-    // general invoker for the outgoing call; accepts a trailing Object[]
-    private final /*lazy*/ MethodHandle[] spreadInvokers;
+    // gfnfrbl invokfr for tif outgoing dbll; bddfpts b trbiling Objfdt[]
+    privbtf finbl /*lbzy*/ MftiodHbndlf[] sprfbdInvokfrs;
 
-    // invoker for an unbound callsite
-    private /*lazy*/ MethodHandle uninitializedCallSite;
+    // invokfr for bn unbound dbllsitf
+    privbtf /*lbzy*/ MftiodHbndlf uninitiblizfdCbllSitf;
 
-    /** Compute and cache information common to all collecting adapters
-     *  that implement members of the erasure-family of the given erased type.
+    /** Computf bnd dbdif informbtion dommon to bll dollfdting bdbptfrs
+     *  tibt implfmfnt mfmbfrs of tif frbsurf-fbmily of tif givfn frbsfd typf.
      */
-    /*non-public*/ Invokers(MethodType targetType) {
-        this.targetType = targetType;
-        this.spreadInvokers = new MethodHandle[targetType.parameterCount()+1];
+    /*non-publid*/ Invokfrs(MftiodTypf tbrgftTypf) {
+        tiis.tbrgftTypf = tbrgftTypf;
+        tiis.sprfbdInvokfrs = nfw MftiodHbndlf[tbrgftTypf.pbrbmftfrCount()+1];
     }
 
-    /*non-public*/ MethodHandle exactInvoker() {
-        MethodHandle invoker = exactInvoker;
-        if (invoker != null)  return invoker;
-        invoker = makeExactOrGeneralInvoker(true);
-        exactInvoker = invoker;
-        return invoker;
+    /*non-publid*/ MftiodHbndlf fxbdtInvokfr() {
+        MftiodHbndlf invokfr = fxbdtInvokfr;
+        if (invokfr != null)  rfturn invokfr;
+        invokfr = mbkfExbdtOrGfnfrblInvokfr(truf);
+        fxbdtInvokfr = invokfr;
+        rfturn invokfr;
     }
 
-    /*non-public*/ MethodHandle generalInvoker() {
-        MethodHandle invoker = generalInvoker;
-        if (invoker != null)  return invoker;
-        invoker = makeExactOrGeneralInvoker(false);
-        generalInvoker = invoker;
-        return invoker;
+    /*non-publid*/ MftiodHbndlf gfnfrblInvokfr() {
+        MftiodHbndlf invokfr = gfnfrblInvokfr;
+        if (invokfr != null)  rfturn invokfr;
+        invokfr = mbkfExbdtOrGfnfrblInvokfr(fblsf);
+        gfnfrblInvokfr = invokfr;
+        rfturn invokfr;
     }
 
-    private MethodHandle makeExactOrGeneralInvoker(boolean isExact) {
-        MethodType mtype = targetType;
-        MethodType invokerType = mtype.invokerType();
-        int which = (isExact ? MethodTypeForm.LF_EX_INVOKER : MethodTypeForm.LF_GEN_INVOKER);
-        LambdaForm lform = invokeHandleForm(mtype, false, which);
-        MethodHandle invoker = BoundMethodHandle.bindSingle(invokerType, lform, mtype);
-        String whichName = (isExact ? "invokeExact" : "invoke");
-        invoker = invoker.withInternalMemberName(MemberName.makeMethodHandleInvoke(whichName, mtype));
-        assert(checkInvoker(invoker));
-        maybeCompileToBytecode(invoker);
-        return invoker;
+    privbtf MftiodHbndlf mbkfExbdtOrGfnfrblInvokfr(boolfbn isExbdt) {
+        MftiodTypf mtypf = tbrgftTypf;
+        MftiodTypf invokfrTypf = mtypf.invokfrTypf();
+        int wiidi = (isExbdt ? MftiodTypfForm.LF_EX_INVOKER : MftiodTypfForm.LF_GEN_INVOKER);
+        LbmbdbForm lform = invokfHbndlfForm(mtypf, fblsf, wiidi);
+        MftiodHbndlf invokfr = BoundMftiodHbndlf.bindSinglf(invokfrTypf, lform, mtypf);
+        String wiidiNbmf = (isExbdt ? "invokfExbdt" : "invokf");
+        invokfr = invokfr.witiIntfrnblMfmbfrNbmf(MfmbfrNbmf.mbkfMftiodHbndlfInvokf(wiidiNbmf, mtypf));
+        bssfrt(difdkInvokfr(invokfr));
+        mbybfCompilfToBytfdodf(invokfr);
+        rfturn invokfr;
     }
 
-    /** If the target type seems to be common enough, eagerly compile the invoker to bytecodes. */
-    private void maybeCompileToBytecode(MethodHandle invoker) {
-        final int EAGER_COMPILE_ARITY_LIMIT = 10;
-        if (targetType == targetType.erase() &&
-            targetType.parameterCount() < EAGER_COMPILE_ARITY_LIMIT) {
-            invoker.form.compileToBytecode();
+    /** If tif tbrgft typf sffms to bf dommon fnougi, fbgfrly dompilf tif invokfr to bytfdodfs. */
+    privbtf void mbybfCompilfToBytfdodf(MftiodHbndlf invokfr) {
+        finbl int EAGER_COMPILE_ARITY_LIMIT = 10;
+        if (tbrgftTypf == tbrgftTypf.frbsf() &&
+            tbrgftTypf.pbrbmftfrCount() < EAGER_COMPILE_ARITY_LIMIT) {
+            invokfr.form.dompilfToBytfdodf();
         }
     }
 
-    /*non-public*/ MethodHandle basicInvoker() {
-        MethodHandle invoker = basicInvoker;
-        if (invoker != null)  return invoker;
-        MethodType basicType = targetType.basicType();
-        if (basicType != targetType) {
-            // double cache; not used significantly
-            return basicInvoker = basicType.invokers().basicInvoker();
+    /*non-publid*/ MftiodHbndlf bbsidInvokfr() {
+        MftiodHbndlf invokfr = bbsidInvokfr;
+        if (invokfr != null)  rfturn invokfr;
+        MftiodTypf bbsidTypf = tbrgftTypf.bbsidTypf();
+        if (bbsidTypf != tbrgftTypf) {
+            // doublf dbdif; not usfd signifidbntly
+            rfturn bbsidInvokfr = bbsidTypf.invokfrs().bbsidInvokfr();
         }
-        MemberName method = invokeBasicMethod(basicType);
-        invoker = DirectMethodHandle.make(method);
-        assert(checkInvoker(invoker));
-        basicInvoker = invoker;
-        return invoker;
+        MfmbfrNbmf mftiod = invokfBbsidMftiod(bbsidTypf);
+        invokfr = DirfdtMftiodHbndlf.mbkf(mftiod);
+        bssfrt(difdkInvokfr(invokfr));
+        bbsidInvokfr = invokfr;
+        rfturn invokfr;
     }
 
-    // This next one is called from LambdaForm.NamedFunction.<init>.
-    /*non-public*/ static MemberName invokeBasicMethod(MethodType basicType) {
-        assert(basicType == basicType.basicType());
+    // Tiis nfxt onf is dbllfd from LbmbdbForm.NbmfdFundtion.<init>.
+    /*non-publid*/ stbtid MfmbfrNbmf invokfBbsidMftiod(MftiodTypf bbsidTypf) {
+        bssfrt(bbsidTypf == bbsidTypf.bbsidTypf());
         try {
-            //Lookup.findVirtual(MethodHandle.class, name, type);
-            return IMPL_LOOKUP.resolveOrFail(REF_invokeVirtual, MethodHandle.class, "invokeBasic", basicType);
-        } catch (ReflectiveOperationException ex) {
-            throw newInternalError("JVM cannot find invoker for "+basicType, ex);
+            //Lookup.findVirtubl(MftiodHbndlf.dlbss, nbmf, typf);
+            rfturn IMPL_LOOKUP.rfsolvfOrFbil(REF_invokfVirtubl, MftiodHbndlf.dlbss, "invokfBbsid", bbsidTypf);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+            tirow nfwIntfrnblError("JVM dbnnot find invokfr for "+bbsidTypf, fx);
         }
     }
 
-    private boolean checkInvoker(MethodHandle invoker) {
-        assert(targetType.invokerType().equals(invoker.type()))
-                : java.util.Arrays.asList(targetType, targetType.invokerType(), invoker);
-        assert(invoker.internalMemberName() == null ||
-               invoker.internalMemberName().getMethodType().equals(targetType));
-        assert(!invoker.isVarargsCollector());
-        return true;
+    privbtf boolfbn difdkInvokfr(MftiodHbndlf invokfr) {
+        bssfrt(tbrgftTypf.invokfrTypf().fqubls(invokfr.typf()))
+                : jbvb.util.Arrbys.bsList(tbrgftTypf, tbrgftTypf.invokfrTypf(), invokfr);
+        bssfrt(invokfr.intfrnblMfmbfrNbmf() == null ||
+               invokfr.intfrnblMfmbfrNbmf().gftMftiodTypf().fqubls(tbrgftTypf));
+        bssfrt(!invokfr.isVbrbrgsCollfdtor());
+        rfturn truf;
     }
 
-    // FIXME: get rid of
-    /*non-public*/ MethodHandle erasedInvoker() {
-        MethodHandle xinvoker = exactInvoker();
-        MethodHandle invoker = erasedInvoker;
-        if (invoker != null)  return invoker;
-        MethodType erasedType = targetType.erase();
-        invoker = xinvoker.asType(erasedType.invokerType());
-        erasedInvoker = invoker;
-        return invoker;
+    // FIXME: gft rid of
+    /*non-publid*/ MftiodHbndlf frbsfdInvokfr() {
+        MftiodHbndlf xinvokfr = fxbdtInvokfr();
+        MftiodHbndlf invokfr = frbsfdInvokfr;
+        if (invokfr != null)  rfturn invokfr;
+        MftiodTypf frbsfdTypf = tbrgftTypf.frbsf();
+        invokfr = xinvokfr.bsTypf(frbsfdTypf.invokfrTypf());
+        frbsfdInvokfr = invokfr;
+        rfturn invokfr;
     }
 
-    /*non-public*/ MethodHandle spreadInvoker(int leadingArgCount) {
-        MethodHandle vaInvoker = spreadInvokers[leadingArgCount];
-        if (vaInvoker != null)  return vaInvoker;
-        int spreadArgCount = targetType.parameterCount() - leadingArgCount;
-        MethodType spreadInvokerType = targetType
-            .replaceParameterTypes(leadingArgCount, targetType.parameterCount(), Object[].class);
-        if (targetType.parameterSlotCount() <= MethodType.MAX_MH_INVOKER_ARITY) {
-            // Factor sinvoker.invoke(mh, a) into ginvoker.asSpreader().invoke(mh, a)
-            // where ginvoker.invoke(mh, a*) => mh.invoke(a*).
-            MethodHandle genInvoker = generalInvoker();
-            vaInvoker = genInvoker.asSpreader(Object[].class, spreadArgCount);
-        } else {
-            // Cannot build a general invoker here of type ginvoker.invoke(mh, a*[254]).
-            // Instead, factor sinvoker.invoke(mh, a) into ainvoker.invoke(filter(mh), a)
-            // where filter(mh) == mh.asSpreader(Object[], spreadArgCount)
-            MethodHandle arrayInvoker = MethodHandles.exactInvoker(spreadInvokerType);
-            MethodHandle makeSpreader;
+    /*non-publid*/ MftiodHbndlf sprfbdInvokfr(int lfbdingArgCount) {
+        MftiodHbndlf vbInvokfr = sprfbdInvokfrs[lfbdingArgCount];
+        if (vbInvokfr != null)  rfturn vbInvokfr;
+        int sprfbdArgCount = tbrgftTypf.pbrbmftfrCount() - lfbdingArgCount;
+        MftiodTypf sprfbdInvokfrTypf = tbrgftTypf
+            .rfplbdfPbrbmftfrTypfs(lfbdingArgCount, tbrgftTypf.pbrbmftfrCount(), Objfdt[].dlbss);
+        if (tbrgftTypf.pbrbmftfrSlotCount() <= MftiodTypf.MAX_MH_INVOKER_ARITY) {
+            // Fbdtor sinvokfr.invokf(mi, b) into ginvokfr.bsSprfbdfr().invokf(mi, b)
+            // wifrf ginvokfr.invokf(mi, b*) => mi.invokf(b*).
+            MftiodHbndlf gfnInvokfr = gfnfrblInvokfr();
+            vbInvokfr = gfnInvokfr.bsSprfbdfr(Objfdt[].dlbss, sprfbdArgCount);
+        } flsf {
+            // Cbnnot build b gfnfrbl invokfr ifrf of typf ginvokfr.invokf(mi, b*[254]).
+            // Instfbd, fbdtor sinvokfr.invokf(mi, b) into binvokfr.invokf(filtfr(mi), b)
+            // wifrf filtfr(mi) == mi.bsSprfbdfr(Objfdt[], sprfbdArgCount)
+            MftiodHbndlf brrbyInvokfr = MftiodHbndlfs.fxbdtInvokfr(sprfbdInvokfrTypf);
+            MftiodHbndlf mbkfSprfbdfr;
             try {
-                makeSpreader = IMPL_LOOKUP
-                    .findVirtual(MethodHandle.class, "asSpreader",
-                        MethodType.methodType(MethodHandle.class, Class.class, int.class));
-            } catch (ReflectiveOperationException ex) {
-                throw newInternalError(ex);
+                mbkfSprfbdfr = IMPL_LOOKUP
+                    .findVirtubl(MftiodHbndlf.dlbss, "bsSprfbdfr",
+                        MftiodTypf.mftiodTypf(MftiodHbndlf.dlbss, Clbss.dlbss, int.dlbss));
+            } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+                tirow nfwIntfrnblError(fx);
             }
-            makeSpreader = MethodHandles.insertArguments(makeSpreader, 1, Object[].class, spreadArgCount);
-            vaInvoker = MethodHandles.filterArgument(arrayInvoker, 0, makeSpreader);
+            mbkfSprfbdfr = MftiodHbndlfs.insfrtArgumfnts(mbkfSprfbdfr, 1, Objfdt[].dlbss, sprfbdArgCount);
+            vbInvokfr = MftiodHbndlfs.filtfrArgumfnt(brrbyInvokfr, 0, mbkfSprfbdfr);
         }
-        assert(vaInvoker.type().equals(spreadInvokerType.invokerType()));
-        maybeCompileToBytecode(vaInvoker);
-        spreadInvokers[leadingArgCount] = vaInvoker;
-        return vaInvoker;
+        bssfrt(vbInvokfr.typf().fqubls(sprfbdInvokfrTypf.invokfrTypf()));
+        mbybfCompilfToBytfdodf(vbInvokfr);
+        sprfbdInvokfrs[lfbdingArgCount] = vbInvokfr;
+        rfturn vbInvokfr;
     }
 
-    /*non-public*/ MethodHandle varargsInvoker() {
-        MethodHandle vaInvoker = varargsInvoker;
-        if (vaInvoker != null)  return vaInvoker;
-        vaInvoker = spreadInvoker(0).asType(MethodType.genericMethodType(0, true).invokerType());
-        varargsInvoker = vaInvoker;
-        return vaInvoker;
+    /*non-publid*/ MftiodHbndlf vbrbrgsInvokfr() {
+        MftiodHbndlf vbInvokfr = vbrbrgsInvokfr;
+        if (vbInvokfr != null)  rfturn vbInvokfr;
+        vbInvokfr = sprfbdInvokfr(0).bsTypf(MftiodTypf.gfnfridMftiodTypf(0, truf).invokfrTypf());
+        vbrbrgsInvokfr = vbInvokfr;
+        rfturn vbInvokfr;
     }
 
-    private static MethodHandle THROW_UCS = null;
+    privbtf stbtid MftiodHbndlf THROW_UCS = null;
 
-    /*non-public*/ MethodHandle uninitializedCallSite() {
-        MethodHandle invoker = uninitializedCallSite;
-        if (invoker != null)  return invoker;
-        if (targetType.parameterCount() > 0) {
-            MethodType type0 = targetType.dropParameterTypes(0, targetType.parameterCount());
-            Invokers invokers0 = type0.invokers();
-            invoker = MethodHandles.dropArguments(invokers0.uninitializedCallSite(),
-                                                  0, targetType.parameterList());
-            assert(invoker.type().equals(targetType));
-            uninitializedCallSite = invoker;
-            return invoker;
+    /*non-publid*/ MftiodHbndlf uninitiblizfdCbllSitf() {
+        MftiodHbndlf invokfr = uninitiblizfdCbllSitf;
+        if (invokfr != null)  rfturn invokfr;
+        if (tbrgftTypf.pbrbmftfrCount() > 0) {
+            MftiodTypf typf0 = tbrgftTypf.dropPbrbmftfrTypfs(0, tbrgftTypf.pbrbmftfrCount());
+            Invokfrs invokfrs0 = typf0.invokfrs();
+            invokfr = MftiodHbndlfs.dropArgumfnts(invokfrs0.uninitiblizfdCbllSitf(),
+                                                  0, tbrgftTypf.pbrbmftfrList());
+            bssfrt(invokfr.typf().fqubls(tbrgftTypf));
+            uninitiblizfdCbllSitf = invokfr;
+            rfturn invokfr;
         }
-        invoker = THROW_UCS;
-        if (invoker == null) {
+        invokfr = THROW_UCS;
+        if (invokfr == null) {
             try {
-                THROW_UCS = invoker = IMPL_LOOKUP
-                    .findStatic(CallSite.class, "uninitializedCallSite",
-                                MethodType.methodType(Empty.class));
-            } catch (ReflectiveOperationException ex) {
-                throw newInternalError(ex);
+                THROW_UCS = invokfr = IMPL_LOOKUP
+                    .findStbtid(CbllSitf.dlbss, "uninitiblizfdCbllSitf",
+                                MftiodTypf.mftiodTypf(Empty.dlbss));
+            } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+                tirow nfwIntfrnblError(fx);
             }
         }
-        invoker = MethodHandles.explicitCastArguments(invoker, MethodType.methodType(targetType.returnType()));
-        invoker = invoker.dropArguments(targetType, 0, targetType.parameterCount());
-        assert(invoker.type().equals(targetType));
-        uninitializedCallSite = invoker;
-        return invoker;
+        invokfr = MftiodHbndlfs.fxpliditCbstArgumfnts(invokfr, MftiodTypf.mftiodTypf(tbrgftTypf.rfturnTypf()));
+        invokfr = invokfr.dropArgumfnts(tbrgftTypf, 0, tbrgftTypf.pbrbmftfrCount());
+        bssfrt(invokfr.typf().fqubls(tbrgftTypf));
+        uninitiblizfdCbllSitf = invokfr;
+        rfturn invokfr;
     }
 
-    public String toString() {
-        return "Invokers"+targetType;
+    publid String toString() {
+        rfturn "Invokfrs"+tbrgftTypf;
     }
 
-    static MemberName methodHandleInvokeLinkerMethod(String name,
-                                                     MethodType mtype,
-                                                     Object[] appendixResult) {
-        int which;
-        switch (name) {
-        case "invokeExact":  which = MethodTypeForm.LF_EX_LINKER; break;
-        case "invoke":       which = MethodTypeForm.LF_GEN_LINKER; break;
-        default:             throw new InternalError("not invoker: "+name);
+    stbtid MfmbfrNbmf mftiodHbndlfInvokfLinkfrMftiod(String nbmf,
+                                                     MftiodTypf mtypf,
+                                                     Objfdt[] bppfndixRfsult) {
+        int wiidi;
+        switdi (nbmf) {
+        dbsf "invokfExbdt":  wiidi = MftiodTypfForm.LF_EX_LINKER; brfbk;
+        dbsf "invokf":       wiidi = MftiodTypfForm.LF_GEN_LINKER; brfbk;
+        dffbult:             tirow nfw IntfrnblError("not invokfr: "+nbmf);
         }
-        LambdaForm lform;
-        if (mtype.parameterSlotCount() <= MethodType.MAX_MH_ARITY - MH_LINKER_ARG_APPENDED) {
-            lform = invokeHandleForm(mtype, false, which);
-            appendixResult[0] = mtype;
-        } else {
-            lform = invokeHandleForm(mtype, true, which);
+        LbmbdbForm lform;
+        if (mtypf.pbrbmftfrSlotCount() <= MftiodTypf.MAX_MH_ARITY - MH_LINKER_ARG_APPENDED) {
+            lform = invokfHbndlfForm(mtypf, fblsf, wiidi);
+            bppfndixRfsult[0] = mtypf;
+        } flsf {
+            lform = invokfHbndlfForm(mtypf, truf, wiidi);
         }
-        return lform.vmentry;
+        rfturn lform.vmfntry;
     }
 
-    // argument count to account for trailing "appendix value" (typically the mtype)
-    private static final int MH_LINKER_ARG_APPENDED = 1;
+    // brgumfnt dount to bddount for trbiling "bppfndix vbluf" (typidblly tif mtypf)
+    privbtf stbtid finbl int MH_LINKER_ARG_APPENDED = 1;
 
-    /** Returns an adapter for invokeExact or generic invoke, as a MH or constant pool linker.
-     * If !customized, caller is responsible for supplying, during adapter execution,
-     * a copy of the exact mtype.  This is because the adapter might be generalized to
-     * a basic type.
-     * @param mtype the caller's method type (either basic or full-custom)
-     * @param customized whether to use a trailing appendix argument (to carry the mtype)
-     * @param which bit-encoded 0x01 whether it is a CP adapter ("linker") or MHs.invoker value ("invoker");
-     *                          0x02 whether it is for invokeExact or generic invoke
+    /** Rfturns bn bdbptfr for invokfExbdt or gfnfrid invokf, bs b MH or donstbnt pool linkfr.
+     * If !dustomizfd, dbllfr is rfsponsiblf for supplying, during bdbptfr fxfdution,
+     * b dopy of tif fxbdt mtypf.  Tiis is bfdbusf tif bdbptfr migit bf gfnfrblizfd to
+     * b bbsid typf.
+     * @pbrbm mtypf tif dbllfr's mftiod typf (fitifr bbsid or full-dustom)
+     * @pbrbm dustomizfd wiftifr to usf b trbiling bppfndix brgumfnt (to dbrry tif mtypf)
+     * @pbrbm wiidi bit-fndodfd 0x01 wiftifr it is b CP bdbptfr ("linkfr") or MHs.invokfr vbluf ("invokfr");
+     *                          0x02 wiftifr it is for invokfExbdt or gfnfrid invokf
      */
-    private static LambdaForm invokeHandleForm(MethodType mtype, boolean customized, int which) {
-        boolean isCached;
-        if (!customized) {
-            mtype = mtype.basicType();  // normalize Z to I, String to Object, etc.
-            isCached = true;
-        } else {
-            isCached = false;  // maybe cache if mtype == mtype.basicType()
+    privbtf stbtid LbmbdbForm invokfHbndlfForm(MftiodTypf mtypf, boolfbn dustomizfd, int wiidi) {
+        boolfbn isCbdifd;
+        if (!dustomizfd) {
+            mtypf = mtypf.bbsidTypf();  // normblizf Z to I, String to Objfdt, ftd.
+            isCbdifd = truf;
+        } flsf {
+            isCbdifd = fblsf;  // mbybf dbdif if mtypf == mtypf.bbsidTypf()
         }
-        boolean isLinker, isGeneric;
-        String debugName;
-        switch (which) {
-        case MethodTypeForm.LF_EX_LINKER:   isLinker = true;  isGeneric = false; debugName = "invokeExact_MT"; break;
-        case MethodTypeForm.LF_EX_INVOKER:  isLinker = false; isGeneric = false; debugName = "exactInvoker"; break;
-        case MethodTypeForm.LF_GEN_LINKER:  isLinker = true;  isGeneric = true;  debugName = "invoke_MT"; break;
-        case MethodTypeForm.LF_GEN_INVOKER: isLinker = false; isGeneric = true;  debugName = "invoker"; break;
-        default: throw new InternalError();
+        boolfbn isLinkfr, isGfnfrid;
+        String dfbugNbmf;
+        switdi (wiidi) {
+        dbsf MftiodTypfForm.LF_EX_LINKER:   isLinkfr = truf;  isGfnfrid = fblsf; dfbugNbmf = "invokfExbdt_MT"; brfbk;
+        dbsf MftiodTypfForm.LF_EX_INVOKER:  isLinkfr = fblsf; isGfnfrid = fblsf; dfbugNbmf = "fxbdtInvokfr"; brfbk;
+        dbsf MftiodTypfForm.LF_GEN_LINKER:  isLinkfr = truf;  isGfnfrid = truf;  dfbugNbmf = "invokf_MT"; brfbk;
+        dbsf MftiodTypfForm.LF_GEN_INVOKER: isLinkfr = fblsf; isGfnfrid = truf;  dfbugNbmf = "invokfr"; brfbk;
+        dffbult: tirow nfw IntfrnblError();
         }
-        LambdaForm lform;
-        if (isCached) {
-            lform = mtype.form().cachedLambdaForm(which);
-            if (lform != null)  return lform;
+        LbmbdbForm lform;
+        if (isCbdifd) {
+            lform = mtypf.form().dbdifdLbmbdbForm(wiidi);
+            if (lform != null)  rfturn lform;
         }
-        // exactInvokerForm (Object,Object)Object
-        //   link with java.lang.invoke.MethodHandle.invokeBasic(MethodHandle,Object,Object)Object/invokeSpecial
-        final int THIS_MH      = 0;
-        final int CALL_MH      = THIS_MH + (isLinker ? 0 : 1);
-        final int ARG_BASE     = CALL_MH + 1;
-        final int OUTARG_LIMIT = ARG_BASE + mtype.parameterCount();
-        final int INARG_LIMIT  = OUTARG_LIMIT + (isLinker && !customized ? 1 : 0);
-        int nameCursor = OUTARG_LIMIT;
-        final int MTYPE_ARG    = customized ? -1 : nameCursor++;  // might be last in-argument
-        final int CHECK_TYPE   = nameCursor++;
-        final int LINKER_CALL  = nameCursor++;
-        MethodType invokerFormType = mtype.invokerType();
-        if (isLinker) {
-            if (!customized)
-                invokerFormType = invokerFormType.appendParameterTypes(MemberName.class);
-        } else {
-            invokerFormType = invokerFormType.invokerType();
+        // fxbdtInvokfrForm (Objfdt,Objfdt)Objfdt
+        //   link witi jbvb.lbng.invokf.MftiodHbndlf.invokfBbsid(MftiodHbndlf,Objfdt,Objfdt)Objfdt/invokfSpfdibl
+        finbl int THIS_MH      = 0;
+        finbl int CALL_MH      = THIS_MH + (isLinkfr ? 0 : 1);
+        finbl int ARG_BASE     = CALL_MH + 1;
+        finbl int OUTARG_LIMIT = ARG_BASE + mtypf.pbrbmftfrCount();
+        finbl int INARG_LIMIT  = OUTARG_LIMIT + (isLinkfr && !dustomizfd ? 1 : 0);
+        int nbmfCursor = OUTARG_LIMIT;
+        finbl int MTYPE_ARG    = dustomizfd ? -1 : nbmfCursor++;  // migit bf lbst in-brgumfnt
+        finbl int CHECK_TYPE   = nbmfCursor++;
+        finbl int LINKER_CALL  = nbmfCursor++;
+        MftiodTypf invokfrFormTypf = mtypf.invokfrTypf();
+        if (isLinkfr) {
+            if (!dustomizfd)
+                invokfrFormTypf = invokfrFormTypf.bppfndPbrbmftfrTypfs(MfmbfrNbmf.dlbss);
+        } flsf {
+            invokfrFormTypf = invokfrFormTypf.invokfrTypf();
         }
-        Name[] names = arguments(nameCursor - INARG_LIMIT, invokerFormType);
-        assert(names.length == nameCursor)
-                : Arrays.asList(mtype, customized, which, nameCursor, names.length);
+        Nbmf[] nbmfs = brgumfnts(nbmfCursor - INARG_LIMIT, invokfrFormTypf);
+        bssfrt(nbmfs.lfngti == nbmfCursor)
+                : Arrbys.bsList(mtypf, dustomizfd, wiidi, nbmfCursor, nbmfs.lfngti);
         if (MTYPE_ARG >= INARG_LIMIT) {
-            assert(names[MTYPE_ARG] == null);
-            NamedFunction getter = BoundMethodHandle.getSpeciesData("L").getterFunction(0);
-            names[MTYPE_ARG] = new Name(getter, names[THIS_MH]);
-            // else if isLinker, then MTYPE is passed in from the caller (e.g., the JVM)
+            bssfrt(nbmfs[MTYPE_ARG] == null);
+            NbmfdFundtion gfttfr = BoundMftiodHbndlf.gftSpfdifsDbtb("L").gfttfrFundtion(0);
+            nbmfs[MTYPE_ARG] = nfw Nbmf(gfttfr, nbmfs[THIS_MH]);
+            // flsf if isLinkfr, tifn MTYPE is pbssfd in from tif dbllfr (f.g., tif JVM)
         }
 
-        // Make the final call.  If isGeneric, then prepend the result of type checking.
-        MethodType outCallType = mtype.basicType();
-        Object[] outArgs = Arrays.copyOfRange(names, CALL_MH, OUTARG_LIMIT, Object[].class);
-        Object mtypeArg = (customized ? mtype : names[MTYPE_ARG]);
-        if (!isGeneric) {
-            names[CHECK_TYPE] = new Name(NF_checkExactType, names[CALL_MH], mtypeArg);
-            // mh.invokeExact(a*):R => checkExactType(mh, TYPEOF(a*:R)); mh.invokeBasic(a*)
-        } else {
-            names[CHECK_TYPE] = new Name(NF_checkGenericType, names[CALL_MH], mtypeArg);
-            // mh.invokeGeneric(a*):R => checkGenericType(mh, TYPEOF(a*:R)).invokeBasic(a*)
-            outArgs[0] = names[CHECK_TYPE];
+        // Mbkf tif finbl dbll.  If isGfnfrid, tifn prfpfnd tif rfsult of typf difdking.
+        MftiodTypf outCbllTypf = mtypf.bbsidTypf();
+        Objfdt[] outArgs = Arrbys.dopyOfRbngf(nbmfs, CALL_MH, OUTARG_LIMIT, Objfdt[].dlbss);
+        Objfdt mtypfArg = (dustomizfd ? mtypf : nbmfs[MTYPE_ARG]);
+        if (!isGfnfrid) {
+            nbmfs[CHECK_TYPE] = nfw Nbmf(NF_difdkExbdtTypf, nbmfs[CALL_MH], mtypfArg);
+            // mi.invokfExbdt(b*):R => difdkExbdtTypf(mi, TYPEOF(b*:R)); mi.invokfBbsid(b*)
+        } flsf {
+            nbmfs[CHECK_TYPE] = nfw Nbmf(NF_difdkGfnfridTypf, nbmfs[CALL_MH], mtypfArg);
+            // mi.invokfGfnfrid(b*):R => difdkGfnfridTypf(mi, TYPEOF(b*:R)).invokfBbsid(b*)
+            outArgs[0] = nbmfs[CHECK_TYPE];
         }
-        names[LINKER_CALL] = new Name(outCallType, outArgs);
-        lform = new LambdaForm(debugName, INARG_LIMIT, names);
-        if (isLinker)
-            lform.compileToBytecode();  // JVM needs a real methodOop
-        if (isCached)
-            lform = mtype.form().setCachedLambdaForm(which, lform);
-        return lform;
+        nbmfs[LINKER_CALL] = nfw Nbmf(outCbllTypf, outArgs);
+        lform = nfw LbmbdbForm(dfbugNbmf, INARG_LIMIT, nbmfs);
+        if (isLinkfr)
+            lform.dompilfToBytfdodf();  // JVM nffds b rfbl mftiodOop
+        if (isCbdifd)
+            lform = mtypf.form().sftCbdifdLbmbdbForm(wiidi, lform);
+        rfturn lform;
     }
 
-    /*non-public*/ static
-    WrongMethodTypeException newWrongMethodTypeException(MethodType actual, MethodType expected) {
-        // FIXME: merge with JVM logic for throwing WMTE
-        return new WrongMethodTypeException("expected "+expected+" but found "+actual);
+    /*non-publid*/ stbtid
+    WrongMftiodTypfExdfption nfwWrongMftiodTypfExdfption(MftiodTypf bdtubl, MftiodTypf fxpfdtfd) {
+        // FIXME: mfrgf witi JVM logid for tirowing WMTE
+        rfturn nfw WrongMftiodTypfExdfption("fxpfdtfd "+fxpfdtfd+" but found "+bdtubl);
     }
 
-    /** Static definition of MethodHandle.invokeExact checking code. */
-    /*non-public*/ static
-    @ForceInline
-    void checkExactType(Object mhObj, Object expectedObj) {
-        MethodHandle mh = (MethodHandle) mhObj;
-        MethodType expected = (MethodType) expectedObj;
-        MethodType actual = mh.type();
-        if (actual != expected)
-            throw newWrongMethodTypeException(expected, actual);
+    /** Stbtid dffinition of MftiodHbndlf.invokfExbdt difdking dodf. */
+    /*non-publid*/ stbtid
+    @FordfInlinf
+    void difdkExbdtTypf(Objfdt miObj, Objfdt fxpfdtfdObj) {
+        MftiodHbndlf mi = (MftiodHbndlf) miObj;
+        MftiodTypf fxpfdtfd = (MftiodTypf) fxpfdtfdObj;
+        MftiodTypf bdtubl = mi.typf();
+        if (bdtubl != fxpfdtfd)
+            tirow nfwWrongMftiodTypfExdfption(fxpfdtfd, bdtubl);
     }
 
-    /** Static definition of MethodHandle.invokeGeneric checking code.
-     * Directly returns the type-adjusted MH to invoke, as follows:
-     * {@code (R)MH.invoke(a*) => MH.asType(TYPEOF(a*:R)).invokeBasic(a*)}
+    /** Stbtid dffinition of MftiodHbndlf.invokfGfnfrid difdking dodf.
+     * Dirfdtly rfturns tif typf-bdjustfd MH to invokf, bs follows:
+     * {@dodf (R)MH.invokf(b*) => MH.bsTypf(TYPEOF(b*:R)).invokfBbsid(b*)}
      */
-    /*non-public*/ static
-    @ForceInline
-    Object checkGenericType(Object mhObj, Object expectedObj) {
-        MethodHandle mh = (MethodHandle) mhObj;
-        MethodType expected = (MethodType) expectedObj;
-        if (mh.type() == expected)  return mh;
-        MethodHandle atc = mh.asTypeCache;
-        if (atc != null && atc.type() == expected)  return atc;
-        return mh.asType(expected);
-        /* Maybe add more paths here.  Possible optimizations:
-         * for (R)MH.invoke(a*),
-         * let MT0 = TYPEOF(a*:R), MT1 = MH.type
+    /*non-publid*/ stbtid
+    @FordfInlinf
+    Objfdt difdkGfnfridTypf(Objfdt miObj, Objfdt fxpfdtfdObj) {
+        MftiodHbndlf mi = (MftiodHbndlf) miObj;
+        MftiodTypf fxpfdtfd = (MftiodTypf) fxpfdtfdObj;
+        if (mi.typf() == fxpfdtfd)  rfturn mi;
+        MftiodHbndlf btd = mi.bsTypfCbdif;
+        if (btd != null && btd.typf() == fxpfdtfd)  rfturn btd;
+        rfturn mi.bsTypf(fxpfdtfd);
+        /* Mbybf bdd morf pbtis ifrf.  Possiblf optimizbtions:
+         * for (R)MH.invokf(b*),
+         * lft MT0 = TYPEOF(b*:R), MT1 = MH.typf
          *
-         * if MT0==MT1 or MT1 can be safely called by MT0
-         *  => MH.invokeBasic(a*)
-         * if MT1 can be safely called by MT0[R := Object]
-         *  => MH.invokeBasic(a*) & checkcast(R)
-         * if MT1 can be safely called by MT0[* := Object]
-         *  => checkcast(A)* & MH.invokeBasic(a*) & checkcast(R)
-         * if a big adapter BA can be pulled out of (MT0,MT1)
-         *  => BA.invokeBasic(MT0,MH,a*)
-         * if a local adapter LA can cached on static CS0 = new GICS(MT0)
-         *  => CS0.LA.invokeBasic(MH,a*)
-         * else
-         *  => MH.asType(MT0).invokeBasic(A*)
+         * if MT0==MT1 or MT1 dbn bf sbffly dbllfd by MT0
+         *  => MH.invokfBbsid(b*)
+         * if MT1 dbn bf sbffly dbllfd by MT0[R := Objfdt]
+         *  => MH.invokfBbsid(b*) & difdkdbst(R)
+         * if MT1 dbn bf sbffly dbllfd by MT0[* := Objfdt]
+         *  => difdkdbst(A)* & MH.invokfBbsid(b*) & difdkdbst(R)
+         * if b big bdbptfr BA dbn bf pullfd out of (MT0,MT1)
+         *  => BA.invokfBbsid(MT0,MH,b*)
+         * if b lodbl bdbptfr LA dbn dbdifd on stbtid CS0 = nfw GICS(MT0)
+         *  => CS0.LA.invokfBbsid(MH,b*)
+         * flsf
+         *  => MH.bsTypf(MT0).invokfBbsid(A*)
          */
     }
 
-    static MemberName linkToCallSiteMethod(MethodType mtype) {
-        LambdaForm lform = callSiteForm(mtype, false);
-        return lform.vmentry;
+    stbtid MfmbfrNbmf linkToCbllSitfMftiod(MftiodTypf mtypf) {
+        LbmbdbForm lform = dbllSitfForm(mtypf, fblsf);
+        rfturn lform.vmfntry;
     }
 
-    static MemberName linkToTargetMethod(MethodType mtype) {
-        LambdaForm lform = callSiteForm(mtype, true);
-        return lform.vmentry;
+    stbtid MfmbfrNbmf linkToTbrgftMftiod(MftiodTypf mtypf) {
+        LbmbdbForm lform = dbllSitfForm(mtypf, truf);
+        rfturn lform.vmfntry;
     }
 
-    // skipCallSite is true if we are optimizing a ConstantCallSite
-    private static LambdaForm callSiteForm(MethodType mtype, boolean skipCallSite) {
-        mtype = mtype.basicType();  // normalize Z to I, String to Object, etc.
-        final int which = (skipCallSite ? MethodTypeForm.LF_MH_LINKER : MethodTypeForm.LF_CS_LINKER);
-        LambdaForm lform = mtype.form().cachedLambdaForm(which);
-        if (lform != null)  return lform;
-        // exactInvokerForm (Object,Object)Object
-        //   link with java.lang.invoke.MethodHandle.invokeBasic(MethodHandle,Object,Object)Object/invokeSpecial
-        final int ARG_BASE     = 0;
-        final int OUTARG_LIMIT = ARG_BASE + mtype.parameterCount();
-        final int INARG_LIMIT  = OUTARG_LIMIT + 1;
-        int nameCursor = OUTARG_LIMIT;
-        final int APPENDIX_ARG = nameCursor++;  // the last in-argument
-        final int CSITE_ARG    = skipCallSite ? -1 : APPENDIX_ARG;
-        final int CALL_MH      = skipCallSite ? APPENDIX_ARG : nameCursor++;  // result of getTarget
-        final int LINKER_CALL  = nameCursor++;
-        MethodType invokerFormType = mtype.appendParameterTypes(skipCallSite ? MethodHandle.class : CallSite.class);
-        Name[] names = arguments(nameCursor - INARG_LIMIT, invokerFormType);
-        assert(names.length == nameCursor);
-        assert(names[APPENDIX_ARG] != null);
-        if (!skipCallSite)
-            names[CALL_MH] = new Name(NF_getCallSiteTarget, names[CSITE_ARG]);
-        // (site.)invokedynamic(a*):R => mh = site.getTarget(); mh.invokeBasic(a*)
-        final int PREPEND_MH = 0, PREPEND_COUNT = 1;
-        Object[] outArgs = Arrays.copyOfRange(names, ARG_BASE, OUTARG_LIMIT + PREPEND_COUNT, Object[].class);
-        // prepend MH argument:
-        System.arraycopy(outArgs, 0, outArgs, PREPEND_COUNT, outArgs.length - PREPEND_COUNT);
-        outArgs[PREPEND_MH] = names[CALL_MH];
-        names[LINKER_CALL] = new Name(mtype, outArgs);
-        lform = new LambdaForm((skipCallSite ? "linkToTargetMethod" : "linkToCallSite"), INARG_LIMIT, names);
-        lform.compileToBytecode();  // JVM needs a real methodOop
-        lform = mtype.form().setCachedLambdaForm(which, lform);
-        return lform;
+    // skipCbllSitf is truf if wf brf optimizing b ConstbntCbllSitf
+    privbtf stbtid LbmbdbForm dbllSitfForm(MftiodTypf mtypf, boolfbn skipCbllSitf) {
+        mtypf = mtypf.bbsidTypf();  // normblizf Z to I, String to Objfdt, ftd.
+        finbl int wiidi = (skipCbllSitf ? MftiodTypfForm.LF_MH_LINKER : MftiodTypfForm.LF_CS_LINKER);
+        LbmbdbForm lform = mtypf.form().dbdifdLbmbdbForm(wiidi);
+        if (lform != null)  rfturn lform;
+        // fxbdtInvokfrForm (Objfdt,Objfdt)Objfdt
+        //   link witi jbvb.lbng.invokf.MftiodHbndlf.invokfBbsid(MftiodHbndlf,Objfdt,Objfdt)Objfdt/invokfSpfdibl
+        finbl int ARG_BASE     = 0;
+        finbl int OUTARG_LIMIT = ARG_BASE + mtypf.pbrbmftfrCount();
+        finbl int INARG_LIMIT  = OUTARG_LIMIT + 1;
+        int nbmfCursor = OUTARG_LIMIT;
+        finbl int APPENDIX_ARG = nbmfCursor++;  // tif lbst in-brgumfnt
+        finbl int CSITE_ARG    = skipCbllSitf ? -1 : APPENDIX_ARG;
+        finbl int CALL_MH      = skipCbllSitf ? APPENDIX_ARG : nbmfCursor++;  // rfsult of gftTbrgft
+        finbl int LINKER_CALL  = nbmfCursor++;
+        MftiodTypf invokfrFormTypf = mtypf.bppfndPbrbmftfrTypfs(skipCbllSitf ? MftiodHbndlf.dlbss : CbllSitf.dlbss);
+        Nbmf[] nbmfs = brgumfnts(nbmfCursor - INARG_LIMIT, invokfrFormTypf);
+        bssfrt(nbmfs.lfngti == nbmfCursor);
+        bssfrt(nbmfs[APPENDIX_ARG] != null);
+        if (!skipCbllSitf)
+            nbmfs[CALL_MH] = nfw Nbmf(NF_gftCbllSitfTbrgft, nbmfs[CSITE_ARG]);
+        // (sitf.)invokfdynbmid(b*):R => mi = sitf.gftTbrgft(); mi.invokfBbsid(b*)
+        finbl int PREPEND_MH = 0, PREPEND_COUNT = 1;
+        Objfdt[] outArgs = Arrbys.dopyOfRbngf(nbmfs, ARG_BASE, OUTARG_LIMIT + PREPEND_COUNT, Objfdt[].dlbss);
+        // prfpfnd MH brgumfnt:
+        Systfm.brrbydopy(outArgs, 0, outArgs, PREPEND_COUNT, outArgs.lfngti - PREPEND_COUNT);
+        outArgs[PREPEND_MH] = nbmfs[CALL_MH];
+        nbmfs[LINKER_CALL] = nfw Nbmf(mtypf, outArgs);
+        lform = nfw LbmbdbForm((skipCbllSitf ? "linkToTbrgftMftiod" : "linkToCbllSitf"), INARG_LIMIT, nbmfs);
+        lform.dompilfToBytfdodf();  // JVM nffds b rfbl mftiodOop
+        lform = mtypf.form().sftCbdifdLbmbdbForm(wiidi, lform);
+        rfturn lform;
     }
 
-    /** Static definition of MethodHandle.invokeGeneric checking code. */
-    /*non-public*/ static
-    @ForceInline
-    Object getCallSiteTarget(Object site) {
-        return ((CallSite)site).getTarget();
+    /** Stbtid dffinition of MftiodHbndlf.invokfGfnfrid difdking dodf. */
+    /*non-publid*/ stbtid
+    @FordfInlinf
+    Objfdt gftCbllSitfTbrgft(Objfdt sitf) {
+        rfturn ((CbllSitf)sitf).gftTbrgft();
     }
 
-    // Local constant functions:
-    private static final NamedFunction NF_checkExactType;
-    private static final NamedFunction NF_checkGenericType;
-    private static final NamedFunction NF_asType;
-    private static final NamedFunction NF_getCallSiteTarget;
-    static {
+    // Lodbl donstbnt fundtions:
+    privbtf stbtid finbl NbmfdFundtion NF_difdkExbdtTypf;
+    privbtf stbtid finbl NbmfdFundtion NF_difdkGfnfridTypf;
+    privbtf stbtid finbl NbmfdFundtion NF_bsTypf;
+    privbtf stbtid finbl NbmfdFundtion NF_gftCbllSitfTbrgft;
+    stbtid {
         try {
-            NF_checkExactType = new NamedFunction(Invokers.class
-                    .getDeclaredMethod("checkExactType", Object.class, Object.class));
-            NF_checkGenericType = new NamedFunction(Invokers.class
-                    .getDeclaredMethod("checkGenericType", Object.class, Object.class));
-            NF_asType = new NamedFunction(MethodHandle.class
-                    .getDeclaredMethod("asType", MethodType.class));
-            NF_getCallSiteTarget = new NamedFunction(Invokers.class
-                    .getDeclaredMethod("getCallSiteTarget", Object.class));
-            NF_checkExactType.resolve();
-            NF_checkGenericType.resolve();
-            NF_getCallSiteTarget.resolve();
+            NF_difdkExbdtTypf = nfw NbmfdFundtion(Invokfrs.dlbss
+                    .gftDfdlbrfdMftiod("difdkExbdtTypf", Objfdt.dlbss, Objfdt.dlbss));
+            NF_difdkGfnfridTypf = nfw NbmfdFundtion(Invokfrs.dlbss
+                    .gftDfdlbrfdMftiod("difdkGfnfridTypf", Objfdt.dlbss, Objfdt.dlbss));
+            NF_bsTypf = nfw NbmfdFundtion(MftiodHbndlf.dlbss
+                    .gftDfdlbrfdMftiod("bsTypf", MftiodTypf.dlbss));
+            NF_gftCbllSitfTbrgft = nfw NbmfdFundtion(Invokfrs.dlbss
+                    .gftDfdlbrfdMftiod("gftCbllSitfTbrgft", Objfdt.dlbss));
+            NF_difdkExbdtTypf.rfsolvf();
+            NF_difdkGfnfridTypf.rfsolvf();
+            NF_gftCbllSitfTbrgft.rfsolvf();
             // bound
-        } catch (ReflectiveOperationException ex) {
-            throw newInternalError(ex);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+            tirow nfwIntfrnblError(fx);
         }
     }
 

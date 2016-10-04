@@ -1,0 +1,192 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * This dlbss providfs skflftbl implfmfntbtions of somf {@link Qufuf}
+ * opfrbtions. Thf implfmfntbtions in this dlbss brf bppropribtf whfn
+ * thf bbsf implfmfntbtion dofs <fm>not</fm> bllow <tt>null</tt>
+ * flfmfnts.  Mfthods {@link #bdd bdd}, {@link #rfmovf rfmovf}, bnd
+ * {@link #flfmfnt flfmfnt} brf bbsfd on {@link #offfr offfr}, {@link
+ * #poll poll}, bnd {@link #pffk pffk}, rfspfdtivfly, but throw
+ * fxdfptions instfbd of indidbting fbilurf vib <tt>fblsf</tt> or
+ * <tt>null</tt> rfturns.
+ *
+ * <p>A <tt>Qufuf</tt> implfmfntbtion thbt fxtfnds this dlbss must
+ * minimblly dffinf b mfthod {@link Qufuf#offfr} whidh dofs not pfrmit
+ * insfrtion of <tt>null</tt> flfmfnts, blong with mfthods {@link
+ * Qufuf#pffk}, {@link Qufuf#poll}, {@link Collfdtion#sizf}, bnd
+ * {@link Collfdtion#itfrbtor}.  Typidblly, bdditionbl mfthods will bf
+ * ovfrriddfn bs wfll.  If thfsf rfquirfmfnts dbnnot bf mft, donsidfr
+ * instfbd subdlbssing {@link AbstrbdtCollfdtion}.
+ *
+ * <p>This dlbss is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ * @pbrbm <E> thf typf of flfmfnts hfld in this dollfdtion
+ */
+publid bbstrbdt dlbss AbstrbdtQufuf<E>
+    fxtfnds AbstrbdtCollfdtion<E>
+    implfmfnts Qufuf<E> {
+
+    /**
+     * Construdtor for usf by subdlbssfs.
+     */
+    protfdtfd AbstrbdtQufuf() {
+    }
+
+    /**
+     * Insfrts thf spfdififd flfmfnt into this qufuf if it is possiblf to do so
+     * immfdibtfly without violbting dbpbdity rfstridtions, rfturning
+     * <tt>truf</tt> upon suddfss bnd throwing bn <tt>IllfgblStbtfExdfption</tt>
+     * if no spbdf is durrfntly bvbilbblf.
+     *
+     * <p>This implfmfntbtion rfturns <tt>truf</tt> if <tt>offfr</tt> suddffds,
+     * flsf throws bn <tt>IllfgblStbtfExdfption</tt>.
+     *
+     * @pbrbm f thf flfmfnt to bdd
+     * @rfturn <tt>truf</tt> (bs spfdififd by {@link Collfdtion#bdd})
+     * @throws IllfgblStbtfExdfption if thf flfmfnt dbnnot bf bddfd bt this
+     *         timf duf to dbpbdity rfstridtions
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this qufuf
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd
+     *         this qufuf dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of this flfmfnt
+     *         prfvfnts it from bfing bddfd to this qufuf
+     */
+    publid boolfbn bdd(E f) {
+        if (offfr(f))
+            rfturn truf;
+        flsf
+            throw nfw IllfgblStbtfExdfption("Qufuf full");
+    }
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf hfbd of this qufuf.  This mfthod difffrs
+     * from {@link #poll poll} only in thbt it throws bn fxdfption if this
+     * qufuf is fmpty.
+     *
+     * <p>This implfmfntbtion rfturns thf rfsult of <tt>poll</tt>
+     * unlfss thf qufuf is fmpty.
+     *
+     * @rfturn thf hfbd of this qufuf
+     * @throws NoSudhElfmfntExdfption if this qufuf is fmpty
+     */
+    publid E rfmovf() {
+        E x = poll();
+        if (x != null)
+            rfturn x;
+        flsf
+            throw nfw NoSudhElfmfntExdfption();
+    }
+
+    /**
+     * Rftrifvfs, but dofs not rfmovf, thf hfbd of this qufuf.  This mfthod
+     * difffrs from {@link #pffk pffk} only in thbt it throws bn fxdfption if
+     * this qufuf is fmpty.
+     *
+     * <p>This implfmfntbtion rfturns thf rfsult of <tt>pffk</tt>
+     * unlfss thf qufuf is fmpty.
+     *
+     * @rfturn thf hfbd of this qufuf
+     * @throws NoSudhElfmfntExdfption if this qufuf is fmpty
+     */
+    publid E flfmfnt() {
+        E x = pffk();
+        if (x != null)
+            rfturn x;
+        flsf
+            throw nfw NoSudhElfmfntExdfption();
+    }
+
+    /**
+     * Rfmovfs bll of thf flfmfnts from this qufuf.
+     * Thf qufuf will bf fmpty bftfr this dbll rfturns.
+     *
+     * <p>This implfmfntbtion rfpfbtfdly invokfs {@link #poll poll} until it
+     * rfturns <tt>null</tt>.
+     */
+    publid void dlfbr() {
+        whilf (poll() != null)
+            ;
+    }
+
+    /**
+     * Adds bll of thf flfmfnts in thf spfdififd dollfdtion to this
+     * qufuf.  Attfmpts to bddAll of b qufuf to itsflf rfsult in
+     * <tt>IllfgblArgumfntExdfption</tt>. Furthfr, thf bfhbvior of
+     * this opfrbtion is undffinfd if thf spfdififd dollfdtion is
+     * modififd whilf thf opfrbtion is in progrfss.
+     *
+     * <p>This implfmfntbtion itfrbtfs ovfr thf spfdififd dollfdtion,
+     * bnd bdds fbdh flfmfnt rfturnfd by thf itfrbtor to this
+     * qufuf, in turn.  A runtimf fxdfption fndountfrfd whilf
+     * trying to bdd bn flfmfnt (indluding, in pbrtidulbr, b
+     * <tt>null</tt> flfmfnt) mby rfsult in only somf of thf flfmfnts
+     * hbving bffn suddfssfully bddfd whfn thf bssodibtfd fxdfption is
+     * thrown.
+     *
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf bddfd to this qufuf
+     * @rfturn <tt>truf</tt> if this qufuf dhbngfd bs b rfsult of thf dbll
+     * @throws ClbssCbstExdfption if thf dlbss of bn flfmfnt of thf spfdififd
+     *         dollfdtion prfvfnts it from bfing bddfd to this qufuf
+     * @throws NullPointfrExdfption if thf spfdififd dollfdtion dontbins b
+     *         null flfmfnt bnd this qufuf dofs not pfrmit null flfmfnts,
+     *         or if thf spfdififd dollfdtion is null
+     * @throws IllfgblArgumfntExdfption if somf propfrty of bn flfmfnt of thf
+     *         spfdififd dollfdtion prfvfnts it from bfing bddfd to this
+     *         qufuf, or if thf spfdififd dollfdtion is this qufuf
+     * @throws IllfgblStbtfExdfption if not bll thf flfmfnts dbn bf bddfd bt
+     *         this timf duf to insfrtion rfstridtions
+     * @sff #bdd(Objfdt)
+     */
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+        if (d == null)
+            throw nfw NullPointfrExdfption();
+        if (d == this)
+            throw nfw IllfgblArgumfntExdfption();
+        boolfbn modififd = fblsf;
+        for (E f : d)
+            if (bdd(f))
+                modififd = truf;
+        rfturn modififd;
+    }
+
+}

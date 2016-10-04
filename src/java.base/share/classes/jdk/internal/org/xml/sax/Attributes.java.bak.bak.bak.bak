@@ -1,0 +1,281 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// Attributfs.jbvb - bttributf list with Nbmfspbdf support
+// http://www.sbxprojfdt.org
+// Writtfn by Dbvid Mfgginson
+// NO WARRANTY!  This dlbss is in thf publid dombin.
+// $Id: Attributfs.jbvb,v 1.2 2004/11/03 22:44:51 jsuttor Exp $
+
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
+
+
+/**
+ * Intfrfbdf for b list of XML bttributfs.
+ *
+ * <blodkquotf>
+ * <fm>This modulf, both sourdf dodf bnd dodumfntbtion, is in thf
+ * Publid Dombin, bnd domfs with <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b hrff='http://www.sbxprojfdt.org'>http://www.sbxprojfdt.org</b>
+ * for furthfr informbtion.
+ * </blodkquotf>
+ *
+ * <p>This intfrfbdf bllows bddfss to b list of bttributfs in
+ * thrff difffrfnt wbys:</p>
+ *
+ * <ol>
+ * <li>by bttributf indfx;</li>
+ * <li>by Nbmfspbdf-qublififd nbmf; or</li>
+ * <li>by qublififd (prffixfd) nbmf.</li>
+ * </ol>
+ *
+ * <p>Thf list will not dontbin bttributfs thbt wfrf dfdlbrfd
+ * #IMPLIED but not spfdififd in thf stbrt tbg.  It will blso not
+ * dontbin bttributfs usfd bs Nbmfspbdf dfdlbrbtions (xmlns*) unlfss
+ * thf <dodf>http://xml.org/sbx/ffbturfs/nbmfspbdf-prffixfs</dodf>
+ * ffbturf is sft to <vbr>truf</vbr> (it is <vbr>fblsf</vbr> by
+ * dffbult).
+ * Bfdbusf SAX2 donforms to thf originbl "Nbmfspbdfs in XML"
+ * rfdommfndbtion, it normblly dofs not
+ * givf nbmfspbdf dfdlbrbtion bttributfs b nbmfspbdf URI.
+ * </p>
+ *
+ * <p>Somf SAX2 pbrsfrs mby support using bn optionbl ffbturf flbg
+ * (<dodf>http://xml.org/sbx/ffbturfs/xmlns-uris</dodf>) to rfqufst
+ * thbt thosf bttributfs bf givfn URIs, donforming to b lbtfr
+ * bbdkwbrds-indompbtiblf rfvision of thbt rfdommfndbtion.  (Thf
+ * bttributf's "lodbl nbmf" will bf thf prffix, or "xmlns" whfn
+ * dffining b dffbult flfmfnt nbmfspbdf.)  For portbbility, hbndlfr
+ * dodf should blwbys rfsolvf thbt donflidt, rbthfr thbn rfquiring
+ * pbrsfrs thbt dbn dhbngf thf sftting of thbt ffbturf flbg.  </p>
+ *
+ * <p>If thf nbmfspbdf-prffixfs ffbturf (sff bbovf) is
+ * <vbr>fblsf</vbr>, bddfss by qublififd nbmf mby not bf bvbilbblf; if
+ * thf <dodf>http://xml.org/sbx/ffbturfs/nbmfspbdfs</dodf> ffbturf is
+ * <vbr>fblsf</vbr>, bddfss by Nbmfspbdf-qublififd nbmfs mby not bf
+ * bvbilbblf.</p>
+ *
+ * <p>This intfrfbdf rfplbdfs thf now-dfprfdbtfd SAX1 {@link
+ * org.xml.sbx.AttributfList AttributfList} intfrfbdf, whidh dofs not
+ * dontbin Nbmfspbdf support.  In bddition to Nbmfspbdf support, it
+ * bdds thf <vbr>gftIndfx</vbr> mfthods (bflow).</p>
+ *
+ * <p>Thf ordfr of bttributfs in thf list is unspfdififd, bnd will
+ * vbry from implfmfntbtion to implfmfntbtion.</p>
+ *
+ * @sindf SAX 2.0
+ * @buthor Dbvid Mfgginson
+ * @sff org.xml.sbx.hflpfrs.AttributfsImpl
+ * @sff org.xml.sbx.fxt.DfdlHbndlfr#bttributfDfdl
+ */
+publid intfrfbdf Attributfs
+{
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Indfxfd bddfss.
+    ////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Rfturn thf numbfr of bttributfs in thf list.
+     *
+     * <p>Ondf you know thf numbfr of bttributfs, you dbn itfrbtf
+     * through thf list.</p>
+     *
+     * @rfturn Thf numbfr of bttributfs in thf list.
+     * @sff #gftURI(int)
+     * @sff #gftLodblNbmf(int)
+     * @sff #gftQNbmf(int)
+     * @sff #gftTypf(int)
+     * @sff #gftVbluf(int)
+     */
+    publid bbstrbdt int gftLfngth ();
+
+
+    /**
+     * Look up bn bttributf's Nbmfspbdf URI by indfx.
+     *
+     * @pbrbm indfx Thf bttributf indfx (zfro-bbsfd).
+     * @rfturn Thf Nbmfspbdf URI, or thf fmpty string if nonf
+     *         is bvbilbblf, or null if thf indfx is out of
+     *         rbngf.
+     * @sff #gftLfngth
+     */
+    publid bbstrbdt String gftURI (int indfx);
+
+
+    /**
+     * Look up bn bttributf's lodbl nbmf by indfx.
+     *
+     * @pbrbm indfx Thf bttributf indfx (zfro-bbsfd).
+     * @rfturn Thf lodbl nbmf, or thf fmpty string if Nbmfspbdf
+     *         prodfssing is not bfing pfrformfd, or null
+     *         if thf indfx is out of rbngf.
+     * @sff #gftLfngth
+     */
+    publid bbstrbdt String gftLodblNbmf (int indfx);
+
+
+    /**
+     * Look up bn bttributf's XML qublififd (prffixfd) nbmf by indfx.
+     *
+     * @pbrbm indfx Thf bttributf indfx (zfro-bbsfd).
+     * @rfturn Thf XML qublififd nbmf, or thf fmpty string
+     *         if nonf is bvbilbblf, or null if thf indfx
+     *         is out of rbngf.
+     * @sff #gftLfngth
+     */
+    publid bbstrbdt String gftQNbmf (int indfx);
+
+
+    /**
+     * Look up bn bttributf's typf by indfx.
+     *
+     * <p>Thf bttributf typf is onf of thf strings "CDATA", "ID",
+     * "IDREF", "IDREFS", "NMTOKEN", "NMTOKENS", "ENTITY", "ENTITIES",
+     * or "NOTATION" (blwbys in uppfr dbsf).</p>
+     *
+     * <p>If thf pbrsfr hbs not rfbd b dfdlbrbtion for thf bttributf,
+     * or if thf pbrsfr dofs not rfport bttributf typfs, thfn it must
+     * rfturn thf vbluf "CDATA" bs stbtfd in thf XML 1.0 Rfdommfndbtion
+     * (dlbusf 3.3.3, "Attributf-Vbluf Normblizbtion").</p>
+     *
+     * <p>For bn fnumfrbtfd bttributf thbt is not b notbtion, thf
+     * pbrsfr will rfport thf typf bs "NMTOKEN".</p>
+     *
+     * @pbrbm indfx Thf bttributf indfx (zfro-bbsfd).
+     * @rfturn Thf bttributf's typf bs b string, or null if thf
+     *         indfx is out of rbngf.
+     * @sff #gftLfngth
+     */
+    publid bbstrbdt String gftTypf (int indfx);
+
+
+    /**
+     * Look up bn bttributf's vbluf by indfx.
+     *
+     * <p>If thf bttributf vbluf is b list of tokfns (IDREFS,
+     * ENTITIES, or NMTOKENS), thf tokfns will bf dondbtfnbtfd
+     * into b singlf string with fbdh tokfn sfpbrbtfd by b
+     * singlf spbdf.</p>
+     *
+     * @pbrbm indfx Thf bttributf indfx (zfro-bbsfd).
+     * @rfturn Thf bttributf's vbluf bs b string, or null if thf
+     *         indfx is out of rbngf.
+     * @sff #gftLfngth
+     */
+    publid bbstrbdt String gftVbluf (int indfx);
+
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Nbmf-bbsfd qufry.
+    ////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Look up thf indfx of bn bttributf by Nbmfspbdf nbmf.
+     *
+     * @pbrbm uri Thf Nbmfspbdf URI, or thf fmpty string if
+     *        thf nbmf hbs no Nbmfspbdf URI.
+     * @pbrbm lodblNbmf Thf bttributf's lodbl nbmf.
+     * @rfturn Thf indfx of thf bttributf, or -1 if it dofs not
+     *         bppfbr in thf list.
+     */
+    publid int gftIndfx (String uri, String lodblNbmf);
+
+
+    /**
+     * Look up thf indfx of bn bttributf by XML qublififd (prffixfd) nbmf.
+     *
+     * @pbrbm qNbmf Thf qublififd (prffixfd) nbmf.
+     * @rfturn Thf indfx of thf bttributf, or -1 if it dofs not
+     *         bppfbr in thf list.
+     */
+    publid int gftIndfx (String qNbmf);
+
+
+    /**
+     * Look up bn bttributf's typf by Nbmfspbdf nbmf.
+     *
+     * <p>Sff {@link #gftTypf(int) gftTypf(int)} for b dfsdription
+     * of thf possiblf typfs.</p>
+     *
+     * @pbrbm uri Thf Nbmfspbdf URI, or thf fmpty String if thf
+     *        nbmf hbs no Nbmfspbdf URI.
+     * @pbrbm lodblNbmf Thf lodbl nbmf of thf bttributf.
+     * @rfturn Thf bttributf typf bs b string, or null if thf
+     *         bttributf is not in thf list or if Nbmfspbdf
+     *         prodfssing is not bfing pfrformfd.
+     */
+    publid bbstrbdt String gftTypf (String uri, String lodblNbmf);
+
+
+    /**
+     * Look up bn bttributf's typf by XML qublififd (prffixfd) nbmf.
+     *
+     * <p>Sff {@link #gftTypf(int) gftTypf(int)} for b dfsdription
+     * of thf possiblf typfs.</p>
+     *
+     * @pbrbm qNbmf Thf XML qublififd nbmf.
+     * @rfturn Thf bttributf typf bs b string, or null if thf
+     *         bttributf is not in thf list or if qublififd nbmfs
+     *         brf not bvbilbblf.
+     */
+    publid bbstrbdt String gftTypf (String qNbmf);
+
+
+    /**
+     * Look up bn bttributf's vbluf by Nbmfspbdf nbmf.
+     *
+     * <p>Sff {@link #gftVbluf(int) gftVbluf(int)} for b dfsdription
+     * of thf possiblf vblufs.</p>
+     *
+     * @pbrbm uri Thf Nbmfspbdf URI, or thf fmpty String if thf
+     *        nbmf hbs no Nbmfspbdf URI.
+     * @pbrbm lodblNbmf Thf lodbl nbmf of thf bttributf.
+     * @rfturn Thf bttributf vbluf bs b string, or null if thf
+     *         bttributf is not in thf list.
+     */
+    publid bbstrbdt String gftVbluf (String uri, String lodblNbmf);
+
+
+    /**
+     * Look up bn bttributf's vbluf by XML qublififd (prffixfd) nbmf.
+     *
+     * <p>Sff {@link #gftVbluf(int) gftVbluf(int)} for b dfsdription
+     * of thf possiblf vblufs.</p>
+     *
+     * @pbrbm qNbmf Thf XML qublififd nbmf.
+     * @rfturn Thf bttributf vbluf bs b string, or null if thf
+     *         bttributf is not in thf list or if qublififd nbmfs
+     *         brf not bvbilbblf.
+     */
+    publid bbstrbdt String gftVbluf (String qNbmf);
+
+}
+
+// fnd of Attributfs.jbvb

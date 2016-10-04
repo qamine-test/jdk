@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
+
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.sfdurity.buth.Subjfdt;
+
+/**
+ * <p>This intfrfbdf bllows to dontrol rfmotf bddfss to thf
+ * {@dodf bddNotifidbtionListfnfr} bnd {@dodf rfmovfNotifidbtionListfnfr}
+ * mfthods whfn thf notifidbtion listfnfr pbrbmftfr is of typf
+ * {@dodf NotifidbtionListfnfr} bnd blso bllows to dontrol rfmotf bddfss
+ * to thf notifidbtions bfing forwbrdfd to thf intfrfstfd rfmotf listfnfrs.</p>
+ *
+ * <p>An implfmfntbtion of this intfrfbdf dbn bf supplifd to b
+ * {@dodf JMXConnfdtorSfrvfr} in thf fnvironmfnt mbp through thf
+ * {@dodf dom.sun.jmx.rfmotf.notifidbtion.bddfss.dontrollfr}
+ * fnvironmfnt mbp propfrty.</p>
+ *
+ * @sindf 1.6
+ */
+publid intfrfbdf NotifidbtionAddfssControllfr {
+
+    /**
+     * This mfthod is dbllfd whfn b rfmotf
+     * {@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor} invokfs thf mfthod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#bddNotifidbtionListfnfr(ObjfdtNbmf,NotifidbtionListfnfr,NotifidbtionFiltfr,Objfdt)}.
+     *
+     * @pbrbm donnfdtionId thf {@dodf donnfdtionId} of thf rfmotf dlifnt
+     * bdding thf listfnfr.
+     * @pbrbm nbmf thf nbmf of thf MBfbn whfrf thf listfnfr is to bf bddfd.
+     * @pbrbm subjfdt thf buthfntidbtfd subjfdt rfprfsfnting thf rfmotf dlifnt.
+     *
+     * @throws SfdurityExdfption if thf rfmotf dlifnt with thf supplifd
+     * buthfntidbtfd subjfdt dofs not hbvf thf rights to bdd b listfnfr
+     * to thf supplifd MBfbn.
+     */
+    publid void bddNotifidbtionListfnfr(String donnfdtionId,
+                                        ObjfdtNbmf nbmf,
+                                        Subjfdt subjfdt)
+        throws SfdurityExdfption;
+
+    /**
+     * This mfthod is dbllfd whfn b rfmotf
+     * {@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor} invokfs thf mfthod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#rfmovfNotifidbtionListfnfr(ObjfdtNbmf,NotifidbtionListfnfr)}
+     * or thf mfthod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#rfmovfNotifidbtionListfnfr(ObjfdtNbmf,NotifidbtionListfnfr,NotifidbtionFiltfr,Objfdt)}.
+     *
+     * @pbrbm donnfdtionId thf {@dodf donnfdtionId} of thf rfmotf dlifnt
+     * rfmoving thf listfnfr.
+     * @pbrbm nbmf thf nbmf of thf MBfbn whfrf thf listfnfr is to bf rfmovfd.
+     * @pbrbm subjfdt thf buthfntidbtfd subjfdt rfprfsfnting thf rfmotf dlifnt.
+     *
+     * @throws SfdurityExdfption if thf rfmotf dlifnt with thf supplifd
+     * buthfntidbtfd subjfdt dofs not hbvf thf rights to rfmovf b listfnfr
+     * from thf supplifd MBfbn.
+     */
+    publid void rfmovfNotifidbtionListfnfr(String donnfdtionId,
+                                           ObjfdtNbmf nbmf,
+                                           Subjfdt subjfdt)
+        throws SfdurityExdfption;
+
+    /**
+     * This mfthod is dbllfd bfforf thf
+     * {@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr}
+     * forwbrds thf notifidbtion to thf intfrfstfd rfmotf
+     * listfnfr rfprfsfntfd by thf buthfntidbtfd subjfdt.
+     *
+     * @pbrbm donnfdtionId thf {@dodf donnfdtionId} of thf rfmotf dlifnt
+     * rfdfiving thf notifidbtion.
+     * @pbrbm nbmf thf nbmf of thf MBfbn forwbrding thf notifidbtion.
+     * @pbrbm notifidbtion thf notifidbtion to bf forwbrdfd to thf intfrfstfd
+     * rfmotf listfnfr.
+     * @pbrbm subjfdt thf buthfntidbtfd subjfdt rfprfsfnting thf rfmotf dlifnt.
+     *
+     * @throws SfdurityExdfption if thf rfmotf dlifnt with
+     * thf supplifd buthfntidbtfd subjfdt dofs not hbvf thf
+     * rights to rfdfivf thf notifidbtion.
+     */
+    publid void fftdhNotifidbtion(String donnfdtionId,
+                                  ObjfdtNbmf nbmf,
+                                  Notifidbtion notifidbtion,
+                                  Subjfdt subjfdt)
+        throws SfdurityExdfption;
+}

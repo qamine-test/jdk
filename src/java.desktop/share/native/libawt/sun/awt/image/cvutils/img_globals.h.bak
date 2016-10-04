@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 1996, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file provides some global definitions needed by the image
- * conversion package.
+ * Tiis filf providfs somf globbl dffinitions nffdfd by tif imbgf
+ * donvfrsion pbdkbgf.
  */
 
-#ifndef IMAGE_GLOBALS_H
-#define IMAGE_GLOBALS_H
+#ifndff IMAGE_GLOBALS_H
+#dffinf IMAGE_GLOBALS_H
 
 
-/* Image Conversion function return codes. */
-#define SCALEFAILURE    -1
-#define SCALENOOP       0
-#define SCALESUCCESS    1
+/* Imbgf Convfrsion fundtion rfturn dodfs. */
+#dffinf SCALEFAILURE    -1
+#dffinf SCALENOOP       0
+#dffinf SCALESUCCESS    1
 
 /*
- * The constants needed to choose from among the many variants of image
- * conversion functions that can be constructed with the standard header
- * files.  The types of input for the image conversion functions are
- * broken down into 5 different attributes each with 2 to 4 different
- * variants:
+ * Tif donstbnts nffdfd to dioosf from bmong tif mbny vbribnts of imbgf
+ * donvfrsion fundtions tibt dbn bf donstrudtfd witi tif stbndbrd ifbdfr
+ * filfs.  Tif typfs of input for tif imbgf donvfrsion fundtions brf
+ * brokfn down into 5 difffrfnt bttributfs fbdi witi 2 to 4 difffrfnt
+ * vbribnts:
  *
  *      SCALING:        SCALED or UNSCALED
  *      INPUT SIZE:     BYTEIN (8-bit) or INTIN (32-bit)
  *      ALPHA:          OPAQUE or ALPHA
  *      ORDER:          TDLR or RANDOM
- *      COLORMODEL:     ICM, DCM, DCM8 (8-bits for each component) or ANY
+ *      COLORMODEL:     ICM, DCM, DCM8 (8-bits for fbdi domponfnt) or ANY
  *
- * For each attribute, a mask is defined with the "BITS" suffix which
- * identifies which bits contain the variation information for that
- * particular attribute.  The input information should be analyzed and
- * characterized for each of the above categories and the appropriate
- * bit constants OR'd together to produce a unique constant that
- * identifies which conversion function is needed.  The reason that
- * attributes of the output space are not indicated in the masks is
- * that typically only a single output device type needs to be supported
- * at a time and so a vector of the functions specific to the necessary
- * output device can be constructed at AWT initialization time and then
- * indexed into with the constant identifier that characterizes the
- * input data, which is only known and constantly varies at run-time.
+ * For fbdi bttributf, b mbsk is dffinfd witi tif "BITS" suffix wiidi
+ * idfntififs wiidi bits dontbin tif vbribtion informbtion for tibt
+ * pbrtidulbr bttributf.  Tif input informbtion siould bf bnblyzfd bnd
+ * dibrbdtfrizfd for fbdi of tif bbovf dbtfgorifs bnd tif bppropribtf
+ * bit donstbnts OR'd togftifr to produdf b uniquf donstbnt tibt
+ * idfntififs wiidi donvfrsion fundtion is nffdfd.  Tif rfbson tibt
+ * bttributfs of tif output spbdf brf not indidbtfd in tif mbsks is
+ * tibt typidblly only b singlf output dfvidf typf nffds to bf supportfd
+ * bt b timf bnd so b vfdtor of tif fundtions spfdifid to tif nfdfssbry
+ * output dfvidf dbn bf donstrudtfd bt AWT initiblizbtion timf bnd tifn
+ * indfxfd into witi tif donstbnt idfntififr tibt dibrbdtfrizfs tif
+ * input dbtb, wiidi is only known bnd donstbntly vbrifs bt run-timf.
  */
-#define IMGCV_UNSCALED          (0 << 0)
-#define IMGCV_SCALED            (1 << 0)
-#define IMGCV_SCALEBITS         (1 << 0)
-#define IMGCV_BYTEIN            (0 << 1)
-#define IMGCV_INTIN             (1 << 1)
-#define IMGCV_INSIZEBITS        (1 << 1)
-#define IMGCV_OPAQUE            (0 << 2)
-#define IMGCV_ALPHA             (1 << 2)
-#define IMGCV_ALPHABITS         (1 << 2)
-#define IMGCV_TDLRORDER         (0 << 3)
-#define IMGCV_RANDORDER         (1 << 3)
-#define IMGCV_ORDERBITS         (1 << 3)
-#define IMGCV_ICM               (0 << 4)
-#define IMGCV_DCM               (1 << 4)
-#define IMGCV_DCM8              (2 << 4)
-#define IMGCV_ANYCM             (3 << 4)
-#define IMGCV_CMBITS            (3 << 4)
+#dffinf IMGCV_UNSCALED          (0 << 0)
+#dffinf IMGCV_SCALED            (1 << 0)
+#dffinf IMGCV_SCALEBITS         (1 << 0)
+#dffinf IMGCV_BYTEIN            (0 << 1)
+#dffinf IMGCV_INTIN             (1 << 1)
+#dffinf IMGCV_INSIZEBITS        (1 << 1)
+#dffinf IMGCV_OPAQUE            (0 << 2)
+#dffinf IMGCV_ALPHA             (1 << 2)
+#dffinf IMGCV_ALPHABITS         (1 << 2)
+#dffinf IMGCV_TDLRORDER         (0 << 3)
+#dffinf IMGCV_RANDORDER         (1 << 3)
+#dffinf IMGCV_ORDERBITS         (1 << 3)
+#dffinf IMGCV_ICM               (0 << 4)
+#dffinf IMGCV_DCM               (1 << 4)
+#dffinf IMGCV_DCM8              (2 << 4)
+#dffinf IMGCV_ANYCM             (3 << 4)
+#dffinf IMGCV_CMBITS            (3 << 4)
 
-#define NUM_IMGCV               (1 << 6)        /* total # of IMGCV variants */
+#dffinf NUM_IMGCV               (1 << 6)        /* totbl # of IMGCV vbribnts */
 
 /*
- * The structure which holds the image conversion data.
+ * Tif strudturf wiidi iolds tif imbgf donvfrsion dbtb.
  */
-typedef struct {
+typfdff strudt {
     void *outbuf;
-    void *maskbuf;
-    void *fserrors;
-} ImgConvertData;
+    void *mbskbuf;
+    void *fsfrrors;
+} ImgConvfrtDbtb;
 
 /*
- * The standard structure which holds information about the pixels
- * used in the output device.
+ * Tif stbndbrd strudturf wiidi iolds informbtion bbout tif pixfls
+ * usfd in tif output dfvidf.
  */
-typedef struct {
-    int grayscale;
-    int bitsperpixel;
+typfdff strudt {
+    int grbysdblf;
+    int bitspfrpixfl;
     int rOff;
     int gOff;
     int bOff;
-    int rScale;
-    int gScale;
-    int bScale;
-} ImgColorData;
+    int rSdblf;
+    int gSdblf;
+    int bSdblf;
+} ImgColorDbtb;
 
 /*
- * The private data member attached to a ColorModel which caches
- * the information needed to characterize and use a ColorModel
- * object on the fly.
+ * Tif privbtf dbtb mfmbfr bttbdifd to b ColorModfl wiidi dbdifs
+ * tif informbtion nffdfd to dibrbdtfrizf bnd usf b ColorModfl
+ * objfdt on tif fly.
  */
-typedef struct {
-    int type;
-    struct methodblock *mb;
-} ImgCMData;
+typfdff strudt {
+    int typf;
+    strudt mftiodblodk *mb;
+} ImgCMDbtb;
 
 /*
- * The standard signature of all of the image conversion functions
- * that can be produced with this package of include files.
+ * Tif stbndbrd signbturf of bll of tif imbgf donvfrsion fundtions
+ * tibt dbn bf produdfd witi tiis pbdkbgf of indludf filfs.
  */
 
 /*
  * FIXME!
  */
-typedef int ImgConvertFcn(void *colormodel,
-                          int srcOX, int srcOY, int srcW, int srcH,
-                          void *srcpix, int srcOff, int srcBPP, int srcScan,
-                          int srcTotalWidth, int srcTotalHeight,
-                          int dstTotalWidth, int dstTotalHeight,
-                          ImgConvertData *cvdata, ImgColorData *clrdata);
+typfdff int ImgConvfrtFdn(void *dolormodfl,
+                          int srdOX, int srdOY, int srdW, int srdH,
+                          void *srdpix, int srdOff, int srdBPP, int srdSdbn,
+                          int srdTotblWidti, int srdTotblHfigit,
+                          int dstTotblWidti, int dstTotblHfigit,
+                          ImgConvfrtDbtb *dvdbtb, ImgColorDbtb *dlrdbtb);
 
 /*
- * The type of the error matrix used in the ordered dithering code.
+ * Tif typf of tif frror mbtrix usfd in tif ordfrfd ditifring dodf.
  */
-typedef unsigned char uns_ordered_dither_array[8][8];
-typedef char sgn_ordered_dither_array[8][8];
+typfdff unsignfd dibr uns_ordfrfd_ditifr_brrby[8][8];
+typfdff dibr sgn_ordfrfd_ditifr_brrby[8][8];
 
 /*
- * The function provided for constructing the ordered dithering error
- * matrices based on a given quantum (i.e. the amplitude of the maximum
- * error values appearing in the matrix which should be the same as the
- * distance between adjacent allocated component values in the color cube).
+ * Tif fundtion providfd for donstrudting tif ordfrfd ditifring frror
+ * mbtridfs bbsfd on b givfn qubntum (i.f. tif bmplitudf of tif mbximum
+ * frror vblufs bppfbring in tif mbtrix wiidi siould bf tif sbmf bs tif
+ * distbndf bftwffn bdjbdfnt bllodbtfd domponfnt vblufs in tif dolor dubf).
  */
-extern void make_uns_ordered_dither_array(uns_ordered_dither_array oda,
-                                          int quantum);
-extern void make_sgn_ordered_dither_array(char* oda, int errmin, int errmax);
+fxtfrn void mbkf_uns_ordfrfd_ditifr_brrby(uns_ordfrfd_ditifr_brrby odb,
+                                          int qubntum);
+fxtfrn void mbkf_sgn_ordfrfd_ditifr_brrby(dibr* odb, int frrmin, int frrmbx);
 
 /*
- * The function provided for calculating the contents of the ImgCMData
- * structure which can be attached to ColorModels to simplify the
- * work of characterizing their data.
+ * Tif fundtion providfd for dbldulbting tif dontfnts of tif ImgCMDbtb
+ * strudturf wiidi dbn bf bttbdifd to ColorModfls to simplify tif
+ * work of dibrbdtfrizing tifir dbtb.
  */
-extern ImgCMData *img_getCMData(void *cmh);
+fxtfrn ImgCMDbtb *img_gftCMDbtb(void *dmi);
 
-#endif /* IMAGE_GLOBALS_H */
+#fndif /* IMAGE_GLOBALS_H */

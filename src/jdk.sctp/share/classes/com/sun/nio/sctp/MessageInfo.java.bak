@@ -1,304 +1,304 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.nio.sctp;
+pbdkbgf dom.sun.nio.sdtp;
 
-import java.net.SocketAddress;
+import jbvb.nft.SodkftAddrfss;
 
 /**
- * The {@code MessageInfo} class provides additional ancillary information about
- * messages.
+ * Tif {@dodf MfssbgfInfo} dlbss providfs bdditionbl bndillbry informbtion bbout
+ * mfssbgfs.
  *
- * <P> Received SCTP messages, returned by
- * {@link SctpChannel#receive SctpChannel.receive} and {@link
- * SctpMultiChannel#receive SctpMultiChannel.receive},
- * return a {@code MessageInfo} instance that can be queried to determine
- * ancillary information about the received message. Messages being sent should
- * use one of the {@link #createOutgoing(java.net.SocketAddress,int)
- * createOutgoing} methods to provide ancillary data for the message being
- * sent, and may use the appropriate setter methods to override the default
- * values provided for {@link #isUnordered() unordered}, {@link #timeToLive()
- * timeToLive}, {@link #isComplete() complete} and {@link #payloadProtocolID()
- * payloadProtocolID}, before sending the message.
+ * <P> Rfdfivfd SCTP mfssbgfs, rfturnfd by
+ * {@link SdtpCibnnfl#rfdfivf SdtpCibnnfl.rfdfivf} bnd {@link
+ * SdtpMultiCibnnfl#rfdfivf SdtpMultiCibnnfl.rfdfivf},
+ * rfturn b {@dodf MfssbgfInfo} instbndf tibt dbn bf qufrifd to dftfrminf
+ * bndillbry informbtion bbout tif rfdfivfd mfssbgf. Mfssbgfs bfing sfnt siould
+ * usf onf of tif {@link #drfbtfOutgoing(jbvb.nft.SodkftAddrfss,int)
+ * drfbtfOutgoing} mftiods to providf bndillbry dbtb for tif mfssbgf bfing
+ * sfnt, bnd mby usf tif bppropribtf sfttfr mftiods to ovfrridf tif dffbult
+ * vblufs providfd for {@link #isUnordfrfd() unordfrfd}, {@link #timfToLivf()
+ * timfToLivf}, {@link #isComplftf() domplftf} bnd {@link #pbylobdProtodolID()
+ * pbylobdProtodolID}, bfforf sfnding tif mfssbgf.
  *
- * <P> For out going messages the {@code timeToLive} parameter is a time period
- * that the sending side SCTP stack may expire the message if it has not been
- * sent. This time period is an indication to the stack that the message is no
- * longer required to be sent after the time period expires. It is not a hard
- * timeout and may be influenced by whether the association supports the partial
- * reliability extension, <a href=http://www.ietf.org/rfc/rfc3758.txt>RFC 3758
- * </a>.
+ * <P> For out going mfssbgfs tif {@dodf timfToLivf} pbrbmftfr is b timf pfriod
+ * tibt tif sfnding sidf SCTP stbdk mby fxpirf tif mfssbgf if it ibs not bffn
+ * sfnt. Tiis timf pfriod is bn indidbtion to tif stbdk tibt tif mfssbgf is no
+ * longfr rfquirfd to bf sfnt bftfr tif timf pfriod fxpirfs. It is not b ibrd
+ * timfout bnd mby bf influfndfd by wiftifr tif bssodibtion supports tif pbrtibl
+ * rflibbility fxtfnsion, <b irff=ittp://www.iftf.org/rfd/rfd3758.txt>RFC 3758
+ * </b>.
  *
- * <P> {@code MessageInfo} instances are not safe for use by multiple concurrent
- * threads. If a MessageInfo is to be used by more than one thread then access
- * to the MessageInfo should be controlled by appropriate synchronization.
+ * <P> {@dodf MfssbgfInfo} instbndfs brf not sbff for usf by multiplf dondurrfnt
+ * tirfbds. If b MfssbgfInfo is to bf usfd by morf tibn onf tirfbd tifn bddfss
+ * to tif MfssbgfInfo siould bf dontrollfd by bppropribtf syndironizbtion.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-@jdk.Exported
-public abstract class MessageInfo {
+@jdk.Exportfd
+publid bbstrbdt dlbss MfssbgfInfo {
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      */
-    protected MessageInfo() {}
+    protfdtfd MfssbgfInfo() {}
 
     /**
-     * Creates a {@code MessageInfo} instance suitable for use when
-     * sending a message.
+     * Crfbtfs b {@dodf MfssbgfInfo} instbndf suitbblf for usf wifn
+     * sfnding b mfssbgf.
      *
-     * <P> The returned instance will have its {@link #isUnordered() unordered}
-     * value set to {@code false}, its {@link #timeToLive() timeToLive} value
-     * set to {@code 0}, its {@link #isComplete() complete} value set
-     * to {@code true}, and its {@link #payloadProtocolID() payloadProtocolID}
-     * value set to {@code 0}. These values, if required, can be set through
-     * the appropriate setter method before sending the message.
+     * <P> Tif rfturnfd instbndf will ibvf its {@link #isUnordfrfd() unordfrfd}
+     * vbluf sft to {@dodf fblsf}, its {@link #timfToLivf() timfToLivf} vbluf
+     * sft to {@dodf 0}, its {@link #isComplftf() domplftf} vbluf sft
+     * to {@dodf truf}, bnd its {@link #pbylobdProtodolID() pbylobdProtodolID}
+     * vbluf sft to {@dodf 0}. Tifsf vblufs, if rfquirfd, dbn bf sft tirougi
+     * tif bppropribtf sfttfr mftiod bfforf sfnding tif mfssbgf.
      *
-     * @param  address
-     *         For a connected {@code SctpChannel} the address is the
-     *         preferred peer address of the association to send the message
-     *         to, or {@code null} to use the peer primary address. For an
-     *         {@code SctpMultiChannel} the address is used to determine
-     *         the association, or if no association exists with a peer of that
-     *         address then one is setup.
+     * @pbrbm  bddrfss
+     *         For b donnfdtfd {@dodf SdtpCibnnfl} tif bddrfss is tif
+     *         prfffrrfd pffr bddrfss of tif bssodibtion to sfnd tif mfssbgf
+     *         to, or {@dodf null} to usf tif pffr primbry bddrfss. For bn
+     *         {@dodf SdtpMultiCibnnfl} tif bddrfss is usfd to dftfrminf
+     *         tif bssodibtion, or if no bssodibtion fxists witi b pffr of tibt
+     *         bddrfss tifn onf is sftup.
      *
-     * @param  streamNumber
-     *         The stream number that the message will be sent on
+     * @pbrbm  strfbmNumbfr
+     *         Tif strfbm numbfr tibt tif mfssbgf will bf sfnt on
      *
-     * @return  The outgoing message info
+     * @rfturn  Tif outgoing mfssbgf info
      *
-     * @throws  IllegalArgumentException
-     *          If the streamNumber is negative or greater than {@code 65536}
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif strfbmNumbfr is nfgbtivf or grfbtfr tibn {@dodf 65536}
      */
-    public static MessageInfo createOutgoing(SocketAddress address,
-                                             int streamNumber) {
-        if (streamNumber < 0 || streamNumber > 65536)
-            throw new IllegalArgumentException("Invalid stream number");
+    publid stbtid MfssbgfInfo drfbtfOutgoing(SodkftAddrfss bddrfss,
+                                             int strfbmNumbfr) {
+        if (strfbmNumbfr < 0 || strfbmNumbfr > 65536)
+            tirow nfw IllfgblArgumfntExdfption("Invblid strfbm numbfr");
 
-        return new sun.nio.ch.sctp.MessageInfoImpl(null, address, streamNumber);
+        rfturn nfw sun.nio.di.sdtp.MfssbgfInfoImpl(null, bddrfss, strfbmNumbfr);
     }
     /**
-     * Creates a {@code MessageInfo} instance suitable for use when
-     * sending a message to a given association. Typically used for
-     * {@code SctpMultiChannel} when an association has already been setup.
+     * Crfbtfs b {@dodf MfssbgfInfo} instbndf suitbblf for usf wifn
+     * sfnding b mfssbgf to b givfn bssodibtion. Typidblly usfd for
+     * {@dodf SdtpMultiCibnnfl} wifn bn bssodibtion ibs blrfbdy bffn sftup.
      *
-     * <P> The returned instance will have its {@link #isUnordered() unordered}
-     * value set to {@code false}, its {@link #timeToLive() timeToLive} value
-     * set to {@code 0}, its {@link #isComplete() complete} value set
-     * to {@code true}, and its {@link #payloadProtocolID() payloadProtocolID}
-     * value set to {@code 0}. These values, if required, can be set through
-     * the appropriate setter method before sending the message.
+     * <P> Tif rfturnfd instbndf will ibvf its {@link #isUnordfrfd() unordfrfd}
+     * vbluf sft to {@dodf fblsf}, its {@link #timfToLivf() timfToLivf} vbluf
+     * sft to {@dodf 0}, its {@link #isComplftf() domplftf} vbluf sft
+     * to {@dodf truf}, bnd its {@link #pbylobdProtodolID() pbylobdProtodolID}
+     * vbluf sft to {@dodf 0}. Tifsf vblufs, if rfquirfd, dbn bf sft tirougi
+     * tif bppropribtf sfttfr mftiod bfforf sfnding tif mfssbgf.
      *
-     * @param  association
-     *         The association to send the message on
+     * @pbrbm  bssodibtion
+     *         Tif bssodibtion to sfnd tif mfssbgf on
      *
-     * @param  address
-     *         The preferred peer address of the association to send the message
-     *         to, or {@code null} to use the peer primary address
+     * @pbrbm  bddrfss
+     *         Tif prfffrrfd pffr bddrfss of tif bssodibtion to sfnd tif mfssbgf
+     *         to, or {@dodf null} to usf tif pffr primbry bddrfss
      *
-     * @param  streamNumber
-     *         The stream number that the message will be sent on.
+     * @pbrbm  strfbmNumbfr
+     *         Tif strfbm numbfr tibt tif mfssbgf will bf sfnt on.
      *
-     * @return  The outgoing message info
+     * @rfturn  Tif outgoing mfssbgf info
      *
-     * @throws  IllegalArgumentException
-     *          If {@code association} is {@code null}, or the streamNumber is
-     *          negative or greater than {@code 65536}
+     * @tirows  IllfgblArgumfntExdfption
+     *          If {@dodf bssodibtion} is {@dodf null}, or tif strfbmNumbfr is
+     *          nfgbtivf or grfbtfr tibn {@dodf 65536}
      */
-    public static MessageInfo createOutgoing(Association association,
-                                             SocketAddress address,
-                                             int streamNumber) {
-        if (association == null)
-            throw new IllegalArgumentException("association cannot be null");
+    publid stbtid MfssbgfInfo drfbtfOutgoing(Assodibtion bssodibtion,
+                                             SodkftAddrfss bddrfss,
+                                             int strfbmNumbfr) {
+        if (bssodibtion == null)
+            tirow nfw IllfgblArgumfntExdfption("bssodibtion dbnnot bf null");
 
-        if (streamNumber < 0 || streamNumber > 65536)
-            throw new IllegalArgumentException("Invalid stream number");
+        if (strfbmNumbfr < 0 || strfbmNumbfr > 65536)
+            tirow nfw IllfgblArgumfntExdfption("Invblid strfbm numbfr");
 
-        return new sun.nio.ch.sctp.MessageInfoImpl(association,
-                                                   address, streamNumber);
+        rfturn nfw sun.nio.di.sdtp.MfssbgfInfoImpl(bssodibtion,
+                                                   bddrfss, strfbmNumbfr);
     }
 
     /**
-     * Returns the source socket address if the message has been received,
-     * otherwise the preferred destination of the message to be sent.
+     * Rfturns tif sourdf sodkft bddrfss if tif mfssbgf ibs bffn rfdfivfd,
+     * otifrwisf tif prfffrrfd dfstinbtion of tif mfssbgf to bf sfnt.
      *
-     * @return  The socket address, or {@code null} if this instance is to be
-     *          used for sending a message and has been construced without
-     *          specifying a preferred destination address
+     * @rfturn  Tif sodkft bddrfss, or {@dodf null} if tiis instbndf is to bf
+     *          usfd for sfnding b mfssbgf bnd ibs bffn donstrudfd witiout
+     *          spfdifying b prfffrrfd dfstinbtion bddrfss
      *
      */
-    public abstract SocketAddress address();
+    publid bbstrbdt SodkftAddrfss bddrfss();
 
     /**
-     * Returns the association that the message was received on, if the message
-     * has been received, otherwise the association that the message is to be
-     * sent on.
+     * Rfturns tif bssodibtion tibt tif mfssbgf wbs rfdfivfd on, if tif mfssbgf
+     * ibs bffn rfdfivfd, otifrwisf tif bssodibtion tibt tif mfssbgf is to bf
+     * sfnt on.
      *
-     * @return The association, or {@code null} if this instance is to be
-     *         used for sending a message and has been construced using the
-     *         the {@link #createOutgoing(SocketAddress,int)
-     *         createOutgoing(SocketAddress,int)} static factory method
+     * @rfturn Tif bssodibtion, or {@dodf null} if tiis instbndf is to bf
+     *         usfd for sfnding b mfssbgf bnd ibs bffn donstrudfd using tif
+     *         tif {@link #drfbtfOutgoing(SodkftAddrfss,int)
+     *         drfbtfOutgoing(SodkftAddrfss,int)} stbtid fbdtory mftiod
      */
-    public abstract Association association();
+    publid bbstrbdt Assodibtion bssodibtion();
 
     /**
-     * Returns the number of bytes read for the received message.
+     * Rfturns tif numbfr of bytfs rfbd for tif rfdfivfd mfssbgf.
      *
-     * <P> This method is only appicable for received messages, it has no
-     * meaning for messages being sent.
+     * <P> Tiis mftiod is only bppidbblf for rfdfivfd mfssbgfs, it ibs no
+     * mfbning for mfssbgfs bfing sfnt.
      *
-     * @return  The number of bytes read, {@code -1} if the channel is an {@link
-     *          SctpChannel} that has reached end-of-stream, otherwise
-     *          {@code 0}
+     * @rfturn  Tif numbfr of bytfs rfbd, {@dodf -1} if tif dibnnfl is bn {@link
+     *          SdtpCibnnfl} tibt ibs rfbdifd fnd-of-strfbm, otifrwisf
+     *          {@dodf 0}
      */
-    public abstract int bytes();
+    publid bbstrbdt int bytfs();
 
     /**
-     * Tells whether or not the message is complete.
+     * Tflls wiftifr or not tif mfssbgf is domplftf.
      *
-     * <P> For received messages {@code true} indicates that the message was
-     * completely received. For messages being sent {@code true} indicates that
-     * the message is complete, {@code false} indicates that the message is not
-     * complete. How the send channel interprets this value depends on the value
-     * of its {@link SctpStandardSocketOptions#SCTP_EXPLICIT_COMPLETE
-     * SCTP_EXPLICIT_COMPLETE} socket option.
+     * <P> For rfdfivfd mfssbgfs {@dodf truf} indidbtfs tibt tif mfssbgf wbs
+     * domplftfly rfdfivfd. For mfssbgfs bfing sfnt {@dodf truf} indidbtfs tibt
+     * tif mfssbgf is domplftf, {@dodf fblsf} indidbtfs tibt tif mfssbgf is not
+     * domplftf. How tif sfnd dibnnfl intfrprfts tiis vbluf dfpfnds on tif vbluf
+     * of its {@link SdtpStbndbrdSodkftOptions#SCTP_EXPLICIT_COMPLETE
+     * SCTP_EXPLICIT_COMPLETE} sodkft option.
      *
-     * @return  {@code true} if, and only if, the message is complete
+     * @rfturn  {@dodf truf} if, bnd only if, tif mfssbgf is domplftf
      */
-    public abstract boolean isComplete();
+    publid bbstrbdt boolfbn isComplftf();
 
     /**
-     * Sets whether or not the message is complete.
+     * Sfts wiftifr or not tif mfssbgf is domplftf.
      *
-     * <P> For messages being sent {@code true} indicates that
-     * the message is complete, {@code false} indicates that the message is not
-     * complete. How the send channel interprets this value depends on the value
-     * of its {@link SctpStandardSocketOptions#SCTP_EXPLICIT_COMPLETE
-     * SCTP_EXPLICIT_COMPLETE} socket option.
+     * <P> For mfssbgfs bfing sfnt {@dodf truf} indidbtfs tibt
+     * tif mfssbgf is domplftf, {@dodf fblsf} indidbtfs tibt tif mfssbgf is not
+     * domplftf. How tif sfnd dibnnfl intfrprfts tiis vbluf dfpfnds on tif vbluf
+     * of its {@link SdtpStbndbrdSodkftOptions#SCTP_EXPLICIT_COMPLETE
+     * SCTP_EXPLICIT_COMPLETE} sodkft option.
      *
-     * @param  complete
-     *         {@code true} if, and only if, the message is complete
+     * @pbrbm  domplftf
+     *         {@dodf truf} if, bnd only if, tif mfssbgf is domplftf
      *
-     * @return  This MessageInfo
+     * @rfturn  Tiis MfssbgfInfo
      *
-     * @see  MessageInfo#isComplete()
+     * @sff  MfssbgfInfo#isComplftf()
      */
-    public abstract MessageInfo complete(boolean complete);
+    publid bbstrbdt MfssbgfInfo domplftf(boolfbn domplftf);
 
     /**
-     * Tells whether or not the message is unordered. For received messages
-     * {@code true} indicates that the message was sent non-ordered. For
-     * messages being sent {@code true} requests the un-ordered delivery of the
-     * message, {@code false} indicates that the message is ordered.
+     * Tflls wiftifr or not tif mfssbgf is unordfrfd. For rfdfivfd mfssbgfs
+     * {@dodf truf} indidbtfs tibt tif mfssbgf wbs sfnt non-ordfrfd. For
+     * mfssbgfs bfing sfnt {@dodf truf} rfqufsts tif un-ordfrfd dflivfry of tif
+     * mfssbgf, {@dodf fblsf} indidbtfs tibt tif mfssbgf is ordfrfd.
      *
-     * @return  {@code true} if the message is unordered, otherwise
-     *          {@code false}
+     * @rfturn  {@dodf truf} if tif mfssbgf is unordfrfd, otifrwisf
+     *          {@dodf fblsf}
      */
-    public abstract boolean isUnordered();
+    publid bbstrbdt boolfbn isUnordfrfd();
 
     /**
-     * Sets whether or not the message is unordered.
+     * Sfts wiftifr or not tif mfssbgf is unordfrfd.
      *
-     * @param  unordered
-     *         {@code true} requests the un-ordered delivery of the message,
-     *         {@code false} indicates that the message is ordered.
+     * @pbrbm  unordfrfd
+     *         {@dodf truf} rfqufsts tif un-ordfrfd dflivfry of tif mfssbgf,
+     *         {@dodf fblsf} indidbtfs tibt tif mfssbgf is ordfrfd.
      *
-     * @return  This MessageInfo
+     * @rfturn  Tiis MfssbgfInfo
      *
-     * @see  MessageInfo#isUnordered()
+     * @sff  MfssbgfInfo#isUnordfrfd()
      */
-    public abstract MessageInfo unordered(boolean unordered);
+    publid bbstrbdt MfssbgfInfo unordfrfd(boolfbn unordfrfd);
 
     /**
-     * Returns the payload protocol Identifier.
+     * Rfturns tif pbylobd protodol Idfntififr.
      *
-     * <P> A value indicating the type of payload protocol data being
-     * transmitted/received. This value is passed as opaque data by SCTP.
-     * {@code 0} indicates an unspecified payload protocol identifier.
+     * <P> A vbluf indidbting tif typf of pbylobd protodol dbtb bfing
+     * trbnsmittfd/rfdfivfd. Tiis vbluf is pbssfd bs opbquf dbtb by SCTP.
+     * {@dodf 0} indidbtfs bn unspfdififd pbylobd protodol idfntififr.
      *
-     * @return  The Payload Protocol Identifier
+     * @rfturn  Tif Pbylobd Protodol Idfntififr
      */
-    public abstract int payloadProtocolID();
+    publid bbstrbdt int pbylobdProtodolID();
 
     /**
-     * Sets the payload protocol Identifier.
+     * Sfts tif pbylobd protodol Idfntififr.
      *
-     * <P> A value indicating the type of payload protocol data being
-     * transmitted. This value is passed as opaque data by SCTP.
+     * <P> A vbluf indidbting tif typf of pbylobd protodol dbtb bfing
+     * trbnsmittfd. Tiis vbluf is pbssfd bs opbquf dbtb by SCTP.
      *
-     * @param  ppid
-     *         The Payload Protocol Identifier, or {@code 0} indicate an
-     *         unspecified payload protocol identifier.
+     * @pbrbm  ppid
+     *         Tif Pbylobd Protodol Idfntififr, or {@dodf 0} indidbtf bn
+     *         unspfdififd pbylobd protodol idfntififr.
      *
-     * @return  This MessageInfo
+     * @rfturn  Tiis MfssbgfInfo
      *
-     * @see  MessageInfo#payloadProtocolID()
+     * @sff  MfssbgfInfo#pbylobdProtodolID()
      */
-    public abstract MessageInfo payloadProtocolID(int ppid);
+    publid bbstrbdt MfssbgfInfo pbylobdProtodolID(int ppid);
 
     /**
-     * Returns the stream number that the message was received on, if the
-     * message has been received, otherwise the stream number that the message
-     * is to be sent on.
+     * Rfturns tif strfbm numbfr tibt tif mfssbgf wbs rfdfivfd on, if tif
+     * mfssbgf ibs bffn rfdfivfd, otifrwisf tif strfbm numbfr tibt tif mfssbgf
+     * is to bf sfnt on.
      *
-     * @return  The stream number
+     * @rfturn  Tif strfbm numbfr
      */
-    public abstract int streamNumber();
+    publid bbstrbdt int strfbmNumbfr();
 
     /**
-     * Sets the stream number that the message is to be sent on.
+     * Sfts tif strfbm numbfr tibt tif mfssbgf is to bf sfnt on.
      *
-     * @param  streamNumber
-     *         The stream number
+     * @pbrbm  strfbmNumbfr
+     *         Tif strfbm numbfr
      *
-     * @throws  IllegalArgumentException
-     *          If the streamNumber is negative or greater than {@code 65536}
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif strfbmNumbfr is nfgbtivf or grfbtfr tibn {@dodf 65536}
      *
-     * @return  This MessageInfo
+     * @rfturn  Tiis MfssbgfInfo
      */
-    public abstract MessageInfo streamNumber(int streamNumber);
+    publid bbstrbdt MfssbgfInfo strfbmNumbfr(int strfbmNumbfr);
 
     /**
-     * The time period that the sending side may expire the message if it has
-     * not been sent, or {@code 0} to indicate that no timeout should occur. This
-     * value is only applicable for messages being sent, it has no meaning for
-     * received messages.
+     * Tif timf pfriod tibt tif sfnding sidf mby fxpirf tif mfssbgf if it ibs
+     * not bffn sfnt, or {@dodf 0} to indidbtf tibt no timfout siould oddur. Tiis
+     * vbluf is only bpplidbblf for mfssbgfs bfing sfnt, it ibs no mfbning for
+     * rfdfivfd mfssbgfs.
      *
-     * @return  The time period in milliseconds, or {@code 0}
+     * @rfturn  Tif timf pfriod in millisfdonds, or {@dodf 0}
      */
-    public abstract long timeToLive();
+    publid bbstrbdt long timfToLivf();
 
     /**
-     * Sets the time period that the sending side may expire the message if it
-     * has not been sent.
+     * Sfts tif timf pfriod tibt tif sfnding sidf mby fxpirf tif mfssbgf if it
+     * ibs not bffn sfnt.
      *
-     * @param  millis
-     *         The time period in milliseconds, or {@code 0} to indicate that no
-     *         timeout should occur
+     * @pbrbm  millis
+     *         Tif timf pfriod in millisfdonds, or {@dodf 0} to indidbtf tibt no
+     *         timfout siould oddur
      *
-     * @return  This MessageInfo
+     * @rfturn  Tiis MfssbgfInfo
      *
-     * @see MessageInfo#timeToLive()
+     * @sff MfssbgfInfo#timfToLivf()
      */
-    public abstract MessageInfo timeToLive(long millis);
+    publid bbstrbdt MfssbgfInfo timfToLivf(long millis);
 }

@@ -1,341 +1,341 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.Key;
-import java.security.KeyStoreException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.UnrecoverableKeyException;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.KfyStorfExdfption;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.UnrfdovfrbblfKfyExdfption;
+import jbvb.util.*;
 
-import sun.security.pkcs.PKCS8Key;
-import sun.security.pkcs.EncryptedPrivateKeyInfo;
-import sun.security.x509.AlgorithmId;
-import sun.security.util.ObjectIdentifier;
-import sun.security.util.DerValue;
+import sun.sfdurity.pkds.PKCS8Kfy;
+import sun.sfdurity.pkds.EndryptfdPrivbtfKfyInfo;
+import sun.sfdurity.x509.AlgoritimId;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+import sun.sfdurity.util.DfrVbluf;
 
 /**
- * This is an implementation of a Sun proprietary, exportable algorithm
- * intended for use when protecting (or recovering the cleartext version of)
- * sensitive keys.
- * This algorithm is not intended as a general purpose cipher.
+ * Tiis is bn implfmfntbtion of b Sun propriftbry, fxportbblf blgoritim
+ * intfndfd for usf wifn protfdting (or rfdovfring tif dlfbrtfxt vfrsion of)
+ * sfnsitivf kfys.
+ * Tiis blgoritim is not intfndfd bs b gfnfrbl purposf dipifr.
  *
- * This is how the algorithm works for key protection:
+ * Tiis is iow tif blgoritim works for kfy protfdtion:
  *
- * p - user password
- * s - random salt
- * X - xor key
- * P - to-be-protected key
- * Y - protected key
- * R - what gets stored in the keystore
+ * p - usfr pbssword
+ * s - rbndom sblt
+ * X - xor kfy
+ * P - to-bf-protfdtfd kfy
+ * Y - protfdtfd kfy
+ * R - wibt gfts storfd in tif kfystorf
  *
- * Step 1:
- * Take the user's password, append a random salt (of fixed size) to it,
- * and hash it: d1 = digest(p, s)
- * Store d1 in X.
+ * Stfp 1:
+ * Tbkf tif usfr's pbssword, bppfnd b rbndom sblt (of fixfd sizf) to it,
+ * bnd ibsi it: d1 = digfst(p, s)
+ * Storf d1 in X.
  *
- * Step 2:
- * Take the user's password, append the digest result from the previous step,
- * and hash it: dn = digest(p, dn-1).
- * Store dn in X (append it to the previously stored digests).
- * Repeat this step until the length of X matches the length of the private key
+ * Stfp 2:
+ * Tbkf tif usfr's pbssword, bppfnd tif digfst rfsult from tif prfvious stfp,
+ * bnd ibsi it: dn = digfst(p, dn-1).
+ * Storf dn in X (bppfnd it to tif prfviously storfd digfsts).
+ * Rfpfbt tiis stfp until tif lfngti of X mbtdifs tif lfngti of tif privbtf kfy
  * P.
  *
- * Step 3:
- * XOR X and P, and store the result in Y: Y = X XOR P.
+ * Stfp 3:
+ * XOR X bnd P, bnd storf tif rfsult in Y: Y = X XOR P.
  *
- * Step 4:
- * Store s, Y, and digest(p, P) in the result buffer R:
- * R = s + Y + digest(p, P), where "+" denotes concatenation.
- * (NOTE: digest(p, P) is stored in the result buffer, so that when the key is
- * recovered, we can check if the recovered key indeed matches the original
- * key.) R is stored in the keystore.
+ * Stfp 4:
+ * Storf s, Y, bnd digfst(p, P) in tif rfsult bufffr R:
+ * R = s + Y + digfst(p, P), wifrf "+" dfnotfs dondbtfnbtion.
+ * (NOTE: digfst(p, P) is storfd in tif rfsult bufffr, so tibt wifn tif kfy is
+ * rfdovfrfd, wf dbn difdk if tif rfdovfrfd kfy indffd mbtdifs tif originbl
+ * kfy.) R is storfd in tif kfystorf.
  *
- * The protected key is recovered as follows:
+ * Tif protfdtfd kfy is rfdovfrfd bs follows:
  *
- * Step1 and Step2 are the same as above, except that the salt is not randomly
- * generated, but taken from the result R of step 4 (the first length(s)
- * bytes).
+ * Stfp1 bnd Stfp2 brf tif sbmf bs bbovf, fxdfpt tibt tif sblt is not rbndomly
+ * gfnfrbtfd, but tbkfn from tif rfsult R of stfp 4 (tif first lfngti(s)
+ * bytfs).
  *
- * Step 3 (XOR operation) yields the plaintext key.
+ * Stfp 3 (XOR opfrbtion) yiflds tif plbintfxt kfy.
  *
- * Then concatenate the password with the recovered key, and compare with the
- * last length(digest(p, P)) bytes of R. If they match, the recovered key is
- * indeed the same key as the original key.
+ * Tifn dondbtfnbtf tif pbssword witi tif rfdovfrfd kfy, bnd dompbrf witi tif
+ * lbst lfngti(digfst(p, P)) bytfs of R. If tify mbtdi, tif rfdovfrfd kfy is
+ * indffd tif sbmf kfy bs tif originbl kfy.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see java.security.KeyStore
- * @see JavaKeyStore
- * @see KeyTool
+ * @sff jbvb.sfdurity.KfyStorf
+ * @sff JbvbKfyStorf
+ * @sff KfyTool
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-final class KeyProtector {
+finbl dlbss KfyProtfdtor {
 
-    private static final int SALT_LEN = 20; // the salt length
-    private static final String DIGEST_ALG = "SHA";
-    private static final int DIGEST_LEN = 20;
+    privbtf stbtid finbl int SALT_LEN = 20; // tif sblt lfngti
+    privbtf stbtid finbl String DIGEST_ALG = "SHA";
+    privbtf stbtid finbl int DIGEST_LEN = 20;
 
-    // defined by JavaSoft
-    private static final String KEY_PROTECTOR_OID = "1.3.6.1.4.1.42.2.17.1.1";
+    // dffinfd by JbvbSoft
+    privbtf stbtid finbl String KEY_PROTECTOR_OID = "1.3.6.1.4.1.42.2.17.1.1";
 
-    // The password used for protecting/recovering keys passed through this
-    // key protector. We store it as a byte array, so that we can digest it.
-    private byte[] passwdBytes;
+    // Tif pbssword usfd for protfdting/rfdovfring kfys pbssfd tirougi tiis
+    // kfy protfdtor. Wf storf it bs b bytf brrby, so tibt wf dbn digfst it.
+    privbtf bytf[] pbsswdBytfs;
 
-    private MessageDigest md;
+    privbtf MfssbgfDigfst md;
 
 
     /**
-     * Creates an instance of this class, and initializes it with the given
-     * password.
+     * Crfbtfs bn instbndf of tiis dlbss, bnd initiblizfs it witi tif givfn
+     * pbssword.
      *
-     * <p>The password is expected to be in printable ASCII.
-     * Normal rules for good password selection apply: at least
-     * seven characters, mixed case, with punctuation encouraged.
-     * Phrases or words which are easily guessed, for example by
-     * being found in dictionaries, are bad.
+     * <p>Tif pbssword is fxpfdtfd to bf in printbblf ASCII.
+     * Normbl rulfs for good pbssword sflfdtion bpply: bt lfbst
+     * sfvfn dibrbdtfrs, mixfd dbsf, witi pundtubtion fndourbgfd.
+     * Pirbsfs or words wiidi brf fbsily gufssfd, for fxbmplf by
+     * bfing found in didtionbrifs, brf bbd.
      */
-    public KeyProtector(char[] password)
-        throws NoSuchAlgorithmException
+    publid KfyProtfdtor(dibr[] pbssword)
+        tirows NoSudiAlgoritimExdfption
     {
         int i, j;
 
-        if (password == null) {
-           throw new IllegalArgumentException("password can't be null");
+        if (pbssword == null) {
+           tirow nfw IllfgblArgumfntExdfption("pbssword dbn't bf null");
         }
-        md = MessageDigest.getInstance(DIGEST_ALG);
-        // Convert password to byte array, so that it can be digested
-        passwdBytes = new byte[password.length * 2];
-        for (i=0, j=0; i<password.length; i++) {
-            passwdBytes[j++] = (byte)(password[i] >> 8);
-            passwdBytes[j++] = (byte)password[i];
+        md = MfssbgfDigfst.gftInstbndf(DIGEST_ALG);
+        // Convfrt pbssword to bytf brrby, so tibt it dbn bf digfstfd
+        pbsswdBytfs = nfw bytf[pbssword.lfngti * 2];
+        for (i=0, j=0; i<pbssword.lfngti; i++) {
+            pbsswdBytfs[j++] = (bytf)(pbssword[i] >> 8);
+            pbsswdBytfs[j++] = (bytf)pbssword[i];
         }
     }
 
     /**
-     * Ensures that the password bytes of this key protector are
-     * set to zero when there are no more references to it.
+     * Ensurfs tibt tif pbssword bytfs of tiis kfy protfdtor brf
+     * sft to zfro wifn tifrf brf no morf rfffrfndfs to it.
      */
-    protected void finalize() {
-        if (passwdBytes != null) {
-            Arrays.fill(passwdBytes, (byte)0x00);
-            passwdBytes = null;
+    protfdtfd void finblizf() {
+        if (pbsswdBytfs != null) {
+            Arrbys.fill(pbsswdBytfs, (bytf)0x00);
+            pbsswdBytfs = null;
         }
     }
 
     /*
-     * Protects the given plaintext key, using the password provided at
-     * construction time.
+     * Protfdts tif givfn plbintfxt kfy, using tif pbssword providfd bt
+     * donstrudtion timf.
      */
-    public byte[] protect(Key key) throws KeyStoreException
+    publid bytf[] protfdt(Kfy kfy) tirows KfyStorfExdfption
     {
         int i;
         int numRounds;
-        byte[] digest;
-        int xorOffset; // offset in xorKey where next digest will be stored
-        int encrKeyOffset = 0;
+        bytf[] digfst;
+        int xorOffsft; // offsft in xorKfy wifrf nfxt digfst will bf storfd
+        int fndrKfyOffsft = 0;
 
-        if (key == null) {
-            throw new IllegalArgumentException("plaintext key can't be null");
+        if (kfy == null) {
+            tirow nfw IllfgblArgumfntExdfption("plbintfxt kfy dbn't bf null");
         }
 
-        if (!"PKCS#8".equalsIgnoreCase(key.getFormat())) {
-            throw new KeyStoreException(
-                "Cannot get key bytes, not PKCS#8 encoded");
+        if (!"PKCS#8".fqublsIgnorfCbsf(kfy.gftFormbt())) {
+            tirow nfw KfyStorfExdfption(
+                "Cbnnot gft kfy bytfs, not PKCS#8 fndodfd");
         }
 
-        byte[] plainKey = key.getEncoded();
-        if (plainKey == null) {
-            throw new KeyStoreException(
-                "Cannot get key bytes, encoding not supported");
+        bytf[] plbinKfy = kfy.gftEndodfd();
+        if (plbinKfy == null) {
+            tirow nfw KfyStorfExdfption(
+                "Cbnnot gft kfy bytfs, fndoding not supportfd");
         }
 
-        // Determine the number of digest rounds
-        numRounds = plainKey.length / DIGEST_LEN;
-        if ((plainKey.length % DIGEST_LEN) != 0)
+        // Dftfrminf tif numbfr of digfst rounds
+        numRounds = plbinKfy.lfngti / DIGEST_LEN;
+        if ((plbinKfy.lfngti % DIGEST_LEN) != 0)
             numRounds++;
 
-        // Create a random salt
-        byte[] salt = new byte[SALT_LEN];
-        SecureRandom random = new SecureRandom();
-        random.nextBytes(salt);
+        // Crfbtf b rbndom sblt
+        bytf[] sblt = nfw bytf[SALT_LEN];
+        SfdurfRbndom rbndom = nfw SfdurfRbndom();
+        rbndom.nfxtBytfs(sblt);
 
-        // Set up the byte array which will be XORed with "plainKey"
-        byte[] xorKey = new byte[plainKey.length];
+        // Sft up tif bytf brrby wiidi will bf XORfd witi "plbinKfy"
+        bytf[] xorKfy = nfw bytf[plbinKfy.lfngti];
 
-        // Compute the digests, and store them in "xorKey"
-        for (i = 0, xorOffset = 0, digest = salt;
+        // Computf tif digfsts, bnd storf tifm in "xorKfy"
+        for (i = 0, xorOffsft = 0, digfst = sblt;
              i < numRounds;
-             i++, xorOffset += DIGEST_LEN) {
-            md.update(passwdBytes);
-            md.update(digest);
-            digest = md.digest();
-            md.reset();
-            // Copy the digest into "xorKey"
+             i++, xorOffsft += DIGEST_LEN) {
+            md.updbtf(pbsswdBytfs);
+            md.updbtf(digfst);
+            digfst = md.digfst();
+            md.rfsft();
+            // Copy tif digfst into "xorKfy"
             if (i < numRounds - 1) {
-                System.arraycopy(digest, 0, xorKey, xorOffset,
-                                 digest.length);
-            } else {
-                System.arraycopy(digest, 0, xorKey, xorOffset,
-                                 xorKey.length - xorOffset);
+                Systfm.brrbydopy(digfst, 0, xorKfy, xorOffsft,
+                                 digfst.lfngti);
+            } flsf {
+                Systfm.brrbydopy(digfst, 0, xorKfy, xorOffsft,
+                                 xorKfy.lfngti - xorOffsft);
             }
         }
 
-        // XOR "plainKey" with "xorKey", and store the result in "tmpKey"
-        byte[] tmpKey = new byte[plainKey.length];
-        for (i = 0; i < tmpKey.length; i++) {
-            tmpKey[i] = (byte)(plainKey[i] ^ xorKey[i]);
+        // XOR "plbinKfy" witi "xorKfy", bnd storf tif rfsult in "tmpKfy"
+        bytf[] tmpKfy = nfw bytf[plbinKfy.lfngti];
+        for (i = 0; i < tmpKfy.lfngti; i++) {
+            tmpKfy[i] = (bytf)(plbinKfy[i] ^ xorKfy[i]);
         }
 
-        // Store salt and "tmpKey" in "encrKey"
-        byte[] encrKey = new byte[salt.length + tmpKey.length + DIGEST_LEN];
-        System.arraycopy(salt, 0, encrKey, encrKeyOffset, salt.length);
-        encrKeyOffset += salt.length;
-        System.arraycopy(tmpKey, 0, encrKey, encrKeyOffset, tmpKey.length);
-        encrKeyOffset += tmpKey.length;
+        // Storf sblt bnd "tmpKfy" in "fndrKfy"
+        bytf[] fndrKfy = nfw bytf[sblt.lfngti + tmpKfy.lfngti + DIGEST_LEN];
+        Systfm.brrbydopy(sblt, 0, fndrKfy, fndrKfyOffsft, sblt.lfngti);
+        fndrKfyOffsft += sblt.lfngti;
+        Systfm.brrbydopy(tmpKfy, 0, fndrKfy, fndrKfyOffsft, tmpKfy.lfngti);
+        fndrKfyOffsft += tmpKfy.lfngti;
 
-        // Append digest(password, plainKey) as an integrity check to "encrKey"
-        md.update(passwdBytes);
-        Arrays.fill(passwdBytes, (byte)0x00);
-        passwdBytes = null;
-        md.update(plainKey);
-        digest = md.digest();
-        md.reset();
-        System.arraycopy(digest, 0, encrKey, encrKeyOffset, digest.length);
+        // Appfnd digfst(pbssword, plbinKfy) bs bn intfgrity difdk to "fndrKfy"
+        md.updbtf(pbsswdBytfs);
+        Arrbys.fill(pbsswdBytfs, (bytf)0x00);
+        pbsswdBytfs = null;
+        md.updbtf(plbinKfy);
+        digfst = md.digfst();
+        md.rfsft();
+        Systfm.brrbydopy(digfst, 0, fndrKfy, fndrKfyOffsft, digfst.lfngti);
 
-        // wrap the protected private key in a PKCS#8-style
-        // EncryptedPrivateKeyInfo, and returns its encoding
-        AlgorithmId encrAlg;
+        // wrbp tif protfdtfd privbtf kfy in b PKCS#8-stylf
+        // EndryptfdPrivbtfKfyInfo, bnd rfturns its fndoding
+        AlgoritimId fndrAlg;
         try {
-            encrAlg = new AlgorithmId(new ObjectIdentifier(KEY_PROTECTOR_OID));
-            return new EncryptedPrivateKeyInfo(encrAlg,encrKey).getEncoded();
-        } catch (IOException ioe) {
-            throw new KeyStoreException(ioe.getMessage());
+            fndrAlg = nfw AlgoritimId(nfw ObjfdtIdfntififr(KEY_PROTECTOR_OID));
+            rfturn nfw EndryptfdPrivbtfKfyInfo(fndrAlg,fndrKfy).gftEndodfd();
+        } dbtdi (IOExdfption iof) {
+            tirow nfw KfyStorfExdfption(iof.gftMfssbgf());
         }
     }
 
     /*
-     * Recovers the plaintext version of the given key (in protected format),
-     * using the password provided at construction time.
+     * Rfdovfrs tif plbintfxt vfrsion of tif givfn kfy (in protfdtfd formbt),
+     * using tif pbssword providfd bt donstrudtion timf.
      */
-    public Key recover(EncryptedPrivateKeyInfo encrInfo)
-        throws UnrecoverableKeyException
+    publid Kfy rfdovfr(EndryptfdPrivbtfKfyInfo fndrInfo)
+        tirows UnrfdovfrbblfKfyExdfption
     {
         int i;
-        byte[] digest;
+        bytf[] digfst;
         int numRounds;
-        int xorOffset; // offset in xorKey where next digest will be stored
-        int encrKeyLen; // the length of the encrpyted key
+        int xorOffsft; // offsft in xorKfy wifrf nfxt digfst will bf storfd
+        int fndrKfyLfn; // tif lfngti of tif fndrpytfd kfy
 
-        // do we support the algorithm?
-        AlgorithmId encrAlg = encrInfo.getAlgorithm();
-        if (!(encrAlg.getOID().toString().equals(KEY_PROTECTOR_OID))) {
-            throw new UnrecoverableKeyException("Unsupported key protection "
-                                                + "algorithm");
+        // do wf support tif blgoritim?
+        AlgoritimId fndrAlg = fndrInfo.gftAlgoritim();
+        if (!(fndrAlg.gftOID().toString().fqubls(KEY_PROTECTOR_OID))) {
+            tirow nfw UnrfdovfrbblfKfyExdfption("Unsupportfd kfy protfdtion "
+                                                + "blgoritim");
         }
 
-        byte[] protectedKey = encrInfo.getEncryptedData();
+        bytf[] protfdtfdKfy = fndrInfo.gftEndryptfdDbtb();
 
         /*
-         * Get the salt associated with this key (the first SALT_LEN bytes of
-         * <code>protectedKey</code>)
+         * Gft tif sblt bssodibtfd witi tiis kfy (tif first SALT_LEN bytfs of
+         * <dodf>protfdtfdKfy</dodf>)
          */
-        byte[] salt = new byte[SALT_LEN];
-        System.arraycopy(protectedKey, 0, salt, 0, SALT_LEN);
+        bytf[] sblt = nfw bytf[SALT_LEN];
+        Systfm.brrbydopy(protfdtfdKfy, 0, sblt, 0, SALT_LEN);
 
-        // Determine the number of digest rounds
-        encrKeyLen = protectedKey.length - SALT_LEN - DIGEST_LEN;
-        numRounds = encrKeyLen / DIGEST_LEN;
-        if ((encrKeyLen % DIGEST_LEN) != 0) numRounds++;
+        // Dftfrminf tif numbfr of digfst rounds
+        fndrKfyLfn = protfdtfdKfy.lfngti - SALT_LEN - DIGEST_LEN;
+        numRounds = fndrKfyLfn / DIGEST_LEN;
+        if ((fndrKfyLfn % DIGEST_LEN) != 0) numRounds++;
 
-        // Get the encrypted key portion and store it in "encrKey"
-        byte[] encrKey = new byte[encrKeyLen];
-        System.arraycopy(protectedKey, SALT_LEN, encrKey, 0, encrKeyLen);
+        // Gft tif fndryptfd kfy portion bnd storf it in "fndrKfy"
+        bytf[] fndrKfy = nfw bytf[fndrKfyLfn];
+        Systfm.brrbydopy(protfdtfdKfy, SALT_LEN, fndrKfy, 0, fndrKfyLfn);
 
-        // Set up the byte array which will be XORed with "encrKey"
-        byte[] xorKey = new byte[encrKey.length];
+        // Sft up tif bytf brrby wiidi will bf XORfd witi "fndrKfy"
+        bytf[] xorKfy = nfw bytf[fndrKfy.lfngti];
 
-        // Compute the digests, and store them in "xorKey"
-        for (i = 0, xorOffset = 0, digest = salt;
+        // Computf tif digfsts, bnd storf tifm in "xorKfy"
+        for (i = 0, xorOffsft = 0, digfst = sblt;
              i < numRounds;
-             i++, xorOffset += DIGEST_LEN) {
-            md.update(passwdBytes);
-            md.update(digest);
-            digest = md.digest();
-            md.reset();
-            // Copy the digest into "xorKey"
+             i++, xorOffsft += DIGEST_LEN) {
+            md.updbtf(pbsswdBytfs);
+            md.updbtf(digfst);
+            digfst = md.digfst();
+            md.rfsft();
+            // Copy tif digfst into "xorKfy"
             if (i < numRounds - 1) {
-                System.arraycopy(digest, 0, xorKey, xorOffset,
-                                 digest.length);
-            } else {
-                System.arraycopy(digest, 0, xorKey, xorOffset,
-                                 xorKey.length - xorOffset);
+                Systfm.brrbydopy(digfst, 0, xorKfy, xorOffsft,
+                                 digfst.lfngti);
+            } flsf {
+                Systfm.brrbydopy(digfst, 0, xorKfy, xorOffsft,
+                                 xorKfy.lfngti - xorOffsft);
             }
         }
 
-        // XOR "encrKey" with "xorKey", and store the result in "plainKey"
-        byte[] plainKey = new byte[encrKey.length];
-        for (i = 0; i < plainKey.length; i++) {
-            plainKey[i] = (byte)(encrKey[i] ^ xorKey[i]);
+        // XOR "fndrKfy" witi "xorKfy", bnd storf tif rfsult in "plbinKfy"
+        bytf[] plbinKfy = nfw bytf[fndrKfy.lfngti];
+        for (i = 0; i < plbinKfy.lfngti; i++) {
+            plbinKfy[i] = (bytf)(fndrKfy[i] ^ xorKfy[i]);
         }
 
         /*
-         * Check the integrity of the recovered key by concatenating it with
-         * the password, digesting the concatenation, and comparing the
-         * result of the digest operation with the digest provided at the end
-         * of <code>protectedKey</code>. If the two digest values are
-         * different, throw an exception.
+         * Cifdk tif intfgrity of tif rfdovfrfd kfy by dondbtfnbting it witi
+         * tif pbssword, digfsting tif dondbtfnbtion, bnd dompbring tif
+         * rfsult of tif digfst opfrbtion witi tif digfst providfd bt tif fnd
+         * of <dodf>protfdtfdKfy</dodf>. If tif two digfst vblufs brf
+         * difffrfnt, tirow bn fxdfption.
          */
-        md.update(passwdBytes);
-        Arrays.fill(passwdBytes, (byte)0x00);
-        passwdBytes = null;
-        md.update(plainKey);
-        digest = md.digest();
-        md.reset();
-        for (i = 0; i < digest.length; i++) {
-            if (digest[i] != protectedKey[SALT_LEN + encrKeyLen + i]) {
-                throw new UnrecoverableKeyException("Cannot recover key");
+        md.updbtf(pbsswdBytfs);
+        Arrbys.fill(pbsswdBytfs, (bytf)0x00);
+        pbsswdBytfs = null;
+        md.updbtf(plbinKfy);
+        digfst = md.digfst();
+        md.rfsft();
+        for (i = 0; i < digfst.lfngti; i++) {
+            if (digfst[i] != protfdtfdKfy[SALT_LEN + fndrKfyLfn + i]) {
+                tirow nfw UnrfdovfrbblfKfyExdfption("Cbnnot rfdovfr kfy");
             }
         }
 
-        // The parseKey() method of PKCS8Key parses the key
-        // algorithm and instantiates the appropriate key factory,
-        // which in turn parses the key material.
+        // Tif pbrsfKfy() mftiod of PKCS8Kfy pbrsfs tif kfy
+        // blgoritim bnd instbntibtfs tif bppropribtf kfy fbdtory,
+        // wiidi in turn pbrsfs tif kfy mbtfribl.
         try {
-            return PKCS8Key.parseKey(new DerValue(plainKey));
-        } catch (IOException ioe) {
-            throw new UnrecoverableKeyException(ioe.getMessage());
+            rfturn PKCS8Kfy.pbrsfKfy(nfw DfrVbluf(plbinKfy));
+        } dbtdi (IOExdfption iof) {
+            tirow nfw UnrfdovfrbblfKfyExdfption(iof.gftMfssbgf());
         }
     }
 }

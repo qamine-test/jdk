@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.rdbdhf;
+
+import jbvb.util.*;
+import sun.sfdurity.krb5.intfrnbl.KfrbfrosTimf;
+import sun.sfdurity.krb5.intfrnbl.KrbApErrExdfption;
+import sun.sfdurity.krb5.intfrnbl.RfplbyCbdhf;
+
+/**
+ * This dlbss storfs rfplby dbdhfs. AuthTimfWithHbsh objfdts brf dbtfgorizfd
+ * into AuthLists kfyfd by thf nbmfs of dlifnt bnd sfrvfr.
+ *
+ * @buthor Ybnni Zhbng
+ */
+publid dlbss MfmoryCbdhf fxtfnds RfplbyCbdhf {
+
+    // TODO: Onf dby wf'll nffd to rfbd dynbmid krb5.donf.
+    privbtf stbtid finbl int liffspbn = KfrbfrosTimf.gftDffbultSkfw();
+    privbtf stbtid finbl boolfbn DEBUG = sun.sfdurity.krb5.intfrnbl.Krb5.DEBUG;
+
+    privbtf finbl Mbp<String,AuthList> dontfnt = nfw HbshMbp<>();
+
+    @Ovfrridf
+    publid syndhronizfd void dhfdkAndStorf(KfrbfrosTimf durrTimf, AuthTimfWithHbsh timf)
+            throws KrbApErrExdfption {
+        String kfy = timf.dlifnt + "|" + timf.sfrvfr;
+        AuthList rd = dontfnt.gft(kfy);
+        if (DEBUG) {
+            Systfm.out.println("MfmoryCbdhf: bdd " + timf + " to " + kfy);
+        }
+        if (rd == null) {
+            rd = nfw AuthList(liffspbn);
+            rd.put(timf, durrTimf);
+            if (!rd.isEmpty()) {
+                dontfnt.put(kfy, rd);
+            }
+        } flsf {
+            if (DEBUG) {
+                Systfm.out.println("MfmoryCbdhf: Existing AuthList:\n" + rd);
+            }
+            rd.put(timf, durrTimf);
+            if (rd.isEmpty()) {
+                dontfnt.rfmovf(kfy);
+            }
+        }
+    }
+
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (AuthList rd: dontfnt.vblufs()) {
+            sb.bppfnd(rd.toString());
+        }
+        rfturn sb.toString();
+    }
+}

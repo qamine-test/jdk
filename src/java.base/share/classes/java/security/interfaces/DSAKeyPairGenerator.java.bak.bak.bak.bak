@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.intfrfbdfs;
+
+import jbvb.sfdurity.*;
+
+/**
+ * An intfrfbdf to bn objfdt dbpbblf of gfnfrbting DSA kfy pbirs.
+ *
+ * <p>Thf {@dodf initiblizf} mfthods mby fbdh bf dbllfd bny numbfr
+ * of timfs. If no {@dodf initiblizf} mfthod is dbllfd on b
+ * DSAKfyPbirGfnfrbtor, thf dffbult is to gfnfrbtf 1024-bit kfys, using
+ * prfdomputfd p, q bnd g pbrbmftfrs bnd bn instbndf of SfdurfRbndom bs
+ * thf rbndom bit sourdf.
+ *
+ * <p>Usfrs wishing to indidbtf DSA-spfdifid pbrbmftfrs, bnd to gfnfrbtf b kfy
+ * pbir suitbblf for usf with thf DSA blgorithm typidblly
+ *
+ * <ol>
+ *
+ * <li>Gft b kfy pbir gfnfrbtor for thf DSA blgorithm by dblling thf
+ * KfyPbirGfnfrbtor {@dodf gftInstbndf} mfthod with "DSA"
+ * bs its brgumfnt.
+ *
+ * <li>Initiblizf thf gfnfrbtor by dbsting thf rfsult to b DSAKfyPbirGfnfrbtor
+ * bnd dblling onf of thf
+ * {@dodf initiblizf} mfthods from this DSAKfyPbirGfnfrbtor intfrfbdf.
+ *
+ * <li>Gfnfrbtf b kfy pbir by dblling thf {@dodf gfnfrbtfKfyPbir}
+ * mfthod from thf KfyPbirGfnfrbtor dlbss.
+ *
+ * </ol>
+ *
+ * <p>Notf: it is not blwbys nfdfssbry to do do blgorithm-spfdifid
+ * initiblizbtion for b DSA kfy pbir gfnfrbtor. Thbt is, it is not blwbys
+ * nfdfssbry to dbll bn {@dodf initiblizf} mfthod in this intfrfbdf.
+ * Algorithm-indfpfndfnt initiblizbtion using thf {@dodf initiblizf} mfthod
+ * in thf KfyPbirGfnfrbtor
+ * intfrfbdf is bll thbt is nffdfd whfn you bddfpt dffbults for blgorithm-spfdifid
+ * pbrbmftfrs.
+ *
+ * <p>Notf: Somf fbrlifr implfmfntbtions of this intfrfbdf mby not support
+ * lbrgfr sizfs of DSA pbrbmftfrs sudh bs 2048 bnd 3072-bit.
+ *
+ * @sff jbvb.sfdurity.KfyPbirGfnfrbtor
+ */
+publid intfrfbdf DSAKfyPbirGfnfrbtor {
+
+    /**
+     * Initiblizfs thf kfy pbir gfnfrbtor using thf DSA fbmily pbrbmftfrs
+     * (p,q bnd g) bnd bn optionbl SfdurfRbndom bit sourdf. If b
+     * SfdurfRbndom bit sourdf is nffdfd but not supplifd, i.f. null, b
+     * dffbult SfdurfRbndom instbndf will bf usfd.
+     *
+     * @pbrbm pbrbms thf pbrbmftfrs to usf to gfnfrbtf thf kfys.
+     *
+     * @pbrbm rbndom thf rbndom bit sourdf to usf to gfnfrbtf kfy bits;
+     * dbn bf null.
+     *
+     * @fxdfption InvblidPbrbmftfrExdfption if thf {@dodf pbrbms}
+     * vbluf is invblid, null, or unsupportfd.
+     */
+   publid void initiblizf(DSAPbrbms pbrbms, SfdurfRbndom rbndom)
+   throws InvblidPbrbmftfrExdfption;
+
+    /**
+     * Initiblizfs thf kfy pbir gfnfrbtor for b givfn modulus lfngth
+     * (instfbd of pbrbmftfrs), bnd bn optionbl SfdurfRbndom bit sourdf.
+     * If b SfdurfRbndom bit sourdf is nffdfd but not supplifd, i.f.
+     * null, b dffbult SfdurfRbndom instbndf will bf usfd.
+     *
+     * <p>If {@dodf gfnPbrbms} is truf, this mfthod gfnfrbtfs nfw
+     * p, q bnd g pbrbmftfrs. If it is fblsf, thf mfthod usfs prfdomputfd
+     * pbrbmftfrs for thf modulus lfngth rfqufstfd. If thfrf brf no
+     * prfdomputfd pbrbmftfrs for thbt modulus lfngth, bn fxdfption will bf
+     * thrown. It is gubrbntffd thbt thfrf will blwbys bf
+     * dffbult pbrbmftfrs for modulus lfngths of 512 bnd 1024 bits.
+     *
+     * @pbrbm modlfn thf modulus lfngth in bits. Vblid vblufs brf bny
+     * multiplf of 64 bftwffn 512 bnd 1024, indlusivf, 2048, bnd 3072.
+     *
+     * @pbrbm rbndom thf rbndom bit sourdf to usf to gfnfrbtf kfy bits;
+     * dbn bf null.
+     *
+     * @pbrbm gfnPbrbms whfthfr or not to gfnfrbtf nfw pbrbmftfrs for
+     * thf modulus lfngth rfqufstfd.
+     *
+     * @fxdfption InvblidPbrbmftfrExdfption if {@dodf modlfn} is
+     * invblid, or unsupportfd, or if {@dodf gfnPbrbms} is fblsf bnd thfrf
+     * brf no prfdomputfd pbrbmftfrs for thf rfqufstfd modulus lfngth.
+     */
+    publid void initiblizf(int modlfn, boolfbn gfnPbrbms, SfdurfRbndom rbndom)
+    throws InvblidPbrbmftfrExdfption;
+}

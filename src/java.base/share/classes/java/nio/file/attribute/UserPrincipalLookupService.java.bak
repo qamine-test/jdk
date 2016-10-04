@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file.attribute;
+pbdkbgf jbvb.nio.filf.bttributf;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * An object to lookup user and group principals by name. A {@link UserPrincipal}
- * represents an identity that may be used to determine access rights to objects
- * in a file system. A {@link GroupPrincipal} represents a <em>group identity</em>.
- * A {@code UserPrincipalLookupService} defines methods to lookup identities by
- * name or group name (which are typically user or account names). Whether names
- * and group names are case sensitive or not depends on the implementation.
- * The exact definition of a group is implementation specific but typically a
- * group represents an identity created for administrative purposes so as to
- * determine the access rights for the members of the group. In particular it is
- * implementation specific if the <em>namespace</em> for names and groups is the
- * same or is distinct. To ensure consistent and correct behavior across
- * platforms it is recommended that this API be used as if the namespaces are
- * distinct. In other words, the {@link #lookupPrincipalByName
- * lookupPrincipalByName} should be used to lookup users, and {@link
- * #lookupPrincipalByGroupName lookupPrincipalByGroupName} should be used to
+ * An objfdt to lookup usfr bnd group prindipbls by nbmf. A {@link UsfrPrindipbl}
+ * rfprfsfnts bn idfntity tibt mby bf usfd to dftfrminf bddfss rigits to objfdts
+ * in b filf systfm. A {@link GroupPrindipbl} rfprfsfnts b <fm>group idfntity</fm>.
+ * A {@dodf UsfrPrindipblLookupSfrvidf} dffinfs mftiods to lookup idfntitifs by
+ * nbmf or group nbmf (wiidi brf typidblly usfr or bddount nbmfs). Wiftifr nbmfs
+ * bnd group nbmfs brf dbsf sfnsitivf or not dfpfnds on tif implfmfntbtion.
+ * Tif fxbdt dffinition of b group is implfmfntbtion spfdifid but typidblly b
+ * group rfprfsfnts bn idfntity drfbtfd for bdministrbtivf purposfs so bs to
+ * dftfrminf tif bddfss rigits for tif mfmbfrs of tif group. In pbrtidulbr it is
+ * implfmfntbtion spfdifid if tif <fm>nbmfspbdf</fm> for nbmfs bnd groups is tif
+ * sbmf or is distindt. To fnsurf donsistfnt bnd dorrfdt bfibvior bdross
+ * plbtforms it is rfdommfndfd tibt tiis API bf usfd bs if tif nbmfspbdfs brf
+ * distindt. In otifr words, tif {@link #lookupPrindipblByNbmf
+ * lookupPrindipblByNbmf} siould bf usfd to lookup usfrs, bnd {@link
+ * #lookupPrindipblByGroupNbmf lookupPrindipblByGroupNbmf} siould bf usfd to
  * lookup groups.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @see java.nio.file.FileSystem#getUserPrincipalLookupService
+ * @sff jbvb.nio.filf.FilfSystfm#gftUsfrPrindipblLookupSfrvidf
  */
 
-public abstract class UserPrincipalLookupService {
+publid bbstrbdt dlbss UsfrPrindipblLookupSfrvidf {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      */
-    protected UserPrincipalLookupService() {
+    protfdtfd UsfrPrindipblLookupSfrvidf() {
     }
 
     /**
-     * Lookup a user principal by name.
+     * Lookup b usfr prindipbl by nbmf.
      *
-     * @param   name
-     *          the string representation of the user principal to lookup
+     * @pbrbm   nbmf
+     *          tif string rfprfsfntbtion of tif usfr prindipbl to lookup
      *
-     * @return  a user principal
+     * @rfturn  b usfr prindipbl
      *
-     * @throws  UserPrincipalNotFoundException
-     *          the principal does not exist
-     * @throws  IOException
-     *          if an I/O error occurs
-     * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, it checks {@link RuntimePermission}<tt>("lookupUserInformation")</tt>
+     * @tirows  UsfrPrindipblNotFoundExdfption
+     *          tif prindipbl dofs not fxist
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
+     * @tirows  SfdurityExdfption
+     *          In tif dbsf of tif dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, it difdks {@link RuntimfPfrmission}<tt>("lookupUsfrInformbtion")</tt>
      */
-    public abstract UserPrincipal lookupPrincipalByName(String name)
-        throws IOException;
+    publid bbstrbdt UsfrPrindipbl lookupPrindipblByNbmf(String nbmf)
+        tirows IOExdfption;
 
     /**
-     * Lookup a group principal by group name.
+     * Lookup b group prindipbl by group nbmf.
      *
-     * <p> Where an implementation does not support any notion of group then
-     * this method always throws {@link UserPrincipalNotFoundException}. Where
-     * the namespace for user accounts and groups is the same, then this method
-     * is identical to invoking {@link #lookupPrincipalByName
-     * lookupPrincipalByName}.
+     * <p> Wifrf bn implfmfntbtion dofs not support bny notion of group tifn
+     * tiis mftiod blwbys tirows {@link UsfrPrindipblNotFoundExdfption}. Wifrf
+     * tif nbmfspbdf for usfr bddounts bnd groups is tif sbmf, tifn tiis mftiod
+     * is idfntidbl to invoking {@link #lookupPrindipblByNbmf
+     * lookupPrindipblByNbmf}.
      *
-     * @param   group
-     *          the string representation of the group to lookup
+     * @pbrbm   group
+     *          tif string rfprfsfntbtion of tif group to lookup
      *
-     * @return  a group principal
+     * @rfturn  b group prindipbl
      *
-     * @throws  UserPrincipalNotFoundException
-     *          the principal does not exist or is not a group
-     * @throws  IOException
-     *          if an I/O error occurs
-     * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, it checks {@link RuntimePermission}<tt>("lookupUserInformation")</tt>
+     * @tirows  UsfrPrindipblNotFoundExdfption
+     *          tif prindipbl dofs not fxist or is not b group
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
+     * @tirows  SfdurityExdfption
+     *          In tif dbsf of tif dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, it difdks {@link RuntimfPfrmission}<tt>("lookupUsfrInformbtion")</tt>
      */
-    public abstract GroupPrincipal lookupPrincipalByGroupName(String group)
-        throws IOException;
+    publid bbstrbdt GroupPrindipbl lookupPrindipblByGroupNbmf(String group)
+        tirows IOExdfption;
 }

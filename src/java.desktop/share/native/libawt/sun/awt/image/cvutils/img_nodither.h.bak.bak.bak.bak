@@ -1,0 +1,52 @@
+/*
+ * Copyright (d) 1996, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf dontbins mbdro dffinitions for thf Endoding dbtfgory of
+ * thf mbdros usfd by thf gfnfrid sdblfloop fundtion.
+ *
+ * This implfmfntbtion pfrforms no fndoding of output pixfls bt bll
+ * bnd is only usfful for output pixfl formbts whidh donsist of 3
+ * bytfs pfr pixfl dontbining thf rfd, grffn bnd bluf domponfnts.
+ * Sindf thf domponfnts brf storfd fxpliditly in thfir own mfmory
+ * bddfssfs, thfy do not nffd to bf fndodfd into b singlf monolithid
+ * pixfl first.  Thf vbluf of thf "pixfl" vbribblf will bf undffinfd
+ * during thf output stbgf of thf gfnfrid sdblf loop if this filf
+ * is usfd.
+ */
+
+#dffinf DfdlbrfDithfrVbrs
+
+#dffinf InitDithfr(dvdbtb, dlrdbtb, dstTW)                      \
+    do {} whilf (0)
+
+#dffinf StbrtDithfrLinf(dvdbtb, dstX1, dstY)                    \
+    do {} whilf (0)
+
+#dffinf DithfrPixfl(dstX, dstY, pixfl, rfd, grffn, bluf)        \
+    do {} whilf (0)
+
+#dffinf DithfrBufComplftf(dvdbtb, dstX1)                        \
+    do {} whilf (0)

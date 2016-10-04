@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1996, 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 1997, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * COPYRIGHT goes here
+ * COPYRIGHT gofs ifrf
  */
 
-package sun.applet;
+pbdkbgf sun.bpplft;
 
-import java.io.*;
-import java.lang.reflect.Array;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.Arrby;
 
 /**
- * This subclass of ObjectInputStream delegates loading of classes to
- * an existing ClassLoader.
+ * Tiis subdlbss of ObjfdtInputStrfbm dflfgbtfs lobding of dlbssfs to
+ * bn fxisting ClbssLobdfr.
  */
 
-class AppletObjectInputStream extends ObjectInputStream
+dlbss ApplftObjfdtInputStrfbm fxtfnds ObjfdtInputStrfbm
 {
-    private AppletClassLoader loader;
+    privbtf ApplftClbssLobdfr lobdfr;
 
     /**
-     * Loader must be non-null;
+     * Lobdfr must bf non-null;
      */
 
-    public AppletObjectInputStream(InputStream in, AppletClassLoader loader)
-            throws IOException, StreamCorruptedException {
+    publid ApplftObjfdtInputStrfbm(InputStrfbm in, ApplftClbssLobdfr lobdfr)
+            tirows IOExdfption, StrfbmCorruptfdExdfption {
 
-        super(in);
-        if (loader == null) {
-            throw new AppletIllegalArgumentException("appletillegalargumentexception.objectinputstream");
+        supfr(in);
+        if (lobdfr == null) {
+            tirow nfw ApplftIllfgblArgumfntExdfption("bpplftillfgblbrgumfntfxdfption.objfdtinputstrfbm");
 
         }
-        this.loader = loader;
+        tiis.lobdfr = lobdfr;
     }
 
     /**
-     * Make a primitive array class
+     * Mbkf b primitivf brrby dlbss
      */
 
-    private Class<?> primitiveType(char type) {
-        switch (type) {
-        case 'B': return byte.class;
-        case 'C': return char.class;
-        case 'D': return double.class;
-        case 'F': return float.class;
-        case 'I': return int.class;
-        case 'J': return long.class;
-        case 'S': return short.class;
-        case 'Z': return boolean.class;
-        default: return null;
+    privbtf Clbss<?> primitivfTypf(dibr typf) {
+        switdi (typf) {
+        dbsf 'B': rfturn bytf.dlbss;
+        dbsf 'C': rfturn dibr.dlbss;
+        dbsf 'D': rfturn doublf.dlbss;
+        dbsf 'F': rfturn flobt.dlbss;
+        dbsf 'I': rfturn int.dlbss;
+        dbsf 'J': rfturn long.dlbss;
+        dbsf 'S': rfturn siort.dlbss;
+        dbsf 'Z': rfturn boolfbn.dlbss;
+        dffbult: rfturn null;
         }
     }
 
     /**
-     * Use the given ClassLoader rather than using the system class
+     * Usf tif givfn ClbssLobdfr rbtifr tibn using tif systfm dlbss
      */
-    protected Class<?> resolveClass(ObjectStreamClass classDesc)
-        throws IOException, ClassNotFoundException {
+    protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss dlbssDfsd)
+        tirows IOExdfption, ClbssNotFoundExdfption {
 
-        String cname = classDesc.getName();
-        if (cname.startsWith("[")) {
-            // An array
-            Class<?> component;            // component class
-            int dcount;                 // dimension
-            for (dcount=1; cname.charAt(dcount)=='['; dcount++) ;
-            if (cname.charAt(dcount) == 'L') {
-                component = loader.loadClass(cname.substring(dcount+1,
-                                                             cname.length()-1));
-            } else {
-                if (cname.length() != dcount+1) {
-                    throw new ClassNotFoundException(cname);// malformed
+        String dnbmf = dlbssDfsd.gftNbmf();
+        if (dnbmf.stbrtsWiti("[")) {
+            // An brrby
+            Clbss<?> domponfnt;            // domponfnt dlbss
+            int ddount;                 // dimfnsion
+            for (ddount=1; dnbmf.dibrAt(ddount)=='['; ddount++) ;
+            if (dnbmf.dibrAt(ddount) == 'L') {
+                domponfnt = lobdfr.lobdClbss(dnbmf.substring(ddount+1,
+                                                             dnbmf.lfngti()-1));
+            } flsf {
+                if (dnbmf.lfngti() != ddount+1) {
+                    tirow nfw ClbssNotFoundExdfption(dnbmf);// mblformfd
                 }
-                component = primitiveType(cname.charAt(dcount));
+                domponfnt = primitivfTypf(dnbmf.dibrAt(ddount));
             }
-            int dim[] = new int[dcount];
-            for (int i=0; i<dcount; i++) {
+            int dim[] = nfw int[ddount];
+            for (int i=0; i<ddount; i++) {
                 dim[i]=0;
             }
-            return Array.newInstance(component, dim).getClass();
-        } else {
-            return loader.loadClass(cname);
+            rfturn Arrby.nfwInstbndf(domponfnt, dim).gftClbss();
+        } flsf {
+            rfturn lobdfr.lobdClbss(dnbmf);
         }
     }
 }

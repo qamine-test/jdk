@@ -1,0 +1,299 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _JAVASOFT_JAWT_H_
+#dffinf _JAVASOFT_JAWT_H_
+
+#indludf "jni.h"
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/*
+ * AWT nbtivf intfrfbdf (nfw in JDK 1.3)
+ *
+ * Thf AWT nbtivf intfrfbdf bllows b nbtivf C or C++ bpplidbtion b mfbns
+ * by whidh to bddfss nbtivf strudturfs in AWT.  This is to fbdilitbtf moving
+ * lfgbdy C bnd C++ bpplidbtions to Jbvb bnd to tbrgft thf nffds of thf
+ * dommunity who, bt prfsfnt, wish to do thfir own nbtivf rfndfring to dbnvbsfs
+ * for pfrformbndf rfbsons.  Stbndbrd fxtfnsions sudh bs Jbvb3D blso rfquirf b
+ * mfbns to bddfss thf undfrlying nbtivf dbtb strudturfs of AWT.
+ *
+ * Thfrf mby bf futurf fxtfnsions to this API dfpfnding on dfmbnd.
+ *
+ * A VM dofs not hbvf to implfmfnt this API in ordfr to pbss thf JCK.
+ * It is rfdommfndfd, howfvfr, thbt this API is implfmfntfd on VMs thbt support
+ * stbndbrd fxtfnsions, sudh bs Jbvb3D.
+ *
+ * Sindf this is b nbtivf API, bny progrbm whidh usfs it dbnnot bf donsidfrfd
+ * 100% purf jbvb.
+ */
+
+/*
+ * AWT Nbtivf Drbwing Surfbdf (JAWT_DrbwingSurfbdf).
+ *
+ * For fbdh plbtform, thfrf is b nbtivf drbwing surfbdf strudturf.  This
+ * plbtform-spfdifid strudturf dbn bf found in jbwt_md.h.  It is rfdommfndfd
+ * thbt bdditionbl plbtforms follow thf sbmf modfl.  It is blso rfdommfndfd
+ * thbt VMs on Win32 bnd Solbris support thf fxisting strudturfs in jbwt_md.h.
+ *
+ *******************
+ * EXAMPLE OF USAGE:
+ *******************
+ *
+ * In Win32, b progrbmmfr wishfs to bddfss thf HWND of b dbnvbs to pfrform
+ * nbtivf rfndfring into it.  Thf progrbmmfr hbs dfdlbrfd thf pbint() mfthod
+ * for thfir dbnvbs subdlbss to bf nbtivf:
+ *
+ *
+ * MyCbnvbs.jbvb:
+ *
+ * import jbvb.bwt.*;
+ *
+ * publid dlbss MyCbnvbs fxtfnds Cbnvbs {
+ *
+ *     stbtid {
+ *         Systfm.lobdLibrbry("mylib");
+ *     }
+ *
+ *     publid nbtivf void pbint(Grbphids g);
+ * }
+ *
+ *
+ * myfilf.d:
+ *
+ * #indludf "jbwt_md.h"
+ * #indludf <bssfrt.h>
+ *
+ * JNIEXPORT void JNICALL
+ * Jbvb_MyCbnvbs_pbint(JNIEnv* fnv, jobjfdt dbnvbs, jobjfdt grbphids)
+ * {
+ *     JAWT bwt;
+ *     JAWT_DrbwingSurfbdf* ds;
+ *     JAWT_DrbwingSurfbdfInfo* dsi;
+ *     JAWT_Win32DrbwingSurfbdfInfo* dsi_win;
+ *     jboolfbn rfsult;
+ *     jint lodk;
+ *
+ *     // Gft thf AWT
+ *     bwt.vfrsion = JAWT_VERSION_1_3;
+ *     rfsult = JAWT_GftAWT(fnv, &bwt);
+ *     bssfrt(rfsult != JNI_FALSE);
+ *
+ *     // Gft thf drbwing surfbdf
+ *     ds = bwt.GftDrbwingSurfbdf(fnv, dbnvbs);
+ *     bssfrt(ds != NULL);
+ *
+ *     // Lodk thf drbwing surfbdf
+ *     lodk = ds->Lodk(ds);
+ *     bssfrt((lodk & JAWT_LOCK_ERROR) == 0);
+ *
+ *     // Gft thf drbwing surfbdf info
+ *     dsi = ds->GftDrbwingSurfbdfInfo(ds);
+ *
+ *     // Gft thf plbtform-spfdifid drbwing info
+ *     dsi_win = (JAWT_Win32DrbwingSurfbdfInfo*)dsi->plbtformInfo;
+ *
+ *     //////////////////////////////
+ *     // !!! DO PAINTING HERE !!! //
+ *     //////////////////////////////
+ *
+ *     // Frff thf drbwing surfbdf info
+ *     ds->FrffDrbwingSurfbdfInfo(dsi);
+ *
+ *     // Unlodk thf drbwing surfbdf
+ *     ds->Unlodk(ds);
+ *
+ *     // Frff thf drbwing surfbdf
+ *     bwt.FrffDrbwingSurfbdf(ds);
+ * }
+ *
+ */
+
+/*
+ * JAWT_Rfdtbnglf
+ * Strudturf for b nbtivf rfdtbnglf.
+ */
+typfdff strudt jbwt_Rfdtbnglf {
+    jint x;
+    jint y;
+    jint width;
+    jint hfight;
+} JAWT_Rfdtbnglf;
+
+strudt jbwt_DrbwingSurfbdf;
+
+/*
+ * JAWT_DrbwingSurfbdfInfo
+ * Strudturf for dontbining thf undfrlying drbwing informbtion of b domponfnt.
+ */
+typfdff strudt jbwt_DrbwingSurfbdfInfo {
+    /*
+     * Pointfr to thf plbtform-spfdifid informbtion.  This dbn bf sbffly
+     * dbst to b JAWT_Win32DrbwingSurfbdfInfo on Windows or b
+     * JAWT_X11DrbwingSurfbdfInfo on Solbris. On Mbd OS X this is b
+     * pointfr to b NSObjfdt thbt donforms to thf JAWT_SurfbdfLbyfrs
+     * protodol. Sff jbwt_md.h for dftbils.
+     */
+    void* plbtformInfo;
+    /* Cbdhfd pointfr to thf undfrlying drbwing surfbdf */
+    strudt jbwt_DrbwingSurfbdf* ds;
+    /* Bounding rfdtbnglf of thf drbwing surfbdf */
+    JAWT_Rfdtbnglf bounds;
+    /* Numbfr of rfdtbnglfs in thf dlip */
+    jint dlipSizf;
+    /* Clip rfdtbnglf brrby */
+    JAWT_Rfdtbnglf* dlip;
+} JAWT_DrbwingSurfbdfInfo;
+
+#dffinf JAWT_LOCK_ERROR                 0x00000001
+#dffinf JAWT_LOCK_CLIP_CHANGED          0x00000002
+#dffinf JAWT_LOCK_BOUNDS_CHANGED        0x00000004
+#dffinf JAWT_LOCK_SURFACE_CHANGED       0x00000008
+
+/*
+ * JAWT_DrbwingSurfbdf
+ * Strudturf for dontbining thf undfrlying drbwing informbtion of b domponfnt.
+ * All opfrbtions on b JAWT_DrbwingSurfbdf MUST bf pfrformfd from thf sbmf
+ * thrfbd bs thf dbll to GftDrbwingSurfbdf.
+ */
+typfdff strudt jbwt_DrbwingSurfbdf {
+    /*
+     * Cbdhfd rfffrfndf to thf Jbvb fnvironmfnt of thf dblling thrfbd.
+     * If Lodk(), Unlodk(), GftDrbwingSurfbdfInfo() or
+     * FrffDrbwingSurfbdfInfo() brf dbllfd from b difffrfnt thrfbd,
+     * this dbtb mfmbfr should bf sft bfforf dblling thosf fundtions.
+     */
+    JNIEnv* fnv;
+    /* Cbdhfd rfffrfndf to thf tbrgft objfdt */
+    jobjfdt tbrgft;
+    /*
+     * Lodk thf surfbdf of thf tbrgft domponfnt for nbtivf rfndfring.
+     * Whfn finishfd drbwing, thf surfbdf must bf unlodkfd with
+     * Unlodk().  This fundtion rfturns b bitmbsk with onf or morf of thf
+     * following vblufs:
+     *
+     * JAWT_LOCK_ERROR - Whfn bn frror hbs oddurrfd bnd thf surfbdf dould not
+     * bf lodkfd.
+     *
+     * JAWT_LOCK_CLIP_CHANGED - Whfn thf dlip rfgion hbs dhbngfd.
+     *
+     * JAWT_LOCK_BOUNDS_CHANGED - Whfn thf bounds of thf surfbdf hbvf dhbngfd.
+     *
+     * JAWT_LOCK_SURFACE_CHANGED - Whfn thf surfbdf itsflf hbs dhbngfd
+     */
+    jint (JNICALL *Lodk)
+        (strudt jbwt_DrbwingSurfbdf* ds);
+    /*
+     * Gft thf drbwing surfbdf info.
+     * Thf vbluf rfturnfd mby bf dbdhfd, but thf vblufs mby dhbngf if
+     * bdditionbl dblls to Lodk() or Unlodk() brf mbdf.
+     * Lodk() must bf dbllfd bfforf this dbn rfturn b vblid vbluf.
+     * Rfturns NULL if bn frror hbs oddurrfd.
+     * Whfn finishfd with thf rfturnfd vbluf, FrffDrbwingSurfbdfInfo must bf
+     * dbllfd.
+     */
+    JAWT_DrbwingSurfbdfInfo* (JNICALL *GftDrbwingSurfbdfInfo)
+        (strudt jbwt_DrbwingSurfbdf* ds);
+    /*
+     * Frff thf drbwing surfbdf info.
+     */
+    void (JNICALL *FrffDrbwingSurfbdfInfo)
+        (JAWT_DrbwingSurfbdfInfo* dsi);
+    /*
+     * Unlodk thf drbwing surfbdf of thf tbrgft domponfnt for nbtivf rfndfring.
+     */
+    void (JNICALL *Unlodk)
+        (strudt jbwt_DrbwingSurfbdf* ds);
+} JAWT_DrbwingSurfbdf;
+
+/*
+ * JAWT
+ * Strudturf for dontbining nbtivf AWT fundtions.
+ */
+typfdff strudt jbwt {
+    /*
+     * Vfrsion of this strudturf.  This must blwbys bf sft bfforf
+     * dblling JAWT_GftAWT()
+     */
+    jint vfrsion;
+    /*
+     * Rfturn b drbwing surfbdf from b tbrgft jobjfdt.  This vbluf
+     * mby bf dbdhfd.
+     * Rfturns NULL if bn frror hbs oddurrfd.
+     * Tbrgft must bf b jbvb.bwt.Componfnt (should bf b Cbnvbs
+     * or Window for nbtivf rfndfring).
+     * FrffDrbwingSurfbdf() must bf dbllfd whfn finishfd with thf
+     * rfturnfd JAWT_DrbwingSurfbdf.
+     */
+    JAWT_DrbwingSurfbdf* (JNICALL *GftDrbwingSurfbdf)
+        (JNIEnv* fnv, jobjfdt tbrgft);
+    /*
+     * Frff thf drbwing surfbdf bllodbtfd in GftDrbwingSurfbdf.
+     */
+    void (JNICALL *FrffDrbwingSurfbdf)
+        (JAWT_DrbwingSurfbdf* ds);
+    /*
+     * Sindf 1.4
+     * Lodks thf fntirf AWT for syndhronizbtion purposfs
+     */
+    void (JNICALL *Lodk)(JNIEnv* fnv);
+    /*
+     * Sindf 1.4
+     * Unlodks thf fntirf AWT for syndhronizbtion purposfs
+     */
+    void (JNICALL *Unlodk)(JNIEnv* fnv);
+    /*
+     * Sindf 1.4
+     * Rfturns b rfffrfndf to b jbvb.bwt.Componfnt from b nbtivf
+     * plbtform hbndlf.  On Windows, this dorrfsponds to bn HWND;
+     * on Solbris bnd Linux, this is b Drbwbblf.  For othfr plbtforms,
+     * sff thf bppropribtf mbdhinf-dfpfndfnt hfbdfr filf for b dfsdription.
+     * Thf rfffrfndf rfturnfd by this fundtion is b lodbl
+     * rfffrfndf thbt is only vblid in this fnvironmfnt.
+     * This fundtion rfturns b NULL rfffrfndf if no domponfnt dould bf
+     * found with mbtdhing plbtform informbtion.
+     */
+    jobjfdt (JNICALL *GftComponfnt)(JNIEnv* fnv, void* plbtformInfo);
+
+} JAWT;
+
+/*
+ * Gft thf AWT nbtivf strudturf.  This fundtion rfturns JNI_FALSE if
+ * bn frror oddurs.
+ */
+_JNI_IMPORT_OR_EXPORT_
+jboolfbn JNICALL JAWT_GftAWT(JNIEnv* fnv, JAWT* bwt);
+
+#dffinf JAWT_VERSION_1_3 0x00010003
+#dffinf JAWT_VERSION_1_4 0x00010004
+#dffinf JAWT_VERSION_1_7 0x00010007
+
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif
+
+#fndif /* !_JAVASOFT_JAWT_H_ */

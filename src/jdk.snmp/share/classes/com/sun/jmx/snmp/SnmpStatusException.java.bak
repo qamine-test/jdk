@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
 
 /**
- * Reports an error which occurred during a get/set operation on a mib node.
+ * Rfports bn frror wiidi oddurrfd during b gft/sft opfrbtion on b mib nodf.
  *
- * This exception includes a status error code as defined in the SNMP protocol.
+ * Tiis fxdfption indludfs b stbtus frror dodf bs dffinfd in tif SNMP protodol.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public class SnmpStatusException extends Exception implements SnmpDefinitions {
-    private static final long serialVersionUID = 5809485694133115675L;
+publid dlbss SnmpStbtusExdfption fxtfnds Exdfption implfmfnts SnmpDffinitions {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5809485694133115675L;
 
     /**
-     * Error code as defined in RFC 1448 for: <CODE>noSuchName</CODE>.
+     * Error dodf bs dffinfd in RFC 1448 for: <CODE>noSudiNbmf</CODE>.
      */
-    public static final int noSuchName         = 2 ;
+    publid stbtid finbl int noSudiNbmf         = 2 ;
 
     /**
-     * Error code as defined in RFC 1448 for: <CODE>badValue</CODE>.
+     * Error dodf bs dffinfd in RFC 1448 for: <CODE>bbdVbluf</CODE>.
      */
-    public static final int badValue           = 3 ;
+    publid stbtid finbl int bbdVbluf           = 3 ;
 
     /**
-     * Error code as defined in RFC 1448 for: <CODE>readOnly</CODE>.
+     * Error dodf bs dffinfd in RFC 1448 for: <CODE>rfbdOnly</CODE>.
      */
-    public static final int readOnly           = 4 ;
+    publid stbtid finbl int rfbdOnly           = 4 ;
 
 
     /**
-     * Error code as defined in RFC 1448 for: <CODE>noAccess</CODE>.
+     * Error dodf bs dffinfd in RFC 1448 for: <CODE>noAddfss</CODE>.
      */
-    public static final int noAccess           = 6 ;
+    publid stbtid finbl int noAddfss           = 6 ;
 
     /**
-     * Error code for reporting a no such instance error.
+     * Error dodf for rfporting b no sudi instbndf frror.
      */
-    public static final int noSuchInstance     = 0xE0;
+    publid stbtid finbl int noSudiInstbndf     = 0xE0;
 
     /**
-     * Error code for reporting a no such object error.
+     * Error dodf for rfporting b no sudi objfdt frror.
      */
-    public static final int noSuchObject     = 0xE1;
+    publid stbtid finbl int noSudiObjfdt     = 0xE1;
 
     /**
-     * Constructs a new <CODE>SnmpStatusException</CODE> with the specified status error.
-     * @param status The error status.
+     * Construdts b nfw <CODE>SnmpStbtusExdfption</CODE> witi tif spfdififd stbtus frror.
+     * @pbrbm stbtus Tif frror stbtus.
      */
-    public SnmpStatusException(int status) {
-        errorStatus = status ;
+    publid SnmpStbtusExdfption(int stbtus) {
+        frrorStbtus = stbtus ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpStatusException</CODE> with the specified status error and status index.
-     * @param status The error status.
-     * @param index The error index.
+     * Construdts b nfw <CODE>SnmpStbtusExdfption</CODE> witi tif spfdififd stbtus frror bnd stbtus indfx.
+     * @pbrbm stbtus Tif frror stbtus.
+     * @pbrbm indfx Tif frror indfx.
      */
-    public SnmpStatusException(int status, int index) {
-        errorStatus = status ;
-        errorIndex = index ;
+    publid SnmpStbtusExdfption(int stbtus, int indfx) {
+        frrorStbtus = stbtus ;
+        frrorIndfx = indfx ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpStatusException</CODE> with an error message.
-     * The error status is set to 0 (noError) and the index to -1.
-     * @param s The error message.
+     * Construdts b nfw <CODE>SnmpStbtusExdfption</CODE> witi bn frror mfssbgf.
+     * Tif frror stbtus is sft to 0 (noError) bnd tif indfx to -1.
+     * @pbrbm s Tif frror mfssbgf.
      */
-    public SnmpStatusException(String s) {
-        super(s);
+    publid SnmpStbtusExdfption(String s) {
+        supfr(s);
     }
 
     /**
-     * Constructs a new <CODE>SnmpStatusException</CODE> with an error index.
-     * @param x The original <CODE>SnmpStatusException</CODE>.
-     * @param index The error index.
+     * Construdts b nfw <CODE>SnmpStbtusExdfption</CODE> witi bn frror indfx.
+     * @pbrbm x Tif originbl <CODE>SnmpStbtusExdfption</CODE>.
+     * @pbrbm indfx Tif frror indfx.
      */
-    public SnmpStatusException(SnmpStatusException x, int index) {
-        super(x.getMessage());
-        errorStatus= x.errorStatus;
-        errorIndex= index;
+    publid SnmpStbtusExdfption(SnmpStbtusExdfption x, int indfx) {
+        supfr(x.gftMfssbgf());
+        frrorStbtus= x.frrorStbtus;
+        frrorIndfx= indfx;
     }
 
     /**
-     * Return the error status.
-     * @return The error status.
+     * Rfturn tif frror stbtus.
+     * @rfturn Tif frror stbtus.
      */
-    public int getStatus() {
-        return errorStatus ;
+    publid int gftStbtus() {
+        rfturn frrorStbtus ;
     }
 
     /**
-     * Returns the index of the error.
-     * A value of -1 means that the index is not known/applicable.
-     * @return The error index.
+     * Rfturns tif indfx of tif frror.
+     * A vbluf of -1 mfbns tibt tif indfx is not known/bpplidbblf.
+     * @rfturn Tif frror indfx.
      */
-    public int getErrorIndex() {
-        return errorIndex;
+    publid int gftErrorIndfx() {
+        rfturn frrorIndfx;
     }
 
 
@@ -131,16 +131,16 @@ public class SnmpStatusException extends Exception implements SnmpDefinitions {
     //--------------------
 
     /**
-     * Status of the error.
-     * @serial
+     * Stbtus of tif frror.
+     * @sfribl
      */
-    private int errorStatus = 0 ;
+    privbtf int frrorStbtus = 0 ;
 
     /**
-     * Index of the error.
-     * If different from -1, indicates the index where the error occurs.
-     * @serial
+     * Indfx of tif frror.
+     * If difffrfnt from -1, indidbtfs tif indfx wifrf tif frror oddurs.
+     * @sfribl
      */
-    private int errorIndex= -1;
+    privbtf int frrorIndfx= -1;
 
 }

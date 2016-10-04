@@ -1,517 +1,517 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import sun.misc.Unsafe;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import sun.invoke.util.VerifyAccess;
-import static java.lang.invoke.MethodHandleNatives.Constants.*;
-import static java.lang.invoke.LambdaForm.*;
-import static java.lang.invoke.LambdaForm.BasicType.*;
-import static java.lang.invoke.MethodTypeForm.*;
-import static java.lang.invoke.MethodHandleStatics.*;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
-import sun.invoke.util.ValueConversions;
-import sun.invoke.util.VerifyType;
-import sun.invoke.util.Wrapper;
+import sun.misd.Unsbff;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.util.Arrbys;
+import sun.invokf.util.VfrifyAddfss;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfNbtivfs.Constbnts.*;
+import stbtid jbvb.lbng.invokf.LbmbdbForm.*;
+import stbtid jbvb.lbng.invokf.LbmbdbForm.BbsidTypf.*;
+import stbtid jbvb.lbng.invokf.MftiodTypfForm.*;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfStbtids.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.Fifld;
+import sun.invokf.util.VblufConvfrsions;
+import sun.invokf.util.VfrifyTypf;
+import sun.invokf.util.Wrbppfr;
 
 /**
- * The flavor of method handle which implements a constant reference
- * to a class member.
- * @author jrose
+ * Tif flbvor of mftiod ibndlf wiidi implfmfnts b donstbnt rfffrfndf
+ * to b dlbss mfmbfr.
+ * @butior jrosf
  */
-class DirectMethodHandle extends MethodHandle {
-    final MemberName member;
+dlbss DirfdtMftiodHbndlf fxtfnds MftiodHbndlf {
+    finbl MfmbfrNbmf mfmbfr;
 
-    // Constructors and factory methods in this class *must* be package scoped or private.
-    private DirectMethodHandle(MethodType mtype, LambdaForm form, MemberName member) {
-        super(mtype, form);
-        if (!member.isResolved())  throw new InternalError();
+    // Construdtors bnd fbdtory mftiods in tiis dlbss *must* bf pbdkbgf sdopfd or privbtf.
+    privbtf DirfdtMftiodHbndlf(MftiodTypf mtypf, LbmbdbForm form, MfmbfrNbmf mfmbfr) {
+        supfr(mtypf, form);
+        if (!mfmbfr.isRfsolvfd())  tirow nfw IntfrnblError();
 
-        if (member.getDeclaringClass().isInterface() &&
-                member.isMethod() && !member.isAbstract()) {
-            // Check for corner case: invokeinterface of Object method
-            MemberName m = new MemberName(Object.class, member.getName(), member.getMethodType(), member.getReferenceKind());
-            m = MemberName.getFactory().resolveOrNull(m.getReferenceKind(), m, null);
-            if (m != null && m.isPublic()) {
-                member = m;
+        if (mfmbfr.gftDfdlbringClbss().isIntfrfbdf() &&
+                mfmbfr.isMftiod() && !mfmbfr.isAbstrbdt()) {
+            // Cifdk for dornfr dbsf: invokfintfrfbdf of Objfdt mftiod
+            MfmbfrNbmf m = nfw MfmbfrNbmf(Objfdt.dlbss, mfmbfr.gftNbmf(), mfmbfr.gftMftiodTypf(), mfmbfr.gftRfffrfndfKind());
+            m = MfmbfrNbmf.gftFbdtory().rfsolvfOrNull(m.gftRfffrfndfKind(), m, null);
+            if (m != null && m.isPublid()) {
+                mfmbfr = m;
             }
         }
 
-        this.member = member;
+        tiis.mfmbfr = mfmbfr;
     }
 
-    // Factory methods:
-    static DirectMethodHandle make(byte refKind, Class<?> receiver, MemberName member) {
-        MethodType mtype = member.getMethodOrFieldType();
-        if (!member.isStatic()) {
-            if (!member.getDeclaringClass().isAssignableFrom(receiver) || member.isConstructor())
-                throw new InternalError(member.toString());
-            mtype = mtype.insertParameterTypes(0, receiver);
+    // Fbdtory mftiods:
+    stbtid DirfdtMftiodHbndlf mbkf(bytf rffKind, Clbss<?> rfdfivfr, MfmbfrNbmf mfmbfr) {
+        MftiodTypf mtypf = mfmbfr.gftMftiodOrFifldTypf();
+        if (!mfmbfr.isStbtid()) {
+            if (!mfmbfr.gftDfdlbringClbss().isAssignbblfFrom(rfdfivfr) || mfmbfr.isConstrudtor())
+                tirow nfw IntfrnblError(mfmbfr.toString());
+            mtypf = mtypf.insfrtPbrbmftfrTypfs(0, rfdfivfr);
         }
-        if (!member.isField()) {
-            if (refKind == REF_invokeSpecial) {
-                member = member.asSpecial();
-                LambdaForm lform = preparedLambdaForm(member);
-                return new Special(mtype, lform, member);
-            } else {
-                LambdaForm lform = preparedLambdaForm(member);
-                return new DirectMethodHandle(mtype, lform, member);
+        if (!mfmbfr.isFifld()) {
+            if (rffKind == REF_invokfSpfdibl) {
+                mfmbfr = mfmbfr.bsSpfdibl();
+                LbmbdbForm lform = prfpbrfdLbmbdbForm(mfmbfr);
+                rfturn nfw Spfdibl(mtypf, lform, mfmbfr);
+            } flsf {
+                LbmbdbForm lform = prfpbrfdLbmbdbForm(mfmbfr);
+                rfturn nfw DirfdtMftiodHbndlf(mtypf, lform, mfmbfr);
             }
-        } else {
-            LambdaForm lform = preparedFieldLambdaForm(member);
-            if (member.isStatic()) {
-                long offset = MethodHandleNatives.staticFieldOffset(member);
-                Object base = MethodHandleNatives.staticFieldBase(member);
-                return new StaticAccessor(mtype, lform, member, base, offset);
-            } else {
-                long offset = MethodHandleNatives.objectFieldOffset(member);
-                assert(offset == (int)offset);
-                return new Accessor(mtype, lform, member, (int)offset);
-            }
-        }
-    }
-    static DirectMethodHandle make(Class<?> receiver, MemberName member) {
-        byte refKind = member.getReferenceKind();
-        if (refKind == REF_invokeSpecial)
-            refKind =  REF_invokeVirtual;
-        return make(refKind, receiver, member);
-    }
-    static DirectMethodHandle make(MemberName member) {
-        if (member.isConstructor())
-            return makeAllocator(member);
-        return make(member.getDeclaringClass(), member);
-    }
-    static DirectMethodHandle make(Method method) {
-        return make(method.getDeclaringClass(), new MemberName(method));
-    }
-    static DirectMethodHandle make(Field field) {
-        return make(field.getDeclaringClass(), new MemberName(field));
-    }
-    private static DirectMethodHandle makeAllocator(MemberName ctor) {
-        assert(ctor.isConstructor() && ctor.getName().equals("<init>"));
-        Class<?> instanceClass = ctor.getDeclaringClass();
-        ctor = ctor.asConstructor();
-        assert(ctor.isConstructor() && ctor.getReferenceKind() == REF_newInvokeSpecial) : ctor;
-        MethodType mtype = ctor.getMethodType().changeReturnType(instanceClass);
-        LambdaForm lform = preparedLambdaForm(ctor);
-        MemberName init = ctor.asSpecial();
-        assert(init.getMethodType().returnType() == void.class);
-        return new Constructor(mtype, lform, ctor, init, instanceClass);
-    }
-
-    @Override
-    String internalProperties() {
-        return "/DMH="+member.toString();
-    }
-
-    //// Implementation methods.
-    @Override
-    MethodHandle viewAsType(MethodType newType) {
-        return new DirectMethodHandle(newType, form, member);
-    }
-    @Override
-    @ForceInline
-    MemberName internalMemberName() {
-        return member;
-    }
-
-    @Override
-    MethodHandle bindArgument(int pos, BasicType basicType, Object value) {
-        // If the member needs dispatching, do so.
-        if (pos == 0 && basicType == L_TYPE) {
-            DirectMethodHandle concrete = maybeRebind(value);
-            if (concrete != null)
-                return concrete.bindReceiver(value);
-        }
-        return super.bindArgument(pos, basicType, value);
-    }
-
-    @Override
-    MethodHandle bindReceiver(Object receiver) {
-        // If the member needs dispatching, do so.
-        DirectMethodHandle concrete = maybeRebind(receiver);
-        if (concrete != null)
-            return concrete.bindReceiver(receiver);
-        return super.bindReceiver(receiver);
-    }
-
-    private static final MemberName.Factory IMPL_NAMES = MemberName.getFactory();
-
-    private DirectMethodHandle maybeRebind(Object receiver) {
-        if (receiver != null) {
-            switch (member.getReferenceKind()) {
-            case REF_invokeInterface:
-            case REF_invokeVirtual:
-                // Pre-dispatch the member.
-                Class<?> concreteClass = receiver.getClass();
-                MemberName concrete = new MemberName(concreteClass, member.getName(), member.getMethodType(), REF_invokeSpecial);
-                concrete = IMPL_NAMES.resolveOrNull(REF_invokeSpecial, concrete, concreteClass);
-                if (concrete != null)
-                    return new DirectMethodHandle(type(), preparedLambdaForm(concrete), concrete);
-                break;
+        } flsf {
+            LbmbdbForm lform = prfpbrfdFifldLbmbdbForm(mfmbfr);
+            if (mfmbfr.isStbtid()) {
+                long offsft = MftiodHbndlfNbtivfs.stbtidFifldOffsft(mfmbfr);
+                Objfdt bbsf = MftiodHbndlfNbtivfs.stbtidFifldBbsf(mfmbfr);
+                rfturn nfw StbtidAddfssor(mtypf, lform, mfmbfr, bbsf, offsft);
+            } flsf {
+                long offsft = MftiodHbndlfNbtivfs.objfdtFifldOffsft(mfmbfr);
+                bssfrt(offsft == (int)offsft);
+                rfturn nfw Addfssor(mtypf, lform, mfmbfr, (int)offsft);
             }
         }
-        return null;
+    }
+    stbtid DirfdtMftiodHbndlf mbkf(Clbss<?> rfdfivfr, MfmbfrNbmf mfmbfr) {
+        bytf rffKind = mfmbfr.gftRfffrfndfKind();
+        if (rffKind == REF_invokfSpfdibl)
+            rffKind =  REF_invokfVirtubl;
+        rfturn mbkf(rffKind, rfdfivfr, mfmbfr);
+    }
+    stbtid DirfdtMftiodHbndlf mbkf(MfmbfrNbmf mfmbfr) {
+        if (mfmbfr.isConstrudtor())
+            rfturn mbkfAllodbtor(mfmbfr);
+        rfturn mbkf(mfmbfr.gftDfdlbringClbss(), mfmbfr);
+    }
+    stbtid DirfdtMftiodHbndlf mbkf(Mftiod mftiod) {
+        rfturn mbkf(mftiod.gftDfdlbringClbss(), nfw MfmbfrNbmf(mftiod));
+    }
+    stbtid DirfdtMftiodHbndlf mbkf(Fifld fifld) {
+        rfturn mbkf(fifld.gftDfdlbringClbss(), nfw MfmbfrNbmf(fifld));
+    }
+    privbtf stbtid DirfdtMftiodHbndlf mbkfAllodbtor(MfmbfrNbmf dtor) {
+        bssfrt(dtor.isConstrudtor() && dtor.gftNbmf().fqubls("<init>"));
+        Clbss<?> instbndfClbss = dtor.gftDfdlbringClbss();
+        dtor = dtor.bsConstrudtor();
+        bssfrt(dtor.isConstrudtor() && dtor.gftRfffrfndfKind() == REF_nfwInvokfSpfdibl) : dtor;
+        MftiodTypf mtypf = dtor.gftMftiodTypf().dibngfRfturnTypf(instbndfClbss);
+        LbmbdbForm lform = prfpbrfdLbmbdbForm(dtor);
+        MfmbfrNbmf init = dtor.bsSpfdibl();
+        bssfrt(init.gftMftiodTypf().rfturnTypf() == void.dlbss);
+        rfturn nfw Construdtor(mtypf, lform, dtor, init, instbndfClbss);
+    }
+
+    @Ovfrridf
+    String intfrnblPropfrtifs() {
+        rfturn "/DMH="+mfmbfr.toString();
+    }
+
+    //// Implfmfntbtion mftiods.
+    @Ovfrridf
+    MftiodHbndlf vifwAsTypf(MftiodTypf nfwTypf) {
+        rfturn nfw DirfdtMftiodHbndlf(nfwTypf, form, mfmbfr);
+    }
+    @Ovfrridf
+    @FordfInlinf
+    MfmbfrNbmf intfrnblMfmbfrNbmf() {
+        rfturn mfmbfr;
+    }
+
+    @Ovfrridf
+    MftiodHbndlf bindArgumfnt(int pos, BbsidTypf bbsidTypf, Objfdt vbluf) {
+        // If tif mfmbfr nffds dispbtdiing, do so.
+        if (pos == 0 && bbsidTypf == L_TYPE) {
+            DirfdtMftiodHbndlf dondrftf = mbybfRfbind(vbluf);
+            if (dondrftf != null)
+                rfturn dondrftf.bindRfdfivfr(vbluf);
+        }
+        rfturn supfr.bindArgumfnt(pos, bbsidTypf, vbluf);
+    }
+
+    @Ovfrridf
+    MftiodHbndlf bindRfdfivfr(Objfdt rfdfivfr) {
+        // If tif mfmbfr nffds dispbtdiing, do so.
+        DirfdtMftiodHbndlf dondrftf = mbybfRfbind(rfdfivfr);
+        if (dondrftf != null)
+            rfturn dondrftf.bindRfdfivfr(rfdfivfr);
+        rfturn supfr.bindRfdfivfr(rfdfivfr);
+    }
+
+    privbtf stbtid finbl MfmbfrNbmf.Fbdtory IMPL_NAMES = MfmbfrNbmf.gftFbdtory();
+
+    privbtf DirfdtMftiodHbndlf mbybfRfbind(Objfdt rfdfivfr) {
+        if (rfdfivfr != null) {
+            switdi (mfmbfr.gftRfffrfndfKind()) {
+            dbsf REF_invokfIntfrfbdf:
+            dbsf REF_invokfVirtubl:
+                // Prf-dispbtdi tif mfmbfr.
+                Clbss<?> dondrftfClbss = rfdfivfr.gftClbss();
+                MfmbfrNbmf dondrftf = nfw MfmbfrNbmf(dondrftfClbss, mfmbfr.gftNbmf(), mfmbfr.gftMftiodTypf(), REF_invokfSpfdibl);
+                dondrftf = IMPL_NAMES.rfsolvfOrNull(REF_invokfSpfdibl, dondrftf, dondrftfClbss);
+                if (dondrftf != null)
+                    rfturn nfw DirfdtMftiodHbndlf(typf(), prfpbrfdLbmbdbForm(dondrftf), dondrftf);
+                brfbk;
+            }
+        }
+        rfturn null;
     }
 
     /**
-     * Create a LF which can invoke the given method.
-     * Cache and share this structure among all methods with
-     * the same basicType and refKind.
+     * Crfbtf b LF wiidi dbn invokf tif givfn mftiod.
+     * Cbdif bnd sibrf tiis strudturf bmong bll mftiods witi
+     * tif sbmf bbsidTypf bnd rffKind.
      */
-    private static LambdaForm preparedLambdaForm(MemberName m) {
-        assert(m.isInvocable()) : m;  // call preparedFieldLambdaForm instead
-        MethodType mtype = m.getInvocationType().basicType();
-        assert(!m.isMethodHandleInvoke() || "invokeBasic".equals(m.getName())) : m;
-        int which;
-        switch (m.getReferenceKind()) {
-        case REF_invokeVirtual:    which = LF_INVVIRTUAL;    break;
-        case REF_invokeStatic:     which = LF_INVSTATIC;     break;
-        case REF_invokeSpecial:    which = LF_INVSPECIAL;    break;
-        case REF_invokeInterface:  which = LF_INVINTERFACE;  break;
-        case REF_newInvokeSpecial: which = LF_NEWINVSPECIAL; break;
-        default:  throw new InternalError(m.toString());
+    privbtf stbtid LbmbdbForm prfpbrfdLbmbdbForm(MfmbfrNbmf m) {
+        bssfrt(m.isInvodbblf()) : m;  // dbll prfpbrfdFifldLbmbdbForm instfbd
+        MftiodTypf mtypf = m.gftInvodbtionTypf().bbsidTypf();
+        bssfrt(!m.isMftiodHbndlfInvokf() || "invokfBbsid".fqubls(m.gftNbmf())) : m;
+        int wiidi;
+        switdi (m.gftRfffrfndfKind()) {
+        dbsf REF_invokfVirtubl:    wiidi = LF_INVVIRTUAL;    brfbk;
+        dbsf REF_invokfStbtid:     wiidi = LF_INVSTATIC;     brfbk;
+        dbsf REF_invokfSpfdibl:    wiidi = LF_INVSPECIAL;    brfbk;
+        dbsf REF_invokfIntfrfbdf:  wiidi = LF_INVINTERFACE;  brfbk;
+        dbsf REF_nfwInvokfSpfdibl: wiidi = LF_NEWINVSPECIAL; brfbk;
+        dffbult:  tirow nfw IntfrnblError(m.toString());
         }
-        if (which == LF_INVSTATIC && shouldBeInitialized(m)) {
-            // precompute the barrier-free version:
-            preparedLambdaForm(mtype, which);
-            which = LF_INVSTATIC_INIT;
+        if (wiidi == LF_INVSTATIC && siouldBfInitiblizfd(m)) {
+            // prfdomputf tif bbrrifr-frff vfrsion:
+            prfpbrfdLbmbdbForm(mtypf, wiidi);
+            wiidi = LF_INVSTATIC_INIT;
         }
-        LambdaForm lform = preparedLambdaForm(mtype, which);
-        maybeCompile(lform, m);
-        assert(lform.methodType().dropParameterTypes(0, 1)
-                .equals(m.getInvocationType().basicType()))
-                : Arrays.asList(m, m.getInvocationType().basicType(), lform, lform.methodType());
-        return lform;
+        LbmbdbForm lform = prfpbrfdLbmbdbForm(mtypf, wiidi);
+        mbybfCompilf(lform, m);
+        bssfrt(lform.mftiodTypf().dropPbrbmftfrTypfs(0, 1)
+                .fqubls(m.gftInvodbtionTypf().bbsidTypf()))
+                : Arrbys.bsList(m, m.gftInvodbtionTypf().bbsidTypf(), lform, lform.mftiodTypf());
+        rfturn lform;
     }
 
-    private static LambdaForm preparedLambdaForm(MethodType mtype, int which) {
-        LambdaForm lform = mtype.form().cachedLambdaForm(which);
-        if (lform != null)  return lform;
-        lform = makePreparedLambdaForm(mtype, which);
-        return mtype.form().setCachedLambdaForm(which, lform);
+    privbtf stbtid LbmbdbForm prfpbrfdLbmbdbForm(MftiodTypf mtypf, int wiidi) {
+        LbmbdbForm lform = mtypf.form().dbdifdLbmbdbForm(wiidi);
+        if (lform != null)  rfturn lform;
+        lform = mbkfPrfpbrfdLbmbdbForm(mtypf, wiidi);
+        rfturn mtypf.form().sftCbdifdLbmbdbForm(wiidi, lform);
     }
 
-    private static LambdaForm makePreparedLambdaForm(MethodType mtype, int which) {
-        boolean needsInit = (which == LF_INVSTATIC_INIT);
-        boolean doesAlloc = (which == LF_NEWINVSPECIAL);
-        String linkerName, lambdaName;
-        switch (which) {
-        case LF_INVVIRTUAL:    linkerName = "linkToVirtual";    lambdaName = "DMH.invokeVirtual";    break;
-        case LF_INVSTATIC:     linkerName = "linkToStatic";     lambdaName = "DMH.invokeStatic";     break;
-        case LF_INVSTATIC_INIT:linkerName = "linkToStatic";     lambdaName = "DMH.invokeStaticInit"; break;
-        case LF_INVSPECIAL:    linkerName = "linkToSpecial";    lambdaName = "DMH.invokeSpecial";    break;
-        case LF_INVINTERFACE:  linkerName = "linkToInterface";  lambdaName = "DMH.invokeInterface";  break;
-        case LF_NEWINVSPECIAL: linkerName = "linkToSpecial";    lambdaName = "DMH.newInvokeSpecial"; break;
-        default:  throw new InternalError("which="+which);
+    privbtf stbtid LbmbdbForm mbkfPrfpbrfdLbmbdbForm(MftiodTypf mtypf, int wiidi) {
+        boolfbn nffdsInit = (wiidi == LF_INVSTATIC_INIT);
+        boolfbn dofsAllod = (wiidi == LF_NEWINVSPECIAL);
+        String linkfrNbmf, lbmbdbNbmf;
+        switdi (wiidi) {
+        dbsf LF_INVVIRTUAL:    linkfrNbmf = "linkToVirtubl";    lbmbdbNbmf = "DMH.invokfVirtubl";    brfbk;
+        dbsf LF_INVSTATIC:     linkfrNbmf = "linkToStbtid";     lbmbdbNbmf = "DMH.invokfStbtid";     brfbk;
+        dbsf LF_INVSTATIC_INIT:linkfrNbmf = "linkToStbtid";     lbmbdbNbmf = "DMH.invokfStbtidInit"; brfbk;
+        dbsf LF_INVSPECIAL:    linkfrNbmf = "linkToSpfdibl";    lbmbdbNbmf = "DMH.invokfSpfdibl";    brfbk;
+        dbsf LF_INVINTERFACE:  linkfrNbmf = "linkToIntfrfbdf";  lbmbdbNbmf = "DMH.invokfIntfrfbdf";  brfbk;
+        dbsf LF_NEWINVSPECIAL: linkfrNbmf = "linkToSpfdibl";    lbmbdbNbmf = "DMH.nfwInvokfSpfdibl"; brfbk;
+        dffbult:  tirow nfw IntfrnblError("wiidi="+wiidi);
         }
-        MethodType mtypeWithArg = mtype.appendParameterTypes(MemberName.class);
-        if (doesAlloc)
-            mtypeWithArg = mtypeWithArg
-                    .insertParameterTypes(0, Object.class)  // insert newly allocated obj
-                    .changeReturnType(void.class);          // <init> returns void
-        MemberName linker = new MemberName(MethodHandle.class, linkerName, mtypeWithArg, REF_invokeStatic);
+        MftiodTypf mtypfWitiArg = mtypf.bppfndPbrbmftfrTypfs(MfmbfrNbmf.dlbss);
+        if (dofsAllod)
+            mtypfWitiArg = mtypfWitiArg
+                    .insfrtPbrbmftfrTypfs(0, Objfdt.dlbss)  // insfrt nfwly bllodbtfd obj
+                    .dibngfRfturnTypf(void.dlbss);          // <init> rfturns void
+        MfmbfrNbmf linkfr = nfw MfmbfrNbmf(MftiodHbndlf.dlbss, linkfrNbmf, mtypfWitiArg, REF_invokfStbtid);
         try {
-            linker = IMPL_NAMES.resolveOrFail(REF_invokeStatic, linker, null, NoSuchMethodException.class);
-        } catch (ReflectiveOperationException ex) {
-            throw newInternalError(ex);
+            linkfr = IMPL_NAMES.rfsolvfOrFbil(REF_invokfStbtid, linkfr, null, NoSudiMftiodExdfption.dlbss);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+            tirow nfwIntfrnblError(fx);
         }
-        final int DMH_THIS    = 0;
-        final int ARG_BASE    = 1;
-        final int ARG_LIMIT   = ARG_BASE + mtype.parameterCount();
-        int nameCursor = ARG_LIMIT;
-        final int NEW_OBJ     = (doesAlloc ? nameCursor++ : -1);
-        final int GET_MEMBER  = nameCursor++;
-        final int LINKER_CALL = nameCursor++;
-        Name[] names = arguments(nameCursor - ARG_LIMIT, mtype.invokerType());
-        assert(names.length == nameCursor);
-        if (doesAlloc) {
-            // names = { argx,y,z,... new C, init method }
-            names[NEW_OBJ] = new Name(Lazy.NF_allocateInstance, names[DMH_THIS]);
-            names[GET_MEMBER] = new Name(Lazy.NF_constructorMethod, names[DMH_THIS]);
-        } else if (needsInit) {
-            names[GET_MEMBER] = new Name(Lazy.NF_internalMemberNameEnsureInit, names[DMH_THIS]);
-        } else {
-            names[GET_MEMBER] = new Name(Lazy.NF_internalMemberName, names[DMH_THIS]);
+        finbl int DMH_THIS    = 0;
+        finbl int ARG_BASE    = 1;
+        finbl int ARG_LIMIT   = ARG_BASE + mtypf.pbrbmftfrCount();
+        int nbmfCursor = ARG_LIMIT;
+        finbl int NEW_OBJ     = (dofsAllod ? nbmfCursor++ : -1);
+        finbl int GET_MEMBER  = nbmfCursor++;
+        finbl int LINKER_CALL = nbmfCursor++;
+        Nbmf[] nbmfs = brgumfnts(nbmfCursor - ARG_LIMIT, mtypf.invokfrTypf());
+        bssfrt(nbmfs.lfngti == nbmfCursor);
+        if (dofsAllod) {
+            // nbmfs = { brgx,y,z,... nfw C, init mftiod }
+            nbmfs[NEW_OBJ] = nfw Nbmf(Lbzy.NF_bllodbtfInstbndf, nbmfs[DMH_THIS]);
+            nbmfs[GET_MEMBER] = nfw Nbmf(Lbzy.NF_donstrudtorMftiod, nbmfs[DMH_THIS]);
+        } flsf if (nffdsInit) {
+            nbmfs[GET_MEMBER] = nfw Nbmf(Lbzy.NF_intfrnblMfmbfrNbmfEnsurfInit, nbmfs[DMH_THIS]);
+        } flsf {
+            nbmfs[GET_MEMBER] = nfw Nbmf(Lbzy.NF_intfrnblMfmbfrNbmf, nbmfs[DMH_THIS]);
         }
-        Object[] outArgs = Arrays.copyOfRange(names, ARG_BASE, GET_MEMBER+1, Object[].class);
-        assert(outArgs[outArgs.length-1] == names[GET_MEMBER]);  // look, shifted args!
-        int result = LambdaForm.LAST_RESULT;
-        if (doesAlloc) {
-            assert(outArgs[outArgs.length-2] == names[NEW_OBJ]);  // got to move this one
-            System.arraycopy(outArgs, 0, outArgs, 1, outArgs.length-2);
-            outArgs[0] = names[NEW_OBJ];
-            result = NEW_OBJ;
+        Objfdt[] outArgs = Arrbys.dopyOfRbngf(nbmfs, ARG_BASE, GET_MEMBER+1, Objfdt[].dlbss);
+        bssfrt(outArgs[outArgs.lfngti-1] == nbmfs[GET_MEMBER]);  // look, siiftfd brgs!
+        int rfsult = LbmbdbForm.LAST_RESULT;
+        if (dofsAllod) {
+            bssfrt(outArgs[outArgs.lfngti-2] == nbmfs[NEW_OBJ]);  // got to movf tiis onf
+            Systfm.brrbydopy(outArgs, 0, outArgs, 1, outArgs.lfngti-2);
+            outArgs[0] = nbmfs[NEW_OBJ];
+            rfsult = NEW_OBJ;
         }
-        names[LINKER_CALL] = new Name(linker, outArgs);
-        lambdaName += "_" + shortenSignature(basicTypeSignature(mtype));
-        LambdaForm lform = new LambdaForm(lambdaName, ARG_LIMIT, names, result);
-        // This is a tricky bit of code.  Don't send it through the LF interpreter.
-        lform.compileToBytecode();
-        return lform;
+        nbmfs[LINKER_CALL] = nfw Nbmf(linkfr, outArgs);
+        lbmbdbNbmf += "_" + siortfnSignbturf(bbsidTypfSignbturf(mtypf));
+        LbmbdbForm lform = nfw LbmbdbForm(lbmbdbNbmf, ARG_LIMIT, nbmfs, rfsult);
+        // Tiis is b tridky bit of dodf.  Don't sfnd it tirougi tif LF intfrprftfr.
+        lform.dompilfToBytfdodf();
+        rfturn lform;
     }
 
-    private static void maybeCompile(LambdaForm lform, MemberName m) {
-        if (VerifyAccess.isSamePackage(m.getDeclaringClass(), MethodHandle.class))
-            // Help along bootstrapping...
-            lform.compileToBytecode();
+    privbtf stbtid void mbybfCompilf(LbmbdbForm lform, MfmbfrNbmf m) {
+        if (VfrifyAddfss.isSbmfPbdkbgf(m.gftDfdlbringClbss(), MftiodHbndlf.dlbss))
+            // Hflp blong bootstrbpping...
+            lform.dompilfToBytfdodf();
     }
 
-    /** Static wrapper for DirectMethodHandle.internalMemberName. */
-    @ForceInline
-    /*non-public*/ static Object internalMemberName(Object mh) {
-        return ((DirectMethodHandle)mh).member;
+    /** Stbtid wrbppfr for DirfdtMftiodHbndlf.intfrnblMfmbfrNbmf. */
+    @FordfInlinf
+    /*non-publid*/ stbtid Objfdt intfrnblMfmbfrNbmf(Objfdt mi) {
+        rfturn ((DirfdtMftiodHbndlf)mi).mfmbfr;
     }
 
-    /** Static wrapper for DirectMethodHandle.internalMemberName.
-     * This one also forces initialization.
+    /** Stbtid wrbppfr for DirfdtMftiodHbndlf.intfrnblMfmbfrNbmf.
+     * Tiis onf blso fordfs initiblizbtion.
      */
-    /*non-public*/ static Object internalMemberNameEnsureInit(Object mh) {
-        DirectMethodHandle dmh = (DirectMethodHandle)mh;
-        dmh.ensureInitialized();
-        return dmh.member;
+    /*non-publid*/ stbtid Objfdt intfrnblMfmbfrNbmfEnsurfInit(Objfdt mi) {
+        DirfdtMftiodHbndlf dmi = (DirfdtMftiodHbndlf)mi;
+        dmi.fnsurfInitiblizfd();
+        rfturn dmi.mfmbfr;
     }
 
-    /*non-public*/ static
-    boolean shouldBeInitialized(MemberName member) {
-        switch (member.getReferenceKind()) {
-        case REF_invokeStatic:
-        case REF_getStatic:
-        case REF_putStatic:
-        case REF_newInvokeSpecial:
-            break;
-        default:
-            // No need to initialize the class on this kind of member.
-            return false;
+    /*non-publid*/ stbtid
+    boolfbn siouldBfInitiblizfd(MfmbfrNbmf mfmbfr) {
+        switdi (mfmbfr.gftRfffrfndfKind()) {
+        dbsf REF_invokfStbtid:
+        dbsf REF_gftStbtid:
+        dbsf REF_putStbtid:
+        dbsf REF_nfwInvokfSpfdibl:
+            brfbk;
+        dffbult:
+            // No nffd to initiblizf tif dlbss on tiis kind of mfmbfr.
+            rfturn fblsf;
         }
-        Class<?> cls = member.getDeclaringClass();
-        if (cls == ValueConversions.class ||
-            cls == MethodHandleImpl.class ||
-            cls == Invokers.class) {
-            // These guys have lots of <clinit> DMH creation but we know
-            // the MHs will not be used until the system is booted.
-            return false;
+        Clbss<?> dls = mfmbfr.gftDfdlbringClbss();
+        if (dls == VblufConvfrsions.dlbss ||
+            dls == MftiodHbndlfImpl.dlbss ||
+            dls == Invokfrs.dlbss) {
+            // Tifsf guys ibvf lots of <dlinit> DMH drfbtion but wf know
+            // tif MHs will not bf usfd until tif systfm is bootfd.
+            rfturn fblsf;
         }
-        if (VerifyAccess.isSamePackage(MethodHandle.class, cls) ||
-            VerifyAccess.isSamePackage(ValueConversions.class, cls)) {
-            // It is a system class.  It is probably in the process of
-            // being initialized, but we will help it along just to be safe.
-            if (UNSAFE.shouldBeInitialized(cls)) {
-                UNSAFE.ensureClassInitialized(cls);
+        if (VfrifyAddfss.isSbmfPbdkbgf(MftiodHbndlf.dlbss, dls) ||
+            VfrifyAddfss.isSbmfPbdkbgf(VblufConvfrsions.dlbss, dls)) {
+            // It is b systfm dlbss.  It is probbbly in tif prodfss of
+            // bfing initiblizfd, but wf will iflp it blong just to bf sbff.
+            if (UNSAFE.siouldBfInitiblizfd(dls)) {
+                UNSAFE.fnsurfClbssInitiblizfd(dls);
             }
-            return false;
+            rfturn fblsf;
         }
-        return UNSAFE.shouldBeInitialized(cls);
+        rfturn UNSAFE.siouldBfInitiblizfd(dls);
     }
 
-    private static class EnsureInitialized extends ClassValue<WeakReference<Thread>> {
-        @Override
-        protected WeakReference<Thread> computeValue(Class<?> type) {
-            UNSAFE.ensureClassInitialized(type);
-            if (UNSAFE.shouldBeInitialized(type))
-                // If the previous call didn't block, this can happen.
-                // We are executing inside <clinit>.
-                return new WeakReference<>(Thread.currentThread());
-            return null;
+    privbtf stbtid dlbss EnsurfInitiblizfd fxtfnds ClbssVbluf<WfbkRfffrfndf<Tirfbd>> {
+        @Ovfrridf
+        protfdtfd WfbkRfffrfndf<Tirfbd> domputfVbluf(Clbss<?> typf) {
+            UNSAFE.fnsurfClbssInitiblizfd(typf);
+            if (UNSAFE.siouldBfInitiblizfd(typf))
+                // If tif prfvious dbll didn't blodk, tiis dbn ibppfn.
+                // Wf brf fxfduting insidf <dlinit>.
+                rfturn nfw WfbkRfffrfndf<>(Tirfbd.durrfntTirfbd());
+            rfturn null;
         }
-        static final EnsureInitialized INSTANCE = new EnsureInitialized();
+        stbtid finbl EnsurfInitiblizfd INSTANCE = nfw EnsurfInitiblizfd();
     }
 
-    private void ensureInitialized() {
-        if (checkInitialized(member)) {
-            // The coast is clear.  Delete the <clinit> barrier.
-            if (member.isField())
-                updateForm(preparedFieldLambdaForm(member));
-            else
-                updateForm(preparedLambdaForm(member));
+    privbtf void fnsurfInitiblizfd() {
+        if (difdkInitiblizfd(mfmbfr)) {
+            // Tif dobst is dlfbr.  Dflftf tif <dlinit> bbrrifr.
+            if (mfmbfr.isFifld())
+                updbtfForm(prfpbrfdFifldLbmbdbForm(mfmbfr));
+            flsf
+                updbtfForm(prfpbrfdLbmbdbForm(mfmbfr));
         }
     }
-    private static boolean checkInitialized(MemberName member) {
-        Class<?> defc = member.getDeclaringClass();
-        WeakReference<Thread> ref = EnsureInitialized.INSTANCE.get(defc);
-        if (ref == null) {
-            return true;  // the final state
+    privbtf stbtid boolfbn difdkInitiblizfd(MfmbfrNbmf mfmbfr) {
+        Clbss<?> dffd = mfmbfr.gftDfdlbringClbss();
+        WfbkRfffrfndf<Tirfbd> rff = EnsurfInitiblizfd.INSTANCE.gft(dffd);
+        if (rff == null) {
+            rfturn truf;  // tif finbl stbtf
         }
-        Thread clinitThread = ref.get();
-        // Somebody may still be running defc.<clinit>.
-        if (clinitThread == Thread.currentThread()) {
-            // If anybody is running defc.<clinit>, it is this thread.
-            if (UNSAFE.shouldBeInitialized(defc))
-                // Yes, we are running it; keep the barrier for now.
-                return false;
-        } else {
-            // We are in a random thread.  Block.
-            UNSAFE.ensureClassInitialized(defc);
+        Tirfbd dlinitTirfbd = rff.gft();
+        // Somfbody mby still bf running dffd.<dlinit>.
+        if (dlinitTirfbd == Tirfbd.durrfntTirfbd()) {
+            // If bnybody is running dffd.<dlinit>, it is tiis tirfbd.
+            if (UNSAFE.siouldBfInitiblizfd(dffd))
+                // Yfs, wf brf running it; kffp tif bbrrifr for now.
+                rfturn fblsf;
+        } flsf {
+            // Wf brf in b rbndom tirfbd.  Blodk.
+            UNSAFE.fnsurfClbssInitiblizfd(dffd);
         }
-        assert(!UNSAFE.shouldBeInitialized(defc));
-        // put it into the final state
-        EnsureInitialized.INSTANCE.remove(defc);
-        return true;
+        bssfrt(!UNSAFE.siouldBfInitiblizfd(dffd));
+        // put it into tif finbl stbtf
+        EnsurfInitiblizfd.INSTANCE.rfmovf(dffd);
+        rfturn truf;
     }
 
-    /*non-public*/ static void ensureInitialized(Object mh) {
-        ((DirectMethodHandle)mh).ensureInitialized();
+    /*non-publid*/ stbtid void fnsurfInitiblizfd(Objfdt mi) {
+        ((DirfdtMftiodHbndlf)mi).fnsurfInitiblizfd();
     }
 
-    /** This subclass represents invokespecial instructions. */
-    static class Special extends DirectMethodHandle {
-        private Special(MethodType mtype, LambdaForm form, MemberName member) {
-            super(mtype, form, member);
+    /** Tiis subdlbss rfprfsfnts invokfspfdibl instrudtions. */
+    stbtid dlbss Spfdibl fxtfnds DirfdtMftiodHbndlf {
+        privbtf Spfdibl(MftiodTypf mtypf, LbmbdbForm form, MfmbfrNbmf mfmbfr) {
+            supfr(mtypf, form, mfmbfr);
         }
-        @Override
-        boolean isInvokeSpecial() {
-            return true;
+        @Ovfrridf
+        boolfbn isInvokfSpfdibl() {
+            rfturn truf;
         }
-        @Override
-        MethodHandle viewAsType(MethodType newType) {
-            return new Special(newType, form, member);
-        }
-    }
-
-    /** This subclass handles constructor references. */
-    static class Constructor extends DirectMethodHandle {
-        final MemberName initMethod;
-        final Class<?>   instanceClass;
-
-        private Constructor(MethodType mtype, LambdaForm form, MemberName constructor,
-                            MemberName initMethod, Class<?> instanceClass) {
-            super(mtype, form, constructor);
-            this.initMethod = initMethod;
-            this.instanceClass = instanceClass;
-            assert(initMethod.isResolved());
-        }
-        @Override
-        MethodHandle viewAsType(MethodType newType) {
-            return new Constructor(newType, form, member, initMethod, instanceClass);
+        @Ovfrridf
+        MftiodHbndlf vifwAsTypf(MftiodTypf nfwTypf) {
+            rfturn nfw Spfdibl(nfwTypf, form, mfmbfr);
         }
     }
 
-    /*non-public*/ static Object constructorMethod(Object mh) {
-        Constructor dmh = (Constructor)mh;
-        return dmh.initMethod;
-    }
+    /** Tiis subdlbss ibndlfs donstrudtor rfffrfndfs. */
+    stbtid dlbss Construdtor fxtfnds DirfdtMftiodHbndlf {
+        finbl MfmbfrNbmf initMftiod;
+        finbl Clbss<?>   instbndfClbss;
 
-    /*non-public*/ static Object allocateInstance(Object mh) throws InstantiationException {
-        Constructor dmh = (Constructor)mh;
-        return UNSAFE.allocateInstance(dmh.instanceClass);
-    }
-
-    /** This subclass handles non-static field references. */
-    static class Accessor extends DirectMethodHandle {
-        final Class<?> fieldType;
-        final int      fieldOffset;
-        private Accessor(MethodType mtype, LambdaForm form, MemberName member,
-                         int fieldOffset) {
-            super(mtype, form, member);
-            this.fieldType   = member.getFieldType();
-            this.fieldOffset = fieldOffset;
+        privbtf Construdtor(MftiodTypf mtypf, LbmbdbForm form, MfmbfrNbmf donstrudtor,
+                            MfmbfrNbmf initMftiod, Clbss<?> instbndfClbss) {
+            supfr(mtypf, form, donstrudtor);
+            tiis.initMftiod = initMftiod;
+            tiis.instbndfClbss = instbndfClbss;
+            bssfrt(initMftiod.isRfsolvfd());
         }
-
-        @Override Object checkCast(Object obj) {
-            return fieldType.cast(obj);
-        }
-        @Override
-        MethodHandle viewAsType(MethodType newType) {
-            return new Accessor(newType, form, member, fieldOffset);
+        @Ovfrridf
+        MftiodHbndlf vifwAsTypf(MftiodTypf nfwTypf) {
+            rfturn nfw Construdtor(nfwTypf, form, mfmbfr, initMftiod, instbndfClbss);
         }
     }
 
-    @ForceInline
-    /*non-public*/ static long fieldOffset(Object accessorObj) {
-        // Note: We return a long because that is what Unsafe.getObject likes.
-        // We store a plain int because it is more compact.
-        return ((Accessor)accessorObj).fieldOffset;
+    /*non-publid*/ stbtid Objfdt donstrudtorMftiod(Objfdt mi) {
+        Construdtor dmi = (Construdtor)mi;
+        rfturn dmi.initMftiod;
     }
 
-    @ForceInline
-    /*non-public*/ static Object checkBase(Object obj) {
-        // Note that the object's class has already been verified,
-        // since the parameter type of the Accessor method handle
-        // is either member.getDeclaringClass or a subclass.
-        // This was verified in DirectMethodHandle.make.
-        // Therefore, the only remaining check is for null.
-        // Since this check is *not* guaranteed by Unsafe.getInt
-        // and its siblings, we need to make an explicit one here.
-        obj.getClass();  // maybe throw NPE
-        return obj;
+    /*non-publid*/ stbtid Objfdt bllodbtfInstbndf(Objfdt mi) tirows InstbntibtionExdfption {
+        Construdtor dmi = (Construdtor)mi;
+        rfturn UNSAFE.bllodbtfInstbndf(dmi.instbndfClbss);
     }
 
-    /** This subclass handles static field references. */
-    static class StaticAccessor extends DirectMethodHandle {
-        final private Class<?> fieldType;
-        final private Object   staticBase;
-        final private long     staticOffset;
-
-        private StaticAccessor(MethodType mtype, LambdaForm form, MemberName member,
-                               Object staticBase, long staticOffset) {
-            super(mtype, form, member);
-            this.fieldType    = member.getFieldType();
-            this.staticBase   = staticBase;
-            this.staticOffset = staticOffset;
+    /** Tiis subdlbss ibndlfs non-stbtid fifld rfffrfndfs. */
+    stbtid dlbss Addfssor fxtfnds DirfdtMftiodHbndlf {
+        finbl Clbss<?> fifldTypf;
+        finbl int      fifldOffsft;
+        privbtf Addfssor(MftiodTypf mtypf, LbmbdbForm form, MfmbfrNbmf mfmbfr,
+                         int fifldOffsft) {
+            supfr(mtypf, form, mfmbfr);
+            tiis.fifldTypf   = mfmbfr.gftFifldTypf();
+            tiis.fifldOffsft = fifldOffsft;
         }
 
-        @Override Object checkCast(Object obj) {
-            return fieldType.cast(obj);
+        @Ovfrridf Objfdt difdkCbst(Objfdt obj) {
+            rfturn fifldTypf.dbst(obj);
         }
-        @Override
-        MethodHandle viewAsType(MethodType newType) {
-            return new StaticAccessor(newType, form, member, staticBase, staticOffset);
+        @Ovfrridf
+        MftiodHbndlf vifwAsTypf(MftiodTypf nfwTypf) {
+            rfturn nfw Addfssor(nfwTypf, form, mfmbfr, fifldOffsft);
         }
     }
 
-    @ForceInline
-    /*non-public*/ static Object nullCheck(Object obj) {
-        obj.getClass();
-        return obj;
+    @FordfInlinf
+    /*non-publid*/ stbtid long fifldOffsft(Objfdt bddfssorObj) {
+        // Notf: Wf rfturn b long bfdbusf tibt is wibt Unsbff.gftObjfdt likfs.
+        // Wf storf b plbin int bfdbusf it is morf dompbdt.
+        rfturn ((Addfssor)bddfssorObj).fifldOffsft;
     }
 
-    @ForceInline
-    /*non-public*/ static Object staticBase(Object accessorObj) {
-        return ((StaticAccessor)accessorObj).staticBase;
+    @FordfInlinf
+    /*non-publid*/ stbtid Objfdt difdkBbsf(Objfdt obj) {
+        // Notf tibt tif objfdt's dlbss ibs blrfbdy bffn vfrififd,
+        // sindf tif pbrbmftfr typf of tif Addfssor mftiod ibndlf
+        // is fitifr mfmbfr.gftDfdlbringClbss or b subdlbss.
+        // Tiis wbs vfrififd in DirfdtMftiodHbndlf.mbkf.
+        // Tifrfforf, tif only rfmbining difdk is for null.
+        // Sindf tiis difdk is *not* gubrbntffd by Unsbff.gftInt
+        // bnd its siblings, wf nffd to mbkf bn fxplidit onf ifrf.
+        obj.gftClbss();  // mbybf tirow NPE
+        rfturn obj;
     }
 
-    @ForceInline
-    /*non-public*/ static long staticOffset(Object accessorObj) {
-        return ((StaticAccessor)accessorObj).staticOffset;
+    /** Tiis subdlbss ibndlfs stbtid fifld rfffrfndfs. */
+    stbtid dlbss StbtidAddfssor fxtfnds DirfdtMftiodHbndlf {
+        finbl privbtf Clbss<?> fifldTypf;
+        finbl privbtf Objfdt   stbtidBbsf;
+        finbl privbtf long     stbtidOffsft;
+
+        privbtf StbtidAddfssor(MftiodTypf mtypf, LbmbdbForm form, MfmbfrNbmf mfmbfr,
+                               Objfdt stbtidBbsf, long stbtidOffsft) {
+            supfr(mtypf, form, mfmbfr);
+            tiis.fifldTypf    = mfmbfr.gftFifldTypf();
+            tiis.stbtidBbsf   = stbtidBbsf;
+            tiis.stbtidOffsft = stbtidOffsft;
+        }
+
+        @Ovfrridf Objfdt difdkCbst(Objfdt obj) {
+            rfturn fifldTypf.dbst(obj);
+        }
+        @Ovfrridf
+        MftiodHbndlf vifwAsTypf(MftiodTypf nfwTypf) {
+            rfturn nfw StbtidAddfssor(nfwTypf, form, mfmbfr, stbtidBbsf, stbtidOffsft);
+        }
     }
 
-    @ForceInline
-    /*non-public*/ static Object checkCast(Object mh, Object obj) {
-        return ((DirectMethodHandle) mh).checkCast(obj);
+    @FordfInlinf
+    /*non-publid*/ stbtid Objfdt nullCifdk(Objfdt obj) {
+        obj.gftClbss();
+        rfturn obj;
     }
 
-    Object checkCast(Object obj) {
-        return member.getReturnType().cast(obj);
+    @FordfInlinf
+    /*non-publid*/ stbtid Objfdt stbtidBbsf(Objfdt bddfssorObj) {
+        rfturn ((StbtidAddfssor)bddfssorObj).stbtidBbsf;
     }
 
-    // Caching machinery for field accessors:
-    private static byte
+    @FordfInlinf
+    /*non-publid*/ stbtid long stbtidOffsft(Objfdt bddfssorObj) {
+        rfturn ((StbtidAddfssor)bddfssorObj).stbtidOffsft;
+    }
+
+    @FordfInlinf
+    /*non-publid*/ stbtid Objfdt difdkCbst(Objfdt mi, Objfdt obj) {
+        rfturn ((DirfdtMftiodHbndlf) mi).difdkCbst(obj);
+    }
+
+    Objfdt difdkCbst(Objfdt obj) {
+        rfturn mfmbfr.gftRfturnTypf().dbst(obj);
+    }
+
+    // Cbdiing mbdiinfry for fifld bddfssors:
+    privbtf stbtid bytf
             AF_GETFIELD        = 0,
             AF_PUTFIELD        = 1,
             AF_GETSTATIC       = 2,
@@ -519,195 +519,195 @@ class DirectMethodHandle extends MethodHandle {
             AF_GETSTATIC_INIT  = 4,
             AF_PUTSTATIC_INIT  = 5,
             AF_LIMIT           = 6;
-    // Enumerate the different field kinds using Wrapper,
-    // with an extra case added for checked references.
-    private static int
-            FT_LAST_WRAPPER    = Wrapper.values().length-1,
-            FT_UNCHECKED_REF   = Wrapper.OBJECT.ordinal(),
+    // Enumfrbtf tif difffrfnt fifld kinds using Wrbppfr,
+    // witi bn fxtrb dbsf bddfd for difdkfd rfffrfndfs.
+    privbtf stbtid int
+            FT_LAST_WRAPPER    = Wrbppfr.vblufs().lfngti-1,
+            FT_UNCHECKED_REF   = Wrbppfr.OBJECT.ordinbl(),
             FT_CHECKED_REF     = FT_LAST_WRAPPER+1,
             FT_LIMIT           = FT_LAST_WRAPPER+2;
-    private static int afIndex(byte formOp, boolean isVolatile, int ftypeKind) {
-        return ((formOp * FT_LIMIT * 2)
-                + (isVolatile ? FT_LIMIT : 0)
-                + ftypeKind);
+    privbtf stbtid int bfIndfx(bytf formOp, boolfbn isVolbtilf, int ftypfKind) {
+        rfturn ((formOp * FT_LIMIT * 2)
+                + (isVolbtilf ? FT_LIMIT : 0)
+                + ftypfKind);
     }
-    private static final LambdaForm[] ACCESSOR_FORMS
-            = new LambdaForm[afIndex(AF_LIMIT, false, 0)];
-    private static int ftypeKind(Class<?> ftype) {
-        if (ftype.isPrimitive())
-            return Wrapper.forPrimitiveType(ftype).ordinal();
-        else if (VerifyType.isNullReferenceConversion(Object.class, ftype))
-            return FT_UNCHECKED_REF;
-        else
-            return FT_CHECKED_REF;
+    privbtf stbtid finbl LbmbdbForm[] ACCESSOR_FORMS
+            = nfw LbmbdbForm[bfIndfx(AF_LIMIT, fblsf, 0)];
+    privbtf stbtid int ftypfKind(Clbss<?> ftypf) {
+        if (ftypf.isPrimitivf())
+            rfturn Wrbppfr.forPrimitivfTypf(ftypf).ordinbl();
+        flsf if (VfrifyTypf.isNullRfffrfndfConvfrsion(Objfdt.dlbss, ftypf))
+            rfturn FT_UNCHECKED_REF;
+        flsf
+            rfturn FT_CHECKED_REF;
     }
 
     /**
-     * Create a LF which can access the given field.
-     * Cache and share this structure among all fields with
-     * the same basicType and refKind.
+     * Crfbtf b LF wiidi dbn bddfss tif givfn fifld.
+     * Cbdif bnd sibrf tiis strudturf bmong bll fiflds witi
+     * tif sbmf bbsidTypf bnd rffKind.
      */
-    private static LambdaForm preparedFieldLambdaForm(MemberName m) {
-        Class<?> ftype = m.getFieldType();
-        boolean isVolatile = m.isVolatile();
-        byte formOp;
-        switch (m.getReferenceKind()) {
-        case REF_getField:      formOp = AF_GETFIELD;    break;
-        case REF_putField:      formOp = AF_PUTFIELD;    break;
-        case REF_getStatic:     formOp = AF_GETSTATIC;   break;
-        case REF_putStatic:     formOp = AF_PUTSTATIC;   break;
-        default:  throw new InternalError(m.toString());
+    privbtf stbtid LbmbdbForm prfpbrfdFifldLbmbdbForm(MfmbfrNbmf m) {
+        Clbss<?> ftypf = m.gftFifldTypf();
+        boolfbn isVolbtilf = m.isVolbtilf();
+        bytf formOp;
+        switdi (m.gftRfffrfndfKind()) {
+        dbsf REF_gftFifld:      formOp = AF_GETFIELD;    brfbk;
+        dbsf REF_putFifld:      formOp = AF_PUTFIELD;    brfbk;
+        dbsf REF_gftStbtid:     formOp = AF_GETSTATIC;   brfbk;
+        dbsf REF_putStbtid:     formOp = AF_PUTSTATIC;   brfbk;
+        dffbult:  tirow nfw IntfrnblError(m.toString());
         }
-        if (shouldBeInitialized(m)) {
-            // precompute the barrier-free version:
-            preparedFieldLambdaForm(formOp, isVolatile, ftype);
-            assert((AF_GETSTATIC_INIT - AF_GETSTATIC) ==
+        if (siouldBfInitiblizfd(m)) {
+            // prfdomputf tif bbrrifr-frff vfrsion:
+            prfpbrfdFifldLbmbdbForm(formOp, isVolbtilf, ftypf);
+            bssfrt((AF_GETSTATIC_INIT - AF_GETSTATIC) ==
                    (AF_PUTSTATIC_INIT - AF_PUTSTATIC));
             formOp += (AF_GETSTATIC_INIT - AF_GETSTATIC);
         }
-        LambdaForm lform = preparedFieldLambdaForm(formOp, isVolatile, ftype);
-        maybeCompile(lform, m);
-        assert(lform.methodType().dropParameterTypes(0, 1)
-                .equals(m.getInvocationType().basicType()))
-                : Arrays.asList(m, m.getInvocationType().basicType(), lform, lform.methodType());
-        return lform;
+        LbmbdbForm lform = prfpbrfdFifldLbmbdbForm(formOp, isVolbtilf, ftypf);
+        mbybfCompilf(lform, m);
+        bssfrt(lform.mftiodTypf().dropPbrbmftfrTypfs(0, 1)
+                .fqubls(m.gftInvodbtionTypf().bbsidTypf()))
+                : Arrbys.bsList(m, m.gftInvodbtionTypf().bbsidTypf(), lform, lform.mftiodTypf());
+        rfturn lform;
     }
-    private static LambdaForm preparedFieldLambdaForm(byte formOp, boolean isVolatile, Class<?> ftype) {
-        int afIndex = afIndex(formOp, isVolatile, ftypeKind(ftype));
-        LambdaForm lform = ACCESSOR_FORMS[afIndex];
-        if (lform != null)  return lform;
-        lform = makePreparedFieldLambdaForm(formOp, isVolatile, ftypeKind(ftype));
-        ACCESSOR_FORMS[afIndex] = lform;  // don't bother with a CAS
-        return lform;
+    privbtf stbtid LbmbdbForm prfpbrfdFifldLbmbdbForm(bytf formOp, boolfbn isVolbtilf, Clbss<?> ftypf) {
+        int bfIndfx = bfIndfx(formOp, isVolbtilf, ftypfKind(ftypf));
+        LbmbdbForm lform = ACCESSOR_FORMS[bfIndfx];
+        if (lform != null)  rfturn lform;
+        lform = mbkfPrfpbrfdFifldLbmbdbForm(formOp, isVolbtilf, ftypfKind(ftypf));
+        ACCESSOR_FORMS[bfIndfx] = lform;  // don't botifr witi b CAS
+        rfturn lform;
     }
 
-    private static LambdaForm makePreparedFieldLambdaForm(byte formOp, boolean isVolatile, int ftypeKind) {
-        boolean isGetter  = (formOp & 1) == (AF_GETFIELD & 1);
-        boolean isStatic  = (formOp >= AF_GETSTATIC);
-        boolean needsInit = (formOp >= AF_GETSTATIC_INIT);
-        boolean needsCast = (ftypeKind == FT_CHECKED_REF);
-        Wrapper fw = (needsCast ? Wrapper.OBJECT : Wrapper.values()[ftypeKind]);
-        Class<?> ft = fw.primitiveType();
-        assert(ftypeKind(needsCast ? String.class : ft) == ftypeKind);
-        String tname  = fw.primitiveSimpleName();
-        String ctname = Character.toUpperCase(tname.charAt(0)) + tname.substring(1);
-        if (isVolatile)  ctname += "Volatile";
-        String getOrPut = (isGetter ? "get" : "put");
-        String linkerName = (getOrPut + ctname);  // getObject, putIntVolatile, etc.
-        MethodType linkerType;
-        if (isGetter)
-            linkerType = MethodType.methodType(ft, Object.class, long.class);
-        else
-            linkerType = MethodType.methodType(void.class, Object.class, long.class, ft);
-        MemberName linker = new MemberName(Unsafe.class, linkerName, linkerType, REF_invokeVirtual);
+    privbtf stbtid LbmbdbForm mbkfPrfpbrfdFifldLbmbdbForm(bytf formOp, boolfbn isVolbtilf, int ftypfKind) {
+        boolfbn isGfttfr  = (formOp & 1) == (AF_GETFIELD & 1);
+        boolfbn isStbtid  = (formOp >= AF_GETSTATIC);
+        boolfbn nffdsInit = (formOp >= AF_GETSTATIC_INIT);
+        boolfbn nffdsCbst = (ftypfKind == FT_CHECKED_REF);
+        Wrbppfr fw = (nffdsCbst ? Wrbppfr.OBJECT : Wrbppfr.vblufs()[ftypfKind]);
+        Clbss<?> ft = fw.primitivfTypf();
+        bssfrt(ftypfKind(nffdsCbst ? String.dlbss : ft) == ftypfKind);
+        String tnbmf  = fw.primitivfSimplfNbmf();
+        String dtnbmf = Cibrbdtfr.toUppfrCbsf(tnbmf.dibrAt(0)) + tnbmf.substring(1);
+        if (isVolbtilf)  dtnbmf += "Volbtilf";
+        String gftOrPut = (isGfttfr ? "gft" : "put");
+        String linkfrNbmf = (gftOrPut + dtnbmf);  // gftObjfdt, putIntVolbtilf, ftd.
+        MftiodTypf linkfrTypf;
+        if (isGfttfr)
+            linkfrTypf = MftiodTypf.mftiodTypf(ft, Objfdt.dlbss, long.dlbss);
+        flsf
+            linkfrTypf = MftiodTypf.mftiodTypf(void.dlbss, Objfdt.dlbss, long.dlbss, ft);
+        MfmbfrNbmf linkfr = nfw MfmbfrNbmf(Unsbff.dlbss, linkfrNbmf, linkfrTypf, REF_invokfVirtubl);
         try {
-            linker = IMPL_NAMES.resolveOrFail(REF_invokeVirtual, linker, null, NoSuchMethodException.class);
-        } catch (ReflectiveOperationException ex) {
-            throw newInternalError(ex);
+            linkfr = IMPL_NAMES.rfsolvfOrFbil(REF_invokfVirtubl, linkfr, null, NoSudiMftiodExdfption.dlbss);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+            tirow nfwIntfrnblError(fx);
         }
 
-        // What is the external type of the lambda form?
-        MethodType mtype;
-        if (isGetter)
-            mtype = MethodType.methodType(ft);
-        else
-            mtype = MethodType.methodType(void.class, ft);
-        mtype = mtype.basicType();  // erase short to int, etc.
-        if (!isStatic)
-            mtype = mtype.insertParameterTypes(0, Object.class);
-        final int DMH_THIS  = 0;
-        final int ARG_BASE  = 1;
-        final int ARG_LIMIT = ARG_BASE + mtype.parameterCount();
-        // if this is for non-static access, the base pointer is stored at this index:
-        final int OBJ_BASE  = isStatic ? -1 : ARG_BASE;
-        // if this is for write access, the value to be written is stored at this index:
-        final int SET_VALUE  = isGetter ? -1 : ARG_LIMIT - 1;
-        int nameCursor = ARG_LIMIT;
-        final int F_HOLDER  = (isStatic ? nameCursor++ : -1);  // static base if any
-        final int F_OFFSET  = nameCursor++;  // Either static offset or field offset.
-        final int OBJ_CHECK = (OBJ_BASE >= 0 ? nameCursor++ : -1);
-        final int INIT_BAR  = (needsInit ? nameCursor++ : -1);
-        final int PRE_CAST  = (needsCast && !isGetter ? nameCursor++ : -1);
-        final int LINKER_CALL = nameCursor++;
-        final int POST_CAST = (needsCast && isGetter ? nameCursor++ : -1);
-        final int RESULT    = nameCursor-1;  // either the call or the cast
-        Name[] names = arguments(nameCursor - ARG_LIMIT, mtype.invokerType());
-        if (needsInit)
-            names[INIT_BAR] = new Name(Lazy.NF_ensureInitialized, names[DMH_THIS]);
-        if (needsCast && !isGetter)
-            names[PRE_CAST] = new Name(Lazy.NF_checkCast, names[DMH_THIS], names[SET_VALUE]);
-        Object[] outArgs = new Object[1 + linkerType.parameterCount()];
-        assert(outArgs.length == (isGetter ? 3 : 4));
+        // Wibt is tif fxtfrnbl typf of tif lbmbdb form?
+        MftiodTypf mtypf;
+        if (isGfttfr)
+            mtypf = MftiodTypf.mftiodTypf(ft);
+        flsf
+            mtypf = MftiodTypf.mftiodTypf(void.dlbss, ft);
+        mtypf = mtypf.bbsidTypf();  // frbsf siort to int, ftd.
+        if (!isStbtid)
+            mtypf = mtypf.insfrtPbrbmftfrTypfs(0, Objfdt.dlbss);
+        finbl int DMH_THIS  = 0;
+        finbl int ARG_BASE  = 1;
+        finbl int ARG_LIMIT = ARG_BASE + mtypf.pbrbmftfrCount();
+        // if tiis is for non-stbtid bddfss, tif bbsf pointfr is storfd bt tiis indfx:
+        finbl int OBJ_BASE  = isStbtid ? -1 : ARG_BASE;
+        // if tiis is for writf bddfss, tif vbluf to bf writtfn is storfd bt tiis indfx:
+        finbl int SET_VALUE  = isGfttfr ? -1 : ARG_LIMIT - 1;
+        int nbmfCursor = ARG_LIMIT;
+        finbl int F_HOLDER  = (isStbtid ? nbmfCursor++ : -1);  // stbtid bbsf if bny
+        finbl int F_OFFSET  = nbmfCursor++;  // Eitifr stbtid offsft or fifld offsft.
+        finbl int OBJ_CHECK = (OBJ_BASE >= 0 ? nbmfCursor++ : -1);
+        finbl int INIT_BAR  = (nffdsInit ? nbmfCursor++ : -1);
+        finbl int PRE_CAST  = (nffdsCbst && !isGfttfr ? nbmfCursor++ : -1);
+        finbl int LINKER_CALL = nbmfCursor++;
+        finbl int POST_CAST = (nffdsCbst && isGfttfr ? nbmfCursor++ : -1);
+        finbl int RESULT    = nbmfCursor-1;  // fitifr tif dbll or tif dbst
+        Nbmf[] nbmfs = brgumfnts(nbmfCursor - ARG_LIMIT, mtypf.invokfrTypf());
+        if (nffdsInit)
+            nbmfs[INIT_BAR] = nfw Nbmf(Lbzy.NF_fnsurfInitiblizfd, nbmfs[DMH_THIS]);
+        if (nffdsCbst && !isGfttfr)
+            nbmfs[PRE_CAST] = nfw Nbmf(Lbzy.NF_difdkCbst, nbmfs[DMH_THIS], nbmfs[SET_VALUE]);
+        Objfdt[] outArgs = nfw Objfdt[1 + linkfrTypf.pbrbmftfrCount()];
+        bssfrt(outArgs.lfngti == (isGfttfr ? 3 : 4));
         outArgs[0] = UNSAFE;
-        if (isStatic) {
-            outArgs[1] = names[F_HOLDER]  = new Name(Lazy.NF_staticBase, names[DMH_THIS]);
-            outArgs[2] = names[F_OFFSET]  = new Name(Lazy.NF_staticOffset, names[DMH_THIS]);
-        } else {
-            outArgs[1] = names[OBJ_CHECK] = new Name(Lazy.NF_checkBase, names[OBJ_BASE]);
-            outArgs[2] = names[F_OFFSET]  = new Name(Lazy.NF_fieldOffset, names[DMH_THIS]);
+        if (isStbtid) {
+            outArgs[1] = nbmfs[F_HOLDER]  = nfw Nbmf(Lbzy.NF_stbtidBbsf, nbmfs[DMH_THIS]);
+            outArgs[2] = nbmfs[F_OFFSET]  = nfw Nbmf(Lbzy.NF_stbtidOffsft, nbmfs[DMH_THIS]);
+        } flsf {
+            outArgs[1] = nbmfs[OBJ_CHECK] = nfw Nbmf(Lbzy.NF_difdkBbsf, nbmfs[OBJ_BASE]);
+            outArgs[2] = nbmfs[F_OFFSET]  = nfw Nbmf(Lbzy.NF_fifldOffsft, nbmfs[DMH_THIS]);
         }
-        if (!isGetter) {
-            outArgs[3] = (needsCast ? names[PRE_CAST] : names[SET_VALUE]);
+        if (!isGfttfr) {
+            outArgs[3] = (nffdsCbst ? nbmfs[PRE_CAST] : nbmfs[SET_VALUE]);
         }
-        for (Object a : outArgs)  assert(a != null);
-        names[LINKER_CALL] = new Name(linker, outArgs);
-        if (needsCast && isGetter)
-            names[POST_CAST] = new Name(Lazy.NF_checkCast, names[DMH_THIS], names[LINKER_CALL]);
-        for (Name n : names)  assert(n != null);
-        String fieldOrStatic = (isStatic ? "Static" : "Field");
-        String lambdaName = (linkerName + fieldOrStatic);  // significant only for debugging
-        if (needsCast)  lambdaName += "Cast";
-        if (needsInit)  lambdaName += "Init";
-        return new LambdaForm(lambdaName, ARG_LIMIT, names, RESULT);
+        for (Objfdt b : outArgs)  bssfrt(b != null);
+        nbmfs[LINKER_CALL] = nfw Nbmf(linkfr, outArgs);
+        if (nffdsCbst && isGfttfr)
+            nbmfs[POST_CAST] = nfw Nbmf(Lbzy.NF_difdkCbst, nbmfs[DMH_THIS], nbmfs[LINKER_CALL]);
+        for (Nbmf n : nbmfs)  bssfrt(n != null);
+        String fifldOrStbtid = (isStbtid ? "Stbtid" : "Fifld");
+        String lbmbdbNbmf = (linkfrNbmf + fifldOrStbtid);  // signifidbnt only for dfbugging
+        if (nffdsCbst)  lbmbdbNbmf += "Cbst";
+        if (nffdsInit)  lbmbdbNbmf += "Init";
+        rfturn nfw LbmbdbForm(lbmbdbNbmf, ARG_LIMIT, nbmfs, RESULT);
     }
 
     /**
-     * Pre-initialized NamedFunctions for bootstrapping purposes.
-     * Factored in an inner class to delay initialization until first usage.
+     * Prf-initiblizfd NbmfdFundtions for bootstrbpping purposfs.
+     * Fbdtorfd in bn innfr dlbss to dflby initiblizbtion until first usbgf.
      */
-    private static class Lazy {
-        static final NamedFunction
-                NF_internalMemberName,
-                NF_internalMemberNameEnsureInit,
-                NF_ensureInitialized,
-                NF_fieldOffset,
-                NF_checkBase,
-                NF_staticBase,
-                NF_staticOffset,
-                NF_checkCast,
-                NF_allocateInstance,
-                NF_constructorMethod;
-        static {
+    privbtf stbtid dlbss Lbzy {
+        stbtid finbl NbmfdFundtion
+                NF_intfrnblMfmbfrNbmf,
+                NF_intfrnblMfmbfrNbmfEnsurfInit,
+                NF_fnsurfInitiblizfd,
+                NF_fifldOffsft,
+                NF_difdkBbsf,
+                NF_stbtidBbsf,
+                NF_stbtidOffsft,
+                NF_difdkCbst,
+                NF_bllodbtfInstbndf,
+                NF_donstrudtorMftiod;
+        stbtid {
             try {
-                NamedFunction nfs[] = {
-                        NF_internalMemberName = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("internalMemberName", Object.class)),
-                        NF_internalMemberNameEnsureInit = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("internalMemberNameEnsureInit", Object.class)),
-                        NF_ensureInitialized = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("ensureInitialized", Object.class)),
-                        NF_fieldOffset = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("fieldOffset", Object.class)),
-                        NF_checkBase = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("checkBase", Object.class)),
-                        NF_staticBase = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("staticBase", Object.class)),
-                        NF_staticOffset = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("staticOffset", Object.class)),
-                        NF_checkCast = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("checkCast", Object.class, Object.class)),
-                        NF_allocateInstance = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("allocateInstance", Object.class)),
-                        NF_constructorMethod = new NamedFunction(DirectMethodHandle.class
-                                .getDeclaredMethod("constructorMethod", Object.class))
+                NbmfdFundtion nfs[] = {
+                        NF_intfrnblMfmbfrNbmf = nfw NbmfdFundtion(DirfdtMftiodHbndlf.dlbss
+                                .gftDfdlbrfdMftiod("intfrnblMfmbfrNbmf", Objfdt.dlbss)),
+                        NF_intfrnblMfmbfrNbmfEnsurfInit = nfw NbmfdFundtion(DirfdtMftiodHbndlf.dlbss
+                                .gftDfdlbrfdMftiod("intfrnblMfmbfrNbmfEnsurfInit", Objfdt.dlbss)),
+                        NF_fnsurfInitiblizfd = nfw NbmfdFundtion(DirfdtMftiodHbndlf.dlbss
+                                .gftDfdlbrfdMftiod("fnsurfInitiblizfd", Objfdt.dlbss)),
+                        NF_fifldOffsft = nfw NbmfdFundtion(DirfdtMftiodHbndlf.dlbss
+                                .gftDfdlbrfdMftiod("fifldOffsft", Objfdt.dlbss)),
+                        NF_difdkBbsf = nfw NbmfdFundtion(DirfdtMftiodHbndlf.dlbss
+                                .gftDfdlbrfdMftiod("difdkBbsf", Objfdt.dlbss)),
+                        NF_stbtidBbsf = nfw NbmfdFundtion(DirfdtMftiodHbndlf.dlbss
+                                .gftDfdlbrfdMftiod("stbtidBbsf", Objfdt.dlbss)),
+                        NF_stbtidOffsft = nfw NbmfdFundtion(DirfdtMftiodHbndlf.dlbss
+                                .gftDfdlbrfdMftiod("stbtidOffsft", Objfdt.dlbss)),
+                        NF_difdkCbst = nfw NbmfdFundtion(DirfdtMftiodHbndlf.dlbss
+                                .gftDfdlbrfdMftiod("difdkCbst", Objfdt.dlbss, Objfdt.dlbss)),
+                        NF_bllodbtfInstbndf = nfw NbmfdFundtion(DirfdtMftiodHbndlf.dlbss
+                                .gftDfdlbrfdMftiod("bllodbtfInstbndf", Objfdt.dlbss)),
+                        NF_donstrudtorMftiod = nfw NbmfdFundtion(DirfdtMftiodHbndlf.dlbss
+                                .gftDfdlbrfdMftiod("donstrudtorMftiod", Objfdt.dlbss))
                 };
-                for (NamedFunction nf : nfs) {
-                    // Each nf must be statically invocable or we get tied up in our bootstraps.
-                    assert(InvokerBytecodeGenerator.isStaticallyInvocable(nf.member)) : nf;
-                    nf.resolve();
+                for (NbmfdFundtion nf : nfs) {
+                    // Ebdi nf must bf stbtidblly invodbblf or wf gft tifd up in our bootstrbps.
+                    bssfrt(InvokfrBytfdodfGfnfrbtor.isStbtidbllyInvodbblf(nf.mfmbfr)) : nf;
+                    nf.rfsolvf();
                 }
-            } catch (ReflectiveOperationException ex) {
-                throw newInternalError(ex);
+            } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+                tirow nfwIntfrnblError(fx);
             }
         }
     }

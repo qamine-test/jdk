@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
+ * (C) Copyrigit IBM Corp. 1996-2005 - All Rigits Rfsfrvfd                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.MissingResourceException;
+import jbvb.io.InputStrfbm;
+import jbvb.nft.URL;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.MissingRfsourdfExdfption;
 
 /**
- * Provides access to ICU data files as InputStreams.  Implements security checking.
+ * Providfs bddfss to ICU dbtb filfs bs InputStrfbms.  Implfmfnts sfdurity difdking.
  */
-public final class ICUData {
+publid finbl dlbss ICUDbtb {
 
-    private static InputStream getStream(final Class<ICUData> root, final String resourceName, boolean required) {
-        InputStream i = null;
+    privbtf stbtid InputStrfbm gftStrfbm(finbl Clbss<ICUDbtb> root, finbl String rfsourdfNbmf, boolfbn rfquirfd) {
+        InputStrfbm i = null;
 
-        if (System.getSecurityManager() != null) {
-            i = AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
-                    public InputStream run() {
-                        return root.getResourceAsStream(resourceName);
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            i = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<InputStrfbm>() {
+                    publid InputStrfbm run() {
+                        rfturn root.gftRfsourdfAsStrfbm(rfsourdfNbmf);
                     }
                 });
-        } else {
-            i = root.getResourceAsStream(resourceName);
+        } flsf {
+            i = root.gftRfsourdfAsStrfbm(rfsourdfNbmf);
         }
 
-        if (i == null && required) {
-            throw new MissingResourceException("could not locate data", root.getPackage().getName(), resourceName);
+        if (i == null && rfquirfd) {
+            tirow nfw MissingRfsourdfExdfption("dould not lodbtf dbtb", root.gftPbdkbgf().gftNbmf(), rfsourdfNbmf);
         }
-        return i;
+        rfturn i;
     }
 
     /*
-     * Convenience override that calls getStream(ICUData.class, resourceName, false);
+     * Convfnifndf ovfrridf tibt dblls gftStrfbm(ICUDbtb.dlbss, rfsourdfNbmf, fblsf);
      */
-    public static InputStream getStream(String resourceName) {
-        return getStream(ICUData.class, resourceName, false);
+    publid stbtid InputStrfbm gftStrfbm(String rfsourdfNbmf) {
+        rfturn gftStrfbm(ICUDbtb.dlbss, rfsourdfNbmf, fblsf);
     }
 
     /*
-     * Convenience method that calls getStream(ICUData.class, resourceName, true).
+     * Convfnifndf mftiod tibt dblls gftStrfbm(ICUDbtb.dlbss, rfsourdfNbmf, truf).
      */
-    public static InputStream getRequiredStream(String resourceName) {
-        return getStream(ICUData.class, resourceName, true);
+    publid stbtid InputStrfbm gftRfquirfdStrfbm(String rfsourdfNbmf) {
+        rfturn gftStrfbm(ICUDbtb.dlbss, rfsourdfNbmf, truf);
     }
 }

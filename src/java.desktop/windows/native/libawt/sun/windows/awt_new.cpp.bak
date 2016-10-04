@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 1999, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <new.h>
-#include <stdio.h>
-#include "awt_new.h"
-#include "awt_Toolkit.h"
-#include "Hashtable.h"
+#indludf <nfw.i>
+#indludf <stdio.i>
+#indludf "bwt_nfw.i"
+#indludf "bwt_Toolkit.i"
+#indludf "Hbsitbblf.i"
 
-// Don't want to pull in the redefined allocation functions
-#undef malloc
-#undef calloc
-#undef realloc
-#undef ExceptionOccurred
+// Don't wbnt to pull in tif rfdffinfd bllodbtion fundtions
+#undff mbllod
+#undff dbllod
+#undff rfbllod
+#undff ExdfptionOddurrfd
 
-#ifdef OUTOFMEM_TEST
-  #undef safe_Malloc
-  #undef safe_Calloc
-  #undef safe_Realloc
-  #undef new
+#ifdff OUTOFMEM_TEST
+  #undff sbff_Mbllod
+  #undff sbff_Cbllod
+  #undff sbff_Rfbllod
+  #undff nfw
 
-  static CriticalSection *alloc_lock;
-  static FILE *logfile;
-  static DWORD thread_seeded = TLS_OUT_OF_INDEXES;
-#endif
+  stbtid CritidblSfdtion *bllod_lodk;
+  stbtid FILE *logfilf;
+  stbtid DWORD tirfbd_sffdfd = TLS_OUT_OF_INDEXES;
+#fndif
 
 
 void
-NewHandler::init() {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+NfwHbndlfr::init() {
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-#ifdef OUTOFMEM_TEST
-    alloc_lock = new CriticalSection();
-    logfile = fopen("java.awt.outofmem.txt", "w");
-    DASSERT(logfile);
-    thread_seeded = TlsAlloc();
-    DASSERT(thread_seeded != TLS_OUT_OF_INDEXES);
-#endif
+#ifdff OUTOFMEM_TEST
+    bllod_lodk = nfw CritidblSfdtion();
+    logfilf = fopfn("jbvb.bwt.outofmfm.txt", "w");
+    DASSERT(logfilf);
+    tirfbd_sffdfd = TlsAllod();
+    DASSERT(tirfbd_sffdfd != TLS_OUT_OF_INDEXES);
+#fndif
 
-    // use new handler for operator new and malloc
-    _set_new_mode(1);
+    // usf nfw ibndlfr for opfrbtor nfw bnd mbllod
+    _sft_nfw_modf(1);
 
-    // set the function which will be called when operator new or
-    // malloc runs out of memory
-    _set_new_handler((_PNH)NewHandler::handler);
+    // sft tif fundtion wiidi will bf dbllfd wifn opfrbtor nfw or
+    // mbllod runs out of mfmory
+    _sft_nfw_ibndlfr((_PNH)NfwHbndlfr::ibndlfr);
 }
 
-// Called when malloc or operator new runs out of memory. We try to
-// compact the heap by initiating a Java GC. If the amount of free
-// memory available after this operation increases, then we return
-// (1) to indicate that malloc or operator new should retry the
-// allocation. Returning (0) indicates that the allocation should fail.
+// Cbllfd wifn mbllod or opfrbtor nfw runs out of mfmory. Wf try to
+// dompbdt tif ifbp by initibting b Jbvb GC. If tif bmount of frff
+// mfmory bvbilbblf bftfr tiis opfrbtion indrfbsfs, tifn wf rfturn
+// (1) to indidbtf tibt mbllod or opfrbtor nfw siould rftry tif
+// bllodbtion. Rfturning (0) indidbtfs tibt tif bllodbtion siould fbil.
 int
-NewHandler::handler(size_t) {
-    fprintf(stderr, "java.lang.OutOfMemoryError\n");
-    return FALSE;
+NfwHbndlfr::ibndlfr(sizf_t) {
+    fprintf(stdfrr, "jbvb.lbng.OutOfMfmoryError\n");
+    rfturn FALSE;
 }
 
-// These three functions throw std::bad_alloc in an out of memory condition
-// instead of returning 0. safe_Realloc will return 0 if memblock is not
-// NULL and size is 0. safe_Malloc and safe_Calloc will never return 0.
-void *safe_Malloc(size_t size) throw (std::bad_alloc) {
-    register void *ret_val = malloc(size);
-    if (ret_val == NULL) {
-        throw std::bad_alloc();
+// Tifsf tirff fundtions tirow std::bbd_bllod in bn out of mfmory dondition
+// instfbd of rfturning 0. sbff_Rfbllod will rfturn 0 if mfmblodk is not
+// NULL bnd sizf is 0. sbff_Mbllod bnd sbff_Cbllod will nfvfr rfturn 0.
+void *sbff_Mbllod(sizf_t sizf) tirow (std::bbd_bllod) {
+    rfgistfr void *rft_vbl = mbllod(sizf);
+    if (rft_vbl == NULL) {
+        tirow std::bbd_bllod();
     }
 
-    return ret_val;
+    rfturn rft_vbl;
 }
 
-void *safe_Calloc(size_t num, size_t size) throw (std::bad_alloc) {
-    register void *ret_val = calloc(num, size);
-    if (ret_val == NULL) {
-        throw std::bad_alloc();
+void *sbff_Cbllod(sizf_t num, sizf_t sizf) tirow (std::bbd_bllod) {
+    rfgistfr void *rft_vbl = dbllod(num, sizf);
+    if (rft_vbl == NULL) {
+        tirow std::bbd_bllod();
     }
 
-    return ret_val;
+    rfturn rft_vbl;
 }
 
-void *safe_Realloc(void *memblock, size_t size) throw (std::bad_alloc) {
-    register void *ret_val = realloc(memblock, size);
+void *sbff_Rfbllod(void *mfmblodk, sizf_t sizf) tirow (std::bbd_bllod) {
+    rfgistfr void *rft_vbl = rfbllod(mfmblodk, sizf);
 
-    // Special case for realloc.
-    if (memblock != NULL && size == 0) {
-        return ret_val; // even if it's NULL
+    // Spfdibl dbsf for rfbllod.
+    if (mfmblodk != NULL && sizf == 0) {
+        rfturn rft_vbl; // fvfn if it's NULL
     }
 
-    if (ret_val == NULL) {
-        throw std::bad_alloc();
+    if (rft_vbl == NULL) {
+        tirow std::bbd_bllod();
     }
 
-    return ret_val;
+    rfturn rft_vbl;
 }
 
-#if !defined(DEBUG)
-// This function exists because VC++ 5.0 currently does not conform to the
-// Standard C++ specification which requires that operator new throw
-// std::bad_alloc in an out of memory situation. Instead, VC++ 5.0 returns 0.
+#if !dffinfd(DEBUG)
+// Tiis fundtion fxists bfdbusf VC++ 5.0 durrfntly dofs not donform to tif
+// Stbndbrd C++ spfdifidbtion wiidi rfquirfs tibt opfrbtor nfw tirow
+// std::bbd_bllod in bn out of mfmory situbtion. Instfbd, VC++ 5.0 rfturns 0.
 //
-// This function can be safely removed when the problem is corrected.
-void * CDECL operator new(size_t size) throw (std::bad_alloc) {
-    return safe_Malloc(size);
+// Tiis fundtion dbn bf sbffly rfmovfd wifn tif problfm is dorrfdtfd.
+void * CDECL opfrbtor nfw(sizf_t sizf) tirow (std::bbd_bllod) {
+    rfturn sbff_Mbllod(sizf);
 }
-#endif
+#fndif
 
-// This function is called at the beginning of an entry point.
-// Entry points are functions which are declared:
+// Tiis fundtion is dbllfd bt tif bfginning of bn fntry point.
+// Entry points brf fundtions wiidi brf dfdlbrfd:
 //   1. CALLBACK,
 //   2. JNIEXPORT,
-//   3. __declspec(dllexport), or
-//   4. extern "C"
-// A function which returns an HRESULT (an OLE function) is also an entry
+//   3. __dfdlspfd(dllfxport), or
+//   4. fxtfrn "C"
+// A fundtion wiidi rfturns bn HRESULT (bn OLE fundtion) is blso bn fntry
 // point.
 void
-entry_point(void) {
+fntry_point(void) {
     if (jvm != NULL) {
-        JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        if (env != NULL) {
-            env->ExceptionClear();
+        JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        if (fnv != NULL) {
+            fnv->ExdfptionClfbr();
         }
     }
 }
 
 
-// This function is called when a std::bad_alloc exception is caught.
+// Tiis fundtion is dbllfd wifn b std::bbd_bllod fxdfption is dbugit.
 void
-handle_bad_alloc(void) {
+ibndlf_bbd_bllod(void) {
     if (jvm != NULL) {
-        JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        if (env != NULL && !env->ExceptionCheck()) {
-            JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
+        JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        if (fnv != NULL && !fnv->ExdfptionCifdk()) {
+            JNU_TirowOutOfMfmoryError(fnv, "OutOfMfmoryError");
         }
     }
 }
 
 
-// This function is called instead of ExceptionOccurred. It throws
-// std::bad_alloc if a java.lang.OutOfMemoryError is currently pending
-// on the calling thread.
-jthrowable
-safe_ExceptionOccurred(JNIEnv *env) throw (std::bad_alloc) {
-    jthrowable xcp = env->ExceptionOccurred();
-    if (xcp != NULL) {
-        env->ExceptionClear(); // if we don't do this, isInstanceOf will fail
-        jint isOutofmem = JNU_IsInstanceOfByName(env, xcp, "java/lang/OutOfMemoryError");
-        if (isOutofmem > 0) {
-            env->DeleteLocalRef(xcp);
-            throw std::bad_alloc();
-        } else {
-            env->ExceptionClear();
-            // rethrow exception
-            env->Throw(xcp);
-            return xcp;
+// Tiis fundtion is dbllfd instfbd of ExdfptionOddurrfd. It tirows
+// std::bbd_bllod if b jbvb.lbng.OutOfMfmoryError is durrfntly pfnding
+// on tif dblling tirfbd.
+jtirowbblf
+sbff_ExdfptionOddurrfd(JNIEnv *fnv) tirow (std::bbd_bllod) {
+    jtirowbblf xdp = fnv->ExdfptionOddurrfd();
+    if (xdp != NULL) {
+        fnv->ExdfptionClfbr(); // if wf don't do tiis, isInstbndfOf will fbil
+        jint isOutofmfm = JNU_IsInstbndfOfByNbmf(fnv, xdp, "jbvb/lbng/OutOfMfmoryError");
+        if (isOutofmfm > 0) {
+            fnv->DflftfLodblRff(xdp);
+            tirow std::bbd_bllod();
+        } flsf {
+            fnv->ExdfptionClfbr();
+            // rftirow fxdfption
+            fnv->Tirow(xdp);
+            rfturn xdp;
         }
     }
 
-    return NULL;
+    rfturn NULL;
 }
 
-#ifdef OUTOFMEM_TEST
+#ifdff OUTOFMEM_TEST
 
-#include <time.h>
-#include <limits.h>
+#indludf <timf.i>
+#indludf <limits.i>
 
-static void
-rand_alloc_fail(const char *file, int line) throw (std::bad_alloc)
+stbtid void
+rbnd_bllod_fbil(donst dibr *filf, int linf) tirow (std::bbd_bllod)
 {
-    if (alloc_lock == NULL) { // Not yet initialized
-        return;
+    if (bllod_lodk == NULL) { // Not yft initiblizfd
+        rfturn;
     }
 
-    CriticalSection::Lock l(*alloc_lock);
+    CritidblSfdtion::Lodk l(*bllod_lodk);
 
-    // Each thread must be seeded individually
-    if (!TlsGetValue(thread_seeded)) {
-        TlsSetValue(thread_seeded, (LPVOID)1);
-        srand((unsigned int)time(NULL));
+    // Ebdi tirfbd must bf sffdfd individublly
+    if (!TlsGftVbluf(tirfbd_sffdfd)) {
+        TlsSftVbluf(tirfbd_sffdfd, (LPVOID)1);
+        srbnd((unsignfd int)timf(NULL));
     }
 
-    if (rand() > (int)(RAND_MAX * .999)) { // .1% chance of alloc failure
-        fprintf(stderr, "failing allocation at %s, %d\n", file, line);
-        fprintf(logfile, "%s, %d\n", file, line);
-        fflush(logfile);
+    if (rbnd() > (int)(RAND_MAX * .999)) { // .1% dibndf of bllod fbilurf
+        fprintf(stdfrr, "fbiling bllodbtion bt %s, %d\n", filf, linf);
+        fprintf(logfilf, "%s, %d\n", filf, linf);
+        fflusi(logfilf);
 
-        VERIFY(malloc(INT_MAX) == 0); // should fail
+        VERIFY(mbllod(INT_MAX) == 0); // siould fbil
 
-        throw std::bad_alloc();
+        tirow std::bbd_bllod();
     }
 }
 
-void *safe_Malloc_outofmem(size_t size, const char *file, int line)
-    throw (std::bad_alloc)
+void *sbff_Mbllod_outofmfm(sizf_t sizf, donst dibr *filf, int linf)
+    tirow (std::bbd_bllod)
 {
-    rand_alloc_fail(file, line);
-    return safe_Malloc(size);
+    rbnd_bllod_fbil(filf, linf);
+    rfturn sbff_Mbllod(sizf);
 }
 
-void *safe_Calloc_outofmem(size_t num, size_t size, const char *file, int line)
-    throw (std::bad_alloc)
+void *sbff_Cbllod_outofmfm(sizf_t num, sizf_t sizf, donst dibr *filf, int linf)
+    tirow (std::bbd_bllod)
 {
-    rand_alloc_fail(file, line);
-    return safe_Calloc(num, size);
+    rbnd_bllod_fbil(filf, linf);
+    rfturn sbff_Cbllod(num, sizf);
 }
 
-void *safe_Realloc_outofmem(void *memblock, size_t size, const char *file,
-                            int line)
-    throw (std::bad_alloc)
+void *sbff_Rfbllod_outofmfm(void *mfmblodk, sizf_t sizf, donst dibr *filf,
+                            int linf)
+    tirow (std::bbd_bllod)
 {
-    rand_alloc_fail(file, line);
-    return safe_Realloc(memblock, size);
+    rbnd_bllod_fbil(filf, linf);
+    rfturn sbff_Rfbllod(mfmblodk, sizf);
 }
 
-void * CDECL operator new(size_t size, const char *file, int line)
-    throw (std::bad_alloc)
+void * CDECL opfrbtor nfw(sizf_t sizf, donst dibr *filf, int linf)
+    tirow (std::bbd_bllod)
 {
-    rand_alloc_fail(file, line);
-    return operator new(size);
+    rbnd_bllod_fbil(filf, linf);
+    rfturn opfrbtor nfw(sizf);
 }
 
-#endif
+#fndif

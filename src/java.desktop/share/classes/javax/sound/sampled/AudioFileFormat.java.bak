@@ -1,397 +1,397 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.sampled;
+pbdkbgf jbvbx.sound.sbmplfd;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 /**
- * An instance of the {@code AudioFileFormat} class describes an audio file,
- * including the file type, the file's length in bytes, the length in sample
- * frames of the audio data contained in the file, and the format of the audio
- * data.
+ * An instbndf of tif {@dodf AudioFilfFormbt} dlbss dfsdribfs bn budio filf,
+ * indluding tif filf typf, tif filf's lfngti in bytfs, tif lfngti in sbmplf
+ * frbmfs of tif budio dbtb dontbinfd in tif filf, bnd tif formbt of tif budio
+ * dbtb.
  * <p>
- * The {@link AudioSystem} class includes methods for determining the format of
- * an audio file, obtaining an audio input stream from an audio file, and
- * writing an audio file from an audio input stream.
+ * Tif {@link AudioSystfm} dlbss indludfs mftiods for dftfrmining tif formbt of
+ * bn budio filf, obtbining bn budio input strfbm from bn budio filf, bnd
+ * writing bn budio filf from bn budio input strfbm.
  * <p>
- * An {@code AudioFileFormat} object can include a set of properties. A property
- * is a pair of key and value: the key is of type {@code String}, the associated
- * property value is an arbitrary object. Properties specify additional
- * informational meta data (like a author, copyright, or file duration).
- * Properties are optional information, and file reader and file writer
- * implementations are not required to provide or recognize properties.
+ * An {@dodf AudioFilfFormbt} objfdt dbn indludf b sft of propfrtifs. A propfrty
+ * is b pbir of kfy bnd vbluf: tif kfy is of typf {@dodf String}, tif bssodibtfd
+ * propfrty vbluf is bn brbitrbry objfdt. Propfrtifs spfdify bdditionbl
+ * informbtionbl mftb dbtb (likf b butior, dopyrigit, or filf durbtion).
+ * Propfrtifs brf optionbl informbtion, bnd filf rfbdfr bnd filf writfr
+ * implfmfntbtions brf not rfquirfd to providf or rfdognizf propfrtifs.
  * <p>
- * The following table lists some common properties that should be used in
- * implementations:
+ * Tif following tbblf lists somf dommon propfrtifs tibt siould bf usfd in
+ * implfmfntbtions:
  *
- * <table border=1>
- *  <caption>Audio File Format Properties</caption>
+ * <tbblf bordfr=1>
+ *  <dbption>Audio Filf Formbt Propfrtifs</dbption>
  *  <tr>
- *   <th>Property key</th>
- *   <th>Value type</th>
- *   <th>Description</th>
+ *   <ti>Propfrty kfy</ti>
+ *   <ti>Vbluf typf</ti>
+ *   <ti>Dfsdription</ti>
  *  </tr>
  *  <tr>
- *   <td>&quot;duration&quot;</td>
- *   <td>{@link java.lang.Long Long}</td>
- *   <td>playback duration of the file in microseconds</td>
+ *   <td>&quot;durbtion&quot;</td>
+ *   <td>{@link jbvb.lbng.Long Long}</td>
+ *   <td>plbybbdk durbtion of tif filf in midrosfdonds</td>
  *  </tr>
  *  <tr>
- *   <td>&quot;author&quot;</td>
- *   <td>{@link java.lang.String String}</td>
- *   <td>name of the author of this file</td>
+ *   <td>&quot;butior&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>nbmf of tif butior of tiis filf</td>
  *  </tr>
  *  <tr>
- *   <td>&quot;title&quot;</td>
- *   <td>{@link java.lang.String String}</td>
- *   <td>title of this file</td>
+ *   <td>&quot;titlf&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>titlf of tiis filf</td>
  *  </tr>
  *  <tr>
- *   <td>&quot;copyright&quot;</td>
- *   <td>{@link java.lang.String String}</td>
- *   <td>copyright message</td>
+ *   <td>&quot;dopyrigit&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>dopyrigit mfssbgf</td>
  *  </tr>
  *  <tr>
- *   <td>&quot;date&quot;</td>
- *   <td>{@link java.util.Date Date}</td>
- *   <td>date of the recording or release</td>
+ *   <td>&quot;dbtf&quot;</td>
+ *   <td>{@link jbvb.util.Dbtf Dbtf}</td>
+ *   <td>dbtf of tif rfdording or rflfbsf</td>
  *  </tr>
  *  <tr>
- *   <td>&quot;comment&quot;</td>
- *   <td>{@link java.lang.String String}</td>
- *   <td>an arbitrary text</td>
+ *   <td>&quot;dommfnt&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>bn brbitrbry tfxt</td>
  *  </tr>
- * </table>
+ * </tbblf>
  *
  *
- * @author David Rivas
- * @author Kara Kytle
- * @author Florian Bomers
- * @see AudioInputStream
- * @since 1.3
+ * @butior Dbvid Rivbs
+ * @butior Kbrb Kytlf
+ * @butior Floribn Bomfrs
+ * @sff AudioInputStrfbm
+ * @sindf 1.3
  */
-public class AudioFileFormat {
+publid dlbss AudioFilfFormbt {
 
     /**
-     * File type.
+     * Filf typf.
      */
-    private Type type;
+    privbtf Typf typf;
 
     /**
-     * File length in bytes.
+     * Filf lfngti in bytfs.
      */
-    private int byteLength;
+    privbtf int bytfLfngti;
 
     /**
-     * Format of the audio data contained in the file.
+     * Formbt of tif budio dbtb dontbinfd in tif filf.
      */
-    private AudioFormat format;
+    privbtf AudioFormbt formbt;
 
     /**
-     * Audio data length in sample frames.
+     * Audio dbtb lfngti in sbmplf frbmfs.
      */
-    private int frameLength;
+    privbtf int frbmfLfngti;
 
     /**
-     * The set of properties.
+     * Tif sft of propfrtifs.
      */
-    private HashMap<String, Object> properties;
+    privbtf HbsiMbp<String, Objfdt> propfrtifs;
 
     /**
-     * Constructs an audio file format object. This protected constructor is
-     * intended for use by providers of file-reading services when returning
-     * information about an audio file or about supported audio file formats.
+     * Construdts bn budio filf formbt objfdt. Tiis protfdtfd donstrudtor is
+     * intfndfd for usf by providfrs of filf-rfbding sfrvidfs wifn rfturning
+     * informbtion bbout bn budio filf or bbout supportfd budio filf formbts.
      *
-     * @param  type the type of the audio file
-     * @param  byteLength the length of the file in bytes, or
-     *         {@code AudioSystem.NOT_SPECIFIED}
-     * @param  format the format of the audio data contained in the file
-     * @param  frameLength the audio data length in sample frames, or
-     *         {@code AudioSystem.NOT_SPECIFIED}
-     * @see #getType
+     * @pbrbm  typf tif typf of tif budio filf
+     * @pbrbm  bytfLfngti tif lfngti of tif filf in bytfs, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @pbrbm  formbt tif formbt of tif budio dbtb dontbinfd in tif filf
+     * @pbrbm  frbmfLfngti tif budio dbtb lfngti in sbmplf frbmfs, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff #gftTypf
      */
-    protected AudioFileFormat(Type type, int byteLength, AudioFormat format, int frameLength) {
+    protfdtfd AudioFilfFormbt(Typf typf, int bytfLfngti, AudioFormbt formbt, int frbmfLfngti) {
 
-        this.type = type;
-        this.byteLength = byteLength;
-        this.format = format;
-        this.frameLength = frameLength;
-        this.properties = null;
+        tiis.typf = typf;
+        tiis.bytfLfngti = bytfLfngti;
+        tiis.formbt = formbt;
+        tiis.frbmfLfngti = frbmfLfngti;
+        tiis.propfrtifs = null;
     }
 
     /**
-     * Constructs an audio file format object. This public constructor may be
-     * used by applications to describe the properties of a requested audio
-     * file.
+     * Construdts bn budio filf formbt objfdt. Tiis publid donstrudtor mby bf
+     * usfd by bpplidbtions to dfsdribf tif propfrtifs of b rfqufstfd budio
+     * filf.
      *
-     * @param  type the type of the audio file
-     * @param  format the format of the audio data contained in the file
-     * @param  frameLength the audio data length in sample frames, or
-     *         {@code AudioSystem.NOT_SPECIFIED}
+     * @pbrbm  typf tif typf of tif budio filf
+     * @pbrbm  formbt tif formbt of tif budio dbtb dontbinfd in tif filf
+     * @pbrbm  frbmfLfngti tif budio dbtb lfngti in sbmplf frbmfs, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
      */
-    public AudioFileFormat(Type type, AudioFormat format, int frameLength) {
+    publid AudioFilfFormbt(Typf typf, AudioFormbt formbt, int frbmfLfngti) {
 
 
-        this(type,AudioSystem.NOT_SPECIFIED,format,frameLength);
+        tiis(typf,AudioSystfm.NOT_SPECIFIED,formbt,frbmfLfngti);
     }
 
     /**
-     * Construct an audio file format object with a set of defined properties.
-     * This public constructor may be used by applications to describe the
-     * properties of a requested audio file. The properties map will be copied
-     * to prevent any changes to it.
+     * Construdt bn budio filf formbt objfdt witi b sft of dffinfd propfrtifs.
+     * Tiis publid donstrudtor mby bf usfd by bpplidbtions to dfsdribf tif
+     * propfrtifs of b rfqufstfd budio filf. Tif propfrtifs mbp will bf dopifd
+     * to prfvfnt bny dibngfs to it.
      *
-     * @param  type the type of the audio file
-     * @param  format the format of the audio data contained in the file
-     * @param  frameLength the audio data length in sample frames, or
-     *         {@code AudioSystem.NOT_SPECIFIED}
-     * @param  properties a {@code Map<String, Object>} object with properties
-     * @since 1.5
+     * @pbrbm  typf tif typf of tif budio filf
+     * @pbrbm  formbt tif formbt of tif budio dbtb dontbinfd in tif filf
+     * @pbrbm  frbmfLfngti tif budio dbtb lfngti in sbmplf frbmfs, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @pbrbm  propfrtifs b {@dodf Mbp<String, Objfdt>} objfdt witi propfrtifs
+     * @sindf 1.5
      */
-    public AudioFileFormat(Type type, AudioFormat format,
-                           int frameLength, Map<String, Object> properties) {
-        this(type,AudioSystem.NOT_SPECIFIED,format,frameLength);
-        this.properties = new HashMap<String, Object>(properties);
+    publid AudioFilfFormbt(Typf typf, AudioFormbt formbt,
+                           int frbmfLfngti, Mbp<String, Objfdt> propfrtifs) {
+        tiis(typf,AudioSystfm.NOT_SPECIFIED,formbt,frbmfLfngti);
+        tiis.propfrtifs = nfw HbsiMbp<String, Objfdt>(propfrtifs);
     }
 
     /**
-     * Obtains the audio file type, such as {@code WAVE} or {@code AU}.
+     * Obtbins tif budio filf typf, sudi bs {@dodf WAVE} or {@dodf AU}.
      *
-     * @return the audio file type
-     * @see Type#WAVE
-     * @see Type#AU
-     * @see Type#AIFF
-     * @see Type#AIFC
-     * @see Type#SND
+     * @rfturn tif budio filf typf
+     * @sff Typf#WAVE
+     * @sff Typf#AU
+     * @sff Typf#AIFF
+     * @sff Typf#AIFC
+     * @sff Typf#SND
      */
-    public Type getType() {
-        return type;
+    publid Typf gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Obtains the size in bytes of the entire audio file (not just its audio
-     * data).
+     * Obtbins tif sizf in bytfs of tif fntirf budio filf (not just its budio
+     * dbtb).
      *
-     * @return the audio file length in bytes
-     * @see AudioSystem#NOT_SPECIFIED
+     * @rfturn tif budio filf lfngti in bytfs
+     * @sff AudioSystfm#NOT_SPECIFIED
      */
-    public int getByteLength() {
-        return byteLength;
+    publid int gftBytfLfngti() {
+        rfturn bytfLfngti;
     }
 
     /**
-     * Obtains the format of the audio data contained in the audio file.
+     * Obtbins tif formbt of tif budio dbtb dontbinfd in tif budio filf.
      *
-     * @return the audio data format
+     * @rfturn tif budio dbtb formbt
      */
-    public AudioFormat getFormat() {
-        return format;
+    publid AudioFormbt gftFormbt() {
+        rfturn formbt;
     }
 
     /**
-     * Obtains the length of the audio data contained in the file, expressed in
-     * sample frames.
+     * Obtbins tif lfngti of tif budio dbtb dontbinfd in tif filf, fxprfssfd in
+     * sbmplf frbmfs.
      *
-     * @return the number of sample frames of audio data in the file
-     * @see AudioSystem#NOT_SPECIFIED
+     * @rfturn tif numbfr of sbmplf frbmfs of budio dbtb in tif filf
+     * @sff AudioSystfm#NOT_SPECIFIED
      */
-    public int getFrameLength() {
-        return frameLength;
+    publid int gftFrbmfLfngti() {
+        rfturn frbmfLfngti;
     }
 
     /**
-     * Obtain an unmodifiable map of properties. The concept of properties is
-     * further explained in the {@link AudioFileFormat class description}.
+     * Obtbin bn unmodifibblf mbp of propfrtifs. Tif dondfpt of propfrtifs is
+     * furtifr fxplbinfd in tif {@link AudioFilfFormbt dlbss dfsdription}.
      *
-     * @return a {@code Map<String, Object>} object containing all properties.
-     *         If no properties are recognized, an empty map is returned.
-     * @see #getProperty(String)
-     * @since 1.5
+     * @rfturn b {@dodf Mbp<String, Objfdt>} objfdt dontbining bll propfrtifs.
+     *         If no propfrtifs brf rfdognizfd, bn fmpty mbp is rfturnfd.
+     * @sff #gftPropfrty(String)
+     * @sindf 1.5
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    public Map<String, Object> properties() {
-        Map<String,Object> ret;
-        if (properties == null) {
-            ret = new HashMap<>(0);
-        } else {
-            ret = (Map<String,Object>) (properties.clone());
+    @SupprfssWbrnings("undifdkfd") // Cbst of rfsult of dlonf
+    publid Mbp<String, Objfdt> propfrtifs() {
+        Mbp<String,Objfdt> rft;
+        if (propfrtifs == null) {
+            rft = nfw HbsiMbp<>(0);
+        } flsf {
+            rft = (Mbp<String,Objfdt>) (propfrtifs.dlonf());
         }
-        return Collections.unmodifiableMap(ret);
+        rfturn Collfdtions.unmodifibblfMbp(rft);
     }
 
     /**
-     * Obtain the property value specified by the key. The concept of properties
-     * is further explained in the {@link AudioFileFormat class description}.
+     * Obtbin tif propfrty vbluf spfdififd by tif kfy. Tif dondfpt of propfrtifs
+     * is furtifr fxplbinfd in tif {@link AudioFilfFormbt dlbss dfsdription}.
      * <p>
-     * If the specified property is not defined for a particular file format,
-     * this method returns {@code null}.
+     * If tif spfdififd propfrty is not dffinfd for b pbrtidulbr filf formbt,
+     * tiis mftiod rfturns {@dodf null}.
      *
-     * @param  key the key of the desired property
-     * @return the value of the property with the specified key, or {@code null}
-     *         if the property does not exist
-     * @see #properties()
-     * @since 1.5
+     * @pbrbm  kfy tif kfy of tif dfsirfd propfrty
+     * @rfturn tif vbluf of tif propfrty witi tif spfdififd kfy, or {@dodf null}
+     *         if tif propfrty dofs not fxist
+     * @sff #propfrtifs()
+     * @sindf 1.5
      */
-    public Object getProperty(String key) {
-        if (properties == null) {
-            return null;
+    publid Objfdt gftPropfrty(String kfy) {
+        if (propfrtifs == null) {
+            rfturn null;
         }
-        return properties.get(key);
+        rfturn propfrtifs.gft(kfy);
     }
 
     /**
-     * Provides a string representation of the file format.
+     * Providfs b string rfprfsfntbtion of tif filf formbt.
      *
-     * @return the file format as a string
+     * @rfturn tif filf formbt bs b string
      */
-    @Override
-    public String toString() {
+    @Ovfrridf
+    publid String toString() {
 
-        StringBuffer buf = new StringBuffer();
+        StringBufffr buf = nfw StringBufffr();
 
-        //$$fb2002-11-01: fix for 4672864: AudioFileFormat.toString() throws unexpected NullPointerException
-        if (type != null) {
-            buf.append(type.toString() + " (." + type.getExtension() + ") file");
-        } else {
-            buf.append("unknown file format");
+        //$$fb2002-11-01: fix for 4672864: AudioFilfFormbt.toString() tirows unfxpfdtfd NullPointfrExdfption
+        if (typf != null) {
+            buf.bppfnd(typf.toString() + " (." + typf.gftExtfnsion() + ") filf");
+        } flsf {
+            buf.bppfnd("unknown filf formbt");
         }
 
-        if (byteLength != AudioSystem.NOT_SPECIFIED) {
-            buf.append(", byte length: " + byteLength);
+        if (bytfLfngti != AudioSystfm.NOT_SPECIFIED) {
+            buf.bppfnd(", bytf lfngti: " + bytfLfngti);
         }
 
-        buf.append(", data format: " + format);
+        buf.bppfnd(", dbtb formbt: " + formbt);
 
-        if (frameLength != AudioSystem.NOT_SPECIFIED) {
-            buf.append(", frame length: " + frameLength);
+        if (frbmfLfngti != AudioSystfm.NOT_SPECIFIED) {
+            buf.bppfnd(", frbmf lfngti: " + frbmfLfngti);
         }
 
-        return new String(buf);
+        rfturn nfw String(buf);
     }
 
     /**
-     * An instance of the {@code Type} class represents one of the standard
-     * types of audio file. Static instances are provided for the common types.
+     * An instbndf of tif {@dodf Typf} dlbss rfprfsfnts onf of tif stbndbrd
+     * typfs of budio filf. Stbtid instbndfs brf providfd for tif dommon typfs.
      */
-    public static class Type {
+    publid stbtid dlbss Typf {
 
         // FILE FORMAT TYPE DEFINES
 
         /**
-         * Specifies a WAVE file.
+         * Spfdififs b WAVE filf.
          */
-        public static final Type WAVE = new Type("WAVE", "wav");
+        publid stbtid finbl Typf WAVE = nfw Typf("WAVE", "wbv");
 
         /**
-         * Specifies an AU file.
+         * Spfdififs bn AU filf.
          */
-        public static final Type AU = new Type("AU", "au");
+        publid stbtid finbl Typf AU = nfw Typf("AU", "bu");
 
         /**
-         * Specifies an AIFF file.
+         * Spfdififs bn AIFF filf.
          */
-        public static final Type AIFF = new Type("AIFF", "aif");
+        publid stbtid finbl Typf AIFF = nfw Typf("AIFF", "bif");
 
         /**
-         * Specifies an AIFF-C file.
+         * Spfdififs bn AIFF-C filf.
          */
-        public static final Type AIFC = new Type("AIFF-C", "aifc");
+        publid stbtid finbl Typf AIFC = nfw Typf("AIFF-C", "bifd");
 
         /**
-         * Specifies a SND file.
+         * Spfdififs b SND filf.
          */
-        public static final Type SND = new Type("SND", "snd");
+        publid stbtid finbl Typf SND = nfw Typf("SND", "snd");
 
         /**
-         * File type name.
+         * Filf typf nbmf.
          */
-        private final String name;
+        privbtf finbl String nbmf;
 
         /**
-         * File type extension.
+         * Filf typf fxtfnsion.
          */
-        private final String extension;
+        privbtf finbl String fxtfnsion;
 
         /**
-         * Constructs a file type.
+         * Construdts b filf typf.
          *
-         * @param  name the string that names the file type
-         * @param  extension the string that commonly marks the file type
-         *         without leading dot
+         * @pbrbm  nbmf tif string tibt nbmfs tif filf typf
+         * @pbrbm  fxtfnsion tif string tibt dommonly mbrks tif filf typf
+         *         witiout lfbding dot
          */
-        public Type(String name, String extension) {
-            this.name = name;
-            this.extension = extension;
+        publid Typf(String nbmf, String fxtfnsion) {
+            tiis.nbmf = nbmf;
+            tiis.fxtfnsion = fxtfnsion;
         }
 
         /**
-         * Finalizes the equals method.
+         * Finblizfs tif fqubls mftiod.
          */
-        @Override
-        public final boolean equals(Object obj) {
+        @Ovfrridf
+        publid finbl boolfbn fqubls(Objfdt obj) {
             if (toString() == null) {
-                return (obj != null) && (obj.toString() == null);
+                rfturn (obj != null) && (obj.toString() == null);
             }
-            if (obj instanceof Type) {
-                return toString().equals(obj.toString());
+            if (obj instbndfof Typf) {
+                rfturn toString().fqubls(obj.toString());
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Finalizes the hashCode method.
+         * Finblizfs tif ibsiCodf mftiod.
          */
-        @Override
-        public final int hashCode() {
+        @Ovfrridf
+        publid finbl int ibsiCodf() {
             if (toString() == null) {
-                return 0;
+                rfturn 0;
             }
-            return toString().hashCode();
+            rfturn toString().ibsiCodf();
         }
 
         /**
-         * Provides the file type's name as the {@code String} representation of
-         * the file type.
+         * Providfs tif filf typf's nbmf bs tif {@dodf String} rfprfsfntbtion of
+         * tif filf typf.
          *
-         * @return the file type's name
+         * @rfturn tif filf typf's nbmf
          */
-        @Override
-        public final String toString() {
-            return name;
+        @Ovfrridf
+        publid finbl String toString() {
+            rfturn nbmf;
         }
 
         /**
-         * Obtains the common file name extension for this file type.
+         * Obtbins tif dommon filf nbmf fxtfnsion for tiis filf typf.
          *
-         * @return file type extension
+         * @rfturn filf typf fxtfnsion
          */
-        public String getExtension() {
-            return extension;
+        publid String gftExtfnsion() {
+            rfturn fxtfnsion;
         }
     }
 }

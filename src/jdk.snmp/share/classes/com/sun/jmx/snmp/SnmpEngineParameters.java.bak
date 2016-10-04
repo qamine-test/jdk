@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2002, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * This class is used to pass some specific parameters to an <CODE>
- * SnmpEngineFactory </CODE>.
+ * Tiis dlbss is usfd to pbss somf spfdifid pbrbmftfrs to bn <CODE>
+ * SnmpEnginfFbdtory </CODE>.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
-public class SnmpEngineParameters implements Serializable {
-    private static final long serialVersionUID = 3720556613478400808L;
+publid dlbss SnmpEnginfPbrbmftfrs implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 3720556613478400808L;
 
-    private UserAcl uacl = null;
-    private String securityFile = null;
-    private boolean encrypt = false;
-    private SnmpEngineId engineId = null;
+    privbtf UsfrAdl ubdl = null;
+    privbtf String sfdurityFilf = null;
+    privbtf boolfbn fndrypt = fblsf;
+    privbtf SnmpEnginfId fnginfId = null;
 
     /**
-     * Sets the file to use for SNMP Runtime Lcd. If no file is provided, the default location will be checked.
+     * Sfts tif filf to usf for SNMP Runtimf Ldd. If no filf is providfd, tif dffbult lodbtion will bf difdkfd.
      */
-    public void setSecurityFile(String securityFile) {
-        this.securityFile = securityFile;
+    publid void sftSfdurityFilf(String sfdurityFilf) {
+        tiis.sfdurityFilf = sfdurityFilf;
     }
 
     /**
-     * Gets the file to use for SNMP Runtime Lcd.
-     * @return The security file.
+     * Gfts tif filf to usf for SNMP Runtimf Ldd.
+     * @rfturn Tif sfdurity filf.
      */
-    public String getSecurityFile() {
-        return securityFile;
+    publid String gftSfdurityFilf() {
+        rfturn sfdurityFilf;
     }
     /**
-     * Sets a customized user ACL. User Acl is used in order to check
-     * access for SNMP V3 requests. If no ACL is provided,
-     * <CODE>com.sun.jmx.snmp.usm.UserAcl.UserAcl</CODE> is instantiated.
-     * @param uacl The user ACL to use.
+     * Sfts b dustomizfd usfr ACL. Usfr Adl is usfd in ordfr to difdk
+     * bddfss for SNMP V3 rfqufsts. If no ACL is providfd,
+     * <CODE>dom.sun.jmx.snmp.usm.UsfrAdl.UsfrAdl</CODE> is instbntibtfd.
+     * @pbrbm ubdl Tif usfr ACL to usf.
      */
-    public void setUserAcl(UserAcl uacl) {
-        this.uacl = uacl;
-    }
-
-    /**
-     * Gets the customized user ACL.
-     * @return The customized user ACL.
-     */
-    public UserAcl getUserAcl() {
-        return uacl;
+    publid void sftUsfrAdl(UsfrAdl ubdl) {
+        tiis.ubdl = ubdl;
     }
 
     /**
-     * Activate SNMP V3 encryption. By default the encryption is not activated. Be sure that the security provider classes needed for DES are in your classpath (eg:JCE classes)
+     * Gfts tif dustomizfd usfr ACL.
+     * @rfturn Tif dustomizfd usfr ACL.
+     */
+    publid UsfrAdl gftUsfrAdl() {
+        rfturn ubdl;
+    }
+
+    /**
+     * Adtivbtf SNMP V3 fndryption. By dffbult tif fndryption is not bdtivbtfd. Bf surf tibt tif sfdurity providfr dlbssfs nffdfd for DES brf in your dlbsspbti (fg:JCE dlbssfs)
      *
      */
-    public void activateEncryption() {
-        this.encrypt = true;
+    publid void bdtivbtfEndryption() {
+        tiis.fndrypt = truf;
     }
 
     /**
-     * Deactivate SNMP V3 encryption. By default the encryption is not activated. Be sure that the security provider classes needed for DES are in your classpath (eg:JCE classes)
+     * Dfbdtivbtf SNMP V3 fndryption. By dffbult tif fndryption is not bdtivbtfd. Bf surf tibt tif sfdurity providfr dlbssfs nffdfd for DES brf in your dlbsspbti (fg:JCE dlbssfs)
      *
      */
-    public void deactivateEncryption() {
-        this.encrypt = false;
+    publid void dfbdtivbtfEndryption() {
+        tiis.fndrypt = fblsf;
     }
 
     /**
-     * Check if encryption is activated. By default the encryption is not activated.
-     * @return The encryption activation status.
+     * Cifdk if fndryption is bdtivbtfd. By dffbult tif fndryption is not bdtivbtfd.
+     * @rfturn Tif fndryption bdtivbtion stbtus.
      */
-    public boolean isEncryptionEnabled() {
-        return encrypt;
+    publid boolfbn isEndryptionEnbblfd() {
+        rfturn fndrypt;
     }
 
     /**
-     * Set the engine Id.
-     * @param engineId The engine Id to use.
+     * Sft tif fnginf Id.
+     * @pbrbm fnginfId Tif fnginf Id to usf.
      */
-    public void setEngineId(SnmpEngineId engineId) {
-        this.engineId = engineId;
+    publid void sftEnginfId(SnmpEnginfId fnginfId) {
+        tiis.fnginfId = fnginfId;
     }
 
     /**
-     * Get the engine Id.
-     * @return The engineId.
+     * Gft tif fnginf Id.
+     * @rfturn Tif fnginfId.
      */
-    public SnmpEngineId getEngineId() {
-        return engineId;
+    publid SnmpEnginfId gftEnginfId() {
+        rfturn fnginfId;
     }
 }

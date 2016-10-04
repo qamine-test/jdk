@@ -1,161 +1,161 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
  * ===========================================================================
  *
- * (C) Copyright IBM Corp. 2003 All Rights Reserved.
+ * (C) Copyrigit IBM Corp. 2003 All Rigits Rfsfrvfd.
  *
  * ===========================================================================
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMXPathFilter2Transform.java 1203789 2011-11-18 18:46:07Z mullan $
+ * $Id: DOMXPbtiFiltfr2Trbnsform.jbvb 1203789 2011-11-18 18:46:07Z mullbn $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
-import javax.xml.crypto.dsig.spec.XPathType;
-import javax.xml.crypto.dsig.spec.XPathFilter2ParameterSpec;
-import java.security.InvalidAlgorithmParameterException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
+import jbvbx.xml.drypto.dsig.spfd.XPbtiTypf;
+import jbvbx.xml.drypto.dsig.spfd.XPbtiFiltfr2PbrbmftfrSpfd;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.NbmfdNodfMbp;
 
 /**
- * DOM-based implementation of XPath Filter 2.0 Transform.
- * (Uses Apache XML-Sec Transform implementation)
+ * DOM-bbsfd implfmfntbtion of XPbti Filtfr 2.0 Trbnsform.
+ * (Usfs Apbdif XML-Sfd Trbnsform implfmfntbtion)
  *
- * @author Joyce Leung
+ * @butior Joydf Lfung
  */
-public final class DOMXPathFilter2Transform extends ApacheTransform {
+publid finbl dlbss DOMXPbtiFiltfr2Trbnsform fxtfnds ApbdifTrbnsform {
 
-    public void init(TransformParameterSpec params)
-        throws InvalidAlgorithmParameterException
+    publid void init(TrbnsformPbrbmftfrSpfd pbrbms)
+        tirows InvblidAlgoritimPbrbmftfrExdfption
     {
-        if (params == null) {
-            throw new InvalidAlgorithmParameterException("params are required");
-        } else if (!(params instanceof XPathFilter2ParameterSpec)) {
-            throw new InvalidAlgorithmParameterException
-                ("params must be of type XPathFilter2ParameterSpec");
+        if (pbrbms == null) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("pbrbms brf rfquirfd");
+        } flsf if (!(pbrbms instbndfof XPbtiFiltfr2PbrbmftfrSpfd)) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("pbrbms must bf of typf XPbtiFiltfr2PbrbmftfrSpfd");
         }
-        this.params = params;
+        tiis.pbrbms = pbrbms;
     }
 
-    public void init(XMLStructure parent, XMLCryptoContext context)
-        throws InvalidAlgorithmParameterException
+    publid void init(XMLStrudturf pbrfnt, XMLCryptoContfxt dontfxt)
+        tirows InvblidAlgoritimPbrbmftfrExdfption
     {
-        super.init(parent, context);
+        supfr.init(pbrfnt, dontfxt);
         try {
-            unmarshalParams(DOMUtils.getFirstChildElement(transformElem));
-        } catch (MarshalException me) {
-            throw new InvalidAlgorithmParameterException(me);
+            unmbrsiblPbrbms(DOMUtils.gftFirstCiildElfmfnt(trbnsformElfm));
+        } dbtdi (MbrsiblExdfption mf) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(mf);
         }
     }
 
-    private void unmarshalParams(Element curXPathElem) throws MarshalException
+    privbtf void unmbrsiblPbrbms(Elfmfnt durXPbtiElfm) tirows MbrsiblExdfption
     {
-        List<XPathType> list = new ArrayList<XPathType>();
-        while (curXPathElem != null) {
-            String xPath = curXPathElem.getFirstChild().getNodeValue();
-            String filterVal = DOMUtils.getAttributeValue(curXPathElem,
-                                                          "Filter");
-            if (filterVal == null) {
-                throw new MarshalException("filter cannot be null");
+        List<XPbtiTypf> list = nfw ArrbyList<XPbtiTypf>();
+        wiilf (durXPbtiElfm != null) {
+            String xPbti = durXPbtiElfm.gftFirstCiild().gftNodfVbluf();
+            String filtfrVbl = DOMUtils.gftAttributfVbluf(durXPbtiElfm,
+                                                          "Filtfr");
+            if (filtfrVbl == null) {
+                tirow nfw MbrsiblExdfption("filtfr dbnnot bf null");
             }
-            XPathType.Filter filter = null;
-            if (filterVal.equals("intersect")) {
-                filter = XPathType.Filter.INTERSECT;
-            } else if (filterVal.equals("subtract")) {
-                filter = XPathType.Filter.SUBTRACT;
-            } else if (filterVal.equals("union")) {
-                filter = XPathType.Filter.UNION;
-            } else {
-                throw new MarshalException("Unknown XPathType filter type" +
-                                           filterVal);
+            XPbtiTypf.Filtfr filtfr = null;
+            if (filtfrVbl.fqubls("intfrsfdt")) {
+                filtfr = XPbtiTypf.Filtfr.INTERSECT;
+            } flsf if (filtfrVbl.fqubls("subtrbdt")) {
+                filtfr = XPbtiTypf.Filtfr.SUBTRACT;
+            } flsf if (filtfrVbl.fqubls("union")) {
+                filtfr = XPbtiTypf.Filtfr.UNION;
+            } flsf {
+                tirow nfw MbrsiblExdfption("Unknown XPbtiTypf filtfr typf" +
+                                           filtfrVbl);
             }
-            NamedNodeMap attributes = curXPathElem.getAttributes();
-            if (attributes != null) {
-                int length = attributes.getLength();
-                Map<String, String> namespaceMap =
-                    new HashMap<String, String>(length);
-                for (int i = 0; i < length; i++) {
-                    Attr attr = (Attr)attributes.item(i);
-                    String prefix = attr.getPrefix();
-                    if (prefix != null && prefix.equals("xmlns")) {
-                        namespaceMap.put(attr.getLocalName(), attr.getValue());
+            NbmfdNodfMbp bttributfs = durXPbtiElfm.gftAttributfs();
+            if (bttributfs != null) {
+                int lfngti = bttributfs.gftLfngti();
+                Mbp<String, String> nbmfspbdfMbp =
+                    nfw HbsiMbp<String, String>(lfngti);
+                for (int i = 0; i < lfngti; i++) {
+                    Attr bttr = (Attr)bttributfs.itfm(i);
+                    String prffix = bttr.gftPrffix();
+                    if (prffix != null && prffix.fqubls("xmlns")) {
+                        nbmfspbdfMbp.put(bttr.gftLodblNbmf(), bttr.gftVbluf());
                     }
                 }
-                list.add(new XPathType(xPath, filter, namespaceMap));
-            } else {
-                list.add(new XPathType(xPath, filter));
+                list.bdd(nfw XPbtiTypf(xPbti, filtfr, nbmfspbdfMbp));
+            } flsf {
+                list.bdd(nfw XPbtiTypf(xPbti, filtfr));
             }
 
-            curXPathElem = DOMUtils.getNextSiblingElement(curXPathElem);
+            durXPbtiElfm = DOMUtils.gftNfxtSiblingElfmfnt(durXPbtiElfm);
         }
-        this.params = new XPathFilter2ParameterSpec(list);
+        tiis.pbrbms = nfw XPbtiFiltfr2PbrbmftfrSpfd(list);
     }
 
-    public void marshalParams(XMLStructure parent, XMLCryptoContext context)
-        throws MarshalException
+    publid void mbrsiblPbrbms(XMLStrudturf pbrfnt, XMLCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption
     {
-        super.marshalParams(parent, context);
-        XPathFilter2ParameterSpec xp =
-            (XPathFilter2ParameterSpec)getParameterSpec();
-        String prefix = DOMUtils.getNSPrefix(context, Transform.XPATH2);
-        String qname = (prefix == null || prefix.length() == 0)
-                       ? "xmlns" : "xmlns:" + prefix;
-        @SuppressWarnings("unchecked")
-        List<XPathType> xpathList = xp.getXPathList();
-        for (XPathType xpathType : xpathList) {
-            Element elem = DOMUtils.createElement(ownerDoc, "XPath",
-                                                  Transform.XPATH2, prefix);
-            elem.appendChild
-                (ownerDoc.createTextNode(xpathType.getExpression()));
-            DOMUtils.setAttribute(elem, "Filter",
-                                  xpathType.getFilter().toString());
-            elem.setAttributeNS("http://www.w3.org/2000/xmlns/", qname,
-                                Transform.XPATH2);
+        supfr.mbrsiblPbrbms(pbrfnt, dontfxt);
+        XPbtiFiltfr2PbrbmftfrSpfd xp =
+            (XPbtiFiltfr2PbrbmftfrSpfd)gftPbrbmftfrSpfd();
+        String prffix = DOMUtils.gftNSPrffix(dontfxt, Trbnsform.XPATH2);
+        String qnbmf = (prffix == null || prffix.lfngti() == 0)
+                       ? "xmlns" : "xmlns:" + prffix;
+        @SupprfssWbrnings("undifdkfd")
+        List<XPbtiTypf> xpbtiList = xp.gftXPbtiList();
+        for (XPbtiTypf xpbtiTypf : xpbtiList) {
+            Elfmfnt flfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "XPbti",
+                                                  Trbnsform.XPATH2, prffix);
+            flfm.bppfndCiild
+                (ownfrDod.drfbtfTfxtNodf(xpbtiTypf.gftExprfssion()));
+            DOMUtils.sftAttributf(flfm, "Filtfr",
+                                  xpbtiTypf.gftFiltfr().toString());
+            flfm.sftAttributfNS("ittp://www.w3.org/2000/xmlns/", qnbmf,
+                                Trbnsform.XPATH2);
 
-            // add namespace attributes, if necessary
-            @SuppressWarnings("unchecked")
-            Set<Map.Entry<String, String>> entries =
-                xpathType.getNamespaceMap().entrySet();
-            for (Map.Entry<String, String> entry : entries) {
-                elem.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" +
-                                    entry.getKey(),
-                                    entry.getValue());
+            // bdd nbmfspbdf bttributfs, if nfdfssbry
+            @SupprfssWbrnings("undifdkfd")
+            Sft<Mbp.Entry<String, String>> fntrifs =
+                xpbtiTypf.gftNbmfspbdfMbp().fntrySft();
+            for (Mbp.Entry<String, String> fntry : fntrifs) {
+                flfm.sftAttributfNS("ittp://www.w3.org/2000/xmlns/", "xmlns:" +
+                                    fntry.gftKfy(),
+                                    fntry.gftVbluf());
             }
 
-            transformElem.appendChild(elem);
+            trbnsformElfm.bppfndCiild(flfm);
         }
     }
 }

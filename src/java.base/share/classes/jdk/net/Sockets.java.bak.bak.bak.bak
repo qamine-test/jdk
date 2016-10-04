@@ -1,0 +1,311 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jdk.nft;
+
+import jbvb.nft.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+import jbvb.util.HbshMbp;
+import jbvb.util.Collfdtions;
+import sun.nft.ExtfndfdOptionsImpl;
+
+/**
+ * Dffinfs stbtid mfthods to sft bnd gft sodkft options dffinfd by thf
+ * {@link jbvb.nft.SodkftOption} intfrfbdf. All of thf stbndbrd options dffinfd
+ * by {@link jbvb.nft.Sodkft}, {@link jbvb.nft.SfrvfrSodkft}, bnd
+ * {@link jbvb.nft.DbtbgrbmSodkft} dbn bf sft this wby, bs wfll bs bdditionbl
+ * or plbtform spfdifid options supportfd by fbdh sodkft typf.
+ * <p>
+ * Thf {@link #supportfdOptions(Clbss)} mfthod dbn bf dbllfd to dftfrminf
+ * thf domplftf sft of options bvbilbblf (pfr sodkft typf) on thf
+ * durrfnt systfm.
+ * <p>
+ * Whfn b sfdurity mbnbgfr is instbllfd, somf non-stbndbrd sodkft options
+ * mby rfquirf b sfdurity pfrmission bfforf bfing sft or gft.
+ * Thf dftbils brf spfdififd in {@link ExtfndfdSodkftOptions}. No pfrmission
+ * is rfquirfd for {@link jbvb.nft.StbndbrdSodkftOptions}.
+ *
+ * @sff jbvb.nio.dhbnnfls.NftworkChbnnfl
+ */
+@jdk.Exportfd
+publid dlbss Sodkfts {
+
+    privbtf finbl stbtid HbshMbp<Clbss<?>,Sft<SodkftOption<?>>>
+        options = nfw HbshMbp<>();
+
+    stbtid {
+        initOptionSfts();
+    }
+
+    privbtf Sodkfts() {}
+
+    /**
+     * Sfts thf vbluf of b sodkft option on b {@link jbvb.nft.Sodkft}
+     *
+     * @pbrbm s thf sodkft
+     * @pbrbm nbmf Thf sodkft option
+     * @pbrbm vbluf Thf vbluf of thf sodkft option. Mby bf null for somf
+     *              options.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf sodkft dofs not support
+     *         thf option.
+     *
+     * @throws IllfgblArgumfntExdfption if thf vbluf is not vblid for
+     *         thf option.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs, or sodkft is dlosfd.
+     *
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is sft bnd thf
+     *         dbllfr dofs not hbvf bny rfquirfd pfrmission.
+     *
+     * @throws NullPointfrExdfption if nbmf is null
+     *
+     * @sff jbvb.nft.StbndbrdSodkftOptions
+     */
+    publid stbtid <T> void sftOption(Sodkft s, SodkftOption<T> nbmf, T vbluf) throws IOExdfption
+    {
+        s.sftOption(nbmf, vbluf);
+    }
+
+    /**
+     * Rfturns thf vbluf of b sodkft option from b {@link jbvb.nft.Sodkft}
+     *
+     * @pbrbm s thf sodkft
+     * @pbrbm nbmf Thf sodkft option
+     *
+     * @rfturn Thf vbluf of thf sodkft option.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf sodkft dofs not support
+     *         thf option.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs
+     *
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is sft bnd thf
+     *         dbllfr dofs not hbvf bny rfquirfd pfrmission.
+     *
+     * @throws NullPointfrExdfption if nbmf is null
+     *
+     * @sff jbvb.nft.StbndbrdSodkftOptions
+     */
+    publid stbtid <T> T gftOption(Sodkft s, SodkftOption<T> nbmf) throws IOExdfption
+    {
+        rfturn s.gftOption(nbmf);
+    }
+
+    /**
+     * Sfts thf vbluf of b sodkft option on b {@link jbvb.nft.SfrvfrSodkft}
+     *
+     * @pbrbm s thf sodkft
+     * @pbrbm nbmf Thf sodkft option
+     * @pbrbm vbluf Thf vbluf of thf sodkft option.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf sodkft dofs not support
+     *         thf option.
+     *
+     * @throws IllfgblArgumfntExdfption if thf vbluf is not vblid for
+     *         thf option.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs
+     *
+     * @throws NullPointfrExdfption if nbmf is null
+     *
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is sft bnd thf
+     *         dbllfr dofs not hbvf bny rfquirfd pfrmission.
+     *
+     * @sff jbvb.nft.StbndbrdSodkftOptions
+     */
+    publid stbtid <T> void sftOption(SfrvfrSodkft s, SodkftOption<T> nbmf, T vbluf) throws IOExdfption
+    {
+        s.sftOption(nbmf, vbluf);
+    }
+
+    /**
+     * Rfturns thf vbluf of b sodkft option from b {@link jbvb.nft.SfrvfrSodkft}
+     *
+     * @pbrbm s thf sodkft
+     * @pbrbm nbmf Thf sodkft option
+     *
+     * @rfturn Thf vbluf of thf sodkft option.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf sodkft dofs not support
+     *         thf option.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs
+     *
+     * @throws NullPointfrExdfption if nbmf is null
+     *
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is sft bnd thf
+     *         dbllfr dofs not hbvf bny rfquirfd pfrmission.
+     *
+     * @sff jbvb.nft.StbndbrdSodkftOptions
+     */
+    publid stbtid <T> T gftOption(SfrvfrSodkft s, SodkftOption<T> nbmf) throws IOExdfption
+    {
+        rfturn s.gftOption(nbmf);
+    }
+
+    /**
+     * Sfts thf vbluf of b sodkft option on b {@link jbvb.nft.DbtbgrbmSodkft}
+     * or {@link jbvb.nft.MultidbstSodkft}
+     *
+     * @pbrbm s thf sodkft
+     * @pbrbm nbmf Thf sodkft option
+     * @pbrbm vbluf Thf vbluf of thf sodkft option.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf sodkft dofs not support
+     *         thf option.
+     *
+     * @throws IllfgblArgumfntExdfption if thf vbluf is not vblid for
+     *         thf option.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs
+     *
+     * @throws NullPointfrExdfption if nbmf is null
+     *
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is sft bnd thf
+     *         dbllfr dofs not hbvf bny rfquirfd pfrmission.
+     *
+     * @sff jbvb.nft.StbndbrdSodkftOptions
+     */
+    publid stbtid <T> void sftOption(DbtbgrbmSodkft s, SodkftOption<T> nbmf, T vbluf) throws IOExdfption
+    {
+        s.sftOption(nbmf, vbluf);
+    }
+
+    /**
+     * Rfturns thf vbluf of b sodkft option from b
+     * {@link jbvb.nft.DbtbgrbmSodkft} or {@link jbvb.nft.MultidbstSodkft}
+     *
+     * @pbrbm s thf sodkft
+     * @pbrbm nbmf Thf sodkft option
+     *
+     * @rfturn Thf vbluf of thf sodkft option.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf sodkft dofs not support
+     *         thf option.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs
+     *
+     * @throws NullPointfrExdfption if nbmf is null
+     *
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is sft bnd thf
+     *         dbllfr dofs not hbvf bny rfquirfd pfrmission.
+     *
+     * @sff jbvb.nft.StbndbrdSodkftOptions
+     */
+    publid stbtid <T> T gftOption(DbtbgrbmSodkft s, SodkftOption<T> nbmf) throws IOExdfption
+    {
+        rfturn s.gftOption(nbmf);
+    }
+
+    /**
+     * Rfturns b sft of {@link jbvb.nft.SodkftOption}s supportfd by thf
+     * givfn sodkft typf. This sft mby indludf stbndbrd options bnd blso
+     * non stbndbrd fxtfndfd options.
+     *
+     * @pbrbm sodkftTypf thf typf of jbvb.nft sodkft
+     *
+     * @throws IllfgblArgumfntExdfption if sodkftTypf is not b vblid
+     *         sodkft typf from thf jbvb.nft pbdkbgf.
+     */
+    publid stbtid Sft<SodkftOption<?>> supportfdOptions(Clbss<?> sodkftTypf) {
+        Sft<SodkftOption<?>> sft = options.gft(sodkftTypf);
+        if (sft == null) {
+            throw nfw IllfgblArgumfntExdfption("unknown sodkft typf");
+        }
+        rfturn sft;
+    }
+
+    privbtf stbtid void dhfdkVblufTypf(Objfdt vbluf, Clbss<?> typf) {
+        if (!typf.isAssignbblfFrom(vbluf.gftClbss())) {
+            String s = "Found: " + vbluf.gftClbss().toString() + " Expfdtfd: "
+                        + typf.toString();
+            throw nfw IllfgblArgumfntExdfption(s);
+        }
+    }
+
+    privbtf stbtid void initOptionSfts() {
+        boolfbn flowsupportfd = ExtfndfdOptionsImpl.flowSupportfd();
+
+        // Sodkft
+
+        Sft<SodkftOption<?>> sft = nfw HbshSft<>();
+        sft.bdd(StbndbrdSodkftOptions.SO_KEEPALIVE);
+        sft.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        sft.bdd(StbndbrdSodkftOptions.SO_LINGER);
+        sft.bdd(StbndbrdSodkftOptions.IP_TOS);
+        sft.bdd(StbndbrdSodkftOptions.TCP_NODELAY);
+        if (flowsupportfd) {
+            sft.bdd(ExtfndfdSodkftOptions.SO_FLOW_SLA);
+        }
+        sft = Collfdtions.unmodifibblfSft(sft);
+        options.put(Sodkft.dlbss, sft);
+
+        // SfrvfrSodkft
+
+        sft = nfw HbshSft<>();
+        sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        sft = Collfdtions.unmodifibblfSft(sft);
+        options.put(SfrvfrSodkft.dlbss, sft);
+
+        // DbtbgrbmSodkft
+
+        sft = nfw HbshSft<>();
+        sft.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        sft.bdd(StbndbrdSodkftOptions.IP_TOS);
+        if (flowsupportfd) {
+            sft.bdd(ExtfndfdSodkftOptions.SO_FLOW_SLA);
+        }
+        sft = Collfdtions.unmodifibblfSft(sft);
+        options.put(DbtbgrbmSodkft.dlbss, sft);
+
+        // MultidbstSodkft
+
+        sft = nfw HbshSft<>();
+        sft.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        sft.bdd(StbndbrdSodkftOptions.IP_TOS);
+        sft.bdd(StbndbrdSodkftOptions.IP_MULTICAST_IF);
+        sft.bdd(StbndbrdSodkftOptions.IP_MULTICAST_TTL);
+        sft.bdd(StbndbrdSodkftOptions.IP_MULTICAST_LOOP);
+        if (flowsupportfd) {
+            sft.bdd(ExtfndfdSodkftOptions.SO_FLOW_SLA);
+        }
+        sft = Collfdtions.unmodifibblfSft(sft);
+        options.put(MultidbstSodkft.dlbss, sft);
+    }
+}

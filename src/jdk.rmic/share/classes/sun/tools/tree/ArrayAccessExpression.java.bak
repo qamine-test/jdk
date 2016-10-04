@@ -1,270 +1,270 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class ArrayAccessExpression extends UnaryExpression {
+publid
+dlbss ArrbyAddfssExprfssion fxtfnds UnbryExprfssion {
 
     /**
-     * The index expression for the array access.  Note that
-     * ArrayAccessExpression also `moonlights' as a structure for
-     * storing array types (like Object[]) which are used as part
-     * of cast expressions.  For properly formed array types, the
-     * value of index is null.  We need to be on the lookout for
-     * null indices in true array accesses, and non-null indices
-     * in array types.  We also need to make sure general purpose
-     * methods (like copyInline(), which is called for both) are
-     * prepared to handle either null or non-null indices.
+     * Tif indfx fxprfssion for tif brrby bddfss.  Notf tibt
+     * ArrbyAddfssExprfssion blso `moonligits' bs b strudturf for
+     * storing brrby typfs (likf Objfdt[]) wiidi brf usfd bs pbrt
+     * of dbst fxprfssions.  For propfrly formfd brrby typfs, tif
+     * vbluf of indfx is null.  Wf nffd to bf on tif lookout for
+     * null indidfs in truf brrby bddfssfs, bnd non-null indidfs
+     * in brrby typfs.  Wf blso nffd to mbkf surf gfnfrbl purposf
+     * mftiods (likf dopyInlinf(), wiidi is dbllfd for boti) brf
+     * prfpbrfd to ibndlf fitifr null or non-null indidfs.
      */
-    Expression index;
+    Exprfssion indfx;
 
     /**
-     * constructor
+     * donstrudtor
      */
-    public ArrayAccessExpression(long where, Expression right, Expression index) {
-        super(ARRAYACCESS, where, Type.tError, right);
-        this.index = index;
+    publid ArrbyAddfssExprfssion(long wifrf, Exprfssion rigit, Exprfssion indfx) {
+        supfr(ARRAYACCESS, wifrf, Typf.tError, rigit);
+        tiis.indfx = indfx;
     }
 
     /**
-     * Check expression type
+     * Cifdk fxprfssion typf
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        vset = right.checkValue(env, ctx, vset, exp);
-        if (index == null) {
-            env.error(where, "array.index.required");
-            return vset;
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        vsft = rigit.difdkVbluf(fnv, dtx, vsft, fxp);
+        if (indfx == null) {
+            fnv.frror(wifrf, "brrby.indfx.rfquirfd");
+            rfturn vsft;
         }
-        vset = index.checkValue(env, ctx, vset, exp);
-        index = convert(env, ctx, Type.tInt, index);
+        vsft = indfx.difdkVbluf(fnv, dtx, vsft, fxp);
+        indfx = donvfrt(fnv, dtx, Typf.tInt, indfx);
 
-        if (!right.type.isType(TC_ARRAY)) {
-            if (!right.type.isType(TC_ERROR)) {
-                env.error(where, "not.array", right.type);
+        if (!rigit.typf.isTypf(TC_ARRAY)) {
+            if (!rigit.typf.isTypf(TC_ERROR)) {
+                fnv.frror(wifrf, "not.brrby", rigit.typf);
             }
-            return vset;
+            rfturn vsft;
         }
 
-        type = right.type.getElementType();
-        return vset;
+        typf = rigit.typf.gftElfmfntTypf();
+        rfturn vsft;
     }
 
-    public Vset checkAmbigName(Environment env, Context ctx,
-                               Vset vset, Hashtable<Object, Object> exp,
-                               UnaryExpression loc) {
-        if (index == null) {
-            vset = right.checkAmbigName(env, ctx, vset, exp, this);
-            if (right.type == Type.tPackage) {
-                FieldExpression.reportFailedPackagePrefix(env, right);
-                return vset;
+    publid Vsft difdkAmbigNbmf(Environmfnt fnv, Contfxt dtx,
+                               Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp,
+                               UnbryExprfssion lod) {
+        if (indfx == null) {
+            vsft = rigit.difdkAmbigNbmf(fnv, dtx, vsft, fxp, tiis);
+            if (rigit.typf == Typf.tPbdkbgf) {
+                FifldExprfssion.rfportFbilfdPbdkbgfPrffix(fnv, rigit);
+                rfturn vsft;
             }
 
-            // Nope.  Is this field expression a type?
-            if (right instanceof TypeExpression) {
-                Type atype = Type.tArray(right.type);
-                loc.right = new TypeExpression(where, atype);
-                return vset;
+            // Nopf.  Is tiis fifld fxprfssion b typf?
+            if (rigit instbndfof TypfExprfssion) {
+                Typf btypf = Typf.tArrby(rigit.typf);
+                lod.rigit = nfw TypfExprfssion(wifrf, btypf);
+                rfturn vsft;
             }
 
-            env.error(where, "array.index.required");
-            return vset;
+            fnv.frror(wifrf, "brrby.indfx.rfquirfd");
+            rfturn vsft;
         }
-        return super.checkAmbigName(env, ctx, vset, exp, loc);
+        rfturn supfr.difdkAmbigNbmf(fnv, dtx, vsft, fxp, lod);
     }
 
     /*
-     * Check the array if it appears on the LHS of an assignment
+     * Cifdk tif brrby if it bppfbrs on tif LHS of bn bssignmfnt
      */
-    public Vset checkLHS(Environment env, Context ctx,
-                         Vset vset, Hashtable<Object, Object> exp) {
-        return checkValue(env, ctx, vset, exp);
+    publid Vsft difdkLHS(Environmfnt fnv, Contfxt dtx,
+                         Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
     }
 
     /*
-     * Check the array if it appears on the LHS of an op= expression
+     * Cifdk tif brrby if it bppfbrs on tif LHS of bn op= fxprfssion
      */
-    public Vset checkAssignOp(Environment env, Context ctx,
-                              Vset vset, Hashtable<Object, Object> exp, Expression outside) {
-        return checkValue(env, ctx, vset, exp);
+    publid Vsft difdkAssignOp(Environmfnt fnv, Contfxt dtx,
+                              Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, Exprfssion outsidf) {
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
     }
 
     /**
-     * An array access expression never requires the use of an access method to perform
-     * an assignment to an array element, though an access method may be required to
-     * fetch the array object itself.
+     * An brrby bddfss fxprfssion nfvfr rfquirfs tif usf of bn bddfss mftiod to pfrform
+     * bn bssignmfnt to bn brrby flfmfnt, tiougi bn bddfss mftiod mby bf rfquirfd to
+     * fftdi tif brrby objfdt itsflf.
      */
-    public FieldUpdater getAssigner(Environment env, Context ctx) {
-        return null;
+    publid FifldUpdbtfr gftAssignfr(Environmfnt fnv, Contfxt dtx) {
+        rfturn null;
     }
 
     /**
-     * An array access expression never requires a field updater.
+     * An brrby bddfss fxprfssion nfvfr rfquirfs b fifld updbtfr.
      */
-    public FieldUpdater getUpdater(Environment env, Context ctx) {
-        return null;
+    publid FifldUpdbtfr gftUpdbtfr(Environmfnt fnv, Contfxt dtx) {
+        rfturn null;
     }
 
     /**
-     * Convert to a type
+     * Convfrt to b typf
      */
-    Type toType(Environment env, Context ctx) {
-        return toType(env, right.toType(env, ctx));
+    Typf toTypf(Environmfnt fnv, Contfxt dtx) {
+        rfturn toTypf(fnv, rigit.toTypf(fnv, dtx));
     }
-    Type toType(Environment env, Type t) {
-        if (index != null) {
-            env.error(index.where, "array.dim.in.type");
+    Typf toTypf(Environmfnt fnv, Typf t) {
+        if (indfx != null) {
+            fnv.frror(indfx.wifrf, "brrby.dim.in.typf");
         }
-        return Type.tArray(t);
+        rfturn Typf.tArrby(t);
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Expression inline(Environment env, Context ctx) {
-        // It isn't possible to simply replace an array access
-        // with a CommaExpression as happens with many binary
-        // operators, because array accesses may have side effects
-        // such as NullPointerException or IndexOutOfBoundsException.
-        right = right.inlineValue(env, ctx);
-        index = index.inlineValue(env, ctx);
-        return this;
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        // It isn't possiblf to simply rfplbdf bn brrby bddfss
+        // witi b CommbExprfssion bs ibppfns witi mbny binbry
+        // opfrbtors, bfdbusf brrby bddfssfs mby ibvf sidf ffffdts
+        // sudi bs NullPointfrExdfption or IndfxOutOfBoundsExdfption.
+        rigit = rigit.inlinfVbluf(fnv, dtx);
+        indfx = indfx.inlinfVbluf(fnv, dtx);
+        rfturn tiis;
     }
-    public Expression inlineValue(Environment env, Context ctx) {
-        // inlineValue() should not end up being called when the index is
-        // null.  If it is null, we let this method fail with a
-        // NullPointerException.
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        // inlinfVbluf() siould not fnd up bfing dbllfd wifn tif indfx is
+        // null.  If it is null, wf lft tiis mftiod fbil witi b
+        // NullPointfrExdfption.
 
-        right = right.inlineValue(env, ctx);
-        index = index.inlineValue(env, ctx);
-        return this;
+        rigit = rigit.inlinfVbluf(fnv, dtx);
+        indfx = indfx.inlinfVbluf(fnv, dtx);
+        rfturn tiis;
     }
-    public Expression inlineLHS(Environment env, Context ctx) {
-        return inlineValue(env, ctx);
+    publid Exprfssion inlinfLHS(Environmfnt fnv, Contfxt dtx) {
+        rfturn inlinfVbluf(fnv, dtx);
     }
 
     /**
-     * Create a copy of the expression for method inlining
+     * Crfbtf b dopy of tif fxprfssion for mftiod inlining
      */
-    public Expression copyInline(Context ctx) {
-        ArrayAccessExpression e = (ArrayAccessExpression)clone();
-        e.right = right.copyInline(ctx);
-        if (index == null) {
-            // The index can be null when this node is being used to
-            // represent a type (e.g. Object[]) used in a cast expression.
-            // We need to copy such structures without complaint.
-            e.index = null;
-        } else {
-            e.index = index.copyInline(ctx);
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        ArrbyAddfssExprfssion f = (ArrbyAddfssExprfssion)dlonf();
+        f.rigit = rigit.dopyInlinf(dtx);
+        if (indfx == null) {
+            // Tif indfx dbn bf null wifn tiis nodf is bfing usfd to
+            // rfprfsfnt b typf (f.g. Objfdt[]) usfd in b dbst fxprfssion.
+            // Wf nffd to dopy sudi strudturfs witiout domplbint.
+            f.indfx = null;
+        } flsf {
+            f.indfx = indfx.dopyInlinf(dtx);
         }
-        return e;
+        rfturn f;
     }
 
     /**
-     * The cost of inlining this expression
+     * Tif dost of inlining tiis fxprfssion
      */
-    public int costInline(int thresh, Environment env, Context ctx) {
-        // costInline() should not end up being called when the index is
-        // null.  If it is null, we let this method fail with a
-        // NullPointerException.
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        // dostInlinf() siould not fnd up bfing dbllfd wifn tif indfx is
+        // null.  If it is null, wf lft tiis mftiod fbil witi b
+        // NullPointfrExdfption.
 
-        return 1 + right.costInline(thresh, env, ctx)
-            + index.costInline(thresh, env, ctx);
+        rfturn 1 + rigit.dostInlinf(tirfsi, fnv, dtx)
+            + indfx.dostInlinf(tirfsi, fnv, dtx);
     }
 
     /**
-     * Code
+     * Codf
      */
-    int codeLValue(Environment env, Context ctx, Assembler asm) {
-        // codeLValue() should not end up being called when the index is
-        // null.  If it is null, we let this method fail with a
-        // NullPointerException.
+    int dodfLVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        // dodfLVbluf() siould not fnd up bfing dbllfd wifn tif indfx is
+        // null.  If it is null, wf lft tiis mftiod fbil witi b
+        // NullPointfrExdfption.
 
-        right.codeValue(env, ctx, asm);
-        index.codeValue(env, ctx, asm);
-        return 2;
+        rigit.dodfVbluf(fnv, dtx, bsm);
+        indfx.dodfVbluf(fnv, dtx, bsm);
+        rfturn 2;
     }
-    void codeLoad(Environment env, Context ctx, Assembler asm) {
-        switch (type.getTypeCode()) {
-          case TC_BOOLEAN:
-          case TC_BYTE:
-            asm.add(where, opc_baload);
-            break;
-          case TC_CHAR:
-            asm.add(where, opc_caload);
-            break;
-          case TC_SHORT:
-            asm.add(where, opc_saload);
-            break;
-          default:
-            asm.add(where, opc_iaload + type.getTypeCodeOffset());
-        }
-    }
-    void codeStore(Environment env, Context ctx, Assembler asm) {
-        switch (type.getTypeCode()) {
-          case TC_BOOLEAN:
-          case TC_BYTE:
-            asm.add(where, opc_bastore);
-            break;
-          case TC_CHAR:
-            asm.add(where, opc_castore);
-            break;
-          case TC_SHORT:
-            asm.add(where, opc_sastore);
-            break;
-          default:
-            asm.add(where, opc_iastore + type.getTypeCodeOffset());
+    void dodfLobd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        switdi (typf.gftTypfCodf()) {
+          dbsf TC_BOOLEAN:
+          dbsf TC_BYTE:
+            bsm.bdd(wifrf, opd_bblobd);
+            brfbk;
+          dbsf TC_CHAR:
+            bsm.bdd(wifrf, opd_dblobd);
+            brfbk;
+          dbsf TC_SHORT:
+            bsm.bdd(wifrf, opd_sblobd);
+            brfbk;
+          dffbult:
+            bsm.bdd(wifrf, opd_iblobd + typf.gftTypfCodfOffsft());
         }
     }
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        codeLValue(env, ctx, asm);
-        codeLoad(env, ctx, asm);
+    void dodfStorf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        switdi (typf.gftTypfCodf()) {
+          dbsf TC_BOOLEAN:
+          dbsf TC_BYTE:
+            bsm.bdd(wifrf, opd_bbstorf);
+            brfbk;
+          dbsf TC_CHAR:
+            bsm.bdd(wifrf, opd_dbstorf);
+            brfbk;
+          dbsf TC_SHORT:
+            bsm.bdd(wifrf, opd_sbstorf);
+            brfbk;
+          dffbult:
+            bsm.bdd(wifrf, opd_ibstorf + typf.gftTypfCodfOffsft());
+        }
+    }
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        dodfLVbluf(fnv, dtx, bsm);
+        dodfLobd(fnv, dtx, bsm);
     }
 
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print("(" + opNames[op] + " ");
-        right.print(out);
+    publid void print(PrintStrfbm out) {
+        out.print("(" + opNbmfs[op] + " ");
+        rigit.print(out);
         out.print(" ");
-        if (index != null) {
-            index.print(out);
-        } else {
-        out.print("<empty>");
+        if (indfx != null) {
+            indfx.print(out);
+        } flsf {
+        out.print("<fmpty>");
         }
         out.print(")");
     }

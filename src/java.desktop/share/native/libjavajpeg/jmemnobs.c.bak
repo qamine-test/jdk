@@ -1,113 +1,113 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jmemnobs.c
+ * jmfmnobs.d
  *
- * Copyright (C) 1992-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1992-1996, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file provides a really simple implementation of the system-
- * dependent portion of the JPEG memory manager.  This implementation
- * assumes that no backing-store files are needed: all required space
- * can be obtained from malloc().
- * This is very portable in the sense that it'll compile on almost anything,
- * but you'd better have lots of main memory (or virtual memory) if you want
- * to process big images.
- * Note that the max_memory_to_use option is ignored by this implementation.
+ * Tiis filf providfs b rfblly simplf implfmfntbtion of tif systfm-
+ * dfpfndfnt portion of tif JPEG mfmory mbnbgfr.  Tiis implfmfntbtion
+ * bssumfs tibt no bbdking-storf filfs brf nffdfd: bll rfquirfd spbdf
+ * dbn bf obtbinfd from mbllod().
+ * Tiis is vfry portbblf in tif sfnsf tibt it'll dompilf on blmost bnytiing,
+ * but you'd bfttfr ibvf lots of mbin mfmory (or virtubl mfmory) if you wbnt
+ * to prodfss big imbgfs.
+ * Notf tibt tif mbx_mfmory_to_usf option is ignorfd by tiis implfmfntbtion.
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
-#include "jmemsys.h"            /* import the system-dependent declarations */
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
+#indludf "jmfmsys.i"            /* import tif systfm-dfpfndfnt dfdlbrbtions */
 
-#ifndef HAVE_STDLIB_H           /* <stdlib.h> should declare malloc(),free() */
-extern void * malloc JPP((size_t size));
-extern void free JPP((void *ptr));
-#endif
+#ifndff HAVE_STDLIB_H           /* <stdlib.i> siould dfdlbrf mbllod(),frff() */
+fxtfrn void * mbllod JPP((sizf_t sizf));
+fxtfrn void frff JPP((void *ptr));
+#fndif
 
 
 /*
- * Memory allocation and freeing are controlled by the regular library
- * routines malloc() and free().
+ * Mfmory bllodbtion bnd frffing brf dontrollfd by tif rfgulbr librbry
+ * routinfs mbllod() bnd frff().
  */
 
 GLOBAL(void *)
-jpeg_get_small (j_common_ptr cinfo, size_t sizeofobject)
+jpfg_gft_smbll (j_dommon_ptr dinfo, sizf_t sizfofobjfdt)
 {
-  return (void *) malloc(sizeofobject);
+  rfturn (void *) mbllod(sizfofobjfdt);
 }
 
 GLOBAL(void)
-jpeg_free_small (j_common_ptr cinfo, void * object, size_t sizeofobject)
+jpfg_frff_smbll (j_dommon_ptr dinfo, void * objfdt, sizf_t sizfofobjfdt)
 {
-  free(object);
+  frff(objfdt);
 }
 
 
 /*
- * "Large" objects are treated the same as "small" ones.
- * NB: although we include FAR keywords in the routine declarations,
- * this file won't actually work in 80x86 small/medium model; at least,
- * you probably won't be able to process useful-size images in only 64KB.
+ * "Lbrgf" objfdts brf trfbtfd tif sbmf bs "smbll" onfs.
+ * NB: bltiougi wf indludf FAR kfywords in tif routinf dfdlbrbtions,
+ * tiis filf won't bdtublly work in 80x86 smbll/mfdium modfl; bt lfbst,
+ * you probbbly won't bf bblf to prodfss usfful-sizf imbgfs in only 64KB.
  */
 
 GLOBAL(void FAR *)
-jpeg_get_large (j_common_ptr cinfo, size_t sizeofobject)
+jpfg_gft_lbrgf (j_dommon_ptr dinfo, sizf_t sizfofobjfdt)
 {
-  return (void FAR *) malloc(sizeofobject);
+  rfturn (void FAR *) mbllod(sizfofobjfdt);
 }
 
 GLOBAL(void)
-jpeg_free_large (j_common_ptr cinfo, void FAR * object, size_t sizeofobject)
+jpfg_frff_lbrgf (j_dommon_ptr dinfo, void FAR * objfdt, sizf_t sizfofobjfdt)
 {
-  free(object);
+  frff(objfdt);
 }
 
 
 /*
- * This routine computes the total memory space available for allocation.
- * Here we always say, "we got all you want bud!"
+ * Tiis routinf domputfs tif totbl mfmory spbdf bvbilbblf for bllodbtion.
+ * Hfrf wf blwbys sby, "wf got bll you wbnt bud!"
  */
 
-GLOBAL(size_t)
-jpeg_mem_available (j_common_ptr cinfo, size_t min_bytes_needed,
-                    size_t max_bytes_needed, size_t already_allocated)
+GLOBAL(sizf_t)
+jpfg_mfm_bvbilbblf (j_dommon_ptr dinfo, sizf_t min_bytfs_nffdfd,
+                    sizf_t mbx_bytfs_nffdfd, sizf_t blrfbdy_bllodbtfd)
 {
-  return max_bytes_needed;
+  rfturn mbx_bytfs_nffdfd;
 }
 
 
 /*
- * Backing store (temporary file) management.
- * Since jpeg_mem_available always promised the moon,
- * this should never be called and we can just error out.
+ * Bbdking storf (tfmporbry filf) mbnbgfmfnt.
+ * Sindf jpfg_mfm_bvbilbblf blwbys promisfd tif moon,
+ * tiis siould nfvfr bf dbllfd bnd wf dbn just frror out.
  */
 
 GLOBAL(void)
-jpeg_open_backing_store (j_common_ptr cinfo, backing_store_ptr info,
-                         long total_bytes_needed)
+jpfg_opfn_bbdking_storf (j_dommon_ptr dinfo, bbdking_storf_ptr info,
+                         long totbl_bytfs_nffdfd)
 {
-  ERREXIT(cinfo, JERR_NO_BACKING_STORE);
+  ERREXIT(dinfo, JERR_NO_BACKING_STORE);
 }
 
 
 /*
- * These routines take care of any system-dependent initialization and
- * cleanup required.  Here, there isn't any.
+ * Tifsf routinfs tbkf dbrf of bny systfm-dfpfndfnt initiblizbtion bnd
+ * dlfbnup rfquirfd.  Hfrf, tifrf isn't bny.
  */
 
-GLOBAL(size_t)
-jpeg_mem_init (j_common_ptr cinfo)
+GLOBAL(sizf_t)
+jpfg_mfm_init (j_dommon_ptr dinfo)
 {
-  return 0;                     /* just set max_memory_to_use to 0 */
+  rfturn 0;                     /* just sft mbx_mfmory_to_usf to 0 */
 }
 
 GLOBAL(void)
-jpeg_mem_term (j_common_ptr cinfo)
+jpfg_mfm_tfrm (j_dommon_ptr dinfo)
 {
   /* no work */
 }

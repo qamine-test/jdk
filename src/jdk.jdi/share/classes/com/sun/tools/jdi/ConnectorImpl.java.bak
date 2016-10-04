@@ -1,426 +1,426 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.tools.jdi.*;
-import com.sun.jdi.*;
-import com.sun.jdi.connect.*;
-import com.sun.jdi.InternalException;
-import java.util.Collections;
-import java.util.Collection;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ResourceBundle;
-import java.io.Serializable;
+import dom.sun.tools.jdi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.IntfrnblExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtion;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.io.Sfriblizbblf;
 
-abstract class ConnectorImpl implements Connector {
-    Map<String,Argument> defaultArguments = new java.util.LinkedHashMap<String,Argument>();
+bbstrbdt dlbss ConnfdtorImpl implfmfnts Connfdtor {
+    Mbp<String,Argumfnt> dffbultArgumfnts = nfw jbvb.util.LinkfdHbsiMbp<String,Argumfnt>();
 
-    // Used by BooleanArgument
-    static String trueString = null;
-    static String falseString;
+    // Usfd by BoolfbnArgumfnt
+    stbtid String trufString = null;
+    stbtid String fblsfString;
 
-    public Map<String,Argument> defaultArguments() {
-        Map<String,Argument> defaults = new java.util.LinkedHashMap<String,Argument>();
-        Collection<Argument> values = defaultArguments.values();
+    publid Mbp<String,Argumfnt> dffbultArgumfnts() {
+        Mbp<String,Argumfnt> dffbults = nfw jbvb.util.LinkfdHbsiMbp<String,Argumfnt>();
+        Collfdtion<Argumfnt> vblufs = dffbultArgumfnts.vblufs();
 
-        Iterator<Argument> iter = values.iterator();
-        while (iter.hasNext()) {
-            ArgumentImpl argument = (ArgumentImpl)iter.next();
-            defaults.put(argument.name(), (Argument)argument.clone());
+        Itfrbtor<Argumfnt> itfr = vblufs.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            ArgumfntImpl brgumfnt = (ArgumfntImpl)itfr.nfxt();
+            dffbults.put(brgumfnt.nbmf(), (Argumfnt)brgumfnt.dlonf());
         }
-        return defaults;
+        rfturn dffbults;
     }
 
-    void addStringArgument(String name, String label, String description,
-                           String defaultValue, boolean mustSpecify) {
-        defaultArguments.put(name,
-                             new StringArgumentImpl(name, label,
-                                                    description,
-                                                    defaultValue,
-                                                    mustSpecify));
+    void bddStringArgumfnt(String nbmf, String lbbfl, String dfsdription,
+                           String dffbultVbluf, boolfbn mustSpfdify) {
+        dffbultArgumfnts.put(nbmf,
+                             nfw StringArgumfntImpl(nbmf, lbbfl,
+                                                    dfsdription,
+                                                    dffbultVbluf,
+                                                    mustSpfdify));
     }
 
-    void addBooleanArgument(String name, String label, String description,
-                            boolean defaultValue, boolean mustSpecify) {
-        defaultArguments.put(name,
-                             new BooleanArgumentImpl(name, label,
-                                                     description,
-                                                     defaultValue,
-                                                     mustSpecify));
+    void bddBoolfbnArgumfnt(String nbmf, String lbbfl, String dfsdription,
+                            boolfbn dffbultVbluf, boolfbn mustSpfdify) {
+        dffbultArgumfnts.put(nbmf,
+                             nfw BoolfbnArgumfntImpl(nbmf, lbbfl,
+                                                     dfsdription,
+                                                     dffbultVbluf,
+                                                     mustSpfdify));
     }
 
-    void addIntegerArgument(String name, String label, String description,
-                            String defaultValue, boolean mustSpecify,
-                            int min, int max) {
-        defaultArguments.put(name,
-                             new IntegerArgumentImpl(name, label,
-                                                     description,
-                                                     defaultValue,
-                                                     mustSpecify,
-                                                     min, max));
+    void bddIntfgfrArgumfnt(String nbmf, String lbbfl, String dfsdription,
+                            String dffbultVbluf, boolfbn mustSpfdify,
+                            int min, int mbx) {
+        dffbultArgumfnts.put(nbmf,
+                             nfw IntfgfrArgumfntImpl(nbmf, lbbfl,
+                                                     dfsdription,
+                                                     dffbultVbluf,
+                                                     mustSpfdify,
+                                                     min, mbx));
     }
 
-    void addSelectedArgument(String name, String label, String description,
-                             String defaultValue, boolean mustSpecify,
+    void bddSflfdtfdArgumfnt(String nbmf, String lbbfl, String dfsdription,
+                             String dffbultVbluf, boolfbn mustSpfdify,
                              List<String> list) {
-        defaultArguments.put(name,
-                             new SelectedArgumentImpl(name, label,
-                                                      description,
-                                                      defaultValue,
-                                                      mustSpecify, list));
+        dffbultArgumfnts.put(nbmf,
+                             nfw SflfdtfdArgumfntImpl(nbmf, lbbfl,
+                                                      dfsdription,
+                                                      dffbultVbluf,
+                                                      mustSpfdify, list));
     }
 
-    ArgumentImpl argument(String name, Map<String, ? extends Argument> arguments)
-                throws IllegalConnectorArgumentsException {
+    ArgumfntImpl brgumfnt(String nbmf, Mbp<String, ? fxtfnds Argumfnt> brgumfnts)
+                tirows IllfgblConnfdtorArgumfntsExdfption {
 
-        ArgumentImpl argument = (ArgumentImpl)arguments.get(name);
-        if (argument == null) {
-            throw new IllegalConnectorArgumentsException(
-                         "Argument missing", name);
+        ArgumfntImpl brgumfnt = (ArgumfntImpl)brgumfnts.gft(nbmf);
+        if (brgumfnt == null) {
+            tirow nfw IllfgblConnfdtorArgumfntsExdfption(
+                         "Argumfnt missing", nbmf);
         }
-        String value = argument.value();
-        if (value == null || value.length() == 0) {
-            if (argument.mustSpecify()) {
-            throw new IllegalConnectorArgumentsException(
-                         "Argument unspecified", name);
+        String vbluf = brgumfnt.vbluf();
+        if (vbluf == null || vbluf.lfngti() == 0) {
+            if (brgumfnt.mustSpfdify()) {
+            tirow nfw IllfgblConnfdtorArgumfntsExdfption(
+                         "Argumfnt unspfdififd", nbmf);
             }
-        } else if(!argument.isValid(value)) {
-            throw new IllegalConnectorArgumentsException(
-                         "Argument invalid", name);
+        } flsf if(!brgumfnt.isVblid(vbluf)) {
+            tirow nfw IllfgblConnfdtorArgumfntsExdfption(
+                         "Argumfnt invblid", nbmf);
         }
 
-        return argument;
+        rfturn brgumfnt;
     }
 
 
-    private ResourceBundle messages = null;
+    privbtf RfsourdfBundlf mfssbgfs = null;
 
-    String getString(String key) {
-        if (messages == null) {
-            messages = ResourceBundle.getBundle("com.sun.tools.jdi.resources.jdi");
+    String gftString(String kfy) {
+        if (mfssbgfs == null) {
+            mfssbgfs = RfsourdfBundlf.gftBundlf("dom.sun.tools.jdi.rfsourdfs.jdi");
         }
-        return messages.getString(key);
+        rfturn mfssbgfs.gftString(kfy);
     }
 
-    public String toString() {
-        String string = name() + " (defaults: ";
-        Iterator<Argument> iter = defaultArguments().values().iterator();
-        boolean first = true;
-        while (iter.hasNext()) {
-            ArgumentImpl argument = (ArgumentImpl)iter.next();
+    publid String toString() {
+        String string = nbmf() + " (dffbults: ";
+        Itfrbtor<Argumfnt> itfr = dffbultArgumfnts().vblufs().itfrbtor();
+        boolfbn first = truf;
+        wiilf (itfr.ibsNfxt()) {
+            ArgumfntImpl brgumfnt = (ArgumfntImpl)itfr.nfxt();
             if (!first) {
                 string += ", ";
             }
-            string += argument.toString();
-            first = false;
+            string += brgumfnt.toString();
+            first = fblsf;
         }
         string += ")";
-        return string;
+        rfturn string;
     }
 
-    @SuppressWarnings("serial") // JDK implementation class
-    abstract class ArgumentImpl implements Connector.Argument, Cloneable, Serializable {
-        private String name;
-        private String label;
-        private String description;
-        private String value;
-        private boolean mustSpecify;
+    @SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+    bbstrbdt dlbss ArgumfntImpl implfmfnts Connfdtor.Argumfnt, Clonfbblf, Sfriblizbblf {
+        privbtf String nbmf;
+        privbtf String lbbfl;
+        privbtf String dfsdription;
+        privbtf String vbluf;
+        privbtf boolfbn mustSpfdify;
 
-        ArgumentImpl(String name, String label, String description,
-                     String value,
-                     boolean mustSpecify) {
-            this.name = name;
-            this.label = label;
-            this.description = description;
-            this.value = value;
-            this.mustSpecify = mustSpecify;
+        ArgumfntImpl(String nbmf, String lbbfl, String dfsdription,
+                     String vbluf,
+                     boolfbn mustSpfdify) {
+            tiis.nbmf = nbmf;
+            tiis.lbbfl = lbbfl;
+            tiis.dfsdription = dfsdription;
+            tiis.vbluf = vbluf;
+            tiis.mustSpfdify = mustSpfdify;
         }
 
-        public abstract boolean isValid(String value);
+        publid bbstrbdt boolfbn isVblid(String vbluf);
 
-        public String name() {
-            return name;
+        publid String nbmf() {
+            rfturn nbmf;
         }
 
-        public String label() {
-            return label;
+        publid String lbbfl() {
+            rfturn lbbfl;
         }
 
-        public String description() {
-            return description;
+        publid String dfsdription() {
+            rfturn dfsdription;
         }
 
-        public String value() {
-            return value;
+        publid String vbluf() {
+            rfturn vbluf;
         }
 
-        public void setValue(String value) {
-            if (value == null) {
-                throw new NullPointerException("Can't set null value");
+        publid void sftVbluf(String vbluf) {
+            if (vbluf == null) {
+                tirow nfw NullPointfrExdfption("Cbn't sft null vbluf");
             }
-            this.value = value;
+            tiis.vbluf = vbluf;
         }
 
-        public boolean mustSpecify() {
-            return mustSpecify;
+        publid boolfbn mustSpfdify() {
+            rfturn mustSpfdify;
         }
 
-        public boolean equals(Object obj) {
-            if ((obj != null) && (obj instanceof Connector.Argument)) {
-                Connector.Argument other = (Connector.Argument)obj;
-                return (name().equals(other.name())) &&
-                       (description().equals(other.description())) &&
-                       (mustSpecify() == other.mustSpecify()) &&
-                       (value().equals(other.value()));
-            } else {
-                return false;
+        publid boolfbn fqubls(Objfdt obj) {
+            if ((obj != null) && (obj instbndfof Connfdtor.Argumfnt)) {
+                Connfdtor.Argumfnt otifr = (Connfdtor.Argumfnt)obj;
+                rfturn (nbmf().fqubls(otifr.nbmf())) &&
+                       (dfsdription().fqubls(otifr.dfsdription())) &&
+                       (mustSpfdify() == otifr.mustSpfdify()) &&
+                       (vbluf().fqubls(otifr.vbluf()));
+            } flsf {
+                rfturn fblsf;
             }
         }
 
-        public int hashCode() {
-            return description().hashCode();
+        publid int ibsiCodf() {
+            rfturn dfsdription().ibsiCodf();
         }
 
-        public Object clone() {
+        publid Objfdt dlonf() {
             try {
-                return super.clone();
-            } catch (CloneNotSupportedException e) {
-                // Object should always support clone
-                throw new InternalException();
+                rfturn supfr.dlonf();
+            } dbtdi (ClonfNotSupportfdExdfption f) {
+                // Objfdt siould blwbys support dlonf
+                tirow nfw IntfrnblExdfption();
             }
         }
 
-        public String toString() {
-            return name() + "=" + value();
+        publid String toString() {
+            rfturn nbmf() + "=" + vbluf();
         }
     }
 
-    class BooleanArgumentImpl extends ConnectorImpl.ArgumentImpl
-                              implements Connector.BooleanArgument {
-        private static final long serialVersionUID = 1624542968639361316L;
-        BooleanArgumentImpl(String name, String label, String description,
-                            boolean value,
-                            boolean mustSpecify) {
-            super(name, label, description, null, mustSpecify);
-            if(trueString == null) {
-                trueString = getString("true");
-                falseString = getString("false");
+    dlbss BoolfbnArgumfntImpl fxtfnds ConnfdtorImpl.ArgumfntImpl
+                              implfmfnts Connfdtor.BoolfbnArgumfnt {
+        privbtf stbtid finbl long sfriblVfrsionUID = 1624542968639361316L;
+        BoolfbnArgumfntImpl(String nbmf, String lbbfl, String dfsdription,
+                            boolfbn vbluf,
+                            boolfbn mustSpfdify) {
+            supfr(nbmf, lbbfl, dfsdription, null, mustSpfdify);
+            if(trufString == null) {
+                trufString = gftString("truf");
+                fblsfString = gftString("fblsf");
             }
-            setValue(value);
+            sftVbluf(vbluf);
         }
 
         /**
-         * Sets the value of the argument.
+         * Sfts tif vbluf of tif brgumfnt.
          */
-        public void setValue(boolean value) {
-            setValue(stringValueOf(value));
+        publid void sftVbluf(boolfbn vbluf) {
+            sftVbluf(stringVblufOf(vbluf));
         }
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value is a string
-         * representation of a boolean value.
-         * @see #stringValueOf(boolean)
+         * Pfrforms bbsid sbnity difdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if vbluf is b string
+         * rfprfsfntbtion of b boolfbn vbluf.
+         * @sff #stringVblufOf(boolfbn)
          */
-        public boolean isValid(String value) {
-            return value.equals(trueString) || value.equals(falseString);
+        publid boolfbn isVblid(String vbluf) {
+            rfturn vbluf.fqubls(trufString) || vbluf.fqubls(fblsfString);
         }
 
         /**
-         * Return the string representation of the <code>value</code>
-         * parameter.
-         * Does not set or examine the value or the argument.
-         * @return the localized String representation of the
-         * boolean value.
+         * Rfturn tif string rfprfsfntbtion of tif <dodf>vbluf</dodf>
+         * pbrbmftfr.
+         * Dofs not sft or fxbminf tif vbluf or tif brgumfnt.
+         * @rfturn tif lodblizfd String rfprfsfntbtion of tif
+         * boolfbn vbluf.
          */
-        public String stringValueOf(boolean value) {
-            return value? trueString : falseString;
+        publid String stringVblufOf(boolfbn vbluf) {
+            rfturn vbluf? trufString : fblsfString;
         }
 
         /**
-         * Return the value of the argument as a boolean.  Since
-         * the argument may not have been set or may have an invalid
-         * value {@link #isValid(String)} should be called on
-         * {@link #value()} to check its validity.  If it is invalid
-         * the boolean returned by this method is undefined.
-         * @return the value of the argument as a boolean.
+         * Rfturn tif vbluf of tif brgumfnt bs b boolfbn.  Sindf
+         * tif brgumfnt mby not ibvf bffn sft or mby ibvf bn invblid
+         * vbluf {@link #isVblid(String)} siould bf dbllfd on
+         * {@link #vbluf()} to difdk its vblidity.  If it is invblid
+         * tif boolfbn rfturnfd by tiis mftiod is undffinfd.
+         * @rfturn tif vbluf of tif brgumfnt bs b boolfbn.
          */
-        public boolean booleanValue() {
-            return value().equals(trueString);
+        publid boolfbn boolfbnVbluf() {
+            rfturn vbluf().fqubls(trufString);
         }
     }
 
-    class IntegerArgumentImpl extends ConnectorImpl.ArgumentImpl
-                              implements Connector.IntegerArgument {
-        private static final long serialVersionUID = 763286081923797770L;
-        private final int min;
-        private final int max;
+    dlbss IntfgfrArgumfntImpl fxtfnds ConnfdtorImpl.ArgumfntImpl
+                              implfmfnts Connfdtor.IntfgfrArgumfnt {
+        privbtf stbtid finbl long sfriblVfrsionUID = 763286081923797770L;
+        privbtf finbl int min;
+        privbtf finbl int mbx;
 
-        IntegerArgumentImpl(String name, String label, String description,
-                            String value,
-                            boolean mustSpecify, int min, int max) {
-            super(name, label, description, value, mustSpecify);
-            this.min = min;
-            this.max = max;
+        IntfgfrArgumfntImpl(String nbmf, String lbbfl, String dfsdription,
+                            String vbluf,
+                            boolfbn mustSpfdify, int min, int mbx) {
+            supfr(nbmf, lbbfl, dfsdription, vbluf, mustSpfdify);
+            tiis.min = min;
+            tiis.mbx = mbx;
         }
 
         /**
-         * Sets the value of the argument.
-         * The value should be checked with {@link #isValid(int)}
-         * before setting it; invalid values will throw an exception
-         * when the connection is established - for example,
-         * on {@link LaunchingConnector#launch}
+         * Sfts tif vbluf of tif brgumfnt.
+         * Tif vbluf siould bf difdkfd witi {@link #isVblid(int)}
+         * bfforf sftting it; invblid vblufs will tirow bn fxdfption
+         * wifn tif donnfdtion is fstbblisifd - for fxbmplf,
+         * on {@link LbundiingConnfdtor#lbundi}
          */
-        public void setValue(int value) {
-            setValue(stringValueOf(value));
+        publid void sftVbluf(int vbluf) {
+            sftVbluf(stringVblufOf(vbluf));
         }
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value represents an int that is
-         * <code>{@link #min()} &lt;= value &lt;= {@link #max()}</code>
+         * Pfrforms bbsid sbnity difdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if vbluf rfprfsfnts bn int tibt is
+         * <dodf>{@link #min()} &lt;= vbluf &lt;= {@link #mbx()}</dodf>
          */
-        public boolean isValid(String value) {
-            if (value == null) {
-                return false;
+        publid boolfbn isVblid(String vbluf) {
+            if (vbluf == null) {
+                rfturn fblsf;
             }
             try {
-                return isValid(Integer.decode(value).intValue());
-            } catch(NumberFormatException exc) {
-                return false;
+                rfturn isVblid(Intfgfr.dfdodf(vbluf).intVbluf());
+            } dbtdi(NumbfrFormbtExdfption fxd) {
+                rfturn fblsf;
             }
         }
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if
-         * <code>{@link #min()} &lt;= value  &lt;= {@link #max()}</code>
+         * Pfrforms bbsid sbnity difdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if
+         * <dodf>{@link #min()} &lt;= vbluf  &lt;= {@link #mbx()}</dodf>
          */
-        public boolean isValid(int value) {
-            return min <= value && value <= max;
+        publid boolfbn isVblid(int vbluf) {
+            rfturn min <= vbluf && vbluf <= mbx;
         }
 
         /**
-         * Return the string representation of the <code>value</code>
-         * parameter.
-         * Does not set or examine the value or the argument.
-         * @return the String representation of the
-         * int value.
+         * Rfturn tif string rfprfsfntbtion of tif <dodf>vbluf</dodf>
+         * pbrbmftfr.
+         * Dofs not sft or fxbminf tif vbluf or tif brgumfnt.
+         * @rfturn tif String rfprfsfntbtion of tif
+         * int vbluf.
          */
-        public String stringValueOf(int value) {
-            // *** Should this be internationalized????
-            // *** Even Brian Beck was unsure if an Arabic programmer
-            // *** would expect port numbers in Arabic numerals,
+        publid String stringVblufOf(int vbluf) {
+            // *** Siould tiis bf intfrnbtionblizfd????
+            // *** Evfn Bribn Bfdk wbs unsurf if bn Arbbid progrbmmfr
+            // *** would fxpfdt port numbfrs in Arbbid numfrbls,
             // *** so punt for now.
-            return ""+value;
+            rfturn ""+vbluf;
         }
 
         /**
-         * Return the value of the argument as a int.  Since
-         * the argument may not have been set or may have an invalid
-         * value {@link #isValid(String)} should be called on
-         * {@link #value()} to check its validity.  If it is invalid
-         * the int returned by this method is undefined.
-         * @return the value of the argument as a int.
+         * Rfturn tif vbluf of tif brgumfnt bs b int.  Sindf
+         * tif brgumfnt mby not ibvf bffn sft or mby ibvf bn invblid
+         * vbluf {@link #isVblid(String)} siould bf dbllfd on
+         * {@link #vbluf()} to difdk its vblidity.  If it is invblid
+         * tif int rfturnfd by tiis mftiod is undffinfd.
+         * @rfturn tif vbluf of tif brgumfnt bs b int.
          */
-        public int intValue() {
-            if (value() == null) {
-                return 0;
+        publid int intVbluf() {
+            if (vbluf() == null) {
+                rfturn 0;
             }
             try {
-                return Integer.decode(value()).intValue();
-            } catch(NumberFormatException exc) {
-                return 0;
+                rfturn Intfgfr.dfdodf(vbluf()).intVbluf();
+            } dbtdi(NumbfrFormbtExdfption fxd) {
+                rfturn 0;
             }
         }
 
         /**
-         * The upper bound for the value.
-         * @return the maximum allowed value for this argument.
+         * Tif uppfr bound for tif vbluf.
+         * @rfturn tif mbximum bllowfd vbluf for tiis brgumfnt.
          */
-        public int max() {
-            return max;
+        publid int mbx() {
+            rfturn mbx;
         }
 
         /**
-         * The lower bound for the value.
-         * @return the minimum allowed value for this argument.
+         * Tif lowfr bound for tif vbluf.
+         * @rfturn tif minimum bllowfd vbluf for tiis brgumfnt.
          */
-        public int min() {
-            return min;
+        publid int min() {
+            rfturn min;
         }
     }
 
-    class StringArgumentImpl extends ConnectorImpl.ArgumentImpl
-                              implements Connector.StringArgument {
-        private static final long serialVersionUID = 7500484902692107464L;
-        StringArgumentImpl(String name, String label, String description,
-                           String value,
-                           boolean mustSpecify) {
-            super(name, label, description, value, mustSpecify);
+    dlbss StringArgumfntImpl fxtfnds ConnfdtorImpl.ArgumfntImpl
+                              implfmfnts Connfdtor.StringArgumfnt {
+        privbtf stbtid finbl long sfriblVfrsionUID = 7500484902692107464L;
+        StringArgumfntImpl(String nbmf, String lbbfl, String dfsdription,
+                           String vbluf,
+                           boolfbn mustSpfdify) {
+            supfr(nbmf, lbbfl, dfsdription, vbluf, mustSpfdify);
         }
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> always
+         * Pfrforms bbsid sbnity difdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> blwbys
          */
-        public boolean isValid(String value) {
-            return true;
+        publid boolfbn isVblid(String vbluf) {
+            rfturn truf;
         }
     }
 
-    class SelectedArgumentImpl extends ConnectorImpl.ArgumentImpl
-                              implements Connector.SelectedArgument {
-        private static final long serialVersionUID = -5689584530908382517L;
-        private final List<String> choices;
+    dlbss SflfdtfdArgumfntImpl fxtfnds ConnfdtorImpl.ArgumfntImpl
+                              implfmfnts Connfdtor.SflfdtfdArgumfnt {
+        privbtf stbtid finbl long sfriblVfrsionUID = -5689584530908382517L;
+        privbtf finbl List<String> dioidfs;
 
-        SelectedArgumentImpl(String name, String label, String description,
-                             String value,
-                             boolean mustSpecify, List<String> choices) {
-            super(name, label, description, value, mustSpecify);
-            this.choices = Collections.unmodifiableList(new ArrayList<String>(choices));
+        SflfdtfdArgumfntImpl(String nbmf, String lbbfl, String dfsdription,
+                             String vbluf,
+                             boolfbn mustSpfdify, List<String> dioidfs) {
+            supfr(nbmf, lbbfl, dfsdription, vbluf, mustSpfdify);
+            tiis.dioidfs = Collfdtions.unmodifibblfList(nfw ArrbyList<String>(dioidfs));
         }
 
         /**
-         * Return the possible values for the argument
-         * @return {@link List} of {@link String}
+         * Rfturn tif possiblf vblufs for tif brgumfnt
+         * @rfturn {@link List} of {@link String}
          */
-        public List<String> choices() {
-            return choices;
+        publid List<String> dioidfs() {
+            rfturn dioidfs;
         }
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value is one of {@link #choices()}.
+         * Pfrforms bbsid sbnity difdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if vbluf is onf of {@link #dioidfs()}.
          */
-        public boolean isValid(String value) {
-            return choices.contains(value);
+        publid boolfbn isVblid(String vbluf) {
+            rfturn dioidfs.dontbins(vbluf);
         }
     }
 }

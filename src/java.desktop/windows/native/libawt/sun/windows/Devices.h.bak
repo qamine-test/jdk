@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-#ifndef _DEVICES_H_
-#define _DEVICES_H_
+#ifndff _DEVICES_H_
+#dffinf _DEVICES_H_
 
-#include "awt.h"
-#include "awt_Toolkit.h"
-#include "awt_Win32GraphicsDevice.h"
+#indludf "bwt.i"
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_Win32GrbpiidsDfvidf.i"
 
-class AwtWin32GraphicsDevice;
+dlbss AwtWin32GrbpiidsDfvidf;
 
-class Devices {
+dlbss Dfvidfs {
 
-public:
-static Devices*                 GetInstance();
-static BOOL                     UpdateInstance(JNIEnv *env);
-       int                      GetNumDevices() { return numDevices; }
-       AwtWin32GraphicsDevice*  GetDeviceReference(int index, BOOL adjust = TRUE);
-       AwtWin32GraphicsDevice*  GetDevice(int index, BOOL adjust = TRUE);
-       int                      Release();
-       AwtWin32GraphicsDevice** GetRawArray();
+publid:
+stbtid Dfvidfs*                 GftInstbndf();
+stbtid BOOL                     UpdbtfInstbndf(JNIEnv *fnv);
+       int                      GftNumDfvidfs() { rfturn numDfvidfs; }
+       AwtWin32GrbpiidsDfvidf*  GftDfvidfRfffrfndf(int indfx, BOOL bdjust = TRUE);
+       AwtWin32GrbpiidsDfvidf*  GftDfvidf(int indfx, BOOL bdjust = TRUE);
+       int                      Rflfbsf();
+       AwtWin32GrbpiidsDfvidf** GftRbwArrby();
 
-       class InstanceAccess {
-       public:
-           INLINE   InstanceAccess() { devices = Devices::GetInstance(); }
-           INLINE  ~InstanceAccess() { devices->Release(); }
-           Devices* operator->()     { return devices; }
-        private:
-           Devices* devices;
-           // prevent bad things like copying or getting address of
-           InstanceAccess& operator=(const InstanceAccess&);
-           InstanceAccess* operator&();
+       dlbss InstbndfAddfss {
+       publid:
+           INLINE   InstbndfAddfss() { dfvidfs = Dfvidfs::GftInstbndf(); }
+           INLINE  ~InstbndfAddfss() { dfvidfs->Rflfbsf(); }
+           Dfvidfs* opfrbtor->()     { rfturn dfvidfs; }
+        privbtf:
+           Dfvidfs* dfvidfs;
+           // prfvfnt bbd tiings likf dopying or gftting bddrfss of
+           InstbndfAddfss& opfrbtor=(donst InstbndfAddfss&);
+           InstbndfAddfss* opfrbtor&();
        };
-friend class InstanceAccess;
+frifnd dlbss InstbndfAddfss;
 
-private:
-                                Devices(int numElements);
-       void                     AddReference();
+privbtf:
+                                Dfvidfs(int numElfmfnts);
+       void                     AddRfffrfndf();
 
-       AwtWin32GraphicsDevice** devices;
-       int                      refCount;
-       int                      numDevices;
+       AwtWin32GrbpiidsDfvidf** dfvidfs;
+       int                      rffCount;
+       int                      numDfvidfs;
 
-static Devices*                 theInstance;
-static CriticalSection          arrayLock;
+stbtid Dfvidfs*                 tifInstbndf;
+stbtid CritidblSfdtion          brrbyLodk;
 
 };
 
-// Some helper functions (from awt_MMStub.h/cpp)
+// Somf iflpfr fundtions (from bwt_MMStub.i/dpp)
 
 BOOL WINAPI MonitorBounds (HMONITOR, RECT*);
 
-#endif _DEVICES_H_
+#fndif _DEVICES_H_

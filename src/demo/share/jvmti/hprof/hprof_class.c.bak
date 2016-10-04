@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,657 +30,657 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* Table of class information.
+/* Tbblf of dlbss informbtion.
  *
- *   Each element in this table is identified with a ClassIndex.
- *   Each element is uniquely identified by it's signature and loader.
- *   Every class load has a unique class serial number.
- *   While loaded, each element will have a cache of a global reference
- *     to it's jclass object, plus jmethodID's as needed.
- *   Method signatures and names are obtained via BCI.
- *   Methods can be identified with a ClassIndex and MethodIndex pair,
- *     where the MethodIndex matches the index of the method name and
- *     signature arrays obtained from the BCI pass.
- *   Strings are stored in the string table and a StringIndex is used.
- *   Class Loaders are stored in the loader table and a LoaderIndex is used.
- *   Since the jclass object is an object, at some point an object table
- *      entry may be allocated for the jclass as an ObjectIndex.
+ *   Ebdi flfmfnt in tiis tbblf is idfntififd witi b ClbssIndfx.
+ *   Ebdi flfmfnt is uniqufly idfntififd by it's signbturf bnd lobdfr.
+ *   Evfry dlbss lobd ibs b uniquf dlbss sfribl numbfr.
+ *   Wiilf lobdfd, fbdi flfmfnt will ibvf b dbdif of b globbl rfffrfndf
+ *     to it's jdlbss objfdt, plus jmftiodID's bs nffdfd.
+ *   Mftiod signbturfs bnd nbmfs brf obtbinfd vib BCI.
+ *   Mftiods dbn bf idfntififd witi b ClbssIndfx bnd MftiodIndfx pbir,
+ *     wifrf tif MftiodIndfx mbtdifs tif indfx of tif mftiod nbmf bnd
+ *     signbturf brrbys obtbinfd from tif BCI pbss.
+ *   Strings brf storfd in tif string tbblf bnd b StringIndfx is usfd.
+ *   Clbss Lobdfrs brf storfd in tif lobdfr tbblf bnd b LobdfrIndfx is usfd.
+ *   Sindf tif jdlbss objfdt is bn objfdt, bt somf point bn objfdt tbblf
+ *      fntry mby bf bllodbtfd for tif jdlbss bs bn ObjfdtIndfx.
  */
 
-#include "hprof.h"
+#indludf "iprof.i"
 
-/* Effectively represents a jclass object. */
+/* Efffdtivfly rfprfsfnts b jdlbss objfdt. */
 
-/* These table elements are made unique by and sorted by signature name. */
+/* Tifsf tbblf flfmfnts brf mbdf uniquf by bnd sortfd by signbturf nbmf. */
 
-typedef struct ClassKey {
-    StringIndex    sig_string_index;    /* Signature of class */
-    LoaderIndex    loader_index;        /* Index for class loader */
-} ClassKey;
+typfdff strudt ClbssKfy {
+    StringIndfx    sig_string_indfx;    /* Signbturf of dlbss */
+    LobdfrIndfx    lobdfr_indfx;        /* Indfx for dlbss lobdfr */
+} ClbssKfy;
 
-/* Each class could contain method information, gotten from BCI callback */
+/* Ebdi dlbss dould dontbin mftiod informbtion, gottfn from BCI dbllbbdk */
 
-typedef struct MethodInfo {
-    StringIndex  name_index;    /* Method name, index into string table */
-    StringIndex  sig_index;     /* Method signature, index into string table */
-    jmethodID    method_id;     /* Method ID, possibly NULL at first */
-} MethodInfo;
+typfdff strudt MftiodInfo {
+    StringIndfx  nbmf_indfx;    /* Mftiod nbmf, indfx into string tbblf */
+    StringIndfx  sig_indfx;     /* Mftiod signbturf, indfx into string tbblf */
+    jmftiodID    mftiod_id;     /* Mftiod ID, possibly NULL bt first */
+} MftiodInfo;
 
-/* The basic class information we save */
+/* Tif bbsid dlbss informbtion wf sbvf */
 
-typedef struct ClassInfo {
-    jclass         classref;            /* Global ref to jclass */
-    MethodInfo    *method;              /* Array of method data */
-    int            method_count;        /* Count of methods */
-    ObjectIndex    object_index;        /* Optional object index for jclass */
-    SerialNumber   serial_num;          /* Unique to the actual class load */
-    ClassStatus    status;              /* Current class status (bit mask) */
-    ClassIndex     super;               /* Super class in this table */
-    StringIndex    name;                /* Name of class */
-    jint           inst_size;           /* #bytes needed for instance fields */
-    jint           field_count;         /* Number of all fields */
-    FieldInfo     *field;               /* Pointer to all FieldInfo's */
-} ClassInfo;
+typfdff strudt ClbssInfo {
+    jdlbss         dlbssrff;            /* Globbl rff to jdlbss */
+    MftiodInfo    *mftiod;              /* Arrby of mftiod dbtb */
+    int            mftiod_dount;        /* Count of mftiods */
+    ObjfdtIndfx    objfdt_indfx;        /* Optionbl objfdt indfx for jdlbss */
+    SfriblNumbfr   sfribl_num;          /* Uniquf to tif bdtubl dlbss lobd */
+    ClbssStbtus    stbtus;              /* Currfnt dlbss stbtus (bit mbsk) */
+    ClbssIndfx     supfr;               /* Supfr dlbss in tiis tbblf */
+    StringIndfx    nbmf;                /* Nbmf of dlbss */
+    jint           inst_sizf;           /* #bytfs nffdfd for instbndf fiflds */
+    jint           fifld_dount;         /* Numbfr of bll fiflds */
+    FifldInfo     *fifld;               /* Pointfr to bll FifldInfo's */
+} ClbssInfo;
 
-/* Private interfaces */
+/* Privbtf intfrfbdfs */
 
-static ClassKey*
-get_pkey(ClassIndex index)
+stbtid ClbssKfy*
+gft_pkfy(ClbssIndfx indfx)
 {
-    void *key_ptr;
-    int   key_len;
+    void *kfy_ptr;
+    int   kfy_lfn;
 
-    table_get_key(gdata->class_table, index, (void*)&key_ptr, &key_len);
-    HPROF_ASSERT(key_len==sizeof(ClassKey));
-    HPROF_ASSERT(key_ptr!=NULL);
-    return (ClassKey*)key_ptr;
+    tbblf_gft_kfy(gdbtb->dlbss_tbblf, indfx, (void*)&kfy_ptr, &kfy_lfn);
+    HPROF_ASSERT(kfy_lfn==sizfof(ClbssKfy));
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    rfturn (ClbssKfy*)kfy_ptr;
 }
 
-static void
-fillin_pkey(const char *sig, LoaderIndex loader_index, ClassKey *pkey)
+stbtid void
+fillin_pkfy(donst dibr *sig, LobdfrIndfx lobdfr_indfx, ClbssKfy *pkfy)
 {
-    static ClassKey empty_key;
+    stbtid ClbssKfy fmpty_kfy;
 
-    HPROF_ASSERT(loader_index!=0);
-    *pkey                  = empty_key;
-    pkey->sig_string_index = string_find_or_create(sig);
-    pkey->loader_index     = loader_index;
+    HPROF_ASSERT(lobdfr_indfx!=0);
+    *pkfy                  = fmpty_kfy;
+    pkfy->sig_string_indfx = string_find_or_drfbtf(sig);
+    pkfy->lobdfr_indfx     = lobdfr_indfx;
 }
 
-static ClassInfo *
-get_info(ClassIndex index)
+stbtid ClbssInfo *
+gft_info(ClbssIndfx indfx)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    info = (ClassInfo*)table_get_info(gdata->class_table, index);
-    return info;
+    info = (ClbssInfo*)tbblf_gft_info(gdbtb->dlbss_tbblf, indfx);
+    rfturn info;
 }
 
-static void
-fill_info(TableIndex index, ClassKey *pkey)
+stbtid void
+fill_info(TbblfIndfx indfx, ClbssKfy *pkfy)
 {
-    ClassInfo *info;
-    char      *sig;
+    ClbssInfo *info;
+    dibr      *sig;
 
-    info = get_info(index);
-    info->serial_num = gdata->class_serial_number_counter++;
-    info->method_count = 0;
-    info->inst_size = -1;
-    info->field_count = -1;
-    info->field = NULL;
-    sig = string_get(pkey->sig_string_index);
+    info = gft_info(indfx);
+    info->sfribl_num = gdbtb->dlbss_sfribl_numbfr_dountfr++;
+    info->mftiod_dount = 0;
+    info->inst_sizf = -1;
+    info->fifld_dount = -1;
+    info->fifld = NULL;
+    sig = string_gft(pkfy->sig_string_indfx);
     if ( sig[0] != JVM_SIGNATURE_CLASS ) {
-        info->name = pkey->sig_string_index;
-    } else {
-        int        len;
+        info->nbmf = pkfy->sig_string_indfx;
+    } flsf {
+        int        lfn;
 
-        len = string_get_len(pkey->sig_string_index);
-        if ( len > 2  ) {
-            char      *name;
+        lfn = string_gft_lfn(pkfy->sig_string_indfx);
+        if ( lfn > 2  ) {
+            dibr      *nbmf;
 
-            /* Class signature looks like "Lname;", we want "name" here. */
-            name = HPROF_MALLOC(len-1);
-            (void)memcpy(name, sig+1, len-2);
-            name[len-2] = 0;
-            info->name = string_find_or_create(name);
-            HPROF_FREE(name);
-        } else {
-            /* This would be strange, a class signature not in "Lname;" form? */
-            info->name = pkey->sig_string_index;
+            /* Clbss signbturf looks likf "Lnbmf;", wf wbnt "nbmf" ifrf. */
+            nbmf = HPROF_MALLOC(lfn-1);
+            (void)mfmdpy(nbmf, sig+1, lfn-2);
+            nbmf[lfn-2] = 0;
+            info->nbmf = string_find_or_drfbtf(nbmf);
+            HPROF_FREE(nbmf);
+        } flsf {
+            /* Tiis would bf strbngf, b dlbss signbturf not in "Lnbmf;" form? */
+            info->nbmf = pkfy->sig_string_indfx;
         }
    }
 }
 
-static ClassIndex
-find_entry(ClassKey *pkey)
+stbtid ClbssIndfx
+find_fntry(ClbssKfy *pkfy)
 {
-    ClassIndex index;
+    ClbssIndfx indfx;
 
-    index = table_find_entry(gdata->class_table,
-                                (void*)pkey, (int)sizeof(ClassKey));
-    return index;
+    indfx = tbblf_find_fntry(gdbtb->dlbss_tbblf,
+                                (void*)pkfy, (int)sizfof(ClbssKfy));
+    rfturn indfx;
 }
 
-static ClassIndex
-create_entry(ClassKey *pkey)
+stbtid ClbssIndfx
+drfbtf_fntry(ClbssKfy *pkfy)
 {
-    ClassIndex index;
+    ClbssIndfx indfx;
 
-    index = table_create_entry(gdata->class_table,
-                                (void*)pkey, (int)sizeof(ClassKey), NULL);
-    fill_info(index, pkey);
-    return index;
+    indfx = tbblf_drfbtf_fntry(gdbtb->dlbss_tbblf,
+                                (void*)pkfy, (int)sizfof(ClbssKfy), NULL);
+    fill_info(indfx, pkfy);
+    rfturn indfx;
 }
 
-static ClassIndex
-find_or_create_entry(ClassKey *pkey)
+stbtid ClbssIndfx
+find_or_drfbtf_fntry(ClbssKfy *pkfy)
 {
-    ClassIndex      index;
+    ClbssIndfx      indfx;
 
-    HPROF_ASSERT(pkey!=NULL);
-    HPROF_ASSERT(pkey->loader_index!=0);
-    index = find_entry(pkey);
-    if ( index == 0 ) {
-        index = create_entry(pkey);
+    HPROF_ASSERT(pkfy!=NULL);
+    HPROF_ASSERT(pkfy->lobdfr_indfx!=0);
+    indfx = find_fntry(pkfy);
+    if ( indfx == 0 ) {
+        indfx = drfbtf_fntry(pkfy);
     }
-    return index;
+    rfturn indfx;
 }
 
-static void
-delete_classref(JNIEnv *env, ClassInfo *info, jclass klass)
+stbtid void
+dflftf_dlbssrff(JNIEnv *fnv, ClbssInfo *info, jdlbss klbss)
 {
-    jclass ref;
+    jdlbss rff;
     int    i;
 
-    HPROF_ASSERT(env!=NULL);
+    HPROF_ASSERT(fnv!=NULL);
     HPROF_ASSERT(info!=NULL);
 
-    for ( i = 0 ; i < info->method_count ; i++ ) {
-        info->method[i].method_id  = NULL;
+    for ( i = 0 ; i < info->mftiod_dount ; i++ ) {
+        info->mftiod[i].mftiod_id  = NULL;
     }
-    ref = info->classref;
-    if ( klass != NULL ) {
-        info->classref = newGlobalReference(env, klass);
-    } else {
-        info->classref = NULL;
+    rff = info->dlbssrff;
+    if ( klbss != NULL ) {
+        info->dlbssrff = nfwGlobblRfffrfndf(fnv, klbss);
+    } flsf {
+        info->dlbssrff = NULL;
     }
-    if ( ref != NULL ) {
-        deleteGlobalReference(env, ref);
+    if ( rff != NULL ) {
+        dflftfGlobblRfffrfndf(fnv, rff);
     }
 }
 
-static void
-cleanup_item(TableIndex index, void *key_ptr, int key_len,
-                                void *info_ptr, void *arg)
+stbtid void
+dlfbnup_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                                void *info_ptr, void *brg)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    /* Cleanup any information in this ClassInfo structure. */
-    HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len==sizeof(ClassKey));
+    /* Clfbnup bny informbtion in tiis ClbssInfo strudturf. */
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn==sizfof(ClbssKfy));
     HPROF_ASSERT(info_ptr!=NULL);
-    info = (ClassInfo *)info_ptr;
-    if ( info->method_count > 0 ) {
-        HPROF_FREE((void*)info->method);
-        info->method_count = 0;
-        info->method       = NULL;
+    info = (ClbssInfo *)info_ptr;
+    if ( info->mftiod_dount > 0 ) {
+        HPROF_FREE((void*)info->mftiod);
+        info->mftiod_dount = 0;
+        info->mftiod       = NULL;
     }
-    if ( info->field != NULL ) {
-        HPROF_FREE((void*)info->field);
-        info->field_count = 0;
-        info->field      = NULL;
+    if ( info->fifld != NULL ) {
+        HPROF_FREE((void*)info->fifld);
+        info->fifld_dount = 0;
+        info->fifld      = NULL;
     }
 }
 
-static void
-delete_ref_item(TableIndex index, void *key_ptr, int key_len,
-                                void *info_ptr, void *arg)
+stbtid void
+dflftf_rff_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                                void *info_ptr, void *brg)
 {
-    delete_classref((JNIEnv*)arg, (ClassInfo*)info_ptr, NULL);
+    dflftf_dlbssrff((JNIEnv*)brg, (ClbssInfo*)info_ptr, NULL);
 }
 
-static void
-list_item(TableIndex index, void *key_ptr, int key_len,
-                                void *info_ptr, void *arg)
+stbtid void
+list_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                                void *info_ptr, void *brg)
 {
-    ClassInfo *info;
-    ClassKey   key;
-    char      *sig;
+    ClbssInfo *info;
+    ClbssKfy   kfy;
+    dibr      *sig;
     int        i;
 
-    HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len==sizeof(ClassKey));
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn==sizfof(ClbssKfy));
     HPROF_ASSERT(info_ptr!=NULL);
-    key = *((ClassKey*)key_ptr);
-    sig = string_get(key.sig_string_index);
-    info = (ClassInfo *)info_ptr;
-    debug_message(
-             "0x%08x: Class %s, SN=%u, status=0x%08x, ref=%p,"
-             " method_count=%d\n",
-             index,
-             (const char *)sig,
-             info->serial_num,
-             info->status,
-             (void*)info->classref,
-             info->method_count);
-    if ( info->method_count > 0 ) {
-        for ( i = 0 ; i < info->method_count ; i++ ) {
-            debug_message(
-                "    Method %d: \"%s\", sig=\"%s\", method=%p\n",
+    kfy = *((ClbssKfy*)kfy_ptr);
+    sig = string_gft(kfy.sig_string_indfx);
+    info = (ClbssInfo *)info_ptr;
+    dfbug_mfssbgf(
+             "0x%08x: Clbss %s, SN=%u, stbtus=0x%08x, rff=%p,"
+             " mftiod_dount=%d\n",
+             indfx,
+             (donst dibr *)sig,
+             info->sfribl_num,
+             info->stbtus,
+             (void*)info->dlbssrff,
+             info->mftiod_dount);
+    if ( info->mftiod_dount > 0 ) {
+        for ( i = 0 ; i < info->mftiod_dount ; i++ ) {
+            dfbug_mfssbgf(
+                "    Mftiod %d: \"%s\", sig=\"%s\", mftiod=%p\n",
                 i,
-                string_get(info->method[i].name_index),
-                string_get(info->method[i].sig_index),
-                (void*)info->method[i].method_id);
+                string_gft(info->mftiod[i].nbmf_indfx),
+                string_gft(info->mftiod[i].sig_indfx),
+                (void*)info->mftiod[i].mftiod_id);
         }
     }
 }
 
-static void
-all_status_remove(TableIndex index, void *key_ptr, int key_len,
-                                void *info_ptr, void *arg)
+stbtid void
+bll_stbtus_rfmovf(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                                void *info_ptr, void *brg)
 {
-    ClassInfo   *info;
-    ClassStatus  status;
+    ClbssInfo   *info;
+    ClbssStbtus  stbtus;
 
     HPROF_ASSERT(info_ptr!=NULL);
     /*LINTED*/
-    status = (ClassStatus)(long)(ptrdiff_t)arg;
-    info = (ClassInfo *)info_ptr;
-    info->status &= (~status);
+    stbtus = (ClbssStbtus)(long)(ptrdiff_t)brg;
+    info = (ClbssInfo *)info_ptr;
+    info->stbtus &= (~stbtus);
 }
 
-static void
-unload_walker(TableIndex index, void *key_ptr, int key_len,
-                                void *info_ptr, void *arg)
+stbtid void
+unlobd_wblkfr(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                                void *info_ptr, void *brg)
 {
-    ClassInfo        *info;
+    ClbssInfo        *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    info = (ClassInfo *)info_ptr;
-    if ( ! ( info->status & CLASS_IN_LOAD_LIST ) ) {
-        if ( ! (info->status & (CLASS_SPECIAL|CLASS_SYSTEM|CLASS_UNLOADED)) ) {
-            io_write_class_unload(info->serial_num, info->object_index);
-            info->status |= CLASS_UNLOADED;
-            delete_classref((JNIEnv*)arg, info, NULL);
+    info = (ClbssInfo *)info_ptr;
+    if ( ! ( info->stbtus & CLASS_IN_LOAD_LIST ) ) {
+        if ( ! (info->stbtus & (CLASS_SPECIAL|CLASS_SYSTEM|CLASS_UNLOADED)) ) {
+            io_writf_dlbss_unlobd(info->sfribl_num, info->objfdt_indfx);
+            info->stbtus |= CLASS_UNLOADED;
+            dflftf_dlbssrff((JNIEnv*)brg, info, NULL);
         }
     }
 }
 
-/* External interfaces */
+/* Extfrnbl intfrfbdfs */
 
 void
-class_init(void)
+dlbss_init(void)
 {
-    HPROF_ASSERT(gdata->class_table==NULL);
-    gdata->class_table = table_initialize("Class", 512, 512, 511,
-                                    (int)sizeof(ClassInfo));
+    HPROF_ASSERT(gdbtb->dlbss_tbblf==NULL);
+    gdbtb->dlbss_tbblf = tbblf_initiblizf("Clbss", 512, 512, 511,
+                                    (int)sizfof(ClbssInfo));
 }
 
-ClassIndex
-class_find_or_create(const char *sig, LoaderIndex loader_index)
+ClbssIndfx
+dlbss_find_or_drfbtf(donst dibr *sig, LobdfrIndfx lobdfr_indfx)
 {
-    ClassKey key;
+    ClbssKfy kfy;
 
-    fillin_pkey(sig, loader_index, &key);
-    return find_or_create_entry(&key);
+    fillin_pkfy(sig, lobdfr_indfx, &kfy);
+    rfturn find_or_drfbtf_fntry(&kfy);
 }
 
-ClassIndex
-class_create(const char *sig, LoaderIndex loader_index)
+ClbssIndfx
+dlbss_drfbtf(donst dibr *sig, LobdfrIndfx lobdfr_indfx)
 {
-    ClassKey key;
+    ClbssKfy kfy;
 
-    fillin_pkey(sig, loader_index, &key);
-    return create_entry(&key);
+    fillin_pkfy(sig, lobdfr_indfx, &kfy);
+    rfturn drfbtf_fntry(&kfy);
 }
 
 void
-class_prime_system_classes(void)
+dlbss_primf_systfm_dlbssfs(void)
 {
-    /* Prime System classes? Anything before VM_START is System class.
-     *   Or classes loaded before env arg is non-NULL.
-     *   Or any of the classes listed below.
+    /* Primf Systfm dlbssfs? Anytiing bfforf VM_START is Systfm dlbss.
+     *   Or dlbssfs lobdfd bfforf fnv brg is non-NULL.
+     *   Or bny of tif dlbssfs listfd bflow.
      */
-    static const char * signatures[] =
+    stbtid donst dibr * signbturfs[] =
         {
-            "Ljava/lang/Object;",
-            "Ljava/io/Serializable;",
-            "Ljava/lang/String;",
-            "Ljava/lang/Class;",
-            "Ljava/lang/ClassLoader;",
-            "Ljava/lang/System;",
-            "Ljava/lang/Thread;",
-            "Ljava/lang/ThreadGroup;",
+            "Ljbvb/lbng/Objfdt;",
+            "Ljbvb/io/Sfriblizbblf;",
+            "Ljbvb/lbng/String;",
+            "Ljbvb/lbng/Clbss;",
+            "Ljbvb/lbng/ClbssLobdfr;",
+            "Ljbvb/lbng/Systfm;",
+            "Ljbvb/lbng/Tirfbd;",
+            "Ljbvb/lbng/TirfbdGroup;",
         };
-    int n_signatures;
+    int n_signbturfs;
     int i;
-    LoaderIndex loader_index;
+    LobdfrIndfx lobdfr_indfx;
 
-    n_signatures = (int)sizeof(signatures)/(int)sizeof(signatures[0]);
-    loader_index = loader_find_or_create(NULL, NULL);
-    for ( i = 0 ; i < n_signatures ; i++ ) {
-        ClassInfo  *info;
-        ClassIndex  index;
-        ClassKey    key;
+    n_signbturfs = (int)sizfof(signbturfs)/(int)sizfof(signbturfs[0]);
+    lobdfr_indfx = lobdfr_find_or_drfbtf(NULL, NULL);
+    for ( i = 0 ; i < n_signbturfs ; i++ ) {
+        ClbssInfo  *info;
+        ClbssIndfx  indfx;
+        ClbssKfy    kfy;
 
-        fillin_pkey(signatures[i], loader_index, &key);
-        index = find_or_create_entry(&key);
-        info = get_info(index);
-        info->status |= CLASS_SYSTEM;
+        fillin_pkfy(signbturfs[i], lobdfr_indfx, &kfy);
+        indfx = find_or_drfbtf_fntry(&kfy);
+        info = gft_info(indfx);
+        info->stbtus |= CLASS_SYSTEM;
     }
 }
 
 void
-class_add_status(ClassIndex index, ClassStatus status)
+dlbss_bdd_stbtus(ClbssIndfx indfx, ClbssStbtus stbtus)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    info = get_info(index);
-    info->status |= status;
+    info = gft_info(indfx);
+    info->stbtus |= stbtus;
 }
 
-ClassStatus
-class_get_status(ClassIndex index)
+ClbssStbtus
+dlbss_gft_stbtus(ClbssIndfx indfx)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    info = get_info(index);
-    return info->status;
+    info = gft_info(indfx);
+    rfturn info->stbtus;
 }
 
-StringIndex
-class_get_signature(ClassIndex index)
+StringIndfx
+dlbss_gft_signbturf(ClbssIndfx indfx)
 {
-    ClassKey *pkey;
+    ClbssKfy *pkfy;
 
-    pkey = get_pkey(index);
-    return pkey->sig_string_index;
+    pkfy = gft_pkfy(indfx);
+    rfturn pkfy->sig_string_indfx;
 }
 
-SerialNumber
-class_get_serial_number(ClassIndex index)
+SfriblNumbfr
+dlbss_gft_sfribl_numbfr(ClbssIndfx indfx)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    if ( index == 0 ) {
-        return 0;
+    if ( indfx == 0 ) {
+        rfturn 0;
     }
-    info = get_info(index);
-    return info->serial_num;
+    info = gft_info(indfx);
+    rfturn info->sfribl_num;
 }
 
 void
-class_all_status_remove(ClassStatus status)
+dlbss_bll_stbtus_rfmovf(ClbssStbtus stbtus)
 {
-    table_walk_items(gdata->class_table, &all_status_remove,
-                (void*)(ptrdiff_t)(long)status);
+    tbblf_wblk_itfms(gdbtb->dlbss_tbblf, &bll_stbtus_rfmovf,
+                (void*)(ptrdiff_t)(long)stbtus);
 }
 
 void
-class_do_unloads(JNIEnv *env)
+dlbss_do_unlobds(JNIEnv *fnv)
 {
-    table_walk_items(gdata->class_table, &unload_walker, (void*)env);
+    tbblf_wblk_itfms(gdbtb->dlbss_tbblf, &unlobd_wblkfr, (void*)fnv);
 }
 
 void
-class_list(void)
+dlbss_list(void)
 {
-    debug_message(
-        "--------------------- Class Table ------------------------\n");
-    table_walk_items(gdata->class_table, &list_item, NULL);
-    debug_message(
+    dfbug_mfssbgf(
+        "--------------------- Clbss Tbblf ------------------------\n");
+    tbblf_wblk_itfms(gdbtb->dlbss_tbblf, &list_itfm, NULL);
+    dfbug_mfssbgf(
         "----------------------------------------------------------\n");
 }
 
 void
-class_cleanup(void)
+dlbss_dlfbnup(void)
 {
-    table_cleanup(gdata->class_table, &cleanup_item, NULL);
-    gdata->class_table = NULL;
+    tbblf_dlfbnup(gdbtb->dlbss_tbblf, &dlfbnup_itfm, NULL);
+    gdbtb->dlbss_tbblf = NULL;
 }
 
 void
-class_delete_global_references(JNIEnv* env)
+dlbss_dflftf_globbl_rfffrfndfs(JNIEnv* fnv)
 {
-    table_walk_items(gdata->class_table, &delete_ref_item, (void*)env);
+    tbblf_wblk_itfms(gdbtb->dlbss_tbblf, &dflftf_rff_itfm, (void*)fnv);
 }
 
 void
-class_set_methods(ClassIndex index, const char **name, const char **sig,
-                        int count)
+dlbss_sft_mftiods(ClbssIndfx indfx, donst dibr **nbmf, donst dibr **sig,
+                        int dount)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
     int        i;
 
-    info               = get_info(index);
-    if ( info->method_count > 0 ) {
-        HPROF_FREE((void*)info->method);
-        info->method_count = 0;
-        info->method       = NULL;
+    info               = gft_info(indfx);
+    if ( info->mftiod_dount > 0 ) {
+        HPROF_FREE((void*)info->mftiod);
+        info->mftiod_dount = 0;
+        info->mftiod       = NULL;
     }
-    info->method_count = count;
-    if ( count > 0 ) {
-        info->method = (MethodInfo *)HPROF_MALLOC(count*(int)sizeof(MethodInfo));
-        for ( i = 0 ; i < count ; i++ ) {
-            info->method[i].name_index = string_find_or_create(name[i]);
-            info->method[i].sig_index  = string_find_or_create(sig[i]);
-            info->method[i].method_id  = NULL;
+    info->mftiod_dount = dount;
+    if ( dount > 0 ) {
+        info->mftiod = (MftiodInfo *)HPROF_MALLOC(dount*(int)sizfof(MftiodInfo));
+        for ( i = 0 ; i < dount ; i++ ) {
+            info->mftiod[i].nbmf_indfx = string_find_or_drfbtf(nbmf[i]);
+            info->mftiod[i].sig_indfx  = string_find_or_drfbtf(sig[i]);
+            info->mftiod[i].mftiod_id  = NULL;
         }
     }
 }
 
-jclass
-class_new_classref(JNIEnv *env, ClassIndex index, jclass classref)
+jdlbss
+dlbss_nfw_dlbssrff(JNIEnv *fnv, ClbssIndfx indfx, jdlbss dlbssrff)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    HPROF_ASSERT(classref!=NULL);
-    info = get_info(index);
-    if ( ! isSameObject(env, classref, info->classref) ) {
-        delete_classref(env, info, classref);
+    HPROF_ASSERT(dlbssrff!=NULL);
+    info = gft_info(indfx);
+    if ( ! isSbmfObjfdt(fnv, dlbssrff, info->dlbssrff) ) {
+        dflftf_dlbssrff(fnv, info, dlbssrff);
     }
-    return info->classref;
+    rfturn info->dlbssrff;
 }
 
-jclass
-class_get_class(JNIEnv *env, ClassIndex index)
+jdlbss
+dlbss_gft_dlbss(JNIEnv *fnv, ClbssIndfx indfx)
 {
-    ClassInfo *info;
-    jclass     clazz;
+    ClbssInfo *info;
+    jdlbss     dlbzz;
 
-    info        = get_info(index);
-    clazz       = info->classref;
-    if ( env != NULL && clazz == NULL ) {
-        WITH_LOCAL_REFS(env, 1) {
-            jclass   new_clazz;
-            char    *class_name;
+    info        = gft_info(indfx);
+    dlbzz       = info->dlbssrff;
+    if ( fnv != NULL && dlbzz == NULL ) {
+        WITH_LOCAL_REFS(fnv, 1) {
+            jdlbss   nfw_dlbzz;
+            dibr    *dlbss_nbmf;
 
-            class_name = string_get(info->name);
-            /* This really only makes sense for the bootclass classes,
-             *   since FindClass doesn't provide a way to load a class in
-             *   a specific class loader.
+            dlbss_nbmf = string_gft(info->nbmf);
+            /* Tiis rfblly only mbkfs sfnsf for tif bootdlbss dlbssfs,
+             *   sindf FindClbss dofsn't providf b wby to lobd b dlbss in
+             *   b spfdifid dlbss lobdfr.
              */
-            new_clazz = findClass(env, class_name);
-            if ( new_clazz == NULL ) {
-                HPROF_ERROR(JNI_TRUE, "Cannot load class with findClass");
+            nfw_dlbzz = findClbss(fnv, dlbss_nbmf);
+            if ( nfw_dlbzz == NULL ) {
+                HPROF_ERROR(JNI_TRUE, "Cbnnot lobd dlbss witi findClbss");
             }
-            HPROF_ASSERT(new_clazz!=NULL);
-            clazz = class_new_classref(env, index, new_clazz);
+            HPROF_ASSERT(nfw_dlbzz!=NULL);
+            dlbzz = dlbss_nfw_dlbssrff(fnv, indfx, nfw_dlbzz);
         } END_WITH_LOCAL_REFS;
-        HPROF_ASSERT(clazz!=NULL);
+        HPROF_ASSERT(dlbzz!=NULL);
     }
-    return clazz;
+    rfturn dlbzz;
 }
 
-jmethodID
-class_get_methodID(JNIEnv *env, ClassIndex index, MethodIndex mnum)
+jmftiodID
+dlbss_gft_mftiodID(JNIEnv *fnv, ClbssIndfx indfx, MftiodIndfx mnum)
 {
-    ClassInfo *info;
-    jmethodID  method;
+    ClbssInfo *info;
+    jmftiodID  mftiod;
 
-    info = get_info(index);
-    if (mnum >= info->method_count) {
-        jclass newExcCls = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
-        (*env)->ThrowNew(env, newExcCls, "Illegal mnum");
+    info = gft_info(indfx);
+    if (mnum >= info->mftiod_dount) {
+        jdlbss nfwExdCls = (*fnv)->FindClbss(fnv, "jbvb/lbng/IllfgblArgumfntExdfption");
+        (*fnv)->TirowNfw(fnv, nfwExdCls, "Illfgbl mnum");
 
-        return NULL;
+        rfturn NULL;
     }
-    method = info->method[mnum].method_id;
-    if ( method == NULL ) {
-        char * name;
-        char * sig;
-        jclass clazz;
+    mftiod = info->mftiod[mnum].mftiod_id;
+    if ( mftiod == NULL ) {
+        dibr * nbmf;
+        dibr * sig;
+        jdlbss dlbzz;
 
-        name  = (char *)string_get(info->method[mnum].name_index);
-        if (name==NULL) {
-            jclass newExcCls = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
-            (*env)->ThrowNew(env, newExcCls, "Name not found");
+        nbmf  = (dibr *)string_gft(info->mftiod[mnum].nbmf_indfx);
+        if (nbmf==NULL) {
+            jdlbss nfwExdCls = (*fnv)->FindClbss(fnv, "jbvb/lbng/IllfgblArgumfntExdfption");
+            (*fnv)->TirowNfw(fnv, nfwExdCls, "Nbmf not found");
 
-            return NULL;
+            rfturn NULL;
         }
-        sig   = (char *)string_get(info->method[mnum].sig_index);
+        sig   = (dibr *)string_gft(info->mftiod[mnum].sig_indfx);
         HPROF_ASSERT(sig!=NULL);
-        clazz = class_get_class(env, index);
-        if ( clazz != NULL ) {
-            method = getMethodID(env, clazz, name, sig);
-            HPROF_ASSERT(method!=NULL);
-            info = get_info(index);
-            info->method[mnum].method_id = method;
+        dlbzz = dlbss_gft_dlbss(fnv, indfx);
+        if ( dlbzz != NULL ) {
+            mftiod = gftMftiodID(fnv, dlbzz, nbmf, sig);
+            HPROF_ASSERT(mftiod!=NULL);
+            info = gft_info(indfx);
+            info->mftiod[mnum].mftiod_id = mftiod;
         }
     }
-    return method;
+    rfturn mftiod;
 }
 
 void
-class_set_inst_size(ClassIndex index, jint inst_size)
+dlbss_sft_inst_sizf(ClbssIndfx indfx, jint inst_sizf)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    info = get_info(index);
-    info->inst_size = inst_size;
+    info = gft_info(indfx);
+    info->inst_sizf = inst_sizf;
 }
 
 jint
-class_get_inst_size(ClassIndex index)
+dlbss_gft_inst_sizf(ClbssIndfx indfx)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    info = get_info(index);
-    return info->inst_size;
+    info = gft_info(indfx);
+    rfturn info->inst_sizf;
 }
 
 void
-class_set_object_index(ClassIndex index, ObjectIndex object_index)
+dlbss_sft_objfdt_indfx(ClbssIndfx indfx, ObjfdtIndfx objfdt_indfx)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    info = get_info(index);
-    info->object_index = object_index;
+    info = gft_info(indfx);
+    info->objfdt_indfx = objfdt_indfx;
 }
 
-ObjectIndex
-class_get_object_index(ClassIndex index)
+ObjfdtIndfx
+dlbss_gft_objfdt_indfx(ClbssIndfx indfx)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    info = get_info(index);
-    return info->object_index;
+    info = gft_info(indfx);
+    rfturn info->objfdt_indfx;
 }
 
-ClassIndex
-class_get_super(ClassIndex index)
+ClbssIndfx
+dlbss_gft_supfr(ClbssIndfx indfx)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    info = get_info(index);
-    return info->super;
+    info = gft_info(indfx);
+    rfturn info->supfr;
 }
 
 void
-class_set_super(ClassIndex index, ClassIndex super)
+dlbss_sft_supfr(ClbssIndfx indfx, ClbssIndfx supfr)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    info = get_info(index);
-    info->super = super;
+    info = gft_info(indfx);
+    info->supfr = supfr;
 }
 
-LoaderIndex
-class_get_loader(ClassIndex index)
+LobdfrIndfx
+dlbss_gft_lobdfr(ClbssIndfx indfx)
 {
-    ClassKey *pkey;
+    ClbssKfy *pkfy;
 
-    pkey = get_pkey(index);
-    HPROF_ASSERT(pkey->loader_index!=0);
-    return pkey->loader_index;
+    pkfy = gft_pkfy(indfx);
+    HPROF_ASSERT(pkfy->lobdfr_indfx!=0);
+    rfturn pkfy->lobdfr_indfx;
 }
 
-/* Get ALL class fields (supers too), return 1 on error, 0 if ok */
+/* Gft ALL dlbss fiflds (supfrs too), rfturn 1 on frror, 0 if ok */
 jint
-class_get_all_fields(JNIEnv *env, ClassIndex index,
-                jint *pfield_count, FieldInfo **pfield)
+dlbss_gft_bll_fiflds(JNIEnv *fnv, ClbssIndfx indfx,
+                jint *pfifld_dount, FifldInfo **pfifld)
 {
-    ClassInfo  *info;
-    FieldInfo  *finfo;
-    jint        count;
-    jint        ret;
+    ClbssInfo  *info;
+    FifldInfo  *finfo;
+    jint        dount;
+    jint        rft;
 
-    count = 0;
+    dount = 0;
     finfo = NULL;
-    ret   = 1;       /* Default is to return an error condition */
+    rft   = 1;       /* Dffbult is to rfturn bn frror dondition */
 
-    info = get_info(index);
+    info = gft_info(indfx);
     if ( info != NULL ) {
-        if ( info->field_count >= 0 ) {
-            /* Get cache */
-            count = info->field_count;
-            finfo = info->field;
-            ret   = 0;                 /* Return of cache data, no error */
-        } else {
-            jclass     klass;
+        if ( info->fifld_dount >= 0 ) {
+            /* Gft dbdif */
+            dount = info->fifld_dount;
+            finfo = info->fifld;
+            rft   = 0;                 /* Rfturn of dbdif dbtb, no frror */
+        } flsf {
+            jdlbss     klbss;
 
-            klass = info->classref;
-            if ( klass == NULL || isSameObject(env, klass, NULL) ) {
-                /* This is probably an error because this will cause the field
-                 *    index values to be off, but I'm hesitant to generate a
-                 *    fatal error here, so I will issue something and continue.
-                 *    I should have been holding a global reference to all the
-                 *    jclass, so I'm not sure how this could happen.
-                 *    Issuing a FindClass() here is just asking for trouble
-                 *    because if the class went away, we aren't even sure
-                 *    what ClassLoader to use.
+            klbss = info->dlbssrff;
+            if ( klbss == NULL || isSbmfObjfdt(fnv, klbss, NULL) ) {
+                /* Tiis is probbbly bn frror bfdbusf tiis will dbusf tif fifld
+                 *    indfx vblufs to bf off, but I'm ifsitbnt to gfnfrbtf b
+                 *    fbtbl frror ifrf, so I will issuf somftiing bnd dontinuf.
+                 *    I siould ibvf bffn iolding b globbl rfffrfndf to bll tif
+                 *    jdlbss, so I'm not surf iow tiis dould ibppfn.
+                 *    Issuing b FindClbss() ifrf is just bsking for troublf
+                 *    bfdbusf if tif dlbss wfnt bwby, wf brfn't fvfn surf
+                 *    wibt ClbssLobdfr to usf.
                  */
-                HPROF_ERROR(JNI_FALSE, "Missing jclass when fields needed");
-            } else {
-                jint status;
+                HPROF_ERROR(JNI_FALSE, "Missing jdlbss wifn fiflds nffdfd");
+            } flsf {
+                jint stbtus;
 
-                status = getClassStatus(klass);
-                if ( status &
+                stbtus = gftClbssStbtus(klbss);
+                if ( stbtus &
                     (JVMTI_CLASS_STATUS_PRIMITIVE|JVMTI_CLASS_STATUS_ARRAY) ) {
-                    /* Set cache */
-                    info->field_count = count;
-                    info->field       = finfo;
-                    ret               = 0;      /* Primitive or array ok */
-                } else if ( status & JVMTI_CLASS_STATUS_PREPARED ) {
-                    /* Call JVMTI to get them */
-                    getAllClassFieldInfo(env, klass, &count, &finfo);
-                    /* Set cache */
-                    info->field_count = count;
-                    info->field       = finfo;
-                    ret               = 0;
+                    /* Sft dbdif */
+                    info->fifld_dount = dount;
+                    info->fifld       = finfo;
+                    rft               = 0;      /* Primitivf or brrby ok */
+                } flsf if ( stbtus & JVMTI_CLASS_STATUS_PREPARED ) {
+                    /* Cbll JVMTI to gft tifm */
+                    gftAllClbssFifldInfo(fnv, klbss, &dount, &finfo);
+                    /* Sft dbdif */
+                    info->fifld_dount = dount;
+                    info->fifld       = finfo;
+                    rft               = 0;
                 }
             }
         }
     }
-    *pfield_count = count;
-    *pfield       = finfo;
-    return ret;
+    *pfifld_dount = dount;
+    *pfifld       = finfo;
+    rfturn rft;
 }

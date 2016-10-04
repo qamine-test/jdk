@@ -1,0 +1,204 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Point;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.fvfnt.ChbngfListfnfr;
+
+/**
+ * A plbdf within b dodumfnt vifw thbt rfprfsfnts whfrf
+ * things dbn bf insfrtfd into thf dodumfnt modfl.  A dbrft
+ * hbs b position in thf dodumfnt rfffrrfd to bs b dot.
+ * Thf dot is whfrf thf dbrft is durrfntly lodbtfd in thf
+ * modfl.  Thfrf is
+ * b sfdond position mbintbinfd by thf dbrft thbt rfprfsfnts
+ * thf othfr fnd of b sflfdtion dbllfd mbrk.  If thfrf is
+ * no sflfdtion thf dot bnd mbrk will bf fqubl.  If b sflfdtion
+ * fxists, thf two vblufs will bf difffrfnt.
+ * <p>
+ * Thf dot dbn bf plbdfd by fithfr dblling
+ * <dodf>sftDot</dodf> or <dodf>movfDot</dodf>.  Sftting
+ * thf dot hbs thf ffffdt of rfmoving bny sflfdtion thbt mby
+ * hbvf prfviously fxistfd.  Thf dot bnd mbrk will bf fqubl.
+ * Moving thf dot hbs thf ffffdt of drfbting b sflfdtion bs
+ * thf mbrk is lfft bt whbtfvfr position it prfviously hbd.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid intfrfbdf Cbrft {
+
+    /**
+     * Cbllfd whfn thf UI is bfing instbllfd into thf
+     * intfrfbdf of b JTfxtComponfnt.  This dbn bf usfd
+     * to gbin bddfss to thf modfl thbt is bfing nbvigbtfd
+     * by thf implfmfntbtion of this intfrfbdf.
+     *
+     * @pbrbm d thf JTfxtComponfnt
+     */
+    publid void instbll(JTfxtComponfnt d);
+
+    /**
+     * Cbllfd whfn thf UI is bfing rfmovfd from thf
+     * intfrfbdf of b JTfxtComponfnt.  This is usfd to
+     * unrfgistfr bny listfnfrs thbt wfrf bttbdhfd.
+     *
+     * @pbrbm d thf JTfxtComponfnt
+     */
+    publid void dfinstbll(JTfxtComponfnt d);
+
+    /**
+     * Rfndfrs thf dbrft. This mfthod is dbllfd by UI dlbssfs.
+     *
+     * @pbrbm g thf grbphids dontfxt
+     */
+    publid void pbint(Grbphids g);
+
+    /**
+     * Adds b listfnfr to trbdk whfnfvfr thf dbrft position
+     * hbs bffn dhbngfd.
+     *
+     * @pbrbm l thf dhbngf listfnfr
+     */
+    publid void bddChbngfListfnfr(ChbngfListfnfr l);
+
+    /**
+     * Rfmovfs b listfnfr thbt wbs trbdking dbrft position dhbngfs.
+     *
+     * @pbrbm l thf dhbngf listfnfr
+     */
+    publid void rfmovfChbngfListfnfr(ChbngfListfnfr l);
+
+    /**
+     * Dftfrminfs if thf dbrft is durrfntly visiblf.
+     *
+     * @rfturn truf if thf dbrft is visiblf flsf fblsf
+     */
+    publid boolfbn isVisiblf();
+
+    /**
+     * Sfts thf visibility of thf dbrft.
+     *
+     * @pbrbm v  truf if thf dbrft should bf shown,
+     *  bnd fblsf if thf dbrft should bf hiddfn
+     */
+    publid void sftVisiblf(boolfbn v);
+
+    /**
+     * Dftfrminfs if thf sflfdtion is durrfntly visiblf.
+     *
+     * @rfturn truf if thf dbrft is visiblf flsf fblsf
+     */
+    publid boolfbn isSflfdtionVisiblf();
+
+    /**
+     * Sfts thf visibility of thf sflfdtion
+     *
+     * @pbrbm v  truf if thf dbrft should bf shown,
+     *  bnd fblsf if thf dbrft should bf hiddfn
+     */
+    publid void sftSflfdtionVisiblf(boolfbn v);
+
+    /**
+     * Sft thf durrfnt dbrft visubl lodbtion.  This dbn bf usfd whfn
+     * moving bftwffn linfs thbt hbvf unfvfn fnd positions (sudh bs
+     * whfn dbrft up or down bdtions oddur).  If tfxt flows
+     * lfft-to-right or right-to-lfft thf x-doordinbtf will indidbtf
+     * thf dfsirfd nbvigbtion lodbtion for vfrtidbl movfmfnt.  If
+     * thf tfxt flow is top-to-bottom, thf y-doordinbtf will indidbtf
+     * thf dfsirfd nbvigbtion lodbtion for horizontbl movfmfnt.
+     *
+     * @pbrbm p  thf Point to usf for thf sbvfd position.  This
+     *   dbn bf null to indidbtf thfrf is no visubl lodbtion.
+     */
+    publid void sftMbgidCbrftPosition(Point p);
+
+    /**
+     * Gfts thf durrfnt dbrft visubl lodbtion.
+     *
+     * @rfturn thf visubl position.
+     * @sff #sftMbgidCbrftPosition
+     */
+    publid Point gftMbgidCbrftPosition();
+
+    /**
+     * Sfts thf blink rbtf of thf dbrft.  This dftfrminfs if
+     * bnd how fbst thf dbrft blinks, dommonly usfd bs onf
+     * wby to bttrbdt bttfntion to thf dbrft.
+     *
+     * @pbrbm rbtf  thf dflby in millisfdonds &gt;=0.  If this is
+     *  zfro thf dbrft will not blink.
+     */
+    publid void sftBlinkRbtf(int rbtf);
+
+    /**
+     * Gfts thf blink rbtf of thf dbrft.  This dftfrminfs if
+     * bnd how fbst thf dbrft blinks, dommonly usfd bs onf
+     * wby to bttrbdt bttfntion to thf dbrft.
+     *
+     * @rfturn thf dflby in millisfdonds &gt;=0.  If this is
+     *  zfro thf dbrft will not blink.
+     */
+    publid int gftBlinkRbtf();
+
+    /**
+     * Fftdhfs thf durrfnt position of thf dbrft.
+     *
+     * @rfturn thf position &gt;=0
+     */
+    publid int gftDot();
+
+    /**
+     * Fftdhfs thf durrfnt position of thf mbrk.  If thfrf
+     * is b sflfdtion, thf mbrk will not bf thf sbmf bs
+     * thf dot.
+     *
+     * @rfturn thf position &gt;=0
+     */
+    publid int gftMbrk();
+
+    /**
+     * Sfts thf dbrft position to somf position.  This
+     * dbusfs thf mbrk to bfdomf thf sbmf bs thf dot,
+     * ffffdtivfly sftting thf sflfdtion rbngf to zfro.
+     * <p>
+     * If thf pbrbmftfr is nfgbtivf or bfyond thf lfngth of thf dodumfnt,
+     * thf dbrft is plbdfd bt thf bfginning or bt thf fnd, rfspfdtivfly.
+     *
+     * @pbrbm dot  thf nfw position to sft thf dbrft to
+     */
+    publid void sftDot(int dot);
+
+    /**
+     * Movfs thf dbrft position (dot) to somf othfr position,
+     * lfbving bfhind thf mbrk.  This is usfful for
+     * mbking sflfdtions.
+     *
+     * @pbrbm dot  thf nfw position to movf thf dbrft to &gt;=0
+     */
+    publid void movfDot(int dot);
+
+};

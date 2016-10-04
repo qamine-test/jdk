@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import java.io.PrintStream;
-import java.io.ByteArrayOutputStream;
+import sun.tools.jbvb.*;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class Node implements Constants, Cloneable {
+publid
+dlbss Nodf implfmfnts Constbnts, Clonfbblf {
     int op;
-    long where;
+    long wifrf;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    Node(int op, long where) {
-        this.op = op;
-        this.where = where;
+    Nodf(int op, long wifrf) {
+        tiis.op = op;
+        tiis.wifrf = wifrf;
     }
 
     /**
-     * Get the operator
+     * Gft tif opfrbtor
      */
-    public int getOp() {
-        return op;
+    publid int gftOp() {
+        rfturn op;
     }
 
     /**
-     * Get where
+     * Gft wifrf
      */
-    public long getWhere() {
-        return where;
+    publid long gftWifrf() {
+        rfturn wifrf;
     }
 
     /**
-     * Implicit conversions
+     * Implidit donvfrsions
      */
-    public Expression convert(Environment env, Context ctx, Type t, Expression e) {
-        if (e.type.isType(TC_ERROR) || t.isType(TC_ERROR)) {
-            // An error was already reported
-            return e;
+    publid Exprfssion donvfrt(Environmfnt fnv, Contfxt dtx, Typf t, Exprfssion f) {
+        if (f.typf.isTypf(TC_ERROR) || t.isTypf(TC_ERROR)) {
+            // An frror wbs blrfbdy rfportfd
+            rfturn f;
         }
 
-        if (e.type.equals(t)) {
-            // The types are already the same
-            return e;
+        if (f.typf.fqubls(t)) {
+            // Tif typfs brf blrfbdy tif sbmf
+            rfturn f;
         }
 
         try {
-            if (e.fitsType(env, ctx, t)) {
-                return new ConvertExpression(where, t, e);
+            if (f.fitsTypf(fnv, dtx, t)) {
+                rfturn nfw ConvfrtExprfssion(wifrf, t, f);
             }
 
-            if (env.explicitCast(e.type, t)) {
-                env.error(where, "explicit.cast.needed", opNames[op], e.type, t);
-                return new ConvertExpression(where, t, e);
+            if (fnv.fxpliditCbst(f.typf, t)) {
+                fnv.frror(wifrf, "fxplidit.dbst.nffdfd", opNbmfs[op], f.typf, t);
+                rfturn nfw ConvfrtExprfssion(wifrf, t, f);
             }
-        } catch (ClassNotFound ee) {
-            env.error(where, "class.not.found", ee.name, opNames[op]);
+        } dbtdi (ClbssNotFound ff) {
+            fnv.frror(wifrf, "dlbss.not.found", ff.nbmf, opNbmfs[op]);
         }
 
-        // The cast is not allowed
-        env.error(where, "incompatible.type", opNames[op], e.type, t);
-        return new ConvertExpression(where, Type.tError, e);
+        // Tif dbst is not bllowfd
+        fnv.frror(wifrf, "indompbtiblf.typf", opNbmfs[op], f.typf, t);
+        rfturn nfw ConvfrtExprfssion(wifrf, Typf.tError, f);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        throw new CompilerError("print");
+    publid void print(PrintStrfbm out) {
+        tirow nfw CompilfrError("print");
     }
 
     /**
-     * Clone this object.
+     * Clonf tiis objfdt.
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw (InternalError) new InternalError().initCause(e);
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow (IntfrnblError) nfw IntfrnblError().initCbusf(f);
         }
     }
 
     /*
-     * Useful for simple debugging
+     * Usfful for simplf dfbugging
      */
-    public String toString() {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        print(new PrintStream(bos));
-        return bos.toString();
+    publid String toString() {
+        BytfArrbyOutputStrfbm bos = nfw BytfArrbyOutputStrfbm();
+        print(nfw PrintStrfbm(bos));
+        rfturn bos.toString();
     }
 
 }

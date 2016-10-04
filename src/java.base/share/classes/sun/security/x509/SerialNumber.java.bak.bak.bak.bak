@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.mbth.BigIntfgfr;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf SfriblNumbfr dlbss usfd by dfrtifidbtfs.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss SfriblNumbfr {
+    privbtf BigIntfgfr  sfriblNum;
+
+    // Construdt thf dlbss from thf DfrVbluf
+    privbtf void donstrudt(DfrVbluf dfrVbl) throws IOExdfption {
+        sfriblNum = dfrVbl.gftBigIntfgfr();
+        if (dfrVbl.dbtb.bvbilbblf() != 0) {
+            throw nfw IOExdfption("Exdfss SfriblNumbfr dbtb");
+        }
+    }
+
+    /**
+     * Thf dffbult donstrudtor for this dlbss using BigIntfgfr.
+     *
+     * @pbrbm num thf BigIntfgfr numbfr usfd to drfbtf thf sfribl numbfr.
+     */
+    publid SfriblNumbfr(BigIntfgfr num) {
+        sfriblNum = num;
+    }
+
+    /**
+     * Thf dffbult donstrudtor for this dlbss using int.
+     *
+     * @pbrbm num thf BigIntfgfr numbfr usfd to drfbtf thf sfribl numbfr.
+     */
+    publid SfriblNumbfr(int num) {
+        sfriblNum = BigIntfgfr.vblufOf(num);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DER strfbm.
+     *
+     * @pbrbm in thf DfrInputStrfbm to rfbd thf SfriblNumbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid SfriblNumbfr(DfrInputStrfbm in) throws IOExdfption {
+        DfrVbluf dfrVbl = in.gftDfrVbluf();
+        donstrudt(dfrVbl);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DfrVbluf.
+     *
+     * @pbrbm vbl thf DfrVbluf to rfbd thf SfriblNumbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid SfriblNumbfr(DfrVbluf vbl) throws IOExdfption {
+        donstrudt(vbl);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd strfbm.
+     *
+     * @pbrbm in thf InputStrfbm to rfbd thf SfriblNumbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid SfriblNumbfr(InputStrfbm in) throws IOExdfption {
+        DfrVbluf dfrVbl = nfw DfrVbluf(in);
+        donstrudt(dfrVbl);
+    }
+
+    /**
+     * Rfturn thf SfriblNumbfr bs usfr rfbdbblf string.
+     */
+    publid String toString() {
+        rfturn ("SfriblNumbfr: [" + Dfbug.toHfxString(sfriblNum) + "]");
+    }
+
+    /**
+     * Endodf thf SfriblNumbfr in DER form to thf strfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to mbrshbl thf dontfnts to.
+     * @fxdfption IOExdfption on frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        out.putIntfgfr(sfriblNum);
+    }
+
+    /**
+     * Rfturn thf sfribl numbfr.
+     */
+    publid BigIntfgfr gftNumbfr() {
+        rfturn sfriblNum;
+    }
+}

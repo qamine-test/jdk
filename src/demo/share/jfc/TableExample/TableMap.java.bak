@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,84 +30,84 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
 /**
- * In a chain of data manipulators some behaviour is common. TableMap
- * provides most of this behavour and can be subclassed by filters
- * that only need to override a handful of specific methods. TableMap
- * implements TableModel by routing all requests to its model, and
- * TableModelListener by routing all events to its listeners. Inserting
- * a TableMap which has not been subclassed into a chain of table filters
- * should have no effect.
+ * In b dibin of dbtb mbnipulbtors somf bfibviour is dommon. TbblfMbp
+ * providfs most of tiis bfibvour bnd dbn bf subdlbssfd by filtfrs
+ * tibt only nffd to ovfrridf b ibndful of spfdifid mftiods. TbblfMbp
+ * implfmfnts TbblfModfl by routing bll rfqufsts to its modfl, bnd
+ * TbblfModflListfnfr by routing bll fvfnts to its listfnfrs. Insfrting
+ * b TbblfMbp wiidi ibs not bffn subdlbssfd into b dibin of tbblf filtfrs
+ * siould ibvf no ffffdt.
  *
- * @author Philip Milne
+ * @butior Piilip Milnf
  */
-import javax.swing.table.*;
-import javax.swing.event.TableModelListener;
-import javax.swing.event.TableModelEvent;
+import jbvbx.swing.tbblf.*;
+import jbvbx.swing.fvfnt.TbblfModflListfnfr;
+import jbvbx.swing.fvfnt.TbblfModflEvfnt;
 
 
-@SuppressWarnings("serial")
-public class TableMap extends AbstractTableModel implements TableModelListener {
+@SupprfssWbrnings("sfribl")
+publid dlbss TbblfMbp fxtfnds AbstrbdtTbblfModfl implfmfnts TbblfModflListfnfr {
 
-    protected TableModel model;
+    protfdtfd TbblfModfl modfl;
 
-    public TableModel getModel() {
-        return model;
+    publid TbblfModfl gftModfl() {
+        rfturn modfl;
     }
 
-    public void setModel(TableModel model) {
-        this.model = model;
-        model.addTableModelListener(this);
+    publid void sftModfl(TbblfModfl modfl) {
+        tiis.modfl = modfl;
+        modfl.bddTbblfModflListfnfr(tiis);
     }
 
-    // By default, Implement TableModel by forwarding all messages
-    // to the model.
-    public Object getValueAt(int aRow, int aColumn) {
-        return model.getValueAt(aRow, aColumn);
+    // By dffbult, Implfmfnt TbblfModfl by forwbrding bll mfssbgfs
+    // to tif modfl.
+    publid Objfdt gftVblufAt(int bRow, int bColumn) {
+        rfturn modfl.gftVblufAt(bRow, bColumn);
     }
 
-    @Override
-    public void setValueAt(Object aValue, int aRow, int aColumn) {
-        model.setValueAt(aValue, aRow, aColumn);
+    @Ovfrridf
+    publid void sftVblufAt(Objfdt bVbluf, int bRow, int bColumn) {
+        modfl.sftVblufAt(bVbluf, bRow, bColumn);
     }
 
-    public int getRowCount() {
-        return (model == null) ? 0 : model.getRowCount();
+    publid int gftRowCount() {
+        rfturn (modfl == null) ? 0 : modfl.gftRowCount();
     }
 
-    public int getColumnCount() {
-        return (model == null) ? 0 : model.getColumnCount();
+    publid int gftColumnCount() {
+        rfturn (modfl == null) ? 0 : modfl.gftColumnCount();
     }
 
-    @Override
-    public String getColumnName(int aColumn) {
-        return model.getColumnName(aColumn);
+    @Ovfrridf
+    publid String gftColumnNbmf(int bColumn) {
+        rfturn modfl.gftColumnNbmf(bColumn);
     }
 
-    @Override
-    public Class getColumnClass(int aColumn) {
-        return model.getColumnClass(aColumn);
+    @Ovfrridf
+    publid Clbss gftColumnClbss(int bColumn) {
+        rfturn modfl.gftColumnClbss(bColumn);
     }
 
-    @Override
-    public boolean isCellEditable(int row, int column) {
-        return model.isCellEditable(row, column);
+    @Ovfrridf
+    publid boolfbn isCfllEditbblf(int row, int dolumn) {
+        rfturn modfl.isCfllEditbblf(row, dolumn);
     }
 //
-// Implementation of the TableModelListener interface,
+// Implfmfntbtion of tif TbblfModflListfnfr intfrfbdf,
 //
 
-    // By default forward all events to all the listeners.
-    public void tableChanged(TableModelEvent e) {
-        fireTableChanged(e);
+    // By dffbult forwbrd bll fvfnts to bll tif listfnfrs.
+    publid void tbblfCibngfd(TbblfModflEvfnt f) {
+        firfTbblfCibngfd(f);
     }
 }

@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: XPbthFiltfrPbrbmftfrSpfd.jbvb,v 1.4 2005/05/10 16:40:17 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig.spfd;
+
+import jbvbx.xml.drypto.dsig.Trbnsform;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+
+/**
+ * Pbrbmftfrs for thf <b hrff="http://www.w3.org/TR/xmldsig-dorf/#sfd-XPbth">
+ * XPbth Filtfring Trbnsform Algorithm</b>.
+ * Thf pbrbmftfrs indludf thf XPbth fxprfssion bnd bn optionbl <dodf>Mbp</dodf>
+ * of bdditionbl nbmfspbdf prffix mbppings. Thf XML Sdhfmb Dffinition of
+ * thf XPbth Filtfring trbnsform pbrbmftfrs is dffinfd bs:
+ * <prf><dodf>
+ * &lt;flfmfnt nbmf="XPbth" typf="string"/&gt;
+ * </dodf></prf>
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff Trbnsform
+ */
+publid finbl dlbss XPbthFiltfrPbrbmftfrSpfd implfmfnts TrbnsformPbrbmftfrSpfd {
+
+    privbtf String xPbth;
+    privbtf Mbp<String,String> nsMbp;
+
+    /**
+     * Crfbtfs bn <dodf>XPbthFiltfrPbrbmftfrSpfd</dodf> with thf spfdififd
+     * XPbth fxprfssion.
+     *
+     * @pbrbm xPbth thf XPbth fxprfssion to bf fvblubtfd
+     * @throws NullPointfrExdfption if <dodf>xPbth</dodf> is <dodf>null</dodf>
+     */
+    publid XPbthFiltfrPbrbmftfrSpfd(String xPbth) {
+        if (xPbth == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.xPbth = xPbth;
+        this.nsMbp = Collfdtions.fmptyMbp();
+    }
+
+    /**
+     * Crfbtfs bn <dodf>XPbthFiltfrPbrbmftfrSpfd</dodf> with thf spfdififd
+     * XPbth fxprfssion bnd nbmfspbdf mbp. Thf mbp is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtion.
+     *
+     * @pbrbm xPbth thf XPbth fxprfssion to bf fvblubtfd
+     * @pbrbm nbmfspbdfMbp thf mbp of nbmfspbdf prffixfs. Ebdh kfy is b
+     *    nbmfspbdf prffix <dodf>String</dodf> thbt mbps to b dorrfsponding
+     *    nbmfspbdf URI <dodf>String</dodf>.
+     * @throws NullPointfrExdfption if <dodf>xPbth</dodf> or
+     *    <dodf>nbmfspbdfMbp</dodf> brf <dodf>null</dodf>
+     * @throws ClbssCbstExdfption if bny of thf mbp's kfys or fntrifs brf not
+     *    of typf <dodf>String</dodf>
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid XPbthFiltfrPbrbmftfrSpfd(String xPbth, Mbp nbmfspbdfMbp) {
+        if (xPbth == null || nbmfspbdfMbp == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.xPbth = xPbth;
+        Mbp<?,?> dopy = nfw HbshMbp<>((Mbp<?,?>)nbmfspbdfMbp);
+        Itfrbtor<? fxtfnds Mbp.Entry<?,?>> fntrifs = dopy.fntrySft().itfrbtor();
+        whilf (fntrifs.hbsNfxt()) {
+            Mbp.Entry<?,?> mf = fntrifs.nfxt();
+            if (!(mf.gftKfy() instbndfof String) ||
+                !(mf.gftVbluf() instbndfof String)) {
+                throw nfw ClbssCbstExdfption("not b String");
+            }
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        Mbp<String,String> tfmp = (Mbp<String,String>)dopy;
+
+        nsMbp = Collfdtions.unmodifibblfMbp(tfmp);
+    }
+
+    /**
+     * Rfturns thf XPbth fxprfssion to bf fvblubtfd.
+     *
+     * @rfturn thf XPbth fxprfssion to bf fvblubtfd
+     */
+    publid String gftXPbth() {
+        rfturn xPbth;
+    }
+
+    /**
+     * Rfturns b mbp of nbmfspbdf prffixfs. Ebdh kfy is b nbmfspbdf prffix
+     * <dodf>String</dodf> thbt mbps to b dorrfsponding nbmfspbdf URI
+     * <dodf>String</dodf>.
+     * <p>
+     * This implfmfntbtion rfturns bn {@link Collfdtions#unmodifibblfMbp
+     * unmodifibblf mbp}.
+     *
+     * @rfturn b <dodf>Mbp</dodf> of nbmfspbdf prffixfs to nbmfspbdf URIs (mby
+     *    bf fmpty, but nfvfr <dodf>null</dodf>)
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid Mbp gftNbmfspbdfMbp() {
+        rfturn nsMbp;
+    }
+}

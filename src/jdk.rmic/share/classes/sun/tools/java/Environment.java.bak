@@ -1,999 +1,999 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.java;
+pbdkbgf sun.tools.jbvb;
 
-import java.util.Stack;
-import java.io.IOException;
-import sun.tools.tree.Context;
+import jbvb.util.Stbdk;
+import jbvb.io.IOExdfption;
+import sun.tools.trff.Contfxt;
 //JCOV
-import java.io.File;
-//end JCOV
+import jbvb.io.Filf;
+//fnd JCOV
 
 /**
- * This class defines the environment for a compilation.
- * It is used to load classes, resolve class names and
- * report errors. It is an abstract class, a subclass
- * must define implementations for some of the functions.<p>
+ * Tiis dlbss dffinfs tif fnvironmfnt for b dompilbtion.
+ * It is usfd to lobd dlbssfs, rfsolvf dlbss nbmfs bnd
+ * rfport frrors. It is bn bbstrbdt dlbss, b subdlbss
+ * must dffinf implfmfntbtions for somf of tif fundtions.<p>
  *
- * An environment has a source object associated with it.
- * This is the thing against which errors are reported, it
- * is usually a file name, a field or a class.<p>
+ * An fnvironmfnt ibs b sourdf objfdt bssodibtfd witi it.
+ * Tiis is tif tiing bgbinst wiidi frrors brf rfportfd, it
+ * is usublly b filf nbmf, b fifld or b dlbss.<p>
  *
- * Environments can be nested to change the source object.<p>
+ * Environmfnts dbn bf nfstfd to dibngf tif sourdf objfdt.<p>
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
- * @author      Arthur van Hoff
+ * @butior      Artiur vbn Hoff
  */
 
-public class Environment implements Constants {
+publid dlbss Environmfnt implfmfnts Constbnts {
     /**
-     * The actual environment to which everything is forwarded.
+     * Tif bdtubl fnvironmfnt to wiidi fvfrytiing is forwbrdfd.
      */
-    Environment env;
+    Environmfnt fnv;
 
     /**
-     * External character encoding name
+     * Extfrnbl dibrbdtfr fndoding nbmf
      */
-    String encoding;
+    String fndoding;
 
     /**
-     * The object that is currently being parsed/compiled.
-     * It is either a file name (String) or a field (MemberDefinition)
-     * or a class (ClassDeclaration or ClassDefinition).
+     * Tif objfdt tibt is durrfntly bfing pbrsfd/dompilfd.
+     * It is fitifr b filf nbmf (String) or b fifld (MfmbfrDffinition)
+     * or b dlbss (ClbssDfdlbrbtion or ClbssDffinition).
      */
-    Object source;
+    Objfdt sourdf;
 
-    public Environment(Environment env, Object source) {
-        if (env != null && env.env != null && env.getClass() == this.getClass())
-            env = env.env;      // a small optimization
-        this.env = env;
-        this.source = source;
+    publid Environmfnt(Environmfnt fnv, Objfdt sourdf) {
+        if (fnv != null && fnv.fnv != null && fnv.gftClbss() == tiis.gftClbss())
+            fnv = fnv.fnv;      // b smbll optimizbtion
+        tiis.fnv = fnv;
+        tiis.sourdf = sourdf;
     }
-    public Environment() {
-        this(null, null);
-    }
-
-    /**
-     * Tells whether an Identifier refers to a package which should be
-     * exempt from the "exists" check in Imports#resolve().
-     */
-    public boolean isExemptPackage(Identifier id) {
-        return env.isExemptPackage(id);
+    publid Environmfnt() {
+        tiis(null, null);
     }
 
     /**
-     * Return a class declaration given a fully qualified class name.
+     * Tflls wiftifr bn Idfntififr rfffrs to b pbdkbgf wiidi siould bf
+     * fxfmpt from tif "fxists" difdk in Imports#rfsolvf().
      */
-    public ClassDeclaration getClassDeclaration(Identifier nm) {
-        return env.getClassDeclaration(nm);
+    publid boolfbn isExfmptPbdkbgf(Idfntififr id) {
+        rfturn fnv.isExfmptPbdkbgf(id);
     }
 
     /**
-     * Return a class definition given a fully qualified class name.
+     * Rfturn b dlbss dfdlbrbtion givfn b fully qublififd dlbss nbmf.
+     */
+    publid ClbssDfdlbrbtion gftClbssDfdlbrbtion(Idfntififr nm) {
+        rfturn fnv.gftClbssDfdlbrbtion(nm);
+    }
+
+    /**
+     * Rfturn b dlbss dffinition givfn b fully qublififd dlbss nbmf.
      * <p>
-     * Should be called only with 'internal' class names, i.e., the result
-     * of a call to 'resolveName' or a synthetic class name.
+     * Siould bf dbllfd only witi 'intfrnbl' dlbss nbmfs, i.f., tif rfsult
+     * of b dbll to 'rfsolvfNbmf' or b syntiftid dlbss nbmf.
      */
-    public final ClassDefinition getClassDefinition(Identifier nm) throws ClassNotFound {
-        if (nm.isInner()) {
-            ClassDefinition c = getClassDefinition(nm.getTopName());
-            Identifier tail = nm.getFlatName();
-        walkTail:
-            while (tail.isQualified()) {
-                tail = tail.getTail();
-                Identifier head = tail.getHead();
-                //System.out.println("CLASS: " + c + " HEAD: " + head + " TAIL: " + tail);
-                String hname = head.toString();
-                // If the name is of the form 'ClassName.N$localName', where N is
-                // a number, the field 'N$localName' may not necessarily be a member
-                // of the class named by 'ClassName', but might be a member of some
-                // inaccessible class contained within it.  We use 'getLocalClass'
-                // to do the lookup in this case.  This is part of a fix for bugid
-                // 4054523 and 4030421.  See also 'BatchEnvironment.makeClassDefinition'.
-                // This should also work for anonymous class names of the form
-                // 'ClassName.N'.  Note that the '.' qualifications get converted to
-                // '$' characters when determining the external name of the class and
-                // the name of the class file.
-                if (hname.length() > 0
-                    && Character.isDigit(hname.charAt(0))) {
-                    ClassDefinition localClass = c.getLocalClass(hname);
-                    if (localClass != null) {
-                        c = localClass;
-                        continue walkTail;
+    publid finbl ClbssDffinition gftClbssDffinition(Idfntififr nm) tirows ClbssNotFound {
+        if (nm.isInnfr()) {
+            ClbssDffinition d = gftClbssDffinition(nm.gftTopNbmf());
+            Idfntififr tbil = nm.gftFlbtNbmf();
+        wblkTbil:
+            wiilf (tbil.isQublififd()) {
+                tbil = tbil.gftTbil();
+                Idfntififr ifbd = tbil.gftHfbd();
+                //Systfm.out.println("CLASS: " + d + " HEAD: " + ifbd + " TAIL: " + tbil);
+                String inbmf = ifbd.toString();
+                // If tif nbmf is of tif form 'ClbssNbmf.N$lodblNbmf', wifrf N is
+                // b numbfr, tif fifld 'N$lodblNbmf' mby not nfdfssbrily bf b mfmbfr
+                // of tif dlbss nbmfd by 'ClbssNbmf', but migit bf b mfmbfr of somf
+                // inbddfssiblf dlbss dontbinfd witiin it.  Wf usf 'gftLodblClbss'
+                // to do tif lookup in tiis dbsf.  Tiis is pbrt of b fix for bugid
+                // 4054523 bnd 4030421.  Sff blso 'BbtdiEnvironmfnt.mbkfClbssDffinition'.
+                // Tiis siould blso work for bnonymous dlbss nbmfs of tif form
+                // 'ClbssNbmf.N'.  Notf tibt tif '.' qublifidbtions gft donvfrtfd to
+                // '$' dibrbdtfrs wifn dftfrmining tif fxtfrnbl nbmf of tif dlbss bnd
+                // tif nbmf of tif dlbss filf.
+                if (inbmf.lfngti() > 0
+                    && Cibrbdtfr.isDigit(inbmf.dibrAt(0))) {
+                    ClbssDffinition lodblClbss = d.gftLodblClbss(inbmf);
+                    if (lodblClbss != null) {
+                        d = lodblClbss;
+                        dontinuf wblkTbil;
                     }
-                } else {
-                    for (MemberDefinition f = c.getFirstMatch(head);
-                         f != null; f = f.getNextMatch()) {
-                        if (f.isInnerClass()) {
-                            c = f.getInnerClass();
-                            continue walkTail;
+                } flsf {
+                    for (MfmbfrDffinition f = d.gftFirstMbtdi(ifbd);
+                         f != null; f = f.gftNfxtMbtdi()) {
+                        if (f.isInnfrClbss()) {
+                            d = f.gftInnfrClbss();
+                            dontinuf wblkTbil;
                         }
                     }
                 }
-                throw new ClassNotFound(Identifier.lookupInner(c.getName(), head));
+                tirow nfw ClbssNotFound(Idfntififr.lookupInnfr(d.gftNbmf(), ifbd));
             }
-            //System.out.println("FOUND " + c + " FOR " + nm);
-            return c;
+            //Systfm.out.println("FOUND " + d + " FOR " + nm);
+            rfturn d;
         }
-        return getClassDeclaration(nm).getClassDefinition(this);
+        rfturn gftClbssDfdlbrbtion(nm).gftClbssDffinition(tiis);
     }
 
 
     /**
-     * Return a class declaration given a type. Only works for
-     * class types.
+     * Rfturn b dlbss dfdlbrbtion givfn b typf. Only works for
+     * dlbss typfs.
      */
-    public ClassDeclaration getClassDeclaration(Type t) {
-        return getClassDeclaration(t.getClassName());
+    publid ClbssDfdlbrbtion gftClbssDfdlbrbtion(Typf t) {
+        rfturn gftClbssDfdlbrbtion(t.gftClbssNbmf());
     }
 
     /**
-     * Return a class definition given a type. Only works for
-     * class types.
+     * Rfturn b dlbss dffinition givfn b typf. Only works for
+     * dlbss typfs.
      */
-    public final ClassDefinition getClassDefinition(Type t) throws ClassNotFound {
-        return getClassDefinition(t.getClassName());
+    publid finbl ClbssDffinition gftClbssDffinition(Typf t) tirows ClbssNotFound {
+        rfturn gftClbssDffinition(t.gftClbssNbmf());
     }
 
     /**
-     * Check if a class exists (without actually loading it).
-     * (Since inner classes cannot in general be examined without
-     * loading source, this method does not accept inner names.)
+     * Cifdk if b dlbss fxists (witiout bdtublly lobding it).
+     * (Sindf innfr dlbssfs dbnnot in gfnfrbl bf fxbminfd witiout
+     * lobding sourdf, tiis mftiod dofs not bddfpt innfr nbmfs.)
      */
-    public boolean classExists(Identifier nm) {
-        return env.classExists(nm);
+    publid boolfbn dlbssExists(Idfntififr nm) {
+        rfturn fnv.dlbssExists(nm);
     }
 
-    public final boolean classExists(Type t) {
-        return !t.isType(TC_CLASS) || classExists(t.getClassName());
+    publid finbl boolfbn dlbssExists(Typf t) {
+        rfturn !t.isTypf(TC_CLASS) || dlbssExists(t.gftClbssNbmf());
     }
 
     /**
-     * Get the package path for a package
+     * Gft tif pbdkbgf pbti for b pbdkbgf
      */
-    public Package getPackage(Identifier pkg) throws IOException {
-        return env.getPackage(pkg);
+    publid Pbdkbgf gftPbdkbgf(Idfntififr pkg) tirows IOExdfption {
+        rfturn fnv.gftPbdkbgf(pkg);
     }
 
     /**
-     * Load the definition of a class.
+     * Lobd tif dffinition of b dlbss.
      */
-    public void loadDefinition(ClassDeclaration c) {
-        env.loadDefinition(c);
+    publid void lobdDffinition(ClbssDfdlbrbtion d) {
+        fnv.lobdDffinition(d);
     }
 
     /**
-     * Return the source of the environment (ie: the thing being compiled/parsed).
+     * Rfturn tif sourdf of tif fnvironmfnt (if: tif tiing bfing dompilfd/pbrsfd).
      */
-    public final Object getSource() {
-        return source;
+    publid finbl Objfdt gftSourdf() {
+        rfturn sourdf;
     }
 
     /**
-     * Resolve a type. Make sure that all the classes referred to by
-     * the type have a definition.  Report errors.  Return true if
-     * the type is well-formed.  Presently used for types appearing
-     * in member declarations, which represent named types internally as
-     * qualified identifiers.  Type names appearing in local variable
-     * declarations and within expressions are represented as identifier
-     * or field expressions, and are resolved by 'toType', which delegates
-     * handling of the non-inner portion of the name to this method.
+     * Rfsolvf b typf. Mbkf surf tibt bll tif dlbssfs rfffrrfd to by
+     * tif typf ibvf b dffinition.  Rfport frrors.  Rfturn truf if
+     * tif typf is wfll-formfd.  Prfsfntly usfd for typfs bppfbring
+     * in mfmbfr dfdlbrbtions, wiidi rfprfsfnt nbmfd typfs intfrnblly bs
+     * qublififd idfntififrs.  Typf nbmfs bppfbring in lodbl vbribblf
+     * dfdlbrbtions bnd witiin fxprfssions brf rfprfsfntfd bs idfntififr
+     * or fifld fxprfssions, bnd brf rfsolvfd by 'toTypf', wiidi dflfgbtfs
+     * ibndling of tif non-innfr portion of tif nbmf to tiis mftiod.
      * <p>
-     * In 'toType', the various stages of qualification are represented by
-     * separate AST nodes.  Here, we are given a single identifier which
-     * contains the entire qualification structure.  It is not possible in
-     * general to set the error location to the exact position of a component
-     * that is in error, so an error message must refer to the entire qualified
-     * name.  An attempt to keep track of the string length of the components of
-     * the name and to offset the location accordingly fails because the initial
-     * prefix of the name may have been rewritten by an earlier call to
-     * 'resolveName'.  See 'SourceMember.resolveTypeStructure'.  The situation
-     * is actually even worse than this, because only a single location is
-     * passed in for an entire declaration, which may contain many type names.
-     * All error messages are thus poorly localized.  These checks should be
-     * done while traversing the parse tree for the type, not the type descriptor.
+     * In 'toTypf', tif vbrious stbgfs of qublifidbtion brf rfprfsfntfd by
+     * sfpbrbtf AST nodfs.  Hfrf, wf brf givfn b singlf idfntififr wiidi
+     * dontbins tif fntirf qublifidbtion strudturf.  It is not possiblf in
+     * gfnfrbl to sft tif frror lodbtion to tif fxbdt position of b domponfnt
+     * tibt is in frror, so bn frror mfssbgf must rfffr to tif fntirf qublififd
+     * nbmf.  An bttfmpt to kffp trbdk of tif string lfngti of tif domponfnts of
+     * tif nbmf bnd to offsft tif lodbtion bddordingly fbils bfdbusf tif initibl
+     * prffix of tif nbmf mby ibvf bffn rfwrittfn by bn fbrlifr dbll to
+     * 'rfsolvfNbmf'.  Sff 'SourdfMfmbfr.rfsolvfTypfStrudturf'.  Tif situbtion
+     * is bdtublly fvfn worsf tibn tiis, bfdbusf only b singlf lodbtion is
+     * pbssfd in for bn fntirf dfdlbrbtion, wiidi mby dontbin mbny typf nbmfs.
+     * All frror mfssbgfs brf tius poorly lodblizfd.  Tifsf difdks siould bf
+     * donf wiilf trbvfrsing tif pbrsf trff for tif typf, not tif typf dfsdriptor.
      * <p>
      * DESIGN NOTE:
-     * As far as I can tell, the two-stage resolution of names represented in
-     * string form is an artifact of the late implementation of inner classes
-     * and the use of mangled names internally within the compiler.  All
-     * qualified names should have their hiearchical structure made explicit
-     * in the parse tree at the phase at which they are presented for static
-     * semantic checking.  This would affect class names appearing in 'extends',
-     * 'implements', and 'throws' clauses, as well as in member declarations.
+     * As fbr bs I dbn tfll, tif two-stbgf rfsolution of nbmfs rfprfsfntfd in
+     * string form is bn brtifbdt of tif lbtf implfmfntbtion of innfr dlbssfs
+     * bnd tif usf of mbnglfd nbmfs intfrnblly witiin tif dompilfr.  All
+     * qublififd nbmfs siould ibvf tifir iifbrdiidbl strudturf mbdf fxplidit
+     * in tif pbrsf trff bt tif pibsf bt wiidi tify brf prfsfntfd for stbtid
+     * sfmbntid difdking.  Tiis would bfffdt dlbss nbmfs bppfbring in 'fxtfnds',
+     * 'implfmfnts', bnd 'tirows' dlbusfs, bs wfll bs in mfmbfr dfdlbrbtions.
      */
-    public boolean resolve(long where, ClassDefinition c, Type t) {
-        switch (t.getTypeCode()) {
-          case TC_CLASS: {
-            ClassDefinition def;
+    publid boolfbn rfsolvf(long wifrf, ClbssDffinition d, Typf t) {
+        switdi (t.gftTypfCodf()) {
+          dbsf TC_CLASS: {
+            ClbssDffinition dff;
             try {
-                Identifier nm = t.getClassName();
-                if (!nm.isQualified() && !nm.isInner() && !classExists(nm)) {
-                    resolve(nm);        // elicit complaints about ambiguity
+                Idfntififr nm = t.gftClbssNbmf();
+                if (!nm.isQublififd() && !nm.isInnfr() && !dlbssExists(nm)) {
+                    rfsolvf(nm);        // flidit domplbints bbout bmbiguity
                 }
-                def = getQualifiedClassDefinition(where, nm, c, false);
-                if (!c.canAccess(this, def.getClassDeclaration())) {
-                    // Reported error location may be imprecise
-                    // if the name is qualified.
-                    error(where, "cant.access.class", def);
-                    return true; // return false later
+                dff = gftQublififdClbssDffinition(wifrf, nm, d, fblsf);
+                if (!d.dbnAddfss(tiis, dff.gftClbssDfdlbrbtion())) {
+                    // Rfportfd frror lodbtion mby bf imprfdisf
+                    // if tif nbmf is qublififd.
+                    frror(wifrf, "dbnt.bddfss.dlbss", dff);
+                    rfturn truf; // rfturn fblsf lbtfr
                 }
-                def.noteUsedBy(c, where, env);
-            } catch (AmbiguousClass ee) {
-                error(where, "ambig.class", ee.name1, ee.name2);
-                return false;
-            } catch (ClassNotFound e) {
-                // For now, report "class.and.package" only when the code
-                // is going to fail anyway.
+                dff.notfUsfdBy(d, wifrf, fnv);
+            } dbtdi (AmbiguousClbss ff) {
+                frror(wifrf, "bmbig.dlbss", ff.nbmf1, ff.nbmf2);
+                rfturn fblsf;
+            } dbtdi (ClbssNotFound f) {
+                // For now, rfport "dlbss.bnd.pbdkbgf" only wifn tif dodf
+                // is going to fbil bnywby.
                 try {
-                    if (e.name.isInner() &&
-                            getPackage(e.name.getTopName()).exists()) {
-                        env.error(where, "class.and.package",
-                                  e.name.getTopName());
+                    if (f.nbmf.isInnfr() &&
+                            gftPbdkbgf(f.nbmf.gftTopNbmf()).fxists()) {
+                        fnv.frror(wifrf, "dlbss.bnd.pbdkbgf",
+                                  f.nbmf.gftTopNbmf());
                     }
-                } catch (IOException ee) {
-                    env.error(where, "io.exception", "package check");
+                } dbtdi (IOExdfption ff) {
+                    fnv.frror(wifrf, "io.fxdfption", "pbdkbgf difdk");
                 }
-                // This error message is also emitted for 'new' expressions.
-                // error(where, "class.not.found", e.name, "declaration");
-                error(where, "class.not.found.no.context", e.name);
-                return false;
+                // Tiis frror mfssbgf is blso fmittfd for 'nfw' fxprfssions.
+                // frror(wifrf, "dlbss.not.found", f.nbmf, "dfdlbrbtion");
+                frror(wifrf, "dlbss.not.found.no.dontfxt", f.nbmf);
+                rfturn fblsf;
             }
-            return true;
+            rfturn truf;
           }
 
-          case TC_ARRAY:
-            return resolve(where, c, t.getElementType());
+          dbsf TC_ARRAY:
+            rfturn rfsolvf(wifrf, d, t.gftElfmfntTypf());
 
-          case TC_METHOD:
-            boolean ok = resolve(where, c, t.getReturnType());
-            Type args[] = t.getArgumentTypes();
-            for (int i = args.length ; i-- > 0 ; ) {
-                ok &= resolve(where, c, args[i]);
+          dbsf TC_METHOD:
+            boolfbn ok = rfsolvf(wifrf, d, t.gftRfturnTypf());
+            Typf brgs[] = t.gftArgumfntTypfs();
+            for (int i = brgs.lfngti ; i-- > 0 ; ) {
+                ok &= rfsolvf(wifrf, d, brgs[i]);
             }
-            return ok;
+            rfturn ok;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Given its fully-qualified name, verify that a class is defined and accessible.
-     * Used to check components of qualified names in contexts where a class is expected.
-     * Like 'resolve', but is given a single type name, not a type descriptor.
+     * Givfn its fully-qublififd nbmf, vfrify tibt b dlbss is dffinfd bnd bddfssiblf.
+     * Usfd to difdk domponfnts of qublififd nbmfs in dontfxts wifrf b dlbss is fxpfdtfd.
+     * Likf 'rfsolvf', but is givfn b singlf typf nbmf, not b typf dfsdriptor.
      */
-    public boolean resolveByName(long where, ClassDefinition c, Identifier nm) {
-        return resolveByName(where, c, nm, false);
+    publid boolfbn rfsolvfByNbmf(long wifrf, ClbssDffinition d, Idfntififr nm) {
+        rfturn rfsolvfByNbmf(wifrf, d, nm, fblsf);
     }
 
-    public boolean resolveExtendsByName(long where, ClassDefinition c, Identifier nm) {
-        return resolveByName(where, c, nm, true);
+    publid boolfbn rfsolvfExtfndsByNbmf(long wifrf, ClbssDffinition d, Idfntififr nm) {
+        rfturn rfsolvfByNbmf(wifrf, d, nm, truf);
     }
 
-    private boolean resolveByName(long where, ClassDefinition c,
-                                 Identifier nm, boolean isExtends) {
-        ClassDefinition def;
+    privbtf boolfbn rfsolvfByNbmf(long wifrf, ClbssDffinition d,
+                                 Idfntififr nm, boolfbn isExtfnds) {
+        ClbssDffinition dff;
         try {
-            if (!nm.isQualified() && !nm.isInner() && !classExists(nm)) {
-                resolve(nm);    // elicit complaints about ambiguity
+            if (!nm.isQublififd() && !nm.isInnfr() && !dlbssExists(nm)) {
+                rfsolvf(nm);    // flidit domplbints bbout bmbiguity
             }
-            def = getQualifiedClassDefinition(where, nm, c, isExtends);
-            ClassDeclaration decl = def.getClassDeclaration();
-            if (!((!isExtends && c.canAccess(this, decl))
+            dff = gftQublififdClbssDffinition(wifrf, nm, d, isExtfnds);
+            ClbssDfdlbrbtion dfdl = dff.gftClbssDfdlbrbtion();
+            if (!((!isExtfnds && d.dbnAddfss(tiis, dfdl))
                   ||
-                  (isExtends && c.extendsCanAccess(this, decl)))) {
-                error(where, "cant.access.class", def);
-                return true; // return false later
+                  (isExtfnds && d.fxtfndsCbnAddfss(tiis, dfdl)))) {
+                frror(wifrf, "dbnt.bddfss.dlbss", dff);
+                rfturn truf; // rfturn fblsf lbtfr
             }
-        } catch (AmbiguousClass ee) {
-            error(where, "ambig.class", ee.name1, ee.name2);
-            return false;
-        } catch (ClassNotFound e) {
-            // For now, report "class.and.package" only when the code
-            // is going to fail anyway.
+        } dbtdi (AmbiguousClbss ff) {
+            frror(wifrf, "bmbig.dlbss", ff.nbmf1, ff.nbmf2);
+            rfturn fblsf;
+        } dbtdi (ClbssNotFound f) {
+            // For now, rfport "dlbss.bnd.pbdkbgf" only wifn tif dodf
+            // is going to fbil bnywby.
             try {
-                if (e.name.isInner() &&
-                    getPackage(e.name.getTopName()).exists()) {
-                    env.error(where, "class.and.package",
-                              e.name.getTopName());
+                if (f.nbmf.isInnfr() &&
+                    gftPbdkbgf(f.nbmf.gftTopNbmf()).fxists()) {
+                    fnv.frror(wifrf, "dlbss.bnd.pbdkbgf",
+                              f.nbmf.gftTopNbmf());
                 }
-            } catch (IOException ee) {
-                env.error(where, "io.exception", "package check");
+            } dbtdi (IOExdfption ff) {
+                fnv.frror(wifrf, "io.fxdfption", "pbdkbgf difdk");
             }
-            error(where, "class.not.found", e.name, "type name");
-            return false;
+            frror(wifrf, "dlbss.not.found", f.nbmf, "typf nbmf");
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Like 'getClassDefinition(env)', but check access on each component.
-     * Currently called only by 'resolve' above.  It is doubtful that calls
-     * to 'getClassDefinition(env)' are appropriate now.
+     * Likf 'gftClbssDffinition(fnv)', but difdk bddfss on fbdi domponfnt.
+     * Currfntly dbllfd only by 'rfsolvf' bbovf.  It is doubtful tibt dblls
+     * to 'gftClbssDffinition(fnv)' brf bppropribtf now.
      */
-    public final ClassDefinition
-    getQualifiedClassDefinition(long where,
-                                Identifier nm,
-                                ClassDefinition ctxClass,
-                                boolean isExtends) throws ClassNotFound {
-        if (nm.isInner()) {
-            ClassDefinition c = getClassDefinition(nm.getTopName());
-            Identifier tail = nm.getFlatName();
-        walkTail:
-            while (tail.isQualified()) {
-                tail = tail.getTail();
-                Identifier head = tail.getHead();
-                // System.out.println("CLASS: " + c + " HEAD: " + head + " TAIL: " + tail);
-                String hname = head.toString();
-                // Handle synthesized names of local and anonymous classes.
-                // See 'getClassDefinition(env)' above.
-                if (hname.length() > 0
-                    && Character.isDigit(hname.charAt(0))) {
-                    ClassDefinition localClass = c.getLocalClass(hname);
-                    if (localClass != null) {
-                        c = localClass;
-                        continue walkTail;
+    publid finbl ClbssDffinition
+    gftQublififdClbssDffinition(long wifrf,
+                                Idfntififr nm,
+                                ClbssDffinition dtxClbss,
+                                boolfbn isExtfnds) tirows ClbssNotFound {
+        if (nm.isInnfr()) {
+            ClbssDffinition d = gftClbssDffinition(nm.gftTopNbmf());
+            Idfntififr tbil = nm.gftFlbtNbmf();
+        wblkTbil:
+            wiilf (tbil.isQublififd()) {
+                tbil = tbil.gftTbil();
+                Idfntififr ifbd = tbil.gftHfbd();
+                // Systfm.out.println("CLASS: " + d + " HEAD: " + ifbd + " TAIL: " + tbil);
+                String inbmf = ifbd.toString();
+                // Hbndlf syntifsizfd nbmfs of lodbl bnd bnonymous dlbssfs.
+                // Sff 'gftClbssDffinition(fnv)' bbovf.
+                if (inbmf.lfngti() > 0
+                    && Cibrbdtfr.isDigit(inbmf.dibrAt(0))) {
+                    ClbssDffinition lodblClbss = d.gftLodblClbss(inbmf);
+                    if (lodblClbss != null) {
+                        d = lodblClbss;
+                        dontinuf wblkTbil;
                     }
-                } else {
-                    for (MemberDefinition f = c.getFirstMatch(head);
-                         f != null; f = f.getNextMatch()) {
-                        if (f.isInnerClass()) {
-                            ClassDeclaration rdecl = c.getClassDeclaration();
-                            c = f.getInnerClass();
-                            ClassDeclaration fdecl = c.getClassDeclaration();
-                            // This check is presumably applicable even if the
-                            // original source-code name (expanded by 'resolveNames')
-                            // was a simple, unqualified name.  Hopefully, JLS 2e
-                            // will clarify the matter.
-                            if ((!isExtends
-                                 && !ctxClass.canAccess(env, fdecl))
+                } flsf {
+                    for (MfmbfrDffinition f = d.gftFirstMbtdi(ifbd);
+                         f != null; f = f.gftNfxtMbtdi()) {
+                        if (f.isInnfrClbss()) {
+                            ClbssDfdlbrbtion rdfdl = d.gftClbssDfdlbrbtion();
+                            d = f.gftInnfrClbss();
+                            ClbssDfdlbrbtion fdfdl = d.gftClbssDfdlbrbtion();
+                            // Tiis difdk is prfsumbbly bpplidbblf fvfn if tif
+                            // originbl sourdf-dodf nbmf (fxpbndfd by 'rfsolvfNbmfs')
+                            // wbs b simplf, unqublififd nbmf.  Hopffully, JLS 2f
+                            // will dlbrify tif mbttfr.
+                            if ((!isExtfnds
+                                 && !dtxClbss.dbnAddfss(fnv, fdfdl))
                                 ||
-                                (isExtends
-                                 && !ctxClass.extendsCanAccess(env, fdecl))) {
-                                // Reported error location is imprecise.
-                                env.error(where, "no.type.access", head, rdecl, ctxClass);
+                                (isExtfnds
+                                 && !dtxClbss.fxtfndsCbnAddfss(fnv, fdfdl))) {
+                                // Rfportfd frror lodbtion is imprfdisf.
+                                fnv.frror(wifrf, "no.typf.bddfss", ifbd, rdfdl, dtxClbss);
                             }
-                            // The JLS 6.6.2 restrictions on access to protected members
-                            // depend in an essential way upon the syntactic form of the name.
-                            // Since the compiler has previously expanded the class names
-                            // here into fully-qualified form ('resolveNames'), this check
-                            // cannot be performed here.  Unfortunately, the original names
-                            // are clobbered during 'basicCheck', which is also the phase that
-                            // resolves the inheritance structure, required to implement the
-                            // access restrictions.  Pending a large-scale revision of the
-                            // name-resolution machinery, we forgo this check, with the result
-                            // that the JLS 6.6.2 restrictions are not enforced for some cases
-                            // of qualified access to inner classes.  Some qualified names are
-                            // resolved elsewhere via a different mechanism, and will be
-                            // treated correctly -- see 'FieldExpression.checkCommon'.
+                            // Tif JLS 6.6.2 rfstridtions on bddfss to protfdtfd mfmbfrs
+                            // dfpfnd in bn fssfntibl wby upon tif syntbdtid form of tif nbmf.
+                            // Sindf tif dompilfr ibs prfviously fxpbndfd tif dlbss nbmfs
+                            // ifrf into fully-qublififd form ('rfsolvfNbmfs'), tiis difdk
+                            // dbnnot bf pfrformfd ifrf.  Unfortunbtfly, tif originbl nbmfs
+                            // brf dlobbfrfd during 'bbsidCifdk', wiidi is blso tif pibsf tibt
+                            // rfsolvfs tif inifritbndf strudturf, rfquirfd to implfmfnt tif
+                            // bddfss rfstridtions.  Pfnding b lbrgf-sdblf rfvision of tif
+                            // nbmf-rfsolution mbdiinfry, wf forgo tiis difdk, witi tif rfsult
+                            // tibt tif JLS 6.6.2 rfstridtions brf not fnfordfd for somf dbsfs
+                            // of qublififd bddfss to innfr dlbssfs.  Somf qublififd nbmfs brf
+                            // rfsolvfd flsfwifrf vib b difffrfnt mfdibnism, bnd will bf
+                            // trfbtfd dorrfdtly -- sff 'FifldExprfssion.difdkCommon'.
                             /*---------------------------------------*
-                            if (f.isProtected()) {
-                                Type rty = Type.tClass(rdecl.getName()); // hack
-                                if (!ctxClass.protectedAccess(env, f, rty)) {
-                                    // Reported error location is imprecise.
-                                    env.error(where, "invalid.protected.type.use",
-                                              head, ctxClass, rty);
+                            if (f.isProtfdtfd()) {
+                                Typf rty = Typf.tClbss(rdfdl.gftNbmf()); // ibdk
+                                if (!dtxClbss.protfdtfdAddfss(fnv, f, rty)) {
+                                    // Rfportfd frror lodbtion is imprfdisf.
+                                    fnv.frror(wifrf, "invblid.protfdtfd.typf.usf",
+                                              ifbd, dtxClbss, rty);
                                 }
                             }
                             *---------------------------------------*/
-                            continue walkTail;
+                            dontinuf wblkTbil;
                         }
                     }
                 }
-                throw new ClassNotFound(Identifier.lookupInner(c.getName(), head));
+                tirow nfw ClbssNotFound(Idfntififr.lookupInnfr(d.gftNbmf(), ifbd));
             }
-            //System.out.println("FOUND " + c + " FOR " + nm);
-            return c;
+            //Systfm.out.println("FOUND " + d + " FOR " + nm);
+            rfturn d;
         }
-        return getClassDeclaration(nm).getClassDefinition(this);
+        rfturn gftClbssDfdlbrbtion(nm).gftClbssDffinition(tiis);
     }
 
     /**
-     * Resolve the names within a type, returning the adjusted type.
-     * Adjust class names to reflect scoping.
-     * Do not report errors.
+     * Rfsolvf tif nbmfs witiin b typf, rfturning tif bdjustfd typf.
+     * Adjust dlbss nbmfs to rfflfdt sdoping.
+     * Do not rfport frrors.
      * <p>
-     * NOTE: It would be convenient to check for errors here, such as
-     * verifying that each component of a qualified name exists and is
-     * accessible.  Why must this be done in a separate phase?
+     * NOTE: It would bf donvfnifnt to difdk for frrors ifrf, sudi bs
+     * vfrifying tibt fbdi domponfnt of b qublififd nbmf fxists bnd is
+     * bddfssiblf.  Wiy must tiis bf donf in b sfpbrbtf pibsf?
      * <p>
-     * If the 'synth' argument is true, indicating that the member whose
-     * type is being resolved is synthetic, names are resolved with respect
-     * to the package scope.  (Fix for 4097882)
+     * If tif 'synti' brgumfnt is truf, indidbting tibt tif mfmbfr wiosf
+     * typf is bfing rfsolvfd is syntiftid, nbmfs brf rfsolvfd witi rfspfdt
+     * to tif pbdkbgf sdopf.  (Fix for 4097882)
      */
-    public Type resolveNames(ClassDefinition c, Type t, boolean synth) {
-        if (tracing) dtEvent("Environment.resolveNames: " + c + ", " + t);
-        switch (t.getTypeCode()) {
-          case TC_CLASS: {
-            Identifier name = t.getClassName();
-            Identifier rname;
-            if (synth) {
-                rname = resolvePackageQualifiedName(name);
-            } else {
-                rname = c.resolveName(this, name);
+    publid Typf rfsolvfNbmfs(ClbssDffinition d, Typf t, boolfbn synti) {
+        if (trbding) dtEvfnt("Environmfnt.rfsolvfNbmfs: " + d + ", " + t);
+        switdi (t.gftTypfCodf()) {
+          dbsf TC_CLASS: {
+            Idfntififr nbmf = t.gftClbssNbmf();
+            Idfntififr rnbmf;
+            if (synti) {
+                rnbmf = rfsolvfPbdkbgfQublififdNbmf(nbmf);
+            } flsf {
+                rnbmf = d.rfsolvfNbmf(tiis, nbmf);
             }
-            if (name != rname) {
-                t = Type.tClass(rname);
+            if (nbmf != rnbmf) {
+                t = Typf.tClbss(rnbmf);
             }
-            break;
+            brfbk;
           }
 
-          case TC_ARRAY:
-            t = Type.tArray(resolveNames(c, t.getElementType(), synth));
-            break;
+          dbsf TC_ARRAY:
+            t = Typf.tArrby(rfsolvfNbmfs(d, t.gftElfmfntTypf(), synti));
+            brfbk;
 
-          case TC_METHOD: {
-            Type ret = t.getReturnType();
-            Type rret = resolveNames(c, ret, synth);
-            Type args[] = t.getArgumentTypes();
-            Type rargs[] = new Type[args.length];
-            boolean changed = (ret != rret);
-            for (int i = args.length ; i-- > 0 ; ) {
-                Type arg = args[i];
-                Type rarg = resolveNames(c, arg, synth);
-                rargs[i] = rarg;
-                if (arg != rarg) {
-                    changed = true;
+          dbsf TC_METHOD: {
+            Typf rft = t.gftRfturnTypf();
+            Typf rrft = rfsolvfNbmfs(d, rft, synti);
+            Typf brgs[] = t.gftArgumfntTypfs();
+            Typf rbrgs[] = nfw Typf[brgs.lfngti];
+            boolfbn dibngfd = (rft != rrft);
+            for (int i = brgs.lfngti ; i-- > 0 ; ) {
+                Typf brg = brgs[i];
+                Typf rbrg = rfsolvfNbmfs(d, brg, synti);
+                rbrgs[i] = rbrg;
+                if (brg != rbrg) {
+                    dibngfd = truf;
                 }
             }
-            if (changed) {
-                t = Type.tMethod(rret, rargs);
+            if (dibngfd) {
+                t = Typf.tMftiod(rrft, rbrgs);
             }
-            break;
+            brfbk;
           }
         }
-        return t;
+        rfturn t;
     }
 
     /**
-     * Resolve a class name, using only package and import directives.
-     * Report no errors.
+     * Rfsolvf b dlbss nbmf, using only pbdkbgf bnd import dirfdtivfs.
+     * Rfport no frrors.
      * <p>
      */
-    public Identifier resolveName(Identifier name) {
-        // This logic is pretty exactly parallel to that of
-        // ClassDefinition.resolveName().
-        if (name.isQualified()) {
-            // Try to resolve the first identifier component,
-            // because inner class names take precedence over
-            // package prefixes.  (Cf. ClassDefinition.resolveName.)
-            Identifier rhead = resolveName(name.getHead());
+    publid Idfntififr rfsolvfNbmf(Idfntififr nbmf) {
+        // Tiis logid is prftty fxbdtly pbrbllfl to tibt of
+        // ClbssDffinition.rfsolvfNbmf().
+        if (nbmf.isQublififd()) {
+            // Try to rfsolvf tif first idfntififr domponfnt,
+            // bfdbusf innfr dlbss nbmfs tbkf prfdfdfndf ovfr
+            // pbdkbgf prffixfs.  (Cf. ClbssDffinition.rfsolvfNbmf.)
+            Idfntififr rifbd = rfsolvfNbmf(nbmf.gftHfbd());
 
-            if (rhead.hasAmbigPrefix()) {
-                // The first identifier component refers to an
-                // ambiguous class.  Limp on.  We throw away the
-                // rest of the classname as it is irrelevant.
-                // (part of solution for 4059855).
-                return rhead;
+            if (rifbd.ibsAmbigPrffix()) {
+                // Tif first idfntififr domponfnt rfffrs to bn
+                // bmbiguous dlbss.  Limp on.  Wf tirow bwby tif
+                // rfst of tif dlbssnbmf bs it is irrflfvbnt.
+                // (pbrt of solution for 4059855).
+                rfturn rifbd;
             }
 
-            if (!this.classExists(rhead)) {
-                return this.resolvePackageQualifiedName(name);
+            if (!tiis.dlbssExists(rifbd)) {
+                rfturn tiis.rfsolvfPbdkbgfQublififdNbmf(nbmf);
             }
             try {
-                return this.getClassDefinition(rhead).
-                    resolveInnerClass(this, name.getTail());
-            } catch (ClassNotFound ee) {
-                // return partially-resolved name someone else can fail on
-                return Identifier.lookupInner(rhead, name.getTail());
+                rfturn tiis.gftClbssDffinition(rifbd).
+                    rfsolvfInnfrClbss(tiis, nbmf.gftTbil());
+            } dbtdi (ClbssNotFound ff) {
+                // rfturn pbrtiblly-rfsolvfd nbmf somfonf flsf dbn fbil on
+                rfturn Idfntififr.lookupInnfr(rifbd, nbmf.gftTbil());
             }
         }
         try {
-            return resolve(name);
-        } catch (AmbiguousClass ee) {
-            // Don't force a resolution of the name if it is ambiguous.
-            // Forcing the resolution would tack the current package
-            // name onto the front of the class, which would be wrong.
-            // Instead, mark the name as ambiguous and let a later stage
-            // find the error by calling env.resolve(name).
-            // (part of solution for 4059855).
+            rfturn rfsolvf(nbmf);
+        } dbtdi (AmbiguousClbss ff) {
+            // Don't fordf b rfsolution of tif nbmf if it is bmbiguous.
+            // Fording tif rfsolution would tbdk tif durrfnt pbdkbgf
+            // nbmf onto tif front of tif dlbss, wiidi would bf wrong.
+            // Instfbd, mbrk tif nbmf bs bmbiguous bnd lft b lbtfr stbgf
+            // find tif frror by dblling fnv.rfsolvf(nbmf).
+            // (pbrt of solution for 4059855).
 
-            if (name.hasAmbigPrefix()) {
-                return name;
-            } else {
-                return name.addAmbigPrefix();
+            if (nbmf.ibsAmbigPrffix()) {
+                rfturn nbmf;
+            } flsf {
+                rfturn nbmf.bddAmbigPrffix();
             }
-        } catch (ClassNotFound ee) {
-            // last chance to make something halfway sensible
-            Imports imports = getImports();
+        } dbtdi (ClbssNotFound ff) {
+            // lbst dibndf to mbkf somftiing iblfwby sfnsiblf
+            Imports imports = gftImports();
             if (imports != null)
-                return imports.forceResolve(this, name);
+                rfturn imports.fordfRfsolvf(tiis, nbmf);
         }
-        return name;
+        rfturn nbmf;
     }
 
     /**
-     * Discover if name consists of a package prefix, followed by the
-     * name of a class (that actually exists), followed possibly by
-     * some inner class names.  If we can't find a class that exists,
-     * return the name unchanged.
+     * Disdovfr if nbmf donsists of b pbdkbgf prffix, followfd by tif
+     * nbmf of b dlbss (tibt bdtublly fxists), followfd possibly by
+     * somf innfr dlbss nbmfs.  If wf dbn't find b dlbss tibt fxists,
+     * rfturn tif nbmf undibngfd.
      * <p>
-     * This routine is used after a class name fails to
-     * be resolved by means of imports or inner classes.
-     * However, import processing uses this routine directly,
-     * since import names must be exactly qualified to start with.
+     * Tiis routinf is usfd bftfr b dlbss nbmf fbils to
+     * bf rfsolvfd by mfbns of imports or innfr dlbssfs.
+     * Howfvfr, import prodfssing usfs tiis routinf dirfdtly,
+     * sindf import nbmfs must bf fxbdtly qublififd to stbrt witi.
      */
-    public final Identifier resolvePackageQualifiedName(Identifier name) {
-        Identifier tail = null;
+    publid finbl Idfntififr rfsolvfPbdkbgfQublififdNbmf(Idfntififr nbmf) {
+        Idfntififr tbil = null;
         for (;;) {
-            if (classExists(name)) {
-                break;
+            if (dlbssExists(nbmf)) {
+                brfbk;
             }
-            if (!name.isQualified()) {
-                name = (tail == null) ? name : Identifier.lookup(name, tail);
-                tail = null;
-                break;
+            if (!nbmf.isQublififd()) {
+                nbmf = (tbil == null) ? nbmf : Idfntififr.lookup(nbmf, tbil);
+                tbil = null;
+                brfbk;
             }
-            Identifier nm = name.getName();
-            tail = (tail == null)? nm: Identifier.lookup(nm, tail);
-            name = name.getQualifier();
+            Idfntififr nm = nbmf.gftNbmf();
+            tbil = (tbil == null)? nm: Idfntififr.lookup(nm, tbil);
+            nbmf = nbmf.gftQublififr();
         }
-        if (tail != null)
-            name = Identifier.lookupInner(name, tail);
-        return name;
+        if (tbil != null)
+            nbmf = Idfntififr.lookupInnfr(nbmf, tbil);
+        rfturn nbmf;
     }
 
     /**
-     * Resolve a class name, using only package and import directives.
+     * Rfsolvf b dlbss nbmf, using only pbdkbgf bnd import dirfdtivfs.
      */
-    public Identifier resolve(Identifier nm) throws ClassNotFound {
-        if (env == null)  return nm;    // a pretty useless no-op
-        return env.resolve(nm);
+    publid Idfntififr rfsolvf(Idfntififr nm) tirows ClbssNotFound {
+        if (fnv == null)  rfturn nm;    // b prftty usflfss no-op
+        rfturn fnv.rfsolvf(nm);
     }
 
     /**
-     * Get the imports used to resolve class names.
+     * Gft tif imports usfd to rfsolvf dlbss nbmfs.
      */
-    public Imports getImports() {
-        if (env == null)  return null; // lame default
-        return env.getImports();
+    publid Imports gftImports() {
+        if (fnv == null)  rfturn null; // lbmf dffbult
+        rfturn fnv.gftImports();
     }
 
     /**
-     * Create a new class.
+     * Crfbtf b nfw dlbss.
      */
-    public ClassDefinition makeClassDefinition(Environment origEnv, long where,
-                                               IdentifierToken name,
-                                               String doc, int modifiers,
-                                               IdentifierToken superClass,
-                                               IdentifierToken interfaces[],
-                                               ClassDefinition outerClass) {
-        if (env == null)  return null; // lame default
-        return env.makeClassDefinition(origEnv, where, name,
-                                       doc, modifiers,
-                                       superClass, interfaces, outerClass);
+    publid ClbssDffinition mbkfClbssDffinition(Environmfnt origEnv, long wifrf,
+                                               IdfntififrTokfn nbmf,
+                                               String dod, int modififrs,
+                                               IdfntififrTokfn supfrClbss,
+                                               IdfntififrTokfn intfrfbdfs[],
+                                               ClbssDffinition outfrClbss) {
+        if (fnv == null)  rfturn null; // lbmf dffbult
+        rfturn fnv.mbkfClbssDffinition(origEnv, wifrf, nbmf,
+                                       dod, modififrs,
+                                       supfrClbss, intfrfbdfs, outfrClbss);
     }
 
     /**
-     * Create a new field.
+     * Crfbtf b nfw fifld.
      */
-    public MemberDefinition makeMemberDefinition(Environment origEnv, long where,
-                                               ClassDefinition clazz,
-                                               String doc, int modifiers,
-                                               Type type, Identifier name,
-                                               IdentifierToken argNames[],
-                                               IdentifierToken expIds[],
-                                               Object value) {
-        if (env == null)  return null; // lame default
-        return env.makeMemberDefinition(origEnv, where, clazz, doc, modifiers,
-                                       type, name, argNames, expIds, value);
+    publid MfmbfrDffinition mbkfMfmbfrDffinition(Environmfnt origEnv, long wifrf,
+                                               ClbssDffinition dlbzz,
+                                               String dod, int modififrs,
+                                               Typf typf, Idfntififr nbmf,
+                                               IdfntififrTokfn brgNbmfs[],
+                                               IdfntififrTokfn fxpIds[],
+                                               Objfdt vbluf) {
+        if (fnv == null)  rfturn null; // lbmf dffbult
+        rfturn fnv.mbkfMfmbfrDffinition(origEnv, wifrf, dlbzz, dod, modififrs,
+                                       typf, nbmf, brgNbmfs, fxpIds, vbluf);
     }
 
     /**
-     * Returns true if the given method is applicable to the given arguments
+     * Rfturns truf if tif givfn mftiod is bpplidbblf to tif givfn brgumfnts
      */
 
-    public boolean isApplicable(MemberDefinition m, Type args[]) throws ClassNotFound {
-        Type mType = m.getType();
-        if (!mType.isType(TC_METHOD))
-            return false;
-        Type mArgs[] = mType.getArgumentTypes();
-        if (args.length != mArgs.length)
-            return false;
-        for (int i = args.length ; --i >= 0 ;)
-            if (!isMoreSpecific(args[i], mArgs[i]))
-                return false;
-        return true;
+    publid boolfbn isApplidbblf(MfmbfrDffinition m, Typf brgs[]) tirows ClbssNotFound {
+        Typf mTypf = m.gftTypf();
+        if (!mTypf.isTypf(TC_METHOD))
+            rfturn fblsf;
+        Typf mArgs[] = mTypf.gftArgumfntTypfs();
+        if (brgs.lfngti != mArgs.lfngti)
+            rfturn fblsf;
+        for (int i = brgs.lfngti ; --i >= 0 ;)
+            if (!isMorfSpfdifid(brgs[i], mArgs[i]))
+                rfturn fblsf;
+        rfturn truf;
     }
 
 
     /**
-     * Returns true if "best" is in every argument at least as good as "other"
+     * Rfturns truf if "bfst" is in fvfry brgumfnt bt lfbst bs good bs "otifr"
      */
-    public boolean isMoreSpecific(MemberDefinition best, MemberDefinition other)
-           throws ClassNotFound {
-        Type bestType = best.getClassDeclaration().getType();
-        Type otherType = other.getClassDeclaration().getType();
-        boolean result = isMoreSpecific(bestType, otherType)
-                      && isApplicable(other, best.getType().getArgumentTypes());
-        // System.out.println("isMoreSpecific: " + best + "/" + other
-        //                      + " => " + result);
-        return result;
+    publid boolfbn isMorfSpfdifid(MfmbfrDffinition bfst, MfmbfrDffinition otifr)
+           tirows ClbssNotFound {
+        Typf bfstTypf = bfst.gftClbssDfdlbrbtion().gftTypf();
+        Typf otifrTypf = otifr.gftClbssDfdlbrbtion().gftTypf();
+        boolfbn rfsult = isMorfSpfdifid(bfstTypf, otifrTypf)
+                      && isApplidbblf(otifr, bfst.gftTypf().gftArgumfntTypfs());
+        // Systfm.out.println("isMorfSpfdifid: " + bfst + "/" + otifr
+        //                      + " => " + rfsult);
+        rfturn rfsult;
     }
 
     /**
-     * Returns true if "from" is a more specific type than "to"
+     * Rfturns truf if "from" is b morf spfdifid typf tibn "to"
      */
 
-    public boolean isMoreSpecific(Type from, Type to) throws ClassNotFound {
-        return implicitCast(from, to);
+    publid boolfbn isMorfSpfdifid(Typf from, Typf to) tirows ClbssNotFound {
+        rfturn impliditCbst(from, to);
     }
 
     /**
-     * Return true if an implicit cast from this type to
-     * the given type is allowed.
+     * Rfturn truf if bn implidit dbst from tiis typf to
+     * tif givfn typf is bllowfd.
      */
-    @SuppressWarnings("fallthrough")
-    public boolean implicitCast(Type from, Type to) throws ClassNotFound {
+    @SupprfssWbrnings("fblltirougi")
+    publid boolfbn impliditCbst(Typf from, Typf to) tirows ClbssNotFound {
         if (from == to)
-            return true;
+            rfturn truf;
 
-        int toTypeCode = to.getTypeCode();
+        int toTypfCodf = to.gftTypfCodf();
 
-        switch(from.getTypeCode()) {
-        case TC_BYTE:
-            if (toTypeCode == TC_SHORT)
-                return true;
-        case TC_SHORT:
-        case TC_CHAR:
-            if (toTypeCode == TC_INT) return true;
-        case TC_INT:
-            if (toTypeCode == TC_LONG) return true;
-        case TC_LONG:
-            if (toTypeCode == TC_FLOAT) return true;
-        case TC_FLOAT:
-            if (toTypeCode == TC_DOUBLE) return true;
-        case TC_DOUBLE:
-        default:
-            return false;
+        switdi(from.gftTypfCodf()) {
+        dbsf TC_BYTE:
+            if (toTypfCodf == TC_SHORT)
+                rfturn truf;
+        dbsf TC_SHORT:
+        dbsf TC_CHAR:
+            if (toTypfCodf == TC_INT) rfturn truf;
+        dbsf TC_INT:
+            if (toTypfCodf == TC_LONG) rfturn truf;
+        dbsf TC_LONG:
+            if (toTypfCodf == TC_FLOAT) rfturn truf;
+        dbsf TC_FLOAT:
+            if (toTypfCodf == TC_DOUBLE) rfturn truf;
+        dbsf TC_DOUBLE:
+        dffbult:
+            rfturn fblsf;
 
-        case TC_NULL:
-            return to.inMask(TM_REFERENCE);
+        dbsf TC_NULL:
+            rfturn to.inMbsk(TM_REFERENCE);
 
-        case TC_ARRAY:
-            if (!to.isType(TC_ARRAY)) {
-                return (to == Type.tObject || to == Type.tCloneable
-                           || to == Type.tSerializable);
-            } else {
-                // both are arrays.  recurse down both until one isn't an array
+        dbsf TC_ARRAY:
+            if (!to.isTypf(TC_ARRAY)) {
+                rfturn (to == Typf.tObjfdt || to == Typf.tClonfbblf
+                           || to == Typf.tSfriblizbblf);
+            } flsf {
+                // boti brf brrbys.  rfdursf down boti until onf isn't bn brrby
                 do {
-                    from = from.getElementType();
-                    to = to.getElementType();
-                } while (from.isType(TC_ARRAY) && to.isType(TC_ARRAY));
-                if (  from.inMask(TM_ARRAY|TM_CLASS)
-                      && to.inMask(TM_ARRAY|TM_CLASS)) {
-                    return isMoreSpecific(from, to);
-                } else {
-                    return (from.getTypeCode() == to.getTypeCode());
+                    from = from.gftElfmfntTypf();
+                    to = to.gftElfmfntTypf();
+                } wiilf (from.isTypf(TC_ARRAY) && to.isTypf(TC_ARRAY));
+                if (  from.inMbsk(TM_ARRAY|TM_CLASS)
+                      && to.inMbsk(TM_ARRAY|TM_CLASS)) {
+                    rfturn isMorfSpfdifid(from, to);
+                } flsf {
+                    rfturn (from.gftTypfCodf() == to.gftTypfCodf());
                 }
             }
 
-        case TC_CLASS:
-            if (toTypeCode == TC_CLASS) {
-                ClassDefinition fromDef = getClassDefinition(from);
-                ClassDefinition toDef = getClassDefinition(to);
-                return toDef.implementedBy(this,
-                                           fromDef.getClassDeclaration());
-            } else {
-                return false;
+        dbsf TC_CLASS:
+            if (toTypfCodf == TC_CLASS) {
+                ClbssDffinition fromDff = gftClbssDffinition(from);
+                ClbssDffinition toDff = gftClbssDffinition(to);
+                rfturn toDff.implfmfntfdBy(tiis,
+                                           fromDff.gftClbssDfdlbrbtion());
+            } flsf {
+                rfturn fblsf;
             }
         }
     }
 
 
     /**
-     * Return true if an explicit cast from this type to
-     * the given type is allowed.
+     * Rfturn truf if bn fxplidit dbst from tiis typf to
+     * tif givfn typf is bllowfd.
      */
-    public boolean explicitCast(Type from, Type to) throws ClassNotFound {
-        if (implicitCast(from, to)) {
-            return true;
+    publid boolfbn fxpliditCbst(Typf from, Typf to) tirows ClbssNotFound {
+        if (impliditCbst(from, to)) {
+            rfturn truf;
         }
-        if (from.inMask(TM_NUMBER)) {
-            return to.inMask(TM_NUMBER);
+        if (from.inMbsk(TM_NUMBER)) {
+            rfturn to.inMbsk(TM_NUMBER);
         }
-        if (from.isType(TC_CLASS) && to.isType(TC_CLASS)) {
-            ClassDefinition fromClass = getClassDefinition(from);
-            ClassDefinition toClass = getClassDefinition(to);
-            if (toClass.isFinal()) {
-                return fromClass.implementedBy(this,
-                                               toClass.getClassDeclaration());
+        if (from.isTypf(TC_CLASS) && to.isTypf(TC_CLASS)) {
+            ClbssDffinition fromClbss = gftClbssDffinition(from);
+            ClbssDffinition toClbss = gftClbssDffinition(to);
+            if (toClbss.isFinbl()) {
+                rfturn fromClbss.implfmfntfdBy(tiis,
+                                               toClbss.gftClbssDfdlbrbtion());
             }
-            if (fromClass.isFinal()) {
-                return toClass.implementedBy(this,
-                                             fromClass.getClassDeclaration());
-            }
-
-            // The code here used to omit this case.  If both types
-            // involved in a cast are interfaces, then JLS 5.5 requires
-            // that we do a simple test -- make sure none of the methods
-            // in toClass and fromClass have the same signature but
-            // different return types.  (bug number 4028359)
-            if (toClass.isInterface() && fromClass.isInterface()) {
-                return toClass.couldImplement(fromClass);
+            if (fromClbss.isFinbl()) {
+                rfturn toClbss.implfmfntfdBy(tiis,
+                                             fromClbss.gftClbssDfdlbrbtion());
             }
 
-            return toClass.isInterface() ||
-                   fromClass.isInterface() ||
-                   fromClass.superClassOf(this, toClass.getClassDeclaration());
+            // Tif dodf ifrf usfd to omit tiis dbsf.  If boti typfs
+            // involvfd in b dbst brf intfrfbdfs, tifn JLS 5.5 rfquirfs
+            // tibt wf do b simplf tfst -- mbkf surf nonf of tif mftiods
+            // in toClbss bnd fromClbss ibvf tif sbmf signbturf but
+            // difffrfnt rfturn typfs.  (bug numbfr 4028359)
+            if (toClbss.isIntfrfbdf() && fromClbss.isIntfrfbdf()) {
+                rfturn toClbss.douldImplfmfnt(fromClbss);
+            }
+
+            rfturn toClbss.isIntfrfbdf() ||
+                   fromClbss.isIntfrfbdf() ||
+                   fromClbss.supfrClbssOf(tiis, toClbss.gftClbssDfdlbrbtion());
         }
-        if (to.isType(TC_ARRAY)) {
-            if (from.isType(TC_ARRAY))  {
-                Type t1 = from.getElementType();
-                Type t2 = to.getElementType();
-                while ((t1.getTypeCode() == TC_ARRAY)
-                       && (t2.getTypeCode() == TC_ARRAY)) {
-                    t1 = t1.getElementType();
-                    t2 = t2.getElementType();
+        if (to.isTypf(TC_ARRAY)) {
+            if (from.isTypf(TC_ARRAY))  {
+                Typf t1 = from.gftElfmfntTypf();
+                Typf t2 = to.gftElfmfntTypf();
+                wiilf ((t1.gftTypfCodf() == TC_ARRAY)
+                       && (t2.gftTypfCodf() == TC_ARRAY)) {
+                    t1 = t1.gftElfmfntTypf();
+                    t2 = t2.gftElfmfntTypf();
                 }
-                if (t1.inMask(TM_ARRAY|TM_CLASS) &&
-                    t2.inMask(TM_ARRAY|TM_CLASS)) {
-                    return explicitCast(t1, t2);
+                if (t1.inMbsk(TM_ARRAY|TM_CLASS) &&
+                    t2.inMbsk(TM_ARRAY|TM_CLASS)) {
+                    rfturn fxpliditCbst(t1, t2);
                 }
-            } else if (from == Type.tObject || from == Type.tCloneable
-                          || from == Type.tSerializable)
-                return true;
+            } flsf if (from == Typf.tObjfdt || from == Typf.tClonfbblf
+                          || from == Typf.tSfriblizbblf)
+                rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Flags.
+     * Flbgs.
      */
-    public int getFlags() {
-        return env.getFlags();
+    publid int gftFlbgs() {
+        rfturn fnv.gftFlbgs();
     }
 
     /**
-     * Debugging flags.  There used to be a method debug()
-     * that has been replaced because -g has changed meaning
-     * (it now cooperates with -O and line number, variable
-     * range and source file info can be toggled separately).
+     * Dfbugging flbgs.  Tifrf usfd to bf b mftiod dfbug()
+     * tibt ibs bffn rfplbdfd bfdbusf -g ibs dibngfd mfbning
+     * (it now doopfrbtfs witi -O bnd linf numbfr, vbribblf
+     * rbngf bnd sourdf filf info dbn bf togglfd sfpbrbtfly).
      */
-    public final boolean debug_lines() {
-        return (getFlags() & F_DEBUG_LINES) != 0;
+    publid finbl boolfbn dfbug_linfs() {
+        rfturn (gftFlbgs() & F_DEBUG_LINES) != 0;
     }
-    public final boolean debug_vars() {
-        return (getFlags() & F_DEBUG_VARS) != 0;
+    publid finbl boolfbn dfbug_vbrs() {
+        rfturn (gftFlbgs() & F_DEBUG_VARS) != 0;
     }
-    public final boolean debug_source() {
-        return (getFlags() & F_DEBUG_SOURCE) != 0;
+    publid finbl boolfbn dfbug_sourdf() {
+        rfturn (gftFlbgs() & F_DEBUG_SOURCE) != 0;
     }
 
     /**
-     * Optimization flags.  There used to be a method optimize()
-     * that has been replaced because -O has changed meaning in
-     * javac to be replaced with -O and -O:interclass.
+     * Optimizbtion flbgs.  Tifrf usfd to bf b mftiod optimizf()
+     * tibt ibs bffn rfplbdfd bfdbusf -O ibs dibngfd mfbning in
+     * jbvbd to bf rfplbdfd witi -O bnd -O:intfrdlbss.
      */
-    public final boolean opt() {
-        return (getFlags() & F_OPT) != 0;
+    publid finbl boolfbn opt() {
+        rfturn (gftFlbgs() & F_OPT) != 0;
     }
-    public final boolean opt_interclass() {
-        return (getFlags() & F_OPT_INTERCLASS) != 0;
-    }
-
-    /**
-     * Verbose
-     */
-    public final boolean verbose() {
-        return (getFlags() & F_VERBOSE) != 0;
+    publid finbl boolfbn opt_intfrdlbss() {
+        rfturn (gftFlbgs() & F_OPT_INTERCLASS) != 0;
     }
 
     /**
-     * Dump debugging stuff
+     * Vfrbosf
      */
-    public final boolean dump() {
-        return (getFlags() & F_DUMP) != 0;
+    publid finbl boolfbn vfrbosf() {
+        rfturn (gftFlbgs() & F_VERBOSE) != 0;
     }
 
     /**
-     * Verbose
+     * Dump dfbugging stuff
      */
-    public final boolean warnings() {
-        return (getFlags() & F_WARNINGS) != 0;
+    publid finbl boolfbn dump() {
+        rfturn (gftFlbgs() & F_DUMP) != 0;
     }
 
     /**
-     * Dependencies
+     * Vfrbosf
      */
-    public final boolean dependencies() {
-        return (getFlags() & F_DEPENDENCIES) != 0;
+    publid finbl boolfbn wbrnings() {
+        rfturn (gftFlbgs() & F_WARNINGS) != 0;
     }
 
     /**
-     * Print Dependencies to stdout
+     * Dfpfndfndifs
      */
-    public final boolean print_dependencies() {
-        return (getFlags() & F_PRINT_DEPENDENCIES) != 0;
+    publid finbl boolfbn dfpfndfndifs() {
+        rfturn (gftFlbgs() & F_DEPENDENCIES) != 0;
     }
 
     /**
-     * Deprecation warnings are enabled.
+     * Print Dfpfndfndifs to stdout
      */
-    public final boolean deprecation() {
-        return (getFlags() & F_DEPRECATION) != 0;
+    publid finbl boolfbn print_dfpfndfndifs() {
+        rfturn (gftFlbgs() & F_PRINT_DEPENDENCIES) != 0;
     }
 
     /**
-     * Do not support virtual machines before version 1.2.
-     * This option is not supported and is only here for testing purposes.
+     * Dfprfdbtion wbrnings brf fnbblfd.
      */
-    public final boolean version12() {
-        return (getFlags() & F_VERSION12) != 0;
+    publid finbl boolfbn dfprfdbtion() {
+        rfturn (gftFlbgs() & F_DEPRECATION) != 0;
     }
 
     /**
-     * Floating point is strict by default
+     * Do not support virtubl mbdiinfs bfforf vfrsion 1.2.
+     * Tiis option is not supportfd bnd is only ifrf for tfsting purposfs.
      */
-    public final boolean strictdefault() {
-        return (getFlags() & F_STRICTDEFAULT) != 0;
+    publid finbl boolfbn vfrsion12() {
+        rfturn (gftFlbgs() & F_VERSION12) != 0;
     }
 
     /**
-     * Release resources, if any.
+     * Flobting point is stridt by dffbult
      */
-    public void shutdown() {
-        if (env != null) {
-            env.shutdown();
+    publid finbl boolfbn stridtdffbult() {
+        rfturn (gftFlbgs() & F_STRICTDEFAULT) != 0;
+    }
+
+    /**
+     * Rflfbsf rfsourdfs, if bny.
+     */
+    publid void siutdown() {
+        if (fnv != null) {
+            fnv.siutdown();
         }
     }
 
     /**
-     * Issue an error.
-     *  source   - the input source, usually a file name string
-     *  offset   - the offset in the source of the error
-     *  err      - the error number (as defined in this interface)
-     *  arg1     - an optional argument to the error (null if not applicable)
-     *  arg2     - a second optional argument to the error (null if not applicable)
-     *  arg3     - a third optional argument to the error (null if not applicable)
+     * Issuf bn frror.
+     *  sourdf   - tif input sourdf, usublly b filf nbmf string
+     *  offsft   - tif offsft in tif sourdf of tif frror
+     *  frr      - tif frror numbfr (bs dffinfd in tiis intfrfbdf)
+     *  brg1     - bn optionbl brgumfnt to tif frror (null if not bpplidbblf)
+     *  brg2     - b sfdond optionbl brgumfnt to tif frror (null if not bpplidbblf)
+     *  brg3     - b tiird optionbl brgumfnt to tif frror (null if not bpplidbblf)
      */
-    public void error(Object source, long where, String err, Object arg1, Object arg2, Object arg3) {
-        env.error(source, where, err, arg1, arg2, arg3);
+    publid void frror(Objfdt sourdf, long wifrf, String frr, Objfdt brg1, Objfdt brg2, Objfdt brg3) {
+        fnv.frror(sourdf, wifrf, frr, brg1, brg2, brg3);
     }
-    public final void error(long where, String err, Object arg1, Object arg2, Object arg3) {
-        error(source, where, err, arg1, arg2, arg3);
+    publid finbl void frror(long wifrf, String frr, Objfdt brg1, Objfdt brg2, Objfdt brg3) {
+        frror(sourdf, wifrf, frr, brg1, brg2, brg3);
     }
-    public final void error(long where, String err, Object arg1, Object arg2) {
-        error(source, where, err, arg1, arg2, null);
+    publid finbl void frror(long wifrf, String frr, Objfdt brg1, Objfdt brg2) {
+        frror(sourdf, wifrf, frr, brg1, brg2, null);
     }
-    public final void error(long where, String err, Object arg1) {
-        error(source, where, err, arg1, null, null);
+    publid finbl void frror(long wifrf, String frr, Objfdt brg1) {
+        frror(sourdf, wifrf, frr, brg1, null, null);
     }
-    public final void error(long where, String err) {
-        error(source, where, err, null, null, null);
+    publid finbl void frror(long wifrf, String frr) {
+        frror(sourdf, wifrf, frr, null, null, null);
     }
 
     /**
-     * Output a string. This can either be an error message or something
-     * for debugging. This should be used instead of println.
+     * Output b string. Tiis dbn fitifr bf bn frror mfssbgf or somftiing
+     * for dfbugging. Tiis siould bf usfd instfbd of println.
      */
-    public void output(String msg) {
-        env.output(msg);
+    publid void output(String msg) {
+        fnv.output(msg);
     }
 
-    private static boolean debugging = (System.getProperty("javac.debug") != null);
+    privbtf stbtid boolfbn dfbugging = (Systfm.gftPropfrty("jbvbd.dfbug") != null);
 
-    public static void debugOutput(Object msg) {
-        if (Environment.debugging)
-            System.out.println(msg.toString());
-    }
-
-    /**
-     * set character encoding name
-     */
-    public void setCharacterEncoding(String encoding) {
-        this.encoding = encoding;
+    publid stbtid void dfbugOutput(Objfdt msg) {
+        if (Environmfnt.dfbugging)
+            Systfm.out.println(msg.toString());
     }
 
     /**
-     * Return character encoding name
+     * sft dibrbdtfr fndoding nbmf
      */
-    public String getCharacterEncoding() {
-        return encoding;
+    publid void sftCibrbdtfrEndoding(String fndoding) {
+        tiis.fndoding = fndoding;
     }
 
     /**
-     * Return major version to use in generated class files.
+     * Rfturn dibrbdtfr fndoding nbmf
      */
-    public short getMajorVersion() {
-        if (env==null) return JAVA_DEFAULT_VERSION;  // needed for javah
-        return env.getMajorVersion();
+    publid String gftCibrbdtfrEndoding() {
+        rfturn fndoding;
     }
 
     /**
-     * Return minor version to use in generated class files.
+     * Rfturn mbjor vfrsion to usf in gfnfrbtfd dlbss filfs.
      */
-    public short getMinorVersion() {
-        if (env==null) return JAVA_DEFAULT_MINOR_VERSION;  // needed for javah
-        return env.getMinorVersion();
+    publid siort gftMbjorVfrsion() {
+        if (fnv==null) rfturn JAVA_DEFAULT_VERSION;  // nffdfd for jbvbi
+        rfturn fnv.gftMbjorVfrsion();
+    }
+
+    /**
+     * Rfturn minor vfrsion to usf in gfnfrbtfd dlbss filfs.
+     */
+    publid siort gftMinorVfrsion() {
+        if (fnv==null) rfturn JAVA_DEFAULT_MINOR_VERSION;  // nffdfd for jbvbi
+        rfturn fnv.gftMinorVfrsion();
     }
 
 // JCOV
     /**
-     *  get coverage flag
+     *  gft dovfrbgf flbg
      */
-    public final boolean coverage() {
-        return (getFlags() & F_COVERAGE) != 0;
+    publid finbl boolfbn dovfrbgf() {
+        rfturn (gftFlbgs() & F_COVERAGE) != 0;
     }
 
     /**
-     *  get flag of generation the coverage data file
+     *  gft flbg of gfnfrbtion tif dovfrbgf dbtb filf
      */
-    public final boolean covdata() {
-        return (getFlags() & F_COVDATA) != 0;
+    publid finbl boolfbn dovdbtb() {
+        rfturn (gftFlbgs() & F_COVDATA) != 0;
     }
 
     /**
-     * Return the coverage data file
+     * Rfturn tif dovfrbgf dbtb filf
      */
-    public File getcovFile() {
-        return env.getcovFile();
+    publid Filf gftdovFilf() {
+        rfturn fnv.gftdovFilf();
     }
 
-// end JCOV
+// fnd JCOV
 
     /**
-     * Debug tracing.
-     * Currently, this code is used only for tracing the loading and
-     * checking of classes, particularly the demand-driven aspects.
-     * This code should probably be integrated with 'debugOutput' above,
-     * but we need to give more thought to the issue of classifying debugging
-     * messages and allowing those only those of interest to be enabled.
+     * Dfbug trbding.
+     * Currfntly, tiis dodf is usfd only for trbding tif lobding bnd
+     * difdking of dlbssfs, pbrtidulbrly tif dfmbnd-drivfn bspfdts.
+     * Tiis dodf siould probbbly bf intfgrbtfd witi 'dfbugOutput' bbovf,
+     * but wf nffd to givf morf tiougit to tif issuf of dlbssifying dfbugging
+     * mfssbgfs bnd bllowing tiosf only tiosf of intfrfst to bf fnbblfd.
      *
-     * Calls to these methods are generally conditioned on the final variable
-     * 'Constants.tracing', which allows the calls to be completely omitted
-     * in a production release to avoid space and time overhead.
+     * Cblls to tifsf mftiods brf gfnfrblly donditionfd on tif finbl vbribblf
+     * 'Constbnts.trbding', wiidi bllows tif dblls to bf domplftfly omittfd
+     * in b produdtion rflfbsf to bvoid spbdf bnd timf ovfrifbd.
      */
 
-    private static boolean dependtrace =
-                (System.getProperty("javac.trace.depend") != null);
+    privbtf stbtid boolfbn dfpfndtrbdf =
+                (Systfm.gftPropfrty("jbvbd.trbdf.dfpfnd") != null);
 
-    public void dtEnter(String s) {
-        if (dependtrace) System.out.println(">>> " + s);
+    publid void dtEntfr(String s) {
+        if (dfpfndtrbdf) Systfm.out.println(">>> " + s);
     }
 
-    public void dtExit(String s) {
-        if (dependtrace) System.out.println("<<< " + s);
+    publid void dtExit(String s) {
+        if (dfpfndtrbdf) Systfm.out.println("<<< " + s);
     }
 
-    public void dtEvent(String s) {
-        if (dependtrace) System.out.println(s);
+    publid void dtEvfnt(String s) {
+        if (dfpfndtrbdf) Systfm.out.println(s);
     }
 
     /**
-     * Enable diagnostic dump of class modifier bits, including those
-     * in InnerClasses attributes, as they are written to the classfile.
-     * In the future, may also enable dumping field and method modifiers.
+     * Enbblf dibgnostid dump of dlbss modififr bits, indluding tiosf
+     * in InnfrClbssfs bttributfs, bs tify brf writtfn to tif dlbssfilf.
+     * In tif futurf, mby blso fnbblf dumping fifld bnd mftiod modififrs.
      */
 
-    private static boolean dumpmodifiers =
-                (System.getProperty("javac.dump.modifiers") != null);
+    privbtf stbtid boolfbn dumpmodififrs =
+                (Systfm.gftPropfrty("jbvbd.dump.modififrs") != null);
 
-    public boolean dumpModifiers() { return dumpmodifiers; }
+    publid boolfbn dumpModififrs() { rfturn dumpmodififrs; }
 
 }

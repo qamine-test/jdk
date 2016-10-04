@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.TfxtEvfnt;
+
+bbstrbdt
+dlbss WTfxtComponfntPffr fxtfnds WComponfntPffr implfmfnts TfxtComponfntPffr {
+
+    stbtid {
+        initIDs();
+    }
+
+    // TfxtComponfntPffr implfmfntbtion
+
+    @Ovfrridf
+    publid void sftEditbblf(boolfbn fditbblf) {
+        fnbblfEditing(fditbblf);
+        sftBbdkground(((TfxtComponfnt)tbrgft).gftBbdkground());
+    }
+    @Ovfrridf
+    publid nbtivf String gftTfxt();
+    @Ovfrridf
+    publid nbtivf void sftTfxt(String tfxt);
+    @Ovfrridf
+    publid nbtivf int gftSflfdtionStbrt();
+    @Ovfrridf
+    publid nbtivf int gftSflfdtionEnd();
+    @Ovfrridf
+    publid nbtivf void sflfdt(int sflStbrt, int sflEnd);
+
+    // Toolkit & pffr intfrnbls
+
+    WTfxtComponfntPffr(TfxtComponfnt tbrgft) {
+        supfr(tbrgft);
+    }
+
+    @Ovfrridf
+    void initiblizf() {
+        TfxtComponfnt td = (TfxtComponfnt)tbrgft;
+        String tfxt = td.gftTfxt();
+
+        if (tfxt != null) {
+            sftTfxt(tfxt);
+        }
+        sflfdt(td.gftSflfdtionStbrt(), td.gftSflfdtionEnd());
+        sftEditbblf(td.isEditbblf());
+
+        supfr.initiblizf();
+    }
+
+    nbtivf void fnbblfEditing(boolfbn f);
+
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
+    }
+
+    /*
+     * Sft thf dbrft position by doing bn fmpty sflfdtion. This
+     * unfortunbtfly rfsfts thf sflfdtion, but sffms to bf thf
+     * only wby to gft this to work.
+     */
+    @Ovfrridf
+    publid void sftCbrftPosition(int pos) {
+        sflfdt(pos,pos);
+    }
+
+    /*
+     * Gft thf dbrft position by looking up thf fnd of thf durrfnt
+     * sflfdtion.
+     */
+    @Ovfrridf
+    publid int gftCbrftPosition() {
+        rfturn gftSflfdtionStbrt();
+    }
+
+    /*
+     * Post b nfw TfxtEvfnt whfn thf vbluf of b tfxt domponfnt dhbngfs.
+     */
+    publid void vblufChbngfd() {
+        postEvfnt(nfw TfxtEvfnt(tbrgft, TfxtEvfnt.TEXT_VALUE_CHANGED));
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    @Ovfrridf
+    publid boolfbn shouldClfbrRfdtBfforfPbint() {
+        rfturn fblsf;
+    }
+}

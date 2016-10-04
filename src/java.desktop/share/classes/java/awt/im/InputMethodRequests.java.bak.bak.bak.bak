@@ -1,0 +1,208 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.im;
+
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.font.TfxtHitInfo;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+
+/**
+ * InputMfthodRfqufsts dffinfs thf rfqufsts thbt b tfxt fditing domponfnt
+ * hbs to hbndlf in ordfr to work with input mfthods. Thf domponfnt
+ * dbn implfmfnt this intfrfbdf itsflf or usf b sfpbrbtf objfdt thbt
+ * implfmfnts it. Thf objfdt implfmfnting this intfrfbdf must bf rfturnfd
+ * from thf domponfnt's gftInputMfthodRfqufsts mfthod.
+ *
+ * <p>
+ * Thf tfxt fditing domponfnt blso hbs to providf bn input mfthod fvfnt
+ * listfnfr.
+ *
+ * <p>
+ * Thf intfrfbdf is dfsignfd to support onf of two input usfr intfrfbdfs:
+ * <ul>
+ * <li><fm>on-thf-spot</fm> input, whfrf thf domposfd tfxt is displbyfd bs pbrt
+ *     of thf tfxt domponfnt's tfxt body.
+ * <li><fm>bflow-thf-spot</fm> input, whfrf thf domposfd tfxt is displbyfd in
+ *     b sfpbrbtf domposition window just bflow thf insfrtion point whfrf
+ *     thf tfxt will bf insfrtfd whfn it is dommittfd. Notf thbt, if tfxt is
+ *     sflfdtfd within thf domponfnt's tfxt body, this tfxt will bf rfplbdfd by
+ *     thf dommittfd tfxt upon dommitmfnt; thfrfforf it is not donsidfrfd pbrt
+ *     of thf dontfxt thbt thf tfxt is input into.
+ * </ul>
+ *
+ * @sff jbvb.bwt.Componfnt#gftInputMfthodRfqufsts
+ * @sff jbvb.bwt.fvfnt.InputMfthodListfnfr
+ *
+ * @buthor JbvbSoft Asib/Pbdifid
+ * @sindf 1.2
+ */
+
+publid intfrfbdf InputMfthodRfqufsts {
+
+    /**
+     * Gfts thf lodbtion of b spfdififd offsft in thf durrfnt domposfd tfxt,
+     * or of thf sflfdtion in dommittfd tfxt.
+     * This informbtion is, for fxbmplf, usfd to position thf dbndidbtf window
+     * nfbr thf domposfd tfxt, or b domposition window nfbr thf lodbtion
+     * whfrf dommittfd tfxt will bf insfrtfd.
+     *
+     * <p>
+     * If thf domponfnt hbs domposfd tfxt (bfdbusf thf most rfdfnt
+     * InputMfthodEvfnt sfnt to it dontbinfd domposfd tfxt), thfn thf offsft is
+     * rflbtivf to thf domposfd tfxt - offsft 0 indidbtfs thf first dhbrbdtfr
+     * in thf domposfd tfxt. Thf lodbtion rfturnfd should bf for this dhbrbdtfr.
+     *
+     * <p>
+     * If thf domponfnt dofsn't hbvf domposfd tfxt, thf offsft should bf ignorfd,
+     * bnd thf lodbtion rfturnfd should rfflfdt thf bfginning (in linf
+     * dirfdtion) of thf highlight in thf lbst linf dontbining sflfdtfd tfxt.
+     * For fxbmplf, for horizontbl lfft-to-right tfxt (sudh bs English), thf
+     * lodbtion to thf lfft of thf lfft-most dhbrbdtfr on thf lbst linf
+     * dontbining sflfdtfd tfxt is rfturnfd. For vfrtidbl top-to-bottom tfxt,
+     * with linfs prodffding from right to lfft, thf lodbtion to thf top of thf
+     * lfft-most linf dontbining sflfdtfd tfxt is rfturnfd.
+     *
+     * <p>
+     * Thf lodbtion is rfprfsfntfd bs b 0-thidknfss dbrft, thbt is, it hbs 0
+     * width if thf tfxt is drbwn horizontblly, bnd 0 hfight if thf tfxt is
+     * drbwn vfrtidblly. Othfr tfxt orifntbtions nffd to bf mbppfd to
+     * horizontbl or vfrtidbl orifntbtion. Thf rfdtbnglf usfs bbsolutf sdrffn
+     * doordinbtfs.
+     *
+     * @pbrbm offsft thf offsft within thf domposfd tfxt, if thfrf is domposfd
+     * tfxt; null othfrwisf
+     * @rfturn b rfdtbnglf rfprfsfnting thf sdrffn lodbtion of thf offsft
+     */
+    Rfdtbnglf gftTfxtLodbtion(TfxtHitInfo offsft);
+
+    /**
+     * Gfts thf offsft within thf domposfd tfxt for thf spfdififd bbsolutf x
+     * bnd y doordinbtfs on thf sdrffn. This informbtion is usfd, for fxbmplf
+     * to hbndlf mousf dlidks bnd thf mousf dursor. Thf offsft is rflbtivf to
+     * thf domposfd tfxt, so offsft 0 indidbtfs thf bfginning of thf domposfd
+     * tfxt.
+     *
+     * <p>
+     * Rfturn null if thf lodbtion is outsidf thf brfb oddupifd by thf domposfd
+     * tfxt.
+     *
+     * @pbrbm x thf bbsolutf x doordinbtf on sdrffn
+     * @pbrbm y thf bbsolutf y doordinbtf on sdrffn
+     * @rfturn b tfxt hit info dfsdribing thf offsft in thf domposfd tfxt.
+     */
+    TfxtHitInfo gftLodbtionOffsft(int x, int y);
+
+    /**
+     * Gfts thf offsft of thf insfrt position in thf dommittfd tfxt dontbinfd
+     * in thf tfxt fditing domponfnt. This is thf offsft bt whidh dhbrbdtfrs
+     * fntfrfd through bn input mfthod brf insfrtfd. This informbtion is usfd
+     * by bn input mfthod, for fxbmplf, to fxbminf thf tfxt surrounding thf
+     * insfrt position.
+     *
+     * @rfturn thf offsft of thf insfrt position
+     */
+    int gftInsfrtPositionOffsft();
+
+    /**
+     * Gfts bn itfrbtor providing bddfss to thf fntirf tfxt bnd bttributfs
+     * dontbinfd in thf tfxt fditing domponfnt fxdfpt for undommittfd
+     * tfxt. Undommittfd (domposfd) tfxt should bf ignorfd for indfx
+     * dbldulbtions bnd should not bf mbdf bddfssiblf through thf itfrbtor.
+     *
+     * <p>
+     * Thf input mfthod mby providf b list of bttributfs thbt it is
+     * intfrfstfd in. In thbt dbsf, informbtion bbout othfr bttributfs thbt
+     * thf implfmfntor mby hbvf nffd not bf mbdf bddfssiblf through thf
+     * itfrbtor. If thf list is null, bll bvbilbblf bttributf informbtion
+     * should bf mbdf bddfssiblf.
+     *
+     * @pbrbm bfginIndfx thf indfx of thf first dhbrbdtfr
+     * @pbrbm fndIndfx thf indfx of thf dhbrbdtfr following thf lbst dhbrbdtfr
+     * @pbrbm bttributfs b list of bttributfs thbt thf input mfthod is
+     * intfrfstfd in
+     * @rfturn bn itfrbtor providing bddfss to thf tfxt bnd its bttributfs
+     */
+    AttributfdChbrbdtfrItfrbtor gftCommittfdTfxt(int bfginIndfx, int fndIndfx,
+                                                 Attributf[] bttributfs);
+
+    /**
+     * Gfts thf lfngth of thf fntirf tfxt dontbinfd in thf tfxt
+     * fditing domponfnt fxdfpt for undommittfd (domposfd) tfxt.
+     *
+     * @rfturn thf lfngth of thf tfxt fxdfpt for undommittfd tfxt
+     */
+    int gftCommittfdTfxtLfngth();
+
+    /**
+     * Gfts thf lbtfst dommittfd tfxt from thf tfxt fditing domponfnt bnd
+     * rfmovfs it from thf domponfnt's tfxt body.
+     * This is usfd for thf "Undo Commit" ffbturf in somf input mfthods, whfrf
+     * thf dommittfd tfxt rfvfrts to its prfvious domposfd stbtf. Thf domposfd
+     * tfxt will bf sfnt to thf domponfnt using bn InputMfthodEvfnt.
+     *
+     * <p>
+     * Gfnfrblly, this ffbturf should only bf supportfd immfdibtfly bftfr thf
+     * tfxt wbs dommittfd, not bftfr thf usfr pfrformfd othfr opfrbtions on thf
+     * tfxt. Whfn thf ffbturf is not supportfd, rfturn null.
+     *
+     * <p>
+     * Thf input mfthod mby providf b list of bttributfs thbt it is
+     * intfrfstfd in. In thbt dbsf, informbtion bbout othfr bttributfs thbt
+     * thf implfmfntor mby hbvf nffd not bf mbdf bddfssiblf through thf
+     * itfrbtor. If thf list is null, bll bvbilbblf bttributf informbtion
+     * should bf mbdf bddfssiblf.
+     *
+     * @pbrbm bttributfs b list of bttributfs thbt thf input mfthod is
+     * intfrfstfd in
+     * @rfturn thf lbtfst dommittfd tfxt, or null whfn thf "Undo Commit"
+     * ffbturf is not supportfd
+     */
+    AttributfdChbrbdtfrItfrbtor dbndflLbtfstCommittfdTfxt(Attributf[] bttributfs);
+
+    /**
+     * Gfts thf durrfntly sflfdtfd tfxt from thf tfxt fditing domponfnt.
+     * This mby bf usfd for b vbrifty of purposfs.
+     * Onf of thfm is thf "Rfdonvfrt" ffbturf in somf input mfthods.
+     * In this dbsf, thf input mfthod will typidblly sfnd bn input mfthod fvfnt
+     * to rfplbdf thf sflfdtfd tfxt with domposfd tfxt. Dfpfnding on thf input
+     * mfthod's dbpbbilitifs, this mby bf thf originbl domposfd tfxt for thf
+     * sflfdtfd tfxt, thf lbtfst domposfd tfxt fntfrfd bnywhfrf in thf tfxt, or
+     * b vfrsion of thf tfxt thbt's donvfrtfd bbdk from thf sflfdtfd tfxt.
+     *
+     * <p>
+     * Thf input mfthod mby providf b list of bttributfs thbt it is
+     * intfrfstfd in. In thbt dbsf, informbtion bbout othfr bttributfs thbt
+     * thf implfmfntor mby hbvf nffd not bf mbdf bddfssiblf through thf
+     * itfrbtor. If thf list is null, bll bvbilbblf bttributf informbtion
+     * should bf mbdf bddfssiblf.
+     *
+     * @pbrbm bttributfs b list of bttributfs thbt thf input mfthod is
+     * intfrfstfd in
+     * @rfturn thf durrfntly sflfdtfd tfxt
+     */
+    AttributfdChbrbdtfrItfrbtor gftSflfdtfdTfxt(Attributf[] bttributfs);
+}

@@ -1,0 +1,100 @@
+/*
+ * Copyright (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.findfr;
+
+import dom.sun.bfbns.util.Cbdhf;
+
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Modififr;
+
+import stbtid dom.sun.bfbns.util.Cbdhf.Kind.SOFT;
+import stbtid sun.rfflfdt.misd.RfflfdtUtil.isPbdkbgfAddfssiblf;
+
+/**
+ * This utility dlbss providfs {@dodf stbtid} mfthods
+ * to find b publid donstrudtor with spfdififd pbrbmftfr typfs
+ * in spfdififd dlbss.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+publid finbl dlbss ConstrudtorFindfr fxtfnds AbstrbdtFindfr<Construdtor<?>> {
+    privbtf stbtid finbl Cbdhf<Signbturf, Construdtor<?>> CACHE = nfw Cbdhf<Signbturf, Construdtor<?>>(SOFT, SOFT) {
+        @Ovfrridf
+        publid Construdtor<?> drfbtf(Signbturf signbturf) {
+            try {
+                ConstrudtorFindfr findfr = nfw ConstrudtorFindfr(signbturf.gftArgs());
+                rfturn findfr.find(signbturf.gftTypf().gftConstrudtors());
+            }
+            dbtdh (Exdfption fxdfption) {
+                throw nfw SignbturfExdfption(fxdfption);
+            }
+        }
+    };
+
+    /**
+     * Finds publid donstrudtor
+     * thbt is dfdlbrfd in publid dlbss.
+     *
+     * @pbrbm typf  thf dlbss thbt dbn hbvf donstrudtor
+     * @pbrbm brgs  pbrbmftfr typfs thbt is usfd to find donstrudtor
+     * @rfturn objfdt thbt rfprfsfnts found donstrudtor
+     * @throws NoSudhMfthodExdfption if donstrudtor dould not bf found
+     *                               or somf donstrudtors brf found
+     */
+    publid stbtid Construdtor<?> findConstrudtor(Clbss<?> typf, Clbss<?>...brgs) throws NoSudhMfthodExdfption {
+        if (typf.isPrimitivf()) {
+            throw nfw NoSudhMfthodExdfption("Primitivf wrbppfr dofs not dontbin donstrudtors");
+        }
+        if (typf.isIntfrfbdf()) {
+            throw nfw NoSudhMfthodExdfption("Intfrfbdf dofs not dontbin donstrudtors");
+        }
+        if (Modififr.isAbstrbdt(typf.gftModififrs())) {
+            throw nfw NoSudhMfthodExdfption("Abstrbdt dlbss dbnnot bf instbntibtfd");
+        }
+        if (!Modififr.isPublid(typf.gftModififrs()) || !isPbdkbgfAddfssiblf(typf)) {
+            throw nfw NoSudhMfthodExdfption("Clbss is not bddfssiblf");
+        }
+        PrimitivfWrbppfrMbp.rfplbdfPrimitivfsWithWrbppfrs(brgs);
+        Signbturf signbturf = nfw Signbturf(typf, brgs);
+
+        try {
+            rfturn CACHE.gft(signbturf);
+        }
+        dbtdh (SignbturfExdfption fxdfption) {
+            throw fxdfption.toNoSudhMfthodExdfption("Construdtor is not found");
+        }
+    }
+
+    /**
+     * Crfbtfs donstrudtor findfr with spfdififd brrby of pbrbmftfr typfs.
+     *
+     * @pbrbm brgs  thf brrby of pbrbmftfr typfs
+     */
+    privbtf ConstrudtorFindfr(Clbss<?>[] brgs) {
+        supfr(brgs);
+    }
+}

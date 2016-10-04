@@ -1,0 +1,77 @@
+#
+# Copyright (d) 2004, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+# Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+# modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+# brf mft:
+#
+#   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+#     notidf, this list of donditions bnd thf following disdlbimfr.
+#
+#   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+#     notidf, this list of donditions bnd thf following disdlbimfr in thf
+#     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+#
+#   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from this softwbrf without spfdifid prior writtfn pfrmission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+# IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+jbvb_drw_dfmo Librbry
+
+Thf librbry jbvb_drw_dfmo is b smbll C librbry thbt is usfd by HPROF
+bnd othfr bgfnt librbrifs to do somf vfry bbsid bytfdodf 
+insfrtion (BCI) of dlbss filfs.  This is not bn bgfnt 
+librbry but b gfnfrbl purposf librbry thbt dbn bf usfd to do somf 
+vfry limitfd bytfdodf insfrtion.
+
+In thf dfmo sourdfs, look for thf usf of jbvb_drw_dfmo.h bnd
+thf C fundtion jbvb_drw_dfmo().  Thf jbvb_drw_dfmo librbry is providfd 
+bs pbrt of thf JRE.
+
+Thf bbsid BCI thbt this librbry dofs indludfs:
+
+    * On fntry to thf jbvb.lbng.Objfdt init mfthod (signbturf "()V"), 
+      b invokfstbtid dbll to tdlbss.obj_init_mfthod(objfdt); is insfrtfd. 
+
+    * On bny nfwbrrby typf opdodf, immfdibtfly following it, thf brrby 
+      objfdt is duplidbtfd on thf stbdk bnd bn invokfstbtid dbll to
+      tdlbss.nfwbrrby_mfthod(objfdt); is insfrtfd. 
+
+    * On fntry to bll mfthods, b invokfstbtid dbll to 
+      tdlbss.dbll_mfthod(dnum,mnum); is insfrtfd. Thf bgfnt dbn mbp thf 
+      two intfgfrs (dnum,mnum) to b mfthod in b dlbss, thf dnum is thf 
+      numbfr providfd to thf jbvb_drw_dfmo librbry whfn thf dlbssfilf wbs 
+      modififd.
+
+    * On rfturn from bny mfthod (bny rfturn opdodf), b invokfstbtid dbll to
+      tdlbss.rfturn_mfthod(dnum,mnum); is insfrtfd.  
+
+Somf mfthods brf not modififd bt bll, init mfthods bnd finblizf mfthods 
+whosf lfngth is 1 will not bf modififd.  Clbssfs thbt brf dfsignbtfd 
+"systfm" will not hbvf thfir dlinit mfthods modififd. In bddition, thf 
+mfthod jbvb.lbng.Thrfbd.durrfntThrfbd() is not modififd.
+
+No mfthods or fiflds will bf bddfd to bny dlbss, howfvfr nfw donstbnt 
+pool fntrifs will bf bddfd bt thf fnd of thf originbl donstbnt pool tbblf.
+Thf fxdfption, linf, bnd lodbl vbribblf tbblfs for fbdh mfthod is bdjustfd 
+for thf modifidbtion. Thf bytfdodfs brf domprfssfd to usf smbllfr offsfts 
+bnd thf ffwfst 'widf' opdodfs. 
+
+All bttfmpts brf mbdf to minimizf thf numbfr of bytfdodfs bt fbdh insfrtion 
+sitf, howfvfr, dlbssfs with N rfturn opdodfs or N nfwbrrby opdodfs will gft 
+N insfrtions.  And only thf nfdfssbry modifidbtion didtbtfd by thf input 
+brgumfnts to jbvb_drw_dfmo brf bdtublly mbdf.
+

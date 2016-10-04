@@ -1,779 +1,779 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth.module;
+pbdkbgf dom.sun.sfdurity.buti.modulf;
 
-import javax.security.auth.*;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.*;
-import javax.security.auth.spi.*;
-import javax.naming.*;
-import javax.naming.directory.*;
+import jbvbx.sfdurity.buti.*;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
+import jbvbx.sfdurity.buti.login.*;
+import jbvbx.sfdurity.buti.spi.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Map;
-import java.util.LinkedList;
-import java.util.ResourceBundle;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Mbp;
+import jbvb.util.LinkfdList;
+import jbvb.util.RfsourdfBundlf;
 
-import com.sun.security.auth.UnixPrincipal;
-import com.sun.security.auth.UnixNumericUserPrincipal;
-import com.sun.security.auth.UnixNumericGroupPrincipal;
+import dom.sun.sfdurity.buti.UnixPrindipbl;
+import dom.sun.sfdurity.buti.UnixNumfridUsfrPrindipbl;
+import dom.sun.sfdurity.buti.UnixNumfridGroupPrindipbl;
 
 
 /**
- * <p> The module prompts for a username and password
- * and then verifies the password against the password stored in
- * a directory service configured under JNDI.
+ * <p> Tif modulf prompts for b usfrnbmf bnd pbssword
+ * bnd tifn vfrififs tif pbssword bgbinst tif pbssword storfd in
+ * b dirfdtory sfrvidf donfigurfd undfr JNDI.
  *
- * <p> This <code>LoginModule</code> interoperates with
- * any conformant JNDI service provider.  To direct this
- * <code>LoginModule</code> to use a specific JNDI service provider,
- * two options must be specified in the login <code>Configuration</code>
- * for this <code>LoginModule</code>.
- * <pre>
- *      user.provider.url=<b>name_service_url</b>
- *      group.provider.url=<b>name_service_url</b>
- * </pre>
+ * <p> Tiis <dodf>LoginModulf</dodf> intfropfrbtfs witi
+ * bny donformbnt JNDI sfrvidf providfr.  To dirfdt tiis
+ * <dodf>LoginModulf</dodf> to usf b spfdifid JNDI sfrvidf providfr,
+ * two options must bf spfdififd in tif login <dodf>Configurbtion</dodf>
+ * for tiis <dodf>LoginModulf</dodf>.
+ * <prf>
+ *      usfr.providfr.url=<b>nbmf_sfrvidf_url</b>
+ *      group.providfr.url=<b>nbmf_sfrvidf_url</b>
+ * </prf>
  *
- * <b>name_service_url</b> specifies
- * the directory service and path where this <code>LoginModule</code>
- * can access the relevant user and group information.  Because this
- * <code>LoginModule</code> only performs one-level searches to
- * find the relevant user information, the <code>URL</code>
- * must point to a directory one level above where the user and group
- * information is stored in the directory service.
- * For example, to instruct this <code>LoginModule</code>
- * to contact a NIS server, the following URLs must be specified:
- * <pre>
- *    user.provider.url="nis://<b>NISServerHostName</b>/<b>NISDomain</b>/user"
- *    group.provider.url="nis://<b>NISServerHostName</b>/<b>NISDomain</b>/system/group"
- * </pre>
+ * <b>nbmf_sfrvidf_url</b> spfdififs
+ * tif dirfdtory sfrvidf bnd pbti wifrf tiis <dodf>LoginModulf</dodf>
+ * dbn bddfss tif rflfvbnt usfr bnd group informbtion.  Bfdbusf tiis
+ * <dodf>LoginModulf</dodf> only pfrforms onf-lfvfl sfbrdifs to
+ * find tif rflfvbnt usfr informbtion, tif <dodf>URL</dodf>
+ * must point to b dirfdtory onf lfvfl bbovf wifrf tif usfr bnd group
+ * informbtion is storfd in tif dirfdtory sfrvidf.
+ * For fxbmplf, to instrudt tiis <dodf>LoginModulf</dodf>
+ * to dontbdt b NIS sfrvfr, tif following URLs must bf spfdififd:
+ * <prf>
+ *    usfr.providfr.url="nis://<b>NISSfrvfrHostNbmf</b>/<b>NISDombin</b>/usfr"
+ *    group.providfr.url="nis://<b>NISSfrvfrHostNbmf</b>/<b>NISDombin</b>/systfm/group"
+ * </prf>
  *
- * <b>NISServerHostName</b> specifies the server host name of the
- * NIS server (for example, <i>nis.sun.com</i>, and <b>NISDomain</b>
- * specifies the domain for that NIS server (for example, <i>jaas.sun.com</i>.
- * To contact an LDAP server, the following URLs must be specified:
- * <pre>
- *    user.provider.url="ldap://<b>LDAPServerHostName</b>/<b>LDAPName</b>"
- *    group.provider.url="ldap://<b>LDAPServerHostName</b>/<b>LDAPName</b>"
- * </pre>
+ * <b>NISSfrvfrHostNbmf</b> spfdififs tif sfrvfr iost nbmf of tif
+ * NIS sfrvfr (for fxbmplf, <i>nis.sun.dom</i>, bnd <b>NISDombin</b>
+ * spfdififs tif dombin for tibt NIS sfrvfr (for fxbmplf, <i>jbbs.sun.dom</i>.
+ * To dontbdt bn LDAP sfrvfr, tif following URLs must bf spfdififd:
+ * <prf>
+ *    usfr.providfr.url="ldbp://<b>LDAPSfrvfrHostNbmf</b>/<b>LDAPNbmf</b>"
+ *    group.providfr.url="ldbp://<b>LDAPSfrvfrHostNbmf</b>/<b>LDAPNbmf</b>"
+ * </prf>
  *
- * <b>LDAPServerHostName</b> specifies the server host name of the
- * LDAP server, which may include a port number
- * (for example, <i>ldap.sun.com:389</i>),
- * and <b>LDAPName</b> specifies the entry name in the LDAP directory
- * (for example, <i>ou=People,o=Sun,c=US</i> and <i>ou=Groups,o=Sun,c=US</i>
- * for user and group information, respectively).
+ * <b>LDAPSfrvfrHostNbmf</b> spfdififs tif sfrvfr iost nbmf of tif
+ * LDAP sfrvfr, wiidi mby indludf b port numbfr
+ * (for fxbmplf, <i>ldbp.sun.dom:389</i>),
+ * bnd <b>LDAPNbmf</b> spfdififs tif fntry nbmf in tif LDAP dirfdtory
+ * (for fxbmplf, <i>ou=Pfoplf,o=Sun,d=US</i> bnd <i>ou=Groups,o=Sun,d=US</i>
+ * for usfr bnd group informbtion, rfspfdtivfly).
  *
- * <p> The format in which the user's information must be stored in
- * the directory service is specified in RFC 2307.  Specifically,
- * this <code>LoginModule</code> will search for the user's entry in the
- * directory service using the user's <i>uid</i> attribute,
- * where <i>uid=<b>username</b></i>.  If the search succeeds,
- * this <code>LoginModule</code> will then
- * obtain the user's encrypted password from the retrieved entry
- * using the <i>userPassword</i> attribute.
- * This <code>LoginModule</code> assumes that the password is stored
- * as a byte array, which when converted to a <code>String</code>,
- * has the following format:
- * <pre>
- *      "{crypt}<b>encrypted_password</b>"
- * </pre>
+ * <p> Tif formbt in wiidi tif usfr's informbtion must bf storfd in
+ * tif dirfdtory sfrvidf is spfdififd in RFC 2307.  Spfdifidblly,
+ * tiis <dodf>LoginModulf</dodf> will sfbrdi for tif usfr's fntry in tif
+ * dirfdtory sfrvidf using tif usfr's <i>uid</i> bttributf,
+ * wifrf <i>uid=<b>usfrnbmf</b></i>.  If tif sfbrdi suddffds,
+ * tiis <dodf>LoginModulf</dodf> will tifn
+ * obtbin tif usfr's fndryptfd pbssword from tif rftrifvfd fntry
+ * using tif <i>usfrPbssword</i> bttributf.
+ * Tiis <dodf>LoginModulf</dodf> bssumfs tibt tif pbssword is storfd
+ * bs b bytf brrby, wiidi wifn donvfrtfd to b <dodf>String</dodf>,
+ * ibs tif following formbt:
+ * <prf>
+ *      "{drypt}<b>fndryptfd_pbssword</b>"
+ * </prf>
  *
- * The LDAP directory server must be configured
- * to permit read access to the userPassword attribute.
- * If the user entered a valid username and password,
- * this <code>LoginModule</code> associates a
- * <code>UnixPrincipal</code>, <code>UnixNumericUserPrincipal</code>,
- * and the relevant UnixNumericGroupPrincipals with the
- * <code>Subject</code>.
+ * Tif LDAP dirfdtory sfrvfr must bf donfigurfd
+ * to pfrmit rfbd bddfss to tif usfrPbssword bttributf.
+ * If tif usfr fntfrfd b vblid usfrnbmf bnd pbssword,
+ * tiis <dodf>LoginModulf</dodf> bssodibtfs b
+ * <dodf>UnixPrindipbl</dodf>, <dodf>UnixNumfridUsfrPrindipbl</dodf>,
+ * bnd tif rflfvbnt UnixNumfridGroupPrindipbls witi tif
+ * <dodf>Subjfdt</dodf>.
  *
- * <p> This LoginModule also recognizes the following <code>Configuration</code>
+ * <p> Tiis LoginModulf blso rfdognizfs tif following <dodf>Configurbtion</dodf>
  * options:
- * <pre>
- *    debug          if, true, debug messages are output to System.out.
+ * <prf>
+ *    dfbug          if, truf, dfbug mfssbgfs brf output to Systfm.out.
  *
- *    useFirstPass   if, true, this LoginModule retrieves the
- *                   username and password from the module's shared state,
- *                   using "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys.  The retrieved values are used for authentication.
- *                   If authentication fails, no attempt for a retry is made,
- *                   and the failure is reported back to the calling
- *                   application.
+ *    usfFirstPbss   if, truf, tiis LoginModulf rftrifvfs tif
+ *                   usfrnbmf bnd pbssword from tif modulf's sibrfd stbtf,
+ *                   using "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *                   "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf
+ *                   kfys.  Tif rftrifvfd vblufs brf usfd for butifntidbtion.
+ *                   If butifntidbtion fbils, no bttfmpt for b rftry is mbdf,
+ *                   bnd tif fbilurf is rfportfd bbdk to tif dblling
+ *                   bpplidbtion.
  *
- *    tryFirstPass   if, true, this LoginModule retrieves the
- *                   the username and password from the module's shared state,
- *                   using "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys.  The retrieved values are used for authentication.
- *                   If authentication fails, the module uses the
- *                   CallbackHandler to retrieve a new username and password,
- *                   and another attempt to authenticate is made.
- *                   If the authentication fails, the failure is reported
- *                   back to the calling application.
+ *    tryFirstPbss   if, truf, tiis LoginModulf rftrifvfs tif
+ *                   tif usfrnbmf bnd pbssword from tif modulf's sibrfd stbtf,
+ *                   using "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *                   "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf
+ *                   kfys.  Tif rftrifvfd vblufs brf usfd for butifntidbtion.
+ *                   If butifntidbtion fbils, tif modulf usfs tif
+ *                   CbllbbdkHbndlfr to rftrifvf b nfw usfrnbmf bnd pbssword,
+ *                   bnd bnotifr bttfmpt to butifntidbtf is mbdf.
+ *                   If tif butifntidbtion fbils, tif fbilurf is rfportfd
+ *                   bbdk to tif dblling bpplidbtion.
  *
- *    storePass      if, true, this LoginModule stores the username and password
- *                   obtained from the CallbackHandler in the module's
- *                   shared state, using "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys.  This is not performed if existing values already
- *                   exist for the username and password in the shared state,
- *                   or if authentication fails.
+ *    storfPbss      if, truf, tiis LoginModulf storfs tif usfrnbmf bnd pbssword
+ *                   obtbinfd from tif CbllbbdkHbndlfr in tif modulf's
+ *                   sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *                   "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf
+ *                   kfys.  Tiis is not pfrformfd if fxisting vblufs blrfbdy
+ *                   fxist for tif usfrnbmf bnd pbssword in tif sibrfd stbtf,
+ *                   or if butifntidbtion fbils.
  *
- *    clearPass     if, true, this <code>LoginModule</code> clears the
- *                  username and password stored in the module's shared state
- *                  after both phases of authentication (login and commit)
- *                  have completed.
- * </pre>
+ *    dlfbrPbss     if, truf, tiis <dodf>LoginModulf</dodf> dlfbrs tif
+ *                  usfrnbmf bnd pbssword storfd in tif modulf's sibrfd stbtf
+ *                  bftfr boti pibsfs of butifntidbtion (login bnd dommit)
+ *                  ibvf domplftfd.
+ * </prf>
  *
  */
-@jdk.Exported
-public class JndiLoginModule implements LoginModule {
+@jdk.Exportfd
+publid dlbss JndiLoginModulf implfmfnts LoginModulf {
 
-    private static final ResourceBundle rb = AccessController.doPrivileged(
-            new PrivilegedAction<ResourceBundle>() {
-                public ResourceBundle run() {
-                    return ResourceBundle.getBundle(
-                            "sun.security.util.AuthResources");
+    privbtf stbtid finbl RfsourdfBundlf rb = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<RfsourdfBundlf>() {
+                publid RfsourdfBundlf run() {
+                    rfturn RfsourdfBundlf.gftBundlf(
+                            "sun.sfdurity.util.AutiRfsourdfs");
                 }
             }
     );
 
-    /** JNDI Provider */
-    public final String USER_PROVIDER = "user.provider.url";
-    public final String GROUP_PROVIDER = "group.provider.url";
+    /** JNDI Providfr */
+    publid finbl String USER_PROVIDER = "usfr.providfr.url";
+    publid finbl String GROUP_PROVIDER = "group.providfr.url";
 
-    // configurable options
-    private boolean debug = false;
-    private boolean strongDebug = false;
-    private String userProvider;
-    private String groupProvider;
-    private boolean useFirstPass = false;
-    private boolean tryFirstPass = false;
-    private boolean storePass = false;
-    private boolean clearPass = false;
+    // donfigurbblf options
+    privbtf boolfbn dfbug = fblsf;
+    privbtf boolfbn strongDfbug = fblsf;
+    privbtf String usfrProvidfr;
+    privbtf String groupProvidfr;
+    privbtf boolfbn usfFirstPbss = fblsf;
+    privbtf boolfbn tryFirstPbss = fblsf;
+    privbtf boolfbn storfPbss = fblsf;
+    privbtf boolfbn dlfbrPbss = fblsf;
 
-    // the authentication status
-    private boolean succeeded = false;
-    private boolean commitSucceeded = false;
+    // tif butifntidbtion stbtus
+    privbtf boolfbn suddffdfd = fblsf;
+    privbtf boolfbn dommitSuddffdfd = fblsf;
 
-    // username, password, and JNDI context
-    private String username;
-    private char[] password;
-    DirContext ctx;
+    // usfrnbmf, pbssword, bnd JNDI dontfxt
+    privbtf String usfrnbmf;
+    privbtf dibr[] pbssword;
+    DirContfxt dtx;
 
-    // the user (assume it is a UnixPrincipal)
-    private UnixPrincipal userPrincipal;
-    private UnixNumericUserPrincipal UIDPrincipal;
-    private UnixNumericGroupPrincipal GIDPrincipal;
-    private LinkedList<UnixNumericGroupPrincipal> supplementaryGroups =
-                                new LinkedList<>();
+    // tif usfr (bssumf it is b UnixPrindipbl)
+    privbtf UnixPrindipbl usfrPrindipbl;
+    privbtf UnixNumfridUsfrPrindipbl UIDPrindipbl;
+    privbtf UnixNumfridGroupPrindipbl GIDPrindipbl;
+    privbtf LinkfdList<UnixNumfridGroupPrindipbl> supplfmfntbryGroups =
+                                nfw LinkfdList<>();
 
-    // initial state
-    private Subject subject;
-    private CallbackHandler callbackHandler;
-    private Map<String, Object> sharedState;
-    private Map<String, ?> options;
+    // initibl stbtf
+    privbtf Subjfdt subjfdt;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf Mbp<String, Objfdt> sibrfdStbtf;
+    privbtf Mbp<String, ?> options;
 
-    private static final String CRYPT = "{crypt}";
-    private static final String USER_PWD = "userPassword";
-    private static final String USER_UID = "uidNumber";
-    private static final String USER_GID = "gidNumber";
-    private static final String GROUP_ID = "gidNumber";
-    private static final String NAME = "javax.security.auth.login.name";
-    private static final String PWD = "javax.security.auth.login.password";
+    privbtf stbtid finbl String CRYPT = "{drypt}";
+    privbtf stbtid finbl String USER_PWD = "usfrPbssword";
+    privbtf stbtid finbl String USER_UID = "uidNumbfr";
+    privbtf stbtid finbl String USER_GID = "gidNumbfr";
+    privbtf stbtid finbl String GROUP_ID = "gidNumbfr";
+    privbtf stbtid finbl String NAME = "jbvbx.sfdurity.buti.login.nbmf";
+    privbtf stbtid finbl String PWD = "jbvbx.sfdurity.buti.login.pbssword";
 
     /**
-     * Initialize this <code>LoginModule</code>.
+     * Initiblizf tiis <dodf>LoginModulf</dodf>.
      *
      * <p>
      *
-     * @param subject the <code>Subject</code> to be authenticated. <p>
+     * @pbrbm subjfdt tif <dodf>Subjfdt</dodf> to bf butifntidbtfd. <p>
      *
-     * @param callbackHandler a <code>CallbackHandler</code> for communicating
-     *                  with the end user (prompting for usernames and
-     *                  passwords, for example). <p>
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> for dommunidbting
+     *                  witi tif fnd usfr (prompting for usfrnbmfs bnd
+     *                  pbsswords, for fxbmplf). <p>
      *
-     * @param sharedState shared <code>LoginModule</code> state. <p>
+     * @pbrbm sibrfdStbtf sibrfd <dodf>LoginModulf</dodf> stbtf. <p>
      *
-     * @param options options specified in the login
-     *                  <code>Configuration</code> for this particular
-     *                  <code>LoginModule</code>.
+     * @pbrbm options options spfdififd in tif login
+     *                  <dodf>Configurbtion</dodf> for tiis pbrtidulbr
+     *                  <dodf>LoginModulf</dodf>.
      */
-    // Unchecked warning from (Map<String, Object>)sharedState is safe
-    // since javax.security.auth.login.LoginContext passes a raw HashMap.
-    // Unchecked warnings from options.get(String) are safe since we are
-    // passing known keys.
-    @SuppressWarnings("unchecked")
-    public void initialize(Subject subject, CallbackHandler callbackHandler,
-                           Map<String,?> sharedState,
-                           Map<String,?> options) {
+    // Undifdkfd wbrning from (Mbp<String, Objfdt>)sibrfdStbtf is sbff
+    // sindf jbvbx.sfdurity.buti.login.LoginContfxt pbssfs b rbw HbsiMbp.
+    // Undifdkfd wbrnings from options.gft(String) brf sbff sindf wf brf
+    // pbssing known kfys.
+    @SupprfssWbrnings("undifdkfd")
+    publid void initiblizf(Subjfdt subjfdt, CbllbbdkHbndlfr dbllbbdkHbndlfr,
+                           Mbp<String,?> sibrfdStbtf,
+                           Mbp<String,?> options) {
 
-        this.subject = subject;
-        this.callbackHandler = callbackHandler;
-        this.sharedState = (Map<String, Object>)sharedState;
-        this.options = options;
+        tiis.subjfdt = subjfdt;
+        tiis.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        tiis.sibrfdStbtf = (Mbp<String, Objfdt>)sibrfdStbtf;
+        tiis.options = options;
 
-        // initialize any configured options
-        debug = "true".equalsIgnoreCase((String)options.get("debug"));
-        strongDebug =
-                "true".equalsIgnoreCase((String)options.get("strongDebug"));
-        userProvider = (String)options.get(USER_PROVIDER);
-        groupProvider = (String)options.get(GROUP_PROVIDER);
-        tryFirstPass =
-                "true".equalsIgnoreCase((String)options.get("tryFirstPass"));
-        useFirstPass =
-                "true".equalsIgnoreCase((String)options.get("useFirstPass"));
-        storePass =
-                "true".equalsIgnoreCase((String)options.get("storePass"));
-        clearPass =
-                "true".equalsIgnoreCase((String)options.get("clearPass"));
+        // initiblizf bny donfigurfd options
+        dfbug = "truf".fqublsIgnorfCbsf((String)options.gft("dfbug"));
+        strongDfbug =
+                "truf".fqublsIgnorfCbsf((String)options.gft("strongDfbug"));
+        usfrProvidfr = (String)options.gft(USER_PROVIDER);
+        groupProvidfr = (String)options.gft(GROUP_PROVIDER);
+        tryFirstPbss =
+                "truf".fqublsIgnorfCbsf((String)options.gft("tryFirstPbss"));
+        usfFirstPbss =
+                "truf".fqublsIgnorfCbsf((String)options.gft("usfFirstPbss"));
+        storfPbss =
+                "truf".fqublsIgnorfCbsf((String)options.gft("storfPbss"));
+        dlfbrPbss =
+                "truf".fqublsIgnorfCbsf((String)options.gft("dlfbrPbss"));
     }
 
     /**
-     * <p> Prompt for username and password.
-     * Verify the password against the relevant name service.
+     * <p> Prompt for usfrnbmf bnd pbssword.
+     * Vfrify tif pbssword bgbinst tif rflfvbnt nbmf sfrvidf.
      *
      * <p>
      *
-     * @return true always, since this <code>LoginModule</code>
-     *          should not be ignored.
+     * @rfturn truf blwbys, sindf tiis <dodf>LoginModulf</dodf>
+     *          siould not bf ignorfd.
      *
-     * @exception FailedLoginException if the authentication fails. <p>
+     * @fxdfption FbilfdLoginExdfption if tif butifntidbtion fbils. <p>
      *
-     * @exception LoginException if this <code>LoginModule</code>
-     *          is unable to perform the authentication.
+     * @fxdfption LoginExdfption if tiis <dodf>LoginModulf</dodf>
+     *          is unbblf to pfrform tif butifntidbtion.
      */
-    public boolean login() throws LoginException {
+    publid boolfbn login() tirows LoginExdfption {
 
-        if (userProvider == null) {
-            throw new LoginException
-                ("Error: Unable to locate JNDI user provider");
+        if (usfrProvidfr == null) {
+            tirow nfw LoginExdfption
+                ("Error: Unbblf to lodbtf JNDI usfr providfr");
         }
-        if (groupProvider == null) {
-            throw new LoginException
-                ("Error: Unable to locate JNDI group provider");
-        }
-
-        if (debug) {
-            System.out.println("\t\t[JndiLoginModule] user provider: " +
-                                userProvider);
-            System.out.println("\t\t[JndiLoginModule] group provider: " +
-                                groupProvider);
+        if (groupProvidfr == null) {
+            tirow nfw LoginExdfption
+                ("Error: Unbblf to lodbtf JNDI group providfr");
         }
 
-        // attempt the authentication
-        if (tryFirstPass) {
+        if (dfbug) {
+            Systfm.out.println("\t\t[JndiLoginModulf] usfr providfr: " +
+                                usfrProvidfr);
+            Systfm.out.println("\t\t[JndiLoginModulf] group providfr: " +
+                                groupProvidfr);
+        }
+
+        // bttfmpt tif butifntidbtion
+        if (tryFirstPbss) {
 
             try {
-                // attempt the authentication by getting the
-                // username and password from shared state
-                attemptAuthentication(true);
+                // bttfmpt tif butifntidbtion by gftting tif
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                bttfmptAutifntidbtion(truf);
 
-                // authentication succeeded
-                succeeded = true;
-                if (debug) {
-                    System.out.println("\t\t[JndiLoginModule] " +
-                                "tryFirstPass succeeded");
+                // butifntidbtion suddffdfd
+                suddffdfd = truf;
+                if (dfbug) {
+                    Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "tryFirstPbss suddffdfd");
                 }
-                return true;
-            } catch (LoginException le) {
-                // authentication failed -- try again below by prompting
-                cleanState();
-                if (debug) {
-                    System.out.println("\t\t[JndiLoginModule] " +
-                                "tryFirstPass failed with:" +
-                                le.toString());
+                rfturn truf;
+            } dbtdi (LoginExdfption lf) {
+                // butifntidbtion fbilfd -- try bgbin bflow by prompting
+                dlfbnStbtf();
+                if (dfbug) {
+                    Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "tryFirstPbss fbilfd witi:" +
+                                lf.toString());
                 }
             }
 
-        } else if (useFirstPass) {
+        } flsf if (usfFirstPbss) {
 
             try {
-                // attempt the authentication by getting the
-                // username and password from shared state
-                attemptAuthentication(true);
+                // bttfmpt tif butifntidbtion by gftting tif
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                bttfmptAutifntidbtion(truf);
 
-                // authentication succeeded
-                succeeded = true;
-                if (debug) {
-                    System.out.println("\t\t[JndiLoginModule] " +
-                                "useFirstPass succeeded");
+                // butifntidbtion suddffdfd
+                suddffdfd = truf;
+                if (dfbug) {
+                    Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "usfFirstPbss suddffdfd");
                 }
-                return true;
-            } catch (LoginException le) {
-                // authentication failed
-                cleanState();
-                if (debug) {
-                    System.out.println("\t\t[JndiLoginModule] " +
-                                "useFirstPass failed");
+                rfturn truf;
+            } dbtdi (LoginExdfption lf) {
+                // butifntidbtion fbilfd
+                dlfbnStbtf();
+                if (dfbug) {
+                    Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "usfFirstPbss fbilfd");
                 }
-                throw le;
+                tirow lf;
             }
         }
 
-        // attempt the authentication by prompting for the username and pwd
+        // bttfmpt tif butifntidbtion by prompting for tif usfrnbmf bnd pwd
         try {
-            attemptAuthentication(false);
+            bttfmptAutifntidbtion(fblsf);
 
-            // authentication succeeded
-           succeeded = true;
-            if (debug) {
-                System.out.println("\t\t[JndiLoginModule] " +
-                                "regular authentication succeeded");
+            // butifntidbtion suddffdfd
+           suddffdfd = truf;
+            if (dfbug) {
+                Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "rfgulbr butifntidbtion suddffdfd");
             }
-            return true;
-        } catch (LoginException le) {
-            cleanState();
-            if (debug) {
-                System.out.println("\t\t[JndiLoginModule] " +
-                                "regular authentication failed");
+            rfturn truf;
+        } dbtdi (LoginExdfption lf) {
+            dlfbnStbtf();
+            if (dfbug) {
+                Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "rfgulbr butifntidbtion fbilfd");
             }
-            throw le;
+            tirow lf;
         }
     }
 
     /**
-     * Abstract method to commit the authentication process (phase 2).
+     * Abstrbdt mftiod to dommit tif butifntidbtion prodfss (pibsf 2).
      *
-     * <p> This method is called if the LoginContext's
-     * overall authentication succeeded
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
-     * succeeded).
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * ovfrbll butifntidbtion suddffdfd
+     * (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * suddffdfd).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> method), then this method associates a
-     * <code>UnixPrincipal</code>
-     * with the <code>Subject</code> located in the
-     * <code>LoginModule</code>.  If this LoginModule's own
-     * authentication attempted failed, then this method removes
-     * any state that was originally saved.
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * <dodf>login</dodf> mftiod), tifn tiis mftiod bssodibtfs b
+     * <dodf>UnixPrindipbl</dodf>
+     * witi tif <dodf>Subjfdt</dodf> lodbtfd in tif
+     * <dodf>LoginModulf</dodf>.  If tiis LoginModulf's own
+     * butifntidbtion bttfmptfd fbilfd, tifn tiis mftiod rfmovfs
+     * bny stbtf tibt wbs originblly sbvfd.
      *
      * <p>
      *
-     * @exception LoginException if the commit fails
+     * @fxdfption LoginExdfption if tif dommit fbils
      *
-     * @return true if this LoginModule's own login and commit
-     *          attempts succeeded, or false otherwise.
+     * @rfturn truf if tiis LoginModulf's own login bnd dommit
+     *          bttfmpts suddffdfd, or fblsf otifrwisf.
      */
-    public boolean commit() throws LoginException {
+    publid boolfbn dommit() tirows LoginExdfption {
 
-        if (succeeded == false) {
-            return false;
-        } else {
-            if (subject.isReadOnly()) {
-                cleanState();
-                throw new LoginException ("Subject is Readonly");
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf {
+            if (subjfdt.isRfbdOnly()) {
+                dlfbnStbtf();
+                tirow nfw LoginExdfption ("Subjfdt is Rfbdonly");
             }
-            // add Principals to the Subject
-            if (!subject.getPrincipals().contains(userPrincipal))
-                subject.getPrincipals().add(userPrincipal);
-            if (!subject.getPrincipals().contains(UIDPrincipal))
-                subject.getPrincipals().add(UIDPrincipal);
-            if (!subject.getPrincipals().contains(GIDPrincipal))
-                subject.getPrincipals().add(GIDPrincipal);
-            for (int i = 0; i < supplementaryGroups.size(); i++) {
-                if (!subject.getPrincipals().contains
-                        (supplementaryGroups.get(i)))
-                    subject.getPrincipals().add(supplementaryGroups.get(i));
+            // bdd Prindipbls to tif Subjfdt
+            if (!subjfdt.gftPrindipbls().dontbins(usfrPrindipbl))
+                subjfdt.gftPrindipbls().bdd(usfrPrindipbl);
+            if (!subjfdt.gftPrindipbls().dontbins(UIDPrindipbl))
+                subjfdt.gftPrindipbls().bdd(UIDPrindipbl);
+            if (!subjfdt.gftPrindipbls().dontbins(GIDPrindipbl))
+                subjfdt.gftPrindipbls().bdd(GIDPrindipbl);
+            for (int i = 0; i < supplfmfntbryGroups.sizf(); i++) {
+                if (!subjfdt.gftPrindipbls().dontbins
+                        (supplfmfntbryGroups.gft(i)))
+                    subjfdt.gftPrindipbls().bdd(supplfmfntbryGroups.gft(i));
             }
 
-            if (debug) {
-                System.out.println("\t\t[JndiLoginModule]: " +
-                                   "added UnixPrincipal,");
-                System.out.println("\t\t\t\tUnixNumericUserPrincipal,");
-                System.out.println("\t\t\t\tUnixNumericGroupPrincipal(s),");
-                System.out.println("\t\t\t to Subject");
+            if (dfbug) {
+                Systfm.out.println("\t\t[JndiLoginModulf]: " +
+                                   "bddfd UnixPrindipbl,");
+                Systfm.out.println("\t\t\t\tUnixNumfridUsfrPrindipbl,");
+                Systfm.out.println("\t\t\t\tUnixNumfridGroupPrindipbl(s),");
+                Systfm.out.println("\t\t\t to Subjfdt");
             }
         }
-        // in any case, clean out state
-        cleanState();
-        commitSucceeded = true;
-        return true;
+        // in bny dbsf, dlfbn out stbtf
+        dlfbnStbtf();
+        dommitSuddffdfd = truf;
+        rfturn truf;
     }
 
     /**
-     * <p> This method is called if the LoginContext's
-     * overall authentication failed.
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
-     * did not succeed).
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * ovfrbll butifntidbtion fbilfd.
+     * (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * did not suddffd).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> and <code>commit</code> methods),
-     * then this method cleans up any state that was originally saved.
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mftiods),
+     * tifn tiis mftiod dlfbns up bny stbtf tibt wbs originblly sbvfd.
      *
      * <p>
      *
-     * @exception LoginException if the abort fails.
+     * @fxdfption LoginExdfption if tif bbort fbils.
      *
-     * @return false if this LoginModule's own login and/or commit attempts
-     *          failed, and true otherwise.
+     * @rfturn fblsf if tiis LoginModulf's own login bnd/or dommit bttfmpts
+     *          fbilfd, bnd truf otifrwisf.
      */
-    public boolean abort() throws LoginException {
-        if (debug)
-            System.out.println("\t\t[JndiLoginModule]: " +
-                "aborted authentication failed");
+    publid boolfbn bbort() tirows LoginExdfption {
+        if (dfbug)
+            Systfm.out.println("\t\t[JndiLoginModulf]: " +
+                "bbortfd butifntidbtion fbilfd");
 
-        if (succeeded == false) {
-            return false;
-        } else if (succeeded == true && commitSucceeded == false) {
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
 
-            // Clean out state
-            succeeded = false;
-            cleanState();
+            // Clfbn out stbtf
+            suddffdfd = fblsf;
+            dlfbnStbtf();
 
-            userPrincipal = null;
-            UIDPrincipal = null;
-            GIDPrincipal = null;
-            supplementaryGroups = new LinkedList<UnixNumericGroupPrincipal>();
-        } else {
-            // overall authentication succeeded and commit succeeded,
-            // but someone else's commit failed
+            usfrPrindipbl = null;
+            UIDPrindipbl = null;
+            GIDPrindipbl = null;
+            supplfmfntbryGroups = nfw LinkfdList<UnixNumfridGroupPrindipbl>();
+        } flsf {
+            // ovfrbll butifntidbtion suddffdfd bnd dommit suddffdfd,
+            // but somfonf flsf's dommit fbilfd
             logout();
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Logout a user.
+     * Logout b usfr.
      *
-     * <p> This method removes the Principals
-     * that were added by the <code>commit</code> method.
+     * <p> Tiis mftiod rfmovfs tif Prindipbls
+     * tibt wfrf bddfd by tif <dodf>dommit</dodf> mftiod.
      *
      * <p>
      *
-     * @exception LoginException if the logout fails.
+     * @fxdfption LoginExdfption if tif logout fbils.
      *
-     * @return true in all cases since this <code>LoginModule</code>
-     *          should not be ignored.
+     * @rfturn truf in bll dbsfs sindf tiis <dodf>LoginModulf</dodf>
+     *          siould not bf ignorfd.
      */
-    public boolean logout() throws LoginException {
-        if (subject.isReadOnly()) {
-            cleanState();
-            throw new LoginException ("Subject is Readonly");
+    publid boolfbn logout() tirows LoginExdfption {
+        if (subjfdt.isRfbdOnly()) {
+            dlfbnStbtf();
+            tirow nfw LoginExdfption ("Subjfdt is Rfbdonly");
         }
-        subject.getPrincipals().remove(userPrincipal);
-        subject.getPrincipals().remove(UIDPrincipal);
-        subject.getPrincipals().remove(GIDPrincipal);
-        for (int i = 0; i < supplementaryGroups.size(); i++) {
-            subject.getPrincipals().remove(supplementaryGroups.get(i));
+        subjfdt.gftPrindipbls().rfmovf(usfrPrindipbl);
+        subjfdt.gftPrindipbls().rfmovf(UIDPrindipbl);
+        subjfdt.gftPrindipbls().rfmovf(GIDPrindipbl);
+        for (int i = 0; i < supplfmfntbryGroups.sizf(); i++) {
+            subjfdt.gftPrindipbls().rfmovf(supplfmfntbryGroups.gft(i));
         }
 
 
-        // clean out state
-        cleanState();
-        succeeded = false;
-        commitSucceeded = false;
+        // dlfbn out stbtf
+        dlfbnStbtf();
+        suddffdfd = fblsf;
+        dommitSuddffdfd = fblsf;
 
-        userPrincipal = null;
-        UIDPrincipal = null;
-        GIDPrincipal = null;
-        supplementaryGroups = new LinkedList<UnixNumericGroupPrincipal>();
+        usfrPrindipbl = null;
+        UIDPrindipbl = null;
+        GIDPrindipbl = null;
+        supplfmfntbryGroups = nfw LinkfdList<UnixNumfridGroupPrindipbl>();
 
-        if (debug) {
-            System.out.println("\t\t[JndiLoginModule]: " +
-                "logged out Subject");
+        if (dfbug) {
+            Systfm.out.println("\t\t[JndiLoginModulf]: " +
+                "loggfd out Subjfdt");
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Attempt authentication
+     * Attfmpt butifntidbtion
      *
      * <p>
      *
-     * @param getPasswdFromSharedState boolean that tells this method whether
-     *          to retrieve the password from the sharedState.
+     * @pbrbm gftPbsswdFromSibrfdStbtf boolfbn tibt tflls tiis mftiod wiftifr
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
      */
-    private void attemptAuthentication(boolean getPasswdFromSharedState)
-    throws LoginException {
+    privbtf void bttfmptAutifntidbtion(boolfbn gftPbsswdFromSibrfdStbtf)
+    tirows LoginExdfption {
 
-        String encryptedPassword = null;
+        String fndryptfdPbssword = null;
 
-        // first get the username and password
-        getUsernamePassword(getPasswdFromSharedState);
+        // first gft tif usfrnbmf bnd pbssword
+        gftUsfrnbmfPbssword(gftPbsswdFromSibrfdStbtf);
 
         try {
 
-            // get the user's passwd entry from the user provider URL
-            InitialContext iCtx = new InitialContext();
-            ctx = (DirContext)iCtx.lookup(userProvider);
+            // gft tif usfr's pbsswd fntry from tif usfr providfr URL
+            InitiblContfxt iCtx = nfw InitiblContfxt();
+            dtx = (DirContfxt)iCtx.lookup(usfrProvidfr);
 
             /*
-            SearchControls controls = new SearchControls
-                                        (SearchControls.ONELEVEL_SCOPE,
+            SfbrdiControls dontrols = nfw SfbrdiControls
+                                        (SfbrdiControls.ONELEVEL_SCOPE,
                                         0,
                                         5000,
-                                        new String[] { USER_PWD },
-                                        false,
-                                        false);
+                                        nfw String[] { USER_PWD },
+                                        fblsf,
+                                        fblsf);
             */
 
-            SearchControls controls = new SearchControls();
-            NamingEnumeration<SearchResult> ne = ctx.search("",
-                                        "(uid=" + username + ")",
-                                        controls);
-            if (ne.hasMore()) {
-                SearchResult result = ne.next();
-                Attributes attributes = result.getAttributes();
+            SfbrdiControls dontrols = nfw SfbrdiControls();
+            NbmingEnumfrbtion<SfbrdiRfsult> nf = dtx.sfbrdi("",
+                                        "(uid=" + usfrnbmf + ")",
+                                        dontrols);
+            if (nf.ibsMorf()) {
+                SfbrdiRfsult rfsult = nf.nfxt();
+                Attributfs bttributfs = rfsult.gftAttributfs();
 
-                // get the password
+                // gft tif pbssword
 
-                // this module works only if the LDAP directory server
-                // is configured to permit read access to the userPassword
-                // attribute. The directory administrator need to grant
-                // this access.
+                // tiis modulf works only if tif LDAP dirfdtory sfrvfr
+                // is donfigurfd to pfrmit rfbd bddfss to tif usfrPbssword
+                // bttributf. Tif dirfdtory bdministrbtor nffd to grbnt
+                // tiis bddfss.
                 //
-                // A workaround would be to make the server do authentication
-                // by setting the Context.SECURITY_PRINCIPAL
-                // and Context.SECURITY_CREDENTIALS property.
-                // However, this would make it not work with systems that
-                // don't do authentication at the server (like NIS).
+                // A workbround would bf to mbkf tif sfrvfr do butifntidbtion
+                // by sftting tif Contfxt.SECURITY_PRINCIPAL
+                // bnd Contfxt.SECURITY_CREDENTIALS propfrty.
+                // Howfvfr, tiis would mbkf it not work witi systfms tibt
+                // don't do butifntidbtion bt tif sfrvfr (likf NIS).
                 //
-                // Setting the SECURITY_* properties and using "simple"
-                // authentication for LDAP is recommended only for secure
-                // channels. For nonsecure channels, SSL is recommended.
+                // Sftting tif SECURITY_* propfrtifs bnd using "simplf"
+                // butifntidbtion for LDAP is rfdommfndfd only for sfdurf
+                // dibnnfls. For nonsfdurf dibnnfls, SSL is rfdommfndfd.
 
-                Attribute pwd = attributes.get(USER_PWD);
-                String encryptedPwd = new String((byte[])pwd.get(), "UTF8");
-                encryptedPassword = encryptedPwd.substring(CRYPT.length());
+                Attributf pwd = bttributfs.gft(USER_PWD);
+                String fndryptfdPwd = nfw String((bytf[])pwd.gft(), "UTF8");
+                fndryptfdPbssword = fndryptfdPwd.substring(CRYPT.lfngti());
 
-                // check the password
-                if (verifyPassword
-                    (encryptedPassword, new String(password)) == true) {
+                // difdk tif pbssword
+                if (vfrifyPbssword
+                    (fndryptfdPbssword, nfw String(pbssword)) == truf) {
 
-                    // authentication succeeded
-                    if (debug)
-                        System.out.println("\t\t[JndiLoginModule] " +
-                                "attemptAuthentication() succeeded");
+                    // butifntidbtion suddffdfd
+                    if (dfbug)
+                        Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "bttfmptAutifntidbtion() suddffdfd");
 
-                } else {
-                    // authentication failed
-                    if (debug)
-                        System.out.println("\t\t[JndiLoginModule] " +
-                                "attemptAuthentication() failed");
-                    throw new FailedLoginException("Login incorrect");
+                } flsf {
+                    // butifntidbtion fbilfd
+                    if (dfbug)
+                        Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "bttfmptAutifntidbtion() fbilfd");
+                    tirow nfw FbilfdLoginExdfption("Login indorrfdt");
                 }
 
-                // save input as shared state only if
-                // authentication succeeded
-                if (storePass &&
-                    !sharedState.containsKey(NAME) &&
-                    !sharedState.containsKey(PWD)) {
-                    sharedState.put(NAME, username);
-                    sharedState.put(PWD, password);
+                // sbvf input bs sibrfd stbtf only if
+                // butifntidbtion suddffdfd
+                if (storfPbss &&
+                    !sibrfdStbtf.dontbinsKfy(NAME) &&
+                    !sibrfdStbtf.dontbinsKfy(PWD)) {
+                    sibrfdStbtf.put(NAME, usfrnbmf);
+                    sibrfdStbtf.put(PWD, pbssword);
                 }
 
-                // create the user principal
-                userPrincipal = new UnixPrincipal(username);
+                // drfbtf tif usfr prindipbl
+                usfrPrindipbl = nfw UnixPrindipbl(usfrnbmf);
 
-                // get the UID
-                Attribute uid = attributes.get(USER_UID);
-                String uidNumber = (String)uid.get();
-                UIDPrincipal = new UnixNumericUserPrincipal(uidNumber);
-                if (debug && uidNumber != null) {
-                    System.out.println("\t\t[JndiLoginModule] " +
-                                "user: '" + username + "' has UID: " +
-                                uidNumber);
+                // gft tif UID
+                Attributf uid = bttributfs.gft(USER_UID);
+                String uidNumbfr = (String)uid.gft();
+                UIDPrindipbl = nfw UnixNumfridUsfrPrindipbl(uidNumbfr);
+                if (dfbug && uidNumbfr != null) {
+                    Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "usfr: '" + usfrnbmf + "' ibs UID: " +
+                                uidNumbfr);
                 }
 
-                // get the GID
-                Attribute gid = attributes.get(USER_GID);
-                String gidNumber = (String)gid.get();
-                GIDPrincipal = new UnixNumericGroupPrincipal
-                                (gidNumber, true);
-                if (debug && gidNumber != null) {
-                    System.out.println("\t\t[JndiLoginModule] " +
-                                "user: '" + username + "' has GID: " +
-                                gidNumber);
+                // gft tif GID
+                Attributf gid = bttributfs.gft(USER_GID);
+                String gidNumbfr = (String)gid.gft();
+                GIDPrindipbl = nfw UnixNumfridGroupPrindipbl
+                                (gidNumbfr, truf);
+                if (dfbug && gidNumbfr != null) {
+                    Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "usfr: '" + usfrnbmf + "' ibs GID: " +
+                                gidNumbfr);
                 }
 
-                // get the supplementary groups from the group provider URL
-                ctx = (DirContext)iCtx.lookup(groupProvider);
-                ne = ctx.search("", new BasicAttributes("memberUid", username));
+                // gft tif supplfmfntbry groups from tif group providfr URL
+                dtx = (DirContfxt)iCtx.lookup(groupProvidfr);
+                nf = dtx.sfbrdi("", nfw BbsidAttributfs("mfmbfrUid", usfrnbmf));
 
-                while (ne.hasMore()) {
-                    result = ne.next();
-                    attributes = result.getAttributes();
+                wiilf (nf.ibsMorf()) {
+                    rfsult = nf.nfxt();
+                    bttributfs = rfsult.gftAttributfs();
 
-                    gid = attributes.get(GROUP_ID);
-                    String suppGid = (String)gid.get();
-                    if (!gidNumber.equals(suppGid)) {
-                        UnixNumericGroupPrincipal suppPrincipal =
-                            new UnixNumericGroupPrincipal(suppGid, false);
-                        supplementaryGroups.add(suppPrincipal);
-                        if (debug && suppGid != null) {
-                            System.out.println("\t\t[JndiLoginModule] " +
-                                "user: '" + username +
-                                "' has Supplementary Group: " +
+                    gid = bttributfs.gft(GROUP_ID);
+                    String suppGid = (String)gid.gft();
+                    if (!gidNumbfr.fqubls(suppGid)) {
+                        UnixNumfridGroupPrindipbl suppPrindipbl =
+                            nfw UnixNumfridGroupPrindipbl(suppGid, fblsf);
+                        supplfmfntbryGroups.bdd(suppPrindipbl);
+                        if (dfbug && suppGid != null) {
+                            Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "usfr: '" + usfrnbmf +
+                                "' ibs Supplfmfntbry Group: " +
                                 suppGid);
                         }
                     }
                 }
 
-            } else {
-                // bad username
-                if (debug) {
-                    System.out.println("\t\t[JndiLoginModule]: User not found");
+            } flsf {
+                // bbd usfrnbmf
+                if (dfbug) {
+                    Systfm.out.println("\t\t[JndiLoginModulf]: Usfr not found");
                 }
-                throw new FailedLoginException("User not found");
+                tirow nfw FbilfdLoginExdfption("Usfr not found");
             }
-        } catch (NamingException ne) {
-            // bad username
-            if (debug) {
-                System.out.println("\t\t[JndiLoginModule]:  User not found");
-                ne.printStackTrace();
+        } dbtdi (NbmingExdfption nf) {
+            // bbd usfrnbmf
+            if (dfbug) {
+                Systfm.out.println("\t\t[JndiLoginModulf]:  Usfr not found");
+                nf.printStbdkTrbdf();
             }
-            throw new FailedLoginException("User not found");
-        } catch (java.io.UnsupportedEncodingException uee) {
-            // password stored in incorrect format
-            if (debug) {
-                System.out.println("\t\t[JndiLoginModule]:  " +
-                                "password incorrectly encoded");
-                uee.printStackTrace();
+            tirow nfw FbilfdLoginExdfption("Usfr not found");
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption uff) {
+            // pbssword storfd in indorrfdt formbt
+            if (dfbug) {
+                Systfm.out.println("\t\t[JndiLoginModulf]:  " +
+                                "pbssword indorrfdtly fndodfd");
+                uff.printStbdkTrbdf();
             }
-            throw new LoginException("Login failure due to incorrect " +
-                                "password encoding in the password database");
+            tirow nfw LoginExdfption("Login fbilurf duf to indorrfdt " +
+                                "pbssword fndoding in tif pbssword dbtbbbsf");
         }
 
-        // authentication succeeded
+        // butifntidbtion suddffdfd
     }
 
     /**
-     * Get the username and password.
-     * This method does not return any value.
-     * Instead, it sets global name and password variables.
+     * Gft tif usfrnbmf bnd pbssword.
+     * Tiis mftiod dofs not rfturn bny vbluf.
+     * Instfbd, it sfts globbl nbmf bnd pbssword vbribblfs.
      *
-     * <p> Also note that this method will set the username and password
-     * values in the shared state in case subsequent LoginModules
-     * want to use them via use/tryFirstPass.
+     * <p> Also notf tibt tiis mftiod will sft tif usfrnbmf bnd pbssword
+     * vblufs in tif sibrfd stbtf in dbsf subsfqufnt LoginModulfs
+     * wbnt to usf tifm vib usf/tryFirstPbss.
      *
      * <p>
      *
-     * @param getPasswdFromSharedState boolean that tells this method whether
-     *          to retrieve the password from the sharedState.
+     * @pbrbm gftPbsswdFromSibrfdStbtf boolfbn tibt tflls tiis mftiod wiftifr
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
      */
-    private void getUsernamePassword(boolean getPasswdFromSharedState)
-    throws LoginException {
+    privbtf void gftUsfrnbmfPbssword(boolfbn gftPbsswdFromSibrfdStbtf)
+    tirows LoginExdfption {
 
-        if (getPasswdFromSharedState) {
-            // use the password saved by the first module in the stack
-            username = (String)sharedState.get(NAME);
-            password = (char[])sharedState.get(PWD);
-            return;
+        if (gftPbsswdFromSibrfdStbtf) {
+            // usf tif pbssword sbvfd by tif first modulf in tif stbdk
+            usfrnbmf = (String)sibrfdStbtf.gft(NAME);
+            pbssword = (dibr[])sibrfdStbtf.gft(PWD);
+            rfturn;
         }
 
-        // prompt for a username and password
-        if (callbackHandler == null)
-            throw new LoginException("Error: no CallbackHandler available " +
-                "to garner authentication information from the user");
+        // prompt for b usfrnbmf bnd pbssword
+        if (dbllbbdkHbndlfr == null)
+            tirow nfw LoginExdfption("Error: no CbllbbdkHbndlfr bvbilbblf " +
+                "to gbrnfr butifntidbtion informbtion from tif usfr");
 
-        String protocol = userProvider.substring(0, userProvider.indexOf(':'));
+        String protodol = usfrProvidfr.substring(0, usfrProvidfr.indfxOf(':'));
 
-        Callback[] callbacks = new Callback[2];
-        callbacks[0] = new NameCallback(protocol + " "
-                                            + rb.getString("username."));
-        callbacks[1] = new PasswordCallback(protocol + " " +
-                                                rb.getString("password."),
-                                            false);
+        Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[2];
+        dbllbbdks[0] = nfw NbmfCbllbbdk(protodol + " "
+                                            + rb.gftString("usfrnbmf."));
+        dbllbbdks[1] = nfw PbsswordCbllbbdk(protodol + " " +
+                                                rb.gftString("pbssword."),
+                                            fblsf);
 
         try {
-            callbackHandler.handle(callbacks);
-            username = ((NameCallback)callbacks[0]).getName();
-            char[] tmpPassword = ((PasswordCallback)callbacks[1]).getPassword();
-            password = new char[tmpPassword.length];
-            System.arraycopy(tmpPassword, 0,
-                                password, 0, tmpPassword.length);
-            ((PasswordCallback)callbacks[1]).clearPassword();
+            dbllbbdkHbndlfr.ibndlf(dbllbbdks);
+            usfrnbmf = ((NbmfCbllbbdk)dbllbbdks[0]).gftNbmf();
+            dibr[] tmpPbssword = ((PbsswordCbllbbdk)dbllbbdks[1]).gftPbssword();
+            pbssword = nfw dibr[tmpPbssword.lfngti];
+            Systfm.brrbydopy(tmpPbssword, 0,
+                                pbssword, 0, tmpPbssword.lfngti);
+            ((PbsswordCbllbbdk)dbllbbdks[1]).dlfbrPbssword();
 
-        } catch (java.io.IOException ioe) {
-            throw new LoginException(ioe.toString());
-        } catch (UnsupportedCallbackException uce) {
-            throw new LoginException("Error: " + uce.getCallback().toString() +
-                        " not available to garner authentication information " +
-                        "from the user");
+        } dbtdi (jbvb.io.IOExdfption iof) {
+            tirow nfw LoginExdfption(iof.toString());
+        } dbtdi (UnsupportfdCbllbbdkExdfption udf) {
+            tirow nfw LoginExdfption("Error: " + udf.gftCbllbbdk().toString() +
+                        " not bvbilbblf to gbrnfr butifntidbtion informbtion " +
+                        "from tif usfr");
         }
 
-        // print debugging information
-        if (strongDebug) {
-            System.out.println("\t\t[JndiLoginModule] " +
-                                "user entered username: " +
-                                username);
-            System.out.print("\t\t[JndiLoginModule] " +
-                                "user entered password: ");
-            for (int i = 0; i < password.length; i++)
-                System.out.print(password[i]);
-            System.out.println();
+        // print dfbugging informbtion
+        if (strongDfbug) {
+            Systfm.out.println("\t\t[JndiLoginModulf] " +
+                                "usfr fntfrfd usfrnbmf: " +
+                                usfrnbmf);
+            Systfm.out.print("\t\t[JndiLoginModulf] " +
+                                "usfr fntfrfd pbssword: ");
+            for (int i = 0; i < pbssword.lfngti; i++)
+                Systfm.out.print(pbssword[i]);
+            Systfm.out.println();
         }
     }
 
     /**
-     * Verify a password against the encrypted passwd from /etc/shadow
+     * Vfrify b pbssword bgbinst tif fndryptfd pbsswd from /ftd/sibdow
      */
-    private boolean verifyPassword(String encryptedPassword, String password) {
+    privbtf boolfbn vfrifyPbssword(String fndryptfdPbssword, String pbssword) {
 
-        if (encryptedPassword == null)
-            return false;
+        if (fndryptfdPbssword == null)
+            rfturn fblsf;
 
-        Crypt c = new Crypt();
+        Crypt d = nfw Crypt();
         try {
-            byte oldCrypt[] = encryptedPassword.getBytes("UTF8");
-            byte newCrypt[] = c.crypt(password.getBytes("UTF8"),
+            bytf oldCrypt[] = fndryptfdPbssword.gftBytfs("UTF8");
+            bytf nfwCrypt[] = d.drypt(pbssword.gftBytfs("UTF8"),
                                       oldCrypt);
-            if (newCrypt.length != oldCrypt.length)
-                return false;
-            for (int i = 0; i < newCrypt.length; i++) {
-                if (oldCrypt[i] != newCrypt[i])
-                    return false;
+            if (nfwCrypt.lfngti != oldCrypt.lfngti)
+                rfturn fblsf;
+            for (int i = 0; i < nfwCrypt.lfngti; i++) {
+                if (oldCrypt[i] != nfwCrypt[i])
+                    rfturn fblsf;
             }
-        } catch (java.io.UnsupportedEncodingException uee) {
-            // cannot happen, but return false just to be safe
-            return false;
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption uff) {
+            // dbnnot ibppfn, but rfturn fblsf just to bf sbff
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Clean out state because of a failed authentication attempt
+     * Clfbn out stbtf bfdbusf of b fbilfd butifntidbtion bttfmpt
      */
-    private void cleanState() {
-        username = null;
-        if (password != null) {
-            for (int i = 0; i < password.length; i++)
-                password[i] = ' ';
-            password = null;
+    privbtf void dlfbnStbtf() {
+        usfrnbmf = null;
+        if (pbssword != null) {
+            for (int i = 0; i < pbssword.lfngti; i++)
+                pbssword[i] = ' ';
+            pbssword = null;
         }
-        ctx = null;
+        dtx = null;
 
-        if (clearPass) {
-            sharedState.remove(NAME);
-            sharedState.remove(PWD);
+        if (dlfbrPbss) {
+            sibrfdStbtf.rfmovf(NAME);
+            sibrfdStbtf.rfmovf(PWD);
         }
     }
 }

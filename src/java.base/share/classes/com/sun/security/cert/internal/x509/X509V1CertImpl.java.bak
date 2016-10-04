@@ -1,326 +1,326 @@
 /*
- * Copyright (c) 1997, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.cert.internal.x509;
+pbdkbgf dom.sun.sfdurity.dfrt.intfrnbl.x509;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
-import java.io.ObjectOutputStream;
-import java.math.BigInteger;
-import java.security.Signature;
-import javax.security.cert.*;
-import java.security.*;
-import java.util.Date;
-import java.util.BitSet;
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.Signbturf;
+import jbvbx.sfdurity.dfrt.*;
+import jbvb.sfdurity.*;
+import jbvb.util.Dbtf;
+import jbvb.util.BitSft;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
 
 /**
- * The X509V1CertImpl class is used as a conversion wrapper around
- * sun.security.x509.X509Cert certificates when running under JDK1.1.x.
+ * Tif X509V1CfrtImpl dlbss is usfd bs b donvfrsion wrbppfr bround
+ * sun.sfdurity.x509.X509Cfrt dfrtifidbtfs wifn running undfr JDK1.1.x.
  *
- * @author Jeff Nisewanger
+ * @butior Jfff Nisfwbngfr
  */
-public class X509V1CertImpl extends X509Certificate implements Serializable {
-    static final long serialVersionUID = -2048442350420423405L;
-    private java.security.cert.X509Certificate wrappedCert;
+publid dlbss X509V1CfrtImpl fxtfnds X509Cfrtifidbtf implfmfnts Sfriblizbblf {
+    stbtid finbl long sfriblVfrsionUID = -2048442350420423405L;
+    privbtf jbvb.sfdurity.dfrt.X509Cfrtifidbtf wrbppfdCfrt;
 
-    synchronized private static java.security.cert.CertificateFactory
-    getFactory()
-    throws java.security.cert.CertificateException
+    syndironizfd privbtf stbtid jbvb.sfdurity.dfrt.CfrtifidbtfFbdtory
+    gftFbdtory()
+    tirows jbvb.sfdurity.dfrt.CfrtifidbtfExdfption
     {
-        return java.security.cert.CertificateFactory.getInstance("X.509");
+        rfturn jbvb.sfdurity.dfrt.CfrtifidbtfFbdtory.gftInstbndf("X.509");
     }
 
     /**
-     * Default constructor.
+     * Dffbult donstrudtor.
      */
-    public X509V1CertImpl() { }
+    publid X509V1CfrtImpl() { }
 
     /**
-     * Unmarshals a certificate from its encoded form, parsing the
-     * encoded bytes.  This form of constructor is used by agents which
-     * need to examine and use certificate contents.  That is, this is
-     * one of the more commonly used constructors.  Note that the buffer
-     * must include only a certificate, and no "garbage" may be left at
-     * the end.  If you need to ignore data at the end of a certificate,
-     * use another constructor.
+     * Unmbrsibls b dfrtifidbtf from its fndodfd form, pbrsing tif
+     * fndodfd bytfs.  Tiis form of donstrudtor is usfd by bgfnts wiidi
+     * nffd to fxbminf bnd usf dfrtifidbtf dontfnts.  Tibt is, tiis is
+     * onf of tif morf dommonly usfd donstrudtors.  Notf tibt tif bufffr
+     * must indludf only b dfrtifidbtf, bnd no "gbrbbgf" mby bf lfft bt
+     * tif fnd.  If you nffd to ignorf dbtb bt tif fnd of b dfrtifidbtf,
+     * usf bnotifr donstrudtor.
      *
-     * @param certData the encoded bytes, with no trailing padding.
-     * @exception CertificateException on parsing errors.
+     * @pbrbm dfrtDbtb tif fndodfd bytfs, witi no trbiling pbdding.
+     * @fxdfption CfrtifidbtfExdfption on pbrsing frrors.
      */
-    public X509V1CertImpl(byte[] certData)
-    throws CertificateException {
+    publid X509V1CfrtImpl(bytf[] dfrtDbtb)
+    tirows CfrtifidbtfExdfption {
         try {
-            ByteArrayInputStream bs;
+            BytfArrbyInputStrfbm bs;
 
-            bs = new ByteArrayInputStream(certData);
-            wrappedCert = (java.security.cert.X509Certificate)
-                getFactory().generateCertificate(bs);
-        } catch (java.security.cert.CertificateException e) {
-            throw new CertificateException(e.getMessage());
+            bs = nfw BytfArrbyInputStrfbm(dfrtDbtb);
+            wrbppfdCfrt = (jbvb.sfdurity.dfrt.X509Cfrtifidbtf)
+                gftFbdtory().gfnfrbtfCfrtifidbtf(bs);
+        } dbtdi (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            tirow nfw CfrtifidbtfExdfption(f.gftMfssbgf());
         }
     }
 
     /**
-     * unmarshals an X.509 certificate from an input stream.
+     * unmbrsibls bn X.509 dfrtifidbtf from bn input strfbm.
      *
-     * @param in an input stream holding at least one certificate
-     * @exception CertificateException on parsing errors.
+     * @pbrbm in bn input strfbm iolding bt lfbst onf dfrtifidbtf
+     * @fxdfption CfrtifidbtfExdfption on pbrsing frrors.
      */
-    public X509V1CertImpl(InputStream in)
-    throws CertificateException {
+    publid X509V1CfrtImpl(InputStrfbm in)
+    tirows CfrtifidbtfExdfption {
         try {
-            wrappedCert = (java.security.cert.X509Certificate)
-                getFactory().generateCertificate(in);
-        } catch (java.security.cert.CertificateException e) {
-            throw new CertificateException(e.getMessage());
+            wrbppfdCfrt = (jbvb.sfdurity.dfrt.X509Cfrtifidbtf)
+                gftFbdtory().gfnfrbtfCfrtifidbtf(in);
+        } dbtdi (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            tirow nfw CfrtifidbtfExdfption(f.gftMfssbgf());
         }
     }
 
     /**
-     * Returns the encoded form of this certificate. It is
-     * assumed that each certificate type would have only a single
-     * form of encoding; for example, X.509 certificates would
-     * be encoded as ASN.1 DER.
+     * Rfturns tif fndodfd form of tiis dfrtifidbtf. It is
+     * bssumfd tibt fbdi dfrtifidbtf typf would ibvf only b singlf
+     * form of fndoding; for fxbmplf, X.509 dfrtifidbtfs would
+     * bf fndodfd bs ASN.1 DER.
      */
-    public byte[] getEncoded() throws CertificateEncodingException {
+    publid bytf[] gftEndodfd() tirows CfrtifidbtfEndodingExdfption {
         try {
-            return wrappedCert.getEncoded();
-        } catch (java.security.cert.CertificateEncodingException e) {
-            throw new CertificateEncodingException(e.getMessage());
+            rfturn wrbppfdCfrt.gftEndodfd();
+        } dbtdi (jbvb.sfdurity.dfrt.CfrtifidbtfEndodingExdfption f) {
+            tirow nfw CfrtifidbtfEndodingExdfption(f.gftMfssbgf());
         }
     }
 
     /**
-     * Throws an exception if the certificate was not signed using the
-     * verification key provided.  Successfully verifying a certificate
-     * does <em>not</em> indicate that one should trust the entity which
-     * it represents.
+     * Tirows bn fxdfption if tif dfrtifidbtf wbs not signfd using tif
+     * vfrifidbtion kfy providfd.  Suddfssfully vfrifying b dfrtifidbtf
+     * dofs <fm>not</fm> indidbtf tibt onf siould trust tif fntity wiidi
+     * it rfprfsfnts.
      *
-     * @param key the public key used for verification.
+     * @pbrbm kfy tif publid kfy usfd for vfrifidbtion.
      */
-    public void verify(PublicKey key)
-        throws CertificateException, NoSuchAlgorithmException,
-        InvalidKeyException, NoSuchProviderException,
-        SignatureException
-    {
-        try {
-            wrappedCert.verify(key);
-        } catch (java.security.cert.CertificateException e) {
-            throw new CertificateException(e.getMessage());
-        }
-    }
-
-    /**
-     * Throws an exception if the certificate was not signed using the
-     * verification key provided.  Successfully verifying a certificate
-     * does <em>not</em> indicate that one should trust the entity which
-     * it represents.
-     *
-     * @param key the public key used for verification.
-     * @param sigProvider the name of the provider.
-     */
-    public void verify(PublicKey key, String sigProvider)
-        throws CertificateException, NoSuchAlgorithmException,
-        InvalidKeyException, NoSuchProviderException,
-        SignatureException
+    publid void vfrify(PublidKfy kfy)
+        tirows CfrtifidbtfExdfption, NoSudiAlgoritimExdfption,
+        InvblidKfyExdfption, NoSudiProvidfrExdfption,
+        SignbturfExdfption
     {
         try {
-            wrappedCert.verify(key, sigProvider);
-        } catch (java.security.cert.CertificateException e) {
-            throw new CertificateException(e.getMessage());
+            wrbppfdCfrt.vfrify(kfy);
+        } dbtdi (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            tirow nfw CfrtifidbtfExdfption(f.gftMfssbgf());
         }
     }
 
     /**
-     * Checks that the certificate is currently valid, i.e. the current
-     * time is within the specified validity period.
-     */
-    public void checkValidity() throws
-      CertificateExpiredException, CertificateNotYetValidException {
-        checkValidity(new Date());
-    }
-
-    /**
-     * Checks that the specified date is within the certificate's
-     * validity period, or basically if the certificate would be
-     * valid at the specified date/time.
+     * Tirows bn fxdfption if tif dfrtifidbtf wbs not signfd using tif
+     * vfrifidbtion kfy providfd.  Suddfssfully vfrifying b dfrtifidbtf
+     * dofs <fm>not</fm> indidbtf tibt onf siould trust tif fntity wiidi
+     * it rfprfsfnts.
      *
-     * @param date the Date to check against to see if this certificate
-     *        is valid at that date/time.
+     * @pbrbm kfy tif publid kfy usfd for vfrifidbtion.
+     * @pbrbm sigProvidfr tif nbmf of tif providfr.
      */
-    public void checkValidity(Date date) throws
-      CertificateExpiredException, CertificateNotYetValidException {
+    publid void vfrify(PublidKfy kfy, String sigProvidfr)
+        tirows CfrtifidbtfExdfption, NoSudiAlgoritimExdfption,
+        InvblidKfyExdfption, NoSudiProvidfrExdfption,
+        SignbturfExdfption
+    {
         try {
-            wrappedCert.checkValidity(date);
-        } catch (java.security.cert.CertificateNotYetValidException e) {
-            throw new CertificateNotYetValidException(e.getMessage());
-        } catch (java.security.cert.CertificateExpiredException e) {
-            throw new CertificateExpiredException(e.getMessage());
+            wrbppfdCfrt.vfrify(kfy, sigProvidfr);
+        } dbtdi (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            tirow nfw CfrtifidbtfExdfption(f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Cifdks tibt tif dfrtifidbtf is durrfntly vblid, i.f. tif durrfnt
+     * timf is witiin tif spfdififd vblidity pfriod.
+     */
+    publid void difdkVblidity() tirows
+      CfrtifidbtfExpirfdExdfption, CfrtifidbtfNotYftVblidExdfption {
+        difdkVblidity(nfw Dbtf());
+    }
+
+    /**
+     * Cifdks tibt tif spfdififd dbtf is witiin tif dfrtifidbtf's
+     * vblidity pfriod, or bbsidblly if tif dfrtifidbtf would bf
+     * vblid bt tif spfdififd dbtf/timf.
+     *
+     * @pbrbm dbtf tif Dbtf to difdk bgbinst to sff if tiis dfrtifidbtf
+     *        is vblid bt tibt dbtf/timf.
+     */
+    publid void difdkVblidity(Dbtf dbtf) tirows
+      CfrtifidbtfExpirfdExdfption, CfrtifidbtfNotYftVblidExdfption {
+        try {
+            wrbppfdCfrt.difdkVblidity(dbtf);
+        } dbtdi (jbvb.sfdurity.dfrt.CfrtifidbtfNotYftVblidExdfption f) {
+            tirow nfw CfrtifidbtfNotYftVblidExdfption(f.gftMfssbgf());
+        } dbtdi (jbvb.sfdurity.dfrt.CfrtifidbtfExpirfdExdfption f) {
+            tirow nfw CfrtifidbtfExpirfdExdfption(f.gftMfssbgf());
         }
     }
 
 
     /**
-     * Returns a printable representation of the certificate.  This does not
-     * contain all the information available to distinguish this from any
-     * other certificate.  The certificate must be fully constructed
-     * before this function may be called.
+     * Rfturns b printbblf rfprfsfntbtion of tif dfrtifidbtf.  Tiis dofs not
+     * dontbin bll tif informbtion bvbilbblf to distinguisi tiis from bny
+     * otifr dfrtifidbtf.  Tif dfrtifidbtf must bf fully donstrudtfd
+     * bfforf tiis fundtion mby bf dbllfd.
      */
-    public String toString() {
-        return wrappedCert.toString();
+    publid String toString() {
+        rfturn wrbppfdCfrt.toString();
     }
 
     /**
-     * Gets the publickey from this certificate.
+     * Gfts tif publidkfy from tiis dfrtifidbtf.
      *
-     * @return the publickey.
+     * @rfturn tif publidkfy.
      */
-    public PublicKey getPublicKey() {
-        PublicKey key = wrappedCert.getPublicKey();
-        return key;
+    publid PublidKfy gftPublidKfy() {
+        PublidKfy kfy = wrbppfdCfrt.gftPublidKfy();
+        rfturn kfy;
     }
 
     /*
-     * Gets the version number from the certificate.
+     * Gfts tif vfrsion numbfr from tif dfrtifidbtf.
      *
-     * @return the version number.
+     * @rfturn tif vfrsion numbfr.
      */
-    public int getVersion() {
-        return wrappedCert.getVersion() - 1;
+    publid int gftVfrsion() {
+        rfturn wrbppfdCfrt.gftVfrsion() - 1;
     }
 
     /**
-     * Gets the serial number from the certificate.
+     * Gfts tif sfribl numbfr from tif dfrtifidbtf.
      *
-     * @return the serial number.
+     * @rfturn tif sfribl numbfr.
      */
-    public BigInteger getSerialNumber() {
-        return wrappedCert.getSerialNumber();
+    publid BigIntfgfr gftSfriblNumbfr() {
+        rfturn wrbppfdCfrt.gftSfriblNumbfr();
     }
 
     /**
-     * Gets the subject distinguished name from the certificate.
+     * Gfts tif subjfdt distinguisifd nbmf from tif dfrtifidbtf.
      *
-     * @return the subject name.
-     * @exception CertificateException if a parsing error occurs.
+     * @rfturn tif subjfdt nbmf.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
      */
-    public Principal getSubjectDN() {
-        return wrappedCert.getSubjectDN();
+    publid Prindipbl gftSubjfdtDN() {
+        rfturn wrbppfdCfrt.gftSubjfdtDN();
     }
 
     /**
-     * Gets the issuer distinguished name from the certificate.
+     * Gfts tif issufr distinguisifd nbmf from tif dfrtifidbtf.
      *
-     * @return the issuer name.
-     * @exception CertificateException if a parsing error occurs.
+     * @rfturn tif issufr nbmf.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
      */
-    public Principal getIssuerDN() {
-        return wrappedCert.getIssuerDN();
+    publid Prindipbl gftIssufrDN() {
+        rfturn wrbppfdCfrt.gftIssufrDN();
     }
 
     /**
-     * Gets the notBefore date from the validity period of the certificate.
+     * Gfts tif notBfforf dbtf from tif vblidity pfriod of tif dfrtifidbtf.
      *
-     * @return the start date of the validity period.
-     * @exception CertificateException if a parsing error occurs.
+     * @rfturn tif stbrt dbtf of tif vblidity pfriod.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
      */
-    public Date getNotBefore() {
-        return wrappedCert.getNotBefore();
+    publid Dbtf gftNotBfforf() {
+        rfturn wrbppfdCfrt.gftNotBfforf();
     }
 
     /**
-     * Gets the notAfter date from the validity period of the certificate.
+     * Gfts tif notAftfr dbtf from tif vblidity pfriod of tif dfrtifidbtf.
      *
-     * @return the end date of the validity period.
-     * @exception CertificateException if a parsing error occurs.
+     * @rfturn tif fnd dbtf of tif vblidity pfriod.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
      */
-    public Date getNotAfter() {
-        return wrappedCert.getNotAfter();
+    publid Dbtf gftNotAftfr() {
+        rfturn wrbppfdCfrt.gftNotAftfr();
     }
 
     /**
-     * Gets the signature algorithm name for the certificate
-     * signature algorithm.
-     * For example, the string "SHA1/DSA".
+     * Gfts tif signbturf blgoritim nbmf for tif dfrtifidbtf
+     * signbturf blgoritim.
+     * For fxbmplf, tif string "SHA1/DSA".
      *
-     * @return the signature algorithm name.
-     * @exception CertificateException if a parsing error occurs.
+     * @rfturn tif signbturf blgoritim nbmf.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
      */
-    public String getSigAlgName() {
-        return wrappedCert.getSigAlgName();
+    publid String gftSigAlgNbmf() {
+        rfturn wrbppfdCfrt.gftSigAlgNbmf();
     }
 
     /**
-     * Gets the signature algorithm OID string from the certificate.
-     * For example, the string "1.2.840.10040.4.3"
+     * Gfts tif signbturf blgoritim OID string from tif dfrtifidbtf.
+     * For fxbmplf, tif string "1.2.840.10040.4.3"
      *
-     * @return the signature algorithm oid string.
-     * @exception CertificateException if a parsing error occurs.
+     * @rfturn tif signbturf blgoritim oid string.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
      */
-    public String getSigAlgOID() {
-        return wrappedCert.getSigAlgOID();
+    publid String gftSigAlgOID() {
+        rfturn wrbppfdCfrt.gftSigAlgOID();
     }
 
     /**
-     * Gets the DER encoded signature algorithm parameters from this
-     * certificate's signature algorithm.
+     * Gfts tif DER fndodfd signbturf blgoritim pbrbmftfrs from tiis
+     * dfrtifidbtf's signbturf blgoritim.
      *
-     * @return the DER encoded signature algorithm parameters, or
-     *         null if no parameters are present.
-     * @exception CertificateException if a parsing error occurs.
+     * @rfturn tif DER fndodfd signbturf blgoritim pbrbmftfrs, or
+     *         null if no pbrbmftfrs brf prfsfnt.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
      */
-    public byte[] getSigAlgParams() {
-        return wrappedCert.getSigAlgParams();
+    publid bytf[] gftSigAlgPbrbms() {
+        rfturn wrbppfdCfrt.gftSigAlgPbrbms();
     }
 
-    private synchronized void writeObject(ObjectOutputStream stream)
-        throws IOException {
+    privbtf syndironizfd void writfObjfdt(ObjfdtOutputStrfbm strfbm)
+        tirows IOExdfption {
         try {
-            stream.write(getEncoded());
-        } catch (CertificateEncodingException e) {
-            throw new IOException("getEncoded failed: " + e.getMessage());
+            strfbm.writf(gftEndodfd());
+        } dbtdi (CfrtifidbtfEndodingExdfption f) {
+            tirow nfw IOExdfption("gftEndodfd fbilfd: " + f.gftMfssbgf());
         }
     }
 
-    private synchronized void readObject(ObjectInputStream stream)
-        throws IOException {
+    privbtf syndironizfd void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+        tirows IOExdfption {
         try {
-            wrappedCert = (java.security.cert.X509Certificate)
-                getFactory().generateCertificate(stream);
-        } catch (java.security.cert.CertificateException e) {
-            throw new IOException("generateCertificate failed: " + e.getMessage());
+            wrbppfdCfrt = (jbvb.sfdurity.dfrt.X509Cfrtifidbtf)
+                gftFbdtory().gfnfrbtfCfrtifidbtf(strfbm);
+        } dbtdi (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            tirow nfw IOExdfption("gfnfrbtfCfrtifidbtf fbilfd: " + f.gftMfssbgf());
         }
     }
 
-    public java.security.cert.X509Certificate getX509Certificate() {
-        return wrappedCert;
+    publid jbvb.sfdurity.dfrt.X509Cfrtifidbtf gftX509Cfrtifidbtf() {
+        rfturn wrbppfdCfrt;
     }
 }

@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2004, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
-  What is the dead simplest thing to do?
-  Extend AbstractMap and don't optimize for anything.
+  Wibt is tif dfbd simplfst tiing to do?
+  Extfnd AbstrbdtMbp bnd don't optimizf for bnytiing.
 
-  The only new api is 'getValues()' which returns the values struct as
-  long as no map api has been called.  If any map api is called,
-  create a real map and forward to it, and nuke values because of the
-  possibility that the map has been changed.  This is easier than
-  trying to create a map that only clears values if the map has been
-  changed, or implementing the map API directly on top of the values
-  struct.  We can always do that later if need be.
+  Tif only nfw bpi is 'gftVblufs()' wiidi rfturns tif vblufs strudt bs
+  long bs no mbp bpi ibs bffn dbllfd.  If bny mbp bpi is dbllfd,
+  drfbtf b rfbl mbp bnd forwbrd to it, bnd nukf vblufs bfdbusf of tif
+  possibility tibt tif mbp ibs bffn dibngfd.  Tiis is fbsifr tibn
+  trying to drfbtf b mbp tibt only dlfbrs vblufs if tif mbp ibs bffn
+  dibngfd, or implfmfnting tif mbp API dirfdtly on top of tif vblufs
+  strudt.  Wf dbn blwbys do tibt lbtfr if nffd bf.
 */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Paint;
-import java.awt.font.GraphicAttribute;
-import java.awt.font.NumericShaper;
-import java.awt.font.TextAttribute;
-import java.awt.font.TransformAttribute;
-import java.awt.geom.AffineTransform;
-import java.awt.im.InputMethodHighlight;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.font.GrbpiidAttributf;
+import jbvb.bwt.font.NumfridSibpfr;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TrbnsformAttributf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.im.InputMftiodHigiligit;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor.Attributf;
+import jbvb.util.AbstrbdtMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.Mbp.Entry;
 
-import static sun.font.AttributeValues.*;
+import stbtid sun.font.AttributfVblufs.*;
 
-public final class AttributeMap extends AbstractMap<TextAttribute, Object> {
-    private AttributeValues values;
-    private Map<TextAttribute, Object> delegateMap;
+publid finbl dlbss AttributfMbp fxtfnds AbstrbdtMbp<TfxtAttributf, Objfdt> {
+    privbtf AttributfVblufs vblufs;
+    privbtf Mbp<TfxtAttributf, Objfdt> dflfgbtfMbp;
 
-    public AttributeMap(AttributeValues values) {
-        this.values = values;
+    publid AttributfMbp(AttributfVblufs vblufs) {
+        tiis.vblufs = vblufs;
     }
 
-    public Set<Entry<TextAttribute, Object>> entrySet() {
-        return delegate().entrySet();
+    publid Sft<Entry<TfxtAttributf, Objfdt>> fntrySft() {
+        rfturn dflfgbtf().fntrySft();
     }
 
-    public Object put(TextAttribute key, Object value) {
-        return delegate().put(key, value);
+    publid Objfdt put(TfxtAttributf kfy, Objfdt vbluf) {
+        rfturn dflfgbtf().put(kfy, vbluf);
     }
 
-    // internal API
-    public AttributeValues getValues() {
-        return values;
+    // intfrnbl API
+    publid AttributfVblufs gftVblufs() {
+        rfturn vblufs;
     }
 
-    private static boolean first = false; // debug
-    private Map<TextAttribute, Object> delegate() {
-        if (delegateMap == null) {
+    privbtf stbtid boolfbn first = fblsf; // dfbug
+    privbtf Mbp<TfxtAttributf, Objfdt> dflfgbtf() {
+        if (dflfgbtfMbp == null) {
             if (first) {
-                first = false;
-                Thread.dumpStack();
+                first = fblsf;
+                Tirfbd.dumpStbdk();
             }
-            delegateMap = values.toMap(new HashMap<TextAttribute, Object>(27));
+            dflfgbtfMbp = vblufs.toMbp(nfw HbsiMbp<TfxtAttributf, Objfdt>(27));
 
-            // nuke values, once map is accessible it might be mutated and values would
-            // no longer reflect its contents
-            values = null;
+            // nukf vblufs, ondf mbp is bddfssiblf it migit bf mutbtfd bnd vblufs would
+            // no longfr rfflfdt its dontfnts
+            vblufs = null;
         }
 
-        return delegateMap;
+        rfturn dflfgbtfMbp;
     }
 
-    public String toString() {
-        if (values != null) {
-            return "map of " + values.toString();
+    publid String toString() {
+        if (vblufs != null) {
+            rfturn "mbp of " + vblufs.toString();
         }
-        return super.toString();
+        rfturn supfr.toString();
     }
 }

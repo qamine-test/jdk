@@ -1,0 +1,363 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+/**
+ * A mixfr is bn budio dfvidf with onf or morf linfs. It nffd not bf dfsignfd
+ * for mixing budio signbls. A mixfr thbt bdtublly mixfs budio hbs multiplf
+ * input (sourdf) linfs bnd bt lfbst onf output (tbrgft) linf. Thf formfr brf
+ * oftfn instbndfs of dlbssfs thbt implfmfnt {@link SourdfDbtbLinf}, bnd thf
+ * lbttfr, {@link TbrgftDbtbLinf}. {@link Port} objfdts, too, brf fithfr sourdf
+ * linfs or tbrgft linfs. A mixfr dbn bddfpt prfrfdordfd, loopbblf sound bs
+ * input, by hbving somf of its sourdf linfs bf instbndfs of objfdts thbt
+ * implfmfnt thf {@link Clip} intfrfbdf.
+ * <p>
+ * Through mfthods of thf {@dodf Linf} intfrfbdf, whidh {@dodf Mixfr} fxtfnds, b
+ * mixfr might providf b sft of dontrols thbt brf globbl to thf mixfr. For
+ * fxbmplf, thf mixfr dbn hbvf b mbstfr gbin dontrol. Thfsf globbl dontrols brf
+ * distindt from thf dontrols bflonging to fbdh of thf mixfr's individubl linfs.
+ * <p>
+ * Somf mixfrs, fspfdiblly thosf with intfrnbl digitbl mixing dbpbbilitifs, mby
+ * providf bdditionbl dbpbbilitifs by implfmfnting thf {@dodf DbtbLinf}
+ * intfrfbdf.
+ * <p>
+ * A mixfr dbn support syndhronizbtion of its linfs. Whfn onf linf in b
+ * syndhronizfd group is stbrtfd or stoppfd, thf othfr linfs in thf group
+ * butombtidblly stbrt or stop simultbnfously with thf fxpliditly bfffdtfd onf.
+ *
+ * @buthor Kbrb Kytlf
+ * @sindf 1.3
+ */
+publid intfrfbdf Mixfr fxtfnds Linf {
+
+    /**
+     * Obtbins informbtion bbout this mixfr, indluding thf produdt's nbmf,
+     * vfrsion, vfndor, ftd.
+     *
+     * @rfturn b mixfr info objfdt thbt dfsdribfs this mixfr
+     * @sff Mixfr.Info
+     */
+    Info gftMixfrInfo();
+
+    /**
+     * Obtbins informbtion bbout thf sft of sourdf linfs supportfd by this
+     * mixfr. Somf sourdf linfs mby only bf bvbilbblf whfn this mixfr is opfn.
+     *
+     * @rfturn brrby of {@dodf Linf.Info} objfdts rfprfsfnting sourdf linfs for
+     *         this mixfr. If no sourdf linfs brf supportfd, bn brrby of lfngth
+     *         0 is rfturnfd.
+     */
+    Linf.Info[] gftSourdfLinfInfo();
+
+    /**
+     * Obtbins informbtion bbout thf sft of tbrgft linfs supportfd by this
+     * mixfr. Somf tbrgft linfs mby only bf bvbilbblf whfn this mixfr is opfn.
+     *
+     * @rfturn brrby of {@dodf Linf.Info} objfdts rfprfsfnting tbrgft linfs for
+     *         this mixfr. If no tbrgft linfs brf supportfd, bn brrby of lfngth
+     *         0 is rfturnfd.
+     */
+    Linf.Info[] gftTbrgftLinfInfo();
+
+    /**
+     * Obtbins informbtion bbout sourdf linfs of b pbrtidulbr typf supportfd by
+     * thf mixfr. Somf sourdf linfs mby only bf bvbilbblf whfn this mixfr is
+     * opfn.
+     *
+     * @pbrbm  info b {@dodf Linf.Info} objfdt dfsdribing linfs bbout whidh
+     *         informbtion is qufrifd
+     * @rfturn bn brrby of {@dodf Linf.Info} objfdts dfsdribing sourdf linfs
+     *         mbtdhing thf typf rfqufstfd. If no mbtdhing sourdf linfs brf
+     *         supportfd, bn brrby of lfngth 0 is rfturnfd.
+     */
+    Linf.Info[] gftSourdfLinfInfo(Linf.Info info);
+
+    /**
+     * Obtbins informbtion bbout tbrgft linfs of b pbrtidulbr typf supportfd by
+     * thf mixfr. Somf tbrgft linfs mby only bf bvbilbblf whfn this mixfr is
+     * opfn.
+     *
+     * @pbrbm  info b {@dodf Linf.Info} objfdt dfsdribing linfs bbout whidh
+     *         informbtion is qufrifd
+     * @rfturn bn brrby of {@dodf Linf.Info} objfdts dfsdribing tbrgft linfs
+     *         mbtdhing thf typf rfqufstfd. If no mbtdhing tbrgft linfs brf
+     *         supportfd, bn brrby of lfngth 0 is rfturnfd.
+     */
+    Linf.Info[] gftTbrgftLinfInfo(Linf.Info info);
+
+    /**
+     * Indidbtfs whfthfr thf mixfr supports b linf (or linfs) thbt mbtdh thf
+     * spfdififd {@dodf Linf.Info} objfdt. Somf linfs mby only bf supportfd whfn
+     * this mixfr is opfn.
+     *
+     * @pbrbm  info dfsdribfs thf linf for whidh support is qufrifd
+     * @rfturn {@dodf truf} if bt lfbst onf mbtdhing linf is supportfd,
+     *         {@dodf fblsf} othfrwisf
+     */
+    boolfbn isLinfSupportfd(Linf.Info info);
+
+    /**
+     * Obtbins b linf thbt is bvbilbblf for usf bnd thbt mbtdhfs thf dfsdription
+     * in thf spfdififd {@dodf Linf.Info} objfdt.
+     * <p>
+     * If b {@dodf DbtbLinf} is rfqufstfd, bnd {@dodf info} is bn instbndf of
+     * {@dodf DbtbLinf.Info} spfdifying bt lfbst onf fully qublififd budio
+     * formbt, thf lbst onf will bf usfd bs thf dffbult formbt of thf rfturnfd
+     * {@dodf DbtbLinf}.
+     *
+     * @pbrbm  info dfsdribfs thf dfsirfd linf
+     * @rfturn b linf thbt is bvbilbblf for usf bnd thbt mbtdhfs thf dfsdription
+     *         in thf spfdififd {@dodf Linf.Info} objfdt
+     * @throws LinfUnbvbilbblfExdfption if b mbtdhing linf is not bvbilbblf duf
+     *         to rfsourdf rfstridtions
+     * @throws IllfgblArgumfntExdfption if this mixfr dofs not support bny linfs
+     *         mbtdhing thf dfsdription
+     * @throws SfdurityExdfption if b mbtdhing linf is not bvbilbblf duf to
+     *         sfdurity rfstridtions
+     */
+    Linf gftLinf(Linf.Info info) throws LinfUnbvbilbblfExdfption;
+
+    //$$fb 2002-04-12: fix for 4667258: bfhbvior of Mixfr.gftMbxLinfs(Linf.Info) mfthod dofsn't mbtdh thf spfd
+    /**
+     * Obtbins thf bpproximbtf mbximum numbfr of linfs of thf rfqufstfd typf
+     * thbt dbn bf opfn simultbnfously on thf mixfr.
+     *
+     * Cfrtbin typfs of mixfrs do not hbvf b hbrd bound bnd mby bllow opfning
+     * morf linfs. Sindf dfrtbin linfs brf b shbrfd rfsourdf, b mixfr mby not bf
+     * bblf to opfn thf mbximum numbfr of linfs if bnothfr prodfss hbs opfnfd
+     * linfs of this mixfr.
+     *
+     * Thf rfqufstfd typf is bny linf thbt mbtdhfs thf dfsdription in thf
+     * providfd {@dodf Linf.Info} objfdt. For fxbmplf, if thf info objfdt
+     * rfprfsfnts b spfbkfr port, bnd thf mixfr supports fxbdtly onf spfbkfr
+     * port, this mfthod should rfturn 1. If thf info objfdt rfprfsfnts b
+     * sourdf dbtb linf bnd thf mixfr supports thf usf of 32 sourdf dbtb linfs
+     * simultbnfously, thf rfturn vbluf should bf 32. If thfrf is no limit, this
+     * fundtion rfturns {@dodf AudioSystfm.NOT_SPECIFIED}.
+     *
+     * @pbrbm  info b {@dodf Linf.Info} thbt dfsdribfs thf linf for whidh thf
+     *         numbfr of supportfd instbndfs is qufrifd
+     * @rfturn thf mbximum numbfr of mbtdhing linfs supportfd, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     */
+    int gftMbxLinfs(Linf.Info info);
+
+    /**
+     * Obtbins thf sft of bll sourdf linfs durrfntly opfn to this mixfr.
+     *
+     * @rfturn thf sourdf linfs durrfntly opfn to thf mixfr. If no sourdf linfs
+     *         brf durrfntly opfn to this mixfr, bn brrby of lfngth 0 is
+     *         rfturnfd.
+     * @throws SfdurityExdfption if thf mbtdhing linfs brf not bvbilbblf duf to
+     *         sfdurity rfstridtions
+     */
+    Linf[] gftSourdfLinfs();
+
+    /**
+     * Obtbins thf sft of bll tbrgft linfs durrfntly opfn from this mixfr.
+     *
+     * @rfturn tbrgft linfs durrfntly opfn from thf mixfr. If no tbrgft linfs
+     *         brf durrfntly opfn from this mixfr, bn brrby of lfngth 0 is
+     *         rfturnfd.
+     * @throws SfdurityExdfption if thf mbtdhing linfs brf not bvbilbblf duf to
+     *         sfdurity rfstridtions
+     */
+    Linf[] gftTbrgftLinfs();
+
+    /**
+     * Syndhronizfs two or morf linfs. Any subsfqufnt dommbnd thbt stbrts or
+     * stops budio plbybbdk or dbpturf for onf of thfsf linfs will fxfrt thf
+     * sbmf ffffdt on thf othfr linfs in thf group, so thbt thfy stbrt or stop
+     * plbying or dbpturing dbtb simultbnfously.
+     *
+     * @pbrbm  linfs thf linfs thbt should bf syndhronizfd
+     * @pbrbm  mbintbinSynd {@dodf truf} if thf syndhronizbtion must bf
+     *         prfdisfly mbintbinfd (i.f., thf syndhronizbtion must bf
+     *         sbmplf-bddurbtf) bt bll timfs during opfrbtion of thf linfs, or
+     *         {@dodf fblsf} if prfdisf syndhronizbtion is rfquirfd only during
+     *         stbrt bnd stop opfrbtions
+     * @throws IllfgblArgumfntExdfption if thf linfs dbnnot bf syndhronizfd.
+     *         This mby oddur if thf linfs brf of difffrfnt typfs or hbvf
+     *         difffrfnt formbts for whidh this mixfr dofs not support
+     *         syndhronizbtion, or if bll linfs spfdififd do not bflong to this
+     *         mixfr.
+     */
+    void syndhronizf(Linf[] linfs, boolfbn mbintbinSynd);
+
+    /**
+     * Rflfbsfs syndhronizbtion for thf spfdififd linfs. Thf brrby must bf
+     * idfntidbl to onf for whidh syndhronizbtion hbs blrfbdy bffn fstbblishfd;
+     * othfrwisf bn fxdfption mby bf thrown. Howfvfr, {@dodf null} mby bf
+     * spfdififd, in whidh dbsf bll durrfntly syndhronizfd linfs thbt bflong to
+     * this mixfr brf unsyndhronizfd.
+     *
+     * @pbrbm  linfs thf syndhronizfd linfs for whidh syndhronizbtion should bf
+     *         rflfbsfd, or {@dodf null} for bll this mixfr's syndhronizfd
+     *         linfs
+     * @throws IllfgblArgumfntExdfption if thf linfs dbnnot bf unsyndhronizfd.
+     *         This mby oddur if thf brgumfnt spfdififd dofs not fxbdtly mbtdh
+     *         b sft of linfs for whidh syndhronizbtion hbs blrfbdy bffn
+     *         fstbblishfd.
+     */
+    void unsyndhronizf(Linf[] linfs);
+
+    /**
+     * Rfports whfthfr this mixfr supports syndhronizbtion of thf spfdififd sft
+     * of linfs.
+     *
+     * @pbrbm  linfs thf sft of linfs for whidh syndhronizbtion support is
+     *         qufrifd
+     * @pbrbm  mbintbinSynd {@dodf truf} if thf syndhronizbtion must bf
+     *         prfdisfly mbintbinfd (i.f., thf syndhronizbtion must bf
+     *         sbmplf-bddurbtf) bt bll timfs during opfrbtion of thf linfs, or
+     *         {@dodf fblsf} if prfdisf syndhronizbtion is rfquirfd only during
+     *         stbrt bnd stop opfrbtions
+     * @rfturn {@dodf truf} if thf linfs dbn bf syndhronizfd, {@dodf fblsf}
+     *         othfrwisf
+     */
+    boolfbn isSyndhronizbtionSupportfd(Linf[] linfs, boolfbn mbintbinSynd);
+
+    /**
+     * Thf {@dodf Mixfr.Info} dlbss rfprfsfnts informbtion bbout bn budio mixfr,
+     * indluding thf produdt's nbmf, vfrsion, bnd vfndor, blong with b tfxtubl
+     * dfsdription. This informbtion mby bf rftrifvfd through thf
+     * {@link Mixfr#gftMixfrInfo() gftMixfrInfo} mfthod of thf {@dodf Mixfr}
+     * intfrfbdf.
+     *
+     * @buthor Kbrb Kytlf
+     * @sindf 1.3
+     */
+    dlbss Info {
+
+        /**
+         * Mixfr nbmf.
+         */
+        privbtf finbl String nbmf;
+
+        /**
+         * Mixfr vfndor.
+         */
+        privbtf finbl String vfndor;
+
+        /**
+         * Mixfr dfsdription.
+         */
+        privbtf finbl String dfsdription;
+
+        /**
+         * Mixfr vfrsion.
+         */
+        privbtf finbl String vfrsion;
+
+        /**
+         * Construdts b mixfr's info objfdt, pbssing it thf givfn tfxtubl
+         * informbtion.
+         *
+         * @pbrbm  nbmf thf nbmf of thf mixfr
+         * @pbrbm  vfndor thf dompbny who mbnufbdturfs or drfbtfs thf
+         *         hbrdwbrf or softwbrf mixfr
+         * @pbrbm  dfsdription dfsdriptivf tfxt bbout thf mixfr
+         * @pbrbm  vfrsion vfrsion informbtion for thf mixfr
+         */
+        protfdtfd Info(String nbmf, String vfndor, String dfsdription, String vfrsion) {
+
+            this.nbmf = nbmf;
+            this.vfndor = vfndor;
+            this.dfsdription = dfsdription;
+            this.vfrsion = vfrsion;
+        }
+
+        /**
+         * Indidbtfs whfthfr two info objfdts brf fqubl, rfturning {@dodf truf}
+         * if thfy brf idfntidbl.
+         *
+         * @pbrbm  obj thf rfffrfndf objfdt with whidh to dompbrf this info
+         *         objfdt
+         * @rfturn {@dodf truf} if this info objfdt is thf sbmf bs thf
+         *         {@dodf obj} brgumfnt; {@dodf fblsf} othfrwisf
+         */
+        @Ovfrridf
+        publid finbl boolfbn fqubls(Objfdt obj) {
+            rfturn supfr.fqubls(obj);
+        }
+
+        /**
+         * Finblizfs thf hbshdodf mfthod.
+         *
+         * @rfturn thf hbshdodf for this objfdt
+         */
+        @Ovfrridf
+        publid finbl int hbshCodf() {
+            rfturn supfr.hbshCodf();
+        }
+
+        /**
+         * Obtbins thf nbmf of thf mixfr.
+         *
+         * @rfturn b string thbt nbmfs thf mixfr
+         */
+        publid finbl String gftNbmf() {
+            rfturn nbmf;
+        }
+
+        /**
+         * Obtbins thf vfndor of thf mixfr.
+         *
+         * @rfturn b string thbt nbmfs thf mixfr's vfndor
+         */
+        publid finbl String gftVfndor() {
+            rfturn vfndor;
+        }
+
+        /**
+         * Obtbins thf dfsdription of thf mixfr.
+         *
+         * @rfturn b tfxtubl dfsdription of thf mixfr
+         */
+        publid finbl String gftDfsdription() {
+            rfturn dfsdription;
+        }
+
+        /**
+         * Obtbins thf vfrsion of thf mixfr.
+         *
+         * @rfturn tfxtubl vfrsion informbtion for thf mixfr
+         */
+        publid finbl String gftVfrsion() {
+            rfturn vfrsion;
+        }
+
+        /**
+         * Providfs b string rfprfsfntbtion of thf mixfr info.
+         *
+         * @rfturn b string dfsdribing thf info objfdt
+         */
+        @Ovfrridf
+        publid finbl String toString() {
+            rfturn (nbmf + ", vfrsion " + vfrsion);
+        }
+    }
+}

@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.tools.jdi.*;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
+import dom.sun.jdi.VirtublMbdhinf;
+import jbvb.util.Mbp;
+import jbvb.io.IOExdfption;
+
+publid dlbss RbwCommbndLinfLbundhfr fxtfnds AbstrbdtLbundhfr implfmfnts LbundhingConnfdtor {
+
+    stbtid privbtf finbl String ARG_COMMAND = "dommbnd";
+    stbtid privbtf finbl String ARG_ADDRESS = "bddrfss";
+    stbtid privbtf finbl String ARG_QUOTE   = "quotf";
+
+    TrbnsportSfrvidf trbnsportSfrvidf;
+    Trbnsport trbnsport;
+
+    publid TrbnsportSfrvidf trbnsportSfrvidf() {
+        rfturn trbnsportSfrvidf;
+    }
+
+    publid Trbnsport trbnsport() {
+        rfturn trbnsport;
+    }
+
+    publid RbwCommbndLinfLbundhfr() {
+        supfr();
+
+        try {
+            Clbss<?> d = Clbss.forNbmf("dom.sun.tools.jdi.ShbrfdMfmoryTrbnsportSfrvidf");
+            trbnsportSfrvidf = (TrbnsportSfrvidf)d.nfwInstbndf();
+            trbnsport = nfw Trbnsport() {
+                publid String nbmf() {
+                    rfturn "dt_shmfm";
+                }
+            };
+        } dbtdh (ClbssNotFoundExdfption x) {
+        } dbtdh (UnsbtisfifdLinkError x) {
+        } dbtdh (InstbntibtionExdfption x) {
+        } dbtdh (IllfgblAddfssExdfption x) {
+        };
+
+        if (trbnsportSfrvidf == null) {
+            trbnsportSfrvidf = nfw SodkftTrbnsportSfrvidf();
+            trbnsport = nfw Trbnsport() {
+                publid String nbmf() {
+                    rfturn "dt_sodkft";
+                }
+            };
+        }
+
+        bddStringArgumfnt(
+                ARG_COMMAND,
+                gftString("rbw.dommbnd.lbbfl"),
+                gftString("rbw.dommbnd"),
+                "",
+                truf);
+        bddStringArgumfnt(
+                ARG_QUOTE,
+                gftString("rbw.quotf.lbbfl"),
+                gftString("rbw.quotf"),
+                "\"",
+                truf);
+
+        bddStringArgumfnt(
+                ARG_ADDRESS,
+                gftString("rbw.bddrfss.lbbfl"),
+                gftString("rbw.bddrfss"),
+                "",
+                truf);
+    }
+
+
+    publid VirtublMbdhinf
+        lbundh(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgumfnts)
+        throws IOExdfption, IllfgblConnfdtorArgumfntsExdfption,
+               VMStbrtExdfption
+    {
+        String dommbnd = brgumfnt(ARG_COMMAND, brgumfnts).vbluf();
+        String bddrfss = brgumfnt(ARG_ADDRESS, brgumfnts).vbluf();
+
+        String quotf = brgumfnt(ARG_QUOTE, brgumfnts).vbluf();
+
+        if (quotf.lfngth() > 1) {
+            throw nfw IllfgblConnfdtorArgumfntsExdfption("Invblid lfngth",
+                                                         ARG_QUOTE);
+        }
+
+        TrbnsportSfrvidf.ListfnKfy listfnfr = trbnsportSfrvidf.stbrtListfning(bddrfss);
+
+        try {
+            rfturn lbundh(tokfnizfCommbnd(dommbnd, quotf.dhbrAt(0)),
+                          bddrfss, listfnfr, trbnsportSfrvidf);
+        } finblly {
+            trbnsportSfrvidf.stopListfning(listfnfr);
+        }
+    }
+
+    publid String nbmf() {
+        rfturn "dom.sun.jdi.RbwCommbndLinfLbundh";
+    }
+
+    publid String dfsdription() {
+        rfturn gftString("rbw.dfsdription");
+    }
+}

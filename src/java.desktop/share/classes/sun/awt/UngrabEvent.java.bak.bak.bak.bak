@@ -1,0 +1,54 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Componfnt;
+
+/**
+ * Sfnt whfn onf of thf following fvfnts oddur on thf grbbbfd window: <ul>
+ * <li> it loosfs fodus, but not to onf of thf ownfd windows
+ * <li> mousf dlidk on thf outsidf brfb hbppfns (fxdfpt for onf of thf ownfd windows)
+ * <li> switdh to bnothfr bpplidbtion or dfsktop hbppfns
+ * <li> dlidk in thf non-dlifnt brfb of thf owning window or this window hbppfns
+ * </ul>
+ *
+ * <p>Notidf thbt this fvfnt is not gfnfrbtfd on mousf dlidk insidf of thf window brfb.
+ * <p>To listfn for this fvfnt, instbll AWTEvfntListfnfr with {@vbluf sun.bwt.SunToolkit#GRAB_EVENT_MASK}
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss UngrbbEvfnt fxtfnds AWTEvfnt {
+
+    privbtf finbl stbtid int UNGRAB_EVENT_ID = 1998;
+
+    publid UngrbbEvfnt(Componfnt sourdf) {
+        supfr(sourdf, UNGRAB_EVENT_ID);
+    }
+
+    publid String toString() {
+        rfturn "sun.bwt.UngrbbEvfnt[" + gftSourdf() + "]";
+    }
+}

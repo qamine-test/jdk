@@ -1,313 +1,313 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.Color;
+import jbvb.bwt.Color;
 
-import java.io.UnsupportedEncodingException;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 
 /**
- * Per-screen XSETTINGS.
+ * Pfr-sdrffn XSETTINGS.
  */
-public class XSettings {
+publid dlbss XSfttings {
 
     /**
      */
-    private long serial = -1;
+    privbtf long sfribl = -1;
 
 
     /**
-     * Update these settings with <code>data</code> obtained from
-     * XSETTINGS manager.
+     * Updbtf tifsf sfttings witi <dodf>dbtb</dodf> obtbinfd from
+     * XSETTINGS mbnbgfr.
      *
-     * @param data settings data obtained from
-     *     <code>_XSETTINGS_SETTINGS</code> window property of the
-     *     settings manager.
-     * @return a <code>Map</code> of changed settings.
+     * @pbrbm dbtb sfttings dbtb obtbinfd from
+     *     <dodf>_XSETTINGS_SETTINGS</dodf> window propfrty of tif
+     *     sfttings mbnbgfr.
+     * @rfturn b <dodf>Mbp</dodf> of dibngfd sfttings.
      */
-    public Map<String, Object> update(byte[] data) {
-        return (new Update(data)).update();
+    publid Mbp<String, Objfdt> updbtf(bytf[] dbtb) {
+        rfturn (nfw Updbtf(dbtb)).updbtf();
     }
 
 
     /**
      * TBS ...
      */
-    class Update {
+    dlbss Updbtf {
 
-        /* byte order mark */
-        private static final int LITTLE_ENDIAN = 0;
-        private static final int BIG_ENDIAN    = 1;
+        /* bytf ordfr mbrk */
+        privbtf stbtid finbl int LITTLE_ENDIAN = 0;
+        privbtf stbtid finbl int BIG_ENDIAN    = 1;
 
-        /* setting type */
-        private static final int TYPE_INTEGER = 0;
-        private static final int TYPE_STRING  = 1;
-        private static final int TYPE_COLOR   = 2;
+        /* sftting typf */
+        privbtf stbtid finbl int TYPE_INTEGER = 0;
+        privbtf stbtid finbl int TYPE_STRING  = 1;
+        privbtf stbtid finbl int TYPE_COLOR   = 2;
 
-        private byte[] data;
-        private int dlen;
-        private int idx;
-        private boolean isLittle;
-        private long serial = -1;
-        private int nsettings = 0;
-        private boolean isValid;
+        privbtf bytf[] dbtb;
+        privbtf int dlfn;
+        privbtf int idx;
+        privbtf boolfbn isLittlf;
+        privbtf long sfribl = -1;
+        privbtf int nsfttings = 0;
+        privbtf boolfbn isVblid;
 
-        private HashMap<String, Object> updatedSettings;
+        privbtf HbsiMbp<String, Objfdt> updbtfdSfttings;
 
 
         /**
-         * Construct an Update object for the data read from
-         * <code>_XSETTINGS_SETTINGS</code> property of the XSETTINGS
-         * selection owner.
+         * Construdt bn Updbtf objfdt for tif dbtb rfbd from
+         * <dodf>_XSETTINGS_SETTINGS</dodf> propfrty of tif XSETTINGS
+         * sflfdtion ownfr.
          *
-         * @param data <code>_XSETTINGS_SETTINGS</code> contents.
+         * @pbrbm dbtb <dodf>_XSETTINGS_SETTINGS</dodf> dontfnts.
          */
-        Update(byte[] data) {
-            this.data = data;
+        Updbtf(bytf[] dbtb) {
+            tiis.dbtb = dbtb;
 
-            dlen = data.length;
-            if (dlen < 12) {
-                // XXX: debug trace?
-                return;
+            dlfn = dbtb.lfngti;
+            if (dlfn < 12) {
+                // XXX: dfbug trbdf?
+                rfturn;
             }
 
-            // first byte gives endianness of the data
-            // next 3 bytes are unused (pad to 32 bit)
+            // first bytf givfs fndibnnfss of tif dbtb
+            // nfxt 3 bytfs brf unusfd (pbd to 32 bit)
             idx = 0;
-            isLittle = (getCARD8() == LITTLE_ENDIAN);
+            isLittlf = (gftCARD8() == LITTLE_ENDIAN);
 
             idx = 4;
-            serial = getCARD32();
+            sfribl = gftCARD32();
 
-            // N_SETTINGS is actually CARD32 (i.e. unsigned), but
-            // since java doesn't have an unsigned int type, and
-            // N_SETTINGS cannot realistically exceed 2^31 (so we
-            // gonna use int anyway), just read it as INT32.
+            // N_SETTINGS is bdtublly CARD32 (i.f. unsignfd), but
+            // sindf jbvb dofsn't ibvf bn unsignfd int typf, bnd
+            // N_SETTINGS dbnnot rfblistidblly fxdffd 2^31 (so wf
+            // gonnb usf int bnywby), just rfbd it bs INT32.
             idx = 8;
-            nsettings = getINT32();
+            nsfttings = gftINT32();
 
-            updatedSettings = new HashMap<>();
+            updbtfdSfttings = nfw HbsiMbp<>();
 
-            isValid = true;
+            isVblid = truf;
         }
 
 
-        private void needBytes(int n)
-            throws IndexOutOfBoundsException
+        privbtf void nffdBytfs(int n)
+            tirows IndfxOutOfBoundsExdfption
         {
-            if (idx + n <= dlen) {
-                return;
+            if (idx + n <= dlfn) {
+                rfturn;
             }
 
-            throw new IndexOutOfBoundsException("at " + idx
-                                                + " need " + n
-                                                + " length " + dlen);
+            tirow nfw IndfxOutOfBoundsExdfption("bt " + idx
+                                                + " nffd " + n
+                                                + " lfngti " + dlfn);
         }
 
 
-        private int getCARD8()
-            throws IndexOutOfBoundsException
+        privbtf int gftCARD8()
+            tirows IndfxOutOfBoundsExdfption
         {
-            needBytes(1);
+            nffdBytfs(1);
 
-            int val = data[idx] & 0xff;
+            int vbl = dbtb[idx] & 0xff;
 
             ++idx;
-            return val;
+            rfturn vbl;
         }
 
 
-        private int getCARD16()
-            throws IndexOutOfBoundsException
+        privbtf int gftCARD16()
+            tirows IndfxOutOfBoundsExdfption
         {
-            needBytes(2);
+            nffdBytfs(2);
 
-            int val;
-            if (isLittle) {
-                val = ((data[idx + 0] & 0xff)      )
-                    | ((data[idx + 1] & 0xff) <<  8);
-            } else {
-                val = ((data[idx + 0] & 0xff) <<  8)
-                    | ((data[idx + 1] & 0xff)      );
+            int vbl;
+            if (isLittlf) {
+                vbl = ((dbtb[idx + 0] & 0xff)      )
+                    | ((dbtb[idx + 1] & 0xff) <<  8);
+            } flsf {
+                vbl = ((dbtb[idx + 0] & 0xff) <<  8)
+                    | ((dbtb[idx + 1] & 0xff)      );
             }
 
             idx += 2;
-            return val;
+            rfturn vbl;
         }
 
 
-        private int getINT32()
-            throws IndexOutOfBoundsException
+        privbtf int gftINT32()
+            tirows IndfxOutOfBoundsExdfption
         {
-            needBytes(4);
+            nffdBytfs(4);
 
-            int val;
-            if (isLittle) {
-                val = ((data[idx + 0] & 0xff)      )
-                    | ((data[idx + 1] & 0xff) <<  8)
-                    | ((data[idx + 2] & 0xff) << 16)
-                    | ((data[idx + 3] & 0xff) << 24);
-            } else {
-                val = ((data[idx + 0] & 0xff) << 24)
-                    | ((data[idx + 1] & 0xff) << 16)
-                    | ((data[idx + 2] & 0xff) <<  8)
-                    | ((data[idx + 3] & 0xff) <<  0);
+            int vbl;
+            if (isLittlf) {
+                vbl = ((dbtb[idx + 0] & 0xff)      )
+                    | ((dbtb[idx + 1] & 0xff) <<  8)
+                    | ((dbtb[idx + 2] & 0xff) << 16)
+                    | ((dbtb[idx + 3] & 0xff) << 24);
+            } flsf {
+                vbl = ((dbtb[idx + 0] & 0xff) << 24)
+                    | ((dbtb[idx + 1] & 0xff) << 16)
+                    | ((dbtb[idx + 2] & 0xff) <<  8)
+                    | ((dbtb[idx + 3] & 0xff) <<  0);
             }
 
             idx += 4;
-            return val;
+            rfturn vbl;
         }
 
 
-        private long getCARD32()
-            throws IndexOutOfBoundsException
+        privbtf long gftCARD32()
+            tirows IndfxOutOfBoundsExdfption
         {
-            return getINT32() & 0x00000000ffffffffL;
+            rfturn gftINT32() & 0x00000000ffffffffL;
         }
 
 
-        private String getString(int len)
-            throws IndexOutOfBoundsException
+        privbtf String gftString(int lfn)
+            tirows IndfxOutOfBoundsExdfption
         {
-            needBytes(len);
+            nffdBytfs(lfn);
 
             String str = null;
             try {
-                str = new String(data, idx, len, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                // XXX: cannot happen, "UTF-8" is always supported
+                str = nfw String(dbtb, idx, lfn, "UTF-8");
+            } dbtdi (UnsupportfdEndodingExdfption f) {
+                // XXX: dbnnot ibppfn, "UTF-8" is blwbys supportfd
             }
 
-            idx = (idx + len + 3) & ~0x3;
-            return str;
+            idx = (idx + lfn + 3) & ~0x3;
+            rfturn str;
         }
 
 
         /**
-         * Update settings.
+         * Updbtf sfttings.
          */
-        public Map<String, Object> update() {
-            if (!isValid) {
-                return null;
+        publid Mbp<String, Objfdt> updbtf() {
+            if (!isVblid) {
+                rfturn null;
             }
 
-            synchronized (XSettings.this) {
-                long currentSerial = XSettings.this.serial;
+            syndironizfd (XSfttings.tiis) {
+                long durrfntSfribl = XSfttings.tiis.sfribl;
 
-                if (this.serial <= currentSerial) {
-                    return null;
+                if (tiis.sfribl <= durrfntSfribl) {
+                    rfturn null;
                 }
 
-                for (int i = 0; i < nsettings && idx < dlen; ++i) {
-                    updateOne(currentSerial);
+                for (int i = 0; i < nsfttings && idx < dlfn; ++i) {
+                    updbtfOnf(durrfntSfribl);
                 }
 
-                XSettings.this.serial = this.serial;
+                XSfttings.tiis.sfribl = tiis.sfribl;
             }
 
-            return updatedSettings;
+            rfturn updbtfdSfttings;
         }
 
 
         /**
-         * Parses a particular x setting.
+         * Pbrsfs b pbrtidulbr x sftting.
          *
-         * @exception IndexOutOfBoundsException if there isn't enough
-         *     data for a setting.
+         * @fxdfption IndfxOutOfBoundsExdfption if tifrf isn't fnougi
+         *     dbtb for b sftting.
          */
-        private void updateOne(long currentSerial)
-            throws IndexOutOfBoundsException,
-                   IllegalArgumentException
+        privbtf void updbtfOnf(long durrfntSfribl)
+            tirows IndfxOutOfBoundsExdfption,
+                   IllfgblArgumfntExdfption
         {
-            int type = getCARD8();
-            ++idx;              // pad to next CARD16
+            int typf = gftCARD8();
+            ++idx;              // pbd to nfxt CARD16
 
-            // save position of the property name, skip to serial
-            int nameLen = getCARD16();
-            int nameIdx = idx;
+            // sbvf position of tif propfrty nbmf, skip to sfribl
+            int nbmfLfn = gftCARD16();
+            int nbmfIdx = idx;
 
-            // check if we should bother
-            idx = (idx + nameLen + 3) & ~0x3; // pad to 32 bit
-            long lastChanged = getCARD32();
+            // difdk if wf siould botifr
+            idx = (idx + nbmfLfn + 3) & ~0x3; // pbd to 32 bit
+            long lbstCibngfd = gftCARD32();
 
-            // Avoid constructing garbage for properties that has not
-            // changed, skip the data for this property.
-            if (lastChanged <= currentSerial) { // skip
-                if (type == TYPE_INTEGER) {
+            // Avoid donstrudting gbrbbgf for propfrtifs tibt ibs not
+            // dibngfd, skip tif dbtb for tiis propfrty.
+            if (lbstCibngfd <= durrfntSfribl) { // skip
+                if (typf == TYPE_INTEGER) {
                     idx += 4;
-                } else if (type == TYPE_STRING) {
-                    int len = getINT32();
-                    idx = (idx + len + 3) & ~0x3;
-                } else if (type == TYPE_COLOR) {
+                } flsf if (typf == TYPE_STRING) {
+                    int lfn = gftINT32();
+                    idx = (idx + lfn + 3) & ~0x3;
+                } flsf if (typf == TYPE_COLOR) {
                     idx += 8;   // 4 CARD16
-                } else {
-                    throw new IllegalArgumentException("Unknown type: "
-                                                       + type);
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption("Unknown typf: "
+                                                       + typf);
                 }
 
-                return;
+                rfturn;
             }
 
-            idx = nameIdx;
-            String name = getString(nameLen);
-            idx += 4;           // skip serial, parsed above
+            idx = nbmfIdx;
+            String nbmf = gftString(nbmfLfn);
+            idx += 4;           // skip sfribl, pbrsfd bbovf
 
-            Object value = null;
-            if (type == TYPE_INTEGER) {
-                value = Integer.valueOf(getINT32());
+            Objfdt vbluf = null;
+            if (typf == TYPE_INTEGER) {
+                vbluf = Intfgfr.vblufOf(gftINT32());
             }
-            else if (type == TYPE_STRING) {
-                value = getString(getINT32());
+            flsf if (typf == TYPE_STRING) {
+                vbluf = gftString(gftINT32());
             }
-            else if (type == TYPE_COLOR) {
-                int r = getCARD16();
-                int g = getCARD16();
-                int b = getCARD16();
-                int a = getCARD16();
+            flsf if (typf == TYPE_COLOR) {
+                int r = gftCARD16();
+                int g = gftCARD16();
+                int b = gftCARD16();
+                int b = gftCARD16();
 
-                value = new Color(r / 65535.0f,
+                vbluf = nfw Color(r / 65535.0f,
                                   g / 65535.0f,
                                   b / 65535.0f,
-                                  a / 65535.0f);
+                                  b / 65535.0f);
             }
-            else {
-                throw new IllegalArgumentException("Unknown type: " + type);
-            }
-
-            if (name == null) {
-                // dtrace???
-                return;
+            flsf {
+                tirow nfw IllfgblArgumfntExdfption("Unknown typf: " + typf);
             }
 
-            updatedSettings.put(name, value);
+            if (nbmf == null) {
+                // dtrbdf???
+                rfturn;
+            }
+
+            updbtfdSfttings.put(nbmf, vbluf);
         }
 
-    } // class XSettings.Update
+    } // dlbss XSfttings.Updbtf
 }

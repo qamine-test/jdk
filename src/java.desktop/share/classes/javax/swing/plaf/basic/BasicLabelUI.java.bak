@@ -1,547 +1,547 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import sun.swing.SwingUtilities2;
-import sun.swing.DefaultLookup;
-import sun.swing.UIAction;
-import sun.awt.AppContext;
+import sun.swing.SwingUtilitifs2;
+import sun.swing.DffbultLookup;
+import sun.swing.UIAdtion;
+import sun.bwt.AppContfxt;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.Vifw;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
 /**
- * A Windows L&amp;F implementation of LabelUI.  This implementation
- * is completely static, i.e. there's only one UIView implementation
- * that's shared by all JLabel objects.
+ * A Windows L&bmp;F implfmfntbtion of LbbflUI.  Tiis implfmfntbtion
+ * is domplftfly stbtid, i.f. tifrf's only onf UIVifw implfmfntbtion
+ * tibt's sibrfd by bll JLbbfl objfdts.
  *
- * @author Hans Muller
+ * @butior Hbns Mullfr
  */
-public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
+publid dlbss BbsidLbbflUI fxtfnds LbbflUI implfmfnts  PropfrtyCibngfListfnfr
 {
    /**
-    * The default <code>BasicLabelUI</code> instance. This field might
-    * not be used. To change the default instance use a subclass which
-    * overrides the <code>createUI</code> method, and place that class
-    * name in defaults table under the key "LabelUI".
+    * Tif dffbult <dodf>BbsidLbbflUI</dodf> instbndf. Tiis fifld migit
+    * not bf usfd. To dibngf tif dffbult instbndf usf b subdlbss wiidi
+    * ovfrridfs tif <dodf>drfbtfUI</dodf> mftiod, bnd plbdf tibt dlbss
+    * nbmf in dffbults tbblf undfr tif kfy "LbbflUI".
     */
-    protected static BasicLabelUI labelUI = new BasicLabelUI();
-    private static final Object BASIC_LABEL_UI_KEY = new Object();
+    protfdtfd stbtid BbsidLbbflUI lbbflUI = nfw BbsidLbbflUI();
+    privbtf stbtid finbl Objfdt BASIC_LABEL_UI_KEY = nfw Objfdt();
 
-    private Rectangle paintIconR = new Rectangle();
-    private Rectangle paintTextR = new Rectangle();
+    privbtf Rfdtbnglf pbintIdonR = nfw Rfdtbnglf();
+    privbtf Rfdtbnglf pbintTfxtR = nfw Rfdtbnglf();
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.PRESS));
-        map.put(new Actions(Actions.RELEASE));
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put(nfw Adtions(Adtions.PRESS));
+        mbp.put(nfw Adtions(Adtions.RELEASE));
     }
 
     /**
-     * Forwards the call to SwingUtilities.layoutCompoundLabel().
-     * This method is here so that a subclass could do Label specific
-     * layout and to shorten the method name a little.
+     * Forwbrds tif dbll to SwingUtilitifs.lbyoutCompoundLbbfl().
+     * Tiis mftiod is ifrf so tibt b subdlbss dould do Lbbfl spfdifid
+     * lbyout bnd to siortfn tif mftiod nbmf b littlf.
      *
-     * @param label an instance of {@code JLabel}
-     * @param fontMetrics a font metrics
-     * @param text a text
-     * @param icon an icon
-     * @param viewR a bounding rectangle to lay out label
-     * @param iconR a bounding rectangle to lay out icon
-     * @param textR a bounding rectangle to lay out text
-     * @return a possibly clipped version of the compound labels string
-     * @see SwingUtilities#layoutCompoundLabel
+     * @pbrbm lbbfl bn instbndf of {@dodf JLbbfl}
+     * @pbrbm fontMftrids b font mftrids
+     * @pbrbm tfxt b tfxt
+     * @pbrbm idon bn idon
+     * @pbrbm vifwR b bounding rfdtbnglf to lby out lbbfl
+     * @pbrbm idonR b bounding rfdtbnglf to lby out idon
+     * @pbrbm tfxtR b bounding rfdtbnglf to lby out tfxt
+     * @rfturn b possibly dlippfd vfrsion of tif dompound lbbfls string
+     * @sff SwingUtilitifs#lbyoutCompoundLbbfl
      */
-    protected String layoutCL(
-        JLabel label,
-        FontMetrics fontMetrics,
-        String text,
-        Icon icon,
-        Rectangle viewR,
-        Rectangle iconR,
-        Rectangle textR)
+    protfdtfd String lbyoutCL(
+        JLbbfl lbbfl,
+        FontMftrids fontMftrids,
+        String tfxt,
+        Idon idon,
+        Rfdtbnglf vifwR,
+        Rfdtbnglf idonR,
+        Rfdtbnglf tfxtR)
     {
-        return SwingUtilities.layoutCompoundLabel(
-            (JComponent) label,
-            fontMetrics,
-            text,
-            icon,
-            label.getVerticalAlignment(),
-            label.getHorizontalAlignment(),
-            label.getVerticalTextPosition(),
-            label.getHorizontalTextPosition(),
-            viewR,
-            iconR,
-            textR,
-            label.getIconTextGap());
+        rfturn SwingUtilitifs.lbyoutCompoundLbbfl(
+            (JComponfnt) lbbfl,
+            fontMftrids,
+            tfxt,
+            idon,
+            lbbfl.gftVfrtidblAlignmfnt(),
+            lbbfl.gftHorizontblAlignmfnt(),
+            lbbfl.gftVfrtidblTfxtPosition(),
+            lbbfl.gftHorizontblTfxtPosition(),
+            vifwR,
+            idonR,
+            tfxtR,
+            lbbfl.gftIdonTfxtGbp());
     }
 
     /**
-     * Paint clippedText at textX, textY with the labels foreground color.
+     * Pbint dlippfdTfxt bt tfxtX, tfxtY witi tif lbbfls forfground dolor.
      *
-     * @param l an instance of {@code JLabel}
-     * @param g an instance of {@code Graphics}
-     * @param s a text
-     * @param textX an X coordinate
-     * @param textY an Y coordinate
-     * @see #paint
-     * @see #paintDisabledText
+     * @pbrbm l bn instbndf of {@dodf JLbbfl}
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm s b tfxt
+     * @pbrbm tfxtX bn X doordinbtf
+     * @pbrbm tfxtY bn Y doordinbtf
+     * @sff #pbint
+     * @sff #pbintDisbblfdTfxt
      */
-    protected void paintEnabledText(JLabel l, Graphics g, String s, int textX, int textY)
+    protfdtfd void pbintEnbblfdTfxt(JLbbfl l, Grbpiids g, String s, int tfxtX, int tfxtY)
     {
-        int mnemIndex = l.getDisplayedMnemonicIndex();
-        g.setColor(l.getForeground());
-        SwingUtilities2.drawStringUnderlineCharAt(l, g, s, mnemIndex,
-                                                     textX, textY);
+        int mnfmIndfx = l.gftDisplbyfdMnfmonidIndfx();
+        g.sftColor(l.gftForfground());
+        SwingUtilitifs2.drbwStringUndfrlinfCibrAt(l, g, s, mnfmIndfx,
+                                                     tfxtX, tfxtY);
     }
 
 
     /**
-     * Paint clippedText at textX, textY with background.lighter() and then
-     * shifted down and to the right by one pixel with background.darker().
+     * Pbint dlippfdTfxt bt tfxtX, tfxtY witi bbdkground.ligitfr() bnd tifn
+     * siiftfd down bnd to tif rigit by onf pixfl witi bbdkground.dbrkfr().
      *
-     * @param l an instance of {@code JLabel}
-     * @param g an instance of {@code Graphics}
-     * @param s a text
-     * @param textX an X coordinate
-     * @param textY an Y coordinate
-     * @see #paint
-     * @see #paintEnabledText
+     * @pbrbm l bn instbndf of {@dodf JLbbfl}
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm s b tfxt
+     * @pbrbm tfxtX bn X doordinbtf
+     * @pbrbm tfxtY bn Y doordinbtf
+     * @sff #pbint
+     * @sff #pbintEnbblfdTfxt
      */
-    protected void paintDisabledText(JLabel l, Graphics g, String s, int textX, int textY)
+    protfdtfd void pbintDisbblfdTfxt(JLbbfl l, Grbpiids g, String s, int tfxtX, int tfxtY)
     {
-        int accChar = l.getDisplayedMnemonicIndex();
-        Color background = l.getBackground();
-        g.setColor(background.brighter());
-        SwingUtilities2.drawStringUnderlineCharAt(l, g, s, accChar,
-                                                   textX + 1, textY + 1);
-        g.setColor(background.darker());
-        SwingUtilities2.drawStringUnderlineCharAt(l, g, s, accChar,
-                                                   textX, textY);
+        int bddCibr = l.gftDisplbyfdMnfmonidIndfx();
+        Color bbdkground = l.gftBbdkground();
+        g.sftColor(bbdkground.brigitfr());
+        SwingUtilitifs2.drbwStringUndfrlinfCibrAt(l, g, s, bddCibr,
+                                                   tfxtX + 1, tfxtY + 1);
+        g.sftColor(bbdkground.dbrkfr());
+        SwingUtilitifs2.drbwStringUndfrlinfCibrAt(l, g, s, bddCibr,
+                                                   tfxtX, tfxtY);
     }
 
     /**
-     * Paints the label text with the foreground color, if the label is opaque
-     * then paints the entire background with the background color. The Label
-     * text is drawn by {@link #paintEnabledText} or {@link #paintDisabledText}.
-     * The locations of the label parts are computed by {@link #layoutCL}.
+     * Pbints tif lbbfl tfxt witi tif forfground dolor, if tif lbbfl is opbquf
+     * tifn pbints tif fntirf bbdkground witi tif bbdkground dolor. Tif Lbbfl
+     * tfxt is drbwn by {@link #pbintEnbblfdTfxt} or {@link #pbintDisbblfdTfxt}.
+     * Tif lodbtions of tif lbbfl pbrts brf domputfd by {@link #lbyoutCL}.
      *
-     * @see #paintEnabledText
-     * @see #paintDisabledText
-     * @see #layoutCL
+     * @sff #pbintEnbblfdTfxt
+     * @sff #pbintDisbblfdTfxt
+     * @sff #lbyoutCL
      */
-    public void paint(Graphics g, JComponent c)
+    publid void pbint(Grbpiids g, JComponfnt d)
     {
-        JLabel label = (JLabel)c;
-        String text = label.getText();
-        Icon icon = (label.isEnabled()) ? label.getIcon() : label.getDisabledIcon();
+        JLbbfl lbbfl = (JLbbfl)d;
+        String tfxt = lbbfl.gftTfxt();
+        Idon idon = (lbbfl.isEnbblfd()) ? lbbfl.gftIdon() : lbbfl.gftDisbblfdIdon();
 
-        if ((icon == null) && (text == null)) {
-            return;
+        if ((idon == null) && (tfxt == null)) {
+            rfturn;
         }
 
-        FontMetrics fm = SwingUtilities2.getFontMetrics(label, g);
-        String clippedText = layout(label, fm, c.getWidth(), c.getHeight());
+        FontMftrids fm = SwingUtilitifs2.gftFontMftrids(lbbfl, g);
+        String dlippfdTfxt = lbyout(lbbfl, fm, d.gftWidti(), d.gftHfigit());
 
-        if (icon != null) {
-            icon.paintIcon(c, g, paintIconR.x, paintIconR.y);
+        if (idon != null) {
+            idon.pbintIdon(d, g, pbintIdonR.x, pbintIdonR.y);
         }
 
-        if (text != null) {
-            View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+        if (tfxt != null) {
+            Vifw v = (Vifw) d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
             if (v != null) {
-                v.paint(g, paintTextR);
-            } else {
-                int textX = paintTextR.x;
-                int textY = paintTextR.y + fm.getAscent();
+                v.pbint(g, pbintTfxtR);
+            } flsf {
+                int tfxtX = pbintTfxtR.x;
+                int tfxtY = pbintTfxtR.y + fm.gftAsdfnt();
 
-                if (label.isEnabled()) {
-                    paintEnabledText(label, g, clippedText, textX, textY);
+                if (lbbfl.isEnbblfd()) {
+                    pbintEnbblfdTfxt(lbbfl, g, dlippfdTfxt, tfxtX, tfxtY);
                 }
-                else {
-                    paintDisabledText(label, g, clippedText, textX, textY);
+                flsf {
+                    pbintDisbblfdTfxt(lbbfl, g, dlippfdTfxt, tfxtX, tfxtY);
                 }
             }
         }
     }
 
-    private String layout(JLabel label, FontMetrics fm,
-                          int width, int height) {
-        Insets insets = label.getInsets(null);
-        String text = label.getText();
-        Icon icon = (label.isEnabled()) ? label.getIcon() :
-                                          label.getDisabledIcon();
-        Rectangle paintViewR = new Rectangle();
-        paintViewR.x = insets.left;
-        paintViewR.y = insets.top;
-        paintViewR.width = width - (insets.left + insets.right);
-        paintViewR.height = height - (insets.top + insets.bottom);
-        paintIconR.x = paintIconR.y = paintIconR.width = paintIconR.height = 0;
-        paintTextR.x = paintTextR.y = paintTextR.width = paintTextR.height = 0;
-        return layoutCL(label, fm, text, icon, paintViewR, paintIconR,
-                        paintTextR);
+    privbtf String lbyout(JLbbfl lbbfl, FontMftrids fm,
+                          int widti, int ifigit) {
+        Insfts insfts = lbbfl.gftInsfts(null);
+        String tfxt = lbbfl.gftTfxt();
+        Idon idon = (lbbfl.isEnbblfd()) ? lbbfl.gftIdon() :
+                                          lbbfl.gftDisbblfdIdon();
+        Rfdtbnglf pbintVifwR = nfw Rfdtbnglf();
+        pbintVifwR.x = insfts.lfft;
+        pbintVifwR.y = insfts.top;
+        pbintVifwR.widti = widti - (insfts.lfft + insfts.rigit);
+        pbintVifwR.ifigit = ifigit - (insfts.top + insfts.bottom);
+        pbintIdonR.x = pbintIdonR.y = pbintIdonR.widti = pbintIdonR.ifigit = 0;
+        pbintTfxtR.x = pbintTfxtR.y = pbintTfxtR.widti = pbintTfxtR.ifigit = 0;
+        rfturn lbyoutCL(lbbfl, fm, tfxt, idon, pbintVifwR, pbintIdonR,
+                        pbintTfxtR);
     }
 
-    public Dimension getPreferredSize(JComponent c)
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d)
     {
-        JLabel label = (JLabel)c;
-        String text = label.getText();
-        Icon icon = (label.isEnabled()) ? label.getIcon() :
-                                          label.getDisabledIcon();
-        Insets insets = label.getInsets(null);
-        Font font = label.getFont();
+        JLbbfl lbbfl = (JLbbfl)d;
+        String tfxt = lbbfl.gftTfxt();
+        Idon idon = (lbbfl.isEnbblfd()) ? lbbfl.gftIdon() :
+                                          lbbfl.gftDisbblfdIdon();
+        Insfts insfts = lbbfl.gftInsfts(null);
+        Font font = lbbfl.gftFont();
 
-        int dx = insets.left + insets.right;
-        int dy = insets.top + insets.bottom;
+        int dx = insfts.lfft + insfts.rigit;
+        int dy = insfts.top + insfts.bottom;
 
-        if ((icon == null) &&
-            ((text == null) ||
-             ((text != null) && (font == null)))) {
-            return new Dimension(dx, dy);
+        if ((idon == null) &&
+            ((tfxt == null) ||
+             ((tfxt != null) && (font == null)))) {
+            rfturn nfw Dimfnsion(dx, dy);
         }
-        else if ((text == null) || ((icon != null) && (font == null))) {
-            return new Dimension(icon.getIconWidth() + dx,
-                                 icon.getIconHeight() + dy);
+        flsf if ((tfxt == null) || ((idon != null) && (font == null))) {
+            rfturn nfw Dimfnsion(idon.gftIdonWidti() + dx,
+                                 idon.gftIdonHfigit() + dy);
         }
-        else {
-            FontMetrics fm = label.getFontMetrics(font);
-            Rectangle iconR = new Rectangle();
-            Rectangle textR = new Rectangle();
-            Rectangle viewR = new Rectangle();
+        flsf {
+            FontMftrids fm = lbbfl.gftFontMftrids(font);
+            Rfdtbnglf idonR = nfw Rfdtbnglf();
+            Rfdtbnglf tfxtR = nfw Rfdtbnglf();
+            Rfdtbnglf vifwR = nfw Rfdtbnglf();
 
-            iconR.x = iconR.y = iconR.width = iconR.height = 0;
-            textR.x = textR.y = textR.width = textR.height = 0;
-            viewR.x = dx;
-            viewR.y = dy;
-            viewR.width = viewR.height = Short.MAX_VALUE;
+            idonR.x = idonR.y = idonR.widti = idonR.ifigit = 0;
+            tfxtR.x = tfxtR.y = tfxtR.widti = tfxtR.ifigit = 0;
+            vifwR.x = dx;
+            vifwR.y = dy;
+            vifwR.widti = vifwR.ifigit = Siort.MAX_VALUE;
 
-            layoutCL(label, fm, text, icon, viewR, iconR, textR);
-            int x1 = Math.min(iconR.x, textR.x);
-            int x2 = Math.max(iconR.x + iconR.width, textR.x + textR.width);
-            int y1 = Math.min(iconR.y, textR.y);
-            int y2 = Math.max(iconR.y + iconR.height, textR.y + textR.height);
-            Dimension rv = new Dimension(x2 - x1, y2 - y1);
+            lbyoutCL(lbbfl, fm, tfxt, idon, vifwR, idonR, tfxtR);
+            int x1 = Mbti.min(idonR.x, tfxtR.x);
+            int x2 = Mbti.mbx(idonR.x + idonR.widti, tfxtR.x + tfxtR.widti);
+            int y1 = Mbti.min(idonR.y, tfxtR.y);
+            int y2 = Mbti.mbx(idonR.y + idonR.ifigit, tfxtR.y + tfxtR.ifigit);
+            Dimfnsion rv = nfw Dimfnsion(x2 - x1, y2 - y1);
 
-            rv.width += dx;
-            rv.height += dy;
-            return rv;
+            rv.widti += dx;
+            rv.ifigit += dy;
+            rfturn rv;
         }
     }
 
 
     /**
-     * @return getPreferredSize(c)
+     * @rfturn gftPrfffrrfdSizf(d)
      */
-    public Dimension getMinimumSize(JComponent c) {
-        Dimension d = getPreferredSize(c);
-        View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        Dimfnsion d = gftPrfffrrfdSizf(d);
+        Vifw v = (Vifw) d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
         if (v != null) {
-            d.width -= v.getPreferredSpan(View.X_AXIS) - v.getMinimumSpan(View.X_AXIS);
+            d.widti -= v.gftPrfffrrfdSpbn(Vifw.X_AXIS) - v.gftMinimumSpbn(Vifw.X_AXIS);
         }
-        return d;
+        rfturn d;
     }
 
     /**
-     * @return getPreferredSize(c)
+     * @rfturn gftPrfffrrfdSizf(d)
      */
-    public Dimension getMaximumSize(JComponent c) {
-        Dimension d = getPreferredSize(c);
-        View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        Dimfnsion d = gftPrfffrrfdSizf(d);
+        Vifw v = (Vifw) d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
         if (v != null) {
-            d.width += v.getMaximumSpan(View.X_AXIS) - v.getPreferredSpan(View.X_AXIS);
+            d.widti += v.gftMbximumSpbn(Vifw.X_AXIS) - v.gftPrfffrrfdSpbn(Vifw.X_AXIS);
         }
-        return d;
+        rfturn d;
     }
 
     /**
-     * Returns the baseline.
+     * Rfturns tif bbsflinf.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        JLabel label = (JLabel)c;
-        String text = label.getText();
-        if (text == null || "".equals(text) || label.getFont() == null) {
-            return -1;
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        supfr.gftBbsflinf(d, widti, ifigit);
+        JLbbfl lbbfl = (JLbbfl)d;
+        String tfxt = lbbfl.gftTfxt();
+        if (tfxt == null || "".fqubls(tfxt) || lbbfl.gftFont() == null) {
+            rfturn -1;
         }
-        FontMetrics fm = label.getFontMetrics(label.getFont());
-        layout(label, fm, width, height);
-        return BasicHTML.getBaseline(label, paintTextR.y, fm.getAscent(),
-                                     paintTextR.width, paintTextR.height);
+        FontMftrids fm = lbbfl.gftFontMftrids(lbbfl.gftFont());
+        lbyout(lbbfl, fm, widti, ifigit);
+        rfturn BbsidHTML.gftBbsflinf(lbbfl, pbintTfxtR.y, fm.gftAsdfnt(),
+                                     pbintTfxtR.widti, pbintTfxtR.ifigit);
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Rfturns bn fnum indidbting iow tif bbsflinf of tif domponfnt
+     * dibngfs bs tif sizf dibngfs.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
-            JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        if (c.getClientProperty(BasicHTML.propertyKey) != null) {
-            return Component.BaselineResizeBehavior.OTHER;
+    publid Componfnt.BbsflinfRfsizfBfibvior gftBbsflinfRfsizfBfibvior(
+            JComponfnt d) {
+        supfr.gftBbsflinfRfsizfBfibvior(d);
+        if (d.gftClifntPropfrty(BbsidHTML.propfrtyKfy) != null) {
+            rfturn Componfnt.BbsflinfRfsizfBfibvior.OTHER;
         }
-        switch(((JLabel)c).getVerticalAlignment()) {
-        case JLabel.TOP:
-            return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
-        case JLabel.BOTTOM:
-            return Component.BaselineResizeBehavior.CONSTANT_DESCENT;
-        case JLabel.CENTER:
-            return Component.BaselineResizeBehavior.CENTER_OFFSET;
+        switdi(((JLbbfl)d).gftVfrtidblAlignmfnt()) {
+        dbsf JLbbfl.TOP:
+            rfturn Componfnt.BbsflinfRfsizfBfibvior.CONSTANT_ASCENT;
+        dbsf JLbbfl.BOTTOM:
+            rfturn Componfnt.BbsflinfRfsizfBfibvior.CONSTANT_DESCENT;
+        dbsf JLbbfl.CENTER:
+            rfturn Componfnt.BbsflinfRfsizfBfibvior.CENTER_OFFSET;
         }
-        return Component.BaselineResizeBehavior.OTHER;
+        rfturn Componfnt.BbsflinfRfsizfBfibvior.OTHER;
     }
 
 
-    public void installUI(JComponent c) {
-        installDefaults((JLabel)c);
-        installComponents((JLabel)c);
-        installListeners((JLabel)c);
-        installKeyboardActions((JLabel)c);
+    publid void instbllUI(JComponfnt d) {
+        instbllDffbults((JLbbfl)d);
+        instbllComponfnts((JLbbfl)d);
+        instbllListfnfrs((JLbbfl)d);
+        instbllKfybobrdAdtions((JLbbfl)d);
     }
 
 
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults((JLabel) c);
-        uninstallComponents((JLabel) c);
-        uninstallListeners((JLabel) c);
-        uninstallKeyboardActions((JLabel) c);
-    }
-
-    /**
-     * Installs default properties.
-     *
-     * @param c an instance of {@code JLabel}
-     */
-    protected void installDefaults(JLabel c){
-        LookAndFeel.installColorsAndFont(c, "Label.background", "Label.foreground", "Label.font");
-        LookAndFeel.installProperty(c, "opaque", Boolean.FALSE);
+    publid void uninstbllUI(JComponfnt d) {
+        uninstbllDffbults((JLbbfl) d);
+        uninstbllComponfnts((JLbbfl) d);
+        uninstbllListfnfrs((JLbbfl) d);
+        uninstbllKfybobrdAdtions((JLbbfl) d);
     }
 
     /**
-     * Registers listeners.
+     * Instblls dffbult propfrtifs.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm d bn instbndf of {@dodf JLbbfl}
      */
-    protected void installListeners(JLabel c){
-        c.addPropertyChangeListener(this);
+    protfdtfd void instbllDffbults(JLbbfl d){
+        LookAndFffl.instbllColorsAndFont(d, "Lbbfl.bbdkground", "Lbbfl.forfground", "Lbbfl.font");
+        LookAndFffl.instbllPropfrty(d, "opbquf", Boolfbn.FALSE);
     }
 
     /**
-     * Registers components.
+     * Rfgistfrs listfnfrs.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm d bn instbndf of {@dodf JLbbfl}
      */
-    protected void installComponents(JLabel c){
-        BasicHTML.updateRenderer(c, c.getText());
-        c.setInheritsPopupMenu(true);
+    protfdtfd void instbllListfnfrs(JLbbfl d){
+        d.bddPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * Registers keyboard actions.
+     * Rfgistfrs domponfnts.
      *
-     * @param l an instance of {@code JLabel}
+     * @pbrbm d bn instbndf of {@dodf JLbbfl}
      */
-    protected void installKeyboardActions(JLabel l) {
-        int dka = l.getDisplayedMnemonic();
-        Component lf = l.getLabelFor();
-        if ((dka != 0) && (lf != null)) {
-            LazyActionMap.installLazyActionMap(l, BasicLabelUI.class,
-                                               "Label.actionMap");
-            InputMap inputMap = SwingUtilities.getUIInputMap
-                            (l, JComponent.WHEN_IN_FOCUSED_WINDOW);
-            if (inputMap == null) {
-                inputMap = new ComponentInputMapUIResource(l);
-                SwingUtilities.replaceUIInputMap(l,
-                                JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+    protfdtfd void instbllComponfnts(JLbbfl d){
+        BbsidHTML.updbtfRfndfrfr(d, d.gftTfxt());
+        d.sftInifritsPopupMfnu(truf);
+    }
+
+    /**
+     * Rfgistfrs kfybobrd bdtions.
+     *
+     * @pbrbm l bn instbndf of {@dodf JLbbfl}
+     */
+    protfdtfd void instbllKfybobrdAdtions(JLbbfl l) {
+        int dkb = l.gftDisplbyfdMnfmonid();
+        Componfnt lf = l.gftLbbflFor();
+        if ((dkb != 0) && (lf != null)) {
+            LbzyAdtionMbp.instbllLbzyAdtionMbp(l, BbsidLbbflUI.dlbss,
+                                               "Lbbfl.bdtionMbp");
+            InputMbp inputMbp = SwingUtilitifs.gftUIInputMbp
+                            (l, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+            if (inputMbp == null) {
+                inputMbp = nfw ComponfntInputMbpUIRfsourdf(l);
+                SwingUtilitifs.rfplbdfUIInputMbp(l,
+                                JComponfnt.WHEN_IN_FOCUSED_WINDOW, inputMbp);
             }
-            inputMap.clear();
-            inputMap.put(KeyStroke.getKeyStroke(dka, BasicLookAndFeel.getFocusAcceleratorKeyMask(), false), "press");
+            inputMbp.dlfbr();
+            inputMbp.put(KfyStrokf.gftKfyStrokf(dkb, BbsidLookAndFffl.gftFodusAddflfrbtorKfyMbsk(), fblsf), "prfss");
         }
-        else {
-            InputMap inputMap = SwingUtilities.getUIInputMap
-                            (l, JComponent.WHEN_IN_FOCUSED_WINDOW);
-            if (inputMap != null) {
-                inputMap.clear();
+        flsf {
+            InputMbp inputMbp = SwingUtilitifs.gftUIInputMbp
+                            (l, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+            if (inputMbp != null) {
+                inputMbp.dlfbr();
             }
         }
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls dffbult propfrtifs.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm d bn instbndf of {@dodf JLbbfl}
      */
-    protected void uninstallDefaults(JLabel c){
+    protfdtfd void uninstbllDffbults(JLbbfl d){
     }
 
     /**
-     * Unregisters listeners.
+     * Unrfgistfrs listfnfrs.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm d bn instbndf of {@dodf JLbbfl}
      */
-    protected void uninstallListeners(JLabel c){
-        c.removePropertyChangeListener(this);
+    protfdtfd void uninstbllListfnfrs(JLbbfl d){
+        d.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * Unregisters components.
+     * Unrfgistfrs domponfnts.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm d bn instbndf of {@dodf JLbbfl}
      */
-    protected void uninstallComponents(JLabel c){
-        BasicHTML.updateRenderer(c, "");
+    protfdtfd void uninstbllComponfnts(JLbbfl d){
+        BbsidHTML.updbtfRfndfrfr(d, "");
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unrfgistfrs kfybobrd bdtions.
      *
-     * @param c an instance of {@code JLabel}
+     * @pbrbm d bn instbndf of {@dodf JLbbfl}
      */
-    protected void uninstallKeyboardActions(JLabel c) {
-        SwingUtilities.replaceUIInputMap(c, JComponent.WHEN_FOCUSED, null);
-        SwingUtilities.replaceUIInputMap(c, JComponent.WHEN_IN_FOCUSED_WINDOW,
+    protfdtfd void uninstbllKfybobrdAdtions(JLbbfl d) {
+        SwingUtilitifs.rfplbdfUIInputMbp(d, JComponfnt.WHEN_FOCUSED, null);
+        SwingUtilitifs.rfplbdfUIInputMbp(d, JComponfnt.WHEN_IN_FOCUSED_WINDOW,
                                        null);
-        SwingUtilities.replaceUIActionMap(c, null);
+        SwingUtilitifs.rfplbdfUIAdtionMbp(d, null);
     }
 
     /**
-     * Returns an instance of {@code BasicLabelUI}.
+     * Rfturns bn instbndf of {@dodf BbsidLbbflUI}.
      *
-     * @param c a component
-     * @return an instance of {@code BasicLabelUI}
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of {@dodf BbsidLbbflUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        if (System.getSecurityManager() != null) {
-            AppContext appContext = AppContext.getAppContext();
-            BasicLabelUI safeBasicLabelUI =
-                    (BasicLabelUI) appContext.get(BASIC_LABEL_UI_KEY);
-            if (safeBasicLabelUI == null) {
-                safeBasicLabelUI = new BasicLabelUI();
-                appContext.put(BASIC_LABEL_UI_KEY, safeBasicLabelUI);
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+            BbsidLbbflUI sbffBbsidLbbflUI =
+                    (BbsidLbbflUI) bppContfxt.gft(BASIC_LABEL_UI_KEY);
+            if (sbffBbsidLbbflUI == null) {
+                sbffBbsidLbbflUI = nfw BbsidLbbflUI();
+                bppContfxt.put(BASIC_LABEL_UI_KEY, sbffBbsidLbbflUI);
             }
-            return safeBasicLabelUI;
+            rfturn sbffBbsidLbbflUI;
         }
-        return labelUI;
+        rfturn lbbflUI;
     }
 
-    public void propertyChange(PropertyChangeEvent e) {
-        String name = e.getPropertyName();
-        if (name == "text" || "font" == name || "foreground" == name) {
-            // remove the old html view client property if one
-            // existed, and install a new one if the text installed
-            // into the JLabel is html source.
-            JLabel lbl = ((JLabel) e.getSource());
-            String text = lbl.getText();
-            BasicHTML.updateRenderer(lbl, text);
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        String nbmf = f.gftPropfrtyNbmf();
+        if (nbmf == "tfxt" || "font" == nbmf || "forfground" == nbmf) {
+            // rfmovf tif old itml vifw dlifnt propfrty if onf
+            // fxistfd, bnd instbll b nfw onf if tif tfxt instbllfd
+            // into tif JLbbfl is itml sourdf.
+            JLbbfl lbl = ((JLbbfl) f.gftSourdf());
+            String tfxt = lbl.gftTfxt();
+            BbsidHTML.updbtfRfndfrfr(lbl, tfxt);
         }
-        else if (name == "labelFor" || name == "displayedMnemonic") {
-            installKeyboardActions((JLabel) e.getSource());
+        flsf if (nbmf == "lbbflFor" || nbmf == "displbyfdMnfmonid") {
+            instbllKfybobrdAdtions((JLbbfl) f.gftSourdf());
         }
     }
 
-    // When the accelerator is pressed, temporarily make the JLabel
-    // focusTraversable by registering a WHEN_FOCUSED action for the
-    // release of the accelerator.  Then give it focus so it can
-    // prevent unwanted keyTyped events from getting to other components.
-    private static class Actions extends UIAction {
-        private static final String PRESS = "press";
-        private static final String RELEASE = "release";
+    // Wifn tif bddflfrbtor is prfssfd, tfmporbrily mbkf tif JLbbfl
+    // fodusTrbvfrsbblf by rfgistfring b WHEN_FOCUSED bdtion for tif
+    // rflfbsf of tif bddflfrbtor.  Tifn givf it fodus so it dbn
+    // prfvfnt unwbntfd kfyTypfd fvfnts from gftting to otifr domponfnts.
+    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+        privbtf stbtid finbl String PRESS = "prfss";
+        privbtf stbtid finbl String RELEASE = "rflfbsf";
 
-        Actions(String key) {
-            super(key);
+        Adtions(String kfy) {
+            supfr(kfy);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JLabel label = (JLabel)e.getSource();
-            String key = getName();
-            if (key == PRESS) {
-                doPress(label);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JLbbfl lbbfl = (JLbbfl)f.gftSourdf();
+            String kfy = gftNbmf();
+            if (kfy == PRESS) {
+                doPrfss(lbbfl);
             }
-            else if (key == RELEASE) {
-                doRelease(label);
+            flsf if (kfy == RELEASE) {
+                doRflfbsf(lbbfl);
             }
         }
 
-        private void doPress(JLabel label) {
-            Component labelFor = label.getLabelFor();
-            if (labelFor != null && labelFor.isEnabled()) {
-                InputMap inputMap = SwingUtilities.getUIInputMap(label, JComponent.WHEN_FOCUSED);
-                if (inputMap == null) {
-                    inputMap = new InputMapUIResource();
-                    SwingUtilities.replaceUIInputMap(label, JComponent.WHEN_FOCUSED, inputMap);
+        privbtf void doPrfss(JLbbfl lbbfl) {
+            Componfnt lbbflFor = lbbfl.gftLbbflFor();
+            if (lbbflFor != null && lbbflFor.isEnbblfd()) {
+                InputMbp inputMbp = SwingUtilitifs.gftUIInputMbp(lbbfl, JComponfnt.WHEN_FOCUSED);
+                if (inputMbp == null) {
+                    inputMbp = nfw InputMbpUIRfsourdf();
+                    SwingUtilitifs.rfplbdfUIInputMbp(lbbfl, JComponfnt.WHEN_FOCUSED, inputMbp);
                 }
-                int dka = label.getDisplayedMnemonic();
-                inputMap.put(KeyStroke.getKeyStroke(dka, BasicLookAndFeel.getFocusAcceleratorKeyMask(), true), RELEASE);
-                // Need this when the sticky keys are enabled
-                inputMap.put(KeyStroke.getKeyStroke(dka, 0, true), RELEASE);
-                // Need this if ALT is released before the accelerator
-                inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ALT, 0, true), RELEASE);
-                label.requestFocus();
+                int dkb = lbbfl.gftDisplbyfdMnfmonid();
+                inputMbp.put(KfyStrokf.gftKfyStrokf(dkb, BbsidLookAndFffl.gftFodusAddflfrbtorKfyMbsk(), truf), RELEASE);
+                // Nffd tiis wifn tif stidky kfys brf fnbblfd
+                inputMbp.put(KfyStrokf.gftKfyStrokf(dkb, 0, truf), RELEASE);
+                // Nffd tiis if ALT is rflfbsfd bfforf tif bddflfrbtor
+                inputMbp.put(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ALT, 0, truf), RELEASE);
+                lbbfl.rfqufstFodus();
             }
         }
 
-        private void doRelease(JLabel label) {
-            Component labelFor = label.getLabelFor();
-            if (labelFor != null && labelFor.isEnabled()) {
-                InputMap inputMap = SwingUtilities.getUIInputMap(label, JComponent.WHEN_FOCUSED);
-                if (inputMap != null) {
-                    // inputMap should never be null.
-                    int dka = label.getDisplayedMnemonic();
-                    inputMap.remove(KeyStroke.getKeyStroke(dka, BasicLookAndFeel.getFocusAcceleratorKeyMask(), true));
-                    inputMap.remove(KeyStroke.getKeyStroke(dka, 0, true));
-                    inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_ALT, 0, true));
+        privbtf void doRflfbsf(JLbbfl lbbfl) {
+            Componfnt lbbflFor = lbbfl.gftLbbflFor();
+            if (lbbflFor != null && lbbflFor.isEnbblfd()) {
+                InputMbp inputMbp = SwingUtilitifs.gftUIInputMbp(lbbfl, JComponfnt.WHEN_FOCUSED);
+                if (inputMbp != null) {
+                    // inputMbp siould nfvfr bf null.
+                    int dkb = lbbfl.gftDisplbyfdMnfmonid();
+                    inputMbp.rfmovf(KfyStrokf.gftKfyStrokf(dkb, BbsidLookAndFffl.gftFodusAddflfrbtorKfyMbsk(), truf));
+                    inputMbp.rfmovf(KfyStrokf.gftKfyStrokf(dkb, 0, truf));
+                    inputMbp.rfmovf(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ALT, 0, truf));
                 }
-                if (labelFor instanceof Container &&
-                        ((Container) labelFor).isFocusCycleRoot()) {
-                    labelFor.requestFocus();
-                } else {
-                    SwingUtilities2.compositeRequestFocus(labelFor);
+                if (lbbflFor instbndfof Contbinfr &&
+                        ((Contbinfr) lbbflFor).isFodusCydlfRoot()) {
+                    lbbflFor.rfqufstFodus();
+                } flsf {
+                    SwingUtilitifs2.dompositfRfqufstFodus(lbbflFor);
                 }
             }
         }

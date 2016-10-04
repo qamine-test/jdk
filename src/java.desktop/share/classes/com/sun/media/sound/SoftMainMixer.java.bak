@@ -1,418 +1,418 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.Map.Entry;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+import jbvb.util.TrffMbp;
+import jbvb.util.Mbp.Entry;
 
-import javax.sound.midi.MidiMessage;
-import javax.sound.midi.Patch;
-import javax.sound.midi.ShortMessage;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
+import jbvbx.sound.midi.MidiMfssbgf;
+import jbvbx.sound.midi.Pbtdi;
+import jbvbx.sound.midi.SiortMfssbgf;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
 
 /**
- * Software synthesizer main audio mixer.
+ * Softwbrf syntifsizfr mbin budio mixfr.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SoftMainMixer {
+publid finbl dlbss SoftMbinMixfr {
 
-    // A private class thats contains a ModelChannelMixer and it's private buffers.
-    // This becomes necessary when we want to have separate delay buffers for each channel mixer.
-    private class SoftChannelMixerContainer
+    // A privbtf dlbss tibts dontbins b ModflCibnnflMixfr bnd it's privbtf bufffrs.
+    // Tiis bfdomfs nfdfssbry wifn wf wbnt to ibvf sfpbrbtf dflby bufffrs for fbdi dibnnfl mixfr.
+    privbtf dlbss SoftCibnnflMixfrContbinfr
     {
-        ModelChannelMixer mixer;
-        SoftAudioBuffer[] buffers;
+        ModflCibnnflMixfr mixfr;
+        SoftAudioBufffr[] bufffrs;
     }
 
-    public final static int CHANNEL_LEFT = 0;
-    public final static int CHANNEL_RIGHT = 1;
-    public final static int CHANNEL_MONO = 2;
-    public final static int CHANNEL_DELAY_LEFT = 3;
-    public final static int CHANNEL_DELAY_RIGHT = 4;
-    public final static int CHANNEL_DELAY_MONO = 5;
-    public final static int CHANNEL_EFFECT1 = 6;
-    public final static int CHANNEL_EFFECT2 = 7;
-    public final static int CHANNEL_DELAY_EFFECT1 = 8;
-    public final static int CHANNEL_DELAY_EFFECT2 = 9;
-    public final static int CHANNEL_LEFT_DRY = 10;
-    public final static int CHANNEL_RIGHT_DRY = 11;
-    public final static int CHANNEL_SCRATCH1 = 12;
-    public final static int CHANNEL_SCRATCH2 = 13;
-    boolean active_sensing_on = false;
-    private long msec_last_activity = -1;
-    private boolean pusher_silent = false;
-    private int pusher_silent_count = 0;
-    private long sample_pos = 0;
-    boolean readfully = true;
-    private final Object control_mutex;
-    private SoftSynthesizer synth;
-    private float samplerate = 44100;
-    private int nrofchannels = 2;
-    private SoftVoice[] voicestatus = null;
-    private SoftAudioBuffer[] buffers;
-    private SoftReverb reverb;
-    private SoftAudioProcessor chorus;
-    private SoftAudioProcessor agc;
-    private long msec_buffer_len = 0;
-    private int buffer_len = 0;
-    TreeMap<Long, Object> midimessages = new TreeMap<Long, Object>();
-    private int delay_midievent = 0;
-    private int max_delay_midievent = 0;
-    double last_volume_left = 1.0;
-    double last_volume_right = 1.0;
-    private double[] co_master_balance = new double[1];
-    private double[] co_master_volume = new double[1];
-    private double[] co_master_coarse_tuning = new double[1];
-    private double[] co_master_fine_tuning = new double[1];
-    private AudioInputStream ais;
-    private Set<SoftChannelMixerContainer> registeredMixers = null;
-    private Set<ModelChannelMixer> stoppedMixers = null;
-    private SoftChannelMixerContainer[] cur_registeredMixers = null;
-    SoftControl co_master = new SoftControl() {
+    publid finbl stbtid int CHANNEL_LEFT = 0;
+    publid finbl stbtid int CHANNEL_RIGHT = 1;
+    publid finbl stbtid int CHANNEL_MONO = 2;
+    publid finbl stbtid int CHANNEL_DELAY_LEFT = 3;
+    publid finbl stbtid int CHANNEL_DELAY_RIGHT = 4;
+    publid finbl stbtid int CHANNEL_DELAY_MONO = 5;
+    publid finbl stbtid int CHANNEL_EFFECT1 = 6;
+    publid finbl stbtid int CHANNEL_EFFECT2 = 7;
+    publid finbl stbtid int CHANNEL_DELAY_EFFECT1 = 8;
+    publid finbl stbtid int CHANNEL_DELAY_EFFECT2 = 9;
+    publid finbl stbtid int CHANNEL_LEFT_DRY = 10;
+    publid finbl stbtid int CHANNEL_RIGHT_DRY = 11;
+    publid finbl stbtid int CHANNEL_SCRATCH1 = 12;
+    publid finbl stbtid int CHANNEL_SCRATCH2 = 13;
+    boolfbn bdtivf_sfnsing_on = fblsf;
+    privbtf long msfd_lbst_bdtivity = -1;
+    privbtf boolfbn pusifr_silfnt = fblsf;
+    privbtf int pusifr_silfnt_dount = 0;
+    privbtf long sbmplf_pos = 0;
+    boolfbn rfbdfully = truf;
+    privbtf finbl Objfdt dontrol_mutfx;
+    privbtf SoftSyntifsizfr synti;
+    privbtf flobt sbmplfrbtf = 44100;
+    privbtf int nrofdibnnfls = 2;
+    privbtf SoftVoidf[] voidfstbtus = null;
+    privbtf SoftAudioBufffr[] bufffrs;
+    privbtf SoftRfvfrb rfvfrb;
+    privbtf SoftAudioProdfssor diorus;
+    privbtf SoftAudioProdfssor bgd;
+    privbtf long msfd_bufffr_lfn = 0;
+    privbtf int bufffr_lfn = 0;
+    TrffMbp<Long, Objfdt> midimfssbgfs = nfw TrffMbp<Long, Objfdt>();
+    privbtf int dflby_midifvfnt = 0;
+    privbtf int mbx_dflby_midifvfnt = 0;
+    doublf lbst_volumf_lfft = 1.0;
+    doublf lbst_volumf_rigit = 1.0;
+    privbtf doublf[] do_mbstfr_bblbndf = nfw doublf[1];
+    privbtf doublf[] do_mbstfr_volumf = nfw doublf[1];
+    privbtf doublf[] do_mbstfr_dobrsf_tuning = nfw doublf[1];
+    privbtf doublf[] do_mbstfr_finf_tuning = nfw doublf[1];
+    privbtf AudioInputStrfbm bis;
+    privbtf Sft<SoftCibnnflMixfrContbinfr> rfgistfrfdMixfrs = null;
+    privbtf Sft<ModflCibnnflMixfr> stoppfdMixfrs = null;
+    privbtf SoftCibnnflMixfrContbinfr[] dur_rfgistfrfdMixfrs = null;
+    SoftControl do_mbstfr = nfw SoftControl() {
 
-        double[] balance = co_master_balance;
-        double[] volume = co_master_volume;
-        double[] coarse_tuning = co_master_coarse_tuning;
-        double[] fine_tuning = co_master_fine_tuning;
+        doublf[] bblbndf = do_mbstfr_bblbndf;
+        doublf[] volumf = do_mbstfr_volumf;
+        doublf[] dobrsf_tuning = do_mbstfr_dobrsf_tuning;
+        doublf[] finf_tuning = do_mbstfr_finf_tuning;
 
-        public double[] get(int instance, String name) {
-            if (name == null)
-                return null;
-            if (name.equals("balance"))
-                return balance;
-            if (name.equals("volume"))
-                return volume;
-            if (name.equals("coarse_tuning"))
-                return coarse_tuning;
-            if (name.equals("fine_tuning"))
-                return fine_tuning;
-            return null;
+        publid doublf[] gft(int instbndf, String nbmf) {
+            if (nbmf == null)
+                rfturn null;
+            if (nbmf.fqubls("bblbndf"))
+                rfturn bblbndf;
+            if (nbmf.fqubls("volumf"))
+                rfturn volumf;
+            if (nbmf.fqubls("dobrsf_tuning"))
+                rfturn dobrsf_tuning;
+            if (nbmf.fqubls("finf_tuning"))
+                rfturn finf_tuning;
+            rfturn null;
         }
     };
 
-    private void processSystemExclusiveMessage(byte[] data) {
-        synchronized (synth.control_mutex) {
-            activity();
+    privbtf void prodfssSystfmExdlusivfMfssbgf(bytf[] dbtb) {
+        syndironizfd (synti.dontrol_mutfx) {
+            bdtivity();
 
-            // Universal Non-Real-Time SysEx
-            if ((data[1] & 0xFF) == 0x7E) {
-                int deviceID = data[2] & 0xFF;
-                if (deviceID == 0x7F || deviceID == synth.getDeviceID()) {
-                    int subid1 = data[3] & 0xFF;
+            // Univfrsbl Non-Rfbl-Timf SysEx
+            if ((dbtb[1] & 0xFF) == 0x7E) {
+                int dfvidfID = dbtb[2] & 0xFF;
+                if (dfvidfID == 0x7F || dfvidfID == synti.gftDfvidfID()) {
+                    int subid1 = dbtb[3] & 0xFF;
                     int subid2;
-                    switch (subid1) {
-                    case 0x08:  // MIDI Tuning Standard
-                        subid2 = data[4] & 0xFF;
-                        switch (subid2) {
-                        case 0x01:  // BULK TUNING DUMP
+                    switdi (subid1) {
+                    dbsf 0x08:  // MIDI Tuning Stbndbrd
+                        subid2 = dbtb[4] & 0xFF;
+                        switdi (subid2) {
+                        dbsf 0x01:  // BULK TUNING DUMP
                         {
-                            // http://www.midi.org/about-midi/tuning.shtml
-                            SoftTuning tuning = synth.getTuning(new Patch(0,
-                                    data[5] & 0xFF));
-                            tuning.load(data);
-                            break;
+                            // ittp://www.midi.org/bbout-midi/tuning.sitml
+                            SoftTuning tuning = synti.gftTuning(nfw Pbtdi(0,
+                                    dbtb[5] & 0xFF));
+                            tuning.lobd(dbtb);
+                            brfbk;
                         }
-                        case 0x04:  // KEY-BASED TUNING DUMP
-                        case 0x05:  // SCALE/OCTAVE TUNING DUMP, 1 byte format
-                        case 0x06:  // SCALE/OCTAVE TUNING DUMP, 2 byte format
-                        case 0x07:  // SINGLE NOTE TUNING CHANGE (NON REAL-TIME)
+                        dbsf 0x04:  // KEY-BASED TUNING DUMP
+                        dbsf 0x05:  // SCALE/OCTAVE TUNING DUMP, 1 bytf formbt
+                        dbsf 0x06:  // SCALE/OCTAVE TUNING DUMP, 2 bytf formbt
+                        dbsf 0x07:  // SINGLE NOTE TUNING CHANGE (NON REAL-TIME)
                                     // (BANK)
                         {
-                            // http://www.midi.org/about-midi/tuning_extens.shtml
-                            SoftTuning tuning = synth.getTuning(new Patch(
-                                    data[5] & 0xFF, data[6] & 0xFF));
-                            tuning.load(data);
-                            break;
+                            // ittp://www.midi.org/bbout-midi/tuning_fxtfns.sitml
+                            SoftTuning tuning = synti.gftTuning(nfw Pbtdi(
+                                    dbtb[5] & 0xFF, dbtb[6] & 0xFF));
+                            tuning.lobd(dbtb);
+                            brfbk;
                         }
-                        case 0x08:  // scale/octave tuning 1-byte form (Non
-                                    // Real-Time)
-                        case 0x09:  // scale/octave tuning 2-byte form (Non
-                                    // Real-Time)
+                        dbsf 0x08:  // sdblf/odtbvf tuning 1-bytf form (Non
+                                    // Rfbl-Timf)
+                        dbsf 0x09:  // sdblf/odtbvf tuning 2-bytf form (Non
+                                    // Rfbl-Timf)
                         {
-                            // http://www.midi.org/about-midi/tuning-scale.shtml
-                            SoftTuning tuning = new SoftTuning(data);
-                            int channelmask = (data[5] & 0xFF) * 16384
-                                    + (data[6] & 0xFF) * 128 + (data[7] & 0xFF);
-                            SoftChannel[] channels = synth.channels;
-                            for (int i = 0; i < channels.length; i++)
-                                if ((channelmask & (1 << i)) != 0)
-                                    channels[i].tuning = tuning;
-                            break;
+                            // ittp://www.midi.org/bbout-midi/tuning-sdblf.sitml
+                            SoftTuning tuning = nfw SoftTuning(dbtb);
+                            int dibnnflmbsk = (dbtb[5] & 0xFF) * 16384
+                                    + (dbtb[6] & 0xFF) * 128 + (dbtb[7] & 0xFF);
+                            SoftCibnnfl[] dibnnfls = synti.dibnnfls;
+                            for (int i = 0; i < dibnnfls.lfngti; i++)
+                                if ((dibnnflmbsk & (1 << i)) != 0)
+                                    dibnnfls[i].tuning = tuning;
+                            brfbk;
                         }
-                        default:
-                            break;
+                        dffbult:
+                            brfbk;
                         }
-                        break;
-                    case 0x09:  // General Midi Message
-                        subid2 = data[4] & 0xFF;
-                        switch (subid2) {
-                        case 0x01:  // General Midi 1 On
-                            synth.setGeneralMidiMode(1);
-                            reset();
-                            break;
-                        case 0x02:  // General Midi Off
-                            synth.setGeneralMidiMode(0);
-                            reset();
-                            break;
-                        case 0x03:  // General MidI Level 2 On
-                            synth.setGeneralMidiMode(2);
-                            reset();
-                            break;
-                        default:
-                            break;
+                        brfbk;
+                    dbsf 0x09:  // Gfnfrbl Midi Mfssbgf
+                        subid2 = dbtb[4] & 0xFF;
+                        switdi (subid2) {
+                        dbsf 0x01:  // Gfnfrbl Midi 1 On
+                            synti.sftGfnfrblMidiModf(1);
+                            rfsft();
+                            brfbk;
+                        dbsf 0x02:  // Gfnfrbl Midi Off
+                            synti.sftGfnfrblMidiModf(0);
+                            rfsft();
+                            brfbk;
+                        dbsf 0x03:  // Gfnfrbl MidI Lfvfl 2 On
+                            synti.sftGfnfrblMidiModf(2);
+                            rfsft();
+                            brfbk;
+                        dffbult:
+                            brfbk;
                         }
-                        break;
-                    case 0x0A: // DLS Message
-                        subid2 = data[4] & 0xFF;
-                        switch (subid2) {
-                        case 0x01:  // DLS On
-                            if (synth.getGeneralMidiMode() == 0)
-                                synth.setGeneralMidiMode(1);
-                            synth.voice_allocation_mode = 1;
-                            reset();
-                            break;
-                        case 0x02:  // DLS Off
-                            synth.setGeneralMidiMode(0);
-                            synth.voice_allocation_mode = 0;
-                            reset();
-                            break;
-                        case 0x03:  // DLS Static Voice Allocation Off
-                            synth.voice_allocation_mode = 0;
-                            break;
-                        case 0x04:  // DLS Static Voice Allocation On
-                            synth.voice_allocation_mode = 1;
-                            break;
-                        default:
-                            break;
+                        brfbk;
+                    dbsf 0x0A: // DLS Mfssbgf
+                        subid2 = dbtb[4] & 0xFF;
+                        switdi (subid2) {
+                        dbsf 0x01:  // DLS On
+                            if (synti.gftGfnfrblMidiModf() == 0)
+                                synti.sftGfnfrblMidiModf(1);
+                            synti.voidf_bllodbtion_modf = 1;
+                            rfsft();
+                            brfbk;
+                        dbsf 0x02:  // DLS Off
+                            synti.sftGfnfrblMidiModf(0);
+                            synti.voidf_bllodbtion_modf = 0;
+                            rfsft();
+                            brfbk;
+                        dbsf 0x03:  // DLS Stbtid Voidf Allodbtion Off
+                            synti.voidf_bllodbtion_modf = 0;
+                            brfbk;
+                        dbsf 0x04:  // DLS Stbtid Voidf Allodbtion On
+                            synti.voidf_bllodbtion_modf = 1;
+                            brfbk;
+                        dffbult:
+                            brfbk;
                         }
-                        break;
+                        brfbk;
 
-                    default:
-                        break;
+                    dffbult:
+                        brfbk;
                     }
                 }
             }
 
-            // Universal Real-Time SysEx
-            if ((data[1] & 0xFF) == 0x7F) {
-                int deviceID = data[2] & 0xFF;
-                if (deviceID == 0x7F || deviceID == synth.getDeviceID()) {
-                    int subid1 = data[3] & 0xFF;
+            // Univfrsbl Rfbl-Timf SysEx
+            if ((dbtb[1] & 0xFF) == 0x7F) {
+                int dfvidfID = dbtb[2] & 0xFF;
+                if (dfvidfID == 0x7F || dfvidfID == synti.gftDfvidfID()) {
+                    int subid1 = dbtb[3] & 0xFF;
                     int subid2;
-                    switch (subid1) {
-                    case 0x04: // Device Control
+                    switdi (subid1) {
+                    dbsf 0x04: // Dfvidf Control
 
-                        subid2 = data[4] & 0xFF;
-                        switch (subid2) {
-                        case 0x01: // Master Volume
-                        case 0x02: // Master Balane
-                        case 0x03: // Master fine tuning
-                        case 0x04: // Master coarse tuning
-                            int val = (data[5] & 0x7F)
-                                    + ((data[6] & 0x7F) * 128);
+                        subid2 = dbtb[4] & 0xFF;
+                        switdi (subid2) {
+                        dbsf 0x01: // Mbstfr Volumf
+                        dbsf 0x02: // Mbstfr Bblbnf
+                        dbsf 0x03: // Mbstfr finf tuning
+                        dbsf 0x04: // Mbstfr dobrsf tuning
+                            int vbl = (dbtb[5] & 0x7F)
+                                    + ((dbtb[6] & 0x7F) * 128);
                             if (subid2 == 0x01)
-                                setVolume(val);
-                            else if (subid2 == 0x02)
-                                setBalance(val);
-                            else if (subid2 == 0x03)
-                                setFineTuning(val);
-                            else if (subid2 == 0x04)
-                                setCoarseTuning(val);
-                            break;
-                        case 0x05: // Global Parameter Control
+                                sftVolumf(vbl);
+                            flsf if (subid2 == 0x02)
+                                sftBblbndf(vbl);
+                            flsf if (subid2 == 0x03)
+                                sftFinfTuning(vbl);
+                            flsf if (subid2 == 0x04)
+                                sftCobrsfTuning(vbl);
+                            brfbk;
+                        dbsf 0x05: // Globbl Pbrbmftfr Control
                             int ix = 5;
-                            int slotPathLen = (data[ix++] & 0xFF);
-                            int paramWidth = (data[ix++] & 0xFF);
-                            int valueWidth = (data[ix++] & 0xFF);
-                            int[] slotPath = new int[slotPathLen];
-                            for (int i = 0; i < slotPathLen; i++) {
-                                int msb = (data[ix++] & 0xFF);
-                                int lsb = (data[ix++] & 0xFF);
-                                slotPath[i] = msb * 128 + lsb;
+                            int slotPbtiLfn = (dbtb[ix++] & 0xFF);
+                            int pbrbmWidti = (dbtb[ix++] & 0xFF);
+                            int vblufWidti = (dbtb[ix++] & 0xFF);
+                            int[] slotPbti = nfw int[slotPbtiLfn];
+                            for (int i = 0; i < slotPbtiLfn; i++) {
+                                int msb = (dbtb[ix++] & 0xFF);
+                                int lsb = (dbtb[ix++] & 0xFF);
+                                slotPbti[i] = msb * 128 + lsb;
                             }
-                            int paramCount = (data.length - 1 - ix)
-                                    / (paramWidth + valueWidth);
-                            long[] params = new long[paramCount];
-                            long[] values = new long[paramCount];
-                            for (int i = 0; i < paramCount; i++) {
-                                values[i] = 0;
-                                for (int j = 0; j < paramWidth; j++)
-                                    params[i] = params[i] * 128
-                                            + (data[ix++] & 0xFF);
-                                for (int j = 0; j < valueWidth; j++)
-                                    values[i] = values[i] * 128
-                                            + (data[ix++] & 0xFF);
+                            int pbrbmCount = (dbtb.lfngti - 1 - ix)
+                                    / (pbrbmWidti + vblufWidti);
+                            long[] pbrbms = nfw long[pbrbmCount];
+                            long[] vblufs = nfw long[pbrbmCount];
+                            for (int i = 0; i < pbrbmCount; i++) {
+                                vblufs[i] = 0;
+                                for (int j = 0; j < pbrbmWidti; j++)
+                                    pbrbms[i] = pbrbms[i] * 128
+                                            + (dbtb[ix++] & 0xFF);
+                                for (int j = 0; j < vblufWidti; j++)
+                                    vblufs[i] = vblufs[i] * 128
+                                            + (dbtb[ix++] & 0xFF);
 
                             }
-                            globalParameterControlChange(slotPath, params, values);
-                            break;
-                        default:
-                            break;
+                            globblPbrbmftfrControlCibngf(slotPbti, pbrbms, vblufs);
+                            brfbk;
+                        dffbult:
+                            brfbk;
                         }
-                        break;
+                        brfbk;
 
-                    case 0x08:  // MIDI Tuning Standard
-                        subid2 = data[4] & 0xFF;
-                        switch (subid2) {
-                        case 0x02:  // SINGLE NOTE TUNING CHANGE (REAL-TIME)
+                    dbsf 0x08:  // MIDI Tuning Stbndbrd
+                        subid2 = dbtb[4] & 0xFF;
+                        switdi (subid2) {
+                        dbsf 0x02:  // SINGLE NOTE TUNING CHANGE (REAL-TIME)
                         {
-                            // http://www.midi.org/about-midi/tuning.shtml
-                            SoftTuning tuning = synth.getTuning(new Patch(0,
-                                    data[5] & 0xFF));
-                            tuning.load(data);
-                            SoftVoice[] voices = synth.getVoices();
-                            for (int i = 0; i < voices.length; i++)
-                                if (voices[i].active)
-                                    if (voices[i].tuning == tuning)
-                                        voices[i].updateTuning(tuning);
-                            break;
+                            // ittp://www.midi.org/bbout-midi/tuning.sitml
+                            SoftTuning tuning = synti.gftTuning(nfw Pbtdi(0,
+                                    dbtb[5] & 0xFF));
+                            tuning.lobd(dbtb);
+                            SoftVoidf[] voidfs = synti.gftVoidfs();
+                            for (int i = 0; i < voidfs.lfngti; i++)
+                                if (voidfs[i].bdtivf)
+                                    if (voidfs[i].tuning == tuning)
+                                        voidfs[i].updbtfTuning(tuning);
+                            brfbk;
                         }
-                        case 0x07:  // SINGLE NOTE TUNING CHANGE (REAL-TIME)
+                        dbsf 0x07:  // SINGLE NOTE TUNING CHANGE (REAL-TIME)
                                     // (BANK)
                         {
-                            // http://www.midi.org/about-midi/tuning_extens.shtml
-                            SoftTuning tuning = synth.getTuning(new Patch(
-                                    data[5] & 0xFF, data[6] & 0xFF));
-                            tuning.load(data);
-                            SoftVoice[] voices = synth.getVoices();
-                            for (int i = 0; i < voices.length; i++)
-                                if (voices[i].active)
-                                    if (voices[i].tuning == tuning)
-                                        voices[i].updateTuning(tuning);
-                            break;
+                            // ittp://www.midi.org/bbout-midi/tuning_fxtfns.sitml
+                            SoftTuning tuning = synti.gftTuning(nfw Pbtdi(
+                                    dbtb[5] & 0xFF, dbtb[6] & 0xFF));
+                            tuning.lobd(dbtb);
+                            SoftVoidf[] voidfs = synti.gftVoidfs();
+                            for (int i = 0; i < voidfs.lfngti; i++)
+                                if (voidfs[i].bdtivf)
+                                    if (voidfs[i].tuning == tuning)
+                                        voidfs[i].updbtfTuning(tuning);
+                            brfbk;
                         }
-                        case 0x08:  // scale/octave tuning 1-byte form
-                                    //(Real-Time)
-                        case 0x09:  // scale/octave tuning 2-byte form
-                                    // (Real-Time)
+                        dbsf 0x08:  // sdblf/odtbvf tuning 1-bytf form
+                                    //(Rfbl-Timf)
+                        dbsf 0x09:  // sdblf/odtbvf tuning 2-bytf form
+                                    // (Rfbl-Timf)
                         {
-                            // http://www.midi.org/about-midi/tuning-scale.shtml
-                            SoftTuning tuning = new SoftTuning(data);
-                            int channelmask = (data[5] & 0xFF) * 16384
-                                    + (data[6] & 0xFF) * 128 + (data[7] & 0xFF);
-                            SoftChannel[] channels = synth.channels;
-                            for (int i = 0; i < channels.length; i++)
-                                if ((channelmask & (1 << i)) != 0)
-                                    channels[i].tuning = tuning;
-                            SoftVoice[] voices = synth.getVoices();
-                            for (int i = 0; i < voices.length; i++)
-                                if (voices[i].active)
-                                    if ((channelmask & (1 << (voices[i].channel))) != 0)
-                                        voices[i].updateTuning(tuning);
-                            break;
+                            // ittp://www.midi.org/bbout-midi/tuning-sdblf.sitml
+                            SoftTuning tuning = nfw SoftTuning(dbtb);
+                            int dibnnflmbsk = (dbtb[5] & 0xFF) * 16384
+                                    + (dbtb[6] & 0xFF) * 128 + (dbtb[7] & 0xFF);
+                            SoftCibnnfl[] dibnnfls = synti.dibnnfls;
+                            for (int i = 0; i < dibnnfls.lfngti; i++)
+                                if ((dibnnflmbsk & (1 << i)) != 0)
+                                    dibnnfls[i].tuning = tuning;
+                            SoftVoidf[] voidfs = synti.gftVoidfs();
+                            for (int i = 0; i < voidfs.lfngti; i++)
+                                if (voidfs[i].bdtivf)
+                                    if ((dibnnflmbsk & (1 << (voidfs[i].dibnnfl))) != 0)
+                                        voidfs[i].updbtfTuning(tuning);
+                            brfbk;
                         }
-                        default:
-                            break;
+                        dffbult:
+                            brfbk;
                         }
-                        break;
-                    case 0x09:  // Control Destination Settings
-                        subid2 = data[4] & 0xFF;
-                        switch (subid2) {
-                        case 0x01: // Channel Pressure
+                        brfbk;
+                    dbsf 0x09:  // Control Dfstinbtion Sfttings
+                        subid2 = dbtb[4] & 0xFF;
+                        switdi (subid2) {
+                        dbsf 0x01: // Cibnnfl Prfssurf
                         {
-                            int[] destinations = new int[(data.length - 7) / 2];
-                            int[] ranges = new int[(data.length - 7) / 2];
+                            int[] dfstinbtions = nfw int[(dbtb.lfngti - 7) / 2];
+                            int[] rbngfs = nfw int[(dbtb.lfngti - 7) / 2];
                             int ix = 0;
-                            for (int j = 6; j < data.length - 1; j += 2) {
-                                destinations[ix] = data[j] & 0xFF;
-                                ranges[ix] = data[j + 1] & 0xFF;
+                            for (int j = 6; j < dbtb.lfngti - 1; j += 2) {
+                                dfstinbtions[ix] = dbtb[j] & 0xFF;
+                                rbngfs[ix] = dbtb[j + 1] & 0xFF;
                                 ix++;
                             }
-                            int channel = data[5] & 0xFF;
-                            SoftChannel softchannel = synth.channels[channel];
-                            softchannel.mapChannelPressureToDestination(
-                                    destinations, ranges);
-                            break;
+                            int dibnnfl = dbtb[5] & 0xFF;
+                            SoftCibnnfl softdibnnfl = synti.dibnnfls[dibnnfl];
+                            softdibnnfl.mbpCibnnflPrfssurfToDfstinbtion(
+                                    dfstinbtions, rbngfs);
+                            brfbk;
                         }
-                        case 0x02: // Poly Pressure
+                        dbsf 0x02: // Poly Prfssurf
                         {
-                            int[] destinations = new int[(data.length - 7) / 2];
-                            int[] ranges = new int[(data.length - 7) / 2];
+                            int[] dfstinbtions = nfw int[(dbtb.lfngti - 7) / 2];
+                            int[] rbngfs = nfw int[(dbtb.lfngti - 7) / 2];
                             int ix = 0;
-                            for (int j = 6; j < data.length - 1; j += 2) {
-                                destinations[ix] = data[j] & 0xFF;
-                                ranges[ix] = data[j + 1] & 0xFF;
+                            for (int j = 6; j < dbtb.lfngti - 1; j += 2) {
+                                dfstinbtions[ix] = dbtb[j] & 0xFF;
+                                rbngfs[ix] = dbtb[j + 1] & 0xFF;
                                 ix++;
                             }
-                            int channel = data[5] & 0xFF;
-                            SoftChannel softchannel = synth.channels[channel];
-                            softchannel.mapPolyPressureToDestination(
-                                    destinations, ranges);
-                            break;
+                            int dibnnfl = dbtb[5] & 0xFF;
+                            SoftCibnnfl softdibnnfl = synti.dibnnfls[dibnnfl];
+                            softdibnnfl.mbpPolyPrfssurfToDfstinbtion(
+                                    dfstinbtions, rbngfs);
+                            brfbk;
                         }
-                        case 0x03: // Control Change
+                        dbsf 0x03: // Control Cibngf
                         {
-                            int[] destinations = new int[(data.length - 7) / 2];
-                            int[] ranges = new int[(data.length - 7) / 2];
+                            int[] dfstinbtions = nfw int[(dbtb.lfngti - 7) / 2];
+                            int[] rbngfs = nfw int[(dbtb.lfngti - 7) / 2];
                             int ix = 0;
-                            for (int j = 7; j < data.length - 1; j += 2) {
-                                destinations[ix] = data[j] & 0xFF;
-                                ranges[ix] = data[j + 1] & 0xFF;
+                            for (int j = 7; j < dbtb.lfngti - 1; j += 2) {
+                                dfstinbtions[ix] = dbtb[j] & 0xFF;
+                                rbngfs[ix] = dbtb[j + 1] & 0xFF;
                                 ix++;
                             }
-                            int channel = data[5] & 0xFF;
-                            SoftChannel softchannel = synth.channels[channel];
-                            int control = data[6] & 0xFF;
-                            softchannel.mapControlToDestination(control,
-                                    destinations, ranges);
-                            break;
+                            int dibnnfl = dbtb[5] & 0xFF;
+                            SoftCibnnfl softdibnnfl = synti.dibnnfls[dibnnfl];
+                            int dontrol = dbtb[6] & 0xFF;
+                            softdibnnfl.mbpControlToDfstinbtion(dontrol,
+                                    dfstinbtions, rbngfs);
+                            brfbk;
                         }
-                        default:
-                            break;
+                        dffbult:
+                            brfbk;
                         }
-                        break;
+                        brfbk;
 
-                    case 0x0A:  // Key Based Instrument Control
+                    dbsf 0x0A:  // Kfy Bbsfd Instrumfnt Control
                     {
-                        subid2 = data[4] & 0xFF;
-                        switch (subid2) {
-                        case 0x01: // Basic Message
-                            int channel = data[5] & 0xFF;
-                            int keynumber = data[6] & 0xFF;
-                            SoftChannel softchannel = synth.channels[channel];
-                            for (int j = 7; j < data.length - 1; j += 2) {
-                                int controlnumber = data[j] & 0xFF;
-                                int controlvalue = data[j + 1] & 0xFF;
-                                softchannel.controlChangePerNote(keynumber,
-                                        controlnumber, controlvalue);
+                        subid2 = dbtb[4] & 0xFF;
+                        switdi (subid2) {
+                        dbsf 0x01: // Bbsid Mfssbgf
+                            int dibnnfl = dbtb[5] & 0xFF;
+                            int kfynumbfr = dbtb[6] & 0xFF;
+                            SoftCibnnfl softdibnnfl = synti.dibnnfls[dibnnfl];
+                            for (int j = 7; j < dbtb.lfngti - 1; j += 2) {
+                                int dontrolnumbfr = dbtb[j] & 0xFF;
+                                int dontrolvbluf = dbtb[j + 1] & 0xFF;
+                                softdibnnfl.dontrolCibngfPfrNotf(kfynumbfr,
+                                        dontrolnumbfr, dontrolvbluf);
                             }
-                            break;
-                        default:
-                            break;
+                            brfbk;
+                        dffbult:
+                            brfbk;
                         }
-                        break;
+                        brfbk;
                     }
-                    default:
-                        break;
+                    dffbult:
+                        brfbk;
                     }
                 }
             }
@@ -420,218 +420,218 @@ public final class SoftMainMixer {
         }
     }
 
-    private void processMessages(long timeStamp) {
-        Iterator<Entry<Long, Object>> iter = midimessages.entrySet().iterator();
-        while (iter.hasNext()) {
-            Entry<Long, Object> entry = iter.next();
-            if (entry.getKey() >= (timeStamp + msec_buffer_len))
-                return;
-            long msec_delay = entry.getKey() - timeStamp;
-            delay_midievent = (int)(msec_delay * (samplerate / 1000000.0) + 0.5);
-            if(delay_midievent > max_delay_midievent)
-                delay_midievent = max_delay_midievent;
-            if(delay_midievent < 0)
-                delay_midievent = 0;
-            processMessage(entry.getValue());
-            iter.remove();
+    privbtf void prodfssMfssbgfs(long timfStbmp) {
+        Itfrbtor<Entry<Long, Objfdt>> itfr = midimfssbgfs.fntrySft().itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            Entry<Long, Objfdt> fntry = itfr.nfxt();
+            if (fntry.gftKfy() >= (timfStbmp + msfd_bufffr_lfn))
+                rfturn;
+            long msfd_dflby = fntry.gftKfy() - timfStbmp;
+            dflby_midifvfnt = (int)(msfd_dflby * (sbmplfrbtf / 1000000.0) + 0.5);
+            if(dflby_midifvfnt > mbx_dflby_midifvfnt)
+                dflby_midifvfnt = mbx_dflby_midifvfnt;
+            if(dflby_midifvfnt < 0)
+                dflby_midifvfnt = 0;
+            prodfssMfssbgf(fntry.gftVbluf());
+            itfr.rfmovf();
         }
-        delay_midievent = 0;
+        dflby_midifvfnt = 0;
     }
 
-    void processAudioBuffers() {
+    void prodfssAudioBufffrs() {
 
-        if(synth.weakstream != null && synth.weakstream.silent_samples != 0)
+        if(synti.wfbkstrfbm != null && synti.wfbkstrfbm.silfnt_sbmplfs != 0)
         {
-            sample_pos += synth.weakstream.silent_samples;
-            synth.weakstream.silent_samples = 0;
+            sbmplf_pos += synti.wfbkstrfbm.silfnt_sbmplfs;
+            synti.wfbkstrfbm.silfnt_sbmplfs = 0;
         }
 
-        for (int i = 0; i < buffers.length; i++) {
+        for (int i = 0; i < bufffrs.lfngti; i++) {
             if(i != CHANNEL_DELAY_LEFT &&
                     i != CHANNEL_DELAY_RIGHT &&
                     i != CHANNEL_DELAY_MONO &&
                     i != CHANNEL_DELAY_EFFECT1 &&
                     i != CHANNEL_DELAY_EFFECT2)
-                buffers[i].clear();
+                bufffrs[i].dlfbr();
         }
 
-        if(!buffers[CHANNEL_DELAY_LEFT].isSilent())
+        if(!bufffrs[CHANNEL_DELAY_LEFT].isSilfnt())
         {
-            buffers[CHANNEL_LEFT].swap(buffers[CHANNEL_DELAY_LEFT]);
+            bufffrs[CHANNEL_LEFT].swbp(bufffrs[CHANNEL_DELAY_LEFT]);
         }
-        if(!buffers[CHANNEL_DELAY_RIGHT].isSilent())
+        if(!bufffrs[CHANNEL_DELAY_RIGHT].isSilfnt())
         {
-            buffers[CHANNEL_RIGHT].swap(buffers[CHANNEL_DELAY_RIGHT]);
+            bufffrs[CHANNEL_RIGHT].swbp(bufffrs[CHANNEL_DELAY_RIGHT]);
         }
-        if(!buffers[CHANNEL_DELAY_MONO].isSilent())
+        if(!bufffrs[CHANNEL_DELAY_MONO].isSilfnt())
         {
-            buffers[CHANNEL_MONO].swap(buffers[CHANNEL_DELAY_MONO]);
+            bufffrs[CHANNEL_MONO].swbp(bufffrs[CHANNEL_DELAY_MONO]);
         }
-        if(!buffers[CHANNEL_DELAY_EFFECT1].isSilent())
+        if(!bufffrs[CHANNEL_DELAY_EFFECT1].isSilfnt())
         {
-            buffers[CHANNEL_EFFECT1].swap(buffers[CHANNEL_DELAY_EFFECT1]);
+            bufffrs[CHANNEL_EFFECT1].swbp(bufffrs[CHANNEL_DELAY_EFFECT1]);
         }
-        if(!buffers[CHANNEL_DELAY_EFFECT2].isSilent())
+        if(!bufffrs[CHANNEL_DELAY_EFFECT2].isSilfnt())
         {
-            buffers[CHANNEL_EFFECT2].swap(buffers[CHANNEL_DELAY_EFFECT2]);
+            bufffrs[CHANNEL_EFFECT2].swbp(bufffrs[CHANNEL_DELAY_EFFECT2]);
         }
 
-        double volume_left;
-        double volume_right;
+        doublf volumf_lfft;
+        doublf volumf_rigit;
 
-        SoftChannelMixerContainer[] act_registeredMixers;
+        SoftCibnnflMixfrContbinfr[] bdt_rfgistfrfdMixfrs;
 
-        // perform control logic
-        synchronized (control_mutex) {
+        // pfrform dontrol logid
+        syndironizfd (dontrol_mutfx) {
 
-            long msec_pos = (long)(sample_pos * (1000000.0 / samplerate));
+            long msfd_pos = (long)(sbmplf_pos * (1000000.0 / sbmplfrbtf));
 
-            processMessages(msec_pos);
+            prodfssMfssbgfs(msfd_pos);
 
-            if (active_sensing_on) {
-                // Active Sensing
-                // if no message occurs for max 1000 ms
-                // then do AllSoundOff on all channels
-                if ((msec_pos - msec_last_activity) > 1000000) {
-                    active_sensing_on = false;
-                    for (SoftChannel c : synth.channels)
-                        c.allSoundOff();
+            if (bdtivf_sfnsing_on) {
+                // Adtivf Sfnsing
+                // if no mfssbgf oddurs for mbx 1000 ms
+                // tifn do AllSoundOff on bll dibnnfls
+                if ((msfd_pos - msfd_lbst_bdtivity) > 1000000) {
+                    bdtivf_sfnsing_on = fblsf;
+                    for (SoftCibnnfl d : synti.dibnnfls)
+                        d.bllSoundOff();
                 }
 
             }
 
-            for (int i = 0; i < voicestatus.length; i++)
-                if (voicestatus[i].active)
-                    voicestatus[i].processControlLogic();
-            sample_pos += buffer_len;
+            for (int i = 0; i < voidfstbtus.lfngti; i++)
+                if (voidfstbtus[i].bdtivf)
+                    voidfstbtus[i].prodfssControlLogid();
+            sbmplf_pos += bufffr_lfn;
 
-            double volume = co_master_volume[0];
-            volume_left = volume;
-            volume_right = volume;
+            doublf volumf = do_mbstfr_volumf[0];
+            volumf_lfft = volumf;
+            volumf_rigit = volumf;
 
-            double balance = co_master_balance[0];
-            if (balance > 0.5)
-                volume_left *= (1 - balance) * 2;
-            else
-                volume_right *= balance * 2;
+            doublf bblbndf = do_mbstfr_bblbndf[0];
+            if (bblbndf > 0.5)
+                volumf_lfft *= (1 - bblbndf) * 2;
+            flsf
+                volumf_rigit *= bblbndf * 2;
 
-            chorus.processControlLogic();
-            reverb.processControlLogic();
-            agc.processControlLogic();
+            diorus.prodfssControlLogid();
+            rfvfrb.prodfssControlLogid();
+            bgd.prodfssControlLogid();
 
-            if (cur_registeredMixers == null) {
-                if (registeredMixers != null) {
-                    cur_registeredMixers =
-                            new SoftChannelMixerContainer[registeredMixers.size()];
-                    registeredMixers.toArray(cur_registeredMixers);
+            if (dur_rfgistfrfdMixfrs == null) {
+                if (rfgistfrfdMixfrs != null) {
+                    dur_rfgistfrfdMixfrs =
+                            nfw SoftCibnnflMixfrContbinfr[rfgistfrfdMixfrs.sizf()];
+                    rfgistfrfdMixfrs.toArrby(dur_rfgistfrfdMixfrs);
                 }
             }
 
-            act_registeredMixers = cur_registeredMixers;
-            if (act_registeredMixers != null)
-                if (act_registeredMixers.length == 0)
-                    act_registeredMixers = null;
+            bdt_rfgistfrfdMixfrs = dur_rfgistfrfdMixfrs;
+            if (bdt_rfgistfrfdMixfrs != null)
+                if (bdt_rfgistfrfdMixfrs.lfngti == 0)
+                    bdt_rfgistfrfdMixfrs = null;
 
         }
 
-        if (act_registeredMixers != null) {
+        if (bdt_rfgistfrfdMixfrs != null) {
 
-            // Make backup of left,right,mono channels
-            SoftAudioBuffer leftbak = buffers[CHANNEL_LEFT];
-            SoftAudioBuffer rightbak = buffers[CHANNEL_RIGHT];
-            SoftAudioBuffer monobak = buffers[CHANNEL_MONO];
-            SoftAudioBuffer delayleftbak = buffers[CHANNEL_DELAY_LEFT];
-            SoftAudioBuffer delayrightbak = buffers[CHANNEL_DELAY_RIGHT];
-            SoftAudioBuffer delaymonobak = buffers[CHANNEL_DELAY_MONO];
+            // Mbkf bbdkup of lfft,rigit,mono dibnnfls
+            SoftAudioBufffr lfftbbk = bufffrs[CHANNEL_LEFT];
+            SoftAudioBufffr rigitbbk = bufffrs[CHANNEL_RIGHT];
+            SoftAudioBufffr monobbk = bufffrs[CHANNEL_MONO];
+            SoftAudioBufffr dflbylfftbbk = bufffrs[CHANNEL_DELAY_LEFT];
+            SoftAudioBufffr dflbyrigitbbk = bufffrs[CHANNEL_DELAY_RIGHT];
+            SoftAudioBufffr dflbymonobbk = bufffrs[CHANNEL_DELAY_MONO];
 
-            int bufferlen = buffers[CHANNEL_LEFT].getSize();
+            int bufffrlfn = bufffrs[CHANNEL_LEFT].gftSizf();
 
-            float[][] cbuffer = new float[nrofchannels][];
-            float[][] obuffer = new float[nrofchannels][];
-            obuffer[0] = leftbak.array();
-            if (nrofchannels != 1)
-                obuffer[1] = rightbak.array();
+            flobt[][] dbufffr = nfw flobt[nrofdibnnfls][];
+            flobt[][] obufffr = nfw flobt[nrofdibnnfls][];
+            obufffr[0] = lfftbbk.brrby();
+            if (nrofdibnnfls != 1)
+                obufffr[1] = rigitbbk.brrby();
 
-            for (SoftChannelMixerContainer cmixer : act_registeredMixers) {
+            for (SoftCibnnflMixfrContbinfr dmixfr : bdt_rfgistfrfdMixfrs) {
 
-                // Reroute default left,right output
-                // to channelmixer left,right input/output
-                buffers[CHANNEL_LEFT] =  cmixer.buffers[CHANNEL_LEFT];
-                buffers[CHANNEL_RIGHT] = cmixer.buffers[CHANNEL_RIGHT];
-                buffers[CHANNEL_MONO] = cmixer.buffers[CHANNEL_MONO];
-                buffers[CHANNEL_DELAY_LEFT] = cmixer.buffers[CHANNEL_DELAY_LEFT];
-                buffers[CHANNEL_DELAY_RIGHT] = cmixer.buffers[CHANNEL_DELAY_RIGHT];
-                buffers[CHANNEL_DELAY_MONO] = cmixer.buffers[CHANNEL_DELAY_MONO];
+                // Rfroutf dffbult lfft,rigit output
+                // to dibnnflmixfr lfft,rigit input/output
+                bufffrs[CHANNEL_LEFT] =  dmixfr.bufffrs[CHANNEL_LEFT];
+                bufffrs[CHANNEL_RIGHT] = dmixfr.bufffrs[CHANNEL_RIGHT];
+                bufffrs[CHANNEL_MONO] = dmixfr.bufffrs[CHANNEL_MONO];
+                bufffrs[CHANNEL_DELAY_LEFT] = dmixfr.bufffrs[CHANNEL_DELAY_LEFT];
+                bufffrs[CHANNEL_DELAY_RIGHT] = dmixfr.bufffrs[CHANNEL_DELAY_RIGHT];
+                bufffrs[CHANNEL_DELAY_MONO] = dmixfr.bufffrs[CHANNEL_DELAY_MONO];
 
-                buffers[CHANNEL_LEFT].clear();
-                buffers[CHANNEL_RIGHT].clear();
-                buffers[CHANNEL_MONO].clear();
+                bufffrs[CHANNEL_LEFT].dlfbr();
+                bufffrs[CHANNEL_RIGHT].dlfbr();
+                bufffrs[CHANNEL_MONO].dlfbr();
 
-                if(!buffers[CHANNEL_DELAY_LEFT].isSilent())
+                if(!bufffrs[CHANNEL_DELAY_LEFT].isSilfnt())
                 {
-                    buffers[CHANNEL_LEFT].swap(buffers[CHANNEL_DELAY_LEFT]);
+                    bufffrs[CHANNEL_LEFT].swbp(bufffrs[CHANNEL_DELAY_LEFT]);
                 }
-                if(!buffers[CHANNEL_DELAY_RIGHT].isSilent())
+                if(!bufffrs[CHANNEL_DELAY_RIGHT].isSilfnt())
                 {
-                    buffers[CHANNEL_RIGHT].swap(buffers[CHANNEL_DELAY_RIGHT]);
+                    bufffrs[CHANNEL_RIGHT].swbp(bufffrs[CHANNEL_DELAY_RIGHT]);
                 }
-                if(!buffers[CHANNEL_DELAY_MONO].isSilent())
+                if(!bufffrs[CHANNEL_DELAY_MONO].isSilfnt())
                 {
-                    buffers[CHANNEL_MONO].swap(buffers[CHANNEL_DELAY_MONO]);
+                    bufffrs[CHANNEL_MONO].swbp(bufffrs[CHANNEL_DELAY_MONO]);
                 }
 
-                cbuffer[0] = buffers[CHANNEL_LEFT].array();
-                if (nrofchannels != 1)
-                    cbuffer[1] = buffers[CHANNEL_RIGHT].array();
+                dbufffr[0] = bufffrs[CHANNEL_LEFT].brrby();
+                if (nrofdibnnfls != 1)
+                    dbufffr[1] = bufffrs[CHANNEL_RIGHT].brrby();
 
-                boolean hasactivevoices = false;
-                for (int i = 0; i < voicestatus.length; i++)
-                    if (voicestatus[i].active)
-                        if (voicestatus[i].channelmixer == cmixer.mixer) {
-                            voicestatus[i].processAudioLogic(buffers);
-                            hasactivevoices = true;
+                boolfbn ibsbdtivfvoidfs = fblsf;
+                for (int i = 0; i < voidfstbtus.lfngti; i++)
+                    if (voidfstbtus[i].bdtivf)
+                        if (voidfstbtus[i].dibnnflmixfr == dmixfr.mixfr) {
+                            voidfstbtus[i].prodfssAudioLogid(bufffrs);
+                            ibsbdtivfvoidfs = truf;
                         }
 
-                if(!buffers[CHANNEL_MONO].isSilent())
+                if(!bufffrs[CHANNEL_MONO].isSilfnt())
                 {
-                    float[] mono = buffers[CHANNEL_MONO].array();
-                    float[] left = buffers[CHANNEL_LEFT].array();
-                    if (nrofchannels != 1) {
-                        float[] right = buffers[CHANNEL_RIGHT].array();
-                        for (int i = 0; i < bufferlen; i++) {
-                            float v = mono[i];
-                            left[i] += v;
-                            right[i] += v;
+                    flobt[] mono = bufffrs[CHANNEL_MONO].brrby();
+                    flobt[] lfft = bufffrs[CHANNEL_LEFT].brrby();
+                    if (nrofdibnnfls != 1) {
+                        flobt[] rigit = bufffrs[CHANNEL_RIGHT].brrby();
+                        for (int i = 0; i < bufffrlfn; i++) {
+                            flobt v = mono[i];
+                            lfft[i] += v;
+                            rigit[i] += v;
                         }
                     }
-                    else
+                    flsf
                     {
-                        for (int i = 0; i < bufferlen; i++) {
-                            left[i] += mono[i];
+                        for (int i = 0; i < bufffrlfn; i++) {
+                            lfft[i] += mono[i];
                         }
                     }
                 }
 
-                if (!cmixer.mixer.process(cbuffer, 0, bufferlen)) {
-                    synchronized (control_mutex) {
-                        registeredMixers.remove(cmixer);
-                        cur_registeredMixers = null;
+                if (!dmixfr.mixfr.prodfss(dbufffr, 0, bufffrlfn)) {
+                    syndironizfd (dontrol_mutfx) {
+                        rfgistfrfdMixfrs.rfmovf(dmixfr);
+                        dur_rfgistfrfdMixfrs = null;
                     }
                 }
 
-                for (int i = 0; i < cbuffer.length; i++) {
-                    float[] cbuff = cbuffer[i];
-                    float[] obuff = obuffer[i];
-                    for (int j = 0; j < bufferlen; j++)
-                        obuff[j] += cbuff[j];
+                for (int i = 0; i < dbufffr.lfngti; i++) {
+                    flobt[] dbuff = dbufffr[i];
+                    flobt[] obuff = obufffr[i];
+                    for (int j = 0; j < bufffrlfn; j++)
+                        obuff[j] += dbuff[j];
                 }
 
-                if (!hasactivevoices) {
-                    synchronized (control_mutex) {
-                        if (stoppedMixers != null) {
-                            if (stoppedMixers.contains(cmixer)) {
-                                stoppedMixers.remove(cmixer);
-                                cmixer.mixer.stop();
+                if (!ibsbdtivfvoidfs) {
+                    syndironizfd (dontrol_mutfx) {
+                        if (stoppfdMixfrs != null) {
+                            if (stoppfdMixfrs.dontbins(dmixfr)) {
+                                stoppfdMixfrs.rfmovf(dmixfr);
+                                dmixfr.mixfr.stop();
                             }
                         }
                     }
@@ -639,388 +639,388 @@ public final class SoftMainMixer {
 
             }
 
-            buffers[CHANNEL_LEFT] = leftbak;
-            buffers[CHANNEL_RIGHT] = rightbak;
-            buffers[CHANNEL_MONO] = monobak;
-            buffers[CHANNEL_DELAY_LEFT] = delayleftbak;
-            buffers[CHANNEL_DELAY_RIGHT] = delayrightbak;
-            buffers[CHANNEL_DELAY_MONO] = delaymonobak;
+            bufffrs[CHANNEL_LEFT] = lfftbbk;
+            bufffrs[CHANNEL_RIGHT] = rigitbbk;
+            bufffrs[CHANNEL_MONO] = monobbk;
+            bufffrs[CHANNEL_DELAY_LEFT] = dflbylfftbbk;
+            bufffrs[CHANNEL_DELAY_RIGHT] = dflbyrigitbbk;
+            bufffrs[CHANNEL_DELAY_MONO] = dflbymonobbk;
 
         }
 
-        for (int i = 0; i < voicestatus.length; i++)
-            if (voicestatus[i].active)
-                if (voicestatus[i].channelmixer == null)
-                    voicestatus[i].processAudioLogic(buffers);
+        for (int i = 0; i < voidfstbtus.lfngti; i++)
+            if (voidfstbtus[i].bdtivf)
+                if (voidfstbtus[i].dibnnflmixfr == null)
+                    voidfstbtus[i].prodfssAudioLogid(bufffrs);
 
-        if(!buffers[CHANNEL_MONO].isSilent())
+        if(!bufffrs[CHANNEL_MONO].isSilfnt())
         {
-            float[] mono = buffers[CHANNEL_MONO].array();
-            float[] left = buffers[CHANNEL_LEFT].array();
-            int bufferlen = buffers[CHANNEL_LEFT].getSize();
-            if (nrofchannels != 1) {
-                float[] right = buffers[CHANNEL_RIGHT].array();
-                for (int i = 0; i < bufferlen; i++) {
-                    float v = mono[i];
-                    left[i] += v;
-                    right[i] += v;
+            flobt[] mono = bufffrs[CHANNEL_MONO].brrby();
+            flobt[] lfft = bufffrs[CHANNEL_LEFT].brrby();
+            int bufffrlfn = bufffrs[CHANNEL_LEFT].gftSizf();
+            if (nrofdibnnfls != 1) {
+                flobt[] rigit = bufffrs[CHANNEL_RIGHT].brrby();
+                for (int i = 0; i < bufffrlfn; i++) {
+                    flobt v = mono[i];
+                    lfft[i] += v;
+                    rigit[i] += v;
                 }
             }
-            else
+            flsf
             {
-                for (int i = 0; i < bufferlen; i++) {
-                    left[i] += mono[i];
+                for (int i = 0; i < bufffrlfn; i++) {
+                    lfft[i] += mono[i];
                 }
             }
         }
 
-        // Run effects
-        if (synth.chorus_on)
-            chorus.processAudio();
+        // Run ffffdts
+        if (synti.diorus_on)
+            diorus.prodfssAudio();
 
-        if (synth.reverb_on)
-            reverb.processAudio();
+        if (synti.rfvfrb_on)
+            rfvfrb.prodfssAudio();
 
-        if (nrofchannels == 1)
-            volume_left = (volume_left + volume_right) / 2;
+        if (nrofdibnnfls == 1)
+            volumf_lfft = (volumf_lfft + volumf_rigit) / 2;
 
-        // Set Volume / Balance
-        if (last_volume_left != volume_left || last_volume_right != volume_right) {
-            float[] left = buffers[CHANNEL_LEFT].array();
-            float[] right = buffers[CHANNEL_RIGHT].array();
-            int bufferlen = buffers[CHANNEL_LEFT].getSize();
+        // Sft Volumf / Bblbndf
+        if (lbst_volumf_lfft != volumf_lfft || lbst_volumf_rigit != volumf_rigit) {
+            flobt[] lfft = bufffrs[CHANNEL_LEFT].brrby();
+            flobt[] rigit = bufffrs[CHANNEL_RIGHT].brrby();
+            int bufffrlfn = bufffrs[CHANNEL_LEFT].gftSizf();
 
-            float amp;
-            float amp_delta;
-            amp = (float)(last_volume_left * last_volume_left);
-            amp_delta = (float)((volume_left * volume_left - amp) / bufferlen);
-            for (int i = 0; i < bufferlen; i++) {
-                amp += amp_delta;
-                left[i] *= amp;
+            flobt bmp;
+            flobt bmp_dfltb;
+            bmp = (flobt)(lbst_volumf_lfft * lbst_volumf_lfft);
+            bmp_dfltb = (flobt)((volumf_lfft * volumf_lfft - bmp) / bufffrlfn);
+            for (int i = 0; i < bufffrlfn; i++) {
+                bmp += bmp_dfltb;
+                lfft[i] *= bmp;
             }
-            if (nrofchannels != 1) {
-                amp = (float)(last_volume_right * last_volume_right);
-                amp_delta = (float)((volume_right*volume_right - amp) / bufferlen);
-                for (int i = 0; i < bufferlen; i++) {
-                    amp += amp_delta;
-                    right[i] *= volume_right;
+            if (nrofdibnnfls != 1) {
+                bmp = (flobt)(lbst_volumf_rigit * lbst_volumf_rigit);
+                bmp_dfltb = (flobt)((volumf_rigit*volumf_rigit - bmp) / bufffrlfn);
+                for (int i = 0; i < bufffrlfn; i++) {
+                    bmp += bmp_dfltb;
+                    rigit[i] *= volumf_rigit;
                 }
             }
-            last_volume_left = volume_left;
-            last_volume_right = volume_right;
+            lbst_volumf_lfft = volumf_lfft;
+            lbst_volumf_rigit = volumf_rigit;
 
-        } else {
-            if (volume_left != 1.0 || volume_right != 1.0) {
-                float[] left = buffers[CHANNEL_LEFT].array();
-                float[] right = buffers[CHANNEL_RIGHT].array();
-                int bufferlen = buffers[CHANNEL_LEFT].getSize();
-                float amp;
-                amp = (float) (volume_left * volume_left);
-                for (int i = 0; i < bufferlen; i++)
-                    left[i] *= amp;
-                if (nrofchannels != 1) {
-                    amp = (float)(volume_right * volume_right);
-                    for (int i = 0; i < bufferlen; i++)
-                        right[i] *= amp;
+        } flsf {
+            if (volumf_lfft != 1.0 || volumf_rigit != 1.0) {
+                flobt[] lfft = bufffrs[CHANNEL_LEFT].brrby();
+                flobt[] rigit = bufffrs[CHANNEL_RIGHT].brrby();
+                int bufffrlfn = bufffrs[CHANNEL_LEFT].gftSizf();
+                flobt bmp;
+                bmp = (flobt) (volumf_lfft * volumf_lfft);
+                for (int i = 0; i < bufffrlfn; i++)
+                    lfft[i] *= bmp;
+                if (nrofdibnnfls != 1) {
+                    bmp = (flobt)(volumf_rigit * volumf_rigit);
+                    for (int i = 0; i < bufffrlfn; i++)
+                        rigit[i] *= bmp;
                 }
 
             }
         }
 
-        if(buffers[CHANNEL_LEFT].isSilent()
-            && buffers[CHANNEL_RIGHT].isSilent())
+        if(bufffrs[CHANNEL_LEFT].isSilfnt()
+            && bufffrs[CHANNEL_RIGHT].isSilfnt())
         {
 
-            int midimessages_size;
-            synchronized (control_mutex) {
-                midimessages_size = midimessages.size();
+            int midimfssbgfs_sizf;
+            syndironizfd (dontrol_mutfx) {
+                midimfssbgfs_sizf = midimfssbgfs.sizf();
             }
 
-            if(midimessages_size == 0)
+            if(midimfssbgfs_sizf == 0)
             {
-                pusher_silent_count++;
-                if(pusher_silent_count > 5)
+                pusifr_silfnt_dount++;
+                if(pusifr_silfnt_dount > 5)
                 {
-                    pusher_silent_count = 0;
-                    synchronized (control_mutex) {
-                        pusher_silent = true;
-                        if(synth.weakstream != null)
-                            synth.weakstream.setInputStream(null);
+                    pusifr_silfnt_dount = 0;
+                    syndironizfd (dontrol_mutfx) {
+                        pusifr_silfnt = truf;
+                        if(synti.wfbkstrfbm != null)
+                            synti.wfbkstrfbm.sftInputStrfbm(null);
                     }
                 }
             }
         }
-        else
-            pusher_silent_count = 0;
+        flsf
+            pusifr_silfnt_dount = 0;
 
-        if (synth.agc_on)
-            agc.processAudio();
+        if (synti.bgd_on)
+            bgd.prodfssAudio();
 
     }
 
-    // Must only we called within control_mutex synchronization
-    public void activity()
+    // Must only wf dbllfd witiin dontrol_mutfx syndironizbtion
+    publid void bdtivity()
     {
-        long silent_samples = 0;
-        if(pusher_silent)
+        long silfnt_sbmplfs = 0;
+        if(pusifr_silfnt)
         {
-            pusher_silent = false;
-            if(synth.weakstream != null)
+            pusifr_silfnt = fblsf;
+            if(synti.wfbkstrfbm != null)
             {
-                synth.weakstream.setInputStream(ais);
-                silent_samples = synth.weakstream.silent_samples;
+                synti.wfbkstrfbm.sftInputStrfbm(bis);
+                silfnt_sbmplfs = synti.wfbkstrfbm.silfnt_sbmplfs;
             }
         }
-        msec_last_activity = (long)((sample_pos + silent_samples)
-                * (1000000.0 / samplerate));
+        msfd_lbst_bdtivity = (long)((sbmplf_pos + silfnt_sbmplfs)
+                * (1000000.0 / sbmplfrbtf));
     }
 
-    public void stopMixer(ModelChannelMixer mixer) {
-        if (stoppedMixers == null)
-            stoppedMixers = new HashSet<ModelChannelMixer>();
-        stoppedMixers.add(mixer);
+    publid void stopMixfr(ModflCibnnflMixfr mixfr) {
+        if (stoppfdMixfrs == null)
+            stoppfdMixfrs = nfw HbsiSft<ModflCibnnflMixfr>();
+        stoppfdMixfrs.bdd(mixfr);
     }
 
-    public void registerMixer(ModelChannelMixer mixer) {
-        if (registeredMixers == null)
-            registeredMixers = new HashSet<SoftChannelMixerContainer>();
-        SoftChannelMixerContainer mixercontainer = new SoftChannelMixerContainer();
-        mixercontainer.buffers = new SoftAudioBuffer[6];
-        for (int i = 0; i < mixercontainer.buffers.length; i++) {
-            mixercontainer.buffers[i] =
-                new SoftAudioBuffer(buffer_len, synth.getFormat());
+    publid void rfgistfrMixfr(ModflCibnnflMixfr mixfr) {
+        if (rfgistfrfdMixfrs == null)
+            rfgistfrfdMixfrs = nfw HbsiSft<SoftCibnnflMixfrContbinfr>();
+        SoftCibnnflMixfrContbinfr mixfrdontbinfr = nfw SoftCibnnflMixfrContbinfr();
+        mixfrdontbinfr.bufffrs = nfw SoftAudioBufffr[6];
+        for (int i = 0; i < mixfrdontbinfr.bufffrs.lfngti; i++) {
+            mixfrdontbinfr.bufffrs[i] =
+                nfw SoftAudioBufffr(bufffr_lfn, synti.gftFormbt());
         }
-        mixercontainer.mixer = mixer;
-        registeredMixers.add(mixercontainer);
-        cur_registeredMixers = null;
+        mixfrdontbinfr.mixfr = mixfr;
+        rfgistfrfdMixfrs.bdd(mixfrdontbinfr);
+        dur_rfgistfrfdMixfrs = null;
     }
 
-    public SoftMainMixer(SoftSynthesizer synth) {
-        this.synth = synth;
+    publid SoftMbinMixfr(SoftSyntifsizfr synti) {
+        tiis.synti = synti;
 
-        sample_pos = 0;
+        sbmplf_pos = 0;
 
-        co_master_balance[0] = 0.5;
-        co_master_volume[0] = 1;
-        co_master_coarse_tuning[0] = 0.5;
-        co_master_fine_tuning[0] = 0.5;
+        do_mbstfr_bblbndf[0] = 0.5;
+        do_mbstfr_volumf[0] = 1;
+        do_mbstfr_dobrsf_tuning[0] = 0.5;
+        do_mbstfr_finf_tuning[0] = 0.5;
 
-        msec_buffer_len = (long) (1000000.0 / synth.getControlRate());
-        samplerate = synth.getFormat().getSampleRate();
-        nrofchannels = synth.getFormat().getChannels();
+        msfd_bufffr_lfn = (long) (1000000.0 / synti.gftControlRbtf());
+        sbmplfrbtf = synti.gftFormbt().gftSbmplfRbtf();
+        nrofdibnnfls = synti.gftFormbt().gftCibnnfls();
 
-        int buffersize = (int) (synth.getFormat().getSampleRate()
-                                / synth.getControlRate());
+        int bufffrsizf = (int) (synti.gftFormbt().gftSbmplfRbtf()
+                                / synti.gftControlRbtf());
 
-        buffer_len = buffersize;
+        bufffr_lfn = bufffrsizf;
 
-        max_delay_midievent = buffersize;
+        mbx_dflby_midifvfnt = bufffrsizf;
 
-        control_mutex = synth.control_mutex;
-        buffers = new SoftAudioBuffer[14];
-        for (int i = 0; i < buffers.length; i++) {
-            buffers[i] = new SoftAudioBuffer(buffersize, synth.getFormat());
+        dontrol_mutfx = synti.dontrol_mutfx;
+        bufffrs = nfw SoftAudioBufffr[14];
+        for (int i = 0; i < bufffrs.lfngti; i++) {
+            bufffrs[i] = nfw SoftAudioBufffr(bufffrsizf, synti.gftFormbt());
         }
-        voicestatus = synth.getVoices();
+        voidfstbtus = synti.gftVoidfs();
 
-        reverb = new SoftReverb();
-        chorus = new SoftChorus();
-        agc = new SoftLimiter();
+        rfvfrb = nfw SoftRfvfrb();
+        diorus = nfw SoftCiorus();
+        bgd = nfw SoftLimitfr();
 
-        float samplerate = synth.getFormat().getSampleRate();
-        float controlrate = synth.getControlRate();
-        reverb.init(samplerate, controlrate);
-        chorus.init(samplerate, controlrate);
-        agc.init(samplerate, controlrate);
+        flobt sbmplfrbtf = synti.gftFormbt().gftSbmplfRbtf();
+        flobt dontrolrbtf = synti.gftControlRbtf();
+        rfvfrb.init(sbmplfrbtf, dontrolrbtf);
+        diorus.init(sbmplfrbtf, dontrolrbtf);
+        bgd.init(sbmplfrbtf, dontrolrbtf);
 
-        reverb.setLightMode(synth.reverb_light);
+        rfvfrb.sftLigitModf(synti.rfvfrb_ligit);
 
-        reverb.setMixMode(true);
-        chorus.setMixMode(true);
-        agc.setMixMode(false);
+        rfvfrb.sftMixModf(truf);
+        diorus.sftMixModf(truf);
+        bgd.sftMixModf(fblsf);
 
-        chorus.setInput(0, buffers[CHANNEL_EFFECT2]);
-        chorus.setOutput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
-            chorus.setOutput(1, buffers[CHANNEL_RIGHT]);
-        chorus.setOutput(2, buffers[CHANNEL_EFFECT1]);
+        diorus.sftInput(0, bufffrs[CHANNEL_EFFECT2]);
+        diorus.sftOutput(0, bufffrs[CHANNEL_LEFT]);
+        if (nrofdibnnfls != 1)
+            diorus.sftOutput(1, bufffrs[CHANNEL_RIGHT]);
+        diorus.sftOutput(2, bufffrs[CHANNEL_EFFECT1]);
 
-        reverb.setInput(0, buffers[CHANNEL_EFFECT1]);
-        reverb.setOutput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
-            reverb.setOutput(1, buffers[CHANNEL_RIGHT]);
+        rfvfrb.sftInput(0, bufffrs[CHANNEL_EFFECT1]);
+        rfvfrb.sftOutput(0, bufffrs[CHANNEL_LEFT]);
+        if (nrofdibnnfls != 1)
+            rfvfrb.sftOutput(1, bufffrs[CHANNEL_RIGHT]);
 
-        agc.setInput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
-            agc.setInput(1, buffers[CHANNEL_RIGHT]);
-        agc.setOutput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
-            agc.setOutput(1, buffers[CHANNEL_RIGHT]);
+        bgd.sftInput(0, bufffrs[CHANNEL_LEFT]);
+        if (nrofdibnnfls != 1)
+            bgd.sftInput(1, bufffrs[CHANNEL_RIGHT]);
+        bgd.sftOutput(0, bufffrs[CHANNEL_LEFT]);
+        if (nrofdibnnfls != 1)
+            bgd.sftOutput(1, bufffrs[CHANNEL_RIGHT]);
 
-        InputStream in = new InputStream() {
+        InputStrfbm in = nfw InputStrfbm() {
 
-            private final SoftAudioBuffer[] buffers = SoftMainMixer.this.buffers;
-            private final int nrofchannels
-                    = SoftMainMixer.this.synth.getFormat().getChannels();
-            private final int buffersize = buffers[0].getSize();
-            private final byte[] bbuffer = new byte[buffersize
-                    * (SoftMainMixer.this.synth.getFormat()
-                        .getSampleSizeInBits() / 8)
-                    * nrofchannels];
-            private int bbuffer_pos = 0;
-            private final byte[] single = new byte[1];
+            privbtf finbl SoftAudioBufffr[] bufffrs = SoftMbinMixfr.tiis.bufffrs;
+            privbtf finbl int nrofdibnnfls
+                    = SoftMbinMixfr.tiis.synti.gftFormbt().gftCibnnfls();
+            privbtf finbl int bufffrsizf = bufffrs[0].gftSizf();
+            privbtf finbl bytf[] bbufffr = nfw bytf[bufffrsizf
+                    * (SoftMbinMixfr.tiis.synti.gftFormbt()
+                        .gftSbmplfSizfInBits() / 8)
+                    * nrofdibnnfls];
+            privbtf int bbufffr_pos = 0;
+            privbtf finbl bytf[] singlf = nfw bytf[1];
 
-            public void fillBuffer() {
+            publid void fillBufffr() {
                 /*
-                boolean pusher_silent2;
-                synchronized (control_mutex) {
-                    pusher_silent2 = pusher_silent;
+                boolfbn pusifr_silfnt2;
+                syndironizfd (dontrol_mutfx) {
+                    pusifr_silfnt2 = pusifr_silfnt;
                 }
-                if(!pusher_silent2)*/
-                processAudioBuffers();
-                for (int i = 0; i < nrofchannels; i++)
-                    buffers[i].get(bbuffer, i);
-                bbuffer_pos = 0;
+                if(!pusifr_silfnt2)*/
+                prodfssAudioBufffrs();
+                for (int i = 0; i < nrofdibnnfls; i++)
+                    bufffrs[i].gft(bbufffr, i);
+                bbufffr_pos = 0;
             }
 
-            public int read(byte[] b, int off, int len) {
-                int bbuffer_len = bbuffer.length;
-                int offlen = off + len;
+            publid int rfbd(bytf[] b, int off, int lfn) {
+                int bbufffr_lfn = bbufffr.lfngti;
+                int offlfn = off + lfn;
                 int orgoff = off;
-                byte[] bbuffer = this.bbuffer;
-                while (off < offlen) {
-                    if (available() == 0)
-                        fillBuffer();
-                    else {
-                        int bbuffer_pos = this.bbuffer_pos;
-                        while (off < offlen && bbuffer_pos < bbuffer_len)
-                            b[off++] = bbuffer[bbuffer_pos++];
-                        this.bbuffer_pos = bbuffer_pos;
-                        if (!readfully)
-                            return off - orgoff;
+                bytf[] bbufffr = tiis.bbufffr;
+                wiilf (off < offlfn) {
+                    if (bvbilbblf() == 0)
+                        fillBufffr();
+                    flsf {
+                        int bbufffr_pos = tiis.bbufffr_pos;
+                        wiilf (off < offlfn && bbufffr_pos < bbufffr_lfn)
+                            b[off++] = bbufffr[bbufffr_pos++];
+                        tiis.bbufffr_pos = bbufffr_pos;
+                        if (!rfbdfully)
+                            rfturn off - orgoff;
                     }
                 }
-                return len;
+                rfturn lfn;
             }
 
-            public int read() throws IOException {
-                int ret = read(single);
-                if (ret == -1)
-                    return -1;
-                return single[0] & 0xFF;
+            publid int rfbd() tirows IOExdfption {
+                int rft = rfbd(singlf);
+                if (rft == -1)
+                    rfturn -1;
+                rfturn singlf[0] & 0xFF;
             }
 
-            public int available() {
-                return bbuffer.length - bbuffer_pos;
+            publid int bvbilbblf() {
+                rfturn bbufffr.lfngti - bbufffr_pos;
             }
 
-            public void close() {
-                SoftMainMixer.this.synth.close();
+            publid void dlosf() {
+                SoftMbinMixfr.tiis.synti.dlosf();
             }
         };
 
-        ais = new AudioInputStream(in, synth.getFormat(), AudioSystem.NOT_SPECIFIED);
+        bis = nfw AudioInputStrfbm(in, synti.gftFormbt(), AudioSystfm.NOT_SPECIFIED);
 
     }
 
-    public AudioInputStream getInputStream() {
-        return ais;
+    publid AudioInputStrfbm gftInputStrfbm() {
+        rfturn bis;
     }
 
-    public void reset() {
+    publid void rfsft() {
 
-        SoftChannel[] channels = synth.channels;
-        for (int i = 0; i < channels.length; i++) {
-            channels[i].allSoundOff();
-            channels[i].resetAllControllers(true);
+        SoftCibnnfl[] dibnnfls = synti.dibnnfls;
+        for (int i = 0; i < dibnnfls.lfngti; i++) {
+            dibnnfls[i].bllSoundOff();
+            dibnnfls[i].rfsftAllControllfrs(truf);
 
-            if (synth.getGeneralMidiMode() == 2) {
+            if (synti.gftGfnfrblMidiModf() == 2) {
                 if (i == 9)
-                    channels[i].programChange(0, 0x78 * 128);
-                else
-                    channels[i].programChange(0, 0x79 * 128);
-            } else
-                channels[i].programChange(0, 0);
+                    dibnnfls[i].progrbmCibngf(0, 0x78 * 128);
+                flsf
+                    dibnnfls[i].progrbmCibngf(0, 0x79 * 128);
+            } flsf
+                dibnnfls[i].progrbmCibngf(0, 0);
         }
-        setVolume(0x7F * 128 + 0x7F);
-        setBalance(0x40 * 128 + 0x00);
-        setCoarseTuning(0x40 * 128 + 0x00);
-        setFineTuning(0x40 * 128 + 0x00);
-        // Reset Reverb
-        globalParameterControlChange(
-                new int[]{0x01 * 128 + 0x01}, new long[]{0}, new long[]{4});
-        // Reset Chorus
-        globalParameterControlChange(
-                new int[]{0x01 * 128 + 0x02}, new long[]{0}, new long[]{2});
+        sftVolumf(0x7F * 128 + 0x7F);
+        sftBblbndf(0x40 * 128 + 0x00);
+        sftCobrsfTuning(0x40 * 128 + 0x00);
+        sftFinfTuning(0x40 * 128 + 0x00);
+        // Rfsft Rfvfrb
+        globblPbrbmftfrControlCibngf(
+                nfw int[]{0x01 * 128 + 0x01}, nfw long[]{0}, nfw long[]{4});
+        // Rfsft Ciorus
+        globblPbrbmftfrControlCibngf(
+                nfw int[]{0x01 * 128 + 0x02}, nfw long[]{0}, nfw long[]{2});
     }
 
-    public void setVolume(int value) {
-        synchronized (control_mutex) {
-            co_master_volume[0] = value / 16384.0;
-        }
-    }
-
-    public void setBalance(int value) {
-        synchronized (control_mutex) {
-            co_master_balance[0] = value / 16384.0;
+    publid void sftVolumf(int vbluf) {
+        syndironizfd (dontrol_mutfx) {
+            do_mbstfr_volumf[0] = vbluf / 16384.0;
         }
     }
 
-    public void setFineTuning(int value) {
-        synchronized (control_mutex) {
-            co_master_fine_tuning[0] = value / 16384.0;
+    publid void sftBblbndf(int vbluf) {
+        syndironizfd (dontrol_mutfx) {
+            do_mbstfr_bblbndf[0] = vbluf / 16384.0;
         }
     }
 
-    public void setCoarseTuning(int value) {
-        synchronized (control_mutex) {
-            co_master_coarse_tuning[0] = value / 16384.0;
+    publid void sftFinfTuning(int vbluf) {
+        syndironizfd (dontrol_mutfx) {
+            do_mbstfr_finf_tuning[0] = vbluf / 16384.0;
         }
     }
 
-    public int getVolume() {
-        synchronized (control_mutex) {
-            return (int) (co_master_volume[0] * 16384.0);
+    publid void sftCobrsfTuning(int vbluf) {
+        syndironizfd (dontrol_mutfx) {
+            do_mbstfr_dobrsf_tuning[0] = vbluf / 16384.0;
         }
     }
 
-    public int getBalance() {
-        synchronized (control_mutex) {
-            return (int) (co_master_balance[0] * 16384.0);
+    publid int gftVolumf() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn (int) (do_mbstfr_volumf[0] * 16384.0);
         }
     }
 
-    public int getFineTuning() {
-        synchronized (control_mutex) {
-            return (int) (co_master_fine_tuning[0] * 16384.0);
+    publid int gftBblbndf() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn (int) (do_mbstfr_bblbndf[0] * 16384.0);
         }
     }
 
-    public int getCoarseTuning() {
-        synchronized (control_mutex) {
-            return (int) (co_master_coarse_tuning[0] * 16384.0);
+    publid int gftFinfTuning() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn (int) (do_mbstfr_finf_tuning[0] * 16384.0);
         }
     }
 
-    public void globalParameterControlChange(int[] slothpath, long[] params,
-            long[] paramsvalue) {
-        if (slothpath.length == 0)
-            return;
+    publid int gftCobrsfTuning() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn (int) (do_mbstfr_dobrsf_tuning[0] * 16384.0);
+        }
+    }
 
-        synchronized (control_mutex) {
+    publid void globblPbrbmftfrControlCibngf(int[] slotipbti, long[] pbrbms,
+            long[] pbrbmsvbluf) {
+        if (slotipbti.lfngti == 0)
+            rfturn;
 
-            // slothpath: 01xx are reserved only for GM2
+        syndironizfd (dontrol_mutfx) {
 
-            if (slothpath[0] == 0x01 * 128 + 0x01) {
-                for (int i = 0; i < paramsvalue.length; i++) {
-                    reverb.globalParameterControlChange(slothpath, params[i],
-                            paramsvalue[i]);
+            // slotipbti: 01xx brf rfsfrvfd only for GM2
+
+            if (slotipbti[0] == 0x01 * 128 + 0x01) {
+                for (int i = 0; i < pbrbmsvbluf.lfngti; i++) {
+                    rfvfrb.globblPbrbmftfrControlCibngf(slotipbti, pbrbms[i],
+                            pbrbmsvbluf[i]);
                 }
             }
-            if (slothpath[0] == 0x01 * 128 + 0x02) {
-                for (int i = 0; i < paramsvalue.length; i++) {
-                    chorus.globalParameterControlChange(slothpath, params[i],
-                            paramsvalue[i]);
+            if (slotipbti[0] == 0x01 * 128 + 0x02) {
+                for (int i = 0; i < pbrbmsvbluf.lfngti; i++) {
+                    diorus.globblPbrbmftfrControlCibngf(slotipbti, pbrbms[i],
+                            pbrbmsvbluf[i]);
                 }
 
             }
@@ -1028,118 +1028,118 @@ public final class SoftMainMixer {
         }
     }
 
-    public void processMessage(Object object) {
-        if (object instanceof byte[])
-            processMessage((byte[]) object);
-        if (object instanceof MidiMessage)
-            processMessage((MidiMessage)object);
+    publid void prodfssMfssbgf(Objfdt objfdt) {
+        if (objfdt instbndfof bytf[])
+            prodfssMfssbgf((bytf[]) objfdt);
+        if (objfdt instbndfof MidiMfssbgf)
+            prodfssMfssbgf((MidiMfssbgf)objfdt);
     }
 
-    public void processMessage(MidiMessage message) {
-        if (message instanceof ShortMessage) {
-            ShortMessage sms = (ShortMessage)message;
-            processMessage(sms.getChannel(), sms.getCommand(),
-                    sms.getData1(), sms.getData2());
-            return;
+    publid void prodfssMfssbgf(MidiMfssbgf mfssbgf) {
+        if (mfssbgf instbndfof SiortMfssbgf) {
+            SiortMfssbgf sms = (SiortMfssbgf)mfssbgf;
+            prodfssMfssbgf(sms.gftCibnnfl(), sms.gftCommbnd(),
+                    sms.gftDbtb1(), sms.gftDbtb2());
+            rfturn;
         }
-        processMessage(message.getMessage());
+        prodfssMfssbgf(mfssbgf.gftMfssbgf());
     }
 
-    public void processMessage(byte[] data) {
-        int status = 0;
-        if (data.length > 0)
-            status = data[0] & 0xFF;
+    publid void prodfssMfssbgf(bytf[] dbtb) {
+        int stbtus = 0;
+        if (dbtb.lfngti > 0)
+            stbtus = dbtb[0] & 0xFF;
 
-        if (status == 0xF0) {
-            processSystemExclusiveMessage(data);
-            return;
+        if (stbtus == 0xF0) {
+            prodfssSystfmExdlusivfMfssbgf(dbtb);
+            rfturn;
         }
 
-        int cmd = (status & 0xF0);
-        int ch = (status & 0x0F);
+        int dmd = (stbtus & 0xF0);
+        int di = (stbtus & 0x0F);
 
-        int data1;
-        int data2;
-        if (data.length > 1)
-            data1 = data[1] & 0xFF;
-        else
-            data1 = 0;
-        if (data.length > 2)
-            data2 = data[2] & 0xFF;
-        else
-            data2 = 0;
+        int dbtb1;
+        int dbtb2;
+        if (dbtb.lfngti > 1)
+            dbtb1 = dbtb[1] & 0xFF;
+        flsf
+            dbtb1 = 0;
+        if (dbtb.lfngti > 2)
+            dbtb2 = dbtb[2] & 0xFF;
+        flsf
+            dbtb2 = 0;
 
-        processMessage(ch, cmd, data1, data2);
+        prodfssMfssbgf(di, dmd, dbtb1, dbtb2);
 
     }
 
-    public void processMessage(int ch, int cmd, int data1, int data2) {
-        synchronized (synth.control_mutex) {
-            activity();
+    publid void prodfssMfssbgf(int di, int dmd, int dbtb1, int dbtb2) {
+        syndironizfd (synti.dontrol_mutfx) {
+            bdtivity();
         }
 
-        if (cmd == 0xF0) {
-            int status = cmd | ch;
-            switch (status) {
-            case ShortMessage.ACTIVE_SENSING:
-                synchronized (synth.control_mutex) {
-                    active_sensing_on = true;
+        if (dmd == 0xF0) {
+            int stbtus = dmd | di;
+            switdi (stbtus) {
+            dbsf SiortMfssbgf.ACTIVE_SENSING:
+                syndironizfd (synti.dontrol_mutfx) {
+                    bdtivf_sfnsing_on = truf;
                 }
-                break;
-            default:
-                break;
+                brfbk;
+            dffbult:
+                brfbk;
             }
-            return;
+            rfturn;
         }
 
-        SoftChannel[] channels = synth.channels;
-        if (ch >= channels.length)
-            return;
-        SoftChannel softchannel = channels[ch];
+        SoftCibnnfl[] dibnnfls = synti.dibnnfls;
+        if (di >= dibnnfls.lfngti)
+            rfturn;
+        SoftCibnnfl softdibnnfl = dibnnfls[di];
 
-        switch (cmd) {
-        case ShortMessage.NOTE_ON:
-            if(delay_midievent != 0)
-                softchannel.noteOn(data1, data2, delay_midievent);
-            else
-                softchannel.noteOn(data1, data2);
-            break;
-        case ShortMessage.NOTE_OFF:
-            softchannel.noteOff(data1, data2);
-            break;
-        case ShortMessage.POLY_PRESSURE:
-            softchannel.setPolyPressure(data1, data2);
-            break;
-        case ShortMessage.CONTROL_CHANGE:
-            softchannel.controlChange(data1, data2);
-            break;
-        case ShortMessage.PROGRAM_CHANGE:
-            softchannel.programChange(data1);
-            break;
-        case ShortMessage.CHANNEL_PRESSURE:
-            softchannel.setChannelPressure(data1);
-            break;
-        case ShortMessage.PITCH_BEND:
-            softchannel.setPitchBend(data1 + data2 * 128);
-            break;
-        default:
-            break;
+        switdi (dmd) {
+        dbsf SiortMfssbgf.NOTE_ON:
+            if(dflby_midifvfnt != 0)
+                softdibnnfl.notfOn(dbtb1, dbtb2, dflby_midifvfnt);
+            flsf
+                softdibnnfl.notfOn(dbtb1, dbtb2);
+            brfbk;
+        dbsf SiortMfssbgf.NOTE_OFF:
+            softdibnnfl.notfOff(dbtb1, dbtb2);
+            brfbk;
+        dbsf SiortMfssbgf.POLY_PRESSURE:
+            softdibnnfl.sftPolyPrfssurf(dbtb1, dbtb2);
+            brfbk;
+        dbsf SiortMfssbgf.CONTROL_CHANGE:
+            softdibnnfl.dontrolCibngf(dbtb1, dbtb2);
+            brfbk;
+        dbsf SiortMfssbgf.PROGRAM_CHANGE:
+            softdibnnfl.progrbmCibngf(dbtb1);
+            brfbk;
+        dbsf SiortMfssbgf.CHANNEL_PRESSURE:
+            softdibnnfl.sftCibnnflPrfssurf(dbtb1);
+            brfbk;
+        dbsf SiortMfssbgf.PITCH_BEND:
+            softdibnnfl.sftPitdiBfnd(dbtb1 + dbtb2 * 128);
+            brfbk;
+        dffbult:
+            brfbk;
         }
 
     }
 
-    public long getMicrosecondPosition() {
-        if(pusher_silent)
+    publid long gftMidrosfdondPosition() {
+        if(pusifr_silfnt)
         {
-            if(synth.weakstream != null)
+            if(synti.wfbkstrfbm != null)
             {
-                return (long)((sample_pos  + synth.weakstream.silent_samples)
-                        * (1000000.0 / samplerate));
+                rfturn (long)((sbmplf_pos  + synti.wfbkstrfbm.silfnt_sbmplfs)
+                        * (1000000.0 / sbmplfrbtf));
             }
         }
-        return (long)(sample_pos * (1000000.0 / samplerate));
+        rfturn (long)(sbmplf_pos * (1000000.0 / sbmplfrbtf));
     }
 
-    public void close() {
+    publid void dlosf() {
     }
 }

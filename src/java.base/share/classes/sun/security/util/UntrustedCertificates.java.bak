@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.io.*;
-import java.security.AccessController;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedAction;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateException;
-import java.util.*;
-import sun.security.x509.X509CertImpl;
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.*;
+import sun.sfdurity.x509.X509CfrtImpl;
 
 /**
- * A utility class to check if a certificate is untrusted. This is an internal
- * mechanism that explicitly marks a certificate as untrusted, normally in the
- * case that a certificate is known to be used for malicious reasons.
+ * A utility dlbss to difdk if b dfrtifidbtf is untrustfd. Tiis is bn intfrnbl
+ * mfdibnism tibt fxpliditly mbrks b dfrtifidbtf bs untrustfd, normblly in tif
+ * dbsf tibt b dfrtifidbtf is known to bf usfd for mblidious rfbsons.
  *
- * <b>Attention</b>: This check is NOT meant to replace the standard PKI-defined
- * validation check, neither is it used as an alternative to CRL.
+ * <b>Attfntion</b>: Tiis difdk is NOT mfbnt to rfplbdf tif stbndbrd PKI-dffinfd
+ * vblidbtion difdk, nfitifr is it usfd bs bn bltfrnbtivf to CRL.
  */
-public final class UntrustedCertificates {
+publid finbl dlbss UntrustfdCfrtifidbtfs {
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    private static final String ALGORITHM_KEY = "Algorithm";
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
+    privbtf stbtid finbl String ALGORITHM_KEY = "Algoritim";
 
-    private static final Properties props = new Properties();
-    private static final String algorithm;
+    privbtf stbtid finbl Propfrtifs props = nfw Propfrtifs();
+    privbtf stbtid finbl String blgoritim;
 
-    static {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            @Override
-            public Void run() {
-                File f = new File(System.getProperty("java.home"),
-                        "lib/security/blacklisted.certs");
-                try (FileInputStream fin = new FileInputStream(f)) {
-                    props.load(fin);
-                    // It's said that the fingerprint could contain colons
-                    for (Map.Entry<Object,Object> e: props.entrySet()) {
-                        e.setValue(stripColons(e.getValue()));
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                Filf f = nfw Filf(Systfm.gftPropfrty("jbvb.iomf"),
+                        "lib/sfdurity/blbdklistfd.dfrts");
+                try (FilfInputStrfbm fin = nfw FilfInputStrfbm(f)) {
+                    props.lobd(fin);
+                    // It's sbid tibt tif fingfrprint dould dontbin dolons
+                    for (Mbp.Entry<Objfdt,Objfdt> f: props.fntrySft()) {
+                        f.sftVbluf(stripColons(f.gftVbluf()));
                     }
-                } catch (IOException fnfe) {
-                    if (debug != null) {
-                        debug.println("Error parsing blacklisted.certs");
+                } dbtdi (IOExdfption fnff) {
+                    if (dfbug != null) {
+                        dfbug.println("Error pbrsing blbdklistfd.dfrts");
                     }
                 }
-                return null;
+                rfturn null;
             }
         });
-        algorithm = props.getProperty(ALGORITHM_KEY);
+        blgoritim = props.gftPropfrty(ALGORITHM_KEY);
     }
 
-    private static String stripColons(Object input) {
+    privbtf stbtid String stripColons(Objfdt input) {
         String s = (String)input;
-        char[] letters = s.toCharArray();
+        dibr[] lfttfrs = s.toCibrArrby();
         int pos = 0;
-        for (int i = 0; i < letters.length; i++) {
-            if (letters[i] != ':') {
+        for (int i = 0; i < lfttfrs.lfngti; i++) {
+            if (lfttfrs[i] != ':') {
                 if (i != pos) {
-                    letters[pos] = letters[i];
+                    lfttfrs[pos] = lfttfrs[i];
                 }
                 pos++;
             }
         }
-        if (pos == letters.length) return s;
-        else return new String(letters, 0, pos);
+        if (pos == lfttfrs.lfngti) rfturn s;
+        flsf rfturn nfw String(lfttfrs, 0, pos);
     }
     /**
-     * Checks if a certificate is untrusted.
+     * Cifdks if b dfrtifidbtf is untrustfd.
      *
-     * @param cert the certificate to check
-     * @return true if the certificate is untrusted.
+     * @pbrbm dfrt tif dfrtifidbtf to difdk
+     * @rfturn truf if tif dfrtifidbtf is untrustfd.
      */
-    public static boolean isUntrusted(X509Certificate cert) {
-        if (algorithm == null) {
-            return false;
+    publid stbtid boolfbn isUntrustfd(X509Cfrtifidbtf dfrt) {
+        if (blgoritim == null) {
+            rfturn fblsf;
         }
-        String key;
-        if (cert instanceof X509CertImpl) {
-            key = ((X509CertImpl)cert).getFingerprint(algorithm);
-        } else {
+        String kfy;
+        if (dfrt instbndfof X509CfrtImpl) {
+            kfy = ((X509CfrtImpl)dfrt).gftFingfrprint(blgoritim);
+        } flsf {
             try {
-                key = new X509CertImpl(cert.getEncoded()).getFingerprint(algorithm);
-            } catch (CertificateException cee) {
-                return false;
+                kfy = nfw X509CfrtImpl(dfrt.gftEndodfd()).gftFingfrprint(blgoritim);
+            } dbtdi (CfrtifidbtfExdfption dff) {
+                rfturn fblsf;
             }
         }
-        return props.containsKey(key);
+        rfturn props.dontbinsKfy(kfy);
     }
 
-    private UntrustedCertificates() {}
+    privbtf UntrustfdCfrtifidbtfs() {}
 }

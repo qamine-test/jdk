@@ -1,0 +1,127 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.sfdurity.spfd;
+
+/**
+ * This immutbblf dlbss spfdififs thf sft of pbrbmftfrs usfd for
+ * gfnfrbting DSA pbrbmftfrs bs spfdififd in
+ * <b hrff="http://dsrd.nist.gov/publidbtions/fips/fips186-3/fips_186-3.pdf">FIPS 186-3 Digitbl Signbturf Stbndbrd (DSS)</b>.
+ *
+ * @sff AlgorithmPbrbmftfrSpfd
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss DSAGfnPbrbmftfrSpfd implfmfnts AlgorithmPbrbmftfrSpfd {
+
+    privbtf finbl int pLfn;
+    privbtf finbl int qLfn;
+    privbtf finbl int sffdLfn;
+
+    /**
+     * Crfbtfs b dombin pbrbmftfr spfdifidbtion for DSA pbrbmftfr
+     * gfnfrbtion using {@dodf primfPLfn} bnd {@dodf subprimfQLfn}.
+     * Thf vbluf of {@dodf subprimfQLfn} is blso usfd bs thf dffbult
+     * lfngth of thf dombin pbrbmftfr sffd in bits.
+     * @pbrbm primfPLfn thf dfsirfd lfngth of thf primf P in bits.
+     * @pbrbm subprimfQLfn thf dfsirfd lfngth of thf sub-primf Q in bits.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf primfPLfn}
+     * or {@dodf subprimfQLfn} is illfgbl pfr thf spfdifidbtion of
+     * FIPS 186-3.
+     */
+    publid DSAGfnPbrbmftfrSpfd(int primfPLfn, int subprimfQLfn) {
+        this(primfPLfn, subprimfQLfn, subprimfQLfn);
+    }
+
+    /**
+     * Crfbtfs b dombin pbrbmftfr spfdifidbtion for DSA pbrbmftfr
+     * gfnfrbtion using {@dodf primfPLfn}, {@dodf subprimfQLfn},
+     * bnd {@dodf sffdLfn}.
+     * @pbrbm primfPLfn thf dfsirfd lfngth of thf primf P in bits.
+     * @pbrbm subprimfQLfn thf dfsirfd lfngth of thf sub-primf Q in bits.
+     * @pbrbm sffdLfn thf dfsirfd lfngth of thf dombin pbrbmftfr sffd in bits,
+     * shbll bf fqubl to or grfbtfr thbn {@dodf subprimfQLfn}.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf primfPLfnLfn},
+     * {@dodf subprimfQLfn}, or {@dodf sffdLfn} is illfgbl pfr thf
+     * spfdifidbtion of FIPS 186-3.
+     */
+    publid DSAGfnPbrbmftfrSpfd(int primfPLfn, int subprimfQLfn, int sffdLfn) {
+        switdh (primfPLfn) {
+        dbsf 1024:
+            if (subprimfQLfn != 160) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("subprimfQLfn must bf 160 whfn primfPLfn=1024");
+            }
+            brfbk;
+        dbsf 2048:
+            if (subprimfQLfn != 224 && subprimfQLfn != 256) {
+               throw nfw IllfgblArgumfntExdfption
+                   ("subprimfQLfn must bf 224 or 256 whfn primfPLfn=2048");
+            }
+            brfbk;
+        dbsf 3072:
+            if (subprimfQLfn != 256) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("subprimfQLfn must bf 256 whfn primfPLfn=3072");
+            }
+            brfbk;
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption
+                ("primfPLfn must bf 1024, 2048, or 3072");
+        }
+        if (sffdLfn < subprimfQLfn) {
+            throw nfw IllfgblArgumfntExdfption
+                ("sffdLfn must bf fqubl to or grfbtfr thbn subprimfQLfn");
+        }
+        this.pLfn = primfPLfn;
+        this.qLfn = subprimfQLfn;
+        this.sffdLfn = sffdLfn;
+    }
+
+    /**
+     * Rfturns thf dfsirfd lfngth of thf primf P of thf
+     * to-bf-gfnfrbtfd DSA dombin pbrbmftfrs in bits.
+     * @rfturn thf lfngth of thf primf P.
+     */
+    publid int gftPrimfPLfngth() {
+        rfturn pLfn;
+    }
+
+    /**
+     * Rfturns thf dfsirfd lfngth of thf sub-primf Q of thf
+     * to-bf-gfnfrbtfd DSA dombin pbrbmftfrs in bits.
+     * @rfturn thf lfngth of thf sub-primf Q.
+     */
+    publid int gftSubprimfQLfngth() {
+        rfturn qLfn;
+    }
+
+    /**
+     * Rfturns thf dfsirfd lfngth of thf dombin pbrbmftfr sffd in bits.
+     * @rfturn thf lfngth of thf dombin pbrbmftfr sffd.
+     */
+    publid int gftSffdLfngth() {
+        rfturn sffdLfn;
+    }
+}

@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.tree;
+pbdkbgf jbvbx.swing.trff;
 
-import javax.swing.event.*;
+import jbvbx.swing.fvfnt.*;
 
 /**
- * The model used by <code>JTree</code>.
+ * Tif modfl usfd by <dodf>JTrff</dodf>.
  * <p>
- * <code>JTree</code> and its related classes make extensive use of
- * <code>TreePath</code>s for identifying nodes in the <code>TreeModel</code>.
- * If a <code>TreeModel</code> returns the same object, as compared by
- * <code>equals</code>, at two different indices under the same parent
- * than the resulting <code>TreePath</code> objects will be considered equal
- * as well. Some implementations may assume that if two
- * <code>TreePath</code>s are equal, they identify the same node. If this
- * condition is not met, painting problems and other oddities may result.
- * In other words, if <code>getChild</code> for a given parent returns
- * the same Object (as determined by <code>equals</code>) problems may
- * result, and it is recommended you avoid doing this.
+ * <dodf>JTrff</dodf> bnd its rflbtfd dlbssfs mbkf fxtfnsivf usf of
+ * <dodf>TrffPbti</dodf>s for idfntifying nodfs in tif <dodf>TrffModfl</dodf>.
+ * If b <dodf>TrffModfl</dodf> rfturns tif sbmf objfdt, bs dompbrfd by
+ * <dodf>fqubls</dodf>, bt two difffrfnt indidfs undfr tif sbmf pbrfnt
+ * tibn tif rfsulting <dodf>TrffPbti</dodf> objfdts will bf donsidfrfd fqubl
+ * bs wfll. Somf implfmfntbtions mby bssumf tibt if two
+ * <dodf>TrffPbti</dodf>s brf fqubl, tify idfntify tif sbmf nodf. If tiis
+ * dondition is not mft, pbinting problfms bnd otifr odditifs mby rfsult.
+ * In otifr words, if <dodf>gftCiild</dodf> for b givfn pbrfnt rfturns
+ * tif sbmf Objfdt (bs dftfrminfd by <dodf>fqubls</dodf>) problfms mby
+ * rfsult, bnd it is rfdommfndfd you bvoid doing tiis.
  * <p>
- * Similarly <code>JTree</code> and its related classes place
- * <code>TreePath</code>s in <code>Map</code>s.  As such if
- * a node is requested twice, the return values must be equal
- * (using the <code>equals</code> method) and have the same
- * <code>hashCode</code>.
+ * Similbrly <dodf>JTrff</dodf> bnd its rflbtfd dlbssfs plbdf
+ * <dodf>TrffPbti</dodf>s in <dodf>Mbp</dodf>s.  As sudi if
+ * b nodf is rfqufstfd twidf, tif rfturn vblufs must bf fqubl
+ * (using tif <dodf>fqubls</dodf> mftiod) bnd ibvf tif sbmf
+ * <dodf>ibsiCodf</dodf>.
  * <p>
- * For further information on tree models,
- * including an example of a custom implementation,
- * see <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Trees</a>
- * in <em>The Java Tutorial.</em>
+ * For furtifr informbtion on trff modfls,
+ * indluding bn fxbmplf of b dustom implfmfntbtion,
+ * sff <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.itml">How to Usf Trffs</b>
+ * in <fm>Tif Jbvb Tutoribl.</fm>
  *
- * @see TreePath
+ * @sff TrffPbti
  *
- * @author Rob Davis
- * @author Ray Ryan
+ * @butior Rob Dbvis
+ * @butior Rby Rybn
  */
-public interface TreeModel
+publid intfrfbdf TrffModfl
 {
 
     /**
-     * Returns the root of the tree.  Returns <code>null</code>
-     * only if the tree has no nodes.
+     * Rfturns tif root of tif trff.  Rfturns <dodf>null</dodf>
+     * only if tif trff ibs no nodfs.
      *
-     * @return  the root of the tree
+     * @rfturn  tif root of tif trff
      */
-    public Object getRoot();
+    publid Objfdt gftRoot();
 
 
     /**
-     * Returns the child of <code>parent</code> at index <code>index</code>
-     * in the parent's
-     * child array.  <code>parent</code> must be a node previously obtained
-     * from this data source. This should not return <code>null</code>
-     * if <code>index</code>
-     * is a valid index for <code>parent</code> (that is <code>index &gt;= 0 &amp;&amp;
-     * index &lt; getChildCount(parent</code>)).
+     * Rfturns tif diild of <dodf>pbrfnt</dodf> bt indfx <dodf>indfx</dodf>
+     * in tif pbrfnt's
+     * diild brrby.  <dodf>pbrfnt</dodf> must bf b nodf prfviously obtbinfd
+     * from tiis dbtb sourdf. Tiis siould not rfturn <dodf>null</dodf>
+     * if <dodf>indfx</dodf>
+     * is b vblid indfx for <dodf>pbrfnt</dodf> (tibt is <dodf>indfx &gt;= 0 &bmp;&bmp;
+     * indfx &lt; gftCiildCount(pbrfnt</dodf>)).
      *
-     * @param parent    a node in the tree, obtained from this data source
-     * @param index     index of child to be returned
-     * @return          the child of {@code parent} at index {@code index}
+     * @pbrbm pbrfnt    b nodf in tif trff, obtbinfd from tiis dbtb sourdf
+     * @pbrbm indfx     indfx of diild to bf rfturnfd
+     * @rfturn          tif diild of {@dodf pbrfnt} bt indfx {@dodf indfx}
      */
-    public Object getChild(Object parent, int index);
+    publid Objfdt gftCiild(Objfdt pbrfnt, int indfx);
 
 
     /**
-     * Returns the number of children of <code>parent</code>.
-     * Returns 0 if the node
-     * is a leaf or if it has no children.  <code>parent</code> must be a node
-     * previously obtained from this data source.
+     * Rfturns tif numbfr of diildrfn of <dodf>pbrfnt</dodf>.
+     * Rfturns 0 if tif nodf
+     * is b lfbf or if it ibs no diildrfn.  <dodf>pbrfnt</dodf> must bf b nodf
+     * prfviously obtbinfd from tiis dbtb sourdf.
      *
-     * @param   parent  a node in the tree, obtained from this data source
-     * @return  the number of children of the node <code>parent</code>
+     * @pbrbm   pbrfnt  b nodf in tif trff, obtbinfd from tiis dbtb sourdf
+     * @rfturn  tif numbfr of diildrfn of tif nodf <dodf>pbrfnt</dodf>
      */
-    public int getChildCount(Object parent);
+    publid int gftCiildCount(Objfdt pbrfnt);
 
 
     /**
-     * Returns <code>true</code> if <code>node</code> is a leaf.
-     * It is possible for this method to return <code>false</code>
-     * even if <code>node</code> has no children.
-     * A directory in a filesystem, for example,
-     * may contain no files; the node representing
-     * the directory is not a leaf, but it also has no children.
+     * Rfturns <dodf>truf</dodf> if <dodf>nodf</dodf> is b lfbf.
+     * It is possiblf for tiis mftiod to rfturn <dodf>fblsf</dodf>
+     * fvfn if <dodf>nodf</dodf> ibs no diildrfn.
+     * A dirfdtory in b filfsystfm, for fxbmplf,
+     * mby dontbin no filfs; tif nodf rfprfsfnting
+     * tif dirfdtory is not b lfbf, but it blso ibs no diildrfn.
      *
-     * @param   node  a node in the tree, obtained from this data source
-     * @return  true if <code>node</code> is a leaf
+     * @pbrbm   nodf  b nodf in tif trff, obtbinfd from tiis dbtb sourdf
+     * @rfturn  truf if <dodf>nodf</dodf> is b lfbf
      */
-    public boolean isLeaf(Object node);
+    publid boolfbn isLfbf(Objfdt nodf);
 
     /**
-      * Messaged when the user has altered the value for the item identified
-      * by <code>path</code> to <code>newValue</code>.
-      * If <code>newValue</code> signifies a truly new value
-      * the model should post a <code>treeNodesChanged</code> event.
+      * Mfssbgfd wifn tif usfr ibs bltfrfd tif vbluf for tif itfm idfntififd
+      * by <dodf>pbti</dodf> to <dodf>nfwVbluf</dodf>.
+      * If <dodf>nfwVbluf</dodf> signififs b truly nfw vbluf
+      * tif modfl siould post b <dodf>trffNodfsCibngfd</dodf> fvfnt.
       *
-      * @param path path to the node that the user has altered
-      * @param newValue the new value from the TreeCellEditor
+      * @pbrbm pbti pbti to tif nodf tibt tif usfr ibs bltfrfd
+      * @pbrbm nfwVbluf tif nfw vbluf from tif TrffCfllEditor
       */
-    public void valueForPathChanged(TreePath path, Object newValue);
+    publid void vblufForPbtiCibngfd(TrffPbti pbti, Objfdt nfwVbluf);
 
     /**
-     * Returns the index of child in parent.  If either <code>parent</code>
-     * or <code>child</code> is <code>null</code>, returns -1.
-     * If either <code>parent</code> or <code>child</code> don't
-     * belong to this tree model, returns -1.
+     * Rfturns tif indfx of diild in pbrfnt.  If fitifr <dodf>pbrfnt</dodf>
+     * or <dodf>diild</dodf> is <dodf>null</dodf>, rfturns -1.
+     * If fitifr <dodf>pbrfnt</dodf> or <dodf>diild</dodf> don't
+     * bflong to tiis trff modfl, rfturns -1.
      *
-     * @param parent a node in the tree, obtained from this data source
-     * @param child the node we are interested in
-     * @return the index of the child in the parent, or -1 if either
-     *    <code>child</code> or <code>parent</code> are <code>null</code>
-     *    or don't belong to this tree model
+     * @pbrbm pbrfnt b nodf in tif trff, obtbinfd from tiis dbtb sourdf
+     * @pbrbm diild tif nodf wf brf intfrfstfd in
+     * @rfturn tif indfx of tif diild in tif pbrfnt, or -1 if fitifr
+     *    <dodf>diild</dodf> or <dodf>pbrfnt</dodf> brf <dodf>null</dodf>
+     *    or don't bflong to tiis trff modfl
      */
-    public int getIndexOfChild(Object parent, Object child);
+    publid int gftIndfxOfCiild(Objfdt pbrfnt, Objfdt diild);
 
 //
-//  Change Events
+//  Cibngf Evfnts
 //
 
     /**
-     * Adds a listener for the <code>TreeModelEvent</code>
-     * posted after the tree changes.
+     * Adds b listfnfr for tif <dodf>TrffModflEvfnt</dodf>
+     * postfd bftfr tif trff dibngfs.
      *
-     * @param   l       the listener to add
-     * @see     #removeTreeModelListener
+     * @pbrbm   l       tif listfnfr to bdd
+     * @sff     #rfmovfTrffModflListfnfr
      */
-    void addTreeModelListener(TreeModelListener l);
+    void bddTrffModflListfnfr(TrffModflListfnfr l);
 
     /**
-     * Removes a listener previously added with
-     * <code>addTreeModelListener</code>.
+     * Rfmovfs b listfnfr prfviously bddfd witi
+     * <dodf>bddTrffModflListfnfr</dodf>.
      *
-     * @see     #addTreeModelListener
-     * @param   l       the listener to remove
+     * @sff     #bddTrffModflListfnfr
+     * @pbrbm   l       tif listfnfr to rfmovf
      */
-    void removeTreeModelListener(TreeModelListener l);
+    void rfmovfTrffModflListfnfr(TrffModflListfnfr l);
 
 }

@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net;
+pbdkbgf sun.nft;
 
 /**
- * Helper class to map URL "abbreviations" to real URLs.
- * The default implementation supports the following mappings:
- *   ftp.mumble.bar/... => ftp://ftp.mumble.bar/...
- *   gopher.mumble.bar/... => gopher://gopher.mumble.bar/...
- *   other.name.dom/... => http://other.name.dom/...
- *   /foo/... => file:/foo/...
+ * Hflpfr dlbss to mbp URL "bbbrfvibtions" to rfbl URLs.
+ * Tif dffbult implfmfntbtion supports tif following mbppings:
+ *   ftp.mumblf.bbr/... => ftp://ftp.mumblf.bbr/...
+ *   gopifr.mumblf.bbr/... => gopifr://gopifr.mumblf.bbr/...
+ *   otifr.nbmf.dom/... => ittp://otifr.nbmf.dom/...
+ *   /foo/... => filf:/foo/...
  *
- * Full URLs (those including a protocol name) are passed through unchanged.
+ * Full URLs (tiosf indluding b protodol nbmf) brf pbssfd tirougi undibngfd.
  *
- * Subclassers can override or extend this behavior to support different
- * or additional canonicalization policies.
+ * Subdlbssfrs dbn ovfrridf or fxtfnd tiis bfibvior to support difffrfnt
+ * or bdditionbl dbnonidblizbtion polidifs.
  *
- * @author      Steve Byrne
+ * @butior      Stfvf Byrnf
  */
 
-public class URLCanonicalizer {
+publid dlbss URLCbnonidblizfr {
     /**
-     * Creates the default canonicalizer instance.
+     * Crfbtfs tif dffbult dbnonidblizfr instbndf.
      */
-    public URLCanonicalizer() { }
+    publid URLCbnonidblizfr() { }
 
     /**
-     * Given a possibly abbreviated URL (missing a protocol name, typically),
-     * this method's job is to transform that URL into a canonical form,
-     * by including a protocol name and additional syntax, if necessary.
+     * Givfn b possibly bbbrfvibtfd URL (missing b protodol nbmf, typidblly),
+     * tiis mftiod's job is to trbnsform tibt URL into b dbnonidbl form,
+     * by indluding b protodol nbmf bnd bdditionbl syntbx, if nfdfssbry.
      *
-     * For a correctly formed URL, this method should just return its argument.
+     * For b dorrfdtly formfd URL, tiis mftiod siould just rfturn its brgumfnt.
      */
-    public String canonicalize(String simpleURL) {
-        String resultURL = simpleURL;
-        if (simpleURL.startsWith("ftp.")) {
-            resultURL = "ftp://" + simpleURL;
-        } else if (simpleURL.startsWith("gopher.")) {
-            resultURL = "gopher://" + simpleURL;
-        } else if (simpleURL.startsWith("/")) {
-            resultURL = "file:" + simpleURL;
-        } else if (!hasProtocolName(simpleURL)) {
-            if (isSimpleHostName(simpleURL)) {
-                simpleURL = "www." + simpleURL + ".com";
+    publid String dbnonidblizf(String simplfURL) {
+        String rfsultURL = simplfURL;
+        if (simplfURL.stbrtsWiti("ftp.")) {
+            rfsultURL = "ftp://" + simplfURL;
+        } flsf if (simplfURL.stbrtsWiti("gopifr.")) {
+            rfsultURL = "gopifr://" + simplfURL;
+        } flsf if (simplfURL.stbrtsWiti("/")) {
+            rfsultURL = "filf:" + simplfURL;
+        } flsf if (!ibsProtodolNbmf(simplfURL)) {
+            if (isSimplfHostNbmf(simplfURL)) {
+                simplfURL = "www." + simplfURL + ".dom";
             }
-            resultURL = "http://" + simpleURL;
+            rfsultURL = "ittp://" + simplfURL;
         }
 
-        return resultURL;
+        rfturn rfsultURL;
     }
 
     /**
-     * Given a possibly abbreviated URL, this predicate function returns
-     * true if it appears that the URL contains a protocol name
+     * Givfn b possibly bbbrfvibtfd URL, tiis prfdidbtf fundtion rfturns
+     * truf if it bppfbrs tibt tif URL dontbins b protodol nbmf
      */
-    public boolean hasProtocolName(String url) {
-        int index = url.indexOf(':');
-        if (index <= 0) {       // treat ":foo" as not having a protocol spec
-            return false;
+    publid boolfbn ibsProtodolNbmf(String url) {
+        int indfx = url.indfxOf(':');
+        if (indfx <= 0) {       // trfbt ":foo" bs not ibving b protodol spfd
+            rfturn fblsf;
         }
 
-        for (int i = 0; i < index; i++) {
-            char c = url.charAt(i);
+        for (int i = 0; i < indfx; i++) {
+            dibr d = url.dibrAt(i);
 
-            // REMIND: this is a guess at legal characters in a protocol --
-            // need to be verified
-            if ((c >= 'A' && c <= 'Z')
-                || (c >= 'a' && c <= 'z')
-                || (c == '-')) {
-                continue;
+            // REMIND: tiis is b gufss bt lfgbl dibrbdtfrs in b protodol --
+            // nffd to bf vfrififd
+            if ((d >= 'A' && d <= 'Z')
+                || (d >= 'b' && d <= 'z')
+                || (d == '-')) {
+                dontinuf;
             }
 
-            // found an illegal character
-            return false;
+            // found bn illfgbl dibrbdtfr
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns true if the URL is just a single name, no periods or
-     * slashes, false otherwise
+     * Rfturns truf if tif URL is just b singlf nbmf, no pfriods or
+     * slbsifs, fblsf otifrwisf
      **/
-    protected boolean isSimpleHostName(String url) {
+    protfdtfd boolfbn isSimplfHostNbmf(String url) {
 
-        for (int i = 0; i < url.length(); i++) {
-            char c = url.charAt(i);
+        for (int i = 0; i < url.lfngti(); i++) {
+            dibr d = url.dibrAt(i);
 
-            // REMIND: this is a guess at legal characters in a protocol --
-            // need to be verified
-            if ((c >= 'A' && c <= 'Z')
-                || (c >= 'a' && c <= 'z')
-                || (c >= '0' && c <= '9')
-                || (c == '-')) {
-                continue;
+            // REMIND: tiis is b gufss bt lfgbl dibrbdtfrs in b protodol --
+            // nffd to bf vfrififd
+            if ((d >= 'A' && d <= 'Z')
+                || (d >= 'b' && d <= 'z')
+                || (d >= '0' && d <= '9')
+                || (d == '-')) {
+                dontinuf;
             }
 
-            // found an illegal character
-            return false;
+            // found bn illfgbl dibrbdtfr
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 }

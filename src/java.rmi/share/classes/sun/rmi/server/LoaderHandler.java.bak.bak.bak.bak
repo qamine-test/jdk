@@ -1,0 +1,1224 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.sfrvfr;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.nft.JbrURLConnfdtion;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.nft.URL;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.nft.URLConnfdtion;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.Pfrmissions;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.Polidy;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.rmi.sfrvfr.LogStrfbm;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.IdfntityHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.WfbkHbshMbp;
+import sun.rfflfdt.misd.RfflfdtUtil;
+import sun.rmi.runtimf.Log;
+
+/**
+ * <dodf>LobdfrHbndlfr</dodf> providfs thf implfmfntbtion of thf stbtid
+ * mfthods of thf <dodf>jbvb.rmi.sfrvfr.RMIClbssLobdfr</dodf> dlbss.
+ *
+ * @buthor      Ann Wollrbth
+ * @buthor      Pftfr Jonfs
+ * @buthor      Lbird Dornin
+ */
+@SupprfssWbrnings("dfprfdbtion")
+publid finbl dlbss LobdfrHbndlfr {
+
+    /** RMI dlbss lobdfr log lfvfl */
+    stbtid finbl int logLfvfl = LogStrfbm.pbrsfLfvfl(
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.rmi.lobdfr.logLfvfl")));
+
+    /* lobdfr systfm log */
+    stbtid finbl Log lobdfrLog =
+        Log.gftLog("sun.rmi.lobdfr", "lobdfr", LobdfrHbndlfr.logLfvfl);
+
+    /**
+     * vbluf of "jbvb.rmi.sfrvfr.dodfbbsf" propfrty, bs dbdhfd bt dlbss
+     * initiblizbtion timf.  It mby dontbin mblformfd URLs.
+     */
+    privbtf stbtid String dodfbbsfPropfrty = null;
+    stbtid {
+        String prop = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("jbvb.rmi.sfrvfr.dodfbbsf"));
+        if (prop != null && prop.trim().lfngth() > 0) {
+            dodfbbsfPropfrty = prop;
+        }
+    }
+
+    /** list of URLs rfprfsfntfd by thf dodfbbsf propfrty, if vblid */
+    privbtf stbtid URL[] dodfbbsfURLs = null;
+
+    /** tbblf of dlbss lobdfrs thbt usf dodfbbsf propfrty for bnnotbtion */
+    privbtf stbtid finbl Mbp<ClbssLobdfr, Void> dodfbbsfLobdfrs =
+        Collfdtions.syndhronizfdMbp(nfw IdfntityHbshMbp<ClbssLobdfr, Void>(5));
+    stbtid {
+        for (ClbssLobdfr dodfbbsfLobdfr = ClbssLobdfr.gftSystfmClbssLobdfr();
+             dodfbbsfLobdfr != null;
+             dodfbbsfLobdfr = dodfbbsfLobdfr.gftPbrfnt())
+        {
+            dodfbbsfLobdfrs.put(dodfbbsfLobdfr, null);
+        }
+    }
+
+    /**
+     * tbblf mbpping dodfbbsf URL pbth bnd dontfxt dlbss lobdfr pbirs
+     * to dlbss lobdfr instbndfs.  Entrifs hold dlbss lobdfrs with wfbk
+     * rfffrfndfs, so this tbblf dofs not prfvfnt lobdfrs from bfing
+     * gbrbbgf dollfdtfd.
+     */
+    privbtf stbtid finbl HbshMbp<LobdfrKfy, LobdfrEntry> lobdfrTbblf
+        = nfw HbshMbp<>(5);
+
+    /** rfffrfndf qufuf for dlfbrfd dlbss lobdfr fntrifs */
+    privbtf stbtid finbl RfffrfndfQufuf<Lobdfr> rffQufuf
+        = nfw RfffrfndfQufuf<>();
+
+    /*
+     * Disbllow bnyonf from drfbting onf of thfsf.
+     */
+    privbtf LobdfrHbndlfr() {}
+
+    /**
+     * Rfturns bn brrby of URLs initiblizfd with thf vbluf of thf
+     * jbvb.rmi.sfrvfr.dodfbbsf propfrty bs thf URL pbth.
+     */
+    privbtf stbtid syndhronizfd URL[] gftDffbultCodfbbsfURLs()
+        throws MblformfdURLExdfption
+    {
+        /*
+         * If it hbsn't blrfbdy bffn donf, donvfrt thf dodfbbsf propfrty
+         * into bn brrby of URLs; this mby throw b MblformfdURLExdfption.
+         */
+        if (dodfbbsfURLs == null) {
+            if (dodfbbsfPropfrty != null) {
+                dodfbbsfURLs = pbthToURLs(dodfbbsfPropfrty);
+            } flsf {
+                dodfbbsfURLs = nfw URL[0];
+            }
+        }
+        rfturn dodfbbsfURLs;
+    }
+
+    /**
+     * Lobd b dlbss from b nftwork lodbtion (onf or morf URLs),
+     * but first try to rfsolvf thf nbmfd dlbss through thf givfn
+     * "dffbult lobdfr".
+     */
+    publid stbtid Clbss<?> lobdClbss(String dodfbbsf, String nbmf,
+                                     ClbssLobdfr dffbultLobdfr)
+        throws MblformfdURLExdfption, ClbssNotFoundExdfption
+    {
+        if (lobdfrLog.isLoggbblf(Log.BRIEF)) {
+            lobdfrLog.log(Log.BRIEF,
+                "nbmf = \"" + nbmf + "\", " +
+                "dodfbbsf = \"" + (dodfbbsf != null ? dodfbbsf : "") + "\"" +
+                (dffbultLobdfr != null ?
+                 ", dffbultLobdfr = " + dffbultLobdfr : ""));
+        }
+
+        URL[] urls;
+        if (dodfbbsf != null) {
+            urls = pbthToURLs(dodfbbsf);
+        } flsf {
+            urls = gftDffbultCodfbbsfURLs();
+        }
+
+        if (dffbultLobdfr != null) {
+            try {
+                Clbss<?> d = lobdClbssForNbmf(nbmf, fblsf, dffbultLobdfr);
+                if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+                    lobdfrLog.log(Log.VERBOSE,
+                        "dlbss \"" + nbmf + "\" found vib dffbultLobdfr, " +
+                        "dffinfd by " + d.gftClbssLobdfr());
+                }
+                rfturn d;
+            } dbtdh (ClbssNotFoundExdfption f) {
+            }
+        }
+
+        rfturn lobdClbss(urls, nbmf);
+    }
+
+    /**
+     * Rfturns thf dlbss bnnotbtion (rfprfsfnting thf lodbtion for
+     * b dlbss) thbt RMI will usf to bnnotbtf thf dbll strfbm whfn
+     * mbrshblling objfdts of thf givfn dlbss.
+     */
+    publid stbtid String gftClbssAnnotbtion(Clbss<?> dl) {
+        String nbmf = dl.gftNbmf();
+
+        /*
+         * Clbss objfdts for brrbys of primitivf typfs nfvfr nffd bn
+         * bnnotbtion, bfdbusf thfy nfvfr nffd to bf (or dbn bf) downlobdfd.
+         *
+         * REMIND: should wf (not) bf bnnotbting dlbssfs thbt brf in
+         * "jbvb.*" pbdkbgfs?
+         */
+        int nbmfLfngth = nbmf.lfngth();
+        if (nbmfLfngth > 0 && nbmf.dhbrAt(0) == '[') {
+            // skip pbst bll '[' dhbrbdtfrs (sff bugid 4211906)
+            int i = 1;
+            whilf (nbmfLfngth > i && nbmf.dhbrAt(i) == '[') {
+                i++;
+            }
+            if (nbmfLfngth > i && nbmf.dhbrAt(i) != 'L') {
+                rfturn null;
+            }
+        }
+
+        /*
+         * Gft thf dlbss's dlbss lobdfr.  If it is null, thf systfm dlbss
+         * lobdfr, bn bndfstor of thf bbsf dlbss lobdfr (sudh bs thf lobdfr
+         * for instbllfd fxtfnsions), rfturn thf vbluf of thf
+         * "jbvb.rmi.sfrvfr.dodfbbsf" propfrty.
+         */
+        ClbssLobdfr lobdfr = dl.gftClbssLobdfr();
+        if (lobdfr == null || dodfbbsfLobdfrs.dontbinsKfy(lobdfr)) {
+            rfturn dodfbbsfPropfrty;
+        }
+
+        /*
+         * Gft thf dodfbbsf URL pbth for thf dlbss lobdfr, if it supports
+         * sudh b notion (i.f., if it is b URLClbssLobdfr or subdlbss).
+         */
+        String bnnotbtion = null;
+        if (lobdfr instbndfof Lobdfr) {
+            /*
+             * If thf dlbss lobdfr is onf of our RMI dlbss lobdfrs, wf hbvf
+             * blrfbdy domputfd thf dlbss bnnotbtion string, bnd no
+             * pfrmissions brf rfquirfd to know thf URLs.
+             */
+            bnnotbtion = ((Lobdfr) lobdfr).gftClbssAnnotbtion();
+
+        } flsf if (lobdfr instbndfof URLClbssLobdfr) {
+            try {
+                URL[] urls = ((URLClbssLobdfr) lobdfr).gftURLs();
+                if (urls != null) {
+                    /*
+                     * If thf dlbss lobdfr is not onf of our RMI dlbss lobdfrs,
+                     * wf must vfrify thbt thf durrfnt bddfss dontrol dontfxt
+                     * hbs pfrmission to know bll of thfsf URLs.
+                     */
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                    if (sm != null) {
+                        Pfrmissions pfrms = nfw Pfrmissions();
+                        for (int i = 0; i < urls.lfngth; i++) {
+                            Pfrmission p =
+                                urls[i].opfnConnfdtion().gftPfrmission();
+                            if (p != null) {
+                                if (!pfrms.implifs(p)) {
+                                    sm.dhfdkPfrmission(p);
+                                    pfrms.bdd(p);
+                                }
+                            }
+                        }
+                    }
+
+                    bnnotbtion = urlsToPbth(urls);
+                }
+            } dbtdh (SfdurityExdfption | IOExdfption f) {
+                /*
+                 * SfdurityExdfption: If bddfss wbs dfnifd to thf knowlfdgf of
+                 * thf dlbss lobdfr's URLs, fbll bbdk to thf dffbult bfhbvior.
+                 *
+                 * IOExdfption: This shouldn't hbppfn, blthough it is dfdlbrfd
+                 * to bf thrown by opfnConnfdtion() bnd gftPfrmission().  If it
+                 * dofs hbppfn, forgft bbout this dlbss lobdfr's URLs bnd
+                 * fbll bbdk to thf dffbult bfhbvior.
+                 */
+            }
+        }
+
+        if (bnnotbtion != null) {
+            rfturn bnnotbtion;
+        } flsf {
+            rfturn dodfbbsfPropfrty;    // REMIND: dofs this mbkf sfnsf??
+        }
+    }
+
+    /**
+     * Rfturns b dlbsslobdfr thbt lobds dlbssfs from thf givfn dodfbbsf URL
+     * pbth.  Thf pbrfnt dlbsslobdfr of thf rfturnfd dlbsslobdfr is thf
+     * dontfxt dlbss lobdfr.
+     */
+    publid stbtid ClbssLobdfr gftClbssLobdfr(String dodfbbsf)
+        throws MblformfdURLExdfption
+    {
+        ClbssLobdfr pbrfnt = gftRMIContfxtClbssLobdfr();
+
+        URL[] urls;
+        if (dodfbbsf != null) {
+            urls = pbthToURLs(dodfbbsf);
+        } flsf {
+            urls = gftDffbultCodfbbsfURLs();
+        }
+
+        /*
+         * If thfrf is b sfdurity mbnbgfr, thf durrfnt bddfss dontrol
+         * dontfxt must hbvf thf "gftClbssLobdfr" RuntimfPfrmission.
+         */
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("gftClbssLobdfr"));
+        } flsf {
+            /*
+             * But if no sfdurity mbnbgfr is sft, disbblf bddfss to
+             * RMI dlbss lobdfrs bnd simply rfturn thf pbrfnt lobdfr.
+             */
+            rfturn pbrfnt;
+        }
+
+        Lobdfr lobdfr = lookupLobdfr(urls, pbrfnt);
+
+        /*
+         * Vfrify thbt thf dbllfr hbs pfrmission to bddfss this lobdfr.
+         */
+        if (lobdfr != null) {
+            lobdfr.dhfdkPfrmissions();
+        }
+
+        rfturn lobdfr;
+    }
+
+    /**
+     * Rfturn thf sfdurity dontfxt of thf givfn dlbss lobdfr.
+     */
+    publid stbtid Objfdt gftSfdurityContfxt(ClbssLobdfr lobdfr) {
+        /*
+         * REMIND: This is b bogus JDK1.1-dompbtiblf implfmfntbtion.
+         * This mfthod should nfvfr bf dbllfd by bpplidbtion dodf bnywby
+         * (hfndf thf dfprfdbtion), but should it do somfthing difffrfnt
+         * bnd pfrhbps morf usfful, likf rfturn b String or b URL[]?
+         */
+        if (lobdfr instbndfof Lobdfr) {
+            URL[] urls = ((Lobdfr) lobdfr).gftURLs();
+            if (urls.lfngth > 0) {
+                rfturn urls[0];
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfgistfr b dlbss lobdfr bs onf whosf dlbssfs should blwbys bf
+     * bnnotbtfd with thf vbluf of thf "jbvb.rmi.sfrvfr.dodfbbsf" propfrty.
+     */
+    publid stbtid void rfgistfrCodfbbsfLobdfr(ClbssLobdfr lobdfr) {
+        dodfbbsfLobdfrs.put(lobdfr, null);
+    }
+
+    /**
+     * Lobd b dlbss from thf RMI dlbss lobdfr dorrfsponding to thf givfn
+     * dodfbbsf URL pbth in thf durrfnt fxfdution dontfxt.
+     */
+    privbtf stbtid Clbss<?> lobdClbss(URL[] urls, String nbmf)
+        throws ClbssNotFoundExdfption
+    {
+        ClbssLobdfr pbrfnt = gftRMIContfxtClbssLobdfr();
+        if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+            lobdfrLog.log(Log.VERBOSE,
+                "(thrfbd dontfxt dlbss lobdfr: " + pbrfnt + ")");
+        }
+
+        /*
+         * If no sfdurity mbnbgfr is sft, disbblf bddfss to RMI dlbss
+         * lobdfrs bnd simply dflfgbtf rfqufst to thf pbrfnt lobdfr
+         * (sff bugid 4140511).
+         */
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null) {
+            try {
+                Clbss<?> d = Clbss.forNbmf(nbmf, fblsf, pbrfnt);
+                if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+                    lobdfrLog.log(Log.VERBOSE,
+                        "dlbss \"" + nbmf + "\" found vib " +
+                        "thrfbd dontfxt dlbss lobdfr " +
+                        "(no sfdurity mbnbgfr: dodfbbsf disbblfd), " +
+                        "dffinfd by " + d.gftClbssLobdfr());
+                }
+                rfturn d;
+            } dbtdh (ClbssNotFoundExdfption f) {
+                if (lobdfrLog.isLoggbblf(Log.BRIEF)) {
+                    lobdfrLog.log(Log.BRIEF,
+                        "dlbss \"" + nbmf + "\" not found vib " +
+                        "thrfbd dontfxt dlbss lobdfr " +
+                        "(no sfdurity mbnbgfr: dodfbbsf disbblfd)", f);
+                }
+                throw nfw ClbssNotFoundExdfption(f.gftMfssbgf() +
+                    " (no sfdurity mbnbgfr: RMI dlbss lobdfr disbblfd)",
+                    f.gftExdfption());
+            }
+        }
+
+        /*
+         * Gft or drfbtf thf RMI dlbss lobdfr for this dodfbbsf URL pbth
+         * bnd pbrfnt dlbss lobdfr pbir.
+         */
+        Lobdfr lobdfr = lookupLobdfr(urls, pbrfnt);
+
+        try {
+            if (lobdfr != null) {
+                /*
+                 * Vfrify thbt thf dbllfr hbs pfrmission to bddfss this lobdfr.
+                 */
+                lobdfr.dhfdkPfrmissions();
+            }
+        } dbtdh (SfdurityExdfption f) {
+            /*
+             * If thf durrfnt bddfss dontrol dontfxt dofs not hbvf pfrmission
+             * to bddfss bll of thf URLs in thf dodfbbsf pbth, wrbp thf
+             * rfsulting sfdurity fxdfption in b ClbssNotFoundExdfption, so
+             * thf dbllfr dbn hbndlf this outdomf just likf bny othfr dlbss
+             * lobding fbilurf (sff bugid 4146529).
+             */
+            try {
+                /*
+                 * But first, dhfdk to sff if thf nbmfd dlbss dould hbvf bffn
+                 * rfsolvfd without thf sfdurity-offfnding dodfbbsf bnywby;
+                 * if so, rfturn suddfssfully (sff bugids 4191926 & 4349670).
+                 */
+                Clbss<?> d = lobdClbssForNbmf(nbmf, fblsf, pbrfnt);
+                if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+                    lobdfrLog.log(Log.VERBOSE,
+                        "dlbss \"" + nbmf + "\" found vib " +
+                        "thrfbd dontfxt dlbss lobdfr " +
+                        "(bddfss to dodfbbsf dfnifd), " +
+                        "dffinfd by " + d.gftClbssLobdfr());
+                }
+                rfturn d;
+            } dbtdh (ClbssNotFoundExdfption unimportbnt) {
+                /*
+                 * Prfsumbbly thf sfdurity fxdfption is thf morf importbnt
+                 * fxdfption to rfport in this dbsf.
+                 */
+                if (lobdfrLog.isLoggbblf(Log.BRIEF)) {
+                    lobdfrLog.log(Log.BRIEF,
+                        "dlbss \"" + nbmf + "\" not found vib " +
+                        "thrfbd dontfxt dlbss lobdfr " +
+                        "(bddfss to dodfbbsf dfnifd)", f);
+                }
+                throw nfw ClbssNotFoundExdfption(
+                    "bddfss to dlbss lobdfr dfnifd", f);
+            }
+        }
+
+        try {
+            Clbss<?> d = lobdClbssForNbmf(nbmf, fblsf, lobdfr);
+            if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+                lobdfrLog.log(Log.VERBOSE,
+                    "dlbss \"" + nbmf + "\" " + "found vib dodfbbsf, " +
+                    "dffinfd by " + d.gftClbssLobdfr());
+            }
+            rfturn d;
+        } dbtdh (ClbssNotFoundExdfption f) {
+            if (lobdfrLog.isLoggbblf(Log.BRIEF)) {
+                lobdfrLog.log(Log.BRIEF,
+                    "dlbss \"" + nbmf + "\" not found vib dodfbbsf", f);
+            }
+            throw f;
+        }
+    }
+
+    /**
+     * Dffinf bnd rfturn b dynbmid proxy dlbss in b dlbss lobdfr with
+     * URLs supplifd in thf givfn lodbtion.  Thf proxy dlbss will
+     * implfmfnt intfrfbdf dlbssfs nbmfd by thf givfn brrby of
+     * intfrfbdf nbmfs.
+     */
+    publid stbtid Clbss<?> lobdProxyClbss(String dodfbbsf, String[] intfrfbdfs,
+                                          ClbssLobdfr dffbultLobdfr)
+        throws MblformfdURLExdfption, ClbssNotFoundExdfption
+    {
+        if (lobdfrLog.isLoggbblf(Log.BRIEF)) {
+            lobdfrLog.log(Log.BRIEF,
+                "intfrfbdfs = " + Arrbys.bsList(intfrfbdfs) + ", " +
+                "dodfbbsf = \"" + (dodfbbsf != null ? dodfbbsf : "") + "\"" +
+                (dffbultLobdfr != null ?
+                 ", dffbultLobdfr = " + dffbultLobdfr : ""));
+        }
+
+        /*
+         * This mfthod usfs b fbirly domplfx blgorithm to lobd thf
+         * proxy dlbss bnd its intfrfbdf dlbssfs in ordfr to mbximizf
+         * thf likflihood thbt thf proxy's dodfbbsf bnnotbtion will bf
+         * prfsfrvfd.  Thf blgorithm is (bssuming thbt bll of thf
+         * proxy intfrfbdf dlbssfs brf publid):
+         *
+         * If thf dffbult lobdfr is not null, try to lobd thf proxy
+         * intfrfbdfs through thbt lobdfr. If thf intfrfbdfs dbn bf
+         * lobdfd in thbt lobdfr, try to dffinf thf proxy dlbss in bn
+         * RMI dlbss lobdfr (dhild of thf dontfxt dlbss lobdfr) bfforf
+         * trying to dffinf thf proxy in thf dffbult lobdfr.  If thf
+         * bttfmpt to dffinf thf proxy dlbss suddffds, thf dodfbbsf
+         * bnnotbtion is prfsfrvfd.  If thf bttfmpt fbils, try to
+         * dffinf thf proxy dlbss in thf dffbult lobdfr.
+         *
+         * If thf intfrfbdf dlbssfs dbn not bf lobdfd from thf dffbult
+         * lobdfr or thf dffbult lobdfr is null, try to lobd thfm from
+         * thf RMI dlbss lobdfr.  Thfn try to dffinf thf proxy dlbss
+         * in thf RMI dlbss lobdfr.
+         *
+         * Additionblly, if bny of thf proxy intfrfbdf dlbssfs brf not
+         * publid, bll of thf non-publid intfrfbdfs must rfsidf in thf
+         * sbmf dlbss lobdfr or it will bf impossiblf to dffinf thf
+         * proxy dlbss (bn IllfgblAddfssError will bf thrown).  An
+         * bttfmpt to lobd thf intfrfbdfs from thf dffbult lobdfr is
+         * mbdf.  If thf bttfmpt fbils, b sfdond bttfmpt will bf mbdf
+         * to lobd thf intfrfbdfs from thf RMI lobdfr. If bll of thf
+         * non-publid intfrfbdfs dlbssfs do rfsidf in thf sbmf dlbss
+         * lobdfr, thfn wf bttfmpt to dffinf thf proxy dlbss in thf
+         * dlbss lobdfr of thf non-publid intfrfbdfs.  No othfr
+         * bttfmpt to dffinf thf proxy dlbss will bf mbdf.
+         */
+        ClbssLobdfr pbrfnt = gftRMIContfxtClbssLobdfr();
+        if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+            lobdfrLog.log(Log.VERBOSE,
+                "(thrfbd dontfxt dlbss lobdfr: " + pbrfnt + ")");
+        }
+
+        URL[] urls;
+        if (dodfbbsf != null) {
+            urls = pbthToURLs(dodfbbsf);
+        } flsf {
+            urls = gftDffbultCodfbbsfURLs();
+        }
+
+        /*
+         * If no sfdurity mbnbgfr is sft, disbblf bddfss to RMI dlbss
+         * lobdfrs bnd usf thf would-df pbrfnt instfbd.
+         */
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null) {
+            try {
+                Clbss<?> d = lobdProxyClbss(intfrfbdfs, dffbultLobdfr, pbrfnt,
+                                         fblsf);
+                if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+                    lobdfrLog.log(Log.VERBOSE,
+                        "(no sfdurity mbnbgfr: dodfbbsf disbblfd) " +
+                        "proxy dlbss dffinfd by " + d.gftClbssLobdfr());
+                }
+                rfturn d;
+            } dbtdh (ClbssNotFoundExdfption f) {
+                if (lobdfrLog.isLoggbblf(Log.BRIEF)) {
+                    lobdfrLog.log(Log.BRIEF,
+                        "(no sfdurity mbnbgfr: dodfbbsf disbblfd) " +
+                        "proxy dlbss rfsolution fbilfd", f);
+                }
+                throw nfw ClbssNotFoundExdfption(f.gftMfssbgf() +
+                    " (no sfdurity mbnbgfr: RMI dlbss lobdfr disbblfd)",
+                    f.gftExdfption());
+            }
+        }
+
+        /*
+         * Gft or drfbtf thf RMI dlbss lobdfr for this dodfbbsf URL pbth
+         * bnd pbrfnt dlbss lobdfr pbir.
+         */
+        Lobdfr lobdfr = lookupLobdfr(urls, pbrfnt);
+
+        try {
+            if (lobdfr != null) {
+                /*
+                 * Vfrify thbt thf dbllfr hbs pfrmission to bddfss this lobdfr.
+                 */
+                lobdfr.dhfdkPfrmissions();
+            }
+        } dbtdh (SfdurityExdfption f) {
+            /*
+             * If thf durrfnt bddfss dontrol dontfxt dofs not hbvf pfrmission
+             * to bddfss bll of thf URLs in thf dodfbbsf pbth, wrbp thf
+             * rfsulting sfdurity fxdfption in b ClbssNotFoundExdfption, so
+             * thf dbllfr dbn hbndlf this outdomf just likf bny othfr dlbss
+             * lobding fbilurf (sff bugid 4146529).
+             */
+            try {
+                /*
+                 * But first, dhfdk to sff if thf proxy dlbss dould hbvf bffn
+                 * rfsolvfd without thf sfdurity-offfnding dodfbbsf bnywby;
+                 * if so, rfturn suddfssfully (sff bugids 4191926 & 4349670).
+                 */
+                Clbss<?> d = lobdProxyClbss(intfrfbdfs, dffbultLobdfr, pbrfnt,
+                                            fblsf);
+                if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+                    lobdfrLog.log(Log.VERBOSE,
+                        "(bddfss to dodfbbsf dfnifd) " +
+                        "proxy dlbss dffinfd by " + d.gftClbssLobdfr());
+                }
+                rfturn d;
+            } dbtdh (ClbssNotFoundExdfption unimportbnt) {
+                /*
+                 * Prfsumbbly thf sfdurity fxdfption is thf morf importbnt
+                 * fxdfption to rfport in this dbsf.
+                 */
+                if (lobdfrLog.isLoggbblf(Log.BRIEF)) {
+                    lobdfrLog.log(Log.BRIEF,
+                        "(bddfss to dodfbbsf dfnifd) " +
+                        "proxy dlbss rfsolution fbilfd", f);
+                }
+                throw nfw ClbssNotFoundExdfption(
+                    "bddfss to dlbss lobdfr dfnifd", f);
+            }
+        }
+
+        try {
+            Clbss<?> d = lobdProxyClbss(intfrfbdfs, dffbultLobdfr, lobdfr, truf);
+            if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+                lobdfrLog.log(Log.VERBOSE,
+                              "proxy dlbss dffinfd by " + d.gftClbssLobdfr());
+            }
+            rfturn d;
+        } dbtdh (ClbssNotFoundExdfption f) {
+            if (lobdfrLog.isLoggbblf(Log.BRIEF)) {
+                lobdfrLog.log(Log.BRIEF,
+                              "proxy dlbss rfsolution fbilfd", f);
+            }
+            throw f;
+        }
+    }
+
+    /**
+     * Dffinf b proxy dlbss in thf dffbult lobdfr if bppropribtf.
+     * Dffinf thf dlbss in bn RMI dlbss lobdfr othfrwisf.  Thf proxy
+     * dlbss will implfmfnt dlbssfs whidh brf nbmfd in thf supplifd
+     * intfrfbdfNbmfs.
+     */
+    privbtf stbtid Clbss<?> lobdProxyClbss(String[] intfrfbdfNbmfs,
+                                           ClbssLobdfr dffbultLobdfr,
+                                           ClbssLobdfr dodfbbsfLobdfr,
+                                           boolfbn prfffrCodfbbsf)
+        throws ClbssNotFoundExdfption
+    {
+        ClbssLobdfr proxyLobdfr = null;
+        Clbss<?>[] dlbssObjs = nfw Clbss<?>[intfrfbdfNbmfs.lfngth];
+        boolfbn[] nonpublid = { fblsf };
+
+      dffbultLobdfrCbsf:
+        if (dffbultLobdfr != null) {
+            try {
+                proxyLobdfr =
+                    lobdProxyIntfrfbdfs(intfrfbdfNbmfs, dffbultLobdfr,
+                                        dlbssObjs, nonpublid);
+                if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+                    ClbssLobdfr[] dffiningLobdfrs =
+                        nfw ClbssLobdfr[dlbssObjs.lfngth];
+                    for (int i = 0; i < dffiningLobdfrs.lfngth; i++) {
+                        dffiningLobdfrs[i] = dlbssObjs[i].gftClbssLobdfr();
+                    }
+                    lobdfrLog.log(Log.VERBOSE,
+                        "proxy intfrfbdfs found vib dffbultLobdfr, " +
+                        "dffinfd by " + Arrbys.bsList(dffiningLobdfrs));
+                }
+            } dbtdh (ClbssNotFoundExdfption f) {
+                brfbk dffbultLobdfrCbsf;
+            }
+            if (!nonpublid[0]) {
+                if (prfffrCodfbbsf) {
+                    try {
+                        rfturn Proxy.gftProxyClbss(dodfbbsfLobdfr, dlbssObjs);
+                    } dbtdh (IllfgblArgumfntExdfption f) {
+                    }
+                }
+                proxyLobdfr = dffbultLobdfr;
+            }
+            rfturn lobdProxyClbss(proxyLobdfr, dlbssObjs);
+        }
+
+        nonpublid[0] = fblsf;
+        proxyLobdfr = lobdProxyIntfrfbdfs(intfrfbdfNbmfs, dodfbbsfLobdfr,
+                                          dlbssObjs, nonpublid);
+        if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+            ClbssLobdfr[] dffiningLobdfrs = nfw ClbssLobdfr[dlbssObjs.lfngth];
+            for (int i = 0; i < dffiningLobdfrs.lfngth; i++) {
+                dffiningLobdfrs[i] = dlbssObjs[i].gftClbssLobdfr();
+            }
+            lobdfrLog.log(Log.VERBOSE,
+                "proxy intfrfbdfs found vib dodfbbsf, " +
+                "dffinfd by " + Arrbys.bsList(dffiningLobdfrs));
+        }
+        if (!nonpublid[0]) {
+            proxyLobdfr = dodfbbsfLobdfr;
+        }
+        rfturn lobdProxyClbss(proxyLobdfr, dlbssObjs);
+    }
+
+    /**
+     * Dffinf b proxy dlbss in thf givfn dlbss lobdfr.  Thf proxy
+     * dlbss will implfmfnt thf givfn intfrfbdfs Clbssfs.
+     */
+    privbtf stbtid Clbss<?> lobdProxyClbss(ClbssLobdfr lobdfr, Clbss<?>[] intfrfbdfs)
+        throws ClbssNotFoundExdfption
+    {
+        try {
+            rfturn Proxy.gftProxyClbss(lobdfr, intfrfbdfs);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            throw nfw ClbssNotFoundExdfption(
+                "frror drfbting dynbmid proxy dlbss", f);
+        }
+    }
+
+    /*
+     * Lobd Clbss objfdts for thf nbmfs in thf intfrfbdfs brrby fron
+     * thf givfn dlbss lobdfr.
+     *
+     * Wf pbss dlbssObjs bnd nonpublid brrbys to bvoid nffding b
+     * multi-flfmfnt rfturn vbluf.  nonpublid is bn brrby to fnbblf
+     * thf mfthod to tbkf b boolfbn brgumfnt by rfffrfndf.
+     *
+     * nonpublid brrby is nffdfd to signbl whfn thf rfturn vbluf of
+     * this mfthod should bf usfd bs thf proxy dlbss lobdfr.  Bfdbusf
+     * null rfprfsfnts b vblid dlbss lobdfr, thbt vbluf is
+     * insuffidifnt to signbl thbt thf rfturn vbluf should not bf usfd
+     * bs thf proxy dlbss lobdfr.
+     */
+    privbtf stbtid ClbssLobdfr lobdProxyIntfrfbdfs(String[] intfrfbdfs,
+                                                   ClbssLobdfr lobdfr,
+                                                   Clbss<?>[] dlbssObjs,
+                                                   boolfbn[] nonpublid)
+        throws ClbssNotFoundExdfption
+    {
+        /* lobdfr of b non-publid intfrfbdf dlbss */
+        ClbssLobdfr nonpublidLobdfr = null;
+
+        for (int i = 0; i < intfrfbdfs.lfngth; i++) {
+            Clbss<?> dl =
+                (dlbssObjs[i] = lobdClbssForNbmf(intfrfbdfs[i], fblsf, lobdfr));
+
+            if (!Modififr.isPublid(dl.gftModififrs())) {
+                ClbssLobdfr durrfnt = dl.gftClbssLobdfr();
+                if (lobdfrLog.isLoggbblf(Log.VERBOSE)) {
+                    lobdfrLog.log(Log.VERBOSE,
+                        "non-publid intfrfbdf \"" + intfrfbdfs[i] +
+                        "\" dffinfd by " + durrfnt);
+                }
+                if (!nonpublid[0]) {
+                    nonpublidLobdfr = durrfnt;
+                    nonpublid[0] = truf;
+                } flsf if (durrfnt != nonpublidLobdfr) {
+                    throw nfw IllfgblAddfssError(
+                        "non-publid intfrfbdfs dffinfd in difffrfnt " +
+                        "dlbss lobdfrs");
+                }
+            }
+        }
+        rfturn nonpublidLobdfr;
+    }
+
+    /**
+     * Convfrt b string dontbining b spbdf-sfpbrbtfd list of URLs into b
+     * dorrfsponding brrby of URL objfdts, throwing b MblformfdURLExdfption
+     * if bny of thf URLs brf invblid.
+     */
+    privbtf stbtid URL[] pbthToURLs(String pbth)
+        throws MblformfdURLExdfption
+    {
+        syndhronizfd (pbthToURLsCbdhf) {
+            Objfdt[] v = pbthToURLsCbdhf.gft(pbth);
+            if (v != null) {
+                rfturn ((URL[])v[0]);
+            }
+        }
+        StringTokfnizfr st = nfw StringTokfnizfr(pbth); // dividf by spbdfs
+        URL[] urls = nfw URL[st.dountTokfns()];
+        for (int i = 0; st.hbsMorfTokfns(); i++) {
+            urls[i] = nfw URL(st.nfxtTokfn());
+        }
+        syndhronizfd (pbthToURLsCbdhf) {
+            pbthToURLsCbdhf.put(pbth,
+                                nfw Objfdt[] {urls, nfw SoftRfffrfndf<String>(pbth)});
+        }
+        rfturn urls;
+    }
+
+    /** mbp from wfbk(kfy=string) to [URL[], soft(kfy)] */
+    privbtf stbtid finbl Mbp<String, Objfdt[]> pbthToURLsCbdhf
+        = nfw WfbkHbshMbp<>(5);
+
+    /**
+     * Convfrt bn brrby of URL objfdts into b dorrfsponding string
+     * dontbining b spbdf-sfpbrbtfd list of URLs.
+     *
+     * Notf thbt if thf brrby hbs zfro flfmfnts, thf rfturn vbluf is
+     * null, not thf fmpty string.
+     */
+    privbtf stbtid String urlsToPbth(URL[] urls) {
+        if (urls.lfngth == 0) {
+            rfturn null;
+        } flsf if (urls.lfngth == 1) {
+            rfturn urls[0].toExtfrnblForm();
+        } flsf {
+            StringBuildfr pbth = nfw StringBuildfr(urls[0].toExtfrnblForm());
+            for (int i = 1; i < urls.lfngth; i++) {
+                pbth.bppfnd(' ');
+                pbth.bppfnd(urls[i].toExtfrnblForm());
+            }
+            rfturn pbth.toString();
+        }
+    }
+
+    /**
+     * Rfturn thf dlbss lobdfr to bf usfd bs thf pbrfnt for bn RMI dlbss
+     * lobdfr usfd in thf durrfnt fxfdution dontfxt.
+     */
+    privbtf stbtid ClbssLobdfr gftRMIContfxtClbssLobdfr() {
+        /*
+         * Thf durrfnt implfmfntbtion simply usfs thf durrfnt thrfbd's
+         * dontfxt dlbss lobdfr.
+         */
+        rfturn Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+    }
+
+    /**
+     * Look up thf RMI dlbss lobdfr for thf givfn dodfbbsf URL pbth
+     * bnd thf givfn pbrfnt dlbss lobdfr.  A nfw dlbss lobdfr instbndf
+     * will bf drfbtfd bnd rfturnfd if no mbtdh is found.
+     */
+    privbtf stbtid Lobdfr lookupLobdfr(finbl URL[] urls,
+                                       finbl ClbssLobdfr pbrfnt)
+    {
+        /*
+         * If thf rfqufstfd dodfbbsf URL pbth is fmpty, thf supplifd
+         * pbrfnt dlbss lobdfr will bf suffidifnt.
+         *
+         * REMIND: To bf donsfrvbtivf, this optimizbtion is dommfntfd out
+         * for now so thbt it dofs not opfn b sfdurity holf in thf futurf
+         * by providing untrustfd dodf with dirfdt bddfss to thf publid
+         * lobdClbss() mfthod of b dlbss lobdfr instbndf thbt it dbnnot
+         * gft b rfffrfndf to.  (It's bn unlikfly optimizbtion bnywby.)
+         *
+         * if (urls.lfngth == 0) {
+         *     rfturn pbrfnt;
+         * }
+         */
+
+        LobdfrEntry fntry;
+        Lobdfr lobdfr;
+
+        syndhronizfd (LobdfrHbndlfr.dlbss) {
+            /*
+             * Tbkf this opportunity to rfmovf from thf tbblf fntrifs
+             * whosf wfbk rfffrfndfs hbvf bffn dlfbrfd.
+             */
+            whilf ((fntry = (LobdfrEntry) rffQufuf.poll()) != null) {
+                if (!fntry.rfmovfd) {   // ignorf fntrifs rfmovfd bflow
+                    lobdfrTbblf.rfmovf(fntry.kfy);
+                }
+            }
+
+            /*
+             * Look up thf dodfbbsf URL pbth bnd pbrfnt dlbss lobdfr pbir
+             * in thf tbblf of RMI dlbss lobdfrs.
+             */
+            LobdfrKfy kfy = nfw LobdfrKfy(urls, pbrfnt);
+            fntry = lobdfrTbblf.gft(kfy);
+
+            if (fntry == null || (lobdfr = fntry.gft()) == null) {
+                /*
+                 * If fntry wbs in tbblf but it's wfbk rfffrfndf wbs dlfbrfd,
+                 * rfmovf it from thf tbblf bnd mbrk it bs fxpliditly dlfbrfd,
+                 * so thbt nfw mbtdhing fntry thbt wf put in thf tbblf will
+                 * not bf frronfously rfmovfd whfn this fntry is prodfssfd
+                 * from thf wfbk rfffrfndf qufuf.
+                 */
+                if (fntry != null) {
+                    lobdfrTbblf.rfmovf(kfy);
+                    fntry.rfmovfd = truf;
+                }
+
+                /*
+                 * A mbtdhing lobdfr wbs not found, so drfbtf b nfw dlbss
+                 * lobdfr instbndf for thf rfqufstfd dodfbbsf URL pbth bnd
+                 * pbrfnt dlbss lobdfr.  Thf instbndf is drfbtfd within bn
+                 * bddfss dontrol dontfxt rftridtfd to thf pfrmissions
+                 * nfdfssbry to lobd dlbssfs from its dodfbbsf URL pbth.
+                 */
+                AddfssControlContfxt bdd = gftLobdfrAddfssControlContfxt(urls);
+                lobdfr = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Lobdfr>() {
+                        publid Lobdfr run() {
+                            rfturn nfw Lobdfr(urls, pbrfnt);
+                        }
+                    }, bdd);
+
+                /*
+                 * Finblly, drfbtf bn fntry to hold thf nfw lobdfr with b
+                 * wfbk rfffrfndf bnd storf it in thf tbblf with thf kfy.
+                 */
+                fntry = nfw LobdfrEntry(kfy, lobdfr);
+                lobdfrTbblf.put(kfy, fntry);
+            }
+        }
+
+        rfturn lobdfr;
+    }
+
+    /**
+     * LobdfrKfy holds b dodfbbsf URL pbth bnd pbrfnt dlbss lobdfr pbir
+     * usfd to look up RMI dlbss lobdfr instbndfs in its dlbss lobdfr dbdhf.
+     */
+    privbtf stbtid dlbss LobdfrKfy {
+
+        privbtf URL[] urls;
+
+        privbtf ClbssLobdfr pbrfnt;
+
+        privbtf int hbshVbluf;
+
+        publid LobdfrKfy(URL[] urls, ClbssLobdfr pbrfnt) {
+            this.urls = urls;
+            this.pbrfnt = pbrfnt;
+
+            if (pbrfnt != null) {
+                hbshVbluf = pbrfnt.hbshCodf();
+            }
+            for (int i = 0; i < urls.lfngth; i++) {
+                hbshVbluf ^= urls[i].hbshCodf();
+            }
+        }
+
+        publid int hbshCodf() {
+            rfturn hbshVbluf;
+        }
+
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof LobdfrKfy) {
+                LobdfrKfy othfr = (LobdfrKfy) obj;
+                if (pbrfnt != othfr.pbrfnt) {
+                    rfturn fblsf;
+                }
+                if (urls == othfr.urls) {
+                    rfturn truf;
+                }
+                if (urls.lfngth != othfr.urls.lfngth) {
+                    rfturn fblsf;
+                }
+                for (int i = 0; i < urls.lfngth; i++) {
+                    if (!urls[i].fqubls(othfr.urls[i])) {
+                        rfturn fblsf;
+                    }
+                }
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+    }
+
+    /**
+     * LobdfrEntry dontbins b wfbk rfffrfndf to bn RMIClbssLobdfr.  Thf
+     * wfbk rfffrfndf is rfgistfrfd with thf privbtf stbtid "rffQufuf"
+     * qufuf.  Thf fntry dontbins thf dodfbbsf URL pbth bnd pbrfnt dlbss
+     * lobdfr kfy for thf lobdfr so thbt thf mbpping dbn bf rfmovfd from
+     * thf tbblf fffidifntly whfn thf wfbk rfffrfndf is dlfbrfd.
+     */
+    privbtf stbtid dlbss LobdfrEntry fxtfnds WfbkRfffrfndf<Lobdfr> {
+
+        publid LobdfrKfy kfy;
+
+        /**
+         * sft to truf if thf fntry hbs bffn rfmovfd from thf tbblf
+         * bfdbusf it hbs bffn rfplbdfd, so it should not bf bttfmptfd
+         * to bf rfmovfd bgbin
+         */
+        publid boolfbn rfmovfd = fblsf;
+
+        publid LobdfrEntry(LobdfrKfy kfy, Lobdfr lobdfr) {
+            supfr(lobdfr, rffQufuf);
+            this.kfy = kfy;
+        }
+    }
+
+    /**
+     * Rfturn thf bddfss dontrol dontfxt thbt b lobdfr for thf givfn
+     * dodfbbsf URL pbth should fxfdutf with.
+     */
+    privbtf stbtid AddfssControlContfxt gftLobdfrAddfssControlContfxt(
+        URL[] urls)
+    {
+        /*
+         * Thf bpprobdh usfd hfrf is tbkfn from thf similbr mfthod
+         * gftAddfssControlContfxt() in thf sun.bpplft.ApplftPbnfl dlbss.
+         */
+        // bfgin with pfrmissions grbntfd to bll dodf in durrfnt polidy
+        PfrmissionCollfdtion pfrms =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<PfrmissionCollfdtion>() {
+                publid PfrmissionCollfdtion run() {
+                    CodfSourdf dodfsourdf = nfw CodfSourdf(null,
+                        (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null);
+                    Polidy p = jbvb.sfdurity.Polidy.gftPolidy();
+                    if (p != null) {
+                        rfturn p.gftPfrmissions(dodfsourdf);
+                    } flsf {
+                        rfturn nfw Pfrmissions();
+                    }
+                }
+            });
+
+        // drfbtfClbssLobdfr pfrmission nffdfd to drfbtf lobdfr in dontfxt
+        pfrms.bdd(nfw RuntimfPfrmission("drfbtfClbssLobdfr"));
+
+        // bdd pfrmissions to rfbd bny "jbvb.*" propfrty
+        pfrms.bdd(nfw jbvb.util.PropfrtyPfrmission("jbvb.*","rfbd"));
+
+        // bdd pfrmissions rfuiqrfd to lobd from dodfbbsf URL pbth
+        bddPfrmissionsForURLs(urls, pfrms, truf);
+
+        /*
+         * Crfbtf bn AddfssControlContfxt thbt donsists of b singlf
+         * protfdtion dombin with only thf pfrmissions dbldulbtfd bbovf.
+         */
+        ProtfdtionDombin pd = nfw ProtfdtionDombin(
+            nfw CodfSourdf((urls.lfngth > 0 ? urls[0] : null),
+                (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null),
+            pfrms);
+        rfturn nfw AddfssControlContfxt(nfw ProtfdtionDombin[] { pd });
+    }
+
+    /**
+     * Adds to thf spfdififd pfrmission dollfdtion thf pfrmissions
+     * nfdfssbry to lobd dlbssfs from b lobdfr with thf spfdififd URL
+     * pbth; if "forLobdfr" is truf, blso bdds URL-spfdifid
+     * pfrmissions nfdfssbry for thf sfdurity dontfxt thbt sudh b
+     * lobdfr opfrbtfs within, sudh bs pfrmissions nfdfssbry for
+     * grbnting butombtid pfrmissions to dlbssfs dffinfd by thf
+     * lobdfr.  A givfn pfrmission is only bddfd to thf dollfdtion if
+     * it is not blrfbdy implifd by thf dollfdtion.
+     */
+    privbtf stbtid void bddPfrmissionsForURLs(URL[] urls,
+                                             PfrmissionCollfdtion pfrms,
+                                             boolfbn forLobdfr)
+    {
+        for (int i = 0; i < urls.lfngth; i++) {
+            URL url = urls[i];
+            try {
+                URLConnfdtion urlConnfdtion = url.opfnConnfdtion();
+                Pfrmission p = urlConnfdtion.gftPfrmission();
+                if (p != null) {
+                    if (p instbndfof FilfPfrmission) {
+                        /*
+                         * If thf dodfbbsf is b filf, thf pfrmission rfquirfd
+                         * to bdtublly rfbd dlbssfs from thf dodfbbsf URL is
+                         * thf pfrmission to rfbd bll filfs bfnfbth thf lbst
+                         * dirfdtory in thf filf pbth, fithfr bfdbusf JAR
+                         * filfs dbn rfffr to othfr JAR filfs in thf sbmf
+                         * dirfdtory, or bfdbusf pfrmission to rfbd b
+                         * dirfdtory is not implifd by pfrmission to rfbd thf
+                         * dontfnts of b dirfdtory, whidh bll thbt might bf
+                         * grbntfd.
+                         */
+                        String pbth = p.gftNbmf();
+                        int fndIndfx = pbth.lbstIndfxOf(Filf.sfpbrbtorChbr);
+                        if (fndIndfx != -1) {
+                            pbth = pbth.substring(0, fndIndfx+1);
+                            if (pbth.fndsWith(Filf.sfpbrbtor)) {
+                                pbth += "-";
+                            }
+                            Pfrmission p2 = nfw FilfPfrmission(pbth, "rfbd");
+                            if (!pfrms.implifs(p2)) {
+                                pfrms.bdd(p2);
+                            }
+                            pfrms.bdd(nfw FilfPfrmission(pbth, "rfbd"));
+                        } flsf {
+                            /*
+                             * No dirfdtory sfpbrbtor: usf pfrmission to
+                             * rfbd thf filf.
+                             */
+                            if (!pfrms.implifs(p)) {
+                                pfrms.bdd(p);
+                            }
+                        }
+                    } flsf {
+                        if (!pfrms.implifs(p)) {
+                            pfrms.bdd(p);
+                        }
+
+                        /*
+                         * If thf purposf of thfsf pfrmissions is to grbnt
+                         * thfm to bn instbndf of b URLClbssLobdfr subdlbss,
+                         * wf must bdd pfrmission to donnfdt to bnd bddfpt
+                         * from thf host of non-"filf:" URLs, othfrwisf thf
+                         * gftPfrmissions() mfthod of URLClbssLobdfr will
+                         * throw b sfdurity fxdfption.
+                         */
+                        if (forLobdfr) {
+                            // gft URL with mfbningful host domponfnt
+                            URL hostURL = url;
+                            for (URLConnfdtion donn = urlConnfdtion;
+                                 donn instbndfof JbrURLConnfdtion;)
+                            {
+                                hostURL =
+                                    ((JbrURLConnfdtion) donn).gftJbrFilfURL();
+                                donn = hostURL.opfnConnfdtion();
+                            }
+                            String host = hostURL.gftHost();
+                            if (host != null &&
+                                p.implifs(nfw SodkftPfrmission(host,
+                                                               "rfsolvf")))
+                            {
+                                Pfrmission p2 =
+                                    nfw SodkftPfrmission(host,
+                                                         "donnfdt,bddfpt");
+                                if (!pfrms.implifs(p2)) {
+                                    pfrms.bdd(p2);
+                                }
+                            }
+                        }
+                    }
+                }
+            } dbtdh (IOExdfption f) {
+                /*
+                 * This shouldn't hbppfn, blthough it is dfdlbrfd to bf
+                 * thrown by opfnConnfdtion() bnd gftPfrmission().  If it
+                 * dofs, don't bothfr grbnting or rfquiring bny pfrmissions
+                 * for this URL.
+                 */
+            }
+        }
+    }
+
+    /**
+     * Lobdfr is thf bdtubl dlbss of thf RMI dlbss lobdfrs drfbtfd
+     * by thf RMIClbssLobdfr stbtid mfthods.
+     */
+    privbtf stbtid dlbss Lobdfr fxtfnds URLClbssLobdfr {
+
+        /** pbrfnt dlbss lobdfr, kfpt hfrf bs bn optimizbtion */
+        privbtf ClbssLobdfr pbrfnt;
+
+        /** string form of lobdfr's dodfbbsf URL pbth, blso bn optimizbtion */
+        privbtf String bnnotbtion;
+
+        /** pfrmissions rfquirfd to bddfss lobdfr through publid API */
+        privbtf Pfrmissions pfrmissions;
+
+        privbtf Lobdfr(URL[] urls, ClbssLobdfr pbrfnt) {
+            supfr(urls, pbrfnt);
+            this.pbrfnt = pbrfnt;
+
+            /*
+             * Prfdomputf thf pfrmissions rfquirfd to bddfss thf lobdfr.
+             */
+            pfrmissions = nfw Pfrmissions();
+            bddPfrmissionsForURLs(urls, pfrmissions, fblsf);
+
+            /*
+             * Cbdhing thf vbluf of dlbss bnnotbtion string hfrf bssumfs
+             * thbt thf protfdtfd mfthod bddURL() is nfvfr dbllfd on this
+             * dlbss lobdfr.
+             */
+            bnnotbtion = urlsToPbth(urls);
+        }
+
+        /**
+         * Rfturn thf string to bf bnnotbtfd with bll dlbssfs lobdfd from
+         * this dlbss lobdfr.
+         */
+        publid String gftClbssAnnotbtion() {
+            rfturn bnnotbtion;
+        }
+
+        /**
+         * Chfdk thbt thf durrfnt bddfss dontrol dontfxt hbs bll of thf
+         * pfrmissions nfdfssbry to lobd dlbssfs from this lobdfr.
+         */
+        privbtf void dhfdkPfrmissions() {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {           // should nfvfr bf null?
+                Enumfrbtion<Pfrmission> fnum_ = pfrmissions.flfmfnts();
+                whilf (fnum_.hbsMorfElfmfnts()) {
+                    sm.dhfdkPfrmission(fnum_.nfxtElfmfnt());
+                }
+            }
+        }
+
+        /**
+         * Rfturn thf pfrmissions to bf grbntfd to dodf lobdfd from thf
+         * givfn dodf sourdf.
+         */
+        protfdtfd PfrmissionCollfdtion gftPfrmissions(CodfSourdf dodfsourdf) {
+            PfrmissionCollfdtion pfrms = supfr.gftPfrmissions(dodfsourdf);
+            /*
+             * Grbnt thf sbmf pfrmissions thbt URLClbssLobdfr would grbnt.
+             */
+            rfturn pfrms;
+        }
+
+        /**
+         * Rfturn b string rfprfsfntbtion of this lobdfr (usfful for
+         * dfbugging).
+         */
+        publid String toString() {
+            rfturn supfr.toString() + "[\"" + bnnotbtion + "\"]";
+        }
+
+        @Ovfrridf
+        protfdtfd Clbss<?> lobdClbss(String nbmf, boolfbn rfsolvf)
+                throws ClbssNotFoundExdfption {
+            if (pbrfnt == null) {
+                RfflfdtUtil.dhfdkPbdkbgfAddfss(nbmf);
+            }
+            rfturn supfr.lobdClbss(nbmf, rfsolvf);
+        }
+
+
+    }
+
+    privbtf stbtid Clbss<?> lobdClbssForNbmf(String nbmf,
+                                              boolfbn initiblizf,
+                                              ClbssLobdfr lobdfr)
+            throws ClbssNotFoundExdfption
+    {
+        if (lobdfr == null) {
+            RfflfdtUtil.dhfdkPbdkbgfAddfss(nbmf);
+        }
+        rfturn Clbss.forNbmf(nbmf, initiblizf, lobdfr);
+    }
+
+}

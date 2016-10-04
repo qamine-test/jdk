@@ -1,0 +1,311 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+
+// jbvb imports
+//
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.TrffMbp;
+
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+// jdmk imports
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibSubRfqufst;
+import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdObjfdtSfrvfr;
+
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmPoolTbblfMftb;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfCbdhf;
+import sun.mbnbgfmfnt.snmp.util.SnmpNbmfdListTbblfCbdhf;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfHbndlfr;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
+
+/**
+ * Thf dlbss is usfd for implfmfnting thf "JvmMfmPoolTbblf" group.
+ */
+publid dlbss JvmMfmPoolTbblfMftbImpl fxtfnds JvmMfmPoolTbblfMftb {
+
+    stbtid finbl long sfriblVfrsionUID = -2525820976094284957L;
+
+    /**
+     * A dondrftf implfmfntbtion of {@link SnmpNbmfdListTbblfCbdhf}, for thf
+     * jvmMfmPoolTbblf.
+     **/
+    privbtf stbtid dlbss JvmMfmPoolTbblfCbdhf fxtfnds SnmpNbmfdListTbblfCbdhf {
+
+        stbtid finbl long sfriblVfrsionUID = -1755520683086760574L;
+
+        /**
+         * Crfbtf b wfbk dbdhf for thf jvmMfmPoolTbblf.
+         * @pbrbm vblidity vblidity of thf dbdhfd dbtb, in ms.
+         **/
+        JvmMfmPoolTbblfCbdhf(long vblidity) {
+            this.vblidity = vblidity;
+        }
+
+        /**
+         * Usf thf MfmoryPoolMXBfbn nbmf bs kfy.
+         * @pbrbm dontfxt A {@link TrffMbp} bs bllodbtfd by thf pbrfnt
+         *        {@link SnmpNbmfdListTbblfCbdhf} dlbss.
+         * @pbrbm rbwDbtbs List of {@link MfmoryPoolMXBfbn}, bs
+         *        rfturnfd by
+         * <dodf>MbnbgfmfntFbdtory.gftMfmoryPoolMXBfbns()</dodf>
+         * @pbrbm rbnk Thf <vbr>rbnk</vbr> of <vbr>itfm</vbr> in thf list.
+         * @pbrbm itfm Thf <vbr>rbnk</vbr><supfr>th</supfr>
+         *        <dodf>MfmoryPoolMXBfbn</dodf> in thf list.
+         * @rfturn  <dodf>((MfmoryPoolMXBfbn)itfm).gftNbmf()</dodf>
+         **/
+        protfdtfd String gftKfy(Objfdt dontfxt, List<?> rbwDbtbs,
+                                int rbnk, Objfdt itfm) {
+            if (itfm == null) rfturn null;
+            finbl String nbmf = ((MfmoryPoolMXBfbn)itfm).gftNbmf();
+            log.dfbug("gftKfy", "kfy=" + nbmf);
+            rfturn nbmf;
+        }
+
+        /**
+         * Cbll <dodf>gftTbblfDbtbs(JvmContfxtFbdtory.gftUsfrDbtb())</dodf>.
+         **/
+        publid SnmpTbblfHbndlfr gftTbblfHbndlfr() {
+            finbl Mbp<Objfdt, Objfdt> usfrDbtb = JvmContfxtFbdtory.gftUsfrDbtb();
+            rfturn gftTbblfDbtbs(usfrDbtb);
+        }
+
+        /**
+         * Rfturn thf kfy usfd to dbdhf thf rbw dbtb of this tbblf.
+         **/
+        protfdtfd String gftRbwDbtbsKfy() {
+            rfturn "JvmMfmMbnbgfrTbblf.gftMfmoryPools";
+        }
+
+        /**
+         * Cbll MbnbgfmfntFbdtory.gftMfmoryPoolMXBfbns() to
+         * lobd thf rbw dbtb of this tbblf.
+         **/
+        protfdtfd List<MfmoryPoolMXBfbn> lobdRbwDbtbs(Mbp<Objfdt, Objfdt> usfrDbtb) {
+            rfturn MbnbgfmfntFbdtory.gftMfmoryPoolMXBfbns();
+        }
+    }
+
+    // Thf wfbk dbdhf for this tbblf.
+    protfdtfd SnmpTbblfCbdhf dbdhf;
+
+    /**
+     * Construdtor for thf tbblf.
+     * Initiblizf mftbdbtb for "JvmMfmPoolTbblfMftb".
+     */
+    publid JvmMfmPoolTbblfMftbImpl(SnmpMib myMib,
+                                   SnmpStbndbrdObjfdtSfrvfr objsfrv) {
+        supfr(myMib,objsfrv);
+        this.dbdhf = nfw
+            JvmMfmPoolTbblfCbdhf(((JVM_MANAGEMENT_MIB_IMPL)myMib).
+                                    vblidity()*30);
+    }
+
+
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    protfdtfd SnmpOid gftNfxtOid(Objfdt usfrDbtb)
+        throws SnmpStbtusExdfption {
+        // null mfbns gft thf first OID.
+        rfturn gftNfxtOid(null,usfrDbtb);
+    }
+
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    protfdtfd SnmpOid gftNfxtOid(SnmpOid oid, Objfdt usfrDbtb)
+        throws SnmpStbtusExdfption {
+        finbl boolfbn dbg = log.isDfbugOn();
+        try {
+            if (dbg) log.dfbug("gftNfxtOid", "prfvious=" + oid);
+
+
+            // Gft thf dbtb hbndlfr.
+            //
+            SnmpTbblfHbndlfr hbndlfr = gftHbndlfr(usfrDbtb);
+            if (hbndlfr == null) {
+                // This should nfvfr hbppfn.
+                // If wf gft hfrf it's b bug.
+                //
+                if (dbg) log.dfbug("gftNfxtOid", "hbndlfr is null!");
+                throw nfw
+                    SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+            }
+
+            // Gft thf nfxt oid
+            //
+            finbl SnmpOid nfxt = hbndlfr.gftNfxt(oid);
+            if (dbg) log.dfbug("gftNfxtOid", "nfxt=" + nfxt);
+
+            // if nfxt is null: wf rfbdhfd thf fnd of thf tbblf.
+            //
+            if (nfxt == null)
+                throw nfw
+                    SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+
+            rfturn nfxt;
+        } dbtdh (SnmpStbtusExdfption x) {
+            if (dbg) log.dfbug("gftNfxtOid", "End of MIB Vifw: " + x);
+            throw x;
+        } dbtdh (RuntimfExdfption r) {
+            if (dbg) log.dfbug("gftNfxtOid", "Unfxpfdtfd fxdfption: " + r);
+            if (dbg) log.dfbug("gftNfxtOid",r);
+            throw r;
+        }
+    }
+
+
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    protfdtfd boolfbn dontbins(SnmpOid oid, Objfdt usfrDbtb) {
+
+        // Gft thf hbndlfr.
+        //
+        SnmpTbblfHbndlfr hbndlfr = gftHbndlfr(usfrDbtb);
+
+        // hbndlfr should nfvfr bf null.
+        //
+        if (hbndlfr == null)
+            rfturn fblsf;
+
+        rfturn hbndlfr.dontbins(oid);
+    }
+
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    publid Objfdt gftEntry(SnmpOid oid)
+        throws SnmpStbtusExdfption {
+
+        if (oid == null)
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+
+        // Gft thf rfqufst dontfxtubl dbdhf (usfrDbtb).
+        //
+        finbl Mbp<Objfdt, Objfdt> m = Util.dbst(JvmContfxtFbdtory.gftUsfrDbtb());
+
+        // Wf know in thf dbsf of this tbblf thbt thf indfx is bn intfgfr,
+        // it is thus thf first OID brd of thf indfx OID.
+        //
+        finbl long   indfx    = oid.gftOidArd(0);
+
+        // Wf'rf going to usf this nbmf to storf/rftrifvf thf fntry in
+        // thf rfqufst dontfxtubl dbdhf.
+        //
+        // Rfvisit: Probbbly bfttfr progrbmming to put bll thfsf strings
+        //          in somf intfrfbdf.
+        //
+        finbl String fntryTbg = ((m==null)?null:("JvmMfmPoolTbblf.fntry." +
+                                                 indfx));
+
+        // If thf fntry is in thf dbdhf, simply rfturn it.
+        //
+        if (m != null) {
+            finbl Objfdt fntry = m.gft(fntryTbg);
+            if (fntry != null) rfturn fntry;
+        }
+
+        // Thf fntry wbs not in thf dbdhf, mbkf b nfw onf.
+        //
+        // Gft thf dbtb hbnlfr.
+        //
+        SnmpTbblfHbndlfr hbndlfr = gftHbndlfr(m);
+
+        // hbndlfr should nfvfr bf null.
+        //
+        if (hbndlfr == null)
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+
+        // Gft thf dbtb bssodibtfd with our fntry.
+        //
+        finbl Objfdt dbtb = hbndlfr.gftDbtb(oid);
+
+        // dbtb mby bf null if thf OID wf wfrf givfn is not vblid.
+        //
+        if (dbtb == null)
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+
+        // mbkf thf nfw fntry (trbnsifnt objfdt thbt will bf kfpt only
+        // for thf durbtion of thf rfqufst.
+        //
+        if (log.isDfbugOn())
+            log.dfbug("gftEntry","dbtb is b: " + dbtb.gftClbss().gftNbmf());
+        finbl Objfdt fntry =
+            nfw JvmMfmPoolEntryImpl((MfmoryPoolMXBfbn)dbtb,(int)indfx);
+
+        // Put thf fntry in thf dbdhf in dbsf wf nffd it lbtfr whilf prodfssing
+        // thf rfqufst.
+        //
+        if (m != null && fntry != null) {
+            m.put(fntryTbg,fntry);
+        }
+
+        rfturn fntry;
+    }
+
+    /**
+     * Gft thf SnmpTbblfHbndlfr thbt holds thf jvmMfmPoolTbblf dbtb.
+     * First look it up in thf rfqufst dontfxtubl dbdhf, bnd if it is
+     * not found, obtbin it from thf wfbk dbdhf.
+     * <br>Thf rfqufst dontfxtubl dbdhf will bf rflfbsfd bt thf fnd of thf
+     * durrfnt rfqufsts, bnd is usfd only to prodfss this rfqufst.
+     * <br>Thf wfbk dbdhf is shbrfd by bll rfqufsts, bnd is only
+     * rfdomputfd whfn it is found to bf obsolftf.
+     * <br>Notf thbt thf dbtb put in thf rfqufst dontfxtubl dbdhf is
+     *     nfvfr donsidfrfd to bf obsolftf, in ordfr to prfsfrvf dbtb
+     *     dohfrfndy.
+     **/
+    protfdtfd SnmpTbblfHbndlfr gftHbndlfr(Objfdt usfrDbtb) {
+        finbl Mbp<Objfdt, Objfdt> m;
+        if (usfrDbtb instbndfof Mbp) m = Util.dbst(usfrDbtb);
+        flsf m = null;
+
+        // Look in thf dontfxtubl dbdhf.
+        if (m != null) {
+            finbl SnmpTbblfHbndlfr hbndlfr =
+                (SnmpTbblfHbndlfr)m.gft("JvmMfmPoolTbblf.hbndlfr");
+            if (hbndlfr != null) rfturn hbndlfr;
+        }
+
+        // No hbndlfr in dontfxtubl dbdhf, mbkf b nfw onf.
+        finbl SnmpTbblfHbndlfr hbndlfr = dbdhf.gftTbblfHbndlfr();
+
+        if (m != null && hbndlfr != null )
+            m.put("JvmMfmPoolTbblf.hbndlfr",hbndlfr);
+
+        rfturn hbndlfr;
+    }
+
+    stbtid finbl MibLoggfr log = nfw MibLoggfr(JvmMfmPoolTbblfMftbImpl.dlbss);
+}

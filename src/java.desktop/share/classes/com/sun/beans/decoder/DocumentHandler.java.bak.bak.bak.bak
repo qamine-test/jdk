@@ -1,0 +1,411 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.dfdodfr;
+
+import dom.sun.bfbns.findfr.ClbssFindfr;
+
+import jbvb.bfbns.ExdfptionListfnfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.StringRfbdfr;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
+import jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory;
+
+import org.xml.sbx.Attributfs;
+import org.xml.sbx.InputSourdf;
+import org.xml.sbx.SAXExdfption;
+import org.xml.sbx.hflpfrs.DffbultHbndlfr;
+
+import sun.misd.ShbrfdSfdrfts;
+
+/**
+ * Thf mbin dlbss to pbrsf JbvbBfbns XML brdhivf.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ *
+ * @sff ElfmfntHbndlfr
+ */
+publid finbl dlbss DodumfntHbndlfr fxtfnds DffbultHbndlfr {
+    privbtf finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+    privbtf finbl Mbp<String, Clbss<? fxtfnds ElfmfntHbndlfr>> hbndlfrs = nfw HbshMbp<>();
+    privbtf finbl Mbp<String, Objfdt> fnvironmfnt = nfw HbshMbp<>();
+    privbtf finbl List<Objfdt> objfdts = nfw ArrbyList<>();
+
+    privbtf Rfffrfndf<ClbssLobdfr> lobdfr;
+    privbtf ExdfptionListfnfr listfnfr;
+    privbtf Objfdt ownfr;
+
+    privbtf ElfmfntHbndlfr hbndlfr;
+
+    /**
+     * Crfbtfs nfw instbndf of dodumfnt hbndlfr.
+     */
+    publid DodumfntHbndlfr() {
+        sftElfmfntHbndlfr("jbvb", JbvbElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("null", NullElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("brrby", ArrbyElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("dlbss", ClbssElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("string", StringElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("objfdt", ObjfdtElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+
+        sftElfmfntHbndlfr("void", VoidElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("dhbr", ChbrElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("bytf", BytfElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("short", ShortElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("int", IntElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("long", LongElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("flobt", FlobtElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("doublf", DoublfElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("boolfbn", BoolfbnElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+
+        // somf hbndlfrs for nfw flfmfnts
+        sftElfmfntHbndlfr("nfw", NfwElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("vbr", VbrElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("truf", TrufElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("fblsf", FblsfElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("fifld", FifldElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("mfthod", MfthodElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+        sftElfmfntHbndlfr("propfrty", PropfrtyElfmfntHbndlfr.dlbss); // NON-NLS: thf flfmfnt nbmf
+    }
+
+    /**
+     * Rfturns thf dlbss lobdfr usfd to instbntibtf objfdts.
+     * If thf dlbss lobdfr hbs not bffn fxpliditly sft
+     * thfn {@dodf null} is rfturnfd.
+     *
+     * @rfturn thf dlbss lobdfr usfd to instbntibtf objfdts
+     */
+    publid ClbssLobdfr gftClbssLobdfr() {
+        rfturn (this.lobdfr != null)
+                ? this.lobdfr.gft()
+                : null;
+    }
+
+    /**
+     * Sfts thf dlbss lobdfr usfd to instbntibtf objfdts.
+     * If thf dlbss lobdfr is not sft
+     * thfn dffbult dlbss lobdfr will bf usfd.
+     *
+     * @pbrbm lobdfr  b dlbsslobdfr to usf
+     */
+    publid void sftClbssLobdfr(ClbssLobdfr lobdfr) {
+        this.lobdfr = nfw WfbkRfffrfndf<ClbssLobdfr>(lobdfr);
+    }
+
+    /**
+     * Rfturns thf fxdfption listfnfr for pbrsing.
+     * Thf fxdfption listfnfr is notififd
+     * whfn hbndlfr dbtdhfs rfdovfrbblf fxdfptions.
+     * If thf fxdfption listfnfr hbs not bffn fxpliditly sft
+     * thfn dffbult fxdfption listfnfr is rfturnfd.
+     *
+     * @rfturn thf fxdfption listfnfr for pbrsing
+     */
+    publid ExdfptionListfnfr gftExdfptionListfnfr() {
+        rfturn this.listfnfr;
+    }
+
+    /**
+     * Sfts thf fxdfption listfnfr for pbrsing.
+     * Thf fxdfption listfnfr is notififd
+     * whfn hbndlfr dbtdhfs rfdovfrbblf fxdfptions.
+     *
+     * @pbrbm listfnfr  thf fxdfption listfnfr for pbrsing
+     */
+    publid void sftExdfptionListfnfr(ExdfptionListfnfr listfnfr) {
+        this.listfnfr = listfnfr;
+    }
+
+    /**
+     * Rfturns thf ownfr of this dodumfnt hbndlfr.
+     *
+     * @rfturn thf ownfr of this dodumfnt hbndlfr
+     */
+    publid Objfdt gftOwnfr() {
+        rfturn this.ownfr;
+    }
+
+    /**
+     * Sfts thf ownfr of this dodumfnt hbndlfr.
+     *
+     * @pbrbm ownfr  thf ownfr of this dodumfnt hbndlfr
+     */
+    publid void sftOwnfr(Objfdt ownfr) {
+        this.ownfr = ownfr;
+    }
+
+    /**
+     * Rfturns thf hbndlfr for thf flfmfnt with spfdififd nbmf.
+     *
+     * @pbrbm nbmf  thf nbmf of thf flfmfnt
+     * @rfturn thf dorrfsponding flfmfnt hbndlfr
+     */
+    publid Clbss<? fxtfnds ElfmfntHbndlfr> gftElfmfntHbndlfr(String nbmf) {
+        Clbss<? fxtfnds ElfmfntHbndlfr> typf = this.hbndlfrs.gft(nbmf);
+        if (typf == null) {
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd flfmfnt: " + nbmf);
+        }
+        rfturn typf;
+    }
+
+    /**
+     * Sfts thf hbndlfr for thf flfmfnt with spfdififd nbmf.
+     *
+     * @pbrbm nbmf     thf nbmf of thf flfmfnt
+     * @pbrbm hbndlfr  thf dorrfsponding flfmfnt hbndlfr
+     */
+    publid void sftElfmfntHbndlfr(String nbmf, Clbss<? fxtfnds ElfmfntHbndlfr> hbndlfr) {
+        this.hbndlfrs.put(nbmf, hbndlfr);
+    }
+
+    /**
+     * Indidbtfs whfthfr thf vbribblf with spfdififd idfntififr is dffinfd.
+     *
+     * @pbrbm id  thf idfntififr
+     * @rfturn @{dodf truf} if thf vbribblf is dffinfd;
+     *         @{dodf fblsf} othfrwisf
+     */
+    publid boolfbn hbsVbribblf(String id) {
+        rfturn this.fnvironmfnt.dontbinsKfy(id);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf vbribblf with spfdififd idfntififr.
+     *
+     * @pbrbm id  thf idfntififr
+     * @rfturn thf vbluf of thf vbribblf
+     */
+    publid Objfdt gftVbribblf(String id) {
+        if (!this.fnvironmfnt.dontbinsKfy(id)) {
+            throw nfw IllfgblArgumfntExdfption("Unbound vbribblf: " + id);
+        }
+        rfturn this.fnvironmfnt.gft(id);
+    }
+
+    /**
+     * Sfts nfw vbluf of thf vbribblf with spfdififd idfntififr.
+     *
+     * @pbrbm id     thf idfntififr
+     * @pbrbm vbluf  nfw vbluf of thf vbribblf
+     */
+    publid void sftVbribblf(String id, Objfdt vbluf) {
+        this.fnvironmfnt.put(id, vbluf);
+    }
+
+    /**
+     * Rfturns thf brrby of rfbdfd objfdts.
+     *
+     * @rfturn thf brrby of rfbdfd objfdts
+     */
+    publid Objfdt[] gftObjfdts() {
+        rfturn this.objfdts.toArrby();
+    }
+
+    /**
+     * Adds thf objfdt to thf list of rfbdfd objfdts.
+     *
+     * @pbrbm objfdt  thf objfdt thbt is rfbdfd from XML dodumfnt
+     */
+    void bddObjfdt(Objfdt objfdt) {
+        this.objfdts.bdd(objfdt);
+    }
+
+    /**
+     * Disbblfs bny fxtfrnbl fntitifs.
+     */
+    @Ovfrridf
+    publid InputSourdf rfsolvfEntity(String publidId, String systfmId) {
+        rfturn nfw InputSourdf(nfw StringRfbdfr(""));
+    }
+
+    /**
+     * Prfpbrfs this hbndlfr to rfbd objfdts from XML dodumfnt.
+     */
+    @Ovfrridf
+    publid void stbrtDodumfnt() {
+        this.objfdts.dlfbr();
+        this.hbndlfr = null;
+    }
+
+    /**
+     * Pbrsfs opfning tbg of XML flfmfnt
+     * using dorrfsponding flfmfnt hbndlfr.
+     *
+     * @pbrbm uri         thf nbmfspbdf URI, or thf fmpty string
+     *                    if thf flfmfnt hbs no nbmfspbdf URI or
+     *                    if nbmfspbdf prodfssing is not bfing pfrformfd
+     * @pbrbm lodblNbmf   thf lodbl nbmf (without prffix), or thf fmpty string
+     *                    if nbmfspbdf prodfssing is not bfing pfrformfd
+     * @pbrbm qNbmf       thf qublififd nbmf (with prffix), or thf fmpty string
+     *                    if qublififd nbmfs brf not bvbilbblf
+     * @pbrbm bttributfs  thf bttributfs bttbdhfd to thf flfmfnt
+     */
+    @Ovfrridf
+    publid void stbrtElfmfnt(String uri, String lodblNbmf, String qNbmf, Attributfs bttributfs) throws SAXExdfption {
+        ElfmfntHbndlfr pbrfnt = this.hbndlfr;
+        try {
+            this.hbndlfr = gftElfmfntHbndlfr(qNbmf).nfwInstbndf();
+            this.hbndlfr.sftOwnfr(this);
+            this.hbndlfr.sftPbrfnt(pbrfnt);
+        }
+        dbtdh (Exdfption fxdfption) {
+            throw nfw SAXExdfption(fxdfption);
+        }
+        for (int i = 0; i < bttributfs.gftLfngth(); i++)
+            try {
+                String nbmf = bttributfs.gftQNbmf(i);
+                String vbluf = bttributfs.gftVbluf(i);
+                this.hbndlfr.bddAttributf(nbmf, vbluf);
+            }
+            dbtdh (RuntimfExdfption fxdfption) {
+                hbndlfExdfption(fxdfption);
+            }
+
+        this.hbndlfr.stbrtElfmfnt();
+    }
+
+    /**
+     * Pbrsfs dlosing tbg of XML flfmfnt
+     * using dorrfsponding flfmfnt hbndlfr.
+     *
+     * @pbrbm uri        thf nbmfspbdf URI, or thf fmpty string
+     *                   if thf flfmfnt hbs no nbmfspbdf URI or
+     *                   if nbmfspbdf prodfssing is not bfing pfrformfd
+     * @pbrbm lodblNbmf  thf lodbl nbmf (without prffix), or thf fmpty string
+     *                   if nbmfspbdf prodfssing is not bfing pfrformfd
+     * @pbrbm qNbmf      thf qublififd nbmf (with prffix), or thf fmpty string
+     *                   if qublififd nbmfs brf not bvbilbblf
+     */
+    @Ovfrridf
+    publid void fndElfmfnt(String uri, String lodblNbmf, String qNbmf) {
+        try {
+            this.hbndlfr.fndElfmfnt();
+        }
+        dbtdh (RuntimfExdfption fxdfption) {
+            hbndlfExdfption(fxdfption);
+        }
+        finblly {
+            this.hbndlfr = this.hbndlfr.gftPbrfnt();
+        }
+    }
+
+    /**
+     * Pbrsfs dhbrbdtfr dbtb insidf XML flfmfnt.
+     *
+     * @pbrbm dhbrs   thf brrby of dhbrbdtfrs
+     * @pbrbm stbrt   thf stbrt position in thf dhbrbdtfr brrby
+     * @pbrbm lfngth  thf numbfr of dhbrbdtfrs to usf
+     */
+    @Ovfrridf
+    publid void dhbrbdtfrs(dhbr[] dhbrs, int stbrt, int lfngth) {
+        if (this.hbndlfr != null) {
+            try {
+                whilf (0 < lfngth--) {
+                    this.hbndlfr.bddChbrbdtfr(dhbrs[stbrt++]);
+                }
+            }
+            dbtdh (RuntimfExdfption fxdfption) {
+                hbndlfExdfption(fxdfption);
+            }
+        }
+    }
+
+    /**
+     * Hbndlfs bn fxdfption using durrfnt fxdfption listfnfr.
+     *
+     * @pbrbm fxdfption  bn fxdfption to hbndlf
+     * @sff #sftExdfptionListfnfr
+     */
+    publid void hbndlfExdfption(Exdfption fxdfption) {
+        if (this.listfnfr == null) {
+            throw nfw IllfgblStbtfExdfption(fxdfption);
+        }
+        this.listfnfr.fxdfptionThrown(fxdfption);
+    }
+
+    /**
+     * Stbrts pbrsing of thf spfdififd input sourdf.
+     *
+     * @pbrbm input  thf input sourdf to pbrsf
+     */
+    publid void pbrsf(finbl InputSourdf input) {
+        if ((this.bdd == null) && (null != Systfm.gftSfdurityMbnbgfr())) {
+            throw nfw SfdurityExdfption("AddfssControlContfxt is not sft");
+        }
+        AddfssControlContfxt stbdk = AddfssControllfr.gftContfxt();
+        ShbrfdSfdrfts.gftJbvbSfdurityAddfss().doIntfrsfdtionPrivilfgf(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                try {
+                    SAXPbrsfrFbdtory.nfwInstbndf().nfwSAXPbrsfr().pbrsf(input, DodumfntHbndlfr.this);
+                }
+                dbtdh (PbrsfrConfigurbtionExdfption fxdfption) {
+                    hbndlfExdfption(fxdfption);
+                }
+                dbtdh (SAXExdfption wrbppfr) {
+                    Exdfption fxdfption = wrbppfr.gftExdfption();
+                    if (fxdfption == null) {
+                        fxdfption = wrbppfr;
+                    }
+                    hbndlfExdfption(fxdfption);
+                }
+                dbtdh (IOExdfption fxdfption) {
+                    hbndlfExdfption(fxdfption);
+                }
+                rfturn null;
+            }
+        }, stbdk, this.bdd);
+    }
+
+    /**
+     * Rfsolvfs dlbss by nbmf using durrfnt dlbss lobdfr.
+     * This mfthod hbndlfs fxdfption using durrfnt fxdfption listfnfr.
+     *
+     * @pbrbm nbmf  thf nbmf of thf dlbss
+     * @rfturn thf objfdt thbt rfprfsfnts thf dlbss
+     */
+    publid Clbss<?> findClbss(String nbmf) {
+        try {
+            rfturn ClbssFindfr.rfsolvfClbss(nbmf, gftClbssLobdfr());
+        }
+        dbtdh (ClbssNotFoundExdfption fxdfption) {
+            hbndlfExdfption(fxdfption);
+            rfturn null;
+        }
+    }
+}

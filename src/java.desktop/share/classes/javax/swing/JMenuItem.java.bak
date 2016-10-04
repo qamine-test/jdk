@@ -1,950 +1,950 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.util.EventListener;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.*;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.event.*;
-import javax.accessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.bddfssibility.*;
 
 /**
- * An implementation of an item in a menu. A menu item is essentially a button
- * sitting in a list. When the user selects the "button", the action
- * associated with the menu item is performed. A <code>JMenuItem</code>
- * contained in a <code>JPopupMenu</code> performs exactly that function.
+ * An implfmfntbtion of bn itfm in b mfnu. A mfnu itfm is fssfntiblly b button
+ * sitting in b list. Wifn tif usfr sflfdts tif "button", tif bdtion
+ * bssodibtfd witi tif mfnu itfm is pfrformfd. A <dodf>JMfnuItfm</dodf>
+ * dontbinfd in b <dodf>JPopupMfnu</dodf> pfrforms fxbdtly tibt fundtion.
  * <p>
- * Menu items can be configured, and to some degree controlled, by
- * <code><a href="Action.html">Action</a></code>s.  Using an
- * <code>Action</code> with a menu item has many benefits beyond directly
- * configuring a menu item.  Refer to <a href="Action.html#buttonActions">
- * Swing Components Supporting <code>Action</code></a> for more
- * details, and you can find more information in <a
- * href="http://docs.oracle.com/javase/tutorial/uiswing/misc/action.html">How
- * to Use Actions</a>, a section in <em>The Java Tutorial</em>.
+ * Mfnu itfms dbn bf donfigurfd, bnd to somf dfgrff dontrollfd, by
+ * <dodf><b irff="Adtion.itml">Adtion</b></dodf>s.  Using bn
+ * <dodf>Adtion</dodf> witi b mfnu itfm ibs mbny bfnffits bfyond dirfdtly
+ * donfiguring b mfnu itfm.  Rfffr to <b irff="Adtion.itml#buttonAdtions">
+ * Swing Componfnts Supporting <dodf>Adtion</dodf></b> for morf
+ * dftbils, bnd you dbn find morf informbtion in <b
+ * irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/bdtion.itml">How
+ * to Usf Adtions</b>, b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  * <p>
- * For further documentation and for examples, see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/menu.html">How to Use Menus</a>
- * in <em>The Java Tutorial.</em>
+ * For furtifr dodumfntbtion bnd for fxbmplfs, sff
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/mfnu.itml">How to Usf Mfnus</b>
+ * in <fm>Tif Jbvb Tutoribl.</fm>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: An item which can be selected in a menu.
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: An itfm wiidi dbn bf sflfdtfd in b mfnu.
  *
- * @author Georges Saab
- * @author David Karlton
- * @see JPopupMenu
- * @see JMenu
- * @see JCheckBoxMenuItem
- * @see JRadioButtonMenuItem
- * @since 1.2
+ * @butior Gforgfs Sbbb
+ * @butior Dbvid Kbrlton
+ * @sff JPopupMfnu
+ * @sff JMfnu
+ * @sff JCifdkBoxMfnuItfm
+ * @sff JRbdioButtonMfnuItfm
+ * @sindf 1.2
  */
-@SuppressWarnings("serial")
-public class JMenuItem extends AbstractButton implements Accessible,MenuElement  {
+@SupprfssWbrnings("sfribl")
+publid dlbss JMfnuItfm fxtfnds AbstrbdtButton implfmfnts Addfssiblf,MfnuElfmfnt  {
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "MenuItemUI";
+    privbtf stbtid finbl String uiClbssID = "MfnuItfmUI";
 
-    /* diagnostic aids -- should be false for production builds. */
-    private static final boolean TRACE =   false; // trace creates and disposes
-    private static final boolean VERBOSE = false; // show reuse hits/misses
-    private static final boolean DEBUG =   false;  // show bad params, misc.
+    /* dibgnostid bids -- siould bf fblsf for produdtion builds. */
+    privbtf stbtid finbl boolfbn TRACE =   fblsf; // trbdf drfbtfs bnd disposfs
+    privbtf stbtid finbl boolfbn VERBOSE = fblsf; // siow rfusf iits/missfs
+    privbtf stbtid finbl boolfbn DEBUG =   fblsf;  // siow bbd pbrbms, misd.
 
-    private boolean isMouseDragged = false;
+    privbtf boolfbn isMousfDrbggfd = fblsf;
 
     /**
-     * Creates a <code>JMenuItem</code> with no set text or icon.
+     * Crfbtfs b <dodf>JMfnuItfm</dodf> witi no sft tfxt or idon.
      */
-    public JMenuItem() {
-        this(null, (Icon)null);
+    publid JMfnuItfm() {
+        tiis(null, (Idon)null);
     }
 
     /**
-     * Creates a <code>JMenuItem</code> with the specified icon.
+     * Crfbtfs b <dodf>JMfnuItfm</dodf> witi tif spfdififd idon.
      *
-     * @param icon the icon of the <code>JMenuItem</code>
+     * @pbrbm idon tif idon of tif <dodf>JMfnuItfm</dodf>
      */
-    public JMenuItem(Icon icon) {
-        this(null, icon);
+    publid JMfnuItfm(Idon idon) {
+        tiis(null, idon);
     }
 
     /**
-     * Creates a <code>JMenuItem</code> with the specified text.
+     * Crfbtfs b <dodf>JMfnuItfm</dodf> witi tif spfdififd tfxt.
      *
-     * @param text the text of the <code>JMenuItem</code>
+     * @pbrbm tfxt tif tfxt of tif <dodf>JMfnuItfm</dodf>
      */
-    public JMenuItem(String text) {
-        this(text, (Icon)null);
+    publid JMfnuItfm(String tfxt) {
+        tiis(tfxt, (Idon)null);
     }
 
     /**
-     * Creates a menu item whose properties are taken from the
-     * specified <code>Action</code>.
+     * Crfbtfs b mfnu itfm wiosf propfrtifs brf tbkfn from tif
+     * spfdififd <dodf>Adtion</dodf>.
      *
-     * @param a the action of the <code>JMenuItem</code>
-     * @since 1.3
+     * @pbrbm b tif bdtion of tif <dodf>JMfnuItfm</dodf>
+     * @sindf 1.3
      */
-    public JMenuItem(Action a) {
-        this();
-        setAction(a);
+    publid JMfnuItfm(Adtion b) {
+        tiis();
+        sftAdtion(b);
     }
 
     /**
-     * Creates a <code>JMenuItem</code> with the specified text and icon.
+     * Crfbtfs b <dodf>JMfnuItfm</dodf> witi tif spfdififd tfxt bnd idon.
      *
-     * @param text the text of the <code>JMenuItem</code>
-     * @param icon the icon of the <code>JMenuItem</code>
+     * @pbrbm tfxt tif tfxt of tif <dodf>JMfnuItfm</dodf>
+     * @pbrbm idon tif idon of tif <dodf>JMfnuItfm</dodf>
      */
-    public JMenuItem(String text, Icon icon) {
-        setModel(new DefaultButtonModel());
-        init(text, icon);
-        initFocusability();
+    publid JMfnuItfm(String tfxt, Idon idon) {
+        sftModfl(nfw DffbultButtonModfl());
+        init(tfxt, idon);
+        initFodusbbility();
     }
 
     /**
-     * Creates a <code>JMenuItem</code> with the specified text and
-     * keyboard mnemonic.
+     * Crfbtfs b <dodf>JMfnuItfm</dodf> witi tif spfdififd tfxt bnd
+     * kfybobrd mnfmonid.
      *
-     * @param text the text of the <code>JMenuItem</code>
-     * @param mnemonic the keyboard mnemonic for the <code>JMenuItem</code>
+     * @pbrbm tfxt tif tfxt of tif <dodf>JMfnuItfm</dodf>
+     * @pbrbm mnfmonid tif kfybobrd mnfmonid for tif <dodf>JMfnuItfm</dodf>
      */
-    public JMenuItem(String text, int mnemonic) {
-        setModel(new DefaultButtonModel());
-        init(text, null);
-        setMnemonic(mnemonic);
-        initFocusability();
+    publid JMfnuItfm(String tfxt, int mnfmonid) {
+        sftModfl(nfw DffbultButtonModfl());
+        init(tfxt, null);
+        sftMnfmonid(mnfmonid);
+        initFodusbbility();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void setModel(ButtonModel newModel) {
-        super.setModel(newModel);
-        if(newModel instanceof DefaultButtonModel) {
-            ((DefaultButtonModel)newModel).setMenuItem(true);
+    publid void sftModfl(ButtonModfl nfwModfl) {
+        supfr.sftModfl(nfwModfl);
+        if(nfwModfl instbndfof DffbultButtonModfl) {
+            ((DffbultButtonModfl)nfwModfl).sftMfnuItfm(truf);
         }
     }
 
     /**
-     * Inititalizes the focusability of the the <code>JMenuItem</code>.
-     * <code>JMenuItem</code>'s are focusable, but subclasses may
-     * want to be, this provides them the opportunity to override this
-     * and invoke something else, or nothing at all. Refer to
-     * {@link javax.swing.JMenu#initFocusability} for the motivation of
-     * this.
+     * Inititblizfs tif fodusbbility of tif tif <dodf>JMfnuItfm</dodf>.
+     * <dodf>JMfnuItfm</dodf>'s brf fodusbblf, but subdlbssfs mby
+     * wbnt to bf, tiis providfs tifm tif opportunity to ovfrridf tiis
+     * bnd invokf somftiing flsf, or notiing bt bll. Rfffr to
+     * {@link jbvbx.swing.JMfnu#initFodusbbility} for tif motivbtion of
+     * tiis.
      */
-    void initFocusability() {
-        setFocusable(false);
+    void initFodusbbility() {
+        sftFodusbblf(fblsf);
     }
 
     /**
-     * Initializes the menu item with the specified text and icon.
+     * Initiblizfs tif mfnu itfm witi tif spfdififd tfxt bnd idon.
      *
-     * @param text the text of the <code>JMenuItem</code>
-     * @param icon the icon of the <code>JMenuItem</code>
+     * @pbrbm tfxt tif tfxt of tif <dodf>JMfnuItfm</dodf>
+     * @pbrbm idon tif idon of tif <dodf>JMfnuItfm</dodf>
      */
-    protected void init(String text, Icon icon) {
-        if(text != null) {
-            setText(text);
+    protfdtfd void init(String tfxt, Idon idon) {
+        if(tfxt != null) {
+            sftTfxt(tfxt);
         }
 
-        if(icon != null) {
-            setIcon(icon);
+        if(idon != null) {
+            sftIdon(idon);
         }
 
-        // Listen for Focus events
-        addFocusListener(new MenuItemFocusListener());
-        setUIProperty("borderPainted", Boolean.FALSE);
-        setFocusPainted(false);
-        setHorizontalTextPosition(JButton.TRAILING);
-        setHorizontalAlignment(JButton.LEADING);
-        updateUI();
+        // Listfn for Fodus fvfnts
+        bddFodusListfnfr(nfw MfnuItfmFodusListfnfr());
+        sftUIPropfrty("bordfrPbintfd", Boolfbn.FALSE);
+        sftFodusPbintfd(fblsf);
+        sftHorizontblTfxtPosition(JButton.TRAILING);
+        sftHorizontblAlignmfnt(JButton.LEADING);
+        updbtfUI();
     }
 
-    private static class MenuItemFocusListener implements FocusListener,
-        Serializable {
-        public void focusGained(FocusEvent event) {}
-        public void focusLost(FocusEvent event) {
-            // When focus is lost, repaint if
-            // the focus information is painted
-            JMenuItem mi = (JMenuItem)event.getSource();
-            if(mi.isFocusPainted()) {
-                mi.repaint();
+    privbtf stbtid dlbss MfnuItfmFodusListfnfr implfmfnts FodusListfnfr,
+        Sfriblizbblf {
+        publid void fodusGbinfd(FodusEvfnt fvfnt) {}
+        publid void fodusLost(FodusEvfnt fvfnt) {
+            // Wifn fodus is lost, rfpbint if
+            // tif fodus informbtion is pbintfd
+            JMfnuItfm mi = (JMfnuItfm)fvfnt.gftSourdf();
+            if(mi.isFodusPbintfd()) {
+                mi.rfpbint();
             }
         }
     }
 
 
     /**
-     * Sets the look and feel object that renders this component.
+     * Sfts tif look bnd fffl objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui  the <code>JMenuItemUI</code> L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     * @pbrbm ui  tif <dodf>JMfnuItfmUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif Componfnt's LookAndFffl.
      */
-    public void setUI(MenuItemUI ui) {
-        super.setUI(ui);
+    publid void sftUI(MfnuItfmUI ui) {
+        supfr.sftUI(ui);
     }
 
     /**
-     * Resets the UI property with a value from the current look and feel.
+     * Rfsfts tif UI propfrty witi b vbluf from tif durrfnt look bnd fffl.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((MenuItemUI)UIManager.getUI(this));
-    }
-
-
-    /**
-     * Returns the suffix used to construct the name of the L&amp;F class used to
-     * render this component.
-     *
-     * @return the string "MenuItemUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     */
-    public String getUIClassID() {
-        return uiClassID;
+    publid void updbtfUI() {
+        sftUI((MfnuItfmUI)UIMbnbgfr.gftUI(tiis));
     }
 
 
     /**
-     * Identifies the menu item as "armed". If the mouse button is
-     * released while it is over this item, the menu's action event
-     * will fire. If the mouse button is released elsewhere, the
-     * event will not fire and the menu item will be disarmed.
+     * Rfturns tif suffix usfd to donstrudt tif nbmf of tif L&bmp;F dlbss usfd to
+     * rfndfr tiis domponfnt.
      *
-     * @param b true to arm the menu item so it can be selected
-     * @beaninfo
-     *    description: Mouse release will fire an action event
-     *         hidden: true
+     * @rfturn tif string "MfnuItfmUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public void setArmed(boolean b) {
-        ButtonModel model = getModel();
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
 
-        boolean oldValue = model.isArmed();
-        if(model.isArmed() != b) {
-            model.setArmed(b);
+
+    /**
+     * Idfntififs tif mfnu itfm bs "brmfd". If tif mousf button is
+     * rflfbsfd wiilf it is ovfr tiis itfm, tif mfnu's bdtion fvfnt
+     * will firf. If tif mousf button is rflfbsfd flsfwifrf, tif
+     * fvfnt will not firf bnd tif mfnu itfm will bf disbrmfd.
+     *
+     * @pbrbm b truf to brm tif mfnu itfm so it dbn bf sflfdtfd
+     * @bfbninfo
+     *    dfsdription: Mousf rflfbsf will firf bn bdtion fvfnt
+     *         iiddfn: truf
+     */
+    publid void sftArmfd(boolfbn b) {
+        ButtonModfl modfl = gftModfl();
+
+        boolfbn oldVbluf = modfl.isArmfd();
+        if(modfl.isArmfd() != b) {
+            modfl.sftArmfd(b);
         }
     }
 
     /**
-     * Returns whether the menu item is "armed".
+     * Rfturns wiftifr tif mfnu itfm is "brmfd".
      *
-     * @return true if the menu item is armed, and it can be selected
-     * @see #setArmed
+     * @rfturn truf if tif mfnu itfm is brmfd, bnd it dbn bf sflfdtfd
+     * @sff #sftArmfd
      */
-    public boolean isArmed() {
-        ButtonModel model = getModel();
-        return model.isArmed();
+    publid boolfbn isArmfd() {
+        ButtonModfl modfl = gftModfl();
+        rfturn modfl.isArmfd();
     }
 
     /**
-     * Enables or disables the menu item.
+     * Enbblfs or disbblfs tif mfnu itfm.
      *
-     * @param b  true to enable the item
-     * @beaninfo
-     *    description: Does the component react to user interaction
-     *          bound: true
-     *      preferred: true
+     * @pbrbm b  truf to fnbblf tif itfm
+     * @bfbninfo
+     *    dfsdription: Dofs tif domponfnt rfbdt to usfr intfrbdtion
+     *          bound: truf
+     *      prfffrrfd: truf
      */
-    public void setEnabled(boolean b) {
-        // Make sure we aren't armed!
-        if (!b && !UIManager.getBoolean("MenuItem.disabledAreNavigable")) {
-            setArmed(false);
+    publid void sftEnbblfd(boolfbn b) {
+        // Mbkf surf wf brfn't brmfd!
+        if (!b && !UIMbnbgfr.gftBoolfbn("MfnuItfm.disbblfdArfNbvigbblf")) {
+            sftArmfd(fblsf);
         }
-        super.setEnabled(b);
+        supfr.sftEnbblfd(b);
     }
 
 
     /**
-     * Returns true since <code>Menu</code>s, by definition,
-     * should always be on top of all other windows.  If the menu is
-     * in an internal frame false is returned due to the rollover effect
-     * for windows laf where the menu is not always on top.
+     * Rfturns truf sindf <dodf>Mfnu</dodf>s, by dffinition,
+     * siould blwbys bf on top of bll otifr windows.  If tif mfnu is
+     * in bn intfrnbl frbmf fblsf is rfturnfd duf to tif rollovfr ffffdt
+     * for windows lbf wifrf tif mfnu is not blwbys on top.
      */
-    // package private
-    boolean alwaysOnTop() {
+    // pbdkbgf privbtf
+    boolfbn blwbysOnTop() {
         // Fix for bug #4482165
-        if (SwingUtilities.getAncestorOfClass(JInternalFrame.class, this) !=
+        if (SwingUtilitifs.gftAndfstorOfClbss(JIntfrnblFrbmf.dlbss, tiis) !=
                 null) {
-            return false;
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
 
-    /* The keystroke which acts as the menu item's accelerator
+    /* Tif kfystrokf wiidi bdts bs tif mfnu itfm's bddflfrbtor
      */
-    private KeyStroke accelerator;
+    privbtf KfyStrokf bddflfrbtor;
 
     /**
-     * Sets the key combination which invokes the menu item's
-     * action listeners without navigating the menu hierarchy. It is the
-     * UI's responsibility to install the correct action.  Note that
-     * when the keyboard accelerator is typed, it will work whether or
-     * not the menu is currently displayed.
+     * Sfts tif kfy dombinbtion wiidi invokfs tif mfnu itfm's
+     * bdtion listfnfrs witiout nbvigbting tif mfnu iifrbrdiy. It is tif
+     * UI's rfsponsibility to instbll tif dorrfdt bdtion.  Notf tibt
+     * wifn tif kfybobrd bddflfrbtor is typfd, it will work wiftifr or
+     * not tif mfnu is durrfntly displbyfd.
      *
-     * @param keyStroke the <code>KeyStroke</code> which will
-     *          serve as an accelerator
-     * @beaninfo
-     *     description: The keystroke combination which will invoke the
-     *                  JMenuItem's actionlisteners without navigating the
-     *                  menu hierarchy
-     *           bound: true
-     *       preferred: true
+     * @pbrbm kfyStrokf tif <dodf>KfyStrokf</dodf> wiidi will
+     *          sfrvf bs bn bddflfrbtor
+     * @bfbninfo
+     *     dfsdription: Tif kfystrokf dombinbtion wiidi will invokf tif
+     *                  JMfnuItfm's bdtionlistfnfrs witiout nbvigbting tif
+     *                  mfnu iifrbrdiy
+     *           bound: truf
+     *       prfffrrfd: truf
      */
-    public void setAccelerator(KeyStroke keyStroke) {
-        KeyStroke oldAccelerator = accelerator;
-        this.accelerator = keyStroke;
-        repaint();
-        revalidate();
-        firePropertyChange("accelerator", oldAccelerator, accelerator);
+    publid void sftAddflfrbtor(KfyStrokf kfyStrokf) {
+        KfyStrokf oldAddflfrbtor = bddflfrbtor;
+        tiis.bddflfrbtor = kfyStrokf;
+        rfpbint();
+        rfvblidbtf();
+        firfPropfrtyCibngf("bddflfrbtor", oldAddflfrbtor, bddflfrbtor);
     }
 
     /**
-     * Returns the <code>KeyStroke</code> which serves as an accelerator
-     * for the menu item.
-     * @return a <code>KeyStroke</code> object identifying the
-     *          accelerator key
+     * Rfturns tif <dodf>KfyStrokf</dodf> wiidi sfrvfs bs bn bddflfrbtor
+     * for tif mfnu itfm.
+     * @rfturn b <dodf>KfyStrokf</dodf> objfdt idfntifying tif
+     *          bddflfrbtor kfy
      */
-    public KeyStroke getAccelerator() {
-        return this.accelerator;
+    publid KfyStrokf gftAddflfrbtor() {
+        rfturn tiis.bddflfrbtor;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    protected void configurePropertiesFromAction(Action a) {
-        super.configurePropertiesFromAction(a);
-        configureAcceleratorFromAction(a);
+    protfdtfd void donfigurfPropfrtifsFromAdtion(Adtion b) {
+        supfr.donfigurfPropfrtifsFromAdtion(b);
+        donfigurfAddflfrbtorFromAdtion(b);
     }
 
-    void setIconFromAction(Action a) {
-        Icon icon = null;
-        if (a != null) {
-            icon = (Icon)a.getValue(Action.SMALL_ICON);
+    void sftIdonFromAdtion(Adtion b) {
+        Idon idon = null;
+        if (b != null) {
+            idon = (Idon)b.gftVbluf(Adtion.SMALL_ICON);
         }
-        setIcon(icon);
+        sftIdon(idon);
     }
 
-    void largeIconChanged(Action a) {
+    void lbrgfIdonCibngfd(Adtion b) {
     }
 
-    void smallIconChanged(Action a) {
-        setIconFromAction(a);
+    void smbllIdonCibngfd(Adtion b) {
+        sftIdonFromAdtion(b);
     }
 
-    void configureAcceleratorFromAction(Action a) {
-        KeyStroke ks = (a==null) ? null :
-            (KeyStroke)a.getValue(Action.ACCELERATOR_KEY);
-        setAccelerator(ks);
+    void donfigurfAddflfrbtorFromAdtion(Adtion b) {
+        KfyStrokf ks = (b==null) ? null :
+            (KfyStrokf)b.gftVbluf(Adtion.ACCELERATOR_KEY);
+        sftAddflfrbtor(ks);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    protected void actionPropertyChanged(Action action, String propertyName) {
-        if (propertyName == Action.ACCELERATOR_KEY) {
-            configureAcceleratorFromAction(action);
+    protfdtfd void bdtionPropfrtyCibngfd(Adtion bdtion, String propfrtyNbmf) {
+        if (propfrtyNbmf == Adtion.ACCELERATOR_KEY) {
+            donfigurfAddflfrbtorFromAdtion(bdtion);
         }
-        else {
-            super.actionPropertyChanged(action, propertyName);
+        flsf {
+            supfr.bdtionPropfrtyCibngfd(bdtion, propfrtyNbmf);
         }
     }
 
     /**
-     * Processes a mouse event forwarded from the
-     * <code>MenuSelectionManager</code> and changes the menu
-     * selection, if necessary, by using the
-     * <code>MenuSelectionManager</code>'s API.
+     * Prodfssfs b mousf fvfnt forwbrdfd from tif
+     * <dodf>MfnuSflfdtionMbnbgfr</dodf> bnd dibngfs tif mfnu
+     * sflfdtion, if nfdfssbry, by using tif
+     * <dodf>MfnuSflfdtionMbnbgfr</dodf>'s API.
      * <p>
-     * Note: you do not have to forward the event to sub-components.
-     * This is done automatically by the <code>MenuSelectionManager</code>.
+     * Notf: you do not ibvf to forwbrd tif fvfnt to sub-domponfnts.
+     * Tiis is donf butombtidblly by tif <dodf>MfnuSflfdtionMbnbgfr</dodf>.
      *
-     * @param e   a <code>MouseEvent</code>
-     * @param path  the <code>MenuElement</code> path array
-     * @param manager   the <code>MenuSelectionManager</code>
+     * @pbrbm f   b <dodf>MousfEvfnt</dodf>
+     * @pbrbm pbti  tif <dodf>MfnuElfmfnt</dodf> pbti brrby
+     * @pbrbm mbnbgfr   tif <dodf>MfnuSflfdtionMbnbgfr</dodf>
      */
-    public void processMouseEvent(MouseEvent e,MenuElement path[],MenuSelectionManager manager) {
-        processMenuDragMouseEvent(
-                 new MenuDragMouseEvent(e.getComponent(), e.getID(),
-                                        e.getWhen(),
-                                        e.getModifiers(), e.getX(), e.getY(),
-                                        e.getXOnScreen(), e.getYOnScreen(),
-                                        e.getClickCount(), e.isPopupTrigger(),
-                                        path, manager));
+    publid void prodfssMousfEvfnt(MousfEvfnt f,MfnuElfmfnt pbti[],MfnuSflfdtionMbnbgfr mbnbgfr) {
+        prodfssMfnuDrbgMousfEvfnt(
+                 nfw MfnuDrbgMousfEvfnt(f.gftComponfnt(), f.gftID(),
+                                        f.gftWifn(),
+                                        f.gftModififrs(), f.gftX(), f.gftY(),
+                                        f.gftXOnSdrffn(), f.gftYOnSdrffn(),
+                                        f.gftClidkCount(), f.isPopupTriggfr(),
+                                        pbti, mbnbgfr));
     }
 
 
     /**
-     * Processes a key event forwarded from the
-     * <code>MenuSelectionManager</code> and changes the menu selection,
-     * if necessary, by using <code>MenuSelectionManager</code>'s API.
+     * Prodfssfs b kfy fvfnt forwbrdfd from tif
+     * <dodf>MfnuSflfdtionMbnbgfr</dodf> bnd dibngfs tif mfnu sflfdtion,
+     * if nfdfssbry, by using <dodf>MfnuSflfdtionMbnbgfr</dodf>'s API.
      * <p>
-     * Note: you do not have to forward the event to sub-components.
-     * This is done automatically by the <code>MenuSelectionManager</code>.
+     * Notf: you do not ibvf to forwbrd tif fvfnt to sub-domponfnts.
+     * Tiis is donf butombtidblly by tif <dodf>MfnuSflfdtionMbnbgfr</dodf>.
      *
-     * @param e  a <code>KeyEvent</code>
-     * @param path the <code>MenuElement</code> path array
-     * @param manager   the <code>MenuSelectionManager</code>
+     * @pbrbm f  b <dodf>KfyEvfnt</dodf>
+     * @pbrbm pbti tif <dodf>MfnuElfmfnt</dodf> pbti brrby
+     * @pbrbm mbnbgfr   tif <dodf>MfnuSflfdtionMbnbgfr</dodf>
      */
-    public void processKeyEvent(KeyEvent e,MenuElement path[],MenuSelectionManager manager) {
+    publid void prodfssKfyEvfnt(KfyEvfnt f,MfnuElfmfnt pbti[],MfnuSflfdtionMbnbgfr mbnbgfr) {
         if (DEBUG) {
-            System.out.println("in JMenuItem.processKeyEvent/3 for " + getText() +
-                                   "  " + KeyStroke.getKeyStrokeForEvent(e));
+            Systfm.out.println("in JMfnuItfm.prodfssKfyEvfnt/3 for " + gftTfxt() +
+                                   "  " + KfyStrokf.gftKfyStrokfForEvfnt(f));
         }
-        MenuKeyEvent mke = new MenuKeyEvent(e.getComponent(), e.getID(),
-                                             e.getWhen(), e.getModifiers(),
-                                             e.getKeyCode(), e.getKeyChar(),
-                                             path, manager);
-        processMenuKeyEvent(mke);
+        MfnuKfyEvfnt mkf = nfw MfnuKfyEvfnt(f.gftComponfnt(), f.gftID(),
+                                             f.gftWifn(), f.gftModififrs(),
+                                             f.gftKfyCodf(), f.gftKfyCibr(),
+                                             pbti, mbnbgfr);
+        prodfssMfnuKfyEvfnt(mkf);
 
-        if (mke.isConsumed())  {
-            e.consume();
+        if (mkf.isConsumfd())  {
+            f.donsumf();
         }
     }
 
 
 
     /**
-     * Handles mouse drag in a menu.
+     * Hbndlfs mousf drbg in b mfnu.
      *
-     * @param e  a <code>MenuDragMouseEvent</code> object
+     * @pbrbm f  b <dodf>MfnuDrbgMousfEvfnt</dodf> objfdt
      */
-    public void processMenuDragMouseEvent(MenuDragMouseEvent e) {
-        switch (e.getID()) {
-        case MouseEvent.MOUSE_ENTERED:
-            isMouseDragged = false; fireMenuDragMouseEntered(e); break;
-        case MouseEvent.MOUSE_EXITED:
-            isMouseDragged = false; fireMenuDragMouseExited(e); break;
-        case MouseEvent.MOUSE_DRAGGED:
-            isMouseDragged = true; fireMenuDragMouseDragged(e); break;
-        case MouseEvent.MOUSE_RELEASED:
-            if(isMouseDragged) fireMenuDragMouseReleased(e); break;
-        default:
-            break;
+    publid void prodfssMfnuDrbgMousfEvfnt(MfnuDrbgMousfEvfnt f) {
+        switdi (f.gftID()) {
+        dbsf MousfEvfnt.MOUSE_ENTERED:
+            isMousfDrbggfd = fblsf; firfMfnuDrbgMousfEntfrfd(f); brfbk;
+        dbsf MousfEvfnt.MOUSE_EXITED:
+            isMousfDrbggfd = fblsf; firfMfnuDrbgMousfExitfd(f); brfbk;
+        dbsf MousfEvfnt.MOUSE_DRAGGED:
+            isMousfDrbggfd = truf; firfMfnuDrbgMousfDrbggfd(f); brfbk;
+        dbsf MousfEvfnt.MOUSE_RELEASED:
+            if(isMousfDrbggfd) firfMfnuDrbgMousfRflfbsfd(f); brfbk;
+        dffbult:
+            brfbk;
         }
     }
 
     /**
-     * Handles a keystroke in a menu.
+     * Hbndlfs b kfystrokf in b mfnu.
      *
-     * @param e  a <code>MenuKeyEvent</code> object
+     * @pbrbm f  b <dodf>MfnuKfyEvfnt</dodf> objfdt
      */
-    public void processMenuKeyEvent(MenuKeyEvent e) {
+    publid void prodfssMfnuKfyEvfnt(MfnuKfyEvfnt f) {
         if (DEBUG) {
-            System.out.println("in JMenuItem.processMenuKeyEvent for " + getText()+
-                                   "  " + KeyStroke.getKeyStrokeForEvent(e));
+            Systfm.out.println("in JMfnuItfm.prodfssMfnuKfyEvfnt for " + gftTfxt()+
+                                   "  " + KfyStrokf.gftKfyStrokfForEvfnt(f));
         }
-        switch (e.getID()) {
-        case KeyEvent.KEY_PRESSED:
-            fireMenuKeyPressed(e); break;
-        case KeyEvent.KEY_RELEASED:
-            fireMenuKeyReleased(e); break;
-        case KeyEvent.KEY_TYPED:
-            fireMenuKeyTyped(e); break;
-        default:
-            break;
+        switdi (f.gftID()) {
+        dbsf KfyEvfnt.KEY_PRESSED:
+            firfMfnuKfyPrfssfd(f); brfbk;
+        dbsf KfyEvfnt.KEY_RELEASED:
+            firfMfnuKfyRflfbsfd(f); brfbk;
+        dbsf KfyEvfnt.KEY_TYPED:
+            firfMfnuKfyTypfd(f); brfbk;
+        dffbult:
+            brfbk;
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
      *
-     * @param event a <code>MenuMouseDragEvent</code>
-     * @see EventListenerList
+     * @pbrbm fvfnt b <dodf>MfnuMousfDrbgEvfnt</dodf>
+     * @sff EvfntListfnfrList
      */
-    protected void fireMenuDragMouseEntered(MenuDragMouseEvent event) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuDragMouseListener.class) {
-                // Lazily create the event:
-                ((MenuDragMouseListener)listeners[i+1]).menuDragMouseEntered(event);
+    protfdtfd void firfMfnuDrbgMousfEntfrfd(MfnuDrbgMousfEvfnt fvfnt) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==MfnuDrbgMousfListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                ((MfnuDrbgMousfListfnfr)listfnfrs[i+1]).mfnuDrbgMousfEntfrfd(fvfnt);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
      *
-     * @param event a <code>MenuDragMouseEvent</code>
-     * @see EventListenerList
+     * @pbrbm fvfnt b <dodf>MfnuDrbgMousfEvfnt</dodf>
+     * @sff EvfntListfnfrList
      */
-    protected void fireMenuDragMouseExited(MenuDragMouseEvent event) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuDragMouseListener.class) {
-                // Lazily create the event:
-                ((MenuDragMouseListener)listeners[i+1]).menuDragMouseExited(event);
+    protfdtfd void firfMfnuDrbgMousfExitfd(MfnuDrbgMousfEvfnt fvfnt) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==MfnuDrbgMousfListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                ((MfnuDrbgMousfListfnfr)listfnfrs[i+1]).mfnuDrbgMousfExitfd(fvfnt);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
      *
-     * @param event a <code>MenuDragMouseEvent</code>
-     * @see EventListenerList
+     * @pbrbm fvfnt b <dodf>MfnuDrbgMousfEvfnt</dodf>
+     * @sff EvfntListfnfrList
      */
-    protected void fireMenuDragMouseDragged(MenuDragMouseEvent event) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuDragMouseListener.class) {
-                // Lazily create the event:
-                ((MenuDragMouseListener)listeners[i+1]).menuDragMouseDragged(event);
+    protfdtfd void firfMfnuDrbgMousfDrbggfd(MfnuDrbgMousfEvfnt fvfnt) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==MfnuDrbgMousfListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                ((MfnuDrbgMousfListfnfr)listfnfrs[i+1]).mfnuDrbgMousfDrbggfd(fvfnt);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
      *
-     * @param event a <code>MenuDragMouseEvent</code>
-     * @see EventListenerList
+     * @pbrbm fvfnt b <dodf>MfnuDrbgMousfEvfnt</dodf>
+     * @sff EvfntListfnfrList
      */
-    protected void fireMenuDragMouseReleased(MenuDragMouseEvent event) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuDragMouseListener.class) {
-                // Lazily create the event:
-                ((MenuDragMouseListener)listeners[i+1]).menuDragMouseReleased(event);
+    protfdtfd void firfMfnuDrbgMousfRflfbsfd(MfnuDrbgMousfEvfnt fvfnt) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==MfnuDrbgMousfListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                ((MfnuDrbgMousfListfnfr)listfnfrs[i+1]).mfnuDrbgMousfRflfbsfd(fvfnt);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
      *
-     * @param event a <code>MenuKeyEvent</code>
-     * @see EventListenerList
+     * @pbrbm fvfnt b <dodf>MfnuKfyEvfnt</dodf>
+     * @sff EvfntListfnfrList
      */
-    protected void fireMenuKeyPressed(MenuKeyEvent event) {
+    protfdtfd void firfMfnuKfyPrfssfd(MfnuKfyEvfnt fvfnt) {
         if (DEBUG) {
-            System.out.println("in JMenuItem.fireMenuKeyPressed for " + getText()+
-                                   "  " + KeyStroke.getKeyStrokeForEvent(event));
+            Systfm.out.println("in JMfnuItfm.firfMfnuKfyPrfssfd for " + gftTfxt()+
+                                   "  " + KfyStrokf.gftKfyStrokfForEvfnt(fvfnt));
         }
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuKeyListener.class) {
-                // Lazily create the event:
-                ((MenuKeyListener)listeners[i+1]).menuKeyPressed(event);
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==MfnuKfyListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                ((MfnuKfyListfnfr)listfnfrs[i+1]).mfnuKfyPrfssfd(fvfnt);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
      *
-     * @param event a <code>MenuKeyEvent</code>
-     * @see EventListenerList
+     * @pbrbm fvfnt b <dodf>MfnuKfyEvfnt</dodf>
+     * @sff EvfntListfnfrList
      */
-    protected void fireMenuKeyReleased(MenuKeyEvent event) {
+    protfdtfd void firfMfnuKfyRflfbsfd(MfnuKfyEvfnt fvfnt) {
         if (DEBUG) {
-            System.out.println("in JMenuItem.fireMenuKeyReleased for " + getText()+
-                                   "  " + KeyStroke.getKeyStrokeForEvent(event));
+            Systfm.out.println("in JMfnuItfm.firfMfnuKfyRflfbsfd for " + gftTfxt()+
+                                   "  " + KfyStrokf.gftKfyStrokfForEvfnt(fvfnt));
         }
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuKeyListener.class) {
-                // Lazily create the event:
-                ((MenuKeyListener)listeners[i+1]).menuKeyReleased(event);
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==MfnuKfyListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                ((MfnuKfyListfnfr)listfnfrs[i+1]).mfnuKfyRflfbsfd(fvfnt);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
      *
-     * @param event a <code>MenuKeyEvent</code>
-     * @see EventListenerList
+     * @pbrbm fvfnt b <dodf>MfnuKfyEvfnt</dodf>
+     * @sff EvfntListfnfrList
      */
-    protected void fireMenuKeyTyped(MenuKeyEvent event) {
+    protfdtfd void firfMfnuKfyTypfd(MfnuKfyEvfnt fvfnt) {
         if (DEBUG) {
-            System.out.println("in JMenuItem.fireMenuKeyTyped for " + getText()+
-                                   "  " + KeyStroke.getKeyStrokeForEvent(event));
+            Systfm.out.println("in JMfnuItfm.firfMfnuKfyTypfd for " + gftTfxt()+
+                                   "  " + KfyStrokf.gftKfyStrokfForEvfnt(fvfnt));
         }
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuKeyListener.class) {
-                // Lazily create the event:
-                ((MenuKeyListener)listeners[i+1]).menuKeyTyped(event);
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==MfnuKfyListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                ((MfnuKfyListfnfr)listfnfrs[i+1]).mfnuKfyTypfd(fvfnt);
             }
         }
     }
 
     /**
-     * Called by the <code>MenuSelectionManager</code> when the
-     * <code>MenuElement</code> is selected or unselected.
+     * Cbllfd by tif <dodf>MfnuSflfdtionMbnbgfr</dodf> wifn tif
+     * <dodf>MfnuElfmfnt</dodf> is sflfdtfd or unsflfdtfd.
      *
-     * @param isIncluded  true if this menu item is on the part of the menu
-     *                    path that changed, false if this menu is part of the
-     *                    a menu path that changed, but this particular part of
-     *                    that path is still the same
-     * @see MenuSelectionManager#setSelectedPath(MenuElement[])
+     * @pbrbm isIndludfd  truf if tiis mfnu itfm is on tif pbrt of tif mfnu
+     *                    pbti tibt dibngfd, fblsf if tiis mfnu is pbrt of tif
+     *                    b mfnu pbti tibt dibngfd, but tiis pbrtidulbr pbrt of
+     *                    tibt pbti is still tif sbmf
+     * @sff MfnuSflfdtionMbnbgfr#sftSflfdtfdPbti(MfnuElfmfnt[])
      */
-    public void menuSelectionChanged(boolean isIncluded) {
-        setArmed(isIncluded);
+    publid void mfnuSflfdtionCibngfd(boolfbn isIndludfd) {
+        sftArmfd(isIndludfd);
     }
 
     /**
-     * This method returns an array containing the sub-menu
-     * components for this menu component.
+     * Tiis mftiod rfturns bn brrby dontbining tif sub-mfnu
+     * domponfnts for tiis mfnu domponfnt.
      *
-     * @return an array of <code>MenuElement</code>s
+     * @rfturn bn brrby of <dodf>MfnuElfmfnt</dodf>s
      */
-    public MenuElement[] getSubElements() {
-        return new MenuElement[0];
+    publid MfnuElfmfnt[] gftSubElfmfnts() {
+        rfturn nfw MfnuElfmfnt[0];
     }
 
     /**
-     * Returns the <code>java.awt.Component</code> used to paint
-     * this object. The returned component will be used to convert
-     * events and detect if an event is inside a menu component.
+     * Rfturns tif <dodf>jbvb.bwt.Componfnt</dodf> usfd to pbint
+     * tiis objfdt. Tif rfturnfd domponfnt will bf usfd to donvfrt
+     * fvfnts bnd dftfdt if bn fvfnt is insidf b mfnu domponfnt.
      *
-     * @return the <code>Component</code> that paints this menu item
+     * @rfturn tif <dodf>Componfnt</dodf> tibt pbints tiis mfnu itfm
      */
-    public Component getComponent() {
-        return this;
+    publid Componfnt gftComponfnt() {
+        rfturn tiis;
     }
 
     /**
-     * Adds a <code>MenuDragMouseListener</code> to the menu item.
+     * Adds b <dodf>MfnuDrbgMousfListfnfr</dodf> to tif mfnu itfm.
      *
-     * @param l the <code>MenuDragMouseListener</code> to be added
+     * @pbrbm l tif <dodf>MfnuDrbgMousfListfnfr</dodf> to bf bddfd
      */
-    public void addMenuDragMouseListener(MenuDragMouseListener l) {
-        listenerList.add(MenuDragMouseListener.class, l);
+    publid void bddMfnuDrbgMousfListfnfr(MfnuDrbgMousfListfnfr l) {
+        listfnfrList.bdd(MfnuDrbgMousfListfnfr.dlbss, l);
     }
 
     /**
-     * Removes a <code>MenuDragMouseListener</code> from the menu item.
+     * Rfmovfs b <dodf>MfnuDrbgMousfListfnfr</dodf> from tif mfnu itfm.
      *
-     * @param l the <code>MenuDragMouseListener</code> to be removed
+     * @pbrbm l tif <dodf>MfnuDrbgMousfListfnfr</dodf> to bf rfmovfd
      */
-    public void removeMenuDragMouseListener(MenuDragMouseListener l) {
-        listenerList.remove(MenuDragMouseListener.class, l);
+    publid void rfmovfMfnuDrbgMousfListfnfr(MfnuDrbgMousfListfnfr l) {
+        listfnfrList.rfmovf(MfnuDrbgMousfListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the <code>MenuDragMouseListener</code>s added
-     * to this JMenuItem with addMenuDragMouseListener().
+     * Rfturns bn brrby of bll tif <dodf>MfnuDrbgMousfListfnfr</dodf>s bddfd
+     * to tiis JMfnuItfm witi bddMfnuDrbgMousfListfnfr().
      *
-     * @return all of the <code>MenuDragMouseListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>MfnuDrbgMousfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public MenuDragMouseListener[] getMenuDragMouseListeners() {
-        return listenerList.getListeners(MenuDragMouseListener.class);
+    publid MfnuDrbgMousfListfnfr[] gftMfnuDrbgMousfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(MfnuDrbgMousfListfnfr.dlbss);
     }
 
     /**
-     * Adds a <code>MenuKeyListener</code> to the menu item.
+     * Adds b <dodf>MfnuKfyListfnfr</dodf> to tif mfnu itfm.
      *
-     * @param l the <code>MenuKeyListener</code> to be added
+     * @pbrbm l tif <dodf>MfnuKfyListfnfr</dodf> to bf bddfd
      */
-    public void addMenuKeyListener(MenuKeyListener l) {
-        listenerList.add(MenuKeyListener.class, l);
+    publid void bddMfnuKfyListfnfr(MfnuKfyListfnfr l) {
+        listfnfrList.bdd(MfnuKfyListfnfr.dlbss, l);
     }
 
     /**
-     * Removes a <code>MenuKeyListener</code> from the menu item.
+     * Rfmovfs b <dodf>MfnuKfyListfnfr</dodf> from tif mfnu itfm.
      *
-     * @param l the <code>MenuKeyListener</code> to be removed
+     * @pbrbm l tif <dodf>MfnuKfyListfnfr</dodf> to bf rfmovfd
      */
-    public void removeMenuKeyListener(MenuKeyListener l) {
-        listenerList.remove(MenuKeyListener.class, l);
+    publid void rfmovfMfnuKfyListfnfr(MfnuKfyListfnfr l) {
+        listfnfrList.rfmovf(MfnuKfyListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the <code>MenuKeyListener</code>s added
-     * to this JMenuItem with addMenuKeyListener().
+     * Rfturns bn brrby of bll tif <dodf>MfnuKfyListfnfr</dodf>s bddfd
+     * to tiis JMfnuItfm witi bddMfnuKfyListfnfr().
      *
-     * @return all of the <code>MenuKeyListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>MfnuKfyListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public MenuKeyListener[] getMenuKeyListeners() {
-        return listenerList.getListeners(MenuKeyListener.class);
+    publid MfnuKfyListfnfr[] gftMfnuKfyListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(MfnuKfyListfnfr.dlbss);
     }
 
     /**
-     * See JComponent.readObject() for information about serialization
+     * Sff JComponfnt.rfbdObjfdt() for informbtion bbout sfriblizbtion
      * in Swing.
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        s.defaultReadObject();
-        if (getUIClassID().equals(uiClassID)) {
-            updateUI();
+        s.dffbultRfbdObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            updbtfUI();
         }
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JMenuItem</code>.
-     * This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JMfnuItfm</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs,
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JMenuItem</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JMfnuItfm</dodf>
      */
-    protected String paramString() {
-        return super.paramString();
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString();
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Returns the <code>AccessibleContext</code> associated with this
-     * <code>JMenuItem</code>. For <code>JMenuItem</code>s,
-     * the <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleJMenuItem</code>.
-     * A new AccessibleJMenuItme instance is created if necessary.
+     * Rfturns tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi tiis
+     * <dodf>JMfnuItfm</dodf>. For <dodf>JMfnuItfm</dodf>s,
+     * tif <dodf>AddfssiblfContfxt</dodf> tbkfs tif form of bn
+     * <dodf>AddfssiblfJMfnuItfm</dodf>.
+     * A nfw AddfssiblfJMfnuItmf instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an <code>AccessibleJMenuItem</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>JMenuItem</code>
+     * @rfturn bn <dodf>AddfssiblfJMfnuItfm</dodf> tibt sfrvfs bs tif
+     *         <dodf>AddfssiblfContfxt</dodf> of tiis <dodf>JMfnuItfm</dodf>
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJMenuItem();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJMfnuItfm();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
 
     /**
-     * This class implements accessibility support for the
-     * <code>JMenuItem</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to menu item user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JMfnuItfm</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to mfnu itfm usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJMenuItem extends AccessibleAbstractButton implements ChangeListener {
+    @SupprfssWbrnings("sfribl")
+    protfdtfd dlbss AddfssiblfJMfnuItfm fxtfnds AddfssiblfAbstrbdtButton implfmfnts CibngfListfnfr {
 
-        private boolean isArmed = false;
-        private boolean hasFocus = false;
-        private boolean isPressed = false;
-        private boolean isSelected = false;
+        privbtf boolfbn isArmfd = fblsf;
+        privbtf boolfbn ibsFodus = fblsf;
+        privbtf boolfbn isPrfssfd = fblsf;
+        privbtf boolfbn isSflfdtfd = fblsf;
 
-        AccessibleJMenuItem() {
-            super();
-            JMenuItem.this.addChangeListener(this);
+        AddfssiblfJMfnuItfm() {
+            supfr();
+            JMfnuItfm.tiis.bddCibngfListfnfr(tiis);
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.MENU_ITEM;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.MENU_ITEM;
         }
 
-        private void fireAccessibilityFocusedEvent(JMenuItem toCheck) {
-            MenuElement [] path =
-                MenuSelectionManager.defaultManager().getSelectedPath();
-            if (path.length > 0) {
-                Object menuItem = path[path.length - 1];
-                if (toCheck == menuItem) {
-                    firePropertyChange(
-                        AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        null, AccessibleState.FOCUSED);
+        privbtf void firfAddfssibilityFodusfdEvfnt(JMfnuItfm toCifdk) {
+            MfnuElfmfnt [] pbti =
+                MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().gftSflfdtfdPbti();
+            if (pbti.lfngti > 0) {
+                Objfdt mfnuItfm = pbti[pbti.lfngti - 1];
+                if (toCifdk == mfnuItfm) {
+                    firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                        null, AddfssiblfStbtf.FOCUSED);
                 }
             }
         }
 
         /**
-         * Supports the change listener interface and fires property changes.
+         * Supports tif dibngf listfnfr intfrfbdf bnd firfs propfrty dibngfs.
          */
-        public void stateChanged(ChangeEvent e) {
-            firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                               Boolean.valueOf(false), Boolean.valueOf(true));
-            if (JMenuItem.this.getModel().isArmed()) {
-                if (!isArmed) {
-                    isArmed = true;
-                    firePropertyChange(
-                        AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        null, AccessibleState.ARMED);
-                    // Fix for 4848220 moved here to avoid major memory leak
-                    // Here we will fire the event in case of JMenuItem
-                    // See bug 4910323 for details [zav]
-                    fireAccessibilityFocusedEvent(JMenuItem.this);
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            firfPropfrtyCibngf(AddfssiblfContfxt.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                               Boolfbn.vblufOf(fblsf), Boolfbn.vblufOf(truf));
+            if (JMfnuItfm.tiis.gftModfl().isArmfd()) {
+                if (!isArmfd) {
+                    isArmfd = truf;
+                    firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                        null, AddfssiblfStbtf.ARMED);
+                    // Fix for 4848220 movfd ifrf to bvoid mbjor mfmory lfbk
+                    // Hfrf wf will firf tif fvfnt in dbsf of JMfnuItfm
+                    // Sff bug 4910323 for dftbils [zbv]
+                    firfAddfssibilityFodusfdEvfnt(JMfnuItfm.tiis);
                 }
-            } else {
-                if (isArmed) {
-                    isArmed = false;
-                    firePropertyChange(
-                        AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        AccessibleState.ARMED, null);
-                }
-            }
-            if (JMenuItem.this.isFocusOwner()) {
-                if (!hasFocus) {
-                    hasFocus = true;
-                    firePropertyChange(
-                        AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        null, AccessibleState.FOCUSED);
-                }
-            } else {
-                if (hasFocus) {
-                    hasFocus = false;
-                    firePropertyChange(
-                        AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        AccessibleState.FOCUSED, null);
+            } flsf {
+                if (isArmfd) {
+                    isArmfd = fblsf;
+                    firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                        AddfssiblfStbtf.ARMED, null);
                 }
             }
-            if (JMenuItem.this.getModel().isPressed()) {
-                if (!isPressed) {
-                    isPressed = true;
-                    firePropertyChange(
-                        AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        null, AccessibleState.PRESSED);
+            if (JMfnuItfm.tiis.isFodusOwnfr()) {
+                if (!ibsFodus) {
+                    ibsFodus = truf;
+                    firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                        null, AddfssiblfStbtf.FOCUSED);
                 }
-            } else {
-                if (isPressed) {
-                    isPressed = false;
-                    firePropertyChange(
-                        AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        AccessibleState.PRESSED, null);
+            } flsf {
+                if (ibsFodus) {
+                    ibsFodus = fblsf;
+                    firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                        AddfssiblfStbtf.FOCUSED, null);
                 }
             }
-            if (JMenuItem.this.getModel().isSelected()) {
-                if (!isSelected) {
-                    isSelected = true;
-                    firePropertyChange(
-                        AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        null, AccessibleState.CHECKED);
+            if (JMfnuItfm.tiis.gftModfl().isPrfssfd()) {
+                if (!isPrfssfd) {
+                    isPrfssfd = truf;
+                    firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                        null, AddfssiblfStbtf.PRESSED);
+                }
+            } flsf {
+                if (isPrfssfd) {
+                    isPrfssfd = fblsf;
+                    firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                        AddfssiblfStbtf.PRESSED, null);
+                }
+            }
+            if (JMfnuItfm.tiis.gftModfl().isSflfdtfd()) {
+                if (!isSflfdtfd) {
+                    isSflfdtfd = truf;
+                    firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                        null, AddfssiblfStbtf.CHECKED);
 
-                    // Fix for 4848220 moved here to avoid major memory leak
-                    // Here we will fire the event in case of JMenu
-                    // See bug 4910323 for details [zav]
-                    fireAccessibilityFocusedEvent(JMenuItem.this);
+                    // Fix for 4848220 movfd ifrf to bvoid mbjor mfmory lfbk
+                    // Hfrf wf will firf tif fvfnt in dbsf of JMfnu
+                    // Sff bug 4910323 for dftbils [zbv]
+                    firfAddfssibilityFodusfdEvfnt(JMfnuItfm.tiis);
                 }
-            } else {
-                if (isSelected) {
-                    isSelected = false;
-                    firePropertyChange(
-                        AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        AccessibleState.CHECKED, null);
+            } flsf {
+                if (isSflfdtfd) {
+                    isSflfdtfd = fblsf;
+                    firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                        AddfssiblfStbtf.CHECKED, null);
                 }
             }
 
         }
-    } // inner class AccessibleJMenuItem
+    } // innfr dlbss AddfssiblfJMfnuItfm
 
 
 }

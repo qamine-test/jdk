@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,1780 +45,1780 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
 
 /**
- * This is the default implementation of the PKCS11 interface. IT connects to
- * the pkcs11wrapper.dll file, which is the native part of this library.
- * The strange and awkward looking initialization was chosen to avoid calling
- * loadLibrary from a static initialization block, because this would complicate
- * the use in applets.
+ * Tiis is tif dffbult implfmfntbtion of tif PKCS11 intfrfbdf. IT donnfdts to
+ * tif pkds11wrbppfr.dll filf, wiidi is tif nbtivf pbrt of tiis librbry.
+ * Tif strbngf bnd bwkwbrd looking initiblizbtion wbs diosfn to bvoid dblling
+ * lobdLibrbry from b stbtid initiblizbtion blodk, bfdbusf tiis would domplidbtf
+ * tif usf in bpplfts.
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
- * @invariants (pkcs11ModulePath_ <> null)
+ * @butior Kbrl Sdifibflioffr <Kbrl.Sdifibflioffr@ibik.bt>
+ * @butior Mbrtin Sdilbffffr <sdilbfff@sbox.tugrbz.bt>
+ * @invbribnts (pkds11ModulfPbti_ <> null)
  */
-public class PKCS11 {
+publid dlbss PKCS11 {
 
     /**
-     * The name of the native part of the wrapper; i.e. the filename without
-     * the extension (e.g. ".DLL" or ".so").
+     * Tif nbmf of tif nbtivf pbrt of tif wrbppfr; i.f. tif filfnbmf witiout
+     * tif fxtfnsion (f.g. ".DLL" or ".so").
      */
-    private static final String PKCS11_WRAPPER = "j2pkcs11";
+    privbtf stbtid finbl String PKCS11_WRAPPER = "j2pkds11";
 
-    static {
-        // cannot use LoadLibraryAction because that would make the native
-        // library available to the bootclassloader, but we run in the
-        // extension classloader.
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            public Object run() {
-                System.loadLibrary(PKCS11_WRAPPER);
-                return null;
+    stbtid {
+        // dbnnot usf LobdLibrbryAdtion bfdbusf tibt would mbkf tif nbtivf
+        // librbry bvbilbblf to tif bootdlbsslobdfr, but wf run in tif
+        // fxtfnsion dlbsslobdfr.
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                Systfm.lobdLibrbry(PKCS11_WRAPPER);
+                rfturn null;
             }
         });
-        initializeLibrary();
+        initiblizfLibrbry();
     }
 
-    public static void loadNative() {
-        // dummy method that can be called to make sure the native
-        // portion has been loaded. actual loading happens in the
-        // static initializer, hence this method is empty.
+    publid stbtid void lobdNbtivf() {
+        // dummy mftiod tibt dbn bf dbllfd to mbkf surf tif nbtivf
+        // portion ibs bffn lobdfd. bdtubl lobding ibppfns in tif
+        // stbtid initiblizfr, ifndf tiis mftiod is fmpty.
     }
 
     /**
-     * The PKCS#11 module to connect to. This is the PKCS#11 driver of the token;
-     * e.g. pk2priv.dll.
+     * Tif PKCS#11 modulf to donnfdt to. Tiis is tif PKCS#11 drivfr of tif tokfn;
+     * f.g. pk2priv.dll.
      */
-    private final String pkcs11ModulePath;
+    privbtf finbl String pkds11ModulfPbti;
 
-    private long pNativeData;
+    privbtf long pNbtivfDbtb;
 
     /**
-     * This method does the initialization of the native library. It is called
-     * exactly once for this class.
+     * Tiis mftiod dofs tif initiblizbtion of tif nbtivf librbry. It is dbllfd
+     * fxbdtly ondf for tiis dlbss.
      *
-     * @preconditions
-     * @postconditions
+     * @prfdonditions
+     * @postdonditions
      */
-    private static native void initializeLibrary();
+    privbtf stbtid nbtivf void initiblizfLibrbry();
 
     // XXX
     /**
-     * This method does the finalization of the native library. It is called
-     * exactly once for this class. The library uses this method for a clean-up
-     * of any resources.
+     * Tiis mftiod dofs tif finblizbtion of tif nbtivf librbry. It is dbllfd
+     * fxbdtly ondf for tiis dlbss. Tif librbry usfs tiis mftiod for b dlfbn-up
+     * of bny rfsourdfs.
      *
-     * @preconditions
-     * @postconditions
+     * @prfdonditions
+     * @postdonditions
      */
-    private static native void finalizeLibrary();
+    privbtf stbtid nbtivf void finblizfLibrbry();
 
-    private static final Map<String,PKCS11> moduleMap =
-        new HashMap<String,PKCS11>();
+    privbtf stbtid finbl Mbp<String,PKCS11> modulfMbp =
+        nfw HbsiMbp<String,PKCS11>();
 
     /**
-     * Connects to the PKCS#11 driver given. The filename must contain the
-     * path, if the driver is not in the system's search path.
+     * Connfdts to tif PKCS#11 drivfr givfn. Tif filfnbmf must dontbin tif
+     * pbti, if tif drivfr is not in tif systfm's sfbrdi pbti.
      *
-     * @param pkcs11ModulePath the PKCS#11 library path
-     * @preconditions (pkcs11ModulePath <> null)
-     * @postconditions
+     * @pbrbm pkds11ModulfPbti tif PKCS#11 librbry pbti
+     * @prfdonditions (pkds11ModulfPbti <> null)
+     * @postdonditions
      */
-    PKCS11(String pkcs11ModulePath, String functionListName)
-            throws IOException {
-        connect(pkcs11ModulePath, functionListName);
-        this.pkcs11ModulePath = pkcs11ModulePath;
+    PKCS11(String pkds11ModulfPbti, String fundtionListNbmf)
+            tirows IOExdfption {
+        donnfdt(pkds11ModulfPbti, fundtionListNbmf);
+        tiis.pkds11ModulfPbti = pkds11ModulfPbti;
     }
 
-    public static synchronized PKCS11 getInstance(String pkcs11ModulePath,
-            String functionList, CK_C_INITIALIZE_ARGS pInitArgs,
-            boolean omitInitialize) throws IOException, PKCS11Exception {
-        // we may only call C_Initialize once per native .so/.dll
-        // so keep a cache using the (non-canonicalized!) path
-        PKCS11 pkcs11 = moduleMap.get(pkcs11ModulePath);
-        if (pkcs11 == null) {
+    publid stbtid syndironizfd PKCS11 gftInstbndf(String pkds11ModulfPbti,
+            String fundtionList, CK_C_INITIALIZE_ARGS pInitArgs,
+            boolfbn omitInitiblizf) tirows IOExdfption, PKCS11Exdfption {
+        // wf mby only dbll C_Initiblizf ondf pfr nbtivf .so/.dll
+        // so kffp b dbdif using tif (non-dbnonidblizfd!) pbti
+        PKCS11 pkds11 = modulfMbp.gft(pkds11ModulfPbti);
+        if (pkds11 == null) {
             if ((pInitArgs != null)
-                    && ((pInitArgs.flags & CKF_OS_LOCKING_OK) != 0)) {
-                pkcs11 = new PKCS11(pkcs11ModulePath, functionList);
-            } else {
-                pkcs11 = new SynchronizedPKCS11(pkcs11ModulePath, functionList);
+                    && ((pInitArgs.flbgs & CKF_OS_LOCKING_OK) != 0)) {
+                pkds11 = nfw PKCS11(pkds11ModulfPbti, fundtionList);
+            } flsf {
+                pkds11 = nfw SyndironizfdPKCS11(pkds11ModulfPbti, fundtionList);
             }
-            if (omitInitialize == false) {
+            if (omitInitiblizf == fblsf) {
                 try {
-                    pkcs11.C_Initialize(pInitArgs);
-                } catch (PKCS11Exception e) {
-                    // ignore already-initialized error code
-                    // rethrow all other errors
-                    if (e.getErrorCode() != CKR_CRYPTOKI_ALREADY_INITIALIZED) {
-                        throw e;
+                    pkds11.C_Initiblizf(pInitArgs);
+                } dbtdi (PKCS11Exdfption f) {
+                    // ignorf blrfbdy-initiblizfd frror dodf
+                    // rftirow bll otifr frrors
+                    if (f.gftErrorCodf() != CKR_CRYPTOKI_ALREADY_INITIALIZED) {
+                        tirow f;
                     }
                 }
             }
-            moduleMap.put(pkcs11ModulePath, pkcs11);
+            modulfMbp.put(pkds11ModulfPbti, pkds11);
         }
-        return pkcs11;
+        rfturn pkds11;
     }
 
     /**
-     * Connects this object to the specified PKCS#11 library. This method is for
-     * internal use only.
-     * Declared private, because incorrect handling may result in errors in the
-     * native part.
+     * Connfdts tiis objfdt to tif spfdififd PKCS#11 librbry. Tiis mftiod is for
+     * intfrnbl usf only.
+     * Dfdlbrfd privbtf, bfdbusf indorrfdt ibndling mby rfsult in frrors in tif
+     * nbtivf pbrt.
      *
-     * @param pkcs11ModulePath The PKCS#11 library path.
-     * @preconditions (pkcs11ModulePath <> null)
-     * @postconditions
+     * @pbrbm pkds11ModulfPbti Tif PKCS#11 librbry pbti.
+     * @prfdonditions (pkds11ModulfPbti <> null)
+     * @postdonditions
      */
-    private native void connect(String pkcs11ModulePath, String functionListName)
-            throws IOException;
+    privbtf nbtivf void donnfdt(String pkds11ModulfPbti, String fundtionListNbmf)
+            tirows IOExdfption;
 
     /**
-     * Disconnects the PKCS#11 library from this object. After calling this
-     * method, this object is no longer connected to a native PKCS#11 module
-     * and any subsequent calls to C_ methods will fail. This method is for
-     * internal use only.
-     * Declared private, because incorrect handling may result in errors in the
-     * native part.
+     * Disdonnfdts tif PKCS#11 librbry from tiis objfdt. Aftfr dblling tiis
+     * mftiod, tiis objfdt is no longfr donnfdtfd to b nbtivf PKCS#11 modulf
+     * bnd bny subsfqufnt dblls to C_ mftiods will fbil. Tiis mftiod is for
+     * intfrnbl usf only.
+     * Dfdlbrfd privbtf, bfdbusf indorrfdt ibndling mby rfsult in frrors in tif
+     * nbtivf pbrt.
      *
-     * @preconditions
-     * @postconditions
+     * @prfdonditions
+     * @postdonditions
      */
-    private native void disconnect();
+    privbtf nbtivf void disdonnfdt();
 
 
-    // Implementation of PKCS11 methods delegated to native pkcs11wrapper library
+    // Implfmfntbtion of PKCS11 mftiods dflfgbtfd to nbtivf pkds11wrbppfr librbry
 
 /* *****************************************************************************
- * General-purpose
+ * Gfnfrbl-purposf
  ******************************************************************************/
 
     /**
-     * C_Initialize initializes the Cryptoki library.
-     * (General-purpose)
+     * C_Initiblizf initiblizfs tif Cryptoki librbry.
+     * (Gfnfrbl-purposf)
      *
-     * @param pInitArgs if pInitArgs is not NULL it gets casted to
-     *         CK_C_INITIALIZE_ARGS_PTR and dereferenced
-     *         (PKCS#11 param: CK_VOID_PTR pInitArgs)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm pInitArgs if pInitArgs is not NULL it gfts dbstfd to
+     *         CK_C_INITIALIZE_ARGS_PTR bnd dfrfffrfndfd
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pInitArgs)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    native void C_Initialize(Object pInitArgs) throws PKCS11Exception;
+    nbtivf void C_Initiblizf(Objfdt pInitArgs) tirows PKCS11Exdfption;
 
     /**
-     * C_Finalize indicates that an application is done with the
-     * Cryptoki library
-     * (General-purpose)
+     * C_Finblizf indidbtfs tibt bn bpplidbtion is donf witi tif
+     * Cryptoki librbry
+     * (Gfnfrbl-purposf)
      *
-     * @param pReserved is reserved. Should be NULL_PTR
-     *         (PKCS#11 param: CK_VOID_PTR pReserved)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pReserved == null)
-     * @postconditions
+     * @pbrbm pRfsfrvfd is rfsfrvfd. Siould bf NULL_PTR
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pRfsfrvfd)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pRfsfrvfd == null)
+     * @postdonditions
      */
-    public native void C_Finalize(Object pReserved) throws PKCS11Exception;
+    publid nbtivf void C_Finblizf(Objfdt pRfsfrvfd) tirows PKCS11Exdfption;
 
 
     /**
-     * C_GetInfo returns general information about Cryptoki.
-     * (General-purpose)
+     * C_GftInfo rfturns gfnfrbl informbtion bbout Cryptoki.
+     * (Gfnfrbl-purposf)
      *
-     * @return the information.
-     *         (PKCS#11 param: CK_INFO_PTR pInfo)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @rfturn tif informbtion.
+     *         (PKCS#11 pbrbm: CK_INFO_PTR pInfo)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native CK_INFO C_GetInfo() throws PKCS11Exception;
+    publid nbtivf CK_INFO C_GftInfo() tirows PKCS11Exdfption;
 
 
 /* *****************************************************************************
- * Slot and token management
+ * Slot bnd tokfn mbnbgfmfnt
  ******************************************************************************/
 
     /**
-     * C_GetSlotList obtains a list of slots in the system.
-     * (Slot and token management)
+     * C_GftSlotList obtbins b list of slots in tif systfm.
+     * (Slot bnd tokfn mbnbgfmfnt)
      *
-     * @param tokenPresent if true only Slot IDs with a token are returned
-     *         (PKCS#11 param: CK_BBOOL tokenPresent)
-     * @return a long array of slot IDs and number of Slot IDs
-     *         (PKCS#11 param: CK_SLOT_ID_PTR pSlotList, CK_ULONG_PTR pulCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm tokfnPrfsfnt if truf only Slot IDs witi b tokfn brf rfturnfd
+     *         (PKCS#11 pbrbm: CK_BBOOL tokfnPrfsfnt)
+     * @rfturn b long brrby of slot IDs bnd numbfr of Slot IDs
+     *         (PKCS#11 pbrbm: CK_SLOT_ID_PTR pSlotList, CK_ULONG_PTR pulCount)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native long[] C_GetSlotList(boolean tokenPresent)
-            throws PKCS11Exception;
+    publid nbtivf long[] C_GftSlotList(boolfbn tokfnPrfsfnt)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_GetSlotInfo obtains information about a particular slot in
-     * the system.
-     * (Slot and token management)
+     * C_GftSlotInfo obtbins informbtion bbout b pbrtidulbr slot in
+     * tif systfm.
+     * (Slot bnd tokfn mbnbgfmfnt)
      *
-     * @param slotID the ID of the slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @return the slot information
-     *         (PKCS#11 param: CK_SLOT_INFO_PTR pInfo)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm slotID tif ID of tif slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @rfturn tif slot informbtion
+     *         (PKCS#11 pbrbm: CK_SLOT_INFO_PTR pInfo)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native CK_SLOT_INFO C_GetSlotInfo(long slotID) throws PKCS11Exception;
+    publid nbtivf CK_SLOT_INFO C_GftSlotInfo(long slotID) tirows PKCS11Exdfption;
 
 
     /**
-     * C_GetTokenInfo obtains information about a particular token
-     * in the system.
-     * (Slot and token management)
+     * C_GftTokfnInfo obtbins informbtion bbout b pbrtidulbr tokfn
+     * in tif systfm.
+     * (Slot bnd tokfn mbnbgfmfnt)
      *
-     * @param slotID ID of the token's slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @return the token information
-     *         (PKCS#11 param: CK_TOKEN_INFO_PTR pInfo)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm slotID ID of tif tokfn's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @rfturn tif tokfn informbtion
+     *         (PKCS#11 pbrbm: CK_TOKEN_INFO_PTR pInfo)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native CK_TOKEN_INFO C_GetTokenInfo(long slotID)
-            throws PKCS11Exception;
+    publid nbtivf CK_TOKEN_INFO C_GftTokfnInfo(long slotID)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_GetMechanismList obtains a list of mechanism types
-     * supported by a token.
-     * (Slot and token management)
+     * C_GftMfdibnismList obtbins b list of mfdibnism typfs
+     * supportfd by b tokfn.
+     * (Slot bnd tokfn mbnbgfmfnt)
      *
-     * @param slotID ID of the token's slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @return a long array of mechanism types and number of mechanism types
-     *         (PKCS#11 param: CK_MECHANISM_TYPE_PTR pMechanismList,
+     * @pbrbm slotID ID of tif tokfn's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @rfturn b long brrby of mfdibnism typfs bnd numbfr of mfdibnism typfs
+     *         (PKCS#11 pbrbm: CK_MECHANISM_TYPE_PTR pMfdibnismList,
      *                         CK_ULONG_PTR pulCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native long[] C_GetMechanismList(long slotID) throws PKCS11Exception;
+    publid nbtivf long[] C_GftMfdibnismList(long slotID) tirows PKCS11Exdfption;
 
 
     /**
-     * C_GetMechanismInfo obtains information about a particular
-     * mechanism possibly supported by a token.
-     * (Slot and token management)
+     * C_GftMfdibnismInfo obtbins informbtion bbout b pbrtidulbr
+     * mfdibnism possibly supportfd by b tokfn.
+     * (Slot bnd tokfn mbnbgfmfnt)
      *
-     * @param slotID ID of the token's slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @param type type of mechanism
-     *         (PKCS#11 param: CK_MECHANISM_TYPE type)
-     * @return the mechanism info
-     *         (PKCS#11 param: CK_MECHANISM_INFO_PTR pInfo)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm slotID ID of tif tokfn's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @pbrbm typf typf of mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_TYPE typf)
+     * @rfturn tif mfdibnism info
+     *         (PKCS#11 pbrbm: CK_MECHANISM_INFO_PTR pInfo)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native CK_MECHANISM_INFO C_GetMechanismInfo(long slotID, long type)
-            throws PKCS11Exception;
+    publid nbtivf CK_MECHANISM_INFO C_GftMfdibnismInfo(long slotID, long typf)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_InitToken initializes a token.
-     * (Slot and token management)
+     * C_InitTokfn initiblizfs b tokfn.
+     * (Slot bnd tokfn mbnbgfmfnt)
      *
-     * @param slotID ID of the token's slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @param pPin the SO's initial PIN and the length in bytes of the PIN
-     *         (PKCS#11 param: CK_CHAR_PTR pPin, CK_ULONG ulPinLen)
-     * @param pLabel 32-byte token label (blank padded)
-     *         (PKCS#11 param: CK_UTF8CHAR_PTR pLabel)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm slotID ID of tif tokfn's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @pbrbm pPin tif SO's initibl PIN bnd tif lfngti in bytfs of tif PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pPin, CK_ULONG ulPinLfn)
+     * @pbrbm pLbbfl 32-bytf tokfn lbbfl (blbnk pbddfd)
+     *         (PKCS#11 pbrbm: CK_UTF8CHAR_PTR pLbbfl)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-//    public native void C_InitToken(long slotID, char[] pPin, char[] pLabel)
-//            throws PKCS11Exception;
+//    publid nbtivf void C_InitTokfn(long slotID, dibr[] pPin, dibr[] pLbbfl)
+//            tirows PKCS11Exdfption;
 
 
     /**
-     * C_InitPIN initializes the normal user's PIN.
-     * (Slot and token management)
+     * C_InitPIN initiblizfs tif normbl usfr's PIN.
+     * (Slot bnd tokfn mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPin the normal user's PIN and the length in bytes of the PIN
-     *         (PKCS#11 param: CK_CHAR_PTR pPin, CK_ULONG ulPinLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pPin tif normbl usfr's PIN bnd tif lfngti in bytfs of tif PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pPin, CK_ULONG ulPinLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-//    public native void C_InitPIN(long hSession, char[] pPin)
-//            throws PKCS11Exception;
+//    publid nbtivf void C_InitPIN(long iSfssion, dibr[] pPin)
+//            tirows PKCS11Exdfption;
 
 
     /**
-     * C_SetPIN modifies the PIN of the user who is logged in.
-     * (Slot and token management)
+     * C_SftPIN modififs tif PIN of tif usfr wio is loggfd in.
+     * (Slot bnd tokfn mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pOldPin the old PIN and the length of the old PIN
-     *         (PKCS#11 param: CK_CHAR_PTR pOldPin, CK_ULONG ulOldLen)
-     * @param pNewPin the new PIN and the length of the new PIN
-     *         (PKCS#11 param: CK_CHAR_PTR pNewPin, CK_ULONG ulNewLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pOldPin tif old PIN bnd tif lfngti of tif old PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pOldPin, CK_ULONG ulOldLfn)
+     * @pbrbm pNfwPin tif nfw PIN bnd tif lfngti of tif nfw PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pNfwPin, CK_ULONG ulNfwLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-//    public native void C_SetPIN(long hSession, char[] pOldPin, char[] pNewPin)
-//            throws PKCS11Exception;
+//    publid nbtivf void C_SftPIN(long iSfssion, dibr[] pOldPin, dibr[] pNfwPin)
+//            tirows PKCS11Exdfption;
 
 
 
 /* *****************************************************************************
- * Session management
+ * Sfssion mbnbgfmfnt
  ******************************************************************************/
 
     /**
-     * C_OpenSession opens a session between an application and a
-     * token.
-     * (Session management)
+     * C_OpfnSfssion opfns b sfssion bftwffn bn bpplidbtion bnd b
+     * tokfn.
+     * (Sfssion mbnbgfmfnt)
      *
-     * @param slotID the slot's ID
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @param flags of CK_SESSION_INFO
-     *         (PKCS#11 param: CK_FLAGS flags)
-     * @param pApplication passed to callback
-     *         (PKCS#11 param: CK_VOID_PTR pApplication)
-     * @param Notify the callback function
-     *         (PKCS#11 param: CK_NOTIFY Notify)
-     * @return the session handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE_PTR phSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm slotID tif slot's ID
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @pbrbm flbgs of CK_SESSION_INFO
+     *         (PKCS#11 pbrbm: CK_FLAGS flbgs)
+     * @pbrbm pApplidbtion pbssfd to dbllbbdk
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pApplidbtion)
+     * @pbrbm Notify tif dbllbbdk fundtion
+     *         (PKCS#11 pbrbm: CK_NOTIFY Notify)
+     * @rfturn tif sfssion ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE_PTR piSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native long C_OpenSession(long slotID, long flags,
-            Object pApplication, CK_NOTIFY Notify) throws PKCS11Exception;
+    publid nbtivf long C_OpfnSfssion(long slotID, long flbgs,
+            Objfdt pApplidbtion, CK_NOTIFY Notify) tirows PKCS11Exdfption;
 
 
     /**
-     * C_CloseSession closes a session between an application and a
-     * token.
-     * (Session management)
+     * C_ClosfSfssion dlosfs b sfssion bftwffn bn bpplidbtion bnd b
+     * tokfn.
+     * (Sfssion mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_CloseSession(long hSession) throws PKCS11Exception;
+    publid nbtivf void C_ClosfSfssion(long iSfssion) tirows PKCS11Exdfption;
 
 
     /**
-     * C_CloseAllSessions closes all sessions with a token.
-     * (Session management)
+     * C_ClosfAllSfssions dlosfs bll sfssions witi b tokfn.
+     * (Sfssion mbnbgfmfnt)
      *
-     * @param slotID the ID of the token's slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm slotID tif ID of tif tokfn's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-//    public native void C_CloseAllSessions(long slotID) throws PKCS11Exception;
+//    publid nbtivf void C_ClosfAllSfssions(long slotID) tirows PKCS11Exdfption;
 
 
     /**
-     * C_GetSessionInfo obtains information about the session.
-     * (Session management)
+     * C_GftSfssionInfo obtbins informbtion bbout tif sfssion.
+     * (Sfssion mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @return the session info
-     *         (PKCS#11 param: CK_SESSION_INFO_PTR pInfo)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @rfturn tif sfssion info
+     *         (PKCS#11 pbrbm: CK_SESSION_INFO_PTR pInfo)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native CK_SESSION_INFO C_GetSessionInfo(long hSession)
-            throws PKCS11Exception;
+    publid nbtivf CK_SESSION_INFO C_GftSfssionInfo(long iSfssion)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_GetOperationState obtains the state of the cryptographic operation
-     * in a session.
-     * (Session management)
+     * C_GftOpfrbtionStbtf obtbins tif stbtf of tif dryptogrbpiid opfrbtion
+     * in b sfssion.
+     * (Sfssion mbnbgfmfnt)
      *
-     * @param hSession session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @return the state and the state length
-     *         (PKCS#11 param: CK_BYTE_PTR pOperationState,
-     *                         CK_ULONG_PTR pulOperationStateLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @rfturn tif stbtf bnd tif stbtf lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pOpfrbtionStbtf,
+     *                         CK_ULONG_PTR pulOpfrbtionStbtfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native byte[] C_GetOperationState(long hSession)
-            throws PKCS11Exception;
+    publid nbtivf bytf[] C_GftOpfrbtionStbtf(long iSfssion)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_SetOperationState restores the state of the cryptographic
-     * operation in a session.
-     * (Session management)
+     * C_SftOpfrbtionStbtf rfstorfs tif stbtf of tif dryptogrbpiid
+     * opfrbtion in b sfssion.
+     * (Sfssion mbnbgfmfnt)
      *
-     * @param hSession session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pOperationState the state and the state length
-     *         (PKCS#11 param: CK_BYTE_PTR pOperationState,
-     *                         CK_ULONG ulOperationStateLen)
-     * @param hEncryptionKey en/decryption key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hEncryptionKey)
-     * @param hAuthenticationKey sign/verify key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hAuthenticationKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pOpfrbtionStbtf tif stbtf bnd tif stbtf lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pOpfrbtionStbtf,
+     *                         CK_ULONG ulOpfrbtionStbtfLfn)
+     * @pbrbm iEndryptionKfy fn/dfdryption kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iEndryptionKfy)
+     * @pbrbm iAutifntidbtionKfy sign/vfrify kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iAutifntidbtionKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_SetOperationState(long hSession, byte[] pOperationState,
-            long hEncryptionKey, long hAuthenticationKey) throws PKCS11Exception;
+    publid nbtivf void C_SftOpfrbtionStbtf(long iSfssion, bytf[] pOpfrbtionStbtf,
+            long iEndryptionKfy, long iAutifntidbtionKfy) tirows PKCS11Exdfption;
 
 
     /**
-     * C_Login logs a user into a token.
-     * (Session management)
+     * C_Login logs b usfr into b tokfn.
+     * (Sfssion mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param userType the user type
-     *         (PKCS#11 param: CK_USER_TYPE userType)
-     * @param pPin the user's PIN and the length of the PIN
-     *         (PKCS#11 param: CK_CHAR_PTR pPin, CK_ULONG ulPinLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm usfrTypf tif usfr typf
+     *         (PKCS#11 pbrbm: CK_USER_TYPE usfrTypf)
+     * @pbrbm pPin tif usfr's PIN bnd tif lfngti of tif PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pPin, CK_ULONG ulPinLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_Login(long hSession, long userType, char[] pPin)
-            throws PKCS11Exception;
+    publid nbtivf void C_Login(long iSfssion, long usfrTypf, dibr[] pPin)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_Logout logs a user out from a token.
-     * (Session management)
+     * C_Logout logs b usfr out from b tokfn.
+     * (Sfssion mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_Logout(long hSession) throws PKCS11Exception;
+    publid nbtivf void C_Logout(long iSfssion) tirows PKCS11Exdfption;
 
 
 
 /* *****************************************************************************
- * Object management
+ * Objfdt mbnbgfmfnt
  ******************************************************************************/
 
     /**
-     * C_CreateObject creates a new object.
-     * (Object management)
+     * C_CrfbtfObjfdt drfbtfs b nfw objfdt.
+     * (Objfdt mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pTemplate the object's template and number of attributes in
-     *         template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @return the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phObject)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pTfmplbtf tif objfdt's tfmplbtf bnd numbfr of bttributfs in
+     *         tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @rfturn tif objfdt's ibndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR piObjfdt)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native long C_CreateObject(long hSession, CK_ATTRIBUTE[] pTemplate)
-            throws PKCS11Exception;
+    publid nbtivf long C_CrfbtfObjfdt(long iSfssion, CK_ATTRIBUTE[] pTfmplbtf)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_CopyObject copies an object, creating a new object for the
-     * copy.
-     * (Object management)
+     * C_CopyObjfdt dopifs bn objfdt, drfbting b nfw objfdt for tif
+     * dopy.
+     * (Objfdt mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hObject the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hObject)
-     * @param pTemplate the template for the new object and number of attributes
-     *         in template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @return the handle of the copy
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phNewObject)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm iObjfdt tif objfdt's ibndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iObjfdt)
+     * @pbrbm pTfmplbtf tif tfmplbtf for tif nfw objfdt bnd numbfr of bttributfs
+     *         in tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @rfturn tif ibndlf of tif dopy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR piNfwObjfdt)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native long C_CopyObject(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception;
+    publid nbtivf long C_CopyObjfdt(long iSfssion, long iObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) tirows PKCS11Exdfption;
 
 
     /**
-     * C_DestroyObject destroys an object.
-     * (Object management)
+     * C_DfstroyObjfdt dfstroys bn objfdt.
+     * (Objfdt mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hObject the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hObject)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm iObjfdt tif objfdt's ibndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iObjfdt)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_DestroyObject(long hSession, long hObject)
-            throws PKCS11Exception;
+    publid nbtivf void C_DfstroyObjfdt(long iSfssion, long iObjfdt)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_GetObjectSize gets the size of an object in bytes.
-     * (Object management)
+     * C_GftObjfdtSizf gfts tif sizf of bn objfdt in bytfs.
+     * (Objfdt mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hObject the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hObject)
-     * @return the size of the object
-     *         (PKCS#11 param: CK_ULONG_PTR pulSize)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm iObjfdt tif objfdt's ibndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iObjfdt)
+     * @rfturn tif sizf of tif objfdt
+     *         (PKCS#11 pbrbm: CK_ULONG_PTR pulSizf)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-//    public native long C_GetObjectSize(long hSession, long hObject)
-//            throws PKCS11Exception;
+//    publid nbtivf long C_GftObjfdtSizf(long iSfssion, long iObjfdt)
+//            tirows PKCS11Exdfption;
 
 
     /**
-     * C_GetAttributeValue obtains the value of one or more object
-     * attributes. The template attributes also receive the values.
-     * (Object management)
-     * note: in PKCS#11 pTemplate and the result template are the same
+     * C_GftAttributfVbluf obtbins tif vbluf of onf or morf objfdt
+     * bttributfs. Tif tfmplbtf bttributfs blso rfdfivf tif vblufs.
+     * (Objfdt mbnbgfmfnt)
+     * notf: in PKCS#11 pTfmplbtf bnd tif rfsult tfmplbtf brf tif sbmf
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hObject the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hObject)
-     * @param pTemplate specifies the attributes and number of attributes to get
-     *                  The template attributes also receive the values.
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pTemplate <> null)
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm iObjfdt tif objfdt's ibndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iObjfdt)
+     * @pbrbm pTfmplbtf spfdififs tif bttributfs bnd numbfr of bttributfs to gft
+     *                  Tif tfmplbtf bttributfs blso rfdfivf tif vblufs.
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pTfmplbtf <> null)
+     * @postdonditions (rfsult <> null)
      */
-    public native void C_GetAttributeValue(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception;
+    publid nbtivf void C_GftAttributfVbluf(long iSfssion, long iObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) tirows PKCS11Exdfption;
 
 
     /**
-     * C_SetAttributeValue modifies the value of one or more object
-     * attributes
-     * (Object management)
+     * C_SftAttributfVbluf modififs tif vbluf of onf or morf objfdt
+     * bttributfs
+     * (Objfdt mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hObject the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hObject)
-     * @param pTemplate specifies the attributes and values to get; number of
-     *         attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pTemplate <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm iObjfdt tif objfdt's ibndlf
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iObjfdt)
+     * @pbrbm pTfmplbtf spfdififs tif bttributfs bnd vblufs to gft; numbfr of
+     *         bttributfs in tif tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pTfmplbtf <> null)
+     * @postdonditions
      */
-    public native void C_SetAttributeValue(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception;
+    publid nbtivf void C_SftAttributfVbluf(long iSfssion, long iObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) tirows PKCS11Exdfption;
 
 
     /**
-     * C_FindObjectsInit initializes a search for token and session
-     * objects that match a template.
-     * (Object management)
+     * C_FindObjfdtsInit initiblizfs b sfbrdi for tokfn bnd sfssion
+     * objfdts tibt mbtdi b tfmplbtf.
+     * (Objfdt mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pTemplate the object's attribute values to match and the number of
-     *         attributes in search template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pTfmplbtf tif objfdt's bttributf vblufs to mbtdi bnd tif numbfr of
+     *         bttributfs in sfbrdi tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_FindObjectsInit(long hSession, CK_ATTRIBUTE[] pTemplate)
-            throws PKCS11Exception;
+    publid nbtivf void C_FindObjfdtsInit(long iSfssion, CK_ATTRIBUTE[] pTfmplbtf)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_FindObjects continues a search for token and session
-     * objects that match a template, obtaining additional object
-     * handles.
-     * (Object management)
+     * C_FindObjfdts dontinufs b sfbrdi for tokfn bnd sfssion
+     * objfdts tibt mbtdi b tfmplbtf, obtbining bdditionbl objfdt
+     * ibndlfs.
+     * (Objfdt mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param ulMaxObjectCount the max. object handles to get
-     *         (PKCS#11 param: CK_ULONG ulMaxObjectCount)
-     * @return the object's handles and the actual number of objects returned
-     *         (PKCS#11 param: CK_ULONG_PTR pulObjectCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm ulMbxObjfdtCount tif mbx. objfdt ibndlfs to gft
+     *         (PKCS#11 pbrbm: CK_ULONG ulMbxObjfdtCount)
+     * @rfturn tif objfdt's ibndlfs bnd tif bdtubl numbfr of objfdts rfturnfd
+     *         (PKCS#11 pbrbm: CK_ULONG_PTR pulObjfdtCount)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native long[] C_FindObjects(long hSession, long ulMaxObjectCount)
-            throws PKCS11Exception;
+    publid nbtivf long[] C_FindObjfdts(long iSfssion, long ulMbxObjfdtCount)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_FindObjectsFinal finishes a search for token and session
-     * objects.
-     * (Object management)
+     * C_FindObjfdtsFinbl finisifs b sfbrdi for tokfn bnd sfssion
+     * objfdts.
+     * (Objfdt mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_FindObjectsFinal(long hSession) throws PKCS11Exception;
+    publid nbtivf void C_FindObjfdtsFinbl(long iSfssion) tirows PKCS11Exdfption;
 
 
 
 /* *****************************************************************************
- * Encryption and decryption
+ * Endryption bnd dfdryption
  ******************************************************************************/
 
     /**
-     * C_EncryptInit initializes an encryption operation.
-     * (Encryption and decryption)
+     * C_EndryptInit initiblizfs bn fndryption opfrbtion.
+     * (Endryption bnd dfdryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the encryption mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the encryption key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif fndryption mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @pbrbm iKfy tif ibndlf of tif fndryption kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_EncryptInit(long hSession, CK_MECHANISM pMechanism,
-            long hKey) throws PKCS11Exception;
+    publid nbtivf void C_EndryptInit(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iKfy) tirows PKCS11Exdfption;
 
 
     /**
-     * C_Encrypt encrypts single-part data.
-     * (Encryption and decryption)
+     * C_Endrypt fndrypts singlf-pbrt dbtb.
+     * (Endryption bnd dfdryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pData the data to get encrypted and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG ulDataLen)
-     * @return the encrypted data and the encrypted data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedData,
-     *                         CK_ULONG_PTR pulEncryptedDataLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pData <> null)
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pDbtb tif dbtb to gft fndryptfd bnd tif dbtb's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLfn)
+     * @rfturn tif fndryptfd dbtb bnd tif fndryptfd dbtb's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdDbtb,
+     *                         CK_ULONG_PTR pulEndryptfdDbtbLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pDbtb <> null)
+     * @postdonditions (rfsult <> null)
      */
-    public native int C_Encrypt(long hSession, byte[] in, int inOfs, int inLen,
-            byte[] out, int outOfs, int outLen) throws PKCS11Exception;
+    publid nbtivf int C_Endrypt(long iSfssion, bytf[] in, int inOfs, int inLfn,
+            bytf[] out, int outOfs, int outLfn) tirows PKCS11Exdfption;
 
 
     /**
-     * C_EncryptUpdate continues a multiple-part encryption
-     * operation.
-     * (Encryption and decryption)
+     * C_EndryptUpdbtf dontinufs b multiplf-pbrt fndryption
+     * opfrbtion.
+     * (Endryption bnd dfdryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the data part to get encrypted and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @return the encrypted data part and the encrypted data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-                             CK_ULONG_PTR pulEncryptedPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pPbrt tif dbtb pbrt to gft fndryptfd bnd tif dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @rfturn tif fndryptfd dbtb pbrt bnd tif fndryptfd dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+                             CK_ULONG_PTR pulEndryptfdPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
      */
-    public native int C_EncryptUpdate(long hSession, long directIn, byte[] in,
-            int inOfs, int inLen, long directOut, byte[] out, int outOfs,
-            int outLen) throws PKCS11Exception;
+    publid nbtivf int C_EndryptUpdbtf(long iSfssion, long dirfdtIn, bytf[] in,
+            int inOfs, int inLfn, long dirfdtOut, bytf[] out, int outOfs,
+            int outLfn) tirows PKCS11Exdfption;
 
 
     /**
-     * C_EncryptFinal finishes a multiple-part encryption
-     * operation.
-     * (Encryption and decryption)
+     * C_EndryptFinbl finisifs b multiplf-pbrt fndryption
+     * opfrbtion.
+     * (Endryption bnd dfdryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @return the last encrypted data part and the last data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pLastEncryptedPart,
-                             CK_ULONG_PTR pulLastEncryptedPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @rfturn tif lbst fndryptfd dbtb pbrt bnd tif lbst dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pLbstEndryptfdPbrt,
+                             CK_ULONG_PTR pulLbstEndryptfdPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native int C_EncryptFinal(long hSession, long directOut, byte[] out,
-            int outOfs, int outLen) throws PKCS11Exception;
+    publid nbtivf int C_EndryptFinbl(long iSfssion, long dirfdtOut, bytf[] out,
+            int outOfs, int outLfn) tirows PKCS11Exdfption;
 
 
     /**
-     * C_DecryptInit initializes a decryption operation.
-     * (Encryption and decryption)
+     * C_DfdryptInit initiblizfs b dfdryption opfrbtion.
+     * (Endryption bnd dfdryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the decryption mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the decryption key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif dfdryption mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @pbrbm iKfy tif ibndlf of tif dfdryption kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_DecryptInit(long hSession, CK_MECHANISM pMechanism,
-            long hKey) throws PKCS11Exception;
+    publid nbtivf void C_DfdryptInit(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iKfy) tirows PKCS11Exdfption;
 
 
     /**
-     * C_Decrypt decrypts encrypted data in a single part.
-     * (Encryption and decryption)
+     * C_Dfdrypt dfdrypts fndryptfd dbtb in b singlf pbrt.
+     * (Endryption bnd dfdryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pEncryptedData the encrypted data to get decrypted and the
-     *         encrypted data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedData,
-     *                         CK_ULONG ulEncryptedDataLen)
-     * @return the decrypted data and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG_PTR pulDataLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pEncryptedPart <> null)
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pEndryptfdDbtb tif fndryptfd dbtb to gft dfdryptfd bnd tif
+     *         fndryptfd dbtb's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdDbtb,
+     *                         CK_ULONG ulEndryptfdDbtbLfn)
+     * @rfturn tif dfdryptfd dbtb bnd tif dbtb's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG_PTR pulDbtbLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pEndryptfdPbrt <> null)
+     * @postdonditions (rfsult <> null)
      */
-    public native int C_Decrypt(long hSession, byte[] in, int inOfs, int inLen,
-            byte[] out, int outOfs, int outLen) throws PKCS11Exception;
+    publid nbtivf int C_Dfdrypt(long iSfssion, bytf[] in, int inOfs, int inLfn,
+            bytf[] out, int outOfs, int outLfn) tirows PKCS11Exdfption;
 
 
     /**
-     * C_DecryptUpdate continues a multiple-part decryption
-     * operation.
-     * (Encryption and decryption)
+     * C_DfdryptUpdbtf dontinufs b multiplf-pbrt dfdryption
+     * opfrbtion.
+     * (Endryption bnd dfdryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pEncryptedPart the encrypted data part to get decrypted and the
-     *         encrypted data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-     *                         CK_ULONG ulEncryptedPartLen)
-     * @return the decrypted data part and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG_PTR pulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pEncryptedPart <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pEndryptfdPbrt tif fndryptfd dbtb pbrt to gft dfdryptfd bnd tif
+     *         fndryptfd dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+     *                         CK_ULONG ulEndryptfdPbrtLfn)
+     * @rfturn tif dfdryptfd dbtb pbrt bnd tif dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG_PTR pulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pEndryptfdPbrt <> null)
+     * @postdonditions
      */
-    public native int C_DecryptUpdate(long hSession, long directIn, byte[] in,
-            int inOfs, int inLen, long directOut, byte[] out, int outOfs,
-            int outLen) throws PKCS11Exception;
+    publid nbtivf int C_DfdryptUpdbtf(long iSfssion, long dirfdtIn, bytf[] in,
+            int inOfs, int inLfn, long dirfdtOut, bytf[] out, int outOfs,
+            int outLfn) tirows PKCS11Exdfption;
 
 
     /**
-     * C_DecryptFinal finishes a multiple-part decryption
-     * operation.
-     * (Encryption and decryption)
+     * C_DfdryptFinbl finisifs b multiplf-pbrt dfdryption
+     * opfrbtion.
+     * (Endryption bnd dfdryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @return the last decrypted data part and the last data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pLastPart,
-     *                         CK_ULONG_PTR pulLastPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @rfturn tif lbst dfdryptfd dbtb pbrt bnd tif lbst dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pLbstPbrt,
+     *                         CK_ULONG_PTR pulLbstPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native int C_DecryptFinal(long hSession, long directOut, byte[] out,
-            int outOfs, int outLen) throws PKCS11Exception;
+    publid nbtivf int C_DfdryptFinbl(long iSfssion, long dirfdtOut, bytf[] out,
+            int outOfs, int outLfn) tirows PKCS11Exdfption;
 
 
 
 /* *****************************************************************************
- * Message digesting
+ * Mfssbgf digfsting
  ******************************************************************************/
 
     /**
-     * C_DigestInit initializes a message-digesting operation.
-     * (Message digesting)
+     * C_DigfstInit initiblizfs b mfssbgf-digfsting opfrbtion.
+     * (Mfssbgf digfsting)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the digesting mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif digfsting mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_DigestInit(long hSession, CK_MECHANISM pMechanism)
-            throws PKCS11Exception;
+    publid nbtivf void C_DigfstInit(long iSfssion, CK_MECHANISM pMfdibnism)
+            tirows PKCS11Exdfption;
 
 
-    // note that C_DigestSingle does not exist in PKCS#11
-    // we combined the C_DigestInit and C_Digest into a single function
-    // to save on Java<->C transitions and save 5-10% on small digests
-    // this made the C_Digest method redundant, it has been removed
+    // notf tibt C_DigfstSinglf dofs not fxist in PKCS#11
+    // wf dombinfd tif C_DigfstInit bnd C_Digfst into b singlf fundtion
+    // to sbvf on Jbvb<->C trbnsitions bnd sbvf 5-10% on smbll digfsts
+    // tiis mbdf tif C_Digfst mftiod rfdundbnt, it ibs bffn rfmovfd
     /**
-     * C_Digest digests data in a single part.
-     * (Message digesting)
+     * C_Digfst digfsts dbtb in b singlf pbrt.
+     * (Mfssbgf digfsting)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param data the data to get digested and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG ulDataLen)
-     * @return the message digest and the length of the message digest
-     *         (PKCS#11 param: CK_BYTE_PTR pDigest, CK_ULONG_PTR pulDigestLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (data <> null)
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm dbtb tif dbtb to gft digfstfd bnd tif dbtb's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLfn)
+     * @rfturn tif mfssbgf digfst bnd tif lfngti of tif mfssbgf digfst
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDigfst, CK_ULONG_PTR pulDigfstLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (dbtb <> null)
+     * @postdonditions (rfsult <> null)
      */
-    public native int C_DigestSingle(long hSession, CK_MECHANISM pMechanism,
-            byte[] in, int inOfs, int inLen, byte[] digest, int digestOfs,
-            int digestLen) throws PKCS11Exception;
-
-
-    /**
-     * C_DigestUpdate continues a multiple-part message-digesting
-     * operation.
-     * (Message digesting)
-     *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the data to get digested and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
-     * @postconditions
-     */
-    public native void C_DigestUpdate(long hSession, long directIn, byte[] in,
-            int inOfs, int inLen) throws PKCS11Exception;
+    publid nbtivf int C_DigfstSinglf(long iSfssion, CK_MECHANISM pMfdibnism,
+            bytf[] in, int inOfs, int inLfn, bytf[] digfst, int digfstOfs,
+            int digfstLfn) tirows PKCS11Exdfption;
 
 
     /**
-     * C_DigestKey continues a multi-part message-digesting
-     * operation, by digesting the value of a secret key as part of
-     * the data already digested.
-     * (Message digesting)
+     * C_DigfstUpdbtf dontinufs b multiplf-pbrt mfssbgf-digfsting
+     * opfrbtion.
+     * (Mfssbgf digfsting)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hKey the handle of the secret key to be digested
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pPbrt tif dbtb to gft digfstfd bnd tif dbtb's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
      */
-    public native void C_DigestKey(long hSession, long hKey)
-            throws PKCS11Exception;
+    publid nbtivf void C_DigfstUpdbtf(long iSfssion, long dirfdtIn, bytf[] in,
+            int inOfs, int inLfn) tirows PKCS11Exdfption;
 
 
     /**
-     * C_DigestFinal finishes a multiple-part message-digesting
-     * operation.
-     * (Message digesting)
+     * C_DigfstKfy dontinufs b multi-pbrt mfssbgf-digfsting
+     * opfrbtion, by digfsting tif vbluf of b sfdrft kfy bs pbrt of
+     * tif dbtb blrfbdy digfstfd.
+     * (Mfssbgf digfsting)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @return the message digest and the length of the message digest
-     *         (PKCS#11 param: CK_BYTE_PTR pDigest, CK_ULONG_PTR pulDigestLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm iKfy tif ibndlf of tif sfdrft kfy to bf digfstfd
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native int C_DigestFinal(long hSession, byte[] pDigest, int digestOfs,
-            int digestLen) throws PKCS11Exception;
+    publid nbtivf void C_DigfstKfy(long iSfssion, long iKfy)
+            tirows PKCS11Exdfption;
+
+
+    /**
+     * C_DigfstFinbl finisifs b multiplf-pbrt mfssbgf-digfsting
+     * opfrbtion.
+     * (Mfssbgf digfsting)
+     *
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @rfturn tif mfssbgf digfst bnd tif lfngti of tif mfssbgf digfst
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDigfst, CK_ULONG_PTR pulDigfstLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
+     */
+    publid nbtivf int C_DigfstFinbl(long iSfssion, bytf[] pDigfst, int digfstOfs,
+            int digfstLfn) tirows PKCS11Exdfption;
 
 
 
 /* *****************************************************************************
- * Signing and MACing
+ * Signing bnd MACing
  ******************************************************************************/
 
     /**
-     * C_SignInit initializes a signature (private key encryption)
-     * operation, where the signature is (will be) an appendix to
-     * the data, and plaintext cannot be recovered from the
-     * signature.
-     * (Signing and MACing)
+     * C_SignInit initiblizfs b signbturf (privbtf kfy fndryption)
+     * opfrbtion, wifrf tif signbturf is (will bf) bn bppfndix to
+     * tif dbtb, bnd plbintfxt dbnnot bf rfdovfrfd from tif
+     * signbturf.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the signature mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the signature key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif signbturf mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @pbrbm iKfy tif ibndlf of tif signbturf kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_SignInit(long hSession, CK_MECHANISM pMechanism,
-            long hKey) throws PKCS11Exception;
+    publid nbtivf void C_SignInit(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iKfy) tirows PKCS11Exdfption;
 
 
     /**
-     * C_Sign signs (encrypts with private key) data in a single
-     * part, where the signature is (will be) an appendix to the
-     * data, and plaintext cannot be recovered from the signature.
-     * (Signing and MACing)
+     * C_Sign signs (fndrypts witi privbtf kfy) dbtb in b singlf
+     * pbrt, wifrf tif signbturf is (will bf) bn bppfndix to tif
+     * dbtb, bnd plbintfxt dbnnot bf rfdovfrfd from tif signbturf.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pData the data to sign and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG ulDataLen)
-     * @return the signature and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature,
-     *                         CK_ULONG_PTR pulSignatureLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pData <> null)
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pDbtb tif dbtb to sign bnd tif dbtb's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLfn)
+     * @rfturn tif signbturf bnd tif signbturf's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf,
+     *                         CK_ULONG_PTR pulSignbturfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pDbtb <> null)
+     * @postdonditions (rfsult <> null)
      */
-    public native byte[] C_Sign(long hSession, byte[] pData)
-            throws PKCS11Exception;
+    publid nbtivf bytf[] C_Sign(long iSfssion, bytf[] pDbtb)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_SignUpdate continues a multiple-part signature operation,
-     * where the signature is (will be) an appendix to the data,
-     * and plaintext cannot be recovered from the signature.
-     * (Signing and MACing)
+     * C_SignUpdbtf dontinufs b multiplf-pbrt signbturf opfrbtion,
+     * wifrf tif signbturf is (will bf) bn bppfndix to tif dbtb,
+     * bnd plbintfxt dbnnot bf rfdovfrfd from tif signbturf.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the data part to sign and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pPbrt tif dbtb pbrt to sign bnd tif dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
      */
-    public native void C_SignUpdate(long hSession, long directIn, byte[] in,
-            int inOfs, int inLen) throws PKCS11Exception;
+    publid nbtivf void C_SignUpdbtf(long iSfssion, long dirfdtIn, bytf[] in,
+            int inOfs, int inLfn) tirows PKCS11Exdfption;
 
 
     /**
-     * C_SignFinal finishes a multiple-part signature operation,
-     * returning the signature.
-     * (Signing and MACing)
+     * C_SignFinbl finisifs b multiplf-pbrt signbturf opfrbtion,
+     * rfturning tif signbturf.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @return the signature and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature,
-     *                         CK_ULONG_PTR pulSignatureLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @rfturn tif signbturf bnd tif signbturf's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf,
+     *                         CK_ULONG_PTR pulSignbturfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native byte[] C_SignFinal(long hSession, int expectedLen)
-            throws PKCS11Exception;
+    publid nbtivf bytf[] C_SignFinbl(long iSfssion, int fxpfdtfdLfn)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_SignRecoverInit initializes a signature operation, where
-     * the data can be recovered from the signature.
-     * (Signing and MACing)
+     * C_SignRfdovfrInit initiblizfs b signbturf opfrbtion, wifrf
+     * tif dbtb dbn bf rfdovfrfd from tif signbturf.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the signature mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the signature key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif signbturf mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @pbrbm iKfy tif ibndlf of tif signbturf kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_SignRecoverInit(long hSession, CK_MECHANISM pMechanism,
-            long hKey) throws PKCS11Exception;
+    publid nbtivf void C_SignRfdovfrInit(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iKfy) tirows PKCS11Exdfption;
 
 
     /**
-     * C_SignRecover signs data in a single operation, where the
-     * data can be recovered from the signature.
-     * (Signing and MACing)
+     * C_SignRfdovfr signs dbtb in b singlf opfrbtion, wifrf tif
+     * dbtb dbn bf rfdovfrfd from tif signbturf.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pData the data to sign and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG ulDataLen)
-     * @return the signature and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature,
-     *                         CK_ULONG_PTR pulSignatureLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pData <> null)
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pDbtb tif dbtb to sign bnd tif dbtb's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLfn)
+     * @rfturn tif signbturf bnd tif signbturf's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf,
+     *                         CK_ULONG_PTR pulSignbturfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pDbtb <> null)
+     * @postdonditions (rfsult <> null)
      */
-    public native int C_SignRecover(long hSession, byte[] in, int inOfs,
-            int inLen, byte[] out, int outOufs, int outLen)
-            throws PKCS11Exception;
+    publid nbtivf int C_SignRfdovfr(long iSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOufs, int outLfn)
+            tirows PKCS11Exdfption;
 
 
 
 /* *****************************************************************************
- * Verifying signatures and MACs
+ * Vfrifying signbturfs bnd MACs
  ******************************************************************************/
 
     /**
-     * C_VerifyInit initializes a verification operation, where the
-     * signature is an appendix to the data, and plaintext cannot
-     * cannot be recovered from the signature (e.g. DSA).
-     * (Signing and MACing)
+     * C_VfrifyInit initiblizfs b vfrifidbtion opfrbtion, wifrf tif
+     * signbturf is bn bppfndix to tif dbtb, bnd plbintfxt dbnnot
+     * dbnnot bf rfdovfrfd from tif signbturf (f.g. DSA).
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the verification mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the verification key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif vfrifidbtion mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @pbrbm iKfy tif ibndlf of tif vfrifidbtion kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_VerifyInit(long hSession, CK_MECHANISM pMechanism,
-            long hKey) throws PKCS11Exception;
+    publid nbtivf void C_VfrifyInit(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iKfy) tirows PKCS11Exdfption;
 
 
     /**
-     * C_Verify verifies a signature in a single-part operation,
-     * where the signature is an appendix to the data, and plaintext
-     * cannot be recovered from the signature.
-     * (Signing and MACing)
+     * C_Vfrify vfrififs b signbturf in b singlf-pbrt opfrbtion,
+     * wifrf tif signbturf is bn bppfndix to tif dbtb, bnd plbintfxt
+     * dbnnot bf rfdovfrfd from tif signbturf.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pData the signed data and the signed data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG ulDataLen)
-     * @param pSignature the signature to verify and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature, CK_ULONG ulSignatureLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pData <> null) and (pSignature <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pDbtb tif signfd dbtb bnd tif signfd dbtb's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLfn)
+     * @pbrbm pSignbturf tif signbturf to vfrify bnd tif signbturf's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf, CK_ULONG ulSignbturfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pDbtb <> null) bnd (pSignbturf <> null)
+     * @postdonditions
      */
-    public native void C_Verify(long hSession, byte[] pData, byte[] pSignature)
-            throws PKCS11Exception;
+    publid nbtivf void C_Vfrify(long iSfssion, bytf[] pDbtb, bytf[] pSignbturf)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_VerifyUpdate continues a multiple-part verification
-     * operation, where the signature is an appendix to the data,
-     * and plaintext cannot be recovered from the signature.
-     * (Signing and MACing)
+     * C_VfrifyUpdbtf dontinufs b multiplf-pbrt vfrifidbtion
+     * opfrbtion, wifrf tif signbturf is bn bppfndix to tif dbtb,
+     * bnd plbintfxt dbnnot bf rfdovfrfd from tif signbturf.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the signed data part and the signed data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pPbrt tif signfd dbtb pbrt bnd tif signfd dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
      */
-    public native void C_VerifyUpdate(long hSession, long directIn, byte[] in,
-            int inOfs, int inLen) throws PKCS11Exception;
+    publid nbtivf void C_VfrifyUpdbtf(long iSfssion, long dirfdtIn, bytf[] in,
+            int inOfs, int inLfn) tirows PKCS11Exdfption;
 
 
     /**
-     * C_VerifyFinal finishes a multiple-part verification
-     * operation, checking the signature.
-     * (Signing and MACing)
+     * C_VfrifyFinbl finisifs b multiplf-pbrt vfrifidbtion
+     * opfrbtion, difdking tif signbturf.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pSignature the signature to verify and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature, CK_ULONG ulSignatureLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pSignature <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pSignbturf tif signbturf to vfrify bnd tif signbturf's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf, CK_ULONG ulSignbturfLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pSignbturf <> null)
+     * @postdonditions
      */
-    public native void C_VerifyFinal(long hSession, byte[] pSignature)
-            throws PKCS11Exception;
+    publid nbtivf void C_VfrifyFinbl(long iSfssion, bytf[] pSignbturf)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_VerifyRecoverInit initializes a signature verification
-     * operation, where the data is recovered from the signature.
-     * (Signing and MACing)
+     * C_VfrifyRfdovfrInit initiblizfs b signbturf vfrifidbtion
+     * opfrbtion, wifrf tif dbtb is rfdovfrfd from tif signbturf.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the verification mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the verification key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif vfrifidbtion mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @pbrbm iKfy tif ibndlf of tif vfrifidbtion kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native void C_VerifyRecoverInit(long hSession,
-            CK_MECHANISM pMechanism, long hKey) throws PKCS11Exception;
+    publid nbtivf void C_VfrifyRfdovfrInit(long iSfssion,
+            CK_MECHANISM pMfdibnism, long iKfy) tirows PKCS11Exdfption;
 
 
     /**
-     * C_VerifyRecover verifies a signature in a single-part
-     * operation, where the data is recovered from the signature.
-     * (Signing and MACing)
+     * C_VfrifyRfdovfr vfrififs b signbturf in b singlf-pbrt
+     * opfrbtion, wifrf tif dbtb is rfdovfrfd from tif signbturf.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pSignature the signature to verify and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature, CK_ULONG ulSignatureLen)
-     * @return the recovered data and the recovered data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG_PTR pulDataLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pSignature <> null)
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pSignbturf tif signbturf to vfrify bnd tif signbturf's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbturf, CK_ULONG ulSignbturfLfn)
+     * @rfturn tif rfdovfrfd dbtb bnd tif rfdovfrfd dbtb's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG_PTR pulDbtbLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pSignbturf <> null)
+     * @postdonditions (rfsult <> null)
      */
-    public native int C_VerifyRecover(long hSession, byte[] in, int inOfs,
-            int inLen, byte[] out, int outOufs, int outLen)
-            throws PKCS11Exception;
+    publid nbtivf int C_VfrifyRfdovfr(long iSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOufs, int outLfn)
+            tirows PKCS11Exdfption;
 
 
 
 /* *****************************************************************************
- * Dual-function cryptographic operations
+ * Dubl-fundtion dryptogrbpiid opfrbtions
  ******************************************************************************/
 
     /**
-     * C_DigestEncryptUpdate continues a multiple-part digesting
-     * and encryption operation.
-     * (Dual-function cryptographic operations)
+     * C_DigfstEndryptUpdbtf dontinufs b multiplf-pbrt digfsting
+     * bnd fndryption opfrbtion.
+     * (Dubl-fundtion dryptogrbpiid opfrbtions)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the data part to digest and to encrypt and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @return the digested and encrypted data part and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-     *                         CK_ULONG_PTR pulEncryptedPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pPbrt tif dbtb pbrt to digfst bnd to fndrypt bnd tif dbtb's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @rfturn tif digfstfd bnd fndryptfd dbtb pbrt bnd tif dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+     *                         CK_ULONG_PTR pulEndryptfdPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
      */
-//    public native byte[] C_DigestEncryptUpdate(long hSession, byte[] pPart)
-//            throws PKCS11Exception;
+//    publid nbtivf bytf[] C_DigfstEndryptUpdbtf(long iSfssion, bytf[] pPbrt)
+//            tirows PKCS11Exdfption;
 
 
     /**
-     * C_DecryptDigestUpdate continues a multiple-part decryption and
-     * digesting operation.
-     * (Dual-function cryptographic operations)
+     * C_DfdryptDigfstUpdbtf dontinufs b multiplf-pbrt dfdryption bnd
+     * digfsting opfrbtion.
+     * (Dubl-fundtion dryptogrbpiid opfrbtions)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pEncryptedPart the encrypted data part to decrypt and to digest
-     *         and encrypted data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-     *                         CK_ULONG ulEncryptedPartLen)
-     * @return the decrypted and digested data part and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG_PTR pulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pEncryptedPart <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pEndryptfdPbrt tif fndryptfd dbtb pbrt to dfdrypt bnd to digfst
+     *         bnd fndryptfd dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+     *                         CK_ULONG ulEndryptfdPbrtLfn)
+     * @rfturn tif dfdryptfd bnd digfstfd dbtb pbrt bnd tif dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG_PTR pulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pEndryptfdPbrt <> null)
+     * @postdonditions
      */
-//    public native byte[] C_DecryptDigestUpdate(long hSession,
-//            byte[] pEncryptedPart) throws PKCS11Exception;
+//    publid nbtivf bytf[] C_DfdryptDigfstUpdbtf(long iSfssion,
+//            bytf[] pEndryptfdPbrt) tirows PKCS11Exdfption;
 
 
     /**
-     * C_SignEncryptUpdate continues a multiple-part signing and
-     * encryption operation.
-     * (Dual-function cryptographic operations)
+     * C_SignEndryptUpdbtf dontinufs b multiplf-pbrt signing bnd
+     * fndryption opfrbtion.
+     * (Dubl-fundtion dryptogrbpiid opfrbtions)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the data part to sign and to encrypt and the data part's
-     *         length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @return the signed and encrypted data part and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-     *                         CK_ULONG_PTR pulEncryptedPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pPbrt tif dbtb pbrt to sign bnd to fndrypt bnd tif dbtb pbrt's
+     *         lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLfn)
+     * @rfturn tif signfd bnd fndryptfd dbtb pbrt bnd tif dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+     *                         CK_ULONG_PTR pulEndryptfdPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pPbrt <> null)
+     * @postdonditions
      */
-//    public native byte[] C_SignEncryptUpdate(long hSession, byte[] pPart)
-//            throws PKCS11Exception;
+//    publid nbtivf bytf[] C_SignEndryptUpdbtf(long iSfssion, bytf[] pPbrt)
+//            tirows PKCS11Exdfption;
 
 
     /**
-     * C_DecryptVerifyUpdate continues a multiple-part decryption and
-     * verify operation.
-     * (Dual-function cryptographic operations)
+     * C_DfdryptVfrifyUpdbtf dontinufs b multiplf-pbrt dfdryption bnd
+     * vfrify opfrbtion.
+     * (Dubl-fundtion dryptogrbpiid opfrbtions)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pEncryptedPart the encrypted data part to decrypt and to verify
-     *         and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-     *                         CK_ULONG ulEncryptedPartLen)
-     * @return the decrypted and verified data part and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG_PTR pulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pEncryptedPart <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pEndryptfdPbrt tif fndryptfd dbtb pbrt to dfdrypt bnd to vfrify
+     *         bnd tif dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEndryptfdPbrt,
+     *                         CK_ULONG ulEndryptfdPbrtLfn)
+     * @rfturn tif dfdryptfd bnd vfrififd dbtb pbrt bnd tif dbtb pbrt's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG_PTR pulPbrtLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pEndryptfdPbrt <> null)
+     * @postdonditions
      */
-//    public native byte[] C_DecryptVerifyUpdate(long hSession,
-//            byte[] pEncryptedPart) throws PKCS11Exception;
+//    publid nbtivf bytf[] C_DfdryptVfrifyUpdbtf(long iSfssion,
+//            bytf[] pEndryptfdPbrt) tirows PKCS11Exdfption;
 
 
 
 /* *****************************************************************************
- * Key management
+ * Kfy mbnbgfmfnt
  ******************************************************************************/
 
     /**
-     * C_GenerateKey generates a secret key, creating a new key
-     * object.
-     * (Key management)
+     * C_GfnfrbtfKfy gfnfrbtfs b sfdrft kfy, drfbting b nfw kfy
+     * objfdt.
+     * (Kfy mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the key generation mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param pTemplate the template for the new key and the number of
-     *         attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @return the handle of the new key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif kfy gfnfrbtion mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @pbrbm pTfmplbtf tif tfmplbtf for tif nfw kfy bnd tif numbfr of
+     *         bttributfs in tif tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @rfturn tif ibndlf of tif nfw kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR piKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native long C_GenerateKey(long hSession, CK_MECHANISM pMechanism,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception;
+    publid nbtivf long C_GfnfrbtfKfy(long iSfssion, CK_MECHANISM pMfdibnism,
+            CK_ATTRIBUTE[] pTfmplbtf) tirows PKCS11Exdfption;
 
 
     /**
-     * C_GenerateKeyPair generates a public-key/private-key pair,
-     * creating new key objects.
-     * (Key management)
+     * C_GfnfrbtfKfyPbir gfnfrbtfs b publid-kfy/privbtf-kfy pbir,
+     * drfbting nfw kfy objfdts.
+     * (Kfy mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the key generation mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param pPublicKeyTemplate the template for the new public key and the
-     *         number of attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pPublicKeyTemplate,
-     *                         CK_ULONG ulPublicKeyAttributeCount)
-     * @param pPrivateKeyTemplate the template for the new private key and the
-     *         number of attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pPrivateKeyTemplate
-     *                         CK_ULONG ulPrivateKeyAttributeCount)
-     * @return a long array with exactly two elements and the public key handle
-     *         as the first element and the private key handle as the second
-     *         element
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phPublicKey,
-     *                         CK_OBJECT_HANDLE_PTR phPrivateKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pMechanism <> null)
-     * @postconditions (result <> null) and (result.length == 2)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif kfy gfnfrbtion mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @pbrbm pPublidKfyTfmplbtf tif tfmplbtf for tif nfw publid kfy bnd tif
+     *         numbfr of bttributfs in tif tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pPublidKfyTfmplbtf,
+     *                         CK_ULONG ulPublidKfyAttributfCount)
+     * @pbrbm pPrivbtfKfyTfmplbtf tif tfmplbtf for tif nfw privbtf kfy bnd tif
+     *         numbfr of bttributfs in tif tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pPrivbtfKfyTfmplbtf
+     *                         CK_ULONG ulPrivbtfKfyAttributfCount)
+     * @rfturn b long brrby witi fxbdtly two flfmfnts bnd tif publid kfy ibndlf
+     *         bs tif first flfmfnt bnd tif privbtf kfy ibndlf bs tif sfdond
+     *         flfmfnt
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR piPublidKfy,
+     *                         CK_OBJECT_HANDLE_PTR piPrivbtfKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pMfdibnism <> null)
+     * @postdonditions (rfsult <> null) bnd (rfsult.lfngti == 2)
      */
-    public native long[] C_GenerateKeyPair(long hSession,
-            CK_MECHANISM pMechanism, CK_ATTRIBUTE[] pPublicKeyTemplate,
-            CK_ATTRIBUTE[] pPrivateKeyTemplate) throws PKCS11Exception;
+    publid nbtivf long[] C_GfnfrbtfKfyPbir(long iSfssion,
+            CK_MECHANISM pMfdibnism, CK_ATTRIBUTE[] pPublidKfyTfmplbtf,
+            CK_ATTRIBUTE[] pPrivbtfKfyTfmplbtf) tirows PKCS11Exdfption;
 
 
 
     /**
-     * C_WrapKey wraps (i.e., encrypts) a key.
-     * (Key management)
+     * C_WrbpKfy wrbps (i.f., fndrypts) b kfy.
+     * (Kfy mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the wrapping mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hWrappingKey the handle of the wrapping key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hWrappingKey)
-     * @param hKey the handle of the key to be wrapped
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @return the wrapped key and the length of the wrapped key
-     *         (PKCS#11 param: CK_BYTE_PTR pWrappedKey,
-     *                         CK_ULONG_PTR pulWrappedKeyLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions (result <> null)
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif wrbpping mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @pbrbm iWrbppingKfy tif ibndlf of tif wrbpping kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iWrbppingKfy)
+     * @pbrbm iKfy tif ibndlf of tif kfy to bf wrbppfd
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iKfy)
+     * @rfturn tif wrbppfd kfy bnd tif lfngti of tif wrbppfd kfy
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pWrbppfdKfy,
+     *                         CK_ULONG_PTR pulWrbppfdKfyLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions (rfsult <> null)
      */
-    public native byte[] C_WrapKey(long hSession, CK_MECHANISM pMechanism,
-            long hWrappingKey, long hKey) throws PKCS11Exception;
+    publid nbtivf bytf[] C_WrbpKfy(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iWrbppingKfy, long iKfy) tirows PKCS11Exdfption;
 
 
     /**
-     * C_UnwrapKey unwraps (decrypts) a wrapped key, creating a new
-     * key object.
-     * (Key management)
+     * C_UnwrbpKfy unwrbps (dfdrypts) b wrbppfd kfy, drfbting b nfw
+     * kfy objfdt.
+     * (Kfy mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the unwrapping mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hUnwrappingKey the handle of the unwrapping key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hUnwrappingKey)
-     * @param pWrappedKey the wrapped key to unwrap and the wrapped key's length
-     *         (PKCS#11 param: CK_BYTE_PTR pWrappedKey, CK_ULONG ulWrappedKeyLen)
-     * @param pTemplate the template for the new key and the number of
-     *         attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @return the handle of the unwrapped key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pWrappedKey <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif unwrbpping mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @pbrbm iUnwrbppingKfy tif ibndlf of tif unwrbpping kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iUnwrbppingKfy)
+     * @pbrbm pWrbppfdKfy tif wrbppfd kfy to unwrbp bnd tif wrbppfd kfy's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pWrbppfdKfy, CK_ULONG ulWrbppfdKfyLfn)
+     * @pbrbm pTfmplbtf tif tfmplbtf for tif nfw kfy bnd tif numbfr of
+     *         bttributfs in tif tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @rfturn tif ibndlf of tif unwrbppfd kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR piKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pWrbppfdKfy <> null)
+     * @postdonditions
      */
-    public native long C_UnwrapKey(long hSession, CK_MECHANISM pMechanism,
-            long hUnwrappingKey, byte[] pWrappedKey, CK_ATTRIBUTE[] pTemplate)
-            throws PKCS11Exception;
+    publid nbtivf long C_UnwrbpKfy(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iUnwrbppingKfy, bytf[] pWrbppfdKfy, CK_ATTRIBUTE[] pTfmplbtf)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_DeriveKey derives a key from a base key, creating a new key
-     * object.
-     * (Key management)
+     * C_DfrivfKfy dfrivfs b kfy from b bbsf kfy, drfbting b nfw kfy
+     * objfdt.
+     * (Kfy mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the key derivation mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hBaseKey the handle of the base key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hBaseKey)
-     * @param pTemplate the template for the new key and the number of
-     *         attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @return the handle of the derived key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pMfdibnism tif kfy dfrivbtion mfdibnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMfdibnism)
+     * @pbrbm iBbsfKfy tif ibndlf of tif bbsf kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE iBbsfKfy)
+     * @pbrbm pTfmplbtf tif tfmplbtf for tif nfw kfy bnd tif numbfr of
+     *         bttributfs in tif tfmplbtf
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTfmplbtf, CK_ULONG ulCount)
+     * @rfturn tif ibndlf of tif dfrivfd kfy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR piKfy)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-    public native long C_DeriveKey(long hSession, CK_MECHANISM pMechanism,
-            long hBaseKey, CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception;
+    publid nbtivf long C_DfrivfKfy(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iBbsfKfy, CK_ATTRIBUTE[] pTfmplbtf) tirows PKCS11Exdfption;
 
 
 
 /* *****************************************************************************
- * Random number generation
+ * Rbndom numbfr gfnfrbtion
  ******************************************************************************/
 
     /**
-     * C_SeedRandom mixes additional seed material into the token's
-     * random number generator.
-     * (Random number generation)
+     * C_SffdRbndom mixfs bdditionbl sffd mbtfribl into tif tokfn's
+     * rbndom numbfr gfnfrbtor.
+     * (Rbndom numbfr gfnfrbtion)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pSeed the seed material and the seed material's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSeed, CK_ULONG ulSeedLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pSeed <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm pSffd tif sffd mbtfribl bnd tif sffd mbtfribl's lfngti
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSffd, CK_ULONG ulSffdLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pSffd <> null)
+     * @postdonditions
      */
-    public native void C_SeedRandom(long hSession, byte[] pSeed)
-            throws PKCS11Exception;
+    publid nbtivf void C_SffdRbndom(long iSfssion, bytf[] pSffd)
+            tirows PKCS11Exdfption;
 
 
     /**
-     * C_GenerateRandom generates random data.
-     * (Random number generation)
+     * C_GfnfrbtfRbndom gfnfrbtfs rbndom dbtb.
+     * (Rbndom numbfr gfnfrbtion)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param RandomData receives the random data and the length of RandomData
-     *         is the length of random data to be generated
-     *         (PKCS#11 param: CK_BYTE_PTR pRandomData, CK_ULONG ulRandomLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (randomData <> null)
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @pbrbm RbndomDbtb rfdfivfs tif rbndom dbtb bnd tif lfngti of RbndomDbtb
+     *         is tif lfngti of rbndom dbtb to bf gfnfrbtfd
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pRbndomDbtb, CK_ULONG ulRbndomLfn)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (rbndomDbtb <> null)
+     * @postdonditions
      */
-    public native void C_GenerateRandom(long hSession, byte[] randomData)
-            throws PKCS11Exception;
+    publid nbtivf void C_GfnfrbtfRbndom(long iSfssion, bytf[] rbndomDbtb)
+            tirows PKCS11Exdfption;
 
 
 
 /* *****************************************************************************
- * Parallel function management
+ * Pbrbllfl fundtion mbnbgfmfnt
  ******************************************************************************/
 
     /**
-     * C_GetFunctionStatus is a legacy function; it obtains an
-     * updated status of a function running in parallel with an
-     * application.
-     * (Parallel function management)
+     * C_GftFundtionStbtus is b lfgbdy fundtion; it obtbins bn
+     * updbtfd stbtus of b fundtion running in pbrbllfl witi bn
+     * bpplidbtion.
+     * (Pbrbllfl fundtion mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-//    public native void C_GetFunctionStatus(long hSession)
-//            throws PKCS11Exception;
+//    publid nbtivf void C_GftFundtionStbtus(long iSfssion)
+//            tirows PKCS11Exdfption;
 
 
     /**
-     * C_CancelFunction is a legacy function; it cancels a function
-     * running in parallel.
-     * (Parallel function management)
+     * C_CbndflFundtion is b lfgbdy fundtion; it dbndfls b fundtion
+     * running in pbrbllfl.
+     * (Pbrbllfl fundtion mbnbgfmfnt)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions
-     * @postconditions
+     * @pbrbm iSfssion tif sfssion's ibndlf
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE iSfssion)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions
+     * @postdonditions
      */
-//    public native void C_CancelFunction(long hSession) throws PKCS11Exception;
+//    publid nbtivf void C_CbndflFundtion(long iSfssion) tirows PKCS11Exdfption;
 
 
 
 /* *****************************************************************************
- * Functions added in for Cryptoki Version 2.01 or later
+ * Fundtions bddfd in for Cryptoki Vfrsion 2.01 or lbtfr
  ******************************************************************************/
 
     /**
-     * C_WaitForSlotEvent waits for a slot event (token insertion,
-     * removal, etc.) to occur.
-     * (General-purpose)
+     * C_WbitForSlotEvfnt wbits for b slot fvfnt (tokfn insfrtion,
+     * rfmovbl, ftd.) to oddur.
+     * (Gfnfrbl-purposf)
      *
-     * @param flags blocking/nonblocking flag
-     *         (PKCS#11 param: CK_FLAGS flags)
-     * @param pReserved reserved. Should be null
-     *         (PKCS#11 param: CK_VOID_PTR pReserved)
-     * @return the slot ID where the event occurred
-     *         (PKCS#11 param: CK_SLOT_ID_PTR pSlot)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pRserved == null)
-     * @postconditions
+     * @pbrbm flbgs blodking/nonblodking flbg
+     *         (PKCS#11 pbrbm: CK_FLAGS flbgs)
+     * @pbrbm pRfsfrvfd rfsfrvfd. Siould bf null
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pRfsfrvfd)
+     * @rfturn tif slot ID wifrf tif fvfnt oddurrfd
+     *         (PKCS#11 pbrbm: CK_SLOT_ID_PTR pSlot)
+     * @fxdfption PKCS11Exdfption If fundtion rfturns otifr vbluf tibn CKR_OK.
+     * @prfdonditions (pRsfrvfd == null)
+     * @postdonditions
      */
-//    public native long C_WaitForSlotEvent(long flags, Object pRserved)
-//            throws PKCS11Exception;
+//    publid nbtivf long C_WbitForSlotEvfnt(long flbgs, Objfdt pRsfrvfd)
+//            tirows PKCS11Exdfption;
 
     /**
-     * Returns the string representation of this object.
+     * Rfturns tif string rfprfsfntbtion of tiis objfdt.
      *
-     * @return The string representation of object
+     * @rfturn Tif string rfprfsfntbtion of objfdt
      */
-    public String toString() {
-        return "Module name: " + pkcs11ModulePath;
+    publid String toString() {
+        rfturn "Modulf nbmf: " + pkds11ModulfPbti;
     }
 
     /**
-     * Calls disconnect() to cleanup the native part of the wrapper. Once this
-     * method is called, this object cannot be used any longer. Any subsequent
-     * call to a C_* method will result in a runtime exception.
+     * Cblls disdonnfdt() to dlfbnup tif nbtivf pbrt of tif wrbppfr. Ondf tiis
+     * mftiod is dbllfd, tiis objfdt dbnnot bf usfd bny longfr. Any subsfqufnt
+     * dbll to b C_* mftiod will rfsult in b runtimf fxdfption.
      *
-     * @exception Throwable If finalization fails.
+     * @fxdfption Tirowbblf If finblizbtion fbils.
      */
-    protected void finalize() throws Throwable {
-        disconnect();
+    protfdtfd void finblizf() tirows Tirowbblf {
+        disdonnfdt();
     }
 
-// PKCS11 subclass that has all methods synchronized and delegating to the
-// parent. Used for tokens that only support single threaded access
-static class SynchronizedPKCS11 extends PKCS11 {
+// PKCS11 subdlbss tibt ibs bll mftiods syndironizfd bnd dflfgbting to tif
+// pbrfnt. Usfd for tokfns tibt only support singlf tirfbdfd bddfss
+stbtid dlbss SyndironizfdPKCS11 fxtfnds PKCS11 {
 
-    SynchronizedPKCS11(String pkcs11ModulePath, String functionListName)
-            throws IOException {
-        super(pkcs11ModulePath, functionListName);
+    SyndironizfdPKCS11(String pkds11ModulfPbti, String fundtionListNbmf)
+            tirows IOExdfption {
+        supfr(pkds11ModulfPbti, fundtionListNbmf);
     }
 
-    synchronized void C_Initialize(Object pInitArgs) throws PKCS11Exception {
-        super.C_Initialize(pInitArgs);
+    syndironizfd void C_Initiblizf(Objfdt pInitArgs) tirows PKCS11Exdfption {
+        supfr.C_Initiblizf(pInitArgs);
     }
 
-    public synchronized void C_Finalize(Object pReserved)
-            throws PKCS11Exception {
-        super.C_Finalize(pReserved);
+    publid syndironizfd void C_Finblizf(Objfdt pRfsfrvfd)
+            tirows PKCS11Exdfption {
+        supfr.C_Finblizf(pRfsfrvfd);
     }
 
-    public synchronized CK_INFO C_GetInfo() throws PKCS11Exception {
-        return super.C_GetInfo();
+    publid syndironizfd CK_INFO C_GftInfo() tirows PKCS11Exdfption {
+        rfturn supfr.C_GftInfo();
     }
 
-    public synchronized long[] C_GetSlotList(boolean tokenPresent)
-            throws PKCS11Exception {
-        return super.C_GetSlotList(tokenPresent);
+    publid syndironizfd long[] C_GftSlotList(boolfbn tokfnPrfsfnt)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_GftSlotList(tokfnPrfsfnt);
     }
 
-    public synchronized CK_SLOT_INFO C_GetSlotInfo(long slotID)
-            throws PKCS11Exception {
-        return super.C_GetSlotInfo(slotID);
+    publid syndironizfd CK_SLOT_INFO C_GftSlotInfo(long slotID)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_GftSlotInfo(slotID);
     }
 
-    public synchronized CK_TOKEN_INFO C_GetTokenInfo(long slotID)
-            throws PKCS11Exception {
-        return super.C_GetTokenInfo(slotID);
+    publid syndironizfd CK_TOKEN_INFO C_GftTokfnInfo(long slotID)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_GftTokfnInfo(slotID);
     }
 
-    public synchronized long[] C_GetMechanismList(long slotID)
-            throws PKCS11Exception {
-        return super.C_GetMechanismList(slotID);
+    publid syndironizfd long[] C_GftMfdibnismList(long slotID)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_GftMfdibnismList(slotID);
     }
 
-    public synchronized CK_MECHANISM_INFO C_GetMechanismInfo(long slotID,
-            long type) throws PKCS11Exception {
-        return super.C_GetMechanismInfo(slotID, type);
+    publid syndironizfd CK_MECHANISM_INFO C_GftMfdibnismInfo(long slotID,
+            long typf) tirows PKCS11Exdfption {
+        rfturn supfr.C_GftMfdibnismInfo(slotID, typf);
     }
 
-    public synchronized long C_OpenSession(long slotID, long flags,
-            Object pApplication, CK_NOTIFY Notify) throws PKCS11Exception {
-        return super.C_OpenSession(slotID, flags, pApplication, Notify);
+    publid syndironizfd long C_OpfnSfssion(long slotID, long flbgs,
+            Objfdt pApplidbtion, CK_NOTIFY Notify) tirows PKCS11Exdfption {
+        rfturn supfr.C_OpfnSfssion(slotID, flbgs, pApplidbtion, Notify);
     }
 
-    public synchronized void C_CloseSession(long hSession)
-            throws PKCS11Exception {
-        super.C_CloseSession(hSession);
+    publid syndironizfd void C_ClosfSfssion(long iSfssion)
+            tirows PKCS11Exdfption {
+        supfr.C_ClosfSfssion(iSfssion);
     }
 
-    public synchronized CK_SESSION_INFO C_GetSessionInfo(long hSession)
-            throws PKCS11Exception {
-        return super.C_GetSessionInfo(hSession);
+    publid syndironizfd CK_SESSION_INFO C_GftSfssionInfo(long iSfssion)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_GftSfssionInfo(iSfssion);
     }
 
-    public synchronized void C_Login(long hSession, long userType, char[] pPin)
-            throws PKCS11Exception {
-        super.C_Login(hSession, userType, pPin);
+    publid syndironizfd void C_Login(long iSfssion, long usfrTypf, dibr[] pPin)
+            tirows PKCS11Exdfption {
+        supfr.C_Login(iSfssion, usfrTypf, pPin);
     }
 
-    public synchronized void C_Logout(long hSession) throws PKCS11Exception {
-        super.C_Logout(hSession);
+    publid syndironizfd void C_Logout(long iSfssion) tirows PKCS11Exdfption {
+        supfr.C_Logout(iSfssion);
     }
 
-    public synchronized long C_CreateObject(long hSession,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        return super.C_CreateObject(hSession, pTemplate);
+    publid syndironizfd long C_CrfbtfObjfdt(long iSfssion,
+            CK_ATTRIBUTE[] pTfmplbtf) tirows PKCS11Exdfption {
+        rfturn supfr.C_CrfbtfObjfdt(iSfssion, pTfmplbtf);
     }
 
-    public synchronized long C_CopyObject(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        return super.C_CopyObject(hSession, hObject, pTemplate);
+    publid syndironizfd long C_CopyObjfdt(long iSfssion, long iObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) tirows PKCS11Exdfption {
+        rfturn supfr.C_CopyObjfdt(iSfssion, iObjfdt, pTfmplbtf);
     }
 
-    public synchronized void C_DestroyObject(long hSession, long hObject)
-            throws PKCS11Exception {
-        super.C_DestroyObject(hSession, hObject);
+    publid syndironizfd void C_DfstroyObjfdt(long iSfssion, long iObjfdt)
+            tirows PKCS11Exdfption {
+        supfr.C_DfstroyObjfdt(iSfssion, iObjfdt);
     }
 
-    public synchronized void C_GetAttributeValue(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        super.C_GetAttributeValue(hSession, hObject, pTemplate);
+    publid syndironizfd void C_GftAttributfVbluf(long iSfssion, long iObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) tirows PKCS11Exdfption {
+        supfr.C_GftAttributfVbluf(iSfssion, iObjfdt, pTfmplbtf);
     }
 
-    public synchronized void C_SetAttributeValue(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        super.C_SetAttributeValue(hSession, hObject, pTemplate);
+    publid syndironizfd void C_SftAttributfVbluf(long iSfssion, long iObjfdt,
+            CK_ATTRIBUTE[] pTfmplbtf) tirows PKCS11Exdfption {
+        supfr.C_SftAttributfVbluf(iSfssion, iObjfdt, pTfmplbtf);
     }
 
-    public synchronized void C_FindObjectsInit(long hSession,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        super.C_FindObjectsInit(hSession, pTemplate);
+    publid syndironizfd void C_FindObjfdtsInit(long iSfssion,
+            CK_ATTRIBUTE[] pTfmplbtf) tirows PKCS11Exdfption {
+        supfr.C_FindObjfdtsInit(iSfssion, pTfmplbtf);
     }
 
-    public synchronized long[] C_FindObjects(long hSession,
-            long ulMaxObjectCount) throws PKCS11Exception {
-        return super.C_FindObjects(hSession, ulMaxObjectCount);
+    publid syndironizfd long[] C_FindObjfdts(long iSfssion,
+            long ulMbxObjfdtCount) tirows PKCS11Exdfption {
+        rfturn supfr.C_FindObjfdts(iSfssion, ulMbxObjfdtCount);
     }
 
-    public synchronized void C_FindObjectsFinal(long hSession)
-            throws PKCS11Exception {
-        super.C_FindObjectsFinal(hSession);
+    publid syndironizfd void C_FindObjfdtsFinbl(long iSfssion)
+            tirows PKCS11Exdfption {
+        supfr.C_FindObjfdtsFinbl(iSfssion);
     }
 
-    public synchronized void C_EncryptInit(long hSession,
-            CK_MECHANISM pMechanism, long hKey) throws PKCS11Exception {
-        super.C_EncryptInit(hSession, pMechanism, hKey);
+    publid syndironizfd void C_EndryptInit(long iSfssion,
+            CK_MECHANISM pMfdibnism, long iKfy) tirows PKCS11Exdfption {
+        supfr.C_EndryptInit(iSfssion, pMfdibnism, iKfy);
     }
 
-    public synchronized int C_Encrypt(long hSession, byte[] in, int inOfs,
-            int inLen, byte[] out, int outOfs, int outLen)
-            throws PKCS11Exception {
-        return super.C_Encrypt(hSession, in, inOfs, inLen, out, outOfs, outLen);
+    publid syndironizfd int C_Endrypt(long iSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOfs, int outLfn)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_Endrypt(iSfssion, in, inOfs, inLfn, out, outOfs, outLfn);
     }
 
-    public synchronized int C_EncryptUpdate(long hSession, long directIn,
-            byte[] in, int inOfs, int inLen, long directOut, byte[] out,
-            int outOfs, int outLen) throws PKCS11Exception {
-        return super.C_EncryptUpdate(hSession, directIn, in, inOfs, inLen,
-                directOut, out, outOfs, outLen);
+    publid syndironizfd int C_EndryptUpdbtf(long iSfssion, long dirfdtIn,
+            bytf[] in, int inOfs, int inLfn, long dirfdtOut, bytf[] out,
+            int outOfs, int outLfn) tirows PKCS11Exdfption {
+        rfturn supfr.C_EndryptUpdbtf(iSfssion, dirfdtIn, in, inOfs, inLfn,
+                dirfdtOut, out, outOfs, outLfn);
     }
 
-    public synchronized int C_EncryptFinal(long hSession, long directOut,
-            byte[] out, int outOfs, int outLen) throws PKCS11Exception {
-        return super.C_EncryptFinal(hSession, directOut, out, outOfs, outLen);
+    publid syndironizfd int C_EndryptFinbl(long iSfssion, long dirfdtOut,
+            bytf[] out, int outOfs, int outLfn) tirows PKCS11Exdfption {
+        rfturn supfr.C_EndryptFinbl(iSfssion, dirfdtOut, out, outOfs, outLfn);
     }
 
-    public synchronized void C_DecryptInit(long hSession,
-            CK_MECHANISM pMechanism, long hKey) throws PKCS11Exception {
-        super.C_DecryptInit(hSession, pMechanism, hKey);
+    publid syndironizfd void C_DfdryptInit(long iSfssion,
+            CK_MECHANISM pMfdibnism, long iKfy) tirows PKCS11Exdfption {
+        supfr.C_DfdryptInit(iSfssion, pMfdibnism, iKfy);
     }
 
-    public synchronized int C_Decrypt(long hSession, byte[] in, int inOfs,
-            int inLen, byte[] out, int outOfs, int outLen)
-            throws PKCS11Exception {
-        return super.C_Decrypt(hSession, in, inOfs, inLen, out, outOfs, outLen);
+    publid syndironizfd int C_Dfdrypt(long iSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOfs, int outLfn)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_Dfdrypt(iSfssion, in, inOfs, inLfn, out, outOfs, outLfn);
     }
 
-    public synchronized int C_DecryptUpdate(long hSession, long directIn,
-            byte[] in, int inOfs, int inLen, long directOut, byte[] out,
-            int outOfs, int outLen) throws PKCS11Exception {
-        return super.C_DecryptUpdate(hSession, directIn, in, inOfs, inLen,
-                directOut, out, outOfs, outLen);
+    publid syndironizfd int C_DfdryptUpdbtf(long iSfssion, long dirfdtIn,
+            bytf[] in, int inOfs, int inLfn, long dirfdtOut, bytf[] out,
+            int outOfs, int outLfn) tirows PKCS11Exdfption {
+        rfturn supfr.C_DfdryptUpdbtf(iSfssion, dirfdtIn, in, inOfs, inLfn,
+                dirfdtOut, out, outOfs, outLfn);
     }
 
-    public synchronized int C_DecryptFinal(long hSession, long directOut,
-            byte[] out, int outOfs, int outLen) throws PKCS11Exception {
-        return super.C_DecryptFinal(hSession, directOut, out, outOfs, outLen);
+    publid syndironizfd int C_DfdryptFinbl(long iSfssion, long dirfdtOut,
+            bytf[] out, int outOfs, int outLfn) tirows PKCS11Exdfption {
+        rfturn supfr.C_DfdryptFinbl(iSfssion, dirfdtOut, out, outOfs, outLfn);
     }
 
-    public synchronized void C_DigestInit(long hSession, CK_MECHANISM pMechanism)
-            throws PKCS11Exception {
-        super.C_DigestInit(hSession, pMechanism);
+    publid syndironizfd void C_DigfstInit(long iSfssion, CK_MECHANISM pMfdibnism)
+            tirows PKCS11Exdfption {
+        supfr.C_DigfstInit(iSfssion, pMfdibnism);
     }
 
-    public synchronized int C_DigestSingle(long hSession,
-            CK_MECHANISM pMechanism, byte[] in, int inOfs, int inLen,
-            byte[] digest, int digestOfs, int digestLen) throws PKCS11Exception {
-        return super.C_DigestSingle(hSession, pMechanism, in, inOfs, inLen,
-                digest, digestOfs, digestLen);
+    publid syndironizfd int C_DigfstSinglf(long iSfssion,
+            CK_MECHANISM pMfdibnism, bytf[] in, int inOfs, int inLfn,
+            bytf[] digfst, int digfstOfs, int digfstLfn) tirows PKCS11Exdfption {
+        rfturn supfr.C_DigfstSinglf(iSfssion, pMfdibnism, in, inOfs, inLfn,
+                digfst, digfstOfs, digfstLfn);
     }
 
-    public synchronized void C_DigestUpdate(long hSession, long directIn,
-            byte[] in, int inOfs, int inLen) throws PKCS11Exception {
-        super.C_DigestUpdate(hSession, directIn, in, inOfs, inLen);
+    publid syndironizfd void C_DigfstUpdbtf(long iSfssion, long dirfdtIn,
+            bytf[] in, int inOfs, int inLfn) tirows PKCS11Exdfption {
+        supfr.C_DigfstUpdbtf(iSfssion, dirfdtIn, in, inOfs, inLfn);
     }
 
-    public synchronized void C_DigestKey(long hSession, long hKey)
-            throws PKCS11Exception {
-        super.C_DigestKey(hSession, hKey);
+    publid syndironizfd void C_DigfstKfy(long iSfssion, long iKfy)
+            tirows PKCS11Exdfption {
+        supfr.C_DigfstKfy(iSfssion, iKfy);
     }
 
-    public synchronized int C_DigestFinal(long hSession, byte[] pDigest,
-            int digestOfs, int digestLen) throws PKCS11Exception {
-        return super.C_DigestFinal(hSession, pDigest, digestOfs, digestLen);
+    publid syndironizfd int C_DigfstFinbl(long iSfssion, bytf[] pDigfst,
+            int digfstOfs, int digfstLfn) tirows PKCS11Exdfption {
+        rfturn supfr.C_DigfstFinbl(iSfssion, pDigfst, digfstOfs, digfstLfn);
     }
 
-    public synchronized void C_SignInit(long hSession, CK_MECHANISM pMechanism,
-            long hKey) throws PKCS11Exception {
-        super.C_SignInit(hSession, pMechanism, hKey);
+    publid syndironizfd void C_SignInit(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iKfy) tirows PKCS11Exdfption {
+        supfr.C_SignInit(iSfssion, pMfdibnism, iKfy);
     }
 
-    public synchronized byte[] C_Sign(long hSession, byte[] pData)
-            throws PKCS11Exception {
-        return super.C_Sign(hSession, pData);
+    publid syndironizfd bytf[] C_Sign(long iSfssion, bytf[] pDbtb)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_Sign(iSfssion, pDbtb);
     }
 
-    public synchronized void C_SignUpdate(long hSession, long directIn,
-            byte[] in, int inOfs, int inLen) throws PKCS11Exception {
-        super.C_SignUpdate(hSession, directIn, in, inOfs, inLen);
+    publid syndironizfd void C_SignUpdbtf(long iSfssion, long dirfdtIn,
+            bytf[] in, int inOfs, int inLfn) tirows PKCS11Exdfption {
+        supfr.C_SignUpdbtf(iSfssion, dirfdtIn, in, inOfs, inLfn);
     }
 
-    public synchronized byte[] C_SignFinal(long hSession, int expectedLen)
-            throws PKCS11Exception {
-        return super.C_SignFinal(hSession, expectedLen);
+    publid syndironizfd bytf[] C_SignFinbl(long iSfssion, int fxpfdtfdLfn)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_SignFinbl(iSfssion, fxpfdtfdLfn);
     }
 
-    public synchronized void C_SignRecoverInit(long hSession,
-            CK_MECHANISM pMechanism, long hKey) throws PKCS11Exception {
-        super.C_SignRecoverInit(hSession, pMechanism, hKey);
+    publid syndironizfd void C_SignRfdovfrInit(long iSfssion,
+            CK_MECHANISM pMfdibnism, long iKfy) tirows PKCS11Exdfption {
+        supfr.C_SignRfdovfrInit(iSfssion, pMfdibnism, iKfy);
     }
 
-    public synchronized int C_SignRecover(long hSession, byte[] in, int inOfs,
-            int inLen, byte[] out, int outOufs, int outLen)
-            throws PKCS11Exception {
-        return super.C_SignRecover(hSession, in, inOfs, inLen, out, outOufs,
-                outLen);
+    publid syndironizfd int C_SignRfdovfr(long iSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOufs, int outLfn)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_SignRfdovfr(iSfssion, in, inOfs, inLfn, out, outOufs,
+                outLfn);
     }
 
-    public synchronized void C_VerifyInit(long hSession, CK_MECHANISM pMechanism,
-            long hKey) throws PKCS11Exception {
-        super.C_VerifyInit(hSession, pMechanism, hKey);
+    publid syndironizfd void C_VfrifyInit(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iKfy) tirows PKCS11Exdfption {
+        supfr.C_VfrifyInit(iSfssion, pMfdibnism, iKfy);
     }
 
-    public synchronized void C_Verify(long hSession, byte[] pData,
-            byte[] pSignature) throws PKCS11Exception {
-        super.C_Verify(hSession, pData, pSignature);
+    publid syndironizfd void C_Vfrify(long iSfssion, bytf[] pDbtb,
+            bytf[] pSignbturf) tirows PKCS11Exdfption {
+        supfr.C_Vfrify(iSfssion, pDbtb, pSignbturf);
     }
 
-    public synchronized void C_VerifyUpdate(long hSession, long directIn,
-            byte[] in, int inOfs, int inLen) throws PKCS11Exception {
-        super.C_VerifyUpdate(hSession, directIn, in, inOfs, inLen);
+    publid syndironizfd void C_VfrifyUpdbtf(long iSfssion, long dirfdtIn,
+            bytf[] in, int inOfs, int inLfn) tirows PKCS11Exdfption {
+        supfr.C_VfrifyUpdbtf(iSfssion, dirfdtIn, in, inOfs, inLfn);
     }
 
-    public synchronized void C_VerifyFinal(long hSession, byte[] pSignature)
-            throws PKCS11Exception {
-        super.C_VerifyFinal(hSession, pSignature);
+    publid syndironizfd void C_VfrifyFinbl(long iSfssion, bytf[] pSignbturf)
+            tirows PKCS11Exdfption {
+        supfr.C_VfrifyFinbl(iSfssion, pSignbturf);
     }
 
-    public synchronized void C_VerifyRecoverInit(long hSession,
-            CK_MECHANISM pMechanism, long hKey) throws PKCS11Exception {
-        super.C_VerifyRecoverInit(hSession, pMechanism, hKey);
+    publid syndironizfd void C_VfrifyRfdovfrInit(long iSfssion,
+            CK_MECHANISM pMfdibnism, long iKfy) tirows PKCS11Exdfption {
+        supfr.C_VfrifyRfdovfrInit(iSfssion, pMfdibnism, iKfy);
     }
 
-    public synchronized int C_VerifyRecover(long hSession, byte[] in, int inOfs,
-            int inLen, byte[] out, int outOufs, int outLen)
-            throws PKCS11Exception {
-        return super.C_VerifyRecover(hSession, in, inOfs, inLen, out, outOufs,
-                outLen);
+    publid syndironizfd int C_VfrifyRfdovfr(long iSfssion, bytf[] in, int inOfs,
+            int inLfn, bytf[] out, int outOufs, int outLfn)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_VfrifyRfdovfr(iSfssion, in, inOfs, inLfn, out, outOufs,
+                outLfn);
     }
 
-    public synchronized long C_GenerateKey(long hSession,
-            CK_MECHANISM pMechanism, CK_ATTRIBUTE[] pTemplate)
-            throws PKCS11Exception {
-        return super.C_GenerateKey(hSession, pMechanism, pTemplate);
+    publid syndironizfd long C_GfnfrbtfKfy(long iSfssion,
+            CK_MECHANISM pMfdibnism, CK_ATTRIBUTE[] pTfmplbtf)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_GfnfrbtfKfy(iSfssion, pMfdibnism, pTfmplbtf);
     }
 
-    public synchronized long[] C_GenerateKeyPair(long hSession,
-            CK_MECHANISM pMechanism, CK_ATTRIBUTE[] pPublicKeyTemplate,
-            CK_ATTRIBUTE[] pPrivateKeyTemplate)
-            throws PKCS11Exception {
-        return super.C_GenerateKeyPair(hSession, pMechanism, pPublicKeyTemplate,
-                pPrivateKeyTemplate);
+    publid syndironizfd long[] C_GfnfrbtfKfyPbir(long iSfssion,
+            CK_MECHANISM pMfdibnism, CK_ATTRIBUTE[] pPublidKfyTfmplbtf,
+            CK_ATTRIBUTE[] pPrivbtfKfyTfmplbtf)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_GfnfrbtfKfyPbir(iSfssion, pMfdibnism, pPublidKfyTfmplbtf,
+                pPrivbtfKfyTfmplbtf);
     }
 
-    public synchronized byte[] C_WrapKey(long hSession, CK_MECHANISM pMechanism,
-            long hWrappingKey, long hKey) throws PKCS11Exception {
-        return super.C_WrapKey(hSession, pMechanism, hWrappingKey, hKey);
+    publid syndironizfd bytf[] C_WrbpKfy(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iWrbppingKfy, long iKfy) tirows PKCS11Exdfption {
+        rfturn supfr.C_WrbpKfy(iSfssion, pMfdibnism, iWrbppingKfy, iKfy);
     }
 
-    public synchronized long C_UnwrapKey(long hSession, CK_MECHANISM pMechanism,
-            long hUnwrappingKey, byte[] pWrappedKey, CK_ATTRIBUTE[] pTemplate)
-            throws PKCS11Exception {
-        return super.C_UnwrapKey(hSession, pMechanism, hUnwrappingKey,
-                pWrappedKey, pTemplate);
+    publid syndironizfd long C_UnwrbpKfy(long iSfssion, CK_MECHANISM pMfdibnism,
+            long iUnwrbppingKfy, bytf[] pWrbppfdKfy, CK_ATTRIBUTE[] pTfmplbtf)
+            tirows PKCS11Exdfption {
+        rfturn supfr.C_UnwrbpKfy(iSfssion, pMfdibnism, iUnwrbppingKfy,
+                pWrbppfdKfy, pTfmplbtf);
     }
 
-    public synchronized long C_DeriveKey(long hSession, CK_MECHANISM pMechanism,
-    long hBaseKey, CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        return super.C_DeriveKey(hSession, pMechanism, hBaseKey, pTemplate);
+    publid syndironizfd long C_DfrivfKfy(long iSfssion, CK_MECHANISM pMfdibnism,
+    long iBbsfKfy, CK_ATTRIBUTE[] pTfmplbtf) tirows PKCS11Exdfption {
+        rfturn supfr.C_DfrivfKfy(iSfssion, pMfdibnism, iBbsfKfy, pTfmplbtf);
     }
 
-    public synchronized void C_SeedRandom(long hSession, byte[] pSeed)
-            throws PKCS11Exception {
-        super.C_SeedRandom(hSession, pSeed);
+    publid syndironizfd void C_SffdRbndom(long iSfssion, bytf[] pSffd)
+            tirows PKCS11Exdfption {
+        supfr.C_SffdRbndom(iSfssion, pSffd);
     }
 
-    public synchronized void C_GenerateRandom(long hSession, byte[] randomData)
-            throws PKCS11Exception {
-        super.C_GenerateRandom(hSession, randomData);
+    publid syndironizfd void C_GfnfrbtfRbndom(long iSfssion, bytf[] rbndomDbtb)
+            tirows PKCS11Exdfption {
+        supfr.C_GfnfrbtfRbndom(iSfssion, rbndomDbtb);
     }
 }
 }

@@ -1,0 +1,393 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: TrbnsformSfrvidf.jbvb,v 1.6.4.1 2005/09/15 12:42:11 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig;
+
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.NoSudhProvidfrExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Providfr.Sfrvidf;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.util.*;
+import jbvbx.xml.drypto.MbrshblExdfption;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
+
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+
+/**
+ * A Sfrvidf Providfr Intfrfbdf for trbnsform bnd dbnonidblizbtion blgorithms.
+ *
+ * <p>Ebdh instbndf of <dodf>TrbnsformSfrvidf</dodf> supports b spfdifid
+ * trbnsform or dbnonidblizbtion blgorithm bnd XML mfdhbnism typf. To drfbtf b
+ * <dodf>TrbnsformSfrvidf</dodf>, dbll onf of thf stbtid
+ * {@link #gftInstbndf gftInstbndf} mfthods, pbssing in thf blgorithm URI bnd
+ * XML mfdhbnism typf dfsirfd, for fxbmplf:
+ *
+ * <blodkquotf><dodf>
+ * TrbnsformSfrvidf ts = TrbnsformSfrvidf.gftInstbndf(Trbnsform.XPATH2, "DOM");
+ * </dodf></blodkquotf>
+ *
+ * <p><dodf>TrbnsformSfrvidf</dodf> implfmfntbtions brf rfgistfrfd bnd lobdfd
+ * using thf {@link jbvb.sfdurity.Providfr} mfdhbnism.  Ebdh
+ * <dodf>TrbnsformSfrvidf</dodf> sfrvidf providfr implfmfntbtion should indludf
+ * b <dodf>MfdhbnismTypf</dodf> sfrvidf bttributf thbt idfntififs thf XML
+ * mfdhbnism typf thbt it supports. If thf bttributf is not spfdififd,
+ * "DOM" is bssumfd. For fxbmplf, b sfrvidf providfr thbt supports thf
+ * XPbth Filtfr 2 Trbnsform bnd DOM mfdhbnism would bf spfdififd in thf
+ * <dodf>Providfr</dodf> subdlbss bs:
+ * <prf>
+ *     put("TrbnsformSfrvidf." + Trbnsform.XPATH2,
+ *         "org.fxbmplf.XPbth2TrbnsformSfrvidf");
+ *     put("TrbnsformSfrvidf." + Trbnsform.XPATH2 + " MfdhbnismTypf", "DOM");
+ * </prf>
+ * <dodf>TrbnsformSfrvidf</dodf> implfmfntbtions thbt support thf DOM
+ * mfdhbnism typf must bbidf by thf DOM intfropfrbbility rfquirfmfnts dffinfd
+ * in thf
+ * <b hrff="../../../../../tfdhnotfs/guidfs/sfdurity/xmldsig/ovfrvifw.html#DOM%20Mfdhbnism%20Rfquirfmfnts">
+ * DOM Mfdhbnism Rfquirfmfnts</b> sfdtion of thf API ovfrvifw. Sff thf
+ * <b hrff="../../../../../tfdhnotfs/guidfs/sfdurity/xmldsig/ovfrvifw.html#Sfrvidf%20Providfr">
+ * Sfrvidf Providfrs</b> sfdtion of thf API ovfrvifw for b list of stbndbrd
+ * mfdhbnism typfs.
+ * <p>
+ * Ondf b <dodf>TrbnsformSfrvidf</dodf> hbs bffn drfbtfd, it dbn bf usfd
+ * to prodfss <dodf>Trbnsform</dodf> or <dodf>CbnonidblizbtionMfthod</dodf>
+ * objfdts. If thf <dodf>Trbnsform</dodf> or <dodf>CbnonidblizbtionMfthod</dodf>
+ * fxists in XML form (for fxbmplf, whfn vblidbting bn fxisting
+ * <dodf>XMLSignbturf</dodf>), thf {@link #init(XMLStrudturf, XMLCryptoContfxt)}
+ * mfthod must bf first dbllfd to initiblizf thf trbnsform bnd providf dodumfnt
+ * dontfxt (fvfn if thfrf brf no pbrbmftfrs). Altfrnbtivfly, if thf
+ * <dodf>Trbnsform</dodf> or <dodf>CbnonidblizbtionMfthod</dodf> is bfing
+ * drfbtfd from sdrbtdh, thf {@link #init(TrbnsformPbrbmftfrSpfd)} mfthod
+ * is dbllfd to initiblizf thf trbnsform with pbrbmftfrs bnd thf
+ * {@link #mbrshblPbrbms mbrshblPbrbms} mfthod is dbllfd to mbrshbl thf
+ * pbrbmftfrs to XML bnd providf thf trbnsform with dodumfnt dontfxt. Finblly,
+ * thf {@link #trbnsform trbnsform} mfthod is dbllfd to pfrform thf
+ * trbnsformbtion.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>Thf stbtid mfthods of this dlbss brf gubrbntffd to bf thrfbd-sbff.
+ * Multiplf thrfbds mby dondurrfntly invokf thf stbtid mfthods dffinfd in this
+ * dlbss with no ill ffffdts.
+ *
+ * <p>Howfvfr, this is not truf for thf non-stbtid mfthods dffinfd by this
+ * dlbss. Unlfss othfrwisf dodumfntfd by b spfdifid providfr, thrfbds thbt
+ * nffd to bddfss b singlf <dodf>TrbnsformSfrvidf</dodf> instbndf
+ * dondurrfntly should syndhronizf bmongst thfmsflvfs bnd providf thf
+ * nfdfssbry lodking. Multiplf thrfbds fbdh mbnipulbting b difffrfnt
+ * <dodf>TrbnsformSfrvidf</dodf> instbndf nffd not syndhronizf.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ */
+publid bbstrbdt dlbss TrbnsformSfrvidf implfmfnts Trbnsform {
+
+    privbtf String blgorithm;
+    privbtf String mfdhbnism;
+    privbtf Providfr providfr;
+
+    /**
+     * Dffbult donstrudtor, for invodbtion by subdlbssfs.
+     */
+    protfdtfd TrbnsformSfrvidf() {}
+
+    /**
+     * Rfturns b <dodf>TrbnsformSfrvidf</dodf> thbt supports thf spfdififd
+     * blgorithm URI (fx: {@link Trbnsform#XPATH2}) bnd mfdhbnism typf
+     * (fx: DOM).
+     *
+     * <p>This mfthod usfs thf stbndbrd JCA providfr lookup mfdhbnism to
+     * lodbtf bnd instbntibtf b <dodf>TrbnsformSfrvidf</dodf> implfmfntbtion
+     * of thf dfsirfd blgorithm bnd <dodf>MfdhbnismTypf</dodf> sfrvidf
+     * bttributf. It trbvfrsfs thf list of rfgistfrfd sfdurity
+     * <dodf>Providfr</dodf>s, stbrting with thf most prfffrrfd
+     * <dodf>Providfr</dodf>. A nfw <dodf>TrbnsformSfrvidf</dodf> objfdt
+     * from thf first <dodf>Providfr</dodf> thbt supports thf spfdififd
+     * blgorithm bnd mfdhbnism typf is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm blgorithm thf URI of thf blgorithm
+     * @pbrbm mfdhbnismTypf thf typf of thf XML prodfssing mfdhbnism bnd
+     *   rfprfsfntbtion
+     * @rfturn b nfw <dodf>TrbnsformSfrvidf</dodf>
+     * @throws NullPointfrExdfption if <dodf>blgorithm</dodf> or
+     *   <dodf>mfdhbnismTypf</dodf> is  <dodf>null</dodf>
+     * @throws NoSudhAlgorithmExdfption if no <dodf>Providfr</dodf> supports b
+     *   <dodf>TrbnsformSfrvidf</dodf> implfmfntbtion for thf spfdififd
+     *   blgorithm bnd mfdhbnism typf
+     * @sff Providfr
+     */
+    publid stbtid TrbnsformSfrvidf gftInstbndf
+        (String blgorithm, String mfdhbnismTypf)
+        throws NoSudhAlgorithmExdfption {
+        if (mfdhbnismTypf == null || blgorithm == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        boolfbn dom = fblsf;
+        if (mfdhbnismTypf.fqubls("DOM")) {
+            dom = truf;
+        }
+        List<Sfrvidf> sfrvidfs = GftInstbndf.gftSfrvidfs("TrbnsformSfrvidf", blgorithm);
+        for (Itfrbtor<Sfrvidf> t = sfrvidfs.itfrbtor(); t.hbsNfxt(); ) {
+            Sfrvidf s = t.nfxt();
+            String vbluf = s.gftAttributf("MfdhbnismTypf");
+            if ((vbluf == null && dom) ||
+                (vbluf != null && vbluf.fqubls(mfdhbnismTypf))) {
+                Instbndf instbndf = GftInstbndf.gftInstbndf(s, null);
+                TrbnsformSfrvidf ts = (TrbnsformSfrvidf) instbndf.impl;
+                ts.blgorithm = blgorithm;
+                ts.mfdhbnism = mfdhbnismTypf;
+                ts.providfr = instbndf.providfr;
+                rfturn ts;
+            }
+        }
+        throw nfw NoSudhAlgorithmExdfption
+            (blgorithm + " blgorithm bnd " + mfdhbnismTypf
+                 + " mfdhbnism not bvbilbblf");
+    }
+
+    /**
+     * Rfturns b <dodf>TrbnsformSfrvidf</dodf> thbt supports thf spfdififd
+     * blgorithm URI (fx: {@link Trbnsform#XPATH2}) bnd mfdhbnism typf
+     * (fx: DOM) bs supplifd by thf spfdififd providfr. Notf thbt thf spfdififd
+     * <dodf>Providfr</dodf> objfdt dofs not hbvf to bf rfgistfrfd in thf
+     * providfr list.
+     *
+     * @pbrbm blgorithm thf URI of thf blgorithm
+     * @pbrbm mfdhbnismTypf thf typf of thf XML prodfssing mfdhbnism bnd
+     *   rfprfsfntbtion
+     * @pbrbm providfr thf <dodf>Providfr</dodf> objfdt
+     * @rfturn b nfw <dodf>TrbnsformSfrvidf</dodf>
+     * @throws NullPointfrExdfption if <dodf>providfr</dodf>,
+     *   <dodf>blgorithm</dodf>, or <dodf>mfdhbnismTypf</dodf> is
+     *   <dodf>null</dodf>
+     * @throws NoSudhAlgorithmExdfption if b <dodf>TrbnsformSfrvidf</dodf>
+     *   implfmfntbtion for thf spfdififd blgorithm bnd mfdhbnism typf is not
+     *   bvbilbblf from thf spfdififd <dodf>Providfr</dodf> objfdt
+     * @sff Providfr
+     */
+    publid stbtid TrbnsformSfrvidf gftInstbndf
+        (String blgorithm, String mfdhbnismTypf, Providfr providfr)
+        throws NoSudhAlgorithmExdfption {
+        if (mfdhbnismTypf == null || blgorithm == null || providfr == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        boolfbn dom = fblsf;
+        if (mfdhbnismTypf.fqubls("DOM")) {
+            dom = truf;
+        }
+        Sfrvidf s = GftInstbndf.gftSfrvidf
+            ("TrbnsformSfrvidf", blgorithm, providfr);
+        String vbluf = s.gftAttributf("MfdhbnismTypf");
+        if ((vbluf == null && dom) ||
+            (vbluf != null && vbluf.fqubls(mfdhbnismTypf))) {
+            Instbndf instbndf = GftInstbndf.gftInstbndf(s, null);
+            TrbnsformSfrvidf ts = (TrbnsformSfrvidf) instbndf.impl;
+            ts.blgorithm = blgorithm;
+            ts.mfdhbnism = mfdhbnismTypf;
+            ts.providfr = instbndf.providfr;
+            rfturn ts;
+        }
+        throw nfw NoSudhAlgorithmExdfption
+            (blgorithm + " blgorithm bnd " + mfdhbnismTypf
+                 + " mfdhbnism not bvbilbblf");
+    }
+
+    /**
+     * Rfturns b <dodf>TrbnsformSfrvidf</dodf> thbt supports thf spfdififd
+     * blgorithm URI (fx: {@link Trbnsform#XPATH2}) bnd mfdhbnism typf
+     * (fx: DOM) bs supplifd by thf spfdififd providfr. Thf spfdififd providfr
+     * must bf rfgistfrfd in thf sfdurity providfr list.
+     *
+     * <p>Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm blgorithm thf URI of thf blgorithm
+     * @pbrbm mfdhbnismTypf thf typf of thf XML prodfssing mfdhbnism bnd
+     *   rfprfsfntbtion
+     * @pbrbm providfr thf string nbmf of thf providfr
+     * @rfturn b nfw <dodf>TrbnsformSfrvidf</dodf>
+     * @throws NoSudhProvidfrExdfption if thf spfdififd providfr is not
+     *   rfgistfrfd in thf sfdurity providfr list
+     * @throws NullPointfrExdfption if <dodf>providfr</dodf>,
+     *   <dodf>mfdhbnismTypf</dodf>, or <dodf>blgorithm</dodf> is
+     *   <dodf>null</dodf>
+     * @throws NoSudhAlgorithmExdfption if b <dodf>TrbnsformSfrvidf</dodf>
+     *   implfmfntbtion for thf spfdififd blgorithm bnd mfdhbnism typf is not
+     *   bvbilbblf from thf spfdififd providfr
+     * @sff Providfr
+     */
+    publid stbtid TrbnsformSfrvidf gftInstbndf
+        (String blgorithm, String mfdhbnismTypf, String providfr)
+        throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption {
+        if (mfdhbnismTypf == null || blgorithm == null || providfr == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf if (providfr.lfngth() == 0) {
+            throw nfw NoSudhProvidfrExdfption();
+        }
+        boolfbn dom = fblsf;
+        if (mfdhbnismTypf.fqubls("DOM")) {
+            dom = truf;
+        }
+        Sfrvidf s = GftInstbndf.gftSfrvidf
+            ("TrbnsformSfrvidf", blgorithm, providfr);
+        String vbluf = s.gftAttributf("MfdhbnismTypf");
+        if ((vbluf == null && dom) ||
+            (vbluf != null && vbluf.fqubls(mfdhbnismTypf))) {
+            Instbndf instbndf = GftInstbndf.gftInstbndf(s, null);
+            TrbnsformSfrvidf ts = (TrbnsformSfrvidf) instbndf.impl;
+            ts.blgorithm = blgorithm;
+            ts.mfdhbnism = mfdhbnismTypf;
+            ts.providfr = instbndf.providfr;
+            rfturn ts;
+        }
+        throw nfw NoSudhAlgorithmExdfption
+            (blgorithm + " blgorithm bnd " + mfdhbnismTypf
+                 + " mfdhbnism not bvbilbblf");
+    }
+
+    privbtf stbtid dlbss MfdhbnismMbpEntry implfmfnts Mbp.Entry<String,String> {
+        privbtf finbl String mfdhbnism;
+        privbtf finbl String blgorithm;
+        privbtf finbl String kfy;
+        MfdhbnismMbpEntry(String blgorithm, String mfdhbnism) {
+            this.blgorithm = blgorithm;
+            this.mfdhbnism = mfdhbnism;
+            this.kfy = "TrbnsformSfrvidf." + blgorithm + " MfdhbnismTypf";
+        }
+        publid boolfbn fqubls(Objfdt o) {
+            if (!(o instbndfof Mbp.Entry)) {
+                rfturn fblsf;
+            }
+            Mbp.Entry<?,?> f = (Mbp.Entry<?,?>) o;
+            rfturn (gftKfy()==null ?
+                    f.gftKfy()==null : gftKfy().fqubls(f.gftKfy())) &&
+                   (gftVbluf()==null ?
+                    f.gftVbluf()==null : gftVbluf().fqubls(f.gftVbluf()));
+        }
+        publid String gftKfy() {
+            rfturn kfy;
+        }
+        publid String gftVbluf() {
+            rfturn mfdhbnism;
+        }
+        publid String sftVbluf(String vbluf) {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+        publid int hbshCodf() {
+            rfturn (gftKfy()==null ? 0 : gftKfy().hbshCodf()) ^
+                   (gftVbluf()==null ? 0 : gftVbluf().hbshCodf());
+        }
+    }
+
+    /**
+     * Rfturns thf mfdhbnism typf supportfd by this <dodf>TrbnsformSfrvidf</dodf>.
+     *
+     * @rfturn thf mfdhbnism typf
+     */
+    publid finbl String gftMfdhbnismTypf() {
+        rfturn mfdhbnism;
+    }
+
+    /**
+     * Rfturns thf URI of thf blgorithm supportfd by this
+     * <dodf>TrbnsformSfrvidf</dodf>.
+     *
+     * @rfturn thf blgorithm URI
+     */
+    publid finbl String gftAlgorithm() {
+        rfturn blgorithm;
+    }
+
+    /**
+     * Rfturns thf providfr of this <dodf>TrbnsformSfrvidf</dodf>.
+     *
+     * @rfturn thf providfr
+     */
+    publid finbl Providfr gftProvidfr() {
+        rfturn providfr;
+    }
+
+    /**
+     * Initiblizfs this <dodf>TrbnsformSfrvidf</dodf> with thf spfdififd
+     * pbrbmftfrs.
+     *
+     * <p>If thf pbrbmftfrs fxist in XML form, thf
+     * {@link #init(XMLStrudturf, XMLCryptoContfxt)} mfthod should bf usfd to
+     * initiblizf thf <dodf>TrbnsformSfrvidf</dodf>.
+     *
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs (mby bf <dodf>null</dodf> if
+     *   not rfquirfd or optionbl)
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf spfdififd pbrbmftfrs
+     *   brf invblid for this blgorithm
+     */
+    publid bbstrbdt void init(TrbnsformPbrbmftfrSpfd pbrbms)
+        throws InvblidAlgorithmPbrbmftfrExdfption;
+
+    /**
+     * Mbrshbls thf blgorithm-spfdifid pbrbmftfrs. If thfrf brf no pbrbmftfrs
+     * to bf mbrshbllfd, this mfthod rfturns without throwing bn fxdfption.
+     *
+     * @pbrbm pbrfnt b mfdhbnism-spfdifid strudturf dontbining thf pbrfnt
+     *    nodf thbt thf mbrshbllfd pbrbmftfrs should bf bppfndfd to
+     * @pbrbm dontfxt thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @throws ClbssCbstExdfption if thf typf of <dodf>pbrfnt</dodf> or
+     *    <dodf>dontfxt</dodf> is not dompbtiblf with this
+     *    <dodf>TrbnsformSfrvidf</dodf>
+     * @throws NullPointfrExdfption if <dodf>pbrfnt</dodf> is <dodf>null</dodf>
+     * @throws MbrshblExdfption if thf pbrbmftfrs dbnnot bf mbrshbllfd
+     */
+    publid bbstrbdt void mbrshblPbrbms
+        (XMLStrudturf pbrfnt, XMLCryptoContfxt dontfxt)
+        throws MbrshblExdfption;
+
+    /**
+     * Initiblizfs this <dodf>TrbnsformSfrvidf</dodf> with thf spfdififd
+     * pbrbmftfrs bnd dodumfnt dontfxt.
+     *
+     * @pbrbm pbrfnt b mfdhbnism-spfdifid strudturf dontbining thf pbrfnt
+     *    strudturf
+     * @pbrbm dontfxt thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @throws ClbssCbstExdfption if thf typf of <dodf>pbrfnt</dodf> or
+     *    <dodf>dontfxt</dodf> is not dompbtiblf with this
+     *    <dodf>TrbnsformSfrvidf</dodf>
+     * @throws NullPointfrExdfption if <dodf>pbrfnt</dodf> is <dodf>null</dodf>
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf spfdififd pbrbmftfrs
+     *   brf invblid for this blgorithm
+     */
+    publid bbstrbdt void init(XMLStrudturf pbrfnt, XMLCryptoContfxt dontfxt)
+        throws InvblidAlgorithmPbrbmftfrExdfption;
+}

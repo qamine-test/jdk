@@ -1,0 +1,273 @@
+/*
+ * Copyright (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.trbding;
+
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.util.HbshMbp;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+import dom.sun.trbding.Providfr;
+import dom.sun.trbding.Probf;
+import dom.sun.trbding.ProvidfrNbmf;
+
+/**
+ * Providfs b dommon dodf for implfmfntbtion of {@dodf Providfr} dlbssfs.
+ *
+ * Ebdh trbding subsystfm nffds to providf thrff dlbssfs, b fbdtory
+ * (dfrivfd from {@dodf ProvidfrFbdtory}, b providfr (b subdlbss of
+ * {@dodf Providfr}, bnd b probf typf (subdlbss of {@dodf ProbfSkflfton}).
+ *
+ * Thf fbdtory objfdt tbkfs b usfr-dffinfd intfrfbdf bnd providfs bn
+ * implfmfntbtion of it whosf mfthod dblls will triggfr probfs in thf
+ * trbding frbmfwork.
+ *
+ * Thf frbmfwork's providfr dlbss, bnd its instbndfs, brf not sffn by thf
+ * usfr bt bll -- thfy usublly sit in thf bbdkground bnd rfdfivf bnd dispbtdh
+ * thf dblls to thf usfr's providfr intfrfbdf.  Thf {@dodf ProvidfrSkflfton}
+ * dlbss providfs blmost bll of thf implfmfntbtion nffdfd by b frbmfwork
+ * providfr.  Frbmfwork providfrs must only providf b donstrudtor bnd
+ * disposbl mfthod, bnd implfmfnt thf {@dodf drfbtfProbf} mfthod to drfbtf
+ * bn bppropribtf {@dodf ProbfSkflfton} subdlbss.
+ *
+ * Thf frbmfwork's probf dlbss providfs thf implfmfntbtion of thf two
+ * probf mfthods, {@dodf isEnbblfd()} bnd {@dodf undhfdkfdTriggfr()}.  Both brf
+ * frbmfwork-dfpfndfnt implfmfntbtions.
+ *
+ * @sindf 1.7
+ */
+
+publid bbstrbdt dlbss ProvidfrSkflfton implfmfnts InvodbtionHbndlfr, Providfr {
+
+    protfdtfd boolfbn bdtivf; // sft to fblsf bftfr disposf() is dbllfd
+    protfdtfd Clbss<? fxtfnds Providfr> providfrTypf; // usfr's intfrfbdf
+    protfdtfd HbshMbp<Mfthod, ProbfSkflfton> probfs; // mfthods to probfs
+
+
+    /**
+     * Crfbtfs b frbmfwork-spfdifid probf subtypf.
+     *
+     * This mfthod is implfmfntfd by thf frbmfwork's providfr bnd rfturns
+     * frbmfwork-spfdifid probfs for b mfthod.
+     *
+     * @pbrbm mfthod A mfthod in thf usfr's intfrfbdf
+     * @rfturn b subdlbss of ProbfSkflfton for thf pbrtidulbr frbmfwork.
+     */
+    protfdtfd bbstrbdt ProbfSkflfton drfbtfProbf(Mfthod mfthod);
+
+    /**
+     * Initiblizfs thf providfr.
+     *
+     * @pbrbm typf thf usfr's intfrfbdf
+     */
+    protfdtfd ProvidfrSkflfton(Clbss<? fxtfnds Providfr> typf) {
+        this.bdtivf = fblsf; // in dbsf of somf frror during initiblizbtion
+        this.providfrTypf = typf;
+        this.probfs = nfw HbshMbp<Mfthod,ProbfSkflfton>();
+    }
+
+    /**
+     * Post-donstrudtor initiblizbtion routinf.
+     *
+     * Subdlbss instbndfs must bf initiblizfd bfforf thfy dbn drfbtf probfs.
+     * It is up to thf fbdtory implfmfntbtions to dbll this bftfr donstrudtion.
+     */
+    publid void init() {
+        Mfthod[] mfthods = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Mfthod[]>() {
+            publid Mfthod[] run() {
+                rfturn providfrTypf.gftDfdlbrfdMfthods();
+            }
+        });
+
+        for (Mfthod m : mfthods) {
+            if ( m.gftRfturnTypf() != Void.TYPE ) {
+                throw nfw IllfgblArgumfntExdfption(
+                   "Rfturn vbluf of mfthod is not void");
+            } flsf {
+                probfs.put(m, drfbtfProbf(m));
+            }
+        }
+        this.bdtivf = truf;
+    }
+
+    /**
+     * Mbgid routinf whidh drfbtfs bn implfmfntbtion of thf usfr's intfrfbdf.
+     *
+     * This mfthod drfbtfs thf instbndf of thf usfr's intfrfbdf whidh is
+     * pbssfd bbdk to thf usfr.  Evfry dbll upon thbt intfrfbdf will bf
+     * rfdirfdtfd to thf {@dodf invokf()} mfthod of this dlbss (until
+     * ovfrriddfn by thf VM).
+     *
+     * @rfturn bn implfmfntbtion of thf usfr's intfrfbdf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid <T fxtfnds Providfr> T nfwProxyInstbndf() {
+        finbl InvodbtionHbndlfr ih = this;
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<T>() {
+            publid T run() {
+               rfturn (T)Proxy.nfwProxyInstbndf(providfrTypf.gftClbssLobdfr(),
+                   nfw Clbss<?>[] { providfrTypf }, ih);
+            }});
+    }
+
+    /**
+     * Triggfrs b frbmfwork probf whfn b usfr intfrfbdf mfthod is dbllfd.
+     *
+     * This mfthod dispbtdhfs b usfr intfrfbdf mfthod dbll to thf bppropribtf
+     * probf bssodibtfd with this frbmfwork.
+     *
+     * If thf invokfd mfthod is not b usfr-dffinfd mfmbfr of thf intfrfbdf,
+     * thfn it is b mfmbfr of {@dodf Providfr} or {@dodf Objfdt} bnd wf
+     * invokf thf mfthod dirfdtly.
+     *
+     * @pbrbm proxy thf instbndf whosf mfthod wbs invokfd
+     * @pbrbm mfthod thf mfthod thbt wbs dbllfd
+     * @pbrbm brgs thf brgumfnts pbssfd in thf dbll.
+     * @rfturn blwbys null, if thf mfthod is b usfr-dffinfd probf
+     */
+    publid Objfdt invokf(Objfdt proxy, Mfthod mfthod, Objfdt[] brgs) {
+        Clbss<?> dfdlbringClbss = mfthod.gftDfdlbringClbss();
+        // not b providfr subtypf's own mfthod
+        if (dfdlbringClbss != providfrTypf) {
+            try {
+                // dflfgbtf only to mfthods dfdlbrfd by
+                // dom.sun.trbding.Providfr or jbvb.lbng.Objfdt
+                if (dfdlbringClbss == Providfr.dlbss ||
+                    dfdlbringClbss == Objfdt.dlbss) {
+                    rfturn mfthod.invokf(this, brgs);
+                } flsf {
+                    // bssfrt fblsf : "this should nfvfr hbppfn"
+                    //    rfbdhing hfrf would indidbtf b brfbdh
+                    //    in sfdurity in thf highfr lbyfrs
+                    throw nfw SfdurityExdfption();
+                }
+            } dbtdh (IllfgblAddfssExdfption f) {
+                bssfrt fblsf;
+            } dbtdh (InvodbtionTbrgftExdfption f) {
+                bssfrt fblsf;
+            }
+        } flsf {
+            triggfrProbf(mfthod, brgs);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Dirfdt bddfssor for {@dodf Probf} objfdts.
+     *
+     * @pbrbm m thf mfthod dorrfsponding to b probf
+     * @rfturn thf mfthod bssodibtfd probf objfdt, or null
+     */
+    publid Probf gftProbf(Mfthod m) {
+        rfturn bdtivf ? probfs.gft(m) : null;
+    }
+
+    /**
+     * Dffbult providfr disposbl mfthod.
+     *
+     * This is ovfrriddfn in subdlbssfs bs nffdfd.
+     */
+    publid void disposf() {
+        bdtivf = fblsf;
+        probfs.dlfbr();
+    }
+
+    /**
+     * Gfts thf usfr-spfdififd providfr nbmf for thf usfr's intfrfbdf.
+     *
+     * If thf usfr's intfrfbdf hbs b {@ProvidfrNbmf} bnnotbtion, thbt vbluf
+     * is usfd.  Othfrwisf wf usf thf simplf nbmf of thf usfr intfrfbdf's dlbss.
+     * @rfturn thf providfr nbmf
+     */
+    protfdtfd String gftProvidfrNbmf() {
+        rfturn gftAnnotbtionString(
+                providfrTypf, ProvidfrNbmf.dlbss, providfrTypf.gftSimplfNbmf());
+    }
+
+    /**
+     * Utility mfthod for gftting b string vbluf from bn bnnotbtion.
+     *
+     * Usfd for gftting b string vbluf from bn bnnotbtion with b 'vbluf' mfthod.
+     *
+     * @pbrbm flfmfnt thf flfmfnt thbt wbs bnnotbtfd, fithfr b dlbss or mfthod
+     * @pbrbm bnnotbtion thf dlbss of thf bnnotbtion wf'rf intfrfstfd in
+     * @pbrbm dffbultVbluf thf vbluf to rfturn if thf bnnotbtion dofsn't
+     * fxist, dofsn't hbvf b "vbluf", or thf vbluf is fmpty.
+     */
+    protfdtfd stbtid String gftAnnotbtionString(
+            AnnotbtfdElfmfnt flfmfnt, Clbss<? fxtfnds Annotbtion> bnnotbtion,
+            String dffbultVbluf) {
+        String rft = (String)gftAnnotbtionVbluf(
+                flfmfnt, bnnotbtion, "vbluf", dffbultVbluf);
+        rfturn rft.isEmpty() ? dffbultVbluf : rft;
+    }
+
+    /**
+     * Utility mfthod for dblling bn brbitrbry mfthod in bn bnnotbtion.
+     *
+     * @pbrbm flfmfnt thf flfmfnt thbt wbs bnnotbtfd, fithfr b dlbss or mfthod
+     * @pbrbm bnnotbtion thf dlbss of thf bnnotbtion wf'rf intfrfstfd in
+     * @pbrbm mfthodNbmf thf nbmf of thf mfthod in thf bnnotbtion wf wish
+     * to dbll.
+     * @pbrbm dffbultVbluf thf vbluf to rfturn if thf bnnotbtion dofsn't
+     * fxist, or wf douldn't invokf thf mfthod for somf rfbson.
+     * @rfturn thf rfsult of dblling thf bnnotbtion mfthod, or thf dffbult.
+     */
+    protfdtfd stbtid Objfdt gftAnnotbtionVbluf(
+            AnnotbtfdElfmfnt flfmfnt, Clbss<? fxtfnds Annotbtion> bnnotbtion,
+            String mfthodNbmf, Objfdt dffbultVbluf) {
+        Objfdt rft = dffbultVbluf;
+        try {
+            Mfthod m = bnnotbtion.gftMfthod(mfthodNbmf);
+            Annotbtion b = flfmfnt.gftAnnotbtion(bnnotbtion);
+            rft = m.invokf(b);
+        } dbtdh (NoSudhMfthodExdfption f) {
+            bssfrt fblsf;
+        } dbtdh (IllfgblAddfssExdfption f) {
+            bssfrt fblsf;
+        } dbtdh (InvodbtionTbrgftExdfption f) {
+            bssfrt fblsf;
+        } dbtdh (NullPointfrExdfption f) {
+            bssfrt fblsf;
+        }
+        rfturn rft;
+    }
+
+    protfdtfd void triggfrProbf(Mfthod mfthod, Objfdt[] brgs) {
+        if (bdtivf) {
+            ProbfSkflfton p = probfs.gft(mfthod);
+            if (p != null) {
+                // Skips brgumfnt dhfdk -- blrfbdy donf by jbvbd
+                p.undhfdkfdTriggfr(brgs);
+            }
+        }
+    }
+}

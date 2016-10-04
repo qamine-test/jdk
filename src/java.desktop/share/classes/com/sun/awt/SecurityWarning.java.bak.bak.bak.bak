@@ -1,0 +1,169 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.bwt;
+
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
+
+import sun.bwt.AWTAddfssor;
+
+
+/**
+ * Sfdurity Wbrning dontrol intfrfbdf.
+ *
+ * This dlbss providfs b douplf of mfthods thbt hflp b dfvflopfr rflodbtf
+ * thf AWT sfdurity wbrning to bn bppropribtf position rflbtivf to thf durrfnt
+ * window sizf. A "top-lfvfl window" is bn instbndf of thf {@dodf Window}
+ * dlbss (or its dfsdfndbnt, sudh bs {@dodf JFrbmf}). Thf sfdurity wbrning
+ * is bpplifd to bll windows drfbtfd by bn untrustfd dodf. All sudh windows
+ * hbvf b non-null "wbrning string" (sff {@link Window#gftWbrningString()}).
+ * <p>
+ * <b>WARNING</b>: This dlbss is bn implfmfntbtion dftbil bnd only mfbnt
+ * for limitfd usf outsidf of thf dorf plbtform. This API mby dhbngf
+ * drbstidblly bftwffn updbtf rflfbsf, bnd it mby fvfn bf
+ * rfmovfd or bf movfd to somf othfr pbdkbgfs or dlbssfs.
+ */
+publid finbl dlbss SfdurityWbrning {
+
+    /**
+     * Thf SfdurityWbrning dlbss should not bf instbntibtfd
+     */
+    privbtf SfdurityWbrning() {
+    }
+
+    /**
+     * Gfts thf sizf of thf sfdurity wbrning.
+     *
+     * Thf rfturnfd vbluf is not vblid until thf pffr hbs bffn drfbtfd. Bfforf
+     * invoking this mfthod b dfvflopfr must dbll thf {@link Window#pbdk()},
+     * {@link Window#sftVisiblf()}, or somf othfr mfthod thbt drfbtfs thf pffr.
+     *
+     * @pbrbm window thf window to gft thf sfdurity wbrning sizf for
+     *
+     * @throws NullPointfrExdfption if thf window brgumfnt is null
+     * @throws IllfgblArgumfntExdfption if thf window is trustfd (i.f.
+     * thf {@dodf gftWbrningString()} rfturns null)
+     */
+    publid stbtid Dimfnsion gftSizf(Window window) {
+        if (window == null) {
+            throw nfw NullPointfrExdfption(
+                    "Thf window brgumfnt should not bf null.");
+        }
+        if (window.gftWbrningString() == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "Thf window must hbvf b non-null wbrning string.");
+        }
+        // Wf don't dhfdk for b non-null pffr sindf it mby bf dfstroyfd
+        // bftfr bssigning b vblid vbluf to thf sfdurity wbrning sizf.
+
+        rfturn AWTAddfssor.gftWindowAddfssor().gftSfdurityWbrningSizf(window);
+    }
+
+    /**
+     * Sfts thf position of thf sfdurity wbrning.
+     * <p>
+     * Thf {@dodf blignmfntX} bnd {@dodf blignmfntY} brgumfnts spfdify thf
+     * origin of thf doordinbtf systfm usfd to dbldulbtf thf position of thf
+     * sfdurity wbrning. Thf vblufs must bf in thf rbngf [0.0f...1.0f].  Thf
+     * {@dodf 0.0f} vbluf rfprfsfnts thf lfft (top) fdgf of thf rfdtbngulbr
+     * bounds of thf window. Thf {@dodf 1.0f} vbluf rfprfsfnts thf right
+     * (bottom) fdgf of thf bounds. Whfnfvfr thf sizf of thf window dhbngfs,
+     * thf origin of thf doordinbtf systfm gfts rflodbtfd bddordingly. For
+     * donvfnifndf b dfvflopfr mby usf thf {@dodf Componfnt.*_ALIGNMENT}
+     * donstbnts to pbss prfdffinfd vblufs for thfsf brgumfnts.
+     * <p>
+     * Thf {@dodf point} brgumfnt spfdififs thf lodbtion of thf sfdurity
+     * wbrning in thf doordinbtf systfm dfsdribfd bbovf. If both {@dodf x} bnd
+     * {@dodf y} doordinbtfs of thf point brf fqubl to zfro, thf wbrning will
+     * bf lodbtfd right in thf origin of thf doordinbtf systfm. On thf othfr
+     * hbnd, if both {@dodf blignmfntX} bnd {@dodf blignmfntY} brf fqubl to
+     * zfro (i.f. thf origin of thf doordinbtf systfm is plbdfd bt thf top-lfft
+     * dornfr of thf window), thfn thf {@dodf point} brgumfnt rfprfsfnts thf
+     * bbsolutf lodbtion of thf sfdurity wbrning rflbtivf to thf lodbtion of
+     * thf window. Thf "bbsolutf" in this dbsf mfbns thbt thf position of thf
+     * sfdurity wbrning is not ffffdtfd by rfsizing of thf window.
+     * <p>
+     * Notf thbt thf sfdurity wbrning mbnbgmfnt dodf gubrbntffs thbt:
+     * <ul>
+     * <li>Thf sfdurity wbrning dbnnot bf lodbtfd fbrthfr thbn two pixfls from
+     * thf rfdtbngulbr bounds of thf window (sff {@link Window#gftBounds}), bnd
+     * <li>Thf sfdurity wbrning is blwbys visiblf on thf sdrffn.
+     * </ul>
+     * If fithfr of thf donditions is violbtfd, thf dbldulbtfd position of thf
+     * sfdurity wbrning is bdjustfd by thf systfm to mfft both thfsf
+     * donditions.
+     * <p>
+     * Thf dffbult position of thf sfdurity wbrning is in thf uppfr-right
+     * dornfr of thf window, two pixfls to thf right from thf right fdgf. This
+     * dorrfsponds to thf following brgumfnts pbssfd to this mfthod:
+     * <ul>
+     * <li>{@dodf blignmfntX = Componfnt.RIGHT_ALIGNMENT}
+     * <li>{@dodf blignmfntY = Componfnt.TOP_ALIGNMENT}
+     * <li>{@dodf point = (2, 0)}
+     * </ul>
+     *
+     * @pbrbm window thf window to sft thf position of thf sfdurity wbrning for
+     * @pbrbm blignmfntX thf horizontbl origin of thf doordinbtf systfm
+     * @pbrbm blignmfntY thf vfrtidbl origin of thf doordinbtf systfm
+     * @pbrbm point thf position of thf sfdurity wbrning in thf spfdififd
+     * doordinbtf systfm
+     *
+     * @throws NullPointfrExdfption if thf window brgumfnt is null
+     * @throws NullPointfrExdfption if thf point brgumfnt is null
+     * @throws IllfgblArgumfntExdfption if thf window is trustfd (i.f.
+     * thf {@dodf gftWbrningString()} rfturns null
+     * @throws IllfgblArgumfntExdfption if thf blignmfntX or blignmfntY
+     * brgumfnts brf not within thf rbngf [0.0f ... 1.0f]
+     */
+    publid stbtid void sftPosition(Window window, Point2D point,
+            flobt blignmfntX, flobt blignmfntY)
+    {
+        if (window == null) {
+            throw nfw NullPointfrExdfption(
+                    "Thf window brgumfnt should not bf null.");
+        }
+        if (window.gftWbrningString() == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "Thf window must hbvf b non-null wbrning string.");
+        }
+        if (point == null) {
+            throw nfw NullPointfrExdfption(
+                    "Thf point brgumfnt must not bf null");
+        }
+        if (blignmfntX < 0.0f || blignmfntX > 1.0f) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "blignmfntX must bf in thf rbngf [0.0f ... 1.0f].");
+        }
+        if (blignmfntY < 0.0f || blignmfntY > 1.0f) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "blignmfntY must bf in thf rbngf [0.0f ... 1.0f].");
+        }
+
+        AWTAddfssor.gftWindowAddfssor().sftSfdurityWbrningPosition(window,
+                point, blignmfntX, blignmfntY);
+    }
+}
+

@@ -1,24 +1,24 @@
-main.dir=${basedir}/../../../jfc/Font2DTest
+mbin.dir=${bbsfdir}/../../../jfd/Font2DTfst
 
-src.dir=${main.dir}/src
+srd.dir=${mbin.dir}/srd
 
 build.dir=build
-classes.dir=${build.dir}/classes
-jar=${main.dir}/Font2DTest.jar
-javadoc.dir=${build.dir}/javadoc
+dlbssfs.dir=${build.dir}/dlbssfs
+jbr=${mbin.dir}/Font2DTfst.jbr
+jbvbdod.dir=${build.dir}/jbvbdod
 
-build.sysclasspath=ignore
-# E.g.: cp=lib/x.jar:lib/y.jar
-cp=
-extra.run.cp=
+build.sysdlbsspbti=ignorf
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+dp=
+fxtrb.run.dp=
 
-main.class=Font2DTest
+mbin.dlbss=Font2DTfst
 
-run.cp=${cp}:${classes.dir}:${extra.run.cp}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
 
-debug=true
-deprecation=false
+dfbug=truf
+dfprfdbtion=fblsf
 
-nbjdk.home=${basedir}/../../../..
+nbjdk.iomf=${bbsfdir}/../../../..
 
-applet.html=${main.dir}/Font2DTest.html
+bpplft.itml=${mbin.dir}/Font2DTfst.itml

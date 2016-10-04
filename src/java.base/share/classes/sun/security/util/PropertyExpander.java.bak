@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1998, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.GeneralSecurityException;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
 
 /**
- * A utility class to expand properties embedded in a string.
- * Strings of the form ${some.property.name} are expanded to
- * be the value of the property. Also, the special ${/} property
- * is expanded to be the same as file.separator. If a property
- * is not set, a GeneralSecurityException will be thrown.
+ * A utility dlbss to fxpbnd propfrtifs fmbfddfd in b string.
+ * Strings of tif form ${somf.propfrty.nbmf} brf fxpbndfd to
+ * bf tif vbluf of tif propfrty. Also, tif spfdibl ${/} propfrty
+ * is fxpbndfd to bf tif sbmf bs filf.sfpbrbtor. If b propfrty
+ * is not sft, b GfnfrblSfdurityExdfption will bf tirown.
  *
- * @author Roland Schemers
+ * @butior Rolbnd Sdifmfrs
  */
-public class PropertyExpander {
+publid dlbss PropfrtyExpbndfr {
 
 
-    public static class ExpandException extends GeneralSecurityException {
+    publid stbtid dlbss ExpbndExdfption fxtfnds GfnfrblSfdurityExdfption {
 
-        private static final long serialVersionUID = -7941948581406161702L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -7941948581406161702L;
 
-        public ExpandException(String msg) {
-            super(msg);
+        publid ExpbndExdfption(String msg) {
+            supfr(msg);
         }
     }
 
-    public static String expand(String value)
-        throws ExpandException
+    publid stbtid String fxpbnd(String vbluf)
+        tirows ExpbndExdfption
     {
-        return expand(value, false);
+        rfturn fxpbnd(vbluf, fblsf);
     }
 
-     public static String expand(String value, boolean encodeURL)
-         throws ExpandException
+     publid stbtid String fxpbnd(String vbluf, boolfbn fndodfURL)
+         tirows ExpbndExdfption
      {
-        if (value == null)
-            return null;
+        if (vbluf == null)
+            rfturn null;
 
-        int p = value.indexOf("${", 0);
+        int p = vbluf.indfxOf("${", 0);
 
-        // no special characters
-        if (p == -1) return value;
+        // no spfdibl dibrbdtfrs
+        if (p == -1) rfturn vbluf;
 
-        StringBuilder sb = new StringBuilder(value.length());
-        int max = value.length();
-        int i = 0;  // index of last character we copied
+        StringBuildfr sb = nfw StringBuildfr(vbluf.lfngti());
+        int mbx = vbluf.lfngti();
+        int i = 0;  // indfx of lbst dibrbdtfr wf dopifd
 
-    scanner:
-        while (p < max) {
+    sdbnnfr:
+        wiilf (p < mbx) {
             if (p > i) {
-                // copy in anything before the special stuff
-                sb.append(value.substring(i, p));
+                // dopy in bnytiing bfforf tif spfdibl stuff
+                sb.bppfnd(vbluf.substring(i, p));
                 i = p;
             }
-            int pe = p+2;
+            int pf = p+2;
 
-            // do not expand ${{ ... }}
-            if (pe < max && value.charAt(pe) == '{') {
-                pe = value.indexOf("}}", pe);
-                if (pe == -1 || pe+2 == max) {
-                    // append remaining chars
-                    sb.append(value.substring(p));
-                    break scanner;
-                } else {
-                    // append as normal text
-                    pe++;
-                    sb.append(value.substring(p, pe+1));
+            // do not fxpbnd ${{ ... }}
+            if (pf < mbx && vbluf.dibrAt(pf) == '{') {
+                pf = vbluf.indfxOf("}}", pf);
+                if (pf == -1 || pf+2 == mbx) {
+                    // bppfnd rfmbining dibrs
+                    sb.bppfnd(vbluf.substring(p));
+                    brfbk sdbnnfr;
+                } flsf {
+                    // bppfnd bs normbl tfxt
+                    pf++;
+                    sb.bppfnd(vbluf.substring(p, pf+1));
                 }
-            } else {
-                while ((pe < max) && (value.charAt(pe) != '}')) {
-                    pe++;
+            } flsf {
+                wiilf ((pf < mbx) && (vbluf.dibrAt(pf) != '}')) {
+                    pf++;
                 }
-                if (pe == max) {
-                    // no matching '}' found, just add in as normal text
-                    sb.append(value.substring(p, pe));
-                    break scanner;
+                if (pf == mbx) {
+                    // no mbtdiing '}' found, just bdd in bs normbl tfxt
+                    sb.bppfnd(vbluf.substring(p, pf));
+                    brfbk sdbnnfr;
                 }
-                String prop = value.substring(p+2, pe);
-                if (prop.equals("/")) {
-                    sb.append(java.io.File.separatorChar);
-                } else {
-                    String val = System.getProperty(prop);
-                    if (val != null) {
-                        if (encodeURL) {
-                            // encode 'val' unless it's an absolute URI
-                            // at the beginning of the string buffer
+                String prop = vbluf.substring(p+2, pf);
+                if (prop.fqubls("/")) {
+                    sb.bppfnd(jbvb.io.Filf.sfpbrbtorCibr);
+                } flsf {
+                    String vbl = Systfm.gftPropfrty(prop);
+                    if (vbl != null) {
+                        if (fndodfURL) {
+                            // fndodf 'vbl' unlfss it's bn bbsolutf URI
+                            // bt tif bfginning of tif string bufffr
                             try {
-                                if (sb.length() > 0 ||
-                                    !(new URI(val)).isAbsolute()) {
-                                    val = sun.net.www.ParseUtil.encodePath(val);
+                                if (sb.lfngti() > 0 ||
+                                    !(nfw URI(vbl)).isAbsolutf()) {
+                                    vbl = sun.nft.www.PbrsfUtil.fndodfPbti(vbl);
                                 }
-                            } catch (URISyntaxException use) {
-                                val = sun.net.www.ParseUtil.encodePath(val);
+                            } dbtdi (URISyntbxExdfption usf) {
+                                vbl = sun.nft.www.PbrsfUtil.fndodfPbti(vbl);
                             }
                         }
-                        sb.append(val);
-                    } else {
-                        throw new ExpandException(
-                                             "unable to expand property " +
+                        sb.bppfnd(vbl);
+                    } flsf {
+                        tirow nfw ExpbndExdfption(
+                                             "unbblf to fxpbnd propfrty " +
                                              prop);
                     }
                 }
             }
-            i = pe+1;
-            p = value.indexOf("${", i);
+            i = pf+1;
+            p = vbluf.indfxOf("${", i);
             if (p == -1) {
-                // no more to expand. copy in any extra
-                if (i < max) {
-                    sb.append(value.substring(i, max));
+                // no morf to fxpbnd. dopy in bny fxtrb
+                if (i < mbx) {
+                    sb.bppfnd(vbluf.substring(i, mbx));
                 }
-                // break out of loop
-                break scanner;
+                // brfbk out of loop
+                brfbk sdbnnfr;
             }
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

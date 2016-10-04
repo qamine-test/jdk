@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.tree;
+pbdkbgf jbvbx.swing.trff;
 
-import java.util.Enumeration;
+import jbvb.util.Enumfrbtion;
 
 /**
- * Defines the requirements for an object that can be used as a
- * tree node in a JTree.
+ * Dffinfs tif rfquirfmfnts for bn objfdt tibt dbn bf usfd bs b
+ * trff nodf in b JTrff.
  * <p>
- * Implementations of <code>TreeNode</code> that override <code>equals</code>
- * will typically need to override <code>hashCode</code> as well.  Refer
- * to {@link javax.swing.tree.TreeModel} for more information.
+ * Implfmfntbtions of <dodf>TrffNodf</dodf> tibt ovfrridf <dodf>fqubls</dodf>
+ * will typidblly nffd to ovfrridf <dodf>ibsiCodf</dodf> bs wfll.  Rfffr
+ * to {@link jbvbx.swing.trff.TrffModfl} for morf informbtion.
  *
- * For further information and examples of using tree nodes,
- * see <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Tree Nodes</a>
- * in <em>The Java Tutorial.</em>
+ * For furtifr informbtion bnd fxbmplfs of using trff nodfs,
+ * sff <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.itml">How to Usf Trff Nodfs</b>
+ * in <fm>Tif Jbvb Tutoribl.</fm>
  *
- * @author Rob Davis
- * @author Scott Violet
+ * @butior Rob Dbvis
+ * @butior Sdott Violft
  */
 
-public interface TreeNode
+publid intfrfbdf TrffNodf
 {
     /**
-     * Returns the child <code>TreeNode</code> at index
-     * <code>childIndex</code>.
+     * Rfturns tif diild <dodf>TrffNodf</dodf> bt indfx
+     * <dodf>diildIndfx</dodf>.
      *
-     * @param   childIndex  index of child
-     * @return              the child node at given index
+     * @pbrbm   diildIndfx  indfx of diild
+     * @rfturn              tif diild nodf bt givfn indfx
      */
-    TreeNode getChildAt(int childIndex);
+    TrffNodf gftCiildAt(int diildIndfx);
 
     /**
-     * Returns the number of children <code>TreeNode</code>s the receiver
-     * contains.
+     * Rfturns tif numbfr of diildrfn <dodf>TrffNodf</dodf>s tif rfdfivfr
+     * dontbins.
      *
-     * @return              the number of children the receiver contains
+     * @rfturn              tif numbfr of diildrfn tif rfdfivfr dontbins
      */
-    int getChildCount();
+    int gftCiildCount();
 
     /**
-     * Returns the parent <code>TreeNode</code> of the receiver.
+     * Rfturns tif pbrfnt <dodf>TrffNodf</dodf> of tif rfdfivfr.
      *
-     * @return              the parent of the receiver
+     * @rfturn              tif pbrfnt of tif rfdfivfr
      */
-    TreeNode getParent();
+    TrffNodf gftPbrfnt();
 
     /**
-     * Returns the index of <code>node</code> in the receivers children.
-     * If the receiver does not contain <code>node</code>, -1 will be
-     * returned.
+     * Rfturns tif indfx of <dodf>nodf</dodf> in tif rfdfivfrs diildrfn.
+     * If tif rfdfivfr dofs not dontbin <dodf>nodf</dodf>, -1 will bf
+     * rfturnfd.
      *
-     * @param   node        node to be loked for
-     * @return              index of specified node
+     * @pbrbm   nodf        nodf to bf lokfd for
+     * @rfturn              indfx of spfdififd nodf
      */
-    int getIndex(TreeNode node);
+    int gftIndfx(TrffNodf nodf);
 
     /**
-     * Returns true if the receiver allows children.
+     * Rfturns truf if tif rfdfivfr bllows diildrfn.
      *
-     * @return              whether the receiver allows children
+     * @rfturn              wiftifr tif rfdfivfr bllows diildrfn
      */
-    boolean getAllowsChildren();
+    boolfbn gftAllowsCiildrfn();
 
     /**
-     * Returns true if the receiver is a leaf.
+     * Rfturns truf if tif rfdfivfr is b lfbf.
      *
-     * @return              whether the receiver is a leaf
+     * @rfturn              wiftifr tif rfdfivfr is b lfbf
      */
-    boolean isLeaf();
+    boolfbn isLfbf();
 
     /**
-     * Returns the children of the receiver as an <code>Enumeration</code>.
+     * Rfturns tif diildrfn of tif rfdfivfr bs bn <dodf>Enumfrbtion</dodf>.
      *
-     * @return              the children of the receiver as an {@code Enumeration}
+     * @rfturn              tif diildrfn of tif rfdfivfr bs bn {@dodf Enumfrbtion}
      */
-    Enumeration<TreeNode> children();
+    Enumfrbtion<TrffNodf> diildrfn();
 }

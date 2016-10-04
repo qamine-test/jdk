@@ -1,296 +1,296 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.BasicStroke;
-import java.awt.Polygon;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Path2D;
-import java.awt.geom.IllegalPathStateException;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.loops.ProcessPath;
-import static sun.java2d.pipe.BufferedOpCodes.*;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.Polygon;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Ard2D;
+import jbvb.bwt.gfom.Ellipsf2D;
+import jbvb.bwt.gfom.Pbti2D;
+import jbvb.bwt.gfom.IllfgblPbtiStbtfExdfption;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.RoundRfdtbnglf2D;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.loops.ProdfssPbti;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
 
 /**
- * Base class for enqueuing rendering operations in a single-threaded
- * rendering environment.  Instead of each operation being rendered
- * immediately by the underlying graphics library, the operation will be
- * added to the provided RenderQueue, which will be processed at a later
- * time by a single thread.
+ * Bbsf dlbss for fnqufuing rfndfring opfrbtions in b singlf-tirfbdfd
+ * rfndfring fnvironmfnt.  Instfbd of fbdi opfrbtion bfing rfndfrfd
+ * immfdibtfly by tif undfrlying grbpiids librbry, tif opfrbtion will bf
+ * bddfd to tif providfd RfndfrQufuf, wiidi will bf prodfssfd bt b lbtfr
+ * timf by b singlf tirfbd.
  *
- * This class provides implementations of drawLine(), drawRect(), drawPoly(),
- * fillRect(), draw(Shape), and fill(Shape), which are useful for a
- * hardware-accelerated renderer.  The other draw*() and fill*() methods
- * simply delegate to draw(Shape) and fill(Shape), respectively.
+ * Tiis dlbss providfs implfmfntbtions of drbwLinf(), drbwRfdt(), drbwPoly(),
+ * fillRfdt(), drbw(Sibpf), bnd fill(Sibpf), wiidi brf usfful for b
+ * ibrdwbrf-bddflfrbtfd rfndfrfr.  Tif otifr drbw*() bnd fill*() mftiods
+ * simply dflfgbtf to drbw(Sibpf) bnd fill(Sibpf), rfspfdtivfly.
  */
-public abstract class BufferedRenderPipe
-    implements PixelDrawPipe, PixelFillPipe, ShapeDrawPipe, ParallelogramPipe
+publid bbstrbdt dlbss BufffrfdRfndfrPipf
+    implfmfnts PixflDrbwPipf, PixflFillPipf, SibpfDrbwPipf, PbrbllflogrbmPipf
 {
-    ParallelogramPipe aapgrampipe = new AAParallelogramPipe();
+    PbrbllflogrbmPipf bbpgrbmpipf = nfw AAPbrbllflogrbmPipf();
 
-    static final int BYTES_PER_POLY_POINT = 8;
-    static final int BYTES_PER_SCANLINE = 12;
-    static final int BYTES_PER_SPAN = 16;
+    stbtid finbl int BYTES_PER_POLY_POINT = 8;
+    stbtid finbl int BYTES_PER_SCANLINE = 12;
+    stbtid finbl int BYTES_PER_SPAN = 16;
 
-    protected RenderQueue rq;
-    protected RenderBuffer buf;
-    private BufferedDrawHandler drawHandler;
+    protfdtfd RfndfrQufuf rq;
+    protfdtfd RfndfrBufffr buf;
+    privbtf BufffrfdDrbwHbndlfr drbwHbndlfr;
 
-    public BufferedRenderPipe(RenderQueue rq) {
-        this.rq = rq;
-        this.buf = rq.getBuffer();
-        this.drawHandler = new BufferedDrawHandler();
+    publid BufffrfdRfndfrPipf(RfndfrQufuf rq) {
+        tiis.rq = rq;
+        tiis.buf = rq.gftBufffr();
+        tiis.drbwHbndlfr = nfw BufffrfdDrbwHbndlfr();
     }
 
-    public ParallelogramPipe getAAParallelogramPipe() {
-        return aapgrampipe;
+    publid PbrbllflogrbmPipf gftAAPbrbllflogrbmPipf() {
+        rfturn bbpgrbmpipf;
     }
 
     /**
-     * Validates the state in the provided SunGraphics2D object and sets up
-     * any special resources for this operation (e.g. enabling gradient
-     * shading).
+     * Vblidbtfs tif stbtf in tif providfd SunGrbpiids2D objfdt bnd sfts up
+     * bny spfdibl rfsourdfs for tiis opfrbtion (f.g. fnbbling grbdifnt
+     * sibding).
      */
-    protected abstract void validateContext(SunGraphics2D sg2d);
-    protected abstract void validateContextAA(SunGraphics2D sg2d);
+    protfdtfd bbstrbdt void vblidbtfContfxt(SunGrbpiids2D sg2d);
+    protfdtfd bbstrbdt void vblidbtfContfxtAA(SunGrbpiids2D sg2d);
 
-    public void drawLine(SunGraphics2D sg2d,
+    publid void drbwLinf(SunGrbpiids2D sg2d,
                          int x1, int y1, int x2, int y2)
     {
-        int transx = sg2d.transX;
-        int transy = sg2d.transY;
-        rq.lock();
+        int trbnsx = sg2d.trbnsX;
+        int trbnsy = sg2d.trbnsY;
+        rq.lodk();
         try {
-            validateContext(sg2d);
-            rq.ensureCapacity(20);
+            vblidbtfContfxt(sg2d);
+            rq.fnsurfCbpbdity(20);
             buf.putInt(DRAW_LINE);
-            buf.putInt(x1 + transx);
-            buf.putInt(y1 + transy);
-            buf.putInt(x2 + transx);
-            buf.putInt(y2 + transy);
-        } finally {
-            rq.unlock();
+            buf.putInt(x1 + trbnsx);
+            buf.putInt(y1 + trbnsy);
+            buf.putInt(x2 + trbnsx);
+            buf.putInt(y2 + trbnsy);
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    public void drawRect(SunGraphics2D sg2d,
-                         int x, int y, int width, int height)
+    publid void drbwRfdt(SunGrbpiids2D sg2d,
+                         int x, int y, int widti, int ifigit)
     {
-        rq.lock();
+        rq.lodk();
         try {
-            validateContext(sg2d);
-            rq.ensureCapacity(20);
+            vblidbtfContfxt(sg2d);
+            rq.fnsurfCbpbdity(20);
             buf.putInt(DRAW_RECT);
-            buf.putInt(x + sg2d.transX);
-            buf.putInt(y + sg2d.transY);
-            buf.putInt(width);
-            buf.putInt(height);
-        } finally {
-            rq.unlock();
+            buf.putInt(x + sg2d.trbnsX);
+            buf.putInt(y + sg2d.trbnsY);
+            buf.putInt(widti);
+            buf.putInt(ifigit);
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    public void fillRect(SunGraphics2D sg2d,
-                         int x, int y, int width, int height)
+    publid void fillRfdt(SunGrbpiids2D sg2d,
+                         int x, int y, int widti, int ifigit)
     {
-        rq.lock();
+        rq.lodk();
         try {
-            validateContext(sg2d);
-            rq.ensureCapacity(20);
+            vblidbtfContfxt(sg2d);
+            rq.fnsurfCbpbdity(20);
             buf.putInt(FILL_RECT);
-            buf.putInt(x + sg2d.transX);
-            buf.putInt(y + sg2d.transY);
-            buf.putInt(width);
-            buf.putInt(height);
-        } finally {
-            rq.unlock();
+            buf.putInt(x + sg2d.trbnsX);
+            buf.putInt(y + sg2d.trbnsY);
+            buf.putInt(widti);
+            buf.putInt(ifigit);
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    public void drawRoundRect(SunGraphics2D sg2d,
-                              int x, int y, int width, int height,
-                              int arcWidth, int arcHeight)
+    publid void drbwRoundRfdt(SunGrbpiids2D sg2d,
+                              int x, int y, int widti, int ifigit,
+                              int brdWidti, int brdHfigit)
     {
-        draw(sg2d, new RoundRectangle2D.Float(x, y, width, height,
-                                              arcWidth, arcHeight));
+        drbw(sg2d, nfw RoundRfdtbnglf2D.Flobt(x, y, widti, ifigit,
+                                              brdWidti, brdHfigit));
     }
 
-    public void fillRoundRect(SunGraphics2D sg2d,
-                              int x, int y, int width, int height,
-                              int arcWidth, int arcHeight)
+    publid void fillRoundRfdt(SunGrbpiids2D sg2d,
+                              int x, int y, int widti, int ifigit,
+                              int brdWidti, int brdHfigit)
     {
-        fill(sg2d, new RoundRectangle2D.Float(x, y, width, height,
-                                              arcWidth, arcHeight));
+        fill(sg2d, nfw RoundRfdtbnglf2D.Flobt(x, y, widti, ifigit,
+                                              brdWidti, brdHfigit));
     }
 
-    public void drawOval(SunGraphics2D sg2d,
-                         int x, int y, int width, int height)
+    publid void drbwOvbl(SunGrbpiids2D sg2d,
+                         int x, int y, int widti, int ifigit)
     {
-        draw(sg2d, new Ellipse2D.Float(x, y, width, height));
+        drbw(sg2d, nfw Ellipsf2D.Flobt(x, y, widti, ifigit));
     }
 
-    public void fillOval(SunGraphics2D sg2d,
-                         int x, int y, int width, int height)
+    publid void fillOvbl(SunGrbpiids2D sg2d,
+                         int x, int y, int widti, int ifigit)
     {
-        fill(sg2d, new Ellipse2D.Float(x, y, width, height));
+        fill(sg2d, nfw Ellipsf2D.Flobt(x, y, widti, ifigit));
     }
 
-    public void drawArc(SunGraphics2D sg2d,
-                        int x, int y, int width, int height,
-                        int startAngle, int arcAngle)
+    publid void drbwArd(SunGrbpiids2D sg2d,
+                        int x, int y, int widti, int ifigit,
+                        int stbrtAnglf, int brdAnglf)
     {
-        draw(sg2d, new Arc2D.Float(x, y, width, height,
-                                   startAngle, arcAngle,
-                                   Arc2D.OPEN));
+        drbw(sg2d, nfw Ard2D.Flobt(x, y, widti, ifigit,
+                                   stbrtAnglf, brdAnglf,
+                                   Ard2D.OPEN));
     }
 
-    public void fillArc(SunGraphics2D sg2d,
-                        int x, int y, int width, int height,
-                        int startAngle, int arcAngle)
+    publid void fillArd(SunGrbpiids2D sg2d,
+                        int x, int y, int widti, int ifigit,
+                        int stbrtAnglf, int brdAnglf)
     {
-        fill(sg2d, new Arc2D.Float(x, y, width, height,
-                                   startAngle, arcAngle,
-                                   Arc2D.PIE));
+        fill(sg2d, nfw Ard2D.Flobt(x, y, widti, ifigit,
+                                   stbrtAnglf, brdAnglf,
+                                   Ard2D.PIE));
     }
 
-    protected void drawPoly(final SunGraphics2D sg2d,
-                            final int[] xPoints, final int[] yPoints,
-                            final int nPoints, final boolean isClosed)
+    protfdtfd void drbwPoly(finbl SunGrbpiids2D sg2d,
+                            finbl int[] xPoints, finbl int[] yPoints,
+                            finbl int nPoints, finbl boolfbn isClosfd)
     {
         if (xPoints == null || yPoints == null) {
-            throw new NullPointerException("coordinate array");
+            tirow nfw NullPointfrExdfption("doordinbtf brrby");
         }
-        if (xPoints.length < nPoints || yPoints.length < nPoints) {
-            throw new ArrayIndexOutOfBoundsException("coordinate array");
+        if (xPoints.lfngti < nPoints || yPoints.lfngti < nPoints) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption("doordinbtf brrby");
         }
 
         if (nPoints < 2) {
-            // render nothing
-            return;
-        } else if (nPoints == 2 && !isClosed) {
-            // render a simple line
-            drawLine(sg2d, xPoints[0], yPoints[0], xPoints[1], yPoints[1]);
-            return;
+            // rfndfr notiing
+            rfturn;
+        } flsf if (nPoints == 2 && !isClosfd) {
+            // rfndfr b simplf linf
+            drbwLinf(sg2d, xPoints[0], yPoints[0], xPoints[1], yPoints[1]);
+            rfturn;
         }
 
-        rq.lock();
+        rq.lodk();
         try {
-            validateContext(sg2d);
+            vblidbtfContfxt(sg2d);
 
-            int pointBytesRequired = nPoints * BYTES_PER_POLY_POINT;
-            int totalBytesRequired = 20 + pointBytesRequired;
+            int pointBytfsRfquirfd = nPoints * BYTES_PER_POLY_POINT;
+            int totblBytfsRfquirfd = 20 + pointBytfsRfquirfd;
 
-            if (totalBytesRequired <= buf.capacity()) {
-                if (totalBytesRequired > buf.remaining()) {
-                    // process the queue first and then enqueue the points
-                    rq.flushNow();
+            if (totblBytfsRfquirfd <= buf.dbpbdity()) {
+                if (totblBytfsRfquirfd > buf.rfmbining()) {
+                    // prodfss tif qufuf first bnd tifn fnqufuf tif points
+                    rq.flusiNow();
                 }
                 buf.putInt(DRAW_POLY);
-                // enqueue parameters
+                // fnqufuf pbrbmftfrs
                 buf.putInt(nPoints);
-                buf.putInt(isClosed ? 1 : 0);
-                buf.putInt(sg2d.transX);
-                buf.putInt(sg2d.transY);
-                // enqueue the points
+                buf.putInt(isClosfd ? 1 : 0);
+                buf.putInt(sg2d.trbnsX);
+                buf.putInt(sg2d.trbnsY);
+                // fnqufuf tif points
                 buf.put(xPoints, 0, nPoints);
                 buf.put(yPoints, 0, nPoints);
-            } else {
-                // queue is too small to accommodate all points; perform the
-                // operation directly on the queue flushing thread
-                rq.flushAndInvokeNow(new Runnable() {
-                    public void run() {
-                        drawPoly(xPoints, yPoints,
-                                 nPoints, isClosed,
-                                 sg2d.transX, sg2d.transY);
+            } flsf {
+                // qufuf is too smbll to bddommodbtf bll points; pfrform tif
+                // opfrbtion dirfdtly on tif qufuf flusiing tirfbd
+                rq.flusiAndInvokfNow(nfw Runnbblf() {
+                    publid void run() {
+                        drbwPoly(xPoints, yPoints,
+                                 nPoints, isClosfd,
+                                 sg2d.trbnsX, sg2d.trbnsY);
                     }
                 });
             }
-        } finally {
-            rq.unlock();
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    protected abstract void drawPoly(int[] xPoints, int[] yPoints,
-                                     int nPoints, boolean isClosed,
-                                     int transX, int transY);
+    protfdtfd bbstrbdt void drbwPoly(int[] xPoints, int[] yPoints,
+                                     int nPoints, boolfbn isClosfd,
+                                     int trbnsX, int trbnsY);
 
-    public void drawPolyline(SunGraphics2D sg2d,
+    publid void drbwPolylinf(SunGrbpiids2D sg2d,
                              int[] xPoints, int[] yPoints,
                              int nPoints)
     {
-        drawPoly(sg2d, xPoints, yPoints, nPoints, false);
+        drbwPoly(sg2d, xPoints, yPoints, nPoints, fblsf);
     }
 
-    public void drawPolygon(SunGraphics2D sg2d,
+    publid void drbwPolygon(SunGrbpiids2D sg2d,
                             int[] xPoints, int[] yPoints,
                             int nPoints)
     {
-        drawPoly(sg2d, xPoints, yPoints, nPoints, true);
+        drbwPoly(sg2d, xPoints, yPoints, nPoints, truf);
     }
 
-    public void fillPolygon(SunGraphics2D sg2d,
+    publid void fillPolygon(SunGrbpiids2D sg2d,
                             int[] xPoints, int[] yPoints,
                             int nPoints)
     {
-        fill(sg2d, new Polygon(xPoints, yPoints, nPoints));
+        fill(sg2d, nfw Polygon(xPoints, yPoints, nPoints));
     }
 
-    private class BufferedDrawHandler
-        extends ProcessPath.DrawHandler
+    privbtf dlbss BufffrfdDrbwHbndlfr
+        fxtfnds ProdfssPbti.DrbwHbndlfr
     {
-        BufferedDrawHandler() {
-            // these are bogus values; the caller will use validate()
-            // to ensure that they are set properly prior to each usage
-            super(0, 0, 0, 0);
+        BufffrfdDrbwHbndlfr() {
+            // tifsf brf bogus vblufs; tif dbllfr will usf vblidbtf()
+            // to fnsurf tibt tify brf sft propfrly prior to fbdi usbgf
+            supfr(0, 0, 0, 0);
         }
 
         /**
-         * This method needs to be called prior to each draw/fillPath()
-         * operation to ensure the clip bounds are up to date.
+         * Tiis mftiod nffds to bf dbllfd prior to fbdi drbw/fillPbti()
+         * opfrbtion to fnsurf tif dlip bounds brf up to dbtf.
          */
-        void validate(SunGraphics2D sg2d) {
-            Region clip = sg2d.getCompClip();
-            setBounds(clip.getLoX(), clip.getLoY(),
-                      clip.getHiX(), clip.getHiY(),
-                      sg2d.strokeHint);
+        void vblidbtf(SunGrbpiids2D sg2d) {
+            Rfgion dlip = sg2d.gftCompClip();
+            sftBounds(dlip.gftLoX(), dlip.gftLoY(),
+                      dlip.gftHiX(), dlip.gftHiY(),
+                      sg2d.strokfHint);
         }
 
         /**
-         * drawPath() support...
+         * drbwPbti() support...
          */
 
-        public void drawLine(int x1, int y1, int x2, int y2) {
-            // assert rq.lock.isHeldByCurrentThread();
-            rq.ensureCapacity(20);
+        publid void drbwLinf(int x1, int y1, int x2, int y2) {
+            // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
+            rq.fnsurfCbpbdity(20);
             buf.putInt(DRAW_LINE);
             buf.putInt(x1);
             buf.putInt(y1);
@@ -298,304 +298,304 @@ public abstract class BufferedRenderPipe
             buf.putInt(y2);
         }
 
-        public void drawPixel(int x, int y) {
-            // assert rq.lock.isHeldByCurrentThread();
-            rq.ensureCapacity(12);
+        publid void drbwPixfl(int x, int y) {
+            // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
+            rq.fnsurfCbpbdity(12);
             buf.putInt(DRAW_PIXEL);
             buf.putInt(x);
             buf.putInt(y);
         }
 
         /**
-         * fillPath() support...
+         * fillPbti() support...
          */
 
-        private int scanlineCount;
-        private int scanlineCountIndex;
-        private int remainingScanlines;
+        privbtf int sdbnlinfCount;
+        privbtf int sdbnlinfCountIndfx;
+        privbtf int rfmbiningSdbnlinfs;
 
-        private void resetFillPath() {
+        privbtf void rfsftFillPbti() {
             buf.putInt(DRAW_SCANLINES);
-            scanlineCountIndex = buf.position();
+            sdbnlinfCountIndfx = buf.position();
             buf.putInt(0);
-            scanlineCount = 0;
-            remainingScanlines = buf.remaining() / BYTES_PER_SCANLINE;
+            sdbnlinfCount = 0;
+            rfmbiningSdbnlinfs = buf.rfmbining() / BYTES_PER_SCANLINE;
         }
 
-        private void updateScanlineCount() {
-            buf.putInt(scanlineCountIndex, scanlineCount);
+        privbtf void updbtfSdbnlinfCount() {
+            buf.putInt(sdbnlinfCountIndfx, sdbnlinfCount);
         }
 
         /**
-         * Called from fillPath() to indicate that we are about to
-         * start issuing drawScanline() calls.
+         * Cbllfd from fillPbti() to indidbtf tibt wf brf bbout to
+         * stbrt issuing drbwSdbnlinf() dblls.
          */
-        public void startFillPath() {
-            rq.ensureCapacity(20); // to ensure room for at least a scanline
-            resetFillPath();
+        publid void stbrtFillPbti() {
+            rq.fnsurfCbpbdity(20); // to fnsurf room for bt lfbst b sdbnlinf
+            rfsftFillPbti();
         }
 
-        public void drawScanline(int x1, int x2, int y) {
-            if (remainingScanlines == 0) {
-                updateScanlineCount();
-                rq.flushNow();
-                resetFillPath();
+        publid void drbwSdbnlinf(int x1, int x2, int y) {
+            if (rfmbiningSdbnlinfs == 0) {
+                updbtfSdbnlinfCount();
+                rq.flusiNow();
+                rfsftFillPbti();
             }
             buf.putInt(x1);
             buf.putInt(x2);
             buf.putInt(y);
-            scanlineCount++;
-            remainingScanlines--;
+            sdbnlinfCount++;
+            rfmbiningSdbnlinfs--;
         }
 
         /**
-         * Called from fillPath() to indicate that we are done
-         * issuing drawScanline() calls.
+         * Cbllfd from fillPbti() to indidbtf tibt wf brf donf
+         * issuing drbwSdbnlinf() dblls.
          */
-        public void endFillPath() {
-            updateScanlineCount();
+        publid void fndFillPbti() {
+            updbtfSdbnlinfCount();
         }
     }
 
-    protected void drawPath(SunGraphics2D sg2d,
-                            Path2D.Float p2df, int transx, int transy)
+    protfdtfd void drbwPbti(SunGrbpiids2D sg2d,
+                            Pbti2D.Flobt p2df, int trbnsx, int trbnsy)
     {
-        rq.lock();
+        rq.lodk();
         try {
-            validateContext(sg2d);
-            drawHandler.validate(sg2d);
-            ProcessPath.drawPath(drawHandler, p2df, transx, transy);
-        } finally {
-            rq.unlock();
+            vblidbtfContfxt(sg2d);
+            drbwHbndlfr.vblidbtf(sg2d);
+            ProdfssPbti.drbwPbti(drbwHbndlfr, p2df, trbnsx, trbnsy);
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    protected void fillPath(SunGraphics2D sg2d,
-                            Path2D.Float p2df, int transx, int transy)
+    protfdtfd void fillPbti(SunGrbpiids2D sg2d,
+                            Pbti2D.Flobt p2df, int trbnsx, int trbnsy)
     {
-        rq.lock();
+        rq.lodk();
         try {
-            validateContext(sg2d);
-            drawHandler.validate(sg2d);
-            drawHandler.startFillPath();
-            ProcessPath.fillPath(drawHandler, p2df, transx, transy);
-            drawHandler.endFillPath();
-        } finally {
-            rq.unlock();
+            vblidbtfContfxt(sg2d);
+            drbwHbndlfr.vblidbtf(sg2d);
+            drbwHbndlfr.stbrtFillPbti();
+            ProdfssPbti.fillPbti(drbwHbndlfr, p2df, trbnsx, trbnsy);
+            drbwHbndlfr.fndFillPbti();
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    private native int fillSpans(RenderQueue rq, long buf,
+    privbtf nbtivf int fillSpbns(RfndfrQufuf rq, long buf,
                                  int pos, int limit,
-                                 SpanIterator si, long iterator,
-                                 int transx, int transy);
+                                 SpbnItfrbtor si, long itfrbtor,
+                                 int trbnsx, int trbnsy);
 
-    protected void fillSpans(SunGraphics2D sg2d, SpanIterator si,
-                             int transx, int transy)
+    protfdtfd void fillSpbns(SunGrbpiids2D sg2d, SpbnItfrbtor si,
+                             int trbnsx, int trbnsy)
     {
-        rq.lock();
+        rq.lodk();
         try {
-            validateContext(sg2d);
-            rq.ensureCapacity(24); // so that we have room for at least a span
-            int newpos = fillSpans(rq, buf.getAddress(),
-                                   buf.position(), buf.capacity(),
-                                   si, si.getNativeIterator(),
-                                   transx, transy);
-            buf.position(newpos);
-        } finally {
-            rq.unlock();
+            vblidbtfContfxt(sg2d);
+            rq.fnsurfCbpbdity(24); // so tibt wf ibvf room for bt lfbst b spbn
+            int nfwpos = fillSpbns(rq, buf.gftAddrfss(),
+                                   buf.position(), buf.dbpbdity(),
+                                   si, si.gftNbtivfItfrbtor(),
+                                   trbnsx, trbnsy);
+            buf.position(nfwpos);
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    public void fillParallelogram(SunGraphics2D sg2d,
-                                  double ux1, double uy1,
-                                  double ux2, double uy2,
-                                  double x, double y,
-                                  double dx1, double dy1,
-                                  double dx2, double dy2)
+    publid void fillPbrbllflogrbm(SunGrbpiids2D sg2d,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux2, doublf uy2,
+                                  doublf x, doublf y,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx2, doublf dy2)
     {
-        rq.lock();
+        rq.lodk();
         try {
-            validateContext(sg2d);
-            rq.ensureCapacity(28);
+            vblidbtfContfxt(sg2d);
+            rq.fnsurfCbpbdity(28);
             buf.putInt(FILL_PARALLELOGRAM);
-            buf.putFloat((float) x);
-            buf.putFloat((float) y);
-            buf.putFloat((float) dx1);
-            buf.putFloat((float) dy1);
-            buf.putFloat((float) dx2);
-            buf.putFloat((float) dy2);
-        } finally {
-            rq.unlock();
+            buf.putFlobt((flobt) x);
+            buf.putFlobt((flobt) y);
+            buf.putFlobt((flobt) dx1);
+            buf.putFlobt((flobt) dy1);
+            buf.putFlobt((flobt) dx2);
+            buf.putFlobt((flobt) dy2);
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    public void drawParallelogram(SunGraphics2D sg2d,
-                                  double ux1, double uy1,
-                                  double ux2, double uy2,
-                                  double x, double y,
-                                  double dx1, double dy1,
-                                  double dx2, double dy2,
-                                  double lw1, double lw2)
+    publid void drbwPbrbllflogrbm(SunGrbpiids2D sg2d,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux2, doublf uy2,
+                                  doublf x, doublf y,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx2, doublf dy2,
+                                  doublf lw1, doublf lw2)
     {
-        rq.lock();
+        rq.lodk();
         try {
-            validateContext(sg2d);
-            rq.ensureCapacity(36);
+            vblidbtfContfxt(sg2d);
+            rq.fnsurfCbpbdity(36);
             buf.putInt(DRAW_PARALLELOGRAM);
-            buf.putFloat((float) x);
-            buf.putFloat((float) y);
-            buf.putFloat((float) dx1);
-            buf.putFloat((float) dy1);
-            buf.putFloat((float) dx2);
-            buf.putFloat((float) dy2);
-            buf.putFloat((float) lw1);
-            buf.putFloat((float) lw2);
-        } finally {
-            rq.unlock();
+            buf.putFlobt((flobt) x);
+            buf.putFlobt((flobt) y);
+            buf.putFlobt((flobt) dx1);
+            buf.putFlobt((flobt) dy1);
+            buf.putFlobt((flobt) dx2);
+            buf.putFlobt((flobt) dy2);
+            buf.putFlobt((flobt) lw1);
+            buf.putFlobt((flobt) lw2);
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    private class AAParallelogramPipe implements ParallelogramPipe {
-        public void fillParallelogram(SunGraphics2D sg2d,
-                                      double ux1, double uy1,
-                                      double ux2, double uy2,
-                                      double x, double y,
-                                      double dx1, double dy1,
-                                      double dx2, double dy2)
+    privbtf dlbss AAPbrbllflogrbmPipf implfmfnts PbrbllflogrbmPipf {
+        publid void fillPbrbllflogrbm(SunGrbpiids2D sg2d,
+                                      doublf ux1, doublf uy1,
+                                      doublf ux2, doublf uy2,
+                                      doublf x, doublf y,
+                                      doublf dx1, doublf dy1,
+                                      doublf dx2, doublf dy2)
         {
-            rq.lock();
+            rq.lodk();
             try {
-                validateContextAA(sg2d);
-                rq.ensureCapacity(28);
+                vblidbtfContfxtAA(sg2d);
+                rq.fnsurfCbpbdity(28);
                 buf.putInt(FILL_AAPARALLELOGRAM);
-                buf.putFloat((float) x);
-                buf.putFloat((float) y);
-                buf.putFloat((float) dx1);
-                buf.putFloat((float) dy1);
-                buf.putFloat((float) dx2);
-                buf.putFloat((float) dy2);
-            } finally {
-                rq.unlock();
+                buf.putFlobt((flobt) x);
+                buf.putFlobt((flobt) y);
+                buf.putFlobt((flobt) dx1);
+                buf.putFlobt((flobt) dy1);
+                buf.putFlobt((flobt) dx2);
+                buf.putFlobt((flobt) dy2);
+            } finblly {
+                rq.unlodk();
             }
         }
 
-        public void drawParallelogram(SunGraphics2D sg2d,
-                                      double ux1, double uy1,
-                                      double ux2, double uy2,
-                                      double x, double y,
-                                      double dx1, double dy1,
-                                      double dx2, double dy2,
-                                      double lw1, double lw2)
+        publid void drbwPbrbllflogrbm(SunGrbpiids2D sg2d,
+                                      doublf ux1, doublf uy1,
+                                      doublf ux2, doublf uy2,
+                                      doublf x, doublf y,
+                                      doublf dx1, doublf dy1,
+                                      doublf dx2, doublf dy2,
+                                      doublf lw1, doublf lw2)
         {
-            rq.lock();
+            rq.lodk();
             try {
-                validateContextAA(sg2d);
-                rq.ensureCapacity(36);
+                vblidbtfContfxtAA(sg2d);
+                rq.fnsurfCbpbdity(36);
                 buf.putInt(DRAW_AAPARALLELOGRAM);
-                buf.putFloat((float) x);
-                buf.putFloat((float) y);
-                buf.putFloat((float) dx1);
-                buf.putFloat((float) dy1);
-                buf.putFloat((float) dx2);
-                buf.putFloat((float) dy2);
-                buf.putFloat((float) lw1);
-                buf.putFloat((float) lw2);
-            } finally {
-                rq.unlock();
+                buf.putFlobt((flobt) x);
+                buf.putFlobt((flobt) y);
+                buf.putFlobt((flobt) dx1);
+                buf.putFlobt((flobt) dy1);
+                buf.putFlobt((flobt) dx2);
+                buf.putFlobt((flobt) dy2);
+                buf.putFlobt((flobt) lw1);
+                buf.putFlobt((flobt) lw2);
+            } finblly {
+                rq.unlodk();
             }
         }
     }
 
-    public void draw(SunGraphics2D sg2d, Shape s) {
-        if (sg2d.strokeState == SunGraphics2D.STROKE_THIN) {
-            if (s instanceof Polygon) {
-                if (sg2d.transformState < SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
+    publid void drbw(SunGrbpiids2D sg2d, Sibpf s) {
+        if (sg2d.strokfStbtf == SunGrbpiids2D.STROKE_THIN) {
+            if (s instbndfof Polygon) {
+                if (sg2d.trbnsformStbtf < SunGrbpiids2D.TRANSFORM_TRANSLATESCALE) {
                     Polygon p = (Polygon)s;
-                    drawPolygon(sg2d, p.xpoints, p.ypoints, p.npoints);
-                    return;
+                    drbwPolygon(sg2d, p.xpoints, p.ypoints, p.npoints);
+                    rfturn;
                 }
             }
-            Path2D.Float p2df;
-            int transx, transy;
-            if (sg2d.transformState <= SunGraphics2D.TRANSFORM_INT_TRANSLATE) {
-                if (s instanceof Path2D.Float) {
-                    p2df = (Path2D.Float)s;
-                } else {
-                    p2df = new Path2D.Float(s);
+            Pbti2D.Flobt p2df;
+            int trbnsx, trbnsy;
+            if (sg2d.trbnsformStbtf <= SunGrbpiids2D.TRANSFORM_INT_TRANSLATE) {
+                if (s instbndfof Pbti2D.Flobt) {
+                    p2df = (Pbti2D.Flobt)s;
+                } flsf {
+                    p2df = nfw Pbti2D.Flobt(s);
                 }
-                transx = sg2d.transX;
-                transy = sg2d.transY;
-            } else {
-                p2df = new Path2D.Float(s, sg2d.transform);
-                transx = 0;
-                transy = 0;
+                trbnsx = sg2d.trbnsX;
+                trbnsy = sg2d.trbnsY;
+            } flsf {
+                p2df = nfw Pbti2D.Flobt(s, sg2d.trbnsform);
+                trbnsx = 0;
+                trbnsy = 0;
             }
-            drawPath(sg2d, p2df, transx, transy);
-        } else if (sg2d.strokeState < SunGraphics2D.STROKE_CUSTOM) {
-            ShapeSpanIterator si = LoopPipe.getStrokeSpans(sg2d, s);
+            drbwPbti(sg2d, p2df, trbnsx, trbnsy);
+        } flsf if (sg2d.strokfStbtf < SunGrbpiids2D.STROKE_CUSTOM) {
+            SibpfSpbnItfrbtor si = LoopPipf.gftStrokfSpbns(sg2d, s);
             try {
-                fillSpans(sg2d, si, 0, 0);
-            } finally {
-                si.dispose();
+                fillSpbns(sg2d, si, 0, 0);
+            } finblly {
+                si.disposf();
             }
-        } else {
-            fill(sg2d, sg2d.stroke.createStrokedShape(s));
+        } flsf {
+            fill(sg2d, sg2d.strokf.drfbtfStrokfdSibpf(s));
         }
     }
 
-    public void fill(SunGraphics2D sg2d, Shape s) {
-        int transx, transy;
+    publid void fill(SunGrbpiids2D sg2d, Sibpf s) {
+        int trbnsx, trbnsy;
 
-        if (sg2d.strokeState == SunGraphics2D.STROKE_THIN) {
-            // Here we are able to use fillPath() for
-            // high-quality fills.
-            Path2D.Float p2df;
-            if (sg2d.transformState <= SunGraphics2D.TRANSFORM_INT_TRANSLATE) {
-                if (s instanceof Path2D.Float) {
-                    p2df = (Path2D.Float)s;
-                } else {
-                    p2df = new Path2D.Float(s);
+        if (sg2d.strokfStbtf == SunGrbpiids2D.STROKE_THIN) {
+            // Hfrf wf brf bblf to usf fillPbti() for
+            // iigi-qublity fills.
+            Pbti2D.Flobt p2df;
+            if (sg2d.trbnsformStbtf <= SunGrbpiids2D.TRANSFORM_INT_TRANSLATE) {
+                if (s instbndfof Pbti2D.Flobt) {
+                    p2df = (Pbti2D.Flobt)s;
+                } flsf {
+                    p2df = nfw Pbti2D.Flobt(s);
                 }
-                transx = sg2d.transX;
-                transy = sg2d.transY;
-            } else {
-                p2df = new Path2D.Float(s, sg2d.transform);
-                transx = 0;
-                transy = 0;
+                trbnsx = sg2d.trbnsX;
+                trbnsy = sg2d.trbnsY;
+            } flsf {
+                p2df = nfw Pbti2D.Flobt(s, sg2d.trbnsform);
+                trbnsx = 0;
+                trbnsy = 0;
             }
-            fillPath(sg2d, p2df, transx, transy);
-            return;
+            fillPbti(sg2d, p2df, trbnsx, trbnsy);
+            rfturn;
         }
 
-        AffineTransform at;
-        if (sg2d.transformState <= SunGraphics2D.TRANSFORM_INT_TRANSLATE) {
-            // Transform (translation) will be done by FillSpans (we could
-            // delegate to fillPolygon() here, but most hardware accelerated
-            // libraries cannot handle non-convex polygons, so we will use
-            // the FillSpans approach by default)
-            at = null;
-            transx = sg2d.transX;
-            transy = sg2d.transY;
-        } else {
-            // Transform will be done by the PathIterator
-            at = sg2d.transform;
-            transx = transy = 0;
+        AffinfTrbnsform bt;
+        if (sg2d.trbnsformStbtf <= SunGrbpiids2D.TRANSFORM_INT_TRANSLATE) {
+            // Trbnsform (trbnslbtion) will bf donf by FillSpbns (wf dould
+            // dflfgbtf to fillPolygon() ifrf, but most ibrdwbrf bddflfrbtfd
+            // librbrifs dbnnot ibndlf non-donvfx polygons, so wf will usf
+            // tif FillSpbns bpprobdi by dffbult)
+            bt = null;
+            trbnsx = sg2d.trbnsX;
+            trbnsy = sg2d.trbnsY;
+        } flsf {
+            // Trbnsform will bf donf by tif PbtiItfrbtor
+            bt = sg2d.trbnsform;
+            trbnsx = trbnsy = 0;
         }
 
-        ShapeSpanIterator ssi = LoopPipe.getFillSSI(sg2d);
+        SibpfSpbnItfrbtor ssi = LoopPipf.gftFillSSI(sg2d);
         try {
-            // Subtract transx/y from the SSI clip to match the
-            // (potentially untranslated) geometry fed to it
-            Region clip = sg2d.getCompClip();
-            ssi.setOutputAreaXYXY(clip.getLoX() - transx,
-                                  clip.getLoY() - transy,
-                                  clip.getHiX() - transx,
-                                  clip.getHiY() - transy);
-            ssi.appendPath(s.getPathIterator(at));
-            fillSpans(sg2d, ssi, transx, transy);
-        } finally {
-            ssi.dispose();
+            // Subtrbdt trbnsx/y from tif SSI dlip to mbtdi tif
+            // (potfntiblly untrbnslbtfd) gfomftry ffd to it
+            Rfgion dlip = sg2d.gftCompClip();
+            ssi.sftOutputArfbXYXY(dlip.gftLoX() - trbnsx,
+                                  dlip.gftLoY() - trbnsy,
+                                  dlip.gftHiX() - trbnsx,
+                                  dlip.gftHiY() - trbnsy);
+            ssi.bppfndPbti(s.gftPbtiItfrbtor(bt));
+            fillSpbns(sg2d, ssi, trbnsx, trbnsy);
+        } finblly {
+            ssi.disposf();
         }
     }
 }

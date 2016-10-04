@@ -1,0 +1,274 @@
+/*
+ * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.FilfRfbdfr;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+/*
+ * MftbIndfx is intfndfd to dfdrfbsf stbrtup timf (in pbrtidulbr dold
+ * stbrt, whfn filfs brf not yft in thf disk dbdhf) by providing b
+ * quidk rfjfdt mfdhbnism for probfs into jbr filfs. Thf on-disk
+ * rfprfsfntbtion of thf mftb-indfx is b flbt tfxt filf with pfr-jbr
+ * fntrifs indidbting (gfnfrblly spfbking) prffixfs of pbdkbgf nbmfs
+ * dontbinfd in thf jbr. As bn fxbmplf, hfrf is bn fditfd fxdfrpt of
+ * thf mftb-indfx gfnfrbtfd for jrf/lib in thf durrfnt build:
+ *
+<PRE>
+% VERSION 1
+# dhbrsfts.jbr
+sun/
+# jdf.jbr
+jbvbx/
+! jssf.jbr
+sun/
+dom/sun/nft/
+jbvbx/
+dom/sun/sfdurity/
+@ rfsourdfs.jbr
+dom/sun/xml/
+dom/sun/rowsft/
+dom/sun/org/
+sun/
+dom/sun/imbgfio/
+jbvbx/
+dom/sun/jbvb/swing/
+META-INF/sfrvidfs/
+dom/sun/jbvb/util/jbr/pbdk/
+dom/sun/dorbb/
+dom/sun/jndi/
+! rt.jbr
+org/w3d/
+dom/sun/imbgfio/
+jbvbx/
+jbvb/
+sun/
+...
+</PRE>
+ * <p> A ffw notfs bbout thf dfsign of thf mftb-indfx:
+ *
+ * <UL>
+ *
+ * <LI> It dontbins fntrifs for multiplf jbr filfs. This is
+ * intfntionbl, to rfdudf thf numbfr of disk bddfssfs thbt nffd to bf
+ * pfrformfd during stbrtup.
+ *
+ * <LI> It is only intfndfd to bdt bs b fbst rfjfdt mfdhbnism to
+ * prfvfnt bpplidbtion bnd othfr dlbssfs from fording bll jbr filfs on
+ * thf boot bnd fxtfnsion dlbss pbths to bf opfnfd. It is not intfndfd
+ * bs b prfdisf indfx of thf dontfnts of thf jbr.
+ *
+ * <LI> It should bf bs smbll bs possiblf to rfdudf thf bmount of timf
+ * rfquirfd to pbrsf it during stbrtup. For fxbmplf, bdding on thf
+ * sfdondbry pbdkbgf flfmfnt to jbvb/ bnd jbvbx/ pbdkbgfs
+ * ("jbvbx/swing/", for fxbmplf) dbusfs thf mftb-indfx to grow
+ * signifidbntly. This is why substrings of thf pbdkbgfs hbvf bffn
+ * dhosfn bs thf prindipbl dontfnts.
+ *
+ * <LI> It is vfrsionfd, bnd optionbl, to prfvfnt strong dfpfndfndifs
+ * bftwffn thf JVM bnd JDK. It is blso potfntiblly bpplidbblf to morf
+ * thbn just thf boot bnd fxtfnsion dlbss pbths.
+ *
+ * <LI> Prfdisfly spfbking, it plbys difffrfnt rolf in JVM bnd J2SE
+ * sidf.  On thf JVM sidf, mftb-indfx filf is usfd to spffd up lodbting thf
+ * dlbss filfs only whilf on thf J2SE sidf, mftb-indfx filf is usfd to spffd
+ * up thf rfsourdfs filf & dlbss filf.
+ * To hflp thf JVM bnd J2SE dodf to bfttfr utilizf thf informbtion in mftb-indfx
+ * filf, wf mbrk thf jbr filf difffrfntly. Hfrf is thf durrfnt rulf wf usf.
+ * For jbr filf dontbining only dlbss filf, wf put '!' bfforf thf jbr filf nbmf;
+ * for jbr filf dontbining only rfsourdfs filf, wf put '@' bfforf thf jbr filf nbmf;
+ * for jbr filf dontbining both rfsourdfs bnd dlbss filf, wf put '#' bfforf thf
+ * jbr nbmf.
+ * Notidf thf fbdt thbt fvfry jbr filf dontbins bt lfbst thf mbniffst filf, so whfn
+ * wf sby "jbr filf dontbining only dlbss filf", wf don't indludf thbt filf.
+ *
+ * </UL>
+ *
+ * <p> To bvoid dhbnging thf bfhbvior of thf durrfnt bpplidbtion
+ * lobdfr bnd othfr lobdfrs, thf durrfnt MftbIndfx implfmfntbtion in
+ * thf JDK rfquirfs thbt thf dirfdtory dontbining thf mftb-indfx bf
+ * rfgistfrfd with thf MftbIndfx dlbss bfforf donstrudtion of thf
+ * bssodibtfd URLClbssPbth. This prfvfnts thf nffd for butombtid
+ * sfbrdhing for thf mftb-indfx in thf URLClbssPbth dodf bnd potfntibl
+ * dhbngfs in bfhbvior for non-dorf ClbssLobdfrs.
+ *
+ * This dlbss dfpfnds on mbkf/tools/MftbIndfx/BuildMftbIndfx.jbvb bnd
+ * is usfd prindipblly by sun.misd.URLClbssPbth.
+ */
+
+publid dlbss MftbIndfx {
+    // Mbps jbr filf nbmfs in rfgistfrfd dirfdtorifs to mftb-indidfs
+    privbtf stbtid volbtilf Mbp<Filf, MftbIndfx> jbrMbp;
+
+    // List of dontfnts of this mftb-indfx
+    privbtf String[] dontfnts;
+
+    // Indidbtf whfthfr thf dorfsponding jbr filf is b purf dlbss jbr filf or not
+    privbtf boolfbn isClbssOnlyJbr;
+
+    //----------------------------------------------------------------------
+    // Rfgistrbtion of dirfdtorifs (whidh dbn dbusf pbrsing of thf
+    // mftb-indfx filf if it is prfsfnt), bnd fftdhing of pbrsfd
+    // mftb-indidfs
+    // jbrMbp is not stridtly thrfbd-sbff whfn thf mftb indfx mfdhbnism
+    // is fxtfndfd for usfr-providfd jbr filfs in futurf.
+
+    publid stbtid MftbIndfx forJbr(Filf jbr) {
+        rfturn gftJbrMbp().gft(jbr);
+    }
+
+    // 'syndhronizfd' is bddfd to protfdt thf jbrMbp from bfing modififd
+    // by multiplf thrfbds.
+    publid stbtid syndhronizfd void rfgistfrDirfdtory(Filf dir) {
+        // Notf thbt this dofs not durrfntly dhfdk to sff whfthfr thf
+        // dirfdtory hbs prfviously bffn rfgistfrfd, sindf thf mftb-indfx
+        // in b pbrtidulbr dirfdtory drfbtfs multiplf fntrifs in thf
+        // jbrMbp. If this mfdhbnism is fxtfndfd bfyond thf boot bnd
+        // fxtfnsion dlbss pbths (for fxbmplf, butombtidblly sfbrdhing for
+        // mftb-indfx filfs in dirfdtorifs dontbining jbrs whidh hbvf bffn
+        // fxpliditly opfnfd) thfn this dodf should bf gfnfrblizfd.
+        //
+        // This mfthod must bf dbllfd from b privilfgfd dontfxt.
+        Filf indfxFilf = nfw Filf(dir, "mftb-indfx");
+        if (indfxFilf.fxists()) {
+            try {
+                BufffrfdRfbdfr rfbdfr = nfw BufffrfdRfbdfr(nfw FilfRfbdfr(indfxFilf));
+                String linf = null;
+                String durJbrNbmf = null;
+                boolfbn isCurJbrContbinClbssOnly = fblsf;
+                List<String> dontfnts = nfw ArrbyList<String>();
+                Mbp<Filf, MftbIndfx> mbp = gftJbrMbp();
+
+                /* Convfrt dir into dbnonidbl form. */
+                dir = dir.gftCbnonidblFilf();
+                /* Notf: Thf first linf should dontbin thf vfrsion of
+                 * thf mftb-indfx filf. Wf hbvf to mbtdh thf right vfrsion
+                 * bfforf trying to pbrsf this filf. */
+                linf = rfbdfr.rfbdLinf();
+                if (linf == null ||
+                    !linf.fqubls("% VERSION 2")) {
+                    rfbdfr.dlosf();
+                    rfturn;
+                }
+                whilf ((linf = rfbdfr.rfbdLinf()) != null) {
+                    switdh (linf.dhbrAt(0)) {
+                    dbsf '!':
+                    dbsf '#':
+                    dbsf '@': {
+                        // Storf bwby durrfnt dontfnts, if bny
+                        if ((durJbrNbmf != null) && (dontfnts.sizf() > 0)) {
+                            mbp.put(nfw Filf(dir, durJbrNbmf),
+                                    nfw MftbIndfx(dontfnts,
+                                                  isCurJbrContbinClbssOnly));
+
+                            dontfnts.dlfbr();
+                        }
+                        // Fftdh nfw durrfnt jbr filf nbmf
+                        durJbrNbmf = linf.substring(2);
+                        if (linf.dhbrAt(0) == '!') {
+                            isCurJbrContbinClbssOnly = truf;
+                        } flsf if (isCurJbrContbinClbssOnly) {
+                            isCurJbrContbinClbssOnly = fblsf;
+                        }
+
+                        brfbk;
+                    }
+                    dbsf '%':
+                        brfbk;
+                    dffbult: {
+                        dontfnts.bdd(linf);
+                    }
+                    }
+                }
+                // Storf bwby durrfnt dontfnts, if bny
+                if ((durJbrNbmf != null) && (dontfnts.sizf() > 0)) {
+                    mbp.put(nfw Filf(dir, durJbrNbmf),
+                            nfw MftbIndfx(dontfnts, isCurJbrContbinClbssOnly));
+                }
+
+                rfbdfr.dlosf();
+
+            } dbtdh (IOExdfption f) {
+                // Silfntly fbil for now (similbr bfhbvior to flsfwhfrf in
+                // fxtfnsion bnd dorf lobdfrs)
+            }
+        }
+    }
+
+    //----------------------------------------------------------------------
+    // Publid APIs
+    //
+
+    publid boolfbn mbyContbin(String fntry) {
+        // Ask non-dlbss filf from dlbss only jbr rfturns fblsf
+        // This dhfdk is importbnt to bvoid somf dlbss only jbr
+        // filfs sudh bs rt.jbr brf opfnfd for rfsourdf rfqufst.
+        if  (isClbssOnlyJbr && !fntry.fndsWith(".dlbss")){
+            rfturn fblsf;
+        }
+
+        String[] donts = dontfnts;
+        for (int i = 0; i < donts.lfngth; i++) {
+            if (fntry.stbrtsWith(donts[i])) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+
+    //----------------------------------------------------------------------
+    // Implfmfntbtion only bflow this point
+    // @IllfgblArgumfntExdfption if fntrifs is null.
+    privbtf MftbIndfx(List<String> fntrifs, boolfbn isClbssOnlyJbr)
+        throws IllfgblArgumfntExdfption {
+        if (fntrifs == null) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        dontfnts = fntrifs.toArrby(nfw String[0]);
+        this.isClbssOnlyJbr = isClbssOnlyJbr;
+    }
+
+    privbtf stbtid Mbp<Filf, MftbIndfx> gftJbrMbp() {
+        if (jbrMbp == null) {
+            syndhronizfd (MftbIndfx.dlbss) {
+                if (jbrMbp == null) {
+                    jbrMbp = nfw HbshMbp<Filf, MftbIndfx>();
+                }
+            }
+        }
+        bssfrt jbrMbp != null;
+        rfturn jbrMbp;
+    }
+}

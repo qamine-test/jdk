@@ -1,587 +1,587 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.script.shell;
+pbdkbgf dom.sun.tools.sdript.sifll;
 
-import java.io.*;
-import java.net.*;
-import java.text.*;
-import java.util.*;
-import javax.script.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import jbvbx.sdript.*;
 
 /**
- * This is the main class for Java script shell.
+ * Tiis is tif mbin dlbss for Jbvb sdript sifll.
  */
-public class Main {
+publid dlbss Mbin {
     /**
-     * main entry point to the command line tool
-     * @param args command line argument array
+     * mbin fntry point to tif dommbnd linf tool
+     * @pbrbm brgs dommbnd linf brgumfnt brrby
      */
-    public static void main(String[] args) {
-        // parse command line options
-        String[] scriptArgs = processOptions(args);
+    publid stbtid void mbin(String[] brgs) {
+        // pbrsf dommbnd linf options
+        String[] sdriptArgs = prodfssOptions(brgs);
 
-        // process each script command
-        for (Command cmd : scripts) {
-            cmd.run(scriptArgs);
+        // prodfss fbdi sdript dommbnd
+        for (Commbnd dmd : sdripts) {
+            dmd.run(sdriptArgs);
         }
 
-        System.exit(EXIT_SUCCESS);
+        Systfm.fxit(EXIT_SUCCESS);
     }
 
-    // Each -e or -f or interactive mode is represented
-    // by an instance of Command.
-    private static interface Command {
-        public void run(String[] arguments);
+    // Ebdi -f or -f or intfrbdtivf modf is rfprfsfntfd
+    // by bn instbndf of Commbnd.
+    privbtf stbtid intfrfbdf Commbnd {
+        publid void run(String[] brgumfnts);
     }
 
     /**
-     * Parses and processes command line options.
-     * @param args command line argument array
+     * Pbrsfs bnd prodfssfs dommbnd linf options.
+     * @pbrbm brgs dommbnd linf brgumfnt brrby
      */
-    private static String[] processOptions(String[] args) {
-        // current scripting language selected
-        String currentLanguage = DEFAULT_LANGUAGE;
-        // current script file encoding selected
-        String currentEncoding = null;
+    privbtf stbtid String[] prodfssOptions(String[] brgs) {
+        // durrfnt sdripting lbngubgf sflfdtfd
+        String durrfntLbngubgf = DEFAULT_LANGUAGE;
+        // durrfnt sdript filf fndoding sflfdtfd
+        String durrfntEndoding = null;
 
-        // check for -classpath or -cp first
-        checkClassPath(args);
+        // difdk for -dlbsspbti or -dp first
+        difdkClbssPbti(brgs);
 
-        // have we seen -e or -f ?
-        boolean seenScript = false;
-        // have we seen -f - already?
-        boolean seenStdin = false;
-        for (int i=0; i < args.length; i++) {
-            String arg = args[i];
-            if (arg.equals("-classpath") ||
-                    arg.equals("-cp")) {
-                // handled already, just continue
+        // ibvf wf sffn -f or -f ?
+        boolfbn sffnSdript = fblsf;
+        // ibvf wf sffn -f - blrfbdy?
+        boolfbn sffnStdin = fblsf;
+        for (int i=0; i < brgs.lfngti; i++) {
+            String brg = brgs[i];
+            if (brg.fqubls("-dlbsspbti") ||
+                    brg.fqubls("-dp")) {
+                // ibndlfd blrfbdy, just dontinuf
                 i++;
-                continue;
+                dontinuf;
             }
 
-            // collect non-option arguments and pass these as script arguments
-            if (!arg.startsWith("-")) {
-                int numScriptArgs;
-                int startScriptArg;
-                if (seenScript) {
-                    // if we have seen -e or -f already all non-option arguments
-                    // are passed as script arguments
-                    numScriptArgs = args.length - i;
-                    startScriptArg = i;
-                } else {
-                    // if we have not seen -e or -f, first non-option argument
-                    // is treated as script file name and rest of the non-option
-                    // arguments are passed to script as script arguments
-                    numScriptArgs = args.length - i - 1;
-                    startScriptArg = i + 1;
-                    ScriptEngine se = getScriptEngine(currentLanguage);
-                    addFileSource(se, args[i], currentEncoding);
+            // dollfdt non-option brgumfnts bnd pbss tifsf bs sdript brgumfnts
+            if (!brg.stbrtsWiti("-")) {
+                int numSdriptArgs;
+                int stbrtSdriptArg;
+                if (sffnSdript) {
+                    // if wf ibvf sffn -f or -f blrfbdy bll non-option brgumfnts
+                    // brf pbssfd bs sdript brgumfnts
+                    numSdriptArgs = brgs.lfngti - i;
+                    stbrtSdriptArg = i;
+                } flsf {
+                    // if wf ibvf not sffn -f or -f, first non-option brgumfnt
+                    // is trfbtfd bs sdript filf nbmf bnd rfst of tif non-option
+                    // brgumfnts brf pbssfd to sdript bs sdript brgumfnts
+                    numSdriptArgs = brgs.lfngti - i - 1;
+                    stbrtSdriptArg = i + 1;
+                    SdriptEnginf sf = gftSdriptEnginf(durrfntLbngubgf);
+                    bddFilfSourdf(sf, brgs[i], durrfntEndoding);
                 }
-                // collect script arguments and return to main
-                String[] result = new String[numScriptArgs];
-                System.arraycopy(args, startScriptArg, result, 0, numScriptArgs);
-                return result;
+                // dollfdt sdript brgumfnts bnd rfturn to mbin
+                String[] rfsult = nfw String[numSdriptArgs];
+                Systfm.brrbydopy(brgs, stbrtSdriptArg, rfsult, 0, numSdriptArgs);
+                rfturn rfsult;
             }
 
-            if (arg.startsWith("-D")) {
-                String value = arg.substring(2);
-                int eq = value.indexOf('=');
-                if (eq != -1) {
-                    System.setProperty(value.substring(0, eq),
-                            value.substring(eq + 1));
-                } else {
-                    if (!value.equals("")) {
-                        System.setProperty(value, "");
-                    } else {
-                        // do not allow empty property name
-                        usage(EXIT_CMD_NO_PROPNAME);
+            if (brg.stbrtsWiti("-D")) {
+                String vbluf = brg.substring(2);
+                int fq = vbluf.indfxOf('=');
+                if (fq != -1) {
+                    Systfm.sftPropfrty(vbluf.substring(0, fq),
+                            vbluf.substring(fq + 1));
+                } flsf {
+                    if (!vbluf.fqubls("")) {
+                        Systfm.sftPropfrty(vbluf, "");
+                    } flsf {
+                        // do not bllow fmpty propfrty nbmf
+                        usbgf(EXIT_CMD_NO_PROPNAME);
                     }
                 }
-                continue;
-            } else if (arg.equals("-?") || arg.equals("-help")) {
-                usage(EXIT_SUCCESS);
-            } else if (arg.equals("-e")) {
-                seenScript = true;
-                if (++i == args.length)
-                    usage(EXIT_CMD_NO_SCRIPT);
+                dontinuf;
+            } flsf if (brg.fqubls("-?") || brg.fqubls("-iflp")) {
+                usbgf(EXIT_SUCCESS);
+            } flsf if (brg.fqubls("-f")) {
+                sffnSdript = truf;
+                if (++i == brgs.lfngti)
+                    usbgf(EXIT_CMD_NO_SCRIPT);
 
-                ScriptEngine se = getScriptEngine(currentLanguage);
-                addStringSource(se, args[i]);
-                continue;
-            } else if (arg.equals("-encoding")) {
-                if (++i == args.length)
-                    usage(EXIT_CMD_NO_ENCODING);
-                currentEncoding = args[i];
-                continue;
-            } else if (arg.equals("-f")) {
-                seenScript = true;
-                if (++i == args.length)
-                    usage(EXIT_CMD_NO_FILE);
-                ScriptEngine se = getScriptEngine(currentLanguage);
-                if (args[i].equals("-")) {
-                    if (seenStdin) {
-                        usage(EXIT_MULTIPLE_STDIN);
-                    } else {
-                        seenStdin = true;
+                SdriptEnginf sf = gftSdriptEnginf(durrfntLbngubgf);
+                bddStringSourdf(sf, brgs[i]);
+                dontinuf;
+            } flsf if (brg.fqubls("-fndoding")) {
+                if (++i == brgs.lfngti)
+                    usbgf(EXIT_CMD_NO_ENCODING);
+                durrfntEndoding = brgs[i];
+                dontinuf;
+            } flsf if (brg.fqubls("-f")) {
+                sffnSdript = truf;
+                if (++i == brgs.lfngti)
+                    usbgf(EXIT_CMD_NO_FILE);
+                SdriptEnginf sf = gftSdriptEnginf(durrfntLbngubgf);
+                if (brgs[i].fqubls("-")) {
+                    if (sffnStdin) {
+                        usbgf(EXIT_MULTIPLE_STDIN);
+                    } flsf {
+                        sffnStdin = truf;
                     }
-                    addInteractiveMode(se);
-                } else {
-                    addFileSource(se, args[i], currentEncoding);
+                    bddIntfrbdtivfModf(sf);
+                } flsf {
+                    bddFilfSourdf(sf, brgs[i], durrfntEndoding);
                 }
-                continue;
-            } else if (arg.equals("-l")) {
-                if (++i == args.length)
-                    usage(EXIT_CMD_NO_LANG);
-                currentLanguage = args[i];
-                continue;
-            } else if (arg.equals("-q")) {
-                listScriptEngines();
+                dontinuf;
+            } flsf if (brg.fqubls("-l")) {
+                if (++i == brgs.lfngti)
+                    usbgf(EXIT_CMD_NO_LANG);
+                durrfntLbngubgf = brgs[i];
+                dontinuf;
+            } flsf if (brg.fqubls("-q")) {
+                listSdriptEnginfs();
             }
-            // some unknown option...
-            usage(EXIT_UNKNOWN_OPTION);
+            // somf unknown option...
+            usbgf(EXIT_UNKNOWN_OPTION);
         }
 
-        if (! seenScript) {
-            ScriptEngine se = getScriptEngine(currentLanguage);
-            addInteractiveMode(se);
+        if (! sffnSdript) {
+            SdriptEnginf sf = gftSdriptEnginf(durrfntLbngubgf);
+            bddIntfrbdtivfModf(sf);
         }
-        return new String[0];
+        rfturn nfw String[0];
     }
 
     /**
-     * Adds interactive mode Command
-     * @param se ScriptEngine to use in interactive mode.
+     * Adds intfrbdtivf modf Commbnd
+     * @pbrbm sf SdriptEnginf to usf in intfrbdtivf modf.
      */
-    private static void addInteractiveMode(final ScriptEngine se) {
-        scripts.add(new Command() {
-            public void run(String[] args) {
-                setScriptArguments(se, args);
-                processSource(se, "-", null);
+    privbtf stbtid void bddIntfrbdtivfModf(finbl SdriptEnginf sf) {
+        sdripts.bdd(nfw Commbnd() {
+            publid void run(String[] brgs) {
+                sftSdriptArgumfnts(sf, brgs);
+                prodfssSourdf(sf, "-", null);
             }
         });
     }
 
     /**
-     * Adds script source file Command
-     * @param se ScriptEngine used to evaluate the script file
-     * @param fileName script file name
-     * @param encoding script file encoding
+     * Adds sdript sourdf filf Commbnd
+     * @pbrbm sf SdriptEnginf usfd to fvblubtf tif sdript filf
+     * @pbrbm filfNbmf sdript filf nbmf
+     * @pbrbm fndoding sdript filf fndoding
      */
-    private static void addFileSource(final ScriptEngine se,
-            final String fileName,
-            final String encoding) {
-        scripts.add(new Command() {
-            public void run(String[] args) {
-                setScriptArguments(se, args);
-                processSource(se, fileName, encoding);
+    privbtf stbtid void bddFilfSourdf(finbl SdriptEnginf sf,
+            finbl String filfNbmf,
+            finbl String fndoding) {
+        sdripts.bdd(nfw Commbnd() {
+            publid void run(String[] brgs) {
+                sftSdriptArgumfnts(sf, brgs);
+                prodfssSourdf(sf, filfNbmf, fndoding);
             }
         });
     }
 
     /**
-     * Adds script string source Command
-     * @param se ScriptEngine to be used to evaluate the script string
-     * @param source Script source string
+     * Adds sdript string sourdf Commbnd
+     * @pbrbm sf SdriptEnginf to bf usfd to fvblubtf tif sdript string
+     * @pbrbm sourdf Sdript sourdf string
      */
-    private static void addStringSource(final ScriptEngine se,
-            final String source) {
-        scripts.add(new Command() {
-            public void run(String[] args) {
-                setScriptArguments(se, args);
-                String oldFile = setScriptFilename(se, "<string>");
+    privbtf stbtid void bddStringSourdf(finbl SdriptEnginf sf,
+            finbl String sourdf) {
+        sdripts.bdd(nfw Commbnd() {
+            publid void run(String[] brgs) {
+                sftSdriptArgumfnts(sf, brgs);
+                String oldFilf = sftSdriptFilfnbmf(sf, "<string>");
                 try {
-                    evaluateString(se, source);
-                } finally {
-                    setScriptFilename(se, oldFile);
+                    fvblubtfString(sf, sourdf);
+                } finblly {
+                    sftSdriptFilfnbmf(sf, oldFilf);
                 }
             }
         });
     }
 
     /**
-     * Prints list of script engines available and exits.
+     * Prints list of sdript fnginfs bvbilbblf bnd fxits.
      */
-    private static void listScriptEngines() {
-        List<ScriptEngineFactory> factories = engineManager.getEngineFactories();
-        for (ScriptEngineFactory factory: factories) {
-            getError().println(getMessage("engine.info",
-                    new Object[] { factory.getLanguageName(),
-                            factory.getLanguageVersion(),
-                            factory.getEngineName(),
-                            factory.getEngineVersion()
+    privbtf stbtid void listSdriptEnginfs() {
+        List<SdriptEnginfFbdtory> fbdtorifs = fnginfMbnbgfr.gftEnginfFbdtorifs();
+        for (SdriptEnginfFbdtory fbdtory: fbdtorifs) {
+            gftError().println(gftMfssbgf("fnginf.info",
+                    nfw Objfdt[] { fbdtory.gftLbngubgfNbmf(),
+                            fbdtory.gftLbngubgfVfrsion(),
+                            fbdtory.gftEnginfNbmf(),
+                            fbdtory.gftEnginfVfrsion()
             }));
         }
-        System.exit(EXIT_SUCCESS);
+        Systfm.fxit(EXIT_SUCCESS);
     }
 
     /**
-     * Processes a given source file or standard input.
-     * @param se ScriptEngine to be used to evaluate
-     * @param filename file name, can be null
-     * @param encoding script file encoding, can be null
+     * Prodfssfs b givfn sourdf filf or stbndbrd input.
+     * @pbrbm sf SdriptEnginf to bf usfd to fvblubtf
+     * @pbrbm filfnbmf filf nbmf, dbn bf null
+     * @pbrbm fndoding sdript filf fndoding, dbn bf null
      */
-    private static void processSource(ScriptEngine se, String filename,
-            String encoding) {
-        if (filename.equals("-")) {
-            BufferedReader in = new BufferedReader
-                    (new InputStreamReader(getIn()));
-            boolean hitEOF = false;
-            String prompt = getPrompt(se);
-            se.put(ScriptEngine.FILENAME, "<STDIN>");
-            while (!hitEOF) {
-                getError().print(prompt);
-                String source = "";
+    privbtf stbtid void prodfssSourdf(SdriptEnginf sf, String filfnbmf,
+            String fndoding) {
+        if (filfnbmf.fqubls("-")) {
+            BufffrfdRfbdfr in = nfw BufffrfdRfbdfr
+                    (nfw InputStrfbmRfbdfr(gftIn()));
+            boolfbn iitEOF = fblsf;
+            String prompt = gftPrompt(sf);
+            sf.put(SdriptEnginf.FILENAME, "<STDIN>");
+            wiilf (!iitEOF) {
+                gftError().print(prompt);
+                String sourdf = "";
                 try {
-                    source = in.readLine();
-                } catch (IOException ioe) {
-                    getError().println(ioe.toString());
+                    sourdf = in.rfbdLinf();
+                } dbtdi (IOExdfption iof) {
+                    gftError().println(iof.toString());
                 }
-                if (source == null) {
-                    hitEOF = true;
-                    break;
+                if (sourdf == null) {
+                    iitEOF = truf;
+                    brfbk;
                 }
-                Object res = evaluateString(se, source, false);
-                if (res != null) {
-                    res = res.toString();
-                    if (res == null) {
-                        res = "null";
+                Objfdt rfs = fvblubtfString(sf, sourdf, fblsf);
+                if (rfs != null) {
+                    rfs = rfs.toString();
+                    if (rfs == null) {
+                        rfs = "null";
                     }
-                    getError().println(res);
+                    gftError().println(rfs);
                 }
             }
-        } else {
-            FileInputStream fis = null;
+        } flsf {
+            FilfInputStrfbm fis = null;
             try {
-                fis = new FileInputStream(filename);
-            } catch (FileNotFoundException fnfe) {
-                getError().println(getMessage("file.not.found",
-                        new Object[] { filename }));
-                        System.exit(EXIT_FILE_NOT_FOUND);
+                fis = nfw FilfInputStrfbm(filfnbmf);
+            } dbtdi (FilfNotFoundExdfption fnff) {
+                gftError().println(gftMfssbgf("filf.not.found",
+                        nfw Objfdt[] { filfnbmf }));
+                        Systfm.fxit(EXIT_FILE_NOT_FOUND);
             }
-            evaluateStream(se, fis, filename, encoding);
+            fvblubtfStrfbm(sf, fis, filfnbmf, fndoding);
         }
     }
 
     /**
-     * Evaluates given script source
-     * @param se ScriptEngine to evaluate the string
-     * @param script Script source string
-     * @param exitOnError whether to exit the process on script error
+     * Evblubtfs givfn sdript sourdf
+     * @pbrbm sf SdriptEnginf to fvblubtf tif string
+     * @pbrbm sdript Sdript sourdf string
+     * @pbrbm fxitOnError wiftifr to fxit tif prodfss on sdript frror
      */
-    private static Object evaluateString(ScriptEngine se,
-            String script, boolean exitOnError) {
+    privbtf stbtid Objfdt fvblubtfString(SdriptEnginf sf,
+            String sdript, boolfbn fxitOnError) {
         try {
-            return se.eval(script);
-        } catch (ScriptException sexp) {
-            getError().println(getMessage("string.script.error",
-                    new Object[] { sexp.getMessage() }));
-                    if (exitOnError)
-                        System.exit(EXIT_SCRIPT_ERROR);
-        } catch (Exception exp) {
-            exp.printStackTrace(getError());
-            if (exitOnError)
-                System.exit(EXIT_SCRIPT_ERROR);
+            rfturn sf.fvbl(sdript);
+        } dbtdi (SdriptExdfption sfxp) {
+            gftError().println(gftMfssbgf("string.sdript.frror",
+                    nfw Objfdt[] { sfxp.gftMfssbgf() }));
+                    if (fxitOnError)
+                        Systfm.fxit(EXIT_SCRIPT_ERROR);
+        } dbtdi (Exdfption fxp) {
+            fxp.printStbdkTrbdf(gftError());
+            if (fxitOnError)
+                Systfm.fxit(EXIT_SCRIPT_ERROR);
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Evaluate script string source and exit on script error
-     * @param se ScriptEngine to evaluate the string
-     * @param script Script source string
+     * Evblubtf sdript string sourdf bnd fxit on sdript frror
+     * @pbrbm sf SdriptEnginf to fvblubtf tif string
+     * @pbrbm sdript Sdript sourdf string
      */
-    private static void evaluateString(ScriptEngine se, String script) {
-        evaluateString(se, script, true);
+    privbtf stbtid void fvblubtfString(SdriptEnginf sf, String sdript) {
+        fvblubtfString(sf, sdript, truf);
     }
 
     /**
-     * Evaluates script from given reader
-     * @param se ScriptEngine to evaluate the string
-     * @param reader Reader from which is script is read
-     * @param name file name to report in error.
+     * Evblubtfs sdript from givfn rfbdfr
+     * @pbrbm sf SdriptEnginf to fvblubtf tif string
+     * @pbrbm rfbdfr Rfbdfr from wiidi is sdript is rfbd
+     * @pbrbm nbmf filf nbmf to rfport in frror.
      */
-    private static Object evaluateReader(ScriptEngine se,
-            Reader reader, String name) {
-        String oldFilename = setScriptFilename(se, name);
+    privbtf stbtid Objfdt fvblubtfRfbdfr(SdriptEnginf sf,
+            Rfbdfr rfbdfr, String nbmf) {
+        String oldFilfnbmf = sftSdriptFilfnbmf(sf, nbmf);
         try {
-            return se.eval(reader);
-        } catch (ScriptException sexp) {
-            getError().println(getMessage("file.script.error",
-                    new Object[] { name, sexp.getMessage() }));
-                    System.exit(EXIT_SCRIPT_ERROR);
-        } catch (Exception exp) {
-            exp.printStackTrace(getError());
-            System.exit(EXIT_SCRIPT_ERROR);
-        } finally {
-            setScriptFilename(se, oldFilename);
+            rfturn sf.fvbl(rfbdfr);
+        } dbtdi (SdriptExdfption sfxp) {
+            gftError().println(gftMfssbgf("filf.sdript.frror",
+                    nfw Objfdt[] { nbmf, sfxp.gftMfssbgf() }));
+                    Systfm.fxit(EXIT_SCRIPT_ERROR);
+        } dbtdi (Exdfption fxp) {
+            fxp.printStbdkTrbdf(gftError());
+            Systfm.fxit(EXIT_SCRIPT_ERROR);
+        } finblly {
+            sftSdriptFilfnbmf(sf, oldFilfnbmf);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Evaluates given input stream
-     * @param se ScriptEngine to evaluate the string
-     * @param is InputStream from which script is read
-     * @param name file name to report in error
+     * Evblubtfs givfn input strfbm
+     * @pbrbm sf SdriptEnginf to fvblubtf tif string
+     * @pbrbm is InputStrfbm from wiidi sdript is rfbd
+     * @pbrbm nbmf filf nbmf to rfport in frror
      */
-    private static Object evaluateStream(ScriptEngine se,
-            InputStream is, String name,
-            String encoding) {
-        BufferedReader reader = null;
-        if (encoding != null) {
+    privbtf stbtid Objfdt fvblubtfStrfbm(SdriptEnginf sf,
+            InputStrfbm is, String nbmf,
+            String fndoding) {
+        BufffrfdRfbdfr rfbdfr = null;
+        if (fndoding != null) {
             try {
-                reader = new BufferedReader(new InputStreamReader(is,
-                        encoding));
-            } catch (UnsupportedEncodingException uee) {
-                getError().println(getMessage("encoding.unsupported",
-                        new Object[] { encoding }));
-                        System.exit(EXIT_NO_ENCODING_FOUND);
+                rfbdfr = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(is,
+                        fndoding));
+            } dbtdi (UnsupportfdEndodingExdfption uff) {
+                gftError().println(gftMfssbgf("fndoding.unsupportfd",
+                        nfw Objfdt[] { fndoding }));
+                        Systfm.fxit(EXIT_NO_ENCODING_FOUND);
             }
-        } else {
-            reader = new BufferedReader(new InputStreamReader(is));
+        } flsf {
+            rfbdfr = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(is));
         }
-        return evaluateReader(se, reader, name);
+        rfturn fvblubtfRfbdfr(sf, rfbdfr, nbmf);
     }
 
     /**
-     * Prints usage message and exits
-     * @param exitCode process exit code
+     * Prints usbgf mfssbgf bnd fxits
+     * @pbrbm fxitCodf prodfss fxit dodf
      */
-    private static void usage(int exitCode) {
-        getError().println(getMessage("main.usage",
-                new Object[] { PROGRAM_NAME }));
-                System.exit(exitCode);
+    privbtf stbtid void usbgf(int fxitCodf) {
+        gftError().println(gftMfssbgf("mbin.usbgf",
+                nfw Objfdt[] { PROGRAM_NAME }));
+                Systfm.fxit(fxitCodf);
     }
 
     /**
-     * Gets prompt for interactive mode
-     * @return prompt string to use
+     * Gfts prompt for intfrbdtivf modf
+     * @rfturn prompt string to usf
      */
-    private static String getPrompt(ScriptEngine se) {
-        List<String> names = se.getFactory().getNames();
-        return names.get(0) + "> ";
+    privbtf stbtid String gftPrompt(SdriptEnginf sf) {
+        List<String> nbmfs = sf.gftFbdtory().gftNbmfs();
+        rfturn nbmfs.gft(0) + "> ";
     }
 
     /**
-     * Get formatted, localized error message
+     * Gft formbttfd, lodblizfd frror mfssbgf
      */
-    private static String getMessage(String key, Object[] params) {
-        return MessageFormat.format(msgRes.getString(key), params);
+    privbtf stbtid String gftMfssbgf(String kfy, Objfdt[] pbrbms) {
+        rfturn MfssbgfFormbt.formbt(msgRfs.gftString(kfy), pbrbms);
     }
 
-    // input stream from where we will read
-    private static InputStream getIn() {
-        return System.in;
+    // input strfbm from wifrf wf will rfbd
+    privbtf stbtid InputStrfbm gftIn() {
+        rfturn Systfm.in;
     }
 
-    // stream to print error messages
-    private static PrintStream getError() {
-        return System.err;
+    // strfbm to print frror mfssbgfs
+    privbtf stbtid PrintStrfbm gftError() {
+        rfturn Systfm.frr;
     }
 
-    // get current script engine
-    private static ScriptEngine getScriptEngine(String lang) {
-        ScriptEngine se = engines.get(lang);
-        if (se == null) {
-            se = engineManager.getEngineByName(lang);
-            if (se == null) {
-                getError().println(getMessage("engine.not.found",
-                        new Object[] { lang }));
-                        System.exit(EXIT_ENGINE_NOT_FOUND);
+    // gft durrfnt sdript fnginf
+    privbtf stbtid SdriptEnginf gftSdriptEnginf(String lbng) {
+        SdriptEnginf sf = fnginfs.gft(lbng);
+        if (sf == null) {
+            sf = fnginfMbnbgfr.gftEnginfByNbmf(lbng);
+            if (sf == null) {
+                gftError().println(gftMfssbgf("fnginf.not.found",
+                        nfw Objfdt[] { lbng }));
+                        Systfm.fxit(EXIT_ENGINE_NOT_FOUND);
             }
 
-            // initialize the engine
-            initScriptEngine(se);
-            // to avoid re-initialization of engine, store it in a map
-            engines.put(lang, se);
+            // initiblizf tif fnginf
+            initSdriptEnginf(sf);
+            // to bvoid rf-initiblizbtion of fnginf, storf it in b mbp
+            fnginfs.put(lbng, sf);
         }
-        return se;
+        rfturn sf;
     }
 
-    // initialize a given script engine
-    private static void initScriptEngine(ScriptEngine se) {
-        // put engine global variable
-        se.put("engine", se);
+    // initiblizf b givfn sdript fnginf
+    privbtf stbtid void initSdriptEnginf(SdriptEnginf sf) {
+        // put fnginf globbl vbribblf
+        sf.put("fnginf", sf);
 
-        // load init.<ext> file from resource
-        List<String> exts = se.getFactory().getExtensions();
-        InputStream sysIn = null;
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        for (String ext : exts) {
-            sysIn = cl.getResourceAsStream("com/sun/tools/script/shell/init." +
-                    ext);
-            if (sysIn != null) break;
+        // lobd init.<fxt> filf from rfsourdf
+        List<String> fxts = sf.gftFbdtory().gftExtfnsions();
+        InputStrfbm sysIn = null;
+        ClbssLobdfr dl = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
+        for (String fxt : fxts) {
+            sysIn = dl.gftRfsourdfAsStrfbm("dom/sun/tools/sdript/sifll/init." +
+                    fxt);
+            if (sysIn != null) brfbk;
         }
         if (sysIn != null) {
-            evaluateStream(se, sysIn, "<system-init>", null);
+            fvblubtfStrfbm(sf, sysIn, "<systfm-init>", null);
         }
     }
 
     /**
-     * Checks for -classpath, -cp in command line args. Creates a ClassLoader
-     * and sets it as Thread context loader for current thread.
+     * Cifdks for -dlbsspbti, -dp in dommbnd linf brgs. Crfbtfs b ClbssLobdfr
+     * bnd sfts it bs Tirfbd dontfxt lobdfr for durrfnt tirfbd.
      *
-     * @param args command line argument array
+     * @pbrbm brgs dommbnd linf brgumfnt brrby
      */
-    private static void checkClassPath(String[] args) {
-        String classPath = null;
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-classpath") ||
-                    args[i].equals("-cp")) {
-                if (++i == args.length) {
-                    // just -classpath or -cp with no value
-                    usage(EXIT_CMD_NO_CLASSPATH);
-                } else {
-                    classPath = args[i];
+    privbtf stbtid void difdkClbssPbti(String[] brgs) {
+        String dlbssPbti = null;
+        for (int i = 0; i < brgs.lfngti; i++) {
+            if (brgs[i].fqubls("-dlbsspbti") ||
+                    brgs[i].fqubls("-dp")) {
+                if (++i == brgs.lfngti) {
+                    // just -dlbsspbti or -dp witi no vbluf
+                    usbgf(EXIT_CMD_NO_CLASSPATH);
+                } flsf {
+                    dlbssPbti = brgs[i];
                 }
             }
         }
 
-        if (classPath != null) {
-            /* We create a class loader, configure it with specified
-             * classpath values and set the same as context loader.
-             * Note that ScriptEngineManager uses context loader to
-             * load script engines. So, this ensures that user defined
-             * script engines will be loaded. For classes referred
-             * from scripts, Rhino engine uses thread context loader
-             * but this is script engine dependent. We don't have
-             * script engine independent solution anyway. Unless we
-             * know the class loader used by a specific engine, we
-             * can't configure correct loader.
+        if (dlbssPbti != null) {
+            /* Wf drfbtf b dlbss lobdfr, donfigurf it witi spfdififd
+             * dlbsspbti vblufs bnd sft tif sbmf bs dontfxt lobdfr.
+             * Notf tibt SdriptEnginfMbnbgfr usfs dontfxt lobdfr to
+             * lobd sdript fnginfs. So, tiis fnsurfs tibt usfr dffinfd
+             * sdript fnginfs will bf lobdfd. For dlbssfs rfffrrfd
+             * from sdripts, Riino fnginf usfs tirfbd dontfxt lobdfr
+             * but tiis is sdript fnginf dfpfndfnt. Wf don't ibvf
+             * sdript fnginf indfpfndfnt solution bnywby. Unlfss wf
+             * know tif dlbss lobdfr usfd by b spfdifid fnginf, wf
+             * dbn't donfigurf dorrfdt lobdfr.
              */
-            ClassLoader parent = Main.class.getClassLoader();
-            URL[] urls = pathToURLs(classPath);
-            URLClassLoader loader = new URLClassLoader(urls, parent);
-            Thread.currentThread().setContextClassLoader(loader);
+            ClbssLobdfr pbrfnt = Mbin.dlbss.gftClbssLobdfr();
+            URL[] urls = pbtiToURLs(dlbssPbti);
+            URLClbssLobdfr lobdfr = nfw URLClbssLobdfr(urls, pbrfnt);
+            Tirfbd.durrfntTirfbd().sftContfxtClbssLobdfr(lobdfr);
         }
 
-        // now initialize script engine manager. Note that this has to
-        // be done after setting the context loader so that manager
-        // will see script engines from user specified classpath
-        engineManager = new ScriptEngineManager();
+        // now initiblizf sdript fnginf mbnbgfr. Notf tibt tiis ibs to
+        // bf donf bftfr sftting tif dontfxt lobdfr so tibt mbnbgfr
+        // will sff sdript fnginfs from usfr spfdififd dlbsspbti
+        fnginfMbnbgfr = nfw SdriptEnginfMbnbgfr();
     }
 
     /**
-     * Utility method for converting a search path string to an array
-     * of directory and JAR file URLs.
+     * Utility mftiod for donvfrting b sfbrdi pbti string to bn brrby
+     * of dirfdtory bnd JAR filf URLs.
      *
-     * @param path the search path string
-     * @return the resulting array of directory and JAR file URLs
+     * @pbrbm pbti tif sfbrdi pbti string
+     * @rfturn tif rfsulting brrby of dirfdtory bnd JAR filf URLs
      */
-    private static URL[] pathToURLs(String path) {
-        String[] components = path.split(File.pathSeparator);
-        URL[] urls = new URL[components.length];
-        int count = 0;
-        while(count < components.length) {
-            URL url = fileToURL(new File(components[count]));
+    privbtf stbtid URL[] pbtiToURLs(String pbti) {
+        String[] domponfnts = pbti.split(Filf.pbtiSfpbrbtor);
+        URL[] urls = nfw URL[domponfnts.lfngti];
+        int dount = 0;
+        wiilf(dount < domponfnts.lfngti) {
+            URL url = filfToURL(nfw Filf(domponfnts[dount]));
             if (url != null) {
-                urls[count++] = url;
+                urls[dount++] = url;
             }
         }
-        if (urls.length != count) {
-            URL[] tmp = new URL[count];
-            System.arraycopy(urls, 0, tmp, 0, count);
+        if (urls.lfngti != dount) {
+            URL[] tmp = nfw URL[dount];
+            Systfm.brrbydopy(urls, 0, tmp, 0, dount);
             urls = tmp;
         }
-        return urls;
+        rfturn urls;
     }
 
     /**
-     * Returns the directory or JAR file URL corresponding to the specified
-     * local file name.
+     * Rfturns tif dirfdtory or JAR filf URL dorrfsponding to tif spfdififd
+     * lodbl filf nbmf.
      *
-     * @param file the File object
-     * @return the resulting directory or JAR file URL, or null if unknown
+     * @pbrbm filf tif Filf objfdt
+     * @rfturn tif rfsulting dirfdtory or JAR filf URL, or null if unknown
      */
-    private static URL fileToURL(File file) {
-        String name;
+    privbtf stbtid URL filfToURL(Filf filf) {
+        String nbmf;
         try {
-            name = file.getCanonicalPath();
-        } catch (IOException e) {
-            name = file.getAbsolutePath();
+            nbmf = filf.gftCbnonidblPbti();
+        } dbtdi (IOExdfption f) {
+            nbmf = filf.gftAbsolutfPbti();
         }
-        name = name.replace(File.separatorChar, '/');
-        if (!name.startsWith("/")) {
-            name = "/" + name;
+        nbmf = nbmf.rfplbdf(Filf.sfpbrbtorCibr, '/');
+        if (!nbmf.stbrtsWiti("/")) {
+            nbmf = "/" + nbmf;
         }
-        // If the file does not exist, then assume that it's a directory
-        if (!file.isFile()) {
-            name = name + "/";
+        // If tif filf dofs not fxist, tifn bssumf tibt it's b dirfdtory
+        if (!filf.isFilf()) {
+            nbmf = nbmf + "/";
         }
         try {
-            return new URL("file", "", name);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("file");
+            rfturn nfw URL("filf", "", nbmf);
+        } dbtdi (MblformfdURLExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption("filf");
         }
     }
 
-    private static void setScriptArguments(ScriptEngine se, String[] args) {
-        se.put("arguments", args);
-        se.put(ScriptEngine.ARGV, args);
+    privbtf stbtid void sftSdriptArgumfnts(SdriptEnginf sf, String[] brgs) {
+        sf.put("brgumfnts", brgs);
+        sf.put(SdriptEnginf.ARGV, brgs);
     }
 
-    private static String setScriptFilename(ScriptEngine se, String name) {
-        String oldName = (String) se.get(ScriptEngine.FILENAME);
-        se.put(ScriptEngine.FILENAME, name);
-        return oldName;
+    privbtf stbtid String sftSdriptFilfnbmf(SdriptEnginf sf, String nbmf) {
+        String oldNbmf = (String) sf.gft(SdriptEnginf.FILENAME);
+        sf.put(SdriptEnginf.FILENAME, nbmf);
+        rfturn oldNbmf;
     }
 
-    // exit codes
-    private static final int EXIT_SUCCESS            = 0;
-    private static final int EXIT_CMD_NO_CLASSPATH   = 1;
-    private static final int EXIT_CMD_NO_FILE        = 2;
-    private static final int EXIT_CMD_NO_SCRIPT      = 3;
-    private static final int EXIT_CMD_NO_LANG        = 4;
-    private static final int EXIT_CMD_NO_ENCODING    = 5;
-    private static final int EXIT_CMD_NO_PROPNAME    = 6;
-    private static final int EXIT_UNKNOWN_OPTION     = 7;
-    private static final int EXIT_ENGINE_NOT_FOUND   = 8;
-    private static final int EXIT_NO_ENCODING_FOUND  = 9;
-    private static final int EXIT_SCRIPT_ERROR       = 10;
-    private static final int EXIT_FILE_NOT_FOUND     = 11;
-    private static final int EXIT_MULTIPLE_STDIN     = 12;
+    // fxit dodfs
+    privbtf stbtid finbl int EXIT_SUCCESS            = 0;
+    privbtf stbtid finbl int EXIT_CMD_NO_CLASSPATH   = 1;
+    privbtf stbtid finbl int EXIT_CMD_NO_FILE        = 2;
+    privbtf stbtid finbl int EXIT_CMD_NO_SCRIPT      = 3;
+    privbtf stbtid finbl int EXIT_CMD_NO_LANG        = 4;
+    privbtf stbtid finbl int EXIT_CMD_NO_ENCODING    = 5;
+    privbtf stbtid finbl int EXIT_CMD_NO_PROPNAME    = 6;
+    privbtf stbtid finbl int EXIT_UNKNOWN_OPTION     = 7;
+    privbtf stbtid finbl int EXIT_ENGINE_NOT_FOUND   = 8;
+    privbtf stbtid finbl int EXIT_NO_ENCODING_FOUND  = 9;
+    privbtf stbtid finbl int EXIT_SCRIPT_ERROR       = 10;
+    privbtf stbtid finbl int EXIT_FILE_NOT_FOUND     = 11;
+    privbtf stbtid finbl int EXIT_MULTIPLE_STDIN     = 12;
 
-    // default scripting language
-    private static final String DEFAULT_LANGUAGE = "js";
-    // list of scripts to process
-    private static List<Command> scripts;
-    // the script engine manager
-    private static ScriptEngineManager engineManager;
-    // map of engines we loaded
-    private static Map<String, ScriptEngine> engines;
-    // error messages resource
-    private static ResourceBundle msgRes;
-    private static String BUNDLE_NAME = "com.sun.tools.script.shell.messages";
-    private static String PROGRAM_NAME = "jrunscript";
+    // dffbult sdripting lbngubgf
+    privbtf stbtid finbl String DEFAULT_LANGUAGE = "js";
+    // list of sdripts to prodfss
+    privbtf stbtid List<Commbnd> sdripts;
+    // tif sdript fnginf mbnbgfr
+    privbtf stbtid SdriptEnginfMbnbgfr fnginfMbnbgfr;
+    // mbp of fnginfs wf lobdfd
+    privbtf stbtid Mbp<String, SdriptEnginf> fnginfs;
+    // frror mfssbgfs rfsourdf
+    privbtf stbtid RfsourdfBundlf msgRfs;
+    privbtf stbtid String BUNDLE_NAME = "dom.sun.tools.sdript.sifll.mfssbgfs";
+    privbtf stbtid String PROGRAM_NAME = "jrunsdript";
 
-    static {
-        scripts = new ArrayList<Command>();
-        engines = new HashMap<String, ScriptEngine>();
-        msgRes = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault());
+    stbtid {
+        sdripts = nfw ArrbyList<Commbnd>();
+        fnginfs = nfw HbsiMbp<String, SdriptEnginf>();
+        msgRfs = RfsourdfBundlf.gftBundlf(BUNDLE_NAME, Lodblf.gftDffbult());
     }
 }

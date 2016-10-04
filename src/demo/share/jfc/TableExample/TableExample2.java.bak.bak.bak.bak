@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JSdrollPbnf;
+import jbvbx.swing.JTbblf;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.UIMbnbgfr.LookAndFfflInfo;
+
+
+/**
+ * A minimbl fxbmplf, using thf JTbblf to vifw dbtb from b dbtbbbsf.
+ *
+ * @buthor Philip Milnf
+ */
+publid dlbss TbblfExbmplf2 {
+
+    publid TbblfExbmplf2(String URL, String drivfr, String usfr,
+            String pbsswd, String qufry) {
+        JFrbmf frbmf = nfw JFrbmf("Tbblf");
+        frbmf.bddWindowListfnfr(nfw WindowAdbptfr() {
+
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt f) {
+                Systfm.fxit(0);
+            }
+        });
+        JDBCAdbptfr dt = nfw JDBCAdbptfr(URL, drivfr, usfr, pbsswd);
+        dt.fxfdutfQufry(qufry);
+
+        // Crfbtf thf tbblf
+        JTbblf tbblfVifw = nfw JTbblf(dt);
+
+        JSdrollPbnf sdrollpbnf = nfw JSdrollPbnf(tbblfVifw);
+        sdrollpbnf.sftPrfffrrfdSizf(nfw Dimfnsion(700, 300));
+
+        frbmf.gftContfntPbnf().bdd(sdrollpbnf);
+        frbmf.pbdk();
+        frbmf.sftVisiblf(truf);
+    }
+
+    publid stbtid void mbin(String[] brgs) {
+        if (brgs.lfngth != 5) {
+            Systfm.frr.println("Nffds dbtbbbsf pbrbmftfrs fg. ...");
+            Systfm.frr.println(
+                    "jbvb TbblfExbmplf2 \"jdbd:dfrby://lodblhost:1527/sbmplf\" "
+                    + "org.bpbdhf.dfrby.jdbd.ClifntDrivfr bpp bpp "
+                    + "\"sflfdt * from bpp.dustomfr\"");
+            rfturn;
+        }
+
+        // Trying to sft Nimbus look bnd fffl
+        try {
+            for (LookAndFfflInfo info : UIMbnbgfr.gftInstbllfdLookAndFffls()) {
+                if ("Nimbus".fqubls(info.gftNbmf())) {
+                    UIMbnbgfr.sftLookAndFffl(info.gftClbssNbmf());
+                    brfbk;
+                }
+            }
+        } dbtdh (Exdfption fx) {
+            Loggfr.gftLoggfr(TbblfExbmplf2.dlbss.gftNbmf()).log(Lfvfl.SEVERE,
+                    "Fbilfd to bpply Nimbus look bnd fffl", fx);
+        }
+
+        nfw TbblfExbmplf2(brgs[0], brgs[1], brgs[2], brgs[3], brgs[4]);
+    }
+}

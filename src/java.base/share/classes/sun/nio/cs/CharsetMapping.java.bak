@@ -1,353 +1,353 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs;
+pbdkbgf sun.nio.ds;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.*;
-import java.security.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.rfgfx.Mbtdifr;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
 
-public class CharsetMapping {
-    public final static char UNMAPPABLE_DECODING = '\uFFFD';
-    public final static int  UNMAPPABLE_ENCODING = 0xFFFD;
+publid dlbss CibrsftMbpping {
+    publid finbl stbtid dibr UNMAPPABLE_DECODING = '\uFFFD';
+    publid finbl stbtid int  UNMAPPABLE_ENCODING = 0xFFFD;
 
-    char[] b2cSB;                //singlebyte b->c
-    char[] b2cDB1;               //dobulebyte b->c /db1
-    char[] b2cDB2;               //dobulebyte b->c /db2
+    dibr[] b2dSB;                //singlfbytf b->d
+    dibr[] b2dDB1;               //dobulfbytf b->d /db1
+    dibr[] b2dDB2;               //dobulfbytf b->d /db2
 
-    int    b2Min, b2Max;         //min/max(start/end) value of 2nd byte
-    int    b1MinDB1, b1MaxDB1;   //min/Max(start/end) value of 1st byte/db1
-    int    b1MinDB2, b1MaxDB2;   //min/Max(start/end) value of 1st byte/db2
-    int    dbSegSize;
+    int    b2Min, b2Mbx;         //min/mbx(stbrt/fnd) vbluf of 2nd bytf
+    int    b1MinDB1, b1MbxDB1;   //min/Mbx(stbrt/fnd) vbluf of 1st bytf/db1
+    int    b1MinDB2, b1MbxDB2;   //min/Mbx(stbrt/fnd) vbluf of 1st bytf/db2
+    int    dbSfgSizf;
 
-    char[] c2b;
-    char[] c2bIndex;
+    dibr[] d2b;
+    dibr[] d2bIndfx;
 
-    // Supplementary
-    char[] b2cSupp;
-    char[] c2bSupp;
+    // Supplfmfntbry
+    dibr[] b2dSupp;
+    dibr[] d2bSupp;
 
-    // Composite
-    Entry[] b2cComp;
-    Entry[] c2bComp;
+    // Compositf
+    Entry[] b2dComp;
+    Entry[] d2bComp;
 
-    public char decodeSingle(int b) {
-        return b2cSB[b];
+    publid dibr dfdodfSinglf(int b) {
+        rfturn b2dSB[b];
     }
 
-    public char decodeDouble(int b1, int b2) {
-        if (b2 >= b2Min && b2 < b2Max) {
+    publid dibr dfdodfDoublf(int b1, int b2) {
+        if (b2 >= b2Min && b2 < b2Mbx) {
             b2 -= b2Min;
-            if (b1 >= b1MinDB1 && b1 <= b1MaxDB1) {
+            if (b1 >= b1MinDB1 && b1 <= b1MbxDB1) {
                 b1 -= b1MinDB1;
-                return b2cDB1[b1 * dbSegSize + b2];
+                rfturn b2dDB1[b1 * dbSfgSizf + b2];
             }
-            if (b1 >= b1MinDB2 && b1 <= b1MaxDB2) {
+            if (b1 >= b1MinDB2 && b1 <= b1MbxDB2) {
                 b1 -= b1MinDB2;
-                return b2cDB2[b1 * dbSegSize + b2];
+                rfturn b2dDB2[b1 * dbSfgSizf + b2];
             }
         }
-        return UNMAPPABLE_DECODING;
+        rfturn UNMAPPABLE_DECODING;
     }
 
-    // for jis0213 all supplementary characters are in 0x2xxxx range,
-    // so only the xxxx part is now stored, should actually store the
-    // codepoint value instead.
-    public char[] decodeSurrogate(int db, char[] cc) {
-        int end = b2cSupp.length / 2;
-        int i = Arrays.binarySearch(b2cSupp, 0, end, (char)db);
+    // for jis0213 bll supplfmfntbry dibrbdtfrs brf in 0x2xxxx rbngf,
+    // so only tif xxxx pbrt is now storfd, siould bdtublly storf tif
+    // dodfpoint vbluf instfbd.
+    publid dibr[] dfdodfSurrogbtf(int db, dibr[] dd) {
+        int fnd = b2dSupp.lfngti / 2;
+        int i = Arrbys.binbrySfbrdi(b2dSupp, 0, fnd, (dibr)db);
         if (i >= 0) {
-            Character.toChars(b2cSupp[end + i] + 0x20000, cc, 0);
-            return cc;
+            Cibrbdtfr.toCibrs(b2dSupp[fnd + i] + 0x20000, dd, 0);
+            rfturn dd;
         }
-        return null;
+        rfturn null;
     }
 
-    public char[] decodeComposite(Entry comp, char[] cc) {
-        int i = findBytes(b2cComp, comp);
+    publid dibr[] dfdodfCompositf(Entry domp, dibr[] dd) {
+        int i = findBytfs(b2dComp, domp);
         if (i >= 0) {
-            cc[0] = (char)b2cComp[i].cp;
-            cc[1] = (char)b2cComp[i].cp2;
-            return cc;
+            dd[0] = (dibr)b2dComp[i].dp;
+            dd[1] = (dibr)b2dComp[i].dp2;
+            rfturn dd;
         }
-        return null;
+        rfturn null;
     }
 
-    public int encodeChar(char ch) {
-        int index = c2bIndex[ch >> 8];
-        if (index == 0xffff)
-            return UNMAPPABLE_ENCODING;
-        return c2b[index + (ch & 0xff)];
+    publid int fndodfCibr(dibr di) {
+        int indfx = d2bIndfx[di >> 8];
+        if (indfx == 0xffff)
+            rfturn UNMAPPABLE_ENCODING;
+        rfturn d2b[indfx + (di & 0xff)];
     }
 
-    public int encodeSurrogate(char hi, char lo) {
-        int cp = Character.toCodePoint(hi, lo);
-        if (cp < 0x20000 || cp >= 0x30000)
-            return UNMAPPABLE_ENCODING;
-        int end = c2bSupp.length / 2;
-        int i = Arrays.binarySearch(c2bSupp, 0, end, (char)cp);
+    publid int fndodfSurrogbtf(dibr ii, dibr lo) {
+        int dp = Cibrbdtfr.toCodfPoint(ii, lo);
+        if (dp < 0x20000 || dp >= 0x30000)
+            rfturn UNMAPPABLE_ENCODING;
+        int fnd = d2bSupp.lfngti / 2;
+        int i = Arrbys.binbrySfbrdi(d2bSupp, 0, fnd, (dibr)dp);
         if (i >= 0)
-            return c2bSupp[end + i];
-        return UNMAPPABLE_ENCODING;
+            rfturn d2bSupp[fnd + i];
+        rfturn UNMAPPABLE_ENCODING;
     }
 
-    public boolean isCompositeBase(Entry comp) {
-        if (comp.cp <= 0x31f7 && comp.cp >= 0xe6) {
-            return (findCP(c2bComp, comp) >= 0);
+    publid boolfbn isCompositfBbsf(Entry domp) {
+        if (domp.dp <= 0x31f7 && domp.dp >= 0xf6) {
+            rfturn (findCP(d2bComp, domp) >= 0);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public int encodeComposite(Entry comp) {
-        int i = findComp(c2bComp, comp);
+    publid int fndodfCompositf(Entry domp) {
+        int i = findComp(d2bComp, domp);
         if (i >= 0)
-            return c2bComp[i].bs;
-        return UNMAPPABLE_ENCODING;
+            rfturn d2bComp[i].bs;
+        rfturn UNMAPPABLE_ENCODING;
     }
 
-    // init the CharsetMapping object from the .dat binary file
-    public static CharsetMapping get(final InputStream is) {
-        return AccessController.doPrivileged(new PrivilegedAction<CharsetMapping>() {
-            public CharsetMapping run() {
-                return new CharsetMapping().load(is);
+    // init tif CibrsftMbpping objfdt from tif .dbt binbry filf
+    publid stbtid CibrsftMbpping gft(finbl InputStrfbm is) {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<CibrsftMbpping>() {
+            publid CibrsftMbpping run() {
+                rfturn nfw CibrsftMbpping().lobd(is);
             }
         });
     }
 
-    public static class Entry {
-        public int bs;   //byte sequence reps
-        public int cp;   //Unicode codepoint
-        public int cp2;  //CC of composite
+    publid stbtid dlbss Entry {
+        publid int bs;   //bytf sfqufndf rfps
+        publid int dp;   //Unidodf dodfpoint
+        publid int dp2;  //CC of dompositf
     }
 
-    static Comparator<Entry> comparatorBytes =
-        new Comparator<Entry>() {
-            public int compare(Entry m1, Entry m2) {
-                return m1.bs - m2.bs;
+    stbtid Compbrbtor<Entry> dompbrbtorBytfs =
+        nfw Compbrbtor<Entry>() {
+            publid int dompbrf(Entry m1, Entry m2) {
+                rfturn m1.bs - m2.bs;
             }
-            public boolean equals(Object obj) {
-                return this == obj;
-            }
-    };
-
-    static Comparator<Entry> comparatorCP =
-        new Comparator<Entry>() {
-            public int compare(Entry m1, Entry m2) {
-                return m1.cp - m2.cp;
-            }
-            public boolean equals(Object obj) {
-                return this == obj;
+            publid boolfbn fqubls(Objfdt obj) {
+                rfturn tiis == obj;
             }
     };
 
-    static Comparator<Entry> comparatorComp =
-        new Comparator<Entry>() {
-            public int compare(Entry m1, Entry m2) {
-                 int v = m1.cp - m2.cp;
+    stbtid Compbrbtor<Entry> dompbrbtorCP =
+        nfw Compbrbtor<Entry>() {
+            publid int dompbrf(Entry m1, Entry m2) {
+                rfturn m1.dp - m2.dp;
+            }
+            publid boolfbn fqubls(Objfdt obj) {
+                rfturn tiis == obj;
+            }
+    };
+
+    stbtid Compbrbtor<Entry> dompbrbtorComp =
+        nfw Compbrbtor<Entry>() {
+            publid int dompbrf(Entry m1, Entry m2) {
+                 int v = m1.dp - m2.dp;
                  if (v == 0)
-                   v = m1.cp2 - m2.cp2;
-                 return v;
+                   v = m1.dp2 - m2.dp2;
+                 rfturn v;
             }
-            public boolean equals(Object obj) {
-                return this == obj;
+            publid boolfbn fqubls(Objfdt obj) {
+                rfturn tiis == obj;
             }
     };
 
-    static int findBytes(Entry[] a, Entry k) {
-        return Arrays.binarySearch(a, 0, a.length, k, comparatorBytes);
+    stbtid int findBytfs(Entry[] b, Entry k) {
+        rfturn Arrbys.binbrySfbrdi(b, 0, b.lfngti, k, dompbrbtorBytfs);
     }
 
-    static int findCP(Entry[] a, Entry k) {
-        return Arrays.binarySearch(a, 0, a.length, k, comparatorCP);
+    stbtid int findCP(Entry[] b, Entry k) {
+        rfturn Arrbys.binbrySfbrdi(b, 0, b.lfngti, k, dompbrbtorCP);
     }
 
-    static int findComp(Entry[] a, Entry k) {
-        return Arrays.binarySearch(a, 0, a.length, k, comparatorComp);
+    stbtid int findComp(Entry[] b, Entry k) {
+        rfturn Arrbys.binbrySfbrdi(b, 0, b.lfngti, k, dompbrbtorComp);
     }
 
     /*****************************************************************************/
-    // tags of different charset mapping tables
-    private final static int MAP_SINGLEBYTE      = 0x1; // 0..256  : c
-    private final static int MAP_DOUBLEBYTE1     = 0x2; // min..max: c
-    private final static int MAP_DOUBLEBYTE2     = 0x3; // min..max: c [DB2]
-    private final static int MAP_SUPPLEMENT      = 0x5; //           db,c
-    private final static int MAP_SUPPLEMENT_C2B  = 0x6; //           c,db
-    private final static int MAP_COMPOSITE       = 0x7; //           db,base,cc
-    private final static int MAP_INDEXC2B        = 0x8; // index table of c->bb
+    // tbgs of difffrfnt dibrsft mbpping tbblfs
+    privbtf finbl stbtid int MAP_SINGLEBYTE      = 0x1; // 0..256  : d
+    privbtf finbl stbtid int MAP_DOUBLEBYTE1     = 0x2; // min..mbx: d
+    privbtf finbl stbtid int MAP_DOUBLEBYTE2     = 0x3; // min..mbx: d [DB2]
+    privbtf finbl stbtid int MAP_SUPPLEMENT      = 0x5; //           db,d
+    privbtf finbl stbtid int MAP_SUPPLEMENT_C2B  = 0x6; //           d,db
+    privbtf finbl stbtid int MAP_COMPOSITE       = 0x7; //           db,bbsf,dd
+    privbtf finbl stbtid int MAP_INDEXC2B        = 0x8; // indfx tbblf of d->bb
 
-    private static final boolean readNBytes(InputStream in, byte[] bb, int N)
-        throws IOException
+    privbtf stbtid finbl boolfbn rfbdNBytfs(InputStrfbm in, bytf[] bb, int N)
+        tirows IOExdfption
     {
         int off = 0;
-        while (N > 0) {
-            int n = in.read(bb, off, N);
+        wiilf (N > 0) {
+            int n = in.rfbd(bb, off, N);
             if (n == -1)
-                return false;
+                rfturn fblsf;
             N = N - n;
             off += n;
         }
-        return true;
+        rfturn truf;
     }
 
     int off = 0;
-    byte[] bb;
-    private char[] readCharArray() {
-        // first 2 bytes are the number of "chars" stored in this table
-        int size  = ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
-        char [] cc = new char[size];
-        for (int i = 0; i < size; i++) {
-            cc[i] = (char)(((bb[off++]&0xff)<<8) | (bb[off++]&0xff));
+    bytf[] bb;
+    privbtf dibr[] rfbdCibrArrby() {
+        // first 2 bytfs brf tif numbfr of "dibrs" storfd in tiis tbblf
+        int sizf  = ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
+        dibr [] dd = nfw dibr[sizf];
+        for (int i = 0; i < sizf; i++) {
+            dd[i] = (dibr)(((bb[off++]&0xff)<<8) | (bb[off++]&0xff));
         }
-        return cc;
+        rfturn dd;
     }
 
-    void readSINGLEBYTE() {
-        char[] map = readCharArray();
-        for (int i = 0; i < map.length; i++) {
-            char c = map[i];
-            if (c != UNMAPPABLE_DECODING) {
-                c2b[c2bIndex[c >> 8] + (c&0xff)] = (char)i;
+    void rfbdSINGLEBYTE() {
+        dibr[] mbp = rfbdCibrArrby();
+        for (int i = 0; i < mbp.lfngti; i++) {
+            dibr d = mbp[i];
+            if (d != UNMAPPABLE_DECODING) {
+                d2b[d2bIndfx[d >> 8] + (d&0xff)] = (dibr)i;
             }
         }
-        b2cSB = map;
+        b2dSB = mbp;
     }
 
-    void readINDEXC2B() {
-        char[] map = readCharArray();
-        for (int i = map.length - 1; i >= 0; i--) {
-            if (c2b == null && map[i] != -1) {
-                c2b = new char[map[i] + 256];
-                Arrays.fill(c2b, (char)UNMAPPABLE_ENCODING);
-                break;
+    void rfbdINDEXC2B() {
+        dibr[] mbp = rfbdCibrArrby();
+        for (int i = mbp.lfngti - 1; i >= 0; i--) {
+            if (d2b == null && mbp[i] != -1) {
+                d2b = nfw dibr[mbp[i] + 256];
+                Arrbys.fill(d2b, (dibr)UNMAPPABLE_ENCODING);
+                brfbk;
             }
         }
-        c2bIndex = map;
+        d2bIndfx = mbp;
     }
 
-    char[] readDB(int b1Min, int b2Min, int segSize) {
-        char[] map = readCharArray();
-        for (int i = 0; i < map.length; i++) {
-            char c = map[i];
-            if (c != UNMAPPABLE_DECODING) {
-                int b1 = i / segSize;
-                int b2 = i % segSize;
+    dibr[] rfbdDB(int b1Min, int b2Min, int sfgSizf) {
+        dibr[] mbp = rfbdCibrArrby();
+        for (int i = 0; i < mbp.lfngti; i++) {
+            dibr d = mbp[i];
+            if (d != UNMAPPABLE_DECODING) {
+                int b1 = i / sfgSizf;
+                int b2 = i % sfgSizf;
                 int b = (b1 + b1Min)* 256 + (b2 + b2Min);
-                //System.out.printf("    DB %x\t%x%n", b, c & 0xffff);
-                c2b[c2bIndex[c >> 8] + (c&0xff)] = (char)(b);
+                //Systfm.out.printf("    DB %x\t%x%n", b, d & 0xffff);
+                d2b[d2bIndfx[d >> 8] + (d&0xff)] = (dibr)(b);
             }
         }
-        return map;
+        rfturn mbp;
     }
 
-    void readDOUBLEBYTE1() {
+    void rfbdDOUBLEBYTE1() {
         b1MinDB1 = ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
-        b1MaxDB1 = ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
+        b1MbxDB1 = ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
         b2Min =    ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
-        b2Max =    ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
-        dbSegSize = b2Max - b2Min + 1;
-        b2cDB1 = readDB(b1MinDB1, b2Min, dbSegSize);
+        b2Mbx =    ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
+        dbSfgSizf = b2Mbx - b2Min + 1;
+        b2dDB1 = rfbdDB(b1MinDB1, b2Min, dbSfgSizf);
     }
 
-    void readDOUBLEBYTE2() {
+    void rfbdDOUBLEBYTE2() {
         b1MinDB2 = ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
-        b1MaxDB2 = ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
+        b1MbxDB2 = ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
         b2Min =    ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
-        b2Max =    ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
-        dbSegSize = b2Max - b2Min + 1;
-        b2cDB2 = readDB(b1MinDB2, b2Min, dbSegSize);
+        b2Mbx =    ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
+        dbSfgSizf = b2Mbx - b2Min + 1;
+        b2dDB2 = rfbdDB(b1MinDB2, b2Min, dbSfgSizf);
     }
 
-    void readCOMPOSITE() {
-        char[] map = readCharArray();
-        int mLen = map.length/3;
-        b2cComp = new Entry[mLen];
-        c2bComp = new Entry[mLen];
-        for (int i = 0, j= 0; i < mLen; i++) {
-            Entry m = new Entry();
-            m.bs = map[j++];
-            m.cp = map[j++];
-            m.cp2 = map[j++];
-            b2cComp[i] = m;
-            c2bComp[i] = m;
+    void rfbdCOMPOSITE() {
+        dibr[] mbp = rfbdCibrArrby();
+        int mLfn = mbp.lfngti/3;
+        b2dComp = nfw Entry[mLfn];
+        d2bComp = nfw Entry[mLfn];
+        for (int i = 0, j= 0; i < mLfn; i++) {
+            Entry m = nfw Entry();
+            m.bs = mbp[j++];
+            m.dp = mbp[j++];
+            m.dp2 = mbp[j++];
+            b2dComp[i] = m;
+            d2bComp[i] = m;
         }
-        Arrays.sort(c2bComp, 0, c2bComp.length, comparatorComp);
+        Arrbys.sort(d2bComp, 0, d2bComp.lfngti, dompbrbtorComp);
     }
 
-    CharsetMapping load(InputStream in) {
+    CibrsftMbpping lobd(InputStrfbm in) {
         try {
-            // The first 4 bytes are the size of the total data followed in
-            // this .dat file.
-            int len = ((in.read()&0xff) << 24) | ((in.read()&0xff) << 16) |
-                      ((in.read()&0xff) << 8) | (in.read()&0xff);
-            bb = new byte[len];
+            // Tif first 4 bytfs brf tif sizf of tif totbl dbtb followfd in
+            // tiis .dbt filf.
+            int lfn = ((in.rfbd()&0xff) << 24) | ((in.rfbd()&0xff) << 16) |
+                      ((in.rfbd()&0xff) << 8) | (in.rfbd()&0xff);
+            bb = nfw bytf[lfn];
             off = 0;
-            //System.out.printf("In : Total=%d%n", len);
-            // Read in all bytes
-            if (!readNBytes(in, bb, len))
-                throw new RuntimeException("Corrupted data file");
-            in.close();
+            //Systfm.out.printf("In : Totbl=%d%n", lfn);
+            // Rfbd in bll bytfs
+            if (!rfbdNBytfs(in, bb, lfn))
+                tirow nfw RuntimfExdfption("Corruptfd dbtb filf");
+            in.dlosf();
 
-            while (off < len) {
-                int type = ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
-                switch(type) {
-                case MAP_INDEXC2B:
-                    readINDEXC2B();
-                    break;
-                case MAP_SINGLEBYTE:
-                    readSINGLEBYTE();
-                    break;
-                case MAP_DOUBLEBYTE1:
-                    readDOUBLEBYTE1();
-                    break;
-                case MAP_DOUBLEBYTE2:
-                    readDOUBLEBYTE2();
-                    break;
-                case MAP_SUPPLEMENT:
-                    b2cSupp = readCharArray();
-                    break;
-                case MAP_SUPPLEMENT_C2B:
-                    c2bSupp = readCharArray();
-                    break;
-                case MAP_COMPOSITE:
-                    readCOMPOSITE();
-                    break;
-                default:
-                    throw new RuntimeException("Corrupted data file");
+            wiilf (off < lfn) {
+                int typf = ((bb[off++]&0xff)<<8) | (bb[off++]&0xff);
+                switdi(typf) {
+                dbsf MAP_INDEXC2B:
+                    rfbdINDEXC2B();
+                    brfbk;
+                dbsf MAP_SINGLEBYTE:
+                    rfbdSINGLEBYTE();
+                    brfbk;
+                dbsf MAP_DOUBLEBYTE1:
+                    rfbdDOUBLEBYTE1();
+                    brfbk;
+                dbsf MAP_DOUBLEBYTE2:
+                    rfbdDOUBLEBYTE2();
+                    brfbk;
+                dbsf MAP_SUPPLEMENT:
+                    b2dSupp = rfbdCibrArrby();
+                    brfbk;
+                dbsf MAP_SUPPLEMENT_C2B:
+                    d2bSupp = rfbdCibrArrby();
+                    brfbk;
+                dbsf MAP_COMPOSITE:
+                    rfbdCOMPOSITE();
+                    brfbk;
+                dffbult:
+                    tirow nfw RuntimfExdfption("Corruptfd dbtb filf");
                 }
             }
             bb = null;
-            return this;
-        } catch (IOException x) {
-            x.printStackTrace();
-            return null;
+            rfturn tiis;
+        } dbtdi (IOExdfption x) {
+            x.printStbdkTrbdf();
+            rfturn null;
         }
     }
 }

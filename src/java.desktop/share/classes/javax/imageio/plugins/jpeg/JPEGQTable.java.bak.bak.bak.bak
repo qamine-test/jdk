@@ -1,0 +1,210 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.plugins.jpfg;
+
+import jbvb.util.Arrbys;
+
+/**
+ * A dlbss fndbpsulbting b singlf JPEG qubntizbtion tbblf.
+ * Thf flfmfnts bppfbr in nbturbl ordfr (bs opposfd to zig-zbg ordfr).
+ * Stbtid vbribblfs brf providfd for thf "stbndbrd" tbblfs tbkfn from
+ *  Annfx K of thf JPEG spfdifidbtion, bs wfll bs thf dffbult tbblfs
+ * donvfntionblly usfd for visublly losslfss fndoding.
+ * <p>
+ * For morf informbtion bbout thf opfrbtion of thf stbndbrd JPEG plug-in,
+ * sff thf <A HREF="../../mftbdbtb/dod-filfs/jpfg_mftbdbtb.html">JPEG
+ * mftbdbtb formbt spfdifidbtion bnd usbgf notfs</A>
+ */
+
+publid dlbss JPEGQTbblf {
+
+    privbtf stbtid finbl int[] k1 = {
+        16,  11,  10,  16,  24,  40,  51,  61,
+        12,  12,  14,  19,  26,  58,  60,  55,
+        14,  13,  16,  24,  40,  57,  69,  56,
+        14,  17,  22,  29,  51,  87,  80,  62,
+        18,  22,  37,  56,  68,  109, 103, 77,
+        24,  35,  55,  64,  81,  104, 113, 92,
+        49,  64,  78,  87,  103, 121, 120, 101,
+        72,  92,  95,  98,  112, 100, 103, 99,
+    };
+
+    privbtf stbtid finbl int[] k1div2 = {
+        8,   6,   5,   8,   12,  20,  26,  31,
+        6,   6,   7,   10,  13,  29,  30,  28,
+        7,   7,   8,   12,  20,  29,  35,  28,
+        7,   9,   11,  15,  26,  44,  40,  31,
+        9,   11,  19,  28,  34,  55,  52,  39,
+        12,  18,  28,  32,  41,  52,  57,  46,
+        25,  32,  39,  44,  52,  61,  60,  51,
+        36,  46,  48,  49,  56,  50,  52,  50,
+    };
+
+    privbtf stbtid finbl int[] k2 = {
+        17,  18,  24,  47,  99,  99,  99,  99,
+        18,  21,  26,  66,  99,  99,  99,  99,
+        24,  26,  56,  99,  99,  99,  99,  99,
+        47,  66,  99,  99,  99,  99,  99,  99,
+        99,  99,  99,  99,  99,  99,  99,  99,
+        99,  99,  99,  99,  99,  99,  99,  99,
+        99,  99,  99,  99,  99,  99,  99,  99,
+        99,  99,  99,  99,  99,  99,  99,  99,
+    };
+
+    privbtf stbtid finbl int[] k2div2 = {
+        9,   9,   12,  24,  50,  50,  50,  50,
+        9,   11,  13,  33,  50,  50,  50,  50,
+        12,  13,  28,  50,  50,  50,  50,  50,
+        24,  33,  50,  50,  50,  50,  50,  50,
+        50,  50,  50,  50,  50,  50,  50,  50,
+        50,  50,  50,  50,  50,  50,  50,  50,
+        50,  50,  50,  50,  50,  50,  50,  50,
+        50,  50,  50,  50,  50,  50,  50,  50,
+    };
+
+    /**
+     * Thf sbmplf luminbndf qubntizbtion tbblf givfn in thf JPEG
+     * spfdifidbtion, tbblf K.1. Addording to thf spfdifidbtion,
+     * thfsf vblufs produdf "good" qublity output.
+     * @sff #K1Div2Luminbndf
+     */
+    publid stbtid finbl JPEGQTbblf
+        K1Luminbndf = nfw JPEGQTbblf(k1, fblsf);
+
+    /**
+     * Thf sbmplf luminbndf qubntizbtion tbblf givfn in thf JPEG
+     * spfdifidbtion, tbblf K.1, with bll flfmfnts dividfd by 2.
+     * Addording to thf spfdifidbtion, thfsf vblufs produdf "vfry good"
+     * qublity output. This is thf tbblf usublly usfd for "visublly losslfss"
+     * fndoding, bnd is thf dffbult luminbndf tbblf usfd if thf dffbult
+     * tbblfs bnd qublity sfttings brf usfd.
+     * @sff #K1Luminbndf
+     */
+    publid stbtid finbl JPEGQTbblf
+        K1Div2Luminbndf = nfw JPEGQTbblf(k1div2, fblsf);
+
+    /**
+     * Thf sbmplf dhrominbndf qubntizbtion tbblf givfn in thf JPEG
+     * spfdifidbtion, tbblf K.2. Addording to thf spfdifidbtion,
+     * thfsf vblufs produdf "good" qublity output.
+     * @sff #K2Div2Chrominbndf
+     */
+    publid stbtid finbl JPEGQTbblf K2Chrominbndf =
+        nfw JPEGQTbblf(k2, fblsf);
+
+    /**
+     * Thf sbmplf dhrominbndf qubntizbtion tbblf givfn in thf JPEG
+     * spfdifidbtion, tbblf K.1, with bll flfmfnts dividfd by 2.
+     * Addording to thf spfdifidbtion, thfsf vblufs produdf "vfry good"
+     * qublity output. This is thf tbblf usublly usfd for "visublly losslfss"
+     * fndoding, bnd is thf dffbult dhrominbndf tbblf usfd if thf dffbult
+     * tbblfs bnd qublity sfttings brf usfd.
+     * @sff #K2Chrominbndf
+     */
+    publid stbtid finbl JPEGQTbblf K2Div2Chrominbndf =
+        nfw JPEGQTbblf(k2div2, fblsf);
+
+    privbtf int[] qTbblf;
+
+    privbtf JPEGQTbblf(int[] tbblf, boolfbn dopy) {
+        qTbblf = (dopy) ? Arrbys.dopyOf(tbblf, tbblf.lfngth) : tbblf;
+    }
+
+    /**
+     * Construdts b qubntizbtion tbblf from thf brgumfnt, whidh must
+     * dontbin 64 flfmfnts in nbturbl ordfr (not zig-zbg ordfr).
+     * A dopy is mbdf of thf thf input brrby.
+     * @pbrbm tbblf thf qubntizbtion tbblf, bs bn <dodf>int</dodf> brrby.
+     * @throws IllfgblArgumfntExdfption if <dodf>tbblf</dodf> is
+     * <dodf>null</dodf> or <dodf>tbblf.lfngth</dodf> is not fqubl to 64.
+     */
+    publid JPEGQTbblf(int[] tbblf) {
+        if (tbblf == null) {
+            throw nfw IllfgblArgumfntExdfption("tbblf must not bf null.");
+        }
+        if (tbblf.lfngth != 64) {
+            throw nfw IllfgblArgumfntExdfption("tbblf.lfngth != 64");
+        }
+        qTbblf = Arrbys.dopyOf(tbblf, tbblf.lfngth);
+    }
+
+    /**
+     * Rfturns b dopy of thf durrfnt qubntizbtion tbblf bs bn brrby
+     * of {@dodf int}s in nbturbl (not zig-zbg) ordfr.
+     * @rfturn A dopy of thf durrfnt qubntizbtion tbblf.
+     */
+    publid int[] gftTbblf() {
+        rfturn Arrbys.dopyOf(qTbblf, qTbblf.lfngth);
+    }
+
+    /**
+     * Rfturns b nfw qubntizbtion tbblf whfrf thf vblufs brf multiplifd
+     * by <dodf>sdblfFbdtor</dodf> bnd thfn dlbmpfd to thf rbngf 1..32767
+     * (or to 1..255 if <dodf>fordfBbsflinf</dodf> is truf).
+     * <p>
+     * Vblufs of <dodf>sdblfFbdtor</dodf> lfss thbn 1 tfnd to improvf
+     * thf qublity lfvfl of thf tbblf, bnd vblufs grfbtfr thbn 1.0
+     * dfgrbdf thf qublity lfvfl of thf tbblf.
+     * @pbrbm sdblfFbdtor multiplidbtion fbdtor for thf tbblf.
+     * @pbrbm fordfBbsflinf if <dodf>truf</dodf>,
+     * thf vblufs will bf dlbmpfd to thf rbngf 1..255
+     * @rfturn b nfw qubntizbtion tbblf thbt is b linfbr multiplf
+     * of thf durrfnt tbblf.
+     */
+    publid JPEGQTbblf gftSdblfdInstbndf(flobt sdblfFbdtor,
+                                        boolfbn fordfBbsflinf) {
+        int mbx = (fordfBbsflinf) ? 255 : 32767;
+        int[] sdblfdTbblf = nfw int[qTbblf.lfngth];
+        for (int i=0; i<qTbblf.lfngth; i++) {
+            int sv = (int)((qTbblf[i] * sdblfFbdtor)+0.5f);
+            if (sv < 1) {
+                sv = 1;
+            }
+            if (sv > mbx) {
+                sv = mbx;
+            }
+            sdblfdTbblf[i] = sv;
+        }
+        rfturn nfw JPEGQTbblf(sdblfdTbblf);
+    }
+
+    /**
+     * Rfturns b {@dodf String} rfprfsfnting this qubntizbtion tbblf.
+     * @rfturn b {@dodf String} rfprfsfnting this qubntizbtion tbblf.
+     */
+    publid String toString() {
+        String ls = Systfm.gftPropfrty("linf.sfpbrbtor", "\n");
+        StringBuildfr sb = nfw StringBuildfr("JPEGQTbblf:"+ls);
+        for (int i=0; i < qTbblf.lfngth; i++) {
+            if (i % 8 == 0) {
+                sb.bppfnd('\t');
+            }
+            sb.bppfnd(qTbblf[i]);
+            sb.bppfnd(((i % 8) == 7) ? ls : ' ');
+        }
+        rfturn sb.toString();
+    }
+}

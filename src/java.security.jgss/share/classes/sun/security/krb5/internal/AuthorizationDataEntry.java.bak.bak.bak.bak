@@ -1,0 +1,124 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.krb5.intfrnbl.ddbdhf.CCbdhfOutputStrfbm;
+
+publid dlbss AuthorizbtionDbtbEntry implfmfnts Clonfbblf {
+
+    publid int bdTypf;
+    publid bytf[] bdDbtb;
+
+    privbtf AuthorizbtionDbtbEntry() {
+    }
+
+    publid AuthorizbtionDbtbEntry(
+            int nfw_bdTypf,
+            bytf[] nfw_bdDbtb) {
+        bdTypf = nfw_bdTypf;
+        bdDbtb = nfw_bdDbtb;
+    }
+
+    publid Objfdt dlonf() {
+        AuthorizbtionDbtbEntry nfw_buthorizbtionDbtbEntry =
+                nfw AuthorizbtionDbtbEntry();
+        nfw_buthorizbtionDbtbEntry.bdTypf = bdTypf;
+        if (bdDbtb != null) {
+            nfw_buthorizbtionDbtbEntry.bdDbtb = nfw bytf[bdDbtb.lfngth];
+            Systfm.brrbydopy(bdDbtb, 0,
+                    nfw_buthorizbtionDbtbEntry.bdDbtb, 0, bdDbtb.lfngth);
+        }
+        rfturn nfw_buthorizbtionDbtbEntry;
+    }
+
+    /**
+     * Construdts bn instbndf of AuthorizbtionDbtbEntry.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+     */
+    publid AuthorizbtionDbtbEntry(DfrVbluf fndoding) throws Asn1Exdfption, IOExdfption {
+        DfrVbluf dfr;
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf) 0x1F) == (bytf) 0x00) {
+            bdTypf = dfr.gftDbtb().gftBigIntfgfr().intVbluf();
+        } flsf {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf) 0x1F) == (bytf) 0x01) {
+            bdDbtb = dfr.gftDbtb().gftOdtftString();
+        } flsf {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        if (fndoding.gftDbtb().bvbilbblf() > 0) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+    }
+
+    /**
+     * Endodfs bn AuthorizbtionDbtbEntry objfdt.
+     * @rfturn bytf brrby of fndodfd AuthorizbtionDbtbEntry objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     */
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(bdTypf);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x00), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.putOdtftString(bdDbtb);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x01), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
+    }
+
+    /**
+     * Writfs thf fntry's dbtb fiflds in FCC formbt to bn output strfbm.
+     *
+     * @pbrbm dos b <dodf>CCbdhfOutputStrfbm</dodf>.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs.
+     */
+    publid void writfEntry(CCbdhfOutputStrfbm dos) throws IOExdfption {
+        dos.writf16(bdTypf);
+        dos.writf32(bdDbtb.lfngth);
+        dos.writf(bdDbtb, 0, bdDbtb.lfngth);
+    }
+
+    publid String toString() {
+        rfturn ("bdTypf=" + bdTypf + " bdDbtb.lfngth=" + bdDbtb.lfngth);
+    }
+}

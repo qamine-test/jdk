@@ -1,625 +1,625 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.util.EventObject;
-import java.awt.event.*;
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.LightweightPeer;
-import java.lang.reflect.Field;
-import sun.awt.AWTAccessor;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.EvfntObjfdt;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.pffr.LigitwfigitPffr;
+import jbvb.lbng.rfflfdt.Fifld;
+import sun.bwt.AWTAddfssor;
+import sun.util.logging.PlbtformLoggfr;
 
-import java.security.AccessControlContext;
-import java.security.AccessController;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
 
 /**
- * The root event class for all AWT events.
- * This class and its subclasses supercede the original
- * java.awt.Event class.
- * Subclasses of this root AWTEvent class defined outside of the
- * java.awt.event package should define event ID values greater than
- * the value defined by RESERVED_ID_MAX.
+ * Tif root fvfnt dlbss for bll AWT fvfnts.
+ * Tiis dlbss bnd its subdlbssfs supfrdfdf tif originbl
+ * jbvb.bwt.Evfnt dlbss.
+ * Subdlbssfs of tiis root AWTEvfnt dlbss dffinfd outsidf of tif
+ * jbvb.bwt.fvfnt pbdkbgf siould dffinf fvfnt ID vblufs grfbtfr tibn
+ * tif vbluf dffinfd by RESERVED_ID_MAX.
  * <p>
- * The event masks defined in this class are needed by Component subclasses
- * which are using Component.enableEvents() to select for event types not
- * selected by registered listeners. If a listener is registered on a
- * component, the appropriate event mask is already set internally by the
- * component.
+ * Tif fvfnt mbsks dffinfd in tiis dlbss brf nffdfd by Componfnt subdlbssfs
+ * wiidi brf using Componfnt.fnbblfEvfnts() to sflfdt for fvfnt typfs not
+ * sflfdtfd by rfgistfrfd listfnfrs. If b listfnfr is rfgistfrfd on b
+ * domponfnt, tif bppropribtf fvfnt mbsk is blrfbdy sft intfrnblly by tif
+ * domponfnt.
  * <p>
- * The masks are also used to specify to which types of events an
- * AWTEventListener should listen. The masks are bitwise-ORed together
- * and passed to Toolkit.addAWTEventListener.
+ * Tif mbsks brf blso usfd to spfdify to wiidi typfs of fvfnts bn
+ * AWTEvfntListfnfr siould listfn. Tif mbsks brf bitwisf-ORfd togftifr
+ * bnd pbssfd to Toolkit.bddAWTEvfntListfnfr.
  *
- * @see Component#enableEvents
- * @see Toolkit#addAWTEventListener
+ * @sff Componfnt#fnbblfEvfnts
+ * @sff Toolkit#bddAWTEvfntListfnfr
  *
- * @see java.awt.event.ActionEvent
- * @see java.awt.event.AdjustmentEvent
- * @see java.awt.event.ComponentEvent
- * @see java.awt.event.ContainerEvent
- * @see java.awt.event.FocusEvent
- * @see java.awt.event.InputMethodEvent
- * @see java.awt.event.InvocationEvent
- * @see java.awt.event.ItemEvent
- * @see java.awt.event.HierarchyEvent
- * @see java.awt.event.KeyEvent
- * @see java.awt.event.MouseEvent
- * @see java.awt.event.MouseWheelEvent
- * @see java.awt.event.PaintEvent
- * @see java.awt.event.TextEvent
- * @see java.awt.event.WindowEvent
+ * @sff jbvb.bwt.fvfnt.AdtionEvfnt
+ * @sff jbvb.bwt.fvfnt.AdjustmfntEvfnt
+ * @sff jbvb.bwt.fvfnt.ComponfntEvfnt
+ * @sff jbvb.bwt.fvfnt.ContbinfrEvfnt
+ * @sff jbvb.bwt.fvfnt.FodusEvfnt
+ * @sff jbvb.bwt.fvfnt.InputMftiodEvfnt
+ * @sff jbvb.bwt.fvfnt.InvodbtionEvfnt
+ * @sff jbvb.bwt.fvfnt.ItfmEvfnt
+ * @sff jbvb.bwt.fvfnt.HifrbrdiyEvfnt
+ * @sff jbvb.bwt.fvfnt.KfyEvfnt
+ * @sff jbvb.bwt.fvfnt.MousfEvfnt
+ * @sff jbvb.bwt.fvfnt.MousfWifflEvfnt
+ * @sff jbvb.bwt.fvfnt.PbintEvfnt
+ * @sff jbvb.bwt.fvfnt.TfxtEvfnt
+ * @sff jbvb.bwt.fvfnt.WindowEvfnt
  *
- * @author Carl Quinn
- * @author Amy Fowler
- * @since 1.1
+ * @butior Cbrl Quinn
+ * @butior Amy Fowlfr
+ * @sindf 1.1
  */
-public abstract class AWTEvent extends EventObject {
-    private static final PlatformLogger log = PlatformLogger.getLogger("java.awt.AWTEvent");
-    private byte bdata[];
+publid bbstrbdt dlbss AWTEvfnt fxtfnds EvfntObjfdt {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("jbvb.bwt.AWTEvfnt");
+    privbtf bytf bdbtb[];
 
     /**
-     * The event's id.
-     * @serial
-     * @see #getID()
-     * @see #AWTEvent
+     * Tif fvfnt's id.
+     * @sfribl
+     * @sff #gftID()
+     * @sff #AWTEvfnt
      */
-    protected int id;
+    protfdtfd int id;
 
     /**
-     * Controls whether or not the event is sent back down to the peer once the
-     * source has processed it - false means it's sent to the peer; true means
-     * it's not. Semantic events always have a 'true' value since they were
-     * generated by the peer in response to a low-level event.
-     * @serial
-     * @see #consume
-     * @see #isConsumed
+     * Controls wiftifr or not tif fvfnt is sfnt bbdk down to tif pffr ondf tif
+     * sourdf ibs prodfssfd it - fblsf mfbns it's sfnt to tif pffr; truf mfbns
+     * it's not. Sfmbntid fvfnts blwbys ibvf b 'truf' vbluf sindf tify wfrf
+     * gfnfrbtfd by tif pffr in rfsponsf to b low-lfvfl fvfnt.
+     * @sfribl
+     * @sff #donsumf
+     * @sff #isConsumfd
      */
-    protected boolean consumed = false;
+    protfdtfd boolfbn donsumfd = fblsf;
 
    /*
-    * The event's AccessControlContext.
+    * Tif fvfnt's AddfssControlContfxt.
     */
-    private transient volatile AccessControlContext acc =
-        AccessController.getContext();
+    privbtf trbnsifnt volbtilf AddfssControlContfxt bdd =
+        AddfssControllfr.gftContfxt();
 
    /*
-    * Returns the acc this event was constructed with.
+    * Rfturns tif bdd tiis fvfnt wbs donstrudtfd witi.
     */
-    final AccessControlContext getAccessControlContext() {
-        if (acc == null) {
-            throw new SecurityException("AWTEvent is missing AccessControlContext");
+    finbl AddfssControlContfxt gftAddfssControlContfxt() {
+        if (bdd == null) {
+            tirow nfw SfdurityExdfption("AWTEvfnt is missing AddfssControlContfxt");
         }
-        return acc;
+        rfturn bdd;
     }
 
-    transient boolean focusManagerIsDispatching = false;
-    transient boolean isPosted;
+    trbnsifnt boolfbn fodusMbnbgfrIsDispbtdiing = fblsf;
+    trbnsifnt boolfbn isPostfd;
 
     /**
-     * Indicates whether this AWTEvent was generated by the system as
-     * opposed to by user code.
+     * Indidbtfs wiftifr tiis AWTEvfnt wbs gfnfrbtfd by tif systfm bs
+     * opposfd to by usfr dodf.
      */
-    private transient boolean isSystemGenerated;
+    privbtf trbnsifnt boolfbn isSystfmGfnfrbtfd;
 
     /**
-     * The event mask for selecting component events.
+     * Tif fvfnt mbsk for sflfdting domponfnt fvfnts.
      */
-    public final static long COMPONENT_EVENT_MASK = 0x01;
+    publid finbl stbtid long COMPONENT_EVENT_MASK = 0x01;
 
     /**
-     * The event mask for selecting container events.
+     * Tif fvfnt mbsk for sflfdting dontbinfr fvfnts.
      */
-    public final static long CONTAINER_EVENT_MASK = 0x02;
+    publid finbl stbtid long CONTAINER_EVENT_MASK = 0x02;
 
     /**
-     * The event mask for selecting focus events.
+     * Tif fvfnt mbsk for sflfdting fodus fvfnts.
      */
-    public final static long FOCUS_EVENT_MASK = 0x04;
+    publid finbl stbtid long FOCUS_EVENT_MASK = 0x04;
 
     /**
-     * The event mask for selecting key events.
+     * Tif fvfnt mbsk for sflfdting kfy fvfnts.
      */
-    public final static long KEY_EVENT_MASK = 0x08;
+    publid finbl stbtid long KEY_EVENT_MASK = 0x08;
 
     /**
-     * The event mask for selecting mouse events.
+     * Tif fvfnt mbsk for sflfdting mousf fvfnts.
      */
-    public final static long MOUSE_EVENT_MASK = 0x10;
+    publid finbl stbtid long MOUSE_EVENT_MASK = 0x10;
 
     /**
-     * The event mask for selecting mouse motion events.
+     * Tif fvfnt mbsk for sflfdting mousf motion fvfnts.
      */
-    public final static long MOUSE_MOTION_EVENT_MASK = 0x20;
+    publid finbl stbtid long MOUSE_MOTION_EVENT_MASK = 0x20;
 
     /**
-     * The event mask for selecting window events.
+     * Tif fvfnt mbsk for sflfdting window fvfnts.
      */
-    public final static long WINDOW_EVENT_MASK = 0x40;
+    publid finbl stbtid long WINDOW_EVENT_MASK = 0x40;
 
     /**
-     * The event mask for selecting action events.
+     * Tif fvfnt mbsk for sflfdting bdtion fvfnts.
      */
-    public final static long ACTION_EVENT_MASK = 0x80;
+    publid finbl stbtid long ACTION_EVENT_MASK = 0x80;
 
     /**
-     * The event mask for selecting adjustment events.
+     * Tif fvfnt mbsk for sflfdting bdjustmfnt fvfnts.
      */
-    public final static long ADJUSTMENT_EVENT_MASK = 0x100;
+    publid finbl stbtid long ADJUSTMENT_EVENT_MASK = 0x100;
 
     /**
-     * The event mask for selecting item events.
+     * Tif fvfnt mbsk for sflfdting itfm fvfnts.
      */
-    public final static long ITEM_EVENT_MASK = 0x200;
+    publid finbl stbtid long ITEM_EVENT_MASK = 0x200;
 
     /**
-     * The event mask for selecting text events.
+     * Tif fvfnt mbsk for sflfdting tfxt fvfnts.
      */
-    public final static long TEXT_EVENT_MASK = 0x400;
+    publid finbl stbtid long TEXT_EVENT_MASK = 0x400;
 
     /**
-     * The event mask for selecting input method events.
+     * Tif fvfnt mbsk for sflfdting input mftiod fvfnts.
      */
-    public final static long INPUT_METHOD_EVENT_MASK = 0x800;
+    publid finbl stbtid long INPUT_METHOD_EVENT_MASK = 0x800;
 
     /**
-     * The pseudo event mask for enabling input methods.
-     * We're using one bit in the eventMask so we don't need
-     * a separate field inputMethodsEnabled.
+     * Tif psfudo fvfnt mbsk for fnbbling input mftiods.
+     * Wf'rf using onf bit in tif fvfntMbsk so wf don't nffd
+     * b sfpbrbtf fifld inputMftiodsEnbblfd.
      */
-    final static long INPUT_METHODS_ENABLED_MASK = 0x1000;
+    finbl stbtid long INPUT_METHODS_ENABLED_MASK = 0x1000;
 
     /**
-     * The event mask for selecting paint events.
+     * Tif fvfnt mbsk for sflfdting pbint fvfnts.
      */
-    public final static long PAINT_EVENT_MASK = 0x2000;
+    publid finbl stbtid long PAINT_EVENT_MASK = 0x2000;
 
     /**
-     * The event mask for selecting invocation events.
+     * Tif fvfnt mbsk for sflfdting invodbtion fvfnts.
      */
-    public final static long INVOCATION_EVENT_MASK = 0x4000;
+    publid finbl stbtid long INVOCATION_EVENT_MASK = 0x4000;
 
     /**
-     * The event mask for selecting hierarchy events.
+     * Tif fvfnt mbsk for sflfdting iifrbrdiy fvfnts.
      */
-    public final static long HIERARCHY_EVENT_MASK = 0x8000;
+    publid finbl stbtid long HIERARCHY_EVENT_MASK = 0x8000;
 
     /**
-     * The event mask for selecting hierarchy bounds events.
+     * Tif fvfnt mbsk for sflfdting iifrbrdiy bounds fvfnts.
      */
-    public final static long HIERARCHY_BOUNDS_EVENT_MASK = 0x10000;
+    publid finbl stbtid long HIERARCHY_BOUNDS_EVENT_MASK = 0x10000;
 
     /**
-     * The event mask for selecting mouse wheel events.
-     * @since 1.4
+     * Tif fvfnt mbsk for sflfdting mousf wiffl fvfnts.
+     * @sindf 1.4
      */
-    public final static long MOUSE_WHEEL_EVENT_MASK = 0x20000;
+    publid finbl stbtid long MOUSE_WHEEL_EVENT_MASK = 0x20000;
 
     /**
-     * The event mask for selecting window state events.
-     * @since 1.4
+     * Tif fvfnt mbsk for sflfdting window stbtf fvfnts.
+     * @sindf 1.4
      */
-    public final static long WINDOW_STATE_EVENT_MASK = 0x40000;
+    publid finbl stbtid long WINDOW_STATE_EVENT_MASK = 0x40000;
 
     /**
-     * The event mask for selecting window focus events.
-     * @since 1.4
+     * Tif fvfnt mbsk for sflfdting window fodus fvfnts.
+     * @sindf 1.4
      */
-    public final static long WINDOW_FOCUS_EVENT_MASK = 0x80000;
+    publid finbl stbtid long WINDOW_FOCUS_EVENT_MASK = 0x80000;
 
     /**
-     * WARNING: there are more mask defined privately.  See
+     * WARNING: tifrf brf morf mbsk dffinfd privbtfly.  Sff
      * SunToolkit.GRAB_EVENT_MASK.
      */
 
     /**
-     * The maximum value for reserved AWT event IDs. Programs defining
-     * their own event IDs should use IDs greater than this value.
+     * Tif mbximum vbluf for rfsfrvfd AWT fvfnt IDs. Progrbms dffining
+     * tifir own fvfnt IDs siould usf IDs grfbtfr tibn tiis vbluf.
      */
-    public final static int RESERVED_ID_MAX = 1999;
+    publid finbl stbtid int RESERVED_ID_MAX = 1999;
 
-    // security stuff
-    private static Field inputEvent_CanAccessSystemClipboard_Field = null;
+    // sfdurity stuff
+    privbtf stbtid Fifld inputEvfnt_CbnAddfssSystfmClipbobrd_Fifld = null;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -1825314779160409405L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1825314779160409405L;
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
-        AWTAccessor.setAWTEventAccessor(
-            new AWTAccessor.AWTEventAccessor() {
-                public void setPosted(AWTEvent ev) {
-                    ev.isPosted = true;
+        AWTAddfssor.sftAWTEvfntAddfssor(
+            nfw AWTAddfssor.AWTEvfntAddfssor() {
+                publid void sftPostfd(AWTEvfnt fv) {
+                    fv.isPostfd = truf;
                 }
 
-                public void setSystemGenerated(AWTEvent ev) {
-                    ev.isSystemGenerated = true;
+                publid void sftSystfmGfnfrbtfd(AWTEvfnt fv) {
+                    fv.isSystfmGfnfrbtfd = truf;
                 }
 
-                public boolean isSystemGenerated(AWTEvent ev) {
-                    return ev.isSystemGenerated;
+                publid boolfbn isSystfmGfnfrbtfd(AWTEvfnt fv) {
+                    rfturn fv.isSystfmGfnfrbtfd;
                 }
 
-                public AccessControlContext getAccessControlContext(AWTEvent ev) {
-                    return ev.getAccessControlContext();
+                publid AddfssControlContfxt gftAddfssControlContfxt(AWTEvfnt fv) {
+                    rfturn fv.gftAddfssControlContfxt();
                 }
 
-                public byte[] getBData(AWTEvent ev) {
-                    return ev.bdata;
+                publid bytf[] gftBDbtb(AWTEvfnt fv) {
+                    rfturn fv.bdbtb;
                 }
 
-                public void setBData(AWTEvent ev, byte[] bdata) {
-                    ev.bdata = bdata;
+                publid void sftBDbtb(AWTEvfnt fv, bytf[] bdbtb) {
+                    fv.bdbtb = bdbtb;
                 }
 
             });
     }
 
-    private static synchronized Field get_InputEvent_CanAccessSystemClipboard() {
-        if (inputEvent_CanAccessSystemClipboard_Field == null) {
-            inputEvent_CanAccessSystemClipboard_Field =
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Field>() {
-                            public Field run() {
-                                Field field = null;
+    privbtf stbtid syndironizfd Fifld gft_InputEvfnt_CbnAddfssSystfmClipbobrd() {
+        if (inputEvfnt_CbnAddfssSystfmClipbobrd_Fifld == null) {
+            inputEvfnt_CbnAddfssSystfmClipbobrd_Fifld =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Fifld>() {
+                            publid Fifld run() {
+                                Fifld fifld = null;
                                 try {
-                                    field = InputEvent.class.
-                                        getDeclaredField("canAccessSystemClipboard");
-                                    field.setAccessible(true);
-                                    return field;
-                                } catch (SecurityException e) {
-                                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                                        log.fine("AWTEvent.get_InputEvent_CanAccessSystemClipboard() got SecurityException ", e);
+                                    fifld = InputEvfnt.dlbss.
+                                        gftDfdlbrfdFifld("dbnAddfssSystfmClipbobrd");
+                                    fifld.sftAddfssiblf(truf);
+                                    rfturn fifld;
+                                } dbtdi (SfdurityExdfption f) {
+                                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                                        log.finf("AWTEvfnt.gft_InputEvfnt_CbnAddfssSystfmClipbobrd() got SfdurityExdfption ", f);
                                     }
-                                } catch (NoSuchFieldException e) {
-                                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                                        log.fine("AWTEvent.get_InputEvent_CanAccessSystemClipboard() got NoSuchFieldException ", e);
+                                } dbtdi (NoSudiFifldExdfption f) {
+                                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                                        log.finf("AWTEvfnt.gft_InputEvfnt_CbnAddfssSystfmClipbobrd() got NoSudiFifldExdfption ", f);
                                     }
                                 }
-                                return null;
+                                rfturn null;
                             }
                         });
         }
 
-        return inputEvent_CanAccessSystemClipboard_Field;
+        rfturn inputEvfnt_CbnAddfssSystfmClipbobrd_Fifld;
     }
 
     /**
-     * Initialize JNI field and method IDs for fields that may be
-     * accessed from C.
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+     * bddfssfd from C.
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
     /**
-     * Constructs an AWTEvent object from the parameters of a 1.0-style event.
-     * @param event the old-style event
+     * Construdts bn AWTEvfnt objfdt from tif pbrbmftfrs of b 1.0-stylf fvfnt.
+     * @pbrbm fvfnt tif old-stylf fvfnt
      */
-    public AWTEvent(Event event) {
-        this(event.target, event.id);
+    publid AWTEvfnt(Evfnt fvfnt) {
+        tiis(fvfnt.tbrgft, fvfnt.id);
     }
 
     /**
-     * Constructs an AWTEvent object with the specified source object and type.
+     * Construdts bn AWTEvfnt objfdt witi tif spfdififd sourdf objfdt bnd typf.
      *
-     * @param source the object where the event originated
-     * @param id the event type
+     * @pbrbm sourdf tif objfdt wifrf tif fvfnt originbtfd
+     * @pbrbm id tif fvfnt typf
      */
-    public AWTEvent(Object source, int id) {
-        super(source);
-        this.id = id;
-        switch(id) {
-          case ActionEvent.ACTION_PERFORMED:
-          case ItemEvent.ITEM_STATE_CHANGED:
-          case AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED:
-          case TextEvent.TEXT_VALUE_CHANGED:
-            consumed = true;
-            break;
-          default:
+    publid AWTEvfnt(Objfdt sourdf, int id) {
+        supfr(sourdf);
+        tiis.id = id;
+        switdi(id) {
+          dbsf AdtionEvfnt.ACTION_PERFORMED:
+          dbsf ItfmEvfnt.ITEM_STATE_CHANGED:
+          dbsf AdjustmfntEvfnt.ADJUSTMENT_VALUE_CHANGED:
+          dbsf TfxtEvfnt.TEXT_VALUE_CHANGED:
+            donsumfd = truf;
+            brfbk;
+          dffbult:
         }
     }
 
     /**
-     * Retargets an event to a new source. This method is typically used to
-     * retarget an event to a lightweight child Component of the original
-     * heavyweight source.
+     * Rftbrgfts bn fvfnt to b nfw sourdf. Tiis mftiod is typidblly usfd to
+     * rftbrgft bn fvfnt to b ligitwfigit diild Componfnt of tif originbl
+     * ifbvywfigit sourdf.
      * <p>
-     * This method is intended to be used only by event targeting subsystems,
-     * such as client-defined KeyboardFocusManagers. It is not for general
-     * client use.
+     * Tiis mftiod is intfndfd to bf usfd only by fvfnt tbrgfting subsystfms,
+     * sudi bs dlifnt-dffinfd KfybobrdFodusMbnbgfrs. It is not for gfnfrbl
+     * dlifnt usf.
      *
-     * @param newSource the new Object to which the event should be dispatched
-     * @since 1.4
+     * @pbrbm nfwSourdf tif nfw Objfdt to wiidi tif fvfnt siould bf dispbtdifd
+     * @sindf 1.4
      */
-    public void setSource(Object newSource) {
-        if (source == newSource) {
-            return;
+    publid void sftSourdf(Objfdt nfwSourdf) {
+        if (sourdf == nfwSourdf) {
+            rfturn;
         }
 
-        Component comp = null;
-        if (newSource instanceof Component) {
-            comp = (Component)newSource;
-            while (comp != null && comp.peer != null &&
-                   (comp.peer instanceof LightweightPeer)) {
-                comp = comp.parent;
+        Componfnt domp = null;
+        if (nfwSourdf instbndfof Componfnt) {
+            domp = (Componfnt)nfwSourdf;
+            wiilf (domp != null && domp.pffr != null &&
+                   (domp.pffr instbndfof LigitwfigitPffr)) {
+                domp = domp.pbrfnt;
             }
         }
 
-        synchronized (this) {
-            source = newSource;
-            if (comp != null) {
-                ComponentPeer peer = comp.peer;
-                if (peer != null) {
-                    nativeSetSource(peer);
+        syndironizfd (tiis) {
+            sourdf = nfwSourdf;
+            if (domp != null) {
+                ComponfntPffr pffr = domp.pffr;
+                if (pffr != null) {
+                    nbtivfSftSourdf(pffr);
                 }
             }
         }
     }
 
-    private native void nativeSetSource(ComponentPeer peer);
+    privbtf nbtivf void nbtivfSftSourdf(ComponfntPffr pffr);
 
     /**
-     * Returns the event type.
+     * Rfturns tif fvfnt typf.
      *
-     * @return the event's type id
+     * @rfturn tif fvfnt's typf id
      */
-    public int getID() {
-        return id;
+    publid int gftID() {
+        rfturn id;
     }
 
     /**
-     * Returns a String representation of this object.
+     * Rfturns b String rfprfsfntbtion of tiis objfdt.
      */
-    public String toString() {
-        String srcName = null;
-        if (source instanceof Component) {
-            srcName = ((Component)source).getName();
-        } else if (source instanceof MenuComponent) {
-            srcName = ((MenuComponent)source).getName();
+    publid String toString() {
+        String srdNbmf = null;
+        if (sourdf instbndfof Componfnt) {
+            srdNbmf = ((Componfnt)sourdf).gftNbmf();
+        } flsf if (sourdf instbndfof MfnuComponfnt) {
+            srdNbmf = ((MfnuComponfnt)sourdf).gftNbmf();
         }
-        return getClass().getName() + "[" + paramString() + "] on " +
-            (srcName != null? srcName : source);
+        rfturn gftClbss().gftNbmf() + "[" + pbrbmString() + "] on " +
+            (srdNbmf != null? srdNbmf : sourdf);
     }
 
     /**
-     * Returns a string representing the state of this <code>Event</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
-     * <code>null</code>.
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>Evfnt</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
      *
-     * @return  a string representation of this event
+     * @rfturn  b string rfprfsfntbtion of tiis fvfnt
      */
-    public String paramString() {
-        return "";
+    publid String pbrbmString() {
+        rfturn "";
     }
 
     /**
-     * Consumes this event, if this event can be consumed. Only low-level,
-     * system events can be consumed
+     * Consumfs tiis fvfnt, if tiis fvfnt dbn bf donsumfd. Only low-lfvfl,
+     * systfm fvfnts dbn bf donsumfd
      */
-    protected void consume() {
-        switch(id) {
-          case KeyEvent.KEY_PRESSED:
-          case KeyEvent.KEY_RELEASED:
-          case MouseEvent.MOUSE_PRESSED:
-          case MouseEvent.MOUSE_RELEASED:
-          case MouseEvent.MOUSE_MOVED:
-          case MouseEvent.MOUSE_DRAGGED:
-          case MouseEvent.MOUSE_ENTERED:
-          case MouseEvent.MOUSE_EXITED:
-          case MouseEvent.MOUSE_WHEEL:
-          case InputMethodEvent.INPUT_METHOD_TEXT_CHANGED:
-          case InputMethodEvent.CARET_POSITION_CHANGED:
-              consumed = true;
-              break;
-          default:
-              // event type cannot be consumed
+    protfdtfd void donsumf() {
+        switdi(id) {
+          dbsf KfyEvfnt.KEY_PRESSED:
+          dbsf KfyEvfnt.KEY_RELEASED:
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+          dbsf MousfEvfnt.MOUSE_MOVED:
+          dbsf MousfEvfnt.MOUSE_DRAGGED:
+          dbsf MousfEvfnt.MOUSE_ENTERED:
+          dbsf MousfEvfnt.MOUSE_EXITED:
+          dbsf MousfEvfnt.MOUSE_WHEEL:
+          dbsf InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED:
+          dbsf InputMftiodEvfnt.CARET_POSITION_CHANGED:
+              donsumfd = truf;
+              brfbk;
+          dffbult:
+              // fvfnt typf dbnnot bf donsumfd
         }
     }
 
     /**
-     * Returns whether this event has been consumed.
+     * Rfturns wiftifr tiis fvfnt ibs bffn donsumfd.
      *
-     * @return {@code true} if this event has been consumed;
-     *          otherwise {@code false}
+     * @rfturn {@dodf truf} if tiis fvfnt ibs bffn donsumfd;
+     *          otifrwisf {@dodf fblsf}
      */
-    protected boolean isConsumed() {
-        return consumed;
+    protfdtfd boolfbn isConsumfd() {
+        rfturn donsumfd;
     }
 
     /**
-     * Converts a new event to an old one (used for compatibility).
-     * If the new event cannot be converted (because no old equivalent
-     * exists) then this returns null.
+     * Convfrts b nfw fvfnt to bn old onf (usfd for dompbtibility).
+     * If tif nfw fvfnt dbnnot bf donvfrtfd (bfdbusf no old fquivblfnt
+     * fxists) tifn tiis rfturns null.
      *
-     * Note: this method is here instead of in each individual new
-     * event class in java.awt.event because we don't want to make
-     * it public and it needs to be called from java.awt.
+     * Notf: tiis mftiod is ifrf instfbd of in fbdi individubl nfw
+     * fvfnt dlbss in jbvb.bwt.fvfnt bfdbusf wf don't wbnt to mbkf
+     * it publid bnd it nffds to bf dbllfd from jbvb.bwt.
      */
-    Event convertToOld() {
-        Object src = getSource();
-        int newid = id;
+    Evfnt donvfrtToOld() {
+        Objfdt srd = gftSourdf();
+        int nfwid = id;
 
-        switch(id) {
-          case KeyEvent.KEY_PRESSED:
-          case KeyEvent.KEY_RELEASED:
-              KeyEvent ke = (KeyEvent)this;
-              if (ke.isActionKey()) {
-                  newid = (id == KeyEvent.KEY_PRESSED?
-                           Event.KEY_ACTION : Event.KEY_ACTION_RELEASE);
+        switdi(id) {
+          dbsf KfyEvfnt.KEY_PRESSED:
+          dbsf KfyEvfnt.KEY_RELEASED:
+              KfyEvfnt kf = (KfyEvfnt)tiis;
+              if (kf.isAdtionKfy()) {
+                  nfwid = (id == KfyEvfnt.KEY_PRESSED?
+                           Evfnt.KEY_ACTION : Evfnt.KEY_ACTION_RELEASE);
               }
-              int keyCode = ke.getKeyCode();
-              if (keyCode == KeyEvent.VK_SHIFT ||
-                  keyCode == KeyEvent.VK_CONTROL ||
-                  keyCode == KeyEvent.VK_ALT) {
-                  return null;  // suppress modifier keys in old event model.
+              int kfyCodf = kf.gftKfyCodf();
+              if (kfyCodf == KfyEvfnt.VK_SHIFT ||
+                  kfyCodf == KfyEvfnt.VK_CONTROL ||
+                  kfyCodf == KfyEvfnt.VK_ALT) {
+                  rfturn null;  // supprfss modififr kfys in old fvfnt modfl.
               }
-              // no mask for button1 existed in old Event - strip it out
-              return new Event(src, ke.getWhen(), newid, 0, 0,
-                               Event.getOldEventKey(ke),
-                               (ke.getModifiers() & ~InputEvent.BUTTON1_MASK));
+              // no mbsk for button1 fxistfd in old Evfnt - strip it out
+              rfturn nfw Evfnt(srd, kf.gftWifn(), nfwid, 0, 0,
+                               Evfnt.gftOldEvfntKfy(kf),
+                               (kf.gftModififrs() & ~InputEvfnt.BUTTON1_MASK));
 
-          case MouseEvent.MOUSE_PRESSED:
-          case MouseEvent.MOUSE_RELEASED:
-          case MouseEvent.MOUSE_MOVED:
-          case MouseEvent.MOUSE_DRAGGED:
-          case MouseEvent.MOUSE_ENTERED:
-          case MouseEvent.MOUSE_EXITED:
-              MouseEvent me = (MouseEvent)this;
-              // no mask for button1 existed in old Event - strip it out
-              Event olde = new Event(src, me.getWhen(), newid,
-                               me.getX(), me.getY(), 0,
-                               (me.getModifiers() & ~InputEvent.BUTTON1_MASK));
-              olde.clickCount = me.getClickCount();
-              return olde;
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+          dbsf MousfEvfnt.MOUSE_MOVED:
+          dbsf MousfEvfnt.MOUSE_DRAGGED:
+          dbsf MousfEvfnt.MOUSE_ENTERED:
+          dbsf MousfEvfnt.MOUSE_EXITED:
+              MousfEvfnt mf = (MousfEvfnt)tiis;
+              // no mbsk for button1 fxistfd in old Evfnt - strip it out
+              Evfnt oldf = nfw Evfnt(srd, mf.gftWifn(), nfwid,
+                               mf.gftX(), mf.gftY(), 0,
+                               (mf.gftModififrs() & ~InputEvfnt.BUTTON1_MASK));
+              oldf.dlidkCount = mf.gftClidkCount();
+              rfturn oldf;
 
-          case FocusEvent.FOCUS_GAINED:
-              return new Event(src, Event.GOT_FOCUS, null);
+          dbsf FodusEvfnt.FOCUS_GAINED:
+              rfturn nfw Evfnt(srd, Evfnt.GOT_FOCUS, null);
 
-          case FocusEvent.FOCUS_LOST:
-              return new Event(src, Event.LOST_FOCUS, null);
+          dbsf FodusEvfnt.FOCUS_LOST:
+              rfturn nfw Evfnt(srd, Evfnt.LOST_FOCUS, null);
 
-          case WindowEvent.WINDOW_CLOSING:
-          case WindowEvent.WINDOW_ICONIFIED:
-          case WindowEvent.WINDOW_DEICONIFIED:
-              return new Event(src, newid, null);
+          dbsf WindowEvfnt.WINDOW_CLOSING:
+          dbsf WindowEvfnt.WINDOW_ICONIFIED:
+          dbsf WindowEvfnt.WINDOW_DEICONIFIED:
+              rfturn nfw Evfnt(srd, nfwid, null);
 
-          case ComponentEvent.COMPONENT_MOVED:
-              if (src instanceof Frame || src instanceof Dialog) {
-                  Point p = ((Component)src).getLocation();
-                  return new Event(src, 0, Event.WINDOW_MOVED, p.x, p.y, 0, 0);
+          dbsf ComponfntEvfnt.COMPONENT_MOVED:
+              if (srd instbndfof Frbmf || srd instbndfof Diblog) {
+                  Point p = ((Componfnt)srd).gftLodbtion();
+                  rfturn nfw Evfnt(srd, 0, Evfnt.WINDOW_MOVED, p.x, p.y, 0, 0);
               }
-              break;
+              brfbk;
 
-          case ActionEvent.ACTION_PERFORMED:
-              ActionEvent ae = (ActionEvent)this;
-              String cmd;
-              if (src instanceof Button) {
-                  cmd = ((Button)src).getLabel();
-              } else if (src instanceof MenuItem) {
-                  cmd = ((MenuItem)src).getLabel();
-              } else {
-                  cmd = ae.getActionCommand();
+          dbsf AdtionEvfnt.ACTION_PERFORMED:
+              AdtionEvfnt bf = (AdtionEvfnt)tiis;
+              String dmd;
+              if (srd instbndfof Button) {
+                  dmd = ((Button)srd).gftLbbfl();
+              } flsf if (srd instbndfof MfnuItfm) {
+                  dmd = ((MfnuItfm)srd).gftLbbfl();
+              } flsf {
+                  dmd = bf.gftAdtionCommbnd();
               }
-              return new Event(src, 0, newid, 0, 0, 0, ae.getModifiers(), cmd);
+              rfturn nfw Evfnt(srd, 0, nfwid, 0, 0, 0, bf.gftModififrs(), dmd);
 
-          case ItemEvent.ITEM_STATE_CHANGED:
-              ItemEvent ie = (ItemEvent)this;
-              Object arg;
-              if (src instanceof List) {
-                  newid = (ie.getStateChange() == ItemEvent.SELECTED?
-                           Event.LIST_SELECT : Event.LIST_DESELECT);
-                  arg = ie.getItem();
-              } else {
-                  newid = Event.ACTION_EVENT;
-                  if (src instanceof Choice) {
-                      arg = ie.getItem();
+          dbsf ItfmEvfnt.ITEM_STATE_CHANGED:
+              ItfmEvfnt if = (ItfmEvfnt)tiis;
+              Objfdt brg;
+              if (srd instbndfof List) {
+                  nfwid = (if.gftStbtfCibngf() == ItfmEvfnt.SELECTED?
+                           Evfnt.LIST_SELECT : Evfnt.LIST_DESELECT);
+                  brg = if.gftItfm();
+              } flsf {
+                  nfwid = Evfnt.ACTION_EVENT;
+                  if (srd instbndfof Cioidf) {
+                      brg = if.gftItfm();
 
-                  } else { // Checkbox
-                      arg = Boolean.valueOf(ie.getStateChange() == ItemEvent.SELECTED);
+                  } flsf { // Cifdkbox
+                      brg = Boolfbn.vblufOf(if.gftStbtfCibngf() == ItfmEvfnt.SELECTED);
                   }
               }
-              return new Event(src, newid, arg);
+              rfturn nfw Evfnt(srd, nfwid, brg);
 
-          case AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED:
-              AdjustmentEvent aje = (AdjustmentEvent)this;
-              switch(aje.getAdjustmentType()) {
-                case AdjustmentEvent.UNIT_INCREMENT:
-                  newid = Event.SCROLL_LINE_DOWN;
-                  break;
-                case AdjustmentEvent.UNIT_DECREMENT:
-                  newid = Event.SCROLL_LINE_UP;
-                  break;
-                case AdjustmentEvent.BLOCK_INCREMENT:
-                  newid = Event.SCROLL_PAGE_DOWN;
-                  break;
-                case AdjustmentEvent.BLOCK_DECREMENT:
-                  newid = Event.SCROLL_PAGE_UP;
-                  break;
-                case AdjustmentEvent.TRACK:
-                  if (aje.getValueIsAdjusting()) {
-                      newid = Event.SCROLL_ABSOLUTE;
+          dbsf AdjustmfntEvfnt.ADJUSTMENT_VALUE_CHANGED:
+              AdjustmfntEvfnt bjf = (AdjustmfntEvfnt)tiis;
+              switdi(bjf.gftAdjustmfntTypf()) {
+                dbsf AdjustmfntEvfnt.UNIT_INCREMENT:
+                  nfwid = Evfnt.SCROLL_LINE_DOWN;
+                  brfbk;
+                dbsf AdjustmfntEvfnt.UNIT_DECREMENT:
+                  nfwid = Evfnt.SCROLL_LINE_UP;
+                  brfbk;
+                dbsf AdjustmfntEvfnt.BLOCK_INCREMENT:
+                  nfwid = Evfnt.SCROLL_PAGE_DOWN;
+                  brfbk;
+                dbsf AdjustmfntEvfnt.BLOCK_DECREMENT:
+                  nfwid = Evfnt.SCROLL_PAGE_UP;
+                  brfbk;
+                dbsf AdjustmfntEvfnt.TRACK:
+                  if (bjf.gftVblufIsAdjusting()) {
+                      nfwid = Evfnt.SCROLL_ABSOLUTE;
                   }
-                  else {
-                      newid = Event.SCROLL_END;
+                  flsf {
+                      nfwid = Evfnt.SCROLL_END;
                   }
-                  break;
-                default:
-                  return null;
+                  brfbk;
+                dffbult:
+                  rfturn null;
               }
-              return new Event(src, newid, Integer.valueOf(aje.getValue()));
+              rfturn nfw Evfnt(srd, nfwid, Intfgfr.vblufOf(bjf.gftVbluf()));
 
-          default:
+          dffbult:
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Copies all private data from this event into that.
-     * Space is allocated for the copied data that will be
-     * freed when the that is finalized. Upon completion,
-     * this event is not changed.
+     * Copifs bll privbtf dbtb from tiis fvfnt into tibt.
+     * Spbdf is bllodbtfd for tif dopifd dbtb tibt will bf
+     * frffd wifn tif tibt is finblizfd. Upon domplftion,
+     * tiis fvfnt is not dibngfd.
      */
-    void copyPrivateDataInto(AWTEvent that) {
-        that.bdata = this.bdata;
-        // Copy canAccessSystemClipboard value from this into that.
-        if (this instanceof InputEvent && that instanceof InputEvent) {
-            Field field = get_InputEvent_CanAccessSystemClipboard();
-            if (field != null) {
+    void dopyPrivbtfDbtbInto(AWTEvfnt tibt) {
+        tibt.bdbtb = tiis.bdbtb;
+        // Copy dbnAddfssSystfmClipbobrd vbluf from tiis into tibt.
+        if (tiis instbndfof InputEvfnt && tibt instbndfof InputEvfnt) {
+            Fifld fifld = gft_InputEvfnt_CbnAddfssSystfmClipbobrd();
+            if (fifld != null) {
                 try {
-                    boolean b = field.getBoolean(this);
-                    field.setBoolean(that, b);
-                } catch(IllegalAccessException e) {
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("AWTEvent.copyPrivateDataInto() got IllegalAccessException ", e);
+                    boolfbn b = fifld.gftBoolfbn(tiis);
+                    fifld.sftBoolfbn(tibt, b);
+                } dbtdi(IllfgblAddfssExdfption f) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("AWTEvfnt.dopyPrivbtfDbtbInto() got IllfgblAddfssExdfption ", f);
                     }
                 }
             }
         }
-        that.isSystemGenerated = this.isSystemGenerated;
+        tibt.isSystfmGfnfrbtfd = tiis.isSystfmGfnfrbtfd;
     }
 
-    void dispatched() {
-        if (this instanceof InputEvent) {
-            Field field = get_InputEvent_CanAccessSystemClipboard();
-            if (field != null) {
+    void dispbtdifd() {
+        if (tiis instbndfof InputEvfnt) {
+            Fifld fifld = gft_InputEvfnt_CbnAddfssSystfmClipbobrd();
+            if (fifld != null) {
                 try {
-                    field.setBoolean(this, false);
-                } catch(IllegalAccessException e) {
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("AWTEvent.dispatched() got IllegalAccessException ", e);
+                    fifld.sftBoolfbn(tiis, fblsf);
+                } dbtdi(IllfgblAddfssExdfption f) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("AWTEvfnt.dispbtdifd() got IllfgblAddfssExdfption ", f);
                     }
                 }
             }
         }
     }
-} // class AWTEvent
+} // dlbss AWTEvfnt

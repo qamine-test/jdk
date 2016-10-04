@@ -1,311 +1,311 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.tcp;
+pbdkbgf sun.rmi.trbnsport.tdp;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.rmi.ConnectIOException;
-import java.rmi.RemoteException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.RMISocketFactory;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
-import sun.rmi.runtime.Log;
-import sun.rmi.runtime.NewThreadAction;
-import sun.rmi.transport.Channel;
-import sun.rmi.transport.Endpoint;
-import sun.rmi.transport.Target;
-import sun.rmi.transport.Transport;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.Sodkft;
+import jbvb.rmi.ConnfdtIOExdfption;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISodkftFbdtory;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.LinkfdList;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import sun.rmi.runtimf.Log;
+import sun.rmi.runtimf.NfwTirfbdAdtion;
+import sun.rmi.trbnsport.Cibnnfl;
+import sun.rmi.trbnsport.Endpoint;
+import sun.rmi.trbnsport.Tbrgft;
+import sun.rmi.trbnsport.Trbnsport;
 
 /**
- * TCPEndpoint represents some communication endpoint for an address
- * space (VM).
+ * TCPEndpoint rfprfsfnts somf dommunidbtion fndpoint for bn bddrfss
+ * spbdf (VM).
  *
- * @author Ann Wollrath
+ * @butior Ann Wollrbti
  */
-public class TCPEndpoint implements Endpoint {
-    /** IP address or host name */
-    private String host;
-    /** port number */
-    private int port;
-    /** custom client socket factory (null if not custom factory) */
-    private final RMIClientSocketFactory csf;
-    /** custom server socket factory (null if not custom factory) */
-    private final RMIServerSocketFactory ssf;
+publid dlbss TCPEndpoint implfmfnts Endpoint {
+    /** IP bddrfss or iost nbmf */
+    privbtf String iost;
+    /** port numbfr */
+    privbtf int port;
+    /** dustom dlifnt sodkft fbdtory (null if not dustom fbdtory) */
+    privbtf finbl RMIClifntSodkftFbdtory dsf;
+    /** dustom sfrvfr sodkft fbdtory (null if not dustom fbdtory) */
+    privbtf finbl RMISfrvfrSodkftFbdtory ssf;
 
-    /** if local, the port number to listen on */
-    private int listenPort = -1;
-    /** if local, the transport object associated with this endpoint */
-    private TCPTransport transport = null;
+    /** if lodbl, tif port numbfr to listfn on */
+    privbtf int listfnPort = -1;
+    /** if lodbl, tif trbnsport objfdt bssodibtfd witi tiis fndpoint */
+    privbtf TCPTrbnsport trbnsport = null;
 
-    /** the local host name */
-    private static String localHost;
-    /** true if real local host name is known yet */
-    private static boolean localHostKnown;
+    /** tif lodbl iost nbmf */
+    privbtf stbtid String lodblHost;
+    /** truf if rfbl lodbl iost nbmf is known yft */
+    privbtf stbtid boolfbn lodblHostKnown;
 
-    // this should be a *private* method since it is privileged
-    private static int getInt(String name, int def) {
-        return AccessController.doPrivileged(
-                (PrivilegedAction<Integer>) () -> Integer.getInteger(name, def));
+    // tiis siould bf b *privbtf* mftiod sindf it is privilfgfd
+    privbtf stbtid int gftInt(String nbmf, int dff) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<Intfgfr>) () -> Intfgfr.gftIntfgfr(nbmf, dff));
     }
 
-    // this should be a *private* method since it is privileged
-    private static boolean getBoolean(String name) {
-        return AccessController.doPrivileged(
-                (PrivilegedAction<Boolean>) () -> Boolean.getBoolean(name));
-    }
-
-    /**
-     * Returns the value of the java.rmi.server.hostname property.
-     */
-    private static String getHostnameProperty() {
-        return AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("java.rmi.server.hostname"));
+    // tiis siould bf b *privbtf* mftiod sindf it is privilfgfd
+    privbtf stbtid boolfbn gftBoolfbn(String nbmf) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<Boolfbn>) () -> Boolfbn.gftBoolfbn(nbmf));
     }
 
     /**
-     * Find host name of local machine.  Property "java.rmi.server.hostname"
-     * is used if set, so server administrator can compensate for the possible
-     * inablility to get fully qualified host name from VM.
+     * Rfturns tif vbluf of tif jbvb.rmi.sfrvfr.iostnbmf propfrty.
      */
-    static {
-        localHostKnown = true;
-        localHost = getHostnameProperty();
+    privbtf stbtid String gftHostnbmfPropfrty() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("jbvb.rmi.sfrvfr.iostnbmf"));
+    }
 
-        // could try querying CGI program here?
-        if (localHost == null) {
+    /**
+     * Find iost nbmf of lodbl mbdiinf.  Propfrty "jbvb.rmi.sfrvfr.iostnbmf"
+     * is usfd if sft, so sfrvfr bdministrbtor dbn dompfnsbtf for tif possiblf
+     * inbblility to gft fully qublififd iost nbmf from VM.
+     */
+    stbtid {
+        lodblHostKnown = truf;
+        lodblHost = gftHostnbmfPropfrty();
+
+        // dould try qufrying CGI progrbm ifrf?
+        if (lodblHost == null) {
             try {
-                InetAddress localAddr = InetAddress.getLocalHost();
-                byte[] raw = localAddr.getAddress();
-                if ((raw[0] == 127) &&
-                    (raw[1] ==   0) &&
-                    (raw[2] ==   0) &&
-                    (raw[3] ==   1)) {
-                    localHostKnown = false;
+                InftAddrfss lodblAddr = InftAddrfss.gftLodblHost();
+                bytf[] rbw = lodblAddr.gftAddrfss();
+                if ((rbw[0] == 127) &&
+                    (rbw[1] ==   0) &&
+                    (rbw[2] ==   0) &&
+                    (rbw[3] ==   1)) {
+                    lodblHostKnown = fblsf;
                 }
 
-                /* if the user wishes to use a fully qualified domain
-                 * name then attempt to find one.
+                /* if tif usfr wisifs to usf b fully qublififd dombin
+                 * nbmf tifn bttfmpt to find onf.
                  */
-                if (getBoolean("java.rmi.server.useLocalHostName")) {
-                    localHost = FQDN.attemptFQDN(localAddr);
-                } else {
-                    /* default to using ip addresses, names will
-                     * work across seperate domains.
+                if (gftBoolfbn("jbvb.rmi.sfrvfr.usfLodblHostNbmf")) {
+                    lodblHost = FQDN.bttfmptFQDN(lodblAddr);
+                } flsf {
+                    /* dffbult to using ip bddrfssfs, nbmfs will
+                     * work bdross sfpfrbtf dombins.
                      */
-                    localHost = localAddr.getHostAddress();
+                    lodblHost = lodblAddr.gftHostAddrfss();
                 }
-            } catch (Exception e) {
-                localHostKnown = false;
-                localHost = null;
+            } dbtdi (Exdfption f) {
+                lodblHostKnown = fblsf;
+                lodblHost = null;
             }
         }
 
-        if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) {
-            TCPTransport.tcpLog.log(Log.BRIEF,
-                "localHostKnown = " + localHostKnown +
-                ", localHost = " + localHost);
+        if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+            TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                "lodblHostKnown = " + lodblHostKnown +
+                ", lodblHost = " + lodblHost);
         }
     }
 
-    /** maps an endpoint key containing custom socket factories to
-     * their own unique endpoint */
-    // TBD: should this be a weak hash table?
-    private static final
-        Map<TCPEndpoint,LinkedList<TCPEndpoint>> localEndpoints =
-        new HashMap<>();
+    /** mbps bn fndpoint kfy dontbining dustom sodkft fbdtorifs to
+     * tifir own uniquf fndpoint */
+    // TBD: siould tiis bf b wfbk ibsi tbblf?
+    privbtf stbtid finbl
+        Mbp<TCPEndpoint,LinkfdList<TCPEndpoint>> lodblEndpoints =
+        nfw HbsiMbp<>();
 
     /**
-     * Create an endpoint for a specified host and port.
-     * This should not be used by external classes to create endpoints
-     * for servers in this VM; use getLocalEndpoint instead.
+     * Crfbtf bn fndpoint for b spfdififd iost bnd port.
+     * Tiis siould not bf usfd by fxtfrnbl dlbssfs to drfbtf fndpoints
+     * for sfrvfrs in tiis VM; usf gftLodblEndpoint instfbd.
      */
-    public TCPEndpoint(String host, int port) {
-        this(host, port, null, null);
+    publid TCPEndpoint(String iost, int port) {
+        tiis(iost, port, null, null);
     }
 
     /**
-     * Create a custom socket factory endpoint for a specified host and port.
-     * This should not be used by external classes to create endpoints
-     * for servers in this VM; use getLocalEndpoint instead.
+     * Crfbtf b dustom sodkft fbdtory fndpoint for b spfdififd iost bnd port.
+     * Tiis siould not bf usfd by fxtfrnbl dlbssfs to drfbtf fndpoints
+     * for sfrvfrs in tiis VM; usf gftLodblEndpoint instfbd.
      */
-    public TCPEndpoint(String host, int port, RMIClientSocketFactory csf,
-                       RMIServerSocketFactory ssf)
+    publid TCPEndpoint(String iost, int port, RMIClifntSodkftFbdtory dsf,
+                       RMISfrvfrSodkftFbdtory ssf)
     {
-        if (host == null)
-            host = "";
-        this.host = host;
-        this.port = port;
-        this.csf = csf;
-        this.ssf = ssf;
+        if (iost == null)
+            iost = "";
+        tiis.iost = iost;
+        tiis.port = port;
+        tiis.dsf = dsf;
+        tiis.ssf = ssf;
     }
 
     /**
-     * Get an endpoint for the local address space on specified port.
-     * If port number is 0, it returns shared default endpoint object
-     * whose host name and port may or may not have been determined.
+     * Gft bn fndpoint for tif lodbl bddrfss spbdf on spfdififd port.
+     * If port numbfr is 0, it rfturns sibrfd dffbult fndpoint objfdt
+     * wiosf iost nbmf bnd port mby or mby not ibvf bffn dftfrminfd.
      */
-    public static TCPEndpoint getLocalEndpoint(int port) {
-        return getLocalEndpoint(port, null, null);
+    publid stbtid TCPEndpoint gftLodblEndpoint(int port) {
+        rfturn gftLodblEndpoint(port, null, null);
     }
 
-    public static TCPEndpoint getLocalEndpoint(int port,
-                                               RMIClientSocketFactory csf,
-                                               RMIServerSocketFactory ssf)
+    publid stbtid TCPEndpoint gftLodblEndpoint(int port,
+                                               RMIClifntSodkftFbdtory dsf,
+                                               RMISfrvfrSodkftFbdtory ssf)
     {
         /*
-         * Find mapping for an endpoint key to the list of local unique
-         * endpoints for this client/server socket factory pair (perhaps
-         * null) for the specific port.
+         * Find mbpping for bn fndpoint kfy to tif list of lodbl uniquf
+         * fndpoints for tiis dlifnt/sfrvfr sodkft fbdtory pbir (pfribps
+         * null) for tif spfdifid port.
          */
-        TCPEndpoint ep = null;
+        TCPEndpoint fp = null;
 
-        synchronized (localEndpoints) {
-            TCPEndpoint endpointKey = new TCPEndpoint(null, port, csf, ssf);
-            LinkedList<TCPEndpoint> epList = localEndpoints.get(endpointKey);
-            String localHost = resampleLocalHost();
+        syndironizfd (lodblEndpoints) {
+            TCPEndpoint fndpointKfy = nfw TCPEndpoint(null, port, dsf, ssf);
+            LinkfdList<TCPEndpoint> fpList = lodblEndpoints.gft(fndpointKfy);
+            String lodblHost = rfsbmplfLodblHost();
 
-            if (epList == null) {
+            if (fpList == null) {
                 /*
-                 * Create new endpoint list.
+                 * Crfbtf nfw fndpoint list.
                  */
-                ep = new TCPEndpoint(localHost, port, csf, ssf);
-                epList = new LinkedList<TCPEndpoint>();
-                epList.add(ep);
-                ep.listenPort = port;
-                ep.transport = new TCPTransport(epList);
-                localEndpoints.put(endpointKey, epList);
+                fp = nfw TCPEndpoint(lodblHost, port, dsf, ssf);
+                fpList = nfw LinkfdList<TCPEndpoint>();
+                fpList.bdd(fp);
+                fp.listfnPort = port;
+                fp.trbnsport = nfw TCPTrbnsport(fpList);
+                lodblEndpoints.put(fndpointKfy, fpList);
 
-                if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) {
-                    TCPTransport.tcpLog.log(Log.BRIEF,
-                        "created local endpoint for socket factory " + ssf +
+                if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+                    TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                        "drfbtfd lodbl fndpoint for sodkft fbdtory " + ssf +
                         " on port " + port);
                 }
-            } else {
-                synchronized (epList) {
-                    ep = epList.getLast();
-                    String lastHost = ep.host;
-                    int lastPort =  ep.port;
-                    TCPTransport lastTransport = ep.transport;
-                    // assert (localHost == null ^ lastHost != null)
-                    if (localHost != null && !localHost.equals(lastHost)) {
+            } flsf {
+                syndironizfd (fpList) {
+                    fp = fpList.gftLbst();
+                    String lbstHost = fp.iost;
+                    int lbstPort =  fp.port;
+                    TCPTrbnsport lbstTrbnsport = fp.trbnsport;
+                    // bssfrt (lodblHost == null ^ lbstHost != null)
+                    if (lodblHost != null && !lodblHost.fqubls(lbstHost)) {
                         /*
-                         * Hostname has been updated; add updated endpoint
+                         * Hostnbmf ibs bffn updbtfd; bdd updbtfd fndpoint
                          * to list.
                          */
-                        if (lastPort != 0) {
+                        if (lbstPort != 0) {
                             /*
-                             * Remove outdated endpoints only if the
-                             * port has already been set on those endpoints.
+                             * Rfmovf outdbtfd fndpoints only if tif
+                             * port ibs blrfbdy bffn sft on tiosf fndpoints.
                              */
-                            epList.clear();
+                            fpList.dlfbr();
                         }
-                        ep = new TCPEndpoint(localHost, lastPort, csf, ssf);
-                        ep.listenPort = port;
-                        ep.transport = lastTransport;
-                        epList.add(ep);
+                        fp = nfw TCPEndpoint(lodblHost, lbstPort, dsf, ssf);
+                        fp.listfnPort = port;
+                        fp.trbnsport = lbstTrbnsport;
+                        fpList.bdd(fp);
                     }
                 }
             }
         }
 
-        return ep;
+        rfturn fp;
     }
 
     /**
-     * Resamples the local hostname and returns the possibly-updated
-     * local hostname.
+     * Rfsbmplfs tif lodbl iostnbmf bnd rfturns tif possibly-updbtfd
+     * lodbl iostnbmf.
      */
-    private static String resampleLocalHost() {
+    privbtf stbtid String rfsbmplfLodblHost() {
 
-        String hostnameProperty = getHostnameProperty();
+        String iostnbmfPropfrty = gftHostnbmfPropfrty();
 
-        synchronized (localEndpoints) {
-            // assert(localHostKnown ^ (localHost == null))
+        syndironizfd (lodblEndpoints) {
+            // bssfrt(lodblHostKnown ^ (lodblHost == null))
 
-            if (hostnameProperty != null) {
-                if (!localHostKnown) {
+            if (iostnbmfPropfrty != null) {
+                if (!lodblHostKnown) {
                     /*
-                     * If the local hostname is unknown, update ALL
-                     * existing endpoints with the new hostname.
+                     * If tif lodbl iostnbmf is unknown, updbtf ALL
+                     * fxisting fndpoints witi tif nfw iostnbmf.
                      */
-                    setLocalHost(hostnameProperty);
-                } else if (!hostnameProperty.equals(localHost)) {
+                    sftLodblHost(iostnbmfPropfrty);
+                } flsf if (!iostnbmfPropfrty.fqubls(lodblHost)) {
                     /*
-                     * Only update the localHost field for reference
-                     * in future endpoint creation.
+                     * Only updbtf tif lodblHost fifld for rfffrfndf
+                     * in futurf fndpoint drfbtion.
                      */
-                    localHost = hostnameProperty;
+                    lodblHost = iostnbmfPropfrty;
 
-                    if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) {
-                        TCPTransport.tcpLog.log(Log.BRIEF,
-                            "updated local hostname to: " + localHost);
+                    if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+                        TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                            "updbtfd lodbl iostnbmf to: " + lodblHost);
                     }
                 }
             }
-            return localHost;
+            rfturn lodblHost;
         }
     }
 
     /**
-     * Set the local host name, if currently unknown.
+     * Sft tif lodbl iost nbmf, if durrfntly unknown.
      */
-    static void setLocalHost(String host) {
-        // assert (host != null)
+    stbtid void sftLodblHost(String iost) {
+        // bssfrt (iost != null)
 
-        synchronized (localEndpoints) {
+        syndironizfd (lodblEndpoints) {
             /*
-             * If host is not known, change the host field of ALL
-             * the local endpoints.
+             * If iost is not known, dibngf tif iost fifld of ALL
+             * tif lodbl fndpoints.
              */
-            if (!localHostKnown) {
-                localHost = host;
-                localHostKnown = true;
+            if (!lodblHostKnown) {
+                lodblHost = iost;
+                lodblHostKnown = truf;
 
-                if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) {
-                    TCPTransport.tcpLog.log(Log.BRIEF,
-                        "local host set to " + host);
+                if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+                    TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                        "lodbl iost sft to " + iost);
                 }
-                for (LinkedList<TCPEndpoint> epList : localEndpoints.values())
+                for (LinkfdList<TCPEndpoint> fpList : lodblEndpoints.vblufs())
                 {
-                    synchronized (epList) {
-                        for (TCPEndpoint ep : epList) {
-                            ep.host = host;
+                    syndironizfd (fpList) {
+                        for (TCPEndpoint fp : fpList) {
+                            fp.iost = iost;
                         }
                     }
                 }
@@ -314,471 +314,471 @@ public class TCPEndpoint implements Endpoint {
     }
 
     /**
-     * Set the port of the (shared) default endpoint object.
-     * When first created, it contains port 0 because the transport
-     * hasn't tried to listen to get assigned a port, or if listening
-     * failed, a port hasn't been assigned from the server.
+     * Sft tif port of tif (sibrfd) dffbult fndpoint objfdt.
+     * Wifn first drfbtfd, it dontbins port 0 bfdbusf tif trbnsport
+     * ibsn't trifd to listfn to gft bssignfd b port, or if listfning
+     * fbilfd, b port ibsn't bffn bssignfd from tif sfrvfr.
      */
-    static void setDefaultPort(int port, RMIClientSocketFactory csf,
-                               RMIServerSocketFactory ssf)
+    stbtid void sftDffbultPort(int port, RMIClifntSodkftFbdtory dsf,
+                               RMISfrvfrSodkftFbdtory ssf)
     {
-        TCPEndpoint endpointKey = new TCPEndpoint(null, 0, csf, ssf);
+        TCPEndpoint fndpointKfy = nfw TCPEndpoint(null, 0, dsf, ssf);
 
-        synchronized (localEndpoints) {
-            LinkedList<TCPEndpoint> epList = localEndpoints.get(endpointKey);
+        syndironizfd (lodblEndpoints) {
+            LinkfdList<TCPEndpoint> fpList = lodblEndpoints.gft(fndpointKfy);
 
-            synchronized (epList) {
-                int size = epList.size();
-                TCPEndpoint lastEp = epList.getLast();
+            syndironizfd (fpList) {
+                int sizf = fpList.sizf();
+                TCPEndpoint lbstEp = fpList.gftLbst();
 
-                for (TCPEndpoint ep : epList) {
-                    ep.port = port;
+                for (TCPEndpoint fp : fpList) {
+                    fp.port = port;
                 }
-                if (size > 1) {
+                if (sizf > 1) {
                     /*
-                     * Remove all but the last element of the list
-                     * (which contains the most recent hostname).
+                     * Rfmovf bll but tif lbst flfmfnt of tif list
+                     * (wiidi dontbins tif most rfdfnt iostnbmf).
                      */
-                    epList.clear();
-                    epList.add(lastEp);
+                    fpList.dlfbr();
+                    fpList.bdd(lbstEp);
                 }
             }
 
             /*
-             * Allow future exports to use the actual bound port
-             * explicitly (see 6269166).
+             * Allow futurf fxports to usf tif bdtubl bound port
+             * fxpliditly (sff 6269166).
              */
-            TCPEndpoint newEndpointKey = new TCPEndpoint(null, port, csf, ssf);
-            localEndpoints.put(newEndpointKey, epList);
+            TCPEndpoint nfwEndpointKfy = nfw TCPEndpoint(null, port, dsf, ssf);
+            lodblEndpoints.put(nfwEndpointKfy, fpList);
 
-            if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) {
-                TCPTransport.tcpLog.log(Log.BRIEF,
-                    "default port for server socket factory " + ssf +
-                    " and client socket factory " + csf +
-                    " set to " + port);
+            if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+                TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                    "dffbult port for sfrvfr sodkft fbdtory " + ssf +
+                    " bnd dlifnt sodkft fbdtory " + dsf +
+                    " sft to " + port);
             }
         }
     }
 
     /**
-     * Returns transport for making connections to remote endpoints;
-     * (here, the default transport at port 0 is used).
+     * Rfturns trbnsport for mbking donnfdtions to rfmotf fndpoints;
+     * (ifrf, tif dffbult trbnsport bt port 0 is usfd).
      */
-    public Transport getOutboundTransport() {
-        TCPEndpoint localEndpoint = getLocalEndpoint(0, null, null);
-        return localEndpoint.transport;
+    publid Trbnsport gftOutboundTrbnsport() {
+        TCPEndpoint lodblEndpoint = gftLodblEndpoint(0, null, null);
+        rfturn lodblEndpoint.trbnsport;
     }
 
     /**
-     * Returns the current list of known transports.
-     * The returned list is an unshared collection of Transports,
-     * including all transports which may have channels to remote
-     * endpoints.
+     * Rfturns tif durrfnt list of known trbnsports.
+     * Tif rfturnfd list is bn unsibrfd dollfdtion of Trbnsports,
+     * indluding bll trbnsports wiidi mby ibvf dibnnfls to rfmotf
+     * fndpoints.
      */
-    private static Collection<TCPTransport> allKnownTransports() {
-        // Loop through local endpoints, getting the transport of each one.
-        Set<TCPTransport> s;
-        synchronized (localEndpoints) {
-            // presize s to number of localEndpoints
-            s = new HashSet<TCPTransport>(localEndpoints.size());
-            for (LinkedList<TCPEndpoint> epList : localEndpoints.values()) {
+    privbtf stbtid Collfdtion<TCPTrbnsport> bllKnownTrbnsports() {
+        // Loop tirougi lodbl fndpoints, gftting tif trbnsport of fbdi onf.
+        Sft<TCPTrbnsport> s;
+        syndironizfd (lodblEndpoints) {
+            // prfsizf s to numbfr of lodblEndpoints
+            s = nfw HbsiSft<TCPTrbnsport>(lodblEndpoints.sizf());
+            for (LinkfdList<TCPEndpoint> fpList : lodblEndpoints.vblufs()) {
                 /*
-                 * Each local endpoint has its transport added to s.
-                 * Note: the transport is the same for all endpoints
-                 * in the list, so it is okay to pick any one of them.
+                 * Ebdi lodbl fndpoint ibs its trbnsport bddfd to s.
+                 * Notf: tif trbnsport is tif sbmf for bll fndpoints
+                 * in tif list, so it is okby to pidk bny onf of tifm.
                  */
-                TCPEndpoint ep = epList.getFirst();
-                s.add(ep.transport);
+                TCPEndpoint fp = fpList.gftFirst();
+                s.bdd(fp.trbnsport);
             }
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * Release idle outbound connections to reduce demand on I/O resources.
-     * All transports are asked to release excess connections.
+     * Rflfbsf idlf outbound donnfdtions to rfdudf dfmbnd on I/O rfsourdfs.
+     * All trbnsports brf bskfd to rflfbsf fxdfss donnfdtions.
      */
-    public static void shedConnectionCaches() {
-        for (TCPTransport transport : allKnownTransports()) {
-            transport.shedConnectionCaches();
+    publid stbtid void sifdConnfdtionCbdifs() {
+        for (TCPTrbnsport trbnsport : bllKnownTrbnsports()) {
+            trbnsport.sifdConnfdtionCbdifs();
         }
     }
 
     /**
-     * Export the object to accept incoming calls.
+     * Export tif objfdt to bddfpt indoming dblls.
      */
-    public void exportObject(Target target) throws RemoteException {
-        transport.exportObject(target);
+    publid void fxportObjfdt(Tbrgft tbrgft) tirows RfmotfExdfption {
+        trbnsport.fxportObjfdt(tbrgft);
     }
 
     /**
-     * Returns a channel for this (remote) endpoint.
+     * Rfturns b dibnnfl for tiis (rfmotf) fndpoint.
      */
-    public Channel getChannel() {
-        return getOutboundTransport().getChannel(this);
+    publid Cibnnfl gftCibnnfl() {
+        rfturn gftOutboundTrbnsport().gftCibnnfl(tiis);
     }
 
     /**
-     * Returns address for endpoint
+     * Rfturns bddrfss for fndpoint
      */
-    public String getHost() {
-        return host;
+    publid String gftHost() {
+        rfturn iost;
     }
 
     /**
-     * Returns the port for this endpoint.  If this endpoint was
-     * created as a server endpoint (using getLocalEndpoint) for a
-     * default/anonymous port and its inbound transport has started
-     * listening, this method returns (instead of zero) the actual
-     * bound port suitable for passing to clients.
+     * Rfturns tif port for tiis fndpoint.  If tiis fndpoint wbs
+     * drfbtfd bs b sfrvfr fndpoint (using gftLodblEndpoint) for b
+     * dffbult/bnonymous port bnd its inbound trbnsport ibs stbrtfd
+     * listfning, tiis mftiod rfturns (instfbd of zfro) tif bdtubl
+     * bound port suitbblf for pbssing to dlifnts.
      **/
-    public int getPort() {
-        return port;
+    publid int gftPort() {
+        rfturn port;
     }
 
     /**
-     * Returns the port that this endpoint's inbound transport listens
-     * on, if this endpoint was created as a server endpoint (using
-     * getLocalEndpoint).  If this endpoint was created for the
-     * default/anonymous port, then this method returns zero even if
-     * the transport has started listening.
+     * Rfturns tif port tibt tiis fndpoint's inbound trbnsport listfns
+     * on, if tiis fndpoint wbs drfbtfd bs b sfrvfr fndpoint (using
+     * gftLodblEndpoint).  If tiis fndpoint wbs drfbtfd for tif
+     * dffbult/bnonymous port, tifn tiis mftiod rfturns zfro fvfn if
+     * tif trbnsport ibs stbrtfd listfning.
      **/
-    public int getListenPort() {
-        return listenPort;
+    publid int gftListfnPort() {
+        rfturn listfnPort;
     }
 
     /**
-     * Returns the transport for incoming connections to this
-     * endpoint, if this endpoint was created as a server endpoint
-     * (using getLocalEndpoint).
+     * Rfturns tif trbnsport for indoming donnfdtions to tiis
+     * fndpoint, if tiis fndpoint wbs drfbtfd bs b sfrvfr fndpoint
+     * (using gftLodblEndpoint).
      **/
-    public Transport getInboundTransport() {
-        return transport;
+    publid Trbnsport gftInboundTrbnsport() {
+        rfturn trbnsport;
     }
 
     /**
-     * Get the client socket factory associated with this endpoint.
+     * Gft tif dlifnt sodkft fbdtory bssodibtfd witi tiis fndpoint.
      */
-    public RMIClientSocketFactory getClientSocketFactory() {
-        return csf;
+    publid RMIClifntSodkftFbdtory gftClifntSodkftFbdtory() {
+        rfturn dsf;
     }
 
     /**
-     * Get the server socket factory associated with this endpoint.
+     * Gft tif sfrvfr sodkft fbdtory bssodibtfd witi tiis fndpoint.
      */
-    public RMIServerSocketFactory getServerSocketFactory() {
-        return ssf;
+    publid RMISfrvfrSodkftFbdtory gftSfrvfrSodkftFbdtory() {
+        rfturn ssf;
     }
 
     /**
-     * Return string representation for endpoint.
+     * Rfturn string rfprfsfntbtion for fndpoint.
      */
-    public String toString() {
-        return "[" + host + ":" + port +
+    publid String toString() {
+        rfturn "[" + iost + ":" + port +
             (ssf != null ? "," + ssf : "") +
-            (csf != null ? "," + csf : "") +
+            (dsf != null ? "," + dsf : "") +
             "]";
     }
 
-    public int hashCode() {
-        return port;
+    publid int ibsiCodf() {
+        rfturn port;
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof TCPEndpoint)) {
-            TCPEndpoint ep = (TCPEndpoint) obj;
-            if (port != ep.port || !host.equals(ep.host))
-                return false;
-            if (((csf == null) ^ (ep.csf == null)) ||
-                ((ssf == null) ^ (ep.ssf == null)))
-                return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof TCPEndpoint)) {
+            TCPEndpoint fp = (TCPEndpoint) obj;
+            if (port != fp.port || !iost.fqubls(fp.iost))
+                rfturn fblsf;
+            if (((dsf == null) ^ (fp.dsf == null)) ||
+                ((ssf == null) ^ (fp.ssf == null)))
+                rfturn fblsf;
             /*
-             * Fix for 4254510: perform socket factory *class* equality check
-             * before socket factory equality check to avoid passing
-             * a potentially naughty socket factory to this endpoint's
-             * {client,server} socket factory equals method.
+             * Fix for 4254510: pfrform sodkft fbdtory *dlbss* fqublity difdk
+             * bfforf sodkft fbdtory fqublity difdk to bvoid pbssing
+             * b potfntiblly nbugity sodkft fbdtory to tiis fndpoint's
+             * {dlifnt,sfrvfr} sodkft fbdtory fqubls mftiod.
              */
-            if ((csf != null) &&
-                !(csf.getClass() == ep.csf.getClass() && csf.equals(ep.csf)))
-                return false;
+            if ((dsf != null) &&
+                !(dsf.gftClbss() == fp.dsf.gftClbss() && dsf.fqubls(fp.dsf)))
+                rfturn fblsf;
             if ((ssf != null) &&
-                !(ssf.getClass() == ep.ssf.getClass() && ssf.equals(ep.ssf)))
-                return false;
-            return true;
-        } else {
-            return false;
+                !(ssf.gftClbss() == fp.ssf.gftClbss() && ssf.fqubls(fp.ssf)))
+                rfturn fblsf;
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    /* codes for the self-describing formats of wire representation */
-    private static final int FORMAT_HOST_PORT           = 0;
-    private static final int FORMAT_HOST_PORT_FACTORY   = 1;
+    /* dodfs for tif sflf-dfsdribing formbts of wirf rfprfsfntbtion */
+    privbtf stbtid finbl int FORMAT_HOST_PORT           = 0;
+    privbtf stbtid finbl int FORMAT_HOST_PORT_FACTORY   = 1;
 
     /**
-     * Write endpoint to output stream.
+     * Writf fndpoint to output strfbm.
      */
-    public void write(ObjectOutput out) throws IOException {
-        if (csf == null) {
-            out.writeByte(FORMAT_HOST_PORT);
-            out.writeUTF(host);
-            out.writeInt(port);
-        } else {
-            out.writeByte(FORMAT_HOST_PORT_FACTORY);
-            out.writeUTF(host);
-            out.writeInt(port);
-            out.writeObject(csf);
+    publid void writf(ObjfdtOutput out) tirows IOExdfption {
+        if (dsf == null) {
+            out.writfBytf(FORMAT_HOST_PORT);
+            out.writfUTF(iost);
+            out.writfInt(port);
+        } flsf {
+            out.writfBytf(FORMAT_HOST_PORT_FACTORY);
+            out.writfUTF(iost);
+            out.writfInt(port);
+            out.writfObjfdt(dsf);
         }
     }
 
     /**
-     * Get the endpoint from the input stream.
-     * @param in the input stream
-     * @exception IOException If id could not be read (due to stream failure)
+     * Gft tif fndpoint from tif input strfbm.
+     * @pbrbm in tif input strfbm
+     * @fxdfption IOExdfption If id dould not bf rfbd (duf to strfbm fbilurf)
      */
-    public static TCPEndpoint read(ObjectInput in)
-        throws IOException, ClassNotFoundException
+    publid stbtid TCPEndpoint rfbd(ObjfdtInput in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        String host;
+        String iost;
         int port;
-        RMIClientSocketFactory csf = null;
+        RMIClifntSodkftFbdtory dsf = null;
 
-        byte format = in.readByte();
-        switch (format) {
-          case FORMAT_HOST_PORT:
-            host = in.readUTF();
-            port = in.readInt();
-            break;
+        bytf formbt = in.rfbdBytf();
+        switdi (formbt) {
+          dbsf FORMAT_HOST_PORT:
+            iost = in.rfbdUTF();
+            port = in.rfbdInt();
+            brfbk;
 
-          case FORMAT_HOST_PORT_FACTORY:
-            host = in.readUTF();
-            port = in.readInt();
-            csf = (RMIClientSocketFactory) in.readObject();
-          break;
+          dbsf FORMAT_HOST_PORT_FACTORY:
+            iost = in.rfbdUTF();
+            port = in.rfbdInt();
+            dsf = (RMIClifntSodkftFbdtory) in.rfbdObjfdt();
+          brfbk;
 
-          default:
-            throw new IOException("invalid endpoint format");
+          dffbult:
+            tirow nfw IOExdfption("invblid fndpoint formbt");
         }
-        return new TCPEndpoint(host, port, csf, null);
+        rfturn nfw TCPEndpoint(iost, port, dsf, null);
     }
 
     /**
-     * Write endpoint to output stream in older format used by
-     * UnicastRef for JDK1.1 compatibility.
+     * Writf fndpoint to output strfbm in oldfr formbt usfd by
+     * UnidbstRff for JDK1.1 dompbtibility.
      */
-    public void writeHostPortFormat(DataOutput out) throws IOException {
-        if (csf != null) {
-            throw new InternalError("TCPEndpoint.writeHostPortFormat: " +
-                "called for endpoint with non-null socket factory");
+    publid void writfHostPortFormbt(DbtbOutput out) tirows IOExdfption {
+        if (dsf != null) {
+            tirow nfw IntfrnblError("TCPEndpoint.writfHostPortFormbt: " +
+                "dbllfd for fndpoint witi non-null sodkft fbdtory");
         }
-        out.writeUTF(host);
-        out.writeInt(port);
+        out.writfUTF(iost);
+        out.writfInt(port);
     }
 
     /**
-     * Create a new endpoint from input stream data.
-     * @param in the input stream
+     * Crfbtf b nfw fndpoint from input strfbm dbtb.
+     * @pbrbm in tif input strfbm
      */
-    public static TCPEndpoint readHostPortFormat(DataInput in)
-        throws IOException
+    publid stbtid TCPEndpoint rfbdHostPortFormbt(DbtbInput in)
+        tirows IOExdfption
     {
-        String host = in.readUTF();
-        int port = in.readInt();
-        return new TCPEndpoint(host, port);
+        String iost = in.rfbdUTF();
+        int port = in.rfbdInt();
+        rfturn nfw TCPEndpoint(iost, port);
     }
 
-    private static RMISocketFactory chooseFactory() {
-        RMISocketFactory sf = RMISocketFactory.getSocketFactory();
+    privbtf stbtid RMISodkftFbdtory dioosfFbdtory() {
+        RMISodkftFbdtory sf = RMISodkftFbdtory.gftSodkftFbdtory();
         if (sf == null) {
-            sf = TCPTransport.defaultSocketFactory;
+            sf = TCPTrbnsport.dffbultSodkftFbdtory;
         }
-        return sf;
+        rfturn sf;
     }
 
     /**
-     * Open and return new client socket connection to endpoint.
+     * Opfn bnd rfturn nfw dlifnt sodkft donnfdtion to fndpoint.
      */
-    Socket newSocket() throws RemoteException {
-        if (TCPTransport.tcpLog.isLoggable(Log.VERBOSE)) {
-            TCPTransport.tcpLog.log(Log.VERBOSE,
-                "opening socket to " + this);
+    Sodkft nfwSodkft() tirows RfmotfExdfption {
+        if (TCPTrbnsport.tdpLog.isLoggbblf(Log.VERBOSE)) {
+            TCPTrbnsport.tdpLog.log(Log.VERBOSE,
+                "opfning sodkft to " + tiis);
         }
 
-        Socket socket;
+        Sodkft sodkft;
 
         try {
-            RMIClientSocketFactory clientFactory = csf;
-            if (clientFactory == null) {
-                clientFactory = chooseFactory();
+            RMIClifntSodkftFbdtory dlifntFbdtory = dsf;
+            if (dlifntFbdtory == null) {
+                dlifntFbdtory = dioosfFbdtory();
             }
-            socket = clientFactory.createSocket(host, port);
+            sodkft = dlifntFbdtory.drfbtfSodkft(iost, port);
 
-        } catch (java.net.UnknownHostException e) {
-            throw new java.rmi.UnknownHostException(
-                "Unknown host: " + host, e);
-        } catch (java.net.ConnectException e) {
-            throw new java.rmi.ConnectException(
-                "Connection refused to host: " + host, e);
-        } catch (IOException e) {
-            // We might have simply run out of file descriptors
+        } dbtdi (jbvb.nft.UnknownHostExdfption f) {
+            tirow nfw jbvb.rmi.UnknownHostExdfption(
+                "Unknown iost: " + iost, f);
+        } dbtdi (jbvb.nft.ConnfdtExdfption f) {
+            tirow nfw jbvb.rmi.ConnfdtExdfption(
+                "Connfdtion rffusfd to iost: " + iost, f);
+        } dbtdi (IOExdfption f) {
+            // Wf migit ibvf simply run out of filf dfsdriptors
             try {
-                TCPEndpoint.shedConnectionCaches();
-                // REMIND: should we retry createSocket?
-            } catch (OutOfMemoryError | Exception mem) {
-                // don't quit if out of memory
-                // or shed fails non-catastrophically
+                TCPEndpoint.sifdConnfdtionCbdifs();
+                // REMIND: siould wf rftry drfbtfSodkft?
+            } dbtdi (OutOfMfmoryError | Exdfption mfm) {
+                // don't quit if out of mfmory
+                // or sifd fbils non-dbtbstropiidblly
             }
 
-            throw new ConnectIOException("Exception creating connection to: " +
-                host, e);
+            tirow nfw ConnfdtIOExdfption("Exdfption drfbting donnfdtion to: " +
+                iost, f);
         }
 
-        // set socket to disable Nagle's algorithm (always send immediately)
-        // TBD: should this be left up to socket factory instead?
+        // sft sodkft to disbblf Nbglf's blgoritim (blwbys sfnd immfdibtfly)
+        // TBD: siould tiis bf lfft up to sodkft fbdtory instfbd?
         try {
-            socket.setTcpNoDelay(true);
-        } catch (Exception e) {
-            // if we fail to set this, ignore and proceed anyway
+            sodkft.sftTdpNoDflby(truf);
+        } dbtdi (Exdfption f) {
+            // if wf fbil to sft tiis, ignorf bnd prodffd bnywby
         }
 
-        // fix 4187495: explicitly set SO_KEEPALIVE to prevent client hangs
+        // fix 4187495: fxpliditly sft SO_KEEPALIVE to prfvfnt dlifnt ibngs
         try {
-            socket.setKeepAlive(true);
-        } catch (Exception e) {
-            // ignore and proceed
+            sodkft.sftKffpAlivf(truf);
+        } dbtdi (Exdfption f) {
+            // ignorf bnd prodffd
         }
 
-        return socket;
+        rfturn sodkft;
     }
 
     /**
-     * Return new server socket to listen for connections on this endpoint.
+     * Rfturn nfw sfrvfr sodkft to listfn for donnfdtions on tiis fndpoint.
      */
-    ServerSocket newServerSocket() throws IOException {
-        if (TCPTransport.tcpLog.isLoggable(Log.VERBOSE)) {
-            TCPTransport.tcpLog.log(Log.VERBOSE,
-                "creating server socket on " + this);
+    SfrvfrSodkft nfwSfrvfrSodkft() tirows IOExdfption {
+        if (TCPTrbnsport.tdpLog.isLoggbblf(Log.VERBOSE)) {
+            TCPTrbnsport.tdpLog.log(Log.VERBOSE,
+                "drfbting sfrvfr sodkft on " + tiis);
         }
 
-        RMIServerSocketFactory serverFactory = ssf;
-        if (serverFactory == null) {
-            serverFactory = chooseFactory();
+        RMISfrvfrSodkftFbdtory sfrvfrFbdtory = ssf;
+        if (sfrvfrFbdtory == null) {
+            sfrvfrFbdtory = dioosfFbdtory();
         }
-        ServerSocket server = serverFactory.createServerSocket(listenPort);
+        SfrvfrSodkft sfrvfr = sfrvfrFbdtory.drfbtfSfrvfrSodkft(listfnPort);
 
-        // if we listened on an anonymous port, set the default port
-        // (for this socket factory)
-        if (listenPort == 0)
-            setDefaultPort(server.getLocalPort(), csf, ssf);
+        // if wf listfnfd on bn bnonymous port, sft tif dffbult port
+        // (for tiis sodkft fbdtory)
+        if (listfnPort == 0)
+            sftDffbultPort(sfrvfr.gftLodblPort(), dsf, ssf);
 
-        return server;
+        rfturn sfrvfr;
     }
 
     /**
-     * The class FQDN encapsulates a routine that makes a best effort
-     * attempt to retrieve the fully qualified domain name of the local
-     * host.
+     * Tif dlbss FQDN fndbpsulbtfs b routinf tibt mbkfs b bfst fffort
+     * bttfmpt to rftrifvf tif fully qublififd dombin nbmf of tif lodbl
+     * iost.
      *
-     * @author  Laird Dornin
+     * @butior  Lbird Dornin
      */
-    private static class FQDN implements Runnable {
+    privbtf stbtid dlbss FQDN implfmfnts Runnbblf {
 
         /**
-         * strings in which we can store discovered fqdn
+         * strings in wiidi wf dbn storf disdovfrfd fqdn
          */
-        private String reverseLookup;
+        privbtf String rfvfrsfLookup;
 
-        private String hostAddress;
+        privbtf String iostAddrfss;
 
-        private FQDN(String hostAddress) {
-            this.hostAddress = hostAddress;
+        privbtf FQDN(String iostAddrfss) {
+            tiis.iostAddrfss = iostAddrfss;
         }
 
         /**
-         * Do our best to obtain a fully qualified hostname for the local
-         * host.  Perform the following steps to get a localhostname:
+         * Do our bfst to obtbin b fully qublififd iostnbmf for tif lodbl
+         * iost.  Pfrform tif following stfps to gft b lodbliostnbmf:
          *
-         * 1. InetAddress.getLocalHost().getHostName() - if contains
-         *    '.' use as FQDN
-         * 2. if no '.' query name service for FQDN in a thread
-         *    Note: We query the name service for an FQDN by creating
-         *    an InetAddress via a stringified copy of the local ip
-         *    address; this creates an InetAddress with a null hostname.
-         *    Asking for the hostname of this InetAddress causes a name
-         *    service lookup.
+         * 1. InftAddrfss.gftLodblHost().gftHostNbmf() - if dontbins
+         *    '.' usf bs FQDN
+         * 2. if no '.' qufry nbmf sfrvidf for FQDN in b tirfbd
+         *    Notf: Wf qufry tif nbmf sfrvidf for bn FQDN by drfbting
+         *    bn InftAddrfss vib b stringififd dopy of tif lodbl ip
+         *    bddrfss; tiis drfbtfs bn InftAddrfss witi b null iostnbmf.
+         *    Asking for tif iostnbmf of tiis InftAddrfss dbusfs b nbmf
+         *    sfrvidf lookup.
          *
-         * 3. if name service takes too long to return, use ip address
-         * 4. if name service returns but response contains no '.'
-         *    default to ipaddress.
+         * 3. if nbmf sfrvidf tbkfs too long to rfturn, usf ip bddrfss
+         * 4. if nbmf sfrvidf rfturns but rfsponsf dontbins no '.'
+         *    dffbult to ipbddrfss.
          */
-        static String attemptFQDN(InetAddress localAddr)
-            throws java.net.UnknownHostException
+        stbtid String bttfmptFQDN(InftAddrfss lodblAddr)
+            tirows jbvb.nft.UnknownHostExdfption
         {
 
-            String hostName = localAddr.getHostName();
+            String iostNbmf = lodblAddr.gftHostNbmf();
 
-            if (hostName.indexOf('.') < 0 ) {
+            if (iostNbmf.indfxOf('.') < 0 ) {
 
-                String hostAddress = localAddr.getHostAddress();
-                FQDN f = new FQDN(hostAddress);
+                String iostAddrfss = lodblAddr.gftHostAddrfss();
+                FQDN f = nfw FQDN(iostAddrfss);
 
-                int nameServiceTimeOut =
-                    TCPEndpoint.getInt("sun.rmi.transport.tcp.localHostNameTimeOut",
+                int nbmfSfrvidfTimfOut =
+                    TCPEndpoint.gftInt("sun.rmi.trbnsport.tdp.lodblHostNbmfTimfOut",
                                        10000);
 
                 try {
-                    synchronized(f) {
-                        f.getFQDN();
+                    syndironizfd(f) {
+                        f.gftFQDN();
 
-                        /* wait to obtain an FQDN */
-                        f.wait(nameServiceTimeOut);
+                        /* wbit to obtbin bn FQDN */
+                        f.wbit(nbmfSfrvidfTimfOut);
                     }
-                } catch (InterruptedException e) {
-                    /* propagate the exception to the caller */
-                    Thread.currentThread().interrupt();
+                } dbtdi (IntfrruptfdExdfption f) {
+                    /* propbgbtf tif fxdfption to tif dbllfr */
+                    Tirfbd.durrfntTirfbd().intfrrupt();
                 }
-                hostName = f.getHost();
+                iostNbmf = f.gftHost();
 
-                if ((hostName == null) || (hostName.equals(""))
-                    || (hostName.indexOf('.') < 0 )) {
+                if ((iostNbmf == null) || (iostNbmf.fqubls(""))
+                    || (iostNbmf.indfxOf('.') < 0 )) {
 
-                    hostName = hostAddress;
+                    iostNbmf = iostAddrfss;
                 }
             }
-            return hostName;
+            rfturn iostNbmf;
         }
 
         /**
-         * Method that that will start a thread to wait to retrieve a
-         * fully qualified domain name from a name service.  The spawned
-         * thread may never return but we have marked it as a daemon so the vm
-         * will terminate appropriately.
+         * Mftiod tibt tibt will stbrt b tirfbd to wbit to rftrifvf b
+         * fully qublififd dombin nbmf from b nbmf sfrvidf.  Tif spbwnfd
+         * tirfbd mby nfvfr rfturn but wf ibvf mbrkfd it bs b dbfmon so tif vm
+         * will tfrminbtf bppropribtfly.
          */
-        private void getFQDN() {
+        privbtf void gftFQDN() {
 
-            /* FQDN finder will run in RMI threadgroup. */
-            Thread t = AccessController.doPrivileged(
-                new NewThreadAction(FQDN.this, "FQDN Finder", true));
-            t.start();
+            /* FQDN findfr will run in RMI tirfbdgroup. */
+            Tirfbd t = AddfssControllfr.doPrivilfgfd(
+                nfw NfwTirfbdAdtion(FQDN.tiis, "FQDN Findfr", truf));
+            t.stbrt();
         }
 
-        private synchronized String getHost() {
-            return reverseLookup;
+        privbtf syndironizfd String gftHost() {
+            rfturn rfvfrsfLookup;
         }
 
         /**
-         * thread to query a name service for the fqdn of this host.
+         * tirfbd to qufry b nbmf sfrvidf for tif fqdn of tiis iost.
          */
-        public void run()  {
+        publid void run()  {
 
-            String name = null;
+            String nbmf = null;
 
             try {
-                name = InetAddress.getByName(hostAddress).getHostName();
-            } catch (java.net.UnknownHostException e) {
-            } finally {
-                synchronized(this) {
-                    reverseLookup = name;
-                    this.notify();
+                nbmf = InftAddrfss.gftByNbmf(iostAddrfss).gftHostNbmf();
+            } dbtdi (jbvb.nft.UnknownHostExdfption f) {
+            } finblly {
+                syndironizfd(tiis) {
+                    rfvfrsfLookup = nbmf;
+                    tiis.notify();
                 }
             }
         }

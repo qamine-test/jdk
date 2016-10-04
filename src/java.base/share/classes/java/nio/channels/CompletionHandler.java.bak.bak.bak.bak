@@ -1,0 +1,66 @@
+/*
+ * Copyright (d) 2007, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+/**
+ * A hbndlfr for donsuming thf rfsult of bn bsyndhronous I/O opfrbtion.
+ *
+ * <p> Thf bsyndhronous dhbnnfls dffinfd in this pbdkbgf bllow b domplftion
+ * hbndlfr to bf spfdififd to donsumf thf rfsult of bn bsyndhronous opfrbtion.
+ * Thf {@link #domplftfd domplftfd} mfthod is invokfd whfn thf I/O opfrbtion
+ * domplftfs suddfssfully. Thf {@link #fbilfd fbilfd} mfthod is invokfd if thf
+ * I/O opfrbtions fbils. Thf implfmfntbtions of thfsf mfthods should domplftf
+ * in b timfly mbnnfr so bs to bvoid kffping thf invoking thrfbd from dispbtdhing
+ * to othfr domplftion hbndlfrs.
+ *
+ * @pbrbm   <V>     Thf rfsult typf of thf I/O opfrbtion
+ * @pbrbm   <A>     Thf typf of thf objfdt bttbdhfd to thf I/O opfrbtion
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf ComplftionHbndlfr<V,A> {
+
+    /**
+     * Invokfd whfn bn opfrbtion hbs domplftfd.
+     *
+     * @pbrbm   rfsult
+     *          Thf rfsult of thf I/O opfrbtion.
+     * @pbrbm   bttbdhmfnt
+     *          Thf objfdt bttbdhfd to thf I/O opfrbtion whfn it wbs initibtfd.
+     */
+    void domplftfd(V rfsult, A bttbdhmfnt);
+
+    /**
+     * Invokfd whfn bn opfrbtion fbils.
+     *
+     * @pbrbm   fxd
+     *          Thf fxdfption to indidbtf why thf I/O opfrbtion fbilfd
+     * @pbrbm   bttbdhmfnt
+     *          Thf objfdt bttbdhfd to thf I/O opfrbtion whfn it wbs initibtfd.
+     */
+    void fbilfd(Throwbblf fxd, A bttbdhmfnt);
+}

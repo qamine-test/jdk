@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.buth;
+
+import jbvb.sfdurity.Prindipbl;
+
+/**
+ * <p> This dlbss implfmfnts thf <dodf>Prindipbl</dodf> intfrfbdf
+ * bnd rfprfsfnts b Solbris usfr.
+ *
+ * <p> Prindipbls sudh bs this <dodf>SolbrisPrindipbl</dodf>
+ * mby bf bssodibtfd with b pbrtidulbr <dodf>Subjfdt</dodf>
+ * to bugmfnt thbt <dodf>Subjfdt</dodf> with bn bdditionbl
+ * idfntity.  Rfffr to thf <dodf>Subjfdt</dodf> dlbss for morf informbtion
+ * on how to bdhifvf this.  Authorizbtion dfdisions dbn thfn bf bbsfd upon
+ * thf Prindipbls bssodibtfd with b <dodf>Subjfdt</dodf>.
+ *
+ * @dfprfdbtfd As of JDK&nbsp;1.4, rfplbdfd by
+ *             {@link UnixPrindipbl}.
+ *             This dlbss is fntirfly dfprfdbtfd.
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvbx.sfdurity.buth.Subjfdt
+ */
+@jdk.Exportfd(fblsf)
+@Dfprfdbtfd
+publid dlbss SolbrisPrindipbl implfmfnts Prindipbl, jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -7840670002439379038L;
+
+    privbtf stbtid finbl jbvb.util.RfsourdfBundlf rb =
+          jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+          (nfw jbvb.sfdurity.PrivilfgfdAdtion<jbvb.util.RfsourdfBundlf>() {
+              publid jbvb.util.RfsourdfBundlf run() {
+                  rfturn (jbvb.util.RfsourdfBundlf.gftBundlf
+                                ("sun.sfdurity.util.AuthRfsourdfs"));
+              }
+          });
+
+
+    /**
+     * @sfribl
+     */
+    privbtf String nbmf;
+
+    /**
+     * Crfbtf b SolbrisPrindipbl with b Solbris usfrnbmf.
+     *
+     * <p>
+     *
+     * @pbrbm nbmf thf Unix usfrnbmf for this usfr.
+     *
+     * @fxdfption NullPointfrExdfption if thf <dodf>nbmf</dodf>
+     *                  is <dodf>null</dodf>.
+     */
+    publid SolbrisPrindipbl(String nbmf) {
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption(rb.gftString("providfd.null.nbmf"));
+
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Rfturn thf Unix usfrnbmf for this <dodf>SolbrisPrindipbl</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn thf Unix usfrnbmf for this <dodf>SolbrisPrindipbl</dodf>
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturn b string rfprfsfntbtion of this <dodf>SolbrisPrindipbl</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn b string rfprfsfntbtion of this <dodf>SolbrisPrindipbl</dodf>.
+     */
+    publid String toString() {
+        rfturn(rb.gftString("SolbrisPrindipbl.") + nbmf);
+    }
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this <dodf>SolbrisPrindipbl</dodf>
+     * for fqublity.  Rfturns truf if thf givfn objfdt is blso b
+     * <dodf>SolbrisPrindipbl</dodf> bnd thf two SolbrisPrindipbls
+     * hbvf thf sbmf usfrnbmf.
+     *
+     * <p>
+     *
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity with this
+     *          <dodf>SolbrisPrindipbl</dodf>.
+     *
+     * @rfturn truf if thf spfdififd Objfdt is fqubl fqubl to this
+     *          <dodf>SolbrisPrindipbl</dodf>.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == null)
+            rfturn fblsf;
+
+        if (this == o)
+            rfturn truf;
+
+        if (!(o instbndfof SolbrisPrindipbl))
+            rfturn fblsf;
+        SolbrisPrindipbl thbt = (SolbrisPrindipbl)o;
+
+        if (this.gftNbmf().fqubls(thbt.gftNbmf()))
+            rfturn truf;
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturn b hbsh dodf for this <dodf>SolbrisPrindipbl</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn b hbsh dodf for this <dodf>SolbrisPrindipbl</dodf>.
+     */
+    publid int hbshCodf() {
+        rfturn nbmf.hbshCodf();
+    }
+}

@@ -1,0 +1,174 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.TimfUnit;
+
+/**
+ * A wbtdh sfrvidf thbt <fm>wbtdhfs</fm> rfgistfrfd objfdts for dhbngfs bnd
+ * fvfnts. For fxbmplf b filf mbnbgfr mby usf b wbtdh sfrvidf to monitor b
+ * dirfdtory for dhbngfs so thbt it dbn updbtf its displby of thf list of filfs
+ * whfn filfs brf drfbtfd or dflftfd.
+ *
+ * <p> A {@link Wbtdhbblf} objfdt is rfgistfrfd with b wbtdh sfrvidf by invoking
+ * its {@link Wbtdhbblf#rfgistfr rfgistfr} mfthod, rfturning b {@link WbtdhKfy}
+ * to rfprfsfnt thf rfgistrbtion. Whfn bn fvfnt for bn objfdt is dftfdtfd thf
+ * kfy is <fm>signbllfd</fm>, bnd if not durrfntly signbllfd, it is qufufd to
+ * thf wbtdh sfrvidf so thbt it dbn bf rftrifvfd by donsumfrs thbt invokf thf
+ * {@link #poll() poll} or {@link #tbkf() tbkf} mfthods to rftrifvf kfys
+ * bnd prodfss fvfnts. Ondf thf fvfnts hbvf bffn prodfssfd thf donsumfr
+ * invokfs thf kfy's {@link WbtdhKfy#rfsft rfsft} mfthod to rfsft thf kfy whidh
+ * bllows thf kfy to bf signbllfd bnd rf-qufufd with furthfr fvfnts.
+ *
+ * <p> Rfgistrbtion with b wbtdh sfrvidf is dbndfllfd by invoking thf kfy's
+ * {@link WbtdhKfy#dbndfl dbndfl} mfthod. A kfy thbt is qufufd bt thf timf thbt
+ * it is dbndfllfd rfmbins in thf qufuf until it is rftrifvfd. Dfpfnding on thf
+ * objfdt, b kfy mby bf dbndfllfd butombtidblly. For fxbmplf, supposf b
+ * dirfdtory is wbtdhfd bnd thf wbtdh sfrvidf dftfdts thbt it hbs bffn dflftfd
+ * or its filf systfm is no longfr bddfssiblf. Whfn b kfy is dbndfllfd in this
+ * mbnnfr it is signbllfd bnd qufufd, if not durrfntly signbllfd. To fnsurf
+ * thbt thf donsumfr is notififd thf rfturn vbluf from thf {@dodf rfsft}
+ * mfthod indidbtfs if thf kfy is vblid.
+ *
+ * <p> A wbtdh sfrvidf is sbff for usf by multiplf dondurrfnt donsumfrs. To
+ * fnsurf thbt only onf donsumfr prodfssfs thf fvfnts for b pbrtidulbr objfdt bt
+ * bny timf thfn dbrf should bf tbkfn to fnsurf thbt thf kfy's {@dodf rfsft}
+ * mfthod is only invokfd bftfr its fvfnts hbvf bffn prodfssfd. Thf {@link
+ * #dlosf dlosf} mfthod mby bf invokfd bt bny timf to dlosf thf sfrvidf dbusing
+ * bny thrfbds wbiting to rftrifvf kfys, to throw {@dodf
+ * ClosfdWbtdhSfrvidfExdfption}.
+ *
+ * <p> Filf systfms mby rfport fvfnts fbstfr thbn thfy dbn bf rftrifvfd or
+ * prodfssfd bnd bn implfmfntbtion mby imposf bn unspfdififd limit on thf numbfr
+ * of fvfnts thbt it mby bddumulbtf. Whfrf bn implfmfntbtion <fm>knowingly</fm>
+ * disdbrds fvfnts thfn it brrbngfs for thf kfy's {@link WbtdhKfy#pollEvfnts
+ * pollEvfnts} mfthod to rfturn bn flfmfnt with bn fvfnt typf of {@link
+ * StbndbrdWbtdhEvfntKinds#OVERFLOW OVERFLOW}. This fvfnt dbn bf usfd by thf
+ * donsumfr bs b triggfr to rf-fxbminf thf stbtf of thf objfdt.
+ *
+ * <p> Whfn bn fvfnt is rfportfd to indidbtf thbt b filf in b wbtdhfd dirfdtory
+ * hbs bffn modififd thfn thfrf is no gubrbntff thbt thf progrbm (or progrbms)
+ * thbt hbvf modififd thf filf hbvf domplftfd. Cbrf should bf tbkfn to doordinbtf
+ * bddfss with othfr progrbms thbt mby bf updbting thf filf.
+ * Thf {@link jbvb.nio.dhbnnfls.FilfChbnnfl FilfChbnnfl} dlbss dffinfs mfthods
+ * to lodk rfgions of b filf bgbinst bddfss by othfr progrbms.
+ *
+ * <h2>Plbtform dfpfndfndifs</h2>
+ *
+ * <p> Thf implfmfntbtion thbt obsfrvfs fvfnts from thf filf systfm is intfndfd
+ * to mbp dirfdtly on to thf nbtivf filf fvfnt notifidbtion fbdility whfrf
+ * bvbilbblf, or to usf b primitivf mfdhbnism, sudh bs polling, whfn b nbtivf
+ * fbdility is not bvbilbblf. Consfqufntly, mbny of thf dftbils on how fvfnts
+ * brf dftfdtfd, thfir timflinfss, bnd whfthfr thfir ordfring is prfsfrvfd brf
+ * highly implfmfntbtion spfdifid. For fxbmplf, whfn b filf in b wbtdhfd
+ * dirfdtory is modififd thfn it mby rfsult in b singlf {@link
+ * StbndbrdWbtdhEvfntKinds#ENTRY_MODIFY ENTRY_MODIFY} fvfnt in somf
+ * implfmfntbtions but sfvfrbl fvfnts in othfr implfmfntbtions. Short-livfd
+ * filfs (mfbning filfs thbt brf dflftfd vfry quidkly bftfr thfy brf drfbtfd)
+ * mby not bf dftfdtfd by primitivf implfmfntbtions thbt pfriodidblly poll thf
+ * filf systfm to dftfdt dhbngfs.
+ *
+ * <p> If b wbtdhfd filf is not lodbtfd on b lodbl storbgf dfvidf thfn it is
+ * implfmfntbtion spfdifid if dhbngfs to thf filf dbn bf dftfdtfd. In pbrtidulbr,
+ * it is not rfquirfd thbt dhbngfs to filfs dbrrifd out on rfmotf systfms bf
+ * dftfdtfd.
+ *
+ * @sindf 1.7
+ *
+ * @sff FilfSystfm#nfwWbtdhSfrvidf
+ */
+
+publid intfrfbdf WbtdhSfrvidf
+    fxtfnds Closfbblf
+{
+
+    /**
+     * Closfs this wbtdh sfrvidf.
+     *
+     * <p> If b thrfbd is durrfntly blodkfd in thf {@link #tbkf tbkf} or {@link
+     * #poll(long,TimfUnit) poll} mfthods wbiting for b kfy to bf qufufd thfn
+     * it immfdibtfly rfdfivfs b {@link ClosfdWbtdhSfrvidfExdfption}. Any
+     * vblid kfys bssodibtfd with this wbtdh sfrvidf brf {@link WbtdhKfy#isVblid
+     * invblidbtfd}.
+     *
+     * <p> Aftfr b wbtdh sfrvidf is dlosfd, bny furthfr bttfmpt to invokf
+     * opfrbtions upon it will throw {@link ClosfdWbtdhSfrvidfExdfption}.
+     * If this wbtdh sfrvidf is blrfbdy dlosfd thfn invoking this mfthod
+     * hbs no ffffdt.
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     */
+    @Ovfrridf
+    void dlosf() throws IOExdfption;
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf nfxt wbtdh kfy, or {@dodf null} if nonf brf
+     * prfsfnt.
+     *
+     * @rfturn  thf nfxt wbtdh kfy, or {@dodf null}
+     *
+     * @throws  ClosfdWbtdhSfrvidfExdfption
+     *          if this wbtdh sfrvidf is dlosfd
+     */
+    WbtdhKfy poll();
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf nfxt wbtdh kfy, wbiting if nfdfssbry up to thf
+     * spfdififd wbit timf if nonf brf yft prfsfnt.
+     *
+     * @pbrbm   timfout
+     *          how to wbit bfforf giving up, in units of unit
+     * @pbrbm   unit
+     *          b {@dodf TimfUnit} dftfrmining how to intfrprft thf timfout
+     *          pbrbmftfr
+     *
+     * @rfturn  thf nfxt wbtdh kfy, or {@dodf null}
+     *
+     * @throws  ClosfdWbtdhSfrvidfExdfption
+     *          if this wbtdh sfrvidf is dlosfd, or it is dlosfd whilf wbiting
+     *          for thf nfxt kfy
+     * @throws  IntfrruptfdExdfption
+     *          if intfrruptfd whilf wbiting
+     */
+    WbtdhKfy poll(long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption;
+
+    /**
+     * Rftrifvfs bnd rfmovfs nfxt wbtdh kfy, wbiting if nonf brf yft prfsfnt.
+     *
+     * @rfturn  thf nfxt wbtdh kfy
+     *
+     * @throws  ClosfdWbtdhSfrvidfExdfption
+     *          if this wbtdh sfrvidf is dlosfd, or it is dlosfd whilf wbiting
+     *          for thf nfxt kfy
+     * @throws  IntfrruptfdExdfption
+     *          if intfrruptfd whilf wbiting
+     */
+    WbtdhKfy tbkf() throws IntfrruptfdExdfption;
+}

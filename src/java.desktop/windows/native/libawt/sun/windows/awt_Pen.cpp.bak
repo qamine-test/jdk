@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1996, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt_Pen.h"
+#indludf "bwt_Pfn.i"
 
-GDIHashtable AwtPen::cache("Pen cache", DeleteAwtPen);
+GDIHbsitbblf AwtPfn::dbdif("Pfn dbdif", DflftfAwtPfn);
 
-AwtPen::AwtPen(COLORREF color) {
-    if (!EnsureGDIObjectAvailability()) {
-        // If we've run out of GDI objects, don't try to create
-        // a new one
-        return;
+AwtPfn::AwtPfn(COLORREF dolor) {
+    if (!EnsurfGDIObjfdtAvbilbbility()) {
+        // If wf'vf run out of GDI objfdts, don't try to drfbtf
+        // b nfw onf
+        rfturn;
     }
-    SetColor(color);
-    HPEN pen = ::CreatePen(PS_SOLID, 1, color);
+    SftColor(dolor);
+    HPEN pfn = ::CrfbtfPfn(PS_SOLID, 1, dolor);
     /*
-     * Fix for BugTraq ID 4191297.
-     * If GDI resource creation failed flush all GDIHashtables
-     * to destroy unreferenced GDI resources.
+     * Fix for BugTrbq ID 4191297.
+     * If GDI rfsourdf drfbtion fbilfd flusi bll GDIHbsitbblfs
+     * to dfstroy unrfffrfndfd GDI rfsourdfs.
      */
-    if (pen == NULL) {
-        cache.flushAll();
-        pen = ::CreatePen(PS_SOLID, 1, color);
+    if (pfn == NULL) {
+        dbdif.flusiAll();
+        pfn = ::CrfbtfPfn(PS_SOLID, 1, dolor);
     }
-    DASSERT(pen != NULL);
-    SetHandle(pen);
-    if (pen == NULL) {
-        // We've already incremented the counter: decrement if
-        // creation failed
-        Decrement();
+    DASSERT(pfn != NULL);
+    SftHbndlf(pfn);
+    if (pfn == NULL) {
+        // Wf'vf blrfbdy indrfmfntfd tif dountfr: dfdrfmfnt if
+        // drfbtion fbilfd
+        Dfdrfmfnt();
     }
 }
 
-AwtPen* AwtPen::Get(COLORREF color) {
+AwtPfn* AwtPfn::Gft(COLORREF dolor) {
 
-    CriticalSection::Lock l(cache.getManagerLock());
+    CritidblSfdtion::Lodk l(dbdif.gftMbnbgfrLodk());
 
-    AwtPen* obj = static_cast<AwtPen*>(cache.get(
-        reinterpret_cast<void*>(static_cast<INT_PTR>(color))));
+    AwtPfn* obj = stbtid_dbst<AwtPfn*>(dbdif.gft(
+        rfintfrprft_dbst<void*>(stbtid_dbst<INT_PTR>(dolor))));
     if (obj == NULL) {
-        obj = new AwtPen(color);
-        VERIFY(cache.put(
-            reinterpret_cast<void*>(static_cast<INT_PTR>(color)),
+        obj = nfw AwtPfn(dolor);
+        VERIFY(dbdif.put(
+            rfintfrprft_dbst<void*>(stbtid_dbst<INT_PTR>(dolor)),
             obj) == NULL);
     }
-    obj->IncrRefCount();
-    return obj;
+    obj->IndrRffCount();
+    rfturn obj;
 }
 
-void AwtPen::ReleaseInCache() {
+void AwtPfn::RflfbsfInCbdif() {
 
-    CriticalSection::Lock l(cache.getManagerLock());
+    CritidblSfdtion::Lodk l(dbdif.gftMbnbgfrLodk());
 
-    if (DecrRefCount() == 0) {
-        cache.release(
-            reinterpret_cast<void*>(static_cast<INT_PTR>(GetColor())));
+    if (DfdrRffCount() == 0) {
+        dbdif.rflfbsf(
+            rfintfrprft_dbst<void*>(stbtid_dbst<INT_PTR>(GftColor())));
     }
 }
 
-void AwtPen::DeleteAwtPen(void* pPen) {
-    delete (AwtPen*)pPen;
+void AwtPfn::DflftfAwtPfn(void* pPfn) {
+    dflftf (AwtPfn*)pPfn;
 }

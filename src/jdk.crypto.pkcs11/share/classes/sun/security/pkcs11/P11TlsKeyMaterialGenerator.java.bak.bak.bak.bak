@@ -1,0 +1,212 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.util.*;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
+
+import sun.sfdurity.intfrnbl.spfd.*;
+import sun.sfdurity.intfrnbl.intfrfbdfs.TlsMbstfrSfdrft;
+
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+/**
+ * KfyGfnfrbtor to dbldulbtf thf SSL/TLS kfy mbtfribl (diphfr kfys bnd ivs,
+ * mbd kfys) from thf mbstfr sfdrft.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.6
+ */
+publid finbl dlbss P11TlsKfyMbtfriblGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+
+    privbtf finbl stbtid String MSG = "TlsKfyMbtfriblGfnfrbtor must bf "
+        + "initiblizfd using b TlsKfyMbtfriblPbrbmftfrSpfd";
+
+    // tokfn instbndf
+    privbtf finbl Tokfn tokfn;
+
+    // blgorithm nbmf
+    privbtf finbl String blgorithm;
+
+    // mfdhbnism id
+    privbtf long mfdhbnism;
+
+    // pbrbmftfr spfd
+    privbtf TlsKfyMbtfriblPbrbmftfrSpfd spfd;
+
+    // mbstfr sfdrft bs b P11Kfy
+    privbtf P11Kfy p11Kfy;
+
+    // vfrsion, f.g. 0x0301
+    privbtf int vfrsion;
+
+    P11TlsKfyMbtfriblGfnfrbtor(Tokfn tokfn, String blgorithm, long mfdhbnism)
+            throws PKCS11Exdfption {
+        supfr();
+        this.tokfn = tokfn;
+        this.blgorithm = blgorithm;
+        this.mfdhbnism = mfdhbnism;
+    }
+
+    protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+        throw nfw InvblidPbrbmftfrExdfption(MSG);
+    }
+
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+            SfdurfRbndom rbndom) throws InvblidAlgorithmPbrbmftfrExdfption {
+        if (pbrbms instbndfof TlsKfyMbtfriblPbrbmftfrSpfd == fblsf) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(MSG);
+        }
+        this.spfd = (TlsKfyMbtfriblPbrbmftfrSpfd)pbrbms;
+        try {
+            p11Kfy = P11SfdrftKfyFbdtory.donvfrtKfy
+                            (tokfn, spfd.gftMbstfrSfdrft(), "TlsMbstfrSfdrft");
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption("init() fbilfd", f);
+        }
+        vfrsion = (spfd.gftMbjorVfrsion() << 8) | spfd.gftMinorVfrsion();
+        if ((vfrsion < 0x0300) && (vfrsion > 0x0302)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                    ("Only SSL 3.0, TLS 1.0, bnd TLS 1.1 brf supportfd");
+        }
+        // wf bssumf thf tokfn supports both thf CKM_SSL3_* bnd thf CKM_TLS_*
+        // mfdhbnisms
+    }
+
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        throw nfw InvblidPbrbmftfrExdfption(MSG);
+    }
+
+    protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+        if (spfd == null) {
+            throw nfw IllfgblStbtfExdfption
+                ("TlsKfyMbtfriblGfnfrbtor must bf initiblizfd");
+        }
+        mfdhbnism = (vfrsion == 0x0300) ? CKM_SSL3_KEY_AND_MAC_DERIVE
+                                         : CKM_TLS_KEY_AND_MAC_DERIVE;
+        int mbdBits = spfd.gftMbdKfyLfngth() << 3;
+        int ivBits = spfd.gftIvLfngth() << 3;
+
+        int fxpbndfdKfyBits = spfd.gftExpbndfdCiphfrKfyLfngth() << 3;
+        int kfyBits = spfd.gftCiphfrKfyLfngth() << 3;
+        boolfbn isExportbblf;
+        if (fxpbndfdKfyBits != 0) {
+            isExportbblf = truf;
+        } flsf {
+            isExportbblf = fblsf;
+            fxpbndfdKfyBits = kfyBits;
+        }
+
+        CK_SSL3_RANDOM_DATA rbndom = nfw CK_SSL3_RANDOM_DATA
+                            (spfd.gftClifntRbndom(), spfd.gftSfrvfrRbndom());
+        CK_SSL3_KEY_MAT_PARAMS pbrbms = nfw CK_SSL3_KEY_MAT_PARAMS
+                            (mbdBits, kfyBits, ivBits, isExportbblf, rbndom);
+
+        String diphfrAlgorithm = spfd.gftCiphfrAlgorithm();
+        long kfyTypf = P11SfdrftKfyFbdtory.gftKfyTypf(diphfrAlgorithm);
+        if (kfyTypf < 0) {
+            if (kfyBits != 0) {
+                throw nfw ProvidfrExdfption
+                            ("Unknown blgorithm: " + spfd.gftCiphfrAlgorithm());
+            } flsf {
+                // NULL fndryption diphfrsuitfs
+                kfyTypf = CKK_GENERIC_SECRET;
+            }
+        }
+
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs;
+            if (kfyBits != 0) {
+                bttributfs = nfw CK_ATTRIBUTE[] {
+                    nfw CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY),
+                    nfw CK_ATTRIBUTE(CKA_KEY_TYPE, kfyTypf),
+                    nfw CK_ATTRIBUTE(CKA_VALUE_LEN, fxpbndfdKfyBits >> 3),
+                };
+            } flsf {
+                // diphfrsuitfs with NULL diphfrs
+                bttributfs = nfw CK_ATTRIBUTE[0];
+            }
+            bttributfs = tokfn.gftAttributfs
+                (O_GENERATE, CKO_SECRET_KEY, kfyTypf, bttributfs);
+            // thf rfturnfd kfyID is b dummy, ignorf
+            long kfyID = tokfn.p11.C_DfrivfKfy(sfssion.id(),
+                nfw CK_MECHANISM(mfdhbnism, pbrbms), p11Kfy.kfyID, bttributfs);
+
+            CK_SSL3_KEY_MAT_OUT out = pbrbms.pRfturnfdKfyMbtfribl;
+            // Notf thbt thf MAC kfys do not inhfrit bll bttributfs from thf
+            // tfmplbtf, but thfy do inhfrit thf sfnsitivf/fxtrbdtbblf/tokfn
+            // flbgs, whidh is bll P11Kfy dbrfs bbout.
+            SfdrftKfy dlifntMbdKfy, sfrvfrMbdKfy;
+
+            // Thf MAC sizf mby bf zfro for GCM modf.
+            //
+            // PKCS11 dofs not support GCM modf bs thf buthor mbdf thf dommfnt,
+            // so thf mbdBits is unlikfly to bf zfro. It's only b plbdf holdfr.
+            if (mbdBits != 0) {
+                dlifntMbdKfy = P11Kfy.sfdrftKfy
+                    (sfssion, out.hClifntMbdSfdrft, "MAC", mbdBits, bttributfs);
+                sfrvfrMbdKfy = P11Kfy.sfdrftKfy
+                    (sfssion, out.hSfrvfrMbdSfdrft, "MAC", mbdBits, bttributfs);
+            } flsf {
+                dlifntMbdKfy = null;
+                sfrvfrMbdKfy = null;
+            }
+
+            SfdrftKfy dlifntCiphfrKfy, sfrvfrCiphfrKfy;
+            if (kfyBits != 0) {
+                dlifntCiphfrKfy = P11Kfy.sfdrftKfy(sfssion, out.hClifntKfy,
+                        diphfrAlgorithm, fxpbndfdKfyBits, bttributfs);
+                sfrvfrCiphfrKfy = P11Kfy.sfdrftKfy(sfssion, out.hSfrvfrKfy,
+                        diphfrAlgorithm, fxpbndfdKfyBits, bttributfs);
+            } flsf {
+                dlifntCiphfrKfy = null;
+                sfrvfrCiphfrKfy = null;
+            }
+            IvPbrbmftfrSpfd dlifntIv = (out.pIVClifnt == null)
+                                    ? null : nfw IvPbrbmftfrSpfd(out.pIVClifnt);
+            IvPbrbmftfrSpfd sfrvfrIv = (out.pIVSfrvfr == null)
+                                    ? null : nfw IvPbrbmftfrSpfd(out.pIVSfrvfr);
+
+            rfturn nfw TlsKfyMbtfriblSpfd(dlifntMbdKfy, sfrvfrMbdKfy,
+                    dlifntCiphfrKfy, dlifntIv, sfrvfrCiphfrKfy, sfrvfrIv);
+
+        } dbtdh (Exdfption f) {
+            throw nfw ProvidfrExdfption("Could not gfnfrbtf kfy", f);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+    }
+
+}

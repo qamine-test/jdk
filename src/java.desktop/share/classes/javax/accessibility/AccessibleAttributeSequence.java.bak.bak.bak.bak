@@ -1,0 +1,78 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.bddfssibility;
+
+import jbvbx.swing.tfxt.AttributfSft;
+
+
+/**
+ * <P>Thf AddfssiblfAttributfSfqufndf providfs informbtion bbout
+ * b dontiguous sfqufndf of tfxt bttributfs
+ *
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfTfxt
+ * @sff AddfssiblfTfxtSfqufndf
+ *
+ * @buthor       Lynn Monsbnto
+ */
+
+/**
+ * This dlbss dollfdts togfthfr thf spbn of tfxt thbt shbrf thf sbmf
+ * dontiguous sft of bttributfs, blong with thbt sft of bttributfs.  It
+ * is usfd by implfmfntors of thf dlbss <dodf>AddfssiblfContfxt</dodf> in
+ * ordfr to gfnfrbtf <dodf>ACCESSIBLE_TEXT_ATTRIBUTES_CHANGED</dodf> fvfnts.
+ *
+ * @sff jbvbx.bddfssibility.AddfssiblfContfxt
+ * @sff jbvbx.bddfssibility.AddfssiblfContfxt#ACCESSIBLE_TEXT_ATTRIBUTES_CHANGED
+ */
+publid dlbss AddfssiblfAttributfSfqufndf {
+    /** Thf stbrt indfx of thf tfxt sfqufndf */
+    publid int stbrtIndfx;
+
+    /** Thf fnd indfx of thf tfxt sfqufndf */
+    publid int fndIndfx;
+
+    /** Thf tfxt bttributfs */
+    publid AttributfSft bttributfs;
+
+    /**
+     * Construdts bn <dodf>AddfssiblfAttributfSfqufndf</dodf> with thf givfn
+     * pbrbmftfrs.
+     *
+     * @pbrbm stbrt thf bfginning indfx of thf spbn of tfxt
+     * @pbrbm fnd thf fnding indfx of thf spbn of tfxt
+     * @pbrbm bttr thf <dodf>AttributfSft</dodf> shbrfd by this tfxt spbn
+     *
+     * @sindf 1.6
+     */
+    publid AddfssiblfAttributfSfqufndf(int stbrt, int fnd, AttributfSft bttr) {
+        stbrtIndfx = stbrt;
+        fndIndfx = fnd;
+        bttributfs = bttr;
+    }
+
+};

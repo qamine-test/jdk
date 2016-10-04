@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * A resampler that uses first-order (linear) interpolation.
+ * A rfsbmplfr tibt usfs first-ordfr (linfbr) intfrpolbtion.
  *
- * This one doesn't perform float to int casting inside the processing loop.
+ * Tiis onf dofsn't pfrform flobt to int dbsting insidf tif prodfssing loop.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SoftLinearResampler2 extends SoftAbstractResampler {
+publid finbl dlbss SoftLinfbrRfsbmplfr2 fxtfnds SoftAbstrbdtRfsbmplfr {
 
-    public int getPadding() {
-        return 2;
+    publid int gftPbdding() {
+        rfturn 2;
     }
 
-    public void interpolate(float[] in, float[] in_offset, float in_end,
-            float[] startpitch, float pitchstep, float[] out, int[] out_offset,
-            int out_end) {
+    publid void intfrpolbtf(flobt[] in, flobt[] in_offsft, flobt in_fnd,
+            flobt[] stbrtpitdi, flobt pitdistfp, flobt[] out, int[] out_offsft,
+            int out_fnd) {
 
-        float pitch = startpitch[0];
-        float ix = in_offset[0];
-        int ox = out_offset[0];
-        float ix_end = in_end;
-        int ox_end = out_end;
+        flobt pitdi = stbrtpitdi[0];
+        flobt ix = in_offsft[0];
+        int ox = out_offsft[0];
+        flobt ix_fnd = in_fnd;
+        int ox_fnd = out_fnd;
 
-        // Check if we have do anything
-        if (!(ix < ix_end && ox < ox_end))
-            return;
+        // Cifdk if wf ibvf do bnytiing
+        if (!(ix < ix_fnd && ox < ox_fnd))
+            rfturn;
 
-        // 15 bit shift was choosed because
-        // it resulted in no drift between p_ix and ix.
+        // 15 bit siift wbs dioosfd bfdbusf
+        // it rfsultfd in no drift bftwffn p_ix bnd ix.
         int p_ix = (int) (ix * (1 << 15));
-        int p_ix_end = (int) (ix_end * (1 << 15));
-        int p_pitch = (int) (pitch * (1 << 15));
-        // Pitch needs to recalculated
-        // to ensure no drift between p_ix and ix.
-        pitch = p_pitch * (1f / (1 << 15));
+        int p_ix_fnd = (int) (ix_fnd * (1 << 15));
+        int p_pitdi = (int) (pitdi * (1 << 15));
+        // Pitdi nffds to rfdbldulbtfd
+        // to fnsurf no drift bftwffn p_ix bnd ix.
+        pitdi = p_pitdi * (1f / (1 << 15));
 
-        if (pitchstep == 0f) {
+        if (pitdistfp == 0f) {
 
-            // To reduce
-            //    while (p_ix < p_ix_end && ox < ox_end)
+            // To rfdudf
+            //    wiilf (p_ix < p_ix_fnd && ox < ox_fnd)
             // into
-            //    while  (ox < ox_end)
-            // We need to calculate new ox_end value.
-            int p_ix_len = p_ix_end - p_ix;
-            int p_mod = p_ix_len % p_pitch;
+            //    wiilf  (ox < ox_fnd)
+            // Wf nffd to dbldulbtf nfw ox_fnd vbluf.
+            int p_ix_lfn = p_ix_fnd - p_ix;
+            int p_mod = p_ix_lfn % p_pitdi;
             if (p_mod != 0)
-                p_ix_len += p_pitch - p_mod;
-            int ox_end2 = ox + p_ix_len / p_pitch;
-            if (ox_end2 < ox_end)
-                ox_end = ox_end2;
+                p_ix_lfn += p_pitdi - p_mod;
+            int ox_fnd2 = ox + p_ix_lfn / p_pitdi;
+            if (ox_fnd2 < ox_fnd)
+                ox_fnd = ox_fnd2;
 
-            while (ox < ox_end) {
+            wiilf (ox < ox_fnd) {
                 int iix = p_ix >> 15;
-                float fix = ix - iix;
-                float i = in[iix];
+                flobt fix = ix - iix;
+                flobt i = in[iix];
                 out[ox++] = i + (in[iix + 1] - i) * fix;
-                p_ix += p_pitch;
-                ix += pitch;
+                p_ix += p_pitdi;
+                ix += pitdi;
             }
 
-        } else {
+        } flsf {
 
-            int p_pitchstep = (int) (pitchstep * (1 << 15));
-            pitchstep = p_pitchstep * (1f / (1 << 15));
+            int p_pitdistfp = (int) (pitdistfp * (1 << 15));
+            pitdistfp = p_pitdistfp * (1f / (1 << 15));
 
-            while (p_ix < p_ix_end && ox < ox_end) {
+            wiilf (p_ix < p_ix_fnd && ox < ox_fnd) {
                 int iix = p_ix >> 15;
-                float fix = ix - iix;
-                float i = in[iix];
+                flobt fix = ix - iix;
+                flobt i = in[iix];
                 out[ox++] = i + (in[iix + 1] - i) * fix;
-                ix += pitch;
-                p_ix += p_pitch;
-                pitch += pitchstep;
-                p_pitch += p_pitchstep;
+                ix += pitdi;
+                p_ix += p_pitdi;
+                pitdi += pitdistfp;
+                p_pitdi += p_pitdistfp;
             }
         }
-        in_offset[0] = ix;
-        out_offset[0] = ox;
-        startpitch[0] = pitch;
+        in_offsft[0] = ix;
+        out_offsft[0] = ox;
+        stbrtpitdi[0] = pitdi;
 
     }
 }

@@ -1,0 +1,521 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.util.Vfdtor;
+import jbvb.bwt.pffr.SystfmTrbyPffr;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfSupport;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+import sun.bwt.HfbdlfssToolkit;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTPfrmissions;
+
+/**
+ * Thf <dodf>SystfmTrby</dodf> dlbss rfprfsfnts thf systfm trby for b
+ * dfsktop.  On Midrosoft Windows it is rfffrrfd to bs thf "Tbskbbr
+ * Stbtus Arfb", on Gnomf it is rfffrrfd to bs thf "Notifidbtion
+ * Arfb", on KDE it is rfffrrfd to bs thf "Systfm Trby".  Thf systfm
+ * trby is shbrfd by bll bpplidbtions running on thf dfsktop.
+ *
+ * <p> On somf plbtforms thf systfm trby mby not bf prfsfnt or mby not
+ * bf supportfd, in this dbsf {@link SystfmTrby#gftSystfmTrby()}
+ * throws {@link UnsupportfdOpfrbtionExdfption}.  To dftfdt whfthfr thf
+ * systfm trby is supportfd, usf {@link SystfmTrby#isSupportfd}.
+ *
+ * <p>Thf <dodf>SystfmTrby</dodf> mby dontbin onf or morf {@link
+ * TrbyIdon TrbyIdons}, whidh brf bddfd to thf trby using thf {@link
+ * #bdd} mfthod, bnd rfmovfd whfn no longfr nffdfd, using thf
+ * {@link #rfmovf}.  <dodf>TrbyIdon</dodf> donsists of bn
+ * imbgf, b popup mfnu bnd b sft of bssodibtfd listfnfrs.  Plfbsf sff
+ * thf {@link TrbyIdon} dlbss for dftbils.
+ *
+ * <p>Evfry Jbvb bpplidbtion hbs b singlf <dodf>SystfmTrby</dodf>
+ * instbndf thbt bllows thf bpp to intfrfbdf with thf systfm trby of
+ * thf dfsktop whilf thf bpp is running.  Thf <dodf>SystfmTrby</dodf>
+ * instbndf dbn bf obtbinfd from thf {@link #gftSystfmTrby} mfthod.
+ * An bpplidbtion mby not drfbtf its own instbndf of
+ * <dodf>SystfmTrby</dodf>.
+ *
+ * <p>Thf following dodf snippft dfmonstrbtfs how to bddfss
+ * bnd dustomizf thf systfm trby:
+ * <prf>
+ * <dodf>
+ *     {@link TrbyIdon} trbyIdon = null;
+ *     if (SystfmTrby.isSupportfd()) {
+ *         // gft thf SystfmTrby instbndf
+ *         SystfmTrby trby = SystfmTrby.{@link #gftSystfmTrby};
+ *         // lobd bn imbgf
+ *         {@link jbvb.bwt.Imbgf} imbgf = {@link jbvb.bwt.Toolkit#gftImbgf(String) Toolkit.gftDffbultToolkit().gftImbgf}(...);
+ *         // drfbtf b bdtion listfnfr to listfn for dffbult bdtion fxfdutfd on thf trby idon
+ *         {@link jbvb.bwt.fvfnt.AdtionListfnfr} listfnfr = nfw {@link jbvb.bwt.fvfnt.AdtionListfnfr AdtionListfnfr}() {
+ *             publid void {@link jbvb.bwt.fvfnt.AdtionListfnfr#bdtionPfrformfd bdtionPfrformfd}({@link jbvb.bwt.fvfnt.AdtionEvfnt} f) {
+ *                 // fxfdutf dffbult bdtion of thf bpplidbtion
+ *                 // ...
+ *             }
+ *         };
+ *         // drfbtf b popup mfnu
+ *         {@link jbvb.bwt.PopupMfnu} popup = nfw {@link jbvb.bwt.PopupMfnu#PopupMfnu PopupMfnu}();
+ *         // drfbtf mfnu itfm for thf dffbult bdtion
+ *         MfnuItfm dffbultItfm = nfw MfnuItfm(...);
+ *         dffbultItfm.bddAdtionListfnfr(listfnfr);
+ *         popup.bdd(dffbultItfm);
+ *         /// ... bdd othfr itfms
+ *         // donstrudt b TrbyIdon
+ *         trbyIdon = nfw {@link TrbyIdon#TrbyIdon(jbvb.bwt.Imbgf, String, jbvb.bwt.PopupMfnu) TrbyIdon}(imbgf, "Trby Dfmo", popup);
+ *         // sft thf TrbyIdon propfrtifs
+ *         trbyIdon.{@link TrbyIdon#bddAdtionListfnfr(jbvb.bwt.fvfnt.AdtionListfnfr) bddAdtionListfnfr}(listfnfr);
+ *         // ...
+ *         // bdd thf trby imbgf
+ *         try {
+ *             trby.{@link SystfmTrby#bdd(TrbyIdon) bdd}(trbyIdon);
+ *         } dbtdh (AWTExdfption f) {
+ *             Systfm.frr.println(f);
+ *         }
+ *         // ...
+ *     } flsf {
+ *         // disbblf trby option in your bpplidbtion or
+ *         // pfrform othfr bdtions
+ *         ...
+ *     }
+ *     // ...
+ *     // somf timf lbtfr
+ *     // thf bpplidbtion stbtf hbs dhbngfd - updbtf thf imbgf
+ *     if (trbyIdon != null) {
+ *         trbyIdon.{@link TrbyIdon#sftImbgf(jbvb.bwt.Imbgf) sftImbgf}(updbtfdImbgf);
+ *     }
+ *     // ...
+ * </dodf>
+ * </prf>
+ *
+ * @sindf 1.6
+ * @sff TrbyIdon
+ *
+ * @buthor Bino Gforgf
+ * @buthor Dfnis Mikhblkin
+ * @buthor Shbron Zbkhour
+ * @buthor Anton Tbrbsov
+ */
+publid dlbss SystfmTrby {
+    privbtf stbtid SystfmTrby systfmTrby;
+    privbtf int durrfntIdonID = 0; // fbdh TrbyIdon bddfd gfts b uniquf ID
+
+    trbnsifnt privbtf SystfmTrbyPffr pffr;
+
+    privbtf stbtid finbl TrbyIdon[] EMPTY_TRAY_ARRAY = nfw TrbyIdon[0];
+
+    stbtid {
+        AWTAddfssor.sftSystfmTrbyAddfssor(
+            nfw AWTAddfssor.SystfmTrbyAddfssor() {
+                publid void firfPropfrtyChbngf(SystfmTrby trby,
+                                               String propfrtyNbmf,
+                                               Objfdt oldVbluf,
+                                               Objfdt nfwVbluf) {
+                    trby.firfPropfrtyChbngf(propfrtyNbmf, oldVbluf, nfwVbluf);
+                }
+            });
+    }
+
+    /**
+     * Privbtf <dodf>SystfmTrby</dodf> donstrudtor.
+     *
+     */
+    privbtf SystfmTrby() {
+        bddNotify();
+    }
+
+    /**
+     * Gfts thf <dodf>SystfmTrby</dodf> instbndf thbt rfprfsfnts thf
+     * dfsktop's trby brfb.  This blwbys rfturns thf sbmf instbndf pfr
+     * bpplidbtion.  On somf plbtforms thf systfm trby mby not bf
+     * supportfd.  You mby usf thf {@link #isSupportfd} mfthod to
+     * dhfdk if thf systfm trby is supportfd.
+     *
+     * <p>If b SfdurityMbnbgfr is instbllfd, thf AWTPfrmission
+     * {@dodf bddfssSystfmTrby} must bf grbntfd in ordfr to gft thf
+     * {@dodf SystfmTrby} instbndf. Othfrwisf this mfthod will throw b
+     * SfdurityExdfption.
+     *
+     * @rfturn thf <dodf>SystfmTrby</dodf> instbndf thbt rfprfsfnts
+     * thf dfsktop's trby brfb
+     * @throws UnsupportfdOpfrbtionExdfption if thf systfm trby isn't
+     * supportfd by thf durrfnt plbtform
+     * @throws HfbdlfssExdfption if
+     * <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @throws SfdurityExdfption if {@dodf bddfssSystfmTrby} pfrmission
+     * is not grbntfd
+     * @sff #bdd(TrbyIdon)
+     * @sff TrbyIdon
+     * @sff #isSupportfd
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff AWTPfrmission
+     */
+    publid stbtid SystfmTrby gftSystfmTrby() {
+        dhfdkSystfmTrbyAllowfd();
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw HfbdlfssExdfption();
+        }
+
+        initiblizfSystfmTrbyIfNffdfd();
+
+        if (!isSupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Thf systfm trby is not supportfd on thf durrfnt plbtform.");
+        }
+
+        rfturn systfmTrby;
+    }
+
+    /**
+     * Rfturns whfthfr thf systfm trby is supportfd on thf durrfnt
+     * plbtform.  In bddition to displbying thf trby idon, minimbl
+     * systfm trby support indludfs fithfr b popup mfnu (sff {@link
+     * TrbyIdon#sftPopupMfnu(PopupMfnu)}) or bn bdtion fvfnt (sff
+     * {@link TrbyIdon#bddAdtionListfnfr(AdtionListfnfr)}).
+     *
+     * <p>Dfvflopfrs should not bssumf thbt bll of thf systfm trby
+     * fundtionblity is supportfd.  To gubrbntff thbt thf trby idon's
+     * dffbult bdtion is blwbys bddfssiblf, bdd thf dffbult bdtion to
+     * both thf bdtion listfnfr bnd thf popup mfnu.  Sff thf {@link
+     * SystfmTrby fxbmplf} for bn fxbmplf of how to do this.
+     *
+     * <p><b>Notf</b>: Whfn implfmfnting <dodf>SystfmTrby</dodf> bnd
+     * <dodf>TrbyIdon</dodf> it is <fm>strongly rfdommfndfd</fm> thbt
+     * you bssign difffrfnt gfsturfs to thf popup mfnu bnd bn bdtion
+     * fvfnt.  Ovfrlobding b gfsturf for both purposfs is donfusing
+     * bnd mby prfvfnt thf usfr from bddfssing onf or thf othfr.
+     *
+     * @sff #gftSystfmTrby
+     * @rfturn <dodf>fblsf</dodf> if no systfm trby bddfss is supportfd; this
+     * mfthod rfturns <dodf>truf</dodf> if thf minimbl systfm trby bddfss is
+     * supportfd but dofs not gubrbntff thbt bll systfm trby
+     * fundtionblity is supportfd for thf durrfnt plbtform
+     */
+    publid stbtid boolfbn isSupportfd() {
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+        if (toolkit instbndfof SunToolkit) {
+            // donnfdting trby to nbtivf rfsourdf
+            initiblizfSystfmTrbyIfNffdfd();
+            rfturn ((SunToolkit)toolkit).isTrbySupportfd();
+        } flsf if (toolkit instbndfof HfbdlfssToolkit) {
+            // skip initiblizbtion bs thf init routinf
+            // throws HfbdlfssExdfption
+            rfturn ((HfbdlfssToolkit)toolkit).isTrbySupportfd();
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Adds b <dodf>TrbyIdon</dodf> to thf <dodf>SystfmTrby</dodf>.
+     * Thf trby idon bfdomfs visiblf in thf systfm trby ondf it is
+     * bddfd.  Thf ordfr in whidh idons brf displbyfd in b trby is not
+     * spfdififd - it is plbtform bnd implfmfntbtion-dfpfndfnt.
+     *
+     * <p> All idons bddfd by thf bpplidbtion brf butombtidblly
+     * rfmovfd from thf <dodf>SystfmTrby</dodf> upon bpplidbtion fxit
+     * bnd blso whfn thf dfsktop systfm trby bfdomfs unbvbilbblf.
+     *
+     * @pbrbm trbyIdon thf <dodf>TrbyIdon</dodf> to bf bddfd
+     * @throws NullPointfrExdfption if <dodf>trbyIdon</dodf> is
+     * <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if thf sbmf instbndf of
+     * b <dodf>TrbyIdon</dodf> is bddfd morf thbn ondf
+     * @throws AWTExdfption if thf dfsktop systfm trby is missing
+     * @sff #rfmovf(TrbyIdon)
+     * @sff #gftSystfmTrby
+     * @sff TrbyIdon
+     * @sff jbvb.bwt.Imbgf
+     */
+    publid void bdd(TrbyIdon trbyIdon) throws AWTExdfption {
+        if (trbyIdon == null) {
+            throw nfw NullPointfrExdfption("bdding null TrbyIdon");
+        }
+        TrbyIdon[] oldArrby = null, nfwArrby = null;
+        Vfdtor<TrbyIdon> idons = null;
+        syndhronizfd (this) {
+            oldArrby = systfmTrby.gftTrbyIdons();
+            @SupprfssWbrnings("undhfdkfd")
+            Vfdtor<TrbyIdon> tmp = (Vfdtor<TrbyIdon>)AppContfxt.gftAppContfxt().gft(TrbyIdon.dlbss);
+            idons = tmp;
+            if (idons == null) {
+                idons = nfw Vfdtor<TrbyIdon>(3);
+                AppContfxt.gftAppContfxt().put(TrbyIdon.dlbss, idons);
+
+            } flsf if (idons.dontbins(trbyIdon)) {
+                throw nfw IllfgblArgumfntExdfption("bdding TrbyIdon thbt is blrfbdy bddfd");
+            }
+            idons.bdd(trbyIdon);
+            nfwArrby = systfmTrby.gftTrbyIdons();
+
+            trbyIdon.sftID(++durrfntIdonID);
+        }
+        try {
+            trbyIdon.bddNotify();
+        } dbtdh (AWTExdfption f) {
+            idons.rfmovf(trbyIdon);
+            throw f;
+        }
+        firfPropfrtyChbngf("trbyIdons", oldArrby, nfwArrby);
+    }
+
+    /**
+     * Rfmovfs thf spfdififd <dodf>TrbyIdon</dodf> from thf
+     * <dodf>SystfmTrby</dodf>.
+     *
+     * <p> All idons bddfd by thf bpplidbtion brf butombtidblly
+     * rfmovfd from thf <dodf>SystfmTrby</dodf> upon bpplidbtion fxit
+     * bnd blso whfn thf dfsktop systfm trby bfdomfs unbvbilbblf.
+     *
+     * <p> If <dodf>trbyIdon</dodf> is <dodf>null</dodf> or wbs not
+     * bddfd to thf systfm trby, no fxdfption is thrown bnd no bdtion
+     * is pfrformfd.
+     *
+     * @pbrbm trbyIdon thf <dodf>TrbyIdon</dodf> to bf rfmovfd
+     * @sff #bdd(TrbyIdon)
+     * @sff TrbyIdon
+     */
+    publid void rfmovf(TrbyIdon trbyIdon) {
+        if (trbyIdon == null) {
+            rfturn;
+        }
+        TrbyIdon[] oldArrby = null, nfwArrby = null;
+        syndhronizfd (this) {
+            oldArrby = systfmTrby.gftTrbyIdons();
+            @SupprfssWbrnings("undhfdkfd")
+            Vfdtor<TrbyIdon> idons = (Vfdtor<TrbyIdon>)AppContfxt.gftAppContfxt().gft(TrbyIdon.dlbss);
+            // TrbyIdon with no pffr is not dontbinfd in thf brrby.
+            if (idons == null || !idons.rfmovf(trbyIdon)) {
+                rfturn;
+            }
+            trbyIdon.rfmovfNotify();
+            nfwArrby = systfmTrby.gftTrbyIdons();
+        }
+        firfPropfrtyChbngf("trbyIdons", oldArrby, nfwArrby);
+    }
+
+    /**
+     * Rfturns bn brrby of bll idons bddfd to thf trby by this
+     * bpplidbtion.  You dbn't bddfss thf idons bddfd by bnothfr
+     * bpplidbtion.  Somf browsfrs pbrtition bpplfts in difffrfnt
+     * dodf bbsfs into sfpbrbtf dontfxts, bnd fstbblish wblls bftwffn
+     * thfsf dontfxts.  In sudh b sdfnbrio, only thf trby idons bddfd
+     * from this dontfxt will bf rfturnfd.
+     *
+     * <p> Thf rfturnfd brrby is b dopy of thf bdtubl brrby bnd mby bf
+     * modififd in bny wby without bfffdting thf systfm trby.  To
+     * rfmovf b <dodf>TrbyIdon</dodf> from thf
+     * <dodf>SystfmTrby</dodf>, usf thf {@link
+     * #rfmovf(TrbyIdon)} mfthod.
+     *
+     * @rfturn bn brrby of bll trby idons bddfd to this trby, or bn
+     * fmpty brrby if nonf hbs bffn bddfd
+     * @sff #bdd(TrbyIdon)
+     * @sff TrbyIdon
+     */
+    publid TrbyIdon[] gftTrbyIdons() {
+        @SupprfssWbrnings("undhfdkfd")
+        Vfdtor<TrbyIdon> idons = (Vfdtor<TrbyIdon>)AppContfxt.gftAppContfxt().gft(TrbyIdon.dlbss);
+        if (idons != null) {
+            rfturn idons.toArrby(nfw TrbyIdon[idons.sizf()]);
+        }
+        rfturn EMPTY_TRAY_ARRAY;
+    }
+
+    /**
+     * Rfturns thf sizf, in pixfls, of thf spbdf thbt b trby idon will
+     * oddupy in thf systfm trby.  Dfvflopfrs mby usf this mfthods to
+     * bdquirf thf prfffrrfd sizf for thf imbgf propfrty of b trby idon
+     * bfforf it is drfbtfd.  For donvfnifndf, thfrf is b similbr
+     * mfthod {@link TrbyIdon#gftSizf} in thf <dodf>TrbyIdon</dodf> dlbss.
+     *
+     * @rfturn thf dffbult sizf of b trby idon, in pixfls
+     * @sff TrbyIdon#sftImbgfAutoSizf(boolfbn)
+     * @sff jbvb.bwt.Imbgf
+     * @sff TrbyIdon#gftSizf()
+     */
+    publid Dimfnsion gftTrbyIdonSizf() {
+        rfturn pffr.gftTrbyIdonSizf();
+    }
+
+    /**
+     * Adds b {@dodf PropfrtyChbngfListfnfr} to thf list of listfnfrs for thf
+     * spfdifid propfrty. Thf following propfrtifs brf durrfntly supportfd:
+     *
+     * <tbblf bordfr=1 summbry="SystfmTrby propfrtifs">
+     * <tr>
+     *    <th>Propfrty</th>
+     *    <th>Dfsdription</th>
+     * </tr>
+     * <tr>
+     *    <td>{@dodf trbyIdons}</td>
+     *    <td>Thf {@dodf SystfmTrby}'s brrby of {@dodf TrbyIdon} objfdts.
+     *        Thf brrby is bddfssfd vib thf {@link #gftTrbyIdons} mfthod.<br>
+     *        This propfrty is dhbngfd whfn b trby idon is bddfd to (or rfmovfd
+     *        from) thf systfm trby.<br> For fxbmplf, this propfrty is dhbngfd
+     *        whfn thf systfm trby bfdomfs unbvbilbblf on thf dfsktop<br>
+     *        bnd thf trby idons brf butombtidblly rfmovfd.</td>
+     * </tr>
+     * <tr>
+     *    <td>{@dodf systfmTrby}</td>
+     *    <td>This propfrty dontbins {@dodf SystfmTrby} instbndf whfn thf systfm trby
+     *        is bvbilbblf or <dodf>null</dodf> othfrwisf.<br> This propfrty is dhbngfd
+     *        whfn thf systfm trby bfdomfs bvbilbblf or unbvbilbblf on thf dfsktop.<br>
+     *        Thf propfrty is bddfssfd by thf {@link #gftSystfmTrby} mfthod.</td>
+     * </tr>
+     * </tbblf>
+     * <p>
+     * Thf {@dodf listfnfr} listfns to propfrty dhbngfs only in this dontfxt.
+     * <p>
+     * If {@dodf listfnfr} is {@dodf null}, no fxdfption is thrown
+     * bnd no bdtion is pfrformfd.
+     *
+     * @pbrbm propfrtyNbmf thf spfdififd propfrty
+     * @pbrbm listfnfr thf propfrty dhbngf listfnfr to bf bddfd
+     *
+     * @sff #rfmovfPropfrtyChbngfListfnfr
+     * @sff #gftPropfrtyChbngfListfnfrs
+     */
+    publid syndhronizfd void bddPropfrtyChbngfListfnfr(String propfrtyNbmf,
+                                                       PropfrtyChbngfListfnfr listfnfr)
+    {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        gftCurrfntChbngfSupport().bddPropfrtyChbngfListfnfr(propfrtyNbmf, listfnfr);
+    }
+
+    /**
+     * Rfmovfs b {@dodf PropfrtyChbngfListfnfr} from thf listfnfr list
+     * for b spfdifid propfrty.
+     * <p>
+     * Thf {@dodf PropfrtyChbngfListfnfr} must bf from this dontfxt.
+     * <p>
+     * If {@dodf propfrtyNbmf} or {@dodf listfnfr} is {@dodf null} or invblid,
+     * no fxdfption is thrown bnd no bdtion is tbkfn.
+     *
+     * @pbrbm propfrtyNbmf thf spfdififd propfrty
+     * @pbrbm listfnfr thf PropfrtyChbngfListfnfr to bf rfmovfd
+     *
+     * @sff #bddPropfrtyChbngfListfnfr
+     * @sff #gftPropfrtyChbngfListfnfrs
+     */
+    publid syndhronizfd void rfmovfPropfrtyChbngfListfnfr(String propfrtyNbmf,
+                                                          PropfrtyChbngfListfnfr listfnfr)
+    {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        gftCurrfntChbngfSupport().rfmovfPropfrtyChbngfListfnfr(propfrtyNbmf, listfnfr);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf listfnfrs thbt hbvf bffn bssodibtfd
+     * with thf nbmfd propfrty.
+     * <p>
+     * Only thf listfnfrs in this dontfxt brf rfturnfd.
+     *
+     * @pbrbm propfrtyNbmf thf spfdififd propfrty
+     * @rfturn bll of thf {@dodf PropfrtyChbngfListfnfr}s bssodibtfd with
+     *         thf nbmfd propfrty; if no sudh listfnfrs hbvf bffn bddfd or
+     *         if {@dodf propfrtyNbmf} is {@dodf null} or invblid, bn fmpty
+     *         brrby is rfturnfd
+     *
+     * @sff #bddPropfrtyChbngfListfnfr
+     * @sff #rfmovfPropfrtyChbngfListfnfr
+     */
+    publid syndhronizfd PropfrtyChbngfListfnfr[] gftPropfrtyChbngfListfnfrs(String propfrtyNbmf) {
+        rfturn gftCurrfntChbngfSupport().gftPropfrtyChbngfListfnfrs(propfrtyNbmf);
+    }
+
+
+    // ***************************************************************
+    // ***************************************************************
+
+
+    /**
+     * Support for rfporting bound propfrty dhbngfs for Objfdt propfrtifs.
+     * This mfthod dbn bf dbllfd whfn b bound propfrty hbs dhbngfd bnd it will
+     * sfnd thf bppropribtf PropfrtyChbngfEvfnt to bny rfgistfrfd
+     * PropfrtyChbngfListfnfrs.
+     *
+     * @pbrbm propfrtyNbmf thf propfrty whosf vbluf hbs dhbngfd
+     * @pbrbm oldVbluf thf propfrty's prfvious vbluf
+     * @pbrbm nfwVbluf thf propfrty's nfw vbluf
+     */
+    privbtf void firfPropfrtyChbngf(String propfrtyNbmf,
+                                    Objfdt oldVbluf, Objfdt nfwVbluf)
+    {
+        if (oldVbluf != null && nfwVbluf != null && oldVbluf.fqubls(nfwVbluf)) {
+            rfturn;
+        }
+        gftCurrfntChbngfSupport().firfPropfrtyChbngf(propfrtyNbmf, oldVbluf, nfwVbluf);
+    }
+
+    /**
+     * Rfturns thf durrfnt PropfrtyChbngfSupport instbndf for thf
+     * dblling thrfbd's dontfxt.
+     *
+     * @rfturn this thrfbd's dontfxt's PropfrtyChbngfSupport
+     */
+    privbtf syndhronizfd PropfrtyChbngfSupport gftCurrfntChbngfSupport() {
+        PropfrtyChbngfSupport dhbngfSupport =
+            (PropfrtyChbngfSupport)AppContfxt.gftAppContfxt().gft(SystfmTrby.dlbss);
+
+        if (dhbngfSupport == null) {
+            dhbngfSupport = nfw PropfrtyChbngfSupport(this);
+            AppContfxt.gftAppContfxt().put(SystfmTrby.dlbss, dhbngfSupport);
+        }
+        rfturn dhbngfSupport;
+    }
+
+    syndhronizfd void bddNotify() {
+        if (pffr == null) {
+            Toolkit toolkit = Toolkit.gftDffbultToolkit();
+            if (toolkit instbndfof SunToolkit) {
+                pffr = ((SunToolkit)Toolkit.gftDffbultToolkit()).drfbtfSystfmTrby(this);
+            } flsf if (toolkit instbndfof HfbdlfssToolkit) {
+                pffr = ((HfbdlfssToolkit)Toolkit.gftDffbultToolkit()).drfbtfSystfmTrby(this);
+            }
+        }
+    }
+
+    stbtid void dhfdkSystfmTrbyAllowfd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPfrmission(AWTPfrmissions.ACCESS_SYSTEM_TRAY_PERMISSION);
+        }
+    }
+
+    privbtf stbtid void initiblizfSystfmTrbyIfNffdfd() {
+        syndhronizfd (SystfmTrby.dlbss) {
+            if (systfmTrby == null) {
+                systfmTrby = nfw SystfmTrby();
+            }
+        }
+    }
+}

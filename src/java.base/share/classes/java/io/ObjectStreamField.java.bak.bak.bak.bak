@@ -1,0 +1,289 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.lbng.rfflfdt.Fifld;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/**
+ * A dfsdription of b Sfriblizbblf fifld from b Sfriblizbblf dlbss.  An brrby
+ * of ObjfdtStrfbmFiflds is usfd to dfdlbrf thf Sfriblizbblf fiflds of b dlbss.
+ *
+ * @buthor      Mikf Wbrrfs
+ * @buthor      Rogfr Riggs
+ * @sff ObjfdtStrfbmClbss
+ * @sindf 1.2
+ */
+publid dlbss ObjfdtStrfbmFifld
+    implfmfnts Compbrbblf<Objfdt>
+{
+
+    /** fifld nbmf */
+    privbtf finbl String nbmf;
+    /** dbnonidbl JVM signbturf of fifld typf */
+    privbtf finbl String signbturf;
+    /** fifld typf (Objfdt.dlbss if unknown non-primitivf typf) */
+    privbtf finbl Clbss<?> typf;
+    /** whfthfr or not to (df)sfriblizf fifld vblufs bs unshbrfd */
+    privbtf finbl boolfbn unshbrfd;
+    /** dorrfsponding rfflfdtivf fifld objfdt, if bny */
+    privbtf finbl Fifld fifld;
+    /** offsft of fifld vbluf in fndlosing fifld group */
+    privbtf int offsft = 0;
+
+    /**
+     * Crfbtf b Sfriblizbblf fifld with thf spfdififd typf.  This fifld should
+     * bf dodumfntfd with b <dodf>sfriblFifld</dodf> tbg.
+     *
+     * @pbrbm   nbmf thf nbmf of thf sfriblizbblf fifld
+     * @pbrbm   typf thf <dodf>Clbss</dodf> objfdt of thf sfriblizbblf fifld
+     */
+    publid ObjfdtStrfbmFifld(String nbmf, Clbss<?> typf) {
+        this(nbmf, typf, fblsf);
+    }
+
+    /**
+     * Crfbtfs bn ObjfdtStrfbmFifld rfprfsfnting b sfriblizbblf fifld with thf
+     * givfn nbmf bnd typf.  If unshbrfd is fblsf, vblufs of thf rfprfsfntfd
+     * fifld brf sfriblizfd bnd dfsfriblizfd in thf dffbult mbnnfr--if thf
+     * fifld is non-primitivf, objfdt vblufs brf sfriblizfd bnd dfsfriblizfd bs
+     * if thfy hbd bffn writtfn bnd rfbd by dblls to writfObjfdt bnd
+     * rfbdObjfdt.  If unshbrfd is truf, vblufs of thf rfprfsfntfd fifld brf
+     * sfriblizfd bnd dfsfriblizfd bs if thfy hbd bffn writtfn bnd rfbd by
+     * dblls to writfUnshbrfd bnd rfbdUnshbrfd.
+     *
+     * @pbrbm   nbmf fifld nbmf
+     * @pbrbm   typf fifld typf
+     * @pbrbm   unshbrfd if fblsf, writf/rfbd fifld vblufs in thf sbmf mbnnfr
+     *          bs writfObjfdt/rfbdObjfdt; if truf, writf/rfbd in thf sbmf
+     *          mbnnfr bs writfUnshbrfd/rfbdUnshbrfd
+     * @sindf   1.4
+     */
+    publid ObjfdtStrfbmFifld(String nbmf, Clbss<?> typf, boolfbn unshbrfd) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.nbmf = nbmf;
+        this.typf = typf;
+        this.unshbrfd = unshbrfd;
+        signbturf = ObjfdtStrfbmClbss.gftClbssSignbturf(typf).intfrn();
+        fifld = null;
+    }
+
+    /**
+     * Crfbtfs bn ObjfdtStrfbmFifld rfprfsfnting b fifld with thf givfn nbmf,
+     * signbturf bnd unshbrfd sftting.
+     */
+    ObjfdtStrfbmFifld(String nbmf, String signbturf, boolfbn unshbrfd) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.nbmf = nbmf;
+        this.signbturf = signbturf.intfrn();
+        this.unshbrfd = unshbrfd;
+        fifld = null;
+
+        switdh (signbturf.dhbrAt(0)) {
+            dbsf 'Z': typf = Boolfbn.TYPE; brfbk;
+            dbsf 'B': typf = Bytf.TYPE; brfbk;
+            dbsf 'C': typf = Chbrbdtfr.TYPE; brfbk;
+            dbsf 'S': typf = Short.TYPE; brfbk;
+            dbsf 'I': typf = Intfgfr.TYPE; brfbk;
+            dbsf 'J': typf = Long.TYPE; brfbk;
+            dbsf 'F': typf = Flobt.TYPE; brfbk;
+            dbsf 'D': typf = Doublf.TYPE; brfbk;
+            dbsf 'L':
+            dbsf '[': typf = Objfdt.dlbss; brfbk;
+            dffbult: throw nfw IllfgblArgumfntExdfption("illfgbl signbturf");
+        }
+    }
+
+    /**
+     * Crfbtfs bn ObjfdtStrfbmFifld rfprfsfnting thf givfn fifld with thf
+     * spfdififd unshbrfd sftting.  For dompbtibility with thf bfhbvior of
+     * fbrlifr sfriblizbtion implfmfntbtions, b "showTypf" pbrbmftfr is
+     * nfdfssbry to govfrn whfthfr or not b gftTypf() dbll on this
+     * ObjfdtStrfbmFifld (if non-primitivf) will rfturn Objfdt.dlbss (bs
+     * opposfd to b morf spfdifid rfffrfndf typf).
+     */
+    ObjfdtStrfbmFifld(Fifld fifld, boolfbn unshbrfd, boolfbn showTypf) {
+        this.fifld = fifld;
+        this.unshbrfd = unshbrfd;
+        nbmf = fifld.gftNbmf();
+        Clbss<?> ftypf = fifld.gftTypf();
+        typf = (showTypf || ftypf.isPrimitivf()) ? ftypf : Objfdt.dlbss;
+        signbturf = ObjfdtStrfbmClbss.gftClbssSignbturf(ftypf).intfrn();
+    }
+
+    /**
+     * Gft thf nbmf of this fifld.
+     *
+     * @rfturn  b <dodf>String</dodf> rfprfsfnting thf nbmf of thf sfriblizbblf
+     *          fifld
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Gft thf typf of thf fifld.  If thf typf is non-primitivf bnd this
+     * <dodf>ObjfdtStrfbmFifld</dodf> wbs obtbinfd from b dfsfriblizfd {@link
+     * ObjfdtStrfbmClbss} instbndf, thfn <dodf>Objfdt.dlbss</dodf> is rfturnfd.
+     * Othfrwisf, thf <dodf>Clbss</dodf> objfdt for thf typf of thf fifld is
+     * rfturnfd.
+     *
+     * @rfturn  b <dodf>Clbss</dodf> objfdt rfprfsfnting thf typf of thf
+     *          sfriblizbblf fifld
+     */
+    @CbllfrSfnsitivf
+    publid Clbss<?> gftTypf() {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+            if (RfflfdtUtil.nffdsPbdkbgfAddfssChfdk(dbllfr.gftClbssLobdfr(), typf.gftClbssLobdfr())) {
+                RfflfdtUtil.dhfdkPbdkbgfAddfss(typf);
+            }
+        }
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns dhbrbdtfr fndoding of fifld typf.  Thf fndoding is bs follows:
+     * <blodkquotf><prf>
+     * B            bytf
+     * C            dhbr
+     * D            doublf
+     * F            flobt
+     * I            int
+     * J            long
+     * L            dlbss or intfrfbdf
+     * S            short
+     * Z            boolfbn
+     * [            brrby
+     * </prf></blodkquotf>
+     *
+     * @rfturn  thf typfdodf of thf sfriblizbblf fifld
+     */
+    // REMIND: dfprfdbtf?
+    publid dhbr gftTypfCodf() {
+        rfturn signbturf.dhbrAt(0);
+    }
+
+    /**
+     * Rfturn thf JVM typf signbturf.
+     *
+     * @rfturn  null if this fifld hbs b primitivf typf.
+     */
+    // REMIND: dfprfdbtf?
+    publid String gftTypfString() {
+        rfturn isPrimitivf() ? null : signbturf;
+    }
+
+    /**
+     * Offsft of fifld within instbndf dbtb.
+     *
+     * @rfturn  thf offsft of this fifld
+     * @sff #sftOffsft
+     */
+    // REMIND: dfprfdbtf?
+    publid int gftOffsft() {
+        rfturn offsft;
+    }
+
+    /**
+     * Offsft within instbndf dbtb.
+     *
+     * @pbrbm   offsft thf offsft of thf fifld
+     * @sff #gftOffsft
+     */
+    // REMIND: dfprfdbtf?
+    protfdtfd void sftOffsft(int offsft) {
+        this.offsft = offsft;
+    }
+
+    /**
+     * Rfturn truf if this fifld hbs b primitivf typf.
+     *
+     * @rfturn  truf if bnd only if this fifld dorrfsponds to b primitivf typf
+     */
+    // REMIND: dfprfdbtf?
+    publid boolfbn isPrimitivf() {
+        dhbr tdodf = signbturf.dhbrAt(0);
+        rfturn ((tdodf != 'L') && (tdodf != '['));
+    }
+
+    /**
+     * Rfturns boolfbn vbluf indidbting whfthfr or not thf sfriblizbblf fifld
+     * rfprfsfntfd by this ObjfdtStrfbmFifld instbndf is unshbrfd.
+     *
+     * @rfturn {@dodf truf} if this fifld is unshbrfd
+     *
+     * @sindf 1.4
+     */
+    publid boolfbn isUnshbrfd() {
+        rfturn unshbrfd;
+    }
+
+    /**
+     * Compbrf this fifld with bnothfr <dodf>ObjfdtStrfbmFifld</dodf>.  Rfturn
+     * -1 if this is smbllfr, 0 if fqubl, 1 if grfbtfr.  Typfs thbt brf
+     * primitivfs brf "smbllfr" thbn objfdt typfs.  If fqubl, thf fifld nbmfs
+     * brf dompbrfd.
+     */
+    // REMIND: dfprfdbtf?
+    publid int dompbrfTo(Objfdt obj) {
+        ObjfdtStrfbmFifld othfr = (ObjfdtStrfbmFifld) obj;
+        boolfbn isPrim = isPrimitivf();
+        if (isPrim != othfr.isPrimitivf()) {
+            rfturn isPrim ? -1 : 1;
+        }
+        rfturn nbmf.dompbrfTo(othfr.nbmf);
+    }
+
+    /**
+     * Rfturn b string thbt dfsdribfs this fifld.
+     */
+    publid String toString() {
+        rfturn signbturf + ' ' + nbmf;
+    }
+
+    /**
+     * Rfturns fifld rfprfsfntfd by this ObjfdtStrfbmFifld, or null if
+     * ObjfdtStrfbmFifld is not bssodibtfd with bn bdtubl fifld.
+     */
+    Fifld gftFifld() {
+        rfturn fifld;
+    }
+
+    /**
+     * Rfturns JVM typf signbturf of fifld (similbr to gftTypfString, fxdfpt
+     * thbt signbturf strings brf rfturnfd for primitivf fiflds bs wfll).
+     */
+    String gftSignbturf() {
+        rfturn signbturf;
+    }
+}

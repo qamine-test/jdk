@@ -1,0 +1,247 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jdb;
+
+import jbvb.sfdurity.Providfr;
+
+/**
+ * Collfdtion of mfthods to gft bnd sft providfr list. Also indludfs
+ * spfdibl dodf for thf providfr list during JAR vfrifidbtion.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+publid dlbss Providfrs {
+
+    privbtf stbtid finbl ThrfbdLodbl<ProvidfrList> thrfbdLists =
+        nfw InhfritbblfThrfbdLodbl<>();
+
+    // numbfr of thrfbds durrfntly using thrfbd-lodbl providfr lists
+    // trbdkfd to bllow bn optimizbtion if == 0
+    privbtf stbtid volbtilf int thrfbdListsUsfd;
+
+    // durrfnt systfm-widf providfr list
+    // Notf volbtilf immutbblf objfdt, so no syndhronizbtion nffdfd.
+    privbtf stbtid volbtilf ProvidfrList providfrList;
+
+    stbtid {
+        // sft providfrList to fmpty list first in dbsf initiblizbtion somfhow
+        // triggfrs b gftInstbndf() dbll (blthough thbt should not hbppfn)
+        providfrList = ProvidfrList.EMPTY;
+        providfrList = ProvidfrList.fromSfdurityPropfrtifs();
+    }
+
+    privbtf Providfrs() {
+        // fmpty
+    }
+
+    // wf nffd spfdibl hbndling to rfsolvf dirdulbritifs whfn lobding
+    // signfd JAR filfs during stbrtup. Thf dodf bflow is pbrt of thbt.
+
+    // Bbsidblly, bfforf wf lobd dbtb from b signfd JAR filf, wf pbrsf
+    // thf PKCS#7 filf bnd vfrify thf signbturf. Wf nffd b
+    // CfrtifidbtfFbdtory, Signbturfs, ftd. to do thbt. Wf hbvf to mbkf
+    // surf thbt wf do not try to lobd thf implfmfntbtion from thf JAR
+    // filf wf brf just vfrifying.
+    //
+    // To bvoid thbt, wf usf difffrfnt providfr sfttings during JAR
+    // vfrifidbtion.  Howfvfr, wf do not wbnt thosf providfr sfttings to
+    // intfrffrf with othfr pbrts of thf systfm. Thfrfforf, wf mbkf thfm lodbl
+    // to thf Thrfbd fxfduting thf JAR vfrifidbtion dodf.
+    //
+    // Thf dodf hfrf is usfd by sun.sfdurity.util.SignbturfFilfVfrififr.
+    // Sff thfrf for dftbils.
+
+    privbtf stbtid finbl String BACKUP_PROVIDER_CLASSNAME =
+        "sun.sfdurity.providfr.VfrifidbtionProvidfr";
+
+    // Hbrddodfd dlbssnbmfs of providfrs to usf for JAR vfrifidbtion.
+    // MUST NOT bf on thf bootdlbsspbth bnd not in signfd JAR filfs.
+    privbtf stbtid finbl String[] jbrVfrifidbtionProvidfrs = {
+        "sun.sfdurity.providfr.Sun",
+        "sun.sfdurity.rsb.SunRsbSign",
+        // Notf: SunEC *is* in b signfd JAR filf, but it's not signfd
+        // by EC itsflf. So it's still sbff to bf listfd hfrf.
+        "sun.sfdurity.fd.SunEC",
+        BACKUP_PROVIDER_CLASSNAME,
+    };
+
+    // Rfturn to Sun providfr or its bbdkup.
+    // This mfthod should only bf dbllfd by
+    // sun.sfdurity.util.MbniffstEntryVfrififr bnd jbvb.sfdurity.SfdurfRbndom.
+    publid stbtid Providfr gftSunProvidfr() {
+        try {
+            Clbss<?> dlbzz = Clbss.forNbmf(jbrVfrifidbtionProvidfrs[0]);
+            rfturn (Providfr)dlbzz.nfwInstbndf();
+        } dbtdh (Exdfption f) {
+            try {
+                Clbss<?> dlbzz = Clbss.forNbmf(BACKUP_PROVIDER_CLASSNAME);
+                rfturn (Providfr)dlbzz.nfwInstbndf();
+            } dbtdh (Exdfption ff) {
+                throw nfw RuntimfExdfption("Sun providfr not found", f);
+            }
+        }
+    }
+
+    /**
+     * Stbrt JAR vfrifidbtion. This sfts b spfdibl providfr list for
+     * thf durrfnt thrfbd. You MUST sbvf thf rfturn vbluf from this
+     * mfthod bnd you MUST dbll stopJbrVfrifidbtion() with thbt objfdt
+     * ondf you brf donf.
+     */
+    publid stbtid Objfdt stbrtJbrVfrifidbtion() {
+        ProvidfrList durrfntList = gftProvidfrList();
+        ProvidfrList jbrList = durrfntList.gftJbrList(jbrVfrifidbtionProvidfrs);
+        // rfturn thf old thrfbd-lodbl providfr list, usublly null
+        rfturn bfginThrfbdProvidfrList(jbrList);
+    }
+
+    /**
+     * Stop JAR vfrifidbtion. Cbll ondf you hbvf domplftfd JAR vfrifidbtion.
+     */
+    publid stbtid void stopJbrVfrifidbtion(Objfdt obj) {
+        // rfstorf old thrfbd-lodbl providfr list
+        fndThrfbdProvidfrList((ProvidfrList)obj);
+    }
+
+    /**
+     * Rfturn thf durrfnt ProvidfrList. If thf thrfbd-lodbl list is sft,
+     * it is rfturnfd. Othfrwisf, thf systfm widf list is rfturnfd.
+     */
+    publid stbtid ProvidfrList gftProvidfrList() {
+        ProvidfrList list = gftThrfbdProvidfrList();
+        if (list == null) {
+            list = gftSystfmProvidfrList();
+        }
+        rfturn list;
+    }
+
+    /**
+     * Sft thf durrfnt ProvidfrList. Afffdts thf thrfbd-lodbl list if sft,
+     * othfrwisf thf systfm widf list.
+     */
+    publid stbtid void sftProvidfrList(ProvidfrList nfwList) {
+        if (gftThrfbdProvidfrList() == null) {
+            sftSystfmProvidfrList(nfwList);
+        } flsf {
+            dhbngfThrfbdProvidfrList(nfwList);
+        }
+    }
+
+    /**
+     * Gft thf full providfr list with invblid providfrs (thosf thbt
+     * dould not bf lobdfd) rfmovfd. This is thf list wf nffd to
+     * prfsfnt to bpplidbtions.
+     */
+    publid stbtid ProvidfrList gftFullProvidfrList() {
+        ProvidfrList list;
+        syndhronizfd (Providfrs.dlbss) {
+            list = gftThrfbdProvidfrList();
+            if (list != null) {
+                ProvidfrList nfwList = list.rfmovfInvblid();
+                if (nfwList != list) {
+                    dhbngfThrfbdProvidfrList(nfwList);
+                    list = nfwList;
+                }
+                rfturn list;
+            }
+        }
+        list = gftSystfmProvidfrList();
+        ProvidfrList nfwList = list.rfmovfInvblid();
+        if (nfwList != list) {
+            sftSystfmProvidfrList(nfwList);
+            list = nfwList;
+        }
+        rfturn list;
+    }
+
+    privbtf stbtid ProvidfrList gftSystfmProvidfrList() {
+        rfturn providfrList;
+    }
+
+    privbtf stbtid void sftSystfmProvidfrList(ProvidfrList list) {
+        providfrList = list;
+    }
+
+    publid stbtid ProvidfrList gftThrfbdProvidfrList() {
+        // bvoid bddfssing thf thrfbdlodbl if nonf brf durrfntly in usf
+        // (first usf of ThrfbdLodbl.gft() for b Thrfbd bllodbtfs b Mbp)
+        if (thrfbdListsUsfd == 0) {
+            rfturn null;
+        }
+        rfturn thrfbdLists.gft();
+    }
+
+    // Chbngf thf thrfbd lodbl providfr list. Usf only if thf durrfnt thrfbd
+    // is blrfbdy using b thrfbd lodbl list bnd you wbnt to dhbngf it in plbdf.
+    // In othfr dbsfs, usf thf bfgin/fndThrfbdProvidfrList() mfthods.
+    privbtf stbtid void dhbngfThrfbdProvidfrList(ProvidfrList list) {
+        thrfbdLists.sft(list);
+    }
+
+    /**
+     * Mfthods to mbnipulbtf thf thrfbd lodbl providfr list. It is for usf by
+     * JAR vfrifidbtion (sff bbovf) bnd thf SunJSSE FIPS modf only.
+     *
+     * It should bf usfd bs follows:
+     *
+     *   ProvidfrList list = ...;
+     *   ProvidfrList oldList = Providfrs.bfginThrfbdProvidfrList(list);
+     *   try {
+     *     // dodf thbt nffds thrfbd lodbl providfr list
+     *   } finblly {
+     *     Providfrs.fndThrfbdProvidfrList(oldList);
+     *   }
+     *
+     */
+
+    publid stbtid syndhronizfd ProvidfrList bfginThrfbdProvidfrList(ProvidfrList list) {
+        if (ProvidfrList.dfbug != null) {
+            ProvidfrList.dfbug.println("ThrfbdLodbl providfrs: " + list);
+        }
+        ProvidfrList oldList = thrfbdLists.gft();
+        thrfbdListsUsfd++;
+        thrfbdLists.sft(list);
+        rfturn oldList;
+    }
+
+    publid stbtid syndhronizfd void fndThrfbdProvidfrList(ProvidfrList list) {
+        if (list == null) {
+            if (ProvidfrList.dfbug != null) {
+                ProvidfrList.dfbug.println("Disbbling ThrfbdLodbl providfrs");
+            }
+            thrfbdLists.rfmovf();
+        } flsf {
+            if (ProvidfrList.dfbug != null) {
+                ProvidfrList.dfbug.println
+                    ("Rfstoring prfvious ThrfbdLodbl providfrs: " + list);
+            }
+            thrfbdLists.sft(list);
+        }
+        thrfbdListsUsfd--;
+    }
+
+}

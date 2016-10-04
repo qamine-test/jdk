@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 1997, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Point;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
 
-import java.awt.datatransfer.Transferable;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
 
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.InvalidDnDOperationException;
+import jbvb.bwt.dnd.DrbgGfsturfEvfnt;
+import jbvb.bwt.dnd.InvblidDnDOpfrbtionExdfption;
 
-import java.awt.event.InputEvent;
+import jbvb.bwt.fvfnt.InputEvfnt;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
-import sun.awt.dnd.SunDragSourceContextPeer;
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
 
 /**
  * <p>
  * TBC
  * </p>
  *
- * @since 1.2
+ * @sindf 1.2
  *
  */
 
-final class WDragSourceContextPeer extends SunDragSourceContextPeer {
-    public void startSecondaryEventLoop(){
-        WToolkit.startSecondaryEventLoop();
+finbl dlbss WDrbgSourdfContfxtPffr fxtfnds SunDrbgSourdfContfxtPffr {
+    publid void stbrtSfdondbryEvfntLoop(){
+        WToolkit.stbrtSfdondbryEvfntLoop();
     }
-    public void quitSecondaryEventLoop(){
-        WToolkit.quitSecondaryEventLoop();
+    publid void quitSfdondbryEvfntLoop(){
+        WToolkit.quitSfdondbryEvfntLoop();
     }
 
-    private static final WDragSourceContextPeer theInstance =
-        new WDragSourceContextPeer(null);
+    privbtf stbtid finbl WDrbgSourdfContfxtPffr tifInstbndf =
+        nfw WDrbgSourdfContfxtPffr(null);
 
     /**
-     * construct a new WDragSourceContextPeer. package private
+     * donstrudt b nfw WDrbgSourdfContfxtPffr. pbdkbgf privbtf
      */
 
-    private WDragSourceContextPeer(DragGestureEvent dge) {
-        super(dge);
+    privbtf WDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf) {
+        supfr(dgf);
     }
 
-    static WDragSourceContextPeer createDragSourceContextPeer(DragGestureEvent dge) throws InvalidDnDOperationException {
-        theInstance.setTrigger(dge);
-        return theInstance;
+    stbtid WDrbgSourdfContfxtPffr drfbtfDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf) tirows InvblidDnDOpfrbtionExdfption {
+        tifInstbndf.sftTriggfr(dgf);
+        rfturn tifInstbndf;
     }
 
-    @Override
-    protected void startDrag(Transferable trans,
-                             long[] formats, Map<Long, DataFlavor> formatMap) {
+    @Ovfrridf
+    protfdtfd void stbrtDrbg(Trbnsffrbblf trbns,
+                             long[] formbts, Mbp<Long, DbtbFlbvor> formbtMbp) {
 
-        long nativeCtxtLocal = 0;
+        long nbtivfCtxtLodbl = 0;
 
-        nativeCtxtLocal = createDragSource(getTrigger().getComponent(),
-                                           trans,
-                                           getTrigger().getTriggerEvent(),
-                                           getTrigger().getSourceAsDragGestureRecognizer().getSourceActions(),
-                                           formats,
-                                           formatMap);
+        nbtivfCtxtLodbl = drfbtfDrbgSourdf(gftTriggfr().gftComponfnt(),
+                                           trbns,
+                                           gftTriggfr().gftTriggfrEvfnt(),
+                                           gftTriggfr().gftSourdfAsDrbgGfsturfRfdognizfr().gftSourdfAdtions(),
+                                           formbts,
+                                           formbtMbp);
 
-        if (nativeCtxtLocal == 0) {
-            throw new InvalidDnDOperationException("failed to create native peer");
+        if (nbtivfCtxtLodbl == 0) {
+            tirow nfw InvblidDnDOpfrbtionExdfption("fbilfd to drfbtf nbtivf pffr");
         }
 
-        int[] imageData = null;
+        int[] imbgfDbtb = null;
         Point op = null;
 
-        Image im = getDragImage();
-        int imageWidth = -1;
-        int imageHeight = -1;
+        Imbgf im = gftDrbgImbgf();
+        int imbgfWidti = -1;
+        int imbgfHfigit = -1;
         if (im != null) {
-            //image is ready (partial images are ok)
+            //imbgf is rfbdy (pbrtibl imbgfs brf ok)
             try{
-                imageWidth = im.getWidth(null);
-                imageHeight = im.getHeight(null);
-                if (imageWidth < 0 || imageHeight < 0) {
-                    throw new InvalidDnDOperationException("drag image is not ready");
+                imbgfWidti = im.gftWidti(null);
+                imbgfHfigit = im.gftHfigit(null);
+                if (imbgfWidti < 0 || imbgfHfigit < 0) {
+                    tirow nfw InvblidDnDOpfrbtionExdfption("drbg imbgf is not rfbdy");
                 }
-                //We could get an exception from user code here.
-                //"im" and "dragImageOffset" are user-defined objects
-                op = getDragImageOffset(); //op could not be null here
-                BufferedImage bi = new BufferedImage(
-                        imageWidth,
-                        imageHeight,
-                        BufferedImage.TYPE_INT_ARGB);
-                bi.getGraphics().drawImage(im, 0, 0, null);
+                //Wf dould gft bn fxdfption from usfr dodf ifrf.
+                //"im" bnd "drbgImbgfOffsft" brf usfr-dffinfd objfdts
+                op = gftDrbgImbgfOffsft(); //op dould not bf null ifrf
+                BufffrfdImbgf bi = nfw BufffrfdImbgf(
+                        imbgfWidti,
+                        imbgfHfigit,
+                        BufffrfdImbgf.TYPE_INT_ARGB);
+                bi.gftGrbpiids().drbwImbgf(im, 0, 0, null);
 
-                //we can get out-of-memory here
-                imageData = ((DataBufferInt)bi.getData().getDataBuffer()).getData();
-            } catch (Throwable ex) {
-                throw new InvalidDnDOperationException("drag image creation problem: " + ex.getMessage());
+                //wf dbn gft out-of-mfmory ifrf
+                imbgfDbtb = ((DbtbBufffrInt)bi.gftDbtb().gftDbtbBufffr()).gftDbtb();
+            } dbtdi (Tirowbblf fx) {
+                tirow nfw InvblidDnDOpfrbtionExdfption("drbg imbgf drfbtion problfm: " + fx.gftMfssbgf());
             }
         }
 
-        //We shouldn't have user-level exceptions since now.
-        //Any exception leads to corrupted D'n'D state.
-        setNativeContext(nativeCtxtLocal);
-        WDropTargetContextPeer.setCurrentJVMLocalSourceTransferable(trans);
+        //Wf siouldn't ibvf usfr-lfvfl fxdfptions sindf now.
+        //Any fxdfption lfbds to dorruptfd D'n'D stbtf.
+        sftNbtivfContfxt(nbtivfCtxtLodbl);
+        WDropTbrgftContfxtPffr.sftCurrfntJVMLodblSourdfTrbnsffrbblf(trbns);
 
-        if (imageData != null) {
-            doDragDrop(
-                    getNativeContext(),
-                    getCursor(),
-                    imageData,
-                    imageWidth, imageHeight,
+        if (imbgfDbtb != null) {
+            doDrbgDrop(
+                    gftNbtivfContfxt(),
+                    gftCursor(),
+                    imbgfDbtb,
+                    imbgfWidti, imbgfHfigit,
                     op.x, op.y);
-        } else {
-            doDragDrop(
-                    getNativeContext(),
-                    getCursor(),
+        } flsf {
+            doDrbgDrop(
+                    gftNbtivfContfxt(),
+                    gftCursor(),
                     null,
                     -1, -1,
                     0, 0);
@@ -147,27 +147,27 @@ final class WDragSourceContextPeer extends SunDragSourceContextPeer {
     }
 
     /**
-     * downcall into native code
+     * downdbll into nbtivf dodf
      */
 
-    native long createDragSource(Component component,
-                                 Transferable transferable,
-                                 InputEvent nativeTrigger,
-                                 int actions,
-                                 long[] formats,
-                                 Map<Long, DataFlavor> formatMap);
+    nbtivf long drfbtfDrbgSourdf(Componfnt domponfnt,
+                                 Trbnsffrbblf trbnsffrbblf,
+                                 InputEvfnt nbtivfTriggfr,
+                                 int bdtions,
+                                 long[] formbts,
+                                 Mbp<Long, DbtbFlbvor> formbtMbp);
 
     /**
-     * downcall into native code
+     * downdbll into nbtivf dodf
      */
 
-    native void doDragDrop(
-            long nativeCtxt,
-            Cursor cursor,
-            int[] imageData,
-            int imgWidth, int imgHight,
-            int offsetX, int offsetY);
+    nbtivf void doDrbgDrop(
+            long nbtivfCtxt,
+            Cursor dursor,
+            int[] imbgfDbtb,
+            int imgWidti, int imgHigit,
+            int offsftX, int offsftY);
 
-    protected native void setNativeCursor(long nativeCtxt, Cursor c, int cType);
+    protfdtfd nbtivf void sftNbtivfCursor(long nbtivfCtxt, Cursor d, int dTypf);
 
 }

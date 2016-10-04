@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 #if (USE_PLATFORM_MIDI_IN == TRUE) || (USE_PLATFORM_MIDI_OUT == TRUE)
 
-#include "PlatformMidi.h"                  // JavaSound header for platform midi support.
-#include <CoreMIDI/CoreMIDI.h>             // Umbrella header for the CoreMIDI framework.
-#include <CoreAudio/CoreAudio.h>           // This provides access to the host's time base and translations to nanoseconds.
-#include <CoreFoundation/CoreFoundation.h> // CFDataRef.
+#indludf "PlbtformMidi.i"                  // JbvbSound ifbdfr for plbtform midi support.
+#indludf <CorfMIDI/CorfMIDI.i>             // Umbrfllb ifbdfr for tif CorfMIDI frbmfwork.
+#indludf <CorfAudio/CorfAudio.i>           // Tiis providfs bddfss to tif iost's timf bbsf bnd trbnslbtions to nbnosfdonds.
+#indludf <CorfFoundbtion/CorfFoundbtion.i> // CFDbtbRff.
 
-/* for memcpy */
-#include <string.h>
-/* for malloc */
-#include <stdlib.h>
-/* for usleep */
-#include <unistd.h>
+/* for mfmdpy */
+#indludf <string.i>
+/* for mbllod */
+#indludf <stdlib.i>
+/* for uslffp */
+#indludf <unistd.i>
 
-#ifdef USE_ERROR
-#include <stdio.h>
-#endif
+#ifdff USE_ERROR
+#indludf <stdio.i>
+#fndif
 
-#define MIDI_ERROR_NONE MIDI_SUCCESS
+#dffinf MIDI_ERROR_NONE MIDI_SUCCESS
 
-#ifdef USE_ERROR
-#define MIDI_CHECK_ERROR  { if (err != MIDI_ERROR_NONE) MIDI_Utils_PrintError(err); }
-#else
-#define MIDI_CHECK_ERROR
-#endif
+#ifdff USE_ERROR
+#dffinf MIDI_CHECK_ERROR  { if (frr != MIDI_ERROR_NONE) MIDI_Utils_PrintError(frr); }
+#flsf
+#dffinf MIDI_CHECK_ERROR
+#fndif
 
-typedef struct {
-    MidiDeviceHandle h;                  /* the real handle (must be the first field!) */
-    int direction;                       /* direction of the endpoint */
-    int deviceID;                        /* logical index (0 .. numEndpoints-1) */
-    int isStarted;                       /* whether device is "started" */
-    MIDIPortRef port;                    /* input or output port associated with the endpoint */
-    CFMutableDataRef readingSysExData;   /* Non-Null: in the middle of reading SysEx data; Null: otherwise */
-} MacMidiDeviceHandle;
+typfdff strudt {
+    MidiDfvidfHbndlf i;                  /* tif rfbl ibndlf (must bf tif first fifld!) */
+    int dirfdtion;                       /* dirfdtion of tif fndpoint */
+    int dfvidfID;                        /* logidbl indfx (0 .. numEndpoints-1) */
+    int isStbrtfd;                       /* wiftifr dfvidf is "stbrtfd" */
+    MIDIPortRff port;                    /* input or output port bssodibtfd witi tif fndpoint */
+    CFMutbblfDbtbRff rfbdingSysExDbtb;   /* Non-Null: in tif middlf of rfbding SysEx dbtb; Null: otifrwisf */
+} MbdMidiDfvidfHbndlf;
 
-extern const char* MIDI_Utils_GetErrorMsg(int err);
-extern void MIDI_Utils_PrintError(int err);
+fxtfrn donst dibr* MIDI_Utils_GftErrorMsg(int frr);
+fxtfrn void MIDI_Utils_PrintError(int frr);
 
-// A MIDI endpoint represents a source or a destination for a standard 16-channel MIDI data stream.
-enum {
-    MIDI_IN = 0, // source
-    MIDI_OUT = 1 // destination
+// A MIDI fndpoint rfprfsfnts b sourdf or b dfstinbtion for b stbndbrd 16-dibnnfl MIDI dbtb strfbm.
+fnum {
+    MIDI_IN = 0, // sourdf
+    MIDI_OUT = 1 // dfstinbtion
 };
 
-// The parameter "direction" is either MIDI_IN or MIDI_OUT.
-// Declarations of functions required by the JavaSound MIDI Porting layer.
+// Tif pbrbmftfr "dirfdtion" is fitifr MIDI_IN or MIDI_OUT.
+// Dfdlbrbtions of fundtions rfquirfd by tif JbvbSound MIDI Porting lbyfr.
 
-extern INT32 MIDI_Utils_GetNumDevices(int direction);
-extern INT32 MIDI_Utils_GetDeviceName(int direction, INT32 deviceID, char *name, UINT32 nameLength);
-extern INT32 MIDI_Utils_GetDeviceVendor(int direction, INT32 deviceID, char *name, UINT32 nameLength);
-extern INT32 MIDI_Utils_GetDeviceDescription(int direction, INT32 deviceID, char *name, UINT32 nameLength);
-extern INT32 MIDI_Utils_GetDeviceVersion(int direction, INT32 deviceID, char *name, UINT32 nameLength);
-extern INT32 MIDI_Utils_OpenDevice(int direction, INT32 deviceID, MacMidiDeviceHandle** handle,
+fxtfrn INT32 MIDI_Utils_GftNumDfvidfs(int dirfdtion);
+fxtfrn INT32 MIDI_Utils_GftDfvidfNbmf(int dirfdtion, INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
+fxtfrn INT32 MIDI_Utils_GftDfvidfVfndor(int dirfdtion, INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
+fxtfrn INT32 MIDI_Utils_GftDfvidfDfsdription(int dirfdtion, INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
+fxtfrn INT32 MIDI_Utils_GftDfvidfVfrsion(int dirfdtion, INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
+fxtfrn INT32 MIDI_Utils_OpfnDfvidf(int dirfdtion, INT32 dfvidfID, MbdMidiDfvidfHbndlf** ibndlf,
                    int num_msgs, int num_long_msgs,
-                   size_t lm_size);
-extern INT32 MIDI_Utils_CloseDevice(MacMidiDeviceHandle* handle);
-extern INT32 MIDI_Utils_StartDevice(MacMidiDeviceHandle* handle);
-extern INT32 MIDI_Utils_StopDevice(MacMidiDeviceHandle* handle);
-extern INT64 MIDI_Utils_GetTimeStamp(MacMidiDeviceHandle* handle);
+                   sizf_t lm_sizf);
+fxtfrn INT32 MIDI_Utils_ClosfDfvidf(MbdMidiDfvidfHbndlf* ibndlf);
+fxtfrn INT32 MIDI_Utils_StbrtDfvidf(MbdMidiDfvidfHbndlf* ibndlf);
+fxtfrn INT32 MIDI_Utils_StopDfvidf(MbdMidiDfvidfHbndlf* ibndlf);
+fxtfrn INT64 MIDI_Utils_GftTimfStbmp(MbdMidiDfvidfHbndlf* ibndlf);
 
-// Mac OS X port for locking and synchronization.
+// Mbd OS X port for lodking bnd syndironizbtion.
 
-extern void* MIDI_CreateConditionVariable();
-extern void  MIDI_DestroyConditionVariable(void* cond);
-extern void  MIDI_WaitOnConditionVariable(void* cond, void* lock);
-extern void  MIDI_SignalConditionVariable(void* cond);
+fxtfrn void* MIDI_CrfbtfConditionVbribblf();
+fxtfrn void  MIDI_DfstroyConditionVbribblf(void* dond);
+fxtfrn void  MIDI_WbitOnConditionVbribblf(void* dond, void* lodk);
+fxtfrn void  MIDI_SignblConditionVbribblf(void* dond);
 
-#endif // USE_PLATFORM_MIDI_IN || USE_PLATFORM_MIDI_OUT
+#fndif // USE_PLATFORM_MIDI_IN || USE_PLATFORM_MIDI_OUT

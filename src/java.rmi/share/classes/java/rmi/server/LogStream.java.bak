@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.rmi.server;
+pbdkbgf jbvb.rmi.sfrvfr;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * <code>LogStream</code> provides a mechanism for logging errors that are
- * of possible interest to those monitoring a system.
+ * <dodf>LogStrfbm</dodf> providfs b mfdibnism for logging frrors tibt brf
+ * of possiblf intfrfst to tiosf monitoring b systfm.
  *
- * @author  Ann Wollrath (lots of code stolen from Ken Arnold)
- * @since   1.1
- * @deprecated no replacement
+ * @butior  Ann Wollrbti (lots of dodf stolfn from Kfn Arnold)
+ * @sindf   1.1
+ * @dfprfdbtfd no rfplbdfmfnt
  */
-@Deprecated
-public class LogStream extends PrintStream {
+@Dfprfdbtfd
+publid dlbss LogStrfbm fxtfnds PrintStrfbm {
 
-    /** table mapping known log names to log stream objects */
-    private static Map<String,LogStream> known = new HashMap<>(5);
-    /** default output stream for new logs */
-    private static PrintStream  defaultStream = System.err;
+    /** tbblf mbpping known log nbmfs to log strfbm objfdts */
+    privbtf stbtid Mbp<String,LogStrfbm> known = nfw HbsiMbp<>(5);
+    /** dffbult output strfbm for nfw logs */
+    privbtf stbtid PrintStrfbm  dffbultStrfbm = Systfm.frr;
 
-    /** log name for this log */
-    private String name;
+    /** log nbmf for tiis log */
+    privbtf String nbmf;
 
-    /** stream where output of this log is sent to */
-    private OutputStream logOut;
+    /** strfbm wifrf output of tiis log is sfnt to */
+    privbtf OutputStrfbm logOut;
 
-    /** string writer for writing message prefixes to log stream */
-    private OutputStreamWriter logWriter;
+    /** string writfr for writing mfssbgf prffixfs to log strfbm */
+    privbtf OutputStrfbmWritfr logWritfr;
 
-    /** string buffer used for constructing log message prefixes */
-    private StringBuffer buffer = new StringBuffer();
+    /** string bufffr usfd for donstrudting log mfssbgf prffixfs */
+    privbtf StringBufffr bufffr = nfw StringBufffr();
 
-    /** stream used for buffering lines */
-    private ByteArrayOutputStream bufOut;
+    /** strfbm usfd for bufffring linfs */
+    privbtf BytfArrbyOutputStrfbm bufOut;
 
     /**
-     * Create a new LogStream object.  Since this only constructor is
-     * private, users must have a LogStream created through the "log"
-     * method.
-     * @param name string identifying messages from this log
-     * @out output stream that log messages will be sent to
-     * @since 1.1
-     * @deprecated no replacement
+     * Crfbtf b nfw LogStrfbm objfdt.  Sindf tiis only donstrudtor is
+     * privbtf, usfrs must ibvf b LogStrfbm drfbtfd tirougi tif "log"
+     * mftiod.
+     * @pbrbm nbmf string idfntifying mfssbgfs from tiis log
+     * @out output strfbm tibt log mfssbgfs will bf sfnt to
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    private LogStream(String name, OutputStream out)
+    @Dfprfdbtfd
+    privbtf LogStrfbm(String nbmf, OutputStrfbm out)
     {
-        super(new ByteArrayOutputStream());
-        bufOut = (ByteArrayOutputStream) super.out;
+        supfr(nfw BytfArrbyOutputStrfbm());
+        bufOut = (BytfArrbyOutputStrfbm) supfr.out;
 
-        this.name = name;
-        setOutputStream(out);
+        tiis.nbmf = nbmf;
+        sftOutputStrfbm(out);
     }
 
     /**
-     * Return the LogStream identified by the given name.  If
-     * a log corresponding to "name" does not exist, a log using
-     * the default stream is created.
-     * @param name name identifying the desired LogStream
-     * @return log associated with given name
-     * @since 1.1
-     * @deprecated no replacement
+     * Rfturn tif LogStrfbm idfntififd by tif givfn nbmf.  If
+     * b log dorrfsponding to "nbmf" dofs not fxist, b log using
+     * tif dffbult strfbm is drfbtfd.
+     * @pbrbm nbmf nbmf idfntifying tif dfsirfd LogStrfbm
+     * @rfturn log bssodibtfd witi givfn nbmf
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    public static LogStream log(String name) {
-        LogStream stream;
-        synchronized (known) {
-            stream = known.get(name);
-            if (stream == null) {
-                stream = new LogStream(name, defaultStream);
+    @Dfprfdbtfd
+    publid stbtid LogStrfbm log(String nbmf) {
+        LogStrfbm strfbm;
+        syndironizfd (known) {
+            strfbm = known.gft(nbmf);
+            if (strfbm == null) {
+                strfbm = nfw LogStrfbm(nbmf, dffbultStrfbm);
             }
-            known.put(name, stream);
+            known.put(nbmf, strfbm);
         }
-        return stream;
+        rfturn strfbm;
     }
 
     /**
-     * Return the current default stream for new logs.
-     * @return default log stream
-     * @see #setDefaultStream
-     * @since 1.1
-     * @deprecated no replacement
+     * Rfturn tif durrfnt dffbult strfbm for nfw logs.
+     * @rfturn dffbult log strfbm
+     * @sff #sftDffbultStrfbm
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    public static synchronized PrintStream getDefaultStream() {
-        return defaultStream;
+    @Dfprfdbtfd
+    publid stbtid syndironizfd PrintStrfbm gftDffbultStrfbm() {
+        rfturn dffbultStrfbm;
     }
 
     /**
-     * Set the default stream for new logs.
-     * @param newDefault new default log stream
-     * @see #getDefaultStream
-     * @since 1.1
-     * @deprecated no replacement
+     * Sft tif dffbult strfbm for nfw logs.
+     * @pbrbm nfwDffbult nfw dffbult log strfbm
+     * @sff #gftDffbultStrfbm
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    public static synchronized void setDefaultStream(PrintStream newDefault) {
-        SecurityManager sm = System.getSecurityManager();
+    @Dfprfdbtfd
+    publid stbtid syndironizfd void sftDffbultStrfbm(PrintStrfbm nfwDffbult) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
 
         if (sm != null) {
-            sm.checkPermission(
-                new java.util.logging.LoggingPermission("control", null));
+            sm.difdkPfrmission(
+                nfw jbvb.util.logging.LoggingPfrmission("dontrol", null));
         }
 
-        defaultStream = newDefault;
+        dffbultStrfbm = nfwDffbult;
     }
 
     /**
-     * Return the current stream to which output from this log is sent.
-     * @return output stream for this log
-     * @see #setOutputStream
-     * @since 1.1
-     * @deprecated no replacement
+     * Rfturn tif durrfnt strfbm to wiidi output from tiis log is sfnt.
+     * @rfturn output strfbm for tiis log
+     * @sff #sftOutputStrfbm
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    public synchronized OutputStream getOutputStream()
+    @Dfprfdbtfd
+    publid syndironizfd OutputStrfbm gftOutputStrfbm()
     {
-        return logOut;
+        rfturn logOut;
     }
 
     /**
-     * Set the stream to which output from this log is sent.
-     * @param out new output stream for this log
-     * @see #getOutputStream
-     * @since 1.1
-     * @deprecated no replacement
+     * Sft tif strfbm to wiidi output from tiis log is sfnt.
+     * @pbrbm out nfw output strfbm for tiis log
+     * @sff #gftOutputStrfbm
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    public synchronized void setOutputStream(OutputStream out)
+    @Dfprfdbtfd
+    publid syndironizfd void sftOutputStrfbm(OutputStrfbm out)
     {
         logOut = out;
-        // Maintain an OutputStreamWriter with default CharToByteConvertor
-        // (just like new PrintStream) for writing log message prefixes.
-        logWriter = new OutputStreamWriter(logOut);
+        // Mbintbin bn OutputStrfbmWritfr witi dffbult CibrToBytfConvfrtor
+        // (just likf nfw PrintStrfbm) for writing log mfssbgf prffixfs.
+        logWritfr = nfw OutputStrfbmWritfr(logOut);
     }
 
     /**
-     * Write a byte of data to the stream.  If it is not a newline, then
-     * the byte is appended to the internal buffer.  If it is a newline,
-     * then the currently buffered line is sent to the log's output
-     * stream, prefixed with the appropriate logging information.
-     * @since 1.1
-     * @deprecated no replacement
+     * Writf b bytf of dbtb to tif strfbm.  If it is not b nfwlinf, tifn
+     * tif bytf is bppfndfd to tif intfrnbl bufffr.  If it is b nfwlinf,
+     * tifn tif durrfntly bufffrfd linf is sfnt to tif log's output
+     * strfbm, prffixfd witi tif bppropribtf logging informbtion.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    public void write(int b)
+    @Dfprfdbtfd
+    publid void writf(int b)
     {
         if (b == '\n') {
-            // synchronize on "this" first to avoid potential deadlock
-            synchronized (this) {
-                synchronized (logOut) {
-                    // construct prefix for log messages:
-                    buffer.setLength(0);;
-                    buffer.append(              // date/time stamp...
-                        (new Date()).toString());
-                    buffer.append(':');
-                    buffer.append(name);        // ...log name...
-                    buffer.append(':');
-                    buffer.append(Thread.currentThread().getName());
-                    buffer.append(':'); // ...and thread name
+            // syndironizf on "tiis" first to bvoid potfntibl dfbdlodk
+            syndironizfd (tiis) {
+                syndironizfd (logOut) {
+                    // donstrudt prffix for log mfssbgfs:
+                    bufffr.sftLfngti(0);;
+                    bufffr.bppfnd(              // dbtf/timf stbmp...
+                        (nfw Dbtf()).toString());
+                    bufffr.bppfnd(':');
+                    bufffr.bppfnd(nbmf);        // ...log nbmf...
+                    bufffr.bppfnd(':');
+                    bufffr.bppfnd(Tirfbd.durrfntTirfbd().gftNbmf());
+                    bufffr.bppfnd(':'); // ...bnd tirfbd nbmf
 
                     try {
-                        // write prefix through to underlying byte stream
-                        logWriter.write(buffer.toString());
-                        logWriter.flush();
+                        // writf prffix tirougi to undfrlying bytf strfbm
+                        logWritfr.writf(bufffr.toString());
+                        logWritfr.flusi();
 
-                        // finally, write the already converted bytes of
-                        // the log message
-                        bufOut.writeTo(logOut);
-                        logOut.write(b);
-                        logOut.flush();
-                    } catch (IOException e) {
-                        setError();
-                    } finally {
-                        bufOut.reset();
+                        // finblly, writf tif blrfbdy donvfrtfd bytfs of
+                        // tif log mfssbgf
+                        bufOut.writfTo(logOut);
+                        logOut.writf(b);
+                        logOut.flusi();
+                    } dbtdi (IOExdfption f) {
+                        sftError();
+                    } finblly {
+                        bufOut.rfsft();
                     }
                 }
             }
         }
-        else
-            super.write(b);
+        flsf
+            supfr.writf(b);
     }
 
     /**
-     * Write a subarray of bytes.  Pass each through write byte method.
-     * @since 1.1
-     * @deprecated no replacement
+     * Writf b subbrrby of bytfs.  Pbss fbdi tirougi writf bytf mftiod.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    public void write(byte b[], int off, int len)
+    @Dfprfdbtfd
+    publid void writf(bytf b[], int off, int lfn)
     {
-        if (len < 0)
-            throw new ArrayIndexOutOfBoundsException(len);
-        for (int i = 0; i < len; ++ i)
-            write(b[off + i]);
+        if (lfn < 0)
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(lfn);
+        for (int i = 0; i < lfn; ++ i)
+            writf(b[off + i]);
     }
 
     /**
-     * Return log name as string representation.
-     * @return log name
-     * @since 1.1
-     * @deprecated no replacement
+     * Rfturn log nbmf bs string rfprfsfntbtion.
+     * @rfturn log nbmf
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    public String toString()
+    @Dfprfdbtfd
+    publid String toString()
     {
-        return name;
+        rfturn nbmf;
     }
 
-    /** log level constant (no logging). */
-    public static final int SILENT  = 0;
-    /** log level constant (brief logging). */
-    public static final int BRIEF   = 10;
-    /** log level constant (verbose logging). */
-    public static final int VERBOSE = 20;
+    /** log lfvfl donstbnt (no logging). */
+    publid stbtid finbl int SILENT  = 0;
+    /** log lfvfl donstbnt (briff logging). */
+    publid stbtid finbl int BRIEF   = 10;
+    /** log lfvfl donstbnt (vfrbosf logging). */
+    publid stbtid finbl int VERBOSE = 20;
 
     /**
-     * Convert a string name of a logging level to its internal
-     * integer representation.
-     * @param s name of logging level (e.g., 'SILENT', 'BRIEF', 'VERBOSE')
-     * @return corresponding integer log level
-     * @since 1.1
-     * @deprecated no replacement
+     * Convfrt b string nbmf of b logging lfvfl to its intfrnbl
+     * intfgfr rfprfsfntbtion.
+     * @pbrbm s nbmf of logging lfvfl (f.g., 'SILENT', 'BRIEF', 'VERBOSE')
+     * @rfturn dorrfsponding intfgfr log lfvfl
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    public static int parseLevel(String s)
+    @Dfprfdbtfd
+    publid stbtid int pbrsfLfvfl(String s)
     {
-        if ((s == null) || (s.length() < 1))
-            return -1;
+        if ((s == null) || (s.lfngti() < 1))
+            rfturn -1;
 
         try {
-            return Integer.parseInt(s);
-        } catch (NumberFormatException e) {
+            rfturn Intfgfr.pbrsfInt(s);
+        } dbtdi (NumbfrFormbtExdfption f) {
         }
-        if (s.length() < 1)
-            return -1;
+        if (s.lfngti() < 1)
+            rfturn -1;
 
-        if ("SILENT".startsWith(s.toUpperCase()))
-            return SILENT;
-        else if ("BRIEF".startsWith(s.toUpperCase()))
-            return BRIEF;
-        else if ("VERBOSE".startsWith(s.toUpperCase()))
-            return VERBOSE;
+        if ("SILENT".stbrtsWiti(s.toUppfrCbsf()))
+            rfturn SILENT;
+        flsf if ("BRIEF".stbrtsWiti(s.toUppfrCbsf()))
+            rfturn BRIEF;
+        flsf if ("VERBOSE".stbrtsWiti(s.toUppfrCbsf()))
+            rfturn VERBOSE;
 
-        return -1;
+        rfturn -1;
     }
 }

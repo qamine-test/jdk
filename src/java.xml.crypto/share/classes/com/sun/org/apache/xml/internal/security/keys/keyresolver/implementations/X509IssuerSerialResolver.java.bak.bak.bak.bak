@@ -1,0 +1,150 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions;
+
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.Itfrbtor;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.dontfnt.X509Dbtb;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.dontfnt.x509.XMLX509IssufrSfribl;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrSpi;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import org.w3d.dom.Elfmfnt;
+
+publid dlbss X509IssufrSfriblRfsolvfr fxtfnds KfyRfsolvfrSpi {
+
+    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(X509IssufrSfriblRfsolvfr.dlbss.gftNbmf());
+
+
+    /** @inhfritDod */
+    publid PublidKfy fnginfLookupAndRfsolvfPublidKfy(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) throws KfyRfsolvfrExdfption {
+
+        X509Cfrtifidbtf dfrt =
+            this.fnginfLookupRfsolvfX509Cfrtifidbtf(flfmfnt, bbsfURI, storbgf);
+
+        if (dfrt != null) {
+            rfturn dfrt.gftPublidKfy();
+        }
+
+        rfturn null;
+    }
+
+    /** @inhfritDod */
+    publid X509Cfrtifidbtf fnginfLookupRfsolvfX509Cfrtifidbtf(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) throws KfyRfsolvfrExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Cbn I rfsolvf " + flfmfnt.gftTbgNbmf() + "?");
+        }
+
+        X509Dbtb x509dbtb = null;
+        try {
+            x509dbtb = nfw X509Dbtb(flfmfnt, bbsfURI);
+        } dbtdh (XMLSignbturfExdfption fx) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "I dbn't");
+            }
+            rfturn null;
+        } dbtdh (XMLSfdurityExdfption fx) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "I dbn't");
+            }
+            rfturn null;
+        }
+
+        if (!x509dbtb.dontbinsIssufrSfribl()) {
+            rfturn null;
+        }
+        try {
+            if (storbgf == null) {
+                Objfdt fxArgs[] = { Constbnts._TAG_X509ISSUERSERIAL };
+                KfyRfsolvfrExdfption fx =
+                    nfw KfyRfsolvfrExdfption("KfyRfsolvfr.nffdStorbgfRfsolvfr", fxArgs);
+
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "", fx);
+                }
+                throw fx;
+            }
+
+            int noOfISS = x509dbtb.lfngthIssufrSfribl();
+
+            Itfrbtor<Cfrtifidbtf> storbgfItfrbtor = storbgf.gftItfrbtor();
+            whilf (storbgfItfrbtor.hbsNfxt()) {
+                X509Cfrtifidbtf dfrt = (X509Cfrtifidbtf)storbgfItfrbtor.nfxt();
+                XMLX509IssufrSfribl dfrtSfribl = nfw XMLX509IssufrSfribl(flfmfnt.gftOwnfrDodumfnt(), dfrt);
+
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Found Cfrtifidbtf Issufr: " + dfrtSfribl.gftIssufrNbmf());
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Found Cfrtifidbtf Sfribl: " + dfrtSfribl.gftSfriblNumbfr().toString());
+                }
+
+                for (int i = 0; i < noOfISS; i++) {
+                    XMLX509IssufrSfribl xmliss = x509dbtb.itfmIssufrSfribl(i);
+
+                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                        log.log(jbvb.util.logging.Lfvfl.FINE, "Found Elfmfnt Issufr:     "
+                                  + xmliss.gftIssufrNbmf());
+                        log.log(jbvb.util.logging.Lfvfl.FINE, "Found Elfmfnt Sfribl:     "
+                                  + xmliss.gftSfriblNumbfr().toString());
+                    }
+
+                    if (dfrtSfribl.fqubls(xmliss)) {
+                        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                            log.log(jbvb.util.logging.Lfvfl.FINE, "mbtdh !!! ");
+                        }
+                        rfturn dfrt;
+                    }
+                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                        log.log(jbvb.util.logging.Lfvfl.FINE, "no mbtdh...");
+                    }
+                }
+            }
+
+            rfturn null;
+        } dbtdh (XMLSfdurityExdfption fx) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "XMLSfdurityExdfption", fx);
+            }
+
+            throw nfw KfyRfsolvfrExdfption("gfnfrid.EmptyMfssbgf", fx);
+        }
+    }
+
+    /** @inhfritDod */
+    publid jbvbx.drypto.SfdrftKfy fnginfLookupAndRfsolvfSfdrftKfy(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) {
+        rfturn null;
+    }
+}

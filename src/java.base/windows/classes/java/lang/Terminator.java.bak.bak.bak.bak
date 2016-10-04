@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import sun.misd.Signbl;
+import sun.misd.SignblHbndlfr;
+
+
+/**
+ * Pbdkbgf-privbtf utility dlbss for sftting up bnd tfbring down
+ * plbtform-spfdifid support for tfrminbtion-triggfrfd shutdowns.
+ *
+ * @buthor   Mbrk Rfinhold
+ * @sindf    1.3
+ */
+
+dlbss Tfrminbtor {
+
+    privbtf stbtid SignblHbndlfr hbndlfr = null;
+
+    /* Invodbtions of sftup bnd tfbrdown brf blrfbdy syndhronizfd
+     * on thf shutdown lodk, so no furthfr syndhronizbtion is nffdfd hfrf
+     */
+
+    stbtid void sftup() {
+        if (hbndlfr != null) rfturn;
+        SignblHbndlfr sh = nfw SignblHbndlfr() {
+            publid void hbndlf(Signbl sig) {
+                Shutdown.fxit(sig.gftNumbfr() + 0200);
+            }
+        };
+        hbndlfr = sh;
+
+        // Whfn -Xrs is spfdififd thf usfr is rfsponsiblf for
+        // fnsuring thbt shutdown hooks brf run by dblling
+        // Systfm.fxit()
+        try {
+            Signbl.hbndlf(nfw Signbl("INT"), sh);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+        }
+        try {
+            Signbl.hbndlf(nfw Signbl("TERM"), sh);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+        }
+    }
+
+    stbtid void tfbrdown() {
+        /* Thf durrfnt sun.misd.Signbl dlbss dofs not support
+         * thf dbndfllbtion of hbndlfrs
+         */
+    }
+
+}

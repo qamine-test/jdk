@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef _WIN32_JLONG_MD_H_
-#define _WIN32_JLONG_MD_H_
+#ifndff _WIN32_JLONG_MD_H_
+#dffinf _WIN32_JLONG_MD_H_
 
-/* Make sure ptrdiff_t is defined */
-#include <stddef.h>
+/* Mbkf surf ptrdiff_t is dffinfd */
+#indludf <stddff.i>
 
-#define jlong_high(a)   ((jint)((a)>>32))
-#define jlong_low(a)    ((jint)(a))
-#define jlong_add(a, b) ((a) + (b))
-#define jlong_and(a, b) ((a) & (b))
-#define jlong_div(a, b) ((a) / (b))
-#define jlong_mul(a, b) ((a) * (b))
-#define jlong_neg(a)    (-(a))
-#define jlong_not(a)    (~(a))
-#define jlong_or(a, b)  ((a) | (b))
-#define jlong_shl(a, n) ((a) << (n))
-#define jlong_shr(a, n) ((a) >> (n))
-#define jlong_sub(a, b) ((a) - (b))
-#define jlong_xor(a, b) ((a) ^ (b))
-#define jlong_rem(a,b)  ((a) % (b))
+#dffinf jlong_iigi(b)   ((jint)((b)>>32))
+#dffinf jlong_low(b)    ((jint)(b))
+#dffinf jlong_bdd(b, b) ((b) + (b))
+#dffinf jlong_bnd(b, b) ((b) & (b))
+#dffinf jlong_div(b, b) ((b) / (b))
+#dffinf jlong_mul(b, b) ((b) * (b))
+#dffinf jlong_nfg(b)    (-(b))
+#dffinf jlong_not(b)    (~(b))
+#dffinf jlong_or(b, b)  ((b) | (b))
+#dffinf jlong_sil(b, n) ((b) << (n))
+#dffinf jlong_sir(b, n) ((b) >> (n))
+#dffinf jlong_sub(b, b) ((b) - (b))
+#dffinf jlong_xor(b, b) ((b) ^ (b))
+#dffinf jlong_rfm(b,b)  ((b) % (b))
 
-/* comparison operators */
-#define jlong_ltz(ll)   ((ll) < 0)
-#define jlong_gez(ll)   ((ll) >= 0)
-#define jlong_gtz(ll)   ((ll) > 0)
-#define jlong_eqz(a)    ((a) == 0)
-#define jlong_eq(a, b)  ((a) == (b))
-#define jlong_ne(a,b)   ((a) != (b))
-#define jlong_ge(a,b)   ((a) >= (b))
-#define jlong_le(a,b)   ((a) <= (b))
-#define jlong_lt(a,b)   ((a) < (b))
-#define jlong_gt(a,b)   ((a) > (b))
+/* dompbrison opfrbtors */
+#dffinf jlong_ltz(ll)   ((ll) < 0)
+#dffinf jlong_gfz(ll)   ((ll) >= 0)
+#dffinf jlong_gtz(ll)   ((ll) > 0)
+#dffinf jlong_fqz(b)    ((b) == 0)
+#dffinf jlong_fq(b, b)  ((b) == (b))
+#dffinf jlong_nf(b,b)   ((b) != (b))
+#dffinf jlong_gf(b,b)   ((b) >= (b))
+#dffinf jlong_lf(b,b)   ((b) <= (b))
+#dffinf jlong_lt(b,b)   ((b) < (b))
+#dffinf jlong_gt(b,b)   ((b) > (b))
 
-#define jlong_zero      ((jlong) 0)
-#define jlong_one       ((jlong) 1)
-#define jlong_minus_one ((jlong) -1)
+#dffinf jlong_zfro      ((jlong) 0)
+#dffinf jlong_onf       ((jlong) 1)
+#dffinf jlong_minus_onf ((jlong) -1)
 
-/* For static variables initialized to zero */
-#define jlong_zero_init ((jlong) 0)
+/* For stbtid vbribblfs initiblizfd to zfro */
+#dffinf jlong_zfro_init ((jlong) 0)
 
-#ifdef _WIN64
-#define jlong_to_ptr(a) ((void*)(a))
-#define ptr_to_jlong(a) ((jlong)(a))
-#else
-/* Double casting to avoid warning messages looking for casting of */
-/* smaller sizes into pointers */
-#define jlong_to_ptr(a) ((void*)(int)(a))
-#define ptr_to_jlong(a) ((jlong)(int)(a))
-#endif
+#ifdff _WIN64
+#dffinf jlong_to_ptr(b) ((void*)(b))
+#dffinf ptr_to_jlong(b) ((jlong)(b))
+#flsf
+/* Doublf dbsting to bvoid wbrning mfssbgfs looking for dbsting of */
+/* smbllfr sizfs into pointfrs */
+#dffinf jlong_to_ptr(b) ((void*)(int)(b))
+#dffinf ptr_to_jlong(b) ((jlong)(int)(b))
+#fndif
 
-#define jint_to_jlong(a)        ((jlong)(a))
-#define jlong_to_jint(a)        ((jint)(a))
+#dffinf jint_to_jlong(b)        ((jlong)(b))
+#dffinf jlong_to_jint(b)        ((jint)(b))
 
-/* Useful on machines where jlong and jdouble have different endianness. */
-#define jlong_to_jdouble_bits(a)
-#define jdouble_to_jlong_bits(a)
+/* Usfful on mbdiinfs wifrf jlong bnd jdoublf ibvf difffrfnt fndibnnfss. */
+#dffinf jlong_to_jdoublf_bits(b)
+#dffinf jdoublf_to_jlong_bits(b)
 
-#define jlong_to_int(a)     ((int)(a))
-#define int_to_jlong(a)     ((jlong)(a))
-#define jlong_to_uint(a)    ((unsigned int)(a))
-#define uint_to_jlong(a)    ((jlong)(a))
-#define jlong_to_ptrdiff(a) ((ptrdiff_t)(a))
-#define ptrdiff_to_jlong(a) ((jlong)(a))
-#define jlong_to_size(a)    ((size_t)(a))
-#define size_to_jlong(a)    ((jlong)(a))
-#define long_to_jlong(a)    ((jlong)(a))
+#dffinf jlong_to_int(b)     ((int)(b))
+#dffinf int_to_jlong(b)     ((jlong)(b))
+#dffinf jlong_to_uint(b)    ((unsignfd int)(b))
+#dffinf uint_to_jlong(b)    ((jlong)(b))
+#dffinf jlong_to_ptrdiff(b) ((ptrdiff_t)(b))
+#dffinf ptrdiff_to_jlong(b) ((jlong)(b))
+#dffinf jlong_to_sizf(b)    ((sizf_t)(b))
+#dffinf sizf_to_jlong(b)    ((jlong)(b))
+#dffinf long_to_jlong(b)    ((jlong)(b))
 
-#endif
+#fndif

@@ -1,874 +1,874 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.Key;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
-import javax.crypto.SecretKey;
+import jbvbx.drypto.SfdrftKfy;
 
-import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithm;
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.KeyInfo;
-import com.sun.org.apache.xml.internal.security.keys.content.X509Data;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.I18n;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.SignerOutputStream;
-import com.sun.org.apache.xml.internal.security.utils.UnsyncBufferedOutputStream;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverSpi;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.SignbturfAlgoritim;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.InvblidCbnonidblizfrExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.KfyInfo;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.X509Dbtb;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Bbsf64;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.I18n;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignfrOutputStrfbm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.UnsyndBufffrfdOutputStrfbm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrSpi;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.Tfxt;
 
 /**
- * Handles <code>&lt;ds:Signature&gt;</code> elements.
- * This is the main class that deals with creating and verifying signatures.
+ * Hbndlfs <dodf>&lt;ds:Signbturf&gt;</dodf> flfmfnts.
+ * Tiis is tif mbin dlbss tibt dfbls witi drfbting bnd vfrifying signbturfs.
  *
- * <p>There are 2 types of constructors for this class. The ones that take a
- * document, baseURI and 1 or more Java Objects. This is mostly used for
- * signing purposes.
- * The other constructor is the one that takes a DOM Element and a baseURI.
- * This is used mostly with for verifying, when you have a SignatureElement.
+ * <p>Tifrf brf 2 typfs of donstrudtors for tiis dlbss. Tif onfs tibt tbkf b
+ * dodumfnt, bbsfURI bnd 1 or morf Jbvb Objfdts. Tiis is mostly usfd for
+ * signing purposfs.
+ * Tif otifr donstrudtor is tif onf tibt tbkfs b DOM Elfmfnt bnd b bbsfURI.
+ * Tiis is usfd mostly witi for vfrifying, wifn you ibvf b SignbturfElfmfnt.
  *
- * There are a few different types of methods:
- * <ul><li>The addDocument* methods are used to add References with optional
- * transforms during signing. </li>
- * <li>addKeyInfo* methods are to add Certificates and Keys to the
- * KeyInfo tags during signing. </li>
- * <li>appendObject allows a user to add any XML Structure as an
- * ObjectContainer during signing.</li>
- * <li>sign and checkSignatureValue methods are used to sign and validate the
- * signature. </li></ul>
+ * Tifrf brf b ffw difffrfnt typfs of mftiods:
+ * <ul><li>Tif bddDodumfnt* mftiods brf usfd to bdd Rfffrfndfs witi optionbl
+ * trbnsforms during signing. </li>
+ * <li>bddKfyInfo* mftiods brf to bdd Cfrtifidbtfs bnd Kfys to tif
+ * KfyInfo tbgs during signing. </li>
+ * <li>bppfndObjfdt bllows b usfr to bdd bny XML Strudturf bs bn
+ * ObjfdtContbinfr during signing.</li>
+ * <li>sign bnd difdkSignbturfVbluf mftiods brf usfd to sign bnd vblidbtf tif
+ * signbturf. </li></ul>
  */
-public final class XMLSignature extends SignatureElementProxy {
+publid finbl dlbss XMLSignbturf fxtfnds SignbturfElfmfntProxy {
 
-    /** MAC - Required HMAC-SHA1 */
-    public static final String ALGO_ID_MAC_HMAC_SHA1 =
-        Constants.SignatureSpecNS + "hmac-sha1";
+    /** MAC - Rfquirfd HMAC-SHA1 */
+    publid stbtid finbl String ALGO_ID_MAC_HMAC_SHA1 =
+        Constbnts.SignbturfSpfdNS + "imbd-sib1";
 
-    /** Signature - Required DSAwithSHA1 (DSS) */
-    public static final String ALGO_ID_SIGNATURE_DSA =
-        Constants.SignatureSpecNS + "dsa-sha1";
+    /** Signbturf - Rfquirfd DSAwitiSHA1 (DSS) */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_DSA =
+        Constbnts.SignbturfSpfdNS + "dsb-sib1";
 
-    /** Signature - Optional DSAwithSHA256 */
-    public static final String ALGO_ID_SIGNATURE_DSA_SHA256 =
-        Constants.SignatureSpec11NS + "dsa-sha256";
+    /** Signbturf - Optionbl DSAwitiSHA256 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_DSA_SHA256 =
+        Constbnts.SignbturfSpfd11NS + "dsb-sib256";
 
-    /** Signature - Recommended RSAwithSHA1 */
-    public static final String ALGO_ID_SIGNATURE_RSA =
-        Constants.SignatureSpecNS + "rsa-sha1";
+    /** Signbturf - Rfdommfndfd RSAwitiSHA1 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_RSA =
+        Constbnts.SignbturfSpfdNS + "rsb-sib1";
 
-    /** Signature - Recommended RSAwithSHA1 */
-    public static final String ALGO_ID_SIGNATURE_RSA_SHA1 =
-        Constants.SignatureSpecNS + "rsa-sha1";
+    /** Signbturf - Rfdommfndfd RSAwitiSHA1 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_RSA_SHA1 =
+        Constbnts.SignbturfSpfdNS + "rsb-sib1";
 
-    /** Signature - NOT Recommended RSAwithMD5 */
-    public static final String ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5 =
-        Constants.MoreAlgorithmsSpecNS + "rsa-md5";
+    /** Signbturf - NOT Rfdommfndfd RSAwitiMD5 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5 =
+        Constbnts.MorfAlgoritimsSpfdNS + "rsb-md5";
 
-    /** Signature - Optional RSAwithRIPEMD160 */
-    public static final String ALGO_ID_SIGNATURE_RSA_RIPEMD160 =
-        Constants.MoreAlgorithmsSpecNS + "rsa-ripemd160";
+    /** Signbturf - Optionbl RSAwitiRIPEMD160 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_RSA_RIPEMD160 =
+        Constbnts.MorfAlgoritimsSpfdNS + "rsb-ripfmd160";
 
-    /** Signature - Optional RSAwithSHA256 */
-    public static final String ALGO_ID_SIGNATURE_RSA_SHA256 =
-        Constants.MoreAlgorithmsSpecNS + "rsa-sha256";
+    /** Signbturf - Optionbl RSAwitiSHA256 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_RSA_SHA256 =
+        Constbnts.MorfAlgoritimsSpfdNS + "rsb-sib256";
 
-    /** Signature - Optional RSAwithSHA384 */
-    public static final String ALGO_ID_SIGNATURE_RSA_SHA384 =
-        Constants.MoreAlgorithmsSpecNS + "rsa-sha384";
+    /** Signbturf - Optionbl RSAwitiSHA384 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_RSA_SHA384 =
+        Constbnts.MorfAlgoritimsSpfdNS + "rsb-sib384";
 
-    /** Signature - Optional RSAwithSHA512 */
-    public static final String ALGO_ID_SIGNATURE_RSA_SHA512 =
-        Constants.MoreAlgorithmsSpecNS + "rsa-sha512";
+    /** Signbturf - Optionbl RSAwitiSHA512 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_RSA_SHA512 =
+        Constbnts.MorfAlgoritimsSpfdNS + "rsb-sib512";
 
-    /** HMAC - NOT Recommended HMAC-MD5 */
-    public static final String ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5 =
-        Constants.MoreAlgorithmsSpecNS + "hmac-md5";
+    /** HMAC - NOT Rfdommfndfd HMAC-MD5 */
+    publid stbtid finbl String ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5 =
+        Constbnts.MorfAlgoritimsSpfdNS + "imbd-md5";
 
-    /** HMAC - Optional HMAC-RIPEMD160 */
-    public static final String ALGO_ID_MAC_HMAC_RIPEMD160 =
-        Constants.MoreAlgorithmsSpecNS + "hmac-ripemd160";
+    /** HMAC - Optionbl HMAC-RIPEMD160 */
+    publid stbtid finbl String ALGO_ID_MAC_HMAC_RIPEMD160 =
+        Constbnts.MorfAlgoritimsSpfdNS + "imbd-ripfmd160";
 
-    /** HMAC - Optional HMAC-SHA256 */
-    public static final String ALGO_ID_MAC_HMAC_SHA256 =
-        Constants.MoreAlgorithmsSpecNS + "hmac-sha256";
+    /** HMAC - Optionbl HMAC-SHA256 */
+    publid stbtid finbl String ALGO_ID_MAC_HMAC_SHA256 =
+        Constbnts.MorfAlgoritimsSpfdNS + "imbd-sib256";
 
-    /** HMAC - Optional HMAC-SHA284 */
-    public static final String ALGO_ID_MAC_HMAC_SHA384 =
-        Constants.MoreAlgorithmsSpecNS + "hmac-sha384";
+    /** HMAC - Optionbl HMAC-SHA284 */
+    publid stbtid finbl String ALGO_ID_MAC_HMAC_SHA384 =
+        Constbnts.MorfAlgoritimsSpfdNS + "imbd-sib384";
 
-    /** HMAC - Optional HMAC-SHA512 */
-    public static final String ALGO_ID_MAC_HMAC_SHA512 =
-        Constants.MoreAlgorithmsSpecNS + "hmac-sha512";
+    /** HMAC - Optionbl HMAC-SHA512 */
+    publid stbtid finbl String ALGO_ID_MAC_HMAC_SHA512 =
+        Constbnts.MorfAlgoritimsSpfdNS + "imbd-sib512";
 
-    /**Signature - Optional ECDSAwithSHA1 */
-    public static final String ALGO_ID_SIGNATURE_ECDSA_SHA1 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha1";
+    /**Signbturf - Optionbl ECDSAwitiSHA1 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_ECDSA_SHA1 =
+        "ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib1";
 
-    /**Signature - Optional ECDSAwithSHA256 */
-    public static final String ALGO_ID_SIGNATURE_ECDSA_SHA256 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256";
+    /**Signbturf - Optionbl ECDSAwitiSHA256 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_ECDSA_SHA256 =
+        "ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib256";
 
-    /**Signature - Optional ECDSAwithSHA384 */
-    public static final String ALGO_ID_SIGNATURE_ECDSA_SHA384 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha384";
+    /**Signbturf - Optionbl ECDSAwitiSHA384 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_ECDSA_SHA384 =
+        "ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib384";
 
-    /**Signature - Optional ECDSAwithSHA512 */
-    public static final String ALGO_ID_SIGNATURE_ECDSA_SHA512 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512";
+    /**Signbturf - Optionbl ECDSAwitiSHA512 */
+    publid stbtid finbl String ALGO_ID_SIGNATURE_ECDSA_SHA512 =
+        "ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib512";
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(XMLSignature.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(XMLSignbturf.dlbss.gftNbmf());
 
-    /** ds:Signature.ds:SignedInfo element */
-    private SignedInfo signedInfo;
+    /** ds:Signbturf.ds:SignfdInfo flfmfnt */
+    privbtf SignfdInfo signfdInfo;
 
-    /** ds:Signature.ds:KeyInfo */
-    private KeyInfo keyInfo;
+    /** ds:Signbturf.ds:KfyInfo */
+    privbtf KfyInfo kfyInfo;
 
     /**
-     * Checking the digests in References in a Signature are mandatory, but for
-     * References inside a Manifest it is application specific. This boolean is
-     * to indicate that the References inside Manifests should be validated.
+     * Cifdking tif digfsts in Rfffrfndfs in b Signbturf brf mbndbtory, but for
+     * Rfffrfndfs insidf b Mbniffst it is bpplidbtion spfdifid. Tiis boolfbn is
+     * to indidbtf tibt tif Rfffrfndfs insidf Mbniffsts siould bf vblidbtfd.
      */
-    private boolean followManifestsDuringValidation = false;
+    privbtf boolfbn followMbniffstsDuringVblidbtion = fblsf;
 
-    private Element signatureValueElement;
+    privbtf Elfmfnt signbturfVblufElfmfnt;
 
-    private static final int MODE_SIGN = 0;
-    private static final int MODE_VERIFY = 1;
-    private int state = MODE_SIGN;
+    privbtf stbtid finbl int MODE_SIGN = 0;
+    privbtf stbtid finbl int MODE_VERIFY = 1;
+    privbtf int stbtf = MODE_SIGN;
 
     /**
-     * This creates a new <CODE>ds:Signature</CODE> Element and adds an empty
-     * <CODE>ds:SignedInfo</CODE>.
-     * The <code>ds:SignedInfo</code> is initialized with the specified Signature
-     * algorithm and Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS which is REQUIRED
-     * by the spec. This method's main use is for creating a new signature.
+     * Tiis drfbtfs b nfw <CODE>ds:Signbturf</CODE> Elfmfnt bnd bdds bn fmpty
+     * <CODE>ds:SignfdInfo</CODE>.
+     * Tif <dodf>ds:SignfdInfo</dodf> is initiblizfd witi tif spfdififd Signbturf
+     * blgoritim bnd Cbnonidblizfr.ALGO_ID_C14N_OMIT_COMMENTS wiidi is REQUIRED
+     * by tif spfd. Tiis mftiod's mbin usf is for drfbting b nfw signbturf.
      *
-     * @param doc Document in which the signature will be appended after creation.
-     * @param baseURI URI to be used as context for all relative URIs.
-     * @param signatureMethodURI signature algorithm to use.
-     * @throws XMLSecurityException
+     * @pbrbm dod Dodumfnt in wiidi tif signbturf will bf bppfndfd bftfr drfbtion.
+     * @pbrbm bbsfURI URI to bf usfd bs dontfxt for bll rflbtivf URIs.
+     * @pbrbm signbturfMftiodURI signbturf blgoritim to usf.
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLSignature(Document doc, String baseURI, String signatureMethodURI)
-        throws XMLSecurityException {
-        this(doc, baseURI, signatureMethodURI, 0, Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS);
+    publid XMLSignbturf(Dodumfnt dod, String bbsfURI, String signbturfMftiodURI)
+        tirows XMLSfdurityExdfption {
+        tiis(dod, bbsfURI, signbturfMftiodURI, 0, Cbnonidblizfr.ALGO_ID_C14N_OMIT_COMMENTS);
     }
 
     /**
-     * Constructor XMLSignature
+     * Construdtor XMLSignbturf
      *
-     * @param doc
-     * @param baseURI
-     * @param signatureMethodURI the Signature method to be used.
-     * @param hmacOutputLength
-     * @throws XMLSecurityException
+     * @pbrbm dod
+     * @pbrbm bbsfURI
+     * @pbrbm signbturfMftiodURI tif Signbturf mftiod to bf usfd.
+     * @pbrbm imbdOutputLfngti
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLSignature(Document doc, String baseURI, String signatureMethodURI,
-                        int hmacOutputLength) throws XMLSecurityException {
-        this(
-            doc, baseURI, signatureMethodURI, hmacOutputLength,
-            Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS
+    publid XMLSignbturf(Dodumfnt dod, String bbsfURI, String signbturfMftiodURI,
+                        int imbdOutputLfngti) tirows XMLSfdurityExdfption {
+        tiis(
+            dod, bbsfURI, signbturfMftiodURI, imbdOutputLfngti,
+            Cbnonidblizfr.ALGO_ID_C14N_OMIT_COMMENTS
         );
     }
 
     /**
-     * Constructor XMLSignature
+     * Construdtor XMLSignbturf
      *
-     * @param doc
-     * @param baseURI
-     * @param signatureMethodURI the Signature method to be used.
-     * @param canonicalizationMethodURI the canonicalization algorithm to be
-     * used to c14nize the SignedInfo element.
-     * @throws XMLSecurityException
+     * @pbrbm dod
+     * @pbrbm bbsfURI
+     * @pbrbm signbturfMftiodURI tif Signbturf mftiod to bf usfd.
+     * @pbrbm dbnonidblizbtionMftiodURI tif dbnonidblizbtion blgoritim to bf
+     * usfd to d14nizf tif SignfdInfo flfmfnt.
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLSignature(
-        Document doc,
-        String baseURI,
-        String signatureMethodURI,
-        String canonicalizationMethodURI
-    ) throws XMLSecurityException {
-        this(doc, baseURI, signatureMethodURI, 0, canonicalizationMethodURI);
+    publid XMLSignbturf(
+        Dodumfnt dod,
+        String bbsfURI,
+        String signbturfMftiodURI,
+        String dbnonidblizbtionMftiodURI
+    ) tirows XMLSfdurityExdfption {
+        tiis(dod, bbsfURI, signbturfMftiodURI, 0, dbnonidblizbtionMftiodURI);
     }
 
     /**
-     * Constructor XMLSignature
+     * Construdtor XMLSignbturf
      *
-     * @param doc
-     * @param baseURI
-     * @param signatureMethodURI
-     * @param hmacOutputLength
-     * @param canonicalizationMethodURI
-     * @throws XMLSecurityException
+     * @pbrbm dod
+     * @pbrbm bbsfURI
+     * @pbrbm signbturfMftiodURI
+     * @pbrbm imbdOutputLfngti
+     * @pbrbm dbnonidblizbtionMftiodURI
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLSignature(
-        Document doc,
-        String baseURI,
-        String signatureMethodURI,
-        int hmacOutputLength,
-        String canonicalizationMethodURI
-    ) throws XMLSecurityException {
-        super(doc);
+    publid XMLSignbturf(
+        Dodumfnt dod,
+        String bbsfURI,
+        String signbturfMftiodURI,
+        int imbdOutputLfngti,
+        String dbnonidblizbtionMftiodURI
+    ) tirows XMLSfdurityExdfption {
+        supfr(dod);
 
-        String xmlnsDsPrefix = getDefaultPrefix(Constants.SignatureSpecNS);
-        if (xmlnsDsPrefix == null || xmlnsDsPrefix.length() == 0) {
-            this.constructionElement.setAttributeNS(
-                Constants.NamespaceSpecNS, "xmlns", Constants.SignatureSpecNS
+        String xmlnsDsPrffix = gftDffbultPrffix(Constbnts.SignbturfSpfdNS);
+        if (xmlnsDsPrffix == null || xmlnsDsPrffix.lfngti() == 0) {
+            tiis.donstrudtionElfmfnt.sftAttributfNS(
+                Constbnts.NbmfspbdfSpfdNS, "xmlns", Constbnts.SignbturfSpfdNS
             );
-        } else {
-            this.constructionElement.setAttributeNS(
-                Constants.NamespaceSpecNS, "xmlns:" + xmlnsDsPrefix, Constants.SignatureSpecNS
+        } flsf {
+            tiis.donstrudtionElfmfnt.sftAttributfNS(
+                Constbnts.NbmfspbdfSpfdNS, "xmlns:" + xmlnsDsPrffix, Constbnts.SignbturfSpfdNS
             );
         }
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
 
-        this.baseURI = baseURI;
-        this.signedInfo =
-            new SignedInfo(
-                this.doc, signatureMethodURI, hmacOutputLength, canonicalizationMethodURI
+        tiis.bbsfURI = bbsfURI;
+        tiis.signfdInfo =
+            nfw SignfdInfo(
+                tiis.dod, signbturfMftiodURI, imbdOutputLfngti, dbnonidblizbtionMftiodURI
             );
 
-        this.constructionElement.appendChild(this.signedInfo.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        tiis.donstrudtionElfmfnt.bppfndCiild(tiis.signfdInfo.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
 
-        // create an empty SignatureValue; this is filled by setSignatureValueElement
-        signatureValueElement =
-            XMLUtils.createElementInSignatureSpace(this.doc, Constants._TAG_SIGNATUREVALUE);
+        // drfbtf bn fmpty SignbturfVbluf; tiis is fillfd by sftSignbturfVblufElfmfnt
+        signbturfVblufElfmfnt =
+            XMLUtils.drfbtfElfmfntInSignbturfSpbdf(tiis.dod, Constbnts._TAG_SIGNATUREVALUE);
 
-        this.constructionElement.appendChild(signatureValueElement);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        tiis.donstrudtionElfmfnt.bppfndCiild(signbturfVblufElfmfnt);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     *  Creates a XMLSignature in a Document
-     * @param doc
-     * @param baseURI
-     * @param SignatureMethodElem
-     * @param CanonicalizationMethodElem
-     * @throws XMLSecurityException
+     *  Crfbtfs b XMLSignbturf in b Dodumfnt
+     * @pbrbm dod
+     * @pbrbm bbsfURI
+     * @pbrbm SignbturfMftiodElfm
+     * @pbrbm CbnonidblizbtionMftiodElfm
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLSignature(
-        Document doc,
-        String baseURI,
-        Element SignatureMethodElem,
-        Element CanonicalizationMethodElem
-    ) throws XMLSecurityException {
-        super(doc);
+    publid XMLSignbturf(
+        Dodumfnt dod,
+        String bbsfURI,
+        Elfmfnt SignbturfMftiodElfm,
+        Elfmfnt CbnonidblizbtionMftiodElfm
+    ) tirows XMLSfdurityExdfption {
+        supfr(dod);
 
-        String xmlnsDsPrefix = getDefaultPrefix(Constants.SignatureSpecNS);
-        if (xmlnsDsPrefix == null || xmlnsDsPrefix.length() == 0) {
-            this.constructionElement.setAttributeNS(
-                Constants.NamespaceSpecNS, "xmlns", Constants.SignatureSpecNS
+        String xmlnsDsPrffix = gftDffbultPrffix(Constbnts.SignbturfSpfdNS);
+        if (xmlnsDsPrffix == null || xmlnsDsPrffix.lfngti() == 0) {
+            tiis.donstrudtionElfmfnt.sftAttributfNS(
+                Constbnts.NbmfspbdfSpfdNS, "xmlns", Constbnts.SignbturfSpfdNS
             );
-        } else {
-            this.constructionElement.setAttributeNS(
-                Constants.NamespaceSpecNS, "xmlns:" + xmlnsDsPrefix, Constants.SignatureSpecNS
+        } flsf {
+            tiis.donstrudtionElfmfnt.sftAttributfNS(
+                Constbnts.NbmfspbdfSpfdNS, "xmlns:" + xmlnsDsPrffix, Constbnts.SignbturfSpfdNS
             );
         }
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
 
-        this.baseURI = baseURI;
-        this.signedInfo =
-            new SignedInfo(this.doc, SignatureMethodElem, CanonicalizationMethodElem);
+        tiis.bbsfURI = bbsfURI;
+        tiis.signfdInfo =
+            nfw SignfdInfo(tiis.dod, SignbturfMftiodElfm, CbnonidblizbtionMftiodElfm);
 
-        this.constructionElement.appendChild(this.signedInfo.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        tiis.donstrudtionElfmfnt.bppfndCiild(tiis.signfdInfo.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
 
-        // create an empty SignatureValue; this is filled by setSignatureValueElement
-        signatureValueElement =
-            XMLUtils.createElementInSignatureSpace(this.doc, Constants._TAG_SIGNATUREVALUE);
+        // drfbtf bn fmpty SignbturfVbluf; tiis is fillfd by sftSignbturfVblufElfmfnt
+        signbturfVblufElfmfnt =
+            XMLUtils.drfbtfElfmfntInSignbturfSpbdf(tiis.dod, Constbnts._TAG_SIGNATUREVALUE);
 
-        this.constructionElement.appendChild(signatureValueElement);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        tiis.donstrudtionElfmfnt.bppfndCiild(signbturfVblufElfmfnt);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * This will parse the element and construct the Java Objects.
-     * That will allow a user to validate the signature.
+     * Tiis will pbrsf tif flfmfnt bnd donstrudt tif Jbvb Objfdts.
+     * Tibt will bllow b usfr to vblidbtf tif signbturf.
      *
-     * @param element ds:Signature element that contains the whole signature
-     * @param baseURI URI to be prepended to all relative URIs
-     * @throws XMLSecurityException
-     * @throws XMLSignatureException if the signature is badly formatted
+     * @pbrbm flfmfnt ds:Signbturf flfmfnt tibt dontbins tif wiolf signbturf
+     * @pbrbm bbsfURI URI to bf prfpfndfd to bll rflbtivf URIs
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSignbturfExdfption if tif signbturf is bbdly formbttfd
      */
-    public XMLSignature(Element element, String baseURI)
-        throws XMLSignatureException, XMLSecurityException {
-        this(element, baseURI, false);
+    publid XMLSignbturf(Elfmfnt flfmfnt, String bbsfURI)
+        tirows XMLSignbturfExdfption, XMLSfdurityExdfption {
+        tiis(flfmfnt, bbsfURI, fblsf);
     }
 
     /**
-     * This will parse the element and construct the Java Objects.
-     * That will allow a user to validate the signature.
+     * Tiis will pbrsf tif flfmfnt bnd donstrudt tif Jbvb Objfdts.
+     * Tibt will bllow b usfr to vblidbtf tif signbturf.
      *
-     * @param element ds:Signature element that contains the whole signature
-     * @param baseURI URI to be prepended to all relative URIs
-     * @param secureValidation whether secure secureValidation is enabled or not
-     * @throws XMLSecurityException
-     * @throws XMLSignatureException if the signature is badly formatted
+     * @pbrbm flfmfnt ds:Signbturf flfmfnt tibt dontbins tif wiolf signbturf
+     * @pbrbm bbsfURI URI to bf prfpfndfd to bll rflbtivf URIs
+     * @pbrbm sfdurfVblidbtion wiftifr sfdurf sfdurfVblidbtion is fnbblfd or not
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSignbturfExdfption if tif signbturf is bbdly formbttfd
      */
-    public XMLSignature(Element element, String baseURI, boolean secureValidation)
-        throws XMLSignatureException, XMLSecurityException {
-        super(element, baseURI);
+    publid XMLSignbturf(Elfmfnt flfmfnt, String bbsfURI, boolfbn sfdurfVblidbtion)
+        tirows XMLSignbturfExdfption, XMLSfdurityExdfption {
+        supfr(flfmfnt, bbsfURI);
 
-        // check out SignedInfo child
-        Element signedInfoElem = XMLUtils.getNextElement(element.getFirstChild());
+        // difdk out SignfdInfo diild
+        Elfmfnt signfdInfoElfm = XMLUtils.gftNfxtElfmfnt(flfmfnt.gftFirstCiild());
 
-        // check to see if it is there
-        if (signedInfoElem == null) {
-            Object exArgs[] = { Constants._TAG_SIGNEDINFO, Constants._TAG_SIGNATURE };
-            throw new XMLSignatureException("xml.WrongContent", exArgs);
+        // difdk to sff if it is tifrf
+        if (signfdInfoElfm == null) {
+            Objfdt fxArgs[] = { Constbnts._TAG_SIGNEDINFO, Constbnts._TAG_SIGNATURE };
+            tirow nfw XMLSignbturfExdfption("xml.WrongContfnt", fxArgs);
         }
 
-        // create a SignedInfo object from that element
-        this.signedInfo = new SignedInfo(signedInfoElem, baseURI, secureValidation);
-        // get signedInfoElem again in case it has changed
-        signedInfoElem = XMLUtils.getNextElement(element.getFirstChild());
+        // drfbtf b SignfdInfo objfdt from tibt flfmfnt
+        tiis.signfdInfo = nfw SignfdInfo(signfdInfoElfm, bbsfURI, sfdurfVblidbtion);
+        // gft signfdInfoElfm bgbin in dbsf it ibs dibngfd
+        signfdInfoElfm = XMLUtils.gftNfxtElfmfnt(flfmfnt.gftFirstCiild());
 
-        // check out SignatureValue child
-        this.signatureValueElement =
-            XMLUtils.getNextElement(signedInfoElem.getNextSibling());
+        // difdk out SignbturfVbluf diild
+        tiis.signbturfVblufElfmfnt =
+            XMLUtils.gftNfxtElfmfnt(signfdInfoElfm.gftNfxtSibling());
 
-        // check to see if it exists
-        if (signatureValueElement == null) {
-            Object exArgs[] = { Constants._TAG_SIGNATUREVALUE, Constants._TAG_SIGNATURE };
-            throw new XMLSignatureException("xml.WrongContent", exArgs);
+        // difdk to sff if it fxists
+        if (signbturfVblufElfmfnt == null) {
+            Objfdt fxArgs[] = { Constbnts._TAG_SIGNATUREVALUE, Constbnts._TAG_SIGNATURE };
+            tirow nfw XMLSignbturfExdfption("xml.WrongContfnt", fxArgs);
         }
-        Attr signatureValueAttr = signatureValueElement.getAttributeNodeNS(null, "Id");
-        if (signatureValueAttr != null) {
-            signatureValueElement.setIdAttributeNode(signatureValueAttr, true);
-        }
-
-        // <element ref="ds:KeyInfo" minOccurs="0"/>
-        Element keyInfoElem =
-            XMLUtils.getNextElement(signatureValueElement.getNextSibling());
-
-        // If it exists use it, but it's not mandatory
-        if (keyInfoElem != null
-            && keyInfoElem.getNamespaceURI().equals(Constants.SignatureSpecNS)
-            && keyInfoElem.getLocalName().equals(Constants._TAG_KEYINFO)) {
-            this.keyInfo = new KeyInfo(keyInfoElem, baseURI);
-            this.keyInfo.setSecureValidation(secureValidation);
+        Attr signbturfVblufAttr = signbturfVblufElfmfnt.gftAttributfNodfNS(null, "Id");
+        if (signbturfVblufAttr != null) {
+            signbturfVblufElfmfnt.sftIdAttributfNodf(signbturfVblufAttr, truf);
         }
 
-        // <element ref="ds:Object" minOccurs="0" maxOccurs="unbounded"/>
-        Element objectElem =
-            XMLUtils.getNextElement(signatureValueElement.getNextSibling());
-        while (objectElem != null) {
-            Attr objectAttr = objectElem.getAttributeNodeNS(null, "Id");
-            if (objectAttr != null) {
-                objectElem.setIdAttributeNode(objectAttr, true);
+        // <flfmfnt rff="ds:KfyInfo" minOddurs="0"/>
+        Elfmfnt kfyInfoElfm =
+            XMLUtils.gftNfxtElfmfnt(signbturfVblufElfmfnt.gftNfxtSibling());
+
+        // If it fxists usf it, but it's not mbndbtory
+        if (kfyInfoElfm != null
+            && kfyInfoElfm.gftNbmfspbdfURI().fqubls(Constbnts.SignbturfSpfdNS)
+            && kfyInfoElfm.gftLodblNbmf().fqubls(Constbnts._TAG_KEYINFO)) {
+            tiis.kfyInfo = nfw KfyInfo(kfyInfoElfm, bbsfURI);
+            tiis.kfyInfo.sftSfdurfVblidbtion(sfdurfVblidbtion);
+        }
+
+        // <flfmfnt rff="ds:Objfdt" minOddurs="0" mbxOddurs="unboundfd"/>
+        Elfmfnt objfdtElfm =
+            XMLUtils.gftNfxtElfmfnt(signbturfVblufElfmfnt.gftNfxtSibling());
+        wiilf (objfdtElfm != null) {
+            Attr objfdtAttr = objfdtElfm.gftAttributfNodfNS(null, "Id");
+            if (objfdtAttr != null) {
+                objfdtElfm.sftIdAttributfNodf(objfdtAttr, truf);
             }
 
-            NodeList nodes = objectElem.getChildNodes();
-            int length = nodes.getLength();
-            // Register Ids of the Object child elements
-            for (int i = 0; i < length; i++) {
-                Node child = nodes.item(i);
-                if (child.getNodeType() == Node.ELEMENT_NODE) {
-                    Element childElem = (Element)child;
-                    String tag = childElem.getLocalName();
-                    if (tag.equals("Manifest")) {
-                        new Manifest(childElem, baseURI);
-                    } else if (tag.equals("SignatureProperties")) {
-                        new SignatureProperties(childElem, baseURI);
+            NodfList nodfs = objfdtElfm.gftCiildNodfs();
+            int lfngti = nodfs.gftLfngti();
+            // Rfgistfr Ids of tif Objfdt diild flfmfnts
+            for (int i = 0; i < lfngti; i++) {
+                Nodf diild = nodfs.itfm(i);
+                if (diild.gftNodfTypf() == Nodf.ELEMENT_NODE) {
+                    Elfmfnt diildElfm = (Elfmfnt)diild;
+                    String tbg = diildElfm.gftLodblNbmf();
+                    if (tbg.fqubls("Mbniffst")) {
+                        nfw Mbniffst(diildElfm, bbsfURI);
+                    } flsf if (tbg.fqubls("SignbturfPropfrtifs")) {
+                        nfw SignbturfPropfrtifs(diildElfm, bbsfURI);
                     }
                 }
             }
 
-            objectElem = XMLUtils.getNextElement(objectElem.getNextSibling());
+            objfdtElfm = XMLUtils.gftNfxtElfmfnt(objfdtElfm.gftNfxtSibling());
         }
 
-        this.state = MODE_VERIFY;
+        tiis.stbtf = MODE_VERIFY;
     }
 
     /**
-     * Sets the <code>Id</code> attribute
+     * Sfts tif <dodf>Id</dodf> bttributf
      *
-     * @param id Id value for the id attribute on the Signature Element
+     * @pbrbm id Id vbluf for tif id bttributf on tif Signbturf Elfmfnt
      */
-    public void setId(String id) {
+    publid void sftId(String id) {
         if (id != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_ID, id);
-            this.constructionElement.setIdAttributeNS(null, Constants._ATT_ID, true);
+            tiis.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_ID, id);
+            tiis.donstrudtionElfmfnt.sftIdAttributfNS(null, Constbnts._ATT_ID, truf);
         }
     }
 
     /**
-     * Returns the <code>Id</code> attribute
+     * Rfturns tif <dodf>Id</dodf> bttributf
      *
-     * @return the <code>Id</code> attribute
+     * @rfturn tif <dodf>Id</dodf> bttributf
      */
-    public String getId() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ID);
+    publid String gftId() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ID);
     }
 
     /**
-     * Returns the completely parsed <code>SignedInfo</code> object.
+     * Rfturns tif domplftfly pbrsfd <dodf>SignfdInfo</dodf> objfdt.
      *
-     * @return the completely parsed <code>SignedInfo</code> object.
+     * @rfturn tif domplftfly pbrsfd <dodf>SignfdInfo</dodf> objfdt.
      */
-    public SignedInfo getSignedInfo() {
-        return this.signedInfo;
+    publid SignfdInfo gftSignfdInfo() {
+        rfturn tiis.signfdInfo;
     }
 
     /**
-     * Returns the octet value of the SignatureValue element.
-     * Throws an XMLSignatureException if it has no or wrong content.
+     * Rfturns tif odtft vbluf of tif SignbturfVbluf flfmfnt.
+     * Tirows bn XMLSignbturfExdfption if it ibs no or wrong dontfnt.
      *
-     * @return the value of the SignatureValue element.
-     * @throws XMLSignatureException If there is no content
+     * @rfturn tif vbluf of tif SignbturfVbluf flfmfnt.
+     * @tirows XMLSignbturfExdfption If tifrf is no dontfnt
      */
-    public byte[] getSignatureValue() throws XMLSignatureException {
+    publid bytf[] gftSignbturfVbluf() tirows XMLSignbturfExdfption {
         try {
-            return Base64.decode(signatureValueElement);
-        } catch (Base64DecodingException ex) {
-            throw new XMLSignatureException("empty", ex);
+            rfturn Bbsf64.dfdodf(signbturfVblufElfmfnt);
+        } dbtdi (Bbsf64DfdodingExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
     /**
-     * Base64 encodes and sets the bytes as the content of the SignatureValue
-     * Node.
+     * Bbsf64 fndodfs bnd sfts tif bytfs bs tif dontfnt of tif SignbturfVbluf
+     * Nodf.
      *
-     * @param bytes bytes to be used by SignatureValue before Base64 encoding
+     * @pbrbm bytfs bytfs to bf usfd by SignbturfVbluf bfforf Bbsf64 fndoding
      */
-    private void setSignatureValueElement(byte[] bytes) {
+    privbtf void sftSignbturfVblufElfmfnt(bytf[] bytfs) {
 
-        while (signatureValueElement.hasChildNodes()) {
-            signatureValueElement.removeChild(signatureValueElement.getFirstChild());
+        wiilf (signbturfVblufElfmfnt.ibsCiildNodfs()) {
+            signbturfVblufElfmfnt.rfmovfCiild(signbturfVblufElfmfnt.gftFirstCiild());
         }
 
-        String base64codedValue = Base64.encode(bytes);
+        String bbsf64dodfdVbluf = Bbsf64.fndodf(bytfs);
 
-        if (base64codedValue.length() > 76 && !XMLUtils.ignoreLineBreaks()) {
-            base64codedValue = "\n" + base64codedValue + "\n";
+        if (bbsf64dodfdVbluf.lfngti() > 76 && !XMLUtils.ignorfLinfBrfbks()) {
+            bbsf64dodfdVbluf = "\n" + bbsf64dodfdVbluf + "\n";
         }
 
-        Text t = this.doc.createTextNode(base64codedValue);
-        signatureValueElement.appendChild(t);
+        Tfxt t = tiis.dod.drfbtfTfxtNodf(bbsf64dodfdVbluf);
+        signbturfVblufElfmfnt.bppfndCiild(t);
     }
 
     /**
-     * Returns the KeyInfo child. If we are in signing mode and the KeyInfo
-     * does not exist yet, it is created on demand and added to the Signature.
+     * Rfturns tif KfyInfo diild. If wf brf in signing modf bnd tif KfyInfo
+     * dofs not fxist yft, it is drfbtfd on dfmbnd bnd bddfd to tif Signbturf.
      * <br>
-     * This allows to add arbitrary content to the KeyInfo during signing.
+     * Tiis bllows to bdd brbitrbry dontfnt to tif KfyInfo during signing.
      *
-     * @return the KeyInfo object
+     * @rfturn tif KfyInfo objfdt
      */
-    public KeyInfo getKeyInfo() {
-        // check to see if we are signing and if we have to create a keyinfo
-        if (this.state == MODE_SIGN && this.keyInfo == null) {
+    publid KfyInfo gftKfyInfo() {
+        // difdk to sff if wf brf signing bnd if wf ibvf to drfbtf b kfyinfo
+        if (tiis.stbtf == MODE_SIGN && tiis.kfyInfo == null) {
 
-            // create the KeyInfo
-            this.keyInfo = new KeyInfo(this.doc);
+            // drfbtf tif KfyInfo
+            tiis.kfyInfo = nfw KfyInfo(tiis.dod);
 
-            // get the Element from KeyInfo
-            Element keyInfoElement = this.keyInfo.getElement();
-            Element firstObject =
-                XMLUtils.selectDsNode(
-                    this.constructionElement.getFirstChild(), Constants._TAG_OBJECT, 0
+            // gft tif Elfmfnt from KfyInfo
+            Elfmfnt kfyInfoElfmfnt = tiis.kfyInfo.gftElfmfnt();
+            Elfmfnt firstObjfdt =
+                XMLUtils.sflfdtDsNodf(
+                    tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_OBJECT, 0
                 );
 
-            if (firstObject != null) {
-                // add it before the object
-                this.constructionElement.insertBefore(keyInfoElement, firstObject);
-                XMLUtils.addReturnBeforeChild(this.constructionElement, firstObject);
-            } else {
-                // add it as the last element to the signature
-                this.constructionElement.appendChild(keyInfoElement);
-                XMLUtils.addReturnToElement(this.constructionElement);
+            if (firstObjfdt != null) {
+                // bdd it bfforf tif objfdt
+                tiis.donstrudtionElfmfnt.insfrtBfforf(kfyInfoElfmfnt, firstObjfdt);
+                XMLUtils.bddRfturnBfforfCiild(tiis.donstrudtionElfmfnt, firstObjfdt);
+            } flsf {
+                // bdd it bs tif lbst flfmfnt to tif signbturf
+                tiis.donstrudtionElfmfnt.bppfndCiild(kfyInfoElfmfnt);
+                XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
             }
         }
 
-        return this.keyInfo;
+        rfturn tiis.kfyInfo;
     }
 
     /**
-     * Appends an Object (not a <code>java.lang.Object</code> but an Object
-     * element) to the Signature. Please note that this is only possible
-     * when signing.
+     * Appfnds bn Objfdt (not b <dodf>jbvb.lbng.Objfdt</dodf> but bn Objfdt
+     * flfmfnt) to tif Signbturf. Plfbsf notf tibt tiis is only possiblf
+     * wifn signing.
      *
-     * @param object ds:Object to be appended.
-     * @throws XMLSignatureException When this object is used to verify.
+     * @pbrbm objfdt ds:Objfdt to bf bppfndfd.
+     * @tirows XMLSignbturfExdfption Wifn tiis objfdt is usfd to vfrify.
      */
-    public void appendObject(ObjectContainer object) throws XMLSignatureException {
+    publid void bppfndObjfdt(ObjfdtContbinfr objfdt) tirows XMLSignbturfExdfption {
         //try {
-        //if (this.state != MODE_SIGN) {
-        // throw new XMLSignatureException(
-        //  "signature.operationOnlyBeforeSign");
+        //if (tiis.stbtf != MODE_SIGN) {
+        // tirow nfw XMLSignbturfExdfption(
+        //  "signbturf.opfrbtionOnlyBfforfSign");
         //}
 
-        this.constructionElement.appendChild(object.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
-        //} catch (XMLSecurityException ex) {
-        // throw new XMLSignatureException("empty", ex);
+        tiis.donstrudtionElfmfnt.bppfndCiild(objfdt.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
+        //} dbtdi (XMLSfdurityExdfption fx) {
+        // tirow nfw XMLSignbturfExdfption("fmpty", fx);
         //}
     }
 
     /**
-     * Returns the <code>i<code>th <code>ds:Object</code> child of the signature
-     * or null if no such <code>ds:Object</code> element exists.
+     * Rfturns tif <dodf>i<dodf>ti <dodf>ds:Objfdt</dodf> diild of tif signbturf
+     * or null if no sudi <dodf>ds:Objfdt</dodf> flfmfnt fxists.
      *
-     * @param i
-     * @return the <code>i<code>th <code>ds:Object</code> child of the signature
-     * or null if no such <code>ds:Object</code> element exists.
+     * @pbrbm i
+     * @rfturn tif <dodf>i<dodf>ti <dodf>ds:Objfdt</dodf> diild of tif signbturf
+     * or null if no sudi <dodf>ds:Objfdt</dodf> flfmfnt fxists.
      */
-    public ObjectContainer getObjectItem(int i) {
-        Element objElem =
-            XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_OBJECT, i
+    publid ObjfdtContbinfr gftObjfdtItfm(int i) {
+        Elfmfnt objElfm =
+            XMLUtils.sflfdtDsNodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_OBJECT, i
             );
 
         try {
-            return new ObjectContainer(objElem, this.baseURI);
-        } catch (XMLSecurityException ex) {
-            return null;
+            rfturn nfw ObjfdtContbinfr(objElfm, tiis.bbsfURI);
+        } dbtdi (XMLSfdurityExdfption fx) {
+            rfturn null;
         }
     }
 
     /**
-     * Returns the number of all <code>ds:Object</code> elements.
+     * Rfturns tif numbfr of bll <dodf>ds:Objfdt</dodf> flfmfnts.
      *
-     * @return the number of all <code>ds:Object</code> elements.
+     * @rfturn tif numbfr of bll <dodf>ds:Objfdt</dodf> flfmfnts.
      */
-    public int getObjectLength() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_OBJECT);
+    publid int gftObjfdtLfngti() {
+        rfturn tiis.lfngti(Constbnts.SignbturfSpfdNS, Constbnts._TAG_OBJECT);
     }
 
     /**
-     * Digests all References in the SignedInfo, calculates the signature value
-     * and sets it in the SignatureValue Element.
+     * Digfsts bll Rfffrfndfs in tif SignfdInfo, dbldulbtfs tif signbturf vbluf
+     * bnd sfts it in tif SignbturfVbluf Elfmfnt.
      *
-     * @param signingKey the {@link java.security.PrivateKey} or
-     * {@link javax.crypto.SecretKey} that is used to sign.
-     * @throws XMLSignatureException
+     * @pbrbm signingKfy tif {@link jbvb.sfdurity.PrivbtfKfy} or
+     * {@link jbvbx.drypto.SfdrftKfy} tibt is usfd to sign.
+     * @tirows XMLSignbturfExdfption
      */
-    public void sign(Key signingKey) throws XMLSignatureException {
+    publid void sign(Kfy signingKfy) tirows XMLSignbturfExdfption {
 
-        if (signingKey instanceof PublicKey) {
-            throw new IllegalArgumentException(
-                I18n.translate("algorithms.operationOnlyVerification")
+        if (signingKfy instbndfof PublidKfy) {
+            tirow nfw IllfgblArgumfntExdfption(
+                I18n.trbnslbtf("blgoritims.opfrbtionOnlyVfrifidbtion")
             );
         }
 
         try {
-            //Create a SignatureAlgorithm object
-            SignedInfo si = this.getSignedInfo();
-            SignatureAlgorithm sa = si.getSignatureAlgorithm();
-            OutputStream so = null;
+            //Crfbtf b SignbturfAlgoritim objfdt
+            SignfdInfo si = tiis.gftSignfdInfo();
+            SignbturfAlgoritim sb = si.gftSignbturfAlgoritim();
+            OutputStrfbm so = null;
             try {
-                // initialize SignatureAlgorithm for signing
-                sa.initSign(signingKey);
+                // initiblizf SignbturfAlgoritim for signing
+                sb.initSign(signingKfy);
 
-                // generate digest values for all References in this SignedInfo
-                si.generateDigestValues();
-                so = new UnsyncBufferedOutputStream(new SignerOutputStream(sa));
-                // get the canonicalized bytes from SignedInfo
-                si.signInOctetStream(so);
-            } catch (XMLSecurityException ex) {
-                throw ex;
-            } finally {
+                // gfnfrbtf digfst vblufs for bll Rfffrfndfs in tiis SignfdInfo
+                si.gfnfrbtfDigfstVblufs();
+                so = nfw UnsyndBufffrfdOutputStrfbm(nfw SignfrOutputStrfbm(sb));
+                // gft tif dbnonidblizfd bytfs from SignfdInfo
+                si.signInOdtftStrfbm(so);
+            } dbtdi (XMLSfdurityExdfption fx) {
+                tirow fx;
+            } finblly {
                 if (so != null) {
                     try {
-                        so.close();
-                    } catch (IOException ex) {
-                        if (log.isLoggable(java.util.logging.Level.FINE)) {
-                            log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+                        so.dlosf();
+                    } dbtdi (IOExdfption fx) {
+                        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                            log.log(jbvb.util.logging.Lfvfl.FINE, fx.gftMfssbgf(), fx);
                         }
                     }
                 }
             }
 
-            // set them on the SignatureValue element
-            this.setSignatureValueElement(sa.sign());
-        } catch (XMLSignatureException ex) {
-            throw ex;
-        } catch (CanonicalizationException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (InvalidCanonicalizerException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (XMLSecurityException ex) {
-            throw new XMLSignatureException("empty", ex);
+            // sft tifm on tif SignbturfVbluf flfmfnt
+            tiis.sftSignbturfVblufElfmfnt(sb.sign());
+        } dbtdi (XMLSignbturfExdfption fx) {
+            tirow fx;
+        } dbtdi (CbnonidblizbtionExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdi (InvblidCbnonidblizfrExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdi (XMLSfdurityExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
     /**
-     * Adds a {@link ResourceResolver} to enable the retrieval of resources.
+     * Adds b {@link RfsourdfRfsolvfr} to fnbblf tif rftrifvbl of rfsourdfs.
      *
-     * @param resolver
+     * @pbrbm rfsolvfr
      */
-    public void addResourceResolver(ResourceResolver resolver) {
-        this.getSignedInfo().addResourceResolver(resolver);
+    publid void bddRfsourdfRfsolvfr(RfsourdfRfsolvfr rfsolvfr) {
+        tiis.gftSignfdInfo().bddRfsourdfRfsolvfr(rfsolvfr);
     }
 
     /**
-     * Adds a {@link ResourceResolverSpi} to enable the retrieval of resources.
+     * Adds b {@link RfsourdfRfsolvfrSpi} to fnbblf tif rftrifvbl of rfsourdfs.
      *
-     * @param resolver
+     * @pbrbm rfsolvfr
      */
-    public void addResourceResolver(ResourceResolverSpi resolver) {
-        this.getSignedInfo().addResourceResolver(resolver);
+    publid void bddRfsourdfRfsolvfr(RfsourdfRfsolvfrSpi rfsolvfr) {
+        tiis.gftSignfdInfo().bddRfsourdfRfsolvfr(rfsolvfr);
     }
 
     /**
-     * Extracts the public key from the certificate and verifies if the signature
-     * is valid by re-digesting all References, comparing those against the
-     * stored DigestValues and then checking to see if the Signatures match on
-     * the SignedInfo.
+     * Extrbdts tif publid kfy from tif dfrtifidbtf bnd vfrififs if tif signbturf
+     * is vblid by rf-digfsting bll Rfffrfndfs, dompbring tiosf bgbinst tif
+     * storfd DigfstVblufs bnd tifn difdking to sff if tif Signbturfs mbtdi on
+     * tif SignfdInfo.
      *
-     * @param cert Certificate that contains the public key part of the keypair
-     * that was used to sign.
-     * @return true if the signature is valid, false otherwise
-     * @throws XMLSignatureException
+     * @pbrbm dfrt Cfrtifidbtf tibt dontbins tif publid kfy pbrt of tif kfypbir
+     * tibt wbs usfd to sign.
+     * @rfturn truf if tif signbturf is vblid, fblsf otifrwisf
+     * @tirows XMLSignbturfExdfption
      */
-    public boolean checkSignatureValue(X509Certificate cert)
-        throws XMLSignatureException {
-        // see if cert is null
-        if (cert != null) {
-            // check the values with the public key from the cert
-            return this.checkSignatureValue(cert.getPublicKey());
+    publid boolfbn difdkSignbturfVbluf(X509Cfrtifidbtf dfrt)
+        tirows XMLSignbturfExdfption {
+        // sff if dfrt is null
+        if (dfrt != null) {
+            // difdk tif vblufs witi tif publid kfy from tif dfrt
+            rfturn tiis.difdkSignbturfVbluf(dfrt.gftPublidKfy());
         }
 
-        Object exArgs[] = { "Didn't get a certificate" };
-        throw new XMLSignatureException("empty", exArgs);
+        Objfdt fxArgs[] = { "Didn't gft b dfrtifidbtf" };
+        tirow nfw XMLSignbturfExdfption("fmpty", fxArgs);
     }
 
     /**
-     * Verifies if the signature is valid by redigesting all References,
-     * comparing those against the stored DigestValues and then checking to see
-     * if the Signatures match on the SignedInfo.
+     * Vfrififs if tif signbturf is vblid by rfdigfsting bll Rfffrfndfs,
+     * dompbring tiosf bgbinst tif storfd DigfstVblufs bnd tifn difdking to sff
+     * if tif Signbturfs mbtdi on tif SignfdInfo.
      *
-     * @param pk {@link java.security.PublicKey} part of the keypair or
-     * {@link javax.crypto.SecretKey} that was used to sign
-     * @return true if the signature is valid, false otherwise
-     * @throws XMLSignatureException
+     * @pbrbm pk {@link jbvb.sfdurity.PublidKfy} pbrt of tif kfypbir or
+     * {@link jbvbx.drypto.SfdrftKfy} tibt wbs usfd to sign
+     * @rfturn truf if tif signbturf is vblid, fblsf otifrwisf
+     * @tirows XMLSignbturfExdfption
      */
-    public boolean checkSignatureValue(Key pk) throws XMLSignatureException {
-        //COMMENT: pk suggests it can only be a public key?
-        //check to see if the key is not null
+    publid boolfbn difdkSignbturfVbluf(Kfy pk) tirows XMLSignbturfExdfption {
+        //COMMENT: pk suggfsts it dbn only bf b publid kfy?
+        //difdk to sff if tif kfy is not null
         if (pk == null) {
-            Object exArgs[] = { "Didn't get a key" };
-            throw new XMLSignatureException("empty", exArgs);
+            Objfdt fxArgs[] = { "Didn't gft b kfy" };
+            tirow nfw XMLSignbturfExdfption("fmpty", fxArgs);
         }
-        // all references inside the signedinfo need to be dereferenced and
-        // digested again to see if the outcome matches the stored value in the
-        // SignedInfo.
-        // If followManifestsDuringValidation is true it will do the same for
-        // References inside a Manifest.
+        // bll rfffrfndfs insidf tif signfdinfo nffd to bf dfrfffrfndfd bnd
+        // digfstfd bgbin to sff if tif outdomf mbtdifs tif storfd vbluf in tif
+        // SignfdInfo.
+        // If followMbniffstsDuringVblidbtion is truf it will do tif sbmf for
+        // Rfffrfndfs insidf b Mbniffst.
         try {
-            SignedInfo si = this.getSignedInfo();
-            //create a SignatureAlgorithms from the SignatureMethod inside
-            //SignedInfo. This is used to validate the signature.
-            SignatureAlgorithm sa = si.getSignatureAlgorithm();
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "signatureMethodURI = " + sa.getAlgorithmURI());
-                log.log(java.util.logging.Level.FINE, "jceSigAlgorithm    = " + sa.getJCEAlgorithmString());
-                log.log(java.util.logging.Level.FINE, "jceSigProvider     = " + sa.getJCEProviderName());
-                log.log(java.util.logging.Level.FINE, "PublicKey = " + pk);
+            SignfdInfo si = tiis.gftSignfdInfo();
+            //drfbtf b SignbturfAlgoritims from tif SignbturfMftiod insidf
+            //SignfdInfo. Tiis is usfd to vblidbtf tif signbturf.
+            SignbturfAlgoritim sb = si.gftSignbturfAlgoritim();
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "signbturfMftiodURI = " + sb.gftAlgoritimURI());
+                log.log(jbvb.util.logging.Lfvfl.FINE, "jdfSigAlgoritim    = " + sb.gftJCEAlgoritimString());
+                log.log(jbvb.util.logging.Lfvfl.FINE, "jdfSigProvidfr     = " + sb.gftJCEProvidfrNbmf());
+                log.log(jbvb.util.logging.Lfvfl.FINE, "PublidKfy = " + pk);
             }
-            byte sigBytes[] = null;
+            bytf sigBytfs[] = null;
             try {
-                sa.initVerify(pk);
+                sb.initVfrify(pk);
 
-                // Get the canonicalized (normalized) SignedInfo
-                SignerOutputStream so = new SignerOutputStream(sa);
-                OutputStream bos = new UnsyncBufferedOutputStream(so);
+                // Gft tif dbnonidblizfd (normblizfd) SignfdInfo
+                SignfrOutputStrfbm so = nfw SignfrOutputStrfbm(sb);
+                OutputStrfbm bos = nfw UnsyndBufffrfdOutputStrfbm(so);
 
-                si.signInOctetStream(bos);
-                bos.close();
-                // retrieve the byte[] from the stored signature
-                sigBytes = this.getSignatureValue();
-            } catch (IOException ex) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+                si.signInOdtftStrfbm(bos);
+                bos.dlosf();
+                // rftrifvf tif bytf[] from tif storfd signbturf
+                sigBytfs = tiis.gftSignbturfVbluf();
+            } dbtdi (IOExdfption fx) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, fx.gftMfssbgf(), fx);
                 }
-                // Impossible...
-            } catch (XMLSecurityException ex) {
-                throw ex;
+                // Impossiblf...
+            } dbtdi (XMLSfdurityExdfption fx) {
+                tirow fx;
             }
 
-            // have SignatureAlgorithm sign the input bytes and compare them to
-            // the bytes that were stored in the signature.
-            if (!sa.verify(sigBytes)) {
-                log.log(java.util.logging.Level.WARNING, "Signature verification failed.");
-                return false;
+            // ibvf SignbturfAlgoritim sign tif input bytfs bnd dompbrf tifm to
+            // tif bytfs tibt wfrf storfd in tif signbturf.
+            if (!sb.vfrify(sigBytfs)) {
+                log.log(jbvb.util.logging.Lfvfl.WARNING, "Signbturf vfrifidbtion fbilfd.");
+                rfturn fblsf;
             }
 
-            return si.verify(this.followManifestsDuringValidation);
-        } catch (XMLSignatureException ex) {
-            throw ex;
-        } catch (XMLSecurityException ex) {
-            throw new XMLSignatureException("empty", ex);
+            rfturn si.vfrify(tiis.followMbniffstsDuringVblidbtion);
+        } dbtdi (XMLSignbturfExdfption fx) {
+            tirow fx;
+        } dbtdi (XMLSfdurityExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
     /**
-     * Add a Reference with full parameters to this Signature
+     * Add b Rfffrfndf witi full pbrbmftfrs to tiis Signbturf
      *
-     * @param referenceURI URI of the resource to be signed. Can be null in
-     * which case the dereferencing is application specific. Can be "" in which
-     * it's the parent node (or parent document?). There can only be one "" in
-     * each signature.
-     * @param trans Optional list of transformations to be done before digesting
-     * @param digestURI Mandatory URI of the digesting algorithm to use.
-     * @param referenceId Optional id attribute for this Reference
-     * @param referenceType Optional mimetype for the URI
-     * @throws XMLSignatureException
+     * @pbrbm rfffrfndfURI URI of tif rfsourdf to bf signfd. Cbn bf null in
+     * wiidi dbsf tif dfrfffrfnding is bpplidbtion spfdifid. Cbn bf "" in wiidi
+     * it's tif pbrfnt nodf (or pbrfnt dodumfnt?). Tifrf dbn only bf onf "" in
+     * fbdi signbturf.
+     * @pbrbm trbns Optionbl list of trbnsformbtions to bf donf bfforf digfsting
+     * @pbrbm digfstURI Mbndbtory URI of tif digfsting blgoritim to usf.
+     * @pbrbm rfffrfndfId Optionbl id bttributf for tiis Rfffrfndf
+     * @pbrbm rfffrfndfTypf Optionbl mimftypf for tif URI
+     * @tirows XMLSignbturfExdfption
      */
-    public void addDocument(
-        String referenceURI,
-        Transforms trans,
-        String digestURI,
-        String referenceId,
-        String referenceType
-    ) throws XMLSignatureException {
-        this.signedInfo.addDocument(
-            this.baseURI, referenceURI, trans, digestURI, referenceId, referenceType
+    publid void bddDodumfnt(
+        String rfffrfndfURI,
+        Trbnsforms trbns,
+        String digfstURI,
+        String rfffrfndfId,
+        String rfffrfndfTypf
+    ) tirows XMLSignbturfExdfption {
+        tiis.signfdInfo.bddDodumfnt(
+            tiis.bbsfURI, rfffrfndfURI, trbns, digfstURI, rfffrfndfId, rfffrfndfTypf
         );
     }
 
     /**
-     * This method is a proxy method for the {@link Manifest#addDocument} method.
+     * Tiis mftiod is b proxy mftiod for tif {@link Mbniffst#bddDodumfnt} mftiod.
      *
-     * @param referenceURI URI according to the XML Signature specification.
-     * @param trans List of transformations to be applied.
-     * @param digestURI URI of the digest algorithm to be used.
-     * @see Manifest#addDocument
-     * @throws XMLSignatureException
+     * @pbrbm rfffrfndfURI URI bddording to tif XML Signbturf spfdifidbtion.
+     * @pbrbm trbns List of trbnsformbtions to bf bpplifd.
+     * @pbrbm digfstURI URI of tif digfst blgoritim to bf usfd.
+     * @sff Mbniffst#bddDodumfnt
+     * @tirows XMLSignbturfExdfption
      */
-    public void addDocument(
-        String referenceURI,
-        Transforms trans,
-        String digestURI
-    ) throws XMLSignatureException {
-        this.signedInfo.addDocument(this.baseURI, referenceURI, trans, digestURI, null, null);
+    publid void bddDodumfnt(
+        String rfffrfndfURI,
+        Trbnsforms trbns,
+        String digfstURI
+    ) tirows XMLSignbturfExdfption {
+        tiis.signfdInfo.bddDodumfnt(tiis.bbsfURI, rfffrfndfURI, trbns, digfstURI, null, null);
     }
 
     /**
-     * Adds a Reference with just the URI and the transforms. This used the
-     * SHA1 algorithm as a default digest algorithm.
+     * Adds b Rfffrfndf witi just tif URI bnd tif trbnsforms. Tiis usfd tif
+     * SHA1 blgoritim bs b dffbult digfst blgoritim.
      *
-     * @param referenceURI URI according to the XML Signature specification.
-     * @param trans List of transformations to be applied.
-     * @throws XMLSignatureException
+     * @pbrbm rfffrfndfURI URI bddording to tif XML Signbturf spfdifidbtion.
+     * @pbrbm trbns List of trbnsformbtions to bf bpplifd.
+     * @tirows XMLSignbturfExdfption
      */
-    public void addDocument(String referenceURI, Transforms trans)
-        throws XMLSignatureException {
-        this.signedInfo.addDocument(
-            this.baseURI, referenceURI, trans, Constants.ALGO_ID_DIGEST_SHA1, null, null
+    publid void bddDodumfnt(String rfffrfndfURI, Trbnsforms trbns)
+        tirows XMLSignbturfExdfption {
+        tiis.signfdInfo.bddDodumfnt(
+            tiis.bbsfURI, rfffrfndfURI, trbns, Constbnts.ALGO_ID_DIGEST_SHA1, null, null
         );
     }
 
     /**
-     * Add a Reference with just this URI. It uses SHA1 by default as the digest
-     * algorithm
+     * Add b Rfffrfndf witi just tiis URI. It usfs SHA1 by dffbult bs tif digfst
+     * blgoritim
      *
-     * @param referenceURI URI according to the XML Signature specification.
-     * @throws XMLSignatureException
+     * @pbrbm rfffrfndfURI URI bddording to tif XML Signbturf spfdifidbtion.
+     * @tirows XMLSignbturfExdfption
      */
-    public void addDocument(String referenceURI) throws XMLSignatureException {
-        this.signedInfo.addDocument(
-            this.baseURI, referenceURI, null, Constants.ALGO_ID_DIGEST_SHA1, null, null
+    publid void bddDodumfnt(String rfffrfndfURI) tirows XMLSignbturfExdfption {
+        tiis.signfdInfo.bddDodumfnt(
+            tiis.bbsfURI, rfffrfndfURI, null, Constbnts.ALGO_ID_DIGEST_SHA1, null, null
         );
     }
 
     /**
-     * Add an X509 Certificate to the KeyInfo. This will include the whole cert
-     * inside X509Data/X509Certificate tags.
+     * Add bn X509 Cfrtifidbtf to tif KfyInfo. Tiis will indludf tif wiolf dfrt
+     * insidf X509Dbtb/X509Cfrtifidbtf tbgs.
      *
-     * @param cert Certificate to be included. This should be the certificate of
-     * the key that was used to sign.
-     * @throws XMLSecurityException
+     * @pbrbm dfrt Cfrtifidbtf to bf indludfd. Tiis siould bf tif dfrtifidbtf of
+     * tif kfy tibt wbs usfd to sign.
+     * @tirows XMLSfdurityExdfption
      */
-    public void addKeyInfo(X509Certificate cert) throws XMLSecurityException {
-        X509Data x509data = new X509Data(this.doc);
+    publid void bddKfyInfo(X509Cfrtifidbtf dfrt) tirows XMLSfdurityExdfption {
+        X509Dbtb x509dbtb = nfw X509Dbtb(tiis.dod);
 
-        x509data.addCertificate(cert);
-        this.getKeyInfo().add(x509data);
+        x509dbtb.bddCfrtifidbtf(dfrt);
+        tiis.gftKfyInfo().bdd(x509dbtb);
     }
 
     /**
-     * Add this public key to the KeyInfo. This will include the complete key in
-     * the KeyInfo structure.
+     * Add tiis publid kfy to tif KfyInfo. Tiis will indludf tif domplftf kfy in
+     * tif KfyInfo strudturf.
      *
-     * @param pk
+     * @pbrbm pk
      */
-    public void addKeyInfo(PublicKey pk) {
-        this.getKeyInfo().add(pk);
+    publid void bddKfyInfo(PublidKfy pk) {
+        tiis.gftKfyInfo().bdd(pk);
     }
 
     /**
-     * Proxy method for {@link SignedInfo#createSecretKey(byte[])}. If you want
-     * to create a MAC, this method helps you to obtain the
-     * {@link javax.crypto.SecretKey} from octets.
+     * Proxy mftiod for {@link SignfdInfo#drfbtfSfdrftKfy(bytf[])}. If you wbnt
+     * to drfbtf b MAC, tiis mftiod iflps you to obtbin tif
+     * {@link jbvbx.drypto.SfdrftKfy} from odtfts.
      *
-     * @param secretKeyBytes
-     * @return the secret key created.
-     * @see SignedInfo#createSecretKey(byte[])
+     * @pbrbm sfdrftKfyBytfs
+     * @rfturn tif sfdrft kfy drfbtfd.
+     * @sff SignfdInfo#drfbtfSfdrftKfy(bytf[])
      */
-    public SecretKey createSecretKey(byte[] secretKeyBytes) {
-        return this.getSignedInfo().createSecretKey(secretKeyBytes);
+    publid SfdrftKfy drfbtfSfdrftKfy(bytf[] sfdrftKfyBytfs) {
+        rfturn tiis.gftSignfdInfo().drfbtfSfdrftKfy(sfdrftKfyBytfs);
     }
 
     /**
-     * Signal whether Manifest should be automatically validated.
-     * Checking the digests in References in a Signature are mandatory, but for
-     * References inside a Manifest it is application specific. This boolean is
-     * to indicate that the References inside Manifests should be validated.
+     * Signbl wiftifr Mbniffst siould bf butombtidblly vblidbtfd.
+     * Cifdking tif digfsts in Rfffrfndfs in b Signbturf brf mbndbtory, but for
+     * Rfffrfndfs insidf b Mbniffst it is bpplidbtion spfdifid. Tiis boolfbn is
+     * to indidbtf tibt tif Rfffrfndfs insidf Mbniffsts siould bf vblidbtfd.
      *
-     * @param followManifests
-     * @see <a href="http://www.w3.org/TR/xmldsig-core/#sec-CoreValidation">
-     * Core validation section in the XML Signature Rec.</a>
+     * @pbrbm followMbniffsts
+     * @sff <b irff="ittp://www.w3.org/TR/xmldsig-dorf/#sfd-CorfVblidbtion">
+     * Corf vblidbtion sfdtion in tif XML Signbturf Rfd.</b>
      */
-    public void setFollowNestedManifests(boolean followManifests) {
-        this.followManifestsDuringValidation = followManifests;
+    publid void sftFollowNfstfdMbniffsts(boolfbn followMbniffsts) {
+        tiis.followMbniffstsDuringVblidbtion = followMbniffsts;
     }
 
     /**
-     * Get the local name of this element
+     * Gft tif lodbl nbmf of tiis flfmfnt
      *
-     * @return Constants._TAG_SIGNATURE
+     * @rfturn Constbnts._TAG_SIGNATURE
      */
-    public String getBaseLocalName() {
-        return Constants._TAG_SIGNATURE;
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_SIGNATURE;
     }
 }

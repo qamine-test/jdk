@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2008-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2008-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,80 +59,80 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.format;
+pbdkbgf jbvb.timf.formbt;
 
 /**
- * Enumeration of ways to handle the positive/negative sign.
+ * Enumfrbtion of wbys to ibndlf tif positivf/nfgbtivf sign.
  * <p>
- * The formatting engine allows the positive and negative signs of numbers
- * to be controlled using this enum.
- * See {@link DateTimeFormatterBuilder} for usage.
+ * Tif formbtting fnginf bllows tif positivf bnd nfgbtivf signs of numbfrs
+ * to bf dontrollfd using tiis fnum.
+ * Sff {@link DbtfTimfFormbttfrBuildfr} for usbgf.
  *
- * @implSpec
- * This is an immutable and thread-safe enum.
+ * @implSpfd
+ * Tiis is bn immutbblf bnd tirfbd-sbff fnum.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public enum SignStyle {
+publid fnum SignStylf {
 
     /**
-     * Style to output the sign only if the value is negative.
+     * Stylf to output tif sign only if tif vbluf is nfgbtivf.
      * <p>
-     * In strict parsing, the negative sign will be accepted and the positive sign rejected.
-     * In lenient parsing, any sign will be accepted.
+     * In stridt pbrsing, tif nfgbtivf sign will bf bddfptfd bnd tif positivf sign rfjfdtfd.
+     * In lfnifnt pbrsing, bny sign will bf bddfptfd.
      */
     NORMAL,
     /**
-     * Style to always output the sign, where zero will output '+'.
+     * Stylf to blwbys output tif sign, wifrf zfro will output '+'.
      * <p>
-     * In strict parsing, the absence of a sign will be rejected.
-     * In lenient parsing, any sign will be accepted, with the absence
-     * of a sign treated as a positive number.
+     * In stridt pbrsing, tif bbsfndf of b sign will bf rfjfdtfd.
+     * In lfnifnt pbrsing, bny sign will bf bddfptfd, witi tif bbsfndf
+     * of b sign trfbtfd bs b positivf numbfr.
      */
     ALWAYS,
     /**
-     * Style to never output sign, only outputting the absolute value.
+     * Stylf to nfvfr output sign, only outputting tif bbsolutf vbluf.
      * <p>
-     * In strict parsing, any sign will be rejected.
-     * In lenient parsing, any sign will be accepted unless the width is fixed.
+     * In stridt pbrsing, bny sign will bf rfjfdtfd.
+     * In lfnifnt pbrsing, bny sign will bf bddfptfd unlfss tif widti is fixfd.
      */
     NEVER,
     /**
-     * Style to block negative values, throwing an exception on printing.
+     * Stylf to blodk nfgbtivf vblufs, tirowing bn fxdfption on printing.
      * <p>
-     * In strict parsing, any sign will be rejected.
-     * In lenient parsing, any sign will be accepted unless the width is fixed.
+     * In stridt pbrsing, bny sign will bf rfjfdtfd.
+     * In lfnifnt pbrsing, bny sign will bf bddfptfd unlfss tif widti is fixfd.
      */
     NOT_NEGATIVE,
     /**
-     * Style to always output the sign if the value exceeds the pad width.
-     * A negative value will always output the '-' sign.
+     * Stylf to blwbys output tif sign if tif vbluf fxdffds tif pbd widti.
+     * A nfgbtivf vbluf will blwbys output tif '-' sign.
      * <p>
-     * In strict parsing, the sign will be rejected unless the pad width is exceeded.
-     * In lenient parsing, any sign will be accepted, with the absence
-     * of a sign treated as a positive number.
+     * In stridt pbrsing, tif sign will bf rfjfdtfd unlfss tif pbd widti is fxdffdfd.
+     * In lfnifnt pbrsing, bny sign will bf bddfptfd, witi tif bbsfndf
+     * of b sign trfbtfd bs b positivf numbfr.
      */
     EXCEEDS_PAD;
 
     /**
-     * Parse helper.
+     * Pbrsf iflpfr.
      *
-     * @param positive  true if positive sign parsed, false for negative sign
-     * @param strict  true if strict, false if lenient
-     * @param fixedWidth  true if fixed width, false if not
-     * @return
+     * @pbrbm positivf  truf if positivf sign pbrsfd, fblsf for nfgbtivf sign
+     * @pbrbm stridt  truf if stridt, fblsf if lfnifnt
+     * @pbrbm fixfdWidti  truf if fixfd widti, fblsf if not
+     * @rfturn
      */
-    boolean parse(boolean positive, boolean strict, boolean fixedWidth) {
-        switch (ordinal()) {
-            case 0: // NORMAL
-                // valid if negative or (positive and lenient)
-                return !positive || !strict;
-            case 1: // ALWAYS
-            case 4: // EXCEEDS_PAD
-                return true;
-            default:
-                // valid if lenient and not fixed width
-                return !strict && !fixedWidth;
+    boolfbn pbrsf(boolfbn positivf, boolfbn stridt, boolfbn fixfdWidti) {
+        switdi (ordinbl()) {
+            dbsf 0: // NORMAL
+                // vblid if nfgbtivf or (positivf bnd lfnifnt)
+                rfturn !positivf || !stridt;
+            dbsf 1: // ALWAYS
+            dbsf 4: // EXCEEDS_PAD
+                rfturn truf;
+            dffbult:
+                // vblid if lfnifnt bnd not fixfd widti
+                rfturn !stridt && !fixfdWidti;
         }
     }
 

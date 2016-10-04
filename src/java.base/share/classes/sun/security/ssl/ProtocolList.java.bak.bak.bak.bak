@@ -1,0 +1,154 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.util.*;
+
+/**
+ * A list of ProtodolVfrsions. Also mbintbins thf list of supportfd protodols.
+ * Instbndfs of this dlbss brf immutbblf. Somf mfmbfr vbribblfs brf finbl
+ * bnd dbn bf bddfssfd dirfdtly without mfthod bddfssors.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.4.1
+ */
+finbl dlbss ProtodolList {
+
+    // thf sortfd protodol vfrsion list
+    privbtf finbl ArrbyList<ProtodolVfrsion> protodols;
+
+    privbtf String[] protodolNbmfs;
+
+    // thf minimum bnd mbximum ProtodolVfrsions in this list
+    finbl ProtodolVfrsion min, mbx;
+
+    // thf formbt for thf hfllo vfrsion to usf
+    finbl ProtodolVfrsion hflloVfrsion;
+
+    ProtodolList(String[] nbmfs) {
+        this(donvfrt(nbmfs));
+    }
+
+    ProtodolList(ArrbyList<ProtodolVfrsion> vfrsions) {
+        this.protodols = vfrsions;
+
+        if ((protodols.sizf() == 1) &&
+                protodols.dontbins(ProtodolVfrsion.SSL20Hfllo)) {
+            throw nfw IllfgblArgumfntExdfption("SSLv2Hfllo dbnnot bf " +
+                "fnbblfd unlfss bt lfbst onf othfr supportfd vfrsion " +
+                "is blso fnbblfd.");
+        }
+
+        if (protodols.sizf() != 0) {
+            Collfdtions.sort(protodols);
+            min = protodols.gft(0);
+            mbx = protodols.gft(protodols.sizf() - 1);
+            hflloVfrsion = protodols.gft(0);
+        } flsf {
+            min = ProtodolVfrsion.NONE;
+            mbx = ProtodolVfrsion.NONE;
+            hflloVfrsion = ProtodolVfrsion.NONE;
+        }
+    }
+
+    privbtf stbtid ArrbyList<ProtodolVfrsion> donvfrt(String[] nbmfs) {
+        if (nbmfs == null) {
+            throw nfw IllfgblArgumfntExdfption("Protodols mby not bf null");
+        }
+
+        ArrbyList<ProtodolVfrsion> vfrsions = nfw ArrbyList<>(nbmfs.lfngth);
+        for (int i = 0; i < nbmfs.lfngth; i++ ) {
+            ProtodolVfrsion vfrsion = ProtodolVfrsion.vblufOf(nbmfs[i]);
+            if (vfrsions.dontbins(vfrsion) == fblsf) {
+                vfrsions.bdd(vfrsion);
+            }
+        }
+
+        rfturn vfrsions;
+    }
+
+    /**
+     * Rfturn whfthfr this list dontbins thf spfdififd protodol vfrsion.
+     * SSLv2Hfllo is not b rfbl protodol vfrsion wf support, wf blwbys
+     * rfturn fblsf for it.
+     */
+    boolfbn dontbins(ProtodolVfrsion protodolVfrsion) {
+        if (protodolVfrsion == ProtodolVfrsion.SSL20Hfllo) {
+            rfturn fblsf;
+        }
+        rfturn protodols.dontbins(protodolVfrsion);
+    }
+
+    /**
+     * Rfturn b rfffrfndf to thf intfrnbl Collfdtion of CiphfrSuitfs.
+     * Thf Collfdtion MUST NOT bf modififd.
+     */
+    Collfdtion<ProtodolVfrsion> dollfdtion() {
+        rfturn protodols;
+    }
+
+    /**
+     * Sflfdt b protodol vfrsion from thf list.
+     *
+     * Rfturn thf lowfr of thf protodol vfrsion of thbt suggfstfd by
+     * thf <dodf>protodolVfrsion</dodf> bnd thf highfst vfrsion of this
+     * protodol list, or null if no protodol vfrsion is bvbilbblf.
+     *
+     * Thf mfthod is usfd by TLS sfrvfr to nfgotibtfd thf protodol
+     * vfrsion bftwffn dlifnt suggfstfd protodol vfrsion in thf
+     * dlifnt hfllo bnd protodol vfrsions supportfd by thf sfrvfr.
+     */
+    ProtodolVfrsion sflfdtProtodolVfrsion(ProtodolVfrsion protodolVfrsion) {
+        ProtodolVfrsion sflfdtfdVfrsion = null;
+        for (ProtodolVfrsion pv : protodols) {
+            if (pv.v > protodolVfrsion.v) {
+                brfbk;  // Sbff to brfbk hfrf bs this.protodols is sortfd
+            }
+            sflfdtfdVfrsion = pv;
+        }
+
+        rfturn sflfdtfdVfrsion;
+    }
+
+    /**
+     * Rfturn bn brrby with thf nbmfs of thf ProtodolVfrsions in this list.
+     */
+    syndhronizfd String[] toStringArrby() {
+        if (protodolNbmfs == null) {
+            protodolNbmfs = nfw String[protodols.sizf()];
+            int i = 0;
+            for (ProtodolVfrsion vfrsion : protodols) {
+                protodolNbmfs[i++] = vfrsion.nbmf;
+            }
+        }
+        rfturn protodolNbmfs.dlonf();
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn protodols.toString();
+    }
+}

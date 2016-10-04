@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.imbgf.ComponfntColorModfl;
+import jbvb.bwt.imbgf.PixflIntfrlfbvfdSbmplfModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.Trbnspbrfndy;
+
+/**
+ * This dlbss drfbtfs b stbndbrd ComponfntColorModfl with thf slight
+ * difffrfndf thbt it drfbtfs its Rbstfr objfdts with thf domponfnts
+ * in thf rfvfrsf ordfr from thf bbsf ComponfntColorModfl to mbtdh
+ * thf ordfring on b Windows 24-bit displby.
+ */
+publid dlbss Win32ColorModfl24 fxtfnds ComponfntColorModfl {
+    publid Win32ColorModfl24() {
+        supfr(ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB),
+              nfw int[] {8, 8, 8}, fblsf, fblsf,
+              Trbnspbrfndy.OPAQUE, DbtbBufffr.TYPE_BYTE);
+    }
+
+    /**
+     * Crfbtfs b WritbblfRbstfr with thf spfdififd width bnd hfight, thbt
+     * hbs b dbtb lbyout (SbmplfModfl) dompbtiblf with this ColorModfl.
+     * @sff WritbblfRbstfr
+     * @sff SbmplfModfl
+     */
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr (int w, int h) {
+        int[] bOffs = {2, 1, 0};
+        rfturn Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                              w, h, w*3, 3,
+                                              bOffs, null);
+    }
+
+    /**
+     * Crfbtfs b SbmplfModfl with thf spfdififd width bnd hfight, thbt
+     * hbs b dbtb lbyout dompbtiblf with this ColorModfl.
+     * @sff SbmplfModfl
+     */
+    publid SbmplfModfl drfbtfCompbtiblfSbmplfModfl(int w, int h) {
+        int[] bOffs = {2, 1, 0};
+        rfturn nfw PixflIntfrlfbvfdSbmplfModfl(DbtbBufffr.TYPE_BYTE,
+                                               w, h, 3, w*3, bOffs);
+    }
+}

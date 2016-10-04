@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1994, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*-
- *      Stuff for dealing with threads.
- *      originally in threadruntime.c, Sun Sep 22 12:09:39 1991
+ *      Stuff for dfbling witi tirfbds.
+ *      originblly in tirfbdruntimf.d, Sun Sfp 22 12:09:39 1991
  */
 
-#include "jni.h"
-#include "jvm.h"
+#indludf "jni.i"
+#indludf "jvm.i"
 
-#include "java_lang_Thread.h"
+#indludf "jbvb_lbng_Tirfbd.i"
 
-#define THD "Ljava/lang/Thread;"
-#define OBJ "Ljava/lang/Object;"
-#define STE "Ljava/lang/StackTraceElement;"
-#define STR "Ljava/lang/String;"
+#dffinf THD "Ljbvb/lbng/Tirfbd;"
+#dffinf OBJ "Ljbvb/lbng/Objfdt;"
+#dffinf STE "Ljbvb/lbng/StbdkTrbdfElfmfnt;"
+#dffinf STR "Ljbvb/lbng/String;"
 
-#define ARRAY_LENGTH(a) (sizeof(a)/sizeof(a[0]))
+#dffinf ARRAY_LENGTH(b) (sizfof(b)/sizfof(b[0]))
 
-static JNINativeMethod methods[] = {
-    {"start0",           "()V",        (void *)&JVM_StartThread},
-    {"stop0",            "(" OBJ ")V", (void *)&JVM_StopThread},
-    {"isAlive",          "()Z",        (void *)&JVM_IsThreadAlive},
-    {"suspend0",         "()V",        (void *)&JVM_SuspendThread},
-    {"resume0",          "()V",        (void *)&JVM_ResumeThread},
-    {"setPriority0",     "(I)V",       (void *)&JVM_SetThreadPriority},
-    {"yield",            "()V",        (void *)&JVM_Yield},
-    {"sleep",            "(J)V",       (void *)&JVM_Sleep},
-    {"currentThread",    "()" THD,     (void *)&JVM_CurrentThread},
-    {"countStackFrames", "()I",        (void *)&JVM_CountStackFrames},
-    {"interrupt0",       "()V",        (void *)&JVM_Interrupt},
-    {"isInterrupted",    "(Z)Z",       (void *)&JVM_IsInterrupted},
-    {"holdsLock",        "(" OBJ ")Z", (void *)&JVM_HoldsLock},
-    {"getThreads",        "()[" THD,   (void *)&JVM_GetAllThreads},
-    {"dumpThreads",      "([" THD ")[[" STE, (void *)&JVM_DumpThreads},
-    {"setNativeName",    "(" STR ")V", (void *)&JVM_SetNativeThreadName},
+stbtid JNINbtivfMftiod mftiods[] = {
+    {"stbrt0",           "()V",        (void *)&JVM_StbrtTirfbd},
+    {"stop0",            "(" OBJ ")V", (void *)&JVM_StopTirfbd},
+    {"isAlivf",          "()Z",        (void *)&JVM_IsTirfbdAlivf},
+    {"suspfnd0",         "()V",        (void *)&JVM_SuspfndTirfbd},
+    {"rfsumf0",          "()V",        (void *)&JVM_RfsumfTirfbd},
+    {"sftPriority0",     "(I)V",       (void *)&JVM_SftTirfbdPriority},
+    {"yifld",            "()V",        (void *)&JVM_Yifld},
+    {"slffp",            "(J)V",       (void *)&JVM_Slffp},
+    {"durrfntTirfbd",    "()" THD,     (void *)&JVM_CurrfntTirfbd},
+    {"dountStbdkFrbmfs", "()I",        (void *)&JVM_CountStbdkFrbmfs},
+    {"intfrrupt0",       "()V",        (void *)&JVM_Intfrrupt},
+    {"isIntfrruptfd",    "(Z)Z",       (void *)&JVM_IsIntfrruptfd},
+    {"ioldsLodk",        "(" OBJ ")Z", (void *)&JVM_HoldsLodk},
+    {"gftTirfbds",        "()[" THD,   (void *)&JVM_GftAllTirfbds},
+    {"dumpTirfbds",      "([" THD ")[[" STE, (void *)&JVM_DumpTirfbds},
+    {"sftNbtivfNbmf",    "(" STR ")V", (void *)&JVM_SftNbtivfTirfbdNbmf},
 };
 
-#undef THD
-#undef OBJ
-#undef STE
-#undef STR
+#undff THD
+#undff OBJ
+#undff STE
+#undff STR
 
 JNIEXPORT void JNICALL
-Java_java_lang_Thread_registerNatives(JNIEnv *env, jclass cls)
+Jbvb_jbvb_lbng_Tirfbd_rfgistfrNbtivfs(JNIEnv *fnv, jdlbss dls)
 {
-    (*env)->RegisterNatives(env, cls, methods, ARRAY_LENGTH(methods));
+    (*fnv)->RfgistfrNbtivfs(fnv, dls, mftiods, ARRAY_LENGTH(mftiods));
 }

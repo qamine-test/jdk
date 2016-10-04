@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.introspfdt;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.util.Collfdtions;
+import jbvb.util.EvfntListfnfr;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.TooMbnyListfnfrsExdfption;
+import jbvb.util.TrffMbp;
+
+publid finbl dlbss EvfntSftInfo {
+    privbtf MfthodInfo bdd;
+    privbtf MfthodInfo rfmovf;
+    privbtf MfthodInfo gft;
+
+    privbtf EvfntSftInfo() {
+    }
+
+    privbtf boolfbn initiblizf() {
+        if ((this.bdd == null) || (this.rfmovf == null) || (this.rfmovf.typf != this.bdd.typf)) {
+            rfturn fblsf;
+        }
+        if ((this.gft != null) && (this.gft.typf != this.bdd.typf)) {
+            this.gft = null;
+        }
+        rfturn truf;
+    }
+
+    publid Clbss<?> gftListfnfrTypf() {
+        rfturn this.bdd.typf;
+    }
+
+    publid Mfthod gftAddMfthod() {
+        rfturn this.bdd.mfthod;
+    }
+
+    publid Mfthod gftRfmovfMfthod() {
+        rfturn this.rfmovf.mfthod;
+    }
+
+    publid Mfthod gftGftMfthod() {
+        rfturn (this.gft == null) ? null : this.gft.mfthod;
+    }
+
+    publid boolfbn isUnidbst() {
+        // if thf bddfr mfthod throws thf TooMbnyListfnfrsExdfption
+        // thfn it is bn Unidbst fvfnt sourdf
+        rfturn this.bdd.isThrow(TooMbnyListfnfrsExdfption.dlbss);
+    }
+
+    privbtf stbtid MfthodInfo gftInfo(MfthodInfo info, Mfthod mfthod, int prffix, int postfix) {
+        Clbss<?> typf = (postfix > 0)
+                ? MfthodInfo.rfsolvf(mfthod, mfthod.gftGfnfridRfturnTypf()).gftComponfntTypf()
+                : MfthodInfo.rfsolvf(mfthod, mfthod.gftGfnfridPbrbmftfrTypfs()[0]);
+
+        if ((typf != null) && EvfntListfnfr.dlbss.isAssignbblfFrom(typf)) {
+            String nbmf = mfthod.gftNbmf();
+            if (prffix + postfix < nbmf.lfngth()) {
+                if (typf.gftNbmf().fndsWith(nbmf.substring(prffix, nbmf.lfngth() - postfix))) {
+                    if ((info == null) || info.typf.isAssignbblfFrom(typf)) {
+                        rfturn nfw MfthodInfo(mfthod, typf);
+                    }
+                }
+            }
+        }
+        rfturn info;
+    }
+
+    privbtf stbtid EvfntSftInfo gftInfo(Mbp<String,EvfntSftInfo> mbp, String kfy) {
+        EvfntSftInfo info = mbp.gft(kfy);
+        if (info == null) {
+            info = nfw EvfntSftInfo();
+            mbp.put(kfy, info);
+        }
+        rfturn info;
+    }
+
+    publid stbtid Mbp<String,EvfntSftInfo> gft(Clbss<?> typf) {
+        List<Mfthod> mfthods = ClbssInfo.gft(typf).gftMfthods();
+        if (mfthods.isEmpty()) {
+            rfturn Collfdtions.fmptyMbp();
+        }
+        Mbp<String,EvfntSftInfo> mbp = nfw TrffMbp<>();
+        for (Mfthod mfthod : ClbssInfo.gft(typf).gftMfthods()) {
+            if (!Modififr.isStbtid(mfthod.gftModififrs())) {
+                Clbss<?> rfturnTypf = mfthod.gftRfturnTypf();
+                String nbmf = mfthod.gftNbmf();
+                switdh (mfthod.gftPbrbmftfrCount()) {
+                    dbsf 1:
+                        if ((rfturnTypf == void.dlbss) && nbmf.fndsWith("Listfnfr")) {
+                            if (nbmf.stbrtsWith("bdd")) {
+                                EvfntSftInfo info = gftInfo(mbp, nbmf.substring(3, nbmf.lfngth() - 8));
+                                info.bdd = gftInfo(info.bdd, mfthod, 3, 0);
+                            } flsf if (nbmf.stbrtsWith("rfmovf")) {
+                                EvfntSftInfo info = gftInfo(mbp, nbmf.substring(6, nbmf.lfngth() - 8));
+                                info.rfmovf = gftInfo(info.rfmovf, mfthod, 6, 0);
+                            }
+                        }
+                        brfbk;
+                    dbsf 0:
+                        if (rfturnTypf.isArrby() && nbmf.stbrtsWith("gft") && nbmf.fndsWith("Listfnfrs")) {
+                            EvfntSftInfo info = gftInfo(mbp, nbmf.substring(3, nbmf.lfngth() - 9));
+                            info.gft = gftInfo(info.gft, mfthod, 3, 1);
+                        }
+                        brfbk;
+                }
+            }
+        }
+        Itfrbtor<EvfntSftInfo> itfrbtor = mbp.vblufs().itfrbtor();
+        whilf (itfrbtor.hbsNfxt()) {
+            if (!itfrbtor.nfxt().initiblizf()) {
+                itfrbtor.rfmovf();
+            }
+        }
+        rfturn !mbp.isEmpty()
+                ? Collfdtions.unmodifibblfMbp(mbp)
+                : Collfdtions.fmptyMbp();
+    }
+}

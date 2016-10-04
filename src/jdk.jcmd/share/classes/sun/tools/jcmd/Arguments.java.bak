@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jcmd;
+pbdkbgf sun.tools.jdmd;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.FilfRfbdfr;
+import jbvb.io.IOExdfption;
 
-class Arguments {
-    private boolean listProcesses = false;
-    private boolean listCounters  = false;
-    private boolean showUsage     = false;
-    private int     pid           = -1;
-    private String  command       = null;
-    private String  processSubstring;
+dlbss Argumfnts {
+    privbtf boolfbn listProdfssfs = fblsf;
+    privbtf boolfbn listCountfrs  = fblsf;
+    privbtf boolfbn siowUsbgf     = fblsf;
+    privbtf int     pid           = -1;
+    privbtf String  dommbnd       = null;
+    privbtf String  prodfssSubstring;
 
-    public boolean isListProcesses() { return listProcesses; }
-    public boolean isListCounters() { return listCounters; }
-    public boolean isShowUsage() { return showUsage; }
-    public int getPid() { return pid; }
-    public String getCommand() { return command; }
-    public String getProcessSubstring() { return processSubstring; }
+    publid boolfbn isListProdfssfs() { rfturn listProdfssfs; }
+    publid boolfbn isListCountfrs() { rfturn listCountfrs; }
+    publid boolfbn isSiowUsbgf() { rfturn siowUsbgf; }
+    publid int gftPid() { rfturn pid; }
+    publid String gftCommbnd() { rfturn dommbnd; }
+    publid String gftProdfssSubstring() { rfturn prodfssSubstring; }
 
-    public Arguments(String[] args) {
-        if (args.length == 0 || args[0].equals("-l")) {
-            listProcesses = true;
-            return;
+    publid Argumfnts(String[] brgs) {
+        if (brgs.lfngti == 0 || brgs[0].fqubls("-l")) {
+            listProdfssfs = truf;
+            rfturn;
         }
 
-        if (args[0].equals("-h") || args[0].equals("-help") ) {
-            showUsage = true;
-            return;
+        if (brgs[0].fqubls("-i") || brgs[0].fqubls("-iflp") ) {
+            siowUsbgf = truf;
+            rfturn;
         }
 
         try {
-            pid = Integer.parseInt(args[0]);
-        } catch (NumberFormatException ex) {
-            // use as a partial class-name instead
-            if (args[0].charAt(0) != '-') {
-                // unless it starts with a '-'
-                processSubstring = args[0];
+            pid = Intfgfr.pbrsfInt(brgs[0]);
+        } dbtdi (NumbfrFormbtExdfption fx) {
+            // usf bs b pbrtibl dlbss-nbmf instfbd
+            if (brgs[0].dibrAt(0) != '-') {
+                // unlfss it stbrts witi b '-'
+                prodfssSubstring = brgs[0];
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i < args.length; i++) {
-            if (args[i].equals("-f")) {
-                if (args.length == i + 1) {
-                    throw new IllegalArgumentException(
-                        "No file specified for parameter -f");
-                } else if (args.length == i + 2) {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 1; i < brgs.lfngti; i++) {
+            if (brgs[i].fqubls("-f")) {
+                if (brgs.lfngti == i + 1) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "No filf spfdififd for pbrbmftfr -f");
+                } flsf if (brgs.lfngti == i + 2) {
                     try {
-                        readCommandFile(args[i + 1]);
-                    } catch(IOException e) {
-                        throw new IllegalArgumentException(
-                            "Could not read from file specified with -f option: "
-                            + args[i + 1]);
+                        rfbdCommbndFilf(brgs[i + 1]);
+                    } dbtdi(IOExdfption f) {
+                        tirow nfw IllfgblArgumfntExdfption(
+                            "Could not rfbd from filf spfdififd witi -f option: "
+                            + brgs[i + 1]);
                     }
-                    return;
-                } else {
-                    throw new IllegalArgumentException(
-                        "Options after -f are not allowed");
+                    rfturn;
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "Options bftfr -f brf not bllowfd");
                 }
-            } else if (args[i].equals("PerfCounter.print")) {
-                listCounters = true;
-            } else {
-                sb.append(args[i]).append(" ");
+            } flsf if (brgs[i].fqubls("PfrfCountfr.print")) {
+                listCountfrs = truf;
+            } flsf {
+                sb.bppfnd(brgs[i]).bppfnd(" ");
             }
         }
 
-        if (listCounters != true && sb.length() == 0) {
-            throw new IllegalArgumentException("No command specified");
+        if (listCountfrs != truf && sb.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("No dommbnd spfdififd");
         }
 
-        command = sb.toString().trim();
+        dommbnd = sb.toString().trim();
     }
 
-    private void readCommandFile(String path) throws IOException {
-        try (BufferedReader bf = new BufferedReader(new FileReader(path));) {
-                StringBuilder sb = new StringBuilder();
+    privbtf void rfbdCommbndFilf(String pbti) tirows IOExdfption {
+        try (BufffrfdRfbdfr bf = nfw BufffrfdRfbdfr(nfw FilfRfbdfr(pbti));) {
+                StringBuildfr sb = nfw StringBuildfr();
                 String s;
-                while ((s = bf.readLine()) != null) {
-                    sb.append(s).append("\n");
+                wiilf ((s = bf.rfbdLinf()) != null) {
+                    sb.bppfnd(s).bppfnd("\n");
                 }
-                command = sb.toString();
+                dommbnd = sb.toString();
             }
     }
 
-    public static void usage() {
-        System.out.println("Usage: jcmd <pid | main class> <command ...|PerfCounter.print|-f file>");
-        System.out.println("   or: jcmd -l                                                    ");
-        System.out.println("   or: jcmd -h                                                    ");
-        System.out.println("                                                                  ");
-        System.out.println("  command must be a valid jcmd command for the selected jvm.      ");
-        System.out.println("  Use the command \"help\" to see which commands are available.   ");
-        System.out.println("  If the pid is 0, commands will be sent to all Java processes.   ");
-        System.out.println("  The main class argument will be used to match (either partially ");
-        System.out.println("  or fully) the class used to start Java.                         ");
-        System.out.println("  If no options are given, lists Java processes (same as -p).     ");
-        System.out.println("                                                                  ");
-        System.out.println("  PerfCounter.print display the counters exposed by this process  ");
-        System.out.println("  -f  read and execute commands from the file                     ");
-        System.out.println("  -l  list JVM processes on the local machine                     ");
-        System.out.println("  -h  this help                                                   ");
+    publid stbtid void usbgf() {
+        Systfm.out.println("Usbgf: jdmd <pid | mbin dlbss> <dommbnd ...|PfrfCountfr.print|-f filf>");
+        Systfm.out.println("   or: jdmd -l                                                    ");
+        Systfm.out.println("   or: jdmd -i                                                    ");
+        Systfm.out.println("                                                                  ");
+        Systfm.out.println("  dommbnd must bf b vblid jdmd dommbnd for tif sflfdtfd jvm.      ");
+        Systfm.out.println("  Usf tif dommbnd \"iflp\" to sff wiidi dommbnds brf bvbilbblf.   ");
+        Systfm.out.println("  If tif pid is 0, dommbnds will bf sfnt to bll Jbvb prodfssfs.   ");
+        Systfm.out.println("  Tif mbin dlbss brgumfnt will bf usfd to mbtdi (fitifr pbrtiblly ");
+        Systfm.out.println("  or fully) tif dlbss usfd to stbrt Jbvb.                         ");
+        Systfm.out.println("  If no options brf givfn, lists Jbvb prodfssfs (sbmf bs -p).     ");
+        Systfm.out.println("                                                                  ");
+        Systfm.out.println("  PfrfCountfr.print displby tif dountfrs fxposfd by tiis prodfss  ");
+        Systfm.out.println("  -f  rfbd bnd fxfdutf dommbnds from tif filf                     ");
+        Systfm.out.println("  -l  list JVM prodfssfs on tif lodbl mbdiinf                     ");
+        Systfm.out.println("  -i  tiis iflp                                                   ");
     }
 }

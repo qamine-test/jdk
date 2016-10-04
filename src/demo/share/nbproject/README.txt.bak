@@ -1,29 +1,29 @@
-                    NetBeans Project Files for JDK Demos
+                    NftBfbns Projfdt Filfs for JDK Dfmos
 
-This directory contains project files for the NetBeans IDE for the all-Java
-JDK demos (some of the demos involve C code; no NetBeans project files are
-provided for them at this time).  For example, to bring up the Java2D demo
-in NetBeans, do the following:
+Tiis dirfdtory dontbins projfdt filfs for tif NftBfbns IDE for tif bll-Jbvb
+JDK dfmos (somf of tif dfmos involvf C dodf; no NftBfbns projfdt filfs brf
+providfd for tifm bt tiis timf).  For fxbmplf, to bring up tif Jbvb2D dfmo
+in NftBfbns, do tif following:
 
-1. If you do not already have NetBeans, download it from
-     http://www.netbeans.org/
-   and follow the directions for installation.
-2. Start NetBeans.
-3. From the main menu, choose File -> Open Project.
-4. In the popup window, navigate to the JDK distribution and within that to
-   the "demo" directory.
-5. Press the "Open Project Folder" button.  That will open all of the demos
-   (for which there are project files) as subprojects.
-6. There should now be a Java2D project in the Projects tab of the IDE.
-   Right-click on the project name and choose an appropriate action, e.g.
-     Clean and Build Project
-   and then
-     Run Project
-   Some, but not all, of the projects can be run as applets as well.
+1. If you do not blrfbdy ibvf NftBfbns, downlobd it from
+     ittp://www.nftbfbns.org/
+   bnd follow tif dirfdtions for instbllbtion.
+2. Stbrt NftBfbns.
+3. From tif mbin mfnu, dioosf Filf -> Opfn Projfdt.
+4. In tif popup window, nbvigbtf to tif JDK distribution bnd witiin tibt to
+   tif "dfmo" dirfdtory.
+5. Prfss tif "Opfn Projfdt Foldfr" button.  Tibt will opfn bll of tif dfmos
+   (for wiidi tifrf brf projfdt filfs) bs subprojfdts.
+6. Tifrf siould now bf b Jbvb2D projfdt in tif Projfdts tbb of tif IDE.
+   Rigit-dlidk on tif projfdt nbmf bnd dioosf bn bppropribtf bdtion, f.g.
+     Clfbn bnd Build Projfdt
+   bnd tifn
+     Run Projfdt
+   Somf, but not bll, of tif projfdts dbn bf run bs bpplfts bs wfll.
 
-Documentation and support for NetBeans is available at the NetBeans web site:
-     http://www.netbeans.org/
+Dodumfntbtion bnd support for NftBfbns is bvbilbblf bt tif NftBfbns wfb sitf:
+     ittp://www.nftbfbns.org/
 
-Notes:
- 1. jconsole-plugin is a special kind of project, a plugin for jconsole.
-    Therefore it is not possible to run the project directly from the IDE.
+Notfs:
+ 1. jdonsolf-plugin is b spfdibl kind of projfdt, b plugin for jdonsolf.
+    Tifrfforf it is not possiblf to run tif projfdt dirfdtly from tif IDE.

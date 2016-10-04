@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio;
+pbdkbgf jbvb.nio;
 
 
 /**
- * A typesafe enumeration for byte orders.
+ * A typfsbff fnumfrbtion for bytf ordfrs.
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public final class ByteOrder {
+publid finbl dlbss BytfOrdfr {
 
-    private String name;
+    privbtf String nbmf;
 
-    private ByteOrder(String name) {
-        this.name = name;
+    privbtf BytfOrdfr(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Constant denoting big-endian byte order.  In this order, the bytes of a
-     * multibyte value are ordered from most significant to least significant.
+     * Constbnt dfnoting big-fndibn bytf ordfr.  In tiis ordfr, tif bytfs of b
+     * multibytf vbluf brf ordfrfd from most signifidbnt to lfbst signifidbnt.
      */
-    public static final ByteOrder BIG_ENDIAN
-        = new ByteOrder("BIG_ENDIAN");
+    publid stbtid finbl BytfOrdfr BIG_ENDIAN
+        = nfw BytfOrdfr("BIG_ENDIAN");
 
     /**
-     * Constant denoting little-endian byte order.  In this order, the bytes of
-     * a multibyte value are ordered from least significant to most
-     * significant.
+     * Constbnt dfnoting littlf-fndibn bytf ordfr.  In tiis ordfr, tif bytfs of
+     * b multibytf vbluf brf ordfrfd from lfbst signifidbnt to most
+     * signifidbnt.
      */
-    public static final ByteOrder LITTLE_ENDIAN
-        = new ByteOrder("LITTLE_ENDIAN");
+    publid stbtid finbl BytfOrdfr LITTLE_ENDIAN
+        = nfw BytfOrdfr("LITTLE_ENDIAN");
 
     /**
-     * Retrieves the native byte order of the underlying platform.
+     * Rftrifvfs tif nbtivf bytf ordfr of tif undfrlying plbtform.
      *
-     * <p> This method is defined so that performance-sensitive Java code can
-     * allocate direct buffers with the same byte order as the hardware.
-     * Native code libraries are often more efficient when such buffers are
-     * used.  </p>
+     * <p> Tiis mftiod is dffinfd so tibt pfrformbndf-sfnsitivf Jbvb dodf dbn
+     * bllodbtf dirfdt bufffrs witi tif sbmf bytf ordfr bs tif ibrdwbrf.
+     * Nbtivf dodf librbrifs brf oftfn morf fffidifnt wifn sudi bufffrs brf
+     * usfd.  </p>
      *
-     * @return  The native byte order of the hardware upon which this Java
-     *          virtual machine is running
+     * @rfturn  Tif nbtivf bytf ordfr of tif ibrdwbrf upon wiidi tiis Jbvb
+     *          virtubl mbdiinf is running
      */
-    public static ByteOrder nativeOrder() {
-        return Bits.byteOrder();
+    publid stbtid BytfOrdfr nbtivfOrdfr() {
+        rfturn Bits.bytfOrdfr();
     }
 
     /**
-     * Constructs a string describing this object.
+     * Construdts b string dfsdribing tiis objfdt.
      *
-     * <p> This method returns the string <tt>"BIG_ENDIAN"</tt> for {@link
-     * #BIG_ENDIAN} and <tt>"LITTLE_ENDIAN"</tt> for {@link #LITTLE_ENDIAN}.
+     * <p> Tiis mftiod rfturns tif string <tt>"BIG_ENDIAN"</tt> for {@link
+     * #BIG_ENDIAN} bnd <tt>"LITTLE_ENDIAN"</tt> for {@link #LITTLE_ENDIAN}.
      * </p>
      *
-     * @return  The specified string
+     * @rfturn  Tif spfdififd string
      */
-    public String toString() {
-        return name;
+    publid String toString() {
+        rfturn nbmf;
     }
 
 }

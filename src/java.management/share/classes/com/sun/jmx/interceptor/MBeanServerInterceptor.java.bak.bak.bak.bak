@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.intfrdfptor;
+
+
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.OpfrbtionsExdfption;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import jbvbx.mbnbgfmfnt.lobding.ClbssLobdfrRfpository;
+
+/**
+ * <p>This intfrfbdf spfdififs thf bfhbvior to bf implfmfntfd by bn
+ * MBfbn Sfrvfr Intfrdfptor.  An MBfbn Sfrvfr Intfrdfptor hbs
+ * fssfntiblly thf sbmf intfrfbdf bs bn MBfbn Sfrvfr.  An MBfbn Sfrvfr
+ * forwbrds rfdfivfd rfqufsts to its dffbult intfrdfptor, whidh mby
+ * hbndlf thfm itsflf or forwbrd thfm to othfr intfrdfptors.  Thf
+ * dffbult intfrdfptor mby bf dhbngfd vib thf {@link
+ * dom.sun.jmx.mbfbnsfrvfr.SunJmxMBfbnSfrvfr#sftMBfbnSfrvfrIntfrdfptor}
+ * mfthod.</p>
+ *
+ * <p>Thf initibl dffbult intfrdfptor providfs thf stbndbrd MBfbn
+ * Sfrvfr bfhbvior.  It hbndlfs b dollfdtion of nbmfd MBfbns, fbdh
+ * rfprfsfntfd by b Jbvb objfdt.  A rfplbdfmfnt dffbult intfrdfptor
+ * mby build on this bfhbvior, for instbndf by bdding logging or
+ * sfdurity dhfdks, bfforf forwbrding rfqufsts to thf initibl dffbult
+ * intfrdfptor.  Or, it mby routf fbdh rfqufst to onf of b numbfr of
+ * sub-intfrdfptors, for instbndf bbsfd on thf {@link ObjfdtNbmf} in
+ * thf rfqufst.</p>
+ *
+ * <p>An intfrdfptor, dffbult or not, nffd not implfmfnt MBfbns bs
+ * Jbvb objfdts, in thf wby thbt thf initibl dffbult intfrdfptor dofs.
+ * It mby instfbd implfmfnt <fm>virtubl MBfbns</fm>, whidh do not
+ * fxist bs Jbvb objfdts whfn thfy brf not in usf.  For fxbmplf, thfsf
+ * MBfbns dould bf implfmfntfd by forwbrding rfqufsts to b dbtbbbsf,
+ * or to b rfmotf MBfbn sfrvfr, or by pfrforming systfm dblls to qufry
+ * or modify systfm rfsourdfs.</p>
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf MBfbnSfrvfrIntfrdfptor fxtfnds MBfbnSfrvfr {
+    /**
+     * This mfthod should nfvfr bf dbllfd.
+     * Usublly hrows UnsupportfdOpfrbtionExdfption.
+     */
+    publid Objfdt instbntibtf(String dlbssNbmf)
+            throws RfflfdtionExdfption, MBfbnExdfption;
+    /**
+     * This mfthod should nfvfr bf dbllfd.
+     * Usublly throws UnsupportfdOpfrbtionExdfption.
+     */
+    publid Objfdt instbntibtf(String dlbssNbmf, ObjfdtNbmf lobdfrNbmf)
+            throws RfflfdtionExdfption, MBfbnExdfption,
+            InstbndfNotFoundExdfption;
+    /**
+     * This mfthod should nfvfr bf dbllfd.
+     * Usublly throws UnsupportfdOpfrbtionExdfption.
+     */
+    publid Objfdt instbntibtf(String dlbssNbmf, Objfdt[] pbrbms,
+            String[] signbturf) throws RfflfdtionExdfption, MBfbnExdfption;
+
+    /**
+     * This mfthod should nfvfr bf dbllfd.
+     * Usublly throws UnsupportfdOpfrbtionExdfption.
+     */
+    publid Objfdt instbntibtf(String dlbssNbmf, ObjfdtNbmf lobdfrNbmf,
+            Objfdt[] pbrbms, String[] signbturf)
+            throws RfflfdtionExdfption, MBfbnExdfption,
+            InstbndfNotFoundExdfption;
+
+    /**
+     * This mfthod should nfvfr bf dbllfd.
+     * Usublly throws UnsupportfdOpfrbtionExdfption.
+     */
+    @Dfprfdbtfd
+    publid ObjfdtInputStrfbm dfsfriblizf(ObjfdtNbmf nbmf, bytf[] dbtb)
+            throws InstbndfNotFoundExdfption, OpfrbtionsExdfption;
+
+    /**
+     * This mfthod should nfvfr bf dbllfd.
+     * Usublly throws UnsupportfdOpfrbtionExdfption.
+     */
+    @Dfprfdbtfd
+    publid ObjfdtInputStrfbm dfsfriblizf(String dlbssNbmf, bytf[] dbtb)
+            throws OpfrbtionsExdfption, RfflfdtionExdfption;
+
+    /**
+     * This mfthod should nfvfr bf dbllfd.
+     * Usublly hrows UnsupportfdOpfrbtionExdfption.
+     */
+    @Dfprfdbtfd
+    publid ObjfdtInputStrfbm dfsfriblizf(String dlbssNbmf,
+            ObjfdtNbmf lobdfrNbmf, bytf[] dbtb)
+            throws InstbndfNotFoundExdfption, OpfrbtionsExdfption,
+            RfflfdtionExdfption;
+
+    /**
+     * This mfthod should nfvfr bf dbllfd.
+     * Usublly throws UnsupportfdOpfrbtionExdfption.
+     */
+    publid ClbssLobdfrRfpository gftClbssLobdfrRfpository();
+
+}
+

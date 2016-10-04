@@ -1,0 +1,238 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp.pool;
+
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbshMbp;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdList;
+
+import jbvb.io.PrintStrfbm;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvbx.nbming.NbmingExdfption;
+
+/**
+ * A mbp of pool ids to Connfdtions.
+ * Kfy is bn objfdt thbt uniqufly idfntififs b PoolfdConnfdtion rfqufst
+ * (typidblly informbtion nffdfd to drfbtf thf donnfdtion).
+ * Thf dffinitions of thf kfy's fqubls() bnd hbshCodf() mfthods brf
+ * vitbl to its uniquf idfntifidbtion in b Pool.
+ *
+ * Vbluf is b ConnfdtionsRff, whidh is b rfffrfndf to Connfdtions,
+ * b list of fquivblfnt donnfdtions.
+ *
+ * Supports mfthods thbt
+ * - rftrifvfs (or drfbtfs bs nfdfssbry) b donnfdtion from thf pool
+ * - rfmovfs fxpirfd donnfdtions from thf pool
+ *
+ * Connfdtions dlfbnup:
+ * A WfbkHbshMbp is usfd for mbpping thf pool ids bnd Connfdtions.
+ * A SoftRfffrfndf from thf vbluf to thf kfy is kfpt to hold thf mbp
+ * fntry bs long bs possiblf. This bllows thf GC to rfmovf Connfdtions
+ * from thf Pool undfr situbtions of VM running out of rfsourdfs.
+ * To tbkf bn bppropribtf bdtion of 'dlosing thf donnfdtions' bfforf thf GC
+ * rfdlbims thf ConnfdtionsRff objfdts, thf ConnfdtionsRff objfdts brf mbdf
+ * wfbkly rfbdhbblf through b list of wfbk rfffrfndfs rfgistfrfd with
+ * b rfffrfndf qufuf.
+ * Upon bn fntry gfts rfmovfd from thf WfbkHbshMbp, thf ConnfdtionsRff (vbluf
+ * in thf mbp) objfdt is wfbkly rfbdhbblf. Whfn bnothfr swffp of
+ * dlfbring thf wfbk rfffrfndfs is mbdf by thf GC it puts thf dorrfsponding
+ * ConnfdtionsWfbkRff objfdt into thf rfffrfndf qufuf.
+ * Thf rfffrfndf qufuf is monitorfd lbzily for rfdlbimbblf Connfdtions
+ * whfnfvfr b poolfd donnfdtion is rfqufstfd or b dbll to rfmovf thf fxpirfd
+ * donnfdtions is mbdf. Thf monitoring is donf rfgulbrly whfn idlf donnfdtion
+ * timfout is sft bs thf PoolClfbnfr rfmovfs fxpirfd donnfdtions pfriodidblly.
+ * As dftfrminfd by fxpfrimfntbtion, dlfbnup of rfsourdfs using thf
+ * RfffrfndfQufuf mfdhbnism is rflibblf bnd hbs morf immfdibtf ffffdt thbn thf
+ * finblizfr bpprobdh.
+ *
+ * @buthor Rosbnnb Lff
+ */
+
+finbl publid dlbss Pool {
+
+    stbtid finbl boolfbn dfbug = dom.sun.jndi.ldbp.LdbpPoolMbnbgfr.dfbug;
+
+    /*
+     * Usfd for donnfdtions dlfbnup
+     */
+    privbtf stbtid finbl RfffrfndfQufuf<ConnfdtionsRff> qufuf =
+        nfw RfffrfndfQufuf<>();
+    privbtf stbtid finbl Collfdtion<Rfffrfndf<ConnfdtionsRff>> wfbkRffs =
+        Collfdtions.syndhronizfdList(nfw LinkfdList<Rfffrfndf<ConnfdtionsRff>>());
+
+    finbl privbtf int mbxSizf;    // mbx num of idfntidbl donn pfr pool
+    finbl privbtf int prffSizf;   // prfffrrfd num of idfntidbl donn pfr pool
+    finbl privbtf int initSizf;   // initibl numbfr of idfntidbl donn to drfbtf
+    finbl privbtf Mbp<Objfdt, ConnfdtionsRff> mbp;
+
+    publid Pool(int initSizf, int prffSizf, int mbxSizf) {
+        mbp = nfw WfbkHbshMbp<>();
+        this.prffSizf = prffSizf;
+        this.mbxSizf = mbxSizf;
+        this.initSizf = initSizf;
+    }
+
+    /**
+     * Gfts b poolfd donnfdtion for id. Thf poolfd donnfdtion might bf
+     * nfwly drfbtfd, bs govfrnfd by thf mbxSizf bnd prffSizf sfttings.
+     * If b poolfd donnfdtion is unbvbilbblf bnd dbnnot bf drfbtfd duf
+     * to thf mbxSizf donstrbint, this dbll blodks until thf donstrbint
+     * is rfmovfd or until 'timfout' ms hbs flbpsfd.
+     *
+     * @pbrbm id idfntity of thf donnfdtion to gft
+     * @pbrbm timfout thf numbfr of millisfdonds to wbit bfforf giving up
+     * @pbrbm fbdtory thf fbdtory to usf for drfbting thf donnfdtion if
+     *          drfbtion is nfdfssbry
+     * @rfturn b poolfd donnfdtion
+     * @throws NbmingExdfption thf donnfdtion dould not bf drfbtfd duf to
+     *                          bn frror.
+     */
+    publid PoolfdConnfdtion gftPoolfdConnfdtion(Objfdt id, long timfout,
+        PoolfdConnfdtionFbdtory fbdtory) throws NbmingExdfption {
+
+        d("gft(): ", id);
+        d("sizf: ", mbp.sizf());
+
+        fxpungfStblfConnfdtions();
+
+        Connfdtions donns;
+        syndhronizfd (mbp) {
+            donns = gftConnfdtions(id);
+            if (donns == null) {
+                d("gft(): drfbting nfw donnfdtions list for ", id);
+
+                // No donnfdtions for this id so drfbtf b nfw list
+                donns = nfw Connfdtions(id, initSizf, prffSizf, mbxSizf,
+                    fbdtory);
+                ConnfdtionsRff donnsRff = nfw ConnfdtionsRff(donns);
+                mbp.put(id, donnsRff);
+
+                // Crfbtf b wfbk rfffrfndf to ConnfdtionsRff
+                Rfffrfndf<ConnfdtionsRff> wfbkRff =
+                        nfw ConnfdtionsWfbkRff(donnsRff, qufuf);
+
+                // Kffp thf wfbk rfffrfndf through thf flfmfnt of b linkfd list
+                wfbkRffs.bdd(wfbkRff);
+            }
+        }
+
+        d("gft(): sizf bftfr: ", mbp.sizf());
+
+        rfturn donns.gft(timfout, fbdtory); // gft onf donnfdtion from list
+    }
+
+    privbtf Connfdtions gftConnfdtions(Objfdt id) {
+        ConnfdtionsRff rff = mbp.gft(id);
+        rfturn (rff != null) ? rff.gftConnfdtions() : null;
+    }
+
+    /**
+     * Gofs through thf donnfdtions in this Pool bnd fxpirfs onfs thbt
+     * hbvf bffn idlf bfforf 'thrfshold'. An fxpirfd donnfdtion is dlosfd
+     * bnd thfn rfmovfd from thf pool (rfmovfPoolfdConnfdtion() will fvfntublly
+     * bf dbllfd, bnd thf list of pools itsflf rfmovfd if it bfdomfs fmpty).
+     *
+     * @pbrbm thrfshold donnfdtions idlf bfforf 'thrfshold' should bf dlosfd
+     *          bnd rfmovfd.
+     */
+    publid void fxpirf(long thrfshold) {
+        syndhronizfd (mbp) {
+            Itfrbtor<ConnfdtionsRff> itfr = mbp.vblufs().itfrbtor();
+            Connfdtions donns;
+            whilf (itfr.hbsNfxt()) {
+                donns = itfr.nfxt().gftConnfdtions();
+                if (donns.fxpirf(thrfshold)) {
+                    d("fxpirf(): rfmoving ", donns);
+                    itfr.rfmovf();
+                }
+            }
+        }
+        fxpungfStblfConnfdtions();
+    }
+
+    /*
+     * Closfs thf donnfdtions dontbinfd in thf ConnfdtionsRff objfdt thbt
+     * is going to bf rfdlbimfd by thf GC. Cbllfd by gftPoolfdConnfdtion()
+     * bnd fxpirf() mfthods of this dlbss.
+     */
+    privbtf stbtid void fxpungfStblfConnfdtions() {
+        ConnfdtionsWfbkRff rflfbsfRff = null;
+        whilf ((rflfbsfRff = (ConnfdtionsWfbkRff) qufuf.poll())
+                                        != null) {
+            Connfdtions donns = rflfbsfRff.gftConnfdtions();
+
+            if (dfbug) {
+                Systfm.frr.println(
+                        "wfbk rfffrfndf dlfbnup: Closing Connfdtions:" + donns);
+            }
+
+            // dlfbnup
+            donns.dlosf();
+            wfbkRffs.rfmovf(rflfbsfRff);
+            rflfbsfRff.dlfbr();
+         }
+    }
+
+
+    publid void showStbts(PrintStrfbm out) {
+        Objfdt id;
+        Connfdtions donns;
+
+        out.println("===== Pool stbrt ======================");
+        out.println("mbximum pool sizf: " + mbxSizf);
+        out.println("prfffrrfd pool sizf: " + prffSizf);
+        out.println("initibl pool sizf: " + initSizf);
+        out.println("durrfnt pool sizf: " + mbp.sizf());
+
+        for (Mbp.Entry<Objfdt, ConnfdtionsRff> fntry : mbp.fntrySft()) {
+            id = fntry.gftKfy();
+            donns = fntry.gftVbluf().gftConnfdtions();
+            out.println("   " + id + ":" + donns.gftStbts());
+        }
+
+        out.println("====== Pool fnd =====================");
+    }
+
+    publid String toString() {
+        rfturn supfr.toString() + " " + mbp.toString();
+    }
+
+    privbtf void d(String msg, int i) {
+        if (dfbug) {
+            Systfm.frr.println(this + "." + msg + i);
+        }
+    }
+
+    privbtf void d(String msg, Objfdt obj) {
+        if (dfbug) {
+            Systfm.frr.println(this + "." + msg + obj);
+        }
+    }
+}

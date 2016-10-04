@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2007-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,401 +59,401 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import static java.time.temporal.ChronoField.EPOCH_DAY;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.EPOCH_DAY;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.Serializable;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.ValueRange;
-import java.util.Objects;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.ZonfId;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoUnit;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Objfdts;
 
 /**
- * A date-time without a time-zone for the calendar neutral API.
+ * A dbtf-timf witiout b timf-zonf for tif dblfndbr nfutrbl API.
  * <p>
- * {@code ChronoLocalDateTime} is an immutable date-time object that represents a date-time, often
- * viewed as year-month-day-hour-minute-second. This object can also access other
- * fields such as day-of-year, day-of-week and week-of-year.
+ * {@dodf CironoLodblDbtfTimf} is bn immutbblf dbtf-timf objfdt tibt rfprfsfnts b dbtf-timf, oftfn
+ * vifwfd bs yfbr-monti-dby-iour-minutf-sfdond. Tiis objfdt dbn blso bddfss otifr
+ * fiflds sudi bs dby-of-yfbr, dby-of-wffk bnd wffk-of-yfbr.
  * <p>
- * This class stores all date and time fields, to a precision of nanoseconds.
- * It does not store or represent a time-zone. For example, the value
- * "2nd October 2007 at 13:45.30.123456789" can be stored in an {@code ChronoLocalDateTime}.
+ * Tiis dlbss storfs bll dbtf bnd timf fiflds, to b prfdision of nbnosfdonds.
+ * It dofs not storf or rfprfsfnt b timf-zonf. For fxbmplf, tif vbluf
+ * "2nd Odtobfr 2007 bt 13:45.30.123456789" dbn bf storfd in bn {@dodf CironoLodblDbtfTimf}.
  *
- * @implSpec
- * This class is immutable and thread-safe.
- * @serial
- * @param <D> the concrete type for the date of this date-time
- * @since 1.8
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ * @sfribl
+ * @pbrbm <D> tif dondrftf typf for tif dbtf of tiis dbtf-timf
+ * @sindf 1.8
  */
-final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
-        implements  ChronoLocalDateTime<D>, Temporal, TemporalAdjuster, Serializable {
+finbl dlbss CironoLodblDbtfTimfImpl<D fxtfnds CironoLodblDbtf>
+        implfmfnts  CironoLodblDbtfTimf<D>, Tfmporbl, TfmporblAdjustfr, Sfriblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = 4556003607393004514L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4556003607393004514L;
     /**
-     * Hours per day.
+     * Hours pfr dby.
      */
-    static final int HOURS_PER_DAY = 24;
+    stbtid finbl int HOURS_PER_DAY = 24;
     /**
-     * Minutes per hour.
+     * Minutfs pfr iour.
      */
-    static final int MINUTES_PER_HOUR = 60;
+    stbtid finbl int MINUTES_PER_HOUR = 60;
     /**
-     * Minutes per day.
+     * Minutfs pfr dby.
      */
-    static final int MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY;
+    stbtid finbl int MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY;
     /**
-     * Seconds per minute.
+     * Sfdonds pfr minutf.
      */
-    static final int SECONDS_PER_MINUTE = 60;
+    stbtid finbl int SECONDS_PER_MINUTE = 60;
     /**
-     * Seconds per hour.
+     * Sfdonds pfr iour.
      */
-    static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
+    stbtid finbl int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
     /**
-     * Seconds per day.
+     * Sfdonds pfr dby.
      */
-    static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * HOURS_PER_DAY;
+    stbtid finbl int SECONDS_PER_DAY = SECONDS_PER_HOUR * HOURS_PER_DAY;
     /**
-     * Milliseconds per day.
+     * Millisfdonds pfr dby.
      */
-    static final long MILLIS_PER_DAY = SECONDS_PER_DAY * 1000L;
+    stbtid finbl long MILLIS_PER_DAY = SECONDS_PER_DAY * 1000L;
     /**
-     * Microseconds per day.
+     * Midrosfdonds pfr dby.
      */
-    static final long MICROS_PER_DAY = SECONDS_PER_DAY * 1000_000L;
+    stbtid finbl long MICROS_PER_DAY = SECONDS_PER_DAY * 1000_000L;
     /**
-     * Nanos per second.
+     * Nbnos pfr sfdond.
      */
-    static final long NANOS_PER_SECOND = 1000_000_000L;
+    stbtid finbl long NANOS_PER_SECOND = 1000_000_000L;
     /**
-     * Nanos per minute.
+     * Nbnos pfr minutf.
      */
-    static final long NANOS_PER_MINUTE = NANOS_PER_SECOND * SECONDS_PER_MINUTE;
+    stbtid finbl long NANOS_PER_MINUTE = NANOS_PER_SECOND * SECONDS_PER_MINUTE;
     /**
-     * Nanos per hour.
+     * Nbnos pfr iour.
      */
-    static final long NANOS_PER_HOUR = NANOS_PER_MINUTE * MINUTES_PER_HOUR;
+    stbtid finbl long NANOS_PER_HOUR = NANOS_PER_MINUTE * MINUTES_PER_HOUR;
     /**
-     * Nanos per day.
+     * Nbnos pfr dby.
      */
-    static final long NANOS_PER_DAY = NANOS_PER_HOUR * HOURS_PER_DAY;
+    stbtid finbl long NANOS_PER_DAY = NANOS_PER_HOUR * HOURS_PER_DAY;
 
     /**
-     * The date part.
+     * Tif dbtf pbrt.
      */
-    private final transient D date;
+    privbtf finbl trbnsifnt D dbtf;
     /**
-     * The time part.
+     * Tif timf pbrt.
      */
-    private final transient LocalTime time;
-
-    //-----------------------------------------------------------------------
-    /**
-     * Obtains an instance of {@code ChronoLocalDateTime} from a date and time.
-     *
-     * @param date  the local date, not null
-     * @param time  the local time, not null
-     * @return the local date-time, not null
-     */
-    static <R extends ChronoLocalDate> ChronoLocalDateTimeImpl<R> of(R date, LocalTime time) {
-        return new ChronoLocalDateTimeImpl<>(date, time);
-    }
-
-    /**
-     * Casts the {@code Temporal} to {@code ChronoLocalDateTime} ensuring it bas the specified chronology.
-     *
-     * @param chrono  the chronology to check for, not null
-     * @param temporal   a date-time to cast, not null
-     * @return the date-time checked and cast to {@code ChronoLocalDateTime}, not null
-     * @throws ClassCastException if the date-time cannot be cast to ChronoLocalDateTimeImpl
-     *  or the chronology is not equal this Chronology
-     */
-    static <R extends ChronoLocalDate> ChronoLocalDateTimeImpl<R> ensureValid(Chronology chrono, Temporal temporal) {
-        @SuppressWarnings("unchecked")
-        ChronoLocalDateTimeImpl<R> other = (ChronoLocalDateTimeImpl<R>) temporal;
-        if (chrono.equals(other.getChronology()) == false) {
-            throw new ClassCastException("Chronology mismatch, required: " + chrono.getId()
-                    + ", actual: " + other.getChronology().getId());
-        }
-        return other;
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param date  the date part of the date-time, not null
-     * @param time  the time part of the date-time, not null
-     */
-    private ChronoLocalDateTimeImpl(D date, LocalTime time) {
-        Objects.requireNonNull(date, "date");
-        Objects.requireNonNull(time, "time");
-        this.date = date;
-        this.time = time;
-    }
-
-    /**
-     * Returns a copy of this date-time with the new date and time, checking
-     * to see if a new object is in fact required.
-     *
-     * @param newDate  the date of the new date-time, not null
-     * @param newTime  the time of the new date-time, not null
-     * @return the date-time, not null
-     */
-    private ChronoLocalDateTimeImpl<D> with(Temporal newDate, LocalTime newTime) {
-        if (date == newDate && time == newTime) {
-            return this;
-        }
-        // Validate that the new Temporal is a ChronoLocalDate (and not something else)
-        D cd = ChronoLocalDateImpl.ensureValid(date.getChronology(), newDate);
-        return new ChronoLocalDateTimeImpl<>(cd, newTime);
-    }
+    privbtf finbl trbnsifnt LodblTimf timf;
 
     //-----------------------------------------------------------------------
-    @Override
-    public D toLocalDate() {
-        return date;
+    /**
+     * Obtbins bn instbndf of {@dodf CironoLodblDbtfTimf} from b dbtf bnd timf.
+     *
+     * @pbrbm dbtf  tif lodbl dbtf, not null
+     * @pbrbm timf  tif lodbl timf, not null
+     * @rfturn tif lodbl dbtf-timf, not null
+     */
+    stbtid <R fxtfnds CironoLodblDbtf> CironoLodblDbtfTimfImpl<R> of(R dbtf, LodblTimf timf) {
+        rfturn nfw CironoLodblDbtfTimfImpl<>(dbtf, timf);
     }
 
-    @Override
-    public LocalTime toLocalTime() {
-        return time;
+    /**
+     * Cbsts tif {@dodf Tfmporbl} to {@dodf CironoLodblDbtfTimf} fnsuring it bbs tif spfdififd dironology.
+     *
+     * @pbrbm dirono  tif dironology to difdk for, not null
+     * @pbrbm tfmporbl   b dbtf-timf to dbst, not null
+     * @rfturn tif dbtf-timf difdkfd bnd dbst to {@dodf CironoLodblDbtfTimf}, not null
+     * @tirows ClbssCbstExdfption if tif dbtf-timf dbnnot bf dbst to CironoLodblDbtfTimfImpl
+     *  or tif dironology is not fqubl tiis Cironology
+     */
+    stbtid <R fxtfnds CironoLodblDbtf> CironoLodblDbtfTimfImpl<R> fnsurfVblid(Cironology dirono, Tfmporbl tfmporbl) {
+        @SupprfssWbrnings("undifdkfd")
+        CironoLodblDbtfTimfImpl<R> otifr = (CironoLodblDbtfTimfImpl<R>) tfmporbl;
+        if (dirono.fqubls(otifr.gftCironology()) == fblsf) {
+            tirow nfw ClbssCbstExdfption("Cironology mismbtdi, rfquirfd: " + dirono.gftId()
+                    + ", bdtubl: " + otifr.gftCironology().gftId());
+        }
+        rfturn otifr;
+    }
+
+    /**
+     * Construdtor.
+     *
+     * @pbrbm dbtf  tif dbtf pbrt of tif dbtf-timf, not null
+     * @pbrbm timf  tif timf pbrt of tif dbtf-timf, not null
+     */
+    privbtf CironoLodblDbtfTimfImpl(D dbtf, LodblTimf timf) {
+        Objfdts.rfquirfNonNull(dbtf, "dbtf");
+        Objfdts.rfquirfNonNull(timf, "timf");
+        tiis.dbtf = dbtf;
+        tiis.timf = timf;
+    }
+
+    /**
+     * Rfturns b dopy of tiis dbtf-timf witi tif nfw dbtf bnd timf, difdking
+     * to sff if b nfw objfdt is in fbdt rfquirfd.
+     *
+     * @pbrbm nfwDbtf  tif dbtf of tif nfw dbtf-timf, not null
+     * @pbrbm nfwTimf  tif timf of tif nfw dbtf-timf, not null
+     * @rfturn tif dbtf-timf, not null
+     */
+    privbtf CironoLodblDbtfTimfImpl<D> witi(Tfmporbl nfwDbtf, LodblTimf nfwTimf) {
+        if (dbtf == nfwDbtf && timf == nfwTimf) {
+            rfturn tiis;
+        }
+        // Vblidbtf tibt tif nfw Tfmporbl is b CironoLodblDbtf (bnd not somftiing flsf)
+        D dd = CironoLodblDbtfImpl.fnsurfVblid(dbtf.gftCironology(), nfwDbtf);
+        rfturn nfw CironoLodblDbtfTimfImpl<>(dd, nfwTimf);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            return f.isDateBased() || f.isTimeBased();
-        }
-        return field != null && field.isSupportedBy(this);
+    @Ovfrridf
+    publid D toLodblDbtf() {
+        rfturn dbtf;
     }
 
-    @Override
-    public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            return (f.isTimeBased() ? time.range(field) : date.range(field));
-        }
-        return field.rangeRefinedBy(this);
-    }
-
-    @Override
-    public int get(TemporalField field) {
-        if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            return (f.isTimeBased() ? time.get(field) : date.get(field));
-        }
-        return range(field).checkValidIntValue(getLong(field), field);
-    }
-
-    @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            return (f.isTimeBased() ? time.getLong(field) : date.getLong(field));
-        }
-        return field.getFrom(this);
+    @Ovfrridf
+    publid LodblTimf toLodblTimf() {
+        rfturn timf;
     }
 
     //-----------------------------------------------------------------------
-    @SuppressWarnings("unchecked")
-    @Override
-    public ChronoLocalDateTimeImpl<D> with(TemporalAdjuster adjuster) {
-        if (adjuster instanceof ChronoLocalDate) {
-            // The Chronology is checked in with(date,time)
-            return with((ChronoLocalDate) adjuster, time);
-        } else if (adjuster instanceof LocalTime) {
-            return with(date, (LocalTime) adjuster);
-        } else if (adjuster instanceof ChronoLocalDateTimeImpl) {
-            return ChronoLocalDateTimeImpl.ensureValid(date.getChronology(), (ChronoLocalDateTimeImpl<?>) adjuster);
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = (CironoFifld) fifld;
+            rfturn f.isDbtfBbsfd() || f.isTimfBbsfd();
         }
-        return ChronoLocalDateTimeImpl.ensureValid(date.getChronology(), (ChronoLocalDateTimeImpl<?>) adjuster.adjustInto(this));
+        rfturn fifld != null && fifld.isSupportfdBy(tiis);
     }
 
-    @Override
-    public ChronoLocalDateTimeImpl<D> with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            if (f.isTimeBased()) {
-                return with(date, time.with(field, newValue));
-            } else {
-                return with(date.with(field, newValue), time);
+    @Ovfrridf
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = (CironoFifld) fifld;
+            rfturn (f.isTimfBbsfd() ? timf.rbngf(fifld) : dbtf.rbngf(fifld));
+        }
+        rfturn fifld.rbngfRffinfdBy(tiis);
+    }
+
+    @Ovfrridf
+    publid int gft(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = (CironoFifld) fifld;
+            rfturn (f.isTimfBbsfd() ? timf.gft(fifld) : dbtf.gft(fifld));
+        }
+        rfturn rbngf(fifld).difdkVblidIntVbluf(gftLong(fifld), fifld);
+    }
+
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = (CironoFifld) fifld;
+            rfturn (f.isTimfBbsfd() ? timf.gftLong(fifld) : dbtf.gftLong(fifld));
+        }
+        rfturn fifld.gftFrom(tiis);
+    }
+
+    //-----------------------------------------------------------------------
+    @SupprfssWbrnings("undifdkfd")
+    @Ovfrridf
+    publid CironoLodblDbtfTimfImpl<D> witi(TfmporblAdjustfr bdjustfr) {
+        if (bdjustfr instbndfof CironoLodblDbtf) {
+            // Tif Cironology is difdkfd in witi(dbtf,timf)
+            rfturn witi((CironoLodblDbtf) bdjustfr, timf);
+        } flsf if (bdjustfr instbndfof LodblTimf) {
+            rfturn witi(dbtf, (LodblTimf) bdjustfr);
+        } flsf if (bdjustfr instbndfof CironoLodblDbtfTimfImpl) {
+            rfturn CironoLodblDbtfTimfImpl.fnsurfVblid(dbtf.gftCironology(), (CironoLodblDbtfTimfImpl<?>) bdjustfr);
+        }
+        rfturn CironoLodblDbtfTimfImpl.fnsurfVblid(dbtf.gftCironology(), (CironoLodblDbtfTimfImpl<?>) bdjustfr.bdjustInto(tiis));
+    }
+
+    @Ovfrridf
+    publid CironoLodblDbtfTimfImpl<D> witi(TfmporblFifld fifld, long nfwVbluf) {
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = (CironoFifld) fifld;
+            if (f.isTimfBbsfd()) {
+                rfturn witi(dbtf, timf.witi(fifld, nfwVbluf));
+            } flsf {
+                rfturn witi(dbtf.witi(fifld, nfwVbluf), timf);
             }
         }
-        return ChronoLocalDateTimeImpl.ensureValid(date.getChronology(), field.adjustInto(this, newValue));
+        rfturn CironoLodblDbtfTimfImpl.fnsurfVblid(dbtf.gftCironology(), fifld.bdjustInto(tiis, nfwVbluf));
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public ChronoLocalDateTimeImpl<D> plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            ChronoUnit f = (ChronoUnit) unit;
-            switch (f) {
-                case NANOS: return plusNanos(amountToAdd);
-                case MICROS: return plusDays(amountToAdd / MICROS_PER_DAY).plusNanos((amountToAdd % MICROS_PER_DAY) * 1000);
-                case MILLIS: return plusDays(amountToAdd / MILLIS_PER_DAY).plusNanos((amountToAdd % MILLIS_PER_DAY) * 1000000);
-                case SECONDS: return plusSeconds(amountToAdd);
-                case MINUTES: return plusMinutes(amountToAdd);
-                case HOURS: return plusHours(amountToAdd);
-                case HALF_DAYS: return plusDays(amountToAdd / 256).plusHours((amountToAdd % 256) * 12);  // no overflow (256 is multiple of 2)
+    @Ovfrridf
+    publid CironoLodblDbtfTimfImpl<D> plus(long bmountToAdd, TfmporblUnit unit) {
+        if (unit instbndfof CironoUnit) {
+            CironoUnit f = (CironoUnit) unit;
+            switdi (f) {
+                dbsf NANOS: rfturn plusNbnos(bmountToAdd);
+                dbsf MICROS: rfturn plusDbys(bmountToAdd / MICROS_PER_DAY).plusNbnos((bmountToAdd % MICROS_PER_DAY) * 1000);
+                dbsf MILLIS: rfturn plusDbys(bmountToAdd / MILLIS_PER_DAY).plusNbnos((bmountToAdd % MILLIS_PER_DAY) * 1000000);
+                dbsf SECONDS: rfturn plusSfdonds(bmountToAdd);
+                dbsf MINUTES: rfturn plusMinutfs(bmountToAdd);
+                dbsf HOURS: rfturn plusHours(bmountToAdd);
+                dbsf HALF_DAYS: rfturn plusDbys(bmountToAdd / 256).plusHours((bmountToAdd % 256) * 12);  // no ovfrflow (256 is multiplf of 2)
             }
-            return with(date.plus(amountToAdd, unit), time);
+            rfturn witi(dbtf.plus(bmountToAdd, unit), timf);
         }
-        return ChronoLocalDateTimeImpl.ensureValid(date.getChronology(), unit.addTo(this, amountToAdd));
+        rfturn CironoLodblDbtfTimfImpl.fnsurfVblid(dbtf.gftCironology(), unit.bddTo(tiis, bmountToAdd));
     }
 
-    private ChronoLocalDateTimeImpl<D> plusDays(long days) {
-        return with(date.plus(days, ChronoUnit.DAYS), time);
+    privbtf CironoLodblDbtfTimfImpl<D> plusDbys(long dbys) {
+        rfturn witi(dbtf.plus(dbys, CironoUnit.DAYS), timf);
     }
 
-    private ChronoLocalDateTimeImpl<D> plusHours(long hours) {
-        return plusWithOverflow(date, hours, 0, 0, 0);
+    privbtf CironoLodblDbtfTimfImpl<D> plusHours(long iours) {
+        rfturn plusWitiOvfrflow(dbtf, iours, 0, 0, 0);
     }
 
-    private ChronoLocalDateTimeImpl<D> plusMinutes(long minutes) {
-        return plusWithOverflow(date, 0, minutes, 0, 0);
+    privbtf CironoLodblDbtfTimfImpl<D> plusMinutfs(long minutfs) {
+        rfturn plusWitiOvfrflow(dbtf, 0, minutfs, 0, 0);
     }
 
-    ChronoLocalDateTimeImpl<D> plusSeconds(long seconds) {
-        return plusWithOverflow(date, 0, 0, seconds, 0);
+    CironoLodblDbtfTimfImpl<D> plusSfdonds(long sfdonds) {
+        rfturn plusWitiOvfrflow(dbtf, 0, 0, sfdonds, 0);
     }
 
-    private ChronoLocalDateTimeImpl<D> plusNanos(long nanos) {
-        return plusWithOverflow(date, 0, 0, 0, nanos);
+    privbtf CironoLodblDbtfTimfImpl<D> plusNbnos(long nbnos) {
+        rfturn plusWitiOvfrflow(dbtf, 0, 0, 0, nbnos);
     }
 
     //-----------------------------------------------------------------------
-    private ChronoLocalDateTimeImpl<D> plusWithOverflow(D newDate, long hours, long minutes, long seconds, long nanos) {
+    privbtf CironoLodblDbtfTimfImpl<D> plusWitiOvfrflow(D nfwDbtf, long iours, long minutfs, long sfdonds, long nbnos) {
         // 9223372036854775808 long, 2147483648 int
-        if ((hours | minutes | seconds | nanos) == 0) {
-            return with(newDate, time);
+        if ((iours | minutfs | sfdonds | nbnos) == 0) {
+            rfturn witi(nfwDbtf, timf);
         }
-        long totDays = nanos / NANOS_PER_DAY +             //   max/24*60*60*1B
-                seconds / SECONDS_PER_DAY +                //   max/24*60*60
-                minutes / MINUTES_PER_DAY +                //   max/24*60
-                hours / HOURS_PER_DAY;                     //   max/24
-        long totNanos = nanos % NANOS_PER_DAY +                    //   max  86400000000000
-                (seconds % SECONDS_PER_DAY) * NANOS_PER_SECOND +   //   max  86400000000000
-                (minutes % MINUTES_PER_DAY) * NANOS_PER_MINUTE +   //   max  86400000000000
-                (hours % HOURS_PER_DAY) * NANOS_PER_HOUR;          //   max  86400000000000
-        long curNoD = time.toNanoOfDay();                          //   max  86400000000000
-        totNanos = totNanos + curNoD;                              // total 432000000000000
-        totDays += Math.floorDiv(totNanos, NANOS_PER_DAY);
-        long newNoD = Math.floorMod(totNanos, NANOS_PER_DAY);
-        LocalTime newTime = (newNoD == curNoD ? time : LocalTime.ofNanoOfDay(newNoD));
-        return with(newDate.plus(totDays, ChronoUnit.DAYS), newTime);
+        long totDbys = nbnos / NANOS_PER_DAY +             //   mbx/24*60*60*1B
+                sfdonds / SECONDS_PER_DAY +                //   mbx/24*60*60
+                minutfs / MINUTES_PER_DAY +                //   mbx/24*60
+                iours / HOURS_PER_DAY;                     //   mbx/24
+        long totNbnos = nbnos % NANOS_PER_DAY +                    //   mbx  86400000000000
+                (sfdonds % SECONDS_PER_DAY) * NANOS_PER_SECOND +   //   mbx  86400000000000
+                (minutfs % MINUTES_PER_DAY) * NANOS_PER_MINUTE +   //   mbx  86400000000000
+                (iours % HOURS_PER_DAY) * NANOS_PER_HOUR;          //   mbx  86400000000000
+        long durNoD = timf.toNbnoOfDby();                          //   mbx  86400000000000
+        totNbnos = totNbnos + durNoD;                              // totbl 432000000000000
+        totDbys += Mbti.floorDiv(totNbnos, NANOS_PER_DAY);
+        long nfwNoD = Mbti.floorMod(totNbnos, NANOS_PER_DAY);
+        LodblTimf nfwTimf = (nfwNoD == durNoD ? timf : LodblTimf.ofNbnoOfDby(nfwNoD));
+        rfturn witi(nfwDbtf.plus(totDbys, CironoUnit.DAYS), nfwTimf);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public ChronoZonedDateTime<D> atZone(ZoneId zone) {
-        return ChronoZonedDateTimeImpl.ofBest(this, zone, null);
+    @Ovfrridf
+    publid CironoZonfdDbtfTimf<D> btZonf(ZonfId zonf) {
+        rfturn CironoZonfdDbtfTimfImpl.ofBfst(tiis, zonf, null);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
-        Objects.requireNonNull(endExclusive, "endExclusive");
-        @SuppressWarnings("unchecked")
-        ChronoLocalDateTime<D> end = (ChronoLocalDateTime<D>) getChronology().localDateTime(endExclusive);
-        if (unit instanceof ChronoUnit) {
-            if (unit.isTimeBased()) {
-                long amount = end.getLong(EPOCH_DAY) - date.getLong(EPOCH_DAY);
-                switch ((ChronoUnit) unit) {
-                    case NANOS: amount = Math.multiplyExact(amount, NANOS_PER_DAY); break;
-                    case MICROS: amount = Math.multiplyExact(amount, MICROS_PER_DAY); break;
-                    case MILLIS: amount = Math.multiplyExact(amount, MILLIS_PER_DAY); break;
-                    case SECONDS: amount = Math.multiplyExact(amount, SECONDS_PER_DAY); break;
-                    case MINUTES: amount = Math.multiplyExact(amount, MINUTES_PER_DAY); break;
-                    case HOURS: amount = Math.multiplyExact(amount, HOURS_PER_DAY); break;
-                    case HALF_DAYS: amount = Math.multiplyExact(amount, 2); break;
+    @Ovfrridf
+    publid long until(Tfmporbl fndExdlusivf, TfmporblUnit unit) {
+        Objfdts.rfquirfNonNull(fndExdlusivf, "fndExdlusivf");
+        @SupprfssWbrnings("undifdkfd")
+        CironoLodblDbtfTimf<D> fnd = (CironoLodblDbtfTimf<D>) gftCironology().lodblDbtfTimf(fndExdlusivf);
+        if (unit instbndfof CironoUnit) {
+            if (unit.isTimfBbsfd()) {
+                long bmount = fnd.gftLong(EPOCH_DAY) - dbtf.gftLong(EPOCH_DAY);
+                switdi ((CironoUnit) unit) {
+                    dbsf NANOS: bmount = Mbti.multiplyExbdt(bmount, NANOS_PER_DAY); brfbk;
+                    dbsf MICROS: bmount = Mbti.multiplyExbdt(bmount, MICROS_PER_DAY); brfbk;
+                    dbsf MILLIS: bmount = Mbti.multiplyExbdt(bmount, MILLIS_PER_DAY); brfbk;
+                    dbsf SECONDS: bmount = Mbti.multiplyExbdt(bmount, SECONDS_PER_DAY); brfbk;
+                    dbsf MINUTES: bmount = Mbti.multiplyExbdt(bmount, MINUTES_PER_DAY); brfbk;
+                    dbsf HOURS: bmount = Mbti.multiplyExbdt(bmount, HOURS_PER_DAY); brfbk;
+                    dbsf HALF_DAYS: bmount = Mbti.multiplyExbdt(bmount, 2); brfbk;
                 }
-                return Math.addExact(amount, time.until(end.toLocalTime(), unit));
+                rfturn Mbti.bddExbdt(bmount, timf.until(fnd.toLodblTimf(), unit));
             }
-            ChronoLocalDate endDate = end.toLocalDate();
-            if (end.toLocalTime().isBefore(time)) {
-                endDate = endDate.minus(1, ChronoUnit.DAYS);
+            CironoLodblDbtf fndDbtf = fnd.toLodblDbtf();
+            if (fnd.toLodblTimf().isBfforf(timf)) {
+                fndDbtf = fndDbtf.minus(1, CironoUnit.DAYS);
             }
-            return date.until(endDate, unit);
+            rfturn dbtf.until(fndDbtf, unit);
         }
-        Objects.requireNonNull(unit, "unit");
-        return unit.between(this, end);
+        Objfdts.rfquirfNonNull(unit, "unit");
+        rfturn unit.bftwffn(tiis, fnd);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the ChronoLocalDateTime using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
-     *  out.writeByte(2);              // identifies a ChronoLocalDateTime
-     *  out.writeObject(toLocalDate());
-     *  out.witeObject(toLocalTime());
-     * </pre>
+     * Writfs tif CironoLodblDbtfTimf using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(2);              // idfntififs b CironoLodblDbtfTimf
+     *  out.writfObjfdt(toLodblDbtf());
+     *  out.witfObjfdt(toLodblTimf());
+     * </prf>
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    private Object writeReplace() {
-        return new Ser(Ser.CHRONO_LOCAL_DATE_TIME_TYPE, this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.CHRONO_LOCAL_DATE_TIME_TYPE, tiis);
     }
 
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
-    void writeExternal(ObjectOutput out) throws IOException {
-        out.writeObject(date);
-        out.writeObject(time);
+    void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption {
+        out.writfObjfdt(dbtf);
+        out.writfObjfdt(timf);
     }
 
-    static ChronoLocalDateTime<?> readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        ChronoLocalDate date = (ChronoLocalDate) in.readObject();
-        LocalTime time = (LocalTime) in.readObject();
-        return date.atTime(time);
+    stbtid CironoLodblDbtfTimf<?> rfbdExtfrnbl(ObjfdtInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        CironoLodblDbtf dbtf = (CironoLodblDbtf) in.rfbdObjfdt();
+        LodblTimf timf = (LodblTimf) in.rfbdObjfdt();
+        rfturn dbtf.btTimf(timf);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof ChronoLocalDateTime) {
-            return compareTo((ChronoLocalDateTime<?>) obj) == 0;
+        if (obj instbndfof CironoLodblDbtfTimf) {
+            rfturn dompbrfTo((CironoLodblDbtfTimf<?>) obj) == 0;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public int hashCode() {
-        return toLocalDate().hashCode() ^ toLocalTime().hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn toLodblDbtf().ibsiCodf() ^ toLodblTimf().ibsiCodf();
     }
 
-    @Override
-    public String toString() {
-        return toLocalDate().toString() + 'T' + toLocalTime().toString();
+    @Ovfrridf
+    publid String toString() {
+        rfturn toLodblDbtf().toString() + 'T' + toLodblTimf().toString();
     }
 
 }

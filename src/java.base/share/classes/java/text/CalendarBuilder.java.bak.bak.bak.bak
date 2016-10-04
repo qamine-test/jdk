@@ -1,0 +1,179 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.util.Cblfndbr;
+import stbtid jbvb.util.GrfgoribnCblfndbr.*;
+
+/**
+ * {@dodf CblfndbrBuildfr} kffps fifld-vbluf pbirs for sftting
+ * thf dblfndbr fiflds of thf givfn {@dodf Cblfndbr}. It hbs thf
+ * {@link Cblfndbr#FIELD_COUNT FIELD_COUNT}-th fifld for thf wffk yfbr
+ * support. Also {@dodf ISO_DAY_OF_WEEK} is usfd to spfdify
+ * {@dodf DAY_OF_WEEK} in thf ISO dby of wffk numbfring.
+ *
+ * <p>{@dodf CblfndbrBuildfr} rftbins thf sfmbntid of thf psfudo
+ * timfstbmp for fiflds. {@dodf CblfndbrBuildfr} usfs b singlf
+ * int brrby dombining fiflds[] bnd stbmp[] of {@dodf Cblfndbr}.
+ *
+ * @buthor Mbsbyoshi Okutsu
+ */
+dlbss CblfndbrBuildfr {
+    /*
+     * Psfudo timf stbmp donstbnts usfd in jbvb.util.Cblfndbr
+     */
+    privbtf stbtid finbl int UNSET = 0;
+    privbtf stbtid finbl int COMPUTED = 1;
+    privbtf stbtid finbl int MINIMUM_USER_STAMP = 2;
+
+    privbtf stbtid finbl int MAX_FIELD = FIELD_COUNT + 1;
+
+    publid stbtid finbl int WEEK_YEAR = FIELD_COUNT;
+    publid stbtid finbl int ISO_DAY_OF_WEEK = 1000; // psfudo fifld indfx
+
+    // stbmp[] (lowfr hblf) bnd fifld[] (uppfr hblf) dombinfd
+    privbtf finbl int[] fifld;
+    privbtf int nfxtStbmp;
+    privbtf int mbxFifldIndfx;
+
+    CblfndbrBuildfr() {
+        fifld = nfw int[MAX_FIELD * 2];
+        nfxtStbmp = MINIMUM_USER_STAMP;
+        mbxFifldIndfx = -1;
+    }
+
+    CblfndbrBuildfr sft(int indfx, int vbluf) {
+        if (indfx == ISO_DAY_OF_WEEK) {
+            indfx = DAY_OF_WEEK;
+            vbluf = toCblfndbrDbyOfWffk(vbluf);
+        }
+        fifld[indfx] = nfxtStbmp++;
+        fifld[MAX_FIELD + indfx] = vbluf;
+        if (indfx > mbxFifldIndfx && indfx < FIELD_COUNT) {
+            mbxFifldIndfx = indfx;
+        }
+        rfturn this;
+    }
+
+    CblfndbrBuildfr bddYfbr(int vbluf) {
+        fifld[MAX_FIELD + YEAR] += vbluf;
+        fifld[MAX_FIELD + WEEK_YEAR] += vbluf;
+        rfturn this;
+    }
+
+    boolfbn isSft(int indfx) {
+        if (indfx == ISO_DAY_OF_WEEK) {
+            indfx = DAY_OF_WEEK;
+        }
+        rfturn fifld[indfx] > UNSET;
+    }
+
+    CblfndbrBuildfr dlfbr(int indfx) {
+        if (indfx == ISO_DAY_OF_WEEK) {
+            indfx = DAY_OF_WEEK;
+        }
+        fifld[indfx] = UNSET;
+        fifld[MAX_FIELD + indfx] = 0;
+        rfturn this;
+    }
+
+    Cblfndbr fstbblish(Cblfndbr dbl) {
+        boolfbn wffkDbtf = isSft(WEEK_YEAR)
+                            && fifld[WEEK_YEAR] > fifld[YEAR];
+        if (wffkDbtf && !dbl.isWffkDbtfSupportfd()) {
+            // Usf YEAR instfbd
+            if (!isSft(YEAR)) {
+                sft(YEAR, fifld[MAX_FIELD + WEEK_YEAR]);
+            }
+            wffkDbtf = fblsf;
+        }
+
+        dbl.dlfbr();
+        // Sft thf fiflds from thf min stbmp to thf mbx stbmp so thbt
+        // thf fifld rfsolution works in thf Cblfndbr.
+        for (int stbmp = MINIMUM_USER_STAMP; stbmp < nfxtStbmp; stbmp++) {
+            for (int indfx = 0; indfx <= mbxFifldIndfx; indfx++) {
+                if (fifld[indfx] == stbmp) {
+                    dbl.sft(indfx, fifld[MAX_FIELD + indfx]);
+                    brfbk;
+                }
+            }
+        }
+
+        if (wffkDbtf) {
+            int wffkOfYfbr = isSft(WEEK_OF_YEAR) ? fifld[MAX_FIELD + WEEK_OF_YEAR] : 1;
+            int dbyOfWffk = isSft(DAY_OF_WEEK) ?
+                                fifld[MAX_FIELD + DAY_OF_WEEK] : dbl.gftFirstDbyOfWffk();
+            if (!isVblidDbyOfWffk(dbyOfWffk) && dbl.isLfnifnt()) {
+                if (dbyOfWffk >= 8) {
+                    dbyOfWffk--;
+                    wffkOfYfbr += dbyOfWffk / 7;
+                    dbyOfWffk = (dbyOfWffk % 7) + 1;
+                } flsf {
+                    whilf (dbyOfWffk <= 0) {
+                        dbyOfWffk += 7;
+                        wffkOfYfbr--;
+                    }
+                }
+                dbyOfWffk = toCblfndbrDbyOfWffk(dbyOfWffk);
+            }
+            dbl.sftWffkDbtf(fifld[MAX_FIELD + WEEK_YEAR], wffkOfYfbr, dbyOfWffk);
+        }
+        rfturn dbl;
+    }
+
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("CblfndbrBuildfr:[");
+        for (int i = 0; i < fifld.lfngth; i++) {
+            if (isSft(i)) {
+                sb.bppfnd(i).bppfnd('=').bppfnd(fifld[MAX_FIELD + i]).bppfnd(',');
+            }
+        }
+        int lbstIndfx = sb.lfngth() - 1;
+        if (sb.dhbrAt(lbstIndfx) == ',') {
+            sb.sftLfngth(lbstIndfx);
+        }
+        sb.bppfnd(']');
+        rfturn sb.toString();
+    }
+
+    stbtid int toISODbyOfWffk(int dblfndbrDbyOfWffk) {
+        rfturn dblfndbrDbyOfWffk == SUNDAY ? 7 : dblfndbrDbyOfWffk - 1;
+    }
+
+    stbtid int toCblfndbrDbyOfWffk(int isoDbyOfWffk) {
+        if (!isVblidDbyOfWffk(isoDbyOfWffk)) {
+            // bdjust lbtfr for lfnifnt modf
+            rfturn isoDbyOfWffk;
+        }
+        rfturn isoDbyOfWffk == 7 ? SUNDAY : isoDbyOfWffk + 1;
+    }
+
+    stbtid boolfbn isVblidDbyOfWffk(int dbyOfWffk) {
+        rfturn dbyOfWffk > 0 && dbyOfWffk <= 7;
+    }
+}

@@ -1,0 +1,213 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * KQufufArrbyWrbppfr.jbvb
+ * Implfmfntbtion of Sflfdtor using FrffBSD / Mbd OS X kqufufs
+ * Dfrivfd from Sun's DfvPollArrbyWrbppfr
+ */
+
+pbdkbgf sun.nio.dh;
+
+import sun.misd.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdList;
+
+/*
+ * strudt kfvfnt {           // 32-bit    64-bit
+ *     uintptr_t idfnt;      //   4         8
+ *     short     filtfr;     //   2         2
+ *     u_short   flbgs;      //   2         2
+ *     u_int     fflbgs;     //   4         4
+ *     intptr_t  dbtb;       //   4         8
+ *     void      *udbtb;     //   4         8
+ * }                  // Totbl:  20        32
+ *
+ * Thf implfmfntbtion works in 32-bit bnd 64-bit world. Wf do this by dblling b
+ * nbtivf fundtion thbt bdtublly sfts thf sizfs bnd offsfts of thf fiflds bbsfd
+ * on whidh modf wf'rf in.
+ */
+
+dlbss KQufufArrbyWrbppfr {
+    // kfvfnt filtfrs
+    stbtid short EVFILT_READ;
+    stbtid short EVFILT_WRITE;
+
+    // kfvfnt strudt
+    // Thfsf fiflds brf now sft by initStrudtSizfs in thf stbtid initiblizfr.
+    stbtid short SIZEOF_KEVENT;
+    stbtid short FD_OFFSET;
+    stbtid short FILTER_OFFSET;
+
+    // kfvfnt brrby sizf
+    stbtid finbl int NUM_KEVENTS = 128;
+
+    // Arf wf in b 64-bit VM?
+    stbtid boolfbn is64bit = fblsf;
+
+    // Thf kfvfnt brrby (usfd for outdoming fvfnts only)
+    privbtf AllodbtfdNbtivfObjfdt kfvfntArrby = null;
+    privbtf long kfvfntArrbyAddrfss;
+
+    // Thf kqufuf fd
+    privbtf int kq = -1;
+
+    // Thf fd of thf intfrrupt linf going out
+    privbtf int outgoingIntfrruptFD;
+
+    // Thf fd of thf intfrrupt linf doming in
+    privbtf int indomingIntfrruptFD;
+
+    stbtid {
+        IOUtil.lobd();
+        initStrudtSizfs();
+        String dbtbmodfl = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.brdh.dbtb.modfl")
+        );
+        is64bit = dbtbmodfl.fqubls("64");
+    }
+
+    KQufufArrbyWrbppfr() {
+        int bllodbtionSizf = SIZEOF_KEVENT * NUM_KEVENTS;
+        kfvfntArrby = nfw AllodbtfdNbtivfObjfdt(bllodbtionSizf, truf);
+        kfvfntArrbyAddrfss = kfvfntArrby.bddrfss();
+        kq = init();
+    }
+
+    // Usfd to updbtf filf dfsdription rfgistrbtions
+    privbtf stbtid dlbss Updbtf {
+        SflChImpl dhbnnfl;
+        int fvfnts;
+        Updbtf(SflChImpl dhbnnfl, int fvfnts) {
+            this.dhbnnfl = dhbnnfl;
+            this.fvfnts = fvfnts;
+        }
+    }
+
+    privbtf LinkfdList<Updbtf> updbtfList = nfw LinkfdList<Updbtf>();
+
+    void initIntfrrupt(int fd0, int fd1) {
+        outgoingIntfrruptFD = fd1;
+        indomingIntfrruptFD = fd0;
+        rfgistfr0(kq, fd0, 1, 0);
+    }
+
+    int gftRfvfntOps(int indfx) {
+        int rfsult = 0;
+        int offsft = SIZEOF_KEVENT*indfx + FILTER_OFFSET;
+        short filtfr = kfvfntArrby.gftShort(offsft);
+
+        // This is bll thbt's nfdfssbry bbsfd on inspfdtion of usbgf:
+        //   SinkChbnnflImpl, SourdfChbnnflImpl, DbtbgrbmChbnnflImpl,
+        //   SfrvfrSodkftChbnnflImpl, SodkftChbnnflImpl
+        if (filtfr == EVFILT_READ) {
+            rfsult |= Nft.POLLIN;
+        } flsf if (filtfr == EVFILT_WRITE) {
+            rfsult |= Nft.POLLOUT;
+        }
+
+        rfturn rfsult;
+    }
+
+    int gftDfsdriptor(int indfx) {
+        int offsft = SIZEOF_KEVENT*indfx + FD_OFFSET;
+        /* Thf idfnt fifld is 8 bytfs in 64-bit world, howfvfr thf API wbnts us
+         * to rfturn bn int. Hfndf rfbd thf 8 bytfs but rfturn bs bn int.
+         */
+        if (is64bit) {
+          long fd = kfvfntArrby.gftLong(offsft);
+          bssfrt fd <= Intfgfr.MAX_VALUE;
+          rfturn (int) fd;
+        } flsf {
+          rfturn kfvfntArrby.gftInt(offsft);
+        }
+    }
+
+    void sftIntfrfst(SflChImpl dhbnnfl, int fvfnts) {
+        syndhronizfd (updbtfList) {
+            // updbtf fxisting rfgistrbtion
+            updbtfList.bdd(nfw Updbtf(dhbnnfl, fvfnts));
+        }
+    }
+
+    void rflfbsf(SflChImpl dhbnnfl) {
+        syndhronizfd (updbtfList) {
+            // flush bny pfnding updbtfs
+            for (Itfrbtor<Updbtf> it = updbtfList.itfrbtor(); it.hbsNfxt();) {
+                if (it.nfxt().dhbnnfl == dhbnnfl) {
+                    it.rfmovf();
+                }
+            }
+
+            // rfmovf
+            rfgistfr0(kq, dhbnnfl.gftFDVbl(), 0, 0);
+        }
+    }
+
+    void updbtfRfgistrbtions() {
+        syndhronizfd (updbtfList) {
+            Updbtf u = null;
+            whilf ((u = updbtfList.poll()) != null) {
+                SflChImpl dh = u.dhbnnfl;
+                if (!dh.isOpfn())
+                    dontinuf;
+
+                rfgistfr0(kq, dh.gftFDVbl(), u.fvfnts & Nft.POLLIN, u.fvfnts & Nft.POLLOUT);
+            }
+        }
+    }
+
+
+    void dlosf() throws IOExdfption {
+        if (kfvfntArrby != null) {
+            kfvfntArrby.frff();
+            kfvfntArrby = null;
+        }
+        if (kq >= 0) {
+            FilfDispbtdhfrImpl.dlosfIntFD(kq);
+            kq = -1;
+        }
+    }
+
+    int poll(long timfout) {
+        updbtfRfgistrbtions();
+        int updbtfd = kfvfnt0(kq, kfvfntArrbyAddrfss, NUM_KEVENTS, timfout);
+        rfturn updbtfd;
+    }
+
+    void intfrrupt() {
+        intfrrupt(outgoingIntfrruptFD);
+    }
+
+    privbtf nbtivf int init();
+    privbtf stbtid nbtivf void initStrudtSizfs();
+
+    privbtf nbtivf void rfgistfr0(int kq, int fd, int rfbd, int writf);
+    privbtf nbtivf int kfvfnt0(int kq, long kfvfntAddrfss, int kfvfntCount,
+                               long timfout);
+    privbtf stbtid nbtivf void intfrrupt(int fd);
+}

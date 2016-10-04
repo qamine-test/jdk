@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,143 +57,143 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
 
 /**
- * A reference to a field or a method.
+ * A rfffrfndf to b fifld or b mftiod.
  *
- * @author Remi Forax
- * @author Eric Bruneton
+ * @butior Rfmi Forbx
+ * @butior Erid Brunfton
  */
-public final class Handle {
+publid finbl dlbss Hbndlf {
 
     /**
-     * The kind of field or method designated by this Handle. Should be
-     * {@link Opcodes#H_GETFIELD}, {@link Opcodes#H_GETSTATIC},
-     * {@link Opcodes#H_PUTFIELD}, {@link Opcodes#H_PUTSTATIC},
-     * {@link Opcodes#H_INVOKEVIRTUAL}, {@link Opcodes#H_INVOKESTATIC},
-     * {@link Opcodes#H_INVOKESPECIAL}, {@link Opcodes#H_NEWINVOKESPECIAL} or
-     * {@link Opcodes#H_INVOKEINTERFACE}.
+     * Tif kind of fifld or mftiod dfsignbtfd by tiis Hbndlf. Siould bf
+     * {@link Opdodfs#H_GETFIELD}, {@link Opdodfs#H_GETSTATIC},
+     * {@link Opdodfs#H_PUTFIELD}, {@link Opdodfs#H_PUTSTATIC},
+     * {@link Opdodfs#H_INVOKEVIRTUAL}, {@link Opdodfs#H_INVOKESTATIC},
+     * {@link Opdodfs#H_INVOKESPECIAL}, {@link Opdodfs#H_NEWINVOKESPECIAL} or
+     * {@link Opdodfs#H_INVOKEINTERFACE}.
      */
-    final int tag;
+    finbl int tbg;
 
     /**
-     * The internal name of the class that owns the field or method designated
-     * by this handle.
+     * Tif intfrnbl nbmf of tif dlbss tibt owns tif fifld or mftiod dfsignbtfd
+     * by tiis ibndlf.
      */
-    final String owner;
+    finbl String ownfr;
 
     /**
-     * The name of the field or method designated by this handle.
+     * Tif nbmf of tif fifld or mftiod dfsignbtfd by tiis ibndlf.
      */
-    final String name;
+    finbl String nbmf;
 
     /**
-     * The descriptor of the field or method designated by this handle.
+     * Tif dfsdriptor of tif fifld or mftiod dfsignbtfd by tiis ibndlf.
      */
-    final String desc;
+    finbl String dfsd;
 
     /**
-     * Constructs a new field or method handle.
+     * Construdts b nfw fifld or mftiod ibndlf.
      *
-     * @param tag
-     *            the kind of field or method designated by this Handle. Must be
-     *            {@link Opcodes#H_GETFIELD}, {@link Opcodes#H_GETSTATIC},
-     *            {@link Opcodes#H_PUTFIELD}, {@link Opcodes#H_PUTSTATIC},
-     *            {@link Opcodes#H_INVOKEVIRTUAL},
-     *            {@link Opcodes#H_INVOKESTATIC},
-     *            {@link Opcodes#H_INVOKESPECIAL},
-     *            {@link Opcodes#H_NEWINVOKESPECIAL} or
-     *            {@link Opcodes#H_INVOKEINTERFACE}.
-     * @param owner
-     *            the internal name of the class that owns the field or method
-     *            designated by this handle.
-     * @param name
-     *            the name of the field or method designated by this handle.
-     * @param desc
-     *            the descriptor of the field or method designated by this
-     *            handle.
+     * @pbrbm tbg
+     *            tif kind of fifld or mftiod dfsignbtfd by tiis Hbndlf. Must bf
+     *            {@link Opdodfs#H_GETFIELD}, {@link Opdodfs#H_GETSTATIC},
+     *            {@link Opdodfs#H_PUTFIELD}, {@link Opdodfs#H_PUTSTATIC},
+     *            {@link Opdodfs#H_INVOKEVIRTUAL},
+     *            {@link Opdodfs#H_INVOKESTATIC},
+     *            {@link Opdodfs#H_INVOKESPECIAL},
+     *            {@link Opdodfs#H_NEWINVOKESPECIAL} or
+     *            {@link Opdodfs#H_INVOKEINTERFACE}.
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif dlbss tibt owns tif fifld or mftiod
+     *            dfsignbtfd by tiis ibndlf.
+     * @pbrbm nbmf
+     *            tif nbmf of tif fifld or mftiod dfsignbtfd by tiis ibndlf.
+     * @pbrbm dfsd
+     *            tif dfsdriptor of tif fifld or mftiod dfsignbtfd by tiis
+     *            ibndlf.
      */
-    public Handle(int tag, String owner, String name, String desc) {
-        this.tag = tag;
-        this.owner = owner;
-        this.name = name;
-        this.desc = desc;
+    publid Hbndlf(int tbg, String ownfr, String nbmf, String dfsd) {
+        tiis.tbg = tbg;
+        tiis.ownfr = ownfr;
+        tiis.nbmf = nbmf;
+        tiis.dfsd = dfsd;
     }
 
     /**
-     * Returns the kind of field or method designated by this handle.
+     * Rfturns tif kind of fifld or mftiod dfsignbtfd by tiis ibndlf.
      *
-     * @return {@link Opcodes#H_GETFIELD}, {@link Opcodes#H_GETSTATIC},
-     *         {@link Opcodes#H_PUTFIELD}, {@link Opcodes#H_PUTSTATIC},
-     *         {@link Opcodes#H_INVOKEVIRTUAL}, {@link Opcodes#H_INVOKESTATIC},
-     *         {@link Opcodes#H_INVOKESPECIAL},
-     *         {@link Opcodes#H_NEWINVOKESPECIAL} or
-     *         {@link Opcodes#H_INVOKEINTERFACE}.
+     * @rfturn {@link Opdodfs#H_GETFIELD}, {@link Opdodfs#H_GETSTATIC},
+     *         {@link Opdodfs#H_PUTFIELD}, {@link Opdodfs#H_PUTSTATIC},
+     *         {@link Opdodfs#H_INVOKEVIRTUAL}, {@link Opdodfs#H_INVOKESTATIC},
+     *         {@link Opdodfs#H_INVOKESPECIAL},
+     *         {@link Opdodfs#H_NEWINVOKESPECIAL} or
+     *         {@link Opdodfs#H_INVOKEINTERFACE}.
      */
-    public int getTag() {
-        return tag;
+    publid int gftTbg() {
+        rfturn tbg;
     }
 
     /**
-     * Returns the internal name of the class that owns the field or method
-     * designated by this handle.
+     * Rfturns tif intfrnbl nbmf of tif dlbss tibt owns tif fifld or mftiod
+     * dfsignbtfd by tiis ibndlf.
      *
-     * @return the internal name of the class that owns the field or method
-     *         designated by this handle.
+     * @rfturn tif intfrnbl nbmf of tif dlbss tibt owns tif fifld or mftiod
+     *         dfsignbtfd by tiis ibndlf.
      */
-    public String getOwner() {
-        return owner;
+    publid String gftOwnfr() {
+        rfturn ownfr;
     }
 
     /**
-     * Returns the name of the field or method designated by this handle.
+     * Rfturns tif nbmf of tif fifld or mftiod dfsignbtfd by tiis ibndlf.
      *
-     * @return the name of the field or method designated by this handle.
+     * @rfturn tif nbmf of tif fifld or mftiod dfsignbtfd by tiis ibndlf.
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns the descriptor of the field or method designated by this handle.
+     * Rfturns tif dfsdriptor of tif fifld or mftiod dfsignbtfd by tiis ibndlf.
      *
-     * @return the descriptor of the field or method designated by this handle.
+     * @rfturn tif dfsdriptor of tif fifld or mftiod dfsignbtfd by tiis ibndlf.
      */
-    public String getDesc() {
-        return desc;
+    publid String gftDfsd() {
+        rfturn dfsd;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis) {
+            rfturn truf;
         }
-        if (!(obj instanceof Handle)) {
-            return false;
+        if (!(obj instbndfof Hbndlf)) {
+            rfturn fblsf;
         }
-        Handle h = (Handle) obj;
-        return tag == h.tag && owner.equals(h.owner) && name.equals(h.name)
-                && desc.equals(h.desc);
+        Hbndlf i = (Hbndlf) obj;
+        rfturn tbg == i.tbg && ownfr.fqubls(i.ownfr) && nbmf.fqubls(i.nbmf)
+                && dfsd.fqubls(i.dfsd);
     }
 
-    @Override
-    public int hashCode() {
-        return tag + owner.hashCode() * name.hashCode() * desc.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn tbg + ownfr.ibsiCodf() * nbmf.ibsiCodf() * dfsd.ibsiCodf();
     }
 
     /**
-     * Returns the textual representation of this handle. The textual
-     * representation is:
+     * Rfturns tif tfxtubl rfprfsfntbtion of tiis ibndlf. Tif tfxtubl
+     * rfprfsfntbtion is:
      *
-     * <pre>
-     * owner '.' name desc ' ' '(' tag ')'
-     * </pre>
+     * <prf>
+     * ownfr '.' nbmf dfsd ' ' '(' tbg ')'
+     * </prf>
      *
-     * . As this format is unambiguous, it can be parsed if necessary.
+     * . As tiis formbt is unbmbiguous, it dbn bf pbrsfd if nfdfssbry.
      */
-    @Override
-    public String toString() {
-        return owner + '.' + name + desc + " (" + tag + ')';
+    @Ovfrridf
+    publid String toString() {
+        rfturn ownfr + '.' + nbmf + dfsd + " (" + tbg + ')';
     }
 }

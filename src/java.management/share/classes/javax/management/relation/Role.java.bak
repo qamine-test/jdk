@@ -1,338 +1,338 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.relation;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
 
-import static com.sun.jmx.mbeanserver.Util.cast;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.dbst;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.Serializable;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.Sfriblizbblf;
 
-import java.security.AccessController;
+import jbvb.sfdurity.AddfssControllfr;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
 
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
- * Represents a role: includes a role name and referenced MBeans (via their
- * ObjectNames). The role value is always represented as an ArrayList
- * collection (of ObjectNames) to homogenize the access.
+ * Rfprfsfnts b rolf: indludfs b rolf nbmf bnd rfffrfndfd MBfbns (vib tifir
+ * ObjfdtNbmfs). Tif rolf vbluf is blwbys rfprfsfntfd bs bn ArrbyList
+ * dollfdtion (of ObjfdtNbmfs) to iomogfnizf tif bddfss.
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-279985518429862552L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-279985518429862552L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class Role implements Serializable {
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss Rolf implfmfnts Sfriblizbblf {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -1959486389343113026L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -1959486389343113026L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -279985518429862552L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -279985518429862552L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("myName", String.class),
-      new ObjectStreamField("myObjNameList", ArrayList.class)
+      nfw ObjfdtStrfbmFifld("myNbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("myObjNbmfList", ArrbyList.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("name", String.class),
-      new ObjectStreamField("objectNameList", List.class)
+      nfw ObjfdtStrfbmFifld("nbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("objfdtNbmfList", List.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField name String Role name
-     * @serialField objectNameList List {@link List} of {@link ObjectName}s of referenced MBeans
+     * @sfriblFifld nbmf String Rolf nbmf
+     * @sfriblFifld objfdtNbmfList List {@link List} of {@link ObjfdtNbmf}s of rfffrfndfd MBfbns
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK : Too bbd, no dompbt witi 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
     //
-    // Private members
-    //
-
-    /**
-     * @serial Role name
-     */
-    private String name = null;
-
-    /**
-     * @serial {@link List} of {@link ObjectName}s of referenced MBeans
-     */
-    private List<ObjectName> objectNameList = new ArrayList<ObjectName>();
-
-    //
-    // Constructors
+    // Privbtf mfmbfrs
     //
 
     /**
-     * <p>Make a new Role object.
-     * No check is made that the ObjectNames in the role value exist in
-     * an MBean server.  That check will be made when the role is set
-     * in a relation.
-     *
-     * @param roleName  role name
-     * @param roleValue  role value (List of ObjectName objects)
-     *
-     * @exception IllegalArgumentException  if null parameter
+     * @sfribl Rolf nbmf
      */
-    public Role(String roleName,
-                List<ObjectName> roleValue)
-        throws IllegalArgumentException {
+    privbtf String nbmf = null;
 
-        if (roleName == null || roleValue == null) {
-            String excMsg = "Invalid parameter";
-            throw new IllegalArgumentException(excMsg);
-        }
-
-        setRoleName(roleName);
-        setRoleValue(roleValue);
-
-        return;
-    }
+    /**
+     * @sfribl {@link List} of {@link ObjfdtNbmf}s of rfffrfndfd MBfbns
+     */
+    privbtf List<ObjfdtNbmf> objfdtNbmfList = nfw ArrbyList<ObjfdtNbmf>();
 
     //
-    // Accessors
+    // Construdtors
     //
 
     /**
-     * Retrieves role name.
+     * <p>Mbkf b nfw Rolf objfdt.
+     * No difdk is mbdf tibt tif ObjfdtNbmfs in tif rolf vbluf fxist in
+     * bn MBfbn sfrvfr.  Tibt difdk will bf mbdf wifn tif rolf is sft
+     * in b rflbtion.
      *
-     * @return the role name.
+     * @pbrbm rolfNbmf  rolf nbmf
+     * @pbrbm rolfVbluf  rolf vbluf (List of ObjfdtNbmf objfdts)
      *
-     * @see #setRoleName
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
      */
-    public String getRoleName() {
-        return name;
-    }
+    publid Rolf(String rolfNbmf,
+                List<ObjfdtNbmf> rolfVbluf)
+        tirows IllfgblArgumfntExdfption {
 
-    /**
-     * Retrieves role value.
-     *
-     * @return ArrayList of ObjectName objects for referenced MBeans.
-     *
-     * @see #setRoleValue
-     */
-    public List<ObjectName> getRoleValue() {
-        return objectNameList;
-    }
-
-    /**
-     * Sets role name.
-     *
-     * @param roleName  role name
-     *
-     * @exception IllegalArgumentException  if null parameter
-     *
-     * @see #getRoleName
-     */
-    public void setRoleName(String roleName)
-        throws IllegalArgumentException {
-
-        if (roleName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (rolfNbmf == null || rolfVbluf == null) {
+            String fxdMsg = "Invblid pbrbmftfr";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        name = roleName;
-        return;
+        sftRolfNbmf(rolfNbmf);
+        sftRolfVbluf(rolfVbluf);
+
+        rfturn;
+    }
+
+    //
+    // Addfssors
+    //
+
+    /**
+     * Rftrifvfs rolf nbmf.
+     *
+     * @rfturn tif rolf nbmf.
+     *
+     * @sff #sftRolfNbmf
+     */
+    publid String gftRolfNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Sets role value.
+     * Rftrifvfs rolf vbluf.
      *
-     * @param roleValue  List of ObjectName objects for referenced
-     * MBeans.
+     * @rfturn ArrbyList of ObjfdtNbmf objfdts for rfffrfndfd MBfbns.
      *
-     * @exception IllegalArgumentException  if null parameter
-     *
-     * @see #getRoleValue
+     * @sff #sftRolfVbluf
      */
-    public void setRoleValue(List<ObjectName> roleValue)
-        throws IllegalArgumentException {
+    publid List<ObjfdtNbmf> gftRolfVbluf() {
+        rfturn objfdtNbmfList;
+    }
 
-        if (roleValue == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+    /**
+     * Sfts rolf nbmf.
+     *
+     * @pbrbm rolfNbmf  rolf nbmf
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     *
+     * @sff #gftRolfNbmf
+     */
+    publid void sftRolfNbmf(String rolfNbmf)
+        tirows IllfgblArgumfntExdfption {
+
+        if (rolfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        objectNameList = new ArrayList<ObjectName>(roleValue);
-        return;
+        nbmf = rolfNbmf;
+        rfturn;
     }
 
     /**
-     * Returns a string describing the role.
+     * Sfts rolf vbluf.
      *
-     * @return the description of the role.
+     * @pbrbm rolfVbluf  List of ObjfdtNbmf objfdts for rfffrfndfd
+     * MBfbns.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     *
+     * @sff #gftRolfVbluf
      */
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("role name: " + name + "; role value: ");
-        for (Iterator<ObjectName> objNameIter = objectNameList.iterator();
-             objNameIter.hasNext();) {
-            ObjectName currObjName = objNameIter.next();
-            result.append(currObjName.toString());
-            if (objNameIter.hasNext()) {
-                result.append(", ");
+    publid void sftRolfVbluf(List<ObjfdtNbmf> rolfVbluf)
+        tirows IllfgblArgumfntExdfption {
+
+        if (rolfVbluf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        objfdtNbmfList = nfw ArrbyList<ObjfdtNbmf>(rolfVbluf);
+        rfturn;
+    }
+
+    /**
+     * Rfturns b string dfsdribing tif rolf.
+     *
+     * @rfturn tif dfsdription of tif rolf.
+     */
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd("rolf nbmf: " + nbmf + "; rolf vbluf: ");
+        for (Itfrbtor<ObjfdtNbmf> objNbmfItfr = objfdtNbmfList.itfrbtor();
+             objNbmfItfr.ibsNfxt();) {
+            ObjfdtNbmf durrObjNbmf = objNbmfItfr.nfxt();
+            rfsult.bppfnd(durrObjNbmf.toString());
+            if (objNbmfItfr.ibsNfxt()) {
+                rfsult.bppfnd(", ");
             }
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
     //
-    // Misc
+    // Misd
     //
 
     /**
-     * Clone the role object.
+     * Clonf tif rolf objfdt.
      *
-     * @return a Role that is an independent copy of the current Role object.
+     * @rfturn b Rolf tibt is bn indfpfndfnt dopy of tif durrfnt Rolf objfdt.
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
 
         try {
-            return new Role(name, objectNameList);
-        } catch (IllegalArgumentException exc) {
-            return null; // can't happen
+            rfturn nfw Rolf(nbmf, objfdtNbmfList);
+        } dbtdi (IllfgblArgumfntExdfption fxd) {
+            rfturn null; // dbn't ibppfn
         }
     }
 
     /**
-     * Returns a string for the given role value.
+     * Rfturns b string for tif givfn rolf vbluf.
      *
-     * @param roleValue  List of ObjectName objects
+     * @pbrbm rolfVbluf  List of ObjfdtNbmf objfdts
      *
-     * @return A String consisting of the ObjectNames separated by
-     * newlines (\n).
+     * @rfturn A String donsisting of tif ObjfdtNbmfs sfpbrbtfd by
+     * nfwlinfs (\n).
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
      */
-    public static String roleValueToString(List<ObjectName> roleValue)
-        throws IllegalArgumentException {
+    publid stbtid String rolfVblufToString(List<ObjfdtNbmf> rolfVbluf)
+        tirows IllfgblArgumfntExdfption {
 
-        if (roleValue == null) {
-            String excMsg = "Invalid parameter";
-            throw new IllegalArgumentException(excMsg);
+        if (rolfVbluf == null) {
+            String fxdMsg = "Invblid pbrbmftfr";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        StringBuilder result = new StringBuilder();
-        for (ObjectName currObjName : roleValue) {
-            if (result.length() > 0)
-                result.append("\n");
-            result.append(currObjName.toString());
+        StringBuildfr rfsult = nfw StringBuildfr();
+        for (ObjfdtNbmf durrObjNbmf : rolfVbluf) {
+            if (rfsult.lfngti() > 0)
+                rfsult.bppfnd("\n");
+            rfsult.bppfnd(durrObjNbmf.toString());
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
     /**
-     * Deserializes a {@link Role} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link Rolf} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
       {
-        // Read an object serialized in the old serial form
+        // Rfbd bn objfdt sfriblizfd in tif old sfribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        name = (String) fields.get("myName", null);
-        if (fields.defaulted("myName"))
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        nbmf = (String) fiflds.gft("myNbmf", null);
+        if (fiflds.dffbultfd("myNbmf"))
         {
-          throw new NullPointerException("myName");
+          tirow nfw NullPointfrExdfption("myNbmf");
         }
-        objectNameList = cast(fields.get("myObjNameList", null));
-        if (fields.defaulted("myObjNameList"))
+        objfdtNbmfList = dbst(fiflds.gft("myObjNbmfList", null));
+        if (fiflds.dffbultfd("myObjNbmfList"))
         {
-          throw new NullPointerException("myObjNameList");
+          tirow nfw NullPointfrExdfption("myObjNbmfList");
         }
       }
-      else
+      flsf
       {
-        // Read an object serialized in the new serial form
+        // Rfbd bn objfdt sfriblizfd in tif nfw sfribl form
         //
-        in.defaultReadObject();
+        in.dffbultRfbdObjfdt();
       }
     }
 
 
     /**
-     * Serializes a {@link Role} to an {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link Rolf} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-            throws IOException {
-      if (compat)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+      if (dompbt)
       {
-        // Serializes this instance in the old serial form
+        // Sfriblizfs tiis instbndf in tif old sfribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("myName", name);
-        fields.put("myObjNameList", objectNameList);
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("myNbmf", nbmf);
+        fiflds.put("myObjNbmfList", objfdtNbmfList);
+        out.writfFiflds();
       }
-      else
+      flsf
       {
-        // Serializes this instance in the new serial form
+        // Sfriblizfs tiis instbndf in tif nfw sfribl form
         //
-        out.defaultWriteObject();
+        out.dffbultWritfObjfdt();
       }
     }
 }

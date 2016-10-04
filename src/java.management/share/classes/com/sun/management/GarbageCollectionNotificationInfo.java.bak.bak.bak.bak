@@ -1,0 +1,238 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mbnbgfmfnt;
+
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbVifw;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import sun.mbnbgfmfnt.GbrbbgfCollfdtionNotifInfoCompositfDbtb;
+
+/**
+ * Thf informbtion bbout b gbrbbgf dollfdtion
+ *
+ * <p>
+ * A gbrbbgf dollfdtion notifidbtion is fmittfd by {@link GbrbbgfCollfdtorMXBfbn}
+ * whfn thf Jbvb virtubl mbdhinf domplftfs b gbrbbgf dollfdtion bdtion
+ * Thf notifidbtion fmittfd will dontbin thf gbrbbgf dollfdtion notifidbtion
+ * informbtion bbout thf stbtus of thf mfmory:
+ * <u1>
+ *   <li>Thf nbmf of thf gbrbbgf dollfdtor usfd pfrform thf dollfdtion.</li>
+ *   <li>Thf bdtion pfrformfd by thf gbrbbgf dollfdtor.</li>
+ *   <li>Thf dbusf of thf gbrbbgf dollfdtion bdtion.</li>
+ *   <li>A {@link GdInfo} objfdt dontbining somf stbtistids bbout thf GC dydlf
+          (stbrt timf, fnd timf) bnd thf mfmory usbgf bfforf bnd bftfr
+          thf GC dydlf.</li>
+ * </u1>
+ *
+ * <p>
+ * A {@link CompositfDbtb CompositfDbtb} rfprfsfnting
+ * thf {@dodf GbrbbgfCollfdtionNotifidbtionInfo} objfdt
+ * is storfd in thf
+ * {@linkplbin jbvbx.mbnbgfmfnt.Notifidbtion#sftUsfrDbtb usfrdbtb}
+ * of b {@linkplbin jbvbx.mbnbgfmfnt.Notifidbtion notifidbtion}.
+ * Thf {@link #from from} mfthod is providfd to donvfrt from
+ * b {@dodf CompositfDbtb} to b {@dodf GbrbbgfCollfdtionNotifidbtionInfo}
+ * objfdt. For fxbmplf:
+ *
+ * <blodkquotf><prf>
+ *      Notifidbtion notif;
+ *
+ *      // rfdfivf thf notifidbtion fmittfd by b GbrbbgfCollfdtorMXBfbn bnd sft to notif
+ *      ...
+ *
+ *      String notifTypf = notif.gftTypf();
+ *      if (notifTypf.fqubls(GbrbbgfCollfdtionNotifidbtionInfo.GARBAGE_COLLECTION_NOTIFICATION)) {
+ *          // rftrifvf thf gbrbbgf dollfdtion notifidbtion informbtion
+ *          CompositfDbtb dd = (CompositfDbtb) notif.gftUsfrDbtb();
+ *          GbrbbgfCollfdtionNotifidbtionInfo info = GbrbbgfCollfdtionNotifidbtionInfo.from(dd);
+ *          ....
+ *      }
+ * </prf></blodkquotf>
+ *
+ * <p>
+ * Thf typf of thf notifidbtion fmittfd by b {@dodf GbrbbgfCollfdtorMXBfbn} is:
+ * <ul>
+ *   <li>A {@linkplbin #GARBAGE_COLLECTION_NOTIFICATION gbrbbgf dollfdtion notifidbtion}.
+ *       <br>Usfd by fvfry notifidbtion fmittfd by thf gbrbbgf dollfdtor, thf dftbils bbout
+ *             thf notifidbtion brf providfd in thf {@linkplbin #gftGdAdtion bdtion} String
+ *       <p></li>
+ * </ul>
+ **/
+
+@jdk.Exportfd
+publid dlbss GbrbbgfCollfdtionNotifidbtionInfo implfmfnts  CompositfDbtbVifw {
+
+    privbtf finbl String gdNbmf;
+    privbtf finbl String gdAdtion;
+    privbtf finbl String gdCbusf;
+    privbtf finbl GdInfo gdInfo;
+    privbtf finbl CompositfDbtb ddbtb;
+
+    /**
+     * Notifidbtion typf dfnoting thbt
+     * thf Jbvb virtubl mbdhinf hbs domplftfd b gbrbbgf dollfdtion dydlf.
+     * This notifidbtion is fmittfd by b {@link GbrbbgfCollfdtorMXBfbn}.
+     * Thf vbluf of this notifidbtion typf is
+     * {@dodf dom.sun.mbnbgfmfnt.gd.notifidbtion}.
+     */
+    publid stbtid finbl String GARBAGE_COLLECTION_NOTIFICATION =
+        "dom.sun.mbnbgfmfnt.gd.notifidbtion";
+
+    /**
+     * Construdts b {@dodf GbrbbgfCollfdtionNotifidbtionInfo} objfdt.
+     *
+     * @pbrbm gdNbmf Thf nbmf of thf gbrbbgf dollfdtor usfd to pfrform thf dollfdtion
+     * @pbrbm gdAdtion Thf nbmf of thf bdtion pfrformfd by thf gbrbbgf dollfdtor
+     * @pbrbm gdCbusf Thf dbusf thf gbrbbgf dollfdtion bdtion
+     * @pbrbm gdInfo  b GdInfo objfdt providing stbtistids bbout thf GC dydlf
+     */
+    publid GbrbbgfCollfdtionNotifidbtionInfo(String gdNbmf,
+                                             String gdAdtion,
+                                             String gdCbusf,
+                                             GdInfo gdInfo)  {
+        if (gdNbmf == null) {
+            throw nfw NullPointfrExdfption("Null gdNbmf");
+        }
+        if (gdAdtion == null) {
+            throw nfw NullPointfrExdfption("Null gdAdtion");
+        }
+        if (gdCbusf == null) {
+            throw nfw NullPointfrExdfption("Null gdCbusf");
+        }
+        this.gdNbmf = gdNbmf;
+        this.gdAdtion = gdAdtion;
+        this.gdCbusf = gdCbusf;
+        this.gdInfo = gdInfo;
+        this.ddbtb = nfw GbrbbgfCollfdtionNotifInfoCompositfDbtb(this);
+    }
+
+    GbrbbgfCollfdtionNotifidbtionInfo(CompositfDbtb dd) {
+        GbrbbgfCollfdtionNotifInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
+
+        this.gdNbmf = GbrbbgfCollfdtionNotifInfoCompositfDbtb.gftGdNbmf(dd);
+        this.gdAdtion = GbrbbgfCollfdtionNotifInfoCompositfDbtb.gftGdAdtion(dd);
+        this.gdCbusf = GbrbbgfCollfdtionNotifInfoCompositfDbtb.gftGdCbusf(dd);
+        this.gdInfo = GbrbbgfCollfdtionNotifInfoCompositfDbtb.gftGdInfo(dd);
+        this.ddbtb = dd;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf gbrbbgf dollfdtor usfd to pfrform thf dollfdtion
+     *
+     * @rfturn thf nbmf of thf gbrbbgf dollfdtor usfd to pfrform thf dollfdtion
+     */
+    publid String gftGdNbmf() {
+        rfturn gdNbmf;
+    }
+
+    /**
+     * Rfturns thf bdtion of thf pfrformfd by thf gbrbbgf dollfdtor
+     *
+     * @rfturn thf thf bdtion of thf pfrformfd by thf gbrbbgf dollfdtor
+     */
+    publid String gftGdAdtion() {
+        rfturn gdAdtion;
+    }
+
+    /**
+     * Rfturns thf dbusf  thf gbrbbgf dollfdtion
+     *
+     * @rfturn thf thf dbusf  thf gbrbbgf dollfdtion
+     */
+    publid String gftGdCbusf() {
+        rfturn gdCbusf;
+    }
+
+    /**
+     * Rfturns thf GC informbtion rflbtfd to thf lbst gbrbbgf dollfdtion
+     *
+     * @rfturn thf GC informbtion rflbtfd to thf
+     * lbst gbrbbgf dollfdtion
+     */
+    publid GdInfo gftGdInfo() {
+        rfturn gdInfo;
+    }
+
+    /**
+     * Rfturns b {@dodf GbrbbgfCollfdtionNotifidbtionInfo} objfdt rfprfsfntfd by thf
+     * givfn {@dodf CompositfDbtb}.
+     * Thf givfn {@dodf CompositfDbtb} must dontbin
+     * thf following bttributfs:
+     * <blodkquotf>
+     * <tbblf bordfr>
+     * <tr>
+     *   <th blign=lfft>Attributf Nbmf</th>
+     *   <th blign=lfft>Typf</th>
+     * </tr>
+     * <tr>
+     *   <td>gdNbmf</td>
+     *   <td>{@dodf jbvb.lbng.String}</td>
+     * </tr>
+     * <tr>
+     *   <td>gdAdtion</td>
+     *   <td>{@dodf jbvb.lbng.String}</td>
+     * </tr>
+     * <tr>
+     *   <td>gdCbusf</td>
+     *   <td>{@dodf jbvb.lbng.String}</td>
+     * </tr>
+     * <tr>
+     *   <td>gdInfo</td>
+     *   <td>{@dodf jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb}</td>
+     * </tr>
+     * </tbblf>
+     * </blodkquotf>
+     *
+     * @pbrbm dd {@dodf CompositfDbtb} rfprfsfnting b
+     *           {@dodf GbrbbgfCollfdtionNotifidbtionInfo}
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf dd} dofs not
+     *   rfprfsfnt b {@dodf GbrbbbgfCollfdtionNotifidbtionInfo} objfdt.
+     *
+     * @rfturn b {@dodf GbrbbgfCollfdtionNotifidbtionInfo} objfdt rfprfsfntfd
+     *         by {@dodf dd} if {@dodf dd} is not {@dodf null};
+     *         {@dodf null} othfrwisf.
+     */
+    publid stbtid GbrbbgfCollfdtionNotifidbtionInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
+        }
+
+        if (dd instbndfof GbrbbgfCollfdtionNotifInfoCompositfDbtb) {
+            rfturn ((GbrbbgfCollfdtionNotifInfoCompositfDbtb) dd).gftGbrbbgfCollfdtionNotifInfo();
+        } flsf {
+            rfturn nfw GbrbbgfCollfdtionNotifidbtionInfo(dd);
+        }
+    }
+
+    publid CompositfDbtb toCompositfDbtb(CompositfTypf dt) {
+        rfturn ddbtb;
+    }
+
+}

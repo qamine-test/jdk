@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Set;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Sft;
 
 /**
- * <code>ActionMap</code> provides mappings from
- * <code>Object</code>s
- * (called <em>keys</em> or <em><code>Action</code> names</em>)
- * to <code>Action</code>s.
- * An <code>ActionMap</code> is usually used with an <code>InputMap</code>
- * to locate a particular action
- * when a key is pressed. As with <code>InputMap</code>,
- * an <code>ActionMap</code> can have a parent
- * that is searched for keys not defined in the <code>ActionMap</code>.
- * <p>As with <code>InputMap</code> if you create a cycle, eg:
- * <pre>
- *   ActionMap am = new ActionMap();
- *   ActionMap bm = new ActionMap():
- *   am.setParent(bm);
- *   bm.setParent(am);
- * </pre>
- * some of the methods will cause a StackOverflowError to be thrown.
+ * <dodf>AdtionMbp</dodf> providfs mbppings from
+ * <dodf>Objfdt</dodf>s
+ * (dbllfd <fm>kfys</fm> or <fm><dodf>Adtion</dodf> nbmfs</fm>)
+ * to <dodf>Adtion</dodf>s.
+ * An <dodf>AdtionMbp</dodf> is usublly usfd witi bn <dodf>InputMbp</dodf>
+ * to lodbtf b pbrtidulbr bdtion
+ * wifn b kfy is prfssfd. As witi <dodf>InputMbp</dodf>,
+ * bn <dodf>AdtionMbp</dodf> dbn ibvf b pbrfnt
+ * tibt is sfbrdifd for kfys not dffinfd in tif <dodf>AdtionMbp</dodf>.
+ * <p>As witi <dodf>InputMbp</dodf> if you drfbtf b dydlf, fg:
+ * <prf>
+ *   AdtionMbp bm = nfw AdtionMbp();
+ *   AdtionMbp bm = nfw AdtionMbp():
+ *   bm.sftPbrfnt(bm);
+ *   bm.sftPbrfnt(bm);
+ * </prf>
+ * somf of tif mftiods will dbusf b StbdkOvfrflowError to bf tirown.
  *
- * @see InputMap
+ * @sff InputMbp
  *
- * @author Scott Violet
- * @since 1.3
+ * @butior Sdott Violft
+ * @sindf 1.3
  */
-@SuppressWarnings("serial")
-public class ActionMap implements Serializable {
-    /** Handles the mapping between Action name and Action. */
-    private transient ArrayTable     arrayTable;
-    /** Parent that handles any bindings we don't contain. */
-    private ActionMap                               parent;
+@SupprfssWbrnings("sfribl")
+publid dlbss AdtionMbp implfmfnts Sfriblizbblf {
+    /** Hbndlfs tif mbpping bftwffn Adtion nbmf bnd Adtion. */
+    privbtf trbnsifnt ArrbyTbblf     brrbyTbblf;
+    /** Pbrfnt tibt ibndlfs bny bindings wf don't dontbin. */
+    privbtf AdtionMbp                               pbrfnt;
 
 
     /**
-     * Creates an <code>ActionMap</code> with no parent and no mappings.
+     * Crfbtfs bn <dodf>AdtionMbp</dodf> witi no pbrfnt bnd no mbppings.
      */
-    public ActionMap() {
+    publid AdtionMbp() {
     }
 
     /**
-     * Sets this <code>ActionMap</code>'s parent.
+     * Sfts tiis <dodf>AdtionMbp</dodf>'s pbrfnt.
      *
-     * @param map  the <code>ActionMap</code> that is the parent of this one
+     * @pbrbm mbp  tif <dodf>AdtionMbp</dodf> tibt is tif pbrfnt of tiis onf
      */
-    public void setParent(ActionMap map) {
-        this.parent = map;
+    publid void sftPbrfnt(AdtionMbp mbp) {
+        tiis.pbrfnt = mbp;
     }
 
     /**
-     * Returns this <code>ActionMap</code>'s parent.
+     * Rfturns tiis <dodf>AdtionMbp</dodf>'s pbrfnt.
      *
-     * @return the <code>ActionMap</code> that is the parent of this one,
-     *         or null if this <code>ActionMap</code> has no parent
+     * @rfturn tif <dodf>AdtionMbp</dodf> tibt is tif pbrfnt of tiis onf,
+     *         or null if tiis <dodf>AdtionMbp</dodf> ibs no pbrfnt
      */
-    public ActionMap getParent() {
-        return parent;
+    publid AdtionMbp gftPbrfnt() {
+        rfturn pbrfnt;
     }
 
     /**
-     * Adds a binding for <code>key</code> to <code>action</code>.
-     * If <code>action</code> is null, this removes the current binding
-     * for <code>key</code>.
-     * <p>In most instances, <code>key</code> will be
-     * <code>action.getValue(NAME)</code>.
+     * Adds b binding for <dodf>kfy</dodf> to <dodf>bdtion</dodf>.
+     * If <dodf>bdtion</dodf> is null, tiis rfmovfs tif durrfnt binding
+     * for <dodf>kfy</dodf>.
+     * <p>In most instbndfs, <dodf>kfy</dodf> will bf
+     * <dodf>bdtion.gftVbluf(NAME)</dodf>.
      *
-     * @param key a key
-     * @param action a binding for {@code key}
+     * @pbrbm kfy b kfy
+     * @pbrbm bdtion b binding for {@dodf kfy}
      */
-    public void put(Object key, Action action) {
-        if (key == null) {
-            return;
+    publid void put(Objfdt kfy, Adtion bdtion) {
+        if (kfy == null) {
+            rfturn;
         }
-        if (action == null) {
-            remove(key);
+        if (bdtion == null) {
+            rfmovf(kfy);
         }
-        else {
-            if (arrayTable == null) {
-                arrayTable = new ArrayTable();
+        flsf {
+            if (brrbyTbblf == null) {
+                brrbyTbblf = nfw ArrbyTbblf();
             }
-            arrayTable.put(key, action);
+            brrbyTbblf.put(kfy, bdtion);
         }
     }
 
     /**
-     * Returns the binding for <code>key</code>, messaging the
-     * parent <code>ActionMap</code> if the binding is not locally defined.
+     * Rfturns tif binding for <dodf>kfy</dodf>, mfssbging tif
+     * pbrfnt <dodf>AdtionMbp</dodf> if tif binding is not lodblly dffinfd.
      *
-     * @param key a key
-     * @return the binding for {@code key}
+     * @pbrbm kfy b kfy
+     * @rfturn tif binding for {@dodf kfy}
      */
-    public Action get(Object key) {
-        Action value = (arrayTable == null) ? null :
-                       (Action)arrayTable.get(key);
+    publid Adtion gft(Objfdt kfy) {
+        Adtion vbluf = (brrbyTbblf == null) ? null :
+                       (Adtion)brrbyTbblf.gft(kfy);
 
-        if (value == null) {
-            ActionMap    parent = getParent();
+        if (vbluf == null) {
+            AdtionMbp    pbrfnt = gftPbrfnt();
 
-            if (parent != null) {
-                return parent.get(key);
+            if (pbrfnt != null) {
+                rfturn pbrfnt.gft(kfy);
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Removes the binding for <code>key</code> from this <code>ActionMap</code>.
+     * Rfmovfs tif binding for <dodf>kfy</dodf> from tiis <dodf>AdtionMbp</dodf>.
      *
-     * @param key a key
+     * @pbrbm kfy b kfy
      */
-    public void remove(Object key) {
-        if (arrayTable != null) {
-            arrayTable.remove(key);
+    publid void rfmovf(Objfdt kfy) {
+        if (brrbyTbblf != null) {
+            brrbyTbblf.rfmovf(kfy);
         }
     }
 
     /**
-     * Removes all the mappings from this <code>ActionMap</code>.
+     * Rfmovfs bll tif mbppings from tiis <dodf>AdtionMbp</dodf>.
      */
-    public void clear() {
-        if (arrayTable != null) {
-            arrayTable.clear();
+    publid void dlfbr() {
+        if (brrbyTbblf != null) {
+            brrbyTbblf.dlfbr();
         }
     }
 
     /**
-     * Returns the <code>Action</code> names that are bound in this <code>ActionMap</code>.
+     * Rfturns tif <dodf>Adtion</dodf> nbmfs tibt brf bound in tiis <dodf>AdtionMbp</dodf>.
      *
-     * @return an array of the keys
+     * @rfturn bn brrby of tif kfys
      */
-    public Object[] keys() {
-        if (arrayTable == null) {
-            return null;
+    publid Objfdt[] kfys() {
+        if (brrbyTbblf == null) {
+            rfturn null;
         }
-        return arrayTable.getKeys(null);
+        rfturn brrbyTbblf.gftKfys(null);
     }
 
     /**
-     * Returns the number of bindings in this {@code ActionMap}.
+     * Rfturns tif numbfr of bindings in tiis {@dodf AdtionMbp}.
      *
-     * @return the number of bindings in this {@code ActionMap}
+     * @rfturn tif numbfr of bindings in tiis {@dodf AdtionMbp}
      */
-    public int size() {
-        if (arrayTable == null) {
-            return 0;
+    publid int sizf() {
+        if (brrbyTbblf == null) {
+            rfturn 0;
         }
-        return arrayTable.size();
+        rfturn brrbyTbblf.sizf();
     }
 
     /**
-     * Returns an array of the keys defined in this <code>ActionMap</code> and
-     * its parent. This method differs from <code>keys()</code> in that
-     * this method includes the keys defined in the parent.
+     * Rfturns bn brrby of tif kfys dffinfd in tiis <dodf>AdtionMbp</dodf> bnd
+     * its pbrfnt. Tiis mftiod difffrs from <dodf>kfys()</dodf> in tibt
+     * tiis mftiod indludfs tif kfys dffinfd in tif pbrfnt.
      *
-     * @return an array of the keys
+     * @rfturn bn brrby of tif kfys
      */
-    public Object[] allKeys() {
-        int           count = size();
-        ActionMap     parent = getParent();
+    publid Objfdt[] bllKfys() {
+        int           dount = sizf();
+        AdtionMbp     pbrfnt = gftPbrfnt();
 
-        if (count == 0) {
-            if (parent != null) {
-                return parent.allKeys();
+        if (dount == 0) {
+            if (pbrfnt != null) {
+                rfturn pbrfnt.bllKfys();
             }
-            return keys();
+            rfturn kfys();
         }
-        if (parent == null) {
-            return keys();
+        if (pbrfnt == null) {
+            rfturn kfys();
         }
-        Object[]    keys = keys();
-        Object[]    pKeys =  parent.allKeys();
+        Objfdt[]    kfys = kfys();
+        Objfdt[]    pKfys =  pbrfnt.bllKfys();
 
-        if (pKeys == null) {
-            return keys;
+        if (pKfys == null) {
+            rfturn kfys;
         }
-        if (keys == null) {
-            // Should only happen if size() != keys.length, which should only
-            // happen if mutated from multiple threads (or a bogus subclass).
-            return pKeys;
+        if (kfys == null) {
+            // Siould only ibppfn if sizf() != kfys.lfngti, wiidi siould only
+            // ibppfn if mutbtfd from multiplf tirfbds (or b bogus subdlbss).
+            rfturn pKfys;
         }
 
-        HashMap<Object, Object> keyMap = new HashMap<Object, Object>();
-        int            counter;
+        HbsiMbp<Objfdt, Objfdt> kfyMbp = nfw HbsiMbp<Objfdt, Objfdt>();
+        int            dountfr;
 
-        for (counter = keys.length - 1; counter >= 0; counter--) {
-            keyMap.put(keys[counter], keys[counter]);
+        for (dountfr = kfys.lfngti - 1; dountfr >= 0; dountfr--) {
+            kfyMbp.put(kfys[dountfr], kfys[dountfr]);
         }
-        for (counter = pKeys.length - 1; counter >= 0; counter--) {
-            keyMap.put(pKeys[counter], pKeys[counter]);
+        for (dountfr = pKfys.lfngti - 1; dountfr >= 0; dountfr--) {
+            kfyMbp.put(pKfys[dountfr], pKfys[dountfr]);
         }
-        return keyMap.keySet().toArray();
+        rfturn kfyMbp.kfySft().toArrby();
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
 
-        ArrayTable.writeArrayTable(s, arrayTable);
+        ArrbyTbblf.writfArrbyTbblf(s, brrbyTbblf);
     }
 
-    private void readObject(ObjectInputStream s) throws ClassNotFoundException,
-                                                 IOException {
-        s.defaultReadObject();
-        for (int counter = s.readInt() - 1; counter >= 0; counter--) {
-            put(s.readObject(), (Action)s.readObject());
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows ClbssNotFoundExdfption,
+                                                 IOExdfption {
+        s.dffbultRfbdObjfdt();
+        for (int dountfr = s.rfbdInt() - 1; dountfr >= 0; dountfr--) {
+            put(s.rfbdObjfdt(), (Adtion)s.rfbdObjfdt());
         }
     }
 }

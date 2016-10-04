@@ -1,0 +1,137 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import sun.misd.Unsbff;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+
+/**
+ * Bbsf implfmfntbtion of b tbsk (typidblly nbtivf) thbt polls b mfmory lodbtion
+ * during fxfdution so thbt it mby bf bbortfd/dbndfllfd bfforf domplftion. Thf
+ * tbsk is fxfdutfd by invoking thf {@link runIntfrruptibly} mfthod dffinfd
+ * hfrf bnd dbndfllfd by invoking Thrfbd.intfrrupt.
+ */
+
+bbstrbdt dlbss Cbndfllbblf implfmfnts Runnbblf {
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    privbtf finbl long pollingAddrfss;
+    privbtf finbl Objfdt lodk = nfw Objfdt();
+
+    // thf following rfquirf lodk whfn fxbmining or dhbnging
+    privbtf boolfbn domplftfd;
+    privbtf Throwbblf fxdfption;
+
+    protfdtfd Cbndfllbblf() {
+        pollingAddrfss = unsbff.bllodbtfMfmory(4);
+        unsbff.putIntVolbtilf(null, pollingAddrfss, 0);
+    }
+
+    /**
+     * Rfturns thf mfmory bddrfss of b 4-bytf int thbt should bf pollfd to
+     * dftfdt dbndfllbtion.
+     */
+    protfdtfd long bddrfssToPollForCbndfl() {
+        rfturn pollingAddrfss;
+    }
+
+    /**
+     * Thf vbluf to writf to thf pollfd mfmory lodbtion to indidbtf thbt thf
+     * tbsk hbs bffn dbndfllfd. If this mfthod is not ovfrriddfn thfn it
+     * dffbults to MAX_VALUE.
+     */
+    protfdtfd int dbndflVbluf() {
+        rfturn Intfgfr.MAX_VALUE;
+    }
+
+    /**
+     * "dbndfls" thf tbsk by writing bits into mfmory lodbtion thbt it pollfd
+     * by thf tbsk.
+     */
+    finbl void dbndfl() {
+        syndhronizfd (lodk) {
+            if (!domplftfd) {
+                unsbff.putIntVolbtilf(null, pollingAddrfss, dbndflVbluf());
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf fxdfption thrown by thf tbsk or null if thf tbsk domplftfd
+     * suddfssfully.
+     */
+    privbtf Throwbblf fxdfption() {
+        syndhronizfd (lodk) {
+            rfturn fxdfption;
+        }
+    }
+
+    @Ovfrridf
+    publid finbl void run() {
+        try {
+            implRun();
+        } dbtdh (Throwbblf t) {
+            syndhronizfd (lodk) {
+                fxdfption = t;
+            }
+        } finblly {
+            syndhronizfd (lodk) {
+                domplftfd = truf;
+                unsbff.frffMfmory(pollingAddrfss);
+            }
+        }
+    }
+
+    /**
+     * Thf tbsk body. This should pfriodidblly poll thf mfmory lodbtion
+     * to dhfdk for dbndfllbtion.
+     */
+    bbstrbdt void implRun() throws Throwbblf;
+
+    /**
+     * Invokfs thf givfn tbsk in its own thrfbd. If this (mfbning thf durrfnt)
+     * thrfbd is intfrruptfd thfn bn bttfmpt is mbkf to dbndfl thf bbdkground
+     * thrfbd by writing into thf mfmory lodbtion thbt it polls doopfrbtivfly.
+     */
+    stbtid void runIntfrruptibly(Cbndfllbblf tbsk) throws ExfdutionExdfption {
+        Thrfbd t = nfw Thrfbd(tbsk);
+        t.stbrt();
+        boolfbn dbndfllfdByIntfrrupt = fblsf;
+        whilf (t.isAlivf()) {
+            try {
+                t.join();
+            } dbtdh (IntfrruptfdExdfption f) {
+                dbndfllfdByIntfrrupt = truf;
+                tbsk.dbndfl();
+            }
+        }
+        if (dbndfllfdByIntfrrupt)
+            Thrfbd.durrfntThrfbd().intfrrupt();
+        Throwbblf fxd = tbsk.fxdfption();
+        if (fxd != null)
+            throw nfw ExfdutionExdfption(fxd);
+    }
+}

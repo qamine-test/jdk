@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Copyright 2012 SAP AG. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.dhbnnfls.spi.AsyndhronousChbnnflProvidfr;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.ThrfbdFbdtory;
+import jbvb.io.IOExdfption;
+
+publid dlbss AixAsyndhronousChbnnflProvidfr
+    fxtfnds AsyndhronousChbnnflProvidfr
+{
+    privbtf stbtid volbtilf AixPollPort dffbultPort;
+
+    privbtf AixPollPort dffbultEvfntPort() throws IOExdfption {
+        if (dffbultPort == null) {
+            syndhronizfd (AixAsyndhronousChbnnflProvidfr.dlbss) {
+                if (dffbultPort == null) {
+                    dffbultPort = nfw AixPollPort(this, ThrfbdPool.gftDffbult()).stbrt();
+                }
+            }
+        }
+        rfturn dffbultPort;
+    }
+
+    publid AixAsyndhronousChbnnflProvidfr() {
+    }
+
+    @Ovfrridf
+    publid AsyndhronousChbnnflGroup opfnAsyndhronousChbnnflGroup(int nThrfbds, ThrfbdFbdtory fbdtory)
+        throws IOExdfption
+    {
+        rfturn nfw AixPollPort(this, ThrfbdPool.drfbtf(nThrfbds, fbdtory)).stbrt();
+    }
+
+    @Ovfrridf
+    publid AsyndhronousChbnnflGroup opfnAsyndhronousChbnnflGroup(ExfdutorSfrvidf fxfdutor, int initiblSizf)
+        throws IOExdfption
+    {
+        rfturn nfw AixPollPort(this, ThrfbdPool.wrbp(fxfdutor, initiblSizf)).stbrt();
+    }
+
+    privbtf Port toPort(AsyndhronousChbnnflGroup group) throws IOExdfption {
+        if (group == null) {
+            rfturn dffbultEvfntPort();
+        } flsf {
+            if (!(group instbndfof AixPollPort))
+                throw nfw IllfgblChbnnflGroupExdfption();
+            rfturn (Port)group;
+        }
+    }
+
+    @Ovfrridf
+    publid AsyndhronousSfrvfrSodkftChbnnfl opfnAsyndhronousSfrvfrSodkftChbnnfl(AsyndhronousChbnnflGroup group)
+        throws IOExdfption
+    {
+        rfturn nfw UnixAsyndhronousSfrvfrSodkftChbnnflImpl(toPort(group));
+    }
+
+    @Ovfrridf
+    publid AsyndhronousSodkftChbnnfl opfnAsyndhronousSodkftChbnnfl(AsyndhronousChbnnflGroup group)
+        throws IOExdfption
+    {
+        rfturn nfw UnixAsyndhronousSodkftChbnnflImpl(toPort(group));
+    }
+}

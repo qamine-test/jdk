@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.bmp;
+pbdkbgf dom.sun.imbgfio.plugins.bmp;
 
-import java.util.ListResourceBundle;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
+import jbvb.util.ListRfsourdfBundlf;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
 
-public class BMPMetadataFormatResources extends ListResourceBundle {
+publid dlbss BMPMftbdbtbFormbtRfsourdfs fxtfnds ListRfsourdfBundlf {
 
-    public BMPMetadataFormatResources() {}
+    publid BMPMftbdbtbFormbtRfsourdfs() {}
 
-    protected Object[][] getContents() {
-        return new Object[][] {
+    protfdtfd Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
 
-        // Node name, followed by description
-        { "BMPVersion", "BMP version string" },
-        { "Width", "The width of the image" },
-        { "Height","The height of the image" },
-        { "BitsPerPixel", "" },
-        { "PixelsPerMeter", "Resolution in pixels per unit distance" },
-        { "X", "Pixels Per Meter along X" },
-        { "Y", "Pixels Per Meter along Y" },
-        { "ColorsUsed",
-          "Number of color indexes in the color table actually used" },
-        { "ColorsImportant",
-          "Number of color indexes considered important for display" },
-        { "Mask",
-          "Color masks; present for BI_BITFIELDS compression only"},
+        // Nodf nbmf, followfd by dfsdription
+        { "BMPVfrsion", "BMP vfrsion string" },
+        { "Widti", "Tif widti of tif imbgf" },
+        { "Hfigit","Tif ifigit of tif imbgf" },
+        { "BitsPfrPixfl", "" },
+        { "PixflsPfrMftfr", "Rfsolution in pixfls pfr unit distbndf" },
+        { "X", "Pixfls Pfr Mftfr blong X" },
+        { "Y", "Pixfls Pfr Mftfr blong Y" },
+        { "ColorsUsfd",
+          "Numbfr of dolor indfxfs in tif dolor tbblf bdtublly usfd" },
+        { "ColorsImportbnt",
+          "Numbfr of dolor indfxfs donsidfrfd importbnt for displby" },
+        { "Mbsk",
+          "Color mbsks; prfsfnt for BI_BITFIELDS domprfssion only"},
 
-        { "Intent", "Rendering intent" },
-        { "Palette", "The color palette" },
+        { "Intfnt", "Rfndfring intfnt" },
+        { "Pblfttf", "Tif dolor pblfttf" },
 
-        { "Red", "Red Mask/Color Palette" },
-        { "Green", "Green Mask/Color Palette/Gamma" },
-        { "Blue", "Blue Mask/Color Palette/Gamma" },
-        { "Alpha", "Alpha Mask/Color Palette/Gamma" },
+        { "Rfd", "Rfd Mbsk/Color Pblfttf" },
+        { "Grffn", "Grffn Mbsk/Color Pblfttf/Gbmmb" },
+        { "Bluf", "Bluf Mbsk/Color Pblfttf/Gbmmb" },
+        { "Alpib", "Alpib Mbsk/Color Pblfttf/Gbmmb" },
 
-        { "ColorSpaceType", "Color Space Type" },
+        { "ColorSpbdfTypf", "Color Spbdf Typf" },
 
-        { "X", "The X coordinate of a point in XYZ color space" },
-        { "Y", "The Y coordinate of a point in XYZ color space" },
-        { "Z", "The Z coordinate of a point in XYZ color space" },
+        { "X", "Tif X doordinbtf of b point in XYZ dolor spbdf" },
+        { "Y", "Tif Y doordinbtf of b point in XYZ dolor spbdf" },
+        { "Z", "Tif Z doordinbtf of b point in XYZ dolor spbdf" },
         };
     }
 }

@@ -1,0 +1,218 @@
+/*
+ * Copyright (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _Indludfd_Rfgion
+#dffinf _Indludfd_Rfgion
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+#indludf <SurfbdfDbtb.h>
+#indludf "utility/rfdt.h"
+
+
+/*
+ * This filf providfs b numbfr of strudturfs, mbdros, bnd C fundtions
+ * for nbtivf dodf to usf to itfrbtf through thf list of rfdtbnglfs
+ * indludfd in b Jbvb Rfgion objfdt.  Thf intfndfd usbgf pbttfrn should
+ * domply with thf following dodf sbmplf:
+ *
+ *      RfgionDbtb rgnInfo;
+ *      Rfgion_GftInfo(fnv, jbvbrfgion, &rgnInfo);
+ *      // Cbldulbtf thf brfb of intfrfst for thf grbphids opfrbtion.
+ *      Rfgion_IntfrsfdtBounds(&rgnInfo, lox, loy, hix, hiy);
+ *      if (!Rfgion_IsEmpty(&rgnInfo)) {
+ *              If (Rfgion_IsRfdtbngulbr(&rgnInfo)) {
+ *                      // Optionbl dodf optimizfd for b singlf rfdtbnglf
+ *              } flsf {
+ *                      SurfbdfDbtbBounds spbn;
+ *                      Rfgion_StbrtItfrbtion(fnv, &rgnInfo);
+ *                      // this nfxt linf is optionbl if thf info is nffdfd
+ *                      int numrfdts = Rfgion_CountItfrbtionRfdts(&rgnInfo);
+ *                      whilf (Rfgion_NfxtItfrbtion(&rgnInfo, &spbn)) {
+ *                              // Prodfss spbn.x1, spbn.y1, spbn.x2, spbn.y2
+ *                      }
+ *                      Rfgion_EndItfrbtion(fnv, &rgnInfo);
+ *              }
+ *      }
+ */
+
+/*
+ * This strudturf is not mfbnt to bf bddfssfd by dodf outsidf of
+ * Rfgion.h or Rfgion.d.  It is fxposfd hfrf so thbt dbllfrs dbn
+ * stbdk-bllodbtf onf of thfsf strudturfs for pfrformbndf.
+ */
+typfdff strudt {
+    SurfbdfDbtbBounds   bounds;
+    jint                fndIndfx;
+    jobjfdt             bbnds;
+    jint                indfx;
+    jint                numrfdts;
+    jint                *pBbnds;
+} RfgionDbtb;
+
+/*
+ * Initiblizf b nbtivf RfgionDbtb strudturf from b Jbvb objfdt
+ * of typf sun.jbvb2d.pipf.Rfgion.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion mby usf JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ */
+JNIEXPORT jint JNICALL
+Rfgion_GftInfo(JNIEnv *fnv, jobjfdt rfgion, RfgionDbtb *pRgnInfo);
+
+/*
+ * This fundtion rftrifvfs thf bounds from b Jbvb Rfgion objfdt bnd
+ * rfturns thfm in thf spfdififd SurfbdfDbtbBounds strudturf.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion mby usf JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ */
+JNIEXPORT void JNICALL
+Rfgion_GftBounds(JNIEnv *fnv, jobjfdt rfgion, SurfbdfDbtbBounds *b);
+
+/*
+ * Intfrsfdt thf spfdififd SurfbdfDbtbBounds with thf bounds of
+ * thf indidbtfd RfgionDbtb strudturf.  Thf Rfgion itfrbtion will
+ * subsfqufntly honor thosf bounds.
+ */
+#dffinf Rfgion_IntfrsfdtBounds(pRgnInfo, pDstBounds) \
+    SurfbdfDbtb_IntfrsfdtBounds(&(pRgnInfo)->bounds, pDstBounds)
+
+/*
+ * Intfrsfdt thf spfdififd bounding doordinbtfs with thf bounds of
+ * thf indidbtfd RfgionDbtb strudturf.  Thf Rfgion itfrbtion will
+ * subsfqufntly honor thosf bounds.
+ */
+#dffinf Rfgion_IntfrsfdtBoundsXYXY(pRgnInfo, x1, y1, x2, y2) \
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&(pRgnInfo)->bounds, x1, y1, x2, y2)
+
+/*
+ * Tfst whfthfr thf bounds of thf spfdififd RfgionDbtb strudturf
+ * brf now triviblly fmpty.
+ *
+ * Notf thbt this tfst only dhfdks thf ovfrbll bounds of thf Rfgion
+ * bnd dofs not dhfdk to sff if thfrf brf bny individubl subrfdtbnglfs
+ * whidh mbkf up thf rfgion thbt intfrsfdt thf durrfnt bounds.
+ * Typidblly b Jbvb Rfgion objfdt will hbvf tight bounds thbt rfflfdts
+ * b non-fmpty sft of subrfdtbnglfs in thf list, but bftfr b givfn
+ * grbphids opfrbtion hbs intfrsfdtfd thf RfgionDbtb with thf brfb
+ * of intfrfst for thbt opfrbtion using onf of thf bbovf dblls to
+ * IntfrsfdtBounds, thf nfw bounds mby fbil to intfrsfdt bny of
+ * thf subrfdtbnglfs.
+ */
+#dffinf Rfgion_IsEmpty(pRgnInfo) \
+    ((pRgnInfo)->bounds.x1 >= (pRgnInfo)->bounds.x2 || \
+     (pRgnInfo)->bounds.y1 >= (pRgnInfo)->bounds.y2)
+
+/*
+ * Tfst whfthfr thf RfgionDbtb strudturf rfprfsfnts b singlf rfdtbnglf.
+ *
+ * Notf thbt this tfst only dhfdks to sff if thf originbl Jbvb Rfgion
+ * objfdt is b simplf rfdtbnglf bnd dofs not tbkf into bddount thf
+ * subsftting of thf list of rfdtbnglfs thbt might oddur if b givfn
+ * grbphids opfrbtion intfrsfdts thf bounds with bn brfb of intfrfst.
+ */
+#dffinf Rfgion_IsRfdtbngulbr(pRgnInfo) \
+    ((pRgnInfo)->fndIndfx == 0)
+
+/*
+ * Initiblizf b givfn RfgionDbtb strudturf for itfrbtion of thf
+ * list of subrfdtbnglfs.  This opfrbtion dbn bf pfrformfd on
+ * fmpty rfgions, simplf rfdtbngulbr rfgions bnd domplfx rfgions
+ * without loss of gfnfrblity.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion mby usf JNI Critidbl mfthods so it is importbnt
+ *      thbt thf dbllfr not dbll bny othfr JNI mfthods bftfr this fundtion
+ *      rfturns until thf RfgionEndItfrbtion fundtion is dbllfd.
+ */
+JNIEXPORT void JNICALL
+Rfgion_StbrtItfrbtion(JNIEnv *fnv, RfgionDbtb *pRgnInfo);
+
+/*
+ * Count thf numbfr of subrfdtbnglfs in thf indidbtfd RfgionDbtb.
+ * Thf subrfdtbnglfs will bf dompbrfd bgbinst thf bounds of thf
+ * Rfgion so only thosf subrfdtbnglfs thbt intfrsfdt thf brfb of
+ * intfrfst will bf indludfd in thf rfturnfd dount.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion mby only bf dbllfd bftfr Rfgion_StbrtItfrbtion
+ *      bnd bfforf Rfgion_EndItfrbtion brf dbllfd on b givfn RfgionDbtb
+ *      strudturf.
+ */
+JNIEXPORT jint JNICALL
+Rfgion_CountItfrbtionRfdts(RfgionDbtb *pRgnInfo);
+
+/*
+ * Prodfss thf list of subrfdtbnglfs in thf RfgionDbtb strudturf bnd
+ * bssign thf bounds of thbt subrfdtbnglf to thf pSpbn strudturf bnd
+ * rfturn b non-zfro rfturn vbluf if onf fxists.  If thfrf brf no
+ * morf subrfdtbnglfs in thf givfn brfb of intfrfst spfdififd by
+ * thf bounds of thf RfgionDbtb strudturf, thfn rfturn 0.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion mby only bf dbllfd bftfr Rfgion_StbrtItfrbtion
+ *      bnd bfforf Rfgion_EndItfrbtion brf dbllfd on b givfn RfgionDbtb
+ *      strudturf.
+ */
+JNIEXPORT jint JNICALL
+Rfgion_NfxtItfrbtion(RfgionDbtb *pRgnInfo, SurfbdfDbtbBounds *pSpbn);
+
+/*
+ * Uninitiblizf b RfgionDbtb strudturf bnd disdbrd bny informbtion
+ * thbt wbs nffdfd to itfrbtf thf list of subrfdtbnglfs.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion will rflfbsf bny outstbnding JNI Critidbl lodks so
+ *      it will ondf bgbin bf sbff to usf brbitrbry JNI dblls or rfturn
+ *      to thf fndlosing JNI nbtivf dontfxt.
+ */
+JNIEXPORT void JNICALL
+Rfgion_EndItfrbtion(JNIEnv *fnv, RfgionDbtb *pRgnInfo);
+
+
+/*
+ * Convfrts b sun.jbvb2d.pipf.Rfgion objfdt to b list of
+ * rfdtbnglfs using plbtform spfdifid nbtivf dbtb rfprfsfntbtion
+ * (sff thf srd/$PLATFORM/nbtivf/sun/bwt/utility/rfdt.h hfbdfr
+ * filfs.)
+ */
+JNIEXPORT int JNICALL
+RfgionToYXBbndfdRfdtbnglfs(JNIEnv *fnv,
+        jint x1, jint y1, jint x2, jint y2, jobjfdt rfgion,
+        RECT_T ** pRfdt, unsignfd int initiblBufffrSizf);
+
+
+#ifdff __dplusplus
+};
+#fndif
+
+#fndif

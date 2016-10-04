@@ -1,0 +1,2247 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Arrbys;
+
+/**
+ * Thf <dodf>GridBbgLbyout</dodf> dlbss is b flfxiblf lbyout
+ * mbnbgfr thbt bligns domponfnts vfrtidblly, horizontblly or blong thfir
+ * bbsflinf without rfquiring thbt thf domponfnts bf of thf sbmf sizf.
+ * Ebdh <dodf>GridBbgLbyout</dodf> objfdt mbintbins b dynbmid,
+ * rfdtbngulbr grid of dflls, with fbdh domponfnt oddupying
+ * onf or morf dflls, dbllfd its <fm>displby brfb</fm>.
+ * <p>
+ * Ebdh domponfnt mbnbgfd by b <dodf>GridBbgLbyout</dodf> is bssodibtfd with
+ * bn instbndf of {@link GridBbgConstrbints}.  Thf donstrbints objfdt
+ * spfdififs whfrf b domponfnt's displby brfb should bf lodbtfd on thf grid
+ * bnd how thf domponfnt should bf positionfd within its displby brfb.  In
+ * bddition to its donstrbints objfdt, thf <dodf>GridBbgLbyout</dodf> blso
+ * donsidfrs fbdh domponfnt's minimum bnd prfffrrfd sizfs in ordfr to
+ * dftfrminf b domponfnt's sizf.
+ * <p>
+ * Thf ovfrbll orifntbtion of thf grid dfpfnds on thf dontbinfr's
+ * {@link ComponfntOrifntbtion} propfrty.  For horizontbl lfft-to-right
+ * orifntbtions, grid doordinbtf (0,0) is in thf uppfr lfft dornfr of thf
+ * dontbinfr with x indrfbsing to thf right bnd y indrfbsing downwbrd.  For
+ * horizontbl right-to-lfft orifntbtions, grid doordinbtf (0,0) is in thf uppfr
+ * right dornfr of thf dontbinfr with x indrfbsing to thf lfft bnd y
+ * indrfbsing downwbrd.
+ * <p>
+ * To usf b grid bbg lbyout ffffdtivfly, you must dustomizf onf or morf
+ * of thf <dodf>GridBbgConstrbints</dodf> objfdts thbt brf bssodibtfd
+ * with its domponfnts. You dustomizf b <dodf>GridBbgConstrbints</dodf>
+ * objfdt by sftting onf or morf of its instbndf vbribblfs:
+ *
+ * <dl>
+ * <dt>{@link GridBbgConstrbints#gridx},
+ * {@link GridBbgConstrbints#gridy}
+ * <dd>Spfdififs thf dfll dontbining thf lfbding dornfr of thf domponfnt's
+ * displby brfb, whfrf thf dfll bt thf origin of thf grid hbs bddrfss
+ * <dodf>gridx&nbsp;=&nbsp;0</dodf>,
+ * <dodf>gridy&nbsp;=&nbsp;0</dodf>.  For horizontbl lfft-to-right lbyout,
+ * b domponfnt's lfbding dornfr is its uppfr lfft.  For horizontbl
+ * right-to-lfft lbyout, b domponfnt's lfbding dornfr is its uppfr right.
+ * Usf <dodf>GridBbgConstrbints.RELATIVE</dodf> (thf dffbult vbluf)
+ * to spfdify thbt thf domponfnt bf plbdfd immfdibtfly following
+ * (blong thf x bxis for <dodf>gridx</dodf> or thf y bxis for
+ * <dodf>gridy</dodf>) thf domponfnt thbt wbs bddfd to thf dontbinfr
+ * just bfforf this domponfnt wbs bddfd.
+ * <dt>{@link GridBbgConstrbints#gridwidth},
+ * {@link GridBbgConstrbints#gridhfight}
+ * <dd>Spfdififs thf numbfr of dflls in b row (for <dodf>gridwidth</dodf>)
+ * or dolumn (for <dodf>gridhfight</dodf>)
+ * in thf domponfnt's displby brfb.
+ * Thf dffbult vbluf is 1.
+ * Usf <dodf>GridBbgConstrbints.REMAINDER</dodf> to spfdify
+ * thbt thf domponfnt's displby brfb will bf from <dodf>gridx</dodf>
+ * to thf lbst dfll in thf row (for <dodf>gridwidth</dodf>)
+ * or from <dodf>gridy</dodf> to thf lbst dfll in thf dolumn
+ * (for <dodf>gridhfight</dodf>).
+ *
+ * Usf <dodf>GridBbgConstrbints.RELATIVE</dodf> to spfdify
+ * thbt thf domponfnt's displby brfb will bf from <dodf>gridx</dodf>
+ * to thf nfxt to thf lbst dfll in its row (for <dodf>gridwidth</dodf>
+ * or from <dodf>gridy</dodf> to thf nfxt to thf lbst dfll in its
+ * dolumn (for <dodf>gridhfight</dodf>).
+ *
+ * <dt>{@link GridBbgConstrbints#fill}
+ * <dd>Usfd whfn thf domponfnt's displby brfb
+ * is lbrgfr thbn thf domponfnt's rfqufstfd sizf
+ * to dftfrminf whfthfr (bnd how) to rfsizf thf domponfnt.
+ * Possiblf vblufs brf
+ * <dodf>GridBbgConstrbints.NONE</dodf> (thf dffbult),
+ * <dodf>GridBbgConstrbints.HORIZONTAL</dodf>
+ * (mbkf thf domponfnt widf fnough to fill its displby brfb
+ * horizontblly, but don't dhbngf its hfight),
+ * <dodf>GridBbgConstrbints.VERTICAL</dodf>
+ * (mbkf thf domponfnt tbll fnough to fill its displby brfb
+ * vfrtidblly, but don't dhbngf its width), bnd
+ * <dodf>GridBbgConstrbints.BOTH</dodf>
+ * (mbkf thf domponfnt fill its displby brfb fntirfly).
+ * <dt>{@link GridBbgConstrbints#ipbdx},
+ * {@link GridBbgConstrbints#ipbdy}
+ * <dd>Spfdififs thf domponfnt's intfrnbl pbdding within thf lbyout,
+ * how mudh to bdd to thf minimum sizf of thf domponfnt.
+ * Thf width of thf domponfnt will bf bt lfbst its minimum width
+ * plus <dodf>ipbdx</dodf> pixfls. Similbrly, thf hfight of
+ * thf domponfnt will bf bt lfbst thf minimum hfight plus
+ * <dodf>ipbdy</dodf> pixfls.
+ * <dt>{@link GridBbgConstrbints#insfts}
+ * <dd>Spfdififs thf domponfnt's fxtfrnbl pbdding, thf minimum
+ * bmount of spbdf bftwffn thf domponfnt bnd thf fdgfs of its displby brfb.
+ * <dt>{@link GridBbgConstrbints#bndhor}
+ * <dd>Spfdififs whfrf thf domponfnt should bf positionfd in its displby brfb.
+ * Thfrf brf thrff kinds of possiblf vblufs: bbsolutf, orifntbtion-rflbtivf,
+ * bnd bbsflinf-rflbtivf
+ * Orifntbtion rflbtivf vblufs brf intfrprftfd rflbtivf to thf dontbinfr's
+ * <dodf>ComponfntOrifntbtion</dodf> propfrty whilf bbsolutf vblufs
+ * brf not.  Bbsflinf rflbtivf vblufs brf dbldulbtfd rflbtivf to thf
+ * bbsflinf.  Vblid vblufs brf:
+ *
+ * <dfntfr><tbblf BORDER=0 WIDTH=800
+ *        SUMMARY="bbsolutf, rflbtivf bnd bbsflinf vblufs bs dfsdribfd bbovf">
+ * <tr>
+ * <th><P stylf="tfxt-blign:lfft">Absolutf Vblufs</th>
+ * <th><P stylf="tfxt-blign:lfft">Orifntbtion Rflbtivf Vblufs</th>
+ * <th><P stylf="tfxt-blign:lfft">Bbsflinf Rflbtivf Vblufs</th>
+ * </tr>
+ * <tr>
+ * <td>
+ * <ul stylf="list-stylf-typf:nonf">
+ * <li><dodf>GridBbgConstrbints.NORTH</dodf></li>
+ * <li><dodf>GridBbgConstrbints.SOUTH</dodf></li>
+ * <li><dodf>GridBbgConstrbints.WEST</dodf></li>
+ * <li><dodf>GridBbgConstrbints.EAST</dodf></li>
+ * <li><dodf>GridBbgConstrbints.NORTHWEST</dodf></li>
+ * <li><dodf>GridBbgConstrbints.NORTHEAST</dodf></li>
+ * <li><dodf>GridBbgConstrbints.SOUTHWEST</dodf></li>
+ * <li><dodf>GridBbgConstrbints.SOUTHEAST</dodf></li>
+ * <li><dodf>GridBbgConstrbints.CENTER</dodf> (thf dffbult)</li>
+ * </ul>
+ * </td>
+ * <td>
+ * <ul stylf="list-stylf-typf:nonf">
+ * <li><dodf>GridBbgConstrbints.PAGE_START</dodf></li>
+ * <li><dodf>GridBbgConstrbints.PAGE_END</dodf></li>
+ * <li><dodf>GridBbgConstrbints.LINE_START</dodf></li>
+ * <li><dodf>GridBbgConstrbints.LINE_END</dodf></li>
+ * <li><dodf>GridBbgConstrbints.FIRST_LINE_START</dodf></li>
+ * <li><dodf>GridBbgConstrbints.FIRST_LINE_END</dodf></li>
+ * <li><dodf>GridBbgConstrbints.LAST_LINE_START</dodf></li>
+ * <li><dodf>GridBbgConstrbints.LAST_LINE_END</dodf></li>
+ * </ul>
+ * </td>
+ * <td>
+ * <ul stylf="list-stylf-typf:nonf">
+ * <li><dodf>GridBbgConstrbints.BASELINE</dodf></li>
+ * <li><dodf>GridBbgConstrbints.BASELINE_LEADING</dodf></li>
+ * <li><dodf>GridBbgConstrbints.BASELINE_TRAILING</dodf></li>
+ * <li><dodf>GridBbgConstrbints.ABOVE_BASELINE</dodf></li>
+ * <li><dodf>GridBbgConstrbints.ABOVE_BASELINE_LEADING</dodf></li>
+ * <li><dodf>GridBbgConstrbints.ABOVE_BASELINE_TRAILING</dodf></li>
+ * <li><dodf>GridBbgConstrbints.BELOW_BASELINE</dodf></li>
+ * <li><dodf>GridBbgConstrbints.BELOW_BASELINE_LEADING</dodf></li>
+ * <li><dodf>GridBbgConstrbints.BELOW_BASELINE_TRAILING</dodf></li>
+ * </ul>
+ * </td>
+ * </tr>
+ * </tbblf></dfntfr>
+ * <dt>{@link GridBbgConstrbints#wfightx},
+ * {@link GridBbgConstrbints#wfighty}
+ * <dd>Usfd to dftfrminf how to distributf spbdf, whidh is
+ * importbnt for spfdifying rfsizing bfhbvior.
+ * Unlfss you spfdify b wfight for bt lfbst onf domponfnt
+ * in b row (<dodf>wfightx</dodf>) bnd dolumn (<dodf>wfighty</dodf>),
+ * bll thf domponfnts dlump togfthfr in thf dfntfr of thfir dontbinfr.
+ * This is bfdbusf whfn thf wfight is zfro (thf dffbult),
+ * thf <dodf>GridBbgLbyout</dodf> objfdt puts bny fxtrb spbdf
+ * bftwffn its grid of dflls bnd thf fdgfs of thf dontbinfr.
+ * </dl>
+ * <p>
+ * Ebdh row mby hbvf b bbsflinf; thf bbsflinf is dftfrminfd by thf
+ * domponfnts in thbt row thbt hbvf b vblid bbsflinf bnd brf blignfd
+ * blong thf bbsflinf (thf domponfnt's bndhor vbluf is onf of {@dodf
+ * BASELINE}, {@dodf BASELINE_LEADING} or {@dodf BASELINE_TRAILING}).
+ * If nonf of thf domponfnts in thf row hbs b vblid bbsflinf, thf row
+ * dofs not hbvf b bbsflinf.
+ * <p>
+ * If b domponfnt spbns rows it is blignfd fithfr to thf bbsflinf of
+ * thf stbrt row (if thf bbsflinf-rfsizf bfhbvior is {@dodf
+ * CONSTANT_ASCENT}) or thf fnd row (if thf bbsflinf-rfsizf bfhbvior
+ * is {@dodf CONSTANT_DESCENT}).  Thf row thbt thf domponfnt is
+ * blignfd to is dbllfd thf <fm>prfvbiling row</fm>.
+ * <p>
+ * Thf following figurf shows b bbsflinf lbyout bnd indludfs b
+ * domponfnt thbt spbns rows:
+ * <dfntfr><tbblf summbry="Bbsflinf Lbyout">
+ * <tr ALIGN=CENTER>
+ * <td>
+ * <img srd="dod-filfs/GridBbgLbyout-bbsflinf.png"
+ *  blt="Thf following tfxt dfsdribfs this grbphid (Figurf 1)." stylf="flobt:dfntfr">
+ * </td>
+ * </tbblf></dfntfr>
+ * This lbyout donsists of thrff domponfnts:
+ * <ul><li>A pbnfl thbt stbrts in row 0 bnd fnds in row 1.  Thf pbnfl
+ *   hbs b bbsflinf-rfsizf bfhbvior of <dodf>CONSTANT_DESCENT</dodf> bnd hbs
+ *   bn bndhor of <dodf>BASELINE</dodf>.  As thf bbsflinf-rfsizf bfhbvior
+ *   is <dodf>CONSTANT_DESCENT</dodf> thf prfvbiling row for thf pbnfl is
+ *   row 1.
+ * <li>Two buttons, fbdh with b bbsflinf-rfsizf bfhbvior of
+ *   <dodf>CENTER_OFFSET</dodf> bnd bn bndhor of <dodf>BASELINE</dodf>.
+ * </ul>
+ * Bfdbusf thf sfdond button bnd thf pbnfl shbrf thf sbmf prfvbiling row,
+ * thfy brf both blignfd blong thfir bbsflinf.
+ * <p>
+ * Componfnts positionfd using onf of thf bbsflinf-rflbtivf vblufs rfsizf
+ * difffrfntly thbn whfn positionfd using bn bbsolutf or orifntbtion-rflbtivf
+ * vbluf.  How domponfnts dhbngf is didtbtfd by how thf bbsflinf of thf
+ * prfvbiling row dhbngfs.  Thf bbsflinf is bndhorfd to thf
+ * bottom of thf displby brfb if bny domponfnts with thf sbmf prfvbiling row
+ * hbvf b bbsflinf-rfsizf bfhbvior of <dodf>CONSTANT_DESCENT</dodf>,
+ * othfrwisf thf bbsflinf is bndhorfd to thf top of thf displby brfb.
+ * Thf following rulfs didtbtf thf rfsizf bfhbvior:
+ * <ul>
+ * <li>Rfsizbblf domponfnts positionfd bbovf thf bbsflinf dbn only
+ * grow bs tbll bs thf bbsflinf.  For fxbmplf, if thf bbsflinf is bt 100
+ * bnd bndhorfd bt thf top, b rfsizbblf domponfnt positionfd bbovf thf
+ * bbsflinf dbn nfvfr grow morf thbn 100 units.
+ * <li>Similbrly, rfsizbblf domponfnts positionfd bflow thf bbsflinf dbn
+ * only grow bs high bs thf difffrfndf bftwffn thf displby hfight bnd thf
+ * bbsflinf.
+ * <li>Rfsizbblf domponfnts positionfd on thf bbsflinf with b
+ * bbsflinf-rfsizf bfhbvior of <dodf>OTHER</dodf> brf only rfsizfd if
+ * thf bbsflinf bt thf rfsizfd sizf fits within thf displby brfb.  If
+ * thf bbsflinf is sudh thbt it dofs not fit within thf displby brfb
+ * thf domponfnt is not rfsizfd.
+ * <li>Componfnts positionfd on thf bbsflinf thbt do not hbvf b
+ * bbsflinf-rfsizf bfhbvior of <dodf>OTHER</dodf>
+ * dbn only grow bs tbll bs {@dodf displby hfight - bbsflinf + bbsflinf of domponfnt}.
+ * </ul>
+ * If you position b domponfnt blong thf bbsflinf, but thf
+ * domponfnt dofs not hbvf b vblid bbsflinf, it will bf vfrtidblly dfntfrfd
+ * in its spbdf.  Similbrly if you hbvf positionfd b domponfnt rflbtivf
+ * to thf bbsflinf bnd nonf of thf domponfnts in thf row hbvf b vblid
+ * bbsflinf thf domponfnt is vfrtidblly dfntfrfd.
+ * <p>
+ * Thf following figurfs show tfn domponfnts (bll buttons)
+ * mbnbgfd by b grid bbg lbyout.  Figurf 2 shows thf lbyout for b horizontbl,
+ * lfft-to-right dontbinfr bnd Figurf 3 shows thf lbyout for b horizontbl,
+ * right-to-lfft dontbinfr.
+ *
+ * <dfntfr><tbblf WIDTH=600 summbry="lbyout">
+ * <tr ALIGN=CENTER>
+ * <td>
+ * <img srd="dod-filfs/GridBbgLbyout-1.gif" blt="Thf prfdfding tfxt dfsdribfs this grbphid (Figurf 1)." stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * </td>
+ * <td>
+ * <img srd="dod-filfs/GridBbgLbyout-2.gif" blt="Thf prfdfding tfxt dfsdribfs this grbphid (Figurf 2)." stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * </td>
+ * <tr ALIGN=CENTER>
+ * <td>Figurf 2: Horizontbl, Lfft-to-Right</td>
+ * <td>Figurf 3: Horizontbl, Right-to-Lfft</td>
+ * </tr>
+ * </tbblf></dfntfr>
+ * <p>
+ * Ebdh of thf tfn domponfnts hbs thf <dodf>fill</dodf> fifld
+ * of its bssodibtfd <dodf>GridBbgConstrbints</dodf> objfdt
+ * sft to <dodf>GridBbgConstrbints.BOTH</dodf>.
+ * In bddition, thf domponfnts hbvf thf following non-dffbult donstrbints:
+ *
+ * <ul>
+ * <li>Button1, Button2, Button3: <dodf>wfightx&nbsp;=&nbsp;1.0</dodf>
+ * <li>Button4: <dodf>wfightx&nbsp;=&nbsp;1.0</dodf>,
+ * <dodf>gridwidth&nbsp;=&nbsp;GridBbgConstrbints.REMAINDER</dodf>
+ * <li>Button5: <dodf>gridwidth&nbsp;=&nbsp;GridBbgConstrbints.REMAINDER</dodf>
+ * <li>Button6: <dodf>gridwidth&nbsp;=&nbsp;GridBbgConstrbints.RELATIVE</dodf>
+ * <li>Button7: <dodf>gridwidth&nbsp;=&nbsp;GridBbgConstrbints.REMAINDER</dodf>
+ * <li>Button8: <dodf>gridhfight&nbsp;=&nbsp;2</dodf>,
+ * <dodf>wfighty&nbsp;=&nbsp;1.0</dodf>
+ * <li>Button9, Button 10:
+ * <dodf>gridwidth&nbsp;=&nbsp;GridBbgConstrbints.REMAINDER</dodf>
+ * </ul>
+ * <p>
+ * Hfrf is thf dodf thbt implfmfnts thf fxbmplf shown bbovf:
+ *
+ * <hr><blodkquotf><prf>
+ * import jbvb.bwt.*;
+ * import jbvb.util.*;
+ * import jbvb.bpplft.Applft;
+ *
+ * publid dlbss GridBbgEx1 fxtfnds Applft {
+ *
+ *     protfdtfd void mbkfbutton(String nbmf,
+ *                               GridBbgLbyout gridbbg,
+ *                               GridBbgConstrbints d) {
+ *         Button button = nfw Button(nbmf);
+ *         gridbbg.sftConstrbints(button, d);
+ *         bdd(button);
+ *     }
+ *
+ *     publid void init() {
+ *         GridBbgLbyout gridbbg = nfw GridBbgLbyout();
+ *         GridBbgConstrbints d = nfw GridBbgConstrbints();
+ *
+ *         sftFont(nfw Font("SbnsSfrif", Font.PLAIN, 14));
+ *         sftLbyout(gridbbg);
+ *
+ *         d.fill = GridBbgConstrbints.BOTH;
+ *         d.wfightx = 1.0;
+ *         mbkfbutton("Button1", gridbbg, d);
+ *         mbkfbutton("Button2", gridbbg, d);
+ *         mbkfbutton("Button3", gridbbg, d);
+ *
+ *         d.gridwidth = GridBbgConstrbints.REMAINDER; //fnd row
+ *         mbkfbutton("Button4", gridbbg, d);
+ *
+ *         d.wfightx = 0.0;                //rfsft to thf dffbult
+ *         mbkfbutton("Button5", gridbbg, d); //bnothfr row
+ *
+ *         d.gridwidth = GridBbgConstrbints.RELATIVE; //nfxt-to-lbst in row
+ *         mbkfbutton("Button6", gridbbg, d);
+ *
+ *         d.gridwidth = GridBbgConstrbints.REMAINDER; //fnd row
+ *         mbkfbutton("Button7", gridbbg, d);
+ *
+ *         d.gridwidth = 1;                //rfsft to thf dffbult
+ *         d.gridhfight = 2;
+ *         d.wfighty = 1.0;
+ *         mbkfbutton("Button8", gridbbg, d);
+ *
+ *         d.wfighty = 0.0;                //rfsft to thf dffbult
+ *         d.gridwidth = GridBbgConstrbints.REMAINDER; //fnd row
+ *         d.gridhfight = 1;               //rfsft to thf dffbult
+ *         mbkfbutton("Button9", gridbbg, d);
+ *         mbkfbutton("Button10", gridbbg, d);
+ *
+ *         sftSizf(300, 100);
+ *     }
+ *
+ *     publid stbtid void mbin(String brgs[]) {
+ *         Frbmf f = nfw Frbmf("GridBbg Lbyout Exbmplf");
+ *         GridBbgEx1 fx1 = nfw GridBbgEx1();
+ *
+ *         fx1.init();
+ *
+ *         f.bdd("Cfntfr", fx1);
+ *         f.pbdk();
+ *         f.sftSizf(f.gftPrfffrrfdSizf());
+ *         f.show();
+ *     }
+ * }
+ * </prf></blodkquotf><hr>
+ * <p>
+ * @buthor Doug Stfin
+ * @buthor Bill Spitzbk (orignibl NfWS &bmp; OLIT implfmfntbtion)
+ * @sff       jbvb.bwt.GridBbgConstrbints
+ * @sff       jbvb.bwt.GridBbgLbyoutInfo
+ * @sff       jbvb.bwt.ComponfntOrifntbtion
+ * @sindf 1.0
+ */
+publid dlbss GridBbgLbyout implfmfnts LbyoutMbnbgfr2,
+jbvb.io.Sfriblizbblf {
+
+    stbtid finbl int EMPIRICMULTIPLIER = 2;
+    /**
+     * This fifld is no longfr usfd to rfsfrvf brrbys bnd kfpt for bbdkwbrd
+     * dompbtibility. Prfviously, this wbs
+     * thf mbximum numbfr of grid positions (both horizontbl bnd
+     * vfrtidbl) thbt dould bf lbid out by thf grid bbg lbyout.
+     * Currfnt implfmfntbtion dofsn't imposf bny limits
+     * on thf sizf of b grid.
+     */
+    protfdtfd stbtid finbl int MAXGRIDSIZE = 512;
+
+    /**
+     * Thf smbllfst grid thbt dbn bf lbid out by thf grid bbg lbyout.
+     */
+    protfdtfd stbtid finbl int MINSIZE = 1;
+    /**
+     * Thf prfffrrfd grid sizf thbt dbn bf lbid out by thf grid bbg lbyout.
+     */
+    protfdtfd stbtid finbl int PREFERREDSIZE = 2;
+
+    /**
+     * This hbshtbblf mbintbins thf bssodibtion bftwffn
+     * b domponfnt bnd its gridbbg donstrbints.
+     * Thf Kfys in <dodf>domptbblf</dodf> brf thf domponfnts bnd thf
+     * vblufs brf thf instbndfs of <dodf>GridBbgConstrbints</dodf>.
+     *
+     * @sfribl
+     * @sff jbvb.bwt.GridBbgConstrbints
+     */
+    protfdtfd Hbshtbblf<Componfnt,GridBbgConstrbints> domptbblf;
+
+    /**
+     * This fifld holds b gridbbg donstrbints instbndf
+     * dontbining thf dffbult vblufs, so if b domponfnt
+     * dofs not hbvf gridbbg donstrbints bssodibtfd with
+     * it, thfn thf domponfnt will bf bssignfd b
+     * dopy of thf <dodf>dffbultConstrbints</dodf>.
+     *
+     * @sfribl
+     * @sff #gftConstrbints(Componfnt)
+     * @sff #sftConstrbints(Componfnt, GridBbgConstrbints)
+     * @sff #lookupConstrbints(Componfnt)
+     */
+    protfdtfd GridBbgConstrbints dffbultConstrbints;
+
+    /**
+     * This fifld holds thf lbyout informbtion
+     * for thf gridbbg.  Thf informbtion in this fifld
+     * is bbsfd on thf most rfdfnt vblidbtion of thf
+     * gridbbg.
+     * If <dodf>lbyoutInfo</dodf> is <dodf>null</dodf>
+     * this indidbtfs thbt thfrf brf no domponfnts in
+     * thf gridbbg or if thfrf brf domponfnts, thfy hbvf
+     * not yft bffn vblidbtfd.
+     *
+     * @sfribl
+     * @sff #gftLbyoutInfo(Contbinfr, int)
+     */
+    protfdtfd GridBbgLbyoutInfo lbyoutInfo;
+
+    /**
+     * This fifld holds thf ovfrridfs to thf dolumn minimum
+     * width.  If this fifld is non-<dodf>null</dodf> thf vblufs brf
+     * bpplifd to thf gridbbg bftfr bll of thf minimum dolumns
+     * widths hbvf bffn dbldulbtfd.
+     * If dolumnWidths hbs morf flfmfnts thbn thf numbfr of
+     * dolumns, dolumns brf bddfd to thf gridbbg to mbtdh
+     * thf numbfr of flfmfnts in dolumnWidth.
+     *
+     * @sfribl
+     * @sff #gftLbyoutDimfnsions()
+     */
+    publid int dolumnWidths[];
+
+    /**
+     * This fifld holds thf ovfrridfs to thf row minimum
+     * hfights.  If this fifld is non-<dodf>null</dodf> thf vblufs brf
+     * bpplifd to thf gridbbg bftfr bll of thf minimum row
+     * hfights hbvf bffn dbldulbtfd.
+     * If <dodf>rowHfights</dodf> hbs morf flfmfnts thbn thf numbfr of
+     * rows, rows brf bddfd to thf gridbbg to mbtdh
+     * thf numbfr of flfmfnts in <dodf>rowHfights</dodf>.
+     *
+     * @sfribl
+     * @sff #gftLbyoutDimfnsions()
+     */
+    publid int rowHfights[];
+
+    /**
+     * This fifld holds thf ovfrridfs to thf dolumn wfights.
+     * If this fifld is non-<dodf>null</dodf> thf vblufs brf
+     * bpplifd to thf gridbbg bftfr bll of thf dolumns
+     * wfights hbvf bffn dbldulbtfd.
+     * If <dodf>dolumnWfights[i]</dodf> &gt; wfight for dolumn i, thfn
+     * dolumn i is bssignfd thf wfight in <dodf>dolumnWfights[i]</dodf>.
+     * If <dodf>dolumnWfights</dodf> hbs morf flfmfnts thbn thf numbfr
+     * of dolumns, thf fxdfss flfmfnts brf ignorfd - thfy do
+     * not dbusf morf dolumns to bf drfbtfd.
+     *
+     * @sfribl
+     */
+    publid doublf dolumnWfights[];
+
+    /**
+     * This fifld holds thf ovfrridfs to thf row wfights.
+     * If this fifld is non-<dodf>null</dodf> thf vblufs brf
+     * bpplifd to thf gridbbg bftfr bll of thf rows
+     * wfights hbvf bffn dbldulbtfd.
+     * If <dodf>rowWfights[i]</dodf> &gt; wfight for row i, thfn
+     * row i is bssignfd thf wfight in <dodf>rowWfights[i]</dodf>.
+     * If <dodf>rowWfights</dodf> hbs morf flfmfnts thbn thf numbfr
+     * of rows, thf fxdfss flfmfnts brf ignorfd - thfy do
+     * not dbusf morf rows to bf drfbtfd.
+     *
+     * @sfribl
+     */
+    publid doublf rowWfights[];
+
+    /**
+     * Thf domponfnt bfing positionfd.  This is sft bfforf dblling into
+     * <dodf>bdjustForGrbvity</dodf>.
+     */
+    privbtf Componfnt domponfntAdjusting;
+
+    /**
+     * Crfbtfs b grid bbg lbyout mbnbgfr.
+     */
+    publid GridBbgLbyout () {
+        domptbblf = nfw Hbshtbblf<Componfnt,GridBbgConstrbints>();
+        dffbultConstrbints = nfw GridBbgConstrbints();
+    }
+
+    /**
+     * Sfts thf donstrbints for thf spfdififd domponfnt in this lbyout.
+     * @pbrbm       domp thf domponfnt to bf modififd
+     * @pbrbm       donstrbints thf donstrbints to bf bpplifd
+     */
+    publid void sftConstrbints(Componfnt domp, GridBbgConstrbints donstrbints) {
+        domptbblf.put(domp, (GridBbgConstrbints)donstrbints.dlonf());
+    }
+
+    /**
+     * Gfts thf donstrbints for thf spfdififd domponfnt.  A dopy of
+     * thf bdtubl <dodf>GridBbgConstrbints</dodf> objfdt is rfturnfd.
+     * @pbrbm       domp thf domponfnt to bf qufrifd
+     * @rfturn      thf donstrbint for thf spfdififd domponfnt in this
+     *                  grid bbg lbyout; b dopy of thf bdtubl donstrbint
+     *                  objfdt is rfturnfd
+     */
+    publid GridBbgConstrbints gftConstrbints(Componfnt domp) {
+        GridBbgConstrbints donstrbints = domptbblf.gft(domp);
+        if (donstrbints == null) {
+            sftConstrbints(domp, dffbultConstrbints);
+            donstrbints = domptbblf.gft(domp);
+        }
+        rfturn (GridBbgConstrbints)donstrbints.dlonf();
+    }
+
+    /**
+     * Rftrifvfs thf donstrbints for thf spfdififd domponfnt.
+     * Thf rfturn vbluf is not b dopy, but is thf bdtubl
+     * <dodf>GridBbgConstrbints</dodf> objfdt usfd by thf lbyout mfdhbnism.
+     * <p>
+     * If <dodf>domp</dodf> is not in thf <dodf>GridBbgLbyout</dodf>,
+     * b sft of dffbult <dodf>GridBbgConstrbints</dodf> brf rfturnfd.
+     * A <dodf>domp</dodf> vbluf of <dodf>null</dodf> is invblid
+     * bnd rfturns <dodf>null</dodf>.
+     *
+     * @pbrbm       domp thf domponfnt to bf qufrifd
+     * @rfturn      thf donstrbints for thf spfdififd domponfnt
+     */
+    protfdtfd GridBbgConstrbints lookupConstrbints(Componfnt domp) {
+        GridBbgConstrbints donstrbints = domptbblf.gft(domp);
+        if (donstrbints == null) {
+            sftConstrbints(domp, dffbultConstrbints);
+            donstrbints = domptbblf.gft(domp);
+        }
+        rfturn donstrbints;
+    }
+
+    /**
+     * Rfmovfs thf donstrbints for thf spfdififd domponfnt in this lbyout
+     * @pbrbm       domp thf domponfnt to bf modififd
+     */
+    privbtf void rfmovfConstrbints(Componfnt domp) {
+        domptbblf.rfmovf(domp);
+    }
+
+    /**
+     * Dftfrminfs thf origin of thf lbyout brfb, in thf grbphids doordinbtf
+     * spbdf of thf tbrgft dontbinfr.  This vbluf rfprfsfnts thf pixfl
+     * doordinbtfs of thf top-lfft dornfr of thf lbyout brfb rfgbrdlfss of
+     * thf <dodf>ComponfntOrifntbtion</dodf> vbluf of thf dontbinfr.  This
+     * is distindt from thf grid origin givfn by thf dfll doordinbtfs (0,0).
+     * Most bpplidbtions do not dbll this mfthod dirfdtly.
+     * @rfturn     thf grbphids origin of thf dfll in thf top-lfft
+     *             dornfr of thf lbyout grid
+     * @sff        jbvb.bwt.ComponfntOrifntbtion
+     * @sindf      1.1
+     */
+    publid Point gftLbyoutOrigin () {
+        Point origin = nfw Point(0,0);
+        if (lbyoutInfo != null) {
+            origin.x = lbyoutInfo.stbrtx;
+            origin.y = lbyoutInfo.stbrty;
+        }
+        rfturn origin;
+    }
+
+    /**
+     * Dftfrminfs dolumn widths bnd row hfights for thf lbyout grid.
+     * <p>
+     * Most bpplidbtions do not dbll this mfthod dirfdtly.
+     * @rfturn     bn brrby of two brrbys, dontbining thf widths
+     *                       of thf lbyout dolumns bnd
+     *                       thf hfights of thf lbyout rows
+     * @sindf      1.1
+     */
+    publid int [][] gftLbyoutDimfnsions () {
+        if (lbyoutInfo == null)
+            rfturn nfw int[2][0];
+
+        int dim[][] = nfw int [2][];
+        dim[0] = nfw int[lbyoutInfo.width];
+        dim[1] = nfw int[lbyoutInfo.hfight];
+
+        Systfm.brrbydopy(lbyoutInfo.minWidth, 0, dim[0], 0, lbyoutInfo.width);
+        Systfm.brrbydopy(lbyoutInfo.minHfight, 0, dim[1], 0, lbyoutInfo.hfight);
+
+        rfturn dim;
+    }
+
+    /**
+     * Dftfrminfs thf wfights of thf lbyout grid's dolumns bnd rows.
+     * Wfights brf usfd to dbldulbtf how mudh b givfn dolumn or row
+     * strftdhfs bfyond its prfffrrfd sizf, if thf lbyout hbs fxtrb
+     * room to fill.
+     * <p>
+     * Most bpplidbtions do not dbll this mfthod dirfdtly.
+     * @rfturn      bn brrby of two brrbys, rfprfsfnting thf
+     *                    horizontbl wfights of thf lbyout dolumns
+     *                    bnd thf vfrtidbl wfights of thf lbyout rows
+     * @sindf       1.1
+     */
+    publid doublf [][] gftLbyoutWfights () {
+        if (lbyoutInfo == null)
+            rfturn nfw doublf[2][0];
+
+        doublf wfights[][] = nfw doublf [2][];
+        wfights[0] = nfw doublf[lbyoutInfo.width];
+        wfights[1] = nfw doublf[lbyoutInfo.hfight];
+
+        Systfm.brrbydopy(lbyoutInfo.wfightX, 0, wfights[0], 0, lbyoutInfo.width);
+        Systfm.brrbydopy(lbyoutInfo.wfightY, 0, wfights[1], 0, lbyoutInfo.hfight);
+
+        rfturn wfights;
+    }
+
+    /**
+     * Dftfrminfs whidh dfll in thf lbyout grid dontbins thf point
+     * spfdififd by <dodf>(x,&nbsp;y)</dodf>. Ebdh dfll is idfntififd
+     * by its dolumn indfx (rbnging from 0 to thf numbfr of dolumns
+     * minus 1) bnd its row indfx (rbnging from 0 to thf numbfr of
+     * rows minus 1).
+     * <p>
+     * If thf <dodf>(x,&nbsp;y)</dodf> point lifs
+     * outsidf thf grid, thf following rulfs brf usfd.
+     * Thf dolumn indfx is rfturnfd bs zfro if <dodf>x</dodf> lifs to thf
+     * lfft of thf lbyout for b lfft-to-right dontbinfr or to thf right of
+     * thf lbyout for b right-to-lfft dontbinfr.  Thf dolumn indfx is rfturnfd
+     * bs thf numbfr of dolumns if <dodf>x</dodf> lifs
+     * to thf right of thf lbyout in b lfft-to-right dontbinfr or to thf lfft
+     * in b right-to-lfft dontbinfr.
+     * Thf row indfx is rfturnfd bs zfro if <dodf>y</dodf> lifs bbovf thf
+     * lbyout, bnd bs thf numbfr of rows if <dodf>y</dodf> lifs
+     * bflow thf lbyout.  Thf orifntbtion of b dontbinfr is dftfrminfd by its
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+     * @pbrbm      x    thf <i>x</i> doordinbtf of b point
+     * @pbrbm      y    thf <i>y</i> doordinbtf of b point
+     * @rfturn     bn ordfrfd pbir of indfxfs thbt indidbtf whidh dfll
+     *             in thf lbyout grid dontbins thf point
+     *             (<i>x</i>,&nbsp;<i>y</i>).
+     * @sff        jbvb.bwt.ComponfntOrifntbtion
+     * @sindf      1.1
+     */
+    publid Point lodbtion(int x, int y) {
+        Point lod = nfw Point(0,0);
+        int i, d;
+
+        if (lbyoutInfo == null)
+            rfturn lod;
+
+        d = lbyoutInfo.stbrtx;
+        if (!rightToLfft) {
+            for (i=0; i<lbyoutInfo.width; i++) {
+                d += lbyoutInfo.minWidth[i];
+                if (d > x)
+                    brfbk;
+            }
+        } flsf {
+            for (i=lbyoutInfo.width-1; i>=0; i--) {
+                if (d > x)
+                    brfbk;
+                d += lbyoutInfo.minWidth[i];
+            }
+            i++;
+        }
+        lod.x = i;
+
+        d = lbyoutInfo.stbrty;
+        for (i=0; i<lbyoutInfo.hfight; i++) {
+            d += lbyoutInfo.minHfight[i];
+            if (d > y)
+                brfbk;
+        }
+        lod.y = i;
+
+        rfturn lod;
+    }
+
+    /**
+     * Hbs no ffffdt, sindf this lbyout mbnbgfr dofs not usf b pfr-domponfnt string.
+     */
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+    }
+
+    /**
+     * Adds thf spfdififd domponfnt to thf lbyout, using thf spfdififd
+     * <dodf>donstrbints</dodf> objfdt.  Notf thbt donstrbints
+     * brf mutbblf bnd brf, thfrfforf, dlonfd whfn dbdhfd.
+     *
+     * @pbrbm      domp         thf domponfnt to bf bddfd
+     * @pbrbm      donstrbints  bn objfdt thbt dftfrminfs how
+     *                          thf domponfnt is bddfd to thf lbyout
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>donstrbints</dodf>
+     *            is not b <dodf>GridBbgConstrbint</dodf>
+     */
+    publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+        if (donstrbints instbndfof GridBbgConstrbints) {
+            sftConstrbints(domp, (GridBbgConstrbints)donstrbints);
+        } flsf if (donstrbints != null) {
+            throw nfw IllfgblArgumfntExdfption("dbnnot bdd to lbyout: donstrbints must bf b GridBbgConstrbint");
+        }
+    }
+
+    /**
+     * Rfmovfs thf spfdififd domponfnt from this lbyout.
+     * <p>
+     * Most bpplidbtions do not dbll this mfthod dirfdtly.
+     * @pbrbm    domp   thf domponfnt to bf rfmovfd.
+     * @sff      jbvb.bwt.Contbinfr#rfmovf(jbvb.bwt.Componfnt)
+     * @sff      jbvb.bwt.Contbinfr#rfmovfAll()
+     */
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+        rfmovfConstrbints(domp);
+    }
+
+    /**
+     * Dftfrminfs thf prfffrrfd sizf of thf <dodf>pbrfnt</dodf>
+     * dontbinfr using this grid bbg lbyout.
+     * <p>
+     * Most bpplidbtions do not dbll this mfthod dirfdtly.
+     *
+     * @pbrbm     pbrfnt   thf dontbinfr in whidh to do thf lbyout
+     * @sff       jbvb.bwt.Contbinfr#gftPrfffrrfdSizf
+     * @rfturn thf prfffrrfd sizf of thf <dodf>pbrfnt</dodf>
+     *  dontbinfr
+     */
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+        GridBbgLbyoutInfo info = gftLbyoutInfo(pbrfnt, PREFERREDSIZE);
+        rfturn gftMinSizf(pbrfnt, info);
+    }
+
+    /**
+     * Dftfrminfs thf minimum sizf of thf <dodf>pbrfnt</dodf> dontbinfr
+     * using this grid bbg lbyout.
+     * <p>
+     * Most bpplidbtions do not dbll this mfthod dirfdtly.
+     * @pbrbm     pbrfnt   thf dontbinfr in whidh to do thf lbyout
+     * @sff       jbvb.bwt.Contbinfr#doLbyout
+     * @rfturn thf minimum sizf of thf <dodf>pbrfnt</dodf> dontbinfr
+     */
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+        GridBbgLbyoutInfo info = gftLbyoutInfo(pbrfnt, MINSIZE);
+        rfturn gftMinSizf(pbrfnt, info);
+    }
+
+    /**
+     * Rfturns thf mbximum dimfnsions for this lbyout givfn thf domponfnts
+     * in thf spfdififd tbrgft dontbinfr.
+     * @pbrbm tbrgft thf dontbinfr whidh nffds to bf lbid out
+     * @sff Contbinfr
+     * @sff #minimumLbyoutSizf(Contbinfr)
+     * @sff #prfffrrfdLbyoutSizf(Contbinfr)
+     * @rfturn thf mbximum dimfnsions for this lbyout
+     */
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+        rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
+    }
+
+    /**
+     * Rfturns thf blignmfnt blong thf x bxis.  This spfdififs how
+     * thf domponfnt would likf to bf blignfd rflbtivf to othfr
+     * domponfnts.  Thf vbluf should bf b numbfr bftwffn 0 bnd 1
+     * whfrf 0 rfprfsfnts blignmfnt blong thf origin, 1 is blignfd
+     * thf furthfst bwby from thf origin, 0.5 is dfntfrfd, ftd.
+     * <p>
+     * @rfturn thf vbluf <dodf>0.5f</dodf> to indidbtf dfntfrfd
+     */
+    publid flobt gftLbyoutAlignmfntX(Contbinfr pbrfnt) {
+        rfturn 0.5f;
+    }
+
+    /**
+     * Rfturns thf blignmfnt blong thf y bxis.  This spfdififs how
+     * thf domponfnt would likf to bf blignfd rflbtivf to othfr
+     * domponfnts.  Thf vbluf should bf b numbfr bftwffn 0 bnd 1
+     * whfrf 0 rfprfsfnts blignmfnt blong thf origin, 1 is blignfd
+     * thf furthfst bwby from thf origin, 0.5 is dfntfrfd, ftd.
+     * <p>
+     * @rfturn thf vbluf <dodf>0.5f</dodf> to indidbtf dfntfrfd
+     */
+    publid flobt gftLbyoutAlignmfntY(Contbinfr pbrfnt) {
+        rfturn 0.5f;
+    }
+
+    /**
+     * Invblidbtfs thf lbyout, indidbting thbt if thf lbyout mbnbgfr
+     * hbs dbdhfd informbtion it should bf disdbrdfd.
+     */
+    publid void invblidbtfLbyout(Contbinfr tbrgft) {
+    }
+
+    /**
+     * Lbys out thf spfdififd dontbinfr using this grid bbg lbyout.
+     * This mfthod rfshbpfs domponfnts in thf spfdififd dontbinfr in
+     * ordfr to sbtisfy thf donstrbints of this <dodf>GridBbgLbyout</dodf>
+     * objfdt.
+     * <p>
+     * Most bpplidbtions do not dbll this mfthod dirfdtly.
+     * @pbrbm pbrfnt thf dontbinfr in whidh to do thf lbyout
+     * @sff jbvb.bwt.Contbinfr
+     * @sff jbvb.bwt.Contbinfr#doLbyout
+     */
+    publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+        brrbngfGrid(pbrfnt);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this grid bbg lbyout's vblufs.
+     * @rfturn     b string rfprfsfntbtion of this grid bbg lbyout.
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf();
+    }
+
+    /**
+     * Print thf lbyout informbtion.  Usfful for dfbugging.
+     */
+
+    /* DEBUG
+     *
+     *  protfdtfd void dumpLbyoutInfo(GridBbgLbyoutInfo s) {
+     *    int x;
+     *
+     *    Systfm.out.println("Col\tWidth\tWfight");
+     *    for (x=0; x<s.width; x++) {
+     *      Systfm.out.println(x + "\t" +
+     *                   s.minWidth[x] + "\t" +
+     *                   s.wfightX[x]);
+     *    }
+     *    Systfm.out.println("Row\tHfight\tWfight");
+     *    for (x=0; x<s.hfight; x++) {
+     *      Systfm.out.println(x + "\t" +
+     *                   s.minHfight[x] + "\t" +
+     *                   s.wfightY[x]);
+     *    }
+     *  }
+     */
+
+    /**
+     * Print thf lbyout donstrbints.  Usfful for dfbugging.
+     */
+
+    /* DEBUG
+     *
+     *  protfdtfd void dumpConstrbints(GridBbgConstrbints donstrbints) {
+     *    Systfm.out.println(
+     *                 "wt " +
+     *                 donstrbints.wfightx +
+     *                 " " +
+     *                 donstrbints.wfighty +
+     *                 ", " +
+     *
+     *                 "box " +
+     *                 donstrbints.gridx +
+     *                 " " +
+     *                 donstrbints.gridy +
+     *                 " " +
+     *                 donstrbints.gridwidth +
+     *                 " " +
+     *                 donstrbints.gridhfight +
+     *                 ", " +
+     *
+     *                 "min " +
+     *                 donstrbints.minWidth +
+     *                 " " +
+     *                 donstrbints.minHfight +
+     *                 ", " +
+     *
+     *                 "pbd " +
+     *                 donstrbints.insfts.bottom +
+     *                 " " +
+     *                 donstrbints.insfts.lfft +
+     *                 " " +
+     *                 donstrbints.insfts.right +
+     *                 " " +
+     *                 donstrbints.insfts.top +
+     *                 " " +
+     *                 donstrbints.ipbdx +
+     *                 " " +
+     *                 donstrbints.ipbdy);
+     *  }
+     */
+
+    /**
+     * Fills in bn instbndf of <dodf>GridBbgLbyoutInfo</dodf> for thf
+     * durrfnt sft of mbnbgfd dhildrfn. This rfquirfs thrff pbssfs through thf
+     * sft of dhildrfn:
+     *
+     * <ol>
+     * <li>Figurf out thf dimfnsions of thf lbyout grid.
+     * <li>Dftfrminf whidh dflls thf domponfnts oddupy.
+     * <li>Distributf thf wfights bnd min sizfs bmong thf rows/dolumns.
+     * </ol>
+     *
+     * This blso dbdhfs thf minsizfs for bll thf dhildrfn whfn thfy brf
+     * first fndountfrfd (so subsfqufnt loops don't nffd to bsk bgbin).
+     * <p>
+     * This mfthod should only bf usfd intfrnblly by
+     * <dodf>GridBbgLbyout</dodf>.
+     *
+     * @pbrbm pbrfnt  thf lbyout dontbinfr
+     * @pbrbm sizfflbg fithfr <dodf>PREFERREDSIZE</dodf> or
+     *   <dodf>MINSIZE</dodf>
+     * @rfturn thf <dodf>GridBbgLbyoutInfo</dodf> for thf sft of dhildrfn
+     * @sindf 1.4
+     */
+    protfdtfd GridBbgLbyoutInfo gftLbyoutInfo(Contbinfr pbrfnt, int sizfflbg) {
+        rfturn GftLbyoutInfo(pbrfnt, sizfflbg);
+    }
+
+    /*
+     * Cbldulbtf mbximum brrby sizfs to bllodbtf brrbys without fnsurfCbpbdity
+     * wf mby usf prfCbldulbtfd sizfs in wholf dlbss bfdbusf of uppfr fstimbtion of
+     * mbximumArrbyXIndfx bnd mbximumArrbyYIndfx.
+     */
+
+    privbtf long[]  prfInitMbximumArrbySizfs(Contbinfr pbrfnt){
+        Componfnt domponfnts[] = pbrfnt.gftComponfnts();
+        Componfnt domp;
+        GridBbgConstrbints donstrbints;
+        int durX, durY;
+        int durWidth, durHfight;
+        int prfMbximumArrbyXIndfx = 0;
+        int prfMbximumArrbyYIndfx = 0;
+        long [] rfturnArrby = nfw long[2];
+
+        for (int dompId = 0 ; dompId < domponfnts.lfngth ; dompId++) {
+            domp = domponfnts[dompId];
+            if (!domp.isVisiblf()) {
+                dontinuf;
+            }
+
+            donstrbints = lookupConstrbints(domp);
+            durX = donstrbints.gridx;
+            durY = donstrbints.gridy;
+            durWidth = donstrbints.gridwidth;
+            durHfight = donstrbints.gridhfight;
+
+            // -1==RELATIVE, mfbns thbt dolumn|row fqubls to prfviously bddfd domponfnt,
+            // sindf fbdh nfxt Componfnt with gridx|gridy == RELATIVE stbrts from
+            // prfvious position, so wf should stbrt from prfvious domponfnt whidh
+            // blrfbdy usfd in mbximumArrby[X|Y]Indfx dbldulbtion. Wf dould just indrfbsf
+            // mbximum by 1 to hbndlf situbtion whfn domponfnt with gridx=-1 wbs bddfd.
+            if (durX < 0){
+                durX = ++prfMbximumArrbyYIndfx;
+            }
+            if (durY < 0){
+                durY = ++prfMbximumArrbyXIndfx;
+            }
+            // gridwidth|gridhfight mby bf fqubl to RELATIVE (-1) or REMAINDER (0)
+            // in bny dbsf using 1 instfbd of 0 or -1 should bf suffidifnt to for
+            // dorrfdt mbximumArrbySizfs dbldulbtion
+            if (durWidth <= 0){
+                durWidth = 1;
+            }
+            if (durHfight <= 0){
+                durHfight = 1;
+            }
+
+            prfMbximumArrbyXIndfx = Mbth.mbx(durY + durHfight, prfMbximumArrbyXIndfx);
+            prfMbximumArrbyYIndfx = Mbth.mbx(durX + durWidth, prfMbximumArrbyYIndfx);
+        } //for (domponfnts) loop
+        // Must spfdify indfx++ to bllodbtf wfll-working brrbys.
+        /* fix for 4623196.
+         * now rfturn long brrby instfbd of Point
+         */
+        rfturnArrby[0] = prfMbximumArrbyXIndfx;
+        rfturnArrby[1] = prfMbximumArrbyYIndfx;
+        rfturn rfturnArrby;
+    } //PrfInitMbximumSizfs
+
+    /**
+     * This mfthod is obsolftf bnd supplifd for bbdkwbrds
+     * dompbtibility only; nfw dodf should dbll {@link
+     * #gftLbyoutInfo(jbvb.bwt.Contbinfr, int) gftLbyoutInfo} instfbd.
+     *
+     * Fills in bn instbndf of {@dodf GridBbgLbyoutInfo} for thf
+     * durrfnt sft of mbnbgfd dhildrfn. This mfthod is thf sbmf
+     * bs {@dodf gftLbyoutInfo}; rfffr to {@dodf gftLbyoutInfo}
+     * dfsdription for dftbils.
+     *
+     * @pbrbm  pbrfnt thf lbyout dontbinfr
+     * @pbrbm  sizfflbg fithfr {@dodf PREFERREDSIZE} or {@dodf MINSIZE}
+     * @rfturn thf {@dodf GridBbgLbyoutInfo} for thf sft of dhildrfn
+     */
+    protfdtfd GridBbgLbyoutInfo GftLbyoutInfo(Contbinfr pbrfnt, int sizfflbg) {
+        syndhronizfd (pbrfnt.gftTrffLodk()) {
+            GridBbgLbyoutInfo r;
+            Componfnt domp;
+            GridBbgConstrbints donstrbints;
+            Dimfnsion d;
+            Componfnt domponfnts[] = pbrfnt.gftComponfnts();
+            // Codf bflow will bddrfss indfx durX+durWidth in thf dbsf of yMbxArrby, wfightY
+            // ( rfspfdtivfly durY+durHfight for xMbxArrby, wfightX ) whfrf
+            //  durX in 0 to prfInitMbximumArrbySizfs.y
+            // Thus, thf mbximum indfx thbt dould
+            // bf dbldulbtfd in thf following dodf is durX+durX.
+            // EmpfridMultifr fqubls 2 bfdbusf of this.
+
+            int lbyoutWidth, lbyoutHfight;
+            int []xMbxArrby;
+            int []yMbxArrby;
+            int dompindfx, i, k, px, py, pixfls_diff, nfxtSizf;
+            int durX = 0; // donstrbints.gridx
+            int durY = 0; // donstrbints.gridy
+            int durWidth = 1;  // donstrbints.gridwidth
+            int durHfight = 1;  // donstrbints.gridhfight
+            int durRow, durCol;
+            doublf wfight_diff, wfight;
+            int mbximumArrbyXIndfx = 0;
+            int mbximumArrbyYIndfx = 0;
+            int bndhor;
+
+            /*
+             * Pbss #1
+             *
+             * Figurf out thf dimfnsions of thf lbyout grid (usf b vbluf of 1 for
+             * zfro or nfgbtivf widths bnd hfights).
+             */
+
+            lbyoutWidth = lbyoutHfight = 0;
+            durRow = durCol = -1;
+            long [] brrbySizfs = prfInitMbximumArrbySizfs(pbrfnt);
+
+            /* fix for 4623196.
+             * If usfr try to drfbtf b vfry big grid wf dbn
+             * gft NfgbtivfArrbySizfExdfption bfdbusf of intfgfr vbluf
+             * ovfrflow (EMPIRICMULTIPLIER*gridSizf might bf morf thfn Intfgfr.MAX_VALUE).
+             * Wf nffd to dftfdt this situbtion bnd try to drfbtf b
+             * grid with Intfgfr.MAX_VALUE sizf instfbd.
+             */
+            mbximumArrbyXIndfx = (EMPIRICMULTIPLIER * brrbySizfs[0] > Intfgfr.MAX_VALUE )? Intfgfr.MAX_VALUE : EMPIRICMULTIPLIER*(int)brrbySizfs[0];
+            mbximumArrbyYIndfx = (EMPIRICMULTIPLIER * brrbySizfs[1] > Intfgfr.MAX_VALUE )? Intfgfr.MAX_VALUE : EMPIRICMULTIPLIER*(int)brrbySizfs[1];
+
+            if (rowHfights != null){
+                mbximumArrbyXIndfx = Mbth.mbx(mbximumArrbyXIndfx, rowHfights.lfngth);
+            }
+            if (dolumnWidths != null){
+                mbximumArrbyYIndfx = Mbth.mbx(mbximumArrbyYIndfx, dolumnWidths.lfngth);
+            }
+
+            xMbxArrby = nfw int[mbximumArrbyXIndfx];
+            yMbxArrby = nfw int[mbximumArrbyYIndfx];
+
+            boolfbn hbsBbsflinf = fblsf;
+            for (dompindfx = 0 ; dompindfx < domponfnts.lfngth ; dompindfx++) {
+                domp = domponfnts[dompindfx];
+                if (!domp.isVisiblf())
+                    dontinuf;
+                donstrbints = lookupConstrbints(domp);
+
+                durX = donstrbints.gridx;
+                durY = donstrbints.gridy;
+                durWidth = donstrbints.gridwidth;
+                if (durWidth <= 0)
+                    durWidth = 1;
+                durHfight = donstrbints.gridhfight;
+                if (durHfight <= 0)
+                    durHfight = 1;
+
+                /* If x or y is nfgbtivf, thfn usf rflbtivf positioning: */
+                if (durX < 0 && durY < 0) {
+                    if (durRow >= 0)
+                        durY = durRow;
+                    flsf if (durCol >= 0)
+                        durX = durCol;
+                    flsf
+                        durY = 0;
+                }
+                if (durX < 0) {
+                    px = 0;
+                    for (i = durY; i < (durY + durHfight); i++) {
+                        px = Mbth.mbx(px, xMbxArrby[i]);
+                    }
+
+                    durX = px - durX - 1;
+                    if(durX < 0)
+                        durX = 0;
+                }
+                flsf if (durY < 0) {
+                    py = 0;
+                    for (i = durX; i < (durX + durWidth); i++) {
+                        py = Mbth.mbx(py, yMbxArrby[i]);
+                    }
+                    durY = py - durY - 1;
+                    if(durY < 0)
+                        durY = 0;
+                }
+
+                /* Adjust thf grid width bnd hfight
+                 *  fix for 5005945: unnfddfssbry loops rfmovfd
+                 */
+                px = durX + durWidth;
+                if (lbyoutWidth < px) {
+                    lbyoutWidth = px;
+                }
+                py = durY + durHfight;
+                if (lbyoutHfight < py) {
+                    lbyoutHfight = py;
+                }
+
+                /* Adjust xMbxArrby bnd yMbxArrby */
+                for (i = durX; i < (durX + durWidth); i++) {
+                    yMbxArrby[i] =py;
+                }
+                for (i = durY; i < (durY + durHfight); i++) {
+                    xMbxArrby[i] = px;
+                }
+
+
+                /* Cbdhf thf durrfnt slbvf's sizf. */
+                if (sizfflbg == PREFERREDSIZE)
+                    d = domp.gftPrfffrrfdSizf();
+                flsf
+                    d = domp.gftMinimumSizf();
+                donstrbints.minWidth = d.width;
+                donstrbints.minHfight = d.hfight;
+                if (dbldulbtfBbsflinf(domp, donstrbints, d)) {
+                    hbsBbsflinf = truf;
+                }
+
+                /* Zfro width bnd hfight must mfbn thbt this is thf lbst itfm (or
+                 * flsf somfthing is wrong). */
+                if (donstrbints.gridhfight == 0 && donstrbints.gridwidth == 0)
+                    durRow = durCol = -1;
+
+                /* Zfro width stbrts b nfw row */
+                if (donstrbints.gridhfight == 0 && durRow < 0)
+                    durCol = durX + durWidth;
+
+                /* Zfro hfight stbrts b nfw dolumn */
+                flsf if (donstrbints.gridwidth == 0 && durCol < 0)
+                    durRow = durY + durHfight;
+            } //for (domponfnts) loop
+
+
+            /*
+             * Apply minimum row/dolumn dimfnsions
+             */
+            if (dolumnWidths != null && lbyoutWidth < dolumnWidths.lfngth)
+                lbyoutWidth = dolumnWidths.lfngth;
+            if (rowHfights != null && lbyoutHfight < rowHfights.lfngth)
+                lbyoutHfight = rowHfights.lfngth;
+
+            r = nfw GridBbgLbyoutInfo(lbyoutWidth, lbyoutHfight);
+
+            /*
+             * Pbss #2
+             *
+             * Nfgbtivf vblufs for gridX brf fillfd in with thf durrfnt x vbluf.
+             * Nfgbtivf vblufs for gridY brf fillfd in with thf durrfnt y vbluf.
+             * Nfgbtivf or zfro vblufs for gridWidth bnd gridHfight fnd thf durrfnt
+             *  row or dolumn, rfspfdtivfly.
+             */
+
+            durRow = durCol = -1;
+
+            Arrbys.fill(xMbxArrby, 0);
+            Arrbys.fill(yMbxArrby, 0);
+
+            int[] mbxAsdfnt = null;
+            int[] mbxDfsdfnt = null;
+            short[] bbsflinfTypf = null;
+
+            if (hbsBbsflinf) {
+                r.mbxAsdfnt = mbxAsdfnt = nfw int[lbyoutHfight];
+                r.mbxDfsdfnt = mbxDfsdfnt = nfw int[lbyoutHfight];
+                r.bbsflinfTypf = bbsflinfTypf = nfw short[lbyoutHfight];
+                r.hbsBbsflinf = truf;
+            }
+
+
+            for (dompindfx = 0 ; dompindfx < domponfnts.lfngth ; dompindfx++) {
+                domp = domponfnts[dompindfx];
+                if (!domp.isVisiblf())
+                    dontinuf;
+                donstrbints = lookupConstrbints(domp);
+
+                durX = donstrbints.gridx;
+                durY = donstrbints.gridy;
+                durWidth = donstrbints.gridwidth;
+                durHfight = donstrbints.gridhfight;
+
+                /* If x or y is nfgbtivf, thfn usf rflbtivf positioning: */
+                if (durX < 0 && durY < 0) {
+                    if(durRow >= 0)
+                        durY = durRow;
+                    flsf if(durCol >= 0)
+                        durX = durCol;
+                    flsf
+                        durY = 0;
+                }
+
+                if (durX < 0) {
+                    if (durHfight <= 0) {
+                        durHfight += r.hfight - durY;
+                        if (durHfight < 1)
+                            durHfight = 1;
+                    }
+
+                    px = 0;
+                    for (i = durY; i < (durY + durHfight); i++)
+                        px = Mbth.mbx(px, xMbxArrby[i]);
+
+                    durX = px - durX - 1;
+                    if(durX < 0)
+                        durX = 0;
+                }
+                flsf if (durY < 0) {
+                    if (durWidth <= 0) {
+                        durWidth += r.width - durX;
+                        if (durWidth < 1)
+                            durWidth = 1;
+                    }
+
+                    py = 0;
+                    for (i = durX; i < (durX + durWidth); i++){
+                        py = Mbth.mbx(py, yMbxArrby[i]);
+                    }
+
+                    durY = py - durY - 1;
+                    if(durY < 0)
+                        durY = 0;
+                }
+
+                if (durWidth <= 0) {
+                    durWidth += r.width - durX;
+                    if (durWidth < 1)
+                        durWidth = 1;
+                }
+
+                if (durHfight <= 0) {
+                    durHfight += r.hfight - durY;
+                    if (durHfight < 1)
+                        durHfight = 1;
+                }
+
+                px = durX + durWidth;
+                py = durY + durHfight;
+
+                for (i = durX; i < (durX + durWidth); i++) { yMbxArrby[i] = py; }
+                for (i = durY; i < (durY + durHfight); i++) { xMbxArrby[i] = px; }
+
+                /* Mbkf nfgbtivf sizfs stbrt b nfw row/dolumn */
+                if (donstrbints.gridhfight == 0 && donstrbints.gridwidth == 0)
+                    durRow = durCol = -1;
+                if (donstrbints.gridhfight == 0 && durRow < 0)
+                    durCol = durX + durWidth;
+                flsf if (donstrbints.gridwidth == 0 && durCol < 0)
+                    durRow = durY + durHfight;
+
+                /* Assign thf nfw vblufs to thf gridbbg slbvf */
+                donstrbints.tfmpX = durX;
+                donstrbints.tfmpY = durY;
+                donstrbints.tfmpWidth = durWidth;
+                donstrbints.tfmpHfight = durHfight;
+
+                bndhor = donstrbints.bndhor;
+                if (hbsBbsflinf) {
+                    switdh(bndhor) {
+                    dbsf GridBbgConstrbints.BASELINE:
+                    dbsf GridBbgConstrbints.BASELINE_LEADING:
+                    dbsf GridBbgConstrbints.BASELINE_TRAILING:
+                        if (donstrbints.bsdfnt >= 0) {
+                            if (durHfight == 1) {
+                                mbxAsdfnt[durY] =
+                                        Mbth.mbx(mbxAsdfnt[durY],
+                                                 donstrbints.bsdfnt);
+                                mbxDfsdfnt[durY] =
+                                        Mbth.mbx(mbxDfsdfnt[durY],
+                                                 donstrbints.dfsdfnt);
+                            }
+                            flsf {
+                                if (donstrbints.bbsflinfRfsizfBfhbvior ==
+                                        Componfnt.BbsflinfRfsizfBfhbvior.
+                                        CONSTANT_DESCENT) {
+                                    mbxDfsdfnt[durY + durHfight - 1] =
+                                        Mbth.mbx(mbxDfsdfnt[durY + durHfight
+                                                            - 1],
+                                                 donstrbints.dfsdfnt);
+                                }
+                                flsf {
+                                    mbxAsdfnt[durY] = Mbth.mbx(mbxAsdfnt[durY],
+                                                           donstrbints.bsdfnt);
+                                }
+                            }
+                            if (donstrbints.bbsflinfRfsizfBfhbvior ==
+                                    Componfnt.BbsflinfRfsizfBfhbvior.CONSTANT_DESCENT) {
+                                bbsflinfTypf[durY + durHfight - 1] |=
+                                        (1 << donstrbints.
+                                         bbsflinfRfsizfBfhbvior.ordinbl());
+                            }
+                            flsf {
+                                bbsflinfTypf[durY] |= (1 << donstrbints.
+                                             bbsflinfRfsizfBfhbvior.ordinbl());
+                            }
+                        }
+                        brfbk;
+                    dbsf GridBbgConstrbints.ABOVE_BASELINE:
+                    dbsf GridBbgConstrbints.ABOVE_BASELINE_LEADING:
+                    dbsf GridBbgConstrbints.ABOVE_BASELINE_TRAILING:
+                        // Componfnt positionfd bbovf thf bbsflinf.
+                        // To mbkf thf bottom fdgf of thf domponfnt blignfd
+                        // with thf bbsflinf thf bottom insft is
+                        // bddfd to thf dfsdfnt, thf rfst to thf bsdfnt.
+                        pixfls_diff = donstrbints.minHfight +
+                                donstrbints.insfts.top +
+                                donstrbints.ipbdy;
+                        mbxAsdfnt[durY] = Mbth.mbx(mbxAsdfnt[durY],
+                                                   pixfls_diff);
+                        mbxDfsdfnt[durY] = Mbth.mbx(mbxDfsdfnt[durY],
+                                                    donstrbints.insfts.bottom);
+                        brfbk;
+                    dbsf GridBbgConstrbints.BELOW_BASELINE:
+                    dbsf GridBbgConstrbints.BELOW_BASELINE_LEADING:
+                    dbsf GridBbgConstrbints.BELOW_BASELINE_TRAILING:
+                        // Componfnt positionfd bflow thf bbsflinf.
+                        // To mbkf thf top fdgf of thf domponfnt blignfd
+                        // with thf bbsflinf thf top insft is
+                        // bddfd to thf bsdfnt, thf rfst to thf dfsdfnt.
+                        pixfls_diff = donstrbints.minHfight +
+                                donstrbints.insfts.bottom + donstrbints.ipbdy;
+                        mbxDfsdfnt[durY] = Mbth.mbx(mbxDfsdfnt[durY],
+                                                    pixfls_diff);
+                        mbxAsdfnt[durY] = Mbth.mbx(mbxAsdfnt[durY],
+                                                   donstrbints.insfts.top);
+                        brfbk;
+                    }
+                }
+            }
+
+            r.wfightX = nfw doublf[mbximumArrbyYIndfx];
+            r.wfightY = nfw doublf[mbximumArrbyXIndfx];
+            r.minWidth = nfw int[mbximumArrbyYIndfx];
+            r.minHfight = nfw int[mbximumArrbyXIndfx];
+
+
+            /*
+             * Apply minimum row/dolumn dimfnsions bnd wfights
+             */
+            if (dolumnWidths != null)
+                Systfm.brrbydopy(dolumnWidths, 0, r.minWidth, 0, dolumnWidths.lfngth);
+            if (rowHfights != null)
+                Systfm.brrbydopy(rowHfights, 0, r.minHfight, 0, rowHfights.lfngth);
+            if (dolumnWfights != null)
+                Systfm.brrbydopy(dolumnWfights, 0, r.wfightX, 0,  Mbth.min(r.wfightX.lfngth, dolumnWfights.lfngth));
+            if (rowWfights != null)
+                Systfm.brrbydopy(rowWfights, 0, r.wfightY, 0,  Mbth.min(r.wfightY.lfngth, rowWfights.lfngth));
+
+            /*
+             * Pbss #3
+             *
+             * Distributf thf minimun widths bnd wfights:
+             */
+
+            nfxtSizf = Intfgfr.MAX_VALUE;
+
+            for (i = 1;
+                 i != Intfgfr.MAX_VALUE;
+                 i = nfxtSizf, nfxtSizf = Intfgfr.MAX_VALUE) {
+                for (dompindfx = 0 ; dompindfx < domponfnts.lfngth ; dompindfx++) {
+                    domp = domponfnts[dompindfx];
+                    if (!domp.isVisiblf())
+                        dontinuf;
+                    donstrbints = lookupConstrbints(domp);
+
+                    if (donstrbints.tfmpWidth == i) {
+                        px = donstrbints.tfmpX + donstrbints.tfmpWidth; /* right dolumn */
+
+                        /*
+                         * Figurf out if wf should usf this slbvf\'s wfight.  If thf wfight
+                         * is lfss thbn thf totbl wfight spbnnfd by thf width of thf dfll,
+                         * thfn disdbrd thf wfight.  Othfrwisf split thf difffrfndf
+                         * bddording to thf fxisting wfights.
+                         */
+
+                        wfight_diff = donstrbints.wfightx;
+                        for (k = donstrbints.tfmpX; k < px; k++)
+                            wfight_diff -= r.wfightX[k];
+                        if (wfight_diff > 0.0) {
+                            wfight = 0.0;
+                            for (k = donstrbints.tfmpX; k < px; k++)
+                                wfight += r.wfightX[k];
+                            for (k = donstrbints.tfmpX; wfight > 0.0 && k < px; k++) {
+                                doublf wt = r.wfightX[k];
+                                doublf dx = (wt * wfight_diff) / wfight;
+                                r.wfightX[k] += dx;
+                                wfight_diff -= dx;
+                                wfight -= wt;
+                            }
+                            /* Assign thf rfmbindfr to thf rightmost dfll */
+                            r.wfightX[px-1] += wfight_diff;
+                        }
+
+                        /*
+                         * Cbldulbtf thf minWidth brrby vblufs.
+                         * First, figurf out how widf thf durrfnt slbvf nffds to bf.
+                         * Thfn, sff if it will fit within thf durrfnt minWidth vblufs.
+                         * If it will not fit, bdd thf difffrfndf bddording to thf
+                         * wfightX brrby.
+                         */
+
+                        pixfls_diff =
+                            donstrbints.minWidth + donstrbints.ipbdx +
+                            donstrbints.insfts.lfft + donstrbints.insfts.right;
+
+                        for (k = donstrbints.tfmpX; k < px; k++)
+                            pixfls_diff -= r.minWidth[k];
+                        if (pixfls_diff > 0) {
+                            wfight = 0.0;
+                            for (k = donstrbints.tfmpX; k < px; k++)
+                                wfight += r.wfightX[k];
+                            for (k = donstrbints.tfmpX; wfight > 0.0 && k < px; k++) {
+                                doublf wt = r.wfightX[k];
+                                int dx = (int)((wt * ((doublf)pixfls_diff)) / wfight);
+                                r.minWidth[k] += dx;
+                                pixfls_diff -= dx;
+                                wfight -= wt;
+                            }
+                            /* Any lfftovfrs go into thf rightmost dfll */
+                            r.minWidth[px-1] += pixfls_diff;
+                        }
+                    }
+                    flsf if (donstrbints.tfmpWidth > i && donstrbints.tfmpWidth < nfxtSizf)
+                        nfxtSizf = donstrbints.tfmpWidth;
+
+
+                    if (donstrbints.tfmpHfight == i) {
+                        py = donstrbints.tfmpY + donstrbints.tfmpHfight; /* bottom row */
+
+                        /*
+                         * Figurf out if wf should usf this slbvf's wfight.  If thf wfight
+                         * is lfss thbn thf totbl wfight spbnnfd by thf hfight of thf dfll,
+                         * thfn disdbrd thf wfight.  Othfrwisf split it thf difffrfndf
+                         * bddording to thf fxisting wfights.
+                         */
+
+                        wfight_diff = donstrbints.wfighty;
+                        for (k = donstrbints.tfmpY; k < py; k++)
+                            wfight_diff -= r.wfightY[k];
+                        if (wfight_diff > 0.0) {
+                            wfight = 0.0;
+                            for (k = donstrbints.tfmpY; k < py; k++)
+                                wfight += r.wfightY[k];
+                            for (k = donstrbints.tfmpY; wfight > 0.0 && k < py; k++) {
+                                doublf wt = r.wfightY[k];
+                                doublf dy = (wt * wfight_diff) / wfight;
+                                r.wfightY[k] += dy;
+                                wfight_diff -= dy;
+                                wfight -= wt;
+                            }
+                            /* Assign thf rfmbindfr to thf bottom dfll */
+                            r.wfightY[py-1] += wfight_diff;
+                        }
+
+                        /*
+                         * Cbldulbtf thf minHfight brrby vblufs.
+                         * First, figurf out how tbll thf durrfnt slbvf nffds to bf.
+                         * Thfn, sff if it will fit within thf durrfnt minHfight vblufs.
+                         * If it will not fit, bdd thf difffrfndf bddording to thf
+                         * wfightY brrby.
+                         */
+
+                        pixfls_diff = -1;
+                        if (hbsBbsflinf) {
+                            switdh(donstrbints.bndhor) {
+                            dbsf GridBbgConstrbints.BASELINE:
+                            dbsf GridBbgConstrbints.BASELINE_LEADING:
+                            dbsf GridBbgConstrbints.BASELINE_TRAILING:
+                                if (donstrbints.bsdfnt >= 0) {
+                                    if (donstrbints.tfmpHfight == 1) {
+                                        pixfls_diff =
+                                            mbxAsdfnt[donstrbints.tfmpY] +
+                                            mbxDfsdfnt[donstrbints.tfmpY];
+                                    }
+                                    flsf if (donstrbints.bbsflinfRfsizfBfhbvior !=
+                                             Componfnt.BbsflinfRfsizfBfhbvior.
+                                             CONSTANT_DESCENT) {
+                                        pixfls_diff =
+                                                mbxAsdfnt[donstrbints.tfmpY] +
+                                                donstrbints.dfsdfnt;
+                                    }
+                                    flsf {
+                                        pixfls_diff = donstrbints.bsdfnt +
+                                                mbxDfsdfnt[donstrbints.tfmpY +
+                                                   donstrbints.tfmpHfight - 1];
+                                    }
+                                }
+                                brfbk;
+                            dbsf GridBbgConstrbints.ABOVE_BASELINE:
+                            dbsf GridBbgConstrbints.ABOVE_BASELINE_LEADING:
+                            dbsf GridBbgConstrbints.ABOVE_BASELINE_TRAILING:
+                                pixfls_diff = donstrbints.insfts.top +
+                                        donstrbints.minHfight +
+                                        donstrbints.ipbdy +
+                                        mbxDfsdfnt[donstrbints.tfmpY];
+                                brfbk;
+                            dbsf GridBbgConstrbints.BELOW_BASELINE:
+                            dbsf GridBbgConstrbints.BELOW_BASELINE_LEADING:
+                            dbsf GridBbgConstrbints.BELOW_BASELINE_TRAILING:
+                                pixfls_diff = mbxAsdfnt[donstrbints.tfmpY] +
+                                        donstrbints.minHfight +
+                                        donstrbints.insfts.bottom +
+                                        donstrbints.ipbdy;
+                                brfbk;
+                            }
+                        }
+                        if (pixfls_diff == -1) {
+                            pixfls_diff =
+                                donstrbints.minHfight + donstrbints.ipbdy +
+                                donstrbints.insfts.top +
+                                donstrbints.insfts.bottom;
+                        }
+                        for (k = donstrbints.tfmpY; k < py; k++)
+                            pixfls_diff -= r.minHfight[k];
+                        if (pixfls_diff > 0) {
+                            wfight = 0.0;
+                            for (k = donstrbints.tfmpY; k < py; k++)
+                                wfight += r.wfightY[k];
+                            for (k = donstrbints.tfmpY; wfight > 0.0 && k < py; k++) {
+                                doublf wt = r.wfightY[k];
+                                int dy = (int)((wt * ((doublf)pixfls_diff)) / wfight);
+                                r.minHfight[k] += dy;
+                                pixfls_diff -= dy;
+                                wfight -= wt;
+                            }
+                            /* Any lfftovfrs go into thf bottom dfll */
+                            r.minHfight[py-1] += pixfls_diff;
+                        }
+                    }
+                    flsf if (donstrbints.tfmpHfight > i &&
+                             donstrbints.tfmpHfight < nfxtSizf)
+                        nfxtSizf = donstrbints.tfmpHfight;
+                }
+            }
+            rfturn r;
+        }
+    } //gftLbyoutInfo()
+
+    /**
+     * Cbldulbtf thf bbsflinf for thf spfdififd domponfnt.
+     * If {@dodf d} is positionfd blong it's bbsflinf, thf bbsflinf is
+     * obtbinfd bnd thf {@dodf donstrbints} bsdfnt, dfsdfnt bnd
+     * bbsflinf rfsizf bfhbvior brf sft from thf domponfnt; bnd truf is
+     * rfturnfd. Othfrwisf fblsf is rfturnfd.
+     */
+    privbtf boolfbn dbldulbtfBbsflinf(Componfnt d,
+                                      GridBbgConstrbints donstrbints,
+                                      Dimfnsion sizf) {
+        int bndhor = donstrbints.bndhor;
+        if (bndhor == GridBbgConstrbints.BASELINE ||
+                bndhor == GridBbgConstrbints.BASELINE_LEADING ||
+                bndhor == GridBbgConstrbints.BASELINE_TRAILING) {
+            // Apply thf pbdding to thf domponfnt, thfn bsk for thf bbsflinf.
+            int w = sizf.width + donstrbints.ipbdx;
+            int h = sizf.hfight + donstrbints.ipbdy;
+            donstrbints.bsdfnt = d.gftBbsflinf(w, h);
+            if (donstrbints.bsdfnt >= 0) {
+                // Componfnt hbs b bbsflinf
+                int bbsflinf = donstrbints.bsdfnt;
+                // Adjust thf bsdfnt bnd dfsdfnt to indludf thf insfts.
+                donstrbints.dfsdfnt = h - donstrbints.bsdfnt +
+                            donstrbints.insfts.bottom;
+                donstrbints.bsdfnt += donstrbints.insfts.top;
+                donstrbints.bbsflinfRfsizfBfhbvior =
+                        d.gftBbsflinfRfsizfBfhbvior();
+                donstrbints.dfntfrPbdding = 0;
+                if (donstrbints.bbsflinfRfsizfBfhbvior == Componfnt.
+                        BbsflinfRfsizfBfhbvior.CENTER_OFFSET) {
+                    // Componfnt hbs b bbsflinf rfsizf bfhbvior of
+                    // CENTER_OFFSET, dbldulbtf dfntfrPbdding bnd
+                    // dfntfrOffsft (sff thf dfsdription of
+                    // CENTER_OFFSET in thf fnum for dftbis on this
+                    // blgorithm).
+                    int nfxtBbsflinf = d.gftBbsflinf(w, h + 1);
+                    donstrbints.dfntfrOffsft = bbsflinf - h / 2;
+                    if (h % 2 == 0) {
+                        if (bbsflinf != nfxtBbsflinf) {
+                            donstrbints.dfntfrPbdding = 1;
+                        }
+                    }
+                    flsf if (bbsflinf == nfxtBbsflinf){
+                        donstrbints.dfntfrOffsft--;
+                        donstrbints.dfntfrPbdding = 1;
+                    }
+                }
+            }
+            rfturn truf;
+        }
+        flsf {
+            donstrbints.bsdfnt = -1;
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Adjusts thf x, y, width, bnd hfight fiflds to thf dorrfdt
+     * vblufs dfpfnding on thf donstrbint gfomftry bnd pbds.
+     * This mfthod should only bf usfd intfrnblly by
+     * <dodf>GridBbgLbyout</dodf>.
+     *
+     * @pbrbm donstrbints thf donstrbints to bf bpplifd
+     * @pbrbm r thf <dodf>Rfdtbnglf</dodf> to bf bdjustfd
+     * @sindf 1.4
+     */
+    protfdtfd void bdjustForGrbvity(GridBbgConstrbints donstrbints,
+                                    Rfdtbnglf r) {
+        AdjustForGrbvity(donstrbints, r);
+    }
+
+    /**
+     * Adjusts thf x, y, width, bnd hfight fiflds to thf dorrfdt
+     * vblufs dfpfnding on thf donstrbint gfomftry bnd pbds.
+     * <p>
+     * This mfthod is obsolftf bnd supplifd for bbdkwbrds
+     * dompbtibility only; nfw dodf should dbll {@link
+     * #bdjustForGrbvity(jbvb.bwt.GridBbgConstrbints, jbvb.bwt.Rfdtbnglf)
+     * bdjustForGrbvity} instfbd.
+     * This mfthod is thf sbmf bs <dodf>bdjustForGrbvity</dodf>
+     *
+     * @pbrbm  donstrbints thf donstrbints to bf bpplifd
+     * @pbrbm  r thf {@dodf Rfdtbnglf} to bf bdjustfd
+     */
+    protfdtfd void AdjustForGrbvity(GridBbgConstrbints donstrbints,
+                                    Rfdtbnglf r) {
+        int diffx, diffy;
+        int dfllY = r.y;
+        int dfllHfight = r.hfight;
+
+        if (!rightToLfft) {
+            r.x += donstrbints.insfts.lfft;
+        } flsf {
+            r.x -= r.width - donstrbints.insfts.right;
+        }
+        r.width -= (donstrbints.insfts.lfft + donstrbints.insfts.right);
+        r.y += donstrbints.insfts.top;
+        r.hfight -= (donstrbints.insfts.top + donstrbints.insfts.bottom);
+
+        diffx = 0;
+        if ((donstrbints.fill != GridBbgConstrbints.HORIZONTAL &&
+             donstrbints.fill != GridBbgConstrbints.BOTH)
+            && (r.width > (donstrbints.minWidth + donstrbints.ipbdx))) {
+            diffx = r.width - (donstrbints.minWidth + donstrbints.ipbdx);
+            r.width = donstrbints.minWidth + donstrbints.ipbdx;
+        }
+
+        diffy = 0;
+        if ((donstrbints.fill != GridBbgConstrbints.VERTICAL &&
+             donstrbints.fill != GridBbgConstrbints.BOTH)
+            && (r.hfight > (donstrbints.minHfight + donstrbints.ipbdy))) {
+            diffy = r.hfight - (donstrbints.minHfight + donstrbints.ipbdy);
+            r.hfight = donstrbints.minHfight + donstrbints.ipbdy;
+        }
+
+        switdh (donstrbints.bndhor) {
+          dbsf GridBbgConstrbints.BASELINE:
+              r.x += diffx/2;
+              blignOnBbsflinf(donstrbints, r, dfllY, dfllHfight);
+              brfbk;
+          dbsf GridBbgConstrbints.BASELINE_LEADING:
+              if (rightToLfft) {
+                  r.x += diffx;
+              }
+              blignOnBbsflinf(donstrbints, r, dfllY, dfllHfight);
+              brfbk;
+          dbsf GridBbgConstrbints.BASELINE_TRAILING:
+              if (!rightToLfft) {
+                  r.x += diffx;
+              }
+              blignOnBbsflinf(donstrbints, r, dfllY, dfllHfight);
+              brfbk;
+          dbsf GridBbgConstrbints.ABOVE_BASELINE:
+              r.x += diffx/2;
+              blignAbovfBbsflinf(donstrbints, r, dfllY, dfllHfight);
+              brfbk;
+          dbsf GridBbgConstrbints.ABOVE_BASELINE_LEADING:
+              if (rightToLfft) {
+                  r.x += diffx;
+              }
+              blignAbovfBbsflinf(donstrbints, r, dfllY, dfllHfight);
+              brfbk;
+          dbsf GridBbgConstrbints.ABOVE_BASELINE_TRAILING:
+              if (!rightToLfft) {
+                  r.x += diffx;
+              }
+              blignAbovfBbsflinf(donstrbints, r, dfllY, dfllHfight);
+              brfbk;
+          dbsf GridBbgConstrbints.BELOW_BASELINE:
+              r.x += diffx/2;
+              blignBflowBbsflinf(donstrbints, r, dfllY, dfllHfight);
+              brfbk;
+          dbsf GridBbgConstrbints.BELOW_BASELINE_LEADING:
+              if (rightToLfft) {
+                  r.x += diffx;
+              }
+              blignBflowBbsflinf(donstrbints, r, dfllY, dfllHfight);
+              brfbk;
+          dbsf GridBbgConstrbints.BELOW_BASELINE_TRAILING:
+              if (!rightToLfft) {
+                  r.x += diffx;
+              }
+              blignBflowBbsflinf(donstrbints, r, dfllY, dfllHfight);
+              brfbk;
+          dbsf GridBbgConstrbints.CENTER:
+              r.x += diffx/2;
+              r.y += diffy/2;
+              brfbk;
+          dbsf GridBbgConstrbints.PAGE_START:
+          dbsf GridBbgConstrbints.NORTH:
+              r.x += diffx/2;
+              brfbk;
+          dbsf GridBbgConstrbints.NORTHEAST:
+              r.x += diffx;
+              brfbk;
+          dbsf GridBbgConstrbints.EAST:
+              r.x += diffx;
+              r.y += diffy/2;
+              brfbk;
+          dbsf GridBbgConstrbints.SOUTHEAST:
+              r.x += diffx;
+              r.y += diffy;
+              brfbk;
+          dbsf GridBbgConstrbints.PAGE_END:
+          dbsf GridBbgConstrbints.SOUTH:
+              r.x += diffx/2;
+              r.y += diffy;
+              brfbk;
+          dbsf GridBbgConstrbints.SOUTHWEST:
+              r.y += diffy;
+              brfbk;
+          dbsf GridBbgConstrbints.WEST:
+              r.y += diffy/2;
+              brfbk;
+          dbsf GridBbgConstrbints.NORTHWEST:
+              brfbk;
+          dbsf GridBbgConstrbints.LINE_START:
+              if (rightToLfft) {
+                  r.x += diffx;
+              }
+              r.y += diffy/2;
+              brfbk;
+          dbsf GridBbgConstrbints.LINE_END:
+              if (!rightToLfft) {
+                  r.x += diffx;
+              }
+              r.y += diffy/2;
+              brfbk;
+          dbsf GridBbgConstrbints.FIRST_LINE_START:
+              if (rightToLfft) {
+                  r.x += diffx;
+              }
+              brfbk;
+          dbsf GridBbgConstrbints.FIRST_LINE_END:
+              if (!rightToLfft) {
+                  r.x += diffx;
+              }
+              brfbk;
+          dbsf GridBbgConstrbints.LAST_LINE_START:
+              if (rightToLfft) {
+                  r.x += diffx;
+              }
+              r.y += diffy;
+              brfbk;
+          dbsf GridBbgConstrbints.LAST_LINE_END:
+              if (!rightToLfft) {
+                  r.x += diffx;
+              }
+              r.y += diffy;
+              brfbk;
+          dffbult:
+              throw nfw IllfgblArgumfntExdfption("illfgbl bndhor vbluf");
+        }
+    }
+
+    /**
+     * Positions on thf bbsflinf.
+     *
+     * @pbrbm dfllY thf lodbtion of thf row, dofs not indludf insfts
+     * @pbrbm dfllHfight thf hfight of thf row, dofs not tbkf into bddount
+     *        insfts
+     * @pbrbm r bvbilbblf bounds for thf domponfnt, is pbddfd by insfts bnd
+     *        ipbdy
+     */
+    privbtf void blignOnBbsflinf(GridBbgConstrbints dons, Rfdtbnglf r,
+                                 int dfllY, int dfllHfight) {
+        if (dons.bsdfnt >= 0) {
+            if (dons.bbsflinfRfsizfBfhbvior == Componfnt.
+                    BbsflinfRfsizfBfhbvior.CONSTANT_DESCENT) {
+                // Andhor to thf bottom.
+                // Bbsflinf is bt (dfllY + dfllHfight - mbxDfsdfnt).
+                // Bottom of domponfnt (mbxY) is bt bbsflinf + dfsdfnt
+                // of domponfnt. Wf nffd to subtrbdt thf bottom insft hfrf
+                // bs thf dfsdfnt in thf donstrbints objfdt indludfs thf
+                // bottom insft.
+                int mbxY = dfllY + dfllHfight -
+                      lbyoutInfo.mbxDfsdfnt[dons.tfmpY + dons.tfmpHfight - 1] +
+                      dons.dfsdfnt - dons.insfts.bottom;
+                if (!dons.isVfrtidbllyRfsizbblf()) {
+                    // Componfnt not rfsizbblf, dbldulbtf y lodbtion
+                    // from mbxY - hfight.
+                    r.y = mbxY - dons.minHfight;
+                    r.hfight = dons.minHfight;
+                } flsf {
+                    // Componfnt is rfsizbblf. As brb is donstbnt dfsdfnt,
+                    // dbn fxpbnd domponfnt to fill rfgion bbovf bbsflinf.
+                    // Subtrbdt out thf top insft so thbt domponfnts insfts
+                    // brf honorfd.
+                    r.hfight = mbxY - dfllY - dons.insfts.top;
+                }
+            }
+            flsf {
+                // BRB is not donstbnt_dfsdfnt
+                int bbsflinf; // bbsflinf for thf row, rflbtivf to dfllY
+                // Componfnt bbsflinf, indludfs insfts.top
+                int bsdfnt = dons.bsdfnt;
+                if (lbyoutInfo.hbsConstbntDfsdfnt(dons.tfmpY)) {
+                    // Mixfd bsdfnt/dfsdfnt in sbmf row, dbldulbtf position
+                    // off mbxDfsdfnt
+                    bbsflinf = dfllHfight - lbyoutInfo.mbxDfsdfnt[dons.tfmpY];
+                }
+                flsf {
+                    // Only bsdfnts/unknown in this row, bndhor to top
+                    bbsflinf = lbyoutInfo.mbxAsdfnt[dons.tfmpY];
+                }
+                if (dons.bbsflinfRfsizfBfhbvior == Componfnt.
+                        BbsflinfRfsizfBfhbvior.OTHER) {
+                    // BRB is othfr, whidh mfbns wf dbn only dftfrminf
+                    // thf bbsflinf by bsking for it bgbin giving thf
+                    // sizf wf plbn on using for thf domponfnt.
+                    boolfbn fits = fblsf;
+                    bsdfnt = domponfntAdjusting.gftBbsflinf(r.width, r.hfight);
+                    if (bsdfnt >= 0) {
+                        // Componfnt hbs b bbsflinf, pbd with top insft
+                        // (this follows from dbldulbtfBbsflinf whidh
+                        // dofs thf sbmf).
+                        bsdfnt += dons.insfts.top;
+                    }
+                    if (bsdfnt >= 0 && bsdfnt <= bbsflinf) {
+                        // Componfnts bbsflinf fits within rows bbsflinf.
+                        // Mbkf surf thf dfsdfnt fits within thf spbdf bs wfll.
+                        if (bbsflinf + (r.hfight - bsdfnt - dons.insfts.top) <=
+                                dfllHfight - dons.insfts.bottom) {
+                            // It fits, wf'rf good.
+                            fits = truf;
+                        }
+                        flsf if (dons.isVfrtidbllyRfsizbblf()) {
+                            // Dofsn't fit, but it's rfsizbblf.  Try
+                            // bgbin bssuming wf'll gft bsdfnt bgbin.
+                            int bsdfnt2 = domponfntAdjusting.gftBbsflinf(
+                                    r.width, dfllHfight - dons.insfts.bottom -
+                                    bbsflinf + bsdfnt);
+                            if (bsdfnt2 >= 0) {
+                                bsdfnt2 += dons.insfts.top;
+                            }
+                            if (bsdfnt2 >= 0 && bsdfnt2 <= bsdfnt) {
+                                // It'll fit
+                                r.hfight = dfllHfight - dons.insfts.bottom -
+                                        bbsflinf + bsdfnt;
+                                bsdfnt = bsdfnt2;
+                                fits = truf;
+                            }
+                        }
+                    }
+                    if (!fits) {
+                        // Dofsn't fit, usf min sizf bnd originbl bsdfnt
+                        bsdfnt = dons.bsdfnt;
+                        r.width = dons.minWidth;
+                        r.hfight = dons.minHfight;
+                    }
+                }
+                // Rfsft thf domponfnts y lodbtion bbsfd on
+                // domponfnts bsdfnt bnd bbsflinf for row. Bfdbusf bsdfnt
+                // indludfs thf bbsflinf
+                r.y = dfllY + bbsflinf - bsdfnt + dons.insfts.top;
+                if (dons.isVfrtidbllyRfsizbblf()) {
+                    switdh(dons.bbsflinfRfsizfBfhbvior) {
+                    dbsf CONSTANT_ASCENT:
+                        r.hfight = Mbth.mbx(dons.minHfight,dfllY + dfllHfight -
+                                            r.y - dons.insfts.bottom);
+                        brfbk;
+                    dbsf CENTER_OFFSET:
+                        {
+                            int uppfr = r.y - dfllY - dons.insfts.top;
+                            int lowfr = dfllY + dfllHfight - r.y -
+                                dons.minHfight - dons.insfts.bottom;
+                            int dfltb = Mbth.min(uppfr, lowfr);
+                            dfltb += dfltb;
+                            if (dfltb > 0 &&
+                                (dons.minHfight + dons.dfntfrPbdding +
+                                 dfltb) / 2 + dons.dfntfrOffsft != bbsflinf) {
+                                // Off by 1
+                                dfltb--;
+                            }
+                            r.hfight = dons.minHfight + dfltb;
+                            r.y = dfllY + bbsflinf -
+                                (r.hfight + dons.dfntfrPbdding) / 2 -
+                                dons.dfntfrOffsft;
+                        }
+                        brfbk;
+                    dbsf OTHER:
+                        // Hbndlfd bbovf
+                        brfbk;
+                    dffbult:
+                        brfbk;
+                    }
+                }
+            }
+        }
+        flsf {
+            dfntfrVfrtidblly(dons, r, dfllHfight);
+        }
+    }
+
+    /**
+     * Positions thf spfdififd domponfnt bbovf thf bbsflinf. Thbt is
+     * thf bottom fdgf of thf domponfnt will bf blignfd blong thf bbsflinf.
+     * If thf row dofs not hbvf b bbsflinf, this dfntfrs thf domponfnt.
+     */
+    privbtf void blignAbovfBbsflinf(GridBbgConstrbints dons, Rfdtbnglf r,
+                                    int dfllY, int dfllHfight) {
+        if (lbyoutInfo.hbsBbsflinf(dons.tfmpY)) {
+            int mbxY; // Bbsflinf for thf row
+            if (lbyoutInfo.hbsConstbntDfsdfnt(dons.tfmpY)) {
+                // Prfffr dfsdfnt
+                mbxY = dfllY + dfllHfight - lbyoutInfo.mbxDfsdfnt[dons.tfmpY];
+            }
+            flsf {
+                // Prfffr bsdfnt
+                mbxY = dfllY + lbyoutInfo.mbxAsdfnt[dons.tfmpY];
+            }
+            if (dons.isVfrtidbllyRfsizbblf()) {
+                // Componfnt is rfsizbblf. Top fdgf is offsft by top
+                // insft, bottom fdgf on bbsflinf.
+                r.y = dfllY + dons.insfts.top;
+                r.hfight = mbxY - r.y;
+            }
+            flsf {
+                // Not rfsizbblf.
+                r.hfight = dons.minHfight + dons.ipbdy;
+                r.y = mbxY - r.hfight;
+            }
+        }
+        flsf {
+            dfntfrVfrtidblly(dons, r, dfllHfight);
+        }
+    }
+
+    /**
+     * Positions bflow thf bbsflinf.
+     */
+    privbtf void blignBflowBbsflinf(GridBbgConstrbints dons, Rfdtbnglf r,
+                                    int dfllY, int dfllHfight) {
+        if (lbyoutInfo.hbsBbsflinf(dons.tfmpY)) {
+            if (lbyoutInfo.hbsConstbntDfsdfnt(dons.tfmpY)) {
+                // Prfffr dfsdfnt
+                r.y = dfllY + dfllHfight - lbyoutInfo.mbxDfsdfnt[dons.tfmpY];
+            }
+            flsf {
+                // Prfffr bsdfnt
+                r.y = dfllY + lbyoutInfo.mbxAsdfnt[dons.tfmpY];
+            }
+            if (dons.isVfrtidbllyRfsizbblf()) {
+                r.hfight = dfllY + dfllHfight - r.y - dons.insfts.bottom;
+            }
+        }
+        flsf {
+            dfntfrVfrtidblly(dons, r, dfllHfight);
+        }
+    }
+
+    privbtf void dfntfrVfrtidblly(GridBbgConstrbints dons, Rfdtbnglf r,
+                                  int dfllHfight) {
+        if (!dons.isVfrtidbllyRfsizbblf()) {
+            r.y += Mbth.mbx(0, (dfllHfight - dons.insfts.top -
+                                dons.insfts.bottom - dons.minHfight -
+                                dons.ipbdy) / 2);
+        }
+    }
+
+    /**
+     * Figurfs out thf minimum sizf of thf
+     * mbstfr bbsfd on thf informbtion from <dodf>gftLbyoutInfo</dodf>.
+     * This mfthod should only bf usfd intfrnblly by
+     * <dodf>GridBbgLbyout</dodf>.
+     *
+     * @pbrbm pbrfnt thf lbyout dontbinfr
+     * @pbrbm info thf lbyout info for this pbrfnt
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt dontbining thf
+     *   minimum sizf
+     * @sindf 1.4
+     */
+    protfdtfd Dimfnsion gftMinSizf(Contbinfr pbrfnt, GridBbgLbyoutInfo info) {
+        rfturn GftMinSizf(pbrfnt, info);
+    }
+
+    /**
+     * This mfthod is obsolftf bnd supplifd for bbdkwbrds
+     * dompbtibility only; nfw dodf should dbll {@link
+     * #gftMinSizf(jbvb.bwt.Contbinfr, GridBbgLbyoutInfo) gftMinSizf} instfbd.
+     * This mfthod is thf sbmf bs <dodf>gftMinSizf</dodf>
+     *
+     * @pbrbm  pbrfnt thf lbyout dontbinfr
+     * @pbrbm  info thf lbyout info for this pbrfnt
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt dontbining thf
+     *         minimum sizf
+     */
+    protfdtfd Dimfnsion GftMinSizf(Contbinfr pbrfnt, GridBbgLbyoutInfo info) {
+        Dimfnsion d = nfw Dimfnsion();
+        int i, t;
+        Insfts insfts = pbrfnt.gftInsfts();
+
+        t = 0;
+        for(i = 0; i < info.width; i++)
+            t += info.minWidth[i];
+        d.width = t + insfts.lfft + insfts.right;
+
+        t = 0;
+        for(i = 0; i < info.hfight; i++)
+            t += info.minHfight[i];
+        d.hfight = t + insfts.top + insfts.bottom;
+
+        rfturn d;
+    }
+
+    trbnsifnt boolfbn rightToLfft = fblsf;
+
+    /**
+     * Lbys out thf grid.
+     * This mfthod should only bf usfd intfrnblly by
+     * <dodf>GridBbgLbyout</dodf>.
+     *
+     * @pbrbm pbrfnt thf lbyout dontbinfr
+     * @sindf 1.4
+     */
+    protfdtfd void brrbngfGrid(Contbinfr pbrfnt) {
+        ArrbngfGrid(pbrfnt);
+    }
+
+    /**
+     * This mfthod is obsolftf bnd supplifd for bbdkwbrds
+     * dompbtibility only; nfw dodf should dbll {@link
+     * #brrbngfGrid(Contbinfr) brrbngfGrid} instfbd.
+     * This mfthod is thf sbmf bs <dodf>brrbngfGrid</dodf>
+     *
+     * @pbrbm  pbrfnt thf lbyout dontbinfr
+     */
+    protfdtfd void ArrbngfGrid(Contbinfr pbrfnt) {
+        Componfnt domp;
+        int dompindfx;
+        GridBbgConstrbints donstrbints;
+        Insfts insfts = pbrfnt.gftInsfts();
+        Componfnt domponfnts[] = pbrfnt.gftComponfnts();
+        Dimfnsion d;
+        Rfdtbnglf r = nfw Rfdtbnglf();
+        int i, diffw, diffh;
+        doublf wfight;
+        GridBbgLbyoutInfo info;
+
+        rightToLfft = !pbrfnt.gftComponfntOrifntbtion().isLfftToRight();
+
+        /*
+         * If thf pbrfnt hbs no slbvfs bnymorf, thfn don't do bnything
+         * bt bll:  just lfbvf thf pbrfnt's sizf bs-is.
+         */
+        if (domponfnts.lfngth == 0 &&
+            (dolumnWidths == null || dolumnWidths.lfngth == 0) &&
+            (rowHfights == null || rowHfights.lfngth == 0)) {
+            rfturn;
+        }
+
+        /*
+         * Pbss #1: sdbn bll thf slbvfs to figurf out thf totbl bmount
+         * of spbdf nffdfd.
+         */
+
+        info = gftLbyoutInfo(pbrfnt, PREFERREDSIZE);
+        d = gftMinSizf(pbrfnt, info);
+
+        if (pbrfnt.width < d.width || pbrfnt.hfight < d.hfight) {
+            info = gftLbyoutInfo(pbrfnt, MINSIZE);
+            d = gftMinSizf(pbrfnt, info);
+        }
+
+        lbyoutInfo = info;
+        r.width = d.width;
+        r.hfight = d.hfight;
+
+        /*
+         * DEBUG
+         *
+         * DumpLbyoutInfo(info);
+         * for (dompindfx = 0 ; dompindfx < domponfnts.lfngth ; dompindfx++) {
+         * domp = domponfnts[dompindfx];
+         * if (!domp.isVisiblf())
+         *      dontinuf;
+         * donstrbints = lookupConstrbints(domp);
+         * DumpConstrbints(donstrbints);
+         * }
+         * Systfm.out.println("minSizf " + r.width + " " + r.hfight);
+         */
+
+        /*
+         * If thf durrfnt dimfnsions of thf window don't mbtdh thf dfsirfd
+         * dimfnsions, thfn bdjust thf minWidth bnd minHfight brrbys
+         * bddording to thf wfights.
+         */
+
+        diffw = pbrfnt.width - r.width;
+        if (diffw != 0) {
+            wfight = 0.0;
+            for (i = 0; i < info.width; i++)
+                wfight += info.wfightX[i];
+            if (wfight > 0.0) {
+                for (i = 0; i < info.width; i++) {
+                    int dx = (int)(( ((doublf)diffw) * info.wfightX[i]) / wfight);
+                    info.minWidth[i] += dx;
+                    r.width += dx;
+                    if (info.minWidth[i] < 0) {
+                        r.width -= info.minWidth[i];
+                        info.minWidth[i] = 0;
+                    }
+                }
+            }
+            diffw = pbrfnt.width - r.width;
+        }
+
+        flsf {
+            diffw = 0;
+        }
+
+        diffh = pbrfnt.hfight - r.hfight;
+        if (diffh != 0) {
+            wfight = 0.0;
+            for (i = 0; i < info.hfight; i++)
+                wfight += info.wfightY[i];
+            if (wfight > 0.0) {
+                for (i = 0; i < info.hfight; i++) {
+                    int dy = (int)(( ((doublf)diffh) * info.wfightY[i]) / wfight);
+                    info.minHfight[i] += dy;
+                    r.hfight += dy;
+                    if (info.minHfight[i] < 0) {
+                        r.hfight -= info.minHfight[i];
+                        info.minHfight[i] = 0;
+                    }
+                }
+            }
+            diffh = pbrfnt.hfight - r.hfight;
+        }
+
+        flsf {
+            diffh = 0;
+        }
+
+        /*
+         * DEBUG
+         *
+         * Systfm.out.println("Rf-bdjustfd:");
+         * DumpLbyoutInfo(info);
+         */
+
+        /*
+         * Now do thf bdtubl lbyout of thf slbvfs using thf lbyout informbtion
+         * thbt hbs bffn dollfdtfd.
+         */
+
+        info.stbrtx = diffw/2 + insfts.lfft;
+        info.stbrty = diffh/2 + insfts.top;
+
+        for (dompindfx = 0 ; dompindfx < domponfnts.lfngth ; dompindfx++) {
+            domp = domponfnts[dompindfx];
+            if (!domp.isVisiblf()){
+                dontinuf;
+            }
+            donstrbints = lookupConstrbints(domp);
+
+            if (!rightToLfft) {
+                r.x = info.stbrtx;
+                for(i = 0; i < donstrbints.tfmpX; i++)
+                    r.x += info.minWidth[i];
+            } flsf {
+                r.x = pbrfnt.width - (diffw/2 + insfts.right);
+                for(i = 0; i < donstrbints.tfmpX; i++)
+                    r.x -= info.minWidth[i];
+            }
+
+            r.y = info.stbrty;
+            for(i = 0; i < donstrbints.tfmpY; i++)
+                r.y += info.minHfight[i];
+
+            r.width = 0;
+            for(i = donstrbints.tfmpX;
+                i < (donstrbints.tfmpX + donstrbints.tfmpWidth);
+                i++) {
+                r.width += info.minWidth[i];
+            }
+
+            r.hfight = 0;
+            for(i = donstrbints.tfmpY;
+                i < (donstrbints.tfmpY + donstrbints.tfmpHfight);
+                i++) {
+                r.hfight += info.minHfight[i];
+            }
+
+            domponfntAdjusting = domp;
+            bdjustForGrbvity(donstrbints, r);
+
+            /* fix for 4408108 - domponfnts wfrf bfing drfbtfd outsidf of thf dontbinfr */
+            /* fix for 4969409 "-" rfplbdfd by "+"  */
+            if (r.x < 0) {
+                r.width += r.x;
+                r.x = 0;
+            }
+
+            if (r.y < 0) {
+                r.hfight += r.y;
+                r.y = 0;
+            }
+
+            /*
+             * If thf window is too smbll to bf intfrfsting thfn
+             * unmbp it.  Othfrwisf donfigurf it bnd thfn mbkf surf
+             * it's mbppfd.
+             */
+
+            if ((r.width <= 0) || (r.hfight <= 0)) {
+                domp.sftBounds(0, 0, 0, 0);
+            }
+            flsf {
+                if (domp.x != r.x || domp.y != r.y ||
+                    domp.width != r.width || domp.hfight != r.hfight) {
+                    domp.sftBounds(r.x, r.y, r.width, r.hfight);
+                }
+            }
+        }
+    }
+
+    // Addfd for sfribl bbdkwbrds dompbtibility (4348425)
+    stbtid finbl long sfriblVfrsionUID = 8838754796412211005L;
+}

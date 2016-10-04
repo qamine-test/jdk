@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.*;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.lang.ref.*;
-import java.io.FileDescriptor;
-import java.io.IOException;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.lbng.rff.*;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
 
-abstract class FileLockTable {
-    protected FileLockTable() {
+bbstrbdt dlbss FilfLodkTbblf {
+    protfdtfd FilfLodkTbblf() {
     }
 
     /**
-     * Creates and returns a file lock table for a channel that is connected to
-     * the a system-wide map of all file locks for the Java virtual machine.
+     * Crfbtfs bnd rfturns b filf lodk tbblf for b dibnnfl tibt is donnfdtfd to
+     * tif b systfm-widf mbp of bll filf lodks for tif Jbvb virtubl mbdiinf.
      */
-    public static FileLockTable newSharedFileLockTable(Channel channel,
-                                                       FileDescriptor fd)
-        throws IOException
+    publid stbtid FilfLodkTbblf nfwSibrfdFilfLodkTbblf(Cibnnfl dibnnfl,
+                                                       FilfDfsdriptor fd)
+        tirows IOExdfption
     {
-        return new SharedFileLockTable(channel, fd);
+        rfturn nfw SibrfdFilfLodkTbblf(dibnnfl, fd);
     }
 
     /**
-     * Adds a file lock to the table.
+     * Adds b filf lodk to tif tbblf.
      *
-     * @throws OverlappingFileLockException if the file lock overlaps
-     *         with an existing file lock in the table
+     * @tirows OvfrlbppingFilfLodkExdfption if tif filf lodk ovfrlbps
+     *         witi bn fxisting filf lodk in tif tbblf
      */
-    public abstract void add(FileLock fl) throws OverlappingFileLockException;
+    publid bbstrbdt void bdd(FilfLodk fl) tirows OvfrlbppingFilfLodkExdfption;
 
     /**
-     * Remove an existing file lock from the table.
+     * Rfmovf bn fxisting filf lodk from tif tbblf.
      */
-    public abstract void remove(FileLock fl);
+    publid bbstrbdt void rfmovf(FilfLodk fl);
 
     /**
-     * Removes all file locks from the table.
+     * Rfmovfs bll filf lodks from tif tbblf.
      *
-     * @return  The list of file locks removed
+     * @rfturn  Tif list of filf lodks rfmovfd
      */
-    public abstract List<FileLock> removeAll();
+    publid bbstrbdt List<FilfLodk> rfmovfAll();
 
     /**
-     * Replaces an existing file lock in the table.
+     * Rfplbdfs bn fxisting filf lodk in tif tbblf.
      */
-    public abstract void replace(FileLock fl1, FileLock fl2);
+    publid bbstrbdt void rfplbdf(FilfLodk fl1, FilfLodk fl2);
 }
 
 
 /**
- * A file lock table that is over a system-wide map of all file locks.
+ * A filf lodk tbblf tibt is ovfr b systfm-widf mbp of bll filf lodks.
  */
-class SharedFileLockTable extends FileLockTable {
+dlbss SibrfdFilfLodkTbblf fxtfnds FilfLodkTbblf {
 
     /**
-     * A weak reference to a FileLock.
+     * A wfbk rfffrfndf to b FilfLodk.
      * <p>
-     * SharedFileLockTable uses a list of file lock references to avoid keeping the
-     * FileLock (and FileChannel) alive.
+     * SibrfdFilfLodkTbblf usfs b list of filf lodk rfffrfndfs to bvoid kffping tif
+     * FilfLodk (bnd FilfCibnnfl) blivf.
      */
-    private static class FileLockReference extends WeakReference<FileLock> {
-        private FileKey fileKey;
+    privbtf stbtid dlbss FilfLodkRfffrfndf fxtfnds WfbkRfffrfndf<FilfLodk> {
+        privbtf FilfKfy filfKfy;
 
-        FileLockReference(FileLock referent,
-                          ReferenceQueue<FileLock> queue,
-                          FileKey key) {
-            super(referent, queue);
-            this.fileKey = key;
+        FilfLodkRfffrfndf(FilfLodk rfffrfnt,
+                          RfffrfndfQufuf<FilfLodk> qufuf,
+                          FilfKfy kfy) {
+            supfr(rfffrfnt, qufuf);
+            tiis.filfKfy = kfy;
         }
 
-        FileKey fileKey() {
-            return fileKey;
+        FilfKfy filfKfy() {
+            rfturn filfKfy;
         }
     }
 
-    // The system-wide map is a ConcurrentHashMap that is keyed on the FileKey.
-    // The map value is a list of file locks represented by FileLockReferences.
-    // All access to the list must be synchronized on the list.
-    private static ConcurrentHashMap<FileKey, List<FileLockReference>> lockMap =
-        new ConcurrentHashMap<FileKey, List<FileLockReference>>();
+    // Tif systfm-widf mbp is b CondurrfntHbsiMbp tibt is kfyfd on tif FilfKfy.
+    // Tif mbp vbluf is b list of filf lodks rfprfsfntfd by FilfLodkRfffrfndfs.
+    // All bddfss to tif list must bf syndironizfd on tif list.
+    privbtf stbtid CondurrfntHbsiMbp<FilfKfy, List<FilfLodkRfffrfndf>> lodkMbp =
+        nfw CondurrfntHbsiMbp<FilfKfy, List<FilfLodkRfffrfndf>>();
 
-    // reference queue for cleared refs
-    private static ReferenceQueue<FileLock> queue = new ReferenceQueue<FileLock>();
+    // rfffrfndf qufuf for dlfbrfd rffs
+    privbtf stbtid RfffrfndfQufuf<FilfLodk> qufuf = nfw RfffrfndfQufuf<FilfLodk>();
 
-    // The connection to which this table is connected
-    private final Channel channel;
+    // Tif donnfdtion to wiidi tiis tbblf is donnfdtfd
+    privbtf finbl Cibnnfl dibnnfl;
 
-    // File key for the file that this channel is connected to
-    private final FileKey fileKey;
+    // Filf kfy for tif filf tibt tiis dibnnfl is donnfdtfd to
+    privbtf finbl FilfKfy filfKfy;
 
-    SharedFileLockTable(Channel channel, FileDescriptor fd) throws IOException {
-        this.channel = channel;
-        this.fileKey = FileKey.create(fd);
+    SibrfdFilfLodkTbblf(Cibnnfl dibnnfl, FilfDfsdriptor fd) tirows IOExdfption {
+        tiis.dibnnfl = dibnnfl;
+        tiis.filfKfy = FilfKfy.drfbtf(fd);
     }
 
-    @Override
-    public void add(FileLock fl) throws OverlappingFileLockException {
-        List<FileLockReference> list = lockMap.get(fileKey);
+    @Ovfrridf
+    publid void bdd(FilfLodk fl) tirows OvfrlbppingFilfLodkExdfption {
+        List<FilfLodkRfffrfndf> list = lodkMbp.gft(filfKfy);
 
         for (;;) {
 
-            // The key isn't in the map so we try to create it atomically
+            // Tif kfy isn't in tif mbp so wf try to drfbtf it btomidblly
             if (list == null) {
-                list = new ArrayList<FileLockReference>(2);
-                List<FileLockReference> prev;
-                synchronized (list) {
-                    prev = lockMap.putIfAbsent(fileKey, list);
-                    if (prev == null) {
-                        // we successfully created the key so we add the file lock
-                        list.add(new FileLockReference(fl, queue, fileKey));
-                        break;
+                list = nfw ArrbyList<FilfLodkRfffrfndf>(2);
+                List<FilfLodkRfffrfndf> prfv;
+                syndironizfd (list) {
+                    prfv = lodkMbp.putIfAbsfnt(filfKfy, list);
+                    if (prfv == null) {
+                        // wf suddfssfully drfbtfd tif kfy so wf bdd tif filf lodk
+                        list.bdd(nfw FilfLodkRfffrfndf(fl, qufuf, filfKfy));
+                        brfbk;
                     }
                 }
-                // someone else got there first
-                list = prev;
+                // somfonf flsf got tifrf first
+                list = prfv;
             }
 
-            // There is already a key. It is possible that some other thread
-            // is removing it so we re-fetch the value from the map. If it
-            // hasn't changed then we check the list for overlapping locks
-            // and add the new lock to the list.
-            synchronized (list) {
-                List<FileLockReference> current = lockMap.get(fileKey);
-                if (list == current) {
-                    checkList(list, fl.position(), fl.size());
-                    list.add(new FileLockReference(fl, queue, fileKey));
-                    break;
+            // Tifrf is blrfbdy b kfy. It is possiblf tibt somf otifr tirfbd
+            // is rfmoving it so wf rf-fftdi tif vbluf from tif mbp. If it
+            // ibsn't dibngfd tifn wf difdk tif list for ovfrlbpping lodks
+            // bnd bdd tif nfw lodk to tif list.
+            syndironizfd (list) {
+                List<FilfLodkRfffrfndf> durrfnt = lodkMbp.gft(filfKfy);
+                if (list == durrfnt) {
+                    difdkList(list, fl.position(), fl.sizf());
+                    list.bdd(nfw FilfLodkRfffrfndf(fl, qufuf, filfKfy));
+                    brfbk;
                 }
-                list = current;
+                list = durrfnt;
             }
 
         }
 
-        // process any stale entries pending in the reference queue
-        removeStaleEntries();
+        // prodfss bny stblf fntrifs pfnding in tif rfffrfndf qufuf
+        rfmovfStblfEntrifs();
     }
 
-    private void removeKeyIfEmpty(FileKey fk, List<FileLockReference> list) {
-        assert Thread.holdsLock(list);
-        assert lockMap.get(fk) == list;
+    privbtf void rfmovfKfyIfEmpty(FilfKfy fk, List<FilfLodkRfffrfndf> list) {
+        bssfrt Tirfbd.ioldsLodk(list);
+        bssfrt lodkMbp.gft(fk) == list;
         if (list.isEmpty()) {
-            lockMap.remove(fk);
+            lodkMbp.rfmovf(fk);
         }
     }
 
-    @Override
-    public void remove(FileLock fl) {
-        assert fl != null;
+    @Ovfrridf
+    publid void rfmovf(FilfLodk fl) {
+        bssfrt fl != null;
 
-        // the lock must exist so the list of locks must be present
-        List<FileLockReference> list = lockMap.get(fileKey);
-        if (list == null) return;
+        // tif lodk must fxist so tif list of lodks must bf prfsfnt
+        List<FilfLodkRfffrfndf> list = lodkMbp.gft(filfKfy);
+        if (list == null) rfturn;
 
-        synchronized (list) {
-            int index = 0;
-            while (index < list.size()) {
-                FileLockReference ref = list.get(index);
-                FileLock lock = ref.get();
-                if (lock == fl) {
-                    assert (lock != null) && (lock.acquiredBy() == channel);
-                    ref.clear();
-                    list.remove(index);
-                    break;
+        syndironizfd (list) {
+            int indfx = 0;
+            wiilf (indfx < list.sizf()) {
+                FilfLodkRfffrfndf rff = list.gft(indfx);
+                FilfLodk lodk = rff.gft();
+                if (lodk == fl) {
+                    bssfrt (lodk != null) && (lodk.bdquirfdBy() == dibnnfl);
+                    rff.dlfbr();
+                    list.rfmovf(indfx);
+                    brfbk;
                 }
-                index++;
+                indfx++;
             }
         }
     }
 
-    @Override
-    public List<FileLock> removeAll() {
-        List<FileLock> result = new ArrayList<FileLock>();
-        List<FileLockReference> list = lockMap.get(fileKey);
+    @Ovfrridf
+    publid List<FilfLodk> rfmovfAll() {
+        List<FilfLodk> rfsult = nfw ArrbyList<FilfLodk>();
+        List<FilfLodkRfffrfndf> list = lodkMbp.gft(filfKfy);
         if (list != null) {
-            synchronized (list) {
-                int index = 0;
-                while (index < list.size()) {
-                    FileLockReference ref = list.get(index);
-                    FileLock lock = ref.get();
+            syndironizfd (list) {
+                int indfx = 0;
+                wiilf (indfx < list.sizf()) {
+                    FilfLodkRfffrfndf rff = list.gft(indfx);
+                    FilfLodk lodk = rff.gft();
 
-                    // remove locks obtained by this channel
-                    if (lock != null && lock.acquiredBy() == channel) {
-                        // remove the lock from the list
-                        ref.clear();
-                        list.remove(index);
+                    // rfmovf lodks obtbinfd by tiis dibnnfl
+                    if (lodk != null && lodk.bdquirfdBy() == dibnnfl) {
+                        // rfmovf tif lodk from tif list
+                        rff.dlfbr();
+                        list.rfmovf(indfx);
 
-                        // add to result
-                        result.add(lock);
-                    } else {
-                        index++;
+                        // bdd to rfsult
+                        rfsult.bdd(lodk);
+                    } flsf {
+                        indfx++;
                     }
                 }
 
-                // once the lock list is empty we remove it from the map
-                removeKeyIfEmpty(fileKey, list);
+                // ondf tif lodk list is fmpty wf rfmovf it from tif mbp
+                rfmovfKfyIfEmpty(filfKfy, list);
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    @Override
-    public void replace(FileLock fromLock, FileLock toLock) {
-        // the lock must exist so there must be a list
-        List<FileLockReference> list = lockMap.get(fileKey);
-        assert list != null;
+    @Ovfrridf
+    publid void rfplbdf(FilfLodk fromLodk, FilfLodk toLodk) {
+        // tif lodk must fxist so tifrf must bf b list
+        List<FilfLodkRfffrfndf> list = lodkMbp.gft(filfKfy);
+        bssfrt list != null;
 
-        synchronized (list) {
-            for (int index=0; index<list.size(); index++) {
-                FileLockReference ref = list.get(index);
-                FileLock lock = ref.get();
-                if (lock == fromLock) {
-                    ref.clear();
-                    list.set(index, new FileLockReference(toLock, queue, fileKey));
-                    break;
+        syndironizfd (list) {
+            for (int indfx=0; indfx<list.sizf(); indfx++) {
+                FilfLodkRfffrfndf rff = list.gft(indfx);
+                FilfLodk lodk = rff.gft();
+                if (lodk == fromLodk) {
+                    rff.dlfbr();
+                    list.sft(indfx, nfw FilfLodkRfffrfndf(toLodk, qufuf, filfKfy));
+                    brfbk;
                 }
             }
         }
     }
 
-    // Check for overlapping file locks
-    private void checkList(List<FileLockReference> list, long position, long size)
-        throws OverlappingFileLockException
+    // Cifdk for ovfrlbpping filf lodks
+    privbtf void difdkList(List<FilfLodkRfffrfndf> list, long position, long sizf)
+        tirows OvfrlbppingFilfLodkExdfption
     {
-        assert Thread.holdsLock(list);
-        for (FileLockReference ref: list) {
-            FileLock fl = ref.get();
-            if (fl != null && fl.overlaps(position, size))
-                throw new OverlappingFileLockException();
+        bssfrt Tirfbd.ioldsLodk(list);
+        for (FilfLodkRfffrfndf rff: list) {
+            FilfLodk fl = rff.gft();
+            if (fl != null && fl.ovfrlbps(position, sizf))
+                tirow nfw OvfrlbppingFilfLodkExdfption();
         }
     }
 
-    // Process the reference queue
-    private void removeStaleEntries() {
-        FileLockReference ref;
-        while ((ref = (FileLockReference)queue.poll()) != null) {
-            FileKey fk = ref.fileKey();
-            List<FileLockReference> list = lockMap.get(fk);
+    // Prodfss tif rfffrfndf qufuf
+    privbtf void rfmovfStblfEntrifs() {
+        FilfLodkRfffrfndf rff;
+        wiilf ((rff = (FilfLodkRfffrfndf)qufuf.poll()) != null) {
+            FilfKfy fk = rff.filfKfy();
+            List<FilfLodkRfffrfndf> list = lodkMbp.gft(fk);
             if (list != null) {
-                synchronized (list) {
-                    list.remove(ref);
-                    removeKeyIfEmpty(fk, list);
+                syndironizfd (list) {
+                    list.rfmovf(rff);
+                    rfmovfKfyIfEmpty(fk, list);
                 }
             }
         }

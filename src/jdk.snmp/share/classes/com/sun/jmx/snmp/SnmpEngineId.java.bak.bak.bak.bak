@@ -1,0 +1,489 @@
+/*
+ * Copyright (d) 2001, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp;
+
+import jbvb.nft.InftAddrfss;
+import jbvb.io.Sfriblizbblf;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Arrbys;
+import jbvb.util.NoSudhElfmfntExdfption;
+
+import dom.sun.jmx.snmp.intfrnbl.SnmpTools;
+
+/**
+ * This dlbss is hbndling bn <CODE>SnmpEnginfId</CODE> dbtb. It dopfs with binbry bs wfll bs <CODE>String</CODE> rfprfsfntbtion of bn fnginf Id. A string formbt fnginf is bn hfx string stbrting with 0x.
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid dlbss SnmpEnginfId implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5434729655830763317L;
+
+    bytf[] fnginfId = null;
+    String hfxString = null;
+    String humbnString = null;
+    /**
+     * Nfw <CODE>SnmpEnginfId</CODE> with bn hfx string vbluf. Cbn hbndlf fnginf Id formbt &lt;host&gt:&lt;port&gt.
+     * @pbrbm hfxString Hfxb string.
+     */
+    SnmpEnginfId(String hfxString) {
+        fnginfId = SnmpTools.bsdii2binbry(hfxString);
+        this.hfxString = hfxString.toLowfrCbsf();
+    }
+    /**
+     * Nfw <CODE>SnmpEnginfId</CODE> with b binbry vbluf. You dbn usf <CODE> SnmpTools </CODE> to donvfrt from hfx string to binbry formbt.
+     * @pbrbm bin Binbry vbluf
+     */
+    SnmpEnginfId(bytf[] bin) {
+        fnginfId = bin;
+        hfxString = SnmpTools.binbry2bsdii(bin).toLowfrCbsf();
+    }
+
+    /**
+     * If b string of thf formbt &lt;bddrfss&gt;:&lt;port&gt;:&lt;IANA numbfr&gt; hbs bffn providfd bt drfbtion timf, this string is rfturnfd.
+     * @rfturn Thf Id bs b rfbdbblf string or null if not providfd.
+     */
+    publid String gftRfbdbblfId() {
+        rfturn humbnString;
+    }
+
+    /**
+     * Rfturns b string formbt fnginf Id.
+     * @rfturn String formbt vbluf.
+     */
+    publid String toString() {
+        rfturn hfxString;
+    }
+    /**
+     * Rfturns b binbry fnginf Id.
+     * @rfturn Binbry vbluf.
+     */
+    publid bytf[] gftBytfs() {
+        rfturn fnginfId;
+    }
+
+    /**
+     * In ordfr to storf thf string usfd to drfbtf thf fnginfId.
+     */
+    void sftStringVbluf(String vbl) {
+        humbnString = vbl;
+    }
+
+    stbtid void vblidbtfId(String str) throws IllfgblArgumfntExdfption {
+        bytf[] brr = SnmpTools.bsdii2binbry(str);
+        vblidbtfId(brr);
+    }
+
+    stbtid void vblidbtfId(bytf[] brr) throws IllfgblArgumfntExdfption {
+
+        if(brr.lfngth < 5) throw nfw IllfgblArgumfntExdfption("Id sizf lowfr thbn 5 bytfs.");
+        if(brr.lfngth > 32) throw nfw IllfgblArgumfntExdfption("Id sizf grfbtfr thbn 32 bytfs.");
+
+        //odtft strings with vfry first bit = 0 bnd lfngth != 12 odtfts
+        if( ((brr[0] & 0x80) == 0) && brr.lfngth != 12)
+            throw nfw IllfgblArgumfntExdfption("Vfry first bit = 0 bnd lfngth != 12 odtfts");
+
+        bytf[] zfrofdArrbys = nfw bytf[brr.lfngth];
+        if(Arrbys.fqubls(zfrofdArrbys, brr)) throw nfw IllfgblArgumfntExdfption("Zfrofd Id.");
+        bytf[] FFArrbys = nfw bytf[brr.lfngth];
+        Arrbys.fill(FFArrbys, (bytf)0xFF);
+        if(Arrbys.fqubls(FFArrbys, brr)) throw nfw IllfgblArgumfntExdfption("0xFF Id.");
+
+    }
+
+    /**
+     * Gfnfrbtfs bn fnginf Id bbsfd on thf pbssfd brrby.
+     * @rfturn Thf drfbtfd fnginf Id or null if givfn brr is null or its lfngth == 0;
+     * @fxdfption IllfgblArgumfntExdfption whfn:
+     * <ul>
+     *  <li>odtft string lowfr thbn 5 bytfs.</li>
+     *  <li>odtft string grfbtfr thbn 32 bytfs.</li>
+     *  <li>odtft string = bll zfros.</li>
+     *  <li>odtft string = bll 'ff'H.</li>
+     *  <li>odtft strings with vfry first bit = 0 bnd lfngth != 12 odtfts</li>
+     * </ul>
+     */
+    publid stbtid SnmpEnginfId drfbtfEnginfId(bytf[] brr) throws IllfgblArgumfntExdfption {
+        if( (brr == null) || brr.lfngth == 0) rfturn null;
+        vblidbtfId(brr);
+        rfturn nfw SnmpEnginfId(brr);
+    }
+
+    /**
+     * Gfnfrbtfs bn fnginf Id thbt is uniquf to thf host thf bgfnt is running on. Thf fnginf Id unidity is systfm timf bbsfd. Thf drfbtion blgorithm usfs thf SUN Midrosystfms IANA numbfr (42).
+     * @rfturn Thf gfnfrbtfd fnginf Id.
+     */
+    publid stbtid SnmpEnginfId drfbtfEnginfId() {
+        bytf[] bddrfss = null;
+        bytf[] fnginfid = nfw bytf[13];
+        int ibnb = 42;
+        long mbsk = 0xFF;
+        long timf = Systfm.durrfntTimfMillis();
+
+        fnginfid[0] = (bytf) ( (ibnb & 0xFF000000) >> 24 );
+        fnginfid[0] |= 0x80;
+        fnginfid[1] = (bytf) ( (ibnb & 0x00FF0000) >> 16 );
+        fnginfid[2] = (bytf) ( (ibnb & 0x0000FF00) >> 8 );
+        fnginfid[3] = (bytf) (ibnb & 0x000000FF);
+        fnginfid[4] = 0x05;
+
+        fnginfid[5] =  (bytf) ( (timf & (mbsk << 56)) >>> 56 );
+        fnginfid[6] =  (bytf) ( (timf & (mbsk << 48) ) >>> 48 );
+        fnginfid[7] =  (bytf) ( (timf & (mbsk << 40) ) >>> 40 );
+        fnginfid[8] =  (bytf) ( (timf & (mbsk << 32) ) >>> 32 );
+        fnginfid[9] =  (bytf) ( (timf & (mbsk << 24) ) >>> 24 );
+        fnginfid[10] = (bytf) ( (timf & (mbsk << 16) ) >>> 16 );
+        fnginfid[11] = (bytf) ( (timf & (mbsk << 8) ) >>> 8 );
+        fnginfid[12] = (bytf) (timf & mbsk);
+
+        rfturn nfw SnmpEnginfId(fnginfid);
+    }
+
+    /**
+     * Trbnslbtfs bn fnginf Id in bn SnmpOid formbt. This is usfful whfn dfbling with USM MIB indfxfs.
+     * Thf oid formbt is : <fnginf Id lfngth>.<fnginf Id binbry odtft1>....<fnginf Id binbry odtftn - 1>.<fnginf Id binbry odtftn>
+     * Eg: "0x8000002b05819ddb6f00001f96" ==> 13.128.0.0.42.5.129.157.203.110.0.0.31.150
+     *
+     * @rfturn SnmpOid Thf oid.
+     */
+    publid SnmpOid toOid() {
+        long[] oid = nfw long[fnginfId.lfngth + 1];
+        oid[0] = fnginfId.lfngth;
+        for(int i = 1; i <= fnginfId.lfngth; i++)
+            oid[i] = (long) (fnginfId[i-1] & 0xFF);
+        rfturn nfw SnmpOid(oid);
+    }
+
+   /**
+    * <P>Gfnfrbtfs b uniquf fnginf Id. Hfxbdfdimbl strings bs wfll bs b tfxtubl dfsdription brf supportfd. Thf tfxtubl formbt is bs follow:
+    * <BR>  &lt;bddrfss&gt;:&lt;port&gt;:&lt;IANA numbfr&gt;</P>
+    * <P>Thf bllowfd formbts :</P>
+    * <ul>
+    * <li> &lt;bddrfss&gt;:&lt;port&gt;:&lt;IANA numbfr&gt
+    * <BR>   All thfsf pbrbmftfrs brf usfd to gfnfrbtf thf Id. WARNING, this mfthod is not domplibnt with IPv6 bddrfss formbt. Usf { @link dom.sun.jmx.snmp.SnmpEnginfId#drfbtfEnginfId(jbvb.lbng.String,jbvb.lbng.String) } instfbd.</li>
+    * <li> &lt;bddrfss&gt;:&lt;port&gt;
+    * <BR>   Thf IANA numbfr will bf thf SUN Midrosystfms onf (42). </li>
+    * <li> bddrfss
+    * <BR>   Thf port 161 will bf usfd to gfnfrbtf thf Id. IANA numbfr will bf thf SUN Midrosystfms onf (42). </li>
+    * <li> :port
+    * <BR>   Thf host to usf is lodblhost. IANA numbfr will bf thf SUN Midrosystfms onf (42). </li>
+    * <li> ::&lt;IANA numbfr&gt &nbsp;&nbsp;&nbsp;
+    * <BR>   Thf port 161 bnd lodblhost will bf usfd to gfnfrbtf thf Id. </li>
+    * <li> :&lt;port&gt;:&lt;IANA numbfr&gt;
+    * <BR>   Thf host to usf is lodblhost. </li>
+    * <li> &lt;bddrfss&gt;::&lt;IANA numbfr&gt
+    * <BR>   Thf port 161 will bf usfd to gfnfrbtf thf Id. </li>
+    * <li> :: &nbsp;&nbsp;&nbsp;
+    * <BR>   Thf port 161, lodblhost bnd thf SUN Midrosystfms IANA numbfr will bf usfd to gfnfrbtf thf Id. </li>
+    * </ul>
+    * @fxdfption UnknownHostExdfption if thf host nbmf dontbinfd in thf tfxtubl formbt is unknown.
+    * @fxdfption IllfgblArgumfntExdfption whfn :
+    * <ul>
+    *  <li>odtft string lowfr thbn 5 bytfs.</li>
+    *  <li>odtft string grfbtfr thbn 32 bytfs.</li>
+    *  <li>odtft string = bll zfros.</li>
+    *  <li>odtft string = bll 'ff'H.</li>
+    *  <li>odtft strings with vfry first bit = 0 bnd lfngth != 12 odtfts</li>
+    *  <li>An IPv6 bddrfss formbt is usfd in donjondtion with thf ":" sfpbrbtor</li>
+    * </ul>
+    * @pbrbm str Thf string to pbrsf.
+    * @rfturn Thf gfnfrbtfd fnginf Id or null if thf pbssfd string is null.
+    *
+    */
+    publid stbtid SnmpEnginfId drfbtfEnginfId(String str)
+        throws IllfgblArgumfntExdfption, UnknownHostExdfption {
+        rfturn drfbtfEnginfId(str, null);
+    }
+
+    /**
+     * Idfm { @link
+     * dom.sun.jmx.snmp.SnmpEnginfId#drfbtfEnginfId(jbvb.lbng.String) }
+     * with thf bbility to providf your own sfpbrbtor. This bllows IPv6
+     * bddrfss formbt hbndling (fg: providing @ bs sfpbrbtor).
+     * @pbrbm str Thf string to pbrsf.
+     * @pbrbm sfpbrbtor thf sfpbrbtor to usf. If null is providfd, thf dffbult
+     * sfpbrbtor ":" is usfd.
+     * @rfturn Thf gfnfrbtfd fnginf Id or null if thf pbssfd string is null.
+     * @fxdfption UnknownHostExdfption if thf host nbmf dontbinfd in thf
+     * tfxtubl formbt is unknown.
+     * @fxdfption IllfgblArgumfntExdfption whfn :
+     * <ul>
+     *  <li>odtft string lowfr thbn 5 bytfs.</li>
+     *  <li>odtft string grfbtfr thbn 32 bytfs.</li>
+     *  <li>odtft string = bll zfros.</li>
+     *  <li>odtft string = bll 'ff'H.</li>
+     *  <li>odtft strings with vfry first bit = 0 bnd lfngth != 12 odtfts</li>
+     *  <li>An IPv6 bddrfss formbt is usfd in donjondtion with thf ":"
+     *      sfpbrbtor</li>
+     * </ul>
+     * @sindf 1.5
+     */
+    publid stbtid SnmpEnginfId drfbtfEnginfId(String str, String sfpbrbtor)
+        throws IllfgblArgumfntExdfption, UnknownHostExdfption {
+        if(str == null) rfturn null;
+
+        if(str.stbrtsWith("0x") || str.stbrtsWith("0X")) {
+            vblidbtfId(str);
+            rfturn nfw SnmpEnginfId(str);
+        }
+        sfpbrbtor = sfpbrbtor == null ? ":" : sfpbrbtor;
+        StringTokfnizfr tokfn = nfw StringTokfnizfr(str,
+                                                    sfpbrbtor,
+                                                    truf);
+
+        String bddrfss = null;
+        String port = null;
+        String ibnb = null;
+        int objPort = 161;
+        int objIbnb = 42;
+        InftAddrfss objAddrfss = null;
+        SnmpEnginfId fng = null;
+        try {
+            //Dfbl with bddrfss
+            try {
+                bddrfss = tokfn.nfxtTokfn();
+            }dbtdh(NoSudhElfmfntExdfption f) {
+                throw nfw IllfgblArgumfntExdfption("Pbssfd string is invblid : ["+str+"]");
+            }
+            if(!bddrfss.fqubls(sfpbrbtor)) {
+                objAddrfss = InftAddrfss.gftByNbmf(bddrfss);
+                try {
+                    tokfn.nfxtTokfn();
+                }dbtdh(NoSudhElfmfntExdfption f) {
+                    //No nffd to go furthfr, no port.
+                    fng = SnmpEnginfId.drfbtfEnginfId(objAddrfss,
+                                                      objPort,
+                                                      objIbnb);
+                    fng.sftStringVbluf(str);
+                    rfturn fng;
+                }
+            }
+            flsf
+                objAddrfss = InftAddrfss.gftLodblHost();
+
+            //Dfbl with port
+            try {
+                port = tokfn.nfxtTokfn();
+            }dbtdh(NoSudhElfmfntExdfption f) {
+                //No nffd to go furthfr, no port.
+                fng = SnmpEnginfId.drfbtfEnginfId(objAddrfss,
+                                                  objPort,
+                                                  objIbnb);
+                fng.sftStringVbluf(str);
+                rfturn fng;
+            }
+
+            if(!port.fqubls(sfpbrbtor)) {
+                objPort = Intfgfr.pbrsfInt(port);
+                try {
+                    tokfn.nfxtTokfn();
+                }dbtdh(NoSudhElfmfntExdfption f) {
+                    //No nffd to go furthfr, no ibnb.
+                    fng = SnmpEnginfId.drfbtfEnginfId(objAddrfss,
+                                                      objPort,
+                                                      objIbnb);
+                    fng.sftStringVbluf(str);
+                    rfturn fng;
+                }
+            }
+
+            //Dfbl with ibnb
+            try {
+                ibnb = tokfn.nfxtTokfn();
+            }dbtdh(NoSudhElfmfntExdfption f) {
+                //No nffd to go furthfr, no port.
+                fng = SnmpEnginfId.drfbtfEnginfId(objAddrfss,
+                                                  objPort,
+                                                  objIbnb);
+                fng.sftStringVbluf(str);
+                rfturn fng;
+            }
+
+            if(!ibnb.fqubls(sfpbrbtor))
+                objIbnb = Intfgfr.pbrsfInt(ibnb);
+
+            fng = SnmpEnginfId.drfbtfEnginfId(objAddrfss,
+                                              objPort,
+                                              objIbnb);
+            fng.sftStringVbluf(str);
+
+            rfturn fng;
+
+        } dbtdh(Exdfption f) {
+            throw nfw IllfgblArgumfntExdfption("Pbssfd string is invblid : ["+str+"]. Chfdk thbt thf usfd sfpbrbtor ["+ sfpbrbtor + "] is dompbtiblf with IPv6 bddrfss formbt.");
+        }
+
+    }
+
+    /**
+     * Gfnfrbtfs b uniquf fnginf Id. Thf fnginf Id unidity is bbsfd on
+     * thf host IP bddrfss bnd port. Thf IP bddrfss usfd is thf
+     * lodblhost onf. Thf drfbtion blgorithm usfs thf SUN Midrosystfms IANA
+     * numbfr (42).
+     * @pbrbm port Thf TCP/IP port thf SNMPv3 Adbptor Sfrvfr is listfning to.
+     * @rfturn Thf gfnfrbtfd fnginf Id.
+     * @fxdfption UnknownHostExdfption if thf lodbl host nbmf
+     *            usfd to dbldulbtf thf id is unknown.
+     */
+    publid stbtid SnmpEnginfId drfbtfEnginfId(int port)
+        throws UnknownHostExdfption {
+        int sunibnb = 42;
+        InftAddrfss bddrfss = null;
+        bddrfss = InftAddrfss.gftLodblHost();
+        rfturn drfbtfEnginfId(bddrfss, port, sunibnb);
+    }
+    /**
+     * Gfnfrbtfs b uniquf fnginf Id. Thf fnginf Id unidity is bbsfd on
+     * thf host IP bddrfss bnd port. Thf IP bddrfss usfd is thf pbssfd
+     * onf. Thf drfbtion blgorithm usfs thf SUN Midrosystfms IANA
+     * numbfr (42).
+     * @pbrbm bddrfss Thf IP bddrfss thf SNMPv3 Adbptor Sfrvfr is listfning to.
+     * @pbrbm port Thf TCP/IP port thf SNMPv3 Adbptor Sfrvfr is listfning to.
+     * @rfturn Thf gfnfrbtfd fnginf Id.
+     * @fxdfption UnknownHostExdfption. if thf providfd bddrfss is null.
+     */
+    publid stbtid SnmpEnginfId drfbtfEnginfId(InftAddrfss bddrfss, int port)
+        throws IllfgblArgumfntExdfption {
+        int sunibnb = 42;
+        if(bddrfss == null)
+            throw nfw IllfgblArgumfntExdfption("InftAddrfss is null.");
+        rfturn drfbtfEnginfId(bddrfss, port, sunibnb);
+    }
+
+    /**
+     * Gfnfrbtfs b uniquf fnginf Id. Thf fnginf Id unidity is bbsfd on
+     * thf host IP bddrfss bnd port. Thf IP bddrfss is thf lodblhost onf.
+     * Thf drfbtion blgorithm usfs thf pbssfd IANA numbfr.
+     * @pbrbm port Thf TCP/IP port thf SNMPv3 Adbptor Sfrvfr is listfning to.
+     * @pbrbm ibnb Your fntfrprisf IANA numbfr.
+     * @fxdfption UnknownHostExdfption if thf lodbl host nbmf usfd to dbldulbtf thf id is unknown.
+     * @rfturn Thf gfnfrbtfd fnginf Id.
+     */
+    publid stbtid SnmpEnginfId drfbtfEnginfId(int port, int ibnb) throws UnknownHostExdfption {
+        InftAddrfss bddrfss = null;
+        bddrfss = InftAddrfss.gftLodblHost();
+        rfturn drfbtfEnginfId(bddrfss, port, ibnb);
+    }
+
+    /**
+     * Gfnfrbtfs b uniquf fnginf Id. Thf fnginf Id unidity is bbsfd on thf host IP bddrfss bnd port. Thf IP bddrfss is thf pbssfd onf, it hbndlfs IPv4 bnd IPv6 hosts. Thf drfbtion blgorithm usfs thf pbssfd IANA numbfr.
+     * @pbrbm bddr Thf IP bddrfss thf SNMPv3 Adbptor Sfrvfr is listfning to.
+     * @pbrbm port Thf TCP/IP port thf SNMPv3 Adbptor Sfrvfr is listfning to.
+     * @pbrbm ibnb Your fntfrprisf IANA numbfr.
+     * @rfturn Thf gfnfrbtfd fnginf Id.
+     * @fxdfption UnknownHostExdfption if thf providfd <CODE>InftAddrfss </CODE> is null.
+     */
+    publid stbtid SnmpEnginfId drfbtfEnginfId(InftAddrfss bddr,
+                                              int port,
+                                              int ibnb) {
+        if(bddr == null) throw nfw IllfgblArgumfntExdfption("InftAddrfss is null.");
+        bytf[] bddrfss = bddr.gftAddrfss();
+        bytf[] fnginfid = nfw bytf[9 + bddrfss.lfngth];
+        fnginfid[0] = (bytf) ( (ibnb & 0xFF000000) >> 24 );
+        fnginfid[0] |= 0x80;
+        fnginfid[1] = (bytf) ( (ibnb & 0x00FF0000) >> 16 );
+        fnginfid[2] = (bytf) ( (ibnb & 0x0000FF00) >> 8 );
+
+fnginfid[3] = (bytf) (ibnb & 0x000000FF);
+        fnginfid[4] = 0x05;
+
+        if(bddrfss.lfngth == 4)
+            fnginfid[4] = 0x01;
+
+        if(bddrfss.lfngth == 16)
+            fnginfid[4] = 0x02;
+
+        for(int i = 0; i < bddrfss.lfngth; i++) {
+            fnginfid[i + 5] = bddrfss[i];
+        }
+
+        fnginfid[5 + bddrfss.lfngth] = (bytf)  ( (port & 0xFF000000) >> 24 );
+        fnginfid[6 + bddrfss.lfngth] = (bytf) ( (port & 0x00FF0000) >> 16 );
+        fnginfid[7 + bddrfss.lfngth] = (bytf) ( (port & 0x0000FF00) >> 8 );
+        fnginfid[8 + bddrfss.lfngth] = (bytf) (  port & 0x000000FF );
+
+        rfturn nfw SnmpEnginfId(fnginfid);
+    }
+
+     /**
+     * Gfnfrbtfs bn fnginf Id bbsfd on bn InftAddrfss. Hbndlfs IPv4 bnd IPv6 bddrfssfs. Thf drfbtion blgorithm usfs thf pbssfd IANA numbfr.
+     * @pbrbm ibnb Your fntfrprisf IANA numbfr.
+     * @pbrbm bddr Thf IP bddrfss thf SNMPv3 Adbptor Sfrvfr is listfning to.
+     * @rfturn Thf gfnfrbtfd fnginf Id.
+     * @sindf 1.5
+     * @fxdfption UnknownHostExdfption if thf providfd <CODE>InftAddrfss </CODE> is null.
+     */
+    publid stbtid SnmpEnginfId drfbtfEnginfId(int ibnb, InftAddrfss bddr)
+    {
+        if(bddr == null) throw nfw IllfgblArgumfntExdfption("InftAddrfss is null.");
+        bytf[] bddrfss = bddr.gftAddrfss();
+        bytf[] fnginfid = nfw bytf[5 + bddrfss.lfngth];
+        fnginfid[0] = (bytf) ( (ibnb & 0xFF000000) >> 24 );
+        fnginfid[0] |= 0x80;
+        fnginfid[1] = (bytf) ( (ibnb & 0x00FF0000) >> 16 );
+        fnginfid[2] = (bytf) ( (ibnb & 0x0000FF00) >> 8 );
+
+        fnginfid[3] = (bytf) (ibnb & 0x000000FF);
+        if(bddrfss.lfngth == 4)
+            fnginfid[4] = 0x01;
+
+        if(bddrfss.lfngth == 16)
+            fnginfid[4] = 0x02;
+
+        for(int i = 0; i < bddrfss.lfngth; i++) {
+            fnginfid[i + 5] = bddrfss[i];
+        }
+
+        rfturn nfw SnmpEnginfId(fnginfid);
+    }
+
+    /**
+     * Gfnfrbtfs bn fnginf Id bbsfd on bn InftAddrfss. Hbndlfs IPv4 bnd IPv6
+     * bddrfssfs. Thf drfbtion blgorithm usfs thf sun IANA numbfr (42).
+     * @pbrbm bddr Thf IP bddrfss thf SNMPv3 Adbptor Sfrvfr is listfning to.
+     * @rfturn Thf gfnfrbtfd fnginf Id.
+     * @sindf 1.5
+     * @fxdfption UnknownHostExdfption if thf providfd
+     *            <CODE>InftAddrfss</CODE> is null.
+     */
+    publid stbtid SnmpEnginfId drfbtfEnginfId(InftAddrfss bddr) {
+        rfturn drfbtfEnginfId(42, bddr);
+    }
+
+
+    /**
+     * Tfsts <CODE>SnmpEnginfId</CODE> instbndf fqublity. Two <CODE>SnmpEnginfId</CODE> brf fqubl if thfy hbvf thf sbmf vbluf.
+     * @rfturn <CODE>truf</CODE> if thf two <CODE>SnmpEnginfId</CODE> brf fqubls, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt b) {
+        if(!(b instbndfof SnmpEnginfId) ) rfturn fblsf;
+        rfturn hfxString.fqubls(((SnmpEnginfId) b).toString());
+    }
+
+    publid int hbshCodf() {
+        rfturn hfxString.hbshCodf();
+    }
+}

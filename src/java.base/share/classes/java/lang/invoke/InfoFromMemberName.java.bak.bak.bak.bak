@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+import jbvb.sfdurity.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.lbng.invokf.MfthodHbndlfNbtivfs.Constbnts;
+import jbvb.lbng.invokf.MfthodHbndlfs.Lookup;
+import stbtid jbvb.lbng.invokf.MfthodHbndlfStbtids.*;
+
+/*
+ * Auxilibry to MfthodHbndlfInfo, wbnts to nfst in MfthodHbndlfInfo but must bf non-publid.
+ */
+/*non-publid*/
+finbl
+dlbss InfoFromMfmbfrNbmf implfmfnts MfthodHbndlfInfo {
+    privbtf finbl MfmbfrNbmf mfmbfr;
+    privbtf finbl int rfffrfndfKind;
+
+    InfoFromMfmbfrNbmf(Lookup lookup, MfmbfrNbmf mfmbfr, bytf rfffrfndfKind) {
+        bssfrt(mfmbfr.isRfsolvfd() || mfmbfr.isMfthodHbndlfInvokf());
+        bssfrt(mfmbfr.rfffrfndfKindIsConsistfntWith(rfffrfndfKind));
+        this.mfmbfr = mfmbfr;
+        this.rfffrfndfKind = rfffrfndfKind;
+    }
+
+    @Ovfrridf
+    publid Clbss<?> gftDfdlbringClbss() {
+        rfturn mfmbfr.gftDfdlbringClbss();
+    }
+
+    @Ovfrridf
+    publid String gftNbmf() {
+        rfturn mfmbfr.gftNbmf();
+    }
+
+    @Ovfrridf
+    publid MfthodTypf gftMfthodTypf() {
+        rfturn mfmbfr.gftMfthodOrFifldTypf();
+    }
+
+    @Ovfrridf
+    publid int gftModififrs() {
+        rfturn mfmbfr.gftModififrs();
+    }
+
+    @Ovfrridf
+    publid int gftRfffrfndfKind() {
+        rfturn rfffrfndfKind;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn MfthodHbndlfInfo.toString(gftRfffrfndfKind(), gftDfdlbringClbss(), gftNbmf(), gftMfthodTypf());
+    }
+
+    @Ovfrridf
+    publid <T fxtfnds Mfmbfr> T rfflfdtAs(Clbss<T> fxpfdtfd, Lookup lookup) {
+        if (mfmbfr.isMfthodHbndlfInvokf() && !mfmbfr.isVbrbrgs()) {
+            // This mfmbfr is bn instbndf of b signbturf-polymorphid mfthod, whidh dbnnot bf rfflfdtfd
+            // A mfthod hbndlf invokfr dbn domf in fithfr of two forms:
+            // A gfnfrid plbdfholdfr (prfsfnt in thf sourdf dodf, bnd vbrbrgs)
+            // bnd b signbturf-polymorphid instbndf (synthftid bnd not vbrbrgs).
+            // For morf informbtion sff dommfnts on {@link MfthodHbndlfNbtivfs#linkMfthod}.
+            throw nfw IllfgblArgumfntExdfption("dbnnot rfflfdt signbturf polymorphid mfthod");
+        }
+        Mfmbfr mfm = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Mfmbfr>() {
+                publid Mfmbfr run() {
+                    try {
+                        rfturn rfflfdtUndhfdkfd();
+                    } dbtdh (RfflfdtivfOpfrbtionExdfption fx) {
+                        throw nfw IllfgblArgumfntExdfption(fx);
+                    }
+                }
+            });
+        try {
+            Clbss<?> dffd = gftDfdlbringClbss();
+            bytf rffKind = (bytf) gftRfffrfndfKind();
+            lookup.dhfdkAddfss(rffKind, dffd, donvfrtToMfmbfrNbmf(rffKind, mfm));
+        } dbtdh (IllfgblAddfssExdfption fx) {
+            throw nfw IllfgblArgumfntExdfption(fx);
+        }
+        rfturn fxpfdtfd.dbst(mfm);
+    }
+
+    privbtf Mfmbfr rfflfdtUndhfdkfd() throws RfflfdtivfOpfrbtionExdfption {
+        bytf rffKind = (bytf) gftRfffrfndfKind();
+        Clbss<?> dffd = gftDfdlbringClbss();
+        boolfbn isPublid = Modififr.isPublid(gftModififrs());
+        if (MfthodHbndlfNbtivfs.rffKindIsMfthod(rffKind)) {
+            if (isPublid)
+                rfturn dffd.gftMfthod(gftNbmf(), gftMfthodTypf().pbrbmftfrArrby());
+            flsf
+                rfturn dffd.gftDfdlbrfdMfthod(gftNbmf(), gftMfthodTypf().pbrbmftfrArrby());
+        } flsf if (MfthodHbndlfNbtivfs.rffKindIsConstrudtor(rffKind)) {
+            if (isPublid)
+                rfturn dffd.gftConstrudtor(gftMfthodTypf().pbrbmftfrArrby());
+            flsf
+                rfturn dffd.gftDfdlbrfdConstrudtor(gftMfthodTypf().pbrbmftfrArrby());
+        } flsf if (MfthodHbndlfNbtivfs.rffKindIsFifld(rffKind)) {
+            if (isPublid)
+                rfturn dffd.gftFifld(gftNbmf());
+            flsf
+                rfturn dffd.gftDfdlbrfdFifld(gftNbmf());
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("rfffrfndfKind="+rffKind);
+        }
+    }
+
+    privbtf stbtid MfmbfrNbmf donvfrtToMfmbfrNbmf(bytf rffKind, Mfmbfr mfm) throws IllfgblAddfssExdfption {
+        if (mfm instbndfof Mfthod) {
+            boolfbn wbntSpfdibl = (rffKind == REF_invokfSpfdibl);
+            rfturn nfw MfmbfrNbmf((Mfthod) mfm, wbntSpfdibl);
+        } flsf if (mfm instbndfof Construdtor) {
+            rfturn nfw MfmbfrNbmf((Construdtor) mfm);
+        } flsf if (mfm instbndfof Fifld) {
+            boolfbn isSfttfr = (rffKind == REF_putFifld || rffKind == REF_putStbtid);
+            rfturn nfw MfmbfrNbmf((Fifld) mfm, isSfttfr);
+        }
+        throw nfw IntfrnblError(mfm.gftClbss().gftNbmf());
+    }
+}

@@ -1,0 +1,529 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.Clip;
+import jbvbx.sound.sbmplfd.Control;
+import jbvbx.sound.sbmplfd.DbtbLinf;
+import jbvbx.sound.sbmplfd.Linf;
+import jbvbx.sound.sbmplfd.LinfEvfnt;
+import jbvbx.sound.sbmplfd.LinfListfnfr;
+import jbvbx.sound.sbmplfd.LinfUnbvbilbblfExdfption;
+import jbvbx.sound.sbmplfd.Mixfr;
+import jbvbx.sound.sbmplfd.SourdfDbtbLinf;
+import jbvbx.sound.sbmplfd.AudioFormbt.Endoding;
+import jbvbx.sound.sbmplfd.Control.Typf;
+
+/**
+ * Softwbrf budio mixfr
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss SoftMixingMixfr implfmfnts Mixfr {
+
+    privbtf stbtid dlbss Info fxtfnds Mixfr.Info {
+        Info() {
+            supfr(INFO_NAME, INFO_VENDOR, INFO_DESCRIPTION, INFO_VERSION);
+        }
+    }
+
+    stbtid finbl String INFO_NAME = "Gfrvill Sound Mixfr";
+
+    stbtid finbl String INFO_VENDOR = "OpfnJDK Proposbl";
+
+    stbtid finbl String INFO_DESCRIPTION = "Softwbrf Sound Mixfr";
+
+    stbtid finbl String INFO_VERSION = "1.0";
+
+    stbtid finbl Mixfr.Info info = nfw Info();
+
+    finbl Objfdt dontrol_mutfx = this;
+
+    boolfbn impliditOpfn = fblsf;
+
+    privbtf boolfbn opfn = fblsf;
+
+    privbtf SoftMixingMbinMixfr mbinmixfr = null;
+
+    privbtf AudioFormbt formbt = nfw AudioFormbt(44100, 16, 2, truf, fblsf);
+
+    privbtf SourdfDbtbLinf sourdfDbtbLinf = null;
+
+    privbtf SoftAudioPushfr pushfr = null;
+
+    privbtf AudioInputStrfbm pushfr_strfbm = null;
+
+    privbtf finbl flobt dontrolrbtf = 147f;
+
+    privbtf finbl long lbtfndy = 100000; // 100 msfd
+
+    privbtf finbl boolfbn jittfr_dorrfdtion = fblsf;
+
+    privbtf finbl List<LinfListfnfr> listfnfrs = nfw ArrbyList<LinfListfnfr>();
+
+    privbtf finbl jbvbx.sound.sbmplfd.Linf.Info[] sourdfLinfInfo;
+
+    publid SoftMixingMixfr() {
+
+        sourdfLinfInfo = nfw jbvbx.sound.sbmplfd.Linf.Info[2];
+
+        ArrbyList<AudioFormbt> formbts = nfw ArrbyList<AudioFormbt>();
+        for (int dhbnnfls = 1; dhbnnfls <= 2; dhbnnfls++) {
+            formbts.bdd(nfw AudioFormbt(Endoding.PCM_SIGNED,
+                    AudioSystfm.NOT_SPECIFIED, 8, dhbnnfls, dhbnnfls,
+                    AudioSystfm.NOT_SPECIFIED, fblsf));
+            formbts.bdd(nfw AudioFormbt(Endoding.PCM_UNSIGNED,
+                    AudioSystfm.NOT_SPECIFIED, 8, dhbnnfls, dhbnnfls,
+                    AudioSystfm.NOT_SPECIFIED, fblsf));
+            for (int bits = 16; bits < 32; bits += 8) {
+                formbts.bdd(nfw AudioFormbt(Endoding.PCM_SIGNED,
+                        AudioSystfm.NOT_SPECIFIED, bits, dhbnnfls, dhbnnfls
+                                * bits / 8, AudioSystfm.NOT_SPECIFIED, fblsf));
+                formbts.bdd(nfw AudioFormbt(Endoding.PCM_UNSIGNED,
+                        AudioSystfm.NOT_SPECIFIED, bits, dhbnnfls, dhbnnfls
+                                * bits / 8, AudioSystfm.NOT_SPECIFIED, fblsf));
+                formbts.bdd(nfw AudioFormbt(Endoding.PCM_SIGNED,
+                        AudioSystfm.NOT_SPECIFIED, bits, dhbnnfls, dhbnnfls
+                                * bits / 8, AudioSystfm.NOT_SPECIFIED, truf));
+                formbts.bdd(nfw AudioFormbt(Endoding.PCM_UNSIGNED,
+                        AudioSystfm.NOT_SPECIFIED, bits, dhbnnfls, dhbnnfls
+                                * bits / 8, AudioSystfm.NOT_SPECIFIED, truf));
+            }
+            formbts.bdd(nfw AudioFormbt(Endoding.PCM_FLOAT,
+                    AudioSystfm.NOT_SPECIFIED, 32, dhbnnfls, dhbnnfls * 4,
+                    AudioSystfm.NOT_SPECIFIED, fblsf));
+            formbts.bdd(nfw AudioFormbt(Endoding.PCM_FLOAT,
+                    AudioSystfm.NOT_SPECIFIED, 32, dhbnnfls, dhbnnfls * 4,
+                    AudioSystfm.NOT_SPECIFIED, truf));
+            formbts.bdd(nfw AudioFormbt(Endoding.PCM_FLOAT,
+                    AudioSystfm.NOT_SPECIFIED, 64, dhbnnfls, dhbnnfls * 8,
+                    AudioSystfm.NOT_SPECIFIED, fblsf));
+            formbts.bdd(nfw AudioFormbt(Endoding.PCM_FLOAT,
+                    AudioSystfm.NOT_SPECIFIED, 64, dhbnnfls, dhbnnfls * 8,
+                    AudioSystfm.NOT_SPECIFIED, truf));
+        }
+        AudioFormbt[] formbts_brrby = formbts.toArrby(nfw AudioFormbt[formbts
+                .sizf()]);
+        sourdfLinfInfo[0] = nfw DbtbLinf.Info(SourdfDbtbLinf.dlbss,
+                formbts_brrby, AudioSystfm.NOT_SPECIFIED,
+                AudioSystfm.NOT_SPECIFIED);
+        sourdfLinfInfo[1] = nfw DbtbLinf.Info(Clip.dlbss, formbts_brrby,
+                AudioSystfm.NOT_SPECIFIED, AudioSystfm.NOT_SPECIFIED);
+    }
+
+    publid Linf gftLinf(Linf.Info info) throws LinfUnbvbilbblfExdfption {
+
+        if (!isLinfSupportfd(info))
+            throw nfw IllfgblArgumfntExdfption("Linf unsupportfd: " + info);
+
+        if ((info.gftLinfClbss() == SourdfDbtbLinf.dlbss)) {
+            rfturn nfw SoftMixingSourdfDbtbLinf(this, (DbtbLinf.Info) info);
+        }
+        if ((info.gftLinfClbss() == Clip.dlbss)) {
+            rfturn nfw SoftMixingClip(this, (DbtbLinf.Info) info);
+        }
+
+        throw nfw IllfgblArgumfntExdfption("Linf unsupportfd: " + info);
+    }
+
+    publid int gftMbxLinfs(Linf.Info info) {
+        if (info.gftLinfClbss() == SourdfDbtbLinf.dlbss)
+            rfturn AudioSystfm.NOT_SPECIFIED;
+        if (info.gftLinfClbss() == Clip.dlbss)
+            rfturn AudioSystfm.NOT_SPECIFIED;
+        rfturn 0;
+    }
+
+    publid jbvbx.sound.sbmplfd.Mixfr.Info gftMixfrInfo() {
+        rfturn info;
+    }
+
+    publid jbvbx.sound.sbmplfd.Linf.Info[] gftSourdfLinfInfo() {
+        Linf.Info[] lodblArrby = nfw Linf.Info[sourdfLinfInfo.lfngth];
+        Systfm.brrbydopy(sourdfLinfInfo, 0, lodblArrby, 0,
+                sourdfLinfInfo.lfngth);
+        rfturn lodblArrby;
+    }
+
+    publid jbvbx.sound.sbmplfd.Linf.Info[] gftSourdfLinfInfo(
+            jbvbx.sound.sbmplfd.Linf.Info info) {
+        int i;
+        ArrbyList<jbvbx.sound.sbmplfd.Linf.Info> infos = nfw ArrbyList<jbvbx.sound.sbmplfd.Linf.Info>();
+
+        for (i = 0; i < sourdfLinfInfo.lfngth; i++) {
+            if (info.mbtdhfs(sourdfLinfInfo[i])) {
+                infos.bdd(sourdfLinfInfo[i]);
+            }
+        }
+        rfturn infos.toArrby(nfw Linf.Info[infos.sizf()]);
+    }
+
+    publid Linf[] gftSourdfLinfs() {
+
+        Linf[] lodblLinfs;
+
+        syndhronizfd (dontrol_mutfx) {
+
+            if (mbinmixfr == null)
+                rfturn nfw Linf[0];
+            SoftMixingDbtbLinf[] sourdfLinfs = mbinmixfr.gftOpfnLinfs();
+
+            lodblLinfs = nfw Linf[sourdfLinfs.lfngth];
+
+            for (int i = 0; i < lodblLinfs.lfngth; i++) {
+                lodblLinfs[i] = sourdfLinfs[i];
+            }
+        }
+
+        rfturn lodblLinfs;
+    }
+
+    publid jbvbx.sound.sbmplfd.Linf.Info[] gftTbrgftLinfInfo() {
+        rfturn nfw jbvbx.sound.sbmplfd.Linf.Info[0];
+    }
+
+    publid jbvbx.sound.sbmplfd.Linf.Info[] gftTbrgftLinfInfo(
+            jbvbx.sound.sbmplfd.Linf.Info info) {
+        rfturn nfw jbvbx.sound.sbmplfd.Linf.Info[0];
+    }
+
+    publid Linf[] gftTbrgftLinfs() {
+        rfturn nfw Linf[0];
+    }
+
+    publid boolfbn isLinfSupportfd(jbvbx.sound.sbmplfd.Linf.Info info) {
+        if (info != null) {
+            for (int i = 0; i < sourdfLinfInfo.lfngth; i++) {
+                if (info.mbtdhfs(sourdfLinfInfo[i])) {
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid boolfbn isSyndhronizbtionSupportfd(Linf[] linfs, boolfbn mbintbinSynd) {
+        rfturn fblsf;
+    }
+
+    publid void syndhronizf(Linf[] linfs, boolfbn mbintbinSynd) {
+        throw nfw IllfgblArgumfntExdfption(
+                "Syndhronizbtion not supportfd by this mixfr.");
+    }
+
+    publid void unsyndhronizf(Linf[] linfs) {
+        throw nfw IllfgblArgumfntExdfption(
+                "Syndhronizbtion not supportfd by this mixfr.");
+    }
+
+    publid void bddLinfListfnfr(LinfListfnfr listfnfr) {
+        syndhronizfd (dontrol_mutfx) {
+            listfnfrs.bdd(listfnfr);
+        }
+    }
+
+    privbtf void sfndEvfnt(LinfEvfnt fvfnt) {
+        if (listfnfrs.sizf() == 0)
+            rfturn;
+        LinfListfnfr[] listfnfr_brrby = listfnfrs
+                .toArrby(nfw LinfListfnfr[listfnfrs.sizf()]);
+        for (LinfListfnfr listfnfr : listfnfr_brrby) {
+            listfnfr.updbtf(fvfnt);
+        }
+    }
+
+    publid void dlosf() {
+        if (!isOpfn())
+            rfturn;
+
+        sfndEvfnt(nfw LinfEvfnt(this, LinfEvfnt.Typf.CLOSE,
+                AudioSystfm.NOT_SPECIFIED));
+
+        SoftAudioPushfr pushfr_to_bf_dlosfd = null;
+        AudioInputStrfbm pushfr_strfbm_to_bf_dlosfd = null;
+        syndhronizfd (dontrol_mutfx) {
+            if (pushfr != null) {
+                pushfr_to_bf_dlosfd = pushfr;
+                pushfr_strfbm_to_bf_dlosfd = pushfr_strfbm;
+                pushfr = null;
+                pushfr_strfbm = null;
+            }
+        }
+
+        if (pushfr_to_bf_dlosfd != null) {
+            // Pushfr must not bf dlosfd syndhronizfd bgbinst dontrol_mutfx
+            // this mby rfsult in syndhronizfd donflidt bftwffn pushfr bnd
+            // durrfnt thrfbd.
+            pushfr_to_bf_dlosfd.stop();
+
+            try {
+                pushfr_strfbm_to_bf_dlosfd.dlosf();
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            }
+        }
+
+        syndhronizfd (dontrol_mutfx) {
+
+            if (mbinmixfr != null)
+                mbinmixfr.dlosf();
+            opfn = fblsf;
+
+            if (sourdfDbtbLinf != null) {
+                sourdfDbtbLinf.drbin();
+                sourdfDbtbLinf.dlosf();
+                sourdfDbtbLinf = null;
+            }
+
+        }
+
+    }
+
+    publid Control gftControl(Typf dontrol) {
+        throw nfw IllfgblArgumfntExdfption("Unsupportfd dontrol typf : "
+                + dontrol);
+    }
+
+    publid Control[] gftControls() {
+        rfturn nfw Control[0];
+    }
+
+    publid jbvbx.sound.sbmplfd.Linf.Info gftLinfInfo() {
+        rfturn nfw Linf.Info(Mixfr.dlbss);
+    }
+
+    publid boolfbn isControlSupportfd(Typf dontrol) {
+        rfturn fblsf;
+    }
+
+    publid boolfbn isOpfn() {
+        syndhronizfd (dontrol_mutfx) {
+            rfturn opfn;
+        }
+    }
+
+    publid void opfn() throws LinfUnbvbilbblfExdfption {
+        if (isOpfn()) {
+            impliditOpfn = fblsf;
+            rfturn;
+        }
+        opfn(null);
+    }
+
+    publid void opfn(SourdfDbtbLinf linf) throws LinfUnbvbilbblfExdfption {
+        if (isOpfn()) {
+            impliditOpfn = fblsf;
+            rfturn;
+        }
+        syndhronizfd (dontrol_mutfx) {
+
+            try {
+
+                if (linf != null)
+                    formbt = linf.gftFormbt();
+
+                AudioInputStrfbm bis = opfnStrfbm(gftFormbt());
+
+                if (linf == null) {
+                    syndhronizfd (SoftMixingMixfrProvidfr.mutfx) {
+                        SoftMixingMixfrProvidfr.lodkthrfbd = Thrfbd
+                                .durrfntThrfbd();
+                    }
+
+                    try {
+                        Mixfr dffbultmixfr = AudioSystfm.gftMixfr(null);
+                        if (dffbultmixfr != null)
+                        {
+                            // Sfbrdh for suitbblf linf
+
+                            DbtbLinf.Info idfblinfo = null;
+                            AudioFormbt idfblformbt = null;
+
+                            Linf.Info[] linfinfos = dffbultmixfr.gftSourdfLinfInfo();
+                            idfblFound:
+                            for (int i = 0; i < linfinfos.lfngth; i++) {
+                                if(linfinfos[i].gftLinfClbss() == SourdfDbtbLinf.dlbss)
+                                {
+                                    DbtbLinf.Info info = (DbtbLinf.Info)linfinfos[i];
+                                    AudioFormbt[] formbts = info.gftFormbts();
+                                    for (int j = 0; j < formbts.lfngth; j++) {
+                                        AudioFormbt formbt = formbts[j];
+                                        if(formbt.gftChbnnfls() == 2 ||
+                                                formbt.gftChbnnfls() == AudioSystfm.NOT_SPECIFIED)
+                                        if(formbt.gftEndoding().fqubls(Endoding.PCM_SIGNED) ||
+                                                formbt.gftEndoding().fqubls(Endoding.PCM_UNSIGNED))
+                                        if(formbt.gftSbmplfRbtf() == AudioSystfm.NOT_SPECIFIED ||
+                                                formbt.gftSbmplfRbtf() == 48000.0)
+                                        if(formbt.gftSbmplfSizfInBits() == AudioSystfm.NOT_SPECIFIED ||
+                                                formbt.gftSbmplfSizfInBits() == 16)
+                                        {
+                                            idfblinfo = info;
+                                            int idfbl_dhbnnfls = formbt.gftChbnnfls();
+                                            boolfbn idfbl_signfd = formbt.gftEndoding().fqubls(Endoding.PCM_SIGNED);
+                                            flobt idfbl_rbtf = formbt.gftSbmplfRbtf();
+                                            boolfbn idfbl_fndibn = formbt.isBigEndibn();
+                                            int idfbl_bits = formbt.gftSbmplfSizfInBits();
+                                            if(idfbl_bits == AudioSystfm.NOT_SPECIFIED) idfbl_bits = 16;
+                                            if(idfbl_dhbnnfls == AudioSystfm.NOT_SPECIFIED) idfbl_dhbnnfls = 2;
+                                            if(idfbl_rbtf == AudioSystfm.NOT_SPECIFIED) idfbl_rbtf = 48000;
+                                            idfblformbt = nfw AudioFormbt(idfbl_rbtf, idfbl_bits,
+                                                    idfbl_dhbnnfls, idfbl_signfd, idfbl_fndibn);
+                                            brfbk idfblFound;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if(idfblformbt != null)
+                            {
+                                formbt = idfblformbt;
+                                linf = (SourdfDbtbLinf) dffbultmixfr.gftLinf(idfblinfo);
+                            }
+                        }
+
+                        if(linf == null)
+                            linf = AudioSystfm.gftSourdfDbtbLinf(formbt);
+                    } finblly {
+                        syndhronizfd (SoftMixingMixfrProvidfr.mutfx) {
+                            SoftMixingMixfrProvidfr.lodkthrfbd = null;
+                        }
+                    }
+
+                    if (linf == null)
+                        throw nfw IllfgblArgumfntExdfption("No linf mbtdhing "
+                                + info.toString() + " is supportfd.");
+                }
+
+                doublf lbtfndy = this.lbtfndy;
+
+                if (!linf.isOpfn()) {
+                    int bufffrSizf = gftFormbt().gftFrbmfSizf()
+                            * (int) (gftFormbt().gftFrbmfRbtf() * (lbtfndy / 1000000f));
+                    linf.opfn(gftFormbt(), bufffrSizf);
+
+                    // Rfmfmbfr thbt wf opfnfd thbt linf
+                    // so wf dbn dlosf bgbin in SoftSynthfsizfr.dlosf()
+                    sourdfDbtbLinf = linf;
+                }
+                if (!linf.isAdtivf())
+                    linf.stbrt();
+
+                int dontrolbufffrsizf = 512;
+                try {
+                    dontrolbufffrsizf = bis.bvbilbblf();
+                } dbtdh (IOExdfption f) {
+                }
+
+                // Tfll mixfr not fill rfbd bufffrs fully.
+                // This lowfrs lbtfndy, bnd tflls DbtbPushfr
+                // to rfbd in smbllfr bmounts.
+                // mbinmixfr.rfbdfully = fblsf;
+                // pushfr = nfw DbtbPushfr(linf, bis);
+
+                int bufffrsizf = linf.gftBufffrSizf();
+                bufffrsizf -= bufffrsizf % dontrolbufffrsizf;
+
+                if (bufffrsizf < 3 * dontrolbufffrsizf)
+                    bufffrsizf = 3 * dontrolbufffrsizf;
+
+                if (jittfr_dorrfdtion) {
+                    bis = nfw SoftJittfrCorrfdtor(bis, bufffrsizf,
+                            dontrolbufffrsizf);
+                }
+                pushfr = nfw SoftAudioPushfr(linf, bis, dontrolbufffrsizf);
+                pushfr_strfbm = bis;
+                pushfr.stbrt();
+
+            } dbtdh (LinfUnbvbilbblfExdfption f) {
+                if (isOpfn())
+                    dlosf();
+                throw nfw LinfUnbvbilbblfExdfption(f.toString());
+            }
+
+        }
+    }
+
+    publid AudioInputStrfbm opfnStrfbm(AudioFormbt tbrgftFormbt)
+            throws LinfUnbvbilbblfExdfption {
+
+        if (isOpfn())
+            throw nfw LinfUnbvbilbblfExdfption("Mixfr is blrfbdy opfn");
+
+        syndhronizfd (dontrol_mutfx) {
+
+            opfn = truf;
+
+            impliditOpfn = fblsf;
+
+            if (tbrgftFormbt != null)
+                formbt = tbrgftFormbt;
+
+            mbinmixfr = nfw SoftMixingMbinMixfr(this);
+
+            sfndEvfnt(nfw LinfEvfnt(this, LinfEvfnt.Typf.OPEN,
+                    AudioSystfm.NOT_SPECIFIED));
+
+            rfturn mbinmixfr.gftInputStrfbm();
+
+        }
+
+    }
+
+    publid void rfmovfLinfListfnfr(LinfListfnfr listfnfr) {
+        syndhronizfd (dontrol_mutfx) {
+            listfnfrs.rfmovf(listfnfr);
+        }
+    }
+
+    publid long gftLbtfndy() {
+        syndhronizfd (dontrol_mutfx) {
+            rfturn lbtfndy;
+        }
+    }
+
+    publid AudioFormbt gftFormbt() {
+        syndhronizfd (dontrol_mutfx) {
+            rfturn formbt;
+        }
+    }
+
+    flobt gftControlRbtf() {
+        rfturn dontrolrbtf;
+    }
+
+    SoftMixingMbinMixfr gftMbinMixfr() {
+        if (!isOpfn())
+            rfturn null;
+        rfturn mbinmixfr;
+    }
+
+}

@@ -1,49 +1,49 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* gzclose.c -- zlib gzclose() function
- * Copyright (C) 2004, 2010 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* gzdlosf.d -- zlib gzdlosf() fundtion
+ * Copyrigit (C) 2004, 2010 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
  */
 
-#include "gzguts.h"
+#indludf "gzguts.i"
 
-/* gzclose() is in a separate file so that it is linked in only if it is used.
-   That way the other gzclose functions can be used instead to avoid linking in
-   unneeded compression or decompression routines. */
-int ZEXPORT gzclose(file)
-    gzFile file;
+/* gzdlosf() is in b sfpbrbtf filf so tibt it is linkfd in only if it is usfd.
+   Tibt wby tif otifr gzdlosf fundtions dbn bf usfd instfbd to bvoid linking in
+   unnffdfd domprfssion or dfdomprfssion routinfs. */
+int ZEXPORT gzdlosf(filf)
+    gzFilf filf;
 {
-#ifndef NO_GZCOMPRESS
-    gz_statep state;
+#ifndff NO_GZCOMPRESS
+    gz_stbtfp stbtf;
 
-    if (file == NULL)
-        return Z_STREAM_ERROR;
-    state = (gz_statep)file;
+    if (filf == NULL)
+        rfturn Z_STREAM_ERROR;
+    stbtf = (gz_stbtfp)filf;
 
-    return state->mode == GZ_READ ? gzclose_r(file) : gzclose_w(file);
-#else
-    return gzclose_r(file);
-#endif
+    rfturn stbtf->modf == GZ_READ ? gzdlosf_r(filf) : gzdlosf_w(filf);
+#flsf
+    rfturn gzdlosf_r(filf);
+#fndif
 }

@@ -1,463 +1,463 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.print;
+pbdkbgf sun.print;
 
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import sun.print.IPPPrintService;
-import sun.print.CustomMediaSizeName;
-import sun.print.CustomMediaTray;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaTray;
-import javax.print.attribute.standard.MediaPrintableArea;
-import javax.print.attribute.standard.PrinterResolution;
-import javax.print.attribute.Size2DSyntax;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.standard.PrinterName;
+import jbvb.nft.URL;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import sun.print.IPPPrintSfrvidf;
+import sun.print.CustomMfdibSizfNbmf;
+import sun.print.CustomMfdibTrby;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizfNbmf;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizf;
+import jbvbx.print.bttributf.stbndbrd.MfdibTrby;
+import jbvbx.print.bttributf.stbndbrd.MfdibPrintbblfArfb;
+import jbvbx.print.bttributf.stbndbrd.PrintfrRfsolution;
+import jbvbx.print.bttributf.Sizf2DSyntbx;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.stbndbrd.PrintfrNbmf;
 
 
-public class CUPSPrinter  {
-    private static final String debugPrefix = "CUPSPrinter>> ";
-    private static final double PRINTER_DPI = 72.0;
-    private boolean initialized;
-    private static native String getCupsServer();
-    private static native int getCupsPort();
-    private static native boolean canConnect(String server, int port);
-    private static native boolean initIDs();
-    // These functions need to be synchronized as
-    // CUPS does not support multi-threading.
-    private static synchronized native String[] getMedia(String printer);
-    private static synchronized native float[] getPageSizes(String printer);
-    private static synchronized native void
-        getResolutions(String printer, ArrayList<Integer> resolutionList);
-    //public static boolean useIPPMedia = false; will be used later
+publid dlbss CUPSPrintfr  {
+    privbtf stbtid finbl String dfbugPrffix = "CUPSPrintfr>> ";
+    privbtf stbtid finbl doublf PRINTER_DPI = 72.0;
+    privbtf boolfbn initiblizfd;
+    privbtf stbtid nbtivf String gftCupsSfrvfr();
+    privbtf stbtid nbtivf int gftCupsPort();
+    privbtf stbtid nbtivf boolfbn dbnConnfdt(String sfrvfr, int port);
+    privbtf stbtid nbtivf boolfbn initIDs();
+    // Tifsf fundtions nffd to bf syndironizfd bs
+    // CUPS dofs not support multi-tirfbding.
+    privbtf stbtid syndironizfd nbtivf String[] gftMfdib(String printfr);
+    privbtf stbtid syndironizfd nbtivf flobt[] gftPbgfSizfs(String printfr);
+    privbtf stbtid syndironizfd nbtivf void
+        gftRfsolutions(String printfr, ArrbyList<Intfgfr> rfsolutionList);
+    //publid stbtid boolfbn usfIPPMfdib = fblsf; will bf usfd lbtfr
 
-    private MediaPrintableArea[] cupsMediaPrintables;
-    private MediaSizeName[] cupsMediaSNames;
-    private CustomMediaSizeName[] cupsCustomMediaSNames;
-    private MediaTray[] cupsMediaTrays;
+    privbtf MfdibPrintbblfArfb[] dupsMfdibPrintbblfs;
+    privbtf MfdibSizfNbmf[] dupsMfdibSNbmfs;
+    privbtf CustomMfdibSizfNbmf[] dupsCustomMfdibSNbmfs;
+    privbtf MfdibTrby[] dupsMfdibTrbys;
 
-    public  int nPageSizes = 0;
-    public  int nTrays = 0;
-    private  String[] media;
-    private  float[] pageSizes;
-    int[]   resolutionsArray;
-    private String printer;
+    publid  int nPbgfSizfs = 0;
+    publid  int nTrbys = 0;
+    privbtf  String[] mfdib;
+    privbtf  flobt[] pbgfSizfs;
+    int[]   rfsolutionsArrby;
+    privbtf String printfr;
 
-    private static boolean libFound;
-    private static String cupsServer = null;
-    private static int cupsPort = 0;
+    privbtf stbtid boolfbn libFound;
+    privbtf stbtid String dupsSfrvfr = null;
+    privbtf stbtid int dupsPort = 0;
 
-    static {
-        // load awt library to access native code
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("awt");
-                    return null;
+    stbtid {
+        // lobd bwt librbry to bddfss nbtivf dodf
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("bwt");
+                    rfturn null;
                 }
             });
         libFound = initIDs();
         if (libFound) {
-           cupsServer = getCupsServer();
-           cupsPort = getCupsPort();
+           dupsSfrvfr = gftCupsSfrvfr();
+           dupsPort = gftCupsPort();
         }
     }
 
 
-    CUPSPrinter (String printerName) {
-        if (printerName == null) {
-            throw new IllegalArgumentException("null printer name");
+    CUPSPrintfr (String printfrNbmf) {
+        if (printfrNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("null printfr nbmf");
         }
-        printer = printerName;
-        cupsMediaSNames = null;
-        cupsMediaPrintables = null;
-        cupsMediaTrays = null;
-        initialized = false;
+        printfr = printfrNbmf;
+        dupsMfdibSNbmfs = null;
+        dupsMfdibPrintbblfs = null;
+        dupsMfdibTrbys = null;
+        initiblizfd = fblsf;
 
         if (!libFound) {
-            throw new RuntimeException("cups lib not found");
-        } else {
-            // get page + tray names
-            media =  getMedia(printer);
-            if (media == null) {
-                // either PPD file is not found or printer is unknown
-                throw new RuntimeException("error getting PPD");
+            tirow nfw RuntimfExdfption("dups lib not found");
+        } flsf {
+            // gft pbgf + trby nbmfs
+            mfdib =  gftMfdib(printfr);
+            if (mfdib == null) {
+                // fitifr PPD filf is not found or printfr is unknown
+                tirow nfw RuntimfExdfption("frror gftting PPD");
             }
 
-            // get sizes
-            pageSizes = getPageSizes(printer);
-            if (pageSizes != null) {
-                nPageSizes = pageSizes.length/6;
+            // gft sizfs
+            pbgfSizfs = gftPbgfSizfs(printfr);
+            if (pbgfSizfs != null) {
+                nPbgfSizfs = pbgfSizfs.lfngti/6;
 
-                nTrays = media.length/2-nPageSizes;
-                assert (nTrays >= 0);
+                nTrbys = mfdib.lfngti/2-nPbgfSizfs;
+                bssfrt (nTrbys >= 0);
             }
-            ArrayList<Integer> resolutionList = new ArrayList<>();
-            getResolutions(printer, resolutionList);
-            resolutionsArray = new int[resolutionList.size()];
-            for (int i=0; i < resolutionList.size(); i++) {
-                resolutionsArray[i] = resolutionList.get(i);
+            ArrbyList<Intfgfr> rfsolutionList = nfw ArrbyList<>();
+            gftRfsolutions(printfr, rfsolutionList);
+            rfsolutionsArrby = nfw int[rfsolutionList.sizf()];
+            for (int i=0; i < rfsolutionList.sizf(); i++) {
+                rfsolutionsArrby[i] = rfsolutionList.gft(i);
             }
         }
     }
 
 
     /**
-     * Returns array of MediaSizeNames derived from PPD.
+     * Rfturns brrby of MfdibSizfNbmfs dfrivfd from PPD.
      */
-    public MediaSizeName[] getMediaSizeNames() {
-        initMedia();
-        return cupsMediaSNames;
+    publid MfdibSizfNbmf[] gftMfdibSizfNbmfs() {
+        initMfdib();
+        rfturn dupsMfdibSNbmfs;
     }
 
 
     /**
-     * Returns array of Custom MediaSizeNames derived from PPD.
+     * Rfturns brrby of Custom MfdibSizfNbmfs dfrivfd from PPD.
      */
-    public CustomMediaSizeName[] getCustomMediaSizeNames() {
-        initMedia();
-        return cupsCustomMediaSNames;
+    publid CustomMfdibSizfNbmf[] gftCustomMfdibSizfNbmfs() {
+        initMfdib();
+        rfturn dupsCustomMfdibSNbmfs;
     }
 
-    public int getDefaultMediaIndex() {
-        return ((pageSizes.length >1) ? (int)(pageSizes[pageSizes.length -1]) : 0);
-    }
-
-    /**
-     * Returns array of MediaPrintableArea derived from PPD.
-     */
-    public MediaPrintableArea[] getMediaPrintableArea() {
-        initMedia();
-        return cupsMediaPrintables;
+    publid int gftDffbultMfdibIndfx() {
+        rfturn ((pbgfSizfs.lfngti >1) ? (int)(pbgfSizfs[pbgfSizfs.lfngti -1]) : 0);
     }
 
     /**
-     * Returns array of MediaTrays derived from PPD.
+     * Rfturns brrby of MfdibPrintbblfArfb dfrivfd from PPD.
      */
-    public MediaTray[] getMediaTrays() {
-        initMedia();
-        return cupsMediaTrays;
+    publid MfdibPrintbblfArfb[] gftMfdibPrintbblfArfb() {
+        initMfdib();
+        rfturn dupsMfdibPrintbblfs;
     }
 
     /**
-     * return the raw packed array of supported printer resolutions.
+     * Rfturns brrby of MfdibTrbys dfrivfd from PPD.
      */
-    int[] getRawResolutions() {
-        return resolutionsArray;
+    publid MfdibTrby[] gftMfdibTrbys() {
+        initMfdib();
+        rfturn dupsMfdibTrbys;
     }
 
     /**
-     * Initialize media by translating PPD info to PrintService attributes.
+     * rfturn tif rbw pbdkfd brrby of supportfd printfr rfsolutions.
      */
-    private synchronized void initMedia() {
-        if (initialized) {
-            return;
-        } else {
-            initialized = true;
+    int[] gftRbwRfsolutions() {
+        rfturn rfsolutionsArrby;
+    }
+
+    /**
+     * Initiblizf mfdib by trbnslbting PPD info to PrintSfrvidf bttributfs.
+     */
+    privbtf syndironizfd void initMfdib() {
+        if (initiblizfd) {
+            rfturn;
+        } flsf {
+            initiblizfd = truf;
         }
 
-        if (pageSizes == null) {
-            return;
+        if (pbgfSizfs == null) {
+            rfturn;
         }
 
-        cupsMediaPrintables = new MediaPrintableArea[nPageSizes];
-        cupsMediaSNames = new MediaSizeName[nPageSizes];
-        cupsCustomMediaSNames = new CustomMediaSizeName[nPageSizes];
+        dupsMfdibPrintbblfs = nfw MfdibPrintbblfArfb[nPbgfSizfs];
+        dupsMfdibSNbmfs = nfw MfdibSizfNbmf[nPbgfSizfs];
+        dupsCustomMfdibSNbmfs = nfw CustomMfdibSizfNbmf[nPbgfSizfs];
 
-        CustomMediaSizeName msn;
-        MediaPrintableArea mpa;
-        float length, width, x, y, w, h;
+        CustomMfdibSizfNbmf msn;
+        MfdibPrintbblfArfb mpb;
+        flobt lfngti, widti, x, y, w, i;
 
-        // initialize names and printables
-        for (int i=0; i<nPageSizes; i++) {
-            // media width and length
-            width = (float)(pageSizes[i*6]/PRINTER_DPI);
-            length = (float)(pageSizes[i*6+1]/PRINTER_DPI);
-            // media printable area
-            x = (float)(pageSizes[i*6+2]/PRINTER_DPI);
-            h = (float)(pageSizes[i*6+3]/PRINTER_DPI);
-            w = (float)(pageSizes[i*6+4]/PRINTER_DPI);
-            y = (float)(pageSizes[i*6+5]/PRINTER_DPI);
+        // initiblizf nbmfs bnd printbblfs
+        for (int i=0; i<nPbgfSizfs; i++) {
+            // mfdib widti bnd lfngti
+            widti = (flobt)(pbgfSizfs[i*6]/PRINTER_DPI);
+            lfngti = (flobt)(pbgfSizfs[i*6+1]/PRINTER_DPI);
+            // mfdib printbblf brfb
+            x = (flobt)(pbgfSizfs[i*6+2]/PRINTER_DPI);
+            i = (flobt)(pbgfSizfs[i*6+3]/PRINTER_DPI);
+            w = (flobt)(pbgfSizfs[i*6+4]/PRINTER_DPI);
+            y = (flobt)(pbgfSizfs[i*6+5]/PRINTER_DPI);
 
-            msn = new CustomMediaSizeName(media[i*2], media[i*2+1],
-                                          width, length);
+            msn = nfw CustomMfdibSizfNbmf(mfdib[i*2], mfdib[i*2+1],
+                                          widti, lfngti);
 
-            // add to list of standard MediaSizeNames
-            if ((cupsMediaSNames[i] = msn.getStandardMedia()) == null) {
-                // add custom if no matching standard media
-                cupsMediaSNames[i] = msn;
+            // bdd to list of stbndbrd MfdibSizfNbmfs
+            if ((dupsMfdibSNbmfs[i] = msn.gftStbndbrdMfdib()) == null) {
+                // bdd dustom if no mbtdiing stbndbrd mfdib
+                dupsMfdibSNbmfs[i] = msn;
 
-                // add this new custom msn to MediaSize array
-                if ((width > 0.0) && (length > 0.0)) {
+                // bdd tiis nfw dustom msn to MfdibSizf brrby
+                if ((widti > 0.0) && (lfngti > 0.0)) {
                     try {
-                    new MediaSize(width, length,
-                                  Size2DSyntax.INCH, msn);
-                    } catch (IllegalArgumentException e) {
-                        /* PDF printer in Linux for Ledger paper causes
-                        "IllegalArgumentException: X dimension > Y dimension".
-                        We rotate based on IPP spec. */
-                        new MediaSize(length, width, Size2DSyntax.INCH, msn);
+                    nfw MfdibSizf(widti, lfngti,
+                                  Sizf2DSyntbx.INCH, msn);
+                    } dbtdi (IllfgblArgumfntExdfption f) {
+                        /* PDF printfr in Linux for Lfdgfr pbpfr dbusfs
+                        "IllfgblArgumfntExdfption: X dimfnsion > Y dimfnsion".
+                        Wf rotbtf bbsfd on IPP spfd. */
+                        nfw MfdibSizf(lfngti, widti, Sizf2DSyntbx.INCH, msn);
                     }
                 }
             }
 
-            // add to list of custom MediaSizeName
-            // for internal use of IPPPrintService
-            cupsCustomMediaSNames[i] = msn;
+            // bdd to list of dustom MfdibSizfNbmf
+            // for intfrnbl usf of IPPPrintSfrvidf
+            dupsCustomMfdibSNbmfs[i] = msn;
 
-            mpa = null;
+            mpb = null;
             try {
-                mpa = new MediaPrintableArea(x, y, w, h,
-                                             MediaPrintableArea.INCH);
-            } catch (IllegalArgumentException e) {
-                if (width > 0 && length > 0) {
-                    mpa = new MediaPrintableArea(0, 0, width, length,
-                                             MediaPrintableArea.INCH);
+                mpb = nfw MfdibPrintbblfArfb(x, y, w, i,
+                                             MfdibPrintbblfArfb.INCH);
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                if (widti > 0 && lfngti > 0) {
+                    mpb = nfw MfdibPrintbblfArfb(0, 0, widti, lfngti,
+                                             MfdibPrintbblfArfb.INCH);
                 }
             }
-            cupsMediaPrintables[i] = mpa;
+            dupsMfdibPrintbblfs[i] = mpb;
         }
 
-        // initialize trays
-        cupsMediaTrays = new MediaTray[nTrays];
+        // initiblizf trbys
+        dupsMfdibTrbys = nfw MfdibTrby[nTrbys];
 
-        MediaTray mt;
-        for (int i=0; i<nTrays; i++) {
-            mt = new CustomMediaTray(media[(nPageSizes+i)*2],
-                                     media[(nPageSizes+i)*2+1]);
-            cupsMediaTrays[i] = mt;
+        MfdibTrby mt;
+        for (int i=0; i<nTrbys; i++) {
+            mt = nfw CustomMfdibTrby(mfdib[(nPbgfSizfs+i)*2],
+                                     mfdib[(nPbgfSizfs+i)*2+1]);
+            dupsMfdibTrbys[i] = mt;
         }
 
     }
 
     /**
-     * Get CUPS default printer using IPP.
-     * Returns 2 values - index 0 is printer name, index 1 is the uri.
+     * Gft CUPS dffbult printfr using IPP.
+     * Rfturns 2 vblufs - indfx 0 is printfr nbmf, indfx 1 is tif uri.
      */
-    static String[] getDefaultPrinter() {
+    stbtid String[] gftDffbultPrintfr() {
         try {
-            URL url = new URL("http", getServer(), getPort(), "");
-            final HttpURLConnection urlConnection =
-                IPPPrintService.getIPPConnection(url);
+            URL url = nfw URL("ittp", gftSfrvfr(), gftPort(), "");
+            finbl HttpURLConnfdtion urlConnfdtion =
+                IPPPrintSfrvidf.gftIPPConnfdtion(url);
 
-            if (urlConnection != null) {
-                OutputStream os = java.security.AccessController.
-                    doPrivileged(new java.security.PrivilegedAction<OutputStream>() {
-                        public OutputStream run() {
+            if (urlConnfdtion != null) {
+                OutputStrfbm os = jbvb.sfdurity.AddfssControllfr.
+                    doPrivilfgfd(nfw jbvb.sfdurity.PrivilfgfdAdtion<OutputStrfbm>() {
+                        publid OutputStrfbm run() {
                             try {
-                                return urlConnection.getOutputStream();
-                            } catch (Exception e) {
-                               IPPPrintService.debug_println(debugPrefix+e);
+                                rfturn urlConnfdtion.gftOutputStrfbm();
+                            } dbtdi (Exdfption f) {
+                               IPPPrintSfrvidf.dfbug_println(dfbugPrffix+f);
                             }
-                            return null;
+                            rfturn null;
                         }
                     });
 
                 if (os == null) {
-                    return null;
+                    rfturn null;
                 }
 
-                AttributeClass attCl[] = {
-                    AttributeClass.ATTRIBUTES_CHARSET,
-                    AttributeClass.ATTRIBUTES_NATURAL_LANGUAGE,
-                    new AttributeClass("requested-attributes",
-                                       AttributeClass.TAG_URI,
-                                       "printer-uri")
+                AttributfClbss bttCl[] = {
+                    AttributfClbss.ATTRIBUTES_CHARSET,
+                    AttributfClbss.ATTRIBUTES_NATURAL_LANGUAGE,
+                    nfw AttributfClbss("rfqufstfd-bttributfs",
+                                       AttributfClbss.TAG_URI,
+                                       "printfr-uri")
                 };
 
-                if (IPPPrintService.writeIPPRequest(os,
-                                        IPPPrintService.OP_CUPS_GET_DEFAULT,
-                                        attCl)) {
+                if (IPPPrintSfrvidf.writfIPPRfqufst(os,
+                                        IPPPrintSfrvidf.OP_CUPS_GET_DEFAULT,
+                                        bttCl)) {
 
-                    HashMap<String, AttributeClass> defaultMap = null;
-                    String[] printerInfo = new String[2];
-                    InputStream is = urlConnection.getInputStream();
-                    HashMap<String, AttributeClass>[] responseMap = IPPPrintService.readIPPResponse(
+                    HbsiMbp<String, AttributfClbss> dffbultMbp = null;
+                    String[] printfrInfo = nfw String[2];
+                    InputStrfbm is = urlConnfdtion.gftInputStrfbm();
+                    HbsiMbp<String, AttributfClbss>[] rfsponsfMbp = IPPPrintSfrvidf.rfbdIPPRfsponsf(
                                          is);
-                    is.close();
+                    is.dlosf();
 
-                    if (responseMap != null && responseMap.length > 0) {
-                        defaultMap = responseMap[0];
-                    } else {
-                       IPPPrintService.debug_println(debugPrefix+
-                           " empty response map for GET_DEFAULT.");
+                    if (rfsponsfMbp != null && rfsponsfMbp.lfngti > 0) {
+                        dffbultMbp = rfsponsfMbp[0];
+                    } flsf {
+                       IPPPrintSfrvidf.dfbug_println(dfbugPrffix+
+                           " fmpty rfsponsf mbp for GET_DEFAULT.");
                     }
 
-                    if (defaultMap == null) {
-                        os.close();
-                        urlConnection.disconnect();
+                    if (dffbultMbp == null) {
+                        os.dlosf();
+                        urlConnfdtion.disdonnfdt();
 
-                        /* CUPS on OS X, as initially configured, considers the
-                         * default printer to be the last one used that's
-                         * presently available. So if no default was
-                         * reported, exec lpstat -d which has all the Apple
-                         * special behaviour for this built in.
+                        /* CUPS on OS X, bs initiblly donfigurfd, donsidfrs tif
+                         * dffbult printfr to bf tif lbst onf usfd tibt's
+                         * prfsfntly bvbilbblf. So if no dffbult wbs
+                         * rfportfd, fxfd lpstbt -d wiidi ibs bll tif Applf
+                         * spfdibl bfibviour for tiis built in.
                          */
-                         if (UnixPrintServiceLookup.isMac()) {
-                             printerInfo[0] = UnixPrintServiceLookup.
-                                                   getDefaultPrinterNameSysV();
-                             printerInfo[1] = null;
-                             return printerInfo.clone();
-                         } else {
-                             return null;
+                         if (UnixPrintSfrvidfLookup.isMbd()) {
+                             printfrInfo[0] = UnixPrintSfrvidfLookup.
+                                                   gftDffbultPrintfrNbmfSysV();
+                             printfrInfo[1] = null;
+                             rfturn printfrInfo.dlonf();
+                         } flsf {
+                             rfturn null;
                          }
                     }
 
 
-                    AttributeClass attribClass = defaultMap.get("printer-name");
+                    AttributfClbss bttribClbss = dffbultMbp.gft("printfr-nbmf");
 
-                    if (attribClass != null) {
-                        printerInfo[0] = attribClass.getStringValue();
-                        attribClass = defaultMap.get("printer-uri-supported");
-                        IPPPrintService.debug_println(debugPrefix+
-                          "printer-uri-supported="+attribClass);
-                        if (attribClass != null) {
-                            printerInfo[1] = attribClass.getStringValue();
-                        } else {
-                            printerInfo[1] = null;
+                    if (bttribClbss != null) {
+                        printfrInfo[0] = bttribClbss.gftStringVbluf();
+                        bttribClbss = dffbultMbp.gft("printfr-uri-supportfd");
+                        IPPPrintSfrvidf.dfbug_println(dfbugPrffix+
+                          "printfr-uri-supportfd="+bttribClbss);
+                        if (bttribClbss != null) {
+                            printfrInfo[1] = bttribClbss.gftStringVbluf();
+                        } flsf {
+                            printfrInfo[1] = null;
                         }
-                        os.close();
-                        urlConnection.disconnect();
-                        return printerInfo.clone();
+                        os.dlosf();
+                        urlConnfdtion.disdonnfdt();
+                        rfturn printfrInfo.dlonf();
                     }
                 }
-                os.close();
-                urlConnection.disconnect();
+                os.dlosf();
+                urlConnfdtion.disdonnfdt();
             }
-        } catch (Exception e) {
+        } dbtdi (Exdfption f) {
         }
-        return null;
+        rfturn null;
     }
 
 
     /**
-     * Get list of all CUPS printers using IPP.
+     * Gft list of bll CUPS printfrs using IPP.
      */
-    static String[] getAllPrinters() {
+    stbtid String[] gftAllPrintfrs() {
         try {
-            URL url = new URL("http", getServer(), getPort(), "");
+            URL url = nfw URL("ittp", gftSfrvfr(), gftPort(), "");
 
-            final HttpURLConnection urlConnection =
-                IPPPrintService.getIPPConnection(url);
+            finbl HttpURLConnfdtion urlConnfdtion =
+                IPPPrintSfrvidf.gftIPPConnfdtion(url);
 
-            if (urlConnection != null) {
-                OutputStream os = java.security.AccessController.
-                    doPrivileged(new java.security.PrivilegedAction<OutputStream>() {
-                        public OutputStream run() {
+            if (urlConnfdtion != null) {
+                OutputStrfbm os = jbvb.sfdurity.AddfssControllfr.
+                    doPrivilfgfd(nfw jbvb.sfdurity.PrivilfgfdAdtion<OutputStrfbm>() {
+                        publid OutputStrfbm run() {
                             try {
-                                return urlConnection.getOutputStream();
-                            } catch (Exception e) {
+                                rfturn urlConnfdtion.gftOutputStrfbm();
+                            } dbtdi (Exdfption f) {
                             }
-                            return null;
+                            rfturn null;
                         }
                     });
 
                 if (os == null) {
-                    return null;
+                    rfturn null;
                 }
 
-                AttributeClass attCl[] = {
-                    AttributeClass.ATTRIBUTES_CHARSET,
-                    AttributeClass.ATTRIBUTES_NATURAL_LANGUAGE,
-                    new AttributeClass("requested-attributes",
-                                       AttributeClass.TAG_KEYWORD,
-                                       "printer-uri-supported")
+                AttributfClbss bttCl[] = {
+                    AttributfClbss.ATTRIBUTES_CHARSET,
+                    AttributfClbss.ATTRIBUTES_NATURAL_LANGUAGE,
+                    nfw AttributfClbss("rfqufstfd-bttributfs",
+                                       AttributfClbss.TAG_KEYWORD,
+                                       "printfr-uri-supportfd")
                 };
 
-                if (IPPPrintService.writeIPPRequest(os,
-                                IPPPrintService.OP_CUPS_GET_PRINTERS, attCl)) {
+                if (IPPPrintSfrvidf.writfIPPRfqufst(os,
+                                IPPPrintSfrvidf.OP_CUPS_GET_PRINTERS, bttCl)) {
 
-                    InputStream is = urlConnection.getInputStream();
-                    HashMap<String, AttributeClass>[] responseMap =
-                        IPPPrintService.readIPPResponse(is);
+                    InputStrfbm is = urlConnfdtion.gftInputStrfbm();
+                    HbsiMbp<String, AttributfClbss>[] rfsponsfMbp =
+                        IPPPrintSfrvidf.rfbdIPPRfsponsf(is);
 
-                    is.close();
-                    os.close();
-                    urlConnection.disconnect();
+                    is.dlosf();
+                    os.dlosf();
+                    urlConnfdtion.disdonnfdt();
 
-                    if (responseMap == null || responseMap.length == 0) {
-                        return null;
+                    if (rfsponsfMbp == null || rfsponsfMbp.lfngti == 0) {
+                        rfturn null;
                     }
 
-                    ArrayList<String> printerNames = new ArrayList<>();
-                    for (int i=0; i< responseMap.length; i++) {
-                        AttributeClass attribClass =
-                            responseMap[i].get("printer-uri-supported");
+                    ArrbyList<String> printfrNbmfs = nfw ArrbyList<>();
+                    for (int i=0; i< rfsponsfMbp.lfngti; i++) {
+                        AttributfClbss bttribClbss =
+                            rfsponsfMbp[i].gft("printfr-uri-supportfd");
 
-                        if (attribClass != null) {
-                            String nameStr = attribClass.getStringValue();
-                            printerNames.add(nameStr);
+                        if (bttribClbss != null) {
+                            String nbmfStr = bttribClbss.gftStringVbluf();
+                            printfrNbmfs.bdd(nbmfStr);
                         }
                     }
-                    return printerNames.toArray(new String[] {});
-                } else {
-                    os.close();
-                    urlConnection.disconnect();
+                    rfturn printfrNbmfs.toArrby(nfw String[] {});
+                } flsf {
+                    os.dlosf();
+                    urlConnfdtion.disdonnfdt();
                 }
             }
 
-        } catch (Exception e) {
+        } dbtdi (Exdfption f) {
         }
-        return null;
+        rfturn null;
 
     }
 
     /**
-     * Returns CUPS server name.
+     * Rfturns CUPS sfrvfr nbmf.
      */
-    public static String getServer() {
-        return cupsServer;
+    publid stbtid String gftSfrvfr() {
+        rfturn dupsSfrvfr;
     }
 
     /**
-     * Returns CUPS port number.
+     * Rfturns CUPS port numbfr.
      */
-    public static int getPort() {
-        return cupsPort;
+    publid stbtid int gftPort() {
+        rfturn dupsPort;
     }
 
     /**
-     * Detects if CUPS is running.
+     * Dftfdts if CUPS is running.
      */
-    public static boolean isCupsRunning() {
-        IPPPrintService.debug_println(debugPrefix+"libFound "+libFound);
+    publid stbtid boolfbn isCupsRunning() {
+        IPPPrintSfrvidf.dfbug_println(dfbugPrffix+"libFound "+libFound);
         if (libFound) {
-            IPPPrintService.debug_println(debugPrefix+"CUPS server "+getServer()+
-                                          " port "+getPort());
-            return canConnect(getServer(), getPort());
-        } else {
-            return false;
+            IPPPrintSfrvidf.dfbug_println(dfbugPrffix+"CUPS sfrvfr "+gftSfrvfr()+
+                                          " port "+gftPort());
+            rfturn dbnConnfdt(gftSfrvfr(), gftPort());
+        } flsf {
+            rfturn fblsf;
         }
     }
 

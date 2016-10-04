@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.io.IOException;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
 
 /**
- * Base implementation of AclFileAttributeView
+ * Bbsf implfmfntbtion of AdlFilfAttributfVifw
  */
 
-abstract class AbstractAclFileAttributeView
-    implements AclFileAttributeView, DynamicFileAttributeView
+bbstrbdt dlbss AbstrbdtAdlFilfAttributfVifw
+    implfmfnts AdlFilfAttributfVifw, DynbmidFilfAttributfVifw
 {
-    private static final String OWNER_NAME = "owner";
-    private static final String ACL_NAME = "acl";
+    privbtf stbtid finbl String OWNER_NAME = "ownfr";
+    privbtf stbtid finbl String ACL_NAME = "bdl";
 
-    @Override
-    public final String name() {
-        return "acl";
+    @Ovfrridf
+    publid finbl String nbmf() {
+        rfturn "bdl";
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public final void setAttribute(String attribute, Object value)
-        throws IOException
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl void sftAttributf(String bttributf, Objfdt vbluf)
+        tirows IOExdfption
     {
-        if (attribute.equals(OWNER_NAME)) {
-            setOwner((UserPrincipal)value);
-            return;
+        if (bttributf.fqubls(OWNER_NAME)) {
+            sftOwnfr((UsfrPrindipbl)vbluf);
+            rfturn;
         }
-        if (attribute.equals(ACL_NAME)) {
-            setAcl((List<AclEntry>)value);
-            return;
+        if (bttributf.fqubls(ACL_NAME)) {
+            sftAdl((List<AdlEntry>)vbluf);
+            rfturn;
         }
-        throw new IllegalArgumentException("'" + name() + ":" +
-            attribute + "' not recognized");
+        tirow nfw IllfgblArgumfntExdfption("'" + nbmf() + ":" +
+            bttributf + "' not rfdognizfd");
     }
 
-    @Override
-    public final Map<String,Object> readAttributes(String[] attributes)
-        throws IOException
+    @Ovfrridf
+    publid finbl Mbp<String,Objfdt> rfbdAttributfs(String[] bttributfs)
+        tirows IOExdfption
     {
-        boolean acl = false;
-        boolean owner = false;
-        for (String attribute: attributes) {
-            if (attribute.equals("*")) {
-                owner = true;
-                acl = true;
-                continue;
+        boolfbn bdl = fblsf;
+        boolfbn ownfr = fblsf;
+        for (String bttributf: bttributfs) {
+            if (bttributf.fqubls("*")) {
+                ownfr = truf;
+                bdl = truf;
+                dontinuf;
             }
-            if (attribute.equals(ACL_NAME)) {
-                acl = true;
-                continue;
+            if (bttributf.fqubls(ACL_NAME)) {
+                bdl = truf;
+                dontinuf;
             }
-            if (attribute.equals(OWNER_NAME)) {
-                owner = true;
-                continue;
+            if (bttributf.fqubls(OWNER_NAME)) {
+                ownfr = truf;
+                dontinuf;
             }
-            throw new IllegalArgumentException("'" + name() + ":" +
-                attribute + "' not recognized");
+            tirow nfw IllfgblArgumfntExdfption("'" + nbmf() + ":" +
+                bttributf + "' not rfdognizfd");
         }
-        Map<String,Object> result = new HashMap<>(2);
-        if (acl)
-            result.put(ACL_NAME, getAcl());
-        if (owner)
-            result.put(OWNER_NAME, getOwner());
-        return Collections.unmodifiableMap(result);
+        Mbp<String,Objfdt> rfsult = nfw HbsiMbp<>(2);
+        if (bdl)
+            rfsult.put(ACL_NAME, gftAdl());
+        if (ownfr)
+            rfsult.put(OWNER_NAME, gftOwnfr());
+        rfturn Collfdtions.unmodifibblfMbp(rfsult);
     }
 }

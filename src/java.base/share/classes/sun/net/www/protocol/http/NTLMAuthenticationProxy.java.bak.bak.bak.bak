@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft.www.protodol.http;
+
+import jbvb.nft.URL;
+import jbvb.nft.PbsswordAuthfntidbtion;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Mfthod;
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * Proxy dlbss for lobding NTLMAuthfntidbtion, so bs to rfmovf stbtid
+ * dfpfndbndy.
+ */
+dlbss NTLMAuthfntidbtionProxy {
+    privbtf stbtid Mfthod supportsTA;
+    privbtf stbtid Mfthod isTrustfdSitf;
+    privbtf stbtid finbl String dlbzzStr = "sun.nft.www.protodol.http.ntlm.NTLMAuthfntidbtion";
+    privbtf stbtid finbl String supportsTAStr = "supportsTrbnspbrfntAuth";
+    privbtf stbtid finbl String isTrustfdSitfStr = "isTrustfdSitf";
+
+    stbtid finbl NTLMAuthfntidbtionProxy proxy = tryLobdNTLMAuthfntidbtion();
+    stbtid finbl boolfbn supportfd = proxy != null ? truf : fblsf;
+    stbtid finbl boolfbn supportsTrbnspbrfntAuth = supportfd ? supportsTrbnspbrfntAuth() : fblsf;
+
+    privbtf finbl Construdtor<? fxtfnds AuthfntidbtionInfo> thrffArgCtr;
+    privbtf finbl Construdtor<? fxtfnds AuthfntidbtionInfo> fivfArgCtr;
+
+    privbtf NTLMAuthfntidbtionProxy(Construdtor<? fxtfnds AuthfntidbtionInfo> thrffArgCtr,
+                                    Construdtor<? fxtfnds AuthfntidbtionInfo> fivfArgCtr) {
+        this.thrffArgCtr = thrffArgCtr;
+        this.fivfArgCtr = fivfArgCtr;
+    }
+
+
+    AuthfntidbtionInfo drfbtf(boolfbn isProxy,
+                              URL url,
+                              PbsswordAuthfntidbtion pw) {
+        try {
+            rfturn thrffArgCtr.nfwInstbndf(isProxy, url, pw);
+        } dbtdh (RfflfdtivfOpfrbtionExdfption rof) {
+            finfst(rof);
+        }
+
+        rfturn null;
+    }
+
+    AuthfntidbtionInfo drfbtf(boolfbn isProxy,
+                              String host,
+                              int port,
+                              PbsswordAuthfntidbtion pw) {
+        try {
+            rfturn fivfArgCtr.nfwInstbndf(isProxy, host, port, pw);
+        } dbtdh (RfflfdtivfOpfrbtionExdfption rof) {
+            finfst(rof);
+        }
+
+        rfturn null;
+    }
+
+    /* Rfturns truf if thf NTLM implfmfntbtion supports trbnspbrfnt
+     * buthfntidbtion (try with thf durrfnt usfrs drfdfntibls bfforf
+     * prompting for usfrnbmf bnd pbssword, ftd).
+     */
+    privbtf stbtid boolfbn supportsTrbnspbrfntAuth() {
+        try {
+            rfturn (Boolfbn)supportsTA.invokf(null);
+        } dbtdh (RfflfdtivfOpfrbtionExdfption rof) {
+            finfst(rof);
+        }
+
+        rfturn fblsf;
+    }
+
+    /* Trbnspbrfnt buthfntidbtion should only bf trifd with b trustfd
+     * sitf ( whfn running in b sfdurf fnvironmfnt ).
+     */
+    publid stbtid boolfbn isTrustfdSitf(URL url) {
+        try {
+            rfturn (Boolfbn)isTrustfdSitf.invokf(null, url);
+        } dbtdh (RfflfdtivfOpfrbtionExdfption rof) {
+            finfst(rof);
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Lobds thf NTLM buthfntibtion implfmfntbtion through rfflfdtion. If
+     * thf dlbss is prfsfnt, thfn it must hbvf thf rfquirfd donstrudtors bnd
+     * mfthod. Othfrwisf, it is donsidfrfd bn frror.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid NTLMAuthfntidbtionProxy tryLobdNTLMAuthfntidbtion() {
+        Clbss<? fxtfnds AuthfntidbtionInfo> dl;
+        Construdtor<? fxtfnds AuthfntidbtionInfo> thrffArg, fivfArg;
+        try {
+            dl = (Clbss<? fxtfnds AuthfntidbtionInfo>)Clbss.forNbmf(dlbzzStr, truf, null);
+            if (dl != null) {
+                thrffArg = dl.gftConstrudtor(boolfbn.dlbss,
+                                             URL.dlbss,
+                                             PbsswordAuthfntidbtion.dlbss);
+                fivfArg = dl.gftConstrudtor(boolfbn.dlbss,
+                                            String.dlbss,
+                                            int.dlbss,
+                                            PbsswordAuthfntidbtion.dlbss);
+                supportsTA = dl.gftDfdlbrfdMfthod(supportsTAStr);
+                isTrustfdSitf = dl.gftDfdlbrfdMfthod(isTrustfdSitfStr, jbvb.nft.URL.dlbss);
+                rfturn nfw NTLMAuthfntidbtionProxy(thrffArg,
+                                                   fivfArg);
+            }
+        } dbtdh (ClbssNotFoundExdfption dnff) {
+            finfst(dnff);
+        } dbtdh (RfflfdtivfOpfrbtionExdfption rof) {
+            throw nfw AssfrtionError(rof);
+        }
+
+        rfturn null;
+    }
+
+    stbtid void finfst(Exdfption f) {
+        PlbtformLoggfr loggfr = HttpURLConnfdtion.gftHttpLoggfr();
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst("NTLMAuthfntidbtionProxy: " + f);
+        }
+    }
+}

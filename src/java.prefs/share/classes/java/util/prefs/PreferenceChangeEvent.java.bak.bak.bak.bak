@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.prffs;
+
+import jbvb.io.NotSfriblizbblfExdfption;
+
+/**
+ * An fvfnt fmittfd by b <tt>Prfffrfndfs</tt> nodf to indidbtf thbt
+ * b prfffrfndf hbs bffn bddfd, rfmovfd or hbs hbd its vbluf dhbngfd.<p>
+ *
+ * Notf, thbt blthough PrfffrfndfChbngfEvfnt inhfrits Sfriblizbblf intfrfbdf
+ * from EvfntObjfdt, it is not intfndfd to bf Sfriblizbblf. Appropribtf
+ * sfriblizbtion mfthods brf implfmfntfd to throw NotSfriblizbblfExdfption.
+ *
+ * @buthor  Josh Blodh
+ * @sff Prfffrfndfs
+ * @sff PrfffrfndfChbngfListfnfr
+ * @sff NodfChbngfEvfnt
+ * @sindf   1.4
+ * @sfribl fxdludf
+ */
+publid dlbss PrfffrfndfChbngfEvfnt fxtfnds jbvb.util.EvfntObjfdt {
+
+    /**
+     * Kfy of thf prfffrfndf thbt dhbngfd.
+     *
+     * @sfribl
+     */
+    privbtf String kfy;
+
+    /**
+     * Nfw vbluf for prfffrfndf, or <tt>null</tt> if it wbs rfmovfd.
+     *
+     * @sfribl
+     */
+    privbtf String nfwVbluf;
+
+    /**
+     * Construdts b nfw <dodf>PrfffrfndfChbngfEvfnt</dodf> instbndf.
+     *
+     * @pbrbm nodf  Thf Prfffrfndfs nodf thbt fmittfd thf fvfnt.
+     * @pbrbm kfy  Thf kfy of thf prfffrfndf thbt wbs dhbngfd.
+     * @pbrbm nfwVbluf  Thf nfw vbluf of thf prfffrfndf, or <tt>null</tt>
+     *                  if thf prfffrfndf is bfing rfmovfd.
+     */
+    publid PrfffrfndfChbngfEvfnt(Prfffrfndfs nodf, String kfy,
+                                 String nfwVbluf) {
+        supfr(nodf);
+        this.kfy = kfy;
+        this.nfwVbluf = nfwVbluf;
+    }
+
+    /**
+     * Rfturns thf prfffrfndf nodf thbt fmittfd thf fvfnt.
+     *
+     * @rfturn  Thf prfffrfndf nodf thbt fmittfd thf fvfnt.
+     */
+    publid Prfffrfndfs gftNodf() {
+        rfturn (Prfffrfndfs) gftSourdf();
+    }
+
+    /**
+     * Rfturns thf kfy of thf prfffrfndf thbt wbs dhbngfd.
+     *
+     * @rfturn  Thf kfy of thf prfffrfndf thbt wbs dhbngfd.
+     */
+    publid String gftKfy() {
+        rfturn kfy;
+    }
+
+    /**
+     * Rfturns thf nfw vbluf for thf prfffrfndf.
+     *
+     * @rfturn  Thf nfw vbluf for thf prfffrfndf, or <tt>null</tt> if thf
+     *          prfffrfndf wbs rfmovfd.
+     */
+    publid String gftNfwVbluf() {
+        rfturn nfwVbluf;
+    }
+
+    /**
+     * Throws NotSfriblizbblfExdfption, sindf NodfChbngfEvfnt objfdts
+     * brf not intfndfd to bf sfriblizbblf.
+     */
+     privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm out)
+                                               throws NotSfriblizbblfExdfption {
+         throw nfw NotSfriblizbblfExdfption("Not sfriblizbblf.");
+     }
+
+    /**
+     * Throws NotSfriblizbblfExdfption, sindf PrfffrfndfChbngfEvfnt objfdts
+     * brf not intfndfd to bf sfriblizbblf.
+     */
+     privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+                                               throws NotSfriblizbblfExdfption {
+         throw nfw NotSfriblizbblfExdfption("Not sfriblizbblf.");
+     }
+
+    // Dffinfd so thbt this dlbss isn't flbggfd bs b potfntibl problfm whfn
+    // sfbrdhfs for missing sfriblVfrsionUID fiflds brf donf.
+    privbtf stbtid finbl long sfriblVfrsionUID = 793724513368024975L;
+}

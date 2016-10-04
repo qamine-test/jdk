@@ -1,0 +1,52 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+#ifndff __MLIB_IMAGECREATE_H
+#dffinf __MLIB_IMAGECREATE_H
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif /* __dplusplus */
+
+mlib_imbgf* mlib_ImbgfSft(mlib_imbgf *imbgf,
+                          mlib_typf  typf,
+                          mlib_s32   dhbnnfls,
+                          mlib_s32   width,
+                          mlib_s32   hfight,
+                          mlib_s32   stridf,
+                          donst void *dbtb);
+
+mlib_imbgf *mlib_ImbgfSftSubimbgf(mlib_imbgf       *dst,
+                                  donst mlib_imbgf *srd,
+                                  mlib_s32         x,
+                                  mlib_s32         y,
+                                  mlib_s32         w,
+                                  mlib_s32         h);
+
+#ifdff __dplusplus
+}
+#fndif /* __dplusplus */
+#fndif /* __MLIB_IMAGECREATE_H */

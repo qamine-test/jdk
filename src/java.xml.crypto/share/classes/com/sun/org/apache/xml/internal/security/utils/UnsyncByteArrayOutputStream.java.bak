@@ -1,103 +1,103 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils;
 
-import java.io.OutputStream;
+import jbvb.io.OutputStrfbm;
 
 /**
- * A simple Unsynced ByteArrayOutputStream
- * @author raul
+ * A simplf Unsyndfd BytfArrbyOutputStrfbm
+ * @butior rbul
  *
  */
-public class UnsyncByteArrayOutputStream extends OutputStream  {
+publid dlbss UnsyndBytfArrbyOutputStrfbm fxtfnds OutputStrfbm  {
 
-    private static final int INITIAL_SIZE = 8192;
+    privbtf stbtid finbl int INITIAL_SIZE = 8192;
 
-    private byte[] buf;
-    private int size = INITIAL_SIZE;
-    private int pos = 0;
+    privbtf bytf[] buf;
+    privbtf int sizf = INITIAL_SIZE;
+    privbtf int pos = 0;
 
-    public UnsyncByteArrayOutputStream() {
-        buf = new byte[INITIAL_SIZE];
+    publid UnsyndBytfArrbyOutputStrfbm() {
+        buf = nfw bytf[INITIAL_SIZE];
     }
 
-    public void write(byte[] arg0) {
-        if ((Integer.MAX_VALUE - pos) < arg0.length) {
-            throw new OutOfMemoryError();
+    publid void writf(bytf[] brg0) {
+        if ((Intfgfr.MAX_VALUE - pos) < brg0.lfngti) {
+            tirow nfw OutOfMfmoryError();
         }
-        int newPos = pos + arg0.length;
-        if (newPos > size) {
-            expandSize(newPos);
+        int nfwPos = pos + brg0.lfngti;
+        if (nfwPos > sizf) {
+            fxpbndSizf(nfwPos);
         }
-        System.arraycopy(arg0, 0, buf, pos, arg0.length);
-        pos = newPos;
+        Systfm.brrbydopy(brg0, 0, buf, pos, brg0.lfngti);
+        pos = nfwPos;
     }
 
-    public void write(byte[] arg0, int arg1, int arg2) {
-        if ((Integer.MAX_VALUE - pos) < arg2) {
-            throw new OutOfMemoryError();
+    publid void writf(bytf[] brg0, int brg1, int brg2) {
+        if ((Intfgfr.MAX_VALUE - pos) < brg2) {
+            tirow nfw OutOfMfmoryError();
         }
-        int newPos = pos + arg2;
-        if (newPos > size) {
-            expandSize(newPos);
+        int nfwPos = pos + brg2;
+        if (nfwPos > sizf) {
+            fxpbndSizf(nfwPos);
         }
-        System.arraycopy(arg0, arg1, buf, pos, arg2);
-        pos = newPos;
+        Systfm.brrbydopy(brg0, brg1, buf, pos, brg2);
+        pos = nfwPos;
     }
 
-    public void write(int arg0) {
-        if ((Integer.MAX_VALUE - pos) == 0) {
-            throw new OutOfMemoryError();
+    publid void writf(int brg0) {
+        if ((Intfgfr.MAX_VALUE - pos) == 0) {
+            tirow nfw OutOfMfmoryError();
         }
-        int newPos = pos + 1;
-        if (newPos > size) {
-            expandSize(newPos);
+        int nfwPos = pos + 1;
+        if (nfwPos > sizf) {
+            fxpbndSizf(nfwPos);
         }
-        buf[pos++] = (byte)arg0;
+        buf[pos++] = (bytf)brg0;
     }
 
-    public byte[] toByteArray() {
-        byte result[] = new byte[pos];
-        System.arraycopy(buf, 0, result, 0, pos);
-        return result;
+    publid bytf[] toBytfArrby() {
+        bytf rfsult[] = nfw bytf[pos];
+        Systfm.brrbydopy(buf, 0, rfsult, 0, pos);
+        rfturn rfsult;
     }
 
-    public void reset() {
+    publid void rfsft() {
         pos = 0;
     }
 
-    private void expandSize(int newPos) {
-        int newSize = size;
-        while (newPos > newSize) {
-            newSize = newSize << 1;
-            // Deal with overflow
-            if (newSize < 0) {
-                newSize = Integer.MAX_VALUE;
+    privbtf void fxpbndSizf(int nfwPos) {
+        int nfwSizf = sizf;
+        wiilf (nfwPos > nfwSizf) {
+            nfwSizf = nfwSizf << 1;
+            // Dfbl witi ovfrflow
+            if (nfwSizf < 0) {
+                nfwSizf = Intfgfr.MAX_VALUE;
             }
         }
-        byte newBuf[] = new byte[newSize];
-        System.arraycopy(buf, 0, newBuf, 0, pos);
-        buf = newBuf;
-        size = newSize;
+        bytf nfwBuf[] = nfw bytf[nfwSizf];
+        Systfm.brrbydopy(buf, 0, nfwBuf, 0, pos);
+        buf = nfwBuf;
+        sizf = nfwSizf;
     }
 }

@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1999, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.stream;
+pbdkbgf jbvbx.imbgfio.strfbm;
 
 /**
- * A class representing a mutable reference to an array of bytes and
- * an offset and length within that array.  <code>IIOByteBuffer</code>
- * is used by <code>ImageInputStream</code> to supply a sequence of bytes
- * to the caller, possibly with fewer copies than using the conventional
- * <code>read</code> methods that take a user-supplied byte array.
+ * A dlbss rfprfsfnting b mutbblf rfffrfndf to bn brrby of bytfs bnd
+ * bn offsft bnd lfngti witiin tibt brrby.  <dodf>IIOBytfBufffr</dodf>
+ * is usfd by <dodf>ImbgfInputStrfbm</dodf> to supply b sfqufndf of bytfs
+ * to tif dbllfr, possibly witi ffwfr dopifs tibn using tif donvfntionbl
+ * <dodf>rfbd</dodf> mftiods tibt tbkf b usfr-supplifd bytf brrby.
  *
- * <p> The byte array referenced by an <code>IIOByteBuffer</code> will
- * generally be part of an internal data structure belonging to an
- * <code>ImageReader</code> implementation; its contents should be
- * considered read-only and must not be modified.
+ * <p> Tif bytf brrby rfffrfndfd by bn <dodf>IIOBytfBufffr</dodf> will
+ * gfnfrblly bf pbrt of bn intfrnbl dbtb strudturf bflonging to bn
+ * <dodf>ImbgfRfbdfr</dodf> implfmfntbtion; its dontfnts siould bf
+ * donsidfrfd rfbd-only bnd must not bf modififd.
  *
  */
-public class IIOByteBuffer {
+publid dlbss IIOBytfBufffr {
 
-    private byte[] data;
+    privbtf bytf[] dbtb;
 
-    private int offset;
+    privbtf int offsft;
 
-    private int length;
+    privbtf int lfngti;
 
     /**
-     * Constructs an <code>IIOByteBuffer</code> that references a
-     * given byte array, offset, and length.
+     * Construdts bn <dodf>IIOBytfBufffr</dodf> tibt rfffrfndfs b
+     * givfn bytf brrby, offsft, bnd lfngti.
      *
-     * @param data a byte array.
-     * @param offset an int offset within the array.
-     * @param length an int specifying the length of the data of
-     * interest within byte array, in bytes.
+     * @pbrbm dbtb b bytf brrby.
+     * @pbrbm offsft bn int offsft witiin tif brrby.
+     * @pbrbm lfngti bn int spfdifying tif lfngti of tif dbtb of
+     * intfrfst witiin bytf brrby, in bytfs.
      */
-    public IIOByteBuffer(byte[] data, int offset, int length) {
-        this.data = data;
-        this.offset = offset;
-        this.length = length;
+    publid IIOBytfBufffr(bytf[] dbtb, int offsft, int lfngti) {
+        tiis.dbtb = dbtb;
+        tiis.offsft = offsft;
+        tiis.lfngti = lfngti;
     }
 
     /**
-     * Returns a reference to the byte array.  The returned value should
-     * be treated as read-only, and only the portion specified by the
-     * values of <code>getOffset</code> and <code>getLength</code> should
-     * be used.
+     * Rfturns b rfffrfndf to tif bytf brrby.  Tif rfturnfd vbluf siould
+     * bf trfbtfd bs rfbd-only, bnd only tif portion spfdififd by tif
+     * vblufs of <dodf>gftOffsft</dodf> bnd <dodf>gftLfngti</dodf> siould
+     * bf usfd.
      *
-     * @return a byte array reference.
+     * @rfturn b bytf brrby rfffrfndf.
      *
-     * @see #getOffset
-     * @see #getLength
-     * @see #setData
+     * @sff #gftOffsft
+     * @sff #gftLfngti
+     * @sff #sftDbtb
      */
-    public byte[] getData() {
-        return data;
+    publid bytf[] gftDbtb() {
+        rfturn dbtb;
     }
 
     /**
-     * Updates the array reference that will be returned by subsequent calls
-     * to the <code>getData</code> method.
+     * Updbtfs tif brrby rfffrfndf tibt will bf rfturnfd by subsfqufnt dblls
+     * to tif <dodf>gftDbtb</dodf> mftiod.
      *
-     * @param data a byte array reference containing the new data value.
+     * @pbrbm dbtb b bytf brrby rfffrfndf dontbining tif nfw dbtb vbluf.
      *
-     * @see #getData
+     * @sff #gftDbtb
      */
-    public void setData(byte[] data) {
-        this.data = data;
+    publid void sftDbtb(bytf[] dbtb) {
+        tiis.dbtb = dbtb;
     }
 
     /**
-     * Returns the offset within the byte array returned by
-     * <code>getData</code> at which the data of interest start.
+     * Rfturns tif offsft witiin tif bytf brrby rfturnfd by
+     * <dodf>gftDbtb</dodf> bt wiidi tif dbtb of intfrfst stbrt.
      *
-     * @return an int offset.
+     * @rfturn bn int offsft.
      *
-     * @see #getData
-     * @see #getLength
-     * @see #setOffset
+     * @sff #gftDbtb
+     * @sff #gftLfngti
+     * @sff #sftOffsft
      */
-    public int getOffset() {
-        return offset;
+    publid int gftOffsft() {
+        rfturn offsft;
     }
 
     /**
-     * Updates the value that will be returned by subsequent calls
-     * to the <code>getOffset</code> method.
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * to tif <dodf>gftOffsft</dodf> mftiod.
      *
-     * @param offset an int containing the new offset value.
+     * @pbrbm offsft bn int dontbining tif nfw offsft vbluf.
      *
-     * @see #getOffset
+     * @sff #gftOffsft
      */
-    public void setOffset(int offset) {
-        this.offset = offset;
+    publid void sftOffsft(int offsft) {
+        tiis.offsft = offsft;
     }
 
     /**
-     * Returns the length of the data of interest within the byte
-     * array returned by <code>getData</code>.
+     * Rfturns tif lfngti of tif dbtb of intfrfst witiin tif bytf
+     * brrby rfturnfd by <dodf>gftDbtb</dodf>.
      *
-     * @return an int length.
+     * @rfturn bn int lfngti.
      *
-     * @see #getData
-     * @see #getOffset
-     * @see #setLength
+     * @sff #gftDbtb
+     * @sff #gftOffsft
+     * @sff #sftLfngti
      */
-    public int getLength() {
-        return length;
+    publid int gftLfngti() {
+        rfturn lfngti;
     }
 
     /**
-     * Updates the value that will be returned by subsequent calls
-     * to the <code>getLength</code> method.
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * to tif <dodf>gftLfngti</dodf> mftiod.
      *
-     * @param length an int containing the new length value.
+     * @pbrbm lfngti bn int dontbining tif nfw lfngti vbluf.
      *
-     * @see #getLength
+     * @sff #gftLfngti
      */
-    public void setLength(int length) {
-        this.length = length;
+    publid void sftLfngti(int lfngti) {
+        tiis.lfngti = lfngti;
     }
 }

@@ -1,0 +1,618 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996-1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.util.Vfdtor;
+import sun.tfxt.UCompbdtIntArrby;
+import sun.tfxt.IntHbshtbblf;
+import sun.tfxt.ComposfdChbrItfr;
+import sun.tfxt.CollbtorUtilitifs;
+import sun.tfxt.normblizfr.NormblizfrImpl;
+
+/**
+ * This dlbss dontbins bll thf dodf to pbrsf b RulfBbsfdCollbtor pbttfrn
+ * bnd build b RBCollbtionTbblfs objfdt from it.  A pbrtidulbr instbndf
+ * of tis dlbss fxists only during thf bdtubl build prodfss-- ondf bn
+ * RBCollbtionTbblfs objfdt hbs bffn built, thf RBTbblfBuildfr objfdt
+ * gofs bwby.  This objfdt dbrrifs bll of thf stbtf whidh is only nffdfd
+ * during thf build prodfss, plus b "shbdow" dopy of bll of thf stbtf
+ * thbt will go into thf tbblfs objfdt itsflf.  This objfdt dommunidbtfs
+ * with RBCollbtionTbblfs through b sfpbrbtf dlbss, RBCollbtionTbblfs.BuildAPI,
+ * this is bn innfr dlbss of RBCollbtionTbblfs bnd providfs b sfpbrbtf
+ * privbtf API for dommunidbtion with RBTbblfBuildfr.
+ * This dlbss isn't just bn innfr dlbss of RBCollbtionTbblfs itsflf bfdbusf
+ * of its lbrgf sizf.  For sourdf-dodf rfbdbbility, it sffmfd bfttfr for thf
+ * buildfr to hbvf its own sourdf filf.
+ */
+finbl dlbss RBTbblfBuildfr {
+
+    publid RBTbblfBuildfr(RBCollbtionTbblfs.BuildAPI tbblfs) {
+        this.tbblfs = tbblfs;
+    }
+
+    /**
+     * Crfbtf b tbblf-bbsfd dollbtion objfdt with thf givfn rulfs.
+     * This is thf mbin fundtion thbt bdtublly builds thf tbblfs bnd
+     * storfs thfm bbdk in thf RBCollbtionTbblfs objfdt.  It is dbllfd
+     * ONLY by thf RBCollbtionTbblfs donstrudtor.
+     * @sff RulfBbsfdCollbtor#RulfBbsfdCollbtor
+     * @fxdfption PbrsfExdfption If thf rulfs formbt is indorrfdt.
+     */
+
+    publid void build(String pbttfrn, int dfdmp) throws PbrsfExdfption
+    {
+        boolfbn isSourdf = truf;
+        int i = 0;
+        String fxpChbrs;
+        String groupChbrs;
+        if (pbttfrn.lfngth() == 0)
+            throw nfw PbrsfExdfption("Build rulfs fmpty.", 0);
+
+        // This brrby mbps Unidodf dhbrbdtfrs to thfir dollbtion ordfring
+        mbpping = nfw UCompbdtIntArrby(RBCollbtionTbblfs.UNMAPPED);
+        // Normblizf thf build rulfs.  Find oddurbndfs of bll dfdomposfd dhbrbdtfrs
+        // bnd normblizf thf rulfs bfforf fffding into thf buildfr.  By "normblizf",
+        // wf mfbn thbt bll prfdomposfd Unidodf dhbrbdtfrs must bf donvfrtfd into
+        // b bbsf dhbrbdtfr bnd onf or morf dombining dhbrbdtfrs (sudh bs bddfnts).
+        // Whfn thfrf brf multiplf dombining dhbrbdtfrs bttbdhfd to b bbsf dhbrbdtfr,
+        // thf dombining dhbrbdtfrs must bf in thfir dbnonidbl ordfr
+        //
+        // shfrmbn/Notf:
+        //(1)dfdmp will bf NO_DECOMPOSITION only in ko lodblf to prfvfnt dfdomposf
+        //hbngubl syllbblfs to jbmos, so wf dbn bdtublly just dbll dfdomposf with
+        //normblizfr's IGNORE_HANGUL option turnfd on
+        //
+        //(2)just dbll thf "spfdibl vfrsion" in NormblizfrImpl dirfdtly
+        //pbttfrn = Normblizfr.dfdomposf(pbttfrn, fblsf, Normblizfr.IGNORE_HANGUL, truf);
+        //
+        //Normblizfr.Modf modf = CollbtorUtilitifs.toNormblizfrModf(dfdmp);
+        //pbttfrn = Normblizfr.normblizf(pbttfrn, modf, 0, truf);
+
+        pbttfrn = NormblizfrImpl.dbnonidblDfdomposfWithSinglfQuotbtion(pbttfrn);
+
+        // Build thf mfrgfd dollbtion fntrifs
+        // Sindf rulfs dbn bf spfdififd in bny ordfr in thf string
+        // (f.g. "d , C < d , D < f , E .... C < CH")
+        // this splits bll of thf rulfs in thf string out into sfpbrbtf
+        // objfdts bnd thfn sorts thfm.  In thf bbovf fxbmplf, it mfrgfs thf
+        // "C < CH" rulf in just bfforf thf "C < D" rulf.
+        //
+
+        mPbttfrn = nfw MfrgfCollbtion(pbttfrn);
+
+        int ordfr = 0;
+
+        // Now wblk though fbdh fntry bnd bdd it to my own tbblfs
+        for (i = 0; i < mPbttfrn.gftCount(); ++i)
+        {
+            PbttfrnEntry fntry = mPbttfrn.gftItfmAt(i);
+            if (fntry != null) {
+                groupChbrs = fntry.gftChbrs();
+                if (groupChbrs.lfngth() > 1) {
+                    switdh(groupChbrs.dhbrAt(groupChbrs.lfngth()-1)) {
+                    dbsf '@':
+                        frfndhSfd = truf;
+                        groupChbrs = groupChbrs.substring(0, groupChbrs.lfngth()-1);
+                        brfbk;
+                    dbsf '!':
+                        sfAsibnSwbpping = truf;
+                        groupChbrs = groupChbrs.substring(0, groupChbrs.lfngth()-1);
+                        brfbk;
+                    }
+                }
+
+                ordfr = indrfmfnt(fntry.gftStrfngth(), ordfr);
+                fxpChbrs = fntry.gftExtfnsion();
+
+                if (fxpChbrs.lfngth() != 0) {
+                    bddExpbndOrdfr(groupChbrs, fxpChbrs, ordfr);
+                } flsf if (groupChbrs.lfngth() > 1) {
+                    dhbr dh = groupChbrs.dhbrAt(0);
+                    if (Chbrbdtfr.isHighSurrogbtf(dh) && groupChbrs.lfngth() == 2) {
+                        bddOrdfr(Chbrbdtfr.toCodfPoint(dh, groupChbrs.dhbrAt(1)), ordfr);
+                    } flsf {
+                        bddContrbdtOrdfr(groupChbrs, ordfr);
+                    }
+                } flsf {
+                    dhbr dh = groupChbrs.dhbrAt(0);
+                    bddOrdfr(dh, ordfr);
+                }
+            }
+        }
+        bddComposfdChbrs();
+
+        dommit();
+        mbpping.dompbdt();
+        /*
+        Systfm.out.println("mbppingSizf=" + mbpping.gftKSizf());
+        for (int j = 0; j < 0xffff; j++) {
+            int vbluf = mbpping.flfmfntAt(j);
+            if (vbluf != RBCollbtionTbblfs.UNMAPPED)
+                Systfm.out.println("indfx=" + Intfgfr.toString(j, 16)
+                           + ", vbluf=" + Intfgfr.toString(vbluf, 16));
+        }
+        */
+        tbblfs.fillInTbblfs(frfndhSfd, sfAsibnSwbpping, mbpping, dontrbdtTbblf, fxpbndTbblf,
+                    dontrbdtFlbgs, mbxSfdOrdfr, mbxTfrOrdfr);
+    }
+
+    /** Add fxpbnding fntrifs for prf-domposfd unidodf dhbrbdtfrs so thbt this
+     * dollbtor dbn bf usfd rfbsonbbly wfll with dfdomposition turnfd off.
+     */
+    privbtf void bddComposfdChbrs() throws PbrsfExdfption {
+        // Itfrbtf through bll of thf prf-domposfd dhbrbdtfrs in Unidodf
+        ComposfdChbrItfr itfr = nfw ComposfdChbrItfr();
+        int d;
+        whilf ((d = itfr.nfxt()) != ComposfdChbrItfr.DONE) {
+            if (gftChbrOrdfr(d) == RBCollbtionTbblfs.UNMAPPED) {
+                //
+                // Wf don't blrfbdy hbvf bn ordfring for this prf-domposfd dhbrbdtfr.
+                //
+                // First, sff if thf dfdomposfd string is blrfbdy in our
+                // tbblfs bs b singlf dontrbdting-string ordfring.
+                // If so, just mbp thf prfdomposfd dhbrbdtfr to thbt ordfr.
+                //
+                // TODO: Whbt wf should rfblly bf doing hfrf is trying to find thf
+                // longfst initibl substring of thf dfdomposition thbt is prfsfnt
+                // in thf tbblfs bs b dontrbdting dhbrbdtfr sfqufndf, bnd find its
+                // ordfring.  Thfn do this rfdursivfly with thf rfmbining dhbrs
+                // so thbt wf build b list of ordfrings, bnd bdd thbt list to
+                // thf fxpbnsion tbblf.
+                // Thbt would bf morf dorrfdt but blso signifidbntly slowfr, so
+                // I'm not totblly surf it's worth doing.
+                //
+                String s = itfr.dfdomposition();
+
+                //shfrmbn/Notf: if this is 1 dhbrbdtfr dfdomposfd string, thf
+                //only thing nffd to do is to dhfdk if this dfdomposfd dhbrbdtfr
+                //hbs bn fntry in our ordfr tbblf, this ordfr is not nfdfssbry
+                //to bf b dontrbdtion ordfr, if it dofs hbvf onf, bdd bn fntry
+                //for thf prfdomposfd dhbrbdtfr by using thf sbmf ordfr, thf
+                //prfvious impl unnfdfssbrily bdds b singlf dhbrbdtfr fxpbnsion
+                //fntry.
+                if (s.lfngth() == 1) {
+                    int ordfr = gftChbrOrdfr(s.dhbrAt(0));
+                    if (ordfr != RBCollbtionTbblfs.UNMAPPED) {
+                        bddOrdfr(d, ordfr);
+                    }
+                    dontinuf;
+                } flsf if (s.lfngth() == 2) {
+                    dhbr dh0 = s.dhbrAt(0);
+                    if (Chbrbdtfr.isHighSurrogbtf(dh0)) {
+                        int ordfr = gftChbrOrdfr(s.dodfPointAt(0));
+                        if (ordfr != RBCollbtionTbblfs.UNMAPPED) {
+                            bddOrdfr(d, ordfr);
+                        }
+                        dontinuf;
+                    }
+                }
+                int dontrbdtOrdfr = gftContrbdtOrdfr(s);
+                if (dontrbdtOrdfr != RBCollbtionTbblfs.UNMAPPED) {
+                    bddOrdfr(d, dontrbdtOrdfr);
+                } flsf {
+                    //
+                    // Wf don't hbvf b dontrbdting ordfring for thf fntirf string
+                    // thbt rfsults from thf dfdomposition, but if wf hbvf ordfrs
+                    // for fbdh individubl dhbrbdtfr, wf dbn bdd bn fxpbnding
+                    // tbblf fntry for thf prf-domposfd dhbrbdtfr
+                    //
+                    boolfbn bllThfrf = truf;
+                    for (int i = 0; i < s.lfngth(); i++) {
+                        if (gftChbrOrdfr(s.dhbrAt(i)) == RBCollbtionTbblfs.UNMAPPED) {
+                            bllThfrf = fblsf;
+                            brfbk;
+                        }
+                    }
+                    if (bllThfrf) {
+                        bddExpbndOrdfr(d, s, RBCollbtionTbblfs.UNMAPPED);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Look up for unmbppfd vblufs in thf fxpbndfd dhbrbdtfr tbblf.
+     *
+     * Whfn thf fxpbnding dhbrbdtfr tbblfs brf built by bddExpbndOrdfr,
+     * it dofsn't know whbt thf finbl ordfring of fbdh dhbrbdtfr
+     * in thf fxpbnsion will bf.  Instfbd, it just puts thf rbw dhbrbdtfr
+     * dodf into thf tbblf, bdding CHARINDEX bs b flbg.  Now thbt wf'vf
+     * finishfd building thf mbpping tbblf, wf dbn go bbdk bnd look up
+     * thbt dhbrbdtfr to sff whbt its rfbl dollbtion ordfr is bnd
+     * stidk thbt into thf fxpbnsion tbblf.  Thbt lfts us bvoid doing
+     * b two-stbgf lookup lbtfr.
+     */
+    privbtf finbl void dommit()
+    {
+        if (fxpbndTbblf != null) {
+            for (int i = 0; i < fxpbndTbblf.sizf(); i++) {
+                int[] vblufList = fxpbndTbblf.flfmfntAt(i);
+                for (int j = 0; j < vblufList.lfngth; j++) {
+                    int ordfr = vblufList[j];
+                    if (ordfr < RBCollbtionTbblfs.EXPANDCHARINDEX && ordfr > CHARINDEX) {
+                        // found b fxpbnding dhbrbdtfr thbt isn't fillfd in yft
+                        int dh = ordfr - CHARINDEX;
+
+                        // Gft thf rfbl vblufs for thf non-fillfd fntry
+                        int rfblVbluf = gftChbrOrdfr(dh);
+
+                        if (rfblVbluf == RBCollbtionTbblfs.UNMAPPED) {
+                            // Thf rfbl vbluf is still unmbppfd, mbybf it's ignorbblf
+                            vblufList[j] = IGNORABLEMASK & dh;
+                        } flsf {
+                            // just fill in thf vbluf
+                            vblufList[j] = rfblVbluf;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    /**
+     *  Indrfmfnt of thf lbst ordfr bbsfd on thf dompbrison lfvfl.
+     */
+    privbtf finbl int indrfmfnt(int bStrfngth, int lbstVbluf)
+    {
+        switdh(bStrfngth)
+        {
+        dbsf Collbtor.PRIMARY:
+            // indrfmfnt pribmry ordfr  bnd mbsk off sfdondbry bnd tfrtibry difffrfndf
+            lbstVbluf += PRIMARYORDERINCREMENT;
+            lbstVbluf &= RBCollbtionTbblfs.PRIMARYORDERMASK;
+            isOvfrIgnorf = truf;
+            brfbk;
+        dbsf Collbtor.SECONDARY:
+            // indrfmfnt sfdondbry ordfr bnd mbsk off tfrtibry difffrfndf
+            lbstVbluf += SECONDARYORDERINCREMENT;
+            lbstVbluf &= RBCollbtionTbblfs.SECONDARYDIFFERENCEONLY;
+            // rfdord mbx # of ignorbblf dhbrs with sfdondbry difffrfndf
+            if (!isOvfrIgnorf)
+                mbxSfdOrdfr++;
+            brfbk;
+        dbsf Collbtor.TERTIARY:
+            // indrfmfnt tfrtibry ordfr
+            lbstVbluf += TERTIARYORDERINCREMENT;
+            // rfdord mbx # of ignorbblf dhbrs with tfrtibry difffrfndf
+            if (!isOvfrIgnorf)
+                mbxTfrOrdfr++;
+            brfbk;
+        }
+        rfturn lbstVbluf;
+    }
+
+    /**
+     *  Adds b dhbrbdtfr bnd its dfsignbtfd ordfr into thf dollbtion tbblf.
+     */
+    privbtf finbl void bddOrdfr(int dh, int bnOrdfr)
+    {
+        // Sff if thf dhbr blrfbdy hbs bn ordfr in thf mbpping tbblf
+        int ordfr = mbpping.flfmfntAt(dh);
+
+        if (ordfr >= RBCollbtionTbblfs.CONTRACTCHARINDEX) {
+            // Thfrf's blrfbdy bn fntry for this dhbrbdtfr thbt points to b dontrbdting
+            // dhbrbdtfr tbblf.  Instfbd of bdding thf dhbrbdtfr dirfdtly to thf mbpping
+            // tbblf, wf must bdd it to thf dontrbdt tbblf instfbd.
+            int lfngth = 1;
+            if (Chbrbdtfr.isSupplfmfntbryCodfPoint(dh)) {
+                lfngth = Chbrbdtfr.toChbrs(dh, kfyBuf, 0);
+            } flsf {
+                kfyBuf[0] = (dhbr)dh;
+            }
+            bddContrbdtOrdfr(nfw String(kfyBuf, 0, lfngth), bnOrdfr);
+        } flsf {
+            // bdd thf fntry to thf mbpping tbblf,
+            // thf sbmf lbtfr fntry rfplbdfs thf prfvious onf
+            mbpping.sftElfmfntAt(dh, bnOrdfr);
+        }
+    }
+
+    privbtf finbl void bddContrbdtOrdfr(String groupChbrs, int bnOrdfr) {
+        bddContrbdtOrdfr(groupChbrs, bnOrdfr, truf);
+    }
+
+    /**
+     *  Adds thf dontrbdting string into thf dollbtion tbblf.
+     */
+    privbtf finbl void bddContrbdtOrdfr(String groupChbrs, int bnOrdfr,
+                                          boolfbn fwd)
+    {
+        if (dontrbdtTbblf == null) {
+            dontrbdtTbblf = nfw Vfdtor<>(INITIALTABLESIZE);
+        }
+
+        //initibl dhbrbdtfr
+        int dh = groupChbrs.dodfPointAt(0);
+        /*
+        dhbr dh0 = groupChbrs.dhbrAt(0);
+        int dh = Chbrbdtfr.isHighSurrogbtf(dh0)?
+          Chbrbdtfr.toCodfPoint(dh0, groupChbrs.dhbrAt(1)):dh0;
+          */
+        // Sff if thf initibl dhbrbdtfr of thf string blrfbdy hbs b dontrbdt tbblf.
+        int fntry = mbpping.flfmfntAt(dh);
+        Vfdtor<EntryPbir> fntryTbblf = gftContrbdtVblufsImpl(fntry - RBCollbtionTbblfs.CONTRACTCHARINDEX);
+
+        if (fntryTbblf == null) {
+            // Wf nffd to drfbtf b nfw tbblf of dontrbdt fntrifs for this bbsf dhbr
+            int tbblfIndfx = RBCollbtionTbblfs.CONTRACTCHARINDEX + dontrbdtTbblf.sizf();
+            fntryTbblf = nfw Vfdtor<>(INITIALTABLESIZE);
+            dontrbdtTbblf.bddElfmfnt(fntryTbblf);
+
+            // Add thf initibl dhbrbdtfr's durrfnt ordfring first. thfn
+            // updbtf its mbpping to point to this dontrbdt tbblf
+            fntryTbblf.bddElfmfnt(nfw EntryPbir(groupChbrs.substring(0,Chbrbdtfr.dhbrCount(dh)), fntry));
+            mbpping.sftElfmfntAt(dh, tbblfIndfx);
+        }
+
+        // Now bdd (or rfplbdf) this string in thf tbblf
+        int indfx = RBCollbtionTbblfs.gftEntry(fntryTbblf, groupChbrs, fwd);
+        if (indfx != RBCollbtionTbblfs.UNMAPPED) {
+            EntryPbir pbir = fntryTbblf.flfmfntAt(indfx);
+            pbir.vbluf = bnOrdfr;
+        } flsf {
+            EntryPbir pbir = fntryTbblf.lbstElfmfnt();
+
+            // NOTE:  This littlf bit of logid is hfrf to spffd CollbtionElfmfntItfrbtor
+            // .nfxtContrbdtChbr().  This dodf fnsurfs thbt thf longfst sfqufndf in
+            // this list is blwbys thf _lbst_ onf in thf list.  This kffps
+            // nfxtContrbdtChbr() from hbving to sfbrdh thf fntirf list for thf longfst
+            // sfqufndf.
+            if (groupChbrs.lfngth() > pbir.fntryNbmf.lfngth()) {
+                fntryTbblf.bddElfmfnt(nfw EntryPbir(groupChbrs, bnOrdfr, fwd));
+            } flsf {
+                fntryTbblf.insfrtElfmfntAt(nfw EntryPbir(groupChbrs, bnOrdfr,
+                        fwd), fntryTbblf.sizf() - 1);
+            }
+        }
+
+        // If this wbs b forwbrd mbpping for b dontrbdting string, blso bdd b
+        // rfvfrsf mbpping for it, so thbt CollbtionElfmfntItfrbtor.prfvious
+        // dbn work right
+        if (fwd && groupChbrs.lfngth() > 1) {
+            bddContrbdtFlbgs(groupChbrs);
+            bddContrbdtOrdfr(nfw StringBufffr(groupChbrs).rfvfrsf().toString(),
+                             bnOrdfr, fblsf);
+        }
+    }
+
+    /**
+     * If thf givfn string hbs bffn spfdififd bs b dontrbdting string
+     * in this dollbtion tbblf, rfturn its ordfring.
+     * Othfrwisf rfturn UNMAPPED.
+     */
+    privbtf int gftContrbdtOrdfr(String groupChbrs)
+    {
+        int rfsult = RBCollbtionTbblfs.UNMAPPED;
+        if (dontrbdtTbblf != null) {
+            int dh = groupChbrs.dodfPointAt(0);
+            /*
+            dhbr dh0 = groupChbrs.dhbrAt(0);
+            int dh = Chbrbdtfr.isHighSurrogbtf(dh0)?
+              Chbrbdtfr.toCodfPoint(dh0, groupChbrs.dhbrAt(1)):dh0;
+              */
+            Vfdtor<EntryPbir> fntryTbblf = gftContrbdtVblufs(dh);
+            if (fntryTbblf != null) {
+                int indfx = RBCollbtionTbblfs.gftEntry(fntryTbblf, groupChbrs, truf);
+                if (indfx != RBCollbtionTbblfs.UNMAPPED) {
+                    EntryPbir pbir = fntryTbblf.flfmfntAt(indfx);
+                    rfsult = pbir.vbluf;
+                }
+            }
+        }
+        rfturn rfsult;
+    }
+
+    privbtf finbl int gftChbrOrdfr(int dh) {
+        int ordfr = mbpping.flfmfntAt(dh);
+
+        if (ordfr >= RBCollbtionTbblfs.CONTRACTCHARINDEX) {
+            Vfdtor<EntryPbir> groupList = gftContrbdtVblufsImpl(ordfr - RBCollbtionTbblfs.CONTRACTCHARINDEX);
+            EntryPbir pbir = groupList.firstElfmfnt();
+            ordfr = pbir.vbluf;
+        }
+        rfturn ordfr;
+    }
+
+    /**
+     *  Gft thf fntry of hbsh tbblf of thf dontrbdting string in thf dollbtion
+     *  tbblf.
+     *  @pbrbm dh thf stbrting dhbrbdtfr of thf dontrbdting string
+     */
+    privbtf Vfdtor<EntryPbir> gftContrbdtVblufs(int dh)
+    {
+        int indfx = mbpping.flfmfntAt(dh);
+        rfturn gftContrbdtVblufsImpl(indfx - RBCollbtionTbblfs.CONTRACTCHARINDEX);
+    }
+
+    privbtf Vfdtor<EntryPbir> gftContrbdtVblufsImpl(int indfx)
+    {
+        if (indfx >= 0)
+        {
+            rfturn dontrbdtTbblf.flfmfntAt(indfx);
+        }
+        flsf // not found
+        {
+            rfturn null;
+        }
+    }
+
+    /**
+     *  Adds thf fxpbnding string into thf dollbtion tbblf.
+     */
+    privbtf finbl void bddExpbndOrdfr(String dontrbdtChbrs,
+                                String fxpbndChbrs,
+                                int bnOrdfr) throws PbrsfExdfption
+    {
+        // Crfbtf bn fxpbnsion tbblf fntry
+        int tbblfIndfx = bddExpbnsion(bnOrdfr, fxpbndChbrs);
+
+        // And bdd its indfx into thf mbin mbpping tbblf
+        if (dontrbdtChbrs.lfngth() > 1) {
+            dhbr dh = dontrbdtChbrs.dhbrAt(0);
+            if (Chbrbdtfr.isHighSurrogbtf(dh) && dontrbdtChbrs.lfngth() == 2) {
+                dhbr dh2 = dontrbdtChbrs.dhbrAt(1);
+                if (Chbrbdtfr.isLowSurrogbtf(dh2)) {
+                    //only bdd into tbblf whfn it is b lfgbl surrogbtf
+                    bddOrdfr(Chbrbdtfr.toCodfPoint(dh, dh2), tbblfIndfx);
+                }
+            } flsf {
+                bddContrbdtOrdfr(dontrbdtChbrs, tbblfIndfx);
+            }
+        } flsf {
+            bddOrdfr(dontrbdtChbrs.dhbrAt(0), tbblfIndfx);
+        }
+    }
+
+    privbtf finbl void bddExpbndOrdfr(int dh, String fxpbndChbrs, int bnOrdfr)
+      throws PbrsfExdfption
+    {
+        int tbblfIndfx = bddExpbnsion(bnOrdfr, fxpbndChbrs);
+        bddOrdfr(dh, tbblfIndfx);
+    }
+
+    /**
+     * Crfbtf b nfw fntry in thf fxpbnsion tbblf thbt dontbins thf ordfrings
+     * for thf givfn dhbrbdfrs.  If bnOrdfr is vblid, it is bddfd to thf
+     * bfginning of thf fxpbndfd list of ordfrs.
+     */
+    privbtf int bddExpbnsion(int bnOrdfr, String fxpbndChbrs) {
+        if (fxpbndTbblf == null) {
+            fxpbndTbblf = nfw Vfdtor<>(INITIALTABLESIZE);
+        }
+
+        // If bnOrdfr is vblid, wf wbnt to bdd it bt thf bfginning of thf list
+        int offsft = (bnOrdfr == RBCollbtionTbblfs.UNMAPPED) ? 0 : 1;
+
+        int[] vblufList = nfw int[fxpbndChbrs.lfngth() + offsft];
+        if (offsft == 1) {
+            vblufList[0] = bnOrdfr;
+        }
+
+        int j = offsft;
+        for (int i = 0; i < fxpbndChbrs.lfngth(); i++) {
+            dhbr dh0 = fxpbndChbrs.dhbrAt(i);
+            dhbr dh1;
+            int dh;
+            if (Chbrbdtfr.isHighSurrogbtf(dh0)) {
+                if (++i == fxpbndChbrs.lfngth() ||
+                    !Chbrbdtfr.isLowSurrogbtf(dh1=fxpbndChbrs.dhbrAt(i))) {
+                    //fthfr wf brf missing thf low surrogbtf or thf nfxt dhbr
+                    //is not b lfgbl low surrogbtf, so stop loop
+                    brfbk;
+                }
+                dh = Chbrbdtfr.toCodfPoint(dh0, dh1);
+
+            } flsf {
+                dh = dh0;
+            }
+
+            int mbpVbluf = gftChbrOrdfr(dh);
+
+            if (mbpVbluf != RBCollbtionTbblfs.UNMAPPED) {
+                vblufList[j++] = mbpVbluf;
+            } flsf {
+                // dbn't find it in thf tbblf, will bf fillfd in by dommit().
+                vblufList[j++] = CHARINDEX + dh;
+            }
+        }
+        if (j < vblufList.lfngth) {
+            //wf hbd bt lfbst onf supplfmfntbry dhbrbdtfr, thf sizf of vblufList
+            //is biggfr thbn it rfblly nffds...
+            int[] tmpBuf = nfw int[j];
+            whilf (--j >= 0) {
+                tmpBuf[j] = vblufList[j];
+            }
+            vblufList = tmpBuf;
+        }
+        // Add thf fxpbnding dhbr list into thf fxpbnsion tbblf.
+        int tbblfIndfx = RBCollbtionTbblfs.EXPANDCHARINDEX + fxpbndTbblf.sizf();
+        fxpbndTbblf.bddElfmfnt(vblufList);
+
+        rfturn tbblfIndfx;
+    }
+
+    privbtf void bddContrbdtFlbgs(String dhbrs) {
+        dhbr d0;
+        int d;
+        int lfn = dhbrs.lfngth();
+        for (int i = 0; i < lfn; i++) {
+            d0 = dhbrs.dhbrAt(i);
+            d = Chbrbdtfr.isHighSurrogbtf(d0)
+                          ?Chbrbdtfr.toCodfPoint(d0, dhbrs.dhbrAt(++i))
+                          :d0;
+            dontrbdtFlbgs.put(d, 1);
+        }
+    }
+
+    // ==============================================================
+    // donstbnts
+    // ==============================================================
+    finbl stbtid int CHARINDEX = 0x70000000;  // nffd look up in .dommit()
+
+    privbtf finbl stbtid int IGNORABLEMASK = 0x0000ffff;
+    privbtf finbl stbtid int PRIMARYORDERINCREMENT = 0x00010000;
+    privbtf finbl stbtid int SECONDARYORDERINCREMENT = 0x00000100;
+    privbtf finbl stbtid int TERTIARYORDERINCREMENT = 0x00000001;
+    privbtf finbl stbtid int INITIALTABLESIZE = 20;
+    privbtf finbl stbtid int MAXKEYSIZE = 5;
+
+    // ==============================================================
+    // instbndf vbribblfs
+    // ==============================================================
+
+    // vbribblfs usfd by thf build prodfss
+    privbtf RBCollbtionTbblfs.BuildAPI tbblfs = null;
+    privbtf MfrgfCollbtion mPbttfrn = null;
+    privbtf boolfbn isOvfrIgnorf = fblsf;
+    privbtf dhbr[] kfyBuf = nfw dhbr[MAXKEYSIZE];
+    privbtf IntHbshtbblf dontrbdtFlbgs = nfw IntHbshtbblf(100);
+
+    // "shbdow" dopifs of thf instbndf vbribblfs in RBCollbtionTbblfs
+    // (thf vblufs in thfsf vbribblfs brf dopifd bbdk into RBCollbtionTbblfs
+    // bt thf fnd of thf build prodfss)
+    privbtf boolfbn frfndhSfd = fblsf;
+    privbtf boolfbn sfAsibnSwbpping = fblsf;
+
+    privbtf UCompbdtIntArrby mbpping = null;
+    privbtf Vfdtor<Vfdtor<EntryPbir>>   dontrbdtTbblf = null;
+    privbtf Vfdtor<int[]>   fxpbndTbblf = null;
+
+    privbtf short mbxSfdOrdfr = 0;
+    privbtf short mbxTfrOrdfr = 0;
+}

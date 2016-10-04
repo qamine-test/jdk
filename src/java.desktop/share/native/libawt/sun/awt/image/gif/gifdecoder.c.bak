@@ -1,479 +1,479 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdio.h>
-#include "jni.h"
-#include "jni_util.h"
+#indludf <stdio.i>
+#indludf "jni.i"
+#indludf "jni_util.i"
 
-#define OUTCODELENGTH 4097
+#dffinf OUTCODELENGTH 4097
 
-/* We use Get/ReleasePrimitiveArrayCritical functions to avoid
- * the need to copy buffer elements.
+/* Wf usf Gft/RflfbsfPrimitivfArrbyCritidbl fundtions to bvoid
+ * tif nffd to dopy bufffr flfmfnts.
  *
  * MAKE SURE TO:
  *
- * - carefully insert pairs of RELEASE_ARRAYS and GET_ARRAYS around
- *   callbacks to Java.
- * - call RELEASE_ARRAYS before returning to Java.
+ * - dbrffully insfrt pbirs of RELEASE_ARRAYS bnd GET_ARRAYS bround
+ *   dbllbbdks to Jbvb.
+ * - dbll RELEASE_ARRAYS bfforf rfturning to Jbvb.
  *
- * Otherwise things will go horribly wrong. There may be memory leaks,
- * excessive pinning, or even VM crashes!
+ * Otifrwisf tiings will go iorribly wrong. Tifrf mby bf mfmory lfbks,
+ * fxdfssivf pinning, or fvfn VM drbsifs!
  *
- * Note that GetPrimitiveArrayCritical may fail!
+ * Notf tibt GftPrimitivfArrbyCritidbl mby fbil!
  */
 
-#define GET_ARRAYS() \
-    prefix  = (short *) \
-        (*env)->GetPrimitiveArrayCritical(env, prefixh, 0); \
-    if (prefix == 0) \
-        goto out_of_memory; \
-    suffix  = (unsigned char *) \
-        (*env)->GetPrimitiveArrayCritical(env, suffixh, 0); \
+#dffinf GET_ARRAYS() \
+    prffix  = (siort *) \
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, prffixi, 0); \
+    if (prffix == 0) \
+        goto out_of_mfmory; \
+    suffix  = (unsignfd dibr *) \
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, suffixi, 0); \
     if (suffix == 0) \
-        goto out_of_memory; \
-    outCode = (unsigned char *) \
-        (*env)->GetPrimitiveArrayCritical(env, outCodeh, 0); \
-    if (outCode == 0) \
-        goto out_of_memory; \
-    rasline = (unsigned char *) \
-        (*env)->GetPrimitiveArrayCritical(env, raslineh, 0); \
-    if (rasline == 0) \
-        goto out_of_memory; \
-    block = (unsigned char *) \
-        (*env)->GetPrimitiveArrayCritical(env, blockh, 0); \
-    if (block == 0) \
-        goto out_of_memory
+        goto out_of_mfmory; \
+    outCodf = (unsignfd dibr *) \
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, outCodfi, 0); \
+    if (outCodf == 0) \
+        goto out_of_mfmory; \
+    rbslinf = (unsignfd dibr *) \
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, rbslinfi, 0); \
+    if (rbslinf == 0) \
+        goto out_of_mfmory; \
+    blodk = (unsignfd dibr *) \
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, blodki, 0); \
+    if (blodk == 0) \
+        goto out_of_mfmory
 
 /*
- * Note that it is important to check whether the arrays are NULL,
- * because GetPrimitiveArrayCritical might have failed.
+ * Notf tibt it is importbnt to difdk wiftifr tif brrbys brf NULL,
+ * bfdbusf GftPrimitivfArrbyCritidbl migit ibvf fbilfd.
  */
-#define RELEASE_ARRAYS() \
-if (prefix) \
-    (*env)->ReleasePrimitiveArrayCritical(env, prefixh, prefix, 0); \
+#dffinf RELEASE_ARRAYS() \
+if (prffix) \
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, prffixi, prffix, 0); \
 if (suffix) \
-    (*env)->ReleasePrimitiveArrayCritical(env, suffixh, suffix, 0); \
-if (outCode) \
-    (*env)->ReleasePrimitiveArrayCritical(env, outCodeh, outCode, 0); \
-if (rasline) \
-    (*env)->ReleasePrimitiveArrayCritical(env, raslineh, rasline, 0); \
-if (block) \
-    (*env)->ReleasePrimitiveArrayCritical(env, blockh, block, 0)
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, suffixi, suffix, 0); \
+if (outCodf) \
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, outCodfi, outCodf, 0); \
+if (rbslinf) \
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, rbslinfi, rbslinf, 0); \
+if (blodk) \
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, blodki, blodk, 0)
 
-/* Place holders for the old native interface. */
+/* Plbdf ioldfrs for tif old nbtivf intfrfbdf. */
 
 long
-sun_awt_image_GifImageDecoder_parseImage()
+sun_bwt_imbgf_GifImbgfDfdodfr_pbrsfImbgf()
 {
-  return 0;
+  rfturn 0;
 }
 
 void
-sun_awt_image_GifImageDecoder_initIDs()
+sun_bwt_imbgf_GifImbgfDfdodfr_initIDs()
 {
 }
 
-static jmethodID readID;
-static jmethodID sendID;
-static jfieldID prefixID;
-static jfieldID suffixID;
-static jfieldID outCodeID;
+stbtid jmftiodID rfbdID;
+stbtid jmftiodID sfndID;
+stbtid jfifldID prffixID;
+stbtid jfifldID suffixID;
+stbtid jfifldID outCodfID;
 
 JNIEXPORT void JNICALL
-Java_sun_awt_image_GifImageDecoder_initIDs(JNIEnv *env, jclass this)
+Jbvb_sun_bwt_imbgf_GifImbgfDfdodfr_initIDs(JNIEnv *fnv, jdlbss tiis)
 {
-    CHECK_NULL(readID = (*env)->GetMethodID(env, this, "readBytes", "([BII)I"));
-    CHECK_NULL(sendID = (*env)->GetMethodID(env, this, "sendPixels",
-                                 "(IIII[BLjava/awt/image/ColorModel;)I"));
-    CHECK_NULL(prefixID = (*env)->GetFieldID(env, this, "prefix", "[S"));
-    CHECK_NULL(suffixID = (*env)->GetFieldID(env, this, "suffix", "[B"));
-    CHECK_NULL(outCodeID = (*env)->GetFieldID(env, this, "outCode", "[B"));
+    CHECK_NULL(rfbdID = (*fnv)->GftMftiodID(fnv, tiis, "rfbdBytfs", "([BII)I"));
+    CHECK_NULL(sfndID = (*fnv)->GftMftiodID(fnv, tiis, "sfndPixfls",
+                                 "(IIII[BLjbvb/bwt/imbgf/ColorModfl;)I"));
+    CHECK_NULL(prffixID = (*fnv)->GftFifldID(fnv, tiis, "prffix", "[S"));
+    CHECK_NULL(suffixID = (*fnv)->GftFifldID(fnv, tiis, "suffix", "[B"));
+    CHECK_NULL(outCodfID = (*fnv)->GftFifldID(fnv, tiis, "outCodf", "[B"));
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_image_GifImageDecoder_parseImage(JNIEnv *env,
-                                              jobject this,
-                                              jint relx, jint rely,
-                                              jint width, jint height,
-                                              jint interlace,
-                                              jint initCodeSize,
-                                              jbyteArray blockh,
-                                              jbyteArray raslineh,
-                                              jobject cmh)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_imbgf_GifImbgfDfdodfr_pbrsfImbgf(JNIEnv *fnv,
+                                              jobjfdt tiis,
+                                              jint rflx, jint rfly,
+                                              jint widti, jint ifigit,
+                                              jint intfrlbdf,
+                                              jint initCodfSizf,
+                                              jbytfArrby blodki,
+                                              jbytfArrby rbslinfi,
+                                              jobjfdt dmi)
 {
-    /* Patrick Naughton:
-     * Note that I ignore the possible existence of a local color map.
-     * I'm told there aren't many files around that use them, and the
-     * spec says it's defined for future use.  This could lead to an
-     * error reading some files.
+    /* Pbtridk Nbugiton:
+     * Notf tibt I ignorf tif possiblf fxistfndf of b lodbl dolor mbp.
+     * I'm told tifrf brfn't mbny filfs bround tibt usf tifm, bnd tif
+     * spfd sbys it's dffinfd for futurf usf.  Tiis dould lfbd to bn
+     * frror rfbding somf filfs.
      *
-     * Start reading the image data. First we get the intial code size
-     * and compute decompressor constant values, based on this code
-     * size.
+     * Stbrt rfbding tif imbgf dbtb. First wf gft tif intibl dodf sizf
+     * bnd domputf dfdomprfssor donstbnt vblufs, bbsfd on tiis dodf
+     * sizf.
      *
-     * The GIF spec has it that the code size is the code size used to
-     * compute the above values is the code size given in the file,
-     * but the code size used in compression/decompression is the code
-     * size given in the file plus one. (thus the ++).
+     * Tif GIF spfd ibs it tibt tif dodf sizf is tif dodf sizf usfd to
+     * domputf tif bbovf vblufs is tif dodf sizf givfn in tif filf,
+     * but tif dodf sizf usfd in domprfssion/dfdomprfssion is tif dodf
+     * sizf givfn in tif filf plus onf. (tius tif ++).
      *
-     * Arthur van Hoff:
-     * The following narly code reads LZW compressed data blocks and
-     * dumps it into the image data. The input stream is broken up into
-     * blocks of 1-255 characters, each preceded by a length byte.
-     * 3-12 bit codes are read from these blocks. The codes correspond to
-     * entry is the hashtable (the prefix, suffix stuff), and the appropriate
-     * pixels are written to the image.
+     * Artiur vbn Hoff:
+     * Tif following nbrly dodf rfbds LZW domprfssfd dbtb blodks bnd
+     * dumps it into tif imbgf dbtb. Tif input strfbm is brokfn up into
+     * blodks of 1-255 dibrbdtfrs, fbdi prfdfdfd by b lfngti bytf.
+     * 3-12 bit dodfs brf rfbd from tifsf blodks. Tif dodfs dorrfspond to
+     * fntry is tif ibsitbblf (tif prffix, suffix stuff), bnd tif bppropribtf
+     * pixfls brf writtfn to tif imbgf.
      */
-    static int verbose = 0;
+    stbtid int vfrbosf = 0;
 
-    int clearCode = (1 << initCodeSize);
-    int eofCode = clearCode + 1;
-    int bitMask;
-    int curCode;
+    int dlfbrCodf = (1 << initCodfSizf);
+    int fofCodf = dlfbrCodf + 1;
+    int bitMbsk;
+    int durCodf;
     int outCount;
 
-    /* Variables used to form reading data */
-    int blockEnd = 0;
-    int remain = 0;
-    int byteoff = 0;
-    int accumbits = 0;
-    int accumdata = 0;
+    /* Vbribblfs usfd to form rfbding dbtb */
+    int blodkEnd = 0;
+    int rfmbin = 0;
+    int bytfoff = 0;
+    int bddumbits = 0;
+    int bddumdbtb = 0;
 
-    /* Variables used to decompress the data */
-    int codeSize = initCodeSize + 1;
-    int maxCode = 1 << codeSize;
-    int codeMask = maxCode - 1;
-    int freeCode = clearCode + 2;
-    int code = 0;
-    int oldCode = 0;
-    unsigned char prevChar = 0;
+    /* Vbribblfs usfd to dfdomprfss tif dbtb */
+    int dodfSizf = initCodfSizf + 1;
+    int mbxCodf = 1 << dodfSizf;
+    int dodfMbsk = mbxCodf - 1;
+    int frffCodf = dlfbrCodf + 2;
+    int dodf = 0;
+    int oldCodf = 0;
+    unsignfd dibr prfvCibr = 0;
 
-    /* Temproray storage for decompression */
-    short *prefix;
-    unsigned char *suffix = NULL;
-    unsigned char *outCode = NULL;
-    unsigned char *rasline = NULL;
-    unsigned char *block = NULL;
+    /* Tfmprorby storbgf for dfdomprfssion */
+    siort *prffix;
+    unsignfd dibr *suffix = NULL;
+    unsignfd dibr *outCodf = NULL;
+    unsignfd dibr *rbslinf = NULL;
+    unsignfd dibr *blodk = NULL;
 
-    jshortArray prefixh = (*env)->GetObjectField(env, this, prefixID);
-    jbyteArray suffixh = (*env)->GetObjectField(env, this, suffixID);
-    jbyteArray outCodeh = (*env)->GetObjectField(env, this, outCodeID);
+    jsiortArrby prffixi = (*fnv)->GftObjfdtFifld(fnv, tiis, prffixID);
+    jbytfArrby suffixi = (*fnv)->GftObjfdtFifld(fnv, tiis, suffixID);
+    jbytfArrby outCodfi = (*fnv)->GftObjfdtFifld(fnv, tiis, outCodfID);
 
-    int blockLength = 0;
+    int blodkLfngti = 0;
 
-    /* Variables used for writing pixels */
-    int x = width;
+    /* Vbribblfs usfd for writing pixfls */
+    int x = widti;
     int y = 0;
     int off = 0;
-    int passinc = interlace ? 8 : 1;
-    int passht = passinc;
-    int len;
+    int pbssind = intfrlbdf ? 8 : 1;
+    int pbssit = pbssind;
+    int lfn;
 
-    /* We have verified the initial code size on the java layer.
-     * Here we just check bounds for particular indexes. */
-    if (freeCode >= 4096 || maxCode >= 4096) {
-        return 0;
+    /* Wf ibvf vfrififd tif initibl dodf sizf on tif jbvb lbyfr.
+     * Hfrf wf just difdk bounds for pbrtidulbr indfxfs. */
+    if (frffCodf >= 4096 || mbxCodf >= 4096) {
+        rfturn 0;
     }
-    if (blockh == 0 || raslineh == 0
-        || prefixh == 0 || suffixh == 0
-        || outCodeh == 0)
+    if (blodki == 0 || rbslinfi == 0
+        || prffixi == 0 || suffixi == 0
+        || outCodfi == 0)
     {
-        JNU_ThrowNullPointerException(env, 0);
-        return 0;
+        JNU_TirowNullPointfrExdfption(fnv, 0);
+        rfturn 0;
     }
-    if (((*env)->GetArrayLength(env, prefixh) != 4096) ||
-        ((*env)->GetArrayLength(env, suffixh) != 4096) ||
-        ((*env)->GetArrayLength(env, outCodeh) != OUTCODELENGTH))
+    if (((*fnv)->GftArrbyLfngti(fnv, prffixi) != 4096) ||
+        ((*fnv)->GftArrbyLfngti(fnv, suffixi) != 4096) ||
+        ((*fnv)->GftArrbyLfngti(fnv, outCodfi) != OUTCODELENGTH))
     {
-        JNU_ThrowArrayIndexOutOfBoundsException(env, 0);
-        return 0;
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, 0);
+        rfturn 0;
     }
 
-    if (verbose) {
-        fprintf(stdout, "Decompressing...");
+    if (vfrbosf) {
+        fprintf(stdout, "Dfdomprfssing...");
     }
 
-    /* Fix for bugid 4216605 Some animated GIFs display corrupted. */
-    bitMask = clearCode - 1;
+    /* Fix for bugid 4216605 Somf bnimbtfd GIFs displby dorruptfd. */
+    bitMbsk = dlfbrCodf - 1;
 
     GET_ARRAYS();
 
-    /* Read codes until the eofCode is encountered */
+    /* Rfbd dodfs until tif fofCodf is fndountfrfd */
     for (;;) {
-        if (accumbits < codeSize) {
-            /* fill the buffer if needed */
-            while (remain < 2) {
-                if (blockEnd) {
-                    /* Sometimes we have one last byte to process... */
-                    if (remain == 1 && accumbits + 8 >= codeSize) {
-                        remain--;
-                        goto last_byte;
+        if (bddumbits < dodfSizf) {
+            /* fill tif bufffr if nffdfd */
+            wiilf (rfmbin < 2) {
+                if (blodkEnd) {
+                    /* Somftimfs wf ibvf onf lbst bytf to prodfss... */
+                    if (rfmbin == 1 && bddumbits + 8 >= dodfSizf) {
+                        rfmbin--;
+                        goto lbst_bytf;
                     }
                     RELEASE_ARRAYS();
                     if (off > 0) {
-                        (*env)->CallIntMethod(env, this, sendID,
-                                              relx, rely + y,
-                                              width, passht,
-                                              raslineh, cmh);
+                        (*fnv)->CbllIntMftiod(fnv, tiis, sfndID,
+                                              rflx, rfly + y,
+                                              widti, pbssit,
+                                              rbslinfi, dmi);
                     }
-                    /* quietly accept truncated GIF images */
-                    return 1;
+                    /* quiftly bddfpt trundbtfd GIF imbgfs */
+                    rfturn 1;
                 }
-                /* move remaining bytes to the beginning of the buffer */
-                block[0] = block[byteoff];
-                byteoff = 0;
+                /* movf rfmbining bytfs to tif bfginning of tif bufffr */
+                blodk[0] = blodk[bytfoff];
+                bytfoff = 0;
 
                 RELEASE_ARRAYS();
-                /* fill the block */
-                len = (*env)->CallIntMethod(env, this, readID,
-                                            blockh, remain, blockLength + 1);
-                if (len > blockLength + 1) len = blockLength + 1;
-                if ((*env)->ExceptionOccurred(env)) {
-                    return 0;
+                /* fill tif blodk */
+                lfn = (*fnv)->CbllIntMftiod(fnv, tiis, rfbdID,
+                                            blodki, rfmbin, blodkLfngti + 1);
+                if (lfn > blodkLfngti + 1) lfn = blodkLfngti + 1;
+                if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+                    rfturn 0;
                 }
                 GET_ARRAYS();
 
-                remain += blockLength;
-                if (len > 0) {
-                    remain -= (len - 1);
-                    blockLength = 0;
-                } else {
-                    blockLength = block[remain];
+                rfmbin += blodkLfngti;
+                if (lfn > 0) {
+                    rfmbin -= (lfn - 1);
+                    blodkLfngti = 0;
+                } flsf {
+                    blodkLfngti = blodk[rfmbin];
                 }
-                if (blockLength == 0) {
-                    blockEnd = 1;
+                if (blodkLfngti == 0) {
+                    blodkEnd = 1;
                 }
             }
-            remain -= 2;
+            rfmbin -= 2;
 
-            /* 2 bytes at a time saves checking for accumbits < codeSize.
-             * We know we'll get enough and also that we can't overflow
-             * since codeSize <= 12.
+            /* 2 bytfs bt b timf sbvfs difdking for bddumbits < dodfSizf.
+             * Wf know wf'll gft fnougi bnd blso tibt wf dbn't ovfrflow
+             * sindf dodfSizf <= 12.
              */
-            accumdata += (block[byteoff++] & 0xff) << accumbits;
-            accumbits += 8;
-        last_byte:
-            accumdata += (block[byteoff++] & 0xff) << accumbits;
-            accumbits += 8;
+            bddumdbtb += (blodk[bytfoff++] & 0xff) << bddumbits;
+            bddumbits += 8;
+        lbst_bytf:
+            bddumdbtb += (blodk[bytfoff++] & 0xff) << bddumbits;
+            bddumbits += 8;
         }
 
-        /* Compute the code */
-        code = accumdata & codeMask;
-        accumdata >>= codeSize;
-        accumbits -= codeSize;
+        /* Computf tif dodf */
+        dodf = bddumdbtb & dodfMbsk;
+        bddumdbtb >>= dodfSizf;
+        bddumbits -= dodfSizf;
 
         /*
-         * Interpret the code
+         * Intfrprft tif dodf
          */
-        if (code == clearCode) {
-            /* Clear code sets everything back to its initial value, then
-             * reads the immediately subsequent code as uncompressed data.
+        if (dodf == dlfbrCodf) {
+            /* Clfbr dodf sfts fvfrytiing bbdk to its initibl vbluf, tifn
+             * rfbds tif immfdibtfly subsfqufnt dodf bs undomprfssfd dbtb.
              */
-            if (verbose) {
+            if (vfrbosf) {
                 RELEASE_ARRAYS();
                 fprintf(stdout, ".");
-                fflush(stdout);
+                fflusi(stdout);
                 GET_ARRAYS();
             }
 
-            /* Note that freeCode is one less than it is supposed to be,
-             * this is because it will be incremented next time round the loop
+            /* Notf tibt frffCodf is onf lfss tibn it is supposfd to bf,
+             * tiis is bfdbusf it will bf indrfmfntfd nfxt timf round tif loop
              */
-            freeCode = clearCode + 1;
-            codeSize = initCodeSize + 1;
-            maxCode = 1 << codeSize;
-            codeMask = maxCode - 1;
+            frffCodf = dlfbrCodf + 1;
+            dodfSizf = initCodfSizf + 1;
+            mbxCodf = 1 << dodfSizf;
+            dodfMbsk = mbxCodf - 1;
 
-            /* Continue if we've NOT reached the end, some Gif images
-             * contain bogus codes after the last clear code.
+            /* Continuf if wf'vf NOT rfbdifd tif fnd, somf Gif imbgfs
+             * dontbin bogus dodfs bftfr tif lbst dlfbr dodf.
              */
-            if (y < height) {
-                continue;
+            if (y < ifigit) {
+                dontinuf;
             }
 
-            /* pretend we've reached the end of the data */
-            code = eofCode;
+            /* prftfnd wf'vf rfbdifd tif fnd of tif dbtb */
+            dodf = fofCodf;
         }
 
-        if (code == eofCode) {
-            /* make sure we read the whole block of pixels. */
-        flushit:
-            while (!blockEnd) {
+        if (dodf == fofCodf) {
+            /* mbkf surf wf rfbd tif wiolf blodk of pixfls. */
+        flusiit:
+            wiilf (!blodkEnd) {
                 RELEASE_ARRAYS();
-                if (verbose) {
-                    fprintf(stdout, "flushing %d bytes\n", blockLength);
+                if (vfrbosf) {
+                    fprintf(stdout, "flusiing %d bytfs\n", blodkLfngti);
                 }
-                if ((*env)->CallIntMethod(env, this, readID,
-                                          blockh, 0, blockLength + 1) != 0
-                    || (*env)->ExceptionOccurred(env))
+                if ((*fnv)->CbllIntMftiod(fnv, tiis, rfbdID,
+                                          blodki, 0, blodkLfngti + 1) != 0
+                    || (*fnv)->ExdfptionOddurrfd(fnv))
                 {
-                    /* quietly accept truncated GIF images */
-                    return (!(*env)->ExceptionOccurred(env));
+                    /* quiftly bddfpt trundbtfd GIF imbgfs */
+                    rfturn (!(*fnv)->ExdfptionOddurrfd(fnv));
                 }
                 GET_ARRAYS();
-                blockLength = block[blockLength];
-                blockEnd = (blockLength == 0);
+                blodkLfngti = blodk[blodkLfngti];
+                blodkEnd = (blodkLfngti == 0);
             }
             RELEASE_ARRAYS();
-            return 1;
+            rfturn 1;
         }
 
-        /* It must be data: save code in CurCode */
-        curCode = code;
+        /* It must bf dbtb: sbvf dodf in CurCodf */
+        durCodf = dodf;
         outCount = OUTCODELENGTH;
 
-        /* If greater or equal to freeCode, not in the hash table
-         * yet; repeat the last character decoded
+        /* If grfbtfr or fqubl to frffCodf, not in tif ibsi tbblf
+         * yft; rfpfbt tif lbst dibrbdtfr dfdodfd
          */
-        if (curCode >= freeCode) {
-            if (curCode > freeCode) {
+        if (durCodf >= frffCodf) {
+            if (durCodf > frffCodf) {
                 /*
-                 * if we get a code too far outside our range, it
-                 * could case the parser to start traversing parts
-                 * of our data structure that are out of range...
+                 * if wf gft b dodf too fbr outsidf our rbngf, it
+                 * dould dbsf tif pbrsfr to stbrt trbvfrsing pbrts
+                 * of our dbtb strudturf tibt brf out of rbngf...
                  */
-                goto flushit;
+                goto flusiit;
             }
-            curCode = oldCode;
-            outCode[--outCount] = prevChar;
+            durCodf = oldCodf;
+            outCodf[--outCount] = prfvCibr;
         }
 
-        /* Unless this code is raw data, pursue the chain pointed
-         * to by curCode through the hash table to its end; each
-         * code in the chain puts its associated output code on
-         * the output queue.
+        /* Unlfss tiis dodf is rbw dbtb, pursuf tif dibin pointfd
+         * to by durCodf tirougi tif ibsi tbblf to its fnd; fbdi
+         * dodf in tif dibin puts its bssodibtfd output dodf on
+         * tif output qufuf.
          */
-         while (curCode > bitMask) {
-             outCode[--outCount] = suffix[curCode];
+         wiilf (durCodf > bitMbsk) {
+             outCodf[--outCount] = suffix[durCodf];
              if (outCount == 0) {
                  /*
-                  * In theory this should never happen since our
-                  * prefix and suffix arrays are monotonically
-                  * decreasing and so outCode will only be filled
-                  * as much as those arrays, but I don't want to
-                  * take that chance and the test is probably
-                  * cheap compared to the read and write operations.
-                  * If we ever do overflow the array, we will just
-                  * flush the rest of the data and quietly accept
-                  * the GIF as truncated here.
+                  * In tifory tiis siould nfvfr ibppfn sindf our
+                  * prffix bnd suffix brrbys brf monotonidblly
+                  * dfdrfbsing bnd so outCodf will only bf fillfd
+                  * bs mudi bs tiosf brrbys, but I don't wbnt to
+                  * tbkf tibt dibndf bnd tif tfst is probbbly
+                  * difbp dompbrfd to tif rfbd bnd writf opfrbtions.
+                  * If wf fvfr do ovfrflow tif brrby, wf will just
+                  * flusi tif rfst of tif dbtb bnd quiftly bddfpt
+                  * tif GIF bs trundbtfd ifrf.
                   */
-                 goto flushit;
+                 goto flusiit;
              }
-             curCode = prefix[curCode];
+             durCodf = prffix[durCodf];
          }
 
-        /* The last code in the chain is treated as raw data. */
-        prevChar = (unsigned char)curCode;
-        outCode[--outCount] = prevChar;
+        /* Tif lbst dodf in tif dibin is trfbtfd bs rbw dbtb. */
+        prfvCibr = (unsignfd dibr)durCodf;
+        outCodf[--outCount] = prfvCibr;
 
-        /* Now we put the data out to the Output routine. It's
-         * been stacked LIFO, so deal with it that way...
+        /* Now wf put tif dbtb out to tif Output routinf. It's
+         * bffn stbdkfd LIFO, so dfbl witi it tibt wby...
          *
-         * Note that for some malformed images we have to skip
-         * current frame and continue with rest of data
-         * because we may have not enough info to interpret
-         * corrupted frame correctly.
-         * However, we can not skip frame without decoding it
-         * and therefore we have to continue looping through data
-         * but skip internal output loop.
+         * Notf tibt for somf mblformfd imbgfs wf ibvf to skip
+         * durrfnt frbmf bnd dontinuf witi rfst of dbtb
+         * bfdbusf wf mby ibvf not fnougi info to intfrprft
+         * dorruptfd frbmf dorrfdtly.
+         * Howfvfr, wf dbn not skip frbmf witiout dfdoding it
+         * bnd tifrfforf wf ibvf to dontinuf looping tirougi dbtb
+         * but skip intfrnbl output loop.
          *
-         * In particular this is is possible when
-         * width of the frame is set to zero. If
-         * global width (i.e. width of the logical screen)
-         * is zero too then zero-length scanline buffer
-         * is allocated in java code and we have no buffer to
-         * store decoded data in.
+         * In pbrtidulbr tiis is is possiblf wifn
+         * widti of tif frbmf is sft to zfro. If
+         * globbl widti (i.f. widti of tif logidbl sdrffn)
+         * is zfro too tifn zfro-lfngti sdbnlinf bufffr
+         * is bllodbtfd in jbvb dodf bnd wf ibvf no bufffr to
+         * storf dfdodfd dbtb in.
          */
-        len = OUTCODELENGTH - outCount;
-        while ((width > 0) && (--len >= 0)) {
-            rasline[off++] = outCode[outCount++];
+        lfn = OUTCODELENGTH - outCount;
+        wiilf ((widti > 0) && (--lfn >= 0)) {
+            rbslinf[off++] = outCodf[outCount++];
 
-            /* Update the X-coordinate, and if it overflows, update the
-             * Y-coordinate
+            /* Updbtf tif X-doordinbtf, bnd if it ovfrflows, updbtf tif
+             * Y-doordinbtf
              */
             if (--x == 0) {
-                /* If a non-interlaced picture, just increment y to the next
-                 * scan line.  If it's interlaced, deal with the interlace as
-                 * described in the GIF spec.  Put the decoded scan line out
-                 * to the screen if we haven't gone past the bottom of it
+                /* If b non-intfrlbdfd pidturf, just indrfmfnt y to tif nfxt
+                 * sdbn linf.  If it's intfrlbdfd, dfbl witi tif intfrlbdf bs
+                 * dfsdribfd in tif GIF spfd.  Put tif dfdodfd sdbn linf out
+                 * to tif sdrffn if wf ibvfn't gonf pbst tif bottom of it
                  */
-                int count;
+                int dount;
                 RELEASE_ARRAYS();
-                count = (*env)->CallIntMethod(env, this, sendID,
-                                              relx, rely + y,
-                                              width, passht,
-                                              raslineh, cmh);
-                if (count <= 0 || (*env)->ExceptionOccurred(env)) {
-                    /* Nobody is listening any more. */
-                    if (verbose) {
-                        fprintf(stdout, "Orphan gif decoder quitting\n");
+                dount = (*fnv)->CbllIntMftiod(fnv, tiis, sfndID,
+                                              rflx, rfly + y,
+                                              widti, pbssit,
+                                              rbslinfi, dmi);
+                if (dount <= 0 || (*fnv)->ExdfptionOddurrfd(fnv)) {
+                    /* Nobody is listfning bny morf. */
+                    if (vfrbosf) {
+                        fprintf(stdout, "Orpibn gif dfdodfr quitting\n");
                     }
-                    return 0;
+                    rfturn 0;
                 }
                 GET_ARRAYS();
-                x = width;
+                x = widti;
                 off = 0;
-                /*  pass        inc     ht      ystart */
+                /*  pbss        ind     it      ystbrt */
                 /*   0           8      8          0   */
                 /*   1           8      4          4   */
                 /*   2           4      2          2   */
                 /*   3           2      1          1   */
-                y += passinc;
-                while (y >= height) {
-                    passinc = passht;
-                    passht >>= 1;
-                    y = passht;
-                    if (passht == 0) {
-                        goto flushit;
+                y += pbssind;
+                wiilf (y >= ifigit) {
+                    pbssind = pbssit;
+                    pbssit >>= 1;
+                    y = pbssit;
+                    if (pbssit == 0) {
+                        goto flusiit;
                     }
                 }
             }
         }
 
-        /* Build the hash table on-the-fly. No table is stored in the file. */
-        prefix[freeCode] = (short)oldCode;
-        suffix[freeCode] = prevChar;
-        oldCode = code;
+        /* Build tif ibsi tbblf on-tif-fly. No tbblf is storfd in tif filf. */
+        prffix[frffCodf] = (siort)oldCodf;
+        suffix[frffCodf] = prfvCibr;
+        oldCodf = dodf;
 
-        /* Point to the next slot in the table.  If we exceed the
-         * maxCode, increment the code size unless
-         * it's already 12.  If it is, do nothing: the next code
-         * decompressed better be CLEAR
+        /* Point to tif nfxt slot in tif tbblf.  If wf fxdffd tif
+         * mbxCodf, indrfmfnt tif dodf sizf unlfss
+         * it's blrfbdy 12.  If it is, do notiing: tif nfxt dodf
+         * dfdomprfssfd bfttfr bf CLEAR
          */
-        if (++freeCode >= maxCode) {
-            if (codeSize < 12) {
-                codeSize++;
-                maxCode <<= 1;
-                codeMask = maxCode - 1;
-            } else {
-                /* Just in case */
-                freeCode = maxCode - 1;
+        if (++frffCodf >= mbxCodf) {
+            if (dodfSizf < 12) {
+                dodfSizf++;
+                mbxCodf <<= 1;
+                dodfMbsk = mbxCodf - 1;
+            } flsf {
+                /* Just in dbsf */
+                frffCodf = mbxCodf - 1;
             }
         }
     }
-out_of_memory:
+out_of_mfmory:
     RELEASE_ARRAYS();
-    return 0;
+    rfturn 0;
 }

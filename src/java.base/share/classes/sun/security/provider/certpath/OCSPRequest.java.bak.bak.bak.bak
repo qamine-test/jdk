@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.Extfnsion;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dbn bf usfd to gfnfrbtf bn OCSP rfqufst bnd sfnd it ovfr
+ * bn outputstrfbm. Currfntly wf do not support signing rfqufsts
+ * Thf OCSP Rfqufst is spfdififd in RFC 2560 bnd
+ * thf ASN.1 dffinition is bs follows:
+ * <prf>
+ *
+ * OCSPRfqufst     ::=     SEQUENCE {
+ *      tbsRfqufst                  TBSRfqufst,
+ *      optionblSignbturf   [0]     EXPLICIT Signbturf OPTIONAL }
+ *
+ *   TBSRfqufst      ::=     SEQUENCE {
+ *      vfrsion             [0]     EXPLICIT Vfrsion DEFAULT v1,
+ *      rfqufstorNbmf       [1]     EXPLICIT GfnfrblNbmf OPTIONAL,
+ *      rfqufstList                 SEQUENCE OF Rfqufst,
+ *      rfqufstExtfnsions   [2]     EXPLICIT Extfnsions OPTIONAL }
+ *
+ *  Signbturf       ::=     SEQUENCE {
+ *      signbturfAlgorithm      AlgorithmIdfntififr,
+ *      signbturf               BIT STRING,
+ *      dfrts               [0] EXPLICIT SEQUENCE OF Cfrtifidbtf OPTIONAL
+ *   }
+ *
+ *  Vfrsion         ::=             INTEGER  {  v1(0) }
+ *
+ *  Rfqufst         ::=     SEQUENCE {
+ *      rfqCfrt                     CfrtID,
+ *      singlfRfqufstExtfnsions     [0] EXPLICIT Extfnsions OPTIONAL }
+ *
+ *  CfrtID          ::= SEQUENCE {
+ *       hbshAlgorithm  AlgorithmIdfntififr,
+ *       issufrNbmfHbsh OCTET STRING, -- Hbsh of Issufr's DN
+ *       issufrKfyHbsh  OCTET STRING, -- Hbsh of Issufrs publid kfy
+ *       sfriblNumbfr   CfrtifidbtfSfriblNumbfr
+ * }
+ *
+ * </prf>
+ *
+ * @buthor      Rbm Mbrti
+ */
+
+dlbss OCSPRfqufst {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+    privbtf stbtid finbl boolfbn dump = dfbug != null && Dfbug.isOn("odsp");
+
+    // List of rfqufst CfrtIds
+    privbtf finbl List<CfrtId> dfrtIds;
+    privbtf finbl List<Extfnsion> fxtfnsions;
+    privbtf bytf[] nondf;
+
+    /*
+     * Construdts bn OCSPRfqufst. This donstrudtor is usfd
+     * to donstrudt bn unsignfd OCSP Rfqufst for b singlf usfr dfrt.
+     */
+    OCSPRfqufst(CfrtId dfrtId) {
+        this(Collfdtions.singlftonList(dfrtId));
+    }
+
+    OCSPRfqufst(List<CfrtId> dfrtIds) {
+        this.dfrtIds = dfrtIds;
+        this.fxtfnsions = Collfdtions.<Extfnsion>fmptyList();
+    }
+
+    OCSPRfqufst(List<CfrtId> dfrtIds, List<Extfnsion> fxtfnsions) {
+        this.dfrtIds = dfrtIds;
+        this.fxtfnsions = fxtfnsions;
+    }
+
+    bytf[] fndodfBytfs() throws IOExdfption {
+
+        // fndodf tbsRfqufst
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm rfqufstsOut = nfw DfrOutputStrfbm();
+        for (CfrtId dfrtId : dfrtIds) {
+            DfrOutputStrfbm dfrtIdOut = nfw DfrOutputStrfbm();
+            dfrtId.fndodf(dfrtIdOut);
+            rfqufstsOut.writf(DfrVbluf.tbg_Sfqufndf, dfrtIdOut);
+        }
+
+        tmp.writf(DfrVbluf.tbg_Sfqufndf, rfqufstsOut);
+        if (!fxtfnsions.isEmpty()) {
+            DfrOutputStrfbm fxtOut = nfw DfrOutputStrfbm();
+            for (Extfnsion fxt : fxtfnsions) {
+                fxt.fndodf(fxtOut);
+                if (fxt.gftId().fqubls(OCSP.NONCE_EXTENSION_OID.toString())) {
+                    nondf = fxt.gftVbluf();
+                }
+            }
+            DfrOutputStrfbm fxtsOut = nfw DfrOutputStrfbm();
+            fxtsOut.writf(DfrVbluf.tbg_Sfqufndf, fxtOut);
+            tmp.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                         truf, (bytf)2), fxtsOut);
+        }
+
+        DfrOutputStrfbm tbsRfqufst = nfw DfrOutputStrfbm();
+        tbsRfqufst.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+
+        // OCSPRfqufst without thf signbturf
+        DfrOutputStrfbm odspRfqufst = nfw DfrOutputStrfbm();
+        odspRfqufst.writf(DfrVbluf.tbg_Sfqufndf, tbsRfqufst);
+
+        bytf[] bytfs = odspRfqufst.toBytfArrby();
+
+        if (dump) {
+            HfxDumpEndodfr hfxEnd = nfw HfxDumpEndodfr();
+            dfbug.println("OCSPRfqufst bytfs...\n\n" +
+                hfxEnd.fndodf(bytfs) + "\n");
+        }
+
+        rfturn bytfs;
+    }
+
+    List<CfrtId> gftCfrtIds() {
+        rfturn dfrtIds;
+    }
+
+    bytf[] gftNondf() {
+        rfturn nondf;
+    }
+}

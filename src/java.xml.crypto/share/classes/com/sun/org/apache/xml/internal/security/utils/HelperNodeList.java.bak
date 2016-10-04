@@ -1,98 +1,98 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
 
 /**
- * @author Christian Geuer-Pollmann
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class HelperNodeList implements NodeList {
+publid dlbss HflpfrNodfList implfmfnts NodfList {
 
-    /** Field nodes */
-    List<Node> nodes = new ArrayList<Node>();
-    boolean allNodesMustHaveSameParent = false;
+    /** Fifld nodfs */
+    List<Nodf> nodfs = nfw ArrbyList<Nodf>();
+    boolfbn bllNodfsMustHbvfSbmfPbrfnt = fblsf;
 
     /**
      *
      */
-    public HelperNodeList() {
-        this(false);
+    publid HflpfrNodfList() {
+        tiis(fblsf);
     }
 
 
     /**
-     * @param allNodesMustHaveSameParent
+     * @pbrbm bllNodfsMustHbvfSbmfPbrfnt
      */
-    public HelperNodeList(boolean allNodesMustHaveSameParent) {
-        this.allNodesMustHaveSameParent = allNodesMustHaveSameParent;
+    publid HflpfrNodfList(boolfbn bllNodfsMustHbvfSbmfPbrfnt) {
+        tiis.bllNodfsMustHbvfSbmfPbrfnt = bllNodfsMustHbvfSbmfPbrfnt;
     }
 
     /**
-     * Method item
+     * Mftiod itfm
      *
-     * @param index
-     * @return node with index i
+     * @pbrbm indfx
+     * @rfturn nodf witi indfx i
      */
-    public Node item(int index) {
-        return nodes.get(index);
+    publid Nodf itfm(int indfx) {
+        rfturn nodfs.gft(indfx);
     }
 
     /**
-     * Method getLength
+     * Mftiod gftLfngti
      *
-     *  @return length of the list
+     *  @rfturn lfngti of tif list
      */
-    public int getLength() {
-        return nodes.size();
+    publid int gftLfngti() {
+        rfturn nodfs.sizf();
     }
 
     /**
-     * Method appendChild
+     * Mftiod bppfndCiild
      *
-     * @param node
-     * @throws IllegalArgumentException
+     * @pbrbm nodf
+     * @tirows IllfgblArgumfntExdfption
      */
-    public void appendChild(Node node) throws IllegalArgumentException {
-        if (this.allNodesMustHaveSameParent && this.getLength() > 0
-            && this.item(0).getParentNode() != node.getParentNode()) {
-            throw new IllegalArgumentException("Nodes have not the same Parent");
+    publid void bppfndCiild(Nodf nodf) tirows IllfgblArgumfntExdfption {
+        if (tiis.bllNodfsMustHbvfSbmfPbrfnt && tiis.gftLfngti() > 0
+            && tiis.itfm(0).gftPbrfntNodf() != nodf.gftPbrfntNodf()) {
+            tirow nfw IllfgblArgumfntExdfption("Nodfs ibvf not tif sbmf Pbrfnt");
         }
-        nodes.add(node);
+        nodfs.bdd(nodf);
     }
 
     /**
-     * @return the document that contains this nodelist
+     * @rfturn tif dodumfnt tibt dontbins tiis nodflist
      */
-    public Document getOwnerDocument() {
-        if (this.getLength() == 0) {
-            return null;
+    publid Dodumfnt gftOwnfrDodumfnt() {
+        if (tiis.gftLfngti() == 0) {
+            rfturn null;
         }
-        return XMLUtils.getOwnerDocument(this.item(0));
+        rfturn XMLUtils.gftOwnfrDodumfnt(tiis.itfm(0));
     }
 }

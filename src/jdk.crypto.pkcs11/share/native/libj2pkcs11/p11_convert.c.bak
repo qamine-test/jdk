@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -46,1789 +46,1789 @@
  */
 
 /*
- * pkcs11wrapper.c
+ * pkds11wrbppfr.d
  * 18.05.2001
  *
- * This is the implementation of the native functions of the Java to PKCS#11 interface.
- * All function use some helper functions to convert the JNI types to PKCS#11 types.
+ * Tiis is tif implfmfntbtion of tif nbtivf fundtions of tif Jbvb to PKCS#11 intfrfbdf.
+ * All fundtion usf somf iflpfr fundtions to donvfrt tif JNI typfs to PKCS#11 typfs.
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @butior Kbrl Sdifibflioffr <Kbrl.Sdifibflioffr@ibik.bt>
+ * @butior Mbrtin Sdilbffffr <sdilbfff@sbox.tugrbz.bt>
  */
 
 
-#include "pkcs11wrapper.h"
+#indludf "pkds11wrbppfr.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.i"
 
-/* declare file private functions */
+/* dfdlbrf filf privbtf fundtions */
 
-void jMechanismParameterToCKMechanismParameterSlow(JNIEnv *env, jobject jParam, CK_VOID_PTR *ckpParamPtr, CK_ULONG *ckpLength);
+void jMfdibnismPbrbmftfrToCKMfdibnismPbrbmftfrSlow(JNIEnv *fnv, jobjfdt jPbrbm, CK_VOID_PTR *dkpPbrbmPtr, CK_ULONG *dkpLfngti);
 
 
 /*
- * converts a pointer to a CK_DATE structure into a Java CK_DATE Object.
+ * donvfrts b pointfr to b CK_DATE strudturf into b Jbvb CK_DATE Objfdt.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpValue - the pointer to the CK_DATE structure
- * @return - the new Java CK_DATE object
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb objfdt
+ * @pbrbm dkpVbluf - tif pointfr to tif CK_DATE strudturf
+ * @rfturn - tif nfw Jbvb CK_DATE objfdt
  */
-jobject ckDatePtrToJDateObject(JNIEnv *env, const CK_DATE *ckpDate)
+jobjfdt dkDbtfPtrToJDbtfObjfdt(JNIEnv *fnv, donst CK_DATE *dkpDbtf)
 {
-    jclass jDateClass;
-    jmethodID jCtrId;
-    jobject jDateObject;
-    jcharArray jYear;
-    jcharArray jMonth;
-    jcharArray jDay;
+    jdlbss jDbtfClbss;
+    jmftiodID jCtrId;
+    jobjfdt jDbtfObjfdt;
+    jdibrArrby jYfbr;
+    jdibrArrby jMonti;
+    jdibrArrby jDby;
 
-    /* load CK_DATE class */
-    jDateClass = (*env)->FindClass(env, CLASS_DATE);
-    if (jDateClass == NULL) { return NULL; }
+    /* lobd CK_DATE dlbss */
+    jDbtfClbss = (*fnv)->FindClbss(fnv, CLASS_DATE);
+    if (jDbtfClbss == NULL) { rfturn NULL; }
 
-    /* load CK_DATE constructor */
-    jCtrId = (*env)->GetMethodID(env, jDateClass, "<init>", "([C[C[C)V");
-    if (jCtrId == NULL) { return NULL; }
+    /* lobd CK_DATE donstrudtor */
+    jCtrId = (*fnv)->GftMftiodID(fnv, jDbtfClbss, "<init>", "([C[C[C)V");
+    if (jCtrId == NULL) { rfturn NULL; }
 
-    /* prep all fields */
-    jYear = ckCharArrayToJCharArray(env, (CK_CHAR_PTR)(ckpDate->year), 4);
-    if (jYear == NULL) { return NULL; }
-    jMonth = ckCharArrayToJCharArray(env, (CK_CHAR_PTR)(ckpDate->month), 2);
-    if (jMonth == NULL) { return NULL; }
-    jDay = ckCharArrayToJCharArray(env, (CK_CHAR_PTR)(ckpDate->day), 2);
-    if (jDay == NULL) { return NULL; }
+    /* prfp bll fiflds */
+    jYfbr = dkCibrArrbyToJCibrArrby(fnv, (CK_CHAR_PTR)(dkpDbtf->yfbr), 4);
+    if (jYfbr == NULL) { rfturn NULL; }
+    jMonti = dkCibrArrbyToJCibrArrby(fnv, (CK_CHAR_PTR)(dkpDbtf->monti), 2);
+    if (jMonti == NULL) { rfturn NULL; }
+    jDby = dkCibrArrbyToJCibrArrby(fnv, (CK_CHAR_PTR)(dkpDbtf->dby), 2);
+    if (jDby == NULL) { rfturn NULL; }
 
-    /* create new CK_DATE object */
-    jDateObject =
-      (*env)->NewObject(env, jDateClass, jCtrId, jYear, jMonth, jDay);
-    if (jDateObject == NULL) { return NULL; }
+    /* drfbtf nfw CK_DATE objfdt */
+    jDbtfObjfdt =
+      (*fnv)->NfwObjfdt(fnv, jDbtfClbss, jCtrId, jYfbr, jMonti, jDby);
+    if (jDbtfObjfdt == NULL) { rfturn NULL; }
 
-    /* free local references */
-    (*env)->DeleteLocalRef(env, jDateClass);
-    (*env)->DeleteLocalRef(env, jYear);
-    (*env)->DeleteLocalRef(env, jMonth);
-    (*env)->DeleteLocalRef(env, jDay);
+    /* frff lodbl rfffrfndfs */
+    (*fnv)->DflftfLodblRff(fnv, jDbtfClbss);
+    (*fnv)->DflftfLodblRff(fnv, jYfbr);
+    (*fnv)->DflftfLodblRff(fnv, jMonti);
+    (*fnv)->DflftfLodblRff(fnv, jDby);
 
-    return jDateObject ;
+    rfturn jDbtfObjfdt ;
 }
 
 /*
- * converts a pointer to a CK_VERSION structure into a Java CK_VERSION Object.
+ * donvfrts b pointfr to b CK_VERSION strudturf into b Jbvb CK_VERSION Objfdt.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpVersion - the pointer to the CK_VERSION structure
- * @return - the new Java CK_VERSION object
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb objfdt
+ * @pbrbm dkpVfrsion - tif pointfr to tif CK_VERSION strudturf
+ * @rfturn - tif nfw Jbvb CK_VERSION objfdt
  */
-jobject ckVersionPtrToJVersion(JNIEnv *env, const CK_VERSION_PTR ckpVersion)
+jobjfdt dkVfrsionPtrToJVfrsion(JNIEnv *fnv, donst CK_VERSION_PTR dkpVfrsion)
 {
-    jclass jVersionClass;
-    jmethodID jCtrId;
-    jobject jVersionObject;
-    jint jMajor;
+    jdlbss jVfrsionClbss;
+    jmftiodID jCtrId;
+    jobjfdt jVfrsionObjfdt;
+    jint jMbjor;
     jint jMinor;
 
-    /* load CK_VERSION class */
-    jVersionClass = (*env)->FindClass(env, CLASS_VERSION);
-    if (jVersionClass == NULL) { return NULL; }
+    /* lobd CK_VERSION dlbss */
+    jVfrsionClbss = (*fnv)->FindClbss(fnv, CLASS_VERSION);
+    if (jVfrsionClbss == NULL) { rfturn NULL; }
 
-    /* load CK_VERSION constructor */
-    jCtrId = (*env)->GetMethodID(env, jVersionClass, "<init>", "(II)V");
-    if (jCtrId == NULL) { return NULL; }
+    /* lobd CK_VERSION donstrudtor */
+    jCtrId = (*fnv)->GftMftiodID(fnv, jVfrsionClbss, "<init>", "(II)V");
+    if (jCtrId == NULL) { rfturn NULL; }
 
-    /* prep both fields */
-    jMajor = ckpVersion->major;
-    jMinor = ckpVersion->minor;
+    /* prfp boti fiflds */
+    jMbjor = dkpVfrsion->mbjor;
+    jMinor = dkpVfrsion->minor;
 
-    /* create new CK_VERSION object */
-    jVersionObject =
-      (*env)->NewObject(env, jVersionClass, jCtrId, jMajor, jMinor);
-    if (jVersionObject == NULL) { return NULL; }
+    /* drfbtf nfw CK_VERSION objfdt */
+    jVfrsionObjfdt =
+      (*fnv)->NfwObjfdt(fnv, jVfrsionClbss, jCtrId, jMbjor, jMinor);
+    if (jVfrsionObjfdt == NULL) { rfturn NULL; }
 
-    /* free local references */
-    (*env)->DeleteLocalRef(env, jVersionClass);
+    /* frff lodbl rfffrfndfs */
+    (*fnv)->DflftfLodblRff(fnv, jVfrsionClbss);
 
-    return jVersionObject ;
+    rfturn jVfrsionObjfdt ;
 }
 
 /*
- * converts a pointer to a CK_SESSION_INFO structure into a Java CK_SESSION_INFO Object.
+ * donvfrts b pointfr to b CK_SESSION_INFO strudturf into b Jbvb CK_SESSION_INFO Objfdt.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpSessionInfo - the pointer to the CK_SESSION_INFO structure
- * @return - the new Java CK_SESSION_INFO object
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb objfdt
+ * @pbrbm dkpSfssionInfo - tif pointfr to tif CK_SESSION_INFO strudturf
+ * @rfturn - tif nfw Jbvb CK_SESSION_INFO objfdt
  */
-jobject ckSessionInfoPtrToJSessionInfo(JNIEnv *env, const CK_SESSION_INFO_PTR ckpSessionInfo)
+jobjfdt dkSfssionInfoPtrToJSfssionInfo(JNIEnv *fnv, donst CK_SESSION_INFO_PTR dkpSfssionInfo)
 {
-    jclass jSessionInfoClass;
-    jmethodID jCtrId;
-    jobject jSessionInfoObject;
+    jdlbss jSfssionInfoClbss;
+    jmftiodID jCtrId;
+    jobjfdt jSfssionInfoObjfdt;
     jlong jSlotID;
-    jlong jState;
-    jlong jFlags;
-    jlong jDeviceError;
+    jlong jStbtf;
+    jlong jFlbgs;
+    jlong jDfvidfError;
 
-    /* load CK_SESSION_INFO class */
-    jSessionInfoClass = (*env)->FindClass(env, CLASS_SESSION_INFO);
-    if (jSessionInfoClass == NULL) { return NULL; }
+    /* lobd CK_SESSION_INFO dlbss */
+    jSfssionInfoClbss = (*fnv)->FindClbss(fnv, CLASS_SESSION_INFO);
+    if (jSfssionInfoClbss == NULL) { rfturn NULL; }
 
-    /* load CK_SESSION_INFO constructor */
-    jCtrId = (*env)->GetMethodID(env, jSessionInfoClass, "<init>", "(JJJJ)V");
-    if (jCtrId == NULL) { return NULL; }
+    /* lobd CK_SESSION_INFO donstrudtor */
+    jCtrId = (*fnv)->GftMftiodID(fnv, jSfssionInfoClbss, "<init>", "(JJJJ)V");
+    if (jCtrId == NULL) { rfturn NULL; }
 
-    /* prep all fields */
-    jSlotID = ckULongToJLong(ckpSessionInfo->slotID);
-    jState = ckULongToJLong(ckpSessionInfo->state);
-    jFlags = ckULongToJLong(ckpSessionInfo->flags);
-    jDeviceError = ckULongToJLong(ckpSessionInfo->ulDeviceError);
+    /* prfp bll fiflds */
+    jSlotID = dkULongToJLong(dkpSfssionInfo->slotID);
+    jStbtf = dkULongToJLong(dkpSfssionInfo->stbtf);
+    jFlbgs = dkULongToJLong(dkpSfssionInfo->flbgs);
+    jDfvidfError = dkULongToJLong(dkpSfssionInfo->ulDfvidfError);
 
-    /* create new CK_SESSION_INFO object */
-    jSessionInfoObject =
-      (*env)->NewObject(env, jSessionInfoClass, jCtrId, jSlotID, jState,
-                        jFlags, jDeviceError);
-    if (jSessionInfoObject == NULL) { return NULL; }
+    /* drfbtf nfw CK_SESSION_INFO objfdt */
+    jSfssionInfoObjfdt =
+      (*fnv)->NfwObjfdt(fnv, jSfssionInfoClbss, jCtrId, jSlotID, jStbtf,
+                        jFlbgs, jDfvidfError);
+    if (jSfssionInfoObjfdt == NULL) { rfturn NULL; }
 
-    /* free local references */
-    (*env)->DeleteLocalRef(env, jSessionInfoClass);
+    /* frff lodbl rfffrfndfs */
+    (*fnv)->DflftfLodblRff(fnv, jSfssionInfoClbss);
 
-    return jSessionInfoObject ;
+    rfturn jSfssionInfoObjfdt ;
 }
 
 /*
- * converts a pointer to a CK_ATTRIBUTE structure into a Java CK_ATTRIBUTE Object.
+ * donvfrts b pointfr to b CK_ATTRIBUTE strudturf into b Jbvb CK_ATTRIBUTE Objfdt.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpAttribute - the pointer to the CK_ATTRIBUTE structure
- * @return - the new Java CK_ATTRIBUTE object
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb objfdt
+ * @pbrbm dkpAttributf - tif pointfr to tif CK_ATTRIBUTE strudturf
+ * @rfturn - tif nfw Jbvb CK_ATTRIBUTE objfdt
  */
-jobject ckAttributePtrToJAttribute(JNIEnv *env, const CK_ATTRIBUTE_PTR ckpAttribute)
+jobjfdt dkAttributfPtrToJAttributf(JNIEnv *fnv, donst CK_ATTRIBUTE_PTR dkpAttributf)
 {
-    jclass jAttributeClass;
-    jmethodID jCtrId;
-    jobject jAttributeObject;
-    jlong jType;
-    jobject jPValue = NULL;
+    jdlbss jAttributfClbss;
+    jmftiodID jCtrId;
+    jobjfdt jAttributfObjfdt;
+    jlong jTypf;
+    jobjfdt jPVbluf = NULL;
 
-    jAttributeClass = (*env)->FindClass(env, CLASS_ATTRIBUTE);
-    if (jAttributeClass == NULL) { return NULL; }
+    jAttributfClbss = (*fnv)->FindClbss(fnv, CLASS_ATTRIBUTE);
+    if (jAttributfClbss == NULL) { rfturn NULL; }
 
-    /* load CK_INFO constructor */
-    jCtrId = (*env)->GetMethodID(env, jAttributeClass, "<init>", "(JLjava/lang/Object;)V");
-    if (jCtrId == NULL) { return NULL; }
+    /* lobd CK_INFO donstrudtor */
+    jCtrId = (*fnv)->GftMftiodID(fnv, jAttributfClbss, "<init>", "(JLjbvb/lbng/Objfdt;)V");
+    if (jCtrId == NULL) { rfturn NULL; }
 
-    /* prep both fields */
-    jType = ckULongToJLong(ckpAttribute->type);
-    jPValue = ckAttributeValueToJObject(env, ckpAttribute);
-    if ((*env)->ExceptionCheck(env)) { return NULL; }
+    /* prfp boti fiflds */
+    jTypf = dkULongToJLong(dkpAttributf->typf);
+    jPVbluf = dkAttributfVblufToJObjfdt(fnv, dkpAttributf);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn NULL; }
 
-    /* create new CK_ATTRIBUTE object */
-    jAttributeObject =
-      (*env)->NewObject(env, jAttributeClass, jCtrId, jType, jPValue);
-    if (jAttributeObject == NULL) { return NULL; }
+    /* drfbtf nfw CK_ATTRIBUTE objfdt */
+    jAttributfObjfdt =
+      (*fnv)->NfwObjfdt(fnv, jAttributfClbss, jCtrId, jTypf, jPVbluf);
+    if (jAttributfObjfdt == NULL) { rfturn NULL; }
 
-    /* free local references */
-    (*env)->DeleteLocalRef(env, jAttributeClass);
-    (*env)->DeleteLocalRef(env, jPValue);
+    /* frff lodbl rfffrfndfs */
+    (*fnv)->DflftfLodblRff(fnv, jAttributfClbss);
+    (*fnv)->DflftfLodblRff(fnv, jPVbluf);
 
-    return jAttributeObject;
+    rfturn jAttributfObjfdt;
 }
 
 
 /*
- * converts a Java CK_VERSION object into a pointer to a CK_VERSION structure
+ * donvfrts b Jbvb CK_VERSION objfdt into b pointfr to b CK_VERSION strudturf
  *
- * @param env - used to call JNI funktions to get the values out of the Java object
- * @param jVersion - the Java CK_VERSION object to convert
- * @return - the pointer to the new CK_VERSION structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif vblufs out of tif Jbvb objfdt
+ * @pbrbm jVfrsion - tif Jbvb CK_VERSION objfdt to donvfrt
+ * @rfturn - tif pointfr to tif nfw CK_VERSION strudturf
  */
-CK_VERSION_PTR jVersionToCKVersionPtr(JNIEnv *env, jobject jVersion)
+CK_VERSION_PTR jVfrsionToCKVfrsionPtr(JNIEnv *fnv, jobjfdt jVfrsion)
 {
-    CK_VERSION_PTR ckpVersion;
-    jclass jVersionClass;
-    jfieldID jFieldID;
-    jbyte jMajor, jMinor;
+    CK_VERSION_PTR dkpVfrsion;
+    jdlbss jVfrsionClbss;
+    jfifldID jFifldID;
+    jbytf jMbjor, jMinor;
 
-    if (jVersion == NULL) {
-        return NULL;
+    if (jVfrsion == NULL) {
+        rfturn NULL;
     }
 
-    /* get CK_VERSION class */
-    jVersionClass = (*env)->GetObjectClass(env, jVersion);
-    if (jVersionClass == NULL) { return NULL; }
+    /* gft CK_VERSION dlbss */
+    jVfrsionClbss = (*fnv)->GftObjfdtClbss(fnv, jVfrsion);
+    if (jVfrsionClbss == NULL) { rfturn NULL; }
 
-    /* get Major */
-    jFieldID = (*env)->GetFieldID(env, jVersionClass, "major", "B");
-    if (jFieldID == NULL) { return NULL; }
-    jMajor = (*env)->GetByteField(env, jVersion, jFieldID);
+    /* gft Mbjor */
+    jFifldID = (*fnv)->GftFifldID(fnv, jVfrsionClbss, "mbjor", "B");
+    if (jFifldID == NULL) { rfturn NULL; }
+    jMbjor = (*fnv)->GftBytfFifld(fnv, jVfrsion, jFifldID);
 
-    /* get Minor */
-    jFieldID = (*env)->GetFieldID(env, jVersionClass, "minor", "B");
-    if (jFieldID == NULL) { return NULL; }
-    jMinor = (*env)->GetByteField(env, jVersion, jFieldID);
+    /* gft Minor */
+    jFifldID = (*fnv)->GftFifldID(fnv, jVfrsionClbss, "minor", "B");
+    if (jFifldID == NULL) { rfturn NULL; }
+    jMinor = (*fnv)->GftBytfFifld(fnv, jVfrsion, jFifldID);
 
-    /* allocate memory for CK_VERSION pointer */
-    ckpVersion = (CK_VERSION_PTR) malloc(sizeof(CK_VERSION));
-    if (ckpVersion == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    /* bllodbtf mfmory for CK_VERSION pointfr */
+    dkpVfrsion = (CK_VERSION_PTR) mbllod(sizfof(CK_VERSION));
+    if (dkpVfrsion == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
-    ckpVersion->major = jByteToCKByte(jMajor);
-    ckpVersion->minor = jByteToCKByte(jMinor);
+    dkpVfrsion->mbjor = jBytfToCKBytf(jMbjor);
+    dkpVfrsion->minor = jBytfToCKBytf(jMinor);
 
-    return ckpVersion ;
+    rfturn dkpVfrsion ;
 }
 
 
 /*
- * converts a Java CK_DATE object into a pointer to a CK_DATE structure
+ * donvfrts b Jbvb CK_DATE objfdt into b pointfr to b CK_DATE strudturf
  *
- * @param env - used to call JNI funktions to get the values out of the Java object
- * @param jVersion - the Java CK_DATE object to convert
- * @return - the pointer to the new CK_DATE structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif vblufs out of tif Jbvb objfdt
+ * @pbrbm jVfrsion - tif Jbvb CK_DATE objfdt to donvfrt
+ * @rfturn - tif pointfr to tif nfw CK_DATE strudturf
  */
-CK_DATE * jDateObjectPtrToCKDatePtr(JNIEnv *env, jobject jDate)
+CK_DATE * jDbtfObjfdtPtrToCKDbtfPtr(JNIEnv *fnv, jobjfdt jDbtf)
 {
-    CK_DATE * ckpDate;
-    CK_ULONG ckLength;
-    jclass jDateClass;
-    jfieldID jFieldID;
-    jobject jYear, jMonth, jDay;
-    jchar *jTempChars;
+    CK_DATE * dkpDbtf;
+    CK_ULONG dkLfngti;
+    jdlbss jDbtfClbss;
+    jfifldID jFifldID;
+    jobjfdt jYfbr, jMonti, jDby;
+    jdibr *jTfmpCibrs;
     CK_ULONG i;
 
-    if (jDate == NULL) {
-        return NULL;
+    if (jDbtf == NULL) {
+        rfturn NULL;
     }
 
-    /* get CK_DATE class */
-    jDateClass = (*env)->FindClass(env, CLASS_DATE);
-    if (jDateClass == NULL) { return NULL; }
+    /* gft CK_DATE dlbss */
+    jDbtfClbss = (*fnv)->FindClbss(fnv, CLASS_DATE);
+    if (jDbtfClbss == NULL) { rfturn NULL; }
 
-    /* get Year */
-    jFieldID = (*env)->GetFieldID(env, jDateClass, "year", "[C");
-    if (jFieldID == NULL) { return NULL; }
-    jYear = (*env)->GetObjectField(env, jDate, jFieldID);
+    /* gft Yfbr */
+    jFifldID = (*fnv)->GftFifldID(fnv, jDbtfClbss, "yfbr", "[C");
+    if (jFifldID == NULL) { rfturn NULL; }
+    jYfbr = (*fnv)->GftObjfdtFifld(fnv, jDbtf, jFifldID);
 
-    /* get Month */
-    jFieldID = (*env)->GetFieldID(env, jDateClass, "month", "[C");
-    if (jFieldID == NULL) { return NULL; }
-    jMonth = (*env)->GetObjectField(env, jDate, jFieldID);
+    /* gft Monti */
+    jFifldID = (*fnv)->GftFifldID(fnv, jDbtfClbss, "monti", "[C");
+    if (jFifldID == NULL) { rfturn NULL; }
+    jMonti = (*fnv)->GftObjfdtFifld(fnv, jDbtf, jFifldID);
 
-    /* get Day */
-    jFieldID = (*env)->GetFieldID(env, jDateClass, "day", "[C");
-    if (jFieldID == NULL) { return NULL; }
-    jDay = (*env)->GetObjectField(env, jDate, jFieldID);
+    /* gft Dby */
+    jFifldID = (*fnv)->GftFifldID(fnv, jDbtfClbss, "dby", "[C");
+    if (jFifldID == NULL) { rfturn NULL; }
+    jDby = (*fnv)->GftObjfdtFifld(fnv, jDbtf, jFifldID);
 
-    /* allocate memory for CK_DATE pointer */
-    ckpDate = (CK_DATE *) malloc(sizeof(CK_DATE));
-    if (ckpDate == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    /* bllodbtf mfmory for CK_DATE pointfr */
+    dkpDbtf = (CK_DATE *) mbllod(sizfof(CK_DATE));
+    if (dkpDbtf == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
 
-    if (jYear == NULL) {
-        ckpDate->year[0] = 0;
-        ckpDate->year[1] = 0;
-        ckpDate->year[2] = 0;
-        ckpDate->year[3] = 0;
-    } else {
-        ckLength = (*env)->GetArrayLength(env, jYear);
-        jTempChars = (jchar*) malloc((ckLength) * sizeof(jchar));
-        if (jTempChars == NULL) {
-            free(ckpDate);
-            throwOutOfMemoryError(env, 0);
-            return NULL;
+    if (jYfbr == NULL) {
+        dkpDbtf->yfbr[0] = 0;
+        dkpDbtf->yfbr[1] = 0;
+        dkpDbtf->yfbr[2] = 0;
+        dkpDbtf->yfbr[3] = 0;
+    } flsf {
+        dkLfngti = (*fnv)->GftArrbyLfngti(fnv, jYfbr);
+        jTfmpCibrs = (jdibr*) mbllod((dkLfngti) * sizfof(jdibr));
+        if (jTfmpCibrs == NULL) {
+            frff(dkpDbtf);
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn NULL;
         }
-        (*env)->GetCharArrayRegion(env, jYear, 0, ckLength, jTempChars);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpDate);
-            free(jTempChars);
-            return NULL;
+        (*fnv)->GftCibrArrbyRfgion(fnv, jYfbr, 0, dkLfngti, jTfmpCibrs);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpDbtf);
+            frff(jTfmpCibrs);
+            rfturn NULL;
         }
 
-        for (i = 0; (i < ckLength) && (i < 4) ; i++) {
-            ckpDate->year[i] = jCharToCKChar(jTempChars[i]);
+        for (i = 0; (i < dkLfngti) && (i < 4) ; i++) {
+            dkpDbtf->yfbr[i] = jCibrToCKCibr(jTfmpCibrs[i]);
         }
-        free(jTempChars);
+        frff(jTfmpCibrs);
     }
 
-    if (jMonth == NULL) {
-        ckpDate->month[0] = 0;
-        ckpDate->month[1] = 0;
-    } else {
-        ckLength = (*env)->GetArrayLength(env, jMonth);
-        jTempChars = (jchar*) malloc((ckLength) * sizeof(jchar));
-        if (jTempChars == NULL) {
-            free(ckpDate);
-            throwOutOfMemoryError(env, 0);
-            return NULL;
+    if (jMonti == NULL) {
+        dkpDbtf->monti[0] = 0;
+        dkpDbtf->monti[1] = 0;
+    } flsf {
+        dkLfngti = (*fnv)->GftArrbyLfngti(fnv, jMonti);
+        jTfmpCibrs = (jdibr*) mbllod((dkLfngti) * sizfof(jdibr));
+        if (jTfmpCibrs == NULL) {
+            frff(dkpDbtf);
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn NULL;
         }
-        (*env)->GetCharArrayRegion(env, jMonth, 0, ckLength, jTempChars);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpDate);
-            free(jTempChars);
-            return NULL;
+        (*fnv)->GftCibrArrbyRfgion(fnv, jMonti, 0, dkLfngti, jTfmpCibrs);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpDbtf);
+            frff(jTfmpCibrs);
+            rfturn NULL;
         }
 
-        for (i = 0; (i < ckLength) && (i < 2) ; i++) {
-            ckpDate->month[i] = jCharToCKChar(jTempChars[i]);
+        for (i = 0; (i < dkLfngti) && (i < 2) ; i++) {
+            dkpDbtf->monti[i] = jCibrToCKCibr(jTfmpCibrs[i]);
         }
-        free(jTempChars);
+        frff(jTfmpCibrs);
     }
 
-    if (jDay == NULL) {
-        ckpDate->day[0] = 0;
-        ckpDate->day[1] = 0;
-    } else {
-        ckLength = (*env)->GetArrayLength(env, jDay);
-        jTempChars = (jchar*) malloc((ckLength) * sizeof(jchar));
-        if (jTempChars == NULL) {
-            free(ckpDate);
-            throwOutOfMemoryError(env, 0);
-            return NULL;
+    if (jDby == NULL) {
+        dkpDbtf->dby[0] = 0;
+        dkpDbtf->dby[1] = 0;
+    } flsf {
+        dkLfngti = (*fnv)->GftArrbyLfngti(fnv, jDby);
+        jTfmpCibrs = (jdibr*) mbllod((dkLfngti) * sizfof(jdibr));
+        if (jTfmpCibrs == NULL) {
+            frff(dkpDbtf);
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn NULL;
         }
-        (*env)->GetCharArrayRegion(env, jDay, 0, ckLength, jTempChars);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpDate);
-            free(jTempChars);
-            return NULL;
+        (*fnv)->GftCibrArrbyRfgion(fnv, jDby, 0, dkLfngti, jTfmpCibrs);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpDbtf);
+            frff(jTfmpCibrs);
+            rfturn NULL;
         }
 
-        for (i = 0; (i < ckLength) && (i < 2) ; i++) {
-            ckpDate->day[i] = jCharToCKChar(jTempChars[i]);
+        for (i = 0; (i < dkLfngti) && (i < 2) ; i++) {
+            dkpDbtf->dby[i] = jCibrToCKCibr(jTfmpCibrs[i]);
         }
-        free(jTempChars);
+        frff(jTfmpCibrs);
     }
 
-    return ckpDate ;
+    rfturn dkpDbtf ;
 }
 
 
 /*
- * converts a Java CK_ATTRIBUTE object into a CK_ATTRIBUTE structure
+ * donvfrts b Jbvb CK_ATTRIBUTE objfdt into b CK_ATTRIBUTE strudturf
  *
- * @param env - used to call JNI funktions to get the values out of the Java object
- * @param jAttribute - the Java CK_ATTRIBUTE object to convert
- * @return - the new CK_ATTRIBUTE structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif vblufs out of tif Jbvb objfdt
+ * @pbrbm jAttributf - tif Jbvb CK_ATTRIBUTE objfdt to donvfrt
+ * @rfturn - tif nfw CK_ATTRIBUTE strudturf
  */
-CK_ATTRIBUTE jAttributeToCKAttribute(JNIEnv *env, jobject jAttribute)
+CK_ATTRIBUTE jAttributfToCKAttributf(JNIEnv *fnv, jobjfdt jAttributf)
 {
-    CK_ATTRIBUTE ckAttribute;
-    jclass jAttributeClass;
-    jfieldID jFieldID;
-    jlong jType;
-    jobject jPValue;
-    memset(&ckAttribute, 0, sizeof(CK_ATTRIBUTE));
+    CK_ATTRIBUTE dkAttributf;
+    jdlbss jAttributfClbss;
+    jfifldID jFifldID;
+    jlong jTypf;
+    jobjfdt jPVbluf;
+    mfmsft(&dkAttributf, 0, sizfof(CK_ATTRIBUTE));
 
-    // TBD: what if jAttribute == NULL?!
+    // TBD: wibt if jAttributf == NULL?!
 
-    TRACE0("\nDEBUG: jAttributeToCKAttribute");
-    /* get CK_ATTRIBUTE class */
-    TRACE0(", getting attribute object class");
-    jAttributeClass = (*env)->GetObjectClass(env, jAttribute);
-    if (jAttributeClass == NULL) { return ckAttribute; }
+    TRACE0("\nDEBUG: jAttributfToCKAttributf");
+    /* gft CK_ATTRIBUTE dlbss */
+    TRACE0(", gftting bttributf objfdt dlbss");
+    jAttributfClbss = (*fnv)->GftObjfdtClbss(fnv, jAttributf);
+    if (jAttributfClbss == NULL) { rfturn dkAttributf; }
 
-    /* get type */
-    TRACE0(", getting type field");
-    jFieldID = (*env)->GetFieldID(env, jAttributeClass, "type", "J");
-    if (jFieldID == NULL) { return ckAttribute; }
-    jType = (*env)->GetLongField(env, jAttribute, jFieldID);
-    TRACE1(", type=0x%X", jType);
+    /* gft typf */
+    TRACE0(", gftting typf fifld");
+    jFifldID = (*fnv)->GftFifldID(fnv, jAttributfClbss, "typf", "J");
+    if (jFifldID == NULL) { rfturn dkAttributf; }
+    jTypf = (*fnv)->GftLongFifld(fnv, jAttributf, jFifldID);
+    TRACE1(", typf=0x%X", jTypf);
 
-    /* get pValue */
-    TRACE0(", getting pValue field");
-    jFieldID = (*env)->GetFieldID(env, jAttributeClass, "pValue", "Ljava/lang/Object;");
-    if (jFieldID == NULL) { return ckAttribute; }
-    jPValue = (*env)->GetObjectField(env, jAttribute, jFieldID);
-    TRACE1(", pValue=%p", jPValue);
+    /* gft pVbluf */
+    TRACE0(", gftting pVbluf fifld");
+    jFifldID = (*fnv)->GftFifldID(fnv, jAttributfClbss, "pVbluf", "Ljbvb/lbng/Objfdt;");
+    if (jFifldID == NULL) { rfturn dkAttributf; }
+    jPVbluf = (*fnv)->GftObjfdtFifld(fnv, jAttributf, jFifldID);
+    TRACE1(", pVbluf=%p", jPVbluf);
 
-    ckAttribute.type = jLongToCKULong(jType);
-    TRACE0(", converting pValue to primitive object");
+    dkAttributf.typf = jLongToCKULong(jTypf);
+    TRACE0(", donvfrting pVbluf to primitivf objfdt");
 
-    /* convert the Java pValue object to a CK-type pValue pointer */
-    jObjectToPrimitiveCKObjectPtrPtr(env, jPValue, &(ckAttribute.pValue), &(ckAttribute.ulValueLen));
+    /* donvfrt tif Jbvb pVbluf objfdt to b CK-typf pVbluf pointfr */
+    jObjfdtToPrimitivfCKObjfdtPtrPtr(fnv, jPVbluf, &(dkAttributf.pVbluf), &(dkAttributf.ulVblufLfn));
 
     TRACE0("\nFINISHED\n");
 
-    return ckAttribute ;
+    rfturn dkAttributf ;
 }
 
 /*
- * converts the Java CK_SSL3_MASTER_KEY_DERIVE_PARAMS object to a
- * CK_SSL3_MASTER_KEY_DERIVE_PARAMS structure
+ * donvfrts tif Jbvb CK_SSL3_MASTER_KEY_DERIVE_PARAMS objfdt to b
+ * CK_SSL3_MASTER_KEY_DERIVE_PARAMS strudturf
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java CK_SSL3_MASTER_KEY_DERIVE_PARAMS object to convert
- * @return - the new CK_SSL3_MASTER_KEY_DERIVE_PARAMS structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb CK_SSL3_MASTER_KEY_DERIVE_PARAMS objfdt to donvfrt
+ * @rfturn - tif nfw CK_SSL3_MASTER_KEY_DERIVE_PARAMS strudturf
  */
-CK_SSL3_MASTER_KEY_DERIVE_PARAMS jSsl3MasterKeyDeriveParamToCKSsl3MasterKeyDeriveParam(JNIEnv *env, jobject jParam)
+CK_SSL3_MASTER_KEY_DERIVE_PARAMS jSsl3MbstfrKfyDfrivfPbrbmToCKSsl3MbstfrKfyDfrivfPbrbm(JNIEnv *fnv, jobjfdt jPbrbm)
 {
-    // XXX don't return structs
-    // XXX prefetch class and field ids
-    jclass jSsl3MasterKeyDeriveParamsClass;
-    CK_SSL3_MASTER_KEY_DERIVE_PARAMS ckParam;
-    jfieldID fieldID;
-    jclass jSsl3RandomDataClass;
-    jobject jRandomInfo, jRIClientRandom, jRIServerRandom, jVersion;
+    // XXX don't rfturn strudts
+    // XXX prffftdi dlbss bnd fifld ids
+    jdlbss jSsl3MbstfrKfyDfrivfPbrbmsClbss;
+    CK_SSL3_MASTER_KEY_DERIVE_PARAMS dkPbrbm;
+    jfifldID fifldID;
+    jdlbss jSsl3RbndomDbtbClbss;
+    jobjfdt jRbndomInfo, jRIClifntRbndom, jRISfrvfrRbndom, jVfrsion;
 
-    /* get RandomInfo */
-    jSsl3MasterKeyDeriveParamsClass = (*env)->FindClass(env, CLASS_SSL3_MASTER_KEY_DERIVE_PARAMS);
-    if (jSsl3MasterKeyDeriveParamsClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jSsl3MasterKeyDeriveParamsClass, "RandomInfo", "Lsun/security/pkcs11/wrapper/CK_SSL3_RANDOM_DATA;");
-    if (fieldID == NULL) { return ckParam; }
-    jRandomInfo = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft RbndomInfo */
+    jSsl3MbstfrKfyDfrivfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_SSL3_MASTER_KEY_DERIVE_PARAMS);
+    if (jSsl3MbstfrKfyDfrivfPbrbmsClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3MbstfrKfyDfrivfPbrbmsClbss, "RbndomInfo", "Lsun/sfdurity/pkds11/wrbppfr/CK_SSL3_RANDOM_DATA;");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jRbndomInfo = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get pClientRandom and ulClientRandomLength out of RandomInfo */
-    jSsl3RandomDataClass = (*env)->FindClass(env, CLASS_SSL3_RANDOM_DATA);
-    if (jSsl3RandomDataClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jSsl3RandomDataClass, "pClientRandom", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jRIClientRandom = (*env)->GetObjectField(env, jRandomInfo, fieldID);
+    /* gft pClifntRbndom bnd ulClifntRbndomLfngti out of RbndomInfo */
+    jSsl3RbndomDbtbClbss = (*fnv)->FindClbss(fnv, CLASS_SSL3_RANDOM_DATA);
+    if (jSsl3RbndomDbtbClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3RbndomDbtbClbss, "pClifntRbndom", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jRIClifntRbndom = (*fnv)->GftObjfdtFifld(fnv, jRbndomInfo, fifldID);
 
-    /* get pServerRandom and ulServerRandomLength out of RandomInfo */
-    fieldID = (*env)->GetFieldID(env, jSsl3RandomDataClass, "pServerRandom", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jRIServerRandom = (*env)->GetObjectField(env, jRandomInfo, fieldID);
+    /* gft pSfrvfrRbndom bnd ulSfrvfrRbndomLfngti out of RbndomInfo */
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3RbndomDbtbClbss, "pSfrvfrRbndom", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jRISfrvfrRbndom = (*fnv)->GftObjfdtFifld(fnv, jRbndomInfo, fifldID);
 
-    /* get pVersion */
-    fieldID = (*env)->GetFieldID(env, jSsl3MasterKeyDeriveParamsClass, "pVersion",  "Lsun/security/pkcs11/wrapper/CK_VERSION;");
-    if (fieldID == NULL) { return ckParam; }
-    jVersion = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pVfrsion */
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3MbstfrKfyDfrivfPbrbmsClbss, "pVfrsion",  "Lsun/sfdurity/pkds11/wrbppfr/CK_VERSION;");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jVfrsion = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* populate java values */
-    ckParam.pVersion = jVersionToCKVersionPtr(env, jVersion);
-    if ((*env)->ExceptionCheck(env)) { return ckParam; }
-    jByteArrayToCKByteArray(env, jRIClientRandom, &(ckParam.RandomInfo.pClientRandom), &(ckParam.RandomInfo.ulClientRandomLen));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pVersion);
-        return ckParam;
+    /* populbtf jbvb vblufs */
+    dkPbrbm.pVfrsion = jVfrsionToCKVfrsionPtr(fnv, jVfrsion);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn dkPbrbm; }
+    jBytfArrbyToCKBytfArrby(fnv, jRIClifntRbndom, &(dkPbrbm.RbndomInfo.pClifntRbndom), &(dkPbrbm.RbndomInfo.ulClifntRbndomLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pVfrsion);
+        rfturn dkPbrbm;
     }
-    jByteArrayToCKByteArray(env, jRIServerRandom, &(ckParam.RandomInfo.pServerRandom), &(ckParam.RandomInfo.ulServerRandomLen));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pVersion);
-        free(ckParam.RandomInfo.pClientRandom);
-        return ckParam;
+    jBytfArrbyToCKBytfArrby(fnv, jRISfrvfrRbndom, &(dkPbrbm.RbndomInfo.pSfrvfrRbndom), &(dkPbrbm.RbndomInfo.ulSfrvfrRbndomLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pVfrsion);
+        frff(dkPbrbm.RbndomInfo.pClifntRbndom);
+        rfturn dkPbrbm;
     }
 
-    return ckParam ;
+    rfturn dkPbrbm ;
 }
 
 
 /*
- * converts the Java CK_TLS_PRF_PARAMS object to a CK_TLS_PRF_PARAMS structure
+ * donvfrts tif Jbvb CK_TLS_PRF_PARAMS objfdt to b CK_TLS_PRF_PARAMS strudturf
  */
-CK_TLS_PRF_PARAMS jTlsPrfParamsToCKTlsPrfParam(JNIEnv *env, jobject jParam)
+CK_TLS_PRF_PARAMS jTlsPrfPbrbmsToCKTlsPrfPbrbm(JNIEnv *fnv, jobjfdt jPbrbm)
 {
-    jclass jTlsPrfParamsClass;
-    CK_TLS_PRF_PARAMS ckParam;
-    jfieldID fieldID;
-    jobject jSeed, jLabel, jOutput;
+    jdlbss jTlsPrfPbrbmsClbss;
+    CK_TLS_PRF_PARAMS dkPbrbm;
+    jfifldID fifldID;
+    jobjfdt jSffd, jLbbfl, jOutput;
 
-    // TBD: what if jParam == NULL?!
+    // TBD: wibt if jPbrbm == NULL?!
 
-    /* get pSeed */
-    jTlsPrfParamsClass = (*env)->FindClass(env, CLASS_TLS_PRF_PARAMS);
-    if (jTlsPrfParamsClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jTlsPrfParamsClass, "pSeed", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jSeed = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pSffd */
+    jTlsPrfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_TLS_PRF_PARAMS);
+    if (jTlsPrfPbrbmsClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jTlsPrfPbrbmsClbss, "pSffd", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jSffd = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get pLabel */
-    fieldID = (*env)->GetFieldID(env, jTlsPrfParamsClass, "pLabel", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jLabel = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pLbbfl */
+    fifldID = (*fnv)->GftFifldID(fnv, jTlsPrfPbrbmsClbss, "pLbbfl", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jLbbfl = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get pOutput */
-    fieldID = (*env)->GetFieldID(env, jTlsPrfParamsClass, "pOutput", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jOutput = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pOutput */
+    fifldID = (*fnv)->GftFifldID(fnv, jTlsPrfPbrbmsClbss, "pOutput", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jOutput = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* populate java values */
-    jByteArrayToCKByteArray(env, jSeed, &(ckParam.pSeed), &(ckParam.ulSeedLen));
-    if ((*env)->ExceptionCheck(env)) { return ckParam; }
-    jByteArrayToCKByteArray(env, jLabel, &(ckParam.pLabel), &(ckParam.ulLabelLen));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pSeed);
-        return ckParam;
+    /* populbtf jbvb vblufs */
+    jBytfArrbyToCKBytfArrby(fnv, jSffd, &(dkPbrbm.pSffd), &(dkPbrbm.ulSffdLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn dkPbrbm; }
+    jBytfArrbyToCKBytfArrby(fnv, jLbbfl, &(dkPbrbm.pLbbfl), &(dkPbrbm.ulLbbflLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pSffd);
+        rfturn dkPbrbm;
     }
-    ckParam.pulOutputLen = malloc(sizeof(CK_ULONG));
-    if (ckParam.pulOutputLen == NULL) {
-        free(ckParam.pSeed);
-        free(ckParam.pLabel);
-        throwOutOfMemoryError(env, 0);
-        return ckParam;
+    dkPbrbm.pulOutputLfn = mbllod(sizfof(CK_ULONG));
+    if (dkPbrbm.pulOutputLfn == NULL) {
+        frff(dkPbrbm.pSffd);
+        frff(dkPbrbm.pLbbfl);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn dkPbrbm;
     }
-    jByteArrayToCKByteArray(env, jOutput, &(ckParam.pOutput), ckParam.pulOutputLen);
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pSeed);
-        free(ckParam.pLabel);
-        free(ckParam.pulOutputLen);
-        return ckParam;
+    jBytfArrbyToCKBytfArrby(fnv, jOutput, &(dkPbrbm.pOutput), dkPbrbm.pulOutputLfn);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pSffd);
+        frff(dkPbrbm.pLbbfl);
+        frff(dkPbrbm.pulOutputLfn);
+        rfturn dkPbrbm;
     }
 
-    return ckParam ;
+    rfturn dkPbrbm ;
 }
 
 /*
- * converts the Java CK_SSL3_KEY_MAT_PARAMS object to a CK_SSL3_KEY_MAT_PARAMS structure
+ * donvfrts tif Jbvb CK_SSL3_KEY_MAT_PARAMS objfdt to b CK_SSL3_KEY_MAT_PARAMS strudturf
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java CK_SSL3_KEY_MAT_PARAMS object to convert
- * @return - the new CK_SSL3_KEY_MAT_PARAMS structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb CK_SSL3_KEY_MAT_PARAMS objfdt to donvfrt
+ * @rfturn - tif nfw CK_SSL3_KEY_MAT_PARAMS strudturf
  */
-CK_SSL3_KEY_MAT_PARAMS jSsl3KeyMatParamToCKSsl3KeyMatParam(JNIEnv *env, jobject jParam)
+CK_SSL3_KEY_MAT_PARAMS jSsl3KfyMbtPbrbmToCKSsl3KfyMbtPbrbm(JNIEnv *fnv, jobjfdt jPbrbm)
 {
-    // XXX don't return structs
-    // XXX prefetch class and field ids
-    jclass jSsl3KeyMatParamsClass, jSsl3RandomDataClass, jSsl3KeyMatOutClass;
-    CK_SSL3_KEY_MAT_PARAMS ckParam;
-    jfieldID fieldID;
-    jlong jMacSizeInBits, jKeySizeInBits, jIVSizeInBits;
-    jboolean jIsExport;
-    jobject jRandomInfo, jRIClientRandom, jRIServerRandom;
-    jobject jReturnedKeyMaterial, jRMIvClient, jRMIvServer;
-    CK_ULONG ckTemp;
+    // XXX don't rfturn strudts
+    // XXX prffftdi dlbss bnd fifld ids
+    jdlbss jSsl3KfyMbtPbrbmsClbss, jSsl3RbndomDbtbClbss, jSsl3KfyMbtOutClbss;
+    CK_SSL3_KEY_MAT_PARAMS dkPbrbm;
+    jfifldID fifldID;
+    jlong jMbdSizfInBits, jKfySizfInBits, jIVSizfInBits;
+    jboolfbn jIsExport;
+    jobjfdt jRbndomInfo, jRIClifntRbndom, jRISfrvfrRbndom;
+    jobjfdt jRfturnfdKfyMbtfribl, jRMIvClifnt, jRMIvSfrvfr;
+    CK_ULONG dkTfmp;
 
-    /* get ulMacSizeInBits */
-    jSsl3KeyMatParamsClass = (*env)->FindClass(env, CLASS_SSL3_KEY_MAT_PARAMS);
-    if (jSsl3KeyMatParamsClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jSsl3KeyMatParamsClass, "ulMacSizeInBits", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jMacSizeInBits = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft ulMbdSizfInBits */
+    jSsl3KfyMbtPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_SSL3_KEY_MAT_PARAMS);
+    if (jSsl3KfyMbtPbrbmsClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3KfyMbtPbrbmsClbss, "ulMbdSizfInBits", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jMbdSizfInBits = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get ulKeySizeInBits */
-    fieldID = (*env)->GetFieldID(env, jSsl3KeyMatParamsClass, "ulKeySizeInBits", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jKeySizeInBits = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft ulKfySizfInBits */
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3KfyMbtPbrbmsClbss, "ulKfySizfInBits", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jKfySizfInBits = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get ulIVSizeInBits */
-    fieldID = (*env)->GetFieldID(env, jSsl3KeyMatParamsClass, "ulIVSizeInBits", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jIVSizeInBits = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft ulIVSizfInBits */
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3KfyMbtPbrbmsClbss, "ulIVSizfInBits", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jIVSizfInBits = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get bIsExport */
-    fieldID = (*env)->GetFieldID(env, jSsl3KeyMatParamsClass, "bIsExport", "Z");
-    if (fieldID == NULL) { return ckParam; }
-    jIsExport = (*env)->GetBooleanField(env, jParam, fieldID);
+    /* gft bIsExport */
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3KfyMbtPbrbmsClbss, "bIsExport", "Z");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jIsExport = (*fnv)->GftBoolfbnFifld(fnv, jPbrbm, fifldID);
 
-    /* get RandomInfo */
-    jSsl3RandomDataClass = (*env)->FindClass(env, CLASS_SSL3_RANDOM_DATA);
-    if (jSsl3RandomDataClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jSsl3KeyMatParamsClass, "RandomInfo",  "Lsun/security/pkcs11/wrapper/CK_SSL3_RANDOM_DATA;");
-    if (fieldID == NULL) { return ckParam; }
-    jRandomInfo = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft RbndomInfo */
+    jSsl3RbndomDbtbClbss = (*fnv)->FindClbss(fnv, CLASS_SSL3_RANDOM_DATA);
+    if (jSsl3RbndomDbtbClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3KfyMbtPbrbmsClbss, "RbndomInfo",  "Lsun/sfdurity/pkds11/wrbppfr/CK_SSL3_RANDOM_DATA;");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jRbndomInfo = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get pClientRandom and ulClientRandomLength out of RandomInfo */
-    fieldID = (*env)->GetFieldID(env, jSsl3RandomDataClass, "pClientRandom", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jRIClientRandom = (*env)->GetObjectField(env, jRandomInfo, fieldID);
+    /* gft pClifntRbndom bnd ulClifntRbndomLfngti out of RbndomInfo */
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3RbndomDbtbClbss, "pClifntRbndom", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jRIClifntRbndom = (*fnv)->GftObjfdtFifld(fnv, jRbndomInfo, fifldID);
 
-    /* get pServerRandom and ulServerRandomLength out of RandomInfo */
-    fieldID = (*env)->GetFieldID(env, jSsl3RandomDataClass, "pServerRandom", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jRIServerRandom = (*env)->GetObjectField(env, jRandomInfo, fieldID);
+    /* gft pSfrvfrRbndom bnd ulSfrvfrRbndomLfngti out of RbndomInfo */
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3RbndomDbtbClbss, "pSfrvfrRbndom", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jRISfrvfrRbndom = (*fnv)->GftObjfdtFifld(fnv, jRbndomInfo, fifldID);
 
-    /* get pReturnedKeyMaterial */
-    jSsl3KeyMatOutClass = (*env)->FindClass(env, CLASS_SSL3_KEY_MAT_OUT);
-    if (jSsl3KeyMatOutClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jSsl3KeyMatParamsClass, "pReturnedKeyMaterial",  "Lsun/security/pkcs11/wrapper/CK_SSL3_KEY_MAT_OUT;");
-    if (fieldID == NULL) { return ckParam; }
-    jReturnedKeyMaterial = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pRfturnfdKfyMbtfribl */
+    jSsl3KfyMbtOutClbss = (*fnv)->FindClbss(fnv, CLASS_SSL3_KEY_MAT_OUT);
+    if (jSsl3KfyMbtOutClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3KfyMbtPbrbmsClbss, "pRfturnfdKfyMbtfribl",  "Lsun/sfdurity/pkds11/wrbppfr/CK_SSL3_KEY_MAT_OUT;");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jRfturnfdKfyMbtfribl = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get pIVClient out of pReturnedKeyMaterial */
-    fieldID = (*env)->GetFieldID(env, jSsl3KeyMatOutClass, "pIVClient", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jRMIvClient = (*env)->GetObjectField(env, jReturnedKeyMaterial, fieldID);
+    /* gft pIVClifnt out of pRfturnfdKfyMbtfribl */
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3KfyMbtOutClbss, "pIVClifnt", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jRMIvClifnt = (*fnv)->GftObjfdtFifld(fnv, jRfturnfdKfyMbtfribl, fifldID);
 
-    /* get pIVServer out of pReturnedKeyMaterial */
-    fieldID = (*env)->GetFieldID(env, jSsl3KeyMatOutClass, "pIVServer", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jRMIvServer = (*env)->GetObjectField(env, jReturnedKeyMaterial, fieldID);
+    /* gft pIVSfrvfr out of pRfturnfdKfyMbtfribl */
+    fifldID = (*fnv)->GftFifldID(fnv, jSsl3KfyMbtOutClbss, "pIVSfrvfr", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jRMIvSfrvfr = (*fnv)->GftObjfdtFifld(fnv, jRfturnfdKfyMbtfribl, fifldID);
 
-    /* populate java values */
-    ckParam.ulMacSizeInBits = jLongToCKULong(jMacSizeInBits);
-    ckParam.ulKeySizeInBits = jLongToCKULong(jKeySizeInBits);
-    ckParam.ulIVSizeInBits = jLongToCKULong(jIVSizeInBits);
-    ckParam.bIsExport = jBooleanToCKBBool(jIsExport);
-    jByteArrayToCKByteArray(env, jRIClientRandom, &(ckParam.RandomInfo.pClientRandom), &(ckParam.RandomInfo.ulClientRandomLen));
-    if ((*env)->ExceptionCheck(env)) { return ckParam; }
-    jByteArrayToCKByteArray(env, jRIServerRandom, &(ckParam.RandomInfo.pServerRandom), &(ckParam.RandomInfo.ulServerRandomLen));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.RandomInfo.pClientRandom);
-        return ckParam;
+    /* populbtf jbvb vblufs */
+    dkPbrbm.ulMbdSizfInBits = jLongToCKULong(jMbdSizfInBits);
+    dkPbrbm.ulKfySizfInBits = jLongToCKULong(jKfySizfInBits);
+    dkPbrbm.ulIVSizfInBits = jLongToCKULong(jIVSizfInBits);
+    dkPbrbm.bIsExport = jBoolfbnToCKBBool(jIsExport);
+    jBytfArrbyToCKBytfArrby(fnv, jRIClifntRbndom, &(dkPbrbm.RbndomInfo.pClifntRbndom), &(dkPbrbm.RbndomInfo.ulClifntRbndomLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn dkPbrbm; }
+    jBytfArrbyToCKBytfArrby(fnv, jRISfrvfrRbndom, &(dkPbrbm.RbndomInfo.pSfrvfrRbndom), &(dkPbrbm.RbndomInfo.ulSfrvfrRbndomLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.RbndomInfo.pClifntRbndom);
+        rfturn dkPbrbm;
     }
-    /* allocate memory for pRetrunedKeyMaterial */
-    ckParam.pReturnedKeyMaterial = (CK_SSL3_KEY_MAT_OUT_PTR) malloc(sizeof(CK_SSL3_KEY_MAT_OUT));
-    if (ckParam.pReturnedKeyMaterial == NULL) {
-        free(ckParam.RandomInfo.pClientRandom);
-        free(ckParam.RandomInfo.pServerRandom);
-        throwOutOfMemoryError(env, 0);
-        return ckParam;
-    }
-
-    // the handles are output params only, no need to fetch them from Java
-    ckParam.pReturnedKeyMaterial->hClientMacSecret = 0;
-    ckParam.pReturnedKeyMaterial->hServerMacSecret = 0;
-    ckParam.pReturnedKeyMaterial->hClientKey = 0;
-    ckParam.pReturnedKeyMaterial->hServerKey = 0;
-
-    jByteArrayToCKByteArray(env, jRMIvClient, &(ckParam.pReturnedKeyMaterial->pIVClient), &ckTemp);
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.RandomInfo.pClientRandom);
-        free(ckParam.RandomInfo.pServerRandom);
-        free(ckParam.pReturnedKeyMaterial);
-        return ckParam;
-    }
-    jByteArrayToCKByteArray(env, jRMIvServer, &(ckParam.pReturnedKeyMaterial->pIVServer), &ckTemp);
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.RandomInfo.pClientRandom);
-        free(ckParam.RandomInfo.pServerRandom);
-        free(ckParam.pReturnedKeyMaterial->pIVClient);
-        free(ckParam.pReturnedKeyMaterial);
-        return ckParam;
+    /* bllodbtf mfmory for pRftrunfdKfyMbtfribl */
+    dkPbrbm.pRfturnfdKfyMbtfribl = (CK_SSL3_KEY_MAT_OUT_PTR) mbllod(sizfof(CK_SSL3_KEY_MAT_OUT));
+    if (dkPbrbm.pRfturnfdKfyMbtfribl == NULL) {
+        frff(dkPbrbm.RbndomInfo.pClifntRbndom);
+        frff(dkPbrbm.RbndomInfo.pSfrvfrRbndom);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn dkPbrbm;
     }
 
-    return ckParam ;
+    // tif ibndlfs brf output pbrbms only, no nffd to fftdi tifm from Jbvb
+    dkPbrbm.pRfturnfdKfyMbtfribl->iClifntMbdSfdrft = 0;
+    dkPbrbm.pRfturnfdKfyMbtfribl->iSfrvfrMbdSfdrft = 0;
+    dkPbrbm.pRfturnfdKfyMbtfribl->iClifntKfy = 0;
+    dkPbrbm.pRfturnfdKfyMbtfribl->iSfrvfrKfy = 0;
+
+    jBytfArrbyToCKBytfArrby(fnv, jRMIvClifnt, &(dkPbrbm.pRfturnfdKfyMbtfribl->pIVClifnt), &dkTfmp);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.RbndomInfo.pClifntRbndom);
+        frff(dkPbrbm.RbndomInfo.pSfrvfrRbndom);
+        frff(dkPbrbm.pRfturnfdKfyMbtfribl);
+        rfturn dkPbrbm;
+    }
+    jBytfArrbyToCKBytfArrby(fnv, jRMIvSfrvfr, &(dkPbrbm.pRfturnfdKfyMbtfribl->pIVSfrvfr), &dkTfmp);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.RbndomInfo.pClifntRbndom);
+        frff(dkPbrbm.RbndomInfo.pSfrvfrRbndom);
+        frff(dkPbrbm.pRfturnfdKfyMbtfribl->pIVClifnt);
+        frff(dkPbrbm.pRfturnfdKfyMbtfribl);
+        rfturn dkPbrbm;
+    }
+
+    rfturn dkPbrbm ;
 }
 
 /*
- * converts the Java CK_AES_CTR_PARAMS object to a CK_AES_CTR_PARAMS structure
+ * donvfrts tif Jbvb CK_AES_CTR_PARAMS objfdt to b CK_AES_CTR_PARAMS strudturf
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java CK_AES_CTR_PARAMS object to convert
- * @param ckpParam - pointer to the new CK_AES_CTR_PARAMS structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb CK_AES_CTR_PARAMS objfdt to donvfrt
+ * @pbrbm dkpPbrbm - pointfr to tif nfw CK_AES_CTR_PARAMS strudturf
  */
-void jAesCtrParamsToCKAesCtrParam(JNIEnv *env, jobject jParam,
-                                  CK_AES_CTR_PARAMS_PTR ckpParam) {
-    jclass jAesCtrParamsClass;
-    jfieldID fieldID;
-    jlong jCounterBits;
-    jobject jCb;
-    CK_BYTE_PTR ckBytes;
-    CK_ULONG ckTemp;
+void jAfsCtrPbrbmsToCKAfsCtrPbrbm(JNIEnv *fnv, jobjfdt jPbrbm,
+                                  CK_AES_CTR_PARAMS_PTR dkpPbrbm) {
+    jdlbss jAfsCtrPbrbmsClbss;
+    jfifldID fifldID;
+    jlong jCountfrBits;
+    jobjfdt jCb;
+    CK_BYTE_PTR dkBytfs;
+    CK_ULONG dkTfmp;
 
-    /* get ulCounterBits */
-    jAesCtrParamsClass = (*env)->FindClass(env, CLASS_AES_CTR_PARAMS);
-    if (jAesCtrParamsClass == NULL) { return; }
-    fieldID = (*env)->GetFieldID(env, jAesCtrParamsClass, "ulCounterBits", "J");
-    if (fieldID == NULL) { return; }
-    jCounterBits = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft ulCountfrBits */
+    jAfsCtrPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_AES_CTR_PARAMS);
+    if (jAfsCtrPbrbmsClbss == NULL) { rfturn; }
+    fifldID = (*fnv)->GftFifldID(fnv, jAfsCtrPbrbmsClbss, "ulCountfrBits", "J");
+    if (fifldID == NULL) { rfturn; }
+    jCountfrBits = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get cb */
-    fieldID = (*env)->GetFieldID(env, jAesCtrParamsClass, "cb", "[B");
-    if (fieldID == NULL) { return; }
-    jCb = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft db */
+    fifldID = (*fnv)->GftFifldID(fnv, jAfsCtrPbrbmsClbss, "db", "[B");
+    if (fifldID == NULL) { rfturn; }
+    jCb = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* populate java values */
-    ckpParam->ulCounterBits = jLongToCKULong(jCounterBits);
-    jByteArrayToCKByteArray(env, jCb, &ckBytes, &ckTemp);
-    if ((*env)->ExceptionCheck(env)) { return; }
-    if (ckTemp != 16) {
-        TRACE1("ERROR: WRONG CTR IV LENGTH %d", ckTemp);
-    } else {
-        memcpy(ckpParam->cb, ckBytes, ckTemp);
-        free(ckBytes);
+    /* populbtf jbvb vblufs */
+    dkpPbrbm->ulCountfrBits = jLongToCKULong(jCountfrBits);
+    jBytfArrbyToCKBytfArrby(fnv, jCb, &dkBytfs, &dkTfmp);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
+    if (dkTfmp != 16) {
+        TRACE1("ERROR: WRONG CTR IV LENGTH %d", dkTfmp);
+    } flsf {
+        mfmdpy(dkpPbrbm->db, dkBytfs, dkTfmp);
+        frff(dkBytfs);
     }
 }
 
 /*
- * converts a Java CK_MECHANISM object into a CK_MECHANISM structure
+ * donvfrts b Jbvb CK_MECHANISM objfdt into b CK_MECHANISM strudturf
  *
- * @param env - used to call JNI funktions to get the values out of the Java object
- * @param jMechanism - the Java CK_MECHANISM object to convert
- * @return - the new CK_MECHANISM structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif vblufs out of tif Jbvb objfdt
+ * @pbrbm jMfdibnism - tif Jbvb CK_MECHANISM objfdt to donvfrt
+ * @rfturn - tif nfw CK_MECHANISM strudturf
  */
-void jMechanismToCKMechanism(JNIEnv *env, jobject jMechanism, CK_MECHANISM_PTR ckMechanismPtr)
+void jMfdibnismToCKMfdibnism(JNIEnv *fnv, jobjfdt jMfdibnism, CK_MECHANISM_PTR dkMfdibnismPtr)
 {
-    jlong jMechanismType = (*env)->GetLongField(env, jMechanism, mech_mechanismID);
-    jobject jParameter = (*env)->GetObjectField(env, jMechanism, mech_pParameterID);
+    jlong jMfdibnismTypf = (*fnv)->GftLongFifld(fnv, jMfdibnism, mfdi_mfdibnismID);
+    jobjfdt jPbrbmftfr = (*fnv)->GftObjfdtFifld(fnv, jMfdibnism, mfdi_pPbrbmftfrID);
 
-    (*ckMechanismPtr).mechanism = jLongToCKULong(jMechanismType);
+    (*dkMfdibnismPtr).mfdibnism = jLongToCKULong(jMfdibnismTypf);
 
-    /* convert the specific Java mechanism parameter object to a pointer to a CK-type mechanism
-     * structure
+    /* donvfrt tif spfdifid Jbvb mfdibnism pbrbmftfr objfdt to b pointfr to b CK-typf mfdibnism
+     * strudturf
      */
-    if (jParameter == NULL) {
-        (*ckMechanismPtr).pParameter = NULL;
-        (*ckMechanismPtr).ulParameterLen = 0;
-    } else {
-        jMechanismParameterToCKMechanismParameter(env, jParameter, &(*ckMechanismPtr).pParameter, &(*ckMechanismPtr).ulParameterLen);
+    if (jPbrbmftfr == NULL) {
+        (*dkMfdibnismPtr).pPbrbmftfr = NULL;
+        (*dkMfdibnismPtr).ulPbrbmftfrLfn = 0;
+    } flsf {
+        jMfdibnismPbrbmftfrToCKMfdibnismPbrbmftfr(fnv, jPbrbmftfr, &(*dkMfdibnismPtr).pPbrbmftfr, &(*dkMfdibnismPtr).ulPbrbmftfrLfn);
     }
 }
 
 /*
- * the following functions convert Attribute and Mechanism value pointers
+ * tif following fundtions donvfrt Attributf bnd Mfdibnism vbluf pointfrs
  *
- * jobject ckAttributeValueToJObject(JNIEnv *env,
- *                                   const CK_ATTRIBUTE_PTR ckpAttribute);
+ * jobjfdt dkAttributfVblufToJObjfdt(JNIEnv *fnv,
+ *                                   donst CK_ATTRIBUTE_PTR dkpAttributf);
  *
- * void jObjectToPrimitiveCKObjectPtrPtr(JNIEnv *env,
- *                                       jobject jObject,
- *                                       CK_VOID_PTR *ckpObjectPtr,
- *                                       CK_ULONG *pLength);
+ * void jObjfdtToPrimitivfCKObjfdtPtrPtr(JNIEnv *fnv,
+ *                                       jobjfdt jObjfdt,
+ *                                       CK_VOID_PTR *dkpObjfdtPtr,
+ *                                       CK_ULONG *pLfngti);
  *
- * void jMechanismParameterToCKMechanismParameter(JNIEnv *env,
- *                                                jobject jParam,
- *                                                CK_VOID_PTR *ckpParamPtr,
- *                                                CK_ULONG *ckpLength);
+ * void jMfdibnismPbrbmftfrToCKMfdibnismPbrbmftfr(JNIEnv *fnv,
+ *                                                jobjfdt jPbrbm,
+ *                                                CK_VOID_PTR *dkpPbrbmPtr,
+ *                                                CK_ULONG *dkpLfngti);
  *
- * These functions are used if a PKCS#11 mechanism or attribute structure gets
- * convertet to a Java attribute or mechanism object or vice versa.
+ * Tifsf fundtions brf usfd if b PKCS#11 mfdibnism or bttributf strudturf gfts
+ * donvfrtft to b Jbvb bttributf or mfdibnism objfdt or vidf vfrsb.
  *
- * ckAttributeValueToJObject converts a PKCS#11 attribute value pointer to a Java
- * object depending on the type of the Attribute. A PKCS#11 attribute value can
- * be a CK_ULONG, CK_BYTE[], CK_CHAR[], big integer, CK_BBOOL, CK_UTF8CHAR[],
- * CK_DATE or CK_FLAGS that gets converted to a corresponding Java object.
+ * dkAttributfVblufToJObjfdt donvfrts b PKCS#11 bttributf vbluf pointfr to b Jbvb
+ * objfdt dfpfnding on tif typf of tif Attributf. A PKCS#11 bttributf vbluf dbn
+ * bf b CK_ULONG, CK_BYTE[], CK_CHAR[], big intfgfr, CK_BBOOL, CK_UTF8CHAR[],
+ * CK_DATE or CK_FLAGS tibt gfts donvfrtfd to b dorrfsponding Jbvb objfdt.
  *
- * jObjectToPrimitiveCKObjectPtrPtr is used by jAttributeToCKAttributePtr for
- * converting the Java attribute value to a PKCS#11 attribute value pointer.
- * For now only primitive datatypes and arrays of primitive datatypes can get
- * converted. Otherwise this function throws a PKCS#11Exception with the
- * errorcode CKR_VENDOR_DEFINED.
+ * jObjfdtToPrimitivfCKObjfdtPtrPtr is usfd by jAttributfToCKAttributfPtr for
+ * donvfrting tif Jbvb bttributf vbluf to b PKCS#11 bttributf vbluf pointfr.
+ * For now only primitivf dbtbtypfs bnd brrbys of primitivf dbtbtypfs dbn gft
+ * donvfrtfd. Otifrwisf tiis fundtion tirows b PKCS#11Exdfption witi tif
+ * frrordodf CKR_VENDOR_DEFINED.
  *
- * jMechanismParameterToCKMechanismParameter converts a Java mechanism parameter
- * to a PKCS#11 mechanism parameter. First this function determines what mechanism
- * parameter the Java object is, then it allocates the memory for the new PKCS#11
- * structure and calls the corresponding function to convert the Java object to
- * a PKCS#11 mechanism parameter structure.
+ * jMfdibnismPbrbmftfrToCKMfdibnismPbrbmftfr donvfrts b Jbvb mfdibnism pbrbmftfr
+ * to b PKCS#11 mfdibnism pbrbmftfr. First tiis fundtion dftfrminfs wibt mfdibnism
+ * pbrbmftfr tif Jbvb objfdt is, tifn it bllodbtfs tif mfmory for tif nfw PKCS#11
+ * strudturf bnd dblls tif dorrfsponding fundtion to donvfrt tif Jbvb objfdt to
+ * b PKCS#11 mfdibnism pbrbmftfr strudturf.
  */
 
 /*
- * converts the pValue of a CK_ATTRIBUTE structure into a Java Object by checking the type
- * of the attribute.
+ * donvfrts tif pVbluf of b CK_ATTRIBUTE strudturf into b Jbvb Objfdt by difdking tif typf
+ * of tif bttributf.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpAttribute - the pointer to the CK_ATTRIBUTE structure that contains the type
- *                       and the pValue to convert
- * @return - the new Java object of the CK-type pValue
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb objfdt
+ * @pbrbm dkpAttributf - tif pointfr to tif CK_ATTRIBUTE strudturf tibt dontbins tif typf
+ *                       bnd tif pVbluf to donvfrt
+ * @rfturn - tif nfw Jbvb objfdt of tif CK-typf pVbluf
  */
-jobject ckAttributeValueToJObject(JNIEnv *env, const CK_ATTRIBUTE_PTR ckpAttribute)
+jobjfdt dkAttributfVblufToJObjfdt(JNIEnv *fnv, donst CK_ATTRIBUTE_PTR dkpAttributf)
 {
-    jint jValueLength;
-    jobject jValueObject = NULL;
+    jint jVblufLfngti;
+    jobjfdt jVblufObjfdt = NULL;
 
-    jValueLength = ckULongToJInt(ckpAttribute->ulValueLen);
+    jVblufLfngti = dkULongToJInt(dkpAttributf->ulVblufLfn);
 
-    if ((jValueLength <= 0) || (ckpAttribute->pValue == NULL)) {
-        return NULL ;
+    if ((jVblufLfngti <= 0) || (dkpAttributf->pVbluf == NULL)) {
+        rfturn NULL ;
     }
 
-    switch(ckpAttribute->type) {
-        case CKA_CLASS:
-            /* value CK_OBJECT_CLASS, defacto a CK_ULONG */
-        case CKA_KEY_TYPE:
-            /* value CK_KEY_TYPE, defacto a CK_ULONG */
-        case CKA_CERTIFICATE_TYPE:
-            /* value CK_CERTIFICATE_TYPE, defacto a CK_ULONG */
-        case CKA_HW_FEATURE_TYPE:
-            /* value CK_HW_FEATURE_TYPE, defacto a CK_ULONG */
-        case CKA_MODULUS_BITS:
-        case CKA_VALUE_BITS:
-        case CKA_VALUE_LEN:
-        case CKA_KEY_GEN_MECHANISM:
-        case CKA_PRIME_BITS:
-        case CKA_SUB_PRIME_BITS:
-            /* value CK_ULONG */
-            jValueObject = ckULongPtrToJLongObject(env, (CK_ULONG*) ckpAttribute->pValue);
-            break;
+    switdi(dkpAttributf->typf) {
+        dbsf CKA_CLASS:
+            /* vbluf CK_OBJECT_CLASS, dffbdto b CK_ULONG */
+        dbsf CKA_KEY_TYPE:
+            /* vbluf CK_KEY_TYPE, dffbdto b CK_ULONG */
+        dbsf CKA_CERTIFICATE_TYPE:
+            /* vbluf CK_CERTIFICATE_TYPE, dffbdto b CK_ULONG */
+        dbsf CKA_HW_FEATURE_TYPE:
+            /* vbluf CK_HW_FEATURE_TYPE, dffbdto b CK_ULONG */
+        dbsf CKA_MODULUS_BITS:
+        dbsf CKA_VALUE_BITS:
+        dbsf CKA_VALUE_LEN:
+        dbsf CKA_KEY_GEN_MECHANISM:
+        dbsf CKA_PRIME_BITS:
+        dbsf CKA_SUB_PRIME_BITS:
+            /* vbluf CK_ULONG */
+            jVblufObjfdt = dkULongPtrToJLongObjfdt(fnv, (CK_ULONG*) dkpAttributf->pVbluf);
+            brfbk;
 
-            /* can be CK_BYTE[],CK_CHAR[] or big integer; defacto always CK_BYTE[] */
-        case CKA_VALUE:
-        case CKA_OBJECT_ID:
-        case CKA_SUBJECT:
-        case CKA_ID:
-        case CKA_ISSUER:
-        case CKA_SERIAL_NUMBER:
-        case CKA_OWNER:
-        case CKA_AC_ISSUER:
-        case CKA_ATTR_TYPES:
-        case CKA_ECDSA_PARAMS:
-            /* CKA_EC_PARAMS is the same, these two are equivalent */
-        case CKA_EC_POINT:
-        case CKA_PRIVATE_EXPONENT:
-        case CKA_PRIME_1:
-        case CKA_PRIME_2:
-        case CKA_EXPONENT_1:
-        case CKA_EXPONENT_2:
-        case CKA_COEFFICIENT:
-            /* value CK_BYTE[] */
-            jValueObject = ckByteArrayToJByteArray(env, (CK_BYTE*) ckpAttribute->pValue, jValueLength);
-            break;
+            /* dbn bf CK_BYTE[],CK_CHAR[] or big intfgfr; dffbdto blwbys CK_BYTE[] */
+        dbsf CKA_VALUE:
+        dbsf CKA_OBJECT_ID:
+        dbsf CKA_SUBJECT:
+        dbsf CKA_ID:
+        dbsf CKA_ISSUER:
+        dbsf CKA_SERIAL_NUMBER:
+        dbsf CKA_OWNER:
+        dbsf CKA_AC_ISSUER:
+        dbsf CKA_ATTR_TYPES:
+        dbsf CKA_ECDSA_PARAMS:
+            /* CKA_EC_PARAMS is tif sbmf, tifsf two brf fquivblfnt */
+        dbsf CKA_EC_POINT:
+        dbsf CKA_PRIVATE_EXPONENT:
+        dbsf CKA_PRIME_1:
+        dbsf CKA_PRIME_2:
+        dbsf CKA_EXPONENT_1:
+        dbsf CKA_EXPONENT_2:
+        dbsf CKA_COEFFICIENT:
+            /* vbluf CK_BYTE[] */
+            jVblufObjfdt = dkBytfArrbyToJBytfArrby(fnv, (CK_BYTE*) dkpAttributf->pVbluf, jVblufLfngti);
+            brfbk;
 
-        case CKA_RESET_ON_INIT:
-        case CKA_HAS_RESET:
-        case CKA_TOKEN:
-        case CKA_PRIVATE:
-        case CKA_MODIFIABLE:
-        case CKA_DERIVE:
-        case CKA_LOCAL:
-        case CKA_ENCRYPT:
-        case CKA_VERIFY:
-        case CKA_VERIFY_RECOVER:
-        case CKA_WRAP:
-        case CKA_SENSITIVE:
-        case CKA_SECONDARY_AUTH:
-        case CKA_DECRYPT:
-        case CKA_SIGN:
-        case CKA_SIGN_RECOVER:
-        case CKA_UNWRAP:
-        case CKA_EXTRACTABLE:
-        case CKA_ALWAYS_SENSITIVE:
-        case CKA_NEVER_EXTRACTABLE:
-        case CKA_TRUSTED:
-            /* value CK_BBOOL */
-            jValueObject = ckBBoolPtrToJBooleanObject(env, (CK_BBOOL*) ckpAttribute->pValue);
-            break;
+        dbsf CKA_RESET_ON_INIT:
+        dbsf CKA_HAS_RESET:
+        dbsf CKA_TOKEN:
+        dbsf CKA_PRIVATE:
+        dbsf CKA_MODIFIABLE:
+        dbsf CKA_DERIVE:
+        dbsf CKA_LOCAL:
+        dbsf CKA_ENCRYPT:
+        dbsf CKA_VERIFY:
+        dbsf CKA_VERIFY_RECOVER:
+        dbsf CKA_WRAP:
+        dbsf CKA_SENSITIVE:
+        dbsf CKA_SECONDARY_AUTH:
+        dbsf CKA_DECRYPT:
+        dbsf CKA_SIGN:
+        dbsf CKA_SIGN_RECOVER:
+        dbsf CKA_UNWRAP:
+        dbsf CKA_EXTRACTABLE:
+        dbsf CKA_ALWAYS_SENSITIVE:
+        dbsf CKA_NEVER_EXTRACTABLE:
+        dbsf CKA_TRUSTED:
+            /* vbluf CK_BBOOL */
+            jVblufObjfdt = dkBBoolPtrToJBoolfbnObjfdt(fnv, (CK_BBOOL*) dkpAttributf->pVbluf);
+            brfbk;
 
-        case CKA_LABEL:
-        case CKA_APPLICATION:
-            /* value RFC 2279 (UTF-8) string */
-            jValueObject = ckUTF8CharArrayToJCharArray(env, (CK_UTF8CHAR*) ckpAttribute->pValue, jValueLength);
-            break;
+        dbsf CKA_LABEL:
+        dbsf CKA_APPLICATION:
+            /* vbluf RFC 2279 (UTF-8) string */
+            jVblufObjfdt = dkUTF8CibrArrbyToJCibrArrby(fnv, (CK_UTF8CHAR*) dkpAttributf->pVbluf, jVblufLfngti);
+            brfbk;
 
-        case CKA_START_DATE:
-        case CKA_END_DATE:
-            /* value CK_DATE */
-            jValueObject = ckDatePtrToJDateObject(env, (CK_DATE*) ckpAttribute->pValue);
-            break;
+        dbsf CKA_START_DATE:
+        dbsf CKA_END_DATE:
+            /* vbluf CK_DATE */
+            jVblufObjfdt = dkDbtfPtrToJDbtfObjfdt(fnv, (CK_DATE*) dkpAttributf->pVbluf);
+            brfbk;
 
-        case CKA_MODULUS:
-        case CKA_PUBLIC_EXPONENT:
-        case CKA_PRIME:
-        case CKA_SUBPRIME:
-        case CKA_BASE:
-            /* value big integer, i.e. CK_BYTE[] */
-            jValueObject = ckByteArrayToJByteArray(env, (CK_BYTE*) ckpAttribute->pValue, jValueLength);
-            break;
+        dbsf CKA_MODULUS:
+        dbsf CKA_PUBLIC_EXPONENT:
+        dbsf CKA_PRIME:
+        dbsf CKA_SUBPRIME:
+        dbsf CKA_BASE:
+            /* vbluf big intfgfr, i.f. CK_BYTE[] */
+            jVblufObjfdt = dkBytfArrbyToJBytfArrby(fnv, (CK_BYTE*) dkpAttributf->pVbluf, jVblufLfngti);
+            brfbk;
 
-        case CKA_AUTH_PIN_FLAGS:
-            jValueObject = ckULongPtrToJLongObject(env, (CK_ULONG*) ckpAttribute->pValue);
-            /* value FLAGS, defacto a CK_ULONG */
-            break;
+        dbsf CKA_AUTH_PIN_FLAGS:
+            jVblufObjfdt = dkULongPtrToJLongObjfdt(fnv, (CK_ULONG*) dkpAttributf->pVbluf);
+            /* vbluf FLAGS, dffbdto b CK_ULONG */
+            brfbk;
 
-        case CKA_VENDOR_DEFINED:
-            /* we make a CK_BYTE[] out of this */
-            jValueObject = ckByteArrayToJByteArray(env, (CK_BYTE*) ckpAttribute->pValue, jValueLength);
-            break;
+        dbsf CKA_VENDOR_DEFINED:
+            /* wf mbkf b CK_BYTE[] out of tiis */
+            jVblufObjfdt = dkBytfArrbyToJBytfArrby(fnv, (CK_BYTE*) dkpAttributf->pVbluf, jVblufLfngti);
+            brfbk;
 
-        // Netscape trust attributes
-        case CKA_NETSCAPE_TRUST_SERVER_AUTH:
-        case CKA_NETSCAPE_TRUST_CLIENT_AUTH:
-        case CKA_NETSCAPE_TRUST_CODE_SIGNING:
-        case CKA_NETSCAPE_TRUST_EMAIL_PROTECTION:
-            /* value CK_ULONG */
-            jValueObject = ckULongPtrToJLongObject(env, (CK_ULONG*) ckpAttribute->pValue);
-            break;
+        // Nftsdbpf trust bttributfs
+        dbsf CKA_NETSCAPE_TRUST_SERVER_AUTH:
+        dbsf CKA_NETSCAPE_TRUST_CLIENT_AUTH:
+        dbsf CKA_NETSCAPE_TRUST_CODE_SIGNING:
+        dbsf CKA_NETSCAPE_TRUST_EMAIL_PROTECTION:
+            /* vbluf CK_ULONG */
+            jVblufObjfdt = dkULongPtrToJLongObjfdt(fnv, (CK_ULONG*) dkpAttributf->pVbluf);
+            brfbk;
 
-        default:
-            /* we make a CK_BYTE[] out of this */
-            jValueObject = ckByteArrayToJByteArray(env, (CK_BYTE*) ckpAttribute->pValue, jValueLength);
-            break;
+        dffbult:
+            /* wf mbkf b CK_BYTE[] out of tiis */
+            jVblufObjfdt = dkBytfArrbyToJBytfArrby(fnv, (CK_BYTE*) dkpAttributf->pVbluf, jVblufLfngti);
+            brfbk;
     }
 
-    return jValueObject ;
+    rfturn jVblufObjfdt ;
 }
 
 /*
- * the following functions convert a Java mechanism parameter object to a PKCS#11
- * mechanism parameter structure
+ * tif following fundtions donvfrt b Jbvb mfdibnism pbrbmftfr objfdt to b PKCS#11
+ * mfdibnism pbrbmftfr strudturf
  *
- * CK_<Param>_PARAMS j<Param>ParamToCK<Param>Param(JNIEnv *env,
- *                                                 jobject jParam);
+ * CK_<Pbrbm>_PARAMS j<Pbrbm>PbrbmToCK<Pbrbm>Pbrbm(JNIEnv *fnv,
+ *                                                 jobjfdt jPbrbm);
  *
- * These functions get a Java object, that must be the right Java mechanism
- * object and they return the new PKCS#11 mechanism parameter structure.
- * Every field of the Java object is retrieved, gets converted to a corresponding
- * PKCS#11 type and is set in the new PKCS#11 structure.
+ * Tifsf fundtions gft b Jbvb objfdt, tibt must bf tif rigit Jbvb mfdibnism
+ * objfdt bnd tify rfturn tif nfw PKCS#11 mfdibnism pbrbmftfr strudturf.
+ * Evfry fifld of tif Jbvb objfdt is rftrifvfd, gfts donvfrtfd to b dorrfsponding
+ * PKCS#11 typf bnd is sft in tif nfw PKCS#11 strudturf.
  */
 
 /*
- * converts the given Java mechanism parameter to a CK mechanism parameter structure
- * and store the length in bytes in the length variable.
- * The memory of *ckpParamPtr has to be freed after use!
+ * donvfrts tif givfn Jbvb mfdibnism pbrbmftfr to b CK mfdibnism pbrbmftfr strudturf
+ * bnd storf tif lfngti in bytfs in tif lfngti vbribblf.
+ * Tif mfmory of *dkpPbrbmPtr ibs to bf frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java mechanism parameter object to convert
- * @param ckpParamPtr - the reference of the new pointer to the new CK mechanism parameter
- *                      structure
- * @param ckpLength - the reference of the length in bytes of the new CK mechanism parameter
- *                    structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb mfdibnism pbrbmftfr objfdt to donvfrt
+ * @pbrbm dkpPbrbmPtr - tif rfffrfndf of tif nfw pointfr to tif nfw CK mfdibnism pbrbmftfr
+ *                      strudturf
+ * @pbrbm dkpLfngti - tif rfffrfndf of tif lfngti in bytfs of tif nfw CK mfdibnism pbrbmftfr
+ *                    strudturf
  */
-void jMechanismParameterToCKMechanismParameter(JNIEnv *env, jobject jParam, CK_VOID_PTR *ckpParamPtr, CK_ULONG *ckpLength)
+void jMfdibnismPbrbmftfrToCKMfdibnismPbrbmftfr(JNIEnv *fnv, jobjfdt jPbrbm, CK_VOID_PTR *dkpPbrbmPtr, CK_ULONG *dkpLfngti)
 {
-    if (jParam == NULL) {
-        *ckpParamPtr = NULL;
-        *ckpLength = 0;
-    } else if ((*env)->IsInstanceOf(env, jParam, jByteArrayClass)) {
-        jByteArrayToCKByteArray(env, jParam, (CK_BYTE_PTR *)ckpParamPtr, ckpLength);
-    } else if ((*env)->IsInstanceOf(env, jParam, jLongClass)) {
-        *ckpParamPtr = jLongObjectToCKULongPtr(env, jParam);
-        *ckpLength = sizeof(CK_ULONG);
-    } else {
-        TRACE0("\nSLOW PATH jMechanismParameterToCKMechanismParameter\n");
-        jMechanismParameterToCKMechanismParameterSlow(env, jParam, ckpParamPtr, ckpLength);
+    if (jPbrbm == NULL) {
+        *dkpPbrbmPtr = NULL;
+        *dkpLfngti = 0;
+    } flsf if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jBytfArrbyClbss)) {
+        jBytfArrbyToCKBytfArrby(fnv, jPbrbm, (CK_BYTE_PTR *)dkpPbrbmPtr, dkpLfngti);
+    } flsf if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jLongClbss)) {
+        *dkpPbrbmPtr = jLongObjfdtToCKULongPtr(fnv, jPbrbm);
+        *dkpLfngti = sizfof(CK_ULONG);
+    } flsf {
+        TRACE0("\nSLOW PATH jMfdibnismPbrbmftfrToCKMfdibnismPbrbmftfr\n");
+        jMfdibnismPbrbmftfrToCKMfdibnismPbrbmftfrSlow(fnv, jPbrbm, dkpPbrbmPtr, dkpLfngti);
     }
 }
 
-void jMechanismParameterToCKMechanismParameterSlow(JNIEnv *env, jobject jParam, CK_VOID_PTR *ckpParamPtr, CK_ULONG *ckpLength)
+void jMfdibnismPbrbmftfrToCKMfdibnismPbrbmftfrSlow(JNIEnv *fnv, jobjfdt jPbrbm, CK_VOID_PTR *dkpPbrbmPtr, CK_ULONG *dkpLfngti)
 {
-    /* get all Java mechanism parameter classes */
-    jclass jVersionClass, jSsl3MasterKeyDeriveParamsClass, jSsl3KeyMatParamsClass;
-    jclass jTlsPrfParamsClass, jAesCtrParamsClass, jRsaPkcsOaepParamsClass;
-    jclass jPbeParamsClass, jPkcs5Pbkd2ParamsClass, jRsaPkcsPssParamsClass;
-    jclass jEcdh1DeriveParamsClass, jEcdh2DeriveParamsClass;
-    jclass jX942Dh1DeriveParamsClass, jX942Dh2DeriveParamsClass;
-    TRACE0("\nDEBUG: jMechanismParameterToCKMechanismParameter");
+    /* gft bll Jbvb mfdibnism pbrbmftfr dlbssfs */
+    jdlbss jVfrsionClbss, jSsl3MbstfrKfyDfrivfPbrbmsClbss, jSsl3KfyMbtPbrbmsClbss;
+    jdlbss jTlsPrfPbrbmsClbss, jAfsCtrPbrbmsClbss, jRsbPkdsObfpPbrbmsClbss;
+    jdlbss jPbfPbrbmsClbss, jPkds5Pbkd2PbrbmsClbss, jRsbPkdsPssPbrbmsClbss;
+    jdlbss jEddi1DfrivfPbrbmsClbss, jEddi2DfrivfPbrbmsClbss;
+    jdlbss jX942Di1DfrivfPbrbmsClbss, jX942Di2DfrivfPbrbmsClbss;
+    TRACE0("\nDEBUG: jMfdibnismPbrbmftfrToCKMfdibnismPbrbmftfr");
 
-    /* most common cases, i.e. NULL/byte[]/long, are already handled by
-     * jMechanismParameterToCKMechanismParameter before calling this method.
+    /* most dommon dbsfs, i.f. NULL/bytf[]/long, brf blrfbdy ibndlfd by
+     * jMfdibnismPbrbmftfrToCKMfdibnismPbrbmftfr bfforf dblling tiis mftiod.
      */
-    jVersionClass = (*env)->FindClass(env, CLASS_VERSION);
-    if (jVersionClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jVersionClass)) {
+    jVfrsionClbss = (*fnv)->FindClbss(fnv, CLASS_VERSION);
+    if (jVfrsionClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jVfrsionClbss)) {
         /*
-         * CK_VERSION used by CKM_SSL3_PRE_MASTER_KEY_GEN
+         * CK_VERSION usfd by CKM_SSL3_PRE_MASTER_KEY_GEN
          */
-        CK_VERSION_PTR ckpParam;
+        CK_VERSION_PTR dkpPbrbm;
 
-        /* convert jParameter to CKParameter */
-        ckpParam = jVersionToCKVersionPtr(env, jParam);
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        dkpPbrbm = jVfrsionToCKVfrsionPtr(fnv, jPbrbm);
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_VERSION);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_VERSION);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jSsl3MasterKeyDeriveParamsClass = (*env)->FindClass(env, CLASS_SSL3_MASTER_KEY_DERIVE_PARAMS);
-    if (jSsl3MasterKeyDeriveParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jSsl3MasterKeyDeriveParamsClass)) {
+    jSsl3MbstfrKfyDfrivfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_SSL3_MASTER_KEY_DERIVE_PARAMS);
+    if (jSsl3MbstfrKfyDfrivfPbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jSsl3MbstfrKfyDfrivfPbrbmsClbss)) {
         /*
          * CK_SSL3_MASTER_KEY_DERIVE_PARAMS
          */
-        CK_SSL3_MASTER_KEY_DERIVE_PARAMS_PTR ckpParam;
+        CK_SSL3_MASTER_KEY_DERIVE_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_SSL3_MASTER_KEY_DERIVE_PARAMS_PTR) malloc(sizeof(CK_SSL3_MASTER_KEY_DERIVE_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_SSL3_MASTER_KEY_DERIVE_PARAMS_PTR) mbllod(sizfof(CK_SSL3_MASTER_KEY_DERIVE_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        *ckpParam = jSsl3MasterKeyDeriveParamToCKSsl3MasterKeyDeriveParam(env, jParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        *dkpPbrbm = jSsl3MbstfrKfyDfrivfPbrbmToCKSsl3MbstfrKfyDfrivfPbrbm(fnv, jPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_SSL3_MASTER_KEY_DERIVE_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_SSL3_MASTER_KEY_DERIVE_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jSsl3KeyMatParamsClass = (*env)->FindClass(env, CLASS_SSL3_KEY_MAT_PARAMS);
-    if (jSsl3KeyMatParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jSsl3KeyMatParamsClass)) {
+    jSsl3KfyMbtPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_SSL3_KEY_MAT_PARAMS);
+    if (jSsl3KfyMbtPbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jSsl3KfyMbtPbrbmsClbss)) {
         /*
          * CK_SSL3_KEY_MAT_PARAMS
          */
-        CK_SSL3_KEY_MAT_PARAMS_PTR ckpParam;
+        CK_SSL3_KEY_MAT_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_SSL3_KEY_MAT_PARAMS_PTR) malloc(sizeof(CK_SSL3_KEY_MAT_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_SSL3_KEY_MAT_PARAMS_PTR) mbllod(sizfof(CK_SSL3_KEY_MAT_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        *ckpParam = jSsl3KeyMatParamToCKSsl3KeyMatParam(env, jParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        *dkpPbrbm = jSsl3KfyMbtPbrbmToCKSsl3KfyMbtPbrbm(fnv, jPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_SSL3_KEY_MAT_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_SSL3_KEY_MAT_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jTlsPrfParamsClass = (*env)->FindClass(env, CLASS_TLS_PRF_PARAMS);
-    if (jTlsPrfParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jTlsPrfParamsClass)) {
+    jTlsPrfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_TLS_PRF_PARAMS);
+    if (jTlsPrfPbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jTlsPrfPbrbmsClbss)) {
         /*
          * CK_TLS_PRF_PARAMS
          */
-        CK_TLS_PRF_PARAMS_PTR ckpParam;
+        CK_TLS_PRF_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_TLS_PRF_PARAMS_PTR) malloc(sizeof(CK_TLS_PRF_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_TLS_PRF_PARAMS_PTR) mbllod(sizfof(CK_TLS_PRF_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        *ckpParam = jTlsPrfParamsToCKTlsPrfParam(env, jParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        *dkpPbrbm = jTlsPrfPbrbmsToCKTlsPrfPbrbm(fnv, jPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_TLS_PRF_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_TLS_PRF_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jAesCtrParamsClass = (*env)->FindClass(env, CLASS_AES_CTR_PARAMS);
-    if (jAesCtrParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jAesCtrParamsClass)) {
+    jAfsCtrPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_AES_CTR_PARAMS);
+    if (jAfsCtrPbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jAfsCtrPbrbmsClbss)) {
         /*
          * CK_AES_CTR_PARAMS
          */
-        CK_AES_CTR_PARAMS_PTR ckpParam;
+        CK_AES_CTR_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_AES_CTR_PARAMS_PTR) malloc(sizeof(CK_AES_CTR_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_AES_CTR_PARAMS_PTR) mbllod(sizfof(CK_AES_CTR_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        jAesCtrParamsToCKAesCtrParam(env, jParam, ckpParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        jAfsCtrPbrbmsToCKAfsCtrPbrbm(fnv, jPbrbm, dkpPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_AES_CTR_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_AES_CTR_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jRsaPkcsOaepParamsClass = (*env)->FindClass(env, CLASS_RSA_PKCS_OAEP_PARAMS);
-    if (jRsaPkcsOaepParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jRsaPkcsOaepParamsClass)) {
+    jRsbPkdsObfpPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_RSA_PKCS_OAEP_PARAMS);
+    if (jRsbPkdsObfpPbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jRsbPkdsObfpPbrbmsClbss)) {
         /*
          * CK_RSA_PKCS_OAEP_PARAMS
          */
-        CK_RSA_PKCS_OAEP_PARAMS_PTR ckpParam;
+        CK_RSA_PKCS_OAEP_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_RSA_PKCS_OAEP_PARAMS_PTR) malloc(sizeof(CK_RSA_PKCS_OAEP_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_RSA_PKCS_OAEP_PARAMS_PTR) mbllod(sizfof(CK_RSA_PKCS_OAEP_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        *ckpParam = jRsaPkcsOaepParamToCKRsaPkcsOaepParam(env, jParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        *dkpPbrbm = jRsbPkdsObfpPbrbmToCKRsbPkdsObfpPbrbm(fnv, jPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_RSA_PKCS_OAEP_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_RSA_PKCS_OAEP_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jPbeParamsClass = (*env)->FindClass(env, CLASS_PBE_PARAMS);
-    if (jPbeParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jPbeParamsClass)) {
+    jPbfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_PBE_PARAMS);
+    if (jPbfPbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jPbfPbrbmsClbss)) {
         /*
          * CK_PBE_PARAMS
          */
-        CK_PBE_PARAMS_PTR ckpParam;
+        CK_PBE_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_PBE_PARAMS_PTR) malloc(sizeof(CK_PBE_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_PBE_PARAMS_PTR) mbllod(sizfof(CK_PBE_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        *ckpParam = jPbeParamToCKPbeParam(env, jParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        *dkpPbrbm = jPbfPbrbmToCKPbfPbrbm(fnv, jPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_PBE_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_PBE_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jPkcs5Pbkd2ParamsClass = (*env)->FindClass(env, CLASS_PKCS5_PBKD2_PARAMS);
-    if (jPkcs5Pbkd2ParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jPkcs5Pbkd2ParamsClass)) {
+    jPkds5Pbkd2PbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_PKCS5_PBKD2_PARAMS);
+    if (jPkds5Pbkd2PbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jPkds5Pbkd2PbrbmsClbss)) {
         /*
          * CK_PKCS5_PBKD2_PARAMS
          */
-        CK_PKCS5_PBKD2_PARAMS_PTR ckpParam;
+        CK_PKCS5_PBKD2_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_PKCS5_PBKD2_PARAMS_PTR) malloc(sizeof(CK_PKCS5_PBKD2_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_PKCS5_PBKD2_PARAMS_PTR) mbllod(sizfof(CK_PKCS5_PBKD2_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        *ckpParam = jPkcs5Pbkd2ParamToCKPkcs5Pbkd2Param(env, jParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        *dkpPbrbm = jPkds5Pbkd2PbrbmToCKPkds5Pbkd2Pbrbm(fnv, jPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_PKCS5_PBKD2_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_PKCS5_PBKD2_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jRsaPkcsPssParamsClass = (*env)->FindClass(env, CLASS_RSA_PKCS_PSS_PARAMS);
-    if (jRsaPkcsPssParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jRsaPkcsPssParamsClass)) {
+    jRsbPkdsPssPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_RSA_PKCS_PSS_PARAMS);
+    if (jRsbPkdsPssPbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jRsbPkdsPssPbrbmsClbss)) {
         /*
          * CK_RSA_PKCS_PSS_PARAMS
          */
-        CK_RSA_PKCS_PSS_PARAMS_PTR ckpParam;
+        CK_RSA_PKCS_PSS_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_RSA_PKCS_PSS_PARAMS_PTR) malloc(sizeof(CK_RSA_PKCS_PSS_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_RSA_PKCS_PSS_PARAMS_PTR) mbllod(sizfof(CK_RSA_PKCS_PSS_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        *ckpParam = jRsaPkcsPssParamToCKRsaPkcsPssParam(env, jParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        *dkpPbrbm = jRsbPkdsPssPbrbmToCKRsbPkdsPssPbrbm(fnv, jPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_RSA_PKCS_PSS_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_RSA_PKCS_PSS_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jEcdh1DeriveParamsClass = (*env)->FindClass(env, CLASS_ECDH1_DERIVE_PARAMS);
-    if (jEcdh1DeriveParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jEcdh1DeriveParamsClass)) {
+    jEddi1DfrivfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_ECDH1_DERIVE_PARAMS);
+    if (jEddi1DfrivfPbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jEddi1DfrivfPbrbmsClbss)) {
         /*
          * CK_ECDH1_DERIVE_PARAMS
          */
-        CK_ECDH1_DERIVE_PARAMS_PTR ckpParam;
+        CK_ECDH1_DERIVE_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_ECDH1_DERIVE_PARAMS_PTR) malloc(sizeof(CK_ECDH1_DERIVE_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_ECDH1_DERIVE_PARAMS_PTR) mbllod(sizfof(CK_ECDH1_DERIVE_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        *ckpParam = jEcdh1DeriveParamToCKEcdh1DeriveParam(env, jParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        *dkpPbrbm = jEddi1DfrivfPbrbmToCKEddi1DfrivfPbrbm(fnv, jPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_ECDH1_DERIVE_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_ECDH1_DERIVE_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jEcdh2DeriveParamsClass = (*env)->FindClass(env, CLASS_ECDH2_DERIVE_PARAMS);
-    if (jEcdh2DeriveParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jEcdh2DeriveParamsClass)) {
+    jEddi2DfrivfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_ECDH2_DERIVE_PARAMS);
+    if (jEddi2DfrivfPbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jEddi2DfrivfPbrbmsClbss)) {
         /*
          * CK_ECDH2_DERIVE_PARAMS
          */
-        CK_ECDH2_DERIVE_PARAMS_PTR ckpParam;
+        CK_ECDH2_DERIVE_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_ECDH2_DERIVE_PARAMS_PTR) malloc(sizeof(CK_ECDH2_DERIVE_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_ECDH2_DERIVE_PARAMS_PTR) mbllod(sizfof(CK_ECDH2_DERIVE_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        *ckpParam = jEcdh2DeriveParamToCKEcdh2DeriveParam(env, jParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        *dkpPbrbm = jEddi2DfrivfPbrbmToCKEddi2DfrivfPbrbm(fnv, jPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_ECDH2_DERIVE_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_ECDH2_DERIVE_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jX942Dh1DeriveParamsClass = (*env)->FindClass(env, CLASS_X9_42_DH1_DERIVE_PARAMS);
-    if (jX942Dh1DeriveParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jX942Dh1DeriveParamsClass)) {
+    jX942Di1DfrivfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_X9_42_DH1_DERIVE_PARAMS);
+    if (jX942Di1DfrivfPbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jX942Di1DfrivfPbrbmsClbss)) {
         /*
          * CK_X9_42_DH1_DERIVE_PARAMS
          */
-        CK_X9_42_DH1_DERIVE_PARAMS_PTR ckpParam;
+        CK_X9_42_DH1_DERIVE_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_X9_42_DH1_DERIVE_PARAMS_PTR) malloc(sizeof(CK_X9_42_DH1_DERIVE_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_X9_42_DH1_DERIVE_PARAMS_PTR) mbllod(sizfof(CK_X9_42_DH1_DERIVE_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        *ckpParam = jX942Dh1DeriveParamToCKX942Dh1DeriveParam(env, jParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        *dkpPbrbm = jX942Di1DfrivfPbrbmToCKX942Di1DfrivfPbrbm(fnv, jPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_X9_42_DH1_DERIVE_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_X9_42_DH1_DERIVE_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    jX942Dh2DeriveParamsClass = (*env)->FindClass(env, CLASS_X9_42_DH2_DERIVE_PARAMS);
-    if (jX942Dh2DeriveParamsClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jParam, jX942Dh2DeriveParamsClass)) {
+    jX942Di2DfrivfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_X9_42_DH2_DERIVE_PARAMS);
+    if (jX942Di2DfrivfPbrbmsClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jPbrbm, jX942Di2DfrivfPbrbmsClbss)) {
         /*
          * CK_X9_42_DH2_DERIVE_PARAMS
          */
-        CK_X9_42_DH2_DERIVE_PARAMS_PTR ckpParam;
+        CK_X9_42_DH2_DERIVE_PARAMS_PTR dkpPbrbm;
 
-        ckpParam = (CK_X9_42_DH2_DERIVE_PARAMS_PTR) malloc(sizeof(CK_X9_42_DH2_DERIVE_PARAMS));
-        if (ckpParam == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+        dkpPbrbm = (CK_X9_42_DH2_DERIVE_PARAMS_PTR) mbllod(sizfof(CK_X9_42_DH2_DERIVE_PARAMS));
+        if (dkpPbrbm == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
 
-        /* convert jParameter to CKParameter */
-        *ckpParam = jX942Dh2DeriveParamToCKX942Dh2DeriveParam(env, jParam);
-        if ((*env)->ExceptionCheck(env)) {
-            free(ckpParam);
-            return;
+        /* donvfrt jPbrbmftfr to CKPbrbmftfr */
+        *dkpPbrbm = jX942Di2DfrivfPbrbmToCKX942Di2DfrivfPbrbm(fnv, jPbrbm);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frff(dkpPbrbm);
+            rfturn;
         }
 
-        /* get length and pointer of parameter */
-        *ckpLength = sizeof(CK_X9_42_DH2_DERIVE_PARAMS);
-        *ckpParamPtr = ckpParam;
-        return;
+        /* gft lfngti bnd pointfr of pbrbmftfr */
+        *dkpLfngti = sizfof(CK_X9_42_DH2_DERIVE_PARAMS);
+        *dkpPbrbmPtr = dkpPbrbm;
+        rfturn;
     }
 
-    /* if everything faild up to here */
-    /* try if the parameter is a primitive Java type */
-    jObjectToPrimitiveCKObjectPtrPtr(env, jParam, ckpParamPtr, ckpLength);
-    /* *ckpParamPtr = jObjectToCKVoidPtr(jParam); */
-    /* *ckpLength = 1; */
+    /* if fvfrytiing fbild up to ifrf */
+    /* try if tif pbrbmftfr is b primitivf Jbvb typf */
+    jObjfdtToPrimitivfCKObjfdtPtrPtr(fnv, jPbrbm, dkpPbrbmPtr, dkpLfngti);
+    /* *dkpPbrbmPtr = jObjfdtToCKVoidPtr(jPbrbm); */
+    /* *dkpLfngti = 1; */
 
     TRACE0("FINISHED\n");
 }
 
 
-/* the mechanism parameter convertion functions: */
+/* tif mfdibnism pbrbmftfr donvfrtion fundtions: */
 
 /*
- * converts the Java CK_RSA_PKCS_OAEP_PARAMS object to a CK_RSA_PKCS_OAEP_PARAMS structure
+ * donvfrts tif Jbvb CK_RSA_PKCS_OAEP_PARAMS objfdt to b CK_RSA_PKCS_OAEP_PARAMS strudturf
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java CK_RSA_PKCS_OAEP_PARAMS object to convert
- * @return - the new CK_RSA_PKCS_OAEP_PARAMS structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb CK_RSA_PKCS_OAEP_PARAMS objfdt to donvfrt
+ * @rfturn - tif nfw CK_RSA_PKCS_OAEP_PARAMS strudturf
  */
-CK_RSA_PKCS_OAEP_PARAMS jRsaPkcsOaepParamToCKRsaPkcsOaepParam(JNIEnv *env, jobject jParam)
+CK_RSA_PKCS_OAEP_PARAMS jRsbPkdsObfpPbrbmToCKRsbPkdsObfpPbrbm(JNIEnv *fnv, jobjfdt jPbrbm)
 {
-    jclass jRsaPkcsOaepParamsClass;
-    CK_RSA_PKCS_OAEP_PARAMS ckParam;
-    jfieldID fieldID;
-    jlong jHashAlg, jMgf, jSource;
-    jobject jSourceData;
-    CK_BYTE_PTR ckpByte;
+    jdlbss jRsbPkdsObfpPbrbmsClbss;
+    CK_RSA_PKCS_OAEP_PARAMS dkPbrbm;
+    jfifldID fifldID;
+    jlong jHbsiAlg, jMgf, jSourdf;
+    jobjfdt jSourdfDbtb;
+    CK_BYTE_PTR dkpBytf;
 
-    /* get hashAlg */
-    jRsaPkcsOaepParamsClass = (*env)->FindClass(env, CLASS_RSA_PKCS_OAEP_PARAMS);
-    if (jRsaPkcsOaepParamsClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jRsaPkcsOaepParamsClass, "hashAlg", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jHashAlg = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft ibsiAlg */
+    jRsbPkdsObfpPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_RSA_PKCS_OAEP_PARAMS);
+    if (jRsbPkdsObfpPbrbmsClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jRsbPkdsObfpPbrbmsClbss, "ibsiAlg", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jHbsiAlg = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get mgf */
-    fieldID = (*env)->GetFieldID(env, jRsaPkcsOaepParamsClass, "mgf", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jMgf = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft mgf */
+    fifldID = (*fnv)->GftFifldID(fnv, jRsbPkdsObfpPbrbmsClbss, "mgf", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jMgf = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get source */
-    fieldID = (*env)->GetFieldID(env, jRsaPkcsOaepParamsClass, "source", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jSource = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft sourdf */
+    fifldID = (*fnv)->GftFifldID(fnv, jRsbPkdsObfpPbrbmsClbss, "sourdf", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jSourdf = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get sourceData and sourceDataLength */
-    fieldID = (*env)->GetFieldID(env, jRsaPkcsOaepParamsClass, "pSourceData", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jSourceData = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft sourdfDbtb bnd sourdfDbtbLfngti */
+    fifldID = (*fnv)->GftFifldID(fnv, jRsbPkdsObfpPbrbmsClbss, "pSourdfDbtb", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jSourdfDbtb = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* populate java values */
-    ckParam.hashAlg = jLongToCKULong(jHashAlg);
-    ckParam.mgf = jLongToCKULong(jMgf);
-    ckParam.source = jLongToCKULong(jSource);
-    jByteArrayToCKByteArray(env, jSourceData, & ckpByte, &(ckParam.ulSourceDataLen));
-    if ((*env)->ExceptionCheck(env)) { return ckParam; }
-    ckParam.pSourceData = (CK_VOID_PTR) ckpByte;
+    /* populbtf jbvb vblufs */
+    dkPbrbm.ibsiAlg = jLongToCKULong(jHbsiAlg);
+    dkPbrbm.mgf = jLongToCKULong(jMgf);
+    dkPbrbm.sourdf = jLongToCKULong(jSourdf);
+    jBytfArrbyToCKBytfArrby(fnv, jSourdfDbtb, & dkpBytf, &(dkPbrbm.ulSourdfDbtbLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn dkPbrbm; }
+    dkPbrbm.pSourdfDbtb = (CK_VOID_PTR) dkpBytf;
 
-    return ckParam ;
+    rfturn dkPbrbm ;
 }
 
 /*
- * converts the Java CK_PBE_PARAMS object to a CK_PBE_PARAMS structure
+ * donvfrts tif Jbvb CK_PBE_PARAMS objfdt to b CK_PBE_PARAMS strudturf
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java CK_PBE_PARAMS object to convert
- * @return - the new CK_PBE_PARAMS structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb CK_PBE_PARAMS objfdt to donvfrt
+ * @rfturn - tif nfw CK_PBE_PARAMS strudturf
  */
-CK_PBE_PARAMS jPbeParamToCKPbeParam(JNIEnv *env, jobject jParam)
+CK_PBE_PARAMS jPbfPbrbmToCKPbfPbrbm(JNIEnv *fnv, jobjfdt jPbrbm)
 {
-    jclass jPbeParamsClass;
-    CK_PBE_PARAMS ckParam;
-    jfieldID fieldID;
-    jlong jIteration;
-    jobject jInitVector, jPassword, jSalt;
-    CK_ULONG ckTemp;
+    jdlbss jPbfPbrbmsClbss;
+    CK_PBE_PARAMS dkPbrbm;
+    jfifldID fifldID;
+    jlong jItfrbtion;
+    jobjfdt jInitVfdtor, jPbssword, jSblt;
+    CK_ULONG dkTfmp;
 
-    /* get pInitVector */
-    jPbeParamsClass = (*env)->FindClass(env, CLASS_PBE_PARAMS);
-    if (jPbeParamsClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jPbeParamsClass, "pInitVector", "[C");
-    if (fieldID == NULL) { return ckParam; }
-    jInitVector = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pInitVfdtor */
+    jPbfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_PBE_PARAMS);
+    if (jPbfPbrbmsClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jPbfPbrbmsClbss, "pInitVfdtor", "[C");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jInitVfdtor = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get pPassword and ulPasswordLength */
-    fieldID = (*env)->GetFieldID(env, jPbeParamsClass, "pPassword", "[C");
-    if (fieldID == NULL) { return ckParam; }
-    jPassword = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pPbssword bnd ulPbsswordLfngti */
+    fifldID = (*fnv)->GftFifldID(fnv, jPbfPbrbmsClbss, "pPbssword", "[C");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPbssword = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get pSalt and ulSaltLength */
-    fieldID = (*env)->GetFieldID(env, jPbeParamsClass, "pSalt", "[C");
-    if (fieldID == NULL) { return ckParam; }
-    jSalt = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pSblt bnd ulSbltLfngti */
+    fifldID = (*fnv)->GftFifldID(fnv, jPbfPbrbmsClbss, "pSblt", "[C");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jSblt = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get ulIteration */
-    fieldID = (*env)->GetFieldID(env, jPbeParamsClass, "ulIteration", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jIteration = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft ulItfrbtion */
+    fifldID = (*fnv)->GftFifldID(fnv, jPbfPbrbmsClbss, "ulItfrbtion", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jItfrbtion = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* populate java values */
-    ckParam.ulIteration = jLongToCKULong(jIteration);
-    jCharArrayToCKCharArray(env, jInitVector, &(ckParam.pInitVector), &ckTemp);
-    if ((*env)->ExceptionCheck(env)) { return ckParam; }
-    jCharArrayToCKCharArray(env, jPassword, &(ckParam.pPassword), &(ckParam.ulPasswordLen));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pInitVector);
-        return ckParam;
+    /* populbtf jbvb vblufs */
+    dkPbrbm.ulItfrbtion = jLongToCKULong(jItfrbtion);
+    jCibrArrbyToCKCibrArrby(fnv, jInitVfdtor, &(dkPbrbm.pInitVfdtor), &dkTfmp);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn dkPbrbm; }
+    jCibrArrbyToCKCibrArrby(fnv, jPbssword, &(dkPbrbm.pPbssword), &(dkPbrbm.ulPbsswordLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pInitVfdtor);
+        rfturn dkPbrbm;
     }
-    jCharArrayToCKCharArray(env, jSalt, &(ckParam.pSalt), &(ckParam.ulSaltLen));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pInitVector);
-        free(ckParam.pPassword);
-        return ckParam;
+    jCibrArrbyToCKCibrArrby(fnv, jSblt, &(dkPbrbm.pSblt), &(dkPbrbm.ulSbltLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pInitVfdtor);
+        frff(dkPbrbm.pPbssword);
+        rfturn dkPbrbm;
     }
 
-    return ckParam ;
+    rfturn dkPbrbm ;
 }
 
 /*
- * Copy back the initialization vector from the native structure to the
- * Java object. This is only used for CKM_PBE_* mechanisms and their
- * CK_PBE_PARAMS parameters.
+ * Copy bbdk tif initiblizbtion vfdtor from tif nbtivf strudturf to tif
+ * Jbvb objfdt. Tiis is only usfd for CKM_PBE_* mfdibnisms bnd tifir
+ * CK_PBE_PARAMS pbrbmftfrs.
  *
  */
-void copyBackPBEInitializationVector(JNIEnv *env, CK_MECHANISM *ckMechanism, jobject jMechanism)
+void dopyBbdkPBEInitiblizbtionVfdtor(JNIEnv *fnv, CK_MECHANISM *dkMfdibnism, jobjfdt jMfdibnism)
 {
-    jclass jMechanismClass, jPbeParamsClass;
-    CK_PBE_PARAMS *ckParam;
-    jfieldID fieldID;
-    CK_MECHANISM_TYPE ckMechanismType;
-    jlong jMechanismType;
-    jobject jParameter;
-    jobject jInitVector;
-    jint jInitVectorLength;
-    CK_CHAR_PTR initVector;
+    jdlbss jMfdibnismClbss, jPbfPbrbmsClbss;
+    CK_PBE_PARAMS *dkPbrbm;
+    jfifldID fifldID;
+    CK_MECHANISM_TYPE dkMfdibnismTypf;
+    jlong jMfdibnismTypf;
+    jobjfdt jPbrbmftfr;
+    jobjfdt jInitVfdtor;
+    jint jInitVfdtorLfngti;
+    CK_CHAR_PTR initVfdtor;
     int i;
-    jchar* jInitVectorChars;
+    jdibr* jInitVfdtorCibrs;
 
-    /* get mechanism */
-    jMechanismClass = (*env)->FindClass(env, CLASS_MECHANISM);
-    if (jMechanismClass == NULL) { return; }
-    fieldID = (*env)->GetFieldID(env, jMechanismClass, "mechanism", "J");
-    if (fieldID == NULL) { return; }
-    jMechanismType = (*env)->GetLongField(env, jMechanism, fieldID);
-    ckMechanismType = jLongToCKULong(jMechanismType);
-    if (ckMechanismType != ckMechanism->mechanism) {
-        /* we do not have maching types, this should not occur */
-        return;
+    /* gft mfdibnism */
+    jMfdibnismClbss = (*fnv)->FindClbss(fnv, CLASS_MECHANISM);
+    if (jMfdibnismClbss == NULL) { rfturn; }
+    fifldID = (*fnv)->GftFifldID(fnv, jMfdibnismClbss, "mfdibnism", "J");
+    if (fifldID == NULL) { rfturn; }
+    jMfdibnismTypf = (*fnv)->GftLongFifld(fnv, jMfdibnism, fifldID);
+    dkMfdibnismTypf = jLongToCKULong(jMfdibnismTypf);
+    if (dkMfdibnismTypf != dkMfdibnism->mfdibnism) {
+        /* wf do not ibvf mbdiing typfs, tiis siould not oddur */
+        rfturn;
     }
 
-    jPbeParamsClass = (*env)->FindClass(env, CLASS_PBE_PARAMS);
-    if (jPbeParamsClass == NULL) { return; }
-    ckParam = (CK_PBE_PARAMS *) ckMechanism->pParameter;
-    if (ckParam != NULL_PTR) {
-        initVector = ckParam->pInitVector;
-        if (initVector != NULL_PTR) {
-            /* get pParameter */
-            fieldID = (*env)->GetFieldID(env, jMechanismClass, "pParameter", "Ljava/lang/Object;");
-            if (fieldID == NULL) { return; }
-            jParameter = (*env)->GetObjectField(env, jMechanism, fieldID);
-            fieldID = (*env)->GetFieldID(env, jPbeParamsClass, "pInitVektor", "[C");
-            if (fieldID == NULL) { return; }
-            jInitVector = (*env)->GetObjectField(env, jParameter, fieldID);
+    jPbfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_PBE_PARAMS);
+    if (jPbfPbrbmsClbss == NULL) { rfturn; }
+    dkPbrbm = (CK_PBE_PARAMS *) dkMfdibnism->pPbrbmftfr;
+    if (dkPbrbm != NULL_PTR) {
+        initVfdtor = dkPbrbm->pInitVfdtor;
+        if (initVfdtor != NULL_PTR) {
+            /* gft pPbrbmftfr */
+            fifldID = (*fnv)->GftFifldID(fnv, jMfdibnismClbss, "pPbrbmftfr", "Ljbvb/lbng/Objfdt;");
+            if (fifldID == NULL) { rfturn; }
+            jPbrbmftfr = (*fnv)->GftObjfdtFifld(fnv, jMfdibnism, fifldID);
+            fifldID = (*fnv)->GftFifldID(fnv, jPbfPbrbmsClbss, "pInitVfktor", "[C");
+            if (fifldID == NULL) { rfturn; }
+            jInitVfdtor = (*fnv)->GftObjfdtFifld(fnv, jPbrbmftfr, fifldID);
 
-            if (jInitVector != NULL) {
-                jInitVectorLength = (*env)->GetArrayLength(env, jInitVector);
-                jInitVectorChars = (*env)->GetCharArrayElements(env, jInitVector, NULL);
-                if (jInitVectorChars == NULL) { return; }
+            if (jInitVfdtor != NULL) {
+                jInitVfdtorLfngti = (*fnv)->GftArrbyLfngti(fnv, jInitVfdtor);
+                jInitVfdtorCibrs = (*fnv)->GftCibrArrbyElfmfnts(fnv, jInitVfdtor, NULL);
+                if (jInitVfdtorCibrs == NULL) { rfturn; }
 
-                /* copy the chars to the Java buffer */
-                for (i=0; i < jInitVectorLength; i++) {
-                    jInitVectorChars[i] = ckCharToJChar(initVector[i]);
+                /* dopy tif dibrs to tif Jbvb bufffr */
+                for (i=0; i < jInitVfdtorLfngti; i++) {
+                    jInitVfdtorCibrs[i] = dkCibrToJCibr(initVfdtor[i]);
                 }
-                /* copy back the Java buffer to the object */
-                (*env)->ReleaseCharArrayElements(env, jInitVector, jInitVectorChars, 0);
+                /* dopy bbdk tif Jbvb bufffr to tif objfdt */
+                (*fnv)->RflfbsfCibrArrbyElfmfnts(fnv, jInitVfdtor, jInitVfdtorCibrs, 0);
             }
         }
     }
 }
 
 /*
- * converts the Java CK_PKCS5_PBKD2_PARAMS object to a CK_PKCS5_PBKD2_PARAMS structure
+ * donvfrts tif Jbvb CK_PKCS5_PBKD2_PARAMS objfdt to b CK_PKCS5_PBKD2_PARAMS strudturf
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java CK_PKCS5_PBKD2_PARAMS object to convert
- * @return - the new CK_PKCS5_PBKD2_PARAMS structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb CK_PKCS5_PBKD2_PARAMS objfdt to donvfrt
+ * @rfturn - tif nfw CK_PKCS5_PBKD2_PARAMS strudturf
  */
-CK_PKCS5_PBKD2_PARAMS jPkcs5Pbkd2ParamToCKPkcs5Pbkd2Param(JNIEnv *env, jobject jParam)
+CK_PKCS5_PBKD2_PARAMS jPkds5Pbkd2PbrbmToCKPkds5Pbkd2Pbrbm(JNIEnv *fnv, jobjfdt jPbrbm)
 {
-    jclass jPkcs5Pbkd2ParamsClass;
-    CK_PKCS5_PBKD2_PARAMS ckParam;
-    jfieldID fieldID;
-    jlong jSaltSource, jIteration, jPrf;
-    jobject jSaltSourceData, jPrfData;
+    jdlbss jPkds5Pbkd2PbrbmsClbss;
+    CK_PKCS5_PBKD2_PARAMS dkPbrbm;
+    jfifldID fifldID;
+    jlong jSbltSourdf, jItfrbtion, jPrf;
+    jobjfdt jSbltSourdfDbtb, jPrfDbtb;
 
-    /* get saltSource */
-    jPkcs5Pbkd2ParamsClass = (*env)->FindClass(env, CLASS_PKCS5_PBKD2_PARAMS);
-    if (jPkcs5Pbkd2ParamsClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jPkcs5Pbkd2ParamsClass, "saltSource", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jSaltSource = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft sbltSourdf */
+    jPkds5Pbkd2PbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_PKCS5_PBKD2_PARAMS);
+    if (jPkds5Pbkd2PbrbmsClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jPkds5Pbkd2PbrbmsClbss, "sbltSourdf", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jSbltSourdf = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get pSaltSourceData */
-    fieldID = (*env)->GetFieldID(env, jPkcs5Pbkd2ParamsClass, "pSaltSourceData", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jSaltSourceData = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pSbltSourdfDbtb */
+    fifldID = (*fnv)->GftFifldID(fnv, jPkds5Pbkd2PbrbmsClbss, "pSbltSourdfDbtb", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jSbltSourdfDbtb = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get iterations */
-    fieldID = (*env)->GetFieldID(env, jPkcs5Pbkd2ParamsClass, "iterations", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jIteration = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft itfrbtions */
+    fifldID = (*fnv)->GftFifldID(fnv, jPkds5Pbkd2PbrbmsClbss, "itfrbtions", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jItfrbtion = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get prf */
-    fieldID = (*env)->GetFieldID(env, jPkcs5Pbkd2ParamsClass, "prf", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jPrf = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft prf */
+    fifldID = (*fnv)->GftFifldID(fnv, jPkds5Pbkd2PbrbmsClbss, "prf", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPrf = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get pPrfData and ulPrfDataLength in byte */
-    fieldID = (*env)->GetFieldID(env, jPkcs5Pbkd2ParamsClass, "pPrfData", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jPrfData = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pPrfDbtb bnd ulPrfDbtbLfngti in bytf */
+    fifldID = (*fnv)->GftFifldID(fnv, jPkds5Pbkd2PbrbmsClbss, "pPrfDbtb", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPrfDbtb = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* populate java values */
-    ckParam.saltSource = jLongToCKULong(jSaltSource);
-    jByteArrayToCKByteArray(env, jSaltSourceData, (CK_BYTE_PTR *) &(ckParam.pSaltSourceData), &(ckParam.ulSaltSourceDataLen));
-    if ((*env)->ExceptionCheck(env)) { return ckParam; }
-    ckParam.iterations = jLongToCKULong(jIteration);
-    ckParam.prf = jLongToCKULong(jPrf);
-    jByteArrayToCKByteArray(env, jPrfData, (CK_BYTE_PTR *) &(ckParam.pPrfData), &(ckParam.ulPrfDataLen));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pSaltSourceData);
-        return ckParam;
+    /* populbtf jbvb vblufs */
+    dkPbrbm.sbltSourdf = jLongToCKULong(jSbltSourdf);
+    jBytfArrbyToCKBytfArrby(fnv, jSbltSourdfDbtb, (CK_BYTE_PTR *) &(dkPbrbm.pSbltSourdfDbtb), &(dkPbrbm.ulSbltSourdfDbtbLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn dkPbrbm; }
+    dkPbrbm.itfrbtions = jLongToCKULong(jItfrbtion);
+    dkPbrbm.prf = jLongToCKULong(jPrf);
+    jBytfArrbyToCKBytfArrby(fnv, jPrfDbtb, (CK_BYTE_PTR *) &(dkPbrbm.pPrfDbtb), &(dkPbrbm.ulPrfDbtbLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pSbltSourdfDbtb);
+        rfturn dkPbrbm;
     }
 
-    return ckParam ;
+    rfturn dkPbrbm ;
 }
 
 /*
- * converts the Java CK_RSA_PKCS_PSS_PARAMS object to a CK_RSA_PKCS_PSS_PARAMS structure
+ * donvfrts tif Jbvb CK_RSA_PKCS_PSS_PARAMS objfdt to b CK_RSA_PKCS_PSS_PARAMS strudturf
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java CK_RSA_PKCS_PSS_PARAMS object to convert
- * @return - the new CK_RSA_PKCS_PSS_PARAMS structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb CK_RSA_PKCS_PSS_PARAMS objfdt to donvfrt
+ * @rfturn - tif nfw CK_RSA_PKCS_PSS_PARAMS strudturf
  */
-CK_RSA_PKCS_PSS_PARAMS jRsaPkcsPssParamToCKRsaPkcsPssParam(JNIEnv *env, jobject jParam)
+CK_RSA_PKCS_PSS_PARAMS jRsbPkdsPssPbrbmToCKRsbPkdsPssPbrbm(JNIEnv *fnv, jobjfdt jPbrbm)
 {
-    jclass jRsaPkcsPssParamsClass;
-    CK_RSA_PKCS_PSS_PARAMS ckParam;
-    jfieldID fieldID;
-    jlong jHashAlg, jMgf, jSLen;
-    memset(&ckParam, 0, sizeof(CK_RSA_PKCS_PSS_PARAMS));
+    jdlbss jRsbPkdsPssPbrbmsClbss;
+    CK_RSA_PKCS_PSS_PARAMS dkPbrbm;
+    jfifldID fifldID;
+    jlong jHbsiAlg, jMgf, jSLfn;
+    mfmsft(&dkPbrbm, 0, sizfof(CK_RSA_PKCS_PSS_PARAMS));
 
-    /* get hashAlg */
-    jRsaPkcsPssParamsClass = (*env)->FindClass(env, CLASS_RSA_PKCS_PSS_PARAMS);
-    if (jRsaPkcsPssParamsClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jRsaPkcsPssParamsClass, "hashAlg", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jHashAlg = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft ibsiAlg */
+    jRsbPkdsPssPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_RSA_PKCS_PSS_PARAMS);
+    if (jRsbPkdsPssPbrbmsClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jRsbPkdsPssPbrbmsClbss, "ibsiAlg", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jHbsiAlg = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get mgf */
-    fieldID = (*env)->GetFieldID(env, jRsaPkcsPssParamsClass, "mgf", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jMgf = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft mgf */
+    fifldID = (*fnv)->GftFifldID(fnv, jRsbPkdsPssPbrbmsClbss, "mgf", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jMgf = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get sLen */
-    fieldID = (*env)->GetFieldID(env, jRsaPkcsPssParamsClass, "sLen", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jSLen = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft sLfn */
+    fifldID = (*fnv)->GftFifldID(fnv, jRsbPkdsPssPbrbmsClbss, "sLfn", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jSLfn = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* populate java values */
-    ckParam.hashAlg = jLongToCKULong(jHashAlg);
-    ckParam.mgf = jLongToCKULong(jMgf);
-    ckParam.sLen = jLongToCKULong(jSLen);
+    /* populbtf jbvb vblufs */
+    dkPbrbm.ibsiAlg = jLongToCKULong(jHbsiAlg);
+    dkPbrbm.mgf = jLongToCKULong(jMgf);
+    dkPbrbm.sLfn = jLongToCKULong(jSLfn);
 
-    return ckParam ;
+    rfturn dkPbrbm ;
 }
 
 /*
- * converts the Java CK_ECDH1_DERIVE_PARAMS object to a CK_ECDH1_DERIVE_PARAMS structure
+ * donvfrts tif Jbvb CK_ECDH1_DERIVE_PARAMS objfdt to b CK_ECDH1_DERIVE_PARAMS strudturf
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java CK_ECDH1_DERIVE_PARAMS object to convert
- * @return - the new CK_ECDH1_DERIVE_PARAMS structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb CK_ECDH1_DERIVE_PARAMS objfdt to donvfrt
+ * @rfturn - tif nfw CK_ECDH1_DERIVE_PARAMS strudturf
  */
-CK_ECDH1_DERIVE_PARAMS jEcdh1DeriveParamToCKEcdh1DeriveParam(JNIEnv *env, jobject jParam)
+CK_ECDH1_DERIVE_PARAMS jEddi1DfrivfPbrbmToCKEddi1DfrivfPbrbm(JNIEnv *fnv, jobjfdt jPbrbm)
 {
-    jclass jEcdh1DeriveParamsClass;
-    CK_ECDH1_DERIVE_PARAMS ckParam;
-    jfieldID fieldID;
+    jdlbss jEddi1DfrivfPbrbmsClbss;
+    CK_ECDH1_DERIVE_PARAMS dkPbrbm;
+    jfifldID fifldID;
     jlong jLong;
-    jobject jSharedData, jPublicData;
-    memset(&ckParam, 0, sizeof(CK_ECDH1_DERIVE_PARAMS));
+    jobjfdt jSibrfdDbtb, jPublidDbtb;
+    mfmsft(&dkPbrbm, 0, sizfof(CK_ECDH1_DERIVE_PARAMS));
 
-    /* get kdf */
-    jEcdh1DeriveParamsClass = (*env)->FindClass(env, CLASS_ECDH1_DERIVE_PARAMS);
-    if (jEcdh1DeriveParamsClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jEcdh1DeriveParamsClass, "kdf", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jLong = (*env)->GetLongField(env, jParam, fieldID);
-    ckParam.kdf = jLongToCKULong(jLong);
+    /* gft kdf */
+    jEddi1DfrivfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_ECDH1_DERIVE_PARAMS);
+    if (jEddi1DfrivfPbrbmsClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jEddi1DfrivfPbrbmsClbss, "kdf", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jLong = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
+    dkPbrbm.kdf = jLongToCKULong(jLong);
 
-    /* get pSharedData and ulSharedDataLen */
-    fieldID = (*env)->GetFieldID(env, jEcdh1DeriveParamsClass, "pSharedData", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jSharedData = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pSibrfdDbtb bnd ulSibrfdDbtbLfn */
+    fifldID = (*fnv)->GftFifldID(fnv, jEddi1DfrivfPbrbmsClbss, "pSibrfdDbtb", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jSibrfdDbtb = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get pPublicData and ulPublicDataLen */
-    fieldID = (*env)->GetFieldID(env, jEcdh1DeriveParamsClass, "pPublicData", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jPublicData = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pPublidDbtb bnd ulPublidDbtbLfn */
+    fifldID = (*fnv)->GftFifldID(fnv, jEddi1DfrivfPbrbmsClbss, "pPublidDbtb", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPublidDbtb = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* populate java values */
-    ckParam.kdf = jLongToCKULong(jLong);
-    jByteArrayToCKByteArray(env, jSharedData, &(ckParam.pSharedData), &(ckParam.ulSharedDataLen));
-    if ((*env)->ExceptionCheck(env)) { return ckParam; }
-    jByteArrayToCKByteArray(env, jPublicData, &(ckParam.pPublicData), &(ckParam.ulPublicDataLen));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pSharedData);
-        return ckParam;
+    /* populbtf jbvb vblufs */
+    dkPbrbm.kdf = jLongToCKULong(jLong);
+    jBytfArrbyToCKBytfArrby(fnv, jSibrfdDbtb, &(dkPbrbm.pSibrfdDbtb), &(dkPbrbm.ulSibrfdDbtbLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn dkPbrbm; }
+    jBytfArrbyToCKBytfArrby(fnv, jPublidDbtb, &(dkPbrbm.pPublidDbtb), &(dkPbrbm.ulPublidDbtbLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pSibrfdDbtb);
+        rfturn dkPbrbm;
     }
 
-    return ckParam ;
+    rfturn dkPbrbm ;
 }
 
 /*
- * converts the Java CK_ECDH2_DERIVE_PARAMS object to a CK_ECDH2_DERIVE_PARAMS structure
+ * donvfrts tif Jbvb CK_ECDH2_DERIVE_PARAMS objfdt to b CK_ECDH2_DERIVE_PARAMS strudturf
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java CK_ECDH2_DERIVE_PARAMS object to convert
- * @return - the new CK_ECDH2_DERIVE_PARAMS structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb CK_ECDH2_DERIVE_PARAMS objfdt to donvfrt
+ * @rfturn - tif nfw CK_ECDH2_DERIVE_PARAMS strudturf
  */
-CK_ECDH2_DERIVE_PARAMS jEcdh2DeriveParamToCKEcdh2DeriveParam(JNIEnv *env, jobject jParam)
+CK_ECDH2_DERIVE_PARAMS jEddi2DfrivfPbrbmToCKEddi2DfrivfPbrbm(JNIEnv *fnv, jobjfdt jPbrbm)
 {
-    jclass jEcdh2DeriveParamsClass;
-    CK_ECDH2_DERIVE_PARAMS ckParam;
-    jfieldID fieldID;
-    jlong jKdf, jPrivateDataLen, jPrivateData;
-    jobject jSharedData, jPublicData, jPublicData2;
-    memset(&ckParam, 0, sizeof(CK_ECDH2_DERIVE_PARAMS));
+    jdlbss jEddi2DfrivfPbrbmsClbss;
+    CK_ECDH2_DERIVE_PARAMS dkPbrbm;
+    jfifldID fifldID;
+    jlong jKdf, jPrivbtfDbtbLfn, jPrivbtfDbtb;
+    jobjfdt jSibrfdDbtb, jPublidDbtb, jPublidDbtb2;
+    mfmsft(&dkPbrbm, 0, sizfof(CK_ECDH2_DERIVE_PARAMS));
 
-    /* get kdf */
-    jEcdh2DeriveParamsClass = (*env)->FindClass(env, CLASS_ECDH2_DERIVE_PARAMS);
-    if (jEcdh2DeriveParamsClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jEcdh2DeriveParamsClass, "kdf", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jKdf = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft kdf */
+    jEddi2DfrivfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_ECDH2_DERIVE_PARAMS);
+    if (jEddi2DfrivfPbrbmsClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jEddi2DfrivfPbrbmsClbss, "kdf", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jKdf = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get pSharedData and ulSharedDataLen */
-    fieldID = (*env)->GetFieldID(env, jEcdh2DeriveParamsClass, "pSharedData", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jSharedData = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pSibrfdDbtb bnd ulSibrfdDbtbLfn */
+    fifldID = (*fnv)->GftFifldID(fnv, jEddi2DfrivfPbrbmsClbss, "pSibrfdDbtb", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jSibrfdDbtb = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get pPublicData and ulPublicDataLen */
-    fieldID = (*env)->GetFieldID(env, jEcdh2DeriveParamsClass, "pPublicData", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jPublicData = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pPublidDbtb bnd ulPublidDbtbLfn */
+    fifldID = (*fnv)->GftFifldID(fnv, jEddi2DfrivfPbrbmsClbss, "pPublidDbtb", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPublidDbtb = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get ulPrivateDataLen */
-    fieldID = (*env)->GetFieldID(env, jEcdh2DeriveParamsClass, "ulPrivateDataLen", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jPrivateDataLen = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft ulPrivbtfDbtbLfn */
+    fifldID = (*fnv)->GftFifldID(fnv, jEddi2DfrivfPbrbmsClbss, "ulPrivbtfDbtbLfn", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPrivbtfDbtbLfn = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get hPrivateData */
-    fieldID = (*env)->GetFieldID(env, jEcdh2DeriveParamsClass, "hPrivateData", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jPrivateData = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft iPrivbtfDbtb */
+    fifldID = (*fnv)->GftFifldID(fnv, jEddi2DfrivfPbrbmsClbss, "iPrivbtfDbtb", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPrivbtfDbtb = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get pPublicData2 and ulPublicDataLen2 */
-    fieldID = (*env)->GetFieldID(env, jEcdh2DeriveParamsClass, "pPublicData2", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jPublicData2 = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pPublidDbtb2 bnd ulPublidDbtbLfn2 */
+    fifldID = (*fnv)->GftFifldID(fnv, jEddi2DfrivfPbrbmsClbss, "pPublidDbtb2", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPublidDbtb2 = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* populate java values */
-    ckParam.kdf = jLongToCKULong(jKdf);
-    jByteArrayToCKByteArray(env, jSharedData, &(ckParam.pSharedData), &(ckParam.ulSharedDataLen));
-    if ((*env)->ExceptionCheck(env)) { return ckParam; }
-    jByteArrayToCKByteArray(env, jPublicData, &(ckParam.pPublicData), &(ckParam.ulPublicDataLen));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pSharedData);
-        return ckParam;
+    /* populbtf jbvb vblufs */
+    dkPbrbm.kdf = jLongToCKULong(jKdf);
+    jBytfArrbyToCKBytfArrby(fnv, jSibrfdDbtb, &(dkPbrbm.pSibrfdDbtb), &(dkPbrbm.ulSibrfdDbtbLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn dkPbrbm; }
+    jBytfArrbyToCKBytfArrby(fnv, jPublidDbtb, &(dkPbrbm.pPublidDbtb), &(dkPbrbm.ulPublidDbtbLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pSibrfdDbtb);
+        rfturn dkPbrbm;
     }
-    ckParam.ulPrivateDataLen = jLongToCKULong(jPrivateDataLen);
-    ckParam.hPrivateData = jLongToCKULong(jPrivateData);
-    jByteArrayToCKByteArray(env, jPublicData2, &(ckParam.pPublicData2), &(ckParam.ulPublicDataLen2));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pSharedData);
-        free(ckParam.pPublicData);
-        return ckParam;
+    dkPbrbm.ulPrivbtfDbtbLfn = jLongToCKULong(jPrivbtfDbtbLfn);
+    dkPbrbm.iPrivbtfDbtb = jLongToCKULong(jPrivbtfDbtb);
+    jBytfArrbyToCKBytfArrby(fnv, jPublidDbtb2, &(dkPbrbm.pPublidDbtb2), &(dkPbrbm.ulPublidDbtbLfn2));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pSibrfdDbtb);
+        frff(dkPbrbm.pPublidDbtb);
+        rfturn dkPbrbm;
     }
-    return ckParam ;
+    rfturn dkPbrbm ;
 }
 
 /*
- * converts the Java CK_X9_42_DH1_DERIVE_PARAMS object to a CK_X9_42_DH1_DERIVE_PARAMS structure
+ * donvfrts tif Jbvb CK_X9_42_DH1_DERIVE_PARAMS objfdt to b CK_X9_42_DH1_DERIVE_PARAMS strudturf
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java CK_X9_42_DH1_DERIVE_PARAMS object to convert
- * @return - the new CK_X9_42_DH1_DERIVE_PARAMS structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb CK_X9_42_DH1_DERIVE_PARAMS objfdt to donvfrt
+ * @rfturn - tif nfw CK_X9_42_DH1_DERIVE_PARAMS strudturf
  */
-CK_X9_42_DH1_DERIVE_PARAMS jX942Dh1DeriveParamToCKX942Dh1DeriveParam(JNIEnv *env, jobject jParam)
+CK_X9_42_DH1_DERIVE_PARAMS jX942Di1DfrivfPbrbmToCKX942Di1DfrivfPbrbm(JNIEnv *fnv, jobjfdt jPbrbm)
 {
-    jclass jX942Dh1DeriveParamsClass;
-    CK_X9_42_DH1_DERIVE_PARAMS ckParam;
-    jfieldID fieldID;
+    jdlbss jX942Di1DfrivfPbrbmsClbss;
+    CK_X9_42_DH1_DERIVE_PARAMS dkPbrbm;
+    jfifldID fifldID;
     jlong jKdf;
-    jobject jOtherInfo, jPublicData;
+    jobjfdt jOtifrInfo, jPublidDbtb;
 
-    /* get kdf */
-    jX942Dh1DeriveParamsClass = (*env)->FindClass(env, CLASS_X9_42_DH1_DERIVE_PARAMS);
-    if (jX942Dh1DeriveParamsClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jX942Dh1DeriveParamsClass, "kdf", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jKdf = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft kdf */
+    jX942Di1DfrivfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_X9_42_DH1_DERIVE_PARAMS);
+    if (jX942Di1DfrivfPbrbmsClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jX942Di1DfrivfPbrbmsClbss, "kdf", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jKdf = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get pOtherInfo and ulOtherInfoLen */
-    fieldID = (*env)->GetFieldID(env, jX942Dh1DeriveParamsClass, "pOtherInfo", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jOtherInfo = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pOtifrInfo bnd ulOtifrInfoLfn */
+    fifldID = (*fnv)->GftFifldID(fnv, jX942Di1DfrivfPbrbmsClbss, "pOtifrInfo", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jOtifrInfo = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get pPublicData and ulPublicDataLen */
-    fieldID = (*env)->GetFieldID(env, jX942Dh1DeriveParamsClass, "pPublicData", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jPublicData = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pPublidDbtb bnd ulPublidDbtbLfn */
+    fifldID = (*fnv)->GftFifldID(fnv, jX942Di1DfrivfPbrbmsClbss, "pPublidDbtb", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPublidDbtb = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* populate java values */
-    ckParam.kdf = jLongToCKULong(jKdf);
-    jByteArrayToCKByteArray(env, jOtherInfo, &(ckParam.pOtherInfo), &(ckParam.ulOtherInfoLen));
-    if ((*env)->ExceptionCheck(env)) { return ckParam; }
-    jByteArrayToCKByteArray(env, jPublicData, &(ckParam.pPublicData), &(ckParam.ulPublicDataLen));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pOtherInfo);
-        return ckParam;
+    /* populbtf jbvb vblufs */
+    dkPbrbm.kdf = jLongToCKULong(jKdf);
+    jBytfArrbyToCKBytfArrby(fnv, jOtifrInfo, &(dkPbrbm.pOtifrInfo), &(dkPbrbm.ulOtifrInfoLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn dkPbrbm; }
+    jBytfArrbyToCKBytfArrby(fnv, jPublidDbtb, &(dkPbrbm.pPublidDbtb), &(dkPbrbm.ulPublidDbtbLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pOtifrInfo);
+        rfturn dkPbrbm;
     }
 
-    return ckParam ;
+    rfturn dkPbrbm ;
 }
 
 /*
- * converts the Java CK_X9_42_DH2_DERIVE_PARAMS object to a CK_X9_42_DH2_DERIVE_PARAMS structure
+ * donvfrts tif Jbvb CK_X9_42_DH2_DERIVE_PARAMS objfdt to b CK_X9_42_DH2_DERIVE_PARAMS strudturf
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jParam - the Java CK_X9_42_DH2_DERIVE_PARAMS object to convert
- * @return - the new CK_X9_42_DH2_DERIVE_PARAMS structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jPbrbm - tif Jbvb CK_X9_42_DH2_DERIVE_PARAMS objfdt to donvfrt
+ * @rfturn - tif nfw CK_X9_42_DH2_DERIVE_PARAMS strudturf
  */
-CK_X9_42_DH2_DERIVE_PARAMS jX942Dh2DeriveParamToCKX942Dh2DeriveParam(JNIEnv *env, jobject jParam)
+CK_X9_42_DH2_DERIVE_PARAMS jX942Di2DfrivfPbrbmToCKX942Di2DfrivfPbrbm(JNIEnv *fnv, jobjfdt jPbrbm)
 {
-    jclass jX942Dh2DeriveParamsClass;
-    CK_X9_42_DH2_DERIVE_PARAMS ckParam;
-    jfieldID fieldID;
-    jlong jKdf, jPrivateDataLen, jPrivateData;
-    jobject jOtherInfo, jPublicData, jPublicData2;
+    jdlbss jX942Di2DfrivfPbrbmsClbss;
+    CK_X9_42_DH2_DERIVE_PARAMS dkPbrbm;
+    jfifldID fifldID;
+    jlong jKdf, jPrivbtfDbtbLfn, jPrivbtfDbtb;
+    jobjfdt jOtifrInfo, jPublidDbtb, jPublidDbtb2;
 
-    /* get kdf */
-    jX942Dh2DeriveParamsClass = (*env)->FindClass(env, CLASS_X9_42_DH2_DERIVE_PARAMS);
-    if (jX942Dh2DeriveParamsClass == NULL) { return ckParam; }
-    fieldID = (*env)->GetFieldID(env, jX942Dh2DeriveParamsClass, "kdf", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jKdf = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft kdf */
+    jX942Di2DfrivfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_X9_42_DH2_DERIVE_PARAMS);
+    if (jX942Di2DfrivfPbrbmsClbss == NULL) { rfturn dkPbrbm; }
+    fifldID = (*fnv)->GftFifldID(fnv, jX942Di2DfrivfPbrbmsClbss, "kdf", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jKdf = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get pOtherInfo and ulOtherInfoLen */
-    fieldID = (*env)->GetFieldID(env, jX942Dh2DeriveParamsClass, "pOtherInfo", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jOtherInfo = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pOtifrInfo bnd ulOtifrInfoLfn */
+    fifldID = (*fnv)->GftFifldID(fnv, jX942Di2DfrivfPbrbmsClbss, "pOtifrInfo", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jOtifrInfo = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get pPublicData and ulPublicDataLen */
-    fieldID = (*env)->GetFieldID(env, jX942Dh2DeriveParamsClass, "pPublicData", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jPublicData = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pPublidDbtb bnd ulPublidDbtbLfn */
+    fifldID = (*fnv)->GftFifldID(fnv, jX942Di2DfrivfPbrbmsClbss, "pPublidDbtb", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPublidDbtb = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* get ulPrivateDataLen */
-    fieldID = (*env)->GetFieldID(env, jX942Dh2DeriveParamsClass, "ulPrivateDataLen", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jPrivateDataLen = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft ulPrivbtfDbtbLfn */
+    fifldID = (*fnv)->GftFifldID(fnv, jX942Di2DfrivfPbrbmsClbss, "ulPrivbtfDbtbLfn", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPrivbtfDbtbLfn = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get hPrivateData */
-    fieldID = (*env)->GetFieldID(env, jX942Dh2DeriveParamsClass, "hPrivateData", "J");
-    if (fieldID == NULL) { return ckParam; }
-    jPrivateData = (*env)->GetLongField(env, jParam, fieldID);
+    /* gft iPrivbtfDbtb */
+    fifldID = (*fnv)->GftFifldID(fnv, jX942Di2DfrivfPbrbmsClbss, "iPrivbtfDbtb", "J");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPrivbtfDbtb = (*fnv)->GftLongFifld(fnv, jPbrbm, fifldID);
 
-    /* get pPublicData2 and ulPublicDataLen2 */
-    fieldID = (*env)->GetFieldID(env, jX942Dh2DeriveParamsClass, "pPublicData2", "[B");
-    if (fieldID == NULL) { return ckParam; }
-    jPublicData2 = (*env)->GetObjectField(env, jParam, fieldID);
+    /* gft pPublidDbtb2 bnd ulPublidDbtbLfn2 */
+    fifldID = (*fnv)->GftFifldID(fnv, jX942Di2DfrivfPbrbmsClbss, "pPublidDbtb2", "[B");
+    if (fifldID == NULL) { rfturn dkPbrbm; }
+    jPublidDbtb2 = (*fnv)->GftObjfdtFifld(fnv, jPbrbm, fifldID);
 
-    /* populate java values */
-    ckParam.kdf = jLongToCKULong(jKdf);
-    jByteArrayToCKByteArray(env, jOtherInfo, &(ckParam.pOtherInfo), &(ckParam.ulOtherInfoLen));
-    if ((*env)->ExceptionCheck(env)) { return ckParam; }
-    jByteArrayToCKByteArray(env, jPublicData, &(ckParam.pPublicData), &(ckParam.ulPublicDataLen));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pOtherInfo);
-        return ckParam;
+    /* populbtf jbvb vblufs */
+    dkPbrbm.kdf = jLongToCKULong(jKdf);
+    jBytfArrbyToCKBytfArrby(fnv, jOtifrInfo, &(dkPbrbm.pOtifrInfo), &(dkPbrbm.ulOtifrInfoLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn dkPbrbm; }
+    jBytfArrbyToCKBytfArrby(fnv, jPublidDbtb, &(dkPbrbm.pPublidDbtb), &(dkPbrbm.ulPublidDbtbLfn));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pOtifrInfo);
+        rfturn dkPbrbm;
     }
-    ckParam.ulPrivateDataLen = jLongToCKULong(jPrivateDataLen);
-    ckParam.hPrivateData = jLongToCKULong(jPrivateData);
-    jByteArrayToCKByteArray(env, jPublicData2, &(ckParam.pPublicData2), &(ckParam.ulPublicDataLen2));
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckParam.pOtherInfo);
-        free(ckParam.pPublicData);
-        return ckParam;
+    dkPbrbm.ulPrivbtfDbtbLfn = jLongToCKULong(jPrivbtfDbtbLfn);
+    dkPbrbm.iPrivbtfDbtb = jLongToCKULong(jPrivbtfDbtb);
+    jBytfArrbyToCKBytfArrby(fnv, jPublidDbtb2, &(dkPbrbm.pPublidDbtb2), &(dkPbrbm.ulPublidDbtbLfn2));
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkPbrbm.pOtifrInfo);
+        frff(dkPbrbm.pPublidDbtb);
+        rfturn dkPbrbm;
     }
 
-    return ckParam ;
+    rfturn dkPbrbm ;
 }

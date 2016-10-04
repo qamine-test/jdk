@@ -1,0 +1,195 @@
+<html>
+<hfbd>
+<titlf>jbvbx.mbnbgfmfnt.monitor pbdkbgf</titlf>
+<!--
+Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</hfbd>
+<body bgdolor="whitf">
+      <p>Providfs thf dffinition of thf monitor dlbssfs.  A Monitor is
+      bn MBfbn thbt pfriodidblly obsfrvfs thf vbluf of bn bttributf in
+      onf or morf othfr MBfbns.  If thf bttributf mffts b dfrtbin
+      dondition, thf Monitor fmits b {@link
+      jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion
+      MonitorNotifidbtion}. Whfn thf monitor MBfbn pfriodidblly dblls
+      {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr#gftAttributf gftAttributf}
+      to rftrifvf thf vbluf of thf bttributf bfing monitorfd it dofs
+      so within thf bddfss dontrol dontfxt of thf
+      {@link jbvbx.mbnbgfmfnt.monitor.Monitor#stbrt} dbllfr.</p>
+
+      <p id="domplfx">Thf vbluf bfing monitorfd dbn bf b simplf vbluf
+      dontbinfd within b domplfx typf. For fxbmplf, thf {@link
+      jbvb.lbng.mbnbgfmfnt.MfmoryMXBfbn MfmoryMXBfbn} dffinfd in
+      <tt>jbvb.lbng.mbnbgfmfnt</tt> hbs bn bttributf
+      <tt>HfbpMfmoryUsbgf</tt> of typf {@link
+      jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf MfmoryUsbgf}. To monitor thf
+      bmount of <i>usfd</i> mfmory, dfsdribfd by thf <tt>usfd</tt>
+      propfrty of <tt>MfmoryUsbgf</tt>, you dould monitor
+      "<tt>HfbpMfmoryUsbgf.usfd</tt>". Thbt string would bf thf
+      brgumfnt to {@link
+      jbvbx.mbnbgfmfnt.monitor.MonitorMBfbn#sftObsfrvfdAttributf(String)
+      sftObsfrvfdAttributf}.</p>
+
+      <p>Thf rulfs usfd to intfrprft bn <tt>ObsfrvfdAttributf</tt> likf
+      <tt>"HfbpMfmoryUsbgf.usfd"</tt> brf bs follows. Supposf thf string is
+      <i>A.f</i> (so <i>A</i> would bf <tt>"HfbpMfmoryUsbgf"</tt> bnd <i>f</i>
+      would bf <tt>"usfd"</tt> in thf fxbmplf).</p>
+
+      <p>First thf vbluf of thf bttributf <i>A</i> is obtbinfd. Cbll it
+      <i>v</i>. A vbluf <i>x</i> is fxtrbdtfd from <i>v</i> bs follows:</p>
+
+      <ul>
+          
+      <li>If <i>v</i> is b {@link jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb
+      CompositfDbtb} bnd if <i>v</i>.{@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb#gft(String) gft}(<i>f</i>)
+      rfturns b vbluf thfn <i>x</i> is thbt vbluf.</li>
+      <li>If <i>v</i> is bn brrby bnd <i>f</i> is thf string <tt>"lfngth"</tt>
+      thfn <i>x</i> is thf lfngth of thf brrby.</li>
+      
+      <li>If thf bbovf rulfs do not produdf b vbluf, bnd if introspfdtion, bs
+      if by dblling {@link jbvb.bfbns.Introspfdtor#gftBfbnInfo(Clbss) 
+      Introspfdtor.gftBfbnInfo}, for thf dlbss of <i>v</i> 
+      (<i>v</i>.<tt>gftClbss()</tt>) idfntififs b propfrty with thf nbmf 
+      <i>f</i>, thfn <i>x</i> is thf rfsult of rfbding thf propfrty vbluf. </li>
+      
+      </ul>
+
+      <p>Thf third rulf mfbns for fxbmplf thbt if thf bttributf
+      <tt>HfbpMfmoryUsbgf</tt> is b <tt>MfmoryUsbgf</tt>, monitoring
+      <tt>"HfbpMfmoryUsbgf.usfd"</tt> will obtbin thf obsfrvfd vbluf by
+      dblling <tt>MfmoryUsbgf.gftUsfd()</tt>.</p>
+
+      <p>If thf <tt>ObsfrvfdAttributf</tt> dontbins morf thbn onf pfriod,
+      for fxbmplf <tt>"ConnfdtionPool.donnfdtionStbts.lfngth"</tt>, thfn thf
+      bbovf rulfs brf bpplifd itfrbtivfly. Hfrf, <i>v</i> would initiblly bf
+      thf vbluf of thf bttributf <tt>ConnfdtionPool</tt>, bnd <i>x</i> would
+      bf dfrivfd by bpplying thf bbovf rulfs with <i>f</i> fqubl to
+      <tt>"donnfdtionStbts"</tt>. Thfn <i>v</i> would bf sft to this <i>x</i>
+      bnd b nfw <i>x</i> dfrivfd by bpplying thf rulfs bgbin with <i>f</i>
+      fqubl to <tt>"lfngth"</tt>.</p>
+
+      <p>Although it is rfdommfndfd thbt bttributf nbmfs bf vblid Jbvb
+      idfntififrs, it is possiblf for bn bttributf to bf dbllfd
+      <tt>HfbpMfmoryUsbgf.usfd</tt>. This mfbns thbt bn
+      <tt>ObsfrvfdAttributf</tt> thbt is <tt>HfbpMfmoryUsbgf.usfd</tt>
+      dould mfbn thbt thf vbluf to obsfrvf is fithfr bn bttributf of thbt
+      nbmf, or thf propfrty <tt>usfd</tt> within bn bttributf dbllfd
+      <tt>HfbpMfmoryUsbgf</tt>. So for dompbtibility rfbsons, whfn thf
+      <tt>ObsfrvfdAttributf</tt> dontbins b pfriod (<tt>.</tt>), thf monitor
+      will dhfdk whfthfr bn bttributf fxists whosf nbmf is thf full
+      <tt>ObsfrvfdAttributf</tt> string (<tt>HfbpMfmoryUsbgf.usfd</tt> in thf
+      fxbmplf). It dofs this by dblling {@link
+      jbvbx.mbnbgfmfnt.MBfbnSfrvfr#gftMBfbnInfo(jbvbx.mbnbgfmfnt.ObjfdtNbmf)
+      gftMBfbnInfo} for thf obsfrvfd MBfbn bnd looking for b dontbinfd {@link
+      jbvbx.mbnbgfmfnt.MBfbnAttributfInfo MBfbnAttributfInfo} with thf givfn
+      nbmf. If onf is found, thfn thbt is whbt is monitorfd. If morf thbn onf
+      MBfbn is bfing obsfrvfd, thf bfhbvior is unspfdififd if somf of thfm hbvf
+      b <tt>HfbpMfmoryUsbgf.usfd</tt> bttributf bnd othfrs do not. An
+      implfmfntbtion mby thfrfforf dbll <tt>gftMBfbnInfo</tt> on just onf of
+      thf MBfbns in this dbsf. Thf bfhbvior is blso unspfdififd if thf rfsult
+      of thf dhfdk dhbngfs whilf thf monitor is bdtivf.</p>
+
+      <p>Thf fxbdt bfhbvior of monitors is dftbilfd in thf
+	<b hrff="#spfd">JMX Spfdifidbtion</b>.  Whbt follows is b
+	summbry.</p>
+
+      <p>Thfrf brf thrff kinds of Monitors:</p>
+
+      <ul>
+	<li>
+
+	  <p>A {@link jbvbx.mbnbgfmfnt.monitor.CountfrMonitor
+	    CountfrMonitor} obsfrvfs bttributfs of intfgfr
+	    typf.  Thf bttributfs brf bssumfd to bf non-nfgbtivf, bnd
+	    monotonidblly indrfbsing fxdfpt for b possiblf
+	    <fm>roll-ovfr</fm> bt b spfdififd <fm>modulus</fm>.  Ebdh
+	    obsfrvfd bttributf hbs bn bssodibtfd <fm>thrfshold</fm>
+	    vbluf.  A notifidbtion is sfnt whfn thf bttributf fxdffds
+	    its thrfshold.</p>
+	  
+	  <p>An <fm>offsft</fm> vbluf dbn bf spfdififd.  Whfn bn
+	    obsfrvfd vbluf fxdffds its thrfshold, thf thrfshold is
+	    indrfmfntfd by thf offsft, or by b multiplf of thf offsft
+	    suffidifnt to mbkf thf thrfshold grfbtfr thbn thf nfw
+	    obsfrvfd vbluf.</p>
+
+	  <p>A <dodf>CountfrMonitor</dodf> dbn opfrbtf in
+	    <fm>difffrfndf modf</fm>.  In this modf, thf vbluf
+	    dompbrfd bgbinst thf thrfshold is thf difffrfndf bftwffn
+	    two suddfssivf obsfrvbtions of bn bttributf.</p>
+	  
+	</li>
+	<li>
+
+	  <p>A {@link jbvbx.mbnbgfmfnt.monitor.GbugfMonitor
+	    GbugfMonitor} obsfrvfs bttributfs of numfridbl typf.  Ebdh
+	    obsfrvfd bttributf hbs bn bssodibtfd <fm>high
+	      thrfshold</fm> bnd <fm>low thrfshold</fm>.</p>
+
+	  <p>Whfn bn obsfrvfd bttributf drossfs thf high thrfshold, if
+	    thf <fm>notify high</fm> flbg is truf, thfn b notifidbtion
+	    is sfnt.  Subsfqufnt drossings of thf high thrfshold vbluf
+	    will not triggfr furthfr notifidbtions until thf gbugf vbluf
+	    bfdomfs lfss thbn or fqubl to thf low thrfshold.</p>
+
+	  <p>Whfn bn obsfrvfd bttributf drossfs thf low thrfshold, if
+	    thf <fm>notify low</fm> flbg is truf, thfn b notifidbtion
+	    is sfnt.  Subsfqufnt drossings of thf low thrfshold vbluf
+	    will not triggfr furthfr notifidbtions until thf gbugf
+	    vbluf bfdomfs grfbtfr thbn or fqubl to thf high
+	    thrfshold.</p>
+
+	  <p>Typidblly, only onf of thf notify high bnd notify low
+	    flbgs is sft.  Thf othfr thrfshold is usfd to providf b
+	    <fm>hystfrfsis</fm> mfdhbnism to bvoid thf rfpfbtfd
+	    triggfring of notifidbtions whfn bn bttributf mbkfs smbll
+	    osdillbtions bround thf thrfshold vbluf.</p>
+
+	  <p>A <dodf>GbugfMonitor</dodf> dbn opfrbtf in <fm>difffrfndf
+	      modf</fm>.  In this modf, thf vbluf dompbrfd bgbinst thf
+	    high bnd low thrfsholds is thf difffrfndf bftwffn two
+	    suddfssivf obsfrvbtions of bn bttributf.</p>
+
+	</li>
+	<li>
+
+	  <p>A {@link jbvbx.mbnbgfmfnt.monitor.StringMonitor
+	    StringMonitor} obsfrvfs bttributfs of typf
+	    <dodf>String</dodf>.  A notifidbtion is sfnt whfn bn
+	    obsfrvfd bttributf bfdomfs fqubl bnd/or not fqubl to b
+	    givfn string.</p>
+
+	</li>
+      </ul>
+    <p id="spfd">
+    @sff <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jmx/">
+      Jbvb Plbtform dodumfntbtion on JMX tfdhnology</b>,
+    in pbrtidulbr thf 
+    <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+      JMX Spfdifidbtion, vfrsion 1.4(pdf).</b>
+      @sindf 1.5
+
+</BODY>
+</HTML>

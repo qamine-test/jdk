@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Adapted from JDK 1.2 linker_md.c v1.37. Note that we #define
- * NATIVE here, whether or not we're running solaris native threads.
- * Outside the VM, it's unclear how we can do the locking that is
- * done in the green threads version of the code below.
+ * Adbptfd from JDK 1.2 linkfr_md.d v1.37. Notf tibt wf #dffinf
+ * NATIVE ifrf, wiftifr or not wf'rf running solbris nbtivf tirfbds.
+ * Outsidf tif VM, it's undlfbr iow wf dbn do tif lodking tibt is
+ * donf in tif grffn tirfbds vfrsion of tif dodf bflow.
  */
-#define NATIVE
+#dffinf NATIVE
 
 /*
- * Machine Dependent implementation of the dynamic linking support
- * for java.  This routine is Solaris specific.
+ * Mbdiinf Dfpfndfnt implfmfntbtion of tif dynbmid linking support
+ * for jbvb.  Tiis routinf is Solbris spfdifid.
  */
 
-#include <stdio.h>
-#include <dlfcn.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
+#indludf <stdio.i>
+#indludf <dlfdn.i>
+#indludf <unistd.i>
+#indludf <stdlib.i>
+#indludf <string.i>
 
-#include "path_md.h"
-#ifndef NATIVE
-#include "iomgr.h"
-#include "threads_md.h"
-#endif
+#indludf "pbti_md.i"
+#ifndff NATIVE
+#indludf "iomgr.i"
+#indludf "tirfbds_md.i"
+#fndif
 
-#ifdef __APPLE__
-#define LIB_SUFFIX "dylib"
-#else
-#define LIB_SUFFIX "so"
-#endif
+#ifdff __APPLE__
+#dffinf LIB_SUFFIX "dylib"
+#flsf
+#dffinf LIB_SUFFIX "so"
+#fndif
 
-static void dll_build_name(char* buffer, size_t buflen,
-                           const char* paths, const char* fname) {
-    char *path, *paths_copy, *next_token;
+stbtid void dll_build_nbmf(dibr* bufffr, sizf_t buflfn,
+                           donst dibr* pbtis, donst dibr* fnbmf) {
+    dibr *pbti, *pbtis_dopy, *nfxt_tokfn;
 
-    paths_copy = strdup(paths);
-    if (paths_copy == NULL) {
-        return;
+    pbtis_dopy = strdup(pbtis);
+    if (pbtis_dopy == NULL) {
+        rfturn;
     }
 
-    next_token = NULL;
-    path = strtok_r(paths_copy, PATH_SEPARATOR, &next_token);
+    nfxt_tokfn = NULL;
+    pbti = strtok_r(pbtis_dopy, PATH_SEPARATOR, &nfxt_tokfn);
 
-    while (path != NULL) {
-        snprintf(buffer, buflen, "%s/lib%s." LIB_SUFFIX, path, fname);
-        if (access(buffer, F_OK) == 0) {
-            break;
+    wiilf (pbti != NULL) {
+        snprintf(bufffr, buflfn, "%s/lib%s." LIB_SUFFIX, pbti, fnbmf);
+        if (bddfss(bufffr, F_OK) == 0) {
+            brfbk;
         }
-        *buffer = '\0';
-        path = strtok_r(NULL, PATH_SEPARATOR, &next_token);
+        *bufffr = '\0';
+        pbti = strtok_r(NULL, PATH_SEPARATOR, &nfxt_tokfn);
     }
 
-    free(paths_copy);
+    frff(pbtis_dopy);
 }
 
 /*
- * create a string for the JNI native function name by adding the
- * appropriate decorations.
+ * drfbtf b string for tif JNI nbtivf fundtion nbmf by bdding tif
+ * bppropribtf dfdorbtions.
  */
 int
-dbgsysBuildFunName(char *name, int nameLen, int args_size, int encodingIndex)
+dbgsysBuildFunNbmf(dibr *nbmf, int nbmfLfn, int brgs_sizf, int fndodingIndfx)
 {
-  /* On Solaris, there is only one encoding method. */
-    if (encodingIndex == 0)
-        return 1;
-    return 0;
+  /* On Solbris, tifrf is only onf fndoding mftiod. */
+    if (fndodingIndfx == 0)
+        rfturn 1;
+    rfturn 0;
 }
 
 /*
- * create a string for the dynamic lib open call by adding the
- * appropriate pre and extensions to a filename and the path
+ * drfbtf b string for tif dynbmid lib opfn dbll by bdding tif
+ * bppropribtf prf bnd fxtfnsions to b filfnbmf bnd tif pbti
  */
 void
-dbgsysBuildLibName(char *holder, int holderlen, const char *pname, const char *fname)
+dbgsysBuildLibNbmf(dibr *ioldfr, int ioldfrlfn, donst dibr *pnbmf, donst dibr *fnbmf)
 {
-    const int pnamelen = pname ? strlen(pname) : 0;
+    donst int pnbmflfn = pnbmf ? strlfn(pnbmf) : 0;
 
-    *holder = '\0';
-    /* Quietly truncate on buffer overflow.  Should be an error. */
-    if (pnamelen + (int)strlen(fname) + 10 > holderlen) {
-        return;
+    *ioldfr = '\0';
+    /* Quiftly trundbtf on bufffr ovfrflow.  Siould bf bn frror. */
+    if (pnbmflfn + (int)strlfn(fnbmf) + 10 > ioldfrlfn) {
+        rfturn;
     }
 
-    if (pnamelen == 0) {
-        (void)snprintf(holder, holderlen, "lib%s." LIB_SUFFIX, fname);
-    } else {
-      dll_build_name(holder, holderlen, pname, fname);
+    if (pnbmflfn == 0) {
+        (void)snprintf(ioldfr, ioldfrlfn, "lib%s." LIB_SUFFIX, fnbmf);
+    } flsf {
+      dll_build_nbmf(ioldfr, ioldfrlfn, pnbmf, fnbmf);
     }
 }
 
-#ifndef NATIVE
-extern int thr_main(void);
-#endif
+#ifndff NATIVE
+fxtfrn int tir_mbin(void);
+#fndif
 
 void *
-dbgsysLoadLibrary(const char *name, char *err_buf, int err_buflen)
+dbgsysLobdLibrbry(donst dibr *nbmf, dibr *frr_buf, int frr_buflfn)
 {
-    void * result;
-#ifdef NATIVE
-    result = dlopen(name, RTLD_LAZY);
-#else
-    sysMonitorEnter(greenThreadSelf(), &_dl_lock);
-    result = dlopen(name, RTLD_NOW);
-    sysMonitorExit(greenThreadSelf(), &_dl_lock);
+    void * rfsult;
+#ifdff NATIVE
+    rfsult = dlopfn(nbmf, RTLD_LAZY);
+#flsf
+    sysMonitorEntfr(grffnTirfbdSflf(), &_dl_lodk);
+    rfsult = dlopfn(nbmf, RTLD_NOW);
+    sysMonitorExit(grffnTirfbdSflf(), &_dl_lodk);
     /*
-     * This is a bit of bulletproofing to catch the commonly occurring
-     * problem of people loading a library which depends on libthread into
-     * the VM.  thr_main() should always return -1 which means that libthread
-     * isn't loaded.
+     * Tiis is b bit of bullftproofing to dbtdi tif dommonly oddurring
+     * problfm of pfoplf lobding b librbry wiidi dfpfnds on libtirfbd into
+     * tif VM.  tir_mbin() siould blwbys rfturn -1 wiidi mfbns tibt libtirfbd
+     * isn't lobdfd.
      */
-    if (thr_main() != -1) {
-         VM_CALL(panic)("libthread loaded into green threads");
+    if (tir_mbin() != -1) {
+         VM_CALL(pbnid)("libtirfbd lobdfd into grffn tirfbds");
     }
-#endif
-    if (result == NULL) {
-        (void)strncpy(err_buf, dlerror(), err_buflen-2);
-        err_buf[err_buflen-1] = '\0';
+#fndif
+    if (rfsult == NULL) {
+        (void)strndpy(frr_buf, dlfrror(), frr_buflfn-2);
+        frr_buf[frr_buflfn-1] = '\0';
     }
-    return result;
+    rfturn rfsult;
 }
 
-void dbgsysUnloadLibrary(void *handle)
+void dbgsysUnlobdLibrbry(void *ibndlf)
 {
-#ifndef NATIVE
-    sysMonitorEnter(greenThreadSelf(), &_dl_lock);
-#endif
-    (void)dlclose(handle);
-#ifndef NATIVE
-    sysMonitorExit(greenThreadSelf(), &_dl_lock);
-#endif
+#ifndff NATIVE
+    sysMonitorEntfr(grffnTirfbdSflf(), &_dl_lodk);
+#fndif
+    (void)dldlosf(ibndlf);
+#ifndff NATIVE
+    sysMonitorExit(grffnTirfbdSflf(), &_dl_lodk);
+#fndif
 }
 
-void * dbgsysFindLibraryEntry(void *handle, const char *name)
+void * dbgsysFindLibrbryEntry(void *ibndlf, donst dibr *nbmf)
 {
     void * sym;
-#ifndef NATIVE
-    sysMonitorEnter(greenThreadSelf(), &_dl_lock);
-#endif
-    sym =  dlsym(handle, name);
-#ifndef NATIVE
-    sysMonitorExit(greenThreadSelf(), &_dl_lock);
-#endif
-    return sym;
+#ifndff NATIVE
+    sysMonitorEntfr(grffnTirfbdSflf(), &_dl_lodk);
+#fndif
+    sym =  dlsym(ibndlf, nbmf);
+#ifndff NATIVE
+    sysMonitorExit(grffnTirfbdSflf(), &_dl_lodk);
+#fndif
+    rfturn sym;
 }

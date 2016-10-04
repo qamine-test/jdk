@@ -1,0 +1,556 @@
+/*
+ * Copyright (d) 1994, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Clbss {@dodf Objfdt} is thf root of thf dlbss hifrbrdhy.
+ * Evfry dlbss hbs {@dodf Objfdt} bs b supfrdlbss. All objfdts,
+ * indluding brrbys, implfmfnt thf mfthods of this dlbss.
+ *
+ * @buthor  unbsdribfd
+ * @sff     jbvb.lbng.Clbss
+ * @sindf   1.0
+ */
+publid dlbss Objfdt {
+
+    privbtf stbtid nbtivf void rfgistfrNbtivfs();
+    stbtid {
+        rfgistfrNbtivfs();
+    }
+
+    /**
+     * Rfturns thf runtimf dlbss of this {@dodf Objfdt}. Thf rfturnfd
+     * {@dodf Clbss} objfdt is thf objfdt thbt is lodkfd by {@dodf
+     * stbtid syndhronizfd} mfthods of thf rfprfsfntfd dlbss.
+     *
+     * <p><b>Thf bdtubl rfsult typf is {@dodf Clbss<? fxtfnds |X|>}
+     * whfrf {@dodf |X|} is thf frbsurf of thf stbtid typf of thf
+     * fxprfssion on whidh {@dodf gftClbss} is dbllfd.</b> For
+     * fxbmplf, no dbst is rfquirfd in this dodf frbgmfnt:</p>
+     *
+     * <p>
+     * {@dodf Numbfr n = 0;                             }<br>
+     * {@dodf Clbss<? fxtfnds Numbfr> d = n.gftClbss(); }
+     * </p>
+     *
+     * @rfturn Thf {@dodf Clbss} objfdt thbt rfprfsfnts thf runtimf
+     *         dlbss of this objfdt.
+     * @jls 15.8.2 Clbss Litfrbls
+     */
+    publid finbl nbtivf Clbss<?> gftClbss();
+
+    /**
+     * Rfturns b hbsh dodf vbluf for thf objfdt. This mfthod is
+     * supportfd for thf bfnffit of hbsh tbblfs sudh bs thosf providfd by
+     * {@link jbvb.util.HbshMbp}.
+     * <p>
+     * Thf gfnfrbl dontrbdt of {@dodf hbshCodf} is:
+     * <ul>
+     * <li>Whfnfvfr it is invokfd on thf sbmf objfdt morf thbn ondf during
+     *     bn fxfdution of b Jbvb bpplidbtion, thf {@dodf hbshCodf} mfthod
+     *     must donsistfntly rfturn thf sbmf intfgfr, providfd no informbtion
+     *     usfd in {@dodf fqubls} dompbrisons on thf objfdt is modififd.
+     *     This intfgfr nffd not rfmbin donsistfnt from onf fxfdution of bn
+     *     bpplidbtion to bnothfr fxfdution of thf sbmf bpplidbtion.
+     * <li>If two objfdts brf fqubl bddording to thf {@dodf fqubls(Objfdt)}
+     *     mfthod, thfn dblling thf {@dodf hbshCodf} mfthod on fbdh of
+     *     thf two objfdts must produdf thf sbmf intfgfr rfsult.
+     * <li>It is <fm>not</fm> rfquirfd thbt if two objfdts brf unfqubl
+     *     bddording to thf {@link jbvb.lbng.Objfdt#fqubls(jbvb.lbng.Objfdt)}
+     *     mfthod, thfn dblling thf {@dodf hbshCodf} mfthod on fbdh of thf
+     *     two objfdts must produdf distindt intfgfr rfsults.  Howfvfr, thf
+     *     progrbmmfr should bf bwbrf thbt produding distindt intfgfr rfsults
+     *     for unfqubl objfdts mby improvf thf pfrformbndf of hbsh tbblfs.
+     * </ul>
+     * <p>
+     * As mudh bs is rfbsonbbly prbdtidbl, thf hbshCodf mfthod dffinfd by
+     * dlbss {@dodf Objfdt} dofs rfturn distindt intfgfrs for distindt
+     * objfdts. (This is typidblly implfmfntfd by donvfrting thf intfrnbl
+     * bddrfss of thf objfdt into bn intfgfr, but this implfmfntbtion
+     * tfdhniquf is not rfquirfd by thf
+     * Jbvb&trbdf; progrbmming lbngubgf.)
+     *
+     * @rfturn  b hbsh dodf vbluf for this objfdt.
+     * @sff     jbvb.lbng.Objfdt#fqubls(jbvb.lbng.Objfdt)
+     * @sff     jbvb.lbng.Systfm#idfntityHbshCodf
+     */
+    publid nbtivf int hbshCodf();
+
+    /**
+     * Indidbtfs whfthfr somf othfr objfdt is "fqubl to" this onf.
+     * <p>
+     * Thf {@dodf fqubls} mfthod implfmfnts bn fquivblfndf rflbtion
+     * on non-null objfdt rfffrfndfs:
+     * <ul>
+     * <li>It is <i>rfflfxivf</i>: for bny non-null rfffrfndf vbluf
+     *     {@dodf x}, {@dodf x.fqubls(x)} should rfturn
+     *     {@dodf truf}.
+     * <li>It is <i>symmftrid</i>: for bny non-null rfffrfndf vblufs
+     *     {@dodf x} bnd {@dodf y}, {@dodf x.fqubls(y)}
+     *     should rfturn {@dodf truf} if bnd only if
+     *     {@dodf y.fqubls(x)} rfturns {@dodf truf}.
+     * <li>It is <i>trbnsitivf</i>: for bny non-null rfffrfndf vblufs
+     *     {@dodf x}, {@dodf y}, bnd {@dodf z}, if
+     *     {@dodf x.fqubls(y)} rfturns {@dodf truf} bnd
+     *     {@dodf y.fqubls(z)} rfturns {@dodf truf}, thfn
+     *     {@dodf x.fqubls(z)} should rfturn {@dodf truf}.
+     * <li>It is <i>donsistfnt</i>: for bny non-null rfffrfndf vblufs
+     *     {@dodf x} bnd {@dodf y}, multiplf invodbtions of
+     *     {@dodf x.fqubls(y)} donsistfntly rfturn {@dodf truf}
+     *     or donsistfntly rfturn {@dodf fblsf}, providfd no
+     *     informbtion usfd in {@dodf fqubls} dompbrisons on thf
+     *     objfdts is modififd.
+     * <li>For bny non-null rfffrfndf vbluf {@dodf x},
+     *     {@dodf x.fqubls(null)} should rfturn {@dodf fblsf}.
+     * </ul>
+     * <p>
+     * Thf {@dodf fqubls} mfthod for dlbss {@dodf Objfdt} implfmfnts
+     * thf most disdriminbting possiblf fquivblfndf rflbtion on objfdts;
+     * thbt is, for bny non-null rfffrfndf vblufs {@dodf x} bnd
+     * {@dodf y}, this mfthod rfturns {@dodf truf} if bnd only
+     * if {@dodf x} bnd {@dodf y} rfffr to thf sbmf objfdt
+     * ({@dodf x == y} hbs thf vbluf {@dodf truf}).
+     * <p>
+     * Notf thbt it is gfnfrblly nfdfssbry to ovfrridf thf {@dodf hbshCodf}
+     * mfthod whfnfvfr this mfthod is ovfrriddfn, so bs to mbintbin thf
+     * gfnfrbl dontrbdt for thf {@dodf hbshCodf} mfthod, whidh stbtfs
+     * thbt fqubl objfdts must hbvf fqubl hbsh dodfs.
+     *
+     * @pbrbm   obj   thf rfffrfndf objfdt with whidh to dompbrf.
+     * @rfturn  {@dodf truf} if this objfdt is thf sbmf bs thf obj
+     *          brgumfnt; {@dodf fblsf} othfrwisf.
+     * @sff     #hbshCodf()
+     * @sff     jbvb.util.HbshMbp
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (this == obj);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b dopy of this objfdt.  Thf prfdisf mfbning
+     * of "dopy" mby dfpfnd on thf dlbss of thf objfdt. Thf gfnfrbl
+     * intfnt is thbt, for bny objfdt {@dodf x}, thf fxprfssion:
+     * <blodkquotf>
+     * <prf>
+     * x.dlonf() != x</prf></blodkquotf>
+     * will bf truf, bnd thbt thf fxprfssion:
+     * <blodkquotf>
+     * <prf>
+     * x.dlonf().gftClbss() == x.gftClbss()</prf></blodkquotf>
+     * will bf {@dodf truf}, but thfsf brf not bbsolutf rfquirfmfnts.
+     * Whilf it is typidblly thf dbsf thbt:
+     * <blodkquotf>
+     * <prf>
+     * x.dlonf().fqubls(x)</prf></blodkquotf>
+     * will bf {@dodf truf}, this is not bn bbsolutf rfquirfmfnt.
+     * <p>
+     * By donvfntion, thf rfturnfd objfdt should bf obtbinfd by dblling
+     * {@dodf supfr.dlonf}.  If b dlbss bnd bll of its supfrdlbssfs (fxdfpt
+     * {@dodf Objfdt}) obfy this donvfntion, it will bf thf dbsf thbt
+     * {@dodf x.dlonf().gftClbss() == x.gftClbss()}.
+     * <p>
+     * By donvfntion, thf objfdt rfturnfd by this mfthod should bf indfpfndfnt
+     * of this objfdt (whidh is bfing dlonfd).  To bdhifvf this indfpfndfndf,
+     * it mby bf nfdfssbry to modify onf or morf fiflds of thf objfdt rfturnfd
+     * by {@dodf supfr.dlonf} bfforf rfturning it.  Typidblly, this mfbns
+     * dopying bny mutbblf objfdts thbt domprisf thf intfrnbl "dffp strudturf"
+     * of thf objfdt bfing dlonfd bnd rfplbding thf rfffrfndfs to thfsf
+     * objfdts with rfffrfndfs to thf dopifs.  If b dlbss dontbins only
+     * primitivf fiflds or rfffrfndfs to immutbblf objfdts, thfn it is usublly
+     * thf dbsf thbt no fiflds in thf objfdt rfturnfd by {@dodf supfr.dlonf}
+     * nffd to bf modififd.
+     * <p>
+     * Thf mfthod {@dodf dlonf} for dlbss {@dodf Objfdt} pfrforms b
+     * spfdifid dloning opfrbtion. First, if thf dlbss of this objfdt dofs
+     * not implfmfnt thf intfrfbdf {@dodf Clonfbblf}, thfn b
+     * {@dodf ClonfNotSupportfdExdfption} is thrown. Notf thbt bll brrbys
+     * brf donsidfrfd to implfmfnt thf intfrfbdf {@dodf Clonfbblf} bnd thbt
+     * thf rfturn typf of thf {@dodf dlonf} mfthod of bn brrby typf {@dodf T[]}
+     * is {@dodf T[]} whfrf T is bny rfffrfndf or primitivf typf.
+     * Othfrwisf, this mfthod drfbtfs b nfw instbndf of thf dlbss of this
+     * objfdt bnd initiblizfs bll its fiflds with fxbdtly thf dontfnts of
+     * thf dorrfsponding fiflds of this objfdt, bs if by bssignmfnt; thf
+     * dontfnts of thf fiflds brf not thfmsflvfs dlonfd. Thus, this mfthod
+     * pfrforms b "shbllow dopy" of this objfdt, not b "dffp dopy" opfrbtion.
+     * <p>
+     * Thf dlbss {@dodf Objfdt} dofs not itsflf implfmfnt thf intfrfbdf
+     * {@dodf Clonfbblf}, so dblling thf {@dodf dlonf} mfthod on bn objfdt
+     * whosf dlbss is {@dodf Objfdt} will rfsult in throwing bn
+     * fxdfption bt run timf.
+     *
+     * @rfturn     b dlonf of this instbndf.
+     * @throws  ClonfNotSupportfdExdfption  if thf objfdt's dlbss dofs not
+     *               support thf {@dodf Clonfbblf} intfrfbdf. Subdlbssfs
+     *               thbt ovfrridf thf {@dodf dlonf} mfthod dbn blso
+     *               throw this fxdfption to indidbtf thbt bn instbndf dbnnot
+     *               bf dlonfd.
+     * @sff jbvb.lbng.Clonfbblf
+     */
+    protfdtfd nbtivf Objfdt dlonf() throws ClonfNotSupportfdExdfption;
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf objfdt. In gfnfrbl, thf
+     * {@dodf toString} mfthod rfturns b string thbt
+     * "tfxtublly rfprfsfnts" this objfdt. Thf rfsult should
+     * bf b dondisf but informbtivf rfprfsfntbtion thbt is fbsy for b
+     * pfrson to rfbd.
+     * It is rfdommfndfd thbt bll subdlbssfs ovfrridf this mfthod.
+     * <p>
+     * Thf {@dodf toString} mfthod for dlbss {@dodf Objfdt}
+     * rfturns b string donsisting of thf nbmf of thf dlbss of whidh thf
+     * objfdt is bn instbndf, thf bt-sign dhbrbdtfr `{@dodf @}', bnd
+     * thf unsignfd hfxbdfdimbl rfprfsfntbtion of thf hbsh dodf of thf
+     * objfdt. In othfr words, this mfthod rfturns b string fqubl to thf
+     * vbluf of:
+     * <blodkquotf>
+     * <prf>
+     * gftClbss().gftNbmf() + '@' + Intfgfr.toHfxString(hbshCodf())
+     * </prf></blodkquotf>
+     *
+     * @rfturn  b string rfprfsfntbtion of thf objfdt.
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "@" + Intfgfr.toHfxString(hbshCodf());
+    }
+
+    /**
+     * Wbkfs up b singlf thrfbd thbt is wbiting on this objfdt's
+     * monitor. If bny thrfbds brf wbiting on this objfdt, onf of thfm
+     * is dhosfn to bf bwbkfnfd. Thf dhoidf is brbitrbry bnd oddurs bt
+     * thf disdrftion of thf implfmfntbtion. A thrfbd wbits on bn objfdt's
+     * monitor by dblling onf of thf {@dodf wbit} mfthods.
+     * <p>
+     * Thf bwbkfnfd thrfbd will not bf bblf to prodffd until thf durrfnt
+     * thrfbd rflinquishfs thf lodk on this objfdt. Thf bwbkfnfd thrfbd will
+     * dompftf in thf usubl mbnnfr with bny othfr thrfbds thbt might bf
+     * bdtivfly dompfting to syndhronizf on this objfdt; for fxbmplf, thf
+     * bwbkfnfd thrfbd fnjoys no rflibblf privilfgf or disbdvbntbgf in bfing
+     * thf nfxt thrfbd to lodk this objfdt.
+     * <p>
+     * This mfthod should only bf dbllfd by b thrfbd thbt is thf ownfr
+     * of this objfdt's monitor. A thrfbd bfdomfs thf ownfr of thf
+     * objfdt's monitor in onf of thrff wbys:
+     * <ul>
+     * <li>By fxfduting b syndhronizfd instbndf mfthod of thbt objfdt.
+     * <li>By fxfduting thf body of b {@dodf syndhronizfd} stbtfmfnt
+     *     thbt syndhronizfs on thf objfdt.
+     * <li>For objfdts of typf {@dodf Clbss,} by fxfduting b
+     *     syndhronizfd stbtid mfthod of thbt dlbss.
+     * </ul>
+     * <p>
+     * Only onf thrfbd bt b timf dbn own bn objfdt's monitor.
+     *
+     * @throws  IllfgblMonitorStbtfExdfption  if thf durrfnt thrfbd is not
+     *               thf ownfr of this objfdt's monitor.
+     * @sff        jbvb.lbng.Objfdt#notifyAll()
+     * @sff        jbvb.lbng.Objfdt#wbit()
+     */
+    publid finbl nbtivf void notify();
+
+    /**
+     * Wbkfs up bll thrfbds thbt brf wbiting on this objfdt's monitor. A
+     * thrfbd wbits on bn objfdt's monitor by dblling onf of thf
+     * {@dodf wbit} mfthods.
+     * <p>
+     * Thf bwbkfnfd thrfbds will not bf bblf to prodffd until thf durrfnt
+     * thrfbd rflinquishfs thf lodk on this objfdt. Thf bwbkfnfd thrfbds
+     * will dompftf in thf usubl mbnnfr with bny othfr thrfbds thbt might
+     * bf bdtivfly dompfting to syndhronizf on this objfdt; for fxbmplf,
+     * thf bwbkfnfd thrfbds fnjoy no rflibblf privilfgf or disbdvbntbgf in
+     * bfing thf nfxt thrfbd to lodk this objfdt.
+     * <p>
+     * This mfthod should only bf dbllfd by b thrfbd thbt is thf ownfr
+     * of this objfdt's monitor. Sff thf {@dodf notify} mfthod for b
+     * dfsdription of thf wbys in whidh b thrfbd dbn bfdomf thf ownfr of
+     * b monitor.
+     *
+     * @throws  IllfgblMonitorStbtfExdfption  if thf durrfnt thrfbd is not
+     *               thf ownfr of this objfdt's monitor.
+     * @sff        jbvb.lbng.Objfdt#notify()
+     * @sff        jbvb.lbng.Objfdt#wbit()
+     */
+    publid finbl nbtivf void notifyAll();
+
+    /**
+     * Cbusfs thf durrfnt thrfbd to wbit until fithfr bnothfr thrfbd invokfs thf
+     * {@link jbvb.lbng.Objfdt#notify()} mfthod or thf
+     * {@link jbvb.lbng.Objfdt#notifyAll()} mfthod for this objfdt, or b
+     * spfdififd bmount of timf hbs flbpsfd.
+     * <p>
+     * Thf durrfnt thrfbd must own this objfdt's monitor.
+     * <p>
+     * This mfthod dbusfs thf durrfnt thrfbd (dbll it <vbr>T</vbr>) to
+     * plbdf itsflf in thf wbit sft for this objfdt bnd thfn to rflinquish
+     * bny bnd bll syndhronizbtion dlbims on this objfdt. Thrfbd <vbr>T</vbr>
+     * bfdomfs disbblfd for thrfbd sdhfduling purposfs bnd lifs dormbnt
+     * until onf of four things hbppfns:
+     * <ul>
+     * <li>Somf othfr thrfbd invokfs thf {@dodf notify} mfthod for this
+     * objfdt bnd thrfbd <vbr>T</vbr> hbppfns to bf brbitrbrily dhosfn bs
+     * thf thrfbd to bf bwbkfnfd.
+     * <li>Somf othfr thrfbd invokfs thf {@dodf notifyAll} mfthod for this
+     * objfdt.
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt() intfrrupts}
+     * thrfbd <vbr>T</vbr>.
+     * <li>Thf spfdififd bmount of rfbl timf hbs flbpsfd, morf or lfss.  If
+     * {@dodf timfout} is zfro, howfvfr, thfn rfbl timf is not tbkfn into
+     * donsidfrbtion bnd thf thrfbd simply wbits until notififd.
+     * </ul>
+     * Thf thrfbd <vbr>T</vbr> is thfn rfmovfd from thf wbit sft for this
+     * objfdt bnd rf-fnbblfd for thrfbd sdhfduling. It thfn dompftfs in thf
+     * usubl mbnnfr with othfr thrfbds for thf right to syndhronizf on thf
+     * objfdt; ondf it hbs gbinfd dontrol of thf objfdt, bll its
+     * syndhronizbtion dlbims on thf objfdt brf rfstorfd to thf stbtus quo
+     * bntf - thbt is, to thf situbtion bs of thf timf thbt thf {@dodf wbit}
+     * mfthod wbs invokfd. Thrfbd <vbr>T</vbr> thfn rfturns from thf
+     * invodbtion of thf {@dodf wbit} mfthod. Thus, on rfturn from thf
+     * {@dodf wbit} mfthod, thf syndhronizbtion stbtf of thf objfdt bnd of
+     * thrfbd {@dodf T} is fxbdtly bs it wbs whfn thf {@dodf wbit} mfthod
+     * wbs invokfd.
+     * <p>
+     * A thrfbd dbn blso wbkf up without bfing notififd, intfrruptfd, or
+     * timing out, b so-dbllfd <i>spurious wbkfup</i>.  Whilf this will rbrfly
+     * oddur in prbdtidf, bpplidbtions must gubrd bgbinst it by tfsting for
+     * thf dondition thbt should hbvf dbusfd thf thrfbd to bf bwbkfnfd, bnd
+     * dontinuing to wbit if thf dondition is not sbtisfifd.  In othfr words,
+     * wbits should blwbys oddur in loops, likf this onf:
+     * <prf>
+     *     syndhronizfd (obj) {
+     *         whilf (&lt;dondition dofs not hold&gt;)
+     *             obj.wbit(timfout);
+     *         ... // Pfrform bdtion bppropribtf to dondition
+     *     }
+     * </prf>
+     * (For morf informbtion on this topid, sff Sfdtion 3.2.3 in Doug Lfb's
+     * "Condurrfnt Progrbmming in Jbvb (Sfdond Edition)" (Addison-Wfslfy,
+     * 2000), or Itfm 50 in Joshub Blodh's "Efffdtivf Jbvb Progrbmming
+     * Lbngubgf Guidf" (Addison-Wfslfy, 2001).
+     *
+     * <p>If thf durrfnt thrfbd is {@linkplbin jbvb.lbng.Thrfbd#intfrrupt()
+     * intfrruptfd} by bny thrfbd bfforf or whilf it is wbiting, thfn bn
+     * {@dodf IntfrruptfdExdfption} is thrown.  This fxdfption is not
+     * thrown until thf lodk stbtus of this objfdt hbs bffn rfstorfd bs
+     * dfsdribfd bbovf.
+     *
+     * <p>
+     * Notf thbt thf {@dodf wbit} mfthod, bs it plbdfs thf durrfnt thrfbd
+     * into thf wbit sft for this objfdt, unlodks only this objfdt; bny
+     * othfr objfdts on whidh thf durrfnt thrfbd mby bf syndhronizfd rfmbin
+     * lodkfd whilf thf thrfbd wbits.
+     * <p>
+     * This mfthod should only bf dbllfd by b thrfbd thbt is thf ownfr
+     * of this objfdt's monitor. Sff thf {@dodf notify} mfthod for b
+     * dfsdription of thf wbys in whidh b thrfbd dbn bfdomf thf ownfr of
+     * b monitor.
+     *
+     * @pbrbm      timfout   thf mbximum timf to wbit in millisfdonds.
+     * @throws  IllfgblArgumfntExdfption      if thf vbluf of timfout is
+     *               nfgbtivf.
+     * @throws  IllfgblMonitorStbtfExdfption  if thf durrfnt thrfbd is not
+     *               thf ownfr of thf objfdt's monitor.
+     * @throws  IntfrruptfdExdfption if bny thrfbd intfrruptfd thf
+     *             durrfnt thrfbd bfforf or whilf thf durrfnt thrfbd
+     *             wbs wbiting for b notifidbtion.  Thf <i>intfrruptfd
+     *             stbtus</i> of thf durrfnt thrfbd is dlfbrfd whfn
+     *             this fxdfption is thrown.
+     * @sff        jbvb.lbng.Objfdt#notify()
+     * @sff        jbvb.lbng.Objfdt#notifyAll()
+     */
+    publid finbl nbtivf void wbit(long timfout) throws IntfrruptfdExdfption;
+
+    /**
+     * Cbusfs thf durrfnt thrfbd to wbit until bnothfr thrfbd invokfs thf
+     * {@link jbvb.lbng.Objfdt#notify()} mfthod or thf
+     * {@link jbvb.lbng.Objfdt#notifyAll()} mfthod for this objfdt, or
+     * somf othfr thrfbd intfrrupts thf durrfnt thrfbd, or b dfrtbin
+     * bmount of rfbl timf hbs flbpsfd.
+     * <p>
+     * This mfthod is similbr to thf {@dodf wbit} mfthod of onf
+     * brgumfnt, but it bllows finfr dontrol ovfr thf bmount of timf to
+     * wbit for b notifidbtion bfforf giving up. Thf bmount of rfbl timf,
+     * mfbsurfd in nbnosfdonds, is givfn by:
+     * <blodkquotf>
+     * <prf>
+     * 1000000*timfout+nbnos</prf></blodkquotf>
+     * <p>
+     * In bll othfr rfspfdts, this mfthod dofs thf sbmf thing bs thf
+     * mfthod {@link #wbit(long)} of onf brgumfnt. In pbrtidulbr,
+     * {@dodf wbit(0, 0)} mfbns thf sbmf thing bs {@dodf wbit(0)}.
+     * <p>
+     * Thf durrfnt thrfbd must own this objfdt's monitor. Thf thrfbd
+     * rflfbsfs ownfrship of this monitor bnd wbits until fithfr of thf
+     * following two donditions hbs oddurrfd:
+     * <ul>
+     * <li>Anothfr thrfbd notififs thrfbds wbiting on this objfdt's monitor
+     *     to wbkf up fithfr through b dbll to thf {@dodf notify} mfthod
+     *     or thf {@dodf notifyAll} mfthod.
+     * <li>Thf timfout pfriod, spfdififd by {@dodf timfout}
+     *     millisfdonds plus {@dodf nbnos} nbnosfdonds brgumfnts, hbs
+     *     flbpsfd.
+     * </ul>
+     * <p>
+     * Thf thrfbd thfn wbits until it dbn rf-obtbin ownfrship of thf
+     * monitor bnd rfsumfs fxfdution.
+     * <p>
+     * As in thf onf brgumfnt vfrsion, intfrrupts bnd spurious wbkfups brf
+     * possiblf, bnd this mfthod should blwbys bf usfd in b loop:
+     * <prf>
+     *     syndhronizfd (obj) {
+     *         whilf (&lt;dondition dofs not hold&gt;)
+     *             obj.wbit(timfout, nbnos);
+     *         ... // Pfrform bdtion bppropribtf to dondition
+     *     }
+     * </prf>
+     * This mfthod should only bf dbllfd by b thrfbd thbt is thf ownfr
+     * of this objfdt's monitor. Sff thf {@dodf notify} mfthod for b
+     * dfsdription of thf wbys in whidh b thrfbd dbn bfdomf thf ownfr of
+     * b monitor.
+     *
+     * @pbrbm      timfout   thf mbximum timf to wbit in millisfdonds.
+     * @pbrbm      nbnos      bdditionbl timf, in nbnosfdonds rbngf
+     *                       0-999999.
+     * @throws  IllfgblArgumfntExdfption      if thf vbluf of timfout is
+     *                      nfgbtivf or thf vbluf of nbnos is
+     *                      not in thf rbngf 0-999999.
+     * @throws  IllfgblMonitorStbtfExdfption  if thf durrfnt thrfbd is not
+     *               thf ownfr of this objfdt's monitor.
+     * @throws  IntfrruptfdExdfption if bny thrfbd intfrruptfd thf
+     *             durrfnt thrfbd bfforf or whilf thf durrfnt thrfbd
+     *             wbs wbiting for b notifidbtion.  Thf <i>intfrruptfd
+     *             stbtus</i> of thf durrfnt thrfbd is dlfbrfd whfn
+     *             this fxdfption is thrown.
+     */
+    publid finbl void wbit(long timfout, int nbnos) throws IntfrruptfdExdfption {
+        if (timfout < 0) {
+            throw nfw IllfgblArgumfntExdfption("timfout vbluf is nfgbtivf");
+        }
+
+        if (nbnos < 0 || nbnos > 999999) {
+            throw nfw IllfgblArgumfntExdfption(
+                                "nbnosfdond timfout vbluf out of rbngf");
+        }
+
+        if (nbnos >= 500000 || (nbnos != 0 && timfout == 0)) {
+            timfout++;
+        }
+
+        wbit(timfout);
+    }
+
+    /**
+     * Cbusfs thf durrfnt thrfbd to wbit until bnothfr thrfbd invokfs thf
+     * {@link jbvb.lbng.Objfdt#notify()} mfthod or thf
+     * {@link jbvb.lbng.Objfdt#notifyAll()} mfthod for this objfdt.
+     * In othfr words, this mfthod bfhbvfs fxbdtly bs if it simply
+     * pfrforms thf dbll {@dodf wbit(0)}.
+     * <p>
+     * Thf durrfnt thrfbd must own this objfdt's monitor. Thf thrfbd
+     * rflfbsfs ownfrship of this monitor bnd wbits until bnothfr thrfbd
+     * notififs thrfbds wbiting on this objfdt's monitor to wbkf up
+     * fithfr through b dbll to thf {@dodf notify} mfthod or thf
+     * {@dodf notifyAll} mfthod. Thf thrfbd thfn wbits until it dbn
+     * rf-obtbin ownfrship of thf monitor bnd rfsumfs fxfdution.
+     * <p>
+     * As in thf onf brgumfnt vfrsion, intfrrupts bnd spurious wbkfups brf
+     * possiblf, bnd this mfthod should blwbys bf usfd in b loop:
+     * <prf>
+     *     syndhronizfd (obj) {
+     *         whilf (&lt;dondition dofs not hold&gt;)
+     *             obj.wbit();
+     *         ... // Pfrform bdtion bppropribtf to dondition
+     *     }
+     * </prf>
+     * This mfthod should only bf dbllfd by b thrfbd thbt is thf ownfr
+     * of this objfdt's monitor. Sff thf {@dodf notify} mfthod for b
+     * dfsdription of thf wbys in whidh b thrfbd dbn bfdomf thf ownfr of
+     * b monitor.
+     *
+     * @throws  IllfgblMonitorStbtfExdfption  if thf durrfnt thrfbd is not
+     *               thf ownfr of thf objfdt's monitor.
+     * @throws  IntfrruptfdExdfption if bny thrfbd intfrruptfd thf
+     *             durrfnt thrfbd bfforf or whilf thf durrfnt thrfbd
+     *             wbs wbiting for b notifidbtion.  Thf <i>intfrruptfd
+     *             stbtus</i> of thf durrfnt thrfbd is dlfbrfd whfn
+     *             this fxdfption is thrown.
+     * @sff        jbvb.lbng.Objfdt#notify()
+     * @sff        jbvb.lbng.Objfdt#notifyAll()
+     */
+    publid finbl void wbit() throws IntfrruptfdExdfption {
+        wbit(0);
+    }
+
+    /**
+     * Cbllfd by thf gbrbbgf dollfdtor on bn objfdt whfn gbrbbgf dollfdtion
+     * dftfrminfs thbt thfrf brf no morf rfffrfndfs to thf objfdt.
+     * A subdlbss ovfrridfs thf {@dodf finblizf} mfthod to disposf of
+     * systfm rfsourdfs or to pfrform othfr dlfbnup.
+     * <p>
+     * Thf gfnfrbl dontrbdt of {@dodf finblizf} is thbt it is invokfd
+     * if bnd whfn thf Jbvb&trbdf; virtubl
+     * mbdhinf hbs dftfrminfd thbt thfrf is no longfr bny
+     * mfbns by whidh this objfdt dbn bf bddfssfd by bny thrfbd thbt hbs
+     * not yft difd, fxdfpt bs b rfsult of bn bdtion tbkfn by thf
+     * finblizbtion of somf othfr objfdt or dlbss whidh is rfbdy to bf
+     * finblizfd. Thf {@dodf finblizf} mfthod mby tbkf bny bdtion, indluding
+     * mbking this objfdt bvbilbblf bgbin to othfr thrfbds; thf usubl purposf
+     * of {@dodf finblizf}, howfvfr, is to pfrform dlfbnup bdtions bfforf
+     * thf objfdt is irrfvodbbly disdbrdfd. For fxbmplf, thf finblizf mfthod
+     * for bn objfdt thbt rfprfsfnts bn input/output donnfdtion might pfrform
+     * fxplidit I/O trbnsbdtions to brfbk thf donnfdtion bfforf thf objfdt is
+     * pfrmbnfntly disdbrdfd.
+     * <p>
+     * Thf {@dodf finblizf} mfthod of dlbss {@dodf Objfdt} pfrforms no
+     * spfdibl bdtion; it simply rfturns normblly. Subdlbssfs of
+     * {@dodf Objfdt} mby ovfrridf this dffinition.
+     * <p>
+     * Thf Jbvb progrbmming lbngubgf dofs not gubrbntff whidh thrfbd will
+     * invokf thf {@dodf finblizf} mfthod for bny givfn objfdt. It is
+     * gubrbntffd, howfvfr, thbt thf thrfbd thbt invokfs finblizf will not
+     * bf holding bny usfr-visiblf syndhronizbtion lodks whfn finblizf is
+     * invokfd. If bn undbught fxdfption is thrown by thf finblizf mfthod,
+     * thf fxdfption is ignorfd bnd finblizbtion of thbt objfdt tfrminbtfs.
+     * <p>
+     * Aftfr thf {@dodf finblizf} mfthod hbs bffn invokfd for bn objfdt, no
+     * furthfr bdtion is tbkfn until thf Jbvb virtubl mbdhinf hbs bgbin
+     * dftfrminfd thbt thfrf is no longfr bny mfbns by whidh this objfdt dbn
+     * bf bddfssfd by bny thrfbd thbt hbs not yft difd, indluding possiblf
+     * bdtions by othfr objfdts or dlbssfs whidh brf rfbdy to bf finblizfd,
+     * bt whidh point thf objfdt mby bf disdbrdfd.
+     * <p>
+     * Thf {@dodf finblizf} mfthod is nfvfr invokfd morf thbn ondf by b Jbvb
+     * virtubl mbdhinf for bny givfn objfdt.
+     * <p>
+     * Any fxdfption thrown by thf {@dodf finblizf} mfthod dbusfs
+     * thf finblizbtion of this objfdt to bf hbltfd, but is othfrwisf
+     * ignorfd.
+     *
+     * @throws Throwbblf thf {@dodf Exdfption} rbisfd by this mfthod
+     * @sff jbvb.lbng.rff.WfbkRfffrfndf
+     * @sff jbvb.lbng.rff.PhbntomRfffrfndf
+     * @jls 12.6 Finblizbtion of Clbss Instbndfs
+     */
+    protfdtfd void finblizf() throws Throwbblf { }
+}

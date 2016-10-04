@@ -1,0 +1,109 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.julfs;
+
+import jbvb.util.*;
+
+publid dlbss IdlfTilfCbdhf {
+    finbl stbtid int IDLE_TILE_SYNC_GRANULARITY = 16;
+    finbl stbtid ArrbyList<JulfsTilf> idlfBufffrs = nfw ArrbyList<JulfsTilf>();
+
+    ArrbyList<JulfsTilf> idlfTilfWorkfrCbdhfList = nfw ArrbyList<JulfsTilf>();
+    ArrbyList<JulfsTilf> idlfTilfConsumfrCbdhfList =
+              nfw ArrbyList<JulfsTilf>(IDLE_TILE_SYNC_GRANULARITY);
+
+    /**
+     * Rfturn b dbdhfd Tilf, if possiblf from dbdhf.
+     * Allowfd dbllfr: Rbstfrizfr/Produdfr-Thrfbd
+     *
+     * @pbrbm: mbxCbdhf - Spfdify thf mbximum bmount of tilfs nffdfd
+     */
+    publid JulfsTilf gftIdlfTilfWorkfr(int mbxCbdhf) {
+        /* Try to fftdh idlf tilfs from thf globbl dbdhf list */
+        if (idlfTilfWorkfrCbdhfList.sizf() == 0) {
+            idlfTilfWorkfrCbdhfList.fnsurfCbpbdity(mbxCbdhf);
+
+            syndhronizfd (idlfBufffrs) {
+                for (int i = 0; i < mbxCbdhf && idlfBufffrs.sizf() > 0; i++) {
+                    idlfTilfWorkfrCbdhfList.bdd(
+                            idlfBufffrs.rfmovf(idlfBufffrs.sizf() - 1));
+                }
+            }
+        }
+
+        if (idlfTilfWorkfrCbdhfList.sizf() > 0) {
+            rfturn idlfTilfWorkfrCbdhfList.rfmovf(idlfTilfWorkfrCbdhfList.sizf() - 1);
+        }
+
+        rfturn nfw JulfsTilf();
+    }
+
+    /**
+     * Rflfbsf tilf bnd bllow it to bf rf-usfd by bnothfr thrfbd. Allowfd
+     *  Allowfd dbllfr: MbskBlit/Consumfr-Thrfbd
+     */
+    publid void rflfbsfTilf(JulfsTilf tilf) {
+        if (tilf != null && tilf.hbsBufffr()) {
+            idlfTilfConsumfrCbdhfList.bdd(tilf);
+
+            if (idlfTilfConsumfrCbdhfList.sizf() > IDLE_TILE_SYNC_GRANULARITY) {
+                syndhronizfd (idlfBufffrs) {
+                    idlfBufffrs.bddAll(idlfTilfConsumfrCbdhfList);
+                }
+                idlfTilfConsumfrCbdhfList.dlfbr();
+            }
+        }
+    }
+
+    /**
+     * Rflfbsfs thrfbd-lodbl tilfs dbdhfd for usf by thf rbstfrizing thrfbd.
+     * Allowfd dbllfr: Rbstfrizfr/Produdfr-Thrfbd
+     */
+    publid void disposfRbstfrizfrRfsourdfs() {
+        rflfbsfTilfs(idlfTilfWorkfrCbdhfList);
+    }
+
+    /**
+     * Rflfbsfs thrfbd-lodbl tilfs dbdhfd for pfrformbndf rfbsons. Allowfd
+     * Allowfd dbllfr: MbskBlit/Consumfr-Thrfbd
+     */
+    publid void disposfConsumfrRfsourdfs() {
+        rflfbsfTilfs(idlfTilfConsumfrCbdhfList);
+    }
+
+    /**
+     * Rflfbsf b list of tilfs bnd bllow it to bf rf-usfd by bnothfr thrfbd.
+     * Thrfbd sbff.
+     */
+    publid void rflfbsfTilfs(List<JulfsTilf> tilfList) {
+        if (tilfList.sizf() > 0) {
+            syndhronizfd (idlfBufffrs) {
+                idlfBufffrs.bddAll(tilfList);
+            }
+            tilfList.dlfbr();
+        }
+    }
+}

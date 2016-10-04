@@ -1,0 +1,221 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.util.Objfdts;
+
+/**
+ * An flfmfnt in b stbdk trbdf, bs rfturnfd by {@link
+ * Throwbblf#gftStbdkTrbdf()}.  Ebdh flfmfnt rfprfsfnts b singlf stbdk frbmf.
+ * All stbdk frbmfs fxdfpt for thf onf bt thf top of thf stbdk rfprfsfnt
+ * b mfthod invodbtion.  Thf frbmf bt thf top of thf stbdk rfprfsfnts thf
+ * fxfdution point bt whidh thf stbdk trbdf wbs gfnfrbtfd.  Typidblly,
+ * this is thf point bt whidh thf throwbblf dorrfsponding to thf stbdk trbdf
+ * wbs drfbtfd.
+ *
+ * @sindf  1.4
+ * @buthor Josh Blodh
+ */
+publid finbl dlbss StbdkTrbdfElfmfnt implfmfnts jbvb.io.Sfriblizbblf {
+    // Normblly initiblizfd by VM (publid donstrudtor bddfd in 1.5)
+    privbtf String dfdlbringClbss;
+    privbtf String mfthodNbmf;
+    privbtf String filfNbmf;
+    privbtf int    linfNumbfr;
+
+    /**
+     * Crfbtfs b stbdk trbdf flfmfnt rfprfsfnting thf spfdififd fxfdution
+     * point.
+     *
+     * @pbrbm dfdlbringClbss thf fully qublififd nbmf of thf dlbss dontbining
+     *        thf fxfdution point rfprfsfntfd by thf stbdk trbdf flfmfnt
+     * @pbrbm mfthodNbmf thf nbmf of thf mfthod dontbining thf fxfdution point
+     *        rfprfsfntfd by thf stbdk trbdf flfmfnt
+     * @pbrbm filfNbmf thf nbmf of thf filf dontbining thf fxfdution point
+     *         rfprfsfntfd by thf stbdk trbdf flfmfnt, or {@dodf null} if
+     *         this informbtion is unbvbilbblf
+     * @pbrbm linfNumbfr thf linf numbfr of thf sourdf linf dontbining thf
+     *         fxfdution point rfprfsfntfd by this stbdk trbdf flfmfnt, or
+     *         b nfgbtivf numbfr if this informbtion is unbvbilbblf. A vbluf
+     *         of -2 indidbtfs thbt thf mfthod dontbining thf fxfdution point
+     *         is b nbtivf mfthod
+     * @throws NullPointfrExdfption if {@dodf dfdlbringClbss} or
+     *         {@dodf mfthodNbmf} is null
+     * @sindf 1.5
+     */
+    publid StbdkTrbdfElfmfnt(String dfdlbringClbss, String mfthodNbmf,
+                             String filfNbmf, int linfNumbfr) {
+        this.dfdlbringClbss = Objfdts.rfquirfNonNull(dfdlbringClbss, "Dfdlbring dlbss is null");
+        this.mfthodNbmf     = Objfdts.rfquirfNonNull(mfthodNbmf, "Mfthod nbmf is null");
+        this.filfNbmf       = filfNbmf;
+        this.linfNumbfr     = linfNumbfr;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf sourdf filf dontbining thf fxfdution point
+     * rfprfsfntfd by this stbdk trbdf flfmfnt.  Gfnfrblly, this dorrfsponds
+     * to thf {@dodf SourdfFilf} bttributf of thf rflfvbnt {@dodf dlbss}
+     * filf (bs pfr <i>Thf Jbvb Virtubl Mbdhinf Spfdifidbtion</i>, Sfdtion
+     * 4.7.7).  In somf systfms, thf nbmf mby rfffr to somf sourdf dodf unit
+     * othfr thbn b filf, sudh bs bn fntry in sourdf rfpository.
+     *
+     * @rfturn thf nbmf of thf filf dontbining thf fxfdution point
+     *         rfprfsfntfd by this stbdk trbdf flfmfnt, or {@dodf null} if
+     *         this informbtion is unbvbilbblf.
+     */
+    publid String gftFilfNbmf() {
+        rfturn filfNbmf;
+    }
+
+    /**
+     * Rfturns thf linf numbfr of thf sourdf linf dontbining thf fxfdution
+     * point rfprfsfntfd by this stbdk trbdf flfmfnt.  Gfnfrblly, this is
+     * dfrivfd from thf {@dodf LinfNumbfrTbblf} bttributf of thf rflfvbnt
+     * {@dodf dlbss} filf (bs pfr <i>Thf Jbvb Virtubl Mbdhinf
+     * Spfdifidbtion</i>, Sfdtion 4.7.8).
+     *
+     * @rfturn thf linf numbfr of thf sourdf linf dontbining thf fxfdution
+     *         point rfprfsfntfd by this stbdk trbdf flfmfnt, or b nfgbtivf
+     *         numbfr if this informbtion is unbvbilbblf.
+     */
+    publid int gftLinfNumbfr() {
+        rfturn linfNumbfr;
+    }
+
+    /**
+     * Rfturns thf fully qublififd nbmf of thf dlbss dontbining thf
+     * fxfdution point rfprfsfntfd by this stbdk trbdf flfmfnt.
+     *
+     * @rfturn thf fully qublififd nbmf of thf {@dodf Clbss} dontbining
+     *         thf fxfdution point rfprfsfntfd by this stbdk trbdf flfmfnt.
+     */
+    publid String gftClbssNbmf() {
+        rfturn dfdlbringClbss;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf mfthod dontbining thf fxfdution point
+     * rfprfsfntfd by this stbdk trbdf flfmfnt.  If thf fxfdution point is
+     * dontbinfd in bn instbndf or dlbss initiblizfr, this mfthod will rfturn
+     * thf bppropribtf <i>spfdibl mfthod nbmf</i>, {@dodf <init>} or
+     * {@dodf <dlinit>}, bs pfr Sfdtion 3.9 of <i>Thf Jbvb Virtubl
+     * Mbdhinf Spfdifidbtion</i>.
+     *
+     * @rfturn thf nbmf of thf mfthod dontbining thf fxfdution point
+     *         rfprfsfntfd by this stbdk trbdf flfmfnt.
+     */
+    publid String gftMfthodNbmf() {
+        rfturn mfthodNbmf;
+    }
+
+    /**
+     * Rfturns truf if thf mfthod dontbining thf fxfdution point
+     * rfprfsfntfd by this stbdk trbdf flfmfnt is b nbtivf mfthod.
+     *
+     * @rfturn {@dodf truf} if thf mfthod dontbining thf fxfdution point
+     *         rfprfsfntfd by this stbdk trbdf flfmfnt is b nbtivf mfthod.
+     */
+    publid boolfbn isNbtivfMfthod() {
+        rfturn linfNumbfr == -2;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this stbdk trbdf flfmfnt.  Thf
+     * formbt of this string dfpfnds on thf implfmfntbtion, but thf following
+     * fxbmplfs mby bf rfgbrdfd bs typidbl:
+     * <ul>
+     * <li>
+     *   {@dodf "MyClbss.mbsh(MyClbss.jbvb:9)"} - Hfrf, {@dodf "MyClbss"}
+     *   is thf <i>fully-qublififd nbmf</i> of thf dlbss dontbining thf
+     *   fxfdution point rfprfsfntfd by this stbdk trbdf flfmfnt,
+     *   {@dodf "mbsh"} is thf nbmf of thf mfthod dontbining thf fxfdution
+     *   point, {@dodf "MyClbss.jbvb"} is thf sourdf filf dontbining thf
+     *   fxfdution point, bnd {@dodf "9"} is thf linf numbfr of thf sourdf
+     *   linf dontbining thf fxfdution point.
+     * <li>
+     *   {@dodf "MyClbss.mbsh(MyClbss.jbvb)"} - As bbovf, but thf linf
+     *   numbfr is unbvbilbblf.
+     * <li>
+     *   {@dodf "MyClbss.mbsh(Unknown Sourdf)"} - As bbovf, but nfithfr
+     *   thf filf nbmf nor thf linf  numbfr brf bvbilbblf.
+     * <li>
+     *   {@dodf "MyClbss.mbsh(Nbtivf Mfthod)"} - As bbovf, but nfithfr
+     *   thf filf nbmf nor thf linf  numbfr brf bvbilbblf, bnd thf mfthod
+     *   dontbining thf fxfdution point is known to bf b nbtivf mfthod.
+     * </ul>
+     * @sff    Throwbblf#printStbdkTrbdf()
+     */
+    publid String toString() {
+        rfturn gftClbssNbmf() + "." + mfthodNbmf +
+            (isNbtivfMfthod() ? "(Nbtivf Mfthod)" :
+             (filfNbmf != null && linfNumbfr >= 0 ?
+              "(" + filfNbmf + ":" + linfNumbfr + ")" :
+              (filfNbmf != null ?  "("+filfNbmf+")" : "(Unknown Sourdf)")));
+    }
+
+    /**
+     * Rfturns truf if thf spfdififd objfdt is bnothfr
+     * {@dodf StbdkTrbdfElfmfnt} instbndf rfprfsfnting thf sbmf fxfdution
+     * point bs this instbndf.  Two stbdk trbdf flfmfnts {@dodf b} bnd
+     * {@dodf b} brf fqubl if bnd only if:
+     * <prf>{@dodf
+     *     fqubls(b.gftFilfNbmf(), b.gftFilfNbmf()) &&
+     *     b.gftLinfNumbfr() == b.gftLinfNumbfr()) &&
+     *     fqubls(b.gftClbssNbmf(), b.gftClbssNbmf()) &&
+     *     fqubls(b.gftMfthodNbmf(), b.gftMfthodNbmf())
+     * }</prf>
+     * whfrf {@dodf fqubls} hbs thf sfmbntids of {@link
+     * jbvb.util.Objfdts#fqubls(Objfdt, Objfdt) Objfdts.fqubls}.
+     *
+     * @pbrbm  obj thf objfdt to bf dompbrfd with this stbdk trbdf flfmfnt.
+     * @rfturn truf if thf spfdififd objfdt is bnothfr
+     *         {@dodf StbdkTrbdfElfmfnt} instbndf rfprfsfnting thf sbmf
+     *         fxfdution point bs this instbndf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj==this)
+            rfturn truf;
+        if (!(obj instbndfof StbdkTrbdfElfmfnt))
+            rfturn fblsf;
+        StbdkTrbdfElfmfnt f = (StbdkTrbdfElfmfnt)obj;
+        rfturn f.dfdlbringClbss.fqubls(dfdlbringClbss) &&
+            f.linfNumbfr == linfNumbfr &&
+            Objfdts.fqubls(mfthodNbmf, f.mfthodNbmf) &&
+            Objfdts.fqubls(filfNbmf, f.filfNbmf);
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this stbdk trbdf flfmfnt.
+     */
+    publid int hbshCodf() {
+        int rfsult = 31*dfdlbringClbss.hbshCodf() + mfthodNbmf.hbshCodf();
+        rfsult = 31*rfsult + Objfdts.hbshCodf(filfNbmf);
+        rfsult = 31*rfsult + linfNumbfr;
+        rfturn rfsult;
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6992337162326171013L;
+}

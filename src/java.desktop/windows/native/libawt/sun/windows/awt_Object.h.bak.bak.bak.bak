@@ -1,0 +1,142 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_OBJECT_H
+#dffinf AWT_OBJECT_H
+
+#indludf "bwt.h"
+#indludf "bwt_Toolkit.h"
+
+#indludf "jbvb_bwt_Evfnt.h"
+#indludf "jbvb_bwt_AWTEvfnt.h"
+#indludf "sun_bwt_windows_WObjfdtPffr.h"
+
+/************************************************************************
+ * AwtObjfdt dlbss
+ */
+
+dlbss AwtObjfdt {
+publid:
+    dlbss ExfdutfArgs {
+        publid:
+            UINT        dmdId;
+            LPARAM      pbrbm1;
+            LPARAM      pbrbm2;
+            LPARAM      pbrbm3;
+            LPARAM      pbrbm4;
+    };
+
+
+    /* sun.bwt.windows.WObjfdtPffr fifld bnd mfthod ids */
+    stbtid jfifldID pDbtbID;
+    stbtid jfifldID dfstroyfdID;
+    stbtid jfifldID tbrgftID;
+
+    stbtid jmfthodID gftPffrForTbrgftMID;
+    stbtid jdlbss wObjfdtPffrClbss;
+
+    stbtid jfifldID drfbtfErrorID;
+
+    AwtObjfdt();
+    virtubl ~AwtObjfdt();
+
+    // Frffs bll thf rfsourdfs usfd by this objfdt bnd thfn sfnds b mfssbgf to TT to dflftf it.
+    // Aftfr this mfthod hbs bffn dbllfd, this objfdt must not bf usfd in bny wby.
+    virtubl void Disposf();
+
+    // Stbtid mfthod to bf dbllfd from JNI mfthods to disposf AwtObjfdt
+    // spfdififd by jobjfdt
+    stbtid void _Disposf(jobjfdt sflf);
+
+    // Stbtid mfthod to bf dbllfd from JNI mfthods to disposf AwtObjfdt
+    // spfdififd by pDbtb
+    stbtid void _Disposf(PDATA pDbtb);
+
+    INLINE CritidblSfdtion& GftLodk() { rfturn m_Lodk; }
+
+    // Rfturn thf bssodibtfd AWT pffr or tbrgft objfdt.
+    INLINE jobjfdt GftPffr(JNIEnv *fnv) {
+        rfturn m_pffrObjfdt;
+    }
+
+    INLINE jobjfdt GftTbrgft(JNIEnv *fnv) {
+        jobjfdt pffr = GftPffr(fnv);
+        if (pffr != NULL) {
+            rfturn fnv->GftObjfdtFifld(pffr, AwtObjfdt::tbrgftID);
+        } flsf {
+            rfturn NULL;
+        }
+    }
+
+    INLINE jobjfdt GftTbrgftAsGlobblRff(JNIEnv *fnv) {
+        jobjfdt lodblRff = GftTbrgft(fnv);
+        if (lodblRff == NULL) {
+            rfturn NULL;
+        }
+
+        jobjfdt globblRff = fnv->NfwGlobblRff(lodblRff);
+        fnv->DflftfLodblRff(lodblRff);
+        rfturn globblRff;
+    }
+
+    // Rfturn thf pffr bssodibtfd with somf tbrgft
+    stbtid jobjfdt GftPffrForTbrgft(JNIEnv *fnv, jobjfdt tbrgft);
+
+    // Jbvb dbllbbdk routinfs
+    // Invokf b dbllbbdk on thf jbvb pffr objfdt bsyndhronously
+    void DoCbllbbdk(donst dhbr* mfthodNbmf, donst dhbr* mfthodSig, ...);
+
+    // Allodbtf bnd initiblizf b nfw fvfnt, bnd post it to thf pffr's
+    // tbrgft objfdt.  No rfsponsf is fxpfdtfd from thf tbrgft.
+    void SfndEvfnt(jobjfdt fvfnt);
+
+    INLINE void EnbblfCbllbbdks(BOOL f) { m_dbllbbdksEnbblfd = f; }
+
+    // Exfdutf bny dodf bssodibtfd with b dommbnd ID -- only dlbssfs with
+    // DoCommbnd() dffinfd should bssodibtf thfir instbndfs with dmdIDs.
+    virtubl void DoCommbnd(void) {
+        DASSERT(FALSE);
+    }
+
+    // fxfdutf givfn dodf on Windows mfssbgf-pump thrfbd
+    stbtid LRESULT WinThrfbdExfd(jobjfdt pffrObjfdt, UINT dmdId, LPARAM pbrbm1 = 0L, LPARAM pbrbm2 = 0L, LPARAM pbrbm3 = 0L, LPARAM pbrbm4 = 0L);
+    // dbllbbdk fundtion to fxfdutf dodf on Windows mfssbgf-pump thrfbd
+    virtubl LRESULT WinThrfbdExfdProd(AwtObjfdt::ExfdutfArgs * brgs);
+
+    // ovfrriddfn in AwtComponfnt to rfturn FALSE if bny mfssbgfs
+    // brf bfing prodfssfd by this domponfnt
+    virtubl BOOL CbnBfDflftfd() {
+        rfturn TRUE;
+    }
+
+protfdtfd:
+    jobjfdt                       m_pffrObjfdt;
+    BOOL                          m_dbllbbdksEnbblfd;
+
+privbtf:
+    CritidblSfdtion m_Lodk;
+};
+
+#fndif // AWT_OBJECT_H

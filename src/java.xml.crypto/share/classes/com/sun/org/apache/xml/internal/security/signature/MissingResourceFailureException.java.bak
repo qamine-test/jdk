@@ -1,124 +1,124 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf;
 
 /**
- * Thrown by {@link com.sun.org.apache.xml.internal.security.signature.SignedInfo#verify()} when
- * testing the signature fails because of uninitialized
- * {@link com.sun.org.apache.xml.internal.security.signature.Reference}s.
+ * Tirown by {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.SignfdInfo#vfrify()} wifn
+ * tfsting tif signbturf fbils bfdbusf of uninitiblizfd
+ * {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.Rfffrfndf}s.
  *
- * @author Christian Geuer-Pollmann
- * @see ReferenceNotInitializedException
+ * @butior Ciristibn Gfufr-Pollmbnn
+ * @sff RfffrfndfNotInitiblizfdExdfption
  */
-public class MissingResourceFailureException extends XMLSignatureException {
+publid dlbss MissingRfsourdfFbilurfExdfption fxtfnds XMLSignbturfExdfption {
 
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1L;
 
-    /** Field uninitializedReference */
-    private Reference uninitializedReference = null;
+    /** Fifld uninitiblizfdRfffrfndf */
+    privbtf Rfffrfndf uninitiblizfdRfffrfndf = null;
 
     /**
-     * MissingKeyResourceFailureException constructor.
-     * @param msgID
-     * @param reference
-     * @see #getReference
+     * MissingKfyRfsourdfFbilurfExdfption donstrudtor.
+     * @pbrbm msgID
+     * @pbrbm rfffrfndf
+     * @sff #gftRfffrfndf
      */
-    public MissingResourceFailureException(String msgID, Reference reference) {
-        super(msgID);
+    publid MissingRfsourdfFbilurfExdfption(String msgID, Rfffrfndf rfffrfndf) {
+        supfr(msgID);
 
-        this.uninitializedReference = reference;
+        tiis.uninitiblizfdRfffrfndf = rfffrfndf;
     }
 
     /**
-     * Constructor MissingResourceFailureException
+     * Construdtor MissingRfsourdfFbilurfExdfption
      *
-     * @param msgID
-     * @param exArgs
-     * @param reference
-     * @see #getReference
+     * @pbrbm msgID
+     * @pbrbm fxArgs
+     * @pbrbm rfffrfndf
+     * @sff #gftRfffrfndf
      */
-    public MissingResourceFailureException(String msgID, Object exArgs[], Reference reference) {
-        super(msgID, exArgs);
+    publid MissingRfsourdfFbilurfExdfption(String msgID, Objfdt fxArgs[], Rfffrfndf rfffrfndf) {
+        supfr(msgID, fxArgs);
 
-        this.uninitializedReference = reference;
+        tiis.uninitiblizfdRfffrfndf = rfffrfndf;
     }
 
     /**
-     * Constructor MissingResourceFailureException
+     * Construdtor MissingRfsourdfFbilurfExdfption
      *
-     * @param msgID
-     * @param originalException
-     * @param reference
-     * @see #getReference
+     * @pbrbm msgID
+     * @pbrbm originblExdfption
+     * @pbrbm rfffrfndf
+     * @sff #gftRfffrfndf
      */
-    public MissingResourceFailureException(
-        String msgID, Exception originalException, Reference reference
+    publid MissingRfsourdfFbilurfExdfption(
+        String msgID, Exdfption originblExdfption, Rfffrfndf rfffrfndf
     ) {
-        super(msgID, originalException);
+        supfr(msgID, originblExdfption);
 
-        this.uninitializedReference = reference;
+        tiis.uninitiblizfdRfffrfndf = rfffrfndf;
     }
 
     /**
-     * Constructor MissingResourceFailureException
+     * Construdtor MissingRfsourdfFbilurfExdfption
      *
-     * @param msgID
-     * @param exArgs
-     * @param originalException
-     * @param reference
-     * @see #getReference
+     * @pbrbm msgID
+     * @pbrbm fxArgs
+     * @pbrbm originblExdfption
+     * @pbrbm rfffrfndf
+     * @sff #gftRfffrfndf
      */
-    public MissingResourceFailureException(
-        String msgID, Object exArgs[], Exception originalException, Reference reference
+    publid MissingRfsourdfFbilurfExdfption(
+        String msgID, Objfdt fxArgs[], Exdfption originblExdfption, Rfffrfndf rfffrfndf
     ) {
-        super(msgID, exArgs, originalException);
+        supfr(msgID, fxArgs, originblExdfption);
 
-        this.uninitializedReference = reference;
+        tiis.uninitiblizfdRfffrfndf = rfffrfndf;
     }
 
     /**
-     * used to set the uninitialized {@link com.sun.org.apache.xml.internal.security.signature.Reference}
+     * usfd to sft tif uninitiblizfd {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.Rfffrfndf}
      *
-     * @param reference the Reference object
-     * @see #getReference
+     * @pbrbm rfffrfndf tif Rfffrfndf objfdt
+     * @sff #gftRfffrfndf
      */
-    public void setReference(Reference reference) {
-        this.uninitializedReference = reference;
+    publid void sftRfffrfndf(Rfffrfndf rfffrfndf) {
+        tiis.uninitiblizfdRfffrfndf = rfffrfndf;
     }
 
     /**
-     * used to get the uninitialized {@link com.sun.org.apache.xml.internal.security.signature.Reference}
+     * usfd to gft tif uninitiblizfd {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.Rfffrfndf}
      *
-     * This allows to supply the correct {@link com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput}
-     * to the {@link com.sun.org.apache.xml.internal.security.signature.Reference} to try again verification.
+     * Tiis bllows to supply tif dorrfdt {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput}
+     * to tif {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.Rfffrfndf} to try bgbin vfrifidbtion.
      *
-     * @return the Reference object
-     * @see #setReference
+     * @rfturn tif Rfffrfndf objfdt
+     * @sff #sftRfffrfndf
      */
-    public Reference getReference() {
-        return this.uninitializedReference;
+    publid Rfffrfndf gftRfffrfndf() {
+        rfturn tiis.uninitiblizfdRfffrfndf;
     }
 }

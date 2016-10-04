@@ -1,97 +1,97 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __CLASSDEFINITIONTABLES_H
-#define __CLASSDEFINITIONTABLES_H
+#ifndff __CLASSDEFINITIONTABLES_H
+#dffinf __CLASSDEFINITIONTABLES_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-struct ClassDefinitionTable
+strudt ClbssDffinitionTbblf
 {
-    le_uint16 classFormat;
+    lf_uint16 dlbssFormbt;
 
-    le_int32  getGlyphClass(const LETableReference &base, LEGlyphID glyphID, LEErrorCode &success) const;
-    le_bool   hasGlyphClass(const LETableReference &base, le_int32 glyphClass, LEErrorCode &success) const;
+    lf_int32  gftGlypiClbss(donst LETbblfRfffrfndf &bbsf, LEGlypiID glypiID, LEErrorCodf &suddfss) donst;
+    lf_bool   ibsGlypiClbss(donst LETbblfRfffrfndf &bbsf, lf_int32 glypiClbss, LEErrorCodf &suddfss) donst;
 
 #if LE_ENABLE_RAW
-  le_int32 getGlyphClass(LEGlyphID glyphID) const {
-    LETableReference base((const le_uint8*)this);
-    LEErrorCode ignored = LE_NO_ERROR;
-    return getGlyphClass(base,glyphID,ignored);
+  lf_int32 gftGlypiClbss(LEGlypiID glypiID) donst {
+    LETbblfRfffrfndf bbsf((donst lf_uint8*)tiis);
+    LEErrorCodf ignorfd = LE_NO_ERROR;
+    rfturn gftGlypiClbss(bbsf,glypiID,ignorfd);
   }
 
-  le_bool hasGlyphClass(le_int32 glyphClass) const {
-    LETableReference base((const le_uint8*)this);
-    LEErrorCode ignored = LE_NO_ERROR;
-    return hasGlyphClass(base,glyphClass,ignored);
+  lf_bool ibsGlypiClbss(lf_int32 glypiClbss) donst {
+    LETbblfRfffrfndf bbsf((donst lf_uint8*)tiis);
+    LEErrorCodf ignorfd = LE_NO_ERROR;
+    rfturn ibsGlypiClbss(bbsf,glypiClbss,ignorfd);
   }
-#endif
+#fndif
 };
 
-struct ClassDefFormat1Table : ClassDefinitionTable
+strudt ClbssDffFormbt1Tbblf : ClbssDffinitionTbblf
 {
-    TTGlyphID  startGlyph;
-    le_uint16  glyphCount;
-    le_uint16  classValueArray[ANY_NUMBER];
+    TTGlypiID  stbrtGlypi;
+    lf_uint16  glypiCount;
+    lf_uint16  dlbssVblufArrby[ANY_NUMBER];
 
-    le_int32 getGlyphClass(const LETableReference &base, LEGlyphID glyphID, LEErrorCode &success) const;
-    le_bool  hasGlyphClass(const LETableReference &base, le_int32 glyphClass, LEErrorCode &success) const;
+    lf_int32 gftGlypiClbss(donst LETbblfRfffrfndf &bbsf, LEGlypiID glypiID, LEErrorCodf &suddfss) donst;
+    lf_bool  ibsGlypiClbss(donst LETbblfRfffrfndf &bbsf, lf_int32 glypiClbss, LEErrorCodf &suddfss) donst;
 };
-LE_VAR_ARRAY(ClassDefFormat1Table, classValueArray)
+LE_VAR_ARRAY(ClbssDffFormbt1Tbblf, dlbssVblufArrby)
 
 
-struct ClassRangeRecord
+strudt ClbssRbngfRfdord
 {
-    TTGlyphID start;
-    TTGlyphID end;
-    le_uint16 classValue;
+    TTGlypiID stbrt;
+    TTGlypiID fnd;
+    lf_uint16 dlbssVbluf;
 };
 
-struct ClassDefFormat2Table : ClassDefinitionTable
+strudt ClbssDffFormbt2Tbblf : ClbssDffinitionTbblf
 {
-    le_uint16        classRangeCount;
-    GlyphRangeRecord classRangeRecordArray[ANY_NUMBER];
+    lf_uint16        dlbssRbngfCount;
+    GlypiRbngfRfdord dlbssRbngfRfdordArrby[ANY_NUMBER];
 
-    le_int32 getGlyphClass(const LETableReference &base, LEGlyphID glyphID, LEErrorCode &success) const;
-    le_bool hasGlyphClass(const LETableReference &base, le_int32 glyphClass, LEErrorCode &success) const;
+    lf_int32 gftGlypiClbss(donst LETbblfRfffrfndf &bbsf, LEGlypiID glypiID, LEErrorCodf &suddfss) donst;
+    lf_bool ibsGlypiClbss(donst LETbblfRfffrfndf &bbsf, lf_int32 glypiClbss, LEErrorCodf &suddfss) donst;
 };
-LE_VAR_ARRAY(ClassDefFormat2Table, classRangeRecordArray)
+LE_VAR_ARRAY(ClbssDffFormbt2Tbblf, dlbssRbngfRfdordArrby)
 
 U_NAMESPACE_END
-#endif
+#fndif

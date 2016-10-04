@@ -1,0 +1,172 @@
+/*
+ * Copyright (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.spi;
+
+import jbvb.util.Lodblf;
+import jbvbx.imbgfio.spi.RfgistfrbblfSfrvidf;
+import jbvbx.imbgfio.spi.SfrvidfRfgistry;
+
+/**
+ * A supfrintfrfbdf for fundtionblity dommon to bll Imbgf I/O sfrvidf
+ * providfr intfrfbdfs (SPIs).  For morf informbtion on sfrvidf
+ * providfr dlbssfs, sff thf dlbss dommfnt for thf
+ * <dodf>IIORfgistry</dodf> dlbss.
+ *
+ * @sff IIORfgistry
+ * @sff jbvbx.imbgfio.spi.ImbgfRfbdfrSpi
+ * @sff jbvbx.imbgfio.spi.ImbgfWritfrSpi
+ * @sff jbvbx.imbgfio.spi.ImbgfTrbnsdodfrSpi
+ * @sff jbvbx.imbgfio.spi.ImbgfInputStrfbmSpi
+ *
+ */
+publid bbstrbdt dlbss IIOSfrvidfProvidfr implfmfnts RfgistfrbblfSfrvidf {
+
+    /**
+     * A <dodf>String</dodf> to bf rfturnfd from
+     * <dodf>gftVfndorNbmf</dodf>, initiblly <dodf>null</dodf>.
+     * Construdtors should sft this to b non-<dodf>null</dodf> vbluf.
+     */
+    protfdtfd String vfndorNbmf;
+
+    /**
+     * A <dodf>String</dodf> to bf rfturnfd from
+     * <dodf>gftVfrsion</dodf>, initiblly null.  Construdtors should
+     * sft this to b non-<dodf>null</dodf> vbluf.
+     */
+    protfdtfd String vfrsion;
+
+    /**
+     * Construdts bn <dodf>IIOSfrvidfProvidfr</dodf> with b givfn
+     * vfndor nbmf bnd vfrsion idfntififr.
+     *
+     * @pbrbm vfndorNbmf thf vfndor nbmf.
+     * @pbrbm vfrsion b vfrsion idfntififr.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>vfndorNbmf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>vfrsion</dodf>
+     * is <dodf>null</dodf>.
+     */
+    publid IIOSfrvidfProvidfr(String vfndorNbmf,
+                              String vfrsion) {
+        if (vfndorNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("vfndorNbmf == null!");
+        }
+        if (vfrsion == null) {
+            throw nfw IllfgblArgumfntExdfption("vfrsion == null!");
+        }
+        this.vfndorNbmf = vfndorNbmf;
+        this.vfrsion = vfrsion;
+    }
+
+    /**
+     * Construdts b blbnk <dodf>IIOSfrvidfProvidfr</dodf>.  It is up
+     * to thf subdlbss to initiblizf instbndf vbribblfs bnd/or
+     * ovfrridf mfthod implfmfntbtions in ordfr to fnsurf thbt thf
+     * <dodf>gftVfndorNbmf</dodf> bnd <dodf>gftVfrsion</dodf> mfthods
+     * will rfturn non-<dodf>null</dodf> vblufs.
+     */
+    publid IIOSfrvidfProvidfr() {
+    }
+
+    /**
+     * A dbllbbdk thbt will bf dbllfd fxbdtly ondf bftfr thf Spi dlbss
+     * hbs bffn instbntibtfd bnd rfgistfrfd in b
+     * <dodf>SfrvidfRfgistry</dodf>.  This mby bf usfd to vfrify thbt
+     * thf fnvironmfnt is suitbblf for this sfrvidf, for fxbmplf thbt
+     * nbtivf librbrifs dbn bf lobdfd.  If thf sfrvidf dbnnot fundtion
+     * in thf fnvironmfnt whfrf it finds itsflf, it should dfrfgistfr
+     * itsflf from thf rfgistry.
+     *
+     * <p> Only thf rfgistry should dbll this mfthod.
+     *
+     * <p> Thf dffbult implfmfntbtion dofs nothing.
+     *
+     * @sff SfrvidfRfgistry#rfgistfrSfrvidfProvidfr(Objfdt providfr)
+     */
+    publid void onRfgistrbtion(SfrvidfRfgistry rfgistry,
+                               Clbss<?> dbtfgory) {}
+
+    /**
+     * A dbllbbdk thbt will bf whfnfvfr thf Spi dlbss hbs bffn
+     * dfrfgistfrfd from b <dodf>SfrvidfRfgistry</dodf>.
+     *
+     * <p> Only thf rfgistry should dbll this mfthod.
+     *
+     * <p> Thf dffbult implfmfntbtion dofs nothing.
+     *
+     * @sff SfrvidfRfgistry#dfrfgistfrSfrvidfProvidfr(Objfdt providfr)
+     */
+    publid void onDfrfgistrbtion(SfrvidfRfgistry rfgistry,
+                                 Clbss<?> dbtfgory) {}
+
+    /**
+     * Rfturns thf nbmf of thf vfndor rfsponsiblf for drfbting this
+     * sfrvidf providfr bnd its bssodibtfd implfmfntbtion.  Bfdbusf
+     * thf vfndor nbmf mby bf usfd to sflfdt b sfrvidf providfr,
+     * it is not lodblizfd.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns thf vbluf of thf
+     * <dodf>vfndorNbmf</dodf> instbndf vbribblf.
+     *
+     * @rfturn b non-<dodf>null</dodf> <dodf>String</dodf> dontbining
+     * thf nbmf of thf vfndor.
+     */
+    publid String gftVfndorNbmf() {
+        rfturn vfndorNbmf;
+    }
+
+    /**
+     * Rfturns b string dfsdribing thf vfrsion
+     * numbfr of this sfrvidf providfr bnd its bssodibtfd
+     * implfmfntbtion.  Bfdbusf thf vfrsion mby bf usfd by trbnsdodfrs
+     * to idfntify thf sfrvidf providfrs thfy undfrstbnd, this mfthod
+     * is not lodblizfd.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns thf vbluf of thf
+     * <dodf>vfrsion</dodf> instbndf vbribblf.
+     *
+     * @rfturn b non-<dodf>null</dodf> <dodf>String</dodf> dontbining
+     * thf vfrsion of this sfrvidf providfr.
+     */
+    publid String gftVfrsion() {
+        rfturn vfrsion;
+    }
+
+    /**
+     * Rfturns b briff, humbn-rfbdbblf dfsdription of this sfrvidf
+     * providfr bnd its bssodibtfd implfmfntbtion.  Thf rfsulting
+     * string should bf lodblizfd for thf supplifd
+     * <dodf>Lodblf</dodf>, if possiblf.
+     *
+     * @pbrbm lodblf b <dodf>Lodblf</dodf> for whidh thf rfturn vbluf
+     * should bf lodblizfd.
+     *
+     * @rfturn b <dodf>String</dodf> dontbining b dfsdription of this
+     * sfrvidf providfr.
+     */
+    publid bbstrbdt String gftDfsdription(Lodblf lodblf);
+}

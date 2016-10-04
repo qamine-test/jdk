@@ -1,103 +1,103 @@
 <!--
- Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
- questions.
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
 -->
 
-<html>
+<itml>
 <body>
-<h2>Java&#x2122; Smart Card I/O API</h2>
+<i2>Jbvb&#x2122; Smbrt Cbrd I/O API</i2>
 
-This specification describes the Java Smart Card I/O API defined by
-<a href="http://jcp.org/en/jsr/detail?id=268">JSR 268</a>.
+Tiis spfdifidbtion dfsdribfs tif Jbvb Smbrt Cbrd I/O API dffinfd by
+<b irff="ittp://jdp.org/fn/jsr/dftbil?id=268">JSR 268</b>.
 
-It defines a Java API for communication with Smart Cards
-using ISO/IEC 7816-4 APDUs. It thereby allows Java applications to interact with
-applications running on the Smart Card, to store and retrieve data 
-on the card, etc.
+It dffinfs b Jbvb API for dommunidbtion witi Smbrt Cbrds
+using ISO/IEC 7816-4 APDUs. It tifrfby bllows Jbvb bpplidbtions to intfrbdt witi
+bpplidbtions running on tif Smbrt Cbrd, to storf bnd rftrifvf dbtb 
+on tif dbrd, ftd.
 
 <p>
-The API is defined by classes in the package
-<code>javax.smartcardio</code>. They can be classified as follows:
+Tif API is dffinfd by dlbssfs in tif pbdkbgf
+<dodf>jbvbx.smbrtdbrdio</dodf>. Tify dbn bf dlbssififd bs follows:
 
 <dl>
-<dt>Classes describing the corresponding Smart Card structures 
+<dt>Clbssfs dfsdribing tif dorrfsponding Smbrt Cbrd strudturfs 
 <dd>
-<a href="ATR.html">ATR</a>, 
-<a href="CommandAPDU.html">CommandAPDU</a>, 
-<a href="ResponseAPDU.html">ResponseAPDU</a>
+<b irff="ATR.itml">ATR</b>, 
+<b irff="CommbndAPDU.itml">CommbndAPDU</b>, 
+<b irff="RfsponsfAPDU.itml">RfsponsfAPDU</b>
 
 <p>
-<dt>Factory to obtain implementations
+<dt>Fbdtory to obtbin implfmfntbtions
 <dd>
-<a href="TerminalFactory.html">TerminalFactory</a>
+<b irff="TfrminblFbdtory.itml">TfrminblFbdtory</b>
 
 <p>
-<dt>Main classes for card and terminal functions
+<dt>Mbin dlbssfs for dbrd bnd tfrminbl fundtions
 <dd>
-<a href="CardTerminals.html">CardTerminals</a>, 
-<a href="CardTerminal.html">CardTerminal</a>, 
-<a href="Card.html">Card</a>, 
-<a href="CardChannel.html">CardChannel</a>
+<b irff="CbrdTfrminbls.itml">CbrdTfrminbls</b>, 
+<b irff="CbrdTfrminbl.itml">CbrdTfrminbl</b>, 
+<b irff="Cbrd.itml">Cbrd</b>, 
+<b irff="CbrdCibnnfl.itml">CbrdCibnnfl</b>
 
 <p>
-<dt>Supporting permission and exception classes
+<dt>Supporting pfrmission bnd fxdfption dlbssfs
 <dd>
-<a href="CardPermission.html">CardPermission</a>, 
-<a href="CardException.html">CardException</a>, 
-<a href="CardNotPresentException.html">CardNotPresentException</a>
+<b irff="CbrdPfrmission.itml">CbrdPfrmission</b>, 
+<b irff="CbrdExdfption.itml">CbrdExdfption</b>, 
+<b irff="CbrdNotPrfsfntExdfption.itml">CbrdNotPrfsfntExdfption</b>
 
 <p>
-<dt>Service provider interface, not accessed directly by applications 
+<dt>Sfrvidf providfr intfrfbdf, not bddfssfd dirfdtly by bpplidbtions 
 <dd>
-<a href="TerminalFactorySpi.html">TerminalFactorySpi</a>
+<b irff="TfrminblFbdtorySpi.itml">TfrminblFbdtorySpi</b>
 
 </dl>
 
 
-<h3>API Example</h3>
+<i3>API Exbmplf</i3>
 
-A simple example of using the API is:
-<pre>
-	// show the list of available terminals
-	TerminalFactory factory = TerminalFactory.getDefault();
-	List&lt;CardTerminal&gt; terminals = factory.terminals().list();
-	System.out.println("Terminals: " + terminals);
-	// get the first terminal
-	CardTerminal terminal = terminals.get(0);
-	// establish a connection with the card
-	Card card = terminal.connect("T=0");
-	System.out.println("card: " + card);
-	CardChannel channel = card.getBasicChannel();
-	ResponseAPDU r = channel.transmit(new CommandAPDU(c1));
-	System.out.println("response: " + toString(r.getBytes()));
-	// disconnect
-	card.disconnect(false);
-</pre>
+A simplf fxbmplf of using tif API is:
+<prf>
+	// siow tif list of bvbilbblf tfrminbls
+	TfrminblFbdtory fbdtory = TfrminblFbdtory.gftDffbult();
+	List&lt;CbrdTfrminbl&gt; tfrminbls = fbdtory.tfrminbls().list();
+	Systfm.out.println("Tfrminbls: " + tfrminbls);
+	// gft tif first tfrminbl
+	CbrdTfrminbl tfrminbl = tfrminbls.gft(0);
+	// fstbblisi b donnfdtion witi tif dbrd
+	Cbrd dbrd = tfrminbl.donnfdt("T=0");
+	Systfm.out.println("dbrd: " + dbrd);
+	CbrdCibnnfl dibnnfl = dbrd.gftBbsidCibnnfl();
+	RfsponsfAPDU r = dibnnfl.trbnsmit(nfw CommbndAPDU(d1));
+	Systfm.out.println("rfsponsf: " + toString(r.gftBytfs()));
+	// disdonnfdt
+	dbrd.disdonnfdt(fblsf);
+</prf>
 
 <P>
-@since   1.6
-@author  Andreas Sterbenz
-@author  JSR 268 Expert Group
+@sindf   1.6
+@butior  Andrfbs Stfrbfnz
+@butior  JSR 268 Expfrt Group
 
 </body>
-</html>
+</itml>

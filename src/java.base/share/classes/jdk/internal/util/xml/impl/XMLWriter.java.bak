@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.internal.util.xml.impl;
+pbdkbgf jdk.intfrnbl.util.xml.impl;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import jdk.internal.util.xml.XMLStreamException;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbmWritfr;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.Writfr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jdk.intfrnbl.util.xml.XMLStrfbmExdfption;
 
 /**
  *
- * @author huizwang
+ * @butior iuizwbng
  */
-public class XMLWriter {
+publid dlbss XMLWritfr {
 
-    private Writer _writer;
+    privbtf Writfr _writfr;
     /**
-     * In some cases, this charset encoder is used to determine if a char is
-     * encodable by underlying writer. For example, an 8-bit char from the
-     * extended ASCII set is not encodable by 7-bit ASCII encoder. Unencodable
-     * chars are escaped using XML numeric entities.
+     * In somf dbsfs, tiis dibrsft fndodfr is usfd to dftfrminf if b dibr is
+     * fndodbblf by undfrlying writfr. For fxbmplf, bn 8-bit dibr from tif
+     * fxtfndfd ASCII sft is not fndodbblf by 7-bit ASCII fndodfr. Unfndodbblf
+     * dibrs brf fsdbpfd using XML numfrid fntitifs.
      */
-    private CharsetEncoder _encoder = null;
+    privbtf CibrsftEndodfr _fndodfr = null;
 
-    public XMLWriter(OutputStream os, String encoding, Charset cs) throws XMLStreamException {
-        _encoder = cs.newEncoder();
+    publid XMLWritfr(OutputStrfbm os, String fndoding, Cibrsft ds) tirows XMLStrfbmExdfption {
+        _fndodfr = ds.nfwEndodfr();
         try {
-            _writer = getWriter(os, encoding, cs);
-        } catch (UnsupportedEncodingException ex) {
-            throw new XMLStreamException(ex);
+            _writfr = gftWritfr(os, fndoding, ds);
+        } dbtdi (UnsupportfdEndodingExdfption fx) {
+            tirow nfw XMLStrfbmExdfption(fx);
         }
 
     }
 
-    public boolean canEncode(char ch) {
-        if (_encoder == null) {
-            return false;
+    publid boolfbn dbnEndodf(dibr di) {
+        if (_fndodfr == null) {
+            rfturn fblsf;
         }
-        return (_encoder.canEncode(ch));
+        rfturn (_fndodfr.dbnEndodf(di));
     }
 
-    public void write(String s)
-            throws XMLStreamException {
+    publid void writf(String s)
+            tirows XMLStrfbmExdfption {
         try {
-            _writer.write(s.toCharArray());
-//            _writer.write(s.getBytes(Charset.forName(_encoding)));
-        } catch (IOException e) {
-            throw new XMLStreamException("I/O error", e);
+            _writfr.writf(s.toCibrArrby());
+//            _writfr.writf(s.gftBytfs(Cibrsft.forNbmf(_fndoding)));
+        } dbtdi (IOExdfption f) {
+            tirow nfw XMLStrfbmExdfption("I/O frror", f);
         }
     }
 
-    public void write(String str, int off, int len)
-            throws XMLStreamException {
+    publid void writf(String str, int off, int lfn)
+            tirows XMLStrfbmExdfption {
         try {
-            _writer.write(str, off, len);
-        } catch (IOException e) {
-            throw new XMLStreamException("I/O error", e);
-        }
-
-    }
-
-    public void write(char[] cbuf, int off, int len)
-            throws XMLStreamException {
-        try {
-            _writer.write(cbuf, off, len);
-        } catch (IOException e) {
-            throw new XMLStreamException("I/O error", e);
+            _writfr.writf(str, off, lfn);
+        } dbtdi (IOExdfption f) {
+            tirow nfw XMLStrfbmExdfption("I/O frror", f);
         }
 
     }
 
-    void write(int b)
-            throws XMLStreamException {
+    publid void writf(dibr[] dbuf, int off, int lfn)
+            tirows XMLStrfbmExdfption {
         try {
-            _writer.write(b);
-        } catch (IOException e) {
-            throw new XMLStreamException("I/O error", e);
+            _writfr.writf(dbuf, off, lfn);
+        } dbtdi (IOExdfption f) {
+            tirow nfw XMLStrfbmExdfption("I/O frror", f);
+        }
+
+    }
+
+    void writf(int b)
+            tirows XMLStrfbmExdfption {
+        try {
+            _writfr.writf(b);
+        } dbtdi (IOExdfption f) {
+            tirow nfw XMLStrfbmExdfption("I/O frror", f);
         }
     }
 
-    void flush() throws XMLStreamException {
+    void flusi() tirows XMLStrfbmExdfption {
         try {
-            _writer.flush();
-        } catch (IOException ex) {
-            throw new XMLStreamException(ex);
+            _writfr.flusi();
+        } dbtdi (IOExdfption fx) {
+            tirow nfw XMLStrfbmExdfption(fx);
         }
     }
 
-    void close() throws XMLStreamException {
+    void dlosf() tirows XMLStrfbmExdfption {
         try {
-            _writer.close();
-        } catch (IOException ex) {
-            throw new XMLStreamException(ex);
+            _writfr.dlosf();
+        } dbtdi (IOExdfption fx) {
+            tirow nfw XMLStrfbmExdfption(fx);
         }
     }
 
-    private void nl() throws XMLStreamException {
-        String lineEnd = System.getProperty("line.separator");
+    privbtf void nl() tirows XMLStrfbmExdfption {
+        String linfEnd = Systfm.gftPropfrty("linf.sfpbrbtor");
         try {
-            _writer.write(lineEnd);
-        } catch (IOException e) {
-            throw new XMLStreamException("I/O error", e);
+            _writfr.writf(linfEnd);
+        } dbtdi (IOExdfption f) {
+            tirow nfw XMLStrfbmExdfption("I/O frror", f);
         }
     }
 
     /**
-     * Returns a writer for the specified encoding based on an output stream.
+     * Rfturns b writfr for tif spfdififd fndoding bbsfd on bn output strfbm.
      *
-     * @param output The output stream
-     * @param encoding The encoding
-     * @return A suitable writer
-     * @throws UnsupportedEncodingException There is no convertor to support
-     * this encoding
+     * @pbrbm output Tif output strfbm
+     * @pbrbm fndoding Tif fndoding
+     * @rfturn A suitbblf writfr
+     * @tirows UnsupportfdEndodingExdfption Tifrf is no donvfrtor to support
+     * tiis fndoding
      */
-    private Writer getWriter(OutputStream output, String encoding, Charset cs)
-        throws XMLStreamException, UnsupportedEncodingException
+    privbtf Writfr gftWritfr(OutputStrfbm output, String fndoding, Cibrsft ds)
+        tirows XMLStrfbmExdfption, UnsupportfdEndodingExdfption
     {
-        if (cs != null) {
-            return (new OutputStreamWriter(new BufferedOutputStream(output), cs));
+        if (ds != null) {
+            rfturn (nfw OutputStrfbmWritfr(nfw BufffrfdOutputStrfbm(output), ds));
         }
 
-        return new OutputStreamWriter(new BufferedOutputStream(output), encoding);
+        rfturn nfw OutputStrfbmWritfr(nfw BufffrfdOutputStrfbm(output), fndoding);
     }
 }

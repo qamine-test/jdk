@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.annotation;
+pbdkbgf jbvb.lbng.bnnotbtion;
 
 /**
- * The common interface extended by all annotation types.  Note that an
- * interface that manually extends this one does <i>not</i> define
- * an annotation type.  Also note that this interface does not itself
- * define an annotation type.
+ * Tif dommon intfrfbdf fxtfndfd by bll bnnotbtion typfs.  Notf tibt bn
+ * intfrfbdf tibt mbnublly fxtfnds tiis onf dofs <i>not</i> dffinf
+ * bn bnnotbtion typf.  Also notf tibt tiis intfrfbdf dofs not itsflf
+ * dffinf bn bnnotbtion typf.
  *
- * More information about annotation types can be found in section 9.6 of
- * <cite>The Java&trade; Language Specification</cite>.
+ * Morf informbtion bbout bnnotbtion typfs dbn bf found in sfdtion 9.6 of
+ * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
  *
- * The {@link java.lang.reflect.AnnotatedElement} interface discusses
- * compatibility concerns when evolving an annotation type from being
- * non-repeatable to being repeatable.
+ * Tif {@link jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt} intfrfbdf disdussfs
+ * dompbtibility dondfrns wifn fvolving bn bnnotbtion typf from bfing
+ * non-rfpfbtbblf to bfing rfpfbtbblf.
  *
- * @author  Josh Bloch
- * @since   1.5
+ * @butior  Josi Blodi
+ * @sindf   1.5
  */
-public interface Annotation {
+publid intfrfbdf Annotbtion {
     /**
-     * Returns true if the specified object represents an annotation
-     * that is logically equivalent to this one.  In other words,
-     * returns true if the specified object is an instance of the same
-     * annotation type as this instance, all of whose members are equal
-     * to the corresponding member of this annotation, as defined below:
+     * Rfturns truf if tif spfdififd objfdt rfprfsfnts bn bnnotbtion
+     * tibt is logidblly fquivblfnt to tiis onf.  In otifr words,
+     * rfturns truf if tif spfdififd objfdt is bn instbndf of tif sbmf
+     * bnnotbtion typf bs tiis instbndf, bll of wiosf mfmbfrs brf fqubl
+     * to tif dorrfsponding mfmbfr of tiis bnnotbtion, bs dffinfd bflow:
      * <ul>
-     *    <li>Two corresponding primitive typed members whose values are
-     *    <tt>x</tt> and <tt>y</tt> are considered equal if <tt>x == y</tt>,
-     *    unless their type is <tt>float</tt> or <tt>double</tt>.
+     *    <li>Two dorrfsponding primitivf typfd mfmbfrs wiosf vblufs brf
+     *    <tt>x</tt> bnd <tt>y</tt> brf donsidfrfd fqubl if <tt>x == y</tt>,
+     *    unlfss tifir typf is <tt>flobt</tt> or <tt>doublf</tt>.
      *
-     *    <li>Two corresponding <tt>float</tt> members whose values
-     *    are <tt>x</tt> and <tt>y</tt> are considered equal if
-     *    <tt>Float.valueOf(x).equals(Float.valueOf(y))</tt>.
-     *    (Unlike the <tt>==</tt> operator, NaN is considered equal
-     *    to itself, and <tt>0.0f</tt> unequal to <tt>-0.0f</tt>.)
+     *    <li>Two dorrfsponding <tt>flobt</tt> mfmbfrs wiosf vblufs
+     *    brf <tt>x</tt> bnd <tt>y</tt> brf donsidfrfd fqubl if
+     *    <tt>Flobt.vblufOf(x).fqubls(Flobt.vblufOf(y))</tt>.
+     *    (Unlikf tif <tt>==</tt> opfrbtor, NbN is donsidfrfd fqubl
+     *    to itsflf, bnd <tt>0.0f</tt> unfqubl to <tt>-0.0f</tt>.)
      *
-     *    <li>Two corresponding <tt>double</tt> members whose values
-     *    are <tt>x</tt> and <tt>y</tt> are considered equal if
-     *    <tt>Double.valueOf(x).equals(Double.valueOf(y))</tt>.
-     *    (Unlike the <tt>==</tt> operator, NaN is considered equal
-     *    to itself, and <tt>0.0</tt> unequal to <tt>-0.0</tt>.)
+     *    <li>Two dorrfsponding <tt>doublf</tt> mfmbfrs wiosf vblufs
+     *    brf <tt>x</tt> bnd <tt>y</tt> brf donsidfrfd fqubl if
+     *    <tt>Doublf.vblufOf(x).fqubls(Doublf.vblufOf(y))</tt>.
+     *    (Unlikf tif <tt>==</tt> opfrbtor, NbN is donsidfrfd fqubl
+     *    to itsflf, bnd <tt>0.0</tt> unfqubl to <tt>-0.0</tt>.)
      *
-     *    <li>Two corresponding <tt>String</tt>, <tt>Class</tt>, enum, or
-     *    annotation typed members whose values are <tt>x</tt> and <tt>y</tt>
-     *    are considered equal if <tt>x.equals(y)</tt>.  (Note that this
-     *    definition is recursive for annotation typed members.)
+     *    <li>Two dorrfsponding <tt>String</tt>, <tt>Clbss</tt>, fnum, or
+     *    bnnotbtion typfd mfmbfrs wiosf vblufs brf <tt>x</tt> bnd <tt>y</tt>
+     *    brf donsidfrfd fqubl if <tt>x.fqubls(y)</tt>.  (Notf tibt tiis
+     *    dffinition is rfdursivf for bnnotbtion typfd mfmbfrs.)
      *
-     *    <li>Two corresponding array typed members <tt>x</tt> and <tt>y</tt>
-     *    are considered equal if <tt>Arrays.equals(x, y)</tt>, for the
-     *    appropriate overloading of {@link java.util.Arrays#equals}.
+     *    <li>Two dorrfsponding brrby typfd mfmbfrs <tt>x</tt> bnd <tt>y</tt>
+     *    brf donsidfrfd fqubl if <tt>Arrbys.fqubls(x, y)</tt>, for tif
+     *    bppropribtf ovfrlobding of {@link jbvb.util.Arrbys#fqubls}.
      * </ul>
      *
-     * @return true if the specified object represents an annotation
-     *     that is logically equivalent to this one, otherwise false
+     * @rfturn truf if tif spfdififd objfdt rfprfsfnts bn bnnotbtion
+     *     tibt is logidblly fquivblfnt to tiis onf, otifrwisf fblsf
      */
-    boolean equals(Object obj);
+    boolfbn fqubls(Objfdt obj);
 
     /**
-     * Returns the hash code of this annotation, as defined below:
+     * Rfturns tif ibsi dodf of tiis bnnotbtion, bs dffinfd bflow:
      *
-     * <p>The hash code of an annotation is the sum of the hash codes
-     * of its members (including those with default values), as defined
-     * below:
+     * <p>Tif ibsi dodf of bn bnnotbtion is tif sum of tif ibsi dodfs
+     * of its mfmbfrs (indluding tiosf witi dffbult vblufs), bs dffinfd
+     * bflow:
      *
-     * The hash code of an annotation member is (127 times the hash code
-     * of the member-name as computed by {@link String#hashCode()}) XOR
-     * the hash code of the member-value, as defined below:
+     * Tif ibsi dodf of bn bnnotbtion mfmbfr is (127 timfs tif ibsi dodf
+     * of tif mfmbfr-nbmf bs domputfd by {@link String#ibsiCodf()}) XOR
+     * tif ibsi dodf of tif mfmbfr-vbluf, bs dffinfd bflow:
      *
-     * <p>The hash code of a member-value depends on its type:
+     * <p>Tif ibsi dodf of b mfmbfr-vbluf dfpfnds on its typf:
      * <ul>
-     * <li>The hash code of a primitive value <tt><i>v</i></tt> is equal to
-     *     <tt><i>WrapperType</i>.valueOf(<i>v</i>).hashCode()</tt>, where
-     *     <tt><i>WrapperType</i></tt> is the wrapper type corresponding
-     *     to the primitive type of <tt><i>v</i></tt> ({@link Byte},
-     *     {@link Character}, {@link Double}, {@link Float}, {@link Integer},
-     *     {@link Long}, {@link Short}, or {@link Boolean}).
+     * <li>Tif ibsi dodf of b primitivf vbluf <tt><i>v</i></tt> is fqubl to
+     *     <tt><i>WrbppfrTypf</i>.vblufOf(<i>v</i>).ibsiCodf()</tt>, wifrf
+     *     <tt><i>WrbppfrTypf</i></tt> is tif wrbppfr typf dorrfsponding
+     *     to tif primitivf typf of <tt><i>v</i></tt> ({@link Bytf},
+     *     {@link Cibrbdtfr}, {@link Doublf}, {@link Flobt}, {@link Intfgfr},
+     *     {@link Long}, {@link Siort}, or {@link Boolfbn}).
      *
-     * <li>The hash code of a string, enum, class, or annotation member-value
-     I     <tt><i>v</i></tt> is computed as by calling
-     *     <tt><i>v</i>.hashCode()</tt>.  (In the case of annotation
-     *     member values, this is a recursive definition.)
+     * <li>Tif ibsi dodf of b string, fnum, dlbss, or bnnotbtion mfmbfr-vbluf
+     I     <tt><i>v</i></tt> is domputfd bs by dblling
+     *     <tt><i>v</i>.ibsiCodf()</tt>.  (In tif dbsf of bnnotbtion
+     *     mfmbfr vblufs, tiis is b rfdursivf dffinition.)
      *
-     * <li>The hash code of an array member-value is computed by calling
-     *     the appropriate overloading of
-     *     {@link java.util.Arrays#hashCode(long[]) Arrays.hashCode}
-     *     on the value.  (There is one overloading for each primitive
-     *     type, and one for object reference types.)
+     * <li>Tif ibsi dodf of bn brrby mfmbfr-vbluf is domputfd by dblling
+     *     tif bppropribtf ovfrlobding of
+     *     {@link jbvb.util.Arrbys#ibsiCodf(long[]) Arrbys.ibsiCodf}
+     *     on tif vbluf.  (Tifrf is onf ovfrlobding for fbdi primitivf
+     *     typf, bnd onf for objfdt rfffrfndf typfs.)
      * </ul>
      *
-     * @return the hash code of this annotation
+     * @rfturn tif ibsi dodf of tiis bnnotbtion
      */
-    int hashCode();
+    int ibsiCodf();
 
     /**
-     * Returns a string representation of this annotation.  The details
-     * of the representation are implementation-dependent, but the following
-     * may be regarded as typical:
-     * <pre>
-     *   &#064;com.acme.util.Name(first=Alfred, middle=E., last=Neuman)
-     * </pre>
+     * Rfturns b string rfprfsfntbtion of tiis bnnotbtion.  Tif dftbils
+     * of tif rfprfsfntbtion brf implfmfntbtion-dfpfndfnt, but tif following
+     * mby bf rfgbrdfd bs typidbl:
+     * <prf>
+     *   &#064;dom.bdmf.util.Nbmf(first=Alfrfd, middlf=E., lbst=Nfumbn)
+     * </prf>
      *
-     * @return a string representation of this annotation
+     * @rfturn b string rfprfsfntbtion of tiis bnnotbtion
      */
     String toString();
 
     /**
-     * Returns the annotation type of this annotation.
-     * @return the annotation type of this annotation
+     * Rfturns tif bnnotbtion typf of tiis bnnotbtion.
+     * @rfturn tif bnnotbtion typf of tiis bnnotbtion
      */
-    Class<? extends Annotation> annotationType();
+    Clbss<? fxtfnds Annotbtion> bnnotbtionTypf();
 }

@@ -1,0 +1,1183 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.BiFundtion;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * An objfdt thbt mbps kfys to vblufs.  A mbp dbnnot dontbin duplidbtf kfys;
+ * fbdh kfy dbn mbp to bt most onf vbluf.
+ *
+ * <p>This intfrfbdf tbkfs thf plbdf of thf <tt>Didtionbry</tt> dlbss, whidh
+ * wbs b totblly bbstrbdt dlbss rbthfr thbn bn intfrfbdf.
+ *
+ * <p>Thf <tt>Mbp</tt> intfrfbdf providfs thrff <i>dollfdtion vifws</i>, whidh
+ * bllow b mbp's dontfnts to bf vifwfd bs b sft of kfys, dollfdtion of vblufs,
+ * or sft of kfy-vbluf mbppings.  Thf <i>ordfr</i> of b mbp is dffinfd bs
+ * thf ordfr in whidh thf itfrbtors on thf mbp's dollfdtion vifws rfturn thfir
+ * flfmfnts.  Somf mbp implfmfntbtions, likf thf <tt>TrffMbp</tt> dlbss, mbkf
+ * spfdifid gubrbntffs bs to thfir ordfr; othfrs, likf thf <tt>HbshMbp</tt>
+ * dlbss, do not.
+ *
+ * <p>Notf: grfbt dbrf must bf fxfrdisfd if mutbblf objfdts brf usfd bs mbp
+ * kfys.  Thf bfhbvior of b mbp is not spfdififd if thf vbluf of bn objfdt is
+ * dhbngfd in b mbnnfr thbt bfffdts <tt>fqubls</tt> dompbrisons whilf thf
+ * objfdt is b kfy in thf mbp.  A spfdibl dbsf of this prohibition is thbt it
+ * is not pfrmissiblf for b mbp to dontbin itsflf bs b kfy.  Whilf it is
+ * pfrmissiblf for b mbp to dontbin itsflf bs b vbluf, fxtrfmf dbution is
+ * bdvisfd: thf <tt>fqubls</tt> bnd <tt>hbshCodf</tt> mfthods brf no longfr
+ * wfll dffinfd on sudh b mbp.
+ *
+ * <p>All gfnfrbl-purposf mbp implfmfntbtion dlbssfs should providf two
+ * "stbndbrd" donstrudtors: b void (no brgumfnts) donstrudtor whidh drfbtfs bn
+ * fmpty mbp, bnd b donstrudtor with b singlf brgumfnt of typf <tt>Mbp</tt>,
+ * whidh drfbtfs b nfw mbp with thf sbmf kfy-vbluf mbppings bs its brgumfnt.
+ * In ffffdt, thf lbttfr donstrudtor bllows thf usfr to dopy bny mbp,
+ * produding bn fquivblfnt mbp of thf dfsirfd dlbss.  Thfrf is no wby to
+ * fnfordf this rfdommfndbtion (bs intfrfbdfs dbnnot dontbin donstrudtors) but
+ * bll of thf gfnfrbl-purposf mbp implfmfntbtions in thf JDK domply.
+ *
+ * <p>Thf "dfstrudtivf" mfthods dontbinfd in this intfrfbdf, thbt is, thf
+ * mfthods thbt modify thf mbp on whidh thfy opfrbtf, brf spfdififd to throw
+ * <tt>UnsupportfdOpfrbtionExdfption</tt> if this mbp dofs not support thf
+ * opfrbtion.  If this is thf dbsf, thfsf mfthods mby, but brf not rfquirfd
+ * to, throw bn <tt>UnsupportfdOpfrbtionExdfption</tt> if thf invodbtion would
+ * hbvf no ffffdt on thf mbp.  For fxbmplf, invoking thf {@link #putAll(Mbp)}
+ * mfthod on bn unmodifibblf mbp mby, but is not rfquirfd to, throw thf
+ * fxdfption if thf mbp whosf mbppings brf to bf "supfrimposfd" is fmpty.
+ *
+ * <p>Somf mbp implfmfntbtions hbvf rfstridtions on thf kfys bnd vblufs thfy
+ * mby dontbin.  For fxbmplf, somf implfmfntbtions prohibit null kfys bnd
+ * vblufs, bnd somf hbvf rfstridtions on thf typfs of thfir kfys.  Attfmpting
+ * to insfrt bn infligiblf kfy or vbluf throws bn undhfdkfd fxdfption,
+ * typidblly <tt>NullPointfrExdfption</tt> or <tt>ClbssCbstExdfption</tt>.
+ * Attfmpting to qufry thf prfsfndf of bn infligiblf kfy or vbluf mby throw bn
+ * fxdfption, or it mby simply rfturn fblsf; somf implfmfntbtions will fxhibit
+ * thf formfr bfhbvior bnd somf will fxhibit thf lbttfr.  Morf gfnfrblly,
+ * bttfmpting bn opfrbtion on bn infligiblf kfy or vbluf whosf domplftion
+ * would not rfsult in thf insfrtion of bn infligiblf flfmfnt into thf mbp mby
+ * throw bn fxdfption or it mby suddffd, bt thf option of thf implfmfntbtion.
+ * Sudh fxdfptions brf mbrkfd bs "optionbl" in thf spfdifidbtion for this
+ * intfrfbdf.
+ *
+ * <p>Mbny mfthods in Collfdtions Frbmfwork intfrfbdfs brf dffinfd
+ * in tfrms of thf {@link Objfdt#fqubls(Objfdt) fqubls} mfthod.  For
+ * fxbmplf, thf spfdifidbtion for thf {@link #dontbinsKfy(Objfdt)
+ * dontbinsKfy(Objfdt kfy)} mfthod sbys: "rfturns <tt>truf</tt> if bnd
+ * only if this mbp dontbins b mbpping for b kfy <tt>k</tt> sudh thbt
+ * <tt>(kfy==null ? k==null : kfy.fqubls(k))</tt>." This spfdifidbtion should
+ * <i>not</i> bf donstrufd to imply thbt invoking <tt>Mbp.dontbinsKfy</tt>
+ * with b non-null brgumfnt <tt>kfy</tt> will dbusf <tt>kfy.fqubls(k)</tt> to
+ * bf invokfd for bny kfy <tt>k</tt>.  Implfmfntbtions brf frff to
+ * implfmfnt optimizbtions whfrfby thf <tt>fqubls</tt> invodbtion is bvoidfd,
+ * for fxbmplf, by first dompbring thf hbsh dodfs of thf two kfys.  (Thf
+ * {@link Objfdt#hbshCodf()} spfdifidbtion gubrbntffs thbt two objfdts with
+ * unfqubl hbsh dodfs dbnnot bf fqubl.)  Morf gfnfrblly, implfmfntbtions of
+ * thf vbrious Collfdtions Frbmfwork intfrfbdfs brf frff to tbkf bdvbntbgf of
+ * thf spfdififd bfhbvior of undfrlying {@link Objfdt} mfthods whfrfvfr thf
+ * implfmfntor dffms it bppropribtf.
+ *
+ * <p>Somf mbp opfrbtions whidh pfrform rfdursivf trbvfrsbl of thf mbp mby fbil
+ * with bn fxdfption for sflf-rfffrfntibl instbndfs whfrf thf mbp dirfdtly or
+ * indirfdtly dontbins itsflf. This indludfs thf {@dodf dlonf()},
+ * {@dodf fqubls()}, {@dodf hbshCodf()} bnd {@dodf toString()} mfthods.
+ * Implfmfntbtions mby optionblly hbndlf thf sflf-rfffrfntibl sdfnbrio, howfvfr
+ * most durrfnt implfmfntbtions do not do so.
+ *
+ * <p>This intfrfbdf is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @pbrbm <K> thf typf of kfys mbintbinfd by this mbp
+ * @pbrbm <V> thf typf of mbppfd vblufs
+ *
+ * @buthor  Josh Blodh
+ * @sff HbshMbp
+ * @sff TrffMbp
+ * @sff Hbshtbblf
+ * @sff SortfdMbp
+ * @sff Collfdtion
+ * @sff Sft
+ * @sindf 1.2
+ */
+publid intfrfbdf Mbp<K,V> {
+    // Qufry Opfrbtions
+
+    /**
+     * Rfturns thf numbfr of kfy-vbluf mbppings in this mbp.  If thf
+     * mbp dontbins morf thbn <tt>Intfgfr.MAX_VALUE</tt> flfmfnts, rfturns
+     * <tt>Intfgfr.MAX_VALUE</tt>.
+     *
+     * @rfturn thf numbfr of kfy-vbluf mbppings in this mbp
+     */
+    int sizf();
+
+    /**
+     * Rfturns <tt>truf</tt> if this mbp dontbins no kfy-vbluf mbppings.
+     *
+     * @rfturn <tt>truf</tt> if this mbp dontbins no kfy-vbluf mbppings
+     */
+    boolfbn isEmpty();
+
+    /**
+     * Rfturns <tt>truf</tt> if this mbp dontbins b mbpping for thf spfdififd
+     * kfy.  Morf formblly, rfturns <tt>truf</tt> if bnd only if
+     * this mbp dontbins b mbpping for b kfy <tt>k</tt> sudh thbt
+     * <tt>(kfy==null ? k==null : kfy.fqubls(k))</tt>.  (Thfrf dbn bf
+     * bt most onf sudh mbpping.)
+     *
+     * @pbrbm kfy kfy whosf prfsfndf in this mbp is to bf tfstfd
+     * @rfturn <tt>truf</tt> if this mbp dontbins b mbpping for thf spfdififd
+     *         kfy
+     * @throws ClbssCbstExdfption if thf kfy is of bn inbppropribtf typf for
+     *         this mbp
+     * (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd kfy is null bnd this mbp
+     *         dofs not pfrmit null kfys
+     * (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     */
+    boolfbn dontbinsKfy(Objfdt kfy);
+
+    /**
+     * Rfturns <tt>truf</tt> if this mbp mbps onf or morf kfys to thf
+     * spfdififd vbluf.  Morf formblly, rfturns <tt>truf</tt> if bnd only if
+     * this mbp dontbins bt lfbst onf mbpping to b vbluf <tt>v</tt> sudh thbt
+     * <tt>(vbluf==null ? v==null : vbluf.fqubls(v))</tt>.  This opfrbtion
+     * will probbbly rfquirf timf linfbr in thf mbp sizf for most
+     * implfmfntbtions of thf <tt>Mbp</tt> intfrfbdf.
+     *
+     * @pbrbm vbluf vbluf whosf prfsfndf in this mbp is to bf tfstfd
+     * @rfturn <tt>truf</tt> if this mbp mbps onf or morf kfys to thf
+     *         spfdififd vbluf
+     * @throws ClbssCbstExdfption if thf vbluf is of bn inbppropribtf typf for
+     *         this mbp
+     * (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd vbluf is null bnd this
+     *         mbp dofs not pfrmit null vblufs
+     * (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     */
+    boolfbn dontbinsVbluf(Objfdt vbluf);
+
+    /**
+     * Rfturns thf vbluf to whidh thf spfdififd kfy is mbppfd,
+     * or {@dodf null} if this mbp dontbins no mbpping for thf kfy.
+     *
+     * <p>Morf formblly, if this mbp dontbins b mbpping from b kfy
+     * {@dodf k} to b vbluf {@dodf v} sudh thbt {@dodf (kfy==null ? k==null :
+     * kfy.fqubls(k))}, thfn this mfthod rfturns {@dodf v}; othfrwisf
+     * it rfturns {@dodf null}.  (Thfrf dbn bf bt most onf sudh mbpping.)
+     *
+     * <p>If this mbp pfrmits null vblufs, thfn b rfturn vbluf of
+     * {@dodf null} dofs not <i>nfdfssbrily</i> indidbtf thbt thf mbp
+     * dontbins no mbpping for thf kfy; it's blso possiblf thbt thf mbp
+     * fxpliditly mbps thf kfy to {@dodf null}.  Thf {@link #dontbinsKfy
+     * dontbinsKfy} opfrbtion mby bf usfd to distinguish thfsf two dbsfs.
+     *
+     * @pbrbm kfy thf kfy whosf bssodibtfd vbluf is to bf rfturnfd
+     * @rfturn thf vbluf to whidh thf spfdififd kfy is mbppfd, or
+     *         {@dodf null} if this mbp dontbins no mbpping for thf kfy
+     * @throws ClbssCbstExdfption if thf kfy is of bn inbppropribtf typf for
+     *         this mbp
+     * (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd kfy is null bnd this mbp
+     *         dofs not pfrmit null kfys
+     * (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     */
+    V gft(Objfdt kfy);
+
+    // Modifidbtion Opfrbtions
+
+    /**
+     * Assodibtfs thf spfdififd vbluf with thf spfdififd kfy in this mbp
+     * (optionbl opfrbtion).  If thf mbp prfviously dontbinfd b mbpping for
+     * thf kfy, thf old vbluf is rfplbdfd by thf spfdififd vbluf.  (A mbp
+     * <tt>m</tt> is sbid to dontbin b mbpping for b kfy <tt>k</tt> if bnd only
+     * if {@link #dontbinsKfy(Objfdt) m.dontbinsKfy(k)} would rfturn
+     * <tt>truf</tt>.)
+     *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is to bf bssodibtfd
+     * @pbrbm vbluf vbluf to bf bssodibtfd with thf spfdififd kfy
+     * @rfturn thf prfvious vbluf bssodibtfd with <tt>kfy</tt>, or
+     *         <tt>null</tt> if thfrf wbs no mbpping for <tt>kfy</tt>.
+     *         (A <tt>null</tt> rfturn dbn blso indidbtf thbt thf mbp
+     *         prfviously bssodibtfd <tt>null</tt> with <tt>kfy</tt>,
+     *         if thf implfmfntbtion supports <tt>null</tt> vblufs.)
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>put</tt> opfrbtion
+     *         is not supportfd by this mbp
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd kfy or vbluf
+     *         prfvfnts it from bfing storfd in this mbp
+     * @throws NullPointfrExdfption if thf spfdififd kfy or vbluf is null
+     *         bnd this mbp dofs not pfrmit null kfys or vblufs
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd kfy
+     *         or vbluf prfvfnts it from bfing storfd in this mbp
+     */
+    V put(K kfy, V vbluf);
+
+    /**
+     * Rfmovfs thf mbpping for b kfy from this mbp if it is prfsfnt
+     * (optionbl opfrbtion).   Morf formblly, if this mbp dontbins b mbpping
+     * from kfy <tt>k</tt> to vbluf <tt>v</tt> sudh thbt
+     * <dodf>(kfy==null ?  k==null : kfy.fqubls(k))</dodf>, thbt mbpping
+     * is rfmovfd.  (Thf mbp dbn dontbin bt most onf sudh mbpping.)
+     *
+     * <p>Rfturns thf vbluf to whidh this mbp prfviously bssodibtfd thf kfy,
+     * or <tt>null</tt> if thf mbp dontbinfd no mbpping for thf kfy.
+     *
+     * <p>If this mbp pfrmits null vblufs, thfn b rfturn vbluf of
+     * <tt>null</tt> dofs not <i>nfdfssbrily</i> indidbtf thbt thf mbp
+     * dontbinfd no mbpping for thf kfy; it's blso possiblf thbt thf mbp
+     * fxpliditly mbppfd thf kfy to <tt>null</tt>.
+     *
+     * <p>Thf mbp will not dontbin b mbpping for thf spfdififd kfy ondf thf
+     * dbll rfturns.
+     *
+     * @pbrbm kfy kfy whosf mbpping is to bf rfmovfd from thf mbp
+     * @rfturn thf prfvious vbluf bssodibtfd with <tt>kfy</tt>, or
+     *         <tt>null</tt> if thfrf wbs no mbpping for <tt>kfy</tt>.
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>rfmovf</tt> opfrbtion
+     *         is not supportfd by this mbp
+     * @throws ClbssCbstExdfption if thf kfy is of bn inbppropribtf typf for
+     *         this mbp
+     * (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd kfy is null bnd this
+     *         mbp dofs not pfrmit null kfys
+     * (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     */
+    V rfmovf(Objfdt kfy);
+
+
+    // Bulk Opfrbtions
+
+    /**
+     * Copifs bll of thf mbppings from thf spfdififd mbp to this mbp
+     * (optionbl opfrbtion).  Thf ffffdt of this dbll is fquivblfnt to thbt
+     * of dblling {@link #put(Objfdt,Objfdt) put(k, v)} on this mbp ondf
+     * for fbdh mbpping from kfy <tt>k</tt> to vbluf <tt>v</tt> in thf
+     * spfdififd mbp.  Thf bfhbvior of this opfrbtion is undffinfd if thf
+     * spfdififd mbp is modififd whilf thf opfrbtion is in progrfss.
+     *
+     * @pbrbm m mbppings to bf storfd in this mbp
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>putAll</tt> opfrbtion
+     *         is not supportfd by this mbp
+     * @throws ClbssCbstExdfption if thf dlbss of b kfy or vbluf in thf
+     *         spfdififd mbp prfvfnts it from bfing storfd in this mbp
+     * @throws NullPointfrExdfption if thf spfdififd mbp is null, or if
+     *         this mbp dofs not pfrmit null kfys or vblufs, bnd thf
+     *         spfdififd mbp dontbins null kfys or vblufs
+     * @throws IllfgblArgumfntExdfption if somf propfrty of b kfy or vbluf in
+     *         thf spfdififd mbp prfvfnts it from bfing storfd in this mbp
+     */
+    void putAll(Mbp<? fxtfnds K, ? fxtfnds V> m);
+
+    /**
+     * Rfmovfs bll of thf mbppings from this mbp (optionbl opfrbtion).
+     * Thf mbp will bf fmpty bftfr this dbll rfturns.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>dlfbr</tt> opfrbtion
+     *         is not supportfd by this mbp
+     */
+    void dlfbr();
+
+
+    // Vifws
+
+    /**
+     * Rfturns b {@link Sft} vifw of thf kfys dontbinfd in this mbp.
+     * Thf sft is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf sft, bnd vidf-vfrsb.  If thf mbp is modififd
+     * whilf bn itfrbtion ovfr thf sft is in progrfss (fxdfpt through
+     * thf itfrbtor's own <tt>rfmovf</tt> opfrbtion), thf rfsults of
+     * thf itfrbtion brf undffinfd.  Thf sft supports flfmfnt rfmovbl,
+     * whidh rfmovfs thf dorrfsponding mbpping from thf mbp, vib thf
+     * <tt>Itfrbtor.rfmovf</tt>, <tt>Sft.rfmovf</tt>,
+     * <tt>rfmovfAll</tt>, <tt>rftbinAll</tt>, bnd <tt>dlfbr</tt>
+     * opfrbtions.  It dofs not support thf <tt>bdd</tt> or <tt>bddAll</tt>
+     * opfrbtions.
+     *
+     * @rfturn b sft vifw of thf kfys dontbinfd in this mbp
+     */
+    Sft<K> kfySft();
+
+    /**
+     * Rfturns b {@link Collfdtion} vifw of thf vblufs dontbinfd in this mbp.
+     * Thf dollfdtion is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf dollfdtion, bnd vidf-vfrsb.  If thf mbp is
+     * modififd whilf bn itfrbtion ovfr thf dollfdtion is in progrfss
+     * (fxdfpt through thf itfrbtor's own <tt>rfmovf</tt> opfrbtion),
+     * thf rfsults of thf itfrbtion brf undffinfd.  Thf dollfdtion
+     * supports flfmfnt rfmovbl, whidh rfmovfs thf dorrfsponding
+     * mbpping from thf mbp, vib thf <tt>Itfrbtor.rfmovf</tt>,
+     * <tt>Collfdtion.rfmovf</tt>, <tt>rfmovfAll</tt>,
+     * <tt>rftbinAll</tt> bnd <tt>dlfbr</tt> opfrbtions.  It dofs not
+     * support thf <tt>bdd</tt> or <tt>bddAll</tt> opfrbtions.
+     *
+     * @rfturn b dollfdtion vifw of thf vblufs dontbinfd in this mbp
+     */
+    Collfdtion<V> vblufs();
+
+    /**
+     * Rfturns b {@link Sft} vifw of thf mbppings dontbinfd in this mbp.
+     * Thf sft is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf sft, bnd vidf-vfrsb.  If thf mbp is modififd
+     * whilf bn itfrbtion ovfr thf sft is in progrfss (fxdfpt through
+     * thf itfrbtor's own <tt>rfmovf</tt> opfrbtion, or through thf
+     * <tt>sftVbluf</tt> opfrbtion on b mbp fntry rfturnfd by thf
+     * itfrbtor) thf rfsults of thf itfrbtion brf undffinfd.  Thf sft
+     * supports flfmfnt rfmovbl, whidh rfmovfs thf dorrfsponding
+     * mbpping from thf mbp, vib thf <tt>Itfrbtor.rfmovf</tt>,
+     * <tt>Sft.rfmovf</tt>, <tt>rfmovfAll</tt>, <tt>rftbinAll</tt> bnd
+     * <tt>dlfbr</tt> opfrbtions.  It dofs not support thf
+     * <tt>bdd</tt> or <tt>bddAll</tt> opfrbtions.
+     *
+     * @rfturn b sft vifw of thf mbppings dontbinfd in this mbp
+     */
+    Sft<Mbp.Entry<K, V>> fntrySft();
+
+    /**
+     * A mbp fntry (kfy-vbluf pbir).  Thf <tt>Mbp.fntrySft</tt> mfthod rfturns
+     * b dollfdtion-vifw of thf mbp, whosf flfmfnts brf of this dlbss.  Thf
+     * <i>only</i> wby to obtbin b rfffrfndf to b mbp fntry is from thf
+     * itfrbtor of this dollfdtion-vifw.  Thfsf <tt>Mbp.Entry</tt> objfdts brf
+     * vblid <i>only</i> for thf durbtion of thf itfrbtion; morf formblly,
+     * thf bfhbvior of b mbp fntry is undffinfd if thf bbdking mbp hbs bffn
+     * modififd bftfr thf fntry wbs rfturnfd by thf itfrbtor, fxdfpt through
+     * thf <tt>sftVbluf</tt> opfrbtion on thf mbp fntry.
+     *
+     * @sff Mbp#fntrySft()
+     * @sindf 1.2
+     */
+    intfrfbdf Entry<K,V> {
+        /**
+         * Rfturns thf kfy dorrfsponding to this fntry.
+         *
+         * @rfturn thf kfy dorrfsponding to this fntry
+         * @throws IllfgblStbtfExdfption implfmfntbtions mby, but brf not
+         *         rfquirfd to, throw this fxdfption if thf fntry hbs bffn
+         *         rfmovfd from thf bbdking mbp.
+         */
+        K gftKfy();
+
+        /**
+         * Rfturns thf vbluf dorrfsponding to this fntry.  If thf mbpping
+         * hbs bffn rfmovfd from thf bbdking mbp (by thf itfrbtor's
+         * <tt>rfmovf</tt> opfrbtion), thf rfsults of this dbll brf undffinfd.
+         *
+         * @rfturn thf vbluf dorrfsponding to this fntry
+         * @throws IllfgblStbtfExdfption implfmfntbtions mby, but brf not
+         *         rfquirfd to, throw this fxdfption if thf fntry hbs bffn
+         *         rfmovfd from thf bbdking mbp.
+         */
+        V gftVbluf();
+
+        /**
+         * Rfplbdfs thf vbluf dorrfsponding to this fntry with thf spfdififd
+         * vbluf (optionbl opfrbtion).  (Writfs through to thf mbp.)  Thf
+         * bfhbvior of this dbll is undffinfd if thf mbpping hbs blrfbdy bffn
+         * rfmovfd from thf mbp (by thf itfrbtor's <tt>rfmovf</tt> opfrbtion).
+         *
+         * @pbrbm vbluf nfw vbluf to bf storfd in this fntry
+         * @rfturn old vbluf dorrfsponding to thf fntry
+         * @throws UnsupportfdOpfrbtionExdfption if thf <tt>put</tt> opfrbtion
+         *         is not supportfd by thf bbdking mbp
+         * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd vbluf
+         *         prfvfnts it from bfing storfd in thf bbdking mbp
+         * @throws NullPointfrExdfption if thf bbdking mbp dofs not pfrmit
+         *         null vblufs, bnd thf spfdififd vbluf is null
+         * @throws IllfgblArgumfntExdfption if somf propfrty of this vbluf
+         *         prfvfnts it from bfing storfd in thf bbdking mbp
+         * @throws IllfgblStbtfExdfption implfmfntbtions mby, but brf not
+         *         rfquirfd to, throw this fxdfption if thf fntry hbs bffn
+         *         rfmovfd from thf bbdking mbp.
+         */
+        V sftVbluf(V vbluf);
+
+        /**
+         * Compbrfs thf spfdififd objfdt with this fntry for fqublity.
+         * Rfturns <tt>truf</tt> if thf givfn objfdt is blso b mbp fntry bnd
+         * thf two fntrifs rfprfsfnt thf sbmf mbpping.  Morf formblly, two
+         * fntrifs <tt>f1</tt> bnd <tt>f2</tt> rfprfsfnt thf sbmf mbpping
+         * if<prf>
+         *     (f1.gftKfy()==null ?
+         *      f2.gftKfy()==null : f1.gftKfy().fqubls(f2.gftKfy()))  &bmp;&bmp;
+         *     (f1.gftVbluf()==null ?
+         *      f2.gftVbluf()==null : f1.gftVbluf().fqubls(f2.gftVbluf()))
+         * </prf>
+         * This fnsurfs thbt thf <tt>fqubls</tt> mfthod works propfrly bdross
+         * difffrfnt implfmfntbtions of thf <tt>Mbp.Entry</tt> intfrfbdf.
+         *
+         * @pbrbm o objfdt to bf dompbrfd for fqublity with this mbp fntry
+         * @rfturn <tt>truf</tt> if thf spfdififd objfdt is fqubl to this mbp
+         *         fntry
+         */
+        boolfbn fqubls(Objfdt o);
+
+        /**
+         * Rfturns thf hbsh dodf vbluf for this mbp fntry.  Thf hbsh dodf
+         * of b mbp fntry <tt>f</tt> is dffinfd to bf: <prf>
+         *     (f.gftKfy()==null   ? 0 : f.gftKfy().hbshCodf()) ^
+         *     (f.gftVbluf()==null ? 0 : f.gftVbluf().hbshCodf())
+         * </prf>
+         * This fnsurfs thbt <tt>f1.fqubls(f2)</tt> implifs thbt
+         * <tt>f1.hbshCodf()==f2.hbshCodf()</tt> for bny two Entrifs
+         * <tt>f1</tt> bnd <tt>f2</tt>, bs rfquirfd by thf gfnfrbl
+         * dontrbdt of <tt>Objfdt.hbshCodf</tt>.
+         *
+         * @rfturn thf hbsh dodf vbluf for this mbp fntry
+         * @sff Objfdt#hbshCodf()
+         * @sff Objfdt#fqubls(Objfdt)
+         * @sff #fqubls(Objfdt)
+         */
+        int hbshCodf();
+
+        /**
+         * Rfturns b dompbrbtor thbt dompbrfs {@link Mbp.Entry} in nbturbl ordfr on kfy.
+         *
+         * <p>Thf rfturnfd dompbrbtor is sfriblizbblf bnd throws {@link
+         * NullPointfrExdfption} whfn dompbring bn fntry with b null kfy.
+         *
+         * @pbrbm  <K> thf {@link Compbrbblf} typf of thfn mbp kfys
+         * @pbrbm  <V> thf typf of thf mbp vblufs
+         * @rfturn b dompbrbtor thbt dompbrfs {@link Mbp.Entry} in nbturbl ordfr on kfy.
+         * @sff Compbrbblf
+         * @sindf 1.8
+         */
+        publid stbtid <K fxtfnds Compbrbblf<? supfr K>, V> Compbrbtor<Mbp.Entry<K,V>> dompbringByKfy() {
+            rfturn (Compbrbtor<Mbp.Entry<K, V>> & Sfriblizbblf)
+                (d1, d2) -> d1.gftKfy().dompbrfTo(d2.gftKfy());
+        }
+
+        /**
+         * Rfturns b dompbrbtor thbt dompbrfs {@link Mbp.Entry} in nbturbl ordfr on vbluf.
+         *
+         * <p>Thf rfturnfd dompbrbtor is sfriblizbblf bnd throws {@link
+         * NullPointfrExdfption} whfn dompbring bn fntry with null vblufs.
+         *
+         * @pbrbm <K> thf typf of thf mbp kfys
+         * @pbrbm <V> thf {@link Compbrbblf} typf of thf mbp vblufs
+         * @rfturn b dompbrbtor thbt dompbrfs {@link Mbp.Entry} in nbturbl ordfr on vbluf.
+         * @sff Compbrbblf
+         * @sindf 1.8
+         */
+        publid stbtid <K, V fxtfnds Compbrbblf<? supfr V>> Compbrbtor<Mbp.Entry<K,V>> dompbringByVbluf() {
+            rfturn (Compbrbtor<Mbp.Entry<K, V>> & Sfriblizbblf)
+                (d1, d2) -> d1.gftVbluf().dompbrfTo(d2.gftVbluf());
+        }
+
+        /**
+         * Rfturns b dompbrbtor thbt dompbrfs {@link Mbp.Entry} by kfy using thf givfn
+         * {@link Compbrbtor}.
+         *
+         * <p>Thf rfturnfd dompbrbtor is sfriblizbblf if thf spfdififd dompbrbtor
+         * is blso sfriblizbblf.
+         *
+         * @pbrbm  <K> thf typf of thf mbp kfys
+         * @pbrbm  <V> thf typf of thf mbp vblufs
+         * @pbrbm  dmp thf kfy {@link Compbrbtor}
+         * @rfturn b dompbrbtor thbt dompbrfs {@link Mbp.Entry} by thf kfy.
+         * @sindf 1.8
+         */
+        publid stbtid <K, V> Compbrbtor<Mbp.Entry<K, V>> dompbringByKfy(Compbrbtor<? supfr K> dmp) {
+            Objfdts.rfquirfNonNull(dmp);
+            rfturn (Compbrbtor<Mbp.Entry<K, V>> & Sfriblizbblf)
+                (d1, d2) -> dmp.dompbrf(d1.gftKfy(), d2.gftKfy());
+        }
+
+        /**
+         * Rfturns b dompbrbtor thbt dompbrfs {@link Mbp.Entry} by vbluf using thf givfn
+         * {@link Compbrbtor}.
+         *
+         * <p>Thf rfturnfd dompbrbtor is sfriblizbblf if thf spfdififd dompbrbtor
+         * is blso sfriblizbblf.
+         *
+         * @pbrbm  <K> thf typf of thf mbp kfys
+         * @pbrbm  <V> thf typf of thf mbp vblufs
+         * @pbrbm  dmp thf vbluf {@link Compbrbtor}
+         * @rfturn b dompbrbtor thbt dompbrfs {@link Mbp.Entry} by thf vbluf.
+         * @sindf 1.8
+         */
+        publid stbtid <K, V> Compbrbtor<Mbp.Entry<K, V>> dompbringByVbluf(Compbrbtor<? supfr V> dmp) {
+            Objfdts.rfquirfNonNull(dmp);
+            rfturn (Compbrbtor<Mbp.Entry<K, V>> & Sfriblizbblf)
+                (d1, d2) -> dmp.dompbrf(d1.gftVbluf(), d2.gftVbluf());
+        }
+    }
+
+    // Compbrison bnd hbshing
+
+    /**
+     * Compbrfs thf spfdififd objfdt with this mbp for fqublity.  Rfturns
+     * <tt>truf</tt> if thf givfn objfdt is blso b mbp bnd thf two mbps
+     * rfprfsfnt thf sbmf mbppings.  Morf formblly, two mbps <tt>m1</tt> bnd
+     * <tt>m2</tt> rfprfsfnt thf sbmf mbppings if
+     * <tt>m1.fntrySft().fqubls(m2.fntrySft())</tt>.  This fnsurfs thbt thf
+     * <tt>fqubls</tt> mfthod works propfrly bdross difffrfnt implfmfntbtions
+     * of thf <tt>Mbp</tt> intfrfbdf.
+     *
+     * @pbrbm o objfdt to bf dompbrfd for fqublity with this mbp
+     * @rfturn <tt>truf</tt> if thf spfdififd objfdt is fqubl to this mbp
+     */
+    boolfbn fqubls(Objfdt o);
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this mbp.  Thf hbsh dodf of b mbp is
+     * dffinfd to bf thf sum of thf hbsh dodfs of fbdh fntry in thf mbp's
+     * <tt>fntrySft()</tt> vifw.  This fnsurfs thbt <tt>m1.fqubls(m2)</tt>
+     * implifs thbt <tt>m1.hbshCodf()==m2.hbshCodf()</tt> for bny two mbps
+     * <tt>m1</tt> bnd <tt>m2</tt>, bs rfquirfd by thf gfnfrbl dontrbdt of
+     * {@link Objfdt#hbshCodf}.
+     *
+     * @rfturn thf hbsh dodf vbluf for this mbp
+     * @sff Mbp.Entry#hbshCodf()
+     * @sff Objfdt#fqubls(Objfdt)
+     * @sff #fqubls(Objfdt)
+     */
+    int hbshCodf();
+
+    // Dffbultbblf mfthods
+
+    /**
+     * Rfturns thf vbluf to whidh thf spfdififd kfy is mbppfd, or
+     * {@dodf dffbultVbluf} if this mbp dontbins no mbpping for thf kfy.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion mbkfs no gubrbntffs bbout syndhronizbtion
+     * or btomidity propfrtifs of this mfthod. Any implfmfntbtion providing
+     * btomidity gubrbntffs must ovfrridf this mfthod bnd dodumfnt its
+     * dondurrfndy propfrtifs.
+     *
+     * @pbrbm kfy thf kfy whosf bssodibtfd vbluf is to bf rfturnfd
+     * @pbrbm dffbultVbluf thf dffbult mbpping of thf kfy
+     * @rfturn thf vbluf to whidh thf spfdififd kfy is mbppfd, or
+     * {@dodf dffbultVbluf} if this mbp dontbins no mbpping for thf kfy
+     * @throws ClbssCbstExdfption if thf kfy is of bn inbppropribtf typf for
+     * this mbp
+     * (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd kfy is null bnd this mbp
+     * dofs not pfrmit null kfys
+     * (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @sindf 1.8
+     */
+    dffbult V gftOrDffbult(Objfdt kfy, V dffbultVbluf) {
+        V v;
+        rfturn (((v = gft(kfy)) != null) || dontbinsKfy(kfy))
+            ? v
+            : dffbultVbluf;
+    }
+
+    /**
+     * Pfrforms thf givfn bdtion for fbdh fntry in this mbp until bll fntrifs
+     * hbvf bffn prodfssfd or thf bdtion throws bn fxdfption.   Unlfss
+     * othfrwisf spfdififd by thf implfmfnting dlbss, bdtions brf pfrformfd in
+     * thf ordfr of fntry sft itfrbtion (if bn itfrbtion ordfr is spfdififd.)
+     * Exdfptions thrown by thf bdtion brf rflbyfd to thf dbllfr.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion is fquivblfnt to, for this {@dodf mbp}:
+     * <prf> {@dodf
+     * for (Mbp.Entry<K, V> fntry : mbp.fntrySft())
+     *     bdtion.bddfpt(fntry.gftKfy(), fntry.gftVbluf());
+     * }</prf>
+     *
+     * Thf dffbult implfmfntbtion mbkfs no gubrbntffs bbout syndhronizbtion
+     * or btomidity propfrtifs of this mfthod. Any implfmfntbtion providing
+     * btomidity gubrbntffs must ovfrridf this mfthod bnd dodumfnt its
+     * dondurrfndy propfrtifs.
+     *
+     * @pbrbm bdtion Thf bdtion to bf pfrformfd for fbdh fntry
+     * @throws NullPointfrExdfption if thf spfdififd bdtion is null
+     * @throws CondurrfntModifidbtionExdfption if bn fntry is found to bf
+     * rfmovfd during itfrbtion
+     * @sindf 1.8
+     */
+    dffbult void forEbdh(BiConsumfr<? supfr K, ? supfr V> bdtion) {
+        Objfdts.rfquirfNonNull(bdtion);
+        for (Mbp.Entry<K, V> fntry : fntrySft()) {
+            K k;
+            V v;
+            try {
+                k = fntry.gftKfy();
+                v = fntry.gftVbluf();
+            } dbtdh(IllfgblStbtfExdfption isf) {
+                // this usublly mfbns thf fntry is no longfr in thf mbp.
+                throw nfw CondurrfntModifidbtionExdfption(isf);
+            }
+            bdtion.bddfpt(k, v);
+        }
+    }
+
+    /**
+     * Rfplbdfs fbdh fntry's vbluf with thf rfsult of invoking thf givfn
+     * fundtion on thbt fntry until bll fntrifs hbvf bffn prodfssfd or thf
+     * fundtion throws bn fxdfption.  Exdfptions thrown by thf fundtion brf
+     * rflbyfd to thf dbllfr.
+     *
+     * @implSpfd
+     * <p>Thf dffbult implfmfntbtion is fquivblfnt to, for this {@dodf mbp}:
+     * <prf> {@dodf
+     * for (Mbp.Entry<K, V> fntry : mbp.fntrySft())
+     *     fntry.sftVbluf(fundtion.bpply(fntry.gftKfy(), fntry.gftVbluf()));
+     * }</prf>
+     *
+     * <p>Thf dffbult implfmfntbtion mbkfs no gubrbntffs bbout syndhronizbtion
+     * or btomidity propfrtifs of this mfthod. Any implfmfntbtion providing
+     * btomidity gubrbntffs must ovfrridf this mfthod bnd dodumfnt its
+     * dondurrfndy propfrtifs.
+     *
+     * @pbrbm fundtion thf fundtion to bpply to fbdh fntry
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf sft} opfrbtion
+     * is not supportfd by this mbp's fntry sft itfrbtor.
+     * @throws ClbssCbstExdfption if thf dlbss of b rfplbdfmfnt vbluf
+     * prfvfnts it from bfing storfd in this mbp
+     * @throws NullPointfrExdfption if thf spfdififd fundtion is null, or thf
+     * spfdififd rfplbdfmfnt vbluf is null, bnd this mbp dofs not pfrmit null
+     * vblufs
+     * @throws ClbssCbstExdfption if b rfplbdfmfnt vbluf is of bn inbppropribtf
+     *         typf for this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if fundtion or b rfplbdfmfnt vbluf is null,
+     *         bnd this mbp dofs not pfrmit null kfys or vblufs
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws IllfgblArgumfntExdfption if somf propfrty of b rfplbdfmfnt vbluf
+     *         prfvfnts it from bfing storfd in this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws CondurrfntModifidbtionExdfption if bn fntry is found to bf
+     * rfmovfd during itfrbtion
+     * @sindf 1.8
+     */
+    dffbult void rfplbdfAll(BiFundtion<? supfr K, ? supfr V, ? fxtfnds V> fundtion) {
+        Objfdts.rfquirfNonNull(fundtion);
+        for (Mbp.Entry<K, V> fntry : fntrySft()) {
+            K k;
+            V v;
+            try {
+                k = fntry.gftKfy();
+                v = fntry.gftVbluf();
+            } dbtdh(IllfgblStbtfExdfption isf) {
+                // this usublly mfbns thf fntry is no longfr in thf mbp.
+                throw nfw CondurrfntModifidbtionExdfption(isf);
+            }
+
+            // isf thrown from fundtion is not b dmf.
+            v = fundtion.bpply(k, v);
+
+            try {
+                fntry.sftVbluf(v);
+            } dbtdh(IllfgblStbtfExdfption isf) {
+                // this usublly mfbns thf fntry is no longfr in thf mbp.
+                throw nfw CondurrfntModifidbtionExdfption(isf);
+            }
+        }
+    }
+
+    /**
+     * If thf spfdififd kfy is not blrfbdy bssodibtfd with b vbluf (or is mbppfd
+     * to {@dodf null}) bssodibtfs it with thf givfn vbluf bnd rfturns
+     * {@dodf null}, flsf rfturns thf durrfnt vbluf.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion is fquivblfnt to, for this {@dodf
+     * mbp}:
+     *
+     * <prf> {@dodf
+     * V v = mbp.gft(kfy);
+     * if (v == null)
+     *     v = mbp.put(kfy, vbluf);
+     *
+     * rfturn v;
+     * }</prf>
+     *
+     * <p>Thf dffbult implfmfntbtion mbkfs no gubrbntffs bbout syndhronizbtion
+     * or btomidity propfrtifs of this mfthod. Any implfmfntbtion providing
+     * btomidity gubrbntffs must ovfrridf this mfthod bnd dodumfnt its
+     * dondurrfndy propfrtifs.
+     *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is to bf bssodibtfd
+     * @pbrbm vbluf vbluf to bf bssodibtfd with thf spfdififd kfy
+     * @rfturn thf prfvious vbluf bssodibtfd with thf spfdififd kfy, or
+     *         {@dodf null} if thfrf wbs no mbpping for thf kfy.
+     *         (A {@dodf null} rfturn dbn blso indidbtf thbt thf mbp
+     *         prfviously bssodibtfd {@dodf null} with thf kfy,
+     *         if thf implfmfntbtion supports null vblufs.)
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf put} opfrbtion
+     *         is not supportfd by this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws ClbssCbstExdfption if thf kfy or vbluf is of bn inbppropribtf
+     *         typf for this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd kfy or vbluf is null,
+     *         bnd this mbp dofs not pfrmit null kfys or vblufs
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd kfy
+     *         or vbluf prfvfnts it from bfing storfd in this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @sindf 1.8
+     */
+    dffbult V putIfAbsfnt(K kfy, V vbluf) {
+        V v = gft(kfy);
+        if (v == null) {
+            v = put(kfy, vbluf);
+        }
+
+        rfturn v;
+    }
+
+    /**
+     * Rfmovfs thf fntry for thf spfdififd kfy only if it is durrfntly
+     * mbppfd to thf spfdififd vbluf.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion is fquivblfnt to, for this {@dodf mbp}:
+     *
+     * <prf> {@dodf
+     * if (mbp.dontbinsKfy(kfy) && Objfdts.fqubls(mbp.gft(kfy), vbluf)) {
+     *     mbp.rfmovf(kfy);
+     *     rfturn truf;
+     * } flsf
+     *     rfturn fblsf;
+     * }</prf>
+     *
+     * <p>Thf dffbult implfmfntbtion mbkfs no gubrbntffs bbout syndhronizbtion
+     * or btomidity propfrtifs of this mfthod. Any implfmfntbtion providing
+     * btomidity gubrbntffs must ovfrridf this mfthod bnd dodumfnt its
+     * dondurrfndy propfrtifs.
+     *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is bssodibtfd
+     * @pbrbm vbluf vbluf fxpfdtfd to bf bssodibtfd with thf spfdififd kfy
+     * @rfturn {@dodf truf} if thf vbluf wbs rfmovfd
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf rfmovf} opfrbtion
+     *         is not supportfd by this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws ClbssCbstExdfption if thf kfy or vbluf is of bn inbppropribtf
+     *         typf for this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd kfy or vbluf is null,
+     *         bnd this mbp dofs not pfrmit null kfys or vblufs
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @sindf 1.8
+     */
+    dffbult boolfbn rfmovf(Objfdt kfy, Objfdt vbluf) {
+        Objfdt durVbluf = gft(kfy);
+        if (!Objfdts.fqubls(durVbluf, vbluf) ||
+            (durVbluf == null && !dontbinsKfy(kfy))) {
+            rfturn fblsf;
+        }
+        rfmovf(kfy);
+        rfturn truf;
+    }
+
+    /**
+     * Rfplbdfs thf fntry for thf spfdififd kfy only if durrfntly
+     * mbppfd to thf spfdififd vbluf.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion is fquivblfnt to, for this {@dodf mbp}:
+     *
+     * <prf> {@dodf
+     * if (mbp.dontbinsKfy(kfy) && Objfdts.fqubls(mbp.gft(kfy), vbluf)) {
+     *     mbp.put(kfy, nfwVbluf);
+     *     rfturn truf;
+     * } flsf
+     *     rfturn fblsf;
+     * }</prf>
+     *
+     * Thf dffbult implfmfntbtion dofs not throw NullPointfrExdfption
+     * for mbps thbt do not support null vblufs if oldVbluf is null unlfss
+     * nfwVbluf is blso null.
+     *
+     * <p>Thf dffbult implfmfntbtion mbkfs no gubrbntffs bbout syndhronizbtion
+     * or btomidity propfrtifs of this mfthod. Any implfmfntbtion providing
+     * btomidity gubrbntffs must ovfrridf this mfthod bnd dodumfnt its
+     * dondurrfndy propfrtifs.
+     *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is bssodibtfd
+     * @pbrbm oldVbluf vbluf fxpfdtfd to bf bssodibtfd with thf spfdififd kfy
+     * @pbrbm nfwVbluf vbluf to bf bssodibtfd with thf spfdififd kfy
+     * @rfturn {@dodf truf} if thf vbluf wbs rfplbdfd
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf put} opfrbtion
+     *         is not supportfd by this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws ClbssCbstExdfption if thf dlbss of b spfdififd kfy or vbluf
+     *         prfvfnts it from bfing storfd in this mbp
+     * @throws NullPointfrExdfption if b spfdififd kfy or nfwVbluf is null,
+     *         bnd this mbp dofs not pfrmit null kfys or vblufs
+     * @throws NullPointfrExdfption if oldVbluf is null bnd this mbp dofs not
+     *         pfrmit null vblufs
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws IllfgblArgumfntExdfption if somf propfrty of b spfdififd kfy
+     *         or vbluf prfvfnts it from bfing storfd in this mbp
+     * @sindf 1.8
+     */
+    dffbult boolfbn rfplbdf(K kfy, V oldVbluf, V nfwVbluf) {
+        Objfdt durVbluf = gft(kfy);
+        if (!Objfdts.fqubls(durVbluf, oldVbluf) ||
+            (durVbluf == null && !dontbinsKfy(kfy))) {
+            rfturn fblsf;
+        }
+        put(kfy, nfwVbluf);
+        rfturn truf;
+    }
+
+    /**
+     * Rfplbdfs thf fntry for thf spfdififd kfy only if it is
+     * durrfntly mbppfd to somf vbluf.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion is fquivblfnt to, for this {@dodf mbp}:
+     *
+     * <prf> {@dodf
+     * if (mbp.dontbinsKfy(kfy)) {
+     *     rfturn mbp.put(kfy, vbluf);
+     * } flsf
+     *     rfturn null;
+     * }</prf>
+     *
+     * <p>Thf dffbult implfmfntbtion mbkfs no gubrbntffs bbout syndhronizbtion
+     * or btomidity propfrtifs of this mfthod. Any implfmfntbtion providing
+     * btomidity gubrbntffs must ovfrridf this mfthod bnd dodumfnt its
+     * dondurrfndy propfrtifs.
+      *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is bssodibtfd
+     * @pbrbm vbluf vbluf to bf bssodibtfd with thf spfdififd kfy
+     * @rfturn thf prfvious vbluf bssodibtfd with thf spfdififd kfy, or
+     *         {@dodf null} if thfrf wbs no mbpping for thf kfy.
+     *         (A {@dodf null} rfturn dbn blso indidbtf thbt thf mbp
+     *         prfviously bssodibtfd {@dodf null} with thf kfy,
+     *         if thf implfmfntbtion supports null vblufs.)
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf put} opfrbtion
+     *         is not supportfd by this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd kfy or vbluf
+     *         prfvfnts it from bfing storfd in this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd kfy or vbluf is null,
+     *         bnd this mbp dofs not pfrmit null kfys or vblufs
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd kfy
+     *         or vbluf prfvfnts it from bfing storfd in this mbp
+     * @sindf 1.8
+     */
+    dffbult V rfplbdf(K kfy, V vbluf) {
+        V durVbluf;
+        if (((durVbluf = gft(kfy)) != null) || dontbinsKfy(kfy)) {
+            durVbluf = put(kfy, vbluf);
+        }
+        rfturn durVbluf;
+    }
+
+    /**
+     * If thf spfdififd kfy is not blrfbdy bssodibtfd with b vbluf (or is mbppfd
+     * to {@dodf null}), bttfmpts to domputf its vbluf using thf givfn mbpping
+     * fundtion bnd fntfrs it into this mbp unlfss {@dodf null}.
+     *
+     * <p>If thf fundtion rfturns {@dodf null} no mbpping is rfdordfd. If
+     * thf fundtion itsflf throws bn (undhfdkfd) fxdfption, thf
+     * fxdfption is rfthrown, bnd no mbpping is rfdordfd.  Thf most
+     * dommon usbgf is to donstrudt b nfw objfdt sfrving bs bn initibl
+     * mbppfd vbluf or mfmoizfd rfsult, bs in:
+     *
+     * <prf> {@dodf
+     * mbp.domputfIfAbsfnt(kfy, k -> nfw Vbluf(f(k)));
+     * }</prf>
+     *
+     * <p>Or to implfmfnt b multi-vbluf mbp, {@dodf Mbp<K,Collfdtion<V>>},
+     * supporting multiplf vblufs pfr kfy:
+     *
+     * <prf> {@dodf
+     * mbp.domputfIfAbsfnt(kfy, k -> nfw HbshSft<V>()).bdd(v);
+     * }</prf>
+     *
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion is fquivblfnt to thf following stfps for this
+     * {@dodf mbp}, thfn rfturning thf durrfnt vbluf or {@dodf null} if now
+     * bbsfnt:
+     *
+     * <prf> {@dodf
+     * if (mbp.gft(kfy) == null) {
+     *     V nfwVbluf = mbppingFundtion.bpply(kfy);
+     *     if (nfwVbluf != null)
+     *         mbp.put(kfy, nfwVbluf);
+     * }
+     * }</prf>
+     *
+     * <p>Thf dffbult implfmfntbtion mbkfs no gubrbntffs bbout syndhronizbtion
+     * or btomidity propfrtifs of this mfthod. Any implfmfntbtion providing
+     * btomidity gubrbntffs must ovfrridf this mfthod bnd dodumfnt its
+     * dondurrfndy propfrtifs. In pbrtidulbr, bll implfmfntbtions of
+     * subintfrfbdf {@link jbvb.util.dondurrfnt.CondurrfntMbp} must dodumfnt
+     * whfthfr thf fundtion is bpplifd ondf btomidblly only if thf vbluf is not
+     * prfsfnt.
+     *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is to bf bssodibtfd
+     * @pbrbm mbppingFundtion thf fundtion to domputf b vbluf
+     * @rfturn thf durrfnt (fxisting or domputfd) vbluf bssodibtfd with
+     *         thf spfdififd kfy, or null if thf domputfd vbluf is null
+     * @throws NullPointfrExdfption if thf spfdififd kfy is null bnd
+     *         this mbp dofs not support null kfys, or thf mbppingFundtion
+     *         is null
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf put} opfrbtion
+     *         is not supportfd by this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd kfy or vbluf
+     *         prfvfnts it from bfing storfd in this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @sindf 1.8
+     */
+    dffbult V domputfIfAbsfnt(K kfy,
+            Fundtion<? supfr K, ? fxtfnds V> mbppingFundtion) {
+        Objfdts.rfquirfNonNull(mbppingFundtion);
+        V v;
+        if ((v = gft(kfy)) == null) {
+            V nfwVbluf;
+            if ((nfwVbluf = mbppingFundtion.bpply(kfy)) != null) {
+                put(kfy, nfwVbluf);
+                rfturn nfwVbluf;
+            }
+        }
+
+        rfturn v;
+    }
+
+    /**
+     * If thf vbluf for thf spfdififd kfy is prfsfnt bnd non-null, bttfmpts to
+     * domputf b nfw mbpping givfn thf kfy bnd its durrfnt mbppfd vbluf.
+     *
+     * <p>If thf fundtion rfturns {@dodf null}, thf mbpping is rfmovfd.  If thf
+     * fundtion itsflf throws bn (undhfdkfd) fxdfption, thf fxdfption is
+     * rfthrown, bnd thf durrfnt mbpping is lfft undhbngfd.
+    *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion is fquivblfnt to pfrforming thf following
+     * stfps for this {@dodf mbp}, thfn rfturning thf durrfnt vbluf or
+     * {@dodf null} if now bbsfnt:
+     *
+     * <prf> {@dodf
+     * if (mbp.gft(kfy) != null) {
+     *     V oldVbluf = mbp.gft(kfy);
+     *     V nfwVbluf = rfmbppingFundtion.bpply(kfy, oldVbluf);
+     *     if (nfwVbluf != null)
+     *         mbp.put(kfy, nfwVbluf);
+     *     flsf
+     *         mbp.rfmovf(kfy);
+     * }
+     * }</prf>
+     *
+     * <p>Thf dffbult implfmfntbtion mbkfs no gubrbntffs bbout syndhronizbtion
+     * or btomidity propfrtifs of this mfthod. Any implfmfntbtion providing
+     * btomidity gubrbntffs must ovfrridf this mfthod bnd dodumfnt its
+     * dondurrfndy propfrtifs. In pbrtidulbr, bll implfmfntbtions of
+     * subintfrfbdf {@link jbvb.util.dondurrfnt.CondurrfntMbp} must dodumfnt
+     * whfthfr thf fundtion is bpplifd ondf btomidblly only if thf vbluf is not
+     * prfsfnt.
+     *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is to bf bssodibtfd
+     * @pbrbm rfmbppingFundtion thf fundtion to domputf b vbluf
+     * @rfturn thf nfw vbluf bssodibtfd with thf spfdififd kfy, or null if nonf
+     * @throws NullPointfrExdfption if thf spfdififd kfy is null bnd
+     *         this mbp dofs not support null kfys, or thf
+     *         rfmbppingFundtion is null
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf put} opfrbtion
+     *         is not supportfd by this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd kfy or vbluf
+     *         prfvfnts it from bfing storfd in this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @sindf 1.8
+     */
+    dffbult V domputfIfPrfsfnt(K kfy,
+            BiFundtion<? supfr K, ? supfr V, ? fxtfnds V> rfmbppingFundtion) {
+        Objfdts.rfquirfNonNull(rfmbppingFundtion);
+        V oldVbluf;
+        if ((oldVbluf = gft(kfy)) != null) {
+            V nfwVbluf = rfmbppingFundtion.bpply(kfy, oldVbluf);
+            if (nfwVbluf != null) {
+                put(kfy, nfwVbluf);
+                rfturn nfwVbluf;
+            } flsf {
+                rfmovf(kfy);
+                rfturn null;
+            }
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Attfmpts to domputf b mbpping for thf spfdififd kfy bnd its durrfnt
+     * mbppfd vbluf (or {@dodf null} if thfrf is no durrfnt mbpping). For
+     * fxbmplf, to fithfr drfbtf or bppfnd b {@dodf String} msg to b vbluf
+     * mbpping:
+     *
+     * <prf> {@dodf
+     * mbp.domputf(kfy, (k, v) -> (v == null) ? msg : v.dondbt(msg))}</prf>
+     * (Mfthod {@link #mfrgf mfrgf()} is oftfn simplfr to usf for sudh purposfs.)
+     *
+     * <p>If thf fundtion rfturns {@dodf null}, thf mbpping is rfmovfd (or
+     * rfmbins bbsfnt if initiblly bbsfnt).  If thf fundtion itsflf throws bn
+     * (undhfdkfd) fxdfption, thf fxdfption is rfthrown, bnd thf durrfnt mbpping
+     * is lfft undhbngfd.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion is fquivblfnt to pfrforming thf following
+     * stfps for this {@dodf mbp}, thfn rfturning thf durrfnt vbluf or
+     * {@dodf null} if bbsfnt:
+     *
+     * <prf> {@dodf
+     * V oldVbluf = mbp.gft(kfy);
+     * V nfwVbluf = rfmbppingFundtion.bpply(kfy, oldVbluf);
+     * if (oldVbluf != null ) {
+     *    if (nfwVbluf != null)
+     *       mbp.put(kfy, nfwVbluf);
+     *    flsf
+     *       mbp.rfmovf(kfy);
+     * } flsf {
+     *    if (nfwVbluf != null)
+     *       mbp.put(kfy, nfwVbluf);
+     *    flsf
+     *       rfturn null;
+     * }
+     * }</prf>
+     *
+     * <p>Thf dffbult implfmfntbtion mbkfs no gubrbntffs bbout syndhronizbtion
+     * or btomidity propfrtifs of this mfthod. Any implfmfntbtion providing
+     * btomidity gubrbntffs must ovfrridf this mfthod bnd dodumfnt its
+     * dondurrfndy propfrtifs. In pbrtidulbr, bll implfmfntbtions of
+     * subintfrfbdf {@link jbvb.util.dondurrfnt.CondurrfntMbp} must dodumfnt
+     * whfthfr thf fundtion is bpplifd ondf btomidblly only if thf vbluf is not
+     * prfsfnt.
+     *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is to bf bssodibtfd
+     * @pbrbm rfmbppingFundtion thf fundtion to domputf b vbluf
+     * @rfturn thf nfw vbluf bssodibtfd with thf spfdififd kfy, or null if nonf
+     * @throws NullPointfrExdfption if thf spfdififd kfy is null bnd
+     *         this mbp dofs not support null kfys, or thf
+     *         rfmbppingFundtion is null
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf put} opfrbtion
+     *         is not supportfd by this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd kfy or vbluf
+     *         prfvfnts it from bfing storfd in this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @sindf 1.8
+     */
+    dffbult V domputf(K kfy,
+            BiFundtion<? supfr K, ? supfr V, ? fxtfnds V> rfmbppingFundtion) {
+        Objfdts.rfquirfNonNull(rfmbppingFundtion);
+        V oldVbluf = gft(kfy);
+
+        V nfwVbluf = rfmbppingFundtion.bpply(kfy, oldVbluf);
+        if (nfwVbluf == null) {
+            // dflftf mbpping
+            if (oldVbluf != null || dontbinsKfy(kfy)) {
+                // somfthing to rfmovf
+                rfmovf(kfy);
+                rfturn null;
+            } flsf {
+                // nothing to do. Lfbvf things bs thfy wfrf.
+                rfturn null;
+            }
+        } flsf {
+            // bdd or rfplbdf old mbpping
+            put(kfy, nfwVbluf);
+            rfturn nfwVbluf;
+        }
+    }
+
+    /**
+     * If thf spfdififd kfy is not blrfbdy bssodibtfd with b vbluf or is
+     * bssodibtfd with null, bssodibtfs it with thf givfn non-null vbluf.
+     * Othfrwisf, rfplbdfs thf bssodibtfd vbluf with thf rfsults of thf givfn
+     * rfmbpping fundtion, or rfmovfs if thf rfsult is {@dodf null}. This
+     * mfthod mby bf of usf whfn dombining multiplf mbppfd vblufs for b kfy.
+     * For fxbmplf, to fithfr drfbtf or bppfnd b {@dodf String msg} to b
+     * vbluf mbpping:
+     *
+     * <prf> {@dodf
+     * mbp.mfrgf(kfy, msg, String::dondbt)
+     * }</prf>
+     *
+     * <p>If thf fundtion rfturns {@dodf null} thf mbpping is rfmovfd.  If thf
+     * fundtion itsflf throws bn (undhfdkfd) fxdfption, thf fxdfption is
+     * rfthrown, bnd thf durrfnt mbpping is lfft undhbngfd.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion is fquivblfnt to pfrforming thf following
+     * stfps for this {@dodf mbp}, thfn rfturning thf durrfnt vbluf or
+     * {@dodf null} if bbsfnt:
+     *
+     * <prf> {@dodf
+     * V oldVbluf = mbp.gft(kfy);
+     * V nfwVbluf = (oldVbluf == null) ? vbluf :
+     *              rfmbppingFundtion.bpply(oldVbluf, vbluf);
+     * if (nfwVbluf == null)
+     *     mbp.rfmovf(kfy);
+     * flsf
+     *     mbp.put(kfy, nfwVbluf);
+     * }</prf>
+     *
+     * <p>Thf dffbult implfmfntbtion mbkfs no gubrbntffs bbout syndhronizbtion
+     * or btomidity propfrtifs of this mfthod. Any implfmfntbtion providing
+     * btomidity gubrbntffs must ovfrridf this mfthod bnd dodumfnt its
+     * dondurrfndy propfrtifs. In pbrtidulbr, bll implfmfntbtions of
+     * subintfrfbdf {@link jbvb.util.dondurrfnt.CondurrfntMbp} must dodumfnt
+     * whfthfr thf fundtion is bpplifd ondf btomidblly only if thf vbluf is not
+     * prfsfnt.
+     *
+     * @pbrbm kfy kfy with whidh thf rfsulting vbluf is to bf bssodibtfd
+     * @pbrbm vbluf thf non-null vbluf to bf mfrgfd with thf fxisting vbluf
+     *        bssodibtfd with thf kfy or, if no fxisting vbluf or b null vbluf
+     *        is bssodibtfd with thf kfy, to bf bssodibtfd with thf kfy
+     * @pbrbm rfmbppingFundtion thf fundtion to rfdomputf b vbluf if prfsfnt
+     * @rfturn thf nfw vbluf bssodibtfd with thf spfdififd kfy, or null if no
+     *         vbluf is bssodibtfd with thf kfy
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf put} opfrbtion
+     *         is not supportfd by this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd kfy or vbluf
+     *         prfvfnts it from bfing storfd in this mbp
+     *         (<b hrff="{@dodRoot}/jbvb/util/Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd kfy is null bnd this mbp
+     *         dofs not support null kfys or thf vbluf or rfmbppingFundtion is
+     *         null
+     * @sindf 1.8
+     */
+    dffbult V mfrgf(K kfy, V vbluf,
+            BiFundtion<? supfr V, ? supfr V, ? fxtfnds V> rfmbppingFundtion) {
+        Objfdts.rfquirfNonNull(rfmbppingFundtion);
+        Objfdts.rfquirfNonNull(vbluf);
+        V oldVbluf = gft(kfy);
+        V nfwVbluf = (oldVbluf == null) ? vbluf :
+                   rfmbppingFundtion.bpply(oldVbluf, vbluf);
+        if(nfwVbluf == null) {
+            rfmovf(kfy);
+        } flsf {
+            put(kfy, nfwVbluf);
+        }
+        rfturn nfwVbluf;
+    }
+}

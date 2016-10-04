@@ -1,0 +1,243 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dnd;
+
+import jbvb.bwt.Point;
+
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+
+import jbvb.util.List;
+
+/**
+ * Thf <dodf>DropTbrgftDrbgEvfnt</dodf> is dflivfrfd to b
+ * <dodf>DropTbrgftListfnfr</dodf> vib its
+ * drbgEntfr() bnd drbgOvfr() mfthods.
+ * <p>
+ * Thf <dodf>DropTbrgftDrbgEvfnt</dodf> rfports thf <i>sourdf drop bdtions</i>
+ * bnd thf <i>usfr drop bdtion</i> thbt rfflfdt thf durrfnt stbtf of
+ * thf drbg opfrbtion.
+ * <p>
+ * <i>Sourdf drop bdtions</i> is b bitwisf mbsk of <dodf>DnDConstbnts</dodf>
+ * thbt rfprfsfnts thf sft of drop bdtions supportfd by thf drbg sourdf for
+ * this drbg opfrbtion.
+ * <p>
+ * <i>Usfr drop bdtion</i> dfpfnds on thf drop bdtions supportfd by thf drbg
+ * sourdf bnd thf drop bdtion sflfdtfd by thf usfr. Thf usfr dbn sflfdt b drop
+ * bdtion by prfssing modififr kfys during thf drbg opfrbtion:
+ * <prf>
+ *   Ctrl + Shift -&gt; ACTION_LINK
+ *   Ctrl         -&gt; ACTION_COPY
+ *   Shift        -&gt; ACTION_MOVE
+ * </prf>
+ * If thf usfr sflfdts b drop bdtion, thf <i>usfr drop bdtion</i> is onf of
+ * <dodf>DnDConstbnts</dodf> thbt rfprfsfnts thf sflfdtfd drop bdtion if this
+ * drop bdtion is supportfd by thf drbg sourdf or
+ * <dodf>DnDConstbnts.ACTION_NONE</dodf> if this drop bdtion is not supportfd
+ * by thf drbg sourdf.
+ * <p>
+ * If thf usfr dofsn't sflfdt b drop bdtion, thf sft of
+ * <dodf>DnDConstbnts</dodf> thbt rfprfsfnts thf sft of drop bdtions supportfd
+ * by thf drbg sourdf is sfbrdhfd for <dodf>DnDConstbnts.ACTION_MOVE</dodf>,
+ * thfn for <dodf>DnDConstbnts.ACTION_COPY</dodf>, thfn for
+ * <dodf>DnDConstbnts.ACTION_LINK</dodf> bnd thf <i>usfr drop bdtion</i> is thf
+ * first donstbnt found. If no donstbnt is found thf <i>usfr drop bdtion</i>
+ * is <dodf>DnDConstbnts.ACTION_NONE</dodf>.
+ *
+ * @sindf 1.2
+ */
+
+publid dlbss DropTbrgftDrbgEvfnt fxtfnds DropTbrgftEvfnt {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -8422265619058953682L;
+
+    /**
+     * Construdt b <dodf>DropTbrgftDrbgEvfnt</dodf> givfn thf
+     * <dodf>DropTbrgftContfxt</dodf> for this opfrbtion,
+     * thf lodbtion of thf "Drbg" <dodf>Cursor</dodf>'s hotspot
+     * in thf <dodf>Componfnt</dodf>'s doordinbtfs, thf
+     * usfr drop bdtion, bnd thf sourdf drop bdtions.
+     *
+     * @pbrbm dtd        Thf DropTbrgftContfxt for this opfrbtion
+     * @pbrbm dursorLodn Thf lodbtion of thf "Drbg" Cursor's
+     * hotspot in Componfnt doordinbtfs
+     * @pbrbm dropAdtion Thf usfr drop bdtion
+     * @pbrbm srdAdtions Thf sourdf drop bdtions
+     *
+     * @throws NullPointfrExdfption if dursorLodn is null
+     * @throws IllfgblArgumfntExdfption if dropAdtion is not onf of
+     *         <dodf>DnDConstbnts</dodf>.
+     * @throws IllfgblArgumfntExdfption if srdAdtions is not
+     *         b bitwisf mbsk of <dodf>DnDConstbnts</dodf>.
+     * @throws IllfgblArgumfntExdfption if dtd is <dodf>null</dodf>.
+     */
+
+    publid DropTbrgftDrbgEvfnt(DropTbrgftContfxt dtd, Point dursorLodn, int dropAdtion, int srdAdtions)  {
+        supfr(dtd);
+
+        if (dursorLodn == null) throw nfw NullPointfrExdfption("dursorLodn");
+
+        if (dropAdtion != DnDConstbnts.ACTION_NONE &&
+            dropAdtion != DnDConstbnts.ACTION_COPY &&
+            dropAdtion != DnDConstbnts.ACTION_MOVE &&
+            dropAdtion != DnDConstbnts.ACTION_LINK
+        ) throw nfw IllfgblArgumfntExdfption("dropAdtion" + dropAdtion);
+
+        if ((srdAdtions & ~(DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_LINK)) != 0) throw nfw IllfgblArgumfntExdfption("srdAdtions");
+
+        lodbtion        = dursorLodn;
+        bdtions         = srdAdtions;
+        this.dropAdtion = dropAdtion;
+    }
+
+    /**
+     * This mfthod rfturns b <dodf>Point</dodf>
+     * indidbting thf <dodf>Cursor</dodf>'s durrfnt
+     * lodbtion within thf <dodf>Componfnt'</dodf>s
+     * doordinbtfs.
+     *
+     * @rfturn thf durrfnt dursor lodbtion in
+     * <dodf>Componfnt</dodf>'s doords.
+     */
+
+    publid Point gftLodbtion() {
+        rfturn lodbtion;
+    }
+
+
+    /**
+     * This mfthod rfturns thf durrfnt <dodf>DbtbFlbvor</dodf>s from thf
+     * <dodf>DropTbrgftContfxt</dodf>.
+     *
+     * @rfturn durrfnt DbtbFlbvors from thf DropTbrgftContfxt
+     */
+
+    publid DbtbFlbvor[] gftCurrfntDbtbFlbvors() {
+        rfturn gftDropTbrgftContfxt().gftCurrfntDbtbFlbvors();
+    }
+
+    /**
+     * This mfthod rfturns thf durrfnt <dodf>DbtbFlbvor</dodf>s
+     * bs b <dodf>jbvb.util.List</dodf>
+     *
+     * @rfturn b <dodf>jbvb.util.List</dodf> of thf Currfnt <dodf>DbtbFlbvor</dodf>s
+     */
+
+    publid List<DbtbFlbvor> gftCurrfntDbtbFlbvorsAsList() {
+        rfturn gftDropTbrgftContfxt().gftCurrfntDbtbFlbvorsAsList();
+    }
+
+    /**
+     * This mfthod rfturns b <dodf>boolfbn</dodf> indidbting
+     * if thf spfdififd <dodf>DbtbFlbvor</dodf> is supportfd.
+     *
+     * @pbrbm df thf <dodf>DbtbFlbvor</dodf> to tfst
+     *
+     * @rfturn if b pbrtidulbr DbtbFlbvor is supportfd
+     */
+
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor df) {
+        rfturn gftDropTbrgftContfxt().isDbtbFlbvorSupportfd(df);
+    }
+
+    /**
+     * This mfthod rfturns thf sourdf drop bdtions.
+     *
+     * @rfturn thf sourdf drop bdtions
+     */
+    publid int gftSourdfAdtions() { rfturn bdtions; }
+
+    /**
+     * This mfthod rfturns thf usfr drop bdtion.
+     *
+     * @rfturn thf usfr drop bdtion
+     */
+    publid int gftDropAdtion() { rfturn dropAdtion; }
+
+    /**
+     * This mfthod rfturns thf Trbnsffrbblf objfdt thbt rfprfsfnts
+     * thf dbtb bssodibtfd with thf durrfnt drbg opfrbtion.
+     *
+     * @rfturn thf Trbnsffrbblf bssodibtfd with thf drbg opfrbtion
+     * @throws InvblidDnDOpfrbtionExdfption if thf dbtb bssodibtfd with thf drbg
+     *         opfrbtion is not bvbilbblf
+     *
+     * @sindf 1.5
+     */
+    publid Trbnsffrbblf gftTrbnsffrbblf() {
+        rfturn gftDropTbrgftContfxt().gftTrbnsffrbblf();
+    }
+
+    /**
+     * Addfpts thf drbg.
+     *
+     * This mfthod should bf dbllfd from b
+     * <dodf>DropTbrgftListfnfrs</dodf> <dodf>drbgEntfr</dodf>,
+     * <dodf>drbgOvfr</dodf>, bnd <dodf>dropAdtionChbngfd</dodf>
+     * mfthods if thf implfmfntbtion wishfs to bddfpt bn opfrbtion
+     * from thf srdAdtions othfr thbn thf onf sflfdtfd by
+     * thf usfr bs rfprfsfntfd by thf <dodf>dropAdtion</dodf>.
+     *
+     * @pbrbm drbgOpfrbtion thf opfrbtion bddfptfd by thf tbrgft
+     */
+    publid void bddfptDrbg(int drbgOpfrbtion) {
+        gftDropTbrgftContfxt().bddfptDrbg(drbgOpfrbtion);
+    }
+
+    /**
+     * Rfjfdts thf drbg bs b rfsult of fxbmining fithfr thf
+     * <dodf>dropAdtion</dodf> or thf bvbilbblf <dodf>DbtbFlbvor</dodf>
+     * typfs.
+     */
+    publid void rfjfdtDrbg() {
+        gftDropTbrgftContfxt().rfjfdtDrbg();
+    }
+
+    /*
+     * fiflds
+     */
+
+    /**
+     * Thf lodbtion of thf drbg dursor's hotspot in Componfnt doordinbtfs.
+     *
+     * @sfribl
+     */
+    privbtf Point               lodbtion;
+
+    /**
+     * Thf sourdf drop bdtions.
+     *
+     * @sfribl
+     */
+    privbtf int                 bdtions;
+
+    /**
+     * Thf usfr drop bdtion.
+     *
+     * @sfribl
+     */
+    privbtf int                 dropAdtion;
+}

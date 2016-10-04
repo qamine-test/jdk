@@ -1,1048 +1,1048 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
-import java.util.*;
-import java.text.AttributedCharacterIterator.Attribute;
+import jbvb.util.*;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor.Attributf;
 
 /**
- * An AttributedString holds text and related attribute information. It
- * may be used as the actual data storage in some cases where a text
- * reader wants to access attributed text through the AttributedCharacterIterator
- * interface.
+ * An AttributfdString iolds tfxt bnd rflbtfd bttributf informbtion. It
+ * mby bf usfd bs tif bdtubl dbtb storbgf in somf dbsfs wifrf b tfxt
+ * rfbdfr wbnts to bddfss bttributfd tfxt tirougi tif AttributfdCibrbdtfrItfrbtor
+ * intfrfbdf.
  *
  * <p>
- * An attribute is a key/value pair, identified by the key.  No two
- * attributes on a given character can have the same key.
+ * An bttributf is b kfy/vbluf pbir, idfntififd by tif kfy.  No two
+ * bttributfs on b givfn dibrbdtfr dbn ibvf tif sbmf kfy.
  *
- * <p>The values for an attribute are immutable, or must not be mutated
- * by clients or storage.  They are always passed by reference, and not
- * cloned.
+ * <p>Tif vblufs for bn bttributf brf immutbblf, or must not bf mutbtfd
+ * by dlifnts or storbgf.  Tify brf blwbys pbssfd by rfffrfndf, bnd not
+ * dlonfd.
  *
- * @see AttributedCharacterIterator
- * @see Annotation
- * @since 1.2
+ * @sff AttributfdCibrbdtfrItfrbtor
+ * @sff Annotbtion
+ * @sindf 1.2
  */
 
-public class AttributedString {
+publid dlbss AttributfdString {
 
-    // since there are no vectors of int, we have to use arrays.
-    // We allocate them in chunks of 10 elements so we don't have to allocate all the time.
-    private static final int ARRAY_SIZE_INCREMENT = 10;
+    // sindf tifrf brf no vfdtors of int, wf ibvf to usf brrbys.
+    // Wf bllodbtf tifm in diunks of 10 flfmfnts so wf don't ibvf to bllodbtf bll tif timf.
+    privbtf stbtid finbl int ARRAY_SIZE_INCREMENT = 10;
 
-    // field holding the text
-    String text;
+    // fifld iolding tif tfxt
+    String tfxt;
 
-    // fields holding run attribute information
-    // run attributes are organized by run
-    int runArraySize;               // current size of the arrays
-    int runCount;                   // actual number of runs, <= runArraySize
-    int runStarts[];                // start index for each run
-    Vector<Attribute> runAttributes[];         // vector of attribute keys for each run
-    Vector<Object> runAttributeValues[];    // parallel vector of attribute values for each run
+    // fiflds iolding run bttributf informbtion
+    // run bttributfs brf orgbnizfd by run
+    int runArrbySizf;               // durrfnt sizf of tif brrbys
+    int runCount;                   // bdtubl numbfr of runs, <= runArrbySizf
+    int runStbrts[];                // stbrt indfx for fbdi run
+    Vfdtor<Attributf> runAttributfs[];         // vfdtor of bttributf kfys for fbdi run
+    Vfdtor<Objfdt> runAttributfVblufs[];    // pbrbllfl vfdtor of bttributf vblufs for fbdi run
 
     /**
-     * Constructs an AttributedString instance with the given
-     * AttributedCharacterIterators.
+     * Construdts bn AttributfdString instbndf witi tif givfn
+     * AttributfdCibrbdtfrItfrbtors.
      *
-     * @param iterators AttributedCharacterIterators to construct
-     * AttributedString from.
-     * @throws NullPointerException if iterators is null
+     * @pbrbm itfrbtors AttributfdCibrbdtfrItfrbtors to donstrudt
+     * AttributfdString from.
+     * @tirows NullPointfrExdfption if itfrbtors is null
      */
-    AttributedString(AttributedCharacterIterator[] iterators) {
-        if (iterators == null) {
-            throw new NullPointerException("Iterators must not be null");
+    AttributfdString(AttributfdCibrbdtfrItfrbtor[] itfrbtors) {
+        if (itfrbtors == null) {
+            tirow nfw NullPointfrExdfption("Itfrbtors must not bf null");
         }
-        if (iterators.length == 0) {
-            text = "";
+        if (itfrbtors.lfngti == 0) {
+            tfxt = "";
         }
-        else {
-            // Build the String contents
-            StringBuffer buffer = new StringBuffer();
-            for (int counter = 0; counter < iterators.length; counter++) {
-                appendContents(buffer, iterators[counter]);
+        flsf {
+            // Build tif String dontfnts
+            StringBufffr bufffr = nfw StringBufffr();
+            for (int dountfr = 0; dountfr < itfrbtors.lfngti; dountfr++) {
+                bppfndContfnts(bufffr, itfrbtors[dountfr]);
             }
 
-            text = buffer.toString();
+            tfxt = bufffr.toString();
 
-            if (text.length() > 0) {
-                // Determine the runs, creating a new run when the attributes
-                // differ.
-                int offset = 0;
-                Map<Attribute,Object> last = null;
+            if (tfxt.lfngti() > 0) {
+                // Dftfrminf tif runs, drfbting b nfw run wifn tif bttributfs
+                // difffr.
+                int offsft = 0;
+                Mbp<Attributf,Objfdt> lbst = null;
 
-                for (int counter = 0; counter < iterators.length; counter++) {
-                    AttributedCharacterIterator iterator = iterators[counter];
-                    int start = iterator.getBeginIndex();
-                    int end = iterator.getEndIndex();
-                    int index = start;
+                for (int dountfr = 0; dountfr < itfrbtors.lfngti; dountfr++) {
+                    AttributfdCibrbdtfrItfrbtor itfrbtor = itfrbtors[dountfr];
+                    int stbrt = itfrbtor.gftBfginIndfx();
+                    int fnd = itfrbtor.gftEndIndfx();
+                    int indfx = stbrt;
 
-                    while (index < end) {
-                        iterator.setIndex(index);
+                    wiilf (indfx < fnd) {
+                        itfrbtor.sftIndfx(indfx);
 
-                        Map<Attribute,Object> attrs = iterator.getAttributes();
+                        Mbp<Attributf,Objfdt> bttrs = itfrbtor.gftAttributfs();
 
-                        if (mapsDiffer(last, attrs)) {
-                            setAttributes(attrs, index - start + offset);
+                        if (mbpsDifffr(lbst, bttrs)) {
+                            sftAttributfs(bttrs, indfx - stbrt + offsft);
                         }
-                        last = attrs;
-                        index = iterator.getRunLimit();
+                        lbst = bttrs;
+                        indfx = itfrbtor.gftRunLimit();
                     }
-                    offset += (end - start);
+                    offsft += (fnd - stbrt);
                 }
             }
         }
     }
 
     /**
-     * Constructs an AttributedString instance with the given text.
-     * @param text The text for this attributed string.
-     * @exception NullPointerException if <code>text</code> is null.
+     * Construdts bn AttributfdString instbndf witi tif givfn tfxt.
+     * @pbrbm tfxt Tif tfxt for tiis bttributfd string.
+     * @fxdfption NullPointfrExdfption if <dodf>tfxt</dodf> is null.
      */
-    public AttributedString(String text) {
-        if (text == null) {
-            throw new NullPointerException();
+    publid AttributfdString(String tfxt) {
+        if (tfxt == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.text = text;
+        tiis.tfxt = tfxt;
     }
 
     /**
-     * Constructs an AttributedString instance with the given text and attributes.
-     * @param text The text for this attributed string.
-     * @param attributes The attributes that apply to the entire string.
-     * @exception NullPointerException if <code>text</code> or
-     *            <code>attributes</code> is null.
-     * @exception IllegalArgumentException if the text has length 0
-     * and the attributes parameter is not an empty Map (attributes
-     * cannot be applied to a 0-length range).
+     * Construdts bn AttributfdString instbndf witi tif givfn tfxt bnd bttributfs.
+     * @pbrbm tfxt Tif tfxt for tiis bttributfd string.
+     * @pbrbm bttributfs Tif bttributfs tibt bpply to tif fntirf string.
+     * @fxdfption NullPointfrExdfption if <dodf>tfxt</dodf> or
+     *            <dodf>bttributfs</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif tfxt ibs lfngti 0
+     * bnd tif bttributfs pbrbmftfr is not bn fmpty Mbp (bttributfs
+     * dbnnot bf bpplifd to b 0-lfngti rbngf).
      */
-    public AttributedString(String text,
-                            Map<? extends Attribute, ?> attributes)
+    publid AttributfdString(String tfxt,
+                            Mbp<? fxtfnds Attributf, ?> bttributfs)
     {
-        if (text == null || attributes == null) {
-            throw new NullPointerException();
+        if (tfxt == null || bttributfs == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.text = text;
+        tiis.tfxt = tfxt;
 
-        if (text.length() == 0) {
-            if (attributes.isEmpty())
-                return;
-            throw new IllegalArgumentException("Can't add attribute to 0-length text");
+        if (tfxt.lfngti() == 0) {
+            if (bttributfs.isEmpty())
+                rfturn;
+            tirow nfw IllfgblArgumfntExdfption("Cbn't bdd bttributf to 0-lfngti tfxt");
         }
 
-        int attributeCount = attributes.size();
-        if (attributeCount > 0) {
-            createRunAttributeDataVectors();
-            Vector<Attribute> newRunAttributes = new Vector<>(attributeCount);
-            Vector<Object> newRunAttributeValues = new Vector<>(attributeCount);
-            runAttributes[0] = newRunAttributes;
-            runAttributeValues[0] = newRunAttributeValues;
+        int bttributfCount = bttributfs.sizf();
+        if (bttributfCount > 0) {
+            drfbtfRunAttributfDbtbVfdtors();
+            Vfdtor<Attributf> nfwRunAttributfs = nfw Vfdtor<>(bttributfCount);
+            Vfdtor<Objfdt> nfwRunAttributfVblufs = nfw Vfdtor<>(bttributfCount);
+            runAttributfs[0] = nfwRunAttributfs;
+            runAttributfVblufs[0] = nfwRunAttributfVblufs;
 
-            Iterator<? extends Map.Entry<? extends Attribute, ?>> iterator = attributes.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<? extends Attribute, ?> entry = iterator.next();
-                newRunAttributes.addElement(entry.getKey());
-                newRunAttributeValues.addElement(entry.getValue());
+            Itfrbtor<? fxtfnds Mbp.Entry<? fxtfnds Attributf, ?>> itfrbtor = bttributfs.fntrySft().itfrbtor();
+            wiilf (itfrbtor.ibsNfxt()) {
+                Mbp.Entry<? fxtfnds Attributf, ?> fntry = itfrbtor.nfxt();
+                nfwRunAttributfs.bddElfmfnt(fntry.gftKfy());
+                nfwRunAttributfVblufs.bddElfmfnt(fntry.gftVbluf());
             }
         }
     }
 
     /**
-     * Constructs an AttributedString instance with the given attributed
-     * text represented by AttributedCharacterIterator.
-     * @param text The text for this attributed string.
-     * @exception NullPointerException if <code>text</code> is null.
+     * Construdts bn AttributfdString instbndf witi tif givfn bttributfd
+     * tfxt rfprfsfntfd by AttributfdCibrbdtfrItfrbtor.
+     * @pbrbm tfxt Tif tfxt for tiis bttributfd string.
+     * @fxdfption NullPointfrExdfption if <dodf>tfxt</dodf> is null.
      */
-    public AttributedString(AttributedCharacterIterator text) {
-        // If performance is critical, this constructor should be
-        // implemented here rather than invoking the constructor for a
-        // subrange. We can avoid some range checking in the loops.
-        this(text, text.getBeginIndex(), text.getEndIndex(), null);
+    publid AttributfdString(AttributfdCibrbdtfrItfrbtor tfxt) {
+        // If pfrformbndf is dritidbl, tiis donstrudtor siould bf
+        // implfmfntfd ifrf rbtifr tibn invoking tif donstrudtor for b
+        // subrbngf. Wf dbn bvoid somf rbngf difdking in tif loops.
+        tiis(tfxt, tfxt.gftBfginIndfx(), tfxt.gftEndIndfx(), null);
     }
 
     /**
-     * Constructs an AttributedString instance with the subrange of
-     * the given attributed text represented by
-     * AttributedCharacterIterator. If the given range produces an
-     * empty text, all attributes will be discarded.  Note that any
-     * attributes wrapped by an Annotation object are discarded for a
-     * subrange of the original attribute range.
+     * Construdts bn AttributfdString instbndf witi tif subrbngf of
+     * tif givfn bttributfd tfxt rfprfsfntfd by
+     * AttributfdCibrbdtfrItfrbtor. If tif givfn rbngf produdfs bn
+     * fmpty tfxt, bll bttributfs will bf disdbrdfd.  Notf tibt bny
+     * bttributfs wrbppfd by bn Annotbtion objfdt brf disdbrdfd for b
+     * subrbngf of tif originbl bttributf rbngf.
      *
-     * @param text The text for this attributed string.
-     * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last character
-     * of the range.
-     * @exception NullPointerException if <code>text</code> is null.
-     * @exception IllegalArgumentException if the subrange given by
-     * beginIndex and endIndex is out of the text range.
-     * @see java.text.Annotation
+     * @pbrbm tfxt Tif tfxt for tiis bttributfd string.
+     * @pbrbm bfginIndfx Indfx of tif first dibrbdtfr of tif rbngf.
+     * @pbrbm fndIndfx Indfx of tif dibrbdtfr following tif lbst dibrbdtfr
+     * of tif rbngf.
+     * @fxdfption NullPointfrExdfption if <dodf>tfxt</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif subrbngf givfn by
+     * bfginIndfx bnd fndIndfx is out of tif tfxt rbngf.
+     * @sff jbvb.tfxt.Annotbtion
      */
-    public AttributedString(AttributedCharacterIterator text,
-                            int beginIndex,
-                            int endIndex) {
-        this(text, beginIndex, endIndex, null);
+    publid AttributfdString(AttributfdCibrbdtfrItfrbtor tfxt,
+                            int bfginIndfx,
+                            int fndIndfx) {
+        tiis(tfxt, bfginIndfx, fndIndfx, null);
     }
 
     /**
-     * Constructs an AttributedString instance with the subrange of
-     * the given attributed text represented by
-     * AttributedCharacterIterator.  Only attributes that match the
-     * given attributes will be incorporated into the instance. If the
-     * given range produces an empty text, all attributes will be
-     * discarded. Note that any attributes wrapped by an Annotation
-     * object are discarded for a subrange of the original attribute
-     * range.
+     * Construdts bn AttributfdString instbndf witi tif subrbngf of
+     * tif givfn bttributfd tfxt rfprfsfntfd by
+     * AttributfdCibrbdtfrItfrbtor.  Only bttributfs tibt mbtdi tif
+     * givfn bttributfs will bf indorporbtfd into tif instbndf. If tif
+     * givfn rbngf produdfs bn fmpty tfxt, bll bttributfs will bf
+     * disdbrdfd. Notf tibt bny bttributfs wrbppfd by bn Annotbtion
+     * objfdt brf disdbrdfd for b subrbngf of tif originbl bttributf
+     * rbngf.
      *
-     * @param text The text for this attributed string.
-     * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last character
-     * of the range.
-     * @param attributes Specifies attributes to be extracted
-     * from the text. If null is specified, all available attributes will
-     * be used.
-     * @exception NullPointerException if <code>text</code> is null.
-     * @exception IllegalArgumentException if the subrange given by
-     * beginIndex and endIndex is out of the text range.
-     * @see java.text.Annotation
+     * @pbrbm tfxt Tif tfxt for tiis bttributfd string.
+     * @pbrbm bfginIndfx Indfx of tif first dibrbdtfr of tif rbngf.
+     * @pbrbm fndIndfx Indfx of tif dibrbdtfr following tif lbst dibrbdtfr
+     * of tif rbngf.
+     * @pbrbm bttributfs Spfdififs bttributfs to bf fxtrbdtfd
+     * from tif tfxt. If null is spfdififd, bll bvbilbblf bttributfs will
+     * bf usfd.
+     * @fxdfption NullPointfrExdfption if <dodf>tfxt</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif subrbngf givfn by
+     * bfginIndfx bnd fndIndfx is out of tif tfxt rbngf.
+     * @sff jbvb.tfxt.Annotbtion
      */
-    public AttributedString(AttributedCharacterIterator text,
-                            int beginIndex,
-                            int endIndex,
-                            Attribute[] attributes) {
-        if (text == null) {
-            throw new NullPointerException();
+    publid AttributfdString(AttributfdCibrbdtfrItfrbtor tfxt,
+                            int bfginIndfx,
+                            int fndIndfx,
+                            Attributf[] bttributfs) {
+        if (tfxt == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        // Validate the given subrange
-        int textBeginIndex = text.getBeginIndex();
-        int textEndIndex = text.getEndIndex();
-        if (beginIndex < textBeginIndex || endIndex > textEndIndex || beginIndex > endIndex)
-            throw new IllegalArgumentException("Invalid substring range");
+        // Vblidbtf tif givfn subrbngf
+        int tfxtBfginIndfx = tfxt.gftBfginIndfx();
+        int tfxtEndIndfx = tfxt.gftEndIndfx();
+        if (bfginIndfx < tfxtBfginIndfx || fndIndfx > tfxtEndIndfx || bfginIndfx > fndIndfx)
+            tirow nfw IllfgblArgumfntExdfption("Invblid substring rbngf");
 
-        // Copy the given string
-        StringBuilder textBuilder = new StringBuilder();
-        text.setIndex(beginIndex);
-        for (char c = text.current(); text.getIndex() < endIndex; c = text.next())
-            textBuilder.append(c);
-        this.text = textBuilder.toString();
+        // Copy tif givfn string
+        StringBuildfr tfxtBuildfr = nfw StringBuildfr();
+        tfxt.sftIndfx(bfginIndfx);
+        for (dibr d = tfxt.durrfnt(); tfxt.gftIndfx() < fndIndfx; d = tfxt.nfxt())
+            tfxtBuildfr.bppfnd(d);
+        tiis.tfxt = tfxtBuildfr.toString();
 
-        if (beginIndex == endIndex)
-            return;
+        if (bfginIndfx == fndIndfx)
+            rfturn;
 
-        // Select attribute keys to be taken care of
-        HashSet<Attribute> keys = new HashSet<>();
-        if (attributes == null) {
-            keys.addAll(text.getAllAttributeKeys());
-        } else {
-            for (int i = 0; i < attributes.length; i++)
-                keys.add(attributes[i]);
-            keys.retainAll(text.getAllAttributeKeys());
+        // Sflfdt bttributf kfys to bf tbkfn dbrf of
+        HbsiSft<Attributf> kfys = nfw HbsiSft<>();
+        if (bttributfs == null) {
+            kfys.bddAll(tfxt.gftAllAttributfKfys());
+        } flsf {
+            for (int i = 0; i < bttributfs.lfngti; i++)
+                kfys.bdd(bttributfs[i]);
+            kfys.rftbinAll(tfxt.gftAllAttributfKfys());
         }
-        if (keys.isEmpty())
-            return;
+        if (kfys.isEmpty())
+            rfturn;
 
-        // Get and set attribute runs for each attribute name. Need to
-        // scan from the top of the text so that we can discard any
-        // Annotation that is no longer applied to a subset text segment.
-        Iterator<Attribute> itr = keys.iterator();
-        while (itr.hasNext()) {
-            Attribute attributeKey = itr.next();
-            text.setIndex(textBeginIndex);
-            while (text.getIndex() < endIndex) {
-                int start = text.getRunStart(attributeKey);
-                int limit = text.getRunLimit(attributeKey);
-                Object value = text.getAttribute(attributeKey);
+        // Gft bnd sft bttributf runs for fbdi bttributf nbmf. Nffd to
+        // sdbn from tif top of tif tfxt so tibt wf dbn disdbrd bny
+        // Annotbtion tibt is no longfr bpplifd to b subsft tfxt sfgmfnt.
+        Itfrbtor<Attributf> itr = kfys.itfrbtor();
+        wiilf (itr.ibsNfxt()) {
+            Attributf bttributfKfy = itr.nfxt();
+            tfxt.sftIndfx(tfxtBfginIndfx);
+            wiilf (tfxt.gftIndfx() < fndIndfx) {
+                int stbrt = tfxt.gftRunStbrt(bttributfKfy);
+                int limit = tfxt.gftRunLimit(bttributfKfy);
+                Objfdt vbluf = tfxt.gftAttributf(bttributfKfy);
 
-                if (value != null) {
-                    if (value instanceof Annotation) {
-                        if (start >= beginIndex && limit <= endIndex) {
-                            addAttribute(attributeKey, value, start - beginIndex, limit - beginIndex);
-                        } else {
-                            if (limit > endIndex)
-                                break;
+                if (vbluf != null) {
+                    if (vbluf instbndfof Annotbtion) {
+                        if (stbrt >= bfginIndfx && limit <= fndIndfx) {
+                            bddAttributf(bttributfKfy, vbluf, stbrt - bfginIndfx, limit - bfginIndfx);
+                        } flsf {
+                            if (limit > fndIndfx)
+                                brfbk;
                         }
-                    } else {
-                        // if the run is beyond the given (subset) range, we
-                        // don't need to process further.
-                        if (start >= endIndex)
-                            break;
-                        if (limit > beginIndex) {
-                            // attribute is applied to any subrange
-                            if (start < beginIndex)
-                                start = beginIndex;
-                            if (limit > endIndex)
-                                limit = endIndex;
-                            if (start != limit) {
-                                addAttribute(attributeKey, value, start - beginIndex, limit - beginIndex);
+                    } flsf {
+                        // if tif run is bfyond tif givfn (subsft) rbngf, wf
+                        // don't nffd to prodfss furtifr.
+                        if (stbrt >= fndIndfx)
+                            brfbk;
+                        if (limit > bfginIndfx) {
+                            // bttributf is bpplifd to bny subrbngf
+                            if (stbrt < bfginIndfx)
+                                stbrt = bfginIndfx;
+                            if (limit > fndIndfx)
+                                limit = fndIndfx;
+                            if (stbrt != limit) {
+                                bddAttributf(bttributfKfy, vbluf, stbrt - bfginIndfx, limit - bfginIndfx);
                             }
                         }
                     }
                 }
-                text.setIndex(limit);
+                tfxt.sftIndfx(limit);
             }
         }
     }
 
     /**
-     * Adds an attribute to the entire string.
-     * @param attribute the attribute key
-     * @param value the value of the attribute; may be null
-     * @exception NullPointerException if <code>attribute</code> is null.
-     * @exception IllegalArgumentException if the AttributedString has length 0
-     * (attributes cannot be applied to a 0-length range).
+     * Adds bn bttributf to tif fntirf string.
+     * @pbrbm bttributf tif bttributf kfy
+     * @pbrbm vbluf tif vbluf of tif bttributf; mby bf null
+     * @fxdfption NullPointfrExdfption if <dodf>bttributf</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif AttributfdString ibs lfngti 0
+     * (bttributfs dbnnot bf bpplifd to b 0-lfngti rbngf).
      */
-    public void addAttribute(Attribute attribute, Object value) {
+    publid void bddAttributf(Attributf bttributf, Objfdt vbluf) {
 
-        if (attribute == null) {
-            throw new NullPointerException();
+        if (bttributf == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        int len = length();
-        if (len == 0) {
-            throw new IllegalArgumentException("Can't add attribute to 0-length text");
+        int lfn = lfngti();
+        if (lfn == 0) {
+            tirow nfw IllfgblArgumfntExdfption("Cbn't bdd bttributf to 0-lfngti tfxt");
         }
 
-        addAttributeImpl(attribute, value, 0, len);
+        bddAttributfImpl(bttributf, vbluf, 0, lfn);
     }
 
     /**
-     * Adds an attribute to a subrange of the string.
-     * @param attribute the attribute key
-     * @param value The value of the attribute. May be null.
-     * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last character of the range.
-     * @exception NullPointerException if <code>attribute</code> is null.
-     * @exception IllegalArgumentException if beginIndex is less then 0, endIndex is
-     * greater than the length of the string, or beginIndex and endIndex together don't
-     * define a non-empty subrange of the string.
+     * Adds bn bttributf to b subrbngf of tif string.
+     * @pbrbm bttributf tif bttributf kfy
+     * @pbrbm vbluf Tif vbluf of tif bttributf. Mby bf null.
+     * @pbrbm bfginIndfx Indfx of tif first dibrbdtfr of tif rbngf.
+     * @pbrbm fndIndfx Indfx of tif dibrbdtfr following tif lbst dibrbdtfr of tif rbngf.
+     * @fxdfption NullPointfrExdfption if <dodf>bttributf</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if bfginIndfx is lfss tifn 0, fndIndfx is
+     * grfbtfr tibn tif lfngti of tif string, or bfginIndfx bnd fndIndfx togftifr don't
+     * dffinf b non-fmpty subrbngf of tif string.
      */
-    public void addAttribute(Attribute attribute, Object value,
-            int beginIndex, int endIndex) {
+    publid void bddAttributf(Attributf bttributf, Objfdt vbluf,
+            int bfginIndfx, int fndIndfx) {
 
-        if (attribute == null) {
-            throw new NullPointerException();
+        if (bttributf == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        if (beginIndex < 0 || endIndex > length() || beginIndex >= endIndex) {
-            throw new IllegalArgumentException("Invalid substring range");
+        if (bfginIndfx < 0 || fndIndfx > lfngti() || bfginIndfx >= fndIndfx) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid substring rbngf");
         }
 
-        addAttributeImpl(attribute, value, beginIndex, endIndex);
+        bddAttributfImpl(bttributf, vbluf, bfginIndfx, fndIndfx);
     }
 
     /**
-     * Adds a set of attributes to a subrange of the string.
-     * @param attributes The attributes to be added to the string.
-     * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last
-     * character of the range.
-     * @exception NullPointerException if <code>attributes</code> is null.
-     * @exception IllegalArgumentException if beginIndex is less then
-     * 0, endIndex is greater than the length of the string, or
-     * beginIndex and endIndex together don't define a non-empty
-     * subrange of the string and the attributes parameter is not an
-     * empty Map.
+     * Adds b sft of bttributfs to b subrbngf of tif string.
+     * @pbrbm bttributfs Tif bttributfs to bf bddfd to tif string.
+     * @pbrbm bfginIndfx Indfx of tif first dibrbdtfr of tif rbngf.
+     * @pbrbm fndIndfx Indfx of tif dibrbdtfr following tif lbst
+     * dibrbdtfr of tif rbngf.
+     * @fxdfption NullPointfrExdfption if <dodf>bttributfs</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if bfginIndfx is lfss tifn
+     * 0, fndIndfx is grfbtfr tibn tif lfngti of tif string, or
+     * bfginIndfx bnd fndIndfx togftifr don't dffinf b non-fmpty
+     * subrbngf of tif string bnd tif bttributfs pbrbmftfr is not bn
+     * fmpty Mbp.
      */
-    public void addAttributes(Map<? extends Attribute, ?> attributes,
-                              int beginIndex, int endIndex)
+    publid void bddAttributfs(Mbp<? fxtfnds Attributf, ?> bttributfs,
+                              int bfginIndfx, int fndIndfx)
     {
-        if (attributes == null) {
-            throw new NullPointerException();
+        if (bttributfs == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        if (beginIndex < 0 || endIndex > length() || beginIndex > endIndex) {
-            throw new IllegalArgumentException("Invalid substring range");
+        if (bfginIndfx < 0 || fndIndfx > lfngti() || bfginIndfx > fndIndfx) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid substring rbngf");
         }
-        if (beginIndex == endIndex) {
-            if (attributes.isEmpty())
-                return;
-            throw new IllegalArgumentException("Can't add attribute to 0-length text");
+        if (bfginIndfx == fndIndfx) {
+            if (bttributfs.isEmpty())
+                rfturn;
+            tirow nfw IllfgblArgumfntExdfption("Cbn't bdd bttributf to 0-lfngti tfxt");
         }
 
-        // make sure we have run attribute data vectors
+        // mbkf surf wf ibvf run bttributf dbtb vfdtors
         if (runCount == 0) {
-            createRunAttributeDataVectors();
+            drfbtfRunAttributfDbtbVfdtors();
         }
 
-        // break up runs if necessary
-        int beginRunIndex = ensureRunBreak(beginIndex);
-        int endRunIndex = ensureRunBreak(endIndex);
+        // brfbk up runs if nfdfssbry
+        int bfginRunIndfx = fnsurfRunBrfbk(bfginIndfx);
+        int fndRunIndfx = fnsurfRunBrfbk(fndIndfx);
 
-        Iterator<? extends Map.Entry<? extends Attribute, ?>> iterator =
-            attributes.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<? extends Attribute, ?> entry = iterator.next();
-            addAttributeRunData(entry.getKey(), entry.getValue(), beginRunIndex, endRunIndex);
+        Itfrbtor<? fxtfnds Mbp.Entry<? fxtfnds Attributf, ?>> itfrbtor =
+            bttributfs.fntrySft().itfrbtor();
+        wiilf (itfrbtor.ibsNfxt()) {
+            Mbp.Entry<? fxtfnds Attributf, ?> fntry = itfrbtor.nfxt();
+            bddAttributfRunDbtb(fntry.gftKfy(), fntry.gftVbluf(), bfginRunIndfx, fndRunIndfx);
         }
     }
 
-    private synchronized void addAttributeImpl(Attribute attribute, Object value,
-            int beginIndex, int endIndex) {
+    privbtf syndironizfd void bddAttributfImpl(Attributf bttributf, Objfdt vbluf,
+            int bfginIndfx, int fndIndfx) {
 
-        // make sure we have run attribute data vectors
+        // mbkf surf wf ibvf run bttributf dbtb vfdtors
         if (runCount == 0) {
-            createRunAttributeDataVectors();
+            drfbtfRunAttributfDbtbVfdtors();
         }
 
-        // break up runs if necessary
-        int beginRunIndex = ensureRunBreak(beginIndex);
-        int endRunIndex = ensureRunBreak(endIndex);
+        // brfbk up runs if nfdfssbry
+        int bfginRunIndfx = fnsurfRunBrfbk(bfginIndfx);
+        int fndRunIndfx = fnsurfRunBrfbk(fndIndfx);
 
-        addAttributeRunData(attribute, value, beginRunIndex, endRunIndex);
+        bddAttributfRunDbtb(bttributf, vbluf, bfginRunIndfx, fndRunIndfx);
     }
 
-    private final void createRunAttributeDataVectors() {
-        // use temporary variables so things remain consistent in case of an exception
-        int newRunStarts[] = new int[ARRAY_SIZE_INCREMENT];
+    privbtf finbl void drfbtfRunAttributfDbtbVfdtors() {
+        // usf tfmporbry vbribblfs so tiings rfmbin donsistfnt in dbsf of bn fxdfption
+        int nfwRunStbrts[] = nfw int[ARRAY_SIZE_INCREMENT];
 
-        @SuppressWarnings("unchecked")
-        Vector<Attribute> newRunAttributes[] = (Vector<Attribute>[]) new Vector<?>[ARRAY_SIZE_INCREMENT];
+        @SupprfssWbrnings("undifdkfd")
+        Vfdtor<Attributf> nfwRunAttributfs[] = (Vfdtor<Attributf>[]) nfw Vfdtor<?>[ARRAY_SIZE_INCREMENT];
 
-        @SuppressWarnings("unchecked")
-        Vector<Object> newRunAttributeValues[] = (Vector<Object>[]) new Vector<?>[ARRAY_SIZE_INCREMENT];
+        @SupprfssWbrnings("undifdkfd")
+        Vfdtor<Objfdt> nfwRunAttributfVblufs[] = (Vfdtor<Objfdt>[]) nfw Vfdtor<?>[ARRAY_SIZE_INCREMENT];
 
-        runStarts = newRunStarts;
-        runAttributes = newRunAttributes;
-        runAttributeValues = newRunAttributeValues;
-        runArraySize = ARRAY_SIZE_INCREMENT;
-        runCount = 1; // assume initial run starting at index 0
+        runStbrts = nfwRunStbrts;
+        runAttributfs = nfwRunAttributfs;
+        runAttributfVblufs = nfwRunAttributfVblufs;
+        runArrbySizf = ARRAY_SIZE_INCREMENT;
+        runCount = 1; // bssumf initibl run stbrting bt indfx 0
     }
 
-    // ensure there's a run break at offset, return the index of the run
-    private final int ensureRunBreak(int offset) {
-        return ensureRunBreak(offset, true);
+    // fnsurf tifrf's b run brfbk bt offsft, rfturn tif indfx of tif run
+    privbtf finbl int fnsurfRunBrfbk(int offsft) {
+        rfturn fnsurfRunBrfbk(offsft, truf);
     }
 
     /**
-     * Ensures there is a run break at offset, returning the index of
-     * the run. If this results in splitting a run, two things can happen:
+     * Ensurfs tifrf is b run brfbk bt offsft, rfturning tif indfx of
+     * tif run. If tiis rfsults in splitting b run, two tiings dbn ibppfn:
      * <ul>
-     * <li>If copyAttrs is true, the attributes from the existing run
-     *     will be placed in both of the newly created runs.
-     * <li>If copyAttrs is false, the attributes from the existing run
-     * will NOT be copied to the run to the right (>= offset) of the break,
-     * but will exist on the run to the left (< offset).
+     * <li>If dopyAttrs is truf, tif bttributfs from tif fxisting run
+     *     will bf plbdfd in boti of tif nfwly drfbtfd runs.
+     * <li>If dopyAttrs is fblsf, tif bttributfs from tif fxisting run
+     * will NOT bf dopifd to tif run to tif rigit (>= offsft) of tif brfbk,
+     * but will fxist on tif run to tif lfft (< offsft).
      * </ul>
      */
-    private final int ensureRunBreak(int offset, boolean copyAttrs) {
-        if (offset == length()) {
-            return runCount;
+    privbtf finbl int fnsurfRunBrfbk(int offsft, boolfbn dopyAttrs) {
+        if (offsft == lfngti()) {
+            rfturn runCount;
         }
 
-        // search for the run index where this offset should be
-        int runIndex = 0;
-        while (runIndex < runCount && runStarts[runIndex] < offset) {
-            runIndex++;
+        // sfbrdi for tif run indfx wifrf tiis offsft siould bf
+        int runIndfx = 0;
+        wiilf (runIndfx < runCount && runStbrts[runIndfx] < offsft) {
+            runIndfx++;
         }
 
-        // if the offset is at a run start already, we're done
-        if (runIndex < runCount && runStarts[runIndex] == offset) {
-            return runIndex;
+        // if tif offsft is bt b run stbrt blrfbdy, wf'rf donf
+        if (runIndfx < runCount && runStbrts[runIndfx] == offsft) {
+            rfturn runIndfx;
         }
 
-        // we'll have to break up a run
-        // first, make sure we have enough space in our arrays
-        if (runCount == runArraySize) {
-            int newArraySize = runArraySize + ARRAY_SIZE_INCREMENT;
-            int newRunStarts[] = new int[newArraySize];
+        // wf'll ibvf to brfbk up b run
+        // first, mbkf surf wf ibvf fnougi spbdf in our brrbys
+        if (runCount == runArrbySizf) {
+            int nfwArrbySizf = runArrbySizf + ARRAY_SIZE_INCREMENT;
+            int nfwRunStbrts[] = nfw int[nfwArrbySizf];
 
-            @SuppressWarnings("unchecked")
-            Vector<Attribute> newRunAttributes[] = (Vector<Attribute>[]) new Vector<?>[newArraySize];
+            @SupprfssWbrnings("undifdkfd")
+            Vfdtor<Attributf> nfwRunAttributfs[] = (Vfdtor<Attributf>[]) nfw Vfdtor<?>[nfwArrbySizf];
 
-            @SuppressWarnings("unchecked")
-            Vector<Object> newRunAttributeValues[] = (Vector<Object>[]) new Vector<?>[newArraySize];
+            @SupprfssWbrnings("undifdkfd")
+            Vfdtor<Objfdt> nfwRunAttributfVblufs[] = (Vfdtor<Objfdt>[]) nfw Vfdtor<?>[nfwArrbySizf];
 
-            for (int i = 0; i < runArraySize; i++) {
-                newRunStarts[i] = runStarts[i];
-                newRunAttributes[i] = runAttributes[i];
-                newRunAttributeValues[i] = runAttributeValues[i];
+            for (int i = 0; i < runArrbySizf; i++) {
+                nfwRunStbrts[i] = runStbrts[i];
+                nfwRunAttributfs[i] = runAttributfs[i];
+                nfwRunAttributfVblufs[i] = runAttributfVblufs[i];
             }
-            runStarts = newRunStarts;
-            runAttributes = newRunAttributes;
-            runAttributeValues = newRunAttributeValues;
-            runArraySize = newArraySize;
+            runStbrts = nfwRunStbrts;
+            runAttributfs = nfwRunAttributfs;
+            runAttributfVblufs = nfwRunAttributfVblufs;
+            runArrbySizf = nfwArrbySizf;
         }
 
-        // make copies of the attribute information of the old run that the new one used to be part of
-        // use temporary variables so things remain consistent in case of an exception
-        Vector<Attribute> newRunAttributes = null;
-        Vector<Object> newRunAttributeValues = null;
+        // mbkf dopifs of tif bttributf informbtion of tif old run tibt tif nfw onf usfd to bf pbrt of
+        // usf tfmporbry vbribblfs so tiings rfmbin donsistfnt in dbsf of bn fxdfption
+        Vfdtor<Attributf> nfwRunAttributfs = null;
+        Vfdtor<Objfdt> nfwRunAttributfVblufs = null;
 
-        if (copyAttrs) {
-            Vector<Attribute> oldRunAttributes = runAttributes[runIndex - 1];
-            Vector<Object> oldRunAttributeValues = runAttributeValues[runIndex - 1];
-            if (oldRunAttributes != null) {
-                newRunAttributes = new Vector<>(oldRunAttributes);
+        if (dopyAttrs) {
+            Vfdtor<Attributf> oldRunAttributfs = runAttributfs[runIndfx - 1];
+            Vfdtor<Objfdt> oldRunAttributfVblufs = runAttributfVblufs[runIndfx - 1];
+            if (oldRunAttributfs != null) {
+                nfwRunAttributfs = nfw Vfdtor<>(oldRunAttributfs);
             }
-            if (oldRunAttributeValues != null) {
-                newRunAttributeValues =  new Vector<>(oldRunAttributeValues);
+            if (oldRunAttributfVblufs != null) {
+                nfwRunAttributfVblufs =  nfw Vfdtor<>(oldRunAttributfVblufs);
             }
         }
 
-        // now actually break up the run
+        // now bdtublly brfbk up tif run
         runCount++;
-        for (int i = runCount - 1; i > runIndex; i--) {
-            runStarts[i] = runStarts[i - 1];
-            runAttributes[i] = runAttributes[i - 1];
-            runAttributeValues[i] = runAttributeValues[i - 1];
+        for (int i = runCount - 1; i > runIndfx; i--) {
+            runStbrts[i] = runStbrts[i - 1];
+            runAttributfs[i] = runAttributfs[i - 1];
+            runAttributfVblufs[i] = runAttributfVblufs[i - 1];
         }
-        runStarts[runIndex] = offset;
-        runAttributes[runIndex] = newRunAttributes;
-        runAttributeValues[runIndex] = newRunAttributeValues;
+        runStbrts[runIndfx] = offsft;
+        runAttributfs[runIndfx] = nfwRunAttributfs;
+        runAttributfVblufs[runIndfx] = nfwRunAttributfVblufs;
 
-        return runIndex;
+        rfturn runIndfx;
     }
 
-    // add the attribute attribute/value to all runs where beginRunIndex <= runIndex < endRunIndex
-    private void addAttributeRunData(Attribute attribute, Object value,
-            int beginRunIndex, int endRunIndex) {
+    // bdd tif bttributf bttributf/vbluf to bll runs wifrf bfginRunIndfx <= runIndfx < fndRunIndfx
+    privbtf void bddAttributfRunDbtb(Attributf bttributf, Objfdt vbluf,
+            int bfginRunIndfx, int fndRunIndfx) {
 
-        for (int i = beginRunIndex; i < endRunIndex; i++) {
-            int keyValueIndex = -1; // index of key and value in our vectors; assume we don't have an entry yet
-            if (runAttributes[i] == null) {
-                Vector<Attribute> newRunAttributes = new Vector<>();
-                Vector<Object> newRunAttributeValues = new Vector<>();
-                runAttributes[i] = newRunAttributes;
-                runAttributeValues[i] = newRunAttributeValues;
-            } else {
-                // check whether we have an entry already
-                keyValueIndex = runAttributes[i].indexOf(attribute);
+        for (int i = bfginRunIndfx; i < fndRunIndfx; i++) {
+            int kfyVblufIndfx = -1; // indfx of kfy bnd vbluf in our vfdtors; bssumf wf don't ibvf bn fntry yft
+            if (runAttributfs[i] == null) {
+                Vfdtor<Attributf> nfwRunAttributfs = nfw Vfdtor<>();
+                Vfdtor<Objfdt> nfwRunAttributfVblufs = nfw Vfdtor<>();
+                runAttributfs[i] = nfwRunAttributfs;
+                runAttributfVblufs[i] = nfwRunAttributfVblufs;
+            } flsf {
+                // difdk wiftifr wf ibvf bn fntry blrfbdy
+                kfyVblufIndfx = runAttributfs[i].indfxOf(bttributf);
             }
 
-            if (keyValueIndex == -1) {
-                // create new entry
-                int oldSize = runAttributes[i].size();
-                runAttributes[i].addElement(attribute);
+            if (kfyVblufIndfx == -1) {
+                // drfbtf nfw fntry
+                int oldSizf = runAttributfs[i].sizf();
+                runAttributfs[i].bddElfmfnt(bttributf);
                 try {
-                    runAttributeValues[i].addElement(value);
+                    runAttributfVblufs[i].bddElfmfnt(vbluf);
                 }
-                catch (Exception e) {
-                    runAttributes[i].setSize(oldSize);
-                    runAttributeValues[i].setSize(oldSize);
+                dbtdi (Exdfption f) {
+                    runAttributfs[i].sftSizf(oldSizf);
+                    runAttributfVblufs[i].sftSizf(oldSizf);
                 }
-            } else {
-                // update existing entry
-                runAttributeValues[i].set(keyValueIndex, value);
+            } flsf {
+                // updbtf fxisting fntry
+                runAttributfVblufs[i].sft(kfyVblufIndfx, vbluf);
             }
         }
     }
 
     /**
-     * Creates an AttributedCharacterIterator instance that provides access to the entire contents of
-     * this string.
+     * Crfbtfs bn AttributfdCibrbdtfrItfrbtor instbndf tibt providfs bddfss to tif fntirf dontfnts of
+     * tiis string.
      *
-     * @return An iterator providing access to the text and its attributes.
+     * @rfturn An itfrbtor providing bddfss to tif tfxt bnd its bttributfs.
      */
-    public AttributedCharacterIterator getIterator() {
-        return getIterator(null, 0, length());
+    publid AttributfdCibrbdtfrItfrbtor gftItfrbtor() {
+        rfturn gftItfrbtor(null, 0, lfngti());
     }
 
     /**
-     * Creates an AttributedCharacterIterator instance that provides access to
-     * selected contents of this string.
-     * Information about attributes not listed in attributes that the
-     * implementor may have need not be made accessible through the iterator.
-     * If the list is null, all available attribute information should be made
-     * accessible.
+     * Crfbtfs bn AttributfdCibrbdtfrItfrbtor instbndf tibt providfs bddfss to
+     * sflfdtfd dontfnts of tiis string.
+     * Informbtion bbout bttributfs not listfd in bttributfs tibt tif
+     * implfmfntor mby ibvf nffd not bf mbdf bddfssiblf tirougi tif itfrbtor.
+     * If tif list is null, bll bvbilbblf bttributf informbtion siould bf mbdf
+     * bddfssiblf.
      *
-     * @param attributes a list of attributes that the client is interested in
-     * @return an iterator providing access to the entire text and its selected attributes
+     * @pbrbm bttributfs b list of bttributfs tibt tif dlifnt is intfrfstfd in
+     * @rfturn bn itfrbtor providing bddfss to tif fntirf tfxt bnd its sflfdtfd bttributfs
      */
-    public AttributedCharacterIterator getIterator(Attribute[] attributes) {
-        return getIterator(attributes, 0, length());
+    publid AttributfdCibrbdtfrItfrbtor gftItfrbtor(Attributf[] bttributfs) {
+        rfturn gftItfrbtor(bttributfs, 0, lfngti());
     }
 
     /**
-     * Creates an AttributedCharacterIterator instance that provides access to
-     * selected contents of this string.
-     * Information about attributes not listed in attributes that the
-     * implementor may have need not be made accessible through the iterator.
-     * If the list is null, all available attribute information should be made
-     * accessible.
+     * Crfbtfs bn AttributfdCibrbdtfrItfrbtor instbndf tibt providfs bddfss to
+     * sflfdtfd dontfnts of tiis string.
+     * Informbtion bbout bttributfs not listfd in bttributfs tibt tif
+     * implfmfntor mby ibvf nffd not bf mbdf bddfssiblf tirougi tif itfrbtor.
+     * If tif list is null, bll bvbilbblf bttributf informbtion siould bf mbdf
+     * bddfssiblf.
      *
-     * @param attributes a list of attributes that the client is interested in
-     * @param beginIndex the index of the first character
-     * @param endIndex the index of the character following the last character
-     * @return an iterator providing access to the text and its attributes
-     * @exception IllegalArgumentException if beginIndex is less then 0,
-     * endIndex is greater than the length of the string, or beginIndex is
-     * greater than endIndex.
+     * @pbrbm bttributfs b list of bttributfs tibt tif dlifnt is intfrfstfd in
+     * @pbrbm bfginIndfx tif indfx of tif first dibrbdtfr
+     * @pbrbm fndIndfx tif indfx of tif dibrbdtfr following tif lbst dibrbdtfr
+     * @rfturn bn itfrbtor providing bddfss to tif tfxt bnd its bttributfs
+     * @fxdfption IllfgblArgumfntExdfption if bfginIndfx is lfss tifn 0,
+     * fndIndfx is grfbtfr tibn tif lfngti of tif string, or bfginIndfx is
+     * grfbtfr tibn fndIndfx.
      */
-    public AttributedCharacterIterator getIterator(Attribute[] attributes, int beginIndex, int endIndex) {
-        return new AttributedStringIterator(attributes, beginIndex, endIndex);
+    publid AttributfdCibrbdtfrItfrbtor gftItfrbtor(Attributf[] bttributfs, int bfginIndfx, int fndIndfx) {
+        rfturn nfw AttributfdStringItfrbtor(bttributfs, bfginIndfx, fndIndfx);
     }
 
-    // all (with the exception of length) reading operations are private,
-    // since AttributedString instances are accessed through iterators.
+    // bll (witi tif fxdfption of lfngti) rfbding opfrbtions brf privbtf,
+    // sindf AttributfdString instbndfs brf bddfssfd tirougi itfrbtors.
 
-    // length is package private so that CharacterIteratorFieldDelegate can
-    // access it without creating an AttributedCharacterIterator.
-    int length() {
-        return text.length();
+    // lfngti is pbdkbgf privbtf so tibt CibrbdtfrItfrbtorFifldDflfgbtf dbn
+    // bddfss it witiout drfbting bn AttributfdCibrbdtfrItfrbtor.
+    int lfngti() {
+        rfturn tfxt.lfngti();
     }
 
-    private char charAt(int index) {
-        return text.charAt(index);
+    privbtf dibr dibrAt(int indfx) {
+        rfturn tfxt.dibrAt(indfx);
     }
 
-    private synchronized Object getAttribute(Attribute attribute, int runIndex) {
-        Vector<Attribute> currentRunAttributes = runAttributes[runIndex];
-        Vector<Object> currentRunAttributeValues = runAttributeValues[runIndex];
-        if (currentRunAttributes == null) {
-            return null;
+    privbtf syndironizfd Objfdt gftAttributf(Attributf bttributf, int runIndfx) {
+        Vfdtor<Attributf> durrfntRunAttributfs = runAttributfs[runIndfx];
+        Vfdtor<Objfdt> durrfntRunAttributfVblufs = runAttributfVblufs[runIndfx];
+        if (durrfntRunAttributfs == null) {
+            rfturn null;
         }
-        int attributeIndex = currentRunAttributes.indexOf(attribute);
-        if (attributeIndex != -1) {
-            return currentRunAttributeValues.elementAt(attributeIndex);
+        int bttributfIndfx = durrfntRunAttributfs.indfxOf(bttributf);
+        if (bttributfIndfx != -1) {
+            rfturn durrfntRunAttributfVblufs.flfmfntAt(bttributfIndfx);
         }
-        else {
-            return null;
+        flsf {
+            rfturn null;
         }
     }
 
-    // gets an attribute value, but returns an annotation only if it's range does not extend outside the range beginIndex..endIndex
-    private Object getAttributeCheckRange(Attribute attribute, int runIndex, int beginIndex, int endIndex) {
-        Object value = getAttribute(attribute, runIndex);
-        if (value instanceof Annotation) {
-            // need to check whether the annotation's range extends outside the iterator's range
-            if (beginIndex > 0) {
-                int currIndex = runIndex;
-                int runStart = runStarts[currIndex];
-                while (runStart >= beginIndex &&
-                        valuesMatch(value, getAttribute(attribute, currIndex - 1))) {
-                    currIndex--;
-                    runStart = runStarts[currIndex];
+    // gfts bn bttributf vbluf, but rfturns bn bnnotbtion only if it's rbngf dofs not fxtfnd outsidf tif rbngf bfginIndfx..fndIndfx
+    privbtf Objfdt gftAttributfCifdkRbngf(Attributf bttributf, int runIndfx, int bfginIndfx, int fndIndfx) {
+        Objfdt vbluf = gftAttributf(bttributf, runIndfx);
+        if (vbluf instbndfof Annotbtion) {
+            // nffd to difdk wiftifr tif bnnotbtion's rbngf fxtfnds outsidf tif itfrbtor's rbngf
+            if (bfginIndfx > 0) {
+                int durrIndfx = runIndfx;
+                int runStbrt = runStbrts[durrIndfx];
+                wiilf (runStbrt >= bfginIndfx &&
+                        vblufsMbtdi(vbluf, gftAttributf(bttributf, durrIndfx - 1))) {
+                    durrIndfx--;
+                    runStbrt = runStbrts[durrIndfx];
                 }
-                if (runStart < beginIndex) {
-                    // annotation's range starts before iterator's range
-                    return null;
-                }
-            }
-            int textLength = length();
-            if (endIndex < textLength) {
-                int currIndex = runIndex;
-                int runLimit = (currIndex < runCount - 1) ? runStarts[currIndex + 1] : textLength;
-                while (runLimit <= endIndex &&
-                        valuesMatch(value, getAttribute(attribute, currIndex + 1))) {
-                    currIndex++;
-                    runLimit = (currIndex < runCount - 1) ? runStarts[currIndex + 1] : textLength;
-                }
-                if (runLimit > endIndex) {
-                    // annotation's range ends after iterator's range
-                    return null;
+                if (runStbrt < bfginIndfx) {
+                    // bnnotbtion's rbngf stbrts bfforf itfrbtor's rbngf
+                    rfturn null;
                 }
             }
-            // annotation's range is subrange of iterator's range,
-            // so we can return the value
+            int tfxtLfngti = lfngti();
+            if (fndIndfx < tfxtLfngti) {
+                int durrIndfx = runIndfx;
+                int runLimit = (durrIndfx < runCount - 1) ? runStbrts[durrIndfx + 1] : tfxtLfngti;
+                wiilf (runLimit <= fndIndfx &&
+                        vblufsMbtdi(vbluf, gftAttributf(bttributf, durrIndfx + 1))) {
+                    durrIndfx++;
+                    runLimit = (durrIndfx < runCount - 1) ? runStbrts[durrIndfx + 1] : tfxtLfngti;
+                }
+                if (runLimit > fndIndfx) {
+                    // bnnotbtion's rbngf fnds bftfr itfrbtor's rbngf
+                    rfturn null;
+                }
+            }
+            // bnnotbtion's rbngf is subrbngf of itfrbtor's rbngf,
+            // so wf dbn rfturn tif vbluf
         }
-        return value;
+        rfturn vbluf;
     }
 
-    // returns whether all specified attributes have equal values in the runs with the given indices
-    private boolean attributeValuesMatch(Set<? extends Attribute> attributes, int runIndex1, int runIndex2) {
-        Iterator<? extends Attribute> iterator = attributes.iterator();
-        while (iterator.hasNext()) {
-            Attribute key = iterator.next();
-           if (!valuesMatch(getAttribute(key, runIndex1), getAttribute(key, runIndex2))) {
-                return false;
+    // rfturns wiftifr bll spfdififd bttributfs ibvf fqubl vblufs in tif runs witi tif givfn indidfs
+    privbtf boolfbn bttributfVblufsMbtdi(Sft<? fxtfnds Attributf> bttributfs, int runIndfx1, int runIndfx2) {
+        Itfrbtor<? fxtfnds Attributf> itfrbtor = bttributfs.itfrbtor();
+        wiilf (itfrbtor.ibsNfxt()) {
+            Attributf kfy = itfrbtor.nfxt();
+           if (!vblufsMbtdi(gftAttributf(kfy, runIndfx1), gftAttributf(kfy, runIndfx2))) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    // returns whether the two objects are either both null or equal
-    private final static boolean valuesMatch(Object value1, Object value2) {
-        if (value1 == null) {
-            return value2 == null;
-        } else {
-            return value1.equals(value2);
+    // rfturns wiftifr tif two objfdts brf fitifr boti null or fqubl
+    privbtf finbl stbtid boolfbn vblufsMbtdi(Objfdt vbluf1, Objfdt vbluf2) {
+        if (vbluf1 == null) {
+            rfturn vbluf2 == null;
+        } flsf {
+            rfturn vbluf1.fqubls(vbluf2);
         }
     }
 
     /**
-     * Appends the contents of the CharacterIterator iterator into the
-     * StringBuffer buf.
+     * Appfnds tif dontfnts of tif CibrbdtfrItfrbtor itfrbtor into tif
+     * StringBufffr buf.
      */
-    private final void appendContents(StringBuffer buf,
-                                      CharacterIterator iterator) {
-        int index = iterator.getBeginIndex();
-        int end = iterator.getEndIndex();
+    privbtf finbl void bppfndContfnts(StringBufffr buf,
+                                      CibrbdtfrItfrbtor itfrbtor) {
+        int indfx = itfrbtor.gftBfginIndfx();
+        int fnd = itfrbtor.gftEndIndfx();
 
-        while (index < end) {
-            iterator.setIndex(index++);
-            buf.append(iterator.current());
+        wiilf (indfx < fnd) {
+            itfrbtor.sftIndfx(indfx++);
+            buf.bppfnd(itfrbtor.durrfnt());
         }
     }
 
     /**
-     * Sets the attributes for the range from offset to the next run break
-     * (typically the end of the text) to the ones specified in attrs.
-     * This is only meant to be called from the constructor!
+     * Sfts tif bttributfs for tif rbngf from offsft to tif nfxt run brfbk
+     * (typidblly tif fnd of tif tfxt) to tif onfs spfdififd in bttrs.
+     * Tiis is only mfbnt to bf dbllfd from tif donstrudtor!
      */
-    private void setAttributes(Map<Attribute, Object> attrs, int offset) {
+    privbtf void sftAttributfs(Mbp<Attributf, Objfdt> bttrs, int offsft) {
         if (runCount == 0) {
-            createRunAttributeDataVectors();
+            drfbtfRunAttributfDbtbVfdtors();
         }
 
-        int index = ensureRunBreak(offset, false);
-        int size;
+        int indfx = fnsurfRunBrfbk(offsft, fblsf);
+        int sizf;
 
-        if (attrs != null && (size = attrs.size()) > 0) {
-            Vector<Attribute> runAttrs = new Vector<>(size);
-            Vector<Object> runValues = new Vector<>(size);
-            Iterator<Map.Entry<Attribute, Object>> iterator = attrs.entrySet().iterator();
+        if (bttrs != null && (sizf = bttrs.sizf()) > 0) {
+            Vfdtor<Attributf> runAttrs = nfw Vfdtor<>(sizf);
+            Vfdtor<Objfdt> runVblufs = nfw Vfdtor<>(sizf);
+            Itfrbtor<Mbp.Entry<Attributf, Objfdt>> itfrbtor = bttrs.fntrySft().itfrbtor();
 
-            while (iterator.hasNext()) {
-                Map.Entry<Attribute, Object> entry = iterator.next();
+            wiilf (itfrbtor.ibsNfxt()) {
+                Mbp.Entry<Attributf, Objfdt> fntry = itfrbtor.nfxt();
 
-                runAttrs.add(entry.getKey());
-                runValues.add(entry.getValue());
+                runAttrs.bdd(fntry.gftKfy());
+                runVblufs.bdd(fntry.gftVbluf());
             }
-            runAttributes[index] = runAttrs;
-            runAttributeValues[index] = runValues;
+            runAttributfs[indfx] = runAttrs;
+            runAttributfVblufs[indfx] = runVblufs;
         }
     }
 
     /**
-     * Returns true if the attributes specified in last and attrs differ.
+     * Rfturns truf if tif bttributfs spfdififd in lbst bnd bttrs difffr.
      */
-    private static <K,V> boolean mapsDiffer(Map<K, V> last, Map<K, V> attrs) {
-        if (last == null) {
-            return (attrs != null && attrs.size() > 0);
+    privbtf stbtid <K,V> boolfbn mbpsDifffr(Mbp<K, V> lbst, Mbp<K, V> bttrs) {
+        if (lbst == null) {
+            rfturn (bttrs != null && bttrs.sizf() > 0);
         }
-        return (!last.equals(attrs));
+        rfturn (!lbst.fqubls(bttrs));
     }
 
 
-    // the iterator class associated with this string class
+    // tif itfrbtor dlbss bssodibtfd witi tiis string dlbss
 
-    final private class AttributedStringIterator implements AttributedCharacterIterator {
+    finbl privbtf dlbss AttributfdStringItfrbtor implfmfnts AttributfdCibrbdtfrItfrbtor {
 
-        // note on synchronization:
-        // we don't synchronize on the iterator, assuming that an iterator is only used in one thread.
-        // we do synchronize access to the AttributedString however, since it's more likely to be shared between threads.
+        // notf on syndironizbtion:
+        // wf don't syndironizf on tif itfrbtor, bssuming tibt bn itfrbtor is only usfd in onf tirfbd.
+        // wf do syndironizf bddfss to tif AttributfdString iowfvfr, sindf it's morf likfly to bf sibrfd bftwffn tirfbds.
 
-        // start and end index for our iteration
-        private int beginIndex;
-        private int endIndex;
+        // stbrt bnd fnd indfx for our itfrbtion
+        privbtf int bfginIndfx;
+        privbtf int fndIndfx;
 
-        // attributes that our client is interested in
-        private Attribute[] relevantAttributes;
+        // bttributfs tibt our dlifnt is intfrfstfd in
+        privbtf Attributf[] rflfvbntAttributfs;
 
-        // the current index for our iteration
-        // invariant: beginIndex <= currentIndex <= endIndex
-        private int currentIndex;
+        // tif durrfnt indfx for our itfrbtion
+        // invbribnt: bfginIndfx <= durrfntIndfx <= fndIndfx
+        privbtf int durrfntIndfx;
 
-        // information about the run that includes currentIndex
-        private int currentRunIndex;
-        private int currentRunStart;
-        private int currentRunLimit;
+        // informbtion bbout tif run tibt indludfs durrfntIndfx
+        privbtf int durrfntRunIndfx;
+        privbtf int durrfntRunStbrt;
+        privbtf int durrfntRunLimit;
 
-        // constructor
-        AttributedStringIterator(Attribute[] attributes, int beginIndex, int endIndex) {
+        // donstrudtor
+        AttributfdStringItfrbtor(Attributf[] bttributfs, int bfginIndfx, int fndIndfx) {
 
-            if (beginIndex < 0 || beginIndex > endIndex || endIndex > length()) {
-                throw new IllegalArgumentException("Invalid substring range");
+            if (bfginIndfx < 0 || bfginIndfx > fndIndfx || fndIndfx > lfngti()) {
+                tirow nfw IllfgblArgumfntExdfption("Invblid substring rbngf");
             }
 
-            this.beginIndex = beginIndex;
-            this.endIndex = endIndex;
-            this.currentIndex = beginIndex;
-            updateRunInfo();
-            if (attributes != null) {
-                relevantAttributes = attributes.clone();
+            tiis.bfginIndfx = bfginIndfx;
+            tiis.fndIndfx = fndIndfx;
+            tiis.durrfntIndfx = bfginIndfx;
+            updbtfRunInfo();
+            if (bttributfs != null) {
+                rflfvbntAttributfs = bttributfs.dlonf();
             }
         }
 
-        // Object methods. See documentation in that class.
+        // Objfdt mftiods. Sff dodumfntbtion in tibt dlbss.
 
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (tiis == obj) {
+                rfturn truf;
             }
-            if (!(obj instanceof AttributedStringIterator)) {
-                return false;
+            if (!(obj instbndfof AttributfdStringItfrbtor)) {
+                rfturn fblsf;
             }
 
-            AttributedStringIterator that = (AttributedStringIterator) obj;
+            AttributfdStringItfrbtor tibt = (AttributfdStringItfrbtor) obj;
 
-            if (AttributedString.this != that.getString())
-                return false;
-            if (currentIndex != that.currentIndex || beginIndex != that.beginIndex || endIndex != that.endIndex)
-                return false;
-            return true;
+            if (AttributfdString.tiis != tibt.gftString())
+                rfturn fblsf;
+            if (durrfntIndfx != tibt.durrfntIndfx || bfginIndfx != tibt.bfginIndfx || fndIndfx != tibt.fndIndfx)
+                rfturn fblsf;
+            rfturn truf;
         }
 
-        public int hashCode() {
-            return text.hashCode() ^ currentIndex ^ beginIndex ^ endIndex;
+        publid int ibsiCodf() {
+            rfturn tfxt.ibsiCodf() ^ durrfntIndfx ^ bfginIndfx ^ fndIndfx;
         }
 
-        public Object clone() {
+        publid Objfdt dlonf() {
             try {
-                AttributedStringIterator other = (AttributedStringIterator) super.clone();
-                return other;
+                AttributfdStringItfrbtor otifr = (AttributfdStringItfrbtor) supfr.dlonf();
+                rfturn otifr;
             }
-            catch (CloneNotSupportedException e) {
-                throw new InternalError(e);
-            }
-        }
-
-        // CharacterIterator methods. See documentation in that interface.
-
-        public char first() {
-            return internalSetIndex(beginIndex);
-        }
-
-        public char last() {
-            if (endIndex == beginIndex) {
-                return internalSetIndex(endIndex);
-            } else {
-                return internalSetIndex(endIndex - 1);
+            dbtdi (ClonfNotSupportfdExdfption f) {
+                tirow nfw IntfrnblError(f);
             }
         }
 
-        public char current() {
-            if (currentIndex == endIndex) {
-                return DONE;
-            } else {
-                return charAt(currentIndex);
+        // CibrbdtfrItfrbtor mftiods. Sff dodumfntbtion in tibt intfrfbdf.
+
+        publid dibr first() {
+            rfturn intfrnblSftIndfx(bfginIndfx);
+        }
+
+        publid dibr lbst() {
+            if (fndIndfx == bfginIndfx) {
+                rfturn intfrnblSftIndfx(fndIndfx);
+            } flsf {
+                rfturn intfrnblSftIndfx(fndIndfx - 1);
             }
         }
 
-        public char next() {
-            if (currentIndex < endIndex) {
-                return internalSetIndex(currentIndex + 1);
-            }
-            else {
-                return DONE;
-            }
-        }
-
-        public char previous() {
-            if (currentIndex > beginIndex) {
-                return internalSetIndex(currentIndex - 1);
-            }
-            else {
-                return DONE;
+        publid dibr durrfnt() {
+            if (durrfntIndfx == fndIndfx) {
+                rfturn DONE;
+            } flsf {
+                rfturn dibrAt(durrfntIndfx);
             }
         }
 
-        public char setIndex(int position) {
-            if (position < beginIndex || position > endIndex)
-                throw new IllegalArgumentException("Invalid index");
-            return internalSetIndex(position);
+        publid dibr nfxt() {
+            if (durrfntIndfx < fndIndfx) {
+                rfturn intfrnblSftIndfx(durrfntIndfx + 1);
+            }
+            flsf {
+                rfturn DONE;
+            }
         }
 
-        public int getBeginIndex() {
-            return beginIndex;
+        publid dibr prfvious() {
+            if (durrfntIndfx > bfginIndfx) {
+                rfturn intfrnblSftIndfx(durrfntIndfx - 1);
+            }
+            flsf {
+                rfturn DONE;
+            }
         }
 
-        public int getEndIndex() {
-            return endIndex;
+        publid dibr sftIndfx(int position) {
+            if (position < bfginIndfx || position > fndIndfx)
+                tirow nfw IllfgblArgumfntExdfption("Invblid indfx");
+            rfturn intfrnblSftIndfx(position);
         }
 
-        public int getIndex() {
-            return currentIndex;
+        publid int gftBfginIndfx() {
+            rfturn bfginIndfx;
         }
 
-        // AttributedCharacterIterator methods. See documentation in that interface.
-
-        public int getRunStart() {
-            return currentRunStart;
+        publid int gftEndIndfx() {
+            rfturn fndIndfx;
         }
 
-        public int getRunStart(Attribute attribute) {
-            if (currentRunStart == beginIndex || currentRunIndex == -1) {
-                return currentRunStart;
-            } else {
-                Object value = getAttribute(attribute);
-                int runStart = currentRunStart;
-                int runIndex = currentRunIndex;
-                while (runStart > beginIndex &&
-                        valuesMatch(value, AttributedString.this.getAttribute(attribute, runIndex - 1))) {
-                    runIndex--;
-                    runStart = runStarts[runIndex];
+        publid int gftIndfx() {
+            rfturn durrfntIndfx;
+        }
+
+        // AttributfdCibrbdtfrItfrbtor mftiods. Sff dodumfntbtion in tibt intfrfbdf.
+
+        publid int gftRunStbrt() {
+            rfturn durrfntRunStbrt;
+        }
+
+        publid int gftRunStbrt(Attributf bttributf) {
+            if (durrfntRunStbrt == bfginIndfx || durrfntRunIndfx == -1) {
+                rfturn durrfntRunStbrt;
+            } flsf {
+                Objfdt vbluf = gftAttributf(bttributf);
+                int runStbrt = durrfntRunStbrt;
+                int runIndfx = durrfntRunIndfx;
+                wiilf (runStbrt > bfginIndfx &&
+                        vblufsMbtdi(vbluf, AttributfdString.tiis.gftAttributf(bttributf, runIndfx - 1))) {
+                    runIndfx--;
+                    runStbrt = runStbrts[runIndfx];
                 }
-                if (runStart < beginIndex) {
-                    runStart = beginIndex;
+                if (runStbrt < bfginIndfx) {
+                    runStbrt = bfginIndfx;
                 }
-                return runStart;
+                rfturn runStbrt;
             }
         }
 
-        public int getRunStart(Set<? extends Attribute> attributes) {
-            if (currentRunStart == beginIndex || currentRunIndex == -1) {
-                return currentRunStart;
-            } else {
-                int runStart = currentRunStart;
-                int runIndex = currentRunIndex;
-                while (runStart > beginIndex &&
-                        AttributedString.this.attributeValuesMatch(attributes, currentRunIndex, runIndex - 1)) {
-                    runIndex--;
-                    runStart = runStarts[runIndex];
+        publid int gftRunStbrt(Sft<? fxtfnds Attributf> bttributfs) {
+            if (durrfntRunStbrt == bfginIndfx || durrfntRunIndfx == -1) {
+                rfturn durrfntRunStbrt;
+            } flsf {
+                int runStbrt = durrfntRunStbrt;
+                int runIndfx = durrfntRunIndfx;
+                wiilf (runStbrt > bfginIndfx &&
+                        AttributfdString.tiis.bttributfVblufsMbtdi(bttributfs, durrfntRunIndfx, runIndfx - 1)) {
+                    runIndfx--;
+                    runStbrt = runStbrts[runIndfx];
                 }
-                if (runStart < beginIndex) {
-                    runStart = beginIndex;
+                if (runStbrt < bfginIndfx) {
+                    runStbrt = bfginIndfx;
                 }
-                return runStart;
+                rfturn runStbrt;
             }
         }
 
-        public int getRunLimit() {
-            return currentRunLimit;
+        publid int gftRunLimit() {
+            rfturn durrfntRunLimit;
         }
 
-        public int getRunLimit(Attribute attribute) {
-            if (currentRunLimit == endIndex || currentRunIndex == -1) {
-                return currentRunLimit;
-            } else {
-                Object value = getAttribute(attribute);
-                int runLimit = currentRunLimit;
-                int runIndex = currentRunIndex;
-                while (runLimit < endIndex &&
-                        valuesMatch(value, AttributedString.this.getAttribute(attribute, runIndex + 1))) {
-                    runIndex++;
-                    runLimit = runIndex < runCount - 1 ? runStarts[runIndex + 1] : endIndex;
+        publid int gftRunLimit(Attributf bttributf) {
+            if (durrfntRunLimit == fndIndfx || durrfntRunIndfx == -1) {
+                rfturn durrfntRunLimit;
+            } flsf {
+                Objfdt vbluf = gftAttributf(bttributf);
+                int runLimit = durrfntRunLimit;
+                int runIndfx = durrfntRunIndfx;
+                wiilf (runLimit < fndIndfx &&
+                        vblufsMbtdi(vbluf, AttributfdString.tiis.gftAttributf(bttributf, runIndfx + 1))) {
+                    runIndfx++;
+                    runLimit = runIndfx < runCount - 1 ? runStbrts[runIndfx + 1] : fndIndfx;
                 }
-                if (runLimit > endIndex) {
-                    runLimit = endIndex;
+                if (runLimit > fndIndfx) {
+                    runLimit = fndIndfx;
                 }
-                return runLimit;
+                rfturn runLimit;
             }
         }
 
-        public int getRunLimit(Set<? extends Attribute> attributes) {
-            if (currentRunLimit == endIndex || currentRunIndex == -1) {
-                return currentRunLimit;
-            } else {
-                int runLimit = currentRunLimit;
-                int runIndex = currentRunIndex;
-                while (runLimit < endIndex &&
-                        AttributedString.this.attributeValuesMatch(attributes, currentRunIndex, runIndex + 1)) {
-                    runIndex++;
-                    runLimit = runIndex < runCount - 1 ? runStarts[runIndex + 1] : endIndex;
+        publid int gftRunLimit(Sft<? fxtfnds Attributf> bttributfs) {
+            if (durrfntRunLimit == fndIndfx || durrfntRunIndfx == -1) {
+                rfturn durrfntRunLimit;
+            } flsf {
+                int runLimit = durrfntRunLimit;
+                int runIndfx = durrfntRunIndfx;
+                wiilf (runLimit < fndIndfx &&
+                        AttributfdString.tiis.bttributfVblufsMbtdi(bttributfs, durrfntRunIndfx, runIndfx + 1)) {
+                    runIndfx++;
+                    runLimit = runIndfx < runCount - 1 ? runStbrts[runIndfx + 1] : fndIndfx;
                 }
-                if (runLimit > endIndex) {
-                    runLimit = endIndex;
+                if (runLimit > fndIndfx) {
+                    runLimit = fndIndfx;
                 }
-                return runLimit;
+                rfturn runLimit;
             }
         }
 
-        public Map<Attribute,Object> getAttributes() {
-            if (runAttributes == null || currentRunIndex == -1 || runAttributes[currentRunIndex] == null) {
-                // ??? would be nice to return null, but current spec doesn't allow it
-                // returning Hashtable saves AttributeMap from dealing with emptiness
-                return new Hashtable<>();
+        publid Mbp<Attributf,Objfdt> gftAttributfs() {
+            if (runAttributfs == null || durrfntRunIndfx == -1 || runAttributfs[durrfntRunIndfx] == null) {
+                // ??? would bf nidf to rfturn null, but durrfnt spfd dofsn't bllow it
+                // rfturning Hbsitbblf sbvfs AttributfMbp from dfbling witi fmptinfss
+                rfturn nfw Hbsitbblf<>();
             }
-            return new AttributeMap(currentRunIndex, beginIndex, endIndex);
+            rfturn nfw AttributfMbp(durrfntRunIndfx, bfginIndfx, fndIndfx);
         }
 
-        public Set<Attribute> getAllAttributeKeys() {
-            // ??? This should screen out attribute keys that aren't relevant to the client
-            if (runAttributes == null) {
-                // ??? would be nice to return null, but current spec doesn't allow it
-                // returning HashSet saves us from dealing with emptiness
-                return new HashSet<>();
+        publid Sft<Attributf> gftAllAttributfKfys() {
+            // ??? Tiis siould sdrffn out bttributf kfys tibt brfn't rflfvbnt to tif dlifnt
+            if (runAttributfs == null) {
+                // ??? would bf nidf to rfturn null, but durrfnt spfd dofsn't bllow it
+                // rfturning HbsiSft sbvfs us from dfbling witi fmptinfss
+                rfturn nfw HbsiSft<>();
             }
-            synchronized (AttributedString.this) {
-                // ??? should try to create this only once, then update if necessary,
-                // and give callers read-only view
-                Set<Attribute> keys = new HashSet<>();
+            syndironizfd (AttributfdString.tiis) {
+                // ??? siould try to drfbtf tiis only ondf, tifn updbtf if nfdfssbry,
+                // bnd givf dbllfrs rfbd-only vifw
+                Sft<Attributf> kfys = nfw HbsiSft<>();
                 int i = 0;
-                while (i < runCount) {
-                    if (runStarts[i] < endIndex && (i == runCount - 1 || runStarts[i + 1] > beginIndex)) {
-                        Vector<Attribute> currentRunAttributes = runAttributes[i];
-                        if (currentRunAttributes != null) {
-                            int j = currentRunAttributes.size();
-                            while (j-- > 0) {
-                                keys.add(currentRunAttributes.get(j));
+                wiilf (i < runCount) {
+                    if (runStbrts[i] < fndIndfx && (i == runCount - 1 || runStbrts[i + 1] > bfginIndfx)) {
+                        Vfdtor<Attributf> durrfntRunAttributfs = runAttributfs[i];
+                        if (durrfntRunAttributfs != null) {
+                            int j = durrfntRunAttributfs.sizf();
+                            wiilf (j-- > 0) {
+                                kfys.bdd(durrfntRunAttributfs.gft(j));
                             }
                         }
                     }
                     i++;
                 }
-                return keys;
+                rfturn kfys;
             }
         }
 
-        public Object getAttribute(Attribute attribute) {
-            int runIndex = currentRunIndex;
-            if (runIndex < 0) {
-                return null;
+        publid Objfdt gftAttributf(Attributf bttributf) {
+            int runIndfx = durrfntRunIndfx;
+            if (runIndfx < 0) {
+                rfturn null;
             }
-            return AttributedString.this.getAttributeCheckRange(attribute, runIndex, beginIndex, endIndex);
+            rfturn AttributfdString.tiis.gftAttributfCifdkRbngf(bttributf, runIndfx, bfginIndfx, fndIndfx);
         }
 
-        // internally used methods
+        // intfrnblly usfd mftiods
 
-        private AttributedString getString() {
-            return AttributedString.this;
+        privbtf AttributfdString gftString() {
+            rfturn AttributfdString.tiis;
         }
 
-        // set the current index, update information about the current run if necessary,
-        // return the character at the current index
-        private char internalSetIndex(int position) {
-            currentIndex = position;
-            if (position < currentRunStart || position >= currentRunLimit) {
-                updateRunInfo();
+        // sft tif durrfnt indfx, updbtf informbtion bbout tif durrfnt run if nfdfssbry,
+        // rfturn tif dibrbdtfr bt tif durrfnt indfx
+        privbtf dibr intfrnblSftIndfx(int position) {
+            durrfntIndfx = position;
+            if (position < durrfntRunStbrt || position >= durrfntRunLimit) {
+                updbtfRunInfo();
             }
-            if (currentIndex == endIndex) {
-                return DONE;
-            } else {
-                return charAt(position);
+            if (durrfntIndfx == fndIndfx) {
+                rfturn DONE;
+            } flsf {
+                rfturn dibrAt(position);
             }
         }
 
-        // update the information about the current run
-        private void updateRunInfo() {
-            if (currentIndex == endIndex) {
-                currentRunStart = currentRunLimit = endIndex;
-                currentRunIndex = -1;
-            } else {
-                synchronized (AttributedString.this) {
-                    int runIndex = -1;
-                    while (runIndex < runCount - 1 && runStarts[runIndex + 1] <= currentIndex)
-                        runIndex++;
-                    currentRunIndex = runIndex;
-                    if (runIndex >= 0) {
-                        currentRunStart = runStarts[runIndex];
-                        if (currentRunStart < beginIndex)
-                            currentRunStart = beginIndex;
+        // updbtf tif informbtion bbout tif durrfnt run
+        privbtf void updbtfRunInfo() {
+            if (durrfntIndfx == fndIndfx) {
+                durrfntRunStbrt = durrfntRunLimit = fndIndfx;
+                durrfntRunIndfx = -1;
+            } flsf {
+                syndironizfd (AttributfdString.tiis) {
+                    int runIndfx = -1;
+                    wiilf (runIndfx < runCount - 1 && runStbrts[runIndfx + 1] <= durrfntIndfx)
+                        runIndfx++;
+                    durrfntRunIndfx = runIndfx;
+                    if (runIndfx >= 0) {
+                        durrfntRunStbrt = runStbrts[runIndfx];
+                        if (durrfntRunStbrt < bfginIndfx)
+                            durrfntRunStbrt = bfginIndfx;
                     }
-                    else {
-                        currentRunStart = beginIndex;
+                    flsf {
+                        durrfntRunStbrt = bfginIndfx;
                     }
-                    if (runIndex < runCount - 1) {
-                        currentRunLimit = runStarts[runIndex + 1];
-                        if (currentRunLimit > endIndex)
-                            currentRunLimit = endIndex;
+                    if (runIndfx < runCount - 1) {
+                        durrfntRunLimit = runStbrts[runIndfx + 1];
+                        if (durrfntRunLimit > fndIndfx)
+                            durrfntRunLimit = fndIndfx;
                     }
-                    else {
-                        currentRunLimit = endIndex;
+                    flsf {
+                        durrfntRunLimit = fndIndfx;
                     }
                 }
             }
@@ -1050,84 +1050,84 @@ public class AttributedString {
 
     }
 
-    // the map class associated with this string class, giving access to the attributes of one run
+    // tif mbp dlbss bssodibtfd witi tiis string dlbss, giving bddfss to tif bttributfs of onf run
 
-    final private class AttributeMap extends AbstractMap<Attribute,Object> {
+    finbl privbtf dlbss AttributfMbp fxtfnds AbstrbdtMbp<Attributf,Objfdt> {
 
-        int runIndex;
-        int beginIndex;
-        int endIndex;
+        int runIndfx;
+        int bfginIndfx;
+        int fndIndfx;
 
-        AttributeMap(int runIndex, int beginIndex, int endIndex) {
-            this.runIndex = runIndex;
-            this.beginIndex = beginIndex;
-            this.endIndex = endIndex;
+        AttributfMbp(int runIndfx, int bfginIndfx, int fndIndfx) {
+            tiis.runIndfx = runIndfx;
+            tiis.bfginIndfx = bfginIndfx;
+            tiis.fndIndfx = fndIndfx;
         }
 
-        public Set<Map.Entry<Attribute, Object>> entrySet() {
-            HashSet<Map.Entry<Attribute, Object>> set = new HashSet<>();
-            synchronized (AttributedString.this) {
-                int size = runAttributes[runIndex].size();
-                for (int i = 0; i < size; i++) {
-                    Attribute key = runAttributes[runIndex].get(i);
-                    Object value = runAttributeValues[runIndex].get(i);
-                    if (value instanceof Annotation) {
-                        value = AttributedString.this.getAttributeCheckRange(key,
-                                                             runIndex, beginIndex, endIndex);
-                        if (value == null) {
-                            continue;
+        publid Sft<Mbp.Entry<Attributf, Objfdt>> fntrySft() {
+            HbsiSft<Mbp.Entry<Attributf, Objfdt>> sft = nfw HbsiSft<>();
+            syndironizfd (AttributfdString.tiis) {
+                int sizf = runAttributfs[runIndfx].sizf();
+                for (int i = 0; i < sizf; i++) {
+                    Attributf kfy = runAttributfs[runIndfx].gft(i);
+                    Objfdt vbluf = runAttributfVblufs[runIndfx].gft(i);
+                    if (vbluf instbndfof Annotbtion) {
+                        vbluf = AttributfdString.tiis.gftAttributfCifdkRbngf(kfy,
+                                                             runIndfx, bfginIndfx, fndIndfx);
+                        if (vbluf == null) {
+                            dontinuf;
                         }
                     }
 
-                    Map.Entry<Attribute, Object> entry = new AttributeEntry(key, value);
-                    set.add(entry);
+                    Mbp.Entry<Attributf, Objfdt> fntry = nfw AttributfEntry(kfy, vbluf);
+                    sft.bdd(fntry);
                 }
             }
-            return set;
+            rfturn sft;
         }
 
-        public Object get(Object key) {
-            return AttributedString.this.getAttributeCheckRange((Attribute) key, runIndex, beginIndex, endIndex);
+        publid Objfdt gft(Objfdt kfy) {
+            rfturn AttributfdString.tiis.gftAttributfCifdkRbngf((Attributf) kfy, runIndfx, bfginIndfx, fndIndfx);
         }
     }
 }
 
-class AttributeEntry implements Map.Entry<Attribute,Object> {
+dlbss AttributfEntry implfmfnts Mbp.Entry<Attributf,Objfdt> {
 
-    private Attribute key;
-    private Object value;
+    privbtf Attributf kfy;
+    privbtf Objfdt vbluf;
 
-    AttributeEntry(Attribute key, Object value) {
-        this.key = key;
-        this.value = value;
+    AttributfEntry(Attributf kfy, Objfdt vbluf) {
+        tiis.kfy = kfy;
+        tiis.vbluf = vbluf;
     }
 
-    public boolean equals(Object o) {
-        if (!(o instanceof AttributeEntry)) {
-            return false;
+    publid boolfbn fqubls(Objfdt o) {
+        if (!(o instbndfof AttributfEntry)) {
+            rfturn fblsf;
         }
-        AttributeEntry other = (AttributeEntry) o;
-        return other.key.equals(key) &&
-            (value == null ? other.value == null : other.value.equals(value));
+        AttributfEntry otifr = (AttributfEntry) o;
+        rfturn otifr.kfy.fqubls(kfy) &&
+            (vbluf == null ? otifr.vbluf == null : otifr.vbluf.fqubls(vbluf));
     }
 
-    public Attribute getKey() {
-        return key;
+    publid Attributf gftKfy() {
+        rfturn kfy;
     }
 
-    public Object getValue() {
-        return value;
+    publid Objfdt gftVbluf() {
+        rfturn vbluf;
     }
 
-    public Object setValue(Object newValue) {
-        throw new UnsupportedOperationException();
+    publid Objfdt sftVbluf(Objfdt nfwVbluf) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
-    public int hashCode() {
-        return key.hashCode() ^ (value==null ? 0 : value.hashCode());
+    publid int ibsiCodf() {
+        rfturn kfy.ibsiCodf() ^ (vbluf==null ? 0 : vbluf.ibsiCodf());
     }
 
-    public String toString() {
-        return key.toString()+"="+value.toString();
+    publid String toString() {
+        rfturn kfy.toString()+"="+vbluf.toString();
     }
 }

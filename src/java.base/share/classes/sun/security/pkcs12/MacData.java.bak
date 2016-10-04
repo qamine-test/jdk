@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs12;
+pbdkbgf sun.sfdurity.pkds12;
 
-import java.io.*;
-import java.security.*;
+import jbvb.io.*;
+import jbvb.sfdurity.*;
 
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
-import sun.security.x509.AlgorithmId;
-import sun.security.pkcs.ParsingException;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.x509.AlgoritimId;
+import sun.sfdurity.pkds.PbrsingExdfption;
 
 
 /**
- * A MacData type, as defined in PKCS#12.
+ * A MbdDbtb typf, bs dffinfd in PKCS#12.
  *
- * @author Sharon Liu
+ * @butior Sibron Liu
  */
 
-class MacData {
+dlbss MbdDbtb {
 
-    private String digestAlgorithmName;
-    private AlgorithmParameters digestAlgorithmParams;
-    private byte[] digest;
-    private byte[] macSalt;
-    private int iterations;
+    privbtf String digfstAlgoritimNbmf;
+    privbtf AlgoritimPbrbmftfrs digfstAlgoritimPbrbms;
+    privbtf bytf[] digfst;
+    privbtf bytf[] mbdSblt;
+    privbtf int itfrbtions;
 
-    // the ASN.1 encoded contents of this class
-    private byte[] encoded = null;
-
-    /**
-     * Parses a PKCS#12 MAC data.
-     */
-    MacData(DerInputStream derin)
-        throws IOException, ParsingException
-    {
-        DerValue[] macData = derin.getSequence(2);
-
-        // Parse the digest info
-        DerInputStream digestIn = new DerInputStream(macData[0].toByteArray());
-        DerValue[] digestInfo = digestIn.getSequence(2);
-
-        // Parse the DigestAlgorithmIdentifier.
-        AlgorithmId digestAlgorithmId = AlgorithmId.parse(digestInfo[0]);
-        this.digestAlgorithmName = digestAlgorithmId.getName();
-        this.digestAlgorithmParams = digestAlgorithmId.getParameters();
-        // Get the digest.
-        this.digest = digestInfo[1].getOctetString();
-
-        // Get the salt.
-        this.macSalt = macData[1].getOctetString();
-
-        // Iterations is optional. The default value is 1.
-        if (macData.length > 2) {
-            this.iterations = macData[2].getInteger();
-        } else {
-            this.iterations = 1;
-        }
-    }
-
-    MacData(String algName, byte[] digest, byte[] salt, int iterations)
-        throws NoSuchAlgorithmException
-    {
-        if (algName == null)
-           throw new NullPointerException("the algName parameter " +
-                                               "must be non-null");
-
-        AlgorithmId algid = AlgorithmId.get(algName);
-        this.digestAlgorithmName = algid.getName();
-        this.digestAlgorithmParams = algid.getParameters();
-
-        if (digest == null) {
-            throw new NullPointerException("the digest " +
-                                           "parameter must be non-null");
-        } else if (digest.length == 0) {
-            throw new IllegalArgumentException("the digest " +
-                                                "parameter must not be empty");
-        } else {
-            this.digest = digest.clone();
-        }
-
-        this.macSalt = salt;
-        this.iterations = iterations;
-
-        // delay the generation of ASN.1 encoding until
-        // getEncoded() is called
-        this.encoded = null;
-
-    }
-
-    MacData(AlgorithmParameters algParams, byte[] digest,
-        byte[] salt, int iterations) throws NoSuchAlgorithmException
-    {
-        if (algParams == null)
-           throw new NullPointerException("the algParams parameter " +
-                                               "must be non-null");
-
-        AlgorithmId algid = AlgorithmId.get(algParams);
-        this.digestAlgorithmName = algid.getName();
-        this.digestAlgorithmParams = algid.getParameters();
-
-        if (digest == null) {
-            throw new NullPointerException("the digest " +
-                                           "parameter must be non-null");
-        } else if (digest.length == 0) {
-            throw new IllegalArgumentException("the digest " +
-                                                "parameter must not be empty");
-        } else {
-            this.digest = digest.clone();
-        }
-
-        this.macSalt = salt;
-        this.iterations = iterations;
-
-        // delay the generation of ASN.1 encoding until
-        // getEncoded() is called
-        this.encoded = null;
-
-    }
-
-    String getDigestAlgName() {
-        return digestAlgorithmName;
-    }
-
-    byte[] getSalt() {
-        return macSalt;
-    }
-
-    int getIterations() {
-        return iterations;
-    }
-
-    byte[] getDigest() {
-        return digest;
-    }
+    // tif ASN.1 fndodfd dontfnts of tiis dlbss
+    privbtf bytf[] fndodfd = null;
 
     /**
-     * Returns the ASN.1 encoding of this object.
-     * @return the ASN.1 encoding.
-     * @exception IOException if error occurs when constructing its
-     * ASN.1 encoding.
+     * Pbrsfs b PKCS#12 MAC dbtb.
      */
-    public byte[] getEncoded() throws NoSuchAlgorithmException, IOException
+    MbdDbtb(DfrInputStrfbm dfrin)
+        tirows IOExdfption, PbrsingExdfption
     {
-        if (this.encoded != null)
-            return this.encoded.clone();
+        DfrVbluf[] mbdDbtb = dfrin.gftSfqufndf(2);
 
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+        // Pbrsf tif digfst info
+        DfrInputStrfbm digfstIn = nfw DfrInputStrfbm(mbdDbtb[0].toBytfArrby());
+        DfrVbluf[] digfstInfo = digfstIn.gftSfqufndf(2);
 
-        DerOutputStream tmp2 = new DerOutputStream();
-        // encode encryption algorithm
-        AlgorithmId algid = AlgorithmId.get(digestAlgorithmName);
-        algid.encode(tmp2);
+        // Pbrsf tif DigfstAlgoritimIdfntififr.
+        AlgoritimId digfstAlgoritimId = AlgoritimId.pbrsf(digfstInfo[0]);
+        tiis.digfstAlgoritimNbmf = digfstAlgoritimId.gftNbmf();
+        tiis.digfstAlgoritimPbrbms = digfstAlgoritimId.gftPbrbmftfrs();
+        // Gft tif digfst.
+        tiis.digfst = digfstInfo[1].gftOdtftString();
 
-        // encode digest data
-        tmp2.putOctetString(digest);
+        // Gft tif sblt.
+        tiis.mbdSblt = mbdDbtb[1].gftOdtftString();
 
-        tmp.write(DerValue.tag_Sequence, tmp2);
+        // Itfrbtions is optionbl. Tif dffbult vbluf is 1.
+        if (mbdDbtb.lfngti > 2) {
+            tiis.itfrbtions = mbdDbtb[2].gftIntfgfr();
+        } flsf {
+            tiis.itfrbtions = 1;
+        }
+    }
 
-        // encode salt
-        tmp.putOctetString(macSalt);
+    MbdDbtb(String blgNbmf, bytf[] digfst, bytf[] sblt, int itfrbtions)
+        tirows NoSudiAlgoritimExdfption
+    {
+        if (blgNbmf == null)
+           tirow nfw NullPointfrExdfption("tif blgNbmf pbrbmftfr " +
+                                               "must bf non-null");
 
-        // encode iterations
-        tmp.putInteger(iterations);
+        AlgoritimId blgid = AlgoritimId.gft(blgNbmf);
+        tiis.digfstAlgoritimNbmf = blgid.gftNbmf();
+        tiis.digfstAlgoritimPbrbms = blgid.gftPbrbmftfrs();
 
-        // wrap everything into a SEQUENCE
-        out.write(DerValue.tag_Sequence, tmp);
-        this.encoded = out.toByteArray();
+        if (digfst == null) {
+            tirow nfw NullPointfrExdfption("tif digfst " +
+                                           "pbrbmftfr must bf non-null");
+        } flsf if (digfst.lfngti == 0) {
+            tirow nfw IllfgblArgumfntExdfption("tif digfst " +
+                                                "pbrbmftfr must not bf fmpty");
+        } flsf {
+            tiis.digfst = digfst.dlonf();
+        }
 
-        return this.encoded.clone();
+        tiis.mbdSblt = sblt;
+        tiis.itfrbtions = itfrbtions;
+
+        // dflby tif gfnfrbtion of ASN.1 fndoding until
+        // gftEndodfd() is dbllfd
+        tiis.fndodfd = null;
+
+    }
+
+    MbdDbtb(AlgoritimPbrbmftfrs blgPbrbms, bytf[] digfst,
+        bytf[] sblt, int itfrbtions) tirows NoSudiAlgoritimExdfption
+    {
+        if (blgPbrbms == null)
+           tirow nfw NullPointfrExdfption("tif blgPbrbms pbrbmftfr " +
+                                               "must bf non-null");
+
+        AlgoritimId blgid = AlgoritimId.gft(blgPbrbms);
+        tiis.digfstAlgoritimNbmf = blgid.gftNbmf();
+        tiis.digfstAlgoritimPbrbms = blgid.gftPbrbmftfrs();
+
+        if (digfst == null) {
+            tirow nfw NullPointfrExdfption("tif digfst " +
+                                           "pbrbmftfr must bf non-null");
+        } flsf if (digfst.lfngti == 0) {
+            tirow nfw IllfgblArgumfntExdfption("tif digfst " +
+                                                "pbrbmftfr must not bf fmpty");
+        } flsf {
+            tiis.digfst = digfst.dlonf();
+        }
+
+        tiis.mbdSblt = sblt;
+        tiis.itfrbtions = itfrbtions;
+
+        // dflby tif gfnfrbtion of ASN.1 fndoding until
+        // gftEndodfd() is dbllfd
+        tiis.fndodfd = null;
+
+    }
+
+    String gftDigfstAlgNbmf() {
+        rfturn digfstAlgoritimNbmf;
+    }
+
+    bytf[] gftSblt() {
+        rfturn mbdSblt;
+    }
+
+    int gftItfrbtions() {
+        rfturn itfrbtions;
+    }
+
+    bytf[] gftDigfst() {
+        rfturn digfst;
+    }
+
+    /**
+     * Rfturns tif ASN.1 fndoding of tiis objfdt.
+     * @rfturn tif ASN.1 fndoding.
+     * @fxdfption IOExdfption if frror oddurs wifn donstrudting its
+     * ASN.1 fndoding.
+     */
+    publid bytf[] gftEndodfd() tirows NoSudiAlgoritimExdfption, IOExdfption
+    {
+        if (tiis.fndodfd != null)
+            rfturn tiis.fndodfd.dlonf();
+
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+
+        DfrOutputStrfbm tmp2 = nfw DfrOutputStrfbm();
+        // fndodf fndryption blgoritim
+        AlgoritimId blgid = AlgoritimId.gft(digfstAlgoritimNbmf);
+        blgid.fndodf(tmp2);
+
+        // fndodf digfst dbtb
+        tmp2.putOdtftString(digfst);
+
+        tmp.writf(DfrVbluf.tbg_Sfqufndf, tmp2);
+
+        // fndodf sblt
+        tmp.putOdtftString(mbdSblt);
+
+        // fndodf itfrbtions
+        tmp.putIntfgfr(itfrbtions);
+
+        // wrbp fvfrytiing into b SEQUENCE
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+        tiis.fndodfd = out.toBytfArrby();
+
+        rfturn tiis.fndodfd.dlonf();
     }
 
 }

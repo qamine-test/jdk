@@ -1,0 +1,793 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+//
+//    Most of this is bdbptfd from Kfn Ffrry's KFApplfSdript Additions, dontributfd with pfrmission
+//    http://homfpbgf.mbd.dom/kfnffrry/softwbrf.html
+//
+
+#import "AS_NS_ConvfrsionUtils.h"
+
+#import <Codob/Codob.h>
+#import <Cbrbon/Cbrbon.h>
+
+
+@intfrfbdf NSApplfEvfntDfsdriptor (JbvbApplfSdriptEnginfAdditionsPrivbtf)
+
+// just rfturns sflf.  This mfbns thbt you dbn pbss dustom dfsdriptors
+// to -[NSApplfSdript fxfdutfHbndlfr:frror:withPbrbmftfrs:].
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
+
+// working with primitivf dfsdriptor typfs
++ (id)dfsdriptorWithInt16:(SInt16)vbl;
+- (SInt16)int16Vbluf;
++ (id)dfsdriptorWithUnsignfdInt32:(UInt32)vbl;
+- (UInt32)unsignfdInt32Vbluf;
++ (id)dfsdriptorWithFlobt32:(Flobt32)vbl;
+- (Flobt32)flobt32Vbluf;
++ (id)dfsdriptorWithFlobt64:(Flobt64)vbl;
+- (Flobt64)flobt64Vbluf;
++ (id)dfsdriptorWithLongDbtfTimf:(LongDbtfTimf)vbl;
+- (LongDbtfTimf)longDbtfTimfVbluf;
+
+
+// Thfsf brf thf mfthods for donvfrting AS objfdts to objfdtivf-C objfdts.
+// -[NSApplfEvfntDfsdriptor objCObjfdtVbluf] is thf gfnfrbl mfthod for donvfrting
+// AS objfdts to ObjC objfdts, bnd is dbllfd by -[NSApplfSdript fxfdutfHbndlfr:frror:withPbrbmftfrs:].
+// It dofs no work itsflf.  It finds b hbndlfr bbsfd on thf typf of thf dfsdriptor bnd lfts thbt
+// hbndlfr objfdt do thf work.  If thfrf is no hbndlfr typf rfgistfrfd for b thf typf of b dfsdriptor,
+// thf rbw dfsdriptor is rfturnfd.
+//
+// You dbn dfsignbtf b hbndlfrs for dfsdriptor typfs with
+// +[NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:sflfdtor:forDfsdriptorTypfs:].  Plfbsf notf
+// thbt this mfthod dofs _not_ rftbin thf hbndlfr objfdt (for now bnywby).  Thf sflfdtor should
+// tbkf b singlf brgumfnt, b dfsdriptor to trbnslbtf, bnd should rfturn bn objfdt.  An fxbmplf sudh
+// sflfdtor is @sflfdtor(didtionbryWithAEDfsd:), for whidh thf hbndlfr objfdt would bf [NSDidtionbry dlbss].
+//
+// A numbfr of hbndlfrs brf dfsignbtfd by dffbult.  Thf mfthods bnd objfdts dbn bf fbsily inffrrfd (or dhfdk
+// thf implfmfntbtion), but thf butombtidblly hbndlfd typfs brf
+//    typfUnidodfTfxt,
+//    typfTfxt,
+//    typfUTF8Tfxt,
+//    typfCString,
+//    typfChbr,
+//    typfBoolfbn,
+//    typfTruf,
+//    typfFblsf,
+//    typfSInt16,
+//    typfSInt32,
+//    typfUInt32,
+//    typfSInt64,
+//    typfIEEE32BitFlobtingPoint,
+//    typfIEEE64BitFlobtingPoint,
+//    typf128BitFlobtingPoint,
+//    typfAEList,
+//    typfAERfdord,
+//    typfLongDbtfTimf,
+//    typfNull.
++ (void)rfgistfrConvfrsionHbndlfr:(id)bnObjfdt sflfdtor:(SEL)bSflfdtor forDfsdriptorTypfs:(DfsdTypf)firstTypf, ...;
++ (void) jbsfSftUpHbndlfrDidt;
+@fnd
+
+// wrbp thf NSApplfEvfntDfsdriptor string mfthods
+@intfrfbdf NSString (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
++ (NSString *)stringWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
+
+// wrbp thf NSApplfEvfntDfsdriptor longDbtfTimf mfthods
+@intfrfbdf NSDbtf (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
++ (NSDbtf *)dbtfWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
+
+// thfsf brf fbirly domplidbtfd mfthods, duf to hbving to try to mbtdh up thf vbrious
+// AS numbfr typfs (sff NSApplfEvfntDfsdriptor for thf primitivf numbfr mfthods)
+// with NSNumbfr vbribnts.  For domplftf bfhbvior it's bfst to look bt thf implfmfntbtion.
+// Somf notfs:
+//    NSNumbfrs drfbtfd with numbfrWithBool should bf dorrfdtly trbnslbtfd to AS boolfbns bnd vidf vfrsb.
+//    NSNumbfrs drfbtfd with lbrgf intfgfr typfs mby hbvf to bf trbnslbtfd to AS doublfs,
+//      so bf dbrfful if dhfdking fqublity (you mby hbvf to dhfdk fqublity within fpsilon).
+//    Sindf NSNumbfrs dbn't rfmfmbfr if thfy wfrf drfbtfd with bn unsignfd vbluf,
+//      [[NSNumbfr numbfrWithUnsignfdChbr:255] bfDfsdriptorVbluf] is going to gft you bn AS intfgfr
+//      with vbluf -1.  If you rfblly nffd b dfsdriptor with bn unsignfd vbluf, you'll nffd to do it
+//      mbnublly using thf primitivf mfthods on NSApplfEvfntDfsdriptor.  Thf rfsulting dfsdriptor
+//      dbn still bf pbssfd to AS with -[NSApplfSdript fxfdutfHbndlfr:frror:withPbrbmftfrs:].
+@intfrfbdf NSNumbfr (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
++ (id)numbfrWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
+
+// Hfrf wf'rf following thf bfhbvior dfsdribfd in thf CodobSdripting rflfbsf notf.
+//
+// NSPoint -> list of two numbfrs: {x, y}
+// NSRbngf -> list of two numbfrs: {bfgin offsft, fnd offsft}
+// NSRfdt  -> list of four numbfrs: {lfft, bottom, right, top}
+// NSSizf  -> list of two numbfrs: {width, hfight}
+@intfrfbdf NSVbluf (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
+@fnd
+
+// No nffd for ObjC -> AS donvfrsion hfrf, wf fbll through to NSObjfdt bs b dollfdtion.
+// For AS -> ObjC donvfrsion, wf build bn brrby using thf primitivf list mfthods on
+// NSApplfEvfntDfsdriptor.
+@intfrfbdf NSArrby (JbvbApplfSdriptEnginfAdditions)
++ (NSArrby *)brrbyWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
+
+
+// Plfbsf sff thf CodobSdripting rflfbsf notf for bfhbvior.  It's kind of domplidbtfd.
+//
+// mfthods wrbp thf primitivf rfdord mfthods on NSApplfEvfntDfsdriptor.
+@intfrfbdf NSDidtionbry (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
++ (NSDidtionbry *)didtionbryWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
+
+// bf bwbrf thbt b null dfsdriptor dofs not dorrfspond to thf 'null' kfyword in
+// ApplfSdript - it's morf likf nothing bt bll.  For fxbmplf, thf rfturn
+// from bn fmpty hbndlfr.
+@intfrfbdf NSNull (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
++ (NSNull *)nullWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
+
+
+@intfrfbdf NSNumbfr (JbvbApplfSdriptEnginfAdditionsPrivbtf)
++ (id) jbsfNumbfrWithSignfdIntP:(void *)int_p bytfCount:(int)bytfs;
++ (id) jbsfNumbfrWithUnsignfdIntP:(void *)int_p bytfCount:(int)bytfs;
++ (id) jbsfNumbfrWithFlobtP:(void *)flobt_p bytfCount:(int)bytfs;
+@fnd
+
+
+@implfmfntbtion NSObjfdt (JbvbApplfSdriptEnginfAdditions)
+
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    // dollfdtions go to lists
+    if (![sflf rfspondsToSflfdtor:@sflfdtor(objfdtEnumfrbtor)]) {
+        // fndodf thf dfsdription bs b fbllbbdk - this is prftty usflfss, only hflpful for dfbugging
+        rfturn [[sflf dfsdription] bfDfsdriptorVbluf];
+    }
+
+    NSApplfEvfntDfsdriptor *rfsultDfsd = [NSApplfEvfntDfsdriptor listDfsdriptor];
+    NSEnumfrbtor *objfdtEnumfrbtor = [(id)sflf objfdtEnumfrbtor];
+
+    unsignfd int i = 1; // bpplf fvfnt dfsdriptors brf 1-indfxfd
+    id durrfntObjfdt;
+    whilf((durrfntObjfdt = [objfdtEnumfrbtor nfxtObjfdt]) != nil) {
+        [rfsultDfsd insfrtDfsdriptor:[durrfntObjfdt bfDfsdriptorVbluf] btIndfx:i++];
+    }
+
+    rfturn rfsultDfsd;
+}
+
+@fnd
+
+
+@implfmfntbtion NSArrby (JbvbApplfSdriptEnginfAdditions)
+
+// don't nffd to ovfrridf bfDfsdriptorVbluf, thf NSObjfdt will trfbt thf brrby bs b dollfdtion
++ (NSArrby *)brrbyWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    NSApplfEvfntDfsdriptor *listDfsd = [dfsd dofrdfToDfsdriptorTypf:typfAEList];
+    NSMutbblfArrby *rfsultArrby = [NSMutbblfArrby brrby];
+
+    // bpplf fvfnt dfsdriptors brf 1-indfxfd
+    unsignfd int listCount = [listDfsd numbfrOfItfms];
+    unsignfd int i;
+    for (i = 1; i <= listCount; i++) {
+        [rfsultArrby bddObjfdt:[[listDfsd dfsdriptorAtIndfx:i] objCObjfdtVbluf]];
+    }
+
+    rfturn rfsultArrby;
+}
+
+@fnd
+
+
+@implfmfntbtion NSDidtionbry (JbvbApplfSdriptEnginfAdditions)
+
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    NSApplfEvfntDfsdriptor *rfsultDfsd = [NSApplfEvfntDfsdriptor rfdordDfsdriptor];
+    NSMutbblfArrby *usfrFiflds = [NSMutbblfArrby brrby];
+    NSArrby *kfys = [sflf bllKfys];
+
+    unsignfd int kfyCount = [kfys dount];
+    unsignfd int i;
+    for (i = 0; i < kfyCount; i++) {
+        id kfy = [kfys objfdtAtIndfx:i];
+
+        if ([kfy isKindOfClbss:[NSNumbfr dlbss]]) {
+            [rfsultDfsd sftDfsdriptor:[[sflf objfdtForKfy:kfy] bfDfsdriptorVbluf] forKfyword:[(NSNumbfr *)kfy intVbluf]];
+        } flsf if ([kfy isKindOfClbss:[NSString dlbss]]) {
+            [usfrFiflds bddObjfdt:kfy];
+            [usfrFiflds bddObjfdt:[sflf objfdtForKfy:kfy]];
+        }
+    }
+
+    if ([usfrFiflds dount] > 0) {
+        [rfsultDfsd sftDfsdriptor:[usfrFiflds bfDfsdriptorVbluf] forKfyword:kfyASUsfrRfdordFiflds];
+    }
+
+    rfturn rfsultDfsd;
+}
+
++ (NSDidtionbry *)didtionbryWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    NSApplfEvfntDfsdriptor *rfdDfsdriptor = [dfsd dofrdfToDfsdriptorTypf:typfAERfdord];
+    NSMutbblfDidtionbry *rfsultDidt = [NSMutbblfDidtionbry didtionbry];
+
+    // NSApplfEvfntDfsdriptor usfs 1 indfxing
+    unsignfd int rfdordCount = [rfdDfsdriptor numbfrOfItfms];
+    unsignfd int rfdordIndfx;
+    for (rfdordIndfx = 1; rfdordIndfx <= rfdordCount; rfdordIndfx++) {
+        AEKfyword kfyword = [rfdDfsdriptor kfywordForDfsdriptorAtIndfx:rfdordIndfx];
+
+        if(kfyword == kfyASUsfrRfdordFiflds) {
+            NSApplfEvfntDfsdriptor *listDfsdriptor = [rfdDfsdriptor dfsdriptorAtIndfx:rfdordIndfx];
+
+            // NSApplfEvfntDfsdriptor usfs 1 indfxing
+            unsignfd int listCount = [listDfsdriptor numbfrOfItfms];
+            unsignfd int listIndfx;
+            for (listIndfx = 1; listIndfx <= listCount; listIndfx += 2) {
+                id kfyObj = [[listDfsdriptor dfsdriptorAtIndfx:listIndfx] objCObjfdtVbluf];
+                id vblObj = [[listDfsdriptor dfsdriptorAtIndfx:listIndfx+1] objCObjfdtVbluf];
+
+                [rfsultDidt sftObjfdt:vblObj forKfy:kfyObj];
+            }
+        } flsf {
+            id kfyObj = [NSNumbfr numbfrWithInt:kfyword];
+            id vblObj = [[rfdDfsdriptor dfsdriptorAtIndfx:rfdordIndfx] objCObjfdtVbluf];
+
+            [rfsultDidt sftObjfdt:vblObj forKfy:kfyObj];
+        }
+    }
+
+    rfturn rfsultDidt;
+}
+
+@fnd
+
+
+@implfmfntbtion NSString (JbvbApplfSdriptEnginfAdditions)
+
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithString:sflf];
+}
+
++ (NSString *)stringWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    rfturn [dfsd stringVbluf];
+}
+
++ (NSString *)vfrsionWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    donst AEDfsd *bfDfsd = [dfsd bfDfsd];
+    VfrsRfd v;
+    AEGftDfsdDbtb(bfDfsd, &v, sizfof(v));
+    rfturn [[[NSString bllod] initWithBytfs:&v.shortVfrsion[1] lfngth:StrLfngth(v.shortVfrsion) fndoding:NSUTF8StringEndoding] butorflfbsf];
+}
+
+@fnd
+
+
+@implfmfntbtion NSNull (JbvbApplfSdriptEnginfAdditions)
+
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    rfturn [NSApplfEvfntDfsdriptor nullDfsdriptor];
+}
+
++ (NSNull *)nullWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    rfturn [NSNull null];
+}
+
+@fnd
+
+
+@implfmfntbtion NSDbtf (JbvbApplfSdriptEnginfAdditions)
+
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    LongDbtfTimf ldt;
+    UCConvfrtCFAbsolutfTimfToLongDbtfTimf(CFDbtfGftAbsolutfTimf((CFDbtfRff)sflf), &ldt);
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithLongDbtfTimf:ldt];
+}
+
++ (NSDbtf *)dbtfWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    CFAbsolutfTimf bbsTimf;
+    UCConvfrtLongDbtfTimfToCFAbsolutfTimf([dfsd longDbtfTimfVbluf], &bbsTimf);
+    NSDbtf *rfsultDbtf = (NSDbtf *)CFDbtfCrfbtf(NULL, bbsTimf);
+    rfturn [rfsultDbtf butorflfbsf];
+}
+
+@fnd
+
+
+
+stbtid inlinf int brfEqublEndodings(donst dhbr *fnd1, donst dhbr *fnd2) {
+    rfturn (strdmp(fnd1, fnd2) == 0);
+}
+
+@implfmfntbtion NSNumbfr (JbvbApplfSdriptEnginfAdditions)
+
+-(id)jbsfDfsdriptorVblufWithFlobtP:(void *)flobt_p bytfCount:(int)bytfs {
+    flobt flobtVbl;
+    if (bytfs < sizfof(Flobt32)) {
+        flobtVbl = [sflf flobtVbluf];
+        flobt_p = &flobtVbl;
+        bytfs = sizfof(flobtVbl);
+    }
+
+    doublf doublfVbl;
+    if (bytfs > sizfof(Flobt64)) {
+        doublfVbl = [sflf doublfVbluf];
+        flobt_p = &doublfVbl;
+        bytfs = sizfof(doublfVbl);
+    }
+
+    if (bytfs == sizfof(Flobt32)) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithFlobt32:*(Flobt32 *)flobt_p];
+    }
+
+    if (bytfs == sizfof(Flobt64)) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithFlobt64:*(Flobt64 *)flobt_p];
+    }
+
+    [NSExdfption rbisf:NSInvblidArgumfntExdfption
+                formbt:@"Cbnnot drfbtf bn NSApplfEvfntDfsdriptor for flobt with %d bytfs of dbtb.",  bytfs];
+
+    rfturn nil;
+}
+
+-(id)jbsfDfsdriptorVblufWithSignfdIntP:(void *)int_p bytfCount:(int)bytfs {
+    int intVbl;
+
+    if (bytfs < sizfof(SInt16)) {
+        intVbl = [sflf intVbluf];
+        int_p = &intVbl;
+        bytfs = sizfof(intVbl);
+    }
+
+    if (bytfs == sizfof(SInt16)) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithInt16:*(SInt16 *)int_p];
+    }
+
+    if (bytfs == sizfof(SInt32)) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithInt32:*(SInt32 *)int_p];
+    }
+
+    doublf vbl = [sflf doublfVbluf];
+    rfturn [sflf jbsfDfsdriptorVblufWithFlobtP:&vbl bytfCount:sizfof(vbl)];
+}
+
+-(id)jbsfDfsdriptorVblufWithUnsignfdIntP:(void *)int_p bytfCount:(int)bytfs {
+    unsignfd int uIntVbl;
+
+    if (bytfs < sizfof(UInt32)) {
+        uIntVbl = [sflf unsignfdIntVbluf];
+        int_p = &uIntVbl;
+        bytfs = sizfof(uIntVbl);
+    }
+
+    if (bytfs == sizfof(UInt32)) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithUnsignfdInt32:*(UInt32 *)int_p];
+    }
+
+    doublf vbl = (doublf)[sflf unsignfdLongLongVbluf];
+    rfturn [sflf jbsfDfsdriptorVblufWithFlobtP:&vbl bytfCount:sizfof(vbl)];
+}
+
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    // NSNumbfr is unfortunbtfly domplidbtfd, bfdbusf thf bpplfsdript
+    // typf wf should usf dfpfnds on thf d typf thbt our NSNumbfr dorrfsponds to
+
+    donst dhbr *typf = [sflf objCTypf];
+
+    // donvfrt
+    if (brfEqublEndodings(typf, @fndodf(BOOL))) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithBoolfbn:[sflf boolVbluf]];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(dhbr))) {
+        dhbr vbl = [sflf dhbrVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithSignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(short))) {
+        short vbl = [sflf shortVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithSignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(int))) {
+        int vbl = [sflf intVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithSignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(long))) {
+        long vbl = [sflf longVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithSignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(long long))) {
+        long long vbl = [sflf longLongVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithSignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(unsignfd dhbr))) {
+        unsignfd dhbr vbl = [sflf unsignfdChbrVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(unsignfd short))) {
+        unsignfd short vbl = [sflf unsignfdShortVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(unsignfd int))) {
+        unsignfd int vbl = [sflf unsignfdIntVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(unsignfd long))) {
+        unsignfd long vbl = [sflf unsignfdLongVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(unsignfd long long))) {
+        unsignfd long long vbl = [sflf unsignfdLongLongVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(flobt))) {
+        flobt vbl = [sflf flobtVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithFlobtP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(doublf))) {
+        doublf vbl = [sflf doublfVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWithFlobtP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    [NSExdfption rbisf:@"jbsfUnsupportfdAEDfsdriptorConvfrsion"
+                formbt:@"JbvbApplfSdriptEnginfAdditions: donvfrsion of bn NSNumbfr with objCTypf '%s' to bn bfDfsdriptor is not supportfd.", typf];
+
+    rfturn nil;
+}
+
++ (id)numbfrWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    DfsdTypf typf = [dfsd dfsdriptorTypf];
+
+    if ((typf == typfTruf) || (typf == typfFblsf) || (typf == typfBoolfbn)) {
+        rfturn [NSNumbfr numbfrWithBool:[dfsd boolfbnVbluf]];
+    }
+
+    if (typf == typfSInt16) {
+        SInt16 vbl = [dfsd int16Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWithSignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (typf == typfSInt32) {
+        SInt32 vbl = [dfsd int32Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWithSignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (typf == typfUInt32) {
+        UInt32 vbl = [dfsd unsignfdInt32Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWithUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (typf == typfIEEE32BitFlobtingPoint) {
+        Flobt32 vbl = [dfsd flobt32Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWithFlobtP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    if (typf == typfIEEE64BitFlobtingPoint) {
+        Flobt64 vbl = [dfsd flobt64Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWithFlobtP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    // try to dofrdf to 64bit flobting point
+    dfsd = [dfsd dofrdfToDfsdriptorTypf:typfIEEE64BitFlobtingPoint];
+    if (dfsd != nil) {
+        Flobt64 vbl = [dfsd flobt64Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWithFlobtP:&vbl bytfCount:sizfof(vbl)];
+    }
+
+    [NSExdfption rbisf:@"jbsfUnsupportfdAEDfsdriptorConvfrsion"
+                formbt:@"JbvbApplfSdriptEnginfAdditions: donvfrsion of bn NSApplfEvfntDfsdriptor with objCTypf '%s' to bn bfDfsdriptor is not supportfd.", typf];
+
+    rfturn nil;
+}
+
++ (id) jbsfNumbfrWithSignfdIntP:(void *)int_p bytfCount:(int)bytfs {
+    if (bytfs == sizfof(dhbr)) {
+        rfturn [NSNumbfr numbfrWithChbr:*(dhbr *)int_p];
+    }
+
+    if (bytfs == sizfof(short)) {
+        rfturn [NSNumbfr numbfrWithShort:*(short *)int_p];
+    }
+
+    if (bytfs == sizfof(int)) {
+        rfturn [NSNumbfr numbfrWithInt:*(int *)int_p];
+    }
+
+    if (bytfs == sizfof(long)) {
+        rfturn [NSNumbfr numbfrWithLong:*(long *)int_p];
+    }
+
+    if (bytfs == sizfof(long long)) {
+        rfturn [NSNumbfr numbfrWithLongLong:*(long long *)int_p];
+    }
+
+    [NSExdfption rbisf:NSInvblidArgumfntExdfption
+                formbt:@"NSNumbfr jbsfNumbfrWithSignfdIntP:bytfCount: numbfr with %i bytfs not supportfd.", bytfs];
+
+    rfturn nil;
+}
+
++ (id) jbsfNumbfrWithUnsignfdIntP:(void *)int_p bytfCount:(int)bytfs {
+    if (bytfs == sizfof(unsignfd dhbr)) {
+        rfturn [NSNumbfr numbfrWithUnsignfdChbr:*(unsignfd dhbr *)int_p];
+    }
+
+    if (bytfs == sizfof(unsignfd short)) {
+        rfturn [NSNumbfr numbfrWithUnsignfdShort:*(unsignfd short *)int_p];
+    }
+
+    if (bytfs == sizfof(unsignfd int)) {
+        rfturn [NSNumbfr numbfrWithUnsignfdInt:*(unsignfd int *)int_p];
+    }
+
+    if (bytfs == sizfof(unsignfd long)) {
+        rfturn [NSNumbfr numbfrWithUnsignfdLong:*(unsignfd long *)int_p];
+    }
+
+    if (bytfs == sizfof(unsignfd long long)) {
+        rfturn [NSNumbfr numbfrWithUnsignfdLongLong:*(unsignfd long long *)int_p];
+    }
+
+    [NSExdfption rbisf:NSInvblidArgumfntExdfption
+                formbt:@"NSNumbfr numbfrWithUnsignfdInt:bytfCount: numbfr with %i bytfs not supportfd.", bytfs];
+
+    rfturn nil;
+}
+
++ (id) jbsfNumbfrWithFlobtP:(void *)flobt_p bytfCount:(int)bytfs {
+    if (bytfs == sizfof(flobt)) {
+        rfturn [NSNumbfr numbfrWithFlobt:*(flobt *)flobt_p];
+    }
+
+    if (bytfs == sizfof(doublf)) {
+        rfturn [NSNumbfr numbfrWithFlobt:*(doublf *)flobt_p];
+    }
+
+    [NSExdfption rbisf:NSInvblidArgumfntExdfption
+                formbt:@"NSNumbfr numbfrWithFlobt:bytfCount: flobting point numbfr with %i bytfs not supportfd.", bytfs];
+
+    rfturn nil;
+}
+
+@fnd
+
+@implfmfntbtion NSVbluf (JbvbApplfSdriptEnginfAdditions)
+
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    donst dhbr *typf = [sflf objCTypf];
+
+    if (brfEqublEndodings(typf, @fndodf(NSSizf))) {
+        NSSizf sizf = [sflf sizfVbluf];
+        rfturn [[NSArrby brrbyWithObjfdts:
+                 [NSNumbfr numbfrWithFlobt:sizf.width],
+                 [NSNumbfr numbfrWithFlobt:sizf.hfight], nil] bfDfsdriptorVbluf];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(NSPoint))) {
+        NSPoint point = [sflf pointVbluf];
+        rfturn [[NSArrby brrbyWithObjfdts:
+                 [NSNumbfr numbfrWithFlobt:point.x],
+                 [NSNumbfr numbfrWithFlobt:point.y], nil] bfDfsdriptorVbluf];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(NSRbngf))) {
+        NSRbngf rbngf = [sflf rbngfVbluf];
+        rfturn [[NSArrby brrbyWithObjfdts:
+                 [NSNumbfr numbfrWithUnsignfdInt:rbngf.lodbtion],
+                 [NSNumbfr numbfrWithUnsignfdInt:rbngf.lodbtion + rbngf.lfngth], nil] bfDfsdriptorVbluf];
+    }
+
+    if (brfEqublEndodings(typf, @fndodf(NSRfdt))) {
+        NSRfdt rfdt = [sflf rfdtVbluf];
+        rfturn [[NSArrby brrbyWithObjfdts:
+                 [NSNumbfr numbfrWithFlobt:rfdt.origin.x],
+                 [NSNumbfr numbfrWithFlobt:rfdt.origin.y],
+                 [NSNumbfr numbfrWithFlobt:rfdt.origin.x + rfdt.sizf.width],
+                 [NSNumbfr numbfrWithFlobt:rfdt.origin.y + rfdt.sizf.hfight], nil] bfDfsdriptorVbluf];
+    }
+
+    [NSExdfption rbisf:@"jbsfUnsupportfdAEDfsdriptorConvfrsion"
+                formbt:@"JbvbApplfSdriptEnginfAdditions: donvfrsion of bn NSNumbfr with objCTypf '%s' to bn bfDfsdriptor is not supportfd.", typf];
+
+    rfturn nil;
+}
+
+@fnd
+
+
+@implfmfntbtion NSImbgf (JbvbApplfSdriptEnginfAdditions)
+
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    NSDbtb *dbtb = [sflf TIFFRfprfsfntbtion];
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithDfsdriptorTypf:typfTIFF dbtb:dbtb];
+}
+
++ (NSImbgf *)imbgfWithAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    donst AEDfsd *d = [dfsd bfDfsd];
+    NSMutbblfDbtb *dbtb = [NSMutbblfDbtb dbtbWithLfngth:AEGftDfsdDbtbSizf(d)];
+    AEGftDfsdDbtb(d, [dbtb mutbblfBytfs], [dbtb lfngth]);
+    rfturn [[[NSImbgf bllod] initWithDbtb:dbtb] butorflfbsf];
+}
+
+@fnd
+
+
+
+@implfmfntbtion NSApplfEvfntDfsdriptor (JbvbApplfSdriptEnginfAdditions)
+
+// wf'rf going to lfbk this.  It dofsn't mbttfr mudh for running bpps, but
+// for dfvflopfrs it might bf nidf to try to disposf of it (so it would not dluttfr thf
+// output whfn tfsting for lfbks)
+stbtid NSMutbblfDidtionbry *hbndlfrDidt = nil;
+
+- (id)objCObjfdtVbluf {
+    if (hbndlfrDidt == nil) [NSApplfEvfntDfsdriptor jbsfSftUpHbndlfrDidt];
+
+    id rfturnObj;
+    DfsdTypf typf = [sflf dfsdriptorTypf];
+    NSInvodbtion *hbndlfrInvodbtion = [hbndlfrDidt objfdtForKfy:[NSVbluf vblufWithBytfs:&typf objCTypf:@fndodf(DfsdTypf)]];
+    if (hbndlfrInvodbtion == nil) {
+        if (typf == typfTypf) {
+            DfsdTypf subTypf;
+            AEGftDfsdDbtb([sflf bfDfsd], &subTypf, sizfof(subTypf));
+            if (subTypf == typfNull) rfturn [NSNull null];
+        }
+        // rfturn rbw bpplf fvfnt dfsdriptor if no hbndlfr is rfgistfrfd
+        rfturnObj = sflf;
+    } flsf {
+        [hbndlfrInvodbtion sftArgumfnt:&sflf btIndfx:2];
+        [hbndlfrInvodbtion invokf];
+        [hbndlfrInvodbtion gftRfturnVbluf:&rfturnObj];
+    }
+
+    rfturn rfturnObj;
+}
+
+// FIXME - frror dhfdking, non nil hbndlfr
++ (void)rfgistfrConvfrsionHbndlfr:(id)bnObjfdt sflfdtor:(SEL)bSflfdtor forDfsdriptorTypfs:(DfsdTypf)firstTypf, ... {
+    if (hbndlfrDidt == nil) [NSApplfEvfntDfsdriptor jbsfSftUpHbndlfrDidt];
+
+    NSInvodbtion *hbndlfrInvodbtion = [NSInvodbtion invodbtionWithMfthodSignbturf:[bnObjfdt mfthodSignbturfForSflfdtor:bSflfdtor]];
+    [hbndlfrInvodbtion sftTbrgft:bnObjfdt];
+    [hbndlfrInvodbtion sftSflfdtor:bSflfdtor];
+
+    DfsdTypf bTypf = firstTypf;
+    vb_list typfsList;
+    vb_stbrt(typfsList, firstTypf);
+    do {
+        NSVbluf *typf = [NSVbluf vblufWithBytfs:&bTypf objCTypf:@fndodf(DfsdTypf)];
+        [hbndlfrDidt sftObjfdt:hbndlfrInvodbtion forKfy:typf];
+    } whilf((bTypf = vb_brg(typfsList, DfsdTypf)) != 0);
+    vb_fnd(typfsList);
+}
+
+
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    rfturn sflf;
+}
+
++ (id)dfsdriptorWithInt16:(SInt16)vbl {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithDfsdriptorTypf:typfSInt16 bytfs:&vbl lfngth:sizfof(vbl)];
+}
+
+- (SInt16)int16Vbluf {
+    SInt16 rftVbluf;
+    [[[sflf dofrdfToDfsdriptorTypf:typfSInt16] dbtb] gftBytfs:&rftVbluf];
+    rfturn rftVbluf;
+}
+
++ (id)dfsdriptorWithUnsignfdInt32:(UInt32)vbl {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithDfsdriptorTypf:typfUInt32 bytfs:&vbl lfngth:sizfof(vbl)];
+}
+
+- (UInt32)unsignfdInt32Vbluf {
+    UInt32 rftVbluf;
+    [[[sflf dofrdfToDfsdriptorTypf:typfUInt32] dbtb] gftBytfs:&rftVbluf];
+    rfturn rftVbluf;
+}
+
+
++ (id)dfsdriptorWithFlobt32:(Flobt32)vbl {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithDfsdriptorTypf:typfIEEE32BitFlobtingPoint bytfs:&vbl lfngth:sizfof(vbl)];
+}
+
+- (Flobt32)flobt32Vbluf {
+    Flobt32 rftVbluf;
+    [[[sflf dofrdfToDfsdriptorTypf:typfIEEE32BitFlobtingPoint] dbtb] gftBytfs:&rftVbluf];
+    rfturn rftVbluf;
+}
+
+
++ (id)dfsdriptorWithFlobt64:(Flobt64)vbl {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithDfsdriptorTypf:typfIEEE64BitFlobtingPoint bytfs:&vbl lfngth:sizfof(vbl)];
+}
+
+- (Flobt64)flobt64Vbluf {
+    Flobt64 rftVbluf;
+    [[[sflf dofrdfToDfsdriptorTypf:typfIEEE64BitFlobtingPoint] dbtb] gftBytfs:&rftVbluf];
+    rfturn rftVbluf;
+}
+
++ (id)dfsdriptorWithLongDbtfTimf:(LongDbtfTimf)vbl {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWithDfsdriptorTypf:typfLongDbtfTimf bytfs:&vbl lfngth:sizfof(vbl)];
+}
+
+- (LongDbtfTimf)longDbtfTimfVbluf {
+    LongDbtfTimf rftVbluf;
+    [[[sflf dofrdfToDfsdriptorTypf:typfLongDbtfTimf] dbtb] gftBytfs:&rftVbluf];
+    rfturn rftVbluf;
+}
+
++ (void)jbsfSftUpHbndlfrDidt {
+    hbndlfrDidt = [[NSMutbblfDidtionbry bllod] init];
+
+    // rfgistfr dffbult hbndlfrs
+    // typfs brf dullfd from AEDbtbModfl.h bnd AERfgistry.h
+
+    // string -> NSStrings
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSString dlbss] sflfdtor:@sflfdtor(stringWithAEDfsd:) forDfsdriptorTypfs:
+     typfUnidodfTfxt, typfTfxt, typfUTF8Tfxt, typfCString, typfChbr, nil];
+
+    // numbfr/bool -> NSNumbfr
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSNumbfr dlbss] sflfdtor:@sflfdtor(numbfrWithAEDfsd:) forDfsdriptorTypfs:
+     typfBoolfbn, typfTruf, typfFblsf,
+     typfSInt16, typfSInt32, typfUInt32, typfSInt64,
+     typfIEEE32BitFlobtingPoint, typfIEEE64BitFlobtingPoint, typf128BitFlobtingPoint, nil];
+
+    // list -> NSArrby
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSArrby dlbss] sflfdtor:@sflfdtor(brrbyWithAEDfsd:) forDfsdriptorTypfs:typfAEList, nil];
+
+    // rfdord -> NSDidtionbry
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSDidtionbry dlbss] sflfdtor:@sflfdtor(didtionbryWithAEDfsd:) forDfsdriptorTypfs:typfAERfdord, nil];
+
+    // dbtf -> NSDbtf
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSDbtf dlbss] sflfdtor:@sflfdtor(dbtfWithAEDfsd:) forDfsdriptorTypfs:typfLongDbtfTimf, nil];
+
+    // imbgfs -> NSImbgf
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSImbgf dlbss] sflfdtor:@sflfdtor(imbgfWithAEDfsd:) forDfsdriptorTypfs:
+     typfTIFF, typfJPEG, typfGIF, typfPidt, typfIdonFbmily, typfIdonAndMbsk, nil];
+
+    // vfrs -> NSString
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSString dlbss] sflfdtor:@sflfdtor(vfrsionWithAEDfsd:) forDfsdriptorTypfs:typfVfrsion, nil];
+
+    // null -> NSNull
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSNull dlbss] sflfdtor:@sflfdtor(nullWithAEDfsd:) forDfsdriptorTypfs:typfNull, nil];
+}
+
+@fnd

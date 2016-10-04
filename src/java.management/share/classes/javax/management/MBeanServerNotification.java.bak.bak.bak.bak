@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+/**
+ * Rfprfsfnts b notifidbtion fmittfd by thf MBfbn Sfrvfr through thf MBfbnSfrvfrDflfgbtf MBfbn.
+ * Thf MBfbn Sfrvfr fmits thf following typfs of notifidbtions: MBfbn rfgistrbtion, MBfbn
+ * unrfgistrbtion.
+ * <P>
+ * To rfdfivf MBfbnSfrvfrNotifidbtions, you nffd to rfgistfr b listfnfr with
+ * thf {@link MBfbnSfrvfrDflfgbtf MBfbnSfrvfrDflfgbtf} MBfbn
+ * thbt rfprfsfnts thf MBfbnSfrvfr. Thf ObjfdtNbmf of thf MBfbnSfrvfrDflfgbtf is
+ * {@link MBfbnSfrvfrDflfgbtf#DELEGATE_NAME}, whidh is
+ * <CODE>JMImplfmfntbtion:typf=MBfbnSfrvfrDflfgbtf</CODE>.
+ *
+ * <p>Thf following dodf prints b mfssbgf fvfry timf bn MBfbn is rfgistfrfd
+ * or unrfgistfrfd in thf MBfbn Sfrvfr {@dodf mbfbnSfrvfr}:</p>
+ *
+ * <prf>
+ * privbtf stbtid finbl NotifidbtionListfnfr printListfnfr = nfw NotifidbtionListfnfr() {
+ *     publid void hbndlfNotifidbtion(Notifidbtion n, Objfdt hbndbbdk) {
+ *         if (!(n instbndfof MBfbnSfrvfrNotifidbtion)) {
+ *             Systfm.out.println("Ignorfd notifidbtion of dlbss " + n.gftClbss().gftNbmf());
+ *             rfturn;
+ *         }
+ *         MBfbnSfrvfrNotifidbtion mbsn = (MBfbnSfrvfrNotifidbtion) n;
+ *         String whbt;
+ *         if (n.gftTypf().fqubls(MBfbnSfrvfrNotifidbtion.REGISTRATION_NOTIFICATION))
+ *             whbt = "MBfbn rfgistfrfd";
+ *         flsf if (n.gftTypf().fqubls(MBfbnSfrvfrNotifidbtion.UNREGISTRATION_NOTIFICATION))
+ *             whbt = "MBfbn unrfgistfrfd";
+ *         flsf
+ *             whbt = "Unknown typf " + n.gftTypf();
+ *         Systfm.out.println("Rfdfivfd MBfbn Sfrvfr notifidbtion: " + whbt + ": " +
+ *                 mbsn.gftMBfbnNbmf());
+ *     }
+ * };
+ *
+ * ...
+ *     mbfbnSfrvfr.bddNotifidbtionListfnfr(
+ *             MBfbnSfrvfrDflfgbtf.DELEGATE_NAME, printListfnfr, null, null);
+ * </prf>
+ *
+ * <p id="group">
+ * An MBfbn whidh is not bn {@link MBfbnSfrvfrDflfgbtf} mby blso fmit
+ * MBfbnSfrvfrNotifidbtions. In pbrtidulbr, thfrf is b donvfntion for
+ * MBfbns to fmit bn MBfbnSfrvfrNotifidbtion for b group of MBfbns.</p>
+ *
+ * <p>An MBfbnSfrvfrNotifidbtion fmittfd to dfnotf thf rfgistrbtion or
+ * unrfgistrbtion of b group of MBfbns hbs thf following dhbrbdtfristids:
+ * <ul><li>Its {@linkplbin Notifidbtion#gftTypf() notifidbtion typf} is
+ *     {@dodf "JMX.mbfbn.rfgistfrfd.group"} or
+ *     {@dodf "JMX.mbfbn.unrfgistfrfd.group"}, whidh dbn blso bf writtfn {@link
+ *     MBfbnSfrvfrNotifidbtion#REGISTRATION_NOTIFICATION}{@dodf + ".group"} or
+ *     {@link
+ *     MBfbnSfrvfrNotifidbtion#UNREGISTRATION_NOTIFICATION}{@dodf + ".group"}.
+ * </li>
+ * <li>Its {@linkplbin #gftMBfbnNbmf() MBfbn nbmf} is bn ObjfdtNbmf pbttfrn
+ *     thbt sflfdts thf sft (or b supfrsft) of thf MBfbns bfing rfgistfrfd
+ *     or unrfgistfrfd</li>
+ * <li>Its {@linkplbin Notifidbtion#gftUsfrDbtb() usfr dbtb} dbn optionblly
+ *     bf sft to bn brrby of ObjfdtNbmfs dontbining thf nbmfs of bll MBfbns
+ *     bfing rfgistfrfd or unrfgistfrfd.</li>
+ * </ul>
+ *
+ * <p>
+ * MBfbns whidh fmit thfsf group rfgistrbtion/unrfgistrbtion notifidbtions will
+ * dfdlbrf thfm in thfir {@link MBfbnInfo#gftNotifidbtions()
+ * MBfbnNotifidbtionInfo}.
+ * </p>
+ *
+ * @sindf 1.5
+ */
+publid dlbss MBfbnSfrvfrNotifidbtion fxtfnds Notifidbtion {
+
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 2876477500475969677L;
+    /**
+     * Notifidbtion typf dfnoting thbt bn MBfbn hbs bffn rfgistfrfd.
+     * Vbluf is "JMX.mbfbn.rfgistfrfd".
+     */
+    publid stbtid finbl String REGISTRATION_NOTIFICATION =
+            "JMX.mbfbn.rfgistfrfd";
+    /**
+     * Notifidbtion typf dfnoting thbt bn MBfbn hbs bffn unrfgistfrfd.
+     * Vbluf is "JMX.mbfbn.unrfgistfrfd".
+     */
+    publid stbtid finbl String UNREGISTRATION_NOTIFICATION =
+            "JMX.mbfbn.unrfgistfrfd";
+    /**
+     * @sfribl Thf objfdt nbmfs of thf MBfbns dondfrnfd by this notifidbtion
+     */
+    privbtf finbl ObjfdtNbmf objfdtNbmf;
+
+    /**
+     * Crfbtfs bn MBfbnSfrvfrNotifidbtion objfdt spfdifying objfdt nbmfs of
+     * thf MBfbns thbt dbusfd thf notifidbtion bnd thf spfdififd notifidbtion
+     * typf.
+     *
+     * @pbrbm typf A string dfnoting thf typf of thf
+     * notifidbtion. Sft it to onf thfsf vblufs: {@link
+     * #REGISTRATION_NOTIFICATION}, {@link
+     * #UNREGISTRATION_NOTIFICATION}.
+     * @pbrbm sourdf Thf MBfbnSfrvfrNotifidbtion objfdt rfsponsiblf
+     * for forwbrding MBfbn sfrvfr notifidbtion.
+     * @pbrbm sfqufndfNumbfr A sfqufndf numbfr thbt dbn bf usfd to ordfr
+     * rfdfivfd notifidbtions.
+     * @pbrbm objfdtNbmf Thf objfdt nbmf of thf MBfbn thbt dbusfd thf
+     * notifidbtion.
+     *
+     */
+    publid MBfbnSfrvfrNotifidbtion(String typf, Objfdt sourdf,
+            long sfqufndfNumbfr, ObjfdtNbmf objfdtNbmf) {
+        supfr(typf, sourdf, sfqufndfNumbfr);
+        this.objfdtNbmf = objfdtNbmf;
+    }
+
+    /**
+     * Rfturns thf  objfdt nbmf of thf MBfbn thbt dbusfd thf notifidbtion.
+     *
+     * @rfturn thf objfdt nbmf of thf MBfbn thbt dbusfd thf notifidbtion.
+     */
+    publid ObjfdtNbmf gftMBfbnNbmf() {
+        rfturn objfdtNbmf;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn supfr.toString() + "[mbfbnNbmf=" + objfdtNbmf + "]";
+
+    }
+
+ }

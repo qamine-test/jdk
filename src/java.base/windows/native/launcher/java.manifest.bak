@@ -1,58 +1,58 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<assembly xmlns="urn:schemas-microsoft-com:asm.v1"
-          manifestVersion="1.0"
-          xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1"
+          mbniffstVfrsion="1.0"
+          xmlns:bsmv3="urn:sdifmbs-midrosoft-dom:bsm.v3"
 >
-<assemblyIdentity
-    version="IMVERSION"
-    processorArchitecture="X86"
-    name="Oracle Corporation, Java(tm) 2 Standard Edition"
-    type="win32"
+<bssfmblyIdfntity
+    vfrsion="IMVERSION"
+    prodfssorArdiitfdturf="X86"
+    nbmf="Orbdlf Corporbtion, Jbvb(tm) 2 Stbndbrd Edition"
+    typf="win32"
 />
-<description>Java(TM) SE PROGRAM process</description>
-<dependency>
-    <dependentAssembly>
-        <assemblyIdentity
-            type="win32"
-            name="Microsoft.Windows.Common-Controls"
-            version="6.0.0.0"
-            processorArchitecture="*"
-            publicKeyToken="6595b64144ccf1df"
-            language="*"
+<dfsdription>Jbvb(TM) SE PROGRAM prodfss</dfsdription>
+<dfpfndfndy>
+    <dfpfndfntAssfmbly>
+        <bssfmblyIdfntity
+            typf="win32"
+            nbmf="Midrosoft.Windows.Common-Controls"
+            vfrsion="6.0.0.0"
+            prodfssorArdiitfdturf="*"
+            publidKfyTokfn="6595b64144ddf1df"
+            lbngubgf="*"
         />
-    </dependentAssembly>
-</dependency>
+    </dfpfndfntAssfmbly>
+</dfpfndfndy>
 
-  <!-- Identify the application security requirements. -->
-  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
-    <security>
-      <requestedPrivileges>
-        <requestedExecutionLevel
-          level="asInvoker"
-          uiAccess="false"/>
-        </requestedPrivileges>
-       </security>
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+    <sfdurity>
+      <rfqufstfdPrivilfgfs>
+        <rfqufstfdExfdutionLfvfl
+          lfvfl="bsInvokfr"
+          uiAddfss="fblsf"/>
+        </rfqufstfdPrivilfgfs>
+       </sfdurity>
   </trustInfo>
 
-  <!-- Indicate JDK is high-dpi aware. -->
-  <asmv3:application>
-    <asmv3:windowsSettings  xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
-       <dpiAware>true</dpiAware>
-    </asmv3:windowsSettings>
-  </asmv3:application>
+  <!-- Indidbtf JDK is iigi-dpi bwbrf. -->
+  <bsmv3:bpplidbtion>
+    <bsmv3:windowsSfttings  xmlns="ittp://sdifmbs.midrosoft.dom/SMI/2005/WindowsSfttings">
+       <dpiAwbrf>truf</dpiAwbrf>
+    </bsmv3:windowsSfttings>
+  </bsmv3:bpplidbtion>
 
-  <!-- Indicate this JDK version is Windows 7 compatible -->
-   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
-      <application>
-        <!-- Windows Vista -->
-        <supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}"/>
+  <!-- Indidbtf tiis JDK vfrsion is Windows 7 dompbtiblf -->
+   <dompbtibility xmlns="urn:sdifmbs-midrosoft-dom:dompbtibility.v1">
+      <bpplidbtion>
+        <!-- Windows Vistb -->
+        <supportfdOS Id="{f2011457-1546-43d5-b5ff-008dfff3d3f0}"/>
         <!-- Windows 7 -->
-        <supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}"/>
+        <supportfdOS Id="{35138b9b-5d96-4fbd-8f2d-b2440225f93b}"/>
         <!-- Windows 8 -->
-        <supportedOS Id="{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}"/>
+        <supportfdOS Id="{4b2f28f3-53b9-4441-bb9d-d69d4b4b6f38}"/>
         <!-- Windows 8.1 -->
-        <supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}"/>
-      </application>
-    </compatibility>
+        <supportfdOS Id="{1f676d76-80f1-4239-95bb-83d0f6d0db78}"/>
+      </bpplidbtion>
+    </dompbtibility>
 
-</assembly>
+</bssfmbly>

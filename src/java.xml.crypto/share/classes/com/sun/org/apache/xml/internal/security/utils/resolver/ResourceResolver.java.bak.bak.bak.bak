@@ -1,0 +1,361 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrDirfdtHTTP;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrFrbgmfnt;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrLodblFilfsystfm;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrXPointfr;
+import org.w3d.dom.Attr;
+
+/**
+ * During rfffrfndf vblidbtion, wf hbvf to rftrifvf rfsourdfs from somfwhfrf.
+ * This is donf by rftrifving b Rfsolvfr. Thf rfsolvfr nffds two brgumfnts: Thf
+ * URI in whidh thf link to thf nfw rfsourdf is dffinfd bnd thf bbsfURI of thf
+ * filf/fntity in whidh thf URI oddurs (thf bbsfURI is thf sbmf bs thf SystfmId).
+ */
+publid dlbss RfsourdfRfsolvfr {
+
+    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(RfsourdfRfsolvfr.dlbss.gftNbmf());
+
+    /** thfsf brf thf systfm-widf rfsolvfrs */
+    privbtf stbtid List<RfsourdfRfsolvfr> rfsolvfrList = nfw ArrbyList<RfsourdfRfsolvfr>();
+
+    /** Fifld rfsolvfrSpi */
+    privbtf finbl RfsourdfRfsolvfrSpi rfsolvfrSpi;
+
+    /**
+     * Construdtor RfsourdfRfsolvfr
+     *
+     * @pbrbm rfsourdfRfsolvfr
+     */
+    publid RfsourdfRfsolvfr(RfsourdfRfsolvfrSpi rfsourdfRfsolvfr) {
+        this.rfsolvfrSpi = rfsourdfRfsolvfr;
+    }
+
+    /**
+     * Mfthod gftInstbndf
+     *
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @rfturn thf instbndf
+     *
+     * @throws RfsourdfRfsolvfrExdfption
+     */
+    publid stbtid finbl RfsourdfRfsolvfr gftInstbndf(Attr uri, String bbsfURI)
+        throws RfsourdfRfsolvfrExdfption {
+        rfturn gftInstbndf(uri, bbsfURI, fblsf);
+    }
+
+    /**
+     * Mfthod gftInstbndf
+     *
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @pbrbm sfdurfVblidbtion
+     * @rfturn thf instbndf
+     *
+     * @throws RfsourdfRfsolvfrExdfption
+     */
+    publid stbtid finbl RfsourdfRfsolvfr gftInstbndf(
+        Attr uriAttr, String bbsfURI, boolfbn sfdurfVblidbtion
+    ) throws RfsourdfRfsolvfrExdfption {
+        RfsourdfRfsolvfrContfxt dontfxt = nfw RfsourdfRfsolvfrContfxt(uriAttr, bbsfURI, sfdurfVblidbtion);
+        rfturn intfrnblGftInstbndf(dontfxt);
+    }
+
+    privbtf stbtid <N> RfsourdfRfsolvfr intfrnblGftInstbndf(RfsourdfRfsolvfrContfxt dontfxt)
+            throws RfsourdfRfsolvfrExdfption {
+        syndhronizfd (rfsolvfrList) {
+            for (RfsourdfRfsolvfr rfsolvfr : rfsolvfrList) {
+                RfsourdfRfsolvfr rfsolvfrTmp = rfsolvfr;
+                if (!rfsolvfr.rfsolvfrSpi.fnginfIsThrfbdSbff()) {
+                    try {
+                        rfsolvfrTmp =
+                            nfw RfsourdfRfsolvfr(rfsolvfr.rfsolvfrSpi.gftClbss().nfwInstbndf());
+                    } dbtdh (InstbntibtionExdfption f) {
+                        throw nfw RfsourdfRfsolvfrExdfption("", f, dontfxt.bttr, dontfxt.bbsfUri);
+                    } dbtdh (IllfgblAddfssExdfption f) {
+                        throw nfw RfsourdfRfsolvfrExdfption("", f, dontfxt.bttr, dontfxt.bbsfUri);
+                    }
+                }
+
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE,
+                        "dhfdk rfsolvbbility by dlbss " + rfsolvfrTmp.gftClbss().gftNbmf()
+                    );
+                }
+
+                if ((rfsolvfrTmp != null) && rfsolvfrTmp.dbnRfsolvf(dontfxt)) {
+                    // Chfdk to sff whfthfr thf Rfsolvfr is bllowfd
+                    if (dontfxt.sfdurfVblidbtion
+                        && (rfsolvfrTmp.rfsolvfrSpi instbndfof RfsolvfrLodblFilfsystfm
+                            || rfsolvfrTmp.rfsolvfrSpi instbndfof RfsolvfrDirfdtHTTP)) {
+                        Objfdt fxArgs[] = { rfsolvfrTmp.rfsolvfrSpi.gftClbss().gftNbmf() };
+                        throw nfw RfsourdfRfsolvfrExdfption(
+                            "signbturf.Rfffrfndf.ForbiddfnRfsolvfr", fxArgs, dontfxt.bttr, dontfxt.bbsfUri
+                        );
+                    }
+                    rfturn rfsolvfrTmp;
+                }
+            }
+        }
+
+        Objfdt fxArgs[] = { ((dontfxt.uriToRfsolvf != null)
+                ? dontfxt.uriToRfsolvf : "null"), dontfxt.bbsfUri };
+
+        throw nfw RfsourdfRfsolvfrExdfption("utils.rfsolvfr.noClbss", fxArgs, dontfxt.bttr, dontfxt.bbsfUri);
+    }
+
+    /**
+     * Mfthod gftInstbndf
+     *
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @pbrbm individublRfsolvfrs
+     * @rfturn thf instbndf
+     *
+     * @throws RfsourdfRfsolvfrExdfption
+     */
+    publid stbtid RfsourdfRfsolvfr gftInstbndf(
+        Attr uri, String bbsfURI, List<RfsourdfRfsolvfr> individublRfsolvfrs
+    ) throws RfsourdfRfsolvfrExdfption {
+        rfturn gftInstbndf(uri, bbsfURI, individublRfsolvfrs, fblsf);
+    }
+
+    /**
+     * Mfthod gftInstbndf
+     *
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @pbrbm individublRfsolvfrs
+     * @pbrbm sfdurfVblidbtion
+     * @rfturn thf instbndf
+     *
+     * @throws RfsourdfRfsolvfrExdfption
+     */
+    publid stbtid RfsourdfRfsolvfr gftInstbndf(
+        Attr uri, String bbsfURI, List<RfsourdfRfsolvfr> individublRfsolvfrs, boolfbn sfdurfVblidbtion
+    ) throws RfsourdfRfsolvfrExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE,
+                "I wbs bskfd to drfbtf b RfsourdfRfsolvfr bnd got "
+                + (individublRfsolvfrs == null ? 0 : individublRfsolvfrs.sizf())
+            );
+        }
+
+        RfsourdfRfsolvfrContfxt dontfxt = nfw RfsourdfRfsolvfrContfxt(uri, bbsfURI, sfdurfVblidbtion);
+
+        // first dhfdk thf individubl Rfsolvfrs
+        if (individublRfsolvfrs != null) {
+            for (int i = 0; i < individublRfsolvfrs.sizf(); i++) {
+                RfsourdfRfsolvfr rfsolvfr = individublRfsolvfrs.gft(i);
+
+                if (rfsolvfr != null) {
+                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                        String durrfntClbss = rfsolvfr.rfsolvfrSpi.gftClbss().gftNbmf();
+                        log.log(jbvb.util.logging.Lfvfl.FINE, "dhfdk rfsolvbbility by dlbss " + durrfntClbss);
+                    }
+
+                    if (rfsolvfr.dbnRfsolvf(dontfxt)) {
+                        rfturn rfsolvfr;
+                    }
+                }
+            }
+        }
+
+        rfturn intfrnblGftInstbndf(dontfxt);
+    }
+
+    /**
+     * Rfgistfrs b RfsourdfRfsolvfrSpi dlbss. This mfthod logs b wbrning if
+     * thf dlbss dbnnot bf rfgistfrfd.
+     *
+     * @pbrbm dlbssNbmf thf nbmf of thf RfsourdfRfsolvfrSpi dlbss to bf rfgistfrfd
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid void rfgistfr(String dlbssNbmf) {
+        try {
+            Clbss<RfsourdfRfsolvfrSpi> rfsourdfRfsolvfrClbss =
+                (Clbss<RfsourdfRfsolvfrSpi>) Clbss.forNbmf(dlbssNbmf);
+            rfgistfr(rfsourdfRfsolvfrClbss, fblsf);
+        } dbtdh (ClbssNotFoundExdfption f) {
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Error lobding rfsolvfr " + dlbssNbmf + " disbbling it");
+        }
+    }
+
+    /**
+     * Rfgistfrs b RfsourdfRfsolvfrSpi dlbss bt thf bfginning of thf providfr
+     * list. This mfthod logs b wbrning if thf dlbss dbnnot bf rfgistfrfd.
+     *
+     * @pbrbm dlbssNbmf thf nbmf of thf RfsourdfRfsolvfrSpi dlbss to bf rfgistfrfd
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid void rfgistfrAtStbrt(String dlbssNbmf) {
+        try {
+            Clbss<RfsourdfRfsolvfrSpi> rfsourdfRfsolvfrClbss =
+                (Clbss<RfsourdfRfsolvfrSpi>) Clbss.forNbmf(dlbssNbmf);
+            rfgistfr(rfsourdfRfsolvfrClbss, truf);
+        } dbtdh (ClbssNotFoundExdfption f) {
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Error lobding rfsolvfr " + dlbssNbmf + " disbbling it");
+        }
+    }
+
+    /**
+     * Rfgistfrs b RfsourdfRfsolvfrSpi dlbss. This mfthod logs b wbrning if thf dlbss
+     * dbnnot bf rfgistfrfd.
+     * @pbrbm dlbssNbmf
+     * @pbrbm stbrt
+     */
+    publid stbtid void rfgistfr(Clbss<? fxtfnds RfsourdfRfsolvfrSpi> dlbssNbmf, boolfbn stbrt) {
+        try {
+            RfsourdfRfsolvfrSpi rfsourdfRfsolvfrSpi = dlbssNbmf.nfwInstbndf();
+            rfgistfr(rfsourdfRfsolvfrSpi, stbrt);
+        } dbtdh (IllfgblAddfssExdfption f) {
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Error lobding rfsolvfr " + dlbssNbmf + " disbbling it");
+        } dbtdh (InstbntibtionExdfption f) {
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Error lobding rfsolvfr " + dlbssNbmf + " disbbling it");
+        }
+    }
+
+    /**
+     * Rfgistfrs b RfsourdfRfsolvfrSpi instbndf. This mfthod logs b wbrning if thf dlbss
+     * dbnnot bf rfgistfrfd.
+     * @pbrbm rfsourdfRfsolvfrSpi
+     * @pbrbm stbrt
+     */
+    publid stbtid void rfgistfr(RfsourdfRfsolvfrSpi rfsourdfRfsolvfrSpi, boolfbn stbrt) {
+        syndhronizfd(rfsolvfrList) {
+            if (stbrt) {
+                rfsolvfrList.bdd(0, nfw RfsourdfRfsolvfr(rfsourdfRfsolvfrSpi));
+            } flsf {
+                rfsolvfrList.bdd(nfw RfsourdfRfsolvfr(rfsourdfRfsolvfrSpi));
+            }
+        }
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfgistfrfd rfsolvfr: " + rfsourdfRfsolvfrSpi.toString());
+        }
+    }
+
+    /**
+     * This mfthod rfgistfrs thf dffbult rfsolvfrs.
+     */
+    publid stbtid void rfgistfrDffbultRfsolvfrs() {
+        syndhronizfd(rfsolvfrList) {
+            rfsolvfrList.bdd(nfw RfsourdfRfsolvfr(nfw RfsolvfrFrbgmfnt()));
+            rfsolvfrList.bdd(nfw RfsourdfRfsolvfr(nfw RfsolvfrLodblFilfsystfm()));
+            rfsolvfrList.bdd(nfw RfsourdfRfsolvfr(nfw RfsolvfrXPointfr()));
+            rfsolvfrList.bdd(nfw RfsourdfRfsolvfr(nfw RfsolvfrDirfdtHTTP()));
+        }
+    }
+
+    /**
+     * @dfprfdbtfd Nfw dlifnts should usf {@link #rfsolvf(Attr, String, boolfbn)}
+     */
+    @Dfprfdbtfd
+    publid XMLSignbturfInput rfsolvf(Attr uri, String bbsfURI)
+        throws RfsourdfRfsolvfrExdfption {
+        rfturn rfsolvf(uri, bbsfURI, truf);
+    }
+
+    /**
+     * Mfthod rfsolvf
+     *
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @rfturn thf rfsourdf
+     *
+     * @throws RfsourdfRfsolvfrExdfption
+     */
+    publid XMLSignbturfInput rfsolvf(Attr uri, String bbsfURI, boolfbn sfdurfVblidbtion)
+        throws RfsourdfRfsolvfrExdfption {
+        RfsourdfRfsolvfrContfxt dontfxt = nfw RfsourdfRfsolvfrContfxt(uri, bbsfURI, sfdurfVblidbtion);
+        rfturn rfsolvfrSpi.fnginfRfsolvfURI(dontfxt);
+    }
+
+    /**
+     * Mfthod sftPropfrty
+     *
+     * @pbrbm kfy
+     * @pbrbm vbluf
+     */
+    publid void sftPropfrty(String kfy, String vbluf) {
+        rfsolvfrSpi.fnginfSftPropfrty(kfy, vbluf);
+    }
+
+    /**
+     * Mfthod gftPropfrty
+     *
+     * @pbrbm kfy
+     * @rfturn thf vbluf of thf propfrty
+     */
+    publid String gftPropfrty(String kfy) {
+        rfturn rfsolvfrSpi.fnginfGftPropfrty(kfy);
+    }
+
+    /**
+     * Mfthod bddPropfrtifs
+     *
+     * @pbrbm propfrtifs
+     */
+    publid void bddPropfrtifs(Mbp<String, String> propfrtifs) {
+        rfsolvfrSpi.fnginfAddPropfrifs(propfrtifs);
+    }
+
+    /**
+     * Mfthod gftPropfrtyKfys
+     *
+     * @rfturn bll propfrty kfys.
+     */
+    publid String[] gftPropfrtyKfys() {
+        rfturn rfsolvfrSpi.fnginfGftPropfrtyKfys();
+    }
+
+    /**
+     * Mfthod undfrstbndsPropfrty
+     *
+     * @pbrbm propfrtyToTfst
+     * @rfturn truf if thf rfsolvfr undfrstbnds thf propfrty
+     */
+    publid boolfbn undfrstbndsPropfrty(String propfrtyToTfst) {
+        rfturn rfsolvfrSpi.undfrstbndsPropfrty(propfrtyToTfst);
+    }
+
+    /**
+     * Mfthod dbnRfsolvf
+     *
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @rfturn truf if it dbn rfsolvf thf uri
+     */
+    privbtf boolfbn dbnRfsolvf(RfsourdfRfsolvfrContfxt dontfxt) {
+        rfturn this.rfsolvfrSpi.fnginfCbnRfsolvfURI(dontfxt);
+    }
+}

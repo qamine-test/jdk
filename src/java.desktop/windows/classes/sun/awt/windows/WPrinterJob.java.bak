@@ -1,1004 +1,1004 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.KeyboardFocusManager;
-import java.awt.Toolkit;
-import java.awt.BasicStroke;
-import java.awt.Button;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Event;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.FileDialog;
-import java.awt.Dialog;
-import java.awt.Label;
-import java.awt.Panel;
-import java.awt.Rectangle;
-import java.awt.Window;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.KfybobrdFodusMbnbgfr;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.Button;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Evfnt;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.FilfDiblog;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Lbbfl;
+import jbvb.bwt.Pbnfl;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Window;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.IndexColorModel;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.IndfxColorModfl;
 
-import java.awt.print.Pageable;
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.Printable;
-import java.awt.print.PrinterJob;
-import java.awt.print.PrinterException;
-import javax.print.PrintService;
+import jbvb.bwt.print.Pbgfbblf;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Pbpfr;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.PrintfrJob;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvbx.print.PrintSfrvidf;
 
-import java.io.File;
+import jbvb.io.Filf;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
 
-import sun.print.PeekGraphics;
-import sun.print.PeekMetrics;
+import sun.print.PffkGrbpiids;
+import sun.print.PffkMftrids;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
 
-import javax.print.PrintServiceLookup;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.standard.Sides;
-import javax.print.attribute.standard.Chromaticity;
-import javax.print.attribute.standard.PrintQuality;
-import javax.print.attribute.standard.PrinterResolution;
-import javax.print.attribute.standard.SheetCollate;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.Destination;
-import javax.print.attribute.standard.OrientationRequested;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaTray;
-import javax.print.attribute.standard.PageRanges;
+import jbvbx.print.PrintSfrvidfLookup;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.HbsiPrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.stbndbrd.Sidfs;
+import jbvbx.print.bttributf.stbndbrd.Cirombtidity;
+import jbvbx.print.bttributf.stbndbrd.PrintQublity;
+import jbvbx.print.bttributf.stbndbrd.PrintfrRfsolution;
+import jbvbx.print.bttributf.stbndbrd.SifftCollbtf;
+import jbvbx.print.bttributf.stbndbrd.Copifs;
+import jbvbx.print.bttributf.stbndbrd.Dfstinbtion;
+import jbvbx.print.bttributf.stbndbrd.OrifntbtionRfqufstfd;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizfNbmf;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizf;
+import jbvbx.print.bttributf.stbndbrd.MfdibTrby;
+import jbvbx.print.bttributf.stbndbrd.PbgfRbngfs;
 
-import sun.awt.Win32FontManager;
+import sun.bwt.Win32FontMbnbgfr;
 
-import sun.print.RasterPrinterJob;
-import sun.print.SunAlternateMedia;
-import sun.print.SunPageSelection;
-import sun.print.Win32MediaTray;
-import sun.print.Win32PrintService;
-import sun.print.Win32PrintServiceLookup;
-import sun.print.ServiceDialog;
-import sun.print.DialogOwner;
+import sun.print.RbstfrPrintfrJob;
+import sun.print.SunAltfrnbtfMfdib;
+import sun.print.SunPbgfSflfdtion;
+import sun.print.Win32MfdibTrby;
+import sun.print.Win32PrintSfrvidf;
+import sun.print.Win32PrintSfrvidfLookup;
+import sun.print.SfrvidfDiblog;
+import sun.print.DiblogOwnfr;
 
-import java.awt.Frame;
-import java.io.FilePermission;
+import jbvb.bwt.Frbmf;
+import jbvb.io.FilfPfrmission;
 
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
-import sun.java2d.DisposerTarget;
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
+import sun.jbvb2d.DisposfrTbrgft;
 
 /**
- * A class which initiates and executes a Win32 printer job.
+ * A dlbss wiidi initibtfs bnd fxfdutfs b Win32 printfr job.
  *
- * @author Richard Blanchard
+ * @butior Ridibrd Blbndibrd
  */
-public final class WPrinterJob extends RasterPrinterJob
-        implements DisposerTarget {
+publid finbl dlbss WPrintfrJob fxtfnds RbstfrPrintfrJob
+        implfmfnts DisposfrTbrgft {
 
- /* Class Constants */
+ /* Clbss Constbnts */
 
 
-/* Instance Variables */
-
-    /**
-     * These are Windows' ExtCreatePen End Cap Styles
-     * and must match the values in <WINGDI.h>
-     */
-    protected static final long PS_ENDCAP_ROUND  = 0x00000000;
-    protected static final long PS_ENDCAP_SQUARE   = 0x00000100;
-    protected static final long PS_ENDCAP_FLAT   =   0x00000200;
+/* Instbndf Vbribblfs */
 
     /**
-     * These are Windows' ExtCreatePen Line Join Styles
-     * and must match the values in <WINGDI.h>
+     * Tifsf brf Windows' ExtCrfbtfPfn End Cbp Stylfs
+     * bnd must mbtdi tif vblufs in <WINGDI.i>
      */
-    protected static final long PS_JOIN_ROUND   =    0x00000000;
-    protected static final long PS_JOIN_BEVEL   =    0x00001000;
-    protected static final long PS_JOIN_MITER   =    0x00002000;
+    protfdtfd stbtid finbl long PS_ENDCAP_ROUND  = 0x00000000;
+    protfdtfd stbtid finbl long PS_ENDCAP_SQUARE   = 0x00000100;
+    protfdtfd stbtid finbl long PS_ENDCAP_FLAT   =   0x00000200;
 
     /**
-     * This is the Window's Polygon fill rule which
-     * Selects alternate mode (fills the area between odd-numbered
-     * and even-numbered polygon sides on each scan line).
-     * It must match the value in <WINGDI.h> It can be passed
-     * to setPolyFillMode().
+     * Tifsf brf Windows' ExtCrfbtfPfn Linf Join Stylfs
+     * bnd must mbtdi tif vblufs in <WINGDI.i>
      */
-    protected static final int POLYFILL_ALTERNATE = 1;
+    protfdtfd stbtid finbl long PS_JOIN_ROUND   =    0x00000000;
+    protfdtfd stbtid finbl long PS_JOIN_BEVEL   =    0x00001000;
+    protfdtfd stbtid finbl long PS_JOIN_MITER   =    0x00002000;
 
     /**
-     * This is the Window's Polygon fill rule which
-     * Selects winding mode which fills any region
-     * with a nonzero winding value). It must match
-     * the value in <WINGDI.h> It can be passed
-     * to setPolyFillMode().
+     * Tiis is tif Window's Polygon fill rulf wiidi
+     * Sflfdts bltfrnbtf modf (fills tif brfb bftwffn odd-numbfrfd
+     * bnd fvfn-numbfrfd polygon sidfs on fbdi sdbn linf).
+     * It must mbtdi tif vbluf in <WINGDI.i> It dbn bf pbssfd
+     * to sftPolyFillModf().
      */
-    protected static final int POLYFILL_WINDING = 2;
+    protfdtfd stbtid finbl int POLYFILL_ALTERNATE = 1;
 
     /**
-     * The maximum value for a Window's color component
-     * as passed to selectSolidBrush.
+     * Tiis is tif Window's Polygon fill rulf wiidi
+     * Sflfdts winding modf wiidi fills bny rfgion
+     * witi b nonzfro winding vbluf). It must mbtdi
+     * tif vbluf in <WINGDI.i> It dbn bf pbssfd
+     * to sftPolyFillModf().
      */
-    private static final int MAX_WCOLOR = 255;
+    protfdtfd stbtid finbl int POLYFILL_WINDING = 2;
 
     /**
-     * Flags for setting values from devmode in native code.
-     * Values must match those defined in awt_PrintControl.cpp
+     * Tif mbximum vbluf for b Window's dolor domponfnt
+     * bs pbssfd to sflfdtSolidBrusi.
      */
-    private static final int SET_DUP_VERTICAL = 0x00000010;
-    private static final int SET_DUP_HORIZONTAL = 0x00000020;
-    private static final int SET_RES_HIGH = 0x00000040;
-    private static final int SET_RES_LOW = 0x00000080;
-    private static final int SET_COLOR = 0x00000200;
-    private static final int SET_ORIENTATION = 0x00004000;
-    private static final int SET_COLLATED    = 0x00008000;
+    privbtf stbtid finbl int MAX_WCOLOR = 255;
 
     /**
-     * Values must match those defined in wingdi.h & commdlg.h
+     * Flbgs for sftting vblufs from dfvmodf in nbtivf dodf.
+     * Vblufs must mbtdi tiosf dffinfd in bwt_PrintControl.dpp
      */
-    private static final int PD_COLLATE = 0x00000010;
-    private static final int PD_PRINTTOFILE = 0x00000020;
-    private static final int DM_ORIENTATION   = 0x00000001;
-    private static final int DM_PAPERSIZE     = 0x00000002;
-    private static final int DM_COPIES        = 0x00000100;
-    private static final int DM_DEFAULTSOURCE = 0x00000200;
-    private static final int DM_PRINTQUALITY  = 0x00000400;
-    private static final int DM_COLOR         = 0x00000800;
-    private static final int DM_DUPLEX        = 0x00001000;
-    private static final int DM_YRESOLUTION   = 0x00002000;
-    private static final int DM_COLLATE       = 0x00008000;
-
-    private static final short DMCOLLATE_FALSE  = 0;
-    private static final short DMCOLLATE_TRUE   = 1;
-
-    private static final short DMORIENT_PORTRAIT  = 1;
-    private static final short DMORIENT_LANDSCAPE = 2;
-
-    private static final short DMCOLOR_MONOCHROME = 1;
-    private static final short DMCOLOR_COLOR      = 2;
-
-    private static final short DMRES_DRAFT  = -1;
-    private static final short DMRES_LOW    = -2;
-    private static final short DMRES_MEDIUM = -3;
-    private static final short DMRES_HIGH   = -4;
-
-    private static final short DMDUP_SIMPLEX    = 1;
-    private static final short DMDUP_VERTICAL   = 2;
-    private static final short DMDUP_HORIZONTAL = 3;
+    privbtf stbtid finbl int SET_DUP_VERTICAL = 0x00000010;
+    privbtf stbtid finbl int SET_DUP_HORIZONTAL = 0x00000020;
+    privbtf stbtid finbl int SET_RES_HIGH = 0x00000040;
+    privbtf stbtid finbl int SET_RES_LOW = 0x00000080;
+    privbtf stbtid finbl int SET_COLOR = 0x00000200;
+    privbtf stbtid finbl int SET_ORIENTATION = 0x00004000;
+    privbtf stbtid finbl int SET_COLLATED    = 0x00008000;
 
     /**
-     * Pageable MAX pages
+     * Vblufs must mbtdi tiosf dffinfd in wingdi.i & dommdlg.i
      */
-    private static final int MAX_UNKNOWN_PAGES = 9999;
+    privbtf stbtid finbl int PD_COLLATE = 0x00000010;
+    privbtf stbtid finbl int PD_PRINTTOFILE = 0x00000020;
+    privbtf stbtid finbl int DM_ORIENTATION   = 0x00000001;
+    privbtf stbtid finbl int DM_PAPERSIZE     = 0x00000002;
+    privbtf stbtid finbl int DM_COPIES        = 0x00000100;
+    privbtf stbtid finbl int DM_DEFAULTSOURCE = 0x00000200;
+    privbtf stbtid finbl int DM_PRINTQUALITY  = 0x00000400;
+    privbtf stbtid finbl int DM_COLOR         = 0x00000800;
+    privbtf stbtid finbl int DM_DUPLEX        = 0x00001000;
+    privbtf stbtid finbl int DM_YRESOLUTION   = 0x00002000;
+    privbtf stbtid finbl int DM_COLLATE       = 0x00008000;
+
+    privbtf stbtid finbl siort DMCOLLATE_FALSE  = 0;
+    privbtf stbtid finbl siort DMCOLLATE_TRUE   = 1;
+
+    privbtf stbtid finbl siort DMORIENT_PORTRAIT  = 1;
+    privbtf stbtid finbl siort DMORIENT_LANDSCAPE = 2;
+
+    privbtf stbtid finbl siort DMCOLOR_MONOCHROME = 1;
+    privbtf stbtid finbl siort DMCOLOR_COLOR      = 2;
+
+    privbtf stbtid finbl siort DMRES_DRAFT  = -1;
+    privbtf stbtid finbl siort DMRES_LOW    = -2;
+    privbtf stbtid finbl siort DMRES_MEDIUM = -3;
+    privbtf stbtid finbl siort DMRES_HIGH   = -4;
+
+    privbtf stbtid finbl siort DMDUP_SIMPLEX    = 1;
+    privbtf stbtid finbl siort DMDUP_VERTICAL   = 2;
+    privbtf stbtid finbl siort DMDUP_HORIZONTAL = 3;
+
+    /**
+     * Pbgfbblf MAX pbgfs
+     */
+    privbtf stbtid finbl int MAX_UNKNOWN_PAGES = 9999;
 
 
-    /* Collation and copy flags.
-     * The Windows PRINTDLG struct has a nCopies field which on return
-     * indicates how many copies of a print job an application must render.
-     * There is also a PD_COLLATE member of the flags field which if
-     * set on return indicates the application generated copies should be
-     * collated.
-     * Windows printer drivers typically - but not always - support
-     * generating multiple copies themselves, but uncollated is more
-     * universal than collated copies.
-     * When they do, they read the initial values from the PRINTDLG structure
-     * and set them into the driver's DEVMODE structure and intialise
-     * the printer DC based on that, so that when printed those settings
-     * will be used.
-     * For drivers supporting both these capabilities via DEVMODE, then on
-     * return from the Print Dialog, nCopies is set to 1 and the PD_COLLATE is
-     * cleared, so that the application will only render 1 copy and the
-     * driver takes care of the rest.
+    /* Collbtion bnd dopy flbgs.
+     * Tif Windows PRINTDLG strudt ibs b nCopifs fifld wiidi on rfturn
+     * indidbtfs iow mbny dopifs of b print job bn bpplidbtion must rfndfr.
+     * Tifrf is blso b PD_COLLATE mfmbfr of tif flbgs fifld wiidi if
+     * sft on rfturn indidbtfs tif bpplidbtion gfnfrbtfd dopifs siould bf
+     * dollbtfd.
+     * Windows printfr drivfrs typidblly - but not blwbys - support
+     * gfnfrbting multiplf dopifs tifmsflvfs, but undollbtfd is morf
+     * univfrsbl tibn dollbtfd dopifs.
+     * Wifn tify do, tify rfbd tif initibl vblufs from tif PRINTDLG strudturf
+     * bnd sft tifm into tif drivfr's DEVMODE strudturf bnd intiblisf
+     * tif printfr DC bbsfd on tibt, so tibt wifn printfd tiosf sfttings
+     * will bf usfd.
+     * For drivfrs supporting boti tifsf dbpbbilitifs vib DEVMODE, tifn on
+     * rfturn from tif Print Diblog, nCopifs is sft to 1 bnd tif PD_COLLATE is
+     * dlfbrfd, so tibt tif bpplidbtion will only rfndfr 1 dopy bnd tif
+     * drivfr tbkfs dbrf of tif rfst.
      *
-     * Applications which want to know what's going on have to be DEVMODE
-     * savvy and peek at that.
-     * DM_COPIES flag indicates support for multiple driver copies
-     * and dmCopies is the number of copies the driver will print
-     * DM_COLLATE flag indicates support for collated driver copies and
-     * dmCollate == DMCOLLATE_TRUE indicates the option is in effect.
+     * Applidbtions wiidi wbnt to know wibt's going on ibvf to bf DEVMODE
+     * sbvvy bnd pffk bt tibt.
+     * DM_COPIES flbg indidbtfs support for multiplf drivfr dopifs
+     * bnd dmCopifs is tif numbfr of dopifs tif drivfr will print
+     * DM_COLLATE flbg indidbtfs support for dollbtfd drivfr dopifs bnd
+     * dmCollbtf == DMCOLLATE_TRUE indidbtfs tif option is in ffffdt.
      *
-     * Multiple copies from Java applications:
-     * We provide API to get & set the number of copies as well as allowing the
-     * user to choose it, so we need to be savvy about DEVMODE, so that
-     * we can accurately report back the number of copies selected by
-     * the user, as well as make use of the driver to render multiple copies.
+     * Multiplf dopifs from Jbvb bpplidbtions:
+     * Wf providf API to gft & sft tif numbfr of dopifs bs wfll bs bllowing tif
+     * usfr to dioosf it, so wf nffd to bf sbvvy bbout DEVMODE, so tibt
+     * wf dbn bddurbtfly rfport bbdk tif numbfr of dopifs sflfdtfd by
+     * tif usfr, bs wfll bs mbkf usf of tif drivfr to rfndfr multiplf dopifs.
      *
-     * Collation and Java applications:
-     * We presently provide no API for specifying collation, but its
-     * present on the Windows Print Dialog, and when a user checks it
-     * they expect it to be obeyed.
-     * The best thing to do is to detect exactly the cases where the
-     * driver doesn't support this and render multiple copies ourselves.
-     * To support all this we need several flags which signal the
-     * printer's capabilities and the user's requests.
-     * Its questionable if we (yet) need to make a distinction between
-     * the user requesting collation and the driver supporting it.
-     * Since for now we only need to know whether we need to render the
-     * copies. However it allows the logic to be clearer.
-     * These fields are changed by native code which detects the driver's
-     * capabilities and the user's choices.
+     * Collbtion bnd Jbvb bpplidbtions:
+     * Wf prfsfntly providf no API for spfdifying dollbtion, but its
+     * prfsfnt on tif Windows Print Diblog, bnd wifn b usfr difdks it
+     * tify fxpfdt it to bf obfyfd.
+     * Tif bfst tiing to do is to dftfdt fxbdtly tif dbsfs wifrf tif
+     * drivfr dofsn't support tiis bnd rfndfr multiplf dopifs oursflvfs.
+     * To support bll tiis wf nffd sfvfrbl flbgs wiidi signbl tif
+     * printfr's dbpbbilitifs bnd tif usfr's rfqufsts.
+     * Its qufstionbblf if wf (yft) nffd to mbkf b distindtion bftwffn
+     * tif usfr rfqufsting dollbtion bnd tif drivfr supporting it.
+     * Sindf for now wf only nffd to know wiftifr wf nffd to rfndfr tif
+     * dopifs. Howfvfr it bllows tif logid to bf dlfbrfr.
+     * Tifsf fiflds brf dibngfd by nbtivf dodf wiidi dftfdts tif drivfr's
+     * dbpbbilitifs bnd tif usfr's dioidfs.
      */
 
-    //initialize to false because the Flags that we initialized in PRINTDLG
-    // tells GDI that we can handle our own collation and multiple copies
-     private boolean driverDoesMultipleCopies = false;
-     private boolean driverDoesCollation = false;
-     private boolean userRequestedCollation = false;
-     private boolean noDefaultPrinter = false;
+    //initiblizf to fblsf bfdbusf tif Flbgs tibt wf initiblizfd in PRINTDLG
+    // tflls GDI tibt wf dbn ibndlf our own dollbtion bnd multiplf dopifs
+     privbtf boolfbn drivfrDofsMultiplfCopifs = fblsf;
+     privbtf boolfbn drivfrDofsCollbtion = fblsf;
+     privbtf boolfbn usfrRfqufstfdCollbtion = fblsf;
+     privbtf boolfbn noDffbultPrintfr = fblsf;
 
-    /* The HandleRecord holds the native resources that need to be freed
-     * when this WPrinterJob is GC'd.
+    /* Tif HbndlfRfdord iolds tif nbtivf rfsourdfs tibt nffd to bf frffd
+     * wifn tiis WPrintfrJob is GC'd.
      */
-    static class HandleRecord implements DisposerRecord {
+    stbtid dlbss HbndlfRfdord implfmfnts DisposfrRfdord {
         /**
-         * The Windows device context we will print into.
-         * This variable is set after the Print dialog
-         * is okayed by the user. If the user cancels
-         * the print dialog, then this variable is 0.
-         * Much of the configuration information for a printer is
-         * obtained through printer device specific handles.
-         * We need to associate these with, and free with, the mPrintDC.
+         * Tif Windows dfvidf dontfxt wf will print into.
+         * Tiis vbribblf is sft bftfr tif Print diblog
+         * is okbyfd by tif usfr. If tif usfr dbndfls
+         * tif print diblog, tifn tiis vbribblf is 0.
+         * Mudi of tif donfigurbtion informbtion for b printfr is
+         * obtbinfd tirougi printfr dfvidf spfdifid ibndlfs.
+         * Wf nffd to bssodibtf tifsf witi, bnd frff witi, tif mPrintDC.
          */
-        private long mPrintDC;
-        private long mPrintHDevMode;
-        private long mPrintHDevNames;
+        privbtf long mPrintDC;
+        privbtf long mPrintHDfvModf;
+        privbtf long mPrintHDfvNbmfs;
 
-        @Override
-        public void dispose() {
-            WPrinterJob.deleteDC(mPrintDC, mPrintHDevMode, mPrintHDevNames);
+        @Ovfrridf
+        publid void disposf() {
+            WPrintfrJob.dflftfDC(mPrintDC, mPrintHDfvModf, mPrintHDfvNbmfs);
         }
     }
 
-    private HandleRecord handleRecord = new HandleRecord();
+    privbtf HbndlfRfdord ibndlfRfdord = nfw HbndlfRfdord();
 
-    private int mPrintPaperSize;
+    privbtf int mPrintPbpfrSizf;
 
-    /* These fields are directly set in upcalls from the values
-     * obtained from calling DeviceCapabilities()
+    /* Tifsf fiflds brf dirfdtly sft in updblls from tif vblufs
+     * obtbinfd from dblling DfvidfCbpbbilitifs()
      */
-    private int mPrintXRes;   // pixels per inch in x direction
+    privbtf int mPrintXRfs;   // pixfls pfr indi in x dirfdtion
 
-    private int mPrintYRes;   // pixels per inch in y direction
+    privbtf int mPrintYRfs;   // pixfls pfr indi in y dirfdtion
 
-    private int mPrintPhysX;  // x offset in pixels of printable area
+    privbtf int mPrintPiysX;  // x offsft in pixfls of printbblf brfb
 
-    private int mPrintPhysY;  // y offset in pixels of printable area
+    privbtf int mPrintPiysY;  // y offsft in pixfls of printbblf brfb
 
-    private int mPrintWidth;  // width in pixels of printable area
+    privbtf int mPrintWidti;  // widti in pixfls of printbblf brfb
 
-    private int mPrintHeight; // height in pixels of printable area
+    privbtf int mPrintHfigit; // ifigit in pixfls of printbblf brfb
 
-    private int mPageWidth;   // width in pixels of entire page
+    privbtf int mPbgfWidti;   // widti in pixfls of fntirf pbgf
 
-    private int mPageHeight;  // height in pixels of entire page
+    privbtf int mPbgfHfigit;  // ifigit in pixfls of fntirf pbgf
 
-    /* The values of the following variables are pulled directly
-     * into native code (even bypassing getter methods) when starting a doc.
-     * So these need to be synced up from any resulting native changes
-     * by a user dialog.
-     * But the native changes call up to into the attributeset, and that
-     * should be sufficient, since before heading down to native either
-     * to (re-)display a dialog, or to print the doc, these are all
-     * re-populated from the AttributeSet,
-     * Nonetheless having them in sync with the attributeset and native
-     * state is probably safer.
-     * Also whereas the startDoc native code pulls the variables directly,
-     * the dialog code does use getter to pull some of these values.
-     * That's an inconsistency we should fix if it causes problems.
+    /* Tif vblufs of tif following vbribblfs brf pullfd dirfdtly
+     * into nbtivf dodf (fvfn bypbssing gfttfr mftiods) wifn stbrting b dod.
+     * So tifsf nffd to bf syndfd up from bny rfsulting nbtivf dibngfs
+     * by b usfr diblog.
+     * But tif nbtivf dibngfs dbll up to into tif bttributfsft, bnd tibt
+     * siould bf suffidifnt, sindf bfforf ifbding down to nbtivf fitifr
+     * to (rf-)displby b diblog, or to print tif dod, tifsf brf bll
+     * rf-populbtfd from tif AttributfSft,
+     * Nonftiflfss ibving tifm in synd witi tif bttributfsft bnd nbtivf
+     * stbtf is probbbly sbffr.
+     * Also wifrfbs tif stbrtDod nbtivf dodf pulls tif vbribblfs dirfdtly,
+     * tif diblog dodf dofs usf gfttfr to pull somf of tifsf vblufs.
+     * Tibt's bn indonsistfndy wf siould fix if it dbusfs problfms.
      */
-    private int mAttSides;
-    private int mAttChromaticity;
-    private int mAttXRes;
-    private int mAttYRes;
-    private int mAttQuality;
-    private int mAttCollate;
-    private int mAttCopies;
-    private int mAttMediaSizeName;
-    private int mAttMediaTray;
+    privbtf int mAttSidfs;
+    privbtf int mAttCirombtidity;
+    privbtf int mAttXRfs;
+    privbtf int mAttYRfs;
+    privbtf int mAttQublity;
+    privbtf int mAttCollbtf;
+    privbtf int mAttCopifs;
+    privbtf int mAttMfdibSizfNbmf;
+    privbtf int mAttMfdibTrby;
 
-    private String mDestination = null;
+    privbtf String mDfstinbtion = null;
 
     /**
-     * The last color set into the print device context or
-     * <code>null</code> if no color has been set.
+     * Tif lbst dolor sft into tif print dfvidf dontfxt or
+     * <dodf>null</dodf> if no dolor ibs bffn sft.
      */
-    private Color mLastColor;
+    privbtf Color mLbstColor;
 
     /**
-     * The last text color set into the print device context or
-     * <code>null</code> if no color has been set.
+     * Tif lbst tfxt dolor sft into tif print dfvidf dontfxt or
+     * <dodf>null</dodf> if no dolor ibs bffn sft.
      */
-    private Color mLastTextColor;
+    privbtf Color mLbstTfxtColor;
 
     /**
-     * Define the most recent java font set as a GDI font in the printer
-     * device context. mLastFontFamily will be NULL if no
-     * GDI font has been set.
+     * Dffinf tif most rfdfnt jbvb font sft bs b GDI font in tif printfr
+     * dfvidf dontfxt. mLbstFontFbmily will bf NULL if no
+     * GDI font ibs bffn sft.
      */
-    private String mLastFontFamily;
-    private float mLastFontSize;
-    private int mLastFontStyle;
-    private int mLastRotation;
-    private float mLastAwScale;
+    privbtf String mLbstFontFbmily;
+    privbtf flobt mLbstFontSizf;
+    privbtf int mLbstFontStylf;
+    privbtf int mLbstRotbtion;
+    privbtf flobt mLbstAwSdblf;
 
-    // for AwtPrintControl::InitPrintDialog
-    private PrinterJob pjob;
+    // for AwtPrintControl::InitPrintDiblog
+    privbtf PrintfrJob pjob;
 
-    private java.awt.peer.ComponentPeer dialogOwnerPeer = null;
+    privbtf jbvb.bwt.pffr.ComponfntPffr diblogOwnfrPffr = null;
 
- /* Static Initializations */
+ /* Stbtid Initiblizbtions */
 
-    static {
-        // AWT has to be initialized for the native code to function correctly.
-        Toolkit.getDefaultToolkit();
+    stbtid {
+        // AWT ibs to bf initiblizfd for tif nbtivf dodf to fundtion dorrfdtly.
+        Toolkit.gftDffbultToolkit();
 
         initIDs();
 
-        Win32FontManager.registerJREFontsForPrinting();
+        Win32FontMbnbgfr.rfgistfrJREFontsForPrinting();
     }
 
-    /* Constructors */
+    /* Construdtors */
 
-    public WPrinterJob()
+    publid WPrintfrJob()
     {
-        Disposer.addRecord(disposerReferent,
-                           handleRecord = new HandleRecord());
-        initAttributeMembers();
+        Disposfr.bddRfdord(disposfrRfffrfnt,
+                           ibndlfRfdord = nfw HbndlfRfdord());
+        initAttributfMfmbfrs();
     }
 
-    /* Implement DisposerTarget. Weak references to an Object can delay
-     * its storage reclaimation marginally.
-     * It won't make the native resources be release any more quickly, but
-     * by pointing the reference held by Disposer at an object which becomes
-     * no longer strongly reachable when this WPrinterJob is no longer
-     * strongly reachable, we allow the WPrinterJob to be freed more promptly
-     * than if it were the referenced object.
+    /* Implfmfnt DisposfrTbrgft. Wfbk rfffrfndfs to bn Objfdt dbn dflby
+     * its storbgf rfdlbimbtion mbrginblly.
+     * It won't mbkf tif nbtivf rfsourdfs bf rflfbsf bny morf quidkly, but
+     * by pointing tif rfffrfndf ifld by Disposfr bt bn objfdt wiidi bfdomfs
+     * no longfr strongly rfbdibblf wifn tiis WPrintfrJob is no longfr
+     * strongly rfbdibblf, wf bllow tif WPrintfrJob to bf frffd morf promptly
+     * tibn if it wfrf tif rfffrfndfd objfdt.
      */
-    private Object disposerReferent = new Object();
+    privbtf Objfdt disposfrRfffrfnt = nfw Objfdt();
 
-    @Override
-    public Object getDisposerReferent() {
-        return disposerReferent;
+    @Ovfrridf
+    publid Objfdt gftDisposfrRfffrfnt() {
+        rfturn disposfrRfffrfnt;
     }
 
-/* Instance Methods */
+/* Instbndf Mftiods */
 
     /**
-     * Display a dialog to the user allowing the modification of a
-     * PageFormat instance.
-     * The <code>page</code> argument is used to initialize controls
-     * in the page setup dialog.
-     * If the user cancels the dialog, then the method returns the
-     * original <code>page</code> object unmodified.
-     * If the user okays the dialog then the method returns a new
-     * PageFormat object with the indicated changes.
-     * In either case the original <code>page</code> object will
-     * not be modified.
-     * @param     page    the default PageFormat presented to the user
-     *                    for modification
-     * @return    the original <code>page</code> object if the dialog
-     *            is cancelled, or a new PageFormat object containing
-     *            the format indicated by the user if the dialog is
-     *            acknowledged
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @since     1.2
+     * Displby b diblog to tif usfr bllowing tif modifidbtion of b
+     * PbgfFormbt instbndf.
+     * Tif <dodf>pbgf</dodf> brgumfnt is usfd to initiblizf dontrols
+     * in tif pbgf sftup diblog.
+     * If tif usfr dbndfls tif diblog, tifn tif mftiod rfturns tif
+     * originbl <dodf>pbgf</dodf> objfdt unmodififd.
+     * If tif usfr okbys tif diblog tifn tif mftiod rfturns b nfw
+     * PbgfFormbt objfdt witi tif indidbtfd dibngfs.
+     * In fitifr dbsf tif originbl <dodf>pbgf</dodf> objfdt will
+     * not bf modififd.
+     * @pbrbm     pbgf    tif dffbult PbgfFormbt prfsfntfd to tif usfr
+     *                    for modifidbtion
+     * @rfturn    tif originbl <dodf>pbgf</dodf> objfdt if tif diblog
+     *            is dbndfllfd, or b nfw PbgfFormbt objfdt dontbining
+     *            tif formbt indidbtfd by tif usfr if tif diblog is
+     *            bdknowlfdgfd
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.2
      */
-    @Override
-    public PageFormat pageDialog(PageFormat page) throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    @Ovfrridf
+    publid PbgfFormbt pbgfDiblog(PbgfFormbt pbgf) tirows HfbdlfssExdfption {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
         }
 
-        if (!(getPrintService() instanceof Win32PrintService)) {
-            return super.pageDialog(page);
+        if (!(gftPrintSfrvidf() instbndfof Win32PrintSfrvidf)) {
+            rfturn supfr.pbgfDiblog(pbgf);
         }
 
-        PageFormat pageClone = (PageFormat) page.clone();
-        boolean result = false;
+        PbgfFormbt pbgfClonf = (PbgfFormbt) pbgf.dlonf();
+        boolfbn rfsult = fblsf;
 
         /*
-         * Fix for 4507585: show the native modal dialog the same way printDialog() does so
-         * that it won't block event dispatching when called on EventDispatchThread.
+         * Fix for 4507585: siow tif nbtivf modbl diblog tif sbmf wby printDiblog() dofs so
+         * tibt it won't blodk fvfnt dispbtdiing wifn dbllfd on EvfntDispbtdiTirfbd.
          */
-        WPageDialog dialog = new WPageDialog((Frame)null, this,
-                                     pageClone, null);
-        dialog.setRetVal(false);
-        dialog.setVisible(true);
-        result = dialog.getRetVal();
-        dialog.dispose();
+        WPbgfDiblog diblog = nfw WPbgfDiblog((Frbmf)null, tiis,
+                                     pbgfClonf, null);
+        diblog.sftRftVbl(fblsf);
+        diblog.sftVisiblf(truf);
+        rfsult = diblog.gftRftVbl();
+        diblog.disposf();
 
-        // myService => current PrintService
-        if (result && (myService != null)) {
-            // It's possible that current printer is changed through
-            // the "Printer..." button so we query again from native.
-            String printerName = getNativePrintService();
-            if (!myService.getName().equals(printerName)) {
-                // native printer is different !
-                // we update the current PrintService
+        // mySfrvidf => durrfnt PrintSfrvidf
+        if (rfsult && (mySfrvidf != null)) {
+            // It's possiblf tibt durrfnt printfr is dibngfd tirougi
+            // tif "Printfr..." button so wf qufry bgbin from nbtivf.
+            String printfrNbmf = gftNbtivfPrintSfrvidf();
+            if (!mySfrvidf.gftNbmf().fqubls(printfrNbmf)) {
+                // nbtivf printfr is difffrfnt !
+                // wf updbtf tif durrfnt PrintSfrvidf
                 try {
-                    setPrintService(Win32PrintServiceLookup.
-                                    getWin32PrintLUS().
-                                    getPrintServiceByName(printerName));
-                } catch (PrinterException e) {
+                    sftPrintSfrvidf(Win32PrintSfrvidfLookup.
+                                    gftWin32PrintLUS().
+                                    gftPrintSfrvidfByNbmf(printfrNbmf));
+                } dbtdi (PrintfrExdfption f) {
                 }
             }
-            // Update attributes, this will preserve the page settings.
-            //  - same code as in RasterPrinterJob.java
-            updatePageAttributes(myService, pageClone);
+            // Updbtf bttributfs, tiis will prfsfrvf tif pbgf sfttings.
+            //  - sbmf dodf bs in RbstfrPrintfrJob.jbvb
+            updbtfPbgfAttributfs(mySfrvidf, pbgfClonf);
 
-            return pageClone;
-        } else {
-            return page;
+            rfturn pbgfClonf;
+        } flsf {
+            rfturn pbgf;
         }
     }
 
 
-    private boolean displayNativeDialog() {
-        // "attributes" is required for getting the updated attributes
-        if (attributes == null) {
-            return false;
+    privbtf boolfbn displbyNbtivfDiblog() {
+        // "bttributfs" is rfquirfd for gftting tif updbtfd bttributfs
+        if (bttributfs == null) {
+            rfturn fblsf;
         }
 
-        DialogOwner dlgOwner = (DialogOwner)attributes.get(DialogOwner.class);
-        Frame ownerFrame = (dlgOwner != null) ? dlgOwner.getOwner() : null;
+        DiblogOwnfr dlgOwnfr = (DiblogOwnfr)bttributfs.gft(DiblogOwnfr.dlbss);
+        Frbmf ownfrFrbmf = (dlgOwnfr != null) ? dlgOwnfr.gftOwnfr() : null;
 
-        WPrintDialog dialog = new WPrintDialog(ownerFrame, this);
-        dialog.setRetVal(false);
-        dialog.setVisible(true);
-        boolean prv = dialog.getRetVal();
-        dialog.dispose();
+        WPrintDiblog diblog = nfw WPrintDiblog(ownfrFrbmf, tiis);
+        diblog.sftRftVbl(fblsf);
+        diblog.sftVisiblf(truf);
+        boolfbn prv = diblog.gftRftVbl();
+        diblog.disposf();
 
-        Destination dest =
-                (Destination)attributes.get(Destination.class);
-        if ((dest == null) || !prv){
-                return prv;
-        } else {
-            String title = null;
-            String strBundle = "sun.print.resources.serviceui";
-            ResourceBundle rb = ResourceBundle.getBundle(strBundle);
+        Dfstinbtion dfst =
+                (Dfstinbtion)bttributfs.gft(Dfstinbtion.dlbss);
+        if ((dfst == null) || !prv){
+                rfturn prv;
+        } flsf {
+            String titlf = null;
+            String strBundlf = "sun.print.rfsourdfs.sfrvidfui";
+            RfsourdfBundlf rb = RfsourdfBundlf.gftBundlf(strBundlf);
             try {
-                title = rb.getString("dialog.printtofile");
-            } catch (MissingResourceException e) {
+                titlf = rb.gftString("diblog.printtofilf");
+            } dbtdi (MissingRfsourdfExdfption f) {
             }
-            FileDialog fileDialog = new FileDialog(ownerFrame, title,
-                                                   FileDialog.SAVE);
+            FilfDiblog filfDiblog = nfw FilfDiblog(ownfrFrbmf, titlf,
+                                                   FilfDiblog.SAVE);
 
-            URI destURI = dest.getURI();
-            // Old code destURI.getPath() would return null for "file:out.prn"
-            // so we use getSchemeSpecificPart instead.
-            String pathName = (destURI != null) ?
-                destURI.getSchemeSpecificPart() : null;
-            if (pathName != null) {
-               File file = new File(pathName);
-               fileDialog.setFile(file.getName());
-               File parent = file.getParentFile();
-               if (parent != null) {
-                   fileDialog.setDirectory(parent.getPath());
+            URI dfstURI = dfst.gftURI();
+            // Old dodf dfstURI.gftPbti() would rfturn null for "filf:out.prn"
+            // so wf usf gftSdifmfSpfdifidPbrt instfbd.
+            String pbtiNbmf = (dfstURI != null) ?
+                dfstURI.gftSdifmfSpfdifidPbrt() : null;
+            if (pbtiNbmf != null) {
+               Filf filf = nfw Filf(pbtiNbmf);
+               filfDiblog.sftFilf(filf.gftNbmf());
+               Filf pbrfnt = filf.gftPbrfntFilf();
+               if (pbrfnt != null) {
+                   filfDiblog.sftDirfdtory(pbrfnt.gftPbti());
                }
-            } else {
-                fileDialog.setFile("out.prn");
+            } flsf {
+                filfDiblog.sftFilf("out.prn");
             }
 
-            fileDialog.setVisible(true);
-            String fileName = fileDialog.getFile();
-            if (fileName == null) {
-                fileDialog.dispose();
-                return false;
+            filfDiblog.sftVisiblf(truf);
+            String filfNbmf = filfDiblog.gftFilf();
+            if (filfNbmf == null) {
+                filfDiblog.disposf();
+                rfturn fblsf;
             }
-            String fullName = fileDialog.getDirectory() + fileName;
-            File f = new File(fullName);
-            File pFile = f.getParentFile();
-            while ((f.exists() &&
-                      (!f.isFile() || !f.canWrite())) ||
-                   ((pFile != null) &&
-                      (!pFile.exists() || (pFile.exists() && !pFile.canWrite())))) {
+            String fullNbmf = filfDiblog.gftDirfdtory() + filfNbmf;
+            Filf f = nfw Filf(fullNbmf);
+            Filf pFilf = f.gftPbrfntFilf();
+            wiilf ((f.fxists() &&
+                      (!f.isFilf() || !f.dbnWritf())) ||
+                   ((pFilf != null) &&
+                      (!pFilf.fxists() || (pFilf.fxists() && !pFilf.dbnWritf())))) {
 
-                (new PrintToFileErrorDialog(ownerFrame,
-                                ServiceDialog.getMsg("dialog.owtitle"),
-                                ServiceDialog.getMsg("dialog.writeerror")+" "+fullName,
-                                ServiceDialog.getMsg("button.ok"))).setVisible(true);
+                (nfw PrintToFilfErrorDiblog(ownfrFrbmf,
+                                SfrvidfDiblog.gftMsg("diblog.owtitlf"),
+                                SfrvidfDiblog.gftMsg("diblog.writffrror")+" "+fullNbmf,
+                                SfrvidfDiblog.gftMsg("button.ok"))).sftVisiblf(truf);
 
-                fileDialog.setVisible(true);
-                fileName = fileDialog.getFile();
-                if (fileName == null) {
-                    fileDialog.dispose();
-                    return false;
+                filfDiblog.sftVisiblf(truf);
+                filfNbmf = filfDiblog.gftFilf();
+                if (filfNbmf == null) {
+                    filfDiblog.disposf();
+                    rfturn fblsf;
                 }
-                fullName = fileDialog.getDirectory() + fileName;
-                f = new File(fullName);
-                pFile = f.getParentFile();
+                fullNbmf = filfDiblog.gftDirfdtory() + filfNbmf;
+                f = nfw Filf(fullNbmf);
+                pFilf = f.gftPbrfntFilf();
             }
-            fileDialog.dispose();
-            attributes.add(new Destination(f.toURI()));
-            return true;
+            filfDiblog.disposf();
+            bttributfs.bdd(nfw Dfstinbtion(f.toURI()));
+            rfturn truf;
         }
 
     }
 
     /**
-     * Presents the user a dialog for changing properties of the
-     * print job interactively.
-     * @returns false if the user cancels the dialog and
-     *          true otherwise.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * Prfsfnts tif usfr b diblog for dibnging propfrtifs of tif
+     * print job intfrbdtivfly.
+     * @rfturns fblsf if tif usfr dbndfls tif diblog bnd
+     *          truf otifrwisf.
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    @Override
-    public boolean printDialog() throws HeadlessException {
+    @Ovfrridf
+    publid boolfbn printDiblog() tirows HfbdlfssExdfption {
 
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
         }
-        // current request attribute set should be reflected to the print dialog.
-        // If null, create new instance of HashPrintRequestAttributeSet.
-        if (attributes == null) {
-            attributes = new HashPrintRequestAttributeSet();
-        }
-
-        if (!(getPrintService() instanceof Win32PrintService)) {
-            return super.printDialog(attributes);
+        // durrfnt rfqufst bttributf sft siould bf rfflfdtfd to tif print diblog.
+        // If null, drfbtf nfw instbndf of HbsiPrintRfqufstAttributfSft.
+        if (bttributfs == null) {
+            bttributfs = nfw HbsiPrintRfqufstAttributfSft();
         }
 
-        if (noDefaultPrinter == true) {
-            return false;
-        } else {
-            return displayNativeDialog();
+        if (!(gftPrintSfrvidf() instbndfof Win32PrintSfrvidf)) {
+            rfturn supfr.printDiblog(bttributfs);
+        }
+
+        if (noDffbultPrintfr == truf) {
+            rfturn fblsf;
+        } flsf {
+            rfturn displbyNbtivfDiblog();
         }
     }
 
      /**
-     * Associate this PrinterJob with a new PrintService.
+     * Assodibtf tiis PrintfrJob witi b nfw PrintSfrvidf.
      *
-     * Throws <code>PrinterException</code> if the specified service
-     * cannot support the <code>Pageable</code> and
-     * </code>Printable</code> interfaces necessary to support 2D printing.
-     * @param a print service which supports 2D printing.
+     * Tirows <dodf>PrintfrExdfption</dodf> if tif spfdififd sfrvidf
+     * dbnnot support tif <dodf>Pbgfbblf</dodf> bnd
+     * </dodf>Printbblf</dodf> intfrfbdfs nfdfssbry to support 2D printing.
+     * @pbrbm b print sfrvidf wiidi supports 2D printing.
      *
-     * @throws PrinterException if the specified service does not support
+     * @tirows PrintfrExdfption if tif spfdififd sfrvidf dofs not support
      * 2D printing.
      */
-    @Override
-    public void setPrintService(PrintService service)
-        throws PrinterException {
-        super.setPrintService(service);
-        if (!(service instanceof Win32PrintService)) {
-            return;
+    @Ovfrridf
+    publid void sftPrintSfrvidf(PrintSfrvidf sfrvidf)
+        tirows PrintfrExdfption {
+        supfr.sftPrintSfrvidf(sfrvidf);
+        if (!(sfrvidf instbndfof Win32PrintSfrvidf)) {
+            rfturn;
         }
-        driverDoesMultipleCopies = false;
-        driverDoesCollation = false;
-        setNativePrintServiceIfNeeded(service.getName());
+        drivfrDofsMultiplfCopifs = fblsf;
+        drivfrDofsCollbtion = fblsf;
+        sftNbtivfPrintSfrvidfIfNffdfd(sfrvidf.gftNbmf());
     }
 
-    /* associates this job with the specified native service */
-    private native void setNativePrintService(String name)
-        throws PrinterException;
+    /* bssodibtfs tiis job witi tif spfdififd nbtivf sfrvidf */
+    privbtf nbtivf void sftNbtivfPrintSfrvidf(String nbmf)
+        tirows PrintfrExdfption;
 
-    private String lastNativeService = null;
-    private void setNativePrintServiceIfNeeded(String name)
-        throws PrinterException {
+    privbtf String lbstNbtivfSfrvidf = null;
+    privbtf void sftNbtivfPrintSfrvidfIfNffdfd(String nbmf)
+        tirows PrintfrExdfption {
 
-        if (name != null && !(name.equals(lastNativeService))) {
-            setNativePrintService(name);
-            lastNativeService = name;
+        if (nbmf != null && !(nbmf.fqubls(lbstNbtivfSfrvidf))) {
+            sftNbtivfPrintSfrvidf(nbmf);
+            lbstNbtivfSfrvidf = nbmf;
         }
     }
 
-    @Override
-    public PrintService getPrintService() {
-        if (myService == null) {
-            String printerName = getNativePrintService();
+    @Ovfrridf
+    publid PrintSfrvidf gftPrintSfrvidf() {
+        if (mySfrvidf == null) {
+            String printfrNbmf = gftNbtivfPrintSfrvidf();
 
-            if (printerName != null) {
-                myService = Win32PrintServiceLookup.getWin32PrintLUS().
-                    getPrintServiceByName(printerName);
-                // no need to call setNativePrintService as this name is
-                // currently set in native
-                if (myService != null) {
-                    return myService;
+            if (printfrNbmf != null) {
+                mySfrvidf = Win32PrintSfrvidfLookup.gftWin32PrintLUS().
+                    gftPrintSfrvidfByNbmf(printfrNbmf);
+                // no nffd to dbll sftNbtivfPrintSfrvidf bs tiis nbmf is
+                // durrfntly sft in nbtivf
+                if (mySfrvidf != null) {
+                    rfturn mySfrvidf;
                 }
             }
 
-            myService = PrintServiceLookup.lookupDefaultPrintService();
-            if (myService instanceof Win32PrintService) {
+            mySfrvidf = PrintSfrvidfLookup.lookupDffbultPrintSfrvidf();
+            if (mySfrvidf instbndfof Win32PrintSfrvidf) {
                 try {
-                    setNativePrintServiceIfNeeded(myService.getName());
-                } catch (Exception e) {
-                    myService = null;
+                    sftNbtivfPrintSfrvidfIfNffdfd(mySfrvidf.gftNbmf());
+                } dbtdi (Exdfption f) {
+                    mySfrvidf = null;
                 }
             }
 
           }
-          return myService;
+          rfturn mySfrvidf;
     }
 
-    private native String getNativePrintService();
+    privbtf nbtivf String gftNbtivfPrintSfrvidf();
 
-    private void initAttributeMembers() {
-            mAttSides = 0;
-            mAttChromaticity = 0;
-            mAttXRes = 0;
-            mAttYRes = 0;
-            mAttQuality = 0;
-            mAttCollate = -1;
-            mAttCopies = 0;
-            mAttMediaTray = 0;
-            mAttMediaSizeName = 0;
-            mDestination = null;
+    privbtf void initAttributfMfmbfrs() {
+            mAttSidfs = 0;
+            mAttCirombtidity = 0;
+            mAttXRfs = 0;
+            mAttYRfs = 0;
+            mAttQublity = 0;
+            mAttCollbtf = -1;
+            mAttCopifs = 0;
+            mAttMfdibTrby = 0;
+            mAttMfdibSizfNbmf = 0;
+            mDfstinbtion = null;
 
     }
 
     /**
-     * copy the attributes to the native print job
-     * Note that this method, and hence the re-initialisation
-     * of the GDI values is done on each entry to the print dialog since
-     * an app could redisplay the print dialog for the same job and
-     * 1) the application may have changed attribute settings
-     * 2) the application may have changed the printer.
-     * In the event that the user changes the printer using the
-      dialog, then it is up to GDI to report back all changed values.
+     * dopy tif bttributfs to tif nbtivf print job
+     * Notf tibt tiis mftiod, bnd ifndf tif rf-initiblisbtion
+     * of tif GDI vblufs is donf on fbdi fntry to tif print diblog sindf
+     * bn bpp dould rfdisplby tif print diblog for tif sbmf job bnd
+     * 1) tif bpplidbtion mby ibvf dibngfd bttributf sfttings
+     * 2) tif bpplidbtion mby ibvf dibngfd tif printfr.
+     * In tif fvfnt tibt tif usfr dibngfs tif printfr using tif
+      diblog, tifn it is up to GDI to rfport bbdk bll dibngfd vblufs.
      */
-    @Override
-    protected void setAttributes(PrintRequestAttributeSet attributes)
-        throws PrinterException {
+    @Ovfrridf
+    protfdtfd void sftAttributfs(PrintRfqufstAttributfSft bttributfs)
+        tirows PrintfrExdfption {
 
-        // initialize attribute values
-        initAttributeMembers();
-        super.setAttributes(attributes);
+        // initiblizf bttributf vblufs
+        initAttributfMfmbfrs();
+        supfr.sftAttributfs(bttributfs);
 
-        mAttCopies = getCopiesInt();
-        mDestination = destinationAttr;
+        mAttCopifs = gftCopifsInt();
+        mDfstinbtion = dfstinbtionAttr;
 
-        if (attributes == null) {
-            return; // now always use attributes, so this shouldn't happen.
+        if (bttributfs == null) {
+            rfturn; // now blwbys usf bttributfs, so tiis siouldn't ibppfn.
         }
-        Attribute[] attrs = attributes.toArray();
-        for (int i=0; i< attrs.length; i++) {
-            Attribute attr = attrs[i];
+        Attributf[] bttrs = bttributfs.toArrby();
+        for (int i=0; i< bttrs.lfngti; i++) {
+            Attributf bttr = bttrs[i];
             try {
-                 if (attr.getCategory() == Sides.class) {
-                    setSidesAttrib(attr);
+                 if (bttr.gftCbtfgory() == Sidfs.dlbss) {
+                    sftSidfsAttrib(bttr);
                 }
-                else if (attr.getCategory() == Chromaticity.class) {
-                    setColorAttrib(attr);
+                flsf if (bttr.gftCbtfgory() == Cirombtidity.dlbss) {
+                    sftColorAttrib(bttr);
                 }
-                else if (attr.getCategory() == PrinterResolution.class) {
-                    if (myService.isAttributeValueSupported(attr, null, null)) {
-                        setResolutionAttrib(attr);
+                flsf if (bttr.gftCbtfgory() == PrintfrRfsolution.dlbss) {
+                    if (mySfrvidf.isAttributfVblufSupportfd(bttr, null, null)) {
+                        sftRfsolutionAttrib(bttr);
                     }
                 }
-                else if (attr.getCategory() == PrintQuality.class) {
-                    setQualityAttrib(attr);
+                flsf if (bttr.gftCbtfgory() == PrintQublity.dlbss) {
+                    sftQublityAttrib(bttr);
                 }
-                else if (attr.getCategory() == SheetCollate.class) {
-                    setCollateAttrib(attr);
-                }  else if (attr.getCategory() == Media.class ||
-                            attr.getCategory() == SunAlternateMedia.class) {
-                    /* SunAlternateMedia is used if its a tray, and
-                     * any Media that is specified is not a tray.
+                flsf if (bttr.gftCbtfgory() == SifftCollbtf.dlbss) {
+                    sftCollbtfAttrib(bttr);
+                }  flsf if (bttr.gftCbtfgory() == Mfdib.dlbss ||
+                            bttr.gftCbtfgory() == SunAltfrnbtfMfdib.dlbss) {
+                    /* SunAltfrnbtfMfdib is usfd if its b trby, bnd
+                     * bny Mfdib tibt is spfdififd is not b trby.
                      */
-                    if (attr.getCategory() == SunAlternateMedia.class) {
-                        Media media = (Media)attributes.get(Media.class);
-                        if (media == null ||
-                            !(media instanceof MediaTray)) {
-                            attr = ((SunAlternateMedia)attr).getMedia();
+                    if (bttr.gftCbtfgory() == SunAltfrnbtfMfdib.dlbss) {
+                        Mfdib mfdib = (Mfdib)bttributfs.gft(Mfdib.dlbss);
+                        if (mfdib == null ||
+                            !(mfdib instbndfof MfdibTrby)) {
+                            bttr = ((SunAltfrnbtfMfdib)bttr).gftMfdib();
                         }
                     }
-                    if (attr instanceof MediaSizeName) {
-                        setWin32MediaAttrib(attr);
+                    if (bttr instbndfof MfdibSizfNbmf) {
+                        sftWin32MfdibAttrib(bttr);
                     }
-                    if (attr instanceof MediaTray) {
-                        setMediaTrayAttrib(attr);
+                    if (bttr instbndfof MfdibTrby) {
+                        sftMfdibTrbyAttrib(bttr);
                     }
                 }
 
-            } catch (ClassCastException e) {
+            } dbtdi (ClbssCbstExdfption f) {
             }
         }
     }
 
     /**
-     * Alters the orientation and Paper to match defaults obtained
-     * from a printer.
+     * Altfrs tif orifntbtion bnd Pbpfr to mbtdi dffbults obtbinfd
+     * from b printfr.
      */
-    private native void getDefaultPage(PageFormat page);
+    privbtf nbtivf void gftDffbultPbgf(PbgfFormbt pbgf);
 
     /**
-     * The passed in PageFormat will be copied and altered to describe
-     * the default page size and orientation of the PrinterJob's
-     * current printer.
-     * Note: PageFormat.getPaper() returns a clone and getDefaultPage()
-     * gets that clone so it won't overwrite the original paper.
+     * Tif pbssfd in PbgfFormbt will bf dopifd bnd bltfrfd to dfsdribf
+     * tif dffbult pbgf sizf bnd orifntbtion of tif PrintfrJob's
+     * durrfnt printfr.
+     * Notf: PbgfFormbt.gftPbpfr() rfturns b dlonf bnd gftDffbultPbgf()
+     * gfts tibt dlonf so it won't ovfrwritf tif originbl pbpfr.
      */
-    @Override
-    public PageFormat defaultPage(PageFormat page) {
-        PageFormat newPage = (PageFormat)page.clone();
-        getDefaultPage(newPage);
-        return newPage;
+    @Ovfrridf
+    publid PbgfFormbt dffbultPbgf(PbgfFormbt pbgf) {
+        PbgfFormbt nfwPbgf = (PbgfFormbt)pbgf.dlonf();
+        gftDffbultPbgf(nfwPbgf);
+        rfturn nfwPbgf;
     }
 
     /**
-     * validate the paper size against the current printer.
+     * vblidbtf tif pbpfr sizf bgbinst tif durrfnt printfr.
      */
-    @Override
-    protected native void validatePaper(Paper origPaper, Paper newPaper );
+    @Ovfrridf
+    protfdtfd nbtivf void vblidbtfPbpfr(Pbpfr origPbpfr, Pbpfr nfwPbpfr );
 
     /**
-     * Examine the metrics captured by the
-     * <code>PeekGraphics</code> instance and
-     * if capable of directly converting this
-     * print job to the printer's control language
-     * or the native OS's graphics primitives, then
-     * return a <code>PathGraphics</code> to perform
-     * that conversion. If there is not an object
-     * capable of the conversion then return
-     * <code>null</code>. Returning <code>null</code>
-     * causes the print job to be rasterized.
+     * Exbminf tif mftrids dbpturfd by tif
+     * <dodf>PffkGrbpiids</dodf> instbndf bnd
+     * if dbpbblf of dirfdtly donvfrting tiis
+     * print job to tif printfr's dontrol lbngubgf
+     * or tif nbtivf OS's grbpiids primitivfs, tifn
+     * rfturn b <dodf>PbtiGrbpiids</dodf> to pfrform
+     * tibt donvfrsion. If tifrf is not bn objfdt
+     * dbpbblf of tif donvfrsion tifn rfturn
+     * <dodf>null</dodf>. Rfturning <dodf>null</dodf>
+     * dbusfs tif print job to bf rbstfrizfd.
      */
 
-    @Override
-    protected Graphics2D createPathGraphics(PeekGraphics peekGraphics,
-                                            PrinterJob printerJob,
-                                            Printable painter,
-                                            PageFormat pageFormat,
-                                            int pageIndex) {
+    @Ovfrridf
+    protfdtfd Grbpiids2D drfbtfPbtiGrbpiids(PffkGrbpiids pffkGrbpiids,
+                                            PrintfrJob printfrJob,
+                                            Printbblf pbintfr,
+                                            PbgfFormbt pbgfFormbt,
+                                            int pbgfIndfx) {
 
-        WPathGraphics pathGraphics;
-        PeekMetrics metrics = peekGraphics.getMetrics();
+        WPbtiGrbpiids pbtiGrbpiids;
+        PffkMftrids mftrids = pffkGrbpiids.gftMftrids();
 
-        /* If the application has drawn anything that
-         * out PathGraphics class can not handle then
-         * return a null PathGraphics. If the property
-         * to force the raster pipeline has been set then
-         * we also want to avoid the path (pdl) pipeline
-         * and return null.
+        /* If tif bpplidbtion ibs drbwn bnytiing tibt
+         * out PbtiGrbpiids dlbss dbn not ibndlf tifn
+         * rfturn b null PbtiGrbpiids. If tif propfrty
+         * to fordf tif rbstfr pipflinf ibs bffn sft tifn
+         * wf blso wbnt to bvoid tif pbti (pdl) pipflinf
+         * bnd rfturn null.
          */
-       if (forcePDL == false && (forceRaster == true
-                                  || metrics.hasNonSolidColors()
-                                  || metrics.hasCompositing()
+       if (fordfPDL == fblsf && (fordfRbstfr == truf
+                                  || mftrids.ibsNonSolidColors()
+                                  || mftrids.ibsCompositing()
                                   )) {
-            pathGraphics = null;
-        } else {
-            BufferedImage bufferedImage = new BufferedImage(8, 8,
-                                            BufferedImage.TYPE_INT_RGB);
-            Graphics2D bufferedGraphics = bufferedImage.createGraphics();
+            pbtiGrbpiids = null;
+        } flsf {
+            BufffrfdImbgf bufffrfdImbgf = nfw BufffrfdImbgf(8, 8,
+                                            BufffrfdImbgf.TYPE_INT_RGB);
+            Grbpiids2D bufffrfdGrbpiids = bufffrfdImbgf.drfbtfGrbpiids();
 
-            boolean canRedraw = peekGraphics.getAWTDrawingOnly() == false;
-            pathGraphics =  new WPathGraphics(bufferedGraphics, printerJob,
-                                              painter, pageFormat, pageIndex,
-                                              canRedraw);
+            boolfbn dbnRfdrbw = pffkGrbpiids.gftAWTDrbwingOnly() == fblsf;
+            pbtiGrbpiids =  nfw WPbtiGrbpiids(bufffrfdGrbpiids, printfrJob,
+                                              pbintfr, pbgfFormbt, pbgfIndfx,
+                                              dbnRfdrbw);
         }
 
-        return pathGraphics;
+        rfturn pbtiGrbpiids;
     }
 
 
-    @Override
-    protected double getXRes() {
-        if (mAttXRes != 0) {
-            return mAttXRes;
-        } else {
-            return mPrintXRes;
-        }
-    }
-
-    @Override
-    protected double getYRes() {
-        if (mAttYRes != 0) {
-            return mAttYRes;
-        } else {
-            return mPrintYRes;
+    @Ovfrridf
+    protfdtfd doublf gftXRfs() {
+        if (mAttXRfs != 0) {
+            rfturn mAttXRfs;
+        } flsf {
+            rfturn mPrintXRfs;
         }
     }
 
-    @Override
-    protected double getPhysicalPrintableX(Paper p) {
-        return mPrintPhysX;
+    @Ovfrridf
+    protfdtfd doublf gftYRfs() {
+        if (mAttYRfs != 0) {
+            rfturn mAttYRfs;
+        } flsf {
+            rfturn mPrintYRfs;
+        }
     }
 
-    @Override
-    protected double getPhysicalPrintableY(Paper p) {
-        return mPrintPhysY;
+    @Ovfrridf
+    protfdtfd doublf gftPiysidblPrintbblfX(Pbpfr p) {
+        rfturn mPrintPiysX;
     }
 
-    @Override
-    protected double getPhysicalPrintableWidth(Paper p) {
-        return mPrintWidth;
+    @Ovfrridf
+    protfdtfd doublf gftPiysidblPrintbblfY(Pbpfr p) {
+        rfturn mPrintPiysY;
     }
 
-    @Override
-    protected double getPhysicalPrintableHeight(Paper p) {
-        return mPrintHeight;
+    @Ovfrridf
+    protfdtfd doublf gftPiysidblPrintbblfWidti(Pbpfr p) {
+        rfturn mPrintWidti;
     }
 
-    @Override
-    protected double getPhysicalPageWidth(Paper p) {
-        return mPageWidth;
+    @Ovfrridf
+    protfdtfd doublf gftPiysidblPrintbblfHfigit(Pbpfr p) {
+        rfturn mPrintHfigit;
     }
 
-    @Override
-    protected double getPhysicalPageHeight(Paper p) {
-        return mPageHeight;
+    @Ovfrridf
+    protfdtfd doublf gftPiysidblPbgfWidti(Pbpfr p) {
+        rfturn mPbgfWidti;
+    }
+
+    @Ovfrridf
+    protfdtfd doublf gftPiysidblPbgfHfigit(Pbpfr p) {
+        rfturn mPbgfHfigit;
     }
 
     /**
-     * We don't (yet) provide API to support collation, and
-     * when we do the logic here will require adjustment, but
-     * this method is currently necessary to honour user-originated
-     * collation requests - which can only originate from the print dialog.
-     * REMIND: check if this can be deleted already.
+     * Wf don't (yft) providf API to support dollbtion, bnd
+     * wifn wf do tif logid ifrf will rfquirf bdjustmfnt, but
+     * tiis mftiod is durrfntly nfdfssbry to ionour usfr-originbtfd
+     * dollbtion rfqufsts - wiidi dbn only originbtf from tif print diblog.
+     * REMIND: difdk if tiis dbn bf dflftfd blrfbdy.
      */
-    @Override
-    protected boolean isCollated() {
-        return userRequestedCollation;
+    @Ovfrridf
+    protfdtfd boolfbn isCollbtfd() {
+        rfturn usfrRfqufstfdCollbtion;
     }
 
     /**
-     * Returns how many times the entire book should
-     * be printed by the PrintJob. If the printer
-     * itself supports collation then this method
-     * should return 1 indicating that the entire
-     * book need only be printed once and the copies
-     * will be collated and made in the printer.
+     * Rfturns iow mbny timfs tif fntirf book siould
+     * bf printfd by tif PrintJob. If tif printfr
+     * itsflf supports dollbtion tifn tiis mftiod
+     * siould rfturn 1 indidbting tibt tif fntirf
+     * book nffd only bf printfd ondf bnd tif dopifs
+     * will bf dollbtfd bnd mbdf in tif printfr.
      */
-    @Override
-    protected int getCollatedCopies() {
-        debug_println("driverDoesMultipleCopies="+driverDoesMultipleCopies
-                      +" driverDoesCollation="+driverDoesCollation);
-        if  (super.isCollated() && !driverDoesCollation) {
-            // we will do our own collation so we need to
-            // tell the printer to not collate
-            mAttCollate = 0;
-            mAttCopies = 1;
-            return getCopies();
+    @Ovfrridf
+    protfdtfd int gftCollbtfdCopifs() {
+        dfbug_println("drivfrDofsMultiplfCopifs="+drivfrDofsMultiplfCopifs
+                      +" drivfrDofsCollbtion="+drivfrDofsCollbtion);
+        if  (supfr.isCollbtfd() && !drivfrDofsCollbtion) {
+            // wf will do our own dollbtion so wf nffd to
+            // tfll tif printfr to not dollbtf
+            mAttCollbtf = 0;
+            mAttCopifs = 1;
+            rfturn gftCopifs();
         }
 
-        return 1;
+        rfturn 1;
     }
 
     /**
-     * Returns how many times each page in the book
-     * should be consecutively printed by PrinterJob.
-     * If the underlying Window's driver will
-     * generate the copies, rather than having RasterPrinterJob
-     * iterate over the number of copies, this method always returns
+     * Rfturns iow mbny timfs fbdi pbgf in tif book
+     * siould bf donsfdutivfly printfd by PrintfrJob.
+     * If tif undfrlying Window's drivfr will
+     * gfnfrbtf tif dopifs, rbtifr tibn ibving RbstfrPrintfrJob
+     * itfrbtf ovfr tif numbfr of dopifs, tiis mftiod blwbys rfturns
      * 1.
      */
-    @Override
-    protected int getNoncollatedCopies() {
-        if (driverDoesMultipleCopies || super.isCollated()) {
-            return 1;
-        } else {
-            return getCopies();
+    @Ovfrridf
+    protfdtfd int gftNondollbtfdCopifs() {
+        if (drivfrDofsMultiplfCopifs || supfr.isCollbtfd()) {
+            rfturn 1;
+        } flsf {
+            rfturn gftCopifs();
         }
     }
 
-    /* These getter/setters are called from native code */
+    /* Tifsf gfttfr/sfttfrs brf dbllfd from nbtivf dodf */
 
     /**
-     * Return the Window's device context that we are printing
+     * Rfturn tif Window's dfvidf dontfxt tibt wf brf printing
      * into.
      */
-    private long getPrintDC() {
-        return handleRecord.mPrintDC;
+    privbtf long gftPrintDC() {
+        rfturn ibndlfRfdord.mPrintDC;
     }
 
-    private void setPrintDC(long mPrintDC) {
-        handleRecord.mPrintDC = mPrintDC;
+    privbtf void sftPrintDC(long mPrintDC) {
+        ibndlfRfdord.mPrintDC = mPrintDC;
     }
 
-    private long getDevMode() {
-        return handleRecord.mPrintHDevMode;
+    privbtf long gftDfvModf() {
+        rfturn ibndlfRfdord.mPrintHDfvModf;
     }
 
-    private void setDevMode(long mPrintHDevMode) {
-        handleRecord.mPrintHDevMode = mPrintHDevMode;
+    privbtf void sftDfvModf(long mPrintHDfvModf) {
+        ibndlfRfdord.mPrintHDfvModf = mPrintHDfvModf;
     }
 
-    private long getDevNames() {
-        return handleRecord.mPrintHDevNames;
+    privbtf long gftDfvNbmfs() {
+        rfturn ibndlfRfdord.mPrintHDfvNbmfs;
     }
 
-    private void setDevNames(long mPrintHDevNames) {
-        handleRecord.mPrintHDevNames = mPrintHDevNames;
+    privbtf void sftDfvNbmfs(long mPrintHDfvNbmfs) {
+        ibndlfRfdord.mPrintHDfvNbmfs = mPrintHDfvNbmfs;
     }
 
-    protected void beginPath() {
-        beginPath(getPrintDC());
+    protfdtfd void bfginPbti() {
+        bfginPbti(gftPrintDC());
     }
 
-    protected void endPath() {
-        endPath(getPrintDC());
+    protfdtfd void fndPbti() {
+        fndPbti(gftPrintDC());
     }
 
-    protected void closeFigure() {
-        closeFigure(getPrintDC());
+    protfdtfd void dlosfFigurf() {
+        dlosfFigurf(gftPrintDC());
     }
 
-    protected void fillPath() {
-        fillPath(getPrintDC());
+    protfdtfd void fillPbti() {
+        fillPbti(gftPrintDC());
     }
 
-    protected void moveTo(float x, float y) {
-        moveTo(getPrintDC(), x, y);
+    protfdtfd void movfTo(flobt x, flobt y) {
+        movfTo(gftPrintDC(), x, y);
     }
 
-    protected void lineTo(float x, float y) {
-        lineTo(getPrintDC(), x, y);
+    protfdtfd void linfTo(flobt x, flobt y) {
+        linfTo(gftPrintDC(), x, y);
     }
 
-    protected void polyBezierTo(float control1x, float control1y,
-                                float control2x, float control2y,
-                                float endX, float endY) {
+    protfdtfd void polyBfzifrTo(flobt dontrol1x, flobt dontrol1y,
+                                flobt dontrol2x, flobt dontrol2y,
+                                flobt fndX, flobt fndY) {
 
-        polyBezierTo(getPrintDC(), control1x, control1y,
-                               control2x, control2y,
-                               endX, endY);
+        polyBfzifrTo(gftPrintDC(), dontrol1x, dontrol1y,
+                               dontrol2x, dontrol2y,
+                               fndX, fndY);
     }
 
     /**
-     * Set the current polgon fill rule into the printer device context.
-     * The <code>fillRule</code> should
-     * be one of the following Windows constants:
-     * <code>ALTERNATE</code> or <code>WINDING</code>.
+     * Sft tif durrfnt polgon fill rulf into tif printfr dfvidf dontfxt.
+     * Tif <dodf>fillRulf</dodf> siould
+     * bf onf of tif following Windows donstbnts:
+     * <dodf>ALTERNATE</dodf> or <dodf>WINDING</dodf>.
      */
-    protected void setPolyFillMode(int fillRule) {
-        setPolyFillMode(getPrintDC(), fillRule);
+    protfdtfd void sftPolyFillModf(int fillRulf) {
+        sftPolyFillModf(gftPrintDC(), fillRulf);
     }
 
     /*
-     * Create a Window's solid brush for the color specified
-     * by <code>(red, green, blue)</code>. Once the brush
-     * is created, select it in the current printing device
-     * context and free the old brush.
+     * Crfbtf b Window's solid brusi for tif dolor spfdififd
+     * by <dodf>(rfd, grffn, bluf)</dodf>. Ondf tif brusi
+     * is drfbtfd, sflfdt it in tif durrfnt printing dfvidf
+     * dontfxt bnd frff tif old brusi.
      */
-    protected void selectSolidBrush(Color color) {
+    protfdtfd void sflfdtSolidBrusi(Color dolor) {
 
-        /* We only need to select a brush if the color has changed.
+        /* Wf only nffd to sflfdt b brusi if tif dolor ibs dibngfd.
         */
-        if (color.equals(mLastColor) == false) {
-            mLastColor = color;
-            float[] rgb = color.getRGBColorComponents(null);
+        if (dolor.fqubls(mLbstColor) == fblsf) {
+            mLbstColor = dolor;
+            flobt[] rgb = dolor.gftRGBColorComponfnts(null);
 
-            selectSolidBrush(getPrintDC(),
+            sflfdtSolidBrusi(gftPrintDC(),
                              (int) (rgb[0] * MAX_WCOLOR),
                              (int) (rgb[1] * MAX_WCOLOR),
                              (int) (rgb[2] * MAX_WCOLOR));
@@ -1006,131 +1006,131 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
     /**
-     * Return the x coordinate of the current pen
-     * position in the print device context.
+     * Rfturn tif x doordinbtf of tif durrfnt pfn
+     * position in tif print dfvidf dontfxt.
      */
-    protected int getPenX() {
+    protfdtfd int gftPfnX() {
 
-        return getPenX(getPrintDC());
+        rfturn gftPfnX(gftPrintDC());
     }
 
 
     /**
-     * Return the y coordinate of the current pen
-     * position in the print device context.
+     * Rfturn tif y doordinbtf of tif durrfnt pfn
+     * position in tif print dfvidf dontfxt.
      */
-    protected int getPenY() {
+    protfdtfd int gftPfnY() {
 
-        return getPenY(getPrintDC());
+        rfturn gftPfnY(gftPrintDC());
     }
 
     /**
-     * Set the current path in the printer device's
-     * context to be clipping path.
+     * Sft tif durrfnt pbti in tif printfr dfvidf's
+     * dontfxt to bf dlipping pbti.
      */
-    protected void selectClipPath() {
-        selectClipPath(getPrintDC());
+    protfdtfd void sflfdtClipPbti() {
+        sflfdtClipPbti(gftPrintDC());
     }
 
 
-    protected void frameRect(float x, float y, float width, float height) {
-        frameRect(getPrintDC(), x, y, width, height);
+    protfdtfd void frbmfRfdt(flobt x, flobt y, flobt widti, flobt ifigit) {
+        frbmfRfdt(gftPrintDC(), x, y, widti, ifigit);
     }
 
-    protected void fillRect(float x, float y, float width, float height,
-                            Color color) {
-        float[] rgb = color.getRGBColorComponents(null);
+    protfdtfd void fillRfdt(flobt x, flobt y, flobt widti, flobt ifigit,
+                            Color dolor) {
+        flobt[] rgb = dolor.gftRGBColorComponfnts(null);
 
-        fillRect(getPrintDC(), x, y, width, height,
+        fillRfdt(gftPrintDC(), x, y, widti, ifigit,
                  (int) (rgb[0] * MAX_WCOLOR),
                  (int) (rgb[1] * MAX_WCOLOR),
                  (int) (rgb[2] * MAX_WCOLOR));
     }
 
 
-    protected void selectPen(float width, Color color) {
+    protfdtfd void sflfdtPfn(flobt widti, Color dolor) {
 
-        float[] rgb = color.getRGBColorComponents(null);
+        flobt[] rgb = dolor.gftRGBColorComponfnts(null);
 
-        selectPen(getPrintDC(), width,
+        sflfdtPfn(gftPrintDC(), widti,
                   (int) (rgb[0] * MAX_WCOLOR),
                   (int) (rgb[1] * MAX_WCOLOR),
                   (int) (rgb[2] * MAX_WCOLOR));
     }
 
 
-    protected boolean selectStylePen(int cap, int join, float width,
-                                     Color color) {
+    protfdtfd boolfbn sflfdtStylfPfn(int dbp, int join, flobt widti,
+                                     Color dolor) {
 
-        long endCap;
-        long lineJoin;
+        long fndCbp;
+        long linfJoin;
 
-        float[] rgb = color.getRGBColorComponents(null);
+        flobt[] rgb = dolor.gftRGBColorComponfnts(null);
 
-        switch(cap) {
-        case BasicStroke.CAP_BUTT: endCap = PS_ENDCAP_FLAT; break;
-        case BasicStroke.CAP_ROUND: endCap = PS_ENDCAP_ROUND; break;
-        default:
-        case BasicStroke.CAP_SQUARE: endCap = PS_ENDCAP_SQUARE; break;
+        switdi(dbp) {
+        dbsf BbsidStrokf.CAP_BUTT: fndCbp = PS_ENDCAP_FLAT; brfbk;
+        dbsf BbsidStrokf.CAP_ROUND: fndCbp = PS_ENDCAP_ROUND; brfbk;
+        dffbult:
+        dbsf BbsidStrokf.CAP_SQUARE: fndCbp = PS_ENDCAP_SQUARE; brfbk;
         }
 
-        switch(join) {
-        case BasicStroke.JOIN_BEVEL:lineJoin = PS_JOIN_BEVEL; break;
-        default:
-        case BasicStroke.JOIN_MITER:lineJoin = PS_JOIN_MITER; break;
-        case BasicStroke.JOIN_ROUND:lineJoin = PS_JOIN_ROUND; break;
+        switdi(join) {
+        dbsf BbsidStrokf.JOIN_BEVEL:linfJoin = PS_JOIN_BEVEL; brfbk;
+        dffbult:
+        dbsf BbsidStrokf.JOIN_MITER:linfJoin = PS_JOIN_MITER; brfbk;
+        dbsf BbsidStrokf.JOIN_ROUND:linfJoin = PS_JOIN_ROUND; brfbk;
         }
 
-        return (selectStylePen(getPrintDC(), endCap, lineJoin, width,
+        rfturn (sflfdtStylfPfn(gftPrintDC(), fndCbp, linfJoin, widti,
                                (int) (rgb[0] * MAX_WCOLOR),
                                (int) (rgb[1] * MAX_WCOLOR),
                                (int) (rgb[2] * MAX_WCOLOR)));
     }
 
     /**
-     * Set a GDI font capable of drawing the java Font
-     * passed in.
+     * Sft b GDI font dbpbblf of drbwing tif jbvb Font
+     * pbssfd in.
      */
-    protected boolean setFont(String family, float size, int style,
-                              int rotation, float awScale) {
+    protfdtfd boolfbn sftFont(String fbmily, flobt sizf, int stylf,
+                              int rotbtion, flobt bwSdblf) {
 
-        boolean didSetFont = true;
+        boolfbn didSftFont = truf;
 
-        if (!family.equals(mLastFontFamily) ||
-            size     != mLastFontSize       ||
-            style    != mLastFontStyle      ||
-            rotation != mLastRotation       ||
-            awScale  != mLastAwScale) {
+        if (!fbmily.fqubls(mLbstFontFbmily) ||
+            sizf     != mLbstFontSizf       ||
+            stylf    != mLbstFontStylf      ||
+            rotbtion != mLbstRotbtion       ||
+            bwSdblf  != mLbstAwSdblf) {
 
-            didSetFont = setFont(getPrintDC(),
-                                 family,
-                                 size,
-                                 (style & Font.BOLD) != 0,
-                                 (style & Font.ITALIC) != 0,
-                                 rotation, awScale);
-            if (didSetFont) {
-                mLastFontFamily   = family;
-                mLastFontSize     = size;
-                mLastFontStyle    = style;
-                mLastRotation     = rotation;
-                mLastAwScale      = awScale;
+            didSftFont = sftFont(gftPrintDC(),
+                                 fbmily,
+                                 sizf,
+                                 (stylf & Font.BOLD) != 0,
+                                 (stylf & Font.ITALIC) != 0,
+                                 rotbtion, bwSdblf);
+            if (didSftFont) {
+                mLbstFontFbmily   = fbmily;
+                mLbstFontSizf     = sizf;
+                mLbstFontStylf    = stylf;
+                mLbstRotbtion     = rotbtion;
+                mLbstAwSdblf      = bwSdblf;
             }
         }
-        return didSetFont;
+        rfturn didSftFont;
     }
 
     /**
-     * Set the GDI color for text drawing.
+     * Sft tif GDI dolor for tfxt drbwing.
      */
-    protected void setTextColor(Color color) {
+    protfdtfd void sftTfxtColor(Color dolor) {
 
-        /* We only need to select a brush if the color has changed.
+        /* Wf only nffd to sflfdt b brusi if tif dolor ibs dibngfd.
         */
-        if (color.equals(mLastTextColor) == false) {
-            mLastTextColor = color;
-            float[] rgb = color.getRGBColorComponents(null);
+        if (dolor.fqubls(mLbstTfxtColor) == fblsf) {
+            mLbstTfxtColor = dolor;
+            flobt[] rgb = dolor.gftRGBColorComponfnts(null);
 
-            setTextColor(getPrintDC(),
+            sftTfxtColor(gftPrintDC(),
                          (int) (rgb[0] * MAX_WCOLOR),
                          (int) (rgb[1] * MAX_WCOLOR),
                          (int) (rgb[2] * MAX_WCOLOR));
@@ -1138,1099 +1138,1099 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
     /**
-     * Remove control characters.
+     * Rfmovf dontrol dibrbdtfrs.
      */
-    @Override
-    protected String removeControlChars(String str) {
-        return super.removeControlChars(str);
+    @Ovfrridf
+    protfdtfd String rfmovfControlCibrs(String str) {
+        rfturn supfr.rfmovfControlCibrs(str);
     }
 
     /**
-     * Draw the string <code>text</code> to the printer's
-     * device context at the specified position.
+     * Drbw tif string <dodf>tfxt</dodf> to tif printfr's
+     * dfvidf dontfxt bt tif spfdififd position.
      */
-    protected void textOut(String str, float x, float y,
-                           float[] positions) {
-        /* Don't leave handling of control chars to GDI.
-         * If control chars are removed,  'positions' isn't valid.
-         * This means the caller needs to be aware of this and remove
-         * control chars up front if supplying positions. Since the
-         * caller is tightly integrated here, that's acceptable.
+    protfdtfd void tfxtOut(String str, flobt x, flobt y,
+                           flobt[] positions) {
+        /* Don't lfbvf ibndling of dontrol dibrs to GDI.
+         * If dontrol dibrs brf rfmovfd,  'positions' isn't vblid.
+         * Tiis mfbns tif dbllfr nffds to bf bwbrf of tiis bnd rfmovf
+         * dontrol dibrs up front if supplying positions. Sindf tif
+         * dbllfr is tigitly intfgrbtfd ifrf, tibt's bddfptbblf.
          */
-        String text = removeControlChars(str);
-        assert (positions == null) || (text.length() == str.length());
-        if (text.length() == 0) {
-            return;
+        String tfxt = rfmovfControlCibrs(str);
+        bssfrt (positions == null) || (tfxt.lfngti() == str.lfngti());
+        if (tfxt.lfngti() == 0) {
+            rfturn;
         }
-        textOut(getPrintDC(), text, text.length(), false, x, y, positions);
+        tfxtOut(gftPrintDC(), tfxt, tfxt.lfngti(), fblsf, x, y, positions);
     }
 
    /**
-     * Draw the glyphs <code>glyphs</code> to the printer's
-     * device context at the specified position.
+     * Drbw tif glypis <dodf>glypis</dodf> to tif printfr's
+     * dfvidf dontfxt bt tif spfdififd position.
      */
-    protected void glyphsOut(int []glyphs, float x, float y,
-                             float[] positions) {
+    protfdtfd void glypisOut(int []glypis, flobt x, flobt y,
+                             flobt[] positions) {
 
-        /* TrueType glyph codes are 16 bit values, so can be packed
-         * in a unicode string, and that's how GDI expects them.
-         * A flag bit is set to indicate to GDI that these are glyphs,
-         * not characters. The positions array must always be non-null
-         * here for our purposes, although if not supplied, GDI should
-         * just use the default advances for the glyphs.
-         * Mask out upper 16 bits to remove any slot from a composite.
+        /* TrufTypf glypi dodfs brf 16 bit vblufs, so dbn bf pbdkfd
+         * in b unidodf string, bnd tibt's iow GDI fxpfdts tifm.
+         * A flbg bit is sft to indidbtf to GDI tibt tifsf brf glypis,
+         * not dibrbdtfrs. Tif positions brrby must blwbys bf non-null
+         * ifrf for our purposfs, bltiougi if not supplifd, GDI siould
+         * just usf tif dffbult bdvbndfs for tif glypis.
+         * Mbsk out uppfr 16 bits to rfmovf bny slot from b dompositf.
          */
-        char[] glyphCharArray = new char[glyphs.length];
-        for (int i=0;i<glyphs.length;i++) {
-            glyphCharArray[i] = (char)(glyphs[i] & 0xffff);
+        dibr[] glypiCibrArrby = nfw dibr[glypis.lfngti];
+        for (int i=0;i<glypis.lfngti;i++) {
+            glypiCibrArrby[i] = (dibr)(glypis[i] & 0xffff);
         }
-        String glyphStr = new String(glyphCharArray);
-        textOut(getPrintDC(), glyphStr, glyphs.length, true, x, y, positions);
+        String glypiStr = nfw String(glypiCibrArrby);
+        tfxtOut(gftPrintDC(), glypiStr, glypis.lfngti, truf, x, y, positions);
     }
 
 
     /**
-     * Get the advance of this text that GDI returns for the
-     * font currently selected into the GDI device context for
-     * this job. Note that the removed control characters are
-     * interpreted as zero-width by JDK and we remove them for
-     * rendering so also remove them for measurement so that
-     * this measurement can be properly compared with JDK measurement.
+     * Gft tif bdvbndf of tiis tfxt tibt GDI rfturns for tif
+     * font durrfntly sflfdtfd into tif GDI dfvidf dontfxt for
+     * tiis job. Notf tibt tif rfmovfd dontrol dibrbdtfrs brf
+     * intfrprftfd bs zfro-widti by JDK bnd wf rfmovf tifm for
+     * rfndfring so blso rfmovf tifm for mfbsurfmfnt so tibt
+     * tiis mfbsurfmfnt dbn bf propfrly dompbrfd witi JDK mfbsurfmfnt.
      */
-    protected int getGDIAdvance(String text) {
-        /* Don't leave handling of control chars to GDI. */
-        text = removeControlChars(text);
-        if (text.length() == 0) {
-            return 0;
+    protfdtfd int gftGDIAdvbndf(String tfxt) {
+        /* Don't lfbvf ibndling of dontrol dibrs to GDI. */
+        tfxt = rfmovfControlCibrs(tfxt);
+        if (tfxt.lfngti() == 0) {
+            rfturn 0;
         }
-        return getGDIAdvance(getPrintDC(), text);
+        rfturn gftGDIAdvbndf(gftPrintDC(), tfxt);
     }
 
      /**
-     * Draw the 24 bit BGR image buffer represented by
-     * <code>image</code> to the GDI device context
-     * <code>printDC</code>. The image is drawn at
-     * <code>(destX, destY)</code> in device coordinates.
-     * The image is scaled into a square of size
-     * specified by <code>destWidth</code> and
-     * <code>destHeight</code>. The portion of the
-     * source image copied into that square is specified
-     * by <code>srcX</code>, <code>srcY</code>,
-     * <code>srcWidth</code>, and srcHeight.
+     * Drbw tif 24 bit BGR imbgf bufffr rfprfsfntfd by
+     * <dodf>imbgf</dodf> to tif GDI dfvidf dontfxt
+     * <dodf>printDC</dodf>. Tif imbgf is drbwn bt
+     * <dodf>(dfstX, dfstY)</dodf> in dfvidf doordinbtfs.
+     * Tif imbgf is sdblfd into b squbrf of sizf
+     * spfdififd by <dodf>dfstWidti</dodf> bnd
+     * <dodf>dfstHfigit</dodf>. Tif portion of tif
+     * sourdf imbgf dopifd into tibt squbrf is spfdififd
+     * by <dodf>srdX</dodf>, <dodf>srdY</dodf>,
+     * <dodf>srdWidti</dodf>, bnd srdHfigit.
      */
-    protected void drawImage3ByteBGR(byte[] image,
-                                     float destX, float destY,
-                                     float destWidth, float destHeight,
-                                     float srcX, float srcY,
-                                     float srcWidth, float srcHeight) {
+    protfdtfd void drbwImbgf3BytfBGR(bytf[] imbgf,
+                                     flobt dfstX, flobt dfstY,
+                                     flobt dfstWidti, flobt dfstHfigit,
+                                     flobt srdX, flobt srdY,
+                                     flobt srdWidti, flobt srdHfigit) {
 
 
-        drawDIBImage(getPrintDC(), image,
-                     destX, destY,
-                     destWidth, destHeight,
-                     srcX, srcY,
-                     srcWidth, srcHeight,
+        drbwDIBImbgf(gftPrintDC(), imbgf,
+                     dfstX, dfstY,
+                     dfstWidti, dfstHfigit,
+                     srdX, srdY,
+                     srdWidti, srdHfigit,
                      24, null);
 
     }
 
-    /* If 'icm' is null we expect its 24 bit (ie 3BYTE_BGR).
-     * If 'icm' is non-null we expect its no more than 8 bpp and
-     * specifically must be a valid DIB sizes : 1, 4 or 8 bpp.
-     * Then we need to extract the colours into a byte array of the
-     * format required by GDI which is an array of 'RGBQUAD'
-     * RGBQUAD looks like :
-     * typedef struct tagRGBQUAD {
-     *    BYTE    rgbBlue;
-     *    BYTE    rgbGreen;
-     *    BYTE    rgbRed;
-     *    BYTE    rgbReserved; // must be zero.
+    /* If 'idm' is null wf fxpfdt its 24 bit (if 3BYTE_BGR).
+     * If 'idm' is non-null wf fxpfdt its no morf tibn 8 bpp bnd
+     * spfdifidblly must bf b vblid DIB sizfs : 1, 4 or 8 bpp.
+     * Tifn wf nffd to fxtrbdt tif dolours into b bytf brrby of tif
+     * formbt rfquirfd by GDI wiidi is bn brrby of 'RGBQUAD'
+     * RGBQUAD looks likf :
+     * typfdff strudt tbgRGBQUAD {
+     *    BYTE    rgbBluf;
+     *    BYTE    rgbGrffn;
+     *    BYTE    rgbRfd;
+     *    BYTE    rgbRfsfrvfd; // must bf zfro.
      * } RGBQUAD;
-     * There's no alignment problem as GDI expects this to be packed
-     * and each struct will start on a 4 byte boundary anyway.
+     * Tifrf's no blignmfnt problfm bs GDI fxpfdts tiis to bf pbdkfd
+     * bnd fbdi strudt will stbrt on b 4 bytf boundbry bnywby.
      */
-    protected void drawDIBImage(byte[] image,
-                                float destX, float destY,
-                                float destWidth, float destHeight,
-                                float srcX, float srcY,
-                                float srcWidth, float srcHeight,
-                                int sampleBitsPerPixel,
-                                IndexColorModel icm) {
+    protfdtfd void drbwDIBImbgf(bytf[] imbgf,
+                                flobt dfstX, flobt dfstY,
+                                flobt dfstWidti, flobt dfstHfigit,
+                                flobt srdX, flobt srdY,
+                                flobt srdWidti, flobt srdHfigit,
+                                int sbmplfBitsPfrPixfl,
+                                IndfxColorModfl idm) {
         int bitCount = 24;
-        byte[] bmiColors = null;
+        bytf[] bmiColors = null;
 
-        if (icm != null) {
-            bitCount = sampleBitsPerPixel;
-            bmiColors = new byte[(1<<icm.getPixelSize())*4];
-            for (int i=0;i<icm.getMapSize(); i++) {
-                bmiColors[i*4+0]=(byte)(icm.getBlue(i)&0xff);
-                bmiColors[i*4+1]=(byte)(icm.getGreen(i)&0xff);
-                bmiColors[i*4+2]=(byte)(icm.getRed(i)&0xff);
+        if (idm != null) {
+            bitCount = sbmplfBitsPfrPixfl;
+            bmiColors = nfw bytf[(1<<idm.gftPixflSizf())*4];
+            for (int i=0;i<idm.gftMbpSizf(); i++) {
+                bmiColors[i*4+0]=(bytf)(idm.gftBluf(i)&0xff);
+                bmiColors[i*4+1]=(bytf)(idm.gftGrffn(i)&0xff);
+                bmiColors[i*4+2]=(bytf)(idm.gftRfd(i)&0xff);
             }
         }
 
-        drawDIBImage(getPrintDC(), image,
-                     destX, destY,
-                     destWidth, destHeight,
-                     srcX, srcY,
-                     srcWidth, srcHeight,
+        drbwDIBImbgf(gftPrintDC(), imbgf,
+                     dfstX, dfstY,
+                     dfstWidti, dfstHfigit,
+                     srdX, srdY,
+                     srdWidti, srdHfigit,
                      bitCount, bmiColors);
     }
 
     /**
-     * Begin a new page.
+     * Bfgin b nfw pbgf.
      */
-    @Override
-    protected void startPage(PageFormat format, Printable painter,
-                             int index, boolean paperChanged) {
+    @Ovfrridf
+    protfdtfd void stbrtPbgf(PbgfFormbt formbt, Printbblf pbintfr,
+                             int indfx, boolfbn pbpfrCibngfd) {
 
-        /* Invalidate any device state caches we are
-         * maintaining. Win95/98 resets the device
-         * context attributes to default values at
-         * the start of each page.
+        /* Invblidbtf bny dfvidf stbtf dbdifs wf brf
+         * mbintbining. Win95/98 rfsfts tif dfvidf
+         * dontfxt bttributfs to dffbult vblufs bt
+         * tif stbrt of fbdi pbgf.
          */
-        invalidateCachedState();
+        invblidbtfCbdifdStbtf();
 
-        deviceStartPage(format, painter, index, paperChanged);
+        dfvidfStbrtPbgf(formbt, pbintfr, indfx, pbpfrCibngfd);
     }
 
     /**
-     * End a page.
+     * End b pbgf.
      */
-    @Override
-    protected void endPage(PageFormat format, Printable painter,
-                           int index) {
+    @Ovfrridf
+    protfdtfd void fndPbgf(PbgfFormbt formbt, Printbblf pbintfr,
+                           int indfx) {
 
-        deviceEndPage(format, painter, index);
+        dfvidfEndPbgf(formbt, pbintfr, indfx);
     }
 
     /**
-     * Forget any device state we may have cached.
+     * Forgft bny dfvidf stbtf wf mby ibvf dbdifd.
      */
-    private void invalidateCachedState() {
-        mLastColor = null;
-        mLastTextColor = null;
-        mLastFontFamily = null;
+    privbtf void invblidbtfCbdifdStbtf() {
+        mLbstColor = null;
+        mLbstTfxtColor = null;
+        mLbstFontFbmily = null;
     }
 
-    private boolean defaultCopies = true;
+    privbtf boolfbn dffbultCopifs = truf;
     /**
-     * Set the number of copies to be printed.
+     * Sft tif numbfr of dopifs to bf printfd.
      */
-    @Override
-    public void setCopies(int copies) {
-        super.setCopies(copies);
-        defaultCopies = false;
-        mAttCopies = copies;
-        setNativeCopies(copies);
+    @Ovfrridf
+    publid void sftCopifs(int dopifs) {
+        supfr.sftCopifs(dopifs);
+        dffbultCopifs = fblsf;
+        mAttCopifs = dopifs;
+        sftNbtivfCopifs(dopifs);
     }
 
 
- /* Native Methods */
+ /* Nbtivf Mftiods */
 
     /**
-     * Set copies in device.
+     * Sft dopifs in dfvidf.
      */
-    private native void setNativeCopies(int copies);
+    privbtf nbtivf void sftNbtivfCopifs(int dopifs);
 
     /**
-     * Displays the print dialog and records the user's settings
-     * into this object. Return false if the user cancels the
-     * dialog.
-     * If the dialog is to use a set of attributes, useAttributes is true.
+     * Displbys tif print diblog bnd rfdords tif usfr's sfttings
+     * into tiis objfdt. Rfturn fblsf if tif usfr dbndfls tif
+     * diblog.
+     * If tif diblog is to usf b sft of bttributfs, usfAttributfs is truf.
      */
-    private native boolean jobSetup(Pageable doc, boolean allowPrintToFile);
+    privbtf nbtivf boolfbn jobSftup(Pbgfbblf dod, boolfbn bllowPrintToFilf);
 
-    /* Make sure printer DC is intialised and that info about the printer
-     * is reflected back up to Java code
+    /* Mbkf surf printfr DC is intiblisfd bnd tibt info bbout tif printfr
+     * is rfflfdtfd bbdk up to Jbvb dodf
      */
-    @Override
-    protected native void initPrinter();
+    @Ovfrridf
+    protfdtfd nbtivf void initPrintfr();
 
     /**
-     * Call Window's StartDoc routine to begin a
-     * print job. The DC from the print dialog is
-     * used. If the print dialog was not displayed
-     * then a DC for the default printer is created.
-     * The native StartDoc returns false if the end-user cancelled
-     * printing. This is possible if the printer is connected to FILE:
-     * in which case windows queries the user for a destination and the
-     * user may cancel out of it. Note that the implementation of
-     * cancel() throws PrinterAbortException to indicate the user cancelled.
+     * Cbll Window's StbrtDod routinf to bfgin b
+     * print job. Tif DC from tif print diblog is
+     * usfd. If tif print diblog wbs not displbyfd
+     * tifn b DC for tif dffbult printfr is drfbtfd.
+     * Tif nbtivf StbrtDod rfturns fblsf if tif fnd-usfr dbndfllfd
+     * printing. Tiis is possiblf if tif printfr is donnfdtfd to FILE:
+     * in wiidi dbsf windows qufrifs tif usfr for b dfstinbtion bnd tif
+     * usfr mby dbndfl out of it. Notf tibt tif implfmfntbtion of
+     * dbndfl() tirows PrintfrAbortExdfption to indidbtf tif usfr dbndfllfd.
      */
-    private native boolean _startDoc(String dest, String jobName)
-                                     throws PrinterException;
-    @Override
-    protected void startDoc() throws PrinterException {
-        if (!_startDoc(mDestination, getJobName())) {
-            cancel();
+    privbtf nbtivf boolfbn _stbrtDod(String dfst, String jobNbmf)
+                                     tirows PrintfrExdfption;
+    @Ovfrridf
+    protfdtfd void stbrtDod() tirows PrintfrExdfption {
+        if (!_stbrtDod(mDfstinbtion, gftJobNbmf())) {
+            dbndfl();
         }
     }
 
     /**
-     * Call Window's EndDoc routine to end a
+     * Cbll Window's EndDod routinf to fnd b
      * print job.
      */
-    @Override
-    protected native void endDoc();
+    @Ovfrridf
+    protfdtfd nbtivf void fndDod();
 
     /**
-     * Call Window's AbortDoc routine to abort a
+     * Cbll Window's AbortDod routinf to bbort b
      * print job.
      */
-    @Override
-    protected native void abortDoc();
+    @Ovfrridf
+    protfdtfd nbtivf void bbortDod();
 
     /**
-     * Call Windows native resource freeing APIs
+     * Cbll Windows nbtivf rfsourdf frffing APIs
      */
-    private static native void deleteDC(long dc, long devmode, long devnames);
+    privbtf stbtid nbtivf void dflftfDC(long dd, long dfvmodf, long dfvnbmfs);
 
     /**
-     * Begin a new page. This call's Window's
-     * StartPage routine.
+     * Bfgin b nfw pbgf. Tiis dbll's Window's
+     * StbrtPbgf routinf.
      */
-    protected native void deviceStartPage(PageFormat format, Printable painter,
-                                          int index, boolean paperChanged);
+    protfdtfd nbtivf void dfvidfStbrtPbgf(PbgfFormbt formbt, Printbblf pbintfr,
+                                          int indfx, boolfbn pbpfrCibngfd);
     /**
-     * End a page. This call's Window's EndPage
-     * routine.
+     * End b pbgf. Tiis dbll's Window's EndPbgf
+     * routinf.
      */
-    protected native void deviceEndPage(PageFormat format, Printable painter,
-                                        int index);
+    protfdtfd nbtivf void dfvidfEndPbgf(PbgfFormbt formbt, Printbblf pbintfr,
+                                        int indfx);
 
     /**
-     * Prints the contents of the array of ints, 'data'
-     * to the current page. The band is placed at the
-     * location (x, y) in device coordinates on the
-     * page. The width and height of the band is
-     * specified by the caller.
+     * Prints tif dontfnts of tif brrby of ints, 'dbtb'
+     * to tif durrfnt pbgf. Tif bbnd is plbdfd bt tif
+     * lodbtion (x, y) in dfvidf doordinbtfs on tif
+     * pbgf. Tif widti bnd ifigit of tif bbnd is
+     * spfdififd by tif dbllfr.
      */
-    @Override
-    protected native void printBand(byte[] data, int x, int y,
-                                    int width, int height);
+    @Ovfrridf
+    protfdtfd nbtivf void printBbnd(bytf[] dbtb, int x, int y,
+                                    int widti, int ifigit);
 
     /**
-     * Begin a Window's rendering path in the device
-     * context <code>printDC</code>.
+     * Bfgin b Window's rfndfring pbti in tif dfvidf
+     * dontfxt <dodf>printDC</dodf>.
      */
-    protected native void beginPath(long printDC);
+    protfdtfd nbtivf void bfginPbti(long printDC);
 
     /**
-     * End a Window's rendering path in the device
-     * context <code>printDC</code>.
+     * End b Window's rfndfring pbti in tif dfvidf
+     * dontfxt <dodf>printDC</dodf>.
      */
-    protected native void endPath(long printDC);
+    protfdtfd nbtivf void fndPbti(long printDC);
 
     /**
-     * Close a subpath in a Window's rendering path in the device
-     * context <code>printDC</code>.
+     * Closf b subpbti in b Window's rfndfring pbti in tif dfvidf
+     * dontfxt <dodf>printDC</dodf>.
      */
-    protected native void closeFigure(long printDC);
+    protfdtfd nbtivf void dlosfFigurf(long printDC);
 
     /**
-     * Fill a defined Window's rendering path in the device
-     * context <code>printDC</code>.
+     * Fill b dffinfd Window's rfndfring pbti in tif dfvidf
+     * dontfxt <dodf>printDC</dodf>.
      */
-    protected native void fillPath(long printDC);
+    protfdtfd nbtivf void fillPbti(long printDC);
 
     /**
-     * Move the Window's pen position to <code>(x,y)</code>
-     * in the device context <code>printDC</code>.
+     * Movf tif Window's pfn position to <dodf>(x,y)</dodf>
+     * in tif dfvidf dontfxt <dodf>printDC</dodf>.
      */
-    protected native void moveTo(long printDC, float x, float y);
+    protfdtfd nbtivf void movfTo(long printDC, flobt x, flobt y);
 
     /**
-     * Draw a line from the current pen position to
-     * <code>(x,y)</code> in the device context <code>printDC</code>.
+     * Drbw b linf from tif durrfnt pfn position to
+     * <dodf>(x,y)</dodf> in tif dfvidf dontfxt <dodf>printDC</dodf>.
      */
-    protected native void lineTo(long printDC, float x, float y);
+    protfdtfd nbtivf void linfTo(long printDC, flobt x, flobt y);
 
-    protected native void polyBezierTo(long printDC,
-                                       float control1x, float control1y,
-                                       float control2x, float control2y,
-                                       float endX, float endY);
+    protfdtfd nbtivf void polyBfzifrTo(long printDC,
+                                       flobt dontrol1x, flobt dontrol1y,
+                                       flobt dontrol2x, flobt dontrol2y,
+                                       flobt fndX, flobt fndY);
 
     /**
-     * Set the current polgon fill rule into the device context
-     * <code>printDC</code>. The <code>fillRule</code> should
-     * be one of the following Windows constants:
-     * <code>ALTERNATE</code> or <code>WINDING</code>.
+     * Sft tif durrfnt polgon fill rulf into tif dfvidf dontfxt
+     * <dodf>printDC</dodf>. Tif <dodf>fillRulf</dodf> siould
+     * bf onf of tif following Windows donstbnts:
+     * <dodf>ALTERNATE</dodf> or <dodf>WINDING</dodf>.
      */
-    protected native void setPolyFillMode(long printDC, int fillRule);
+    protfdtfd nbtivf void sftPolyFillModf(long printDC, int fillRulf);
 
     /**
-     * Create a Window's solid brush for the color specified
-     * by <code>(red, green, blue)</code>. Once the brush
-     * is created, select it in the device
-     * context <code>printDC</code> and free the old brush.
+     * Crfbtf b Window's solid brusi for tif dolor spfdififd
+     * by <dodf>(rfd, grffn, bluf)</dodf>. Ondf tif brusi
+     * is drfbtfd, sflfdt it in tif dfvidf
+     * dontfxt <dodf>printDC</dodf> bnd frff tif old brusi.
      */
-    protected native void selectSolidBrush(long printDC,
-                                           int red, int green, int blue);
+    protfdtfd nbtivf void sflfdtSolidBrusi(long printDC,
+                                           int rfd, int grffn, int bluf);
 
     /**
-     * Return the x coordinate of the current pen
-     * position in the device context
-     * <code>printDC</code>.
+     * Rfturn tif x doordinbtf of tif durrfnt pfn
+     * position in tif dfvidf dontfxt
+     * <dodf>printDC</dodf>.
      */
-    protected native int getPenX(long printDC);
+    protfdtfd nbtivf int gftPfnX(long printDC);
 
     /**
-     * Return the y coordinate of the current pen
-     * position in the device context
-     * <code>printDC</code>.
+     * Rfturn tif y doordinbtf of tif durrfnt pfn
+     * position in tif dfvidf dontfxt
+     * <dodf>printDC</dodf>.
      */
-    protected native int getPenY(long printDC);
+    protfdtfd nbtivf int gftPfnY(long printDC);
 
     /**
-     * Select the device context's current path
-     * to be the clipping path.
+     * Sflfdt tif dfvidf dontfxt's durrfnt pbti
+     * to bf tif dlipping pbti.
      */
-    protected native void selectClipPath(long printDC);
+    protfdtfd nbtivf void sflfdtClipPbti(long printDC);
 
     /**
-     * Draw a rectangle using specified brush.
+     * Drbw b rfdtbnglf using spfdififd brusi.
      */
-    protected native void frameRect(long printDC, float x, float y,
-                                    float width, float height);
+    protfdtfd nbtivf void frbmfRfdt(long printDC, flobt x, flobt y,
+                                    flobt widti, flobt ifigit);
 
     /**
-     * Fill a rectangle specified by the coordinates using
-     * specified brush.
+     * Fill b rfdtbnglf spfdififd by tif doordinbtfs using
+     * spfdififd brusi.
      */
-    protected native void fillRect(long printDC, float x, float y,
-                                   float width, float height,
-                                   int red, int green, int blue);
+    protfdtfd nbtivf void fillRfdt(long printDC, flobt x, flobt y,
+                                   flobt widti, flobt ifigit,
+                                   int rfd, int grffn, int bluf);
 
     /**
-     * Create a solid brush using the RG & B colors and width.
-     * Select this brush and delete the old one.
+     * Crfbtf b solid brusi using tif RG & B dolors bnd widti.
+     * Sflfdt tiis brusi bnd dflftf tif old onf.
      */
-    protected native void selectPen(long printDC, float width,
-                                    int red, int green, int blue);
+    protfdtfd nbtivf void sflfdtPfn(long printDC, flobt widti,
+                                    int rfd, int grffn, int bluf);
 
     /**
-     * Create a solid brush using the RG & B colors and specified
-     * pen styles.  Select this created brush and delete the old one.
+     * Crfbtf b solid brusi using tif RG & B dolors bnd spfdififd
+     * pfn stylfs.  Sflfdt tiis drfbtfd brusi bnd dflftf tif old onf.
      */
-    protected native boolean selectStylePen(long printDC, long cap,
-                                            long join, float width,
-                                            int red, int green, int blue);
+    protfdtfd nbtivf boolfbn sflfdtStylfPfn(long printDC, long dbp,
+                                            long join, flobt widti,
+                                            int rfd, int grffn, int bluf);
 
     /**
-     * Set a GDI font capable of drawing the java Font
-     * passed in.
+     * Sft b GDI font dbpbblf of drbwing tif jbvb Font
+     * pbssfd in.
      */
-    protected native boolean setFont(long printDC, String familyName,
-                                     float fontSize,
-                                     boolean bold,
-                                     boolean italic,
-                                     int rotation,
-                                     float awScale);
+    protfdtfd nbtivf boolfbn sftFont(long printDC, String fbmilyNbmf,
+                                     flobt fontSizf,
+                                     boolfbn bold,
+                                     boolfbn itblid,
+                                     int rotbtion,
+                                     flobt bwSdblf);
 
 
     /**
-     * Set the GDI color for text drawing.
+     * Sft tif GDI dolor for tfxt drbwing.
      */
-    protected native void setTextColor(long printDC,
-                                       int red, int green, int blue);
+    protfdtfd nbtivf void sftTfxtColor(long printDC,
+                                       int rfd, int grffn, int bluf);
 
 
     /**
-     * Draw the string <code>text</code> into the device
-     * context <code>printDC</code> at the specified
+     * Drbw tif string <dodf>tfxt</dodf> into tif dfvidf
+     * dontfxt <dodf>printDC</dodf> bt tif spfdififd
      * position.
      */
-    protected native void textOut(long printDC, String text,
-                                  int strlen, boolean glyphs,
-                                  float x, float y, float[] positions);
+    protfdtfd nbtivf void tfxtOut(long printDC, String tfxt,
+                                  int strlfn, boolfbn glypis,
+                                  flobt x, flobt y, flobt[] positions);
 
 
-    private native int getGDIAdvance(long printDC, String text);
+    privbtf nbtivf int gftGDIAdvbndf(long printDC, String tfxt);
 
      /**
-     * Draw the DIB compatible image buffer represented by
-     * <code>image</code> to the GDI device context
-     * <code>printDC</code>. The image is drawn at
-     * <code>(destX, destY)</code> in device coordinates.
-     * The image is scaled into a square of size
-     * specified by <code>destWidth</code> and
-     * <code>destHeight</code>. The portion of the
-     * source image copied into that square is specified
-     * by <code>srcX</code>, <code>srcY</code>,
-     * <code>srcWidth</code>, and srcHeight.
-     * Note that the image isn't completely compatible with DIB format.
-     * At the very least it needs to be padded so each scanline is
-     * DWORD aligned. Also we "flip" the image to make it a bottom-up DIB.
+     * Drbw tif DIB dompbtiblf imbgf bufffr rfprfsfntfd by
+     * <dodf>imbgf</dodf> to tif GDI dfvidf dontfxt
+     * <dodf>printDC</dodf>. Tif imbgf is drbwn bt
+     * <dodf>(dfstX, dfstY)</dodf> in dfvidf doordinbtfs.
+     * Tif imbgf is sdblfd into b squbrf of sizf
+     * spfdififd by <dodf>dfstWidti</dodf> bnd
+     * <dodf>dfstHfigit</dodf>. Tif portion of tif
+     * sourdf imbgf dopifd into tibt squbrf is spfdififd
+     * by <dodf>srdX</dodf>, <dodf>srdY</dodf>,
+     * <dodf>srdWidti</dodf>, bnd srdHfigit.
+     * Notf tibt tif imbgf isn't domplftfly dompbtiblf witi DIB formbt.
+     * At tif vfry lfbst it nffds to bf pbddfd so fbdi sdbnlinf is
+     * DWORD blignfd. Also wf "flip" tif imbgf to mbkf it b bottom-up DIB.
      */
-    private native void drawDIBImage(long printDC, byte[] image,
-                                     float destX, float destY,
-                                     float destWidth, float destHeight,
-                                     float srcX, float srcY,
-                                     float srcWidth, float srcHeight,
-                                     int bitCount, byte[] bmiColors);
+    privbtf nbtivf void drbwDIBImbgf(long printDC, bytf[] imbgf,
+                                     flobt dfstX, flobt dfstY,
+                                     flobt dfstWidti, flobt dfstHfigit,
+                                     flobt srdX, flobt srdY,
+                                     flobt srdWidti, flobt srdHfigit,
+                                     int bitCount, bytf[] bmiColors);
 
 
-    //** BEGIN Functions called by native code for querying/updating attributes
+    //** BEGIN Fundtions dbllfd by nbtivf dodf for qufrying/updbting bttributfs
 
-    private final String getPrinterAttrib() {
-        // getPrintService will get current print service or default if none
-        PrintService service = this.getPrintService();
-        String name = (service != null) ? service.getName() : null;
-        return name;
+    privbtf finbl String gftPrintfrAttrib() {
+        // gftPrintSfrvidf will gft durrfnt print sfrvidf or dffbult if nonf
+        PrintSfrvidf sfrvidf = tiis.gftPrintSfrvidf();
+        String nbmf = (sfrvidf != null) ? sfrvidf.gftNbmf() : null;
+        rfturn nbmf;
     }
 
-    /* SheetCollate */
-    private final int getCollateAttrib() {
-        // -1 means unset, 0 uncollated, 1 collated.
-        return mAttCollate;
+    /* SifftCollbtf */
+    privbtf finbl int gftCollbtfAttrib() {
+        // -1 mfbns unsft, 0 undollbtfd, 1 dollbtfd.
+        rfturn mAttCollbtf;
     }
 
-    private void setCollateAttrib(Attribute attr) {
-        if (attr == SheetCollate.COLLATED) {
-            mAttCollate = 1; // DMCOLLATE_TRUE
-        } else {
-            mAttCollate = 0; // DMCOLLATE_FALSE
+    privbtf void sftCollbtfAttrib(Attributf bttr) {
+        if (bttr == SifftCollbtf.COLLATED) {
+            mAttCollbtf = 1; // DMCOLLATE_TRUE
+        } flsf {
+            mAttCollbtf = 0; // DMCOLLATE_FALSE
         }
     }
 
-    private void setCollateAttrib(Attribute attr,
-                                  PrintRequestAttributeSet set) {
-        setCollateAttrib(attr);
-        set.add(attr);
+    privbtf void sftCollbtfAttrib(Attributf bttr,
+                                  PrintRfqufstAttributfSft sft) {
+        sftCollbtfAttrib(bttr);
+        sft.bdd(bttr);
     }
 
-    /* Orientation */
+    /* Orifntbtion */
 
-    private final int getOrientAttrib() {
-        int orient = PageFormat.PORTRAIT;
-        OrientationRequested orientReq = (attributes == null) ? null :
-            (OrientationRequested)attributes.get(OrientationRequested.class);
-        if (orientReq == null) {
-            orientReq = (OrientationRequested)
-               myService.getDefaultAttributeValue(OrientationRequested.class);
+    privbtf finbl int gftOrifntAttrib() {
+        int orifnt = PbgfFormbt.PORTRAIT;
+        OrifntbtionRfqufstfd orifntRfq = (bttributfs == null) ? null :
+            (OrifntbtionRfqufstfd)bttributfs.gft(OrifntbtionRfqufstfd.dlbss);
+        if (orifntRfq == null) {
+            orifntRfq = (OrifntbtionRfqufstfd)
+               mySfrvidf.gftDffbultAttributfVbluf(OrifntbtionRfqufstfd.dlbss);
         }
-        if (orientReq != null) {
-            if (orientReq == OrientationRequested.REVERSE_LANDSCAPE) {
-                orient = PageFormat.REVERSE_LANDSCAPE;
-            } else if (orientReq == OrientationRequested.LANDSCAPE) {
-                orient = PageFormat.LANDSCAPE;
+        if (orifntRfq != null) {
+            if (orifntRfq == OrifntbtionRfqufstfd.REVERSE_LANDSCAPE) {
+                orifnt = PbgfFormbt.REVERSE_LANDSCAPE;
+            } flsf if (orifntRfq == OrifntbtionRfqufstfd.LANDSCAPE) {
+                orifnt = PbgfFormbt.LANDSCAPE;
             }
         }
 
-        return orient;
+        rfturn orifnt;
     }
 
-    private void setOrientAttrib(Attribute attr,
-                                 PrintRequestAttributeSet set) {
-        if (set != null) {
-            set.add(attr);
+    privbtf void sftOrifntAttrib(Attributf bttr,
+                                 PrintRfqufstAttributfSft sft) {
+        if (sft != null) {
+            sft.bdd(bttr);
         }
     }
 
-    /* Copies and Page Range. */
-    private final int getCopiesAttrib() {
-        if (defaultCopies) {
-            return 0;
-        } else {
-            return getCopiesInt();
+    /* Copifs bnd Pbgf Rbngf. */
+    privbtf finbl int gftCopifsAttrib() {
+        if (dffbultCopifs) {
+            rfturn 0;
+        } flsf {
+            rfturn gftCopifsInt();
         }
      }
 
-    private final void setRangeCopiesAttribute(int from, int to,
-                                               boolean isRangeSet,
-                                               int copies) {
-        if (attributes != null) {
-            if (isRangeSet) {
-                attributes.add(new PageRanges(from, to));
-                setPageRange(from, to);
+    privbtf finbl void sftRbngfCopifsAttributf(int from, int to,
+                                               boolfbn isRbngfSft,
+                                               int dopifs) {
+        if (bttributfs != null) {
+            if (isRbngfSft) {
+                bttributfs.bdd(nfw PbgfRbngfs(from, to));
+                sftPbgfRbngf(from, to);
             }
-            defaultCopies = false;
-            attributes.add(new Copies(copies));
-            /* Since this is called from native to tell Java to sync
-             * up with native, we don't call this class's own setCopies()
-             * method which is mainly to send the value down to native
+            dffbultCopifs = fblsf;
+            bttributfs.bdd(nfw Copifs(dopifs));
+            /* Sindf tiis is dbllfd from nbtivf to tfll Jbvb to synd
+             * up witi nbtivf, wf don't dbll tiis dlbss's own sftCopifs()
+             * mftiod wiidi is mbinly to sfnd tif vbluf down to nbtivf
              */
-            super.setCopies(copies);
-            mAttCopies = copies;
+            supfr.sftCopifs(dopifs);
+            mAttCopifs = dopifs;
         }
     }
 
 
 
-    private final boolean getDestAttrib() {
-        return (mDestination != null);
+    privbtf finbl boolfbn gftDfstAttrib() {
+        rfturn (mDfstinbtion != null);
     }
 
-    /* Quality */
-    private final int getQualityAttrib() {
-        return mAttQuality;
+    /* Qublity */
+    privbtf finbl int gftQublityAttrib() {
+        rfturn mAttQublity;
     }
 
-    private void setQualityAttrib(Attribute attr) {
-        if (attr == PrintQuality.HIGH) {
-            mAttQuality = -4; // DMRES_HIGH
-        } else if (attr == PrintQuality.NORMAL) {
-            mAttQuality = -3; // DMRES_MEDIUM
-        } else {
-            mAttQuality = -2; // DMRES_LOW
+    privbtf void sftQublityAttrib(Attributf bttr) {
+        if (bttr == PrintQublity.HIGH) {
+            mAttQublity = -4; // DMRES_HIGH
+        } flsf if (bttr == PrintQublity.NORMAL) {
+            mAttQublity = -3; // DMRES_MEDIUM
+        } flsf {
+            mAttQublity = -2; // DMRES_LOW
         }
     }
 
-    private void setQualityAttrib(Attribute attr,
-                                  PrintRequestAttributeSet set) {
-        setQualityAttrib(attr);
-        set.add(attr);
+    privbtf void sftQublityAttrib(Attributf bttr,
+                                  PrintRfqufstAttributfSft sft) {
+        sftQublityAttrib(bttr);
+        sft.bdd(bttr);
     }
 
-    /* Color/Chromaticity */
-    private final int getColorAttrib() {
-        return mAttChromaticity;
+    /* Color/Cirombtidity */
+    privbtf finbl int gftColorAttrib() {
+        rfturn mAttCirombtidity;
     }
 
-    private void setColorAttrib(Attribute attr) {
-        if (attr == Chromaticity.COLOR) {
-            mAttChromaticity = 2; // DMCOLOR_COLOR
-        } else {
-            mAttChromaticity = 1; // DMCOLOR_MONOCHROME
+    privbtf void sftColorAttrib(Attributf bttr) {
+        if (bttr == Cirombtidity.COLOR) {
+            mAttCirombtidity = 2; // DMCOLOR_COLOR
+        } flsf {
+            mAttCirombtidity = 1; // DMCOLOR_MONOCHROME
         }
     }
 
-    private void setColorAttrib(Attribute attr,
-                                  PrintRequestAttributeSet set) {
-        setColorAttrib(attr);
-        set.add(attr);
+    privbtf void sftColorAttrib(Attributf bttr,
+                                  PrintRfqufstAttributfSft sft) {
+        sftColorAttrib(bttr);
+        sft.bdd(bttr);
     }
 
-    /* Sides */
-    private final int getSidesAttrib() {
-        return mAttSides;
+    /* Sidfs */
+    privbtf finbl int gftSidfsAttrib() {
+        rfturn mAttSidfs;
     }
 
-    private void setSidesAttrib(Attribute attr) {
-        if (attr == Sides.TWO_SIDED_LONG_EDGE) {
-            mAttSides = 2; // DMDUP_VERTICAL
-        } else if (attr == Sides.TWO_SIDED_SHORT_EDGE) {
-            mAttSides = 3; // DMDUP_HORIZONTAL
-        } else { // Sides.ONE_SIDED
-            mAttSides = 1;
+    privbtf void sftSidfsAttrib(Attributf bttr) {
+        if (bttr == Sidfs.TWO_SIDED_LONG_EDGE) {
+            mAttSidfs = 2; // DMDUP_VERTICAL
+        } flsf if (bttr == Sidfs.TWO_SIDED_SHORT_EDGE) {
+            mAttSidfs = 3; // DMDUP_HORIZONTAL
+        } flsf { // Sidfs.ONE_SIDED
+            mAttSidfs = 1;
         }
     }
 
-    private void setSidesAttrib(Attribute attr,
-                                PrintRequestAttributeSet set) {
-        setSidesAttrib(attr);
-        set.add(attr);
+    privbtf void sftSidfsAttrib(Attributf bttr,
+                                PrintRfqufstAttributfSft sft) {
+        sftSidfsAttrib(bttr);
+        sft.bdd(bttr);
     }
 
-    /** MediaSizeName / dmPaper */
-    private final int[] getWin32MediaAttrib() {
-        int wid_ht[] = {0, 0};
-        if (attributes != null) {
-            Media media = (Media)attributes.get(Media.class);
-            if (media instanceof MediaSizeName) {
-                MediaSizeName msn = (MediaSizeName)media;
-                MediaSize ms = MediaSize.getMediaSizeForName(msn);
+    /** MfdibSizfNbmf / dmPbpfr */
+    privbtf finbl int[] gftWin32MfdibAttrib() {
+        int wid_it[] = {0, 0};
+        if (bttributfs != null) {
+            Mfdib mfdib = (Mfdib)bttributfs.gft(Mfdib.dlbss);
+            if (mfdib instbndfof MfdibSizfNbmf) {
+                MfdibSizfNbmf msn = (MfdibSizfNbmf)mfdib;
+                MfdibSizf ms = MfdibSizf.gftMfdibSizfForNbmf(msn);
                 if (ms != null) {
-                    wid_ht[0] = (int)(ms.getX(MediaSize.INCH) * 72.0);
-                    wid_ht[1] = (int)(ms.getY(MediaSize.INCH) * 72.0);
+                    wid_it[0] = (int)(ms.gftX(MfdibSizf.INCH) * 72.0);
+                    wid_it[1] = (int)(ms.gftY(MfdibSizf.INCH) * 72.0);
                 }
             }
         }
-        return wid_ht;
+        rfturn wid_it;
     }
 
-    private void setWin32MediaAttrib(Attribute attr) {
-        if (!(attr instanceof MediaSizeName)) {
-            return;
+    privbtf void sftWin32MfdibAttrib(Attributf bttr) {
+        if (!(bttr instbndfof MfdibSizfNbmf)) {
+            rfturn;
         }
-        MediaSizeName msn = (MediaSizeName)attr;
-        mAttMediaSizeName = ((Win32PrintService)myService).findPaperID(msn);
+        MfdibSizfNbmf msn = (MfdibSizfNbmf)bttr;
+        mAttMfdibSizfNbmf = ((Win32PrintSfrvidf)mySfrvidf).findPbpfrID(msn);
     }
 
-    private void addPaperSize(PrintRequestAttributeSet aset,
-                              int dmIndex, int width, int length) {
+    privbtf void bddPbpfrSizf(PrintRfqufstAttributfSft bsft,
+                              int dmIndfx, int widti, int lfngti) {
 
-        if (aset == null) {
-            return;
+        if (bsft == null) {
+            rfturn;
         }
-        MediaSizeName msn =
-           ((Win32PrintService)myService).findWin32Media(dmIndex);
+        MfdibSizfNbmf msn =
+           ((Win32PrintSfrvidf)mySfrvidf).findWin32Mfdib(dmIndfx);
         if (msn == null) {
-            msn = ((Win32PrintService)myService).
-                findMatchingMediaSizeNameMM((float)width, (float)length);
+            msn = ((Win32PrintSfrvidf)mySfrvidf).
+                findMbtdiingMfdibSizfNbmfMM((flobt)widti, (flobt)lfngti);
         }
 
         if (msn != null) {
-            aset.add(msn);
+            bsft.bdd(msn);
         }
     }
 
-    private void setWin32MediaAttrib(int dmIndex, int width, int length) {
-        addPaperSize(attributes, dmIndex, width, length);
-        mAttMediaSizeName = dmIndex;
+    privbtf void sftWin32MfdibAttrib(int dmIndfx, int widti, int lfngti) {
+        bddPbpfrSizf(bttributfs, dmIndfx, widti, lfngti);
+        mAttMfdibSizfNbmf = dmIndfx;
     }
 
-    /* MediaTray / dmTray */
-    private void setMediaTrayAttrib(Attribute attr) {
-        if (attr == MediaTray.BOTTOM) {
-            mAttMediaTray = 2;    // DMBIN_LOWER
-        } else if (attr == MediaTray.ENVELOPE) {
-            mAttMediaTray = 5;    // DMBIN_ENVELOPE
-        } else if (attr == MediaTray.LARGE_CAPACITY) {
-            mAttMediaTray = 11;      // DMBIN_LARGECAPACITY
-        } else if (attr == MediaTray.MAIN) {
-            mAttMediaTray =1;               // DMBIN_UPPER
-        } else if (attr == MediaTray.MANUAL) {
-            mAttMediaTray = 4;              // DMBIN_MANUAL
-        } else if (attr == MediaTray.MIDDLE) {
-            mAttMediaTray = 3;              // DMBIN_MIDDLE
-        } else if (attr == MediaTray.SIDE) {
-            // no equivalent predefined value
-            mAttMediaTray = 7;              // DMBIN_AUTO
-        } else if (attr == MediaTray.TOP) {
-            mAttMediaTray = 1;              // DMBIN_UPPER
-        } else {
-            if (attr instanceof Win32MediaTray) {
-                mAttMediaTray = ((Win32MediaTray)attr).winID;
-            } else {
-                mAttMediaTray = 1;  // default
+    /* MfdibTrby / dmTrby */
+    privbtf void sftMfdibTrbyAttrib(Attributf bttr) {
+        if (bttr == MfdibTrby.BOTTOM) {
+            mAttMfdibTrby = 2;    // DMBIN_LOWER
+        } flsf if (bttr == MfdibTrby.ENVELOPE) {
+            mAttMfdibTrby = 5;    // DMBIN_ENVELOPE
+        } flsf if (bttr == MfdibTrby.LARGE_CAPACITY) {
+            mAttMfdibTrby = 11;      // DMBIN_LARGECAPACITY
+        } flsf if (bttr == MfdibTrby.MAIN) {
+            mAttMfdibTrby =1;               // DMBIN_UPPER
+        } flsf if (bttr == MfdibTrby.MANUAL) {
+            mAttMfdibTrby = 4;              // DMBIN_MANUAL
+        } flsf if (bttr == MfdibTrby.MIDDLE) {
+            mAttMfdibTrby = 3;              // DMBIN_MIDDLE
+        } flsf if (bttr == MfdibTrby.SIDE) {
+            // no fquivblfnt prfdffinfd vbluf
+            mAttMfdibTrby = 7;              // DMBIN_AUTO
+        } flsf if (bttr == MfdibTrby.TOP) {
+            mAttMfdibTrby = 1;              // DMBIN_UPPER
+        } flsf {
+            if (bttr instbndfof Win32MfdibTrby) {
+                mAttMfdibTrby = ((Win32MfdibTrby)bttr).winID;
+            } flsf {
+                mAttMfdibTrby = 1;  // dffbult
             }
         }
     }
 
-    private void setMediaTrayAttrib(int dmBinID) {
-        mAttMediaTray = dmBinID;
-        MediaTray tray = ((Win32PrintService)myService).findMediaTray(dmBinID);
+    privbtf void sftMfdibTrbyAttrib(int dmBinID) {
+        mAttMfdibTrby = dmBinID;
+        MfdibTrby trby = ((Win32PrintSfrvidf)mySfrvidf).findMfdibTrby(dmBinID);
     }
 
-    private int getMediaTrayAttrib() {
-        return mAttMediaTray;
+    privbtf int gftMfdibTrbyAttrib() {
+        rfturn mAttMfdibTrby;
     }
 
 
 
-    private final boolean getPrintToFileEnabled() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            FilePermission printToFilePermission =
-                new FilePermission("<<ALL FILES>>", "read,write");
+    privbtf finbl boolfbn gftPrintToFilfEnbblfd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            FilfPfrmission printToFilfPfrmission =
+                nfw FilfPfrmission("<<ALL FILES>>", "rfbd,writf");
             try {
-                security.checkPermission(printToFilePermission);
-            } catch (SecurityException e) {
-                return false;
+                sfdurity.difdkPfrmission(printToFilfPfrmission);
+            } dbtdi (SfdurityExdfption f) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    private final void setNativeAttributes(int flags, int fields, int values) {
-        if (attributes == null) {
-            return;
+    privbtf finbl void sftNbtivfAttributfs(int flbgs, int fiflds, int vblufs) {
+        if (bttributfs == null) {
+            rfturn;
         }
-        if ((flags & PD_PRINTTOFILE) != 0) {
-            Destination destPrn = (Destination)attributes.get(
-                                                 Destination.class);
-            if (destPrn == null) {
+        if ((flbgs & PD_PRINTTOFILE) != 0) {
+            Dfstinbtion dfstPrn = (Dfstinbtion)bttributfs.gft(
+                                                 Dfstinbtion.dlbss);
+            if (dfstPrn == null) {
                 try {
-                    attributes.add(new Destination(
-                                               new File("./out.prn").toURI()));
-                } catch (SecurityException se) {
+                    bttributfs.bdd(nfw Dfstinbtion(
+                                               nfw Filf("./out.prn").toURI()));
+                } dbtdi (SfdurityExdfption sf) {
                     try {
-                        attributes.add(new Destination(
-                                                new URI("file:out.prn")));
-                    } catch (URISyntaxException e) {
+                        bttributfs.bdd(nfw Dfstinbtion(
+                                                nfw URI("filf:out.prn")));
+                    } dbtdi (URISyntbxExdfption f) {
                     }
                 }
             }
-        } else {
-            attributes.remove(Destination.class);
+        } flsf {
+            bttributfs.rfmovf(Dfstinbtion.dlbss);
         }
 
-        if ((flags & PD_COLLATE) != 0) {
-            setCollateAttrib(SheetCollate.COLLATED, attributes);
-        } else {
-            setCollateAttrib(SheetCollate.UNCOLLATED, attributes);
+        if ((flbgs & PD_COLLATE) != 0) {
+            sftCollbtfAttrib(SifftCollbtf.COLLATED, bttributfs);
+        } flsf {
+            sftCollbtfAttrib(SifftCollbtf.UNCOLLATED, bttributfs);
         }
 
-        if ((flags & PD_PAGENUMS) != 0) {
-            attributes.add(SunPageSelection.RANGE);
-        } else if ((flags & PD_SELECTION) != 0) {
-            attributes.add(SunPageSelection.SELECTION);
-        } else {
-            attributes.add(SunPageSelection.ALL);
+        if ((flbgs & PD_PAGENUMS) != 0) {
+            bttributfs.bdd(SunPbgfSflfdtion.RANGE);
+        } flsf if ((flbgs & PD_SELECTION) != 0) {
+            bttributfs.bdd(SunPbgfSflfdtion.SELECTION);
+        } flsf {
+            bttributfs.bdd(SunPbgfSflfdtion.ALL);
         }
 
-        if ((fields & DM_ORIENTATION) != 0) {
-            if ((values & SET_ORIENTATION) != 0) {
-                setOrientAttrib(OrientationRequested.LANDSCAPE, attributes);
-            } else {
-                setOrientAttrib(OrientationRequested.PORTRAIT, attributes);
+        if ((fiflds & DM_ORIENTATION) != 0) {
+            if ((vblufs & SET_ORIENTATION) != 0) {
+                sftOrifntAttrib(OrifntbtionRfqufstfd.LANDSCAPE, bttributfs);
+            } flsf {
+                sftOrifntAttrib(OrifntbtionRfqufstfd.PORTRAIT, bttributfs);
             }
         }
 
-        if ((fields & DM_COLOR) != 0) {
-            if ((values & SET_COLOR) != 0) {
-                setColorAttrib(Chromaticity.COLOR, attributes);
-            } else {
-                setColorAttrib(Chromaticity.MONOCHROME, attributes);
+        if ((fiflds & DM_COLOR) != 0) {
+            if ((vblufs & SET_COLOR) != 0) {
+                sftColorAttrib(Cirombtidity.COLOR, bttributfs);
+            } flsf {
+                sftColorAttrib(Cirombtidity.MONOCHROME, bttributfs);
             }
         }
 
-        if ((fields & DM_PRINTQUALITY) != 0) {
-            PrintQuality quality;
-            if ((values & SET_RES_LOW) != 0) {
-                quality = PrintQuality.DRAFT;
-            } else if ((fields & SET_RES_HIGH) != 0) {
-                quality = PrintQuality.HIGH;
-            } else {
-                quality = PrintQuality.NORMAL;
+        if ((fiflds & DM_PRINTQUALITY) != 0) {
+            PrintQublity qublity;
+            if ((vblufs & SET_RES_LOW) != 0) {
+                qublity = PrintQublity.DRAFT;
+            } flsf if ((fiflds & SET_RES_HIGH) != 0) {
+                qublity = PrintQublity.HIGH;
+            } flsf {
+                qublity = PrintQublity.NORMAL;
             }
-            setQualityAttrib(quality, attributes);
+            sftQublityAttrib(qublity, bttributfs);
         }
 
-        if ((fields & DM_DUPLEX) != 0) {
-            Sides sides;
-            if ((values & SET_DUP_VERTICAL) != 0) {
-                sides = Sides.TWO_SIDED_LONG_EDGE;
-            } else if ((values & SET_DUP_HORIZONTAL) != 0) {
-                sides = Sides.TWO_SIDED_SHORT_EDGE;
-            } else {
-                sides = Sides.ONE_SIDED;
+        if ((fiflds & DM_DUPLEX) != 0) {
+            Sidfs sidfs;
+            if ((vblufs & SET_DUP_VERTICAL) != 0) {
+                sidfs = Sidfs.TWO_SIDED_LONG_EDGE;
+            } flsf if ((vblufs & SET_DUP_HORIZONTAL) != 0) {
+                sidfs = Sidfs.TWO_SIDED_SHORT_EDGE;
+            } flsf {
+                sidfs = Sidfs.ONE_SIDED;
             }
-            setSidesAttrib(sides, attributes);
+            sftSidfsAttrib(sidfs, bttributfs);
         }
     }
 
-    private static final class DevModeValues {
-        int dmFields;
-        short copies;
-        short collate;
-        short color;
-        short duplex;
-        short orient;
-        short paper;
-        short bin;
-        short xres_quality;
-        short yres;
+    privbtf stbtid finbl dlbss DfvModfVblufs {
+        int dmFiflds;
+        siort dopifs;
+        siort dollbtf;
+        siort dolor;
+        siort duplfx;
+        siort orifnt;
+        siort pbpfr;
+        siort bin;
+        siort xrfs_qublity;
+        siort yrfs;
     }
 
-    private void getDevModeValues(PrintRequestAttributeSet aset,
-                                  DevModeValues info) {
+    privbtf void gftDfvModfVblufs(PrintRfqufstAttributfSft bsft,
+                                  DfvModfVblufs info) {
 
-        Copies c = (Copies)aset.get(Copies.class);
-        if (c != null) {
-            info.dmFields |= DM_COPIES;
-            info.copies = (short)c.getValue();
+        Copifs d = (Copifs)bsft.gft(Copifs.dlbss);
+        if (d != null) {
+            info.dmFiflds |= DM_COPIES;
+            info.dopifs = (siort)d.gftVbluf();
         }
 
-        SheetCollate sc = (SheetCollate)aset.get(SheetCollate.class);
-        if (sc != null) {
-            info.dmFields |= DM_COLLATE;
-            info.collate = (sc == SheetCollate.COLLATED) ?
+        SifftCollbtf sd = (SifftCollbtf)bsft.gft(SifftCollbtf.dlbss);
+        if (sd != null) {
+            info.dmFiflds |= DM_COLLATE;
+            info.dollbtf = (sd == SifftCollbtf.COLLATED) ?
                 DMCOLLATE_TRUE : DMCOLLATE_FALSE;
         }
 
-        Chromaticity ch = (Chromaticity)aset.get(Chromaticity.class);
-        if (ch != null) {
-            info.dmFields |= DM_COLOR;
-            if (ch == Chromaticity.COLOR) {
-                info.color = DMCOLOR_COLOR;
-            } else {
-                info.color = DMCOLOR_MONOCHROME;
+        Cirombtidity di = (Cirombtidity)bsft.gft(Cirombtidity.dlbss);
+        if (di != null) {
+            info.dmFiflds |= DM_COLOR;
+            if (di == Cirombtidity.COLOR) {
+                info.dolor = DMCOLOR_COLOR;
+            } flsf {
+                info.dolor = DMCOLOR_MONOCHROME;
             }
         }
 
-        Sides s = (Sides)aset.get(Sides.class);
+        Sidfs s = (Sidfs)bsft.gft(Sidfs.dlbss);
         if (s != null) {
-            info.dmFields |= DM_DUPLEX;
-            if (s == Sides.TWO_SIDED_LONG_EDGE) {
-                info.duplex = DMDUP_VERTICAL;
-            } else if (s == Sides.TWO_SIDED_SHORT_EDGE) {
-                info.duplex = DMDUP_HORIZONTAL;
-            } else { // Sides.ONE_SIDED
-                info.duplex = DMDUP_SIMPLEX;
+            info.dmFiflds |= DM_DUPLEX;
+            if (s == Sidfs.TWO_SIDED_LONG_EDGE) {
+                info.duplfx = DMDUP_VERTICAL;
+            } flsf if (s == Sidfs.TWO_SIDED_SHORT_EDGE) {
+                info.duplfx = DMDUP_HORIZONTAL;
+            } flsf { // Sidfs.ONE_SIDED
+                info.duplfx = DMDUP_SIMPLEX;
             }
         }
 
-        OrientationRequested or =
-            (OrientationRequested)aset.get(OrientationRequested.class);
+        OrifntbtionRfqufstfd or =
+            (OrifntbtionRfqufstfd)bsft.gft(OrifntbtionRfqufstfd.dlbss);
         if (or != null) {
-            info.dmFields |= DM_ORIENTATION;
-            info.orient = (or == OrientationRequested.LANDSCAPE)
+            info.dmFiflds |= DM_ORIENTATION;
+            info.orifnt = (or == OrifntbtionRfqufstfd.LANDSCAPE)
                 ? DMORIENT_LANDSCAPE : DMORIENT_PORTRAIT;
         }
 
-        Media m = (Media)aset.get(Media.class);
-        if (m instanceof MediaSizeName) {
-            info.dmFields |= DM_PAPERSIZE;
-            MediaSizeName msn = (MediaSizeName)m;
-            info.paper =
-                (short)((Win32PrintService)myService).findPaperID(msn);
+        Mfdib m = (Mfdib)bsft.gft(Mfdib.dlbss);
+        if (m instbndfof MfdibSizfNbmf) {
+            info.dmFiflds |= DM_PAPERSIZE;
+            MfdibSizfNbmf msn = (MfdibSizfNbmf)m;
+            info.pbpfr =
+                (siort)((Win32PrintSfrvidf)mySfrvidf).findPbpfrID(msn);
         }
 
-        MediaTray mt = null;
-        if (m instanceof MediaTray) {
-            mt = (MediaTray)m;
+        MfdibTrby mt = null;
+        if (m instbndfof MfdibTrby) {
+            mt = (MfdibTrby)m;
         }
         if (mt == null) {
-            SunAlternateMedia sam =
-                (SunAlternateMedia)aset.get(SunAlternateMedia.class);
-            if (sam != null && (sam.getMedia() instanceof MediaTray)) {
-                mt = (MediaTray)sam.getMedia();
+            SunAltfrnbtfMfdib sbm =
+                (SunAltfrnbtfMfdib)bsft.gft(SunAltfrnbtfMfdib.dlbss);
+            if (sbm != null && (sbm.gftMfdib() instbndfof MfdibTrby)) {
+                mt = (MfdibTrby)sbm.gftMfdib();
             }
         }
 
         if (mt != null) {
-            info.dmFields |= DM_DEFAULTSOURCE;
-            info.bin = (short)(((Win32PrintService)myService).findTrayID(mt));
+            info.dmFiflds |= DM_DEFAULTSOURCE;
+            info.bin = (siort)(((Win32PrintSfrvidf)mySfrvidf).findTrbyID(mt));
         }
 
-        PrintQuality q = (PrintQuality)aset.get(PrintQuality.class);
+        PrintQublity q = (PrintQublity)bsft.gft(PrintQublity.dlbss);
         if (q != null) {
-            info.dmFields |= DM_PRINTQUALITY;
-            if (q == PrintQuality.DRAFT) {
-                info.xres_quality = DMRES_DRAFT;
-            } else if (q == PrintQuality.HIGH) {
-                info.xres_quality = DMRES_HIGH;
-            } else {
-                info.xres_quality = DMRES_MEDIUM;
+            info.dmFiflds |= DM_PRINTQUALITY;
+            if (q == PrintQublity.DRAFT) {
+                info.xrfs_qublity = DMRES_DRAFT;
+            } flsf if (q == PrintQublity.HIGH) {
+                info.xrfs_qublity = DMRES_HIGH;
+            } flsf {
+                info.xrfs_qublity = DMRES_MEDIUM;
             }
         }
 
-        PrinterResolution r =
-            (PrinterResolution)aset.get(PrinterResolution.class);
+        PrintfrRfsolution r =
+            (PrintfrRfsolution)bsft.gft(PrintfrRfsolution.dlbss);
         if (r != null) {
-            info.dmFields |= DM_PRINTQUALITY | DM_YRESOLUTION;
-            info.xres_quality =
-                (short)r.getCrossFeedResolution(PrinterResolution.DPI);
-            info.yres = (short)r.getFeedResolution(PrinterResolution.DPI);
+            info.dmFiflds |= DM_PRINTQUALITY | DM_YRESOLUTION;
+            info.xrfs_qublity =
+                (siort)r.gftCrossFffdRfsolution(PrintfrRfsolution.DPI);
+            info.yrfs = (siort)r.gftFffdRfsolution(PrintfrRfsolution.DPI);
         }
     }
 
-    /* This method is called from native to update the values in the
-     * attribute set which originates from the cross-platform dialog,
-     * but updated by the native DocumentPropertiesUI which updates the
-     * devmode. This syncs the devmode back in to the attributes so that
-     * we can update the cross-platform dialog.
-     * The attribute set here is a temporary one installed whilst this
-     * happens,
+    /* Tiis mftiod is dbllfd from nbtivf to updbtf tif vblufs in tif
+     * bttributf sft wiidi originbtfs from tif dross-plbtform diblog,
+     * but updbtfd by tif nbtivf DodumfntPropfrtifsUI wiidi updbtfs tif
+     * dfvmodf. Tiis synds tif dfvmodf bbdk in to tif bttributfs so tibt
+     * wf dbn updbtf tif dross-plbtform diblog.
+     * Tif bttributf sft ifrf is b tfmporbry onf instbllfd wiilst tiis
+     * ibppfns,
      */
-    private final void setJobAttributes(PrintRequestAttributeSet attributes,
-                                        int fields, int values,
-                                        short copies,
-                                        short dmPaperSize,
-                                        short dmPaperWidth,
-                                        short dmPaperLength,
-                                        short dmDefaultSource,
-                                        short xRes,
-                                        short yRes) {
+    privbtf finbl void sftJobAttributfs(PrintRfqufstAttributfSft bttributfs,
+                                        int fiflds, int vblufs,
+                                        siort dopifs,
+                                        siort dmPbpfrSizf,
+                                        siort dmPbpfrWidti,
+                                        siort dmPbpfrLfngti,
+                                        siort dmDffbultSourdf,
+                                        siort xRfs,
+                                        siort yRfs) {
 
-        if (attributes == null) {
-            return;
+        if (bttributfs == null) {
+            rfturn;
         }
 
-        if ((fields & DM_COPIES) != 0) {
-            attributes.add(new Copies(copies));
+        if ((fiflds & DM_COPIES) != 0) {
+            bttributfs.bdd(nfw Copifs(dopifs));
         }
 
-        if ((fields & DM_COLLATE) != 0) {
-            if ((values & SET_COLLATED) != 0) {
-                attributes.add(SheetCollate.COLLATED);
-            } else {
-                attributes.add(SheetCollate.UNCOLLATED);
+        if ((fiflds & DM_COLLATE) != 0) {
+            if ((vblufs & SET_COLLATED) != 0) {
+                bttributfs.bdd(SifftCollbtf.COLLATED);
+            } flsf {
+                bttributfs.bdd(SifftCollbtf.UNCOLLATED);
             }
         }
 
-        if ((fields & DM_ORIENTATION) != 0) {
-            if ((values & SET_ORIENTATION) != 0) {
-                attributes.add(OrientationRequested.LANDSCAPE);
-            } else {
-                attributes.add(OrientationRequested.PORTRAIT);
+        if ((fiflds & DM_ORIENTATION) != 0) {
+            if ((vblufs & SET_ORIENTATION) != 0) {
+                bttributfs.bdd(OrifntbtionRfqufstfd.LANDSCAPE);
+            } flsf {
+                bttributfs.bdd(OrifntbtionRfqufstfd.PORTRAIT);
             }
         }
 
-        if ((fields & DM_COLOR) != 0) {
-            if ((values & SET_COLOR) != 0) {
-                attributes.add(Chromaticity.COLOR);
-            } else {
-                attributes.add(Chromaticity.MONOCHROME);
+        if ((fiflds & DM_COLOR) != 0) {
+            if ((vblufs & SET_COLOR) != 0) {
+                bttributfs.bdd(Cirombtidity.COLOR);
+            } flsf {
+                bttributfs.bdd(Cirombtidity.MONOCHROME);
             }
         }
 
-        if ((fields & DM_PRINTQUALITY) != 0) {
-            /* value < 0 indicates quality setting.
-             * value > 0 indicates X resolution. In that case
-             * hopefully we will also find y-resolution specified.
-             * If its not, assume its the same as x-res.
-             * Maybe Java code should try to reconcile this against
-             * the printers claimed set of supported resolutions.
+        if ((fiflds & DM_PRINTQUALITY) != 0) {
+            /* vbluf < 0 indidbtfs qublity sftting.
+             * vbluf > 0 indidbtfs X rfsolution. In tibt dbsf
+             * iopffully wf will blso find y-rfsolution spfdififd.
+             * If its not, bssumf its tif sbmf bs x-rfs.
+             * Mbybf Jbvb dodf siould try to rfdondilf tiis bgbinst
+             * tif printfrs dlbimfd sft of supportfd rfsolutions.
              */
-            if (xRes < 0) {
-                PrintQuality quality;
-                if ((values & SET_RES_LOW) != 0) {
-                    quality = PrintQuality.DRAFT;
-                } else if ((fields & SET_RES_HIGH) != 0) {
-                    quality = PrintQuality.HIGH;
-                } else {
-                    quality = PrintQuality.NORMAL;
+            if (xRfs < 0) {
+                PrintQublity qublity;
+                if ((vblufs & SET_RES_LOW) != 0) {
+                    qublity = PrintQublity.DRAFT;
+                } flsf if ((fiflds & SET_RES_HIGH) != 0) {
+                    qublity = PrintQublity.HIGH;
+                } flsf {
+                    qublity = PrintQublity.NORMAL;
                 }
-                attributes.add(quality);
-            } else if (xRes > 0 && yRes > 0) {
-                attributes.add(
-                    new PrinterResolution(xRes, yRes, PrinterResolution.DPI));
+                bttributfs.bdd(qublity);
+            } flsf if (xRfs > 0 && yRfs > 0) {
+                bttributfs.bdd(
+                    nfw PrintfrRfsolution(xRfs, yRfs, PrintfrRfsolution.DPI));
             }
         }
 
-        if ((fields & DM_DUPLEX) != 0) {
-            Sides sides;
-            if ((values & SET_DUP_VERTICAL) != 0) {
-                sides = Sides.TWO_SIDED_LONG_EDGE;
-            } else if ((values & SET_DUP_HORIZONTAL) != 0) {
-                sides = Sides.TWO_SIDED_SHORT_EDGE;
-            } else {
-                sides = Sides.ONE_SIDED;
+        if ((fiflds & DM_DUPLEX) != 0) {
+            Sidfs sidfs;
+            if ((vblufs & SET_DUP_VERTICAL) != 0) {
+                sidfs = Sidfs.TWO_SIDED_LONG_EDGE;
+            } flsf if ((vblufs & SET_DUP_HORIZONTAL) != 0) {
+                sidfs = Sidfs.TWO_SIDED_SHORT_EDGE;
+            } flsf {
+                sidfs = Sidfs.ONE_SIDED;
             }
-            attributes.add(sides);
+            bttributfs.bdd(sidfs);
         }
 
-        if ((fields & DM_PAPERSIZE) != 0) {
-            addPaperSize(attributes, dmPaperSize, dmPaperWidth, dmPaperLength);
+        if ((fiflds & DM_PAPERSIZE) != 0) {
+            bddPbpfrSizf(bttributfs, dmPbpfrSizf, dmPbpfrWidti, dmPbpfrLfngti);
         }
 
-        if ((fields & DM_DEFAULTSOURCE) != 0) {
-            MediaTray tray =
-                ((Win32PrintService)myService).findMediaTray(dmDefaultSource);
-            attributes.add(new SunAlternateMedia(tray));
+        if ((fiflds & DM_DEFAULTSOURCE) != 0) {
+            MfdibTrby trby =
+                ((Win32PrintSfrvidf)mySfrvidf).findMfdibTrby(dmDffbultSourdf);
+            bttributfs.bdd(nfw SunAltfrnbtfMfdib(trby));
         }
     }
 
-    private native boolean showDocProperties(long hWnd,
-                                             PrintRequestAttributeSet aset,
-                                             int dmFields,
-                                             short copies,
-                                             short collate,
-                                             short color,
-                                             short duplex,
-                                             short orient,
-                                             short paper,
-                                             short bin,
-                                             short xres_quality,
-                                             short yres);
+    privbtf nbtivf boolfbn siowDodPropfrtifs(long iWnd,
+                                             PrintRfqufstAttributfSft bsft,
+                                             int dmFiflds,
+                                             siort dopifs,
+                                             siort dollbtf,
+                                             siort dolor,
+                                             siort duplfx,
+                                             siort orifnt,
+                                             siort pbpfr,
+                                             siort bin,
+                                             siort xrfs_qublity,
+                                             siort yrfs);
 
-    @SuppressWarnings("deprecation")
-    public PrintRequestAttributeSet
-        showDocumentProperties(Window owner,
-                               PrintService service,
-                               PrintRequestAttributeSet aset)
+    @SupprfssWbrnings("dfprfdbtion")
+    publid PrintRfqufstAttributfSft
+        siowDodumfntPropfrtifs(Window ownfr,
+                               PrintSfrvidf sfrvidf,
+                               PrintRfqufstAttributfSft bsft)
     {
         try {
-            setNativePrintServiceIfNeeded(service.getName());
-        } catch (PrinterException e) {
+            sftNbtivfPrintSfrvidfIfNffdfd(sfrvidf.gftNbmf());
+        } dbtdi (PrintfrExdfption f) {
         }
-        long hWnd = ((WWindowPeer)(owner.getPeer())).getHWnd();
-        DevModeValues info = new DevModeValues();
-        getDevModeValues(aset, info);
-        boolean ok =
-            showDocProperties(hWnd, aset,
-                              info.dmFields,
-                              info.copies,
-                              info.collate,
-                              info.color,
-                              info.duplex,
-                              info.orient,
-                              info.paper,
+        long iWnd = ((WWindowPffr)(ownfr.gftPffr())).gftHWnd();
+        DfvModfVblufs info = nfw DfvModfVblufs();
+        gftDfvModfVblufs(bsft, info);
+        boolfbn ok =
+            siowDodPropfrtifs(iWnd, bsft,
+                              info.dmFiflds,
+                              info.dopifs,
+                              info.dollbtf,
+                              info.dolor,
+                              info.duplfx,
+                              info.orifnt,
+                              info.pbpfr,
                               info.bin,
-                              info.xres_quality,
-                              info.yres);
+                              info.xrfs_qublity,
+                              info.yrfs);
 
         if (ok) {
-            return aset;
-        } else {
-            return null;
+            rfturn bsft;
+        } flsf {
+            rfturn null;
         }
     }
 
-    /* Printer Resolution. See also getXRes() and getYRes() */
-    private final void setResolutionDPI(int xres, int yres) {
-        if (attributes != null) {
-            PrinterResolution res =
-                new PrinterResolution(xres, yres, PrinterResolution.DPI);
-            attributes.add(res);
+    /* Printfr Rfsolution. Sff blso gftXRfs() bnd gftYRfs() */
+    privbtf finbl void sftRfsolutionDPI(int xrfs, int yrfs) {
+        if (bttributfs != null) {
+            PrintfrRfsolution rfs =
+                nfw PrintfrRfsolution(xrfs, yrfs, PrintfrRfsolution.DPI);
+            bttributfs.bdd(rfs);
         }
-        mAttXRes = xres;
-        mAttYRes = yres;
+        mAttXRfs = xrfs;
+        mAttYRfs = yrfs;
     }
 
-    private void setResolutionAttrib(Attribute attr) {
-        PrinterResolution pr = (PrinterResolution)attr;
-        mAttXRes = pr.getCrossFeedResolution(PrinterResolution.DPI);
-        mAttYRes = pr.getFeedResolution(PrinterResolution.DPI);
+    privbtf void sftRfsolutionAttrib(Attributf bttr) {
+        PrintfrRfsolution pr = (PrintfrRfsolution)bttr;
+        mAttXRfs = pr.gftCrossFffdRfsolution(PrintfrRfsolution.DPI);
+        mAttYRfs = pr.gftFffdRfsolution(PrintfrRfsolution.DPI);
     }
 
-    private void setPrinterNameAttrib(String printerName) {
-        PrintService service = this.getPrintService();
+    privbtf void sftPrintfrNbmfAttrib(String printfrNbmf) {
+        PrintSfrvidf sfrvidf = tiis.gftPrintSfrvidf();
 
-        if (printerName == null) {
-            return;
+        if (printfrNbmf == null) {
+            rfturn;
         }
 
-        if (service != null && printerName.equals(service.getName())) {
-            return;
-        } else {
-            PrintService []services = PrinterJob.lookupPrintServices();
-            for (int i=0; i<services.length; i++) {
-                if (printerName.equals(services[i].getName())) {
+        if (sfrvidf != null && printfrNbmf.fqubls(sfrvidf.gftNbmf())) {
+            rfturn;
+        } flsf {
+            PrintSfrvidf []sfrvidfs = PrintfrJob.lookupPrintSfrvidfs();
+            for (int i=0; i<sfrvidfs.lfngti; i++) {
+                if (printfrNbmf.fqubls(sfrvidfs[i].gftNbmf())) {
 
                     try {
-                        this.setPrintService(services[i]);
-                    } catch (PrinterException e) {
+                        tiis.sftPrintSfrvidf(sfrvidfs[i]);
+                    } dbtdi (PrintfrExdfption f) {
                     }
-                    return;
+                    rfturn;
                 }
             }
         }
-    //** END Functions called by native code for querying/updating attributes
+    //** END Fundtions dbllfd by nbtivf dodf for qufrying/updbting bttributfs
 
     }
 
-@SuppressWarnings("serial") // JDK-implementation class
-class PrintToFileErrorDialog extends Dialog implements ActionListener{
-    public PrintToFileErrorDialog(Frame parent, String title, String message,
-                           String buttonText) {
-        super(parent, title, true);
-        init (parent, title, message, buttonText);
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+dlbss PrintToFilfErrorDiblog fxtfnds Diblog implfmfnts AdtionListfnfr{
+    publid PrintToFilfErrorDiblog(Frbmf pbrfnt, String titlf, String mfssbgf,
+                           String buttonTfxt) {
+        supfr(pbrfnt, titlf, truf);
+        init (pbrfnt, titlf, mfssbgf, buttonTfxt);
     }
 
-    public PrintToFileErrorDialog(Dialog parent, String title, String message,
-                           String buttonText) {
-        super(parent, title, true);
-        init (parent, title, message, buttonText);
+    publid PrintToFilfErrorDiblog(Diblog pbrfnt, String titlf, String mfssbgf,
+                           String buttonTfxt) {
+        supfr(pbrfnt, titlf, truf);
+        init (pbrfnt, titlf, mfssbgf, buttonTfxt);
     }
 
-    private void init(Component parent, String  title, String message,
-                      String buttonText) {
-        Panel p = new Panel();
-        add("Center", new Label(message));
-        Button btn = new Button(buttonText);
-        btn.addActionListener(this);
-        p.add(btn);
-        add("South", p);
-        pack();
+    privbtf void init(Componfnt pbrfnt, String  titlf, String mfssbgf,
+                      String buttonTfxt) {
+        Pbnfl p = nfw Pbnfl();
+        bdd("Cfntfr", nfw Lbbfl(mfssbgf));
+        Button btn = nfw Button(buttonTfxt);
+        btn.bddAdtionListfnfr(tiis);
+        p.bdd(btn);
+        bdd("Souti", p);
+        pbdk();
 
-        Dimension dDim = getSize();
-        if (parent != null) {
-            Rectangle fRect = parent.getBounds();
-            setLocation(fRect.x + ((fRect.width - dDim.width) / 2),
-                        fRect.y + ((fRect.height - dDim.height) / 2));
+        Dimfnsion dDim = gftSizf();
+        if (pbrfnt != null) {
+            Rfdtbnglf fRfdt = pbrfnt.gftBounds();
+            sftLodbtion(fRfdt.x + ((fRfdt.widti - dDim.widti) / 2),
+                        fRfdt.y + ((fRfdt.ifigit - dDim.ifigit) / 2));
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        setVisible(false);
-        dispose();
-        return;
+    @Ovfrridf
+    publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
+        sftVisiblf(fblsf);
+        disposf();
+        rfturn;
     }
 }
 
@@ -2238,8 +2238,8 @@ class PrintToFileErrorDialog extends Dialog implements ActionListener{
 
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblizf JNI fifld bnd mftiod ids
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
 }

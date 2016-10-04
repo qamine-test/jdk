@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.util.Arrays;  // JDK1.2
-import java.io.OutputStream;
-import javax.naming.ldap.Control;
+import jbvb.util.Arrbys;  // JDK1.2
+import jbvb.io.OutputStrfbm;
+import jbvbx.nbming.ldbp.Control;
 
 /**
- * Represents the identity of a 'simple' authenticated LDAP connection.
- * In addition to ClientId information, this class contains also the
- * username and password.
+ * Rfprfsfnts tif idfntity of b 'simplf' butifntidbtfd LDAP donnfdtion.
+ * In bddition to ClifntId informbtion, tiis dlbss dontbins blso tif
+ * usfrnbmf bnd pbssword.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
-class SimpleClientId extends ClientId {
-    final private String username;
-    final private Object passwd;
-    final private int myHash;
+dlbss SimplfClifntId fxtfnds ClifntId {
+    finbl privbtf String usfrnbmf;
+    finbl privbtf Objfdt pbsswd;
+    finbl privbtf int myHbsi;
 
-    SimpleClientId(int version, String hostname, int port,
-        String protocol, Control[] bindCtls, OutputStream trace,
-        String socketFactory, String username, Object passwd) {
+    SimplfClifntId(int vfrsion, String iostnbmf, int port,
+        String protodol, Control[] bindCtls, OutputStrfbm trbdf,
+        String sodkftFbdtory, String usfrnbmf, Objfdt pbsswd) {
 
-        super(version, hostname, port, protocol, bindCtls, trace,
-                socketFactory);
+        supfr(vfrsion, iostnbmf, port, protodol, bindCtls, trbdf,
+                sodkftFbdtory);
 
-        this.username = username;
-        if (passwd == null) {
-            this.passwd = null;
-        } else if (passwd instanceof String) {
-            this.passwd = passwd;
-        } else if (passwd instanceof byte[]) {
-            this.passwd = ((byte[])passwd).clone();
-        } else if (passwd instanceof char[]) {
-            this.passwd = ((char[])passwd).clone();
-        } else {
-            this.passwd = passwd;
+        tiis.usfrnbmf = usfrnbmf;
+        if (pbsswd == null) {
+            tiis.pbsswd = null;
+        } flsf if (pbsswd instbndfof String) {
+            tiis.pbsswd = pbsswd;
+        } flsf if (pbsswd instbndfof bytf[]) {
+            tiis.pbsswd = ((bytf[])pbsswd).dlonf();
+        } flsf if (pbsswd instbndfof dibr[]) {
+            tiis.pbsswd = ((dibr[])pbsswd).dlonf();
+        } flsf {
+            tiis.pbsswd = pbsswd;
         }
 
-        myHash = super.hashCode()
-            + (username != null ? username.hashCode() : 0)
-            + (passwd != null ? passwd.hashCode() : 0);
+        myHbsi = supfr.ibsiCodf()
+            + (usfrnbmf != null ? usfrnbmf.ibsiCodf() : 0)
+            + (pbsswd != null ? pbsswd.ibsiCodf() : 0);
     }
 
-    public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof SimpleClientId)) {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null || !(obj instbndfof SimplfClifntId)) {
+            rfturn fblsf;
         }
 
-        SimpleClientId other = (SimpleClientId)obj;
+        SimplfClifntId otifr = (SimplfClifntId)obj;
 
-        return super.equals(obj)
-            && (username == other.username // null OK
-                || (username != null && username.equals(other.username)))
-            && ((passwd == other.passwd)  // null OK
-                || (passwd != null && other.passwd != null
-                    && (((passwd instanceof String) && passwd.equals(other.passwd))
-                        || ((passwd instanceof byte[])
-                            && (other.passwd instanceof byte[])
-                            && Arrays.equals((byte[])passwd, (byte[])other.passwd))
-                        || ((passwd instanceof char[])
-                            && (other.passwd instanceof char[])
-                            && Arrays.equals((char[])passwd, (char[])other.passwd)))));
+        rfturn supfr.fqubls(obj)
+            && (usfrnbmf == otifr.usfrnbmf // null OK
+                || (usfrnbmf != null && usfrnbmf.fqubls(otifr.usfrnbmf)))
+            && ((pbsswd == otifr.pbsswd)  // null OK
+                || (pbsswd != null && otifr.pbsswd != null
+                    && (((pbsswd instbndfof String) && pbsswd.fqubls(otifr.pbsswd))
+                        || ((pbsswd instbndfof bytf[])
+                            && (otifr.pbsswd instbndfof bytf[])
+                            && Arrbys.fqubls((bytf[])pbsswd, (bytf[])otifr.pbsswd))
+                        || ((pbsswd instbndfof dibr[])
+                            && (otifr.pbsswd instbndfof dibr[])
+                            && Arrbys.fqubls((dibr[])pbsswd, (dibr[])otifr.pbsswd)))));
 
     }
 
-    public int hashCode() {
-        return myHash;
+    publid int ibsiCodf() {
+        rfturn myHbsi;
     }
 
-    public String toString() {
-        return super.toString() + ":" + username; // omit password for security
+    publid String toString() {
+        rfturn supfr.toString() + ":" + usfrnbmf; // omit pbssword for sfdurity
     }
 }

@@ -1,0 +1,186 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.util.Sft;
+
+/**
+ * Intfrfbdf for bn X.509 fxtfnsion.
+ *
+ * <p>Thf fxtfnsions dffinfd for X.509 v3
+ * {@link X509Cfrtifidbtf Cfrtifidbtfs} bnd v2
+ * {@link X509CRL CRLs} (Cfrtifidbtf Rfvodbtion
+ * Lists) providf mfthods
+ * for bssodibting bdditionbl bttributfs with usfrs or publid kfys,
+ * for mbnbging thf dfrtifidbtion hifrbrdhy, bnd for mbnbging CRL
+ * distribution. Thf X.509 fxtfnsions formbt blso bllows dommunitifs
+ * to dffinf privbtf fxtfnsions to dbrry informbtion uniquf to thosf
+ * dommunitifs.
+ *
+ * <p>Ebdh fxtfnsion in b dfrtifidbtf/CRL mby bf dfsignbtfd bs
+ * dritidbl or non-dritidbl.  A dfrtifidbtf/CRL-using systfm (bn bpplidbtion
+ * vblidbting b dfrtifidbtf/CRL) must rfjfdt thf dfrtifidbtf/CRL if it
+ * fndountfrs b dritidbl fxtfnsion it dofs not rfdognizf.  A non-dritidbl
+ * fxtfnsion mby bf ignorfd if it is not rfdognizfd.
+ * <p>
+ * Thf ASN.1 dffinition for this is:
+ * <prf>
+ * Extfnsions  ::=  SEQUENCE SIZE (1..MAX) OF Extfnsion
+ *
+ * Extfnsion  ::=  SEQUENCE  {
+ *     fxtnId        OBJECT IDENTIFIER,
+ *     dritidbl      BOOLEAN DEFAULT FALSE,
+ *     fxtnVbluf     OCTET STRING
+ *                   -- dontbins b DER fndoding of b vbluf
+ *                   -- of thf typf rfgistfrfd for usf with
+ *                   -- thf fxtnId objfdt idfntififr vbluf
+ * }
+ * </prf>
+ * Sindf not bll fxtfnsions brf known, thf {@dodf gftExtfnsionVbluf}
+ * mfthod rfturns thf DER-fndodfd OCTET STRING of thf
+ * fxtfnsion vbluf (i.f., thf {@dodf fxtnVbluf}). This dbn thfn
+ * bf hbndlfd by b <fm>Clbss</fm> thbt undfrstbnds thf fxtfnsion.
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+
+publid intfrfbdf X509Extfnsion {
+
+    /**
+     * Chfdk if thfrf is b dritidbl fxtfnsion thbt is not supportfd.
+     *
+     * @rfturn {@dodf truf} if b dritidbl fxtfnsion is found thbt is
+     * not supportfd, othfrwisf {@dodf fblsf}.
+     */
+    publid boolfbn hbsUnsupportfdCritidblExtfnsion();
+
+    /**
+     * Gfts b Sft of thf OID strings for thf fxtfnsion(s) mbrkfd
+     * CRITICAL in thf dfrtifidbtf/CRL mbnbgfd by thf objfdt
+     * implfmfnting this intfrfbdf.
+     *
+     * Hfrf is sbmplf dodf to gft b Sft of dritidbl fxtfnsions from bn
+     * X509Cfrtifidbtf bnd print thf OIDs:
+     * <prf>{@dodf
+     * X509Cfrtifidbtf dfrt = null;
+     * try (InputStrfbm inStrm = nfw FilfInputStrfbm("DER-fndodfd-Cfrt")) {
+     *     CfrtifidbtfFbdtory df = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+     *     dfrt = (X509Cfrtifidbtf)df.gfnfrbtfCfrtifidbtf(inStrm);
+     * }
+     *
+     * Sft<String> dritSft = dfrt.gftCritidblExtfnsionOIDs();
+     * if (dritSft != null && !dritSft.isEmpty()) {
+     *     Systfm.out.println("Sft of dritidbl fxtfnsions:");
+     *     for (String oid : dritSft) {
+     *         Systfm.out.println(oid);
+     *     }
+     * }
+     * }</prf>
+     * @rfturn b Sft (or bn fmpty Sft if nonf brf mbrkfd dritidbl) of
+     * thf fxtfnsion OID strings for fxtfnsions thbt brf mbrkfd dritidbl.
+     * If thfrf brf no fxtfnsions prfsfnt bt bll, thfn this mfthod rfturns
+     * null.
+     */
+    publid Sft<String> gftCritidblExtfnsionOIDs();
+
+    /**
+     * Gfts b Sft of thf OID strings for thf fxtfnsion(s) mbrkfd
+     * NON-CRITICAL in thf dfrtifidbtf/CRL mbnbgfd by thf objfdt
+     * implfmfnting this intfrfbdf.
+     *
+     * Hfrf is sbmplf dodf to gft b Sft of non-dritidbl fxtfnsions from bn
+     * X509CRL rfvokfd dfrtifidbtf fntry bnd print thf OIDs:
+     * <prf>{@dodf
+     * CfrtifidbtfFbdtory df = null;
+     * X509CRL drl = null;
+     * try (InputStrfbm inStrm = nfw FilfInputStrfbm("DER-fndodfd-CRL")) {
+     *     df = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+     *     drl = (X509CRL)df.gfnfrbtfCRL(inStrm);
+     * }
+     *
+     * bytf[] dfrtDbtb = <DER-fndodfd dfrtifidbtf dbtb>
+     * BytfArrbyInputStrfbm bbis = nfw BytfArrbyInputStrfbm(dfrtDbtb);
+     * X509Cfrtifidbtf dfrt = (X509Cfrtifidbtf)df.gfnfrbtfCfrtifidbtf(bbis);
+     * X509CRLEntry bbdCfrt =
+     *              drl.gftRfvokfdCfrtifidbtf(dfrt.gftSfriblNumbfr());
+     *
+     * if (bbdCfrt != null) {
+     *     Sft<String> nonCritSft = bbdCfrt.gftNonCritidblExtfnsionOIDs();
+     *     if (nonCritSft != null)
+     *         for (String oid : nonCritSft) {
+     *             Systfm.out.println(oid);
+     *         }
+     * }
+     * }</prf>
+     *
+     * @rfturn b Sft (or bn fmpty Sft if nonf brf mbrkfd non-dritidbl) of
+     * thf fxtfnsion OID strings for fxtfnsions thbt brf mbrkfd non-dritidbl.
+     * If thfrf brf no fxtfnsions prfsfnt bt bll, thfn this mfthod rfturns
+     * null.
+     */
+    publid Sft<String> gftNonCritidblExtfnsionOIDs();
+
+    /**
+     * Gfts thf DER-fndodfd OCTET string for thf fxtfnsion vbluf
+     * (<fm>fxtnVbluf</fm>) idfntififd by thf pbssfd-in {@dodf oid}
+     * String.
+     * Thf {@dodf oid} string is
+     * rfprfsfntfd by b sft of nonnfgbtivf wholf numbfrs sfpbrbtfd
+     * by pfriods.
+     *
+     * <p>For fxbmplf:<br>
+     * <tbblf bordfr=groovf summbry="Exbmplfs of OIDs bnd fxtfnsion nbmfs">
+     * <tr>
+     * <th>OID <fm>(Objfdt Idfntififr)</fm></th>
+     * <th>Extfnsion Nbmf</th></tr>
+     * <tr><td>2.5.29.14</td>
+     * <td>SubjfdtKfyIdfntififr</td></tr>
+     * <tr><td>2.5.29.15</td>
+     * <td>KfyUsbgf</td></tr>
+     * <tr><td>2.5.29.16</td>
+     * <td>PrivbtfKfyUsbgf</td></tr>
+     * <tr><td>2.5.29.17</td>
+     * <td>SubjfdtAltfrnbtivfNbmf</td></tr>
+     * <tr><td>2.5.29.18</td>
+     * <td>IssufrAltfrnbtivfNbmf</td></tr>
+     * <tr><td>2.5.29.19</td>
+     * <td>BbsidConstrbints</td></tr>
+     * <tr><td>2.5.29.30</td>
+     * <td>NbmfConstrbints</td></tr>
+     * <tr><td>2.5.29.33</td>
+     * <td>PolidyMbppings</td></tr>
+     * <tr><td>2.5.29.35</td>
+     * <td>AuthorityKfyIdfntififr</td></tr>
+     * <tr><td>2.5.29.36</td>
+     * <td>PolidyConstrbints</td></tr>
+     * </tbblf>
+     *
+     * @pbrbm oid thf Objfdt Idfntififr vbluf for thf fxtfnsion.
+     * @rfturn thf DER-fndodfd odtft string of thf fxtfnsion vbluf or
+     * null if it is not prfsfnt.
+     */
+    publid bytf[] gftExtfnsionVbluf(String oid);
+}

@@ -1,0 +1,257 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+/**
+ * This dlbss is usfd by thf qufry-building mfdhbnism to rfprfsfnt binbry
+ * opfrbtions.
+ * @sfribl indludf
+ *
+ * @sindf 1.5
+ */
+dlbss BinbryOpVblufExp fxtfnds QufryEvbl implfmfnts VblufExp {
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1216286847881456786L;
+
+    /**
+     * @sfribl Thf opfrbtor
+     */
+    privbtf int op;
+
+    /**
+     * @sfribl Thf first vbluf
+     */
+    privbtf VblufExp fxp1;
+
+    /**
+     * @sfribl Thf sfdond vbluf
+     */
+    privbtf VblufExp fxp2;
+
+
+    /**
+     * Bbsid Construdtor.
+     */
+    publid BinbryOpVblufExp() {
+    }
+
+    /**
+     * Crfbtfs b nfw BinbryOpVblufExp using opfrbtor o bpplifd on v1 bnd
+     * v2 vblufs.
+     */
+    publid BinbryOpVblufExp(int o, VblufExp v1, VblufExp v2) {
+        op   = o;
+        fxp1 = v1;
+        fxp2 = v2;
+    }
+
+
+    /**
+     * Rfturns thf opfrbtor of thf vbluf fxprfssion.
+     */
+    publid int gftOpfrbtor()  {
+        rfturn op;
+    }
+
+    /**
+     * Rfturns thf lfft vbluf of thf vbluf fxprfssion.
+     */
+    publid VblufExp gftLfftVbluf()  {
+        rfturn fxp1;
+    }
+
+    /**
+     * Rfturns thf right vbluf of thf vbluf fxprfssion.
+     */
+    publid VblufExp gftRightVbluf()  {
+        rfturn fxp2;
+    }
+
+    /**
+     * Applifs thf BinbryOpVblufExp on b MBfbn.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn on whidh thf BinbryOpVblufExp will bf bpplifd.
+     *
+     * @rfturn  Thf VblufExp.
+     *
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
+     */
+    publid VblufExp bpply(ObjfdtNbmf nbmf) throws BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption  {
+        VblufExp vbl1 = fxp1.bpply(nbmf);
+        VblufExp vbl2 = fxp2.bpply(nbmf);
+        String svbl1;
+        String svbl2;
+        doublf dvbl1;
+        doublf dvbl2;
+        long   lvbl1;
+        long   lvbl2;
+        boolfbn numfrid = vbl1 instbndfof NumfridVblufExp;
+
+        if (numfrid) {
+            if (((NumfridVblufExp)vbl1).isLong()) {
+                lvbl1 = ((NumfridVblufExp)vbl1).longVbluf();
+                lvbl2 = ((NumfridVblufExp)vbl2).longVbluf();
+
+                switdh (op) {
+                dbsf Qufry.PLUS:
+                    rfturn Qufry.vbluf(lvbl1 + lvbl2);
+                dbsf Qufry.TIMES:
+                    rfturn Qufry.vbluf(lvbl1 * lvbl2);
+                dbsf Qufry.MINUS:
+                    rfturn Qufry.vbluf(lvbl1 - lvbl2);
+                dbsf Qufry.DIV:
+                    rfturn Qufry.vbluf(lvbl1 / lvbl2);
+                }
+
+            } flsf {
+                dvbl1 = ((NumfridVblufExp)vbl1).doublfVbluf();
+                dvbl2 = ((NumfridVblufExp)vbl2).doublfVbluf();
+
+                switdh (op) {
+                dbsf Qufry.PLUS:
+                    rfturn Qufry.vbluf(dvbl1 + dvbl2);
+                dbsf Qufry.TIMES:
+                    rfturn Qufry.vbluf(dvbl1 * dvbl2);
+                dbsf Qufry.MINUS:
+                    rfturn Qufry.vbluf(dvbl1 - dvbl2);
+                dbsf Qufry.DIV:
+                    rfturn Qufry.vbluf(dvbl1 / dvbl2);
+                }
+            }
+        } flsf {
+            svbl1 = ((StringVblufExp)vbl1).gftVbluf();
+            svbl2 = ((StringVblufExp)vbl2).gftVbluf();
+
+            switdh (op) {
+            dbsf Qufry.PLUS:
+                rfturn nfw StringVblufExp(svbl1 + svbl2);
+            dffbult:
+                throw nfw BbdStringOpfrbtionExdfption(opString());
+            }
+        }
+
+        throw nfw BbdBinbryOpVblufExpExdfption(this);
+    }
+
+    /**
+     * Rfturns thf string rfprfsfnting thf objfdt
+     */
+    publid String toString()  {
+        try {
+            rfturn pbrfns(fxp1, truf) + " " + opString() + " " + pbrfns(fxp2, fblsf);
+        } dbtdh (BbdBinbryOpVblufExpExdfption fx) {
+            rfturn "invblid fxprfssion";
+        }
+    }
+
+    /*
+     * Add pbrfnthfsfs to thf givfn subfxprfssion if nfdfssbry to
+     * prfsfrvf mfbning.  Supposf this BinbryOpVblufExp is
+     * Qufry.timfs(Qufry.plus(Qufry.bttr("A"), Qufry.bttr("B")), Qufry.bttr("C")).
+     * Thfn thf originbl toString() logid would rfturn A + B * C.
+     * Wf dhfdk prfdfdfndfs in ordfr to rfturn (A + B) * C, whidh is thf
+     * mfbning of thf VblufExp.
+     *
+     * Wf nffd to bdd pbrfnthfsfs if thf unpbrfnthfsizfd fxprfssion would
+     * bf pbrsfd bs b difffrfnt VblufExp from thf originbl.
+     * Wf dbnnot omit pbrfnthfsfs fvfn whfn mbthfmbtidblly
+     * thf rfsult would bf fquivblfnt, bfdbusf wf do not know whfthfr thf
+     * numfrid vblufs will bf intfgfr or flobting-point.  Addition bnd
+     * multiplidbtion brf bssodibtivf for intfgfrs but not blwbys for
+     * flobting-point.
+     *
+     * So thf rulf is thbt wf omit pbrfnthfsfs if thf VblufExp
+     * is (A op1 B) op2 C bnd thf prfdfdfndf of op1 is grfbtfr thbn or
+     * fqubl to thbt of op2; or if thf VblufExp is A op1 (B op2 C) bnd
+     * thf prfdfdfndf of op2 is grfbtfr thbn thbt of op1.  (Thfrf brf two
+     * prfdfdfndfs: thbt of * bnd / is grfbtfr thbn thbt of + bnd -.)
+     * Thf dbsf of (A op1 B) op2 (C op3 D) bpplifs fbdh rulf in turn.
+     *
+     * Thf following fxbmplfs show thf rulfs in bdtion.  On thf lfft,
+     * thf originbl VblufExp.  On thf right, thf string rfprfsfntbtion.
+     *
+     * (A + B) + C     A + B + C
+     * (A * B) + C     A * B + C
+     * (A + B) * C     (A + B) * C
+     * (A * B) * C     A * B * C
+     * A + (B + C)     A + (B + C)
+     * A + (B * C)     A + B * C
+     * A * (B + C)     A * (B + C)
+     * A * (B * C)     A * (B * C)
+     */
+    privbtf String pbrfns(VblufExp subfxp, boolfbn lfft)
+    throws BbdBinbryOpVblufExpExdfption {
+        boolfbn omit;
+        if (subfxp instbndfof BinbryOpVblufExp) {
+            int subop = ((BinbryOpVblufExp) subfxp).op;
+            if (lfft)
+                omit = (prfdfdfndf(subop) >= prfdfdfndf(op));
+            flsf
+                omit = (prfdfdfndf(subop) > prfdfdfndf(op));
+        } flsf
+            omit = truf;
+
+        if (omit)
+            rfturn subfxp.toString();
+        flsf
+            rfturn "(" + subfxp + ")";
+    }
+
+    privbtf int prfdfdfndf(int xop) throws BbdBinbryOpVblufExpExdfption {
+        switdh (xop) {
+            dbsf Qufry.PLUS: dbsf Qufry.MINUS: rfturn 0;
+            dbsf Qufry.TIMES: dbsf Qufry.DIV: rfturn 1;
+            dffbult:
+                throw nfw BbdBinbryOpVblufExpExdfption(this);
+        }
+    }
+
+    privbtf String opString() throws BbdBinbryOpVblufExpExdfption {
+        switdh (op) {
+        dbsf Qufry.PLUS:
+            rfturn "+";
+        dbsf Qufry.TIMES:
+            rfturn "*";
+        dbsf Qufry.MINUS:
+            rfturn "-";
+        dbsf Qufry.DIV:
+            rfturn "/";
+        }
+
+        throw nfw BbdBinbryOpVblufExpExdfption(this);
+    }
+
+    @Dfprfdbtfd
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr s) {
+        supfr.sftMBfbnSfrvfr(s);
+     }
+ }

@@ -1,656 +1,656 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * The Toolkit class has two functions: it instantiates the AWT
- * ToolkitPeer's native methods, and provides the DLL's core functions.
+ * Tif Toolkit dlbss ibs two fundtions: it instbntibtfs tif AWT
+ * ToolkitPffr's nbtivf mftiods, bnd providfs tif DLL's dorf fundtions.
  *
- * There are two ways this DLL can be used: either as a dynamically-
- * loaded Java native library from the interpreter, or by a Windows-
- * specific app.  The first manner requires that the Toolkit provide
- * all support needed so the app can function as a first-class Windows
- * app, while the second assumes that the app will provide that
- * functionality.  Which mode this DLL functions in is determined by
- * which initialization paradigm is used. If the Toolkit is constructed
- * normally, then the Toolkit will have its own pump. If it is explicitly
- * initialized for an embedded environment (via a static method on
- * sun.awt.windows.WToolkit), then it will rely on an external message
+ * Tifrf brf two wbys tiis DLL dbn bf usfd: fitifr bs b dynbmidblly-
+ * lobdfd Jbvb nbtivf librbry from tif intfrprftfr, or by b Windows-
+ * spfdifid bpp.  Tif first mbnnfr rfquirfs tibt tif Toolkit providf
+ * bll support nffdfd so tif bpp dbn fundtion bs b first-dlbss Windows
+ * bpp, wiilf tif sfdond bssumfs tibt tif bpp will providf tibt
+ * fundtionblity.  Wiidi modf tiis DLL fundtions in is dftfrminfd by
+ * wiidi initiblizbtion pbrbdigm is usfd. If tif Toolkit is donstrudtfd
+ * normblly, tifn tif Toolkit will ibvf its own pump. If it is fxpliditly
+ * initiblizfd for bn fmbfddfd fnvironmfnt (vib b stbtid mftiod on
+ * sun.bwt.windows.WToolkit), tifn it will rfly on bn fxtfrnbl mfssbgf
  * pump.
  *
- * The most basic functionality needed is a Windows message pump (also
- * known as a message loop).  When an Java app is started as a console
- * app by the interpreter, the Toolkit needs to provide that message
- * pump if the AWT is dynamically loaded.
+ * Tif most bbsid fundtionblity nffdfd is b Windows mfssbgf pump (blso
+ * known bs b mfssbgf loop).  Wifn bn Jbvb bpp is stbrtfd bs b donsolf
+ * bpp by tif intfrprftfr, tif Toolkit nffds to providf tibt mfssbgf
+ * pump if tif AWT is dynbmidblly lobdfd.
  */
 
-#ifndef AWT_TOOLKIT_H
-#define AWT_TOOLKIT_H
+#ifndff AWT_TOOLKIT_H
+#dffinf AWT_TOOLKIT_H
 
-#include "awt.h"
-#include "awtmsg.h"
-#include "Trace.h"
+#indludf "bwt.i"
+#indludf "bwtmsg.i"
+#indludf "Trbdf.i"
 
-#include "sun_awt_windows_WToolkit.h"
+#indludf "sun_bwt_windows_WToolkit.i"
 
-class AwtObject;
-class AwtDialog;
-class AwtDropTarget;
+dlbss AwtObjfdt;
+dlbss AwtDiblog;
+dlbss AwtDropTbrgft;
 
-typedef VOID (CALLBACK* IDLEPROC)(VOID);
-typedef BOOL (CALLBACK* PEEKMESSAGEPROC)(MSG&);
+typfdff VOID (CALLBACK* IDLEPROC)(VOID);
+typfdff BOOL (CALLBACK* PEEKMESSAGEPROC)(MSG&);
 
-// Struct for _WInputMethod_enable|disableNativeIME method
-struct EnableNativeIMEStruct {
-    jobject self;
-    jobject peer;
-    jint context;
-    jboolean useNativeCompWindow;
+// Strudt for _WInputMftiod_fnbblf|disbblfNbtivfIME mftiod
+strudt EnbblfNbtivfIMEStrudt {
+    jobjfdt sflf;
+    jobjfdt pffr;
+    jint dontfxt;
+    jboolfbn usfNbtivfCompWindow;
 };
 
 /*
- * class JNILocalFrame
- * Push/PopLocalFrame helper
+ * dlbss JNILodblFrbmf
+ * Pusi/PopLodblFrbmf iflpfr
  */
-class JNILocalFrame {
-  public:
-    INLINE JNILocalFrame(JNIEnv *env, int size) {
-        m_env = env;
-        int result = m_env->PushLocalFrame(size);
-        if (result < 0) {
+dlbss JNILodblFrbmf {
+  publid:
+    INLINE JNILodblFrbmf(JNIEnv *fnv, int sizf) {
+        m_fnv = fnv;
+        int rfsult = m_fnv->PusiLodblFrbmf(sizf);
+        if (rfsult < 0) {
             DASSERT(FALSE);
-            throw std::bad_alloc();
+            tirow std::bbd_bllod();
         }
     }
-    INLINE ~JNILocalFrame() { m_env->PopLocalFrame(NULL); }
-  private:
-    JNIEnv* m_env;
+    INLINE ~JNILodblFrbmf() { m_fnv->PopLodblFrbmf(NULL); }
+  privbtf:
+    JNIEnv* m_fnv;
 };
 
 /*
- * class CriticalSection
+ * dlbss CritidblSfdtion
  * ~~~~~ ~~~~~~~~~~~~~~~~
- * Lightweight intra-process thread synchronization. Can only be used with
- * other critical sections, and only within the same process.
+ * Ligitwfigit intrb-prodfss tirfbd syndironizbtion. Cbn only bf usfd witi
+ * otifr dritidbl sfdtions, bnd only witiin tif sbmf prodfss.
  */
-class CriticalSection {
-  public:
-    INLINE  CriticalSection() { ::InitializeCriticalSection(&rep); }
-    INLINE ~CriticalSection() { ::DeleteCriticalSection(&rep); }
+dlbss CritidblSfdtion {
+  publid:
+    INLINE  CritidblSfdtion() { ::InitiblizfCritidblSfdtion(&rfp); }
+    INLINE ~CritidblSfdtion() { ::DflftfCritidblSfdtion(&rfp); }
 
-    class Lock {
-      public:
-        INLINE Lock(const CriticalSection& cs) : critSec(cs) {
-            (const_cast<CriticalSection &>(critSec)).Enter();
+    dlbss Lodk {
+      publid:
+        INLINE Lodk(donst CritidblSfdtion& ds) : dritSfd(ds) {
+            (donst_dbst<CritidblSfdtion &>(dritSfd)).Entfr();
         }
-        INLINE ~Lock() {
-            (const_cast<CriticalSection &>(critSec)).Leave();
+        INLINE ~Lodk() {
+            (donst_dbst<CritidblSfdtion &>(dritSfd)).Lfbvf();
         }
-      private:
-        const CriticalSection& critSec;
+      privbtf:
+        donst CritidblSfdtion& dritSfd;
     };
-    friend class Lock;
+    frifnd dlbss Lodk;
 
-  private:
-    CRITICAL_SECTION rep;
+  privbtf:
+    CRITICAL_SECTION rfp;
 
-    CriticalSection(const CriticalSection&);
-    const CriticalSection& operator =(const CriticalSection&);
+    CritidblSfdtion(donst CritidblSfdtion&);
+    donst CritidblSfdtion& opfrbtor =(donst CritidblSfdtion&);
 
-  public:
-    virtual void Enter() {
-        ::EnterCriticalSection(&rep);
+  publid:
+    virtubl void Entfr() {
+        ::EntfrCritidblSfdtion(&rfp);
     }
-    virtual BOOL TryEnter() {
-        return ::TryEnterCriticalSection(&rep);
+    virtubl BOOL TryEntfr() {
+        rfturn ::TryEntfrCritidblSfdtion(&rfp);
     }
-    virtual void Leave() {
-        ::LeaveCriticalSection(&rep);
+    virtubl void Lfbvf() {
+        ::LfbvfCritidblSfdtion(&rfp);
     }
 };
 
-// Macros for using CriticalSection objects that help trace
-// lock/unlock actions
+// Mbdros for using CritidblSfdtion objfdts tibt iflp trbdf
+// lodk/unlodk bdtions
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE __FILE__
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
 
-#define CRITICAL_SECTION_ENTER(cs) { \
-    J2dTraceLn4(J2D_TRACE_VERBOSE2, \
-                "CS.Wait:  tid, cs, file, line = 0x%x, 0x%x, %s, %d", \
-                GetCurrentThreadId(), &(cs), THIS_FILE, __LINE__); \
-    (cs).Enter(); \
-    J2dTraceLn4(J2D_TRACE_VERBOSE2, \
-                "CS.Enter: tid, cs, file, line = 0x%x, 0x%x, %s, %d", \
-                GetCurrentThreadId(), &(cs), THIS_FILE, __LINE__); \
+#dffinf CRITICAL_SECTION_ENTER(ds) { \
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE2, \
+                "CS.Wbit:  tid, ds, filf, linf = 0x%x, 0x%x, %s, %d", \
+                GftCurrfntTirfbdId(), &(ds), THIS_FILE, __LINE__); \
+    (ds).Entfr(); \
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE2, \
+                "CS.Entfr: tid, ds, filf, linf = 0x%x, 0x%x, %s, %d", \
+                GftCurrfntTirfbdId(), &(ds), THIS_FILE, __LINE__); \
 }
 
-#define CRITICAL_SECTION_LEAVE(cs) { \
-    J2dTraceLn4(J2D_TRACE_VERBOSE2, \
-                "CS.Leave: tid, cs, file, line = 0x%x, 0x%x, %s, %d", \
-                GetCurrentThreadId(), &(cs), THIS_FILE, __LINE__); \
-    (cs).Leave(); \
-    J2dTraceLn4(J2D_TRACE_VERBOSE2, \
-                "CS.Left:  tid, cs, file, line = 0x%x, 0x%x, %s, %d", \
-                GetCurrentThreadId(), &(cs), THIS_FILE, __LINE__); \
+#dffinf CRITICAL_SECTION_LEAVE(ds) { \
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE2, \
+                "CS.Lfbvf: tid, ds, filf, linf = 0x%x, 0x%x, %s, %d", \
+                GftCurrfntTirfbdId(), &(ds), THIS_FILE, __LINE__); \
+    (ds).Lfbvf(); \
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE2, \
+                "CS.Lfft:  tid, ds, filf, linf = 0x%x, 0x%x, %s, %d", \
+                GftCurrfntTirfbdId(), &(ds), THIS_FILE, __LINE__); \
 }
 
 /************************************************************************
- * AwtToolkit class
+ * AwtToolkit dlbss
  */
 
-class AwtToolkit {
-public:
-    enum {
+dlbss AwtToolkit {
+publid:
+    fnum {
         KB_STATE_SIZE = 256
     };
 
-    /* java.awt.Toolkit method ids */
-    static jmethodID getDefaultToolkitMID;
-    static jmethodID getFontMetricsMID;
-        static jmethodID insetsMID;
+    /* jbvb.bwt.Toolkit mftiod ids */
+    stbtid jmftiodID gftDffbultToolkitMID;
+    stbtid jmftiodID gftFontMftridsMID;
+        stbtid jmftiodID insftsMID;
 
-    /* sun.awt.windows.WToolkit ids */
-    static jmethodID windowsSettingChangeMID;
-    static jmethodID displayChangeMID;
+    /* sun.bwt.windows.WToolkit ids */
+    stbtid jmftiodID windowsSfttingCibngfMID;
+    stbtid jmftiodID displbyCibngfMID;
 
-    BOOL m_isDynamicLayoutSet;
+    BOOL m_isDynbmidLbyoutSft;
 
     AwtToolkit();
     ~AwtToolkit();
 
-    BOOL Initialize(BOOL localPump);
-    BOOL Dispose();
+    BOOL Initiblizf(BOOL lodblPump);
+    BOOL Disposf();
 
-    void SetDynamicLayout(BOOL dynamic);
-    BOOL IsDynamicLayoutSet();
-    BOOL IsDynamicLayoutSupported();
-    BOOL IsDynamicLayoutActive();
-    BOOL areExtraMouseButtonsEnabled();
-    void setExtraMouseButtonsEnabled(BOOL enable);
-    static UINT GetNumberOfButtons();
+    void SftDynbmidLbyout(BOOL dynbmid);
+    BOOL IsDynbmidLbyoutSft();
+    BOOL IsDynbmidLbyoutSupportfd();
+    BOOL IsDynbmidLbyoutAdtivf();
+    BOOL brfExtrbMousfButtonsEnbblfd();
+    void sftExtrbMousfButtonsEnbblfd(BOOL fnbblf);
+    stbtid UINT GftNumbfrOfButtons();
 
-    INLINE BOOL localPump() { return m_localPump; }
-    INLINE BOOL VerifyComponents() { return FALSE; } // TODO: Use new DebugHelper class to set this flag
-    INLINE HWND GetHWnd() { return m_toolkitHWnd; }
+    INLINE BOOL lodblPump() { rfturn m_lodblPump; }
+    INLINE BOOL VfrifyComponfnts() { rfturn FALSE; } // TODO: Usf nfw DfbugHflpfr dlbss to sft tiis flbg
+    INLINE HWND GftHWnd() { rfturn m_toolkitHWnd; }
 
-    INLINE HMODULE GetModuleHandle() { return m_dllHandle; }
-    INLINE void SetModuleHandle(HMODULE h) { m_dllHandle = h; }
+    INLINE HMODULE GftModulfHbndlf() { rfturn m_dllHbndlf; }
+    INLINE void SftModulfHbndlf(HMODULE i) { m_dllHbndlf = i; }
 
-    INLINE static DWORD MainThread() { return GetInstance().m_mainThreadId; }
-    INLINE void VerifyActive() throw (awt_toolkit_shutdown) {
-        if (!m_isActive && m_mainThreadId != ::GetCurrentThreadId()) {
-            throw awt_toolkit_shutdown();
+    INLINE stbtid DWORD MbinTirfbd() { rfturn GftInstbndf().m_mbinTirfbdId; }
+    INLINE void VfrifyAdtivf() tirow (bwt_toolkit_siutdown) {
+        if (!m_isAdtivf && m_mbinTirfbdId != ::GftCurrfntTirfbdId()) {
+            tirow bwt_toolkit_siutdown();
         }
     }
-    INLINE BOOL IsDisposed() { return m_isDisposed; }
-    static UINT GetMouseKeyState();
-    static void GetKeyboardState(PBYTE keyboardState);
+    INLINE BOOL IsDisposfd() { rfturn m_isDisposfd; }
+    stbtid UINT GftMousfKfyStbtf();
+    stbtid void GftKfybobrdStbtf(PBYTE kfybobrdStbtf);
 
-    static ATOM RegisterClass();
-    static void UnregisterClass();
-    INLINE LRESULT SendMessage(UINT msg, WPARAM wParam=0, LPARAM lParam=0) {
-        if (!m_isDisposed) {
-            return ::SendMessage(GetHWnd(), msg, wParam, lParam);
-        } else {
-            return NULL;
+    stbtid ATOM RfgistfrClbss();
+    stbtid void UnrfgistfrClbss();
+    INLINE LRESULT SfndMfssbgf(UINT msg, WPARAM wPbrbm=0, LPARAM lPbrbm=0) {
+        if (!m_isDisposfd) {
+            rfturn ::SfndMfssbgf(GftHWnd(), msg, wPbrbm, lPbrbm);
+        } flsf {
+            rfturn NULL;
         }
     }
-    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
-                                    LPARAM lParam);
-    static LRESULT CALLBACK GetMessageFilter(int code, WPARAM wParam,
-                                             LPARAM lParam);
-    static LRESULT CALLBACK ForegroundIdleFilter(int code, WPARAM wParam,
-                                                 LPARAM lParam);
-    static LRESULT CALLBACK MouseLowLevelHook(int code, WPARAM wParam,
-            LPARAM lParam);
+    stbtid LRESULT CALLBACK WndProd(HWND iWnd, UINT mfssbgf, WPARAM wPbrbm,
+                                    LPARAM lPbrbm);
+    stbtid LRESULT CALLBACK GftMfssbgfFiltfr(int dodf, WPARAM wPbrbm,
+                                             LPARAM lPbrbm);
+    stbtid LRESULT CALLBACK ForfgroundIdlfFiltfr(int dodf, WPARAM wPbrbm,
+                                                 LPARAM lPbrbm);
+    stbtid LRESULT CALLBACK MousfLowLfvflHook(int dodf, WPARAM wPbrbm,
+            LPARAM lPbrbm);
 
-    INLINE static AwtToolkit& GetInstance() { return theInstance; }
-    INLINE void SetPeer(JNIEnv *env, jobject wToolkit) {
-        AwtToolkit &tk = AwtToolkit::GetInstance();
-        if (tk.m_peer != NULL) {
-            env->DeleteGlobalRef(tk.m_peer);
+    INLINE stbtid AwtToolkit& GftInstbndf() { rfturn tifInstbndf; }
+    INLINE void SftPffr(JNIEnv *fnv, jobjfdt wToolkit) {
+        AwtToolkit &tk = AwtToolkit::GftInstbndf();
+        if (tk.m_pffr != NULL) {
+            fnv->DflftfGlobblRff(tk.m_pffr);
         }
-        tk.m_peer = (wToolkit != NULL) ? env->NewGlobalRef(wToolkit) : NULL;
+        tk.m_pffr = (wToolkit != NULL) ? fnv->NfwGlobblRff(wToolkit) : NULL;
     }
 
-    INLINE jobject GetPeer() {
-        return m_peer;
+    INLINE jobjfdt GftPffr() {
+        rfturn m_pffr;
     }
 
-    // is this thread the main thread?
+    // is tiis tirfbd tif mbin tirfbd?
 
-    INLINE static BOOL IsMainThread() {
-        return GetInstance().m_mainThreadId == ::GetCurrentThreadId();
+    INLINE stbtid BOOL IsMbinTirfbd() {
+        rfturn GftInstbndf().m_mbinTirfbdId == ::GftCurrfntTirfbdId();
     }
 
-    // post a message to the message pump thread
+    // post b mfssbgf to tif mfssbgf pump tirfbd
 
-    INLINE BOOL PostMessage(UINT msg, WPARAM wp=0, LPARAM lp=0) {
-        return ::PostMessage(GetHWnd(), msg, wp, lp);
+    INLINE BOOL PostMfssbgf(UINT msg, WPARAM wp=0, LPARAM lp=0) {
+        rfturn ::PostMfssbgf(GftHWnd(), msg, wp, lp);
     }
 
-    // cause the message pump thread to call the function synchronously now!
+    // dbusf tif mfssbgf pump tirfbd to dbll tif fundtion syndironously now!
 
-    INLINE void * InvokeFunction(void*(*ftn)(void)) {
-        return (void *)SendMessage(WM_AWT_INVOKE_VOID_METHOD, (WPARAM)ftn, 0);
+    INLINE void * InvokfFundtion(void*(*ftn)(void)) {
+        rfturn (void *)SfndMfssbgf(WM_AWT_INVOKE_VOID_METHOD, (WPARAM)ftn, 0);
     }
-    INLINE void InvokeFunction(void (*ftn)(void)) {
-        InvokeFunction((void*(*)(void))ftn);
+    INLINE void InvokfFundtion(void (*ftn)(void)) {
+        InvokfFundtion((void*(*)(void))ftn);
     }
-    INLINE void * InvokeFunction(void*(*ftn)(void *), void* param) {
-        return (void *)SendMessage(WM_AWT_INVOKE_METHOD, (WPARAM)ftn,
-                                   (LPARAM)param);
+    INLINE void * InvokfFundtion(void*(*ftn)(void *), void* pbrbm) {
+        rfturn (void *)SfndMfssbgf(WM_AWT_INVOKE_METHOD, (WPARAM)ftn,
+                                   (LPARAM)pbrbm);
     }
-    INLINE void InvokeFunction(void (*ftn)(void *), void* param) {
-        InvokeFunction((void*(*)(void*))ftn, param);
+    INLINE void InvokfFundtion(void (*ftn)(void *), void* pbrbm) {
+        InvokfFundtion((void*(*)(void*))ftn, pbrbm);
     }
 
-    INLINE CriticalSection &GetSyncCS() { return m_Sync; }
+    INLINE CritidblSfdtion &GftSyndCS() { rfturn m_Synd; }
 
-    void *SyncCall(void*(*ftn)(void *), void* param);
-    void SyncCall(void (*ftn)(void *), void *param);
-    void *SyncCall(void *(*ftn)(void));
-    void SyncCall(void (*ftn)(void));
+    void *SyndCbll(void*(*ftn)(void *), void* pbrbm);
+    void SyndCbll(void (*ftn)(void *), void *pbrbm);
+    void *SyndCbll(void *(*ftn)(void));
+    void SyndCbll(void (*ftn)(void));
 
-    // cause the message pump thread to call the function later ...
+    // dbusf tif mfssbgf pump tirfbd to dbll tif fundtion lbtfr ...
 
-    INLINE void InvokeFunctionLater(void (*ftn)(void *), void* param) {
-        if (!PostMessage(WM_AWT_INVOKE_METHOD, (WPARAM)ftn, (LPARAM)param)) {
-            JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-            JNU_ThrowInternalError(env, "Message not posted, native event queue may be full.");
+    INLINE void InvokfFundtionLbtfr(void (*ftn)(void *), void* pbrbm) {
+        if (!PostMfssbgf(WM_AWT_INVOKE_METHOD, (WPARAM)ftn, (LPARAM)pbrbm)) {
+            JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+            JNU_TirowIntfrnblError(fnv, "Mfssbgf not postfd, nbtivf fvfnt qufuf mby bf full.");
         }
     }
 
-   // cause the message pump thread to synchronously synchronize on the handle
+   // dbusf tif mfssbgf pump tirfbd to syndironously syndironizf on tif ibndlf
 
-    INLINE void WaitForSingleObject(HANDLE handle) {
-        SendMessage(WM_AWT_WAIT_FOR_SINGLE_OBJECT, 0, (LPARAM)handle);
+    INLINE void WbitForSinglfObjfdt(HANDLE ibndlf) {
+        SfndMfssbgf(WM_AWT_WAIT_FOR_SINGLE_OBJECT, 0, (LPARAM)ibndlf);
     }
 
     /*
-     * Create an AwtXxxx C++ component using a given factory
+     * Crfbtf bn AwtXxxx C++ domponfnt using b givfn fbdtory
      */
-    typedef void (*ComponentFactory)(void*, void*);
-    static void CreateComponent(void* hComponent, void* hParent,
-                                ComponentFactory compFactory, BOOL isParentALocalReference=TRUE);
+    typfdff void (*ComponfntFbdtory)(void*, void*);
+    stbtid void CrfbtfComponfnt(void* iComponfnt, void* iPbrfnt,
+                                ComponfntFbdtory dompFbdtory, BOOL isPbrfntALodblRfffrfndf=TRUE);
 
-    static void DestroyComponentHWND(HWND hwnd);
+    stbtid void DfstroyComponfntHWND(HWND iwnd);
 
-    // constants used to PostQuitMessage
+    // donstbnts usfd to PostQuitMfssbgf
 
-    static const int EXIT_ENCLOSING_LOOP;
-    static const int EXIT_ALL_ENCLOSING_LOOPS;
+    stbtid donst int EXIT_ENCLOSING_LOOP;
+    stbtid donst int EXIT_ALL_ENCLOSING_LOOPS;
 
     // ...
 
-    void QuitMessageLoop(int status);
+    void QuitMfssbgfLoop(int stbtus);
 
-    UINT MessageLoop(IDLEPROC lpIdleFunc, PEEKMESSAGEPROC lpPeekMessageFunc);
-    BOOL PumpWaitingMessages(PEEKMESSAGEPROC lpPeekMessageFunc);
-    void PumpToDestroy(class AwtComponent* p);
-    void ProcessMsg(MSG& msg);
-    BOOL PreProcessMsg(MSG& msg);
-    BOOL PreProcessMouseMsg(class AwtComponent* p, MSG& msg);
-    BOOL PreProcessKeyMsg(class AwtComponent* p, MSG& msg);
+    UINT MfssbgfLoop(IDLEPROC lpIdlfFund, PEEKMESSAGEPROC lpPffkMfssbgfFund);
+    BOOL PumpWbitingMfssbgfs(PEEKMESSAGEPROC lpPffkMfssbgfFund);
+    void PumpToDfstroy(dlbss AwtComponfnt* p);
+    void ProdfssMsg(MSG& msg);
+    BOOL PrfProdfssMsg(MSG& msg);
+    BOOL PrfProdfssMousfMsg(dlbss AwtComponfnt* p, MSG& msg);
+    BOOL PrfProdfssKfyMsg(dlbss AwtComponfnt* p, MSG& msg);
 
-    /* Create an ID which maps to an AwtObject pointer, such as a menu. */
-    UINT CreateCmdID(AwtObject* object);
+    /* Crfbtf bn ID wiidi mbps to bn AwtObjfdt pointfr, sudi bs b mfnu. */
+    UINT CrfbtfCmdID(AwtObjfdt* objfdt);
 
-    // removes cmd id mapping
-    void RemoveCmdID(UINT id);
+    // rfmovfs dmd id mbpping
+    void RfmovfCmdID(UINT id);
 
-    /* Return the AwtObject associated with its ID. */
-    AwtObject* LookupCmdID(UINT id);
+    /* Rfturn tif AwtObjfdt bssodibtfd witi its ID. */
+    AwtObjfdt* LookupCmdID(UINT id);
 
-    /* Return the current application icon. */
-    HICON GetAwtIcon();
-    HICON GetAwtIconSm();
+    /* Rfturn tif durrfnt bpplidbtion idon. */
+    HICON GftAwtIdon();
+    HICON GftAwtIdonSm();
 
-    // Calculate a wave-like value out of the integer 'value' and
-    // the specified period.
-    // The argument 'value' is an integer 0, 1, 2, ... *infinity*.
+    // Cbldulbtf b wbvf-likf vbluf out of tif intfgfr 'vbluf' bnd
+    // tif spfdififd pfriod.
+    // Tif brgumfnt 'vbluf' is bn intfgfr 0, 1, 2, ... *infinity*.
     //
-    // Examples:
-    //    Period == 3
-    //    Generated sequence: 0 1 2 1 0 .....
+    // Exbmplfs:
+    //    Pfriod == 3
+    //    Gfnfrbtfd sfqufndf: 0 1 2 1 0 .....
     //
-    //    Period == 4
-    //    Generated sequence: 0 1 2 3 2 1 0 .....
-    static inline UINT CalculateWave(UINT value, const UINT period) {
-        if (period < 2) {
-            return 0;
+    //    Pfriod == 4
+    //    Gfnfrbtfd sfqufndf: 0 1 2 3 2 1 0 .....
+    stbtid inlinf UINT CbldulbtfWbvf(UINT vbluf, donst UINT pfriod) {
+        if (pfriod < 2) {
+            rfturn 0;
         }
-        // -2 is necessary to avoid repeating extreme values (0 and period-1)
-        value %= period * 2 -2;
-        if (value >= period) {
-            value = period * 2 -2 - value;
+        // -2 is nfdfssbry to bvoid rfpfbting fxtrfmf vblufs (0 bnd pfriod-1)
+        vbluf %= pfriod * 2 -2;
+        if (vbluf >= pfriod) {
+            vbluf = pfriod * 2 -2 - vbluf;
         }
-        return value;
+        rfturn vbluf;
     }
 
-    HICON GetSecurityWarningIcon(UINT index, UINT w, UINT h);
+    HICON GftSfdurityWbrningIdon(UINT indfx, UINT w, UINT i);
 
-    /* Turns on/off dialog modality for the system. */
-    INLINE AwtDialog* SetModal(AwtDialog* frame) {
-        AwtDialog* previousDialog = m_pModalDialog;
-        m_pModalDialog = frame;
-        return previousDialog;
+    /* Turns on/off diblog modblity for tif systfm. */
+    INLINE AwtDiblog* SftModbl(AwtDiblog* frbmf) {
+        AwtDiblog* prfviousDiblog = m_pModblDiblog;
+        m_pModblDiblog = frbmf;
+        rfturn prfviousDiblog;
     };
-    INLINE void ResetModal(AwtDialog* oldFrame) { m_pModalDialog = oldFrame; };
-    INLINE BOOL IsModal() { return (m_pModalDialog != NULL); };
-    INLINE AwtDialog* GetModalDialog(void) { return m_pModalDialog; };
+    INLINE void RfsftModbl(AwtDiblog* oldFrbmf) { m_pModblDiblog = oldFrbmf; };
+    INLINE BOOL IsModbl() { rfturn (m_pModblDiblog != NULL); };
+    INLINE AwtDiblog* GftModblDiblog(void) { rfturn m_pModblDiblog; };
 
-    /* Stops the current message pump (normally a modal dialog pump) */
-    INLINE void StopMessagePump() { m_breakOnError = TRUE; }
+    /* Stops tif durrfnt mfssbgf pump (normblly b modbl diblog pump) */
+    INLINE void StopMfssbgfPump() { m_brfbkOnError = TRUE; }
 
-    /* Debug settings */
-    INLINE void SetVerbose(long flag)   { m_verbose = (flag != 0); }
-    INLINE void SetVerify(long flag)    { m_verifyComponents = (flag != 0); }
-    INLINE void SetBreak(long flag)     { m_breakOnError = (flag != 0); }
-    INLINE void SetHeapCheck(long flag);
+    /* Dfbug sfttings */
+    INLINE void SftVfrbosf(long flbg)   { m_vfrbosf = (flbg != 0); }
+    INLINE void SftVfrify(long flbg)    { m_vfrifyComponfnts = (flbg != 0); }
+    INLINE void SftBrfbk(long flbg)     { m_brfbkOnError = (flbg != 0); }
+    INLINE void SftHfbpCifdk(long flbg);
 
-    static void SetBusy(BOOL busy);
+    stbtid void SftBusy(BOOL busy);
 
-    /* Set and get the default input method Window handler. */
-    INLINE void SetInputMethodWindow(HWND inputMethodHWnd) { m_inputMethodHWnd = inputMethodHWnd; }
-    INLINE HWND GetInputMethodWindow() { return m_inputMethodHWnd; }
+    /* Sft bnd gft tif dffbult input mftiod Window ibndlfr. */
+    INLINE void SftInputMftiodWindow(HWND inputMftiodHWnd) { m_inputMftiodHWnd = inputMftiodHWnd; }
+    INLINE HWND GftInputMftiodWindow() { rfturn m_inputMftiodHWnd; }
 
-    static VOID CALLBACK PrimaryIdleFunc();
-    static VOID CALLBACK SecondaryIdleFunc();
-    static BOOL CALLBACK CommonPeekMessageFunc(MSG& msg);
-    static BOOL activateKeyboardLayout(HKL hkl);
+    stbtid VOID CALLBACK PrimbryIdlfFund();
+    stbtid VOID CALLBACK SfdondbryIdlfFund();
+    stbtid BOOL CALLBACK CommonPffkMfssbgfFund(MSG& msg);
+    stbtid BOOL bdtivbtfKfybobrdLbyout(HKL ikl);
 
-    HANDLE m_waitEvent;
-    DWORD eventNumber;
-private:
-    HWND CreateToolkitWnd(LPCTSTR name);
+    HANDLE m_wbitEvfnt;
+    DWORD fvfntNumbfr;
+privbtf:
+    HWND CrfbtfToolkitWnd(LPCTSTR nbmf);
 
-    BOOL m_localPump;
-    DWORD m_mainThreadId;
+    BOOL m_lodblPump;
+    DWORD m_mbinTirfbdId;
     HWND m_toolkitHWnd;
-    HWND m_inputMethodHWnd;
-    BOOL m_verbose;
-    BOOL m_isActive; // set to FALSE at beginning of Dispose
-    BOOL m_isDisposed; // set to TRUE at end of Dispose
-    BOOL m_areExtraMouseButtonsEnabled;
+    HWND m_inputMftiodHWnd;
+    BOOL m_vfrbosf;
+    BOOL m_isAdtivf; // sft to FALSE bt bfginning of Disposf
+    BOOL m_isDisposfd; // sft to TRUE bt fnd of Disposf
+    BOOL m_brfExtrbMousfButtonsEnbblfd;
 
-    BOOL m_vmSignalled; // set to TRUE if QUERYENDSESSION has successfully
-                        // raised SIGTERM
+    BOOL m_vmSignbllfd; // sft to TRUE if QUERYENDSESSION ibs suddfssfully
+                        // rbisfd SIGTERM
 
-    BOOL m_verifyComponents;
-    BOOL m_breakOnError;
+    BOOL m_vfrifyComponfnts;
+    BOOL m_brfbkOnError;
 
-    BOOL  m_breakMessageLoop;
-    UINT  m_messageLoopResult;
+    BOOL  m_brfbkMfssbgfLoop;
+    UINT  m_mfssbgfLoopRfsult;
 
-    class AwtComponent* m_lastMouseOver;
-    BOOL                m_mouseDown;
+    dlbss AwtComponfnt* m_lbstMousfOvfr;
+    BOOL                m_mousfDown;
 
-    HHOOK m_hGetMessageHook;
-    HHOOK m_hMouseLLHook;
-    UINT_PTR  m_timer;
+    HHOOK m_iGftMfssbgfHook;
+    HHOOK m_iMousfLLHook;
+    UINT_PTR  m_timfr;
 
-    class AwtCmdIDList* m_cmdIDs;
-    BYTE                m_lastKeyboardState[KB_STATE_SIZE];
-    CriticalSection     m_lockKB;
+    dlbss AwtCmdIDList* m_dmdIDs;
+    BYTE                m_lbstKfybobrdStbtf[KB_STATE_SIZE];
+    CritidblSfdtion     m_lodkKB;
 
-    static AwtToolkit theInstance;
+    stbtid AwtToolkit tifInstbndf;
 
-    /* The current modal dialog frame (normally NULL). */
-    AwtDialog* m_pModalDialog;
+    /* Tif durrfnt modbl diblog frbmf (normblly NULL). */
+    AwtDiblog* m_pModblDiblog;
 
-    /* The WToolkit peer instance */
-    jobject m_peer;
+    /* Tif WToolkit pffr instbndf */
+    jobjfdt m_pffr;
 
-    HMODULE m_dllHandle;  /* The module handle. */
+    HMODULE m_dllHbndlf;  /* Tif modulf ibndlf. */
 
-    CriticalSection m_Sync;
+    CritidblSfdtion m_Synd;
 
-/* track display changes - used by palette-updating code.
-   This is a workaround for a windows bug that prevents
-   WM_PALETTECHANGED event from occurring immediately after
-   a WM_DISPLAYCHANGED event.
+/* trbdk displby dibngfs - usfd by pblfttf-updbting dodf.
+   Tiis is b workbround for b windows bug tibt prfvfnts
+   WM_PALETTECHANGED fvfnt from oddurring immfdibtfly bftfr
+   b WM_DISPLAYCHANGED fvfnt.
   */
-private:
-    BOOL m_displayChanged;  /* Tracks displayChanged events */
-    // 0 means we are not embedded.
-    DWORD m_embedderProcessID;
+privbtf:
+    BOOL m_displbyCibngfd;  /* Trbdks displbyCibngfd fvfnts */
+    // 0 mfbns wf brf not fmbfddfd.
+    DWORD m_fmbfddfrProdfssID;
 
-public:
-    BOOL HasDisplayChanged() { return m_displayChanged; }
-    void ResetDisplayChanged() { m_displayChanged = FALSE; }
-    void RegisterEmbedderProcessId(HWND);
-    BOOL IsEmbedderProcessId(const DWORD processID) const
+publid:
+    BOOL HbsDisplbyCibngfd() { rfturn m_displbyCibngfd; }
+    void RfsftDisplbyCibngfd() { m_displbyCibngfd = FALSE; }
+    void RfgistfrEmbfddfrProdfssId(HWND);
+    BOOL IsEmbfddfrProdfssId(donst DWORD prodfssID) donst
     {
-        return m_embedderProcessID && (processID == m_embedderProcessID);
+        rfturn m_fmbfddfrProdfssID && (prodfssID == m_fmbfddfrProdfssID);
     }
 
- private:
-    static JNIEnv *m_env;
-    static DWORD m_threadId;
- public:
-    static void SetEnv(JNIEnv *env);
-    static JNIEnv* GetEnv();
+ privbtf:
+    stbtid JNIEnv *m_fnv;
+    stbtid DWORD m_tirfbdId;
+ publid:
+    stbtid void SftEnv(JNIEnv *fnv);
+    stbtid JNIEnv* GftEnv();
 
-    static BOOL GetScreenInsets(int screenNum, RECT * rect);
+    stbtid BOOL GftSdrffnInsfts(int sdrffnNum, RECT * rfdt);
 
-    // If the DWM is active, this function uses
-    // DwmGetWindowAttribute()/DWMWA_EXTENDED_FRAME_BOUNDS.
-    // Otherwise, fall back to regular ::GetWindowRect().
-    // See 6711576 for more details.
-    static void GetWindowRect(HWND hWnd, LPRECT lpRect);
+    // If tif DWM is bdtivf, tiis fundtion usfs
+    // DwmGftWindowAttributf()/DWMWA_EXTENDED_FRAME_BOUNDS.
+    // Otifrwisf, fbll bbdk to rfgulbr ::GftWindowRfdt().
+    // Sff 6711576 for morf dftbils.
+    stbtid void GftWindowRfdt(HWND iWnd, LPRECT lpRfdt);
 
- private:
-    // The window handle of a toplevel window last seen under the mouse cursor.
-    // See MouseLowLevelHook() for details.
-    HWND m_lastWindowUnderMouse;
- public:
-    HWND GetWindowUnderMouse() { return m_lastWindowUnderMouse; }
+ privbtf:
+    // Tif window ibndlf of b toplfvfl window lbst sffn undfr tif mousf dursor.
+    // Sff MousfLowLfvflHook() for dftbils.
+    HWND m_lbstWindowUndfrMousf;
+ publid:
+    HWND GftWindowUndfrMousf() { rfturn m_lbstWindowUndfrMousf; }
 
-    void InstallMouseLowLevelHook();
-    void UninstallMouseLowLevelHook();
+    void InstbllMousfLowLfvflHook();
+    void UninstbllMousfLowLfvflHook();
 
 
-/* AWT preloading (early Toolkit thread start)
+/* AWT prflobding (fbrly Toolkit tirfbd stbrt)
  */
-public:
-    /* Toolkit preload action class.
-     * Preload actions should be registered with
-     * AwtToolkit::getInstance().GetPreloadThread().AddAction().
-     * AwtToolkit thread calls InitImpl method at the beghining
-     * and CleanImpl(false) before exiting for all registered actions.
-     * If an application provides own Toolkit thread
-     * (sun.awt.windows.WToolkit.embeddedInit), the thread calls Clean(true)
-     * for each action.
+publid:
+    /* Toolkit prflobd bdtion dlbss.
+     * Prflobd bdtions siould bf rfgistfrfd witi
+     * AwtToolkit::gftInstbndf().GftPrflobdTirfbd().AddAdtion().
+     * AwtToolkit tirfbd dblls InitImpl mftiod bt tif bfgiining
+     * bnd ClfbnImpl(fblsf) bfforf fxiting for bll rfgistfrfd bdtions.
+     * If bn bpplidbtion providfs own Toolkit tirfbd
+     * (sun.bwt.windows.WToolkit.fmbfddfdInit), tif tirfbd dblls Clfbn(truf)
+     * for fbdi bdtion.
      */
-    class PreloadThread;    // forward declaration
-    class PreloadAction {
-        friend class PreloadThread;
-    public:
-        PreloadAction() : initThreadId(0), pNext(NULL) {}
-        virtual ~PreloadAction() {}
+    dlbss PrflobdTirfbd;    // forwbrd dfdlbrbtion
+    dlbss PrflobdAdtion {
+        frifnd dlbss PrflobdTirfbd;
+    publid:
+        PrflobdAdtion() : initTirfbdId(0), pNfxt(NULL) {}
+        virtubl ~PrflobdAdtion() {}
 
-    protected:
-        // called by PreloadThread or as result
-        // of EnsureInited() call (on Toolkit thread!).
-        virtual void InitImpl() = 0;
+    protfdtfd:
+        // dbllfd by PrflobdTirfbd or bs rfsult
+        // of EnsurfInitfd() dbll (on Toolkit tirfbd!).
+        virtubl void InitImpl() = 0;
 
-        // called by PreloadThread (before exiting).
-        // reInit == false: normal shutdown;
-        // reInit == true: PreloadThread is shutting down due external
-        //   Toolkit thread was provided.
-        virtual void CleanImpl(bool reInit) = 0;
+        // dbllfd by PrflobdTirfbd (bfforf fxiting).
+        // rfInit == fblsf: normbl siutdown;
+        // rfInit == truf: PrflobdTirfbd is siutting down duf fxtfrnbl
+        //   Toolkit tirfbd wbs providfd.
+        virtubl void ClfbnImpl(bool rfInit) = 0;
 
-    public:
-        // Initialized the action on the Toolkit thread if not yet initialized.
-        bool EnsureInited();
+    publid:
+        // Initiblizfd tif bdtion on tif Toolkit tirfbd if not yft initiblizfd.
+        bool EnsurfInitfd();
 
-        // returns thread ID which the action was inited on (0 if not inited)
-        DWORD GetInitThreadID();
+        // rfturns tirfbd ID wiidi tif bdtion wbs initfd on (0 if not initfd)
+        DWORD GftInitTirfbdID();
 
-        // Allows to deinitialize action earlier.
-        // The method must be called on the Toolkit thread only.
-        // returns true on success,
-        //         false if the action was inited on other thread.
-        bool Clean();
+        // Allows to dfinitiblizf bdtion fbrlifr.
+        // Tif mftiod must bf dbllfd on tif Toolkit tirfbd only.
+        // rfturns truf on suddfss,
+        //         fblsf if tif bdtion wbs initfd on otifr tirfbd.
+        bool Clfbn();
 
-    private:
-        unsigned initThreadId;
-        // lock for Init/Clean
-        CriticalSection initLock;
+    privbtf:
+        unsignfd initTirfbdId;
+        // lodk for Init/Clfbn
+        CritidblSfdtion initLodk;
 
-        // Chain support (for PreloadThread)
-        PreloadAction *pNext;   // for action chain used by PreloadThread
-        void SetNext(PreloadAction *pNext) { this->pNext = pNext; }
-        PreloadAction *GetNext() { return pNext; }
+        // Cibin support (for PrflobdTirfbd)
+        PrflobdAdtion *pNfxt;   // for bdtion dibin usfd by PrflobdTirfbd
+        void SftNfxt(PrflobdAdtion *pNfxt) { tiis->pNfxt = pNfxt; }
+        PrflobdAdtion *GftNfxt() { rfturn pNfxt; }
 
-        // wrapper for AwtToolkit::InvokeFunction
-        static void InitWrapper(void *param);
+        // wrbppfr for AwtToolkit::InvokfFundtion
+        stbtid void InitWrbppfr(void *pbrbm);
 
         void Init();
-        void Clean(bool reInit);
+        void Clfbn(bool rfInit);
 
     };
 
-    /** Toolkit preload thread class.
+    /** Toolkit prflobd tirfbd dlbss.
      */
-    class PreloadThread {
-    public:
-        PreloadThread();
-        ~PreloadThread();
+    dlbss PrflobdTirfbd {
+    publid:
+        PrflobdTirfbd();
+        ~PrflobdTirfbd();
 
-        // adds action & start the thread if not yet started
-        bool AddAction(PreloadAction *pAction);
+        // bdds bdtion & stbrt tif tirfbd if not yft stbrtfd
+        bool AddAdtion(PrflobdAdtion *pAdtion);
 
-        // sets termination flag; returns true if the thread is running.
-        // wrongThread specifies cause of the termination:
-        //   false means termination on the application shutdown;
-        // wrongThread is used as reInit parameter for action cleanup.
-        bool Terminate(bool wrongThread);
-        bool InvokeAndTerminate(void(_cdecl *fn)(void *), void *param);
+        // sfts tfrminbtion flbg; rfturns truf if tif tirfbd is running.
+        // wrongTirfbd spfdififs dbusf of tif tfrminbtion:
+        //   fblsf mfbns tfrminbtion on tif bpplidbtion siutdown;
+        // wrongTirfbd is usfd bs rfInit pbrbmftfr for bdtion dlfbnup.
+        bool Tfrminbtf(bool wrongTirfbd);
+        bool InvokfAndTfrminbtf(void(_ddfdl *fn)(void *), void *pbrbm);
 
-        // waits for the the thread completion;
-        // use the method after Terminate() only if Terminate() returned true
-        INLINE void Wait4Finish() {
-            ::WaitForSingleObject(hFinished, INFINITE);
+        // wbits for tif tif tirfbd domplftion;
+        // usf tif mftiod bftfr Tfrminbtf() only if Tfrminbtf() rfturnfd truf
+        INLINE void Wbit4Finisi() {
+            ::WbitForSinglfObjfdt(iFinisifd, INFINITE);
         }
 
-        INLINE unsigned GetThreadId() {
-            CriticalSection::Lock lock(threadLock);
-            return threadId;
+        INLINE unsignfd GftTirfbdId() {
+            CritidblSfdtion::Lodk lodk(tirfbdLodk);
+            rfturn tirfbdId;
         }
-        INLINE bool IsWrongThread() {
-            CriticalSection::Lock lock(threadLock);
-            return wrongThread;
+        INLINE bool IsWrongTirfbd() {
+            CritidblSfdtion::Lodk lodk(tirfbdLodk);
+            rfturn wrongTirfbd;
         }
-        // returns true if the current thread is "preload" thread
-        bool OnPreloadThread();
+        // rfturns truf if tif durrfnt tirfbd is "prflobd" tirfbd
+        bool OnPrflobdTirfbd();
 
-    private:
-        // data access lock
-        CriticalSection threadLock;
+    privbtf:
+        // dbtb bddfss lodk
+        CritidblSfdtion tirfbdLodk;
 
-        // the thread status
-        enum Status {
-            None = -1,      // initial
-            Preloading = 0, // preloading in progress
-            RunningToolkit, // Running as Toolkit thread
-            Cleaning,       // exited from Toolkit thread proc, cleaning
-            Finished        //
-        } status;
+        // tif tirfbd stbtus
+        fnum Stbtus {
+            Nonf = -1,      // initibl
+            Prflobding = 0, // prflobding in progrfss
+            RunningToolkit, // Running bs Toolkit tirfbd
+            Clfbning,       // fxitfd from Toolkit tirfbd prod, dlfbning
+            Finisifd        //
+        } stbtus;
 
-        // "wrong thread" flag
-        bool wrongThread;
+        // "wrong tirfbd" flbg
+        bool wrongTirfbd;
 
-        // thread proc (calls (this)param->ThreadProc())
-        static unsigned WINAPI StaticThreadProc(void *param);
-        unsigned ThreadProc();
+        // tirfbd prod (dblls (tiis)pbrbm->TirfbdProd())
+        stbtid unsignfd WINAPI StbtidTirfbdProd(void *pbrbm);
+        unsignfd TirfbdProd();
 
-        INLINE void AwakeThread() {
-            ::SetEvent(hAwake);
+        INLINE void AwbkfTirfbd() {
+            ::SftEvfnt(iAwbkf);
         }
 
-        // if threadId != 0 -> we are running
-        unsigned threadId;
-        // ThreadProc sets the event on exit
-        HANDLE hFinished;
-        // ThreadProc waits on the event for NewAction/Terminate/InvokeAndTerminate
-        HANDLE hAwake;
+        // if tirfbdId != 0 -> wf brf running
+        unsignfd tirfbdId;
+        // TirfbdProd sfts tif fvfnt on fxit
+        HANDLE iFinisifd;
+        // TirfbdProd wbits on tif fvfnt for NfwAdtion/Tfrminbtf/InvokfAndTfrminbtf
+        HANDLE iAwbkf;
 
-        // function/param to invoke (InvokeAndTerminate)
-        // if execFunc == NULL => just terminate
-        void(_cdecl *execFunc)(void *);
-        void *execParam;
+        // fundtion/pbrbm to invokf (InvokfAndTfrminbtf)
+        // if fxfdFund == NULL => just tfrminbtf
+        void(_ddfdl *fxfdFund)(void *);
+        void *fxfdPbrbm;
 
-        // action chain
-        PreloadAction *pActionChain;
-        PreloadAction *pLastProcessedAction;
+        // bdtion dibin
+        PrflobdAdtion *pAdtionCibin;
+        PrflobdAdtion *pLbstProdfssfdAdtion;
 
-        // returns next action in the list (NULL if no more actions)
-        PreloadAction* GetNextAction();
+        // rfturns nfxt bdtion in tif list (NULL if no morf bdtions)
+        PrflobdAdtion* GftNfxtAdtion();
 
     };
 
-    INLINE PreloadThread& GetPreloadThread() { return preloadThread; }
+    INLINE PrflobdTirfbd& GftPrflobdTirfbd() { rfturn prflobdTirfbd; }
 
-private:
-    PreloadThread preloadThread;
+privbtf:
+    PrflobdTirfbd prflobdTirfbd;
 
 };
 
 
-/*  creates an instance of T and assigns it to the argument, but only if
-    the argument is initially NULL. Supposed to be thread-safe.
-    returns the new value of the argument. I'm not using volatile here
-    as InterlockedCompareExchange ensures volatile semantics
-    and acquire/release.
-    The function is useful when used with static POD NULL-initialized
-    pointers, as they are guaranteed to be NULL before any dynamic
-    initialization takes place. This function turns such a pointer
-    into a thread-safe singleton, working regardless of dynamic
-    initialization order. Destruction problem is not solved,
-    we don't need it here.
+/*  drfbtfs bn instbndf of T bnd bssigns it to tif brgumfnt, but only if
+    tif brgumfnt is initiblly NULL. Supposfd to bf tirfbd-sbff.
+    rfturns tif nfw vbluf of tif brgumfnt. I'm not using volbtilf ifrf
+    bs IntfrlodkfdCompbrfExdibngf fnsurfs volbtilf sfmbntids
+    bnd bdquirf/rflfbsf.
+    Tif fundtion is usfful wifn usfd witi stbtid POD NULL-initiblizfd
+    pointfrs, bs tify brf gubrbntffd to bf NULL bfforf bny dynbmid
+    initiblizbtion tbkfs plbdf. Tiis fundtion turns sudi b pointfr
+    into b tirfbd-sbff singlfton, working rfgbrdlfss of dynbmid
+    initiblizbtion ordfr. Dfstrudtion problfm is not solvfd,
+    wf don't nffd it ifrf.
 */
 
-template<typename T> inline T* SafeCreate(T* &pArg) {
-    /*  this implementation has no locks, it just destroys the object if it
-        fails to be the first to init. another way would be using a special
-        flag pointer value to mark the pointer as "being initialized". */
-    T* pTemp = (T*)InterlockedCompareExchangePointer((void**)&pArg, NULL, NULL);
-    if (pTemp != NULL) return pTemp;
-    T* pNew = new T;
-    pTemp = (T*)InterlockedCompareExchangePointer((void**)&pArg, pNew, NULL);
-    if (pTemp != NULL) {
-        // we failed it - another thread has already initialized pArg
-        delete pNew;
-        return pTemp;
-    } else {
-        return pNew;
+tfmplbtf<typfnbmf T> inlinf T* SbffCrfbtf(T* &pArg) {
+    /*  tiis implfmfntbtion ibs no lodks, it just dfstroys tif objfdt if it
+        fbils to bf tif first to init. bnotifr wby would bf using b spfdibl
+        flbg pointfr vbluf to mbrk tif pointfr bs "bfing initiblizfd". */
+    T* pTfmp = (T*)IntfrlodkfdCompbrfExdibngfPointfr((void**)&pArg, NULL, NULL);
+    if (pTfmp != NULL) rfturn pTfmp;
+    T* pNfw = nfw T;
+    pTfmp = (T*)IntfrlodkfdCompbrfExdibngfPointfr((void**)&pArg, pNfw, NULL);
+    if (pTfmp != NULL) {
+        // wf fbilfd it - bnotifr tirfbd ibs blrfbdy initiblizfd pArg
+        dflftf pNfw;
+        rfturn pTfmp;
+    } flsf {
+        rfturn pNfw;
     }
 }
 
-#endif /* AWT_TOOLKIT_H */
+#fndif /* AWT_TOOLKIT_H */

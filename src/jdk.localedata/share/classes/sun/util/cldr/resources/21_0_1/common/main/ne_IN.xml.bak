@@ -1,136 +1,136 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-05 08:22:55 +0900 (Tue, 05 Jul 2011) $"/>
-		<language type="ne"/>
-		<territory type="IN"/>
-	</identity>
-	<localeDisplayNames>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">मेट्रिक</measurementSystemName>
-			<measurementSystemName type="US">अमेरिकेली</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="wide">
-							<month type="1">जनवरी</month>
-							<month type="2">फरवरी</month>
-							<month type="3">मार्च</month>
-							<month type="4">अप्रेल</month>
-							<month type="5">मई</month>
-							<month type="6">जुन</month>
-							<month type="7">जुलाई</month>
-							<month type="8">अगस्त</month>
-							<month type="9">सेप्टेम्बर</month>
-							<month type="10">अक्टोबर</month>
-							<month type="11">नोभेम्बर</month>
-							<month type="12">दिसम्बर</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="wide">
-							<day type="sun">आइतवार</day>
-							<day type="mon">सोमवार</day>
-							<day type="tue">मङ्गलवार</day>
-							<day type="wed">बुधवार</day>
-							<day type="thu">बिहीवार</day>
-							<day type="fri">शुक्रवार</day>
-							<day type="sat">शनिवार</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="wide">
-							<quarter type="1">पहिलो पाउ</quarter>
-							<quarter type="2">दोस्रो पाउ</quarter>
-							<quarter type="3">तेस्रो पाउ</quarter>
-							<quarter type="4">चौथो पाउ</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">पूर्वाह्न</dayPeriod>
-							<dayPeriod type="pm">अपराह्न</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<fields>
-					<field type="era">
-						<displayName>युग</displayName>
-					</field>
-					<field type="year">
-						<displayName>वर्ष</displayName>
-					</field>
-					<field type="week">
-						<displayName>साता</displayName>
-					</field>
-					<field type="day">
-						<displayName>वार</displayName>
-						<relative type="2">पर्सि</relative>
-					</field>
-					<field type="weekday">
-						<displayName>हप्ताको वार</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>पूर्वाह्न / अपराह्न</displayName>
-					</field>
-					<field type="second">
-						<displayName>सेकेन्ड</displayName>
-					</field>
-					<field type="zone">
-						<displayName>अञ्‍चल</displayName>
-					</field>
-				</fields>
-			</calendar>
-			<calendar type="indian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="wide">
-							<month type="1">वैशाख</month>
-							<month type="2">जेठ</month>
-							<month type="3">असार</month>
-							<month type="4">साउन</month>
-							<month type="5">भदौ</month>
-							<month type="6">असोज</month>
-							<month type="7">कात्तिक</month>
-							<month type="8">मङसिर</month>
-							<month type="9">पुस</month>
-							<month type="10">माघ</month>
-							<month type="11">फागुन</month>
-							<month type="12">चैत</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-			</calendar>
-		</calendars>
-	</dates>
-	<numbers>
-		<currencies>
-			<currency type="INR">
-				<displayName>भारतीय रूपिँया</displayName>
-				<displayName count="one">भारतीय रूपिँया</displayName>
-				<displayName count="other">भारतीय रूपिँया</displayName>
-			</currency>
-		</currencies>
-	</numbers>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 5953 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-07-05 08:22:55 +0900 (Tuf, 05 Jul 2011) $"/>
+		<lbngubgf typf="nf"/>
+		<tfrritory typf="IN"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">मेट्रिक</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">अमेरिकेली</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="widf">
+							<monti typf="1">जनवरी</monti>
+							<monti typf="2">फरवरी</monti>
+							<monti typf="3">मार्च</monti>
+							<monti typf="4">अप्रेल</monti>
+							<monti typf="5">मई</monti>
+							<monti typf="6">जुन</monti>
+							<monti typf="7">जुलाई</monti>
+							<monti typf="8">अगस्त</monti>
+							<monti typf="9">सेप्टेम्बर</monti>
+							<monti typf="10">अक्टोबर</monti>
+							<monti typf="11">नोभेम्बर</monti>
+							<monti typf="12">दिसम्बर</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="widf">
+							<dby typf="sun">आइतवार</dby>
+							<dby typf="mon">सोमवार</dby>
+							<dby typf="tuf">मङ्गलवार</dby>
+							<dby typf="wfd">बुधवार</dby>
+							<dby typf="tiu">बिहीवार</dby>
+							<dby typf="fri">शुक्रवार</dby>
+							<dby typf="sbt">शनिवार</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">पहिलो पाउ</qubrtfr>
+							<qubrtfr typf="2">दोस्रो पाउ</qubrtfr>
+							<qubrtfr typf="3">तेस्रो पाउ</qubrtfr>
+							<qubrtfr typf="4">चौथो पाउ</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">पूर्वाह्न</dbyPfriod>
+							<dbyPfriod typf="pm">अपराह्न</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>युग</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>वर्ष</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>साता</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>वार</displbyNbmf>
+						<rflbtivf typf="2">पर्सि</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>हप्ताको वार</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>पूर्वाह्न / अपराह्न</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>सेकेन्ड</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>अञ्‍चल</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+			<dblfndbr typf="indibn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="widf">
+							<monti typf="1">वैशाख</monti>
+							<monti typf="2">जेठ</monti>
+							<monti typf="3">असार</monti>
+							<monti typf="4">साउन</monti>
+							<monti typf="5">भदौ</monti>
+							<monti typf="6">असोज</monti>
+							<monti typf="7">कात्तिक</monti>
+							<monti typf="8">मङसिर</monti>
+							<monti typf="9">पुस</monti>
+							<monti typf="10">माघ</monti>
+							<monti typf="11">फागुन</monti>
+							<monti typf="12">चैत</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<durrfndifs>
+			<durrfndy typf="INR">
+				<displbyNbmf>भारतीय रूपिँया</displbyNbmf>
+				<displbyNbmf dount="onf">भारतीय रूपिँया</displbyNbmf>
+				<displbyNbmf dount="otifr">भारतीय रूपिँया</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<units>
-		<unit type="week">
-			<unitPattern count="one">{0} साता</unitPattern>
+		<unit typf="wffk">
+			<unitPbttfrn dount="onf">{0} साता</unitPbttfrn>
 		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} वर्ष</unitPattern>
-			<unitPattern count="other">{0} वर्ष</unitPattern>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="onf">{0} वर्ष</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} वर्ष</unitPbttfrn>
 		</unit>
 	</units>
 </ldml>

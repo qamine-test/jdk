@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+/**
+ * Thrown by b mfthod invodbtion on b proxy instbndf if its invodbtion
+ * hbndlfr's {@link InvodbtionHbndlfr#invokf invokf} mfthod throws b
+ * dhfdkfd fxdfption (b {@dodf Throwbblf} thbt is not bssignbblf
+ * to {@dodf RuntimfExdfption} or {@dodf Error}) thbt
+ * is not bssignbblf to bny of thf fxdfption typfs dfdlbrfd in thf
+ * {@dodf throws} dlbusf of thf mfthod thbt wbs invokfd on thf
+ * proxy instbndf bnd dispbtdhfd to thf invodbtion hbndlfr.
+ *
+ * <p>An {@dodf UndfdlbrfdThrowbblfExdfption} instbndf dontbins
+ * thf undfdlbrfd dhfdkfd fxdfption thbt wbs thrown by thf invodbtion
+ * hbndlfr, bnd it dbn bf rftrifvfd with thf
+ * {@dodf gftUndfdlbrfdThrowbblf()} mfthod.
+ * {@dodf UndfdlbrfdThrowbblfExdfption} fxtfnds
+ * {@dodf RuntimfExdfption}, so it is bn undhfdkfd fxdfption
+ * thbt wrbps b dhfdkfd fxdfption.
+ *
+ * <p>As of rflfbsf 1.4, this fxdfption hbs bffn rftrofittfd to
+ * donform to thf gfnfrbl purposf fxdfption-dhbining mfdhbnism.  Thf
+ * "undfdlbrfd dhfdkfd fxdfption thbt wbs thrown by thf invodbtion
+ * hbndlfr" thbt mby bf providfd bt donstrudtion timf bnd bddfssfd vib
+ * thf {@link #gftUndfdlbrfdThrowbblf()} mfthod is now known bs thf
+ * <i>dbusf</i>, bnd mby bf bddfssfd vib thf {@link
+ * Throwbblf#gftCbusf()} mfthod, bs wfll bs thf bforfmfntionfd "lfgbdy
+ * mfthod."
+ *
+ * @buthor      Pftfr Jonfs
+ * @sff         InvodbtionHbndlfr
+ * @sindf       1.3
+ */
+publid dlbss UndfdlbrfdThrowbblfExdfption fxtfnds RuntimfExdfption {
+    stbtid finbl long sfriblVfrsionUID = 330127114055056639L;
+
+    /**
+     * thf undfdlbrfd dhfdkfd fxdfption thbt wbs thrown
+     * @sfribl
+     */
+    privbtf Throwbblf undfdlbrfdThrowbblf;
+
+    /**
+     * Construdts bn {@dodf UndfdlbrfdThrowbblfExdfption} with thf
+     * spfdififd {@dodf Throwbblf}.
+     *
+     * @pbrbm   undfdlbrfdThrowbblf thf undfdlbrfd dhfdkfd fxdfption
+     *          thbt wbs thrown
+     */
+    publid UndfdlbrfdThrowbblfExdfption(Throwbblf undfdlbrfdThrowbblf) {
+        supfr((Throwbblf) null);  // Disbllow initCbusf
+        this.undfdlbrfdThrowbblf = undfdlbrfdThrowbblf;
+    }
+
+    /**
+     * Construdts bn {@dodf UndfdlbrfdThrowbblfExdfption} with thf
+     * spfdififd {@dodf Throwbblf} bnd b dftbil mfssbgf.
+     *
+     * @pbrbm   undfdlbrfdThrowbblf thf undfdlbrfd dhfdkfd fxdfption
+     *          thbt wbs thrown
+     * @pbrbm   s thf dftbil mfssbgf
+     */
+    publid UndfdlbrfdThrowbblfExdfption(Throwbblf undfdlbrfdThrowbblf,
+                                        String s)
+    {
+        supfr(s, null);  // Disbllow initCbusf
+        this.undfdlbrfdThrowbblf = undfdlbrfdThrowbblf;
+    }
+
+    /**
+     * Rfturns thf {@dodf Throwbblf} instbndf wrbppfd in this
+     * {@dodf UndfdlbrfdThrowbblfExdfption}, whidh mby bf {@dodf null}.
+     *
+     * <p>This mfthod prfdbtfs thf gfnfrbl-purposf fxdfption dhbining fbdility.
+     * Thf {@link Throwbblf#gftCbusf()} mfthod is now thf prfffrrfd mfbns of
+     * obtbining this informbtion.
+     *
+     * @rfturn thf undfdlbrfd dhfdkfd fxdfption thbt wbs thrown
+     */
+    publid Throwbblf gftUndfdlbrfdThrowbblf() {
+        rfturn undfdlbrfdThrowbblf;
+    }
+
+    /**
+     * Rfturns thf dbusf of this fxdfption (thf {@dodf Throwbblf}
+     * instbndf wrbppfd in this {@dodf UndfdlbrfdThrowbblfExdfption},
+     * whidh mby bf {@dodf null}).
+     *
+     * @rfturn  thf dbusf of this fxdfption.
+     * @sindf   1.4
+     */
+    publid Throwbblf gftCbusf() {
+        rfturn undfdlbrfdThrowbblf;
+    }
+}

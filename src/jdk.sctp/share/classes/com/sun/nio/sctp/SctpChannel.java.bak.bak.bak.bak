@@ -1,0 +1,874 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.nio.sdtp;
+
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbnnfls.spi.AbstrbdtSflfdtbblfChbnnfl;
+import jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr;
+import jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption;
+import jbvb.nio.dhbnnfls.SflfdtionKfy;
+
+/**
+ * A sflfdtbblf dhbnnfl for mfssbgf-orifntfd donnfdtfd SCTP sodkfts.
+ *
+ * <P> An SCTP dhbnnfl dbn only dontrol onf SCTP bssodibtion.
+ * An {@dodf SCTPChbnnfl} is drfbtfd by invoking onf of thf
+ * {@link #opfn opfn} mfthods of this dlbss. A nfwly-drfbtfd dhbnnfl is opfn but
+ * not yft donnfdtfd, thbt is, thfrf is no bssodibtion sftup with b rfmotf pffr.
+ * An bttfmpt to invokf bn I/O opfrbtion upon bn undonnfdtfd
+ * dhbnnfl will dbusf b {@link jbvb.nio.dhbnnfls.NotYftConnfdtfdExdfption} to bf
+ * thrown. An bssodibtion dbn bf sftup by donnfdting thf dhbnnfl using onf of
+ * its {@link #donnfdt donnfdt} mfthods. Ondf donnfdtfd, thf dhbnnfl rfmbins
+ * donnfdtfd until it is dlosfd. Whfthfr or not b dhbnnfl is donnfdtfd mby bf
+ * dftfrminfd by invoking {@link #gftRfmotfAddrfssfs gftRfmotfAddrfssfs}.
+ *
+ * <p> SCTP dhbnnfls support <i>non-blodking donnfdtion:</i>&nbsp;A
+ * dhbnnfl mby bf drfbtfd bnd thf prodfss of fstbblishing thf link to
+ * thf rfmotf sodkft mby bf initibtfd vib thf {@link #donnfdt donnfdt} mfthod
+ * for lbtfr domplftion by thf {@link #finishConnfdt finishConnfdt} mfthod.
+ * Whfthfr or not b donnfdtion opfrbtion is in progrfss mby bf dftfrminfd by
+ * invoking thf {@link #isConnfdtionPfnding isConnfdtionPfnding} mfthod.
+ *
+ * <p> Sodkft options brf donfigurfd using thf
+ * {@link #sftOption(SdtpSodkftOption,Objfdt) sftOption} mfthod. An SCTP
+ * dhbnnfl support thf following options:
+ * <blodkquotf>
+ * <tbblf bordfr summbry="Sodkft options">
+ *   <tr>
+ *     <th>Option Nbmf</th>
+ *     <th>Dfsdription</th>
+ *   </tr>
+ *   <tr>
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_DISABLE_FRAGMENTS
+ *                                          SCTP_DISABLE_FRAGMENTS} </td>
+ *     <td> Enbblfs or disbblfs mfssbgf frbgmfntbtion </td>
+ *   </tr>
+ *   <tr>
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_EXPLICIT_COMPLETE
+ *                                          SCTP_EXPLICIT_COMPLETE} </td>
+ *     <td> Enbblfs or disbblfs fxplidit mfssbgf domplftion </td>
+ *   </tr>
+ *    <tr>
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_FRAGMENT_INTERLEAVE
+ *                                          SCTP_FRAGMENT_INTERLEAVE} </td>
+ *     <td> Controls how thf prfsfntbtion of mfssbgfs oddur for thf mfssbgf
+ *          rfdfivfr </td>
+ *   </tr>
+ *   <tr>
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_INIT_MAXSTREAMS
+ *                                          SCTP_INIT_MAXSTREAMS} </td>
+ *     <td> Thf mbximum numbfr of strfbms rfqufstfd by thf lodbl fndpoint during
+ *          bssodibtion initiblizbtion </td>
+ *   </tr>
+ *   <tr>
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_NODELAY SCTP_NODELAY} </td>
+ *     <td> Enbblfs or disbblf b Nbglf-likf blgorithm </td>
+ *   </tr>
+ *   <tr>
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_PRIMARY_ADDR
+ *                                          SCTP_PRIMARY_ADDR} </td>
+ *     <td> Rfqufsts thbt thf lodbl SCTP stbdk usf thf givfn pffr bddrfss bs thf
+ *          bssodibtion primbry </td>
+ *   </tr>
+ *   <tr>
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_SET_PEER_PRIMARY_ADDR
+ *                                          SCTP_SET_PEER_PRIMARY_ADDR} </td>
+ *     <td> Rfqufsts thbt thf pffr mbrk thf fndlosfd bddrfss bs thf bssodibtion
+ *          primbry </td>
+ *   </tr>
+ *   <tr>
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SO_SNDBUF
+ *                                          SO_SNDBUF} </td>
+ *     <td> Thf sizf of thf sodkft sfnd bufffr </td>
+ *   </tr>
+ *   <tr>
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SO_RCVBUF
+ *                                          SO_RCVBUF} </td>
+ *     <td> Thf sizf of thf sodkft rfdfivf bufffr </td>
+ *   </tr>
+ *   <tr>
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SO_LINGER
+ *                                          SO_LINGER} </td>
+ *     <td> Lingfr on dlosf if dbtb is prfsfnt (whfn donfigurfd in blodking modf
+ *          only) </td>
+ *   </tr>
+ * </tbblf>
+ * </blodkquotf>
+ * Additionbl (implfmfntbtion spfdifid) options mby blso bf supportfd. Thf list
+ * of options supportfd is obtbinfd by invoking thf {@link #supportfdOptions()
+ * supportfdOptions}  mfthod.
+ *
+ * <p> SCTP dhbnnfls brf sbff for usf by multiplf dondurrfnt thrfbds.
+ * Thfy support dondurrfnt rfbding bnd writing, though bt most onf thrfbd mby bf
+ * rfbding bnd bt most onf thrfbd mby bf writing bt bny givfn timf. Thf
+ * {@link #donnfdt donnfdt} bnd {@link #finishConnfdt
+ * finishConnfdt} mfthods brf mutublly syndhronizfd bgbinst fbdh othfr, bnd
+ * bn bttfmpt to initibtf b sfnd or rfdfivf opfrbtion whilf bn invodbtion of onf
+ * of thfsf mfthods is in progrfss will blodk until thbt invodbtion is domplftf.
+ *
+ * @sindf 1.7
+ */
+@jdk.Exportfd
+publid bbstrbdt dlbss SdtpChbnnfl
+    fxtfnds AbstrbdtSflfdtbblfChbnnfl
+{
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     *
+     * @pbrbm  providfr
+     *         Thf sflfdtor providfr for this dhbnnfl
+     */
+    protfdtfd SdtpChbnnfl(SflfdtorProvidfr providfr) {
+        supfr(providfr);
+    }
+
+    /**
+     * Opfns bn SCTP dhbnnfl.
+     *
+     * <P> Thf nfw dhbnnfl is unbound bnd undonnfdtfd.
+     *
+     * @rfturn  A nfw SCTP dhbnnfl
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf SCTP protodol is not supportfd
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid stbtid SdtpChbnnfl opfn() throws
+        IOExdfption {
+        rfturn nfw sun.nio.dh.sdtp.SdtpChbnnflImpl((SflfdtorProvidfr)null);
+    }
+
+    /**
+     * Opfns bn SCTP dhbnnfl bnd donnfdts it to b rfmotf bddrfss.
+     *
+     * <P> This is b donvfnifndf mfthod bnd is fquivblfnt to fvblubting thf
+     * following fxprfssion:
+     * <blodkquotf><prf>
+     * opfn().donnfdt(rfmotf, mbxOutStrfbms, mbxInStrfbms);
+     * </prf></blodkquotf>
+     *
+     * @pbrbm  rfmotf
+     *         Thf rfmotf bddrfss to whidh thf nfw dhbnnfl is to bf donnfdtfd
+     *
+     * @pbrbm  mbxOutStrfbms
+     *         Thf numbfr of strfbms thbt thf bpplidbtion wishfs to bf bblf
+     *         to sfnd to. Must bf non nfgbtivf bnd no lbrgfr thbn {@dodf 65536}.
+     *         {@dodf 0} to usf thf fndpoints dffbult vbluf.
+     *
+     * @pbrbm  mbxInStrfbms
+     *         Thf mbximum numbfr of inbound strfbms thf bpplidbtion is prfpbrfd
+     *         to support. Must bf non nfgbtivf bnd no lbrgfr thbn {@dodf 65536}.
+     *         {@dodf 0} to usf thf fndpoints dffbult vbluf.
+     *
+     * @rfturn  A nfw SCTP dhbnnfl donnfdtfd to thf givfn bddrfss
+     *
+     * @throws  jbvb.nio.dhbnnfls.AsyndhronousClosfExdfption
+     *          If bnothfr thrfbd dlosfs this dhbnnfl
+     *          whilf thf donnfdt opfrbtion is in progrfss
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdByIntfrruptExdfption
+     *          If bnothfr thrfbd intfrrupts thf durrfnt thrfbd
+     *          whilf thf donnfdt opfrbtion is in progrfss, thfrfby
+     *          dlosing thf dhbnnfl bnd sftting thf durrfnt thrfbd's
+     *          intfrrupt stbtus
+     *
+     * @throws  jbvb.nio.dhbnnfls.UnrfsolvfdAddrfssExdfption
+     *          If thf givfn rfmotf bddrfss is not fully rfsolvfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.UnsupportfdAddrfssTypfExdfption
+     *          If thf typf of thf givfn rfmotf bddrfss is not supportfd
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd
+     *          bnd it dofs not pfrmit bddfss to thf givfn rfmotf pffr
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf SCTP protodol is not supportfd
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid stbtid SdtpChbnnfl opfn(SodkftAddrfss rfmotf, int mbxOutStrfbms,
+                   int mbxInStrfbms) throws IOExdfption {
+        SdtpChbnnfl ssd = SdtpChbnnfl.opfn();
+        ssd.donnfdt(rfmotf, mbxOutStrfbms, mbxInStrfbms);
+        rfturn ssd;
+    }
+
+    /**
+     * Rfturns thf bssodibtion on this dhbnnfl's sodkft.
+     *
+     * @rfturn  thf bssodibtion, or {@dodf null} if thf dhbnnfl's sodkft is not
+     *          donnfdtfd.
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If thf dhbnnfl is dlosfd
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt Assodibtion bssodibtion() throws IOExdfption;
+
+    /**
+     * Binds thf dhbnnfl's sodkft to b lodbl bddrfss.
+     *
+     * <P> This mfthod is usfd to fstbblish b rflbtionship bftwffn thf sodkft
+     * bnd thf lodbl bddrfssfs. Ondf b rflbtionship is fstbblishfd thfn
+     * thf sodkft rfmbins bound until thf dhbnnfl is dlosfd. This rflbtionship
+     * mby not nfdfsssbrily bf with thf bddrfss {@dodf lodbl} bs it mby bf rfmovfd
+     * by {@link #unbindAddrfss unbindAddrfss}, but thfrf will blwbys bf bt lfbst
+     * onf lodbl bddrfss bound to thf dhbnnfl's sodkft ondf bn invodbtion of
+     * this mfthod suddfssfully domplftfs.
+     *
+     * <P> Ondf thf dhbnnfl's sodkft hbs bffn suddfssfully bound to b spfdifid
+     * bddrfss, thbt is not butombtidblly bssignfd, morf bddrfssfs
+     * mby bf bound to it using {@link #bindAddrfss bindAddrfss}, or rfmovfd
+     * using {@link #unbindAddrfss unbindAddrfss}.
+     *
+     * @pbrbm  lodbl
+     *         Thf lodbl bddrfss to bind thf sodkft, or {@dodf null} to
+     *         bind thf sodkft to bn butombtidblly bssignfd sodkft bddrfss
+     *
+     * @rfturn  This dhbnnfl
+     *
+     * @throws  jbvb.nio.dhbnnfls.AlrfbdyConnfdtfdExdfption
+     *          If this dhbnnfl is blrfbdy donnfdtfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.ConnfdtionPfndingExdfption
+     *          If b non-blodking donnfdtion opfrbtion is blrfbdy in progrfss on this dhbnnfl
+     *
+     * @throws  jbvb.nio.dhbnnfls.AlrfbdyBoundExdfption
+     *          If this dhbnnfl is blrfbdy bound
+     *
+     * @throws  jbvb.nio.dhbnnfls.UnsupportfdAddrfssTypfExdfption
+     *          If thf typf of thf givfn bddrfss is not supportfd
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd its
+     *          {@link SfdurityMbnbgfr#dhfdkListfn dhfdkListfn} mfthod dfnifs
+     *          thf opfrbtion
+     */
+    publid bbstrbdt SdtpChbnnfl bind(SodkftAddrfss lodbl)
+        throws IOExdfption;
+
+    /**
+     * Adds thf givfn bddrfss to thf bound bddrfssfs for thf dhbnnfl's
+     * sodkft.
+     *
+     * <P> Thf givfn bddrfss must not bf thf {@link
+     * jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss.
+     * Thf dhbnnfl must bf first bound using {@link #bind bind} bfforf
+     * invoking this mfthod, othfrwisf {@link
+     * jbvb.nio.dhbnnfls.NotYftBoundExdfption} is thrown. Thf {@link #bind bind}
+     * mfthod tbkfs b {@dodf SodkftAddrfss} bs its brgumfnt whidh typidblly
+     * dontbins b port numbfr bs wfll bs bn bddrfss. Addrfssfs subqufntly bound
+     * using this mfthod brf simply bddrfssfs bs thf SCTP port numbfr rfmbins
+     * thf sbmf for thf lifftimf of thf dhbnnfl.
+     *
+     * <P> Adding bddrfssfs to b donnfdtfd bssodibtion is optionbl fundtionblity.
+     * If thf fndpoint supports dynbmid bddrfss rfdonfigurbtion thfn it mby
+     * sfnd thf bppropribtf mfssbgf to thf pffr to dhbngf thf pffrs bddrfss
+     * lists.
+     *
+     * @pbrbm  bddrfss
+     *         Thf bddrfss to bdd to thf bound bddrfssfs for thf sodkft
+     *
+     * @rfturn  This dhbnnfl
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.ConnfdtionPfndingExdfption
+     *          If b non-blodking donnfdtion opfrbtion is blrfbdy in progrfss on
+     *          this dhbnnfl
+     *
+     * @throws  jbvb.nio.dhbnnfls.NotYftBoundExdfption
+     *          If this dhbnnfl is not yft bound
+     *
+     * @throws  jbvb.nio.dhbnnfls.AlrfbdyBoundExdfption
+     *          If this dhbnnfl is blrfbdy bound to thf givfn bddrfss
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If bddrfss is {@dodf null} or thf {@link
+     *          jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt SdtpChbnnfl bindAddrfss(InftAddrfss bddrfss)
+         throws IOExdfption;
+
+    /**
+     * Rfmovfs thf givfn bddrfss from thf bound bddrfssfs for thf dhbnnfl's
+     * sodkft.
+     *
+     * <P> Thf givfn bddrfss must not bf thf {@link
+     * jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss.
+     * Thf dhbnnfl must bf first bound using {@link #bind bind} bfforf
+     * invoking this mfthod, othfrwisf {@link jbvb.nio.dhbnnfls.NotYftBoundExdfption}
+     * is thrown. If this mfthod is invokfd on b dhbnnfl thbt dofs not hbvf
+     * {@dodf bddrfss} bs onf of its bound bddrfssfs or thbt hbs only onf
+     * lodbl bddrfss bound to it, thfn this mfthod throws
+     * {@link IllfgblUnbindExdfption}.
+     * Thf initibl bddrfss thbt thf dhbnnfl's sodkft is bound to using {@link
+     * #bind bind} mby bf rfmovfd from thf bound bddrfssfs for thf dhbnnfl's sodkft.
+     *
+     * <P> Rfmoving bddrfssfs from b donnfdtfd bssodibtion is optionbl
+     * fundtionblity. If thf fndpoint supports dynbmid bddrfss rfdonfigurbtion
+     * thfn it mby sfnd thf bppropribtf mfssbgf to thf pffr to dhbngf thf pffrs
+     * bddrfss lists.
+     *
+     * @pbrbm  bddrfss
+     *         Thf bddrfss to rfmovf from thf bound bddrfssfs for thf sodkft
+     *
+     * @rfturn  This dhbnnfl
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.ConnfdtionPfndingExdfption
+     *          If b non-blodking donnfdtion opfrbtion is blrfbdy in progrfss on
+     *          this dhbnnfl
+     *
+     * @throws  jbvb.nio.dhbnnfls.NotYftBoundExdfption
+     *          If this dhbnnfl is not yft bound
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If bddrfss is {@dodf null} or thf {@link
+     *          jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss
+     *
+     * @throws  IllfgblUnbindExdfption
+     *          If {@dodf bddrfss} is not bound to thf dhbnnfl's sodkft. or
+     *          thf dhbnnfl hbs only onf bddrfss bound to it
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt SdtpChbnnfl unbindAddrfss(InftAddrfss bddrfss)
+         throws IOExdfption;
+
+    /**
+     * Connfdts this dhbnnfl's sodkft.
+     *
+     * <P> If this dhbnnfl is in non-blodking modf thfn bn invodbtion of this
+     * mfthod initibtfs b non-blodking donnfdtion opfrbtion.  If thf donnfdtion
+     * is fstbblishfd immfdibtfly, bs dbn hbppfn with b lodbl donnfdtion, thfn
+     * this mfthod rfturns {@dodf truf}.  Othfrwisf this mfthod rfturns
+     * {@dodf fblsf} bnd thf donnfdtion opfrbtion must lbtfr bf domplftfd by
+     * invoking thf {@link #finishConnfdt finishConnfdt} mfthod.
+     *
+     * <P> If this dhbnnfl is in blodking modf thfn bn invodbtion of this
+     * mfthod will blodk until thf donnfdtion is fstbblishfd or bn I/O frror
+     * oddurs.
+     *
+     * <P> If b sfdurity mbnbgfr hbs bffn instbllfd thfn this mfthod vfrififs
+     * thbt its {@link jbvb.lbng.SfdurityMbnbgfr#dhfdkConnfdt dhfdkConnfdt}
+     * mfthod pfrmits donnfdting to thf bddrfss bnd port numbfr of thf givfn
+     * rfmotf pffr.
+     *
+     * <p> This mfthod mby bf invokfd bt bny timf. If b {@link #sfnd sfnd} or
+     * {@link #rfdfivf rfdfivf} opfrbtion upon this dhbnnfl is invokfd whilf bn
+     * invodbtion of this mfthod is in progrfss thfn thbt opfrbtion will first
+     * blodk until this invodbtion is domplftf.  If b donnfdtion bttfmpt is
+     * initibtfd but fbils, thbt is, if bn invodbtion of this mfthod throws b
+     * dhfdkfd fxdfption, thfn thf dhbnnfl will bf dlosfd.
+     *
+     * @pbrbm  rfmotf
+     *         Thf rfmotf pffr to whidh this dhbnnfl is to bf donnfdtfd
+     *
+     * @rfturn  {@dodf truf} if b donnfdtion wbs fstbblishfd, {@dodf fblsf} if
+     *          this dhbnnfl is in non-blodking modf bnd thf donnfdtion
+     *          opfrbtion is in progrfss
+     *
+     * @throws  jbvb.nio.dhbnnfls.AlrfbdyConnfdtfdExdfption
+     *          If this dhbnnfl is blrfbdy donnfdtfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.ConnfdtionPfndingExdfption
+     *          If b non-blodking donnfdtion opfrbtion is blrfbdy in progrfss on
+     *          this dhbnnfl
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.AsyndhronousClosfExdfption
+     *          If bnothfr thrfbd dlosfs this dhbnnfl
+     *          whilf thf donnfdt opfrbtion is in progrfss
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdByIntfrruptExdfption
+     *          If bnothfr thrfbd intfrrupts thf durrfnt thrfbd
+     *          whilf thf donnfdt opfrbtion is in progrfss, thfrfby
+     *          dlosing thf dhbnnfl bnd sftting thf durrfnt thrfbd's
+     *          intfrrupt stbtus
+     *
+     * @throws  jbvb.nio.dhbnnfls.UnrfsolvfdAddrfssExdfption
+     *          If thf givfn rfmotf bddrfss is not fully rfsolvfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.UnsupportfdAddrfssTypfExdfption
+     *          If thf typf of thf givfn rfmotf bddrfss is not supportfd
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd
+     *          bnd it dofs not pfrmit bddfss to thf givfn rfmotf pffr
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt boolfbn donnfdt(SodkftAddrfss rfmotf) throws IOExdfption;
+
+    /**
+     * Connfdts this dhbnnfl's sodkft.
+     *
+     * <P> This is b donvifndf mfthod bnd is fquivblfnt to fvblubting thf
+     * following fxprfssion:
+     * <blodkquotf><prf>
+     * sftOption(SdtpStbndbrdSodkftOptions.SCTP_INIT_MAXSTREAMS, SdtpStbndbrdSodkftOption.InitMbxStrfbms.drfbtf(mbxInStrfbms, mbxOutStrfbms))
+     *  .donnfdt(rfmotf);
+     * </prf></blodkquotf>
+     *
+     * <P> Thf {@dodf mbxOutStrfbms} bnd {@dodf mbxInStrfbms} pbrbmftfrs
+     * rfprfsfnt thf mbximum numbfr of strfbms thbt thf bpplidbtion wishfs to bf
+     * bblf to sfnd to bnd rfdfivf from. Thfy brf nfgotibtfd with thf rfmotf
+     * pffr bnd mby bf limitfd by thf opfrbting systfm.
+     *
+     * @pbrbm  rfmotf
+     *         Thf rfmotf pffr to whidh this dhbnnfl is to bf donnfdtfd
+     *
+     * @pbrbm  mbxOutStrfbms
+     *         Must bf non nfgbtivf bnd no lbrgfr thbn {@dodf 65536}.
+     *         {@dodf 0} to usf thf fndpoints dffbult vbluf.
+     *
+     * @pbrbm  mbxInStrfbms
+     *         Must bf non nfgbtivf bnd no lbrgfr thbn {@dodf 65536}.
+     *         {@dodf 0} to usf thf fndpoints dffbult vbluf.
+     *
+     * @rfturn  {@dodf truf} if b donnfdtion wbs fstbblishfd, {@dodf fblsf} if
+     *          this dhbnnfl is in non-blodking modf bnd thf donnfdtion opfrbtion
+     *          is in progrfss
+     *
+     * @throws  jbvb.nio.dhbnnfls.AlrfbdyConnfdtfdExdfption
+     *          If this dhbnnfl is blrfbdy donnfdtfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.ConnfdtionPfndingExdfption
+     *          If b non-blodking donnfdtion opfrbtion is blrfbdy in progrfss on
+     *          this dhbnnfl
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.AsyndhronousClosfExdfption
+     *          If bnothfr thrfbd dlosfs this dhbnnfl
+     *          whilf thf donnfdt opfrbtion is in progrfss
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdByIntfrruptExdfption
+     *          If bnothfr thrfbd intfrrupts thf durrfnt thrfbd
+     *          whilf thf donnfdt opfrbtion is in progrfss, thfrfby
+     *          dlosing thf dhbnnfl bnd sftting thf durrfnt thrfbd's
+     *          intfrrupt stbtus
+     *
+     * @throws  jbvb.nio.dhbnnfls.UnrfsolvfdAddrfssExdfption
+     *          If thf givfn rfmotf bddrfss is not fully rfsolvfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.UnsupportfdAddrfssTypfExdfption
+     *          If thf typf of thf givfn rfmotf bddrfss is not supportfd
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd
+     *          bnd it dofs not pfrmit bddfss to thf givfn rfmotf pffr
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt boolfbn donnfdt(SodkftAddrfss rfmotf,
+                                    int mbxOutStrfbms,
+                                    int mbxInStrfbms)
+        throws IOExdfption;
+
+    /**
+     * Tflls whfthfr or not b donnfdtion opfrbtion is in progrfss on this dhbnnfl.
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, b donnfdtion opfrbtion hbs bffn initibtfd
+     *          on this dhbnnfl but not yft domplftfd by invoking thf
+     *          {@link #finishConnfdt} mfthod
+     */
+    publid bbstrbdt boolfbn isConnfdtionPfnding();
+
+    /**
+     * Finishfs thf prodfss of donnfdting bn SCTP dhbnnfl.
+     *
+     * <P> A non-blodking donnfdtion opfrbtion is initibtfd by plbding b sodkft
+     * dhbnnfl in non-blodking modf bnd thfn invoking onf of its {@link #donnfdt
+     * donnfdt} mfthods.  Ondf thf donnfdtion is fstbblishfd, or thf bttfmpt hbs
+     * fbilfd, thf dhbnnfl will bfdomf donnfdtbblf bnd this mfthod mby
+     * bf invokfd to domplftf thf donnfdtion sfqufndf.  If thf donnfdtion
+     * opfrbtion fbilfd thfn invoking this mfthod will dbusf bn bppropribtf
+     * {@link jbvb.io.IOExdfption} to bf thrown.
+     *
+     * <P> If this dhbnnfl is blrfbdy donnfdtfd thfn this mfthod will not blodk
+     * bnd will immfdibtfly rfturn <tt>truf</tt>.  If this dhbnnfl is in
+     * non-blodking modf thfn this mfthod will rfturn <tt>fblsf</tt> if thf
+     * donnfdtion prodfss is not yft domplftf.  If this dhbnnfl is in blodking
+     * modf thfn this mfthod will blodk until thf donnfdtion fithfr domplftfs
+     * or fbils, bnd will blwbys fithfr rfturn <tt>truf</tt> or throw b dhfdkfd
+     * fxdfption dfsdribing thf fbilurf.
+     *
+     * <P> This mfthod mby bf invokfd bt bny timf. If b {@link #sfnd sfnd} or {@link #rfdfivf rfdfivf}
+     * opfrbtion upon this dhbnnfl is invokfd whilf bn invodbtion of this
+     * mfthod is in progrfss thfn thbt opfrbtion will first blodk until this
+     * invodbtion is domplftf.  If b donnfdtion bttfmpt fbils, thbt is, if bn
+     * invodbtion of this mfthod throws b dhfdkfd fxdfption, thfn thf dhbnnfl
+     * will bf dlosfd.
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, this dhbnnfl's sodkft is now
+     *          donnfdtfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.NoConnfdtionPfndingExdfption
+     *          If this dhbnnfl is not donnfdtfd bnd b donnfdtion opfrbtion
+     *          hbs not bffn initibtfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.AsyndhronousClosfExdfption
+     *          If bnothfr thrfbd dlosfs this dhbnnfl
+     *          whilf thf donnfdt opfrbtion is in progrfss
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdByIntfrruptExdfption
+     *          If bnothfr thrfbd intfrrupts thf durrfnt thrfbd
+     *          whilf thf donnfdt opfrbtion is in progrfss, thfrfby
+     *          dlosing thf dhbnnfl bnd sftting thf durrfnt thrfbd's
+     *          intfrrupt stbtus
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt boolfbn finishConnfdt() throws IOExdfption;
+
+    /**
+     * Rfturns bll of thf sodkft bddrfssfs to whidh this dhbnnfl's sodkft is
+     * bound.
+     *
+     * @rfturn  All thf sodkft bddrfssfs thbt this dhbnnfl's sodkft is
+     *          bound to, or bn fmpty {@dodf Sft} if thf dhbnnfl's sodkft is not
+     *          bound
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If thf dhbnnfl is dlosfd
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid bbstrbdt Sft<SodkftAddrfss> gftAllLodblAddrfssfs()
+        throws IOExdfption;
+
+    /**
+     * Rfturns bll of thf rfmotf bddrfssfs to whidh this dhbnnfl's sodkft
+     * is donnfdtfd.
+     *
+     * <P> If thf dhbnnfl is donnfdtfd to b rfmotf pffr thbt is bound to
+     * multiplf bddrfssfs thfn it is thfsf bddrfssfs thbt thf dhbnnfl's sodkft
+     * is donnfdtfd.
+     *
+     * @rfturn  All of thf rfmotf bddrfssfs to whidh this dhbnnfl's sodkft
+     *          is donnfdtfd, or bn fmpty {@dodf Sft} if thf dhbnnfl's sodkft is
+     *          not donnfdtfd
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If thf dhbnnfl is dlosfd
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid bbstrbdt Sft<SodkftAddrfss> gftRfmotfAddrfssfs()
+        throws IOExdfption;
+
+    /**
+     * Shutdown b donnfdtion without dlosing thf dhbnnfl.
+     *
+     * <P> Sfnds b shutdown dommbnd to thf rfmotf pffr, ffffdtivfly prfvfnting
+     * bny nfw dbtb from bfing writtfn to thf sodkft by fithfr pffr. Furthfr
+     * sfnds will throw {@link jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption}. Thf
+     * dhbnnfl rfmbins opfn to bllow thf for bny dbtb (bnd notifidbtions) to bf
+     * rfdfivfd thbt mby hbvf bffn sfnt by thf pffr bfforf it rfdfivfd thf
+     * shutdown dommbnd. If thf dhbnnfl is blrfbdy shutdown thfn invoking this
+     * mfthod hbs no ffffdt.
+     *
+     * @rfturn  This dhbnnfl
+     *
+     * @throws  jbvb.nio.dhbnnfls.NotYftConnfdtfdExdfption
+     *          If this dhbnnfl is not yft donnfdtfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt SdtpChbnnfl shutdown() throws IOExdfption;
+
+    /**
+     * Rfturns thf vbluf of b sodkft option.
+     *
+     * @pbrbm   <T>
+     *          Thf typf of thf sodkft option vbluf
+     *
+     * @pbrbm   nbmf
+     *          Thf sodkft option
+     *
+     * @rfturn  Thf vbluf of thf sodkft option. A vbluf of {@dodf null} mby bf
+     *          b vblid vbluf for somf sodkft options.
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf sodkft option is not supportfd by this dhbnnfl
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     *
+     * @sff SdtpStbndbrdSodkftOptions
+     */
+    publid bbstrbdt <T> T gftOption(SdtpSodkftOption<T> nbmf)
+        throws IOExdfption;
+
+    /**
+     * Sfts thf vbluf of b sodkft option.
+     *
+     * @pbrbm   <T>
+     *          Thf typf of thf sodkft option vbluf
+     *
+     * @pbrbm   nbmf
+     *          Thf sodkft option
+     *
+     * @pbrbm   vbluf
+     *          Thf vbluf of thf sodkft option. A vbluf of {@dodf null} mby bf
+     *          b vblid vbluf for somf sodkft options.
+     *
+     * @rfturn  This dhbnnfl
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf sodkft option is not supportfd by this dhbnnfl
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf vbluf is not b vblid vbluf for this sodkft option
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     *
+     * @sff SdtpStbndbrdSodkftOptions
+     */
+    publid bbstrbdt <T> SdtpChbnnfl sftOption(SdtpSodkftOption<T> nbmf, T vbluf)
+        throws IOExdfption;
+
+    /**
+     * Rfturns b sft of thf sodkft options supportfd by this dhbnnfl.
+     *
+     * <P> This mfthod will dontinuf to rfturn thf sft of options fvfn bftfr thf
+     * dhbnnfl hbs bffn dlosfd.
+     *
+     * @rfturn  A sft of thf sodkft options supportfd by this dhbnnfl
+     */
+    publid bbstrbdt Sft<SdtpSodkftOption<?>> supportfdOptions();
+
+    /**
+     * Rfturns bn opfrbtion sft idfntifying this dhbnnfl's supportfd opfrbtions.
+     *
+     * <P> SCTP dhbnnfls support donnfdting, rfbding, bnd writing, so this
+     * mfthod rfturns <tt>(</tt>{@link SflfdtionKfy#OP_CONNECT}
+     * <tt>|</tt>&nbsp;{@link SflfdtionKfy#OP_READ} <tt>|</tt>&nbsp;{@link
+     * SflfdtionKfy#OP_WRITE}<tt>)</tt>.  </p>
+     *
+     * @rfturn  Thf vblid-opfrbtion sft
+     */
+    @Ovfrridf
+    publid finbl int vblidOps() {
+        rfturn (SflfdtionKfy.OP_READ |
+                SflfdtionKfy.OP_WRITE |
+                SflfdtionKfy.OP_CONNECT);
+    }
+
+    /**
+     * Rfdfivfs b mfssbgf into thf givfn bufffr bnd/or hbndlfs b notifidbtion.
+     *
+     * <P> If b mfssbgf or notifidbtion is immfdibtfly bvbilbblf, or if this
+     * dhbnnfl is in blodking modf bnd onf fvfntublly bfdomfs bvbilbblf, thfn
+     * thf mfssbgf or notifidbtion is rfturnfd or hbndlfd, rfspfdtivfly. If this
+     * dhbnnfl is in non-blodking modf bnd b mfssbgf or notifidbtion is not
+     * immfdibtfly bvbilbblf thfn this mfthod immfdibtfly rfturns {@dodf null}.
+     *
+     * <P> If this mfthod rfdfivfs b mfssbgf it is dopifd into thf givfn bytf
+     * bufffr. Thf mfssbgf is trbnsffrrfd into thf givfn bytf bufffr stbrting bt
+     * its durrfnt position bnd thf bufffrs position is indrfmfntfd by thf
+     * numbfr of bytfs rfbd. If thfrf brf ffwfr bytfs rfmbining in thf bufffr
+     * thbn brf rfquirfd to hold thf mfssbgf, or thf undfrlying input bufffr
+     * dofs not dontbin thf domplftf mfssbgf, thfn bn invodbtion of {@link
+     * MfssbgfInfo#isComplftf isComplftf} on thf rfturnfd {@dodf
+     * MfssbgfInfo} will rfturn {@dodf fblsf}, bnd morf invodbtions of this
+     * mfthod will bf nfdfssbry to domplftfly donsumf thf mfssgbf. Only
+     * onf mfssbgf bt b timf will bf pbrtiblly dflivfrfd in bny strfbm. Thf
+     * sodkft option {@link SdtpStbndbrdSodkftOptions#SCTP_FRAGMENT_INTERLEAVE
+     * SCTP_FRAGMENT_INTERLEAVE} dontrols vbrious bspfdts of whbt intfrlbding of
+     * mfssbgfs oddurs.
+     *
+     * <P> If this mfthod rfdfivfs b notifidbtion thfn thf bppropribtf mfthod of
+     * thf givfn hbndlfr, if thfrf is onf, is invokfd. If thf hbndlfr rfturns
+     * {@link HbndlfrRfsult#CONTINUE CONTINUE} thfn this mfthod will try to
+     * rfdfivf bnothfr mfssbgf/notifidbtion, othfrwisf, if {@link
+     * HbndlfrRfsult#RETURN RETURN} is rfturnfd this mfthod will rfturn {@dodf
+     * null}. If bn undbught fxdfption is thrown by thf hbndlfr it will bf
+     * propbgbtfd up thf stbdk through this mfthod.
+     *
+     * <P> This mfthod mby bf invokfd bt bny timf. If bnothfr thrfbd hbs
+     * blrfbdy initibtfd b rfdfivf opfrbtion upon this dhbnnfl, thfn bn
+     * invodbtion of this mfthod will blodk until thf first opfrbtion is
+     * domplftf. Thf givfn hbndlfr is invokfd without holding bny lodks usfd
+     * to fnfordf thf bbovf syndhronizbtion polidy, thbt wby hbndlfrs
+     * will not stbll othfr thrfbds from rfdfiving. A hbndlfr should not invokf
+     * thf {@dodf rfdfivf} mfthod of this dhbnnfl, if it dofs bn
+     * {@link IllfgblRfdfivfExdfption} will bf thrown.
+     *
+     * @pbrbm  <T>
+     *         Thf typf of thf bttbdhmfnt
+     *
+     * @pbrbm  dst
+     *         Thf bufffr into whidh mfssbgf bytfs brf to bf trbnsffrrfd
+     *
+     * @pbrbm  bttbdhmfnt
+     *         Thf objfdt to bttbdh to thf rfdfivf opfrbtion; dbn bf
+     *         {@dodf null}
+     *
+     * @pbrbm  hbndlfr
+     *         A hbndlfr to hbndlf notifidbtions from thf SCTP stbdk, or {@dodf
+     *         null} to ignorf bny notifidbtions.
+     *
+     * @rfturn  Thf {@dodf MfssbgfInfo}, {@dodf null} if this dhbnnfl is in
+     *          non-blodking modf bnd no mfssbgfs brf immfdibtfly bvbilbblf or
+     *          thf notifidbtion hbndlfr rfturns {@link HbndlfrRfsult#RETURN
+     *          RETURN} bftfr hbndling b notifidbtion
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.AsyndhronousClosfExdfption
+     *          If bnothfr thrfbd dlosfs this dhbnnfl
+     *          whilf thf rfbd opfrbtion is in progrfss
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdByIntfrruptExdfption
+     *          If bnothfr thrfbd intfrrupts thf durrfnt thrfbd
+     *          whilf thf rfbd opfrbtion is in progrfss, thfrfby
+     *          dlosing thf dhbnnfl bnd sftting thf durrfnt thrfbd's
+     *          intfrrupt stbtus
+     *
+     * @throws  jbvb.nio.dhbnnfls.NotYftConnfdtfdExdfption
+     *          If this dhbnnfl is not yft donnfdtfd
+     *
+     * @throws  IllfgblRfdfivfExdfption
+     *          If thf givfn hbndlfr invokfs thf {@dodf rfdfivf} mfthod of this
+     *          dhbnnfl
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt <T> MfssbgfInfo rfdfivf(BytfBufffr dst,
+                                            T bttbdhmfnt,
+                                            NotifidbtionHbndlfr<T> hbndlfr)
+        throws IOExdfption;
+
+    /**
+     * Sfnds b mfssbgf vib this dhbnnfl.
+     *
+     * <P> If this dhbnnfl is in non-blodking modf bnd thfrf is suffidifnt room
+     * in thf undfrlying output bufffr, or if this dhbnnfl is in blodking modf
+     * bnd suffidifnt room bfdomfs bvbilbblf, thfn thf rfmbining bytfs in thf
+     * givfn bytf bufffr brf trbnsmittfd bs b singlf mfssbgf. Sfnding b mfssbgf
+     * is btomid unlfss fxplidit mfssbgf domplftion {@link
+     * SdtpStbndbrdSodkftOptions#SCTP_EXPLICIT_COMPLETE SCTP_EXPLICIT_COMPLETE}
+     * sodkft option is fnbblfd on this dhbnnfl's sodkft.
+     *
+     * <P> Thf mfssbgf is trbnsffrrfd from thf bytf bufffr bs if by b rfgulbr
+     * {@link jbvb.nio.dhbnnfls.WritbblfBytfChbnnfl#writf(jbvb.nio.BytfBufffr)
+     * writf} opfrbtion.
+     *
+     * <P> Thf bytfs will bf writtfn to thf strfbm numbfr thbt is spfdififd by
+     * {@link MfssbgfInfo#strfbmNumbfr strfbmNumbfr} in thf givfn {@dodf
+     * mfssbgfInfo}.
+     *
+     * <P> This mfthod mby bf invokfd bt bny timf. If bnothfr thrfbd hbs blrfbdy
+     * initibtfd b sfnd opfrbtion upon this dhbnnfl, thfn bn invodbtion of
+     * this mfthod will blodk until thf first opfrbtion is domplftf.
+     *
+     * @pbrbm  srd
+     *         Thf bufffr dontbining thf mfssbgf to bf sfnt
+     *
+     * @pbrbm  mfssbgfInfo
+     *         Andillbry dbtb bbout thf mfssbgf to bf sfnt
+     *
+     * @rfturn  Thf numbfr of bytfs sfnt, whidh will bf fithfr thf numbfr of
+     *          bytfs thbt wfrf rfmbining in thf mfssbgfs bufffr whfn this mfthod
+     *          wbs invokfd or, if this dhbnnfl is non-blodking, mby bf zfro if
+     *          thfrf wbs insuffidifnt room for thf mfssbgf in thf undfrlying
+     *          output bufffr
+     *
+     * @throws  InvblidStrfbmExdfption
+     *          If {@dodf strfbmNumnfr} is nfgbtivf or grfbtfr thbn or fqubl to
+     *          thf mbximum numbfr of outgoing strfbms
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  jbvb.nio.dhbnnfls.AsyndhronousClosfExdfption
+     *          If bnothfr thrfbd dlosfs this dhbnnfl
+     *          whilf thf rfbd opfrbtion is in progrfss
+     *
+     * @throws  jbvb.nio.dhbnnfls.ClosfdByIntfrruptExdfption
+     *          If bnothfr thrfbd intfrrupts thf durrfnt thrfbd
+     *          whilf thf rfbd opfrbtion is in progrfss, thfrfby
+     *          dlosing thf dhbnnfl bnd sftting thf durrfnt thrfbd's
+     *          intfrrupt stbtus
+     *
+     * @throws  jbvb.nio.dhbnnfls.NotYftConnfdtfdExdfption
+     *          If this dhbnnfl is not yft donnfdtfd
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid bbstrbdt int sfnd(BytfBufffr srd, MfssbgfInfo mfssbgfInfo)
+        throws IOExdfption;
+}

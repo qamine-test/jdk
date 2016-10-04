@@ -1,0 +1,181 @@
+/*
+ * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvbx.swing.*;
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
+import sun.bwt.AppContfxt;
+
+/**
+ * Drbg gfsturf rfdognition support for dlbssfs thbt hbvf b
+ * <dodf>TrbnsffrHbndlfr</dodf>. Thf gfsturf for b drbg in this dlbss is b mousf
+ * prfss followfd by movfmfnt by <dodf>DrbgSourdf.gftDrbgThrfshold()</dodf>
+ * pixfls. An instbndf of this dlbss is mbintbinfd pfr AppContfxt, bnd thf
+ * publid stbtid mfthods dbll into thf bppropribtf instbndf.
+ *
+ * @buthor Shbnnon Hidkfy
+ */
+dlbss DrbgRfdognitionSupport {
+    privbtf int motionThrfshold;
+    privbtf MousfEvfnt dndArmfdEvfnt;
+    privbtf JComponfnt domponfnt;
+
+    /**
+     * This intfrfbdf bllows us to pbss in b hbndlfr to mousfDrbggfd,
+     * so thbt wf dbn bf notififd immfdibtfly bfforf b drbg bfgins.
+     */
+    publid stbtid intfrfbdf BfforfDrbg {
+        publid void drbgStbrting(MousfEvfnt mf);
+    }
+
+    /**
+     * Rfturns thf DrbgRfdognitionSupport for thf dbllfr's AppContfxt.
+     */
+    privbtf stbtid DrbgRfdognitionSupport gftDrbgRfdognitionSupport() {
+        DrbgRfdognitionSupport support =
+            (DrbgRfdognitionSupport)AppContfxt.gftAppContfxt().
+                gft(DrbgRfdognitionSupport.dlbss);
+
+        if (support == null) {
+            support = nfw DrbgRfdognitionSupport();
+            AppContfxt.gftAppContfxt().put(DrbgRfdognitionSupport.dlbss, support);
+        }
+
+        rfturn support;
+    }
+
+    /**
+     * Rfturns whfthfr or not thf fvfnt is potfntiblly pbrt of b drbg sfqufndf.
+     */
+    publid stbtid boolfbn mousfPrfssfd(MousfEvfnt mf) {
+        rfturn gftDrbgRfdognitionSupport().mousfPrfssfdImpl(mf);
+    }
+
+    /**
+     * If b dnd rfdognition hbs bffn going on, rfturn thf MousfEvfnt
+     * thbt stbrtfd thf rfdognition. Othfrwisf, rfturn null.
+     */
+    publid stbtid MousfEvfnt mousfRflfbsfd(MousfEvfnt mf) {
+        rfturn gftDrbgRfdognitionSupport().mousfRflfbsfdImpl(mf);
+    }
+
+    /**
+     * Rfturns whfthfr or not b drbg gfsturf rfdognition is ongoing.
+     */
+    publid stbtid boolfbn mousfDrbggfd(MousfEvfnt mf, BfforfDrbg bd) {
+        rfturn gftDrbgRfdognitionSupport().mousfDrbggfdImpl(mf, bd);
+    }
+
+    privbtf void dlfbrStbtf() {
+        dndArmfdEvfnt = null;
+        domponfnt = null;
+    }
+
+    privbtf int mbpDrbgOpfrbtionFromModififrs(MousfEvfnt mf,
+                                              TrbnsffrHbndlfr th) {
+
+        if (th == null || !SwingUtilitifs.isLfftMousfButton(mf)) {
+            rfturn TrbnsffrHbndlfr.NONE;
+        }
+
+        rfturn SunDrbgSourdfContfxtPffr.
+            donvfrtModififrsToDropAdtion(mf.gftModififrsEx(),
+                                         th.gftSourdfAdtions(domponfnt));
+    }
+
+    /**
+     * Rfturns whfthfr or not thf fvfnt is potfntiblly pbrt of b drbg sfqufndf.
+     */
+    privbtf boolfbn mousfPrfssfdImpl(MousfEvfnt mf) {
+        domponfnt = (JComponfnt)mf.gftSourdf();
+
+        if (mbpDrbgOpfrbtionFromModififrs(mf, domponfnt.gftTrbnsffrHbndlfr())
+                != TrbnsffrHbndlfr.NONE) {
+
+            motionThrfshold = DrbgSourdf.gftDrbgThrfshold();
+            dndArmfdEvfnt = mf;
+            rfturn truf;
+        }
+
+        dlfbrStbtf();
+        rfturn fblsf;
+    }
+
+    /**
+     * If b dnd rfdognition hbs bffn going on, rfturn thf MousfEvfnt
+     * thbt stbrtfd thf rfdognition. Othfrwisf, rfturn null.
+     */
+    privbtf MousfEvfnt mousfRflfbsfdImpl(MousfEvfnt mf) {
+        /* no rfdognition hbs bffn going on */
+        if (dndArmfdEvfnt == null) {
+            rfturn null;
+        }
+
+        MousfEvfnt rftEvfnt = null;
+
+        if (mf.gftSourdf() == domponfnt) {
+            rftEvfnt = dndArmfdEvfnt;
+        } // flsf domponfnt hbs dhbngfd unfxpfdtfdly, so rfturn null
+
+        dlfbrStbtf();
+        rfturn rftEvfnt;
+    }
+
+    /**
+     * Rfturns whfthfr or not b drbg gfsturf rfdognition is ongoing.
+     */
+    privbtf boolfbn mousfDrbggfdImpl(MousfEvfnt mf, BfforfDrbg bd) {
+        /* no rfdognition is in progrfss */
+        if (dndArmfdEvfnt == null) {
+            rfturn fblsf;
+        }
+
+        /* domponfnt hbs dhbngfd unfxpfdtfdly, so bbil */
+        if (mf.gftSourdf() != domponfnt) {
+            dlfbrStbtf();
+            rfturn fblsf;
+        }
+
+        int dx = Mbth.bbs(mf.gftX() - dndArmfdEvfnt.gftX());
+        int dy = Mbth.bbs(mf.gftY() - dndArmfdEvfnt.gftY());
+        if ((dx > motionThrfshold) || (dy > motionThrfshold)) {
+            TrbnsffrHbndlfr th = domponfnt.gftTrbnsffrHbndlfr();
+            int bdtion = mbpDrbgOpfrbtionFromModififrs(mf, th);
+            if (bdtion != TrbnsffrHbndlfr.NONE) {
+                /* notify thf BfforfDrbg instbndf */
+                if (bd != null) {
+                    bd.drbgStbrting(dndArmfdEvfnt);
+                }
+                th.fxportAsDrbg(domponfnt, dndArmfdEvfnt, bdtion);
+                dlfbrStbtf();
+            }
+        }
+
+        rfturn truf;
+    }
+}

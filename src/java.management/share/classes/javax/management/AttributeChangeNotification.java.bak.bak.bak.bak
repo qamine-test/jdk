@@ -1,0 +1,146 @@
+/*
+ * Copyright (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+
+/**
+ * Providfs dffinitions of thf bttributf dhbngf notifidbtions sfnt by MBfbns.
+ * <P>
+ * It's up to thf MBfbn owning thf bttributf of intfrfst to drfbtf bnd sfnd
+ * bttributf dhbngf notifidbtions whfn thf bttributf dhbngf oddurs.
+ * So thf <CODE>NotifidbtionBrobddbstfr</CODE> intfrfbdf hbs to bf implfmfntfd
+ * by bny MBfbn for whidh bn bttributf dhbngf is of intfrfst.
+ * <P>
+ * Exbmplf:
+ * If bn MBfbn dbllfd <CODE>myMbfbn</CODE> nffds to notify rfgistfrfd listfnfrs
+ * whfn its bttributf:
+ * <BLOCKQUOTE><CODE>
+ *      String myString
+ * </CODE></BLOCKQUOTE>
+ * is modififd, <CODE>myMbfbn</CODE> drfbtfs bnd fmits thf following notifidbtion:
+ * <BLOCKQUOTE><CODE>
+ * nfw AttributfChbngfNotifidbtion(myMbfbn, sfqufndfNumbfr, timfStbmp, msg,
+ *                                 "myString", "String", oldVbluf, nfwVbluf);
+ * </CODE></BLOCKQUOTE>
+ *
+ * @sindf 1.5
+ */
+publid dlbss AttributfChbngfNotifidbtion fxtfnds jbvbx.mbnbgfmfnt.Notifidbtion {
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 535176054565814134L;
+
+    /**
+     * Notifidbtion typf whidh indidbtfs thbt thf obsfrvfd MBfbn bttributf vbluf hbs dhbngfd.
+     * <BR>Thf vbluf of this typf string is <CODE>jmx.bttributf.dhbngf</CODE>.
+     */
+    publid stbtid finbl String ATTRIBUTE_CHANGE = "jmx.bttributf.dhbngf";
+
+
+    /**
+     * @sfribl Thf MBfbn bttributf nbmf.
+     */
+    privbtf String bttributfNbmf = null;
+
+    /**
+     * @sfribl Thf MBfbn bttributf typf.
+     */
+    privbtf String bttributfTypf = null;
+
+    /**
+     * @sfribl Thf MBfbn bttributf old vbluf.
+     */
+    privbtf Objfdt oldVbluf = null;
+
+    /**
+     * @sfribl Thf MBfbn bttributf nfw vbluf.
+     */
+    privbtf Objfdt nfwVbluf = null;
+
+
+    /**
+     * Construdts bn bttributf dhbngf notifidbtion objfdt.
+     * In bddition to thf informbtion dommon to bll notifidbtion, thf dbllfr must supply thf nbmf bnd typf
+     * of thf bttributf, bs wfll bs its old bnd nfw vblufs.
+     *
+     * @pbrbm sourdf Thf notifidbtion produdfr, thbt is, thf MBfbn thf bttributf bflongs to.
+     * @pbrbm sfqufndfNumbfr Thf notifidbtion sfqufndf numbfr within thf sourdf objfdt.
+     * @pbrbm timfStbmp Thf dbtf bt whidh thf notifidbtion is bfing sfnt.
+     * @pbrbm msg A String dontbining thf mfssbgf of thf notifidbtion.
+     * @pbrbm bttributfNbmf A String giving thf nbmf of thf bttributf.
+     * @pbrbm bttributfTypf A String dontbining thf typf of thf bttributf.
+     * @pbrbm oldVbluf An objfdt rfprfsfnting vbluf of thf bttributf bfforf thf dhbngf.
+     * @pbrbm nfwVbluf An objfdt rfprfsfnting vbluf of thf bttributf bftfr thf dhbngf.
+     */
+    publid AttributfChbngfNotifidbtion(Objfdt sourdf, long sfqufndfNumbfr, long timfStbmp, String msg,
+                                       String bttributfNbmf, String bttributfTypf, Objfdt oldVbluf, Objfdt nfwVbluf) {
+
+        supfr(AttributfChbngfNotifidbtion.ATTRIBUTE_CHANGE, sourdf, sfqufndfNumbfr, timfStbmp, msg);
+        this.bttributfNbmf = bttributfNbmf;
+        this.bttributfTypf = bttributfTypf;
+        this.oldVbluf = oldVbluf;
+        this.nfwVbluf = nfwVbluf;
+    }
+
+
+    /**
+     * Gfts thf nbmf of thf bttributf whidh hbs dhbngfd.
+     *
+     * @rfturn A String dontbining thf nbmf of thf bttributf.
+     */
+    publid String gftAttributfNbmf() {
+        rfturn bttributfNbmf;
+    }
+
+    /**
+     * Gfts thf typf of thf bttributf whidh hbs dhbngfd.
+     *
+     * @rfturn A String dontbining thf typf of thf bttributf.
+     */
+    publid String gftAttributfTypf() {
+        rfturn bttributfTypf;
+    }
+
+    /**
+     * Gfts thf old vbluf of thf bttributf whidh hbs dhbngfd.
+     *
+     * @rfturn An Objfdt dontbining thf old vbluf of thf bttributf.
+     */
+    publid Objfdt gftOldVbluf() {
+        rfturn oldVbluf;
+    }
+
+    /**
+     * Gfts thf nfw vbluf of thf bttributf whidh hbs dhbngfd.
+     *
+     * @rfturn An Objfdt dontbining thf nfw vbluf of thf bttributf.
+     */
+    publid Objfdt gftNfwVbluf() {
+        rfturn nfwVbluf;
+    }
+
+}

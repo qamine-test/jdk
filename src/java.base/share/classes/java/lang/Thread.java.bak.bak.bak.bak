@@ -1,0 +1,2043 @@
+/*
+ * Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.dondurrfnt.lodks.LodkSupport;
+import sun.nio.dh.Intfrruptiblf;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+
+/**
+ * A <i>thrfbd</i> is b thrfbd of fxfdution in b progrbm. Thf Jbvb
+ * Virtubl Mbdhinf bllows bn bpplidbtion to hbvf multiplf thrfbds of
+ * fxfdution running dondurrfntly.
+ * <p>
+ * Evfry thrfbd hbs b priority. Thrfbds with highfr priority brf
+ * fxfdutfd in prfffrfndf to thrfbds with lowfr priority. Ebdh thrfbd
+ * mby or mby not blso bf mbrkfd bs b dbfmon. Whfn dodf running in
+ * somf thrfbd drfbtfs b nfw <dodf>Thrfbd</dodf> objfdt, thf nfw
+ * thrfbd hbs its priority initiblly sft fqubl to thf priority of thf
+ * drfbting thrfbd, bnd is b dbfmon thrfbd if bnd only if thf
+ * drfbting thrfbd is b dbfmon.
+ * <p>
+ * Whfn b Jbvb Virtubl Mbdhinf stbrts up, thfrf is usublly b singlf
+ * non-dbfmon thrfbd (whidh typidblly dblls thf mfthod nbmfd
+ * <dodf>mbin</dodf> of somf dfsignbtfd dlbss). Thf Jbvb Virtubl
+ * Mbdhinf dontinufs to fxfdutf thrfbds until fithfr of thf following
+ * oddurs:
+ * <ul>
+ * <li>Thf <dodf>fxit</dodf> mfthod of dlbss <dodf>Runtimf</dodf> hbs bffn
+ *     dbllfd bnd thf sfdurity mbnbgfr hbs pfrmittfd thf fxit opfrbtion
+ *     to tbkf plbdf.
+ * <li>All thrfbds thbt brf not dbfmon thrfbds hbvf difd, fithfr by
+ *     rfturning from thf dbll to thf <dodf>run</dodf> mfthod or by
+ *     throwing bn fxdfption thbt propbgbtfs bfyond thf <dodf>run</dodf>
+ *     mfthod.
+ * </ul>
+ * <p>
+ * Thfrf brf two wbys to drfbtf b nfw thrfbd of fxfdution. Onf is to
+ * dfdlbrf b dlbss to bf b subdlbss of <dodf>Thrfbd</dodf>. This
+ * subdlbss should ovfrridf thf <dodf>run</dodf> mfthod of dlbss
+ * <dodf>Thrfbd</dodf>. An instbndf of thf subdlbss dbn thfn bf
+ * bllodbtfd bnd stbrtfd. For fxbmplf, b thrfbd thbt domputfs primfs
+ * lbrgfr thbn b stbtfd vbluf dould bf writtfn bs follows:
+ * <hr><blodkquotf><prf>
+ *     dlbss PrimfThrfbd fxtfnds Thrfbd {
+ *         long minPrimf;
+ *         PrimfThrfbd(long minPrimf) {
+ *             this.minPrimf = minPrimf;
+ *         }
+ *
+ *         publid void run() {
+ *             // domputf primfs lbrgfr thbn minPrimf
+ *             &nbsp;.&nbsp;.&nbsp;.
+ *         }
+ *     }
+ * </prf></blodkquotf><hr>
+ * <p>
+ * Thf following dodf would thfn drfbtf b thrfbd bnd stbrt it running:
+ * <blodkquotf><prf>
+ *     PrimfThrfbd p = nfw PrimfThrfbd(143);
+ *     p.stbrt();
+ * </prf></blodkquotf>
+ * <p>
+ * Thf othfr wby to drfbtf b thrfbd is to dfdlbrf b dlbss thbt
+ * implfmfnts thf <dodf>Runnbblf</dodf> intfrfbdf. Thbt dlbss thfn
+ * implfmfnts thf <dodf>run</dodf> mfthod. An instbndf of thf dlbss dbn
+ * thfn bf bllodbtfd, pbssfd bs bn brgumfnt whfn drfbting
+ * <dodf>Thrfbd</dodf>, bnd stbrtfd. Thf sbmf fxbmplf in this othfr
+ * stylf looks likf thf following:
+ * <hr><blodkquotf><prf>
+ *     dlbss PrimfRun implfmfnts Runnbblf {
+ *         long minPrimf;
+ *         PrimfRun(long minPrimf) {
+ *             this.minPrimf = minPrimf;
+ *         }
+ *
+ *         publid void run() {
+ *             // domputf primfs lbrgfr thbn minPrimf
+ *             &nbsp;.&nbsp;.&nbsp;.
+ *         }
+ *     }
+ * </prf></blodkquotf><hr>
+ * <p>
+ * Thf following dodf would thfn drfbtf b thrfbd bnd stbrt it running:
+ * <blodkquotf><prf>
+ *     PrimfRun p = nfw PrimfRun(143);
+ *     nfw Thrfbd(p).stbrt();
+ * </prf></blodkquotf>
+ * <p>
+ * Evfry thrfbd hbs b nbmf for idfntifidbtion purposfs. Morf thbn
+ * onf thrfbd mby hbvf thf sbmf nbmf. If b nbmf is not spfdififd whfn
+ * b thrfbd is drfbtfd, b nfw nbmf is gfnfrbtfd for it.
+ * <p>
+ * Unlfss othfrwisf notfd, pbssing b {@dodf null} brgumfnt to b donstrudtor
+ * or mfthod in this dlbss will dbusf b {@link NullPointfrExdfption} to bf
+ * thrown.
+ *
+ * @buthor  unbsdribfd
+ * @sff     Runnbblf
+ * @sff     Runtimf#fxit(int)
+ * @sff     #run()
+ * @sff     #stop()
+ * @sindf   1.0
+ */
+publid
+dlbss Thrfbd implfmfnts Runnbblf {
+    /* Mbkf surf rfgistfrNbtivfs is thf first thing <dlinit> dofs. */
+    privbtf stbtid nbtivf void rfgistfrNbtivfs();
+    stbtid {
+        rfgistfrNbtivfs();
+    }
+
+    privbtf volbtilf dhbr  nbmf[];
+    privbtf int            priority;
+    privbtf Thrfbd         thrfbdQ;
+    privbtf long           fftop;
+
+    /* Whfthfr or not to singlf_stfp this thrfbd. */
+    privbtf boolfbn     singlf_stfp;
+
+    /* Whfthfr or not thf thrfbd is b dbfmon thrfbd. */
+    privbtf boolfbn     dbfmon = fblsf;
+
+    /* JVM stbtf */
+    privbtf boolfbn     stillborn = fblsf;
+
+    /* Whbt will bf run. */
+    privbtf Runnbblf tbrgft;
+
+    /* Thf group of this thrfbd */
+    privbtf ThrfbdGroup group;
+
+    /* Thf dontfxt ClbssLobdfr for this thrfbd */
+    privbtf ClbssLobdfr dontfxtClbssLobdfr;
+
+    /* Thf inhfritfd AddfssControlContfxt of this thrfbd */
+    privbtf AddfssControlContfxt inhfritfdAddfssControlContfxt;
+
+    /* For butonumbfring bnonymous thrfbds. */
+    privbtf stbtid int thrfbdInitNumbfr;
+    privbtf stbtid syndhronizfd int nfxtThrfbdNum() {
+        rfturn thrfbdInitNumbfr++;
+    }
+
+    /* ThrfbdLodbl vblufs pfrtbining to this thrfbd. This mbp is mbintbinfd
+     * by thf ThrfbdLodbl dlbss. */
+    ThrfbdLodbl.ThrfbdLodblMbp thrfbdLodbls = null;
+
+    /*
+     * InhfritbblfThrfbdLodbl vblufs pfrtbining to this thrfbd. This mbp is
+     * mbintbinfd by thf InhfritbblfThrfbdLodbl dlbss.
+     */
+    ThrfbdLodbl.ThrfbdLodblMbp inhfritbblfThrfbdLodbls = null;
+
+    /*
+     * Thf rfqufstfd stbdk sizf for this thrfbd, or 0 if thf drfbtor did
+     * not spfdify b stbdk sizf.  It is up to thf VM to do whbtfvfr it
+     * likfs with this numbfr; somf VMs will ignorf it.
+     */
+    privbtf long stbdkSizf;
+
+    /*
+     * JVM-privbtf stbtf thbt pfrsists bftfr nbtivf thrfbd tfrminbtion.
+     */
+    privbtf long nbtivfPbrkEvfntPointfr;
+
+    /*
+     * Thrfbd ID
+     */
+    privbtf long tid;
+
+    /* For gfnfrbting thrfbd ID */
+    privbtf stbtid long thrfbdSfqNumbfr;
+
+    /* Jbvb thrfbd stbtus for tools,
+     * initiblizfd to indidbtf thrfbd 'not yft stbrtfd'
+     */
+
+    privbtf volbtilf int thrfbdStbtus = 0;
+
+
+    privbtf stbtid syndhronizfd long nfxtThrfbdID() {
+        rfturn ++thrfbdSfqNumbfr;
+    }
+
+    /**
+     * Thf brgumfnt supplifd to thf durrfnt dbll to
+     * jbvb.util.dondurrfnt.lodks.LodkSupport.pbrk.
+     * Sft by (privbtf) jbvb.util.dondurrfnt.lodks.LodkSupport.sftBlodkfr
+     * Addfssfd using jbvb.util.dondurrfnt.lodks.LodkSupport.gftBlodkfr
+     */
+    volbtilf Objfdt pbrkBlodkfr;
+
+    /* Thf objfdt in whidh this thrfbd is blodkfd in bn intfrruptiblf I/O
+     * opfrbtion, if bny.  Thf blodkfr's intfrrupt mfthod should bf invokfd
+     * bftfr sftting this thrfbd's intfrrupt stbtus.
+     */
+    privbtf volbtilf Intfrruptiblf blodkfr;
+    privbtf finbl Objfdt blodkfrLodk = nfw Objfdt();
+
+    /* Sft thf blodkfr fifld; invokfd vib sun.misd.ShbrfdSfdrfts from jbvb.nio dodf
+     */
+    void blodkfdOn(Intfrruptiblf b) {
+        syndhronizfd (blodkfrLodk) {
+            blodkfr = b;
+        }
+    }
+
+    /**
+     * Thf minimum priority thbt b thrfbd dbn hbvf.
+     */
+    publid finbl stbtid int MIN_PRIORITY = 1;
+
+   /**
+     * Thf dffbult priority thbt is bssignfd to b thrfbd.
+     */
+    publid finbl stbtid int NORM_PRIORITY = 5;
+
+    /**
+     * Thf mbximum priority thbt b thrfbd dbn hbvf.
+     */
+    publid finbl stbtid int MAX_PRIORITY = 10;
+
+    /**
+     * Rfturns b rfffrfndf to thf durrfntly fxfduting thrfbd objfdt.
+     *
+     * @rfturn  thf durrfntly fxfduting thrfbd.
+     */
+    publid stbtid nbtivf Thrfbd durrfntThrfbd();
+
+    /**
+     * A hint to thf sdhfdulfr thbt thf durrfnt thrfbd is willing to yifld
+     * its durrfnt usf of b prodfssor. Thf sdhfdulfr is frff to ignorf this
+     * hint.
+     *
+     * <p> Yifld is b hfuristid bttfmpt to improvf rflbtivf progrfssion
+     * bftwffn thrfbds thbt would othfrwisf ovfr-utilisf b CPU. Its usf
+     * should bf dombinfd with dftbilfd profiling bnd bfndhmbrking to
+     * fnsurf thbt it bdtublly hbs thf dfsirfd ffffdt.
+     *
+     * <p> It is rbrfly bppropribtf to usf this mfthod. It mby bf usfful
+     * for dfbugging or tfsting purposfs, whfrf it mby hflp to rfprodudf
+     * bugs duf to rbdf donditions. It mby blso bf usfful whfn dfsigning
+     * dondurrfndy dontrol donstrudts sudh bs thf onfs in thf
+     * {@link jbvb.util.dondurrfnt.lodks} pbdkbgf.
+     */
+    publid stbtid nbtivf void yifld();
+
+    /**
+     * Cbusfs thf durrfntly fxfduting thrfbd to slffp (tfmporbrily dfbsf
+     * fxfdution) for thf spfdififd numbfr of millisfdonds, subjfdt to
+     * thf prfdision bnd bddurbdy of systfm timfrs bnd sdhfdulfrs. Thf thrfbd
+     * dofs not losf ownfrship of bny monitors.
+     *
+     * @pbrbm  millis
+     *         thf lfngth of timf to slffp in millisfdonds
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf vbluf of {@dodf millis} is nfgbtivf
+     *
+     * @throws  IntfrruptfdExdfption
+     *          if bny thrfbd hbs intfrruptfd thf durrfnt thrfbd. Thf
+     *          <i>intfrruptfd stbtus</i> of thf durrfnt thrfbd is
+     *          dlfbrfd whfn this fxdfption is thrown.
+     */
+    publid stbtid nbtivf void slffp(long millis) throws IntfrruptfdExdfption;
+
+    /**
+     * Cbusfs thf durrfntly fxfduting thrfbd to slffp (tfmporbrily dfbsf
+     * fxfdution) for thf spfdififd numbfr of millisfdonds plus thf spfdififd
+     * numbfr of nbnosfdonds, subjfdt to thf prfdision bnd bddurbdy of systfm
+     * timfrs bnd sdhfdulfrs. Thf thrfbd dofs not losf ownfrship of bny
+     * monitors.
+     *
+     * @pbrbm  millis
+     *         thf lfngth of timf to slffp in millisfdonds
+     *
+     * @pbrbm  nbnos
+     *         {@dodf 0-999999} bdditionbl nbnosfdonds to slffp
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf vbluf of {@dodf millis} is nfgbtivf, or thf vbluf of
+     *          {@dodf nbnos} is not in thf rbngf {@dodf 0-999999}
+     *
+     * @throws  IntfrruptfdExdfption
+     *          if bny thrfbd hbs intfrruptfd thf durrfnt thrfbd. Thf
+     *          <i>intfrruptfd stbtus</i> of thf durrfnt thrfbd is
+     *          dlfbrfd whfn this fxdfption is thrown.
+     */
+    publid stbtid void slffp(long millis, int nbnos)
+    throws IntfrruptfdExdfption {
+        if (millis < 0) {
+            throw nfw IllfgblArgumfntExdfption("timfout vbluf is nfgbtivf");
+        }
+
+        if (nbnos < 0 || nbnos > 999999) {
+            throw nfw IllfgblArgumfntExdfption(
+                                "nbnosfdond timfout vbluf out of rbngf");
+        }
+
+        if (nbnos >= 500000 || (nbnos != 0 && millis == 0)) {
+            millis++;
+        }
+
+        slffp(millis);
+    }
+
+    /**
+     * Initiblizfs b Thrfbd with thf durrfnt AddfssControlContfxt.
+     * @sff #init(ThrfbdGroup,Runnbblf,String,long,AddfssControlContfxt)
+     */
+    privbtf void init(ThrfbdGroup g, Runnbblf tbrgft, String nbmf,
+                      long stbdkSizf) {
+        init(g, tbrgft, nbmf, stbdkSizf, null);
+    }
+
+    /**
+     * Initiblizfs b Thrfbd.
+     *
+     * @pbrbm g thf Thrfbd group
+     * @pbrbm tbrgft thf objfdt whosf run() mfthod gfts dbllfd
+     * @pbrbm nbmf thf nbmf of thf nfw Thrfbd
+     * @pbrbm stbdkSizf thf dfsirfd stbdk sizf for thf nfw thrfbd, or
+     *        zfro to indidbtf thbt this pbrbmftfr is to bf ignorfd.
+     * @pbrbm bdd thf AddfssControlContfxt to inhfrit, or
+     *            AddfssControllfr.gftContfxt() if null
+     */
+    privbtf void init(ThrfbdGroup g, Runnbblf tbrgft, String nbmf,
+                      long stbdkSizf, AddfssControlContfxt bdd) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption("nbmf dbnnot bf null");
+        }
+
+        this.nbmf = nbmf.toChbrArrby();
+
+        Thrfbd pbrfnt = durrfntThrfbd();
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (g == null) {
+            /* Dftfrminf if it's bn bpplft or not */
+
+            /* If thfrf is b sfdurity mbnbgfr, bsk thf sfdurity mbnbgfr
+               whbt to do. */
+            if (sfdurity != null) {
+                g = sfdurity.gftThrfbdGroup();
+            }
+
+            /* If thf sfdurity dofsn't hbvf b strong opinion of thf mbttfr
+               usf thf pbrfnt thrfbd group. */
+            if (g == null) {
+                g = pbrfnt.gftThrfbdGroup();
+            }
+        }
+
+        /* dhfdkAddfss rfgbrdlfss of whfthfr or not thrfbdgroup is
+           fxpliditly pbssfd in. */
+        g.dhfdkAddfss();
+
+        /*
+         * Do wf hbvf thf rfquirfd pfrmissions?
+         */
+        if (sfdurity != null) {
+            if (isCCLOvfrriddfn(gftClbss())) {
+                sfdurity.dhfdkPfrmission(SUBCLASS_IMPLEMENTATION_PERMISSION);
+            }
+        }
+
+        g.bddUnstbrtfd();
+
+        this.group = g;
+        this.dbfmon = pbrfnt.isDbfmon();
+        this.priority = pbrfnt.gftPriority();
+        if (sfdurity == null || isCCLOvfrriddfn(pbrfnt.gftClbss()))
+            this.dontfxtClbssLobdfr = pbrfnt.gftContfxtClbssLobdfr();
+        flsf
+            this.dontfxtClbssLobdfr = pbrfnt.dontfxtClbssLobdfr;
+        this.inhfritfdAddfssControlContfxt =
+                bdd != null ? bdd : AddfssControllfr.gftContfxt();
+        this.tbrgft = tbrgft;
+        sftPriority(priority);
+        if (pbrfnt.inhfritbblfThrfbdLodbls != null)
+            this.inhfritbblfThrfbdLodbls =
+                ThrfbdLodbl.drfbtfInhfritfdMbp(pbrfnt.inhfritbblfThrfbdLodbls);
+        /* Stbsh thf spfdififd stbdk sizf in dbsf thf VM dbrfs */
+        this.stbdkSizf = stbdkSizf;
+
+        /* Sft thrfbd ID */
+        tid = nfxtThrfbdID();
+    }
+
+    /**
+     * Throws ClonfNotSupportfdExdfption bs b Thrfbd dbn not bf mfbningfully
+     * dlonfd. Construdt b nfw Thrfbd instfbd.
+     *
+     * @throws  ClonfNotSupportfdExdfption
+     *          blwbys
+     */
+    @Ovfrridf
+    protfdtfd Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+        throw nfw ClonfNotSupportfdExdfption();
+    }
+
+    /**
+     * Allodbtfs b nfw {@dodf Thrfbd} objfdt. This donstrudtor hbs thf sbmf
+     * ffffdt bs {@linkplbin #Thrfbd(ThrfbdGroup,Runnbblf,String) Thrfbd}
+     * {@dodf (null, null, gnbmf)}, whfrf {@dodf gnbmf} is b nfwly gfnfrbtfd
+     * nbmf. Autombtidblly gfnfrbtfd nbmfs brf of thf form
+     * {@dodf "Thrfbd-"+}<i>n</i>, whfrf <i>n</i> is bn intfgfr.
+     */
+    publid Thrfbd() {
+        init(null, null, "Thrfbd-" + nfxtThrfbdNum(), 0);
+    }
+
+    /**
+     * Allodbtfs b nfw {@dodf Thrfbd} objfdt. This donstrudtor hbs thf sbmf
+     * ffffdt bs {@linkplbin #Thrfbd(ThrfbdGroup,Runnbblf,String) Thrfbd}
+     * {@dodf (null, tbrgft, gnbmf)}, whfrf {@dodf gnbmf} is b nfwly gfnfrbtfd
+     * nbmf. Autombtidblly gfnfrbtfd nbmfs brf of thf form
+     * {@dodf "Thrfbd-"+}<i>n</i>, whfrf <i>n</i> is bn intfgfr.
+     *
+     * @pbrbm  tbrgft
+     *         thf objfdt whosf {@dodf run} mfthod is invokfd whfn this thrfbd
+     *         is stbrtfd. If {@dodf null}, this dlbssfs {@dodf run} mfthod dofs
+     *         nothing.
+     */
+    publid Thrfbd(Runnbblf tbrgft) {
+        init(null, tbrgft, "Thrfbd-" + nfxtThrfbdNum(), 0);
+    }
+
+    /**
+     * Crfbtfs b nfw Thrfbd thbt inhfrits thf givfn AddfssControlContfxt.
+     * This is not b publid donstrudtor.
+     */
+    Thrfbd(Runnbblf tbrgft, AddfssControlContfxt bdd) {
+        init(null, tbrgft, "Thrfbd-" + nfxtThrfbdNum(), 0, bdd);
+    }
+
+    /**
+     * Allodbtfs b nfw {@dodf Thrfbd} objfdt. This donstrudtor hbs thf sbmf
+     * ffffdt bs {@linkplbin #Thrfbd(ThrfbdGroup,Runnbblf,String) Thrfbd}
+     * {@dodf (group, tbrgft, gnbmf)} ,whfrf {@dodf gnbmf} is b nfwly gfnfrbtfd
+     * nbmf. Autombtidblly gfnfrbtfd nbmfs brf of thf form
+     * {@dodf "Thrfbd-"+}<i>n</i>, whfrf <i>n</i> is bn intfgfr.
+     *
+     * @pbrbm  group
+     *         thf thrfbd group. If {@dodf null} bnd thfrf is b sfdurity
+     *         mbnbgfr, thf group is dftfrminfd by {@linkplbin
+     *         SfdurityMbnbgfr#gftThrfbdGroup SfdurityMbnbgfr.gftThrfbdGroup()}.
+     *         If thfrf is not b sfdurity mbnbgfr or {@dodf
+     *         SfdurityMbnbgfr.gftThrfbdGroup()} rfturns {@dodf null}, thf group
+     *         is sft to thf durrfnt thrfbd's thrfbd group.
+     *
+     * @pbrbm  tbrgft
+     *         thf objfdt whosf {@dodf run} mfthod is invokfd whfn this thrfbd
+     *         is stbrtfd. If {@dodf null}, this thrfbd's run mfthod is invokfd.
+     *
+     * @throws  SfdurityExdfption
+     *          if thf durrfnt thrfbd dbnnot drfbtf b thrfbd in thf spfdififd
+     *          thrfbd group
+     */
+    publid Thrfbd(ThrfbdGroup group, Runnbblf tbrgft) {
+        init(group, tbrgft, "Thrfbd-" + nfxtThrfbdNum(), 0);
+    }
+
+    /**
+     * Allodbtfs b nfw {@dodf Thrfbd} objfdt. This donstrudtor hbs thf sbmf
+     * ffffdt bs {@linkplbin #Thrfbd(ThrfbdGroup,Runnbblf,String) Thrfbd}
+     * {@dodf (null, null, nbmf)}.
+     *
+     * @pbrbm   nbmf
+     *          thf nbmf of thf nfw thrfbd
+     */
+    publid Thrfbd(String nbmf) {
+        init(null, null, nbmf, 0);
+    }
+
+    /**
+     * Allodbtfs b nfw {@dodf Thrfbd} objfdt. This donstrudtor hbs thf sbmf
+     * ffffdt bs {@linkplbin #Thrfbd(ThrfbdGroup,Runnbblf,String) Thrfbd}
+     * {@dodf (group, null, nbmf)}.
+     *
+     * @pbrbm  group
+     *         thf thrfbd group. If {@dodf null} bnd thfrf is b sfdurity
+     *         mbnbgfr, thf group is dftfrminfd by {@linkplbin
+     *         SfdurityMbnbgfr#gftThrfbdGroup SfdurityMbnbgfr.gftThrfbdGroup()}.
+     *         If thfrf is not b sfdurity mbnbgfr or {@dodf
+     *         SfdurityMbnbgfr.gftThrfbdGroup()} rfturns {@dodf null}, thf group
+     *         is sft to thf durrfnt thrfbd's thrfbd group.
+     *
+     * @pbrbm  nbmf
+     *         thf nbmf of thf nfw thrfbd
+     *
+     * @throws  SfdurityExdfption
+     *          if thf durrfnt thrfbd dbnnot drfbtf b thrfbd in thf spfdififd
+     *          thrfbd group
+     */
+    publid Thrfbd(ThrfbdGroup group, String nbmf) {
+        init(group, null, nbmf, 0);
+    }
+
+    /**
+     * Allodbtfs b nfw {@dodf Thrfbd} objfdt. This donstrudtor hbs thf sbmf
+     * ffffdt bs {@linkplbin #Thrfbd(ThrfbdGroup,Runnbblf,String) Thrfbd}
+     * {@dodf (null, tbrgft, nbmf)}.
+     *
+     * @pbrbm  tbrgft
+     *         thf objfdt whosf {@dodf run} mfthod is invokfd whfn this thrfbd
+     *         is stbrtfd. If {@dodf null}, this thrfbd's run mfthod is invokfd.
+     *
+     * @pbrbm  nbmf
+     *         thf nbmf of thf nfw thrfbd
+     */
+    publid Thrfbd(Runnbblf tbrgft, String nbmf) {
+        init(null, tbrgft, nbmf, 0);
+    }
+
+    /**
+     * Allodbtfs b nfw {@dodf Thrfbd} objfdt so thbt it hbs {@dodf tbrgft}
+     * bs its run objfdt, hbs thf spfdififd {@dodf nbmf} bs its nbmf,
+     * bnd bflongs to thf thrfbd group rfffrrfd to by {@dodf group}.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, its
+     * {@link SfdurityMbnbgfr#dhfdkAddfss(ThrfbdGroup) dhfdkAddfss}
+     * mfthod is invokfd with thf ThrfbdGroup bs its brgumfnt.
+     *
+     * <p>In bddition, its {@dodf dhfdkPfrmission} mfthod is invokfd with
+     * thf {@dodf RuntimfPfrmission("fnbblfContfxtClbssLobdfrOvfrridf")}
+     * pfrmission whfn invokfd dirfdtly or indirfdtly by thf donstrudtor
+     * of b subdlbss whidh ovfrridfs thf {@dodf gftContfxtClbssLobdfr}
+     * or {@dodf sftContfxtClbssLobdfr} mfthods.
+     *
+     * <p>Thf priority of thf nfwly drfbtfd thrfbd is sft fqubl to thf
+     * priority of thf thrfbd drfbting it, thbt is, thf durrfntly running
+     * thrfbd. Thf mfthod {@linkplbin #sftPriority sftPriority} mby bf
+     * usfd to dhbngf thf priority to b nfw vbluf.
+     *
+     * <p>Thf nfwly drfbtfd thrfbd is initiblly mbrkfd bs bfing b dbfmon
+     * thrfbd if bnd only if thf thrfbd drfbting it is durrfntly mbrkfd
+     * bs b dbfmon thrfbd. Thf mfthod {@linkplbin #sftDbfmon sftDbfmon}
+     * mby bf usfd to dhbngf whfthfr or not b thrfbd is b dbfmon.
+     *
+     * @pbrbm  group
+     *         thf thrfbd group. If {@dodf null} bnd thfrf is b sfdurity
+     *         mbnbgfr, thf group is dftfrminfd by {@linkplbin
+     *         SfdurityMbnbgfr#gftThrfbdGroup SfdurityMbnbgfr.gftThrfbdGroup()}.
+     *         If thfrf is not b sfdurity mbnbgfr or {@dodf
+     *         SfdurityMbnbgfr.gftThrfbdGroup()} rfturns {@dodf null}, thf group
+     *         is sft to thf durrfnt thrfbd's thrfbd group.
+     *
+     * @pbrbm  tbrgft
+     *         thf objfdt whosf {@dodf run} mfthod is invokfd whfn this thrfbd
+     *         is stbrtfd. If {@dodf null}, this thrfbd's run mfthod is invokfd.
+     *
+     * @pbrbm  nbmf
+     *         thf nbmf of thf nfw thrfbd
+     *
+     * @throws  SfdurityExdfption
+     *          if thf durrfnt thrfbd dbnnot drfbtf b thrfbd in thf spfdififd
+     *          thrfbd group or dbnnot ovfrridf thf dontfxt dlbss lobdfr mfthods.
+     */
+    publid Thrfbd(ThrfbdGroup group, Runnbblf tbrgft, String nbmf) {
+        init(group, tbrgft, nbmf, 0);
+    }
+
+    /**
+     * Allodbtfs b nfw {@dodf Thrfbd} objfdt so thbt it hbs {@dodf tbrgft}
+     * bs its run objfdt, hbs thf spfdififd {@dodf nbmf} bs its nbmf,
+     * bnd bflongs to thf thrfbd group rfffrrfd to by {@dodf group}, bnd hbs
+     * thf spfdififd <i>stbdk sizf</i>.
+     *
+     * <p>This donstrudtor is idfntidbl to {@link
+     * #Thrfbd(ThrfbdGroup,Runnbblf,String)} with thf fxdfption of thf fbdt
+     * thbt it bllows thf thrfbd stbdk sizf to bf spfdififd.  Thf stbdk sizf
+     * is thf bpproximbtf numbfr of bytfs of bddrfss spbdf thbt thf virtubl
+     * mbdhinf is to bllodbtf for this thrfbd's stbdk.  <b>Thf ffffdt of thf
+     * {@dodf stbdkSizf} pbrbmftfr, if bny, is highly plbtform dfpfndfnt.</b>
+     *
+     * <p>On somf plbtforms, spfdifying b highfr vbluf for thf
+     * {@dodf stbdkSizf} pbrbmftfr mby bllow b thrfbd to bdhifvf grfbtfr
+     * rfdursion dfpth bfforf throwing b {@link StbdkOvfrflowError}.
+     * Similbrly, spfdifying b lowfr vbluf mby bllow b grfbtfr numbfr of
+     * thrfbds to fxist dondurrfntly without throwing bn {@link
+     * OutOfMfmoryError} (or othfr intfrnbl frror).  Thf dftbils of
+     * thf rflbtionship bftwffn thf vbluf of thf <tt>stbdkSizf</tt> pbrbmftfr
+     * bnd thf mbximum rfdursion dfpth bnd dondurrfndy lfvfl brf
+     * plbtform-dfpfndfnt.  <b>On somf plbtforms, thf vbluf of thf
+     * {@dodf stbdkSizf} pbrbmftfr mby hbvf no ffffdt whbtsofvfr.</b>
+     *
+     * <p>Thf virtubl mbdhinf is frff to trfbt thf {@dodf stbdkSizf}
+     * pbrbmftfr bs b suggfstion.  If thf spfdififd vbluf is unrfbsonbbly low
+     * for thf plbtform, thf virtubl mbdhinf mby instfbd usf somf
+     * plbtform-spfdifid minimum vbluf; if thf spfdififd vbluf is unrfbsonbbly
+     * high, thf virtubl mbdhinf mby instfbd usf somf plbtform-spfdifid
+     * mbximum.  Likfwisf, thf virtubl mbdhinf is frff to round thf spfdififd
+     * vbluf up or down bs it sffs fit (or to ignorf it domplftfly).
+     *
+     * <p>Spfdifying b vbluf of zfro for thf {@dodf stbdkSizf} pbrbmftfr will
+     * dbusf this donstrudtor to bfhbvf fxbdtly likf thf
+     * {@dodf Thrfbd(ThrfbdGroup, Runnbblf, String)} donstrudtor.
+     *
+     * <p><i>Duf to thf plbtform-dfpfndfnt nbturf of thf bfhbvior of this
+     * donstrudtor, fxtrfmf dbrf should bf fxfrdisfd in its usf.
+     * Thf thrfbd stbdk sizf nfdfssbry to pfrform b givfn domputbtion will
+     * likfly vbry from onf JRE implfmfntbtion to bnothfr.  In light of this
+     * vbribtion, dbrfful tuning of thf stbdk sizf pbrbmftfr mby bf rfquirfd,
+     * bnd thf tuning mby nffd to bf rfpfbtfd for fbdh JRE implfmfntbtion on
+     * whidh bn bpplidbtion is to run.</i>
+     *
+     * <p>Implfmfntbtion notf: Jbvb plbtform implfmfntfrs brf fndourbgfd to
+     * dodumfnt thfir implfmfntbtion's bfhbvior with rfspfdt to thf
+     * {@dodf stbdkSizf} pbrbmftfr.
+     *
+     *
+     * @pbrbm  group
+     *         thf thrfbd group. If {@dodf null} bnd thfrf is b sfdurity
+     *         mbnbgfr, thf group is dftfrminfd by {@linkplbin
+     *         SfdurityMbnbgfr#gftThrfbdGroup SfdurityMbnbgfr.gftThrfbdGroup()}.
+     *         If thfrf is not b sfdurity mbnbgfr or {@dodf
+     *         SfdurityMbnbgfr.gftThrfbdGroup()} rfturns {@dodf null}, thf group
+     *         is sft to thf durrfnt thrfbd's thrfbd group.
+     *
+     * @pbrbm  tbrgft
+     *         thf objfdt whosf {@dodf run} mfthod is invokfd whfn this thrfbd
+     *         is stbrtfd. If {@dodf null}, this thrfbd's run mfthod is invokfd.
+     *
+     * @pbrbm  nbmf
+     *         thf nbmf of thf nfw thrfbd
+     *
+     * @pbrbm  stbdkSizf
+     *         thf dfsirfd stbdk sizf for thf nfw thrfbd, or zfro to indidbtf
+     *         thbt this pbrbmftfr is to bf ignorfd.
+     *
+     * @throws  SfdurityExdfption
+     *          if thf durrfnt thrfbd dbnnot drfbtf b thrfbd in thf spfdififd
+     *          thrfbd group
+     *
+     * @sindf 1.4
+     */
+    publid Thrfbd(ThrfbdGroup group, Runnbblf tbrgft, String nbmf,
+                  long stbdkSizf) {
+        init(group, tbrgft, nbmf, stbdkSizf);
+    }
+
+    /**
+     * Cbusfs this thrfbd to bfgin fxfdution; thf Jbvb Virtubl Mbdhinf
+     * dblls thf <dodf>run</dodf> mfthod of this thrfbd.
+     * <p>
+     * Thf rfsult is thbt two thrfbds brf running dondurrfntly: thf
+     * durrfnt thrfbd (whidh rfturns from thf dbll to thf
+     * <dodf>stbrt</dodf> mfthod) bnd thf othfr thrfbd (whidh fxfdutfs its
+     * <dodf>run</dodf> mfthod).
+     * <p>
+     * It is nfvfr lfgbl to stbrt b thrfbd morf thbn ondf.
+     * In pbrtidulbr, b thrfbd mby not bf rfstbrtfd ondf it hbs domplftfd
+     * fxfdution.
+     *
+     * @fxdfption  IllfgblThrfbdStbtfExdfption  if thf thrfbd wbs blrfbdy
+     *               stbrtfd.
+     * @sff        #run()
+     * @sff        #stop()
+     */
+    publid syndhronizfd void stbrt() {
+        /**
+         * This mfthod is not invokfd for thf mbin mfthod thrfbd or "systfm"
+         * group thrfbds drfbtfd/sft up by thf VM. Any nfw fundtionblity bddfd
+         * to this mfthod in thf futurf mby hbvf to blso bf bddfd to thf VM.
+         *
+         * A zfro stbtus vbluf dorrfsponds to stbtf "NEW".
+         */
+        if (thrfbdStbtus != 0)
+            throw nfw IllfgblThrfbdStbtfExdfption();
+
+        /* Notify thf group thbt this thrfbd is bbout to bf stbrtfd
+         * so thbt it dbn bf bddfd to thf group's list of thrfbds
+         * bnd thf group's unstbrtfd dount dbn bf dfdrfmfntfd. */
+        group.bdd(this);
+
+        boolfbn stbrtfd = fblsf;
+        try {
+            stbrt0();
+            stbrtfd = truf;
+        } finblly {
+            try {
+                if (!stbrtfd) {
+                    group.thrfbdStbrtFbilfd(this);
+                }
+            } dbtdh (Throwbblf ignorf) {
+                /* do nothing. If stbrt0 thrfw b Throwbblf thfn
+                  it will bf pbssfd up thf dbll stbdk */
+            }
+        }
+    }
+
+    privbtf nbtivf void stbrt0();
+
+    /**
+     * If this thrfbd wbs donstrudtfd using b sfpbrbtf
+     * <dodf>Runnbblf</dodf> run objfdt, thfn thbt
+     * <dodf>Runnbblf</dodf> objfdt's <dodf>run</dodf> mfthod is dbllfd;
+     * othfrwisf, this mfthod dofs nothing bnd rfturns.
+     * <p>
+     * Subdlbssfs of <dodf>Thrfbd</dodf> should ovfrridf this mfthod.
+     *
+     * @sff     #stbrt()
+     * @sff     #stop()
+     * @sff     #Thrfbd(ThrfbdGroup, Runnbblf, String)
+     */
+    @Ovfrridf
+    publid void run() {
+        if (tbrgft != null) {
+            tbrgft.run();
+        }
+    }
+
+    /**
+     * This mfthod is dbllfd by thf systfm to givf b Thrfbd
+     * b dhbndf to dlfbn up bfforf it bdtublly fxits.
+     */
+    privbtf void fxit() {
+        if (group != null) {
+            group.thrfbdTfrminbtfd(this);
+            group = null;
+        }
+        /* Aggrfssivfly null out bll rfffrfndf fiflds: sff bug 4006245 */
+        tbrgft = null;
+        /* Spffd thf rflfbsf of somf of thfsf rfsourdfs */
+        thrfbdLodbls = null;
+        inhfritbblfThrfbdLodbls = null;
+        inhfritfdAddfssControlContfxt = null;
+        blodkfr = null;
+        undbughtExdfptionHbndlfr = null;
+    }
+
+    /**
+     * Fordfs thf thrfbd to stop fxfduting.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr instbllfd, its <dodf>dhfdkAddfss</dodf>
+     * mfthod is dbllfd with <dodf>this</dodf>
+     * bs its brgumfnt. This mby rfsult in b
+     * <dodf>SfdurityExdfption</dodf> bfing rbisfd (in thf durrfnt thrfbd).
+     * <p>
+     * If this thrfbd is difffrfnt from thf durrfnt thrfbd (thbt is, thf durrfnt
+     * thrfbd is trying to stop b thrfbd othfr thbn itsflf), thf
+     * sfdurity mbnbgfr's <dodf>dhfdkPfrmission</dodf> mfthod (with b
+     * <dodf>RuntimfPfrmission("stopThrfbd")</dodf> brgumfnt) is dbllfd in
+     * bddition.
+     * Agbin, this mby rfsult in throwing b
+     * <dodf>SfdurityExdfption</dodf> (in thf durrfnt thrfbd).
+     * <p>
+     * Thf thrfbd rfprfsfntfd by this thrfbd is fordfd to stop whbtfvfr
+     * it is doing bbnormblly bnd to throw b nfwly drfbtfd
+     * <dodf>ThrfbdDfbth</dodf> objfdt bs bn fxdfption.
+     * <p>
+     * It is pfrmittfd to stop b thrfbd thbt hbs not yft bffn stbrtfd.
+     * If thf thrfbd is fvfntublly stbrtfd, it immfdibtfly tfrminbtfs.
+     * <p>
+     * An bpplidbtion should not normblly try to dbtdh
+     * <dodf>ThrfbdDfbth</dodf> unlfss it must do somf fxtrbordinbry
+     * dlfbnup opfrbtion (notf thbt thf throwing of
+     * <dodf>ThrfbdDfbth</dodf> dbusfs <dodf>finblly</dodf> dlbusfs of
+     * <dodf>try</dodf> stbtfmfnts to bf fxfdutfd bfforf thf thrfbd
+     * offidiblly difs).  If b <dodf>dbtdh</dodf> dlbusf dbtdhfs b
+     * <dodf>ThrfbdDfbth</dodf> objfdt, it is importbnt to rfthrow thf
+     * objfdt so thbt thf thrfbd bdtublly difs.
+     * <p>
+     * Thf top-lfvfl frror hbndlfr thbt rfbdts to othfrwisf undbught
+     * fxdfptions dofs not print out b mfssbgf or othfrwisf notify thf
+     * bpplidbtion if thf undbught fxdfption is bn instbndf of
+     * <dodf>ThrfbdDfbth</dodf>.
+     *
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot
+     *               modify this thrfbd.
+     * @sff        #intfrrupt()
+     * @sff        #dhfdkAddfss()
+     * @sff        #run()
+     * @sff        #stbrt()
+     * @sff        ThrfbdDfbth
+     * @sff        ThrfbdGroup#undbughtExdfption(Thrfbd,Throwbblf)
+     * @sff        SfdurityMbnbgfr#dhfdkAddfss(Thrfbd)
+     * @sff        SfdurityMbnbgfr#dhfdkPfrmission
+     * @dfprfdbtfd This mfthod is inhfrfntly unsbff.  Stopping b thrfbd with
+     *       Thrfbd.stop dbusfs it to unlodk bll of thf monitors thbt it
+     *       hbs lodkfd (bs b nbturbl donsfqufndf of thf undhfdkfd
+     *       <dodf>ThrfbdDfbth</dodf> fxdfption propbgbting up thf stbdk).  If
+     *       bny of thf objfdts prfviously protfdtfd by thfsf monitors wfrf in
+     *       bn indonsistfnt stbtf, thf dbmbgfd objfdts bfdomf visiblf to
+     *       othfr thrfbds, potfntiblly rfsulting in brbitrbry bfhbvior.  Mbny
+     *       usfs of <dodf>stop</dodf> should bf rfplbdfd by dodf thbt simply
+     *       modififs somf vbribblf to indidbtf thbt thf tbrgft thrfbd should
+     *       stop running.  Thf tbrgft thrfbd should dhfdk this vbribblf
+     *       rfgulbrly, bnd rfturn from its run mfthod in bn ordfrly fbshion
+     *       if thf vbribblf indidbtfs thbt it is to stop running.  If thf
+     *       tbrgft thrfbd wbits for long pfriods (on b dondition vbribblf,
+     *       for fxbmplf), thf <dodf>intfrrupt</dodf> mfthod should bf usfd to
+     *       intfrrupt thf wbit.
+     *       For morf informbtion, sff
+     *       <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dondurrfndy/thrfbdPrimitivfDfprfdbtion.html">Why
+     *       brf Thrfbd.stop, Thrfbd.suspfnd bnd Thrfbd.rfsumf Dfprfdbtfd?</b>.
+     */
+    @Dfprfdbtfd
+    publid finbl void stop() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            dhfdkAddfss();
+            if (this != Thrfbd.durrfntThrfbd()) {
+                sfdurity.dhfdkPfrmission(SfdurityConstbnts.STOP_THREAD_PERMISSION);
+            }
+        }
+        // A zfro stbtus vbluf dorrfsponds to "NEW", it dbn't dhbngf to
+        // not-NEW bfdbusf wf hold thf lodk.
+        if (thrfbdStbtus != 0) {
+            rfsumf(); // Wbkf up thrfbd if it wbs suspfndfd; no-op othfrwisf
+        }
+
+        // Thf VM dbn hbndlf bll thrfbd stbtfs
+        stop0(nfw ThrfbdDfbth());
+    }
+
+    /**
+     * Throws {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm obj ignorfd
+     *
+     * @dfprfdbtfd This mfthod wbs originblly dfsignfd to fordf b thrfbd to stop
+     *        bnd throw b givfn {@dodf Throwbblf} bs bn fxdfption. It wbs
+     *        inhfrfntly unsbff (sff {@link #stop()} for dftbils), bnd furthfrmorf
+     *        dould bf usfd to gfnfrbtf fxdfptions thbt thf tbrgft thrfbd wbs
+     *        not prfpbrfd to hbndlf.
+     *        For morf informbtion, sff
+     *        <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dondurrfndy/thrfbdPrimitivfDfprfdbtion.html">Why
+     *        brf Thrfbd.stop, Thrfbd.suspfnd bnd Thrfbd.rfsumf Dfprfdbtfd?</b>.
+     */
+    @Dfprfdbtfd
+    publid finbl syndhronizfd void stop(Throwbblf obj) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Intfrrupts this thrfbd.
+     *
+     * <p> Unlfss thf durrfnt thrfbd is intfrrupting itsflf, whidh is
+     * blwbys pfrmittfd, thf {@link #dhfdkAddfss() dhfdkAddfss} mfthod
+     * of this thrfbd is invokfd, whidh mby dbusf b {@link
+     * SfdurityExdfption} to bf thrown.
+     *
+     * <p> If this thrfbd is blodkfd in bn invodbtion of thf {@link
+     * Objfdt#wbit() wbit()}, {@link Objfdt#wbit(long) wbit(long)}, or {@link
+     * Objfdt#wbit(long, int) wbit(long, int)} mfthods of thf {@link Objfdt}
+     * dlbss, or of thf {@link #join()}, {@link #join(long)}, {@link
+     * #join(long, int)}, {@link #slffp(long)}, or {@link #slffp(long, int)},
+     * mfthods of this dlbss, thfn its intfrrupt stbtus will bf dlfbrfd bnd it
+     * will rfdfivf bn {@link IntfrruptfdExdfption}.
+     *
+     * <p> If this thrfbd is blodkfd in bn I/O opfrbtion upon bn {@link
+     * jbvb.nio.dhbnnfls.IntfrruptiblfChbnnfl IntfrruptiblfChbnnfl}
+     * thfn thf dhbnnfl will bf dlosfd, thf thrfbd's intfrrupt
+     * stbtus will bf sft, bnd thf thrfbd will rfdfivf b {@link
+     * jbvb.nio.dhbnnfls.ClosfdByIntfrruptExdfption}.
+     *
+     * <p> If this thrfbd is blodkfd in b {@link jbvb.nio.dhbnnfls.Sflfdtor}
+     * thfn thf thrfbd's intfrrupt stbtus will bf sft bnd it will rfturn
+     * immfdibtfly from thf sflfdtion opfrbtion, possibly with b non-zfro
+     * vbluf, just bs if thf sflfdtor's {@link
+     * jbvb.nio.dhbnnfls.Sflfdtor#wbkfup wbkfup} mfthod wfrf invokfd.
+     *
+     * <p> If nonf of thf prfvious donditions hold thfn this thrfbd's intfrrupt
+     * stbtus will bf sft. </p>
+     *
+     * <p> Intfrrupting b thrfbd thbt is not blivf nffd not hbvf bny ffffdt.
+     *
+     * @throws  SfdurityExdfption
+     *          if thf durrfnt thrfbd dbnnot modify this thrfbd
+     *
+     * @rfvisfd 6.0
+     * @spfd JSR-51
+     */
+    publid void intfrrupt() {
+        if (this != Thrfbd.durrfntThrfbd())
+            dhfdkAddfss();
+
+        syndhronizfd (blodkfrLodk) {
+            Intfrruptiblf b = blodkfr;
+            if (b != null) {
+                intfrrupt0();           // Just to sft thf intfrrupt flbg
+                b.intfrrupt(this);
+                rfturn;
+            }
+        }
+        intfrrupt0();
+    }
+
+    /**
+     * Tfsts whfthfr thf durrfnt thrfbd hbs bffn intfrruptfd.  Thf
+     * <i>intfrruptfd stbtus</i> of thf thrfbd is dlfbrfd by this mfthod.  In
+     * othfr words, if this mfthod wfrf to bf dbllfd twidf in suddfssion, thf
+     * sfdond dbll would rfturn fblsf (unlfss thf durrfnt thrfbd wfrf
+     * intfrruptfd bgbin, bftfr thf first dbll hbd dlfbrfd its intfrruptfd
+     * stbtus bnd bfforf thf sfdond dbll hbd fxbminfd it).
+     *
+     * <p>A thrfbd intfrruption ignorfd bfdbusf b thrfbd wbs not blivf
+     * bt thf timf of thf intfrrupt will bf rfflfdtfd by this mfthod
+     * rfturning fblsf.
+     *
+     * @rfturn  <dodf>truf</dodf> if thf durrfnt thrfbd hbs bffn intfrruptfd;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     * @sff #isIntfrruptfd()
+     * @rfvisfd 6.0
+     */
+    publid stbtid boolfbn intfrruptfd() {
+        rfturn durrfntThrfbd().isIntfrruptfd(truf);
+    }
+
+    /**
+     * Tfsts whfthfr this thrfbd hbs bffn intfrruptfd.  Thf <i>intfrruptfd
+     * stbtus</i> of thf thrfbd is unbfffdtfd by this mfthod.
+     *
+     * <p>A thrfbd intfrruption ignorfd bfdbusf b thrfbd wbs not blivf
+     * bt thf timf of thf intfrrupt will bf rfflfdtfd by this mfthod
+     * rfturning fblsf.
+     *
+     * @rfturn  <dodf>truf</dodf> if this thrfbd hbs bffn intfrruptfd;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     * @sff     #intfrruptfd()
+     * @rfvisfd 6.0
+     */
+    publid boolfbn isIntfrruptfd() {
+        rfturn isIntfrruptfd(fblsf);
+    }
+
+    /**
+     * Tfsts if somf Thrfbd hbs bffn intfrruptfd.  Thf intfrruptfd stbtf
+     * is rfsft or not bbsfd on thf vbluf of ClfbrIntfrruptfd thbt is
+     * pbssfd.
+     */
+    privbtf nbtivf boolfbn isIntfrruptfd(boolfbn ClfbrIntfrruptfd);
+
+    /**
+     * Throws {@link NoSudhMfthodError}.
+     *
+     * @dfprfdbtfd This mfthod wbs originblly dfsignfd to dfstroy this
+     *     thrfbd without bny dlfbnup. Any monitors it hfld would hbvf
+     *     rfmbinfd lodkfd. Howfvfr, thf mfthod wbs nfvfr implfmfntfd.
+     *     If it wfrf to bf implfmfntfd, it would bf dfbdlodk-pronf in
+     *     mudh thf mbnnfr of {@link #suspfnd}. If thf tbrgft thrfbd hfld
+     *     b lodk protfdting b dritidbl systfm rfsourdf whfn it wbs
+     *     dfstroyfd, no thrfbd dould fvfr bddfss this rfsourdf bgbin.
+     *     If bnothfr thrfbd fvfr bttfmptfd to lodk this rfsourdf, dfbdlodk
+     *     would rfsult. Sudh dfbdlodks typidblly mbniffst thfmsflvfs bs
+     *     "frozfn" prodfssfs. For morf informbtion, sff
+     *     <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dondurrfndy/thrfbdPrimitivfDfprfdbtion.html">
+     *     Why brf Thrfbd.stop, Thrfbd.suspfnd bnd Thrfbd.rfsumf Dfprfdbtfd?</b>.
+     * @throws NoSudhMfthodError blwbys
+     */
+    @Dfprfdbtfd
+    publid void dfstroy() {
+        throw nfw NoSudhMfthodError();
+    }
+
+    /**
+     * Tfsts if this thrfbd is blivf. A thrfbd is blivf if it hbs
+     * bffn stbrtfd bnd hbs not yft difd.
+     *
+     * @rfturn  <dodf>truf</dodf> if this thrfbd is blivf;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid finbl nbtivf boolfbn isAlivf();
+
+    /**
+     * Suspfnds this thrfbd.
+     * <p>
+     * First, thf <dodf>dhfdkAddfss</dodf> mfthod of this thrfbd is dbllfd
+     * with no brgumfnts. This mby rfsult in throwing b
+     * <dodf>SfdurityExdfption </dodf>(in thf durrfnt thrfbd).
+     * <p>
+     * If thf thrfbd is blivf, it is suspfndfd bnd mbkfs no furthfr
+     * progrfss unlfss bnd until it is rfsumfd.
+     *
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot modify
+     *               this thrfbd.
+     * @sff #dhfdkAddfss
+     * @dfprfdbtfd   This mfthod hbs bffn dfprfdbtfd, bs it is
+     *   inhfrfntly dfbdlodk-pronf.  If thf tbrgft thrfbd holds b lodk on thf
+     *   monitor protfdting b dritidbl systfm rfsourdf whfn it is suspfndfd, no
+     *   thrfbd dbn bddfss this rfsourdf until thf tbrgft thrfbd is rfsumfd. If
+     *   thf thrfbd thbt would rfsumf thf tbrgft thrfbd bttfmpts to lodk this
+     *   monitor prior to dblling <dodf>rfsumf</dodf>, dfbdlodk rfsults.  Sudh
+     *   dfbdlodks typidblly mbniffst thfmsflvfs bs "frozfn" prodfssfs.
+     *   For morf informbtion, sff
+     *   <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dondurrfndy/thrfbdPrimitivfDfprfdbtion.html">Why
+     *   brf Thrfbd.stop, Thrfbd.suspfnd bnd Thrfbd.rfsumf Dfprfdbtfd?</b>.
+     */
+    @Dfprfdbtfd
+    publid finbl void suspfnd() {
+        dhfdkAddfss();
+        suspfnd0();
+    }
+
+    /**
+     * Rfsumfs b suspfndfd thrfbd.
+     * <p>
+     * First, thf <dodf>dhfdkAddfss</dodf> mfthod of this thrfbd is dbllfd
+     * with no brgumfnts. This mby rfsult in throwing b
+     * <dodf>SfdurityExdfption</dodf> (in thf durrfnt thrfbd).
+     * <p>
+     * If thf thrfbd is blivf but suspfndfd, it is rfsumfd bnd is
+     * pfrmittfd to mbkf progrfss in its fxfdution.
+     *
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot modify this
+     *               thrfbd.
+     * @sff        #dhfdkAddfss
+     * @sff        #suspfnd()
+     * @dfprfdbtfd This mfthod fxists solfly for usf with {@link #suspfnd},
+     *     whidh hbs bffn dfprfdbtfd bfdbusf it is dfbdlodk-pronf.
+     *     For morf informbtion, sff
+     *     <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dondurrfndy/thrfbdPrimitivfDfprfdbtion.html">Why
+     *     brf Thrfbd.stop, Thrfbd.suspfnd bnd Thrfbd.rfsumf Dfprfdbtfd?</b>.
+     */
+    @Dfprfdbtfd
+    publid finbl void rfsumf() {
+        dhfdkAddfss();
+        rfsumf0();
+    }
+
+    /**
+     * Chbngfs thf priority of this thrfbd.
+     * <p>
+     * First thf <dodf>dhfdkAddfss</dodf> mfthod of this thrfbd is dbllfd
+     * with no brgumfnts. This mby rfsult in throwing b
+     * <dodf>SfdurityExdfption</dodf>.
+     * <p>
+     * Othfrwisf, thf priority of this thrfbd is sft to thf smbllfr of
+     * thf spfdififd <dodf>nfwPriority</dodf> bnd thf mbximum pfrmittfd
+     * priority of thf thrfbd's thrfbd group.
+     *
+     * @pbrbm nfwPriority priority to sft this thrfbd to
+     * @fxdfption  IllfgblArgumfntExdfption  If thf priority is not in thf
+     *               rbngf <dodf>MIN_PRIORITY</dodf> to
+     *               <dodf>MAX_PRIORITY</dodf>.
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot modify
+     *               this thrfbd.
+     * @sff        #gftPriority
+     * @sff        #dhfdkAddfss()
+     * @sff        #gftThrfbdGroup()
+     * @sff        #MAX_PRIORITY
+     * @sff        #MIN_PRIORITY
+     * @sff        ThrfbdGroup#gftMbxPriority()
+     */
+    publid finbl void sftPriority(int nfwPriority) {
+        ThrfbdGroup g;
+        dhfdkAddfss();
+        if (nfwPriority > MAX_PRIORITY || nfwPriority < MIN_PRIORITY) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        if((g = gftThrfbdGroup()) != null) {
+            if (nfwPriority > g.gftMbxPriority()) {
+                nfwPriority = g.gftMbxPriority();
+            }
+            sftPriority0(priority = nfwPriority);
+        }
+    }
+
+    /**
+     * Rfturns this thrfbd's priority.
+     *
+     * @rfturn  this thrfbd's priority.
+     * @sff     #sftPriority
+     */
+    publid finbl int gftPriority() {
+        rfturn priority;
+    }
+
+    /**
+     * Chbngfs thf nbmf of this thrfbd to bf fqubl to thf brgumfnt
+     * <dodf>nbmf</dodf>.
+     * <p>
+     * First thf <dodf>dhfdkAddfss</dodf> mfthod of this thrfbd is dbllfd
+     * with no brgumfnts. This mby rfsult in throwing b
+     * <dodf>SfdurityExdfption</dodf>.
+     *
+     * @pbrbm      nbmf   thf nfw nbmf for this thrfbd.
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot modify this
+     *               thrfbd.
+     * @sff        #gftNbmf
+     * @sff        #dhfdkAddfss()
+     */
+    publid finbl syndhronizfd void sftNbmf(String nbmf) {
+        dhfdkAddfss();
+        this.nbmf = nbmf.toChbrArrby();
+        if (thrfbdStbtus != 0) {
+            sftNbtivfNbmf(nbmf);
+        }
+    }
+
+    /**
+     * Rfturns this thrfbd's nbmf.
+     *
+     * @rfturn  this thrfbd's nbmf.
+     * @sff     #sftNbmf(String)
+     */
+    publid finbl String gftNbmf() {
+        rfturn nfw String(nbmf, truf);
+    }
+
+    /**
+     * Rfturns thf thrfbd group to whidh this thrfbd bflongs.
+     * This mfthod rfturns null if this thrfbd hbs difd
+     * (bffn stoppfd).
+     *
+     * @rfturn  this thrfbd's thrfbd group.
+     */
+    publid finbl ThrfbdGroup gftThrfbdGroup() {
+        rfturn group;
+    }
+
+    /**
+     * Rfturns bn fstimbtf of thf numbfr of bdtivf thrfbds in thf durrfnt
+     * thrfbd's {@linkplbin jbvb.lbng.ThrfbdGroup thrfbd group} bnd its
+     * subgroups. Rfdursivfly itfrbtfs ovfr bll subgroups in thf durrfnt
+     * thrfbd's thrfbd group.
+     *
+     * <p> Thf vbluf rfturnfd is only bn fstimbtf bfdbusf thf numbfr of
+     * thrfbds mby dhbngf dynbmidblly whilf this mfthod trbvfrsfs intfrnbl
+     * dbtb strudturfs, bnd might bf bfffdtfd by thf prfsfndf of dfrtbin
+     * systfm thrfbds. This mfthod is intfndfd primbrily for dfbugging
+     * bnd monitoring purposfs.
+     *
+     * @rfturn  bn fstimbtf of thf numbfr of bdtivf thrfbds in thf durrfnt
+     *          thrfbd's thrfbd group bnd in bny othfr thrfbd group thbt
+     *          hbs thf durrfnt thrfbd's thrfbd group bs bn bndfstor
+     */
+    publid stbtid int bdtivfCount() {
+        rfturn durrfntThrfbd().gftThrfbdGroup().bdtivfCount();
+    }
+
+    /**
+     * Copifs into thf spfdififd brrby fvfry bdtivf thrfbd in thf durrfnt
+     * thrfbd's thrfbd group bnd its subgroups. This mfthod simply
+     * invokfs thf {@link jbvb.lbng.ThrfbdGroup#fnumfrbtf(Thrfbd[])}
+     * mfthod of thf durrfnt thrfbd's thrfbd group.
+     *
+     * <p> An bpplidbtion might usf thf {@linkplbin #bdtivfCount bdtivfCount}
+     * mfthod to gft bn fstimbtf of how big thf brrby should bf, howfvfr
+     * <i>if thf brrby is too short to hold bll thf thrfbds, thf fxtrb thrfbds
+     * brf silfntly ignorfd.</i>  If it is dritidbl to obtbin fvfry bdtivf
+     * thrfbd in thf durrfnt thrfbd's thrfbd group bnd its subgroups, thf
+     * invokfr should vfrify thbt thf rfturnfd int vbluf is stridtly lfss
+     * thbn thf lfngth of {@dodf tbrrby}.
+     *
+     * <p> Duf to thf inhfrfnt rbdf dondition in this mfthod, it is rfdommfndfd
+     * thbt thf mfthod only bf usfd for dfbugging bnd monitoring purposfs.
+     *
+     * @pbrbm  tbrrby
+     *         bn brrby into whidh to put thf list of thrfbds
+     *
+     * @rfturn  thf numbfr of thrfbds put into thf brrby
+     *
+     * @throws  SfdurityExdfption
+     *          if {@link jbvb.lbng.ThrfbdGroup#dhfdkAddfss} dftfrminfs thbt
+     *          thf durrfnt thrfbd dbnnot bddfss its thrfbd group
+     */
+    publid stbtid int fnumfrbtf(Thrfbd tbrrby[]) {
+        rfturn durrfntThrfbd().gftThrfbdGroup().fnumfrbtf(tbrrby);
+    }
+
+    /**
+     * Counts thf numbfr of stbdk frbmfs in this thrfbd. Thf thrfbd must
+     * bf suspfndfd.
+     *
+     * @rfturn     thf numbfr of stbdk frbmfs in this thrfbd.
+     * @fxdfption  IllfgblThrfbdStbtfExdfption  if this thrfbd is not
+     *             suspfndfd.
+     * @dfprfdbtfd Thf dffinition of this dbll dfpfnds on {@link #suspfnd},
+     *             whidh is dfprfdbtfd.  Furthfr, thf rfsults of this dbll
+     *             wfrf nfvfr wfll-dffinfd.
+     */
+    @Dfprfdbtfd
+    publid nbtivf int dountStbdkFrbmfs();
+
+    /**
+     * Wbits bt most {@dodf millis} millisfdonds for this thrfbd to
+     * dif. A timfout of {@dodf 0} mfbns to wbit forfvfr.
+     *
+     * <p> This implfmfntbtion usfs b loop of {@dodf this.wbit} dblls
+     * donditionfd on {@dodf this.isAlivf}. As b thrfbd tfrminbtfs thf
+     * {@dodf this.notifyAll} mfthod is invokfd. It is rfdommfndfd thbt
+     * bpplidbtions not usf {@dodf wbit}, {@dodf notify}, or
+     * {@dodf notifyAll} on {@dodf Thrfbd} instbndfs.
+     *
+     * @pbrbm  millis
+     *         thf timf to wbit in millisfdonds
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf vbluf of {@dodf millis} is nfgbtivf
+     *
+     * @throws  IntfrruptfdExdfption
+     *          if bny thrfbd hbs intfrruptfd thf durrfnt thrfbd. Thf
+     *          <i>intfrruptfd stbtus</i> of thf durrfnt thrfbd is
+     *          dlfbrfd whfn this fxdfption is thrown.
+     */
+    publid finbl syndhronizfd void join(long millis)
+    throws IntfrruptfdExdfption {
+        long bbsf = Systfm.durrfntTimfMillis();
+        long now = 0;
+
+        if (millis < 0) {
+            throw nfw IllfgblArgumfntExdfption("timfout vbluf is nfgbtivf");
+        }
+
+        if (millis == 0) {
+            whilf (isAlivf()) {
+                wbit(0);
+            }
+        } flsf {
+            whilf (isAlivf()) {
+                long dflby = millis - now;
+                if (dflby <= 0) {
+                    brfbk;
+                }
+                wbit(dflby);
+                now = Systfm.durrfntTimfMillis() - bbsf;
+            }
+        }
+    }
+
+    /**
+     * Wbits bt most {@dodf millis} millisfdonds plus
+     * {@dodf nbnos} nbnosfdonds for this thrfbd to dif.
+     *
+     * <p> This implfmfntbtion usfs b loop of {@dodf this.wbit} dblls
+     * donditionfd on {@dodf this.isAlivf}. As b thrfbd tfrminbtfs thf
+     * {@dodf this.notifyAll} mfthod is invokfd. It is rfdommfndfd thbt
+     * bpplidbtions not usf {@dodf wbit}, {@dodf notify}, or
+     * {@dodf notifyAll} on {@dodf Thrfbd} instbndfs.
+     *
+     * @pbrbm  millis
+     *         thf timf to wbit in millisfdonds
+     *
+     * @pbrbm  nbnos
+     *         {@dodf 0-999999} bdditionbl nbnosfdonds to wbit
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf vbluf of {@dodf millis} is nfgbtivf, or thf vbluf
+     *          of {@dodf nbnos} is not in thf rbngf {@dodf 0-999999}
+     *
+     * @throws  IntfrruptfdExdfption
+     *          if bny thrfbd hbs intfrruptfd thf durrfnt thrfbd. Thf
+     *          <i>intfrruptfd stbtus</i> of thf durrfnt thrfbd is
+     *          dlfbrfd whfn this fxdfption is thrown.
+     */
+    publid finbl syndhronizfd void join(long millis, int nbnos)
+    throws IntfrruptfdExdfption {
+
+        if (millis < 0) {
+            throw nfw IllfgblArgumfntExdfption("timfout vbluf is nfgbtivf");
+        }
+
+        if (nbnos < 0 || nbnos > 999999) {
+            throw nfw IllfgblArgumfntExdfption(
+                                "nbnosfdond timfout vbluf out of rbngf");
+        }
+
+        if (nbnos >= 500000 || (nbnos != 0 && millis == 0)) {
+            millis++;
+        }
+
+        join(millis);
+    }
+
+    /**
+     * Wbits for this thrfbd to dif.
+     *
+     * <p> An invodbtion of this mfthod bfhbvfs in fxbdtly thf sbmf
+     * wby bs thf invodbtion
+     *
+     * <blodkquotf>
+     * {@linkplbin #join(long) join}{@dodf (0)}
+     * </blodkquotf>
+     *
+     * @throws  IntfrruptfdExdfption
+     *          if bny thrfbd hbs intfrruptfd thf durrfnt thrfbd. Thf
+     *          <i>intfrruptfd stbtus</i> of thf durrfnt thrfbd is
+     *          dlfbrfd whfn this fxdfption is thrown.
+     */
+    publid finbl void join() throws IntfrruptfdExdfption {
+        join(0);
+    }
+
+    /**
+     * Prints b stbdk trbdf of thf durrfnt thrfbd to thf stbndbrd frror strfbm.
+     * This mfthod is usfd only for dfbugging.
+     *
+     * @sff     Throwbblf#printStbdkTrbdf()
+     */
+    publid stbtid void dumpStbdk() {
+        nfw Exdfption("Stbdk trbdf").printStbdkTrbdf();
+    }
+
+    /**
+     * Mbrks this thrfbd bs fithfr b {@linkplbin #isDbfmon dbfmon} thrfbd
+     * or b usfr thrfbd. Thf Jbvb Virtubl Mbdhinf fxits whfn thf only
+     * thrfbds running brf bll dbfmon thrfbds.
+     *
+     * <p> This mfthod must bf invokfd bfforf thf thrfbd is stbrtfd.
+     *
+     * @pbrbm  on
+     *         if {@dodf truf}, mbrks this thrfbd bs b dbfmon thrfbd
+     *
+     * @throws  IllfgblThrfbdStbtfExdfption
+     *          if this thrfbd is {@linkplbin #isAlivf blivf}
+     *
+     * @throws  SfdurityExdfption
+     *          if {@link #dhfdkAddfss} dftfrminfs thbt thf durrfnt
+     *          thrfbd dbnnot modify this thrfbd
+     */
+    publid finbl void sftDbfmon(boolfbn on) {
+        dhfdkAddfss();
+        if (isAlivf()) {
+            throw nfw IllfgblThrfbdStbtfExdfption();
+        }
+        dbfmon = on;
+    }
+
+    /**
+     * Tfsts if this thrfbd is b dbfmon thrfbd.
+     *
+     * @rfturn  <dodf>truf</dodf> if this thrfbd is b dbfmon thrfbd;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     * @sff     #sftDbfmon(boolfbn)
+     */
+    publid finbl boolfbn isDbfmon() {
+        rfturn dbfmon;
+    }
+
+    /**
+     * Dftfrminfs if thf durrfntly running thrfbd hbs pfrmission to
+     * modify this thrfbd.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkAddfss</dodf> mfthod
+     * is dbllfd with this thrfbd bs its brgumfnt. This mby rfsult in
+     * throwing b <dodf>SfdurityExdfption</dodf>.
+     *
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd is not bllowfd to
+     *               bddfss this thrfbd.
+     * @sff        SfdurityMbnbgfr#dhfdkAddfss(Thrfbd)
+     */
+    publid finbl void dhfdkAddfss() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkAddfss(this);
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this thrfbd, indluding thf
+     * thrfbd's nbmf, priority, bnd thrfbd group.
+     *
+     * @rfturn  b string rfprfsfntbtion of this thrfbd.
+     */
+    publid String toString() {
+        ThrfbdGroup group = gftThrfbdGroup();
+        if (group != null) {
+            rfturn "Thrfbd[" + gftNbmf() + "," + gftPriority() + "," +
+                           group.gftNbmf() + "]";
+        } flsf {
+            rfturn "Thrfbd[" + gftNbmf() + "," + gftPriority() + "," +
+                            "" + "]";
+        }
+    }
+
+    /**
+     * Rfturns thf dontfxt ClbssLobdfr for this Thrfbd. Thf dontfxt
+     * ClbssLobdfr is providfd by thf drfbtor of thf thrfbd for usf
+     * by dodf running in this thrfbd whfn lobding dlbssfs bnd rfsourdfs.
+     * If not {@linkplbin #sftContfxtClbssLobdfr sft}, thf dffbult is thf
+     * ClbssLobdfr dontfxt of thf pbrfnt Thrfbd. Thf dontfxt ClbssLobdfr of thf
+     * primordibl thrfbd is typidblly sft to thf dlbss lobdfr usfd to lobd thf
+     * bpplidbtion.
+     *
+     * <p>If b sfdurity mbnbgfr is prfsfnt, bnd thf invokfr's dlbss lobdfr is not
+     * {@dodf null} bnd is not thf sbmf bs or bn bndfstor of thf dontfxt dlbss
+     * lobdfr, thfn this mfthod invokfs thf sfdurity mbnbgfr's {@link
+     * SfdurityMbnbgfr#dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission}
+     * mfthod with b {@link RuntimfPfrmission RuntimfPfrmission}{@dodf
+     * ("gftClbssLobdfr")} pfrmission to vfrify thbt rftrifvbl of thf dontfxt
+     * dlbss lobdfr is pfrmittfd.
+     *
+     * @rfturn  thf dontfxt ClbssLobdfr for this Thrfbd, or {@dodf null}
+     *          indidbting thf systfm dlbss lobdfr (or, fbiling thbt, thf
+     *          bootstrbp dlbss lobdfr)
+     *
+     * @throws  SfdurityExdfption
+     *          if thf durrfnt thrfbd dbnnot gft thf dontfxt ClbssLobdfr
+     *
+     * @sindf 1.2
+     */
+    @CbllfrSfnsitivf
+    publid ClbssLobdfr gftContfxtClbssLobdfr() {
+        if (dontfxtClbssLobdfr == null)
+            rfturn null;
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            ClbssLobdfr.dhfdkClbssLobdfrPfrmission(dontfxtClbssLobdfr,
+                                                   Rfflfdtion.gftCbllfrClbss());
+        }
+        rfturn dontfxtClbssLobdfr;
+    }
+
+    /**
+     * Sfts thf dontfxt ClbssLobdfr for this Thrfbd. Thf dontfxt
+     * ClbssLobdfr dbn bf sft whfn b thrfbd is drfbtfd, bnd bllows
+     * thf drfbtor of thf thrfbd to providf thf bppropribtf dlbss lobdfr,
+     * through {@dodf gftContfxtClbssLobdfr}, to dodf running in thf thrfbd
+     * whfn lobding dlbssfs bnd rfsourdfs.
+     *
+     * <p>If b sfdurity mbnbgfr is prfsfnt, its {@link
+     * SfdurityMbnbgfr#dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission}
+     * mfthod is invokfd with b {@link RuntimfPfrmission RuntimfPfrmission}{@dodf
+     * ("sftContfxtClbssLobdfr")} pfrmission to sff if sftting thf dontfxt
+     * ClbssLobdfr is pfrmittfd.
+     *
+     * @pbrbm  dl
+     *         thf dontfxt ClbssLobdfr for this Thrfbd, or null  indidbting thf
+     *         systfm dlbss lobdfr (or, fbiling thbt, thf bootstrbp dlbss lobdfr)
+     *
+     * @throws  SfdurityExdfption
+     *          if thf durrfnt thrfbd dbnnot sft thf dontfxt ClbssLobdfr
+     *
+     * @sindf 1.2
+     */
+    publid void sftContfxtClbssLobdfr(ClbssLobdfr dl) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("sftContfxtClbssLobdfr"));
+        }
+        dontfxtClbssLobdfr = dl;
+    }
+
+    /**
+     * Rfturns <tt>truf</tt> if bnd only if thf durrfnt thrfbd holds thf
+     * monitor lodk on thf spfdififd objfdt.
+     *
+     * <p>This mfthod is dfsignfd to bllow b progrbm to bssfrt thbt
+     * thf durrfnt thrfbd blrfbdy holds b spfdififd lodk:
+     * <prf>
+     *     bssfrt Thrfbd.holdsLodk(obj);
+     * </prf>
+     *
+     * @pbrbm  obj thf objfdt on whidh to tfst lodk ownfrship
+     * @throws NullPointfrExdfption if obj is <tt>null</tt>
+     * @rfturn <tt>truf</tt> if thf durrfnt thrfbd holds thf monitor lodk on
+     *         thf spfdififd objfdt.
+     * @sindf 1.4
+     */
+    publid stbtid nbtivf boolfbn holdsLodk(Objfdt obj);
+
+    privbtf stbtid finbl StbdkTrbdfElfmfnt[] EMPTY_STACK_TRACE
+        = nfw StbdkTrbdfElfmfnt[0];
+
+    /**
+     * Rfturns bn brrby of stbdk trbdf flfmfnts rfprfsfnting thf stbdk dump
+     * of this thrfbd.  This mfthod will rfturn b zfro-lfngth brrby if
+     * this thrfbd hbs not stbrtfd, hbs stbrtfd but hbs not yft bffn
+     * sdhfdulfd to run by thf systfm, or hbs tfrminbtfd.
+     * If thf rfturnfd brrby is of non-zfro lfngth thfn thf first flfmfnt of
+     * thf brrby rfprfsfnts thf top of thf stbdk, whidh is thf most rfdfnt
+     * mfthod invodbtion in thf sfqufndf.  Thf lbst flfmfnt of thf brrby
+     * rfprfsfnts thf bottom of thf stbdk, whidh is thf lfbst rfdfnt mfthod
+     * invodbtion in thf sfqufndf.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, bnd this thrfbd is not
+     * thf durrfnt thrfbd, thfn thf sfdurity mbnbgfr's
+     * <tt>dhfdkPfrmission</tt> mfthod is dbllfd with b
+     * <tt>RuntimfPfrmission("gftStbdkTrbdf")</tt> pfrmission
+     * to sff if it's ok to gft thf stbdk trbdf.
+     *
+     * <p>Somf virtubl mbdhinfs mby, undfr somf dirdumstbndfs, omit onf
+     * or morf stbdk frbmfs from thf stbdk trbdf.  In thf fxtrfmf dbsf,
+     * b virtubl mbdhinf thbt hbs no stbdk trbdf informbtion dondfrning
+     * this thrfbd is pfrmittfd to rfturn b zfro-lfngth brrby from this
+     * mfthod.
+     *
+     * @rfturn bn brrby of <tt>StbdkTrbdfElfmfnt</tt>,
+     * fbdh rfprfsfnts onf stbdk frbmf.
+     *
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <tt>dhfdkPfrmission</tt> mfthod dofsn't bllow
+     *        gftting thf stbdk trbdf of thrfbd.
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff RuntimfPfrmission
+     * @sff Throwbblf#gftStbdkTrbdf
+     *
+     * @sindf 1.5
+     */
+    publid StbdkTrbdfElfmfnt[] gftStbdkTrbdf() {
+        if (this != Thrfbd.durrfntThrfbd()) {
+            // dhfdk for gftStbdkTrbdf pfrmission
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                sfdurity.dhfdkPfrmission(
+                    SfdurityConstbnts.GET_STACK_TRACE_PERMISSION);
+            }
+            // optimizbtion so wf do not dbll into thf vm for thrfbds thbt
+            // hbvf not yft stbrtfd or hbvf tfrminbtfd
+            if (!isAlivf()) {
+                rfturn EMPTY_STACK_TRACE;
+            }
+            StbdkTrbdfElfmfnt[][] stbdkTrbdfArrby = dumpThrfbds(nfw Thrfbd[] {this});
+            StbdkTrbdfElfmfnt[] stbdkTrbdf = stbdkTrbdfArrby[0];
+            // b thrfbd thbt wbs blivf during thf prfvious isAlivf dbll mby hbvf
+            // sindf tfrminbtfd, thfrfforf not hbving b stbdktrbdf.
+            if (stbdkTrbdf == null) {
+                stbdkTrbdf = EMPTY_STACK_TRACE;
+            }
+            rfturn stbdkTrbdf;
+        } flsf {
+            // Don't nffd JVM hflp for durrfnt thrfbd
+            rfturn (nfw Exdfption()).gftStbdkTrbdf();
+        }
+    }
+
+    /**
+     * Rfturns b mbp of stbdk trbdfs for bll livf thrfbds.
+     * Thf mbp kfys brf thrfbds bnd fbdh mbp vbluf is bn brrby of
+     * <tt>StbdkTrbdfElfmfnt</tt> thbt rfprfsfnts thf stbdk dump
+     * of thf dorrfsponding <tt>Thrfbd</tt>.
+     * Thf rfturnfd stbdk trbdfs brf in thf formbt spfdififd for
+     * thf {@link #gftStbdkTrbdf gftStbdkTrbdf} mfthod.
+     *
+     * <p>Thf thrfbds mby bf fxfduting whilf this mfthod is dbllfd.
+     * Thf stbdk trbdf of fbdh thrfbd only rfprfsfnts b snbpshot bnd
+     * fbdh stbdk trbdf mby bf obtbinfd bt difffrfnt timf.  A zfro-lfngth
+     * brrby will bf rfturnfd in thf mbp vbluf if thf virtubl mbdhinf hbs
+     * no stbdk trbdf informbtion bbout b thrfbd.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, thfn thf sfdurity mbnbgfr's
+     * <tt>dhfdkPfrmission</tt> mfthod is dbllfd with b
+     * <tt>RuntimfPfrmission("gftStbdkTrbdf")</tt> pfrmission bs wfll bs
+     * <tt>RuntimfPfrmission("modifyThrfbdGroup")</tt> pfrmission
+     * to sff if it is ok to gft thf stbdk trbdf of bll thrfbds.
+     *
+     * @rfturn b <tt>Mbp</tt> from <tt>Thrfbd</tt> to bn brrby of
+     * <tt>StbdkTrbdfElfmfnt</tt> thbt rfprfsfnts thf stbdk trbdf of
+     * thf dorrfsponding thrfbd.
+     *
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <tt>dhfdkPfrmission</tt> mfthod dofsn't bllow
+     *        gftting thf stbdk trbdf of thrfbd.
+     * @sff #gftStbdkTrbdf
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff RuntimfPfrmission
+     * @sff Throwbblf#gftStbdkTrbdf
+     *
+     * @sindf 1.5
+     */
+    publid stbtid Mbp<Thrfbd, StbdkTrbdfElfmfnt[]> gftAllStbdkTrbdfs() {
+        // dhfdk for gftStbdkTrbdf pfrmission
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPfrmission(
+                SfdurityConstbnts.GET_STACK_TRACE_PERMISSION);
+            sfdurity.dhfdkPfrmission(
+                SfdurityConstbnts.MODIFY_THREADGROUP_PERMISSION);
+        }
+
+        // Gft b snbpshot of thf list of bll thrfbds
+        Thrfbd[] thrfbds = gftThrfbds();
+        StbdkTrbdfElfmfnt[][] trbdfs = dumpThrfbds(thrfbds);
+        Mbp<Thrfbd, StbdkTrbdfElfmfnt[]> m = nfw HbshMbp<>(thrfbds.lfngth);
+        for (int i = 0; i < thrfbds.lfngth; i++) {
+            StbdkTrbdfElfmfnt[] stbdkTrbdf = trbdfs[i];
+            if (stbdkTrbdf != null) {
+                m.put(thrfbds[i], stbdkTrbdf);
+            }
+            // flsf tfrminbtfd so wf don't put it in thf mbp
+        }
+        rfturn m;
+    }
+
+
+    privbtf stbtid finbl RuntimfPfrmission SUBCLASS_IMPLEMENTATION_PERMISSION =
+                    nfw RuntimfPfrmission("fnbblfContfxtClbssLobdfrOvfrridf");
+
+    /** dbdhf of subdlbss sfdurity budit rfsults */
+    /* Rfplbdf with CondurrfntRfffrfndfHbshMbp whfn/if it bppfbrs in b futurf
+     * rflfbsf */
+    privbtf stbtid dlbss Cbdhfs {
+        /** dbdhf of subdlbss sfdurity budit rfsults */
+        stbtid finbl CondurrfntMbp<WfbkClbssKfy,Boolfbn> subdlbssAudits =
+            nfw CondurrfntHbshMbp<>();
+
+        /** qufuf for WfbkRfffrfndfs to buditfd subdlbssfs */
+        stbtid finbl RfffrfndfQufuf<Clbss<?>> subdlbssAuditsQufuf =
+            nfw RfffrfndfQufuf<>();
+    }
+
+    /**
+     * Vfrififs thbt this (possibly subdlbss) instbndf dbn bf donstrudtfd
+     * without violbting sfdurity donstrbints: thf subdlbss must not ovfrridf
+     * sfdurity-sfnsitivf non-finbl mfthods, or flsf thf
+     * "fnbblfContfxtClbssLobdfrOvfrridf" RuntimfPfrmission is dhfdkfd.
+     */
+    privbtf stbtid boolfbn isCCLOvfrriddfn(Clbss<?> dl) {
+        if (dl == Thrfbd.dlbss)
+            rfturn fblsf;
+
+        prodfssQufuf(Cbdhfs.subdlbssAuditsQufuf, Cbdhfs.subdlbssAudits);
+        WfbkClbssKfy kfy = nfw WfbkClbssKfy(dl, Cbdhfs.subdlbssAuditsQufuf);
+        Boolfbn rfsult = Cbdhfs.subdlbssAudits.gft(kfy);
+        if (rfsult == null) {
+            rfsult = Boolfbn.vblufOf(buditSubdlbss(dl));
+            Cbdhfs.subdlbssAudits.putIfAbsfnt(kfy, rfsult);
+        }
+
+        rfturn rfsult.boolfbnVbluf();
+    }
+
+    /**
+     * Pfrforms rfflfdtivf dhfdks on givfn subdlbss to vfrify thbt it dofsn't
+     * ovfrridf sfdurity-sfnsitivf non-finbl mfthods.  Rfturns truf if thf
+     * subdlbss ovfrridfs bny of thf mfthods, fblsf othfrwisf.
+     */
+    privbtf stbtid boolfbn buditSubdlbss(finbl Clbss<?> subdl) {
+        Boolfbn rfsult = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    for (Clbss<?> dl = subdl;
+                         dl != Thrfbd.dlbss;
+                         dl = dl.gftSupfrdlbss())
+                    {
+                        try {
+                            dl.gftDfdlbrfdMfthod("gftContfxtClbssLobdfr", nfw Clbss<?>[0]);
+                            rfturn Boolfbn.TRUE;
+                        } dbtdh (NoSudhMfthodExdfption fx) {
+                        }
+                        try {
+                            Clbss<?>[] pbrbms = {ClbssLobdfr.dlbss};
+                            dl.gftDfdlbrfdMfthod("sftContfxtClbssLobdfr", pbrbms);
+                            rfturn Boolfbn.TRUE;
+                        } dbtdh (NoSudhMfthodExdfption fx) {
+                        }
+                    }
+                    rfturn Boolfbn.FALSE;
+                }
+            }
+        );
+        rfturn rfsult.boolfbnVbluf();
+    }
+
+    privbtf nbtivf stbtid StbdkTrbdfElfmfnt[][] dumpThrfbds(Thrfbd[] thrfbds);
+    privbtf nbtivf stbtid Thrfbd[] gftThrfbds();
+
+    /**
+     * Rfturns thf idfntififr of this Thrfbd.  Thf thrfbd ID is b positivf
+     * <tt>long</tt> numbfr gfnfrbtfd whfn this thrfbd wbs drfbtfd.
+     * Thf thrfbd ID is uniquf bnd rfmbins undhbngfd during its lifftimf.
+     * Whfn b thrfbd is tfrminbtfd, this thrfbd ID mby bf rfusfd.
+     *
+     * @rfturn this thrfbd's ID.
+     * @sindf 1.5
+     */
+    publid long gftId() {
+        rfturn tid;
+    }
+
+    /**
+     * A thrfbd stbtf.  A thrfbd dbn bf in onf of thf following stbtfs:
+     * <ul>
+     * <li>{@link #NEW}<br>
+     *     A thrfbd thbt hbs not yft stbrtfd is in this stbtf.
+     *     </li>
+     * <li>{@link #RUNNABLE}<br>
+     *     A thrfbd fxfduting in thf Jbvb virtubl mbdhinf is in this stbtf.
+     *     </li>
+     * <li>{@link #BLOCKED}<br>
+     *     A thrfbd thbt is blodkfd wbiting for b monitor lodk
+     *     is in this stbtf.
+     *     </li>
+     * <li>{@link #WAITING}<br>
+     *     A thrfbd thbt is wbiting indffinitfly for bnothfr thrfbd to
+     *     pfrform b pbrtidulbr bdtion is in this stbtf.
+     *     </li>
+     * <li>{@link #TIMED_WAITING}<br>
+     *     A thrfbd thbt is wbiting for bnothfr thrfbd to pfrform bn bdtion
+     *     for up to b spfdififd wbiting timf is in this stbtf.
+     *     </li>
+     * <li>{@link #TERMINATED}<br>
+     *     A thrfbd thbt hbs fxitfd is in this stbtf.
+     *     </li>
+     * </ul>
+     *
+     * <p>
+     * A thrfbd dbn bf in only onf stbtf bt b givfn point in timf.
+     * Thfsf stbtfs brf virtubl mbdhinf stbtfs whidh do not rfflfdt
+     * bny opfrbting systfm thrfbd stbtfs.
+     *
+     * @sindf   1.5
+     * @sff #gftStbtf
+     */
+    publid fnum Stbtf {
+        /**
+         * Thrfbd stbtf for b thrfbd whidh hbs not yft stbrtfd.
+         */
+        NEW,
+
+        /**
+         * Thrfbd stbtf for b runnbblf thrfbd.  A thrfbd in thf runnbblf
+         * stbtf is fxfduting in thf Jbvb virtubl mbdhinf but it mby
+         * bf wbiting for othfr rfsourdfs from thf opfrbting systfm
+         * sudh bs prodfssor.
+         */
+        RUNNABLE,
+
+        /**
+         * Thrfbd stbtf for b thrfbd blodkfd wbiting for b monitor lodk.
+         * A thrfbd in thf blodkfd stbtf is wbiting for b monitor lodk
+         * to fntfr b syndhronizfd blodk/mfthod or
+         * rffntfr b syndhronizfd blodk/mfthod bftfr dblling
+         * {@link Objfdt#wbit() Objfdt.wbit}.
+         */
+        BLOCKED,
+
+        /**
+         * Thrfbd stbtf for b wbiting thrfbd.
+         * A thrfbd is in thf wbiting stbtf duf to dblling onf of thf
+         * following mfthods:
+         * <ul>
+         *   <li>{@link Objfdt#wbit() Objfdt.wbit} with no timfout</li>
+         *   <li>{@link #join() Thrfbd.join} with no timfout</li>
+         *   <li>{@link LodkSupport#pbrk() LodkSupport.pbrk}</li>
+         * </ul>
+         *
+         * <p>A thrfbd in thf wbiting stbtf is wbiting for bnothfr thrfbd to
+         * pfrform b pbrtidulbr bdtion.
+         *
+         * For fxbmplf, b thrfbd thbt hbs dbllfd <tt>Objfdt.wbit()</tt>
+         * on bn objfdt is wbiting for bnothfr thrfbd to dbll
+         * <tt>Objfdt.notify()</tt> or <tt>Objfdt.notifyAll()</tt> on
+         * thbt objfdt. A thrfbd thbt hbs dbllfd <tt>Thrfbd.join()</tt>
+         * is wbiting for b spfdififd thrfbd to tfrminbtf.
+         */
+        WAITING,
+
+        /**
+         * Thrfbd stbtf for b wbiting thrfbd with b spfdififd wbiting timf.
+         * A thrfbd is in thf timfd wbiting stbtf duf to dblling onf of
+         * thf following mfthods with b spfdififd positivf wbiting timf:
+         * <ul>
+         *   <li>{@link #slffp Thrfbd.slffp}</li>
+         *   <li>{@link Objfdt#wbit(long) Objfdt.wbit} with timfout</li>
+         *   <li>{@link #join(long) Thrfbd.join} with timfout</li>
+         *   <li>{@link LodkSupport#pbrkNbnos LodkSupport.pbrkNbnos}</li>
+         *   <li>{@link LodkSupport#pbrkUntil LodkSupport.pbrkUntil}</li>
+         * </ul>
+         */
+        TIMED_WAITING,
+
+        /**
+         * Thrfbd stbtf for b tfrminbtfd thrfbd.
+         * Thf thrfbd hbs domplftfd fxfdution.
+         */
+        TERMINATED;
+    }
+
+    /**
+     * Rfturns thf stbtf of this thrfbd.
+     * This mfthod is dfsignfd for usf in monitoring of thf systfm stbtf,
+     * not for syndhronizbtion dontrol.
+     *
+     * @rfturn this thrfbd's stbtf.
+     * @sindf 1.5
+     */
+    publid Stbtf gftStbtf() {
+        // gft durrfnt thrfbd stbtf
+        rfturn sun.misd.VM.toThrfbdStbtf(thrfbdStbtus);
+    }
+
+    // Addfd in JSR-166
+
+    /**
+     * Intfrfbdf for hbndlfrs invokfd whfn b <tt>Thrfbd</tt> bbruptly
+     * tfrminbtfs duf to bn undbught fxdfption.
+     * <p>Whfn b thrfbd is bbout to tfrminbtf duf to bn undbught fxdfption
+     * thf Jbvb Virtubl Mbdhinf will qufry thf thrfbd for its
+     * <tt>UndbughtExdfptionHbndlfr</tt> using
+     * {@link #gftUndbughtExdfptionHbndlfr} bnd will invokf thf hbndlfr's
+     * <tt>undbughtExdfption</tt> mfthod, pbssing thf thrfbd bnd thf
+     * fxdfption bs brgumfnts.
+     * If b thrfbd hbs not hbd its <tt>UndbughtExdfptionHbndlfr</tt>
+     * fxpliditly sft, thfn its <tt>ThrfbdGroup</tt> objfdt bdts bs its
+     * <tt>UndbughtExdfptionHbndlfr</tt>. If thf <tt>ThrfbdGroup</tt> objfdt
+     * hbs no
+     * spfdibl rfquirfmfnts for dfbling with thf fxdfption, it dbn forwbrd
+     * thf invodbtion to thf {@linkplbin #gftDffbultUndbughtExdfptionHbndlfr
+     * dffbult undbught fxdfption hbndlfr}.
+     *
+     * @sff #sftDffbultUndbughtExdfptionHbndlfr
+     * @sff #sftUndbughtExdfptionHbndlfr
+     * @sff ThrfbdGroup#undbughtExdfption
+     * @sindf 1.5
+     */
+    @FundtionblIntfrfbdf
+    publid intfrfbdf UndbughtExdfptionHbndlfr {
+        /**
+         * Mfthod invokfd whfn thf givfn thrfbd tfrminbtfs duf to thf
+         * givfn undbught fxdfption.
+         * <p>Any fxdfption thrown by this mfthod will bf ignorfd by thf
+         * Jbvb Virtubl Mbdhinf.
+         * @pbrbm t thf thrfbd
+         * @pbrbm f thf fxdfption
+         */
+        void undbughtExdfption(Thrfbd t, Throwbblf f);
+    }
+
+    // null unlfss fxpliditly sft
+    privbtf volbtilf UndbughtExdfptionHbndlfr undbughtExdfptionHbndlfr;
+
+    // null unlfss fxpliditly sft
+    privbtf stbtid volbtilf UndbughtExdfptionHbndlfr dffbultUndbughtExdfptionHbndlfr;
+
+    /**
+     * Sft thf dffbult hbndlfr invokfd whfn b thrfbd bbruptly tfrminbtfs
+     * duf to bn undbught fxdfption, bnd no othfr hbndlfr hbs bffn dffinfd
+     * for thbt thrfbd.
+     *
+     * <p>Undbught fxdfption hbndling is dontrollfd first by thf thrfbd, thfn
+     * by thf thrfbd's {@link ThrfbdGroup} objfdt bnd finblly by thf dffbult
+     * undbught fxdfption hbndlfr. If thf thrfbd dofs not hbvf bn fxplidit
+     * undbught fxdfption hbndlfr sft, bnd thf thrfbd's thrfbd group
+     * (indluding pbrfnt thrfbd groups)  dofs not spfdiblizf its
+     * <tt>undbughtExdfption</tt> mfthod, thfn thf dffbult hbndlfr's
+     * <tt>undbughtExdfption</tt> mfthod will bf invokfd.
+     * <p>By sftting thf dffbult undbught fxdfption hbndlfr, bn bpplidbtion
+     * dbn dhbngf thf wby in whidh undbught fxdfptions brf hbndlfd (sudh bs
+     * logging to b spfdifid dfvidf, or filf) for thosf thrfbds thbt would
+     * blrfbdy bddfpt whbtfvfr &quot;dffbult&quot; bfhbvior thf systfm
+     * providfd.
+     *
+     * <p>Notf thbt thf dffbult undbught fxdfption hbndlfr should not usublly
+     * dfffr to thf thrfbd's <tt>ThrfbdGroup</tt> objfdt, bs thbt dould dbusf
+     * infinitf rfdursion.
+     *
+     * @pbrbm fh thf objfdt to usf bs thf dffbult undbught fxdfption hbndlfr.
+     * If <tt>null</tt> thfn thfrf is no dffbult hbndlfr.
+     *
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is prfsfnt bnd it
+     *         dfnifs <tt>{@link RuntimfPfrmission}
+     *         (&quot;sftDffbultUndbughtExdfptionHbndlfr&quot;)</tt>
+     *
+     * @sff #sftUndbughtExdfptionHbndlfr
+     * @sff #gftUndbughtExdfptionHbndlfr
+     * @sff ThrfbdGroup#undbughtExdfption
+     * @sindf 1.5
+     */
+    publid stbtid void sftDffbultUndbughtExdfptionHbndlfr(UndbughtExdfptionHbndlfr fh) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(
+                nfw RuntimfPfrmission("sftDffbultUndbughtExdfptionHbndlfr")
+                    );
+        }
+
+         dffbultUndbughtExdfptionHbndlfr = fh;
+     }
+
+    /**
+     * Rfturns thf dffbult hbndlfr invokfd whfn b thrfbd bbruptly tfrminbtfs
+     * duf to bn undbught fxdfption. If thf rfturnfd vbluf is <tt>null</tt>,
+     * thfrf is no dffbult.
+     * @sindf 1.5
+     * @sff #sftDffbultUndbughtExdfptionHbndlfr
+     * @rfturn thf dffbult undbught fxdfption hbndlfr for bll thrfbds
+     */
+    publid stbtid UndbughtExdfptionHbndlfr gftDffbultUndbughtExdfptionHbndlfr(){
+        rfturn dffbultUndbughtExdfptionHbndlfr;
+    }
+
+    /**
+     * Rfturns thf hbndlfr invokfd whfn this thrfbd bbruptly tfrminbtfs
+     * duf to bn undbught fxdfption. If this thrfbd hbs not hbd bn
+     * undbught fxdfption hbndlfr fxpliditly sft thfn this thrfbd's
+     * <tt>ThrfbdGroup</tt> objfdt is rfturnfd, unlfss this thrfbd
+     * hbs tfrminbtfd, in whidh dbsf <tt>null</tt> is rfturnfd.
+     * @sindf 1.5
+     * @rfturn thf undbught fxdfption hbndlfr for this thrfbd
+     */
+    publid UndbughtExdfptionHbndlfr gftUndbughtExdfptionHbndlfr() {
+        rfturn undbughtExdfptionHbndlfr != null ?
+            undbughtExdfptionHbndlfr : group;
+    }
+
+    /**
+     * Sft thf hbndlfr invokfd whfn this thrfbd bbruptly tfrminbtfs
+     * duf to bn undbught fxdfption.
+     * <p>A thrfbd dbn tbkf full dontrol of how it rfsponds to undbught
+     * fxdfptions by hbving its undbught fxdfption hbndlfr fxpliditly sft.
+     * If no sudh hbndlfr is sft thfn thf thrfbd's <tt>ThrfbdGroup</tt>
+     * objfdt bdts bs its hbndlfr.
+     * @pbrbm fh thf objfdt to usf bs this thrfbd's undbught fxdfption
+     * hbndlfr. If <tt>null</tt> thfn this thrfbd hbs no fxplidit hbndlfr.
+     * @throws  SfdurityExdfption  if thf durrfnt thrfbd is not bllowfd to
+     *          modify this thrfbd.
+     * @sff #sftDffbultUndbughtExdfptionHbndlfr
+     * @sff ThrfbdGroup#undbughtExdfption
+     * @sindf 1.5
+     */
+    publid void sftUndbughtExdfptionHbndlfr(UndbughtExdfptionHbndlfr fh) {
+        dhfdkAddfss();
+        undbughtExdfptionHbndlfr = fh;
+    }
+
+    /**
+     * Dispbtdh bn undbught fxdfption to thf hbndlfr. This mfthod is
+     * intfndfd to bf dbllfd only by thf JVM.
+     */
+    privbtf void dispbtdhUndbughtExdfption(Throwbblf f) {
+        gftUndbughtExdfptionHbndlfr().undbughtExdfption(this, f);
+    }
+
+    /**
+     * Rfmovfs from thf spfdififd mbp bny kfys thbt hbvf bffn fnqufufd
+     * on thf spfdififd rfffrfndf qufuf.
+     */
+    stbtid void prodfssQufuf(RfffrfndfQufuf<Clbss<?>> qufuf,
+                             CondurrfntMbp<? fxtfnds
+                             WfbkRfffrfndf<Clbss<?>>, ?> mbp)
+    {
+        Rfffrfndf<? fxtfnds Clbss<?>> rff;
+        whilf((rff = qufuf.poll()) != null) {
+            mbp.rfmovf(rff);
+        }
+    }
+
+    /**
+     *  Wfbk kfy for Clbss objfdts.
+     **/
+    stbtid dlbss WfbkClbssKfy fxtfnds WfbkRfffrfndf<Clbss<?>> {
+        /**
+         * sbvfd vbluf of thf rfffrfnt's idfntity hbsh dodf, to mbintbin
+         * b donsistfnt hbsh dodf bftfr thf rfffrfnt hbs bffn dlfbrfd
+         */
+        privbtf finbl int hbsh;
+
+        /**
+         * Crfbtf b nfw WfbkClbssKfy to thf givfn objfdt, rfgistfrfd
+         * with b qufuf.
+         */
+        WfbkClbssKfy(Clbss<?> dl, RfffrfndfQufuf<Clbss<?>> rffQufuf) {
+            supfr(dl, rffQufuf);
+            hbsh = Systfm.idfntityHbshCodf(dl);
+        }
+
+        /**
+         * Rfturns thf idfntity hbsh dodf of thf originbl rfffrfnt.
+         */
+        @Ovfrridf
+        publid int hbshCodf() {
+            rfturn hbsh;
+        }
+
+        /**
+         * Rfturns truf if thf givfn objfdt is this idfntidbl
+         * WfbkClbssKfy instbndf, or, if this objfdt's rfffrfnt hbs not
+         * bffn dlfbrfd, if thf givfn objfdt is bnothfr WfbkClbssKfy
+         * instbndf with thf idfntidbl non-null rfffrfnt bs this onf.
+         */
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == this)
+                rfturn truf;
+
+            if (obj instbndfof WfbkClbssKfy) {
+                Objfdt rfffrfnt = gft();
+                rfturn (rfffrfnt != null) &&
+                       (rfffrfnt == ((WfbkClbssKfy) obj).gft());
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+    }
+
+
+    // Thf following thrff initiblly uninitiblizfd fiflds brf fxdlusivfly
+    // mbnbgfd by dlbss jbvb.util.dondurrfnt.ThrfbdLodblRbndom. Thfsf
+    // fiflds brf usfd to build thf high-pfrformbndf PRNGs in thf
+    // dondurrfnt dodf, bnd wf dbn not risk bddidfntbl fblsf shbring.
+    // Hfndf, thf fiflds brf isolbtfd with @Contfndfd.
+
+    /** Thf durrfnt sffd for b ThrfbdLodblRbndom */
+    @sun.misd.Contfndfd("tlr")
+    long thrfbdLodblRbndomSffd;
+
+    /** Probf hbsh vbluf; nonzfro if thrfbdLodblRbndomSffd initiblizfd */
+    @sun.misd.Contfndfd("tlr")
+    int thrfbdLodblRbndomProbf;
+
+    /** Sfdondbry sffd isolbtfd from publid ThrfbdLodblRbndom sfqufndf */
+    @sun.misd.Contfndfd("tlr")
+    int thrfbdLodblRbndomSfdondbrySffd;
+
+    /* Somf privbtf hflpfr mfthods */
+    privbtf nbtivf void sftPriority0(int nfwPriority);
+    privbtf nbtivf void stop0(Objfdt o);
+    privbtf nbtivf void suspfnd0();
+    privbtf nbtivf void rfsumf0();
+    privbtf nbtivf void intfrrupt0();
+    privbtf nbtivf void sftNbtivfNbmf(String nbmf);
+}

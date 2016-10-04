@@ -1,0 +1,175 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss implfmfnts thf OIDNbmf bs rfquirfd by thf GfnfrblNbmfs
+ * ASN.1 objfdt.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff GfnfrblNbmf
+ * @sff GfnfrblNbmfs
+ * @sff GfnfrblNbmfIntfrfbdf
+ */
+publid dlbss OIDNbmf implfmfnts GfnfrblNbmfIntfrfbdf {
+     privbtf ObjfdtIdfntififr oid;
+
+    /**
+     * Crfbtf thf OIDNbmf objfdt from thf pbssfd fndodfd Dfr vbluf.
+     *
+     * @pbrbm dfrVbluf thf fndodfd DER OIDNbmf.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid OIDNbmf(DfrVbluf dfrVbluf) throws IOExdfption {
+        oid = dfrVbluf.gftOID();
+    }
+
+    /**
+     * Crfbtf thf OIDNbmf objfdt with thf spfdififd nbmf.
+     *
+     * @pbrbm nbmf thf OIDNbmf.
+     */
+    publid OIDNbmf(ObjfdtIdfntififr oid) {
+        this.oid = oid;
+    }
+
+    /**
+     * Crfbtf thf OIDNbmf from thf String form of thf OID
+     *
+     * @pbrbm nbmf thf OIDNbmf in form "x.y.z..."
+     * @throws IOExdfption on frror
+     */
+    publid OIDNbmf(String nbmf) throws IOExdfption {
+        try {
+            oid = nfw ObjfdtIdfntififr(nbmf);
+        } dbtdh (Exdfption f) {
+            throw nfw IOExdfption("Unbblf to drfbtf OIDNbmf: " + f);
+        }
+    }
+
+    /**
+     * Rfturn thf typf of thf GfnfrblNbmf.
+     */
+    publid int gftTypf() {
+        rfturn (GfnfrblNbmfIntfrfbdf.NAME_OID);
+    }
+
+    /**
+     * Endodf thf OID nbmf into thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DER strfbm to fndodf thf OIDNbmf to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        out.putOID(oid);
+    }
+
+    /**
+     * Convfrt thf nbmf into usfr rfbdbblf string.
+     */
+    publid String toString() {
+        rfturn ("OIDNbmf: " + oid.toString());
+    }
+
+    /**
+     * Rfturns this OID nbmf.
+     */
+    publid ObjfdtIdfntififr gftOID() {
+        rfturn oid;
+    }
+
+    /**
+     * Compbrfs this nbmf with bnothfr, for fqublity.
+     *
+     * @rfturn truf iff thf nbmfs brf idfntidbl
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj)
+            rfturn truf;
+
+        if (!(obj instbndfof OIDNbmf))
+            rfturn fblsf;
+
+        OIDNbmf othfr = (OIDNbmf)obj;
+
+        rfturn oid.fqubls((Objfdt)othfr.oid);
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn oid.hbshCodf();
+    }
+
+    /**
+     * Rfturn typf of donstrbint inputNbmf plbdfs on this nbmf:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbmf is difffrfnt typf from nbmf (i.f. dofs not donstrbin).
+     *   <li>NAME_MATCH = 0: input nbmf mbtdhfs nbmf.
+     *   <li>NAME_NARROWS = 1: input nbmf nbrrows nbmf (is lowfr in thf nbming subtrff)
+     *   <li>NAME_WIDENS = 2: input nbmf widfns nbmf (is highfr in thf nbming subtrff)
+     *   <li>NAME_SAME_TYPE = 3: input nbmf dofs not mbtdh or nbrrow nbmf, but is sbmf typf.
+     * </ul>.  Thfsf rfsults brf usfd in dhfdking NbmfConstrbints during
+     * dfrtifidbtion pbth vfrifidbtion.
+     *
+     * @pbrbm inputNbmf to bf dhfdkfd for bfing donstrbinfd
+     * @rfturns donstrbint typf bbovf
+     * @throws UnsupportfdOpfrbtionExdfption if nbmf is not fxbdt mbtdh, but nbrrowing bnd widfning brf
+     *          not supportfd for this nbmf typf.
+     */
+    publid int donstrbins(GfnfrblNbmfIntfrfbdf inputNbmf) throws UnsupportfdOpfrbtionExdfption {
+        int donstrbintTypf;
+        if (inputNbmf == null)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf if (inputNbmf.gftTypf() != NAME_OID)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf if (this.fqubls((OIDNbmf)inputNbmf))
+            donstrbintTypf = NAME_MATCH;
+        flsf
+            //widfns bnd nbrrows not dffinfd in RFC2459 for OIDNbmf (bkb rfgistfrfdID)
+            throw nfw UnsupportfdOpfrbtionExdfption("Nbrrowing bnd widfning brf not supportfd for OIDNbmfs");
+        rfturn donstrbintTypf;
+    }
+
+    /**
+     * Rfturn subtrff dfpth of this nbmf for purposfs of dftfrmining
+     * NbmfConstrbints minimum bnd mbximum bounds bnd for dbldulbting
+     * pbth lfngths in nbmf subtrffs.
+     *
+     * @rfturns distbndf of nbmf from root
+     * @throws UnsupportfdOpfrbtionExdfption if not supportfd for this nbmf typf
+     */
+    publid int subtrffDfpth() throws UnsupportfdOpfrbtionExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("subtrffDfpth() not supportfd for OIDNbmf.");
+   }
+}

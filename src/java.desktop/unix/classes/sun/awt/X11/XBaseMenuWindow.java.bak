@@ -1,406 +1,406 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import java.awt.image.ColorModel;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.ColorModfl;
 
-import sun.awt.*;
+import sun.bwt.*;
 
-import java.util.ArrayList;
-import java.util.Vector;
-import sun.util.logging.PlatformLogger;
-import sun.java2d.SurfaceData;
-import sun.java2d.SunGraphics2D;
+import jbvb.util.ArrbyList;
+import jbvb.util.Vfdtor;
+import sun.util.logging.PlbtformLoggfr;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.SunGrbpiids2D;
 
 /**
- * The abstract class XBaseMenuWindow is the superclass
- * of all menu windows.
+ * Tif bbstrbdt dlbss XBbsfMfnuWindow is tif supfrdlbss
+ * of bll mfnu windows.
  */
-abstract public class XBaseMenuWindow extends XWindow {
+bbstrbdt publid dlbss XBbsfMfnuWindow fxtfnds XWindow {
 
     /************************************************
      *
-     * Data members
+     * Dbtb mfmbfrs
      *
      ************************************************/
 
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XBaseMenuWindow");
+    privbtf stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XBbsfMfnuWindow");
 
     /*
-     * Colors are calculated using MotifColorUtilities class
-     * from backgroundColor and are contained in these vars.
+     * Colors brf dbldulbtfd using MotifColorUtilitifs dlbss
+     * from bbdkgroundColor bnd brf dontbinfd in tifsf vbrs.
      */
-    private Color backgroundColor;
-    private Color foregroundColor;
-    private Color lightShadowColor;
-    private Color darkShadowColor;
-    private Color selectedColor;
-    private Color disabledColor;
+    privbtf Color bbdkgroundColor;
+    privbtf Color forfgroundColor;
+    privbtf Color ligitSibdowColor;
+    privbtf Color dbrkSibdowColor;
+    privbtf Color sflfdtfdColor;
+    privbtf Color disbblfdColor;
 
     /**
-     * Array of items.
+     * Arrby of itfms.
      */
-    private ArrayList<XMenuItemPeer> items;
+    privbtf ArrbyList<XMfnuItfmPffr> itfms;
 
     /**
-     * Index of selected item in array of items
+     * Indfx of sflfdtfd itfm in brrby of itfms
      */
-    private int selectedIndex = -1;
+    privbtf int sflfdtfdIndfx = -1;
 
     /**
-     * Specifies currently showing submenu.
+     * Spfdififs durrfntly siowing submfnu.
      */
-    private XMenuPeer showingSubmenu = null;
+    privbtf XMfnuPffr siowingSubmfnu = null;
 
     /**
-     * Static synchronizational object.
-     * Following operations should be synchronized
-     * using this object:
-     * 1. Access to items vector
-     * 2. Access to selection
-     * 3. Access to showing menu window member
+     * Stbtid syndironizbtionbl objfdt.
+     * Following opfrbtions siould bf syndironizfd
+     * using tiis objfdt:
+     * 1. Addfss to itfms vfdtor
+     * 2. Addfss to sflfdtion
+     * 3. Addfss to siowing mfnu window mfmbfr
      *
-     * This is lowest level lock,
-     * no other locks should be taken when
-     * thread own this lock.
+     * Tiis is lowfst lfvfl lodk,
+     * no otifr lodks siould bf tbkfn wifn
+     * tirfbd own tiis lodk.
      */
-    static private Object menuTreeLock = new Object();
+    stbtid privbtf Objfdt mfnuTrffLodk = nfw Objfdt();
 
     /************************************************
      *
-     * Event processing
+     * Evfnt prodfssing
      *
      ************************************************/
 
     /**
-     * If mouse button is clicked on item showing submenu
-     * we have to hide its submenu.
-     * And if mouse button is pressed on such item and
-     * dragged to another, getShowingSubmenu() is changed.
-     * So this member saves the item that the user
-     * presses mouse button on _only_ if it's showing submenu.
+     * If mousf button is dlidkfd on itfm siowing submfnu
+     * wf ibvf to iidf its submfnu.
+     * And if mousf button is prfssfd on sudi itfm bnd
+     * drbggfd to bnotifr, gftSiowingSubmfnu() is dibngfd.
+     * So tiis mfmbfr sbvfs tif itfm tibt tif usfr
+     * prfssfs mousf button on _only_ if it's siowing submfnu.
      */
-    private XMenuPeer showingMousePressedSubmenu = null;
+    privbtf XMfnuPffr siowingMousfPrfssfdSubmfnu = null;
 
     /**
-     * If the PopupMenu is invoked as a result of right button click
-     * first mouse event after grabInput would be MouseReleased.
-     * We need to check if the user has moved mouse after input grab.
-     * If yes - hide the PopupMenu. If no - do nothing
+     * If tif PopupMfnu is invokfd bs b rfsult of rigit button dlidk
+     * first mousf fvfnt bftfr grbbInput would bf MousfRflfbsfd.
+     * Wf nffd to difdk if tif usfr ibs movfd mousf bftfr input grbb.
+     * If yfs - iidf tif PopupMfnu. If no - do notiing
      */
-    protected Point grabInputPoint = null;
-    protected boolean hasPointerMoved = false;
+    protfdtfd Point grbbInputPoint = null;
+    protfdtfd boolfbn ibsPointfrMovfd = fblsf;
 
-    private AppContext disposeAppContext;
+    privbtf AppContfxt disposfAppContfxt;
 
     /************************************************
      *
-     * Mapping data
+     * Mbpping dbtb
      *
      ************************************************/
 
     /**
-     * Mapping data that is filled in getMappedItems function
-     * and reset in resetSize function. It contains array of
-     * items in order that they appear on screen and may contain
-     * additional data defined by descendants.
+     * Mbpping dbtb tibt is fillfd in gftMbppfdItfms fundtion
+     * bnd rfsft in rfsftSizf fundtion. It dontbins brrby of
+     * itfms in ordfr tibt tify bppfbr on sdrffn bnd mby dontbin
+     * bdditionbl dbtb dffinfd by dfsdfndbnts.
      */
-    private MappingData mappingData;
+    privbtf MbppingDbtb mbppingDbtb;
 
-    static class MappingData implements Cloneable {
-
-        /**
-         * Array of item in order that they appear on screen
-         */
-        private XMenuItemPeer[] items;
+    stbtid dlbss MbppingDbtb implfmfnts Clonfbblf {
 
         /**
-         * Constructs MappingData object with list
-         * of menu items
+         * Arrby of itfm in ordfr tibt tify bppfbr on sdrffn
          */
-        MappingData(XMenuItemPeer[] items) {
-            this.items = items;
+        privbtf XMfnuItfmPffr[] itfms;
+
+        /**
+         * Construdts MbppingDbtb objfdt witi list
+         * of mfnu itfms
+         */
+        MbppingDbtb(XMfnuItfmPffr[] itfms) {
+            tiis.itfms = itfms;
         }
 
         /**
-         * Constructs MappingData without items
-         * This constructor should be used in case of errors
+         * Construdts MbppingDbtb witiout itfms
+         * Tiis donstrudtor siould bf usfd in dbsf of frrors
          */
-        MappingData() {
-            this.items = new XMenuItemPeer[0];
+        MbppingDbtb() {
+            tiis.itfms = nfw XMfnuItfmPffr[0];
         }
 
-        public Object clone() {
+        publid Objfdt dlonf() {
             try {
-                return super.clone();
-            } catch (CloneNotSupportedException ex) {
-                throw new InternalError(ex);
+                rfturn supfr.dlonf();
+            } dbtdi (ClonfNotSupportfdExdfption fx) {
+                tirow nfw IntfrnblError(fx);
             }
         }
 
-        public XMenuItemPeer[] getItems() {
-            return this.items;
+        publid XMfnuItfmPffr[] gftItfms() {
+            rfturn tiis.itfms;
         }
     }
 
     /************************************************
      *
-     * Construction
+     * Construdtion
      *
      ************************************************/
-    XBaseMenuWindow() {
-        super(new XCreateWindowParams(new Object[] {
-            DELAYED, Boolean.TRUE}));
+    XBbsfMfnuWindow() {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
+            DELAYED, Boolfbn.TRUE}));
 
-        disposeAppContext = AppContext.getAppContext();
+        disposfAppContfxt = AppContfxt.gftAppContfxt();
     }
 
     /************************************************
      *
-     * Abstract methods
+     * Abstrbdt mftiods
      *
      ************************************************/
 
     /**
-     * Returns parent menu window (not the X-hierarchy parent window)
+     * Rfturns pbrfnt mfnu window (not tif X-iifrbrdiy pbrfnt window)
      */
-    protected abstract XBaseMenuWindow getParentMenuWindow();
+    protfdtfd bbstrbdt XBbsfMfnuWindow gftPbrfntMfnuWindow();
 
     /**
-     * Performs mapping of items in window.
-     * This function creates and fills specific
-     * descendant of MappingData
-     * and sets mapping coordinates of items
-     * This function should return default menu data
-     * if errors occur
+     * Pfrforms mbpping of itfms in window.
+     * Tiis fundtion drfbtfs bnd fills spfdifid
+     * dfsdfndbnt of MbppingDbtb
+     * bnd sfts mbpping doordinbtfs of itfms
+     * Tiis fundtion siould rfturn dffbult mfnu dbtb
+     * if frrors oddur
      */
-    protected abstract MappingData map();
+    protfdtfd bbstrbdt MbppingDbtb mbp();
 
     /**
-     * Calculates placement of submenu window
-     * given bounds of item with submenu and
-     * size of submenu window. Returns suggested
-     * rectangle for submenu window in global coordinates
-     * @param itemBounds the bounding rectangle of item
-     * in local coordinates
-     * @param windowSize the desired size of submenu's window
+     * Cbldulbtfs plbdfmfnt of submfnu window
+     * givfn bounds of itfm witi submfnu bnd
+     * sizf of submfnu window. Rfturns suggfstfd
+     * rfdtbnglf for submfnu window in globbl doordinbtfs
+     * @pbrbm itfmBounds tif bounding rfdtbnglf of itfm
+     * in lodbl doordinbtfs
+     * @pbrbm windowSizf tif dfsirfd sizf of submfnu's window
      */
-    protected abstract Rectangle getSubmenuBounds(Rectangle itemBounds, Dimension windowSize);
+    protfdtfd bbstrbdt Rfdtbnglf gftSubmfnuBounds(Rfdtbnglf itfmBounds, Dimfnsion windowSizf);
 
 
     /**
-     * This function is to be called if it's likely that size
-     * of items was changed. It can be called from any thread
-     * in any locked state, so it should not take locks
+     * Tiis fundtion is to bf dbllfd if it's likfly tibt sizf
+     * of itfms wbs dibngfd. It dbn bf dbllfd from bny tirfbd
+     * in bny lodkfd stbtf, so it siould not tbkf lodks
      */
-    protected abstract void updateSize();
+    protfdtfd bbstrbdt void updbtfSizf();
 
     /************************************************
      *
-     * Initialization
+     * Initiblizbtion
      *
      ************************************************/
 
     /**
-     * Overrides XBaseWindow.instantPreInit
+     * Ovfrridfs XBbsfWindow.instbntPrfInit
      */
-    void instantPreInit(XCreateWindowParams params) {
-        super.instantPreInit(params);
-        items = new ArrayList<>();
+    void instbntPrfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.instbntPrfInit(pbrbms);
+        itfms = nfw ArrbyList<>();
     }
 
     /************************************************
      *
-     * General-purpose functions
+     * Gfnfrbl-purposf fundtions
      *
      ************************************************/
 
     /**
-     * Returns static lock used for menus
+     * Rfturns stbtid lodk usfd for mfnus
      */
-    static Object getMenuTreeLock() {
-        return menuTreeLock;
+    stbtid Objfdt gftMfnuTrffLodk() {
+        rfturn mfnuTrffLodk;
     }
 
     /**
-     * This function is called to clear all saved
-     * size data.
+     * Tiis fundtion is dbllfd to dlfbr bll sbvfd
+     * sizf dbtb.
      */
-    protected void resetMapping() {
-        mappingData = null;
+    protfdtfd void rfsftMbpping() {
+        mbppingDbtb = null;
     }
 
     /**
-     * Invokes repaint procedure on eventHandlerThread
+     * Invokfs rfpbint prodfdurf on fvfntHbndlfrTirfbd
      */
-    void postPaintEvent() {
-        if (isShowing()) {
-            PaintEvent pe = new PaintEvent(target, PaintEvent.PAINT,
-                                           new Rectangle(0, 0, width, height));
-            postEvent(pe);
+    void postPbintEvfnt() {
+        if (isSiowing()) {
+            PbintEvfnt pf = nfw PbintEvfnt(tbrgft, PbintEvfnt.PAINT,
+                                           nfw Rfdtbnglf(0, 0, widti, ifigit));
+            postEvfnt(pf);
         }
     }
 
     /************************************************
      *
-     * Utility functions for manipulating items
+     * Utility fundtions for mbnipulbting itfms
      *
      ************************************************/
 
     /**
-     * Thread-safely returns item at specified index
-     * @param index the position of the item to be returned.
+     * Tirfbd-sbffly rfturns itfm bt spfdififd indfx
+     * @pbrbm indfx tif position of tif itfm to bf rfturnfd.
      */
-    XMenuItemPeer getItem(int index) {
-        if (index >= 0) {
-            synchronized(getMenuTreeLock()) {
-                if (items.size() > index) {
-                    return items.get(index);
+    XMfnuItfmPffr gftItfm(int indfx) {
+        if (indfx >= 0) {
+            syndironizfd(gftMfnuTrffLodk()) {
+                if (itfms.sizf() > indfx) {
+                    rfturn itfms.gft(indfx);
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Thread-safely creates a copy of the items vector
+     * Tirfbd-sbffly drfbtfs b dopy of tif itfms vfdtor
      */
-    XMenuItemPeer[] copyItems() {
-        synchronized(getMenuTreeLock()) {
-            return items.toArray(new XMenuItemPeer[] {});
+    XMfnuItfmPffr[] dopyItfms() {
+        syndironizfd(gftMfnuTrffLodk()) {
+            rfturn itfms.toArrby(nfw XMfnuItfmPffr[] {});
         }
     }
 
 
     /**
-     * Thread-safely returns selected item
+     * Tirfbd-sbffly rfturns sflfdtfd itfm
      */
-    XMenuItemPeer getSelectedItem() {
-        synchronized(getMenuTreeLock()) {
-            if (selectedIndex >= 0) {
-                if (items.size() > selectedIndex) {
-                    return items.get(selectedIndex);
+    XMfnuItfmPffr gftSflfdtfdItfm() {
+        syndironizfd(gftMfnuTrffLodk()) {
+            if (sflfdtfdIndfx >= 0) {
+                if (itfms.sizf() > sflfdtfdIndfx) {
+                    rfturn itfms.gft(sflfdtfdIndfx);
                 }
             }
-            return null;
+            rfturn null;
         }
     }
 
     /**
-     * Returns showing submenu, if any
+     * Rfturns siowing submfnu, if bny
      */
-    XMenuPeer getShowingSubmenu() {
-        synchronized(getMenuTreeLock()) {
-            return showingSubmenu;
+    XMfnuPffr gftSiowingSubmfnu() {
+        syndironizfd(gftMfnuTrffLodk()) {
+            rfturn siowingSubmfnu;
         }
     }
 
     /**
-     * Adds item to end of items vector.
-     * Note that this function does not perform
-     * check for adding duplicate items
-     * @param item item to add
+     * Adds itfm to fnd of itfms vfdtor.
+     * Notf tibt tiis fundtion dofs not pfrform
+     * difdk for bdding duplidbtf itfms
+     * @pbrbm itfm itfm to bdd
      */
-    public void addItem(MenuItem item) {
-        XMenuItemPeer mp = (XMenuItemPeer)item.getPeer();
+    publid void bddItfm(MfnuItfm itfm) {
+        XMfnuItfmPffr mp = (XMfnuItfmPffr)itfm.gftPffr();
         if (mp != null) {
-            mp.setContainer(this);
-            synchronized(getMenuTreeLock()) {
-                items.add(mp);
+            mp.sftContbinfr(tiis);
+            syndironizfd(gftMfnuTrffLodk()) {
+                itfms.bdd(mp);
             }
-        } else {
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("WARNING: Attempt to add menu item without a peer");
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("WARNING: Attfmpt to bdd mfnu itfm witiout b pffr");
             }
         }
-        updateSize();
+        updbtfSizf();
     }
 
     /**
-     * Removes item at the specified index from items vector.
-     * @param index the position of the item to be removed
+     * Rfmovfs itfm bt tif spfdififd indfx from itfms vfdtor.
+     * @pbrbm indfx tif position of tif itfm to bf rfmovfd
      */
-    public void delItem(int index) {
-        synchronized(getMenuTreeLock()) {
-            if (selectedIndex == index) {
-                selectItem(null, false);
-            } else if (selectedIndex > index) {
-                selectedIndex--;
+    publid void dflItfm(int indfx) {
+        syndironizfd(gftMfnuTrffLodk()) {
+            if (sflfdtfdIndfx == indfx) {
+                sflfdtItfm(null, fblsf);
+            } flsf if (sflfdtfdIndfx > indfx) {
+                sflfdtfdIndfx--;
             }
-            if (index < items.size()) {
-                items.remove(index);
-            } else {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("WARNING: Attempt to remove non-existing menu item, index : " + index + ", item count : " + items.size());
+            if (indfx < itfms.sizf()) {
+                itfms.rfmovf(indfx);
+            } flsf {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("WARNING: Attfmpt to rfmovf non-fxisting mfnu itfm, indfx : " + indfx + ", itfm dount : " + itfms.sizf());
                 }
             }
         }
-        updateSize();
+        updbtfSizf();
     }
 
     /**
-     * Clears items vector and loads specified vector
-     * @param items vector to be loaded
+     * Clfbrs itfms vfdtor bnd lobds spfdififd vfdtor
+     * @pbrbm itfms vfdtor to bf lobdfd
      */
-    public void reloadItems(Vector<? extends MenuItem> items) {
-        synchronized(getMenuTreeLock()) {
-            this.items.clear();
-            MenuItem[] itemArray = items.toArray(new MenuItem[] {});
-            int itemCnt = itemArray.length;
-            for(int i = 0; i < itemCnt; i++) {
-                addItem(itemArray[i]);
+    publid void rflobdItfms(Vfdtor<? fxtfnds MfnuItfm> itfms) {
+        syndironizfd(gftMfnuTrffLodk()) {
+            tiis.itfms.dlfbr();
+            MfnuItfm[] itfmArrby = itfms.toArrby(nfw MfnuItfm[] {});
+            int itfmCnt = itfmArrby.lfngti;
+            for(int i = 0; i < itfmCnt; i++) {
+                bddItfm(itfmArrby[i]);
             }
         }
     }
 
     /**
-     * Select specified item and shows/hides submenus if necessary
-     * We can not select by index, so we need to select by ref.
-     * @param item the item to be selected, null to clear selection
-     * @param showWindowIfMenu if the item is XMenuPeer then its
-     * window is shown/hidden according to this param.
+     * Sflfdt spfdififd itfm bnd siows/iidfs submfnus if nfdfssbry
+     * Wf dbn not sflfdt by indfx, so wf nffd to sflfdt by rff.
+     * @pbrbm itfm tif itfm to bf sflfdtfd, null to dlfbr sflfdtion
+     * @pbrbm siowWindowIfMfnu if tif itfm is XMfnuPffr tifn its
+     * window is siown/iiddfn bddording to tiis pbrbm.
      */
-    void selectItem(XMenuItemPeer item, boolean showWindowIfMenu) {
-        synchronized(getMenuTreeLock()) {
-            XMenuPeer showingSubmenu = getShowingSubmenu();
-            int newSelectedIndex = (item != null) ? items.indexOf(item) : -1;
-            if (this.selectedIndex != newSelectedIndex) {
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("Selected index changed, was : " + this.selectedIndex + ", new : " + newSelectedIndex);
+    void sflfdtItfm(XMfnuItfmPffr itfm, boolfbn siowWindowIfMfnu) {
+        syndironizfd(gftMfnuTrffLodk()) {
+            XMfnuPffr siowingSubmfnu = gftSiowingSubmfnu();
+            int nfwSflfdtfdIndfx = (itfm != null) ? itfms.indfxOf(itfm) : -1;
+            if (tiis.sflfdtfdIndfx != nfwSflfdtfdIndfx) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("Sflfdtfd indfx dibngfd, wbs : " + tiis.sflfdtfdIndfx + ", nfw : " + nfwSflfdtfdIndfx);
                 }
-                this.selectedIndex = newSelectedIndex;
-                postPaintEvent();
+                tiis.sflfdtfdIndfx = nfwSflfdtfdIndfx;
+                postPbintEvfnt();
             }
-            final XMenuPeer submenuToShow = (showWindowIfMenu && (item instanceof XMenuPeer)) ? (XMenuPeer)item : null;
-            if (submenuToShow != showingSubmenu) {
-                XToolkit.executeOnEventHandlerThread(target, new Runnable() {
-                        public void run() {
-                            doShowSubmenu(submenuToShow);
+            finbl XMfnuPffr submfnuToSiow = (siowWindowIfMfnu && (itfm instbndfof XMfnuPffr)) ? (XMfnuPffr)itfm : null;
+            if (submfnuToSiow != siowingSubmfnu) {
+                XToolkit.fxfdutfOnEvfntHbndlfrTirfbd(tbrgft, nfw Runnbblf() {
+                        publid void run() {
+                            doSiowSubmfnu(submfnuToSiow);
                         }
                     });
             }
@@ -408,826 +408,826 @@ abstract public class XBaseMenuWindow extends XWindow {
     }
 
     /**
-     * Performs hiding of currently showing submenu
-     * and showing of submenuToShow.
-     * This function should be executed on eventHandlerThread
-     * @param submenuToShow submenu to be shown or null
-     * to hide currently showing submenu
+     * Pfrforms iiding of durrfntly siowing submfnu
+     * bnd siowing of submfnuToSiow.
+     * Tiis fundtion siould bf fxfdutfd on fvfntHbndlfrTirfbd
+     * @pbrbm submfnuToSiow submfnu to bf siown or null
+     * to iidf durrfntly siowing submfnu
      */
-    private void doShowSubmenu(XMenuPeer submenuToShow) {
-        XMenuWindow menuWindowToShow = (submenuToShow != null) ? submenuToShow.getMenuWindow() : null;
-        Dimension dim = null;
-        Rectangle bounds = null;
-        //ensureCreated can invoke XWindowPeer.init() ->
-        //XWindowPeer.initGraphicsConfiguration() ->
-        //Window.getGraphicsConfiguration()
-        //that tries to obtain Component.AWTTreeLock.
-        //So it should be called outside awtLock()
-        if (menuWindowToShow != null) {
-            menuWindowToShow.ensureCreated();
+    privbtf void doSiowSubmfnu(XMfnuPffr submfnuToSiow) {
+        XMfnuWindow mfnuWindowToSiow = (submfnuToSiow != null) ? submfnuToSiow.gftMfnuWindow() : null;
+        Dimfnsion dim = null;
+        Rfdtbnglf bounds = null;
+        //fnsurfCrfbtfd dbn invokf XWindowPffr.init() ->
+        //XWindowPffr.initGrbpiidsConfigurbtion() ->
+        //Window.gftGrbpiidsConfigurbtion()
+        //tibt trifs to obtbin Componfnt.AWTTrffLodk.
+        //So it siould bf dbllfd outsidf bwtLodk()
+        if (mfnuWindowToSiow != null) {
+            mfnuWindowToSiow.fnsurfCrfbtfd();
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            synchronized(getMenuTreeLock()) {
-                if (showingSubmenu != submenuToShow) {
-                    if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                        log.finest("Changing showing submenu");
+            syndironizfd(gftMfnuTrffLodk()) {
+                if (siowingSubmfnu != submfnuToSiow) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                        log.finfst("Cibnging siowing submfnu");
                     }
-                    if (showingSubmenu != null) {
-                        XMenuWindow showingSubmenuWindow = showingSubmenu.getMenuWindow();
-                        if (showingSubmenuWindow != null) {
-                            showingSubmenuWindow.hide();
+                    if (siowingSubmfnu != null) {
+                        XMfnuWindow siowingSubmfnuWindow = siowingSubmfnu.gftMfnuWindow();
+                        if (siowingSubmfnuWindow != null) {
+                            siowingSubmfnuWindow.iidf();
                         }
                     }
-                    if (submenuToShow != null) {
-                        dim = menuWindowToShow.getDesiredSize();
-                        bounds = menuWindowToShow.getParentMenuWindow().getSubmenuBounds(submenuToShow.getBounds(), dim);
-                        menuWindowToShow.show(bounds);
+                    if (submfnuToSiow != null) {
+                        dim = mfnuWindowToSiow.gftDfsirfdSizf();
+                        bounds = mfnuWindowToSiow.gftPbrfntMfnuWindow().gftSubmfnuBounds(submfnuToSiow.gftBounds(), dim);
+                        mfnuWindowToSiow.siow(bounds);
                     }
-                    showingSubmenu = submenuToShow;
+                    siowingSubmfnu = submfnuToSiow;
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    final void setItemsFont( Font font ) {
-        XMenuItemPeer[] items = copyItems();
-        int itemCnt = items.length;
-        for (int i = 0; i < itemCnt; i++) {
-            items[i].setFont(font);
+    finbl void sftItfmsFont( Font font ) {
+        XMfnuItfmPffr[] itfms = dopyItfms();
+        int itfmCnt = itfms.lfngti;
+        for (int i = 0; i < itfmCnt; i++) {
+            itfms[i].sftFont(font);
         }
     }
 
     /************************************************
      *
-     * Utility functions for manipulating mapped items
+     * Utility fundtions for mbnipulbting mbppfd itfms
      *
      ************************************************/
 
     /**
-     * Returns array of mapped items, null if error
-     * This function has to be not synchronized
-     * and we have to guarantee that we return
-     * some MappingData to user. It's OK if
-     * this.mappingData is replaced meanwhile
+     * Rfturns brrby of mbppfd itfms, null if frror
+     * Tiis fundtion ibs to bf not syndironizfd
+     * bnd wf ibvf to gubrbntff tibt wf rfturn
+     * somf MbppingDbtb to usfr. It's OK if
+     * tiis.mbppingDbtb is rfplbdfd mfbnwiilf
      */
-    MappingData getMappingData() {
-        MappingData mappingData = this.mappingData;
-        if (mappingData == null) {
-            mappingData = map();
-            this.mappingData = mappingData;
+    MbppingDbtb gftMbppingDbtb() {
+        MbppingDbtb mbppingDbtb = tiis.mbppingDbtb;
+        if (mbppingDbtb == null) {
+            mbppingDbtb = mbp();
+            tiis.mbppingDbtb = mbppingDbtb;
         }
-        return (MappingData)mappingData.clone();
+        rfturn (MbppingDbtb)mbppingDbtb.dlonf();
     }
 
     /**
-     * returns item thats mapped coordinates contain
-     * specified point, null of none.
-     * @param pt the point in this window's coordinate system
+     * rfturns itfm tibts mbppfd doordinbtfs dontbin
+     * spfdififd point, null of nonf.
+     * @pbrbm pt tif point in tiis window's doordinbtf systfm
      */
-    XMenuItemPeer getItemFromPoint(Point pt) {
-        XMenuItemPeer[] items = getMappingData().getItems();
-        int cnt = items.length;
-        for (int i = 0; i < cnt; i++) {
-            if (items[i].getBounds().contains(pt)) {
-                return items[i];
+    XMfnuItfmPffr gftItfmFromPoint(Point pt) {
+        XMfnuItfmPffr[] itfms = gftMbppingDbtb().gftItfms();
+        int dnt = itfms.lfngti;
+        for (int i = 0; i < dnt; i++) {
+            if (itfms[i].gftBounds().dontbins(pt)) {
+                rfturn itfms[i];
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns first item after currently selected
-     * item that can be selected according to mapping array.
-     * (no separators and no disabled items).
-     * Currently selected item if it's only selectable,
-     * null if no item can be selected
+     * Rfturns first itfm bftfr durrfntly sflfdtfd
+     * itfm tibt dbn bf sflfdtfd bddording to mbpping brrby.
+     * (no sfpbrbtors bnd no disbblfd itfms).
+     * Currfntly sflfdtfd itfm if it's only sflfdtbblf,
+     * null if no itfm dbn bf sflfdtfd
      */
-    XMenuItemPeer getNextSelectableItem() {
-        XMenuItemPeer[] mappedItems = getMappingData().getItems();
-        XMenuItemPeer selectedItem = getSelectedItem();
-        int cnt = mappedItems.length;
-        //Find index of selected item
-        int selIdx = -1;
-        for (int i = 0; i < cnt; i++) {
-            if (mappedItems[i] == selectedItem) {
-                selIdx = i;
-                break;
+    XMfnuItfmPffr gftNfxtSflfdtbblfItfm() {
+        XMfnuItfmPffr[] mbppfdItfms = gftMbppingDbtb().gftItfms();
+        XMfnuItfmPffr sflfdtfdItfm = gftSflfdtfdItfm();
+        int dnt = mbppfdItfms.lfngti;
+        //Find indfx of sflfdtfd itfm
+        int sflIdx = -1;
+        for (int i = 0; i < dnt; i++) {
+            if (mbppfdItfms[i] == sflfdtfdItfm) {
+                sflIdx = i;
+                brfbk;
             }
         }
-        int idx = (selIdx == cnt - 1) ? 0 : selIdx + 1;
-        //cycle through mappedItems to find selectable item
-        //beginning from the next item and moving to the
-        //beginning of array when end is reached.
-        //Cycle is finished on selected item itself
-        for (int i = 0; i < cnt; i++) {
-            XMenuItemPeer item = mappedItems[idx];
-            if (!item.isSeparator() && item.isTargetItemEnabled()) {
-                return item;
+        int idx = (sflIdx == dnt - 1) ? 0 : sflIdx + 1;
+        //dydlf tirougi mbppfdItfms to find sflfdtbblf itfm
+        //bfginning from tif nfxt itfm bnd moving to tif
+        //bfginning of brrby wifn fnd is rfbdifd.
+        //Cydlf is finisifd on sflfdtfd itfm itsflf
+        for (int i = 0; i < dnt; i++) {
+            XMfnuItfmPffr itfm = mbppfdItfms[idx];
+            if (!itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                rfturn itfm;
             }
             idx++;
-            if (idx >= cnt) {
+            if (idx >= dnt) {
                 idx = 0;
             }
         }
-        //return null if no selectable item was found
-        return null;
+        //rfturn null if no sflfdtbblf itfm wbs found
+        rfturn null;
     }
 
     /**
-     * Returns first item before currently selected
-     * see getNextSelectableItem() for comments
+     * Rfturns first itfm bfforf durrfntly sflfdtfd
+     * sff gftNfxtSflfdtbblfItfm() for dommfnts
      */
-    XMenuItemPeer getPrevSelectableItem() {
-        XMenuItemPeer[] mappedItems = getMappingData().getItems();
-        XMenuItemPeer selectedItem = getSelectedItem();
-        int cnt = mappedItems.length;
-        //Find index of selected item
-        int selIdx = -1;
-        for (int i = 0; i < cnt; i++) {
-            if (mappedItems[i] == selectedItem) {
-                selIdx = i;
-                break;
+    XMfnuItfmPffr gftPrfvSflfdtbblfItfm() {
+        XMfnuItfmPffr[] mbppfdItfms = gftMbppingDbtb().gftItfms();
+        XMfnuItfmPffr sflfdtfdItfm = gftSflfdtfdItfm();
+        int dnt = mbppfdItfms.lfngti;
+        //Find indfx of sflfdtfd itfm
+        int sflIdx = -1;
+        for (int i = 0; i < dnt; i++) {
+            if (mbppfdItfms[i] == sflfdtfdItfm) {
+                sflIdx = i;
+                brfbk;
             }
         }
-        int idx = (selIdx <= 0) ? cnt - 1 : selIdx - 1;
-        //cycle through mappedItems to find selectable item
-        for (int i = 0; i < cnt; i++) {
-            XMenuItemPeer item = mappedItems[idx];
-            if (!item.isSeparator() && item.isTargetItemEnabled()) {
-                return item;
+        int idx = (sflIdx <= 0) ? dnt - 1 : sflIdx - 1;
+        //dydlf tirougi mbppfdItfms to find sflfdtbblf itfm
+        for (int i = 0; i < dnt; i++) {
+            XMfnuItfmPffr itfm = mbppfdItfms[idx];
+            if (!itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                rfturn itfm;
             }
             idx--;
             if (idx < 0) {
-                idx = cnt - 1;
+                idx = dnt - 1;
             }
         }
-        //return null if no selectable item was found
-        return null;
+        //rfturn null if no sflfdtbblf itfm wbs found
+        rfturn null;
     }
 
     /**
-     * Returns first selectable item
-     * This function is intended for clearing selection
+     * Rfturns first sflfdtbblf itfm
+     * Tiis fundtion is intfndfd for dlfbring sflfdtion
      */
-    XMenuItemPeer getFirstSelectableItem() {
-        XMenuItemPeer[] mappedItems = getMappingData().getItems();
-        int cnt = mappedItems.length;
-        for (int i = 0; i < cnt; i++) {
-            XMenuItemPeer item = mappedItems[i];
-            if (!item.isSeparator() && item.isTargetItemEnabled()) {
-                return item;
+    XMfnuItfmPffr gftFirstSflfdtbblfItfm() {
+        XMfnuItfmPffr[] mbppfdItfms = gftMbppingDbtb().gftItfms();
+        int dnt = mbppfdItfms.lfngti;
+        for (int i = 0; i < dnt; i++) {
+            XMfnuItfmPffr itfm = mbppfdItfms[i];
+            if (!itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                rfturn itfm;
             }
         }
 
-        return null;
+        rfturn null;
     }
 
     /************************************************
      *
-     * Utility functions for manipulating
-     * hierarchy of windows
+     * Utility fundtions for mbnipulbting
+     * iifrbrdiy of windows
      *
      ************************************************/
 
     /**
-     * returns leaf menu window or
-     * this if no children are showing
+     * rfturns lfbf mfnu window or
+     * tiis if no diildrfn brf siowing
      */
-    XBaseMenuWindow getShowingLeaf() {
-        synchronized(getMenuTreeLock()) {
-            XBaseMenuWindow leaf = this;
-            XMenuPeer leafchild = leaf.getShowingSubmenu();
-            while (leafchild != null) {
-                leaf = leafchild.getMenuWindow();
-                leafchild = leaf.getShowingSubmenu();
+    XBbsfMfnuWindow gftSiowingLfbf() {
+        syndironizfd(gftMfnuTrffLodk()) {
+            XBbsfMfnuWindow lfbf = tiis;
+            XMfnuPffr lfbfdiild = lfbf.gftSiowingSubmfnu();
+            wiilf (lfbfdiild != null) {
+                lfbf = lfbfdiild.gftMfnuWindow();
+                lfbfdiild = lfbf.gftSiowingSubmfnu();
             }
-            return leaf;
+            rfturn lfbf;
         }
     }
 
     /**
-     * returns root menu window
-     * or this if this window is topmost
+     * rfturns root mfnu window
+     * or tiis if tiis window is topmost
      */
-    XBaseMenuWindow getRootMenuWindow() {
-        synchronized(getMenuTreeLock()) {
-            XBaseMenuWindow t = this;
-            XBaseMenuWindow tparent = t.getParentMenuWindow();
-            while (tparent != null) {
-                t = tparent;
-                tparent = t.getParentMenuWindow();
+    XBbsfMfnuWindow gftRootMfnuWindow() {
+        syndironizfd(gftMfnuTrffLodk()) {
+            XBbsfMfnuWindow t = tiis;
+            XBbsfMfnuWindow tpbrfnt = t.gftPbrfntMfnuWindow();
+            wiilf (tpbrfnt != null) {
+                t = tpbrfnt;
+                tpbrfnt = t.gftPbrfntMfnuWindow();
             }
-            return t;
+            rfturn t;
         }
     }
 
     /**
-     * Returns window that contains pt.
-     * search is started from leaf window
-     * to return first window in Z-order
-     * @param pt point in global coordinates
+     * Rfturns window tibt dontbins pt.
+     * sfbrdi is stbrtfd from lfbf window
+     * to rfturn first window in Z-ordfr
+     * @pbrbm pt point in globbl doordinbtfs
      */
-    XBaseMenuWindow getMenuWindowFromPoint(Point pt) {
-        synchronized(getMenuTreeLock()) {
-            XBaseMenuWindow t = getShowingLeaf();
-            while (t != null) {
-                Rectangle r = new Rectangle(t.toGlobal(new Point(0, 0)), t.getSize());
-                if (r.contains(pt)) {
-                    return t;
+    XBbsfMfnuWindow gftMfnuWindowFromPoint(Point pt) {
+        syndironizfd(gftMfnuTrffLodk()) {
+            XBbsfMfnuWindow t = gftSiowingLfbf();
+            wiilf (t != null) {
+                Rfdtbnglf r = nfw Rfdtbnglf(t.toGlobbl(nfw Point(0, 0)), t.gftSizf());
+                if (r.dontbins(pt)) {
+                    rfturn t;
                 }
-                t = t.getParentMenuWindow();
+                t = t.gftPbrfntMfnuWindow();
             }
-            return null;
+            rfturn null;
         }
     }
 
     /************************************************
      *
-     * Primitives for getSubmenuBounds
+     * Primitivfs for gftSubmfnuBounds
      *
-     * These functions are invoked from getSubmenuBounds
-     * implementations in different order. They check if window
-     * of size windowSize fits to the specified edge of
-     * rectangle itemBounds on the screen of screenSize.
-     * Return rectangle that occupies the window if it fits or null.
+     * Tifsf fundtions brf invokfd from gftSubmfnuBounds
+     * implfmfntbtions in difffrfnt ordfr. Tify difdk if window
+     * of sizf windowSizf fits to tif spfdififd fdgf of
+     * rfdtbnglf itfmBounds on tif sdrffn of sdrffnSizf.
+     * Rfturn rfdtbnglf tibt oddupifs tif window if it fits or null.
      *
      ************************************************/
 
     /**
-     * Checks if window fits below specified item
-     * returns rectangle that the window fits to or null.
-     * @param itemBounds rectangle of item in global coordinates
-     * @param windowSize size of submenu window to fit
-     * @param screenSize size of screen
+     * Cifdks if window fits bflow spfdififd itfm
+     * rfturns rfdtbnglf tibt tif window fits to or null.
+     * @pbrbm itfmBounds rfdtbnglf of itfm in globbl doordinbtfs
+     * @pbrbm windowSizf sizf of submfnu window to fit
+     * @pbrbm sdrffnSizf sizf of sdrffn
      */
-    Rectangle fitWindowBelow(Rectangle itemBounds, Dimension windowSize, Dimension screenSize) {
-        int width = windowSize.width;
-        int height = windowSize.height;
-        //Fix for 6267162: PIT: Popup Menu gets hidden below the screen when opened
-        //near the periphery of the screen, XToolkit
-        //Window should be moved if it's outside top-left screen bounds
-        int x = (itemBounds.x > 0) ? itemBounds.x : 0;
-        int y = (itemBounds.y + itemBounds.height > 0) ? itemBounds.y + itemBounds.height : 0;
-        if (y + height <= screenSize.height) {
-            //move it to the left if needed
-            if (width > screenSize.width) {
-                width = screenSize.width;
+    Rfdtbnglf fitWindowBflow(Rfdtbnglf itfmBounds, Dimfnsion windowSizf, Dimfnsion sdrffnSizf) {
+        int widti = windowSizf.widti;
+        int ifigit = windowSizf.ifigit;
+        //Fix for 6267162: PIT: Popup Mfnu gfts iiddfn bflow tif sdrffn wifn opfnfd
+        //nfbr tif pfripifry of tif sdrffn, XToolkit
+        //Window siould bf movfd if it's outsidf top-lfft sdrffn bounds
+        int x = (itfmBounds.x > 0) ? itfmBounds.x : 0;
+        int y = (itfmBounds.y + itfmBounds.ifigit > 0) ? itfmBounds.y + itfmBounds.ifigit : 0;
+        if (y + ifigit <= sdrffnSizf.ifigit) {
+            //movf it to tif lfft if nffdfd
+            if (widti > sdrffnSizf.widti) {
+                widti = sdrffnSizf.widti;
             }
-            if (x + width > screenSize.width) {
-                x = screenSize.width - width;
+            if (x + widti > sdrffnSizf.widti) {
+                x = sdrffnSizf.widti - widti;
             }
-            return new Rectangle(x, y, width, height);
-        } else {
-            return null;
+            rfturn nfw Rfdtbnglf(x, y, widti, ifigit);
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Checks if window fits above specified item
-     * returns rectangle that the window fits to or null.
-     * @param itemBounds rectangle of item in global coordinates
-     * @param windowSize size of submenu window to fit
-     * @param screenSize size of screen
+     * Cifdks if window fits bbovf spfdififd itfm
+     * rfturns rfdtbnglf tibt tif window fits to or null.
+     * @pbrbm itfmBounds rfdtbnglf of itfm in globbl doordinbtfs
+     * @pbrbm windowSizf sizf of submfnu window to fit
+     * @pbrbm sdrffnSizf sizf of sdrffn
      */
-    Rectangle fitWindowAbove(Rectangle itemBounds, Dimension windowSize, Dimension screenSize) {
-        int width = windowSize.width;
-        int height = windowSize.height;
-        //Fix for 6267162: PIT: Popup Menu gets hidden below the screen when opened
-        //near the periphery of the screen, XToolkit
-        //Window should be moved if it's outside bottom-left screen bounds
-        int x = (itemBounds.x > 0) ? itemBounds.x : 0;
-        int y = (itemBounds.y > screenSize.height) ? screenSize.height - height : itemBounds.y - height;
+    Rfdtbnglf fitWindowAbovf(Rfdtbnglf itfmBounds, Dimfnsion windowSizf, Dimfnsion sdrffnSizf) {
+        int widti = windowSizf.widti;
+        int ifigit = windowSizf.ifigit;
+        //Fix for 6267162: PIT: Popup Mfnu gfts iiddfn bflow tif sdrffn wifn opfnfd
+        //nfbr tif pfripifry of tif sdrffn, XToolkit
+        //Window siould bf movfd if it's outsidf bottom-lfft sdrffn bounds
+        int x = (itfmBounds.x > 0) ? itfmBounds.x : 0;
+        int y = (itfmBounds.y > sdrffnSizf.ifigit) ? sdrffnSizf.ifigit - ifigit : itfmBounds.y - ifigit;
         if (y >= 0) {
-            //move it to the left if needed
-            if (width > screenSize.width) {
-                width = screenSize.width;
+            //movf it to tif lfft if nffdfd
+            if (widti > sdrffnSizf.widti) {
+                widti = sdrffnSizf.widti;
             }
-            if (x + width > screenSize.width) {
-                x = screenSize.width - width;
+            if (x + widti > sdrffnSizf.widti) {
+                x = sdrffnSizf.widti - widti;
             }
-            return new Rectangle(x, y, width, height);
-        } else {
-            return null;
+            rfturn nfw Rfdtbnglf(x, y, widti, ifigit);
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Checks if window fits to the right specified item
-     * returns rectangle that the window fits to or null.
-     * @param itemBounds rectangle of item in global coordinates
-     * @param windowSize size of submenu window to fit
-     * @param screenSize size of screen
+     * Cifdks if window fits to tif rigit spfdififd itfm
+     * rfturns rfdtbnglf tibt tif window fits to or null.
+     * @pbrbm itfmBounds rfdtbnglf of itfm in globbl doordinbtfs
+     * @pbrbm windowSizf sizf of submfnu window to fit
+     * @pbrbm sdrffnSizf sizf of sdrffn
      */
-    Rectangle fitWindowRight(Rectangle itemBounds, Dimension windowSize, Dimension screenSize) {
-        int width = windowSize.width;
-        int height = windowSize.height;
-        //Fix for 6267162: PIT: Popup Menu gets hidden below the screen when opened
-        //near the periphery of the screen, XToolkit
-        //Window should be moved if it's outside top-left screen bounds
-        int x = (itemBounds.x + itemBounds.width > 0) ? itemBounds.x + itemBounds.width : 0;
-        int y = (itemBounds.y > 0) ? itemBounds.y : 0;
-        if (x + width <= screenSize.width) {
-            //move it to the top if needed
-            if (height > screenSize.height) {
-                height = screenSize.height;
+    Rfdtbnglf fitWindowRigit(Rfdtbnglf itfmBounds, Dimfnsion windowSizf, Dimfnsion sdrffnSizf) {
+        int widti = windowSizf.widti;
+        int ifigit = windowSizf.ifigit;
+        //Fix for 6267162: PIT: Popup Mfnu gfts iiddfn bflow tif sdrffn wifn opfnfd
+        //nfbr tif pfripifry of tif sdrffn, XToolkit
+        //Window siould bf movfd if it's outsidf top-lfft sdrffn bounds
+        int x = (itfmBounds.x + itfmBounds.widti > 0) ? itfmBounds.x + itfmBounds.widti : 0;
+        int y = (itfmBounds.y > 0) ? itfmBounds.y : 0;
+        if (x + widti <= sdrffnSizf.widti) {
+            //movf it to tif top if nffdfd
+            if (ifigit > sdrffnSizf.ifigit) {
+                ifigit = sdrffnSizf.ifigit;
             }
-            if (y + height > screenSize.height) {
-                y = screenSize.height - height;
+            if (y + ifigit > sdrffnSizf.ifigit) {
+                y = sdrffnSizf.ifigit - ifigit;
             }
-            return new Rectangle(x, y, width, height);
-        } else {
-            return null;
+            rfturn nfw Rfdtbnglf(x, y, widti, ifigit);
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Checks if window fits to the left specified item
-     * returns rectangle that the window fits to or null.
-     * @param itemBounds rectangle of item in global coordinates
-     * @param windowSize size of submenu window to fit
-     * @param screenSize size of screen
+     * Cifdks if window fits to tif lfft spfdififd itfm
+     * rfturns rfdtbnglf tibt tif window fits to or null.
+     * @pbrbm itfmBounds rfdtbnglf of itfm in globbl doordinbtfs
+     * @pbrbm windowSizf sizf of submfnu window to fit
+     * @pbrbm sdrffnSizf sizf of sdrffn
      */
-    Rectangle fitWindowLeft(Rectangle itemBounds, Dimension windowSize, Dimension screenSize) {
-        int width = windowSize.width;
-        int height = windowSize.height;
-        //Fix for 6267162: PIT: Popup Menu gets hidden below the screen when opened
-        //near the periphery of the screen, XToolkit
-        //Window should be moved if it's outside top-right screen bounds
-        int x = (itemBounds.x < screenSize.width) ? itemBounds.x - width : screenSize.width - width;
-        int y = (itemBounds.y > 0) ? itemBounds.y : 0;
+    Rfdtbnglf fitWindowLfft(Rfdtbnglf itfmBounds, Dimfnsion windowSizf, Dimfnsion sdrffnSizf) {
+        int widti = windowSizf.widti;
+        int ifigit = windowSizf.ifigit;
+        //Fix for 6267162: PIT: Popup Mfnu gfts iiddfn bflow tif sdrffn wifn opfnfd
+        //nfbr tif pfripifry of tif sdrffn, XToolkit
+        //Window siould bf movfd if it's outsidf top-rigit sdrffn bounds
+        int x = (itfmBounds.x < sdrffnSizf.widti) ? itfmBounds.x - widti : sdrffnSizf.widti - widti;
+        int y = (itfmBounds.y > 0) ? itfmBounds.y : 0;
         if (x >= 0) {
-            //move it to the top if needed
-            if (height > screenSize.height) {
-                height = screenSize.height;
+            //movf it to tif top if nffdfd
+            if (ifigit > sdrffnSizf.ifigit) {
+                ifigit = sdrffnSizf.ifigit;
             }
-            if (y + height > screenSize.height) {
-                y = screenSize.height - height;
+            if (y + ifigit > sdrffnSizf.ifigit) {
+                y = sdrffnSizf.ifigit - ifigit;
             }
-            return new Rectangle(x, y, width, height);
-        } else {
-            return null;
+            rfturn nfw Rfdtbnglf(x, y, widti, ifigit);
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * The last thing we can do with the window
-     * to fit it on screen - move it to the
-     * top-left edge and cut by screen dimensions
-     * @param windowSize size of submenu window to fit
-     * @param screenSize size of screen
+     * Tif lbst tiing wf dbn do witi tif window
+     * to fit it on sdrffn - movf it to tif
+     * top-lfft fdgf bnd dut by sdrffn dimfnsions
+     * @pbrbm windowSizf sizf of submfnu window to fit
+     * @pbrbm sdrffnSizf sizf of sdrffn
      */
-    Rectangle fitWindowToScreen(Dimension windowSize, Dimension screenSize) {
-        int width = (windowSize.width < screenSize.width) ? windowSize.width : screenSize.width;
-        int height = (windowSize.height < screenSize.height) ? windowSize.height : screenSize.height;
-        return new Rectangle(0, 0, width, height);
+    Rfdtbnglf fitWindowToSdrffn(Dimfnsion windowSizf, Dimfnsion sdrffnSizf) {
+        int widti = (windowSizf.widti < sdrffnSizf.widti) ? windowSizf.widti : sdrffnSizf.widti;
+        int ifigit = (windowSizf.ifigit < sdrffnSizf.ifigit) ? windowSizf.ifigit : sdrffnSizf.ifigit;
+        rfturn nfw Rfdtbnglf(0, 0, widti, ifigit);
     }
 
 
     /************************************************
      *
-     * Utility functions for manipulating colors
+     * Utility fundtions for mbnipulbting dolors
      *
      ************************************************/
 
     /**
-     * This function is called before every painting.
-     * TODO:It would be better to add PropertyChangeListener
-     * to target component
-     * TODO:It would be better to access background color
-     * not invoking user-overridable function
+     * Tiis fundtion is dbllfd bfforf fvfry pbinting.
+     * TODO:It would bf bfttfr to bdd PropfrtyCibngfListfnfr
+     * to tbrgft domponfnt
+     * TODO:It would bf bfttfr to bddfss bbdkground dolor
+     * not invoking usfr-ovfrridbblf fundtion
      */
-    void resetColors() {
-        replaceColors((target == null) ? SystemColor.window : target.getBackground());
+    void rfsftColors() {
+        rfplbdfColors((tbrgft == null) ? SystfmColor.window : tbrgft.gftBbdkground());
     }
 
     /**
-     * Calculates colors of various elements given
-     * background color. Uses MotifColorUtilities
-     * @param backgroundColor the color of menu window's
-     * background.
+     * Cbldulbtfs dolors of vbrious flfmfnts givfn
+     * bbdkground dolor. Usfs MotifColorUtilitifs
+     * @pbrbm bbdkgroundColor tif dolor of mfnu window's
+     * bbdkground.
      */
-    void replaceColors(Color backgroundColor) {
-        if (backgroundColor != this.backgroundColor) {
-            this.backgroundColor = backgroundColor;
+    void rfplbdfColors(Color bbdkgroundColor) {
+        if (bbdkgroundColor != tiis.bbdkgroundColor) {
+            tiis.bbdkgroundColor = bbdkgroundColor;
 
-            int red = backgroundColor.getRed();
-            int green = backgroundColor.getGreen();
-            int blue = backgroundColor.getBlue();
+            int rfd = bbdkgroundColor.gftRfd();
+            int grffn = bbdkgroundColor.gftGrffn();
+            int bluf = bbdkgroundColor.gftBluf();
 
-            foregroundColor = new Color(MotifColorUtilities.calculateForegroundFromBackground(red,green,blue));
-            lightShadowColor = new Color(MotifColorUtilities.calculateTopShadowFromBackground(red,green,blue));
-            darkShadowColor = new Color(MotifColorUtilities.calculateBottomShadowFromBackground(red,green,blue));
-            selectedColor = new Color(MotifColorUtilities.calculateSelectFromBackground(red,green,blue));
-            disabledColor = (backgroundColor.equals(Color.BLACK)) ? foregroundColor.darker() : backgroundColor.darker();
+            forfgroundColor = nfw Color(MotifColorUtilitifs.dbldulbtfForfgroundFromBbdkground(rfd,grffn,bluf));
+            ligitSibdowColor = nfw Color(MotifColorUtilitifs.dbldulbtfTopSibdowFromBbdkground(rfd,grffn,bluf));
+            dbrkSibdowColor = nfw Color(MotifColorUtilitifs.dbldulbtfBottomSibdowFromBbdkground(rfd,grffn,bluf));
+            sflfdtfdColor = nfw Color(MotifColorUtilitifs.dbldulbtfSflfdtFromBbdkground(rfd,grffn,bluf));
+            disbblfdColor = (bbdkgroundColor.fqubls(Color.BLACK)) ? forfgroundColor.dbrkfr() : bbdkgroundColor.dbrkfr();
         }
     }
 
-    Color getBackgroundColor() {
-        return backgroundColor;
+    Color gftBbdkgroundColor() {
+        rfturn bbdkgroundColor;
     }
 
-    Color getForegroundColor() {
-        return foregroundColor;
+    Color gftForfgroundColor() {
+        rfturn forfgroundColor;
     }
 
-    Color getLightShadowColor() {
-        return lightShadowColor;
+    Color gftLigitSibdowColor() {
+        rfturn ligitSibdowColor;
     }
 
-    Color getDarkShadowColor() {
-        return darkShadowColor;
+    Color gftDbrkSibdowColor() {
+        rfturn dbrkSibdowColor;
     }
 
-    Color getSelectedColor() {
-        return selectedColor;
+    Color gftSflfdtfdColor() {
+        rfturn sflfdtfdColor;
     }
 
-    Color getDisabledColor() {
-        return disabledColor;
+    Color gftDisbblfdColor() {
+        rfturn disbblfdColor;
     }
 
     /************************************************
      *
-     * Painting utility functions
+     * Pbinting utility fundtions
      *
      ************************************************/
 
     /**
-     * Draws raised or sunken rectangle on specified graphics
-     * @param g the graphics on which to draw
-     * @param x the coordinate of left edge in coordinates of graphics
-     * @param y the coordinate of top edge in coordinates of graphics
-     * @param width the width of rectangle
-     * @param height the height of rectangle
-     * @param raised true to draw raised rectangle, false to draw sunken
+     * Drbws rbisfd or sunkfn rfdtbnglf on spfdififd grbpiids
+     * @pbrbm g tif grbpiids on wiidi to drbw
+     * @pbrbm x tif doordinbtf of lfft fdgf in doordinbtfs of grbpiids
+     * @pbrbm y tif doordinbtf of top fdgf in doordinbtfs of grbpiids
+     * @pbrbm widti tif widti of rfdtbnglf
+     * @pbrbm ifigit tif ifigit of rfdtbnglf
+     * @pbrbm rbisfd truf to drbw rbisfd rfdtbnglf, fblsf to drbw sunkfn
      */
-    void draw3DRect(Graphics g, int x, int y, int width, int height, boolean raised) {
-        if ((width <= 0) || (height <= 0)) {
-            return;
+    void drbw3DRfdt(Grbpiids g, int x, int y, int widti, int ifigit, boolfbn rbisfd) {
+        if ((widti <= 0) || (ifigit <= 0)) {
+            rfturn;
         }
-        Color c = g.getColor();
-        g.setColor(raised ? getLightShadowColor() : getDarkShadowColor());
-        g.drawLine(x, y, x, y + height - 1);
-        g.drawLine(x + 1, y, x + width - 1, y);
-        g.setColor(raised ? getDarkShadowColor() : getLightShadowColor());
-        g.drawLine(x + 1, y + height - 1, x + width - 1, y + height - 1);
-        g.drawLine(x + width - 1, y + 1, x + width - 1, y + height - 1);
-        g.setColor(c);
+        Color d = g.gftColor();
+        g.sftColor(rbisfd ? gftLigitSibdowColor() : gftDbrkSibdowColor());
+        g.drbwLinf(x, y, x, y + ifigit - 1);
+        g.drbwLinf(x + 1, y, x + widti - 1, y);
+        g.sftColor(rbisfd ? gftDbrkSibdowColor() : gftLigitSibdowColor());
+        g.drbwLinf(x + 1, y + ifigit - 1, x + widti - 1, y + ifigit - 1);
+        g.drbwLinf(x + widti - 1, y + 1, x + widti - 1, y + ifigit - 1);
+        g.sftColor(d);
     }
 
     /************************************************
      *
-     * Overriden utility functions of XWindow
+     * Ovfrridfn utility fundtions of XWindow
      *
      ************************************************/
 
     /**
-     * Filters X events
+     * Filtfrs X fvfnts
      */
-     protected boolean isEventDisabled(XEvent e) {
-        switch (e.get_type()) {
-          case XConstants.Expose :
-          case XConstants.GraphicsExpose :
-          case XConstants.ButtonPress:
-          case XConstants.ButtonRelease:
-          case XConstants.MotionNotify:
-          case XConstants.KeyPress:
-          case XConstants.KeyRelease:
-          case XConstants.DestroyNotify:
-              return super.isEventDisabled(e);
-          default:
-              return true;
+     protfdtfd boolfbn isEvfntDisbblfd(XEvfnt f) {
+        switdi (f.gft_typf()) {
+          dbsf XConstbnts.Exposf :
+          dbsf XConstbnts.GrbpiidsExposf :
+          dbsf XConstbnts.ButtonPrfss:
+          dbsf XConstbnts.ButtonRflfbsf:
+          dbsf XConstbnts.MotionNotify:
+          dbsf XConstbnts.KfyPrfss:
+          dbsf XConstbnts.KfyRflfbsf:
+          dbsf XConstbnts.DfstroyNotify:
+              rfturn supfr.isEvfntDisbblfd(f);
+          dffbult:
+              rfturn truf;
         }
     }
 
     /**
-     * Invokes disposal procedure on eventHandlerThread
+     * Invokfs disposbl prodfdurf on fvfntHbndlfrTirfbd
      */
-    public void dispose() {
-        setDisposed(true);
+    publid void disposf() {
+        sftDisposfd(truf);
 
-        SunToolkit.invokeLaterOnAppContext(disposeAppContext, new Runnable()  {
-            public void run() {
-                doDispose();
+        SunToolkit.invokfLbtfrOnAppContfxt(disposfAppContfxt, nfw Runnbblf()  {
+            publid void run() {
+                doDisposf();
             }
         });
     }
 
     /**
-     * Performs disposal of menu window.
-     * Should be called only on eventHandlerThread
+     * Pfrforms disposbl of mfnu window.
+     * Siould bf dbllfd only on fvfntHbndlfrTirfbd
      */
-    protected void doDispose() {
-        xSetVisible(false);
-        SurfaceData oldData = surfaceData;
-        surfaceData = null;
-        if (oldData != null) {
-            oldData.invalidate();
+    protfdtfd void doDisposf() {
+        xSftVisiblf(fblsf);
+        SurfbdfDbtb oldDbtb = surfbdfDbtb;
+        surfbdfDbtb = null;
+        if (oldDbtb != null) {
+            oldDbtb.invblidbtf();
         }
-        destroy();
+        dfstroy();
     }
 
     /**
-     * Invokes event processing on eventHandlerThread
-     * This function needs to be overriden since
-     * XBaseMenuWindow has no corresponding component
-     * so events can not be processed using standart means
+     * Invokfs fvfnt prodfssing on fvfntHbndlfrTirfbd
+     * Tiis fundtion nffds to bf ovfrridfn sindf
+     * XBbsfMfnuWindow ibs no dorrfsponding domponfnt
+     * so fvfnts dbn not bf prodfssfd using stbndbrt mfbns
      */
-    void postEvent(final AWTEvent event) {
-        InvocationEvent ev = new InvocationEvent(event.getSource(), new Runnable() {
-            public void run() {
-                handleEvent(event);
+    void postEvfnt(finbl AWTEvfnt fvfnt) {
+        InvodbtionEvfnt fv = nfw InvodbtionEvfnt(fvfnt.gftSourdf(), nfw Runnbblf() {
+            publid void run() {
+                ibndlfEvfnt(fvfnt);
             }
         });
-        super.postEvent(ev);
+        supfr.postEvfnt(fv);
     }
 
     /**
-     * The implementation of base window performs processing
-     * of paint events only. This behaviour is changed in
-     * descendants.
+     * Tif implfmfntbtion of bbsf window pfrforms prodfssing
+     * of pbint fvfnts only. Tiis bfibviour is dibngfd in
+     * dfsdfndbnts.
      */
-    protected void handleEvent(AWTEvent event) {
-        switch(event.getID()) {
-        case PaintEvent.PAINT:
-            doHandleJavaPaintEvent((PaintEvent)event);
-            break;
+    protfdtfd void ibndlfEvfnt(AWTEvfnt fvfnt) {
+        switdi(fvfnt.gftID()) {
+        dbsf PbintEvfnt.PAINT:
+            doHbndlfJbvbPbintEvfnt((PbintEvfnt)fvfnt);
+            brfbk;
         }
     }
 
     /**
-     * Save location of pointer for further use
-     * then invoke superclass
+     * Sbvf lodbtion of pointfr for furtifr usf
+     * tifn invokf supfrdlbss
      */
-    public boolean grabInput() {
+    publid boolfbn grbbInput() {
         int rootX;
         int rootY;
-        boolean res;
-        XToolkit.awtLock();
+        boolfbn rfs;
+        XToolkit.bwtLodk();
         try {
-            long root = XlibWrapper.RootWindow(XToolkit.getDisplay(),
-                    getScreenNumber());
-            res = XlibWrapper.XQueryPointer(XToolkit.getDisplay(), root,
-                                            XlibWrapper.larg1, //root
-                                            XlibWrapper.larg2, //child
-                                            XlibWrapper.larg3, //root_x
-                                            XlibWrapper.larg4, //root_y
-                                            XlibWrapper.larg5, //child_x
-                                            XlibWrapper.larg6, //child_y
-                                            XlibWrapper.larg7);//mask
-            rootX = Native.getInt(XlibWrapper.larg3);
-            rootY = Native.getInt(XlibWrapper.larg4);
-            res &= super.grabInput();
-        } finally {
-            XToolkit.awtUnlock();
+            long root = XlibWrbppfr.RootWindow(XToolkit.gftDisplby(),
+                    gftSdrffnNumbfr());
+            rfs = XlibWrbppfr.XQufryPointfr(XToolkit.gftDisplby(), root,
+                                            XlibWrbppfr.lbrg1, //root
+                                            XlibWrbppfr.lbrg2, //diild
+                                            XlibWrbppfr.lbrg3, //root_x
+                                            XlibWrbppfr.lbrg4, //root_y
+                                            XlibWrbppfr.lbrg5, //diild_x
+                                            XlibWrbppfr.lbrg6, //diild_y
+                                            XlibWrbppfr.lbrg7);//mbsk
+            rootX = Nbtivf.gftInt(XlibWrbppfr.lbrg3);
+            rootY = Nbtivf.gftInt(XlibWrbppfr.lbrg4);
+            rfs &= supfr.grbbInput();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
-        if (res) {
-            //Mouse pointer is on the same display
-            this.grabInputPoint = new Point(rootX, rootY);
-            this.hasPointerMoved = false;
-        } else {
-            this.grabInputPoint = null;
-            this.hasPointerMoved = true;
+        if (rfs) {
+            //Mousf pointfr is on tif sbmf displby
+            tiis.grbbInputPoint = nfw Point(rootX, rootY);
+            tiis.ibsPointfrMovfd = fblsf;
+        } flsf {
+            tiis.grbbInputPoint = null;
+            tiis.ibsPointfrMovfd = truf;
         }
-        return res;
+        rfturn rfs;
     }
     /************************************************
      *
-     * Overridable event processing functions
+     * Ovfrridbblf fvfnt prodfssing fundtions
      *
      ************************************************/
 
     /**
-     * Performs repainting
+     * Pfrforms rfpbinting
      */
-    void doHandleJavaPaintEvent(PaintEvent event) {
-        Rectangle rect = event.getUpdateRect();
-        repaint(rect.x, rect.y, rect.width, rect.height);
+    void doHbndlfJbvbPbintEvfnt(PbintEvfnt fvfnt) {
+        Rfdtbnglf rfdt = fvfnt.gftUpdbtfRfdt();
+        rfpbint(rfdt.x, rfdt.y, rfdt.widti, rfdt.ifigit);
     }
 
     /************************************************
      *
-     * User input handling utility functions
+     * Usfr input ibndling utility fundtions
      *
      ************************************************/
 
     /**
-     * Performs handling of java mouse event
-     * Note that this function should be invoked
-     * only from root of menu window's hierarchy
-     * that grabs input focus
+     * Pfrforms ibndling of jbvb mousf fvfnt
+     * Notf tibt tiis fundtion siould bf invokfd
+     * only from root of mfnu window's iifrbrdiy
+     * tibt grbbs input fodus
      */
-    void doHandleJavaMouseEvent( MouseEvent mouseEvent ) {
-        if (!XToolkit.isLeftMouseButton(mouseEvent) && !XToolkit.isRightMouseButton(mouseEvent)) {
-            return;
+    void doHbndlfJbvbMousfEvfnt( MousfEvfnt mousfEvfnt ) {
+        if (!XToolkit.isLfftMousfButton(mousfEvfnt) && !XToolkit.isRigitMousfButton(mousfEvfnt)) {
+            rfturn;
         }
-        //Window that owns input
-        XBaseWindow grabWindow = XAwtState.getGrabWindow();
-        //Point of mouse event in global coordinates
-        Point ptGlobal = mouseEvent.getLocationOnScreen();
-        if (!hasPointerMoved) {
-            //Fix for 6301307: NullPointerException while dispatching mouse events, XToolkit
-            if (grabInputPoint == null ||
-                (Math.abs(ptGlobal.x - grabInputPoint.x) > getMouseMovementSmudge()) ||
-                (Math.abs(ptGlobal.y - grabInputPoint.y) > getMouseMovementSmudge())) {
-                hasPointerMoved = true;
+        //Window tibt owns input
+        XBbsfWindow grbbWindow = XAwtStbtf.gftGrbbWindow();
+        //Point of mousf fvfnt in globbl doordinbtfs
+        Point ptGlobbl = mousfEvfnt.gftLodbtionOnSdrffn();
+        if (!ibsPointfrMovfd) {
+            //Fix for 6301307: NullPointfrExdfption wiilf dispbtdiing mousf fvfnts, XToolkit
+            if (grbbInputPoint == null ||
+                (Mbti.bbs(ptGlobbl.x - grbbInputPoint.x) > gftMousfMovfmfntSmudgf()) ||
+                (Mbti.bbs(ptGlobbl.y - grbbInputPoint.y) > gftMousfMovfmfntSmudgf())) {
+                ibsPointfrMovfd = truf;
             }
         }
-        //Z-order first descendant of current menu window
-        //hierarchy that contain mouse point
-        XBaseMenuWindow wnd = getMenuWindowFromPoint(ptGlobal);
-        //Item in wnd that contains mouse point, if any
-        XMenuItemPeer item = (wnd != null) ? wnd.getItemFromPoint(wnd.toLocal(ptGlobal)) : null;
-        //Currently showing leaf window
-        XBaseMenuWindow cwnd = getShowingLeaf();
-        switch (mouseEvent.getID()) {
-          case MouseEvent.MOUSE_PRESSED:
-              //This line is to get rid of possible problems
-              //That may occur if mouse events are lost
-              showingMousePressedSubmenu = null;
-              if ((grabWindow == this) && (wnd == null)) {
-                  //Menus grab input and the user
-                  //presses mouse button outside
-                  ungrabInput();
-              } else {
-                  //Menus grab input OR mouse is pressed on menu window
-                  grabInput();
-                  if (item != null && !item.isSeparator() && item.isTargetItemEnabled()) {
-                      //Button is pressed on enabled item
-                      if (wnd.getShowingSubmenu() == item) {
-                          //Button is pressed on item that shows
-                          //submenu. We have to hide its submenu
-                          //if user clicks on it
-                          showingMousePressedSubmenu = (XMenuPeer)item;
+        //Z-ordfr first dfsdfndbnt of durrfnt mfnu window
+        //iifrbrdiy tibt dontbin mousf point
+        XBbsfMfnuWindow wnd = gftMfnuWindowFromPoint(ptGlobbl);
+        //Itfm in wnd tibt dontbins mousf point, if bny
+        XMfnuItfmPffr itfm = (wnd != null) ? wnd.gftItfmFromPoint(wnd.toLodbl(ptGlobbl)) : null;
+        //Currfntly siowing lfbf window
+        XBbsfMfnuWindow dwnd = gftSiowingLfbf();
+        switdi (mousfEvfnt.gftID()) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+              //Tiis linf is to gft rid of possiblf problfms
+              //Tibt mby oddur if mousf fvfnts brf lost
+              siowingMousfPrfssfdSubmfnu = null;
+              if ((grbbWindow == tiis) && (wnd == null)) {
+                  //Mfnus grbb input bnd tif usfr
+                  //prfssfs mousf button outsidf
+                  ungrbbInput();
+              } flsf {
+                  //Mfnus grbb input OR mousf is prfssfd on mfnu window
+                  grbbInput();
+                  if (itfm != null && !itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                      //Button is prfssfd on fnbblfd itfm
+                      if (wnd.gftSiowingSubmfnu() == itfm) {
+                          //Button is prfssfd on itfm tibt siows
+                          //submfnu. Wf ibvf to iidf its submfnu
+                          //if usfr dlidks on it
+                          siowingMousfPrfssfdSubmfnu = (XMfnuPffr)itfm;
                       }
-                      wnd.selectItem(item, true);
-                  } else {
-                      //Button is pressed on disabled item or empty space
+                      wnd.sflfdtItfm(itfm, truf);
+                  } flsf {
+                      //Button is prfssfd on disbblfd itfm or fmpty spbdf
                       if (wnd != null) {
-                          wnd.selectItem(null, false);
+                          wnd.sflfdtItfm(null, fblsf);
                       }
                   }
               }
-              break;
-          case MouseEvent.MOUSE_RELEASED:
-              //Note that if item is not null, wnd has to be not null
-              if (item != null && !item.isSeparator() && item.isTargetItemEnabled()) {
-                  if  (item instanceof XMenuPeer) {
-                      if (showingMousePressedSubmenu == item) {
-                          //User clicks on item that shows submenu.
-                          //Hide the submenu
-                          if (wnd instanceof XMenuBarPeer) {
-                              ungrabInput();
-                          } else {
-                              wnd.selectItem(item, false);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+              //Notf tibt if itfm is not null, wnd ibs to bf not null
+              if (itfm != null && !itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                  if  (itfm instbndfof XMfnuPffr) {
+                      if (siowingMousfPrfssfdSubmfnu == itfm) {
+                          //Usfr dlidks on itfm tibt siows submfnu.
+                          //Hidf tif submfnu
+                          if (wnd instbndfof XMfnuBbrPffr) {
+                              ungrbbInput();
+                          } flsf {
+                              wnd.sflfdtItfm(itfm, fblsf);
                           }
                       }
-                  } else {
-                      //Invoke action event
-                      item.action(mouseEvent.getWhen());
-                      ungrabInput();
+                  } flsf {
+                      //Invokf bdtion fvfnt
+                      itfm.bdtion(mousfEvfnt.gftWifn());
+                      ungrbbInput();
                   }
-              } else {
-                  //Mouse is released outside menu items
-                  if (hasPointerMoved || (wnd instanceof XMenuBarPeer)) {
-                      ungrabInput();
+              } flsf {
+                  //Mousf is rflfbsfd outsidf mfnu itfms
+                  if (ibsPointfrMovfd || (wnd instbndfof XMfnuBbrPffr)) {
+                      ungrbbInput();
                   }
               }
-              showingMousePressedSubmenu = null;
-              break;
-          case MouseEvent.MOUSE_DRAGGED:
+              siowingMousfPrfssfdSubmfnu = null;
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_DRAGGED:
               if (wnd != null) {
-                  //Mouse is dragged over menu window
-                  //Move selection to item under cursor
-                  if (item != null && !item.isSeparator() && item.isTargetItemEnabled()) {
-                      if (grabWindow == this){
-                          wnd.selectItem(item, true);
+                  //Mousf is drbggfd ovfr mfnu window
+                  //Movf sflfdtion to itfm undfr dursor
+                  if (itfm != null && !itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                      if (grbbWindow == tiis){
+                          wnd.sflfdtItfm(itfm, truf);
                       }
-                  } else {
-                      wnd.selectItem(null, false);
+                  } flsf {
+                      wnd.sflfdtItfm(null, fblsf);
                   }
-              } else {
-                  //Mouse is dragged outside menu windows
-                  //clear selection in leaf to reflect it
-                  if (cwnd != null) {
-                      cwnd.selectItem(null, false);
+              } flsf {
+                  //Mousf is drbggfd outsidf mfnu windows
+                  //dlfbr sflfdtion in lfbf to rfflfdt it
+                  if (dwnd != null) {
+                      dwnd.sflfdtItfm(null, fblsf);
                   }
               }
-              break;
+              brfbk;
         }
     }
 
     /**
-     * Performs handling of java keyboard event
-     * Note that this function should be invoked
-     * only from root of menu window's hierarchy
-     * that grabs input focus
+     * Pfrforms ibndling of jbvb kfybobrd fvfnt
+     * Notf tibt tiis fundtion siould bf invokfd
+     * only from root of mfnu window's iifrbrdiy
+     * tibt grbbs input fodus
      */
-    void doHandleJavaKeyEvent(KeyEvent event) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer(event.toString());
+    void doHbndlfJbvbKfyEvfnt(KfyEvfnt fvfnt) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr(fvfnt.toString());
         }
-        if (event.getID() != KeyEvent.KEY_PRESSED) {
-            return;
+        if (fvfnt.gftID() != KfyEvfnt.KEY_PRESSED) {
+            rfturn;
         }
-        final int keyCode = event.getKeyCode();
-        XBaseMenuWindow cwnd = getShowingLeaf();
-        XMenuItemPeer citem = cwnd.getSelectedItem();
-        switch(keyCode) {
-          case KeyEvent.VK_UP:
-          case KeyEvent.VK_KP_UP:
-              if (!(cwnd instanceof XMenuBarPeer)) {
-                  //If active window is not menu bar,
-                  //move selection up
-                  cwnd.selectItem(cwnd.getPrevSelectableItem(), false);
+        finbl int kfyCodf = fvfnt.gftKfyCodf();
+        XBbsfMfnuWindow dwnd = gftSiowingLfbf();
+        XMfnuItfmPffr ditfm = dwnd.gftSflfdtfdItfm();
+        switdi(kfyCodf) {
+          dbsf KfyEvfnt.VK_UP:
+          dbsf KfyEvfnt.VK_KP_UP:
+              if (!(dwnd instbndfof XMfnuBbrPffr)) {
+                  //If bdtivf window is not mfnu bbr,
+                  //movf sflfdtion up
+                  dwnd.sflfdtItfm(dwnd.gftPrfvSflfdtbblfItfm(), fblsf);
               }
-              break;
-          case KeyEvent.VK_DOWN:
-          case KeyEvent.VK_KP_DOWN:
-              if (cwnd instanceof XMenuBarPeer) {
-                  //If active window is menu bar show current submenu
-                  selectItem(getSelectedItem(), true);
-              } else {
-                  //move selection down
-                  cwnd.selectItem(cwnd.getNextSelectableItem(), false);
+              brfbk;
+          dbsf KfyEvfnt.VK_DOWN:
+          dbsf KfyEvfnt.VK_KP_DOWN:
+              if (dwnd instbndfof XMfnuBbrPffr) {
+                  //If bdtivf window is mfnu bbr siow durrfnt submfnu
+                  sflfdtItfm(gftSflfdtfdItfm(), truf);
+              } flsf {
+                  //movf sflfdtion down
+                  dwnd.sflfdtItfm(dwnd.gftNfxtSflfdtbblfItfm(), fblsf);
               }
-              break;
-          case KeyEvent.VK_LEFT:
-          case KeyEvent.VK_KP_LEFT:
-              if (cwnd instanceof XMenuBarPeer) {
-                  //leaf window is menu bar
-                  //select previous item
-                  selectItem(getPrevSelectableItem(), false);
-              } else if (cwnd.getParentMenuWindow() instanceof XMenuBarPeer) {
-                  //leaf window is direct child of menu bar
-                  //select previous item of menu bar
-                  //and show its submenu
-                  selectItem(getPrevSelectableItem(), true);
-              } else {
-                  //hide leaf moving focus to its parent
-                  //(equvivalent of pressing ESC)
-                  XBaseMenuWindow pwnd = cwnd.getParentMenuWindow();
-                  //Fix for 6272952: PIT: Pressing LEFT ARROW on a popup menu throws NullPointerException, XToolkit
+              brfbk;
+          dbsf KfyEvfnt.VK_LEFT:
+          dbsf KfyEvfnt.VK_KP_LEFT:
+              if (dwnd instbndfof XMfnuBbrPffr) {
+                  //lfbf window is mfnu bbr
+                  //sflfdt prfvious itfm
+                  sflfdtItfm(gftPrfvSflfdtbblfItfm(), fblsf);
+              } flsf if (dwnd.gftPbrfntMfnuWindow() instbndfof XMfnuBbrPffr) {
+                  //lfbf window is dirfdt diild of mfnu bbr
+                  //sflfdt prfvious itfm of mfnu bbr
+                  //bnd siow its submfnu
+                  sflfdtItfm(gftPrfvSflfdtbblfItfm(), truf);
+              } flsf {
+                  //iidf lfbf moving fodus to its pbrfnt
+                  //(fquvivblfnt of prfssing ESC)
+                  XBbsfMfnuWindow pwnd = dwnd.gftPbrfntMfnuWindow();
+                  //Fix for 6272952: PIT: Prfssing LEFT ARROW on b popup mfnu tirows NullPointfrExdfption, XToolkit
                   if (pwnd != null) {
-                      pwnd.selectItem(pwnd.getSelectedItem(), false);
+                      pwnd.sflfdtItfm(pwnd.gftSflfdtfdItfm(), fblsf);
                   }
               }
-              break;
-          case KeyEvent.VK_RIGHT:
-          case KeyEvent.VK_KP_RIGHT:
-              if (cwnd instanceof XMenuBarPeer) {
-                  //leaf window is menu bar
-                  //select next item
-                  selectItem(getNextSelectableItem(), false);
-              } else if (citem instanceof XMenuPeer) {
-                  //current item is menu, show its window
-                  //(equivalent of ENTER)
-                  cwnd.selectItem(citem, true);
-              } else if (this instanceof XMenuBarPeer) {
-                  //if this is menu bar (not popup menu)
-                  //and the user presses RIGHT on item (not submenu)
-                  //select next top-level menu
-                  selectItem(getNextSelectableItem(), true);
+              brfbk;
+          dbsf KfyEvfnt.VK_RIGHT:
+          dbsf KfyEvfnt.VK_KP_RIGHT:
+              if (dwnd instbndfof XMfnuBbrPffr) {
+                  //lfbf window is mfnu bbr
+                  //sflfdt nfxt itfm
+                  sflfdtItfm(gftNfxtSflfdtbblfItfm(), fblsf);
+              } flsf if (ditfm instbndfof XMfnuPffr) {
+                  //durrfnt itfm is mfnu, siow its window
+                  //(fquivblfnt of ENTER)
+                  dwnd.sflfdtItfm(ditfm, truf);
+              } flsf if (tiis instbndfof XMfnuBbrPffr) {
+                  //if tiis is mfnu bbr (not popup mfnu)
+                  //bnd tif usfr prfssfs RIGHT on itfm (not submfnu)
+                  //sflfdt nfxt top-lfvfl mfnu
+                  sflfdtItfm(gftNfxtSflfdtbblfItfm(), truf);
               }
-              break;
-          case KeyEvent.VK_SPACE:
-          case KeyEvent.VK_ENTER:
-              //If the current item has submenu show it
-              //Perform action otherwise
-              if (citem instanceof XMenuPeer) {
-                  cwnd.selectItem(citem, true);
-              } else if (citem != null) {
-                  citem.action(event.getWhen());
-                  ungrabInput();
+              brfbk;
+          dbsf KfyEvfnt.VK_SPACE:
+          dbsf KfyEvfnt.VK_ENTER:
+              //If tif durrfnt itfm ibs submfnu siow it
+              //Pfrform bdtion otifrwisf
+              if (ditfm instbndfof XMfnuPffr) {
+                  dwnd.sflfdtItfm(ditfm, truf);
+              } flsf if (ditfm != null) {
+                  ditfm.bdtion(fvfnt.gftWifn());
+                  ungrbbInput();
               }
-              break;
-          case KeyEvent.VK_ESCAPE:
-              //If current window is menu bar or its child - close it
-              //If current window is popup menu - close it
-              //go one level up otherwise
+              brfbk;
+          dbsf KfyEvfnt.VK_ESCAPE:
+              //If durrfnt window is mfnu bbr or its diild - dlosf it
+              //If durrfnt window is popup mfnu - dlosf it
+              //go onf lfvfl up otifrwisf
 
-              //Fixed 6266513: Incorrect key handling in XAWT popup menu
-              //Popup menu should be closed on 'ESC'
-              if ((cwnd instanceof XMenuBarPeer) || (cwnd.getParentMenuWindow() instanceof XMenuBarPeer)) {
-                  ungrabInput();
-              } else if (cwnd instanceof XPopupMenuPeer) {
-                  ungrabInput();
-              } else {
-                  XBaseMenuWindow pwnd = cwnd.getParentMenuWindow();
-                  pwnd.selectItem(pwnd.getSelectedItem(), false);
+              //Fixfd 6266513: Indorrfdt kfy ibndling in XAWT popup mfnu
+              //Popup mfnu siould bf dlosfd on 'ESC'
+              if ((dwnd instbndfof XMfnuBbrPffr) || (dwnd.gftPbrfntMfnuWindow() instbndfof XMfnuBbrPffr)) {
+                  ungrbbInput();
+              } flsf if (dwnd instbndfof XPopupMfnuPffr) {
+                  ungrbbInput();
+              } flsf {
+                  XBbsfMfnuWindow pwnd = dwnd.gftPbrfntMfnuWindow();
+                  pwnd.sflfdtItfm(pwnd.gftSflfdtfdItfm(), fblsf);
               }
-              break;
-          case KeyEvent.VK_F10:
-              //Fixed 6266513: Incorrect key handling in XAWT popup menu
-              //All menus should be closed on 'F10'
-              ungrabInput();
-              break;
-          default:
-              break;
+              brfbk;
+          dbsf KfyEvfnt.VK_F10:
+              //Fixfd 6266513: Indorrfdt kfy ibndling in XAWT popup mfnu
+              //All mfnus siould bf dlosfd on 'F10'
+              ungrbbInput();
+              brfbk;
+          dffbult:
+              brfbk;
         }
     }
 
-} //class XBaseMenuWindow
+} //dlbss XBbsfMfnuWindow

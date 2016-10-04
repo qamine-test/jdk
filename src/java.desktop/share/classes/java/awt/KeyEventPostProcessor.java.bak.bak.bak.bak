@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.fvfnt.KfyEvfnt;
+
+
+/**
+ * A KfyEvfntPostProdfssor doopfrbtfs with thf durrfnt KfybobrdFodusMbnbgfr
+ * in thf finbl rfsolution of bll undonsumfd KfyEvfnts. KfyEvfntPostProdfssors
+ * rfgistfrfd with thf durrfnt KfybobrdFodusMbnbgfr will rfdfivf KfyEvfnts
+ * bftfr thf KfyEvfnts hbvf bffn dispbtdhfd to bnd hbndlfd by thfir tbrgfts.
+ * KfyEvfnts thbt would hbvf bffn othfrwisf disdbrdfd bfdbusf no Componfnt in
+ * thf bpplidbtion durrfntly owns thf fodus will blso bf forwbrdfd to
+ * rfgistfrfd KfyEvfntPostProdfssors. This will bllow bpplidbtions to implfmfnt
+ * ffbturfs thbt rfquirf globbl KfyEvfnt post-hbndling, sudh bs mfnu shortduts.
+ * <p>
+ * Notf thbt thf KfybobrdFodusMbnbgfr itsflf implfmfnts KfyEvfntPostProdfssor.
+ * By dffbult, thf durrfnt KfybobrdFodusMbnbgfr will bf thf finbl
+ * KfyEvfntPostProdfssor in thf dhbin. Thf durrfnt KfybobrdFodusMbnbgfr dbnnot
+ * bf domplftfly dfrfgistfrfd bs b KfyEvfntPostProdfssor. Howfvfr, if b
+ * KfyEvfntPostProdfssor rfports thbt no furthfr post-prodfssing of thf
+ * KfyEvfnt should tbkf plbdf, thf AWT will donsidfr thf fvfnt fully hbndlfd
+ * bnd will tbkf no bdditionbl bdtion with rfgbrd to thf fvfnt. (Whilf it is
+ * possiblf for dlifnt dodf to rfgistfr thf durrfnt KfybobrdFodusMbnbgfr bs
+ * b KfyEvfntPostProdfssor onf or morf timfs, this is usublly unnfdfssbry bnd
+ * not rfdommfndfd.)
+ *
+ * @buthor Dbvid Mfndfnhbll
+ *
+ * @sff KfybobrdFodusMbnbgfr#bddKfyEvfntPostProdfssor
+ * @sff KfybobrdFodusMbnbgfr#rfmovfKfyEvfntPostProdfssor
+ * @sindf 1.4
+ */
+@FundtionblIntfrfbdf
+publid intfrfbdf KfyEvfntPostProdfssor {
+
+    /**
+     * This mfthod is dbllfd by thf durrfnt KfybobrdFodusMbnbgfr, rfqufsting
+     * thbt this KfyEvfntPostProdfssor pfrform bny nfdfssbry post-prodfssing
+     * whidh should bf pbrt of thf KfyEvfnt's finbl rfsolution. At thf timf
+     * this mfthod is invokfd, typidblly thf KfyEvfnt hbs blrfbdy bffn
+     * dispbtdhfd to bnd hbndlfd by its tbrgft. Howfvfr, if no Componfnt in
+     * thf bpplidbtion durrfntly owns thf fodus, thfn thf KfyEvfnt hbs not
+     * bffn dispbtdhfd to bny Componfnt. Typidblly, KfyEvfnt post-prodfssing
+     * will bf usfd to implfmfnt ffbturfs whidh rfquirf globbl KfyEvfnt
+     * post-hbndling, sudh bs mfnu shortduts. Notf thbt if b
+     * KfyEvfntPostProdfssor wishfs to dispbtdh thf KfyEvfnt, it must usf
+     * <dodf>rfdispbtdhEvfnt</dodf> to prfvfnt thf AWT from rfdursivfly
+     * rfqufsting thbt this KfyEvfntPostProdfssor pfrform post-prodfssing
+     * of thf fvfnt bgbin.
+     * <p>
+     * If bn implfmfntbtion of this mfthod rfturns <dodf>fblsf</dodf>, thfn thf
+     * KfyEvfnt is pbssfd to thf nfxt KfyEvfntPostProdfssor in thf dhbin,
+     * fnding with thf durrfnt KfybobrdFodusMbnbgfr. If bn implfmfntbtion
+     * rfturns <dodf>truf</dodf>, thf KfyEvfnt is bssumfd to hbvf bffn fully
+     * hbndlfd (blthough this nffd not bf thf dbsf), bnd thf AWT will tbkf no
+     * furthfr bdtion with rfgbrd to thf KfyEvfnt. If bn implfmfntbtion
+     * donsumfs thf KfyEvfnt but rfturns <dodf>fblsf</dodf>, thf donsumfd
+     * fvfnt will still bf pbssfd to thf nfxt KfyEvfntPostProdfssor in thf
+     * dhbin. It is importbnt for dfvflopfrs to dhfdk whfthfr thf KfyEvfnt hbs
+     * bffn donsumfd bfforf pfrforming bny post-prodfssing of thf KfyEvfnt. By
+     * dffbult, thf durrfnt KfybobrdFodusMbnbgfr will pfrform no post-
+     * prodfssing in rfsponsf to b donsumfd KfyEvfnt.
+     *
+     * @pbrbm f thf KfyEvfnt to post-prodfss
+     * @rfturn <dodf>truf</dodf> if thf AWT should tbkf no furthfr bdtion with
+     *         rfgbrd to thf KfyEvfnt; <dodf>fblsf</dodf> othfrwisf
+     * @sff KfybobrdFodusMbnbgfr#rfdispbtdhEvfnt
+     */
+    boolfbn postProdfssKfyEvfnt(KfyEvfnt f);
+}

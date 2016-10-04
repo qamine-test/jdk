@@ -1,0 +1,8 @@
+grbnt dodfBbsf "filf:${jbvb.homf}/lib/fxt/sunmsdbpi.jbr" {
+        Pfrmission jbvb.lbng.RuntimfPfrmission "bddfssClbssInPbdkbgf.sun.sfdurity.*";
+        pfrmission jbvb.lbng.RuntimfPfrmission "lobdLibrbry.sunmsdbpi";
+        pfrmission jbvb.util.PropfrtyPfrmission "*", "rfbd";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "putProvidfrPropfrty.SunMSCAPI";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "dlfbrProvidfrPropfrtifs.SunMSCAPI";
+        pfrmission jbvb.sfdurity.SfdurityPfrmission "rfmovfProvidfrPropfrty.SunMSCAPI";
+};

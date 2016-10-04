@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text.html.parser;
+pbdkbgf jbvbx.swing.tfxt.itml.pbrsfr;
 
-import java.util.BitSet;
-import java.util.Vector;
-import java.io.*;
+import jbvb.util.BitSft;
+import jbvb.util.Vfdtor;
+import jbvb.io.*;
 
 
 /**
- * A stack of tags. Used while parsing an HTML document.
- * It, together with the ContentModelStates, defines the
- * complete state of the parser while reading a document.
- * When a start tag is encountered an element is pushed onto
- * the stack, when an end tag is enountered an element is popped
- * of the stack.
+ * A stbdk of tbgs. Usfd wiilf pbrsing bn HTML dodumfnt.
+ * It, togftifr witi tif ContfntModflStbtfs, dffinfs tif
+ * domplftf stbtf of tif pbrsfr wiilf rfbding b dodumfnt.
+ * Wifn b stbrt tbg is fndountfrfd bn flfmfnt is pusifd onto
+ * tif stbdk, wifn bn fnd tbg is fnountfrfd bn flfmfnt is poppfd
+ * of tif stbdk.
  *
- * @see Parser
- * @see DTD
- * @see ContentModelState
- * @author      Arthur van Hoff
+ * @sff Pbrsfr
+ * @sff DTD
+ * @sff ContfntModflStbtf
+ * @butior      Artiur vbn Hoff
  */
-final
-class TagStack implements DTDConstants {
-    TagElement tag;
-    Element elem;
-    ContentModelState state;
-    TagStack next;
-    BitSet inclusions;
-    BitSet exclusions;
-    boolean net;
-    boolean pre;
+finbl
+dlbss TbgStbdk implfmfnts DTDConstbnts {
+    TbgElfmfnt tbg;
+    Elfmfnt flfm;
+    ContfntModflStbtf stbtf;
+    TbgStbdk nfxt;
+    BitSft indlusions;
+    BitSft fxdlusions;
+    boolfbn nft;
+    boolfbn prf;
 
     /**
-     * Construct a stack element.
+     * Construdt b stbdk flfmfnt.
      */
-    TagStack(TagElement tag, TagStack next) {
-        this.tag = tag;
-        this.elem = tag.getElement();
-        this.next = next;
+    TbgStbdk(TbgElfmfnt tbg, TbgStbdk nfxt) {
+        tiis.tbg = tbg;
+        tiis.flfm = tbg.gftElfmfnt();
+        tiis.nfxt = nfxt;
 
-        Element elem = tag.getElement();
-        if (elem.getContent() != null) {
-            this.state = new ContentModelState(elem.getContent());
+        Elfmfnt flfm = tbg.gftElfmfnt();
+        if (flfm.gftContfnt() != null) {
+            tiis.stbtf = nfw ContfntModflStbtf(flfm.gftContfnt());
         }
 
-        if (next != null) {
-            inclusions = next.inclusions;
-            exclusions = next.exclusions;
-            pre = next.pre;
+        if (nfxt != null) {
+            indlusions = nfxt.indlusions;
+            fxdlusions = nfxt.fxdlusions;
+            prf = nfxt.prf;
         }
-        if (tag.isPreformatted()) {
-            pre = true;
+        if (tbg.isPrfformbttfd()) {
+            prf = truf;
         }
 
-        if (elem.inclusions != null) {
-            if (inclusions != null) {
-                inclusions = (BitSet)inclusions.clone();
-                inclusions.or(elem.inclusions);
-            } else {
-                inclusions = elem.inclusions;
+        if (flfm.indlusions != null) {
+            if (indlusions != null) {
+                indlusions = (BitSft)indlusions.dlonf();
+                indlusions.or(flfm.indlusions);
+            } flsf {
+                indlusions = flfm.indlusions;
             }
         }
-        if (elem.exclusions != null) {
-            if (exclusions != null) {
-                exclusions = (BitSet)exclusions.clone();
-                exclusions.or(elem.exclusions);
-            } else {
-                exclusions = elem.exclusions;
+        if (flfm.fxdlusions != null) {
+            if (fxdlusions != null) {
+                fxdlusions = (BitSft)fxdlusions.dlonf();
+                fxdlusions.or(flfm.fxdlusions);
+            } flsf {
+                fxdlusions = flfm.fxdlusions;
             }
         }
     }
 
     /**
-     * Return the element that must come next in the
-     * input stream.
+     * Rfturn tif flfmfnt tibt must domf nfxt in tif
+     * input strfbm.
      */
-    public Element first() {
-        return (state != null) ? state.first() : null;
+    publid Elfmfnt first() {
+        rfturn (stbtf != null) ? stbtf.first() : null;
     }
 
     /**
-     * Return the ContentModel that must be satisfied by
-     * what comes next in the input stream.
+     * Rfturn tif ContfntModfl tibt must bf sbtisfifd by
+     * wibt domfs nfxt in tif input strfbm.
      */
-    public ContentModel contentModel() {
-        if (state == null) {
-            return null;
-        } else {
-            return state.getModel();
+    publid ContfntModfl dontfntModfl() {
+        if (stbtf == null) {
+            rfturn null;
+        } flsf {
+            rfturn stbtf.gftModfl();
         }
     }
 
     /**
-     * Return true if the element that is contained at
-     * the index specified by the parameter is part of
-     * the exclusions specified in the DTD for the element
-     * currently on the TagStack.
+     * Rfturn truf if tif flfmfnt tibt is dontbinfd bt
+     * tif indfx spfdififd by tif pbrbmftfr is pbrt of
+     * tif fxdlusions spfdififd in tif DTD for tif flfmfnt
+     * durrfntly on tif TbgStbdk.
      */
-    boolean excluded(int elemIndex) {
-        return (exclusions != null) && exclusions.get(elem.getIndex());
+    boolfbn fxdludfd(int flfmIndfx) {
+        rfturn (fxdlusions != null) && fxdlusions.gft(flfm.gftIndfx());
     }
 
 
     /**
-     * Advance the state by reducing the given element.
-     * Returns false if the element is not legal and the
-     * state is not advanced.
+     * Advbndf tif stbtf by rfduding tif givfn flfmfnt.
+     * Rfturns fblsf if tif flfmfnt is not lfgbl bnd tif
+     * stbtf is not bdvbndfd.
      */
-    boolean advance(Element elem) {
-        if ((exclusions != null) && exclusions.get(elem.getIndex())) {
-            return false;
+    boolfbn bdvbndf(Elfmfnt flfm) {
+        if ((fxdlusions != null) && fxdlusions.gft(flfm.gftIndfx())) {
+            rfturn fblsf;
         }
-        if (state != null) {
-            ContentModelState newState = state.advance(elem);
-            if (newState != null) {
-                state = newState;
-                return true;
+        if (stbtf != null) {
+            ContfntModflStbtf nfwStbtf = stbtf.bdvbndf(flfm);
+            if (nfwStbtf != null) {
+                stbtf = nfwStbtf;
+                rfturn truf;
             }
-        } else if (this.elem.getType() == ANY) {
-            return true;
+        } flsf if (tiis.flfm.gftTypf() == ANY) {
+            rfturn truf;
         }
-        return (inclusions != null) && inclusions.get(elem.getIndex());
+        rfturn (indlusions != null) && indlusions.gft(flfm.gftIndfx());
     }
 
     /**
-     * Return true if the current state can be terminated.
+     * Rfturn truf if tif durrfnt stbtf dbn bf tfrminbtfd.
      */
-    boolean terminate() {
-        return (state == null) || state.terminate();
+    boolfbn tfrminbtf() {
+        rfturn (stbtf == null) || stbtf.tfrminbtf();
     }
 
     /**
-     * Convert to a string.
+     * Convfrt to b string.
      */
-    public String toString() {
-        return (next == null) ?
-            "<" + tag.getElement().getName() + ">" :
-            next + " <" + tag.getElement().getName() + ">";
+    publid String toString() {
+        rfturn (nfxt == null) ?
+            "<" + tbg.gftElfmfnt().gftNbmf() + ">" :
+            nfxt + " <" + tbg.gftElfmfnt().gftNbmf() + ">";
     }
 }
 
-class NPrintWriter extends PrintWriter {
+dlbss NPrintWritfr fxtfnds PrintWritfr {
 
-    private int numLines = 5;
-    private int numPrinted = 0;
+    privbtf int numLinfs = 5;
+    privbtf int numPrintfd = 0;
 
-    public NPrintWriter (int numberOfLines) {
-        super(System.out);
-        numLines = numberOfLines;
+    publid NPrintWritfr (int numbfrOfLinfs) {
+        supfr(Systfm.out);
+        numLinfs = numbfrOfLinfs;
     }
 
-    public void println(char[] array) {
-        if (numPrinted >= numLines) {
-            return;
+    publid void println(dibr[] brrby) {
+        if (numPrintfd >= numLinfs) {
+            rfturn;
         }
 
-        char[] partialArray = null;
+        dibr[] pbrtiblArrby = null;
 
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == '\n') {
-                numPrinted++;
+        for (int i = 0; i < brrby.lfngti; i++) {
+            if (brrby[i] == '\n') {
+                numPrintfd++;
             }
 
-            if (numPrinted == numLines) {
-                System.arraycopy(array, 0, partialArray, 0, i);
+            if (numPrintfd == numLinfs) {
+                Systfm.brrbydopy(brrby, 0, pbrtiblArrby, 0, i);
             }
         }
 
-        if (partialArray != null) {
-            super.print(partialArray);
+        if (pbrtiblArrby != null) {
+            supfr.print(pbrtiblArrby);
         }
 
-        if (numPrinted == numLines) {
-            return;
+        if (numPrintfd == numLinfs) {
+            rfturn;
         }
 
-        super.println(array);
-        numPrinted++;
+        supfr.println(brrby);
+        numPrintfd++;
     }
 }

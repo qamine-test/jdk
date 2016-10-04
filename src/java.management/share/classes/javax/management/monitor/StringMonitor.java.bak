@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.monitor;
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
 
-import static com.sun.jmx.defaults.JmxProperties.MONITOR_LOGGER;
-import java.util.logging.Level;
-import javax.management.ObjectName;
-import javax.management.MBeanNotificationInfo;
-import static javax.management.monitor.MonitorNotification.*;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MONITOR_LOGGER;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import stbtid jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion.*;
 
 /**
- * Defines a monitor MBean designed to observe the values of a string
- * attribute.
+ * Dffinfs b monitor MBfbn dfsignfd to obsfrvf tif vblufs of b string
+ * bttributf.
  * <P>
- * A string monitor sends notifications as follows:
+ * A string monitor sfnds notifidbtions bs follows:
  * <UL>
- * <LI> if the attribute value matches the string to compare value,
- *      a {@link MonitorNotification#STRING_TO_COMPARE_VALUE_MATCHED
- *      match notification} is sent.
- *      The notify match flag must be set to <CODE>true</CODE>.
- *      <BR>Subsequent matchings of the string to compare values do not
- *      cause further notifications unless
- *      the attribute value differs from the string to compare value.
- * <LI> if the attribute value differs from the string to compare value,
- *      a {@link MonitorNotification#STRING_TO_COMPARE_VALUE_DIFFERED
- *      differ notification} is sent.
- *      The notify differ flag must be set to <CODE>true</CODE>.
- *      <BR>Subsequent differences from the string to compare value do
- *      not cause further notifications unless
- *      the attribute value matches the string to compare value.
+ * <LI> if tif bttributf vbluf mbtdifs tif string to dompbrf vbluf,
+ *      b {@link MonitorNotifidbtion#STRING_TO_COMPARE_VALUE_MATCHED
+ *      mbtdi notifidbtion} is sfnt.
+ *      Tif notify mbtdi flbg must bf sft to <CODE>truf</CODE>.
+ *      <BR>Subsfqufnt mbtdiings of tif string to dompbrf vblufs do not
+ *      dbusf furtifr notifidbtions unlfss
+ *      tif bttributf vbluf difffrs from tif string to dompbrf vbluf.
+ * <LI> if tif bttributf vbluf difffrs from tif string to dompbrf vbluf,
+ *      b {@link MonitorNotifidbtion#STRING_TO_COMPARE_VALUE_DIFFERED
+ *      difffr notifidbtion} is sfnt.
+ *      Tif notify difffr flbg must bf sft to <CODE>truf</CODE>.
+ *      <BR>Subsfqufnt difffrfndfs from tif string to dompbrf vbluf do
+ *      not dbusf furtifr notifidbtions unlfss
+ *      tif bttributf vbluf mbtdifs tif string to dompbrf vbluf.
  * </UL>
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class StringMonitor extends Monitor implements StringMonitorMBean {
+publid dlbss StringMonitor fxtfnds Monitor implfmfnts StringMonitorMBfbn {
 
     /*
      * ------------------------------------------
@@ -64,20 +64,20 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      * ------------------------------------------
      */
 
-    static class StringMonitorObservedObject extends ObservedObject {
+    stbtid dlbss StringMonitorObsfrvfdObjfdt fxtfnds ObsfrvfdObjfdt {
 
-        public StringMonitorObservedObject(ObjectName observedObject) {
-            super(observedObject);
+        publid StringMonitorObsfrvfdObjfdt(ObjfdtNbmf obsfrvfdObjfdt) {
+            supfr(obsfrvfdObjfdt);
         }
 
-        public final synchronized int getStatus() {
-            return status;
+        publid finbl syndironizfd int gftStbtus() {
+            rfturn stbtus;
         }
-        public final synchronized void setStatus(int status) {
-            this.status = status;
+        publid finbl syndironizfd void sftStbtus(int stbtus) {
+            tiis.stbtus = stbtus;
         }
 
-        private int status;
+        privbtf int stbtus;
     }
 
     /*
@@ -87,26 +87,26 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      */
 
     /**
-     * String to compare with the observed attribute.
-     * <BR>The default value is an empty character sequence.
+     * String to dompbrf witi tif obsfrvfd bttributf.
+     * <BR>Tif dffbult vbluf is bn fmpty dibrbdtfr sfqufndf.
      */
-    private String stringToCompare = "";
+    privbtf String stringToCompbrf = "";
 
     /**
-     * Flag indicating if the string monitor notifies when matching
-     * the string to compare.
-     * <BR>The default value is set to <CODE>false</CODE>.
+     * Flbg indidbting if tif string monitor notififs wifn mbtdiing
+     * tif string to dompbrf.
+     * <BR>Tif dffbult vbluf is sft to <CODE>fblsf</CODE>.
      */
-    private boolean notifyMatch = false;
+    privbtf boolfbn notifyMbtdi = fblsf;
 
     /**
-     * Flag indicating if the string monitor notifies when differing
-     * from the string to compare.
-     * <BR>The default value is set to <CODE>false</CODE>.
+     * Flbg indidbting if tif string monitor notififs wifn difffring
+     * from tif string to dompbrf.
+     * <BR>Tif dffbult vbluf is sft to <CODE>fblsf</CODE>.
      */
-    private boolean notifyDiffer = false;
+    privbtf boolfbn notifyDifffr = fblsf;
 
-    private static final String[] types = {
+    privbtf stbtid finbl String[] typfs = {
         RUNTIME_ERROR,
         OBSERVED_OBJECT_ERROR,
         OBSERVED_ATTRIBUTE_ERROR,
@@ -115,18 +115,18 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
         STRING_TO_COMPARE_VALUE_DIFFERED
     };
 
-    private static final MBeanNotificationInfo[] notifsInfo = {
-        new MBeanNotificationInfo(
-            types,
-            "javax.management.monitor.MonitorNotification",
-            "Notifications sent by the StringMonitor MBean")
+    privbtf stbtid finbl MBfbnNotifidbtionInfo[] notifsInfo = {
+        nfw MBfbnNotifidbtionInfo(
+            typfs,
+            "jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion",
+            "Notifidbtions sfnt by tif StringMonitor MBfbn")
     };
 
-    // Flags needed to implement the matching/differing mechanism.
+    // Flbgs nffdfd to implfmfnt tif mbtdiing/difffring mfdibnism.
     //
-    private static final int MATCHING                   = 0;
-    private static final int DIFFERING                  = 1;
-    private static final int MATCHING_OR_DIFFERING      = 2;
+    privbtf stbtid finbl int MATCHING                   = 0;
+    privbtf stbtid finbl int DIFFERING                  = 1;
+    privbtf stbtid finbl int MATCHING_OR_DIFFERING      = 2;
 
     /*
      * ------------------------------------------
@@ -135,9 +135,9 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      */
 
     /**
-     * Default constructor.
+     * Dffbult donstrudtor.
      */
-    public StringMonitor() {
+    publid StringMonitor() {
     }
 
     /*
@@ -147,28 +147,28 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      */
 
     /**
-     * Starts the string monitor.
+     * Stbrts tif string monitor.
      */
-    public synchronized void start() {
-        if (isActive()) {
-            MONITOR_LOGGER.logp(Level.FINER, StringMonitor.class.getName(),
-                    "start", "the monitor is already active");
-            return;
+    publid syndironizfd void stbrt() {
+        if (isAdtivf()) {
+            MONITOR_LOGGER.logp(Lfvfl.FINER, StringMonitor.dlbss.gftNbmf(),
+                    "stbrt", "tif monitor is blrfbdy bdtivf");
+            rfturn;
         }
-        // Reset values.
+        // Rfsft vblufs.
         //
-        for (ObservedObject o : observedObjects) {
-            final StringMonitorObservedObject smo =
-                (StringMonitorObservedObject) o;
-            smo.setStatus(MATCHING_OR_DIFFERING);
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            finbl StringMonitorObsfrvfdObjfdt smo =
+                (StringMonitorObsfrvfdObjfdt) o;
+            smo.sftStbtus(MATCHING_OR_DIFFERING);
         }
-        doStart();
+        doStbrt();
     }
 
     /**
-     * Stops the string monitor.
+     * Stops tif string monitor.
      */
-    public synchronized void stop() {
+    publid syndironizfd void stop() {
         doStop();
     }
 
@@ -176,176 +176,176 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
     //--------------------
 
     /**
-     * Gets the derived gauge of the specified object, if this object is
-     * contained in the set of observed MBeans, or <code>null</code> otherwise.
+     * Gfts tif dfrivfd gbugf of tif spfdififd objfdt, if tiis objfdt is
+     * dontbinfd in tif sft of obsfrvfd MBfbns, or <dodf>null</dodf> otifrwisf.
      *
-     * @param object the name of the MBean whose derived gauge is required.
+     * @pbrbm objfdt tif nbmf of tif MBfbn wiosf dfrivfd gbugf is rfquirfd.
      *
-     * @return The derived gauge of the specified object.
+     * @rfturn Tif dfrivfd gbugf of tif spfdififd objfdt.
      *
      */
-    @Override
-    public synchronized String getDerivedGauge(ObjectName object) {
-        return (String) super.getDerivedGauge(object);
+    @Ovfrridf
+    publid syndironizfd String gftDfrivfdGbugf(ObjfdtNbmf objfdt) {
+        rfturn (String) supfr.gftDfrivfdGbugf(objfdt);
     }
 
     /**
-     * Gets the derived gauge timestamp of the specified object, if
-     * this object is contained in the set of observed MBeans, or
-     * <code>0</code> otherwise.
+     * Gfts tif dfrivfd gbugf timfstbmp of tif spfdififd objfdt, if
+     * tiis objfdt is dontbinfd in tif sft of obsfrvfd MBfbns, or
+     * <dodf>0</dodf> otifrwisf.
      *
-     * @param object the name of the object whose derived gauge
-     * timestamp is to be returned.
+     * @pbrbm objfdt tif nbmf of tif objfdt wiosf dfrivfd gbugf
+     * timfstbmp is to bf rfturnfd.
      *
-     * @return The derived gauge timestamp of the specified object.
+     * @rfturn Tif dfrivfd gbugf timfstbmp of tif spfdififd objfdt.
      *
      */
-    @Override
-    public synchronized long getDerivedGaugeTimeStamp(ObjectName object) {
-        return super.getDerivedGaugeTimeStamp(object);
+    @Ovfrridf
+    publid syndironizfd long gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf objfdt) {
+        rfturn supfr.gftDfrivfdGbugfTimfStbmp(objfdt);
     }
 
     /**
-     * Returns the derived gauge of the first object in the set of
-     * observed MBeans.
+     * Rfturns tif dfrivfd gbugf of tif first objfdt in tif sft of
+     * obsfrvfd MBfbns.
      *
-     * @return The derived gauge.
+     * @rfturn Tif dfrivfd gbugf.
      *
-     * @deprecated As of JMX 1.2, replaced by
-     * {@link #getDerivedGauge(ObjectName)}
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by
+     * {@link #gftDfrivfdGbugf(ObjfdtNbmf)}
      */
-    @Deprecated
-    public synchronized String getDerivedGauge() {
-        if (observedObjects.isEmpty()) {
-            return null;
-        } else {
-            return (String) observedObjects.get(0).getDerivedGauge();
+    @Dfprfdbtfd
+    publid syndironizfd String gftDfrivfdGbugf() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn null;
+        } flsf {
+            rfturn (String) obsfrvfdObjfdts.gft(0).gftDfrivfdGbugf();
         }
     }
 
     /**
-     * Gets the derived gauge timestamp of the first object in the set
-     * of observed MBeans.
+     * Gfts tif dfrivfd gbugf timfstbmp of tif first objfdt in tif sft
+     * of obsfrvfd MBfbns.
      *
-     * @return The derived gauge timestamp.
+     * @rfturn Tif dfrivfd gbugf timfstbmp.
      *
-     * @deprecated As of JMX 1.2, replaced by
-     * {@link #getDerivedGaugeTimeStamp(ObjectName)}
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by
+     * {@link #gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf)}
      */
-    @Deprecated
-    public synchronized long getDerivedGaugeTimeStamp() {
-        if (observedObjects.isEmpty()) {
-            return 0;
-        } else {
-            return observedObjects.get(0).getDerivedGaugeTimeStamp();
+    @Dfprfdbtfd
+    publid syndironizfd long gftDfrivfdGbugfTimfStbmp() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn 0;
+        } flsf {
+            rfturn obsfrvfdObjfdts.gft(0).gftDfrivfdGbugfTimfStbmp();
         }
     }
 
     /**
-     * Gets the string to compare with the observed attribute common
-     * to all observed MBeans.
+     * Gfts tif string to dompbrf witi tif obsfrvfd bttributf dommon
+     * to bll obsfrvfd MBfbns.
      *
-     * @return The string value.
+     * @rfturn Tif string vbluf.
      *
-     * @see #setStringToCompare
+     * @sff #sftStringToCompbrf
      */
-    public synchronized String getStringToCompare() {
-        return stringToCompare;
+    publid syndironizfd String gftStringToCompbrf() {
+        rfturn stringToCompbrf;
     }
 
     /**
-     * Sets the string to compare with the observed attribute common
-     * to all observed MBeans.
+     * Sfts tif string to dompbrf witi tif obsfrvfd bttributf dommon
+     * to bll obsfrvfd MBfbns.
      *
-     * @param value The string value.
+     * @pbrbm vbluf Tif string vbluf.
      *
-     * @exception IllegalArgumentException The specified
-     * string to compare is null.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd
+     * string to dompbrf is null.
      *
-     * @see #getStringToCompare
+     * @sff #gftStringToCompbrf
      */
-    public synchronized void setStringToCompare(String value)
-        throws IllegalArgumentException {
+    publid syndironizfd void sftStringToCompbrf(String vbluf)
+        tirows IllfgblArgumfntExdfption {
 
-        if (value == null) {
-            throw new IllegalArgumentException("Null string to compare");
+        if (vbluf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null string to dompbrf");
         }
 
-        if (stringToCompare.equals(value))
-            return;
-        stringToCompare = value;
+        if (stringToCompbrf.fqubls(vbluf))
+            rfturn;
+        stringToCompbrf = vbluf;
 
-        // Reset values.
+        // Rfsft vblufs.
         //
-        for (ObservedObject o : observedObjects) {
-            final StringMonitorObservedObject smo =
-                (StringMonitorObservedObject) o;
-            smo.setStatus(MATCHING_OR_DIFFERING);
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            finbl StringMonitorObsfrvfdObjfdt smo =
+                (StringMonitorObsfrvfdObjfdt) o;
+            smo.sftStbtus(MATCHING_OR_DIFFERING);
         }
     }
 
     /**
-     * Gets the matching notification's on/off switch value common to
-     * all observed MBeans.
+     * Gfts tif mbtdiing notifidbtion's on/off switdi vbluf dommon to
+     * bll obsfrvfd MBfbns.
      *
-     * @return <CODE>true</CODE> if the string monitor notifies when
-     * matching the string to compare, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif string monitor notififs wifn
+     * mbtdiing tif string to dompbrf, <CODE>fblsf</CODE> otifrwisf.
      *
-     * @see #setNotifyMatch
+     * @sff #sftNotifyMbtdi
      */
-    public synchronized boolean getNotifyMatch() {
-        return notifyMatch;
+    publid syndironizfd boolfbn gftNotifyMbtdi() {
+        rfturn notifyMbtdi;
     }
 
     /**
-     * Sets the matching notification's on/off switch value common to
-     * all observed MBeans.
+     * Sfts tif mbtdiing notifidbtion's on/off switdi vbluf dommon to
+     * bll obsfrvfd MBfbns.
      *
-     * @param value The matching notification's on/off switch value.
+     * @pbrbm vbluf Tif mbtdiing notifidbtion's on/off switdi vbluf.
      *
-     * @see #getNotifyMatch
+     * @sff #gftNotifyMbtdi
      */
-    public synchronized void setNotifyMatch(boolean value) {
-        if (notifyMatch == value)
-            return;
-        notifyMatch = value;
+    publid syndironizfd void sftNotifyMbtdi(boolfbn vbluf) {
+        if (notifyMbtdi == vbluf)
+            rfturn;
+        notifyMbtdi = vbluf;
     }
 
     /**
-     * Gets the differing notification's on/off switch value common to
-     * all observed MBeans.
+     * Gfts tif difffring notifidbtion's on/off switdi vbluf dommon to
+     * bll obsfrvfd MBfbns.
      *
-     * @return <CODE>true</CODE> if the string monitor notifies when
-     * differing from the string to compare, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif string monitor notififs wifn
+     * difffring from tif string to dompbrf, <CODE>fblsf</CODE> otifrwisf.
      *
-     * @see #setNotifyDiffer
+     * @sff #sftNotifyDifffr
      */
-    public synchronized boolean getNotifyDiffer() {
-        return notifyDiffer;
+    publid syndironizfd boolfbn gftNotifyDifffr() {
+        rfturn notifyDifffr;
     }
 
     /**
-     * Sets the differing notification's on/off switch value common to
-     * all observed MBeans.
+     * Sfts tif difffring notifidbtion's on/off switdi vbluf dommon to
+     * bll obsfrvfd MBfbns.
      *
-     * @param value The differing notification's on/off switch value.
+     * @pbrbm vbluf Tif difffring notifidbtion's on/off switdi vbluf.
      *
-     * @see #getNotifyDiffer
+     * @sff #gftNotifyDifffr
      */
-    public synchronized void setNotifyDiffer(boolean value) {
-        if (notifyDiffer == value)
-            return;
-        notifyDiffer = value;
+    publid syndironizfd void sftNotifyDifffr(boolfbn vbluf) {
+        if (notifyDifffr == vbluf)
+            rfturn;
+        notifyDifffr = vbluf;
     }
 
     /**
-     * Returns a <CODE>NotificationInfo</CODE> object containing the name of
-     * the Java class of the notification and the notification types sent by
-     * the string monitor.
+     * Rfturns b <CODE>NotifidbtionInfo</CODE> objfdt dontbining tif nbmf of
+     * tif Jbvb dlbss of tif notifidbtion bnd tif notifidbtion typfs sfnt by
+     * tif string monitor.
      */
-    @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        return notifsInfo.clone();
+    @Ovfrridf
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn notifsInfo.dlonf();
     }
 
     /*
@@ -355,109 +355,109 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      */
 
     /**
-     * Factory method for ObservedObject creation.
+     * Fbdtory mftiod for ObsfrvfdObjfdt drfbtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    @Override
-    ObservedObject createObservedObject(ObjectName object) {
-        final StringMonitorObservedObject smo =
-            new StringMonitorObservedObject(object);
-        smo.setStatus(MATCHING_OR_DIFFERING);
-        return smo;
+    @Ovfrridf
+    ObsfrvfdObjfdt drfbtfObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        finbl StringMonitorObsfrvfdObjfdt smo =
+            nfw StringMonitorObsfrvfdObjfdt(objfdt);
+        smo.sftStbtus(MATCHING_OR_DIFFERING);
+        rfturn smo;
     }
 
     /**
-     * Check that the type of the supplied observed attribute
-     * value is one of the value types supported by this monitor.
+     * Cifdk tibt tif typf of tif supplifd obsfrvfd bttributf
+     * vbluf is onf of tif vbluf typfs supportfd by tiis monitor.
      */
-    @Override
-    synchronized boolean isComparableTypeValid(ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value) {
-        // Check that the observed attribute is of type "String".
+    @Ovfrridf
+    syndironizfd boolfbn isCompbrbblfTypfVblid(ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf) {
+        // Cifdk tibt tif obsfrvfd bttributf is of typf "String".
         //
-        if (value instanceof String) {
-            return true;
+        if (vbluf instbndfof String) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    synchronized void onErrorNotification(MonitorNotification notification) {
-        final StringMonitorObservedObject o = (StringMonitorObservedObject)
-            getObservedObject(notification.getObservedObject());
+    @Ovfrridf
+    syndironizfd void onErrorNotifidbtion(MonitorNotifidbtion notifidbtion) {
+        finbl StringMonitorObsfrvfdObjfdt o = (StringMonitorObsfrvfdObjfdt)
+            gftObsfrvfdObjfdt(notifidbtion.gftObsfrvfdObjfdt());
         if (o == null)
-            return;
+            rfturn;
 
-        // Reset values.
+        // Rfsft vblufs.
         //
-        o.setStatus(MATCHING_OR_DIFFERING);
+        o.sftStbtus(MATCHING_OR_DIFFERING);
     }
 
-    @Override
-    synchronized MonitorNotification buildAlarmNotification(
-                                               ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value) {
-        String type = null;
+    @Ovfrridf
+    syndironizfd MonitorNotifidbtion buildAlbrmNotifidbtion(
+                                               ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf) {
+        String typf = null;
         String msg = null;
-        Object trigger = null;
+        Objfdt triggfr = null;
 
-        final StringMonitorObservedObject o =
-            (StringMonitorObservedObject) getObservedObject(object);
+        finbl StringMonitorObsfrvfdObjfdt o =
+            (StringMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
         if (o == null)
-            return null;
+            rfturn null;
 
-        // Send matching notification if notifyMatch is true.
-        // Send differing notification if notifyDiffer is true.
+        // Sfnd mbtdiing notifidbtion if notifyMbtdi is truf.
+        // Sfnd difffring notifidbtion if notifyDifffr is truf.
         //
-        if (o.getStatus() == MATCHING_OR_DIFFERING) {
-            if (o.getDerivedGauge().equals(stringToCompare)) {
-                if (notifyMatch) {
-                    type = STRING_TO_COMPARE_VALUE_MATCHED;
+        if (o.gftStbtus() == MATCHING_OR_DIFFERING) {
+            if (o.gftDfrivfdGbugf().fqubls(stringToCompbrf)) {
+                if (notifyMbtdi) {
+                    typf = STRING_TO_COMPARE_VALUE_MATCHED;
                     msg = "";
-                    trigger = stringToCompare;
+                    triggfr = stringToCompbrf;
                 }
-                o.setStatus(DIFFERING);
-            } else {
-                if (notifyDiffer) {
-                    type = STRING_TO_COMPARE_VALUE_DIFFERED;
+                o.sftStbtus(DIFFERING);
+            } flsf {
+                if (notifyDifffr) {
+                    typf = STRING_TO_COMPARE_VALUE_DIFFERED;
                     msg = "";
-                    trigger = stringToCompare;
+                    triggfr = stringToCompbrf;
                 }
-                o.setStatus(MATCHING);
+                o.sftStbtus(MATCHING);
             }
-        } else {
-            if (o.getStatus() == MATCHING) {
-                if (o.getDerivedGauge().equals(stringToCompare)) {
-                    if (notifyMatch) {
-                        type = STRING_TO_COMPARE_VALUE_MATCHED;
+        } flsf {
+            if (o.gftStbtus() == MATCHING) {
+                if (o.gftDfrivfdGbugf().fqubls(stringToCompbrf)) {
+                    if (notifyMbtdi) {
+                        typf = STRING_TO_COMPARE_VALUE_MATCHED;
                         msg = "";
-                        trigger = stringToCompare;
+                        triggfr = stringToCompbrf;
                     }
-                    o.setStatus(DIFFERING);
+                    o.sftStbtus(DIFFERING);
                 }
-            } else if (o.getStatus() == DIFFERING) {
-                if (!o.getDerivedGauge().equals(stringToCompare)) {
-                    if (notifyDiffer) {
-                        type = STRING_TO_COMPARE_VALUE_DIFFERED;
+            } flsf if (o.gftStbtus() == DIFFERING) {
+                if (!o.gftDfrivfdGbugf().fqubls(stringToCompbrf)) {
+                    if (notifyDifffr) {
+                        typf = STRING_TO_COMPARE_VALUE_DIFFERED;
                         msg = "";
-                        trigger = stringToCompare;
+                        triggfr = stringToCompbrf;
                     }
-                    o.setStatus(MATCHING);
+                    o.sftStbtus(MATCHING);
                 }
             }
         }
 
-        return new MonitorNotification(type,
-                                       this,
+        rfturn nfw MonitorNotifidbtion(typf,
+                                       tiis,
                                        0,
                                        0,
                                        msg,
                                        null,
                                        null,
                                        null,
-                                       trigger);
+                                       triggfr);
     }
 }

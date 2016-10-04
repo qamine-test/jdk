@@ -1,407 +1,407 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.*;
-import java.math.BigInteger;
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
-import java.security.cert.*;
-import java.security.cert.Certificate;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.io.*;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
 
-import java.lang.reflect.*;
+import jbvb.lbng.rfflfdt.*;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.DHPublicKeySpec;
+import jbvbx.drypto.KfyGfnfrbtor;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.DHPublidKfySpfd;
 
-import javax.net.ssl.*;
+import jbvbx.nft.ssl.*;
 
-import sun.security.internal.spec.TlsPrfParameterSpec;
-import sun.security.ssl.CipherSuite.*;
-import static sun.security.ssl.CipherSuite.PRF.*;
-import sun.security.util.KeyUtil;
+import sun.sfdurity.intfrnbl.spfd.TlsPrfPbrbmftfrSpfd;
+import sun.sfdurity.ssl.CipifrSuitf.*;
+import stbtid sun.sfdurity.ssl.CipifrSuitf.PRF.*;
+import sun.sfdurity.util.KfyUtil;
 
 /**
- * Many data structures are involved in the handshake messages.  These
- * classes are used as structures, with public data members.  They are
- * not visible outside the SSL package.
+ * Mbny dbtb strudturfs brf involvfd in tif ibndsibkf mfssbgfs.  Tifsf
+ * dlbssfs brf usfd bs strudturfs, witi publid dbtb mfmbfrs.  Tify brf
+ * not visiblf outsidf tif SSL pbdkbgf.
  *
- * Handshake messages all have a common header format, and they are all
- * encoded in a "handshake data" SSL record substream.  The base class
- * here (HandshakeMessage) provides a common framework and records the
- * SSL record type of the particular handshake message.
+ * Hbndsibkf mfssbgfs bll ibvf b dommon ifbdfr formbt, bnd tify brf bll
+ * fndodfd in b "ibndsibkf dbtb" SSL rfdord substrfbm.  Tif bbsf dlbss
+ * ifrf (HbndsibkfMfssbgf) providfs b dommon frbmfwork bnd rfdords tif
+ * SSL rfdord typf of tif pbrtidulbr ibndsibkf mfssbgf.
  *
- * This file contains subclasses for all the basic handshake messages.
- * All handshake messages know how to encode and decode themselves on
- * SSL streams; this facilitates using the same code on SSL client and
- * server sides, although they don't send and receive the same messages.
+ * Tiis filf dontbins subdlbssfs for bll tif bbsid ibndsibkf mfssbgfs.
+ * All ibndsibkf mfssbgfs know iow to fndodf bnd dfdodf tifmsflvfs on
+ * SSL strfbms; tiis fbdilitbtfs using tif sbmf dodf on SSL dlifnt bnd
+ * sfrvfr sidfs, bltiougi tify don't sfnd bnd rfdfivf tif sbmf mfssbgfs.
  *
- * Messages also know how to print themselves, which is quite handy
- * for debugging.  They always identify their type, and can optionally
- * dump all of their content.
+ * Mfssbgfs blso know iow to print tifmsflvfs, wiidi is quitf ibndy
+ * for dfbugging.  Tify blwbys idfntify tifir typf, bnd dbn optionblly
+ * dump bll of tifir dontfnt.
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-public abstract class HandshakeMessage {
+publid bbstrbdt dlbss HbndsibkfMfssbgf {
 
-    HandshakeMessage() { }
+    HbndsibkfMfssbgf() { }
 
-    // enum HandshakeType:
-    static final byte   ht_hello_request = 0;
-    static final byte   ht_client_hello = 1;
-    static final byte   ht_server_hello = 2;
+    // fnum HbndsibkfTypf:
+    stbtid finbl bytf   it_ifllo_rfqufst = 0;
+    stbtid finbl bytf   it_dlifnt_ifllo = 1;
+    stbtid finbl bytf   it_sfrvfr_ifllo = 2;
 
-    static final byte   ht_certificate = 11;
-    static final byte   ht_server_key_exchange = 12;
-    static final byte   ht_certificate_request = 13;
-    static final byte   ht_server_hello_done = 14;
-    static final byte   ht_certificate_verify = 15;
-    static final byte   ht_client_key_exchange = 16;
+    stbtid finbl bytf   it_dfrtifidbtf = 11;
+    stbtid finbl bytf   it_sfrvfr_kfy_fxdibngf = 12;
+    stbtid finbl bytf   it_dfrtifidbtf_rfqufst = 13;
+    stbtid finbl bytf   it_sfrvfr_ifllo_donf = 14;
+    stbtid finbl bytf   it_dfrtifidbtf_vfrify = 15;
+    stbtid finbl bytf   it_dlifnt_kfy_fxdibngf = 16;
 
-    static final byte   ht_finished = 20;
+    stbtid finbl bytf   it_finisifd = 20;
 
-    /* Class and subclass dynamic debugging support */
-    public static final Debug debug = Debug.getInstance("ssl");
+    /* Clbss bnd subdlbss dynbmid dfbugging support */
+    publid stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
 
     /**
-     * Utility method to convert a BigInteger to a byte array in unsigned
-     * format as needed in the handshake messages. BigInteger uses
-     * 2's complement format, i.e. it prepends an extra zero if the MSB
-     * is set. We remove that.
+     * Utility mftiod to donvfrt b BigIntfgfr to b bytf brrby in unsignfd
+     * formbt bs nffdfd in tif ibndsibkf mfssbgfs. BigIntfgfr usfs
+     * 2's domplfmfnt formbt, i.f. it prfpfnds bn fxtrb zfro if tif MSB
+     * is sft. Wf rfmovf tibt.
      */
-    static byte[] toByteArray(BigInteger bi) {
-        byte[] b = bi.toByteArray();
-        if ((b.length > 1) && (b[0] == 0)) {
-            int n = b.length - 1;
-            byte[] newarray = new byte[n];
-            System.arraycopy(b, 1, newarray, 0, n);
-            b = newarray;
+    stbtid bytf[] toBytfArrby(BigIntfgfr bi) {
+        bytf[] b = bi.toBytfArrby();
+        if ((b.lfngti > 1) && (b[0] == 0)) {
+            int n = b.lfngti - 1;
+            bytf[] nfwbrrby = nfw bytf[n];
+            Systfm.brrbydopy(b, 1, nfwbrrby, 0, n);
+            b = nfwbrrby;
         }
-        return b;
+        rfturn b;
     }
 
     /*
-     * SSL 3.0 MAC padding constants.
-     * Also used by CertificateVerify and Finished during the handshake.
+     * SSL 3.0 MAC pbdding donstbnts.
+     * Also usfd by CfrtifidbtfVfrify bnd Finisifd during tif ibndsibkf.
      */
-    static final byte[] MD5_pad1 = genPad(0x36, 48);
-    static final byte[] MD5_pad2 = genPad(0x5c, 48);
+    stbtid finbl bytf[] MD5_pbd1 = gfnPbd(0x36, 48);
+    stbtid finbl bytf[] MD5_pbd2 = gfnPbd(0x5d, 48);
 
-    static final byte[] SHA_pad1 = genPad(0x36, 40);
-    static final byte[] SHA_pad2 = genPad(0x5c, 40);
+    stbtid finbl bytf[] SHA_pbd1 = gfnPbd(0x36, 40);
+    stbtid finbl bytf[] SHA_pbd2 = gfnPbd(0x5d, 40);
 
-    private static byte[] genPad(int b, int count) {
-        byte[] padding = new byte[count];
-        Arrays.fill(padding, (byte)b);
-        return padding;
+    privbtf stbtid bytf[] gfnPbd(int b, int dount) {
+        bytf[] pbdding = nfw bytf[dount];
+        Arrbys.fill(pbdding, (bytf)b);
+        rfturn pbdding;
     }
 
     /*
-     * Write a handshake message on the (handshake) output stream.
-     * This is just a four byte header followed by the data.
+     * Writf b ibndsibkf mfssbgf on tif (ibndsibkf) output strfbm.
+     * Tiis is just b four bytf ifbdfr followfd by tif dbtb.
      *
-     * NOTE that huge messages -- notably, ones with huge cert
-     * chains -- are handled correctly.
+     * NOTE tibt iugf mfssbgfs -- notbbly, onfs witi iugf dfrt
+     * dibins -- brf ibndlfd dorrfdtly.
      */
-    final void write(HandshakeOutStream s) throws IOException {
-        int len = messageLength();
-        if (len >= Record.OVERFLOW_OF_INT24) {
-            throw new SSLException("Handshake message too big"
-                + ", type = " + messageType() + ", len = " + len);
+    finbl void writf(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        int lfn = mfssbgfLfngti();
+        if (lfn >= Rfdord.OVERFLOW_OF_INT24) {
+            tirow nfw SSLExdfption("Hbndsibkf mfssbgf too big"
+                + ", typf = " + mfssbgfTypf() + ", lfn = " + lfn);
         }
-        s.write(messageType());
-        s.putInt24(len);
-        send(s);
+        s.writf(mfssbgfTypf());
+        s.putInt24(lfn);
+        sfnd(s);
     }
 
     /*
-     * Subclasses implement these methods so those kinds of
-     * messages can be emitted.  Base class delegates to subclass.
+     * Subdlbssfs implfmfnt tifsf mftiods so tiosf kinds of
+     * mfssbgfs dbn bf fmittfd.  Bbsf dlbss dflfgbtfs to subdlbss.
      */
-    abstract int  messageType();
-    abstract int  messageLength();
-    abstract void send(HandshakeOutStream s) throws IOException;
+    bbstrbdt int  mfssbgfTypf();
+    bbstrbdt int  mfssbgfLfngti();
+    bbstrbdt void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption;
 
     /*
-     * Write a descriptive message on the output stream; for debugging.
+     * Writf b dfsdriptivf mfssbgf on tif output strfbm; for dfbugging.
      */
-    abstract void print(PrintStream p) throws IOException;
+    bbstrbdt void print(PrintStrfbm p) tirows IOExdfption;
 
 //
-// NOTE:  the rest of these classes are nested within this one, and are
-// imported by other classes in this package.  There are a few other
-// handshake message classes, not neatly nested here because of current
-// licensing requirement for native (RSA) methods.  They belong here,
-// but those native methods complicate things a lot!
+// NOTE:  tif rfst of tifsf dlbssfs brf nfstfd witiin tiis onf, bnd brf
+// importfd by otifr dlbssfs in tiis pbdkbgf.  Tifrf brf b ffw otifr
+// ibndsibkf mfssbgf dlbssfs, not nfbtly nfstfd ifrf bfdbusf of durrfnt
+// lidfnsing rfquirfmfnt for nbtivf (RSA) mftiods.  Tify bflong ifrf,
+// but tiosf nbtivf mftiods domplidbtf tiings b lot!
 //
 
 
 /*
- * HelloRequest ... SERVER --> CLIENT
+ * HflloRfqufst ... SERVER --> CLIENT
  *
- * Server can ask the client to initiate a new handshake, e.g. to change
- * session parameters after a connection has been (re)established.
+ * Sfrvfr dbn bsk tif dlifnt to initibtf b nfw ibndsibkf, f.g. to dibngf
+ * sfssion pbrbmftfrs bftfr b donnfdtion ibs bffn (rf)fstbblisifd.
  */
-static final class HelloRequest extends HandshakeMessage {
-    @Override
-    int messageType() { return ht_hello_request; }
+stbtid finbl dlbss HflloRfqufst fxtfnds HbndsibkfMfssbgf {
+    @Ovfrridf
+    int mfssbgfTypf() { rfturn it_ifllo_rfqufst; }
 
-    HelloRequest() { }
+    HflloRfqufst() { }
 
-    HelloRequest(HandshakeInStream in) throws IOException
+    HflloRfqufst(HbndsibkfInStrfbm in) tirows IOExdfption
     {
-        // nothing in this message
+        // notiing in tiis mfssbgf
     }
 
-    @Override
-    int messageLength() { return 0; }
+    @Ovfrridf
+    int mfssbgfLfngti() { rfturn 0; }
 
-    @Override
-    void send(HandshakeOutStream out) throws IOException
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm out) tirows IOExdfption
     {
-        // nothing in this messaage
+        // notiing in tiis mfssbbgf
     }
 
-    @Override
-    void print(PrintStream out) throws IOException
+    @Ovfrridf
+    void print(PrintStrfbm out) tirows IOExdfption
     {
-        out.println("*** HelloRequest (empty)");
+        out.println("*** HflloRfqufst (fmpty)");
     }
 
 }
 
 
 /*
- * ClientHello ... CLIENT --> SERVER
+ * ClifntHfllo ... CLIENT --> SERVER
  *
- * Client initiates handshake by telling server what it wants, and what it
- * can support (prioritized by what's first in the ciphe suite list).
+ * Clifnt initibtfs ibndsibkf by tflling sfrvfr wibt it wbnts, bnd wibt it
+ * dbn support (prioritizfd by wibt's first in tif dipif suitf list).
  *
- * By RFC2246:7.4.1.2 it's explicitly anticipated that this message
- * will have more data added at the end ... e.g. what CAs the client trusts.
- * Until we know how to parse it, we will just read what we know
- * about, and let our caller handle the jumps over unknown data.
+ * By RFC2246:7.4.1.2 it's fxpliditly bntidipbtfd tibt tiis mfssbgf
+ * will ibvf morf dbtb bddfd bt tif fnd ... f.g. wibt CAs tif dlifnt trusts.
+ * Until wf know iow to pbrsf it, wf will just rfbd wibt wf know
+ * bbout, bnd lft our dbllfr ibndlf tif jumps ovfr unknown dbtb.
  */
-static final class ClientHello extends HandshakeMessage {
+stbtid finbl dlbss ClifntHfllo fxtfnds HbndsibkfMfssbgf {
 
-    ProtocolVersion     protocolVersion;
-    RandomCookie        clnt_random;
-    SessionId           sessionId;
-    private CipherSuiteList    cipherSuites;
-    byte[]              compression_methods;
+    ProtodolVfrsion     protodolVfrsion;
+    RbndomCookif        dlnt_rbndom;
+    SfssionId           sfssionId;
+    privbtf CipifrSuitfList    dipifrSuitfs;
+    bytf[]              domprfssion_mftiods;
 
-    HelloExtensions extensions = new HelloExtensions();
+    HflloExtfnsions fxtfnsions = nfw HflloExtfnsions();
 
-    private final static byte[]  NULL_COMPRESSION = new byte[] {0};
+    privbtf finbl stbtid bytf[]  NULL_COMPRESSION = nfw bytf[] {0};
 
-    ClientHello(SecureRandom generator, ProtocolVersion protocolVersion,
-            SessionId sessionId, CipherSuiteList cipherSuites) {
+    ClifntHfllo(SfdurfRbndom gfnfrbtor, ProtodolVfrsion protodolVfrsion,
+            SfssionId sfssionId, CipifrSuitfList dipifrSuitfs) {
 
-        this.protocolVersion = protocolVersion;
-        this.sessionId = sessionId;
-        this.cipherSuites = cipherSuites;
+        tiis.protodolVfrsion = protodolVfrsion;
+        tiis.sfssionId = sfssionId;
+        tiis.dipifrSuitfs = dipifrSuitfs;
 
-        if (cipherSuites.containsEC()) {
-            extensions.add(SupportedEllipticCurvesExtension.DEFAULT);
-            extensions.add(SupportedEllipticPointFormatsExtension.DEFAULT);
+        if (dipifrSuitfs.dontbinsEC()) {
+            fxtfnsions.bdd(SupportfdElliptidCurvfsExtfnsion.DEFAULT);
+            fxtfnsions.bdd(SupportfdElliptidPointFormbtsExtfnsion.DEFAULT);
         }
 
-        clnt_random = new RandomCookie(generator);
-        compression_methods = NULL_COMPRESSION;
+        dlnt_rbndom = nfw RbndomCookif(gfnfrbtor);
+        domprfssion_mftiods = NULL_COMPRESSION;
     }
 
-    ClientHello(HandshakeInStream s, int messageLength) throws IOException {
-        protocolVersion = ProtocolVersion.valueOf(s.getInt8(), s.getInt8());
-        clnt_random = new RandomCookie(s);
-        sessionId = new SessionId(s.getBytes8());
-        cipherSuites = new CipherSuiteList(s);
-        compression_methods = s.getBytes8();
-        if (messageLength() != messageLength) {
-            extensions = new HelloExtensions(s);
+    ClifntHfllo(HbndsibkfInStrfbm s, int mfssbgfLfngti) tirows IOExdfption {
+        protodolVfrsion = ProtodolVfrsion.vblufOf(s.gftInt8(), s.gftInt8());
+        dlnt_rbndom = nfw RbndomCookif(s);
+        sfssionId = nfw SfssionId(s.gftBytfs8());
+        dipifrSuitfs = nfw CipifrSuitfList(s);
+        domprfssion_mftiods = s.gftBytfs8();
+        if (mfssbgfLfngti() != mfssbgfLfngti) {
+            fxtfnsions = nfw HflloExtfnsions(s);
         }
     }
 
-    CipherSuiteList getCipherSuites() {
-        return cipherSuites;
+    CipifrSuitfList gftCipifrSuitfs() {
+        rfturn dipifrSuitfs;
     }
 
-    // add renegotiation_info extension
-    void addRenegotiationInfoExtension(byte[] clientVerifyData) {
-        HelloExtension renegotiationInfo = new RenegotiationInfoExtension(
-                    clientVerifyData, new byte[0]);
-        extensions.add(renegotiationInfo);
+    // bdd rfnfgotibtion_info fxtfnsion
+    void bddRfnfgotibtionInfoExtfnsion(bytf[] dlifntVfrifyDbtb) {
+        HflloExtfnsion rfnfgotibtionInfo = nfw RfnfgotibtionInfoExtfnsion(
+                    dlifntVfrifyDbtb, nfw bytf[0]);
+        fxtfnsions.bdd(rfnfgotibtionInfo);
     }
 
-    // add server_name extension
-    void addSNIExtension(List<SNIServerName> serverNames) {
+    // bdd sfrvfr_nbmf fxtfnsion
+    void bddSNIExtfnsion(List<SNISfrvfrNbmf> sfrvfrNbmfs) {
         try {
-            extensions.add(new ServerNameExtension(serverNames));
-        } catch (IOException ioe) {
-            // ignore the exception and return
+            fxtfnsions.bdd(nfw SfrvfrNbmfExtfnsion(sfrvfrNbmfs));
+        } dbtdi (IOExdfption iof) {
+            // ignorf tif fxdfption bnd rfturn
         }
     }
 
-    // add signature_algorithm extension
-    void addSignatureAlgorithmsExtension(
-            Collection<SignatureAndHashAlgorithm> algorithms) {
-        HelloExtension signatureAlgorithm =
-                new SignatureAlgorithmsExtension(algorithms);
-        extensions.add(signatureAlgorithm);
+    // bdd signbturf_blgoritim fxtfnsion
+    void bddSignbturfAlgoritimsExtfnsion(
+            Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims) {
+        HflloExtfnsion signbturfAlgoritim =
+                nfw SignbturfAlgoritimsExtfnsion(blgoritims);
+        fxtfnsions.bdd(signbturfAlgoritim);
     }
 
-    @Override
-    int messageType() { return ht_client_hello; }
+    @Ovfrridf
+    int mfssbgfTypf() { rfturn it_dlifnt_ifllo; }
 
-    @Override
-    int messageLength() {
+    @Ovfrridf
+    int mfssbgfLfngti() {
         /*
-         * Add fixed size parts of each field...
-         * version + random + session + cipher + compress
+         * Add fixfd sizf pbrts of fbdi fifld...
+         * vfrsion + rbndom + sfssion + dipifr + domprfss
          */
-        return (2 + 32 + 1 + 2 + 1
-            + sessionId.length()                /* ... + variable parts */
-            + (cipherSuites.size() * 2)
-            + compression_methods.length)
-            + extensions.length();
+        rfturn (2 + 32 + 1 + 2 + 1
+            + sfssionId.lfngti()                /* ... + vbribblf pbrts */
+            + (dipifrSuitfs.sizf() * 2)
+            + domprfssion_mftiods.lfngti)
+            + fxtfnsions.lfngti();
     }
 
-    @Override
-    void send(HandshakeOutStream s) throws IOException {
-        s.putInt8(protocolVersion.major);
-        s.putInt8(protocolVersion.minor);
-        clnt_random.send(s);
-        s.putBytes8(sessionId.getId());
-        cipherSuites.send(s);
-        s.putBytes8(compression_methods);
-        extensions.send(s);
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        s.putInt8(protodolVfrsion.mbjor);
+        s.putInt8(protodolVfrsion.minor);
+        dlnt_rbndom.sfnd(s);
+        s.putBytfs8(sfssionId.gftId());
+        dipifrSuitfs.sfnd(s);
+        s.putBytfs8(domprfssion_mftiods);
+        fxtfnsions.sfnd(s);
     }
 
-    @Override
-    void print(PrintStream s) throws IOException {
-        s.println("*** ClientHello, " + protocolVersion);
+    @Ovfrridf
+    void print(PrintStrfbm s) tirows IOExdfption {
+        s.println("*** ClifntHfllo, " + protodolVfrsion);
 
-        if (debug != null && Debug.isOn("verbose")) {
-            s.print("RandomCookie:  ");
-            clnt_random.print(s);
+        if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+            s.print("RbndomCookif:  ");
+            dlnt_rbndom.print(s);
 
-            s.print("Session ID:  ");
-            s.println(sessionId);
+            s.print("Sfssion ID:  ");
+            s.println(sfssionId);
 
-            s.println("Cipher Suites: " + cipherSuites);
+            s.println("Cipifr Suitfs: " + dipifrSuitfs);
 
-            Debug.println(s, "Compression Methods", compression_methods);
-            extensions.print(s);
+            Dfbug.println(s, "Comprfssion Mftiods", domprfssion_mftiods);
+            fxtfnsions.print(s);
             s.println("***");
         }
     }
 }
 
 /*
- * ServerHello ... SERVER --> CLIENT
+ * SfrvfrHfllo ... SERVER --> CLIENT
  *
- * Server chooses protocol options from among those it supports and the
- * client supports.  Then it sends the basic session descriptive parameters
- * back to the client.
+ * Sfrvfr dioosfs protodol options from bmong tiosf it supports bnd tif
+ * dlifnt supports.  Tifn it sfnds tif bbsid sfssion dfsdriptivf pbrbmftfrs
+ * bbdk to tif dlifnt.
  */
-static final
-class ServerHello extends HandshakeMessage
+stbtid finbl
+dlbss SfrvfrHfllo fxtfnds HbndsibkfMfssbgf
 {
-    @Override
-    int messageType() { return ht_server_hello; }
+    @Ovfrridf
+    int mfssbgfTypf() { rfturn it_sfrvfr_ifllo; }
 
-    ProtocolVersion     protocolVersion;
-    RandomCookie        svr_random;
-    SessionId           sessionId;
-    CipherSuite         cipherSuite;
-    byte                compression_method;
-    HelloExtensions extensions = new HelloExtensions();
+    ProtodolVfrsion     protodolVfrsion;
+    RbndomCookif        svr_rbndom;
+    SfssionId           sfssionId;
+    CipifrSuitf         dipifrSuitf;
+    bytf                domprfssion_mftiod;
+    HflloExtfnsions fxtfnsions = nfw HflloExtfnsions();
 
-    ServerHello() {
-        // empty
+    SfrvfrHfllo() {
+        // fmpty
     }
 
-    ServerHello(HandshakeInStream input, int messageLength)
-            throws IOException {
-        protocolVersion = ProtocolVersion.valueOf(input.getInt8(),
-                                                  input.getInt8());
-        svr_random = new RandomCookie(input);
-        sessionId = new SessionId(input.getBytes8());
-        cipherSuite = CipherSuite.valueOf(input.getInt8(), input.getInt8());
-        compression_method = (byte)input.getInt8();
-        if (messageLength() != messageLength) {
-            extensions = new HelloExtensions(input);
+    SfrvfrHfllo(HbndsibkfInStrfbm input, int mfssbgfLfngti)
+            tirows IOExdfption {
+        protodolVfrsion = ProtodolVfrsion.vblufOf(input.gftInt8(),
+                                                  input.gftInt8());
+        svr_rbndom = nfw RbndomCookif(input);
+        sfssionId = nfw SfssionId(input.gftBytfs8());
+        dipifrSuitf = CipifrSuitf.vblufOf(input.gftInt8(), input.gftInt8());
+        domprfssion_mftiod = (bytf)input.gftInt8();
+        if (mfssbgfLfngti() != mfssbgfLfngti) {
+            fxtfnsions = nfw HflloExtfnsions(input);
         }
     }
 
-    @Override
-    int messageLength()
+    @Ovfrridf
+    int mfssbgfLfngti()
     {
-        // almost fixed size, except session ID and extensions:
-        //      major + minor = 2
-        //      random = 32
-        //      session ID len field = 1
-        //      cipher suite + compression = 3
-        //      extensions: if present, 2 + length of extensions
-        return 38 + sessionId.length() + extensions.length();
+        // blmost fixfd sizf, fxdfpt sfssion ID bnd fxtfnsions:
+        //      mbjor + minor = 2
+        //      rbndom = 32
+        //      sfssion ID lfn fifld = 1
+        //      dipifr suitf + domprfssion = 3
+        //      fxtfnsions: if prfsfnt, 2 + lfngti of fxtfnsions
+        rfturn 38 + sfssionId.lfngti() + fxtfnsions.lfngti();
     }
 
-    @Override
-    void send(HandshakeOutStream s) throws IOException
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption
     {
-        s.putInt8(protocolVersion.major);
-        s.putInt8(protocolVersion.minor);
-        svr_random.send(s);
-        s.putBytes8(sessionId.getId());
-        s.putInt8(cipherSuite.id >> 8);
-        s.putInt8(cipherSuite.id & 0xff);
-        s.putInt8(compression_method);
-        extensions.send(s);
+        s.putInt8(protodolVfrsion.mbjor);
+        s.putInt8(protodolVfrsion.minor);
+        svr_rbndom.sfnd(s);
+        s.putBytfs8(sfssionId.gftId());
+        s.putInt8(dipifrSuitf.id >> 8);
+        s.putInt8(dipifrSuitf.id & 0xff);
+        s.putInt8(domprfssion_mftiod);
+        fxtfnsions.sfnd(s);
     }
 
-    @Override
-    void print(PrintStream s) throws IOException
+    @Ovfrridf
+    void print(PrintStrfbm s) tirows IOExdfption
     {
-        s.println("*** ServerHello, " + protocolVersion);
+        s.println("*** SfrvfrHfllo, " + protodolVfrsion);
 
-        if (debug != null && Debug.isOn("verbose")) {
-            s.print("RandomCookie:  ");
-            svr_random.print(s);
+        if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+            s.print("RbndomCookif:  ");
+            svr_rbndom.print(s);
 
-            s.print("Session ID:  ");
-            s.println(sessionId);
+            s.print("Sfssion ID:  ");
+            s.println(sfssionId);
 
-            s.println("Cipher Suite: " + cipherSuite);
-            s.println("Compression Method: " + compression_method);
-            extensions.print(s);
+            s.println("Cipifr Suitf: " + dipifrSuitf);
+            s.println("Comprfssion Mftiod: " + domprfssion_mftiod);
+            fxtfnsions.print(s);
             s.println("***");
         }
     }
@@ -409,1090 +409,1090 @@ class ServerHello extends HandshakeMessage
 
 
 /*
- * CertificateMsg ... send by both CLIENT and SERVER
+ * CfrtifidbtfMsg ... sfnd by boti CLIENT bnd SERVER
  *
- * Each end of a connection may need to pass its certificate chain to
- * the other end.  Such chains are intended to validate an identity with
- * reference to some certifying authority.  Examples include companies
- * like Verisign, or financial institutions.  There's some control over
- * the certifying authorities which are sent.
+ * Ebdi fnd of b donnfdtion mby nffd to pbss its dfrtifidbtf dibin to
+ * tif otifr fnd.  Sudi dibins brf intfndfd to vblidbtf bn idfntity witi
+ * rfffrfndf to somf dfrtifying butiority.  Exbmplfs indludf dompbnifs
+ * likf Vfrisign, or finbndibl institutions.  Tifrf's somf dontrol ovfr
+ * tif dfrtifying butioritifs wiidi brf sfnt.
  *
- * NOTE: that these messages might be huge, taking many handshake records.
- * Up to 2^48 bytes of certificate may be sent, in records of at most 2^14
- * bytes each ... up to 2^32 records sent on the output stream.
+ * NOTE: tibt tifsf mfssbgfs migit bf iugf, tbking mbny ibndsibkf rfdords.
+ * Up to 2^48 bytfs of dfrtifidbtf mby bf sfnt, in rfdords of bt most 2^14
+ * bytfs fbdi ... up to 2^32 rfdords sfnt on tif output strfbm.
  */
-static final
-class CertificateMsg extends HandshakeMessage
+stbtid finbl
+dlbss CfrtifidbtfMsg fxtfnds HbndsibkfMfssbgf
 {
-    @Override
-    int messageType() { return ht_certificate; }
+    @Ovfrridf
+    int mfssbgfTypf() { rfturn it_dfrtifidbtf; }
 
-    private X509Certificate[] chain;
+    privbtf X509Cfrtifidbtf[] dibin;
 
-    private List<byte[]> encodedChain;
+    privbtf List<bytf[]> fndodfdCibin;
 
-    private int messageLength;
+    privbtf int mfssbgfLfngti;
 
-    CertificateMsg(X509Certificate[] certs) {
-        chain = certs;
+    CfrtifidbtfMsg(X509Cfrtifidbtf[] dfrts) {
+        dibin = dfrts;
     }
 
-    CertificateMsg(HandshakeInStream input) throws IOException {
-        int chainLen = input.getInt24();
-        List<Certificate> v = new ArrayList<>(4);
+    CfrtifidbtfMsg(HbndsibkfInStrfbm input) tirows IOExdfption {
+        int dibinLfn = input.gftInt24();
+        List<Cfrtifidbtf> v = nfw ArrbyList<>(4);
 
-        CertificateFactory cf = null;
-        while (chainLen > 0) {
-            byte[] cert = input.getBytes24();
-            chainLen -= (3 + cert.length);
+        CfrtifidbtfFbdtory df = null;
+        wiilf (dibinLfn > 0) {
+            bytf[] dfrt = input.gftBytfs24();
+            dibinLfn -= (3 + dfrt.lfngti);
             try {
-                if (cf == null) {
-                    cf = CertificateFactory.getInstance("X.509");
+                if (df == null) {
+                    df = CfrtifidbtfFbdtory.gftInstbndf("X.509");
                 }
-                v.add(cf.generateCertificate(new ByteArrayInputStream(cert)));
-            } catch (CertificateException e) {
-                throw (SSLProtocolException)new SSLProtocolException(
-                    e.getMessage()).initCause(e);
+                v.bdd(df.gfnfrbtfCfrtifidbtf(nfw BytfArrbyInputStrfbm(dfrt)));
+            } dbtdi (CfrtifidbtfExdfption f) {
+                tirow (SSLProtodolExdfption)nfw SSLProtodolExdfption(
+                    f.gftMfssbgf()).initCbusf(f);
             }
         }
 
-        chain = v.toArray(new X509Certificate[v.size()]);
+        dibin = v.toArrby(nfw X509Cfrtifidbtf[v.sizf()]);
     }
 
-    @Override
-    int messageLength() {
-        if (encodedChain == null) {
-            messageLength = 3;
-            encodedChain = new ArrayList<byte[]>(chain.length);
+    @Ovfrridf
+    int mfssbgfLfngti() {
+        if (fndodfdCibin == null) {
+            mfssbgfLfngti = 3;
+            fndodfdCibin = nfw ArrbyList<bytf[]>(dibin.lfngti);
             try {
-                for (X509Certificate cert : chain) {
-                    byte[] b = cert.getEncoded();
-                    encodedChain.add(b);
-                    messageLength += b.length + 3;
+                for (X509Cfrtifidbtf dfrt : dibin) {
+                    bytf[] b = dfrt.gftEndodfd();
+                    fndodfdCibin.bdd(b);
+                    mfssbgfLfngti += b.lfngti + 3;
                 }
-            } catch (CertificateEncodingException e) {
-                encodedChain = null;
-                throw new RuntimeException("Could not encode certificates", e);
+            } dbtdi (CfrtifidbtfEndodingExdfption f) {
+                fndodfdCibin = null;
+                tirow nfw RuntimfExdfption("Could not fndodf dfrtifidbtfs", f);
             }
         }
-        return messageLength;
+        rfturn mfssbgfLfngti;
     }
 
-    @Override
-    void send(HandshakeOutStream s) throws IOException {
-        s.putInt24(messageLength() - 3);
-        for (byte[] b : encodedChain) {
-            s.putBytes24(b);
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        s.putInt24(mfssbgfLfngti() - 3);
+        for (bytf[] b : fndodfdCibin) {
+            s.putBytfs24(b);
         }
     }
 
-    @Override
-    void print(PrintStream s) throws IOException {
-        s.println("*** Certificate chain");
+    @Ovfrridf
+    void print(PrintStrfbm s) tirows IOExdfption {
+        s.println("*** Cfrtifidbtf dibin");
 
-        if (debug != null && Debug.isOn("verbose")) {
-            for (int i = 0; i < chain.length; i++)
-                s.println("chain [" + i + "] = " + chain[i]);
+        if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+            for (int i = 0; i < dibin.lfngti; i++)
+                s.println("dibin [" + i + "] = " + dibin[i]);
             s.println("***");
         }
     }
 
-    X509Certificate[] getCertificateChain() {
-        return chain.clone();
+    X509Cfrtifidbtf[] gftCfrtifidbtfCibin() {
+        rfturn dibin.dlonf();
     }
 }
 
 /*
- * ServerKeyExchange ... SERVER --> CLIENT
+ * SfrvfrKfyExdibngf ... SERVER --> CLIENT
  *
- * The cipher suite selected, when combined with the certificate exchanged,
- * implies one of several different kinds of key exchange.  Most current
- * cipher suites require the server to send more than its certificate.
+ * Tif dipifr suitf sflfdtfd, wifn dombinfd witi tif dfrtifidbtf fxdibngfd,
+ * implifs onf of sfvfrbl difffrfnt kinds of kfy fxdibngf.  Most durrfnt
+ * dipifr suitfs rfquirf tif sfrvfr to sfnd morf tibn its dfrtifidbtf.
  *
- * The primary exceptions are when a server sends an encryption-capable
- * RSA public key in its cert, to be used with RSA (or RSA_export) key
- * exchange; and when a server sends its Diffie-Hellman cert.  Those kinds
- * of key exchange do not require a ServerKeyExchange message.
+ * Tif primbry fxdfptions brf wifn b sfrvfr sfnds bn fndryption-dbpbblf
+ * RSA publid kfy in its dfrt, to bf usfd witi RSA (or RSA_fxport) kfy
+ * fxdibngf; bnd wifn b sfrvfr sfnds its Diffif-Hfllmbn dfrt.  Tiosf kinds
+ * of kfy fxdibngf do not rfquirf b SfrvfrKfyExdibngf mfssbgf.
  *
- * Key exchange can be viewed as having three modes, which are explicit
- * for the Diffie-Hellman flavors and poorly specified for RSA ones:
+ * Kfy fxdibngf dbn bf vifwfd bs ibving tirff modfs, wiidi brf fxplidit
+ * for tif Diffif-Hfllmbn flbvors bnd poorly spfdififd for RSA onfs:
  *
- *      - "Ephemeral" keys.  Here, a "temporary" key is allocated by the
- *        server, and signed.  Diffie-Hellman keys signed using RSA or
- *        DSS are ephemeral (DHE flavor).  RSA keys get used to do the same
- *        thing, to cut the key size down to 512 bits (export restrictions)
- *        or for signing-only RSA certificates.
+ *      - "Epifmfrbl" kfys.  Hfrf, b "tfmporbry" kfy is bllodbtfd by tif
+ *        sfrvfr, bnd signfd.  Diffif-Hfllmbn kfys signfd using RSA or
+ *        DSS brf fpifmfrbl (DHE flbvor).  RSA kfys gft usfd to do tif sbmf
+ *        tiing, to dut tif kfy sizf down to 512 bits (fxport rfstridtions)
+ *        or for signing-only RSA dfrtifidbtfs.
  *
- *      - Anonymity.  Here no server certificate is sent, only the public
- *        key of the server.  This case is subject to man-in-the-middle
- *        attacks.  This can be done with Diffie-Hellman keys (DH_anon) or
- *        with RSA keys, but is only used in SSLv3 for DH_anon.
+ *      - Anonymity.  Hfrf no sfrvfr dfrtifidbtf is sfnt, only tif publid
+ *        kfy of tif sfrvfr.  Tiis dbsf is subjfdt to mbn-in-tif-middlf
+ *        bttbdks.  Tiis dbn bf donf witi Diffif-Hfllmbn kfys (DH_bnon) or
+ *        witi RSA kfys, but is only usfd in SSLv3 for DH_bnon.
  *
- *      - "Normal" case.  Here a server certificate is sent, and the public
- *        key there is used directly in exchanging the premaster secret.
- *        For example, Diffie-Hellman "DH" flavor, and any RSA flavor with
- *        only 512 bit keys.
+ *      - "Normbl" dbsf.  Hfrf b sfrvfr dfrtifidbtf is sfnt, bnd tif publid
+ *        kfy tifrf is usfd dirfdtly in fxdibnging tif prfmbstfr sfdrft.
+ *        For fxbmplf, Diffif-Hfllmbn "DH" flbvor, bnd bny RSA flbvor witi
+ *        only 512 bit kfys.
  *
- * If a server certificate is sent, there is no anonymity.  However,
- * when a certificate is sent, ephemeral keys may still be used to
- * exchange the premaster secret.  That's how RSA_EXPORT often works,
- * as well as how the DHE_* flavors work.
+ * If b sfrvfr dfrtifidbtf is sfnt, tifrf is no bnonymity.  Howfvfr,
+ * wifn b dfrtifidbtf is sfnt, fpifmfrbl kfys mby still bf usfd to
+ * fxdibngf tif prfmbstfr sfdrft.  Tibt's iow RSA_EXPORT oftfn works,
+ * bs wfll bs iow tif DHE_* flbvors work.
  */
-static abstract class ServerKeyExchange extends HandshakeMessage
+stbtid bbstrbdt dlbss SfrvfrKfyExdibngf fxtfnds HbndsibkfMfssbgf
 {
-    @Override
-    int messageType() { return ht_server_key_exchange; }
+    @Ovfrridf
+    int mfssbgfTypf() { rfturn it_sfrvfr_kfy_fxdibngf; }
 }
 
 
 /*
- * Using RSA for Key Exchange:  exchange a session key that's not as big
- * as the signing-only key.  Used for export applications, since exported
- * RSA encryption keys can't be bigger than 512 bytes.
+ * Using RSA for Kfy Exdibngf:  fxdibngf b sfssion kfy tibt's not bs big
+ * bs tif signing-only kfy.  Usfd for fxport bpplidbtions, sindf fxportfd
+ * RSA fndryption kfys dbn't bf biggfr tibn 512 bytfs.
  *
- * This is never used when keys are 512 bits or smaller, and isn't used
- * on "US Domestic" ciphers in any case.
+ * Tiis is nfvfr usfd wifn kfys brf 512 bits or smbllfr, bnd isn't usfd
+ * on "US Domfstid" dipifrs in bny dbsf.
  */
-static final
-class RSA_ServerKeyExchange extends ServerKeyExchange
+stbtid finbl
+dlbss RSA_SfrvfrKfyExdibngf fxtfnds SfrvfrKfyExdibngf
 {
-    private byte rsa_modulus[];     // 1 to 2^16 - 1 bytes
-    private byte rsa_exponent[];    // 1 to 2^16 - 1 bytes
+    privbtf bytf rsb_modulus[];     // 1 to 2^16 - 1 bytfs
+    privbtf bytf rsb_fxponfnt[];    // 1 to 2^16 - 1 bytfs
 
-    private Signature signature;
-    private byte[] signatureBytes;
+    privbtf Signbturf signbturf;
+    privbtf bytf[] signbturfBytfs;
 
     /*
-     * Hash the nonces and the ephemeral RSA public key.
+     * Hbsi tif nondfs bnd tif fpifmfrbl RSA publid kfy.
      */
-    private void updateSignature(byte clntNonce[], byte svrNonce[])
-            throws SignatureException {
+    privbtf void updbtfSignbturf(bytf dlntNondf[], bytf svrNondf[])
+            tirows SignbturfExdfption {
         int tmp;
 
-        signature.update(clntNonce);
-        signature.update(svrNonce);
+        signbturf.updbtf(dlntNondf);
+        signbturf.updbtf(svrNondf);
 
-        tmp = rsa_modulus.length;
-        signature.update((byte)(tmp >> 8));
-        signature.update((byte)(tmp & 0x0ff));
-        signature.update(rsa_modulus);
+        tmp = rsb_modulus.lfngti;
+        signbturf.updbtf((bytf)(tmp >> 8));
+        signbturf.updbtf((bytf)(tmp & 0x0ff));
+        signbturf.updbtf(rsb_modulus);
 
-        tmp = rsa_exponent.length;
-        signature.update((byte)(tmp >> 8));
-        signature.update((byte)(tmp & 0x0ff));
-        signature.update(rsa_exponent);
+        tmp = rsb_fxponfnt.lfngti;
+        signbturf.updbtf((bytf)(tmp >> 8));
+        signbturf.updbtf((bytf)(tmp & 0x0ff));
+        signbturf.updbtf(rsb_fxponfnt);
     }
 
 
     /*
-     * Construct an RSA server key exchange message, using data
-     * known _only_ to the server.
+     * Construdt bn RSA sfrvfr kfy fxdibngf mfssbgf, using dbtb
+     * known _only_ to tif sfrvfr.
      *
-     * The client knows the public key corresponding to this private
-     * key, from the Certificate message sent previously.  To comply
-     * with US export regulations we use short RSA keys ... either
-     * long term ones in the server's X509 cert, or else ephemeral
-     * ones sent using this message.
+     * Tif dlifnt knows tif publid kfy dorrfsponding to tiis privbtf
+     * kfy, from tif Cfrtifidbtf mfssbgf sfnt prfviously.  To domply
+     * witi US fxport rfgulbtions wf usf siort RSA kfys ... fitifr
+     * long tfrm onfs in tif sfrvfr's X509 dfrt, or flsf fpifmfrbl
+     * onfs sfnt using tiis mfssbgf.
      */
-    RSA_ServerKeyExchange(PublicKey ephemeralKey, PrivateKey privateKey,
-            RandomCookie clntNonce, RandomCookie svrNonce, SecureRandom sr)
-            throws GeneralSecurityException {
-        RSAPublicKeySpec rsaKey = JsseJce.getRSAPublicKeySpec(ephemeralKey);
-        rsa_modulus = toByteArray(rsaKey.getModulus());
-        rsa_exponent = toByteArray(rsaKey.getPublicExponent());
-        signature = RSASignature.getInstance();
-        signature.initSign(privateKey, sr);
-        updateSignature(clntNonce.random_bytes, svrNonce.random_bytes);
-        signatureBytes = signature.sign();
+    RSA_SfrvfrKfyExdibngf(PublidKfy fpifmfrblKfy, PrivbtfKfy privbtfKfy,
+            RbndomCookif dlntNondf, RbndomCookif svrNondf, SfdurfRbndom sr)
+            tirows GfnfrblSfdurityExdfption {
+        RSAPublidKfySpfd rsbKfy = JssfJdf.gftRSAPublidKfySpfd(fpifmfrblKfy);
+        rsb_modulus = toBytfArrby(rsbKfy.gftModulus());
+        rsb_fxponfnt = toBytfArrby(rsbKfy.gftPublidExponfnt());
+        signbturf = RSASignbturf.gftInstbndf();
+        signbturf.initSign(privbtfKfy, sr);
+        updbtfSignbturf(dlntNondf.rbndom_bytfs, svrNondf.rbndom_bytfs);
+        signbturfBytfs = signbturf.sign();
     }
 
 
     /*
-     * Parse an RSA server key exchange message, using data known
-     * to the client (and, in some situations, eavesdroppers).
+     * Pbrsf bn RSA sfrvfr kfy fxdibngf mfssbgf, using dbtb known
+     * to tif dlifnt (bnd, in somf situbtions, fbvfsdroppfrs).
      */
-    RSA_ServerKeyExchange(HandshakeInStream input)
-            throws IOException, NoSuchAlgorithmException {
-        signature = RSASignature.getInstance();
-        rsa_modulus = input.getBytes16();
-        rsa_exponent = input.getBytes16();
-        signatureBytes = input.getBytes16();
+    RSA_SfrvfrKfyExdibngf(HbndsibkfInStrfbm input)
+            tirows IOExdfption, NoSudiAlgoritimExdfption {
+        signbturf = RSASignbturf.gftInstbndf();
+        rsb_modulus = input.gftBytfs16();
+        rsb_fxponfnt = input.gftBytfs16();
+        signbturfBytfs = input.gftBytfs16();
     }
 
     /*
-     * Get the ephemeral RSA public key that will be used in this
-     * SSL connection.
+     * Gft tif fpifmfrbl RSA publid kfy tibt will bf usfd in tiis
+     * SSL donnfdtion.
      */
-    PublicKey getPublicKey() {
+    PublidKfy gftPublidKfy() {
         try {
-            KeyFactory kfac = JsseJce.getKeyFactory("RSA");
-            // modulus and exponent are always positive
-            RSAPublicKeySpec kspec = new RSAPublicKeySpec(
-                new BigInteger(1, rsa_modulus),
-                new BigInteger(1, rsa_exponent));
-            return kfac.generatePublic(kspec);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            KfyFbdtory kfbd = JssfJdf.gftKfyFbdtory("RSA");
+            // modulus bnd fxponfnt brf blwbys positivf
+            RSAPublidKfySpfd kspfd = nfw RSAPublidKfySpfd(
+                nfw BigIntfgfr(1, rsb_modulus),
+                nfw BigIntfgfr(1, rsb_fxponfnt));
+            rfturn kfbd.gfnfrbtfPublid(kspfd);
+        } dbtdi (Exdfption f) {
+            tirow nfw RuntimfExdfption(f);
         }
     }
 
     /*
-     * Verify the signed temporary key using the hashes computed
-     * from it and the two nonces.  This is called by clients
-     * with "exportable" RSA flavors.
+     * Vfrify tif signfd tfmporbry kfy using tif ibsifs domputfd
+     * from it bnd tif two nondfs.  Tiis is dbllfd by dlifnts
+     * witi "fxportbblf" RSA flbvors.
      */
-    boolean verify(PublicKey certifiedKey, RandomCookie clntNonce,
-            RandomCookie svrNonce) throws GeneralSecurityException {
-        signature.initVerify(certifiedKey);
-        updateSignature(clntNonce.random_bytes, svrNonce.random_bytes);
-        return signature.verify(signatureBytes);
+    boolfbn vfrify(PublidKfy dfrtififdKfy, RbndomCookif dlntNondf,
+            RbndomCookif svrNondf) tirows GfnfrblSfdurityExdfption {
+        signbturf.initVfrify(dfrtififdKfy);
+        updbtfSignbturf(dlntNondf.rbndom_bytfs, svrNondf.rbndom_bytfs);
+        rfturn signbturf.vfrify(signbturfBytfs);
     }
 
-    @Override
-    int messageLength() {
-        return 6 + rsa_modulus.length + rsa_exponent.length
-               + signatureBytes.length;
+    @Ovfrridf
+    int mfssbgfLfngti() {
+        rfturn 6 + rsb_modulus.lfngti + rsb_fxponfnt.lfngti
+               + signbturfBytfs.lfngti;
     }
 
-    @Override
-    void send(HandshakeOutStream s) throws IOException {
-        s.putBytes16(rsa_modulus);
-        s.putBytes16(rsa_exponent);
-        s.putBytes16(signatureBytes);
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        s.putBytfs16(rsb_modulus);
+        s.putBytfs16(rsb_fxponfnt);
+        s.putBytfs16(signbturfBytfs);
     }
 
-    @Override
-    void print(PrintStream s) throws IOException {
-        s.println("*** RSA ServerKeyExchange");
+    @Ovfrridf
+    void print(PrintStrfbm s) tirows IOExdfption {
+        s.println("*** RSA SfrvfrKfyExdibngf");
 
-        if (debug != null && Debug.isOn("verbose")) {
-            Debug.println(s, "RSA Modulus", rsa_modulus);
-            Debug.println(s, "RSA Public Exponent", rsa_exponent);
+        if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+            Dfbug.println(s, "RSA Modulus", rsb_modulus);
+            Dfbug.println(s, "RSA Publid Exponfnt", rsb_fxponfnt);
         }
     }
 }
 
 
 /*
- * Using Diffie-Hellman algorithm for key exchange.  All we really need to
- * do is securely get Diffie-Hellman keys (using the same P, G parameters)
- * to our peer, then we automatically have a shared secret without need
- * to exchange any more data.  (D-H only solutions, such as SKIP, could
- * eliminate key exchange negotiations and get faster connection setup.
- * But they still need a signature algorithm like DSS/DSA to support the
- * trusted distribution of keys without relying on unscalable physical
- * key distribution systems.)
+ * Using Diffif-Hfllmbn blgoritim for kfy fxdibngf.  All wf rfblly nffd to
+ * do is sfdurfly gft Diffif-Hfllmbn kfys (using tif sbmf P, G pbrbmftfrs)
+ * to our pffr, tifn wf butombtidblly ibvf b sibrfd sfdrft witiout nffd
+ * to fxdibngf bny morf dbtb.  (D-H only solutions, sudi bs SKIP, dould
+ * fliminbtf kfy fxdibngf nfgotibtions bnd gft fbstfr donnfdtion sftup.
+ * But tify still nffd b signbturf blgoritim likf DSS/DSA to support tif
+ * trustfd distribution of kfys witiout rflying on unsdblbblf piysidbl
+ * kfy distribution systfms.)
  *
- * This class supports several DH-based key exchange algorithms, though
- * perhaps eventually each deserves its own class.  Notably, this has
- * basic support for DH_anon and its DHE_DSS and DHE_RSA signed variants.
+ * Tiis dlbss supports sfvfrbl DH-bbsfd kfy fxdibngf blgoritims, tiougi
+ * pfribps fvfntublly fbdi dfsfrvfs its own dlbss.  Notbbly, tiis ibs
+ * bbsid support for DH_bnon bnd its DHE_DSS bnd DHE_RSA signfd vbribnts.
  */
-static final
-class DH_ServerKeyExchange extends ServerKeyExchange
+stbtid finbl
+dlbss DH_SfrvfrKfyExdibngf fxtfnds SfrvfrKfyExdibngf
 {
-    // Fix message encoding, see 4348279
-    private final static boolean dhKeyExchangeFix =
-        Debug.getBooleanProperty("com.sun.net.ssl.dhKeyExchangeFix", true);
+    // Fix mfssbgf fndoding, sff 4348279
+    privbtf finbl stbtid boolfbn diKfyExdibngfFix =
+        Dfbug.gftBoolfbnPropfrty("dom.sun.nft.ssl.diKfyExdibngfFix", truf);
 
-    private byte                dh_p [];        // 1 to 2^16 - 1 bytes
-    private byte                dh_g [];        // 1 to 2^16 - 1 bytes
-    private byte                dh_Ys [];       // 1 to 2^16 - 1 bytes
+    privbtf bytf                di_p [];        // 1 to 2^16 - 1 bytfs
+    privbtf bytf                di_g [];        // 1 to 2^16 - 1 bytfs
+    privbtf bytf                di_Ys [];       // 1 to 2^16 - 1 bytfs
 
-    private byte                signature [];
+    privbtf bytf                signbturf [];
 
-    // protocol version being established using this ServerKeyExchange message
-    ProtocolVersion protocolVersion;
+    // protodol vfrsion bfing fstbblisifd using tiis SfrvfrKfyExdibngf mfssbgf
+    ProtodolVfrsion protodolVfrsion;
 
-    // the preferable signature algorithm used by this ServerKeyExchange message
-    private SignatureAndHashAlgorithm preferableSignatureAlgorithm;
+    // tif prfffrbblf signbturf blgoritim usfd by tiis SfrvfrKfyExdibngf mfssbgf
+    privbtf SignbturfAndHbsiAlgoritim prfffrbblfSignbturfAlgoritim;
 
     /*
-     * Construct from initialized DH key object, for DH_anon
-     * key exchange.
+     * Construdt from initiblizfd DH kfy objfdt, for DH_bnon
+     * kfy fxdibngf.
      */
-    DH_ServerKeyExchange(DHCrypt obj, ProtocolVersion protocolVersion) {
-        this.protocolVersion = protocolVersion;
-        this.preferableSignatureAlgorithm = null;
+    DH_SfrvfrKfyExdibngf(DHCrypt obj, ProtodolVfrsion protodolVfrsion) {
+        tiis.protodolVfrsion = protodolVfrsion;
+        tiis.prfffrbblfSignbturfAlgoritim = null;
 
-        // The DH key has been validated in the constructor of DHCrypt.
-        setValues(obj);
-        signature = null;
+        // Tif DH kfy ibs bffn vblidbtfd in tif donstrudtor of DHCrypt.
+        sftVblufs(obj);
+        signbturf = null;
     }
 
     /*
-     * Construct from initialized DH key object and the key associated
-     * with the cert chain which was sent ... for DHE_DSS and DHE_RSA
-     * key exchange.  (Constructor called by server.)
+     * Construdt from initiblizfd DH kfy objfdt bnd tif kfy bssodibtfd
+     * witi tif dfrt dibin wiidi wbs sfnt ... for DHE_DSS bnd DHE_RSA
+     * kfy fxdibngf.  (Construdtor dbllfd by sfrvfr.)
      */
-    DH_ServerKeyExchange(DHCrypt obj, PrivateKey key, byte clntNonce[],
-            byte svrNonce[], SecureRandom sr,
-            SignatureAndHashAlgorithm signAlgorithm,
-            ProtocolVersion protocolVersion) throws GeneralSecurityException {
+    DH_SfrvfrKfyExdibngf(DHCrypt obj, PrivbtfKfy kfy, bytf dlntNondf[],
+            bytf svrNondf[], SfdurfRbndom sr,
+            SignbturfAndHbsiAlgoritim signAlgoritim,
+            ProtodolVfrsion protodolVfrsion) tirows GfnfrblSfdurityExdfption {
 
-        this.protocolVersion = protocolVersion;
+        tiis.protodolVfrsion = protodolVfrsion;
 
-        // The DH key has been validated in the constructor of DHCrypt.
-        setValues(obj);
+        // Tif DH kfy ibs bffn vblidbtfd in tif donstrudtor of DHCrypt.
+        sftVblufs(obj);
 
-        Signature sig;
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            this.preferableSignatureAlgorithm = signAlgorithm;
-            sig = JsseJce.getSignature(signAlgorithm.getAlgorithmName());
-        } else {
-            this.preferableSignatureAlgorithm = null;
-            if (key.getAlgorithm().equals("DSA")) {
-                sig = JsseJce.getSignature(JsseJce.SIGNATURE_DSA);
-            } else {
-                sig = RSASignature.getInstance();
+        Signbturf sig;
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            tiis.prfffrbblfSignbturfAlgoritim = signAlgoritim;
+            sig = JssfJdf.gftSignbturf(signAlgoritim.gftAlgoritimNbmf());
+        } flsf {
+            tiis.prfffrbblfSignbturfAlgoritim = null;
+            if (kfy.gftAlgoritim().fqubls("DSA")) {
+                sig = JssfJdf.gftSignbturf(JssfJdf.SIGNATURE_DSA);
+            } flsf {
+                sig = RSASignbturf.gftInstbndf();
             }
         }
 
-        sig.initSign(key, sr);
-        updateSignature(sig, clntNonce, svrNonce);
-        signature = sig.sign();
+        sig.initSign(kfy, sr);
+        updbtfSignbturf(sig, dlntNondf, svrNondf);
+        signbturf = sig.sign();
     }
 
     /*
-     * Construct a DH_ServerKeyExchange message from an input
-     * stream, as if sent from server to client for use with
-     * DH_anon key exchange
+     * Construdt b DH_SfrvfrKfyExdibngf mfssbgf from bn input
+     * strfbm, bs if sfnt from sfrvfr to dlifnt for usf witi
+     * DH_bnon kfy fxdibngf
      */
-    DH_ServerKeyExchange(HandshakeInStream input,
-            ProtocolVersion protocolVersion)
-            throws IOException, GeneralSecurityException {
+    DH_SfrvfrKfyExdibngf(HbndsibkfInStrfbm input,
+            ProtodolVfrsion protodolVfrsion)
+            tirows IOExdfption, GfnfrblSfdurityExdfption {
 
-        this.protocolVersion = protocolVersion;
-        this.preferableSignatureAlgorithm = null;
+        tiis.protodolVfrsion = protodolVfrsion;
+        tiis.prfffrbblfSignbturfAlgoritim = null;
 
-        dh_p = input.getBytes16();
-        dh_g = input.getBytes16();
-        dh_Ys = input.getBytes16();
-        KeyUtil.validate(new DHPublicKeySpec(new BigInteger(1, dh_Ys),
-                                             new BigInteger(1, dh_p),
-                                             new BigInteger(1, dh_g)));
+        di_p = input.gftBytfs16();
+        di_g = input.gftBytfs16();
+        di_Ys = input.gftBytfs16();
+        KfyUtil.vblidbtf(nfw DHPublidKfySpfd(nfw BigIntfgfr(1, di_Ys),
+                                             nfw BigIntfgfr(1, di_p),
+                                             nfw BigIntfgfr(1, di_g)));
 
-        signature = null;
+        signbturf = null;
     }
 
     /*
-     * Construct a DH_ServerKeyExchange message from an input stream
-     * and a certificate, as if sent from server to client for use with
-     * DHE_DSS or DHE_RSA key exchange.  (Called by client.)
+     * Construdt b DH_SfrvfrKfyExdibngf mfssbgf from bn input strfbm
+     * bnd b dfrtifidbtf, bs if sfnt from sfrvfr to dlifnt for usf witi
+     * DHE_DSS or DHE_RSA kfy fxdibngf.  (Cbllfd by dlifnt.)
      */
-    DH_ServerKeyExchange(HandshakeInStream input, PublicKey publicKey,
-            byte clntNonce[], byte svrNonce[], int messageSize,
-            Collection<SignatureAndHashAlgorithm> localSupportedSignAlgs,
-            ProtocolVersion protocolVersion)
-            throws IOException, GeneralSecurityException {
+    DH_SfrvfrKfyExdibngf(HbndsibkfInStrfbm input, PublidKfy publidKfy,
+            bytf dlntNondf[], bytf svrNondf[], int mfssbgfSizf,
+            Collfdtion<SignbturfAndHbsiAlgoritim> lodblSupportfdSignAlgs,
+            ProtodolVfrsion protodolVfrsion)
+            tirows IOExdfption, GfnfrblSfdurityExdfption {
 
-        this.protocolVersion = protocolVersion;
+        tiis.protodolVfrsion = protodolVfrsion;
 
-        // read params: ServerDHParams
-        dh_p = input.getBytes16();
-        dh_g = input.getBytes16();
-        dh_Ys = input.getBytes16();
-        KeyUtil.validate(new DHPublicKeySpec(new BigInteger(1, dh_Ys),
-                                             new BigInteger(1, dh_p),
-                                             new BigInteger(1, dh_g)));
+        // rfbd pbrbms: SfrvfrDHPbrbms
+        di_p = input.gftBytfs16();
+        di_g = input.gftBytfs16();
+        di_Ys = input.gftBytfs16();
+        KfyUtil.vblidbtf(nfw DHPublidKfySpfd(nfw BigIntfgfr(1, di_Ys),
+                                             nfw BigIntfgfr(1, di_p),
+                                             nfw BigIntfgfr(1, di_g)));
 
-        // read the signature and hash algorithm
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            int hash = input.getInt8();         // hash algorithm
-            int signature = input.getInt8();    // signature algorithm
+        // rfbd tif signbturf bnd ibsi blgoritim
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            int ibsi = input.gftInt8();         // ibsi blgoritim
+            int signbturf = input.gftInt8();    // signbturf blgoritim
 
-            preferableSignatureAlgorithm =
-                SignatureAndHashAlgorithm.valueOf(hash, signature, 0);
+            prfffrbblfSignbturfAlgoritim =
+                SignbturfAndHbsiAlgoritim.vblufOf(ibsi, signbturf, 0);
 
-            // Is it a local supported signature algorithm?
-            if (!localSupportedSignAlgs.contains(
-                    preferableSignatureAlgorithm)) {
-                throw new SSLHandshakeException(
-                        "Unsupported SignatureAndHashAlgorithm in " +
-                        "ServerKeyExchange message");
+            // Is it b lodbl supportfd signbturf blgoritim?
+            if (!lodblSupportfdSignAlgs.dontbins(
+                    prfffrbblfSignbturfAlgoritim)) {
+                tirow nfw SSLHbndsibkfExdfption(
+                        "Unsupportfd SignbturfAndHbsiAlgoritim in " +
+                        "SfrvfrKfyExdibngf mfssbgf");
             }
-        } else {
-            this.preferableSignatureAlgorithm = null;
+        } flsf {
+            tiis.prfffrbblfSignbturfAlgoritim = null;
         }
 
-        // read the signature
-        byte signature[];
-        if (dhKeyExchangeFix) {
-            signature = input.getBytes16();
-        } else {
-            messageSize -= (dh_p.length + 2);
-            messageSize -= (dh_g.length + 2);
-            messageSize -= (dh_Ys.length + 2);
+        // rfbd tif signbturf
+        bytf signbturf[];
+        if (diKfyExdibngfFix) {
+            signbturf = input.gftBytfs16();
+        } flsf {
+            mfssbgfSizf -= (di_p.lfngti + 2);
+            mfssbgfSizf -= (di_g.lfngti + 2);
+            mfssbgfSizf -= (di_Ys.lfngti + 2);
 
-            signature = new byte[messageSize];
-            input.read(signature);
+            signbturf = nfw bytf[mfssbgfSizf];
+            input.rfbd(signbturf);
         }
 
-        Signature sig;
-        String algorithm = publicKey.getAlgorithm();
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            sig = JsseJce.getSignature(
-                        preferableSignatureAlgorithm.getAlgorithmName());
-        } else {
-                switch (algorithm) {
-                    case "DSA":
-                        sig = JsseJce.getSignature(JsseJce.SIGNATURE_DSA);
-                        break;
-                    case "RSA":
-                        sig = RSASignature.getInstance();
-                        break;
-                    default:
-                        throw new SSLKeyException("neither an RSA or a DSA key");
+        Signbturf sig;
+        String blgoritim = publidKfy.gftAlgoritim();
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            sig = JssfJdf.gftSignbturf(
+                        prfffrbblfSignbturfAlgoritim.gftAlgoritimNbmf());
+        } flsf {
+                switdi (blgoritim) {
+                    dbsf "DSA":
+                        sig = JssfJdf.gftSignbturf(JssfJdf.SIGNATURE_DSA);
+                        brfbk;
+                    dbsf "RSA":
+                        sig = RSASignbturf.gftInstbndf();
+                        brfbk;
+                    dffbult:
+                        tirow nfw SSLKfyExdfption("nfitifr bn RSA or b DSA kfy");
                 }
         }
 
-        sig.initVerify(publicKey);
-        updateSignature(sig, clntNonce, svrNonce);
+        sig.initVfrify(publidKfy);
+        updbtfSignbturf(sig, dlntNondf, svrNondf);
 
-        if (sig.verify(signature) == false ) {
-            throw new SSLKeyException("Server D-H key verification failed");
+        if (sig.vfrify(signbturf) == fblsf ) {
+            tirow nfw SSLKfyExdfption("Sfrvfr D-H kfy vfrifidbtion fbilfd");
         }
     }
 
-    /* Return the Diffie-Hellman modulus */
-    BigInteger getModulus() {
-        return new BigInteger(1, dh_p);
+    /* Rfturn tif Diffif-Hfllmbn modulus */
+    BigIntfgfr gftModulus() {
+        rfturn nfw BigIntfgfr(1, di_p);
     }
 
-    /* Return the Diffie-Hellman base/generator */
-    BigInteger getBase() {
-        return new BigInteger(1, dh_g);
+    /* Rfturn tif Diffif-Hfllmbn bbsf/gfnfrbtor */
+    BigIntfgfr gftBbsf() {
+        rfturn nfw BigIntfgfr(1, di_g);
     }
 
-    /* Return the server's Diffie-Hellman public key */
-    BigInteger getServerPublicKey() {
-        return new BigInteger(1, dh_Ys);
+    /* Rfturn tif sfrvfr's Diffif-Hfllmbn publid kfy */
+    BigIntfgfr gftSfrvfrPublidKfy() {
+        rfturn nfw BigIntfgfr(1, di_Ys);
     }
 
     /*
-     * Update sig with nonces and Diffie-Hellman public key.
+     * Updbtf sig witi nondfs bnd Diffif-Hfllmbn publid kfy.
      */
-    private void updateSignature(Signature sig, byte clntNonce[],
-            byte svrNonce[]) throws SignatureException {
+    privbtf void updbtfSignbturf(Signbturf sig, bytf dlntNondf[],
+            bytf svrNondf[]) tirows SignbturfExdfption {
         int tmp;
 
-        sig.update(clntNonce);
-        sig.update(svrNonce);
+        sig.updbtf(dlntNondf);
+        sig.updbtf(svrNondf);
 
-        tmp = dh_p.length;
-        sig.update((byte)(tmp >> 8));
-        sig.update((byte)(tmp & 0x0ff));
-        sig.update(dh_p);
+        tmp = di_p.lfngti;
+        sig.updbtf((bytf)(tmp >> 8));
+        sig.updbtf((bytf)(tmp & 0x0ff));
+        sig.updbtf(di_p);
 
-        tmp = dh_g.length;
-        sig.update((byte)(tmp >> 8));
-        sig.update((byte)(tmp & 0x0ff));
-        sig.update(dh_g);
+        tmp = di_g.lfngti;
+        sig.updbtf((bytf)(tmp >> 8));
+        sig.updbtf((bytf)(tmp & 0x0ff));
+        sig.updbtf(di_g);
 
-        tmp = dh_Ys.length;
-        sig.update((byte)(tmp >> 8));
-        sig.update((byte)(tmp & 0x0ff));
-        sig.update(dh_Ys);
+        tmp = di_Ys.lfngti;
+        sig.updbtf((bytf)(tmp >> 8));
+        sig.updbtf((bytf)(tmp & 0x0ff));
+        sig.updbtf(di_Ys);
     }
 
-    private void setValues(DHCrypt obj) {
-        dh_p = toByteArray(obj.getModulus());
-        dh_g = toByteArray(obj.getBase());
-        dh_Ys = toByteArray(obj.getPublicKey());
+    privbtf void sftVblufs(DHCrypt obj) {
+        di_p = toBytfArrby(obj.gftModulus());
+        di_g = toBytfArrby(obj.gftBbsf());
+        di_Ys = toBytfArrby(obj.gftPublidKfy());
     }
 
-    @Override
-    int messageLength() {
-        int temp = 6;   // overhead for p, g, y(s) values.
+    @Ovfrridf
+    int mfssbgfLfngti() {
+        int tfmp = 6;   // ovfrifbd for p, g, y(s) vblufs.
 
-        temp += dh_p.length;
-        temp += dh_g.length;
-        temp += dh_Ys.length;
+        tfmp += di_p.lfngti;
+        tfmp += di_g.lfngti;
+        tfmp += di_Ys.lfngti;
 
-        if (signature != null) {
-            if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                temp += SignatureAndHashAlgorithm.sizeInRecord();
+        if (signbturf != null) {
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                tfmp += SignbturfAndHbsiAlgoritim.sizfInRfdord();
             }
 
-            temp += signature.length;
-            if (dhKeyExchangeFix) {
-                temp += 2;
-            }
-        }
-
-        return temp;
-    }
-
-    @Override
-    void send(HandshakeOutStream s) throws IOException {
-        s.putBytes16(dh_p);
-        s.putBytes16(dh_g);
-        s.putBytes16(dh_Ys);
-
-        if (signature != null) {
-            if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                s.putInt8(preferableSignatureAlgorithm.getHashValue());
-                s.putInt8(preferableSignatureAlgorithm.getSignatureValue());
-            }
-
-            if (dhKeyExchangeFix) {
-                s.putBytes16(signature);
-            } else {
-                s.write(signature);
+            tfmp += signbturf.lfngti;
+            if (diKfyExdibngfFix) {
+                tfmp += 2;
             }
         }
+
+        rfturn tfmp;
     }
 
-    @Override
-    void print(PrintStream s) throws IOException {
-        s.println("*** Diffie-Hellman ServerKeyExchange");
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        s.putBytfs16(di_p);
+        s.putBytfs16(di_g);
+        s.putBytfs16(di_Ys);
 
-        if (debug != null && Debug.isOn("verbose")) {
-            Debug.println(s, "DH Modulus", dh_p);
-            Debug.println(s, "DH Base", dh_g);
-            Debug.println(s, "Server DH Public Key", dh_Ys);
+        if (signbturf != null) {
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                s.putInt8(prfffrbblfSignbturfAlgoritim.gftHbsiVbluf());
+                s.putInt8(prfffrbblfSignbturfAlgoritim.gftSignbturfVbluf());
+            }
 
-            if (signature == null) {
+            if (diKfyExdibngfFix) {
+                s.putBytfs16(signbturf);
+            } flsf {
+                s.writf(signbturf);
+            }
+        }
+    }
+
+    @Ovfrridf
+    void print(PrintStrfbm s) tirows IOExdfption {
+        s.println("*** Diffif-Hfllmbn SfrvfrKfyExdibngf");
+
+        if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+            Dfbug.println(s, "DH Modulus", di_p);
+            Dfbug.println(s, "DH Bbsf", di_g);
+            Dfbug.println(s, "Sfrvfr DH Publid Kfy", di_Ys);
+
+            if (signbturf == null) {
                 s.println("Anonymous");
-            } else {
-                if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                    s.println("Signature Algorithm " +
-                        preferableSignatureAlgorithm.getAlgorithmName());
+            } flsf {
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                    s.println("Signbturf Algoritim " +
+                        prfffrbblfSignbturfAlgoritim.gftAlgoritimNbmf());
                 }
 
-                s.println("Signed with a DSA or RSA public key");
+                s.println("Signfd witi b DSA or RSA publid kfy");
             }
         }
     }
 }
 
 /*
- * ECDH server key exchange message. Sent by the server for ECDHE and ECDH_anon
- * ciphersuites to communicate its ephemeral public key (including the
- * EC domain parameters).
+ * ECDH sfrvfr kfy fxdibngf mfssbgf. Sfnt by tif sfrvfr for ECDHE bnd ECDH_bnon
+ * dipifrsuitfs to dommunidbtf its fpifmfrbl publid kfy (indluding tif
+ * EC dombin pbrbmftfrs).
  *
- * We support named curves only, no explicitly encoded curves.
+ * Wf support nbmfd durvfs only, no fxpliditly fndodfd durvfs.
  */
-static final
-class ECDH_ServerKeyExchange extends ServerKeyExchange {
+stbtid finbl
+dlbss ECDH_SfrvfrKfyExdibngf fxtfnds SfrvfrKfyExdibngf {
 
-    // constants for ECCurveType
-    private final static int CURVE_EXPLICIT_PRIME = 1;
-    private final static int CURVE_EXPLICIT_CHAR2 = 2;
-    private final static int CURVE_NAMED_CURVE    = 3;
+    // donstbnts for ECCurvfTypf
+    privbtf finbl stbtid int CURVE_EXPLICIT_PRIME = 1;
+    privbtf finbl stbtid int CURVE_EXPLICIT_CHAR2 = 2;
+    privbtf finbl stbtid int CURVE_NAMED_CURVE    = 3;
 
-    // id of the curve we are using
-    private int curveId;
-    // encoded public point
-    private byte[] pointBytes;
+    // id of tif durvf wf brf using
+    privbtf int durvfId;
+    // fndodfd publid point
+    privbtf bytf[] pointBytfs;
 
-    // signature bytes (or null if anonymous)
-    private byte[] signatureBytes;
+    // signbturf bytfs (or null if bnonymous)
+    privbtf bytf[] signbturfBytfs;
 
-    // public key object encapsulated in this message
-    private ECPublicKey publicKey;
+    // publid kfy objfdt fndbpsulbtfd in tiis mfssbgf
+    privbtf ECPublidKfy publidKfy;
 
-    // protocol version being established using this ServerKeyExchange message
-    ProtocolVersion protocolVersion;
+    // protodol vfrsion bfing fstbblisifd using tiis SfrvfrKfyExdibngf mfssbgf
+    ProtodolVfrsion protodolVfrsion;
 
-    // the preferable signature algorithm used by this ServerKeyExchange message
-    private SignatureAndHashAlgorithm preferableSignatureAlgorithm;
+    // tif prfffrbblf signbturf blgoritim usfd by tiis SfrvfrKfyExdibngf mfssbgf
+    privbtf SignbturfAndHbsiAlgoritim prfffrbblfSignbturfAlgoritim;
 
-    ECDH_ServerKeyExchange(ECDHCrypt obj, PrivateKey privateKey,
-            byte[] clntNonce, byte[] svrNonce, SecureRandom sr,
-            SignatureAndHashAlgorithm signAlgorithm,
-            ProtocolVersion protocolVersion) throws GeneralSecurityException {
+    ECDH_SfrvfrKfyExdibngf(ECDHCrypt obj, PrivbtfKfy privbtfKfy,
+            bytf[] dlntNondf, bytf[] svrNondf, SfdurfRbndom sr,
+            SignbturfAndHbsiAlgoritim signAlgoritim,
+            ProtodolVfrsion protodolVfrsion) tirows GfnfrblSfdurityExdfption {
 
-        this.protocolVersion = protocolVersion;
+        tiis.protodolVfrsion = protodolVfrsion;
 
-        publicKey = (ECPublicKey)obj.getPublicKey();
-        ECParameterSpec params = publicKey.getParams();
-        ECPoint point = publicKey.getW();
-        pointBytes = JsseJce.encodePoint(point, params.getCurve());
-        curveId = SupportedEllipticCurvesExtension.getCurveIndex(params);
+        publidKfy = (ECPublidKfy)obj.gftPublidKfy();
+        ECPbrbmftfrSpfd pbrbms = publidKfy.gftPbrbms();
+        ECPoint point = publidKfy.gftW();
+        pointBytfs = JssfJdf.fndodfPoint(point, pbrbms.gftCurvf());
+        durvfId = SupportfdElliptidCurvfsExtfnsion.gftCurvfIndfx(pbrbms);
 
-        if (privateKey == null) {
-            // ECDH_anon
-            return;
+        if (privbtfKfy == null) {
+            // ECDH_bnon
+            rfturn;
         }
 
-        Signature sig;
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            this.preferableSignatureAlgorithm = signAlgorithm;
-            sig = JsseJce.getSignature(signAlgorithm.getAlgorithmName());
-        } else {
-            sig = getSignature(privateKey.getAlgorithm());
+        Signbturf sig;
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            tiis.prfffrbblfSignbturfAlgoritim = signAlgoritim;
+            sig = JssfJdf.gftSignbturf(signAlgoritim.gftAlgoritimNbmf());
+        } flsf {
+            sig = gftSignbturf(privbtfKfy.gftAlgoritim());
         }
-        sig.initSign(privateKey);  // where is the SecureRandom?
+        sig.initSign(privbtfKfy);  // wifrf is tif SfdurfRbndom?
 
-        updateSignature(sig, clntNonce, svrNonce);
-        signatureBytes = sig.sign();
+        updbtfSignbturf(sig, dlntNondf, svrNondf);
+        signbturfBytfs = sig.sign();
     }
 
     /*
-     * Parse an ECDH server key exchange message.
+     * Pbrsf bn ECDH sfrvfr kfy fxdibngf mfssbgf.
      */
-    ECDH_ServerKeyExchange(HandshakeInStream input, PublicKey signingKey,
-            byte[] clntNonce, byte[] svrNonce,
-            Collection<SignatureAndHashAlgorithm> localSupportedSignAlgs,
-            ProtocolVersion protocolVersion)
-            throws IOException, GeneralSecurityException {
+    ECDH_SfrvfrKfyExdibngf(HbndsibkfInStrfbm input, PublidKfy signingKfy,
+            bytf[] dlntNondf, bytf[] svrNondf,
+            Collfdtion<SignbturfAndHbsiAlgoritim> lodblSupportfdSignAlgs,
+            ProtodolVfrsion protodolVfrsion)
+            tirows IOExdfption, GfnfrblSfdurityExdfption {
 
-        this.protocolVersion = protocolVersion;
+        tiis.protodolVfrsion = protodolVfrsion;
 
-        // read params: ServerECDHParams
-        int curveType = input.getInt8();
-        ECParameterSpec parameters;
-        // These parsing errors should never occur as we negotiated
-        // the supported curves during the exchange of the Hello messages.
-        if (curveType == CURVE_NAMED_CURVE) {
-            curveId = input.getInt16();
-            if (SupportedEllipticCurvesExtension.isSupported(curveId)
-                    == false) {
-                throw new SSLHandshakeException(
-                    "Unsupported curveId: " + curveId);
+        // rfbd pbrbms: SfrvfrECDHPbrbms
+        int durvfTypf = input.gftInt8();
+        ECPbrbmftfrSpfd pbrbmftfrs;
+        // Tifsf pbrsing frrors siould nfvfr oddur bs wf nfgotibtfd
+        // tif supportfd durvfs during tif fxdibngf of tif Hfllo mfssbgfs.
+        if (durvfTypf == CURVE_NAMED_CURVE) {
+            durvfId = input.gftInt16();
+            if (SupportfdElliptidCurvfsExtfnsion.isSupportfd(durvfId)
+                    == fblsf) {
+                tirow nfw SSLHbndsibkfExdfption(
+                    "Unsupportfd durvfId: " + durvfId);
             }
-            String curveOid =
-                SupportedEllipticCurvesExtension.getCurveOid(curveId);
-            if (curveOid == null) {
-                throw new SSLHandshakeException(
-                    "Unknown named curve: " + curveId);
+            String durvfOid =
+                SupportfdElliptidCurvfsExtfnsion.gftCurvfOid(durvfId);
+            if (durvfOid == null) {
+                tirow nfw SSLHbndsibkfExdfption(
+                    "Unknown nbmfd durvf: " + durvfId);
             }
-            parameters = JsseJce.getECParameterSpec(curveOid);
-            if (parameters == null) {
-                throw new SSLHandshakeException(
-                    "Unsupported curve: " + curveOid);
+            pbrbmftfrs = JssfJdf.gftECPbrbmftfrSpfd(durvfOid);
+            if (pbrbmftfrs == null) {
+                tirow nfw SSLHbndsibkfExdfption(
+                    "Unsupportfd durvf: " + durvfOid);
             }
-        } else {
-            throw new SSLHandshakeException(
-                "Unsupported ECCurveType: " + curveType);
+        } flsf {
+            tirow nfw SSLHbndsibkfExdfption(
+                "Unsupportfd ECCurvfTypf: " + durvfTypf);
         }
-        pointBytes = input.getBytes8();
+        pointBytfs = input.gftBytfs8();
 
-        ECPoint point = JsseJce.decodePoint(pointBytes, parameters.getCurve());
-        KeyFactory factory = JsseJce.getKeyFactory("EC");
-        publicKey = (ECPublicKey)factory.generatePublic(
-            new ECPublicKeySpec(point, parameters));
+        ECPoint point = JssfJdf.dfdodfPoint(pointBytfs, pbrbmftfrs.gftCurvf());
+        KfyFbdtory fbdtory = JssfJdf.gftKfyFbdtory("EC");
+        publidKfy = (ECPublidKfy)fbdtory.gfnfrbtfPublid(
+            nfw ECPublidKfySpfd(point, pbrbmftfrs));
 
-        if (signingKey == null) {
-            // ECDH_anon
-            return;
-        }
-
-        // read the signature and hash algorithm
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            int hash = input.getInt8();         // hash algorithm
-            int signature = input.getInt8();    // signature algorithm
-
-            preferableSignatureAlgorithm =
-                SignatureAndHashAlgorithm.valueOf(hash, signature, 0);
-
-            // Is it a local supported signature algorithm?
-            if (!localSupportedSignAlgs.contains(
-                    preferableSignatureAlgorithm)) {
-                throw new SSLHandshakeException(
-                        "Unsupported SignatureAndHashAlgorithm in " +
-                        "ServerKeyExchange message");
-            }
+        if (signingKfy == null) {
+            // ECDH_bnon
+            rfturn;
         }
 
-        // read the signature
-        signatureBytes = input.getBytes16();
+        // rfbd tif signbturf bnd ibsi blgoritim
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            int ibsi = input.gftInt8();         // ibsi blgoritim
+            int signbturf = input.gftInt8();    // signbturf blgoritim
 
-        // verify the signature
-        Signature sig;
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            sig = JsseJce.getSignature(
-                        preferableSignatureAlgorithm.getAlgorithmName());
-        } else {
-            sig = getSignature(signingKey.getAlgorithm());
+            prfffrbblfSignbturfAlgoritim =
+                SignbturfAndHbsiAlgoritim.vblufOf(ibsi, signbturf, 0);
+
+            // Is it b lodbl supportfd signbturf blgoritim?
+            if (!lodblSupportfdSignAlgs.dontbins(
+                    prfffrbblfSignbturfAlgoritim)) {
+                tirow nfw SSLHbndsibkfExdfption(
+                        "Unsupportfd SignbturfAndHbsiAlgoritim in " +
+                        "SfrvfrKfyExdibngf mfssbgf");
+            }
         }
-        sig.initVerify(signingKey);
 
-        updateSignature(sig, clntNonce, svrNonce);
+        // rfbd tif signbturf
+        signbturfBytfs = input.gftBytfs16();
 
-        if (sig.verify(signatureBytes) == false ) {
-            throw new SSLKeyException(
-                "Invalid signature on ECDH server key exchange message");
+        // vfrify tif signbturf
+        Signbturf sig;
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            sig = JssfJdf.gftSignbturf(
+                        prfffrbblfSignbturfAlgoritim.gftAlgoritimNbmf());
+        } flsf {
+            sig = gftSignbturf(signingKfy.gftAlgoritim());
+        }
+        sig.initVfrify(signingKfy);
+
+        updbtfSignbturf(sig, dlntNondf, svrNondf);
+
+        if (sig.vfrify(signbturfBytfs) == fblsf ) {
+            tirow nfw SSLKfyExdfption(
+                "Invblid signbturf on ECDH sfrvfr kfy fxdibngf mfssbgf");
         }
     }
 
     /*
-     * Get the ephemeral EC public key encapsulated in this message.
+     * Gft tif fpifmfrbl EC publid kfy fndbpsulbtfd in tiis mfssbgf.
      */
-    ECPublicKey getPublicKey() {
-        return publicKey;
+    ECPublidKfy gftPublidKfy() {
+        rfturn publidKfy;
     }
 
-    private static Signature getSignature(String keyAlgorithm)
-            throws NoSuchAlgorithmException {
-            switch (keyAlgorithm) {
-                case "EC":
-                    return JsseJce.getSignature(JsseJce.SIGNATURE_ECDSA);
-                case "RSA":
-                    return RSASignature.getInstance();
-                default:
-                    throw new NoSuchAlgorithmException("neither an RSA or a EC key");
+    privbtf stbtid Signbturf gftSignbturf(String kfyAlgoritim)
+            tirows NoSudiAlgoritimExdfption {
+            switdi (kfyAlgoritim) {
+                dbsf "EC":
+                    rfturn JssfJdf.gftSignbturf(JssfJdf.SIGNATURE_ECDSA);
+                dbsf "RSA":
+                    rfturn RSASignbturf.gftInstbndf();
+                dffbult:
+                    tirow nfw NoSudiAlgoritimExdfption("nfitifr bn RSA or b EC kfy");
             }
     }
 
-    private void updateSignature(Signature sig, byte clntNonce[],
-            byte svrNonce[]) throws SignatureException {
-        sig.update(clntNonce);
-        sig.update(svrNonce);
+    privbtf void updbtfSignbturf(Signbturf sig, bytf dlntNondf[],
+            bytf svrNondf[]) tirows SignbturfExdfption {
+        sig.updbtf(dlntNondf);
+        sig.updbtf(svrNondf);
 
-        sig.update((byte)CURVE_NAMED_CURVE);
-        sig.update((byte)(curveId >> 8));
-        sig.update((byte)curveId);
-        sig.update((byte)pointBytes.length);
-        sig.update(pointBytes);
+        sig.updbtf((bytf)CURVE_NAMED_CURVE);
+        sig.updbtf((bytf)(durvfId >> 8));
+        sig.updbtf((bytf)durvfId);
+        sig.updbtf((bytf)pointBytfs.lfngti);
+        sig.updbtf(pointBytfs);
     }
 
-    @Override
-    int messageLength() {
-        int sigLen = 0;
-        if (signatureBytes != null) {
-            sigLen = 2 + signatureBytes.length;
-            if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                sigLen += SignatureAndHashAlgorithm.sizeInRecord();
+    @Ovfrridf
+    int mfssbgfLfngti() {
+        int sigLfn = 0;
+        if (signbturfBytfs != null) {
+            sigLfn = 2 + signbturfBytfs.lfngti;
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                sigLfn += SignbturfAndHbsiAlgoritim.sizfInRfdord();
             }
         }
 
-        return 4 + pointBytes.length + sigLen;
+        rfturn 4 + pointBytfs.lfngti + sigLfn;
     }
 
-    @Override
-    void send(HandshakeOutStream s) throws IOException {
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
         s.putInt8(CURVE_NAMED_CURVE);
-        s.putInt16(curveId);
-        s.putBytes8(pointBytes);
+        s.putInt16(durvfId);
+        s.putBytfs8(pointBytfs);
 
-        if (signatureBytes != null) {
-            if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                s.putInt8(preferableSignatureAlgorithm.getHashValue());
-                s.putInt8(preferableSignatureAlgorithm.getSignatureValue());
+        if (signbturfBytfs != null) {
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                s.putInt8(prfffrbblfSignbturfAlgoritim.gftHbsiVbluf());
+                s.putInt8(prfffrbblfSignbturfAlgoritim.gftSignbturfVbluf());
             }
 
-            s.putBytes16(signatureBytes);
+            s.putBytfs16(signbturfBytfs);
         }
     }
 
-    @Override
-    void print(PrintStream s) throws IOException {
-        s.println("*** ECDH ServerKeyExchange");
+    @Ovfrridf
+    void print(PrintStrfbm s) tirows IOExdfption {
+        s.println("*** ECDH SfrvfrKfyExdibngf");
 
-        if (debug != null && Debug.isOn("verbose")) {
-            if (signatureBytes == null) {
+        if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+            if (signbturfBytfs == null) {
                 s.println("Anonymous");
-            } else {
-                if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                    s.println("Signature Algorithm " +
-                            preferableSignatureAlgorithm.getAlgorithmName());
+            } flsf {
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                    s.println("Signbturf Algoritim " +
+                            prfffrbblfSignbturfAlgoritim.gftAlgoritimNbmf());
                 }
             }
 
-            s.println("Server key: " + publicKey);
+            s.println("Sfrvfr kfy: " + publidKfy);
         }
     }
 }
 
-static final class DistinguishedName {
+stbtid finbl dlbss DistinguisifdNbmf {
 
     /*
-     * DER encoded distinguished name.
-     * TLS requires that its not longer than 65535 bytes.
+     * DER fndodfd distinguisifd nbmf.
+     * TLS rfquirfs tibt its not longfr tibn 65535 bytfs.
      */
-    byte name[];
+    bytf nbmf[];
 
-    DistinguishedName(HandshakeInStream input) throws IOException {
-        name = input.getBytes16();
+    DistinguisifdNbmf(HbndsibkfInStrfbm input) tirows IOExdfption {
+        nbmf = input.gftBytfs16();
     }
 
-    DistinguishedName(X500Principal dn) {
-        name = dn.getEncoded();
+    DistinguisifdNbmf(X500Prindipbl dn) {
+        nbmf = dn.gftEndodfd();
     }
 
-    X500Principal getX500Principal() throws IOException {
+    X500Prindipbl gftX500Prindipbl() tirows IOExdfption {
         try {
-            return new X500Principal(name);
-        } catch (IllegalArgumentException e) {
-            throw (SSLProtocolException)new SSLProtocolException(
-                e.getMessage()).initCause(e);
+            rfturn nfw X500Prindipbl(nbmf);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow (SSLProtodolExdfption)nfw SSLProtodolExdfption(
+                f.gftMfssbgf()).initCbusf(f);
         }
     }
 
-    int length() {
-        return 2 + name.length;
+    int lfngti() {
+        rfturn 2 + nbmf.lfngti;
     }
 
-    void send(HandshakeOutStream output) throws IOException {
-        output.putBytes16(name);
+    void sfnd(HbndsibkfOutStrfbm output) tirows IOExdfption {
+        output.putBytfs16(nbmf);
     }
 
-    void print(PrintStream output) throws IOException {
-        X500Principal principal = new X500Principal(name);
-        output.println("<" + principal.toString() + ">");
+    void print(PrintStrfbm output) tirows IOExdfption {
+        X500Prindipbl prindipbl = nfw X500Prindipbl(nbmf);
+        output.println("<" + prindipbl.toString() + ">");
     }
 }
 
 /*
- * CertificateRequest ... SERVER --> CLIENT
+ * CfrtifidbtfRfqufst ... SERVER --> CLIENT
  *
- * Authenticated servers may ask clients to authenticate themselves
- * in turn, using this message.
+ * Autifntidbtfd sfrvfrs mby bsk dlifnts to butifntidbtf tifmsflvfs
+ * in turn, using tiis mfssbgf.
  *
- * Prior to TLS 1.2, the structure of the message is defined as:
- *     struct {
- *         ClientCertificateType certificate_types<1..2^8-1>;
- *         DistinguishedName certificate_authorities<0..2^16-1>;
- *     } CertificateRequest;
+ * Prior to TLS 1.2, tif strudturf of tif mfssbgf is dffinfd bs:
+ *     strudt {
+ *         ClifntCfrtifidbtfTypf dfrtifidbtf_typfs<1..2^8-1>;
+ *         DistinguisifdNbmf dfrtifidbtf_butioritifs<0..2^16-1>;
+ *     } CfrtifidbtfRfqufst;
  *
- * In TLS 1.2, the structure is changed to:
- *     struct {
- *         ClientCertificateType certificate_types<1..2^8-1>;
- *         SignatureAndHashAlgorithm
- *           supported_signature_algorithms<2^16-1>;
- *         DistinguishedName certificate_authorities<0..2^16-1>;
- *     } CertificateRequest;
+ * In TLS 1.2, tif strudturf is dibngfd to:
+ *     strudt {
+ *         ClifntCfrtifidbtfTypf dfrtifidbtf_typfs<1..2^8-1>;
+ *         SignbturfAndHbsiAlgoritim
+ *           supportfd_signbturf_blgoritims<2^16-1>;
+ *         DistinguisifdNbmf dfrtifidbtf_butioritifs<0..2^16-1>;
+ *     } CfrtifidbtfRfqufst;
  *
  */
-static final
-class CertificateRequest extends HandshakeMessage
+stbtid finbl
+dlbss CfrtifidbtfRfqufst fxtfnds HbndsibkfMfssbgf
 {
-    // enum ClientCertificateType
-    static final int   cct_rsa_sign = 1;
-    static final int   cct_dss_sign = 2;
-    static final int   cct_rsa_fixed_dh = 3;
-    static final int   cct_dss_fixed_dh = 4;
+    // fnum ClifntCfrtifidbtfTypf
+    stbtid finbl int   ddt_rsb_sign = 1;
+    stbtid finbl int   ddt_dss_sign = 2;
+    stbtid finbl int   ddt_rsb_fixfd_di = 3;
+    stbtid finbl int   ddt_dss_fixfd_di = 4;
 
-    // The existance of these two values is a bug in the SSL specification.
-    // They are never used in the protocol.
-    static final int   cct_rsa_ephemeral_dh = 5;
-    static final int   cct_dss_ephemeral_dh = 6;
+    // Tif fxistbndf of tifsf two vblufs is b bug in tif SSL spfdifidbtion.
+    // Tify brf nfvfr usfd in tif protodol.
+    stbtid finbl int   ddt_rsb_fpifmfrbl_di = 5;
+    stbtid finbl int   ddt_dss_fpifmfrbl_di = 6;
 
     // From RFC 4492 (ECC)
-    static final int    cct_ecdsa_sign       = 64;
-    static final int    cct_rsa_fixed_ecdh   = 65;
-    static final int    cct_ecdsa_fixed_ecdh = 66;
+    stbtid finbl int    ddt_fddsb_sign       = 64;
+    stbtid finbl int    ddt_rsb_fixfd_fddi   = 65;
+    stbtid finbl int    ddt_fddsb_fixfd_fddi = 66;
 
-    private final static byte[] TYPES_NO_ECC = { cct_rsa_sign, cct_dss_sign };
-    private final static byte[] TYPES_ECC =
-        { cct_rsa_sign, cct_dss_sign, cct_ecdsa_sign };
+    privbtf finbl stbtid bytf[] TYPES_NO_ECC = { ddt_rsb_sign, ddt_dss_sign };
+    privbtf finbl stbtid bytf[] TYPES_ECC =
+        { ddt_rsb_sign, ddt_dss_sign, ddt_fddsb_sign };
 
-    byte                types [];               // 1 to 255 types
-    DistinguishedName   authorities [];         // 3 to 2^16 - 1
-        // ... "3" because that's the smallest DER-encoded X500 DN
+    bytf                typfs [];               // 1 to 255 typfs
+    DistinguisifdNbmf   butioritifs [];         // 3 to 2^16 - 1
+        // ... "3" bfdbusf tibt's tif smbllfst DER-fndodfd X500 DN
 
-    // protocol version being established using this CertificateRequest message
-    ProtocolVersion protocolVersion;
+    // protodol vfrsion bfing fstbblisifd using tiis CfrtifidbtfRfqufst mfssbgf
+    ProtodolVfrsion protodolVfrsion;
 
-    // supported_signature_algorithms for TLS 1.2 or later
-    private Collection<SignatureAndHashAlgorithm> algorithms;
+    // supportfd_signbturf_blgoritims for TLS 1.2 or lbtfr
+    privbtf Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims;
 
-    // length of supported_signature_algorithms
-    private int algorithmsLen;
+    // lfngti of supportfd_signbturf_blgoritims
+    privbtf int blgoritimsLfn;
 
-    CertificateRequest(X509Certificate ca[], KeyExchange keyExchange,
-            Collection<SignatureAndHashAlgorithm> signAlgs,
-            ProtocolVersion protocolVersion) throws IOException {
+    CfrtifidbtfRfqufst(X509Cfrtifidbtf db[], KfyExdibngf kfyExdibngf,
+            Collfdtion<SignbturfAndHbsiAlgoritim> signAlgs,
+            ProtodolVfrsion protodolVfrsion) tirows IOExdfption {
 
-        this.protocolVersion = protocolVersion;
+        tiis.protodolVfrsion = protodolVfrsion;
 
-        // always use X500Principal
-        authorities = new DistinguishedName[ca.length];
-        for (int i = 0; i < ca.length; i++) {
-            X500Principal x500Principal = ca[i].getSubjectX500Principal();
-            authorities[i] = new DistinguishedName(x500Principal);
+        // blwbys usf X500Prindipbl
+        butioritifs = nfw DistinguisifdNbmf[db.lfngti];
+        for (int i = 0; i < db.lfngti; i++) {
+            X500Prindipbl x500Prindipbl = db[i].gftSubjfdtX500Prindipbl();
+            butioritifs[i] = nfw DistinguisifdNbmf(x500Prindipbl);
         }
-        // we support RSA, DSS, and ECDSA client authentication and they
-        // can be used with all ciphersuites. If this changes, the code
-        // needs to be adapted to take keyExchange into account.
-        // We only request ECDSA client auth if we have ECC crypto available.
-        this.types = JsseJce.isEcAvailable() ? TYPES_ECC : TYPES_NO_ECC;
+        // wf support RSA, DSS, bnd ECDSA dlifnt butifntidbtion bnd tify
+        // dbn bf usfd witi bll dipifrsuitfs. If tiis dibngfs, tif dodf
+        // nffds to bf bdbptfd to tbkf kfyExdibngf into bddount.
+        // Wf only rfqufst ECDSA dlifnt buti if wf ibvf ECC drypto bvbilbblf.
+        tiis.typfs = JssfJdf.isEdAvbilbblf() ? TYPES_ECC : TYPES_NO_ECC;
 
-        // Use supported_signature_algorithms for TLS 1.2 or later.
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
+        // Usf supportfd_signbturf_blgoritims for TLS 1.2 or lbtfr.
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
             if (signAlgs == null || signAlgs.isEmpty()) {
-                throw new SSLProtocolException(
-                        "No supported signature algorithms");
+                tirow nfw SSLProtodolExdfption(
+                        "No supportfd signbturf blgoritims");
             }
 
-            algorithms = new ArrayList<SignatureAndHashAlgorithm>(signAlgs);
-            algorithmsLen =
-                SignatureAndHashAlgorithm.sizeInRecord() * algorithms.size();
-        } else {
-            algorithms = new ArrayList<SignatureAndHashAlgorithm>();
-            algorithmsLen = 0;
+            blgoritims = nfw ArrbyList<SignbturfAndHbsiAlgoritim>(signAlgs);
+            blgoritimsLfn =
+                SignbturfAndHbsiAlgoritim.sizfInRfdord() * blgoritims.sizf();
+        } flsf {
+            blgoritims = nfw ArrbyList<SignbturfAndHbsiAlgoritim>();
+            blgoritimsLfn = 0;
         }
     }
 
-    CertificateRequest(HandshakeInStream input,
-            ProtocolVersion protocolVersion) throws IOException {
+    CfrtifidbtfRfqufst(HbndsibkfInStrfbm input,
+            ProtodolVfrsion protodolVfrsion) tirows IOExdfption {
 
-        this.protocolVersion = protocolVersion;
+        tiis.protodolVfrsion = protodolVfrsion;
 
-        // Read the certificate_types.
-        types = input.getBytes8();
+        // Rfbd tif dfrtifidbtf_typfs.
+        typfs = input.gftBytfs8();
 
-        // Read the supported_signature_algorithms for TLS 1.2 or later.
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            algorithmsLen = input.getInt16();
-            if (algorithmsLen < 2) {
-                throw new SSLProtocolException(
-                        "Invalid supported_signature_algorithms field");
+        // Rfbd tif supportfd_signbturf_blgoritims for TLS 1.2 or lbtfr.
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            blgoritimsLfn = input.gftInt16();
+            if (blgoritimsLfn < 2) {
+                tirow nfw SSLProtodolExdfption(
+                        "Invblid supportfd_signbturf_blgoritims fifld");
             }
 
-            algorithms = new ArrayList<SignatureAndHashAlgorithm>();
-            int remains = algorithmsLen;
-            int sequence = 0;
-            while (remains > 1) {    // needs at least two bytes
-                int hash = input.getInt8();         // hash algorithm
-                int signature = input.getInt8();    // signature algorithm
+            blgoritims = nfw ArrbyList<SignbturfAndHbsiAlgoritim>();
+            int rfmbins = blgoritimsLfn;
+            int sfqufndf = 0;
+            wiilf (rfmbins > 1) {    // nffds bt lfbst two bytfs
+                int ibsi = input.gftInt8();         // ibsi blgoritim
+                int signbturf = input.gftInt8();    // signbturf blgoritim
 
-                SignatureAndHashAlgorithm algorithm =
-                    SignatureAndHashAlgorithm.valueOf(hash, signature,
-                                                                ++sequence);
-                algorithms.add(algorithm);
-                remains -= 2;  // one byte for hash, one byte for signature
+                SignbturfAndHbsiAlgoritim blgoritim =
+                    SignbturfAndHbsiAlgoritim.vblufOf(ibsi, signbturf,
+                                                                ++sfqufndf);
+                blgoritims.bdd(blgoritim);
+                rfmbins -= 2;  // onf bytf for ibsi, onf bytf for signbturf
             }
 
-            if (remains != 0) {
-                throw new SSLProtocolException(
-                        "Invalid supported_signature_algorithms field");
+            if (rfmbins != 0) {
+                tirow nfw SSLProtodolExdfption(
+                        "Invblid supportfd_signbturf_blgoritims fifld");
             }
-        } else {
-            algorithms = new ArrayList<SignatureAndHashAlgorithm>();
-            algorithmsLen = 0;
+        } flsf {
+            blgoritims = nfw ArrbyList<SignbturfAndHbsiAlgoritim>();
+            blgoritimsLfn = 0;
         }
 
-        // read the certificate_authorities
-        int len = input.getInt16();
-        ArrayList<DistinguishedName> v = new ArrayList<>();
-        while (len >= 3) {
-            DistinguishedName dn = new DistinguishedName(input);
-            v.add(dn);
-            len -= dn.length();
+        // rfbd tif dfrtifidbtf_butioritifs
+        int lfn = input.gftInt16();
+        ArrbyList<DistinguisifdNbmf> v = nfw ArrbyList<>();
+        wiilf (lfn >= 3) {
+            DistinguisifdNbmf dn = nfw DistinguisifdNbmf(input);
+            v.bdd(dn);
+            lfn -= dn.lfngti();
         }
 
-        if (len != 0) {
-            throw new SSLProtocolException("Bad CertificateRequest DN length");
+        if (lfn != 0) {
+            tirow nfw SSLProtodolExdfption("Bbd CfrtifidbtfRfqufst DN lfngti");
         }
 
-        authorities = v.toArray(new DistinguishedName[v.size()]);
+        butioritifs = v.toArrby(nfw DistinguisifdNbmf[v.sizf()]);
     }
 
-    X500Principal[] getAuthorities() throws IOException {
-        X500Principal[] ret = new X500Principal[authorities.length];
-        for (int i = 0; i < authorities.length; i++) {
-            ret[i] = authorities[i].getX500Principal();
+    X500Prindipbl[] gftAutioritifs() tirows IOExdfption {
+        X500Prindipbl[] rft = nfw X500Prindipbl[butioritifs.lfngti];
+        for (int i = 0; i < butioritifs.lfngti; i++) {
+            rft[i] = butioritifs[i].gftX500Prindipbl();
         }
-        return ret;
+        rfturn rft;
     }
 
-    Collection<SignatureAndHashAlgorithm> getSignAlgorithms() {
-        return algorithms;
+    Collfdtion<SignbturfAndHbsiAlgoritim> gftSignAlgoritims() {
+        rfturn blgoritims;
     }
 
-    @Override
-    int messageType() {
-        return ht_certificate_request;
+    @Ovfrridf
+    int mfssbgfTypf() {
+        rfturn it_dfrtifidbtf_rfqufst;
     }
 
-    @Override
-    int messageLength() {
-        int len = 1 + types.length + 2;
+    @Ovfrridf
+    int mfssbgfLfngti() {
+        int lfn = 1 + typfs.lfngti + 2;
 
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            len += algorithmsLen + 2;
-        }
-
-        for (int i = 0; i < authorities.length; i++) {
-            len += authorities[i].length();
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            lfn += blgoritimsLfn + 2;
         }
 
-        return len;
+        for (int i = 0; i < butioritifs.lfngti; i++) {
+            lfn += butioritifs[i].lfngti();
+        }
+
+        rfturn lfn;
     }
 
-    @Override
-    void send(HandshakeOutStream output) throws IOException {
-        // put certificate_types
-        output.putBytes8(types);
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm output) tirows IOExdfption {
+        // put dfrtifidbtf_typfs
+        output.putBytfs8(typfs);
 
-        // put supported_signature_algorithms
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            output.putInt16(algorithmsLen);
-            for (SignatureAndHashAlgorithm algorithm : algorithms) {
-                output.putInt8(algorithm.getHashValue());      // hash
-                output.putInt8(algorithm.getSignatureValue()); // signature
+        // put supportfd_signbturf_blgoritims
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            output.putInt16(blgoritimsLfn);
+            for (SignbturfAndHbsiAlgoritim blgoritim : blgoritims) {
+                output.putInt8(blgoritim.gftHbsiVbluf());      // ibsi
+                output.putInt8(blgoritim.gftSignbturfVbluf()); // signbturf
             }
         }
 
-        // put certificate_authorities
-        int len = 0;
-        for (int i = 0; i < authorities.length; i++) {
-            len += authorities[i].length();
+        // put dfrtifidbtf_butioritifs
+        int lfn = 0;
+        for (int i = 0; i < butioritifs.lfngti; i++) {
+            lfn += butioritifs[i].lfngti();
         }
 
-        output.putInt16(len);
-        for (int i = 0; i < authorities.length; i++) {
-            authorities[i].send(output);
+        output.putInt16(lfn);
+        for (int i = 0; i < butioritifs.lfngti; i++) {
+            butioritifs[i].sfnd(output);
         }
     }
 
-    @Override
-    void print(PrintStream s) throws IOException {
-        s.println("*** CertificateRequest");
+    @Ovfrridf
+    void print(PrintStrfbm s) tirows IOExdfption {
+        s.println("*** CfrtifidbtfRfqufst");
 
-        if (debug != null && Debug.isOn("verbose")) {
-            s.print("Cert Types: ");
-            for (int i = 0; i < types.length; i++) {
-                switch (types[i]) {
-                  case cct_rsa_sign:
-                    s.print("RSA"); break;
-                  case cct_dss_sign:
-                    s.print("DSS"); break;
-                  case cct_rsa_fixed_dh:
-                    s.print("Fixed DH (RSA sig)"); break;
-                  case cct_dss_fixed_dh:
-                    s.print("Fixed DH (DSS sig)"); break;
-                  case cct_rsa_ephemeral_dh:
-                    s.print("Ephemeral DH (RSA sig)"); break;
-                  case cct_dss_ephemeral_dh:
-                    s.print("Ephemeral DH (DSS sig)"); break;
-                  case cct_ecdsa_sign:
-                    s.print("ECDSA"); break;
-                  case cct_rsa_fixed_ecdh:
-                    s.print("Fixed ECDH (RSA sig)"); break;
-                  case cct_ecdsa_fixed_ecdh:
-                    s.print("Fixed ECDH (ECDSA sig)"); break;
-                  default:
-                    s.print("Type-" + (types[i] & 0xff)); break;
+        if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+            s.print("Cfrt Typfs: ");
+            for (int i = 0; i < typfs.lfngti; i++) {
+                switdi (typfs[i]) {
+                  dbsf ddt_rsb_sign:
+                    s.print("RSA"); brfbk;
+                  dbsf ddt_dss_sign:
+                    s.print("DSS"); brfbk;
+                  dbsf ddt_rsb_fixfd_di:
+                    s.print("Fixfd DH (RSA sig)"); brfbk;
+                  dbsf ddt_dss_fixfd_di:
+                    s.print("Fixfd DH (DSS sig)"); brfbk;
+                  dbsf ddt_rsb_fpifmfrbl_di:
+                    s.print("Epifmfrbl DH (RSA sig)"); brfbk;
+                  dbsf ddt_dss_fpifmfrbl_di:
+                    s.print("Epifmfrbl DH (DSS sig)"); brfbk;
+                  dbsf ddt_fddsb_sign:
+                    s.print("ECDSA"); brfbk;
+                  dbsf ddt_rsb_fixfd_fddi:
+                    s.print("Fixfd ECDH (RSA sig)"); brfbk;
+                  dbsf ddt_fddsb_fixfd_fddi:
+                    s.print("Fixfd ECDH (ECDSA sig)"); brfbk;
+                  dffbult:
+                    s.print("Typf-" + (typfs[i] & 0xff)); brfbk;
                 }
-                if (i != types.length - 1) {
+                if (i != typfs.lfngti - 1) {
                     s.print(", ");
                 }
             }
             s.println();
 
-            if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                StringBuilder sb = new StringBuilder();
-                boolean opened = false;
-                for (SignatureAndHashAlgorithm signAlg : algorithms) {
-                    if (opened) {
-                        sb.append(", " + signAlg.getAlgorithmName());
-                    } else {
-                        sb.append(signAlg.getAlgorithmName());
-                        opened = true;
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                StringBuildfr sb = nfw StringBuildfr();
+                boolfbn opfnfd = fblsf;
+                for (SignbturfAndHbsiAlgoritim signAlg : blgoritims) {
+                    if (opfnfd) {
+                        sb.bppfnd(", " + signAlg.gftAlgoritimNbmf());
+                    } flsf {
+                        sb.bppfnd(signAlg.gftAlgoritimNbmf());
+                        opfnfd = truf;
                     }
                 }
-                s.println("Supported Signature Algorithms: " + sb);
+                s.println("Supportfd Signbturf Algoritims: " + sb);
             }
 
-            s.println("Cert Authorities:");
-            if (authorities.length == 0) {
+            s.println("Cfrt Autioritifs:");
+            if (butioritifs.lfngti == 0) {
                 s.println("<Empty>");
-            } else {
-                for (int i = 0; i < authorities.length; i++) {
-                    authorities[i].print(s);
+            } flsf {
+                for (int i = 0; i < butioritifs.lfngti; i++) {
+                    butioritifs[i].print(s);
                 }
             }
         }
@@ -1501,336 +1501,336 @@ class CertificateRequest extends HandshakeMessage
 
 
 /*
- * ServerHelloDone ... SERVER --> CLIENT
+ * SfrvfrHflloDonf ... SERVER --> CLIENT
  *
- * When server's done sending its messages in response to the client's
- * "hello" (e.g. its own hello, certificate, key exchange message, perhaps
- * client certificate request) it sends this message to flag that it's
- * done that part of the handshake.
+ * Wifn sfrvfr's donf sfnding its mfssbgfs in rfsponsf to tif dlifnt's
+ * "ifllo" (f.g. its own ifllo, dfrtifidbtf, kfy fxdibngf mfssbgf, pfribps
+ * dlifnt dfrtifidbtf rfqufst) it sfnds tiis mfssbgf to flbg tibt it's
+ * donf tibt pbrt of tif ibndsibkf.
  */
-static final
-class ServerHelloDone extends HandshakeMessage
+stbtid finbl
+dlbss SfrvfrHflloDonf fxtfnds HbndsibkfMfssbgf
 {
-    @Override
-    int messageType() { return ht_server_hello_done; }
+    @Ovfrridf
+    int mfssbgfTypf() { rfturn it_sfrvfr_ifllo_donf; }
 
-    ServerHelloDone() { }
+    SfrvfrHflloDonf() { }
 
-    ServerHelloDone(HandshakeInStream input)
+    SfrvfrHflloDonf(HbndsibkfInStrfbm input)
     {
-        // nothing to do
+        // notiing to do
     }
 
-    @Override
-    int messageLength()
+    @Ovfrridf
+    int mfssbgfLfngti()
     {
-        return 0;
+        rfturn 0;
     }
 
-    @Override
-    void send(HandshakeOutStream s) throws IOException
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption
     {
-        // nothing to send
+        // notiing to sfnd
     }
 
-    @Override
-    void print(PrintStream s) throws IOException
+    @Ovfrridf
+    void print(PrintStrfbm s) tirows IOExdfption
     {
-        s.println("*** ServerHelloDone");
+        s.println("*** SfrvfrHflloDonf");
     }
 }
 
 
 /*
- * CertificateVerify ... CLIENT --> SERVER
+ * CfrtifidbtfVfrify ... CLIENT --> SERVER
  *
- * Sent after client sends signature-capable certificates (e.g. not
- * Diffie-Hellman) to verify.
+ * Sfnt bftfr dlifnt sfnds signbturf-dbpbblf dfrtifidbtfs (f.g. not
+ * Diffif-Hfllmbn) to vfrify.
  */
-static final class CertificateVerify extends HandshakeMessage {
+stbtid finbl dlbss CfrtifidbtfVfrify fxtfnds HbndsibkfMfssbgf {
 
-    // the signature bytes
-    private byte[] signature;
+    // tif signbturf bytfs
+    privbtf bytf[] signbturf;
 
-    // protocol version being established using this ServerKeyExchange message
-    ProtocolVersion protocolVersion;
+    // protodol vfrsion bfing fstbblisifd using tiis SfrvfrKfyExdibngf mfssbgf
+    ProtodolVfrsion protodolVfrsion;
 
-    // the preferable signature algorithm used by this CertificateVerify message
-    private SignatureAndHashAlgorithm preferableSignatureAlgorithm = null;
+    // tif prfffrbblf signbturf blgoritim usfd by tiis CfrtifidbtfVfrify mfssbgf
+    privbtf SignbturfAndHbsiAlgoritim prfffrbblfSignbturfAlgoritim = null;
 
     /*
-     * Create an RSA or DSA signed certificate verify message.
+     * Crfbtf bn RSA or DSA signfd dfrtifidbtf vfrify mfssbgf.
      */
-    CertificateVerify(ProtocolVersion protocolVersion,
-            HandshakeHash handshakeHash, PrivateKey privateKey,
-            SecretKey masterSecret, SecureRandom sr,
-            SignatureAndHashAlgorithm signAlgorithm)
-            throws GeneralSecurityException {
+    CfrtifidbtfVfrify(ProtodolVfrsion protodolVfrsion,
+            HbndsibkfHbsi ibndsibkfHbsi, PrivbtfKfy privbtfKfy,
+            SfdrftKfy mbstfrSfdrft, SfdurfRbndom sr,
+            SignbturfAndHbsiAlgoritim signAlgoritim)
+            tirows GfnfrblSfdurityExdfption {
 
-        this.protocolVersion = protocolVersion;
+        tiis.protodolVfrsion = protodolVfrsion;
 
-        String algorithm = privateKey.getAlgorithm();
-        Signature sig = null;
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            this.preferableSignatureAlgorithm = signAlgorithm;
-            sig = JsseJce.getSignature(signAlgorithm.getAlgorithmName());
-        } else {
-            sig = getSignature(protocolVersion, algorithm);
+        String blgoritim = privbtfKfy.gftAlgoritim();
+        Signbturf sig = null;
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            tiis.prfffrbblfSignbturfAlgoritim = signAlgoritim;
+            sig = JssfJdf.gftSignbturf(signAlgoritim.gftAlgoritimNbmf());
+        } flsf {
+            sig = gftSignbturf(protodolVfrsion, blgoritim);
         }
-        sig.initSign(privateKey, sr);
-        updateSignature(sig, protocolVersion, handshakeHash, algorithm,
-                        masterSecret);
-        signature = sig.sign();
+        sig.initSign(privbtfKfy, sr);
+        updbtfSignbturf(sig, protodolVfrsion, ibndsibkfHbsi, blgoritim,
+                        mbstfrSfdrft);
+        signbturf = sig.sign();
     }
 
     //
-    // Unmarshal the signed data from the input stream.
+    // Unmbrsibl tif signfd dbtb from tif input strfbm.
     //
-    CertificateVerify(HandshakeInStream input,
-            Collection<SignatureAndHashAlgorithm> localSupportedSignAlgs,
-            ProtocolVersion protocolVersion) throws IOException  {
+    CfrtifidbtfVfrify(HbndsibkfInStrfbm input,
+            Collfdtion<SignbturfAndHbsiAlgoritim> lodblSupportfdSignAlgs,
+            ProtodolVfrsion protodolVfrsion) tirows IOExdfption  {
 
-        this.protocolVersion = protocolVersion;
+        tiis.protodolVfrsion = protodolVfrsion;
 
-        // read the signature and hash algorithm
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            int hashAlg = input.getInt8();         // hash algorithm
-            int signAlg = input.getInt8();         // signature algorithm
+        // rfbd tif signbturf bnd ibsi blgoritim
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            int ibsiAlg = input.gftInt8();         // ibsi blgoritim
+            int signAlg = input.gftInt8();         // signbturf blgoritim
 
-            preferableSignatureAlgorithm =
-                SignatureAndHashAlgorithm.valueOf(hashAlg, signAlg, 0);
+            prfffrbblfSignbturfAlgoritim =
+                SignbturfAndHbsiAlgoritim.vblufOf(ibsiAlg, signAlg, 0);
 
-            // Is it a local supported signature algorithm?
-            if (!localSupportedSignAlgs.contains(
-                    preferableSignatureAlgorithm)) {
-                throw new SSLHandshakeException(
-                        "Unsupported SignatureAndHashAlgorithm in " +
-                        "ServerKeyExchange message");
+            // Is it b lodbl supportfd signbturf blgoritim?
+            if (!lodblSupportfdSignAlgs.dontbins(
+                    prfffrbblfSignbturfAlgoritim)) {
+                tirow nfw SSLHbndsibkfExdfption(
+                        "Unsupportfd SignbturfAndHbsiAlgoritim in " +
+                        "SfrvfrKfyExdibngf mfssbgf");
             }
         }
 
-        // read the signature
-        signature = input.getBytes16();
+        // rfbd tif signbturf
+        signbturf = input.gftBytfs16();
     }
 
     /*
-     * Get the preferable signature algorithm used by this message
+     * Gft tif prfffrbblf signbturf blgoritim usfd by tiis mfssbgf
      */
-    SignatureAndHashAlgorithm getPreferableSignatureAlgorithm() {
-        return preferableSignatureAlgorithm;
+    SignbturfAndHbsiAlgoritim gftPrfffrbblfSignbturfAlgoritim() {
+        rfturn prfffrbblfSignbturfAlgoritim;
     }
 
     /*
-     * Verify a certificate verify message. Return the result of verification,
-     * if there is a problem throw a GeneralSecurityException.
+     * Vfrify b dfrtifidbtf vfrify mfssbgf. Rfturn tif rfsult of vfrifidbtion,
+     * if tifrf is b problfm tirow b GfnfrblSfdurityExdfption.
      */
-    boolean verify(ProtocolVersion protocolVersion,
-            HandshakeHash handshakeHash, PublicKey publicKey,
-            SecretKey masterSecret) throws GeneralSecurityException {
-        String algorithm = publicKey.getAlgorithm();
-        Signature sig = null;
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            sig = JsseJce.getSignature(
-                        preferableSignatureAlgorithm.getAlgorithmName());
-        } else {
-            sig = getSignature(protocolVersion, algorithm);
+    boolfbn vfrify(ProtodolVfrsion protodolVfrsion,
+            HbndsibkfHbsi ibndsibkfHbsi, PublidKfy publidKfy,
+            SfdrftKfy mbstfrSfdrft) tirows GfnfrblSfdurityExdfption {
+        String blgoritim = publidKfy.gftAlgoritim();
+        Signbturf sig = null;
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            sig = JssfJdf.gftSignbturf(
+                        prfffrbblfSignbturfAlgoritim.gftAlgoritimNbmf());
+        } flsf {
+            sig = gftSignbturf(protodolVfrsion, blgoritim);
         }
-        sig.initVerify(publicKey);
-        updateSignature(sig, protocolVersion, handshakeHash, algorithm,
-                        masterSecret);
-        return sig.verify(signature);
+        sig.initVfrify(publidKfy);
+        updbtfSignbturf(sig, protodolVfrsion, ibndsibkfHbsi, blgoritim,
+                        mbstfrSfdrft);
+        rfturn sig.vfrify(signbturf);
     }
 
     /*
-     * Get the Signature object appropriate for verification using the
-     * given signature algorithm and protocol version.
+     * Gft tif Signbturf objfdt bppropribtf for vfrifidbtion using tif
+     * givfn signbturf blgoritim bnd protodol vfrsion.
      */
-    private static Signature getSignature(ProtocolVersion protocolVersion,
-            String algorithm) throws GeneralSecurityException {
-            switch (algorithm) {
-                case "RSA":
-                    return RSASignature.getInternalInstance();
-                case "DSA":
-                    return JsseJce.getSignature(JsseJce.SIGNATURE_RAWDSA);
-                case "EC":
-                    return JsseJce.getSignature(JsseJce.SIGNATURE_RAWECDSA);
-                default:
-                    throw new SignatureException("Unrecognized algorithm: "
-                        + algorithm);
+    privbtf stbtid Signbturf gftSignbturf(ProtodolVfrsion protodolVfrsion,
+            String blgoritim) tirows GfnfrblSfdurityExdfption {
+            switdi (blgoritim) {
+                dbsf "RSA":
+                    rfturn RSASignbturf.gftIntfrnblInstbndf();
+                dbsf "DSA":
+                    rfturn JssfJdf.gftSignbturf(JssfJdf.SIGNATURE_RAWDSA);
+                dbsf "EC":
+                    rfturn JssfJdf.gftSignbturf(JssfJdf.SIGNATURE_RAWECDSA);
+                dffbult:
+                    tirow nfw SignbturfExdfption("Unrfdognizfd blgoritim: "
+                        + blgoritim);
             }
     }
 
     /*
-     * Update the Signature with the data appropriate for the given
-     * signature algorithm and protocol version so that the object is
-     * ready for signing or verifying.
+     * Updbtf tif Signbturf witi tif dbtb bppropribtf for tif givfn
+     * signbturf blgoritim bnd protodol vfrsion so tibt tif objfdt is
+     * rfbdy for signing or vfrifying.
      */
-    private static void updateSignature(Signature sig,
-            ProtocolVersion protocolVersion,
-            HandshakeHash handshakeHash, String algorithm, SecretKey masterKey)
-            throws SignatureException {
+    privbtf stbtid void updbtfSignbturf(Signbturf sig,
+            ProtodolVfrsion protodolVfrsion,
+            HbndsibkfHbsi ibndsibkfHbsi, String blgoritim, SfdrftKfy mbstfrKfy)
+            tirows SignbturfExdfption {
 
-        if (algorithm.equals("RSA")) {
-            if (protocolVersion.v < ProtocolVersion.TLS12.v) { // TLS1.1-
-                MessageDigest md5Clone = handshakeHash.getMD5Clone();
-                MessageDigest shaClone = handshakeHash.getSHAClone();
+        if (blgoritim.fqubls("RSA")) {
+            if (protodolVfrsion.v < ProtodolVfrsion.TLS12.v) { // TLS1.1-
+                MfssbgfDigfst md5Clonf = ibndsibkfHbsi.gftMD5Clonf();
+                MfssbgfDigfst sibClonf = ibndsibkfHbsi.gftSHAClonf();
 
-                if (protocolVersion.v < ProtocolVersion.TLS10.v) { // SSLv3
-                    updateDigest(md5Clone, MD5_pad1, MD5_pad2, masterKey);
-                    updateDigest(shaClone, SHA_pad1, SHA_pad2, masterKey);
+                if (protodolVfrsion.v < ProtodolVfrsion.TLS10.v) { // SSLv3
+                    updbtfDigfst(md5Clonf, MD5_pbd1, MD5_pbd2, mbstfrKfy);
+                    updbtfDigfst(sibClonf, SHA_pbd1, SHA_pbd2, mbstfrKfy);
                 }
 
-                // The signature must be an instance of RSASignature, need
-                // to use these hashes directly.
-                RSASignature.setHashes(sig, md5Clone, shaClone);
-            } else {  // TLS1.2+
-                sig.update(handshakeHash.getAllHandshakeMessages());
+                // Tif signbturf must bf bn instbndf of RSASignbturf, nffd
+                // to usf tifsf ibsifs dirfdtly.
+                RSASignbturf.sftHbsifs(sig, md5Clonf, sibClonf);
+            } flsf {  // TLS1.2+
+                sig.updbtf(ibndsibkfHbsi.gftAllHbndsibkfMfssbgfs());
             }
-        } else { // DSA, ECDSA
-            if (protocolVersion.v < ProtocolVersion.TLS12.v) { // TLS1.1-
-                MessageDigest shaClone = handshakeHash.getSHAClone();
+        } flsf { // DSA, ECDSA
+            if (protodolVfrsion.v < ProtodolVfrsion.TLS12.v) { // TLS1.1-
+                MfssbgfDigfst sibClonf = ibndsibkfHbsi.gftSHAClonf();
 
-                if (protocolVersion.v < ProtocolVersion.TLS10.v) { // SSLv3
-                    updateDigest(shaClone, SHA_pad1, SHA_pad2, masterKey);
+                if (protodolVfrsion.v < ProtodolVfrsion.TLS10.v) { // SSLv3
+                    updbtfDigfst(sibClonf, SHA_pbd1, SHA_pbd2, mbstfrKfy);
                 }
 
-                sig.update(shaClone.digest());
-            } else {  // TLS1.2+
-                sig.update(handshakeHash.getAllHandshakeMessages());
+                sig.updbtf(sibClonf.digfst());
+            } flsf {  // TLS1.2+
+                sig.updbtf(ibndsibkfHbsi.gftAllHbndsibkfMfssbgfs());
             }
         }
     }
 
     /*
-     * Update the MessageDigest for SSLv3 certificate verify or finished
-     * message calculation. The digest must already have been updated with
-     * all preceding handshake messages.
-     * Used by the Finished class as well.
+     * Updbtf tif MfssbgfDigfst for SSLv3 dfrtifidbtf vfrify or finisifd
+     * mfssbgf dbldulbtion. Tif digfst must blrfbdy ibvf bffn updbtfd witi
+     * bll prfdfding ibndsibkf mfssbgfs.
+     * Usfd by tif Finisifd dlbss bs wfll.
      */
-    private static void updateDigest(MessageDigest md,
-            byte[] pad1, byte[] pad2,
-            SecretKey masterSecret) {
-        // Digest the key bytes if available.
-        // Otherwise (sensitive key), try digesting the key directly.
-        // That is currently only implemented in SunPKCS11 using a private
-        // reflection API, so we avoid that if possible.
-        byte[] keyBytes = "RAW".equals(masterSecret.getFormat())
-                        ? masterSecret.getEncoded() : null;
-        if (keyBytes != null) {
-            md.update(keyBytes);
-        } else {
-            digestKey(md, masterSecret);
+    privbtf stbtid void updbtfDigfst(MfssbgfDigfst md,
+            bytf[] pbd1, bytf[] pbd2,
+            SfdrftKfy mbstfrSfdrft) {
+        // Digfst tif kfy bytfs if bvbilbblf.
+        // Otifrwisf (sfnsitivf kfy), try digfsting tif kfy dirfdtly.
+        // Tibt is durrfntly only implfmfntfd in SunPKCS11 using b privbtf
+        // rfflfdtion API, so wf bvoid tibt if possiblf.
+        bytf[] kfyBytfs = "RAW".fqubls(mbstfrSfdrft.gftFormbt())
+                        ? mbstfrSfdrft.gftEndodfd() : null;
+        if (kfyBytfs != null) {
+            md.updbtf(kfyBytfs);
+        } flsf {
+            digfstKfy(md, mbstfrSfdrft);
         }
-        md.update(pad1);
-        byte[] temp = md.digest();
+        md.updbtf(pbd1);
+        bytf[] tfmp = md.digfst();
 
-        if (keyBytes != null) {
-            md.update(keyBytes);
-        } else {
-            digestKey(md, masterSecret);
+        if (kfyBytfs != null) {
+            md.updbtf(kfyBytfs);
+        } flsf {
+            digfstKfy(md, mbstfrSfdrft);
         }
-        md.update(pad2);
-        md.update(temp);
+        md.updbtf(pbd2);
+        md.updbtf(tfmp);
     }
 
-    private final static Class<?> delegate;
-    private final static Field spiField;
+    privbtf finbl stbtid Clbss<?> dflfgbtf;
+    privbtf finbl stbtid Fifld spiFifld;
 
-    static {
+    stbtid {
         try {
-            delegate = Class.forName("java.security.MessageDigest$Delegate");
-            spiField = delegate.getDeclaredField("digestSpi");
-        } catch (Exception e) {
-            throw new RuntimeException("Reflection failed", e);
+            dflfgbtf = Clbss.forNbmf("jbvb.sfdurity.MfssbgfDigfst$Dflfgbtf");
+            spiFifld = dflfgbtf.gftDfdlbrfdFifld("digfstSpi");
+        } dbtdi (Exdfption f) {
+            tirow nfw RuntimfExdfption("Rfflfdtion fbilfd", f);
         }
-        makeAccessible(spiField);
+        mbkfAddfssiblf(spiFifld);
     }
 
-    private static void makeAccessible(final AccessibleObject o) {
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            @Override
-            public Object run() {
-                o.setAccessible(true);
-                return null;
+    privbtf stbtid void mbkfAddfssiblf(finbl AddfssiblfObjfdt o) {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            @Ovfrridf
+            publid Objfdt run() {
+                o.sftAddfssiblf(truf);
+                rfturn null;
             }
         });
     }
 
-    // ConcurrentHashMap does not allow null values, use this marker object
-    private final static Object NULL_OBJECT = new Object();
+    // CondurrfntHbsiMbp dofs not bllow null vblufs, usf tiis mbrkfr objfdt
+    privbtf finbl stbtid Objfdt NULL_OBJECT = nfw Objfdt();
 
-    // cache Method objects per Spi class
-    // Note that this will prevent the Spi classes from being GC'd. We assume
-    // that is not a problem.
-    private final static Map<Class<?>,Object> methodCache =
-                                        new ConcurrentHashMap<>();
+    // dbdif Mftiod objfdts pfr Spi dlbss
+    // Notf tibt tiis will prfvfnt tif Spi dlbssfs from bfing GC'd. Wf bssumf
+    // tibt is not b problfm.
+    privbtf finbl stbtid Mbp<Clbss<?>,Objfdt> mftiodCbdif =
+                                        nfw CondurrfntHbsiMbp<>();
 
-    private static void digestKey(MessageDigest md, SecretKey key) {
+    privbtf stbtid void digfstKfy(MfssbgfDigfst md, SfdrftKfy kfy) {
         try {
-            // Verify that md is implemented via MessageDigestSpi, not
-            // via JDK 1.1 style MessageDigest subclassing.
-            if (md.getClass() != delegate) {
-                throw new Exception("Digest is not a MessageDigestSpi");
+            // Vfrify tibt md is implfmfntfd vib MfssbgfDigfstSpi, not
+            // vib JDK 1.1 stylf MfssbgfDigfst subdlbssing.
+            if (md.gftClbss() != dflfgbtf) {
+                tirow nfw Exdfption("Digfst is not b MfssbgfDigfstSpi");
             }
-            MessageDigestSpi spi = (MessageDigestSpi)spiField.get(md);
-            Class<?> clazz = spi.getClass();
-            Object r = methodCache.get(clazz);
+            MfssbgfDigfstSpi spi = (MfssbgfDigfstSpi)spiFifld.gft(md);
+            Clbss<?> dlbzz = spi.gftClbss();
+            Objfdt r = mftiodCbdif.gft(dlbzz);
             if (r == null) {
                 try {
-                    r = clazz.getDeclaredMethod("implUpdate", SecretKey.class);
-                    makeAccessible((Method)r);
-                } catch (NoSuchMethodException e) {
+                    r = dlbzz.gftDfdlbrfdMftiod("implUpdbtf", SfdrftKfy.dlbss);
+                    mbkfAddfssiblf((Mftiod)r);
+                } dbtdi (NoSudiMftiodExdfption f) {
                     r = NULL_OBJECT;
                 }
-                methodCache.put(clazz, r);
+                mftiodCbdif.put(dlbzz, r);
             }
             if (r == NULL_OBJECT) {
-                throw new Exception(
-                    "Digest does not support implUpdate(SecretKey)");
+                tirow nfw Exdfption(
+                    "Digfst dofs not support implUpdbtf(SfdrftKfy)");
             }
-            Method update = (Method)r;
-            update.invoke(spi, key);
-        } catch (Exception e) {
-            throw new RuntimeException(
-                "Could not obtain encoded key and "
-                + "MessageDigest cannot digest key", e);
+            Mftiod updbtf = (Mftiod)r;
+            updbtf.invokf(spi, kfy);
+        } dbtdi (Exdfption f) {
+            tirow nfw RuntimfExdfption(
+                "Could not obtbin fndodfd kfy bnd "
+                + "MfssbgfDigfst dbnnot digfst kfy", f);
         }
     }
 
-    @Override
-    int messageType() {
-        return ht_certificate_verify;
+    @Ovfrridf
+    int mfssbgfTypf() {
+        rfturn it_dfrtifidbtf_vfrify;
     }
 
-    @Override
-    int messageLength() {
-        int temp = 2;
+    @Ovfrridf
+    int mfssbgfLfngti() {
+        int tfmp = 2;
 
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            temp += SignatureAndHashAlgorithm.sizeInRecord();
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            tfmp += SignbturfAndHbsiAlgoritim.sizfInRfdord();
         }
 
-        return temp + signature.length;
+        rfturn tfmp + signbturf.lfngti;
     }
 
-    @Override
-    void send(HandshakeOutStream s) throws IOException {
-        if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            s.putInt8(preferableSignatureAlgorithm.getHashValue());
-            s.putInt8(preferableSignatureAlgorithm.getSignatureValue());
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            s.putInt8(prfffrbblfSignbturfAlgoritim.gftHbsiVbluf());
+            s.putInt8(prfffrbblfSignbturfAlgoritim.gftSignbturfVbluf());
         }
 
-        s.putBytes16(signature);
+        s.putBytfs16(signbturf);
     }
 
-    @Override
-    void print(PrintStream s) throws IOException {
-        s.println("*** CertificateVerify");
+    @Ovfrridf
+    void print(PrintStrfbm s) tirows IOExdfption {
+        s.println("*** CfrtifidbtfVfrify");
 
-        if (debug != null && Debug.isOn("verbose")) {
-            if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                s.println("Signature Algorithm " +
-                        preferableSignatureAlgorithm.getAlgorithmName());
+        if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                s.println("Signbturf Algoritim " +
+                        prfffrbblfSignbturfAlgoritim.gftAlgoritimNbmf());
             }
         }
     }
@@ -1838,207 +1838,207 @@ static final class CertificateVerify extends HandshakeMessage {
 
 
 /*
- * FINISHED ... sent by both CLIENT and SERVER
+ * FINISHED ... sfnt by boti CLIENT bnd SERVER
  *
- * This is the FINISHED message as defined in the SSL and TLS protocols.
- * Both protocols define this handshake message slightly differently.
- * This class supports both formats.
+ * Tiis is tif FINISHED mfssbgf bs dffinfd in tif SSL bnd TLS protodols.
+ * Boti protodols dffinf tiis ibndsibkf mfssbgf sligitly difffrfntly.
+ * Tiis dlbss supports boti formbts.
  *
- * When handshaking is finished, each side sends a "change_cipher_spec"
- * record, then immediately sends a "finished" handshake message prepared
- * according to the newly adopted cipher spec.
+ * Wifn ibndsibking is finisifd, fbdi sidf sfnds b "dibngf_dipifr_spfd"
+ * rfdord, tifn immfdibtfly sfnds b "finisifd" ibndsibkf mfssbgf prfpbrfd
+ * bddording to tif nfwly bdoptfd dipifr spfd.
  *
- * NOTE that until this is sent, no application data may be passed, unless
- * some non-default cipher suite has already been set up on this connection
- * connection (e.g. a previous handshake arranged one).
+ * NOTE tibt until tiis is sfnt, no bpplidbtion dbtb mby bf pbssfd, unlfss
+ * somf non-dffbult dipifr suitf ibs blrfbdy bffn sft up on tiis donnfdtion
+ * donnfdtion (f.g. b prfvious ibndsibkf brrbngfd onf).
  */
-static final class Finished extends HandshakeMessage {
+stbtid finbl dlbss Finisifd fxtfnds HbndsibkfMfssbgf {
 
-    // constant for a Finished message sent by the client
-    final static int CLIENT = 1;
+    // donstbnt for b Finisifd mfssbgf sfnt by tif dlifnt
+    finbl stbtid int CLIENT = 1;
 
-    // constant for a Finished message sent by the server
-    final static int SERVER = 2;
+    // donstbnt for b Finisifd mfssbgf sfnt by tif sfrvfr
+    finbl stbtid int SERVER = 2;
 
-    // enum Sender:  "CLNT" and "SRVR"
-    private static final byte[] SSL_CLIENT = { 0x43, 0x4C, 0x4E, 0x54 };
-    private static final byte[] SSL_SERVER = { 0x53, 0x52, 0x56, 0x52 };
-
-    /*
-     * Contents of the finished message ("checksum"). For TLS, it
-     * is 12 bytes long, for SSLv3 36 bytes.
-     */
-    private byte[] verifyData;
+    // fnum Sfndfr:  "CLNT" bnd "SRVR"
+    privbtf stbtid finbl bytf[] SSL_CLIENT = { 0x43, 0x4C, 0x4E, 0x54 };
+    privbtf stbtid finbl bytf[] SSL_SERVER = { 0x53, 0x52, 0x56, 0x52 };
 
     /*
-     * Current cipher suite we are negotiating.  TLS 1.2 has
-     * ciphersuite-defined PRF algorithms.
+     * Contfnts of tif finisifd mfssbgf ("difdksum"). For TLS, it
+     * is 12 bytfs long, for SSLv3 36 bytfs.
      */
-    private ProtocolVersion protocolVersion;
-    private CipherSuite cipherSuite;
+    privbtf bytf[] vfrifyDbtb;
 
     /*
-     * Create a finished message to send to the remote peer.
+     * Currfnt dipifr suitf wf brf nfgotibting.  TLS 1.2 ibs
+     * dipifrsuitf-dffinfd PRF blgoritims.
      */
-    Finished(ProtocolVersion protocolVersion, HandshakeHash handshakeHash,
-            int sender, SecretKey master, CipherSuite cipherSuite) {
-        this.protocolVersion = protocolVersion;
-        this.cipherSuite = cipherSuite;
-        verifyData = getFinished(handshakeHash, sender, master);
+    privbtf ProtodolVfrsion protodolVfrsion;
+    privbtf CipifrSuitf dipifrSuitf;
+
+    /*
+     * Crfbtf b finisifd mfssbgf to sfnd to tif rfmotf pffr.
+     */
+    Finisifd(ProtodolVfrsion protodolVfrsion, HbndsibkfHbsi ibndsibkfHbsi,
+            int sfndfr, SfdrftKfy mbstfr, CipifrSuitf dipifrSuitf) {
+        tiis.protodolVfrsion = protodolVfrsion;
+        tiis.dipifrSuitf = dipifrSuitf;
+        vfrifyDbtb = gftFinisifd(ibndsibkfHbsi, sfndfr, mbstfr);
     }
 
     /*
-     * Constructor that reads FINISHED message from stream.
+     * Construdtor tibt rfbds FINISHED mfssbgf from strfbm.
      */
-    Finished(ProtocolVersion protocolVersion, HandshakeInStream input,
-            CipherSuite cipherSuite) throws IOException {
-        this.protocolVersion = protocolVersion;
-        this.cipherSuite = cipherSuite;
-        int msgLen = (protocolVersion.v >= ProtocolVersion.TLS10.v) ? 12 : 36;
-        verifyData = new byte[msgLen];
-        input.read(verifyData);
+    Finisifd(ProtodolVfrsion protodolVfrsion, HbndsibkfInStrfbm input,
+            CipifrSuitf dipifrSuitf) tirows IOExdfption {
+        tiis.protodolVfrsion = protodolVfrsion;
+        tiis.dipifrSuitf = dipifrSuitf;
+        int msgLfn = (protodolVfrsion.v >= ProtodolVfrsion.TLS10.v) ? 12 : 36;
+        vfrifyDbtb = nfw bytf[msgLfn];
+        input.rfbd(vfrifyDbtb);
     }
 
     /*
-     * Verify that the hashes here are what would have been produced
-     * according to a given set of inputs.  This is used to ensure that
-     * both client and server are fully in sync, and that the handshake
-     * computations have been successful.
+     * Vfrify tibt tif ibsifs ifrf brf wibt would ibvf bffn produdfd
+     * bddording to b givfn sft of inputs.  Tiis is usfd to fnsurf tibt
+     * boti dlifnt bnd sfrvfr brf fully in synd, bnd tibt tif ibndsibkf
+     * domputbtions ibvf bffn suddfssful.
      */
-    boolean verify(HandshakeHash handshakeHash, int sender, SecretKey master) {
-        byte[] myFinished = getFinished(handshakeHash, sender, master);
-        return Arrays.equals(myFinished, verifyData);
+    boolfbn vfrify(HbndsibkfHbsi ibndsibkfHbsi, int sfndfr, SfdrftKfy mbstfr) {
+        bytf[] myFinisifd = gftFinisifd(ibndsibkfHbsi, sfndfr, mbstfr);
+        rfturn Arrbys.fqubls(myFinisifd, vfrifyDbtb);
     }
 
     /*
-     * Perform the actual finished message calculation.
+     * Pfrform tif bdtubl finisifd mfssbgf dbldulbtion.
      */
-    private byte[] getFinished(HandshakeHash handshakeHash,
-            int sender, SecretKey masterKey) {
-        byte[] sslLabel;
-        String tlsLabel;
-        if (sender == CLIENT) {
-            sslLabel = SSL_CLIENT;
-            tlsLabel = "client finished";
-        } else if (sender == SERVER) {
-            sslLabel = SSL_SERVER;
-            tlsLabel = "server finished";
-        } else {
-            throw new RuntimeException("Invalid sender: " + sender);
+    privbtf bytf[] gftFinisifd(HbndsibkfHbsi ibndsibkfHbsi,
+            int sfndfr, SfdrftKfy mbstfrKfy) {
+        bytf[] sslLbbfl;
+        String tlsLbbfl;
+        if (sfndfr == CLIENT) {
+            sslLbbfl = SSL_CLIENT;
+            tlsLbbfl = "dlifnt finisifd";
+        } flsf if (sfndfr == SERVER) {
+            sslLbbfl = SSL_SERVER;
+            tlsLbbfl = "sfrvfr finisifd";
+        } flsf {
+            tirow nfw RuntimfExdfption("Invblid sfndfr: " + sfndfr);
         }
 
-        if (protocolVersion.v >= ProtocolVersion.TLS10.v) {
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS10.v) {
             // TLS 1.0+
             try {
-                byte [] seed;
+                bytf [] sffd;
                 String prfAlg;
                 PRF prf;
 
-                // Get the KeyGenerator alg and calculate the seed.
-                if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
+                // Gft tif KfyGfnfrbtor blg bnd dbldulbtf tif sffd.
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
                     // TLS 1.2
-                    seed = handshakeHash.getFinishedHash();
+                    sffd = ibndsibkfHbsi.gftFinisifdHbsi();
 
                     prfAlg = "SunTls12Prf";
-                    prf = cipherSuite.prfAlg;
-                } else {
+                    prf = dipifrSuitf.prfAlg;
+                } flsf {
                     // TLS 1.0/1.1
-                    MessageDigest md5Clone = handshakeHash.getMD5Clone();
-                    MessageDigest shaClone = handshakeHash.getSHAClone();
-                    seed = new byte[36];
-                    md5Clone.digest(seed, 0, 16);
-                    shaClone.digest(seed, 16, 20);
+                    MfssbgfDigfst md5Clonf = ibndsibkfHbsi.gftMD5Clonf();
+                    MfssbgfDigfst sibClonf = ibndsibkfHbsi.gftSHAClonf();
+                    sffd = nfw bytf[36];
+                    md5Clonf.digfst(sffd, 0, 16);
+                    sibClonf.digfst(sffd, 16, 20);
 
                     prfAlg = "SunTlsPrf";
                     prf = P_NONE;
                 }
 
-                String prfHashAlg = prf.getPRFHashAlg();
-                int prfHashLength = prf.getPRFHashLength();
-                int prfBlockSize = prf.getPRFBlockSize();
+                String prfHbsiAlg = prf.gftPRFHbsiAlg();
+                int prfHbsiLfngti = prf.gftPRFHbsiLfngti();
+                int prfBlodkSizf = prf.gftPRFBlodkSizf();
 
                 /*
-                 * RFC 5246/7.4.9 says that finished messages can
-                 * be ciphersuite-specific in both length/PRF hash
-                 * algorithm.  If we ever run across a different
-                 * length, this call will need to be updated.
+                 * RFC 5246/7.4.9 sbys tibt finisifd mfssbgfs dbn
+                 * bf dipifrsuitf-spfdifid in boti lfngti/PRF ibsi
+                 * blgoritim.  If wf fvfr run bdross b difffrfnt
+                 * lfngti, tiis dbll will nffd to bf updbtfd.
                  */
-                TlsPrfParameterSpec spec = new TlsPrfParameterSpec(
-                    masterKey, tlsLabel, seed, 12,
-                    prfHashAlg, prfHashLength, prfBlockSize);
+                TlsPrfPbrbmftfrSpfd spfd = nfw TlsPrfPbrbmftfrSpfd(
+                    mbstfrKfy, tlsLbbfl, sffd, 12,
+                    prfHbsiAlg, prfHbsiLfngti, prfBlodkSizf);
 
-                KeyGenerator kg = JsseJce.getKeyGenerator(prfAlg);
-                kg.init(spec);
-                SecretKey prfKey = kg.generateKey();
-                if ("RAW".equals(prfKey.getFormat()) == false) {
-                    throw new ProviderException(
-                        "Invalid PRF output, format must be RAW");
+                KfyGfnfrbtor kg = JssfJdf.gftKfyGfnfrbtor(prfAlg);
+                kg.init(spfd);
+                SfdrftKfy prfKfy = kg.gfnfrbtfKfy();
+                if ("RAW".fqubls(prfKfy.gftFormbt()) == fblsf) {
+                    tirow nfw ProvidfrExdfption(
+                        "Invblid PRF output, formbt must bf RAW");
                 }
-                byte[] finished = prfKey.getEncoded();
-                return finished;
-            } catch (GeneralSecurityException e) {
-                throw new RuntimeException("PRF failed", e);
+                bytf[] finisifd = prfKfy.gftEndodfd();
+                rfturn finisifd;
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                tirow nfw RuntimfExdfption("PRF fbilfd", f);
             }
-        } else {
+        } flsf {
             // SSLv3
-            MessageDigest md5Clone = handshakeHash.getMD5Clone();
-            MessageDigest shaClone = handshakeHash.getSHAClone();
-            updateDigest(md5Clone, sslLabel, MD5_pad1, MD5_pad2, masterKey);
-            updateDigest(shaClone, sslLabel, SHA_pad1, SHA_pad2, masterKey);
-            byte[] finished = new byte[36];
+            MfssbgfDigfst md5Clonf = ibndsibkfHbsi.gftMD5Clonf();
+            MfssbgfDigfst sibClonf = ibndsibkfHbsi.gftSHAClonf();
+            updbtfDigfst(md5Clonf, sslLbbfl, MD5_pbd1, MD5_pbd2, mbstfrKfy);
+            updbtfDigfst(sibClonf, sslLbbfl, SHA_pbd1, SHA_pbd2, mbstfrKfy);
+            bytf[] finisifd = nfw bytf[36];
             try {
-                md5Clone.digest(finished, 0, 16);
-                shaClone.digest(finished, 16, 20);
-            } catch (DigestException e) {
-                // cannot occur
-                throw new RuntimeException("Digest failed", e);
+                md5Clonf.digfst(finisifd, 0, 16);
+                sibClonf.digfst(finisifd, 16, 20);
+            } dbtdi (DigfstExdfption f) {
+                // dbnnot oddur
+                tirow nfw RuntimfExdfption("Digfst fbilfd", f);
             }
-            return finished;
+            rfturn finisifd;
         }
     }
 
     /*
-     * Update the MessageDigest for SSLv3 finished message calculation.
-     * The digest must already have been updated with all preceding handshake
-     * messages. This operation is almost identical to the certificate verify
-     * hash, reuse that code.
+     * Updbtf tif MfssbgfDigfst for SSLv3 finisifd mfssbgf dbldulbtion.
+     * Tif digfst must blrfbdy ibvf bffn updbtfd witi bll prfdfding ibndsibkf
+     * mfssbgfs. Tiis opfrbtion is blmost idfntidbl to tif dfrtifidbtf vfrify
+     * ibsi, rfusf tibt dodf.
      */
-    private static void updateDigest(MessageDigest md, byte[] sender,
-            byte[] pad1, byte[] pad2, SecretKey masterSecret) {
-        md.update(sender);
-        CertificateVerify.updateDigest(md, pad1, pad2, masterSecret);
+    privbtf stbtid void updbtfDigfst(MfssbgfDigfst md, bytf[] sfndfr,
+            bytf[] pbd1, bytf[] pbd2, SfdrftKfy mbstfrSfdrft) {
+        md.updbtf(sfndfr);
+        CfrtifidbtfVfrify.updbtfDigfst(md, pbd1, pbd2, mbstfrSfdrft);
     }
 
-    // get the verify_data of the finished message
-    byte[] getVerifyData() {
-        return verifyData;
+    // gft tif vfrify_dbtb of tif finisifd mfssbgf
+    bytf[] gftVfrifyDbtb() {
+        rfturn vfrifyDbtb;
     }
 
-    @Override
-    int messageType() { return ht_finished; }
+    @Ovfrridf
+    int mfssbgfTypf() { rfturn it_finisifd; }
 
-    @Override
-    int messageLength() {
-        return verifyData.length;
+    @Ovfrridf
+    int mfssbgfLfngti() {
+        rfturn vfrifyDbtb.lfngti;
     }
 
-    @Override
-    void send(HandshakeOutStream out) throws IOException {
-        out.write(verifyData);
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm out) tirows IOExdfption {
+        out.writf(vfrifyDbtb);
     }
 
-    @Override
-    void print(PrintStream s) throws IOException {
-        s.println("*** Finished");
-        if (debug != null && Debug.isOn("verbose")) {
-            Debug.println(s, "verify_data", verifyData);
+    @Ovfrridf
+    void print(PrintStrfbm s) tirows IOExdfption {
+        s.println("*** Finisifd");
+        if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+            Dfbug.println(s, "vfrify_dbtb", vfrifyDbtb);
             s.println("***");
         }
     }
 }
 
 //
-// END of nested classes
+// END of nfstfd dlbssfs
 //
 
 }

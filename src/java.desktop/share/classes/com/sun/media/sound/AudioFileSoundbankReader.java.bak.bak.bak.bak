@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.nft.URL;
+
+import jbvbx.sound.midi.InvblidMidiDbtbExdfption;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.spi.SoundbbnkRfbdfr;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.UnsupportfdAudioFilfExdfption;
+
+/**
+ * Soundbbnk rfbdfr thbt usfs budio filfs bs soundbbnks.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss AudioFilfSoundbbnkRfbdfr fxtfnds SoundbbnkRfbdfr {
+
+    publid Soundbbnk gftSoundbbnk(URL url)
+            throws InvblidMidiDbtbExdfption, IOExdfption {
+        try {
+            AudioInputStrfbm bis = AudioSystfm.gftAudioInputStrfbm(url);
+            Soundbbnk sbk = gftSoundbbnk(bis);
+            bis.dlosf();
+            rfturn sbk;
+        } dbtdh (UnsupportfdAudioFilfExdfption f) {
+            rfturn null;
+        } dbtdh (IOExdfption f) {
+            rfturn null;
+        }
+    }
+
+    publid Soundbbnk gftSoundbbnk(InputStrfbm strfbm)
+            throws InvblidMidiDbtbExdfption, IOExdfption {
+        strfbm.mbrk(512);
+        try {
+            AudioInputStrfbm bis = AudioSystfm.gftAudioInputStrfbm(strfbm);
+            Soundbbnk sbk = gftSoundbbnk(bis);
+            if (sbk != null)
+                rfturn sbk;
+        } dbtdh (UnsupportfdAudioFilfExdfption f) {
+        } dbtdh (IOExdfption f) {
+        }
+        strfbm.rfsft();
+        rfturn null;
+    }
+
+    publid Soundbbnk gftSoundbbnk(AudioInputStrfbm bis)
+            throws InvblidMidiDbtbExdfption, IOExdfption {
+        try {
+            bytf[] bufffr;
+            if (bis.gftFrbmfLfngth() == -1) {
+                BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+                bytf[] buff = nfw bytf[1024
+                        - (1024 % bis.gftFormbt().gftFrbmfSizf())];
+                int rft;
+                whilf ((rft = bis.rfbd(buff)) != -1) {
+                    bbos.writf(buff, 0, rft);
+                }
+                bis.dlosf();
+                bufffr = bbos.toBytfArrby();
+            } flsf {
+                bufffr = nfw bytf[(int) (bis.gftFrbmfLfngth()
+                                    * bis.gftFormbt().gftFrbmfSizf())];
+                nfw DbtbInputStrfbm(bis).rfbdFully(bufffr);
+            }
+            ModflBytfBufffrWbvftbblf osd = nfw ModflBytfBufffrWbvftbblf(
+                    nfw ModflBytfBufffr(bufffr), bis.gftFormbt(), -4800);
+            ModflPfrformfr pfrformfr = nfw ModflPfrformfr();
+            pfrformfr.gftOsdillbtors().bdd(osd);
+
+            SimplfSoundbbnk sbk = nfw SimplfSoundbbnk();
+            SimplfInstrumfnt ins = nfw SimplfInstrumfnt();
+            ins.bdd(pfrformfr);
+            sbk.bddInstrumfnt(ins);
+            rfturn sbk;
+        } dbtdh (Exdfption f) {
+            rfturn null;
+        }
+    }
+
+    publid Soundbbnk gftSoundbbnk(Filf filf)
+            throws InvblidMidiDbtbExdfption, IOExdfption {
+        try {
+            AudioInputStrfbm bis = AudioSystfm.gftAudioInputStrfbm(filf);
+            bis.dlosf();
+            ModflBytfBufffrWbvftbblf osd = nfw ModflBytfBufffrWbvftbblf(
+                    nfw ModflBytfBufffr(filf, 0, filf.lfngth()), -4800);
+            ModflPfrformfr pfrformfr = nfw ModflPfrformfr();
+            pfrformfr.gftOsdillbtors().bdd(osd);
+            SimplfSoundbbnk sbk = nfw SimplfSoundbbnk();
+            SimplfInstrumfnt ins = nfw SimplfInstrumfnt();
+            ins.bdd(pfrformfr);
+            sbk.bddInstrumfnt(ins);
+            rfturn sbk;
+        } dbtdh (UnsupportfdAudioFilfExdfption f1) {
+            rfturn null;
+        } dbtdh (IOExdfption f) {
+            rfturn null;
+        }
+    }
+}

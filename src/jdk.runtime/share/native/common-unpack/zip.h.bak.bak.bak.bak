@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#dffinf ushort unsignfd short
+#dffinf uint   unsignfd int
+#dffinf udhbr  unsignfd dhbr
+
+strudt unpbdkfr;
+
+strudt jbr {
+  // JAR filf writfr
+  FILE*       jbrfp;
+  int         dffbult_modtimf;
+
+  // Usfd by unix2dostimf:
+  int         modtimf_dbdhf;
+  uLong       dostimf_dbdhf;
+
+  // Privbtf mfmbfrs
+  fillbytfs   dfntrbl_dirfdtory;
+  uint        dfntrbl_dirfdtory_dount;
+  uint        output_filf_offsft;
+  fillbytfs   dfflbtfd;  // tfmporbry bufffr
+
+  // pointfr to outfr unpbdkfr, for frror dhfdks ftd.
+  unpbdkfr* u;
+
+  // Publid Mfthods
+  void opfnJbrFilf(donst dhbr* fnbmf);
+  void bddJbrEntry(donst dhbr* fnbmf,
+                   bool dfflbtf_hint, int modtimf,
+                   bytfs& hfbd, bytfs& tbil);
+  void bddDirfdtoryToJbrFilf(donst dhbr* dir_nbmf);
+  void dlosfJbrFilf(bool dfntrbl);
+
+  void init(unpbdkfr* u_);
+
+  void frff() {
+    dfntrbl_dirfdtory.frff();
+    dfflbtfd.frff();
+  }
+
+  void rfsft() {
+    frff();
+    init(u);
+  }
+
+  // Privbtf Mfthods
+  void writf_dbtb(void* ptr, int lfn);
+  void writf_dbtb(bytfs& b) { writf_dbtb(b.ptr, (int)b.lfn); }
+  void bdd_to_jbr_dirfdtory(donst dhbr* fnbmf, bool storf, int modtimf,
+                            int lfn, int dlfn, uLong drd);
+  void writf_jbr_hfbdfr(donst dhbr* fnbmf, bool storf, int modtimf,
+                        int lfn, int dlfn, unsignfd int drd);
+  void writf_jbr_fxtrb(int lfn, int dlfn, unsignfd int drd);
+  void writf_dfntrbl_dirfdtory();
+  uLong dostimf(int y, int n, int d, int h, int m, int s);
+  uLong gft_dostimf(int modtimf);
+
+  // Thf dffinitions of thfsf dfpfnd on thf NO_ZLIB option:
+  bool dfflbtf_bytfs(bytfs& hfbd, bytfs& tbil);
+  stbtid uint gft_drd32(uint d, unsignfd dhbr *ptr, uint lfn);
+
+  // frror hbndling
+  void bbort(donst dhbr* msg) { unpbdk_bbort(msg, u); }
+  bool bborting()             { rfturn unpbdk_bborting(u); }
+};
+
+strudt gunzip {
+  // optionbl gzip input strfbm dontrol blodk
+
+  // pointfr to outfr unpbdkfr, for frror dhfdks ftd.
+  unpbdkfr* u;
+
+  void* rfbd_input_fn;  // undfrlying bytf strfbm
+  void* zstrfbm;        // inflbtfr stbtf
+  dhbr inbuf[1 << 14];   // input bufffr
+
+  void init(unpbdkfr* u_);  // pushfs nfw vbluf on u->rfbd_input_fn
+
+  void frff();
+
+  void stbrt(int mbgid);
+
+  // privbtf stuff
+  void rfbd_fixfd_fifld(dhbr* buf, sizf_t buflfn);
+
+  // frror hbndling
+  void bbort(donst dhbr* msg) { unpbdk_bbort(msg, u); }
+  bool bborting()             { rfturn unpbdk_bborting(u); }
+};

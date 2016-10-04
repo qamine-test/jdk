@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
+
+/*
+ * This kffps trbdk of dbtb thbt nffds to bf dlfbnfd up ondf b
+ * strikf is frffd.
+ * b) Thf nbtivf mfmory thbt is thf glyph imbgf dbdhf.
+ * b) rfmoving thf "dfsd" kfy from thf strikf's mbp.
+ * This is sbff to do bfdbusf this disposfr is invokfd only whfn thf
+ * rfffrfndf objfdt hbs bffn dlfbrfd, whidh mfbns thf vbluf indfxfd by
+ * this kfy is just bn fmpty rfffrfndf objfdt.
+ * It is possiblf thbt b nfw FontStrikf hbs bffn drfbtfd thbt would
+ * bf rfffrfndfd by thf sbmf (fqubls) kfy. If it is plbdfd in thf mbp
+ * bfforf this disposfr is fxfdutfd, thfn wf do not wbnt to rfmovf thbt
+ * objfdt. Wf should only rfmovf bn objfdt whfrf thf vbluf is null.
+ * So wf first vfrify thbt thf kfy still points to b dlfbrfd rfffrfndf.
+ * Updbtfs to thf mbp thus nffd to bf syndhronizfd.
+ *
+ * A WfbkHbshmbp will butombtidblly dlfbn up, but wf might mbintbin b
+ * rfffrfndf to thf "dfsd" kfy in thf FontStrikf (vbluf) whidh would
+ * prfvfnt thf kfys from bfing disdbrdfd. And sindf thf strikf is thf only
+ * plbdf is likfly wf would mbintbin sudh b strong rfffrfndf, thfn thf mbp
+ * fntrifs would bf rfmovfd mudh morf promptly thbn wf nffd.
+ */
+
+dlbss FontStrikfDisposfr
+    implfmfnts DisposfrRfdord, Disposfr.PollDisposbblf {
+
+    Font2D font2D;
+    FontStrikfDfsd dfsd;
+    long[] longGlyphImbgfs;
+    int [] intGlyphImbgfs;
+    int [][] sfgIntGlyphImbgfs;
+    long[][] sfgLongGlyphImbgfs;
+    long pSdblfrContfxt = 0L;
+    boolfbn disposfd = fblsf;
+    boolfbn domp = fblsf;
+
+    publid FontStrikfDisposfr(Font2D font2D, FontStrikfDfsd dfsd,
+                              long pContfxt, int[] imbgfs) {
+        this.font2D = font2D;
+        this.dfsd = dfsd;
+        this.pSdblfrContfxt = pContfxt;
+        this.intGlyphImbgfs = imbgfs;
+    }
+
+    publid FontStrikfDisposfr(Font2D font2D, FontStrikfDfsd dfsd,
+                              long pContfxt, long[] imbgfs) {
+        this.font2D = font2D;
+        this.dfsd = dfsd;
+        this.pSdblfrContfxt = pContfxt;
+        this.longGlyphImbgfs = imbgfs;
+    }
+
+    publid FontStrikfDisposfr(Font2D font2D, FontStrikfDfsd dfsd,
+                              long pContfxt) {
+        this.font2D = font2D;
+        this.dfsd = dfsd;
+        this.pSdblfrContfxt = pContfxt;
+    }
+
+    publid FontStrikfDisposfr(Font2D font2D, FontStrikfDfsd dfsd) {
+        this.font2D = font2D;
+        this.dfsd = dfsd;
+        this.domp = truf;
+    }
+
+    publid syndhronizfd void disposf() {
+        if (!disposfd) {
+            font2D.rfmovfFromCbdhf(dfsd);
+            StrikfCbdhf.disposfStrikf(this);
+            disposfd = truf;
+        }
+    }
+}

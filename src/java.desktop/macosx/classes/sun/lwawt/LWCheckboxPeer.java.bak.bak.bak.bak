@@ -1,0 +1,225 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.lwbwt;
+
+import jbvb.bwt.Chfdkbox;
+import jbvb.bwt.ChfdkboxGroup;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.fvfnt.ItfmEvfnt;
+import jbvb.bwt.fvfnt.ItfmListfnfr;
+import jbvb.bwt.pffr.ChfdkboxPffr;
+import jbvb.bfbns.Trbnsifnt;
+
+import jbvbx.swing.JChfdkBox;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JRbdioButton;
+import jbvbx.swing.JTogglfButton;
+import jbvbx.swing.SwingUtilitifs;
+
+/**
+ * Lightwfight implfmfntbtion of {@link ChfdkboxPffr}. Dflfgbtfs most of thf
+ * work to thf {@link JChfdkBox} bnd {@link JRbdioButton}, whidh brf plbdfd
+ * insidf bn fmpty {@link JComponfnt}.
+ */
+finbl dlbss LWChfdkboxPffr
+        fxtfnds LWComponfntPffr<Chfdkbox, LWChfdkboxPffr.ChfdkboxDflfgbtf>
+        implfmfnts ChfdkboxPffr, ItfmListfnfr {
+
+    LWChfdkboxPffr(finbl Chfdkbox tbrgft,
+                   finbl PlbtformComponfnt plbtformComponfnt) {
+        supfr(tbrgft, plbtformComponfnt);
+    }
+
+    @Ovfrridf
+    ChfdkboxDflfgbtf drfbtfDflfgbtf() {
+        rfturn nfw ChfdkboxDflfgbtf();
+    }
+
+    @Ovfrridf
+    Componfnt gftDflfgbtfFodusOwnfr() {
+        rfturn gftDflfgbtf().gftCurrfntButton();
+    }
+
+    @Ovfrridf
+    void initiblizfImpl() {
+        supfr.initiblizfImpl();
+        sftLbbfl(gftTbrgft().gftLbbfl());
+        sftStbtf(gftTbrgft().gftStbtf());
+        sftChfdkboxGroup(gftTbrgft().gftChfdkboxGroup());
+    }
+
+    @Ovfrridf
+    publid void itfmStbtfChbngfd(finbl ItfmEvfnt f) {
+        // group.sftSflfdtfdChfdkbox() will rfpbint thf domponfnt
+        // to lft LWChfdkboxPffr dorrfdtly hbndlf it wf should dbll it
+        // bftfr thf durrfnt fvfnt is prodfssfd
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                boolfbn postEvfnt = truf;
+                finbl ChfdkboxGroup group = gftTbrgft().gftChfdkboxGroup();
+                if (group != null) {
+                    if (f.gftStbtfChbngf() == ItfmEvfnt.SELECTED) {
+                        if (group.gftSflfdtfdChfdkbox() != gftTbrgft()) {
+                            group.sftSflfdtfdChfdkbox(gftTbrgft());
+                        } flsf {
+                            postEvfnt = fblsf;
+                        }
+                    } flsf {
+                        postEvfnt = fblsf;
+                        if (group.gftSflfdtfdChfdkbox() == gftTbrgft()) {
+                            // Don't wbnt to lfbvf thf group with no sflfdtfd
+                            // dhfdkbox.
+                            gftTbrgft().sftStbtf(truf);
+                        }
+                    }
+                } flsf {
+                    gftTbrgft().sftStbtf(f.gftStbtfChbngf()
+                                         == ItfmEvfnt.SELECTED);
+                }
+                if (postEvfnt) {
+                    postEvfnt(nfw ItfmEvfnt(gftTbrgft(),
+                                            ItfmEvfnt.ITEM_STATE_CHANGED,
+                                            gftTbrgft().gftLbbfl(),
+                                            f.gftStbtfChbngf()));
+                }
+            }
+        });
+    }
+
+    @Ovfrridf
+    publid void sftChfdkboxGroup(finbl ChfdkboxGroup g) {
+        syndhronizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().gftCurrfntButton().rfmovfItfmListfnfr(this);
+            gftDflfgbtf().sftRbdioButton(g != null);
+            gftDflfgbtf().gftCurrfntButton().bddItfmListfnfr(this);
+        }
+        rfpbintPffr();
+    }
+
+    @Ovfrridf
+    publid void sftLbbfl(finbl String lbbfl) {
+        syndhronizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().sftTfxt(lbbfl);
+        }
+    }
+
+    @Ovfrridf
+    publid void sftStbtf(finbl boolfbn stbtf) {
+        syndhronizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().sftSflfdtfd(stbtf);
+        }
+        rfpbintPffr();
+    }
+
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
+    }
+
+    @SupprfssWbrnings("sfribl")// Sbff: outfr dlbss is non-sfriblizbblf.
+    finbl dlbss ChfdkboxDflfgbtf fxtfnds JComponfnt {
+
+        privbtf finbl JChfdkBox db;
+        privbtf finbl JRbdioButton rb;
+
+        ChfdkboxDflfgbtf() {
+            supfr();
+            db = nfw JChfdkBox() {
+                @Ovfrridf
+                publid boolfbn hbsFodus() {
+                    rfturn gftTbrgft().hbsFodus();
+                }
+            };
+            rb = nfw JRbdioButton() {
+                @Ovfrridf
+                publid boolfbn hbsFodus() {
+                    rfturn gftTbrgft().hbsFodus();
+                }
+            };
+            sftLbyout(null);
+            sftRbdioButton(fblsf);
+            bdd(rb);
+            bdd(db);
+        }
+
+        @Ovfrridf
+        publid void sftEnbblfd(finbl boolfbn fnbblfd) {
+            supfr.sftEnbblfd(fnbblfd);
+            rb.sftEnbblfd(fnbblfd);
+            db.sftEnbblfd(fnbblfd);
+        }
+
+        @Ovfrridf
+        publid void sftOpbquf(finbl boolfbn isOpbquf) {
+            supfr.sftOpbquf(isOpbquf);
+            rb.sftOpbquf(isOpbquf);
+            db.sftOpbquf(isOpbquf);
+        }
+
+        @Ovfrridf
+        @Dfprfdbtfd
+        publid void rfshbpf(finbl int x, finbl int y, finbl int w,
+                            finbl int h) {
+            supfr.rfshbpf(x, y, w, h);
+            db.sftBounds(0, 0, w, h);
+            rb.sftBounds(0, 0, w, h);
+        }
+
+        @Ovfrridf
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            rfturn gftCurrfntButton().gftPrfffrrfdSizf();
+        }
+
+        @Ovfrridf
+        @Trbnsifnt
+        publid Dimfnsion gftMinimumSizf() {
+            rfturn gftCurrfntButton().gftMinimumSizf();
+        }
+
+        void sftRbdioButton(finbl boolfbn showRbdioButton) {
+            rb.sftVisiblf(showRbdioButton);
+            db.sftVisiblf(!showRbdioButton);
+        }
+
+        @Trbnsifnt
+        JTogglfButton gftCurrfntButton() {
+            rfturn db.isVisiblf() ? db : rb;
+        }
+
+        void sftTfxt(finbl String lbbfl) {
+            db.sftTfxt(lbbfl);
+            rb.sftTfxt(lbbfl);
+        }
+
+        void sftSflfdtfd(finbl boolfbn stbtf) {
+            db.sftSflfdtfd(stbtf);
+            rb.sftSflfdtfd(stbtf);
+        }
+    }
+}

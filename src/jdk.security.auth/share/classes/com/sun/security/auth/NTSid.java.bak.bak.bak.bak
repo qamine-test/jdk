@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.buth;
+
+import jbvb.sfdurity.Prindipbl;
+
+/**
+ * <p> This dlbss implfmfnts thf <dodf>Prindipbl</dodf> intfrfbdf
+ * bnd rfprfsfnts informbtion bbout b Windows NT usfr, group or rfblm.
+ *
+ * <p> Windows NT dhoosfs to rfprfsfnt usfrs, groups bnd rfblms (or dombins)
+ * with not only dommon nbmfs, but blso rflbtivfly uniquf numbfrs.  Thfsf
+ * numbfrs brf dbllfd Sfdurity IDfntififrs, or SIDs.  Windows NT
+ * blso providfs sfrvidfs thbt rfndfr thfsf SIDs into string forms.
+ * This dlbss rfprfsfnts thfsf string forms.
+ *
+ * <p> Prindipbls sudh bs this <dodf>NTSid</dodf>
+ * mby bf bssodibtfd with b pbrtidulbr <dodf>Subjfdt</dodf>
+ * to bugmfnt thbt <dodf>Subjfdt</dodf> with bn bdditionbl
+ * idfntity.  Rfffr to thf <dodf>Subjfdt</dodf> dlbss for morf informbtion
+ * on how to bdhifvf this.  Authorizbtion dfdisions dbn thfn bf bbsfd upon
+ * thf Prindipbls bssodibtfd with b <dodf>Subjfdt</dodf>.
+ *
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvbx.sfdurity.buth.Subjfdt
+ */
+@jdk.Exportfd
+publid dlbss NTSid implfmfnts Prindipbl, jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 4412290580770249885L;
+
+    /**
+     * @sfribl
+     */
+    privbtf String sid;
+
+    /**
+     * Crfbtf bn <dodf>NTSid</dodf> with b Windows NT SID.
+     *
+     * <p>
+     *
+     * @pbrbm stringSid thf Windows NT SID. <p>
+     *
+     * @fxdfption NullPointfrExdfption if thf <dodf>String</dodf>
+     *                  is <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf <dodf>String</dodf>
+     *                  hbs zfro lfngth.
+     */
+    publid NTSid (String stringSid) {
+        if (stringSid == null) {
+            jbvb.tfxt.MfssbgfFormbt form = nfw jbvb.tfxt.MfssbgfFormbt
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                        ("invblid.null.input.vbluf",
+                        "sun.sfdurity.util.AuthRfsourdfs"));
+            Objfdt[] sourdf = {"stringSid"};
+            throw nfw NullPointfrExdfption(form.formbt(sourdf));
+        }
+        if (stringSid.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                        ("Invblid.NTSid.vbluf",
+                        "sun.sfdurity.util.AuthRfsourdfs"));
+        }
+        sid = nfw String(stringSid);
+    }
+
+    /**
+     * Rfturn b string vfrsion of this <dodf>NTSid</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn b string vfrsion of this <dodf>NTSid</dodf>
+     */
+    publid String gftNbmf() {
+        rfturn sid;
+    }
+
+    /**
+     * Rfturn b string rfprfsfntbtion of this <dodf>NTSid</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn b string rfprfsfntbtion of this <dodf>NTSid</dodf>.
+     */
+    publid String toString() {
+        jbvb.tfxt.MfssbgfFormbt form = nfw jbvb.tfxt.MfssbgfFormbt
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                        ("NTSid.nbmf",
+                        "sun.sfdurity.util.AuthRfsourdfs"));
+        Objfdt[] sourdf = {sid};
+        rfturn form.formbt(sourdf);
+    }
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this <dodf>NTSid</dodf>
+     * for fqublity.  Rfturns truf if thf givfn objfdt is blso b
+     * <dodf>NTSid</dodf> bnd thf two NTSids hbvf thf sbmf String
+     * rfprfsfntbtion.
+     *
+     * <p>
+     *
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity with this
+     *          <dodf>NTSid</dodf>.
+     *
+     * @rfturn truf if thf spfdififd Objfdt is fqubl to this
+     *          <dodf>NTSid</dodf>.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == null)
+            rfturn fblsf;
+
+        if (this == o)
+            rfturn truf;
+
+        if (!(o instbndfof NTSid))
+            rfturn fblsf;
+        NTSid thbt = (NTSid)o;
+
+        if (sid.fqubls(thbt.sid)) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturn b hbsh dodf for this <dodf>NTSid</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn b hbsh dodf for this <dodf>NTSid</dodf>.
+     */
+    publid int hbshCodf() {
+        rfturn sid.hbshCodf();
+    }
+}

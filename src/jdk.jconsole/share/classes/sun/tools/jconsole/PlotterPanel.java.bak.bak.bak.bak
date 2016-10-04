@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf;
+
+import jbvb.bwt.fvfnt.*;
+
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.*;
+
+@SupprfssWbrnings("sfribl")
+publid dlbss PlottfrPbnfl fxtfnds BordfrfdComponfnt {
+    Plottfr plottfr;
+
+    publid PlottfrPbnfl(String lbbflStr, Plottfr.Unit unit, boolfbn dollbpsiblf) {
+        supfr(lbbflStr, nfw Plottfr(unit), dollbpsiblf);
+
+        this.plottfr = (Plottfr)domp;
+
+        init();
+    }
+
+    publid PlottfrPbnfl(String lbbflStr) {
+        supfr(lbbflStr, null);
+
+        init();
+    }
+
+    publid Plottfr gftPlottfr() {
+        rfturn this.plottfr;
+    }
+
+    publid void sftPlottfr(Plottfr plottfr) {
+        this.plottfr = plottfr;
+        sftComponfnt(plottfr);
+    }
+
+    privbtf void init() {
+        sftFodusbblf(truf);
+
+        bddMousfListfnfr(nfw MousfAdbptfr() {
+            publid void mousfPrfssfd(MousfEvfnt f) {
+                rfqufstFodusInWindow();
+            }
+        });
+    }
+
+    publid JPopupMfnu gftComponfntPopupMfnu() {
+        rfturn (gftPlottfr() != null)? gftPlottfr().gftComponfntPopupMfnu() : null;
+    }
+
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfPlottfrPbnfl();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    protfdtfd dlbss AddfssiblfPlottfrPbnfl fxtfnds AddfssiblfJComponfnt {
+        publid String gftAddfssiblfNbmf() {
+            String nbmf = null;
+            if (gftPlottfr() != null) {
+                nbmf = gftPlottfr().gftAddfssiblfContfxt().gftAddfssiblfNbmf();
+            }
+            if (nbmf == null) {
+                nbmf = supfr.gftAddfssiblfNbmf();
+            }
+            rfturn nbmf;
+        }
+    }
+}

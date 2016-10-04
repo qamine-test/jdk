@@ -1,0 +1,146 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.krb5.Chfdksum;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.krb5.RfblmExdfption;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * Implfmfnts thf ASN.1 KRBSbff typf.
+ *
+ * <xmp>
+ * KRB-SAFE        ::= [APPLICATION 20] SEQUENCE {
+ *         pvno            [0] INTEGER (5),
+ *         msg-typf        [1] INTEGER (20),
+ *         sbff-body       [2] KRB-SAFE-BODY,
+ *         dksum           [3] Chfdksum
+ * }
+ * </xmp>
+ *
+ * <p>
+ * This dffinition rfflfdts thf Nftwork Working Group RFC 4120
+ * spfdifidbtions bvbilbblf bt
+ * <b hrff="http://www.iftf.org/rfd/rfd4120.txt">
+ * http://www.iftf.org/rfd/rfd4120.txt</b>.
+ */
+
+publid dlbss KRBSbff {
+    publid int pvno;
+    publid int msgTypf;
+    publid KRBSbffBody sbffBody;
+    publid Chfdksum dksum;
+
+    publid KRBSbff(KRBSbffBody nfw_sbffBody, Chfdksum nfw_dksum) {
+        pvno = Krb5.PVNO;
+        msgTypf = Krb5.KRB_SAFE;
+        sbffBody = nfw_sbffBody;
+        dksum = nfw_dksum;
+    }
+
+    publid KRBSbff(bytf[] dbtb) throws Asn1Exdfption,
+    RfblmExdfption, KrbApErrExdfption, IOExdfption {
+        init(nfw DfrVbluf(dbtb));
+    }
+
+    publid KRBSbff(DfrVbluf fndoding) throws Asn1Exdfption,
+    RfblmExdfption, KrbApErrExdfption, IOExdfption {
+        init(fndoding);
+    }
+
+    /**
+     * Initiblizfs bn KRBSbff objfdt.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     * @fxdfption RfblmExdfption if bn frror oddurs whilf pbrsing b Rfblm objfdt.
+     * @fxdfption KrbApErrExdfption if thf vbluf rfbd from thf DER-fndodfd dbtb
+     *  strfbm dofs not mbtdh thf prf-dffinfd vbluf.
+     */
+    privbtf void init(DfrVbluf fndoding) throws Asn1Exdfption,
+    RfblmExdfption, KrbApErrExdfption, IOExdfption {
+        DfrVbluf dfr, subDfr;
+        if (((fndoding.gftTbg() & (bytf)0x1F) != (bytf)0x14)
+            || (fndoding.isApplidbtion() != truf)
+            || (fndoding.isConstrudtfd() != truf))
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if (dfr.gftTbg() != DfrVbluf.tbg_Sfqufndf)
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        subDfr = dfr.gftDbtb().gftDfrVbluf();
+        if ((subDfr.gftTbg() & 0x1F) == 0x00) {
+            pvno = subDfr.gftDbtb().gftBigIntfgfr().intVbluf();
+            if (pvno != Krb5.PVNO)
+                throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADVERSION);
+        }
+        flsf
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        subDfr = dfr.gftDbtb().gftDfrVbluf();
+        if ((subDfr.gftTbg() & 0x1F) == 0x01) {
+            msgTypf = subDfr.gftDbtb().gftBigIntfgfr().intVbluf();
+            if (msgTypf != Krb5.KRB_SAFE)
+                throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MSG_TYPE);
+        }
+
+        flsf
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        sbffBody = KRBSbffBody.pbrsf(dfr.gftDbtb(), (bytf)0x02, fblsf);
+        dksum = Chfdksum.pbrsf(dfr.gftDbtb(), (bytf)0x03, fblsf);
+        if (dfr.gftDbtb().bvbilbblf() > 0)
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+    }
+
+    /**
+     * Endodfs bn KRBSbff objfdt.
+     * @rfturn bytf brrby of fndodfd KRBSbff objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     */
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(BigIntfgfr.vblufOf(pvno));
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x00), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(BigIntfgfr.vblufOf(msgTypf));
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x01), tfmp);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x02), sbffBody.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x03), dksum.bsn1Endodf());
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        bytfs = nfw DfrOutputStrfbm();
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_APPLICATION, truf, (bytf)0x14), tfmp);
+        rfturn bytfs.toBytfArrby();
+    }
+}

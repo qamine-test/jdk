@@ -1,0 +1,545 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.lbng.rff.SoftRfffrfndf;
+
+/**
+ * Rfprfsfnts mfthods with mfthod bodifs.
+ * Thbt is, non-nbtivf non-bbstrbdt mfthods.
+ * Privbtf to MfthodImpl.
+ */
+publid dlbss CondrftfMfthodImpl fxtfnds MfthodImpl {
+
+    /*
+     * A subsft of thf linf numbfr info thbt is softly dbdhfd
+     */
+    stbtid privbtf dlbss SoftLodbtionXRffs {
+        finbl String strbtumID;   // Thf strbtum of this informbtion
+        finbl Mbp<Intfgfr, List<Lodbtion>> linfMbppfr;     // Mbps linf numbfr to lodbtion(s)
+        finbl List<Lodbtion> linfLodbtions; // List of lodbtions ordfrfd by dodf indfx
+
+        /*
+         * Notf: thfsf do not nfdfssbrily dorrfspond to
+         * thf linf numbfrs of thf first bnd lbst flfmfnts
+         * in thf linfLodbtions list. Usf thfsf only for bounds
+         * dhfdking bnd with linfMbppfr.
+         */
+        finbl int lowfstLinf;
+        finbl int highfstLinf;
+
+        SoftLodbtionXRffs(String strbtumID, Mbp<Intfgfr, List<Lodbtion>> linfMbppfr, List<Lodbtion> linfLodbtions,
+                     int lowfstLinf, int highfstLinf) {
+            this.strbtumID = strbtumID;
+            this.linfMbppfr = Collfdtions.unmodifibblfMbp(linfMbppfr);
+            this.linfLodbtions =
+                Collfdtions.unmodifibblfList(linfLodbtions);
+            this.lowfstLinf = lowfstLinf;
+            this.highfstLinf = highfstLinf;
+        }
+    }
+
+    privbtf Lodbtion lodbtion = null;
+    privbtf SoftRfffrfndf<SoftLodbtionXRffs> softBbsfLodbtionXRffsRff;
+    privbtf SoftRfffrfndf<SoftLodbtionXRffs> softOthfrLodbtionXRffsRff;
+    privbtf SoftRfffrfndf<List<LodblVbribblf>> vbribblfsRff = null;
+    privbtf boolfbn bbsfntVbribblfInformbtion = fblsf;
+    privbtf long firstIndfx = -1;
+    privbtf long lbstIndfx = -1;
+    privbtf SoftRfffrfndf<bytf[]> bytfdodfsRff = null;
+    privbtf int brgSlotCount = -1;
+
+    CondrftfMfthodImpl(VirtublMbdhinf vm, RfffrfndfTypfImpl dfdlbringTypf,
+                       long rff,
+                       String nbmf, String signbturf,
+                       String gfnfridSignbturf, int modififrs) {
+
+        // Thf gfnfrid signbturf is sft whfn this is drfbtfd
+        supfr(vm, dfdlbringTypf, rff, nbmf, signbturf,
+              gfnfridSignbturf, modififrs);
+    }
+
+    publid Lodbtion lodbtion() {
+        if (lodbtion == null) {
+            gftBbsfLodbtions();
+        }
+        rfturn lodbtion;
+    }
+
+    List<Lodbtion> sourdfNbmfFiltfr(List<Lodbtion> list,
+                          SDE.Strbtum strbtum,
+                          String sourdfNbmf)
+                            throws AbsfntInformbtionExdfption {
+        if (sourdfNbmf == null) {
+            rfturn list;
+        } flsf {
+            /* nffds sourdfNbmf filtfrbtion */
+            List<Lodbtion> lods = nfw ArrbyList<Lodbtion>();
+            for (Lodbtion lod : list) {
+                if (((LodbtionImpl)lod).sourdfNbmf(strbtum).fqubls(sourdfNbmf)) {
+                    lods.bdd(lod);
+                }
+            }
+            rfturn lods;
+        }
+    }
+
+    List<Lodbtion> bllLinfLodbtions(SDE.Strbtum strbtum,
+                          String sourdfNbmf)
+                            throws AbsfntInformbtionExdfption {
+        List<Lodbtion> linfLodbtions = gftLodbtions(strbtum).linfLodbtions;
+
+        if (linfLodbtions.sizf() == 0) {
+            throw nfw AbsfntInformbtionExdfption();
+        }
+
+        rfturn Collfdtions.unmodifibblfList(
+          sourdfNbmfFiltfr(linfLodbtions, strbtum, sourdfNbmf));
+    }
+
+    List<Lodbtion> lodbtionsOfLinf(SDE.Strbtum strbtum,
+                         String sourdfNbmf,
+                         int linfNumbfr)
+                            throws AbsfntInformbtionExdfption {
+        SoftLodbtionXRffs info = gftLodbtions(strbtum);
+
+        if (info.linfLodbtions.sizf() == 0) {
+            throw nfw AbsfntInformbtionExdfption();
+        }
+
+        /*
+         * Find thf lodbtions whidh mbtdh thf linf numbfr
+         * pbssfd in.
+         */
+        List<Lodbtion> list = info.linfMbppfr.gft(linfNumbfr);
+
+        if (list == null) {
+            list = nfw ArrbyList<Lodbtion>(0);
+        }
+        rfturn Collfdtions.unmodifibblfList(
+          sourdfNbmfFiltfr(list, strbtum, sourdfNbmf));
+    }
+
+
+    publid Lodbtion lodbtionOfCodfIndfx(long dodfIndfx) {
+        if (firstIndfx == -1) {
+            gftBbsfLodbtions();
+        }
+
+        /*
+         * Chfdk for invblid dodf indfx.
+         */
+        if (dodfIndfx < firstIndfx || dodfIndfx > lbstIndfx) {
+            rfturn null;
+        }
+
+        rfturn nfw LodbtionImpl(virtublMbdhinf(), this, dodfIndfx);
+    }
+
+
+    LinfInfo dodfIndfxToLinfInfo(SDE.Strbtum strbtum,
+                                 long dodfIndfx) {
+        if (firstIndfx == -1) {
+            gftBbsfLodbtions();
+        }
+
+        /*
+         * Chfdk for invblid dodf indfx.
+         */
+        if (dodfIndfx < firstIndfx || dodfIndfx > lbstIndfx) {
+            throw nfw IntfrnblError(
+                    "Lodbtion with invblid dodf indfx");
+        }
+
+        List<Lodbtion> linfLodbtions = gftLodbtions(strbtum).linfLodbtions;
+
+        /*
+         * Chfdk for bbsfnt linf numbfrs.
+         */
+        if (linfLodbtions.sizf() == 0) {
+            rfturn supfr.dodfIndfxToLinfInfo(strbtum, dodfIndfx);
+        }
+
+        Itfrbtor<Lodbtion> itfr = linfLodbtions.itfrbtor();
+        /*
+         * Trfbt dodf bfforf thf bfginning of thf first linf tbblf
+         * fntry bs pbrt of thf first linf.  jbvbd will gfnfrbtf
+         * dodf likf this for somf lodbl dlbssfs. This "prolog"
+         * dodf dontbins bssignmfnts from lodbls in thf fndlosing
+         * sdopf to synthftid fiflds in thf lodbl dlbss.  Sbmf for
+         * othfr lbngubgf prolog dodf.
+         */
+        LodbtionImpl bfstMbtdh = (LodbtionImpl)itfr.nfxt();
+        whilf (itfr.hbsNfxt()) {
+            LodbtionImpl durrfnt = (LodbtionImpl)itfr.nfxt();
+            if (durrfnt.dodfIndfx() > dodfIndfx) {
+                brfbk;
+            }
+            bfstMbtdh = durrfnt;
+        }
+        rfturn bfstMbtdh.gftLinfInfo(strbtum);
+    }
+
+
+    publid List<LodblVbribblf> vbribblfs() throws AbsfntInformbtionExdfption {
+        rfturn gftVbribblfs();
+    }
+
+    publid List<LodblVbribblf> vbribblfsByNbmf(String nbmf) throws AbsfntInformbtionExdfption {
+        List<LodblVbribblf> vbribblfs = gftVbribblfs();
+
+        List<LodblVbribblf> rftList = nfw ArrbyList<LodblVbribblf>(2);
+        Itfrbtor<LodblVbribblf> itfr = vbribblfs.itfrbtor();
+        whilf(itfr.hbsNfxt()) {
+            LodblVbribblf vbribblf = itfr.nfxt();
+            if (vbribblf.nbmf().fqubls(nbmf)) {
+                rftList.bdd(vbribblf);
+            }
+        }
+        rfturn rftList;
+    }
+
+    publid List<LodblVbribblf> brgumfnts() throws AbsfntInformbtionExdfption {
+        List<LodblVbribblf> vbribblfs = gftVbribblfs();
+
+        List<LodblVbribblf> rftList = nfw ArrbyList<LodblVbribblf>(vbribblfs.sizf());
+        Itfrbtor<LodblVbribblf> itfr = vbribblfs.itfrbtor();
+        whilf(itfr.hbsNfxt()) {
+            LodblVbribblf vbribblf = itfr.nfxt();
+            if (vbribblf.isArgumfnt()) {
+                rftList.bdd(vbribblf);
+            }
+        }
+        rfturn rftList;
+    }
+
+    publid bytf[] bytfdodfs() {
+        bytf[] bytfdodfs = (bytfdodfsRff == null) ? null :
+                                     bytfdodfsRff.gft();
+        if (bytfdodfs == null) {
+            try {
+                bytfdodfs = JDWP.Mfthod.Bytfdodfs.
+                                 prodfss(vm, dfdlbringTypf, rff).bytfs;
+            } dbtdh (JDWPExdfption fxd) {
+                throw fxd.toJDIExdfption();
+            }
+            bytfdodfsRff = nfw SoftRfffrfndf<bytf[]>(bytfdodfs);
+        }
+        /*
+         * Arrbys brf blwbys modifibblf, so it is b littlf unsbff
+         * to rfturn thf dbdhfd bytfdodfs dirfdtly; instfbd, wf
+         * mbkf b dlonf bt thf dost of using morf mfmory.
+         */
+        rfturn bytfdodfs.dlonf();
+    }
+
+    int brgSlotCount() throws AbsfntInformbtionExdfption {
+        if (brgSlotCount == -1) {
+            gftVbribblfs();
+        }
+        rfturn brgSlotCount;
+    }
+
+    privbtf SoftLodbtionXRffs gftLodbtions(SDE.Strbtum strbtum) {
+        if (strbtum.isJbvb()) {
+            rfturn gftBbsfLodbtions();
+        }
+        String strbtumID = strbtum.id();
+        SoftLodbtionXRffs info =
+            (softOthfrLodbtionXRffsRff == null) ? null :
+               softOthfrLodbtionXRffsRff.gft();
+        if (info != null && info.strbtumID.fqubls(strbtumID)) {
+            rfturn info;
+        }
+
+        List<Lodbtion> linfLodbtions = nfw ArrbyList<Lodbtion>();
+        Mbp<Intfgfr, List<Lodbtion>> linfMbppfr = nfw HbshMbp<Intfgfr, List<Lodbtion>>();
+        int lowfstLinf = -1;
+        int highfstLinf = -1;
+        SDE.LinfStrbtum lbstLinfStrbtum = null;
+        SDE.Strbtum bbsfStrbtum =
+            dfdlbringTypf.strbtum(SDE.BASE_STRATUM_NAME);
+        Itfrbtor<Lodbtion> it = gftBbsfLodbtions().linfLodbtions.itfrbtor();
+        whilf(it.hbsNfxt()) {
+            LodbtionImpl lod = (LodbtionImpl)it.nfxt();
+            int bbsfLinfNumbfr = lod.linfNumbfr(bbsfStrbtum);
+            SDE.LinfStrbtum linfStrbtum =
+                  strbtum.linfStrbtum(dfdlbringTypf,
+                                      bbsfLinfNumbfr);
+
+            if (linfStrbtum == null) {
+                // lodbtion not mbppfd in this strbtum
+                dontinuf;
+            }
+
+            int linfNumbfr = linfStrbtum.linfNumbfr();
+
+            // rfmovf unmbppfd bnd dup linfs
+            if ((linfNumbfr != -1) &&
+                          (!linfStrbtum.fqubls(lbstLinfStrbtum))) {
+                lbstLinfStrbtum = linfStrbtum;
+
+                // Rfmfmbfr thf lbrgfst/smbllfst linf numbfr
+                if (linfNumbfr > highfstLinf) {
+                    highfstLinf = linfNumbfr;
+                }
+                if ((linfNumbfr < lowfstLinf) || (lowfstLinf == -1)) {
+                    lowfstLinf = linfNumbfr;
+                }
+
+                lod.bddStrbtumLinfInfo(
+                  nfw StrbtumLinfInfo(strbtumID,
+                                      linfNumbfr,
+                                      linfStrbtum.sourdfNbmf(),
+                                      linfStrbtum.sourdfPbth()));
+
+                // Add to thf lodbtion list
+                linfLodbtions.bdd(lod);
+
+                // Add to thf linf -> lodbtions mbp
+                Intfgfr kfy = linfNumbfr;
+                List<Lodbtion> mbppfdLods = linfMbppfr.gft(kfy);
+                if (mbppfdLods == null) {
+                    mbppfdLods = nfw ArrbyList<Lodbtion>(1);
+                    linfMbppfr.put(kfy, mbppfdLods);
+                }
+                mbppfdLods.bdd(lod);
+            }
+        }
+
+        info = nfw SoftLodbtionXRffs(strbtumID,
+                                linfMbppfr, linfLodbtions,
+                                lowfstLinf, highfstLinf);
+        softOthfrLodbtionXRffsRff = nfw SoftRfffrfndf<SoftLodbtionXRffs>(info);
+        rfturn info;
+    }
+
+    privbtf SoftLodbtionXRffs gftBbsfLodbtions() {
+        SoftLodbtionXRffs info = (softBbsfLodbtionXRffsRff == null) ? null :
+                                     softBbsfLodbtionXRffsRff.gft();
+        if (info != null) {
+            rfturn info;
+        }
+
+        JDWP.Mfthod.LinfTbblf lntbb = null;
+        try {
+            lntbb = JDWP.Mfthod.LinfTbblf.prodfss(vm, dfdlbringTypf, rff);
+        } dbtdh (JDWPExdfption fxd) {
+            /*
+             * Notf: thf bbsfnt info frror shouldn't hbppfn hfrf
+             * bfdbusf thf first bnd lbst indfx brf blwbys bvbilbblf.
+             */
+            throw fxd.toJDIExdfption();
+        }
+
+        int dount  = lntbb.linfs.lfngth;
+
+        List<Lodbtion> linfLodbtions = nfw ArrbyList<Lodbtion>(dount);
+        Mbp<Intfgfr, List<Lodbtion>>linfMbppfr = nfw HbshMbp<Intfgfr, List<Lodbtion>>();
+        int lowfstLinf = -1;
+        int highfstLinf = -1;
+        for (int i = 0; i < dount; i++) {
+            long bdi = lntbb.linfs[i].linfCodfIndfx;
+            int linfNumbfr = lntbb.linfs[i].linfNumbfr;
+
+            /*
+             * Somf dompilfrs will point multiplf donsfdutivf
+             * linfs bt thf sbmf lodbtion. Wf nffd to dhoosf
+             * onf of thfm so thbt wf dbn donsistfntly mbp bbdk
+             * bnd forth bftwffn linf bnd lodbtion. So wf dhoosf
+             * to rfdord only thf lbst linf fntry bt b pbrtidulbr
+             * lodbtion.
+             */
+            if ((i + 1 == dount) || (bdi != lntbb.linfs[i+1].linfCodfIndfx)) {
+                // Rfmfmbfr thf lbrgfst/smbllfst linf numbfr
+                if (linfNumbfr > highfstLinf) {
+                    highfstLinf = linfNumbfr;
+                }
+                if ((linfNumbfr < lowfstLinf) || (lowfstLinf == -1)) {
+                    lowfstLinf = linfNumbfr;
+                }
+                LodbtionImpl lod =
+                    nfw LodbtionImpl(virtublMbdhinf(), this, bdi);
+                lod.bddBbsfLinfInfo(
+                    nfw BbsfLinfInfo(linfNumbfr, dfdlbringTypf));
+
+                // Add to thf lodbtion list
+                linfLodbtions.bdd(lod);
+
+                // Add to thf linf -> lodbtions mbp
+                Intfgfr kfy = linfNumbfr;
+                List<Lodbtion> mbppfdLods = linfMbppfr.gft(kfy);
+                if (mbppfdLods == null) {
+                    mbppfdLods = nfw ArrbyList<Lodbtion>(1);
+                    linfMbppfr.put(kfy, mbppfdLods);
+                }
+                mbppfdLods.bdd(lod);
+            }
+        }
+
+        /*
+         * firstIndfx, lbstIndfx, bnd stbrtLodbtion nffd to bf
+         * rftrifvfd only ondf sindf thfy brf strongly rfffrfndfd.
+         */
+        if (lodbtion == null) {
+            firstIndfx = lntbb.stbrt;
+            lbstIndfx = lntbb.fnd;
+            /*
+             * Thf stbrtLodbtion is thf first onf in thf
+             * lodbtion list if wf hbvf onf;
+             * othfrwisf, wf donstrudt b lodbtion for b
+             * mfthod stbrt with no linf info
+             */
+            if (dount > 0) {
+                lodbtion = linfLodbtions.gft(0);
+            } flsf {
+                lodbtion = nfw LodbtionImpl(virtublMbdhinf(), this,
+                                            firstIndfx);
+            }
+        }
+
+        info = nfw SoftLodbtionXRffs(SDE.BASE_STRATUM_NAME,
+                                linfMbppfr, linfLodbtions,
+                                lowfstLinf, highfstLinf);
+        softBbsfLodbtionXRffsRff = nfw SoftRfffrfndf<SoftLodbtionXRffs>(info);
+        rfturn info;
+    }
+
+    privbtf List<LodblVbribblf> gftVbribblfs1_4() throws AbsfntInformbtionExdfption {
+        JDWP.Mfthod.VbribblfTbblf vbrtbb = null;
+        try {
+            vbrtbb = JDWP.Mfthod.VbribblfTbblf.
+                                     prodfss(vm, dfdlbringTypf, rff);
+        } dbtdh (JDWPExdfption fxd) {
+            if (fxd.frrorCodf() == JDWP.Error.ABSENT_INFORMATION) {
+                bbsfntVbribblfInformbtion = truf;
+                throw nfw AbsfntInformbtionExdfption();
+            } flsf {
+                throw fxd.toJDIExdfption();
+            }
+        }
+
+        // Gft thf numbfr of slots usfd by brgumfnt vbribblfs
+        brgSlotCount = vbrtbb.brgCnt;
+        int dount = vbrtbb.slots.lfngth;
+        List<LodblVbribblf> vbribblfs = nfw ArrbyList<LodblVbribblf>(dount);
+        for (int i=0; i<dount; i++) {
+            JDWP.Mfthod.VbribblfTbblf.SlotInfo si = vbrtbb.slots[i];
+
+            /*
+             * Skip "this*" fntrifs bfdbusf thfy brf nfvfr rfbl
+             * vbribblfs from thf JLS pfrspfdtivf.
+             */
+            if (!si.nbmf.stbrtsWith("this$") && !si.nbmf.fqubls("this")) {
+                Lodbtion sdopfStbrt = nfw LodbtionImpl(virtublMbdhinf(),
+                                                       this, si.dodfIndfx);
+                Lodbtion sdopfEnd =
+                    nfw LodbtionImpl(virtublMbdhinf(), this,
+                                     si.dodfIndfx + si.lfngth - 1);
+                LodblVbribblf vbribblf =
+                    nfw LodblVbribblfImpl(virtublMbdhinf(), this,
+                                          si.slot, sdopfStbrt, sdopfEnd,
+                                          si.nbmf, si.signbturf, null);
+                // Add to thf vbribblf list
+                vbribblfs.bdd(vbribblf);
+            }
+        }
+        rfturn vbribblfs;
+    }
+
+    privbtf List<LodblVbribblf> gftVbribblfs1() throws AbsfntInformbtionExdfption {
+
+        if (!vm.dbnGft1_5LbngubgfFfbturfs()) {
+            rfturn gftVbribblfs1_4();
+        }
+
+        JDWP.Mfthod.VbribblfTbblfWithGfnfrid vbrtbb = null;
+        try {
+            vbrtbb = JDWP.Mfthod.VbribblfTbblfWithGfnfrid.
+                                     prodfss(vm, dfdlbringTypf, rff);
+        } dbtdh (JDWPExdfption fxd) {
+            if (fxd.frrorCodf() == JDWP.Error.ABSENT_INFORMATION) {
+                bbsfntVbribblfInformbtion = truf;
+                throw nfw AbsfntInformbtionExdfption();
+            } flsf {
+                throw fxd.toJDIExdfption();
+            }
+        }
+
+        // Gft thf numbfr of slots usfd by brgumfnt vbribblfs
+        brgSlotCount = vbrtbb.brgCnt;
+        int dount = vbrtbb.slots.lfngth;
+        List<LodblVbribblf> vbribblfs = nfw ArrbyList<LodblVbribblf>(dount);
+        for (int i=0; i<dount; i++) {
+            JDWP.Mfthod.VbribblfTbblfWithGfnfrid.SlotInfo si = vbrtbb.slots[i];
+
+            /*
+             * Skip "this*" fntrifs bfdbusf thfy brf nfvfr rfbl
+             * vbribblfs from thf JLS pfrspfdtivf.
+             */
+            if (!si.nbmf.stbrtsWith("this$") && !si.nbmf.fqubls("this")) {
+                Lodbtion sdopfStbrt = nfw LodbtionImpl(virtublMbdhinf(),
+                                                       this, si.dodfIndfx);
+                Lodbtion sdopfEnd =
+                    nfw LodbtionImpl(virtublMbdhinf(), this,
+                                     si.dodfIndfx + si.lfngth - 1);
+                LodblVbribblf vbribblf =
+                    nfw LodblVbribblfImpl(virtublMbdhinf(), this,
+                                          si.slot, sdopfStbrt, sdopfEnd,
+                                          si.nbmf, si.signbturf,
+                                          si.gfnfridSignbturf);
+                // Add to thf vbribblf list
+                vbribblfs.bdd(vbribblf);
+            }
+        }
+        rfturn vbribblfs;
+    }
+
+    privbtf List<LodblVbribblf> gftVbribblfs() throws AbsfntInformbtionExdfption {
+        if (bbsfntVbribblfInformbtion) {
+            throw nfw AbsfntInformbtionExdfption();
+        }
+
+        List<LodblVbribblf> vbribblfs = (vbribblfsRff == null) ? null :
+                                        vbribblfsRff.gft();
+        if (vbribblfs != null) {
+            rfturn vbribblfs;
+        }
+        vbribblfs = gftVbribblfs1();
+        vbribblfs = Collfdtions.unmodifibblfList(vbribblfs);
+        vbribblfsRff = nfw SoftRfffrfndf<List<LodblVbribblf>>(vbribblfs);
+        rfturn vbribblfs;
+    }
+}

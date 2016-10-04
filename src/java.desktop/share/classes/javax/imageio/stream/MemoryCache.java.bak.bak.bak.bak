@@ -1,0 +1,364 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.strfbm;
+
+import jbvb.util.ArrbyList;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * Pbdkbgf-visiblf dlbss donsolidbting dommon dodf for
+ * <dodf>MfmoryCbdhfImbgfInputStrfbm</dodf> bnd
+ * <dodf>MfmoryCbdhfImbgfOutputStrfbm</dodf>.
+ * This dlbss kffps bn <dodf>ArrbyList</dodf> of 8K blodks,
+ * lobdfd sfqufntiblly.  Blodks mby only bf disposfd of
+ * from thf indfx 0 forwbrd.  As blodks brf frffd, thf
+ * dorrfsponding fntrifs in thf brrby list brf sft to
+ * <dodf>null</dodf>, but no dompbdting is pfrformfd.
+ * This bllows thf indfx for fbdh blodk to nfvfr dhbngf,
+ * bnd thf lfngth of thf dbdhf is blwbys thf sbmf bs thf
+ * totbl bmount of dbtb fvfr dbdhfd.  Cbdhfd dbtb is
+ * thfrfforf blwbys dontiguous from thf point of lbst
+ * disposbl to thf durrfnt lfngth.
+ *
+ * <p> Thf totbl numbfr of blodks rfsidfnt in thf dbdhf must not
+ * fxdffd <dodf>Intfgfr.MAX_VALUE</dodf>.  In prbdtidf, thf limit of
+ * bvbilbblf mfmory will bf fxdffdfd long bfforf this bfdomfs bn
+ * issuf, sindf b full dbdhf would dontbin 8192*2^31 = 16 tfrbbytfs of
+ * dbtb.
+ *
+ * A <dodf>MfmoryCbdhf</dodf> mby bf rfusfd bftfr b dbll
+ * to <dodf>rfsft()</dodf>.
+ */
+dlbss MfmoryCbdhf {
+
+    privbtf stbtid finbl int BUFFER_LENGTH = 8192;
+
+    privbtf ArrbyList<bytf[]> dbdhf = nfw ArrbyList<>();
+
+    privbtf long dbdhfStbrt = 0L;
+
+    /**
+     * Thf lbrgfst position fvfr writtfn to thf dbdhf.
+     */
+    privbtf long lfngth = 0L;
+
+    privbtf bytf[] gftCbdhfBlodk(long blodkNum) throws IOExdfption {
+        long blodkOffsft = blodkNum - dbdhfStbrt;
+        if (blodkOffsft > Intfgfr.MAX_VALUE) {
+            // This dbn only hbppfn whfn thf dbdhf hits 16 tfrbbytfs of
+            // dontiguous dbtb...
+            throw nfw IOExdfption("Cbdhf bddrfssing limit fxdffdfd!");
+        }
+        rfturn dbdhf.gft((int)blodkOffsft);
+    }
+
+    /**
+     * Ensurfs thbt bt lfbst <dodf>pos</dodf> bytfs brf dbdhfd,
+     * or thf fnd of thf sourdf is rfbdhfd.  Thf rfturn vbluf
+     * is fqubl to thf smbllfr of <dodf>pos</dodf> bnd thf
+     * lfngth of thf sourdf.
+     */
+    publid long lobdFromStrfbm(InputStrfbm strfbm, long pos)
+        throws IOExdfption {
+        // Wf'vf blrfbdy got fnough dbtb dbdhfd
+        if (pos < lfngth) {
+            rfturn pos;
+        }
+
+        int offsft = (int)(lfngth % BUFFER_LENGTH);
+        bytf [] buf = null;
+
+        long lfn = pos - lfngth;
+        if (offsft != 0) {
+            buf = gftCbdhfBlodk(lfngth/BUFFER_LENGTH);
+        }
+
+        whilf (lfn > 0) {
+            if (buf == null) {
+                try {
+                    buf = nfw bytf[BUFFER_LENGTH];
+                } dbtdh (OutOfMfmoryError f) {
+                    throw nfw IOExdfption("No mfmory lfft for dbdhf!");
+                }
+                offsft = 0;
+            }
+
+            int lfft = BUFFER_LENGTH - offsft;
+            int nbytfs = (int)Mbth.min(lfn, (long)lfft);
+            nbytfs = strfbm.rfbd(buf, offsft, nbytfs);
+            if (nbytfs == -1) {
+                rfturn lfngth; // EOF
+            }
+
+            if (offsft == 0) {
+                dbdhf.bdd(buf);
+            }
+
+            lfn -= nbytfs;
+            lfngth += nbytfs;
+            offsft += nbytfs;
+
+            if (offsft >= BUFFER_LENGTH) {
+                // wf'vf fillfd thf durrfnt bufffr, so b nfw onf will bf
+                // bllodbtfd nfxt timf bround (bnd offsft will bf rfsft to 0)
+                buf = null;
+            }
+        }
+
+        rfturn pos;
+    }
+
+    /**
+     * Writfs out b portion of thf dbdhf to bn <dodf>OutputStrfbm</dodf>.
+     * This mfthod prfsfrvfs no stbtf bbout thf output strfbm, bnd dofs
+     * not disposf of bny blodks dontbining bytfs writtfn.  To disposf
+     * blodks, usf {@link #disposfBfforf <dodf>disposfBfforf()</dodf>}.
+     *
+     * @fxdfption IndfxOutOfBoundsExdfption if bny portion of
+     * thf rfqufstfd dbtb is not in thf dbdhf (indluding if <dodf>pos</dodf>
+     * is in b blodk blrfbdy disposfd), or if fithfr <dodf>pos</dodf> or
+     * <dodf>lfn</dodf> is < 0.
+     */
+    publid void writfToStrfbm(OutputStrfbm strfbm, long pos, long lfn)
+        throws IOExdfption {
+        if (pos + lfn > lfngth) {
+            throw nfw IndfxOutOfBoundsExdfption("Argumfnt out of dbdhf");
+        }
+        if ((pos < 0) || (lfn < 0)) {
+            throw nfw IndfxOutOfBoundsExdfption("Nfgbtivf pos or lfn");
+        }
+        if (lfn == 0) {
+            rfturn;
+        }
+
+        long bufIndfx = pos/BUFFER_LENGTH;
+        if (bufIndfx < dbdhfStbrt) {
+            throw nfw IndfxOutOfBoundsExdfption("pos blrfbdy disposfd");
+        }
+        int offsft = (int)(pos % BUFFER_LENGTH);
+
+        bytf[] buf = gftCbdhfBlodk(bufIndfx++);
+        whilf (lfn > 0) {
+            if (buf == null) {
+                buf = gftCbdhfBlodk(bufIndfx++);
+                offsft = 0;
+            }
+            int nbytfs = (int)Mbth.min(lfn, (long)(BUFFER_LENGTH - offsft));
+            strfbm.writf(buf, offsft, nbytfs);
+            buf = null;
+            lfn -= nbytfs;
+        }
+    }
+
+    /**
+     * Ensurf thbt thfrf is spbdf to writf b bytf bt thf givfn position.
+     */
+    privbtf void pbd(long pos) throws IOExdfption {
+        long durrIndfx = dbdhfStbrt + dbdhf.sizf() - 1;
+        long lbstIndfx = pos/BUFFER_LENGTH;
+        long numNfwBufffrs = lbstIndfx - durrIndfx;
+        for (long i = 0; i < numNfwBufffrs; i++) {
+            try {
+                dbdhf.bdd(nfw bytf[BUFFER_LENGTH]);
+            } dbtdh (OutOfMfmoryError f) {
+                throw nfw IOExdfption("No mfmory lfft for dbdhf!");
+            }
+        }
+    }
+
+    /**
+     * Ovfrwritfs bnd/or bppfnds thf dbdhf from b bytf brrby.
+     * Thf lfngth of thf dbdhf will bf fxtfndfd bs nffdfd to hold
+     * thf indoming dbtb.
+     *
+     * @pbrbm b bn brrby of bytfs dontbining dbtb to bf writtfn.
+     * @pbrbm off thf stbrting offsft withing thf dbtb brrby.
+     * @pbrbm lfn thf numbfr of bytfs to bf writtfn.
+     * @pbrbm pos thf dbdhf position bt whidh to bfgin writing.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is <dodf>null</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf>,
+     * <dodf>lfn</dodf>, or <dodf>pos</dodf> brf nfgbtivf,
+     * or if <dodf>off+lfn > b.lfngth</dodf>.
+     */
+    publid void writf(bytf[] b, int off, int lfn, long pos)
+        throws IOExdfption {
+        if (b == null) {
+            throw nfw NullPointfrExdfption("b == null!");
+        }
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if ((off < 0) || (lfn < 0) || (pos < 0) ||
+            (off + lfn > b.lfngth) || (off + lfn < 0)) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+
+        // Ensurf thfrf is spbdf for thf indoming dbtb
+        long lbstPos = pos + lfn - 1;
+        if (lbstPos >= lfngth) {
+            pbd(lbstPos);
+            lfngth = lbstPos + 1;
+        }
+
+        // Copy thf dbtb into thf dbdhf, blodk by blodk
+        int offsft = (int)(pos % BUFFER_LENGTH);
+        whilf (lfn > 0) {
+            bytf[] buf = gftCbdhfBlodk(pos/BUFFER_LENGTH);
+            int nbytfs = Mbth.min(lfn, BUFFER_LENGTH - offsft);
+            Systfm.brrbydopy(b, off, buf, offsft, nbytfs);
+
+            pos += nbytfs;
+            off += nbytfs;
+            lfn -= nbytfs;
+            offsft = 0; // Alwbys bftfr thf first timf
+        }
+    }
+
+    /**
+     * Ovfrwritfs or bppfnds b singlf bytf to thf dbdhf.
+     * Thf lfngth of thf dbdhf will bf fxtfndfd bs nffdfd to hold
+     * thf indoming dbtb.
+     *
+     * @pbrbm b bn <dodf>int</dodf> whosf 8 lfbst signifidbnt bits
+     * will bf writtfn.
+     * @pbrbm pos thf dbdhf position bt whidh to bfgin writing.
+     *
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>pos</dodf> is nfgbtivf.
+     */
+    publid void writf(int b, long pos) throws IOExdfption {
+        if (pos < 0) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption("pos < 0");
+        }
+
+        // Ensurf thfrf is spbdf for thf indoming dbtb
+        if (pos >= lfngth) {
+            pbd(pos);
+            lfngth = pos + 1;
+        }
+
+        // Insfrt thf dbtb.
+        bytf[] buf = gftCbdhfBlodk(pos/BUFFER_LENGTH);
+        int offsft = (int)(pos % BUFFER_LENGTH);
+        buf[offsft] = (bytf)b;
+    }
+
+    /**
+     * Rfturns thf totbl lfngth of dbtb thbt hbs bffn dbdhfd,
+     * rfgbrdlfss of whfthfr bny fbrly blodks hbvf bffn disposfd.
+     * This vbluf will only fvfr indrfbsf.
+     */
+    publid long gftLfngth() {
+        rfturn lfngth;
+    }
+
+    /**
+     * Rfturns thf singlf bytf bt thf givfn position, bs bn
+     * <dodf>int</dodf>.  Rfturns -1 if this position hbs
+     * not bffn dbdhfd or hbs bffn disposfd.
+     */
+    publid int rfbd(long pos) throws IOExdfption {
+        if (pos >= lfngth) {
+            rfturn -1;
+        }
+
+        bytf[] buf = gftCbdhfBlodk(pos/BUFFER_LENGTH);
+        if (buf == null) {
+            rfturn -1;
+        }
+
+        rfturn buf[(int)(pos % BUFFER_LENGTH)] & 0xff;
+    }
+
+    /**
+     * Copy <dodf>lfn</dodf> bytfs from thf dbdhf, stbrting
+     * bt dbdhf position <dodf>pos</dodf>, into thf brrby
+     * <dodf>b</dodf> bt offsft <dodf>off</dodf>.
+     *
+     * @fxdfption NullPointfrExdfption if b is <dodf>null</dodf>
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf>,
+     * <dodf>lfn</dodf> or <dodf>pos</dodf> brf nfgbtivf or if
+     * <dodf>off + lfn > b.lfngth</dodf> or if bny portion of thf
+     * rfqufstfd dbtb is not in thf dbdhf (indluding if
+     * <dodf>pos</dodf> is in b blodk thbt hbs blrfbdy bffn disposfd).
+     */
+    publid void rfbd(bytf[] b, int off, int lfn, long pos)
+        throws IOExdfption {
+        if (b == null) {
+            throw nfw NullPointfrExdfption("b == null!");
+        }
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if ((off < 0) || (lfn < 0) || (pos < 0) ||
+            (off + lfn > b.lfngth) || (off + lfn < 0)) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+        if (pos + lfn > lfngth) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+
+        long indfx = pos/BUFFER_LENGTH;
+        int offsft = (int)pos % BUFFER_LENGTH;
+        whilf (lfn > 0) {
+            int nbytfs = Mbth.min(lfn, BUFFER_LENGTH - offsft);
+            bytf[] buf = gftCbdhfBlodk(indfx++);
+            Systfm.brrbydopy(buf, offsft, b, off, nbytfs);
+
+            lfn -= nbytfs;
+            off += nbytfs;
+            offsft = 0; // Alwbys bftfr thf first timf
+        }
+    }
+
+    /**
+     * Frff thf blodks up to thf position <dodf>pos</dodf>.
+     * Thf bytf bt <dodf>pos</dodf> rfmbins bvbilbblf.
+     *
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>pos</dodf>
+     * is in b blodk thbt hbs blrfbdy bffn disposfd.
+     */
+    publid void disposfBfforf(long pos) {
+        long indfx = pos/BUFFER_LENGTH;
+        if (indfx < dbdhfStbrt) {
+            throw nfw IndfxOutOfBoundsExdfption("pos blrfbdy disposfd");
+        }
+        long numBlodks = Mbth.min(indfx - dbdhfStbrt, dbdhf.sizf());
+        for (long i = 0; i < numBlodks; i++) {
+            dbdhf.rfmovf(0);
+        }
+        this.dbdhfStbrt = indfx;
+    }
+
+    /**
+     * Erbsf thf fntirf dbdhf dontfnts bnd rfsft thf lfngth to 0.
+     * Thf dbdhf objfdt mby subsfqufntly bf rfusfd bs though it hbd just
+     * bffn bllodbtfd.
+     */
+    publid void rfsft() {
+        dbdhf.dlfbr();
+        dbdhfStbrt = 0;
+        lfngth = 0L;
+    }
+ }

@@ -1,286 +1,286 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import com.sun.jmx.mbeanserver.Util;
-import java.io.Serializable;
-import java.lang.management.RuntimeMXBean;
-import java.lang.management.ManagementFactory;
-import java.util.List;
-import java.util.Map;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.mbnbgfmfnt.RuntimfMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import com.sun.jmx.snmp.SnmpString;
-import com.sun.jmx.snmp.SnmpStatusException;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
 
-import sun.management.snmp.jvmmib.JvmRuntimeMBean;
-import sun.management.snmp.jvmmib.EnumJvmRTBootClassPathSupport;
-import sun.management.snmp.util.JvmContextFactory;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmRuntimfMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmRTBootClbssPbtiSupport;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
 
 /**
- * The class is used for implementing the "JvmRuntime" group.
+ * Tif dlbss is usfd for implfmfnting tif "JvmRuntimf" group.
  */
-public class JvmRuntimeImpl implements JvmRuntimeMBean {
+publid dlbss JvmRuntimfImpl implfmfnts JvmRuntimfMBfbn {
 
     /**
-     * Variable for storing the value of "JvmRTBootClassPathSupport".
+     * Vbribblf for storing tif vbluf of "JvmRTBootClbssPbtiSupport".
      *
-     * "Indicates whether the Java virtual machine supports the
-     * boot class path mechanism used by the system class loader
-     * to search for class files.
+     * "Indidbtfs wiftifr tif Jbvb virtubl mbdiinf supports tif
+     * boot dlbss pbti mfdibnism usfd by tif systfm dlbss lobdfr
+     * to sfbrdi for dlbss filfs.
      *
-     * See java.management.RuntimeMXBean.isBootClassPathSupported()
+     * Sff jbvb.mbnbgfmfnt.RuntimfMXBfbn.isBootClbssPbtiSupportfd()
      * "
      *
      */
-    static final EnumJvmRTBootClassPathSupport
-        JvmRTBootClassPathSupportSupported =
-        new EnumJvmRTBootClassPathSupport("supported");
-    static final EnumJvmRTBootClassPathSupport
-        JvmRTBootClassPathSupportUnSupported =
-        new EnumJvmRTBootClassPathSupport("unsupported");
+    stbtid finbl EnumJvmRTBootClbssPbtiSupport
+        JvmRTBootClbssPbtiSupportSupportfd =
+        nfw EnumJvmRTBootClbssPbtiSupport("supportfd");
+    stbtid finbl EnumJvmRTBootClbssPbtiSupport
+        JvmRTBootClbssPbtiSupportUnSupportfd =
+        nfw EnumJvmRTBootClbssPbtiSupport("unsupportfd");
 
     /**
-     * Constructor for the "JvmRuntime" group.
-     * If the group contains a table, the entries created through an SNMP SET
-     * will not be registered in Java DMK.
+     * Construdtor for tif "JvmRuntimf" group.
+     * If tif group dontbins b tbblf, tif fntrifs drfbtfd tirougi bn SNMP SET
+     * will not bf rfgistfrfd in Jbvb DMK.
      */
-    public JvmRuntimeImpl(SnmpMib myMib) {
+    publid JvmRuntimfImpl(SnmpMib myMib) {
 
     }
 
 
     /**
-     * Constructor for the "JvmRuntime" group.
-     * If the group contains a table, the entries created through an SNMP SET
-     * will be AUTOMATICALLY REGISTERED in Java DMK.
+     * Construdtor for tif "JvmRuntimf" group.
+     * If tif group dontbins b tbblf, tif fntrifs drfbtfd tirougi bn SNMP SET
+     * will bf AUTOMATICALLY REGISTERED in Jbvb DMK.
      */
-    public JvmRuntimeImpl(SnmpMib myMib, MBeanServer server) {
+    publid JvmRuntimfImpl(SnmpMib myMib, MBfbnSfrvfr sfrvfr) {
 
     }
 
-    static RuntimeMXBean getRuntimeMXBean() {
-        return ManagementFactory.getRuntimeMXBean();
+    stbtid RuntimfMXBfbn gftRuntimfMXBfbn() {
+        rfturn MbnbgfmfntFbdtory.gftRuntimfMXBfbn();
     }
 
-    private static String validDisplayStringTC(String str) {
-        return JVM_MANAGEMENT_MIB_IMPL.validDisplayStringTC(str);
+    privbtf stbtid String vblidDisplbyStringTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidDisplbyStringTC(str);
     }
 
-    private static String validPathElementTC(String str) {
-        return JVM_MANAGEMENT_MIB_IMPL.validPathElementTC(str);
+    privbtf stbtid String vblidPbtiElfmfntTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidPbtiElfmfntTC(str);
     }
 
-    private static String validJavaObjectNameTC(String str) {
-        return JVM_MANAGEMENT_MIB_IMPL.validJavaObjectNameTC(str);
+    privbtf stbtid String vblidJbvbObjfdtNbmfTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidJbvbObjfdtNbmfTC(str);
     }
 
 
-    static String[] splitPath(String path) {
-        final String[] items = path.split(java.io.File.pathSeparator);
-        // for (int i=0;i<items.length;i++) {
-        //    items[i]=validPathElementTC(items[i]);
+    stbtid String[] splitPbti(String pbti) {
+        finbl String[] itfms = pbti.split(jbvb.io.Filf.pbtiSfpbrbtor);
+        // for (int i=0;i<itfms.lfngti;i++) {
+        //    itfms[i]=vblidPbtiElfmfntTC(itfms[i]);
         // }
-        return items;
+        rfturn itfms;
     }
 
-    static String[] getClassPath(Object userData) {
-        final Map<Object, Object> m =
-                Util.cast((userData instanceof Map)?userData:null);
-        final String tag = "JvmRuntime.getClassPath";
+    stbtid String[] gftClbssPbti(Objfdt usfrDbtb) {
+        finbl Mbp<Objfdt, Objfdt> m =
+                Util.dbst((usfrDbtb instbndfof Mbp)?usfrDbtb:null);
+        finbl String tbg = "JvmRuntimf.gftClbssPbti";
 
-        // If the list is in the cache, simply return it.
+        // If tif list is in tif dbdif, simply rfturn it.
         //
         if (m != null) {
-            final String[] cached = (String[])m.get(tag);
-            if (cached != null) return cached;
+            finbl String[] dbdifd = (String[])m.gft(tbg);
+            if (dbdifd != null) rfturn dbdifd;
         }
 
-        final String[] args = splitPath(getRuntimeMXBean().getClassPath());
+        finbl String[] brgs = splitPbti(gftRuntimfMXBfbn().gftClbssPbti());
 
-        if (m != null) m.put(tag,args);
-        return args;
+        if (m != null) m.put(tbg,brgs);
+        rfturn brgs;
     }
 
-    static String[] getBootClassPath(Object userData) {
-        if (!getRuntimeMXBean().isBootClassPathSupported())
-        return new String[0];
+    stbtid String[] gftBootClbssPbti(Objfdt usfrDbtb) {
+        if (!gftRuntimfMXBfbn().isBootClbssPbtiSupportfd())
+        rfturn nfw String[0];
 
-        final Map<Object, Object> m =
-                Util.cast((userData instanceof Map)?userData:null);
-        final String tag = "JvmRuntime.getBootClassPath";
+        finbl Mbp<Objfdt, Objfdt> m =
+                Util.dbst((usfrDbtb instbndfof Mbp)?usfrDbtb:null);
+        finbl String tbg = "JvmRuntimf.gftBootClbssPbti";
 
-        // If the list is in the cache, simply return it.
+        // If tif list is in tif dbdif, simply rfturn it.
         //
         if (m != null) {
-            final String[] cached = (String[])m.get(tag);
-            if (cached != null) return cached;
+            finbl String[] dbdifd = (String[])m.gft(tbg);
+            if (dbdifd != null) rfturn dbdifd;
         }
 
-        final String[] args = splitPath(getRuntimeMXBean().getBootClassPath());
+        finbl String[] brgs = splitPbti(gftRuntimfMXBfbn().gftBootClbssPbti());
 
-        if (m != null) m.put(tag,args);
-        return args;
+        if (m != null) m.put(tbg,brgs);
+        rfturn brgs;
     }
 
-    static String[] getLibraryPath(Object userData) {
-        final Map<Object, Object> m =
-                Util.cast((userData instanceof Map)?userData:null);
-        final String tag = "JvmRuntime.getLibraryPath";
+    stbtid String[] gftLibrbryPbti(Objfdt usfrDbtb) {
+        finbl Mbp<Objfdt, Objfdt> m =
+                Util.dbst((usfrDbtb instbndfof Mbp)?usfrDbtb:null);
+        finbl String tbg = "JvmRuntimf.gftLibrbryPbti";
 
-        // If the list is in the cache, simply return it.
+        // If tif list is in tif dbdif, simply rfturn it.
         //
         if (m != null) {
-            final String[] cached = (String[])m.get(tag);
-            if (cached != null) return cached;
+            finbl String[] dbdifd = (String[])m.gft(tbg);
+            if (dbdifd != null) rfturn dbdifd;
         }
 
-        final String[] args = splitPath(getRuntimeMXBean().getLibraryPath());
+        finbl String[] brgs = splitPbti(gftRuntimfMXBfbn().gftLibrbryPbti());
 
-        if (m != null) m.put(tag,args);
-        return args;
+        if (m != null) m.put(tbg,brgs);
+        rfturn brgs;
     }
 
-    static String[] getInputArguments(Object userData) {
-        final Map<Object, Object> m =
-                Util.cast((userData instanceof Map)?userData:null);
-        final String tag = "JvmRuntime.getInputArguments";
+    stbtid String[] gftInputArgumfnts(Objfdt usfrDbtb) {
+        finbl Mbp<Objfdt, Objfdt> m =
+                Util.dbst((usfrDbtb instbndfof Mbp)?usfrDbtb:null);
+        finbl String tbg = "JvmRuntimf.gftInputArgumfnts";
 
-        // If the list is in the cache, simply return it.
+        // If tif list is in tif dbdif, simply rfturn it.
         //
         if (m != null) {
-            final String[] cached = (String[])m.get(tag);
-            if (cached != null) return cached;
+            finbl String[] dbdifd = (String[])m.gft(tbg);
+            if (dbdifd != null) rfturn dbdifd;
         }
 
-        final List<String> l = getRuntimeMXBean().getInputArguments();
-        final String[] args = l.toArray(new String[0]);
+        finbl List<String> l = gftRuntimfMXBfbn().gftInputArgumfnts();
+        finbl String[] brgs = l.toArrby(nfw String[0]);
 
-        if (m != null) m.put(tag,args);
-        return args;
+        if (m != null) m.put(tbg,brgs);
+        rfturn brgs;
     }
 
     /**
-     * Getter for the "JvmRTSpecVendor" variable.
+     * Gfttfr for tif "JvmRTSpfdVfndor" vbribblf.
      */
-    public String getJvmRTSpecVendor() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getSpecVendor());
+    publid String gftJvmRTSpfdVfndor() tirows SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftSpfdVfndor());
     }
 
     /**
-     * Getter for the "JvmRTSpecName" variable.
+     * Gfttfr for tif "JvmRTSpfdNbmf" vbribblf.
      */
-    public String getJvmRTSpecName() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getSpecName());
+    publid String gftJvmRTSpfdNbmf() tirows SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftSpfdNbmf());
     }
 
     /**
-     * Getter for the "JvmRTVersion" variable.
+     * Gfttfr for tif "JvmRTVfrsion" vbribblf.
      */
-    public String getJvmRTVMVersion() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getVmVersion());
+    publid String gftJvmRTVMVfrsion() tirows SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftVmVfrsion());
     }
 
     /**
-     * Getter for the "JvmRTVendor" variable.
+     * Gfttfr for tif "JvmRTVfndor" vbribblf.
      */
-    public String getJvmRTVMVendor() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getVmVendor());
+    publid String gftJvmRTVMVfndor() tirows SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftVmVfndor());
     }
 
     /**
-     * Getter for the "JvmRTManagementSpecVersion" variable.
+     * Gfttfr for tif "JvmRTMbnbgfmfntSpfdVfrsion" vbribblf.
      */
-    public String getJvmRTManagementSpecVersion() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().
-                                    getManagementSpecVersion());
+    publid String gftJvmRTMbnbgfmfntSpfdVfrsion() tirows SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().
+                                    gftMbnbgfmfntSpfdVfrsion());
     }
 
     /**
-     * Getter for the "JvmRTVMName" variable.
+     * Gfttfr for tif "JvmRTVMNbmf" vbribblf.
      */
-    public String getJvmRTVMName() throws SnmpStatusException {
-        return validJavaObjectNameTC(getRuntimeMXBean().getVmName());
+    publid String gftJvmRTVMNbmf() tirows SnmpStbtusExdfption {
+        rfturn vblidJbvbObjfdtNbmfTC(gftRuntimfMXBfbn().gftVmNbmf());
     }
 
 
     /**
-     * Getter for the "JvmRTInputArgsCount" variable.
+     * Gfttfr for tif "JvmRTInputArgsCount" vbribblf.
      */
-    public Integer getJvmRTInputArgsCount() throws SnmpStatusException {
+    publid Intfgfr gftJvmRTInputArgsCount() tirows SnmpStbtusExdfption {
 
-        final String[] args = getInputArguments(JvmContextFactory.
-                                                getUserData());
-        return args.length;
+        finbl String[] brgs = gftInputArgumfnts(JvmContfxtFbdtory.
+                                                gftUsfrDbtb());
+        rfturn brgs.lfngti;
     }
 
     /**
-     * Getter for the "JvmRTBootClassPathSupport" variable.
+     * Gfttfr for tif "JvmRTBootClbssPbtiSupport" vbribblf.
      */
-    public EnumJvmRTBootClassPathSupport getJvmRTBootClassPathSupport()
-        throws SnmpStatusException {
-        if(getRuntimeMXBean().isBootClassPathSupported())
-            return JvmRTBootClassPathSupportSupported;
-        else
-            return JvmRTBootClassPathSupportUnSupported;
+    publid EnumJvmRTBootClbssPbtiSupport gftJvmRTBootClbssPbtiSupport()
+        tirows SnmpStbtusExdfption {
+        if(gftRuntimfMXBfbn().isBootClbssPbtiSupportfd())
+            rfturn JvmRTBootClbssPbtiSupportSupportfd;
+        flsf
+            rfturn JvmRTBootClbssPbtiSupportUnSupportfd;
     }
 
     /**
-     * Getter for the "JvmRTUptimeMs" variable.
+     * Gfttfr for tif "JvmRTUptimfMs" vbribblf.
      */
-    public Long getJvmRTUptimeMs() throws SnmpStatusException {
-        return getRuntimeMXBean().getUptime();
+    publid Long gftJvmRTUptimfMs() tirows SnmpStbtusExdfption {
+        rfturn gftRuntimfMXBfbn().gftUptimf();
     }
 
     /**
-     * Getter for the "JvmRTStartTimeMs" variable.
+     * Gfttfr for tif "JvmRTStbrtTimfMs" vbribblf.
      */
-    public Long getJvmRTStartTimeMs() throws SnmpStatusException {
-        return getRuntimeMXBean().getStartTime();
+    publid Long gftJvmRTStbrtTimfMs() tirows SnmpStbtusExdfption {
+        rfturn gftRuntimfMXBfbn().gftStbrtTimf();
     }
 
     /**
-     * Getter for the "JvmRTSpecVersion" variable.
+     * Gfttfr for tif "JvmRTSpfdVfrsion" vbribblf.
      */
-    public String getJvmRTSpecVersion() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getSpecVersion());
+    publid String gftJvmRTSpfdVfrsion() tirows SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftSpfdVfrsion());
     }
 
     /**
-     * Getter for the "JvmRTName" variable.
+     * Gfttfr for tif "JvmRTNbmf" vbribblf.
      */
-    public String getJvmRTName() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getName());
+    publid String gftJvmRTNbmf() tirows SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftNbmf());
     }
 
 }

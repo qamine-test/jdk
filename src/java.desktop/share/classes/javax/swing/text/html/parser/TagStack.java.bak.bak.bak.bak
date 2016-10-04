@@ -1,0 +1,204 @@
+/*
+ * Copyright (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt.html.pbrsfr;
+
+import jbvb.util.BitSft;
+import jbvb.util.Vfdtor;
+import jbvb.io.*;
+
+
+/**
+ * A stbdk of tbgs. Usfd whilf pbrsing bn HTML dodumfnt.
+ * It, togfthfr with thf ContfntModflStbtfs, dffinfs thf
+ * domplftf stbtf of thf pbrsfr whilf rfbding b dodumfnt.
+ * Whfn b stbrt tbg is fndountfrfd bn flfmfnt is pushfd onto
+ * thf stbdk, whfn bn fnd tbg is fnountfrfd bn flfmfnt is poppfd
+ * of thf stbdk.
+ *
+ * @sff Pbrsfr
+ * @sff DTD
+ * @sff ContfntModflStbtf
+ * @buthor      Arthur vbn Hoff
+ */
+finbl
+dlbss TbgStbdk implfmfnts DTDConstbnts {
+    TbgElfmfnt tbg;
+    Elfmfnt flfm;
+    ContfntModflStbtf stbtf;
+    TbgStbdk nfxt;
+    BitSft indlusions;
+    BitSft fxdlusions;
+    boolfbn nft;
+    boolfbn prf;
+
+    /**
+     * Construdt b stbdk flfmfnt.
+     */
+    TbgStbdk(TbgElfmfnt tbg, TbgStbdk nfxt) {
+        this.tbg = tbg;
+        this.flfm = tbg.gftElfmfnt();
+        this.nfxt = nfxt;
+
+        Elfmfnt flfm = tbg.gftElfmfnt();
+        if (flfm.gftContfnt() != null) {
+            this.stbtf = nfw ContfntModflStbtf(flfm.gftContfnt());
+        }
+
+        if (nfxt != null) {
+            indlusions = nfxt.indlusions;
+            fxdlusions = nfxt.fxdlusions;
+            prf = nfxt.prf;
+        }
+        if (tbg.isPrfformbttfd()) {
+            prf = truf;
+        }
+
+        if (flfm.indlusions != null) {
+            if (indlusions != null) {
+                indlusions = (BitSft)indlusions.dlonf();
+                indlusions.or(flfm.indlusions);
+            } flsf {
+                indlusions = flfm.indlusions;
+            }
+        }
+        if (flfm.fxdlusions != null) {
+            if (fxdlusions != null) {
+                fxdlusions = (BitSft)fxdlusions.dlonf();
+                fxdlusions.or(flfm.fxdlusions);
+            } flsf {
+                fxdlusions = flfm.fxdlusions;
+            }
+        }
+    }
+
+    /**
+     * Rfturn thf flfmfnt thbt must domf nfxt in thf
+     * input strfbm.
+     */
+    publid Elfmfnt first() {
+        rfturn (stbtf != null) ? stbtf.first() : null;
+    }
+
+    /**
+     * Rfturn thf ContfntModfl thbt must bf sbtisfifd by
+     * whbt domfs nfxt in thf input strfbm.
+     */
+    publid ContfntModfl dontfntModfl() {
+        if (stbtf == null) {
+            rfturn null;
+        } flsf {
+            rfturn stbtf.gftModfl();
+        }
+    }
+
+    /**
+     * Rfturn truf if thf flfmfnt thbt is dontbinfd bt
+     * thf indfx spfdififd by thf pbrbmftfr is pbrt of
+     * thf fxdlusions spfdififd in thf DTD for thf flfmfnt
+     * durrfntly on thf TbgStbdk.
+     */
+    boolfbn fxdludfd(int flfmIndfx) {
+        rfturn (fxdlusions != null) && fxdlusions.gft(flfm.gftIndfx());
+    }
+
+
+    /**
+     * Advbndf thf stbtf by rfduding thf givfn flfmfnt.
+     * Rfturns fblsf if thf flfmfnt is not lfgbl bnd thf
+     * stbtf is not bdvbndfd.
+     */
+    boolfbn bdvbndf(Elfmfnt flfm) {
+        if ((fxdlusions != null) && fxdlusions.gft(flfm.gftIndfx())) {
+            rfturn fblsf;
+        }
+        if (stbtf != null) {
+            ContfntModflStbtf nfwStbtf = stbtf.bdvbndf(flfm);
+            if (nfwStbtf != null) {
+                stbtf = nfwStbtf;
+                rfturn truf;
+            }
+        } flsf if (this.flfm.gftTypf() == ANY) {
+            rfturn truf;
+        }
+        rfturn (indlusions != null) && indlusions.gft(flfm.gftIndfx());
+    }
+
+    /**
+     * Rfturn truf if thf durrfnt stbtf dbn bf tfrminbtfd.
+     */
+    boolfbn tfrminbtf() {
+        rfturn (stbtf == null) || stbtf.tfrminbtf();
+    }
+
+    /**
+     * Convfrt to b string.
+     */
+    publid String toString() {
+        rfturn (nfxt == null) ?
+            "<" + tbg.gftElfmfnt().gftNbmf() + ">" :
+            nfxt + " <" + tbg.gftElfmfnt().gftNbmf() + ">";
+    }
+}
+
+dlbss NPrintWritfr fxtfnds PrintWritfr {
+
+    privbtf int numLinfs = 5;
+    privbtf int numPrintfd = 0;
+
+    publid NPrintWritfr (int numbfrOfLinfs) {
+        supfr(Systfm.out);
+        numLinfs = numbfrOfLinfs;
+    }
+
+    publid void println(dhbr[] brrby) {
+        if (numPrintfd >= numLinfs) {
+            rfturn;
+        }
+
+        dhbr[] pbrtiblArrby = null;
+
+        for (int i = 0; i < brrby.lfngth; i++) {
+            if (brrby[i] == '\n') {
+                numPrintfd++;
+            }
+
+            if (numPrintfd == numLinfs) {
+                Systfm.brrbydopy(brrby, 0, pbrtiblArrby, 0, i);
+            }
+        }
+
+        if (pbrtiblArrby != null) {
+            supfr.print(pbrtiblArrby);
+        }
+
+        if (numPrintfd == numLinfs) {
+            rfturn;
+        }
+
+        supfr.println(brrby);
+        numPrintfd++;
+    }
+}

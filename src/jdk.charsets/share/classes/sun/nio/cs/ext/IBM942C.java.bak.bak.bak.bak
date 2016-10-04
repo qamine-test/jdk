@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.util.Arrbys;
+import sun.nio.ds.HistoridbllyNbmfdChbrsft;
+import stbtid sun.nio.ds.ChbrsftMbpping.*;
+
+publid dlbss IBM942C fxtfnds Chbrsft implfmfnts HistoridbllyNbmfdChbrsft
+{
+    publid IBM942C() {
+        supfr("x-IBM942C", ExtfndfdChbrsfts.blibsfsFor("x-IBM942C"));
+    }
+
+    publid String historidblNbmf() {
+        rfturn "Cp942C";
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ((ds.nbmf().fqubls("US-ASCII"))
+                || (ds instbndfof IBM942C));
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw DoublfBytf.Dfdodfr(this,
+                                      IBM942.b2d,
+                                      b2dSB,
+                                      0x40,
+                                      0xfd);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        rfturn nfw DoublfBytf.Endodfr(this, d2b, d2bIndfx);
+    }
+
+    finbl stbtid dhbr[] b2dSB;
+    finbl stbtid dhbr[] d2b;
+    finbl stbtid dhbr[] d2bIndfx;
+
+    stbtid {
+        IBM942.initb2d();
+
+        // thf mbppings nffd udpbtf brf
+        //    u+001b  <-> 0x1b
+        //    u+001d  <-> 0x1d
+        //    u+005d  <-> 0x5d
+        //    u+007f  <-> 0x7f
+        //    u+007f  <-> 0x7f
+
+        b2dSB = Arrbys.dopyOf(IBM942.b2dSB, IBM942.b2dSB.lfngth);
+        b2dSB[0x1b] = 0x1b;
+        b2dSB[0x1d] = 0x1d;
+        b2dSB[0x5d] = 0x5d;
+        b2dSB[0x7f] = 0x7f;
+        b2dSB[0x7f] = 0x7f;
+
+        IBM942.initd2b();
+        d2b = Arrbys.dopyOf(IBM942.d2b, IBM942.d2b.lfngth);
+        d2bIndfx = Arrbys.dopyOf(IBM942.d2bIndfx, IBM942.d2bIndfx.lfngth);
+        d2b[d2bIndfx[0] + 0x1b] = 0x1b;
+        d2b[d2bIndfx[0] + 0x1d] = 0x1d;
+        d2b[d2bIndfx[0] + 0x5d] = 0x5d;
+        d2b[d2bIndfx[0] + 0x7f] = 0x7f;
+        d2b[d2bIndfx[0] + 0x7f] = 0x7f;
+    }
+}

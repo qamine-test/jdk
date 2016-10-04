@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.krb5;
+pbdkbgf sun.sfdurity.jgss.krb5;
 
-import org.ietf.jgss.*;
-import sun.security.jgss.GSSUtil;
-import sun.security.jgss.GSSCaller;
-import sun.security.jgss.spi.*;
-import javax.security.auth.kerberos.ServicePermission;
-import java.security.Provider;
-import java.util.Vector;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.GSSUtil;
+import sun.sfdurity.jgss.GSSCbllfr;
+import sun.sfdurity.jgss.spi.*;
+import jbvbx.sfdurity.buti.kfrbfros.SfrvidfPfrmission;
+import jbvb.sfdurity.Providfr;
+import jbvb.util.Vfdtor;
 
 /**
- * Krb5 Mechanism plug in for JGSS
- * This is the properties object required by the JGSS framework.
- * All mechanism specific information is defined here.
+ * Krb5 Mfdibnism plug in for JGSS
+ * Tiis is tif propfrtifs objfdt rfquirfd by tif JGSS frbmfwork.
+ * All mfdibnism spfdifid informbtion is dffinfd ifrf.
  *
- * @author Mayank Upadhyay
+ * @butior Mbybnk Upbdiyby
  */
 
-public final class Krb5MechFactory implements MechanismFactory {
+publid finbl dlbss Krb5MfdiFbdtory implfmfnts MfdibnismFbdtory {
 
-    private static final boolean DEBUG = Krb5Util.DEBUG;
+    privbtf stbtid finbl boolfbn DEBUG = Krb5Util.DEBUG;
 
-    static final Provider PROVIDER =
-        new sun.security.jgss.SunProvider();
+    stbtid finbl Providfr PROVIDER =
+        nfw sun.sfdurity.jgss.SunProvidfr();
 
-    static final Oid GSS_KRB5_MECH_OID =
-        createOid("1.2.840.113554.1.2.2");
+    stbtid finbl Oid GSS_KRB5_MECH_OID =
+        drfbtfOid("1.2.840.113554.1.2.2");
 
-    static final Oid NT_GSS_KRB5_PRINCIPAL =
-        createOid("1.2.840.113554.1.2.2.1");
+    stbtid finbl Oid NT_GSS_KRB5_PRINCIPAL =
+        drfbtfOid("1.2.840.113554.1.2.2.1");
 
-    private static Oid[] nameTypes =
-        new Oid[] { GSSName.NT_USER_NAME,
-                        GSSName.NT_HOSTBASED_SERVICE,
-                        GSSName.NT_EXPORT_NAME,
+    privbtf stbtid Oid[] nbmfTypfs =
+        nfw Oid[] { GSSNbmf.NT_USER_NAME,
+                        GSSNbmf.NT_HOSTBASED_SERVICE,
+                        GSSNbmf.NT_EXPORT_NAME,
                         NT_GSS_KRB5_PRINCIPAL};
 
-    final private GSSCaller caller;
+    finbl privbtf GSSCbllfr dbllfr;
 
-    private static Krb5CredElement getCredFromSubject(GSSNameSpi name,
-                                                      boolean initiate)
-        throws GSSException {
-        Vector<Krb5CredElement> creds =
-            GSSUtil.searchSubject(name, GSS_KRB5_MECH_OID, initiate,
-                                  (initiate ?
-                                   Krb5InitCredential.class :
-                                   Krb5AcceptCredential.class));
+    privbtf stbtid Krb5CrfdElfmfnt gftCrfdFromSubjfdt(GSSNbmfSpi nbmf,
+                                                      boolfbn initibtf)
+        tirows GSSExdfption {
+        Vfdtor<Krb5CrfdElfmfnt> drfds =
+            GSSUtil.sfbrdiSubjfdt(nbmf, GSS_KRB5_MECH_OID, initibtf,
+                                  (initibtf ?
+                                   Krb5InitCrfdfntibl.dlbss :
+                                   Krb5AddfptCrfdfntibl.dlbss));
 
-        Krb5CredElement result = ((creds == null || creds.isEmpty()) ?
-                                  null : creds.firstElement());
+        Krb5CrfdElfmfnt rfsult = ((drfds == null || drfds.isEmpty()) ?
+                                  null : drfds.firstElfmfnt());
 
-        // Force permission check before returning the cred to caller
-        if (result != null) {
-            if (initiate) {
-                checkInitCredPermission((Krb5NameElement) result.getName());
-            } else {
-                checkAcceptCredPermission
-                    ((Krb5NameElement) result.getName(), name);
+        // Fordf pfrmission difdk bfforf rfturning tif drfd to dbllfr
+        if (rfsult != null) {
+            if (initibtf) {
+                difdkInitCrfdPfrmission((Krb5NbmfElfmfnt) rfsult.gftNbmf());
+            } flsf {
+                difdkAddfptCrfdPfrmission
+                    ((Krb5NbmfElfmfnt) rfsult.gftNbmf(), nbmf);
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public Krb5MechFactory() {
-        this(GSSCaller.CALLER_UNKNOWN);
+    publid Krb5MfdiFbdtory() {
+        tiis(GSSCbllfr.CALLER_UNKNOWN);
     }
 
-    public Krb5MechFactory(GSSCaller caller) {
-        this.caller = caller;
+    publid Krb5MfdiFbdtory(GSSCbllfr dbllfr) {
+        tiis.dbllfr = dbllfr;
     }
 
-    public GSSNameSpi getNameElement(String nameStr, Oid nameType)
-        throws GSSException {
-        return Krb5NameElement.getInstance(nameStr, nameType);
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmfStr, Oid nbmfTypf)
+        tirows GSSExdfption {
+        rfturn Krb5NbmfElfmfnt.gftInstbndf(nbmfStr, nbmfTypf);
     }
 
-    public GSSNameSpi getNameElement(byte[] name, Oid nameType)
-        throws GSSException {
-        // At this point, even an exported name is stripped down to safe
-        // bytes only
-        // XXX Use encoding here
-        return Krb5NameElement.getInstance(new String(name), nameType);
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf)
+        tirows GSSExdfption {
+        // At tiis point, fvfn bn fxportfd nbmf is strippfd down to sbff
+        // bytfs only
+        // XXX Usf fndoding ifrf
+        rfturn Krb5NbmfElfmfnt.gftInstbndf(nfw String(nbmf), nbmfTypf);
     }
 
-    public GSSCredentialSpi getCredentialElement(GSSNameSpi name,
-           int initLifetime, int acceptLifetime,
-           int usage) throws GSSException {
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf,
+           int initLifftimf, int bddfptLifftimf,
+           int usbgf) tirows GSSExdfption {
 
-        if (name != null && !(name instanceof Krb5NameElement)) {
-            name = Krb5NameElement.getInstance(name.toString(),
-                                       name.getStringNameType());
+        if (nbmf != null && !(nbmf instbndfof Krb5NbmfElfmfnt)) {
+            nbmf = Krb5NbmfElfmfnt.gftInstbndf(nbmf.toString(),
+                                       nbmf.gftStringNbmfTypf());
         }
 
-        Krb5CredElement credElement = getCredFromSubject
-            (name, (usage != GSSCredential.ACCEPT_ONLY));
+        Krb5CrfdElfmfnt drfdElfmfnt = gftCrfdFromSubjfdt
+            (nbmf, (usbgf != GSSCrfdfntibl.ACCEPT_ONLY));
 
-        if (credElement == null) {
-            if (usage == GSSCredential.INITIATE_ONLY ||
-                usage == GSSCredential.INITIATE_AND_ACCEPT) {
-                credElement = Krb5InitCredential.getInstance
-                    (caller, (Krb5NameElement) name, initLifetime);
-                checkInitCredPermission
-                    ((Krb5NameElement) credElement.getName());
-            } else if (usage == GSSCredential.ACCEPT_ONLY) {
-                credElement =
-                    Krb5AcceptCredential.getInstance(caller,
-                                                     (Krb5NameElement) name);
-                checkAcceptCredPermission
-                    ((Krb5NameElement) credElement.getName(), name);
-            } else
-                throw new GSSException(GSSException.FAILURE, -1,
-                                       "Unknown usage mode requested");
+        if (drfdElfmfnt == null) {
+            if (usbgf == GSSCrfdfntibl.INITIATE_ONLY ||
+                usbgf == GSSCrfdfntibl.INITIATE_AND_ACCEPT) {
+                drfdElfmfnt = Krb5InitCrfdfntibl.gftInstbndf
+                    (dbllfr, (Krb5NbmfElfmfnt) nbmf, initLifftimf);
+                difdkInitCrfdPfrmission
+                    ((Krb5NbmfElfmfnt) drfdElfmfnt.gftNbmf());
+            } flsf if (usbgf == GSSCrfdfntibl.ACCEPT_ONLY) {
+                drfdElfmfnt =
+                    Krb5AddfptCrfdfntibl.gftInstbndf(dbllfr,
+                                                     (Krb5NbmfElfmfnt) nbmf);
+                difdkAddfptCrfdPfrmission
+                    ((Krb5NbmfElfmfnt) drfdElfmfnt.gftNbmf(), nbmf);
+            } flsf
+                tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                                       "Unknown usbgf modf rfqufstfd");
         }
-        return credElement;
+        rfturn drfdElfmfnt;
     }
 
-    public static void checkInitCredPermission(Krb5NameElement name) {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid void difdkInitCrfdPfrmission(Krb5NbmfElfmfnt nbmf) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            String realm = (name.getKrb5PrincipalName()).getRealmAsString();
-            String tgsPrincipal =
-                new String("krbtgt/" + realm + '@' + realm);
-            ServicePermission perm =
-                new ServicePermission(tgsPrincipal, "initiate");
+            String rfblm = (nbmf.gftKrb5PrindipblNbmf()).gftRfblmAsString();
+            String tgsPrindipbl =
+                nfw String("krbtgt/" + rfblm + '@' + rfblm);
+            SfrvidfPfrmission pfrm =
+                nfw SfrvidfPfrmission(tgsPrindipbl, "initibtf");
             try {
-                sm.checkPermission(perm);
-            } catch (SecurityException e) {
+                sm.difdkPfrmission(pfrm);
+            } dbtdi (SfdurityExdfption f) {
                 if (DEBUG) {
-                    System.out.println("Permission to initiate" +
-                        "kerberos init credential" + e.getMessage());
+                    Systfm.out.println("Pfrmission to initibtf" +
+                        "kfrbfros init drfdfntibl" + f.gftMfssbgf());
                 }
-                throw e;
+                tirow f;
             }
         }
     }
 
-    public static void checkAcceptCredPermission(Krb5NameElement name,
-                                           GSSNameSpi originalName) {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null && name != null) {
-            ServicePermission perm = new ServicePermission
-                (name.getKrb5PrincipalName().getName(), "accept");
+    publid stbtid void difdkAddfptCrfdPfrmission(Krb5NbmfElfmfnt nbmf,
+                                           GSSNbmfSpi originblNbmf) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null && nbmf != null) {
+            SfrvidfPfrmission pfrm = nfw SfrvidfPfrmission
+                (nbmf.gftKrb5PrindipblNbmf().gftNbmf(), "bddfpt");
             try {
-                sm.checkPermission(perm);
-            } catch (SecurityException e) {
-                if (originalName == null) {
-                    // Don't disclose the name of the principal
-                    e = new SecurityException("No permission to acquire "
-                                      + "Kerberos accept credential");
-                    // Don't call e.initCause() with caught exception
+                sm.difdkPfrmission(pfrm);
+            } dbtdi (SfdurityExdfption f) {
+                if (originblNbmf == null) {
+                    // Don't disdlosf tif nbmf of tif prindipbl
+                    f = nfw SfdurityExdfption("No pfrmission to bdquirf "
+                                      + "Kfrbfros bddfpt drfdfntibl");
+                    // Don't dbll f.initCbusf() witi dbugit fxdfption
                 }
-                throw e;
+                tirow f;
             }
         }
     }
 
-    public GSSContextSpi getMechanismContext(GSSNameSpi peer,
-                             GSSCredentialSpi myInitiatorCred, int lifetime)
-        throws GSSException {
-        if (peer != null && !(peer instanceof Krb5NameElement)) {
-            peer = Krb5NameElement.getInstance(peer.toString(),
-                                       peer.getStringNameType());
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSNbmfSpi pffr,
+                             GSSCrfdfntiblSpi myInitibtorCrfd, int lifftimf)
+        tirows GSSExdfption {
+        if (pffr != null && !(pffr instbndfof Krb5NbmfElfmfnt)) {
+            pffr = Krb5NbmfElfmfnt.gftInstbndf(pffr.toString(),
+                                       pffr.gftStringNbmfTypf());
         }
-        // XXX Convert myInitiatorCred to Krb5CredElement
-        if (myInitiatorCred == null) {
-            myInitiatorCred = getCredentialElement(null, lifetime, 0,
-                GSSCredential.INITIATE_ONLY);
+        // XXX Convfrt myInitibtorCrfd to Krb5CrfdElfmfnt
+        if (myInitibtorCrfd == null) {
+            myInitibtorCrfd = gftCrfdfntiblElfmfnt(null, lifftimf, 0,
+                GSSCrfdfntibl.INITIATE_ONLY);
         }
-        return new Krb5Context(caller, (Krb5NameElement)peer,
-                               (Krb5CredElement)myInitiatorCred, lifetime);
+        rfturn nfw Krb5Contfxt(dbllfr, (Krb5NbmfElfmfnt)pffr,
+                               (Krb5CrfdElfmfnt)myInitibtorCrfd, lifftimf);
     }
 
-    public GSSContextSpi getMechanismContext(GSSCredentialSpi myAcceptorCred)
-        throws GSSException {
-        // XXX Convert myAcceptorCred to Krb5CredElement
-        if (myAcceptorCred == null) {
-            myAcceptorCred = getCredentialElement(null, 0,
-                GSSCredential.INDEFINITE_LIFETIME, GSSCredential.ACCEPT_ONLY);
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd)
+        tirows GSSExdfption {
+        // XXX Convfrt myAddfptorCrfd to Krb5CrfdElfmfnt
+        if (myAddfptorCrfd == null) {
+            myAddfptorCrfd = gftCrfdfntiblElfmfnt(null, 0,
+                GSSCrfdfntibl.INDEFINITE_LIFETIME, GSSCrfdfntibl.ACCEPT_ONLY);
         }
-        return new Krb5Context(caller, (Krb5CredElement)myAcceptorCred);
+        rfturn nfw Krb5Contfxt(dbllfr, (Krb5CrfdElfmfnt)myAddfptorCrfd);
     }
 
-    public GSSContextSpi getMechanismContext(byte[] exportedContext)
-        throws GSSException {
-        return new Krb5Context(caller, exportedContext);
+    publid GSSContfxtSpi gftMfdibnismContfxt(bytf[] fxportfdContfxt)
+        tirows GSSExdfption {
+        rfturn nfw Krb5Contfxt(dbllfr, fxportfdContfxt);
     }
 
 
-    public final Oid getMechanismOid() {
-        return GSS_KRB5_MECH_OID;
+    publid finbl Oid gftMfdibnismOid() {
+        rfturn GSS_KRB5_MECH_OID;
     }
 
-    public Provider getProvider() {
-        return PROVIDER;
+    publid Providfr gftProvidfr() {
+        rfturn PROVIDER;
     }
 
-    public Oid[] getNameTypes() {
-        // nameTypes is cloned in GSSManager.getNamesForMech
-        return nameTypes;
+    publid Oid[] gftNbmfTypfs() {
+        // nbmfTypfs is dlonfd in GSSMbnbgfr.gftNbmfsForMfdi
+        rfturn nbmfTypfs;
     }
 
-    private static Oid createOid(String oidStr) {
-        Oid retVal = null;
+    privbtf stbtid Oid drfbtfOid(String oidStr) {
+        Oid rftVbl = null;
         try {
-            retVal = new Oid(oidStr);
-        } catch (GSSException e) {
-            // Should not happen!
+            rftVbl = nfw Oid(oidStr);
+        } dbtdi (GSSExdfption f) {
+            // Siould not ibppfn!
         }
-        return retVal;
+        rfturn rftVbl;
     }
 }

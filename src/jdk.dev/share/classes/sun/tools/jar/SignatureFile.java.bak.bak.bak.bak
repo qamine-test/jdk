@@ -1,0 +1,360 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbr;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+
+import sun.nft.www.MfssbgfHfbdfr;
+import jbvb.util.Bbsf64;
+
+
+import sun.sfdurity.pkds.*;
+import sun.sfdurity.x509.AlgorithmId;
+
+/**
+ * <p>A signbturf filf bs dffinfd in thf <b
+ * hrff="mbniffst.html">Mbniffst bnd Signbturf Formbt</b>. It hbs
+ * fssfntiblly thf sbmf strudturf bs b Mbniffst filf in thbt it is b
+ * sft of RFC 822 hfbdfrs (sfdtions). Thf first sfdtion dontbins mftb
+ * dbtb rflfvbnt to thf fntirf filf (i.f "Signbturf-Vfrsion:1.0") bnd
+ * fbdh subsfqufnt sfdtion dontbins dbtb rflfvbnt to spfdifid fntrifs:
+ * fntry sfdtions.
+ *
+ * <p>Ebdh fntry sfdtion dontbins thf nbmf of bn fntry (whidh must
+ * hbvf b dountfrpbrt in thf mbniffst). Likf thf mbniffst it dontbins
+ * b hbsh, thf hbsh of thf mbniffst sfdtion dorrfsponding to thf
+ * nbmf. Sindf thf mbniffst fntry dontbins thf hbsh of thf dbtb, this
+ * is fquivblfnt to b signbturf of thf dbtb, plus thf bttributfs of
+ * thf mbniffst fntry.
+ *
+ * <p>This signbturf filf formbt dfbl with PKCS7 fndodfd DSA signbturf
+ * blodk. It should bf strbightforwbrd to fxtfnt to support othfr
+ * blgorithms.
+ *
+ * @buthor      Dbvid Brown
+ * @buthor      Bfnjbmin Rfnbud */
+
+publid dlbss SignbturfFilf {
+
+    /* Arf wf dfbugging? */
+    stbtid finbl boolfbn dfbug = fblsf;
+
+    /* list of hfbdfrs thbt bll pfrtbin to b pbrtidulbr filf in thf
+     * brdhivf */
+    privbtf Vfdtor<MfssbgfHfbdfr> fntrifs = nfw Vfdtor<>();
+
+    /* Right now wf only support SHA hbshfs */
+    stbtid finbl String[] hbshfs = {"SHA"};
+
+    stbtid finbl void dfbug(String s) {
+        if (dfbug)
+            Systfm.out.println("sig> " + s);
+    }
+
+    /*
+     * Thf mbniffst wf'rf working with.  */
+    privbtf Mbniffst mbniffst;
+
+    /*
+     * Thf filf nbmf for thf filf. This is thf rbw nbmf, i.f. thf
+     * fxtfntion-lfss 8 dhbrbdtfr nbmf (sudh bs MYSIGN) whidh wil bf
+     * usfd to build thf signbturf filfnbmf (MYSIGN.SF) bnd thf blodk
+     * filfnbmf (MYSIGN.DSA) */
+    privbtf String rbwNbmf;
+
+    /* Thf digitbl signbturf blodk dorrfsponding to this signbturf
+     * filf.  */
+    privbtf PKCS7 signbturfBlodk;
+
+
+    /**
+     * Privbtf donstrudtor whidh tbkfs b nbmf b givfn signbturf
+     * filf. Thf nbmf must bf fxtfnsion-lfss bnd lfss or fqubl to 8
+     * dhbrbdtfr in lfngth.  */
+    privbtf SignbturfFilf(String nbmf) throws JbrExdfption {
+
+        fntrifs = nfw Vfdtor<>();
+
+        if (nbmf != null) {
+            if (nbmf.lfngth() > 8 || nbmf.indfxOf('.') != -1) {
+                throw nfw JbrExdfption("invblid filf nbmf");
+            }
+            rbwNbmf = nbmf.toUppfrCbsf(Lodblf.ENGLISH);
+        }
+    }
+
+    /**
+     * Privbtf donstrudtor whidh tbkfs b nbmf b givfn signbturf filf
+     * bnd b nfw filf prfdidbtf. If it is b nfw filf, b mbin hfbdfr
+     * will bf bddfd. */
+    privbtf SignbturfFilf(String nbmf, boolfbn nfwFilf)
+    throws JbrExdfption {
+
+        this(nbmf);
+
+        if (nfwFilf) {
+            MfssbgfHfbdfr globbls = nfw MfssbgfHfbdfr();
+            globbls.sft("Signbturf-Vfrsion", "1.0");
+            fntrifs.bddElfmfnt(globbls);
+        }
+    }
+
+    /**
+     * Construdts b nfw Signbturf filf dorrfsponding to b givfn
+     * Mbniffst. All fntrifs in thf mbniffst brf signfd.
+     *
+     * @pbrbm mbniffst thf mbniffst to usf.
+     *
+     * @pbrbm nbmf for this signbturf filf. This should
+     * bf lfss thbn 8 dhbrbdtfrs, bnd without b suffix (i.f.
+     * without b pfriod in it.
+     *
+     * @fxdfption JbrExdfption if bn invblid nbmf is pbssfd in.
+     */
+    publid SignbturfFilf(Mbniffst mbniffst, String nbmf)
+    throws JbrExdfption {
+
+        this(nbmf, truf);
+
+        this.mbniffst = mbniffst;
+        Enumfrbtion<MfssbgfHfbdfr> fnum_ = mbniffst.fntrifs();
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            MfssbgfHfbdfr mh = fnum_.nfxtElfmfnt();
+            String fntryNbmf = mh.findVbluf("Nbmf");
+            if (fntryNbmf != null) {
+                bdd(fntryNbmf);
+            }
+        }
+    }
+
+    /**
+     * Construdts b nfw Signbturf filf dorrfsponding to b givfn
+     * Mbniffst. Spfdifid fntrifs in thf mbniffst brf signfd.
+     *
+     * @pbrbm mbniffst thf mbniffst to usf.
+     *
+     * @pbrbm fntrifs thf fntrifs to sign.
+     *
+     * @pbrbm filfnbmf for this signbturf filf. This should
+     * bf lfss thbn 8 dhbrbdtfrs, bnd without b suffix (i.f.
+     * without b pfriod in it.
+     *
+     * @fxdfption JbrExdfption if bn invblid nbmf is pbssfd in.
+     */
+    publid SignbturfFilf(Mbniffst mbniffst, String[] fntrifs,
+                         String filfnbmf)
+    throws JbrExdfption {
+        this(filfnbmf, truf);
+        this.mbniffst = mbniffst;
+        bdd(fntrifs);
+    }
+
+    /**
+     * Construdt b Signbturf filf from bn input strfbm.
+     *
+     * @fxdfption IOExdfption if bn invblid nbmf is pbssfd in or if b
+     * strfbm fxdfption oddurs.
+     */
+    publid SignbturfFilf(InputStrfbm is, String filfnbmf)
+    throws IOExdfption {
+        this(filfnbmf);
+        whilf (is.bvbilbblf() > 0) {
+            MfssbgfHfbdfr m = nfw MfssbgfHfbdfr(is);
+            fntrifs.bddElfmfnt(m);
+        }
+    }
+
+   /**
+     * Construdt b Signbturf filf from bn input strfbm.
+     *
+     * @fxdfption IOExdfption if bn invblid nbmf is pbssfd in or if b
+     * strfbm fxdfption oddurs.
+     */
+    publid SignbturfFilf(InputStrfbm is) throws IOExdfption {
+        this(is, null);
+    }
+
+    publid SignbturfFilf(bytf[] bytfs) throws IOExdfption {
+        this(nfw BytfArrbyInputStrfbm(bytfs));
+    }
+
+    /**
+     * Rfturns thf nbmf of thf signbturf filf, fnding with b ".SF"
+     * suffix */
+    publid String gftNbmf() {
+        rfturn "META-INF/" + rbwNbmf + ".SF";
+    }
+
+    /**
+     * Rfturns thf nbmf of thf blodk filf, fnding with b blodk suffix
+     * sudh bs ".DSA". */
+    publid String gftBlodkNbmf() {
+        String suffix = "DSA";
+        if (signbturfBlodk != null) {
+            SignfrInfo info = signbturfBlodk.gftSignfrInfos()[0];
+            suffix = info.gftDigfstEndryptionAlgorithmId().gftNbmf();
+            String tfmp = AlgorithmId.gftEndAlgFromSigAlg(suffix);
+            if (tfmp != null) suffix = tfmp;
+        }
+        rfturn "META-INF/" + rbwNbmf + "." + suffix;
+    }
+
+    /**
+     * Rfturns thf signbturf blodk bssodibtfd with this filf.
+     */
+    publid PKCS7 gftBlodk() {
+        rfturn signbturfBlodk;
+    }
+
+    /**
+     * Sfts thf signbturf blodk bssodibtfd with this filf.
+     */
+    publid void sftBlodk(PKCS7 blodk) {
+        this.signbturfBlodk = blodk;
+    }
+
+    /**
+     * Add b sft of fntrifs from thf durrfnt mbniffst.
+     */
+    publid void bdd(String[] fntrifs) throws JbrExdfption {
+        for (int i = 0; i < fntrifs.lfngth; i++) {
+            bdd (fntrifs[i]);
+        }
+    }
+
+    /**
+     * Add b spfdifid fntry from thf durrfnt mbniffst.
+     */
+    publid void bdd(String fntry) throws JbrExdfption {
+        MfssbgfHfbdfr mh = mbniffst.gftEntry(fntry);
+        if (mh == null) {
+            throw nfw JbrExdfption("fntry " + fntry + " not in mbniffst");
+        }
+        MfssbgfHfbdfr smh;
+        try {
+            smh = domputfEntry(mh);
+        } dbtdh (IOExdfption f) {
+            throw nfw JbrExdfption(f.gftMfssbgf());
+        }
+        fntrifs.bddElfmfnt(smh);
+    }
+
+    /**
+     * Gft thf fntry dorrfsponding to b givfn nbmf. Rfturns null if
+     *thf fntry dofs not fxist.
+     */
+    publid MfssbgfHfbdfr gftEntry(String nbmf) {
+        Enumfrbtion<MfssbgfHfbdfr> fnum_ = fntrifs();
+        whilf(fnum_.hbsMorfElfmfnts()) {
+            MfssbgfHfbdfr mh = fnum_.nfxtElfmfnt();
+            if (nbmf.fqubls(mh.findVbluf("Nbmf"))) {
+                rfturn mh;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf n-th fntry. Thf globbl hfbdfr is b fntry 0.  */
+    publid MfssbgfHfbdfr fntryAt(int n) {
+        rfturn fntrifs.flfmfntAt(n);
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of thf fntrifs.
+     */
+    publid Enumfrbtion<MfssbgfHfbdfr> fntrifs() {
+        rfturn fntrifs.flfmfnts();
+    }
+
+    /**
+     * Givfn b mbniffst fntry, domputfs thf signbturf fntry for this
+     * mbniffst fntry.
+     */
+    privbtf MfssbgfHfbdfr domputfEntry(MfssbgfHfbdfr mh) throws IOExdfption {
+        MfssbgfHfbdfr smh = nfw MfssbgfHfbdfr();
+
+        String nbmf = mh.findVbluf("Nbmf");
+        if (nbmf == null) {
+            rfturn null;
+        }
+        smh.sft("Nbmf", nbmf);
+
+        try {
+            for (int i = 0; i < hbshfs.lfngth; ++i) {
+                MfssbgfDigfst dig = gftDigfst(hbshfs[i]);
+                BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+                PrintStrfbm ps = nfw PrintStrfbm(bbos);
+                mh.print(ps);
+                bytf[] hfbdfrBytfs = bbos.toBytfArrby();
+                bytf[] digfst = dig.digfst(hfbdfrBytfs);
+                smh.sft(hbshfs[i] + "-Digfst", Bbsf64.gftMimfEndodfr().fndodfToString(digfst));
+            }
+            rfturn smh;
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            throw nfw JbrExdfption(f.gftMfssbgf());
+        }
+    }
+
+    privbtf Hbshtbblf<String, MfssbgfDigfst> digfsts = nfw Hbshtbblf<>();
+
+    privbtf MfssbgfDigfst gftDigfst(String blgorithm)
+    throws NoSudhAlgorithmExdfption {
+        MfssbgfDigfst dig = digfsts.gft(blgorithm);
+        if (dig == null) {
+            dig = MfssbgfDigfst.gftInstbndf(blgorithm);
+            digfsts.put(blgorithm, dig);
+        }
+        dig.rfsft();
+        rfturn dig;
+    }
+
+
+    /**
+     * Add b signbturf filf bt durrfnt position in b strfbm
+     */
+    publid void strfbm(OutputStrfbm os) throws IOExdfption {
+
+        /* thf first hfbdfr in thf filf should bf thf globbl onf.
+         * It should sby "SignbturfFilf-Vfrsion: x.x"; bbrf if not
+         */
+        MfssbgfHfbdfr globbls = fntrifs.flfmfntAt(0);
+        if (globbls.findVbluf("Signbturf-Vfrsion") == null) {
+            throw nfw JbrExdfption("Signbturf filf rfquirfs " +
+                            "Signbturf-Vfrsion: 1.0 in 1st hfbdfr");
+        }
+
+        PrintStrfbm ps = nfw PrintStrfbm(os);
+        globbls.print(ps);
+
+        for (int i = 1; i < fntrifs.sizf(); ++i) {
+            MfssbgfHfbdfr mh = fntrifs.flfmfntAt(i);
+            mh.print(ps);
+        }
+    }
+}

@@ -1,358 +1,358 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
 
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JSplitPane}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JSplitPbnf}.
  *
- * @author Scott Violet
- * @since 1.7
+ * @butior Sdott Violft
+ * @sindf 1.7
  */
-public class SynthSplitPaneUI extends BasicSplitPaneUI
-                              implements PropertyChangeListener, SynthUI {
+publid dlbss SyntiSplitPbnfUI fxtfnds BbsidSplitPbnfUI
+                              implfmfnts PropfrtyCibngfListfnfr, SyntiUI {
     /**
-     * Keys to use for forward focus traversal when the JComponent is
-     * managing focus.
+     * Kfys to usf for forwbrd fodus trbvfrsbl wifn tif JComponfnt is
+     * mbnbging fodus.
      */
-    private static Set<KeyStroke> managingFocusForwardTraversalKeys;
+    privbtf stbtid Sft<KfyStrokf> mbnbgingFodusForwbrdTrbvfrsblKfys;
 
     /**
-     * Keys to use for backward focus traversal when the JComponent is
-     * managing focus.
+     * Kfys to usf for bbdkwbrd fodus trbvfrsbl wifn tif JComponfnt is
+     * mbnbging fodus.
      */
-    private static Set<KeyStroke> managingFocusBackwardTraversalKeys;
+    privbtf stbtid Sft<KfyStrokf> mbnbgingFodusBbdkwbrdTrbvfrsblKfys;
 
     /**
-     * Style for the JSplitPane.
+     * Stylf for tif JSplitPbnf.
      */
-    private SynthStyle style;
+    privbtf SyntiStylf stylf;
     /**
-     * Style for the divider.
+     * Stylf for tif dividfr.
      */
-    private SynthStyle dividerStyle;
+    privbtf SyntiStylf dividfrStylf;
 
 
     /**
-     * Creates a new SynthSplitPaneUI instance
+     * Crfbtfs b nfw SyntiSplitPbnfUI instbndf
      *
-     * @param x component to create UI object for
-     * @return the UI object
+     * @pbrbm x domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new SynthSplitPaneUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw SyntiSplitPbnfUI();
     }
 
     /**
-     * Installs the UI defaults.
+     * Instblls tif UI dffbults.
      */
-    @Override
-    protected void installDefaults() {
-        updateStyle(splitPane);
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        updbtfStylf(splitPbnf);
 
-        setOrientation(splitPane.getOrientation());
-        setContinuousLayout(splitPane.isContinuousLayout());
+        sftOrifntbtion(splitPbnf.gftOrifntbtion());
+        sftContinuousLbyout(splitPbnf.isContinuousLbyout());
 
-        resetLayoutManager();
+        rfsftLbyoutMbnbgfr();
 
-        /* Install the nonContinuousLayoutDivider here to avoid having to
-        add/remove everything later. */
-        if(nonContinuousLayoutDivider == null) {
-            setNonContinuousLayoutDivider(
-                                createDefaultNonContinuousLayoutDivider(),
-                                true);
-        } else {
-            setNonContinuousLayoutDivider(nonContinuousLayoutDivider, true);
+        /* Instbll tif nonContinuousLbyoutDividfr ifrf to bvoid ibving to
+        bdd/rfmovf fvfrytiing lbtfr. */
+        if(nonContinuousLbyoutDividfr == null) {
+            sftNonContinuousLbyoutDividfr(
+                                drfbtfDffbultNonContinuousLbyoutDividfr(),
+                                truf);
+        } flsf {
+            sftNonContinuousLbyoutDividfr(nonContinuousLbyoutDividfr, truf);
         }
 
-        // focus forward traversal key
-        if (managingFocusForwardTraversalKeys==null) {
-            managingFocusForwardTraversalKeys = new HashSet<KeyStroke>();
-            managingFocusForwardTraversalKeys.add(
-                KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
+        // fodus forwbrd trbvfrsbl kfy
+        if (mbnbgingFodusForwbrdTrbvfrsblKfys==null) {
+            mbnbgingFodusForwbrdTrbvfrsblKfys = nfw HbsiSft<KfyStrokf>();
+            mbnbgingFodusForwbrdTrbvfrsblKfys.bdd(
+                KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_TAB, 0));
         }
-        splitPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-                                        managingFocusForwardTraversalKeys);
-        // focus backward traversal key
-        if (managingFocusBackwardTraversalKeys==null) {
-            managingFocusBackwardTraversalKeys = new HashSet<KeyStroke>();
-            managingFocusBackwardTraversalKeys.add(
-                KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.SHIFT_MASK));
+        splitPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS,
+                                        mbnbgingFodusForwbrdTrbvfrsblKfys);
+        // fodus bbdkwbrd trbvfrsbl kfy
+        if (mbnbgingFodusBbdkwbrdTrbvfrsblKfys==null) {
+            mbnbgingFodusBbdkwbrdTrbvfrsblKfys = nfw HbsiSft<KfyStrokf>();
+            mbnbgingFodusBbdkwbrdTrbvfrsblKfys.bdd(
+                KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_TAB, InputEvfnt.SHIFT_MASK));
         }
-        splitPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-                                        managingFocusBackwardTraversalKeys);
+        splitPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS,
+                                        mbnbgingFodusBbdkwbrdTrbvfrsblKfys);
     }
 
-    private void updateStyle(JSplitPane splitPane) {
-        SynthContext context = getContext(splitPane, Region.SPLIT_PANE_DIVIDER,
+    privbtf void updbtfStylf(JSplitPbnf splitPbnf) {
+        SyntiContfxt dontfxt = gftContfxt(splitPbnf, Rfgion.SPLIT_PANE_DIVIDER,
                                           ENABLED);
-        SynthStyle oldDividerStyle = dividerStyle;
-        dividerStyle = SynthLookAndFeel.updateStyle(context, this);
-        context.dispose();
+        SyntiStylf oldDividfrStylf = dividfrStylf;
+        dividfrStylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        dontfxt.disposf();
 
-        context = getContext(splitPane, ENABLED);
-        SynthStyle oldStyle = style;
+        dontfxt = gftContfxt(splitPbnf, ENABLED);
+        SyntiStylf oldStylf = stylf;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
 
-        if (style != oldStyle) {
-            Object value = style.get(context, "SplitPane.size");
-            if (value == null) {
-                value = Integer.valueOf(6);
+        if (stylf != oldStylf) {
+            Objfdt vbluf = stylf.gft(dontfxt, "SplitPbnf.sizf");
+            if (vbluf == null) {
+                vbluf = Intfgfr.vblufOf(6);
             }
-            LookAndFeel.installProperty(splitPane, "dividerSize", value);
+            LookAndFffl.instbllPropfrty(splitPbnf, "dividfrSizf", vbluf);
 
-            value = style.get(context, "SplitPane.oneTouchExpandable");
-            if (value != null) {
-                LookAndFeel.installProperty(splitPane, "oneTouchExpandable", value);
+            vbluf = stylf.gft(dontfxt, "SplitPbnf.onfToudiExpbndbblf");
+            if (vbluf != null) {
+                LookAndFffl.instbllPropfrty(splitPbnf, "onfToudiExpbndbblf", vbluf);
             }
 
-            if (divider != null) {
-                splitPane.remove(divider);
-                divider.setDividerSize(splitPane.getDividerSize());
+            if (dividfr != null) {
+                splitPbnf.rfmovf(dividfr);
+                dividfr.sftDividfrSizf(splitPbnf.gftDividfrSizf());
             }
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
             }
         }
-        if (style != oldStyle || dividerStyle != oldDividerStyle) {
-            // Only way to force BasicSplitPaneDivider to reread the
-            // necessary properties.
-            if (divider != null) {
-                splitPane.remove(divider);
+        if (stylf != oldStylf || dividfrStylf != oldDividfrStylf) {
+            // Only wby to fordf BbsidSplitPbnfDividfr to rfrfbd tif
+            // nfdfssbry propfrtifs.
+            if (dividfr != null) {
+                splitPbnf.rfmovf(dividfr);
             }
-            divider = createDefaultDivider();
-            divider.setBasicSplitPaneUI(this);
-            splitPane.add(divider, JSplitPane.DIVIDER);
+            dividfr = drfbtfDffbultDividfr();
+            dividfr.sftBbsidSplitPbnfUI(tiis);
+            splitPbnf.bdd(dividfr, JSplitPbnf.DIVIDER);
         }
-        context.dispose();
+        dontfxt.disposf();
     }
 
     /**
-     * Installs the event listeners for the UI.
+     * Instblls tif fvfnt listfnfrs for tif UI.
      */
-    @Override
-    protected void installListeners() {
-        super.installListeners();
-        splitPane.addPropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        splitPbnf.bddPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * Uninstalls the UI defaults.
+     * Uninstblls tif UI dffbults.
      */
-    @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(splitPane, ENABLED);
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SyntiContfxt dontfxt = gftContfxt(splitPbnf, ENABLED);
 
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
 
-        context = getContext(splitPane, Region.SPLIT_PANE_DIVIDER, ENABLED);
-        dividerStyle.uninstallDefaults(context);
-        context.dispose();
-        dividerStyle = null;
+        dontfxt = gftContfxt(splitPbnf, Rfgion.SPLIT_PANE_DIVIDER, ENABLED);
+        dividfrStylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        dividfrStylf = null;
 
-        super.uninstallDefaults();
+        supfr.uninstbllDffbults();
     }
 
 
     /**
-     * Uninstalls the event listeners from the UI.
+     * Uninstblls tif fvfnt listfnfrs from tif UI.
      */
-    @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        splitPane.removePropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        splitPbnf.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SyntiLookAndFffl.gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
-    SynthContext getContext(JComponent c, Region region) {
-        return getContext(c, region, getComponentState(c, region));
+    SyntiContfxt gftContfxt(JComponfnt d, Rfgion rfgion) {
+        rfturn gftContfxt(d, rfgion, gftComponfntStbtf(d, rfgion));
     }
 
-    private SynthContext getContext(JComponent c, Region region, int state) {
-        if (region == Region.SPLIT_PANE_DIVIDER) {
-            return SynthContext.getContext(c, region, dividerStyle, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, Rfgion rfgion, int stbtf) {
+        if (rfgion == Rfgion.SPLIT_PANE_DIVIDER) {
+            rfturn SyntiContfxt.gftContfxt(d, rfgion, dividfrStylf, stbtf);
         }
-        return SynthContext.getContext(c, region, style, state);
+        rfturn SyntiContfxt.gftContfxt(d, rfgion, stylf, stbtf);
     }
 
-    private int getComponentState(JComponent c, Region subregion) {
-        int state = SynthLookAndFeel.getComponentState(c);
+    privbtf int gftComponfntStbtf(JComponfnt d, Rfgion subrfgion) {
+        int stbtf = SyntiLookAndFffl.gftComponfntStbtf(d);
 
-        if (divider.isMouseOver()) {
-            state |= MOUSE_OVER;
+        if (dividfr.isMousfOvfr()) {
+            stbtf |= MOUSE_OVER;
         }
-        return state;
+        rfturn stbtf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((JSplitPane)e.getSource());
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(f)) {
+            updbtfStylf((JSplitPbnf)f.gftSourdf());
         }
     }
 
     /**
-     * Creates the default divider.
+     * Crfbtfs tif dffbult dividfr.
      */
-    @Override
-    public BasicSplitPaneDivider createDefaultDivider() {
-        SynthSplitPaneDivider divider = new SynthSplitPaneDivider(this);
+    @Ovfrridf
+    publid BbsidSplitPbnfDividfr drfbtfDffbultDividfr() {
+        SyntiSplitPbnfDividfr dividfr = nfw SyntiSplitPbnfDividfr(tiis);
 
-        divider.setDividerSize(splitPane.getDividerSize());
-        return divider;
+        dividfr.sftDividfrSizf(splitPbnf.gftDividfrSizf());
+        rfturn dividfr;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    @SuppressWarnings("serial") // anonymous class
-    protected Component createDefaultNonContinuousLayoutDivider() {
-        return new Canvas() {
-            public void paint(Graphics g) {
-                paintDragDivider(g, 0, 0, getWidth(), getHeight());
+    @Ovfrridf
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd Componfnt drfbtfDffbultNonContinuousLbyoutDividfr() {
+        rfturn nfw Cbnvbs() {
+            publid void pbint(Grbpiids g) {
+                pbintDrbgDividfr(g, 0, 0, gftWidti(), gftHfigit());
             }
         };
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintSplitPaneBackground(context,
-                          g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
-        context.dispose();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintSplitPbnfBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        paint(context, g);
-        context.dispose();
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component. This implementation does nothing.
+     * Pbints tif spfdififd domponfnt. Tiis implfmfntbtion dofs notiing.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        // This is done to update package private variables in
-        // BasicSplitPaneUI
-        super.paint(g, splitPane);
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
+        // Tiis is donf to updbtf pbdkbgf privbtf vbribblfs in
+        // BbsidSplitPbnfUI
+        supfr.pbint(g, splitPbnf);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintSplitPaneBorder(context, g, x, y, w, h);
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintSplitPbnfBordfr(dontfxt, g, x, y, w, i);
     }
 
-    private void paintDragDivider(Graphics g, int x, int y, int w, int h) {
-        SynthContext context = getContext(splitPane,Region.SPLIT_PANE_DIVIDER);
-        context.setComponentState(((context.getComponentState() | MOUSE_OVER) ^
+    privbtf void pbintDrbgDividfr(Grbpiids g, int x, int y, int w, int i) {
+        SyntiContfxt dontfxt = gftContfxt(splitPbnf,Rfgion.SPLIT_PANE_DIVIDER);
+        dontfxt.sftComponfntStbtf(((dontfxt.gftComponfntStbtf() | MOUSE_OVER) ^
                                    MOUSE_OVER) | PRESSED);
-        Shape oldClip = g.getClip();
-        g.clipRect(x, y, w, h);
-        context.getPainter().paintSplitPaneDragDivider(context, g, x, y, w, h,
-                                           splitPane.getOrientation());
-        g.setClip(oldClip);
-        context.dispose();
+        Sibpf oldClip = g.gftClip();
+        g.dlipRfdt(x, y, w, i);
+        dontfxt.gftPbintfr().pbintSplitPbnfDrbgDividfr(dontfxt, g, x, y, w, i,
+                                           splitPbnf.gftOrifntbtion());
+        g.sftClip(oldClip);
+        dontfxt.disposf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void finishedPaintingChildren(JSplitPane jc, Graphics g) {
-        if(jc == splitPane && getLastDragLocation() != -1 &&
-                              !isContinuousLayout() && !draggingHW) {
-            if(jc.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
-                paintDragDivider(g, getLastDragLocation(), 0, dividerSize - 1,
-                                 splitPane.getHeight() - 1);
-            } else {
-                paintDragDivider(g, 0, getLastDragLocation(),
-                                 splitPane.getWidth() - 1, dividerSize - 1);
+    @Ovfrridf
+    publid void finisifdPbintingCiildrfn(JSplitPbnf jd, Grbpiids g) {
+        if(jd == splitPbnf && gftLbstDrbgLodbtion() != -1 &&
+                              !isContinuousLbyout() && !drbggingHW) {
+            if(jd.gftOrifntbtion() == JSplitPbnf.HORIZONTAL_SPLIT) {
+                pbintDrbgDividfr(g, gftLbstDrbgLodbtion(), 0, dividfrSizf - 1,
+                                 splitPbnf.gftHfigit() - 1);
+            } flsf {
+                pbintDrbgDividfr(g, 0, gftLbstDrbgLodbtion(),
+                                 splitPbnf.gftWidti() - 1, dividfrSizf - 1);
             }
         }
     }

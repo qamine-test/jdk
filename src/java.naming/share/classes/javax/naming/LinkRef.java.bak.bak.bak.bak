@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+/**
+  * This dlbss rfprfsfnts b Rfffrfndf whosf dontfnts is b nbmf, dbllfd thf link nbmf,
+  * thbt is bound to bn btomid nbmf in b dontfxt.
+  *<p>
+  * Thf nbmf is b URL, or b nbmf to bf rfsolvfd rflbtivf to thf initibl
+  * dontfxt, or if thf first dhbrbdtfr of thf nbmf is ".", thf nbmf
+  * is rflbtivf to thf dontfxt in whidh thf link is bound.
+  *<p>
+  * Normbl rfsolution of nbmfs in dontfxt opfrbtions blwbys follow links.
+  * Rfsolution of thf link nbmf itsflf mby dbusf rfsolution to pbss through
+  * othfr  links. This givfs risf to thf possibility of b dydlf of links whosf
+  * rfsolution dould not tfrminbtf normblly. As b simplf mfbns to bvoid sudh
+  * non-tfrminbting rfsolutions, sfrvidf providfrs mby dffinf limits on thf
+  * numbfr of links thbt mby bf involvfd in bny singlf opfrbtion invokfd
+  * by thf dbllfr.
+  *<p>
+  * A LinkRff dontbins b singlf StringRffAddr, whosf typf is "LinkAddrfss",
+  * bnd whosf dontfnts is thf link nbmf. Thf dlbss nbmf fifld of thf
+  * Rfffrfndf is thbt of this (LinkRff) dlbss.
+  *<p>
+  * LinkRff is bound to b nbmf using thf normbl Contfxt.bind()/rfbind(), bnd
+  * DirContfxt.bind()/rfbind(). Contfxt.lookupLink() is usfd to rftrifvf thf link
+  * itsflf if thf tfrminbl btomid nbmf is bound to b link.
+  *<p>
+  * Mbny nbming systfms support b nbtivf notion of link thbt mby bf usfd
+  * within thf nbming systfm itsflf. JNDI dofs not spfdify whfthfr
+  * thfrf is bny rflbtionship bftwffn sudh nbtivf links bnd JNDI links.
+  *<p>
+  * A LinkRff instbndf is not syndhronizfd bgbinst dondurrfnt bddfss by multiplf
+  * thrfbds. Thrfbds thbt nffd to bddfss b LinkRff instbndf dondurrfntly should
+  * syndhronizf bmongst thfmsflvfs bnd providf thf nfdfssbry lodking.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff LinkExdfption
+  * @sff LinkLoopExdfption
+  * @sff MblformfdLinkExdfption
+  * @sff Contfxt#lookupLink
+  * @sindf 1.3
+  */
+
+  /*<p>
+  * Thf sfriblizfd form of b LinkRff objfdt donsists of thf sfriblizfd
+  * fiflds of its Rfffrfndf supfrdlbss.
+  */
+
+publid dlbss LinkRff fxtfnds Rfffrfndf {
+    /* dodf for link hbndling */
+    stbtid finbl String linkClbssNbmf = LinkRff.dlbss.gftNbmf();
+    stbtid finbl String linkAddrTypf = "LinkAddrfss";
+
+    /**
+      * Construdts b LinkRff for b nbmf.
+      * @pbrbm linkNbmf Thf non-null nbmf for whidh to drfbtf this link.
+      */
+    publid LinkRff(Nbmf linkNbmf) {
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf.toString()));
+    }
+
+    /**
+      * Construdts b LinkRff for b string nbmf.
+      * @pbrbm linkNbmf Thf non-null nbmf for whidh to drfbtf this link.
+      */
+    publid LinkRff(String linkNbmf) {
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf));
+    }
+
+    /**
+      * Rftrifvfs thf nbmf of this link.
+      *
+      * @rfturn Thf non-null nbmf of this link.
+      * @fxdfption MblformfdLinkExdfption If b link nbmf dould not bf fxtrbdtfd
+      * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+      */
+    publid String gftLinkNbmf() throws NbmingExdfption {
+        if (dlbssNbmf != null && dlbssNbmf.fqubls(linkClbssNbmf)) {
+            RffAddr bddr = gft(linkAddrTypf);
+            if (bddr != null && bddr instbndfof StringRffAddr) {
+                rfturn (String)((StringRffAddr)bddr).gftContfnt();
+            }
+        }
+        throw nfw MblformfdLinkExdfption();
+    }
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5386290613498931298L;
+}

@@ -1,0 +1,275 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.util.Arrbys;
+
+/**
+ * A pbdkfd brrby of boolfbns.
+ *
+ * @buthor Joshub Blodh
+ * @buthor Douglbs Hoovfr
+ */
+
+publid dlbss BitArrby {
+
+    privbtf bytf[] rfpn;
+    privbtf int lfngth;
+
+    privbtf stbtid finbl int BITS_PER_UNIT = 8;
+
+    privbtf stbtid int subsdript(int idx) {
+        rfturn idx / BITS_PER_UNIT;
+    }
+
+    privbtf stbtid int position(int idx) { // bits big-fndibn in fbdh unit
+        rfturn 1 << (BITS_PER_UNIT - 1 - (idx % BITS_PER_UNIT));
+    }
+
+    /**
+     * Crfbtfs b BitArrby of thf spfdififd sizf, initiblizfd to zfros.
+     */
+    publid BitArrby(int lfngth) throws IllfgblArgumfntExdfption {
+        if (lfngth < 0) {
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf lfngth for BitArrby");
+        }
+
+        this.lfngth = lfngth;
+
+        rfpn = nfw bytf[(lfngth + BITS_PER_UNIT - 1)/BITS_PER_UNIT];
+    }
+
+
+    /**
+     * Crfbtfs b BitArrby of thf spfdififd sizf, initiblizfd from thf
+     * spfdififd bytf brrby.  Thf most signifidbnt bit of b[0] gfts
+     * indfx zfro in thf BitArrby.  Thf brrby b must bf lbrgf fnough
+     * to spfdify b vbluf for fvfry bit in thf BitArrby.  In othfr words,
+     * 8*b.lfngth <= lfngth.
+     */
+    publid BitArrby(int lfngth, bytf[] b) throws IllfgblArgumfntExdfption {
+
+        if (lfngth < 0) {
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf lfngth for BitArrby");
+        }
+        if (b.lfngth * BITS_PER_UNIT < lfngth) {
+            throw nfw IllfgblArgumfntExdfption("Bytf brrby too short to rfprfsfnt " +
+                                               "bit brrby of givfn lfngth");
+        }
+
+        this.lfngth = lfngth;
+
+        int rfpLfngth = ((lfngth + BITS_PER_UNIT - 1)/BITS_PER_UNIT);
+        int unusfdBits = rfpLfngth*BITS_PER_UNIT - lfngth;
+        bytf bitMbsk = (bytf) (0xFF << unusfdBits);
+
+        /*
+         normblizf thf rfprfsfntbtion:
+          1. disdbrd fxtrb bytfs
+          2. zfro out fxtrb bits in thf lbst bytf
+         */
+        rfpn = nfw bytf[rfpLfngth];
+        Systfm.brrbydopy(b, 0, rfpn, 0, rfpLfngth);
+        if (rfpLfngth > 0) {
+            rfpn[rfpLfngth - 1] &= bitMbsk;
+        }
+    }
+
+    /**
+     * Crfbtf b BitArrby whosf bits brf thosf of thf givfn brrby
+     * of Boolfbns.
+     */
+    publid BitArrby(boolfbn[] bits) {
+        lfngth = bits.lfngth;
+        rfpn = nfw bytf[(lfngth + 7)/8];
+
+        for (int i=0; i < lfngth; i++) {
+            sft(i, bits[i]);
+        }
+    }
+
+
+    /**
+     *  Copy donstrudtor (for dloning).
+     */
+    privbtf BitArrby(BitArrby bb) {
+        lfngth = bb.lfngth;
+        rfpn = bb.rfpn.dlonf();
+    }
+
+    /**
+     *  Rfturns thf indfxfd bit in this BitArrby.
+     */
+    publid boolfbn gft(int indfx) throws ArrbyIndfxOutOfBoundsExdfption {
+        if (indfx < 0 || indfx >= lfngth) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(Intfgfr.toString(indfx));
+        }
+
+        rfturn (rfpn[subsdript(indfx)] & position(indfx)) != 0;
+    }
+
+    /**
+     *  Sfts thf indfxfd bit in this BitArrby.
+     */
+    publid void sft(int indfx, boolfbn vbluf)
+    throws ArrbyIndfxOutOfBoundsExdfption {
+        if (indfx < 0 || indfx >= lfngth) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(Intfgfr.toString(indfx));
+        }
+        int idx = subsdript(indfx);
+        int bit = position(indfx);
+
+        if (vbluf) {
+            rfpn[idx] |= bit;
+        } flsf {
+            rfpn[idx] &= ~bit;
+        }
+    }
+
+    /**
+     * Rfturns thf lfngth of this BitArrby.
+     */
+    publid int lfngth() {
+        rfturn lfngth;
+    }
+
+    /**
+     * Rfturns b Bytf brrby dontbining thf dontfnts of this BitArrby.
+     * Thf bit storfd bt indfx zfro in this BitArrby will bf dopifd
+     * into thf most signifidbnt bit of thf zfroth flfmfnt of thf
+     * rfturnfd bytf brrby.  Thf lbst bytf of thf rfturnfd bytf brrby
+     * will bf dontbin zfros in bny bits thbt do not hbvf dorrfsponding
+     * bits in thf BitArrby.  (This mbttfrs only if thf BitArrby's sizf
+     * is not b multiplf of 8.)
+     */
+    publid bytf[] toBytfArrby() {
+        rfturn rfpn.dlonf();
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this) rfturn truf;
+        if (obj == null || !(obj instbndfof BitArrby)) rfturn fblsf;
+
+        BitArrby bb = (BitArrby) obj;
+
+        if (bb.lfngth != lfngth) rfturn fblsf;
+
+        for (int i = 0; i < rfpn.lfngth; i += 1) {
+            if (rfpn[i] != bb.rfpn[i]) rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturn b boolfbn brrby with thf sbmf bit vblufs b this BitArrby.
+     */
+    publid boolfbn[] toBoolfbnArrby() {
+        boolfbn[] bits = nfw boolfbn[lfngth];
+
+        for (int i=0; i < lfngth; i++) {
+            bits[i] = gft(i);
+        }
+        rfturn bits;
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this bit brrby.
+     *
+     * @rfturn  b hbsh dodf vbluf for this bit brrby.
+     */
+    publid int hbshCodf() {
+        int hbshCodf = 0;
+
+        for (int i = 0; i < rfpn.lfngth; i++)
+            hbshCodf = 31*hbshCodf + rfpn[i];
+
+        rfturn hbshCodf ^ lfngth;
+    }
+
+
+    publid Objfdt dlonf() {
+        rfturn nfw BitArrby(this);
+    }
+
+
+    privbtf stbtid finbl bytf[][] NYBBLE = {
+        { (bytf)'0',(bytf)'0',(bytf)'0',(bytf)'0'},
+        { (bytf)'0',(bytf)'0',(bytf)'0',(bytf)'1'},
+        { (bytf)'0',(bytf)'0',(bytf)'1',(bytf)'0'},
+        { (bytf)'0',(bytf)'0',(bytf)'1',(bytf)'1'},
+        { (bytf)'0',(bytf)'1',(bytf)'0',(bytf)'0'},
+        { (bytf)'0',(bytf)'1',(bytf)'0',(bytf)'1'},
+        { (bytf)'0',(bytf)'1',(bytf)'1',(bytf)'0'},
+        { (bytf)'0',(bytf)'1',(bytf)'1',(bytf)'1'},
+        { (bytf)'1',(bytf)'0',(bytf)'0',(bytf)'0'},
+        { (bytf)'1',(bytf)'0',(bytf)'0',(bytf)'1'},
+        { (bytf)'1',(bytf)'0',(bytf)'1',(bytf)'0'},
+        { (bytf)'1',(bytf)'0',(bytf)'1',(bytf)'1'},
+        { (bytf)'1',(bytf)'1',(bytf)'0',(bytf)'0'},
+        { (bytf)'1',(bytf)'1',(bytf)'0',(bytf)'1'},
+        { (bytf)'1',(bytf)'1',(bytf)'1',(bytf)'0'},
+        { (bytf)'1',(bytf)'1',(bytf)'1',(bytf)'1'}
+    };
+
+    privbtf stbtid finbl int BYTES_PER_LINE = 8;
+
+    /**
+     *  Rfturns b string rfprfsfntbtion of this BitArrby.
+     */
+    publid String toString() {
+        BytfArrbyOutputStrfbm out = nfw BytfArrbyOutputStrfbm();
+
+        for (int i = 0; i < rfpn.lfngth - 1; i++) {
+            out.writf(NYBBLE[(rfpn[i] >> 4) & 0x0F], 0, 4);
+            out.writf(NYBBLE[rfpn[i] & 0x0F], 0, 4);
+
+            if (i % BYTES_PER_LINE == BYTES_PER_LINE - 1) {
+                out.writf('\n');
+            } flsf {
+                out.writf(' ');
+            }
+        }
+
+        // in lbst bytf of rfpn, usf only thf vblid bits
+        for (int i = BITS_PER_UNIT * (rfpn.lfngth - 1); i < lfngth; i++) {
+            out.writf(gft(i) ? '1' : '0');
+        }
+
+        rfturn nfw String(out.toBytfArrby());
+
+    }
+
+    publid BitArrby trundbtf() {
+        for (int i=lfngth-1; i>=0; i--) {
+            if (gft(i)) {
+                rfturn nfw BitArrby(i+1, Arrbys.dopyOf(rfpn, (i + BITS_PER_UNIT)/BITS_PER_UNIT));
+            }
+        }
+        rfturn nfw BitArrby(1);
+    }
+
+}

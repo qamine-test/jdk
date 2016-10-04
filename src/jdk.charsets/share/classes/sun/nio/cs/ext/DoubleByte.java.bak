@@ -1,928 +1,928 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs.ext;
+pbdkbgf sun.nio.ds.fxt;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import java.util.Arrays;
-import sun.nio.cs.Surrogate;
-import sun.nio.cs.ArrayDecoder;
-import sun.nio.cs.ArrayEncoder;
-import static sun.nio.cs.CharsetMapping.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.nio.dibrsft.CodfrRfsult;
+import jbvb.util.Arrbys;
+import sun.nio.ds.Surrogbtf;
+import sun.nio.ds.ArrbyDfdodfr;
+import sun.nio.ds.ArrbyEndodfr;
+import stbtid sun.nio.ds.CibrsftMbpping.*;
 
 /*
- * Four types of "DoubleByte" charsets are implemented in this class
- * (1)DoubleByte
- *    The "mostly widely used" multibyte charset, a combination of
- *    a singlebyte character set (usually the ASCII charset) and a
- *    doublebyte character set. The codepoint values of singlebyte
- *    and doublebyte don't overlap. Microsoft's multibyte charsets
- *    and IBM's "DBCS_ASCII" charsets, such as IBM1381, 942, 943,
- *    948, 949 and 950 are such charsets.
+ * Four typfs of "DoublfBytf" dibrsfts brf implfmfntfd in tiis dlbss
+ * (1)DoublfBytf
+ *    Tif "mostly widfly usfd" multibytf dibrsft, b dombinbtion of
+ *    b singlfbytf dibrbdtfr sft (usublly tif ASCII dibrsft) bnd b
+ *    doublfbytf dibrbdtfr sft. Tif dodfpoint vblufs of singlfbytf
+ *    bnd doublfbytf don't ovfrlbp. Midrosoft's multibytf dibrsfts
+ *    bnd IBM's "DBCS_ASCII" dibrsfts, sudi bs IBM1381, 942, 943,
+ *    948, 949 bnd 950 brf sudi dibrsfts.
  *
- * (2)DoubleByte_EBCDIC
- *    IBM EBCDIC Mix multibyte charset. Use SO and SI to shift (switch)
- *    in and out between the singlebyte character set and doublebyte
- *    character set.
+ * (2)DoublfBytf_EBCDIC
+ *    IBM EBCDIC Mix multibytf dibrsft. Usf SO bnd SI to siift (switdi)
+ *    in bnd out bftwffn tif singlfbytf dibrbdtfr sft bnd doublfbytf
+ *    dibrbdtfr sft.
  *
- * (3)DoubleByte_SIMPLE_EUC
- *    It's a "simple" form of EUC encoding scheme, only have the
- *    singlebyte character set G0 and one doublebyte character set
- *    G1 are defined, G2 (with SS2) and G3 (with SS3) are not used.
- *    So it is actually the same as the "typical" type (1) mentioned
- *    above, except it return "malformed" for the SS2 and SS3 when
- *    decoding.
+ * (3)DoublfBytf_SIMPLE_EUC
+ *    It's b "simplf" form of EUC fndoding sdifmf, only ibvf tif
+ *    singlfbytf dibrbdtfr sft G0 bnd onf doublfbytf dibrbdtfr sft
+ *    G1 brf dffinfd, G2 (witi SS2) bnd G3 (witi SS3) brf not usfd.
+ *    So it is bdtublly tif sbmf bs tif "typidbl" typf (1) mfntionfd
+ *    bbovf, fxdfpt it rfturn "mblformfd" for tif SS2 bnd SS3 wifn
+ *    dfdoding.
  *
- * (4)DoubleByte ONLY
- *    A "pure" doublebyte only character set. From implementation
- *    point of view, this is the type (1) with "decodeSingle" always
- *    returns unmappable.
+ * (4)DoublfBytf ONLY
+ *    A "purf" doublfbytf only dibrbdtfr sft. From implfmfntbtion
+ *    point of vifw, tiis is tif typf (1) witi "dfdodfSinglf" blwbys
+ *    rfturns unmbppbblf.
  *
- * For simplicity, all implementations share the same decoding and
- * encoding data structure.
+ * For simplidity, bll implfmfntbtions sibrf tif sbmf dfdoding bnd
+ * fndoding dbtb strudturf.
  *
- * Decoding:
+ * Dfdoding:
  *
- *    char[][] b2c;
- *    char[] b2cSB;
- *    int b2Min, b2Max
+ *    dibr[][] b2d;
+ *    dibr[] b2dSB;
+ *    int b2Min, b2Mbx
  *
- *    public char decodeSingle(int b) {
- *        return b2cSB.[b];
+ *    publid dibr dfdodfSinglf(int b) {
+ *        rfturn b2dSB.[b];
  *    }
  *
- *    public char decodeDouble(int b1, int b2) {
- *        if (b2 < b2Min || b2 > b2Max)
- *            return UNMAPPABLE_DECODING;
- *         return b2c[b1][b2 - b2Min];
+ *    publid dibr dfdodfDoublf(int b1, int b2) {
+ *        if (b2 < b2Min || b2 > b2Mbx)
+ *            rfturn UNMAPPABLE_DECODING;
+ *         rfturn b2d[b1][b2 - b2Min];
  *    }
  *
- *    (1)b2Min, b2Max are the corresponding min and max value of the
- *       low-half of the double-byte.
- *    (2)The high 8-bit/b1 of the double-byte are used to indexed into
- *       b2c array.
+ *    (1)b2Min, b2Mbx brf tif dorrfsponding min bnd mbx vbluf of tif
+ *       low-iblf of tif doublf-bytf.
+ *    (2)Tif iigi 8-bit/b1 of tif doublf-bytf brf usfd to indfxfd into
+ *       b2d brrby.
  *
- * Encoding:
+ * Endoding:
  *
- *    char[] c2b;
- *    char[] c2bIndex;
+ *    dibr[] d2b;
+ *    dibr[] d2bIndfx;
  *
- *    public int encodeChar(char ch) {
- *        return c2b[c2bIndex[ch >> 8] + (ch & 0xff)];
+ *    publid int fndodfCibr(dibr di) {
+ *        rfturn d2b[d2bIndfx[di >> 8] + (di & 0xff)];
  *    }
  *
  */
 
-public class DoubleByte {
+publid dlbss DoublfBytf {
 
-    public final static char[] B2C_UNMAPPABLE;
-    static {
-        B2C_UNMAPPABLE = new char[0x100];
-        Arrays.fill(B2C_UNMAPPABLE, UNMAPPABLE_DECODING);
+    publid finbl stbtid dibr[] B2C_UNMAPPABLE;
+    stbtid {
+        B2C_UNMAPPABLE = nfw dibr[0x100];
+        Arrbys.fill(B2C_UNMAPPABLE, UNMAPPABLE_DECODING);
     }
 
-    public static class Decoder extends CharsetDecoder
-                                implements DelegatableDecoder, ArrayDecoder
+    publid stbtid dlbss Dfdodfr fxtfnds CibrsftDfdodfr
+                                implfmfnts DflfgbtbblfDfdodfr, ArrbyDfdodfr
     {
-        final char[][] b2c;
-        final char[] b2cSB;
-        final int b2Min;
-        final int b2Max;
+        finbl dibr[][] b2d;
+        finbl dibr[] b2dSB;
+        finbl int b2Min;
+        finbl int b2Mbx;
 
-        // for SimpleEUC override
-        protected CoderResult crMalformedOrUnderFlow(int b) {
-            return CoderResult.UNDERFLOW;
+        // for SimplfEUC ovfrridf
+        protfdtfd CodfrRfsult drMblformfdOrUndfrFlow(int b) {
+            rfturn CodfrRfsult.UNDERFLOW;
         }
 
-        protected CoderResult crMalformedOrUnmappable(int b1, int b2) {
-            if (b2c[b1] == B2C_UNMAPPABLE ||                // isNotLeadingByte(b1)
-                b2c[b2] != B2C_UNMAPPABLE ||                // isLeadingByte(b2)
-                decodeSingle(b2) != UNMAPPABLE_DECODING) {  // isSingle(b2)
-                return CoderResult.malformedForLength(1);
+        protfdtfd CodfrRfsult drMblformfdOrUnmbppbblf(int b1, int b2) {
+            if (b2d[b1] == B2C_UNMAPPABLE ||                // isNotLfbdingBytf(b1)
+                b2d[b2] != B2C_UNMAPPABLE ||                // isLfbdingBytf(b2)
+                dfdodfSinglf(b2) != UNMAPPABLE_DECODING) {  // isSinglf(b2)
+                rfturn CodfrRfsult.mblformfdForLfngti(1);
             }
-            return CoderResult.unmappableForLength(2);
+            rfturn CodfrRfsult.unmbppbblfForLfngti(2);
         }
 
-        Decoder(Charset cs, float avgcpb, float maxcpb,
-                char[][] b2c, char[] b2cSB,
-                int b2Min, int b2Max) {
-            super(cs, avgcpb, maxcpb);
-            this.b2c = b2c;
-            this.b2cSB = b2cSB;
-            this.b2Min = b2Min;
-            this.b2Max = b2Max;
+        Dfdodfr(Cibrsft ds, flobt bvgdpb, flobt mbxdpb,
+                dibr[][] b2d, dibr[] b2dSB,
+                int b2Min, int b2Mbx) {
+            supfr(ds, bvgdpb, mbxdpb);
+            tiis.b2d = b2d;
+            tiis.b2dSB = b2dSB;
+            tiis.b2Min = b2Min;
+            tiis.b2Mbx = b2Mbx;
         }
 
-        Decoder(Charset cs, char[][] b2c, char[] b2cSB, int b2Min, int b2Max) {
-            this(cs, 0.5f, 1.0f, b2c, b2cSB, b2Min, b2Max);
+        Dfdodfr(Cibrsft ds, dibr[][] b2d, dibr[] b2dSB, int b2Min, int b2Mbx) {
+            tiis(ds, 0.5f, 1.0f, b2d, b2dSB, b2Min, b2Mbx);
         }
 
-        protected CoderResult decodeArrayLoop(ByteBuffer src, CharBuffer dst) {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
+        protfdtfd CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd, CibrBufffr dst) {
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
 
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
+            dibr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
 
             try {
-                while (sp < sl && dp < dl) {
-                    // inline the decodeSingle/Double() for better performance
-                    int inSize = 1;
-                    int b1 = sa[sp] & 0xff;
-                    char c = b2cSB[b1];
-                    if (c == UNMAPPABLE_DECODING) {
+                wiilf (sp < sl && dp < dl) {
+                    // inlinf tif dfdodfSinglf/Doublf() for bfttfr pfrformbndf
+                    int inSizf = 1;
+                    int b1 = sb[sp] & 0xff;
+                    dibr d = b2dSB[b1];
+                    if (d == UNMAPPABLE_DECODING) {
                         if (sl - sp < 2)
-                            return crMalformedOrUnderFlow(b1);
-                        int b2 = sa[sp + 1] & 0xff;
-                        if (b2 < b2Min || b2 > b2Max ||
-                            (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
-                            return crMalformedOrUnmappable(b1, b2);
+                            rfturn drMblformfdOrUndfrFlow(b1);
+                        int b2 = sb[sp + 1] & 0xff;
+                        if (b2 < b2Min || b2 > b2Mbx ||
+                            (d = b2d[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
+                            rfturn drMblformfdOrUnmbppbblf(b1, b2);
                         }
-                        inSize++;
+                        inSizf++;
                     }
-                    da[dp++] = c;
-                    sp += inSize;
+                    db[dp++] = d;
+                    sp += inSizf;
                 }
-                return (sp >= sl) ? CoderResult.UNDERFLOW
-                                  : CoderResult.OVERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn (sp >= sl) ? CodfrRfsult.UNDERFLOW
+                                  : CodfrRfsult.OVERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
             }
         }
 
-        protected CoderResult decodeBufferLoop(ByteBuffer src, CharBuffer dst) {
-            int mark = src.position();
+        protfdtfd CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd, CibrBufffr dst) {
+            int mbrk = srd.position();
             try {
 
-                while (src.hasRemaining() && dst.hasRemaining()) {
-                    int b1 = src.get() & 0xff;
-                    char c = b2cSB[b1];
-                    int inSize = 1;
-                    if (c == UNMAPPABLE_DECODING) {
-                        if (src.remaining() < 1)
-                            return crMalformedOrUnderFlow(b1);
-                        int b2 = src.get() & 0xff;
-                        if (b2 < b2Min || b2 > b2Max ||
-                            (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING)
-                            return crMalformedOrUnmappable(b1, b2);
-                        inSize++;
+                wiilf (srd.ibsRfmbining() && dst.ibsRfmbining()) {
+                    int b1 = srd.gft() & 0xff;
+                    dibr d = b2dSB[b1];
+                    int inSizf = 1;
+                    if (d == UNMAPPABLE_DECODING) {
+                        if (srd.rfmbining() < 1)
+                            rfturn drMblformfdOrUndfrFlow(b1);
+                        int b2 = srd.gft() & 0xff;
+                        if (b2 < b2Min || b2 > b2Mbx ||
+                            (d = b2d[b1][b2 - b2Min]) == UNMAPPABLE_DECODING)
+                            rfturn drMblformfdOrUnmbppbblf(b1, b2);
+                        inSizf++;
                     }
-                    dst.put(c);
-                    mark += inSize;
+                    dst.put(d);
+                    mbrk += inSizf;
                 }
-                return src.hasRemaining()? CoderResult.OVERFLOW
-                                         : CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+                rfturn srd.ibsRfmbining()? CodfrRfsult.OVERFLOW
+                                         : CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
             }
         }
 
-        // Make some protected methods public for use by JISAutoDetect
-        public CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
-            else
-                return decodeBufferLoop(src, dst);
+        // Mbkf somf protfdtfd mftiods publid for usf by JISAutoDftfdt
+        publid CodfrRfsult dfdodfLoop(BytfBufffr srd, CibrBufffr dst) {
+            if (srd.ibsArrby() && dst.ibsArrby())
+                rfturn dfdodfArrbyLoop(srd, dst);
+            flsf
+                rfturn dfdodfBufffrLoop(srd, dst);
         }
 
-        public int decode(byte[] src, int sp, int len, char[] dst) {
+        publid int dfdodf(bytf[] srd, int sp, int lfn, dibr[] dst) {
             int dp = 0;
-            int sl = sp + len;
-            char repl = replacement().charAt(0);
-            while (sp < sl) {
-                int b1 = src[sp++] & 0xff;
-                char c = b2cSB[b1];
-                if (c == UNMAPPABLE_DECODING) {
+            int sl = sp + lfn;
+            dibr rfpl = rfplbdfmfnt().dibrAt(0);
+            wiilf (sp < sl) {
+                int b1 = srd[sp++] & 0xff;
+                dibr d = b2dSB[b1];
+                if (d == UNMAPPABLE_DECODING) {
                     if (sp < sl) {
-                        int b2 = src[sp++] & 0xff;
-                        if (b2 < b2Min || b2 > b2Max ||
-                            (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
-                            if (b2c[b1] == B2C_UNMAPPABLE ||  // isNotLeadingByte
-                                b2c[b2] != B2C_UNMAPPABLE ||  // isLeadingByte
-                                decodeSingle(b2) != UNMAPPABLE_DECODING) {
+                        int b2 = srd[sp++] & 0xff;
+                        if (b2 < b2Min || b2 > b2Mbx ||
+                            (d = b2d[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
+                            if (b2d[b1] == B2C_UNMAPPABLE ||  // isNotLfbdingBytf
+                                b2d[b2] != B2C_UNMAPPABLE ||  // isLfbdingBytf
+                                dfdodfSinglf(b2) != UNMAPPABLE_DECODING) {
                                 sp--;
                             }
                         }
                     }
-                    if (c == UNMAPPABLE_DECODING) {
-                        c = repl;
+                    if (d == UNMAPPABLE_DECODING) {
+                        d = rfpl;
                     }
                 }
-                dst[dp++] = c;
+                dst[dp++] = d;
             }
-            return dp;
+            rfturn dp;
         }
 
-        public void implReset() {
-            super.implReset();
+        publid void implRfsft() {
+            supfr.implRfsft();
         }
 
-        public CoderResult implFlush(CharBuffer out) {
-            return super.implFlush(out);
+        publid CodfrRfsult implFlusi(CibrBufffr out) {
+            rfturn supfr.implFlusi(out);
         }
 
-        // decode loops are not using decodeSingle/Double() for performance
-        // reason.
-        public char decodeSingle(int b) {
-            return b2cSB[b];
+        // dfdodf loops brf not using dfdodfSinglf/Doublf() for pfrformbndf
+        // rfbson.
+        publid dibr dfdodfSinglf(int b) {
+            rfturn b2dSB[b];
         }
 
-        public char decodeDouble(int b1, int b2) {
-            if (b1 < 0 || b1 > b2c.length ||
-                b2 < b2Min || b2 > b2Max)
-                return UNMAPPABLE_DECODING;
-            return  b2c[b1][b2 - b2Min];
+        publid dibr dfdodfDoublf(int b1, int b2) {
+            if (b1 < 0 || b1 > b2d.lfngti ||
+                b2 < b2Min || b2 > b2Mbx)
+                rfturn UNMAPPABLE_DECODING;
+            rfturn  b2d[b1][b2 - b2Min];
         }
     }
 
     // IBM_EBCDIC_DBCS
-    public static class Decoder_EBCDIC extends Decoder {
-        private static final int SBCS = 0;
-        private static final int DBCS = 1;
-        private static final int SO = 0x0e;
-        private static final int SI = 0x0f;
-        private int  currentState;
+    publid stbtid dlbss Dfdodfr_EBCDIC fxtfnds Dfdodfr {
+        privbtf stbtid finbl int SBCS = 0;
+        privbtf stbtid finbl int DBCS = 1;
+        privbtf stbtid finbl int SO = 0x0f;
+        privbtf stbtid finbl int SI = 0x0f;
+        privbtf int  durrfntStbtf;
 
-        Decoder_EBCDIC(Charset cs,
-                       char[][] b2c, char[] b2cSB, int b2Min, int b2Max) {
-            super(cs, b2c, b2cSB, b2Min, b2Max);
+        Dfdodfr_EBCDIC(Cibrsft ds,
+                       dibr[][] b2d, dibr[] b2dSB, int b2Min, int b2Mbx) {
+            supfr(ds, b2d, b2dSB, b2Min, b2Mbx);
         }
 
-        public void implReset() {
-            currentState = SBCS;
+        publid void implRfsft() {
+            durrfntStbtf = SBCS;
         }
 
-        // Check validity of dbcs ebcdic byte pair values
+        // Cifdk vblidity of dbds fbddid bytf pbir vblufs
         //
-        // First byte : 0x41 -- 0xFE
-        // Second byte: 0x41 -- 0xFE
-        // Doublebyte blank: 0x4040
+        // First bytf : 0x41 -- 0xFE
+        // Sfdond bytf: 0x41 -- 0xFE
+        // Doublfbytf blbnk: 0x4040
         //
-        // The validation implementation in "old" DBCS_IBM_EBCDIC and sun.io
-        // as
+        // Tif vblidbtion implfmfntbtion in "old" DBCS_IBM_EBCDIC bnd sun.io
+        // bs
         //            if ((b1 != 0x40 || b2 != 0x40) &&
-        //                (b2 < 0x41 || b2 > 0xfe)) {...}
-        // is not correct/complete (range check for b1)
+        //                (b2 < 0x41 || b2 > 0xff)) {...}
+        // is not dorrfdt/domplftf (rbngf difdk for b1)
         //
-        private static boolean isDoubleByte(int b1, int b2) {
-            return (0x41 <= b1 && b1 <= 0xfe && 0x41 <= b2 && b2 <= 0xfe)
+        privbtf stbtid boolfbn isDoublfBytf(int b1, int b2) {
+            rfturn (0x41 <= b1 && b1 <= 0xff && 0x41 <= b2 && b2 <= 0xff)
                    || (b1 == 0x40 && b2 == 0x40); // DBCS-HOST SPACE
         }
 
-        protected CoderResult decodeArrayLoop(ByteBuffer src, CharBuffer dst) {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
+        protfdtfd CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd, CibrBufffr dst) {
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            dibr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
 
             try {
-                // don't check dp/dl together here, it's possible to
-                // decdoe a SO/SI without space in output buffer.
-                while (sp < sl) {
-                    int b1 = sa[sp] & 0xff;
-                    int inSize = 1;
-                    if (b1 == SO) {  // Shift out
-                        if (currentState != SBCS)
-                            return CoderResult.malformedForLength(1);
-                        else
-                            currentState = DBCS;
-                    } else if (b1 == SI) {
-                        if (currentState != DBCS)
-                            return CoderResult.malformedForLength(1);
-                        else
-                            currentState = SBCS;
-                    } else {
-                        char c =  UNMAPPABLE_DECODING;
-                        if (currentState == SBCS) {
-                            c = b2cSB[b1];
-                            if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(1);
-                        } else {
+                // don't difdk dp/dl togftifr ifrf, it's possiblf to
+                // dfddof b SO/SI witiout spbdf in output bufffr.
+                wiilf (sp < sl) {
+                    int b1 = sb[sp] & 0xff;
+                    int inSizf = 1;
+                    if (b1 == SO) {  // Siift out
+                        if (durrfntStbtf != SBCS)
+                            rfturn CodfrRfsult.mblformfdForLfngti(1);
+                        flsf
+                            durrfntStbtf = DBCS;
+                    } flsf if (b1 == SI) {
+                        if (durrfntStbtf != DBCS)
+                            rfturn CodfrRfsult.mblformfdForLfngti(1);
+                        flsf
+                            durrfntStbtf = SBCS;
+                    } flsf {
+                        dibr d =  UNMAPPABLE_DECODING;
+                        if (durrfntStbtf == SBCS) {
+                            d = b2dSB[b1];
+                            if (d == UNMAPPABLE_DECODING)
+                                rfturn CodfrRfsult.unmbppbblfForLfngti(1);
+                        } flsf {
                             if (sl - sp < 2)
-                                return CoderResult.UNDERFLOW;
-                            int b2 = sa[sp + 1] & 0xff;
-                            if (b2 < b2Min || b2 > b2Max ||
-                                (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
-                                if (!isDoubleByte(b1, b2))
-                                    return CoderResult.malformedForLength(2);
-                                return CoderResult.unmappableForLength(2);
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            int b2 = sb[sp + 1] & 0xff;
+                            if (b2 < b2Min || b2 > b2Mbx ||
+                                (d = b2d[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
+                                if (!isDoublfBytf(b1, b2))
+                                    rfturn CodfrRfsult.mblformfdForLfngti(2);
+                                rfturn CodfrRfsult.unmbppbblfForLfngti(2);
                             }
-                            inSize++;
+                            inSizf++;
                         }
                         if (dl - dp < 1)
-                            return CoderResult.OVERFLOW;
+                            rfturn CodfrRfsult.OVERFLOW;
 
-                        da[dp++] = c;
+                        db[dp++] = d;
                     }
-                    sp += inSize;
+                    sp += inSizf;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
             }
         }
 
-        protected CoderResult decodeBufferLoop(ByteBuffer src, CharBuffer dst) {
-            int mark = src.position();
+        protfdtfd CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd, CibrBufffr dst) {
+            int mbrk = srd.position();
             try {
-                while (src.hasRemaining()) {
-                    int b1 = src.get() & 0xff;
-                    int inSize = 1;
-                    if (b1 == SO) {  // Shift out
-                        if (currentState != SBCS)
-                            return CoderResult.malformedForLength(1);
-                        else
-                            currentState = DBCS;
-                    } else if (b1 == SI) {
-                        if (currentState != DBCS)
-                            return CoderResult.malformedForLength(1);
-                        else
-                            currentState = SBCS;
-                    } else {
-                        char c = UNMAPPABLE_DECODING;
-                        if (currentState == SBCS) {
-                            c = b2cSB[b1];
-                            if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(1);
-                        } else {
-                            if (src.remaining() < 1)
-                                return CoderResult.UNDERFLOW;
-                            int b2 = src.get()&0xff;
-                            if (b2 < b2Min || b2 > b2Max ||
-                                (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
-                                if (!isDoubleByte(b1, b2))
-                                    return CoderResult.malformedForLength(2);
-                                return CoderResult.unmappableForLength(2);
+                wiilf (srd.ibsRfmbining()) {
+                    int b1 = srd.gft() & 0xff;
+                    int inSizf = 1;
+                    if (b1 == SO) {  // Siift out
+                        if (durrfntStbtf != SBCS)
+                            rfturn CodfrRfsult.mblformfdForLfngti(1);
+                        flsf
+                            durrfntStbtf = DBCS;
+                    } flsf if (b1 == SI) {
+                        if (durrfntStbtf != DBCS)
+                            rfturn CodfrRfsult.mblformfdForLfngti(1);
+                        flsf
+                            durrfntStbtf = SBCS;
+                    } flsf {
+                        dibr d = UNMAPPABLE_DECODING;
+                        if (durrfntStbtf == SBCS) {
+                            d = b2dSB[b1];
+                            if (d == UNMAPPABLE_DECODING)
+                                rfturn CodfrRfsult.unmbppbblfForLfngti(1);
+                        } flsf {
+                            if (srd.rfmbining() < 1)
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            int b2 = srd.gft()&0xff;
+                            if (b2 < b2Min || b2 > b2Mbx ||
+                                (d = b2d[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
+                                if (!isDoublfBytf(b1, b2))
+                                    rfturn CodfrRfsult.mblformfdForLfngti(2);
+                                rfturn CodfrRfsult.unmbppbblfForLfngti(2);
                             }
-                            inSize++;
+                            inSizf++;
                         }
 
-                        if (dst.remaining() < 1)
-                            return CoderResult.OVERFLOW;
+                        if (dst.rfmbining() < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
 
-                        dst.put(c);
+                        dst.put(d);
                     }
-                    mark += inSize;
+                    mbrk += inSizf;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
             }
         }
 
-        public int decode(byte[] src, int sp, int len, char[] dst) {
+        publid int dfdodf(bytf[] srd, int sp, int lfn, dibr[] dst) {
             int dp = 0;
-            int sl = sp + len;
-            currentState = SBCS;
-            char repl = replacement().charAt(0);
-            while (sp < sl) {
-                int b1 = src[sp++] & 0xff;
-                if (b1 == SO) {  // Shift out
-                    if (currentState != SBCS)
-                        dst[dp++] = repl;
-                    else
-                        currentState = DBCS;
-                } else if (b1 == SI) {
-                    if (currentState != DBCS)
-                        dst[dp++] = repl;
-                    else
-                        currentState = SBCS;
-                } else {
-                    char c =  UNMAPPABLE_DECODING;
-                    if (currentState == SBCS) {
-                        c = b2cSB[b1];
-                        if (c == UNMAPPABLE_DECODING)
-                            c = repl;
-                    } else {
+            int sl = sp + lfn;
+            durrfntStbtf = SBCS;
+            dibr rfpl = rfplbdfmfnt().dibrAt(0);
+            wiilf (sp < sl) {
+                int b1 = srd[sp++] & 0xff;
+                if (b1 == SO) {  // Siift out
+                    if (durrfntStbtf != SBCS)
+                        dst[dp++] = rfpl;
+                    flsf
+                        durrfntStbtf = DBCS;
+                } flsf if (b1 == SI) {
+                    if (durrfntStbtf != DBCS)
+                        dst[dp++] = rfpl;
+                    flsf
+                        durrfntStbtf = SBCS;
+                } flsf {
+                    dibr d =  UNMAPPABLE_DECODING;
+                    if (durrfntStbtf == SBCS) {
+                        d = b2dSB[b1];
+                        if (d == UNMAPPABLE_DECODING)
+                            d = rfpl;
+                    } flsf {
                         if (sl == sp) {
-                            c = repl;
-                        } else {
-                            int b2 = src[sp++] & 0xff;
-                            if (b2 < b2Min || b2 > b2Max ||
-                                (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
-                                c = repl;
+                            d = rfpl;
+                        } flsf {
+                            int b2 = srd[sp++] & 0xff;
+                            if (b2 < b2Min || b2 > b2Mbx ||
+                                (d = b2d[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
+                                d = rfpl;
                             }
                         }
                     }
-                    dst[dp++] = c;
+                    dst[dp++] = d;
                 }
             }
-            return dp;
+            rfturn dp;
         }
     }
 
     // DBCS_ONLY
-    public static class Decoder_DBCSONLY extends Decoder {
-        static final char[] b2cSB_UNMAPPABLE;
-        static {
-            b2cSB_UNMAPPABLE = new char[0x100];
-            Arrays.fill(b2cSB_UNMAPPABLE, UNMAPPABLE_DECODING);
+    publid stbtid dlbss Dfdodfr_DBCSONLY fxtfnds Dfdodfr {
+        stbtid finbl dibr[] b2dSB_UNMAPPABLE;
+        stbtid {
+            b2dSB_UNMAPPABLE = nfw dibr[0x100];
+            Arrbys.fill(b2dSB_UNMAPPABLE, UNMAPPABLE_DECODING);
         }
-        Decoder_DBCSONLY(Charset cs, char[][] b2c, char[] b2cSB, int b2Min, int b2Max) {
-            super(cs, 0.5f, 1.0f, b2c, b2cSB_UNMAPPABLE, b2Min, b2Max);
+        Dfdodfr_DBCSONLY(Cibrsft ds, dibr[][] b2d, dibr[] b2dSB, int b2Min, int b2Mbx) {
+            supfr(ds, 0.5f, 1.0f, b2d, b2dSB_UNMAPPABLE, b2Min, b2Mbx);
         }
     }
 
     // EUC_SIMPLE
-    // The only thing we need to "override" is to check SS2/SS3 and
-    // return "malformed" if found
-    public static class Decoder_EUC_SIM extends Decoder {
-        private final int SS2 =  0x8E;
-        private final int SS3 =  0x8F;
+    // Tif only tiing wf nffd to "ovfrridf" is to difdk SS2/SS3 bnd
+    // rfturn "mblformfd" if found
+    publid stbtid dlbss Dfdodfr_EUC_SIM fxtfnds Dfdodfr {
+        privbtf finbl int SS2 =  0x8E;
+        privbtf finbl int SS3 =  0x8F;
 
-        Decoder_EUC_SIM(Charset cs,
-                        char[][] b2c, char[] b2cSB, int b2Min, int b2Max) {
-            super(cs, b2c, b2cSB, b2Min, b2Max);
+        Dfdodfr_EUC_SIM(Cibrsft ds,
+                        dibr[][] b2d, dibr[] b2dSB, int b2Min, int b2Mbx) {
+            supfr(ds, b2d, b2dSB, b2Min, b2Mbx);
         }
 
-        // No support provided for G2/G3 for SimpleEUC
-        protected CoderResult crMalformedOrUnderFlow(int b) {
+        // No support providfd for G2/G3 for SimplfEUC
+        protfdtfd CodfrRfsult drMblformfdOrUndfrFlow(int b) {
             if (b == SS2 || b == SS3 )
-                return CoderResult.malformedForLength(1);
-            return CoderResult.UNDERFLOW;
+                rfturn CodfrRfsult.mblformfdForLfngti(1);
+            rfturn CodfrRfsult.UNDERFLOW;
         }
 
-        protected CoderResult crMalformedOrUnmappable(int b1, int b2) {
+        protfdtfd CodfrRfsult drMblformfdOrUnmbppbblf(int b1, int b2) {
             if (b1 == SS2 || b1 == SS3 )
-                return CoderResult.malformedForLength(1);
-            return CoderResult.unmappableForLength(2);
+                rfturn CodfrRfsult.mblformfdForLfngti(1);
+            rfturn CodfrRfsult.unmbppbblfForLfngti(2);
         }
 
-        public int decode(byte[] src, int sp, int len, char[] dst) {
+        publid int dfdodf(bytf[] srd, int sp, int lfn, dibr[] dst) {
             int dp = 0;
-            int sl = sp + len;
-            char repl = replacement().charAt(0);
-            while (sp < sl) {
-                int b1 = src[sp++] & 0xff;
-                char c = b2cSB[b1];
-                if (c == UNMAPPABLE_DECODING) {
+            int sl = sp + lfn;
+            dibr rfpl = rfplbdfmfnt().dibrAt(0);
+            wiilf (sp < sl) {
+                int b1 = srd[sp++] & 0xff;
+                dibr d = b2dSB[b1];
+                if (d == UNMAPPABLE_DECODING) {
                     if (sp < sl) {
-                        int b2 = src[sp++] & 0xff;
-                        if (b2 < b2Min || b2 > b2Max ||
-                            (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
+                        int b2 = srd[sp++] & 0xff;
+                        if (b2 < b2Min || b2 > b2Mbx ||
+                            (d = b2d[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
                             if (b1 == SS2 || b1 == SS3) {
                                 sp--;
                             }
-                            c = repl;
+                            d = rfpl;
                         }
-                    } else {
-                        c = repl;
+                    } flsf {
+                        d = rfpl;
                     }
                 }
-                dst[dp++] = c;
+                dst[dp++] = d;
             }
-            return dp;
+            rfturn dp;
         }
     }
 
-    public static class Encoder extends CharsetEncoder
-                                implements ArrayEncoder
+    publid stbtid dlbss Endodfr fxtfnds CibrsftEndodfr
+                                implfmfnts ArrbyEndodfr
     {
-        final int MAX_SINGLEBYTE = 0xff;
-        private final char[] c2b;
-        private final char[] c2bIndex;
-        Surrogate.Parser sgp;
+        finbl int MAX_SINGLEBYTE = 0xff;
+        privbtf finbl dibr[] d2b;
+        privbtf finbl dibr[] d2bIndfx;
+        Surrogbtf.Pbrsfr sgp;
 
-        protected Encoder(Charset cs, char[] c2b, char[] c2bIndex) {
-            super(cs, 2.0f, 2.0f);
-            this.c2b = c2b;
-            this.c2bIndex = c2bIndex;
+        protfdtfd Endodfr(Cibrsft ds, dibr[] d2b, dibr[] d2bIndfx) {
+            supfr(ds, 2.0f, 2.0f);
+            tiis.d2b = d2b;
+            tiis.d2bIndfx = d2bIndfx;
         }
 
-        Encoder(Charset cs, float avg, float max, byte[] repl, char[] c2b, char[] c2bIndex) {
-            super(cs, avg, max, repl);
-            this.c2b = c2b;
-            this.c2bIndex = c2bIndex;
+        Endodfr(Cibrsft ds, flobt bvg, flobt mbx, bytf[] rfpl, dibr[] d2b, dibr[] d2bIndfx) {
+            supfr(ds, bvg, mbx, rfpl);
+            tiis.d2b = d2b;
+            tiis.d2bIndfx = d2bIndfx;
         }
 
-        public boolean canEncode(char c) {
-            return encodeChar(c) != UNMAPPABLE_ENCODING;
+        publid boolfbn dbnEndodf(dibr d) {
+            rfturn fndodfCibr(d) != UNMAPPABLE_ENCODING;
         }
 
-        Surrogate.Parser sgp() {
+        Surrogbtf.Pbrsfr sgp() {
             if (sgp == null)
-                sgp = new Surrogate.Parser();
-            return sgp;
+                sgp = nfw Surrogbtf.Pbrsfr();
+            rfturn sgp;
         }
 
-        protected CoderResult encodeArrayLoop(CharBuffer src, ByteBuffer dst) {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
+        protfdtfd CodfrRfsult fndodfArrbyLoop(CibrBufffr srd, BytfBufffr dst) {
+            dibr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
 
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
 
             try {
-                while (sp < sl) {
-                    char c = sa[sp];
-                    int bb = encodeChar(c);
+                wiilf (sp < sl) {
+                    dibr d = sb[sp];
+                    int bb = fndodfCibr(d);
                     if (bb == UNMAPPABLE_ENCODING) {
-                        if (Character.isSurrogate(c)) {
-                            if (sgp().parse(c, sa, sp, sl) < 0)
-                                return sgp.error();
-                            return sgp.unmappableResult();
+                        if (Cibrbdtfr.isSurrogbtf(d)) {
+                            if (sgp().pbrsf(d, sb, sp, sl) < 0)
+                                rfturn sgp.frror();
+                            rfturn sgp.unmbppbblfRfsult();
                         }
-                        return CoderResult.unmappableForLength(1);
+                        rfturn CodfrRfsult.unmbppbblfForLfngti(1);
                     }
 
-                    if (bb > MAX_SINGLEBYTE) {    // DoubleByte
+                    if (bb > MAX_SINGLEBYTE) {    // DoublfBytf
                         if (dl - dp < 2)
-                            return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)(bb >> 8);
-                        da[dp++] = (byte)bb;
-                    } else {                      // SingleByte
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (bytf)(bb >> 8);
+                        db[dp++] = (bytf)bb;
+                    } flsf {                      // SinglfBytf
                         if (dl - dp < 1)
-                            return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)bb;
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (bytf)bb;
                     }
 
                     sp++;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
             }
         }
 
-        protected CoderResult encodeBufferLoop(CharBuffer src, ByteBuffer dst) {
-            int mark = src.position();
+        protfdtfd CodfrRfsult fndodfBufffrLoop(CibrBufffr srd, BytfBufffr dst) {
+            int mbrk = srd.position();
             try {
-                while (src.hasRemaining()) {
-                    char c = src.get();
-                    int bb = encodeChar(c);
+                wiilf (srd.ibsRfmbining()) {
+                    dibr d = srd.gft();
+                    int bb = fndodfCibr(d);
                     if (bb == UNMAPPABLE_ENCODING) {
-                        if (Character.isSurrogate(c)) {
-                            if (sgp().parse(c, src) < 0)
-                                return sgp.error();
-                            return sgp.unmappableResult();
+                        if (Cibrbdtfr.isSurrogbtf(d)) {
+                            if (sgp().pbrsf(d, srd) < 0)
+                                rfturn sgp.frror();
+                            rfturn sgp.unmbppbblfRfsult();
                         }
-                        return CoderResult.unmappableForLength(1);
+                        rfturn CodfrRfsult.unmbppbblfForLfngti(1);
                     }
-                    if (bb > MAX_SINGLEBYTE) {  // DoubleByte
-                        if (dst.remaining() < 2)
-                            return CoderResult.OVERFLOW;
-                        dst.put((byte)(bb >> 8));
-                        dst.put((byte)(bb));
-                    } else {
-                        if (dst.remaining() < 1)
-                        return CoderResult.OVERFLOW;
-                        dst.put((byte)bb);
+                    if (bb > MAX_SINGLEBYTE) {  // DoublfBytf
+                        if (dst.rfmbining() < 2)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((bytf)(bb >> 8));
+                        dst.put((bytf)(bb));
+                    } flsf {
+                        if (dst.rfmbining() < 1)
+                        rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((bytf)bb);
                     }
-                    mark++;
+                    mbrk++;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
             }
         }
 
-        protected CoderResult encodeLoop(CharBuffer src, ByteBuffer dst) {
-            if (src.hasArray() && dst.hasArray())
-                return encodeArrayLoop(src, dst);
-            else
-                return encodeBufferLoop(src, dst);
+        protfdtfd CodfrRfsult fndodfLoop(CibrBufffr srd, BytfBufffr dst) {
+            if (srd.ibsArrby() && dst.ibsArrby())
+                rfturn fndodfArrbyLoop(srd, dst);
+            flsf
+                rfturn fndodfBufffrLoop(srd, dst);
         }
 
-        protected byte[] repl = replacement();
-        protected void implReplaceWith(byte[] newReplacement) {
-            repl = newReplacement;
+        protfdtfd bytf[] rfpl = rfplbdfmfnt();
+        protfdtfd void implRfplbdfWiti(bytf[] nfwRfplbdfmfnt) {
+            rfpl = nfwRfplbdfmfnt;
         }
 
-        public int encode(char[] src, int sp, int len, byte[] dst) {
+        publid int fndodf(dibr[] srd, int sp, int lfn, bytf[] dst) {
             int dp = 0;
-            int sl = sp + len;
-            int dl = dst.length;
-            while (sp < sl) {
-                char c = src[sp++];
-                int bb = encodeChar(c);
+            int sl = sp + lfn;
+            int dl = dst.lfngti;
+            wiilf (sp < sl) {
+                dibr d = srd[sp++];
+                int bb = fndodfCibr(d);
                 if (bb == UNMAPPABLE_ENCODING) {
-                    if (Character.isHighSurrogate(c) && sp < sl &&
-                        Character.isLowSurrogate(src[sp])) {
+                    if (Cibrbdtfr.isHigiSurrogbtf(d) && sp < sl &&
+                        Cibrbdtfr.isLowSurrogbtf(srd[sp])) {
                         sp++;
                     }
-                    dst[dp++] = repl[0];
-                    if (repl.length > 1)
-                        dst[dp++] = repl[1];
-                    continue;
-                } //else
-                if (bb > MAX_SINGLEBYTE) { // DoubleByte
-                    dst[dp++] = (byte)(bb >> 8);
-                    dst[dp++] = (byte)bb;
-                } else {                          // SingleByte
-                    dst[dp++] = (byte)bb;
+                    dst[dp++] = rfpl[0];
+                    if (rfpl.lfngti > 1)
+                        dst[dp++] = rfpl[1];
+                    dontinuf;
+                } //flsf
+                if (bb > MAX_SINGLEBYTE) { // DoublfBytf
+                    dst[dp++] = (bytf)(bb >> 8);
+                    dst[dp++] = (bytf)bb;
+                } flsf {                          // SinglfBytf
+                    dst[dp++] = (bytf)bb;
                 }
 
             }
-            return dp;
+            rfturn dp;
         }
 
-        public int encodeChar(char ch) {
-            return c2b[c2bIndex[ch >> 8] + (ch & 0xff)];
+        publid int fndodfCibr(dibr di) {
+            rfturn d2b[d2bIndfx[di >> 8] + (di & 0xff)];
         }
 
-        // init the c2b and c2bIndex tables from b2c.
-        static void initC2B(String[] b2c, String b2cSB, String b2cNR,  String c2bNR,
-                            int b2Min, int b2Max,
-                            char[] c2b, char[] c2bIndex)
+        // init tif d2b bnd d2bIndfx tbblfs from b2d.
+        stbtid void initC2B(String[] b2d, String b2dSB, String b2dNR,  String d2bNR,
+                            int b2Min, int b2Mbx,
+                            dibr[] d2b, dibr[] d2bIndfx)
         {
-            Arrays.fill(c2b, (char)UNMAPPABLE_ENCODING);
+            Arrbys.fill(d2b, (dibr)UNMAPPABLE_ENCODING);
             int off = 0x100;
 
-            char[][] b2c_ca = new char[b2c.length][];
-            char[] b2cSB_ca = null;
-            if (b2cSB != null)
-                b2cSB_ca = b2cSB.toCharArray();
+            dibr[][] b2d_db = nfw dibr[b2d.lfngti][];
+            dibr[] b2dSB_db = null;
+            if (b2dSB != null)
+                b2dSB_db = b2dSB.toCibrArrby();
 
-            for (int i = 0; i < b2c.length; i++) {
-                if (b2c[i] == null)
-                    continue;
-                b2c_ca[i] = b2c[i].toCharArray();
+            for (int i = 0; i < b2d.lfngti; i++) {
+                if (b2d[i] == null)
+                    dontinuf;
+                b2d_db[i] = b2d[i].toCibrArrby();
             }
 
-            if (b2cNR != null) {
+            if (b2dNR != null) {
                 int j = 0;
-                while (j < b2cNR.length()) {
-                    char b  = b2cNR.charAt(j++);
-                    char c  = b2cNR.charAt(j++);
-                    if (b < 0x100 && b2cSB_ca != null) {
-                        if (b2cSB_ca[b] == c)
-                            b2cSB_ca[b] = UNMAPPABLE_DECODING;
-                    } else {
-                        if (b2c_ca[b >> 8][(b & 0xff) - b2Min] == c)
-                            b2c_ca[b >> 8][(b & 0xff) - b2Min] = UNMAPPABLE_DECODING;
+                wiilf (j < b2dNR.lfngti()) {
+                    dibr b  = b2dNR.dibrAt(j++);
+                    dibr d  = b2dNR.dibrAt(j++);
+                    if (b < 0x100 && b2dSB_db != null) {
+                        if (b2dSB_db[b] == d)
+                            b2dSB_db[b] = UNMAPPABLE_DECODING;
+                    } flsf {
+                        if (b2d_db[b >> 8][(b & 0xff) - b2Min] == d)
+                            b2d_db[b >> 8][(b & 0xff) - b2Min] = UNMAPPABLE_DECODING;
                     }
                 }
             }
 
-            if (b2cSB_ca != null) {      // SingleByte
-                for (int b = 0; b < b2cSB_ca.length; b++) {
-                    char c = b2cSB_ca[b];
-                    if (c == UNMAPPABLE_DECODING)
-                        continue;
-                    int index = c2bIndex[c >> 8];
-                    if (index == 0) {
-                        index = off;
+            if (b2dSB_db != null) {      // SinglfBytf
+                for (int b = 0; b < b2dSB_db.lfngti; b++) {
+                    dibr d = b2dSB_db[b];
+                    if (d == UNMAPPABLE_DECODING)
+                        dontinuf;
+                    int indfx = d2bIndfx[d >> 8];
+                    if (indfx == 0) {
+                        indfx = off;
                         off += 0x100;
-                        c2bIndex[c >> 8] = (char)index;
+                        d2bIndfx[d >> 8] = (dibr)indfx;
                     }
-                    c2b[index + (c & 0xff)] = (char)b;
+                    d2b[indfx + (d & 0xff)] = (dibr)b;
                 }
             }
 
-            for (int b1 = 0; b1 < b2c.length; b1++) {  // DoubleByte
-                char[] db = b2c_ca[b1];
+            for (int b1 = 0; b1 < b2d.lfngti; b1++) {  // DoublfBytf
+                dibr[] db = b2d_db[b1];
                 if (db == null)
-                    continue;
-                for (int b2 = b2Min; b2 <= b2Max; b2++) {
-                    char c = db[b2 - b2Min];
-                    if (c == UNMAPPABLE_DECODING)
-                        continue;
-                    int index = c2bIndex[c >> 8];
-                    if (index == 0) {
-                        index = off;
+                    dontinuf;
+                for (int b2 = b2Min; b2 <= b2Mbx; b2++) {
+                    dibr d = db[b2 - b2Min];
+                    if (d == UNMAPPABLE_DECODING)
+                        dontinuf;
+                    int indfx = d2bIndfx[d >> 8];
+                    if (indfx == 0) {
+                        indfx = off;
                         off += 0x100;
-                        c2bIndex[c >> 8] = (char)index;
+                        d2bIndfx[d >> 8] = (dibr)indfx;
                     }
-                    c2b[index + (c & 0xff)] = (char)((b1 << 8) | b2);
+                    d2b[indfx + (d & 0xff)] = (dibr)((b1 << 8) | b2);
                 }
             }
 
-            if (c2bNR != null) {
-                // add c->b only nr entries
-                for (int i = 0; i < c2bNR.length(); i += 2) {
-                    char b = c2bNR.charAt(i);
-                    char c = c2bNR.charAt(i + 1);
-                    int index = (c >> 8);
-                    if (c2bIndex[index] == 0) {
-                        c2bIndex[index] = (char)off;
+            if (d2bNR != null) {
+                // bdd d->b only nr fntrifs
+                for (int i = 0; i < d2bNR.lfngti(); i += 2) {
+                    dibr b = d2bNR.dibrAt(i);
+                    dibr d = d2bNR.dibrAt(i + 1);
+                    int indfx = (d >> 8);
+                    if (d2bIndfx[indfx] == 0) {
+                        d2bIndfx[indfx] = (dibr)off;
                         off += 0x100;
                     }
-                    index = c2bIndex[index] + (c & 0xff);
-                    c2b[index] = b;
+                    indfx = d2bIndfx[indfx] + (d & 0xff);
+                    d2b[indfx] = b;
                 }
             }
         }
     }
 
-    public static class Encoder_DBCSONLY extends Encoder {
-        Encoder_DBCSONLY(Charset cs, byte[] repl,
-                         char[] c2b, char[] c2bIndex) {
-            super(cs, 2.0f, 2.0f, repl, c2b, c2bIndex);
+    publid stbtid dlbss Endodfr_DBCSONLY fxtfnds Endodfr {
+        Endodfr_DBCSONLY(Cibrsft ds, bytf[] rfpl,
+                         dibr[] d2b, dibr[] d2bIndfx) {
+            supfr(ds, 2.0f, 2.0f, rfpl, d2b, d2bIndfx);
         }
 
-        public int encodeChar(char ch) {
-            int bb = super.encodeChar(ch);
+        publid int fndodfCibr(dibr di) {
+            int bb = supfr.fndodfCibr(di);
             if (bb <= MAX_SINGLEBYTE)
-                return UNMAPPABLE_ENCODING;
-            return bb;
+                rfturn UNMAPPABLE_ENCODING;
+            rfturn bb;
         }
     }
 
 
 
-    public static class Encoder_EBCDIC extends Encoder {
-        static final int SBCS = 0;
-        static final int DBCS = 1;
-        static final byte SO = 0x0e;
-        static final byte SI = 0x0f;
+    publid stbtid dlbss Endodfr_EBCDIC fxtfnds Endodfr {
+        stbtid finbl int SBCS = 0;
+        stbtid finbl int DBCS = 1;
+        stbtid finbl bytf SO = 0x0f;
+        stbtid finbl bytf SI = 0x0f;
 
-        protected int  currentState = SBCS;
+        protfdtfd int  durrfntStbtf = SBCS;
 
-        Encoder_EBCDIC(Charset cs, char[] c2b, char[] c2bIndex) {
-            super(cs, 4.0f, 5.0f, new byte[] {(byte)0x6f}, c2b, c2bIndex);
+        Endodfr_EBCDIC(Cibrsft ds, dibr[] d2b, dibr[] d2bIndfx) {
+            supfr(ds, 4.0f, 5.0f, nfw bytf[] {(bytf)0x6f}, d2b, d2bIndfx);
         }
 
-        protected void implReset() {
-            currentState = SBCS;
+        protfdtfd void implRfsft() {
+            durrfntStbtf = SBCS;
         }
 
-        protected CoderResult implFlush(ByteBuffer out) {
-            if (currentState == DBCS) {
-                if (out.remaining() < 1)
-                    return CoderResult.OVERFLOW;
+        protfdtfd CodfrRfsult implFlusi(BytfBufffr out) {
+            if (durrfntStbtf == DBCS) {
+                if (out.rfmbining() < 1)
+                    rfturn CodfrRfsult.OVERFLOW;
                 out.put(SI);
             }
-            implReset();
-            return CoderResult.UNDERFLOW;
+            implRfsft();
+            rfturn CodfrRfsult.UNDERFLOW;
         }
 
-        protected CoderResult encodeArrayLoop(CharBuffer src, ByteBuffer dst) {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
+        protfdtfd CodfrRfsult fndodfArrbyLoop(CibrBufffr srd, BytfBufffr dst) {
+            dibr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
 
             try {
-                while (sp < sl) {
-                    char c = sa[sp];
-                    int bb = encodeChar(c);
+                wiilf (sp < sl) {
+                    dibr d = sb[sp];
+                    int bb = fndodfCibr(d);
                     if (bb == UNMAPPABLE_ENCODING) {
-                        if (Character.isSurrogate(c)) {
-                            if (sgp().parse(c, sa, sp, sl) < 0)
-                                return sgp.error();
-                            return sgp.unmappableResult();
+                        if (Cibrbdtfr.isSurrogbtf(d)) {
+                            if (sgp().pbrsf(d, sb, sp, sl) < 0)
+                                rfturn sgp.frror();
+                            rfturn sgp.unmbppbblfRfsult();
                         }
-                        return CoderResult.unmappableForLength(1);
+                        rfturn CodfrRfsult.unmbppbblfForLfngti(1);
                     }
-                    if (bb > MAX_SINGLEBYTE) {  // DoubleByte
-                        if (currentState == SBCS) {
+                    if (bb > MAX_SINGLEBYTE) {  // DoublfBytf
+                        if (durrfntStbtf == SBCS) {
                             if (dl - dp < 1)
-                                return CoderResult.OVERFLOW;
-                            currentState = DBCS;
-                            da[dp++] = SO;
+                                rfturn CodfrRfsult.OVERFLOW;
+                            durrfntStbtf = DBCS;
+                            db[dp++] = SO;
                         }
                         if (dl - dp < 2)
-                            return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)(bb >> 8);
-                        da[dp++] = (byte)bb;
-                    } else {                    // SingleByte
-                        if (currentState == DBCS) {
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (bytf)(bb >> 8);
+                        db[dp++] = (bytf)bb;
+                    } flsf {                    // SinglfBytf
+                        if (durrfntStbtf == DBCS) {
                             if (dl - dp < 1)
-                                return CoderResult.OVERFLOW;
-                            currentState = SBCS;
-                            da[dp++] = SI;
+                                rfturn CodfrRfsult.OVERFLOW;
+                            durrfntStbtf = SBCS;
+                            db[dp++] = SI;
                         }
                         if (dl - dp < 1)
-                            return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)bb;
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (bytf)bb;
 
                     }
                     sp++;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
             }
         }
 
-        protected CoderResult encodeBufferLoop(CharBuffer src, ByteBuffer dst) {
-            int mark = src.position();
+        protfdtfd CodfrRfsult fndodfBufffrLoop(CibrBufffr srd, BytfBufffr dst) {
+            int mbrk = srd.position();
             try {
-                while (src.hasRemaining()) {
-                    char c = src.get();
-                    int bb = encodeChar(c);
+                wiilf (srd.ibsRfmbining()) {
+                    dibr d = srd.gft();
+                    int bb = fndodfCibr(d);
                     if (bb == UNMAPPABLE_ENCODING) {
-                        if (Character.isSurrogate(c)) {
-                            if (sgp().parse(c, src) < 0)
-                                return sgp.error();
-                            return sgp.unmappableResult();
+                        if (Cibrbdtfr.isSurrogbtf(d)) {
+                            if (sgp().pbrsf(d, srd) < 0)
+                                rfturn sgp.frror();
+                            rfturn sgp.unmbppbblfRfsult();
                         }
-                        return CoderResult.unmappableForLength(1);
+                        rfturn CodfrRfsult.unmbppbblfForLfngti(1);
                     }
-                    if (bb > MAX_SINGLEBYTE) {  // DoubleByte
-                        if (currentState == SBCS) {
-                            if (dst.remaining() < 1)
-                                return CoderResult.OVERFLOW;
-                            currentState = DBCS;
+                    if (bb > MAX_SINGLEBYTE) {  // DoublfBytf
+                        if (durrfntStbtf == SBCS) {
+                            if (dst.rfmbining() < 1)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            durrfntStbtf = DBCS;
                             dst.put(SO);
                         }
-                        if (dst.remaining() < 2)
-                            return CoderResult.OVERFLOW;
-                        dst.put((byte)(bb >> 8));
-                        dst.put((byte)(bb));
-                    } else {                  // Single-byte
-                        if (currentState == DBCS) {
-                            if (dst.remaining() < 1)
-                                return CoderResult.OVERFLOW;
-                            currentState = SBCS;
+                        if (dst.rfmbining() < 2)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((bytf)(bb >> 8));
+                        dst.put((bytf)(bb));
+                    } flsf {                  // Singlf-bytf
+                        if (durrfntStbtf == DBCS) {
+                            if (dst.rfmbining() < 1)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            durrfntStbtf = SBCS;
                             dst.put(SI);
                         }
-                        if (dst.remaining() < 1)
-                            return CoderResult.OVERFLOW;
-                        dst.put((byte)bb);
+                        if (dst.rfmbining() < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((bytf)bb);
                     }
-                    mark++;
+                    mbrk++;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
             }
         }
 
-        public int encode(char[] src, int sp, int len, byte[] dst) {
+        publid int fndodf(dibr[] srd, int sp, int lfn, bytf[] dst) {
             int dp = 0;
-            int sl = sp + len;
-            while (sp < sl) {
-                char c = src[sp++];
-                int bb = encodeChar(c);
+            int sl = sp + lfn;
+            wiilf (sp < sl) {
+                dibr d = srd[sp++];
+                int bb = fndodfCibr(d);
 
                 if (bb == UNMAPPABLE_ENCODING) {
-                    if (Character.isHighSurrogate(c) && sp < sl &&
-                        Character.isLowSurrogate(src[sp])) {
+                    if (Cibrbdtfr.isHigiSurrogbtf(d) && sp < sl &&
+                        Cibrbdtfr.isLowSurrogbtf(srd[sp])) {
                         sp++;
                     }
-                    dst[dp++] = repl[0];
-                    if (repl.length > 1)
-                        dst[dp++] = repl[1];
-                    continue;
-                } //else
-                if (bb > MAX_SINGLEBYTE) {           // DoubleByte
-                    if (currentState == SBCS) {
-                        currentState = DBCS;
+                    dst[dp++] = rfpl[0];
+                    if (rfpl.lfngti > 1)
+                        dst[dp++] = rfpl[1];
+                    dontinuf;
+                } //flsf
+                if (bb > MAX_SINGLEBYTE) {           // DoublfBytf
+                    if (durrfntStbtf == SBCS) {
+                        durrfntStbtf = DBCS;
                         dst[dp++] = SO;
                     }
-                    dst[dp++] = (byte)(bb >> 8);
-                    dst[dp++] = (byte)bb;
-                } else {                             // SingleByte
-                    if (currentState == DBCS) {
-                         currentState = SBCS;
+                    dst[dp++] = (bytf)(bb >> 8);
+                    dst[dp++] = (bytf)bb;
+                } flsf {                             // SinglfBytf
+                    if (durrfntStbtf == DBCS) {
+                         durrfntStbtf = SBCS;
                          dst[dp++] = SI;
                     }
-                    dst[dp++] = (byte)bb;
+                    dst[dp++] = (bytf)bb;
                 }
             }
 
-            if (currentState == DBCS) {
-                 currentState = SBCS;
+            if (durrfntStbtf == DBCS) {
+                 durrfntStbtf = SBCS;
                  dst[dp++] = SI;
             }
-            return dp;
+            rfturn dp;
         }
     }
 
     // EUC_SIMPLE
-    public static class Encoder_EUC_SIM extends Encoder {
-        Encoder_EUC_SIM(Charset cs, char[] c2b, char[] c2bIndex) {
-            super(cs, c2b, c2bIndex);
+    publid stbtid dlbss Endodfr_EUC_SIM fxtfnds Endodfr {
+        Endodfr_EUC_SIM(Cibrsft ds, dibr[] d2b, dibr[] d2bIndfx) {
+            supfr(ds, d2b, d2bIndfx);
         }
     }
 

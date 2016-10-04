@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.util.*;
-import sun.misc.Unsafe;
+import jbvb.util.*;
+import sun.misd.Unsbff;
 
-public class WindowPropertyGetter {
-    private static Unsafe unsafe = XlibWrapper.unsafe;
-    private final long actual_type = unsafe.allocateMemory(8);
-    private final long actual_format = unsafe.allocateMemory(4);
-    private final long nitems_ptr = unsafe.allocateMemory(8);
-    private final long bytes_after = unsafe.allocateMemory(8);
-    private final long data = unsafe.allocateMemory(8);
-    private final long window;
-    private final XAtom property;
-    private final long offset;
-    private final long length;
-    private final boolean auto_delete;
-    private final long type;
-    private boolean executed = false;
-    public WindowPropertyGetter(long window, XAtom property, long offset,
-                                long length, boolean auto_delete, long type)
+publid dlbss WindowPropfrtyGfttfr {
+    privbtf stbtid Unsbff unsbff = XlibWrbppfr.unsbff;
+    privbtf finbl long bdtubl_typf = unsbff.bllodbtfMfmory(8);
+    privbtf finbl long bdtubl_formbt = unsbff.bllodbtfMfmory(4);
+    privbtf finbl long nitfms_ptr = unsbff.bllodbtfMfmory(8);
+    privbtf finbl long bytfs_bftfr = unsbff.bllodbtfMfmory(8);
+    privbtf finbl long dbtb = unsbff.bllodbtfMfmory(8);
+    privbtf finbl long window;
+    privbtf finbl XAtom propfrty;
+    privbtf finbl long offsft;
+    privbtf finbl long lfngti;
+    privbtf finbl boolfbn buto_dflftf;
+    privbtf finbl long typf;
+    privbtf boolfbn fxfdutfd = fblsf;
+    publid WindowPropfrtyGfttfr(long window, XAtom propfrty, long offsft,
+                                long lfngti, boolfbn buto_dflftf, long typf)
     {
-        if (property.getAtom() == 0) {
-            throw new IllegalArgumentException("Property ATOM should be initialized first:" + property);
+        if (propfrty.gftAtom() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("Propfrty ATOM siould bf initiblizfd first:" + propfrty);
         }
-        // Zero is AnyPropertyType.
-        // if (type == 0) {
-        //     throw new IllegalArgumentException("Type ATOM shouldn't be zero");
+        // Zfro is AnyPropfrtyTypf.
+        // if (typf == 0) {
+        //     tirow nfw IllfgblArgumfntExdfption("Typf ATOM siouldn't bf zfro");
         // }
         if (window == 0) {
-            throw new IllegalArgumentException("Window must not be zero");
+            tirow nfw IllfgblArgumfntExdfption("Window must not bf zfro");
         }
-        this.window = window;
-        this.property = property;
-        this.offset = offset;
-        this.length = length;
-        this.auto_delete = auto_delete;
-        this.type = type;
+        tiis.window = window;
+        tiis.propfrty = propfrty;
+        tiis.offsft = offsft;
+        tiis.lfngti = lfngti;
+        tiis.buto_dflftf = buto_dflftf;
+        tiis.typf = typf;
 
-        Native.putLong(data, 0);
-        sun.java2d.Disposer.addRecord(this, disposer = new UnsafeXDisposerRecord("WindowPropertyGetter", new long[] {actual_type,
-                                                                                 actual_format, nitems_ptr, bytes_after}, new long[] {data}));
+        Nbtivf.putLong(dbtb, 0);
+        sun.jbvb2d.Disposfr.bddRfdord(tiis, disposfr = nfw UnsbffXDisposfrRfdord("WindowPropfrtyGfttfr", nfw long[] {bdtubl_typf,
+                                                                                 bdtubl_formbt, nitfms_ptr, bytfs_bftfr}, nfw long[] {dbtb}));
     }
-    UnsafeXDisposerRecord disposer;
-    public WindowPropertyGetter(long window, XAtom property, long offset,
-                                long length, boolean auto_delete, XAtom type)
+    UnsbffXDisposfrRfdord disposfr;
+    publid WindowPropfrtyGfttfr(long window, XAtom propfrty, long offsft,
+                                long lfngti, boolfbn buto_dflftf, XAtom typf)
     {
-        this(window, property, offset, length, auto_delete, type.getAtom());
+        tiis(window, propfrty, offsft, lfngti, buto_dflftf, typf.gftAtom());
     }
-    public int execute() {
-        return execute(null);
+    publid int fxfdutf() {
+        rfturn fxfdutf(null);
     }
-    public int execute(XErrorHandler errorHandler) {
+    publid int fxfdutf(XErrorHbndlfr frrorHbndlfr) {
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            if (isDisposed()) {
-                throw new IllegalStateException("Disposed");
+            if (isDisposfd()) {
+                tirow nfw IllfgblStbtfExdfption("Disposfd");
             }
-            if (executed) {
-                throw new IllegalStateException("Already executed");
+            if (fxfdutfd) {
+                tirow nfw IllfgblStbtfExdfption("Alrfbdy fxfdutfd");
             }
-            executed = true;
+            fxfdutfd = truf;
 
-            if (isCachingSupported() && isCached()) {
-                readFromCache();
-                return XConstants.Success;
-            }
-
-            // Fix for performance problem - IgnodeBadWindowHandler is
-            // used too much without reason, just ignore it
-            if (errorHandler instanceof XErrorHandler.IgnoreBadWindowHandler) {
-                errorHandler = null;
+            if (isCbdiingSupportfd() && isCbdifd()) {
+                rfbdFromCbdif();
+                rfturn XConstbnts.Suddfss;
             }
 
-            if (errorHandler != null) {
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(errorHandler);
-            }
-            Native.putLong(data, 0);
-            int status = XlibWrapper.XGetWindowProperty(XToolkit.getDisplay(), window, property.getAtom(),
-                                                        offset, length, (auto_delete?1:0), type,
-                                                        actual_type, actual_format, nitems_ptr,
-                                                        bytes_after, data);
-            if (isCachingSupported() &&  status == XConstants.Success && getData() != 0 && isCacheableProperty(property)) {
-                // Property has some data, we cache them
-                cacheProperty();
+            // Fix for pfrformbndf problfm - IgnodfBbdWindowHbndlfr is
+            // usfd too mudi witiout rfbson, just ignorf it
+            if (frrorHbndlfr instbndfof XErrorHbndlfr.IgnorfBbdWindowHbndlfr) {
+                frrorHbndlfr = null;
             }
 
-            if (errorHandler != null) {
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            if (frrorHbndlfr != null) {
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(frrorHbndlfr);
             }
-            return status;
-        } finally {
-            XToolkit.awtUnlock();
+            Nbtivf.putLong(dbtb, 0);
+            int stbtus = XlibWrbppfr.XGftWindowPropfrty(XToolkit.gftDisplby(), window, propfrty.gftAtom(),
+                                                        offsft, lfngti, (buto_dflftf?1:0), typf,
+                                                        bdtubl_typf, bdtubl_formbt, nitfms_ptr,
+                                                        bytfs_bftfr, dbtb);
+            if (isCbdiingSupportfd() &&  stbtus == XConstbnts.Suddfss && gftDbtb() != 0 && isCbdifbblfPropfrty(propfrty)) {
+                // Propfrty ibs somf dbtb, wf dbdif tifm
+                dbdifPropfrty();
+            }
+
+            if (frrorHbndlfr != null) {
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+            }
+            rfturn stbtus;
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    public boolean isExecuted() {
-        return executed;
+    publid boolfbn isExfdutfd() {
+        rfturn fxfdutfd;
     }
 
-    public boolean isDisposed() {
-        return disposer.disposed;
+    publid boolfbn isDisposfd() {
+        rfturn disposfr.disposfd;
     }
 
-    public int getActualFormat() {
-        if (isDisposed()) {
-            throw new IllegalStateException("Disposed");
+    publid int gftAdtublFormbt() {
+        if (isDisposfd()) {
+            tirow nfw IllfgblStbtfExdfption("Disposfd");
         }
-        if (!executed) {
-            throw new IllegalStateException("Not executed");
+        if (!fxfdutfd) {
+            tirow nfw IllfgblStbtfExdfption("Not fxfdutfd");
         }
-        return unsafe.getInt(actual_format);
+        rfturn unsbff.gftInt(bdtubl_formbt);
     }
-    public long getActualType() {
-        if (isDisposed()) {
-            throw new IllegalStateException("Disposed");
+    publid long gftAdtublTypf() {
+        if (isDisposfd()) {
+            tirow nfw IllfgblStbtfExdfption("Disposfd");
         }
-        if (!executed) {
-            throw new IllegalStateException("Not executed");
+        if (!fxfdutfd) {
+            tirow nfw IllfgblStbtfExdfption("Not fxfdutfd");
         }
-        return XAtom.getAtom(actual_type);
+        rfturn XAtom.gftAtom(bdtubl_typf);
     }
-    public int getNumberOfItems() {
-        if (isDisposed()) {
-            throw new IllegalStateException("Disposed");
+    publid int gftNumbfrOfItfms() {
+        if (isDisposfd()) {
+            tirow nfw IllfgblStbtfExdfption("Disposfd");
         }
-        if (!executed) {
-            throw new IllegalStateException("Not executed");
+        if (!fxfdutfd) {
+            tirow nfw IllfgblStbtfExdfption("Not fxfdutfd");
         }
-        return (int)Native.getLong(nitems_ptr);
+        rfturn (int)Nbtivf.gftLong(nitfms_ptr);
     }
-    public long getData() {
-        if (isDisposed()) {
-            throw new IllegalStateException("Disposed");
+    publid long gftDbtb() {
+        if (isDisposfd()) {
+            tirow nfw IllfgblStbtfExdfption("Disposfd");
         }
-        return Native.getLong(data);
+        rfturn Nbtivf.gftLong(dbtb);
     }
-    public long getBytesAfter() {
-        if (isDisposed()) {
-            throw new IllegalStateException("Disposed");
+    publid long gftBytfsAftfr() {
+        if (isDisposfd()) {
+            tirow nfw IllfgblStbtfExdfption("Disposfd");
         }
-        if (!executed) {
-            throw new IllegalStateException("Not executed");
+        if (!fxfdutfd) {
+            tirow nfw IllfgblStbtfExdfption("Not fxfdutfd");
         }
-        return Native.getLong(bytes_after);
+        rfturn Nbtivf.gftLong(bytfs_bftfr);
     }
-    public void dispose() {
-        XToolkit.awtLock();
+    publid void disposf() {
+        XToolkit.bwtLodk();
         try {
-            if (isDisposed()) {
-                return;
+            if (isDisposfd()) {
+                rfturn;
             }
-            disposer.dispose();
-        } finally {
-            XToolkit.awtUnlock();
+            disposfr.disposf();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    static boolean isCachingSupported() {
-        return XPropertyCache.isCachingSupported();
+    stbtid boolfbn isCbdiingSupportfd() {
+        rfturn XPropfrtyCbdif.isCbdiingSupportfd();
     }
 
-    static Set<XAtom> cacheableProperties = new HashSet<XAtom>(Arrays.asList(new XAtom[] {
-            XAtom.get("_NET_WM_STATE"), XAtom.get("WM_STATE"), XAtom.get("_MOTIF_WM_HINTS")}));
+    stbtid Sft<XAtom> dbdifbblfPropfrtifs = nfw HbsiSft<XAtom>(Arrbys.bsList(nfw XAtom[] {
+            XAtom.gft("_NET_WM_STATE"), XAtom.gft("WM_STATE"), XAtom.gft("_MOTIF_WM_HINTS")}));
 
-    static boolean isCacheableProperty(XAtom property) {
-        return cacheableProperties.contains(property);
+    stbtid boolfbn isCbdifbblfPropfrty(XAtom propfrty) {
+        rfturn dbdifbblfPropfrtifs.dontbins(propfrty);
     }
 
-    boolean isCached() {
-        return XPropertyCache.isCached(window, property);
+    boolfbn isCbdifd() {
+        rfturn XPropfrtyCbdif.isCbdifd(window, propfrty);
     }
 
-    int getDataLength() {
-        return getActualFormat() / 8 * getNumberOfItems();
+    int gftDbtbLfngti() {
+        rfturn gftAdtublFormbt() / 8 * gftNumbfrOfItfms();
     }
 
-    void readFromCache() {
-        property.putAtom(actual_type);
-        XPropertyCache.PropertyCacheEntry entry = XPropertyCache.getCacheEntry(window, property);
-        Native.putInt(actual_format, entry.getFormat());
-        Native.putLong(nitems_ptr, entry.getNumberOfItems());
-        Native.putLong(bytes_after, entry.getBytesAfter());
-        Native.putLong(data, unsafe.allocateMemory(getDataLength()));
-        XlibWrapper.memcpy(getData(), entry.getData(), getDataLength());
+    void rfbdFromCbdif() {
+        propfrty.putAtom(bdtubl_typf);
+        XPropfrtyCbdif.PropfrtyCbdifEntry fntry = XPropfrtyCbdif.gftCbdifEntry(window, propfrty);
+        Nbtivf.putInt(bdtubl_formbt, fntry.gftFormbt());
+        Nbtivf.putLong(nitfms_ptr, fntry.gftNumbfrOfItfms());
+        Nbtivf.putLong(bytfs_bftfr, fntry.gftBytfsAftfr());
+        Nbtivf.putLong(dbtb, unsbff.bllodbtfMfmory(gftDbtbLfngti()));
+        XlibWrbppfr.mfmdpy(gftDbtb(), fntry.gftDbtb(), gftDbtbLfngti());
     }
 
-    void cacheProperty() {
-        XPropertyCache.storeCache(
-            new XPropertyCache.PropertyCacheEntry(getActualFormat(),
-                                                  getNumberOfItems(),
-                                                  getBytesAfter(),
-                                                  getData(),
-                                                  getDataLength()),
+    void dbdifPropfrty() {
+        XPropfrtyCbdif.storfCbdif(
+            nfw XPropfrtyCbdif.PropfrtyCbdifEntry(gftAdtublFormbt(),
+                                                  gftNumbfrOfItfms(),
+                                                  gftBytfsAftfr(),
+                                                  gftDbtb(),
+                                                  gftDbtbLfngti()),
             window,
-            property);
+            propfrty);
     }
 
 }

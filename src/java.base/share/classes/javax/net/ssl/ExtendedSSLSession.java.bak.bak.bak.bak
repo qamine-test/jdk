@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.util.List;
+
+/**
+ * Extfnds thf <dodf>SSLSfssion</dodf> intfrfbdf to support bdditionbl
+ * sfssion bttributfs.
+ *
+ * @sindf 1.7
+ */
+publid bbstrbdt dlbss ExtfndfdSSLSfssion implfmfnts SSLSfssion {
+    /**
+     * Obtbins bn brrby of supportfd signbturf blgorithms thbt thf lodbl sidf
+     * is willing to usf.
+     * <p>
+     * Notf: this mfthod is usfd to indidbtf to thf pffr whidh signbturf
+     * blgorithms mby bf usfd for digitbl signbturfs in TLS 1.2. It is
+     * not mfbningful for TLS vfrsions prior to 1.2.
+     * <p>
+     * Thf signbturf blgorithm nbmf must bf b stbndbrd Jbvb Sfdurity
+     * nbmf (sudh bs "SHA1withRSA", "SHA256withECDSA", bnd so on).
+     * Sff Appfndix A in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd.html#AppA">
+     * Jbvb Cryptogrbphy Ardhitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     * <p>
+     * Notf: thf lodbl supportfd signbturf blgorithms should donform to
+     * thf blgorithm donstrbints spfdififd by
+     * {@link SSLPbrbmftfrs#gftAlgorithmConstrbints gftAlgorithmConstrbints()}
+     * mfthod in <dodf>SSLPbrbmftfrs</dodf>.
+     *
+     * @rfturn An brrby of supportfd signbturf blgorithms, in dfsdfnding
+     *     ordfr of prfffrfndf.  Thf rfturn vbluf is bn fmpty brrby if
+     *     no signbturf blgorithm is supportfd.
+     *
+     * @sff SSLPbrbmftfrs#gftAlgorithmConstrbints
+     */
+    publid bbstrbdt String[] gftLodblSupportfdSignbturfAlgorithms();
+
+    /**
+     * Obtbins bn brrby of supportfd signbturf blgorithms thbt thf pffr is
+     * bblf to usf.
+     * <p>
+     * Notf: this mfthod is usfd to indidbtf to thf lodbl sidf whidh signbturf
+     * blgorithms mby bf usfd for digitbl signbturfs in TLS 1.2. It is
+     * not mfbningful for TLS vfrsions prior to 1.2.
+     * <p>
+     * Thf signbturf blgorithm nbmf must bf b stbndbrd Jbvb Sfdurity
+     * nbmf (sudh bs "SHA1withRSA", "SHA256withECDSA", bnd so on).
+     * Sff Appfndix A in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd.html#AppA">
+     * Jbvb Cryptogrbphy Ardhitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @rfturn An brrby of supportfd signbturf blgorithms, in dfsdfnding
+     *     ordfr of prfffrfndf.  Thf rfturn vbluf is bn fmpty brrby if
+     *     thf pffr hbs not sfnt thf supportfd signbturf blgorithms.
+     *
+     * @sff X509KfyMbnbgfr
+     * @sff X509ExtfndfdKfyMbnbgfr
+     */
+    publid bbstrbdt String[] gftPffrSupportfdSignbturfAlgorithms();
+
+    /**
+     * Obtbins b {@link List} dontbining bll {@link SNISfrvfrNbmf}s
+     * of thf rfqufstfd Sfrvfr Nbmf Indidbtion (SNI) fxtfnsion.
+     * <P>
+     * In sfrvfr modf, unlfss thf rfturn {@link List} is fmpty,
+     * thf sfrvfr should usf thf rfqufstfd sfrvfr nbmfs to guidf its
+     * sflfdtion of bn bppropribtf buthfntidbtion dfrtifidbtf, bnd/or
+     * othfr bspfdts of sfdurity polidy.
+     * <P>
+     * In dlifnt modf, unlfss thf rfturn {@link List} is fmpty,
+     * thf dlifnt should usf thf rfqufstfd sfrvfr nbmfs to guidf its
+     * fndpoint idfntifidbtion of thf pffr's idfntity, bnd/or
+     * othfr bspfdts of sfdurity polidy.
+     *
+     * @rfturn b non-null immutbblf list of {@link SNISfrvfrNbmf}s of thf
+     *         rfqufstfd sfrvfr nbmf indidbtions. Thf rfturnfd list mby bf
+     *         fmpty if no sfrvfr nbmf indidbtions wfrf rfqufstfd.
+     * @throws UnsupportfdOpfrbtionExdfption if thf undfrlying providfr
+     *         dofs not implfmfnt thf opfrbtion
+     *
+     * @sff SNISfrvfrNbmf
+     * @sff X509ExtfndfdTrustMbnbgfr
+     * @sff X509ExtfndfdKfyMbnbgfr
+     *
+     * @sindf 1.8
+     */
+    publid List<SNISfrvfrNbmf> gftRfqufstfdSfrvfrNbmfs() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+}

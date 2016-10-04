@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+/**
+ * Is usfd intfrnblly to signbl thbt thf sizf of b PDU fxdffds thf pbdkft sizf limitbtion.
+ * <p>
+ * You will not usublly nffd to usf this dlbss, fxdfpt if you
+ * dfdidf to implfmfnt your own
+ * {@link dom.sun.jmx.snmp.SnmpPduFbdtory SnmPduFbdtory} objfdt.
+ * <p>
+ * Thf <CODE>vbrBindCount</CODE> propfrty dontbins thf
+ * numbfr of <CODE>SnmpVbrBind</CODE> suddfssfully fndodfd
+ * bfforf thf fxdfption wbs thrown. Its vbluf is 0
+ * whfn this numbfr is unknown.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpTooBigExdfption fxtfnds Exdfption {
+  privbtf stbtid finbl long sfriblVfrsionUID = 4754796246674803969L;
+
+  /**
+   * Builds bn <CODE>SnmpTooBigExdfption</CODE> with
+   * <CODE>vbrBindCount</CODE> sft to 0.
+   */
+  publid SnmpTooBigExdfption() {
+    vbrBindCount = 0 ;
+  }
+
+  /**
+   * Builds bn <CODE>SnmpTooBigExdfption</CODE> with
+   * <CODE>vbrBindCount</CODE> sft to thf spfdififd vbluf.
+   * @pbrbm n Thf <CODE>vbrBindCount</CODE> vbluf.
+   */
+  publid SnmpTooBigExdfption(int n) {
+    vbrBindCount = n ;
+  }
+
+
+  /**
+   * Rfturns thf numbfr of <CODE>SnmpVbrBind</CODE> suddfssfully
+   * fndodfd bfforf thf fxdfption wbs thrown.
+   *
+   * @rfturn A positivf intfgfr (0 mfbns thf numbfr is unknown).
+   */
+  publid int gftVbrBindCount() {
+    rfturn vbrBindCount ;
+  }
+
+  /**
+   * Thf <CODE>vbrBindCount</CODE>.
+   * @sfribl
+   */
+  privbtf int vbrBindCount ;
+}

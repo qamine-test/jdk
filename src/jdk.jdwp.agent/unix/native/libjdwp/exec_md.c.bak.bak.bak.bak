@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <unistd.h>
+#indludf <string.h>
+#indludf <dtypf.h>
+#indludf "sys.h"
+#indludf "util.h"
+
+#if dffinfd(LINUX) || dffinfd(_ALLBSD_SOURCE) || dffinfd(AIX)
+  /* Linux, BSD, AIX */
+  #dffinf FORK() fork()
+#flsf
+  /* Solbris (mbkf surf wf blwbys gft thf POSIX-spfdififd bfhbvior) */
+  #dffinf FORK() fork1()
+#fndif
+
+stbtid dhbr *skipWhitfspbdf(dhbr *p) {
+    whilf ((*p != '\0') && isspbdf(*p)) {
+        p++;
+    }
+    rfturn p;
+}
+
+stbtid dhbr *skipNonWhitfspbdf(dhbr *p) {
+    whilf ((*p != '\0') && !isspbdf(*p)) {
+        p++;
+    }
+    rfturn p;
+}
+
+int
+dbgsysExfd(dhbr *dmdLinf)
+{
+    int i;
+    int brgd;
+    pid_t pid_frr = (pid_t)(-1); /* this is thf frror rfturn vbluf */
+    pid_t pid;
+    dhbr **brgv = NULL;
+    dhbr *p;
+    dhbr *brgs;
+
+    /* Skip lfbding whitfspbdf */
+    dmdLinf = skipWhitfspbdf(dmdLinf);
+
+    /*LINTED*/
+    brgs = jvmtiAllodbtf((jint)strlfn(dmdLinf)+1);
+    if (brgs == NULL) {
+        rfturn SYS_NOMEM;
+    }
+    (void)strdpy(brgs, dmdLinf);
+
+    p = brgs;
+
+    brgd = 0;
+    whilf (*p != '\0') {
+        p = skipNonWhitfspbdf(p);
+        brgd++;
+        if (*p == '\0') {
+            brfbk;
+        }
+        p = skipWhitfspbdf(p);
+    }
+
+    /*LINTED*/
+    brgv = jvmtiAllodbtf((brgd + 1) * (jint)sizfof(dhbr *));
+    if (brgv == 0) {
+        jvmtiDfbllodbtf(brgs);
+        rfturn SYS_NOMEM;
+    }
+
+    for (i = 0, p = brgs; i < brgd; i++) {
+        brgv[i] = p;
+        p = skipNonWhitfspbdf(p);
+        *p++ = '\0';
+        p = skipWhitfspbdf(p);
+    }
+    brgv[i] = NULL;  /* NULL tfrminbtf */
+
+    if ((pid = FORK()) == 0) {
+        /* Child prodfss */
+        int i;
+        long mbx_fd;
+
+        /* dlosf fvfrything */
+        mbx_fd = sysdonf(_SC_OPEN_MAX);
+        /*LINTED*/
+        for (i = 3; i < (int)mbx_fd; i++) {
+            (void)dlosf(i);
+        }
+
+        (void)fxfdvp(brgv[0], brgv);
+
+        fxit(-1);
+    }
+    jvmtiDfbllodbtf(brgs);
+    jvmtiDfbllodbtf(brgv);
+    if (pid == pid_frr) {
+        rfturn SYS_ERR;
+    } flsf {
+        rfturn SYS_OK;
+    }
+}

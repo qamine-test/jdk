@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.instrumfnt;
+
+/*
+ * Copyright 2003 Wily Tfdhnology, Ind.
+ */
+
+/**
+ * This dlbss sfrvfs bs b pbrbmftfr blodk to thf <dodf>Instrumfntbtion.rfdffinfClbssfs</dodf> mfthod.
+ * Sfrvfs to bind thf <dodf>Clbss</dodf> thbt nffds rfdffining togfthfr with thf nfw dlbss filf bytfs.
+ *
+ * @sff     jbvb.lbng.instrumfnt.Instrumfntbtion#rfdffinfClbssfs
+ * @sindf   1.5
+ */
+publid finbl dlbss ClbssDffinition {
+    /**
+     *  Thf dlbss to rfdffinf
+     */
+    privbtf finbl Clbss<?> mClbss;
+
+    /**
+     *  Thf rfplbdfmfnt dlbss filf bytfs
+     */
+    privbtf finbl bytf[]   mClbssFilf;
+
+    /**
+     *  Crfbtfs b nfw <dodf>ClbssDffinition</dodf> binding using thf supplifd
+     *  dlbss bnd dlbss filf bytfs. Dofs not dopy thf supplifd bufffr, just dbpturfs b rfffrfndf to it.
+     *
+     * @pbrbm thfClbss thf <dodf>Clbss</dodf> thbt nffds rfdffining
+     * @pbrbm thfClbssFilf thf nfw dlbss filf bytfs
+     *
+     * @throws jbvb.lbng.NullPointfrExdfption if thf supplifd dlbss or brrby is <dodf>null</dodf>.
+     */
+    publid
+    ClbssDffinition(    Clbss<?> thfClbss,
+                        bytf[]  thfClbssFilf) {
+        if (thfClbss == null || thfClbssFilf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        mClbss      = thfClbss;
+        mClbssFilf  = thfClbssFilf;
+    }
+
+    /**
+     * Rfturns thf dlbss.
+     *
+     * @rfturn    thf <dodf>Clbss</dodf> objfdt rfffrrfd to.
+     */
+    publid Clbss<?>
+    gftDffinitionClbss() {
+        rfturn mClbss;
+    }
+
+    /**
+     * Rfturns thf brrby of bytfs thbt dontbins thf nfw dlbss filf.
+     *
+     * @rfturn    thf dlbss filf bytfs.
+     */
+    publid bytf[]
+    gftDffinitionClbssFilf() {
+        rfturn mClbssFilf;
+    }
+}

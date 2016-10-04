@@ -1,0 +1,488 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+/**
+ * Thf {@dodf Arrby} dlbss providfs stbtid mfthods to dynbmidblly drfbtf bnd
+ * bddfss Jbvb brrbys.
+ *
+ * <p>{@dodf Arrby} pfrmits widfning donvfrsions to oddur during b gft or sft
+ * opfrbtion, but throws bn {@dodf IllfgblArgumfntExdfption} if b nbrrowing
+ * donvfrsion would oddur.
+ *
+ * @buthor Nbkul Sbrbiyb
+ */
+publid finbl
+dlbss Arrby {
+
+    /**
+     * Construdtor.  Clbss Arrby is not instbntibblf.
+     */
+    privbtf Arrby() {}
+
+    /**
+     * Crfbtfs b nfw brrby with thf spfdififd domponfnt typf bnd
+     * lfngth.
+     * Invoking this mfthod is fquivblfnt to drfbting bn brrby
+     * bs follows:
+     * <blodkquotf>
+     * <prf>
+     * int[] x = {lfngth};
+     * Arrby.nfwInstbndf(domponfntTypf, x);
+     * </prf>
+     * </blodkquotf>
+     *
+     * <p>Thf numbfr of dimfnsions of thf nfw brrby must not
+     * fxdffd 255.
+     *
+     * @pbrbm domponfntTypf thf {@dodf Clbss} objfdt rfprfsfnting thf
+     * domponfnt typf of thf nfw brrby
+     * @pbrbm lfngth thf lfngth of thf nfw brrby
+     * @rfturn thf nfw brrby
+     * @fxdfption NullPointfrExdfption if thf spfdififd
+     * {@dodf domponfntTypf} pbrbmftfr is null
+     * @fxdfption IllfgblArgumfntExdfption if domponfntTypf is {@link
+     * Void#TYPE} or if thf numbfr of dimfnsions of thf rfqufstfd brrby
+     * instbndf fxdffd 255.
+     * @fxdfption NfgbtivfArrbySizfExdfption if thf spfdififd {@dodf lfngth}
+     * is nfgbtivf
+     */
+    publid stbtid Objfdt nfwInstbndf(Clbss<?> domponfntTypf, int lfngth)
+        throws NfgbtivfArrbySizfExdfption {
+        rfturn nfwArrby(domponfntTypf, lfngth);
+    }
+
+    /**
+     * Crfbtfs b nfw brrby
+     * with thf spfdififd domponfnt typf bnd dimfnsions.
+     * If {@dodf domponfntTypf}
+     * rfprfsfnts b non-brrby dlbss or intfrfbdf, thf nfw brrby
+     * hbs {@dodf dimfnsions.lfngth} dimfnsions bnd
+     * {@dodf domponfntTypf} bs its domponfnt typf. If
+     * {@dodf domponfntTypf} rfprfsfnts bn brrby dlbss, thf
+     * numbfr of dimfnsions of thf nfw brrby is fqubl to thf sum
+     * of {@dodf dimfnsions.lfngth} bnd thf numbfr of
+     * dimfnsions of {@dodf domponfntTypf}. In this dbsf, thf
+     * domponfnt typf of thf nfw brrby is thf domponfnt typf of
+     * {@dodf domponfntTypf}.
+     *
+     * <p>Thf numbfr of dimfnsions of thf nfw brrby must not
+     * fxdffd 255.
+     *
+     * @pbrbm domponfntTypf thf {@dodf Clbss} objfdt rfprfsfnting thf domponfnt
+     * typf of thf nfw brrby
+     * @pbrbm dimfnsions bn brrby of {@dodf int} rfprfsfnting thf dimfnsions of
+     * thf nfw brrby
+     * @rfturn thf nfw brrby
+     * @fxdfption NullPointfrExdfption if thf spfdififd
+     * {@dodf domponfntTypf} brgumfnt is null
+     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd {@dodf dimfnsions}
+     * brgumfnt is b zfro-dimfnsionbl brrby, if domponfntTypf is {@link
+     * Void#TYPE}, or if thf numbfr of dimfnsions of thf rfqufstfd brrby
+     * instbndf fxdffd 255.
+     * @fxdfption NfgbtivfArrbySizfExdfption if bny of thf domponfnts in
+     * thf spfdififd {@dodf dimfnsions} brgumfnt is nfgbtivf.
+     */
+    publid stbtid Objfdt nfwInstbndf(Clbss<?> domponfntTypf, int... dimfnsions)
+        throws IllfgblArgumfntExdfption, NfgbtivfArrbySizfExdfption {
+        rfturn multiNfwArrby(domponfntTypf, dimfnsions);
+    }
+
+    /**
+     * Rfturns thf lfngth of thf spfdififd brrby objfdt, bs bn {@dodf int}.
+     *
+     * @pbrbm brrby thf brrby
+     * @rfturn thf lfngth of thf brrby
+     * @fxdfption IllfgblArgumfntExdfption if thf objfdt brgumfnt is not
+     * bn brrby
+     */
+    publid stbtid nbtivf int gftLfngth(Objfdt brrby)
+        throws IllfgblArgumfntExdfption;
+
+    /**
+     * Rfturns thf vbluf of thf indfxfd domponfnt in thf spfdififd
+     * brrby objfdt.  Thf vbluf is butombtidblly wrbppfd in bn objfdt
+     * if it hbs b primitivf typf.
+     *
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx
+     * @rfturn thf (possibly wrbppfd) vbluf of thf indfxfd domponfnt in
+     * thf spfdififd brrby
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt is not
+     * bn brrby
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to thf
+     * lfngth of thf spfdififd brrby
+     */
+    publid stbtid nbtivf Objfdt gft(Objfdt brrby, int indfx)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Rfturns thf vbluf of thf indfxfd domponfnt in thf spfdififd
+     * brrby objfdt, bs b {@dodf boolfbn}.
+     *
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx
+     * @rfturn thf vbluf of thf indfxfd domponfnt in thf spfdififd brrby
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt is not
+     * bn brrby, or if thf indfxfd flfmfnt dbnnot bf donvfrtfd to thf
+     * rfturn typf by bn idfntity or widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to thf
+     * lfngth of thf spfdififd brrby
+     * @sff Arrby#gft
+     */
+    publid stbtid nbtivf boolfbn gftBoolfbn(Objfdt brrby, int indfx)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Rfturns thf vbluf of thf indfxfd domponfnt in thf spfdififd
+     * brrby objfdt, bs b {@dodf bytf}.
+     *
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx
+     * @rfturn thf vbluf of thf indfxfd domponfnt in thf spfdififd brrby
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt is not
+     * bn brrby, or if thf indfxfd flfmfnt dbnnot bf donvfrtfd to thf
+     * rfturn typf by bn idfntity or widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to thf
+     * lfngth of thf spfdififd brrby
+     * @sff Arrby#gft
+     */
+    publid stbtid nbtivf bytf gftBytf(Objfdt brrby, int indfx)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Rfturns thf vbluf of thf indfxfd domponfnt in thf spfdififd
+     * brrby objfdt, bs b {@dodf dhbr}.
+     *
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx
+     * @rfturn thf vbluf of thf indfxfd domponfnt in thf spfdififd brrby
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt is not
+     * bn brrby, or if thf indfxfd flfmfnt dbnnot bf donvfrtfd to thf
+     * rfturn typf by bn idfntity or widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to thf
+     * lfngth of thf spfdififd brrby
+     * @sff Arrby#gft
+     */
+    publid stbtid nbtivf dhbr gftChbr(Objfdt brrby, int indfx)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Rfturns thf vbluf of thf indfxfd domponfnt in thf spfdififd
+     * brrby objfdt, bs b {@dodf short}.
+     *
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx
+     * @rfturn thf vbluf of thf indfxfd domponfnt in thf spfdififd brrby
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt is not
+     * bn brrby, or if thf indfxfd flfmfnt dbnnot bf donvfrtfd to thf
+     * rfturn typf by bn idfntity or widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to thf
+     * lfngth of thf spfdififd brrby
+     * @sff Arrby#gft
+     */
+    publid stbtid nbtivf short gftShort(Objfdt brrby, int indfx)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Rfturns thf vbluf of thf indfxfd domponfnt in thf spfdififd
+     * brrby objfdt, bs bn {@dodf int}.
+     *
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx
+     * @rfturn thf vbluf of thf indfxfd domponfnt in thf spfdififd brrby
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt is not
+     * bn brrby, or if thf indfxfd flfmfnt dbnnot bf donvfrtfd to thf
+     * rfturn typf by bn idfntity or widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to thf
+     * lfngth of thf spfdififd brrby
+     * @sff Arrby#gft
+     */
+    publid stbtid nbtivf int gftInt(Objfdt brrby, int indfx)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Rfturns thf vbluf of thf indfxfd domponfnt in thf spfdififd
+     * brrby objfdt, bs b {@dodf long}.
+     *
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx
+     * @rfturn thf vbluf of thf indfxfd domponfnt in thf spfdififd brrby
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt is not
+     * bn brrby, or if thf indfxfd flfmfnt dbnnot bf donvfrtfd to thf
+     * rfturn typf by bn idfntity or widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to thf
+     * lfngth of thf spfdififd brrby
+     * @sff Arrby#gft
+     */
+    publid stbtid nbtivf long gftLong(Objfdt brrby, int indfx)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Rfturns thf vbluf of thf indfxfd domponfnt in thf spfdififd
+     * brrby objfdt, bs b {@dodf flobt}.
+     *
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx
+     * @rfturn thf vbluf of thf indfxfd domponfnt in thf spfdififd brrby
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt is not
+     * bn brrby, or if thf indfxfd flfmfnt dbnnot bf donvfrtfd to thf
+     * rfturn typf by bn idfntity or widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to thf
+     * lfngth of thf spfdififd brrby
+     * @sff Arrby#gft
+     */
+    publid stbtid nbtivf flobt gftFlobt(Objfdt brrby, int indfx)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Rfturns thf vbluf of thf indfxfd domponfnt in thf spfdififd
+     * brrby objfdt, bs b {@dodf doublf}.
+     *
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx
+     * @rfturn thf vbluf of thf indfxfd domponfnt in thf spfdififd brrby
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt is not
+     * bn brrby, or if thf indfxfd flfmfnt dbnnot bf donvfrtfd to thf
+     * rfturn typf by bn idfntity or widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to thf
+     * lfngth of thf spfdififd brrby
+     * @sff Arrby#gft
+     */
+    publid stbtid nbtivf doublf gftDoublf(Objfdt brrby, int indfx)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Sfts thf vbluf of thf indfxfd domponfnt of thf spfdififd brrby
+     * objfdt to thf spfdififd nfw vbluf.  Thf nfw vbluf is first
+     * butombtidblly unwrbppfd if thf brrby hbs b primitivf domponfnt
+     * typf.
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx into thf brrby
+     * @pbrbm vbluf thf nfw vbluf of thf indfxfd domponfnt
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt brgumfnt
+     * is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt brgumfnt
+     * is not bn brrby, or if thf brrby domponfnt typf is primitivf bnd
+     * bn unwrbpping donvfrsion fbils
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to
+     * thf lfngth of thf spfdififd brrby
+     */
+    publid stbtid nbtivf void sft(Objfdt brrby, int indfx, Objfdt vbluf)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Sfts thf vbluf of thf indfxfd domponfnt of thf spfdififd brrby
+     * objfdt to thf spfdififd {@dodf boolfbn} vbluf.
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx into thf brrby
+     * @pbrbm z thf nfw vbluf of thf indfxfd domponfnt
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt brgumfnt
+     * is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt brgumfnt
+     * is not bn brrby, or if thf spfdififd vbluf dbnnot bf donvfrtfd
+     * to thf undfrlying brrby's domponfnt typf by bn idfntity or b
+     * primitivf widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to
+     * thf lfngth of thf spfdififd brrby
+     * @sff Arrby#sft
+     */
+    publid stbtid nbtivf void sftBoolfbn(Objfdt brrby, int indfx, boolfbn z)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Sfts thf vbluf of thf indfxfd domponfnt of thf spfdififd brrby
+     * objfdt to thf spfdififd {@dodf bytf} vbluf.
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx into thf brrby
+     * @pbrbm b thf nfw vbluf of thf indfxfd domponfnt
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt brgumfnt
+     * is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt brgumfnt
+     * is not bn brrby, or if thf spfdififd vbluf dbnnot bf donvfrtfd
+     * to thf undfrlying brrby's domponfnt typf by bn idfntity or b
+     * primitivf widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to
+     * thf lfngth of thf spfdififd brrby
+     * @sff Arrby#sft
+     */
+    publid stbtid nbtivf void sftBytf(Objfdt brrby, int indfx, bytf b)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Sfts thf vbluf of thf indfxfd domponfnt of thf spfdififd brrby
+     * objfdt to thf spfdififd {@dodf dhbr} vbluf.
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx into thf brrby
+     * @pbrbm d thf nfw vbluf of thf indfxfd domponfnt
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt brgumfnt
+     * is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt brgumfnt
+     * is not bn brrby, or if thf spfdififd vbluf dbnnot bf donvfrtfd
+     * to thf undfrlying brrby's domponfnt typf by bn idfntity or b
+     * primitivf widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to
+     * thf lfngth of thf spfdififd brrby
+     * @sff Arrby#sft
+     */
+    publid stbtid nbtivf void sftChbr(Objfdt brrby, int indfx, dhbr d)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Sfts thf vbluf of thf indfxfd domponfnt of thf spfdififd brrby
+     * objfdt to thf spfdififd {@dodf short} vbluf.
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx into thf brrby
+     * @pbrbm s thf nfw vbluf of thf indfxfd domponfnt
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt brgumfnt
+     * is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt brgumfnt
+     * is not bn brrby, or if thf spfdififd vbluf dbnnot bf donvfrtfd
+     * to thf undfrlying brrby's domponfnt typf by bn idfntity or b
+     * primitivf widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to
+     * thf lfngth of thf spfdififd brrby
+     * @sff Arrby#sft
+     */
+    publid stbtid nbtivf void sftShort(Objfdt brrby, int indfx, short s)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Sfts thf vbluf of thf indfxfd domponfnt of thf spfdififd brrby
+     * objfdt to thf spfdififd {@dodf int} vbluf.
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx into thf brrby
+     * @pbrbm i thf nfw vbluf of thf indfxfd domponfnt
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt brgumfnt
+     * is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt brgumfnt
+     * is not bn brrby, or if thf spfdififd vbluf dbnnot bf donvfrtfd
+     * to thf undfrlying brrby's domponfnt typf by bn idfntity or b
+     * primitivf widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to
+     * thf lfngth of thf spfdififd brrby
+     * @sff Arrby#sft
+     */
+    publid stbtid nbtivf void sftInt(Objfdt brrby, int indfx, int i)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Sfts thf vbluf of thf indfxfd domponfnt of thf spfdififd brrby
+     * objfdt to thf spfdififd {@dodf long} vbluf.
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx into thf brrby
+     * @pbrbm l thf nfw vbluf of thf indfxfd domponfnt
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt brgumfnt
+     * is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt brgumfnt
+     * is not bn brrby, or if thf spfdififd vbluf dbnnot bf donvfrtfd
+     * to thf undfrlying brrby's domponfnt typf by bn idfntity or b
+     * primitivf widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to
+     * thf lfngth of thf spfdififd brrby
+     * @sff Arrby#sft
+     */
+    publid stbtid nbtivf void sftLong(Objfdt brrby, int indfx, long l)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Sfts thf vbluf of thf indfxfd domponfnt of thf spfdififd brrby
+     * objfdt to thf spfdififd {@dodf flobt} vbluf.
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx into thf brrby
+     * @pbrbm f thf nfw vbluf of thf indfxfd domponfnt
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt brgumfnt
+     * is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt brgumfnt
+     * is not bn brrby, or if thf spfdififd vbluf dbnnot bf donvfrtfd
+     * to thf undfrlying brrby's domponfnt typf by bn idfntity or b
+     * primitivf widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to
+     * thf lfngth of thf spfdififd brrby
+     * @sff Arrby#sft
+     */
+    publid stbtid nbtivf void sftFlobt(Objfdt brrby, int indfx, flobt f)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /**
+     * Sfts thf vbluf of thf indfxfd domponfnt of thf spfdififd brrby
+     * objfdt to thf spfdififd {@dodf doublf} vbluf.
+     * @pbrbm brrby thf brrby
+     * @pbrbm indfx thf indfx into thf brrby
+     * @pbrbm d thf nfw vbluf of thf indfxfd domponfnt
+     * @fxdfption NullPointfrExdfption If thf spfdififd objfdt brgumfnt
+     * is null
+     * @fxdfption IllfgblArgumfntExdfption If thf spfdififd objfdt brgumfnt
+     * is not bn brrby, or if thf spfdififd vbluf dbnnot bf donvfrtfd
+     * to thf undfrlying brrby's domponfnt typf by bn idfntity or b
+     * primitivf widfning donvfrsion
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf spfdififd {@dodf indfx}
+     * brgumfnt is nfgbtivf, or if it is grfbtfr thbn or fqubl to
+     * thf lfngth of thf spfdififd brrby
+     * @sff Arrby#sft
+     */
+    publid stbtid nbtivf void sftDoublf(Objfdt brrby, int indfx, doublf d)
+        throws IllfgblArgumfntExdfption, ArrbyIndfxOutOfBoundsExdfption;
+
+    /*
+     * Privbtf
+     */
+
+    privbtf stbtid nbtivf Objfdt nfwArrby(Clbss<?> domponfntTypf, int lfngth)
+        throws NfgbtivfArrbySizfExdfption;
+
+    privbtf stbtid nbtivf Objfdt multiNfwArrby(Clbss<?> domponfntTypf,
+        int[] dimfnsions)
+        throws IllfgblArgumfntExdfption, NfgbtivfArrbySizfExdfption;
+
+
+}

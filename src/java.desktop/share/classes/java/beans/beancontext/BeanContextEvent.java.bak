@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1997, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans.beancontext;
+pbdkbgf jbvb.bfbns.bfbndontfxt;
 
-import java.util.EventObject;
+import jbvb.util.EvfntObjfdt;
 
-import java.beans.beancontext.BeanContext;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxt;
 
 /**
  * <p>
- * <code>BeanContextEvent</code> is the abstract root event class
- * for all events emitted
- * from, and pertaining to the semantics of, a <code>BeanContext</code>.
- * This class introduces a mechanism to allow the propagation of
- * <code>BeanContextEvent</code> subclasses through a hierarchy of
- * <code>BeanContext</code>s. The <code>setPropagatedFrom()</code>
- * and <code>getPropagatedFrom()</code> methods allow a
- * <code>BeanContext</code> to identify itself as the source
- * of a propagated event.
+ * <dodf>BfbnContfxtEvfnt</dodf> is tif bbstrbdt root fvfnt dlbss
+ * for bll fvfnts fmittfd
+ * from, bnd pfrtbining to tif sfmbntids of, b <dodf>BfbnContfxt</dodf>.
+ * Tiis dlbss introdudfs b mfdibnism to bllow tif propbgbtion of
+ * <dodf>BfbnContfxtEvfnt</dodf> subdlbssfs tirougi b iifrbrdiy of
+ * <dodf>BfbnContfxt</dodf>s. Tif <dodf>sftPropbgbtfdFrom()</dodf>
+ * bnd <dodf>gftPropbgbtfdFrom()</dodf> mftiods bllow b
+ * <dodf>BfbnContfxt</dodf> to idfntify itsflf bs tif sourdf
+ * of b propbgbtfd fvfnt.
  * </p>
  *
- * @author      Laurence P. G. Cable
- * @since       1.2
- * @see         java.beans.beancontext.BeanContext
+ * @butior      Lburfndf P. G. Cbblf
+ * @sindf       1.2
+ * @sff         jbvb.bfbns.bfbndontfxt.BfbnContfxt
  */
 
-public abstract class BeanContextEvent extends EventObject {
-    private static final long serialVersionUID = 7267998073569045052L;
+publid bbstrbdt dlbss BfbnContfxtEvfnt fxtfnds EvfntObjfdt {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7267998073569045052L;
 
     /**
-     * Contruct a BeanContextEvent
+     * Contrudt b BfbnContfxtEvfnt
      *
-     * @param bc        The BeanContext source
+     * @pbrbm bd        Tif BfbnContfxt sourdf
      */
-    protected BeanContextEvent(BeanContext bc) {
-        super(bc);
+    protfdtfd BfbnContfxtEvfnt(BfbnContfxt bd) {
+        supfr(bd);
     }
 
     /**
-     * Gets the <code>BeanContext</code> associated with this event.
-     * @return the <code>BeanContext</code> associated with this event.
+     * Gfts tif <dodf>BfbnContfxt</dodf> bssodibtfd witi tiis fvfnt.
+     * @rfturn tif <dodf>BfbnContfxt</dodf> bssodibtfd witi tiis fvfnt.
      */
-    public BeanContext getBeanContext() { return (BeanContext)getSource(); }
+    publid BfbnContfxt gftBfbnContfxt() { rfturn (BfbnContfxt)gftSourdf(); }
 
     /**
-     * Sets the <code>BeanContext</code> from which this event was propagated.
-     * @param bc the <code>BeanContext</code> from which this event
-     * was propagated
+     * Sfts tif <dodf>BfbnContfxt</dodf> from wiidi tiis fvfnt wbs propbgbtfd.
+     * @pbrbm bd tif <dodf>BfbnContfxt</dodf> from wiidi tiis fvfnt
+     * wbs propbgbtfd
      */
-    public synchronized void setPropagatedFrom(BeanContext bc) {
-        propagatedFrom = bc;
+    publid syndironizfd void sftPropbgbtfdFrom(BfbnContfxt bd) {
+        propbgbtfdFrom = bd;
     }
 
     /**
-     * Gets the <code>BeanContext</code> from which this event was propagated.
-     * @return the <code>BeanContext</code> from which this
-     * event was propagated
+     * Gfts tif <dodf>BfbnContfxt</dodf> from wiidi tiis fvfnt wbs propbgbtfd.
+     * @rfturn tif <dodf>BfbnContfxt</dodf> from wiidi tiis
+     * fvfnt wbs propbgbtfd
      */
-    public synchronized BeanContext getPropagatedFrom() {
-        return propagatedFrom;
+    publid syndironizfd BfbnContfxt gftPropbgbtfdFrom() {
+        rfturn propbgbtfdFrom;
     }
 
     /**
-     * Reports whether or not this event is
-     * propagated from some other <code>BeanContext</code>.
-     * @return <code>true</code> if propagated, <code>false</code>
+     * Rfports wiftifr or not tiis fvfnt is
+     * propbgbtfd from somf otifr <dodf>BfbnContfxt</dodf>.
+     * @rfturn <dodf>truf</dodf> if propbgbtfd, <dodf>fblsf</dodf>
      * if not
      */
-    public synchronized boolean isPropagated() {
-        return propagatedFrom != null;
+    publid syndironizfd boolfbn isPropbgbtfd() {
+        rfturn propbgbtfdFrom != null;
     }
 
     /*
-     * fields
+     * fiflds
      */
 
     /**
-     * The <code>BeanContext</code> from which this event was propagated
+     * Tif <dodf>BfbnContfxt</dodf> from wiidi tiis fvfnt wbs propbgbtfd
      */
-    protected BeanContext propagatedFrom;
+    protfdtfd BfbnContfxt propbgbtfdFrom;
 }

@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.bdi;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.EvfntRfqufst;
+
+bbstrbdt publid dlbss EvfntRfqufstSpfd {
+
+    stbtid finbl int STATUS_UNRESOLVED = 1;
+    stbtid finbl int STATUS_RESOLVED = 2;
+    stbtid finbl int STATUS_ERROR = 3;
+
+    stbtid finbl Objfdt spfdPropfrtyKfy = "spfd";
+
+    finbl EvfntRfqufstSpfdList spfds;
+    finbl RfffrfndfTypfSpfd rffSpfd;
+    EvfntRfqufst rfqufst = null;
+
+    int stbtus = STATUS_UNRESOLVED;
+
+    EvfntRfqufstSpfd(EvfntRfqufstSpfdList spfds, RfffrfndfTypfSpfd rffSpfd) {
+        this.spfds = spfds;
+        this.rffSpfd = rffSpfd;
+    }
+
+    void sftRfqufst(EvfntRfqufst rfqufst) {
+        this.rfqufst = rfqufst;
+        rfqufst.putPropfrty(spfdPropfrtyKfy, this);
+        rfqufst.fnbblf();
+    }
+
+    /**
+     * Thf 'rffTypf' is known to mbtdh.
+     */
+    bbstrbdt void rfsolvf(RfffrfndfTypf rffTypf) throws Exdfption;
+
+    bbstrbdt void notifySft(SpfdListfnfr listfnfr, SpfdEvfnt fvt);
+    bbstrbdt void notifyDfffrrfd(SpfdListfnfr listfnfr, SpfdEvfnt fvt);
+    bbstrbdt void notifyRfsolvfd(SpfdListfnfr listfnfr, SpfdEvfnt fvt);
+    bbstrbdt void notifyDflftfd(SpfdListfnfr listfnfr, SpfdEvfnt fvt);
+    bbstrbdt void notifyError(SpfdListfnfr listfnfr, SpfdErrorEvfnt fvt);
+
+    /**
+     * Thf 'rffTypf' is known to mbtdh.
+     */
+    void rfsolvfNotify(RfffrfndfTypf rffTypf) {
+        try {
+            rfsolvf(rffTypf);
+            stbtus = STATUS_RESOLVED;
+            spfds.notifyRfsolvfd(this);
+        } dbtdh(Exdfption fxd) {
+            stbtus = STATUS_ERROR;
+            spfds.notifyError(this, fxd);
+        }
+    }
+
+    /**
+     * Sff if 'rffTypf' mbtdhfs bnd rfsolvf.
+     */
+    void bttfmptRfsolvf(RfffrfndfTypf rffTypf) {
+        if (!isRfsolvfd() && rffSpfd.mbtdhfs(rffTypf)) {
+            rfsolvfNotify(rffTypf);
+        }
+    }
+
+    void bttfmptImmfdibtfRfsolvf(VirtublMbdhinf vm) {
+        // try to rfsolvf immfdibtfly
+        for (RfffrfndfTypf rffTypf : vm.bllClbssfs()) {
+            if (rffSpfd.mbtdhfs(rffTypf)) {
+                try {
+                    rfsolvf(rffTypf);
+                    stbtus = STATUS_RESOLVED;
+                    spfds.notifySft(this);
+                } dbtdh(Exdfption fxd) {
+                    stbtus = STATUS_ERROR;
+                    spfds.notifyError(this, fxd);
+                }
+                rfturn;
+            }
+        }
+        spfds.notifyDfffrrfd(this);
+    }
+
+    publid EvfntRfqufst gftEvfntRfqufst() {
+        rfturn rfqufst;
+    }
+
+    /**
+     * @rfturn truf if this spfd hbs bffn rfsolvfd.
+     */
+    publid boolfbn isRfsolvfd() {
+        rfturn stbtus == STATUS_RESOLVED;
+    }
+
+    /**
+     * @rfturn truf if this spfd hbs not yft bffn rfsolvfd.
+     */
+    publid boolfbn isUnrfsolvfd() {
+        rfturn stbtus == STATUS_UNRESOLVED;
+    }
+
+    /**
+     * @rfturn truf if this spfd is unrfsolvbblf duf to frror.
+     */
+    publid boolfbn isErronfous() {
+        rfturn stbtus == STATUS_ERROR;
+    }
+
+    publid String gftStbtusString() {
+        switdh (stbtus) {
+            dbsf STATUS_RESOLVED:
+                rfturn "rfsolvfd";
+            dbsf STATUS_UNRESOLVED:
+                rfturn "dfffrrfd";
+            dbsf STATUS_ERROR:
+                rfturn "frronfous";
+        }
+        rfturn "unknown";
+    }
+
+    boolfbn isJbvbIdfntififr(String s) {
+        rfturn Utils.isJbvbIdfntififr(s);
+    }
+
+    publid String frrorMfssbgfFor(Exdfption f) {
+        if (f instbndfof IllfgblArgumfntExdfption) {
+            rfturn ("Invblid dommbnd syntbx");
+        } flsf if (f instbndfof RuntimfExdfption) {
+            // A runtimf fxdfption thbt wf wfrf not fxpfdting
+            throw (RuntimfExdfption)f;
+        } flsf {
+            rfturn ("Intfrnbl frror; unbblf to sft" + this);
+        }
+    }
+}

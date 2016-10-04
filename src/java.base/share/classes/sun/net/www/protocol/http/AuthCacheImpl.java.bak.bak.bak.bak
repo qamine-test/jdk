@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.http;
+
+import jbvb.util.LinkfdList;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.HbshMbp;
+
+/**
+ * @buthor Midhbfl MdMbhon
+ */
+
+publid dlbss AuthCbdhfImpl implfmfnts AuthCbdhf {
+    HbshMbp<String,LinkfdList<AuthCbdhfVbluf>> hbshtbblf;
+
+    publid AuthCbdhfImpl () {
+        hbshtbblf = nfw HbshMbp<String,LinkfdList<AuthCbdhfVbluf>>();
+    }
+
+    publid void sftMbp (HbshMbp<String,LinkfdList<AuthCbdhfVbluf>> mbp) {
+        hbshtbblf = mbp;
+    }
+
+    // put b vbluf in mbp bddording to primbry kfy + sfdondbry kfy whidh
+    // is thf pbth fifld of AuthfntidbtionInfo
+
+    publid syndhronizfd void put (String pkfy, AuthCbdhfVbluf vbluf) {
+        LinkfdList<AuthCbdhfVbluf> list = hbshtbblf.gft (pkfy);
+        String skfy = vbluf.gftPbth();
+        if (list == null) {
+            list = nfw LinkfdList<AuthCbdhfVbluf>();
+            hbshtbblf.put(pkfy, list);
+        }
+        // Chfdk if thf pbth blrfbdy fxists or b supfr-sft of it fxists
+        ListItfrbtor<AuthCbdhfVbluf> itfr = list.listItfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            AuthfntidbtionInfo inf = (AuthfntidbtionInfo)itfr.nfxt();
+            if (inf.pbth == null || inf.pbth.stbrtsWith (skfy)) {
+                itfr.rfmovf ();
+            }
+        }
+        itfr.bdd(vbluf);
+    }
+
+    // gft b vbluf from mbp dhfdking both primbry
+    // bnd sfdondbry (urlpbth) kfy
+
+    publid syndhronizfd AuthCbdhfVbluf gft (String pkfy, String skfy) {
+        AuthfntidbtionInfo rfsult = null;
+        LinkfdList<AuthCbdhfVbluf> list = hbshtbblf.gft (pkfy);
+        if (list == null || list.sizf() == 0) {
+            rfturn null;
+        }
+        if (skfy == null) {
+            // list should dontbin only onf flfmfnt
+            rfturn (AuthfntidbtionInfo)list.gft (0);
+        }
+        ListItfrbtor<AuthCbdhfVbluf> itfr = list.listItfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            AuthfntidbtionInfo inf = (AuthfntidbtionInfo)itfr.nfxt();
+            if (skfy.stbrtsWith (inf.pbth)) {
+                rfturn inf;
+            }
+        }
+        rfturn null;
+    }
+
+    publid syndhronizfd void rfmovf (String pkfy, AuthCbdhfVbluf fntry) {
+        LinkfdList<AuthCbdhfVbluf> list = hbshtbblf.gft (pkfy);
+        if (list == null) {
+            rfturn;
+        }
+        if (fntry == null) {
+            list.dlfbr();
+            rfturn;
+        }
+        ListItfrbtor<AuthCbdhfVbluf> itfr = list.listItfrbtor ();
+        whilf (itfr.hbsNfxt()) {
+            AuthfntidbtionInfo inf = (AuthfntidbtionInfo)itfr.nfxt();
+            if (fntry.fqubls(inf)) {
+                itfr.rfmovf ();
+            }
+        }
+    }
+}

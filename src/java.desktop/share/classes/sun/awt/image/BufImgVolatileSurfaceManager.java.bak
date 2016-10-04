@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import sun.java2d.SurfaceData;
+import sun.jbvb2d.SurfbdfDbtb;
 
 /**
- * This SurfaceManager variant manages an unaccelerated volatile surface.
- * This class is created in the event that someone requested a VolatileImage
- * to be created from a BufferedImageGraphicsConfig, which is not platform-
- * or hardware-based, thus the resulting surface and surface manager
- * are unaccelerated.  All we do in this class is implement the abstract
- * methods of VolatileSurfaceManager to return values that indicate that
- * we cannot accelerate surfaces through this SurfaceManager, thus the
- * parent class will handle things through the unaccelerated backup mechanism.
+ * Tiis SurfbdfMbnbgfr vbribnt mbnbgfs bn unbddflfrbtfd volbtilf surfbdf.
+ * Tiis dlbss is drfbtfd in tif fvfnt tibt somfonf rfqufstfd b VolbtilfImbgf
+ * to bf drfbtfd from b BufffrfdImbgfGrbpiidsConfig, wiidi is not plbtform-
+ * or ibrdwbrf-bbsfd, tius tif rfsulting surfbdf bnd surfbdf mbnbgfr
+ * brf unbddflfrbtfd.  All wf do in tiis dlbss is implfmfnt tif bbstrbdt
+ * mftiods of VolbtilfSurfbdfMbnbgfr to rfturn vblufs tibt indidbtf tibt
+ * wf dbnnot bddflfrbtf surfbdfs tirougi tiis SurfbdfMbnbgfr, tius tif
+ * pbrfnt dlbss will ibndlf tiings tirougi tif unbddflfrbtfd bbdkup mfdibnism.
  */
-public class BufImgVolatileSurfaceManager extends VolatileSurfaceManager {
+publid dlbss BufImgVolbtilfSurfbdfMbnbgfr fxtfnds VolbtilfSurfbdfMbnbgfr {
 
     /**
-     * This constructor simply defers to the superclass since all of the real
-     * functionality of this class is implemented in VolatileSurfaceManager.
+     * Tiis donstrudtor simply dfffrs to tif supfrdlbss sindf bll of tif rfbl
+     * fundtionblity of tiis dlbss is implfmfntfd in VolbtilfSurfbdfMbnbgfr.
      */
-    public BufImgVolatileSurfaceManager(SunVolatileImage vImg, Object context) {
-        super(vImg, context);
+    publid BufImgVolbtilfSurfbdfMbnbgfr(SunVolbtilfImbgf vImg, Objfdt dontfxt) {
+        supfr(vImg, dontfxt);
     }
 
     /**
-     * Returns false to indicate that this surface manager cannot accelerate
-     * the image.
+     * Rfturns fblsf to indidbtf tibt tiis surfbdf mbnbgfr dbnnot bddflfrbtf
+     * tif imbgf.
      */
-    protected boolean isAccelerationEnabled() {
-        return false;
+    protfdtfd boolfbn isAddflfrbtionEnbblfd() {
+        rfturn fblsf;
     }
 
     /**
-     * Returns null to indicate failure in creating the accelerated surface.
-     * Note that this method should not ever be called since creation of
-     * accelerated surfaces should be preceded by calls to the above
-     * isAccelerationEnabled() method.  But we need to override this method
-     * since it is abstract in our parent class.
+     * Rfturns null to indidbtf fbilurf in drfbting tif bddflfrbtfd surfbdf.
+     * Notf tibt tiis mftiod siould not fvfr bf dbllfd sindf drfbtion of
+     * bddflfrbtfd surfbdfs siould bf prfdfdfd by dblls to tif bbovf
+     * isAddflfrbtionEnbblfd() mftiod.  But wf nffd to ovfrridf tiis mftiod
+     * sindf it is bbstrbdt in our pbrfnt dlbss.
      */
-    protected SurfaceData initAcceleratedSurface() {
-        return null;
+    protfdtfd SurfbdfDbtb initAddflfrbtfdSurfbdf() {
+        rfturn null;
     }
 }

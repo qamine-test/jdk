@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.script;
+pbdkbgf jbvbx.sdript;
 
-import java.util.Map;
-import java.io.Reader;
+import jbvb.util.Mbp;
+import jbvb.io.Rfbdfr;
 
 /**
- * The optional interface implemented by ScriptEngines whose methods compile scripts
- * to a form that can be executed repeatedly without recompilation.
+ * Tif optionbl intfrfbdf implfmfntfd by SdriptEnginfs wiosf mftiods dompilf sdripts
+ * to b form tibt dbn bf fxfdutfd rfpfbtfdly witiout rfdompilbtion.
  *
- * @author Mike Grogan
- * @since 1.6
+ * @butior Mikf Grogbn
+ * @sindf 1.6
  */
-public interface Compilable {
+publid intfrfbdf Compilbblf {
     /**
-     * Compiles the script (source represented as a <code>String</code>) for
-     * later execution.
+     * Compilfs tif sdript (sourdf rfprfsfntfd bs b <dodf>String</dodf>) for
+     * lbtfr fxfdution.
      *
-     * @param script The source of the script, represented as a <code>String</code>.
+     * @pbrbm sdript Tif sourdf of tif sdript, rfprfsfntfd bs b <dodf>String</dodf>.
      *
-     * @return An subclass of <code>CompiledScript</code> to be executed later using one
-     * of the <code>eval</code> methods of <code>CompiledScript</code>.
+     * @rfturn An subdlbss of <dodf>CompilfdSdript</dodf> to bf fxfdutfd lbtfr using onf
+     * of tif <dodf>fvbl</dodf> mftiods of <dodf>CompilfdSdript</dodf>.
      *
-     * @throws ScriptException if compilation fails.
-     * @throws NullPointerException if the argument is null.
+     * @tirows SdriptExdfption if dompilbtion fbils.
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
      *
      */
 
-    public CompiledScript compile(String script) throws
-            ScriptException;
+    publid CompilfdSdript dompilf(String sdript) tirows
+            SdriptExdfption;
 
     /**
-     * Compiles the script (source read from <code>Reader</code>) for
-     * later execution.  Functionality is identical to
-     * <code>compile(String)</code> other than the way in which the source is
-     * passed.
+     * Compilfs tif sdript (sourdf rfbd from <dodf>Rfbdfr</dodf>) for
+     * lbtfr fxfdution.  Fundtionblity is idfntidbl to
+     * <dodf>dompilf(String)</dodf> otifr tibn tif wby in wiidi tif sourdf is
+     * pbssfd.
      *
-     * @param script The reader from which the script source is obtained.
+     * @pbrbm sdript Tif rfbdfr from wiidi tif sdript sourdf is obtbinfd.
      *
-     * @return An implementation of <code>CompiledScript</code> to be executed
-     * later using one of its <code>eval</code> methods of <code>CompiledScript</code>.
+     * @rfturn An implfmfntbtion of <dodf>CompilfdSdript</dodf> to bf fxfdutfd
+     * lbtfr using onf of its <dodf>fvbl</dodf> mftiods of <dodf>CompilfdSdript</dodf>.
      *
-     * @throws ScriptException if compilation fails.
-     * @throws NullPointerException if argument is null.
+     * @tirows SdriptExdfption if dompilbtion fbils.
+     * @tirows NullPointfrExdfption if brgumfnt is null.
      */
-    public CompiledScript compile(Reader script) throws
-            ScriptException;
+    publid CompilfdSdript dompilf(Rfbdfr sdript) tirows
+            SdriptExdfption;
 }

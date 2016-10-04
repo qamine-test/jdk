@@ -1,0 +1,470 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.toolkit.dtx;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+
+/* Dirfdt subdlbssfs of ComponfntDirContfxt must providf implfmfntbtions for
+ * thf bbstrbdt d_ DirContfxt mfthods, bnd ovfrridf thf d_ Contfxt mfthods
+ * (whidh brf no longfr bbstrbdt bfdbusf thfy hbvf bffn ovfrridfn by
+ * AtomidContfxt, thf dirfdt supfrdlbss of PbrtiblDSCompositfContfxt).
+ *
+ * If thf subdlbss is supports implidit nns, it must ovfrridf bll thf
+ * d_*_nns mfthods dorrfsponding to thosf in DirContfxt bnd Contfxt.
+ * Sff ComponfntContfxt for dftbils.
+ *
+ * @buthor Rosbnnb Lff
+ */
+
+publid bbstrbdt dlbss ComponfntDirContfxt fxtfnds PbrtiblCompositfDirContfxt {
+
+    protfdtfd ComponfntDirContfxt () {
+        _dontfxtTypf = _COMPONENT;
+    }
+
+// ------ Abstrbdt mfthods whosf implfmfntbtions brf providfd by subdlbss
+
+    /* Equivblfnt to mfthods in DirContfxt */
+    protfdtfd bbstrbdt Attributfs d_gftAttributfs(Nbmf nbmf,
+                                                 String[] bttrIds,
+                                                 Continubtion dont)
+        throws NbmingExdfption;
+
+    protfdtfd bbstrbdt void d_modifyAttributfs(Nbmf nbmf, int mod_op,
+                                            Attributfs bttrs,
+                                            Continubtion dont)
+            throws NbmingExdfption;
+
+    protfdtfd bbstrbdt void d_modifyAttributfs(Nbmf nbmf,
+                                            ModifidbtionItfm[] mods,
+                                            Continubtion dont)
+        throws NbmingExdfption;
+
+    protfdtfd bbstrbdt void d_bind(Nbmf nbmf, Objfdt obj,
+                                   Attributfs bttrs,
+                                   Continubtion dont)
+        throws NbmingExdfption;
+
+    protfdtfd bbstrbdt void d_rfbind(Nbmf nbmf, Objfdt obj,
+                                     Attributfs bttrs,
+                                     Continubtion dont)
+        throws NbmingExdfption;
+
+    protfdtfd bbstrbdt DirContfxt d_drfbtfSubdontfxt(Nbmf nbmf,
+                                                    Attributfs bttrs,
+                                                    Continubtion dont)
+        throws NbmingExdfption;
+
+    protfdtfd bbstrbdt NbmingEnumfrbtion<SfbrdhRfsult> d_sfbrdh(
+                            Nbmf nbmf,
+                            Attributfs mbtdhingAttributfs,
+                            String[] bttributfsToRfturn,
+                            Continubtion dont)
+        throws NbmingExdfption;
+
+    protfdtfd bbstrbdt NbmingEnumfrbtion<SfbrdhRfsult> d_sfbrdh(
+                            Nbmf nbmf,
+                            String filtfr,
+                            SfbrdhControls dons,
+                            Continubtion dont)
+        throws NbmingExdfption;
+
+    protfdtfd bbstrbdt NbmingEnumfrbtion<SfbrdhRfsult> d_sfbrdh(
+                            Nbmf nbmf,
+                            String filtfrExpr,
+                            Objfdt[] filtfrArgs,
+                            SfbrdhControls dons,
+                            Continubtion dont)
+        throws NbmingExdfption;
+
+    protfdtfd bbstrbdt DirContfxt d_gftSdhfmb(Nbmf nbmf, Continubtion dont)
+        throws NbmingExdfption;
+
+    protfdtfd bbstrbdt DirContfxt d_gftSdhfmbClbssDffinition(Nbmf nbmf,
+                                                            Continubtion dont)
+        throws NbmingExdfption;
+
+// ------- dffbult implfmfntbtions of d_*_nns mfthods from DirContfxt
+
+    // Thf following mfthods brf dbllfd whfn thf DirContfxt mfthods
+    // brf invokfd with b nbmf thbt hbs b trbiling slbsh.
+    // For nbming systfms thbt support implidit nns,
+    // thf trbiling slbsh signififs thf implidit nns.
+    // For sudh nbming systfms, ovfrridf thfsf d_*_nns mfthods.
+    //
+    // For nbming systfms thbt support jundtions (fxplidit nns),
+    // thf trbiling slbsh is mfbninglfss bfdbusf b jundtion dofs not
+    // hbvf bn implidit nns.  Thf dffbult implfmfntbtion hfrf
+    // throws b NbmfNotFoundExdfption for sudh nbmfs.
+    // If b dontfxt wbnts to bddfpt b trbiling slbsh bs hbving
+    // thf sbmf mfbning bs thf sbmf nbmf without b trbiling slbsh,
+    // thfn it should ovfrridf thfsf d_*_nns mfthods.
+
+    // Sff ComponfntContfxt for dftbils.
+
+    protfdtfd Attributfs d_gftAttributfs_nns(Nbmf nbmf,
+                                            String[] bttrIds,
+                                            Continubtion dont)
+        throws NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
+        }
+
+    protfdtfd void d_modifyAttributfs_nns(Nbmf nbmf,
+                                       int mod_op,
+                                       Attributfs bttrs,
+                                       Continubtion dont)
+        throws NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+        }
+
+    protfdtfd void d_modifyAttributfs_nns(Nbmf nbmf,
+                                       ModifidbtionItfm[] mods,
+                                       Continubtion dont)
+        throws NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+        }
+
+    protfdtfd void d_bind_nns(Nbmf nbmf,
+                              Objfdt obj,
+                              Attributfs bttrs,
+                              Continubtion dont)
+        throws NbmingExdfption  {
+            d_prodfssJundtion_nns(nbmf, dont);
+        }
+
+    protfdtfd void d_rfbind_nns(Nbmf nbmf,
+                                Objfdt obj,
+                                Attributfs bttrs,
+                                Continubtion dont)
+        throws NbmingExdfption  {
+            d_prodfssJundtion_nns(nbmf, dont);
+        }
+
+    protfdtfd DirContfxt d_drfbtfSubdontfxt_nns(Nbmf nbmf,
+                                               Attributfs bttrs,
+                                               Continubtion dont)
+        throws NbmingExdfption  {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
+        }
+
+    protfdtfd NbmingEnumfrbtion<SfbrdhRfsult> d_sfbrdh_nns(
+                        Nbmf nbmf,
+                        Attributfs mbtdhingAttributfs,
+                        String[] bttributfsToRfturn,
+                        Continubtion dont)
+        throws NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
+        }
+
+    protfdtfd NbmingEnumfrbtion<SfbrdhRfsult> d_sfbrdh_nns(
+                        Nbmf nbmf,
+                        String filtfr,
+                        SfbrdhControls dons,
+                        Continubtion dont)
+        throws NbmingExdfption  {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
+        }
+
+    protfdtfd NbmingEnumfrbtion<SfbrdhRfsult> d_sfbrdh_nns(
+                        Nbmf nbmf,
+                        String filtfrExpr,
+                        Objfdt[] filtfrArgs,
+                        SfbrdhControls dons,
+                        Continubtion dont)
+        throws NbmingExdfption  {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
+        }
+
+    protfdtfd DirContfxt d_gftSdhfmb_nns(Nbmf nbmf, Continubtion dont)
+        throws NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
+        }
+
+    protfdtfd DirContfxt d_gftSdhfmbClbssDffinition_nns(Nbmf nbmf, Continubtion dont)
+        throws NbmingExdfption {
+            d_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
+        }
+
+// ------- implfmfntbtions of p_ DirContfxt mfthods using dorrfsponding
+// ------- DirContfxt d_ bnd d_*_nns mfthods
+
+    /* Implfmfnts for bbstrbdt mfthods dfdlbrfd in PbrtiblCompositfDirContfxt */
+    protfdtfd Attributfs p_gftAttributfs(Nbmf nbmf,
+                                        String[] bttrIds,
+                                        Continubtion dont)
+        throws NbmingExdfption  {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        Attributfs bnswfr = null;
+        switdh (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                bnswfr = d_gftAttributfs_nns(rfs.gftHfbd(), bttrIds, dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                bnswfr = d_gftAttributfs(rfs.gftHfbd(), bttrIds, dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption thrown */
+                brfbk;
+            }
+        rfturn bnswfr;
+    }
+
+    protfdtfd void p_modifyAttributfs(Nbmf nbmf, int mod_op,
+                                   Attributfs bttrs,
+                                   Continubtion dont)
+        throws NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdh (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                d_modifyAttributfs_nns(rfs.gftHfbd(), mod_op, bttrs, dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                d_modifyAttributfs(rfs.gftHfbd(), mod_op, bttrs, dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption thrown */
+                brfbk;
+            }
+    }
+    protfdtfd void p_modifyAttributfs(Nbmf nbmf,
+                                   ModifidbtionItfm[] mods,
+                                   Continubtion dont)
+        throws NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdh (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                d_modifyAttributfs_nns(rfs.gftHfbd(), mods, dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                d_modifyAttributfs(rfs.gftHfbd(), mods, dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption thrown */
+                brfbk;
+            }
+    }
+
+    protfdtfd void p_bind(Nbmf nbmf,
+                          Objfdt obj,
+                          Attributfs bttrs,
+                          Continubtion dont)
+        throws NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdh (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                d_bind_nns(rfs.gftHfbd(), obj, bttrs, dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                d_bind(rfs.gftHfbd(), obj, bttrs, dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption thrown */
+                brfbk;
+            }
+    }
+
+    protfdtfd void p_rfbind(Nbmf nbmf, Objfdt obj,
+                            Attributfs bttrs, Continubtion dont)
+        throws NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        switdh (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                d_rfbind_nns(rfs.gftHfbd(), obj, bttrs, dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                d_rfbind(rfs.gftHfbd(), obj, bttrs, dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption thrown */
+                brfbk;
+            }
+    }
+
+    protfdtfd DirContfxt p_drfbtfSubdontfxt(Nbmf nbmf,
+                                           Attributfs bttrs,
+                                           Continubtion dont)
+        throws NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        DirContfxt bnswfr = null;
+        switdh (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                bnswfr = d_drfbtfSubdontfxt_nns(rfs.gftHfbd(), bttrs, dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                bnswfr = d_drfbtfSubdontfxt(rfs.gftHfbd(), bttrs, dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption thrown */
+                brfbk;
+            }
+        rfturn bnswfr;
+    }
+
+    protfdtfd NbmingEnumfrbtion<SfbrdhRfsult> p_sfbrdh(
+                    Nbmf nbmf,
+                    Attributfs mbtdhingAttributfs,
+                    String[] bttributfsToRfturn,
+                    Continubtion dont)
+        throws NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        NbmingEnumfrbtion<SfbrdhRfsult> bnswfr = null;
+        switdh (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                bnswfr = d_sfbrdh_nns(rfs.gftHfbd(), mbtdhingAttributfs,
+                                      bttributfsToRfturn, dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                bnswfr = d_sfbrdh(rfs.gftHfbd(), mbtdhingAttributfs,
+                                  bttributfsToRfturn, dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption thrown */
+                brfbk;
+            }
+        rfturn bnswfr;
+    }
+
+    protfdtfd NbmingEnumfrbtion<SfbrdhRfsult> p_sfbrdh(Nbmf nbmf,
+                                                       String filtfr,
+                                                       SfbrdhControls dons,
+                                                       Continubtion dont)
+        throws NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        NbmingEnumfrbtion<SfbrdhRfsult> bnswfr = null;
+        switdh (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                bnswfr = d_sfbrdh_nns(rfs.gftHfbd(), filtfr, dons, dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                bnswfr = d_sfbrdh(rfs.gftHfbd(), filtfr, dons, dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption thrown */
+                brfbk;
+            }
+        rfturn bnswfr;
+    }
+
+    protfdtfd NbmingEnumfrbtion<SfbrdhRfsult> p_sfbrdh(Nbmf nbmf,
+                                                       String filtfrExpr,
+                                                       Objfdt[] filtfrArgs,
+                                                       SfbrdhControls dons,
+                                                       Continubtion dont)
+            throws NbmingExdfption {
+        HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+        NbmingEnumfrbtion<SfbrdhRfsult> bnswfr = null;
+        switdh (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                bnswfr = d_sfbrdh_nns(rfs.gftHfbd(),
+                                      filtfrExpr, filtfrArgs, dons, dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                bnswfr = d_sfbrdh(rfs.gftHfbd(), filtfrExpr, filtfrArgs, dons, dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption thrown */
+                brfbk;
+            }
+        rfturn bnswfr;
+    }
+
+    protfdtfd DirContfxt p_gftSdhfmb(Nbmf nbmf, Continubtion dont)
+        throws NbmingExdfption  {
+            DirContfxt bnswfr = null;
+            HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+            switdh (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                bnswfr = d_gftSdhfmb_nns(rfs.gftHfbd(), dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                bnswfr = d_gftSdhfmb(rfs.gftHfbd(), dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption thrown */
+                brfbk;
+            }
+            rfturn bnswfr;
+        }
+
+    protfdtfd DirContfxt p_gftSdhfmbClbssDffinition(Nbmf nbmf, Continubtion dont)
+        throws NbmingExdfption  {
+            DirContfxt bnswfr = null;
+            HfbdTbil rfs = p_rfsolvfIntfrmfdibtf(nbmf, dont);
+            switdh (rfs.gftStbtus()) {
+            dbsf TERMINAL_NNS_COMPONENT:
+                bnswfr = d_gftSdhfmbClbssDffinition_nns(rfs.gftHfbd(), dont);
+                brfbk;
+
+            dbsf TERMINAL_COMPONENT:
+                bnswfr = d_gftSdhfmbClbssDffinition(rfs.gftHfbd(), dont);
+                brfbk;
+
+            dffbult:
+                /* USE_CONTINUATION */
+                /* dont blrfbdy sft or fxdfption thrown */
+                brfbk;
+            }
+            rfturn bnswfr;
+        }
+}

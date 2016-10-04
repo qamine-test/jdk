@@ -1,0 +1,52 @@
+/*
+ * Copyright (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#ifndff _COLORDATA_H_
+#dffinf _COLORDATA_H_
+
+#indludf "img_globbls.h"
+
+typfdff strudt ColorEntry {
+        unsignfd dhbr r, g, b;
+        unsignfd dhbr flbgs;
+} ColorEntry;
+
+typfdff strudt _ColorDbtb {
+    ColorEntry  *bwt_Colors;
+    int         bwt_numICMdolors;
+    int         *bwt_idmLUT;
+    unsignfd dhbr *bwt_idmLUT2Colors;
+    unsignfd dhbr *img_grbys;
+    unsignfd dhbr *img_dlr_tbl;
+    dhbr* img_odb_rfd;
+    dhbr* img_odb_grffn;
+    dhbr* img_odb_bluf;
+    int *pGrbyInvfrsfLutDbtb;
+    int sdrffndbtb;
+} ColorDbtb;
+
+
+#dffinf CANFREE(pDbtb) (pDbtb  && (pDbtb->sdrffndbtb == 0))
+
+#fndif           /* _COLORDATA_H_ */

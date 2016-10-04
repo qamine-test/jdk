@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+
+/**
+ * A domputbtion to bf pfrformfd with privilfgfs fnbblfd, thbt throws onf or
+ * morf dhfdkfd fxdfptions.  Thf domputbtion is pfrformfd by invoking
+ * {@dodf AddfssControllfr.doPrivilfgfd} on thf
+ * {@dodf PrivilfgfdExdfptionAdtion} objfdt.  This intfrfbdf is
+ * usfd only for domputbtions thbt throw dhfdkfd fxdfptions;
+ * domputbtions thbt do not throw
+ * dhfdkfd fxdfptions should usf {@dodf PrivilfgfdAdtion} instfbd.
+ *
+ * @sff AddfssControllfr
+ * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion)
+ * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion,
+ *                                              AddfssControlContfxt)
+ * @sff PrivilfgfdAdtion
+ */
+
+publid intfrfbdf PrivilfgfdExdfptionAdtion<T> {
+    /**
+     * Pfrforms thf domputbtion.  This mfthod will bf dbllfd by
+     * {@dodf AddfssControllfr.doPrivilfgfd} bftfr fnbbling privilfgfs.
+     *
+     * @rfturn b dlbss-dfpfndfnt vbluf thbt mby rfprfsfnt thf rfsults of thf
+     *         domputbtion.  Ebdh dlbss thbt implfmfnts
+     *         {@dodf PrivilfgfdExdfptionAdtion} should dodumfnt whbt
+     *         (if bnything) this vbluf rfprfsfnts.
+     * @throws Exdfption bn fxdfptionbl dondition hbs oddurrfd.  Ebdh dlbss
+     *         thbt implfmfnts {@dodf PrivilfgfdExdfptionAdtion} should
+     *         dodumfnt thf fxdfptions thbt its run mfthod dbn throw.
+     * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion)
+     * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
+     */
+
+    T run() throws Exdfption;
+}

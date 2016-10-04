@@ -1,0 +1,212 @@
+/*
+ * Copyright (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
+
+/**
+ * <p>MBfbn intfrfbdf for donnfdtor sfrvfrs.  A JMX API donnfdtor sfrvfr
+ * is bttbdhfd to bn MBfbn sfrvfr, bnd fstbblishfs donnfdtions to thbt
+ * MBfbn sfrvfr for rfmotf dlifnts.</p>
+ *
+ * <p>A nfwly-drfbtfd donnfdtor sfrvfr is <fm>inbdtivf</fm>, bnd dofs
+ * not yft listfn for donnfdtions.  Only whfn its {@link #stbrt stbrt}
+ * mfthod hbs bffn dbllfd dofs it stbrt listfning for donnfdtions.</p>
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf JMXConnfdtorSfrvfrMBfbn {
+    /**
+     * <p>Adtivbtfs thf donnfdtor sfrvfr, thbt is, stbrts listfning for
+     * dlifnt donnfdtions.  Cblling this mfthod whfn thf donnfdtor
+     * sfrvfr is blrfbdy bdtivf hbs no ffffdt.  Cblling this mfthod
+     * whfn thf donnfdtor sfrvfr hbs bffn stoppfd will gfnfrbtf bn
+     * {@link IOExdfption}.</p>
+     *
+     * @fxdfption IOExdfption if it is not possiblf to stbrt listfning
+     * or if thf donnfdtor sfrvfr hbs bffn stoppfd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf donnfdtor sfrvfr hbs
+     * not bffn bttbdhfd to bn MBfbn sfrvfr.
+     */
+    publid void stbrt() throws IOExdfption;
+
+    /**
+     * <p>Dfbdtivbtfs thf donnfdtor sfrvfr, thbt is, stops listfning for
+     * dlifnt donnfdtions.  Cblling this mfthod will blso dlosf bll
+     * dlifnt donnfdtions thbt wfrf mbdf by this sfrvfr.  Aftfr this
+     * mfthod rfturns, whfthfr normblly or with bn fxdfption, thf
+     * donnfdtor sfrvfr will not drfbtf bny nfw dlifnt
+     * donnfdtions.</p>
+     *
+     * <p>Ondf b donnfdtor sfrvfr hbs bffn stoppfd, it dbnnot bf stbrtfd
+     * bgbin.</p>
+     *
+     * <p>Cblling this mfthod whfn thf donnfdtor sfrvfr hbs blrfbdy
+     * bffn stoppfd hbs no ffffdt.  Cblling this mfthod whfn thf
+     * donnfdtor sfrvfr hbs not yft bffn stbrtfd will disbblf thf
+     * donnfdtor sfrvfr objfdt pfrmbnfntly.</p>
+     *
+     * <p>If dlosing b dlifnt donnfdtion produdfs bn fxdfption, thbt
+     * fxdfption is not thrown from this mfthod.  A {@link
+     * JMXConnfdtionNotifidbtion} with typf {@link
+     * JMXConnfdtionNotifidbtion#FAILED} is fmittfd from this MBfbn
+     * with thf donnfdtion ID of thf donnfdtion thbt dould not bf
+     * dlosfd.</p>
+     *
+     * <p>Closing b donnfdtor sfrvfr is b potfntiblly slow opfrbtion.
+     * For fxbmplf, if b dlifnt mbdhinf with bn opfn donnfdtion hbs
+     * drbshfd, thf dlosf opfrbtion might hbvf to wbit for b nftwork
+     * protodol timfout.  Cbllfrs thbt do not wbnt to blodk in b dlosf
+     * opfrbtion should do it in b sfpbrbtf thrfbd.</p>
+     *
+     * @fxdfption IOExdfption if thf sfrvfr dbnnot bf dlosfd dlfbnly.
+     * Whfn this fxdfption is thrown, thf sfrvfr hbs blrfbdy bttfmptfd
+     * to dlosf bll dlifnt donnfdtions.  All dlifnt donnfdtions brf
+     * dlosfd fxdfpt possibly thosf thbt gfnfrbtfd fxdfptions whfn thf
+     * sfrvfr bttfmptfd to dlosf thfm.
+     */
+    publid void stop() throws IOExdfption;
+
+    /**
+     * <p>Dftfrminfs whfthfr thf donnfdtor sfrvfr is bdtivf.  A donnfdtor
+     * sfrvfr stbrts bfing bdtivf whfn its {@link #stbrt stbrt} mfthod
+     * rfturns suddfssfully bnd rfmbins bdtivf until fithfr its
+     * {@link #stop stop} mfthod is dbllfd or thf donnfdtor sfrvfr
+     * fbils.</p>
+     *
+     * @rfturn truf if thf donnfdtor sfrvfr is bdtivf.
+     */
+    publid boolfbn isAdtivf();
+
+    /**
+     * <p>Insfrts bn objfdt thbt intfrdfpts rfqufsts for thf MBfbn sfrvfr
+     * thbt brrivf through this donnfdtor sfrvfr.  This objfdt will bf
+     * supplifd bs thf <dodf>MBfbnSfrvfr</dodf> for bny nfw donnfdtion
+     * drfbtfd by this donnfdtor sfrvfr.  Existing donnfdtions brf
+     * unbfffdtfd.</p>
+     *
+     * <p>This mfthod dbn bf dbllfd morf thbn ondf with difffrfnt
+     * {@link MBfbnSfrvfrForwbrdfr} objfdts.  Thf rfsult is b dhbin
+     * of forwbrdfrs.  Thf lbst forwbrdfr bddfd is thf first in thf dhbin.
+     * In morf dftbil:</p>
+     *
+     * <ul>
+     * <li><p>If this donnfdtor sfrvfr is blrfbdy bssodibtfd with bn
+     * <dodf>MBfbnSfrvfr</dodf> objfdt, thfn thbt objfdt is givfn to
+     * {@link MBfbnSfrvfrForwbrdfr#sftMBfbnSfrvfr
+     * mbsf.sftMBfbnSfrvfr}.  If doing so produdfs bn fxdfption, this
+     * mfthod throws thf sbmf fxdfption without bny othfr ffffdt.</p>
+     *
+     * <li><p>If this donnfdtor is not blrfbdy bssodibtfd with bn
+     * <dodf>MBfbnSfrvfr</dodf> objfdt, or if thf
+     * <dodf>mbsf.sftMBfbnSfrvfr</dodf> dbll just mfntionfd suddffds,
+     * thfn <dodf>mbsf</dodf> bfdomfs this donnfdtor sfrvfr's
+     * <dodf>MBfbnSfrvfr</dodf>.</p>
+     * </ul>
+     *
+     * @pbrbm mbsf thf nfw <dodf>MBfbnSfrvfrForwbrdfr</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf dbll to {@link
+     * MBfbnSfrvfrForwbrdfr#sftMBfbnSfrvfr mbsf.sftMBfbnSfrvfr} fbils
+     * with <dodf>IllfgblArgumfntExdfption</dodf>.  This indludfs thf
+     * dbsf whfrf <dodf>mbsf</dodf> is null.
+     */
+    publid void sftMBfbnSfrvfrForwbrdfr(MBfbnSfrvfrForwbrdfr mbsf);
+
+    /**
+     * <p>Thf list of IDs for durrfntly-opfn donnfdtions to this
+     * donnfdtor sfrvfr.</p>
+     *
+     * @rfturn b nfw string brrby dontbining thf list of IDs.  If
+     * thfrf brf no durrfntly-opfn donnfdtions, this brrby will bf
+     * fmpty.
+     */
+    publid String[] gftConnfdtionIds();
+
+    /**
+     * <p>Thf bddrfss of this donnfdtor sfrvfr.</p>
+     * <p>
+     * Thf bddrfss rfturnfd mby not bf thf fxbdt originbl {@link JMXSfrvidfURL}
+     * thbt wbs supplifd whfn drfbting thf donnfdtor sfrvfr, sindf thf originbl
+     * bddrfss mby not blwbys bf domplftf. For fxbmplf thf port numbfr mby bf
+     * dynbmidblly bllodbtfd whfn stbrting thf donnfdtor sfrvfr. Instfbd thf
+     * bddrfss rfturnfd is thf bdtubl {@link JMXSfrvidfURL} of thf
+     * {@link JMXConnfdtorSfrvfr}. This is thf bddrfss thbt dlifnts supply
+     * to {@link JMXConnfdtorFbdtory#donnfdt(JMXSfrvidfURL)}.
+     * </p>
+     * <p>Notf thbt thf bddrfss rfturnfd mby bf {@dodf null} if
+     *    thf {@dodf JMXConnfdtorSfrvfr} is not yft {@link #isAdtivf bdtivf}.
+     * </p>
+     *
+     * @rfturn thf bddrfss of this donnfdtor sfrvfr, or null if it
+     * dofs not hbvf onf.
+     */
+    publid JMXSfrvidfURL gftAddrfss();
+
+    /**
+     * <p>Thf bttributfs for this donnfdtor sfrvfr.</p>
+     *
+     * @rfturn b rfbd-only mbp dontbining thf bttributfs for this
+     * donnfdtor sfrvfr.  Attributfs whosf vblufs brf not sfriblizbblf
+     * brf omittfd from this mbp.  If thfrf brf no sfriblizbblf
+     * bttributfs, thf rfturnfd mbp is fmpty.
+     */
+    publid Mbp<String,?> gftAttributfs();
+
+    /**
+     * <p>Rfturns b dlifnt stub for this donnfdtor sfrvfr.  A dlifnt
+     * stub is b sfriblizbblf objfdt whosf {@link
+     * JMXConnfdtor#donnfdt(Mbp) donnfdt} mfthod dbn bf usfd to mbkf
+     * onf nfw donnfdtion to this donnfdtor sfrvfr.</p>
+     *
+     * <p>A givfn donnfdtor nffd not support thf gfnfrbtion of dlifnt
+     * stubs.  Howfvfr, thf donnfdtors spfdififd by thf JMX Rfmotf API do
+     * (JMXMP Connfdtor bnd RMI Connfdtor).</p>
+     *
+     * @pbrbm fnv dlifnt donnfdtion pbrbmftfrs of thf sbmf sort thbt
+     * dbn bf providfd to {@link JMXConnfdtor#donnfdt(Mbp)
+     * JMXConnfdtor.donnfdt(Mbp)}.  Cbn bf null, whidh is fquivblfnt
+     * to bn fmpty mbp.
+     *
+     * @rfturn b dlifnt stub thbt dbn bf usfd to mbkf b nfw donnfdtion
+     * to this donnfdtor sfrvfr.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this donnfdtor
+     * sfrvfr dofs not support thf gfnfrbtion of dlifnt stubs.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf JMXConnfdtorSfrvfr is
+     * not stbrtfd (sff {@link JMXConnfdtorSfrvfrMBfbn#isAdtivf()}).
+     *
+     * @fxdfption IOExdfption if b dommunidbtions problfm mfbns thbt b
+     * stub dbnnot bf drfbtfd.
+     *
+     */
+    publid JMXConnfdtor toJMXConnfdtor(Mbp<String,?> fnv)
+        throws IOExdfption;
+}

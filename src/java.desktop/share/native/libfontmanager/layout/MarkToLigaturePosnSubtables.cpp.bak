@@ -1,137 +1,137 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "AnchorTables.h"
-#include "MarkArrays.h"
-#include "GlyphPositioningTables.h"
-#include "AttachmentPosnSubtables.h"
-#include "MarkToLigaturePosnSubtables.h"
-#include "GlyphIterator.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "LEFontInstbndf.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "AndiorTbblfs.i"
+#indludf "MbrkArrbys.i"
+#indludf "GlypiPositioningTbblfs.i"
+#indludf "AttbdimfntPosnSubtbblfs.i"
+#indludf "MbrkToLigbturfPosnSubtbblfs.i"
+#indludf "GlypiItfrbtor.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-LEGlyphID MarkToLigaturePositioningSubtable::findLigatureGlyph(GlyphIterator *glyphIterator) const
+LEGlypiID MbrkToLigbturfPositioningSubtbblf::findLigbturfGlypi(GlypiItfrbtor *glypiItfrbtor) donst
 {
-    if (glyphIterator->prev()) {
-        return glyphIterator->getCurrGlyphID();
+    if (glypiItfrbtor->prfv()) {
+        rfturn glypiItfrbtor->gftCurrGlypiID();
     }
 
-    return 0xFFFF;
+    rfturn 0xFFFF;
 }
 
-le_int32 MarkToLigaturePositioningSubtable::process(const LETableReference &base, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode &success) const
+lf_int32 MbrkToLigbturfPositioningSubtbblf::prodfss(donst LETbblfRfffrfndf &bbsf, GlypiItfrbtor *glypiItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
 {
-    LEGlyphID markGlyph = glyphIterator->getCurrGlyphID();
-    le_int32 markCoverage = getGlyphCoverage(base, (LEGlyphID) markGlyph, success);
+    LEGlypiID mbrkGlypi = glypiItfrbtor->gftCurrGlypiID();
+    lf_int32 mbrkCovfrbgf = gftGlypiCovfrbgf(bbsf, (LEGlypiID) mbrkGlypi, suddfss);
 
-    if (LE_FAILURE(success)) {
-      return 0;
+    if (LE_FAILURE(suddfss)) {
+      rfturn 0;
     }
 
-    if (markCoverage < 0) {
-        // markGlyph isn't a covered mark glyph
-        return 0;
+    if (mbrkCovfrbgf < 0) {
+        // mbrkGlypi isn't b dovfrfd mbrk glypi
+        rfturn 0;
     }
 
-    LEPoint markAnchor;
-    LEReferenceTo<MarkArray> markArray(base, success,  SWAPW(markArrayOffset));
-    if( LE_FAILURE(success) ) {
-      return 0;
+    LEPoint mbrkAndior;
+    LERfffrfndfTo<MbrkArrby> mbrkArrby(bbsf, suddfss,  SWAPW(mbrkArrbyOffsft));
+    if( LE_FAILURE(suddfss) ) {
+      rfturn 0;
     }
-    le_int32 markClass = markArray->getMarkClass(markArray, markGlyph, markCoverage, fontInstance, markAnchor, success);
-    le_uint16 mcCount = SWAPW(classCount);
+    lf_int32 mbrkClbss = mbrkArrby->gftMbrkClbss(mbrkArrby, mbrkGlypi, mbrkCovfrbgf, fontInstbndf, mbrkAndior, suddfss);
+    lf_uint16 mdCount = SWAPW(dlbssCount);
 
-    if (markClass < 0 || markClass >= mcCount) {
-        // markGlyph isn't in the mark array or its
-        // mark class is too big. The table is mal-formed!
-        return 0;
-    }
-
-    // FIXME: we probably don't want to find a ligature before a previous base glyph...
-    GlyphIterator ligatureIterator(*glyphIterator, (le_uint16) (lfIgnoreMarks /*| lfIgnoreBaseGlyphs*/));
-    LEGlyphID ligatureGlyph = findLigatureGlyph(&ligatureIterator);
-    le_int32 ligatureCoverage = getBaseCoverage(base, (LEGlyphID) ligatureGlyph, success);
-    LEReferenceTo<LigatureArray> ligatureArray(base, success, SWAPW(baseArrayOffset));
-    le_uint16 ligatureCount = SWAPW(ligatureArray->ligatureCount);
-
-    if (ligatureCoverage < 0 || ligatureCoverage >= ligatureCount) {
-        // The ligature glyph isn't covered, or the coverage
-        // index is too big. The latter means that the
-        // table is mal-formed...
-        return 0;
+    if (mbrkClbss < 0 || mbrkClbss >= mdCount) {
+        // mbrkGlypi isn't in tif mbrk brrby or its
+        // mbrk dlbss is too big. Tif tbblf is mbl-formfd!
+        rfturn 0;
     }
 
-    le_int32 markPosition = glyphIterator->getCurrStreamPosition();
-    Offset ligatureAttachOffset = SWAPW(ligatureArray->ligatureAttachTableOffsetArray[ligatureCoverage]);
-    LEReferenceTo<LigatureAttachTable> ligatureAttachTable(ligatureArray, success, ligatureAttachOffset);
-    le_int32 componentCount = SWAPW(ligatureAttachTable->componentCount);
-    le_int32 component = ligatureIterator.getMarkComponent(markPosition);
+    // FIXME: wf probbbly don't wbnt to find b ligbturf bfforf b prfvious bbsf glypi...
+    GlypiItfrbtor ligbturfItfrbtor(*glypiItfrbtor, (lf_uint16) (lfIgnorfMbrks /*| lfIgnorfBbsfGlypis*/));
+    LEGlypiID ligbturfGlypi = findLigbturfGlypi(&ligbturfItfrbtor);
+    lf_int32 ligbturfCovfrbgf = gftBbsfCovfrbgf(bbsf, (LEGlypiID) ligbturfGlypi, suddfss);
+    LERfffrfndfTo<LigbturfArrby> ligbturfArrby(bbsf, suddfss, SWAPW(bbsfArrbyOffsft));
+    lf_uint16 ligbturfCount = SWAPW(ligbturfArrby->ligbturfCount);
 
-    if (component >= componentCount) {
-        // should really just bail at this point...
-        component = componentCount - 1;
+    if (ligbturfCovfrbgf < 0 || ligbturfCovfrbgf >= ligbturfCount) {
+        // Tif ligbturf glypi isn't dovfrfd, or tif dovfrbgf
+        // indfx is too big. Tif lbttfr mfbns tibt tif
+        // tbblf is mbl-formfd...
+        rfturn 0;
     }
 
-    LEReferenceTo<ComponentRecord> componentRecord(base, success, &ligatureAttachTable->componentRecordArray[component * mcCount]);
-    LEReferenceToArrayOf<Offset> ligatureAnchorTableOffsetArray(base, success, &(componentRecord->ligatureAnchorTableOffsetArray[0]), markClass+1);
-    if( LE_FAILURE(success) ) { return 0; }
-    Offset anchorTableOffset = SWAPW(componentRecord->ligatureAnchorTableOffsetArray[markClass]);
-    LEReferenceTo<AnchorTable> anchorTable(ligatureAttachTable, success, anchorTableOffset);
-    LEPoint ligatureAnchor, markAdvance, pixels;
+    lf_int32 mbrkPosition = glypiItfrbtor->gftCurrStrfbmPosition();
+    Offsft ligbturfAttbdiOffsft = SWAPW(ligbturfArrby->ligbturfAttbdiTbblfOffsftArrby[ligbturfCovfrbgf]);
+    LERfffrfndfTo<LigbturfAttbdiTbblf> ligbturfAttbdiTbblf(ligbturfArrby, suddfss, ligbturfAttbdiOffsft);
+    lf_int32 domponfntCount = SWAPW(ligbturfAttbdiTbblf->domponfntCount);
+    lf_int32 domponfnt = ligbturfItfrbtor.gftMbrkComponfnt(mbrkPosition);
 
-    anchorTable->getAnchor(anchorTable, ligatureGlyph, fontInstance, ligatureAnchor, success);
-
-    fontInstance->getGlyphAdvance(markGlyph, pixels);
-    fontInstance->pixelsToUnits(pixels, markAdvance);
-
-    float anchorDiffX = ligatureAnchor.fX - markAnchor.fX;
-    float anchorDiffY = ligatureAnchor.fY - markAnchor.fY;
-
-    glyphIterator->setCurrGlyphBaseOffset(ligatureIterator.getCurrStreamPosition());
-
-    if (glyphIterator->isRightToLeft()) {
-        glyphIterator->setCurrGlyphPositionAdjustment(anchorDiffX, anchorDiffY, -markAdvance.fX, -markAdvance.fY);
-    } else {
-        LEPoint ligatureAdvance;
-
-        fontInstance->getGlyphAdvance(ligatureGlyph, pixels);
-        fontInstance->pixelsToUnits(pixels, ligatureAdvance);
-
-        glyphIterator->setCurrGlyphPositionAdjustment(anchorDiffX - ligatureAdvance.fX, anchorDiffY - ligatureAdvance.fY, -markAdvance.fX, -markAdvance.fY);
+    if (domponfnt >= domponfntCount) {
+        // siould rfblly just bbil bt tiis point...
+        domponfnt = domponfntCount - 1;
     }
 
-    return 1;
+    LERfffrfndfTo<ComponfntRfdord> domponfntRfdord(bbsf, suddfss, &ligbturfAttbdiTbblf->domponfntRfdordArrby[domponfnt * mdCount]);
+    LERfffrfndfToArrbyOf<Offsft> ligbturfAndiorTbblfOffsftArrby(bbsf, suddfss, &(domponfntRfdord->ligbturfAndiorTbblfOffsftArrby[0]), mbrkClbss+1);
+    if( LE_FAILURE(suddfss) ) { rfturn 0; }
+    Offsft bndiorTbblfOffsft = SWAPW(domponfntRfdord->ligbturfAndiorTbblfOffsftArrby[mbrkClbss]);
+    LERfffrfndfTo<AndiorTbblf> bndiorTbblf(ligbturfAttbdiTbblf, suddfss, bndiorTbblfOffsft);
+    LEPoint ligbturfAndior, mbrkAdvbndf, pixfls;
+
+    bndiorTbblf->gftAndior(bndiorTbblf, ligbturfGlypi, fontInstbndf, ligbturfAndior, suddfss);
+
+    fontInstbndf->gftGlypiAdvbndf(mbrkGlypi, pixfls);
+    fontInstbndf->pixflsToUnits(pixfls, mbrkAdvbndf);
+
+    flobt bndiorDiffX = ligbturfAndior.fX - mbrkAndior.fX;
+    flobt bndiorDiffY = ligbturfAndior.fY - mbrkAndior.fY;
+
+    glypiItfrbtor->sftCurrGlypiBbsfOffsft(ligbturfItfrbtor.gftCurrStrfbmPosition());
+
+    if (glypiItfrbtor->isRigitToLfft()) {
+        glypiItfrbtor->sftCurrGlypiPositionAdjustmfnt(bndiorDiffX, bndiorDiffY, -mbrkAdvbndf.fX, -mbrkAdvbndf.fY);
+    } flsf {
+        LEPoint ligbturfAdvbndf;
+
+        fontInstbndf->gftGlypiAdvbndf(ligbturfGlypi, pixfls);
+        fontInstbndf->pixflsToUnits(pixfls, ligbturfAdvbndf);
+
+        glypiItfrbtor->sftCurrGlypiPositionAdjustmfnt(bndiorDiffX - ligbturfAdvbndf.fX, bndiorDiffY - ligbturfAdvbndf.fY, -mbrkAdvbndf.fX, -mbrkAdvbndf.fY);
+    }
+
+    rfturn 1;
 }
 
 U_NAMESPACE_END

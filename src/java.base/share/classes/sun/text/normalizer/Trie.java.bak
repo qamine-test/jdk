@@ -1,410 +1,410 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
-import java.io.DataInputStream;
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * <p>A trie is a kind of compressed, serializable table of values
- * associated with Unicode code points (0..0x10ffff).</p>
- * <p>This class defines the basic structure of a trie and provides methods
- * to <b>retrieve the offsets to the actual data</b>.</p>
- * <p>Data will be the form of an array of basic types, char or int.</p>
- * <p>The actual data format will have to be specified by the user in the
- * inner static interface com.ibm.icu.impl.Trie.DataManipulate.</p>
- * <p>This trie implementation is optimized for getting offset while walking
- * forward through a UTF-16 string.
- * Therefore, the simplest and fastest access macros are the
- * fromLead() and fromOffsetTrail() methods.
- * The fromBMP() method are a little more complicated; they get offsets even
- * for lead surrogate codepoints, while the fromLead() method get special
- * "folded" offsets for lead surrogate code units if there is relevant data
- * associated with them.
- * From such a folded offsets, an offset needs to be extracted to supply
- * to the fromOffsetTrail() methods.
- * To handle such supplementary codepoints, some offset information are kept
- * in the data.</p>
- * <p>Methods in com.ibm.icu.impl.Trie.DataManipulate are called to retrieve
- * that offset from the folded value for the lead surrogate unit.</p>
- * <p>For examples of use, see com.ibm.icu.impl.CharTrie or
- * com.ibm.icu.impl.IntTrie.</p>
- * @author synwee
- * @see com.ibm.icu.impl.CharTrie
- * @see com.ibm.icu.impl.IntTrie
- * @since release 2.1, Jan 01 2002
+ * <p>A trif is b kind of domprfssfd, sfriblizbblf tbblf of vblufs
+ * bssodibtfd witi Unidodf dodf points (0..0x10ffff).</p>
+ * <p>Tiis dlbss dffinfs tif bbsid strudturf of b trif bnd providfs mftiods
+ * to <b>rftrifvf tif offsfts to tif bdtubl dbtb</b>.</p>
+ * <p>Dbtb will bf tif form of bn brrby of bbsid typfs, dibr or int.</p>
+ * <p>Tif bdtubl dbtb formbt will ibvf to bf spfdififd by tif usfr in tif
+ * innfr stbtid intfrfbdf dom.ibm.idu.impl.Trif.DbtbMbnipulbtf.</p>
+ * <p>Tiis trif implfmfntbtion is optimizfd for gftting offsft wiilf wblking
+ * forwbrd tirougi b UTF-16 string.
+ * Tifrfforf, tif simplfst bnd fbstfst bddfss mbdros brf tif
+ * fromLfbd() bnd fromOffsftTrbil() mftiods.
+ * Tif fromBMP() mftiod brf b littlf morf domplidbtfd; tify gft offsfts fvfn
+ * for lfbd surrogbtf dodfpoints, wiilf tif fromLfbd() mftiod gft spfdibl
+ * "foldfd" offsfts for lfbd surrogbtf dodf units if tifrf is rflfvbnt dbtb
+ * bssodibtfd witi tifm.
+ * From sudi b foldfd offsfts, bn offsft nffds to bf fxtrbdtfd to supply
+ * to tif fromOffsftTrbil() mftiods.
+ * To ibndlf sudi supplfmfntbry dodfpoints, somf offsft informbtion brf kfpt
+ * in tif dbtb.</p>
+ * <p>Mftiods in dom.ibm.idu.impl.Trif.DbtbMbnipulbtf brf dbllfd to rftrifvf
+ * tibt offsft from tif foldfd vbluf for tif lfbd surrogbtf unit.</p>
+ * <p>For fxbmplfs of usf, sff dom.ibm.idu.impl.CibrTrif or
+ * dom.ibm.idu.impl.IntTrif.</p>
+ * @butior synwff
+ * @sff dom.ibm.idu.impl.CibrTrif
+ * @sff dom.ibm.idu.impl.IntTrif
+ * @sindf rflfbsf 2.1, Jbn 01 2002
  */
-public abstract class Trie
+publid bbstrbdt dlbss Trif
 {
-    // public class declaration ----------------------------------------
+    // publid dlbss dfdlbrbtion ----------------------------------------
 
     /**
-    * Character data in com.ibm.impl.Trie have different user-specified format
-    * for different purposes.
-    * This interface specifies methods to be implemented in order for
-    * com.ibm.impl.Trie, to surrogate offset information encapsulated within
-    * the data.
+    * Cibrbdtfr dbtb in dom.ibm.impl.Trif ibvf difffrfnt usfr-spfdififd formbt
+    * for difffrfnt purposfs.
+    * Tiis intfrfbdf spfdififs mftiods to bf implfmfntfd in ordfr for
+    * dom.ibm.impl.Trif, to surrogbtf offsft informbtion fndbpsulbtfd witiin
+    * tif dbtb.
     */
-    public static interface DataManipulate
+    publid stbtid intfrfbdf DbtbMbnipulbtf
     {
         /**
-        * Called by com.ibm.icu.impl.Trie to extract from a lead surrogate's
-        * data
-        * the index array offset of the indexes for that lead surrogate.
-        * @param value data value for a surrogate from the trie, including the
-        *        folding offset
-        * @return data offset or 0 if there is no data for the lead surrogate
+        * Cbllfd by dom.ibm.idu.impl.Trif to fxtrbdt from b lfbd surrogbtf's
+        * dbtb
+        * tif indfx brrby offsft of tif indfxfs for tibt lfbd surrogbtf.
+        * @pbrbm vbluf dbtb vbluf for b surrogbtf from tif trif, indluding tif
+        *        folding offsft
+        * @rfturn dbtb offsft or 0 if tifrf is no dbtb for tif lfbd surrogbtf
         */
-        public int getFoldingOffset(int value);
+        publid int gftFoldingOffsft(int vbluf);
     }
 
-    // default implementation
-    private static class DefaultGetFoldingOffset implements DataManipulate {
-        public int getFoldingOffset(int value) {
-            return value;
+    // dffbult implfmfntbtion
+    privbtf stbtid dlbss DffbultGftFoldingOffsft implfmfnts DbtbMbnipulbtf {
+        publid int gftFoldingOffsft(int vbluf) {
+            rfturn vbluf;
         }
     }
 
-    // protected constructor -------------------------------------------
+    // protfdtfd donstrudtor -------------------------------------------
 
     /**
-    * Trie constructor for CharTrie use.
-    * @param inputStream ICU data file input stream which contains the
-    *                        trie
-    * @param dataManipulate object containing the information to parse the
-    *                       trie data
-    * @throws IOException thrown when input stream does not have the
-    *                        right header.
+    * Trif donstrudtor for CibrTrif usf.
+    * @pbrbm inputStrfbm ICU dbtb filf input strfbm wiidi dontbins tif
+    *                        trif
+    * @pbrbm dbtbMbnipulbtf objfdt dontbining tif informbtion to pbrsf tif
+    *                       trif dbtb
+    * @tirows IOExdfption tirown wifn input strfbm dofs not ibvf tif
+    *                        rigit ifbdfr.
     */
-    protected Trie(InputStream inputStream,
-                   DataManipulate  dataManipulate) throws IOException
+    protfdtfd Trif(InputStrfbm inputStrfbm,
+                   DbtbMbnipulbtf  dbtbMbnipulbtf) tirows IOExdfption
     {
-        DataInputStream input = new DataInputStream(inputStream);
-        // Magic number to authenticate the data.
-        int signature = input.readInt();
-        m_options_    = input.readInt();
+        DbtbInputStrfbm input = nfw DbtbInputStrfbm(inputStrfbm);
+        // Mbgid numbfr to butifntidbtf tif dbtb.
+        int signbturf = input.rfbdInt();
+        m_options_    = input.rfbdInt();
 
-        if (!checkHeader(signature)) {
-            throw new IllegalArgumentException("ICU data file error: Trie header authentication failed, please check if you have the most updated ICU data file");
+        if (!difdkHfbdfr(signbturf)) {
+            tirow nfw IllfgblArgumfntExdfption("ICU dbtb filf frror: Trif ifbdfr butifntidbtion fbilfd, plfbsf difdk if you ibvf tif most updbtfd ICU dbtb filf");
         }
 
-        if(dataManipulate != null) {
-            m_dataManipulate_ = dataManipulate;
-        } else {
-            m_dataManipulate_ = new DefaultGetFoldingOffset();
+        if(dbtbMbnipulbtf != null) {
+            m_dbtbMbnipulbtf_ = dbtbMbnipulbtf;
+        } flsf {
+            m_dbtbMbnipulbtf_ = nfw DffbultGftFoldingOffsft();
         }
-        m_isLatin1Linear_ = (m_options_ &
+        m_isLbtin1Linfbr_ = (m_options_ &
                              HEADER_OPTIONS_LATIN1_IS_LINEAR_MASK_) != 0;
-        m_dataOffset_     = input.readInt();
-        m_dataLength_     = input.readInt();
-        unserialize(inputStream);
+        m_dbtbOffsft_     = input.rfbdInt();
+        m_dbtbLfngti_     = input.rfbdInt();
+        unsfriblizf(inputStrfbm);
     }
 
     /**
-    * Trie constructor
-    * @param index array to be used for index
-    * @param options used by the trie
-    * @param dataManipulate object containing the information to parse the
-    *                       trie data
+    * Trif donstrudtor
+    * @pbrbm indfx brrby to bf usfd for indfx
+    * @pbrbm options usfd by tif trif
+    * @pbrbm dbtbMbnipulbtf objfdt dontbining tif informbtion to pbrsf tif
+    *                       trif dbtb
     */
-    protected Trie(char index[], int options, DataManipulate dataManipulate)
+    protfdtfd Trif(dibr indfx[], int options, DbtbMbnipulbtf dbtbMbnipulbtf)
     {
         m_options_ = options;
-        if(dataManipulate != null) {
-            m_dataManipulate_ = dataManipulate;
-        } else {
-            m_dataManipulate_ = new DefaultGetFoldingOffset();
+        if(dbtbMbnipulbtf != null) {
+            m_dbtbMbnipulbtf_ = dbtbMbnipulbtf;
+        } flsf {
+            m_dbtbMbnipulbtf_ = nfw DffbultGftFoldingOffsft();
         }
-        m_isLatin1Linear_ = (m_options_ &
+        m_isLbtin1Linfbr_ = (m_options_ &
                              HEADER_OPTIONS_LATIN1_IS_LINEAR_MASK_) != 0;
-        m_index_ = index;
-        m_dataOffset_ = m_index_.length;
+        m_indfx_ = indfx;
+        m_dbtbOffsft_ = m_indfx_.lfngti;
     }
 
-    // protected data members ------------------------------------------
+    // protfdtfd dbtb mfmbfrs ------------------------------------------
 
     /**
-    * Lead surrogate code points' index displacement in the index array.
+    * Lfbd surrogbtf dodf points' indfx displbdfmfnt in tif indfx brrby.
     * 0x10000-0xd800=0x2800
     * 0x2800 >> INDEX_STAGE_1_SHIFT_
     */
-    protected static final int LEAD_INDEX_OFFSET_ = 0x2800 >> 5;
+    protfdtfd stbtid finbl int LEAD_INDEX_OFFSET_ = 0x2800 >> 5;
     /**
-    * Shift size for shifting right the input index. 1..9
+    * Siift sizf for siifting rigit tif input indfx. 1..9
     */
-    protected static final int INDEX_STAGE_1_SHIFT_ = 5;
+    protfdtfd stbtid finbl int INDEX_STAGE_1_SHIFT_ = 5;
     /**
-    * Shift size for shifting left the index array values.
-    * Increases possible data size with 16-bit index values at the cost
-    * of compactability.
-    * This requires blocks of stage 2 data to be aligned by
+    * Siift sizf for siifting lfft tif indfx brrby vblufs.
+    * Indrfbsfs possiblf dbtb sizf witi 16-bit indfx vblufs bt tif dost
+    * of dompbdtbbility.
+    * Tiis rfquirfs blodks of stbgf 2 dbtb to bf blignfd by
     * DATA_GRANULARITY.
     * 0..INDEX_STAGE_1_SHIFT
     */
-    protected static final int INDEX_STAGE_2_SHIFT_ = 2;
+    protfdtfd stbtid finbl int INDEX_STAGE_2_SHIFT_ = 2;
     /**
-     * Number of data values in a stage 2 (data array) block.
+     * Numbfr of dbtb vblufs in b stbgf 2 (dbtb brrby) blodk.
      */
-    protected static final int DATA_BLOCK_LENGTH=1<<INDEX_STAGE_1_SHIFT_;
+    protfdtfd stbtid finbl int DATA_BLOCK_LENGTH=1<<INDEX_STAGE_1_SHIFT_;
     /**
-    * Mask for getting the lower bits from the input index.
+    * Mbsk for gftting tif lowfr bits from tif input indfx.
     * DATA_BLOCK_LENGTH - 1.
     */
-    protected static final int INDEX_STAGE_3_MASK_ = DATA_BLOCK_LENGTH - 1;
-    /** Number of bits of a trail surrogate that are used in index table lookups. */
-    protected static final int SURROGATE_BLOCK_BITS=10-INDEX_STAGE_1_SHIFT_;
+    protfdtfd stbtid finbl int INDEX_STAGE_3_MASK_ = DATA_BLOCK_LENGTH - 1;
+    /** Numbfr of bits of b trbil surrogbtf tibt brf usfd in indfx tbblf lookups. */
+    protfdtfd stbtid finbl int SURROGATE_BLOCK_BITS=10-INDEX_STAGE_1_SHIFT_;
     /**
-     * Number of index (stage 1) entries per lead surrogate.
-     * Same as number of index entries for 1024 trail surrogates,
+     * Numbfr of indfx (stbgf 1) fntrifs pfr lfbd surrogbtf.
+     * Sbmf bs numbfr of indfx fntrifs for 1024 trbil surrogbtfs,
      * ==0x400>>INDEX_STAGE_1_SHIFT_
      */
-    protected static final int SURROGATE_BLOCK_COUNT=(1<<SURROGATE_BLOCK_BITS);
-    /** Length of the BMP portion of the index (stage 1) array. */
-    protected static final int BMP_INDEX_LENGTH=0x10000>>INDEX_STAGE_1_SHIFT_;
+    protfdtfd stbtid finbl int SURROGATE_BLOCK_COUNT=(1<<SURROGATE_BLOCK_BITS);
+    /** Lfngti of tif BMP portion of tif indfx (stbgf 1) brrby. */
+    protfdtfd stbtid finbl int BMP_INDEX_LENGTH=0x10000>>INDEX_STAGE_1_SHIFT_;
     /**
-    * Surrogate mask to use when shifting offset to retrieve supplementary
-    * values
+    * Surrogbtf mbsk to usf wifn siifting offsft to rftrifvf supplfmfntbry
+    * vblufs
     */
-    protected static final int SURROGATE_MASK_ = 0x3FF;
+    protfdtfd stbtid finbl int SURROGATE_MASK_ = 0x3FF;
     /**
-    * Index or UTF16 characters
+    * Indfx or UTF16 dibrbdtfrs
     */
-    protected char m_index_[];
+    protfdtfd dibr m_indfx_[];
     /**
-    * Internal TrieValue which handles the parsing of the data value.
-    * This class is to be implemented by the user
+    * Intfrnbl TrifVbluf wiidi ibndlfs tif pbrsing of tif dbtb vbluf.
+    * Tiis dlbss is to bf implfmfntfd by tif usfr
     */
-    protected DataManipulate m_dataManipulate_;
+    protfdtfd DbtbMbnipulbtf m_dbtbMbnipulbtf_;
     /**
-    * Start index of the data portion of the trie. CharTrie combines
-    * index and data into a char array, so this is used to indicate the
-    * initial offset to the data portion.
-    * Note this index always points to the initial value.
+    * Stbrt indfx of tif dbtb portion of tif trif. CibrTrif dombinfs
+    * indfx bnd dbtb into b dibr brrby, so tiis is usfd to indidbtf tif
+    * initibl offsft to tif dbtb portion.
+    * Notf tiis indfx blwbys points to tif initibl vbluf.
     */
-    protected int m_dataOffset_;
+    protfdtfd int m_dbtbOffsft_;
     /**
-    * Length of the data array
+    * Lfngti of tif dbtb brrby
     */
-    protected int m_dataLength_;
+    protfdtfd int m_dbtbLfngti_;
 
-    // protected methods -----------------------------------------------
-
-    /**
-    * Gets the offset to the data which the surrogate pair points to.
-    * @param lead lead surrogate
-    * @param trail trailing surrogate
-    * @return offset to data
-    */
-    protected abstract int getSurrogateOffset(char lead, char trail);
+    // protfdtfd mftiods -----------------------------------------------
 
     /**
-    * Gets the value at the argument index
-    * @param index value at index will be retrieved
-    * @return 32 bit value
+    * Gfts tif offsft to tif dbtb wiidi tif surrogbtf pbir points to.
+    * @pbrbm lfbd lfbd surrogbtf
+    * @pbrbm trbil trbiling surrogbtf
+    * @rfturn offsft to dbtb
     */
-    protected abstract int getValue(int index);
+    protfdtfd bbstrbdt int gftSurrogbtfOffsft(dibr lfbd, dibr trbil);
 
     /**
-    * Gets the default initial value
-    * @return 32 bit value
+    * Gfts tif vbluf bt tif brgumfnt indfx
+    * @pbrbm indfx vbluf bt indfx will bf rftrifvfd
+    * @rfturn 32 bit vbluf
     */
-    protected abstract int getInitialValue();
+    protfdtfd bbstrbdt int gftVbluf(int indfx);
 
     /**
-    * Gets the offset to the data which the index ch after variable offset
+    * Gfts tif dffbult initibl vbluf
+    * @rfturn 32 bit vbluf
+    */
+    protfdtfd bbstrbdt int gftInitiblVbluf();
+
+    /**
+    * Gfts tif offsft to tif dbtb wiidi tif indfx di bftfr vbribblf offsft
     * points to.
-    * Note for locating a non-supplementary character data offset, calling
+    * Notf for lodbting b non-supplfmfntbry dibrbdtfr dbtb offsft, dblling
     * <p>
-    * getRawOffset(0, ch);
+    * gftRbwOffsft(0, di);
     * </p>
-    * will do. Otherwise if it is a supplementary character formed by
-    * surrogates lead and trail. Then we would have to call getRawOffset()
-    * with getFoldingIndexOffset(). See getSurrogateOffset().
-    * @param offset index offset which ch is to start from
-    * @param ch index to be used after offset
-    * @return offset to the data
+    * will do. Otifrwisf if it is b supplfmfntbry dibrbdtfr formfd by
+    * surrogbtfs lfbd bnd trbil. Tifn wf would ibvf to dbll gftRbwOffsft()
+    * witi gftFoldingIndfxOffsft(). Sff gftSurrogbtfOffsft().
+    * @pbrbm offsft indfx offsft wiidi di is to stbrt from
+    * @pbrbm di indfx to bf usfd bftfr offsft
+    * @rfturn offsft to tif dbtb
     */
-    protected final int getRawOffset(int offset, char ch)
+    protfdtfd finbl int gftRbwOffsft(int offsft, dibr di)
     {
-        return (m_index_[offset + (ch >> INDEX_STAGE_1_SHIFT_)]
+        rfturn (m_indfx_[offsft + (di >> INDEX_STAGE_1_SHIFT_)]
                 << INDEX_STAGE_2_SHIFT_)
-                + (ch & INDEX_STAGE_3_MASK_);
+                + (di & INDEX_STAGE_3_MASK_);
     }
 
     /**
-    * Gets the offset to data which the BMP character points to
-    * Treats a lead surrogate as a normal code point.
-    * @param ch BMP character
-    * @return offset to data
+    * Gfts tif offsft to dbtb wiidi tif BMP dibrbdtfr points to
+    * Trfbts b lfbd surrogbtf bs b normbl dodf point.
+    * @pbrbm di BMP dibrbdtfr
+    * @rfturn offsft to dbtb
     */
-    protected final int getBMPOffset(char ch)
+    protfdtfd finbl int gftBMPOffsft(dibr di)
     {
-        return (ch >= UTF16.LEAD_SURROGATE_MIN_VALUE
-                && ch <= UTF16.LEAD_SURROGATE_MAX_VALUE)
-                ? getRawOffset(LEAD_INDEX_OFFSET_, ch)
-                : getRawOffset(0, ch);
-                // using a getRawOffset(ch) makes no diff
+        rfturn (di >= UTF16.LEAD_SURROGATE_MIN_VALUE
+                && di <= UTF16.LEAD_SURROGATE_MAX_VALUE)
+                ? gftRbwOffsft(LEAD_INDEX_OFFSET_, di)
+                : gftRbwOffsft(0, di);
+                // using b gftRbwOffsft(di) mbkfs no diff
     }
 
     /**
-    * Gets the offset to the data which this lead surrogate character points
+    * Gfts tif offsft to tif dbtb wiidi tiis lfbd surrogbtf dibrbdtfr points
     * to.
-    * Data at the returned offset may contain folding offset information for
-    * the next trailing surrogate character.
-    * @param ch lead surrogate character
-    * @return offset to data
+    * Dbtb bt tif rfturnfd offsft mby dontbin folding offsft informbtion for
+    * tif nfxt trbiling surrogbtf dibrbdtfr.
+    * @pbrbm di lfbd surrogbtf dibrbdtfr
+    * @rfturn offsft to dbtb
     */
-    protected final int getLeadOffset(char ch)
+    protfdtfd finbl int gftLfbdOffsft(dibr di)
     {
-       return getRawOffset(0, ch);
+       rfturn gftRbwOffsft(0, di);
     }
 
     /**
-    * Internal trie getter from a code point.
-    * Could be faster(?) but longer with
-    *   if((c32)<=0xd7ff) { (result)=_TRIE_GET_RAW(trie, data, 0, c32); }
-    * Gets the offset to data which the codepoint points to
-    * @param ch codepoint
-    * @return offset to data
+    * Intfrnbl trif gfttfr from b dodf point.
+    * Could bf fbstfr(?) but longfr witi
+    *   if((d32)<=0xd7ff) { (rfsult)=_TRIE_GET_RAW(trif, dbtb, 0, d32); }
+    * Gfts tif offsft to dbtb wiidi tif dodfpoint points to
+    * @pbrbm di dodfpoint
+    * @rfturn offsft to dbtb
     */
-    protected final int getCodePointOffset(int ch)
+    protfdtfd finbl int gftCodfPointOffsft(int di)
     {
-        // if ((ch >> 16) == 0) slower
-        if (ch < 0) {
-            return -1;
-        } else if (ch < UTF16.LEAD_SURROGATE_MIN_VALUE) {
-            // fastpath for the part of the BMP below surrogates (D800) where getRawOffset() works
-            return getRawOffset(0, (char)ch);
-        } else if (ch < UTF16.SUPPLEMENTARY_MIN_VALUE) {
-            // BMP codepoint
-            return getBMPOffset((char)ch);
-        } else if (ch <= UCharacter.MAX_VALUE) {
-            // look at the construction of supplementary characters
-            // trail forms the ends of it.
-            return getSurrogateOffset(UTF16.getLeadSurrogate(ch),
-                                      (char)(ch & SURROGATE_MASK_));
-        } else {
-            // return -1 // if there is an error, in this case we return
-            return -1;
+        // if ((di >> 16) == 0) slowfr
+        if (di < 0) {
+            rfturn -1;
+        } flsf if (di < UTF16.LEAD_SURROGATE_MIN_VALUE) {
+            // fbstpbti for tif pbrt of tif BMP bflow surrogbtfs (D800) wifrf gftRbwOffsft() works
+            rfturn gftRbwOffsft(0, (dibr)di);
+        } flsf if (di < UTF16.SUPPLEMENTARY_MIN_VALUE) {
+            // BMP dodfpoint
+            rfturn gftBMPOffsft((dibr)di);
+        } flsf if (di <= UCibrbdtfr.MAX_VALUE) {
+            // look bt tif donstrudtion of supplfmfntbry dibrbdtfrs
+            // trbil forms tif fnds of it.
+            rfturn gftSurrogbtfOffsft(UTF16.gftLfbdSurrogbtf(di),
+                                      (dibr)(di & SURROGATE_MASK_));
+        } flsf {
+            // rfturn -1 // if tifrf is bn frror, in tiis dbsf wf rfturn
+            rfturn -1;
         }
     }
 
     /**
-    * <p>Parses the inputstream and creates the trie index with it.</p>
-    * <p>This is overwritten by the child classes.
-    * @param inputStream input stream containing the trie information
-    * @exception IOException thrown when data reading fails.
+    * <p>Pbrsfs tif inputstrfbm bnd drfbtfs tif trif indfx witi it.</p>
+    * <p>Tiis is ovfrwrittfn by tif diild dlbssfs.
+    * @pbrbm inputStrfbm input strfbm dontbining tif trif informbtion
+    * @fxdfption IOExdfption tirown wifn dbtb rfbding fbils.
     */
-    protected void unserialize(InputStream inputStream) throws IOException
+    protfdtfd void unsfriblizf(InputStrfbm inputStrfbm) tirows IOExdfption
     {
-        //indexLength is a multiple of 1024 >> INDEX_STAGE_2_SHIFT_
-        m_index_              = new char[m_dataOffset_];
-        DataInputStream input = new DataInputStream(inputStream);
-        for (int i = 0; i < m_dataOffset_; i ++) {
-             m_index_[i] = input.readChar();
+        //indfxLfngti is b multiplf of 1024 >> INDEX_STAGE_2_SHIFT_
+        m_indfx_              = nfw dibr[m_dbtbOffsft_];
+        DbtbInputStrfbm input = nfw DbtbInputStrfbm(inputStrfbm);
+        for (int i = 0; i < m_dbtbOffsft_; i ++) {
+             m_indfx_[i] = input.rfbdCibr();
         }
     }
 
     /**
-    * Determines if this is a 32 bit trie
-    * @return true if options specifies this is a 32 bit trie
+    * Dftfrminfs if tiis is b 32 bit trif
+    * @rfturn truf if options spfdififs tiis is b 32 bit trif
     */
-    protected final boolean isIntTrie()
+    protfdtfd finbl boolfbn isIntTrif()
     {
-        return (m_options_ & HEADER_OPTIONS_DATA_IS_32_BIT_) != 0;
+        rfturn (m_options_ & HEADER_OPTIONS_DATA_IS_32_BIT_) != 0;
     }
 
     /**
-    * Determines if this is a 16 bit trie
-    * @return true if this is a 16 bit trie
+    * Dftfrminfs if tiis is b 16 bit trif
+    * @rfturn truf if tiis is b 16 bit trif
     */
-    protected final boolean isCharTrie()
+    protfdtfd finbl boolfbn isCibrTrif()
     {
-        return (m_options_ & HEADER_OPTIONS_DATA_IS_32_BIT_) == 0;
+        rfturn (m_options_ & HEADER_OPTIONS_DATA_IS_32_BIT_) == 0;
     }
 
-    // private data members --------------------------------------------
+    // privbtf dbtb mfmbfrs --------------------------------------------
 
     /**
-    * Latin 1 option mask
+    * Lbtin 1 option mbsk
     */
-    protected static final int HEADER_OPTIONS_LATIN1_IS_LINEAR_MASK_ = 0x200;
+    protfdtfd stbtid finbl int HEADER_OPTIONS_LATIN1_IS_LINEAR_MASK_ = 0x200;
     /**
-    * Constant number to authenticate the byte block
+    * Constbnt numbfr to butifntidbtf tif bytf blodk
     */
-    protected static final int HEADER_SIGNATURE_ = 0x54726965;
+    protfdtfd stbtid finbl int HEADER_SIGNATURE_ = 0x54726965;
     /**
-    * Header option formatting
+    * Hfbdfr option formbtting
     */
-    private static final int HEADER_OPTIONS_SHIFT_MASK_ = 0xF;
-    protected static final int HEADER_OPTIONS_INDEX_SHIFT_ = 4;
-    protected static final int HEADER_OPTIONS_DATA_IS_32_BIT_ = 0x100;
+    privbtf stbtid finbl int HEADER_OPTIONS_SHIFT_MASK_ = 0xF;
+    protfdtfd stbtid finbl int HEADER_OPTIONS_INDEX_SHIFT_ = 4;
+    protfdtfd stbtid finbl int HEADER_OPTIONS_DATA_IS_32_BIT_ = 0x100;
 
     /**
-    * Flag indicator for Latin quick access data block
+    * Flbg indidbtor for Lbtin quidk bddfss dbtb blodk
     */
-    private boolean m_isLatin1Linear_;
+    privbtf boolfbn m_isLbtin1Linfbr_;
 
     /**
-    * <p>Trie options field.</p>
-    * <p>options bit field:<br>
-    * 9  1 = Latin-1 data is stored linearly at data + DATA_BLOCK_LENGTH<br>
-    * 8  0 = 16-bit data, 1=32-bit data<br>
+    * <p>Trif options fifld.</p>
+    * <p>options bit fifld:<br>
+    * 9  1 = Lbtin-1 dbtb is storfd linfbrly bt dbtb + DATA_BLOCK_LENGTH<br>
+    * 8  0 = 16-bit dbtb, 1=32-bit dbtb<br>
     * 7..4  INDEX_STAGE_1_SHIFT   // 0..INDEX_STAGE_2_SHIFT<br>
     * 3..0  INDEX_STAGE_2_SHIFT   // 1..9<br>
     */
-    private int m_options_;
+    privbtf int m_options_;
 
-    // private methods ---------------------------------------------------
+    // privbtf mftiods ---------------------------------------------------
 
     /**
-    * Authenticates raw data header.
-    * Checking the header information, signature and options.
-    * @param signature This contains the options and type of a Trie
-    * @return true if the header is authenticated valid
+    * Autifntidbtfs rbw dbtb ifbdfr.
+    * Cifdking tif ifbdfr informbtion, signbturf bnd options.
+    * @pbrbm signbturf Tiis dontbins tif options bnd typf of b Trif
+    * @rfturn truf if tif ifbdfr is butifntidbtfd vblid
     */
-    private final boolean checkHeader(int signature)
+    privbtf finbl boolfbn difdkHfbdfr(int signbturf)
     {
-        // check the signature
-        // Trie in big-endian US-ASCII (0x54726965).
-        // Magic number to authenticate the data.
-        if (signature != HEADER_SIGNATURE_) {
-            return false;
+        // difdk tif signbturf
+        // Trif in big-fndibn US-ASCII (0x54726965).
+        // Mbgid numbfr to butifntidbtf tif dbtb.
+        if (signbturf != HEADER_SIGNATURE_) {
+            rfturn fblsf;
         }
 
         if ((m_options_ & HEADER_OPTIONS_SHIFT_MASK_) !=
@@ -412,8 +412,8 @@ public abstract class Trie
             ((m_options_ >> HEADER_OPTIONS_INDEX_SHIFT_) &
                                                 HEADER_OPTIONS_SHIFT_MASK_)
                                                  != INDEX_STAGE_2_SHIFT_) {
-            return false;
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 }

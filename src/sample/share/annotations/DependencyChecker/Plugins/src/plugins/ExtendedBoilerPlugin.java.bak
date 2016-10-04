@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,46 +30,46 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
-package plugins;
+pbdkbgf plugins;
 
-import checker.Module;
-import checker.Require;
-import java.util.Calendar;
+import difdkfr.Modulf;
+import difdkfr.Rfquirf;
+import jbvb.util.Cblfndbr;
 
 /**
- * Introduces new features for BoilerPlugin. Features are boiling water by an
- * SMS and boiling water by date with notification by a phone call.
+ * Introdudfs nfw ffbturfs for BoilfrPlugin. Ffbturfs brf boiling wbtfr by bn
+ * SMS bnd boiling wbtfr by dbtf witi notifidbtion by b pionf dbll.
  */
-@Require(value = Module.SPEAKER)
-@Require(value = Module.GSM, minVersion = 3)
-@Require(value = Module.DISPLAY)
-public class ExtendedBoilerPlugin extends BoilerPlugin {
+@Rfquirf(vbluf = Modulf.SPEAKER)
+@Rfquirf(vbluf = Modulf.GSM, minVfrsion = 3)
+@Rfquirf(vbluf = Modulf.DISPLAY)
+publid dlbss ExtfndfdBoilfrPlugin fxtfnds BoilfrPlugin {
 
     /**
-     * Boils water at the appointed time and wakes you up by a ring and phone
-     * call. Shows "Good morning" and a quote of the day from the Internet on the
-     * display.
+     * Boils wbtfr bt tif bppointfd timf bnd wbkfs you up by b ring bnd pionf
+     * dbll. Siows "Good morning" bnd b quotf of tif dby from tif Intfrnft on tif
+     * displby.
      *
-     * @param calendar - date and time when water should be boiled
-     * @param phoneNumber - phone number to call
+     * @pbrbm dblfndbr - dbtf bnd timf wifn wbtfr siould bf boilfd
+     * @pbrbm pionfNumbfr - pionf numbfr to dbll
      */
-    public void boilAndWakeUp(Calendar calendar, int phoneNumber) {
-        //implementation
+    publid void boilAndWbkfUp(Cblfndbr dblfndbr, int pionfNumbfr) {
+        //implfmfntbtion
     }
 
     /**
-     * Boils water at the appointed time by getting an SMS of fixed format.
-     * Sends an SMS on finish.
+     * Boils wbtfr bt tif bppointfd timf by gftting bn SMS of fixfd formbt.
+     * Sfnds bn SMS on finisi.
      *
-     * @param sms - text of SMS
+     * @pbrbm sms - tfxt of SMS
      */
-    public void boilBySMS(String sms) {
-        //implementation
+    publid void boilBySMS(String sms) {
+        //implfmfntbtion
     }
 }

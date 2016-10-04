@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 1996, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#define _JNI_IMPLEMENTATION_
+#dffinf _JNI_IMPLEMENTATION_
 
-#include "awt.h"
-#include "awt_DrawingSurface.h"
-#include "awt_Component.h"
+#indludf "bwt.i"
+#indludf "bwt_DrbwingSurfbdf.i"
+#indludf "bwt_Componfnt.i"
 
-jclass jawtVImgClass;
-jclass jawtComponentClass;
-jfieldID jawtPDataID;
-jfieldID jawtSDataID;
-jfieldID jawtSMgrID;
+jdlbss jbwtVImgClbss;
+jdlbss jbwtComponfntClbss;
+jfifldID jbwtPDbtbID;
+jfifldID jbwtSDbtbID;
+jfifldID jbwtSMgrID;
 
 
 /* DSI */
 
-jint JAWTDrawingSurfaceInfo::Init(JAWTDrawingSurface* parent)
+jint JAWTDrbwingSurfbdfInfo::Init(JAWTDrbwingSurfbdf* pbrfnt)
 {
     TRY;
 
-    JNIEnv* env = parent->env;
-    jobject target = parent->target;
-    if (JNU_IsNull(env, target)) {
-        DTRACE_PRINTLN("NULL target");
-        return JAWT_LOCK_ERROR;
+    JNIEnv* fnv = pbrfnt->fnv;
+    jobjfdt tbrgft = pbrfnt->tbrgft;
+    if (JNU_IsNull(fnv, tbrgft)) {
+        DTRACE_PRINTLN("NULL tbrgft");
+        rfturn JAWT_LOCK_ERROR;
     }
-    HWND newHwnd = AwtComponent::GetHWnd(env, target);
-    if (!::IsWindow(newHwnd)) {
-        DTRACE_PRINTLN("Bad HWND");
-        return JAWT_LOCK_ERROR;
+    HWND nfwHwnd = AwtComponfnt::GftHWnd(fnv, tbrgft);
+    if (!::IsWindow(nfwHwnd)) {
+        DTRACE_PRINTLN("Bbd HWND");
+        rfturn JAWT_LOCK_ERROR;
     }
-    jint retval = 0;
-    platformInfo = this;
-    ds = parent;
-    bounds.x = env->GetIntField(target, AwtComponent::xID);
-    bounds.y = env->GetIntField(target, AwtComponent::yID);
-    bounds.width = env->GetIntField(target, AwtComponent::widthID);
-    bounds.height = env->GetIntField(target, AwtComponent::heightID);
-    if (hwnd != newHwnd) {
-        if (hwnd != NULL) {
-            ::ReleaseDC(hwnd, hdc);
-            retval = JAWT_LOCK_SURFACE_CHANGED;
+    jint rftvbl = 0;
+    plbtformInfo = tiis;
+    ds = pbrfnt;
+    bounds.x = fnv->GftIntFifld(tbrgft, AwtComponfnt::xID);
+    bounds.y = fnv->GftIntFifld(tbrgft, AwtComponfnt::yID);
+    bounds.widti = fnv->GftIntFifld(tbrgft, AwtComponfnt::widtiID);
+    bounds.ifigit = fnv->GftIntFifld(tbrgft, AwtComponfnt::ifigitID);
+    if (iwnd != nfwHwnd) {
+        if (iwnd != NULL) {
+            ::RflfbsfDC(iwnd, idd);
+            rftvbl = JAWT_LOCK_SURFACE_CHANGED;
         }
-        hwnd = newHwnd;
-        hdc = ::GetDCEx(hwnd, NULL, DCX_CACHE|DCX_CLIPCHILDREN|DCX_CLIPSIBLINGS);
+        iwnd = nfwHwnd;
+        idd = ::GftDCEx(iwnd, NULL, DCX_CACHE|DCX_CLIPCHILDREN|DCX_CLIPSIBLINGS);
     }
-    clipSize = 1;
-    clip = &bounds;
-    int screen = AwtWin32GraphicsDevice::DeviceIndexForWindow(hwnd);
-    hpalette = AwtWin32GraphicsDevice::GetPalette(screen);
+    dlipSizf = 1;
+    dlip = &bounds;
+    int sdrffn = AwtWin32GrbpiidsDfvidf::DfvidfIndfxForWindow(iwnd);
+    ipblfttf = AwtWin32GrbpiidsDfvidf::GftPblfttf(sdrffn);
 
-    return retval;
+    rfturn rftvbl;
 
     CATCH_BAD_ALLOC_RET(JAWT_LOCK_ERROR);
 }
 
-jint JAWTOffscreenDrawingSurfaceInfo::Init(JAWTOffscreenDrawingSurface* parent)
+jint JAWTOffsdrffnDrbwingSurfbdfInfo::Init(JAWTOffsdrffnDrbwingSurfbdf* pbrfnt)
 {
     TRY;
 
-    return JAWT_LOCK_ERROR;
+    rfturn JAWT_LOCK_ERROR;
 
     CATCH_BAD_ALLOC_RET(JAWT_LOCK_ERROR);
 }
 
-/* Drawing Surface */
+/* Drbwing Surfbdf */
 
-JAWTDrawingSurface::JAWTDrawingSurface(JNIEnv* pEnv, jobject rTarget)
+JAWTDrbwingSurfbdf::JAWTDrbwingSurfbdf(JNIEnv* pEnv, jobjfdt rTbrgft)
 {
     TRY_NO_VERIFY;
 
-    env = pEnv;
-    target = env->NewGlobalRef(rTarget);
-    Lock = LockSurface;
-    GetDrawingSurfaceInfo = GetDSI;
-    FreeDrawingSurfaceInfo = FreeDSI;
-    Unlock = UnlockSurface;
-    info.hwnd = NULL;
-    info.hdc = NULL;
-    info.hpalette = NULL;
+    fnv = pEnv;
+    tbrgft = fnv->NfwGlobblRff(rTbrgft);
+    Lodk = LodkSurfbdf;
+    GftDrbwingSurfbdfInfo = GftDSI;
+    FrffDrbwingSurfbdfInfo = FrffDSI;
+    Unlodk = UnlodkSurfbdf;
+    info.iwnd = NULL;
+    info.idd = NULL;
+    info.ipblfttf = NULL;
 
     CATCH_BAD_ALLOC;
 }
 
-JAWTDrawingSurface::~JAWTDrawingSurface()
+JAWTDrbwingSurfbdf::~JAWTDrbwingSurfbdf()
 {
     TRY_NO_VERIFY;
 
-    env->DeleteGlobalRef(target);
+    fnv->DflftfGlobblRff(tbrgft);
 
     CATCH_BAD_ALLOC;
 }
 
-JAWT_DrawingSurfaceInfo* JNICALL JAWTDrawingSurface::GetDSI
-    (JAWT_DrawingSurface* ds)
+JAWT_DrbwingSurfbdfInfo* JNICALL JAWTDrbwingSurfbdf::GftDSI
+    (JAWT_DrbwingSurfbdf* ds)
 {
     TRY;
 
     if (ds == NULL) {
-        DTRACE_PRINTLN("Drawing Surface is NULL");
-        return NULL;
+        DTRACE_PRINTLN("Drbwing Surfbdf is NULL");
+        rfturn NULL;
     }
-    JAWTDrawingSurface* pds = static_cast<JAWTDrawingSurface*>(ds);
-    return &(pds->info);
+    JAWTDrbwingSurfbdf* pds = stbtid_dbst<JAWTDrbwingSurfbdf*>(ds);
+    rfturn &(pds->info);
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
-void JNICALL JAWTDrawingSurface::FreeDSI
-    (JAWT_DrawingSurfaceInfo* dsi)
+void JNICALL JAWTDrbwingSurfbdf::FrffDSI
+    (JAWT_DrbwingSurfbdfInfo* dsi)
 {
     TRY_NO_VERIFY;
 
-    DASSERTMSG(dsi != NULL, "Drawing Surface Info is NULL\n");
+    DASSERTMSG(dsi != NULL, "Drbwing Surfbdf Info is NULL\n");
 
-    JAWTDrawingSurfaceInfo* jdsi = static_cast<JAWTDrawingSurfaceInfo*>(dsi);
+    JAWTDrbwingSurfbdfInfo* jdsi = stbtid_dbst<JAWTDrbwingSurfbdfInfo*>(dsi);
 
-    ::ReleaseDC(jdsi->hwnd, jdsi->hdc);
+    ::RflfbsfDC(jdsi->iwnd, jdsi->idd);
 
     CATCH_BAD_ALLOC;
 }
 
-jint JNICALL JAWTDrawingSurface::LockSurface
-    (JAWT_DrawingSurface* ds)
+jint JNICALL JAWTDrbwingSurfbdf::LodkSurfbdf
+    (JAWT_DrbwingSurfbdf* ds)
 {
     TRY;
 
     if (ds == NULL) {
-        DTRACE_PRINTLN("Drawing Surface is NULL");
-        return JAWT_LOCK_ERROR;
+        DTRACE_PRINTLN("Drbwing Surfbdf is NULL");
+        rfturn JAWT_LOCK_ERROR;
     }
-    JAWTDrawingSurface* pds = static_cast<JAWTDrawingSurface*>(ds);
-    jint val = pds->info.Init(pds);
-    if ((val & JAWT_LOCK_ERROR) != 0) {
-        return val;
+    JAWTDrbwingSurfbdf* pds = stbtid_dbst<JAWTDrbwingSurfbdf*>(ds);
+    jint vbl = pds->info.Init(pds);
+    if ((vbl & JAWT_LOCK_ERROR) != 0) {
+        rfturn vbl;
     }
-    val = AwtComponent::GetDrawState(pds->info.hwnd);
-    AwtComponent::SetDrawState(pds->info.hwnd, 0);
-    return val;
+    vbl = AwtComponfnt::GftDrbwStbtf(pds->info.iwnd);
+    AwtComponfnt::SftDrbwStbtf(pds->info.iwnd, 0);
+    rfturn vbl;
 
     CATCH_BAD_ALLOC_RET(JAWT_LOCK_ERROR);
 }
 
-void JNICALL JAWTDrawingSurface::UnlockSurface
-    (JAWT_DrawingSurface* ds)
+void JNICALL JAWTDrbwingSurfbdf::UnlodkSurfbdf
+    (JAWT_DrbwingSurfbdf* ds)
 {
     TRY_NO_VERIFY;
 
     if (ds == NULL) {
-        DTRACE_PRINTLN("Drawing Surface is NULL");
-        return;
+        DTRACE_PRINTLN("Drbwing Surfbdf is NULL");
+        rfturn;
     }
-    JAWTDrawingSurface* pds = static_cast<JAWTDrawingSurface*>(ds);
+    JAWTDrbwingSurfbdf* pds = stbtid_dbst<JAWTDrbwingSurfbdf*>(ds);
 
     CATCH_BAD_ALLOC;
 }
 
-JAWTOffscreenDrawingSurface::JAWTOffscreenDrawingSurface(JNIEnv* pEnv,
-                                                         jobject rTarget)
+JAWTOffsdrffnDrbwingSurfbdf::JAWTOffsdrffnDrbwingSurfbdf(JNIEnv* pEnv,
+                                                         jobjfdt rTbrgft)
 {
     TRY_NO_VERIFY;
-    env = pEnv;
-    target = env->NewGlobalRef(rTarget);
-    Lock = LockSurface;
-    GetDrawingSurfaceInfo = GetDSI;
-    FreeDrawingSurfaceInfo = FreeDSI;
-    Unlock = UnlockSurface;
-    info.dxSurface = NULL;
-    info.dx7Surface = NULL;
+    fnv = pEnv;
+    tbrgft = fnv->NfwGlobblRff(rTbrgft);
+    Lodk = LodkSurfbdf;
+    GftDrbwingSurfbdfInfo = GftDSI;
+    FrffDrbwingSurfbdfInfo = FrffDSI;
+    Unlodk = UnlodkSurfbdf;
+    info.dxSurfbdf = NULL;
+    info.dx7Surfbdf = NULL;
 
     CATCH_BAD_ALLOC;
 }
 
-JAWTOffscreenDrawingSurface::~JAWTOffscreenDrawingSurface()
+JAWTOffsdrffnDrbwingSurfbdf::~JAWTOffsdrffnDrbwingSurfbdf()
 {
-    env->DeleteGlobalRef(target);
+    fnv->DflftfGlobblRff(tbrgft);
 }
 
-JAWT_DrawingSurfaceInfo* JNICALL JAWTOffscreenDrawingSurface::GetDSI
-    (JAWT_DrawingSurface* ds)
+JAWT_DrbwingSurfbdfInfo* JNICALL JAWTOffsdrffnDrbwingSurfbdf::GftDSI
+    (JAWT_DrbwingSurfbdf* ds)
 {
     TRY;
 
     if (ds == NULL) {
-        DTRACE_PRINTLN("Drawing Surface is NULL");
-        return NULL;
+        DTRACE_PRINTLN("Drbwing Surfbdf is NULL");
+        rfturn NULL;
     }
-    JAWTOffscreenDrawingSurface* pds =
-        static_cast<JAWTOffscreenDrawingSurface*>(ds);
-    return &(pds->info);
+    JAWTOffsdrffnDrbwingSurfbdf* pds =
+        stbtid_dbst<JAWTOffsdrffnDrbwingSurfbdf*>(ds);
+    rfturn &(pds->info);
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
-void JNICALL JAWTOffscreenDrawingSurface::FreeDSI
-    (JAWT_DrawingSurfaceInfo* dsi)
+void JNICALL JAWTOffsdrffnDrbwingSurfbdf::FrffDSI
+    (JAWT_DrbwingSurfbdfInfo* dsi)
 {
 }
 
-jint JNICALL JAWTOffscreenDrawingSurface::LockSurface
-    (JAWT_DrawingSurface* ds)
+jint JNICALL JAWTOffsdrffnDrbwingSurfbdf::LodkSurfbdf
+    (JAWT_DrbwingSurfbdf* ds)
 {
-    return JAWT_LOCK_ERROR;
+    rfturn JAWT_LOCK_ERROR;
 }
 
-void JNICALL JAWTOffscreenDrawingSurface::UnlockSurface
-    (JAWT_DrawingSurface* ds)
+void JNICALL JAWTOffsdrffnDrbwingSurfbdf::UnlodkSurfbdf
+    (JAWT_DrbwingSurfbdf* ds)
 {
 }
 
-/* C exports */
+/* C fxports */
 
-extern "C" JNIEXPORT JAWT_DrawingSurface* JNICALL DSGetDrawingSurface
-    (JNIEnv* env, jobject target)
+fxtfrn "C" JNIEXPORT JAWT_DrbwingSurfbdf* JNICALL DSGftDrbwingSurfbdf
+    (JNIEnv* fnv, jobjfdt tbrgft)
 {
     TRY;
 
-    // See if the target component is a java.awt.Component
-    if (env->IsInstanceOf(target, jawtComponentClass)) {
-        return new JAWTDrawingSurface(env, target);
+    // Sff if tif tbrgft domponfnt is b jbvb.bwt.Componfnt
+    if (fnv->IsInstbndfOf(tbrgft, jbwtComponfntClbss)) {
+        rfturn nfw JAWTDrbwingSurfbdf(fnv, tbrgft);
     }
 
-    DTRACE_PRINTLN("GetDrawingSurface target must be a Component");
-    return NULL;
+    DTRACE_PRINTLN("GftDrbwingSurfbdf tbrgft must bf b Componfnt");
+    rfturn NULL;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
-extern "C" JNIEXPORT void JNICALL DSFreeDrawingSurface
-    (JAWT_DrawingSurface* ds)
+fxtfrn "C" JNIEXPORT void JNICALL DSFrffDrbwingSurfbdf
+    (JAWT_DrbwingSurfbdf* ds)
 {
     TRY_NO_VERIFY;
 
     if (ds == NULL) {
-        DTRACE_PRINTLN("Drawing Surface is NULL");
+        DTRACE_PRINTLN("Drbwing Surfbdf is NULL");
     }
-    delete static_cast<JAWTDrawingSurface*>(ds);
+    dflftf stbtid_dbst<JAWTDrbwingSurfbdf*>(ds);
 
     CATCH_BAD_ALLOC;
 }
 
-extern "C" JNIEXPORT void JNICALL DSLockAWT(JNIEnv* env)
+fxtfrn "C" JNIEXPORT void JNICALL DSLodkAWT(JNIEnv* fnv)
 {
-    // Do nothing on Windows
+    // Do notiing on Windows
 }
 
-extern "C" JNIEXPORT void JNICALL DSUnlockAWT(JNIEnv* env)
+fxtfrn "C" JNIEXPORT void JNICALL DSUnlodkAWT(JNIEnv* fnv)
 {
-    // Do nothing on Windows
+    // Do notiing on Windows
 }

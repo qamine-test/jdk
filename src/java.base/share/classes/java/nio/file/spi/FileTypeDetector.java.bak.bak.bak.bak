@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.spi;
+
+import jbvb.nio.filf.Pbth;
+import jbvb.io.IOExdfption;
+
+/**
+ * A filf typf dftfdtor for probing b filf to gufss its filf typf.
+ *
+ * <p> A filf typf dftfdtor is b dondrftf implfmfntbtion of this dlbss, hbs b
+ * zfro-brgumfnt donstrudtor, bnd implfmfnts thf bbstrbdt mfthods spfdififd
+ * bflow.
+ *
+ * <p> Thf mfbns by whidh b filf typf dftfdtor dftfrminfs thf filf typf is
+ * highly implfmfntbtion spfdifid. A simplf implfmfntbtion might fxbminf thf
+ * <fm>filf fxtfnsion</fm> (b donvfntion usfd in somf plbtforms) bnd mbp it to
+ * b filf typf. In othfr dbsfs, thf filf typf mby bf storfd bs b filf <b
+ * hrff="../bttributf/pbdkbgf-summbry.html"> bttributf</b> or thf bytfs in b
+ * filf mby bf fxbminfd to gufss its filf typf.
+ *
+ * @sff jbvb.nio.filf.Filfs#probfContfntTypf(Pbth)
+ *
+ * @sindf 1.7
+ */
+
+publid bbstrbdt dlbss FilfTypfDftfdtor {
+
+    privbtf stbtid Void dhfdkPfrmission() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null)
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("filfTypfDftfdtor"));
+        rfturn null;
+    }
+    privbtf FilfTypfDftfdtor(Void ignorf) { }
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}<tt>("filfTypfDftfdtor")</tt>
+     */
+    protfdtfd FilfTypfDftfdtor() {
+        this(dhfdkPfrmission());
+    }
+
+    /**
+     * Probfs thf givfn filf to gufss its dontfnt typf.
+     *
+     * <p> Thf mfbns by whidh this mfthod dftfrminfs thf filf typf is highly
+     * implfmfntbtion spfdifid. It mby simply fxbminf thf filf nbmf, it mby usf
+     * b filf <b hrff="../bttributf/pbdkbgf-summbry.html">bttributf</b>,
+     * or it mby fxbminfs bytfs in thf filf.
+     *
+     * <p> Thf probf rfsult is thf string form of thf vbluf of b
+     * Multipurposf Intfrnft Mbil Extfnsion (MIME) dontfnt typf bs
+     * dffinfd by <b hrff="http://www.iftf.org/rfd/rfd2045.txt"><i>RFC&nbsp;2045:
+     * Multipurposf Intfrnft Mbil Extfnsions (MIME) Pbrt Onf: Formbt of Intfrnft
+     * Mfssbgf Bodifs</i></b>. Thf string must bf pbrsbblf bddording to thf
+     * grbmmbr in thf RFC 2045.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf to probf
+     *
+     * @rfturn  Thf dontfnt typf or {@dodf null} if thf filf typf is not
+     *          rfdognizfd
+     *
+     * @throws  IOExdfption
+     *          An I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          If thf implfmfntbtion rfquirfs to bddfss thf filf, bnd b
+     *          sfdurity mbnbgfr is instbllfd, bnd it dfnifs bn unspfdififd
+     *          pfrmission rfquirfd by b filf systfm providfr implfmfntbtion.
+     *          If thf filf rfffrfndf is bssodibtfd with thf dffbult filf systfm
+     *          providfr thfn thf {@link SfdurityMbnbgfr#dhfdkRfbd(String)} mfthod
+     *          is invokfd to dhfdk rfbd bddfss to thf filf.
+     *
+     * @sff jbvb.nio.filf.Filfs#probfContfntTypf
+     */
+    publid bbstrbdt String probfContfntTypf(Pbth pbth)
+        throws IOExdfption;
+}

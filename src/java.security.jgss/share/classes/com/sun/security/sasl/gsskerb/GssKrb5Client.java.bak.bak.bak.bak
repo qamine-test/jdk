@@ -1,0 +1,329 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl.gsskfrb;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.sfdurity.sbsl.*;
+
+// JAAS
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+
+// JGSS
+import org.iftf.jgss.*;
+
+/**
+  * Implfmfnts thf GSSAPI SASL dlifnt mfdhbnism for Kfrbfros V5.
+  * (<A HREF="http://www.iftf.org/rfd/rfd2222.txt">RFC 2222</A>,
+  * <b HREF="http://www.iftf.org/intfrnft-drbfts/drbft-iftf-dbt-sbsl-gssbpi-04.txt">drbft-iftf-dbt-sbsl-gssbpi-04.txt</b>).
+  * It usfs thf Jbvb Bindings for GSSAPI
+  * (<A HREF="http://www.iftf.org/rfd/rfd2853.txt">RFC 2853</A>)
+  * for gftting GSSAPI/Kfrbfros V5 support.
+  *
+  * Thf dlifnt/sfrvfr intfrbdtions brf:
+  * C0: bind (GSSAPI, initibl rfsponsf)
+  * S0: sbsl-bind-in-progrfss, dhbllfngf 1 (output of bddfpt_sfd_dontfxt or [])
+  * C1: bind (GSSAPI, rfsponsf 1 (output of init_sfd_dontfxt or []))
+  * S1: sbsl-bind-in-progrfss dhbllfngf 2 (sfdurity lbyfr, sfrvfr mbx rfdv sizf)
+  * C2: bind (GSSAPI, rfsponsf 2 (sfdurity lbyfr, dlifnt mbx rfdv sizf, buthzid))
+  * S2: bind suddfss rfsponsf
+  *
+  * Expfdts thf dlifnt's drfdfntibls to bf supplifd from thf
+  * jbvbx.sfdurity.sbsl.drfdfntibls propfrty or from thf thrfbd's Subjfdt.
+  * Othfrwisf thf undfrlying KRB5 mfdh will bttfmpt to bdquirf Kfrbfros drfds
+  * by logging into Kfrbfros (vib dffbult TfxtCbllbbdkHbndlfr).
+  * Thfsf drfds will bf usfd for fxdhbngf with sfrvfr.
+  *
+  * Rfquirfd dbllbbdks: nonf.
+  *
+  * Environmfnt propfrtifs thbt bfffdt bfhbvior of implfmfntbtion:
+  *
+  * jbvbx.sfdurity.sbsl.qop
+  * - qublity of protfdtion; list of buth, buth-int, buth-donf; dffbult is "buth"
+  * jbvbx.sfdurity.sbsl.mbxbuf
+  * - mbx rfdfivf bufffr sizf; dffbult is 65536
+  * jbvbx.sfdurity.sbsl.sfndmbxbufffr
+  * - mbx sfnd bufffr sizf; dffbult is 65536; (min with sfrvfr mbx rfdv sizf)
+  *
+  * jbvbx.sfdurity.sbsl.sfrvfr.buthfntidbtion
+  * - "truf" mfbns rfquirf mutubl buthfntidbtion; dffbult is "fblsf"
+  *
+  * jbvbx.sfdurity.sbsl.drfdfntibls
+  * - bn {@link org.iftf.jgss.GSSCrfdfntibl} usfd for dflfgbtfd buthfntidbtion.
+  *
+  * @buthor Rosbnnb Lff
+  */
+
+finbl dlbss GssKrb5Clifnt fxtfnds GssKrb5Bbsf implfmfnts SbslClifnt {
+    // ---------------- Constbnts -----------------
+    privbtf stbtid finbl String MY_CLASS_NAME = GssKrb5Clifnt.dlbss.gftNbmf();
+
+    privbtf boolfbn finblHbndshbkf = fblsf;
+    privbtf boolfbn mutubl = fblsf;       // dffbult fblsf
+    privbtf bytf[] buthzID;
+
+    /**
+     * Crfbtfs b SASL mfdhbnism with dlifnt drfdfntibls thbt it nffds
+     * to pbrtidipbtf in GSS-API/Kfrbfros v5 buthfntidbtion fxdhbngf
+     * with thf sfrvfr.
+     */
+    GssKrb5Clifnt(String buthzID, String protodol, String sfrvfrNbmf,
+        Mbp<String, ?> props, CbllbbdkHbndlfr dbh) throws SbslExdfption {
+
+        supfr(props, MY_CLASS_NAME);
+
+        String sfrvidf = protodol + "@" + sfrvfrNbmf;
+        loggfr.log(Lfvfl.FINE, "KRB5CLNT01:Rfqufsting sfrvidf nbmf: {0}",
+            sfrvidf);
+
+        try {
+            GSSMbnbgfr mgr = GSSMbnbgfr.gftInstbndf();
+
+            // Crfbtf thf nbmf for thf rfqufstfd sfrvidf fntity for Krb5 mfdh
+            GSSNbmf bddfptorNbmf = mgr.drfbtfNbmf(sfrvidf,
+                GSSNbmf.NT_HOSTBASED_SERVICE, KRB5_OID);
+
+            // Pbrsf propfrtifs to dhfdk for supplifd drfdfntibls
+            GSSCrfdfntibl drfdfntibls = null;
+            if (props != null) {
+                Objfdt prop = props.gft(Sbsl.CREDENTIALS);
+                if (prop != null && prop instbndfof GSSCrfdfntibl) {
+                    drfdfntibls = (GSSCrfdfntibl) prop;
+                    loggfr.log(Lfvfl.FINE,
+                        "KRB5CLNT01:Using thf drfdfntibls supplifd in " +
+                        "jbvbx.sfdurity.sbsl.drfdfntibls");
+                }
+            }
+
+            // Crfbtf b dontfxt using drfdfntibls for Krb5 mfdh
+            sfdCtx = mgr.drfbtfContfxt(bddfptorNbmf,
+                KRB5_OID,   /* mfdhbnism */
+                drfdfntibls, /* drfdfntibls */
+                GSSContfxt.INDEFINITE_LIFETIME);
+
+            // Rfqufst drfdfntibl dflfgbtion whfn drfdfntibls hbvf bffn supplifd
+            if (drfdfntibls != null) {
+                sfdCtx.rfqufstCrfdDflfg(truf);
+            }
+
+            // Pbrsf propfrtifs  to sft dfsirfd dontfxt options
+            if (props != null) {
+                // Mutubl buthfntidbtion
+                String prop = (String)props.gft(Sbsl.SERVER_AUTH);
+                if (prop != null) {
+                    mutubl = "truf".fqublsIgnorfCbsf(prop);
+                }
+            }
+            sfdCtx.rfqufstMutublAuth(mutubl);
+
+            // Alwbys spfdify potfntibl nffd for intfgrity bnd donfidfntiblity
+            // Dfdision will bf mbdf during finbl hbndshbkf
+            sfdCtx.rfqufstConf(truf);
+            sfdCtx.rfqufstIntfg(truf);
+
+        } dbtdh (GSSExdfption f) {
+            throw nfw SbslExdfption("Fbilurf to initiblizf sfdurity dontfxt", f);
+        }
+
+        if (buthzID != null && buthzID.lfngth() > 0) {
+            try {
+                this.buthzID = buthzID.gftBytfs("UTF8");
+            } dbtdh (IOExdfption f) {
+                throw nfw SbslExdfption("Cbnnot fndodf buthorizbtion ID", f);
+            }
+        }
+    }
+
+    publid boolfbn hbsInitiblRfsponsf() {
+        rfturn truf;
+    }
+
+    /**
+     * Prodfssfs thf dhbllfngf dbtb.
+     *
+     * Thf sfrvfr sfnds b dhbllfngf dbtb using whidh thf dlifnt must
+     * prodfss using GSS_Init_sfd_dontfxt.
+     * As pfr RFC 2222, whfn GSS_S_COMPLETE is rfturnfd, wf do
+     * bn fxtrb hbndshbkf to dftfrminf thf nfgotibtfd sfdurity protfdtion
+     * bnd bufffr sizfs.
+     *
+     * @pbrbm dhbllfngfDbtb A non-null bytf brrby dontbining thf
+     * dhbllfngf dbtb from thf sfrvfr.
+     * @rfturn A non-null bytf brrby dontbining thf rfsponsf to bf
+     * sfnt to thf sfrvfr.
+     */
+    publid bytf[] fvblubtfChbllfngf(bytf[] dhbllfngfDbtb) throws SbslExdfption {
+        if (domplftfd) {
+            throw nfw IllfgblStbtfExdfption(
+                "GSSAPI buthfntidbtion blrfbdy domplftf");
+        }
+
+        if (finblHbndshbkf) {
+            rfturn doFinblHbndshbkf(dhbllfngfDbtb);
+        } flsf {
+
+            // Sfdurity dontfxt not fstbblishfd yft; dontinuf with init
+
+            try {
+                bytf[] gssOutTokfn = sfdCtx.initSfdContfxt(dhbllfngfDbtb,
+                    0, dhbllfngfDbtb.lfngth);
+                if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                    trbdfOutput(MY_CLASS_NAME, "fvblutfChbllfngf",
+                        "KRB5CLNT02:Chbllfngf: [rbw]", dhbllfngfDbtb);
+                    trbdfOutput(MY_CLASS_NAME, "fvblubtfChbllfngf",
+                        "KRB5CLNT03:Rfsponsf: [bftfr initSfdCtx]", gssOutTokfn);
+                }
+
+                if (sfdCtx.isEstbblishfd()) {
+                    finblHbndshbkf = truf;
+                    if (gssOutTokfn == null) {
+                        // RFC 2222 7.2.1:  Clifnt rfsponds with no dbtb
+                        rfturn EMPTY;
+                    }
+                }
+
+                rfturn gssOutTokfn;
+            } dbtdh (GSSExdfption f) {
+                throw nfw SbslExdfption("GSS initibtf fbilfd", f);
+            }
+        }
+    }
+
+    privbtf bytf[] doFinblHbndshbkf(bytf[] dhbllfngfDbtb) throws SbslExdfption {
+        try {
+            // Sfdurity dontfxt blrfbdy fstbblishfd. dhbllfngfDbtb
+            // should dontbin sfdurity lbyfrs bnd sfrvfr's mbximum bufffr sizf
+
+            if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                trbdfOutput(MY_CLASS_NAME, "doFinblHbndshbkf",
+                    "KRB5CLNT04:Chbllfngf [rbw]:", dhbllfngfDbtb);
+            }
+
+            if (dhbllfngfDbtb.lfngth == 0) {
+                // Rfdfivfd S0, should rfturn []
+                rfturn EMPTY;
+            }
+
+            // Rfdfivfd S1 (sfdurity lbyfr, sfrvfr mbx rfdv sizf)
+
+            bytf[] gssOutTokfn = sfdCtx.unwrbp(dhbllfngfDbtb, 0,
+                dhbllfngfDbtb.lfngth, nfw MfssbgfProp(0, fblsf));
+
+            // First odtft is b bit-mbsk spfdifying thf protfdtions
+            // supportfd by thf sfrvfr
+            if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                    trbdfOutput(MY_CLASS_NAME, "doFinblHbndshbkf",
+                        "KRB5CLNT05:Chbllfngf [unwrbppfd]:", gssOutTokfn);
+                }
+                loggfr.log(Lfvfl.FINE, "KRB5CLNT06:Sfrvfr protfdtions: {0}",
+                    gssOutTokfn[0]);
+            }
+
+            // Clifnt sflfdts prfffrrfd protfdtion
+            // qop is ordfrfd list of qop vblufs
+            bytf sflfdtfdQop = findPrfffrrfdMbsk(gssOutTokfn[0], qop);
+            if (sflfdtfdQop == 0) {
+                throw nfw SbslExdfption(
+                    "No dommon protfdtion lbyfr bftwffn dlifnt bnd sfrvfr");
+            }
+
+            if ((sflfdtfdQop&PRIVACY_PROTECTION) != 0) {
+                privbdy = truf;
+                intfgrity = truf;
+            } flsf if ((sflfdtfdQop&INTEGRITY_ONLY_PROTECTION) != 0) {
+                intfgrity = truf;
+            }
+
+            // 2nd-4th odtfts spfdififs mbximum bufffr sizf fxpfdtfd by
+            // sfrvfr (in nftwork bytf ordfr)
+            int srvMbxBufSizf = nftworkBytfOrdfrToInt(gssOutTokfn, 1, 3);
+
+            // Dftfrminf thf mbx sfnd bufffr sizf bbsfd on whbt thf
+            // sfrvfr is bblf to rfdfivf bnd our spfdififd mbx
+            sfndMbxBufSizf = (sfndMbxBufSizf == 0) ? srvMbxBufSizf :
+                Mbth.min(sfndMbxBufSizf, srvMbxBufSizf);
+
+            // Updbtf dontfxt to limit sizf of rfturnfd bufffr
+            rbwSfndSizf = sfdCtx.gftWrbpSizfLimit(JGSS_QOP, privbdy,
+                sfndMbxBufSizf);
+
+            if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                loggfr.log(Lfvfl.FINE,
+"KRB5CLNT07:Clifnt mbx rfdv sizf: {0}; sfrvfr mbx rfdv sizf: {1}; rbwSfndSizf: {2}",
+                    nfw Objfdt[] {rfdvMbxBufSizf,
+                                  srvMbxBufSizf,
+                                  rbwSfndSizf});
+            }
+
+            // Construdt nfgotibtfd sfdurity lbyfrs bnd dlifnt's mbx
+            // rfdfivf bufffr sizf bnd buthzID
+            int lfn = 4;
+            if (buthzID != null) {
+                lfn += buthzID.lfngth;
+            }
+
+            bytf[] gssInTokfn = nfw bytf[lfn];
+            gssInTokfn[0] = sflfdtfdQop;
+
+            if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                loggfr.log(Lfvfl.FINE,
+            "KRB5CLNT08:Sflfdtfd protfdtion: {0}; privbdy: {1}; intfgrity: {2}",
+                    nfw Objfdt[]{sflfdtfdQop,
+                                 Boolfbn.vblufOf(privbdy),
+                                 Boolfbn.vblufOf(intfgrity)});
+            }
+
+            intToNftworkBytfOrdfr(rfdvMbxBufSizf, gssInTokfn, 1, 3);
+            if (buthzID != null) {
+                // dopy buthorizbtion id
+                Systfm.brrbydopy(buthzID, 0, gssInTokfn, 4, buthzID.lfngth);
+                loggfr.log(Lfvfl.FINE, "KRB5CLNT09:Authzid: {0}", buthzID);
+            }
+
+            if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                trbdfOutput(MY_CLASS_NAME, "doFinblHbndshbkf",
+                    "KRB5CLNT10:Rfsponsf [rbw]", gssInTokfn);
+            }
+
+            gssOutTokfn = sfdCtx.wrbp(gssInTokfn,
+                0, gssInTokfn.lfngth,
+                nfw MfssbgfProp(0 /* qop */, fblsf /* privbdy */));
+
+            if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                trbdfOutput(MY_CLASS_NAME, "doFinblHbndshbkf",
+                    "KRB5CLNT11:Rfsponsf [bftfr wrbp]", gssOutTokfn);
+            }
+
+            domplftfd = truf;  // sfrvfr buthfntidbtfd
+
+            rfturn gssOutTokfn;
+        } dbtdh (GSSExdfption f) {
+            throw nfw SbslExdfption("Finbl hbndshbkf fbilfd", f);
+        }
+    }
+}

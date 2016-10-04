@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import static com.sun.jmx.mbeanserver.Util.*;
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.*;
 
-import java.lang.reflect.Method;
-import java.util.Map;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.util.Mbp;
 
-import javax.management.Attribute;
-import javax.management.MBeanServerConnection;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
-   <p>Helper class for an {@link InvocationHandler} that forwards methods from an
-   MXBean interface to a named
-   MXBean in an MBean Server and handles translation between the
-   arbitrary Java types in the interface and the Open Types used
-   by the MXBean.</p>
+   <p>Hflpfr dlbss for bn {@link InvodbtionHbndlfr} tibt forwbrds mftiods from bn
+   MXBfbn intfrfbdf to b nbmfd
+   MXBfbn in bn MBfbn Sfrvfr bnd ibndlfs trbnslbtion bftwffn tif
+   brbitrbry Jbvb typfs in tif intfrfbdf bnd tif Opfn Typfs usfd
+   by tif MXBfbn.</p>
 
-   @since 1.6
+   @sindf 1.6
 */
-public class MXBeanProxy {
-    public MXBeanProxy(Class<?> mxbeanInterface) {
+publid dlbss MXBfbnProxy {
+    publid MXBfbnProxy(Clbss<?> mxbfbnIntfrfbdf) {
 
-        if (mxbeanInterface == null)
-            throw new IllegalArgumentException("Null parameter");
+        if (mxbfbnIntfrfbdf == null)
+            tirow nfw IllfgblArgumfntExdfption("Null pbrbmftfr");
 
-        final MBeanAnalyzer<ConvertingMethod> analyzer;
+        finbl MBfbnAnblyzfr<ConvfrtingMftiod> bnblyzfr;
         try {
-            analyzer =
-                MXBeanIntrospector.getInstance().getAnalyzer(mxbeanInterface);
-        } catch (NotCompliantMBeanException e) {
-            throw new IllegalArgumentException(e);
+            bnblyzfr =
+                MXBfbnIntrospfdtor.gftInstbndf().gftAnblyzfr(mxbfbnIntfrfbdf);
+        } dbtdi (NotComplibntMBfbnExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
         }
-        analyzer.visit(new Visitor());
+        bnblyzfr.visit(nfw Visitor());
     }
 
-    private class Visitor
-            implements MBeanAnalyzer.MBeanVisitor<ConvertingMethod> {
-        public void visitAttribute(String attributeName,
-                                   ConvertingMethod getter,
-                                   ConvertingMethod setter) {
-            if (getter != null) {
-                getter.checkCallToOpen();
-                Method getterMethod = getter.getMethod();
-                handlerMap.put(getterMethod,
-                               new GetHandler(attributeName, getter));
+    privbtf dlbss Visitor
+            implfmfnts MBfbnAnblyzfr.MBfbnVisitor<ConvfrtingMftiod> {
+        publid void visitAttributf(String bttributfNbmf,
+                                   ConvfrtingMftiod gfttfr,
+                                   ConvfrtingMftiod sfttfr) {
+            if (gfttfr != null) {
+                gfttfr.difdkCbllToOpfn();
+                Mftiod gfttfrMftiod = gfttfr.gftMftiod();
+                ibndlfrMbp.put(gfttfrMftiod,
+                               nfw GftHbndlfr(bttributfNbmf, gfttfr));
             }
-            if (setter != null) {
-                // return type is void, no need for checkCallToOpen
-                Method setterMethod = setter.getMethod();
-                handlerMap.put(setterMethod,
-                               new SetHandler(attributeName, setter));
+            if (sfttfr != null) {
+                // rfturn typf is void, no nffd for difdkCbllToOpfn
+                Mftiod sfttfrMftiod = sfttfr.gftMftiod();
+                ibndlfrMbp.put(sfttfrMftiod,
+                               nfw SftHbndlfr(bttributfNbmf, sfttfr));
             }
         }
 
-        public void visitOperation(String operationName,
-                                   ConvertingMethod operation) {
-            operation.checkCallToOpen();
-            Method operationMethod = operation.getMethod();
-            String[] sig = operation.getOpenSignature();
-            handlerMap.put(operationMethod,
-                           new InvokeHandler(operationName, sig, operation));
+        publid void visitOpfrbtion(String opfrbtionNbmf,
+                                   ConvfrtingMftiod opfrbtion) {
+            opfrbtion.difdkCbllToOpfn();
+            Mftiod opfrbtionMftiod = opfrbtion.gftMftiod();
+            String[] sig = opfrbtion.gftOpfnSignbturf();
+            ibndlfrMbp.put(opfrbtionMftiod,
+                           nfw InvokfHbndlfr(opfrbtionNbmf, sig, opfrbtion));
         }
     }
 
-    private static abstract class Handler {
-        Handler(String name, ConvertingMethod cm) {
-            this.name = name;
-            this.convertingMethod = cm;
+    privbtf stbtid bbstrbdt dlbss Hbndlfr {
+        Hbndlfr(String nbmf, ConvfrtingMftiod dm) {
+            tiis.nbmf = nbmf;
+            tiis.donvfrtingMftiod = dm;
         }
 
-        String getName() {
-            return name;
+        String gftNbmf() {
+            rfturn nbmf;
         }
 
-        ConvertingMethod getConvertingMethod() {
-            return convertingMethod;
+        ConvfrtingMftiod gftConvfrtingMftiod() {
+            rfturn donvfrtingMftiod;
         }
 
-        abstract Object invoke(MBeanServerConnection mbsc,
-                               ObjectName name, Object[] args) throws Exception;
+        bbstrbdt Objfdt invokf(MBfbnSfrvfrConnfdtion mbsd,
+                               ObjfdtNbmf nbmf, Objfdt[] brgs) tirows Exdfption;
 
-        private final String name;
-        private final ConvertingMethod convertingMethod;
+        privbtf finbl String nbmf;
+        privbtf finbl ConvfrtingMftiod donvfrtingMftiod;
     }
 
-    private static class GetHandler extends Handler {
-        GetHandler(String attributeName, ConvertingMethod cm) {
-            super(attributeName, cm);
+    privbtf stbtid dlbss GftHbndlfr fxtfnds Hbndlfr {
+        GftHbndlfr(String bttributfNbmf, ConvfrtingMftiod dm) {
+            supfr(bttributfNbmf, dm);
         }
 
-        @Override
-        Object invoke(MBeanServerConnection mbsc, ObjectName name, Object[] args)
-                throws Exception {
-            assert(args == null || args.length == 0);
-            return mbsc.getAttribute(name, getName());
-        }
-    }
-
-    private static class SetHandler extends Handler {
-        SetHandler(String attributeName, ConvertingMethod cm) {
-            super(attributeName, cm);
-        }
-
-        @Override
-        Object invoke(MBeanServerConnection mbsc, ObjectName name, Object[] args)
-                throws Exception {
-            assert(args.length == 1);
-            Attribute attr = new Attribute(getName(), args[0]);
-            mbsc.setAttribute(name, attr);
-            return null;
+        @Ovfrridf
+        Objfdt invokf(MBfbnSfrvfrConnfdtion mbsd, ObjfdtNbmf nbmf, Objfdt[] brgs)
+                tirows Exdfption {
+            bssfrt(brgs == null || brgs.lfngti == 0);
+            rfturn mbsd.gftAttributf(nbmf, gftNbmf());
         }
     }
 
-    private static class InvokeHandler extends Handler {
-        InvokeHandler(String operationName, String[] signature,
-                      ConvertingMethod cm) {
-            super(operationName, cm);
-            this.signature = signature;
+    privbtf stbtid dlbss SftHbndlfr fxtfnds Hbndlfr {
+        SftHbndlfr(String bttributfNbmf, ConvfrtingMftiod dm) {
+            supfr(bttributfNbmf, dm);
         }
 
-        Object invoke(MBeanServerConnection mbsc, ObjectName name, Object[] args)
-                throws Exception {
-            return mbsc.invoke(name, getName(), args, signature);
+        @Ovfrridf
+        Objfdt invokf(MBfbnSfrvfrConnfdtion mbsd, ObjfdtNbmf nbmf, Objfdt[] brgs)
+                tirows Exdfption {
+            bssfrt(brgs.lfngti == 1);
+            Attributf bttr = nfw Attributf(gftNbmf(), brgs[0]);
+            mbsd.sftAttributf(nbmf, bttr);
+            rfturn null;
         }
-
-        private final String[] signature;
     }
 
-    public Object invoke(MBeanServerConnection mbsc, ObjectName name,
-                         Method method, Object[] args)
-            throws Throwable {
+    privbtf stbtid dlbss InvokfHbndlfr fxtfnds Hbndlfr {
+        InvokfHbndlfr(String opfrbtionNbmf, String[] signbturf,
+                      ConvfrtingMftiod dm) {
+            supfr(opfrbtionNbmf, dm);
+            tiis.signbturf = signbturf;
+        }
 
-        Handler handler = handlerMap.get(method);
-        ConvertingMethod cm = handler.getConvertingMethod();
-        MXBeanLookup lookup = MXBeanLookup.lookupFor(mbsc);
-        MXBeanLookup oldLookup = MXBeanLookup.getLookup();
+        Objfdt invokf(MBfbnSfrvfrConnfdtion mbsd, ObjfdtNbmf nbmf, Objfdt[] brgs)
+                tirows Exdfption {
+            rfturn mbsd.invokf(nbmf, gftNbmf(), brgs, signbturf);
+        }
+
+        privbtf finbl String[] signbturf;
+    }
+
+    publid Objfdt invokf(MBfbnSfrvfrConnfdtion mbsd, ObjfdtNbmf nbmf,
+                         Mftiod mftiod, Objfdt[] brgs)
+            tirows Tirowbblf {
+
+        Hbndlfr ibndlfr = ibndlfrMbp.gft(mftiod);
+        ConvfrtingMftiod dm = ibndlfr.gftConvfrtingMftiod();
+        MXBfbnLookup lookup = MXBfbnLookup.lookupFor(mbsd);
+        MXBfbnLookup oldLookup = MXBfbnLookup.gftLookup();
         try {
-            MXBeanLookup.setLookup(lookup);
-            Object[] openArgs = cm.toOpenParameters(lookup, args);
-            Object result = handler.invoke(mbsc, name, openArgs);
-            return cm.fromOpenReturnValue(lookup, result);
-        } finally {
-            MXBeanLookup.setLookup(oldLookup);
+            MXBfbnLookup.sftLookup(lookup);
+            Objfdt[] opfnArgs = dm.toOpfnPbrbmftfrs(lookup, brgs);
+            Objfdt rfsult = ibndlfr.invokf(mbsd, nbmf, opfnArgs);
+            rfturn dm.fromOpfnRfturnVbluf(lookup, rfsult);
+        } finblly {
+            MXBfbnLookup.sftLookup(oldLookup);
         }
     }
 
-    private final Map<Method, Handler> handlerMap = newMap();
+    privbtf finbl Mbp<Mftiod, Hbndlfr> ibndlfrMbp = nfwMbp();
 }

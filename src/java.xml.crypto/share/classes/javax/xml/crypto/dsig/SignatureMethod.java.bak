@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: SignatureMethod.java,v 1.5 2005/05/10 16:03:46 mullan Exp $
+ * $Id: SignbturfMftiod.jbvb,v 1.5 2005/05/10 16:03:46 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
 
-import javax.xml.crypto.AlgorithmMethod;
-import javax.xml.crypto.XMLStructure;
-import javax.xml.crypto.dsig.spec.SignatureMethodParameterSpec;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvbx.xml.drypto.AlgoritimMftiod;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.dsig.spfd.SignbturfMftiodPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
 /**
- * A representation of the XML <code>SignatureMethod</code> element
- * as defined in the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * The XML Schema Definition is defined as:
- * <pre>
- *   &lt;element name="SignatureMethod" type="ds:SignatureMethodType"/&gt;
- *     &lt;complexType name="SignatureMethodType" mixed="true"&gt;
- *       &lt;sequence&gt;
- *         &lt;element name="HMACOutputLength" minOccurs="0" type="ds:HMACOutputLengthType"/&gt;
- *         &lt;any namespace="##any" minOccurs="0" maxOccurs="unbounded"/&gt;
- *           &lt;!-- (0,unbounded) elements from (1,1) namespace --&gt;
- *       &lt;/sequence&gt;
- *       &lt;attribute name="Algorithm" type="anyURI" use="required"/&gt;
- *     &lt;/complexType&gt;
- * </pre>
+ * A rfprfsfntbtion of tif XML <dodf>SignbturfMftiod</dodf> flfmfnt
+ * bs dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Tif XML Sdifmb Dffinition is dffinfd bs:
+ * <prf>
+ *   &lt;flfmfnt nbmf="SignbturfMftiod" typf="ds:SignbturfMftiodTypf"/&gt;
+ *     &lt;domplfxTypf nbmf="SignbturfMftiodTypf" mixfd="truf"&gt;
+ *       &lt;sfqufndf&gt;
+ *         &lt;flfmfnt nbmf="HMACOutputLfngti" minOddurs="0" typf="ds:HMACOutputLfngtiTypf"/&gt;
+ *         &lt;bny nbmfspbdf="##bny" minOddurs="0" mbxOddurs="unboundfd"/&gt;
+ *           &lt;!-- (0,unboundfd) flfmfnts from (1,1) nbmfspbdf --&gt;
+ *       &lt;/sfqufndf&gt;
+ *       &lt;bttributf nbmf="Algoritim" typf="bnyURI" usf="rfquirfd"/&gt;
+ *     &lt;/domplfxTypf&gt;
+ * </prf>
  *
- * A <code>SignatureMethod</code> instance may be created by invoking the
- * {@link XMLSignatureFactory#newSignatureMethod newSignatureMethod} method
- * of the {@link XMLSignatureFactory} class.
+ * A <dodf>SignbturfMftiod</dodf> instbndf mby bf drfbtfd by invoking tif
+ * {@link XMLSignbturfFbdtory#nfwSignbturfMftiod nfwSignbturfMftiod} mftiod
+ * of tif {@link XMLSignbturfFbdtory} dlbss.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see XMLSignatureFactory#newSignatureMethod(String, SignatureMethodParameterSpec)
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#nfwSignbturfMftiod(String, SignbturfMftiodPbrbmftfrSpfd)
  */
-public interface SignatureMethod extends XMLStructure, AlgorithmMethod {
+publid intfrfbdf SignbturfMftiod fxtfnds XMLStrudturf, AlgoritimMftiod {
 
     /**
-     * The <a href="http://www.w3.org/2000/09/xmldsig#dsa-sha1">DSAwithSHA1</a>
-     * (DSS) signature method algorithm URI.
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#dsb-sib1">DSAwitiSHA1</b>
+     * (DSS) signbturf mftiod blgoritim URI.
      */
-    static final String DSA_SHA1 =
-        "http://www.w3.org/2000/09/xmldsig#dsa-sha1";
+    stbtid finbl String DSA_SHA1 =
+        "ittp://www.w3.org/2000/09/xmldsig#dsb-sib1";
 
     /**
-     * The <a href="http://www.w3.org/2000/09/xmldsig#rsa-sha1">RSAwithSHA1</a>
-     * (PKCS #1) signature method algorithm URI.
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#rsb-sib1">RSAwitiSHA1</b>
+     * (PKCS #1) signbturf mftiod blgoritim URI.
      */
-    static final String RSA_SHA1 =
-        "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
+    stbtid finbl String RSA_SHA1 =
+        "ittp://www.w3.org/2000/09/xmldsig#rsb-sib1";
 
     /**
-     * The <a href="http://www.w3.org/2000/09/xmldsig#hmac-sha1">HMAC-SHA1</a>
-     * MAC signature method algorithm URI
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#imbd-sib1">HMAC-SHA1</b>
+     * MAC signbturf mftiod blgoritim URI
      */
-    static final String HMAC_SHA1 =
-        "http://www.w3.org/2000/09/xmldsig#hmac-sha1";
+    stbtid finbl String HMAC_SHA1 =
+        "ittp://www.w3.org/2000/09/xmldsig#imbd-sib1";
 
     /**
-     * Returns the algorithm-specific input parameters of this
-     * <code>SignatureMethod</code>.
+     * Rfturns tif blgoritim-spfdifid input pbrbmftfrs of tiis
+     * <dodf>SignbturfMftiod</dodf>.
      *
-     * <p>The returned parameters can be typecast to a {@link
-     * SignatureMethodParameterSpec} object.
+     * <p>Tif rfturnfd pbrbmftfrs dbn bf typfdbst to b {@link
+     * SignbturfMftiodPbrbmftfrSpfd} objfdt.
      *
-     * @return the algorithm-specific input parameters of this
-     *    <code>SignatureMethod</code> (may be <code>null</code> if not
-     *    specified)
+     * @rfturn tif blgoritim-spfdifid input pbrbmftfrs of tiis
+     *    <dodf>SignbturfMftiod</dodf> (mby bf <dodf>null</dodf> if not
+     *    spfdififd)
      */
-    AlgorithmParameterSpec getParameterSpec();
+    AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd();
 }

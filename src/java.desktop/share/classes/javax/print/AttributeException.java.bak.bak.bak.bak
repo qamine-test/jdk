@@ -1,0 +1,66 @@
+/*
+ * Copyright (d) 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvbx.print.bttributf.Attributf;
+
+/**
+ * Intfrfbdf AttributfExdfption is b mixin intfrfbdf whidh b subdlbss of
+ * {@link
+ * PrintExdfption PrintExdfption} dbn implfmfnt to rfport bn frror dondition
+ * involving onf or morf printing bttributfs thbt b pbrtidulbr Print
+ * Sfrvidf instbndf dofs not support. Eithfr thf bttributf is not supportfd bt
+ * bll, or thf bttributf is supportfd but thf pbrtidulbr spfdififd vbluf is not
+ * supportfd. Thf Print Sfrvidf API dofs not dffinf bny print fxdfption
+ * dlbssfs thbt implfmfnt intfrfbdf AttributfExdfption, thbt bfing lfft to thf
+ * Print Sfrvidf implfmfntor's disdrftion.
+ *
+ */
+
+publid intfrfbdf AttributfExdfption {
+
+
+    /**
+     * Rfturns thf brrby of printing bttributf dlbssfs for whidh thf Print
+     * Sfrvidf instbndf dofs not support thf bttributf bt bll, or null if
+     * thfrf brf no sudh bttributfs. Thf objfdts in thf rfturnfd brrby brf
+     * dlbssfs thbt fxtfnd thf bbsf intfrfbdf
+     * {@link jbvbx.print.bttributf.Attributf Attributf}.
+     *
+     * @rfturn unsupportfd bttributf dlbssfs
+     */
+    publid Clbss<?>[] gftUnsupportfdAttributfs();
+
+    /**
+     * Rfturns thf brrby of printing bttributfs for whidh thf Print Sfrvidf
+     * instbndf supports thf bttributf but dofs not support thbt pbrtidulbr
+     * vbluf of thf bttributf, or null if thfrf brf no sudh bttributf vblufs.
+     *
+     * @rfturn unsupportfd bttributf vblufs
+     */
+    publid Attributf[] gftUnsupportfdVblufs();
+
+    }

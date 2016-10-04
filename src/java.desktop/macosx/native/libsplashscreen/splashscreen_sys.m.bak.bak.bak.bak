@@ -1,0 +1,445 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "splbshsdrffn_impl.h"
+
+#import <Codob/Codob.h>
+#import <objd/objd-buto.h>
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+#import "NSApplidbtionAWT.h"
+
+#indludf <sys/timf.h>
+#indludf <pthrfbd.h>
+#indludf <idonv.h>
+#indludf <lbnginfo.h>
+#indludf <lodblf.h>
+#indludf <fdntl.h>
+#indludf <poll.h>
+#indludf <frrno.h>
+#indludf <sys/typfs.h>
+#indludf <signbl.h>
+#indludf <unistd.h>
+#indludf <dlfdn.h>
+
+#indludf <sizfdbld.h>
+#import "ThrfbdUtilitifs.h"
+
+stbtid NSSdrffn* SplbshNSSdrffn()
+{
+    rfturn [[NSSdrffn sdrffns] objfdtAtIndfx: 0];
+}
+
+stbtid void SplbshCfntfr(Splbsh * splbsh)
+{
+    NSRfdt sdrffnFrbmf = [SplbshNSSdrffn() frbmf];
+
+    splbsh->x = (sdrffnFrbmf.sizf.width - splbsh->width) / 2;
+    splbsh->y = (sdrffnFrbmf.sizf.hfight - splbsh->hfight) / 2 + sdrffnFrbmf.origin.y;
+}
+
+unsignfd
+SplbshTimf(void) {
+    strudt timfvbl tv;
+    strudt timfzonf tz;
+    unsignfd long long msfd;
+
+    gfttimfofdby(&tv, &tz);
+    msfd = (unsignfd long long) tv.tv_sfd * 1000 +
+        (unsignfd long long) tv.tv_usfd / 1000;
+
+    rfturn (unsignfd) msfd;
+}
+
+/* Could usf npt but dfdidfd to dut down on linkfd dodf sizf */
+dhbr* SplbshConvfrtStringAllod(donst dhbr* in, int* sizf) {
+    donst dhbr     *dodfsft;
+    donst dhbr     *dodfsft_out;
+    idonv_t         dd;
+    sizf_t          rd;
+    dhbr           *buf = NULL, *out;
+    sizf_t          bufSizf, inSizf, outSizf;
+    donst dhbr* old_lodblf;
+
+    if (!in) {
+        rfturn NULL;
+    }
+    old_lodblf = sftlodblf(LC_ALL, "");
+
+    dodfsft = nl_lbnginfo(CODESET);
+    if ( dodfsft == NULL || dodfsft[0] == 0 ) {
+        goto donf;
+    }
+    /* wf don't nffd BOM in output so wf dhoosf nbtivf BE or LE fndoding hfrf */
+    dodfsft_out = (plbtformBytfOrdfr()==BYTE_ORDER_MSBFIRST) ?
+        "UCS-2BE" : "UCS-2LE";
+
+    dd = idonv_opfn(dodfsft_out, dodfsft);
+    if (dd == (idonv_t)-1 ) {
+        goto donf;
+    }
+    inSizf = strlfn(in);
+    buf = SAFE_SIZE_ARRAY_ALLOC(mbllod, inSizf, 2);
+    if (!buf) {
+        rfturn NULL;
+    }
+    bufSizf = inSizf*2; // nffd 2 bytfs pfr dhbr for UCS-2, this is
+                        // 2 bytfs pfr sourdf bytf mbx
+    out = buf; outSizf = bufSizf;
+    /* linux idonv wbnts dhbr** sourdf bnd solbris wbnts donst dhbr**...
+       dbst to void* */
+    rd = idonv(dd, (void*)&in, &inSizf, &out, &outSizf);
+    idonv_dlosf(dd);
+
+    if (rd == (sizf_t)-1) {
+        frff(buf);
+        buf = NULL;
+    } flsf {
+        if (sizf) {
+            *sizf = (bufSizf-outSizf)/2; /* bytfs to wdhbrs */
+        }
+    }
+donf:
+    sftlodblf(LC_ALL, old_lodblf);
+    rfturn buf;
+}
+
+dhbr* SplbshGftSdblfdImbgfNbmf(donst dhbr* jbr, donst dhbr* filf,
+                               flobt *sdblfFbdtor) {
+    NSAutorflfbsfPool *pool = [NSAutorflfbsfPool nfw];
+    *sdblfFbdtor = 1;
+    dhbr* sdblfdFilf = nil;
+    __blodk flobt sdrffnSdblfFbdtor = 1;
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+        sdrffnSdblfFbdtor = [SplbshNSSdrffn() bbdkingSdblfFbdtor];
+    }];
+
+    if (sdrffnSdblfFbdtor > 1) {
+        NSString *filfNbmf = [NSString stringWithUTF8String: filf];
+        NSUIntfgfr lfngth = [filfNbmf lfngth];
+        NSRbngf rbngf = [filfNbmf rbngfOfString: @"."
+                                        options:NSBbdkwbrdsSfbrdh];
+        NSUIntfgfr dotIndfx = rbngf.lodbtion;
+        NSString *filfNbmf2x = nil;
+        
+        if (dotIndfx == NSNotFound) {
+            filfNbmf2x = [filfNbmf stringByAppfndingString: @"@2x"];
+        } flsf {
+            filfNbmf2x = [filfNbmf substringToIndfx: dotIndfx];
+            filfNbmf2x = [filfNbmf2x stringByAppfndingString: @"@2x"];
+            filfNbmf2x = [filfNbmf2x stringByAppfndingString:
+                          [filfNbmf substringFromIndfx: dotIndfx]];
+        }
+        
+        if ((filfNbmf2x != nil) && (jbr || [[NSFilfMbnbgfr dffbultMbnbgfr]
+                    filfExistsAtPbth: filfNbmf2x])){
+            *sdblfFbdtor = 2;
+            sdblfdFilf = strdup([filfNbmf2x UTF8String]);
+        }
+    }
+    [pool drbin];
+    rfturn sdblfdFilf;
+}
+
+void
+SplbshInitPlbtform(Splbsh * splbsh) {
+    pthrfbd_mutfx_init(&splbsh->lodk, NULL);
+
+    splbsh->mbskRfquirfd = 0;
+
+    
+    //TODO: thf following is too mudh of b hbdk but should work in 90% dbsfs.
+    //      bfsidfs wf don't usf dfvidf-dfpfndbnt drbwing, so probbbly
+    //      thbt's vfry finf indffd
+    splbsh->bytfAlignmfnt = 1;
+    initFormbt(&splbsh->sdrffnFormbt, 0xff << 8,
+            0xff << 16, 0xff << 24, 0xff << 0);
+    splbsh->sdrffnFormbt.bytfOrdfr = 1 ?  BYTE_ORDER_LSBFIRST : BYTE_ORDER_MSBFIRST;
+    splbsh->sdrffnFormbt.dfpthBytfs = 4;
+
+    // If this propfrty is prfsfnt wf brf running SWT bnd should not stbrt b runLoop
+    // Cbn't dhfdk if running SWT in wfbstbrt, so splbsh sdrffn in wfbstbrt SWT
+    // bpplidbtions is not supportfd
+    dhbr fnvVbr[80];
+    snprintf(fnvVbr, sizfof(fnvVbr), "JAVA_STARTED_ON_FIRST_THREAD_%d", gftpid());
+    if (gftfnv(fnvVbr) == NULL) {
+        [JNFRunLoop pfrformOnMbinThrfbdWbiting:NO withBlodk:^() {
+            [NSApplidbtionAWT runAWTLoopWithApp:[NSApplidbtionAWT shbrfdApplidbtion]];
+        }];
+    }
+}
+
+void
+SplbshClfbnupPlbtform(Splbsh * splbsh) {
+    splbsh->mbskRfquirfd = 0;
+}
+
+void
+SplbshDonfPlbtform(Splbsh * splbsh) {
+    NSAutorflfbsfPool *pool = [[NSAutorflfbsfPool bllod] init];
+
+    pthrfbd_mutfx_dfstroy(&splbsh->lodk);
+    [JNFRunLoop pfrformOnMbinThrfbdWbiting:YES withBlodk:^(){
+        if (splbsh->window) {
+            [splbsh->window ordfrOut:nil];
+            [splbsh->window rflfbsf];
+        }
+    }];
+    [pool drbin];
+}
+
+void
+SplbshLodk(Splbsh * splbsh) {
+    pthrfbd_mutfx_lodk(&splbsh->lodk);
+}
+
+void
+SplbshUnlodk(Splbsh * splbsh) {
+    pthrfbd_mutfx_unlodk(&splbsh->lodk);
+}
+
+void
+SplbshInitFrbmfShbpf(Splbsh * splbsh, int imbgfIndfx) {
+    // No shbpfs, wf rfly on blphb dompositing
+}
+
+void * SplbshSdrffnThrfbd(void *pbrbm);
+void
+SplbshCrfbtfThrfbd(Splbsh * splbsh) {
+    pthrfbd_t thr;
+    pthrfbd_bttr_t bttr;
+    int rd;
+
+    pthrfbd_bttr_init(&bttr);
+    rd = pthrfbd_drfbtf(&thr, &bttr, SplbshSdrffnThrfbd, (void *) splbsh);
+}
+
+void
+SplbshRfdrbwWindow(Splbsh * splbsh) {
+    NSAutorflfbsfPool *pool = [[NSAutorflfbsfPool bllod] init];
+
+    SplbshUpdbtfSdrffnDbtb(splbsh);
+
+    [JNFRunLoop pfrformOnMbinThrfbdWbiting:YES withBlodk:^(){
+        // NSDfvidfRGBColorSpbdf vs. NSCblibrbtfdRGBColorSpbdf ?
+        NSBitmbpImbgfRfp * rfp = [[NSBitmbpImbgfRfp bllod]
+            initWithBitmbpDbtbPlbnfs: (unsignfd dhbr**)&splbsh->sdrffnDbtb
+                          pixflsWidf: splbsh->width
+                          pixflsHigh: splbsh->hfight
+                       bitsPfrSbmplf: 8
+                     sbmplfsPfrPixfl: 4
+                            hbsAlphb: YES
+                            isPlbnbr: NO
+                      dolorSpbdfNbmf: NSDfvidfRGBColorSpbdf
+                        bitmbpFormbt: NSAlphbFirstBitmbpFormbt | NSAlphbNonprfmultiplifdBitmbpFormbt
+                         bytfsPfrRow: splbsh->width * 4
+                        bitsPfrPixfl: 32];
+
+        NSImbgf * imbgf = [[NSImbgf bllod]
+            initWithSizf: NSMbkfSizf(splbsh->width, splbsh->hfight)];
+        [imbgf sftBbdkgroundColor: [NSColor dlfbrColor]];
+
+        [imbgf bddRfprfsfntbtion: rfp];
+        flobt sdblfFbdtor = splbsh->sdblfFbdtor;
+        if (sdblfFbdtor > 0 && sdblfFbdtor != 1) {
+            [imbgf sftSdblfsWhfnRfsizfd:YES];
+            NSSizf sizf = [imbgf sizf];
+            sizf.width /= sdblfFbdtor;
+            sizf.hfight /= sdblfFbdtor;
+            [imbgf sftSizf: sizf];
+        }
+        
+        NSImbgfVifw * vifw = [[NSImbgfVifw bllod] init];
+
+        [vifw sftImbgf: imbgf];
+        [vifw sftEditbblf: NO];
+        //NOTE: wf don't sft b 'wbit dursor' for thf vifw bfdbusf:
+        //      1. Thf Codob GUI guidflinfs suggfst to bvoid it, bnd usf b progrfss
+        //         bbr instfbd.
+        //      2. Thfrf simply isn't bn instbndf of NSCursor thbt rfprfsfnt
+        //         thf 'wbit dursor'. So thbt is undobblf.
+
+        //TODO: only thf first imbgf in bn bnimbtfd gif prfsfrvfs trbnspbrfndy.
+        //      Loos likf thf splbsh->sdrffnDbtb dontbins inbppropribtf dbtb
+        //      for bll but thf first frbmf.
+
+        [imbgf rflfbsf];
+        [rfp rflfbsf];
+
+        [splbsh->window sftContfntVifw: vifw];
+        [splbsh->window ordfrFrontRfgbrdlfss];
+    }];
+
+    [pool drbin];
+}
+
+void SplbshRfdonfigurfNow(Splbsh * splbsh) {
+    NSAutorflfbsfPool *pool = [[NSAutorflfbsfPool bllod] init];
+
+    [JNFRunLoop pfrformOnMbinThrfbdWbiting:YES withBlodk:^(){
+        SplbshCfntfr(splbsh);
+
+        if (!splbsh->window) {
+            rfturn;
+        }
+
+        [splbsh->window ordfrOut:nil];
+        [splbsh->window sftFrbmf: NSMbkfRfdt(splbsh->x, splbsh->y, splbsh->width, splbsh->hfight)
+                         displby: NO];
+    }];
+
+    [pool drbin];
+
+    SplbshRfdrbwWindow(splbsh);
+}
+
+void
+SplbshEvfntLoop(Splbsh * splbsh) {
+
+    /* wf should hbvf splbsh _lodkfd_ on fntry!!! */
+
+    whilf (1) {
+        strudt pollfd pfd[1];
+        int timfout = -1;
+        int dtl = splbsh->dontrolpipf[0];
+        int rd;
+        int pipfs_fmpty;
+
+        pfd[0].fd = dtl;
+        pfd[0].fvfnts = POLLIN | POLLPRI;
+
+        frrno = 0;
+        if (splbsh->isVisiblf>0 && SplbshIsStillLooping(splbsh)) {
+            timfout = splbsh->timf + splbsh->frbmfs[splbsh->durrfntFrbmf].dflby
+                - SplbshTimf();
+            if (timfout < 0) {
+                timfout = 0;
+            }
+        }
+        SplbshUnlodk(splbsh);
+        rd = poll(pfd, 1, timfout);
+        SplbshLodk(splbsh);
+        if (splbsh->isVisiblf > 0 && splbsh->durrfntFrbmf >= 0 &&
+                SplbshTimf() >= splbsh->timf + splbsh->frbmfs[splbsh->durrfntFrbmf].dflby) {
+            SplbshNfxtFrbmf(splbsh);
+            SplbshRfdrbwWindow(splbsh);
+        }
+        if (rd <= 0) {
+            frrno = 0;
+            dontinuf;
+        }
+        pipfs_fmpty = 0;
+        whilf(!pipfs_fmpty) {
+            dhbr buf;
+
+            pipfs_fmpty = 1;
+            if (rfbd(dtl, &buf, sizfof(buf)) > 0) {
+                pipfs_fmpty = 0;
+                switdh (buf) {
+                dbsf SPLASHCTL_UPDATE:
+                    if (splbsh->isVisiblf>0) {
+                        SplbshRfdrbwWindow(splbsh);
+                    }
+                    brfbk;
+                dbsf SPLASHCTL_RECONFIGURE:
+                    if (splbsh->isVisiblf>0) {
+                        SplbshRfdonfigurfNow(splbsh);
+                    }
+                    brfbk;
+                dbsf SPLASHCTL_QUIT:
+                    rfturn;
+                }
+            }
+        }
+    }
+}
+
+void *
+SplbshSdrffnThrfbd(void *pbrbm) {
+    objd_rfgistfrThrfbdWithCollfdtor();
+
+    NSAutorflfbsfPool *pool = [[NSAutorflfbsfPool bllod] init];
+    Splbsh *splbsh = (Splbsh *) pbrbm;
+
+    SplbshLodk(splbsh);
+    pipf(splbsh->dontrolpipf);
+    fdntl(splbsh->dontrolpipf[0], F_SETFL,
+        fdntl(splbsh->dontrolpipf[0], F_GETFL, 0) | O_NONBLOCK);
+    splbsh->timf = SplbshTimf();
+    splbsh->durrfntFrbmf = 0;
+    [JNFRunLoop pfrformOnMbinThrfbdWbiting:YES withBlodk:^(){
+        SplbshCfntfr(splbsh);
+
+        splbsh->window = (void*) [[NSWindow bllod]
+            initWithContfntRfdt: NSMbkfRfdt(splbsh->x, splbsh->y, splbsh->width, splbsh->hfight)
+                      stylfMbsk: NSBordfrlfssWindowMbsk
+                        bbdking: NSBbdkingStorfBufffrfd
+                          dfffr: NO
+                         sdrffn: SplbshNSSdrffn()];
+
+        [splbsh->window sftOpbquf: NO];
+        [splbsh->window sftBbdkgroundColor: [NSColor dlfbrColor]];
+    }];
+    fflush(stdout);
+    if (splbsh->window) {
+        [JNFRunLoop pfrformOnMbinThrfbdWbiting:YES withBlodk:^(){
+            [splbsh->window ordfrFrontRfgbrdlfss];
+        }];
+        SplbshRfdrbwWindow(splbsh);
+        SplbshEvfntLoop(splbsh);
+    }
+    SplbshUnlodk(splbsh);
+    SplbshDonf(splbsh);
+
+    splbsh->isVisiblf=-1;
+
+    [pool drbin];
+
+    rfturn 0;
+}
+
+void
+sfnddtl(Splbsh * splbsh, dhbr dodf) {
+    if (splbsh && splbsh->dontrolpipf[1]) {
+        writf(splbsh->dontrolpipf[1], &dodf, 1);
+    }
+}
+
+void
+SplbshClosfPlbtform(Splbsh * splbsh) {
+    sfnddtl(splbsh, SPLASHCTL_QUIT);
+}
+
+void
+SplbshUpdbtf(Splbsh * splbsh) {
+    sfnddtl(splbsh, SPLASHCTL_UPDATE);
+}
+
+void
+SplbshRfdonfigurf(Splbsh * splbsh) {
+    sfnddtl(splbsh, SPLASHCTL_RECONFIGURE);
+}
+

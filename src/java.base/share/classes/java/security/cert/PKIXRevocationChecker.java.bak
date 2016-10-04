@@ -1,317 +1,317 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import jbvb.nft.URI;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Sft;
 
 /**
- * A {@code PKIXCertPathChecker} for checking the revocation status of
- * certificates with the PKIX algorithm.
+ * A {@dodf PKIXCfrtPbtiCifdkfr} for difdking tif rfvodbtion stbtus of
+ * dfrtifidbtfs witi tif PKIX blgoritim.
  *
- * <p>A {@code PKIXRevocationChecker} checks the revocation status of
- * certificates with the Online Certificate Status Protocol (OCSP) or
- * Certificate Revocation Lists (CRLs). OCSP is described in RFC 2560 and
- * is a network protocol for determining the status of a certificate. A CRL
- * is a time-stamped list identifying revoked certificates, and RFC 5280
- * describes an algorithm for determining the revocation status of certificates
+ * <p>A {@dodf PKIXRfvodbtionCifdkfr} difdks tif rfvodbtion stbtus of
+ * dfrtifidbtfs witi tif Onlinf Cfrtifidbtf Stbtus Protodol (OCSP) or
+ * Cfrtifidbtf Rfvodbtion Lists (CRLs). OCSP is dfsdribfd in RFC 2560 bnd
+ * is b nftwork protodol for dftfrmining tif stbtus of b dfrtifidbtf. A CRL
+ * is b timf-stbmpfd list idfntifying rfvokfd dfrtifidbtfs, bnd RFC 5280
+ * dfsdribfs bn blgoritim for dftfrmining tif rfvodbtion stbtus of dfrtifidbtfs
  * using CRLs.
  *
- * <p>Each {@code PKIXRevocationChecker} must be able to check the revocation
- * status of certificates with OCSP and CRLs. By default, OCSP is the
- * preferred mechanism for checking revocation status, with CRLs as the
- * fallback mechanism. However, this preference can be switched to CRLs with
- * the {@link Option#PREFER_CRLS PREFER_CRLS} option. In addition, the fallback
- * mechanism can be disabled with the {@link Option#NO_FALLBACK NO_FALLBACK}
+ * <p>Ebdi {@dodf PKIXRfvodbtionCifdkfr} must bf bblf to difdk tif rfvodbtion
+ * stbtus of dfrtifidbtfs witi OCSP bnd CRLs. By dffbult, OCSP is tif
+ * prfffrrfd mfdibnism for difdking rfvodbtion stbtus, witi CRLs bs tif
+ * fbllbbdk mfdibnism. Howfvfr, tiis prfffrfndf dbn bf switdifd to CRLs witi
+ * tif {@link Option#PREFER_CRLS PREFER_CRLS} option. In bddition, tif fbllbbdk
+ * mfdibnism dbn bf disbblfd witi tif {@link Option#NO_FALLBACK NO_FALLBACK}
  * option.
  *
- * <p>A {@code PKIXRevocationChecker} is obtained by calling the
- * {@link CertPathValidator#getRevocationChecker getRevocationChecker} method
- * of a PKIX {@code CertPathValidator}. Additional parameters and options
- * specific to revocation can be set (by calling the
- * {@link #setOcspResponder setOcspResponder} method for instance). The
- * {@code PKIXRevocationChecker} is added to a {@code PKIXParameters} object
- * using the {@link PKIXParameters#addCertPathChecker addCertPathChecker}
- * or {@link PKIXParameters#setCertPathCheckers setCertPathCheckers} method,
- * and then the {@code PKIXParameters} is passed along with the {@code CertPath}
- * to be validated to the {@link CertPathValidator#validate validate} method
- * of a PKIX {@code CertPathValidator}. When supplying a revocation checker in
- * this manner, it will be used to check revocation irrespective of the setting
- * of the {@link PKIXParameters#isRevocationEnabled RevocationEnabled} flag.
- * Similarly, a {@code PKIXRevocationChecker} may be added to a
- * {@code PKIXBuilderParameters} object for use with a PKIX
- * {@code CertPathBuilder}.
+ * <p>A {@dodf PKIXRfvodbtionCifdkfr} is obtbinfd by dblling tif
+ * {@link CfrtPbtiVblidbtor#gftRfvodbtionCifdkfr gftRfvodbtionCifdkfr} mftiod
+ * of b PKIX {@dodf CfrtPbtiVblidbtor}. Additionbl pbrbmftfrs bnd options
+ * spfdifid to rfvodbtion dbn bf sft (by dblling tif
+ * {@link #sftOdspRfspondfr sftOdspRfspondfr} mftiod for instbndf). Tif
+ * {@dodf PKIXRfvodbtionCifdkfr} is bddfd to b {@dodf PKIXPbrbmftfrs} objfdt
+ * using tif {@link PKIXPbrbmftfrs#bddCfrtPbtiCifdkfr bddCfrtPbtiCifdkfr}
+ * or {@link PKIXPbrbmftfrs#sftCfrtPbtiCifdkfrs sftCfrtPbtiCifdkfrs} mftiod,
+ * bnd tifn tif {@dodf PKIXPbrbmftfrs} is pbssfd blong witi tif {@dodf CfrtPbti}
+ * to bf vblidbtfd to tif {@link CfrtPbtiVblidbtor#vblidbtf vblidbtf} mftiod
+ * of b PKIX {@dodf CfrtPbtiVblidbtor}. Wifn supplying b rfvodbtion difdkfr in
+ * tiis mbnnfr, it will bf usfd to difdk rfvodbtion irrfspfdtivf of tif sftting
+ * of tif {@link PKIXPbrbmftfrs#isRfvodbtionEnbblfd RfvodbtionEnbblfd} flbg.
+ * Similbrly, b {@dodf PKIXRfvodbtionCifdkfr} mby bf bddfd to b
+ * {@dodf PKIXBuildfrPbrbmftfrs} objfdt for usf witi b PKIX
+ * {@dodf CfrtPbtiBuildfr}.
  *
- * <p>Note that when a {@code PKIXRevocationChecker} is added to
- * {@code PKIXParameters}, it clones the {@code PKIXRevocationChecker};
- * thus any subsequent modifications to the {@code PKIXRevocationChecker}
- * have no effect.
+ * <p>Notf tibt wifn b {@dodf PKIXRfvodbtionCifdkfr} is bddfd to
+ * {@dodf PKIXPbrbmftfrs}, it dlonfs tif {@dodf PKIXRfvodbtionCifdkfr};
+ * tius bny subsfqufnt modifidbtions to tif {@dodf PKIXRfvodbtionCifdkfr}
+ * ibvf no ffffdt.
  *
- * <p>Any parameter that is not set (or is set to {@code null}) will be set to
- * the default value for that parameter.
+ * <p>Any pbrbmftfr tibt is not sft (or is sft to {@dodf null}) will bf sft to
+ * tif dffbult vbluf for tibt pbrbmftfr.
  *
- * <p><b>Concurrent Access</b>
+ * <p><b>Condurrfnt Addfss</b>
  *
- * <p>Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single object
- * concurrently should synchronize amongst themselves and provide the
- * necessary locking. Multiple threads each manipulating separate objects
- * need not synchronize.
+ * <p>Unlfss otifrwisf spfdififd, tif mftiods dffinfd in tiis dlbss brf not
+ * tirfbd-sbff. Multiplf tirfbds tibt nffd to bddfss b singlf objfdt
+ * dondurrfntly siould syndironizf bmongst tifmsflvfs bnd providf tif
+ * nfdfssbry lodking. Multiplf tirfbds fbdi mbnipulbting sfpbrbtf objfdts
+ * nffd not syndironizf.
  *
- * @since 1.8
+ * @sindf 1.8
  *
- * @see <a href="http://www.ietf.org/rfc/rfc2560.txt"><i>RFC&nbsp;2560: X.509
- * Internet Public Key Infrastructure Online Certificate Status Protocol -
- * OCSP</i></a>, <br><a
- * href="http://www.ietf.org/rfc/rfc5280.txt"><i>RFC&nbsp;5280: Internet X.509
- * Public Key Infrastructure Certificate and Certificate Revocation List (CRL)
- * Profile</i></a>
+ * @sff <b irff="ittp://www.iftf.org/rfd/rfd2560.txt"><i>RFC&nbsp;2560: X.509
+ * Intfrnft Publid Kfy Infrbstrudturf Onlinf Cfrtifidbtf Stbtus Protodol -
+ * OCSP</i></b>, <br><b
+ * irff="ittp://www.iftf.org/rfd/rfd5280.txt"><i>RFC&nbsp;5280: Intfrnft X.509
+ * Publid Kfy Infrbstrudturf Cfrtifidbtf bnd Cfrtifidbtf Rfvodbtion List (CRL)
+ * Profilf</i></b>
  */
-public abstract class PKIXRevocationChecker extends PKIXCertPathChecker {
-    private URI ocspResponder;
-    private X509Certificate ocspResponderCert;
-    private List<Extension> ocspExtensions = Collections.<Extension>emptyList();
-    private Map<X509Certificate, byte[]> ocspResponses = Collections.emptyMap();
-    private Set<Option> options = Collections.emptySet();
+publid bbstrbdt dlbss PKIXRfvodbtionCifdkfr fxtfnds PKIXCfrtPbtiCifdkfr {
+    privbtf URI odspRfspondfr;
+    privbtf X509Cfrtifidbtf odspRfspondfrCfrt;
+    privbtf List<Extfnsion> odspExtfnsions = Collfdtions.<Extfnsion>fmptyList();
+    privbtf Mbp<X509Cfrtifidbtf, bytf[]> odspRfsponsfs = Collfdtions.fmptyMbp();
+    privbtf Sft<Option> options = Collfdtions.fmptySft();
 
     /**
-     * Default constructor.
+     * Dffbult donstrudtor.
      */
-    protected PKIXRevocationChecker() {}
+    protfdtfd PKIXRfvodbtionCifdkfr() {}
 
     /**
-     * Sets the URI that identifies the location of the OCSP responder. This
-     * overrides the {@code ocsp.responderURL} security property and any
-     * responder specified in a certificate's Authority Information Access
-     * Extension, as defined in RFC 5280.
+     * Sfts tif URI tibt idfntififs tif lodbtion of tif OCSP rfspondfr. Tiis
+     * ovfrridfs tif {@dodf odsp.rfspondfrURL} sfdurity propfrty bnd bny
+     * rfspondfr spfdififd in b dfrtifidbtf's Autiority Informbtion Addfss
+     * Extfnsion, bs dffinfd in RFC 5280.
      *
-     * @param uri the responder URI
+     * @pbrbm uri tif rfspondfr URI
      */
-    public void setOcspResponder(URI uri) {
-        this.ocspResponder = uri;
+    publid void sftOdspRfspondfr(URI uri) {
+        tiis.odspRfspondfr = uri;
     }
 
     /**
-     * Gets the URI that identifies the location of the OCSP responder. This
-     * overrides the {@code ocsp.responderURL} security property. If this
-     * parameter or the {@code ocsp.responderURL} property is not set, the
-     * location is determined from the certificate's Authority Information
-     * Access Extension, as defined in RFC 5280.
+     * Gfts tif URI tibt idfntififs tif lodbtion of tif OCSP rfspondfr. Tiis
+     * ovfrridfs tif {@dodf odsp.rfspondfrURL} sfdurity propfrty. If tiis
+     * pbrbmftfr or tif {@dodf odsp.rfspondfrURL} propfrty is not sft, tif
+     * lodbtion is dftfrminfd from tif dfrtifidbtf's Autiority Informbtion
+     * Addfss Extfnsion, bs dffinfd in RFC 5280.
      *
-     * @return the responder URI, or {@code null} if not set
+     * @rfturn tif rfspondfr URI, or {@dodf null} if not sft
      */
-    public URI getOcspResponder() {
-        return ocspResponder;
+    publid URI gftOdspRfspondfr() {
+        rfturn odspRfspondfr;
     }
 
     /**
-     * Sets the OCSP responder's certificate. This overrides the
-     * {@code ocsp.responderCertSubjectName},
-     * {@code ocsp.responderCertIssuerName},
-     * and {@code ocsp.responderCertSerialNumber} security properties.
+     * Sfts tif OCSP rfspondfr's dfrtifidbtf. Tiis ovfrridfs tif
+     * {@dodf odsp.rfspondfrCfrtSubjfdtNbmf},
+     * {@dodf odsp.rfspondfrCfrtIssufrNbmf},
+     * bnd {@dodf odsp.rfspondfrCfrtSfriblNumbfr} sfdurity propfrtifs.
      *
-     * @param cert the responder's certificate
+     * @pbrbm dfrt tif rfspondfr's dfrtifidbtf
      */
-    public void setOcspResponderCert(X509Certificate cert) {
-        this.ocspResponderCert = cert;
+    publid void sftOdspRfspondfrCfrt(X509Cfrtifidbtf dfrt) {
+        tiis.odspRfspondfrCfrt = dfrt;
     }
 
     /**
-     * Gets the OCSP responder's certificate. This overrides the
-     * {@code ocsp.responderCertSubjectName},
-     * {@code ocsp.responderCertIssuerName},
-     * and {@code ocsp.responderCertSerialNumber} security properties. If this
-     * parameter or the aforementioned properties are not set, then the
-     * responder's certificate is determined as specified in RFC 2560.
+     * Gfts tif OCSP rfspondfr's dfrtifidbtf. Tiis ovfrridfs tif
+     * {@dodf odsp.rfspondfrCfrtSubjfdtNbmf},
+     * {@dodf odsp.rfspondfrCfrtIssufrNbmf},
+     * bnd {@dodf odsp.rfspondfrCfrtSfriblNumbfr} sfdurity propfrtifs. If tiis
+     * pbrbmftfr or tif bforfmfntionfd propfrtifs brf not sft, tifn tif
+     * rfspondfr's dfrtifidbtf is dftfrminfd bs spfdififd in RFC 2560.
      *
-     * @return the responder's certificate, or {@code null} if not set
+     * @rfturn tif rfspondfr's dfrtifidbtf, or {@dodf null} if not sft
      */
-    public X509Certificate getOcspResponderCert() {
-        return ocspResponderCert;
+    publid X509Cfrtifidbtf gftOdspRfspondfrCfrt() {
+        rfturn odspRfspondfrCfrt;
     }
 
-    // request extensions; single extensions not supported
+    // rfqufst fxtfnsions; singlf fxtfnsions not supportfd
     /**
-     * Sets the optional OCSP request extensions.
+     * Sfts tif optionbl OCSP rfqufst fxtfnsions.
      *
-     * @param extensions a list of extensions. The list is copied to protect
-     *        against subsequent modification.
+     * @pbrbm fxtfnsions b list of fxtfnsions. Tif list is dopifd to protfdt
+     *        bgbinst subsfqufnt modifidbtion.
      */
-    public void setOcspExtensions(List<Extension> extensions)
+    publid void sftOdspExtfnsions(List<Extfnsion> fxtfnsions)
     {
-        this.ocspExtensions = (extensions == null)
-                              ? Collections.<Extension>emptyList()
-                              : new ArrayList<Extension>(extensions);
+        tiis.odspExtfnsions = (fxtfnsions == null)
+                              ? Collfdtions.<Extfnsion>fmptyList()
+                              : nfw ArrbyList<Extfnsion>(fxtfnsions);
     }
 
     /**
-     * Gets the optional OCSP request extensions.
+     * Gfts tif optionbl OCSP rfqufst fxtfnsions.
      *
-     * @return an unmodifiable list of extensions. The list is empty if no
-     *         extensions have been specified.
+     * @rfturn bn unmodifibblf list of fxtfnsions. Tif list is fmpty if no
+     *         fxtfnsions ibvf bffn spfdififd.
      */
-    public List<Extension> getOcspExtensions() {
-        return Collections.unmodifiableList(ocspExtensions);
+    publid List<Extfnsion> gftOdspExtfnsions() {
+        rfturn Collfdtions.unmodifibblfList(odspExtfnsions);
     }
 
     /**
-     * Sets the OCSP responses. These responses are used to determine
-     * the revocation status of the specified certificates when OCSP is used.
+     * Sfts tif OCSP rfsponsfs. Tifsf rfsponsfs brf usfd to dftfrminf
+     * tif rfvodbtion stbtus of tif spfdififd dfrtifidbtfs wifn OCSP is usfd.
      *
-     * @param responses a map of OCSP responses. Each key is an
-     *        {@code X509Certificate} that maps to the corresponding
-     *        DER-encoded OCSP response for that certificate. A deep copy of
-     *        the map is performed to protect against subsequent modification.
+     * @pbrbm rfsponsfs b mbp of OCSP rfsponsfs. Ebdi kfy is bn
+     *        {@dodf X509Cfrtifidbtf} tibt mbps to tif dorrfsponding
+     *        DER-fndodfd OCSP rfsponsf for tibt dfrtifidbtf. A dffp dopy of
+     *        tif mbp is pfrformfd to protfdt bgbinst subsfqufnt modifidbtion.
      */
-    public void setOcspResponses(Map<X509Certificate, byte[]> responses)
+    publid void sftOdspRfsponsfs(Mbp<X509Cfrtifidbtf, bytf[]> rfsponsfs)
     {
-        if (responses == null) {
-            this.ocspResponses = Collections.<X509Certificate, byte[]>emptyMap();
-        } else {
-            Map<X509Certificate, byte[]> copy = new HashMap<>(responses.size());
-            for (Map.Entry<X509Certificate, byte[]> e : responses.entrySet()) {
-                copy.put(e.getKey(), e.getValue().clone());
+        if (rfsponsfs == null) {
+            tiis.odspRfsponsfs = Collfdtions.<X509Cfrtifidbtf, bytf[]>fmptyMbp();
+        } flsf {
+            Mbp<X509Cfrtifidbtf, bytf[]> dopy = nfw HbsiMbp<>(rfsponsfs.sizf());
+            for (Mbp.Entry<X509Cfrtifidbtf, bytf[]> f : rfsponsfs.fntrySft()) {
+                dopy.put(f.gftKfy(), f.gftVbluf().dlonf());
             }
-            this.ocspResponses = copy;
+            tiis.odspRfsponsfs = dopy;
         }
     }
 
     /**
-     * Gets the OCSP responses. These responses are used to determine
-     * the revocation status of the specified certificates when OCSP is used.
+     * Gfts tif OCSP rfsponsfs. Tifsf rfsponsfs brf usfd to dftfrminf
+     * tif rfvodbtion stbtus of tif spfdififd dfrtifidbtfs wifn OCSP is usfd.
      *
-     * @return a map of OCSP responses. Each key is an
-     *        {@code X509Certificate} that maps to the corresponding
-     *        DER-encoded OCSP response for that certificate. A deep copy of
-     *        the map is returned to protect against subsequent modification.
-     *        Returns an empty map if no responses have been specified.
+     * @rfturn b mbp of OCSP rfsponsfs. Ebdi kfy is bn
+     *        {@dodf X509Cfrtifidbtf} tibt mbps to tif dorrfsponding
+     *        DER-fndodfd OCSP rfsponsf for tibt dfrtifidbtf. A dffp dopy of
+     *        tif mbp is rfturnfd to protfdt bgbinst subsfqufnt modifidbtion.
+     *        Rfturns bn fmpty mbp if no rfsponsfs ibvf bffn spfdififd.
      */
-    public Map<X509Certificate, byte[]> getOcspResponses() {
-        Map<X509Certificate, byte[]> copy = new HashMap<>(ocspResponses.size());
-        for (Map.Entry<X509Certificate, byte[]> e : ocspResponses.entrySet()) {
-            copy.put(e.getKey(), e.getValue().clone());
+    publid Mbp<X509Cfrtifidbtf, bytf[]> gftOdspRfsponsfs() {
+        Mbp<X509Cfrtifidbtf, bytf[]> dopy = nfw HbsiMbp<>(odspRfsponsfs.sizf());
+        for (Mbp.Entry<X509Cfrtifidbtf, bytf[]> f : odspRfsponsfs.fntrySft()) {
+            dopy.put(f.gftKfy(), f.gftVbluf().dlonf());
         }
-        return copy;
+        rfturn dopy;
     }
 
     /**
-     * Sets the revocation options.
+     * Sfts tif rfvodbtion options.
      *
-     * @param options a set of revocation options. The set is copied to protect
-     *        against subsequent modification.
+     * @pbrbm options b sft of rfvodbtion options. Tif sft is dopifd to protfdt
+     *        bgbinst subsfqufnt modifidbtion.
      */
-    public void setOptions(Set<Option> options) {
-        this.options = (options == null)
-                       ? Collections.<Option>emptySet()
-                       : new HashSet<Option>(options);
+    publid void sftOptions(Sft<Option> options) {
+        tiis.options = (options == null)
+                       ? Collfdtions.<Option>fmptySft()
+                       : nfw HbsiSft<Option>(options);
     }
 
     /**
-     * Gets the revocation options.
+     * Gfts tif rfvodbtion options.
      *
-     * @return an unmodifiable set of revocation options. The set is empty if
-     *         no options have been specified.
+     * @rfturn bn unmodifibblf sft of rfvodbtion options. Tif sft is fmpty if
+     *         no options ibvf bffn spfdififd.
      */
-    public Set<Option> getOptions() {
-        return Collections.unmodifiableSet(options);
+    publid Sft<Option> gftOptions() {
+        rfturn Collfdtions.unmodifibblfSft(options);
     }
 
     /**
-     * Returns a list containing the exceptions that are ignored by the
-     * revocation checker when the {@link Option#SOFT_FAIL SOFT_FAIL} option
-     * is set. The list is cleared each time {@link #init init} is called.
-     * The list is ordered in ascending order according to the certificate
-     * index returned by {@link CertPathValidatorException#getIndex getIndex}
-     * method of each entry.
+     * Rfturns b list dontbining tif fxdfptions tibt brf ignorfd by tif
+     * rfvodbtion difdkfr wifn tif {@link Option#SOFT_FAIL SOFT_FAIL} option
+     * is sft. Tif list is dlfbrfd fbdi timf {@link #init init} is dbllfd.
+     * Tif list is ordfrfd in bsdfnding ordfr bddording to tif dfrtifidbtf
+     * indfx rfturnfd by {@link CfrtPbtiVblidbtorExdfption#gftIndfx gftIndfx}
+     * mftiod of fbdi fntry.
      * <p>
-     * An implementation of {@code PKIXRevocationChecker} is responsible for
-     * adding the ignored exceptions to the list.
+     * An implfmfntbtion of {@dodf PKIXRfvodbtionCifdkfr} is rfsponsiblf for
+     * bdding tif ignorfd fxdfptions to tif list.
      *
-     * @return an unmodifiable list containing the ignored exceptions. The list
-     *         is empty if no exceptions have been ignored.
+     * @rfturn bn unmodifibblf list dontbining tif ignorfd fxdfptions. Tif list
+     *         is fmpty if no fxdfptions ibvf bffn ignorfd.
      */
-    public abstract List<CertPathValidatorException> getSoftFailExceptions();
+    publid bbstrbdt List<CfrtPbtiVblidbtorExdfption> gftSoftFbilExdfptions();
 
-    @Override
-    public PKIXRevocationChecker clone() {
-        PKIXRevocationChecker copy = (PKIXRevocationChecker)super.clone();
-        copy.ocspExtensions = new ArrayList<>(ocspExtensions);
-        copy.ocspResponses = new HashMap<>(ocspResponses);
-        // deep-copy the encoded responses, since they are mutable
-        for (Map.Entry<X509Certificate, byte[]> entry :
-                 copy.ocspResponses.entrySet())
+    @Ovfrridf
+    publid PKIXRfvodbtionCifdkfr dlonf() {
+        PKIXRfvodbtionCifdkfr dopy = (PKIXRfvodbtionCifdkfr)supfr.dlonf();
+        dopy.odspExtfnsions = nfw ArrbyList<>(odspExtfnsions);
+        dopy.odspRfsponsfs = nfw HbsiMbp<>(odspRfsponsfs);
+        // dffp-dopy tif fndodfd rfsponsfs, sindf tify brf mutbblf
+        for (Mbp.Entry<X509Cfrtifidbtf, bytf[]> fntry :
+                 dopy.odspRfsponsfs.fntrySft())
         {
-            byte[] encoded = entry.getValue();
-            entry.setValue(encoded.clone());
+            bytf[] fndodfd = fntry.gftVbluf();
+            fntry.sftVbluf(fndodfd.dlonf());
         }
-        copy.options = new HashSet<>(options);
-        return copy;
+        dopy.options = nfw HbsiSft<>(options);
+        rfturn dopy;
     }
 
     /**
-     * Various revocation options that can be specified for the revocation
-     * checking mechanism.
+     * Vbrious rfvodbtion options tibt dbn bf spfdififd for tif rfvodbtion
+     * difdking mfdibnism.
      */
-    public enum Option {
+    publid fnum Option {
         /**
-         * Only check the revocation status of end-entity certificates.
+         * Only difdk tif rfvodbtion stbtus of fnd-fntity dfrtifidbtfs.
          */
         ONLY_END_ENTITY,
         /**
-         * Prefer CRLs to OSCP. The default behavior is to prefer OCSP. Each
-         * PKIX implementation should document further details of their
-         * specific preference rules and fallback policies.
+         * Prfffr CRLs to OSCP. Tif dffbult bfibvior is to prfffr OCSP. Ebdi
+         * PKIX implfmfntbtion siould dodumfnt furtifr dftbils of tifir
+         * spfdifid prfffrfndf rulfs bnd fbllbbdk polidifs.
          */
         PREFER_CRLS,
         /**
-         * Disable the fallback mechanism.
+         * Disbblf tif fbllbbdk mfdibnism.
          */
         NO_FALLBACK,
         /**
-         * Allow revocation check to succeed if the revocation status cannot be
-         * determined for one of the following reasons:
+         * Allow rfvodbtion difdk to suddffd if tif rfvodbtion stbtus dbnnot bf
+         * dftfrminfd for onf of tif following rfbsons:
          * <ul>
-         *  <li>The CRL or OCSP response cannot be obtained because of a
-         *      network error.
-         *  <li>The OCSP responder returns one of the following errors
-         *      specified in section 2.3 of RFC 2560: internalError or tryLater.
+         *  <li>Tif CRL or OCSP rfsponsf dbnnot bf obtbinfd bfdbusf of b
+         *      nftwork frror.
+         *  <li>Tif OCSP rfspondfr rfturns onf of tif following frrors
+         *      spfdififd in sfdtion 2.3 of RFC 2560: intfrnblError or tryLbtfr.
          * </ul><br>
-         * Note that these conditions apply to both OCSP and CRLs, and unless
-         * the {@code NO_FALLBACK} option is set, the revocation check is
-         * allowed to succeed only if both mechanisms fail under one of the
-         * conditions as stated above.
-         * Exceptions that cause the network errors are ignored but can be
-         * later retrieved by calling the
-         * {@link #getSoftFailExceptions getSoftFailExceptions} method.
+         * Notf tibt tifsf donditions bpply to boti OCSP bnd CRLs, bnd unlfss
+         * tif {@dodf NO_FALLBACK} option is sft, tif rfvodbtion difdk is
+         * bllowfd to suddffd only if boti mfdibnisms fbil undfr onf of tif
+         * donditions bs stbtfd bbovf.
+         * Exdfptions tibt dbusf tif nftwork frrors brf ignorfd but dbn bf
+         * lbtfr rftrifvfd by dblling tif
+         * {@link #gftSoftFbilExdfptions gftSoftFbilExdfptions} mftiod.
          */
         SOFT_FAIL
     }

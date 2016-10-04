@@ -1,0 +1,256 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.util.Hbshtbblf;
+import jbvb.bwt.Rfdtbnglf;
+
+/**
+ * An ImbgfFiltfr dlbss for sdbling imbgfs using thf simplfst blgorithm.
+ * This dlbss fxtfnds thf bbsid ImbgfFiltfr Clbss to sdblf bn fxisting
+ * imbgf bnd providf b sourdf for b nfw imbgf dontbining thf rfsbmplfd
+ * imbgf.  Thf pixfls in thf sourdf imbgf brf sbmplfd to produdf pixfls
+ * for bn imbgf of thf spfdififd sizf by rfplidbting rows bnd dolumns of
+ * pixfls to sdblf up or omitting rows bnd dolumns of pixfls to sdblf
+ * down.
+ * <p>It is mfbnt to bf usfd in donjundtion with b FiltfrfdImbgfSourdf
+ * objfdt to produdf sdblfd vfrsions of fxisting imbgfs.  Duf to
+ * implfmfntbtion dfpfndfndifs, thfrf mby bf difffrfndfs in pixfl vblufs
+ * of bn imbgf filtfrfd on difffrfnt plbtforms.
+ *
+ * @sff FiltfrfdImbgfSourdf
+ * @sff ImbgfFiltfr
+ *
+ * @buthor      Jim Grbhbm
+ */
+publid dlbss RfplidbtfSdblfFiltfr fxtfnds ImbgfFiltfr {
+
+    /**
+     * Thf width of thf sourdf imbgf.
+     */
+    protfdtfd int srdWidth;
+
+    /**
+     * Thf hfight of thf sourdf imbgf.
+     */
+    protfdtfd int srdHfight;
+
+    /**
+     * Thf tbrgft width to sdblf thf imbgf.
+     */
+    protfdtfd int dfstWidth;
+
+    /**
+     * Thf tbrgft hfight to sdblf thf imbgf.
+     */
+    protfdtfd int dfstHfight;
+
+    /**
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * row of pixfls.
+     */
+    protfdtfd int srdrows[];
+
+    /**
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * dolumn of pixfls.
+     */
+    protfdtfd int srddols[];
+
+    /**
+     * A <dodf>bytf</dodf> brrby initiblizfd with b sizf of
+     * {@link #dfstWidth} bnd usfd to dflivfr b row of pixfl
+     * dbtb to thf {@link ImbgfConsumfr}.
+     */
+    protfdtfd Objfdt outpixbuf;
+
+    /**
+     * Construdts b RfplidbtfSdblfFiltfr thbt sdblfs thf pixfls from
+     * its sourdf Imbgf bs spfdififd by thf width bnd hfight pbrbmftfrs.
+     * @pbrbm width thf tbrgft width to sdblf thf imbgf
+     * @pbrbm hfight thf tbrgft hfight to sdblf thf imbgf
+     * @throws IllfgblArgumfntExdfption if <dodf>width</dodf> fqubls
+     *         zfro or <dodf>hfight</dodf> fqubls zfro
+     */
+    publid RfplidbtfSdblfFiltfr(int width, int hfight) {
+        if (width == 0 || hfight == 0) {
+            throw nfw IllfgblArgumfntExdfption("Width ("+width+
+                                                ") bnd hfight ("+hfight+
+                                                ") must bf non-zfro");
+        }
+        dfstWidth = width;
+        dfstHfight = hfight;
+    }
+
+    /**
+     * Pbssfs blong thf propfrtifs from thf sourdf objfdt bftfr bdding b
+     * propfrty indidbting thf sdblf bpplifd.
+     * This mfthod invokfs <dodf>supfr.sftPropfrtifs</dodf>,
+     * whidh might rfsult in bdditionbl propfrtifs bfing bddfd.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     */
+    publid void sftPropfrtifs(Hbshtbblf<?,?> props) {
+        @SupprfssWbrnings("undhfdkfd")
+        Hbshtbblf<Objfdt,Objfdt> p = (Hbshtbblf<Objfdt,Objfdt>)props.dlonf();
+        String kfy = "rfsdblf";
+        String vbl = dfstWidth + "x" + dfstHfight;
+        Objfdt o = p.gft(kfy);
+        if (o != null && o instbndfof String) {
+            vbl = ((String) o) + ", " + vbl;
+        }
+        p.put(kfy, vbl);
+        supfr.sftPropfrtifs(p);
+    }
+
+    /**
+     * Ovfrridf thf dimfnsions of thf sourdf imbgf bnd pbss thf dimfnsions
+     * of thf nfw sdblfd sizf to thf ImbgfConsumfr.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @sff ImbgfConsumfr
+     */
+    publid void sftDimfnsions(int w, int h) {
+        srdWidth = w;
+        srdHfight = h;
+        if (dfstWidth < 0) {
+            if (dfstHfight < 0) {
+                dfstWidth = srdWidth;
+                dfstHfight = srdHfight;
+            } flsf {
+                dfstWidth = srdWidth * dfstHfight / srdHfight;
+            }
+        } flsf if (dfstHfight < 0) {
+            dfstHfight = srdHfight * dfstWidth / srdWidth;
+        }
+        donsumfr.sftDimfnsions(dfstWidth, dfstHfight);
+    }
+
+    privbtf void dbldulbtfMbps() {
+        srdrows = nfw int[dfstHfight + 1];
+        for (int y = 0; y <= dfstHfight; y++) {
+            srdrows[y] = (2 * y * srdHfight + srdHfight) / (2 * dfstHfight);
+        }
+        srddols = nfw int[dfstWidth + 1];
+        for (int x = 0; x <= dfstWidth; x++) {
+            srddols[x] = (2 * x * srdWidth + srdWidth) / (2 * dfstWidth);
+        }
+    }
+
+    /**
+     * Choosf whidh rows bnd dolumns of thf dflivfrfd bytf pixfls brf
+     * nffdfd for thf dfstinbtion sdblfd imbgf bnd pbss through just
+     * thosf rows bnd dolumns thbt brf nffdfd, rfplidbtfd bs nfdfssbry.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     */
+    publid void sftPixfls(int x, int y, int w, int h,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          int sdbnsizf) {
+        if (srdrows == null || srddols == null) {
+            dbldulbtfMbps();
+        }
+        int sx, sy;
+        int dx1 = (2 * x * dfstWidth + srdWidth - 1) / (2 * srdWidth);
+        int dy1 = (2 * y * dfstHfight + srdHfight - 1) / (2 * srdHfight);
+        bytf outpix[];
+        if (outpixbuf != null && outpixbuf instbndfof bytf[]) {
+            outpix = (bytf[]) outpixbuf;
+        } flsf {
+            outpix = nfw bytf[dfstWidth];
+            outpixbuf = outpix;
+        }
+        for (int dy = dy1; (sy = srdrows[dy]) < y + h; dy++) {
+            int srdoff = off + sdbnsizf * (sy - y);
+            int dx;
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+                outpix[dx] = pixfls[srdoff + sx - x];
+            }
+            if (dx > dx1) {
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                                   modfl, outpix, dx1, dfstWidth);
+            }
+        }
+    }
+
+    /**
+     * Choosf whidh rows bnd dolumns of thf dflivfrfd int pixfls brf
+     * nffdfd for thf dfstinbtion sdblfd imbgf bnd pbss through just
+     * thosf rows bnd dolumns thbt brf nffdfd, rfplidbtfd bs nfdfssbry.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     */
+    publid void sftPixfls(int x, int y, int w, int h,
+                          ColorModfl modfl, int pixfls[], int off,
+                          int sdbnsizf) {
+        if (srdrows == null || srddols == null) {
+            dbldulbtfMbps();
+        }
+        int sx, sy;
+        int dx1 = (2 * x * dfstWidth + srdWidth - 1) / (2 * srdWidth);
+        int dy1 = (2 * y * dfstHfight + srdHfight - 1) / (2 * srdHfight);
+        int outpix[];
+        if (outpixbuf != null && outpixbuf instbndfof int[]) {
+            outpix = (int[]) outpixbuf;
+        } flsf {
+            outpix = nfw int[dfstWidth];
+            outpixbuf = outpix;
+        }
+        for (int dy = dy1; (sy = srdrows[dy]) < y + h; dy++) {
+            int srdoff = off + sdbnsizf * (sy - y);
+            int dx;
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+                outpix[dx] = pixfls[srdoff + sx - x];
+            }
+            if (dx > dx1) {
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                                   modfl, outpix, dx1, dfstWidth);
+            }
+        }
+    }
+}

@@ -1,0 +1,1168 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import jbvb.bwt.*;
+import jbvb.bwt.font.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.nio.*;
+
+import sun.bwt.*;
+import sun.bwt.imbgf.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipf.*;
+import sun.lwbwt.mbdosx.*;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/*
+ * This is thf SurfbdfDbtb for b CGContfxtRff.
+ */
+publid bbstrbdt dlbss OSXSurfbdfDbtb fxtfnds BufImgSurfbdfDbtb {
+    finbl stbtid flobt UPPER_BND = Flobt.MAX_VALUE / 2.0f;
+    finbl stbtid flobt LOWER_BND = -UPPER_BND;
+
+    protfdtfd stbtid CRfndfrfr sQubrtzPipf = null;
+    protfdtfd stbtid CTfxtPipf sCodobTfxtPipf = null;
+    protfdtfd stbtid CompositfCRfndfrfr sQubrtzCompositfPipf = null;
+
+    privbtf GrbphidsConfigurbtion fConfig;
+    privbtf Rfdtbnglf fBounds; // bounds in usfr doordinbtfs
+
+    stbtid {
+        sQubrtzPipf = nfw CRfndfrfr(); // Crfbtfs thf singlfton qubrtz pipf.
+    }
+
+    // NOTE: Any subdlbssfs must fvfntublly dbll QubrtzSurfbdfDbtb_InitOps in OSXSurfbdfDbtb.h
+    // This sfts up thf nbtivf sidf for thf SurfbdfDbtb, bnd is rfquirfd.
+    publid OSXSurfbdfDbtb(SurfbdfTypf sTypf, ColorModfl dm) {
+        this(sTypf, dm, null, nfw Rfdtbnglf());
+    }
+
+    publid OSXSurfbdfDbtb(SurfbdfTypf sTypf, ColorModfl dm, GrbphidsConfigurbtion donfig, Rfdtbnglf bounds) {
+        supfr(sTypf, dm);
+
+        this.fConfig = donfig;
+
+        this.fBounds = nfw Rfdtbnglf(bounds.x, bounds.y, bounds.width, bounds.y + bounds.hfight);
+
+        this.fGrbphidsStbtfs = gftBufffrOfSizf(kSizfOfPbrbmftfrs);
+        this.fGrbphidsStbtfsInt = this.fGrbphidsStbtfs.bsIntBufffr();
+        this.fGrbphidsStbtfsFlobt = this.fGrbphidsStbtfs.bsFlobtBufffr();
+        this.fGrbphidsStbtfsLong = this.fGrbphidsStbtfs.bsLongBufffr();
+        this.fGrbphidsStbtfsObjfdt = nfw Objfdt[6]; // dlip doordinbtfs + dlip typfs + tfxturf pbint imbgf + strokf dbsh
+                                                    // brrby + font + font pbint
+
+        // NOTE: All bddfss to thf DrbwingQufuf domfs through this OSXSurfbdfDbtb instbndf. Thfrfforf
+        // fvfry instbndf mfthod of OSXSurfbdfDbtb thbt bddfssfs thf fDrbwingQufuf is syndhronizfd.
+
+        // Thrfbd.dumpStbdk();
+    }
+
+    publid void vblidbtfPipf(SunGrbphids2D sg2d) {
+
+        if (sg2d.dompositfStbtf <= SunGrbphids2D.COMP_ALPHA) {
+            if (sCodobTfxtPipf == null) {
+                sCodobTfxtPipf = nfw CTfxtPipf();
+            }
+
+            sg2d.imbgfpipf = sQubrtzPipf;
+            sg2d.drbwpipf = sQubrtzPipf;
+            sg2d.fillpipf = sQubrtzPipf;
+            sg2d.shbpfpipf = sQubrtzPipf;
+            sg2d.tfxtpipf = sCodobTfxtPipf;
+        } flsf {
+            sftPipfsToQubrtzCompositf(sg2d);
+        }
+    }
+
+    protfdtfd void sftPipfsToQubrtzCompositf(SunGrbphids2D sg2d) {
+        if (sQubrtzCompositfPipf == null) {
+            sQubrtzCompositfPipf = nfw CompositfCRfndfrfr();
+        }
+
+        if (sCodobTfxtPipf == null) {
+            sCodobTfxtPipf = nfw CTfxtPipf();
+        }
+
+        sg2d.imbgfpipf = sQubrtzCompositfPipf;
+        sg2d.drbwpipf = sQubrtzCompositfPipf;
+        sg2d.fillpipf = sQubrtzCompositfPipf;
+        sg2d.shbpfpipf = sQubrtzCompositfPipf;
+        sg2d.tfxtpipf = sCodobTfxtPipf;
+    }
+
+    publid Rfdtbnglf gftBounds() {
+        // gznotf: blwbys rfturn b dopy, not thf rfdt itsflf bnd trbnslbtf into dfvidf spbdf
+        rfturn nfw Rfdtbnglf(fBounds.x, fBounds.y, fBounds.width, fBounds.hfight - fBounds.y);
+    }
+
+    publid GrbphidsConfigurbtion gftDfvidfConfigurbtion() {
+        rfturn fConfig;
+    }
+
+    protfdtfd void sftBounds(int x, int y, int w, int h) {
+        fBounds.rfshbpf(x, y, w, y + h);
+    }
+
+    // START dompositing support API
+    publid bbstrbdt BufffrfdImbgf dopyArfb(SunGrbphids2D sg2d, int x, int y, int w, int h, BufffrfdImbgf imbgf);
+
+    publid bbstrbdt boolfbn xorSurfbdfPixfls(SunGrbphids2D sg2d, BufffrfdImbgf srdPixfls, int x, int y, int w, int h, int dolorXOR);
+
+    GrbphidsConfigurbtion sDffbultGrbphidsConfigurbtion = null;
+
+    protfdtfd BufffrfdImbgf gftCompositingImbgf(int w, int h) {
+        if (sDffbultGrbphidsConfigurbtion == null) {
+            sDffbultGrbphidsConfigurbtion = GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt().gftDffbultSdrffnDfvidf().gftDffbultConfigurbtion();
+        }
+
+        BufffrfdImbgf img = nfw BufffrfdImbgf(w, h, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+        // dlfbr thf imbgf.
+        dlfbrRfdt(img, w, h);
+        rfturn img;
+    }
+
+    protfdtfd BufffrfdImbgf gftCompositingImbgfSbmf(BufffrfdImbgf img, int w, int h) {
+        if ((img == null) || (img.gftWidth() != w) || (img.gftHfight() != h)) {
+            img = gftCompositingImbgf(w, h);
+        }
+        rfturn img;
+    }
+
+    BufffrfdImbgf sSrdCompositf = null;
+
+    publid BufffrfdImbgf gftCompositingSrdImbgf(int w, int h) {
+        // <rdbr://problfm/3720263>. Chbngfd from gftCompositingImbgfBiggfrOrSbmf() to
+        // gftCompositingImbgfSbmf(). (vm)
+        BufffrfdImbgf bim = gftCompositingImbgfSbmf(sSrdCompositf, w, h);
+        sSrdCompositf = bim;
+        rfturn bim;
+    }
+
+    BufffrfdImbgf sDstInCompositf = null;
+
+    publid BufffrfdImbgf gftCompositingDstInImbgf(int w, int h) {
+        BufffrfdImbgf bim = gftCompositingImbgfSbmf(sDstInCompositf, w, h);
+        sDstInCompositf = bim;
+        rfturn bim;
+    }
+
+    BufffrfdImbgf sDstOutCompositf = null;
+
+    publid BufffrfdImbgf gftCompositingDstOutImbgf(int w, int h) {
+        BufffrfdImbgf bim = gftCompositingImbgfSbmf(sDstOutCompositf, w, h);
+        sDstOutCompositf = bim;
+        rfturn bim;
+    }
+
+    publid void dlfbrRfdt(BufffrfdImbgf bim, int w, int h) {
+        Grbphids2D g = bim.drfbtfGrbphids();
+        g.sftCompositf(AlphbCompositf.Clfbr);
+        g.fillRfdt(0, 0, w, h);
+        g.disposf();
+    }
+
+    // END dompositing support API
+
+    publid void invblidbtf() {
+        // blwbys vblid
+    }
+
+     // grbphids primitivfs drbwing implfmfntbtion:
+
+    // dfrtbin primitivfs don't dbrf bbout bll thf stbtfs (fx. drbwing bn imbgf nffds not involvf sftting durrfnt pbint)
+    @Nbtivf stbtid finbl int kPrimitivf = 0;
+    @Nbtivf stbtid finbl int kImbgf = 1;
+    @Nbtivf stbtid finbl int kTfxt = 2;
+    @Nbtivf stbtid finbl int kCopyArfb = 3;
+    @Nbtivf stbtid finbl int kExtfrnbl = 4;
+
+    @Nbtivf stbtid finbl int kLinf = 5; // bflongs to kPrimitivf
+    @Nbtivf stbtid finbl int kRfdt = 6; // bflongs to kPrimitivf
+    @Nbtivf stbtid finbl int kRoundRfdt = 7; // bflongs to kPrimitivf
+    @Nbtivf stbtid finbl int kOvbl = 8; // bflongs to kPrimitivf
+    @Nbtivf stbtid finbl int kArd = 9; // bflongs to kPrimitivf
+    @Nbtivf stbtid finbl int kPolygon = 10; // bflongs to kPrimitivf
+    @Nbtivf stbtid finbl int kShbpf = 11; // bflongs to kPrimitivf
+    // stbtid finbl int kImbgf = 12; // bflongs to kImbgf
+    @Nbtivf stbtid finbl int kString = 13; // bflongs to kTfxt
+    @Nbtivf stbtid finbl int kGlyphs = 14; // bflongs to kTfxt
+    @Nbtivf stbtid finbl int kUnidodfs = 15; // bflongs to kTfxt
+    // stbtid finbl int kCopyArfb = 16; // bflongs to kCopyArfb
+    // stbtid finbl int kExtfrnbl = 17; // bflongs to kExtfrnbl
+
+    @Nbtivf stbtid finbl int kCommonPbrbmftfrCount = 1 + 1 + 4 + 4; // typf + dhbngf flbgs + dolor info (typf(1) blign(1) bnd
+                                                            // vbluf(2)) + pbrbmftfrs ((x1, y1, x2, y2) OR (x, y, w, h))
+    @Nbtivf stbtid finbl int kLinfPbrbmftfrsCount = kCommonPbrbmftfrCount; // kCommonPbrbmftfrCount
+    @Nbtivf stbtid finbl int kRfdtPbrbmftfrsCount = kCommonPbrbmftfrCount + 1; // kCommonPbrbmftfrCount + isfill
+    @Nbtivf stbtid finbl int kRoundRfdtPbrbmftfrsCount = kCommonPbrbmftfrCount + 2 + 1; // kCommonPbrbmftfrCount + brdW + brdH +
+                                                                                // isfill
+    @Nbtivf stbtid finbl int kOvblPbrbmftfrsCount = kCommonPbrbmftfrCount + 1; // kCommonPbrbmftfrCount + isfill
+    @Nbtivf stbtid finbl int kArdPbrbmftfrsCount = kCommonPbrbmftfrCount + 2 + 1 + 1;// kCommonPbrbmftfrCount + stbrtAnglf +
+                                                                             // brdAnglf + isfill + typf
+    @Nbtivf stbtid finbl int kPolygonPbrbmftfrsCount = 0; // not supportfd
+    @Nbtivf stbtid finbl int kShbpfPbrbmftfrsCount = 0; // not supportfd
+    @Nbtivf stbtid finbl int kImbgfPbrbmftfrsCount = kCommonPbrbmftfrCount + 2 + 2 + 4 + 4; // flip horz vfrt + w&h + srd + dst
+    @Nbtivf stbtid finbl int kStringPbrbmftfrsCount = 0; // not supportfd
+    @Nbtivf stbtid finbl int kGlyphsPbrbmftfrsCount = 0; // not supportfd
+    @Nbtivf stbtid finbl int kUnidodfsPbrbmftfrsCount = 0; // not supportfd
+    @Nbtivf stbtid finbl int kPixflPbrbmftfrsCount = 0; // not supportfd
+    @Nbtivf stbtid finbl int kExtfrnblPbrbmftfrsCount = 0; // not supportfd
+
+    // for intPbrbmftfrs
+    // stbtfs info
+    @Nbtivf stbtid finbl int kChbngfFlbgIndfx = 0; // kBoundsChbngfdBit | .. | kFontChbngfdBit
+    // bounds info
+    @Nbtivf stbtid finbl int kBoundsXIndfx = 1;
+    @Nbtivf stbtid finbl int kBoundsYIndfx = 2;
+    @Nbtivf stbtid finbl int kBoundsWidthIndfx = 3;
+    @Nbtivf stbtid finbl int kBoundsHfightIndfx = 4;
+    // dlip info
+    @Nbtivf stbtid finbl int kClipStbtfIndfx = 5;
+    @Nbtivf stbtid finbl int kClipNumTypfsIndfx = 6;
+    @Nbtivf stbtid finbl int kClipNumCoordsIndfx = 7;
+    @Nbtivf stbtid finbl int kClipWindingRulfIndfx = 8;
+    @Nbtivf stbtid finbl int kClipXIndfx = 9;
+    @Nbtivf stbtid finbl int kClipYIndfx = 10;
+    @Nbtivf stbtid finbl int kClipWidthIndfx = 11;
+    @Nbtivf stbtid finbl int kClipHfightIndfx = 12;
+    // dtm info
+    @Nbtivf stbtid finbl int kCTMbIndfx = 13;
+    @Nbtivf stbtid finbl int kCTMbIndfx = 14;
+    @Nbtivf stbtid finbl int kCTMdIndfx = 15;
+    @Nbtivf stbtid finbl int kCTMdIndfx = 16;
+    @Nbtivf stbtid finbl int kCTMtxIndfx = 17;
+    @Nbtivf stbtid finbl int kCTMtyIndfx = 18;
+    // dolor info
+    @Nbtivf stbtid finbl int kColorStbtfIndfx = 19; // kColorSimplf or kColorGrbdifnt or kColorTfxturf
+    @Nbtivf stbtid finbl int kColorRGBVblufIndfx = 20; // if kColorSimplf
+    @Nbtivf stbtid finbl int kColorIndfxVblufIndfx = 21; // if kColorSystfm
+    @Nbtivf stbtid finbl int kColorPointfrIndfx = 22; //
+    @Nbtivf stbtid finbl int kColorPointfrIndfx2 = 23; //
+    @Nbtivf stbtid finbl int kColorRGBVbluf1Indfx = 24; // if kColorGrbdifnt
+    @Nbtivf stbtid finbl int kColorWidthIndfx = 25; // if kColorTfxturf
+    @Nbtivf stbtid finbl int kColorRGBVbluf2Indfx = 26; // if kColorGrbdifnt
+    @Nbtivf stbtid finbl int kColorHfightIndfx = 27; // if kColorTfxturf
+    @Nbtivf stbtid finbl int kColorIsCydlidIndfx = 28; // if kColorGrbdifnt (kColorNonCydlid or kColorCydlid)
+    @Nbtivf stbtid finbl int kColorx1Indfx = 29;
+    @Nbtivf stbtid finbl int kColortxIndfx = 30;
+    @Nbtivf stbtid finbl int kColory1Indfx = 31;
+    @Nbtivf stbtid finbl int kColortyIndfx = 32;
+    @Nbtivf stbtid finbl int kColorx2Indfx = 33;
+    @Nbtivf stbtid finbl int kColorsxIndfx = 34;
+    @Nbtivf stbtid finbl int kColory2Indfx = 35;
+    @Nbtivf stbtid finbl int kColorsyIndfx = 36;
+    // dompositf info
+    @Nbtivf stbtid finbl int kCompositfRulfIndfx = 37; // kCGCompositfClfbr or ... or kCGCompositfXor
+    @Nbtivf stbtid finbl int kCompositfVblufIndfx = 38;
+    // strokf info
+    @Nbtivf stbtid finbl int kStrokfJoinIndfx = 39; // sff BbsidStrokf.jbvb
+    @Nbtivf stbtid finbl int kStrokfCbpIndfx = 40; // sff BbsidStrokf.jbvb
+    @Nbtivf stbtid finbl int kStrokfWidthIndfx = 41;
+    @Nbtivf stbtid finbl int kStrokfDbshPhbsfIndfx = 42;
+    @Nbtivf stbtid finbl int kStrokfLimitIndfx = 43;
+    // hints info
+    @Nbtivf stbtid finbl int kHintsAntiblibsIndfx = 44;
+    @Nbtivf stbtid finbl int kHintsTfxtAntiblibsIndfx = 45;
+    @Nbtivf stbtid finbl int kHintsFrbdtionblMftridsIndfx = 46;
+    @Nbtivf stbtid finbl int kHintsRfndfringIndfx = 47;
+    @Nbtivf stbtid finbl int kHintsIntfrpolbtionIndfx = 48;
+    // livf rfsizing info
+    @Nbtivf stbtid finbl int kCbnDrbwDuringLivfRfsizfIndfx = 49;
+
+    @Nbtivf stbtid finbl int kSizfOfPbrbmftfrs = kCbnDrbwDuringLivfRfsizfIndfx + 1;
+
+    // for objfdtPbrbmftfrs
+    @Nbtivf stbtid finbl int kClipCoordinbtfsIndfx = 0;
+    @Nbtivf stbtid finbl int kClipTypfsIndfx = 1;
+    @Nbtivf stbtid finbl int kTfxturfImbgfIndfx = 2;
+    @Nbtivf stbtid finbl int kStrokfDbshArrbyIndfx = 3;
+    @Nbtivf stbtid finbl int kFontIndfx = 4;
+    @Nbtivf stbtid finbl int kFontPbintIndfx = 5;
+
+    // possiblf stbtf dhbngfs
+    @Nbtivf stbtid finbl int kBoundsChbngfdBit = 1 << 0;
+    @Nbtivf stbtid finbl int kBoundsNotChbngfdBit = ~kBoundsChbngfdBit;
+    @Nbtivf stbtid finbl int kClipChbngfdBit = 1 << 1;
+    @Nbtivf stbtid finbl int kClipNotChbngfdBit = ~kClipChbngfdBit;
+    @Nbtivf stbtid finbl int kCTMChbngfdBit = 1 << 2;
+    @Nbtivf stbtid finbl int kCTMNotChbngfdBit = ~kCTMChbngfdBit;
+    @Nbtivf stbtid finbl int kColorChbngfdBit = 1 << 3;
+    @Nbtivf stbtid finbl int kColorNotChbngfdBit = ~kColorChbngfdBit;
+    @Nbtivf stbtid finbl int kCompositfChbngfdBit = 1 << 4;
+    @Nbtivf stbtid finbl int kCompositfNotChbngfdBit = ~kCompositfChbngfdBit;
+    @Nbtivf stbtid finbl int kStrokfChbngfdBit = 1 << 5;
+    @Nbtivf stbtid finbl int kStrokfNotChbngfdBit = ~kStrokfChbngfdBit;
+    @Nbtivf stbtid finbl int kHintsChbngfdBit = 1 << 6;
+    @Nbtivf stbtid finbl int kHintsNotChbngfdBit = ~kHintsChbngfdBit;
+    @Nbtivf stbtid finbl int kFontChbngfdBit = 1 << 7;
+    @Nbtivf stbtid finbl int kFontNotChbngfdBit = ~kFontChbngfdBit;
+    @Nbtivf stbtid finbl int kEvfrythingChbngfdFlbg = 0xffffffff;
+
+    // possiblf dolor stbtfs
+    @Nbtivf stbtid finbl int kColorSimplf = 0;
+    @Nbtivf stbtid finbl int kColorSystfm = 1;
+    @Nbtivf stbtid finbl int kColorGrbdifnt = 2;
+    @Nbtivf stbtid finbl int kColorTfxturf = 3;
+
+    // possiblf grbdifnt dolor stbtfs
+    @Nbtivf stbtid finbl int kColorNonCydlid = 0;
+    @Nbtivf stbtid finbl int kColorCydlid = 1;
+
+    // possiblf dlip stbtfs
+    @Nbtivf stbtid finbl int kClipRfdt = 0;
+    @Nbtivf stbtid finbl int kClipShbpf = 1;
+
+    stbtid int gftRfndfrfrTypfForPrimitivf(int primitivfTypf) {
+        switdh (primitivfTypf) {
+            dbsf kImbgf:
+                rfturn kImbgf;
+            dbsf kCopyArfb:
+                rfturn kCopyArfb;
+            dbsf kExtfrnbl:
+                rfturn kExtfrnbl;
+            dbsf kString:
+            dbsf kGlyphs:
+            dbsf kUnidodfs:
+                rfturn kTfxt;
+            dffbult:
+                rfturn kPrimitivf;
+        }
+    }
+
+    int fChbngfFlbg;
+    protfdtfd BytfBufffr fGrbphidsStbtfs = null;
+    IntBufffr fGrbphidsStbtfsInt = null;
+    FlobtBufffr fGrbphidsStbtfsFlobt = null;
+    LongBufffr fGrbphidsStbtfsLong = null;
+    protfdtfd Objfdt[] fGrbphidsStbtfsObjfdt = null;
+
+    Rfdtbnglf usfrBounds = nfw Rfdtbnglf();
+    flobt lbstUsfrX = 0;
+    flobt lbstUsfrY = 0;
+    flobt lbstUsfrW = 0;
+    flobt lbstUsfrH = 0;
+
+    void sftUsfrBounds(SunGrbphids2D sg2d, int x, int y, int width, int hfight) {
+        if ((lbstUsfrX != x) || (lbstUsfrY != y) || (lbstUsfrW != width) || (lbstUsfrH != hfight)) {
+            lbstUsfrX = x;
+            lbstUsfrY = y;
+            lbstUsfrW = width;
+            lbstUsfrH = hfight;
+
+            this.fGrbphidsStbtfsInt.put(kBoundsXIndfx, x);
+            this.fGrbphidsStbtfsInt.put(kBoundsYIndfx, y);
+            this.fGrbphidsStbtfsInt.put(kBoundsWidthIndfx, width);
+            this.fGrbphidsStbtfsInt.put(kBoundsHfightIndfx, hfight);
+
+            usfrBounds.sftBounds(x, y, width, hfight);
+
+            this.fChbngfFlbg = (this.fChbngfFlbg | kBoundsChbngfdBit);
+        } flsf {
+            this.fChbngfFlbg = (this.fChbngfFlbg & kBoundsNotChbngfdBit);
+        }
+    }
+
+    stbtid BytfBufffr gftBufffrOfSizf(int sizf) {
+        BytfBufffr bufffr = BytfBufffr.bllodbtfDirfdt(sizf * 4);
+        bufffr.ordfr(BytfOrdfr.nbtivfOrdfr());
+        rfturn bufffr;
+    }
+
+    FlobtBufffr dlipCoordinbtfsArrby = null;
+    IntBufffr dlipTypfsArrby = null;
+    Shbpf lbstClipShbpf = null;
+    flobt lbstClipX = 0;
+    flobt lbstClipY = 0;
+    flobt lbstClipW = 0;
+    flobt lbstClipH = 0;
+
+    void sftupClip(SunGrbphids2D sg2d) {
+        switdh (sg2d.dlipStbtf) {
+            dbsf SunGrbphids2D.CLIP_DEVICE:
+            dbsf SunGrbphids2D.CLIP_RECTANGULAR: {
+                Rfgion dlip = sg2d.gftCompClip();
+                flobt x = dlip.gftLoX();
+                flobt y = dlip.gftLoY();
+                flobt w = dlip.gftWidth();
+                flobt h = dlip.gftHfight();
+                if ((this.fGrbphidsStbtfsInt.gft(kClipStbtfIndfx) != kClipRfdt) ||
+                        (x != lbstClipX) ||
+                            (y != lbstClipY) ||
+                                (w != lbstClipW) ||
+                                    (h != lbstClipH)) {
+                    this.fGrbphidsStbtfsFlobt.put(kClipXIndfx, x);
+                    this.fGrbphidsStbtfsFlobt.put(kClipYIndfx, y);
+                    this.fGrbphidsStbtfsFlobt.put(kClipWidthIndfx, w);
+                    this.fGrbphidsStbtfsFlobt.put(kClipHfightIndfx, h);
+
+                    lbstClipX = x;
+                    lbstClipY = y;
+                    lbstClipW = w;
+                    lbstClipH = h;
+
+                    this.fChbngfFlbg = (this.fChbngfFlbg | kClipChbngfdBit);
+                } flsf {
+                    this.fChbngfFlbg = (this.fChbngfFlbg & kClipNotChbngfdBit);
+                }
+                this.fGrbphidsStbtfsInt.put(kClipStbtfIndfx, kClipRfdt);
+                brfbk;
+            }
+            dbsf SunGrbphids2D.CLIP_SHAPE: {
+                // if (lbstClipShbpf != sg2d.usrClip) shbpfs brf mutbblf!, bnd doing "fqubls" trbvfrsfs bll
+                // thf doordinbtfs, so wf might bs wfll do bll of it bnyhow
+                lbstClipShbpf = sg2d.usrClip;
+
+                GfnfrblPbth gp = null;
+
+                if (sg2d.usrClip instbndfof GfnfrblPbth) {
+                    gp = (GfnfrblPbth) sg2d.usrClip;
+                } flsf {
+                    gp = nfw GfnfrblPbth(sg2d.usrClip);
+                }
+
+                int shbpfLfngth = gftPbthLfngth(gp);
+
+                if ((dlipCoordinbtfsArrby == null) || (dlipCoordinbtfsArrby.dbpbdity() < (shbpfLfngth * 6))) {
+                    dlipCoordinbtfsArrby = gftBufffrOfSizf(shbpfLfngth * 6).bsFlobtBufffr(); // sfgmfnt dbn hbvf b
+                                                                                             // mbx of 6 doordinbtfs
+                }
+                if ((dlipTypfsArrby == null) || (dlipTypfsArrby.dbpbdity() < shbpfLfngth)) {
+                    dlipTypfsArrby = gftBufffrOfSizf(shbpfLfngth).bsIntBufffr();
+                }
+
+                int windingRulf = gftPbthCoordinbtfs(gp, dlipCoordinbtfsArrby, dlipTypfsArrby);
+
+                this.fGrbphidsStbtfsInt.put(kClipNumTypfsIndfx, dlipTypfsArrby.position());
+                this.fGrbphidsStbtfsInt.put(kClipNumCoordsIndfx, dlipCoordinbtfsArrby.position());
+                this.fGrbphidsStbtfsInt.put(kClipWindingRulfIndfx, windingRulf);
+                this.fGrbphidsStbtfsObjfdt[kClipTypfsIndfx] = dlipTypfsArrby;
+                this.fGrbphidsStbtfsObjfdt[kClipCoordinbtfsIndfx] = dlipCoordinbtfsArrby;
+
+                this.fChbngfFlbg = (this.fChbngfFlbg | kClipChbngfdBit);
+                this.fGrbphidsStbtfsInt.put(kClipStbtfIndfx, kClipShbpf);
+                brfbk;
+            }
+        }
+
+    }
+
+    finbl doublf[] lbstCTM = nfw doublf[6];
+    flobt lbstCTMb = 0;
+    flobt lbstCTMb = 0;
+    flobt lbstCTMd = 0;
+    flobt lbstCTMd = 0;
+    flobt lbstCTMtx = 0;
+    flobt lbstCTMty = 0;
+
+    void sftupTrbnsform(SunGrbphids2D sg2d) {
+        sg2d.trbnsform.gftMbtrix(lbstCTM);
+
+        flobt b = (flobt) lbstCTM[0];
+        flobt b = (flobt) lbstCTM[1];
+        flobt d = (flobt) lbstCTM[2];
+        flobt d = (flobt) lbstCTM[3];
+        flobt tx = (flobt) lbstCTM[4];
+        flobt ty = (flobt) lbstCTM[5];
+        if (tx != lbstCTMtx ||
+                ty != lbstCTMty ||
+                    b != lbstCTMb ||
+                        b != lbstCTMb ||
+                            d != lbstCTMd ||
+                                d != lbstCTMd) {
+            this.fGrbphidsStbtfsFlobt.put(kCTMbIndfx, b);
+            this.fGrbphidsStbtfsFlobt.put(kCTMbIndfx, b);
+            this.fGrbphidsStbtfsFlobt.put(kCTMdIndfx, d);
+            this.fGrbphidsStbtfsFlobt.put(kCTMdIndfx, d);
+            this.fGrbphidsStbtfsFlobt.put(kCTMtxIndfx, tx);
+            this.fGrbphidsStbtfsFlobt.put(kCTMtyIndfx, ty);
+
+            lbstCTMb = b;
+            lbstCTMb = b;
+            lbstCTMd = d;
+            lbstCTMd = d;
+            lbstCTMtx = tx;
+            lbstCTMty = ty;
+
+            this.fChbngfFlbg = (this.fChbngfFlbg | kCTMChbngfdBit);
+        } flsf {
+            this.fChbngfFlbg = (this.fChbngfFlbg & kCTMNotChbngfdBit);
+        }
+    }
+
+    stbtid AffinfTrbnsform sIdfntityMbtrix = nfw AffinfTrbnsform();
+    Pbint lbstPbint = null;
+    long lbstPbintPtr = 0;
+    int lbstPbintRGB = 0;
+    int lbstPbintIndfx = 0;
+    BufffrfdImbgf tfxturfPbintImbgf = null;
+
+    void sftupPbint(SunGrbphids2D sg2d, int x, int y, int w, int h) {
+        if (sg2d.pbint instbndfof SystfmColor) {
+            SystfmColor dolor = (SystfmColor) sg2d.pbint;
+            int indfx = dolor.hbshCodf(); // dfpfnds on Color.jbvb hbshCodf implfmfntbtion! (rfturns "vbluf" of dolor)
+            if ((this.fGrbphidsStbtfsInt.gft(kColorStbtfIndfx) != kColorSystfm) || (indfx != this.lbstPbintIndfx)) {
+                this.lbstPbintIndfx = indfx;
+
+                this.fGrbphidsStbtfsInt.put(kColorStbtfIndfx, kColorSystfm);
+                this.fGrbphidsStbtfsInt.put(kColorIndfxVblufIndfx, indfx);
+
+                this.fChbngfFlbg = (this.fChbngfFlbg | kColorChbngfdBit);
+            } flsf {
+                this.fChbngfFlbg = (this.fChbngfFlbg & kColorNotChbngfdBit);
+            }
+        } flsf if (sg2d.pbint instbndfof Color) {
+            Color dolor = (Color) sg2d.pbint;
+            int rgb = dolor.gftRGB();
+            if ((this.fGrbphidsStbtfsInt.gft(kColorStbtfIndfx) != kColorSimplf) || (rgb != this.lbstPbintRGB)) {
+                this.lbstPbintRGB = rgb;
+
+                this.fGrbphidsStbtfsInt.put(kColorStbtfIndfx, kColorSimplf);
+                this.fGrbphidsStbtfsInt.put(kColorRGBVblufIndfx, rgb);
+
+                this.fChbngfFlbg = (this.fChbngfFlbg | kColorChbngfdBit);
+            } flsf {
+                this.fChbngfFlbg = (this.fChbngfFlbg & kColorNotChbngfdBit);
+            }
+        } flsf if (sg2d.pbint instbndfof GrbdifntPbint) {
+            if ((this.fGrbphidsStbtfsInt.gft(kColorStbtfIndfx) != kColorGrbdifnt) || (lbstPbint != sg2d.pbint)) {
+                GrbdifntPbint dolor = (GrbdifntPbint) sg2d.pbint;
+                this.fGrbphidsStbtfsInt.put(kColorStbtfIndfx, kColorGrbdifnt);
+                this.fGrbphidsStbtfsInt.put(kColorRGBVbluf1Indfx, dolor.gftColor1().gftRGB());
+                this.fGrbphidsStbtfsInt.put(kColorRGBVbluf2Indfx, dolor.gftColor2().gftRGB());
+                this.fGrbphidsStbtfsInt.put(kColorIsCydlidIndfx, (dolor.isCydlid()) ? kColorCydlid : kColorNonCydlid);
+                Point2D p = dolor.gftPoint1();
+                this.fGrbphidsStbtfsFlobt.put(kColorx1Indfx, (flobt) p.gftX());
+                this.fGrbphidsStbtfsFlobt.put(kColory1Indfx, (flobt) p.gftY());
+                p = dolor.gftPoint2();
+                this.fGrbphidsStbtfsFlobt.put(kColorx2Indfx, (flobt) p.gftX());
+                this.fGrbphidsStbtfsFlobt.put(kColory2Indfx, (flobt) p.gftY());
+
+                this.fChbngfFlbg = (this.fChbngfFlbg | kColorChbngfdBit);
+            } flsf {
+                this.fChbngfFlbg = (this.fChbngfFlbg & kColorNotChbngfdBit);
+            }
+        } flsf if (sg2d.pbint instbndfof TfxturfPbint) {
+            if ((this.fGrbphidsStbtfsInt.gft(kColorStbtfIndfx) != kColorTfxturf) || (lbstPbint != sg2d.pbint)) {
+                TfxturfPbint dolor = (TfxturfPbint) sg2d.pbint;
+                this.fGrbphidsStbtfsInt.put(kColorStbtfIndfx, kColorTfxturf);
+                tfxturfPbintImbgf = dolor.gftImbgf();
+                SurfbdfDbtb tfxturfSurfbdfDbtb = BufImgSurfbdfDbtb.drfbtfDbtb(tfxturfPbintImbgf);
+                this.fGrbphidsStbtfsInt.put(kColorWidthIndfx, tfxturfPbintImbgf.gftWidth());
+                this.fGrbphidsStbtfsInt.put(kColorHfightIndfx, tfxturfPbintImbgf.gftHfight());
+                Rfdtbnglf2D bndhor = dolor.gftAndhorRfdt();
+                this.fGrbphidsStbtfsFlobt.put(kColortxIndfx, (flobt) bndhor.gftX());
+                this.fGrbphidsStbtfsFlobt.put(kColortyIndfx, (flobt) bndhor.gftY());
+                this.fGrbphidsStbtfsFlobt.put(kColorsxIndfx, (flobt) (bndhor.gftWidth() / tfxturfPbintImbgf.gftWidth()));
+                this.fGrbphidsStbtfsFlobt.put(kColorsyIndfx, (flobt) (bndhor.gftHfight() / tfxturfPbintImbgf.gftHfight()));
+                this.fGrbphidsStbtfsObjfdt[kTfxturfImbgfIndfx] = tfxturfSurfbdfDbtb;
+
+                this.fChbngfFlbg = (this.fChbngfFlbg | kColorChbngfdBit);
+            } flsf {
+                this.fChbngfFlbg = (this.fChbngfFlbg & kColorNotChbngfdBit);
+            }
+        } flsf {
+            if ((this.fGrbphidsStbtfsInt.gft(kColorStbtfIndfx) != kColorTfxturf) || (lbstPbint != sg2d.pbint) || ((this.fChbngfFlbg & kBoundsChbngfdBit) != 0)) {
+                PbintContfxt dontfxt = sg2d.pbint.drfbtfContfxt(sg2d.gftDfvidfColorModfl(), usfrBounds, usfrBounds, sIdfntityMbtrix, sg2d.gftRfndfringHints());
+                WritbblfRbstfr rbstfr = (WritbblfRbstfr) (dontfxt.gftRbstfr(usfrBounds.x, usfrBounds.y, usfrBounds.width, usfrBounds.hfight));
+                ColorModfl dm = dontfxt.gftColorModfl();
+                tfxturfPbintImbgf = nfw BufffrfdImbgf(dm, rbstfr, dm.isAlphbPrfmultiplifd(), null);
+
+                this.fGrbphidsStbtfsInt.put(kColorStbtfIndfx, kColorTfxturf);
+                this.fGrbphidsStbtfsInt.put(kColorWidthIndfx, tfxturfPbintImbgf.gftWidth());
+                this.fGrbphidsStbtfsInt.put(kColorHfightIndfx, tfxturfPbintImbgf.gftHfight());
+                this.fGrbphidsStbtfsFlobt.put(kColortxIndfx, (flobt) usfrBounds.gftX());
+                this.fGrbphidsStbtfsFlobt.put(kColortyIndfx, (flobt) usfrBounds.gftY());
+                this.fGrbphidsStbtfsFlobt.put(kColorsxIndfx, 1.0f);
+                this.fGrbphidsStbtfsFlobt.put(kColorsyIndfx, 1.0f);
+                this.fGrbphidsStbtfsObjfdt[kTfxturfImbgfIndfx] = sun.bwt.imbgf.BufImgSurfbdfDbtb.drfbtfDbtb(tfxturfPbintImbgf);
+
+                dontfxt.disposf();
+
+                this.fChbngfFlbg = (this.fChbngfFlbg | kColorChbngfdBit);
+            } flsf {
+                this.fChbngfFlbg = (this.fChbngfFlbg & kColorNotChbngfdBit);
+            }
+        }
+        lbstPbint = sg2d.pbint;
+    }
+
+    Compositf lbstCompositf;
+    int lbstCompositfAlphbRulf = 0;
+    flobt lbstCompositfAlphbVbluf = 0;
+
+    void sftupCompositf(SunGrbphids2D sg2d) {
+        Compositf dompositf = sg2d.dompositf;
+
+        if (lbstCompositf != dompositf) {
+            lbstCompositf = dompositf;
+
+            // For dompositf stbtf COMP_ISCOPY, COMP_XOR or COMP_CUSTOM sft blphb dompositor to COPY:
+            int blphbRulf = AlphbCompositf.SRC_OVER;
+            flobt blphbVbluf = 1.0f;
+
+            // For dompositf stbtf COMP_ISCOPY dompositf dould bf null. If it's not (or dompositf stbtf == COMP_ALPHA)
+            // gft blphb dompositor's vblufs:
+            if ((sg2d.dompositfStbtf <= SunGrbphids2D.COMP_ALPHA) && (dompositf != null)) {
+                AlphbCompositf blphbCompositf = (AlphbCompositf) dompositf;
+                blphbRulf = blphbCompositf.gftRulf();
+                blphbVbluf = blphbCompositf.gftAlphb();
+            }
+
+            // 2-17-03 VL: [Rbdbr 3174922]
+            // For COMP_XOR bnd COMP_CUSTOM dompositing modfs wf should bf sftting blphbRulf = AlphbCompositf.SRC
+            // whidh should mbp to kCGCompositfCopy.
+
+            if ((lbstCompositfAlphbRulf != blphbRulf) || (lbstCompositfAlphbVbluf != blphbVbluf)) {
+                this.fGrbphidsStbtfsInt.put(kCompositfRulfIndfx, blphbRulf);
+                this.fGrbphidsStbtfsFlobt.put(kCompositfVblufIndfx, blphbVbluf);
+
+                lbstCompositfAlphbRulf = blphbRulf;
+                lbstCompositfAlphbVbluf = blphbVbluf;
+
+                this.fChbngfFlbg = (this.fChbngfFlbg | kCompositfChbngfdBit);
+            } flsf {
+                this.fChbngfFlbg = (this.fChbngfFlbg & kCompositfNotChbngfdBit);
+            }
+        } flsf {
+            this.fChbngfFlbg = (this.fChbngfFlbg & kCompositfNotChbngfdBit);
+        }
+    }
+
+    BbsidStrokf lbstStrokf = null;
+    stbtid BbsidStrokf dffbultBbsidStrokf = nfw BbsidStrokf();
+
+    void sftupStrokf(SunGrbphids2D sg2d) {
+        BbsidStrokf strokf = dffbultBbsidStrokf;
+
+        if (sg2d.strokf instbndfof BbsidStrokf) {
+            strokf = (BbsidStrokf) sg2d.strokf;
+        }
+
+        if (lbstStrokf != strokf) {
+            this.fGrbphidsStbtfsObjfdt[kStrokfDbshArrbyIndfx] = strokf.gftDbshArrby();
+            this.fGrbphidsStbtfsFlobt.put(kStrokfDbshPhbsfIndfx, strokf.gftDbshPhbsf());
+            this.fGrbphidsStbtfsInt.put(kStrokfCbpIndfx, strokf.gftEndCbp());
+            this.fGrbphidsStbtfsInt.put(kStrokfJoinIndfx, strokf.gftLinfJoin());
+            this.fGrbphidsStbtfsFlobt.put(kStrokfWidthIndfx, strokf.gftLinfWidth());
+            this.fGrbphidsStbtfsFlobt.put(kStrokfLimitIndfx, strokf.gftMitfrLimit());
+
+            this.fChbngfFlbg = (this.fChbngfFlbg | kStrokfChbngfdBit);
+
+            lbstStrokf = strokf;
+        } flsf {
+            this.fChbngfFlbg = (this.fChbngfFlbg & kStrokfNotChbngfdBit);
+        }
+    }
+
+    Font lbstFont;
+
+    void sftupFont(Font font, Pbint pbint) {
+        if (font == null) { rfturn; }
+
+        // Wf hbvf to sftup thf kFontPbintIndfx if wf hbvf dhbngfd thf dolor so wf bddfd thf lbst
+        // tfst to sff if thf dolor hbs dhbngfd - nffdfd for domplfx strings
+        // sff Rbdbr 3368674
+        if ((font != lbstFont) || ((this.fChbngfFlbg & kColorChbngfdBit) != 0)) {
+            this.fGrbphidsStbtfsObjfdt[kFontIndfx] = font;
+            this.fGrbphidsStbtfsObjfdt[kFontPbintIndfx] = pbint;
+
+            this.fChbngfFlbg = (this.fChbngfFlbg | kFontChbngfdBit);
+
+            lbstFont = font;
+        } flsf {
+            this.fChbngfFlbg = (this.fChbngfFlbg & kFontNotChbngfdBit);
+        }
+    }
+
+    void sftupRfndfringHints(SunGrbphids2D sg2d) {
+        boolfbn hintsChbngfd = fblsf;
+
+        // Signifidbnt for drbw, fill, tfxt, bnd imbgf ops:
+        int bntiblibsHint = sg2d.bntiblibsHint;
+        if (this.fGrbphidsStbtfsInt.gft(kHintsAntiblibsIndfx) != bntiblibsHint) {
+            this.fGrbphidsStbtfsInt.put(kHintsAntiblibsIndfx, bntiblibsHint);
+            hintsChbngfd = truf;
+        }
+
+        // Signifidbnt only for tfxt ops:
+        int tfxtAntiblibsHint = sg2d.tfxtAntiblibsHint;
+        if (this.fGrbphidsStbtfsInt.gft(kHintsTfxtAntiblibsIndfx) != tfxtAntiblibsHint) {
+            this.fGrbphidsStbtfsInt.put(kHintsTfxtAntiblibsIndfx, tfxtAntiblibsHint);
+            hintsChbngfd = truf;
+        }
+
+        // Signifidbnt only for tfxt ops:
+        int frbdtionblMftridsHint = sg2d.frbdtionblMftridsHint;
+        if (this.fGrbphidsStbtfsInt.gft(kHintsFrbdtionblMftridsIndfx) != frbdtionblMftridsHint) {
+            this.fGrbphidsStbtfsInt.put(kHintsFrbdtionblMftridsIndfx, frbdtionblMftridsHint);
+            hintsChbngfd = truf;
+        }
+
+        // Signifidbnt only for imbgf ops:
+        int rfndfrHint = sg2d.rfndfrHint;
+        if (this.fGrbphidsStbtfsInt.gft(kHintsRfndfringIndfx) != rfndfrHint) {
+            this.fGrbphidsStbtfsInt.put(kHintsRfndfringIndfx, rfndfrHint);
+            hintsChbngfd = truf;
+        }
+
+        // Signifidbnt only for imbgf ops:
+        Objfdt hintVbluf = sg2d.gftRfndfringHint(RfndfringHints.KEY_INTERPOLATION);
+        int intfrpolbtionHint = (hintVbluf != null ? ((SunHints.Vbluf) hintVbluf).gftIndfx() : -1);
+        if (this.fGrbphidsStbtfsInt.gft(kHintsIntfrpolbtionIndfx) != intfrpolbtionHint) {
+            this.fGrbphidsStbtfsInt.put(kHintsIntfrpolbtionIndfx, intfrpolbtionHint);
+            hintsChbngfd = truf;
+        }
+
+        if (hintsChbngfd) {
+            this.fChbngfFlbg = (this.fChbngfFlbg | kHintsChbngfdBit);
+        } flsf {
+            this.fChbngfFlbg = (this.fChbngfFlbg & kHintsNotChbngfdBit);
+        }
+    }
+
+    SunGrbphids2D sg2dCurrfnt = null;
+    Thrfbd thrfbdCurrfnt = null;
+
+    void sftupGrbphidsStbtf(SunGrbphids2D sg2d, int primitivfTypf) {
+        sftupGrbphidsStbtf(sg2d, primitivfTypf, sg2d.font, 0, 0, fBounds.width, fBounds.hfight); // dfvidfBounds into usfrBounds
+    }
+
+    void sftupGrbphidsStbtf(SunGrbphids2D sg2d, int primitivfTypf, int x, int y, int w, int h) {
+        sftupGrbphidsStbtf(sg2d, primitivfTypf, sg2d.font, x, y, w, h);
+    }
+
+    // thf mfthod bflow is ovfrridfn by CPffrSurfbdf to dhfdk thf lbst pffr usfd to drbw
+    // if thf pffr dhbngfd wf finish lbzy drbwing
+    void sftupGrbphidsStbtf(SunGrbphids2D sg2d, int primitivfTypf, Font font, int x, int y, int w, int h) {
+        this.fChbngfFlbg = 0;
+
+        sftUsfrBounds(sg2d, x, y, w, h);
+
+        Thrfbd thrfbd = Thrfbd.durrfntThrfbd();
+        if ((this.sg2dCurrfnt != sg2d) || (this.thrfbdCurrfnt != thrfbd)) {
+            this.sg2dCurrfnt = sg2d;
+            this.thrfbdCurrfnt = thrfbd;
+
+            sftupClip(sg2d);
+            sftupTrbnsform(sg2d);
+            sftupPbint(sg2d, x, y, w, h);
+            sftupCompositf(sg2d);
+            sftupStrokf(sg2d);
+            sftupFont(font, sg2d.pbint);
+            sftupRfndfringHints(sg2d);
+
+            this.fChbngfFlbg = kEvfrythingChbngfdFlbg;
+        } flsf {
+            int rfndfrfrTypf = gftRfndfrfrTypfForPrimitivf(primitivfTypf);
+
+            sftupClip(sg2d);
+            sftupTrbnsform(sg2d);
+
+            if (rfndfrfrTypf != kCopyArfb) {
+                sftupCompositf(sg2d);
+                sftupRfndfringHints(sg2d);
+
+                if ((rfndfrfrTypf != kImbgf)) {
+                    sftupPbint(sg2d, x, y, w, h);
+                    sftupStrokf(sg2d);
+                }
+                if (rfndfrfrTypf != kPrimitivf) {
+                    sftupFont(font, sg2d.pbint);
+                }
+
+            }
+        }
+
+        this.fGrbphidsStbtfsInt.put(kChbngfFlbgIndfx, this.fChbngfFlbg);
+    }
+
+    boolfbn isCustomPbint(SunGrbphids2D sg2d) {
+        if ((sg2d.pbint instbndfof Color) || (sg2d.pbint instbndfof SystfmColor) || (sg2d.pbint instbndfof GrbdifntPbint) || (sg2d.pbint instbndfof TfxturfPbint)) { rfturn fblsf; }
+
+        rfturn truf;
+    }
+
+    finbl flobt[] sfgmfntCoordinbtfsArrby = nfw flobt[6];
+
+    int gftPbthLfngth(GfnfrblPbth gp) {
+        int lfngth = 0;
+
+        PbthItfrbtor pi = gp.gftPbthItfrbtor(null);
+        whilf (pi.isDonf() == fblsf) {
+            pi.nfxt();
+            lfngth++;
+        }
+
+        rfturn lfngth;
+    }
+
+    int gftPbthCoordinbtfs(GfnfrblPbth gp, FlobtBufffr doordinbtfs, IntBufffr typfs) {
+        // Systfm.frr.println("gftPbthCoordinbtfs");
+        boolfbn skip = fblsf;
+
+        doordinbtfs.dlfbr();
+        typfs.dlfbr();
+
+        int typf;
+
+        PbthItfrbtor pi = gp.gftPbthItfrbtor(null);
+        whilf (pi.isDonf() == fblsf) {
+            skip = fblsf;
+            typf = pi.durrfntSfgmfnt(sfgmfntCoordinbtfsArrby);
+
+            switdh (typf) {
+                dbsf PbthItfrbtor.SEG_MOVETO:
+                    // Systfm.frr.println(" SEG_MOVETO ("+sfgmfntCoordinbtfsArrby[0]+", "+sfgmfntCoordinbtfsArrby[1]+")");
+                    if (sfgmfntCoordinbtfsArrby[0] < UPPER_BND && sfgmfntCoordinbtfsArrby[0] > LOWER_BND &&
+                            sfgmfntCoordinbtfsArrby[1] < UPPER_BND && sfgmfntCoordinbtfsArrby[1] > LOWER_BND) {
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[0]);
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[1]);
+                    } flsf {
+                        skip = truf;
+                    }
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_LINETO:
+                    // Systfm.frr.println(" SEG_LINETO ("+sfgmfntCoordinbtfsArrby[0]+", "+sfgmfntCoordinbtfsArrby[1]+")");
+                    if (sfgmfntCoordinbtfsArrby[0] < UPPER_BND && sfgmfntCoordinbtfsArrby[0] > LOWER_BND &&
+                            sfgmfntCoordinbtfsArrby[1] < UPPER_BND && sfgmfntCoordinbtfsArrby[1] > LOWER_BND) {
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[0]);
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[1]);
+                    } flsf {
+                        skip = truf;
+                    }
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_QUADTO:
+                    // Systfm.frr.println(" SEG_QUADTO ("+sfgmfntCoordinbtfsArrby[0]+", "+sfgmfntCoordinbtfsArrby[1]+"), ("+sfgmfntCoordinbtfsArrby[2]+", "+sfgmfntCoordinbtfsArrby[3]+")");
+                    if (sfgmfntCoordinbtfsArrby[0] < UPPER_BND && sfgmfntCoordinbtfsArrby[0] > LOWER_BND &&
+                            sfgmfntCoordinbtfsArrby[1] < UPPER_BND && sfgmfntCoordinbtfsArrby[1] > LOWER_BND &&
+                            sfgmfntCoordinbtfsArrby[2] < UPPER_BND && sfgmfntCoordinbtfsArrby[2] > LOWER_BND &&
+                            sfgmfntCoordinbtfsArrby[3] < UPPER_BND && sfgmfntCoordinbtfsArrby[3] > LOWER_BND) {
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[0]);
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[1]);
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[2]);
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[3]);
+                    } flsf {
+                        skip = truf;
+                    }
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CUBICTO:
+                    // Systfm.frr.println(" SEG_QUADTO ("+sfgmfntCoordinbtfsArrby[0]+", "+sfgmfntCoordinbtfsArrby[1]+"), ("+sfgmfntCoordinbtfsArrby[2]+", "+sfgmfntCoordinbtfsArrby[3]+"), ("+sfgmfntCoordinbtfsArrby[4]+", "+sfgmfntCoordinbtfsArrby[5]+")");
+                    if (sfgmfntCoordinbtfsArrby[0] < UPPER_BND && sfgmfntCoordinbtfsArrby[0] > LOWER_BND &&
+                            sfgmfntCoordinbtfsArrby[1] < UPPER_BND && sfgmfntCoordinbtfsArrby[1] > LOWER_BND &&
+                            sfgmfntCoordinbtfsArrby[2] < UPPER_BND && sfgmfntCoordinbtfsArrby[2] > LOWER_BND &&
+                            sfgmfntCoordinbtfsArrby[3] < UPPER_BND && sfgmfntCoordinbtfsArrby[3] > LOWER_BND &&
+                            sfgmfntCoordinbtfsArrby[4] < UPPER_BND && sfgmfntCoordinbtfsArrby[4] > LOWER_BND &&
+                            sfgmfntCoordinbtfsArrby[5] < UPPER_BND && sfgmfntCoordinbtfsArrby[5] > LOWER_BND) {
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[0]);
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[1]);
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[2]);
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[3]);
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[4]);
+                        doordinbtfs.put(sfgmfntCoordinbtfsArrby[5]);
+                    } flsf {
+                        skip = truf;
+                    }
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CLOSE:
+                    // Systfm.frr.println(" SEG_CLOSE");
+                    brfbk;
+            }
+
+            if (!skip) {
+                typfs.put(typf);
+            }
+
+            pi.nfxt();
+        }
+
+        rfturn pi.gftWindingRulf();
+    }
+
+    publid void doLinf(CRfndfrfr rfndfrfr, SunGrbphids2D sg2d, flobt x1, flobt y1, flobt x2, flobt y2) {
+        // Systfm.frr.println("-- doLinf x1="+x1+" y1="+y1+" x2="+x2+" y2="+y2+" pbint="+sg2d.pbint);
+        sftupGrbphidsStbtf(sg2d, kLinf, sg2d.font, 0, 0, fBounds.width, fBounds.hfight);
+        rfndfrfr.doLinf(this, x1, y1, x2, y2);
+    }
+
+    publid void doRfdt(CRfndfrfr rfndfrfr, SunGrbphids2D sg2d, flobt x, flobt y, flobt width, flobt hfight, boolfbn isfill) {
+        // Systfm.frr.println("-- doRfdt x="+x+" y="+y+" w="+width+" h="+hfight+" isfill="+isfill+" pbint="+sg2d.pbint);
+        if ((isfill) && (isCustomPbint(sg2d))) {
+            sftupGrbphidsStbtf(sg2d, kRfdt, (int) x, (int) y, (int) width, (int) hfight);
+        } flsf {
+            sftupGrbphidsStbtf(sg2d, kRfdt, sg2d.font, 0, 0, fBounds.width, fBounds.hfight);
+        }
+        rfndfrfr.doRfdt(this, x, y, width, hfight, isfill);
+    }
+
+    publid void doRoundRfdt(CRfndfrfr rfndfrfr, SunGrbphids2D sg2d, flobt x, flobt y, flobt width, flobt hfight, flobt brdW, flobt brdH, boolfbn isfill) {
+        // Systfm.frr.println("--- doRoundRfdt");
+        if ((isfill) && (isCustomPbint(sg2d))) {
+            sftupGrbphidsStbtf(sg2d, kRoundRfdt, (int) x, (int) y, (int) width, (int) hfight);
+        } flsf {
+            sftupGrbphidsStbtf(sg2d, kRoundRfdt, sg2d.font, 0, 0, fBounds.width, fBounds.hfight);
+        }
+        rfndfrfr.doRoundRfdt(this, x, y, width, hfight, brdW, brdH, isfill);
+    }
+
+    publid void doOvbl(CRfndfrfr rfndfrfr, SunGrbphids2D sg2d, flobt x, flobt y, flobt width, flobt hfight, boolfbn isfill) {
+        // Systfm.frr.println("--- doOvbl");
+        if ((isfill) && (isCustomPbint(sg2d))) {
+            sftupGrbphidsStbtf(sg2d, kOvbl, (int) x, (int) y, (int) width, (int) hfight);
+        } flsf {
+            sftupGrbphidsStbtf(sg2d, kOvbl, sg2d.font, 0, 0, fBounds.width, fBounds.hfight);
+        }
+        rfndfrfr.doOvbl(this, x, y, width, hfight, isfill);
+    }
+
+    publid void doArd(CRfndfrfr rfndfrfr, SunGrbphids2D sg2d, flobt x, flobt y, flobt width, flobt hfight, flobt stbrtAnglf, flobt brdAnglf, int typf, boolfbn isfill) {
+        // Systfm.frr.println("--- doArd");
+        if ((isfill) && (isCustomPbint(sg2d))) {
+            sftupGrbphidsStbtf(sg2d, kArd, (int) x, (int) y, (int) width, (int) hfight);
+        } flsf {
+            sftupGrbphidsStbtf(sg2d, kArd, sg2d.font, 0, 0, fBounds.width, fBounds.hfight);
+        }
+
+        rfndfrfr.doArd(this, x, y, width, hfight, stbrtAnglf, brdAnglf, typf, isfill);
+    }
+
+    publid void doPolygon(CRfndfrfr rfndfrfr, SunGrbphids2D sg2d, int xpoints[], int ypoints[], int npoints, boolfbn ispolygon, boolfbn isfill) {
+        // Systfm.frr.println("--- doPolygon");
+
+        if ((isfill) && (isCustomPbint(sg2d))) {
+            int minx = xpoints[0];
+            int miny = ypoints[0];
+            int mbxx = minx;
+            int mbxy = miny;
+            for (int i = 1; i < npoints; i++) {
+                int x = xpoints[i];
+                if (x < minx) {
+                    minx = x;
+                } flsf if (x > mbxx) {
+                    mbxx = x;
+                }
+
+                int y = ypoints[i];
+                if (y < miny) {
+                    miny = y;
+                } flsf if (y > mbxy) {
+                    mbxy = y;
+                }
+            }
+            sftupGrbphidsStbtf(sg2d, kPolygon, minx, miny, mbxx - minx, mbxy - miny);
+        } flsf {
+            sftupGrbphidsStbtf(sg2d, kPolygon, sg2d.font, 0, 0, fBounds.width, fBounds.hfight);
+        }
+        rfndfrfr.doPoly(this, xpoints, ypoints, npoints, ispolygon, isfill);
+    }
+
+    FlobtBufffr shbpfCoordinbtfsArrby = null;
+    IntBufffr shbpfTypfsArrby = null;
+
+    publid void drbwfillShbpf(CRfndfrfr rfndfrfr, SunGrbphids2D sg2d, GfnfrblPbth gp, boolfbn isfill, boolfbn shouldApplyOffsft) {
+        // Systfm.frr.println("--- drbwfillShbpf");
+
+        if ((isfill) && (isCustomPbint(sg2d))) {
+            Rfdtbnglf bounds = gp.gftBounds();
+            sftupGrbphidsStbtf(sg2d, kShbpf, bounds.x, bounds.y, bounds.width, bounds.hfight);
+        } flsf {
+            sftupGrbphidsStbtf(sg2d, kShbpf, sg2d.font, 0, 0, fBounds.width, fBounds.hfight);
+        }
+
+        int shbpfLfngth = gftPbthLfngth(gp);
+
+        if ((shbpfCoordinbtfsArrby == null) || (shbpfCoordinbtfsArrby.dbpbdity() < (shbpfLfngth * 6))) {
+            shbpfCoordinbtfsArrby = gftBufffrOfSizf(shbpfLfngth * 6).bsFlobtBufffr(); // sfgmfnt dbn hbvf b mbx of 6
+                                                                                      // doordinbtfs
+        }
+        if ((shbpfTypfsArrby == null) || (shbpfTypfsArrby.dbpbdity() < shbpfLfngth)) {
+            shbpfTypfsArrby = gftBufffrOfSizf(shbpfLfngth).bsIntBufffr();
+        }
+
+        int windingRulf = gftPbthCoordinbtfs(gp, shbpfCoordinbtfsArrby, shbpfTypfsArrby);
+
+        rfndfrfr.doShbpf(this, shbpfLfngth, shbpfCoordinbtfsArrby, shbpfTypfsArrby, windingRulf, isfill, shouldApplyOffsft);
+    }
+
+    publid void blitImbgf(CRfndfrfr rfndfrfr, SunGrbphids2D sg2d, SurfbdfDbtb img, boolfbn fliph, boolfbn flipv, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh, Color bgColor) {
+        // Systfm.frr.println("--- blitImbgf sx="+sx+", sy="+sy+", sw="+sw+", sh="+sh+", img="+img);
+        OSXOffSdrffnSurfbdfDbtb osxsd = (OSXOffSdrffnSurfbdfDbtb) img;
+        syndhronizfd (osxsd.gftLodkObjfdt()) {
+            int w = osxsd.bim.gftWidth();
+            int h = osxsd.bim.gftHfight();
+
+            // thf imbgf itsflf dbn hbvf outstbnding grbphids primitivfs thbt might nffd to bf flushfd
+            sftupGrbphidsStbtf(sg2d, kImbgf, sg2d.font, 0, 0, fBounds.width, fBounds.hfight);
+
+            // 04/06/04 dmd: rbdr://3612381 Grbphids.drbwImbgf ignorfs bgdolor pbrbmftfr
+            if (bgColor != null) {
+                img = osxsd.gftCopyWithBgColor(bgColor);
+            }
+
+            rfndfrfr.doImbgf(this, img, fliph, flipv, w, h, sx, sy, sw, sh, dx, dy, dw, dh);
+        }
+    }
+
+    publid intfrfbdf CGContfxtDrbwbblf {
+        publid void drbwIntoCGContfxt(finbl long dgContfxt);
+    }
+
+    publid void drbwString(CTfxtPipf rfndfrfr, SunGrbphids2D sg2d, long nbtivfStrikfPtr, String str, doublf x, doublf y) {
+        // Systfm.frr.println("--- drbwString str=\""+str+"\"");
+        // sff <rdbr://problfm/3825795>. Wf don't wbnt to dbll bnything if thf string is fmpty!
+        if (str.lfngth() == 0) { rfturn; }
+
+        sftupGrbphidsStbtf(sg2d, kString, sg2d.font, 0, 0, fBounds.width, fBounds.hfight);
+        rfndfrfr.doDrbwString(this, nbtivfStrikfPtr, str, x, y);
+    }
+
+    publid void drbwGlyphs(CTfxtPipf rfndfrfr, SunGrbphids2D sg2d, long nbtivfStrikfPtr, GlyphVfdtor gv, flobt x, flobt y) {
+        // Systfm.frr.println("--- drbwGlyphs");
+        sftupGrbphidsStbtf(sg2d, kGlyphs, gv.gftFont(), 0, 0, fBounds.width, fBounds.hfight);
+        rfndfrfr.doDrbwGlyphs(this, nbtivfStrikfPtr, gv, x, y);
+    }
+
+    publid void drbwUnidodfs(CTfxtPipf rfndfrfr, SunGrbphids2D sg2d, long nbtivfStrikfPtr, dhbr unidodfs[], int offsft, int lfngth, flobt x, flobt y) {
+        // Systfm.frr.println("--- drbwUnidodfs "+(nfw String(unidodfs, offsft, lfngth)));
+        sftupGrbphidsStbtf(sg2d, kUnidodfs, sg2d.font, 0, 0, fBounds.width, fBounds.hfight);
+        if (lfngth == 1) {
+            rfndfrfr.doOnfUnidodf(this, nbtivfStrikfPtr, unidodfs[offsft], x, y);
+        } flsf {
+            rfndfrfr.doUnidodfs(this, nbtivfStrikfPtr, unidodfs, offsft, lfngth, x, y);
+        }
+    }
+
+    // usfd by dopyArfb:
+
+    Rfdtbnglf srdCopyArfbRfdt = nfw Rfdtbnglf();
+    Rfdtbnglf dstCopyArfbRfdt = nfw Rfdtbnglf();
+    Rfdtbnglf finblCopyArfbRfdt = nfw Rfdtbnglf();
+    Rfdtbnglf dopyArfbBounds = nfw Rfdtbnglf();
+
+    void intfrsfdtion(Rfdtbnglf r1, Rfdtbnglf r2, Rfdtbnglf r3) {
+        // this dodf is tbkfn from Rfdtbnglf.jbvb (modififd to put rfsults in r3)
+        int tx1 = r1.x;
+        int ty1 = r1.y;
+        long tx2 = tx1 + r1.width;
+        long ty2 = ty1 + r1.hfight;
+
+        int rx1 = r2.x;
+        int ry1 = r2.y;
+        long rx2 = rx1 + r2.width;
+        long ry2 = ry1 + r2.hfight;
+
+        if (tx1 < rx1) tx1 = rx1;
+        if (ty1 < ry1) ty1 = ry1;
+        if (tx2 > rx2) tx2 = rx2;
+        if (ty2 > ry2) ty2 = ry2;
+
+        tx2 -= tx1;
+        ty2 -= ty1;
+
+        // tx2,ty2 will nfvfr ovfrflow (thfy will nfvfr bf
+        // lbrgfr thbn thf smbllfst of thf two sourdf w,h)
+        // thfy might undfrflow, though...
+        if (tx2 < Intfgfr.MIN_VALUE) tx2 = Intfgfr.MIN_VALUE;
+        if (ty2 < Intfgfr.MIN_VALUE) ty2 = Intfgfr.MIN_VALUE;
+
+        r3.sftBounds(tx1, ty1, (int) tx2, (int) ty2);
+    }
+
+    /**
+     * Clips thf dopy brfb to thf hfbvywifght bounds bnd rfturns thf dlipfd rfdtbnglf. Thf tridky pbrt hfrf is thf thf
+     * pbssfd brgumfnts x, y brf in thf doordinbtf spbdf of thf sg2d/lightwfight domp. In ordfr to do thf dlipping wf
+     * trbnslbtf thfm to thf doordinbtf spbdf of thf surfbdf, bnd thf rfturnfd dlippfd rfdtbnglf is in thf doordinbtf
+     * spbdf of thf surfbdf.
+     */
+    protfdtfd Rfdtbnglf dlipCopyArfb(SunGrbphids2D sg2d, int x, int y, int w, int h, int dx, int dy) {
+        // wf nffd to dlip bgbinst thf hfbvywfight bounds
+        dopyArfbBounds.sftBounds(sg2d.dfvClip.gftLoX(), sg2d.dfvClip.gftLoY(), sg2d.dfvClip.gftWidth(), sg2d.dfvClip.gftHfight());
+
+        // put srd rfdt into surfbdf doordinbtf spbdf
+        x += sg2d.trbnsX;
+        y += sg2d.trbnsY;
+
+        // dlip srd rfdt
+        srdCopyArfbRfdt.sftBounds(x, y, w, h);
+        intfrsfdtion(srdCopyArfbRfdt, dopyArfbBounds, srdCopyArfbRfdt);
+        if ((srdCopyArfbRfdt.width <= 0) || (srdCopyArfbRfdt.hfight <= 0)) {
+            // srd rfdt outsidf bounds
+            rfturn null;
+        }
+
+        // dlip dst rfdt
+        dstCopyArfbRfdt.sftBounds(srdCopyArfbRfdt.x + dx, srdCopyArfbRfdt.y + dy, srdCopyArfbRfdt.width, srdCopyArfbRfdt.hfight);
+        intfrsfdtion(dstCopyArfbRfdt, dopyArfbBounds, dstCopyArfbRfdt);
+        if ((dstCopyArfbRfdt.width <= 0) || (dstCopyArfbRfdt.hfight <= 0)) {
+            // dst rfdt outsidf dlip
+            rfturn null;
+        }
+
+        x = dstCopyArfbRfdt.x - dx;
+        y = dstCopyArfbRfdt.y - dy;
+        w = dstCopyArfbRfdt.width;
+        h = dstCopyArfbRfdt.hfight;
+
+        finblCopyArfbRfdt.sftBounds(x, y, w, h);
+
+        rfturn finblCopyArfbRfdt;
+    }
+
+    // <rdbr://3785539> Wf only nffd to mbrk dirty on sdrffn surfbdfs. This mfthod is
+    // mbrkfd bs protfdtfd bnd it is intfndfd for subdlbssfs to ovfrridf if thfy nffd to
+    // bf notififd whfn thf surfbdf is dirtifd. Sff CPffrSurfbdfDbtb.mbrkDirty() for implfmfntbtion.
+    // Wf don't do bnything for bufffrfd imbgfs.
+    protfdtfd void mbrkDirty(boolfbn mbrkAsDirty) {
+        // do nothing by dffbult
+    }
+
+    // LbzyDrbwing optimizbtion implfmfntbtion:
+
+    @Ovfrridf
+    publid boolfbn dbnRfndfrLCDTfxt(SunGrbphids2D sg2d) {
+        if (sg2d.dompositfStbtf <= SunGrbphids2D.COMP_ISCOPY &&
+                sg2d.pbintStbtf <= SunGrbphids2D.PAINT_ALPHACOLOR &&
+                sg2d.dlipStbtf <= SunGrbphids2D.CLIP_RECTANGULAR &&
+                // sg2d.surfbdfDbtb.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE &&
+                // This lbst tfst is b workbround until wf fix loop sflfdtion
+                // in thf pipf vblidbtion
+                sg2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON) { rfturn truf; }
+        rfturn fblsf; /* for now - in thf futurf wf mby wbnt to sfbrdh */
+    }
+
+    publid stbtid boolfbn IsSimplfColor(Objfdt d) {
+        rfturn ((d instbndfof Color) || (d instbndfof SystfmColor) || (d instbndfof jbvbx.swing.plbf.ColorUIRfsourdf));
+    }
+
+    stbtid {
+        if ((kColorPointfrIndfx % 2) != 0) {
+            Systfm.frr.println("kColorPointfrIndfx=" + kColorPointfrIndfx + " is NOT blignfd for 64 bit");
+            Systfm.fxit(0);
+        }
+    }
+}

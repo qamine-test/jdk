@@ -1,0 +1,568 @@
+'\" t
+.\"  Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     Titlf: idlj.1
+.\"
+.if n .pl 99999
+.TH idlj 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+idlj \- Gfnfrbtfs Jbvb bindings for b spfdififd Intfrfbdf Dffinition Lbngubgf (IDL) filf\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBidlj\fR [ \fIoptions\fR ] \fIidlfilf\fR
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&. Options dbn bppfbr in bny ordfr, but must prfdfdf thf \f3idlfilf\fR\&.
+.TP     
+\fIidlfilf\fR
+Thf nbmf of b filf thbt dontbins Intfrfbdf Dffinition Lbngubgf (IDL) dffinitions\&.
+.SH DESCRIPTION    
+Thf IDL-to-Jbvb Compilfr gfnfrbtfs thf Jbvb bindings for b spfdififd IDL filf\&. For binding dftbils, sff Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/idl/mbpping/jidlMbpping\&.html
+.PP
+Somf fbrlifr rflfbsfs of thf IDL-to-Jbvb dompilfr wfrf nbmfd \f3idltojbvb\fR\&.
+.SS EMIT\ CLIENT\ AND\ SERVER\ BINDINGS    
+Thf following \f3idlj\fR dommbnd gfnfrbtfs bn IDL filf nbmfd \f3My\&.idl\fR with dlifnt-sidf bindings\&.
+.sp     
+.nf     
+\f3idlj My\&.idl\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf prfvious syntbx is fquivblfnt to thf following:
+.sp     
+.nf     
+\f3idlj \-fdlifnt My\&.idl\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf nfxt fxbmplf gfnfrbtfs thf sfrvfr-sidf bindings, bnd indludfs thf dlifnt-sidf bindings plus thf skflfton, bll of whidh brf POA (Inhfritbndf Modfl)\&.
+.sp     
+.nf     
+\f3idlg \-fsfrvfr My\&.idl\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+If you wbnt to gfnfrbtf both dlifnt bnd sfrvfr-sidf bindings, thfn usf onf of thf following (fquivblfnt) dommbnds:
+.sp     
+.nf     
+\f3idlj \-fdlifnt \-fsfrvfr My\&.idl\fP
+.fi     
+.nf     
+\f3idlj \-fbll My\&.idl\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thfrf brf two possiblf sfrvfr-sidf modfls: thf Portbl Sfrvbnt Inhfritbndf Modfl bnd thf Tif Modfl\&. Sff Tif Dflfgbtion Modfl\&.
+.PP
+\f3Portbblf Sfrvbnt Inhfritbndf Modfl\fR\&. Thf dffbult sfrvfr-sidf modfl is thf Portbblf Sfrvbnt Inhfritbndf Modfl\&. Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, thf filf \f3MyPOA\&.jbvb\fR is gfnfrbtfd\&. You must providf thf implfmfntbtion for thf \f3My\fR intfrfbdf, bnd thf \f3My\fR intfrfbdf must inhfrit from thf \f3MyPOA\fR dlbss\&. \f3MyPOA\&.jbvb\fR is b strfbm-bbsfd skflfton thbt fxtfnds thf \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/org/omg/PortbblfSfrvfr/Sfrvbnt\&.html Thf \f3My\fR intfrfbdf implfmfnts thf \f3dbllHbndlfr\fR intfrfbdf bnd thf opfrbtions intfrfbdf bssodibtfd with thf IDL intfrfbdf thf skflfton implfmfnts\&.Thf \f3PortbblfSfrvfr\fR modulf for thf Portbblf Objfdt Adbptfr (POA) dffinfs thf nbtivf \f3Sfrvbnt\fR typf\&. Sff Portbblf Objfdt Adbptfr (POA) bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/idl/POA\&.html In thf Jbvb progrbmming lbngubgf, thf \f3Sfrvbnt\fR typf is mbppfd to thf Jbvb \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss\&. It sfrvfs bs thf bbsf dlbss for bll POA sfrvbnt implfmfntbtions bnd providfs b numbfr of mfthods thbt dbn bf dbllfd by thf bpplidbtion progrbmmfr, bnd mfthods thbt brf dbllfd by thf POA bnd thbt dbn bf ovfrriddfn by thf usfr to dontrol bspfdts of sfrvbnt bfhbvior\&.Anothfr option for thf Inhfritbndf Modfl is to usf thf \f3-oldImplBbsf\fR flbg to gfnfrbtf sfrvfr-sidf bindings thbt brf dompbtiblf with rflfbsfs of thf Jbvb progrbmming lbngubgf bfforf Jbvb SE 1\&.4\&. Thf -\f3oldImplBbsf\fR flbg is nonstbndbrd, bnd thfsf APIs brf dfprfdbtfd\&. You would usf this flbg only for dompbtibility with fxisting sfrvfrs writtfn in Jbvb SE 1\&.3\&. In thbt dbsf, you would nffd to modify bn fxisting mbkf filf to bdd thf \f3-oldImplBbsf\fR flbg to thf \f3idlj\fR dompilfr\&. Othfrwisf POA-bbsfd sfrvfr-sidf mbppings brf gfnfrbtfd\&. To gfnfrbtf sfrvfr-sidf bindings thbt brf bbdkwbrd dompbtiblf, do thf following:
+.sp     
+.nf     
+\f3idlj \-fdlifnt \-fsfrvfr \-oldImplBbsf My\&.idl\fP
+.fi     
+.nf     
+\f3idlj \-fbll \-oldImplBbsf My\&.idl\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, thf filf \f3_MyImplBbsf\&.jbvb\fR is gfnfrbtfd\&. You must providf thf implfmfntbtion for thf \f3My\fR intfrfbdf, bnd thf \f3My\fR intfrfbdf must inhfrit from thf \f3_MyImplBbsf\fR dlbss\&.
+.PP
+\f3Tif Dflfgbtion Modfl\fR\&. Thf othfr sfrvfr-sidf modfl is dbllfd thf Tif Modfl\&. This is b dflfgbtion modfl\&. Bfdbusf it is not possiblf to gfnfrbtf tifs bnd skflftons bt thf sbmf timf, thfy must bf gfnfrbtfd sfpbrbtfly\&. Thf following dommbnds gfnfrbtf thf bindings for thf Tif Modfl:
+.sp     
+.nf     
+\f3idlj \-fbll My\&.idl\fP
+.fi     
+.nf     
+\f3idlj \-fbllTIE My\&.idl\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+For thf \f3My\fR intfrfbdf, thf sfdond dommbnd gfnfrbtfs \f3MyPOATif\&.jbvb\fR\&. Thf donstrudtor to thf \f3MyPOATif\fR dlbss tbkfs b dflfgbtf\&. In this fxbmplf, using thf dffbult POA modfl, thf donstrudtor blso nffds b POA\&. You must providf thf implfmfntbtion for thf dflfgbtf, but it dofs not hbvf to inhfrit from bny othfr dlbss, only thf intfrfbdf \f3MyOpfrbtions\fR\&. To usf it with thf ORB, you must wrbp your implfmfntbtion within thf \f3MyPOATif\fR dlbss, for fxbmplf:
+.sp     
+.nf     
+\f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3// Gft rfffrfndf to rootpob & bdtivbtf thf POAMbnbgfr\fP
+.fi     
+.nf     
+\f3POA rootpob = (POA)orb\&.rfsolvf_initibl_rfffrfndfs("RootPOA");\fP
+.fi     
+.nf     
+\f3rootpob\&.thf_POAMbnbgfr()\&.bdtivbtf();\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3// drfbtf sfrvbnt bnd rfgistfr it with thf ORB\fP
+.fi     
+.nf     
+\f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
+.fi     
+.nf     
+\f3myDflfgbtf\&.sftORB(orb); \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3// drfbtf b tif, with sfrvbnt bfing thf dflfgbtf\&.\fP
+.fi     
+.nf     
+\f3MyPOATif tif = nfw MyPOATif(myDflfgbtf, rootpob);\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3// obtbin thf objfdtRff for thf tif\fP
+.fi     
+.nf     
+\f3My rff = tif\&._this(orb);\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+You might wbnt to usf thf Tif modfl instfbd of thf typidbl Inhfritbndf modfl whfn your implfmfntbtion must inhfrit from somf othfr implfmfntbtion\&. Jbvb bllows bny numbfr of intfrfbdf inhfritbndf, but thfrf is only onf slot for dlbss inhfritbndf\&. If you usf thf inhfritbndf modfl, thfn thbt slot is usfd up\&. With thf Tif Modfl, thbt slot is frffd up for your own usf\&. Thf drbwbbdk is thbt it introdudfs b lfvfl of indirfdtion: onf fxtrb mfthod dbll oddurs whfn b mfthod is dbllfd\&.
+.PP
+For sfrvfr-sidf gfnfrbtion, Tif modfl bindings thbt brf dompbtiblf with vfrsions of thf IDL to Jbvb lbngubgf mbpping in vfrsions fbrlifr thbn Jbvb SE 1\&.4\&.
+.sp     
+.nf     
+\f3idlj \-oldImplBbsf \-fbll My\&.idl\fP
+.fi     
+.nf     
+\f3idlj \-oldImplBbsf \-fbllTIE My\&.idl\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+For thf \f3My\fR intfrfbdf, thf this gfnfrbtfs \f3My_Tif\&.jbvb\fR\&. Thf donstrudtor to thf \f3My_Tif\fR dlbss tbkfs bn \f3impl\fR objfdt\&. You must providf thf implfmfntbtion for \f3impl\fR, but it dofs not hbvf to inhfrit from bny othfr dlbss, only thf intfrfbdf \f3HflloOpfrbtions\fR\&. But to usf it with thf ORB, you must wrbp your implfmfntbtion within \f3My_Tif\fR, for fxbmplf:
+.sp     
+.nf     
+\f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3// drfbtf sfrvbnt bnd rfgistfr it with thf ORB\fP
+.fi     
+.nf     
+\f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
+.fi     
+.nf     
+\f3myDflfgbtf\&.sftORB(orb); \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3// drfbtf b tif, with sfrvbnt bfing thf dflfgbtf\&.\fP
+.fi     
+.nf     
+\f3MyPOATif tif = nfw MyPOATif(myDflfgbtf);\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3// obtbin thf objfdtRff for thf tif\fP
+.fi     
+.nf     
+\f3My rff = tif\&._this(orb);\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ EMITTED\ FILES    
+If you wbnt to dirfdt thf fmittfd filfs to b dirfdtory othfr thbn thf durrfnt dirfdtory, thfn dbll thf dompilfr this wby: \f3i\fR\f3dlj -td /bltdir My\&.idl\fR\&.
+.PP
+For thf \f3My\fR intfrfbdf, thf bindings brf fmittfd to \f3/bltdir/My\&.jbvb\fR, ftd\&., instfbd of \f3\&./My\&.jbvb\fR\&.
+.SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ INCLUDE\ FILES    
+If thf \f3My\&.idl\fR filf indludfs bnothfr \f3idl\fR filf, \f3MyOthfr\&.idl\fR, thfn thf dompilfr bssumfs thbt thf \f3MyOthfr\&.idl\fR filf rfsidfs in thf lodbl dirfdtory\&. If it rfsidfs in \f3/indludfs\fR, for fxbmplf, thfn you dbll thf dompilfr with thf following dommbnd:
+.sp     
+.nf     
+\f3idlj \-i /indludfs My\&.idl\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+If \f3My\&.idl\fR blso indludfd \f3Anothfr\&.idl\fR thbt rfsidfd in \f3/morfIndludfs\fR, for fxbmplf, thfn you dbll thf dompilfr with thf following dommbnd:
+.sp     
+.nf     
+\f3idlj \-i /indludfs \-i /morfIndludfs My\&.idl\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Bfdbusf this form of \f3indludf\fR dbn bfdomf long, bnothfr wby to indidbtf to thf dompilfr whfrf to sfbrdh for indludfd filfs is providfd\&. This tfdhniquf is similbr to thf idfb of bn fnvironmfnt vbribblf\&. Crfbtf b filf nbmfd idl\&.donfig in b dirfdtory thbt is listfd in your \f3CLASSPATH\fR vbribblf\&. Insidf of \f3idl\&.donfig\fR, providf b linf with thf following form:
+.sp     
+.nf     
+\f3indludfs=/indludfs;/morfIndludfs\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf dompilfr will find this filf bnd rfbd in thf indludfs list\&. Notf thbt in this fxbmplf thf sfpbrbtor dhbrbdtfr bftwffn thf two dirfdtorifs is b sfmidolon (;)\&. This sfpbrbtor dhbrbdtfr is plbtform dfpfndfnt\&. On thf Windows plbtform, usf b sfmidolon, on thf Unix plbtform, usf b dolon, bnd so on\&.
+.SS EMIT\ BINDINGS\ FOR\ INCLUDE\ FILES    
+By dffbult, only thosf intfrfbdfs, strudturfs, bnd so on, thbt brf dffinfd in thf \f3idl\fR filf on thf dommbnd linf hbvf Jbvb bindings gfnfrbtfd for thfm\&. Thf typfs dffinfd in indludfd filfs brf not gfnfrbtfd\&. For fxbmplf, bssumf thf following two \f3idl\fR filfs:
+.sp     
+.nf     
+\f3My\&.idl filf:\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3#indludf <MyOthfr\&.idl>\fP
+.fi     
+.nf     
+\f3intfrfbdf My\fP
+.fi     
+.nf     
+\f3{\fP
+.fi     
+.nf     
+\f3};\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3MyOthfr\&.idl filf:\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3intfrfbdf MyOthfr\fP
+.fi     
+.nf     
+\f3{\fP
+.fi     
+.nf     
+\f3};\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thfrf is b dbvfbt to thf dffbult rulf\&. Any \f3#indludf\fR stbtfmfnts thbt bppfbr bt thf globbl sdopf brf trfbtfd bs dfsdribfd\&. Thfsf \f3#indludf\fR stbtfmfnts dbn bf thought of bs import stbtfmfnts\&. Thf \f3#indludf\fR stbtfmfnts thbt bppfbr within bn fndlosfd sdopf brf trfbtfd bs truf \f3#indludf\fR stbtfmfnts, whidh mfbns thbt thf dodf within thf indludfd filf is trfbtfd bs though it bppfbrfd in thf originbl filf bnd, thfrfforf, Jbvb bindings brf fmittfd for it\&. Hfrf is bn fxbmplf:
+.sp     
+.nf     
+\f3My\&.idl filf:\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3#indludf <MyOthfr\&.idl>\fP
+.fi     
+.nf     
+\f3intfrfbdf My\fP
+.fi     
+.nf     
+\f3{\fP
+.fi     
+.nf     
+\f3  #indludf <Embfddfd\&.idl>\fP
+.fi     
+.nf     
+\f3};\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3MyOthfr\&.idl filf:\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3intfrfbdf MyOthfr\fP
+.fi     
+.nf     
+\f3{\fP
+.fi     
+.nf     
+\f3};\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3Embfddfd\&.idl\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3fnum E {onf, two, thrff};\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Run\f3idlj My\&.idl\fRto gfnfrbtf thf following list of Jbvb filfs\&. Notidf thbt \f3MyOthfr\&.jbvb\fR is not gfnfrbtfd bfdbusf it is dffinfd in bn import-likf \f3#indludf\fR\&. But \f3E\&.jbvb\fR wbs gfnfrbtfd bfdbusf it wbs dffinfd in b truf \f3#indludf\fR\&. Notidf thbt bfdbusf thf \f3Embfddfd\&.idl\fR filf is indludfd within thf sdopf of thf intfrfbdf \f3My\fR, it bppfbrs within thf sdopf of \f3My\fR (in \f3MyPbdkbgf\fR)\&. If thf \f3-fmitAll\fR flbg hbd bffn usfd, thfn bll typfs in bll indludfd filfs would hbvf bffn fmittfd\&.
+.sp     
+.nf     
+\f3\&./MyHoldfr\&.jbvb\fP
+.fi     
+.nf     
+\f3\&./MyHflpfr\&.jbvb\fP
+.fi     
+.nf     
+\f3\&./_MyStub\&.jbvb\fP
+.fi     
+.nf     
+\f3\&./MyPbdkbgf\fP
+.fi     
+.nf     
+\f3\&./MyPbdkbgf/EHoldfr\&.jbvb\fP
+.fi     
+.nf     
+\f3\&./MyPbdkbgf/EHflpfr\&.jbvb\fP
+.fi     
+.nf     
+\f3\&./MyPbdkbgf/E\&.jbvb\fP
+.fi     
+.nf     
+\f3\&./My\&.jbvb\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS INSERT\ PACKAGE\ PREFIXES    
+Supposf thbt you work for b dompbny nbmfd ABC thbt hbs donstrudtfd thf following IDL filf:
+.sp     
+.nf     
+\f3Widgfts\&.idl filf:\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3modulf Widgfts\fP
+.fi     
+.nf     
+\f3{\fP
+.fi     
+.nf     
+\f3  intfrfbdf W1 {\&.\&.\&.};\fP
+.fi     
+.nf     
+\f3  intfrfbdf W2 {\&.\&.\&.};\fP
+.fi     
+.nf     
+\f3};\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+If you run this filf through thf IDL-to-Jbvb dompilfr, thfn thf Jbvb bindings for W1 bnd W2 brf plbdfd within thf \f3Widgfts\fR pbdkbgf\&. Thfrf is bn industry donvfntion thbt stbtfs thbt b dompbny\&'s pbdkbgfs should rfsidf within b pbdkbgf nbmfd \f3dom\&.<dompbny nbmf>\fR\&. To follow this donvfntion, thf pbdkbgf nbmf should bf \f3dom\&.bbd\&.Widgfts\fR\&. To plbdf this pbdkbgf prffix onto thf Widgfts modulf, fxfdutf thf following:
+.sp     
+.nf     
+\f3idlj \-pkgPrffix Widgfts dom\&.bbd Widgfts\&.idl\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+If you hbvf bn IDL filf thbt indludfs Widgfts\&.idl, thfn thf \f3-pkgPrffix\fR flbg must bppfbr in thbt dommbnd blso\&. If it dofs not, thfn your IDL filf will bf looking for b \f3Widgfts\fR pbdkbgf rbthfr thbn b \f3dom\&.bbd\&.Widgfts\fR pbdkbgf\&.
+.PP
+If you hbvf b numbfr of thfsf pbdkbgfs thbt rfquirf prffixfs, thfn it might bf fbsifr to plbdf thfm into thf idl\&.donfig filf dfsdribfd prfviously\&. Ebdh pbdkbgf prffix linf should bf of thf form: \f3PkgPrffix\&.<typf>=<prffix>\fR\&. Thf linf for thf prfvious fxbmplf would bf \f3PkgPrffix\&.Widgfts=dom\&.bbd\fR\&. This option dofs not bfffdt thf Rfpository ID\&.
+.SS DEFINE\ SYMBOLS\ BEFORE\ COMPILATION    
+You might nffd to dffinf b symbol for dompilbtion thbt is not dffinfd within thf IDL filf, pfrhbps to indludf dfbugging dodf in thf bindings\&. Thf dommbnd \f3idlj -d MYDEF My\&.idl\fRis fquivblfnt to putting thf linf \f3#dffinf MYDEF\fR insidf My\&.idl\&.
+.SS PRESERVE\ PREEXISTING\ BINDINGS    
+If thf Jbvb binding filfs blrfbdy fxist, thfn thf \f3-kffp\fR flbg kffps thf dompilfr from ovfrwriting thfm\&. Thf dffbult is to gfnfrbtf bll filfs without donsidfring thbt thfy blrfbdy fxist\&. If you hbvf dustomizfd thosf filfs (whidh you should not do unlfss you brf vfry domfortbblf with thfir dontfnts), thfn thf \f3-kffp\fR option is vfry usfful\&. Thf dommbnd \f3idlj -kffp My\&.idl\fR fmits bll dlifnt-sidf bindings thbt do not blrfbdy fxist\&.
+.SS VIEW\ COMPILATION\ PROGRESS    
+Thf IDL-to-Jbvb dompilfr gfnfrbtfs stbtus mfssbgfs bs it progrfssfs through its phbsfs of fxfdution\&. Usf thf \f3-v\fR option to bdtivbtf thf vfrbosf modf: \f3idlj -v My\&.idl\fR\&.
+.PP
+By dffbult thf dompilfr dofs not opfrbtf in vfrbosf modf
+.SS DISPLAY\ VERSION\ INFORMATION    
+To displby thf build vfrsion of thf IDL-to-Jbvb dompilfr, spfdify thf \f3-vfrsion\fR option on thf dommbnd-linf: \f3idlj -vfrsion\fR\&.
+.PP
+Vfrsion informbtion blso bppfbrs within thf bindings gfnfrbtfd by thf dompilfr\&. Any bdditionbl options bppfbring on thf dommbnd-linf brf ignorfd\&.
+.SH OPTIONS    
+.TP
+-d \fIsymbol\fR
+.br
+This is fquivblfnt to thf following linf in bn IDL filf:
+.sp     
+.nf     
+\f3#dffinf \fIsymbol\fR\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-dfmitAll
+.br
+Emit bll typfs, indluding thosf found in \f3#indludf\fR filfs\&.
+.TP
+-fsidf
+.br
+Dffinfs whbt bindings to fmit\&. Thf \f3sidf\fR pbrbmftfr dbn bf \f3dlifnt\fR, \f3sfrvfr\fR, \f3sfrvfrTIE\fR, \f3bll\fR, or \f3bllTIE\fR\&. Thf \f3-fsfrvfrTIE\fR bnd \f3-fbllTIE\fR options dbusf dflfgbtf modfl skflftons to bf fmittfd\&. Dffbults to \f3-fdlifnt\fR whfn thf flbg is not spfdififd\&.
+.TP
+-i \fIindludf-pbth\fR
+.br
+By dffbult, thf durrfnt dirfdtory is sdbnnfd for indludfd filfs\&. This option bdds bnothfr dirfdtory\&.
+.TP
+-i \fIkffp\fR
+.br
+If b filf to bf gfnfrbtfd blrfbdy fxists, thfn do not ovfrwritf it\&. By dffbult it is ovfrwrittfn\&.
+.TP
+-noWbrn
+.br
+Supprfss wbrning mfssbgfs\&.
+.TP
+-oldImplBbsf
+.br
+Gfnfrbtfs skflftons dompbtiblf with prf-1\&.4 JDK ORBs\&. By dffbult, thf POA Inhfritbndf Modfl sfrvfr-sidf bindings brf gfnfrbtfd\&. This option providfs bbdkwbrd-dompbtibility with fbrlifr rflfbsfs of thf Jbvb progrbmming lbngubgf by gfnfrbting sfrvfr-sidf bindings thbt brf \f3ImplBbsf\fR Inhfritbndf Modfl dlbssfs\&.
+.TP
+-pkgPrffix \fItypf\fR\fIprffix\fR
+.br
+Whfrfvfr \f3typf\fR is fndountfrfd bt filf sdopf, prffix thf gfnfrbtfd Jbvb pbdkbgf nbmf with \f3prffix\fR for bll filfs gfnfrbtfd for thbt typf\&. Thf typf is thf simplf nbmf of fithfr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf\&.
+.TP
+-pkgTrbnslbtf \fItypf\fR\fIpbdkbgf\fR
+.br
+Whfnfvfr thf modulf nbmf typf is fndountfrfd in bn idfntififr, rfplbdf it in thf idfntififr with pbdkbgf for bll filfs in thf gfnfrbtfd Jbvb pbdkbgf\&. Notf thbt \f3pkgPrffix\fR dhbngfs brf mbdf first\&. Thf typf vbluf is thf simplf nbmf of fithfr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf bnd must mbtdh thf full pbdkbgf nbmf fxbdtly\&.
+
+If morf thbn onf trbnslbtion mbtdhfs bn idfntififr, thfn thf longfst mbtdh is dhosfn bs shown in thf following fxbmplf:
+
+\fICommbnd\fR:
+.sp     
+.nf     
+\f3pkgTrbnslbtf typf pkg \-pkgTrbnslbtf typf2\&.bbz pkg2\&.fizz\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+\fIRfsulting Trbnslbtion\fR:
+.sp     
+.nf     
+\f3typf => pkg\fP
+.fi     
+.nf     
+\f3typf\&.fxt => pkg\&.fxt\fP
+.fi     
+.nf     
+\f3typf\&.bbz => pkg2\&.fizz\fP
+.fi     
+.nf     
+\f3typf2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Thf following pbdkbgf nbmfs \f3org\fR, \f3org\fR\&.o\f3mg\fR, or bny subpbdkbgfs of \f3org\&.omg\fR dbnnot bf trbnslbtfd\&. Any bttfmpt to trbnslbtf thfsf pbdkbgfs rfsults in undompilbblf dodf, bnd thf usf of thfsf pbdkbgfs bs thf first brgumfnt bftfr \f3-pkgTrbnslbtf\fR is trfbtfd bs bn frror\&.
+.TP
+-skflftonNbmf \fIxxx%yyy\fR
+.br
+Usf \f3xxx%yyy\fR bs thf pbttfrn for nbming thf skflfton\&. Thf dffbults brf: \f3%POA\fR for thf \f3POA\fR bbsf dlbss (\f3-fsfrvfr\fR or \f3-fbll\fR), bnd \f3_%ImplBbsf\fR for thf \f3oldImplBbsf\fR dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfr\fR or \f3-fbll\fR))\&.
+.TP
+-td \fIdir\fR
+.br
+Usf \fIdir\fR for thf output dirfdtory instfbd of thf durrfnt dirfdtory\&.
+.TP
+-tifNbmf \fIxxx%yyy\fR
+.br
+Usf \f3xxx%yyy\fR bddording to thf pbttfrn\&. Thf dffbults brf: \f3%POA\fR for thf \f3POA\fR bbsf dlbss (\f3-fsfrvfrTif or -fbllTif\fR), bnd \f3_%Tif\fR for thf \f3oldImplBbsf\fR tif dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfrTif\fR or \f3-fbllTif\fR))
+.TP
+-nowbrn, -vfrbosf
+.br
+Displbys rflfbsf informbtion bnd tfrminbtfs\&.
+.TP
+-vfrsion
+.br
+Displbys rflfbsf informbtion bnd tfrminbtfs\&.
+.SH RESTRICTIONS    
+Esdbpfd idfntififrs in thf globbl sdopf dbnnot hbvf thf sbmf spflling bs IDL primitivf typfs, \f3Objfdt\fR, or \f3VblufBbsf\fR\&. This is bfdbusf thf symbol tbblf is prflobdfd with thfsf idfntififrs\&. Allowing thfm to bf rfdffinfd would ovfrwritf thfir originbl dffinitions\&. Possiblf pfrmbnfnt rfstridtion\&.
+.PP
+Thf \f3fixfd\fR IDL typf is not supportfd\&.
+.SH KNOWN\ PROBLEMS    
+No import is gfnfrbtfd for globbl idfntififrs\&. If you dbll bn unfxportfd lodbl \f3impl\fR objfdt, thfn you do gft bn fxdfption, but it sffms to bf duf to b \f3NullPointfrExdfption\fR in thf \f3SfrvfrDflfgbtf\fR DSI dodf\&.
+.RE
+.br
+'pl 8.5i
+'bp

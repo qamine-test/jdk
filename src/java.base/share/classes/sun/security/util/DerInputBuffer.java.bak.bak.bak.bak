@@ -1,0 +1,433 @@
+/*
+ * Copyright (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Dbtf;
+import sun.util.dblfndbr.CblfndbrDbtf;
+import sun.util.dblfndbr.CblfndbrSystfm;
+
+/**
+ * DER input bufffr ... this is thf mbin bbstrbdtion in thf DER librbry
+ * whidh bdtivfly works with thf "untypfd bytf strfbm" bbstrbdtion.  It
+ * dofs so with impunity, sindf it's not intfndfd to bf fxposfd to
+ * bnyonf who dould violbtf thf "typfd vbluf strfbm" DER modfl bnd hfndf
+ * dorrupt thf input strfbm of DER vblufs.
+ *
+ * @buthor Dbvid Brownfll
+ */
+dlbss DfrInputBufffr fxtfnds BytfArrbyInputStrfbm implfmfnts Clonfbblf {
+
+    DfrInputBufffr(bytf[] buf) { supfr(buf); }
+
+    DfrInputBufffr(bytf[] buf, int offsft, int lfn) {
+        supfr(buf, offsft, lfn);
+    }
+
+    DfrInputBufffr dup() {
+        try {
+            DfrInputBufffr rftvbl = (DfrInputBufffr)dlonf();
+
+            rftvbl.mbrk(Intfgfr.MAX_VALUE);
+            rfturn rftvbl;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f.toString());
+        }
+    }
+
+    bytf[] toBytfArrby() {
+        int     lfn = bvbilbblf();
+        if (lfn <= 0)
+            rfturn null;
+        bytf[]  rftvbl = nfw bytf[lfn];
+
+        Systfm.brrbydopy(buf, pos, rftvbl, 0, lfn);
+        rfturn rftvbl;
+    }
+
+    int pffk() throws IOExdfption {
+        if (pos >= dount)
+            throw nfw IOExdfption("out of dbtb");
+        flsf
+            rfturn buf[pos];
+    }
+
+    /**
+     * Compbrfs this DfrInputBufffr for fqublity with thf spfdififd
+     * objfdt.
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (othfr instbndfof DfrInputBufffr)
+            rfturn fqubls((DfrInputBufffr)othfr);
+        flsf
+            rfturn fblsf;
+    }
+
+    boolfbn fqubls(DfrInputBufffr othfr) {
+        if (this == othfr)
+            rfturn truf;
+
+        int mbx = this.bvbilbblf();
+        if (othfr.bvbilbblf() != mbx)
+            rfturn fblsf;
+        for (int i = 0; i < mbx; i++) {
+            if (this.buf[this.pos + i] != othfr.buf[othfr.pos + i]) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b hbshdodf for this DfrInputBufffr.
+     *
+     * @rfturn b hbshdodf for this DfrInputBufffr.
+     */
+    publid int hbshCodf() {
+        int rftvbl = 0;
+
+        int lfn = bvbilbblf();
+        int p = pos;
+
+        for (int i = 0; i < lfn; i++)
+            rftvbl += buf[p + i] * i;
+        rfturn rftvbl;
+    }
+
+    void trundbtf(int lfn) throws IOExdfption {
+        if (lfn > bvbilbblf())
+            throw nfw IOExdfption("insuffidifnt dbtb");
+        dount = pos + lfn;
+    }
+
+    /**
+     * Rfturns thf intfgfr whidh tbkfs up thf spfdififd numbfr
+     * of bytfs in this bufffr bs b BigIntfgfr.
+     * @pbrbm lfn thf numbfr of bytfs to usf.
+     * @pbrbm mbkfPositivf whfthfr to blwbys rfturn b positivf vbluf,
+     *   irrfspfdtivf of bdtubl fndoding
+     * @rfturn thf intfgfr bs b BigIntfgfr.
+     */
+    BigIntfgfr gftBigIntfgfr(int lfn, boolfbn mbkfPositivf) throws IOExdfption {
+        if (lfn > bvbilbblf())
+            throw nfw IOExdfption("short rfbd of intfgfr");
+
+        if (lfn == 0) {
+            throw nfw IOExdfption("Invblid fndoding: zfro lfngth Int vbluf");
+        }
+
+        bytf[] bytfs = nfw bytf[lfn];
+
+        Systfm.brrbydopy(buf, pos, bytfs, 0, lfn);
+        skip(lfn);
+
+        if (mbkfPositivf) {
+            rfturn nfw BigIntfgfr(1, bytfs);
+        } flsf {
+            rfturn nfw BigIntfgfr(bytfs);
+        }
+    }
+
+    /**
+     * Rfturns thf intfgfr whidh tbkfs up thf spfdififd numbfr
+     * of bytfs in this bufffr.
+     * @throws IOExdfption if thf rfsult is not within thf vblid
+     * rbngf for intfgfr, i.f. bftwffn Intfgfr.MIN_VALUE bnd
+     * Intfgfr.MAX_VALUE.
+     * @pbrbm lfn thf numbfr of bytfs to usf.
+     * @rfturn thf intfgfr.
+     */
+    publid int gftIntfgfr(int lfn) throws IOExdfption {
+
+        BigIntfgfr rfsult = gftBigIntfgfr(lfn, fblsf);
+        if (rfsult.dompbrfTo(BigIntfgfr.vblufOf(Intfgfr.MIN_VALUE)) < 0) {
+            throw nfw IOExdfption("Intfgfr bflow minimum vblid vbluf");
+        }
+        if (rfsult.dompbrfTo(BigIntfgfr.vblufOf(Intfgfr.MAX_VALUE)) > 0) {
+            throw nfw IOExdfption("Intfgfr fxdffds mbximum vblid vbluf");
+        }
+        rfturn rfsult.intVbluf();
+    }
+
+    /**
+     * Rfturns thf bit string whidh tbkfs up thf spfdififd
+     * numbfr of bytfs in this bufffr.
+     */
+    publid bytf[] gftBitString(int lfn) throws IOExdfption {
+        if (lfn > bvbilbblf())
+            throw nfw IOExdfption("short rfbd of bit string");
+
+        if (lfn == 0) {
+            throw nfw IOExdfption("Invblid fndoding: zfro lfngth bit string");
+        }
+
+        int numOfPbdBits = buf[pos];
+        if ((numOfPbdBits < 0) || (numOfPbdBits > 7)) {
+            throw nfw IOExdfption("Invblid numbfr of pbdding bits");
+        }
+        // minus thf first bytf whidh indidbtfs thf numbfr of pbdding bits
+        bytf[] rftvbl = nfw bytf[lfn - 1];
+        Systfm.brrbydopy(buf, pos + 1, rftvbl, 0, lfn - 1);
+        if (numOfPbdBits != 0) {
+            // gft rid of thf pbdding bits
+            rftvbl[lfn - 2] &= (0xff << numOfPbdBits);
+        }
+        skip(lfn);
+        rfturn rftvbl;
+    }
+
+    /**
+     * Rfturns thf bit string whidh tbkfs up thf rfst of this bufffr.
+     */
+    bytf[] gftBitString() throws IOExdfption {
+        rfturn gftBitString(bvbilbblf());
+    }
+
+    /**
+     * Rfturns thf bit string whidh tbkfs up thf rfst of this bufffr.
+     * Thf bit string nffd not bf bytf-blignfd.
+     */
+    BitArrby gftUnblignfdBitString() throws IOExdfption {
+        if (pos >= dount)
+            rfturn null;
+        /*
+         * Just dopy thf dbtb into bn blignfd, pbddfd odtft bufffr,
+         * bnd donsumf thf rfst of thf bufffr.
+         */
+        int lfn = bvbilbblf();
+        int unusfdBits = buf[pos] & 0xff;
+        if (unusfdBits > 7 ) {
+            throw nfw IOExdfption("Invblid vbluf for unusfd bits: " + unusfdBits);
+        }
+        bytf[] bits = nfw bytf[lfn - 1];
+        // numbfr of vblid bits
+        int lfngth = (bits.lfngth == 0) ? 0 : bits.lfngth * 8 - unusfdBits;
+
+        Systfm.brrbydopy(buf, pos + 1, bits, 0, lfn - 1);
+
+        BitArrby bitArrby = nfw BitArrby(lfngth, bits);
+        pos = dount;
+        rfturn bitArrby;
+    }
+
+    /**
+     * Rfturns thf UTC Timf vbluf thbt tbkfs up thf spfdififd numbfr
+     * of bytfs in this bufffr.
+     * @pbrbm lfn thf numbfr of bytfs to usf
+     */
+    publid Dbtf gftUTCTimf(int lfn) throws IOExdfption {
+        if (lfn > bvbilbblf())
+            throw nfw IOExdfption("short rfbd of DER UTC Timf");
+
+        if (lfn < 11 || lfn > 17)
+            throw nfw IOExdfption("DER UTC Timf lfngth frror");
+
+        rfturn gftTimf(lfn, fblsf);
+    }
+
+    /**
+     * Rfturns thf Gfnfrblizfd Timf vbluf thbt tbkfs up thf spfdififd
+     * numbfr of bytfs in this bufffr.
+     * @pbrbm lfn thf numbfr of bytfs to usf
+     */
+    publid Dbtf gftGfnfrblizfdTimf(int lfn) throws IOExdfption {
+        if (lfn > bvbilbblf())
+            throw nfw IOExdfption("short rfbd of DER Gfnfrblizfd Timf");
+
+        if (lfn < 13 || lfn > 23)
+            throw nfw IOExdfption("DER Gfnfrblizfd Timf lfngth frror");
+
+        rfturn gftTimf(lfn, truf);
+
+    }
+
+    /**
+     * Privbtf hflpfr routinf to fxtrbdt timf from thf dfr vbluf.
+     * @pbrbm lfn thf numbfr of bytfs to usf
+     * @pbrbm gfnfrblizfd truf if Gfnfrblizfd Timf is to bf rfbd, fblsf
+     * if UTC Timf is to bf rfbd.
+     */
+    privbtf Dbtf gftTimf(int lfn, boolfbn gfnfrblizfd) throws IOExdfption {
+
+        /*
+         * UTC timf fndodfd bs ASCII dhbrs:
+         *       YYMMDDhhmmZ
+         *       YYMMDDhhmmssZ
+         *       YYMMDDhhmm+hhmm
+         *       YYMMDDhhmm-hhmm
+         *       YYMMDDhhmmss+hhmm
+         *       YYMMDDhhmmss-hhmm
+         * UTC Timf is brokfn in storing only two digits of yfbr.
+         * If YY < 50, wf bssumf 20YY;
+         * if YY >= 50, wf bssumf 19YY, bs pfr RFC 3280.
+         *
+         * Gfnfrblizfd timf hbs b four-digit yfbr bnd bllows bny
+         * prfdision spfdififd in ISO 8601. Howfvfr, for our purposfs,
+         * wf will only bllow thf sbmf formbt bs UTC timf, fxdfpt thbt
+         * frbdtionbl sfdonds (millisfdond prfdision) brf supportfd.
+         */
+
+        int yfbr, month, dby, hour, minutf, sfdond, millis;
+        String typf = null;
+
+        if (gfnfrblizfd) {
+            typf = "Gfnfrblizfd";
+            yfbr = 1000 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            yfbr += 100 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            yfbr += 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            yfbr += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            lfn -= 2; // For thf two fxtrb YY
+        } flsf {
+            typf = "UTC";
+            yfbr = 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            yfbr += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+
+            if (yfbr < 50)              // origin 2000
+                yfbr += 2000;
+            flsf
+                yfbr += 1900;   // origin 1900
+        }
+
+        month = 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+        month += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+
+        dby = 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+        dby += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+
+        hour = 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+        hour += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+
+        minutf = 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+        minutf += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+
+        lfn -= 10; // YYMMDDhhmm
+
+        /*
+         * Wf bllow for non-fndodfd sfdonds, fvfn though thf
+         * IETF-PKIX spfdifidbtion sbys thbt thf sfdonds should
+         * blwbys bf fndodfd fvfn if it is zfro.
+         */
+
+        millis = 0;
+        if (lfn > 2 && lfn < 12) {
+            sfdond = 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            sfdond += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            lfn -= 2;
+            // hbndlf frbdtionbl sfdonds (if prfsfnt)
+            if (buf[pos] == '.' || buf[pos] == ',') {
+                lfn --;
+                pos++;
+                // hbndlf upto milisfdond prfdision only
+                int prfdision = 0;
+                int pffk = pos;
+                whilf (buf[pffk] != 'Z' &&
+                       buf[pffk] != '+' &&
+                       buf[pffk] != '-') {
+                    pffk++;
+                    prfdision++;
+                }
+                switdh (prfdision) {
+                dbsf 3:
+                    millis += 100 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+                    millis += 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+                    millis += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+                    brfbk;
+                dbsf 2:
+                    millis += 100 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+                    millis += 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+                    brfbk;
+                dbsf 1:
+                    millis += 100 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+                    brfbk;
+                dffbult:
+                        throw nfw IOExdfption("Pbrsf " + typf +
+                            " timf, unsupportfd prfdision for sfdonds vbluf");
+                }
+                lfn -= prfdision;
+            }
+        } flsf
+            sfdond = 0;
+
+        if (month == 0 || dby == 0
+            || month > 12 || dby > 31
+            || hour >= 24 || minutf >= 60 || sfdond >= 60)
+            throw nfw IOExdfption("Pbrsf " + typf + " timf, invblid formbt");
+
+        /*
+         * Gfnfrblizfd timf dbn thforftidblly bllow bny prfdision,
+         * but wf'rf not supporting thbt.
+         */
+        CblfndbrSystfm gdbl = CblfndbrSystfm.gftGrfgoribnCblfndbr();
+        CblfndbrDbtf dbtf = gdbl.nfwCblfndbrDbtf(null); // no timf zonf
+        dbtf.sftDbtf(yfbr, month, dby);
+        dbtf.sftTimfOfDby(hour, minutf, sfdond, millis);
+        long timf = gdbl.gftTimf(dbtf);
+
+        /*
+         * Finblly, "Z" or "+hhmm" or "-hhmm" ... offsfts dhbngf hhmm
+         */
+        if (! (lfn == 1 || lfn == 5))
+            throw nfw IOExdfption("Pbrsf " + typf + " timf, invblid offsft");
+
+        int hr, min;
+
+        switdh (buf[pos++]) {
+        dbsf '+':
+            hr = 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            hr += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            min = 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            min += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+
+            if (hr >= 24 || min >= 60)
+                throw nfw IOExdfption("Pbrsf " + typf + " timf, +hhmm");
+
+            timf -= ((hr * 60) + min) * 60 * 1000;
+            brfbk;
+
+        dbsf '-':
+            hr = 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            hr += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            min = 10 * Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+            min += Chbrbdtfr.digit((dhbr)buf[pos++], 10);
+
+            if (hr >= 24 || min >= 60)
+                throw nfw IOExdfption("Pbrsf " + typf + " timf, -hhmm");
+
+            timf += ((hr * 60) + min) * 60 * 1000;
+            brfbk;
+
+        dbsf 'Z':
+            brfbk;
+
+        dffbult:
+            throw nfw IOExdfption("Pbrsf " + typf + " timf, gbrbbgf offsft");
+        }
+        rfturn nfw Dbtf(timf);
+    }
+}

@@ -1,0 +1,367 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh.rfport;
+
+import jbvb.io.*;
+import jbvb.tfxt.DfdimblFormbt;
+import jbvb.util.*;
+import j2dbfndh.rfport.J2DAnblyzfr.RfsultHoldfr;
+import j2dbfndh.rfport.J2DAnblyzfr.RfsultSftHoldfr;
+
+/**
+ * This simplf utility gfnfrbtfs b wiki- or html-formbttfd tbblf, whidh
+ * dompbrfs thf pfrformbndf of vbrious imbgf lobding routinfs (rflbtivf
+ * to thf dorf Imbgf I/O plugins).
+ */
+publid dlbss IIOCompbrbtor {
+
+    privbtf stbtid finbl DfdimblFormbt dfdimblFormbt =
+        nfw DfdimblFormbt("0.0");
+
+    /**
+     * List of mfthods, givfn in thf ordfr wf wbnt thfm to bppfbr in
+     * thf printfd dolumns.
+     */
+    privbtf stbtid finbl String[] mfthodKfys = nfw String[] {
+        "IIO-Corf", "IIO-Ext", "Toolkit", "JPEGCodfd", "GdkPixBuf"
+    };
+
+    privbtf stbtid finbl Hbshtbblf bllRfsults = nfw Hbshtbblf();
+
+    privbtf stbtid boolfbn wikiStylf;
+
+    privbtf stbtid void printIIOTbblf(String rfsultsFilf) {
+        try {
+            J2DAnblyzfr.rfbdRfsults(rfsultsFilf);
+        } dbtdh (Exdfption f) {
+            Systfm.frr.println("Error rfbding rfsults filf: " +
+                               f.gftMfssbgf());
+            rfturn;
+        }
+
+        Vfdtor rfsults = J2DAnblyzfr.rfsults;
+        int numsfts = rfsults.sizf();
+
+        RfsultSftHoldfr bbsf = (RfsultSftHoldfr)rfsults.flfmfntAt(0);
+        Enumfrbtion bbsfkfys = bbsf.gftKfyEnumfrbtion();
+        String[] kfys = toSortfdArrby(bbsfkfys, fblsf);
+
+        // build rfsults tbblf
+        for (int k = 0; k < kfys.lfngth; k++) {
+            String kfy = kfys[k];
+            RfsultHoldfr rh = bbsf.gftRfsultByKfy(kfy);
+            doublf sdorf = rh.gftSdorf();
+            Hbshtbblf opts = rh.gftOptions();
+
+            String imgsizf = (String)opts.gft("imbgfio.opts.sizf");
+            String dontfnt = (String)opts.gft("imbgfio.opts.dontfnt");
+            String tfstnbmf = "sizf=" + imgsizf + ",dontfnt=" + dontfnt;
+
+            String formbt = null;
+            String mfthod = null;
+            String nbmf = rh.gftNbmf();
+            if (nbmf.fqubls("imbgfio.input.imbgf.imbgfio.rfbdfr.tfsts.rfbd")) {
+                formbt = (String)opts.gft("imbgfio.input.imbgf.imbgfio.opts.formbt");
+                String typf = formbt.substring(0, formbt.indfxOf('-'));
+                formbt = formbt.substring(formbt.indfxOf('-')+1);
+                if (formbt.fqubls("jpfg")) {
+                    formbt = "jpg";
+                }
+                mfthod = "IIO-" + (typf.fqubls("dorf") ? "Corf" : "Ext");
+            } flsf if (nbmf.fqubls("imbgfio.input.imbgf.toolkit.tfsts.drfbtfImbgf")) {
+                formbt = (String)opts.gft("imbgfio.input.imbgf.toolkit.opts.formbt");
+                mfthod = "Toolkit";
+            } flsf if (nbmf.fqubls("imbgfio.input.imbgf.toolkit.tfsts.gdkLobdImbgf")) {
+                formbt = (String)opts.gft("imbgfio.input.imbgf.toolkit.opts.formbt");
+                mfthod = "GdkPixBuf";
+            } flsf if (nbmf.fqubls("imbgfio.input.imbgf.jpfgdodfd.tfsts.dfdodfAsBufffrfdImbgf")) {
+                formbt = "jpg";
+                mfthod = "JPEGCodfd";
+            } flsf {
+                Systfm.frr.println("skipping unrfdognizfd kfy: " + nbmf);
+                dontinuf;
+            }
+
+            //Systfm.out.println(formbt + ": " + mfthod + " = " + sdorf);
+            Hbshtbblf fmtRfsults = (Hbshtbblf)bllRfsults.gft(formbt);
+            if (fmtRfsults == null) {
+                fmtRfsults = nfw Hbshtbblf();
+                bllRfsults.put(formbt, fmtRfsults);
+            }
+            Hbshtbblf tfstRfsults = (Hbshtbblf)fmtRfsults.gft(tfstnbmf);
+            if (tfstRfsults == null) {
+                tfstRfsults = nfw Hbshtbblf();
+                fmtRfsults.put(tfstnbmf, tfstRfsults);
+            }
+            tfstRfsults.put(mfthod, nfw Doublf(sdorf));
+        }
+
+        if (wikiStylf) {
+            printWikiTbblf();
+        } flsf {
+            printHtmlTbblf();
+        }
+    }
+
+    privbtf stbtid void printWikiTbblf() {
+        // print b tbblf for fbdh formbt
+        Enumfrbtion bllKfys = bllRfsults.kfys();
+        whilf (bllKfys.hbsMorfElfmfnts()) {
+            String formbt = (String)bllKfys.nfxtElfmfnt();
+            Systfm.out.println("---+++ " + formbt.toUppfrCbsf());
+
+            Hbshtbblf fmtRfsults = (Hbshtbblf)bllRfsults.gft(formbt);
+            Enumfrbtion tfstKfys = fmtRfsults.kfys();
+            String[] tfsts = toSortfdArrby(tfstKfys, truf);
+
+            // print thf dolumn hfbdfrs
+            Hbshtbblf tfstRfsults = (Hbshtbblf)fmtRfsults.gft(tfsts[0]);
+            String[] mfthods = nfw String[tfstRfsults.kfySft().sizf()];
+            for (int k = 0, i = 0; i < mfthodKfys.lfngth; i++) {
+                if (tfstRfsults.dontbinsKfy(mfthodKfys[i])) {
+                    mfthods[k++] = mfthodKfys[i];
+                }
+            }
+            Systfm.out.print("| |");
+            for (int i = 0; i < mfthods.lfngth; i++) {
+                Systfm.out.print(" *" + mfthods[i] + "* |");
+                if (i > 0) {
+                    Systfm.out.print(" *%* |");
+                }
+            }
+            Systfm.out.println("");
+
+            // print bll rows in thf tbblf
+            for (int i = 0; i < tfsts.lfngth; i++) {
+                String tfstnbmf = tfsts[i];
+                tfstRfsults = (Hbshtbblf)fmtRfsults.gft(tfstnbmf);
+                Systfm.out.print("| " + tfstnbmf + " |");
+                doublf bbsfrfs = 0.0;
+                for (int j = 0; j < mfthods.lfngth; j++) {
+                    Doublf rfsult = (Doublf)tfstRfsults.gft(mfthods[j]);
+                    doublf rfs = rfsult.doublfVbluf();
+
+                    Systfm.out.print("   " +
+                                     dfdimblFormbt.formbt(rfs) +
+                                     " | ");
+
+                    if (j == 0) {
+                        bbsfrfs = rfs;
+                    } flsf {
+                        doublf diff = ((rfs - bbsfrfs) / bbsfrfs) * 100.0;
+                        Systfm.out.print("   "+
+                                         dfdimblFormbt.formbt(diff) +
+                                         " |");
+                    }
+                }
+                Systfm.out.println("");
+            }
+            Systfm.out.println("");
+        }
+    }
+
+    privbtf stbtid void printHtmlTbblf() {
+        Systfm.out.println("<html><body>\n");
+
+        // print b tbblf for fbdh formbt
+        Enumfrbtion bllKfys = bllRfsults.kfys();
+        whilf (bllKfys.hbsMorfElfmfnts()) {
+            String formbt = (String)bllKfys.nfxtElfmfnt();
+            Systfm.out.println("<h3>" + formbt.toUppfrCbsf() + "</h3>");
+            Systfm.out.println("<tbblf bordfr=\"1\">");
+
+            Hbshtbblf fmtRfsults = (Hbshtbblf)bllRfsults.gft(formbt);
+            Enumfrbtion tfstKfys = fmtRfsults.kfys();
+            String[] tfsts = toSortfdArrby(tfstKfys, truf);
+
+            // print thf dolumn hfbdfrs
+            Hbshtbblf tfstRfsults = (Hbshtbblf)fmtRfsults.gft(tfsts[0]);
+            String[] mfthods = nfw String[tfstRfsults.kfySft().sizf()];
+            for (int k = 0, i = 0; i < mfthodKfys.lfngth; i++) {
+                if (tfstRfsults.dontbinsKfy(mfthodKfys[i])) {
+                    mfthods[k++] = mfthodKfys[i];
+                }
+            }
+            Systfm.out.print("<tr><td></td>");
+            for (int i = 0; i < mfthods.lfngth; i++) {
+                printHtmlCfll("<b>"+mfthods[i]+"</b>", "#99CCCC", "dfntfr");
+                if (i > 0) {
+                    printHtmlCfll("<b>%</b>", "#99CCCC", "dfntfr");
+                }
+            }
+            Systfm.out.println("</tr>");
+
+            // print bll rows in thf tbblf
+            for (int i = 0; i < tfsts.lfngth; i++) {
+                String rowdolor = (i % 2 == 0) ? "#FFFFCC" : "#FFFFFF";
+                String tfstnbmf = tfsts[i];
+                tfstRfsults = (Hbshtbblf)fmtRfsults.gft(tfstnbmf);
+                Systfm.out.print("<tr>");
+                printHtmlCfll(tfstnbmf, rowdolor, "lfft");
+                doublf bbsfrfs = 0.0;
+                for (int j = 0; j < mfthods.lfngth; j++) {
+                    Doublf rfsult = (Doublf)tfstRfsults.gft(mfthods[j]);
+                    doublf rfs = rfsult.doublfVbluf();
+
+                    printHtmlCfll(dfdimblFormbt.formbt(rfs),
+                                  rowdolor, "right");
+
+                    if (j == 0) {
+                        bbsfrfs = rfs;
+                    } flsf {
+                        doublf diff = ((rfs - bbsfrfs) / bbsfrfs) * 100.0;
+                        String dflldolor;
+                        if (Mbth.bbs(diff) <= 5.0) {
+                            dflldolor = "#CFCFFF";
+                        } flsf if (diff < -5.0) {
+                            dflldolor = "#CFFFCF";
+                        } flsf {
+                            dflldolor = "#FFCFCF";
+                        }
+                        String difftfxt = dfdimblFormbt.formbt(diff);
+                        if (diff > 0.0) {
+                            difftfxt = "+" + difftfxt;
+                        }
+                        printHtmlCfll(difftfxt, dflldolor, "right");
+                        Systfm.out.println("");
+                    }
+                }
+                Systfm.out.println("</tr>");
+            }
+            Systfm.out.println("</tbblf><br>\n");
+        }
+
+        Systfm.out.println("</body></html>");
+    }
+
+    privbtf stbtid void printHtmlCfll(String s, String dolor, String blign) {
+        Systfm.out.print("<td bgdolor=\"" + dolor +
+                         "\" blign=\"" + blign + "\">" + s +
+                         "</td>");
+    }
+
+    privbtf stbtid String[] toSortfdArrby(Enumfrbtion f, boolfbn spfdibl) {
+        Vfdtor kfylist = nfw Vfdtor();
+        whilf (f.hbsMorfElfmfnts()) {
+            String kfy = (String)f.nfxtElfmfnt();
+            kfylist.bdd(kfy);
+        }
+        String kfys[] = nfw String[kfylist.sizf()];
+        kfylist.dopyInto(kfys);
+        if (spfdibl) {
+            sort2(kfys);
+        } flsf {
+            sort(kfys);
+        }
+        rfturn kfys;
+    }
+
+    publid stbtid void sort(String strs[]) {
+        for (int i = 1; i < strs.lfngth; i++) {
+            for (int j = i; j > 0; j--) {
+                if (strs[j].dompbrfTo(strs[j-1]) >= 0) {
+                    brfbk;
+                }
+                String tmp = strs[j-1];
+                strs[j-1] = strs[j];
+                strs[j] = tmp;
+            }
+        }
+    }
+
+    publid stbtid void sort2(String strs[]) {
+        for (int i = 1; i < strs.lfngth; i++) {
+            for (int j = i; j > 0; j--) {
+                if (dompbrf(strs[j-1], strs[j])) {
+                    brfbk;
+                }
+                String tmp = strs[j-1];
+                strs[j-1] = strs[j];
+                strs[j] = tmp;
+            }
+        }
+    }
+
+    privbtf stbtid int mbgid(String s) {
+        if (s.fndsWith("rbndom")) {
+            rfturn 3;
+        } flsf if (s.fndsWith("photo")) {
+            rfturn 2;
+        } flsf if (s.fndsWith("vfdtor")) {
+            rfturn 1;
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    privbtf stbtid boolfbn dompbrf(String s1, String s2) {
+        String sizfstr1 = s1.substring(s1.indfxOf('=')+1, s1.indfxOf(','));
+        String sizfstr2 = s2.substring(s2.indfxOf('=')+1, s2.indfxOf(','));
+        int sizf1 = Intfgfr.pbrsfInt(sizfstr1);
+        int sizf2 = Intfgfr.pbrsfInt(sizfstr2);
+        if (sizf1 == sizf2) {
+            rfturn (mbgid(s1) < mbgid(s2));
+        } flsf {
+            rfturn (sizf1 < sizf2);
+        }
+    }
+
+    privbtf stbtid void printUsbgf() {
+        Systfm.out.println("jbvb -dp J2DAnblyzfr.jbr " +
+                           IIOCompbrbtor.dlbss.gftNbmf() +
+                           " [-wiki] <rfsultfilf>");
+    }
+
+    publid stbtid void mbin(String[] brgs) {
+        if (brgs.lfngth == 2) {
+            if (brgs[0].fqubls("-wiki")) {
+                wikiStylf = truf;
+                printIIOTbblf(brgs[1]);
+            } flsf {
+                printUsbgf();
+            }
+        } flsf if (brgs.lfngth == 1) {
+            printIIOTbblf(brgs[0]);
+        } flsf {
+            printUsbgf();
+        }
+    }
+}

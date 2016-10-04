@@ -1,560 +1,560 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-#include <jni.h>
-#include <jlong.h>
+#indludf <jni.i>
+#indludf <jlong.i>
 
-#include "SurfaceData.h"
-#include "OGLBlitLoops.h"
-#include "OGLRenderQueue.h"
-#include "OGLSurfaceData.h"
-#include "GraphicsPrimitiveMgr.h"
+#indludf "SurfbdfDbtb.i"
+#indludf "OGLBlitLoops.i"
+#indludf "OGLRfndfrQufuf.i"
+#indludf "OGLSurfbdfDbtb.i"
+#indludf "GrbpiidsPrimitivfMgr.i"
 
-#include <stdlib.h> // malloc
-#include <string.h> // memcpy
-#include "IntArgbPre.h"
+#indludf <stdlib.i> // mbllod
+#indludf <string.i> // mfmdpy
+#indludf "IntArgbPrf.i"
 
-extern OGLPixelFormat PixelFormats[];
+fxtfrn OGLPixflFormbt PixflFormbts[];
 
 /**
- * Inner loop used for copying a source OpenGL "Surface" (window, pbuffer,
- * etc.) to a destination OpenGL "Surface".  Note that the same surface can
- * be used as both the source and destination, as is the case in a copyArea()
- * operation.  This method is invoked from OGLBlitLoops_IsoBlit() as well as
- * OGLBlitLoops_CopyArea().
+ * Innfr loop usfd for dopying b sourdf OpfnGL "Surfbdf" (window, pbufffr,
+ * ftd.) to b dfstinbtion OpfnGL "Surfbdf".  Notf tibt tif sbmf surfbdf dbn
+ * bf usfd bs boti tif sourdf bnd dfstinbtion, bs is tif dbsf in b dopyArfb()
+ * opfrbtion.  Tiis mftiod is invokfd from OGLBlitLoops_IsoBlit() bs wfll bs
+ * OGLBlitLoops_CopyArfb().
  *
- * The standard glCopyPixels() mechanism is used to copy the source region
- * into the destination region.  If the regions have different dimensions,
- * the source will be scaled into the destination as appropriate (only
- * nearest neighbor filtering will be applied for simple scale operations).
+ * Tif stbndbrd glCopyPixfls() mfdibnism is usfd to dopy tif sourdf rfgion
+ * into tif dfstinbtion rfgion.  If tif rfgions ibvf difffrfnt dimfnsions,
+ * tif sourdf will bf sdblfd into tif dfstinbtion bs bppropribtf (only
+ * nfbrfst nfigibor filtfring will bf bpplifd for simplf sdblf opfrbtions).
  */
-static void
-OGLBlitSurfaceToSurface(OGLContext *oglc, OGLSDOps *srcOps, OGLSDOps *dstOps,
+stbtid void
+OGLBlitSurfbdfToSurfbdf(OGLContfxt *ogld, OGLSDOps *srdOps, OGLSDOps *dstOps,
                         jint sx1, jint sy1, jint sx2, jint sy2,
-                        jdouble dx1, jdouble dy1, jdouble dx2, jdouble dy2)
+                        jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
 {
-    GLfloat scalex, scaley;
-    jint srcw = sx2 - sx1;
-    jint srch = sy2 - sy1;
+    GLflobt sdblfx, sdblfy;
+    jint srdw = sx2 - sx1;
+    jint srdi = sy2 - sy1;
 
-    scalex = ((GLfloat)(dx2-dx1)) / srcw;
-    scaley = ((GLfloat)(dy2-dy1)) / srch;
+    sdblfx = ((GLflobt)(dx2-dx1)) / srdw;
+    sdblfy = ((GLflobt)(dy2-dy1)) / srdi;
 
-    // the following lines account for the fact that glCopyPixels() copies a
-    // region whose lower-left corner is at (x,y), but the source parameters
-    // (sx1,sy1) we are given here point to the upper-left corner of the
-    // source region... so here we play with the sy1 and dy1 parameters so
-    // that they point to the lower-left corners of the regions...
-    sx1 = srcOps->xOffset + sx1;
-    sy1 = srcOps->yOffset + srcOps->height - sy2;
+    // tif following linfs bddount for tif fbdt tibt glCopyPixfls() dopifs b
+    // rfgion wiosf lowfr-lfft dornfr is bt (x,y), but tif sourdf pbrbmftfrs
+    // (sx1,sy1) wf brf givfn ifrf point to tif uppfr-lfft dornfr of tif
+    // sourdf rfgion... so ifrf wf plby witi tif sy1 bnd dy1 pbrbmftfrs so
+    // tibt tify point to tif lowfr-lfft dornfrs of tif rfgions...
+    sx1 = srdOps->xOffsft + sx1;
+    sy1 = srdOps->yOffsft + srdOps->ifigit - sy2;
     dy1 = dy2;
 
-    if (oglc->extraAlpha != 1.0f) {
-        OGLContext_SetExtraAlpha(oglc->extraAlpha);
+    if (ogld->fxtrbAlpib != 1.0f) {
+        OGLContfxt_SftExtrbAlpib(ogld->fxtrbAlpib);
     }
 
-    // see OGLBlitSwToSurface() for more info on the following two lines
-    j2d_glRasterPos2i(0, 0);
-    j2d_glBitmap(0, 0, 0, 0, (GLfloat)dx1, (GLfloat)-dy1, NULL);
+    // sff OGLBlitSwToSurfbdf() for morf info on tif following two linfs
+    j2d_glRbstfrPos2i(0, 0);
+    j2d_glBitmbp(0, 0, 0, 0, (GLflobt)dx1, (GLflobt)-dy1, NULL);
 
-    if (scalex == 1.0f && scaley == 1.0f) {
-        j2d_glCopyPixels(sx1, sy1, srcw, srch, GL_COLOR);
-    } else {
-        j2d_glPixelZoom(scalex, scaley);
-        j2d_glCopyPixels(sx1, sy1, srcw, srch, GL_COLOR);
-        j2d_glPixelZoom(1.0f, 1.0f);
+    if (sdblfx == 1.0f && sdblfy == 1.0f) {
+        j2d_glCopyPixfls(sx1, sy1, srdw, srdi, GL_COLOR);
+    } flsf {
+        j2d_glPixflZoom(sdblfx, sdblfy);
+        j2d_glCopyPixfls(sx1, sy1, srdw, srdi, GL_COLOR);
+        j2d_glPixflZoom(1.0f, 1.0f);
     }
 
-    if (oglc->extraAlpha != 1.0f) {
-        OGLContext_SetExtraAlpha(1.0f);
+    if (ogld->fxtrbAlpib != 1.0f) {
+        OGLContfxt_SftExtrbAlpib(1.0f);
     }
 }
 
 /**
- * Inner loop used for copying a source OpenGL "Texture" to a destination
- * OpenGL "Surface".  This method is invoked from OGLBlitLoops_IsoBlit().
+ * Innfr loop usfd for dopying b sourdf OpfnGL "Tfxturf" to b dfstinbtion
+ * OpfnGL "Surfbdf".  Tiis mftiod is invokfd from OGLBlitLoops_IsoBlit().
  *
- * This method will copy, scale, or transform the source texture into the
- * destination depending on the transform state, as established in
- * and OGLContext_SetTransform().  If the source texture is
- * transformed in any way when rendered into the destination, the filtering
- * method applied is determined by the hint parameter (can be GL_NEAREST or
+ * Tiis mftiod will dopy, sdblf, or trbnsform tif sourdf tfxturf into tif
+ * dfstinbtion dfpfnding on tif trbnsform stbtf, bs fstbblisifd in
+ * bnd OGLContfxt_SftTrbnsform().  If tif sourdf tfxturf is
+ * trbnsformfd in bny wby wifn rfndfrfd into tif dfstinbtion, tif filtfring
+ * mftiod bpplifd is dftfrminfd by tif iint pbrbmftfr (dbn bf GL_NEAREST or
  * GL_LINEAR).
  */
-static void
-OGLBlitTextureToSurface(OGLContext *oglc,
-                        OGLSDOps *srcOps, OGLSDOps *dstOps,
-                        jboolean rtt, jint hint,
+stbtid void
+OGLBlitTfxturfToSurfbdf(OGLContfxt *ogld,
+                        OGLSDOps *srdOps, OGLSDOps *dstOps,
+                        jboolfbn rtt, jint iint,
                         jint sx1, jint sy1, jint sx2, jint sy2,
-                        jdouble dx1, jdouble dy1, jdouble dx2, jdouble dy2)
+                        jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
 {
-    GLdouble tx1, ty1, tx2, ty2;
+    GLdoublf tx1, ty1, tx2, ty2;
 
     if (rtt) {
         /*
-         * The source is a render-to-texture surface.  These surfaces differ
-         * from regular texture objects in that the bottom scanline (of
-         * the actual image content) coincides with the top edge of the
-         * texture object.  Therefore, we need to adjust the sy1/sy2
-         * coordinates relative to the top scanline of the image content.
+         * Tif sourdf is b rfndfr-to-tfxturf surfbdf.  Tifsf surfbdfs difffr
+         * from rfgulbr tfxturf objfdts in tibt tif bottom sdbnlinf (of
+         * tif bdtubl imbgf dontfnt) doindidfs witi tif top fdgf of tif
+         * tfxturf objfdt.  Tifrfforf, wf nffd to bdjust tif sy1/sy2
+         * doordinbtfs rflbtivf to tif top sdbnlinf of tif imbgf dontfnt.
          *
-         * In texture coordinates, the top-left corner of the image content
-         * would be at:
-         *     (0.0, (imgHeight/texHeight))
-         * while the bottom-right corner corresponds to:
-         *     ((imgWidth/texWidth), 0.0)
+         * In tfxturf doordinbtfs, tif top-lfft dornfr of tif imbgf dontfnt
+         * would bf bt:
+         *     (0.0, (imgHfigit/tfxHfigit))
+         * wiilf tif bottom-rigit dornfr dorrfsponds to:
+         *     ((imgWidti/tfxWidti), 0.0)
          */
-        sy1 = srcOps->height - sy1;
-        sy2 = srcOps->height - sy2;
+        sy1 = srdOps->ifigit - sy1;
+        sy2 = srdOps->ifigit - sy2;
     }
 
-    if (srcOps->textureTarget == GL_TEXTURE_RECTANGLE_ARB) {
-        // The GL_ARB_texture_rectangle extension requires that we specify
-        // texture coordinates in the range [0,srcw] and [0,srch] instead of
-        // [0,1] as we would normally do in the case of GL_TEXTURE_2D
-        tx1 = (GLdouble)sx1;
-        ty1 = (GLdouble)sy1;
-        tx2 = (GLdouble)sx2;
-        ty2 = (GLdouble)sy2;
-    } else {
-        // Otherwise we need to convert the source bounds into the range [0,1]
-        tx1 = ((GLdouble)sx1) / srcOps->textureWidth;
-        ty1 = ((GLdouble)sy1) / srcOps->textureHeight;
-        tx2 = ((GLdouble)sx2) / srcOps->textureWidth;
-        ty2 = ((GLdouble)sy2) / srcOps->textureHeight;
+    if (srdOps->tfxturfTbrgft == GL_TEXTURE_RECTANGLE_ARB) {
+        // Tif GL_ARB_tfxturf_rfdtbnglf fxtfnsion rfquirfs tibt wf spfdify
+        // tfxturf doordinbtfs in tif rbngf [0,srdw] bnd [0,srdi] instfbd of
+        // [0,1] bs wf would normblly do in tif dbsf of GL_TEXTURE_2D
+        tx1 = (GLdoublf)sx1;
+        ty1 = (GLdoublf)sy1;
+        tx2 = (GLdoublf)sx2;
+        ty2 = (GLdoublf)sy2;
+    } flsf {
+        // Otifrwisf wf nffd to donvfrt tif sourdf bounds into tif rbngf [0,1]
+        tx1 = ((GLdoublf)sx1) / srdOps->tfxturfWidti;
+        ty1 = ((GLdoublf)sy1) / srdOps->tfxturfHfigit;
+        tx2 = ((GLdoublf)sx2) / srdOps->tfxturfWidti;
+        ty2 = ((GLdoublf)sy2) / srdOps->tfxturfHfigit;
     }
 
-    // Note that we call CHECK_PREVIOUS_OP(texTarget) in IsoBlit(), which
-    // will call glEnable(texTarget) as necessary.
-    j2d_glBindTexture(srcOps->textureTarget, srcOps->textureID);
-    OGLC_UPDATE_TEXTURE_FUNCTION(oglc, GL_MODULATE);
-    OGLSD_UPDATE_TEXTURE_FILTER(srcOps, hint);
+    // Notf tibt wf dbll CHECK_PREVIOUS_OP(tfxTbrgft) in IsoBlit(), wiidi
+    // will dbll glEnbblf(tfxTbrgft) bs nfdfssbry.
+    j2d_glBindTfxturf(srdOps->tfxturfTbrgft, srdOps->tfxturfID);
+    OGLC_UPDATE_TEXTURE_FUNCTION(ogld, GL_MODULATE);
+    OGLSD_UPDATE_TEXTURE_FILTER(srdOps, iint);
 
-    j2d_glBegin(GL_QUADS);
-    j2d_glTexCoord2d(tx1, ty1); j2d_glVertex2d(dx1, dy1);
-    j2d_glTexCoord2d(tx2, ty1); j2d_glVertex2d(dx2, dy1);
-    j2d_glTexCoord2d(tx2, ty2); j2d_glVertex2d(dx2, dy2);
-    j2d_glTexCoord2d(tx1, ty2); j2d_glVertex2d(dx1, dy2);
+    j2d_glBfgin(GL_QUADS);
+    j2d_glTfxCoord2d(tx1, ty1); j2d_glVfrtfx2d(dx1, dy1);
+    j2d_glTfxCoord2d(tx2, ty1); j2d_glVfrtfx2d(dx2, dy1);
+    j2d_glTfxCoord2d(tx2, ty2); j2d_glVfrtfx2d(dx2, dy2);
+    j2d_glTfxCoord2d(tx1, ty2); j2d_glVfrtfx2d(dx1, dy2);
     j2d_glEnd();
 }
 
 /**
- * Inner loop used for copying a source system memory ("Sw") surface to a
- * destination OpenGL "Surface".  This method is invoked from
+ * Innfr loop usfd for dopying b sourdf systfm mfmory ("Sw") surfbdf to b
+ * dfstinbtion OpfnGL "Surfbdf".  Tiis mftiod is invokfd from
  * OGLBlitLoops_Blit().
  *
- * The standard glDrawPixels() mechanism is used to copy the source region
- * into the destination region.  If the regions have different
- * dimensions, the source will be scaled into the destination
- * as appropriate (only nearest neighbor filtering will be applied for simple
- * scale operations).
+ * Tif stbndbrd glDrbwPixfls() mfdibnism is usfd to dopy tif sourdf rfgion
+ * into tif dfstinbtion rfgion.  If tif rfgions ibvf difffrfnt
+ * dimfnsions, tif sourdf will bf sdblfd into tif dfstinbtion
+ * bs bppropribtf (only nfbrfst nfigibor filtfring will bf bpplifd for simplf
+ * sdblf opfrbtions).
  */
-static void
-OGLBlitSwToSurface(OGLContext *oglc, SurfaceDataRasInfo *srcInfo,
-                   OGLPixelFormat *pf,
+stbtid void
+OGLBlitSwToSurfbdf(OGLContfxt *ogld, SurfbdfDbtbRbsInfo *srdInfo,
+                   OGLPixflFormbt *pf,
                    jint sx1, jint sy1, jint sx2, jint sy2,
-                   jdouble dx1, jdouble dy1, jdouble dx2, jdouble dy2)
+                   jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
 {
-    GLfloat scalex, scaley;
+    GLflobt sdblfx, sdblfy;
 
-    scalex = ((GLfloat)(dx2-dx1)) / (sx2-sx1);
-    scaley = ((GLfloat)(dy2-dy1)) / (sy2-sy1);
+    sdblfx = ((GLflobt)(dx2-dx1)) / (sx2-sx1);
+    sdblfy = ((GLflobt)(dy2-dy1)) / (sy2-sy1);
 
-    if (oglc->extraAlpha != 1.0f) {
-        OGLContext_SetExtraAlpha(oglc->extraAlpha);
+    if (ogld->fxtrbAlpib != 1.0f) {
+        OGLContfxt_SftExtrbAlpib(ogld->fxtrbAlpib);
     }
-    if (!pf->hasAlpha) {
-        // if the source surface does not have an alpha channel,
-        // we need to ensure that the alpha values are forced to
-        // the current extra alpha value (see OGLContext_SetExtraAlpha()
-        // for more information)
-        j2d_glPixelTransferf(GL_ALPHA_SCALE, 0.0f);
-        j2d_glPixelTransferf(GL_ALPHA_BIAS, oglc->extraAlpha);
+    if (!pf->ibsAlpib) {
+        // if tif sourdf surfbdf dofs not ibvf bn blpib dibnnfl,
+        // wf nffd to fnsurf tibt tif blpib vblufs brf fordfd to
+        // tif durrfnt fxtrb blpib vbluf (sff OGLContfxt_SftExtrbAlpib()
+        // for morf informbtion)
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 0.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, ogld->fxtrbAlpib);
     }
 
-    // This is a rather intriguing (yet totally valid) hack... If we were to
-    // specify a raster position that is outside the surface bounds, the raster
-    // position would be invalid and nothing would be rendered.  However, we
-    // can use a widely known trick to move the raster position outside the
-    // surface bounds while maintaining its status as valid.  The following
-    // call to glBitmap() renders a no-op bitmap, but offsets the current
-    // raster position from (0,0) to the desired location of (dx1,-dy1)...
-    j2d_glRasterPos2i(0, 0);
-    j2d_glBitmap(0, 0, 0, 0, (GLfloat)dx1, (GLfloat)-dy1, NULL);
+    // Tiis is b rbtifr intriguing (yft totblly vblid) ibdk... If wf wfrf to
+    // spfdify b rbstfr position tibt is outsidf tif surfbdf bounds, tif rbstfr
+    // position would bf invblid bnd notiing would bf rfndfrfd.  Howfvfr, wf
+    // dbn usf b widfly known tridk to movf tif rbstfr position outsidf tif
+    // surfbdf bounds wiilf mbintbining its stbtus bs vblid.  Tif following
+    // dbll to glBitmbp() rfndfrs b no-op bitmbp, but offsfts tif durrfnt
+    // rbstfr position from (0,0) to tif dfsirfd lodbtion of (dx1,-dy1)...
+    j2d_glRbstfrPos2i(0, 0);
+    j2d_glBitmbp(0, 0, 0, 0, (GLflobt)dx1, (GLflobt)-dy1, NULL);
 
-    j2d_glPixelZoom(scalex, -scaley);
+    j2d_glPixflZoom(sdblfx, -sdblfy);
 
-    // in case pixel stride is not a multiple of scanline stride the copy
-    // has to be done line by line (see 6207877)
-    if (srcInfo->scanStride % srcInfo->pixelStride != 0) {
-        jint width = sx2-sx1;
-        jint height = sy2-sy1;
-        GLvoid *pSrc = srcInfo->rasBase;
+    // in dbsf pixfl stridf is not b multiplf of sdbnlinf stridf tif dopy
+    // ibs to bf donf linf by linf (sff 6207877)
+    if (srdInfo->sdbnStridf % srdInfo->pixflStridf != 0) {
+        jint widti = sx2-sx1;
+        jint ifigit = sy2-sy1;
+        GLvoid *pSrd = srdInfo->rbsBbsf;
 
-        while (height > 0) {
-            j2d_glDrawPixels(width, 1, pf->format, pf->type, pSrc);
-            j2d_glBitmap(0, 0, 0, 0, (GLfloat)0, (GLfloat)-1, NULL);
-            pSrc = PtrAddBytes(pSrc, srcInfo->scanStride);
-            height--;
+        wiilf (ifigit > 0) {
+            j2d_glDrbwPixfls(widti, 1, pf->formbt, pf->typf, pSrd);
+            j2d_glBitmbp(0, 0, 0, 0, (GLflobt)0, (GLflobt)-1, NULL);
+            pSrd = PtrAddBytfs(pSrd, srdInfo->sdbnStridf);
+            ifigit--;
         }
-    } else {
-        j2d_glDrawPixels(sx2-sx1, sy2-sy1, pf->format, pf->type, srcInfo->rasBase);
+    } flsf {
+        j2d_glDrbwPixfls(sx2-sx1, sy2-sy1, pf->formbt, pf->typf, srdInfo->rbsBbsf);
     }
 
-    j2d_glPixelZoom(1.0, 1.0);
+    j2d_glPixflZoom(1.0, 1.0);
 
-    if (oglc->extraAlpha != 1.0f) {
-        OGLContext_SetExtraAlpha(1.0f);
+    if (ogld->fxtrbAlpib != 1.0f) {
+        OGLContfxt_SftExtrbAlpib(1.0f);
     }
-    if (!pf->hasAlpha) {
-        // restore scale/bias to their original values
-        j2d_glPixelTransferf(GL_ALPHA_SCALE, 1.0f);
-        j2d_glPixelTransferf(GL_ALPHA_BIAS, 0.0f);
+    if (!pf->ibsAlpib) {
+        // rfstorf sdblf/bibs to tifir originbl vblufs
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 1.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 0.0f);
     }
 }
 
 /**
- * Inner loop used for copying a source system memory ("Sw") surface or
- * OpenGL "Surface" to a destination OpenGL "Surface", using an OpenGL texture
- * tile as an intermediate surface.  This method is invoked from
- * OGLBlitLoops_Blit() for "Sw" surfaces and OGLBlitLoops_IsoBlit() for
- * "Surface" surfaces.
+ * Innfr loop usfd for dopying b sourdf systfm mfmory ("Sw") surfbdf or
+ * OpfnGL "Surfbdf" to b dfstinbtion OpfnGL "Surfbdf", using bn OpfnGL tfxturf
+ * tilf bs bn intfrmfdibtf surfbdf.  Tiis mftiod is invokfd from
+ * OGLBlitLoops_Blit() for "Sw" surfbdfs bnd OGLBlitLoops_IsoBlit() for
+ * "Surfbdf" surfbdfs.
  *
- * This method is used to transform the source surface into the destination.
- * Pixel rectangles cannot be arbitrarily transformed (without the
- * GL_EXT_pixel_transform extension, which is not supported on most modern
- * hardware).  However, texture mapped quads do respect the GL_MODELVIEW
- * transform matrix, so we use textures here to perform the transform
- * operation.  This method uses a tile-based approach in which a small
- * subregion of the source surface is copied into a cached texture tile.  The
- * texture tile is then mapped into the appropriate location in the
- * destination surface.
+ * Tiis mftiod is usfd to trbnsform tif sourdf surfbdf into tif dfstinbtion.
+ * Pixfl rfdtbnglfs dbnnot bf brbitrbrily trbnsformfd (witiout tif
+ * GL_EXT_pixfl_trbnsform fxtfnsion, wiidi is not supportfd on most modfrn
+ * ibrdwbrf).  Howfvfr, tfxturf mbppfd qubds do rfspfdt tif GL_MODELVIEW
+ * trbnsform mbtrix, so wf usf tfxturfs ifrf to pfrform tif trbnsform
+ * opfrbtion.  Tiis mftiod usfs b tilf-bbsfd bpprobdi in wiidi b smbll
+ * subrfgion of tif sourdf surfbdf is dopifd into b dbdifd tfxturf tilf.  Tif
+ * tfxturf tilf is tifn mbppfd into tif bppropribtf lodbtion in tif
+ * dfstinbtion surfbdf.
  *
- * REMIND: this only works well using GL_NEAREST for the filtering mode
- *         (GL_LINEAR causes visible stitching problems between tiles,
- *         but this can be fixed by making use of texture borders)
+ * REMIND: tiis only works wfll using GL_NEAREST for tif filtfring modf
+ *         (GL_LINEAR dbusfs visiblf stitdiing problfms bftwffn tilfs,
+ *         but tiis dbn bf fixfd by mbking usf of tfxturf bordfrs)
  */
-static void
-OGLBlitToSurfaceViaTexture(OGLContext *oglc, SurfaceDataRasInfo *srcInfo,
-                           OGLPixelFormat *pf, OGLSDOps *srcOps,
-                           jboolean swsurface, jint hint,
+stbtid void
+OGLBlitToSurfbdfVibTfxturf(OGLContfxt *ogld, SurfbdfDbtbRbsInfo *srdInfo,
+                           OGLPixflFormbt *pf, OGLSDOps *srdOps,
+                           jboolfbn swsurfbdf, jint iint,
                            jint sx1, jint sy1, jint sx2, jint sy2,
-                           jdouble dx1, jdouble dy1, jdouble dx2, jdouble dy2)
+                           jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
 {
-    GLdouble tx1, ty1, tx2, ty2;
-    GLdouble dx, dy, dw, dh, cdw, cdh;
-    jint tw, th;
-    jint sx, sy, sw, sh;
-    GLint glhint = (hint == OGLSD_XFORM_BILINEAR) ? GL_LINEAR : GL_NEAREST;
-    jboolean adjustAlpha = (pf != NULL && !pf->hasAlpha);
-    jboolean slowPath;
+    GLdoublf tx1, ty1, tx2, ty2;
+    GLdoublf dx, dy, dw, di, ddw, ddi;
+    jint tw, ti;
+    jint sx, sy, sw, si;
+    GLint gliint = (iint == OGLSD_XFORM_BILINEAR) ? GL_LINEAR : GL_NEAREST;
+    jboolfbn bdjustAlpib = (pf != NULL && !pf->ibsAlpib);
+    jboolfbn slowPbti;
 
-    if (oglc->blitTextureID == 0) {
-        if (!OGLContext_InitBlitTileTexture(oglc)) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                "OGLBlitToSurfaceViaTexture: could not init blit tile");
-            return;
+    if (ogld->blitTfxturfID == 0) {
+        if (!OGLContfxt_InitBlitTilfTfxturf(ogld)) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                "OGLBlitToSurfbdfVibTfxturf: dould not init blit tilf");
+            rfturn;
         }
     }
 
     tx1 = 0.0f;
     ty1 = 0.0f;
     tw = OGLC_BLIT_TILE_SIZE;
-    th = OGLC_BLIT_TILE_SIZE;
-    cdw = (dx2-dx1) / (((GLdouble)(sx2-sx1)) / OGLC_BLIT_TILE_SIZE);
-    cdh = (dy2-dy1) / (((GLdouble)(sy2-sy1)) / OGLC_BLIT_TILE_SIZE);
+    ti = OGLC_BLIT_TILE_SIZE;
+    ddw = (dx2-dx1) / (((GLdoublf)(sx2-sx1)) / OGLC_BLIT_TILE_SIZE);
+    ddi = (dy2-dy1) / (((GLdoublf)(sy2-sy1)) / OGLC_BLIT_TILE_SIZE);
 
-    j2d_glEnable(GL_TEXTURE_2D);
-    j2d_glBindTexture(GL_TEXTURE_2D, oglc->blitTextureID);
-    OGLC_UPDATE_TEXTURE_FUNCTION(oglc, GL_MODULATE);
-    j2d_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, glhint);
-    j2d_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, glhint);
+    j2d_glEnbblf(GL_TEXTURE_2D);
+    j2d_glBindTfxturf(GL_TEXTURE_2D, ogld->blitTfxturfID);
+    OGLC_UPDATE_TEXTURE_FUNCTION(ogld, GL_MODULATE);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gliint);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gliint);
 
-    if (adjustAlpha) {
-        // if the source surface does not have an alpha channel,
-        // we need to ensure that the alpha values are forced to 1.0f
-        j2d_glPixelTransferf(GL_ALPHA_SCALE, 0.0f);
-        j2d_glPixelTransferf(GL_ALPHA_BIAS, 1.0f);
+    if (bdjustAlpib) {
+        // if tif sourdf surfbdf dofs not ibvf bn blpib dibnnfl,
+        // wf nffd to fnsurf tibt tif blpib vblufs brf fordfd to 1.0f
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 0.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 1.0f);
     }
 
-    // in case pixel stride is not a multiple of scanline stride the copy
-    // has to be done line by line (see 6207877)
-    slowPath = srcInfo->scanStride % srcInfo->pixelStride != 0;
+    // in dbsf pixfl stridf is not b multiplf of sdbnlinf stridf tif dopy
+    // ibs to bf donf linf by linf (sff 6207877)
+    slowPbti = srdInfo->sdbnStridf % srdInfo->pixflStridf != 0;
 
-    for (sy = sy1, dy = dy1; sy < sy2; sy += th, dy += cdh) {
-        sh = ((sy + th) > sy2) ? (sy2 - sy) : th;
-        dh = ((dy + cdh) > dy2) ? (dy2 - dy) : cdh;
+    for (sy = sy1, dy = dy1; sy < sy2; sy += ti, dy += ddi) {
+        si = ((sy + ti) > sy2) ? (sy2 - sy) : ti;
+        di = ((dy + ddi) > dy2) ? (dy2 - dy) : ddi;
 
-        for (sx = sx1, dx = dx1; sx < sx2; sx += tw, dx += cdw) {
+        for (sx = sx1, dx = dx1; sx < sx2; sx += tw, dx += ddw) {
             sw = ((sx + tw) > sx2) ? (sx2 - sx) : tw;
-            dw = ((dx + cdw) > dx2) ? (dx2 - dx) : cdw;
+            dw = ((dx + ddw) > dx2) ? (dx2 - dx) : ddw;
 
-            tx2 = ((GLdouble)sw) / tw;
-            ty2 = ((GLdouble)sh) / th;
+            tx2 = ((GLdoublf)sw) / tw;
+            ty2 = ((GLdoublf)si) / ti;
 
-            if (swsurface) {
-                if (slowPath) {
-                    jint tmph = sh;
-                    GLvoid *pSrc = PtrCoord(srcInfo->rasBase,
-                                            sx, srcInfo->pixelStride,
-                                            sy, srcInfo->scanStride);
+            if (swsurfbdf) {
+                if (slowPbti) {
+                    jint tmpi = si;
+                    GLvoid *pSrd = PtrCoord(srdInfo->rbsBbsf,
+                                            sx, srdInfo->pixflStridf,
+                                            sy, srdInfo->sdbnStridf);
 
-                    while (tmph > 0) {
-                        j2d_glTexSubImage2D(GL_TEXTURE_2D, 0,
-                                            0, sh - tmph, sw, 1,
-                                            pf->format, pf->type,
-                                            pSrc);
-                        pSrc = PtrAddBytes(pSrc, srcInfo->scanStride);
-                        tmph--;
+                    wiilf (tmpi > 0) {
+                        j2d_glTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                                            0, si - tmpi, sw, 1,
+                                            pf->formbt, pf->typf,
+                                            pSrd);
+                        pSrd = PtrAddBytfs(pSrd, srdInfo->sdbnStridf);
+                        tmpi--;
                     }
-                } else {
-                    j2d_glPixelStorei(GL_UNPACK_SKIP_PIXELS, sx);
-                    j2d_glPixelStorei(GL_UNPACK_SKIP_ROWS, sy);
+                } flsf {
+                    j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, sx);
+                    j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, sy);
 
-                    j2d_glTexSubImage2D(GL_TEXTURE_2D, 0,
-                                        0, 0, sw, sh,
-                                        pf->format, pf->type,
-                                        srcInfo->rasBase);
+                    j2d_glTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                                        0, 0, sw, si,
+                                        pf->formbt, pf->typf,
+                                        srdInfo->rbsBbsf);
 
-                    j2d_glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-                    j2d_glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+                    j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, 0);
+                    j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, 0);
                 }
 
-                // the texture image is "right side up", so we align the
-                // upper-left texture corner with the upper-left quad corner
-                j2d_glBegin(GL_QUADS);
-                j2d_glTexCoord2d(tx1, ty1); j2d_glVertex2d(dx, dy);
-                j2d_glTexCoord2d(tx2, ty1); j2d_glVertex2d(dx + dw, dy);
-                j2d_glTexCoord2d(tx2, ty2); j2d_glVertex2d(dx + dw, dy + dh);
-                j2d_glTexCoord2d(tx1, ty2); j2d_glVertex2d(dx, dy + dh);
+                // tif tfxturf imbgf is "rigit sidf up", so wf blign tif
+                // uppfr-lfft tfxturf dornfr witi tif uppfr-lfft qubd dornfr
+                j2d_glBfgin(GL_QUADS);
+                j2d_glTfxCoord2d(tx1, ty1); j2d_glVfrtfx2d(dx, dy);
+                j2d_glTfxCoord2d(tx2, ty1); j2d_glVfrtfx2d(dx + dw, dy);
+                j2d_glTfxCoord2d(tx2, ty2); j2d_glVfrtfx2d(dx + dw, dy + di);
+                j2d_glTfxCoord2d(tx1, ty2); j2d_glVfrtfx2d(dx, dy + di);
                 j2d_glEnd();
-            } else {
-                // this accounts for lower-left origin of the source region
-                jint newsx = srcOps->xOffset + sx;
-                jint newsy = srcOps->yOffset + srcOps->height - (sy + sh);
-                j2d_glCopyTexSubImage2D(GL_TEXTURE_2D, 0,
-                                        0, 0, newsx, newsy, sw, sh);
+            } flsf {
+                // tiis bddounts for lowfr-lfft origin of tif sourdf rfgion
+                jint nfwsx = srdOps->xOffsft + sx;
+                jint nfwsy = srdOps->yOffsft + srdOps->ifigit - (sy + si);
+                j2d_glCopyTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                                        0, 0, nfwsx, nfwsy, sw, si);
 
-                // the texture image is "upside down" after the last step, so
-                // we align the bottom-left texture corner with the upper-left
-                // quad corner (and vice versa) to effectively flip the
-                // texture image
-                j2d_glBegin(GL_QUADS);
-                j2d_glTexCoord2d(tx1, ty2); j2d_glVertex2d(dx, dy);
-                j2d_glTexCoord2d(tx2, ty2); j2d_glVertex2d(dx + dw, dy);
-                j2d_glTexCoord2d(tx2, ty1); j2d_glVertex2d(dx + dw, dy + dh);
-                j2d_glTexCoord2d(tx1, ty1); j2d_glVertex2d(dx, dy + dh);
+                // tif tfxturf imbgf is "upsidf down" bftfr tif lbst stfp, so
+                // wf blign tif bottom-lfft tfxturf dornfr witi tif uppfr-lfft
+                // qubd dornfr (bnd vidf vfrsb) to ffffdtivfly flip tif
+                // tfxturf imbgf
+                j2d_glBfgin(GL_QUADS);
+                j2d_glTfxCoord2d(tx1, ty2); j2d_glVfrtfx2d(dx, dy);
+                j2d_glTfxCoord2d(tx2, ty2); j2d_glVfrtfx2d(dx + dw, dy);
+                j2d_glTfxCoord2d(tx2, ty1); j2d_glVfrtfx2d(dx + dw, dy + di);
+                j2d_glTfxCoord2d(tx1, ty1); j2d_glVfrtfx2d(dx, dy + di);
                 j2d_glEnd();
             }
         }
     }
 
-    if (adjustAlpha) {
-        // restore scale/bias to their original values
-        j2d_glPixelTransferf(GL_ALPHA_SCALE, 1.0f);
-        j2d_glPixelTransferf(GL_ALPHA_BIAS, 0.0f);
+    if (bdjustAlpib) {
+        // rfstorf sdblf/bibs to tifir originbl vblufs
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 1.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 0.0f);
     }
 
-    j2d_glDisable(GL_TEXTURE_2D);
+    j2d_glDisbblf(GL_TEXTURE_2D);
 }
 
 /**
- * Inner loop used for copying a source system memory ("Sw") surface to a
- * destination OpenGL "Texture".  This method is invoked from
+ * Innfr loop usfd for dopying b sourdf systfm mfmory ("Sw") surfbdf to b
+ * dfstinbtion OpfnGL "Tfxturf".  Tiis mftiod is invokfd from
  * OGLBlitLoops_Blit().
  *
- * The source surface is effectively loaded into the OpenGL texture object,
- * which must have already been initialized by OGLSD_initTexture().  Note
- * that this method is only capable of copying the source surface into the
- * destination surface (i.e. no scaling or general transform is allowed).
- * This restriction should not be an issue as this method is only used
- * currently to cache a static system memory image into an OpenGL texture in
- * a hidden-acceleration situation.
+ * Tif sourdf surfbdf is ffffdtivfly lobdfd into tif OpfnGL tfxturf objfdt,
+ * wiidi must ibvf blrfbdy bffn initiblizfd by OGLSD_initTfxturf().  Notf
+ * tibt tiis mftiod is only dbpbblf of dopying tif sourdf surfbdf into tif
+ * dfstinbtion surfbdf (i.f. no sdbling or gfnfrbl trbnsform is bllowfd).
+ * Tiis rfstridtion siould not bf bn issuf bs tiis mftiod is only usfd
+ * durrfntly to dbdif b stbtid systfm mfmory imbgf into bn OpfnGL tfxturf in
+ * b iiddfn-bddflfrbtion situbtion.
  */
-static void
-OGLBlitSwToTexture(SurfaceDataRasInfo *srcInfo, OGLPixelFormat *pf,
+stbtid void
+OGLBlitSwToTfxturf(SurfbdfDbtbRbsInfo *srdInfo, OGLPixflFormbt *pf,
                    OGLSDOps *dstOps,
                    jint dx1, jint dy1, jint dx2, jint dy2)
 {
-    jboolean adjustAlpha = (pf != NULL && !pf->hasAlpha);
-    j2d_glBindTexture(dstOps->textureTarget, dstOps->textureID);
+    jboolfbn bdjustAlpib = (pf != NULL && !pf->ibsAlpib);
+    j2d_glBindTfxturf(dstOps->tfxturfTbrgft, dstOps->tfxturfID);
 
-    if (adjustAlpha) {
-        // if the source surface does not have an alpha channel,
-        // we need to ensure that the alpha values are forced to 1.0f
-        j2d_glPixelTransferf(GL_ALPHA_SCALE, 0.0f);
-        j2d_glPixelTransferf(GL_ALPHA_BIAS, 1.0f);
+    if (bdjustAlpib) {
+        // if tif sourdf surfbdf dofs not ibvf bn blpib dibnnfl,
+        // wf nffd to fnsurf tibt tif blpib vblufs brf fordfd to 1.0f
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 0.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 1.0f);
     }
 
-    // in case pixel stride is not a multiple of scanline stride the copy
-    // has to be done line by line (see 6207877)
-    if (srcInfo->scanStride % srcInfo->pixelStride != 0) {
-        jint width = dx2 - dx1;
-        jint height = dy2 - dy1;
-        GLvoid *pSrc = srcInfo->rasBase;
+    // in dbsf pixfl stridf is not b multiplf of sdbnlinf stridf tif dopy
+    // ibs to bf donf linf by linf (sff 6207877)
+    if (srdInfo->sdbnStridf % srdInfo->pixflStridf != 0) {
+        jint widti = dx2 - dx1;
+        jint ifigit = dy2 - dy1;
+        GLvoid *pSrd = srdInfo->rbsBbsf;
 
-        while (height > 0) {
-            j2d_glTexSubImage2D(dstOps->textureTarget, 0,
-                                dx1, dy2 - height, width, 1,
-                                pf->format, pf->type, pSrc);
-            pSrc = PtrAddBytes(pSrc, srcInfo->scanStride);
-            height--;
+        wiilf (ifigit > 0) {
+            j2d_glTfxSubImbgf2D(dstOps->tfxturfTbrgft, 0,
+                                dx1, dy2 - ifigit, widti, 1,
+                                pf->formbt, pf->typf, pSrd);
+            pSrd = PtrAddBytfs(pSrd, srdInfo->sdbnStridf);
+            ifigit--;
         }
-    } else {
-        j2d_glTexSubImage2D(dstOps->textureTarget, 0,
+    } flsf {
+        j2d_glTfxSubImbgf2D(dstOps->tfxturfTbrgft, 0,
                             dx1, dy1, dx2-dx1, dy2-dy1,
-                            pf->format, pf->type, srcInfo->rasBase);
+                            pf->formbt, pf->typf, srdInfo->rbsBbsf);
     }
-    if (adjustAlpha) {
-        // restore scale/bias to their original values
-        j2d_glPixelTransferf(GL_ALPHA_SCALE, 1.0f);
-        j2d_glPixelTransferf(GL_ALPHA_BIAS, 0.0f);
+    if (bdjustAlpib) {
+        // rfstorf sdblf/bibs to tifir originbl vblufs
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 1.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 0.0f);
     }
 }
 
 /**
- * General blit method for copying a native OpenGL surface (of type "Surface"
- * or "Texture") to another OpenGL "Surface".  If texture is JNI_TRUE, this
- * method will invoke the Texture->Surface inner loop; otherwise, one of the
- * Surface->Surface inner loops will be invoked, depending on the transform
- * state.
+ * Gfnfrbl blit mftiod for dopying b nbtivf OpfnGL surfbdf (of typf "Surfbdf"
+ * or "Tfxturf") to bnotifr OpfnGL "Surfbdf".  If tfxturf is JNI_TRUE, tiis
+ * mftiod will invokf tif Tfxturf->Surfbdf innfr loop; otifrwisf, onf of tif
+ * Surfbdf->Surfbdf innfr loops will bf invokfd, dfpfnding on tif trbnsform
+ * stbtf.
  *
- * REMIND: we can trick these blit methods into doing XOR simply by passing
- *         in the (pixel ^ xorpixel) as the pixel value and preceding the
- *         blit with a fillrect...
+ * REMIND: wf dbn tridk tifsf blit mftiods into doing XOR simply by pbssing
+ *         in tif (pixfl ^ xorpixfl) bs tif pixfl vbluf bnd prfdfding tif
+ *         blit witi b fillrfdt...
  */
 void
-OGLBlitLoops_IsoBlit(JNIEnv *env,
-                     OGLContext *oglc, jlong pSrcOps, jlong pDstOps,
-                     jboolean xform, jint hint,
-                     jboolean texture, jboolean rtt,
+OGLBlitLoops_IsoBlit(JNIEnv *fnv,
+                     OGLContfxt *ogld, jlong pSrdOps, jlong pDstOps,
+                     jboolfbn xform, jint iint,
+                     jboolfbn tfxturf, jboolfbn rtt,
                      jint sx1, jint sy1, jint sx2, jint sy2,
-                     jdouble dx1, jdouble dy1, jdouble dx2, jdouble dy2)
+                     jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
 {
-    OGLSDOps *srcOps = (OGLSDOps *)jlong_to_ptr(pSrcOps);
+    OGLSDOps *srdOps = (OGLSDOps *)jlong_to_ptr(pSrdOps);
     OGLSDOps *dstOps = (OGLSDOps *)jlong_to_ptr(pDstOps);
-    SurfaceDataRasInfo srcInfo;
+    SurfbdfDbtbRbsInfo srdInfo;
     jint sw    = sx2 - sx1;
-    jint sh    = sy2 - sy1;
-    jdouble dw = dx2 - dx1;
-    jdouble dh = dy2 - dy1;
+    jint si    = sy2 - sy1;
+    jdoublf dw = dx2 - dx1;
+    jdoublf di = dy2 - dy1;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBlitLoops_IsoBlit");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBlitLoops_IsoBlit");
 
-    if (sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "OGLBlitLoops_IsoBlit: invalid dimensions");
-        return;
+    if (sw <= 0 || si <= 0 || dw <= 0 || di <= 0) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "OGLBlitLoops_IsoBlit: invblid dimfnsions");
+        rfturn;
     }
 
-    RETURN_IF_NULL(srcOps);
+    RETURN_IF_NULL(srdOps);
     RETURN_IF_NULL(dstOps);
-    RETURN_IF_NULL(oglc);
+    RETURN_IF_NULL(ogld);
 
-    srcInfo.bounds.x1 = sx1;
-    srcInfo.bounds.y1 = sy1;
-    srcInfo.bounds.x2 = sx2;
-    srcInfo.bounds.y2 = sy2;
+    srdInfo.bounds.x1 = sx1;
+    srdInfo.bounds.y1 = sy1;
+    srdInfo.bounds.x2 = sx2;
+    srdInfo.bounds.y2 = sy2;
 
-    SurfaceData_IntersectBoundsXYXY(&srcInfo.bounds,
-                                    0, 0, srcOps->width, srcOps->height);
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&srdInfo.bounds,
+                                    0, 0, srdOps->widti, srdOps->ifigit);
 
-    if (srcInfo.bounds.x2 > srcInfo.bounds.x1 &&
-        srcInfo.bounds.y2 > srcInfo.bounds.y1)
+    if (srdInfo.bounds.x2 > srdInfo.bounds.x1 &&
+        srdInfo.bounds.y2 > srdInfo.bounds.y1)
     {
-        if (srcInfo.bounds.x1 != sx1) {
-            dx1 += (srcInfo.bounds.x1 - sx1) * (dw / sw);
-            sx1 = srcInfo.bounds.x1;
+        if (srdInfo.bounds.x1 != sx1) {
+            dx1 += (srdInfo.bounds.x1 - sx1) * (dw / sw);
+            sx1 = srdInfo.bounds.x1;
         }
-        if (srcInfo.bounds.y1 != sy1) {
-            dy1 += (srcInfo.bounds.y1 - sy1) * (dh / sh);
-            sy1 = srcInfo.bounds.y1;
+        if (srdInfo.bounds.y1 != sy1) {
+            dy1 += (srdInfo.bounds.y1 - sy1) * (di / si);
+            sy1 = srdInfo.bounds.y1;
         }
-        if (srcInfo.bounds.x2 != sx2) {
-            dx2 += (srcInfo.bounds.x2 - sx2) * (dw / sw);
-            sx2 = srcInfo.bounds.x2;
+        if (srdInfo.bounds.x2 != sx2) {
+            dx2 += (srdInfo.bounds.x2 - sx2) * (dw / sw);
+            sx2 = srdInfo.bounds.x2;
         }
-        if (srcInfo.bounds.y2 != sy2) {
-            dy2 += (srcInfo.bounds.y2 - sy2) * (dh / sh);
-            sy2 = srcInfo.bounds.y2;
+        if (srdInfo.bounds.y2 != sy2) {
+            dy2 += (srdInfo.bounds.y2 - sy2) * (di / si);
+            sy2 = srdInfo.bounds.y2;
         }
 
-        J2dTraceLn2(J2D_TRACE_VERBOSE, "  texture=%d hint=%d", texture, hint);
-        J2dTraceLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
+        J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  tfxturf=%d iint=%d", tfxturf, iint);
+        J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
                     sx1, sy1, sx2, sy2);
-        J2dTraceLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
+        J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
                     dx1, dy1, dx2, dy2);
 
-        if (texture) {
-            GLint glhint = (hint == OGLSD_XFORM_BILINEAR) ? GL_LINEAR :
+        if (tfxturf) {
+            GLint gliint = (iint == OGLSD_XFORM_BILINEAR) ? GL_LINEAR :
                                                             GL_NEAREST;
-            CHECK_PREVIOUS_OP(srcOps->textureTarget);
-            OGLBlitTextureToSurface(oglc, srcOps, dstOps, rtt, glhint,
+            CHECK_PREVIOUS_OP(srdOps->tfxturfTbrgft);
+            OGLBlitTfxturfToSurfbdf(ogld, srdOps, dstOps, rtt, gliint,
                                     sx1, sy1, sx2, sy2,
                                     dx1, dy1, dx2, dy2);
-        } else {
-            jboolean viaTexture;
+        } flsf {
+            jboolfbn vibTfxturf;
             if (xform) {
-                // we must use the via-texture codepath when there is a xform
-                viaTexture = JNI_TRUE;
-            } else {
-                // look at the vendor to see which codepath is faster
-                // (this has been empirically determined; see 5020009)
-                switch (OGLC_GET_VENDOR(oglc)) {
-                case OGLC_VENDOR_NVIDIA:
-                    // the via-texture codepath tends to be faster when
-                    // there is either a simple scale OR an extra alpha
-                    viaTexture =
+                // wf must usf tif vib-tfxturf dodfpbti wifn tifrf is b xform
+                vibTfxturf = JNI_TRUE;
+            } flsf {
+                // look bt tif vfndor to sff wiidi dodfpbti is fbstfr
+                // (tiis ibs bffn fmpiridblly dftfrminfd; sff 5020009)
+                switdi (OGLC_GET_VENDOR(ogld)) {
+                dbsf OGLC_VENDOR_NVIDIA:
+                    // tif vib-tfxturf dodfpbti tfnds to bf fbstfr wifn
+                    // tifrf is fitifr b simplf sdblf OR bn fxtrb blpib
+                    vibTfxturf =
                         (sx2-sx1) != (jint)(dx2-dx1) ||
                         (sy2-sy1) != (jint)(dy2-dy1) ||
-                        oglc->extraAlpha != 1.0f;
-                    break;
+                        ogld->fxtrbAlpib != 1.0f;
+                    brfbk;
 
-                case OGLC_VENDOR_ATI:
-                    // the via-texture codepath tends to be faster only when
-                    // there is an extra alpha involved (scaling or not)
-                    viaTexture = (oglc->extraAlpha != 1.0f);
-                    break;
+                dbsf OGLC_VENDOR_ATI:
+                    // tif vib-tfxturf dodfpbti tfnds to bf fbstfr only wifn
+                    // tifrf is bn fxtrb blpib involvfd (sdbling or not)
+                    vibTfxturf = (ogld->fxtrbAlpib != 1.0f);
+                    brfbk;
 
-                default:
-                    // just use the glCopyPixels() codepath
-                    viaTexture = JNI_FALSE;
-                    break;
+                dffbult:
+                    // just usf tif glCopyPixfls() dodfpbti
+                    vibTfxturf = JNI_FALSE;
+                    brfbk;
                 }
             }
 
             RESET_PREVIOUS_OP();
-            if (viaTexture) {
-                OGLBlitToSurfaceViaTexture(oglc, &srcInfo, NULL, srcOps,
-                                           JNI_FALSE, hint,
+            if (vibTfxturf) {
+                OGLBlitToSurfbdfVibTfxturf(ogld, &srdInfo, NULL, srdOps,
+                                           JNI_FALSE, iint,
                                            sx1, sy1, sx2, sy2,
                                            dx1, dy1, dx2, dy2);
-            } else {
-                OGLBlitSurfaceToSurface(oglc, srcOps, dstOps,
+            } flsf {
+                OGLBlitSurfbdfToSurfbdf(ogld, srdOps, dstOps,
                                         sx1, sy1, sx2, sy2,
                                         dx1, dy1, dx2, dy2);
             }
@@ -563,359 +563,359 @@ OGLBlitLoops_IsoBlit(JNIEnv *env,
 }
 
 /**
- * General blit method for copying a system memory ("Sw") surface to a native
- * OpenGL surface (of type "Surface" or "Texture").  If texture is JNI_TRUE,
- * this method will invoke the Sw->Texture inner loop; otherwise, one of the
- * Sw->Surface inner loops will be invoked, depending on the transform state.
+ * Gfnfrbl blit mftiod for dopying b systfm mfmory ("Sw") surfbdf to b nbtivf
+ * OpfnGL surfbdf (of typf "Surfbdf" or "Tfxturf").  If tfxturf is JNI_TRUE,
+ * tiis mftiod will invokf tif Sw->Tfxturf innfr loop; otifrwisf, onf of tif
+ * Sw->Surfbdf innfr loops will bf invokfd, dfpfnding on tif trbnsform stbtf.
  */
 void
-OGLBlitLoops_Blit(JNIEnv *env,
-                  OGLContext *oglc, jlong pSrcOps, jlong pDstOps,
-                  jboolean xform, jint hint,
-                  jint srctype, jboolean texture,
+OGLBlitLoops_Blit(JNIEnv *fnv,
+                  OGLContfxt *ogld, jlong pSrdOps, jlong pDstOps,
+                  jboolfbn xform, jint iint,
+                  jint srdtypf, jboolfbn tfxturf,
                   jint sx1, jint sy1, jint sx2, jint sy2,
-                  jdouble dx1, jdouble dy1, jdouble dx2, jdouble dy2)
+                  jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
 {
-    SurfaceDataOps *srcOps = (SurfaceDataOps *)jlong_to_ptr(pSrcOps);
+    SurfbdfDbtbOps *srdOps = (SurfbdfDbtbOps *)jlong_to_ptr(pSrdOps);
     OGLSDOps *dstOps = (OGLSDOps *)jlong_to_ptr(pDstOps);
-    SurfaceDataRasInfo srcInfo;
-    OGLPixelFormat pf = PixelFormats[srctype];
+    SurfbdfDbtbRbsInfo srdInfo;
+    OGLPixflFormbt pf = PixflFormbts[srdtypf];
     jint sw    = sx2 - sx1;
-    jint sh    = sy2 - sy1;
-    jdouble dw = dx2 - dx1;
-    jdouble dh = dy2 - dy1;
+    jint si    = sy2 - sy1;
+    jdoublf dw = dx2 - dx1;
+    jdoublf di = dy2 - dy1;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBlitLoops_Blit");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBlitLoops_Blit");
 
-    if (sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0 || srctype < 0) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "OGLBlitLoops_Blit: invalid dimensions or srctype");
-        return;
+    if (sw <= 0 || si <= 0 || dw <= 0 || di <= 0 || srdtypf < 0) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "OGLBlitLoops_Blit: invblid dimfnsions or srdtypf");
+        rfturn;
     }
 
-    RETURN_IF_NULL(srcOps);
+    RETURN_IF_NULL(srdOps);
     RETURN_IF_NULL(dstOps);
-    RETURN_IF_NULL(oglc);
+    RETURN_IF_NULL(ogld);
     RESET_PREVIOUS_OP();
 
-    srcInfo.bounds.x1 = sx1;
-    srcInfo.bounds.y1 = sy1;
-    srcInfo.bounds.x2 = sx2;
-    srcInfo.bounds.y2 = sy2;
+    srdInfo.bounds.x1 = sx1;
+    srdInfo.bounds.y1 = sy1;
+    srdInfo.bounds.x2 = sx2;
+    srdInfo.bounds.y2 = sy2;
 
-    if (srcOps->Lock(env, srcOps, &srcInfo, SD_LOCK_READ) != SD_SUCCESS) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "OGLBlitLoops_Blit: could not acquire lock");
-        return;
+    if (srdOps->Lodk(fnv, srdOps, &srdInfo, SD_LOCK_READ) != SD_SUCCESS) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "OGLBlitLoops_Blit: dould not bdquirf lodk");
+        rfturn;
     }
 
-    if (srcInfo.bounds.x2 > srcInfo.bounds.x1 &&
-        srcInfo.bounds.y2 > srcInfo.bounds.y1)
+    if (srdInfo.bounds.x2 > srdInfo.bounds.x1 &&
+        srdInfo.bounds.y2 > srdInfo.bounds.y1)
     {
-        srcOps->GetRasInfo(env, srcOps, &srcInfo);
-        if (srcInfo.rasBase) {
-            if (srcInfo.bounds.x1 != sx1) {
-                dx1 += (srcInfo.bounds.x1 - sx1) * (dw / sw);
-                sx1 = srcInfo.bounds.x1;
+        srdOps->GftRbsInfo(fnv, srdOps, &srdInfo);
+        if (srdInfo.rbsBbsf) {
+            if (srdInfo.bounds.x1 != sx1) {
+                dx1 += (srdInfo.bounds.x1 - sx1) * (dw / sw);
+                sx1 = srdInfo.bounds.x1;
             }
-            if (srcInfo.bounds.y1 != sy1) {
-                dy1 += (srcInfo.bounds.y1 - sy1) * (dh / sh);
-                sy1 = srcInfo.bounds.y1;
+            if (srdInfo.bounds.y1 != sy1) {
+                dy1 += (srdInfo.bounds.y1 - sy1) * (di / si);
+                sy1 = srdInfo.bounds.y1;
             }
-            if (srcInfo.bounds.x2 != sx2) {
-                dx2 += (srcInfo.bounds.x2 - sx2) * (dw / sw);
-                sx2 = srcInfo.bounds.x2;
+            if (srdInfo.bounds.x2 != sx2) {
+                dx2 += (srdInfo.bounds.x2 - sx2) * (dw / sw);
+                sx2 = srdInfo.bounds.x2;
             }
-            if (srcInfo.bounds.y2 != sy2) {
-                dy2 += (srcInfo.bounds.y2 - sy2) * (dh / sh);
-                sy2 = srcInfo.bounds.y2;
+            if (srdInfo.bounds.y2 != sy2) {
+                dy2 += (srdInfo.bounds.y2 - sy2) * (di / si);
+                sy2 = srdInfo.bounds.y2;
             }
 
-            J2dTraceLn3(J2D_TRACE_VERBOSE, "  texture=%d srctype=%d hint=%d",
-                        texture, srctype, hint);
-            J2dTraceLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
+            J2dTrbdfLn3(J2D_TRACE_VERBOSE, "  tfxturf=%d srdtypf=%d iint=%d",
+                        tfxturf, srdtypf, iint);
+            J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
                         sx1, sy1, sx2, sy2);
-            J2dTraceLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
+            J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
                         dx1, dy1, dx2, dy2);
 
-            j2d_glPixelStorei(GL_UNPACK_SKIP_PIXELS, sx1);
-            j2d_glPixelStorei(GL_UNPACK_SKIP_ROWS, sy1);
-            j2d_glPixelStorei(GL_UNPACK_ROW_LENGTH,
-                              srcInfo.scanStride / srcInfo.pixelStride);
-            j2d_glPixelStorei(GL_UNPACK_ALIGNMENT, pf.alignment);
+            j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, sx1);
+            j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, sy1);
+            j2d_glPixflStorfi(GL_UNPACK_ROW_LENGTH,
+                              srdInfo.sdbnStridf / srdInfo.pixflStridf);
+            j2d_glPixflStorfi(GL_UNPACK_ALIGNMENT, pf.blignmfnt);
 
-            if (texture) {
-                // These coordinates will always be integers since we
-                // only ever do a straight copy from sw to texture.
-                // Thus these casts are "safe" - no loss of precision.
-                OGLBlitSwToTexture(&srcInfo, &pf, dstOps,
+            if (tfxturf) {
+                // Tifsf doordinbtfs will blwbys bf intfgfrs sindf wf
+                // only fvfr do b strbigit dopy from sw to tfxturf.
+                // Tius tifsf dbsts brf "sbff" - no loss of prfdision.
+                OGLBlitSwToTfxturf(&srdInfo, &pf, dstOps,
                                    (jint)dx1, (jint)dy1, (jint)dx2, (jint)dy2);
-            } else {
-                jboolean viaTexture;
+            } flsf {
+                jboolfbn vibTfxturf;
                 if (xform) {
-                    // we must use the via-texture codepath when there
-                    // is a xform
-                    viaTexture = JNI_TRUE;
-                } else {
-                    // look at the vendor to see which codepath is faster
-                    // (this has been empirically determined; see 5020009)
-                    switch (OGLC_GET_VENDOR(oglc)) {
-                    case OGLC_VENDOR_NVIDIA:
-                        // the via-texture codepath tends to be faster when
-                        // there is either a simple scale OR an extra alpha
-                        viaTexture =
+                    // wf must usf tif vib-tfxturf dodfpbti wifn tifrf
+                    // is b xform
+                    vibTfxturf = JNI_TRUE;
+                } flsf {
+                    // look bt tif vfndor to sff wiidi dodfpbti is fbstfr
+                    // (tiis ibs bffn fmpiridblly dftfrminfd; sff 5020009)
+                    switdi (OGLC_GET_VENDOR(ogld)) {
+                    dbsf OGLC_VENDOR_NVIDIA:
+                        // tif vib-tfxturf dodfpbti tfnds to bf fbstfr wifn
+                        // tifrf is fitifr b simplf sdblf OR bn fxtrb blpib
+                        vibTfxturf =
                             (sx2-sx1) != (jint)(dx2-dx1) ||
                             (sy2-sy1) != (jint)(dy2-dy1) ||
-                            oglc->extraAlpha != 1.0f;
-                        break;
-#ifdef MACOSX
-                    case OGLC_VENDOR_ATI:
-                        // see 8024461
-                        viaTexture = JNI_TRUE;
-                        break;
-#endif
-                    default:
-                        // just use the glDrawPixels() codepath
-                        viaTexture = JNI_FALSE;
-                        break;
+                            ogld->fxtrbAlpib != 1.0f;
+                        brfbk;
+#ifdff MACOSX
+                    dbsf OGLC_VENDOR_ATI:
+                        // sff 8024461
+                        vibTfxturf = JNI_TRUE;
+                        brfbk;
+#fndif
+                    dffbult:
+                        // just usf tif glDrbwPixfls() dodfpbti
+                        vibTfxturf = JNI_FALSE;
+                        brfbk;
                     }
                 }
 
-                if (viaTexture) {
-                    OGLBlitToSurfaceViaTexture(oglc, &srcInfo, &pf, NULL,
-                                               JNI_TRUE, hint,
+                if (vibTfxturf) {
+                    OGLBlitToSurfbdfVibTfxturf(ogld, &srdInfo, &pf, NULL,
+                                               JNI_TRUE, iint,
                                                sx1, sy1, sx2, sy2,
                                                dx1, dy1, dx2, dy2);
-                } else {
-                    OGLBlitSwToSurface(oglc, &srcInfo, &pf,
+                } flsf {
+                    OGLBlitSwToSurfbdf(ogld, &srdInfo, &pf,
                                        sx1, sy1, sx2, sy2,
                                        dx1, dy1, dx2, dy2);
                 }
             }
 
-            j2d_glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-            j2d_glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-            j2d_glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-            j2d_glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+            j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, 0);
+            j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, 0);
+            j2d_glPixflStorfi(GL_UNPACK_ROW_LENGTH, 0);
+            j2d_glPixflStorfi(GL_UNPACK_ALIGNMENT, 4);
         }
-        SurfaceData_InvokeRelease(env, srcOps, &srcInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, srdOps, &srdInfo);
     }
-    SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
 }
 
 /**
- * This method makes vertical flip of the provided area of Surface and convert
- * pixel's data from argbPre to argb format if requested.
+ * Tiis mftiod mbkfs vfrtidbl flip of tif providfd brfb of Surfbdf bnd donvfrt
+ * pixfl's dbtb from brgbPrf to brgb formbt if rfqufstfd.
  */
-void flip(void *pDst, juint w, juint h, jint scanStride, jboolean convert) {
-    const size_t clippedStride = 4 * w;
-    void *tempRow = (h > 1 && !convert) ? malloc(clippedStride) : NULL;
+void flip(void *pDst, juint w, juint i, jint sdbnStridf, jboolfbn donvfrt) {
+    donst sizf_t dlippfdStridf = 4 * w;
+    void *tfmpRow = (i > 1 && !donvfrt) ? mbllod(dlippfdStridf) : NULL;
     juint i = 0;
-    juint step = 0;
-    // vertical flip and convert argbpre to argb if necessary
-    for (; i < h / 2; ++i) {
-        juint *r1 = PtrAddBytes(pDst, (i * scanStride));
-        juint *r2 = PtrAddBytes(pDst, (h - i - 1) * scanStride);
-        if (tempRow) {
-            // fast path
-            memcpy(tempRow, r1, clippedStride);
-            memcpy(r1, r2, clippedStride);
-            memcpy(r2, tempRow, clippedStride);
-        } else {
-            // slow path
-            for (step = 0; step < w; ++step) {
-                juint tmp = r1[step];
-                if (convert) {
-                    LoadIntArgbPreTo1IntArgb(r2, 0, step, r1[step]);
-                    LoadIntArgbPreTo1IntArgb(&tmp, 0, 0, r2[step]);
-                } else {
-                    r1[step] = r2[step];
-                    r2[step] = tmp;
+    juint stfp = 0;
+    // vfrtidbl flip bnd donvfrt brgbprf to brgb if nfdfssbry
+    for (; i < i / 2; ++i) {
+        juint *r1 = PtrAddBytfs(pDst, (i * sdbnStridf));
+        juint *r2 = PtrAddBytfs(pDst, (i - i - 1) * sdbnStridf);
+        if (tfmpRow) {
+            // fbst pbti
+            mfmdpy(tfmpRow, r1, dlippfdStridf);
+            mfmdpy(r1, r2, dlippfdStridf);
+            mfmdpy(r2, tfmpRow, dlippfdStridf);
+        } flsf {
+            // slow pbti
+            for (stfp = 0; stfp < w; ++stfp) {
+                juint tmp = r1[stfp];
+                if (donvfrt) {
+                    LobdIntArgbPrfTo1IntArgb(r2, 0, stfp, r1[stfp]);
+                    LobdIntArgbPrfTo1IntArgb(&tmp, 0, 0, r2[stfp]);
+                } flsf {
+                    r1[stfp] = r2[stfp];
+                    r2[stfp] = tmp;
                 }
             }
         }
     }
-    // convert the middle line if necessary
-    if (convert && h % 2) {
-        juint *r1 = PtrAddBytes(pDst, (i * scanStride));
-        for (step = 0; step < w; ++step) {
-            LoadIntArgbPreTo1IntArgb(r1, 0, step, r1[step]);
+    // donvfrt tif middlf linf if nfdfssbry
+    if (donvfrt && i % 2) {
+        juint *r1 = PtrAddBytfs(pDst, (i * sdbnStridf));
+        for (stfp = 0; stfp < w; ++stfp) {
+            LobdIntArgbPrfTo1IntArgb(r1, 0, stfp, r1[stfp]);
         }
     }
-    if (tempRow) {
-        free(tempRow);
+    if (tfmpRow) {
+        frff(tfmpRow);
     }
 }
 
 /**
- * Specialized blit method for copying a native OpenGL "Surface" (pbuffer,
- * window, etc.) to a system memory ("Sw") surface.
+ * Spfdiblizfd blit mftiod for dopying b nbtivf OpfnGL "Surfbdf" (pbufffr,
+ * window, ftd.) to b systfm mfmory ("Sw") surfbdf.
  */
 void
-OGLBlitLoops_SurfaceToSwBlit(JNIEnv *env, OGLContext *oglc,
-                             jlong pSrcOps, jlong pDstOps, jint dsttype,
-                             jint srcx, jint srcy, jint dstx, jint dsty,
-                             jint width, jint height)
+OGLBlitLoops_SurfbdfToSwBlit(JNIEnv *fnv, OGLContfxt *ogld,
+                             jlong pSrdOps, jlong pDstOps, jint dsttypf,
+                             jint srdx, jint srdy, jint dstx, jint dsty,
+                             jint widti, jint ifigit)
 {
-    OGLSDOps *srcOps = (OGLSDOps *)jlong_to_ptr(pSrcOps);
-    SurfaceDataOps *dstOps = (SurfaceDataOps *)jlong_to_ptr(pDstOps);
-    SurfaceDataRasInfo srcInfo, dstInfo;
-    OGLPixelFormat pf = PixelFormats[dsttype];
+    OGLSDOps *srdOps = (OGLSDOps *)jlong_to_ptr(pSrdOps);
+    SurfbdfDbtbOps *dstOps = (SurfbdfDbtbOps *)jlong_to_ptr(pDstOps);
+    SurfbdfDbtbRbsInfo srdInfo, dstInfo;
+    OGLPixflFormbt pf = PixflFormbts[dsttypf];
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBlitLoops_SurfaceToSwBlit");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBlitLoops_SurfbdfToSwBlit");
 
-    if (width <= 0 || height <= 0) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-            "OGLBlitLoops_SurfaceToSwBlit: dimensions are non-positive");
-        return;
+    if (widti <= 0 || ifigit <= 0) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+            "OGLBlitLoops_SurfbdfToSwBlit: dimfnsions brf non-positivf");
+        rfturn;
     }
 
-    RETURN_IF_NULL(srcOps);
+    RETURN_IF_NULL(srdOps);
     RETURN_IF_NULL(dstOps);
-    RETURN_IF_NULL(oglc);
+    RETURN_IF_NULL(ogld);
     RESET_PREVIOUS_OP();
 
-    srcInfo.bounds.x1 = srcx;
-    srcInfo.bounds.y1 = srcy;
-    srcInfo.bounds.x2 = srcx + width;
-    srcInfo.bounds.y2 = srcy + height;
+    srdInfo.bounds.x1 = srdx;
+    srdInfo.bounds.y1 = srdy;
+    srdInfo.bounds.x2 = srdx + widti;
+    srdInfo.bounds.y2 = srdy + ifigit;
     dstInfo.bounds.x1 = dstx;
     dstInfo.bounds.y1 = dsty;
-    dstInfo.bounds.x2 = dstx + width;
-    dstInfo.bounds.y2 = dsty + height;
+    dstInfo.bounds.x2 = dstx + widti;
+    dstInfo.bounds.y2 = dsty + ifigit;
 
-    if (dstOps->Lock(env, dstOps, &dstInfo, SD_LOCK_WRITE) != SD_SUCCESS) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-            "OGLBlitLoops_SurfaceToSwBlit: could not acquire dst lock");
-        return;
+    if (dstOps->Lodk(fnv, dstOps, &dstInfo, SD_LOCK_WRITE) != SD_SUCCESS) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+            "OGLBlitLoops_SurfbdfToSwBlit: dould not bdquirf dst lodk");
+        rfturn;
     }
 
-    SurfaceData_IntersectBoundsXYXY(&srcInfo.bounds,
-                                    0, 0, srcOps->width, srcOps->height);
-    SurfaceData_IntersectBlitBounds(&dstInfo.bounds, &srcInfo.bounds,
-                                    srcx - dstx, srcy - dsty);
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&srdInfo.bounds,
+                                    0, 0, srdOps->widti, srdOps->ifigit);
+    SurfbdfDbtb_IntfrsfdtBlitBounds(&dstInfo.bounds, &srdInfo.bounds,
+                                    srdx - dstx, srdy - dsty);
 
-    if (srcInfo.bounds.x2 > srcInfo.bounds.x1 &&
-        srcInfo.bounds.y2 > srcInfo.bounds.y1)
+    if (srdInfo.bounds.x2 > srdInfo.bounds.x1 &&
+        srdInfo.bounds.y2 > srdInfo.bounds.y1)
     {
-        dstOps->GetRasInfo(env, dstOps, &dstInfo);
-        if (dstInfo.rasBase) {
-            void *pDst = dstInfo.rasBase;
+        dstOps->GftRbsInfo(fnv, dstOps, &dstInfo);
+        if (dstInfo.rbsBbsf) {
+            void *pDst = dstInfo.rbsBbsf;
 
-            srcx = srcInfo.bounds.x1;
-            srcy = srcInfo.bounds.y1;
+            srdx = srdInfo.bounds.x1;
+            srdy = srdInfo.bounds.y1;
             dstx = dstInfo.bounds.x1;
             dsty = dstInfo.bounds.y1;
-            width = srcInfo.bounds.x2 - srcInfo.bounds.x1;
-            height = srcInfo.bounds.y2 - srcInfo.bounds.y1;
+            widti = srdInfo.bounds.x2 - srdInfo.bounds.x1;
+            ifigit = srdInfo.bounds.y2 - srdInfo.bounds.y1;
 
-            pDst = PtrAddBytes(pDst, dstx * dstInfo.pixelStride);
-            pDst = PtrAddBytes(pDst, dsty * dstInfo.scanStride);
+            pDst = PtrAddBytfs(pDst, dstx * dstInfo.pixflStridf);
+            pDst = PtrAddBytfs(pDst, dsty * dstInfo.sdbnStridf);
 
-            j2d_glPixelStorei(GL_PACK_ROW_LENGTH,
-                              dstInfo.scanStride / dstInfo.pixelStride);
-            j2d_glPixelStorei(GL_PACK_ALIGNMENT, pf.alignment);
-#ifdef MACOSX
-            if (srcOps->isOpaque) {
-                // For some reason Apple's OpenGL implementation will
-                // read back zero values from the alpha channel of an
-                // opaque surface when using glReadPixels(), so here we
-                // force the resulting pixels to be fully opaque.
-                j2d_glPixelTransferf(GL_ALPHA_BIAS, 1.0);
+            j2d_glPixflStorfi(GL_PACK_ROW_LENGTH,
+                              dstInfo.sdbnStridf / dstInfo.pixflStridf);
+            j2d_glPixflStorfi(GL_PACK_ALIGNMENT, pf.blignmfnt);
+#ifdff MACOSX
+            if (srdOps->isOpbquf) {
+                // For somf rfbson Applf's OpfnGL implfmfntbtion will
+                // rfbd bbdk zfro vblufs from tif blpib dibnnfl of bn
+                // opbquf surfbdf wifn using glRfbdPixfls(), so ifrf wf
+                // fordf tif rfsulting pixfls to bf fully opbquf.
+                j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 1.0);
             }
-#endif
+#fndif
 
-            J2dTraceLn4(J2D_TRACE_VERBOSE, "  sx=%d sy=%d w=%d h=%d",
-                        srcx, srcy, width, height);
-            J2dTraceLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
+            J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  sx=%d sy=%d w=%d i=%d",
+                        srdx, srdy, widti, ifigit);
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
                         dstx, dsty);
 
-            // this accounts for lower-left origin of the source region
-            srcx = srcOps->xOffset + srcx;
-            srcy = srcOps->yOffset + srcOps->height - srcy - height;
+            // tiis bddounts for lowfr-lfft origin of tif sourdf rfgion
+            srdx = srdOps->xOffsft + srdx;
+            srdy = srdOps->yOffsft + srdOps->ifigit - srdy - ifigit;
 
-            // Note that glReadPixels() is extremely slow!
-            // So we call it only once and flip the image using memcpy.
-            j2d_glReadPixels(srcx, srcy, width, height,
-                             pf.format, pf.type, pDst);
-            // It was checked above that width and height are positive.
-            flip(pDst, (juint) width, (juint) height, dstInfo.scanStride,
-                 !pf.isPremult && !srcOps->isOpaque);
-#ifdef MACOSX
-            if (srcOps->isOpaque) {
-                j2d_glPixelTransferf(GL_ALPHA_BIAS, 0.0);
+            // Notf tibt glRfbdPixfls() is fxtrfmfly slow!
+            // So wf dbll it only ondf bnd flip tif imbgf using mfmdpy.
+            j2d_glRfbdPixfls(srdx, srdy, widti, ifigit,
+                             pf.formbt, pf.typf, pDst);
+            // It wbs difdkfd bbovf tibt widti bnd ifigit brf positivf.
+            flip(pDst, (juint) widti, (juint) ifigit, dstInfo.sdbnStridf,
+                 !pf.isPrfmult && !srdOps->isOpbquf);
+#ifdff MACOSX
+            if (srdOps->isOpbquf) {
+                j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 0.0);
             }
-#endif
-            j2d_glPixelStorei(GL_PACK_ROW_LENGTH, 0);
-            j2d_glPixelStorei(GL_PACK_ALIGNMENT, 4);
+#fndif
+            j2d_glPixflStorfi(GL_PACK_ROW_LENGTH, 0);
+            j2d_glPixflStorfi(GL_PACK_ALIGNMENT, 4);
         }
-        SurfaceData_InvokeRelease(env, dstOps, &dstInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, dstOps, &dstInfo);
     }
-    SurfaceData_InvokeUnlock(env, dstOps, &dstInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, dstOps, &dstInfo);
 }
 
 void
-OGLBlitLoops_CopyArea(JNIEnv *env,
-                      OGLContext *oglc, OGLSDOps *dstOps,
-                      jint x, jint y, jint width, jint height,
+OGLBlitLoops_CopyArfb(JNIEnv *fnv,
+                      OGLContfxt *ogld, OGLSDOps *dstOps,
+                      jint x, jint y, jint widti, jint ifigit,
                       jint dx, jint dy)
 {
-    SurfaceDataBounds srcBounds, dstBounds;
+    SurfbdfDbtbBounds srdBounds, dstBounds;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBlitLoops_CopyArea");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBlitLoops_CopyArfb");
 
-    RETURN_IF_NULL(oglc);
+    RETURN_IF_NULL(ogld);
     RETURN_IF_NULL(dstOps);
     RESET_PREVIOUS_OP();
 
-    J2dTraceLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d h=%d",
-                x, y, width, height);
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d i=%d",
+                x, y, widti, ifigit);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
                 dx, dy);
 
-    srcBounds.x1 = x;
-    srcBounds.y1 = y;
-    srcBounds.x2 = srcBounds.x1 + width;
-    srcBounds.y2 = srcBounds.y1 + height;
+    srdBounds.x1 = x;
+    srdBounds.y1 = y;
+    srdBounds.x2 = srdBounds.x1 + widti;
+    srdBounds.y2 = srdBounds.y1 + ifigit;
     dstBounds.x1 = x + dx;
     dstBounds.y1 = y + dy;
-    dstBounds.x2 = dstBounds.x1 + width;
-    dstBounds.y2 = dstBounds.y1 + height;
+    dstBounds.x2 = dstBounds.x1 + widti;
+    dstBounds.y2 = dstBounds.y1 + ifigit;
 
-    // 6430601: manually clip src/dst parameters to work around
-    // some bugs in Sun's and Apple's OpenGL implementations
-    // (it's a good idea to restrict the source parameters anyway, since
-    // passing out of range parameters to glCopyPixels() will result in
-    // an OpenGL error)
-    SurfaceData_IntersectBoundsXYXY(&srcBounds,
-                                    0, 0, dstOps->width, dstOps->height);
-    SurfaceData_IntersectBoundsXYXY(&dstBounds,
-                                    0, 0, dstOps->width, dstOps->height);
-    SurfaceData_IntersectBlitBounds(&dstBounds, &srcBounds, -dx, -dy);
+    // 6430601: mbnublly dlip srd/dst pbrbmftfrs to work bround
+    // somf bugs in Sun's bnd Applf's OpfnGL implfmfntbtions
+    // (it's b good idfb to rfstridt tif sourdf pbrbmftfrs bnywby, sindf
+    // pbssing out of rbngf pbrbmftfrs to glCopyPixfls() will rfsult in
+    // bn OpfnGL frror)
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&srdBounds,
+                                    0, 0, dstOps->widti, dstOps->ifigit);
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&dstBounds,
+                                    0, 0, dstOps->widti, dstOps->ifigit);
+    SurfbdfDbtb_IntfrsfdtBlitBounds(&dstBounds, &srdBounds, -dx, -dy);
 
     if (dstBounds.x1 < dstBounds.x2 && dstBounds.y1 < dstBounds.y2) {
-#ifdef MACOSX
-        if (dstOps->isOpaque) {
-            // For some reason Apple's OpenGL implementation will fail
-            // to render glCopyPixels() when the src/dst rectangles are
-            // overlapping and glColorMask() has disabled writes to the
-            // alpha channel.  The workaround is to temporarily re-enable
-            // the alpha channel during the glCopyPixels() operation.
-            j2d_glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+#ifdff MACOSX
+        if (dstOps->isOpbquf) {
+            // For somf rfbson Applf's OpfnGL implfmfntbtion will fbil
+            // to rfndfr glCopyPixfls() wifn tif srd/dst rfdtbnglfs brf
+            // ovfrlbpping bnd glColorMbsk() ibs disbblfd writfs to tif
+            // blpib dibnnfl.  Tif workbround is to tfmporbrily rf-fnbblf
+            // tif blpib dibnnfl during tif glCopyPixfls() opfrbtion.
+            j2d_glColorMbsk(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         }
-#endif
+#fndif
 
-        OGLBlitSurfaceToSurface(oglc, dstOps, dstOps,
-                                srcBounds.x1, srcBounds.y1,
-                                srcBounds.x2, srcBounds.y2,
+        OGLBlitSurfbdfToSurfbdf(ogld, dstOps, dstOps,
+                                srdBounds.x1, srdBounds.y1,
+                                srdBounds.x2, srdBounds.y2,
                                 dstBounds.x1, dstBounds.y1,
                                 dstBounds.x2, dstBounds.y2);
-#ifdef MACOSX
-        if (dstOps->isOpaque) {
-            j2d_glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_FALSE);
+#ifdff MACOSX
+        if (dstOps->isOpbquf) {
+            j2d_glColorMbsk(GL_TRUE, GL_TRUE, GL_TRUE, GL_FALSE);
         }
-#endif
+#fndif
     }
 }
 
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */

@@ -1,460 +1,460 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.io.*;
-import java.math.BigInteger;
-import java.util.Arrays;
+import jbvb.io.*;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Arrbys;
 
 /**
- * Represent an ISO Object Identifier.
+ * Rfprfsfnt bn ISO Objfdt Idfntififr.
  *
- * <P>Object Identifiers are arbitrary length hierarchical identifiers.
- * The individual components are numbers, and they define paths from the
- * root of an ISO-managed identifier space.  You will sometimes see a
- * string name used instead of (or in addition to) the numerical id.
- * These are synonyms for the numerical IDs, but are not widely used
- * since most sites do not know all the requisite strings, while all
- * sites can parse the numeric forms.
+ * <P>Objfdt Idfntififrs brf brbitrbry lfngti iifrbrdiidbl idfntififrs.
+ * Tif individubl domponfnts brf numbfrs, bnd tify dffinf pbtis from tif
+ * root of bn ISO-mbnbgfd idfntififr spbdf.  You will somftimfs sff b
+ * string nbmf usfd instfbd of (or in bddition to) tif numfridbl id.
+ * Tifsf brf synonyms for tif numfridbl IDs, but brf not widfly usfd
+ * sindf most sitfs do not know bll tif rfquisitf strings, wiilf bll
+ * sitfs dbn pbrsf tif numfrid forms.
  *
- * <P>So for example, JavaSoft has the sole authority to assign the
- * meaning to identifiers below the 1.3.6.1.4.1.42.2.17 node in the
- * hierarchy, and other organizations can easily acquire the ability
- * to assign such unique identifiers.
+ * <P>So for fxbmplf, JbvbSoft ibs tif solf butiority to bssign tif
+ * mfbning to idfntififrs bflow tif 1.3.6.1.4.1.42.2.17 nodf in tif
+ * iifrbrdiy, bnd otifr orgbnizbtions dbn fbsily bdquirf tif bbility
+ * to bssign sudi uniquf idfntififrs.
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Dbvid Brownfll
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
 
-final public
-class ObjectIdentifier implements Serializable
+finbl publid
+dlbss ObjfdtIdfntififr implfmfnts Sfriblizbblf
 {
     /**
-     * We use the DER value (no tag, no length) as the internal format
-     * @serial
+     * Wf usf tif DER vbluf (no tbg, no lfngti) bs tif intfrnbl formbt
+     * @sfribl
      */
-    private byte[] encoding = null;
+    privbtf bytf[] fndoding = null;
 
-    private transient volatile String stringForm;
+    privbtf trbnsifnt volbtilf String stringForm;
 
     /*
      * IMPORTANT NOTES FOR CODE CHANGES (bug 4811968) IN JDK 1.7.0
      * ===========================================================
      *
-     * (Almost) serialization compatibility with old versions:
+     * (Almost) sfriblizbtion dompbtibility witi old vfrsions:
      *
-     * serialVersionUID is unchanged. Old field "component" is changed to
-     * type Object so that "poison" (unknown object type for old versions)
-     * can be put inside if there are huge components that cannot be saved
-     * as integers.
+     * sfriblVfrsionUID is undibngfd. Old fifld "domponfnt" is dibngfd to
+     * typf Objfdt so tibt "poison" (unknown objfdt typf for old vfrsions)
+     * dbn bf put insidf if tifrf brf iugf domponfnts tibt dbnnot bf sbvfd
+     * bs intfgfrs.
      *
-     * New version use the new filed "encoding" only.
+     * Nfw vfrsion usf tif nfw filfd "fndoding" only.
      *
-     * Below are all 4 cases in a serialization/deserialization process:
+     * Bflow brf bll 4 dbsfs in b sfriblizbtion/dfsfriblizbtion prodfss:
      *
-     * 1. old -> old: Not covered here
-     * 2. old -> new: There's no "encoding" field, new readObject() reads
-     *    "components" and "componentLen" instead and inits correctly.
-     * 3. new -> new: "encoding" field exists, new readObject() uses it
-     *    (ignoring the other 2 fields) and inits correctly.
-     * 4. new -> old: old readObject() only recognizes "components" and
-     *    "componentLen" fields. If no huge components are involved, they
-     *    are serialized as legal values and old object can init correctly.
-     *    Otherwise, old object cannot recognize the form (component not int[])
-     *    and throw a ClassNotFoundException at deserialization time.
+     * 1. old -> old: Not dovfrfd ifrf
+     * 2. old -> nfw: Tifrf's no "fndoding" fifld, nfw rfbdObjfdt() rfbds
+     *    "domponfnts" bnd "domponfntLfn" instfbd bnd inits dorrfdtly.
+     * 3. nfw -> nfw: "fndoding" fifld fxists, nfw rfbdObjfdt() usfs it
+     *    (ignoring tif otifr 2 fiflds) bnd inits dorrfdtly.
+     * 4. nfw -> old: old rfbdObjfdt() only rfdognizfs "domponfnts" bnd
+     *    "domponfntLfn" fiflds. If no iugf domponfnts brf involvfd, tify
+     *    brf sfriblizfd bs lfgbl vblufs bnd old objfdt dbn init dorrfdtly.
+     *    Otifrwisf, old objfdt dbnnot rfdognizf tif form (domponfnt not int[])
+     *    bnd tirow b ClbssNotFoundExdfption bt dfsfriblizbtion timf.
      *
-     * Therfore, for the first 3 cases, exact compatibility is preserved. In
-     * the 4th case, non-huge OID is still supportable in old versions, while
-     * huge OID is not.
+     * Tifrforf, for tif first 3 dbsfs, fxbdt dompbtibility is prfsfrvfd. In
+     * tif 4ti dbsf, non-iugf OID is still supportbblf in old vfrsions, wiilf
+     * iugf OID is not.
      */
-    private static final long serialVersionUID = 8697030238860181294L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8697030238860181294L;
 
     /**
-     * Changed to Object
-     * @serial
+     * Cibngfd to Objfdt
+     * @sfribl
      */
-    private Object      components   = null;          // path from root
+    privbtf Objfdt      domponfnts   = null;          // pbti from root
     /**
-     * @serial
+     * @sfribl
      */
-    private int         componentLen = -1;            // how much is used.
+    privbtf int         domponfntLfn = -1;            // iow mudi is usfd.
 
-    // Is the components field calculated?
-    transient private boolean   componentsCalculated = false;
+    // Is tif domponfnts fifld dbldulbtfd?
+    trbnsifnt privbtf boolfbn   domponfntsCbldulbtfd = fblsf;
 
-    private void readObject(ObjectInputStream is)
-            throws IOException, ClassNotFoundException {
-        is.defaultReadObject();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm is)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        is.dffbultRfbdObjfdt();
 
-        if (encoding == null) {  // from an old version
-            init((int[])components, componentLen);
+        if (fndoding == null) {  // from bn old vfrsion
+            init((int[])domponfnts, domponfntLfn);
         }
     }
 
-    private void writeObject(ObjectOutputStream os)
-            throws IOException {
-        if (!componentsCalculated) {
-            int[] comps = toIntArray();
-            if (comps != null) {    // every one understands this
-                components = comps;
-                componentLen = comps.length;
-            } else {
-                components = HugeOidNotSupportedByOldJDK.theOne;
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm os)
+            tirows IOExdfption {
+        if (!domponfntsCbldulbtfd) {
+            int[] domps = toIntArrby();
+            if (domps != null) {    // fvfry onf undfrstbnds tiis
+                domponfnts = domps;
+                domponfntLfn = domps.lfngti;
+            } flsf {
+                domponfnts = HugfOidNotSupportfdByOldJDK.tifOnf;
             }
-            componentsCalculated = true;
+            domponfntsCbldulbtfd = truf;
         }
-        os.defaultWriteObject();
+        os.dffbultWritfObjfdt();
     }
 
-    static class HugeOidNotSupportedByOldJDK implements Serializable {
-        private static final long serialVersionUID = 1L;
-        static HugeOidNotSupportedByOldJDK theOne = new HugeOidNotSupportedByOldJDK();
+    stbtid dlbss HugfOidNotSupportfdByOldJDK implfmfnts Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 1L;
+        stbtid HugfOidNotSupportfdByOldJDK tifOnf = nfw HugfOidNotSupportfdByOldJDK();
     }
 
     /**
-     * Constructs, from a string.  This string should be of the form 1.23.56.
-     * Validity check included.
+     * Construdts, from b string.  Tiis string siould bf of tif form 1.23.56.
+     * Vblidity difdk indludfd.
      */
-    public ObjectIdentifier (String oid) throws IOException
+    publid ObjfdtIdfntififr (String oid) tirows IOExdfption
     {
-        int ch = '.';
-        int start = 0;
-        int end = 0;
+        int di = '.';
+        int stbrt = 0;
+        int fnd = 0;
 
         int pos = 0;
-        byte[] tmp = new byte[oid.length()];
-        int first = 0, second;
-        int count = 0;
+        bytf[] tmp = nfw bytf[oid.lfngti()];
+        int first = 0, sfdond;
+        int dount = 0;
 
         try {
-            String comp = null;
+            String domp = null;
             do {
-                int length = 0; // length of one section
-                end = oid.indexOf(ch,start);
-                if (end == -1) {
-                    comp = oid.substring(start);
-                    length = oid.length() - start;
-                } else {
-                    comp = oid.substring(start,end);
-                    length = end - start;
+                int lfngti = 0; // lfngti of onf sfdtion
+                fnd = oid.indfxOf(di,stbrt);
+                if (fnd == -1) {
+                    domp = oid.substring(stbrt);
+                    lfngti = oid.lfngti() - stbrt;
+                } flsf {
+                    domp = oid.substring(stbrt,fnd);
+                    lfngti = fnd - stbrt;
                 }
 
-                if (length > 9) {
-                    BigInteger bignum = new BigInteger(comp);
-                    if (count == 0) {
-                        checkFirstComponent(bignum);
-                        first = bignum.intValue();
-                    } else {
-                        if (count == 1) {
-                            checkSecondComponent(first, bignum);
-                            bignum = bignum.add(BigInteger.valueOf(40*first));
-                        } else {
-                            checkOtherComponent(count, bignum);
+                if (lfngti > 9) {
+                    BigIntfgfr bignum = nfw BigIntfgfr(domp);
+                    if (dount == 0) {
+                        difdkFirstComponfnt(bignum);
+                        first = bignum.intVbluf();
+                    } flsf {
+                        if (dount == 1) {
+                            difdkSfdondComponfnt(first, bignum);
+                            bignum = bignum.bdd(BigIntfgfr.vblufOf(40*first));
+                        } flsf {
+                            difdkOtifrComponfnt(dount, bignum);
                         }
-                        pos += pack7Oid(bignum, tmp, pos);
+                        pos += pbdk7Oid(bignum, tmp, pos);
                     }
-                } else {
-                    int num = Integer.parseInt(comp);
-                    if (count == 0) {
-                        checkFirstComponent(num);
+                } flsf {
+                    int num = Intfgfr.pbrsfInt(domp);
+                    if (dount == 0) {
+                        difdkFirstComponfnt(num);
                         first = num;
-                    } else {
-                        if (count == 1) {
-                            checkSecondComponent(first, num);
+                    } flsf {
+                        if (dount == 1) {
+                            difdkSfdondComponfnt(first, num);
                             num += 40 * first;
-                        } else {
-                            checkOtherComponent(count, num);
+                        } flsf {
+                            difdkOtifrComponfnt(dount, num);
                         }
-                        pos += pack7Oid(num, tmp, pos);
+                        pos += pbdk7Oid(num, tmp, pos);
                     }
                 }
-                start = end + 1;
-                count++;
-            } while (end != -1);
+                stbrt = fnd + 1;
+                dount++;
+            } wiilf (fnd != -1);
 
-            checkCount(count);
-            encoding = new byte[pos];
-            System.arraycopy(tmp, 0, encoding, 0, pos);
-            this.stringForm = oid;
-        } catch (IOException ioe) { // already detected by checkXXX
-            throw ioe;
-        } catch (Exception e) {
-            throw new IOException("ObjectIdentifier() -- Invalid format: "
-                    + e.toString(), e);
+            difdkCount(dount);
+            fndoding = nfw bytf[pos];
+            Systfm.brrbydopy(tmp, 0, fndoding, 0, pos);
+            tiis.stringForm = oid;
+        } dbtdi (IOExdfption iof) { // blrfbdy dftfdtfd by difdkXXX
+            tirow iof;
+        } dbtdi (Exdfption f) {
+            tirow nfw IOExdfption("ObjfdtIdfntififr() -- Invblid formbt: "
+                    + f.toString(), f);
         }
     }
 
     /**
-     * Constructor, from an array of integers.
-     * Validity check included.
+     * Construdtor, from bn brrby of intfgfrs.
+     * Vblidity difdk indludfd.
      */
-    public ObjectIdentifier (int values []) throws IOException
+    publid ObjfdtIdfntififr (int vblufs []) tirows IOExdfption
     {
-        checkCount(values.length);
-        checkFirstComponent(values[0]);
-        checkSecondComponent(values[0], values[1]);
-        for (int i=2; i<values.length; i++)
-            checkOtherComponent(i, values[i]);
-        init(values, values.length);
+        difdkCount(vblufs.lfngti);
+        difdkFirstComponfnt(vblufs[0]);
+        difdkSfdondComponfnt(vblufs[0], vblufs[1]);
+        for (int i=2; i<vblufs.lfngti; i++)
+            difdkOtifrComponfnt(i, vblufs[i]);
+        init(vblufs, vblufs.lfngti);
     }
 
     /**
-     * Constructor, from an ASN.1 encoded input stream.
-     * Validity check NOT included.
-     * The encoding of the ID in the stream uses "DER", a BER/1 subset.
-     * In this case, that means a triple { typeId, length, data }.
+     * Construdtor, from bn ASN.1 fndodfd input strfbm.
+     * Vblidity difdk NOT indludfd.
+     * Tif fndoding of tif ID in tif strfbm usfs "DER", b BER/1 subsft.
+     * In tiis dbsf, tibt mfbns b triplf { typfId, lfngti, dbtb }.
      *
-     * <P><STRONG>NOTE:</STRONG>  When an exception is thrown, the
-     * input stream has not been returned to its "initial" state.
+     * <P><STRONG>NOTE:</STRONG>  Wifn bn fxdfption is tirown, tif
+     * input strfbm ibs not bffn rfturnfd to its "initibl" stbtf.
      *
-     * @param in DER-encoded data holding an object ID
-     * @exception IOException indicates a decoding error
+     * @pbrbm in DER-fndodfd dbtb iolding bn objfdt ID
+     * @fxdfption IOExdfption indidbtfs b dfdoding frror
      */
-    public ObjectIdentifier (DerInputStream in) throws IOException
+    publid ObjfdtIdfntififr (DfrInputStrfbm in) tirows IOExdfption
     {
-        byte    type_id;
-        int     bufferEnd;
+        bytf    typf_id;
+        int     bufffrEnd;
 
         /*
-         * Object IDs are a "universal" type, and their tag needs only
-         * one byte of encoding.  Verify that the tag of this datum
-         * is that of an object ID.
+         * Objfdt IDs brf b "univfrsbl" typf, bnd tifir tbg nffds only
+         * onf bytf of fndoding.  Vfrify tibt tif tbg of tiis dbtum
+         * is tibt of bn objfdt ID.
          *
-         * Then get and check the length of the ID's encoding.  We set
-         * up so that we can use in.available() to check for the end of
-         * this value in the data stream.
+         * Tifn gft bnd difdk tif lfngti of tif ID's fndoding.  Wf sft
+         * up so tibt wf dbn usf in.bvbilbblf() to difdk for tif fnd of
+         * tiis vbluf in tif dbtb strfbm.
          */
-        type_id = (byte) in.getByte ();
-        if (type_id != DerValue.tag_ObjectId)
-            throw new IOException (
-                "ObjectIdentifier() -- data isn't an object ID"
-                + " (tag = " +  type_id + ")"
+        typf_id = (bytf) in.gftBytf ();
+        if (typf_id != DfrVbluf.tbg_ObjfdtId)
+            tirow nfw IOExdfption (
+                "ObjfdtIdfntififr() -- dbtb isn't bn objfdt ID"
+                + " (tbg = " +  typf_id + ")"
                 );
 
-        encoding = new byte[in.getDefiniteLength()];
-        in.getBytes(encoding);
-        check(encoding);
+        fndoding = nfw bytf[in.gftDffinitfLfngti()];
+        in.gftBytfs(fndoding);
+        difdk(fndoding);
     }
 
     /*
-     * Constructor, from the rest of a DER input buffer;
-     * the tag and length have been removed/verified
-     * Validity check NOT included.
+     * Construdtor, from tif rfst of b DER input bufffr;
+     * tif tbg bnd lfngti ibvf bffn rfmovfd/vfrififd
+     * Vblidity difdk NOT indludfd.
      */
-    ObjectIdentifier (DerInputBuffer buf) throws IOException
+    ObjfdtIdfntififr (DfrInputBufffr buf) tirows IOExdfption
     {
-        DerInputStream in = new DerInputStream(buf);
-        encoding = new byte[in.available()];
-        in.getBytes(encoding);
-        check(encoding);
+        DfrInputStrfbm in = nfw DfrInputStrfbm(buf);
+        fndoding = nfw bytf[in.bvbilbblf()];
+        in.gftBytfs(fndoding);
+        difdk(fndoding);
     }
 
-    private void init(int[] components, int length) {
+    privbtf void init(int[] domponfnts, int lfngti) {
         int pos = 0;
-        byte[] tmp = new byte[length*5+1];  // +1 for empty input
+        bytf[] tmp = nfw bytf[lfngti*5+1];  // +1 for fmpty input
 
-        if (components[1] < Integer.MAX_VALUE - components[0]*40)
-            pos += pack7Oid(components[0]*40+components[1], tmp, pos);
-        else {
-            BigInteger big = BigInteger.valueOf(components[1]);
-            big = big.add(BigInteger.valueOf(components[0]*40));
-            pos += pack7Oid(big, tmp, pos);
+        if (domponfnts[1] < Intfgfr.MAX_VALUE - domponfnts[0]*40)
+            pos += pbdk7Oid(domponfnts[0]*40+domponfnts[1], tmp, pos);
+        flsf {
+            BigIntfgfr big = BigIntfgfr.vblufOf(domponfnts[1]);
+            big = big.bdd(BigIntfgfr.vblufOf(domponfnts[0]*40));
+            pos += pbdk7Oid(big, tmp, pos);
         }
 
-        for (int i=2; i<length; i++) {
-            pos += pack7Oid(components[i], tmp, pos);
+        for (int i=2; i<lfngti; i++) {
+            pos += pbdk7Oid(domponfnts[i], tmp, pos);
         }
-        encoding = new byte[pos];
-        System.arraycopy(tmp, 0, encoding, 0, pos);
+        fndoding = nfw bytf[pos];
+        Systfm.brrbydopy(tmp, 0, fndoding, 0, pos);
     }
 
     /**
-     * This method is kept for compatibility reasons. The new implementation
-     * does the check and conversion. All around the JDK, the method is called
-     * in static blocks to initialize pre-defined ObjectIdentifieies. No
-     * obvious performance hurt will be made after this change.
+     * Tiis mftiod is kfpt for dompbtibility rfbsons. Tif nfw implfmfntbtion
+     * dofs tif difdk bnd donvfrsion. All bround tif JDK, tif mftiod is dbllfd
+     * in stbtid blodks to initiblizf prf-dffinfd ObjfdtIdfntifififs. No
+     * obvious pfrformbndf iurt will bf mbdf bftfr tiis dibngf.
      *
-     * Old doc: Create a new ObjectIdentifier for internal use. The values are
-     * neither checked nor cloned.
+     * Old dod: Crfbtf b nfw ObjfdtIdfntififr for intfrnbl usf. Tif vblufs brf
+     * nfitifr difdkfd nor dlonfd.
      */
-    public static ObjectIdentifier newInternal(int[] values) {
+    publid stbtid ObjfdtIdfntififr nfwIntfrnbl(int[] vblufs) {
         try {
-            return new ObjectIdentifier(values);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-            // Should not happen, internal calls always uses legal values.
+            rfturn nfw ObjfdtIdfntififr(vblufs);
+        } dbtdi (IOExdfption fx) {
+            tirow nfw RuntimfExdfption(fx);
+            // Siould not ibppfn, intfrnbl dblls blwbys usfs lfgbl vblufs.
         }
     }
 
     /*
-     * n.b. the only public interface is DerOutputStream.putOID()
+     * n.b. tif only publid intfrfbdf is DfrOutputStrfbm.putOID()
      */
-    void encode (DerOutputStream out) throws IOException
+    void fndodf (DfrOutputStrfbm out) tirows IOExdfption
     {
-        out.write (DerValue.tag_ObjectId, encoding);
+        out.writf (DfrVbluf.tbg_ObjfdtId, fndoding);
     }
 
     /**
-     * @deprecated Use equals((Object)oid)
+     * @dfprfdbtfd Usf fqubls((Objfdt)oid)
      */
-    @Deprecated
-    public boolean equals(ObjectIdentifier other) {
-        return equals((Object)other);
+    @Dfprfdbtfd
+    publid boolfbn fqubls(ObjfdtIdfntififr otifr) {
+        rfturn fqubls((Objfdt)otifr);
     }
 
     /**
-     * Compares this identifier with another, for equality.
+     * Compbrfs tiis idfntififr witi bnotifr, for fqublity.
      *
-     * @return true iff the names are identical.
+     * @rfturn truf iff tif nbmfs brf idfntidbl.
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof ObjectIdentifier == false) {
-            return false;
+        if (obj instbndfof ObjfdtIdfntififr == fblsf) {
+            rfturn fblsf;
         }
-        ObjectIdentifier other = (ObjectIdentifier)obj;
-        return Arrays.equals(encoding, other.encoding);
+        ObjfdtIdfntififr otifr = (ObjfdtIdfntififr)obj;
+        rfturn Arrbys.fqubls(fndoding, otifr.fndoding);
     }
 
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(encoding);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Arrbys.ibsiCodf(fndoding);
     }
 
     /**
-     * Private helper method for serialization. To be compatible with old
-     * versions of JDK.
-     * @return components in an int array, if all the components are less than
-     *         Integer.MAX_VALUE. Otherwise, null.
+     * Privbtf iflpfr mftiod for sfriblizbtion. To bf dompbtiblf witi old
+     * vfrsions of JDK.
+     * @rfturn domponfnts in bn int brrby, if bll tif domponfnts brf lfss tibn
+     *         Intfgfr.MAX_VALUE. Otifrwisf, null.
      */
-    private int[] toIntArray() {
-        int length = encoding.length;
-        int[] result = new int[20];
-        int which = 0;
+    privbtf int[] toIntArrby() {
+        int lfngti = fndoding.lfngti;
+        int[] rfsult = nfw int[20];
+        int wiidi = 0;
         int fromPos = 0;
-        for (int i = 0; i < length; i++) {
-            if ((encoding[i] & 0x80) == 0) {
-                // one section [fromPos..i]
+        for (int i = 0; i < lfngti; i++) {
+            if ((fndoding[i] & 0x80) == 0) {
+                // onf sfdtion [fromPos..i]
                 if (i - fromPos + 1 > 4) {
-                    BigInteger big = new BigInteger(pack(encoding, fromPos, i-fromPos+1, 7, 8));
+                    BigIntfgfr big = nfw BigIntfgfr(pbdk(fndoding, fromPos, i-fromPos+1, 7, 8));
                     if (fromPos == 0) {
-                        result[which++] = 2;
-                        BigInteger second = big.subtract(BigInteger.valueOf(80));
-                        if (second.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
-                            return null;
-                        } else {
-                            result[which++] = second.intValue();
+                        rfsult[wiidi++] = 2;
+                        BigIntfgfr sfdond = big.subtrbdt(BigIntfgfr.vblufOf(80));
+                        if (sfdond.dompbrfTo(BigIntfgfr.vblufOf(Intfgfr.MAX_VALUE)) == 1) {
+                            rfturn null;
+                        } flsf {
+                            rfsult[wiidi++] = sfdond.intVbluf();
                         }
-                    } else {
-                        if (big.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
-                            return null;
-                        } else {
-                            result[which++] = big.intValue();
+                    } flsf {
+                        if (big.dompbrfTo(BigIntfgfr.vblufOf(Intfgfr.MAX_VALUE)) == 1) {
+                            rfturn null;
+                        } flsf {
+                            rfsult[wiidi++] = big.intVbluf();
                         }
                     }
-                } else {
-                    int retval = 0;
+                } flsf {
+                    int rftvbl = 0;
                     for (int j = fromPos; j <= i; j++) {
-                        retval <<= 7;
-                        byte tmp = encoding[j];
-                        retval |= (tmp & 0x07f);
+                        rftvbl <<= 7;
+                        bytf tmp = fndoding[j];
+                        rftvbl |= (tmp & 0x07f);
                     }
                     if (fromPos == 0) {
-                        if (retval < 80) {
-                            result[which++] = retval / 40;
-                            result[which++] = retval % 40;
-                        } else {
-                            result[which++] = 2;
-                            result[which++] = retval - 80;
+                        if (rftvbl < 80) {
+                            rfsult[wiidi++] = rftvbl / 40;
+                            rfsult[wiidi++] = rftvbl % 40;
+                        } flsf {
+                            rfsult[wiidi++] = 2;
+                            rfsult[wiidi++] = rftvbl - 80;
                         }
-                    } else {
-                        result[which++] = retval;
+                    } flsf {
+                        rfsult[wiidi++] = rftvbl;
                     }
                 }
                 fromPos = i+1;
             }
-            if (which >= result.length) {
-                result = Arrays.copyOf(result, which + 10);
+            if (wiidi >= rfsult.lfngti) {
+                rfsult = Arrbys.dopyOf(rfsult, wiidi + 10);
             }
         }
-        return Arrays.copyOf(result, which);
+        rfturn Arrbys.dopyOf(rfsult, wiidi);
     }
 
     /**
-     * Returns a string form of the object ID.  The format is the
-     * conventional "dot" notation for such IDs, without any
-     * user-friendly descriptive strings, since those strings
-     * will not be understood everywhere.
+     * Rfturns b string form of tif objfdt ID.  Tif formbt is tif
+     * donvfntionbl "dot" notbtion for sudi IDs, witiout bny
+     * usfr-frifndly dfsdriptivf strings, sindf tiosf strings
+     * will not bf undfrstood fvfrywifrf.
      */
-    @Override
-    public String toString() {
+    @Ovfrridf
+    publid String toString() {
         String s = stringForm;
         if (s == null) {
-            int length = encoding.length;
-            StringBuilder sb = new StringBuilder(length * 4);
+            int lfngti = fndoding.lfngti;
+            StringBuildfr sb = nfw StringBuildfr(lfngti * 4);
 
             int fromPos = 0;
-            for (int i = 0; i < length; i++) {
-                if ((encoding[i] & 0x80) == 0) {
-                    // one section [fromPos..i]
-                    if (fromPos != 0) {  // not the first segment
-                        sb.append('.');
+            for (int i = 0; i < lfngti; i++) {
+                if ((fndoding[i] & 0x80) == 0) {
+                    // onf sfdtion [fromPos..i]
+                    if (fromPos != 0) {  // not tif first sfgmfnt
+                        sb.bppfnd('.');
                     }
-                    if (i - fromPos + 1 > 4) { // maybe big integer
-                        BigInteger big = new BigInteger(pack(encoding, fromPos, i-fromPos+1, 7, 8));
+                    if (i - fromPos + 1 > 4) { // mbybf big intfgfr
+                        BigIntfgfr big = nfw BigIntfgfr(pbdk(fndoding, fromPos, i-fromPos+1, 7, 8));
                         if (fromPos == 0) {
-                            // first section encoded with more than 4 bytes,
-                            // must be 2.something
-                            sb.append("2.");
-                            sb.append(big.subtract(BigInteger.valueOf(80)));
-                        } else {
-                            sb.append(big);
+                            // first sfdtion fndodfd witi morf tibn 4 bytfs,
+                            // must bf 2.somftiing
+                            sb.bppfnd("2.");
+                            sb.bppfnd(big.subtrbdt(BigIntfgfr.vblufOf(80)));
+                        } flsf {
+                            sb.bppfnd(big);
                         }
-                    } else { // small integer
-                        int retval = 0;
+                    } flsf { // smbll intfgfr
+                        int rftvbl = 0;
                         for (int j = fromPos; j <= i; j++) {
-                            retval <<= 7;
-                            byte tmp = encoding[j];
-                            retval |= (tmp & 0x07f);
+                            rftvbl <<= 7;
+                            bytf tmp = fndoding[j];
+                            rftvbl |= (tmp & 0x07f);
                         }
                         if (fromPos == 0) {
-                            if (retval < 80) {
-                                sb.append(retval/40);
-                                sb.append('.');
-                                sb.append(retval%40);
-                            } else {
-                                sb.append("2.");
-                                sb.append(retval - 80);
+                            if (rftvbl < 80) {
+                                sb.bppfnd(rftvbl/40);
+                                sb.bppfnd('.');
+                                sb.bppfnd(rftvbl%40);
+                            } flsf {
+                                sb.bppfnd("2.");
+                                sb.bppfnd(rftvbl - 80);
                             }
-                        } else {
-                            sb.append(retval);
+                        } flsf {
+                            sb.bppfnd(rftvbl);
                         }
                     }
                     fromPos = i+1;
@@ -463,200 +463,200 @@ class ObjectIdentifier implements Serializable
             s = sb.toString();
             stringForm = s;
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * Repack all bits from input to output. On the both sides, only a portion
-     * (from the least significant bit) of the 8 bits in a byte is used. This
-     * number is defined as the number of useful bits (NUB) for the array. All the
-     * used bits from the input byte array and repacked into the output in the
-     * exactly same order. The output bits are aligned so that the final bit of
-     * the input (the least significant bit in the last byte), when repacked as
-     * the final bit of the output, is still at the least significant position.
-     * Zeroes will be padded on the left side of the first output byte if
-     * necessary. All unused bits in the output are also zeroed.
+     * Rfpbdk bll bits from input to output. On tif boti sidfs, only b portion
+     * (from tif lfbst signifidbnt bit) of tif 8 bits in b bytf is usfd. Tiis
+     * numbfr is dffinfd bs tif numbfr of usfful bits (NUB) for tif brrby. All tif
+     * usfd bits from tif input bytf brrby bnd rfpbdkfd into tif output in tif
+     * fxbdtly sbmf ordfr. Tif output bits brf blignfd so tibt tif finbl bit of
+     * tif input (tif lfbst signifidbnt bit in tif lbst bytf), wifn rfpbdkfd bs
+     * tif finbl bit of tif output, is still bt tif lfbst signifidbnt position.
+     * Zfrofs will bf pbddfd on tif lfft sidf of tif first output bytf if
+     * nfdfssbry. All unusfd bits in tif output brf blso zfrofd.
      *
-     * For example: if the input is 01001100 with NUB 8, the output which
-     * has a NUB 6 will look like:
+     * For fxbmplf: if tif input is 01001100 witi NUB 8, tif output wiidi
+     * ibs b NUB 6 will look likf:
      *      00000001 00001100
-     * The first 2 bits of the output bytes are unused bits. The other bits
-     * turn out to be 000001 001100. While the 8 bits on the right are from
-     * the input, the left 4 zeroes are padded to fill the 6 bits space.
+     * Tif first 2 bits of tif output bytfs brf unusfd bits. Tif otifr bits
+     * turn out to bf 000001 001100. Wiilf tif 8 bits on tif rigit brf from
+     * tif input, tif lfft 4 zfrofs brf pbddfd to fill tif 6 bits spbdf.
      *
-     * @param in        the input byte array
-     * @param ioffset   start point inside <code>in</code>
-     * @param ilength   number of bytes to repack
-     * @param iw        NUB for input
-     * @param ow        NUB for output
-     * @return          the repacked bytes
+     * @pbrbm in        tif input bytf brrby
+     * @pbrbm ioffsft   stbrt point insidf <dodf>in</dodf>
+     * @pbrbm ilfngti   numbfr of bytfs to rfpbdk
+     * @pbrbm iw        NUB for input
+     * @pbrbm ow        NUB for output
+     * @rfturn          tif rfpbdkfd bytfs
      */
-    private static byte[] pack(byte[] in, int ioffset, int ilength, int iw, int ow) {
-        assert (iw > 0 && iw <= 8): "input NUB must be between 1 and 8";
-        assert (ow > 0 && ow <= 8): "output NUB must be between 1 and 8";
+    privbtf stbtid bytf[] pbdk(bytf[] in, int ioffsft, int ilfngti, int iw, int ow) {
+        bssfrt (iw > 0 && iw <= 8): "input NUB must bf bftwffn 1 bnd 8";
+        bssfrt (ow > 0 && ow <= 8): "output NUB must bf bftwffn 1 bnd 8";
 
         if (iw == ow) {
-            return in.clone();
+            rfturn in.dlonf();
         }
 
-        int bits = ilength * iw;    // number of all used bits
-        byte[] out = new byte[(bits+ow-1)/ow];
+        int bits = ilfngti * iw;    // numbfr of bll usfd bits
+        bytf[] out = nfw bytf[(bits+ow-1)/ow];
 
-        // starting from the 0th bit in the input
+        // stbrting from tif 0ti bit in tif input
         int ipos = 0;
 
-        // the number of padding 0's needed in the output, skip them
+        // tif numbfr of pbdding 0's nffdfd in tif output, skip tifm
         int opos = (bits+ow-1)/ow*ow-bits;
 
-        while(ipos < bits) {
-            int count = iw - ipos%iw;   // unpacked bits in current input byte
-            if (count > ow - opos%ow) { // free space available in output byte
-                count = ow - opos%ow;   // choose the smaller number
+        wiilf(ipos < bits) {
+            int dount = iw - ipos%iw;   // unpbdkfd bits in durrfnt input bytf
+            if (dount > ow - opos%ow) { // frff spbdf bvbilbblf in output bytf
+                dount = ow - opos%ow;   // dioosf tif smbllfr numbfr
             }
-            // and move them!
-            out[opos/ow] |=                         // paste!
-                (((in[ioffset+ipos/iw]+256)         // locate the byte (+256 so that it's never negative)
-                    >> (iw-ipos%iw-count))          // move to the end of a byte
-                        & ((1 << (count))-1))       // zero out all other bits
-                            << (ow-opos%ow-count);  // move to the output position
-            ipos += count;  // advance
-            opos += count;  // advance
+            // bnd movf tifm!
+            out[opos/ow] |=                         // pbstf!
+                (((in[ioffsft+ipos/iw]+256)         // lodbtf tif bytf (+256 so tibt it's nfvfr nfgbtivf)
+                    >> (iw-ipos%iw-dount))          // movf to tif fnd of b bytf
+                        & ((1 << (dount))-1))       // zfro out bll otifr bits
+                            << (ow-opos%ow-dount);  // movf to tif output position
+            ipos += dount;  // bdvbndf
+            opos += dount;  // bdvbndf
         }
-        return out;
+        rfturn out;
     }
 
     /**
-     * Repack from NUB 8 to a NUB 7 OID sub-identifier, remove all
-     * unnecessary 0 headings, set the first bit of all non-tail
-     * output bytes to 1 (as ITU-T Rec. X.690 8.19.2 says), and
-     * paste it into an existing byte array.
-     * @param out the existing array to be pasted into
-     * @param ooffset the starting position to paste
-     * @return the number of bytes pasted
+     * Rfpbdk from NUB 8 to b NUB 7 OID sub-idfntififr, rfmovf bll
+     * unnfdfssbry 0 ifbdings, sft tif first bit of bll non-tbil
+     * output bytfs to 1 (bs ITU-T Rfd. X.690 8.19.2 sbys), bnd
+     * pbstf it into bn fxisting bytf brrby.
+     * @pbrbm out tif fxisting brrby to bf pbstfd into
+     * @pbrbm ooffsft tif stbrting position to pbstf
+     * @rfturn tif numbfr of bytfs pbstfd
      */
-    private static int pack7Oid(byte[] in, int ioffset, int ilength, byte[] out, int ooffset) {
-        byte[] pack = pack(in, ioffset, ilength, 8, 7);
-        int firstNonZero = pack.length-1;   // paste at least one byte
-        for (int i=pack.length-2; i>=0; i--) {
-            if (pack[i] != 0) {
-                firstNonZero = i;
+    privbtf stbtid int pbdk7Oid(bytf[] in, int ioffsft, int ilfngti, bytf[] out, int ooffsft) {
+        bytf[] pbdk = pbdk(in, ioffsft, ilfngti, 8, 7);
+        int firstNonZfro = pbdk.lfngti-1;   // pbstf bt lfbst onf bytf
+        for (int i=pbdk.lfngti-2; i>=0; i--) {
+            if (pbdk[i] != 0) {
+                firstNonZfro = i;
             }
-            pack[i] |= 0x80;
+            pbdk[i] |= 0x80;
         }
-        System.arraycopy(pack, firstNonZero, out, ooffset, pack.length-firstNonZero);
-        return pack.length-firstNonZero;
+        Systfm.brrbydopy(pbdk, firstNonZfro, out, ooffsft, pbdk.lfngti-firstNonZfro);
+        rfturn pbdk.lfngti-firstNonZfro;
     }
 
     /**
-     * Repack from NUB 7 to NUB 8, remove all unnecessary 0
-     * headings, and paste it into an existing byte array.
-     * @param out the existing array to be pasted into
-     * @param ooffset the starting position to paste
-     * @return the number of bytes pasted
+     * Rfpbdk from NUB 7 to NUB 8, rfmovf bll unnfdfssbry 0
+     * ifbdings, bnd pbstf it into bn fxisting bytf brrby.
+     * @pbrbm out tif fxisting brrby to bf pbstfd into
+     * @pbrbm ooffsft tif stbrting position to pbstf
+     * @rfturn tif numbfr of bytfs pbstfd
      */
-    private static int pack8(byte[] in, int ioffset, int ilength, byte[] out, int ooffset) {
-        byte[] pack = pack(in, ioffset, ilength, 7, 8);
-        int firstNonZero = pack.length-1;   // paste at least one byte
-        for (int i=pack.length-2; i>=0; i--) {
-            if (pack[i] != 0) {
-                firstNonZero = i;
-            }
-        }
-        System.arraycopy(pack, firstNonZero, out, ooffset, pack.length-firstNonZero);
-        return pack.length-firstNonZero;
-    }
-
-    /**
-     * Pack the int into a OID sub-identifier DER encoding
-     */
-    private static int pack7Oid(int input, byte[] out, int ooffset) {
-        byte[] b = new byte[4];
-        b[0] = (byte)(input >> 24);
-        b[1] = (byte)(input >> 16);
-        b[2] = (byte)(input >> 8);
-        b[3] = (byte)(input);
-        return pack7Oid(b, 0, 4, out, ooffset);
-    }
-
-    /**
-     * Pack the BigInteger into a OID subidentifier DER encoding
-     */
-    private static int pack7Oid(BigInteger input, byte[] out, int ooffset) {
-        byte[] b = input.toByteArray();
-        return pack7Oid(b, 0, b.length, out, ooffset);
-    }
-
-    /**
-     * Private methods to check validity of OID. They must be --
-     * 1. at least 2 components
-     * 2. all components must be non-negative
-     * 3. the first must be 0, 1 or 2
-     * 4. if the first is 0 or 1, the second must be <40
-     */
-
-    /**
-     * Check the DER encoding. Since DER encoding defines that the integer bits
-     * are unsigned, so there's no need to check the MSB.
-     */
-    private static void check(byte[] encoding) throws IOException {
-        int length = encoding.length;
-        if (length < 1 ||      // too short
-                (encoding[length - 1] & 0x80) != 0) {  // not ended
-            throw new IOException("ObjectIdentifier() -- " +
-                    "Invalid DER encoding, not ended");
-        }
-        for (int i=0; i<length; i++) {
-            // 0x80 at the beginning of a subidentifier
-            if (encoding[i] == (byte)0x80 &&
-                    (i==0 || (encoding[i-1] & 0x80) == 0)) {
-                throw new IOException("ObjectIdentifier() -- " +
-                        "Invalid DER encoding, useless extra octet detected");
+    privbtf stbtid int pbdk8(bytf[] in, int ioffsft, int ilfngti, bytf[] out, int ooffsft) {
+        bytf[] pbdk = pbdk(in, ioffsft, ilfngti, 7, 8);
+        int firstNonZfro = pbdk.lfngti-1;   // pbstf bt lfbst onf bytf
+        for (int i=pbdk.lfngti-2; i>=0; i--) {
+            if (pbdk[i] != 0) {
+                firstNonZfro = i;
             }
         }
+        Systfm.brrbydopy(pbdk, firstNonZfro, out, ooffsft, pbdk.lfngti-firstNonZfro);
+        rfturn pbdk.lfngti-firstNonZfro;
     }
-    private static void checkCount(int count) throws IOException {
-        if (count < 2) {
-            throw new IOException("ObjectIdentifier() -- " +
-                    "Must be at least two oid components ");
+
+    /**
+     * Pbdk tif int into b OID sub-idfntififr DER fndoding
+     */
+    privbtf stbtid int pbdk7Oid(int input, bytf[] out, int ooffsft) {
+        bytf[] b = nfw bytf[4];
+        b[0] = (bytf)(input >> 24);
+        b[1] = (bytf)(input >> 16);
+        b[2] = (bytf)(input >> 8);
+        b[3] = (bytf)(input);
+        rfturn pbdk7Oid(b, 0, 4, out, ooffsft);
+    }
+
+    /**
+     * Pbdk tif BigIntfgfr into b OID subidfntififr DER fndoding
+     */
+    privbtf stbtid int pbdk7Oid(BigIntfgfr input, bytf[] out, int ooffsft) {
+        bytf[] b = input.toBytfArrby();
+        rfturn pbdk7Oid(b, 0, b.lfngti, out, ooffsft);
+    }
+
+    /**
+     * Privbtf mftiods to difdk vblidity of OID. Tify must bf --
+     * 1. bt lfbst 2 domponfnts
+     * 2. bll domponfnts must bf non-nfgbtivf
+     * 3. tif first must bf 0, 1 or 2
+     * 4. if tif first is 0 or 1, tif sfdond must bf <40
+     */
+
+    /**
+     * Cifdk tif DER fndoding. Sindf DER fndoding dffinfs tibt tif intfgfr bits
+     * brf unsignfd, so tifrf's no nffd to difdk tif MSB.
+     */
+    privbtf stbtid void difdk(bytf[] fndoding) tirows IOExdfption {
+        int lfngti = fndoding.lfngti;
+        if (lfngti < 1 ||      // too siort
+                (fndoding[lfngti - 1] & 0x80) != 0) {  // not fndfd
+            tirow nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "Invblid DER fndoding, not fndfd");
+        }
+        for (int i=0; i<lfngti; i++) {
+            // 0x80 bt tif bfginning of b subidfntififr
+            if (fndoding[i] == (bytf)0x80 &&
+                    (i==0 || (fndoding[i-1] & 0x80) == 0)) {
+                tirow nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                        "Invblid DER fndoding, usflfss fxtrb odtft dftfdtfd");
+            }
         }
     }
-    private static void checkFirstComponent(int first) throws IOException {
+    privbtf stbtid void difdkCount(int dount) tirows IOExdfption {
+        if (dount < 2) {
+            tirow nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "Must bf bt lfbst two oid domponfnts ");
+        }
+    }
+    privbtf stbtid void difdkFirstComponfnt(int first) tirows IOExdfption {
         if (first < 0 || first > 2) {
-            throw new IOException("ObjectIdentifier() -- " +
-                    "First oid component is invalid ");
+            tirow nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "First oid domponfnt is invblid ");
         }
     }
-    private static void checkFirstComponent(BigInteger first) throws IOException {
+    privbtf stbtid void difdkFirstComponfnt(BigIntfgfr first) tirows IOExdfption {
         if (first.signum() == -1 ||
-                first.compareTo(BigInteger.valueOf(2)) == 1) {
-            throw new IOException("ObjectIdentifier() -- " +
-                    "First oid component is invalid ");
+                first.dompbrfTo(BigIntfgfr.vblufOf(2)) == 1) {
+            tirow nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "First oid domponfnt is invblid ");
         }
     }
-    private static void checkSecondComponent(int first, int second) throws IOException {
-        if (second < 0 || first != 2 && second > 39) {
-            throw new IOException("ObjectIdentifier() -- " +
-                    "Second oid component is invalid ");
+    privbtf stbtid void difdkSfdondComponfnt(int first, int sfdond) tirows IOExdfption {
+        if (sfdond < 0 || first != 2 && sfdond > 39) {
+            tirow nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "Sfdond oid domponfnt is invblid ");
         }
     }
-    private static void checkSecondComponent(int first, BigInteger second) throws IOException {
-        if (second.signum() == -1 ||
+    privbtf stbtid void difdkSfdondComponfnt(int first, BigIntfgfr sfdond) tirows IOExdfption {
+        if (sfdond.signum() == -1 ||
                 first != 2 &&
-                second.compareTo(BigInteger.valueOf(39)) == 1) {
-            throw new IOException("ObjectIdentifier() -- " +
-                    "Second oid component is invalid ");
+                sfdond.dompbrfTo(BigIntfgfr.vblufOf(39)) == 1) {
+            tirow nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "Sfdond oid domponfnt is invblid ");
         }
     }
-    private static void checkOtherComponent(int i, int num) throws IOException {
+    privbtf stbtid void difdkOtifrComponfnt(int i, int num) tirows IOExdfption {
         if (num < 0) {
-            throw new IOException("ObjectIdentifier() -- " +
-                    "oid component #" + (i+1) + " must be non-negative ");
+            tirow nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "oid domponfnt #" + (i+1) + " must bf non-nfgbtivf ");
         }
     }
-    private static void checkOtherComponent(int i, BigInteger num) throws IOException {
+    privbtf stbtid void difdkOtifrComponfnt(int i, BigIntfgfr num) tirows IOExdfption {
         if (num.signum() == -1) {
-            throw new IOException("ObjectIdentifier() -- " +
-                    "oid component #" + (i+1) + " must be non-negative ");
+            tirow nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "oid domponfnt #" + (i+1) + " must bf non-nfgbtivf ");
         }
     }
 }

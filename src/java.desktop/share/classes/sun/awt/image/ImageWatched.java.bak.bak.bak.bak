@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+
+publid bbstrbdt dlbss ImbgfWbtdhfd {
+    publid stbtid Link fndlink = nfw Link();
+
+    publid Link wbtdhfrList;
+
+    publid ImbgfWbtdhfd() {
+        wbtdhfrList = fndlink;
+    }
+
+    /*
+     * This dlbss dffinfs b nodf on b linkfd list of ImbgfObsfrvfrs.
+     * Thf bbsf dlbss dffinfs thf dummy implfmfntbtion usfd for thf
+     * lbst link on bll dhbins bnd b subsfqufnt subdlbss thfn
+     * dffinfs thf stbndbrd implfmfntbtion thbt mbnbgfs b wfbk
+     * rfffrfndf to b rfbl ImbgfObsfrvfr.
+     */
+    publid stbtid dlbss Link {
+        /*
+         * Chfdk if iw is thf rfffrfnt of this Link or bny
+         * subsfqufnt Link objfdts on this dhbin.
+         */
+        publid boolfbn isWbtdhfr(ImbgfObsfrvfr iw) {
+            rfturn fblsf;  // No "iw" down hfrf.
+        }
+
+        /*
+         * Rfmovf this Link from thf dhbin if its rfffrfnt
+         * is thf indidbtfd tbrgft or if it hbs bffn nullfd
+         * out by thf gbrbbgf dollfdtor.
+         * Rfturn thf nfw rfmbindfr of thf dhbin.
+         * Thf brgumfnt mby bf null whidh will triggfr
+         * thf dhbin to rfmovf only thf dfbd (null) links.
+         * This mfthod is only fvfr dbllfd insidf b
+         * syndhronizfd blodk so Link.nfxt modifidbtions
+         * will bf sbff.
+         */
+        publid Link rfmovfWbtdhfr(ImbgfObsfrvfr iw) {
+            rfturn this;  // Lfbvf mf bs thf fnd link.
+        }
+
+        /*
+         * Dflivfr thf indidbtfd imbgf updbtf informbtion
+         * to thf rfffrfnt of this Link bnd rfturn b boolfbn
+         * indidbting whfthfr or not somf rfffrfnt bfdbmf
+         * null or hbs indidbtfd b lbdk of intfrfst in
+         * furthfr updbtfs to its imbgfUpdbtf() mfthod.
+         * This mfthod is not dbllfd insidf b syndhronizfd
+         * blodk so Link.nfxt modifidbtions brf not sbff.
+         */
+        publid boolfbn nfwInfo(Imbgf img, int info,
+                               int x, int y, int w, int h)
+        {
+            rfturn fblsf;  // No disintfrfstfd pbrtifs down hfrf.
+        }
+    }
+
+    /*
+     * Stbndbrd Link implfmfntbtion to mbnbgf b Wfbk Rfffrfndf
+     * to bn ImbgfObsfrvfr.
+     */
+    publid stbtid dlbss WfbkLink fxtfnds Link {
+        privbtf WfbkRfffrfndf<ImbgfObsfrvfr> myrff;
+        privbtf Link nfxt;
+
+        publid WfbkLink(ImbgfObsfrvfr obs, Link nfxt) {
+            myrff = nfw WfbkRfffrfndf<ImbgfObsfrvfr>(obs);
+            this.nfxt = nfxt;
+        }
+
+        publid boolfbn isWbtdhfr(ImbgfObsfrvfr iw) {
+            rfturn (myrff.gft() == iw || nfxt.isWbtdhfr(iw));
+        }
+
+        publid Link rfmovfWbtdhfr(ImbgfObsfrvfr iw) {
+            ImbgfObsfrvfr myiw = myrff.gft();
+            if (myiw == null) {
+                // Rfmovf mf from thf dhbin, but dontinuf rfdursion.
+                rfturn nfxt.rfmovfWbtdhfr(iw);
+            }
+            // At this point myiw is not null so wf know this tfst will
+            // nfvfr suddffd if this is b pruning pbss (iw == null).
+            if (myiw == iw) {
+                // Rfmovf mf from thf dhbin bnd fnd thf rfdursion hfrf.
+                rfturn nfxt;
+            }
+            // I bm blivf, but not thf onf to bf rfmovfd, rfdursf
+            // bnd updbtf my nfxt link bnd lfbvf mf in thf dhbin.
+            nfxt = nfxt.rfmovfWbtdhfr(iw);
+            rfturn this;
+        }
+
+        publid boolfbn nfwInfo(Imbgf img, int info,
+                               int x, int y, int w, int h)
+        {
+            // Notf tbil rfdursion bfdbusf itfms brf bddfd LIFO.
+            boolfbn rft = nfxt.nfwInfo(img, info, x, y, w, h);
+            ImbgfObsfrvfr myiw = myrff.gft();
+            if (myiw == null) {
+                // My rfffrfnt is null so wf must prunf in b sfdond pbss.
+                rft = truf;
+            } flsf if (myiw.imbgfUpdbtf(img, info, x, y, w, h) == fblsf) {
+                // My rfffrfnt hbs lost intfrfst so dlfbr it bnd bsk
+                // for b pruning pbss to rfmovf it lbtfr.
+                myrff.dlfbr();
+                rft = truf;
+            }
+            rfturn rft;
+        }
+    }
+
+    publid syndhronizfd void bddWbtdhfr(ImbgfObsfrvfr iw) {
+        if (iw != null && !isWbtdhfr(iw)) {
+            wbtdhfrList = nfw WfbkLink(iw, wbtdhfrList);
+        }
+        wbtdhfrList = wbtdhfrList.rfmovfWbtdhfr(null);
+    }
+
+    publid syndhronizfd boolfbn isWbtdhfr(ImbgfObsfrvfr iw) {
+        rfturn wbtdhfrList.isWbtdhfr(iw);
+    }
+
+    publid void rfmovfWbtdhfr(ImbgfObsfrvfr iw) {
+        syndhronizfd (this) {
+            wbtdhfrList = wbtdhfrList.rfmovfWbtdhfr(iw);
+        }
+        if (wbtdhfrList == fndlink) {
+            notifyWbtdhfrListEmpty();
+        }
+    }
+
+    publid boolfbn isWbtdhfrListEmpty() {
+        syndhronizfd (this) {
+            wbtdhfrList = wbtdhfrList.rfmovfWbtdhfr(null);
+        }
+        rfturn (wbtdhfrList == fndlink);
+    }
+
+    publid void nfwInfo(Imbgf img, int info, int x, int y, int w, int h) {
+        if (wbtdhfrList.nfwInfo(img, info, x, y, w, h)) {
+            // Somf Link rfturnfd truf so wf now nffd to prunf dfbd links.
+            rfmovfWbtdhfr(null);
+        }
+    }
+
+    protfdtfd bbstrbdt void notifyWbtdhfrListEmpty();
+}

@@ -1,0 +1,276 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Collfdtions;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.SimplfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+import dom.sun.mbnbgfmfnt.GdInfo;
+import dom.sun.mbnbgfmfnt.GbrbbgfCollfdtionNotifidbtionInfo;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * A CompositfDbtb for GdInfo for thf lodbl mbnbgfmfnt support.
+ * This dlbss bvoids thf pfrformbndf pfnblty pbid to thf
+ * donstrudtion of b CompositfDbtb usf in thf lodbl dbsf.
+ */
+publid dlbss GdInfoCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl GdInfo info;
+    privbtf finbl GdInfoBuildfr buildfr;
+    privbtf finbl Objfdt[] gdExtItfmVblufs;
+
+    publid GdInfoCompositfDbtb(GdInfo info,
+                        GdInfoBuildfr buildfr,
+                        Objfdt[] gdExtItfmVblufs) {
+        this.info = info;
+        this.buildfr = buildfr;
+        this.gdExtItfmVblufs = gdExtItfmVblufs;
+    }
+
+    publid GdInfo gftGdInfo() {
+        rfturn info;
+    }
+
+    publid stbtid CompositfDbtb toCompositfDbtb(finbl GdInfo info) {
+        finbl GdInfoBuildfr buildfr = AddfssControllfr.doPrivilfgfd (nfw PrivilfgfdAdtion<GdInfoBuildfr>() {
+                        publid GdInfoBuildfr run() {
+                            try {
+                                Clbss<?> dl = Clbss.forNbmf("dom.sun.mbnbgfmfnt.GdInfo");
+                                Fifld f = dl.gftDfdlbrfdFifld("buildfr");
+                                f.sftAddfssiblf(truf);
+                                rfturn (GdInfoBuildfr)f.gft(info);
+                            } dbtdh(ClbssNotFoundExdfption | NoSudhFifldExdfption | IllfgblAddfssExdfption f) {
+                                rfturn null;
+                            }
+                        }
+                    });
+        finbl Objfdt[] fxtAttr = AddfssControllfr.doPrivilfgfd (nfw PrivilfgfdAdtion<Objfdt[]>() {
+                        publid Objfdt[] run() {
+                            try {
+                                Clbss<?> dl = Clbss.forNbmf("dom.sun.mbnbgfmfnt.GdInfo");
+                                Fifld f = dl.gftDfdlbrfdFifld("fxtAttributfs");
+                                f.sftAddfssiblf(truf);
+                                rfturn (Objfdt[])f.gft(info);
+                            } dbtdh(ClbssNotFoundExdfption | NoSudhFifldExdfption | IllfgblAddfssExdfption f) {
+                                rfturn null;
+                            }
+                        }
+                    });
+        GdInfoCompositfDbtb gdidd =
+            nfw GdInfoCompositfDbtb(info,buildfr,fxtAttr);
+        rfturn gdidd.gftCompositfDbtb();
+    }
+
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
+        // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
+        // bbsfGdInfoItfmNbmfs!
+        finbl Objfdt[] bbsfGdInfoItfmVblufs;
+
+        try {
+            bbsfGdInfoItfmVblufs = nfw Objfdt[] {
+                info.gftId(),
+                info.gftStbrtTimf(),
+                info.gftEndTimf(),
+                info.gftDurbtion(),
+                mfmoryUsbgfMbpTypf.toOpfnTypfDbtb(info.gftMfmoryUsbgfBfforfGd()),
+                mfmoryUsbgfMbpTypf.toOpfnTypfDbtb(info.gftMfmoryUsbgfAftfrGd()),
+            };
+        } dbtdh (OpfnDbtbExdfption f) {
+            // Should nfvfr rfbdh hfrf
+            throw nfw AssfrtionError(f);
+        }
+
+        // Gft thf itfm vblufs for thf fxtfnsion bttributfs
+        finbl int gdExtItfmCount = buildfr.gftGdExtItfmCount();
+        if (gdExtItfmCount == 0 &&
+            gdExtItfmVblufs != null && gdExtItfmVblufs.lfngth != 0) {
+            throw nfw AssfrtionError("Unfxpfdtfd Gd Extfnsion Itfm Vblufs");
+        }
+
+        if (gdExtItfmCount > 0 && (gdExtItfmVblufs == null ||
+             gdExtItfmCount != gdExtItfmVblufs.lfngth)) {
+            throw nfw AssfrtionError("Unmbtdhfd Gd Extfnsion Itfm Vblufs");
+        }
+
+        Objfdt[] vblufs = nfw Objfdt[bbsfGdInfoItfmVblufs.lfngth +
+                                     gdExtItfmCount];
+        Systfm.brrbydopy(bbsfGdInfoItfmVblufs, 0, vblufs, 0,
+                         bbsfGdInfoItfmVblufs.lfngth);
+
+        if (gdExtItfmCount > 0) {
+            Systfm.brrbydopy(gdExtItfmVblufs, 0, vblufs,
+                             bbsfGdInfoItfmVblufs.lfngth, gdExtItfmCount);
+        }
+
+        try {
+            rfturn nfw CompositfDbtbSupport(buildfr.gftGdInfoCompositfTypf(),
+                                            buildfr.gftItfmNbmfs(),
+                                            vblufs);
+        } dbtdh (OpfnDbtbExdfption f) {
+            // Should nfvfr rfbdh hfrf
+            throw nfw AssfrtionError(f);
+        }
+    }
+
+    privbtf stbtid finbl String ID                     = "id";
+    privbtf stbtid finbl String START_TIME             = "stbrtTimf";
+    privbtf stbtid finbl String END_TIME               = "fndTimf";
+    privbtf stbtid finbl String DURATION               = "durbtion";
+    privbtf stbtid finbl String MEMORY_USAGE_BEFORE_GC = "mfmoryUsbgfBfforfGd";
+    privbtf stbtid finbl String MEMORY_USAGE_AFTER_GC  = "mfmoryUsbgfAftfrGd";
+
+    privbtf stbtid finbl String[] bbsfGdInfoItfmNbmfs = {
+        ID,
+        START_TIME,
+        END_TIME,
+        DURATION,
+        MEMORY_USAGE_BEFORE_GC,
+        MEMORY_USAGE_AFTER_GC,
+    };
+
+
+    privbtf stbtid MbppfdMXBfbnTypf mfmoryUsbgfMbpTypf;
+    stbtid {
+        try {
+            Mfthod m = GdInfo.dlbss.gftMfthod("gftMfmoryUsbgfBfforfGd");
+            mfmoryUsbgfMbpTypf =
+                MbppfdMXBfbnTypf.gftMbppfdTypf(m.gftGfnfridRfturnTypf());
+        } dbtdh (NoSudhMfthodExdfption | OpfnDbtbExdfption f) {
+            // Should nfvfr rfbdh hfrf
+            throw nfw AssfrtionError(f);
+        }
+    }
+
+    stbtid String[] gftBbsfGdInfoItfmNbmfs() {
+        rfturn bbsfGdInfoItfmNbmfs;
+    }
+
+    privbtf stbtid OpfnTypf<?>[] bbsfGdInfoItfmTypfs = null;
+    stbtid syndhronizfd OpfnTypf<?>[] gftBbsfGdInfoItfmTypfs() {
+        if (bbsfGdInfoItfmTypfs == null) {
+            OpfnTypf<?> mfmoryUsbgfOpfnTypf = mfmoryUsbgfMbpTypf.gftOpfnTypf();
+            bbsfGdInfoItfmTypfs = nfw OpfnTypf<?>[] {
+                SimplfTypf.LONG,
+                SimplfTypf.LONG,
+                SimplfTypf.LONG,
+                SimplfTypf.LONG,
+
+                mfmoryUsbgfOpfnTypf,
+                mfmoryUsbgfOpfnTypf,
+            };
+        }
+        rfturn bbsfGdInfoItfmTypfs;
+    }
+
+    publid stbtid long gftId(CompositfDbtb dd) {
+        rfturn gftLong(dd, ID);
+    }
+    publid stbtid long gftStbrtTimf(CompositfDbtb dd) {
+        rfturn gftLong(dd, START_TIME);
+    }
+    publid stbtid long gftEndTimf(CompositfDbtb dd) {
+        rfturn gftLong(dd, END_TIME);
+    }
+
+    publid stbtid Mbp<String, MfmoryUsbgf>
+            gftMfmoryUsbgfBfforfGd(CompositfDbtb dd) {
+        try {
+            TbbulbrDbtb td = (TbbulbrDbtb) dd.gft(MEMORY_USAGE_BEFORE_GC);
+            rfturn dbst(mfmoryUsbgfMbpTypf.toJbvbTypfDbtb(td));
+        } dbtdh (InvblidObjfdtExdfption | OpfnDbtbExdfption f) {
+            // Should nfvfr rfbdh hfrf
+            throw nfw AssfrtionError(f);
+        }
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid Mbp<String, MfmoryUsbgf> dbst(Objfdt x) {
+        rfturn (Mbp<String, MfmoryUsbgf>) x;
+    }
+    publid stbtid Mbp<String, MfmoryUsbgf>
+            gftMfmoryUsbgfAftfrGd(CompositfDbtb dd) {
+        try {
+            TbbulbrDbtb td = (TbbulbrDbtb) dd.gft(MEMORY_USAGE_AFTER_GC);
+            //rfturn (Mbp<String,MfmoryUsbgf>)
+            rfturn dbst(mfmoryUsbgfMbpTypf.toJbvbTypfDbtb(td));
+        } dbtdh (InvblidObjfdtExdfption | OpfnDbtbExdfption f) {
+            // Should nfvfr rfbdh hfrf
+            throw nfw AssfrtionError(f);
+        }
+    }
+
+    /**
+     * Rfturns truf if thf input CompositfDbtb hbs thf fxpfdtfd
+     * CompositfTypf (i.f. dontbin bll bttributfs with fxpfdtfd
+     * nbmfs bnd typfs).  Othfrwisf, rfturn fblsf.
+     */
+    publid stbtid void vblidbtfCompositfDbtb(CompositfDbtb dd) {
+        if (dd == null) {
+            throw nfw NullPointfrExdfption("Null CompositfDbtb");
+        }
+
+        if (!isTypfMbtdhfd(gftBbsfGdInfoCompositfTypf(),
+                           dd.gftCompositfTypf())) {
+           throw nfw IllfgblArgumfntExdfption(
+                "Unfxpfdtfd dompositf typf for GdInfo");
+        }
+    }
+
+    // This is only usfd for vblidbtion.
+    privbtf stbtid CompositfTypf bbsfGdInfoCompositfTypf = null;
+    stbtid syndhronizfd CompositfTypf gftBbsfGdInfoCompositfTypf() {
+        if (bbsfGdInfoCompositfTypf == null) {
+            try {
+                bbsfGdInfoCompositfTypf =
+                    nfw CompositfTypf("sun.mbnbgfmfnt.BbsfGdInfoCompositfTypf",
+                                      "CompositfTypf for Bbsf GdInfo",
+                                      gftBbsfGdInfoItfmNbmfs(),
+                                      gftBbsfGdInfoItfmNbmfs(),
+                                      gftBbsfGdInfoItfmTypfs());
+            } dbtdh (OpfnDbtbExdfption f) {
+                // shouldn't rfbdh hfrf
+                throw Util.nfwExdfption(f);
+            }
+        }
+        rfturn bbsfGdInfoCompositfTypf;
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -5716428894085882742L;
+}

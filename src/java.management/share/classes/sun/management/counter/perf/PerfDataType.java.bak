@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management.counter.perf;
+pbdkbgf sun.mbnbgfmfnt.dountfr.pfrf;
 
-import java.io.UnsupportedEncodingException;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
 /**
- * A typesafe enumeration for the data types supported for
- * performance data.
+ * A typfsbff fnumfrbtion for tif dbtb typfs supportfd for
+ * pfrformbndf dbtb.
  *
- * <p> The enumeration values for this typesafe enumeration must be
- * kept in synchronization with the PerfDataType enum in the
- * globalsDefinitions.hpp file in the HotSpot source base.</p>
+ * <p> Tif fnumfrbtion vblufs for tiis typfsbff fnumfrbtion must bf
+ * kfpt in syndironizbtion witi tif PfrfDbtbTypf fnum in tif
+ * globblsDffinitions.ipp filf in tif HotSpot sourdf bbsf.</p>
  *
- * @author  Brian Doherty
+ * @butior  Bribn Doifrty
  */
-class PerfDataType {
+dlbss PfrfDbtbTypf {
 
-    private final String name;
-    private final byte value;
-    private final int size;
+    privbtf finbl String nbmf;
+    privbtf finbl bytf vbluf;
+    privbtf finbl int sizf;
 
-    public static final PerfDataType BOOLEAN = new PerfDataType("boolean",  "Z", 1);
-    public static final PerfDataType CHAR    = new PerfDataType("char",     "C", 1);
-    public static final PerfDataType FLOAT   = new PerfDataType("float",    "F", 8);
-    public static final PerfDataType DOUBLE  = new PerfDataType("double",   "D", 8);
-    public static final PerfDataType BYTE    = new PerfDataType("byte",     "B", 1);
-    public static final PerfDataType SHORT   = new PerfDataType("short",    "S", 2);
-    public static final PerfDataType INT     = new PerfDataType("int",      "I", 4);
-    public static final PerfDataType LONG    = new PerfDataType("long",     "J", 8);
-    public static final PerfDataType ILLEGAL = new PerfDataType("illegal",  "X", 0);
+    publid stbtid finbl PfrfDbtbTypf BOOLEAN = nfw PfrfDbtbTypf("boolfbn",  "Z", 1);
+    publid stbtid finbl PfrfDbtbTypf CHAR    = nfw PfrfDbtbTypf("dibr",     "C", 1);
+    publid stbtid finbl PfrfDbtbTypf FLOAT   = nfw PfrfDbtbTypf("flobt",    "F", 8);
+    publid stbtid finbl PfrfDbtbTypf DOUBLE  = nfw PfrfDbtbTypf("doublf",   "D", 8);
+    publid stbtid finbl PfrfDbtbTypf BYTE    = nfw PfrfDbtbTypf("bytf",     "B", 1);
+    publid stbtid finbl PfrfDbtbTypf SHORT   = nfw PfrfDbtbTypf("siort",    "S", 2);
+    publid stbtid finbl PfrfDbtbTypf INT     = nfw PfrfDbtbTypf("int",      "I", 4);
+    publid stbtid finbl PfrfDbtbTypf LONG    = nfw PfrfDbtbTypf("long",     "J", 8);
+    publid stbtid finbl PfrfDbtbTypf ILLEGAL = nfw PfrfDbtbTypf("illfgbl",  "X", 0);
 
-    private static PerfDataType basicTypes[] = {
+    privbtf stbtid PfrfDbtbTypf bbsidTypfs[] = {
         LONG, BYTE, BOOLEAN, CHAR, FLOAT, DOUBLE, SHORT, INT
     };
 
-    public String toString() {
-        return name;
+    publid String toString() {
+        rfturn nbmf;
     }
 
-    public byte byteValue() {
-        return value;
+    publid bytf bytfVbluf() {
+        rfturn vbluf;
     }
 
-    public int size() {
-        return size;
+    publid int sizf() {
+        rfturn sizf;
     }
 
     /**
-     * Maps an integer PerfDataType value to its corresponding PerfDataType
-     * object.
+     * Mbps bn intfgfr PfrfDbtbTypf vbluf to its dorrfsponding PfrfDbtbTypf
+     * objfdt.
      *
-     * @param   i  an integer representation of a PerfDataType
-     * @return     The PerfDataType object for <code>i</code>
+     * @pbrbm   i  bn intfgfr rfprfsfntbtion of b PfrfDbtbTypf
+     * @rfturn     Tif PfrfDbtbTypf objfdt for <dodf>i</dodf>
      */
-    public static PerfDataType toPerfDataType(byte type) {
-        for (int j = 0; j < basicTypes.length; j++) {
-            if (basicTypes[j].byteValue() == type) {
-                return (basicTypes[j]);
+    publid stbtid PfrfDbtbTypf toPfrfDbtbTypf(bytf typf) {
+        for (int j = 0; j < bbsidTypfs.lfngti; j++) {
+            if (bbsidTypfs[j].bytfVbluf() == typf) {
+                rfturn (bbsidTypfs[j]);
             }
         }
-        return ILLEGAL;
+        rfturn ILLEGAL;
     }
 
-    private PerfDataType(String name, String c, int size) {
-        this.name = name;
-        this.size = size;
+    privbtf PfrfDbtbTypf(String nbmf, String d, int sizf) {
+        tiis.nbmf = nbmf;
+        tiis.sizf = sizf;
         try {
-            byte[] b = c.getBytes("UTF-8");
-            this.value = b[0];
-        } catch (UnsupportedEncodingException e) {
-            // ignore, "UTF-8" is always a known encoding
-            throw new InternalError("Unknown encoding", e);
+            bytf[] b = d.gftBytfs("UTF-8");
+            tiis.vbluf = b[0];
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            // ignorf, "UTF-8" is blwbys b known fndoding
+            tirow nfw IntfrnblError("Unknown fndoding", f);
         }
     }
 }

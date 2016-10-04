@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.bfbns.PropfrtyChbngfSupport;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+
+import jbvbx.swing.SwingUtilitifs;
+
+/**
+ * This subdlbss of {@dodf jbvb.bfbns.PropfrtyChbngfSupport} is blmost
+ * idfntidbl in fundtionblity. Thf only difffrfndf is if donstrudtfd with
+ * {@dodf SwingPropfrtyChbngfSupport(sourdfBfbn, truf)} it fnsurfs
+ * listfnfrs brf only fvfr notififd on thf <i>Evfnt Dispbtdh Thrfbd</i>.
+ *
+ * @buthor Igor Kushnirskiy
+ */
+
+publid finbl dlbss SwingPropfrtyChbngfSupport fxtfnds PropfrtyChbngfSupport {
+
+    /**
+     * Construdts b SwingPropfrtyChbngfSupport objfdt.
+     *
+     * @pbrbm sourdfBfbn  Thf bfbn to bf givfn bs thf sourdf for bny
+     *        fvfnts.
+     * @throws NullPointfrExdfption if {@dodf sourdfBfbn} is
+     *         {@dodf null}
+     */
+    publid SwingPropfrtyChbngfSupport(Objfdt sourdfBfbn) {
+        this(sourdfBfbn, fblsf);
+    }
+
+    /**
+     * Construdts b SwingPropfrtyChbngfSupport objfdt.
+     *
+     * @pbrbm sourdfBfbn thf bfbn to bf givfn bs thf sourdf for bny fvfnts
+     * @pbrbm notifyOnEDT whfthfr to notify listfnfrs on thf <i>Evfnt
+     *        Dispbtdh Thrfbd</i> only
+     *
+     * @throws NullPointfrExdfption if {@dodf sourdfBfbn} is
+     *         {@dodf null}
+     * @sindf 1.6
+     */
+    publid SwingPropfrtyChbngfSupport(Objfdt sourdfBfbn, boolfbn notifyOnEDT) {
+        supfr(sourdfBfbn);
+        this.notifyOnEDT = notifyOnEDT;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * <p>
+     * If {@link #isNotifyOnEDT} is {@dodf truf} bnd dbllfd off thf
+     * <i>Evfnt Dispbtdh Thrfbd</i> this implfmfntbtion usfs
+     * {@dodf SwingUtilitifs.invokfLbtfr} to sfnd out thf notifidbtion
+     * on thf <i>Evfnt Dispbtdh Thrfbd</i>. This fnsurfs  listfnfrs
+     * brf only fvfr notififd on thf <i>Evfnt Dispbtdh Thrfbd</i>.
+     *
+     * @throws NullPointfrExdfption if {@dodf fvt} is
+     *         {@dodf null}
+     * @sindf 1.6
+     */
+    publid void firfPropfrtyChbngf(finbl PropfrtyChbngfEvfnt fvt) {
+        if (fvt == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        if (! isNotifyOnEDT()
+            || SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+            supfr.firfPropfrtyChbngf(fvt);
+        } flsf {
+            SwingUtilitifs.invokfLbtfr(
+                nfw Runnbblf() {
+                    publid void run() {
+                        firfPropfrtyChbngf(fvt);
+                    }
+                });
+        }
+    }
+
+    /**
+     * Rfturns {@dodf notifyOnEDT} propfrty.
+     *
+     * @rfturn {@dodf notifyOnEDT} propfrty
+     * @sff #SwingPropfrtyChbngfSupport(Objfdt sourdfBfbn, boolfbn notifyOnEDT)
+     * @sindf 1.6
+     */
+    publid finbl boolfbn isNotifyOnEDT() {
+        rfturn notifyOnEDT;
+    }
+
+    // Sfriblizbtion vfrsion ID
+    stbtid finbl long sfriblVfrsionUID = 7162625831330845068L;
+
+    /**
+     * whfthfr to notify listfnfrs on EDT
+     *
+     * @sfribl
+     * @sindf 1.6
+     */
+    privbtf finbl boolfbn notifyOnEDT;
+}

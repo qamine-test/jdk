@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
 /**
- * Is used internally to signal that the size of a PDU exceeds the packet size limitation.
+ * Is usfd intfrnblly to signbl tibt tif sizf of b PDU fxdffds tif pbdkft sizf limitbtion.
  * <p>
- * You will not usually need to use this class, except if you
- * decide to implement your own
- * {@link com.sun.jmx.snmp.SnmpPduFactory SnmPduFactory} object.
+ * You will not usublly nffd to usf tiis dlbss, fxdfpt if you
+ * dfdidf to implfmfnt your own
+ * {@link dom.sun.jmx.snmp.SnmpPduFbdtory SnmPduFbdtory} objfdt.
  * <p>
- * The <CODE>varBindCount</CODE> property contains the
- * number of <CODE>SnmpVarBind</CODE> successfully encoded
- * before the exception was thrown. Its value is 0
- * when this number is unknown.
+ * Tif <CODE>vbrBindCount</CODE> propfrty dontbins tif
+ * numbfr of <CODE>SnmpVbrBind</CODE> suddfssfully fndodfd
+ * bfforf tif fxdfption wbs tirown. Its vbluf is 0
+ * wifn tiis numbfr is unknown.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public class SnmpTooBigException extends Exception {
-  private static final long serialVersionUID = 4754796246674803969L;
+publid dlbss SnmpTooBigExdfption fxtfnds Exdfption {
+  privbtf stbtid finbl long sfriblVfrsionUID = 4754796246674803969L;
 
   /**
-   * Builds an <CODE>SnmpTooBigException</CODE> with
-   * <CODE>varBindCount</CODE> set to 0.
+   * Builds bn <CODE>SnmpTooBigExdfption</CODE> witi
+   * <CODE>vbrBindCount</CODE> sft to 0.
    */
-  public SnmpTooBigException() {
-    varBindCount = 0 ;
+  publid SnmpTooBigExdfption() {
+    vbrBindCount = 0 ;
   }
 
   /**
-   * Builds an <CODE>SnmpTooBigException</CODE> with
-   * <CODE>varBindCount</CODE> set to the specified value.
-   * @param n The <CODE>varBindCount</CODE> value.
+   * Builds bn <CODE>SnmpTooBigExdfption</CODE> witi
+   * <CODE>vbrBindCount</CODE> sft to tif spfdififd vbluf.
+   * @pbrbm n Tif <CODE>vbrBindCount</CODE> vbluf.
    */
-  public SnmpTooBigException(int n) {
-    varBindCount = n ;
+  publid SnmpTooBigExdfption(int n) {
+    vbrBindCount = n ;
   }
 
 
   /**
-   * Returns the number of <CODE>SnmpVarBind</CODE> successfully
-   * encoded before the exception was thrown.
+   * Rfturns tif numbfr of <CODE>SnmpVbrBind</CODE> suddfssfully
+   * fndodfd bfforf tif fxdfption wbs tirown.
    *
-   * @return A positive integer (0 means the number is unknown).
+   * @rfturn A positivf intfgfr (0 mfbns tif numbfr is unknown).
    */
-  public int getVarBindCount() {
-    return varBindCount ;
+  publid int gftVbrBindCount() {
+    rfturn vbrBindCount ;
   }
 
   /**
-   * The <CODE>varBindCount</CODE>.
-   * @serial
+   * Tif <CODE>vbrBindCount</CODE>.
+   * @sfribl
    */
-  private int varBindCount ;
+  privbtf int vbrBindCount ;
 }

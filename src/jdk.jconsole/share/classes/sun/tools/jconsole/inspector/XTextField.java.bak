@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole.inspector;
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.event.*;
-import javax.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.*;
 
 
 /**
- * This list implements the drag and drop functionality.
+ * Tiis list implfmfnts tif drbg bnd drop fundtionblity.
  */
-@SuppressWarnings("serial")
-public class XTextField extends JPanel
-    implements DocumentListener,
-               ActionListener {
+@SupprfssWbrnings("sfribl")
+publid dlbss XTfxtFifld fxtfnds JPbnfl
+    implfmfnts DodumfntListfnfr,
+               AdtionListfnfr {
 
-    private XObject selectedObject;
-    protected JTextField textField;
+    privbtf XObjfdt sflfdtfdObjfdt;
+    protfdtfd JTfxtFifld tfxtFifld;
 
-    private static boolean allowNullSelection = false;
+    privbtf stbtid boolfbn bllowNullSflfdtion = fblsf;
 
-    protected final static int COMPATIBLE_VALUE = 1;
-    protected final static int CURRENT_VALUE = 2;
-    protected final static int NULL_VALUE = 3;
+    protfdtfd finbl stbtid int COMPATIBLE_VALUE = 1;
+    protfdtfd finbl stbtid int CURRENT_VALUE = 2;
+    protfdtfd finbl stbtid int NULL_VALUE = 3;
 
-    private JButton button;
-    private XOperations operation;
+    privbtf JButton button;
+    privbtf XOpfrbtions opfrbtion;
 
-    //used in XTestFieldEditor
-    public XTextField() {
-        super(new BorderLayout());
-        add(textField = new JTextField(),BorderLayout.CENTER);
-        textField.addActionListener(this);
+    //usfd in XTfstFifldEditor
+    publid XTfxtFifld() {
+        supfr(nfw BordfrLbyout());
+        bdd(tfxtFifld = nfw JTfxtFifld(),BordfrLbyout.CENTER);
+        tfxtFifld.bddAdtionListfnfr(tiis);
         //
     }
 
-    public XTextField(Object value) {
-        this(value,value.toString().length());
+    publid XTfxtFifld(Objfdt vbluf) {
+        tiis(vbluf,vbluf.toString().lfngti());
     }
 
-    public XTextField(Object value, int colWidth) {
-        this(value,value.getClass(),colWidth, true, null, null);
+    publid XTfxtFifld(Objfdt vbluf, int dolWidti) {
+        tiis(vbluf,vbluf.gftClbss(),dolWidti, truf, null, null);
     }
 
-    public XTextField(Object value,
-                      Class<?> expectedClass,
-                      int colWidth,
-                      boolean isCallable,
+    publid XTfxtFifld(Objfdt vbluf,
+                      Clbss<?> fxpfdtfdClbss,
+                      int dolWidti,
+                      boolfbn isCbllbblf,
                       JButton button,
-                      XOperations operation) {
-        super(new BorderLayout());
-        this.button = button;
-        this.operation = operation;
-        add(textField = new JTextField(value.toString(),colWidth),
-            BorderLayout.CENTER);
-        if(isCallable)
-            textField.addActionListener(this);
+                      XOpfrbtions opfrbtion) {
+        supfr(nfw BordfrLbyout());
+        tiis.button = button;
+        tiis.opfrbtion = opfrbtion;
+        bdd(tfxtFifld = nfw JTfxtFifld(vbluf.toString(),dolWidti),
+            BordfrLbyout.CENTER);
+        if(isCbllbblf)
+            tfxtFifld.bddAdtionListfnfr(tiis);
 
-        boolean fieldEditable = Utils.isEditableType(expectedClass.getName());
-        if (fieldEditable && isCallable) {
-            textField.setEditable(true);
+        boolfbn fifldEditbblf = Utils.isEditbblfTypf(fxpfdtfdClbss.gftNbmf());
+        if (fifldEditbblf && isCbllbblf) {
+            tfxtFifld.sftEditbblf(truf);
         }
-        else {
-            textField.setEditable(false);
+        flsf {
+            tfxtFifld.sftEditbblf(fblsf);
         }
     }
 
-    public static void setNullSelectionAllowed(boolean allowNullSelection) {
-        XTextField.allowNullSelection = allowNullSelection;
+    publid stbtid void sftNullSflfdtionAllowfd(boolfbn bllowNullSflfdtion) {
+        XTfxtFifld.bllowNullSflfdtion = bllowNullSflfdtion;
     }
 
-    public static boolean getNullSelectionAllowed() {
-        return allowNullSelection;
+    publid stbtid boolfbn gftNullSflfdtionAllowfd() {
+        rfturn bllowNullSflfdtion;
     }
 
-    protected void init(Object value, Class<?> expectedClass) {
-         boolean fieldEditable =  Utils.isEditableType(expectedClass.getName());
-        clearObject();
-        if (value != null) {
-            textField.setText(value.toString());
+    protfdtfd void init(Objfdt vbluf, Clbss<?> fxpfdtfdClbss) {
+         boolfbn fifldEditbblf =  Utils.isEditbblfTypf(fxpfdtfdClbss.gftNbmf());
+        dlfbrObjfdt();
+        if (vbluf != null) {
+            tfxtFifld.sftTfxt(vbluf.toString());
         }
-        else {
-            //null String value for the moment
-            textField.setText("");
+        flsf {
+            //null String vbluf for tif momfnt
+            tfxtFifld.sftTfxt("");
         }
-        textField.setToolTipText(null);
-        if (fieldEditable) {
-            if (!textField.isEditable()) {
-                textField.setEditable(true);
+        tfxtFifld.sftToolTipTfxt(null);
+        if (fifldEditbblf) {
+            if (!tfxtFifld.isEditbblf()) {
+                tfxtFifld.sftEditbblf(truf);
             }
 
         }
-        else {
-            if (textField.isEditable()) {
-                textField.setEditable(false);
+        flsf {
+            if (tfxtFifld.isEditbblf()) {
+                tfxtFifld.sftEditbblf(fblsf);
             }
         }
     }
 
-    private synchronized void clearObject() {
-        textField.getDocument().removeDocumentListener(this);
-        selectedObject = null;
-        setDefaultColors();
+    privbtf syndironizfd void dlfbrObjfdt() {
+        tfxtFifld.gftDodumfnt().rfmovfDodumfntListfnfr(tiis);
+        sflfdtfdObjfdt = null;
+        sftDffbultColors();
     }
 
-    private synchronized void setDefaultColors() {
-        //  if (fore != null) textField.setForeground(fore);
-        // if (back != null)  textField.setBackground(back);
+    privbtf syndironizfd void sftDffbultColors() {
+        //  if (forf != null) tfxtFifld.sftForfground(forf);
+        // if (bbdk != null)  tfxtFifld.sftBbdkground(bbdk);
     }
 
-    public void setHorizontalAlignment(int h) {
-        textField.setHorizontalAlignment(h);
+    publid void sftHorizontblAlignmfnt(int i) {
+        tfxtFifld.sftHorizontblAlignmfnt(i);
     }
 
-    //can be overwritten
-    protected JMenuItem buildJMenuItem(XObject xobject, int valueType) {
-        if (valueType == COMPATIBLE_VALUE) {
-            return new JMenuItem(xobject.getText());
+    //dbn bf ovfrwrittfn
+    protfdtfd JMfnuItfm buildJMfnuItfm(XObjfdt xobjfdt, int vblufTypf) {
+        if (vblufTypf == COMPATIBLE_VALUE) {
+            rfturn nfw JMfnuItfm(xobjfdt.gftTfxt());
         }
-        else if (valueType == CURRENT_VALUE) {
-            return new JMenuItem("> "+xobject.getText());
+        flsf if (vblufTypf == CURRENT_VALUE) {
+            rfturn nfw JMfnuItfm("> "+xobjfdt.gftTfxt());
         }
-        else if (valueType == NULL_VALUE) {
-            return new JMenuItem("null");
+        flsf if (vblufTypf == NULL_VALUE) {
+            rfturn nfw JMfnuItfm("null");
         }
-        else {
-            return null;
+        flsf {
+            rfturn null;
         }
     }
 
     // ACTIONLISTENER IMPLEMENTATION
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() instanceof JTextField) {
-            if(operation != null)
-                operation.performInvokeRequest(button);
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        if (f.gftSourdf() instbndfof JTfxtFifld) {
+            if(opfrbtion != null)
+                opfrbtion.pfrformInvokfRfqufst(button);
         }
     }
 
     /**
-     * This method returns either the user inputted String, or an XObject
-     * if one was dropped on the input field.
+     * Tiis mftiod rfturns fitifr tif usfr inputtfd String, or bn XObjfdt
+     * if onf wbs droppfd on tif input fifld.
      */
-    public Object getValue() {
-        if (selectedObject!=null) {
-            if (selectedObject == XObject.NULL_OBJECT) {
-                //null case
-                return null;
+    publid Objfdt gftVbluf() {
+        if (sflfdtfdObjfdt!=null) {
+            if (sflfdtfdObjfdt == XObjfdt.NULL_OBJECT) {
+                //null dbsf
+                rfturn null;
             }
-            else {
-                return selectedObject;
+            flsf {
+                rfturn sflfdtfdObjfdt;
             }
         }
-        else {
-            return  textField.getText();
+        flsf {
+            rfturn  tfxtFifld.gftTfxt();
         }
     }
 
-    public void changedUpdate(DocumentEvent e) {
-        // the user typed something, so remove references
-        // to the object that was dropped.
-        clearObject();
+    publid void dibngfdUpdbtf(DodumfntEvfnt f) {
+        // tif usfr typfd somftiing, so rfmovf rfffrfndfs
+        // to tif objfdt tibt wbs droppfd.
+        dlfbrObjfdt();
     }
 
-    public void removeUpdate(DocumentEvent e) {
-        // the user typed something, so remove references
-        // to the object that was dropped.
-        clearObject();
+    publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+        // tif usfr typfd somftiing, so rfmovf rfffrfndfs
+        // to tif objfdt tibt wbs droppfd.
+        dlfbrObjfdt();
     }
 
-    public void insertUpdate(DocumentEvent e) {
-        // the user typed something, so remove references
-        // to the object that was dropped.
-        clearObject();
+    publid void insfrtUpdbtf(DodumfntEvfnt f) {
+        // tif usfr typfd somftiing, so rfmovf rfffrfndfs
+        // to tif objfdt tibt wbs droppfd.
+        dlfbrObjfdt();
     }
 
 }

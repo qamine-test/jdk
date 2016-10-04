@@ -1,0 +1,504 @@
+/*
+ * Copyright (d) 2007, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.d3d;
+
+import jbvb.bwt.Diblog;
+import jbvb.bwt.DisplbyModf;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Window;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowListfnfr;
+import jbvb.bwt.pffr.WindowPffr;
+import jbvb.util.ArrbyList;
+import sun.bwt.Win32GrbphidsDfvidf;
+import sun.bwt.windows.WWindowPffr;
+import sun.jbvb2d.pipf.hw.ContfxtCbpbbilitifs;
+import sun.jbvb2d.windows.WindowsFlbgs;
+import stbtid sun.jbvb2d.d3d.D3DContfxt.D3DContfxtCbps.*;
+import sun.jbvb2d.d3d.D3DContfxt.D3DContfxtCbps;
+
+/**
+ * This dlbss implfmfnts D3D-spfdifid fundtionblity, sudh bs fullsdrffn
+ * fxdlusivf modf bnd displby dhbngfs.  It is kfpt sfpbrbtf from
+ * Win32GrbphidsDfvidf to hflp bvoid ovfrburdfning thf pbrfnt dlbss.
+ */
+publid dlbss D3DGrbphidsDfvidf fxtfnds Win32GrbphidsDfvidf {
+    privbtf D3DContfxt dontfxt;
+
+    privbtf stbtid boolfbn d3dAvbilbblf;
+
+    privbtf ContfxtCbpbbilitifs d3dCbps;
+
+    privbtf stbtid nbtivf boolfbn initD3D();
+
+    stbtid {
+        // lobding thf librbry dofsn't hflp bfdbusf wf nffd thf
+        // toolkit thrfbd running, so wf hbvf to dbll gftDffbultToolkit()
+        Toolkit.gftDffbultToolkit();
+        d3dAvbilbblf = initD3D();
+        if (d3dAvbilbblf) {
+            // wf don't usf pixfl formbts for thf d3d pipflinf
+            pfDisbblfd = truf;
+            sun.misd.PfrfCountfr.gftD3DAvbilbblf().sft(1);
+        } flsf {
+            sun.misd.PfrfCountfr.gftD3DAvbilbblf().sft(0);
+        }
+    }
+
+    /**
+     * Usfd to donstrudt b Dirfdt3D-fnbblfd GrbphidsDfvidf.
+     *
+     * @rfturn b D3DGrbphidsDfvidf if it dould bf drfbtfd
+     * suddfssfully, null othfrwisf.
+     */
+    publid stbtid D3DGrbphidsDfvidf drfbtfDfvidf(int sdrffn) {
+        if (!d3dAvbilbblf) {
+            rfturn null;
+        }
+
+        ContfxtCbpbbilitifs d3dCbps = gftDfvidfCbps(sdrffn);
+        // dould not initiblizf thf dfvidf suddfssfully
+        if ((d3dCbps.gftCbps() & CAPS_DEVICE_OK) == 0) {
+            if (WindowsFlbgs.isD3DVfrbosf()) {
+                Systfm.out.println("Could not fnbblf Dirfdt3D pipflinf on " +
+                                   "sdrffn " + sdrffn);
+            }
+            rfturn null;
+        }
+        if (WindowsFlbgs.isD3DVfrbosf()) {
+            Systfm.out.println("Dirfdt3D pipflinf fnbblfd on sdrffn " + sdrffn);
+        }
+
+        D3DGrbphidsDfvidf gd = nfw D3DGrbphidsDfvidf(sdrffn, d3dCbps);
+        rfturn gd;
+    }
+
+    privbtf stbtid nbtivf int gftDfvidfCbpsNbtivf(int sdrffn);
+    privbtf stbtid nbtivf String gftDfvidfIdNbtivf(int sdrffn);
+    privbtf stbtid ContfxtCbpbbilitifs gftDfvidfCbps(finbl int sdrffn) {
+        ContfxtCbpbbilitifs d3dCbps = null;
+        D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+        rq.lodk();
+        try {
+            dlbss Rfsult {
+                int dbps;
+                String id;
+            };
+            finbl Rfsult rfs = nfw Rfsult();
+            rq.flushAndInvokfNow(nfw Runnbblf() {
+                publid void run() {
+                    rfs.dbps = gftDfvidfCbpsNbtivf(sdrffn);
+                    rfs.id = gftDfvidfIdNbtivf(sdrffn);
+                }
+            });
+            d3dCbps = nfw D3DContfxtCbps(rfs.dbps, rfs.id);
+        } finblly {
+            rq.unlodk();
+        }
+
+        rfturn d3dCbps != null ? d3dCbps : nfw D3DContfxtCbps(CAPS_EMPTY, null);
+    }
+
+    publid finbl boolfbn isCbpPrfsfnt(int dbp) {
+        rfturn ((d3dCbps.gftCbps() & dbp) != 0);
+    }
+
+    privbtf D3DGrbphidsDfvidf(int sdrffnnum, ContfxtCbpbbilitifs d3dCbps) {
+        supfr(sdrffnnum);
+        dfsdString = "D3DGrbphidsDfvidf[sdrffn="+sdrffnnum;
+        this.d3dCbps = d3dCbps;
+        dontfxt = nfw D3DContfxt(D3DRfndfrQufuf.gftInstbndf(), this);
+    }
+
+    publid boolfbn isD3DEnbblfdOnDfvidf() {
+        rfturn isVblid() && isCbpPrfsfnt(CAPS_DEVICE_OK);
+    }
+
+    /**
+     * Rfturns truf if d3d pipflinf hbs bffn suddfssfully initiblizfd.
+     * @rfturn truf if d3d pipflinf is initiblizfd, fblsf othfrwisf
+     */
+    publid stbtid boolfbn isD3DAvbilbblf() {
+        rfturn d3dAvbilbblf;
+    }
+
+    /**
+     * Rfturn thf owning Frbmf for b givfn Window.  Usfd in sftFSWindow bflow
+     * to sft thf propfrtifs of thf owning Frbmf whfn b Window gofs
+     * into fullsdrffn modf.
+     */
+    privbtf Frbmf gftToplfvflOwnfr(Window w) {
+        Window ownfr = w;
+        whilf (ownfr != null) {
+            ownfr = ownfr.gftOwnfr();
+            if (ownfr instbndfof Frbmf) {
+                rfturn (Frbmf) ownfr;
+            }
+        }
+        // dould gft hfrf if pbssfd Window is bn ownfr-lfss Diblog
+        rfturn null;
+    }
+
+    privbtf boolfbn fsStbtus;
+    privbtf Rfdtbnglf ownfrOrigBounds = null;
+    privbtf boolfbn ownfrWbsVisiblf;
+    privbtf Window rfblFSWindow;
+    privbtf WindowListfnfr fsWindowListfnfr;
+    privbtf boolfbn fsWindowWbsAlwbysOnTop;
+    privbtf stbtid nbtivf boolfbn fntfrFullSdrffnExdlusivfNbtivf(int sdrffn,
+                                                                 long hwnd);
+
+    @Ovfrridf
+    protfdtfd void fntfrFullSdrffnExdlusivf(finbl int sdrffn, WindowPffr wp)
+    {
+        finbl WWindowPffr wpffr = (WWindowPffr)rfblFSWindow.gftPffr();
+
+        D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+        rq.lodk();
+        try {
+            rq.flushAndInvokfNow(nfw Runnbblf() {
+                publid void run() {
+                    long hwnd = wpffr.gftHWnd();
+                    if (hwnd == 0l) {
+                        // window is disposfd
+                        fsStbtus = fblsf;
+                        rfturn;
+                    }
+                    fsStbtus = fntfrFullSdrffnExdlusivfNbtivf(sdrffn, hwnd);
+                }
+            });
+        } finblly {
+            rq.unlodk();
+        }
+        if (!fsStbtus) {
+            supfr.fntfrFullSdrffnExdlusivf(sdrffn, wp);
+        }
+    }
+
+    privbtf stbtid nbtivf boolfbn fxitFullSdrffnExdlusivfNbtivf(int sdrffn);
+    @Ovfrridf
+    protfdtfd void fxitFullSdrffnExdlusivf(finbl int sdrffn, WindowPffr w) {
+        if (fsStbtus) {
+            D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+            rq.lodk();
+            try {
+                rq.flushAndInvokfNow(nfw Runnbblf() {
+                    publid void run() {
+                        fxitFullSdrffnExdlusivfNbtivf(sdrffn);
+                    }
+                });
+            } finblly {
+                rq.unlodk();
+            }
+        } flsf {
+            supfr.fxitFullSdrffnExdlusivf(sdrffn, w);
+        }
+    }
+
+    /**
+     * WindowAdbptfr dlbss for thf full-sdrffn frbmf, rfsponsiblf for
+     * rfstoring thf dfvidfs. This is importbnt to do bfdbusf unlfss thf dfvidf
+     * is rfstorfd it will not go bbdk into thf FS modf ondf blt+tbbbfd out.
+     * This is b problfm for windows for whidh wf do not do bny d3d-rflbtfd
+     * opfrbtions (likf whfn wf disbblfd on-sdrffn rfndfring).
+     *
+     * REMIND: wf drfbtf bn instbndf pfr fbdh full-sdrffn dfvidf whilf b singlf
+     * instbndf would suffidf (but rfquirfs morf mbnbgfmfnt).
+     */
+    privbtf stbtid dlbss D3DFSWindowAdbptfr fxtfnds WindowAdbptfr {
+        @Ovfrridf
+        @SupprfssWbrnings("stbtid")
+        publid void windowDfbdtivbtfd(WindowEvfnt f) {
+            D3DRfndfrQufuf.gftInstbndf().rfstorfDfvidfs();
+        }
+        @Ovfrridf
+        @SupprfssWbrnings("stbtid")
+        publid void windowAdtivbtfd(WindowEvfnt f) {
+            D3DRfndfrQufuf.gftInstbndf().rfstorfDfvidfs();
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd void bddFSWindowListfnfr(Window w) {
+        // if thf window is not b toplfvfl (hbs bn ownfr) wf hbvf to usf thf
+        // rfbl toplfvfl to fntfr thf full-sdrffn modf with (4933099).
+        if (!(w instbndfof Frbmf) && !(w instbndfof Diblog) &&
+            (rfblFSWindow = gftToplfvflOwnfr(w)) != null)
+        {
+            ownfrOrigBounds = rfblFSWindow.gftBounds();
+            WWindowPffr fp = (WWindowPffr)rfblFSWindow.gftPffr();
+
+            ownfrWbsVisiblf = rfblFSWindow.isVisiblf();
+            Rfdtbnglf r = w.gftBounds();
+            // wf usf opfrbtions on pffr instfbd of domponfnt bfdbusf dblling
+            // thfm on domponfnt will tbkf thf trff lodk
+            fp.rfshbpf(r.x, r.y, r.width, r.hfight);
+            fp.sftVisiblf(truf);
+        } flsf {
+            rfblFSWindow = w;
+        }
+
+        fsWindowWbsAlwbysOnTop = rfblFSWindow.isAlwbysOnTop();
+        ((WWindowPffr)rfblFSWindow.gftPffr()).sftAlwbysOnTop(truf);
+
+        fsWindowListfnfr = nfw D3DFSWindowAdbptfr();
+        rfblFSWindow.bddWindowListfnfr(fsWindowListfnfr);
+    }
+
+    @Ovfrridf
+    protfdtfd void rfmovfFSWindowListfnfr(Window w) {
+        rfblFSWindow.rfmovfWindowListfnfr(fsWindowListfnfr);
+        fsWindowListfnfr = null;
+
+        /**
+         * Bug 4933099: Thfrf is somf funny-businfss to dfbl with whfn this
+         * mfthod is dbllfd with b Window instfbd of b Frbmf.  Sff 4836744
+         * for morf informbtion on this.  Onf sidf-ffffdt of our workbround
+         * for thf problfm is thbt thf owning Frbmf of b Window mby fnd
+         * up gftting rfsizfd during thf fullsdrffn prodfss.  Whfn wf
+         * rfturn from fullsdrffn modf, wf should rfsizf thf Frbmf to
+         * its originbl sizf (just likf thf Window is bfing rfsizfd
+         * to its originbl sizf in GrbphidsDfvidf).
+         */
+        WWindowPffr wpffr = (WWindowPffr)rfblFSWindow.gftPffr();
+        if (wpffr != null) {
+            if (ownfrOrigBounds != null) {
+                // if thf window wfnt into fs modf bfforf it wbs rfblizfd it
+                // dould hbvf (0,0) dimfnsions
+                if (ownfrOrigBounds.width  == 0) ownfrOrigBounds.width  = 1;
+                if (ownfrOrigBounds.hfight == 0) ownfrOrigBounds.hfight = 1;
+                wpffr.rfshbpf(ownfrOrigBounds.x,     ownfrOrigBounds.y,
+                              ownfrOrigBounds.width, ownfrOrigBounds.hfight);
+                if (!ownfrWbsVisiblf) {
+                    wpffr.sftVisiblf(fblsf);
+                }
+                ownfrOrigBounds = null;
+            }
+            if (!fsWindowWbsAlwbysOnTop) {
+                wpffr.sftAlwbysOnTop(fblsf);
+            }
+        }
+
+        rfblFSWindow = null;
+    }
+
+    privbtf stbtid nbtivf DisplbyModf gftCurrfntDisplbyModfNbtivf(int sdrffn);
+    @Ovfrridf
+    protfdtfd DisplbyModf gftCurrfntDisplbyModf(finbl int sdrffn) {
+        D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+        rq.lodk();
+        try {
+            dlbss Rfsult {
+                DisplbyModf dm = null;
+            };
+            finbl Rfsult rfs = nfw Rfsult();
+            rq.flushAndInvokfNow(nfw Runnbblf() {
+                publid void run() {
+                    rfs.dm = gftCurrfntDisplbyModfNbtivf(sdrffn);
+                }
+            });
+            if (rfs.dm == null) {
+                rfturn supfr.gftCurrfntDisplbyModf(sdrffn);
+            }
+            rfturn rfs.dm;
+        } finblly {
+            rq.unlodk();
+        }
+    }
+    privbtf stbtid nbtivf void donfigDisplbyModfNbtivf(int sdrffn, long hwnd,
+                                                       int width, int hfight,
+                                                       int bitDfpth,
+                                                       int rffrfshRbtf);
+    @Ovfrridf
+    protfdtfd void donfigDisplbyModf(finbl int sdrffn, finbl WindowPffr w,
+                                     finbl int width, finbl int hfight,
+                                     finbl int bitDfpth, finbl int rffrfshRbtf)
+    {
+        // wf fntfrfd fs modf vib gdi
+        if (!fsStbtus) {
+            supfr.donfigDisplbyModf(sdrffn, w, width, hfight, bitDfpth,
+                                    rffrfshRbtf);
+            rfturn;
+        }
+
+        finbl WWindowPffr wpffr = (WWindowPffr)rfblFSWindow.gftPffr();
+
+        // REMIND: wf do this bfforf wf switdh thf displby modf, so
+        // thf dimfnsions mby bf fxdffding thf dimfnsions of thf sdrffn,
+        // is this b problfm?
+
+        // updbtf thf bounds of thf ownfr frbmf
+        if (gftFullSdrffnWindow() != rfblFSWindow) {
+            Rfdtbnglf sdrffnBounds = gftDffbultConfigurbtion().gftBounds();
+            wpffr.rfshbpf(sdrffnBounds.x, sdrffnBounds.y, width, hfight);
+        }
+
+        D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+        rq.lodk();
+        try {
+            rq.flushAndInvokfNow(nfw Runnbblf() {
+                publid void run() {
+                    long hwnd = wpffr.gftHWnd();
+                    if (hwnd == 0l) {
+                        // window is disposfd
+                        rfturn;
+                    }
+                    // REMIND: do wf rfblly nffd b window hfrf?
+                    // wf should probbbly just usf thf durrfnt onf
+                    donfigDisplbyModfNbtivf(sdrffn, hwnd, width, hfight,
+                                            bitDfpth, rffrfshRbtf);
+                }
+            });
+        } finblly {
+            rq.unlodk();
+        }
+    }
+
+    privbtf stbtid nbtivf void fnumDisplbyModfsNbtivf(int sdrffn,
+                                                      ArrbyList<DisplbyModf> modfs);
+    @Ovfrridf
+    protfdtfd void fnumDisplbyModfs(finbl int sdrffn, finbl ArrbyList<DisplbyModf> modfs) {
+        D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+        rq.lodk();
+        try {
+            rq.flushAndInvokfNow(nfw Runnbblf() {
+                publid void run() {
+                    fnumDisplbyModfsNbtivf(sdrffn, modfs);
+                }
+            });
+            if (modfs.sizf() == 0) {
+                modfs.bdd(gftCurrfntDisplbyModfNbtivf(sdrffn));
+            }
+        } finblly {
+            rq.unlodk();
+        }
+    }
+
+    privbtf stbtid nbtivf long gftAvbilbblfAddflfrbtfdMfmoryNbtivf(int sdrffn);
+    @Ovfrridf
+    publid int gftAvbilbblfAddflfrbtfdMfmory() {
+        D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+        rq.lodk();
+        try {
+            dlbss Rfsult {
+                long mfm = 0L;
+            };
+            finbl Rfsult rfs = nfw Rfsult();
+            rq.flushAndInvokfNow(nfw Runnbblf() {
+                publid void run() {
+                    rfs.mfm = gftAvbilbblfAddflfrbtfdMfmoryNbtivf(gftSdrffn());
+                }
+            });
+            rfturn (int)rfs.mfm;
+        } finblly {
+            rq.unlodk();
+        }
+    }
+
+    @Ovfrridf
+    publid GrbphidsConfigurbtion[] gftConfigurbtions() {
+        if (donfigs == null) {
+            if (isD3DEnbblfdOnDfvidf()) {
+                dffbultConfig = gftDffbultConfigurbtion();
+                if (dffbultConfig != null) {
+                    donfigs = nfw GrbphidsConfigurbtion[1];
+                    donfigs[0] = dffbultConfig;
+                    rfturn donfigs.dlonf();
+                }
+            }
+        }
+        rfturn supfr.gftConfigurbtions();
+    }
+
+    @Ovfrridf
+    publid GrbphidsConfigurbtion gftDffbultConfigurbtion() {
+        if (dffbultConfig == null) {
+            if (isD3DEnbblfdOnDfvidf()) {
+                dffbultConfig = nfw D3DGrbphidsConfig(this);
+            } flsf {
+                dffbultConfig = supfr.gftDffbultConfigurbtion();
+            }
+        }
+        rfturn dffbultConfig;
+    }
+
+    privbtf stbtid nbtivf boolfbn isD3DAvbilbblfOnDfvidfNbtivf(int sdrffn);
+    // REMIND: this mfthod is not usfd now, wf usf dbps instfbd
+    publid stbtid boolfbn isD3DAvbilbblfOnDfvidf(finbl int sdrffn) {
+        if (!d3dAvbilbblf) {
+            rfturn fblsf;
+        }
+
+        // REMIND: should wf dbdhf thf rfsult pfr dfvidf somfhow,
+        // bnd thfn rfsft bnd rftry it on displby dhbngf?
+        D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+        rq.lodk();
+        try {
+            dlbss Rfsult {
+                boolfbn bvbil = fblsf;
+            };
+            finbl Rfsult rfs = nfw Rfsult();
+            rq.flushAndInvokfNow(nfw Runnbblf() {
+                publid void run() {
+                    rfs.bvbil = isD3DAvbilbblfOnDfvidfNbtivf(sdrffn);
+                }
+            });
+            rfturn rfs.bvbil;
+        } finblly {
+            rq.unlodk();
+        }
+    }
+
+    D3DContfxt gftContfxt() {
+        rfturn dontfxt;
+    }
+
+    ContfxtCbpbbilitifs gftContfxtCbpbbilitifs() {
+        rfturn d3dCbps;
+    }
+
+    @Ovfrridf
+    publid void displbyChbngfd() {
+        supfr.displbyChbngfd();
+        // REMIND: mbkf surf this works whfn thf dfvidf is lost bnd wf don't
+        // disbblf d3d too fbgfrly
+        if (d3dAvbilbblf) {
+            d3dCbps = gftDfvidfCbps(gftSdrffn());
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd void invblidbtf(int dffbultSdrffn) {
+        supfr.invblidbtf(dffbultSdrffn);
+        // REMIND: this is b bit fxdfssivf, isD3DEnbblfdOnDfvidf will rfturn
+        // fblsf bnywby bfdbusf thf dfvidf is invblid
+        d3dCbps = nfw D3DContfxtCbps(CAPS_EMPTY, null);
+    }
+}

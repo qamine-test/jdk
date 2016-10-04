@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.io.IOExdfption;
+import sun.misd.Unsbff;
+
+/**
+ * Providfs bddfss to thf BSD kqufuf fbdility.
+ */
+
+dlbss KQufuf {
+    privbtf KQufuf() { }
+
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    /**
+     * strudt kfvfnt {
+     *        uintptr_t       idfnt;          // idfntififr for this fvfnt, usublly thf fd
+     *        int16_t         filtfr;         // filtfr for fvfnt
+     *        uint16_t        flbgs;          // gfnfrbl flbgs
+     *        uint32_t        fflbgs;         // filtfr-spfdifid flbgs
+     *        intptr_t        dbtb;           // filtfr-spfdifid dbtb
+     *        void            *udbtb;         // opbquf usfr dbtb idfntififr
+     * };
+     */
+    privbtf stbtid finbl int SIZEOF_KQUEUEEVENT    = kfvfntSizf();
+    privbtf stbtid finbl int OFFSET_IDENT          = idfntOffsft();
+    privbtf stbtid finbl int OFFSET_FILTER         = filtfrOffsft();
+    privbtf stbtid finbl int OFFSET_FLAGS          = flbgsOffsft();
+
+    // filtfrs
+    stbtid finbl int EVFILT_READ  = -1;
+    stbtid finbl int EVFILT_WRITE = -2;
+
+    // flbgs
+    stbtid finbl int EV_ADD     = 0x0001;
+    stbtid finbl int EV_ONESHOT = 0x0010;
+    stbtid finbl int EV_CLEAR   = 0x0020;
+
+    /**
+     * Allodbtfs b poll brrby to hbndlf up to {@dodf dount} fvfnts.
+     */
+    stbtid long bllodbtfPollArrby(int dount) {
+        rfturn unsbff.bllodbtfMfmory(dount * SIZEOF_KQUEUEEVENT);
+    }
+
+    /**
+     * Frff b poll brrby
+     */
+    stbtid void frffPollArrby(long bddrfss) {
+        unsbff.frffMfmory(bddrfss);
+    }
+
+    /**
+     * Rfturns kfvfnt[i].
+     */
+    stbtid long gftEvfnt(long bddrfss, int i) {
+        rfturn bddrfss + (SIZEOF_KQUEUEEVENT*i);
+    }
+
+    /**
+     * Rfturns thf filf dfsdriptor from b kfvfnt (bssuming to bf in idfnt fifld)
+     */
+    stbtid int gftDfsdriptor(long bddrfss) {
+        rfturn unsbff.gftInt(bddrfss + OFFSET_IDENT);
+    }
+
+    stbtid int gftFiltfr(long bddrfss) {
+        rfturn unsbff.gftShort(bddrfss + OFFSET_FILTER);
+    }
+
+    stbtid int gftFlbgs(long bddrfss) {
+        rfturn unsbff.gftShort(bddrfss + OFFSET_FLAGS);
+    }
+
+    // -- Nbtivf mfthods --
+
+    privbtf stbtid nbtivf int kfvfntSizf();
+
+    privbtf stbtid nbtivf int idfntOffsft();
+
+    privbtf stbtid nbtivf int filtfrOffsft();
+
+    privbtf stbtid nbtivf int flbgsOffsft();
+
+    stbtid nbtivf int kqufuf() throws IOExdfption;
+
+    stbtid nbtivf int kfvfntRfgistfr(int kqpfd, int fd, int filtfr, int flbgs);
+
+    stbtid nbtivf int kfvfntPoll(int kqpfd, long pollAddrfss, int nfvfnts)
+        throws IOExdfption;
+
+    stbtid {
+        IOUtil.lobd();
+    }
+}

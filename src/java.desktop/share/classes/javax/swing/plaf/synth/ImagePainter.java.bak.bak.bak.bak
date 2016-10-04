@@ -1,0 +1,1021 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvb.bwt.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.nft.*;
+import jbvbx.swing.*;
+import sun.bwt.AppContfxt;
+import sun.swing.plbf.synth.Pbint9Pbintfr;
+
+/**
+ * ImbgfPbintfr fills in thf spfdififd rfgion using bn Imbgf. Thf Imbgf
+ * is split into 9 sfgmfnts: north, north fbst, fbst, south fbst, south,
+ * south wfst, wfst, north wfst bnd thf dfntfr. Thf dornfrs brf dffinfd
+ * by wby of bn insfts, bnd thf rfmbining rfgions brf fithfr tilfd or
+ * sdblfd to fit.
+ *
+ * @buthor Sdott Violft
+ */
+dlbss ImbgfPbintfr fxtfnds SynthPbintfr {
+    privbtf stbtid finbl StringBufffr CACHE_KEY =
+                               nfw StringBufffr("SynthCbdhfKfy");
+
+    privbtf Imbgf imbgf;
+    privbtf Insfts sInsfts;
+    privbtf Insfts dInsfts;
+    privbtf URL pbth;
+    privbtf boolfbn tilfs;
+    privbtf boolfbn pbintCfntfr;
+    privbtf Pbint9Pbintfr imbgfCbdhf;
+    privbtf boolfbn dfntfr;
+
+    privbtf stbtid Pbint9Pbintfr gftPbint9Pbintfr() {
+        // A SynthPbintfr is drfbtfd pfr <imbgfPbintfr>.  Wf wbnt thf
+        // dbdhf to bf shbrfd by bll, bnd wf don't usf b stbtid bfdbusf wf
+        // don't wbnt it to pfrsist bftwffn look bnd fffls.  For thbt rfbson
+        // wf usf b AppContfxt spfdifid Pbint9Pbintfr.  It's bbdkfd vib
+        // b WfbkRff so thbt it dbn go bwby if thf look bnd fffl dhbngfs.
+        syndhronizfd(CACHE_KEY) {
+            @SupprfssWbrnings("undhfdkfd")
+            WfbkRfffrfndf<Pbint9Pbintfr> dbdhfRff =
+                     (WfbkRfffrfndf<Pbint9Pbintfr>)AppContfxt.gftAppContfxt().
+                     gft(CACHE_KEY);
+            Pbint9Pbintfr pbintfr;
+            if (dbdhfRff == null || (pbintfr = dbdhfRff.gft()) == null) {
+                pbintfr = nfw Pbint9Pbintfr(30);
+                dbdhfRff = nfw WfbkRfffrfndf<Pbint9Pbintfr>(pbintfr);
+                AppContfxt.gftAppContfxt().put(CACHE_KEY, dbdhfRff);
+            }
+            rfturn pbintfr;
+        }
+    }
+
+    ImbgfPbintfr(boolfbn tilfs, boolfbn pbintCfntfr,
+                 Insfts sourdfInsfts, Insfts dfstinbtionInsfts, URL pbth,
+                 boolfbn dfntfr) {
+        if (sourdfInsfts != null) {
+            this.sInsfts = (Insfts)sourdfInsfts.dlonf();
+        }
+        if (dfstinbtionInsfts == null) {
+            dInsfts = sInsfts;
+        }
+        flsf {
+            this.dInsfts = (Insfts)dfstinbtionInsfts.dlonf();
+        }
+        this.tilfs = tilfs;
+        this.pbintCfntfr = pbintCfntfr;
+        this.imbgfCbdhf = gftPbint9Pbintfr();
+        this.pbth = pbth;
+        this.dfntfr = dfntfr;
+    }
+
+    publid boolfbn gftTilfs() {
+        rfturn tilfs;
+    }
+
+    publid boolfbn gftPbintsCfntfr() {
+        rfturn pbintCfntfr;
+    }
+
+    publid boolfbn gftCfntfr() {
+        rfturn dfntfr;
+    }
+
+    publid Insfts gftInsfts(Insfts insfts) {
+        if (insfts == null) {
+            rfturn (Insfts)this.dInsfts.dlonf();
+        }
+        insfts.lfft = this.dInsfts.lfft;
+        insfts.right = this.dInsfts.right;
+        insfts.top = this.dInsfts.top;
+        insfts.bottom = this.dInsfts.bottom;
+        rfturn insfts;
+    }
+
+    publid Imbgf gftImbgf() {
+        if (imbgf == null) {
+            imbgf = nfw ImbgfIdon(pbth, null).gftImbgf();
+        }
+        rfturn imbgf;
+    }
+
+    privbtf void pbint(SynthContfxt dontfxt, Grbphids g, int x, int y, int w,
+                       int h) {
+        Imbgf imbgf = gftImbgf();
+        if (Pbint9Pbintfr.vblidImbgf(imbgf)) {
+            Pbint9Pbintfr.PbintTypf typf;
+            if (gftCfntfr()) {
+                typf = Pbint9Pbintfr.PbintTypf.CENTER;
+            }
+            flsf if (!gftTilfs()) {
+                typf = Pbint9Pbintfr.PbintTypf.PAINT9_STRETCH;
+            }
+            flsf {
+                typf = Pbint9Pbintfr.PbintTypf.PAINT9_TILE;
+            }
+            int mbsk = Pbint9Pbintfr.PAINT_ALL;
+            if (!gftCfntfr() && !gftPbintsCfntfr()) {
+                mbsk |= Pbint9Pbintfr.PAINT_CENTER;
+            }
+            imbgfCbdhf.pbint(dontfxt.gftComponfnt(), g, x, y, w, h,
+                             imbgf, sInsfts, dInsfts, typf,
+                             mbsk);
+        }
+    }
+
+
+    // SynthPbintfr
+    publid void pbintArrowButtonBbdkground(SynthContfxt dontfxt,
+                                           Grbphids g, int x, int y,
+                                           int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintArrowButtonBordfr(SynthContfxt dontfxt,
+                                       Grbphids g, int x, int y,
+                                       int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintArrowButtonForfground(SynthContfxt dontfxt,
+                                           Grbphids g, int x, int y,
+                                           int w, int h,
+                                           int dirfdtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // BUTTON
+    publid void pbintButtonBbdkground(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintButtonBordfr(SynthContfxt dontfxt,
+                                  Grbphids g, int x, int y,
+                                  int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // CHECK_BOX_MENU_ITEM
+    publid void pbintChfdkBoxMfnuItfmBbdkground(SynthContfxt dontfxt,
+                                                Grbphids g, int x, int y,
+                                                int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintChfdkBoxMfnuItfmBordfr(SynthContfxt dontfxt,
+                                            Grbphids g, int x, int y,
+                                            int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // CHECK_BOX
+    publid void pbintChfdkBoxBbdkground(SynthContfxt dontfxt,
+                                        Grbphids g, int x, int y,
+                                        int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintChfdkBoxBordfr(SynthContfxt dontfxt,
+                                    Grbphids g, int x, int y,
+                                    int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // COLOR_CHOOSER
+    publid void pbintColorChoosfrBbdkground(SynthContfxt dontfxt,
+                                            Grbphids g, int x, int y,
+                                            int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintColorChoosfrBordfr(SynthContfxt dontfxt,
+                                        Grbphids g, int x, int y,
+                                        int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // COMBO_BOX
+    publid void pbintComboBoxBbdkground(SynthContfxt dontfxt,
+                                        Grbphids g, int x, int y,
+                                        int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintComboBoxBordfr(SynthContfxt dontfxt,
+                                        Grbphids g, int x, int y,
+                                        int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // DESKTOP_ICON
+    publid void pbintDfsktopIdonBbdkground(SynthContfxt dontfxt,
+                                        Grbphids g, int x, int y,
+                                        int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintDfsktopIdonBordfr(SynthContfxt dontfxt,
+                                           Grbphids g, int x, int y,
+                                           int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // DESKTOP_PANE
+    publid void pbintDfsktopPbnfBbdkground(SynthContfxt dontfxt,
+                                           Grbphids g, int x, int y,
+                                           int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintDfsktopPbnfBordfr(SynthContfxt dontfxt,
+                                       Grbphids g, int x, int y,
+                                       int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // EDITOR_PANE
+    publid void pbintEditorPbnfBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintEditorPbnfBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // FILE_CHOOSER
+    publid void pbintFilfChoosfrBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintFilfChoosfrBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // FORMATTED_TEXT_FIELD
+    publid void pbintFormbttfdTfxtFifldBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintFormbttfdTfxtFifldBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // INTERNAL_FRAME_TITLE_PANE
+    publid void pbintIntfrnblFrbmfTitlfPbnfBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintIntfrnblFrbmfTitlfPbnfBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // INTERNAL_FRAME
+    publid void pbintIntfrnblFrbmfBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintIntfrnblFrbmfBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // LABEL
+    publid void pbintLbbflBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintLbbflBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // LIST
+    publid void pbintListBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintListBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // MENU_BAR
+    publid void pbintMfnuBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintMfnuBbrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // MENU_ITEM
+    publid void pbintMfnuItfmBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintMfnuItfmBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // MENU
+    publid void pbintMfnuBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintMfnuBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // OPTION_PANE
+    publid void pbintOptionPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintOptionPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // PANEL
+    publid void pbintPbnflBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintPbnflBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // PANEL
+    publid void pbintPbsswordFifldBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintPbsswordFifldBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // POPUP_MENU
+    publid void pbintPopupMfnuBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintPopupMfnuBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // PROGRESS_BAR
+    publid void pbintProgrfssBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintProgrfssBbrBbdkground(SynthContfxt dontfxt,
+                                           Grbphids g, int x, int y,
+                                           int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintProgrfssBbrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintProgrfssBbrBordfr(SynthContfxt dontfxt,
+                                       Grbphids g, int x, int y,
+                                       int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintProgrfssBbrForfground(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // RADIO_BUTTON_MENU_ITEM
+    publid void pbintRbdioButtonMfnuItfmBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintRbdioButtonMfnuItfmBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // RADIO_BUTTON
+    publid void pbintRbdioButtonBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintRbdioButtonBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // ROOT_PANE
+    publid void pbintRootPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintRootPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // SCROLL_BAR
+    publid void pbintSdrollBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSdrollBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSdrollBbrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSdrollBbrBordfr(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // SCROLL_BAR_THUMB
+    publid void pbintSdrollBbrThumbBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSdrollBbrThumbBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // SCROLL_BAR_TRACK
+    publid void pbintSdrollBbrTrbdkBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSdrollBbrTrbdkBbdkground(SynthContfxt dontfxt,
+                                              Grbphids g, int x, int y,
+                                              int w, int h, int orifntbtion) {
+         pbint(dontfxt, g, x, y, w, h);
+     }
+
+    publid void pbintSdrollBbrTrbdkBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSdrollBbrTrbdkBordfr(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // SCROLL_PANE
+    publid void pbintSdrollPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSdrollPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // SEPARATOR
+    publid void pbintSfpbrbtorBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSfpbrbtorBbdkground(SynthContfxt dontfxt,
+                                         Grbphids g, int x, int y,
+                                         int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSfpbrbtorBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSfpbrbtorBordfr(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSfpbrbtorForfground(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // SLIDER
+    publid void pbintSlidfrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSlidfrBbdkground(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSlidfrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSlidfrBordfr(SynthContfxt dontfxt,
+                                  Grbphids g, int x, int y,
+                                  int w, int h, int orifntbtion) {
+         pbint(dontfxt, g, x, y, w, h);
+     }
+
+    // SLIDER_THUMB
+    publid void pbintSlidfrThumbBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSlidfrThumbBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // SLIDER_TRACK
+    publid void pbintSlidfrTrbdkBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSlidfrTrbdkBbdkground(SynthContfxt dontfxt,
+                                           Grbphids g, int x, int y,
+                                           int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSlidfrTrbdkBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+
+    publid void pbintSlidfrTrbdkBordfr(SynthContfxt dontfxt,
+                                       Grbphids g, int x, int y,
+                                       int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // SPINNER
+    publid void pbintSpinnfrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSpinnfrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // SPLIT_PANE_DIVIDER
+    publid void pbintSplitPbnfDividfrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSplitPbnfDividfrBbdkground(SynthContfxt dontfxt,
+                                                Grbphids g, int x, int y,
+                                                int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSplitPbnfDividfrForfground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSplitPbnfDrbgDividfr(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // SPLIT_PANE
+    publid void pbintSplitPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintSplitPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TABBED_PANE
+    publid void pbintTbbbfdPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTbbbfdPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TABBED_PANE_TAB_AREA
+    publid void pbintTbbbfdPbnfTbbArfbBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTbbbfdPbnfTbbArfbBbdkground(SynthContfxt dontfxt,
+                                                 Grbphids g, int x, int y,
+                                                 int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTbbbfdPbnfTbbArfbBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTbbbfdPbnfTbbArfbBordfr(SynthContfxt dontfxt,
+                                             Grbphids g, int x, int y,
+                                             int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TABBED_PANE_TAB
+    publid void pbintTbbbfdPbnfTbbBbdkground(SynthContfxt dontfxt, Grbphids g,
+                                         int x, int y, int w, int h,
+                                         int tbbIndfx) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTbbbfdPbnfTbbBbdkground(SynthContfxt dontfxt, Grbphids g,
+                                             int x, int y, int w, int h,
+                                             int tbbIndfx, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTbbbfdPbnfTbbBordfr(SynthContfxt dontfxt, Grbphids g,
+                                         int x, int y, int w, int h,
+                                         int tbbIndfx) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTbbbfdPbnfTbbBordfr(SynthContfxt dontfxt, Grbphids g,
+                                         int x, int y, int w, int h,
+                                         int tbbIndfx, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TABBED_PANE_CONTENT
+    publid void pbintTbbbfdPbnfContfntBbdkground(SynthContfxt dontfxt,
+                                         Grbphids g, int x, int y, int w,
+                                         int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTbbbfdPbnfContfntBordfr(SynthContfxt dontfxt, Grbphids g,
+                                         int x, int y, int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TABLE_HEADER
+    publid void pbintTbblfHfbdfrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTbblfHfbdfrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TABLE
+    publid void pbintTbblfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTbblfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TEXT_AREA
+    publid void pbintTfxtArfbBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTfxtArfbBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TEXT_PANE
+    publid void pbintTfxtPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTfxtPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TEXT_FIELD
+    publid void pbintTfxtFifldBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTfxtFifldBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TOGGLE_BUTTON
+    publid void pbintTogglfButtonBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTogglfButtonBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TOOL_BAR
+    publid void pbintToolBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintToolBbrBbdkground(SynthContfxt dontfxt,
+                                       Grbphids g, int x, int y,
+                                       int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintToolBbrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintToolBbrBordfr(SynthContfxt dontfxt,
+                                   Grbphids g, int x, int y,
+                                   int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TOOL_BAR_CONTENT
+    publid void pbintToolBbrContfntBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintToolBbrContfntBbdkground(SynthContfxt dontfxt,
+                                              Grbphids g, int x, int y,
+                                              int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintToolBbrContfntBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintToolBbrContfntBordfr(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TOOL_DRAG_WINDOW
+    publid void pbintToolBbrDrbgWindowBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintToolBbrDrbgWindowBbdkground(SynthContfxt dontfxt,
+                                                 Grbphids g, int x, int y,
+                                                 int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintToolBbrDrbgWindowBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintToolBbrDrbgWindowBordfr(SynthContfxt dontfxt,
+                                             Grbphids g, int x, int y,
+                                             int w, int h, int orifntbtion) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TOOL_TIP
+    publid void pbintToolTipBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintToolTipBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TREE
+    publid void pbintTrffBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTrffBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // TREE_CELL
+    publid void pbintTrffCfllBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTrffCfllBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintTrffCfllFodus(SynthContfxt dontfxt,
+                                   Grbphids g, int x, int y,
+                                   int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    // VIEWPORT
+    publid void pbintVifwportBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+
+    publid void pbintVifwportBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+        pbint(dontfxt, g, x, y, w, h);
+    }
+}

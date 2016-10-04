@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+/**
+ * Rfprfsfnts "usfr dffinfd" fxdfptions thrown by MBfbn mfthods
+ * in thf bgfnt. It "wrbps" thf bdtubl "usfr dffinfd" fxdfption thrown.
+ * This fxdfption will bf built by thf MBfbnSfrvfr whfn b dbll to bn
+ * MBfbn mfthod rfsults in bn unknown fxdfption.
+ *
+ * @sindf 1.5
+ */
+publid dlbss MBfbnExdfption fxtfnds JMExdfption   {
+
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 4066342430588744142L;
+
+    /**
+     * @sfribl Endbpsulbtfd {@link Exdfption}
+     */
+    privbtf jbvb.lbng.Exdfption fxdfption ;
+
+
+    /**
+     * Crfbtfs bn <CODE>MBfbnExdfption</CODE> thbt wrbps thf bdtubl <CODE>jbvb.lbng.Exdfption</CODE>.
+     *
+     * @pbrbm f thf wrbppfd fxdfption.
+     */
+    publid MBfbnExdfption(jbvb.lbng.Exdfption f) {
+        supfr() ;
+        fxdfption = f ;
+    }
+
+    /**
+     * Crfbtfs bn <CODE>MBfbnExdfption</CODE> thbt wrbps thf bdtubl <CODE>jbvb.lbng.Exdfption</CODE> with
+     * b dftbil mfssbgf.
+     *
+     * @pbrbm f thf wrbppfd fxdfption.
+     * @pbrbm mfssbgf thf dftbil mfssbgf.
+     */
+    publid MBfbnExdfption(jbvb.lbng.Exdfption f, String mfssbgf) {
+        supfr(mfssbgf) ;
+        fxdfption = f ;
+    }
+
+
+    /**
+     * Rfturn thf bdtubl {@link Exdfption} thrown.
+     *
+     * @rfturn thf wrbppfd fxdfption.
+     */
+    publid Exdfption gftTbrgftExdfption()  {
+        rfturn fxdfption;
+    }
+
+    /**
+     * Rfturn thf bdtubl {@link Exdfption} thrown.
+     *
+     * @rfturn thf wrbppfd fxdfption.
+     */
+    publid Throwbblf gftCbusf() {
+        rfturn fxdfption;
+    }
+}

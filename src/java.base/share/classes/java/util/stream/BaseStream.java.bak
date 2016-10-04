@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.IntConsumer;
-import java.util.function.Predicate;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbti;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.Prfdidbtf;
 
 /**
- * Base interface for streams, which are sequences of elements supporting
- * sequential and parallel aggregate operations.  The following example
- * illustrates an aggregate operation using the stream types {@link Stream}
- * and {@link IntStream}, computing the sum of the weights of the red widgets:
+ * Bbsf intfrfbdf for strfbms, wiidi brf sfqufndfs of flfmfnts supporting
+ * sfqufntibl bnd pbrbllfl bggrfgbtf opfrbtions.  Tif following fxbmplf
+ * illustrbtfs bn bggrfgbtf opfrbtion using tif strfbm typfs {@link Strfbm}
+ * bnd {@link IntStrfbm}, domputing tif sum of tif wfigits of tif rfd widgfts:
  *
- * <pre>{@code
- *     int sum = widgets.stream()
- *                      .filter(w -> w.getColor() == RED)
- *                      .mapToInt(w -> w.getWeight())
+ * <prf>{@dodf
+ *     int sum = widgfts.strfbm()
+ *                      .filtfr(w -> w.gftColor() == RED)
+ *                      .mbpToInt(w -> w.gftWfigit())
  *                      .sum();
- * }</pre>
+ * }</prf>
  *
- * See the class documentation for {@link Stream} and the package documentation
- * for <a href="package-summary.html">java.util.stream</a> for additional
- * specification of streams, stream operations, stream pipelines, and
- * parallelism, which governs the behavior of all stream types.
+ * Sff tif dlbss dodumfntbtion for {@link Strfbm} bnd tif pbdkbgf dodumfntbtion
+ * for <b irff="pbdkbgf-summbry.itml">jbvb.util.strfbm</b> for bdditionbl
+ * spfdifidbtion of strfbms, strfbm opfrbtions, strfbm pipflinfs, bnd
+ * pbrbllflism, wiidi govfrns tif bfibvior of bll strfbm typfs.
  *
- * @param <T> the type of the stream elements
- * @param <S> the type of the stream implementing {@code BaseStream}
- * @since 1.8
- * @see Stream
- * @see IntStream
- * @see LongStream
- * @see DoubleStream
- * @see <a href="package-summary.html">java.util.stream</a>
+ * @pbrbm <T> tif typf of tif strfbm flfmfnts
+ * @pbrbm <S> tif typf of tif strfbm implfmfnting {@dodf BbsfStrfbm}
+ * @sindf 1.8
+ * @sff Strfbm
+ * @sff IntStrfbm
+ * @sff LongStrfbm
+ * @sff DoublfStrfbm
+ * @sff <b irff="pbdkbgf-summbry.itml">jbvb.util.strfbm</b>
  */
-public interface BaseStream<T, S extends BaseStream<T, S>>
-        extends AutoCloseable {
+publid intfrfbdf BbsfStrfbm<T, S fxtfnds BbsfStrfbm<T, S>>
+        fxtfnds AutoClosfbblf {
     /**
-     * Returns an iterator for the elements of this stream.
+     * Rfturns bn itfrbtor for tif flfmfnts of tiis strfbm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @return the element iterator for this stream
+     * @rfturn tif flfmfnt itfrbtor for tiis strfbm
      */
-    Iterator<T> iterator();
+    Itfrbtor<T> itfrbtor();
 
     /**
-     * Returns a spliterator for the elements of this stream.
+     * Rfturns b splitfrbtor for tif flfmfnts of tiis strfbm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @return the element spliterator for this stream
+     * @rfturn tif flfmfnt splitfrbtor for tiis strfbm
      */
-    Spliterator<T> spliterator();
+    Splitfrbtor<T> splitfrbtor();
 
     /**
-     * Returns whether this stream, if a terminal operation were to be executed,
-     * would execute in parallel.  Calling this method after invoking an
-     * terminal stream operation method may yield unpredictable results.
+     * Rfturns wiftifr tiis strfbm, if b tfrminbl opfrbtion wfrf to bf fxfdutfd,
+     * would fxfdutf in pbrbllfl.  Cblling tiis mftiod bftfr invoking bn
+     * tfrminbl strfbm opfrbtion mftiod mby yifld unprfdidtbblf rfsults.
      *
-     * @return {@code true} if this stream would execute in parallel if executed
+     * @rfturn {@dodf truf} if tiis strfbm would fxfdutf in pbrbllfl if fxfdutfd
      */
-    boolean isParallel();
+    boolfbn isPbrbllfl();
 
     /**
-     * Returns an equivalent stream that is sequential.  May return
-     * itself, either because the stream was already sequential, or because
-     * the underlying stream state was modified to be sequential.
+     * Rfturns bn fquivblfnt strfbm tibt is sfqufntibl.  Mby rfturn
+     * itsflf, fitifr bfdbusf tif strfbm wbs blrfbdy sfqufntibl, or bfdbusf
+     * tif undfrlying strfbm stbtf wbs modififd to bf sfqufntibl.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @return a sequential stream
+     * @rfturn b sfqufntibl strfbm
      */
-    S sequential();
+    S sfqufntibl();
 
     /**
-     * Returns an equivalent stream that is parallel.  May return
-     * itself, either because the stream was already parallel, or because
-     * the underlying stream state was modified to be parallel.
+     * Rfturns bn fquivblfnt strfbm tibt is pbrbllfl.  Mby rfturn
+     * itsflf, fitifr bfdbusf tif strfbm wbs blrfbdy pbrbllfl, or bfdbusf
+     * tif undfrlying strfbm stbtf wbs modififd to bf pbrbllfl.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @return a parallel stream
+     * @rfturn b pbrbllfl strfbm
      */
-    S parallel();
+    S pbrbllfl();
 
     /**
-     * Returns an equivalent stream that is
-     * <a href="package-summary.html#Ordering">unordered</a>.  May return
-     * itself, either because the stream was already unordered, or because
-     * the underlying stream state was modified to be unordered.
+     * Rfturns bn fquivblfnt strfbm tibt is
+     * <b irff="pbdkbgf-summbry.itml#Ordfring">unordfrfd</b>.  Mby rfturn
+     * itsflf, fitifr bfdbusf tif strfbm wbs blrfbdy unordfrfd, or bfdbusf
+     * tif undfrlying strfbm stbtf wbs modififd to bf unordfrfd.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @return an unordered stream
+     * @rfturn bn unordfrfd strfbm
      */
-    S unordered();
+    S unordfrfd();
 
     /**
-     * Returns an equivalent stream with an additional close handler.  Close
-     * handlers are run when the {@link #close()} method
-     * is called on the stream, and are executed in the order they were
-     * added.  All close handlers are run, even if earlier close handlers throw
-     * exceptions.  If any close handler throws an exception, the first
-     * exception thrown will be relayed to the caller of {@code close()}, with
-     * any remaining exceptions added to that exception as suppressed exceptions
-     * (unless one of the remaining exceptions is the same exception as the
-     * first exception, since an exception cannot suppress itself.)  May
-     * return itself.
+     * Rfturns bn fquivblfnt strfbm witi bn bdditionbl dlosf ibndlfr.  Closf
+     * ibndlfrs brf run wifn tif {@link #dlosf()} mftiod
+     * is dbllfd on tif strfbm, bnd brf fxfdutfd in tif ordfr tify wfrf
+     * bddfd.  All dlosf ibndlfrs brf run, fvfn if fbrlifr dlosf ibndlfrs tirow
+     * fxdfptions.  If bny dlosf ibndlfr tirows bn fxdfption, tif first
+     * fxdfption tirown will bf rflbyfd to tif dbllfr of {@dodf dlosf()}, witi
+     * bny rfmbining fxdfptions bddfd to tibt fxdfption bs supprfssfd fxdfptions
+     * (unlfss onf of tif rfmbining fxdfptions is tif sbmf fxdfption bs tif
+     * first fxdfption, sindf bn fxdfption dbnnot supprfss itsflf.)  Mby
+     * rfturn itsflf.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @param closeHandler A task to execute when the stream is closed
-     * @return a stream with a handler that is run if the stream is closed
+     * @pbrbm dlosfHbndlfr A tbsk to fxfdutf wifn tif strfbm is dlosfd
+     * @rfturn b strfbm witi b ibndlfr tibt is run if tif strfbm is dlosfd
      */
-    S onClose(Runnable closeHandler);
+    S onClosf(Runnbblf dlosfHbndlfr);
 
     /**
-     * Closes this stream, causing all close handlers for this stream pipeline
-     * to be called.
+     * Closfs tiis strfbm, dbusing bll dlosf ibndlfrs for tiis strfbm pipflinf
+     * to bf dbllfd.
      *
-     * @see AutoCloseable#close()
+     * @sff AutoClosfbblf#dlosf()
      */
-    @Override
-    void close();
+    @Ovfrridf
+    void dlosf();
 }

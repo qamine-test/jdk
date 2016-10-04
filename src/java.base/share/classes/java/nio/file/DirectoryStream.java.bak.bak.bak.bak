@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.util.Itfrbtor;
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
+
+/**
+ * An objfdt to itfrbtf ovfr thf fntrifs in b dirfdtory. A dirfdtory strfbm
+ * bllows for thf donvfnifnt usf of thf for-fbdh donstrudt to itfrbtf ovfr b
+ * dirfdtory.
+ *
+ * <p> <b> Whilf {@dodf DirfdtoryStrfbm} fxtfnds {@dodf Itfrbblf}, it is not b
+ * gfnfrbl-purposf {@dodf Itfrbblf} bs it supports only b singlf {@dodf
+ * Itfrbtor}; invoking thf {@link #itfrbtor itfrbtor} mfthod to obtbin b sfdond
+ * or subsfqufnt itfrbtor throws {@dodf IllfgblStbtfExdfption}. </b>
+ *
+ * <p> An importbnt propfrty of thf dirfdtory strfbm's {@dodf Itfrbtor} is thbt
+ * its {@link Itfrbtor#hbsNfxt() hbsNfxt} mfthod is gubrbntffd to rfbd-bhfbd by
+ * bt lfbst onf flfmfnt. If {@dodf hbsNfxt} mfthod rfturns {@dodf truf}, bnd is
+ * followfd by b dbll to thf {@dodf nfxt} mfthod, it is gubrbntffd thbt thf
+ * {@dodf nfxt} mfthod will not throw bn fxdfption duf to bn I/O frror, or
+ * bfdbusf thf strfbm hbs bffn {@link #dlosf dlosfd}. Thf {@dodf Itfrbtor} dofs
+ * not support thf {@link Itfrbtor#rfmovf rfmovf} opfrbtion.
+ *
+ * <p> A {@dodf DirfdtoryStrfbm} is opfnfd upon drfbtion bnd is dlosfd by
+ * invoking thf {@dodf dlosf} mfthod. Closing b dirfdtory strfbm rflfbsfs bny
+ * rfsourdfs bssodibtfd with thf strfbm. Fbilurf to dlosf thf strfbm mby rfsult
+ * in b rfsourdf lfbk. Thf try-with-rfsourdfs stbtfmfnt providfs b usfful
+ * donstrudt to fnsurf thbt thf strfbm is dlosfd:
+ * <prf>
+ *   Pbth dir = ...
+ *   try (DirfdtoryStrfbm&lt;Pbth&gt; strfbm = Filfs.nfwDirfdtoryStrfbm(dir)) {
+ *       for (Pbth fntry: strfbm) {
+ *           ...
+ *       }
+ *   }
+ * </prf>
+ *
+ * <p> Ondf b dirfdtory strfbm is dlosfd, thfn furthfr bddfss to thf dirfdtory,
+ * using thf {@dodf Itfrbtor}, bfhbvfs bs if thf fnd of strfbm hbs bffn rfbdhfd.
+ * Duf to rfbd-bhfbd, thf {@dodf Itfrbtor} mby rfturn onf or morf flfmfnts
+ * bftfr thf dirfdtory strfbm hbs bffn dlosfd. Ondf thfsf bufffrfd flfmfnts
+ * hbvf bffn rfbd, thfn subsfqufnt dblls to thf {@dodf hbsNfxt} mfthod rfturns
+ * {@dodf fblsf}, bnd subsfqufnt dblls to thf {@dodf nfxt} mfthod will throw
+ * {@dodf NoSudhElfmfntExdfption}.
+ *
+ * <p> A dirfdtory strfbm is not rfquirfd to bf <i>bsyndhronously dlosfbblf</i>.
+ * If b thrfbd is blodkfd on thf dirfdtory strfbm's itfrbtor rfbding from thf
+ * dirfdtory, bnd bnothfr thrfbd invokfs thf {@dodf dlosf} mfthod, thfn thf
+ * sfdond thrfbd mby blodk until thf rfbd opfrbtion is domplftf.
+ *
+ * <p> If bn I/O frror is fndountfrfd whfn bddfssing thf dirfdtory thfn it
+ * dbusfs thf {@dodf Itfrbtor}'s {@dodf hbsNfxt} or {@dodf nfxt} mfthods to
+ * throw {@link DirfdtoryItfrbtorExdfption} with thf {@link IOExdfption} bs thf
+ * dbusf. As stbtfd bbovf, thf {@dodf hbsNfxt} mfthod is gubrbntffd to
+ * rfbd-bhfbd by bt lfbst onf flfmfnt. This mfbns thbt if {@dodf hbsNfxt} mfthod
+ * rfturns {@dodf truf}, bnd is followfd by b dbll to thf {@dodf nfxt} mfthod,
+ * thfn it is gubrbntffd thbt thf {@dodf nfxt} mfthod will not fbil with b
+ * {@dodf DirfdtoryItfrbtorExdfption}.
+ *
+ * <p> Thf flfmfnts rfturnfd by thf itfrbtor brf in no spfdifid ordfr. Somf filf
+ * systfms mbintbin spfdibl links to thf dirfdtory itsflf bnd thf dirfdtory's
+ * pbrfnt dirfdtory. Entrifs rfprfsfnting thfsf links brf not rfturnfd by thf
+ * itfrbtor.
+ *
+ * <p> Thf itfrbtor is <i>wfbkly donsistfnt</i>. It is thrfbd sbff but dofs not
+ * frffzf thf dirfdtory whilf itfrbting, so it mby (or mby not) rfflfdt updbtfs
+ * to thf dirfdtory thbt oddur bftfr thf {@dodf DirfdtoryStrfbm} is drfbtfd.
+ *
+ * <p> <b>Usbgf Exbmplfs:</b>
+ * Supposf wf wbnt b list of thf sourdf filfs in b dirfdtory. This fxbmplf usfs
+ * both thf for-fbdh bnd try-with-rfsourdfs donstrudts.
+ * <prf>
+ *   List&lt;Pbth&gt; listSourdfFilfs(Pbth dir) throws IOExdfption {
+ *       List&lt;Pbth&gt; rfsult = nfw ArrbyList&lt;&gt;();
+ *       try (DirfdtoryStrfbm&lt;Pbth&gt; strfbm = Filfs.nfwDirfdtoryStrfbm(dir, "*.{d,h,dpp,hpp,jbvb}")) {
+ *           for (Pbth fntry: strfbm) {
+ *               rfsult.bdd(fntry);
+ *           }
+ *       } dbtdh (DirfdtoryItfrbtorExdfption fx) {
+ *           // I/O frror fndountfd during thf itfrbtion, thf dbusf is bn IOExdfption
+ *           throw fx.gftCbusf();
+ *       }
+ *       rfturn rfsult;
+ *   }
+ * </prf>
+ * @pbrbm   <T>     Thf typf of flfmfnt rfturnfd by thf itfrbtor
+ *
+ * @sindf 1.7
+ *
+ * @sff Filfs#nfwDirfdtoryStrfbm(Pbth)
+ */
+
+publid intfrfbdf DirfdtoryStrfbm<T>
+    fxtfnds Closfbblf, Itfrbblf<T> {
+    /**
+     * An intfrfbdf thbt is implfmfntfd by objfdts thbt dfdidf if b dirfdtory
+     * fntry should bf bddfptfd or filtfrfd. A {@dodf Filtfr} is pbssfd bs thf
+     * pbrbmftfr to thf {@link Filfs#nfwDirfdtoryStrfbm(Pbth,DirfdtoryStrfbm.Filtfr)}
+     * mfthod whfn opfning b dirfdtory to itfrbtf ovfr thf fntrifs in thf
+     * dirfdtory.
+     *
+     * @pbrbm   <T>     thf typf of thf dirfdtory fntry
+     *
+     * @sindf 1.7
+     */
+    @FundtionblIntfrfbdf
+    publid stbtid intfrfbdf Filtfr<T> {
+        /**
+         * Dfdidfs if thf givfn dirfdtory fntry should bf bddfptfd or filtfrfd.
+         *
+         * @pbrbm   fntry
+         *          thf dirfdtory fntry to bf tfstfd
+         *
+         * @rfturn  {@dodf truf} if thf dirfdtory fntry should bf bddfptfd
+         *
+         * @throws  IOExdfption
+         *          If bn I/O frror oddurs
+         */
+        boolfbn bddfpt(T fntry) throws IOExdfption;
+    }
+
+    /**
+     * Rfturns thf itfrbtor bssodibtfd with this {@dodf DirfdtoryStrfbm}.
+     *
+     * @rfturn  thf itfrbtor bssodibtfd with this {@dodf DirfdtoryStrfbm}
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          if this dirfdtory strfbm is dlosfd or thf itfrbtor hbs blrfbdy
+     *          bffn rfturnfd
+     */
+    @Ovfrridf
+    Itfrbtor<T> itfrbtor();
+}

@@ -1,0 +1,905 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.util.fundtion.Consumfr;
+
+/**
+ * An unboundfd priority {@linkplbin Qufuf qufuf} bbsfd on b priority hfbp.
+ * Thf flfmfnts of thf priority qufuf brf ordfrfd bddording to thfir
+ * {@linkplbin Compbrbblf nbturbl ordfring}, or by b {@link Compbrbtor}
+ * providfd bt qufuf donstrudtion timf, dfpfnding on whidh donstrudtor is
+ * usfd.  A priority qufuf dofs not pfrmit {@dodf null} flfmfnts.
+ * A priority qufuf rflying on nbturbl ordfring blso dofs not pfrmit
+ * insfrtion of non-dompbrbblf objfdts (doing so mby rfsult in
+ * {@dodf ClbssCbstExdfption}).
+ *
+ * <p>Thf <fm>hfbd</fm> of this qufuf is thf <fm>lfbst</fm> flfmfnt
+ * with rfspfdt to thf spfdififd ordfring.  If multiplf flfmfnts brf
+ * tifd for lfbst vbluf, thf hfbd is onf of thosf flfmfnts -- tifs brf
+ * brokfn brbitrbrily.  Thf qufuf rftrifvbl opfrbtions {@dodf poll},
+ * {@dodf rfmovf}, {@dodf pffk}, bnd {@dodf flfmfnt} bddfss thf
+ * flfmfnt bt thf hfbd of thf qufuf.
+ *
+ * <p>A priority qufuf is unboundfd, but hbs bn intfrnbl
+ * <i>dbpbdity</i> govfrning thf sizf of bn brrby usfd to storf thf
+ * flfmfnts on thf qufuf.  It is blwbys bt lfbst bs lbrgf bs thf qufuf
+ * sizf.  As flfmfnts brf bddfd to b priority qufuf, its dbpbdity
+ * grows butombtidblly.  Thf dftbils of thf growth polidy brf not
+ * spfdififd.
+ *
+ * <p>This dlbss bnd its itfrbtor implfmfnt bll of thf
+ * <fm>optionbl</fm> mfthods of thf {@link Collfdtion} bnd {@link
+ * Itfrbtor} intfrfbdfs.  Thf Itfrbtor providfd in mfthod {@link
+ * #itfrbtor()} is <fm>not</fm> gubrbntffd to trbvfrsf thf flfmfnts of
+ * thf priority qufuf in bny pbrtidulbr ordfr. If you nffd ordfrfd
+ * trbvfrsbl, donsidfr using {@dodf Arrbys.sort(pq.toArrby())}.
+ *
+ * <p><strong>Notf thbt this implfmfntbtion is not syndhronizfd.</strong>
+ * Multiplf thrfbds should not bddfss b {@dodf PriorityQufuf}
+ * instbndf dondurrfntly if bny of thf thrfbds modififs thf qufuf.
+ * Instfbd, usf thf thrfbd-sbff {@link
+ * jbvb.util.dondurrfnt.PriorityBlodkingQufuf} dlbss.
+ *
+ * <p>Implfmfntbtion notf: this implfmfntbtion providfs
+ * O(log(n)) timf for thf fnqufuing bnd dfqufuing mfthods
+ * ({@dodf offfr}, {@dodf poll}, {@dodf rfmovf()} bnd {@dodf bdd});
+ * linfbr timf for thf {@dodf rfmovf(Objfdt)} bnd {@dodf dontbins(Objfdt)}
+ * mfthods; bnd donstbnt timf for thf rftrifvbl mfthods
+ * ({@dodf pffk}, {@dodf flfmfnt}, bnd {@dodf sizf}).
+ *
+ * <p>This dlbss is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @sindf 1.5
+ * @buthor Josh Blodh, Doug Lfb
+ * @pbrbm <E> thf typf of flfmfnts hfld in this dollfdtion
+ */
+publid dlbss PriorityQufuf<E> fxtfnds AbstrbdtQufuf<E>
+    implfmfnts jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -7720805057305804111L;
+
+    privbtf stbtid finbl int DEFAULT_INITIAL_CAPACITY = 11;
+
+    /**
+     * Priority qufuf rfprfsfntfd bs b bblbndfd binbry hfbp: thf two
+     * dhildrfn of qufuf[n] brf qufuf[2*n+1] bnd qufuf[2*(n+1)].  Thf
+     * priority qufuf is ordfrfd by dompbrbtor, or by thf flfmfnts'
+     * nbturbl ordfring, if dompbrbtor is null: For fbdh nodf n in thf
+     * hfbp bnd fbdh dfsdfndbnt d of n, n <= d.  Thf flfmfnt with thf
+     * lowfst vbluf is in qufuf[0], bssuming thf qufuf is nonfmpty.
+     */
+    trbnsifnt Objfdt[] qufuf; // non-privbtf to simplify nfstfd dlbss bddfss
+
+    /**
+     * Thf numbfr of flfmfnts in thf priority qufuf.
+     */
+    privbtf int sizf = 0;
+
+    /**
+     * Thf dompbrbtor, or null if priority qufuf usfs flfmfnts'
+     * nbturbl ordfring.
+     */
+    privbtf finbl Compbrbtor<? supfr E> dompbrbtor;
+
+    /**
+     * Thf numbfr of timfs this priority qufuf hbs bffn
+     * <i>strudturblly modififd</i>.  Sff AbstrbdtList for gory dftbils.
+     */
+    trbnsifnt int modCount = 0; // non-privbtf to simplify nfstfd dlbss bddfss
+
+    /**
+     * Crfbtfs b {@dodf PriorityQufuf} with thf dffbult initibl
+     * dbpbdity (11) thbt ordfrs its flfmfnts bddording to thfir
+     * {@linkplbin Compbrbblf nbturbl ordfring}.
+     */
+    publid PriorityQufuf() {
+        this(DEFAULT_INITIAL_CAPACITY, null);
+    }
+
+    /**
+     * Crfbtfs b {@dodf PriorityQufuf} with thf spfdififd initibl
+     * dbpbdity thbt ordfrs its flfmfnts bddording to thfir
+     * {@linkplbin Compbrbblf nbturbl ordfring}.
+     *
+     * @pbrbm initiblCbpbdity thf initibl dbpbdity for this priority qufuf
+     * @throws IllfgblArgumfntExdfption if {@dodf initiblCbpbdity} is lfss
+     *         thbn 1
+     */
+    publid PriorityQufuf(int initiblCbpbdity) {
+        this(initiblCbpbdity, null);
+    }
+
+    /**
+     * Crfbtfs b {@dodf PriorityQufuf} with thf dffbult initibl dbpbdity bnd
+     * whosf flfmfnts brf ordfrfd bddording to thf spfdififd dompbrbtor.
+     *
+     * @pbrbm  dompbrbtor thf dompbrbtor thbt will bf usfd to ordfr this
+     *         priority qufuf.  If {@dodf null}, thf {@linkplbin Compbrbblf
+     *         nbturbl ordfring} of thf flfmfnts will bf usfd.
+     * @sindf 1.8
+     */
+    publid PriorityQufuf(Compbrbtor<? supfr E> dompbrbtor) {
+        this(DEFAULT_INITIAL_CAPACITY, dompbrbtor);
+    }
+
+    /**
+     * Crfbtfs b {@dodf PriorityQufuf} with thf spfdififd initibl dbpbdity
+     * thbt ordfrs its flfmfnts bddording to thf spfdififd dompbrbtor.
+     *
+     * @pbrbm  initiblCbpbdity thf initibl dbpbdity for this priority qufuf
+     * @pbrbm  dompbrbtor thf dompbrbtor thbt will bf usfd to ordfr this
+     *         priority qufuf.  If {@dodf null}, thf {@linkplbin Compbrbblf
+     *         nbturbl ordfring} of thf flfmfnts will bf usfd.
+     * @throws IllfgblArgumfntExdfption if {@dodf initiblCbpbdity} is
+     *         lfss thbn 1
+     */
+    publid PriorityQufuf(int initiblCbpbdity,
+                         Compbrbtor<? supfr E> dompbrbtor) {
+        // Notf: This rfstridtion of bt lfbst onf is not bdtublly nffdfd,
+        // but dontinufs for 1.5 dompbtibility
+        if (initiblCbpbdity < 1)
+            throw nfw IllfgblArgumfntExdfption();
+        this.qufuf = nfw Objfdt[initiblCbpbdity];
+        this.dompbrbtor = dompbrbtor;
+    }
+
+    /**
+     * Crfbtfs b {@dodf PriorityQufuf} dontbining thf flfmfnts in thf
+     * spfdififd dollfdtion.  If thf spfdififd dollfdtion is bn instbndf of
+     * b {@link SortfdSft} or is bnothfr {@dodf PriorityQufuf}, this
+     * priority qufuf will bf ordfrfd bddording to thf sbmf ordfring.
+     * Othfrwisf, this priority qufuf will bf ordfrfd bddording to thf
+     * {@linkplbin Compbrbblf nbturbl ordfring} of its flfmfnts.
+     *
+     * @pbrbm  d thf dollfdtion whosf flfmfnts brf to bf plbdfd
+     *         into this priority qufuf
+     * @throws ClbssCbstExdfption if flfmfnts of thf spfdififd dollfdtion
+     *         dbnnot bf dompbrfd to onf bnothfr bddording to thf priority
+     *         qufuf's ordfring
+     * @throws NullPointfrExdfption if thf spfdififd dollfdtion or bny
+     *         of its flfmfnts brf null
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid PriorityQufuf(Collfdtion<? fxtfnds E> d) {
+        if (d instbndfof SortfdSft<?>) {
+            SortfdSft<? fxtfnds E> ss = (SortfdSft<? fxtfnds E>) d;
+            this.dompbrbtor = (Compbrbtor<? supfr E>) ss.dompbrbtor();
+            initElfmfntsFromCollfdtion(ss);
+        }
+        flsf if (d instbndfof PriorityQufuf<?>) {
+            PriorityQufuf<? fxtfnds E> pq = (PriorityQufuf<? fxtfnds E>) d;
+            this.dompbrbtor = (Compbrbtor<? supfr E>) pq.dompbrbtor();
+            initFromPriorityQufuf(pq);
+        }
+        flsf {
+            this.dompbrbtor = null;
+            initFromCollfdtion(d);
+        }
+    }
+
+    /**
+     * Crfbtfs b {@dodf PriorityQufuf} dontbining thf flfmfnts in thf
+     * spfdififd priority qufuf.  This priority qufuf will bf
+     * ordfrfd bddording to thf sbmf ordfring bs thf givfn priority
+     * qufuf.
+     *
+     * @pbrbm  d thf priority qufuf whosf flfmfnts brf to bf plbdfd
+     *         into this priority qufuf
+     * @throws ClbssCbstExdfption if flfmfnts of {@dodf d} dbnnot bf
+     *         dompbrfd to onf bnothfr bddording to {@dodf d}'s
+     *         ordfring
+     * @throws NullPointfrExdfption if thf spfdififd priority qufuf or bny
+     *         of its flfmfnts brf null
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid PriorityQufuf(PriorityQufuf<? fxtfnds E> d) {
+        this.dompbrbtor = (Compbrbtor<? supfr E>) d.dompbrbtor();
+        initFromPriorityQufuf(d);
+    }
+
+    /**
+     * Crfbtfs b {@dodf PriorityQufuf} dontbining thf flfmfnts in thf
+     * spfdififd sortfd sft.   This priority qufuf will bf ordfrfd
+     * bddording to thf sbmf ordfring bs thf givfn sortfd sft.
+     *
+     * @pbrbm  d thf sortfd sft whosf flfmfnts brf to bf plbdfd
+     *         into this priority qufuf
+     * @throws ClbssCbstExdfption if flfmfnts of thf spfdififd sortfd
+     *         sft dbnnot bf dompbrfd to onf bnothfr bddording to thf
+     *         sortfd sft's ordfring
+     * @throws NullPointfrExdfption if thf spfdififd sortfd sft or bny
+     *         of its flfmfnts brf null
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid PriorityQufuf(SortfdSft<? fxtfnds E> d) {
+        this.dompbrbtor = (Compbrbtor<? supfr E>) d.dompbrbtor();
+        initElfmfntsFromCollfdtion(d);
+    }
+
+    privbtf void initFromPriorityQufuf(PriorityQufuf<? fxtfnds E> d) {
+        if (d.gftClbss() == PriorityQufuf.dlbss) {
+            this.qufuf = d.toArrby();
+            this.sizf = d.sizf();
+        } flsf {
+            initFromCollfdtion(d);
+        }
+    }
+
+    privbtf void initElfmfntsFromCollfdtion(Collfdtion<? fxtfnds E> d) {
+        Objfdt[] b = d.toArrby();
+        // If d.toArrby indorrfdtly dofsn't rfturn Objfdt[], dopy it.
+        if (b.gftClbss() != Objfdt[].dlbss)
+            b = Arrbys.dopyOf(b, b.lfngth, Objfdt[].dlbss);
+        int lfn = b.lfngth;
+        if (lfn == 1 || this.dompbrbtor != null)
+            for (Objfdt f : b)
+                if (f == null)
+                    throw nfw NullPointfrExdfption();
+        this.qufuf = b;
+        this.sizf = b.lfngth;
+    }
+
+    /**
+     * Initiblizfs qufuf brrby with flfmfnts from thf givfn Collfdtion.
+     *
+     * @pbrbm d thf dollfdtion
+     */
+    privbtf void initFromCollfdtion(Collfdtion<? fxtfnds E> d) {
+        initElfmfntsFromCollfdtion(d);
+        hfbpify();
+    }
+
+    /**
+     * Thf mbximum sizf of brrby to bllodbtf.
+     * Somf VMs rfsfrvf somf hfbdfr words in bn brrby.
+     * Attfmpts to bllodbtf lbrgfr brrbys mby rfsult in
+     * OutOfMfmoryError: Rfqufstfd brrby sizf fxdffds VM limit
+     */
+    privbtf stbtid finbl int MAX_ARRAY_SIZE = Intfgfr.MAX_VALUE - 8;
+
+    /**
+     * Indrfbsfs thf dbpbdity of thf brrby.
+     *
+     * @pbrbm minCbpbdity thf dfsirfd minimum dbpbdity
+     */
+    privbtf void grow(int minCbpbdity) {
+        int oldCbpbdity = qufuf.lfngth;
+        // Doublf sizf if smbll; flsf grow by 50%
+        int nfwCbpbdity = oldCbpbdity + ((oldCbpbdity < 64) ?
+                                         (oldCbpbdity + 2) :
+                                         (oldCbpbdity >> 1));
+        // ovfrflow-donsdious dodf
+        if (nfwCbpbdity - MAX_ARRAY_SIZE > 0)
+            nfwCbpbdity = hugfCbpbdity(minCbpbdity);
+        qufuf = Arrbys.dopyOf(qufuf, nfwCbpbdity);
+    }
+
+    privbtf stbtid int hugfCbpbdity(int minCbpbdity) {
+        if (minCbpbdity < 0) // ovfrflow
+            throw nfw OutOfMfmoryError();
+        rfturn (minCbpbdity > MAX_ARRAY_SIZE) ?
+            Intfgfr.MAX_VALUE :
+            MAX_ARRAY_SIZE;
+    }
+
+    /**
+     * Insfrts thf spfdififd flfmfnt into this priority qufuf.
+     *
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
+     * @throws ClbssCbstExdfption if thf spfdififd flfmfnt dbnnot bf
+     *         dompbrfd with flfmfnts durrfntly in this priority qufuf
+     *         bddording to thf priority qufuf's ordfring
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null
+     */
+    publid boolfbn bdd(E f) {
+        rfturn offfr(f);
+    }
+
+    /**
+     * Insfrts thf spfdififd flfmfnt into this priority qufuf.
+     *
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Qufuf#offfr})
+     * @throws ClbssCbstExdfption if thf spfdififd flfmfnt dbnnot bf
+     *         dompbrfd with flfmfnts durrfntly in this priority qufuf
+     *         bddording to thf priority qufuf's ordfring
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null
+     */
+    publid boolfbn offfr(E f) {
+        if (f == null)
+            throw nfw NullPointfrExdfption();
+        modCount++;
+        int i = sizf;
+        if (i >= qufuf.lfngth)
+            grow(i + 1);
+        sizf = i + 1;
+        if (i == 0)
+            qufuf[0] = f;
+        flsf
+            siftUp(i, f);
+        rfturn truf;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    publid E pffk() {
+        rfturn (sizf == 0) ? null : (E) qufuf[0];
+    }
+
+    privbtf int indfxOf(Objfdt o) {
+        if (o != null) {
+            for (int i = 0; i < sizf; i++)
+                if (o.fqubls(qufuf[i]))
+                    rfturn i;
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfmovfs b singlf instbndf of thf spfdififd flfmfnt from this qufuf,
+     * if it is prfsfnt.  Morf formblly, rfmovfs bn flfmfnt {@dodf f} sudh
+     * thbt {@dodf o.fqubls(f)}, if this qufuf dontbins onf or morf sudh
+     * flfmfnts.  Rfturns {@dodf truf} if bnd only if this qufuf dontbinfd
+     * thf spfdififd flfmfnt (or fquivblfntly, if this qufuf dhbngfd bs b
+     * rfsult of thf dbll).
+     *
+     * @pbrbm o flfmfnt to bf rfmovfd from this qufuf, if prfsfnt
+     * @rfturn {@dodf truf} if this qufuf dhbngfd bs b rfsult of thf dbll
+     */
+    publid boolfbn rfmovf(Objfdt o) {
+        int i = indfxOf(o);
+        if (i == -1)
+            rfturn fblsf;
+        flsf {
+            rfmovfAt(i);
+            rfturn truf;
+        }
+    }
+
+    /**
+     * Vfrsion of rfmovf using rfffrfndf fqublity, not fqubls.
+     * Nffdfd by itfrbtor.rfmovf.
+     *
+     * @pbrbm o flfmfnt to bf rfmovfd from this qufuf, if prfsfnt
+     * @rfturn {@dodf truf} if rfmovfd
+     */
+    boolfbn rfmovfEq(Objfdt o) {
+        for (int i = 0; i < sizf; i++) {
+            if (o == qufuf[i]) {
+                rfmovfAt(i);
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this qufuf dontbins thf spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if this qufuf dontbins
+     * bt lfbst onf flfmfnt {@dodf f} sudh thbt {@dodf o.fqubls(f)}.
+     *
+     * @pbrbm o objfdt to bf dhfdkfd for dontbinmfnt in this qufuf
+     * @rfturn {@dodf truf} if this qufuf dontbins thf spfdififd flfmfnt
+     */
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn indfxOf(o) != -1;
+    }
+
+    /**
+     * Rfturns bn brrby dontbining bll of thf flfmfnts in this qufuf.
+     * Thf flfmfnts brf in no pbrtidulbr ordfr.
+     *
+     * <p>Thf rfturnfd brrby will bf "sbff" in thbt no rfffrfndfs to it brf
+     * mbintbinfd by this qufuf.  (In othfr words, this mfthod must bllodbtf
+     * b nfw brrby).  Thf dbllfr is thus frff to modify thf rfturnfd brrby.
+     *
+     * <p>This mfthod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
+     * APIs.
+     *
+     * @rfturn bn brrby dontbining bll of thf flfmfnts in this qufuf
+     */
+    publid Objfdt[] toArrby() {
+        rfturn Arrbys.dopyOf(qufuf, sizf);
+    }
+
+    /**
+     * Rfturns bn brrby dontbining bll of thf flfmfnts in this qufuf; thf
+     * runtimf typf of thf rfturnfd brrby is thbt of thf spfdififd brrby.
+     * Thf rfturnfd brrby flfmfnts brf in no pbrtidulbr ordfr.
+     * If thf qufuf fits in thf spfdififd brrby, it is rfturnfd thfrfin.
+     * Othfrwisf, b nfw brrby is bllodbtfd with thf runtimf typf of thf
+     * spfdififd brrby bnd thf sizf of this qufuf.
+     *
+     * <p>If thf qufuf fits in thf spfdififd brrby with room to spbrf
+     * (i.f., thf brrby hbs morf flfmfnts thbn thf qufuf), thf flfmfnt in
+     * thf brrby immfdibtfly following thf fnd of thf dollfdtion is sft to
+     * {@dodf null}.
+     *
+     * <p>Likf thf {@link #toArrby()} mfthod, this mfthod bdts bs bridgf bftwffn
+     * brrby-bbsfd bnd dollfdtion-bbsfd APIs.  Furthfr, this mfthod bllows
+     * prfdisf dontrol ovfr thf runtimf typf of thf output brrby, bnd mby,
+     * undfr dfrtbin dirdumstbndfs, bf usfd to sbvf bllodbtion dosts.
+     *
+     * <p>Supposf {@dodf x} is b qufuf known to dontbin only strings.
+     * Thf following dodf dbn bf usfd to dump thf qufuf into b nfwly
+     * bllodbtfd brrby of {@dodf String}:
+     *
+     *  <prf> {@dodf String[] y = x.toArrby(nfw String[0]);}</prf>
+     *
+     * Notf thbt {@dodf toArrby(nfw Objfdt[0])} is idfntidbl in fundtion to
+     * {@dodf toArrby()}.
+     *
+     * @pbrbm b thf brrby into whidh thf flfmfnts of thf qufuf brf to
+     *          bf storfd, if it is big fnough; othfrwisf, b nfw brrby of thf
+     *          sbmf runtimf typf is bllodbtfd for this purposf.
+     * @rfturn bn brrby dontbining bll of thf flfmfnts in this qufuf
+     * @throws ArrbyStorfExdfption if thf runtimf typf of thf spfdififd brrby
+     *         is not b supfrtypf of thf runtimf typf of fvfry flfmfnt in
+     *         this qufuf
+     * @throws NullPointfrExdfption if thf spfdififd brrby is null
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid <T> T[] toArrby(T[] b) {
+        finbl int sizf = this.sizf;
+        if (b.lfngth < sizf)
+            // Mbkf b nfw brrby of b's runtimf typf, but my dontfnts:
+            rfturn (T[]) Arrbys.dopyOf(qufuf, sizf, b.gftClbss());
+        Systfm.brrbydopy(qufuf, 0, b, 0, sizf);
+        if (b.lfngth > sizf)
+            b[sizf] = null;
+        rfturn b;
+    }
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf flfmfnts in this qufuf. Thf itfrbtor
+     * dofs not rfturn thf flfmfnts in bny pbrtidulbr ordfr.
+     *
+     * @rfturn bn itfrbtor ovfr thf flfmfnts in this qufuf
+     */
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw Itr();
+    }
+
+    privbtf finbl dlbss Itr implfmfnts Itfrbtor<E> {
+        /**
+         * Indfx (into qufuf brrby) of flfmfnt to bf rfturnfd by
+         * subsfqufnt dbll to nfxt.
+         */
+        privbtf int dursor = 0;
+
+        /**
+         * Indfx of flfmfnt rfturnfd by most rfdfnt dbll to nfxt,
+         * unlfss thbt flfmfnt dbmf from thf forgftMfNot list.
+         * Sft to -1 if flfmfnt is dflftfd by b dbll to rfmovf.
+         */
+        privbtf int lbstRft = -1;
+
+        /**
+         * A qufuf of flfmfnts thbt wfrf movfd from thf unvisitfd portion of
+         * thf hfbp into thf visitfd portion bs b rfsult of "unludky" flfmfnt
+         * rfmovbls during thf itfrbtion.  (Unludky flfmfnt rfmovbls brf thosf
+         * thbt rfquirf b siftup instfbd of b siftdown.)  Wf must visit bll of
+         * thf flfmfnts in this list to domplftf thf itfrbtion.  Wf do this
+         * bftfr wf'vf domplftfd thf "normbl" itfrbtion.
+         *
+         * Wf fxpfdt thbt most itfrbtions, fvfn thosf involving rfmovbls,
+         * will not nffd to storf flfmfnts in this fifld.
+         */
+        privbtf ArrbyDfquf<E> forgftMfNot = null;
+
+        /**
+         * Elfmfnt rfturnfd by thf most rfdfnt dbll to nfxt iff thbt
+         * flfmfnt wbs drbwn from thf forgftMfNot list.
+         */
+        privbtf E lbstRftElt = null;
+
+        /**
+         * Thf modCount vbluf thbt thf itfrbtor bflifvfs thbt thf bbdking
+         * Qufuf should hbvf.  If this fxpfdtbtion is violbtfd, thf itfrbtor
+         * hbs dftfdtfd dondurrfnt modifidbtion.
+         */
+        privbtf int fxpfdtfdModCount = modCount;
+
+        publid boolfbn hbsNfxt() {
+            rfturn dursor < sizf ||
+                (forgftMfNot != null && !forgftMfNot.isEmpty());
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        publid E nfxt() {
+            if (fxpfdtfdModCount != modCount)
+                throw nfw CondurrfntModifidbtionExdfption();
+            if (dursor < sizf)
+                rfturn (E) qufuf[lbstRft = dursor++];
+            if (forgftMfNot != null) {
+                lbstRft = -1;
+                lbstRftElt = forgftMfNot.poll();
+                if (lbstRftElt != null)
+                    rfturn lbstRftElt;
+            }
+            throw nfw NoSudhElfmfntExdfption();
+        }
+
+        publid void rfmovf() {
+            if (fxpfdtfdModCount != modCount)
+                throw nfw CondurrfntModifidbtionExdfption();
+            if (lbstRft != -1) {
+                E movfd = PriorityQufuf.this.rfmovfAt(lbstRft);
+                lbstRft = -1;
+                if (movfd == null)
+                    dursor--;
+                flsf {
+                    if (forgftMfNot == null)
+                        forgftMfNot = nfw ArrbyDfquf<>();
+                    forgftMfNot.bdd(movfd);
+                }
+            } flsf if (lbstRftElt != null) {
+                PriorityQufuf.this.rfmovfEq(lbstRftElt);
+                lbstRftElt = null;
+            } flsf {
+                throw nfw IllfgblStbtfExdfption();
+            }
+            fxpfdtfdModCount = modCount;
+        }
+    }
+
+    publid int sizf() {
+        rfturn sizf;
+    }
+
+    /**
+     * Rfmovfs bll of thf flfmfnts from this priority qufuf.
+     * Thf qufuf will bf fmpty bftfr this dbll rfturns.
+     */
+    publid void dlfbr() {
+        modCount++;
+        for (int i = 0; i < sizf; i++)
+            qufuf[i] = null;
+        sizf = 0;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    publid E poll() {
+        if (sizf == 0)
+            rfturn null;
+        int s = --sizf;
+        modCount++;
+        E rfsult = (E) qufuf[0];
+        E x = (E) qufuf[s];
+        qufuf[s] = null;
+        if (s != 0)
+            siftDown(0, x);
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfmovfs thf ith flfmfnt from qufuf.
+     *
+     * Normblly this mfthod lfbvfs thf flfmfnts bt up to i-1,
+     * indlusivf, untoudhfd.  Undfr thfsf dirdumstbndfs, it rfturns
+     * null.  Oddbsionblly, in ordfr to mbintbin thf hfbp invbribnt,
+     * it must swbp b lbtfr flfmfnt of thf list with onf fbrlifr thbn
+     * i.  Undfr thfsf dirdumstbndfs, this mfthod rfturns thf flfmfnt
+     * thbt wbs prfviously bt thf fnd of thf list bnd is now bt somf
+     * position bfforf i. This fbdt is usfd by itfrbtor.rfmovf so bs to
+     * bvoid missing trbvfrsing flfmfnts.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf E rfmovfAt(int i) {
+        // bssfrt i >= 0 && i < sizf;
+        modCount++;
+        int s = --sizf;
+        if (s == i) // rfmovfd lbst flfmfnt
+            qufuf[i] = null;
+        flsf {
+            E movfd = (E) qufuf[s];
+            qufuf[s] = null;
+            siftDown(i, movfd);
+            if (qufuf[i] == movfd) {
+                siftUp(i, movfd);
+                if (qufuf[i] != movfd)
+                    rfturn movfd;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Insfrts itfm x bt position k, mbintbining hfbp invbribnt by
+     * promoting x up thf trff until it is grfbtfr thbn or fqubl to
+     * its pbrfnt, or is thf root.
+     *
+     * To simplify bnd spffd up dofrdions bnd dompbrisons. thf
+     * Compbrbblf bnd Compbrbtor vfrsions brf sfpbrbtfd into difffrfnt
+     * mfthods thbt brf othfrwisf idfntidbl. (Similbrly for siftDown.)
+     *
+     * @pbrbm k thf position to fill
+     * @pbrbm x thf itfm to insfrt
+     */
+    privbtf void siftUp(int k, E x) {
+        if (dompbrbtor != null)
+            siftUpUsingCompbrbtor(k, x);
+        flsf
+            siftUpCompbrbblf(k, x);
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf void siftUpCompbrbblf(int k, E x) {
+        Compbrbblf<? supfr E> kfy = (Compbrbblf<? supfr E>) x;
+        whilf (k > 0) {
+            int pbrfnt = (k - 1) >>> 1;
+            Objfdt f = qufuf[pbrfnt];
+            if (kfy.dompbrfTo((E) f) >= 0)
+                brfbk;
+            qufuf[k] = f;
+            k = pbrfnt;
+        }
+        qufuf[k] = kfy;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf void siftUpUsingCompbrbtor(int k, E x) {
+        whilf (k > 0) {
+            int pbrfnt = (k - 1) >>> 1;
+            Objfdt f = qufuf[pbrfnt];
+            if (dompbrbtor.dompbrf(x, (E) f) >= 0)
+                brfbk;
+            qufuf[k] = f;
+            k = pbrfnt;
+        }
+        qufuf[k] = x;
+    }
+
+    /**
+     * Insfrts itfm x bt position k, mbintbining hfbp invbribnt by
+     * dfmoting x down thf trff rfpfbtfdly until it is lfss thbn or
+     * fqubl to its dhildrfn or is b lfbf.
+     *
+     * @pbrbm k thf position to fill
+     * @pbrbm x thf itfm to insfrt
+     */
+    privbtf void siftDown(int k, E x) {
+        if (dompbrbtor != null)
+            siftDownUsingCompbrbtor(k, x);
+        flsf
+            siftDownCompbrbblf(k, x);
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf void siftDownCompbrbblf(int k, E x) {
+        Compbrbblf<? supfr E> kfy = (Compbrbblf<? supfr E>)x;
+        int hblf = sizf >>> 1;        // loop whilf b non-lfbf
+        whilf (k < hblf) {
+            int dhild = (k << 1) + 1; // bssumf lfft dhild is lfbst
+            Objfdt d = qufuf[dhild];
+            int right = dhild + 1;
+            if (right < sizf &&
+                ((Compbrbblf<? supfr E>) d).dompbrfTo((E) qufuf[right]) > 0)
+                d = qufuf[dhild = right];
+            if (kfy.dompbrfTo((E) d) <= 0)
+                brfbk;
+            qufuf[k] = d;
+            k = dhild;
+        }
+        qufuf[k] = kfy;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf void siftDownUsingCompbrbtor(int k, E x) {
+        int hblf = sizf >>> 1;
+        whilf (k < hblf) {
+            int dhild = (k << 1) + 1;
+            Objfdt d = qufuf[dhild];
+            int right = dhild + 1;
+            if (right < sizf &&
+                dompbrbtor.dompbrf((E) d, (E) qufuf[right]) > 0)
+                d = qufuf[dhild = right];
+            if (dompbrbtor.dompbrf(x, (E) d) <= 0)
+                brfbk;
+            qufuf[k] = d;
+            k = dhild;
+        }
+        qufuf[k] = x;
+    }
+
+    /**
+     * Estbblishfs thf hfbp invbribnt (dfsdribfd bbovf) in thf fntirf trff,
+     * bssuming nothing bbout thf ordfr of thf flfmfnts prior to thf dbll.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf void hfbpify() {
+        for (int i = (sizf >>> 1) - 1; i >= 0; i--)
+            siftDown(i, (E) qufuf[i]);
+    }
+
+    /**
+     * Rfturns thf dompbrbtor usfd to ordfr thf flfmfnts in this
+     * qufuf, or {@dodf null} if this qufuf is sortfd bddording to
+     * thf {@linkplbin Compbrbblf nbturbl ordfring} of its flfmfnts.
+     *
+     * @rfturn thf dompbrbtor usfd to ordfr this qufuf, or
+     *         {@dodf null} if this qufuf is sortfd bddording to thf
+     *         nbturbl ordfring of its flfmfnts
+     */
+    publid Compbrbtor<? supfr E> dompbrbtor() {
+        rfturn dompbrbtor;
+    }
+
+    /**
+     * Sbvfs this qufuf to b strfbm (thbt is, sfriblizfs it).
+     *
+     * @sfriblDbtb Thf lfngth of thf brrby bbdking thf instbndf is
+     *             fmittfd (int), followfd by bll of its flfmfnts
+     *             (fbdh bn {@dodf Objfdt}) in thf propfr ordfr.
+     * @pbrbm s thf strfbm
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        throws jbvb.io.IOExdfption {
+        // Writf out flfmfnt dount, bnd bny hiddfn stuff
+        s.dffbultWritfObjfdt();
+
+        // Writf out brrby lfngth, for dompbtibility with 1.5 vfrsion
+        s.writfInt(Mbth.mbx(2, sizf + 1));
+
+        // Writf out bll flfmfnts in thf "propfr ordfr".
+        for (int i = 0; i < sizf; i++)
+            s.writfObjfdt(qufuf[i]);
+    }
+
+    /**
+     * Rfdonstitutfs thf {@dodf PriorityQufuf} instbndf from b strfbm
+     * (thbt is, dfsfriblizfs it).
+     *
+     * @pbrbm s thf strfbm
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        // Rfbd in sizf, bnd bny hiddfn stuff
+        s.dffbultRfbdObjfdt();
+
+        // Rfbd in (bnd disdbrd) brrby lfngth
+        s.rfbdInt();
+
+        qufuf = nfw Objfdt[sizf];
+
+        // Rfbd in bll flfmfnts.
+        for (int i = 0; i < sizf; i++)
+            qufuf[i] = s.rfbdObjfdt();
+
+        // Elfmfnts brf gubrbntffd to bf in "propfr ordfr", but thf
+        // spfd hbs nfvfr fxplbinfd whbt thbt might bf.
+        hfbpify();
+    }
+
+    /**
+     * Crfbtfs b <fm><b hrff="Splitfrbtor.html#binding">lbtf-binding</b></fm>
+     * bnd <fm>fbil-fbst</fm> {@link Splitfrbtor} ovfr thf flfmfnts in this
+     * qufuf.
+     *
+     * <p>Thf {@dodf Splitfrbtor} rfports {@link Splitfrbtor#SIZED},
+     * {@link Splitfrbtor#SUBSIZED}, bnd {@link Splitfrbtor#NONNULL}.
+     * Ovfrriding implfmfntbtions should dodumfnt thf rfporting of bdditionbl
+     * dhbrbdtfristid vblufs.
+     *
+     * @rfturn b {@dodf Splitfrbtor} ovfr thf flfmfnts in this qufuf
+     * @sindf 1.8
+     */
+    publid finbl Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw PriorityQufufSplitfrbtor<>(this, 0, -1, 0);
+    }
+
+    stbtid finbl dlbss PriorityQufufSplitfrbtor<E> implfmfnts Splitfrbtor<E> {
+        /*
+         * This is vfry similbr to ArrbyList Splitfrbtor, fxdfpt for
+         * fxtrb null dhfdks.
+         */
+        privbtf finbl PriorityQufuf<E> pq;
+        privbtf int indfx;            // durrfnt indfx, modififd on bdvbndf/split
+        privbtf int ffndf;            // -1 until first usf
+        privbtf int fxpfdtfdModCount; // initiblizfd whfn ffndf sft
+
+        /** Crfbtfs nfw splitfrbtor dovfring thf givfn rbngf */
+        PriorityQufufSplitfrbtor(PriorityQufuf<E> pq, int origin, int ffndf,
+                             int fxpfdtfdModCount) {
+            this.pq = pq;
+            this.indfx = origin;
+            this.ffndf = ffndf;
+            this.fxpfdtfdModCount = fxpfdtfdModCount;
+        }
+
+        privbtf int gftFfndf() { // initiblizf ffndf to sizf on first usf
+            int hi;
+            if ((hi = ffndf) < 0) {
+                fxpfdtfdModCount = pq.modCount;
+                hi = ffndf = pq.sizf;
+            }
+            rfturn hi;
+        }
+
+        publid PriorityQufufSplitfrbtor<E> trySplit() {
+            int hi = gftFfndf(), lo = indfx, mid = (lo + hi) >>> 1;
+            rfturn (lo >= mid) ? null :
+                nfw PriorityQufufSplitfrbtor<>(pq, lo, indfx = mid,
+                                               fxpfdtfdModCount);
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        publid void forEbdhRfmbining(Consumfr<? supfr E> bdtion) {
+            int i, hi, md; // hoist bddfssfs bnd dhfdks from loop
+            PriorityQufuf<E> q; Objfdt[] b;
+            if (bdtion == null)
+                throw nfw NullPointfrExdfption();
+            if ((q = pq) != null && (b = q.qufuf) != null) {
+                if ((hi = ffndf) < 0) {
+                    md = q.modCount;
+                    hi = q.sizf;
+                }
+                flsf
+                    md = fxpfdtfdModCount;
+                if ((i = indfx) >= 0 && (indfx = hi) <= b.lfngth) {
+                    for (E f;; ++i) {
+                        if (i < hi) {
+                            if ((f = (E) b[i]) == null) // must bf CME
+                                brfbk;
+                            bdtion.bddfpt(f);
+                        }
+                        flsf if (q.modCount != md)
+                            brfbk;
+                        flsf
+                            rfturn;
+                    }
+                }
+            }
+            throw nfw CondurrfntModifidbtionExdfption();
+        }
+
+        publid boolfbn tryAdvbndf(Consumfr<? supfr E> bdtion) {
+            if (bdtion == null)
+                throw nfw NullPointfrExdfption();
+            int hi = gftFfndf(), lo = indfx;
+            if (lo >= 0 && lo < hi) {
+                indfx = lo + 1;
+                @SupprfssWbrnings("undhfdkfd") E f = (E)pq.qufuf[lo];
+                if (f == null)
+                    throw nfw CondurrfntModifidbtionExdfption();
+                bdtion.bddfpt(f);
+                if (pq.modCount != fxpfdtfdModCount)
+                    throw nfw CondurrfntModifidbtionExdfption();
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        publid long fstimbtfSizf() {
+            rfturn (long) (gftFfndf() - indfx);
+        }
+
+        publid int dhbrbdtfristids() {
+            rfturn Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED | Splitfrbtor.NONNULL;
+        }
+    }
+}

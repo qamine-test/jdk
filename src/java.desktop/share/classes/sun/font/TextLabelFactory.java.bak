@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *
- * (C) Copyright IBM Corp. 1998-2003 All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2003 All Rigits Rfsfrvfd
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Font;
+import jbvb.bwt.Font;
 
-import java.awt.font.FontRenderContext;
-import java.text.Bidi;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.tfxt.Bidi;
 
   /**
-   * A factory for text labels.  Basically this just holds onto the stuff that
-   * doesn't change-- the render context, context, and bidi info for the context-- and gets
-   * called for each subrange you want to create.
+   * A fbdtory for tfxt lbbfls.  Bbsidblly tiis just iolds onto tif stuff tibt
+   * dofsn't dibngf-- tif rfndfr dontfxt, dontfxt, bnd bidi info for tif dontfxt-- bnd gfts
+   * dbllfd for fbdi subrbngf you wbnt to drfbtf.
    *
-   * @see Font
-   * @see FontRenderContext
-   * @see GlyphVector
-   * @see TextLabel
-   * @see ExtendedTextLabel
-   * @see Bidi
-   * @see TextLayout
+   * @sff Font
+   * @sff FontRfndfrContfxt
+   * @sff GlypiVfdtor
+   * @sff TfxtLbbfl
+   * @sff ExtfndfdTfxtLbbfl
+   * @sff Bidi
+   * @sff TfxtLbyout
    */
 
-public class TextLabelFactory {
-  private FontRenderContext frc;
-  private char[] text;
-  private Bidi bidi;
-  private Bidi lineBidi;
-  private int flags;
-  private int lineStart;
-  private int lineLimit;
+publid dlbss TfxtLbbflFbdtory {
+  privbtf FontRfndfrContfxt frd;
+  privbtf dibr[] tfxt;
+  privbtf Bidi bidi;
+  privbtf Bidi linfBidi;
+  privbtf int flbgs;
+  privbtf int linfStbrt;
+  privbtf int linfLimit;
 
   /**
-   * Initialize a factory to produce glyph arrays.
-   * @param frc the FontRenderContext to use for the arrays to be produced.
-   * @param text the text of the paragraph.
-   * @param bidi the bidi information for the paragraph text, or null if the
-   * entire text is left-to-right text.
+   * Initiblizf b fbdtory to produdf glypi brrbys.
+   * @pbrbm frd tif FontRfndfrContfxt to usf for tif brrbys to bf produdfd.
+   * @pbrbm tfxt tif tfxt of tif pbrbgrbpi.
+   * @pbrbm bidi tif bidi informbtion for tif pbrbgrbpi tfxt, or null if tif
+   * fntirf tfxt is lfft-to-rigit tfxt.
    */
-  public TextLabelFactory(FontRenderContext frc,
-                          char[] text,
+  publid TfxtLbbflFbdtory(FontRfndfrContfxt frd,
+                          dibr[] tfxt,
                           Bidi bidi,
-                          int flags) {
-    this.frc = frc;
-    this.text = text.clone();
-    this.bidi = bidi;
-    this.flags = flags;
-    this.lineBidi = bidi;
-    this.lineStart = 0;
-    this.lineLimit = text.length;
+                          int flbgs) {
+    tiis.frd = frd;
+    tiis.tfxt = tfxt.dlonf();
+    tiis.bidi = bidi;
+    tiis.flbgs = flbgs;
+    tiis.linfBidi = bidi;
+    tiis.linfStbrt = 0;
+    tiis.linfLimit = tfxt.lfngti;
   }
 
-  public FontRenderContext getFontRenderContext() {
-    return frc;
+  publid FontRfndfrContfxt gftFontRfndfrContfxt() {
+    rfturn frd;
   }
 
-  public Bidi getLineBidi() {
-    return lineBidi;
+  publid Bidi gftLinfBidi() {
+    rfturn linfBidi;
   }
 
   /**
-   * Set a line context for the factory.  Shaping only occurs on this line.
-   * Characters are ordered as they would appear on this line.
-   * @param lineStart the index within the text of the start of the line.
-   * @param lineLimit the index within the text of the limit of the line.
+   * Sft b linf dontfxt for tif fbdtory.  Sibping only oddurs on tiis linf.
+   * Cibrbdtfrs brf ordfrfd bs tify would bppfbr on tiis linf.
+   * @pbrbm linfStbrt tif indfx witiin tif tfxt of tif stbrt of tif linf.
+   * @pbrbm linfLimit tif indfx witiin tif tfxt of tif limit of tif linf.
    */
-  public void setLineContext(int lineStart, int lineLimit) {
-    this.lineStart = lineStart;
-    this.lineLimit = lineLimit;
+  publid void sftLinfContfxt(int linfStbrt, int linfLimit) {
+    tiis.linfStbrt = linfStbrt;
+    tiis.linfLimit = linfLimit;
     if (bidi != null) {
-      lineBidi = bidi.createLineBidi(lineStart, lineLimit);
+      linfBidi = bidi.drfbtfLinfBidi(linfStbrt, linfLimit);
     }
   }
 
   /**
-   * Create an extended glyph array for the text between start and limit.
+   * Crfbtf bn fxtfndfd glypi brrby for tif tfxt bftwffn stbrt bnd limit.
    *
-   * @param font the font to use to generate glyphs and character positions.
-   * @param start the start of the subrange for which to create the glyph array
-   * @param limit the limit of the subrange for which to create glyph array
+   * @pbrbm font tif font to usf to gfnfrbtf glypis bnd dibrbdtfr positions.
+   * @pbrbm stbrt tif stbrt of tif subrbngf for wiidi to drfbtf tif glypi brrby
+   * @pbrbm limit tif limit of tif subrbngf for wiidi to drfbtf glypi brrby
    *
-   * Start and limit must be within the bounds of the current line.  If no
-   * line context has been set, the entire text is used as the current line.
-   * The text between start and limit will be treated as though it all has
-   * the same bidi level (and thus the same directionality) as the character
-   * at start.  Clients should ensure that all text between start and limit
-   * has the same bidi level for the current line.
+   * Stbrt bnd limit must bf witiin tif bounds of tif durrfnt linf.  If no
+   * linf dontfxt ibs bffn sft, tif fntirf tfxt is usfd bs tif durrfnt linf.
+   * Tif tfxt bftwffn stbrt bnd limit will bf trfbtfd bs tiougi it bll ibs
+   * tif sbmf bidi lfvfl (bnd tius tif sbmf dirfdtionblity) bs tif dibrbdtfr
+   * bt stbrt.  Clifnts siould fnsurf tibt bll tfxt bftwffn stbrt bnd limit
+   * ibs tif sbmf bidi lfvfl for tif durrfnt linf.
    */
-  public ExtendedTextLabel createExtended(Font font,
-                                          CoreMetrics lm,
-                                          Decoration decorator,
-                                          int start,
+  publid ExtfndfdTfxtLbbfl drfbtfExtfndfd(Font font,
+                                          CorfMftrids lm,
+                                          Dfdorbtion dfdorbtor,
+                                          int stbrt,
                                           int limit) {
 
-    if (start >= limit || start < lineStart || limit > lineLimit) {
-      throw new IllegalArgumentException("bad start: " + start + " or limit: " + limit);
+    if (stbrt >= limit || stbrt < linfStbrt || limit > linfLimit) {
+      tirow nfw IllfgblArgumfntExdfption("bbd stbrt: " + stbrt + " or limit: " + limit);
     }
 
-    int level = lineBidi == null ? 0 : lineBidi.getLevelAt(start - lineStart);
-    int linedir = (lineBidi == null || lineBidi.baseIsLeftToRight()) ? 0 : 1;
-    int layoutFlags = flags & ~0x9; // remove bidi, line direction flags
-    if ((level & 0x1) != 0) layoutFlags |= 1; // rtl
-    if ((linedir & 0x1) != 0) layoutFlags |= 8; // line rtl
+    int lfvfl = linfBidi == null ? 0 : linfBidi.gftLfvflAt(stbrt - linfStbrt);
+    int linfdir = (linfBidi == null || linfBidi.bbsfIsLfftToRigit()) ? 0 : 1;
+    int lbyoutFlbgs = flbgs & ~0x9; // rfmovf bidi, linf dirfdtion flbgs
+    if ((lfvfl & 0x1) != 0) lbyoutFlbgs |= 1; // rtl
+    if ((linfdir & 0x1) != 0) lbyoutFlbgs |= 8; // linf rtl
 
-    TextSource source = new StandardTextSource(text, start, limit - start, lineStart, lineLimit - lineStart, level, layoutFlags, font, frc, lm);
-    return new ExtendedTextSourceLabel(source, decorator);
+    TfxtSourdf sourdf = nfw StbndbrdTfxtSourdf(tfxt, stbrt, limit - stbrt, linfStbrt, linfLimit - linfStbrt, lfvfl, lbyoutFlbgs, font, frd, lm);
+    rfturn nfw ExtfndfdTfxtSourdfLbbfl(sourdf, dfdorbtor);
   }
 
   /**
-   * Create a simple glyph array for the text between start and limit.
+   * Crfbtf b simplf glypi brrby for tif tfxt bftwffn stbrt bnd limit.
    *
-   * @param font the font to use to generate glyphs and character positions.
-   * @param start the start of the subrange for which to create the glyph array
-   * @param limit the limit of the subrange for which to create glyph array
+   * @pbrbm font tif font to usf to gfnfrbtf glypis bnd dibrbdtfr positions.
+   * @pbrbm stbrt tif stbrt of tif subrbngf for wiidi to drfbtf tif glypi brrby
+   * @pbrbm limit tif limit of tif subrbngf for wiidi to drfbtf glypi brrby
    */
-  public TextLabel createSimple(Font font,
-                                CoreMetrics lm,
-                                int start,
+  publid TfxtLbbfl drfbtfSimplf(Font font,
+                                CorfMftrids lm,
+                                int stbrt,
                                 int limit) {
 
-    if (start >= limit || start < lineStart || limit > lineLimit) {
-      throw new IllegalArgumentException("bad start: " + start + " or limit: " + limit);
+    if (stbrt >= limit || stbrt < linfStbrt || limit > linfLimit) {
+      tirow nfw IllfgblArgumfntExdfption("bbd stbrt: " + stbrt + " or limit: " + limit);
     }
 
-    int level = lineBidi == null ? 0 : lineBidi.getLevelAt(start - lineStart);
-    int linedir = (lineBidi == null || lineBidi.baseIsLeftToRight()) ? 0 : 1;
-    int layoutFlags = flags & ~0x9; // remove bidi, line direction flags
-    if ((level & 0x1) != 0) layoutFlags |= 1; // rtl
-    if ((linedir & 0x1) != 0) layoutFlags |= 8; // line rtl
-    TextSource source = new StandardTextSource(text, start, limit - start, lineStart, lineLimit - lineStart, level, layoutFlags, font, frc, lm);
-    return new TextSourceLabel(source);
+    int lfvfl = linfBidi == null ? 0 : linfBidi.gftLfvflAt(stbrt - linfStbrt);
+    int linfdir = (linfBidi == null || linfBidi.bbsfIsLfftToRigit()) ? 0 : 1;
+    int lbyoutFlbgs = flbgs & ~0x9; // rfmovf bidi, linf dirfdtion flbgs
+    if ((lfvfl & 0x1) != 0) lbyoutFlbgs |= 1; // rtl
+    if ((linfdir & 0x1) != 0) lbyoutFlbgs |= 8; // linf rtl
+    TfxtSourdf sourdf = nfw StbndbrdTfxtSourdf(tfxt, stbrt, limit - stbrt, linfStbrt, linfLimit - linfStbrt, lfvfl, lbyoutFlbgs, font, frd, lm);
+    rfturn nfw TfxtSourdfLbbfl(sourdf);
   }
 }

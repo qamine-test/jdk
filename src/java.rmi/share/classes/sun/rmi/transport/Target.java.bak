@@ -1,348 +1,348 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport;
+pbdkbgf sun.rmi.trbnsport;
 
-import java.rmi.Remote;
-import java.rmi.NoSuchObjectException;
-import java.rmi.dgc.VMID;
-import java.rmi.server.ObjID;
-import java.rmi.server.Unreferenced;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.util.*;
-import sun.rmi.runtime.Log;
-import sun.rmi.runtime.NewThreadAction;
-import sun.rmi.server.Dispatcher;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.NoSudiObjfdtExdfption;
+import jbvb.rmi.dgd.VMID;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.Unrfffrfndfd;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.*;
+import sun.rmi.runtimf.Log;
+import sun.rmi.runtimf.NfwTirfbdAdtion;
+import sun.rmi.sfrvfr.Dispbtdifr;
 
 /**
- * A target contains information pertaining to a remote object that
- * resides in this address space.  Targets are located via the
- * ObjectTable.
+ * A tbrgft dontbins informbtion pfrtbining to b rfmotf objfdt tibt
+ * rfsidfs in tiis bddrfss spbdf.  Tbrgfts brf lodbtfd vib tif
+ * ObjfdtTbblf.
  */
-public final class Target {
-    /** object id for target */
-    private final ObjID id;
-    /** flag indicating whether target is subject to collection */
-    private final boolean permanent;
-    /** weak reference to remote object implementation */
-    private final WeakRef weakImpl;
-    /** dispatcher for remote object */
-    private volatile Dispatcher disp;
-    /** stub for remote object */
-    private final Remote stub;
-    /** set of clients that hold references to this target */
-    private final Vector<VMID> refSet = new Vector<>();
-    /** table that maps client endpoints to sequence numbers */
-    private final Hashtable<VMID, SequenceEntry> sequenceTable =
-        new Hashtable<>(5);
-    /** access control context in which target was created */
-    private final AccessControlContext acc;
-    /** context class loader in which target was created */
-    private final ClassLoader ccl;
-    /** number of pending/executing calls */
-    private int callCount = 0;
-    /** true if this target has been removed from the object table */
-    private boolean removed = false;
+publid finbl dlbss Tbrgft {
+    /** objfdt id for tbrgft */
+    privbtf finbl ObjID id;
+    /** flbg indidbting wiftifr tbrgft is subjfdt to dollfdtion */
+    privbtf finbl boolfbn pfrmbnfnt;
+    /** wfbk rfffrfndf to rfmotf objfdt implfmfntbtion */
+    privbtf finbl WfbkRff wfbkImpl;
+    /** dispbtdifr for rfmotf objfdt */
+    privbtf volbtilf Dispbtdifr disp;
+    /** stub for rfmotf objfdt */
+    privbtf finbl Rfmotf stub;
+    /** sft of dlifnts tibt iold rfffrfndfs to tiis tbrgft */
+    privbtf finbl Vfdtor<VMID> rffSft = nfw Vfdtor<>();
+    /** tbblf tibt mbps dlifnt fndpoints to sfqufndf numbfrs */
+    privbtf finbl Hbsitbblf<VMID, SfqufndfEntry> sfqufndfTbblf =
+        nfw Hbsitbblf<>(5);
+    /** bddfss dontrol dontfxt in wiidi tbrgft wbs drfbtfd */
+    privbtf finbl AddfssControlContfxt bdd;
+    /** dontfxt dlbss lobdfr in wiidi tbrgft wbs drfbtfd */
+    privbtf finbl ClbssLobdfr ddl;
+    /** numbfr of pfnding/fxfduting dblls */
+    privbtf int dbllCount = 0;
+    /** truf if tiis tbrgft ibs bffn rfmovfd from tif objfdt tbblf */
+    privbtf boolfbn rfmovfd = fblsf;
     /**
-     * the transport through which this target was exported and
-     * through which remote calls will be allowed
+     * tif trbnsport tirougi wiidi tiis tbrgft wbs fxportfd bnd
+     * tirougi wiidi rfmotf dblls will bf bllowfd
      */
-    private volatile Transport exportedTransport = null;
+    privbtf volbtilf Trbnsport fxportfdTrbnsport = null;
 
-    /** number to identify next callback thread created here */
-    private static int nextThreadNum = 0;
+    /** numbfr to idfntify nfxt dbllbbdk tirfbd drfbtfd ifrf */
+    privbtf stbtid int nfxtTirfbdNum = 0;
 
     /**
-     * Construct a Target for a remote object "impl" with
-     * a specific object id.
+     * Construdt b Tbrgft for b rfmotf objfdt "impl" witi
+     * b spfdifid objfdt id.
      *
-     * If "permanent" is true, then the impl is pinned permanently
-     * (the impl will not be collected via distributed and/or local
-     * GC).  If "on" is false, than the impl is subject to
-     * collection. Permanent objects do not keep a server from
-     * exiting.
+     * If "pfrmbnfnt" is truf, tifn tif impl is pinnfd pfrmbnfntly
+     * (tif impl will not bf dollfdtfd vib distributfd bnd/or lodbl
+     * GC).  If "on" is fblsf, tibn tif impl is subjfdt to
+     * dollfdtion. Pfrmbnfnt objfdts do not kffp b sfrvfr from
+     * fxiting.
      */
-    public Target(Remote impl, Dispatcher disp, Remote stub, ObjID id,
-                  boolean permanent)
+    publid Tbrgft(Rfmotf impl, Dispbtdifr disp, Rfmotf stub, ObjID id,
+                  boolfbn pfrmbnfnt)
     {
-        this.weakImpl = new WeakRef(impl, ObjectTable.reapQueue);
-        this.disp = disp;
-        this.stub = stub;
-        this.id = id;
-        this.acc = AccessController.getContext();
+        tiis.wfbkImpl = nfw WfbkRff(impl, ObjfdtTbblf.rfbpQufuf);
+        tiis.disp = disp;
+        tiis.stub = stub;
+        tiis.id = id;
+        tiis.bdd = AddfssControllfr.gftContfxt();
 
         /*
-         * Fix for 4149366: so that downloaded parameter types unmarshalled
-         * for this impl will be compatible with types known only to the
-         * impl class's class loader (when it's not identical to the
-         * exporting thread's context class loader), mark the impl's class
-         * loader as the loader to use as the context class loader in the
-         * server's dispatch thread while a call to this impl is being
-         * processed (unless this exporting thread's context class loader is
-         * a child of the impl's class loader, such as when a registry is
-         * exported by an application, in which case this thread's context
-         * class loader is preferred).
+         * Fix for 4149366: so tibt downlobdfd pbrbmftfr typfs unmbrsibllfd
+         * for tiis impl will bf dompbtiblf witi typfs known only to tif
+         * impl dlbss's dlbss lobdfr (wifn it's not idfntidbl to tif
+         * fxporting tirfbd's dontfxt dlbss lobdfr), mbrk tif impl's dlbss
+         * lobdfr bs tif lobdfr to usf bs tif dontfxt dlbss lobdfr in tif
+         * sfrvfr's dispbtdi tirfbd wiilf b dbll to tiis impl is bfing
+         * prodfssfd (unlfss tiis fxporting tirfbd's dontfxt dlbss lobdfr is
+         * b diild of tif impl's dlbss lobdfr, sudi bs wifn b rfgistry is
+         * fxportfd by bn bpplidbtion, in wiidi dbsf tiis tirfbd's dontfxt
+         * dlbss lobdfr is prfffrrfd).
          */
-        ClassLoader threadContextLoader =
-            Thread.currentThread().getContextClassLoader();
-        ClassLoader serverLoader = impl.getClass().getClassLoader();
-        if (checkLoaderAncestry(threadContextLoader, serverLoader)) {
-            this.ccl = threadContextLoader;
-        } else {
-            this.ccl = serverLoader;
+        ClbssLobdfr tirfbdContfxtLobdfr =
+            Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
+        ClbssLobdfr sfrvfrLobdfr = impl.gftClbss().gftClbssLobdfr();
+        if (difdkLobdfrAndfstry(tirfbdContfxtLobdfr, sfrvfrLobdfr)) {
+            tiis.ddl = tirfbdContfxtLobdfr;
+        } flsf {
+            tiis.ddl = sfrvfrLobdfr;
         }
 
-        this.permanent = permanent;
-        if (permanent) {
+        tiis.pfrmbnfnt = pfrmbnfnt;
+        if (pfrmbnfnt) {
             pinImpl();
         }
     }
 
     /**
-     * Return true if the first class loader is a child of (or identical
-     * to) the second class loader.  Either loader may be "null", which is
-     * considered to be the parent of any non-null class loader.
+     * Rfturn truf if tif first dlbss lobdfr is b diild of (or idfntidbl
+     * to) tif sfdond dlbss lobdfr.  Eitifr lobdfr mby bf "null", wiidi is
+     * donsidfrfd to bf tif pbrfnt of bny non-null dlbss lobdfr.
      *
-     * (utility method added for the 1.2beta4 fix for 4149366)
+     * (utility mftiod bddfd for tif 1.2bftb4 fix for 4149366)
      */
-    private static boolean checkLoaderAncestry(ClassLoader child,
-                                               ClassLoader ancestor)
+    privbtf stbtid boolfbn difdkLobdfrAndfstry(ClbssLobdfr diild,
+                                               ClbssLobdfr bndfstor)
     {
-        if (ancestor == null) {
-            return true;
-        } else if (child == null) {
-            return false;
-        } else {
-            for (ClassLoader parent = child;
-                 parent != null;
-                 parent = parent.getParent())
+        if (bndfstor == null) {
+            rfturn truf;
+        } flsf if (diild == null) {
+            rfturn fblsf;
+        } flsf {
+            for (ClbssLobdfr pbrfnt = diild;
+                 pbrfnt != null;
+                 pbrfnt = pbrfnt.gftPbrfnt())
             {
-                if (parent == ancestor) {
-                    return true;
+                if (pbrfnt == bndfstor) {
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
     }
 
-    /** Get the stub (proxy) object for this target
+    /** Gft tif stub (proxy) objfdt for tiis tbrgft
      */
-    public Remote getStub() {
-        return stub;
+    publid Rfmotf gftStub() {
+        rfturn stub;
     }
 
     /**
-     * Returns the object endpoint for the target.
+     * Rfturns tif objfdt fndpoint for tif tbrgft.
      */
-    ObjectEndpoint getObjectEndpoint() {
-        return new ObjectEndpoint(id, exportedTransport);
+    ObjfdtEndpoint gftObjfdtEndpoint() {
+        rfturn nfw ObjfdtEndpoint(id, fxportfdTrbnsport);
     }
 
     /**
-     * Get the weak reference for the Impl of this target.
+     * Gft tif wfbk rfffrfndf for tif Impl of tiis tbrgft.
      */
-    WeakRef getWeakImpl() {
-        return weakImpl;
+    WfbkRff gftWfbkImpl() {
+        rfturn wfbkImpl;
     }
 
     /**
-     * Returns the dispatcher for this remote object target.
+     * Rfturns tif dispbtdifr for tiis rfmotf objfdt tbrgft.
      */
-    Dispatcher getDispatcher() {
-        return disp;
+    Dispbtdifr gftDispbtdifr() {
+        rfturn disp;
     }
 
-    AccessControlContext getAccessControlContext() {
-        return acc;
+    AddfssControlContfxt gftAddfssControlContfxt() {
+        rfturn bdd;
     }
 
-    ClassLoader getContextClassLoader() {
-        return ccl;
+    ClbssLobdfr gftContfxtClbssLobdfr() {
+        rfturn ddl;
     }
 
     /**
-     * Get the impl for this target.
-     * Note: this may return null if the impl has been garbage collected.
-     * (currently, there is no need to make this method public)
+     * Gft tif impl for tiis tbrgft.
+     * Notf: tiis mby rfturn null if tif impl ibs bffn gbrbbgf dollfdtfd.
+     * (durrfntly, tifrf is no nffd to mbkf tiis mftiod publid)
      */
-    Remote getImpl() {
-        return (Remote)weakImpl.get();
+    Rfmotf gftImpl() {
+        rfturn (Rfmotf)wfbkImpl.gft();
     }
 
     /**
-     * Returns true if the target is permanent.
+     * Rfturns truf if tif tbrgft is pfrmbnfnt.
      */
-    boolean isPermanent() {
-        return permanent;
+    boolfbn isPfrmbnfnt() {
+        rfturn pfrmbnfnt;
     }
 
     /**
-     * Pin impl in target. Pin the WeakRef object so it holds a strong
-     * reference to the object to it will not be garbage collected locally.
-     * This way there is a single object responsible for the weak ref
-     * mechanism.
+     * Pin impl in tbrgft. Pin tif WfbkRff objfdt so it iolds b strong
+     * rfffrfndf to tif objfdt to it will not bf gbrbbgf dollfdtfd lodblly.
+     * Tiis wby tifrf is b singlf objfdt rfsponsiblf for tif wfbk rff
+     * mfdibnism.
      */
-    synchronized void pinImpl() {
-        weakImpl.pin();
+    syndironizfd void pinImpl() {
+        wfbkImpl.pin();
     }
 
     /**
-     * Unpin impl in target.  Weaken the reference to impl so that it
-     * can be garbage collected locally. But only if there the refSet
-     * is empty.  All of the weak/strong handling is in WeakRef
+     * Unpin impl in tbrgft.  Wfbkfn tif rfffrfndf to impl so tibt it
+     * dbn bf gbrbbgf dollfdtfd lodblly. But only if tifrf tif rffSft
+     * is fmpty.  All of tif wfbk/strong ibndling is in WfbkRff
      */
-    synchronized void unpinImpl() {
+    syndironizfd void unpinImpl() {
         /* only unpin if:
-         * a) impl is not permanent, and
-         * b) impl is not already unpinned, and
-         * c) there are no external references (outside this
-         *    address space) for the impl
+         * b) impl is not pfrmbnfnt, bnd
+         * b) impl is not blrfbdy unpinnfd, bnd
+         * d) tifrf brf no fxtfrnbl rfffrfndfs (outsidf tiis
+         *    bddrfss spbdf) for tif impl
          */
-        if (!permanent && refSet.isEmpty()) {
-            weakImpl.unpin();
+        if (!pfrmbnfnt && rffSft.isEmpty()) {
+            wfbkImpl.unpin();
         }
     }
 
     /**
-     * Enable the transport through which remote calls to this target
-     * are allowed to be set if it has not already been set.
+     * Enbblf tif trbnsport tirougi wiidi rfmotf dblls to tiis tbrgft
+     * brf bllowfd to bf sft if it ibs not blrfbdy bffn sft.
      */
-    void setExportedTransport(Transport exportedTransport) {
-        if (this.exportedTransport == null) {
-            this.exportedTransport = exportedTransport;
+    void sftExportfdTrbnsport(Trbnsport fxportfdTrbnsport) {
+        if (tiis.fxportfdTrbnsport == null) {
+            tiis.fxportfdTrbnsport = fxportfdTrbnsport;
         }
     }
 
     /**
-     * Add an endpoint to the remembered set.  Also adds a notifier
-     * to call back if the address space associated with the endpoint
-     * dies.
+     * Add bn fndpoint to tif rfmfmbfrfd sft.  Also bdds b notififr
+     * to dbll bbdk if tif bddrfss spbdf bssodibtfd witi tif fndpoint
+     * difs.
      */
-    synchronized void referenced(long sequenceNum, VMID vmid) {
-        // check sequence number for vmid
-        SequenceEntry entry = sequenceTable.get(vmid);
-        if (entry == null) {
-            sequenceTable.put(vmid, new SequenceEntry(sequenceNum));
-        } else if (entry.sequenceNum < sequenceNum) {
-            entry.update(sequenceNum);
-        } else  {
-            // late dirty call; ignore.
-            return;
+    syndironizfd void rfffrfndfd(long sfqufndfNum, VMID vmid) {
+        // difdk sfqufndf numbfr for vmid
+        SfqufndfEntry fntry = sfqufndfTbblf.gft(vmid);
+        if (fntry == null) {
+            sfqufndfTbblf.put(vmid, nfw SfqufndfEntry(sfqufndfNum));
+        } flsf if (fntry.sfqufndfNum < sfqufndfNum) {
+            fntry.updbtf(sfqufndfNum);
+        } flsf  {
+            // lbtf dirty dbll; ignorf.
+            rfturn;
         }
 
-        if (!refSet.contains(vmid)) {
+        if (!rffSft.dontbins(vmid)) {
             /*
-             * A Target must be pinned while its refSet is not empty.  It may
-             * have become unpinned if external LiveRefs only existed in
-             * serialized form for some period of time, or if a client failed
-             * to renew its lease due to a transient network failure.  So,
-             * make sure that it is pinned here; this fixes bugid 4069644.
+             * A Tbrgft must bf pinnfd wiilf its rffSft is not fmpty.  It mby
+             * ibvf bfdomf unpinnfd if fxtfrnbl LivfRffs only fxistfd in
+             * sfriblizfd form for somf pfriod of timf, or if b dlifnt fbilfd
+             * to rfnfw its lfbsf duf to b trbnsifnt nftwork fbilurf.  So,
+             * mbkf surf tibt it is pinnfd ifrf; tiis fixfs bugid 4069644.
              */
             pinImpl();
-            if (getImpl() == null)      // too late if impl was collected
-                return;
+            if (gftImpl() == null)      // too lbtf if impl wbs dollfdtfd
+                rfturn;
 
-            if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) {
-                DGCImpl.dgcLog.log(Log.VERBOSE, "add to dirty set: " + vmid);
+            if (DGCImpl.dgdLog.isLoggbblf(Log.VERBOSE)) {
+                DGCImpl.dgdLog.log(Log.VERBOSE, "bdd to dirty sft: " + vmid);
             }
 
-            refSet.addElement(vmid);
+            rffSft.bddElfmfnt(vmid);
 
-            DGCImpl.getDGCImpl().registerTarget(vmid, this);
+            DGCImpl.gftDGCImpl().rfgistfrTbrgft(vmid, tiis);
         }
     }
 
     /**
-     * Remove endpoint from remembered set.  If set becomes empty,
-     * remove server from Transport's object table.
+     * Rfmovf fndpoint from rfmfmbfrfd sft.  If sft bfdomfs fmpty,
+     * rfmovf sfrvfr from Trbnsport's objfdt tbblf.
      */
-    synchronized void unreferenced(long sequenceNum, VMID vmid, boolean strong)
+    syndironizfd void unrfffrfndfd(long sfqufndfNum, VMID vmid, boolfbn strong)
     {
-        // check sequence number for vmid
-        SequenceEntry entry = sequenceTable.get(vmid);
-        if (entry == null || entry.sequenceNum > sequenceNum) {
-            // late clean call; ignore
-            return;
-        } else if (strong) {
-            // strong clean call; retain sequenceNum
-            entry.retain(sequenceNum);
-        } else if (entry.keep == false) {
-            // get rid of sequence number
-            sequenceTable.remove(vmid);
+        // difdk sfqufndf numbfr for vmid
+        SfqufndfEntry fntry = sfqufndfTbblf.gft(vmid);
+        if (fntry == null || fntry.sfqufndfNum > sfqufndfNum) {
+            // lbtf dlfbn dbll; ignorf
+            rfturn;
+        } flsf if (strong) {
+            // strong dlfbn dbll; rftbin sfqufndfNum
+            fntry.rftbin(sfqufndfNum);
+        } flsf if (fntry.kffp == fblsf) {
+            // gft rid of sfqufndf numbfr
+            sfqufndfTbblf.rfmovf(vmid);
         }
 
-        if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) {
-            DGCImpl.dgcLog.log(Log.VERBOSE, "remove from dirty set: " + vmid);
+        if (DGCImpl.dgdLog.isLoggbblf(Log.VERBOSE)) {
+            DGCImpl.dgdLog.log(Log.VERBOSE, "rfmovf from dirty sft: " + vmid);
         }
 
-        refSetRemove(vmid);
+        rffSftRfmovf(vmid);
     }
 
     /**
-     * Remove endpoint from the reference set.
+     * Rfmovf fndpoint from tif rfffrfndf sft.
      */
-    synchronized private void refSetRemove(VMID vmid) {
-        // remove notification request
-        DGCImpl.getDGCImpl().unregisterTarget(vmid, this);
+    syndironizfd privbtf void rffSftRfmovf(VMID vmid) {
+        // rfmovf notifidbtion rfqufst
+        DGCImpl.gftDGCImpl().unrfgistfrTbrgft(vmid, tiis);
 
-        if (refSet.removeElement(vmid) && refSet.isEmpty()) {
-            // reference set is empty, so server can be garbage collected.
-            // remove object from table.
-            if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) {
-                DGCImpl.dgcLog.log(Log.VERBOSE,
-                    "reference set is empty: target = " + this);
+        if (rffSft.rfmovfElfmfnt(vmid) && rffSft.isEmpty()) {
+            // rfffrfndf sft is fmpty, so sfrvfr dbn bf gbrbbgf dollfdtfd.
+            // rfmovf objfdt from tbblf.
+            if (DGCImpl.dgdLog.isLoggbblf(Log.VERBOSE)) {
+                DGCImpl.dgdLog.log(Log.VERBOSE,
+                    "rfffrfndf sft is fmpty: tbrgft = " + tiis);
             }
 
             /*
-             * If the remote object implements the Unreferenced interface,
-             * invoke its unreferenced callback in a separate thread.
+             * If tif rfmotf objfdt implfmfnts tif Unrfffrfndfd intfrfbdf,
+             * invokf its unrfffrfndfd dbllbbdk in b sfpbrbtf tirfbd.
              */
-            Remote obj = getImpl();
-            if (obj instanceof Unreferenced) {
-                final Unreferenced unrefObj = (Unreferenced) obj;
-                final Thread t =
-                    java.security.AccessController.doPrivileged(
-                        new NewThreadAction(new Runnable() {
-                            public void run() {
-                                unrefObj.unreferenced();
+            Rfmotf obj = gftImpl();
+            if (obj instbndfof Unrfffrfndfd) {
+                finbl Unrfffrfndfd unrffObj = (Unrfffrfndfd) obj;
+                finbl Tirfbd t =
+                    jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw NfwTirfbdAdtion(nfw Runnbblf() {
+                            publid void run() {
+                                unrffObj.unrfffrfndfd();
                             }
-                        }, "Unreferenced-" + nextThreadNum++, false, true));
-                // REMIND: access to nextThreadNum not synchronized; you care?
+                        }, "Unrfffrfndfd-" + nfxtTirfbdNum++, fblsf, truf));
+                // REMIND: bddfss to nfxtTirfbdNum not syndironizfd; you dbrf?
                 /*
-                 * We must manually set the context class loader appropriately
-                 * for threads that may invoke user code (see bugid 4171278).
+                 * Wf must mbnublly sft tif dontfxt dlbss lobdfr bppropribtfly
+                 * for tirfbds tibt mby invokf usfr dodf (sff bugid 4171278).
                  */
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
-                        public Void run() {
-                        t.setContextClassLoader(ccl);
-                        return null;
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                        t.sftContfxtClbssLobdfr(ddl);
+                        rfturn null;
                     }
                 });
 
-                t.start();
+                t.stbrt();
             }
 
             unpinImpl();
@@ -350,123 +350,123 @@ public final class Target {
     }
 
     /**
-     * Mark this target as not accepting new calls if any of the
-     * following conditions exist: a) the force parameter is true,
-     * b) the target's call count is zero, or c) the object is already
-     * not accepting calls. Returns true if target is marked as not
-     * accepting new calls; returns false otherwise.
+     * Mbrk tiis tbrgft bs not bddfpting nfw dblls if bny of tif
+     * following donditions fxist: b) tif fordf pbrbmftfr is truf,
+     * b) tif tbrgft's dbll dount is zfro, or d) tif objfdt is blrfbdy
+     * not bddfpting dblls. Rfturns truf if tbrgft is mbrkfd bs not
+     * bddfpting nfw dblls; rfturns fblsf otifrwisf.
      */
-    synchronized boolean unexport(boolean force) {
+    syndironizfd boolfbn unfxport(boolfbn fordf) {
 
-        if ((force == true) || (callCount == 0) || (disp == null)) {
+        if ((fordf == truf) || (dbllCount == 0) || (disp == null)) {
             disp = null;
             /*
-             * Fix for 4331349: unpin object so that it may be gc'd.
-             * Also, unregister all vmids referencing this target
-             * so target can be gc'd.
+             * Fix for 4331349: unpin objfdt so tibt it mby bf gd'd.
+             * Also, unrfgistfr bll vmids rfffrfnding tiis tbrgft
+             * so tbrgft dbn bf gd'd.
              */
             unpinImpl();
-            DGCImpl dgc = DGCImpl.getDGCImpl();
-            Enumeration<VMID> enum_ = refSet.elements();
-            while (enum_.hasMoreElements()) {
-                VMID vmid = enum_.nextElement();
-                dgc.unregisterTarget(vmid, this);
+            DGCImpl dgd = DGCImpl.gftDGCImpl();
+            Enumfrbtion<VMID> fnum_ = rffSft.flfmfnts();
+            wiilf (fnum_.ibsMorfElfmfnts()) {
+                VMID vmid = fnum_.nfxtElfmfnt();
+                dgd.unrfgistfrTbrgft(vmid, tiis);
             }
-            return true;
-        } else {
-            return false;
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Mark this target as having been removed from the object table.
+     * Mbrk tiis tbrgft bs ibving bffn rfmovfd from tif objfdt tbblf.
      */
-    synchronized void markRemoved() {
-        if (!(!removed)) { throw new AssertionError(); }
+    syndironizfd void mbrkRfmovfd() {
+        if (!(!rfmovfd)) { tirow nfw AssfrtionError(); }
 
-        removed = true;
-        if (!permanent && callCount == 0) {
-            ObjectTable.decrementKeepAliveCount();
+        rfmovfd = truf;
+        if (!pfrmbnfnt && dbllCount == 0) {
+            ObjfdtTbblf.dfdrfmfntKffpAlivfCount();
         }
 
-        if (exportedTransport != null) {
-            exportedTransport.targetUnexported();
+        if (fxportfdTrbnsport != null) {
+            fxportfdTrbnsport.tbrgftUnfxportfd();
         }
     }
 
     /**
-     * Increment call count.
+     * Indrfmfnt dbll dount.
      */
-    synchronized void incrementCallCount() throws NoSuchObjectException {
+    syndironizfd void indrfmfntCbllCount() tirows NoSudiObjfdtExdfption {
 
         if (disp != null) {
-            callCount ++;
-        } else {
-            throw new NoSuchObjectException("object not accepting new calls");
+            dbllCount ++;
+        } flsf {
+            tirow nfw NoSudiObjfdtExdfption("objfdt not bddfpting nfw dblls");
         }
     }
 
     /**
-     * Decrement call count.
+     * Dfdrfmfnt dbll dount.
      */
-    synchronized void decrementCallCount() {
+    syndironizfd void dfdrfmfntCbllCount() {
 
-        if (--callCount < 0) {
-            throw new Error("internal error: call count less than zero");
+        if (--dbllCount < 0) {
+            tirow nfw Error("intfrnbl frror: dbll dount lfss tibn zfro");
         }
 
         /*
-         * The "keep-alive count" is the number of non-permanent remote
-         * objects that are either in the object table or still have calls
-         * in progress.  Therefore, this state change may affect the
-         * keep-alive count: if this target is for a non-permanent remote
-         * object that has been removed from the object table and now has a
-         * call count of zero, it needs to be decremented.
+         * Tif "kffp-blivf dount" is tif numbfr of non-pfrmbnfnt rfmotf
+         * objfdts tibt brf fitifr in tif objfdt tbblf or still ibvf dblls
+         * in progrfss.  Tifrfforf, tiis stbtf dibngf mby bfffdt tif
+         * kffp-blivf dount: if tiis tbrgft is for b non-pfrmbnfnt rfmotf
+         * objfdt tibt ibs bffn rfmovfd from tif objfdt tbblf bnd now ibs b
+         * dbll dount of zfro, it nffds to bf dfdrfmfntfd.
          */
-        if (!permanent && removed && callCount == 0) {
-            ObjectTable.decrementKeepAliveCount();
+        if (!pfrmbnfnt && rfmovfd && dbllCount == 0) {
+            ObjfdtTbblf.dfdrfmfntKffpAlivfCount();
         }
     }
 
     /**
-     * Returns true if remembered set is empty; otherwise returns
-     * false
+     * Rfturns truf if rfmfmbfrfd sft is fmpty; otifrwisf rfturns
+     * fblsf
      */
-    boolean isEmpty() {
-        return refSet.isEmpty();
+    boolfbn isEmpty() {
+        rfturn rffSft.isEmpty();
     }
 
     /**
-     * This method is called if the address space associated with the
-     * vmid dies.  In that case, the vmid should be removed
-     * from the reference set.
+     * Tiis mftiod is dbllfd if tif bddrfss spbdf bssodibtfd witi tif
+     * vmid difs.  In tibt dbsf, tif vmid siould bf rfmovfd
+     * from tif rfffrfndf sft.
      */
-    synchronized public void vmidDead(VMID vmid) {
-        if (DGCImpl.dgcLog.isLoggable(Log.BRIEF)) {
-            DGCImpl.dgcLog.log(Log.BRIEF, "removing endpoint " +
-                            vmid + " from reference set");
+    syndironizfd publid void vmidDfbd(VMID vmid) {
+        if (DGCImpl.dgdLog.isLoggbblf(Log.BRIEF)) {
+            DGCImpl.dgdLog.log(Log.BRIEF, "rfmoving fndpoint " +
+                            vmid + " from rfffrfndf sft");
         }
 
-        sequenceTable.remove(vmid);
-        refSetRemove(vmid);
+        sfqufndfTbblf.rfmovf(vmid);
+        rffSftRfmovf(vmid);
     }
 }
 
-class SequenceEntry {
-    long sequenceNum;
-    boolean keep;
+dlbss SfqufndfEntry {
+    long sfqufndfNum;
+    boolfbn kffp;
 
-    SequenceEntry(long sequenceNum) {
-        this.sequenceNum = sequenceNum;
-        keep = false;
+    SfqufndfEntry(long sfqufndfNum) {
+        tiis.sfqufndfNum = sfqufndfNum;
+        kffp = fblsf;
     }
 
-    void retain(long sequenceNum) {
-        this.sequenceNum = sequenceNum;
-        keep = true;
+    void rftbin(long sfqufndfNum) {
+        tiis.sfqufndfNum = sfqufndfNum;
+        kffp = truf;
     }
 
-    void update(long sequenceNum) {
-        this.sequenceNum = sequenceNum;
+    void updbtf(long sfqufndfNum) {
+        tiis.sfqufndfNum = sfqufndfNum;
     }
 }

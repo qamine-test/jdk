@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.sasl;
+pbdkbgf dom.sun.sfdurity.sbsl;
 
-import javax.security.sasl.*;
+import jbvbx.sfdurity.sbsl.*;
 
 /**
-  * Implements the PLAIN SASL client mechanism.
+  * Implfmfnts tif PLAIN SASL dlifnt mfdibnism.
   * (<A
-  * HREF="http://ftp.isi.edu/in-notes/rfc2595.txt">RFC 2595</A>)
+  * HREF="ittp://ftp.isi.fdu/in-notfs/rfd2595.txt">RFC 2595</A>)
   *
-  * @author Rosanna Lee
+  * @butior Rosbnnb Lff
   */
-final class PlainClient implements SaslClient {
-    private boolean completed = false;
-    private byte[] pw;
-    private String authorizationID;
-    private String authenticationID;
-    private static byte SEP = 0; // US-ASCII <NUL>
+finbl dlbss PlbinClifnt implfmfnts SbslClifnt {
+    privbtf boolfbn domplftfd = fblsf;
+    privbtf bytf[] pw;
+    privbtf String butiorizbtionID;
+    privbtf String butifntidbtionID;
+    privbtf stbtid bytf SEP = 0; // US-ASCII <NUL>
 
     /**
-     * Creates a SASL mechanism with client credentials that it needs
-     * to participate in Plain authentication exchange with the server.
+     * Crfbtfs b SASL mfdibnism witi dlifnt drfdfntibls tibt it nffds
+     * to pbrtidipbtf in Plbin butifntidbtion fxdibngf witi tif sfrvfr.
      *
-     * @param authorizationID A possibly null string representing the principal
-     *  for which authorization is being granted; if null, same as
-     *  authenticationID
-     * @param authenticationID A non-null string representing the principal
-     * being authenticated. pw is associated with with this principal.
-     * @param pw A non-null byte[] containing the password.
+     * @pbrbm butiorizbtionID A possibly null string rfprfsfnting tif prindipbl
+     *  for wiidi butiorizbtion is bfing grbntfd; if null, sbmf bs
+     *  butifntidbtionID
+     * @pbrbm butifntidbtionID A non-null string rfprfsfnting tif prindipbl
+     * bfing butifntidbtfd. pw is bssodibtfd witi witi tiis prindipbl.
+     * @pbrbm pw A non-null bytf[] dontbining tif pbssword.
      */
-    PlainClient(String authorizationID, String authenticationID, byte[] pw)
-    throws SaslException {
-        if (authenticationID == null || pw == null) {
-            throw new SaslException(
-                "PLAIN: authorization ID and password must be specified");
+    PlbinClifnt(String butiorizbtionID, String butifntidbtionID, bytf[] pw)
+    tirows SbslExdfption {
+        if (butifntidbtionID == null || pw == null) {
+            tirow nfw SbslExdfption(
+                "PLAIN: butiorizbtion ID bnd pbssword must bf spfdififd");
         }
 
-        this.authorizationID = authorizationID;
-        this.authenticationID = authenticationID;
-        this.pw = pw;  // caller should have already cloned
+        tiis.butiorizbtionID = butiorizbtionID;
+        tiis.butifntidbtionID = butifntidbtionID;
+        tiis.pw = pw;  // dbllfr siould ibvf blrfbdy dlonfd
     }
 
     /**
-     * Retrieves this mechanism's name for to initiate the PLAIN protocol
-     * exchange.
+     * Rftrifvfs tiis mfdibnism's nbmf for to initibtf tif PLAIN protodol
+     * fxdibngf.
      *
-     * @return  The string "PLAIN".
+     * @rfturn  Tif string "PLAIN".
      */
-    public String getMechanismName() {
-        return "PLAIN";
+    publid String gftMfdibnismNbmf() {
+        rfturn "PLAIN";
     }
 
-    public boolean hasInitialResponse() {
-        return true;
+    publid boolfbn ibsInitiblRfsponsf() {
+        rfturn truf;
     }
 
-    public void dispose() throws SaslException {
-        clearPassword();
+    publid void disposf() tirows SbslExdfption {
+        dlfbrPbssword();
     }
 
     /**
-     * Retrieves the initial response for the SASL command, which for
-     * PLAIN is the concatenation of authorization ID, authentication ID
-     * and password, with each component separated by the US-ASCII <NUL> byte.
+     * Rftrifvfs tif initibl rfsponsf for tif SASL dommbnd, wiidi for
+     * PLAIN is tif dondbtfnbtion of butiorizbtion ID, butifntidbtion ID
+     * bnd pbssword, witi fbdi domponfnt sfpbrbtfd by tif US-ASCII <NUL> bytf.
      *
-     * @param challengeData Ignored
-     * @return A non-null byte array containing the response to be sent to the server.
-     * @throws SaslException If cannot encode ids in UTF-8
-     * @throw IllegalStateException if authentication already completed
+     * @pbrbm dibllfngfDbtb Ignorfd
+     * @rfturn A non-null bytf brrby dontbining tif rfsponsf to bf sfnt to tif sfrvfr.
+     * @tirows SbslExdfption If dbnnot fndodf ids in UTF-8
+     * @tirow IllfgblStbtfExdfption if butifntidbtion blrfbdy domplftfd
      */
-    public byte[] evaluateChallenge(byte[] challengeData) throws SaslException {
-        if (completed) {
-            throw new IllegalStateException(
-                "PLAIN authentication already completed");
+    publid bytf[] fvblubtfCibllfngf(bytf[] dibllfngfDbtb) tirows SbslExdfption {
+        if (domplftfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "PLAIN butifntidbtion blrfbdy domplftfd");
         }
-        completed = true;
+        domplftfd = truf;
 
         try {
-            byte[] authz = (authorizationID != null)?
-                authorizationID.getBytes("UTF8") :
+            bytf[] butiz = (butiorizbtionID != null)?
+                butiorizbtionID.gftBytfs("UTF8") :
                 null;
-            byte[] auth = authenticationID.getBytes("UTF8");
+            bytf[] buti = butifntidbtionID.gftBytfs("UTF8");
 
-            byte[] answer = new byte[pw.length + auth.length + 2 +
-                (authz == null ? 0 : authz.length)];
+            bytf[] bnswfr = nfw bytf[pw.lfngti + buti.lfngti + 2 +
+                (butiz == null ? 0 : butiz.lfngti)];
 
             int pos = 0;
-            if (authz != null) {
-                System.arraycopy(authz, 0, answer, 0, authz.length);
-                pos = authz.length;
+            if (butiz != null) {
+                Systfm.brrbydopy(butiz, 0, bnswfr, 0, butiz.lfngti);
+                pos = butiz.lfngti;
             }
-            answer[pos++] = SEP;
-            System.arraycopy(auth, 0, answer, pos, auth.length);
+            bnswfr[pos++] = SEP;
+            Systfm.brrbydopy(buti, 0, bnswfr, pos, buti.lfngti);
 
-            pos += auth.length;
-            answer[pos++] = SEP;
+            pos += buti.lfngti;
+            bnswfr[pos++] = SEP;
 
-            System.arraycopy(pw, 0, answer, pos, pw.length);
+            Systfm.brrbydopy(pw, 0, bnswfr, pos, pw.lfngti);
 
-            clearPassword();
-            return answer;
-        } catch (java.io.UnsupportedEncodingException e) {
-            throw new SaslException("Cannot get UTF-8 encoding of ids", e);
+            dlfbrPbssword();
+            rfturn bnswfr;
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+            tirow nfw SbslExdfption("Cbnnot gft UTF-8 fndoding of ids", f);
         }
     }
 
     /**
-     * Determines whether this mechanism has completed.
-     * Plain completes after returning one response.
+     * Dftfrminfs wiftifr tiis mfdibnism ibs domplftfd.
+     * Plbin domplftfs bftfr rfturning onf rfsponsf.
      *
-     * @return true if has completed; false otherwise;
+     * @rfturn truf if ibs domplftfd; fblsf otifrwisf;
      */
-    public boolean isComplete() {
-        return completed;
+    publid boolfbn isComplftf() {
+        rfturn domplftfd;
     }
 
     /**
-      * Unwraps the incoming buffer.
+      * Unwrbps tif indoming bufffr.
       *
-      * @throws SaslException Not applicable to this mechanism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
       */
-    public byte[] unwrap(byte[] incoming, int offset, int len)
-        throws SaslException {
-        if (completed) {
-            throw new SaslException(
-                "PLAIN supports neither integrity nor privacy");
-        } else {
-            throw new IllegalStateException("PLAIN authentication not completed");
+    publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+        tirows SbslExdfption {
+        if (domplftfd) {
+            tirow nfw SbslExdfption(
+                "PLAIN supports nfitifr intfgrity nor privbdy");
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
         }
     }
 
     /**
-      * Wraps the outgoing buffer.
+      * Wrbps tif outgoing bufffr.
       *
-      * @throws SaslException Not applicable to this mechanism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
       */
-    public byte[] wrap(byte[] outgoing, int offset, int len) throws SaslException {
-        if (completed) {
-            throw new SaslException(
-                "PLAIN supports neither integrity nor privacy");
-        } else {
-            throw new IllegalStateException("PLAIN authentication not completed");
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn) tirows SbslExdfption {
+        if (domplftfd) {
+            tirow nfw SbslExdfption(
+                "PLAIN supports nfitifr intfgrity nor privbdy");
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
         }
     }
 
     /**
-     * Retrieves the negotiated property.
-     * This method can be called only after the authentication exchange has
-     * completed (i.e., when <tt>isComplete()</tt> returns true); otherwise, a
-     * <tt>SaslException</tt> is thrown.
+     * Rftrifvfs tif nfgotibtfd propfrty.
+     * Tiis mftiod dbn bf dbllfd only bftfr tif butifntidbtion fxdibngf ibs
+     * domplftfd (i.f., wifn <tt>isComplftf()</tt> rfturns truf); otifrwisf, b
+     * <tt>SbslExdfption</tt> is tirown.
      *
-     * @return value of property; only QOP is applicable to PLAIN.
-     * @exception IllegalStateException if this authentication exchange
-     *     has not completed
+     * @rfturn vbluf of propfrty; only QOP is bpplidbblf to PLAIN.
+     * @fxdfption IllfgblStbtfExdfption if tiis butifntidbtion fxdibngf
+     *     ibs not domplftfd
      */
-    public Object getNegotiatedProperty(String propName) {
-        if (completed) {
-            if (propName.equals(Sasl.QOP)) {
-                return "auth";
-            } else {
-                return null;
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (domplftfd) {
+            if (propNbmf.fqubls(Sbsl.QOP)) {
+                rfturn "buti";
+            } flsf {
+                rfturn null;
             }
-        } else {
-            throw new IllegalStateException("PLAIN authentication not completed");
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
         }
     }
 
-    private void clearPassword() {
+    privbtf void dlfbrPbssword() {
         if (pw != null) {
-            // zero out password
-            for (int i = 0; i < pw.length; i++) {
-                pw[i] = (byte)0;
+            // zfro out pbssword
+            for (int i = 0; i < pw.lfngti; i++) {
+                pw[i] = (bytf)0;
             }
             pw = null;
         }
     }
 
-    protected void finalize() {
-        clearPassword();
+    protfdtfd void finblizf() {
+        dlfbrPbssword();
     }
 }

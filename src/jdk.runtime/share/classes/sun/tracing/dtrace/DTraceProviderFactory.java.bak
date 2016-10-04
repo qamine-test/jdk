@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tracing.dtrace;
+pbdkbgf sun.trbding.dtrbdf;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.security.Permission;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.sfdurity.Pfrmission;
 
-import com.sun.tracing.ProviderFactory;
-import com.sun.tracing.Provider;
+import dom.sun.trbding.ProvidfrFbdtory;
+import dom.sun.trbding.Providfr;
 
 /**
- * Factory class to create JSDT Providers.
+ * Fbdtory dlbss to drfbtf JSDT Providfrs.
  *
- * This class contains methods to create an instance of a Provider
- * interface which can be used to place tracepoints in an application.
- * Method calls upon that instance trigger DTrace probes that
- * are visible from DTrace scripts.   Such calls have no other
- * side effects in the application.
+ * Tiis dlbss dontbins mftiods to drfbtf bn instbndf of b Providfr
+ * intfrfbdf wiidi dbn bf usfd to plbdf trbdfpoints in bn bpplidbtion.
+ * Mftiod dblls upon tibt instbndf triggfr DTrbdf probfs tibt
+ * brf visiblf from DTrbdf sdripts.   Sudi dblls ibvf no otifr
+ * sidf ffffdts in tif bpplidbtion.
  * <p>
- * The DTrace script mechanisms for listing and matching probes will not see
- * nor match any probes until the provider they reside in is created by a
- * call to {@code createProvider()} (or {@code createProviders()}).
+ * Tif DTrbdf sdript mfdibnisms for listing bnd mbtdiing probfs will not sff
+ * nor mbtdi bny probfs until tif providfr tify rfsidf in is drfbtfd by b
+ * dbll to {@dodf drfbtfProvidfr()} (or {@dodf drfbtfProvidfrs()}).
  * <p>
- * Providers that are created should be disposed of when they are no longer
- * needed to free up system resources, at which point the associated
- * DTrace probes will no longer be available to DTrace.  One disposes a
- * provider by calling
- * {@link com.sun.tracing.Provider#dispose Provider.dispose()} on a
- * created provider instance.
+ * Providfrs tibt brf drfbtfd siould bf disposfd of wifn tify brf no longfr
+ * nffdfd to frff up systfm rfsourdfs, bt wiidi point tif bssodibtfd
+ * DTrbdf probfs will no longfr bf bvbilbblf to DTrbdf.  Onf disposfs b
+ * providfr by dblling
+ * {@link dom.sun.trbding.Providfr#disposf Providfr.disposf()} on b
+ * drfbtfd providfr instbndf.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public final class DTraceProviderFactory extends ProviderFactory {
+publid finbl dlbss DTrbdfProvidfrFbdtory fxtfnds ProvidfrFbdtory {
     /**
-     * Creates an instance of a provider which can then be used to trigger
-     * DTrace probes.
+     * Crfbtfs bn instbndf of b providfr wiidi dbn tifn bf usfd to triggfr
+     * DTrbdf probfs.
      *
-     * The provider specification, provided as an argument, should only
-     * contain methods which have a 'void' return type and String or
-     * integer-based typed arguments (long, int, short, char, byte, or boolean).
+     * Tif providfr spfdifidbtion, providfd bs bn brgumfnt, siould only
+     * dontbin mftiods wiidi ibvf b 'void' rfturn typf bnd String or
+     * intfgfr-bbsfd typfd brgumfnts (long, int, siort, dibr, bytf, or boolfbn).
      *
-     * @param cls A user-defined interface which extends {@code Provider}.
-     * @return An instance of the interface which is used to trigger
-     * the DTrace probes.
-     * @throws java.lang.SecurityException if a security manager has been
-     * installed and it denies
-     * RuntimePermission("com.sun.dtrace.jsdt.createProvider")
-     * @throws java.lang.IllegalArgumentException if the interface contains
-     * methods that do not return null, or that contain arguments that are
-     * not String or integer types.
+     * @pbrbm dls A usfr-dffinfd intfrfbdf wiidi fxtfnds {@dodf Providfr}.
+     * @rfturn An instbndf of tif intfrfbdf wiidi is usfd to triggfr
+     * tif DTrbdf probfs.
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr ibs bffn
+     * instbllfd bnd it dfnifs
+     * RuntimfPfrmission("dom.sun.dtrbdf.jsdt.drfbtfProvidfr")
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if tif intfrfbdf dontbins
+     * mftiods tibt do not rfturn null, or tibt dontbin brgumfnts tibt brf
+     * not String or intfgfr typfs.
      */
-    public <T extends Provider> T createProvider(Class<T> cls) {
-        DTraceProvider jsdt = new DTraceProvider(cls);
-        T proxy = jsdt.newProxyInstance();
-        jsdt.setProxy(proxy);
+    publid <T fxtfnds Providfr> T drfbtfProvidfr(Clbss<T> dls) {
+        DTrbdfProvidfr jsdt = nfw DTrbdfProvidfr(dls);
+        T proxy = jsdt.nfwProxyInstbndf();
+        jsdt.sftProxy(proxy);
         jsdt.init();
-        new Activation(jsdt.getModuleName(), new DTraceProvider[] { jsdt });
-        return proxy;
+        nfw Adtivbtion(jsdt.gftModulfNbmf(), nfw DTrbdfProvidfr[] { jsdt });
+        rfturn proxy;
     }
 
     /**
-     * Creates multiple providers at once.
+     * Crfbtfs multiplf providfrs bt ondf.
      *
-     * This method batches together a number of provider instantiations.
-     * It works similarly
-     * to {@code createProvider}, but operates on a set of providers instead
-     * of one at a time.  This method is in place since some DTrace
-     * implementations limit the number of times that providers can be
-     * created.  When numerous providers can be created at once with this
-     * method, it will count only as a single creation point to DTrace, thus
-     * it uses less system resources.
+     * Tiis mftiod bbtdifs togftifr b numbfr of providfr instbntibtions.
+     * It works similbrly
+     * to {@dodf drfbtfProvidfr}, but opfrbtfs on b sft of providfrs instfbd
+     * of onf bt b timf.  Tiis mftiod is in plbdf sindf somf DTrbdf
+     * implfmfntbtions limit tif numbfr of timfs tibt providfrs dbn bf
+     * drfbtfd.  Wifn numfrous providfrs dbn bf drfbtfd bt ondf witi tiis
+     * mftiod, it will dount only bs b singlf drfbtion point to DTrbdf, tius
+     * it usfs lfss systfm rfsourdfs.
      * <p>
-     * All of the probes in the providers will be visible to DTrace after
-     * this call and all will remain visible until all of the providers
-     * are disposed.
+     * All of tif probfs in tif providfrs will bf visiblf to DTrbdf bftfr
+     * tiis dbll bnd bll will rfmbin visiblf until bll of tif providfrs
+     * brf disposfd.
      * <p>
-     * The {@code moduleName} parameter will override any {@code ModuleName}
-     * annotation associated with any of the providers in the set.
-     * All of the probes created by this call will share the same
-     * module name.
+     * Tif {@dodf modulfNbmf} pbrbmftfr will ovfrridf bny {@dodf ModulfNbmf}
+     * bnnotbtion bssodibtfd witi bny of tif providfrs in tif sft.
+     * All of tif probfs drfbtfd by tiis dbll will sibrf tif sbmf
+     * modulf nbmf.
      * <p>
-     * @param providers a set of provider specification interfaces
-     * @param moduleName the module name to associate with all probes
-     * @return A map which maps the provider interface specification to an
-     * implementing instance.
-     * @throws java.lang.SecurityException if a security manager has been
-     * installed and it denies
-     * RuntimePermission("com.sun.dtrace.jsdt.createProvider")
-     * @throws java.lang.IllegalArgumentException if any of the interface
-     * contains methods that do not return null, or that contain arguments
-     * that are not String or integer types.
+     * @pbrbm providfrs b sft of providfr spfdifidbtion intfrfbdfs
+     * @pbrbm modulfNbmf tif modulf nbmf to bssodibtf witi bll probfs
+     * @rfturn A mbp wiidi mbps tif providfr intfrfbdf spfdifidbtion to bn
+     * implfmfnting instbndf.
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr ibs bffn
+     * instbllfd bnd it dfnifs
+     * RuntimfPfrmission("dom.sun.dtrbdf.jsdt.drfbtfProvidfr")
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if bny of tif intfrfbdf
+     * dontbins mftiods tibt do not rfturn null, or tibt dontbin brgumfnts
+     * tibt brf not String or intfgfr typfs.
      */
-    public Map<Class<? extends Provider>,Provider> createProviders(
-            Set<Class<? extends Provider>> providers, String moduleName) {
-        HashMap<Class<? extends Provider>,Provider> map =
-            new HashMap<Class<? extends Provider>,Provider>();
-        HashSet<DTraceProvider> jsdts = new HashSet<DTraceProvider>();
-        for (Class<? extends Provider> cls : providers) {
-            DTraceProvider jsdt = new DTraceProvider(cls);
-            jsdts.add(jsdt);
-            map.put(cls, jsdt.newProxyInstance());
+    publid Mbp<Clbss<? fxtfnds Providfr>,Providfr> drfbtfProvidfrs(
+            Sft<Clbss<? fxtfnds Providfr>> providfrs, String modulfNbmf) {
+        HbsiMbp<Clbss<? fxtfnds Providfr>,Providfr> mbp =
+            nfw HbsiMbp<Clbss<? fxtfnds Providfr>,Providfr>();
+        HbsiSft<DTrbdfProvidfr> jsdts = nfw HbsiSft<DTrbdfProvidfr>();
+        for (Clbss<? fxtfnds Providfr> dls : providfrs) {
+            DTrbdfProvidfr jsdt = nfw DTrbdfProvidfr(dls);
+            jsdts.bdd(jsdt);
+            mbp.put(dls, jsdt.nfwProxyInstbndf());
         }
-        new Activation(moduleName, jsdts.toArray(new DTraceProvider[0]));
-        return map;
+        nfw Adtivbtion(modulfNbmf, jsdts.toArrby(nfw DTrbdfProvidfr[0]));
+        rfturn mbp;
     }
 
     /**
-     * Used to check the status of DTrace support in the underlying JVM and
-     * operating system.
+     * Usfd to difdk tif stbtus of DTrbdf support in tif undfrlying JVM bnd
+     * opfrbting systfm.
      *
-     * This is an informative method only - the Java-level effects of
-     * creating providers and triggering probes will not change whether or
-     * not DTrace is supported by the underlying systems.
+     * Tiis is bn informbtivf mftiod only - tif Jbvb-lfvfl ffffdts of
+     * drfbting providfrs bnd triggfring probfs will not dibngf wiftifr or
+     * not DTrbdf is supportfd by tif undfrlying systfms.
      *
-     * @return true if DTrace is supported
+     * @rfturn truf if DTrbdf is supportfd
      */
-    public static boolean isSupported() {
+    publid stbtid boolfbn isSupportfd() {
         try {
-            SecurityManager security = System.getSecurityManager();
-            if (security != null) {
-                Permission perm = new RuntimePermission(
-                        "com.sun.tracing.dtrace.createProvider");
-                security.checkPermission(perm);
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                Pfrmission pfrm = nfw RuntimfPfrmission(
+                        "dom.sun.trbding.dtrbdf.drfbtfProvidfr");
+                sfdurity.difdkPfrmission(pfrm);
             }
-            return JVM.isSupported();
-        } catch (SecurityException e) {
-            return false;
+            rfturn JVM.isSupportfd();
+        } dbtdi (SfdurityExdfption f) {
+            rfturn fblsf;
         }
     }
 }

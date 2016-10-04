@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2011-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,1100 +59,1100 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbdkbgf jbvb.timf.tfmporbl;
 
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
-import static java.time.temporal.ChronoField.DAY_OF_YEAR;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.YEAR;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.FOREVER;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.WEEKS;
-import static java.time.temporal.ChronoUnit.YEARS;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_WEEK;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.FOREVER;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.MONTHS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.WEEKS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.YEARS;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.DateTimeException;
-import java.time.DayOfWeek;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.Chronology;
-import java.time.format.ResolverStyle;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import sun.util.locale.provider.CalendarDataUtility;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleResources;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbyOfWffk;
+import jbvb.timf.dirono.CironoLodblDbtf;
+import jbvb.timf.dirono.Cironology;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import sun.util.lodblf.providfr.CblfndbrDbtbUtility;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfRfsourdfs;
 
 /**
- * Localized definitions of the day-of-week, week-of-month and week-of-year fields.
+ * Lodblizfd dffinitions of tif dby-of-wffk, wffk-of-monti bnd wffk-of-yfbr fiflds.
  * <p>
- * A standard week is seven days long, but cultures have different definitions for some
- * other aspects of a week. This class represents the definition of the week, for the
- * purpose of providing {@link TemporalField} instances.
+ * A stbndbrd wffk is sfvfn dbys long, but dulturfs ibvf difffrfnt dffinitions for somf
+ * otifr bspfdts of b wffk. Tiis dlbss rfprfsfnts tif dffinition of tif wffk, for tif
+ * purposf of providing {@link TfmporblFifld} instbndfs.
  * <p>
- * WeekFields provides five fields,
- * {@link #dayOfWeek()}, {@link #weekOfMonth()}, {@link #weekOfYear()},
- * {@link #weekOfWeekBasedYear()}, and {@link #weekBasedYear()}
- * that provide access to the values from any {@linkplain Temporal temporal object}.
+ * WffkFiflds providfs fivf fiflds,
+ * {@link #dbyOfWffk()}, {@link #wffkOfMonti()}, {@link #wffkOfYfbr()},
+ * {@link #wffkOfWffkBbsfdYfbr()}, bnd {@link #wffkBbsfdYfbr()}
+ * tibt providf bddfss to tif vblufs from bny {@linkplbin Tfmporbl tfmporbl objfdt}.
  * <p>
- * The computations for day-of-week, week-of-month, and week-of-year are based
- * on the  {@linkplain ChronoField#YEAR proleptic-year},
- * {@linkplain ChronoField#MONTH_OF_YEAR month-of-year},
- * {@linkplain ChronoField#DAY_OF_MONTH day-of-month}, and
- * {@linkplain ChronoField#DAY_OF_WEEK ISO day-of-week} which are based on the
- * {@linkplain ChronoField#EPOCH_DAY epoch-day} and the chronology.
- * The values may not be aligned with the {@linkplain ChronoField#YEAR_OF_ERA year-of-Era}
- * depending on the Chronology.
- * <p>A week is defined by:
+ * Tif domputbtions for dby-of-wffk, wffk-of-monti, bnd wffk-of-yfbr brf bbsfd
+ * on tif  {@linkplbin CironoFifld#YEAR prolfptid-yfbr},
+ * {@linkplbin CironoFifld#MONTH_OF_YEAR monti-of-yfbr},
+ * {@linkplbin CironoFifld#DAY_OF_MONTH dby-of-monti}, bnd
+ * {@linkplbin CironoFifld#DAY_OF_WEEK ISO dby-of-wffk} wiidi brf bbsfd on tif
+ * {@linkplbin CironoFifld#EPOCH_DAY fpodi-dby} bnd tif dironology.
+ * Tif vblufs mby not bf blignfd witi tif {@linkplbin CironoFifld#YEAR_OF_ERA yfbr-of-Erb}
+ * dfpfnding on tif Cironology.
+ * <p>A wffk is dffinfd by:
  * <ul>
- * <li>The first day-of-week.
- * For example, the ISO-8601 standard considers Monday to be the first day-of-week.
- * <li>The minimal number of days in the first week.
- * For example, the ISO-8601 standard counts the first week as needing at least 4 days.
+ * <li>Tif first dby-of-wffk.
+ * For fxbmplf, tif ISO-8601 stbndbrd donsidfrs Mondby to bf tif first dby-of-wffk.
+ * <li>Tif minimbl numbfr of dbys in tif first wffk.
+ * For fxbmplf, tif ISO-8601 stbndbrd dounts tif first wffk bs nffding bt lfbst 4 dbys.
  * </ul>
- * Together these two values allow a year or month to be divided into weeks.
+ * Togftifr tifsf two vblufs bllow b yfbr or monti to bf dividfd into wffks.
  *
- * <h3>Week of Month</h3>
- * One field is used: week-of-month.
- * The calculation ensures that weeks never overlap a month boundary.
- * The month is divided into periods where each period starts on the defined first day-of-week.
- * The earliest period is referred to as week 0 if it has less than the minimal number of days
- * and week 1 if it has at least the minimal number of days.
+ * <i3>Wffk of Monti</i3>
+ * Onf fifld is usfd: wffk-of-monti.
+ * Tif dbldulbtion fnsurfs tibt wffks nfvfr ovfrlbp b monti boundbry.
+ * Tif monti is dividfd into pfriods wifrf fbdi pfriod stbrts on tif dffinfd first dby-of-wffk.
+ * Tif fbrlifst pfriod is rfffrrfd to bs wffk 0 if it ibs lfss tibn tif minimbl numbfr of dbys
+ * bnd wffk 1 if it ibs bt lfbst tif minimbl numbfr of dbys.
  *
- * <table cellpadding="0" cellspacing="3" border="0" style="text-align: left; width: 50%;">
- * <caption>Examples of WeekFields</caption>
- * <tr><th>Date</th><td>Day-of-week</td>
- *  <td>First day: Monday<br>Minimal days: 4</td><td>First day: Monday<br>Minimal days: 5</td></tr>
- * <tr><th>2008-12-31</th><td>Wednesday</td>
- *  <td>Week 5 of December 2008</td><td>Week 5 of December 2008</td></tr>
- * <tr><th>2009-01-01</th><td>Thursday</td>
- *  <td>Week 1 of January 2009</td><td>Week 0 of January 2009</td></tr>
- * <tr><th>2009-01-04</th><td>Sunday</td>
- *  <td>Week 1 of January 2009</td><td>Week 0 of January 2009</td></tr>
- * <tr><th>2009-01-05</th><td>Monday</td>
- *  <td>Week 2 of January 2009</td><td>Week 1 of January 2009</td></tr>
- * </table>
+ * <tbblf dfllpbdding="0" dfllspbding="3" bordfr="0" stylf="tfxt-blign: lfft; widti: 50%;">
+ * <dbption>Exbmplfs of WffkFiflds</dbption>
+ * <tr><ti>Dbtf</ti><td>Dby-of-wffk</td>
+ *  <td>First dby: Mondby<br>Minimbl dbys: 4</td><td>First dby: Mondby<br>Minimbl dbys: 5</td></tr>
+ * <tr><ti>2008-12-31</ti><td>Wfdnfsdby</td>
+ *  <td>Wffk 5 of Dfdfmbfr 2008</td><td>Wffk 5 of Dfdfmbfr 2008</td></tr>
+ * <tr><ti>2009-01-01</ti><td>Tiursdby</td>
+ *  <td>Wffk 1 of Jbnubry 2009</td><td>Wffk 0 of Jbnubry 2009</td></tr>
+ * <tr><ti>2009-01-04</ti><td>Sundby</td>
+ *  <td>Wffk 1 of Jbnubry 2009</td><td>Wffk 0 of Jbnubry 2009</td></tr>
+ * <tr><ti>2009-01-05</ti><td>Mondby</td>
+ *  <td>Wffk 2 of Jbnubry 2009</td><td>Wffk 1 of Jbnubry 2009</td></tr>
+ * </tbblf>
  *
- * <h3>Week of Year</h3>
- * One field is used: week-of-year.
- * The calculation ensures that weeks never overlap a year boundary.
- * The year is divided into periods where each period starts on the defined first day-of-week.
- * The earliest period is referred to as week 0 if it has less than the minimal number of days
- * and week 1 if it has at least the minimal number of days.
+ * <i3>Wffk of Yfbr</i3>
+ * Onf fifld is usfd: wffk-of-yfbr.
+ * Tif dbldulbtion fnsurfs tibt wffks nfvfr ovfrlbp b yfbr boundbry.
+ * Tif yfbr is dividfd into pfriods wifrf fbdi pfriod stbrts on tif dffinfd first dby-of-wffk.
+ * Tif fbrlifst pfriod is rfffrrfd to bs wffk 0 if it ibs lfss tibn tif minimbl numbfr of dbys
+ * bnd wffk 1 if it ibs bt lfbst tif minimbl numbfr of dbys.
  *
- * <h3>Week Based Year</h3>
- * Two fields are used for week-based-year, one for the
- * {@link #weekOfWeekBasedYear() week-of-week-based-year} and one for
- * {@link #weekBasedYear() week-based-year}.  In a week-based-year, each week
- * belongs to only a single year.  Week 1 of a year is the first week that
- * starts on the first day-of-week and has at least the minimum number of days.
- * The first and last weeks of a year may contain days from the
- * previous calendar year or next calendar year respectively.
+ * <i3>Wffk Bbsfd Yfbr</i3>
+ * Two fiflds brf usfd for wffk-bbsfd-yfbr, onf for tif
+ * {@link #wffkOfWffkBbsfdYfbr() wffk-of-wffk-bbsfd-yfbr} bnd onf for
+ * {@link #wffkBbsfdYfbr() wffk-bbsfd-yfbr}.  In b wffk-bbsfd-yfbr, fbdi wffk
+ * bflongs to only b singlf yfbr.  Wffk 1 of b yfbr is tif first wffk tibt
+ * stbrts on tif first dby-of-wffk bnd ibs bt lfbst tif minimum numbfr of dbys.
+ * Tif first bnd lbst wffks of b yfbr mby dontbin dbys from tif
+ * prfvious dblfndbr yfbr or nfxt dblfndbr yfbr rfspfdtivfly.
  *
- * <table cellpadding="0" cellspacing="3" border="0" style="text-align: left; width: 50%;">
- * <caption>Examples of WeekFields for week-based-year</caption>
- * <tr><th>Date</th><td>Day-of-week</td>
- *  <td>First day: Monday<br>Minimal days: 4</td><td>First day: Monday<br>Minimal days: 5</td></tr>
- * <tr><th>2008-12-31</th><td>Wednesday</td>
- *  <td>Week 1 of 2009</td><td>Week 53 of 2008</td></tr>
- * <tr><th>2009-01-01</th><td>Thursday</td>
- *  <td>Week 1 of 2009</td><td>Week 53 of 2008</td></tr>
- * <tr><th>2009-01-04</th><td>Sunday</td>
- *  <td>Week 1 of 2009</td><td>Week 53 of 2008</td></tr>
- * <tr><th>2009-01-05</th><td>Monday</td>
- *  <td>Week 2 of 2009</td><td>Week 1 of 2009</td></tr>
- * </table>
+ * <tbblf dfllpbdding="0" dfllspbding="3" bordfr="0" stylf="tfxt-blign: lfft; widti: 50%;">
+ * <dbption>Exbmplfs of WffkFiflds for wffk-bbsfd-yfbr</dbption>
+ * <tr><ti>Dbtf</ti><td>Dby-of-wffk</td>
+ *  <td>First dby: Mondby<br>Minimbl dbys: 4</td><td>First dby: Mondby<br>Minimbl dbys: 5</td></tr>
+ * <tr><ti>2008-12-31</ti><td>Wfdnfsdby</td>
+ *  <td>Wffk 1 of 2009</td><td>Wffk 53 of 2008</td></tr>
+ * <tr><ti>2009-01-01</ti><td>Tiursdby</td>
+ *  <td>Wffk 1 of 2009</td><td>Wffk 53 of 2008</td></tr>
+ * <tr><ti>2009-01-04</ti><td>Sundby</td>
+ *  <td>Wffk 1 of 2009</td><td>Wffk 53 of 2008</td></tr>
+ * <tr><ti>2009-01-05</ti><td>Mondby</td>
+ *  <td>Wffk 2 of 2009</td><td>Wffk 1 of 2009</td></tr>
+ * </tbblf>
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class WeekFields implements Serializable {
-    // implementation notes
-    // querying week-of-month or week-of-year should return the week value bound within the month/year
-    // however, setting the week value should be lenient (use plus/minus weeks)
-    // allow week-of-month outer range [0 to 6]
-    // allow week-of-year outer range [0 to 54]
-    // this is because callers shouldn't be expected to know the details of validity
+publid finbl dlbss WffkFiflds implfmfnts Sfriblizbblf {
+    // implfmfntbtion notfs
+    // qufrying wffk-of-monti or wffk-of-yfbr siould rfturn tif wffk vbluf bound witiin tif monti/yfbr
+    // iowfvfr, sftting tif wffk vbluf siould bf lfnifnt (usf plus/minus wffks)
+    // bllow wffk-of-monti outfr rbngf [0 to 6]
+    // bllow wffk-of-yfbr outfr rbngf [0 to 54]
+    // tiis is bfdbusf dbllfrs siouldn't bf fxpfdtfd to know tif dftbils of vblidity
 
     /**
-     * The cache of rules by firstDayOfWeek plus minimalDays.
-     * Initialized first to be available for definition of ISO, etc.
+     * Tif dbdif of rulfs by firstDbyOfWffk plus minimblDbys.
+     * Initiblizfd first to bf bvbilbblf for dffinition of ISO, ftd.
      */
-    private static final ConcurrentMap<String, WeekFields> CACHE = new ConcurrentHashMap<>(4, 0.75f, 2);
+    privbtf stbtid finbl CondurrfntMbp<String, WffkFiflds> CACHE = nfw CondurrfntHbsiMbp<>(4, 0.75f, 2);
 
     /**
-     * The ISO-8601 definition, where a week starts on Monday and the first week
-     * has a minimum of 4 days.
+     * Tif ISO-8601 dffinition, wifrf b wffk stbrts on Mondby bnd tif first wffk
+     * ibs b minimum of 4 dbys.
      * <p>
-     * The ISO-8601 standard defines a calendar system based on weeks.
-     * It uses the week-based-year and week-of-week-based-year concepts to split
-     * up the passage of days instead of the standard year/month/day.
+     * Tif ISO-8601 stbndbrd dffinfs b dblfndbr systfm bbsfd on wffks.
+     * It usfs tif wffk-bbsfd-yfbr bnd wffk-of-wffk-bbsfd-yfbr dondfpts to split
+     * up tif pbssbgf of dbys instfbd of tif stbndbrd yfbr/monti/dby.
      * <p>
-     * Note that the first week may start in the previous calendar year.
-     * Note also that the first few days of a calendar year may be in the
-     * week-based-year corresponding to the previous calendar year.
+     * Notf tibt tif first wffk mby stbrt in tif prfvious dblfndbr yfbr.
+     * Notf blso tibt tif first ffw dbys of b dblfndbr yfbr mby bf in tif
+     * wffk-bbsfd-yfbr dorrfsponding to tif prfvious dblfndbr yfbr.
      */
-    public static final WeekFields ISO = new WeekFields(DayOfWeek.MONDAY, 4);
+    publid stbtid finbl WffkFiflds ISO = nfw WffkFiflds(DbyOfWffk.MONDAY, 4);
 
     /**
-     * The common definition of a week that starts on Sunday and the first week
-     * has a minimum of 1 day.
+     * Tif dommon dffinition of b wffk tibt stbrts on Sundby bnd tif first wffk
+     * ibs b minimum of 1 dby.
      * <p>
-     * Defined as starting on Sunday and with a minimum of 1 day in the month.
-     * This week definition is in use in the US and other European countries.
+     * Dffinfd bs stbrting on Sundby bnd witi b minimum of 1 dby in tif monti.
+     * Tiis wffk dffinition is in usf in tif US bnd otifr Europfbn dountrifs.
      */
-    public static final WeekFields SUNDAY_START = WeekFields.of(DayOfWeek.SUNDAY, 1);
+    publid stbtid finbl WffkFiflds SUNDAY_START = WffkFiflds.of(DbyOfWffk.SUNDAY, 1);
 
     /**
-     * The unit that represents week-based-years for the purpose of addition and subtraction.
+     * Tif unit tibt rfprfsfnts wffk-bbsfd-yfbrs for tif purposf of bddition bnd subtrbdtion.
      * <p>
-     * This allows a number of week-based-years to be added to, or subtracted from, a date.
-     * The unit is equal to either 52 or 53 weeks.
-     * The estimated duration of a week-based-year is the same as that of a standard ISO
-     * year at {@code 365.2425 Days}.
+     * Tiis bllows b numbfr of wffk-bbsfd-yfbrs to bf bddfd to, or subtrbdtfd from, b dbtf.
+     * Tif unit is fqubl to fitifr 52 or 53 wffks.
+     * Tif fstimbtfd durbtion of b wffk-bbsfd-yfbr is tif sbmf bs tibt of b stbndbrd ISO
+     * yfbr bt {@dodf 365.2425 Dbys}.
      * <p>
-     * The rules for addition add the number of week-based-years to the existing value
-     * for the week-based-year field retaining the week-of-week-based-year
-     * and day-of-week, unless the week number it too large for the target year.
-     * In that case, the week is set to the last week of the year
-     * with the same day-of-week.
+     * Tif rulfs for bddition bdd tif numbfr of wffk-bbsfd-yfbrs to tif fxisting vbluf
+     * for tif wffk-bbsfd-yfbr fifld rftbining tif wffk-of-wffk-bbsfd-yfbr
+     * bnd dby-of-wffk, unlfss tif wffk numbfr it too lbrgf for tif tbrgft yfbr.
+     * In tibt dbsf, tif wffk is sft to tif lbst wffk of tif yfbr
+     * witi tif sbmf dby-of-wffk.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * Tiis unit is bn immutbblf bnd tirfbd-sbff singlfton.
      */
-    public static final TemporalUnit WEEK_BASED_YEARS = IsoFields.WEEK_BASED_YEARS;
+    publid stbtid finbl TfmporblUnit WEEK_BASED_YEARS = IsoFiflds.WEEK_BASED_YEARS;
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = -1177360819670808121L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1177360819670808121L;
 
     /**
-     * The first day-of-week.
+     * Tif first dby-of-wffk.
      */
-    private final DayOfWeek firstDayOfWeek;
+    privbtf finbl DbyOfWffk firstDbyOfWffk;
     /**
-     * The minimal number of days in the first week.
+     * Tif minimbl numbfr of dbys in tif first wffk.
      */
-    private final int minimalDays;
+    privbtf finbl int minimblDbys;
     /**
-     * The field used to access the computed DayOfWeek.
+     * Tif fifld usfd to bddfss tif domputfd DbyOfWffk.
      */
-    private final transient TemporalField dayOfWeek = ComputedDayOfField.ofDayOfWeekField(this);
+    privbtf finbl trbnsifnt TfmporblFifld dbyOfWffk = ComputfdDbyOfFifld.ofDbyOfWffkFifld(tiis);
     /**
-     * The field used to access the computed WeekOfMonth.
+     * Tif fifld usfd to bddfss tif domputfd WffkOfMonti.
      */
-    private final transient TemporalField weekOfMonth = ComputedDayOfField.ofWeekOfMonthField(this);
+    privbtf finbl trbnsifnt TfmporblFifld wffkOfMonti = ComputfdDbyOfFifld.ofWffkOfMontiFifld(tiis);
     /**
-     * The field used to access the computed WeekOfYear.
+     * Tif fifld usfd to bddfss tif domputfd WffkOfYfbr.
      */
-    private final transient TemporalField weekOfYear = ComputedDayOfField.ofWeekOfYearField(this);
+    privbtf finbl trbnsifnt TfmporblFifld wffkOfYfbr = ComputfdDbyOfFifld.ofWffkOfYfbrFifld(tiis);
     /**
-     * The field that represents the week-of-week-based-year.
+     * Tif fifld tibt rfprfsfnts tif wffk-of-wffk-bbsfd-yfbr.
      * <p>
-     * This field allows the week of the week-based-year value to be queried and set.
+     * Tiis fifld bllows tif wffk of tif wffk-bbsfd-yfbr vbluf to bf qufrifd bnd sft.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * Tiis unit is bn immutbblf bnd tirfbd-sbff singlfton.
      */
-    private final transient TemporalField weekOfWeekBasedYear = ComputedDayOfField.ofWeekOfWeekBasedYearField(this);
+    privbtf finbl trbnsifnt TfmporblFifld wffkOfWffkBbsfdYfbr = ComputfdDbyOfFifld.ofWffkOfWffkBbsfdYfbrFifld(tiis);
     /**
-     * The field that represents the week-based-year.
+     * Tif fifld tibt rfprfsfnts tif wffk-bbsfd-yfbr.
      * <p>
-     * This field allows the week-based-year value to be queried and set.
+     * Tiis fifld bllows tif wffk-bbsfd-yfbr vbluf to bf qufrifd bnd sft.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * Tiis unit is bn immutbblf bnd tirfbd-sbff singlfton.
      */
-    private final transient TemporalField weekBasedYear = ComputedDayOfField.ofWeekBasedYearField(this);
+    privbtf finbl trbnsifnt TfmporblFifld wffkBbsfdYfbr = ComputfdDbyOfFifld.ofWffkBbsfdYfbrFifld(tiis);
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code WeekFields} appropriate for a locale.
+     * Obtbins bn instbndf of {@dodf WffkFiflds} bppropribtf for b lodblf.
      * <p>
-     * This will look up appropriate values from the provider of localization data.
+     * Tiis will look up bppropribtf vblufs from tif providfr of lodblizbtion dbtb.
      *
-     * @param locale  the locale to use, not null
-     * @return the week-definition, not null
+     * @pbrbm lodblf  tif lodblf to usf, not null
+     * @rfturn tif wffk-dffinition, not null
      */
-    public static WeekFields of(Locale locale) {
-        Objects.requireNonNull(locale, "locale");
-        locale = new Locale(locale.getLanguage(), locale.getCountry());  // elminate variants
+    publid stbtid WffkFiflds of(Lodblf lodblf) {
+        Objfdts.rfquirfNonNull(lodblf, "lodblf");
+        lodblf = nfw Lodblf(lodblf.gftLbngubgf(), lodblf.gftCountry());  // flminbtf vbribnts
 
-        int calDow = CalendarDataUtility.retrieveFirstDayOfWeek(locale);
-        DayOfWeek dow = DayOfWeek.SUNDAY.plus(calDow - 1);
-        int minDays = CalendarDataUtility.retrieveMinimalDaysInFirstWeek(locale);
-        return WeekFields.of(dow, minDays);
+        int dblDow = CblfndbrDbtbUtility.rftrifvfFirstDbyOfWffk(lodblf);
+        DbyOfWffk dow = DbyOfWffk.SUNDAY.plus(dblDow - 1);
+        int minDbys = CblfndbrDbtbUtility.rftrifvfMinimblDbysInFirstWffk(lodblf);
+        rfturn WffkFiflds.of(dow, minDbys);
     }
 
     /**
-     * Obtains an instance of {@code WeekFields} from the first day-of-week and minimal days.
+     * Obtbins bn instbndf of {@dodf WffkFiflds} from tif first dby-of-wffk bnd minimbl dbys.
      * <p>
-     * The first day-of-week defines the ISO {@code DayOfWeek} that is day 1 of the week.
-     * The minimal number of days in the first week defines how many days must be present
-     * in a month or year, starting from the first day-of-week, before the week is counted
-     * as the first week. A value of 1 will count the first day of the month or year as part
-     * of the first week, whereas a value of 7 will require the whole seven days to be in
-     * the new month or year.
+     * Tif first dby-of-wffk dffinfs tif ISO {@dodf DbyOfWffk} tibt is dby 1 of tif wffk.
+     * Tif minimbl numbfr of dbys in tif first wffk dffinfs iow mbny dbys must bf prfsfnt
+     * in b monti or yfbr, stbrting from tif first dby-of-wffk, bfforf tif wffk is dountfd
+     * bs tif first wffk. A vbluf of 1 will dount tif first dby of tif monti or yfbr bs pbrt
+     * of tif first wffk, wifrfbs b vbluf of 7 will rfquirf tif wiolf sfvfn dbys to bf in
+     * tif nfw monti or yfbr.
      * <p>
-     * WeekFields instances are singletons; for each unique combination
-     * of {@code firstDayOfWeek} and {@code minimalDaysInFirstWeek} the
-     * the same instance will be returned.
+     * WffkFiflds instbndfs brf singlftons; for fbdi uniquf dombinbtion
+     * of {@dodf firstDbyOfWffk} bnd {@dodf minimblDbysInFirstWffk} tif
+     * tif sbmf instbndf will bf rfturnfd.
      *
-     * @param firstDayOfWeek  the first day of the week, not null
-     * @param minimalDaysInFirstWeek  the minimal number of days in the first week, from 1 to 7
-     * @return the week-definition, not null
-     * @throws IllegalArgumentException if the minimal days value is less than one
-     *      or greater than 7
+     * @pbrbm firstDbyOfWffk  tif first dby of tif wffk, not null
+     * @pbrbm minimblDbysInFirstWffk  tif minimbl numbfr of dbys in tif first wffk, from 1 to 7
+     * @rfturn tif wffk-dffinition, not null
+     * @tirows IllfgblArgumfntExdfption if tif minimbl dbys vbluf is lfss tibn onf
+     *      or grfbtfr tibn 7
      */
-    public static WeekFields of(DayOfWeek firstDayOfWeek, int minimalDaysInFirstWeek) {
-        String key = firstDayOfWeek.toString() + minimalDaysInFirstWeek;
-        WeekFields rules = CACHE.get(key);
-        if (rules == null) {
-            rules = new WeekFields(firstDayOfWeek, minimalDaysInFirstWeek);
-            CACHE.putIfAbsent(key, rules);
-            rules = CACHE.get(key);
+    publid stbtid WffkFiflds of(DbyOfWffk firstDbyOfWffk, int minimblDbysInFirstWffk) {
+        String kfy = firstDbyOfWffk.toString() + minimblDbysInFirstWffk;
+        WffkFiflds rulfs = CACHE.gft(kfy);
+        if (rulfs == null) {
+            rulfs = nfw WffkFiflds(firstDbyOfWffk, minimblDbysInFirstWffk);
+            CACHE.putIfAbsfnt(kfy, rulfs);
+            rulfs = CACHE.gft(kfy);
         }
-        return rules;
+        rfturn rulfs;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Creates an instance of the definition.
+     * Crfbtfs bn instbndf of tif dffinition.
      *
-     * @param firstDayOfWeek  the first day of the week, not null
-     * @param minimalDaysInFirstWeek  the minimal number of days in the first week, from 1 to 7
-     * @throws IllegalArgumentException if the minimal days value is invalid
+     * @pbrbm firstDbyOfWffk  tif first dby of tif wffk, not null
+     * @pbrbm minimblDbysInFirstWffk  tif minimbl numbfr of dbys in tif first wffk, from 1 to 7
+     * @tirows IllfgblArgumfntExdfption if tif minimbl dbys vbluf is invblid
      */
-    private WeekFields(DayOfWeek firstDayOfWeek, int minimalDaysInFirstWeek) {
-        Objects.requireNonNull(firstDayOfWeek, "firstDayOfWeek");
-        if (minimalDaysInFirstWeek < 1 || minimalDaysInFirstWeek > 7) {
-            throw new IllegalArgumentException("Minimal number of days is invalid");
+    privbtf WffkFiflds(DbyOfWffk firstDbyOfWffk, int minimblDbysInFirstWffk) {
+        Objfdts.rfquirfNonNull(firstDbyOfWffk, "firstDbyOfWffk");
+        if (minimblDbysInFirstWffk < 1 || minimblDbysInFirstWffk > 7) {
+            tirow nfw IllfgblArgumfntExdfption("Minimbl numbfr of dbys is invblid");
         }
-        this.firstDayOfWeek = firstDayOfWeek;
-        this.minimalDays = minimalDaysInFirstWeek;
+        tiis.firstDbyOfWffk = firstDbyOfWffk;
+        tiis.minimblDbys = minimblDbysInFirstWffk;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Restore the state of a WeekFields from the stream.
-     * Check that the values are valid.
+     * Rfstorf tif stbtf of b WffkFiflds from tif strfbm.
+     * Cifdk tibt tif vblufs brf vblid.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException if the serialized object has an invalid
-     *     value for firstDayOfWeek or minimalDays.
-     * @throws ClassNotFoundException if a class cannot be resolved
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption if tif sfriblizfd objfdt ibs bn invblid
+     *     vbluf for firstDbyOfWffk or minimblDbys.
+     * @tirows ClbssNotFoundExdfption if b dlbss dbnnot bf rfsolvfd
      */
-    private void readObject(ObjectInputStream s)
-         throws IOException, ClassNotFoundException, InvalidObjectException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+         tirows IOExdfption, ClbssNotFoundExdfption, InvblidObjfdtExdfption
     {
-        s.defaultReadObject();
-        if (firstDayOfWeek == null) {
-            throw new InvalidObjectException("firstDayOfWeek is null");
+        s.dffbultRfbdObjfdt();
+        if (firstDbyOfWffk == null) {
+            tirow nfw InvblidObjfdtExdfption("firstDbyOfWffk is null");
         }
 
-        if (minimalDays < 1 || minimalDays > 7) {
-            throw new InvalidObjectException("Minimal number of days is invalid");
+        if (minimblDbys < 1 || minimblDbys > 7) {
+            tirow nfw InvblidObjfdtExdfption("Minimbl numbfr of dbys is invblid");
         }
     }
 
     /**
-     * Return the singleton WeekFields associated with the
-     * {@code firstDayOfWeek} and {@code minimalDays}.
-     * @return the singleton WeekFields for the firstDayOfWeek and minimalDays.
-     * @throws InvalidObjectException if the serialized object has invalid
-     *     values for firstDayOfWeek or minimalDays.
+     * Rfturn tif singlfton WffkFiflds bssodibtfd witi tif
+     * {@dodf firstDbyOfWffk} bnd {@dodf minimblDbys}.
+     * @rfturn tif singlfton WffkFiflds for tif firstDbyOfWffk bnd minimblDbys.
+     * @tirows InvblidObjfdtExdfption if tif sfriblizfd objfdt ibs invblid
+     *     vblufs for firstDbyOfWffk or minimblDbys.
      */
-    private Object readResolve() throws InvalidObjectException {
+    privbtf Objfdt rfbdRfsolvf() tirows InvblidObjfdtExdfption {
         try {
-            return WeekFields.of(firstDayOfWeek, minimalDays);
-        } catch (IllegalArgumentException iae) {
-            throw new InvalidObjectException("Invalid serialized WeekFields: " + iae.getMessage());
+            rfturn WffkFiflds.of(firstDbyOfWffk, minimblDbys);
+        } dbtdi (IllfgblArgumfntExdfption ibf) {
+            tirow nfw InvblidObjfdtExdfption("Invblid sfriblizfd WffkFiflds: " + ibf.gftMfssbgf());
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the first day-of-week.
+     * Gfts tif first dby-of-wffk.
      * <p>
-     * The first day-of-week varies by culture.
-     * For example, the US uses Sunday, while France and the ISO-8601 standard use Monday.
-     * This method returns the first day using the standard {@code DayOfWeek} enum.
+     * Tif first dby-of-wffk vbrifs by dulturf.
+     * For fxbmplf, tif US usfs Sundby, wiilf Frbndf bnd tif ISO-8601 stbndbrd usf Mondby.
+     * Tiis mftiod rfturns tif first dby using tif stbndbrd {@dodf DbyOfWffk} fnum.
      *
-     * @return the first day-of-week, not null
+     * @rfturn tif first dby-of-wffk, not null
      */
-    public DayOfWeek getFirstDayOfWeek() {
-        return firstDayOfWeek;
+    publid DbyOfWffk gftFirstDbyOfWffk() {
+        rfturn firstDbyOfWffk;
     }
 
     /**
-     * Gets the minimal number of days in the first week.
+     * Gfts tif minimbl numbfr of dbys in tif first wffk.
      * <p>
-     * The number of days considered to define the first week of a month or year
-     * varies by culture.
-     * For example, the ISO-8601 requires 4 days (more than half a week) to
-     * be present before counting the first week.
+     * Tif numbfr of dbys donsidfrfd to dffinf tif first wffk of b monti or yfbr
+     * vbrifs by dulturf.
+     * For fxbmplf, tif ISO-8601 rfquirfs 4 dbys (morf tibn iblf b wffk) to
+     * bf prfsfnt bfforf dounting tif first wffk.
      *
-     * @return the minimal number of days in the first week of a month or year, from 1 to 7
+     * @rfturn tif minimbl numbfr of dbys in tif first wffk of b monti or yfbr, from 1 to 7
      */
-    public int getMinimalDaysInFirstWeek() {
-        return minimalDays;
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Returns a field to access the day of week based on this {@code WeekFields}.
-     * <p>
-     * This is similar to {@link ChronoField#DAY_OF_WEEK} but uses values for
-     * the day-of-week based on this {@code WeekFields}.
-     * The days are numbered from 1 to 7 where the
-     * {@link #getFirstDayOfWeek() first day-of-week} is assigned the value 1.
-     * <p>
-     * For example, if the first day-of-week is Sunday, then that will have the
-     * value 1, with other days ranging from Monday as 2 to Saturday as 7.
-     * <p>
-     * In the resolving phase of parsing, a localized day-of-week will be converted
-     * to a standardized {@code ChronoField} day-of-week.
-     * The day-of-week must be in the valid range 1 to 7.
-     * Other fields in this class build dates using the standardized day-of-week.
-     *
-     * @return a field providing access to the day-of-week with localized numbering, not null
-     */
-    public TemporalField dayOfWeek() {
-        return dayOfWeek;
-    }
-
-    /**
-     * Returns a field to access the week of month based on this {@code WeekFields}.
-     * <p>
-     * This represents the concept of the count of weeks within the month where weeks
-     * start on a fixed day-of-week, such as Monday.
-     * This field is typically used with {@link WeekFields#dayOfWeek()}.
-     * <p>
-     * Week one (1) is the week starting on the {@link WeekFields#getFirstDayOfWeek}
-     * where there are at least {@link WeekFields#getMinimalDaysInFirstWeek()} days in the month.
-     * Thus, week one may start up to {@code minDays} days before the start of the month.
-     * If the first week starts after the start of the month then the period before is week zero (0).
-     * <p>
-     * For example:<br>
-     * - if the 1st day of the month is a Monday, week one starts on the 1st and there is no week zero<br>
-     * - if the 2nd day of the month is a Monday, week one starts on the 2nd and the 1st is in week zero<br>
-     * - if the 4th day of the month is a Monday, week one starts on the 4th and the 1st to 3rd is in week zero<br>
-     * - if the 5th day of the month is a Monday, week two starts on the 5th and the 1st to 4th is in week one<br>
-     * <p>
-     * This field can be used with any calendar system.
-     * <p>
-     * In the resolving phase of parsing, a date can be created from a year,
-     * week-of-month, month-of-year and day-of-week.
-     * <p>
-     * In {@linkplain ResolverStyle#STRICT strict mode}, all four fields are
-     * validated against their range of valid values. The week-of-month field
-     * is validated to ensure that the resulting month is the month requested.
-     * <p>
-     * In {@linkplain ResolverStyle#SMART smart mode}, all four fields are
-     * validated against their range of valid values. The week-of-month field
-     * is validated from 0 to 6, meaning that the resulting date can be in a
-     * different month to that specified.
-     * <p>
-     * In {@linkplain ResolverStyle#LENIENT lenient mode}, the year and day-of-week
-     * are validated against the range of valid values. The resulting date is calculated
-     * equivalent to the following four stage approach.
-     * First, create a date on the first day of the first week of January in the requested year.
-     * Then take the month-of-year, subtract one, and add the amount in months to the date.
-     * Then take the week-of-month, subtract one, and add the amount in weeks to the date.
-     * Finally, adjust to the correct day-of-week within the localized week.
-     *
-     * @return a field providing access to the week-of-month, not null
-     */
-    public TemporalField weekOfMonth() {
-        return weekOfMonth;
-    }
-
-    /**
-     * Returns a field to access the week of year based on this {@code WeekFields}.
-     * <p>
-     * This represents the concept of the count of weeks within the year where weeks
-     * start on a fixed day-of-week, such as Monday.
-     * This field is typically used with {@link WeekFields#dayOfWeek()}.
-     * <p>
-     * Week one(1) is the week starting on the {@link WeekFields#getFirstDayOfWeek}
-     * where there are at least {@link WeekFields#getMinimalDaysInFirstWeek()} days in the year.
-     * Thus, week one may start up to {@code minDays} days before the start of the year.
-     * If the first week starts after the start of the year then the period before is week zero (0).
-     * <p>
-     * For example:<br>
-     * - if the 1st day of the year is a Monday, week one starts on the 1st and there is no week zero<br>
-     * - if the 2nd day of the year is a Monday, week one starts on the 2nd and the 1st is in week zero<br>
-     * - if the 4th day of the year is a Monday, week one starts on the 4th and the 1st to 3rd is in week zero<br>
-     * - if the 5th day of the year is a Monday, week two starts on the 5th and the 1st to 4th is in week one<br>
-     * <p>
-     * This field can be used with any calendar system.
-     * <p>
-     * In the resolving phase of parsing, a date can be created from a year,
-     * week-of-year and day-of-week.
-     * <p>
-     * In {@linkplain ResolverStyle#STRICT strict mode}, all three fields are
-     * validated against their range of valid values. The week-of-year field
-     * is validated to ensure that the resulting year is the year requested.
-     * <p>
-     * In {@linkplain ResolverStyle#SMART smart mode}, all three fields are
-     * validated against their range of valid values. The week-of-year field
-     * is validated from 0 to 54, meaning that the resulting date can be in a
-     * different year to that specified.
-     * <p>
-     * In {@linkplain ResolverStyle#LENIENT lenient mode}, the year and day-of-week
-     * are validated against the range of valid values. The resulting date is calculated
-     * equivalent to the following three stage approach.
-     * First, create a date on the first day of the first week in the requested year.
-     * Then take the week-of-year, subtract one, and add the amount in weeks to the date.
-     * Finally, adjust to the correct day-of-week within the localized week.
-     *
-     * @return a field providing access to the week-of-year, not null
-     */
-    public TemporalField weekOfYear() {
-        return weekOfYear;
-    }
-
-    /**
-     * Returns a field to access the week of a week-based-year based on this {@code WeekFields}.
-     * <p>
-     * This represents the concept of the count of weeks within the year where weeks
-     * start on a fixed day-of-week, such as Monday and each week belongs to exactly one year.
-     * This field is typically used with {@link WeekFields#dayOfWeek()} and
-     * {@link WeekFields#weekBasedYear()}.
-     * <p>
-     * Week one(1) is the week starting on the {@link WeekFields#getFirstDayOfWeek}
-     * where there are at least {@link WeekFields#getMinimalDaysInFirstWeek()} days in the year.
-     * If the first week starts after the start of the year then the period before
-     * is in the last week of the previous year.
-     * <p>
-     * For example:<br>
-     * - if the 1st day of the year is a Monday, week one starts on the 1st<br>
-     * - if the 2nd day of the year is a Monday, week one starts on the 2nd and
-     *   the 1st is in the last week of the previous year<br>
-     * - if the 4th day of the year is a Monday, week one starts on the 4th and
-     *   the 1st to 3rd is in the last week of the previous year<br>
-     * - if the 5th day of the year is a Monday, week two starts on the 5th and
-     *   the 1st to 4th is in week one<br>
-     * <p>
-     * This field can be used with any calendar system.
-     * <p>
-     * In the resolving phase of parsing, a date can be created from a week-based-year,
-     * week-of-year and day-of-week.
-     * <p>
-     * In {@linkplain ResolverStyle#STRICT strict mode}, all three fields are
-     * validated against their range of valid values. The week-of-year field
-     * is validated to ensure that the resulting week-based-year is the
-     * week-based-year requested.
-     * <p>
-     * In {@linkplain ResolverStyle#SMART smart mode}, all three fields are
-     * validated against their range of valid values. The week-of-week-based-year field
-     * is validated from 1 to 53, meaning that the resulting date can be in the
-     * following week-based-year to that specified.
-     * <p>
-     * In {@linkplain ResolverStyle#LENIENT lenient mode}, the year and day-of-week
-     * are validated against the range of valid values. The resulting date is calculated
-     * equivalent to the following three stage approach.
-     * First, create a date on the first day of the first week in the requested week-based-year.
-     * Then take the week-of-week-based-year, subtract one, and add the amount in weeks to the date.
-     * Finally, adjust to the correct day-of-week within the localized week.
-     *
-     * @return a field providing access to the week-of-week-based-year, not null
-     */
-    public TemporalField weekOfWeekBasedYear() {
-        return weekOfWeekBasedYear;
-    }
-
-    /**
-     * Returns a field to access the year of a week-based-year based on this {@code WeekFields}.
-     * <p>
-     * This represents the concept of the year where weeks start on a fixed day-of-week,
-     * such as Monday and each week belongs to exactly one year.
-     * This field is typically used with {@link WeekFields#dayOfWeek()} and
-     * {@link WeekFields#weekOfWeekBasedYear()}.
-     * <p>
-     * Week one(1) is the week starting on the {@link WeekFields#getFirstDayOfWeek}
-     * where there are at least {@link WeekFields#getMinimalDaysInFirstWeek()} days in the year.
-     * Thus, week one may start before the start of the year.
-     * If the first week starts after the start of the year then the period before
-     * is in the last week of the previous year.
-     * <p>
-     * This field can be used with any calendar system.
-     * <p>
-     * In the resolving phase of parsing, a date can be created from a week-based-year,
-     * week-of-year and day-of-week.
-     * <p>
-     * In {@linkplain ResolverStyle#STRICT strict mode}, all three fields are
-     * validated against their range of valid values. The week-of-year field
-     * is validated to ensure that the resulting week-based-year is the
-     * week-based-year requested.
-     * <p>
-     * In {@linkplain ResolverStyle#SMART smart mode}, all three fields are
-     * validated against their range of valid values. The week-of-week-based-year field
-     * is validated from 1 to 53, meaning that the resulting date can be in the
-     * following week-based-year to that specified.
-     * <p>
-     * In {@linkplain ResolverStyle#LENIENT lenient mode}, the year and day-of-week
-     * are validated against the range of valid values. The resulting date is calculated
-     * equivalent to the following three stage approach.
-     * First, create a date on the first day of the first week in the requested week-based-year.
-     * Then take the week-of-week-based-year, subtract one, and add the amount in weeks to the date.
-     * Finally, adjust to the correct day-of-week within the localized week.
-     *
-     * @return a field providing access to the week-based-year, not null
-     */
-    public TemporalField weekBasedYear() {
-        return weekBasedYear;
+    publid int gftMinimblDbysInFirstWffk() {
+        rfturn minimblDbys;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this {@code WeekFields} is equal to the specified object.
+     * Rfturns b fifld to bddfss tif dby of wffk bbsfd on tiis {@dodf WffkFiflds}.
      * <p>
-     * The comparison is based on the entire state of the rules, which is
-     * the first day-of-week and minimal days.
+     * Tiis is similbr to {@link CironoFifld#DAY_OF_WEEK} but usfs vblufs for
+     * tif dby-of-wffk bbsfd on tiis {@dodf WffkFiflds}.
+     * Tif dbys brf numbfrfd from 1 to 7 wifrf tif
+     * {@link #gftFirstDbyOfWffk() first dby-of-wffk} is bssignfd tif vbluf 1.
+     * <p>
+     * For fxbmplf, if tif first dby-of-wffk is Sundby, tifn tibt will ibvf tif
+     * vbluf 1, witi otifr dbys rbnging from Mondby bs 2 to Sbturdby bs 7.
+     * <p>
+     * In tif rfsolving pibsf of pbrsing, b lodblizfd dby-of-wffk will bf donvfrtfd
+     * to b stbndbrdizfd {@dodf CironoFifld} dby-of-wffk.
+     * Tif dby-of-wffk must bf in tif vblid rbngf 1 to 7.
+     * Otifr fiflds in tiis dlbss build dbtfs using tif stbndbrdizfd dby-of-wffk.
      *
-     * @param object  the other rules to compare to, null returns false
-     * @return true if this is equal to the specified rules
+     * @rfturn b fifld providing bddfss to tif dby-of-wffk witi lodblizfd numbfring, not null
      */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
+    publid TfmporblFifld dbyOfWffk() {
+        rfturn dbyOfWffk;
+    }
+
+    /**
+     * Rfturns b fifld to bddfss tif wffk of monti bbsfd on tiis {@dodf WffkFiflds}.
+     * <p>
+     * Tiis rfprfsfnts tif dondfpt of tif dount of wffks witiin tif monti wifrf wffks
+     * stbrt on b fixfd dby-of-wffk, sudi bs Mondby.
+     * Tiis fifld is typidblly usfd witi {@link WffkFiflds#dbyOfWffk()}.
+     * <p>
+     * Wffk onf (1) is tif wffk stbrting on tif {@link WffkFiflds#gftFirstDbyOfWffk}
+     * wifrf tifrf brf bt lfbst {@link WffkFiflds#gftMinimblDbysInFirstWffk()} dbys in tif monti.
+     * Tius, wffk onf mby stbrt up to {@dodf minDbys} dbys bfforf tif stbrt of tif monti.
+     * If tif first wffk stbrts bftfr tif stbrt of tif monti tifn tif pfriod bfforf is wffk zfro (0).
+     * <p>
+     * For fxbmplf:<br>
+     * - if tif 1st dby of tif monti is b Mondby, wffk onf stbrts on tif 1st bnd tifrf is no wffk zfro<br>
+     * - if tif 2nd dby of tif monti is b Mondby, wffk onf stbrts on tif 2nd bnd tif 1st is in wffk zfro<br>
+     * - if tif 4ti dby of tif monti is b Mondby, wffk onf stbrts on tif 4ti bnd tif 1st to 3rd is in wffk zfro<br>
+     * - if tif 5ti dby of tif monti is b Mondby, wffk two stbrts on tif 5ti bnd tif 1st to 4ti is in wffk onf<br>
+     * <p>
+     * Tiis fifld dbn bf usfd witi bny dblfndbr systfm.
+     * <p>
+     * In tif rfsolving pibsf of pbrsing, b dbtf dbn bf drfbtfd from b yfbr,
+     * wffk-of-monti, monti-of-yfbr bnd dby-of-wffk.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#STRICT stridt modf}, bll four fiflds brf
+     * vblidbtfd bgbinst tifir rbngf of vblid vblufs. Tif wffk-of-monti fifld
+     * is vblidbtfd to fnsurf tibt tif rfsulting monti is tif monti rfqufstfd.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#SMART smbrt modf}, bll four fiflds brf
+     * vblidbtfd bgbinst tifir rbngf of vblid vblufs. Tif wffk-of-monti fifld
+     * is vblidbtfd from 0 to 6, mfbning tibt tif rfsulting dbtf dbn bf in b
+     * difffrfnt monti to tibt spfdififd.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#LENIENT lfnifnt modf}, tif yfbr bnd dby-of-wffk
+     * brf vblidbtfd bgbinst tif rbngf of vblid vblufs. Tif rfsulting dbtf is dbldulbtfd
+     * fquivblfnt to tif following four stbgf bpprobdi.
+     * First, drfbtf b dbtf on tif first dby of tif first wffk of Jbnubry in tif rfqufstfd yfbr.
+     * Tifn tbkf tif monti-of-yfbr, subtrbdt onf, bnd bdd tif bmount in montis to tif dbtf.
+     * Tifn tbkf tif wffk-of-monti, subtrbdt onf, bnd bdd tif bmount in wffks to tif dbtf.
+     * Finblly, bdjust to tif dorrfdt dby-of-wffk witiin tif lodblizfd wffk.
+     *
+     * @rfturn b fifld providing bddfss to tif wffk-of-monti, not null
+     */
+    publid TfmporblFifld wffkOfMonti() {
+        rfturn wffkOfMonti;
+    }
+
+    /**
+     * Rfturns b fifld to bddfss tif wffk of yfbr bbsfd on tiis {@dodf WffkFiflds}.
+     * <p>
+     * Tiis rfprfsfnts tif dondfpt of tif dount of wffks witiin tif yfbr wifrf wffks
+     * stbrt on b fixfd dby-of-wffk, sudi bs Mondby.
+     * Tiis fifld is typidblly usfd witi {@link WffkFiflds#dbyOfWffk()}.
+     * <p>
+     * Wffk onf(1) is tif wffk stbrting on tif {@link WffkFiflds#gftFirstDbyOfWffk}
+     * wifrf tifrf brf bt lfbst {@link WffkFiflds#gftMinimblDbysInFirstWffk()} dbys in tif yfbr.
+     * Tius, wffk onf mby stbrt up to {@dodf minDbys} dbys bfforf tif stbrt of tif yfbr.
+     * If tif first wffk stbrts bftfr tif stbrt of tif yfbr tifn tif pfriod bfforf is wffk zfro (0).
+     * <p>
+     * For fxbmplf:<br>
+     * - if tif 1st dby of tif yfbr is b Mondby, wffk onf stbrts on tif 1st bnd tifrf is no wffk zfro<br>
+     * - if tif 2nd dby of tif yfbr is b Mondby, wffk onf stbrts on tif 2nd bnd tif 1st is in wffk zfro<br>
+     * - if tif 4ti dby of tif yfbr is b Mondby, wffk onf stbrts on tif 4ti bnd tif 1st to 3rd is in wffk zfro<br>
+     * - if tif 5ti dby of tif yfbr is b Mondby, wffk two stbrts on tif 5ti bnd tif 1st to 4ti is in wffk onf<br>
+     * <p>
+     * Tiis fifld dbn bf usfd witi bny dblfndbr systfm.
+     * <p>
+     * In tif rfsolving pibsf of pbrsing, b dbtf dbn bf drfbtfd from b yfbr,
+     * wffk-of-yfbr bnd dby-of-wffk.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#STRICT stridt modf}, bll tirff fiflds brf
+     * vblidbtfd bgbinst tifir rbngf of vblid vblufs. Tif wffk-of-yfbr fifld
+     * is vblidbtfd to fnsurf tibt tif rfsulting yfbr is tif yfbr rfqufstfd.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#SMART smbrt modf}, bll tirff fiflds brf
+     * vblidbtfd bgbinst tifir rbngf of vblid vblufs. Tif wffk-of-yfbr fifld
+     * is vblidbtfd from 0 to 54, mfbning tibt tif rfsulting dbtf dbn bf in b
+     * difffrfnt yfbr to tibt spfdififd.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#LENIENT lfnifnt modf}, tif yfbr bnd dby-of-wffk
+     * brf vblidbtfd bgbinst tif rbngf of vblid vblufs. Tif rfsulting dbtf is dbldulbtfd
+     * fquivblfnt to tif following tirff stbgf bpprobdi.
+     * First, drfbtf b dbtf on tif first dby of tif first wffk in tif rfqufstfd yfbr.
+     * Tifn tbkf tif wffk-of-yfbr, subtrbdt onf, bnd bdd tif bmount in wffks to tif dbtf.
+     * Finblly, bdjust to tif dorrfdt dby-of-wffk witiin tif lodblizfd wffk.
+     *
+     * @rfturn b fifld providing bddfss to tif wffk-of-yfbr, not null
+     */
+    publid TfmporblFifld wffkOfYfbr() {
+        rfturn wffkOfYfbr;
+    }
+
+    /**
+     * Rfturns b fifld to bddfss tif wffk of b wffk-bbsfd-yfbr bbsfd on tiis {@dodf WffkFiflds}.
+     * <p>
+     * Tiis rfprfsfnts tif dondfpt of tif dount of wffks witiin tif yfbr wifrf wffks
+     * stbrt on b fixfd dby-of-wffk, sudi bs Mondby bnd fbdi wffk bflongs to fxbdtly onf yfbr.
+     * Tiis fifld is typidblly usfd witi {@link WffkFiflds#dbyOfWffk()} bnd
+     * {@link WffkFiflds#wffkBbsfdYfbr()}.
+     * <p>
+     * Wffk onf(1) is tif wffk stbrting on tif {@link WffkFiflds#gftFirstDbyOfWffk}
+     * wifrf tifrf brf bt lfbst {@link WffkFiflds#gftMinimblDbysInFirstWffk()} dbys in tif yfbr.
+     * If tif first wffk stbrts bftfr tif stbrt of tif yfbr tifn tif pfriod bfforf
+     * is in tif lbst wffk of tif prfvious yfbr.
+     * <p>
+     * For fxbmplf:<br>
+     * - if tif 1st dby of tif yfbr is b Mondby, wffk onf stbrts on tif 1st<br>
+     * - if tif 2nd dby of tif yfbr is b Mondby, wffk onf stbrts on tif 2nd bnd
+     *   tif 1st is in tif lbst wffk of tif prfvious yfbr<br>
+     * - if tif 4ti dby of tif yfbr is b Mondby, wffk onf stbrts on tif 4ti bnd
+     *   tif 1st to 3rd is in tif lbst wffk of tif prfvious yfbr<br>
+     * - if tif 5ti dby of tif yfbr is b Mondby, wffk two stbrts on tif 5ti bnd
+     *   tif 1st to 4ti is in wffk onf<br>
+     * <p>
+     * Tiis fifld dbn bf usfd witi bny dblfndbr systfm.
+     * <p>
+     * In tif rfsolving pibsf of pbrsing, b dbtf dbn bf drfbtfd from b wffk-bbsfd-yfbr,
+     * wffk-of-yfbr bnd dby-of-wffk.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#STRICT stridt modf}, bll tirff fiflds brf
+     * vblidbtfd bgbinst tifir rbngf of vblid vblufs. Tif wffk-of-yfbr fifld
+     * is vblidbtfd to fnsurf tibt tif rfsulting wffk-bbsfd-yfbr is tif
+     * wffk-bbsfd-yfbr rfqufstfd.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#SMART smbrt modf}, bll tirff fiflds brf
+     * vblidbtfd bgbinst tifir rbngf of vblid vblufs. Tif wffk-of-wffk-bbsfd-yfbr fifld
+     * is vblidbtfd from 1 to 53, mfbning tibt tif rfsulting dbtf dbn bf in tif
+     * following wffk-bbsfd-yfbr to tibt spfdififd.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#LENIENT lfnifnt modf}, tif yfbr bnd dby-of-wffk
+     * brf vblidbtfd bgbinst tif rbngf of vblid vblufs. Tif rfsulting dbtf is dbldulbtfd
+     * fquivblfnt to tif following tirff stbgf bpprobdi.
+     * First, drfbtf b dbtf on tif first dby of tif first wffk in tif rfqufstfd wffk-bbsfd-yfbr.
+     * Tifn tbkf tif wffk-of-wffk-bbsfd-yfbr, subtrbdt onf, bnd bdd tif bmount in wffks to tif dbtf.
+     * Finblly, bdjust to tif dorrfdt dby-of-wffk witiin tif lodblizfd wffk.
+     *
+     * @rfturn b fifld providing bddfss to tif wffk-of-wffk-bbsfd-yfbr, not null
+     */
+    publid TfmporblFifld wffkOfWffkBbsfdYfbr() {
+        rfturn wffkOfWffkBbsfdYfbr;
+    }
+
+    /**
+     * Rfturns b fifld to bddfss tif yfbr of b wffk-bbsfd-yfbr bbsfd on tiis {@dodf WffkFiflds}.
+     * <p>
+     * Tiis rfprfsfnts tif dondfpt of tif yfbr wifrf wffks stbrt on b fixfd dby-of-wffk,
+     * sudi bs Mondby bnd fbdi wffk bflongs to fxbdtly onf yfbr.
+     * Tiis fifld is typidblly usfd witi {@link WffkFiflds#dbyOfWffk()} bnd
+     * {@link WffkFiflds#wffkOfWffkBbsfdYfbr()}.
+     * <p>
+     * Wffk onf(1) is tif wffk stbrting on tif {@link WffkFiflds#gftFirstDbyOfWffk}
+     * wifrf tifrf brf bt lfbst {@link WffkFiflds#gftMinimblDbysInFirstWffk()} dbys in tif yfbr.
+     * Tius, wffk onf mby stbrt bfforf tif stbrt of tif yfbr.
+     * If tif first wffk stbrts bftfr tif stbrt of tif yfbr tifn tif pfriod bfforf
+     * is in tif lbst wffk of tif prfvious yfbr.
+     * <p>
+     * Tiis fifld dbn bf usfd witi bny dblfndbr systfm.
+     * <p>
+     * In tif rfsolving pibsf of pbrsing, b dbtf dbn bf drfbtfd from b wffk-bbsfd-yfbr,
+     * wffk-of-yfbr bnd dby-of-wffk.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#STRICT stridt modf}, bll tirff fiflds brf
+     * vblidbtfd bgbinst tifir rbngf of vblid vblufs. Tif wffk-of-yfbr fifld
+     * is vblidbtfd to fnsurf tibt tif rfsulting wffk-bbsfd-yfbr is tif
+     * wffk-bbsfd-yfbr rfqufstfd.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#SMART smbrt modf}, bll tirff fiflds brf
+     * vblidbtfd bgbinst tifir rbngf of vblid vblufs. Tif wffk-of-wffk-bbsfd-yfbr fifld
+     * is vblidbtfd from 1 to 53, mfbning tibt tif rfsulting dbtf dbn bf in tif
+     * following wffk-bbsfd-yfbr to tibt spfdififd.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#LENIENT lfnifnt modf}, tif yfbr bnd dby-of-wffk
+     * brf vblidbtfd bgbinst tif rbngf of vblid vblufs. Tif rfsulting dbtf is dbldulbtfd
+     * fquivblfnt to tif following tirff stbgf bpprobdi.
+     * First, drfbtf b dbtf on tif first dby of tif first wffk in tif rfqufstfd wffk-bbsfd-yfbr.
+     * Tifn tbkf tif wffk-of-wffk-bbsfd-yfbr, subtrbdt onf, bnd bdd tif bmount in wffks to tif dbtf.
+     * Finblly, bdjust to tif dorrfdt dby-of-wffk witiin tif lodblizfd wffk.
+     *
+     * @rfturn b fifld providing bddfss to tif wffk-bbsfd-yfbr, not null
+     */
+    publid TfmporblFifld wffkBbsfdYfbr() {
+        rfturn wffkBbsfdYfbr;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Cifdks if tiis {@dodf WffkFiflds} is fqubl to tif spfdififd objfdt.
+     * <p>
+     * Tif dompbrison is bbsfd on tif fntirf stbtf of tif rulfs, wiidi is
+     * tif first dby-of-wffk bnd minimbl dbys.
+     *
+     * @pbrbm objfdt  tif otifr rulfs to dompbrf to, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif spfdififd rulfs
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (tiis == objfdt) {
+            rfturn truf;
         }
-        if (object instanceof WeekFields) {
-            return hashCode() == object.hashCode();
+        if (objfdt instbndfof WffkFiflds) {
+            rfturn ibsiCodf() == objfdt.ibsiCodf();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * A hash code for this {@code WeekFields}.
+     * A ibsi dodf for tiis {@dodf WffkFiflds}.
      *
-     * @return a suitable hash code
+     * @rfturn b suitbblf ibsi dodf
      */
-    @Override
-    public int hashCode() {
-        return firstDayOfWeek.ordinal() * 7 + minimalDays;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn firstDbyOfWffk.ordinbl() * 7 + minimblDbys;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * A string representation of this {@code WeekFields} instance.
+     * A string rfprfsfntbtion of tiis {@dodf WffkFiflds} instbndf.
      *
-     * @return the string representation, not null
+     * @rfturn tif string rfprfsfntbtion, not null
      */
-    @Override
-    public String toString() {
-        return "WeekFields[" + firstDayOfWeek + ',' + minimalDays + ']';
+    @Ovfrridf
+    publid String toString() {
+        rfturn "WffkFiflds[" + firstDbyOfWffk + ',' + minimblDbys + ']';
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Field type that computes DayOfWeek, WeekOfMonth, and WeekOfYear
-     * based on a WeekFields.
-     * A separate Field instance is required for each different WeekFields;
-     * combination of start of week and minimum number of days.
-     * Constructors are provided to create fields for DayOfWeek, WeekOfMonth,
-     * and WeekOfYear.
+     * Fifld typf tibt domputfs DbyOfWffk, WffkOfMonti, bnd WffkOfYfbr
+     * bbsfd on b WffkFiflds.
+     * A sfpbrbtf Fifld instbndf is rfquirfd for fbdi difffrfnt WffkFiflds;
+     * dombinbtion of stbrt of wffk bnd minimum numbfr of dbys.
+     * Construdtors brf providfd to drfbtf fiflds for DbyOfWffk, WffkOfMonti,
+     * bnd WffkOfYfbr.
      */
-    static class ComputedDayOfField implements TemporalField {
+    stbtid dlbss ComputfdDbyOfFifld implfmfnts TfmporblFifld {
 
         /**
-         * Returns a field to access the day of week,
-         * computed based on a WeekFields.
+         * Rfturns b fifld to bddfss tif dby of wffk,
+         * domputfd bbsfd on b WffkFiflds.
          * <p>
-         * The WeekDefintion of the first day of the week is used with
-         * the ISO DAY_OF_WEEK field to compute week boundaries.
+         * Tif WffkDffintion of tif first dby of tif wffk is usfd witi
+         * tif ISO DAY_OF_WEEK fifld to domputf wffk boundbrifs.
          */
-        static ComputedDayOfField ofDayOfWeekField(WeekFields weekDef) {
-            return new ComputedDayOfField("DayOfWeek", weekDef, DAYS, WEEKS, DAY_OF_WEEK_RANGE);
+        stbtid ComputfdDbyOfFifld ofDbyOfWffkFifld(WffkFiflds wffkDff) {
+            rfturn nfw ComputfdDbyOfFifld("DbyOfWffk", wffkDff, DAYS, WEEKS, DAY_OF_WEEK_RANGE);
         }
 
         /**
-         * Returns a field to access the week of month,
-         * computed based on a WeekFields.
-         * @see WeekFields#weekOfMonth()
+         * Rfturns b fifld to bddfss tif wffk of monti,
+         * domputfd bbsfd on b WffkFiflds.
+         * @sff WffkFiflds#wffkOfMonti()
          */
-        static ComputedDayOfField ofWeekOfMonthField(WeekFields weekDef) {
-            return new ComputedDayOfField("WeekOfMonth", weekDef, WEEKS, MONTHS, WEEK_OF_MONTH_RANGE);
+        stbtid ComputfdDbyOfFifld ofWffkOfMontiFifld(WffkFiflds wffkDff) {
+            rfturn nfw ComputfdDbyOfFifld("WffkOfMonti", wffkDff, WEEKS, MONTHS, WEEK_OF_MONTH_RANGE);
         }
 
         /**
-         * Returns a field to access the week of year,
-         * computed based on a WeekFields.
-         * @see WeekFields#weekOfYear()
+         * Rfturns b fifld to bddfss tif wffk of yfbr,
+         * domputfd bbsfd on b WffkFiflds.
+         * @sff WffkFiflds#wffkOfYfbr()
          */
-        static ComputedDayOfField ofWeekOfYearField(WeekFields weekDef) {
-            return new ComputedDayOfField("WeekOfYear", weekDef, WEEKS, YEARS, WEEK_OF_YEAR_RANGE);
+        stbtid ComputfdDbyOfFifld ofWffkOfYfbrFifld(WffkFiflds wffkDff) {
+            rfturn nfw ComputfdDbyOfFifld("WffkOfYfbr", wffkDff, WEEKS, YEARS, WEEK_OF_YEAR_RANGE);
         }
 
         /**
-         * Returns a field to access the week of week-based-year,
-         * computed based on a WeekFields.
-         * @see WeekFields#weekOfWeekBasedYear()
+         * Rfturns b fifld to bddfss tif wffk of wffk-bbsfd-yfbr,
+         * domputfd bbsfd on b WffkFiflds.
+         * @sff WffkFiflds#wffkOfWffkBbsfdYfbr()
          */
-        static ComputedDayOfField ofWeekOfWeekBasedYearField(WeekFields weekDef) {
-            return new ComputedDayOfField("WeekOfWeekBasedYear", weekDef, WEEKS, IsoFields.WEEK_BASED_YEARS, WEEK_OF_WEEK_BASED_YEAR_RANGE);
+        stbtid ComputfdDbyOfFifld ofWffkOfWffkBbsfdYfbrFifld(WffkFiflds wffkDff) {
+            rfturn nfw ComputfdDbyOfFifld("WffkOfWffkBbsfdYfbr", wffkDff, WEEKS, IsoFiflds.WEEK_BASED_YEARS, WEEK_OF_WEEK_BASED_YEAR_RANGE);
         }
 
         /**
-         * Returns a field to access the week of week-based-year,
-         * computed based on a WeekFields.
-         * @see WeekFields#weekBasedYear()
+         * Rfturns b fifld to bddfss tif wffk of wffk-bbsfd-yfbr,
+         * domputfd bbsfd on b WffkFiflds.
+         * @sff WffkFiflds#wffkBbsfdYfbr()
          */
-        static ComputedDayOfField ofWeekBasedYearField(WeekFields weekDef) {
-            return new ComputedDayOfField("WeekBasedYear", weekDef, IsoFields.WEEK_BASED_YEARS, FOREVER, ChronoField.YEAR.range());
+        stbtid ComputfdDbyOfFifld ofWffkBbsfdYfbrFifld(WffkFiflds wffkDff) {
+            rfturn nfw ComputfdDbyOfFifld("WffkBbsfdYfbr", wffkDff, IsoFiflds.WEEK_BASED_YEARS, FOREVER, CironoFifld.YEAR.rbngf());
         }
 
         /**
-         * Return a new week-based-year date of the Chronology, year, week-of-year,
-         * and dow of week.
-         * @param chrono The chronology of the new date
-         * @param yowby the year of the week-based-year
-         * @param wowby the week of the week-based-year
-         * @param dow the day of the week
-         * @return a ChronoLocalDate for the requested year, week of year, and day of week
+         * Rfturn b nfw wffk-bbsfd-yfbr dbtf of tif Cironology, yfbr, wffk-of-yfbr,
+         * bnd dow of wffk.
+         * @pbrbm dirono Tif dironology of tif nfw dbtf
+         * @pbrbm yowby tif yfbr of tif wffk-bbsfd-yfbr
+         * @pbrbm wowby tif wffk of tif wffk-bbsfd-yfbr
+         * @pbrbm dow tif dby of tif wffk
+         * @rfturn b CironoLodblDbtf for tif rfqufstfd yfbr, wffk of yfbr, bnd dby of wffk
          */
-        private ChronoLocalDate ofWeekBasedYear(Chronology chrono,
+        privbtf CironoLodblDbtf ofWffkBbsfdYfbr(Cironology dirono,
                 int yowby, int wowby, int dow) {
-            ChronoLocalDate date = chrono.date(yowby, 1, 1);
-            int ldow = localizedDayOfWeek(date);
-            int offset = startOfWeekOffset(1, ldow);
+            CironoLodblDbtf dbtf = dirono.dbtf(yowby, 1, 1);
+            int ldow = lodblizfdDbyOfWffk(dbtf);
+            int offsft = stbrtOfWffkOffsft(1, ldow);
 
-            // Clamp the week of year to keep it in the same year
-            int yearLen = date.lengthOfYear();
-            int newYearWeek = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek());
-            wowby = Math.min(wowby, newYearWeek - 1);
+            // Clbmp tif wffk of yfbr to kffp it in tif sbmf yfbr
+            int yfbrLfn = dbtf.lfngtiOfYfbr();
+            int nfwYfbrWffk = domputfWffk(offsft, yfbrLfn + wffkDff.gftMinimblDbysInFirstWffk());
+            wowby = Mbti.min(wowby, nfwYfbrWffk - 1);
 
-            int days = -offset + (dow - 1) + (wowby - 1) * 7;
-            return date.plus(days, DAYS);
+            int dbys = -offsft + (dow - 1) + (wowby - 1) * 7;
+            rfturn dbtf.plus(dbys, DAYS);
         }
 
-        private final String name;
-        private final WeekFields weekDef;
-        private final TemporalUnit baseUnit;
-        private final TemporalUnit rangeUnit;
-        private final ValueRange range;
+        privbtf finbl String nbmf;
+        privbtf finbl WffkFiflds wffkDff;
+        privbtf finbl TfmporblUnit bbsfUnit;
+        privbtf finbl TfmporblUnit rbngfUnit;
+        privbtf finbl VblufRbngf rbngf;
 
-        private ComputedDayOfField(String name, WeekFields weekDef, TemporalUnit baseUnit, TemporalUnit rangeUnit, ValueRange range) {
-            this.name = name;
-            this.weekDef = weekDef;
-            this.baseUnit = baseUnit;
-            this.rangeUnit = rangeUnit;
-            this.range = range;
+        privbtf ComputfdDbyOfFifld(String nbmf, WffkFiflds wffkDff, TfmporblUnit bbsfUnit, TfmporblUnit rbngfUnit, VblufRbngf rbngf) {
+            tiis.nbmf = nbmf;
+            tiis.wffkDff = wffkDff;
+            tiis.bbsfUnit = bbsfUnit;
+            tiis.rbngfUnit = rbngfUnit;
+            tiis.rbngf = rbngf;
         }
 
-        private static final ValueRange DAY_OF_WEEK_RANGE = ValueRange.of(1, 7);
-        private static final ValueRange WEEK_OF_MONTH_RANGE = ValueRange.of(0, 1, 4, 6);
-        private static final ValueRange WEEK_OF_YEAR_RANGE = ValueRange.of(0, 1, 52, 54);
-        private static final ValueRange WEEK_OF_WEEK_BASED_YEAR_RANGE = ValueRange.of(1, 52, 53);
+        privbtf stbtid finbl VblufRbngf DAY_OF_WEEK_RANGE = VblufRbngf.of(1, 7);
+        privbtf stbtid finbl VblufRbngf WEEK_OF_MONTH_RANGE = VblufRbngf.of(0, 1, 4, 6);
+        privbtf stbtid finbl VblufRbngf WEEK_OF_YEAR_RANGE = VblufRbngf.of(0, 1, 52, 54);
+        privbtf stbtid finbl VblufRbngf WEEK_OF_WEEK_BASED_YEAR_RANGE = VblufRbngf.of(1, 52, 53);
 
-        @Override
-        public long getFrom(TemporalAccessor temporal) {
-            if (rangeUnit == WEEKS) {  // day-of-week
-                return localizedDayOfWeek(temporal);
-            } else if (rangeUnit == MONTHS) {  // week-of-month
-                return localizedWeekOfMonth(temporal);
-            } else if (rangeUnit == YEARS) {  // week-of-year
-                return localizedWeekOfYear(temporal);
-            } else if (rangeUnit == WEEK_BASED_YEARS) {
-                return localizedWeekOfWeekBasedYear(temporal);
-            } else if (rangeUnit == FOREVER) {
-                return localizedWeekBasedYear(temporal);
-            } else {
-                throw new IllegalStateException("unreachable, rangeUnit: " + rangeUnit + ", this: " + this);
+        @Ovfrridf
+        publid long gftFrom(TfmporblAddfssor tfmporbl) {
+            if (rbngfUnit == WEEKS) {  // dby-of-wffk
+                rfturn lodblizfdDbyOfWffk(tfmporbl);
+            } flsf if (rbngfUnit == MONTHS) {  // wffk-of-monti
+                rfturn lodblizfdWffkOfMonti(tfmporbl);
+            } flsf if (rbngfUnit == YEARS) {  // wffk-of-yfbr
+                rfturn lodblizfdWffkOfYfbr(tfmporbl);
+            } flsf if (rbngfUnit == WEEK_BASED_YEARS) {
+                rfturn lodblizfdWffkOfWffkBbsfdYfbr(tfmporbl);
+            } flsf if (rbngfUnit == FOREVER) {
+                rfturn lodblizfdWffkBbsfdYfbr(tfmporbl);
+            } flsf {
+                tirow nfw IllfgblStbtfExdfption("unrfbdibblf, rbngfUnit: " + rbngfUnit + ", tiis: " + tiis);
             }
         }
 
-        private int localizedDayOfWeek(TemporalAccessor temporal) {
-            int sow = weekDef.getFirstDayOfWeek().getValue();
-            int isoDow = temporal.get(DAY_OF_WEEK);
-            return Math.floorMod(isoDow - sow, 7) + 1;
+        privbtf int lodblizfdDbyOfWffk(TfmporblAddfssor tfmporbl) {
+            int sow = wffkDff.gftFirstDbyOfWffk().gftVbluf();
+            int isoDow = tfmporbl.gft(DAY_OF_WEEK);
+            rfturn Mbti.floorMod(isoDow - sow, 7) + 1;
         }
 
-        private int localizedDayOfWeek(int isoDow) {
-            int sow = weekDef.getFirstDayOfWeek().getValue();
-            return Math.floorMod(isoDow - sow, 7) + 1;
+        privbtf int lodblizfdDbyOfWffk(int isoDow) {
+            int sow = wffkDff.gftFirstDbyOfWffk().gftVbluf();
+            rfturn Mbti.floorMod(isoDow - sow, 7) + 1;
         }
 
-        private long localizedWeekOfMonth(TemporalAccessor temporal) {
-            int dow = localizedDayOfWeek(temporal);
-            int dom = temporal.get(DAY_OF_MONTH);
-            int offset = startOfWeekOffset(dom, dow);
-            return computeWeek(offset, dom);
+        privbtf long lodblizfdWffkOfMonti(TfmporblAddfssor tfmporbl) {
+            int dow = lodblizfdDbyOfWffk(tfmporbl);
+            int dom = tfmporbl.gft(DAY_OF_MONTH);
+            int offsft = stbrtOfWffkOffsft(dom, dow);
+            rfturn domputfWffk(offsft, dom);
         }
 
-        private long localizedWeekOfYear(TemporalAccessor temporal) {
-            int dow = localizedDayOfWeek(temporal);
-            int doy = temporal.get(DAY_OF_YEAR);
-            int offset = startOfWeekOffset(doy, dow);
-            return computeWeek(offset, doy);
+        privbtf long lodblizfdWffkOfYfbr(TfmporblAddfssor tfmporbl) {
+            int dow = lodblizfdDbyOfWffk(tfmporbl);
+            int doy = tfmporbl.gft(DAY_OF_YEAR);
+            int offsft = stbrtOfWffkOffsft(doy, dow);
+            rfturn domputfWffk(offsft, doy);
         }
 
         /**
-         * Returns the year of week-based-year for the temporal.
-         * The year can be the previous year, the current year, or the next year.
-         * @param temporal a date of any chronology, not null
-         * @return the year of week-based-year for the date
+         * Rfturns tif yfbr of wffk-bbsfd-yfbr for tif tfmporbl.
+         * Tif yfbr dbn bf tif prfvious yfbr, tif durrfnt yfbr, or tif nfxt yfbr.
+         * @pbrbm tfmporbl b dbtf of bny dironology, not null
+         * @rfturn tif yfbr of wffk-bbsfd-yfbr for tif dbtf
          */
-        private int localizedWeekBasedYear(TemporalAccessor temporal) {
-            int dow = localizedDayOfWeek(temporal);
-            int year = temporal.get(YEAR);
-            int doy = temporal.get(DAY_OF_YEAR);
-            int offset = startOfWeekOffset(doy, dow);
-            int week = computeWeek(offset, doy);
-            if (week == 0) {
-                // Day is in end of week of previous year; return the previous year
-                return year - 1;
-            } else {
-                // If getting close to end of year, use higher precision logic
-                // Check if date of year is in partial week associated with next year
-                ValueRange dayRange = temporal.range(DAY_OF_YEAR);
-                int yearLen = (int)dayRange.getMaximum();
-                int newYearWeek = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek());
-                if (week >= newYearWeek) {
-                    return year + 1;
+        privbtf int lodblizfdWffkBbsfdYfbr(TfmporblAddfssor tfmporbl) {
+            int dow = lodblizfdDbyOfWffk(tfmporbl);
+            int yfbr = tfmporbl.gft(YEAR);
+            int doy = tfmporbl.gft(DAY_OF_YEAR);
+            int offsft = stbrtOfWffkOffsft(doy, dow);
+            int wffk = domputfWffk(offsft, doy);
+            if (wffk == 0) {
+                // Dby is in fnd of wffk of prfvious yfbr; rfturn tif prfvious yfbr
+                rfturn yfbr - 1;
+            } flsf {
+                // If gftting dlosf to fnd of yfbr, usf iigifr prfdision logid
+                // Cifdk if dbtf of yfbr is in pbrtibl wffk bssodibtfd witi nfxt yfbr
+                VblufRbngf dbyRbngf = tfmporbl.rbngf(DAY_OF_YEAR);
+                int yfbrLfn = (int)dbyRbngf.gftMbximum();
+                int nfwYfbrWffk = domputfWffk(offsft, yfbrLfn + wffkDff.gftMinimblDbysInFirstWffk());
+                if (wffk >= nfwYfbrWffk) {
+                    rfturn yfbr + 1;
                 }
             }
-            return year;
+            rfturn yfbr;
         }
 
         /**
-         * Returns the week of week-based-year for the temporal.
-         * The week can be part of the previous year, the current year,
-         * or the next year depending on the week start and minimum number
-         * of days.
-         * @param temporal  a date of any chronology
-         * @return the week of the year
-         * @see #localizedWeekBasedYear(java.time.temporal.TemporalAccessor)
+         * Rfturns tif wffk of wffk-bbsfd-yfbr for tif tfmporbl.
+         * Tif wffk dbn bf pbrt of tif prfvious yfbr, tif durrfnt yfbr,
+         * or tif nfxt yfbr dfpfnding on tif wffk stbrt bnd minimum numbfr
+         * of dbys.
+         * @pbrbm tfmporbl  b dbtf of bny dironology
+         * @rfturn tif wffk of tif yfbr
+         * @sff #lodblizfdWffkBbsfdYfbr(jbvb.timf.tfmporbl.TfmporblAddfssor)
          */
-        private int localizedWeekOfWeekBasedYear(TemporalAccessor temporal) {
-            int dow = localizedDayOfWeek(temporal);
-            int doy = temporal.get(DAY_OF_YEAR);
-            int offset = startOfWeekOffset(doy, dow);
-            int week = computeWeek(offset, doy);
-            if (week == 0) {
-                // Day is in end of week of previous year
-                // Recompute from the last day of the previous year
-                ChronoLocalDate date = Chronology.from(temporal).date(temporal);
-                date = date.minus(doy, DAYS);   // Back down into previous year
-                return localizedWeekOfWeekBasedYear(date);
-            } else if (week > 50) {
-                // If getting close to end of year, use higher precision logic
-                // Check if date of year is in partial week associated with next year
-                ValueRange dayRange = temporal.range(DAY_OF_YEAR);
-                int yearLen = (int)dayRange.getMaximum();
-                int newYearWeek = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek());
-                if (week >= newYearWeek) {
-                    // Overlaps with week of following year; reduce to week in following year
-                    week = week - newYearWeek + 1;
+        privbtf int lodblizfdWffkOfWffkBbsfdYfbr(TfmporblAddfssor tfmporbl) {
+            int dow = lodblizfdDbyOfWffk(tfmporbl);
+            int doy = tfmporbl.gft(DAY_OF_YEAR);
+            int offsft = stbrtOfWffkOffsft(doy, dow);
+            int wffk = domputfWffk(offsft, doy);
+            if (wffk == 0) {
+                // Dby is in fnd of wffk of prfvious yfbr
+                // Rfdomputf from tif lbst dby of tif prfvious yfbr
+                CironoLodblDbtf dbtf = Cironology.from(tfmporbl).dbtf(tfmporbl);
+                dbtf = dbtf.minus(doy, DAYS);   // Bbdk down into prfvious yfbr
+                rfturn lodblizfdWffkOfWffkBbsfdYfbr(dbtf);
+            } flsf if (wffk > 50) {
+                // If gftting dlosf to fnd of yfbr, usf iigifr prfdision logid
+                // Cifdk if dbtf of yfbr is in pbrtibl wffk bssodibtfd witi nfxt yfbr
+                VblufRbngf dbyRbngf = tfmporbl.rbngf(DAY_OF_YEAR);
+                int yfbrLfn = (int)dbyRbngf.gftMbximum();
+                int nfwYfbrWffk = domputfWffk(offsft, yfbrLfn + wffkDff.gftMinimblDbysInFirstWffk());
+                if (wffk >= nfwYfbrWffk) {
+                    // Ovfrlbps witi wffk of following yfbr; rfdudf to wffk in following yfbr
+                    wffk = wffk - nfwYfbrWffk + 1;
                 }
             }
-            return week;
+            rfturn wffk;
         }
 
         /**
-         * Returns an offset to align week start with a day of month or day of year.
+         * Rfturns bn offsft to blign wffk stbrt witi b dby of monti or dby of yfbr.
          *
-         * @param day  the day; 1 through infinity
-         * @param dow  the day of the week of that day; 1 through 7
-         * @return  an offset in days to align a day with the start of the first 'full' week
+         * @pbrbm dby  tif dby; 1 tirougi infinity
+         * @pbrbm dow  tif dby of tif wffk of tibt dby; 1 tirougi 7
+         * @rfturn  bn offsft in dbys to blign b dby witi tif stbrt of tif first 'full' wffk
          */
-        private int startOfWeekOffset(int day, int dow) {
-            // offset of first day corresponding to the day of week in first 7 days (zero origin)
-            int weekStart = Math.floorMod(day - dow, 7);
-            int offset = -weekStart;
-            if (weekStart + 1 > weekDef.getMinimalDaysInFirstWeek()) {
-                // The previous week has the minimum days in the current month to be a 'week'
-                offset = 7 - weekStart;
+        privbtf int stbrtOfWffkOffsft(int dby, int dow) {
+            // offsft of first dby dorrfsponding to tif dby of wffk in first 7 dbys (zfro origin)
+            int wffkStbrt = Mbti.floorMod(dby - dow, 7);
+            int offsft = -wffkStbrt;
+            if (wffkStbrt + 1 > wffkDff.gftMinimblDbysInFirstWffk()) {
+                // Tif prfvious wffk ibs tif minimum dbys in tif durrfnt monti to bf b 'wffk'
+                offsft = 7 - wffkStbrt;
             }
-            return offset;
+            rfturn offsft;
         }
 
         /**
-         * Returns the week number computed from the reference day and reference dayOfWeek.
+         * Rfturns tif wffk numbfr domputfd from tif rfffrfndf dby bnd rfffrfndf dbyOfWffk.
          *
-         * @param offset the offset to align a date with the start of week
-         *     from {@link #startOfWeekOffset}.
-         * @param day  the day for which to compute the week number
-         * @return the week number where zero is used for a partial week and 1 for the first full week
+         * @pbrbm offsft tif offsft to blign b dbtf witi tif stbrt of wffk
+         *     from {@link #stbrtOfWffkOffsft}.
+         * @pbrbm dby  tif dby for wiidi to domputf tif wffk numbfr
+         * @rfturn tif wffk numbfr wifrf zfro is usfd for b pbrtibl wffk bnd 1 for tif first full wffk
          */
-        private int computeWeek(int offset, int day) {
-            return ((7 + offset + (day - 1)) / 7);
+        privbtf int domputfWffk(int offsft, int dby) {
+            rfturn ((7 + offsft + (dby - 1)) / 7);
         }
 
-        @SuppressWarnings("unchecked")
-        @Override
-        public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-            // Check the new value and get the old value of the field
-            int newVal = range.checkValidIntValue(newValue, this);  // lenient check range
-            int currentVal = temporal.get(this);
-            if (newVal == currentVal) {
-                return temporal;
+        @SupprfssWbrnings("undifdkfd")
+        @Ovfrridf
+        publid <R fxtfnds Tfmporbl> R bdjustInto(R tfmporbl, long nfwVbluf) {
+            // Cifdk tif nfw vbluf bnd gft tif old vbluf of tif fifld
+            int nfwVbl = rbngf.difdkVblidIntVbluf(nfwVbluf, tiis);  // lfnifnt difdk rbngf
+            int durrfntVbl = tfmporbl.gft(tiis);
+            if (nfwVbl == durrfntVbl) {
+                rfturn tfmporbl;
             }
 
-            if (rangeUnit == FOREVER) {     // replace year of WeekBasedYear
-                // Create a new date object with the same chronology,
-                // the desired year and the same week and dow.
-                int idow = temporal.get(weekDef.dayOfWeek);
-                int wowby = temporal.get(weekDef.weekOfWeekBasedYear);
-                return (R) ofWeekBasedYear(Chronology.from(temporal), (int)newValue, wowby, idow);
-            } else {
-                // Compute the difference and add that using the base unit of the field
-                return (R) temporal.plus(newVal - currentVal, baseUnit);
+            if (rbngfUnit == FOREVER) {     // rfplbdf yfbr of WffkBbsfdYfbr
+                // Crfbtf b nfw dbtf objfdt witi tif sbmf dironology,
+                // tif dfsirfd yfbr bnd tif sbmf wffk bnd dow.
+                int idow = tfmporbl.gft(wffkDff.dbyOfWffk);
+                int wowby = tfmporbl.gft(wffkDff.wffkOfWffkBbsfdYfbr);
+                rfturn (R) ofWffkBbsfdYfbr(Cironology.from(tfmporbl), (int)nfwVbluf, wowby, idow);
+            } flsf {
+                // Computf tif difffrfndf bnd bdd tibt using tif bbsf unit of tif fifld
+                rfturn (R) tfmporbl.plus(nfwVbl - durrfntVbl, bbsfUnit);
             }
         }
 
-        @Override
-        public ChronoLocalDate resolve(
-                Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
-            final long value = fieldValues.get(this);
-            final int newValue = Math.toIntExact(value);  // broad limit makes overflow checking lighter
-            // first convert localized day-of-week to ISO day-of-week
-            // doing this first handles case where both ISO and localized were parsed and might mismatch
-            // day-of-week is always strict as two different day-of-week values makes lenient complex
-            if (rangeUnit == WEEKS) {  // day-of-week
-                final int checkedValue = range.checkValidIntValue(value, this);  // no leniency as too complex
-                final int startDow = weekDef.getFirstDayOfWeek().getValue();
-                long isoDow = Math.floorMod((startDow - 1) + (checkedValue - 1), 7) + 1;
-                fieldValues.remove(this);
-                fieldValues.put(DAY_OF_WEEK, isoDow);
-                return null;
+        @Ovfrridf
+        publid CironoLodblDbtf rfsolvf(
+                Mbp<TfmporblFifld, Long> fifldVblufs, TfmporblAddfssor pbrtiblTfmporbl, RfsolvfrStylf rfsolvfrStylf) {
+            finbl long vbluf = fifldVblufs.gft(tiis);
+            finbl int nfwVbluf = Mbti.toIntExbdt(vbluf);  // brobd limit mbkfs ovfrflow difdking ligitfr
+            // first donvfrt lodblizfd dby-of-wffk to ISO dby-of-wffk
+            // doing tiis first ibndlfs dbsf wifrf boti ISO bnd lodblizfd wfrf pbrsfd bnd migit mismbtdi
+            // dby-of-wffk is blwbys stridt bs two difffrfnt dby-of-wffk vblufs mbkfs lfnifnt domplfx
+            if (rbngfUnit == WEEKS) {  // dby-of-wffk
+                finbl int difdkfdVbluf = rbngf.difdkVblidIntVbluf(vbluf, tiis);  // no lfnifndy bs too domplfx
+                finbl int stbrtDow = wffkDff.gftFirstDbyOfWffk().gftVbluf();
+                long isoDow = Mbti.floorMod((stbrtDow - 1) + (difdkfdVbluf - 1), 7) + 1;
+                fifldVblufs.rfmovf(tiis);
+                fifldVblufs.put(DAY_OF_WEEK, isoDow);
+                rfturn null;
             }
 
-            // can only build date if ISO day-of-week is present
-            if (fieldValues.containsKey(DAY_OF_WEEK) == false) {
-                return null;
+            // dbn only build dbtf if ISO dby-of-wffk is prfsfnt
+            if (fifldVblufs.dontbinsKfy(DAY_OF_WEEK) == fblsf) {
+                rfturn null;
             }
-            int isoDow = DAY_OF_WEEK.checkValidIntValue(fieldValues.get(DAY_OF_WEEK));
-            int dow = localizedDayOfWeek(isoDow);
+            int isoDow = DAY_OF_WEEK.difdkVblidIntVbluf(fifldVblufs.gft(DAY_OF_WEEK));
+            int dow = lodblizfdDbyOfWffk(isoDow);
 
-            // build date
-            Chronology chrono = Chronology.from(partialTemporal);
-            if (fieldValues.containsKey(YEAR)) {
-                int year = YEAR.checkValidIntValue(fieldValues.get(YEAR));  // validate
-                if (rangeUnit == MONTHS && fieldValues.containsKey(MONTH_OF_YEAR)) {  // week-of-month
-                    long month = fieldValues.get(MONTH_OF_YEAR);  // not validated yet
-                    return resolveWoM(fieldValues, chrono, year, month, newValue, dow, resolverStyle);
+            // build dbtf
+            Cironology dirono = Cironology.from(pbrtiblTfmporbl);
+            if (fifldVblufs.dontbinsKfy(YEAR)) {
+                int yfbr = YEAR.difdkVblidIntVbluf(fifldVblufs.gft(YEAR));  // vblidbtf
+                if (rbngfUnit == MONTHS && fifldVblufs.dontbinsKfy(MONTH_OF_YEAR)) {  // wffk-of-monti
+                    long monti = fifldVblufs.gft(MONTH_OF_YEAR);  // not vblidbtfd yft
+                    rfturn rfsolvfWoM(fifldVblufs, dirono, yfbr, monti, nfwVbluf, dow, rfsolvfrStylf);
                 }
-                if (rangeUnit == YEARS) {  // week-of-year
-                    return resolveWoY(fieldValues, chrono, year, newValue, dow, resolverStyle);
+                if (rbngfUnit == YEARS) {  // wffk-of-yfbr
+                    rfturn rfsolvfWoY(fifldVblufs, dirono, yfbr, nfwVbluf, dow, rfsolvfrStylf);
                 }
-            } else if ((rangeUnit == WEEK_BASED_YEARS || rangeUnit == FOREVER) &&
-                    fieldValues.containsKey(weekDef.weekBasedYear) &&
-                    fieldValues.containsKey(weekDef.weekOfWeekBasedYear)) { // week-of-week-based-year and year-of-week-based-year
-                return resolveWBY(fieldValues, chrono, dow, resolverStyle);
+            } flsf if ((rbngfUnit == WEEK_BASED_YEARS || rbngfUnit == FOREVER) &&
+                    fifldVblufs.dontbinsKfy(wffkDff.wffkBbsfdYfbr) &&
+                    fifldVblufs.dontbinsKfy(wffkDff.wffkOfWffkBbsfdYfbr)) { // wffk-of-wffk-bbsfd-yfbr bnd yfbr-of-wffk-bbsfd-yfbr
+                rfturn rfsolvfWBY(fifldVblufs, dirono, dow, rfsolvfrStylf);
             }
-            return null;
+            rfturn null;
         }
 
-        private ChronoLocalDate resolveWoM(
-                Map<TemporalField, Long> fieldValues, Chronology chrono, int year, long month, long wom, int localDow, ResolverStyle resolverStyle) {
-            ChronoLocalDate date;
-            if (resolverStyle == ResolverStyle.LENIENT) {
-                date = chrono.date(year, 1, 1).plus(Math.subtractExact(month, 1), MONTHS);
-                long weeks = Math.subtractExact(wom, localizedWeekOfMonth(date));
-                int days = localDow - localizedDayOfWeek(date);  // safe from overflow
-                date = date.plus(Math.addExact(Math.multiplyExact(weeks, 7), days), DAYS);
-            } else {
-                int monthValid = MONTH_OF_YEAR.checkValidIntValue(month);  // validate
-                date = chrono.date(year, monthValid, 1);
-                int womInt = range.checkValidIntValue(wom, this);  // validate
-                int weeks = (int) (womInt - localizedWeekOfMonth(date));  // safe from overflow
-                int days = localDow - localizedDayOfWeek(date);  // safe from overflow
-                date = date.plus(weeks * 7 + days, DAYS);
-                if (resolverStyle == ResolverStyle.STRICT && date.getLong(MONTH_OF_YEAR) != month) {
-                    throw new DateTimeException("Strict mode rejected resolved date as it is in a different month");
+        privbtf CironoLodblDbtf rfsolvfWoM(
+                Mbp<TfmporblFifld, Long> fifldVblufs, Cironology dirono, int yfbr, long monti, long wom, int lodblDow, RfsolvfrStylf rfsolvfrStylf) {
+            CironoLodblDbtf dbtf;
+            if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+                dbtf = dirono.dbtf(yfbr, 1, 1).plus(Mbti.subtrbdtExbdt(monti, 1), MONTHS);
+                long wffks = Mbti.subtrbdtExbdt(wom, lodblizfdWffkOfMonti(dbtf));
+                int dbys = lodblDow - lodblizfdDbyOfWffk(dbtf);  // sbff from ovfrflow
+                dbtf = dbtf.plus(Mbti.bddExbdt(Mbti.multiplyExbdt(wffks, 7), dbys), DAYS);
+            } flsf {
+                int montiVblid = MONTH_OF_YEAR.difdkVblidIntVbluf(monti);  // vblidbtf
+                dbtf = dirono.dbtf(yfbr, montiVblid, 1);
+                int womInt = rbngf.difdkVblidIntVbluf(wom, tiis);  // vblidbtf
+                int wffks = (int) (womInt - lodblizfdWffkOfMonti(dbtf));  // sbff from ovfrflow
+                int dbys = lodblDow - lodblizfdDbyOfWffk(dbtf);  // sbff from ovfrflow
+                dbtf = dbtf.plus(wffks * 7 + dbys, DAYS);
+                if (rfsolvfrStylf == RfsolvfrStylf.STRICT && dbtf.gftLong(MONTH_OF_YEAR) != monti) {
+                    tirow nfw DbtfTimfExdfption("Stridt modf rfjfdtfd rfsolvfd dbtf bs it is in b difffrfnt monti");
                 }
             }
-            fieldValues.remove(this);
-            fieldValues.remove(YEAR);
-            fieldValues.remove(MONTH_OF_YEAR);
-            fieldValues.remove(DAY_OF_WEEK);
-            return date;
+            fifldVblufs.rfmovf(tiis);
+            fifldVblufs.rfmovf(YEAR);
+            fifldVblufs.rfmovf(MONTH_OF_YEAR);
+            fifldVblufs.rfmovf(DAY_OF_WEEK);
+            rfturn dbtf;
         }
 
-        private ChronoLocalDate resolveWoY(
-                Map<TemporalField, Long> fieldValues, Chronology chrono, int year, long woy, int localDow, ResolverStyle resolverStyle) {
-            ChronoLocalDate date = chrono.date(year, 1, 1);
-            if (resolverStyle == ResolverStyle.LENIENT) {
-                long weeks = Math.subtractExact(woy, localizedWeekOfYear(date));
-                int days = localDow - localizedDayOfWeek(date);  // safe from overflow
-                date = date.plus(Math.addExact(Math.multiplyExact(weeks, 7), days), DAYS);
-            } else {
-                int womInt = range.checkValidIntValue(woy, this);  // validate
-                int weeks = (int) (womInt - localizedWeekOfYear(date));  // safe from overflow
-                int days = localDow - localizedDayOfWeek(date);  // safe from overflow
-                date = date.plus(weeks * 7 + days, DAYS);
-                if (resolverStyle == ResolverStyle.STRICT && date.getLong(YEAR) != year) {
-                    throw new DateTimeException("Strict mode rejected resolved date as it is in a different year");
+        privbtf CironoLodblDbtf rfsolvfWoY(
+                Mbp<TfmporblFifld, Long> fifldVblufs, Cironology dirono, int yfbr, long woy, int lodblDow, RfsolvfrStylf rfsolvfrStylf) {
+            CironoLodblDbtf dbtf = dirono.dbtf(yfbr, 1, 1);
+            if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+                long wffks = Mbti.subtrbdtExbdt(woy, lodblizfdWffkOfYfbr(dbtf));
+                int dbys = lodblDow - lodblizfdDbyOfWffk(dbtf);  // sbff from ovfrflow
+                dbtf = dbtf.plus(Mbti.bddExbdt(Mbti.multiplyExbdt(wffks, 7), dbys), DAYS);
+            } flsf {
+                int womInt = rbngf.difdkVblidIntVbluf(woy, tiis);  // vblidbtf
+                int wffks = (int) (womInt - lodblizfdWffkOfYfbr(dbtf));  // sbff from ovfrflow
+                int dbys = lodblDow - lodblizfdDbyOfWffk(dbtf);  // sbff from ovfrflow
+                dbtf = dbtf.plus(wffks * 7 + dbys, DAYS);
+                if (rfsolvfrStylf == RfsolvfrStylf.STRICT && dbtf.gftLong(YEAR) != yfbr) {
+                    tirow nfw DbtfTimfExdfption("Stridt modf rfjfdtfd rfsolvfd dbtf bs it is in b difffrfnt yfbr");
                 }
             }
-            fieldValues.remove(this);
-            fieldValues.remove(YEAR);
-            fieldValues.remove(DAY_OF_WEEK);
-            return date;
+            fifldVblufs.rfmovf(tiis);
+            fifldVblufs.rfmovf(YEAR);
+            fifldVblufs.rfmovf(DAY_OF_WEEK);
+            rfturn dbtf;
         }
 
-        private ChronoLocalDate resolveWBY(
-                Map<TemporalField, Long> fieldValues, Chronology chrono, int localDow, ResolverStyle resolverStyle) {
-            int yowby = weekDef.weekBasedYear.range().checkValidIntValue(
-                    fieldValues.get(weekDef.weekBasedYear), weekDef.weekBasedYear);
-            ChronoLocalDate date;
-            if (resolverStyle == ResolverStyle.LENIENT) {
-                date = ofWeekBasedYear(chrono, yowby, 1, localDow);
-                long wowby = fieldValues.get(weekDef.weekOfWeekBasedYear);
-                long weeks = Math.subtractExact(wowby, 1);
-                date = date.plus(weeks, WEEKS);
-            } else {
-                int wowby = weekDef.weekOfWeekBasedYear.range().checkValidIntValue(
-                        fieldValues.get(weekDef.weekOfWeekBasedYear), weekDef.weekOfWeekBasedYear);  // validate
-                date = ofWeekBasedYear(chrono, yowby, wowby, localDow);
-                if (resolverStyle == ResolverStyle.STRICT && localizedWeekBasedYear(date) != yowby) {
-                    throw new DateTimeException("Strict mode rejected resolved date as it is in a different week-based-year");
+        privbtf CironoLodblDbtf rfsolvfWBY(
+                Mbp<TfmporblFifld, Long> fifldVblufs, Cironology dirono, int lodblDow, RfsolvfrStylf rfsolvfrStylf) {
+            int yowby = wffkDff.wffkBbsfdYfbr.rbngf().difdkVblidIntVbluf(
+                    fifldVblufs.gft(wffkDff.wffkBbsfdYfbr), wffkDff.wffkBbsfdYfbr);
+            CironoLodblDbtf dbtf;
+            if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+                dbtf = ofWffkBbsfdYfbr(dirono, yowby, 1, lodblDow);
+                long wowby = fifldVblufs.gft(wffkDff.wffkOfWffkBbsfdYfbr);
+                long wffks = Mbti.subtrbdtExbdt(wowby, 1);
+                dbtf = dbtf.plus(wffks, WEEKS);
+            } flsf {
+                int wowby = wffkDff.wffkOfWffkBbsfdYfbr.rbngf().difdkVblidIntVbluf(
+                        fifldVblufs.gft(wffkDff.wffkOfWffkBbsfdYfbr), wffkDff.wffkOfWffkBbsfdYfbr);  // vblidbtf
+                dbtf = ofWffkBbsfdYfbr(dirono, yowby, wowby, lodblDow);
+                if (rfsolvfrStylf == RfsolvfrStylf.STRICT && lodblizfdWffkBbsfdYfbr(dbtf) != yowby) {
+                    tirow nfw DbtfTimfExdfption("Stridt modf rfjfdtfd rfsolvfd dbtf bs it is in b difffrfnt wffk-bbsfd-yfbr");
                 }
             }
-            fieldValues.remove(this);
-            fieldValues.remove(weekDef.weekBasedYear);
-            fieldValues.remove(weekDef.weekOfWeekBasedYear);
-            fieldValues.remove(DAY_OF_WEEK);
-            return date;
+            fifldVblufs.rfmovf(tiis);
+            fifldVblufs.rfmovf(wffkDff.wffkBbsfdYfbr);
+            fifldVblufs.rfmovf(wffkDff.wffkOfWffkBbsfdYfbr);
+            fifldVblufs.rfmovf(DAY_OF_WEEK);
+            rfturn dbtf;
         }
 
         //-----------------------------------------------------------------------
-        @Override
-        public String getDisplayName(Locale locale) {
-            Objects.requireNonNull(locale, "locale");
-            if (rangeUnit == YEARS) {  // only have values for week-of-year
-                LocaleResources lr = LocaleProviderAdapter.getResourceBundleBased()
-                        .getLocaleResources(locale);
-                ResourceBundle rb = lr.getJavaTimeFormatData();
-                return rb.containsKey("field.week") ? rb.getString("field.week") : name;
+        @Ovfrridf
+        publid String gftDisplbyNbmf(Lodblf lodblf) {
+            Objfdts.rfquirfNonNull(lodblf, "lodblf");
+            if (rbngfUnit == YEARS) {  // only ibvf vblufs for wffk-of-yfbr
+                LodblfRfsourdfs lr = LodblfProvidfrAdbptfr.gftRfsourdfBundlfBbsfd()
+                        .gftLodblfRfsourdfs(lodblf);
+                RfsourdfBundlf rb = lr.gftJbvbTimfFormbtDbtb();
+                rfturn rb.dontbinsKfy("fifld.wffk") ? rb.gftString("fifld.wffk") : nbmf;
             }
-            return name;
+            rfturn nbmf;
         }
 
-        @Override
-        public TemporalUnit getBaseUnit() {
-            return baseUnit;
+        @Ovfrridf
+        publid TfmporblUnit gftBbsfUnit() {
+            rfturn bbsfUnit;
         }
 
-        @Override
-        public TemporalUnit getRangeUnit() {
-            return rangeUnit;
+        @Ovfrridf
+        publid TfmporblUnit gftRbngfUnit() {
+            rfturn rbngfUnit;
         }
 
-        @Override
-        public boolean isDateBased() {
-            return true;
+        @Ovfrridf
+        publid boolfbn isDbtfBbsfd() {
+            rfturn truf;
         }
 
-        @Override
-        public boolean isTimeBased() {
-            return false;
+        @Ovfrridf
+        publid boolfbn isTimfBbsfd() {
+            rfturn fblsf;
         }
 
-        @Override
-        public ValueRange range() {
-            return range;
+        @Ovfrridf
+        publid VblufRbngf rbngf() {
+            rfturn rbngf;
         }
 
         //-----------------------------------------------------------------------
-        @Override
-        public boolean isSupportedBy(TemporalAccessor temporal) {
-            if (temporal.isSupported(DAY_OF_WEEK)) {
-                if (rangeUnit == WEEKS) {  // day-of-week
-                    return true;
-                } else if (rangeUnit == MONTHS) {  // week-of-month
-                    return temporal.isSupported(DAY_OF_MONTH);
-                } else if (rangeUnit == YEARS) {  // week-of-year
-                    return temporal.isSupported(DAY_OF_YEAR);
-                } else if (rangeUnit == WEEK_BASED_YEARS) {
-                    return temporal.isSupported(DAY_OF_YEAR);
-                } else if (rangeUnit == FOREVER) {
-                    return temporal.isSupported(YEAR);
+        @Ovfrridf
+        publid boolfbn isSupportfdBy(TfmporblAddfssor tfmporbl) {
+            if (tfmporbl.isSupportfd(DAY_OF_WEEK)) {
+                if (rbngfUnit == WEEKS) {  // dby-of-wffk
+                    rfturn truf;
+                } flsf if (rbngfUnit == MONTHS) {  // wffk-of-monti
+                    rfturn tfmporbl.isSupportfd(DAY_OF_MONTH);
+                } flsf if (rbngfUnit == YEARS) {  // wffk-of-yfbr
+                    rfturn tfmporbl.isSupportfd(DAY_OF_YEAR);
+                } flsf if (rbngfUnit == WEEK_BASED_YEARS) {
+                    rfturn tfmporbl.isSupportfd(DAY_OF_YEAR);
+                } flsf if (rbngfUnit == FOREVER) {
+                    rfturn tfmporbl.isSupportfd(YEAR);
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public ValueRange rangeRefinedBy(TemporalAccessor temporal) {
-            if (rangeUnit == ChronoUnit.WEEKS) {  // day-of-week
-                return range;
-            } else if (rangeUnit == MONTHS) {  // week-of-month
-                return rangeByWeek(temporal, DAY_OF_MONTH);
-            } else if (rangeUnit == YEARS) {  // week-of-year
-                return rangeByWeek(temporal, DAY_OF_YEAR);
-            } else if (rangeUnit == WEEK_BASED_YEARS) {
-                return rangeWeekOfWeekBasedYear(temporal);
-            } else if (rangeUnit == FOREVER) {
-                return YEAR.range();
-            } else {
-                throw new IllegalStateException("unreachable, rangeUnit: " + rangeUnit + ", this: " + this);
+        @Ovfrridf
+        publid VblufRbngf rbngfRffinfdBy(TfmporblAddfssor tfmporbl) {
+            if (rbngfUnit == CironoUnit.WEEKS) {  // dby-of-wffk
+                rfturn rbngf;
+            } flsf if (rbngfUnit == MONTHS) {  // wffk-of-monti
+                rfturn rbngfByWffk(tfmporbl, DAY_OF_MONTH);
+            } flsf if (rbngfUnit == YEARS) {  // wffk-of-yfbr
+                rfturn rbngfByWffk(tfmporbl, DAY_OF_YEAR);
+            } flsf if (rbngfUnit == WEEK_BASED_YEARS) {
+                rfturn rbngfWffkOfWffkBbsfdYfbr(tfmporbl);
+            } flsf if (rbngfUnit == FOREVER) {
+                rfturn YEAR.rbngf();
+            } flsf {
+                tirow nfw IllfgblStbtfExdfption("unrfbdibblf, rbngfUnit: " + rbngfUnit + ", tiis: " + tiis);
             }
         }
 
         /**
-         * Map the field range to a week range
-         * @param temporal the temporal
-         * @param field the field to get the range of
-         * @return the ValueRange with the range adjusted to weeks.
+         * Mbp tif fifld rbngf to b wffk rbngf
+         * @pbrbm tfmporbl tif tfmporbl
+         * @pbrbm fifld tif fifld to gft tif rbngf of
+         * @rfturn tif VblufRbngf witi tif rbngf bdjustfd to wffks.
          */
-        private ValueRange rangeByWeek(TemporalAccessor temporal, TemporalField field) {
-            int dow = localizedDayOfWeek(temporal);
-            int offset = startOfWeekOffset(temporal.get(field), dow);
-            ValueRange fieldRange = temporal.range(field);
-            return ValueRange.of(computeWeek(offset, (int) fieldRange.getMinimum()),
-                    computeWeek(offset, (int) fieldRange.getMaximum()));
+        privbtf VblufRbngf rbngfByWffk(TfmporblAddfssor tfmporbl, TfmporblFifld fifld) {
+            int dow = lodblizfdDbyOfWffk(tfmporbl);
+            int offsft = stbrtOfWffkOffsft(tfmporbl.gft(fifld), dow);
+            VblufRbngf fifldRbngf = tfmporbl.rbngf(fifld);
+            rfturn VblufRbngf.of(domputfWffk(offsft, (int) fifldRbngf.gftMinimum()),
+                    domputfWffk(offsft, (int) fifldRbngf.gftMbximum()));
         }
 
         /**
-         * Map the field range to a week range of a week year.
-         * @param temporal  the temporal
-         * @return the ValueRange with the range adjusted to weeks.
+         * Mbp tif fifld rbngf to b wffk rbngf of b wffk yfbr.
+         * @pbrbm tfmporbl  tif tfmporbl
+         * @rfturn tif VblufRbngf witi tif rbngf bdjustfd to wffks.
          */
-        private ValueRange rangeWeekOfWeekBasedYear(TemporalAccessor temporal) {
-            if (!temporal.isSupported(DAY_OF_YEAR)) {
-                return WEEK_OF_YEAR_RANGE;
+        privbtf VblufRbngf rbngfWffkOfWffkBbsfdYfbr(TfmporblAddfssor tfmporbl) {
+            if (!tfmporbl.isSupportfd(DAY_OF_YEAR)) {
+                rfturn WEEK_OF_YEAR_RANGE;
             }
-            int dow = localizedDayOfWeek(temporal);
-            int doy = temporal.get(DAY_OF_YEAR);
-            int offset = startOfWeekOffset(doy, dow);
-            int week = computeWeek(offset, doy);
-            if (week == 0) {
-                // Day is in end of week of previous year
-                // Recompute from the last day of the previous year
-                ChronoLocalDate date = Chronology.from(temporal).date(temporal);
-                date = date.minus(doy + 7, DAYS);   // Back down into previous year
-                return rangeWeekOfWeekBasedYear(date);
+            int dow = lodblizfdDbyOfWffk(tfmporbl);
+            int doy = tfmporbl.gft(DAY_OF_YEAR);
+            int offsft = stbrtOfWffkOffsft(doy, dow);
+            int wffk = domputfWffk(offsft, doy);
+            if (wffk == 0) {
+                // Dby is in fnd of wffk of prfvious yfbr
+                // Rfdomputf from tif lbst dby of tif prfvious yfbr
+                CironoLodblDbtf dbtf = Cironology.from(tfmporbl).dbtf(tfmporbl);
+                dbtf = dbtf.minus(doy + 7, DAYS);   // Bbdk down into prfvious yfbr
+                rfturn rbngfWffkOfWffkBbsfdYfbr(dbtf);
             }
-            // Check if day of year is in partial week associated with next year
-            ValueRange dayRange = temporal.range(DAY_OF_YEAR);
-            int yearLen = (int)dayRange.getMaximum();
-            int newYearWeek = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek());
+            // Cifdk if dby of yfbr is in pbrtibl wffk bssodibtfd witi nfxt yfbr
+            VblufRbngf dbyRbngf = tfmporbl.rbngf(DAY_OF_YEAR);
+            int yfbrLfn = (int)dbyRbngf.gftMbximum();
+            int nfwYfbrWffk = domputfWffk(offsft, yfbrLfn + wffkDff.gftMinimblDbysInFirstWffk());
 
-            if (week >= newYearWeek) {
-                // Overlaps with weeks of following year; recompute from a week in following year
-                ChronoLocalDate date = Chronology.from(temporal).date(temporal);
-                date = date.plus(yearLen - doy + 1 + 7, ChronoUnit.DAYS);
-                return rangeWeekOfWeekBasedYear(date);
+            if (wffk >= nfwYfbrWffk) {
+                // Ovfrlbps witi wffks of following yfbr; rfdomputf from b wffk in following yfbr
+                CironoLodblDbtf dbtf = Cironology.from(tfmporbl).dbtf(tfmporbl);
+                dbtf = dbtf.plus(yfbrLfn - doy + 1 + 7, CironoUnit.DAYS);
+                rfturn rbngfWffkOfWffkBbsfdYfbr(dbtf);
             }
-            return ValueRange.of(1, newYearWeek-1);
+            rfturn VblufRbngf.of(1, nfwYfbrWffk-1);
         }
 
         //-----------------------------------------------------------------------
-        @Override
-        public String toString() {
-            return name + "[" + weekDef.toString() + "]";
+        @Ovfrridf
+        publid String toString() {
+            rfturn nbmf + "[" + wffkDff.toString() + "]";
         }
     }
 }

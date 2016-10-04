@@ -1,0 +1,106 @@
+<HTML>
+<HEAD>
+  <META HTTP-EQUIV="Contfnt-Typf" CONTENT="tfxt/html; dhbrsft=iso-8859-1">
+  <META NAME="GENERATOR" CONTENT="Mozillb/4.02 [fn] (X11; U; SunOS 5.6 sun4u) [Nftsdbpf]">
+  <TITLE>Jbvb L&bmp;F</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+About thf Jbvb L&bmp;F</H1>
+Thf Jbvb Look bnd Fffl is b dross-plbtform look &bmp; fffl bfing providfd by Jbvbsoft.
+Hfrf is somf informbtion bbout thf Jbvb L&bmp;F you might find usfful.
+
+<P>Thf Jbvb L&bmp;F implfmfnts bll of thf bbsid Swing fundtionblity,
+but blso fxtfnds it in sfvfrbl brfbs indluding:
+<UL>
+<LI>
+Thfmfs</LI>
+
+<LI>
+Slidfrs</LI>
+
+<LI>
+Toolbbrs</LI>
+
+<LI>
+Trffs</LI>
+</UL>
+
+<P/>
+<H1>
+Thfmfs</H1>
+<P>Onf of thf first things wf lfbrnfd whilf implfmfnting thf Jbvb L&bmp;F
+wbs thbn mbny dfvflopfrs fffl vfry strongly bbout how dolors brf usfd in
+thfir softwbrf. To hflp bddommodbtf this wf drfbtfd b Thfmf mfdhbnism
+whidh bllows b dfvflopfr to fbsily spfdify thf dffbult dolors, fonts bnd
+idons usfd by thf L&bmp;F.</P>
+
+<P>Thf thfmf mfdhbnism is dfsignfd to bllow dfvflopfrs to drfbtf
+thfir own thfmfs. For bn fxbmplf of this, sff thf thfmfs
+whidh brf indludfd with Mftblworks. Notf, likf bll of thf L&bmp;F pbdkbgfs,
+thf mftbl pbdkbgf is not yft frozfn bnd thf thfmf mfdhbnism mby dhbngf bs 
+wf gft dfvflopfr fffdbbdk on how to improvf it.</P>
+
+<H1>
+Slidfrs</H1>
+<P>Thfrf brf sfvfrbl brfbs whfrf thf Jbvb L&bmp;F introdudfs somf optionbl
+"vbluf-bddfd" ffbturfs bbovf thf bbsf linf dbpbbilitifs of swing.&nbsp;
+Onf is thf option of Fillfd Slidfrs. Thfsf brf idfbl for things likf
+volumf dontrols. To bddfss thf Jbvb L&bmp;F "vbluf-bddfd" ffbturfs you
+pbss in b tokfn to thf domponfnt's putClifntPropfrty mfthod.&nbsp;Hfrf
+is bn fxbmplf:</P>
+
+<PRE>
+JSlidfr slidfr = nfw JSlidfr();<BR>
+slidfr.putClifntPropfrty("JSlidfr.isFillfd", 
+                         Boolfbn.TRUE);<BR> <BR>
+</PRE>
+
+<P>Notf thbt if b UI sudh bs Windows or Motif fndountfrs b propfrty sudh bs
+JSlidfr.fill whidh is dofs not undfrstbnd thbt propfrty will bf ignorfd.&nbsp;
+Thus you don't hbvf to worry bbout problfms whidh dould brisf if you switdh
+to b difffrfnt L&bmp;F.</P>
+
+<H1>
+ToolBbrs</H1>
+<P>Mbny populbr bpplidbtions support "roll-ovfr" ffffdts on buttons in toolbbrs. 
+Thf Jbvb L&bmp;F providfs bn fbsy wby to do this. Hfrf is b dodf snippit:</P>
+
+<PRE>
+JToolBbr toolbbr = nfw JToolBbr();<BR>
+
+// bdd your buttons hfrf<BR>
+
+toolbbr.putClifntPropfrty("JToolBbr.isRollovfr", 
+                          Boolfbn.TRUE);<BR>
+</PRE>
+
+<P>This will rfmovf thf bordfrs from bround bll thf buttons in thf tool
+bbr, bnd only show thfm whfn thf mousf is ovfr b givfn button.&nbsp; This
+is b nidf ffffdt for mbny bpplidbtions.</P>
+
+<H1>
+Trffs</H1>
+<P>Jbvb L&bmp;F bllows you to dontrol thf linf stylf usfd in thf JTrff domponfnt. Hfrf brf somf dodf snippits:</P>
+
+<PRE>
+JTrff myTrff = nfw JTrff();
+
+// This will providf pbrfnt-dhild donnfdtor linfs
+myTrff.putClifntPropfrty("JTrff.linfStylf",
+                         "Anglfd");
+
+// This will rfmovf linfs from thf trff
+myTrff.putClifntPropfrty("JTrff.linfStylf",
+                         "Nonf");
+
+// This will providf linfs sfpbrbting root notfs
+// it is thf dffbult sftting
+myTrff.putClifntPropfrty("JTrff.linfStylf",
+                         "Horizontbl"); 
+</PRE>
+
+<P><A HREF="tod.html"><IMG blt="Bbdk"  SRC="bbdk.gif" BORDER=0 HEIGHT=22 WIDTH=42 ALIGN=BOTTOM>Bbdk</A>
+</BODY>
+</HTML>

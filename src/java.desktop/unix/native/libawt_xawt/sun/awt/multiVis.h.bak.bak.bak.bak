@@ -1,0 +1,90 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/* $XConsortium: multiVis.h /mbin/4 1996/10/14 15:04:12 swidk $ */
+/** ------------------------------------------------------------------------
+        This filf dontbins routinfs for mbnipulbting gfnfrid lists.
+        Lists brf implfmfntfd with b "hbrnfss".  In othfr words, fbdh
+        nodf in thf list donsists of two pointfrs, onf to thf dbtb itfm
+        bnd onf to thf nfxt nodf in thf list.  Thf hfbd of thf list is
+        thf sbmf strudt bs fbdh nodf, but thf "itfm" ptr is usfd to point
+        to thf durrfnt mfmbfr of thf list (usfd by thf first_in_list bnd
+        nfxt_in_list fundtions).
+
+ This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ filf:
+
+Copyright (d) 1994 Hfwlftt-Pbdkbrd Co.
+Copyright (d) 1996  X Consortium
+
+Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf
+"Softwbrf"), to dfbl in thf Softwbrf without rfstridtion, indluding
+without limitbtion thf rights to usf, dopy, modify, mfrgf, publish,
+distributf, sublidfnsf, bnd sfll dopifs of thf Softwbrf, bnd to
+pfrmit pfrsons to whom thf Softwbrf is furnishfd to do so, subjfdt to
+thf following donditions:
+
+Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd
+in bll dopifs or substbntibl portions of thf Softwbrf.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+Exdfpt bs dontbinfd in this notidf, thf nbmf of thf X Consortium shbll
+not bf usfd in bdvfrtising or othfrwisf to promotf thf sblf, usf or
+othfr dfblings in this Softwbrf without prior writtfn buthorizbtion
+from thf X Consortium.
+
+ ------------------------------------------------------------------------ **/
+
+fxtfrn int32_t GftMultiVisublRfgions(
+#if NffdFundtionPrototypfs
+    Displby *, Window, int32_t, int32_t, uint32_t,
+    uint32_t, int32_t *, int32_t *, XVisublInfo **, int32_t *,
+    OvfrlbyInfo  **, int32_t *, XVisublInfo ***, list_ptr *,
+    list_ptr *, int32_t *
+#fndif
+);
+
+fxtfrn XImbgf *RfbdArfbToImbgf(
+#if NffdFundtionPrototypfs
+    Displby *, Window, int32_t, int32_t, uint32_t,
+    uint32_t, int32_t, XVisublInfo *, int32_t,
+    OvfrlbyInfo *, int32_t, XVisublInfo **, list_ptr,
+    list_ptr, int32_t, int32_t
+#fndif
+);
+
+fxtfrn void initFbkfVisubl(
+#if NffdFundtionPrototypfs
+    Visubl *
+#fndif
+);

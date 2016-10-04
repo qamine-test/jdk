@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,246 +30,246 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench.tests.iio;
+pbdkbgf j2dbfndi.tfsts.iio;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import javax.imageio.ImageIO;
-import javax.imageio.spi.IIORegistry;
-import javax.imageio.spi.ImageInputStreamSpi;
-import javax.imageio.stream.FileCacheImageInputStream;
-import javax.imageio.stream.FileImageInputStream;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.MemoryCacheImageInputStream;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.nft.URL;
+import jbvbx.imbgfio.ImbgfIO;
+import jbvbx.imbgfio.spi.IIORfgistry;
+import jbvbx.imbgfio.spi.ImbgfInputStrfbmSpi;
+import jbvbx.imbgfio.strfbm.FilfCbdifImbgfInputStrfbm;
+import jbvbx.imbgfio.strfbm.FilfImbgfInputStrfbm;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+import jbvbx.imbgfio.strfbm.MfmoryCbdifImbgfInputStrfbm;
 
-import j2dbench.Group;
-import j2dbench.Option;
-import j2dbench.Result;
-import j2dbench.TestEnvironment;
+import j2dbfndi.Group;
+import j2dbfndi.Option;
+import j2dbfndi.Rfsult;
+import j2dbfndi.TfstEnvironmfnt;
 
-abstract class InputTests extends IIOTests {
+bbstrbdt dlbss InputTfsts fxtfnds IIOTfsts {
 
-    protected static final int INPUT_FILE        = 1;
-    protected static final int INPUT_URL         = 2;
-    protected static final int INPUT_ARRAY       = 3;
-    protected static final int INPUT_FILECHANNEL = 4;
+    protfdtfd stbtid finbl int INPUT_FILE        = 1;
+    protfdtfd stbtid finbl int INPUT_URL         = 2;
+    protfdtfd stbtid finbl int INPUT_ARRAY       = 3;
+    protfdtfd stbtid finbl int INPUT_FILECHANNEL = 4;
 
-    protected static ImageInputStreamSpi fileChannelIISSpi;
-    static {
-        if (hasImageIO) {
-            ImageIO.scanForPlugins();
-            IIORegistry registry = IIORegistry.getDefaultInstance();
-            java.util.Iterator spis =
-                registry.getServiceProviders(ImageInputStreamSpi.class, false);
-            while (spis.hasNext()) {
-                ImageInputStreamSpi spi = (ImageInputStreamSpi)spis.next();
-                String klass = spi.getClass().getName();
-                if (klass.endsWith("ChannelImageInputStreamSpi")) {
-                    fileChannelIISSpi = spi;
-                    break;
+    protfdtfd stbtid ImbgfInputStrfbmSpi filfCibnnflIISSpi;
+    stbtid {
+        if (ibsImbgfIO) {
+            ImbgfIO.sdbnForPlugins();
+            IIORfgistry rfgistry = IIORfgistry.gftDffbultInstbndf();
+            jbvb.util.Itfrbtor spis =
+                rfgistry.gftSfrvidfProvidfrs(ImbgfInputStrfbmSpi.dlbss, fblsf);
+            wiilf (spis.ibsNfxt()) {
+                ImbgfInputStrfbmSpi spi = (ImbgfInputStrfbmSpi)spis.nfxt();
+                String klbss = spi.gftClbss().gftNbmf();
+                if (klbss.fndsWiti("CibnnflImbgfInputStrfbmSpi")) {
+                    filfCibnnflIISSpi = spi;
+                    brfbk;
                 }
             }
         }
     }
 
-    protected static Group inputRoot;
-    protected static Group inputOptRoot;
+    protfdtfd stbtid Group inputRoot;
+    protfdtfd stbtid Group inputOptRoot;
 
-    protected static Group generalOptRoot;
-    protected static Group.EnableSet generalSourceRoot;
-    protected static Option sourceFileOpt;
-    protected static Option sourceUrlOpt;
-    protected static Option sourceByteArrayOpt;
+    protfdtfd stbtid Group gfnfrblOptRoot;
+    protfdtfd stbtid Group.EnbblfSft gfnfrblSourdfRoot;
+    protfdtfd stbtid Option sourdfFilfOpt;
+    protfdtfd stbtid Option sourdfUrlOpt;
+    protfdtfd stbtid Option sourdfBytfArrbyOpt;
 
-    protected static Group imageioGeneralOptRoot;
-    protected static Option sourceFileChannelOpt;
-    protected static Option useCacheTog;
+    protfdtfd stbtid Group imbgfioGfnfrblOptRoot;
+    protfdtfd stbtid Option sourdfFilfCibnnflOpt;
+    protfdtfd stbtid Option usfCbdifTog;
 
-    public static void init() {
-        inputRoot = new Group(iioRoot, "input", "Input Benchmarks");
-        inputRoot.setTabbed();
+    publid stbtid void init() {
+        inputRoot = nfw Group(iioRoot, "input", "Input Bfndimbrks");
+        inputRoot.sftTbbbfd();
 
         // Options
-        inputOptRoot = new Group(inputRoot, "opts", "Options");
+        inputOptRoot = nfw Group(inputRoot, "opts", "Options");
 
-        // General Options
-        generalOptRoot = new Group(inputOptRoot,
-                                   "general", "General Options");
-        generalSourceRoot = new Group.EnableSet(generalOptRoot,
-                                                "source", "Sources");
-        sourceFileOpt = new InputType("file", "File", INPUT_FILE);
-        sourceUrlOpt = new InputType("url", "URL", INPUT_URL);
-        sourceByteArrayOpt = new InputType("byteArray", "byte[]", INPUT_ARRAY);
+        // Gfnfrbl Options
+        gfnfrblOptRoot = nfw Group(inputOptRoot,
+                                   "gfnfrbl", "Gfnfrbl Options");
+        gfnfrblSourdfRoot = nfw Group.EnbblfSft(gfnfrblOptRoot,
+                                                "sourdf", "Sourdfs");
+        sourdfFilfOpt = nfw InputTypf("filf", "Filf", INPUT_FILE);
+        sourdfUrlOpt = nfw InputTypf("url", "URL", INPUT_URL);
+        sourdfBytfArrbyOpt = nfw InputTypf("bytfArrby", "bytf[]", INPUT_ARRAY);
 
-        if (hasImageIO) {
-            // Image I/O Options
-            imageioGeneralOptRoot = new Group(inputOptRoot,
-                                              "imageio", "Image I/O Options");
-            if (fileChannelIISSpi != null) {
-                sourceFileChannelOpt =
-                    new InputType("fileChannel", "FileChannel",
+        if (ibsImbgfIO) {
+            // Imbgf I/O Options
+            imbgfioGfnfrblOptRoot = nfw Group(inputOptRoot,
+                                              "imbgfio", "Imbgf I/O Options");
+            if (filfCibnnflIISSpi != null) {
+                sourdfFilfCibnnflOpt =
+                    nfw InputTypf("filfCibnnfl", "FilfCibnnfl",
                                   INPUT_FILECHANNEL);
             }
-            useCacheTog = new Option.Toggle(imageioGeneralOptRoot, "useCache",
-                                            "ImageIO.setUseCache()",
-                                            Option.Toggle.Off);
+            usfCbdifTog = nfw Option.Togglf(imbgfioGfnfrblOptRoot, "usfCbdif",
+                                            "ImbgfIO.sftUsfCbdif()",
+                                            Option.Togglf.Off);
         }
 
-        InputImageTests.init();
-        if (hasImageIO) {
-            InputStreamTests.init();
-        }
-    }
-
-    protected InputTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-    }
-
-    protected static class InputType extends Option.Enable {
-        private int type;
-
-        public InputType(String nodeName, String description, int type) {
-            super(generalSourceRoot, nodeName, description, false);
-            this.type = type;
-        }
-
-        public int getType() {
-            return type;
-        }
-
-        public String getAbbreviatedModifierDescription(Object value) {
-            return getModifierValueName(value);
-        }
-
-        public String getModifierValueName(Object val) {
-            return getNodeName();
+        InputImbgfTfsts.init();
+        if (ibsImbgfIO) {
+            InputStrfbmTfsts.init();
         }
     }
 
-    protected static abstract class Context {
-        int size;
-        Object input;
-        int inputType;
-        InputStream origStream;
+    protfdtfd InputTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+    }
 
-        Context(TestEnvironment env, Result result) {
-            size = env.getIntValue(sizeList);
-            if (hasImageIO) {
-                if (env.getModifier(useCacheTog) != null) {
-                    ImageIO.setUseCache(env.isEnabled(useCacheTog));
+    protfdtfd stbtid dlbss InputTypf fxtfnds Option.Enbblf {
+        privbtf int typf;
+
+        publid InputTypf(String nodfNbmf, String dfsdription, int typf) {
+            supfr(gfnfrblSourdfRoot, nodfNbmf, dfsdription, fblsf);
+            tiis.typf = typf;
+        }
+
+        publid int gftTypf() {
+            rfturn typf;
+        }
+
+        publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+            rfturn gftModififrVblufNbmf(vbluf);
+        }
+
+        publid String gftModififrVblufNbmf(Objfdt vbl) {
+            rfturn gftNodfNbmf();
+        }
+    }
+
+    protfdtfd stbtid bbstrbdt dlbss Contfxt {
+        int sizf;
+        Objfdt input;
+        int inputTypf;
+        InputStrfbm origStrfbm;
+
+        Contfxt(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            sizf = fnv.gftIntVbluf(sizfList);
+            if (ibsImbgfIO) {
+                if (fnv.gftModififr(usfCbdifTog) != null) {
+                    ImbgfIO.sftUsfCbdif(fnv.isEnbblfd(usfCbdifTog));
                 }
             }
 
-            InputType t = (InputType)env.getModifier(generalSourceRoot);
-            inputType = t.getType();
+            InputTypf t = (InputTypf)fnv.gftModififr(gfnfrblSourdfRoot);
+            inputTypf = t.gftTypf();
         }
 
         void initInput() {
-            if ((inputType == INPUT_FILE) ||
-                (inputType == INPUT_URL) ||
-                (inputType == INPUT_FILECHANNEL))
+            if ((inputTypf == INPUT_FILE) ||
+                (inputTypf == INPUT_URL) ||
+                (inputTypf == INPUT_FILECHANNEL))
             {
                 try {
-                    // REMIND: this approach will fail for GIF on pre-1.6 VM's
-                    //         (since earlier releases do not include a
-                    //         GIFImageWriter in the core JDK)
-                    File inputfile = File.createTempFile("iio", ".tmp");
-                    inputfile.deleteOnExit();
-                    initContents(inputfile);
-                    if (inputType == INPUT_FILE) {
-                        input = inputfile;
-                    } else if (inputType == INPUT_FILECHANNEL) {
-                        input = inputfile;
-                    } else { // inputType == INPUT_URL
+                    // REMIND: tiis bpprobdi will fbil for GIF on prf-1.6 VM's
+                    //         (sindf fbrlifr rflfbsfs do not indludf b
+                    //         GIFImbgfWritfr in tif dorf JDK)
+                    Filf inputfilf = Filf.drfbtfTfmpFilf("iio", ".tmp");
+                    inputfilf.dflftfOnExit();
+                    initContfnts(inputfilf);
+                    if (inputTypf == INPUT_FILE) {
+                        input = inputfilf;
+                    } flsf if (inputTypf == INPUT_FILECHANNEL) {
+                        input = inputfilf;
+                    } flsf { // inputTypf == INPUT_URL
                         try {
-                            input = inputfile.toURI().toURL();
-                        } catch (Exception e) {
-                            System.err.println("error creating URL");
+                            input = inputfilf.toURI().toURL();
+                        } dbtdi (Exdfption f) {
+                            Systfm.frr.println("frror drfbting URL");
                         }
                     }
-                } catch (IOException e) {
-                    System.err.println("error creating image file");
-                    e.printStackTrace();
+                } dbtdi (IOExdfption f) {
+                    Systfm.frr.println("frror drfbting imbgf filf");
+                    f.printStbdkTrbdf();
                 }
-            } else {
-                ByteArrayOutputStream out;
+            } flsf {
+                BytfArrbyOutputStrfbm out;
                 try {
-                    out = new ByteArrayOutputStream();
-                    initContents(out);
-                } catch (IOException e) {
-                    System.err.println("error creating image array");
-                    e.printStackTrace();
-                    return;
+                    out = nfw BytfArrbyOutputStrfbm();
+                    initContfnts(out);
+                } dbtdi (IOExdfption f) {
+                    Systfm.frr.println("frror drfbting imbgf brrby");
+                    f.printStbdkTrbdf();
+                    rfturn;
                 }
-                input = out.toByteArray();
+                input = out.toBytfArrby();
             }
         }
 
-        abstract void initContents(File f) throws IOException;
-        abstract void initContents(OutputStream out) throws IOException;
+        bbstrbdt void initContfnts(Filf f) tirows IOExdfption;
+        bbstrbdt void initContfnts(OutputStrfbm out) tirows IOExdfption;
 
-        ImageInputStream createImageInputStream() throws IOException {
-            ImageInputStream iis;
-            BufferedInputStream bis;
-            switch (inputType) {
-            case INPUT_FILE:
-                iis = new FileImageInputStream((File)input);
-                break;
-            case INPUT_URL:
-                origStream = ((URL)input).openStream();
-                bis = new BufferedInputStream(origStream);
-                if (ImageIO.getUseCache()) {
-                    iis = new FileCacheImageInputStream(bis, null);
-                } else {
-                    iis = new MemoryCacheImageInputStream(bis);
+        ImbgfInputStrfbm drfbtfImbgfInputStrfbm() tirows IOExdfption {
+            ImbgfInputStrfbm iis;
+            BufffrfdInputStrfbm bis;
+            switdi (inputTypf) {
+            dbsf INPUT_FILE:
+                iis = nfw FilfImbgfInputStrfbm((Filf)input);
+                brfbk;
+            dbsf INPUT_URL:
+                origStrfbm = ((URL)input).opfnStrfbm();
+                bis = nfw BufffrfdInputStrfbm(origStrfbm);
+                if (ImbgfIO.gftUsfCbdif()) {
+                    iis = nfw FilfCbdifImbgfInputStrfbm(bis, null);
+                } flsf {
+                    iis = nfw MfmoryCbdifImbgfInputStrfbm(bis);
                 }
-                break;
-            case INPUT_ARRAY:
-                origStream = new ByteArrayInputStream((byte[])input);
-                bis = new BufferedInputStream(origStream);
-                if (ImageIO.getUseCache()) {
-                    iis = new FileCacheImageInputStream(bis, null);
-                } else {
-                    iis = new MemoryCacheImageInputStream(bis);
+                brfbk;
+            dbsf INPUT_ARRAY:
+                origStrfbm = nfw BytfArrbyInputStrfbm((bytf[])input);
+                bis = nfw BufffrfdInputStrfbm(origStrfbm);
+                if (ImbgfIO.gftUsfCbdif()) {
+                    iis = nfw FilfCbdifImbgfInputStrfbm(bis, null);
+                } flsf {
+                    iis = nfw MfmoryCbdifImbgfInputStrfbm(bis);
                 }
-                break;
-            case INPUT_FILECHANNEL:
-                FileInputStream fis = new FileInputStream((File)input);
-                origStream = fis;
-                java.nio.channels.FileChannel fc = fis.getChannel();
-                iis = fileChannelIISSpi.createInputStreamInstance(fc, false,
+                brfbk;
+            dbsf INPUT_FILECHANNEL:
+                FilfInputStrfbm fis = nfw FilfInputStrfbm((Filf)input);
+                origStrfbm = fis;
+                jbvb.nio.dibnnfls.FilfCibnnfl fd = fis.gftCibnnfl();
+                iis = filfCibnnflIISSpi.drfbtfInputStrfbmInstbndf(fd, fblsf,
                                                                   null);
-                break;
-            default:
+                brfbk;
+            dffbult:
                 iis = null;
-                break;
+                brfbk;
             }
-            return iis;
+            rfturn iis;
         }
 
-        void closeOriginalStream() throws IOException {
-            if (origStream != null) {
-                origStream.close();
-                origStream = null;
+        void dlosfOriginblStrfbm() tirows IOExdfption {
+            if (origStrfbm != null) {
+                origStrfbm.dlosf();
+                origStrfbm = null;
             }
         }
 
-        void cleanup(TestEnvironment env) {
+        void dlfbnup(TfstEnvironmfnt fnv) {
         }
     }
 }

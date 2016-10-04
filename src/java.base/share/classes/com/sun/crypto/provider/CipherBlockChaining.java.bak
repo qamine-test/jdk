@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.InvalidKeyException;
+import jbvb.sfdurity.InvblidKfyExdfption;
 
 /**
- * This class represents ciphers in cipher block chaining (CBC) mode.
+ * Tiis dlbss rfprfsfnts dipifrs in dipifr blodk dibining (CBC) modf.
  *
- * <p>This mode is implemented independently of a particular cipher.
- * Ciphers to which this mode should apply (e.g., DES) must be
- * <i>plugged-in</i> using the constructor.
+ * <p>Tiis modf is implfmfntfd indfpfndfntly of b pbrtidulbr dipifr.
+ * Cipifrs to wiidi tiis modf siould bpply (f.g., DES) must bf
+ * <i>pluggfd-in</i> using tif donstrudtor.
  *
- * <p>NOTE: This class does not deal with buffering or padding.
+ * <p>NOTE: Tiis dlbss dofs not dfbl witi bufffring or pbdding.
  *
- * @author Gigi Ankeny
+ * @butior Gigi Ankfny
  */
 
-class CipherBlockChaining extends FeedbackCipher  {
+dlbss CipifrBlodkCibining fxtfnds FffdbbdkCipifr  {
 
     /*
-     * random bytes that are initialized with iv
+     * rbndom bytfs tibt brf initiblizfd witi iv
      */
-    protected byte[] r;
+    protfdtfd bytf[] r;
 
     /*
-     * output buffer
+     * output bufffr
      */
-    private byte[] k;
+    privbtf bytf[] k;
 
-    // variables for save/restore calls
-    private byte[] rSave = null;
+    // vbribblfs for sbvf/rfstorf dblls
+    privbtf bytf[] rSbvf = null;
 
-    CipherBlockChaining(SymmetricCipher embeddedCipher) {
-        super(embeddedCipher);
-        k = new byte[blockSize];
-        r = new byte[blockSize];
+    CipifrBlodkCibining(SymmftridCipifr fmbfddfdCipifr) {
+        supfr(fmbfddfdCipifr);
+        k = nfw bytf[blodkSizf];
+        r = nfw bytf[blodkSizf];
     }
 
     /**
-     * Gets the name of this feedback mode.
+     * Gfts tif nbmf of tiis fffdbbdk modf.
      *
-     * @return the string <code>CBC</code>
+     * @rfturn tif string <dodf>CBC</dodf>
      */
-    String getFeedback() {
-        return "CBC";
+    String gftFffdbbdk() {
+        rfturn "CBC";
     }
 
     /**
-     * Initializes the cipher in the specified mode with the given key
-     * and iv.
+     * Initiblizfs tif dipifr in tif spfdififd modf witi tif givfn kfy
+     * bnd iv.
      *
-     * @param decrypting flag indicating encryption or decryption
-     * @param algorithm the algorithm name
-     * @param key the key
-     * @param iv the iv
+     * @pbrbm dfdrypting flbg indidbting fndryption or dfdryption
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm kfy tif kfy
+     * @pbrbm iv tif iv
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis dipifr
      */
-    void init(boolean decrypting, String algorithm, byte[] key, byte[] iv)
-            throws InvalidKeyException {
-        if ((key == null) || (iv == null) || (iv.length != blockSize)) {
-            throw new InvalidKeyException("Internal error");
+    void init(boolfbn dfdrypting, String blgoritim, bytf[] kfy, bytf[] iv)
+            tirows InvblidKfyExdfption {
+        if ((kfy == null) || (iv == null) || (iv.lfngti != blodkSizf)) {
+            tirow nfw InvblidKfyExdfption("Intfrnbl frror");
         }
-        this.iv = iv;
-        reset();
-        embeddedCipher.init(decrypting, algorithm, key);
+        tiis.iv = iv;
+        rfsft();
+        fmbfddfdCipifr.init(dfdrypting, blgoritim, kfy);
     }
 
     /**
-     * Resets the iv to its original value.
-     * This is used when doFinal is called in the Cipher class, so that the
-     * cipher can be reused (with its original iv).
+     * Rfsfts tif iv to its originbl vbluf.
+     * Tiis is usfd wifn doFinbl is dbllfd in tif Cipifr dlbss, so tibt tif
+     * dipifr dbn bf rfusfd (witi its originbl iv).
      */
-    void reset() {
-        System.arraycopy(iv, 0, r, 0, blockSize);
+    void rfsft() {
+        Systfm.brrbydopy(iv, 0, r, 0, blodkSizf);
     }
 
     /**
-     * Save the current content of this cipher.
+     * Sbvf tif durrfnt dontfnt of tiis dipifr.
      */
-    void save() {
-        if (rSave == null) {
-            rSave = new byte[blockSize];
+    void sbvf() {
+        if (rSbvf == null) {
+            rSbvf = nfw bytf[blodkSizf];
         }
-        System.arraycopy(r, 0, rSave, 0, blockSize);
+        Systfm.brrbydopy(r, 0, rSbvf, 0, blodkSizf);
     }
 
     /**
-     * Restores the content of this cipher to the previous saved one.
+     * Rfstorfs tif dontfnt of tiis dipifr to tif prfvious sbvfd onf.
      */
-    void restore() {
-        System.arraycopy(rSave, 0, r, 0, blockSize);
+    void rfstorf() {
+        Systfm.brrbydopy(rSbvf, 0, r, 0, blodkSizf);
     }
 
     /**
-     * Performs encryption operation.
+     * Pfrforms fndryption opfrbtion.
      *
-     * <p>The input plain text <code>plain</code>, starting at
-     * <code>plainOffset</code> and ending at
-     * <code>(plainOffset + len - 1)</code>, is encrypted.
-     * The result is stored in <code>cipher</code>, starting at
-     * <code>cipherOffset</code>.
+     * <p>Tif input plbin tfxt <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf> bnd fnding bt
+     * <dodf>(plbinOffsft + lfn - 1)</dodf>, is fndryptfd.
+     * Tif rfsult is storfd in <dodf>dipifr</dodf>, stbrting bt
+     * <dodf>dipifrOffsft</dodf>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>plainLen</code> is a multiple of the embedded cipher's block size,
-     * as any excess bytes are ignored.
+     * <p>It is tif bpplidbtion's rfsponsibility to mbkf surf tibt
+     * <dodf>plbinLfn</dodf> is b multiplf of tif fmbfddfd dipifr's blodk sizf,
+     * bs bny fxdfss bytfs brf ignorfd.
      *
-     * @param plain the buffer with the input data to be encrypted
-     * @param plainOffset the offset in <code>plain</code>
-     * @param plainLen the length of the input data
-     * @param cipher the buffer for the result
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @return the length of the encrypted data
+     * @pbrbm plbin tif bufffr witi tif input dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
+     * @pbrbm plbinLfn tif lfngti of tif input dbtb
+     * @pbrbm dipifr tif bufffr for tif rfsult
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifr</dodf>
+     * @rfturn tif lfngti of tif fndryptfd dbtb
      */
-    int encrypt(byte[] plain, int plainOffset, int plainLen,
-                byte[] cipher, int cipherOffset)
+    int fndrypt(bytf[] plbin, int plbinOffsft, int plbinLfn,
+                bytf[] dipifr, int dipifrOffsft)
     {
         int i;
-        int endIndex = plainOffset + plainLen;
+        int fndIndfx = plbinOffsft + plbinLfn;
 
-        for (; plainOffset < endIndex;
-             plainOffset+=blockSize, cipherOffset += blockSize) {
-            for (i=0; i<blockSize; i++) {
-                k[i] = (byte)(plain[i+plainOffset] ^ r[i]);
+        for (; plbinOffsft < fndIndfx;
+             plbinOffsft+=blodkSizf, dipifrOffsft += blodkSizf) {
+            for (i=0; i<blodkSizf; i++) {
+                k[i] = (bytf)(plbin[i+plbinOffsft] ^ r[i]);
             }
-            embeddedCipher.encryptBlock(k, 0, cipher, cipherOffset);
-            System.arraycopy(cipher, cipherOffset, r, 0, blockSize);
+            fmbfddfdCipifr.fndryptBlodk(k, 0, dipifr, dipifrOffsft);
+            Systfm.brrbydopy(dipifr, dipifrOffsft, r, 0, blodkSizf);
         }
-        return plainLen;
+        rfturn plbinLfn;
     }
 
     /**
-     * Performs decryption operation.
+     * Pfrforms dfdryption opfrbtion.
      *
-     * <p>The input cipher text <code>cipher</code>, starting at
-     * <code>cipherOffset</code> and ending at
-     * <code>(cipherOffset + len - 1)</code>, is decrypted.
-     * The result is stored in <code>plain</code>, starting at
-     * <code>plainOffset</code>.
+     * <p>Tif input dipifr tfxt <dodf>dipifr</dodf>, stbrting bt
+     * <dodf>dipifrOffsft</dodf> bnd fnding bt
+     * <dodf>(dipifrOffsft + lfn - 1)</dodf>, is dfdryptfd.
+     * Tif rfsult is storfd in <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>cipherLen</code> is a multiple of the embedded cipher's block
-     * size, as any excess bytes are ignored.
+     * <p>It is tif bpplidbtion's rfsponsibility to mbkf surf tibt
+     * <dodf>dipifrLfn</dodf> is b multiplf of tif fmbfddfd dipifr's blodk
+     * sizf, bs bny fxdfss bytfs brf ignorfd.
      *
-     * <p>It is also the application's responsibility to make sure that
-     * <code>init</code> has been called before this method is called.
-     * (This check is omitted here, to avoid double checking.)
+     * <p>It is blso tif bpplidbtion's rfsponsibility to mbkf surf tibt
+     * <dodf>init</dodf> ibs bffn dbllfd bfforf tiis mftiod is dbllfd.
+     * (Tiis difdk is omittfd ifrf, to bvoid doublf difdking.)
      *
-     * @param cipher the buffer with the input data to be decrypted
-     * @param cipherOffset the offset in <code>cipherOffset</code>
-     * @param cipherLen the length of the input data
-     * @param plain the buffer for the result
-     * @param plainOffset the offset in <code>plain</code>
-     * @return the length of the decrypted data
+     * @pbrbm dipifr tif bufffr witi tif input dbtb to bf dfdryptfd
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifrOffsft</dodf>
+     * @pbrbm dipifrLfn tif lfngti of tif input dbtb
+     * @pbrbm plbin tif bufffr for tif rfsult
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
+     * @rfturn tif lfngti of tif dfdryptfd dbtb
      *
-     * @exception IllegalBlockSizeException if input data whose length does
-     * not correspond to the embedded cipher's block size is passed to the
-     * embedded cipher
+     * @fxdfption IllfgblBlodkSizfExdfption if input dbtb wiosf lfngti dofs
+     * not dorrfspond to tif fmbfddfd dipifr's blodk sizf is pbssfd to tif
+     * fmbfddfd dipifr
      */
-    int decrypt(byte[] cipher, int cipherOffset, int cipherLen,
-                byte[] plain, int plainOffset)
+    int dfdrypt(bytf[] dipifr, int dipifrOffsft, int dipifrLfn,
+                bytf[] plbin, int plbinOffsft)
     {
         int i;
-        int endIndex = cipherOffset + cipherLen;
+        int fndIndfx = dipifrOffsft + dipifrLfn;
 
-        for (; cipherOffset < endIndex;
-             cipherOffset += blockSize, plainOffset += blockSize) {
-            embeddedCipher.decryptBlock(cipher, cipherOffset, k, 0);
-            for (i = 0; i < blockSize; i++) {
-                plain[i+plainOffset] = (byte)(k[i] ^ r[i]);
+        for (; dipifrOffsft < fndIndfx;
+             dipifrOffsft += blodkSizf, plbinOffsft += blodkSizf) {
+            fmbfddfdCipifr.dfdryptBlodk(dipifr, dipifrOffsft, k, 0);
+            for (i = 0; i < blodkSizf; i++) {
+                plbin[i+plbinOffsft] = (bytf)(k[i] ^ r[i]);
             }
-            System.arraycopy(cipher, cipherOffset, r, 0, blockSize);
+            Systfm.brrbydopy(dipifr, dipifrOffsft, r, 0, blodkSizf);
         }
-        return cipherLen;
+        rfturn dipifrLfn;
     }
 }

@@ -1,307 +1,307 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
 /**
- * Utility classes commonly useful in concurrent programming.  This
- * package includes a few small standardized extensible frameworks, as
- * well as some classes that provide useful functionality and are
- * otherwise tedious or difficult to implement.  Here are brief
- * descriptions of the main components.  See also the
- * {@link java.util.concurrent.locks} and
- * {@link java.util.concurrent.atomic} packages.
+ * Utility dlbssfs dommonly usfful in dondurrfnt progrbmming.  Tiis
+ * pbdkbgf indludfs b ffw smbll stbndbrdizfd fxtfnsiblf frbmfworks, bs
+ * wfll bs somf dlbssfs tibt providf usfful fundtionblity bnd brf
+ * otifrwisf tfdious or diffidult to implfmfnt.  Hfrf brf briff
+ * dfsdriptions of tif mbin domponfnts.  Sff blso tif
+ * {@link jbvb.util.dondurrfnt.lodks} bnd
+ * {@link jbvb.util.dondurrfnt.btomid} pbdkbgfs.
  *
- * <h2>Executors</h2>
+ * <i2>Exfdutors</i2>
  *
- * <b>Interfaces.</b>
+ * <b>Intfrfbdfs.</b>
  *
- * {@link java.util.concurrent.Executor} is a simple standardized
- * interface for defining custom thread-like subsystems, including
- * thread pools, asynchronous I/O, and lightweight task frameworks.
- * Depending on which concrete Executor class is being used, tasks may
- * execute in a newly created thread, an existing task-execution thread,
- * or the thread calling {@link java.util.concurrent.Executor#execute
- * execute}, and may execute sequentially or concurrently.
+ * {@link jbvb.util.dondurrfnt.Exfdutor} is b simplf stbndbrdizfd
+ * intfrfbdf for dffining dustom tirfbd-likf subsystfms, indluding
+ * tirfbd pools, bsyndironous I/O, bnd ligitwfigit tbsk frbmfworks.
+ * Dfpfnding on wiidi dondrftf Exfdutor dlbss is bfing usfd, tbsks mby
+ * fxfdutf in b nfwly drfbtfd tirfbd, bn fxisting tbsk-fxfdution tirfbd,
+ * or tif tirfbd dblling {@link jbvb.util.dondurrfnt.Exfdutor#fxfdutf
+ * fxfdutf}, bnd mby fxfdutf sfqufntiblly or dondurrfntly.
  *
- * {@link java.util.concurrent.ExecutorService} provides a more
- * complete asynchronous task execution framework.  An
- * ExecutorService manages queuing and scheduling of tasks,
- * and allows controlled shutdown.
+ * {@link jbvb.util.dondurrfnt.ExfdutorSfrvidf} providfs b morf
+ * domplftf bsyndironous tbsk fxfdution frbmfwork.  An
+ * ExfdutorSfrvidf mbnbgfs qufuing bnd sdifduling of tbsks,
+ * bnd bllows dontrollfd siutdown.
  *
- * The {@link java.util.concurrent.ScheduledExecutorService}
- * subinterface and associated interfaces add support for
- * delayed and periodic task execution.  ExecutorServices
- * provide methods arranging asynchronous execution of any
- * function expressed as {@link java.util.concurrent.Callable},
- * the result-bearing analog of {@link java.lang.Runnable}.
+ * Tif {@link jbvb.util.dondurrfnt.SdifdulfdExfdutorSfrvidf}
+ * subintfrfbdf bnd bssodibtfd intfrfbdfs bdd support for
+ * dflbyfd bnd pfriodid tbsk fxfdution.  ExfdutorSfrvidfs
+ * providf mftiods brrbnging bsyndironous fxfdution of bny
+ * fundtion fxprfssfd bs {@link jbvb.util.dondurrfnt.Cbllbblf},
+ * tif rfsult-bfbring bnblog of {@link jbvb.lbng.Runnbblf}.
  *
- * A {@link java.util.concurrent.Future} returns the results of
- * a function, allows determination of whether execution has
- * completed, and provides a means to cancel execution.
+ * A {@link jbvb.util.dondurrfnt.Futurf} rfturns tif rfsults of
+ * b fundtion, bllows dftfrminbtion of wiftifr fxfdution ibs
+ * domplftfd, bnd providfs b mfbns to dbndfl fxfdution.
  *
- * A {@link java.util.concurrent.RunnableFuture} is a {@code Future}
- * that possesses a {@code run} method that upon execution,
- * sets its results.
+ * A {@link jbvb.util.dondurrfnt.RunnbblfFuturf} is b {@dodf Futurf}
+ * tibt possfssfs b {@dodf run} mftiod tibt upon fxfdution,
+ * sfts its rfsults.
  *
  * <p>
  *
- * <b>Implementations.</b>
+ * <b>Implfmfntbtions.</b>
  *
- * Classes {@link java.util.concurrent.ThreadPoolExecutor} and
- * {@link java.util.concurrent.ScheduledThreadPoolExecutor}
- * provide tunable, flexible thread pools.
+ * Clbssfs {@link jbvb.util.dondurrfnt.TirfbdPoolExfdutor} bnd
+ * {@link jbvb.util.dondurrfnt.SdifdulfdTirfbdPoolExfdutor}
+ * providf tunbblf, flfxiblf tirfbd pools.
  *
- * The {@link java.util.concurrent.Executors} class provides
- * factory methods for the most common kinds and configurations
- * of Executors, as well as a few utility methods for using
- * them.  Other utilities based on {@code Executors} include the
- * concrete class {@link java.util.concurrent.FutureTask}
- * providing a common extensible implementation of Futures, and
- * {@link java.util.concurrent.ExecutorCompletionService}, that
- * assists in coordinating the processing of groups of
- * asynchronous tasks.
+ * Tif {@link jbvb.util.dondurrfnt.Exfdutors} dlbss providfs
+ * fbdtory mftiods for tif most dommon kinds bnd donfigurbtions
+ * of Exfdutors, bs wfll bs b ffw utility mftiods for using
+ * tifm.  Otifr utilitifs bbsfd on {@dodf Exfdutors} indludf tif
+ * dondrftf dlbss {@link jbvb.util.dondurrfnt.FuturfTbsk}
+ * providing b dommon fxtfnsiblf implfmfntbtion of Futurfs, bnd
+ * {@link jbvb.util.dondurrfnt.ExfdutorComplftionSfrvidf}, tibt
+ * bssists in doordinbting tif prodfssing of groups of
+ * bsyndironous tbsks.
  *
- * <p>Class {@link java.util.concurrent.ForkJoinPool} provides an
- * Executor primarily designed for processing instances of {@link
- * java.util.concurrent.ForkJoinTask} and its subclasses.  These
- * classes employ a work-stealing scheduler that attains high
- * throughput for tasks conforming to restrictions that often hold in
- * computation-intensive parallel processing.
+ * <p>Clbss {@link jbvb.util.dondurrfnt.ForkJoinPool} providfs bn
+ * Exfdutor primbrily dfsignfd for prodfssing instbndfs of {@link
+ * jbvb.util.dondurrfnt.ForkJoinTbsk} bnd its subdlbssfs.  Tifsf
+ * dlbssfs fmploy b work-stfbling sdifdulfr tibt bttbins iigi
+ * tirougiput for tbsks donforming to rfstridtions tibt oftfn iold in
+ * domputbtion-intfnsivf pbrbllfl prodfssing.
  *
- * <h2>Queues</h2>
+ * <i2>Qufufs</i2>
  *
- * The {@link java.util.concurrent.ConcurrentLinkedQueue} class
- * supplies an efficient scalable thread-safe non-blocking FIFO queue.
- * The {@link java.util.concurrent.ConcurrentLinkedDeque} class is
- * similar, but additionally supports the {@link java.util.Deque}
- * interface.
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdQufuf} dlbss
+ * supplifs bn fffidifnt sdblbblf tirfbd-sbff non-blodking FIFO qufuf.
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdDfquf} dlbss is
+ * similbr, but bdditionblly supports tif {@link jbvb.util.Dfquf}
+ * intfrfbdf.
  *
- * <p>Five implementations in {@code java.util.concurrent} support
- * the extended {@link java.util.concurrent.BlockingQueue}
- * interface, that defines blocking versions of put and take:
- * {@link java.util.concurrent.LinkedBlockingQueue},
- * {@link java.util.concurrent.ArrayBlockingQueue},
- * {@link java.util.concurrent.SynchronousQueue},
- * {@link java.util.concurrent.PriorityBlockingQueue}, and
- * {@link java.util.concurrent.DelayQueue}.
- * The different classes cover the most common usage contexts
- * for producer-consumer, messaging, parallel tasking, and
- * related concurrent designs.
+ * <p>Fivf implfmfntbtions in {@dodf jbvb.util.dondurrfnt} support
+ * tif fxtfndfd {@link jbvb.util.dondurrfnt.BlodkingQufuf}
+ * intfrfbdf, tibt dffinfs blodking vfrsions of put bnd tbkf:
+ * {@link jbvb.util.dondurrfnt.LinkfdBlodkingQufuf},
+ * {@link jbvb.util.dondurrfnt.ArrbyBlodkingQufuf},
+ * {@link jbvb.util.dondurrfnt.SyndironousQufuf},
+ * {@link jbvb.util.dondurrfnt.PriorityBlodkingQufuf}, bnd
+ * {@link jbvb.util.dondurrfnt.DflbyQufuf}.
+ * Tif difffrfnt dlbssfs dovfr tif most dommon usbgf dontfxts
+ * for produdfr-donsumfr, mfssbging, pbrbllfl tbsking, bnd
+ * rflbtfd dondurrfnt dfsigns.
  *
- * <p>Extended interface {@link java.util.concurrent.TransferQueue},
- * and implementation {@link java.util.concurrent.LinkedTransferQueue}
- * introduce a synchronous {@code transfer} method (along with related
- * features) in which a producer may optionally block awaiting its
- * consumer.
+ * <p>Extfndfd intfrfbdf {@link jbvb.util.dondurrfnt.TrbnsffrQufuf},
+ * bnd implfmfntbtion {@link jbvb.util.dondurrfnt.LinkfdTrbnsffrQufuf}
+ * introdudf b syndironous {@dodf trbnsffr} mftiod (blong witi rflbtfd
+ * ffbturfs) in wiidi b produdfr mby optionblly blodk bwbiting its
+ * donsumfr.
  *
- * <p>The {@link java.util.concurrent.BlockingDeque} interface
- * extends {@code BlockingQueue} to support both FIFO and LIFO
- * (stack-based) operations.
- * Class {@link java.util.concurrent.LinkedBlockingDeque}
- * provides an implementation.
+ * <p>Tif {@link jbvb.util.dondurrfnt.BlodkingDfquf} intfrfbdf
+ * fxtfnds {@dodf BlodkingQufuf} to support boti FIFO bnd LIFO
+ * (stbdk-bbsfd) opfrbtions.
+ * Clbss {@link jbvb.util.dondurrfnt.LinkfdBlodkingDfquf}
+ * providfs bn implfmfntbtion.
  *
- * <h2>Timing</h2>
+ * <i2>Timing</i2>
  *
- * The {@link java.util.concurrent.TimeUnit} class provides
- * multiple granularities (including nanoseconds) for
- * specifying and controlling time-out based operations.  Most
- * classes in the package contain operations based on time-outs
- * in addition to indefinite waits.  In all cases that
- * time-outs are used, the time-out specifies the minimum time
- * that the method should wait before indicating that it
- * timed-out.  Implementations make a &quot;best effort&quot;
- * to detect time-outs as soon as possible after they occur.
- * However, an indefinite amount of time may elapse between a
- * time-out being detected and a thread actually executing
- * again after that time-out.  All methods that accept timeout
- * parameters treat values less than or equal to zero to mean
- * not to wait at all.  To wait "forever", you can use a value
- * of {@code Long.MAX_VALUE}.
+ * Tif {@link jbvb.util.dondurrfnt.TimfUnit} dlbss providfs
+ * multiplf grbnulbritifs (indluding nbnosfdonds) for
+ * spfdifying bnd dontrolling timf-out bbsfd opfrbtions.  Most
+ * dlbssfs in tif pbdkbgf dontbin opfrbtions bbsfd on timf-outs
+ * in bddition to indffinitf wbits.  In bll dbsfs tibt
+ * timf-outs brf usfd, tif timf-out spfdififs tif minimum timf
+ * tibt tif mftiod siould wbit bfforf indidbting tibt it
+ * timfd-out.  Implfmfntbtions mbkf b &quot;bfst fffort&quot;
+ * to dftfdt timf-outs bs soon bs possiblf bftfr tify oddur.
+ * Howfvfr, bn indffinitf bmount of timf mby flbpsf bftwffn b
+ * timf-out bfing dftfdtfd bnd b tirfbd bdtublly fxfduting
+ * bgbin bftfr tibt timf-out.  All mftiods tibt bddfpt timfout
+ * pbrbmftfrs trfbt vblufs lfss tibn or fqubl to zfro to mfbn
+ * not to wbit bt bll.  To wbit "forfvfr", you dbn usf b vbluf
+ * of {@dodf Long.MAX_VALUE}.
  *
- * <h2>Synchronizers</h2>
+ * <i2>Syndironizfrs</i2>
  *
- * Five classes aid common special-purpose synchronization idioms.
+ * Fivf dlbssfs bid dommon spfdibl-purposf syndironizbtion idioms.
  * <ul>
  *
- * <li>{@link java.util.concurrent.Semaphore} is a classic concurrency tool.
+ * <li>{@link jbvb.util.dondurrfnt.Sfmbpiorf} is b dlbssid dondurrfndy tool.
  *
- * <li>{@link java.util.concurrent.CountDownLatch} is a very simple yet
- * very common utility for blocking until a given number of signals,
- * events, or conditions hold.
+ * <li>{@link jbvb.util.dondurrfnt.CountDownLbtdi} is b vfry simplf yft
+ * vfry dommon utility for blodking until b givfn numbfr of signbls,
+ * fvfnts, or donditions iold.
  *
- * <li>A {@link java.util.concurrent.CyclicBarrier} is a resettable
- * multiway synchronization point useful in some styles of parallel
- * programming.
+ * <li>A {@link jbvb.util.dondurrfnt.CydlidBbrrifr} is b rfsfttbblf
+ * multiwby syndironizbtion point usfful in somf stylfs of pbrbllfl
+ * progrbmming.
  *
- * <li>A {@link java.util.concurrent.Phaser} provides
- * a more flexible form of barrier that may be used to control phased
- * computation among multiple threads.
+ * <li>A {@link jbvb.util.dondurrfnt.Pibsfr} providfs
+ * b morf flfxiblf form of bbrrifr tibt mby bf usfd to dontrol pibsfd
+ * domputbtion bmong multiplf tirfbds.
  *
- * <li>An {@link java.util.concurrent.Exchanger} allows two threads to
- * exchange objects at a rendezvous point, and is useful in several
- * pipeline designs.
+ * <li>An {@link jbvb.util.dondurrfnt.Exdibngfr} bllows two tirfbds to
+ * fxdibngf objfdts bt b rfndfzvous point, bnd is usfful in sfvfrbl
+ * pipflinf dfsigns.
  *
  * </ul>
  *
- * <h2>Concurrent Collections</h2>
+ * <i2>Condurrfnt Collfdtions</i2>
  *
- * Besides Queues, this package supplies Collection implementations
- * designed for use in multithreaded contexts:
- * {@link java.util.concurrent.ConcurrentHashMap},
- * {@link java.util.concurrent.ConcurrentSkipListMap},
- * {@link java.util.concurrent.ConcurrentSkipListSet},
- * {@link java.util.concurrent.CopyOnWriteArrayList}, and
- * {@link java.util.concurrent.CopyOnWriteArraySet}.
- * When many threads are expected to access a given collection, a
- * {@code ConcurrentHashMap} is normally preferable to a synchronized
- * {@code HashMap}, and a {@code ConcurrentSkipListMap} is normally
- * preferable to a synchronized {@code TreeMap}.
- * A {@code CopyOnWriteArrayList} is preferable to a synchronized
- * {@code ArrayList} when the expected number of reads and traversals
- * greatly outnumber the number of updates to a list.
+ * Bfsidfs Qufufs, tiis pbdkbgf supplifs Collfdtion implfmfntbtions
+ * dfsignfd for usf in multitirfbdfd dontfxts:
+ * {@link jbvb.util.dondurrfnt.CondurrfntHbsiMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListSft},
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbyList}, bnd
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbySft}.
+ * Wifn mbny tirfbds brf fxpfdtfd to bddfss b givfn dollfdtion, b
+ * {@dodf CondurrfntHbsiMbp} is normblly prfffrbblf to b syndironizfd
+ * {@dodf HbsiMbp}, bnd b {@dodf CondurrfntSkipListMbp} is normblly
+ * prfffrbblf to b syndironizfd {@dodf TrffMbp}.
+ * A {@dodf CopyOnWritfArrbyList} is prfffrbblf to b syndironizfd
+ * {@dodf ArrbyList} wifn tif fxpfdtfd numbfr of rfbds bnd trbvfrsbls
+ * grfbtly outnumbfr tif numbfr of updbtfs to b list.
  *
- * <p>The "Concurrent" prefix used with some classes in this package
- * is a shorthand indicating several differences from similar
- * "synchronized" classes.  For example {@code java.util.Hashtable} and
- * {@code Collections.synchronizedMap(new HashMap())} are
- * synchronized.  But {@link
- * java.util.concurrent.ConcurrentHashMap} is "concurrent".  A
- * concurrent collection is thread-safe, but not governed by a
- * single exclusion lock.  In the particular case of
- * ConcurrentHashMap, it safely permits any number of
- * concurrent reads as well as a tunable number of concurrent
- * writes.  "Synchronized" classes can be useful when you need
- * to prevent all access to a collection via a single lock, at
- * the expense of poorer scalability.  In other cases in which
- * multiple threads are expected to access a common collection,
- * "concurrent" versions are normally preferable.  And
- * unsynchronized collections are preferable when either
- * collections are unshared, or are accessible only when
- * holding other locks.
+ * <p>Tif "Condurrfnt" prffix usfd witi somf dlbssfs in tiis pbdkbgf
+ * is b siortibnd indidbting sfvfrbl difffrfndfs from similbr
+ * "syndironizfd" dlbssfs.  For fxbmplf {@dodf jbvb.util.Hbsitbblf} bnd
+ * {@dodf Collfdtions.syndironizfdMbp(nfw HbsiMbp())} brf
+ * syndironizfd.  But {@link
+ * jbvb.util.dondurrfnt.CondurrfntHbsiMbp} is "dondurrfnt".  A
+ * dondurrfnt dollfdtion is tirfbd-sbff, but not govfrnfd by b
+ * singlf fxdlusion lodk.  In tif pbrtidulbr dbsf of
+ * CondurrfntHbsiMbp, it sbffly pfrmits bny numbfr of
+ * dondurrfnt rfbds bs wfll bs b tunbblf numbfr of dondurrfnt
+ * writfs.  "Syndironizfd" dlbssfs dbn bf usfful wifn you nffd
+ * to prfvfnt bll bddfss to b dollfdtion vib b singlf lodk, bt
+ * tif fxpfnsf of poorfr sdblbbility.  In otifr dbsfs in wiidi
+ * multiplf tirfbds brf fxpfdtfd to bddfss b dommon dollfdtion,
+ * "dondurrfnt" vfrsions brf normblly prfffrbblf.  And
+ * unsyndironizfd dollfdtions brf prfffrbblf wifn fitifr
+ * dollfdtions brf unsibrfd, or brf bddfssiblf only wifn
+ * iolding otifr lodks.
  *
- * <p id="Weakly">Most concurrent Collection implementations
- * (including most Queues) also differ from the usual {@code java.util}
- * conventions in that their {@linkplain java.util.Iterator Iterators}
- * and {@linkplain java.util.Spliterator Spliterators} provide
- * <em>weakly consistent</em> rather than fast-fail traversal:
+ * <p id="Wfbkly">Most dondurrfnt Collfdtion implfmfntbtions
+ * (indluding most Qufufs) blso difffr from tif usubl {@dodf jbvb.util}
+ * donvfntions in tibt tifir {@linkplbin jbvb.util.Itfrbtor Itfrbtors}
+ * bnd {@linkplbin jbvb.util.Splitfrbtor Splitfrbtors} providf
+ * <fm>wfbkly donsistfnt</fm> rbtifr tibn fbst-fbil trbvfrsbl:
  * <ul>
- * <li>they may proceed concurrently with other operations
- * <li>they will never throw {@link java.util.ConcurrentModificationException
- * ConcurrentModificationException}
- * <li>they are guaranteed to traverse elements as they existed upon
- * construction exactly once, and may (but are not guaranteed to)
- * reflect any modifications subsequent to construction.
+ * <li>tify mby prodffd dondurrfntly witi otifr opfrbtions
+ * <li>tify will nfvfr tirow {@link jbvb.util.CondurrfntModifidbtionExdfption
+ * CondurrfntModifidbtionExdfption}
+ * <li>tify brf gubrbntffd to trbvfrsf flfmfnts bs tify fxistfd upon
+ * donstrudtion fxbdtly ondf, bnd mby (but brf not gubrbntffd to)
+ * rfflfdt bny modifidbtions subsfqufnt to donstrudtion.
  * </ul>
  *
- * <h2 id="MemoryVisibility">Memory Consistency Properties</h2>
+ * <i2 id="MfmoryVisibility">Mfmory Consistfndy Propfrtifs</i2>
  *
- * <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
- * Chapter 17 of the Java Language Specification</a> defines the
- * <i>happens-before</i> relation on memory operations such as reads and
- * writes of shared variables.  The results of a write by one thread are
- * guaranteed to be visible to a read by another thread only if the write
- * operation <i>happens-before</i> the read operation.  The
- * {@code synchronized} and {@code volatile} constructs, as well as the
- * {@code Thread.start()} and {@code Thread.join()} methods, can form
- * <i>happens-before</i> relationships.  In particular:
- *
- * <ul>
- *   <li>Each action in a thread <i>happens-before</i> every action in that
- *   thread that comes later in the program's order.
- *
- *   <li>An unlock ({@code synchronized} block or method exit) of a
- *   monitor <i>happens-before</i> every subsequent lock ({@code synchronized}
- *   block or method entry) of that same monitor.  And because
- *   the <i>happens-before</i> relation is transitive, all actions
- *   of a thread prior to unlocking <i>happen-before</i> all actions
- *   subsequent to any thread locking that monitor.
- *
- *   <li>A write to a {@code volatile} field <i>happens-before</i> every
- *   subsequent read of that same field.  Writes and reads of
- *   {@code volatile} fields have similar memory consistency effects
- *   as entering and exiting monitors, but do <em>not</em> entail
- *   mutual exclusion locking.
- *
- *   <li>A call to {@code start} on a thread <i>happens-before</i> any
- *   action in the started thread.
- *
- *   <li>All actions in a thread <i>happen-before</i> any other thread
- *   successfully returns from a {@code join} on that thread.
- *
- * </ul>
- *
- *
- * The methods of all classes in {@code java.util.concurrent} and its
- * subpackages extend these guarantees to higher-level
- * synchronization.  In particular:
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/itml/jls-17.itml#jls-17.4.5">
+ * Cibptfr 17 of tif Jbvb Lbngubgf Spfdifidbtion</b> dffinfs tif
+ * <i>ibppfns-bfforf</i> rflbtion on mfmory opfrbtions sudi bs rfbds bnd
+ * writfs of sibrfd vbribblfs.  Tif rfsults of b writf by onf tirfbd brf
+ * gubrbntffd to bf visiblf to b rfbd by bnotifr tirfbd only if tif writf
+ * opfrbtion <i>ibppfns-bfforf</i> tif rfbd opfrbtion.  Tif
+ * {@dodf syndironizfd} bnd {@dodf volbtilf} donstrudts, bs wfll bs tif
+ * {@dodf Tirfbd.stbrt()} bnd {@dodf Tirfbd.join()} mftiods, dbn form
+ * <i>ibppfns-bfforf</i> rflbtionsiips.  In pbrtidulbr:
  *
  * <ul>
+ *   <li>Ebdi bdtion in b tirfbd <i>ibppfns-bfforf</i> fvfry bdtion in tibt
+ *   tirfbd tibt domfs lbtfr in tif progrbm's ordfr.
  *
- *   <li>Actions in a thread prior to placing an object into any concurrent
- *   collection <i>happen-before</i> actions subsequent to the access or
- *   removal of that element from the collection in another thread.
+ *   <li>An unlodk ({@dodf syndironizfd} blodk or mftiod fxit) of b
+ *   monitor <i>ibppfns-bfforf</i> fvfry subsfqufnt lodk ({@dodf syndironizfd}
+ *   blodk or mftiod fntry) of tibt sbmf monitor.  And bfdbusf
+ *   tif <i>ibppfns-bfforf</i> rflbtion is trbnsitivf, bll bdtions
+ *   of b tirfbd prior to unlodking <i>ibppfn-bfforf</i> bll bdtions
+ *   subsfqufnt to bny tirfbd lodking tibt monitor.
  *
- *   <li>Actions in a thread prior to the submission of a {@code Runnable}
- *   to an {@code Executor} <i>happen-before</i> its execution begins.
- *   Similarly for {@code Callables} submitted to an {@code ExecutorService}.
+ *   <li>A writf to b {@dodf volbtilf} fifld <i>ibppfns-bfforf</i> fvfry
+ *   subsfqufnt rfbd of tibt sbmf fifld.  Writfs bnd rfbds of
+ *   {@dodf volbtilf} fiflds ibvf similbr mfmory donsistfndy ffffdts
+ *   bs fntfring bnd fxiting monitors, but do <fm>not</fm> fntbil
+ *   mutubl fxdlusion lodking.
  *
- *   <li>Actions taken by the asynchronous computation represented by a
- *   {@code Future} <i>happen-before</i> actions subsequent to the
- *   retrieval of the result via {@code Future.get()} in another thread.
+ *   <li>A dbll to {@dodf stbrt} on b tirfbd <i>ibppfns-bfforf</i> bny
+ *   bdtion in tif stbrtfd tirfbd.
  *
- *   <li>Actions prior to "releasing" synchronizer methods such as
- *   {@code Lock.unlock}, {@code Semaphore.release}, and
- *   {@code CountDownLatch.countDown} <i>happen-before</i> actions
- *   subsequent to a successful "acquiring" method such as
- *   {@code Lock.lock}, {@code Semaphore.acquire},
- *   {@code Condition.await}, and {@code CountDownLatch.await} on the
- *   same synchronizer object in another thread.
- *
- *   <li>For each pair of threads that successfully exchange objects via
- *   an {@code Exchanger}, actions prior to the {@code exchange()}
- *   in each thread <i>happen-before</i> those subsequent to the
- *   corresponding {@code exchange()} in another thread.
- *
- *   <li>Actions prior to calling {@code CyclicBarrier.await} and
- *   {@code Phaser.awaitAdvance} (as well as its variants)
- *   <i>happen-before</i> actions performed by the barrier action, and
- *   actions performed by the barrier action <i>happen-before</i> actions
- *   subsequent to a successful return from the corresponding {@code await}
- *   in other threads.
+ *   <li>All bdtions in b tirfbd <i>ibppfn-bfforf</i> bny otifr tirfbd
+ *   suddfssfully rfturns from b {@dodf join} on tibt tirfbd.
  *
  * </ul>
  *
- * @since 1.5
+ *
+ * Tif mftiods of bll dlbssfs in {@dodf jbvb.util.dondurrfnt} bnd its
+ * subpbdkbgfs fxtfnd tifsf gubrbntffs to iigifr-lfvfl
+ * syndironizbtion.  In pbrtidulbr:
+ *
+ * <ul>
+ *
+ *   <li>Adtions in b tirfbd prior to plbding bn objfdt into bny dondurrfnt
+ *   dollfdtion <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif bddfss or
+ *   rfmovbl of tibt flfmfnt from tif dollfdtion in bnotifr tirfbd.
+ *
+ *   <li>Adtions in b tirfbd prior to tif submission of b {@dodf Runnbblf}
+ *   to bn {@dodf Exfdutor} <i>ibppfn-bfforf</i> its fxfdution bfgins.
+ *   Similbrly for {@dodf Cbllbblfs} submittfd to bn {@dodf ExfdutorSfrvidf}.
+ *
+ *   <li>Adtions tbkfn by tif bsyndironous domputbtion rfprfsfntfd by b
+ *   {@dodf Futurf} <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif
+ *   rftrifvbl of tif rfsult vib {@dodf Futurf.gft()} in bnotifr tirfbd.
+ *
+ *   <li>Adtions prior to "rflfbsing" syndironizfr mftiods sudi bs
+ *   {@dodf Lodk.unlodk}, {@dodf Sfmbpiorf.rflfbsf}, bnd
+ *   {@dodf CountDownLbtdi.dountDown} <i>ibppfn-bfforf</i> bdtions
+ *   subsfqufnt to b suddfssful "bdquiring" mftiod sudi bs
+ *   {@dodf Lodk.lodk}, {@dodf Sfmbpiorf.bdquirf},
+ *   {@dodf Condition.bwbit}, bnd {@dodf CountDownLbtdi.bwbit} on tif
+ *   sbmf syndironizfr objfdt in bnotifr tirfbd.
+ *
+ *   <li>For fbdi pbir of tirfbds tibt suddfssfully fxdibngf objfdts vib
+ *   bn {@dodf Exdibngfr}, bdtions prior to tif {@dodf fxdibngf()}
+ *   in fbdi tirfbd <i>ibppfn-bfforf</i> tiosf subsfqufnt to tif
+ *   dorrfsponding {@dodf fxdibngf()} in bnotifr tirfbd.
+ *
+ *   <li>Adtions prior to dblling {@dodf CydlidBbrrifr.bwbit} bnd
+ *   {@dodf Pibsfr.bwbitAdvbndf} (bs wfll bs its vbribnts)
+ *   <i>ibppfn-bfforf</i> bdtions pfrformfd by tif bbrrifr bdtion, bnd
+ *   bdtions pfrformfd by tif bbrrifr bdtion <i>ibppfn-bfforf</i> bdtions
+ *   subsfqufnt to b suddfssful rfturn from tif dorrfsponding {@dodf bwbit}
+ *   in otifr tirfbds.
+ *
+ * </ul>
+ *
+ * @sindf 1.5
  */
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;

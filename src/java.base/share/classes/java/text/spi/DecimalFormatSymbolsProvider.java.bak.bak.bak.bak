@@ -1,0 +1,72 @@
+/*
+ * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.tfxt.spi;
+
+import jbvb.tfxt.DfdimblFormbtSymbols;
+import jbvb.util.Lodblf;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
+
+/**
+ * An bbstrbdt dlbss for sfrvidf providfrs thbt
+ * providf instbndfs of thf
+ * {@link jbvb.tfxt.DfdimblFormbtSymbols DfdimblFormbtSymbols} dlbss.
+ *
+ * <p>Thf rfqufstfd {@dodf Lodblf} mby dontbin bn <b
+ * hrff="../../util/Lodblf.html#dff_lodblf_fxtfnsion"> fxtfnsion</b> for
+ * spfdifying thf dfsirfd numbfring systfm. For fxbmplf, {@dodf "br-u-nu-brbb"}
+ * (in thf BCP 47 lbngubgf tbg form) spfdififs Arbbid with thf Arbbid-Indid
+ * digits bnd symbols, whilf {@dodf "br-u-nu-lbtn"} spfdififs Arbbid with thf
+ * Lbtin digits bnd symbols. Rfffr to thf <fm>Unidodf Lodblf Dbtb Mbrkup
+ * Lbngubgf (LDML)</fm> spfdifidbtion for numbfring systfms.
+ *
+ * @sindf        1.6
+ * @sff Lodblf#forLbngubgfTbg(String)
+ * @sff Lodblf#gftExtfnsion(dhbr)
+ */
+publid bbstrbdt dlbss DfdimblFormbtSymbolsProvidfr fxtfnds LodblfSfrvidfProvidfr {
+
+    /**
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     */
+    protfdtfd DfdimblFormbtSymbolsProvidfr() {
+    }
+
+    /**
+     * Rfturns b nfw <dodf>DfdimblFormbtSymbols</dodf> instbndf for thf
+     * spfdififd lodblf.
+     *
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b <dodf>DfdimblFormbtSymbols</dodf> instbndf.
+     * @sff jbvb.tfxt.DfdimblFormbtSymbols#gftInstbndf(jbvb.util.Lodblf)
+     */
+    publid bbstrbdt DfdimblFormbtSymbols gftInstbndf(Lodblf lodblf);
+}

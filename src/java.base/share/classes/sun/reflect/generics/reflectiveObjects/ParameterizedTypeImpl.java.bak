@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.generics.reflectiveObjects;
+pbdkbgf sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts;
 
-import sun.reflect.generics.tree.FieldTypeSignature;
+import sun.rfflfdt.gfnfrids.trff.FifldTypfSignbturf;
 
-import java.lang.reflect.MalformedParameterizedTypeException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.Arrays;
-import java.util.Objects;
+import jbvb.lbng.rfflfdt.MblformfdPbrbmftfrizfdTypfExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.PbrbmftfrizfdTypf;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.lbng.rfflfdt.TypfVbribblf;
+import jbvb.util.Arrbys;
+import jbvb.util.Objfdts;
 
-/** Implementing class for ParameterizedType interface. */
+/** Implfmfnting dlbss for PbrbmftfrizfdTypf intfrfbdf. */
 
-public class ParameterizedTypeImpl implements ParameterizedType {
-    private Type[] actualTypeArguments;
-    private Class<?>  rawType;
-    private Type   ownerType;
+publid dlbss PbrbmftfrizfdTypfImpl implfmfnts PbrbmftfrizfdTypf {
+    privbtf Typf[] bdtublTypfArgumfnts;
+    privbtf Clbss<?>  rbwTypf;
+    privbtf Typf   ownfrTypf;
 
-    private ParameterizedTypeImpl(Class<?> rawType,
-                                  Type[] actualTypeArguments,
-                                  Type ownerType) {
-        this.actualTypeArguments = actualTypeArguments;
-        this.rawType             = rawType;
-        this.ownerType = (ownerType != null) ? ownerType : rawType.getDeclaringClass();
-        validateConstructorArguments();
+    privbtf PbrbmftfrizfdTypfImpl(Clbss<?> rbwTypf,
+                                  Typf[] bdtublTypfArgumfnts,
+                                  Typf ownfrTypf) {
+        tiis.bdtublTypfArgumfnts = bdtublTypfArgumfnts;
+        tiis.rbwTypf             = rbwTypf;
+        tiis.ownfrTypf = (ownfrTypf != null) ? ownfrTypf : rbwTypf.gftDfdlbringClbss();
+        vblidbtfConstrudtorArgumfnts();
     }
 
-    private void validateConstructorArguments() {
-        TypeVariable<?>[] formals = rawType.getTypeParameters();
-        // check correct arity of actual type args
-        if (formals.length != actualTypeArguments.length){
-            throw new MalformedParameterizedTypeException();
+    privbtf void vblidbtfConstrudtorArgumfnts() {
+        TypfVbribblf<?>[] formbls = rbwTypf.gftTypfPbrbmftfrs();
+        // difdk dorrfdt brity of bdtubl typf brgs
+        if (formbls.lfngti != bdtublTypfArgumfnts.lfngti){
+            tirow nfw MblformfdPbrbmftfrizfdTypfExdfption();
         }
-        for (int i = 0; i < actualTypeArguments.length; i++) {
-            // check actuals against formals' bounds
+        for (int i = 0; i < bdtublTypfArgumfnts.lfngti; i++) {
+            // difdk bdtubls bgbinst formbls' bounds
         }
     }
 
     /**
-     * Static factory. Given a (generic) class, actual type arguments
-     * and an owner type, creates a parameterized type.
-     * This class can be instantiated with a a raw type that does not
-     * represent a generic type, provided the list of actual type
-     * arguments is empty.
-     * If the ownerType argument is null, the declaring class of the
-     * raw type is used as the owner type.
-     * <p> This method throws a MalformedParameterizedTypeException
-     * under the following circumstances:
-     * If the number of actual type arguments (i.e., the size of the
-     * array <tt>typeArgs</tt>) does not correspond to the number of
-     * formal type arguments.
-     * If any of the actual type arguments is not an instance of the
-     * bounds on the corresponding formal.
-     * @param rawType the Class representing the generic type declaration being
-     * instantiated
-     * @param actualTypeArguments - a (possibly empty) array of types
-     * representing the actual type arguments to the parameterized type
-     * @param ownerType - the enclosing type, if known.
-     * @return An instance of <tt>ParameterizedType</tt>
-     * @throws MalformedParameterizedTypeException - if the instantiation
-     * is invalid
+     * Stbtid fbdtory. Givfn b (gfnfrid) dlbss, bdtubl typf brgumfnts
+     * bnd bn ownfr typf, drfbtfs b pbrbmftfrizfd typf.
+     * Tiis dlbss dbn bf instbntibtfd witi b b rbw typf tibt dofs not
+     * rfprfsfnt b gfnfrid typf, providfd tif list of bdtubl typf
+     * brgumfnts is fmpty.
+     * If tif ownfrTypf brgumfnt is null, tif dfdlbring dlbss of tif
+     * rbw typf is usfd bs tif ownfr typf.
+     * <p> Tiis mftiod tirows b MblformfdPbrbmftfrizfdTypfExdfption
+     * undfr tif following dirdumstbndfs:
+     * If tif numbfr of bdtubl typf brgumfnts (i.f., tif sizf of tif
+     * brrby <tt>typfArgs</tt>) dofs not dorrfspond to tif numbfr of
+     * formbl typf brgumfnts.
+     * If bny of tif bdtubl typf brgumfnts is not bn instbndf of tif
+     * bounds on tif dorrfsponding formbl.
+     * @pbrbm rbwTypf tif Clbss rfprfsfnting tif gfnfrid typf dfdlbrbtion bfing
+     * instbntibtfd
+     * @pbrbm bdtublTypfArgumfnts - b (possibly fmpty) brrby of typfs
+     * rfprfsfnting tif bdtubl typf brgumfnts to tif pbrbmftfrizfd typf
+     * @pbrbm ownfrTypf - tif fndlosing typf, if known.
+     * @rfturn An instbndf of <tt>PbrbmftfrizfdTypf</tt>
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption - if tif instbntibtion
+     * is invblid
      */
-    public static ParameterizedTypeImpl make(Class<?> rawType,
-                                             Type[] actualTypeArguments,
-                                             Type ownerType) {
-        return new ParameterizedTypeImpl(rawType, actualTypeArguments,
-                                         ownerType);
+    publid stbtid PbrbmftfrizfdTypfImpl mbkf(Clbss<?> rbwTypf,
+                                             Typf[] bdtublTypfArgumfnts,
+                                             Typf ownfrTypf) {
+        rfturn nfw PbrbmftfrizfdTypfImpl(rbwTypf, bdtublTypfArgumfnts,
+                                         ownfrTypf);
     }
 
 
     /**
-     * Returns an array of <tt>Type</tt> objects representing the actual type
-     * arguments to this type.
+     * Rfturns bn brrby of <tt>Typf</tt> objfdts rfprfsfnting tif bdtubl typf
+     * brgumfnts to tiis typf.
      *
-     * <p>Note that in some cases, the returned array be empty. This can occur
-     * if this type represents a non-parameterized type nested within
-     * a parameterized type.
+     * <p>Notf tibt in somf dbsfs, tif rfturnfd brrby bf fmpty. Tiis dbn oddur
+     * if tiis typf rfprfsfnts b non-pbrbmftfrizfd typf nfstfd witiin
+     * b pbrbmftfrizfd typf.
      *
-     * @return an array of <tt>Type</tt> objects representing the actual type
-     *     arguments to this type
-     * @throws <tt>TypeNotPresentException</tt> if any of the
-     *     actual type arguments refers to a non-existent type declaration
-     * @throws <tt>MalformedParameterizedTypeException</tt> if any of the
-     *     actual type parameters refer to a parameterized type that cannot
-     *     be instantiated for any reason
-     * @since 1.5
+     * @rfturn bn brrby of <tt>Typf</tt> objfdts rfprfsfnting tif bdtubl typf
+     *     brgumfnts to tiis typf
+     * @tirows <tt>TypfNotPrfsfntExdfption</tt> if bny of tif
+     *     bdtubl typf brgumfnts rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @tirows <tt>MblformfdPbrbmftfrizfdTypfExdfption</tt> if bny of tif
+     *     bdtubl typf pbrbmftfrs rfffr to b pbrbmftfrizfd typf tibt dbnnot
+     *     bf instbntibtfd for bny rfbson
+     * @sindf 1.5
      */
-    public Type[] getActualTypeArguments() {
-        return actualTypeArguments.clone();
+    publid Typf[] gftAdtublTypfArgumfnts() {
+        rfturn bdtublTypfArgumfnts.dlonf();
     }
 
     /**
-     * Returns the <tt>Type</tt> object representing the class or interface
-     * that declared this type.
+     * Rfturns tif <tt>Typf</tt> objfdt rfprfsfnting tif dlbss or intfrfbdf
+     * tibt dfdlbrfd tiis typf.
      *
-     * @return the <tt>Type</tt> object representing the class or interface
-     *     that declared this type
+     * @rfturn tif <tt>Typf</tt> objfdt rfprfsfnting tif dlbss or intfrfbdf
+     *     tibt dfdlbrfd tiis typf
      */
-    public Class<?> getRawType() {
-        return rawType;
+    publid Clbss<?> gftRbwTypf() {
+        rfturn rbwTypf;
     }
 
 
     /**
-     * Returns a <tt>Type</tt> object representing the type that this type
-     * is a member of.  For example, if this type is <tt>O<T>.I<S></tt>,
-     * return a representation of <tt>O<T></tt>.
+     * Rfturns b <tt>Typf</tt> objfdt rfprfsfnting tif typf tibt tiis typf
+     * is b mfmbfr of.  For fxbmplf, if tiis typf is <tt>O<T>.I<S></tt>,
+     * rfturn b rfprfsfntbtion of <tt>O<T></tt>.
      *
-     * <p>If this type is a top-level type, <tt>null</tt> is returned.
+     * <p>If tiis typf is b top-lfvfl typf, <tt>null</tt> is rfturnfd.
      *
-     * @return a <tt>Type</tt> object representing the type that
-     *     this type is a member of. If this type is a top-level type,
-     *     <tt>null</tt> is returned
-     * @throws <tt>TypeNotPresentException</tt> if the owner type
-     *     refers to a non-existent type declaration
-     * @throws <tt>MalformedParameterizedTypeException</tt> if the owner type
-     *     refers to a parameterized type that cannot be instantiated
-     *     for any reason
+     * @rfturn b <tt>Typf</tt> objfdt rfprfsfnting tif typf tibt
+     *     tiis typf is b mfmbfr of. If tiis typf is b top-lfvfl typf,
+     *     <tt>null</tt> is rfturnfd
+     * @tirows <tt>TypfNotPrfsfntExdfption</tt> if tif ownfr typf
+     *     rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @tirows <tt>MblformfdPbrbmftfrizfdTypfExdfption</tt> if tif ownfr typf
+     *     rfffrs to b pbrbmftfrizfd typf tibt dbnnot bf instbntibtfd
+     *     for bny rfbson
      *
      */
-    public Type getOwnerType() {
-        return ownerType;
+    publid Typf gftOwnfrTypf() {
+        rfturn ownfrTypf;
     }
 
     /*
-     * From the JavaDoc for java.lang.reflect.ParameterizedType
-     * "Instances of classes that implement this interface must
-     * implement an equals() method that equates any two instances
-     * that share the same generic type declaration and have equal
-     * type parameters."
+     * From tif JbvbDod for jbvb.lbng.rfflfdt.PbrbmftfrizfdTypf
+     * "Instbndfs of dlbssfs tibt implfmfnt tiis intfrfbdf must
+     * implfmfnt bn fqubls() mftiod tibt fqubtfs bny two instbndfs
+     * tibt sibrf tif sbmf gfnfrid typf dfdlbrbtion bnd ibvf fqubl
+     * typf pbrbmftfrs."
      */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof ParameterizedType) {
-            // Check that information is equivalent
-            ParameterizedType that = (ParameterizedType) o;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof PbrbmftfrizfdTypf) {
+            // Cifdk tibt informbtion is fquivblfnt
+            PbrbmftfrizfdTypf tibt = (PbrbmftfrizfdTypf) o;
 
-            if (this == that)
-                return true;
+            if (tiis == tibt)
+                rfturn truf;
 
-            Type thatOwner   = that.getOwnerType();
-            Type thatRawType = that.getRawType();
+            Typf tibtOwnfr   = tibt.gftOwnfrTypf();
+            Typf tibtRbwTypf = tibt.gftRbwTypf();
 
-            if (false) { // Debugging
-                boolean ownerEquality = (ownerType == null ?
-                                         thatOwner == null :
-                                         ownerType.equals(thatOwner));
-                boolean rawEquality = (rawType == null ?
-                                       thatRawType == null :
-                                       rawType.equals(thatRawType));
+            if (fblsf) { // Dfbugging
+                boolfbn ownfrEqublity = (ownfrTypf == null ?
+                                         tibtOwnfr == null :
+                                         ownfrTypf.fqubls(tibtOwnfr));
+                boolfbn rbwEqublity = (rbwTypf == null ?
+                                       tibtRbwTypf == null :
+                                       rbwTypf.fqubls(tibtRbwTypf));
 
-                boolean typeArgEquality = Arrays.equals(actualTypeArguments, // avoid clone
-                                                        that.getActualTypeArguments());
-                for (Type t : actualTypeArguments) {
-                    System.out.printf("\t\t%s%s%n", t, t.getClass());
+                boolfbn typfArgEqublity = Arrbys.fqubls(bdtublTypfArgumfnts, // bvoid dlonf
+                                                        tibt.gftAdtublTypfArgumfnts());
+                for (Typf t : bdtublTypfArgumfnts) {
+                    Systfm.out.printf("\t\t%s%s%n", t, t.gftClbss());
                 }
 
-                System.out.printf("\towner %s\traw %s\ttypeArg %s%n",
-                                  ownerEquality, rawEquality, typeArgEquality);
-                return ownerEquality && rawEquality && typeArgEquality;
+                Systfm.out.printf("\townfr %s\trbw %s\ttypfArg %s%n",
+                                  ownfrEqublity, rbwEqublity, typfArgEqublity);
+                rfturn ownfrEqublity && rbwEqublity && typfArgEqublity;
             }
 
-            return
-                Objects.equals(ownerType, thatOwner) &&
-                Objects.equals(rawType, thatRawType) &&
-                Arrays.equals(actualTypeArguments, // avoid clone
-                              that.getActualTypeArguments());
-        } else
-            return false;
+            rfturn
+                Objfdts.fqubls(ownfrTypf, tibtOwnfr) &&
+                Objfdts.fqubls(rbwTypf, tibtRbwTypf) &&
+                Arrbys.fqubls(bdtublTypfArgumfnts, // bvoid dlonf
+                              tibt.gftAdtublTypfArgumfnts());
+        } flsf
+            rfturn fblsf;
     }
 
-    @Override
-    public int hashCode() {
-        return
-            Arrays.hashCode(actualTypeArguments) ^
-            Objects.hashCode(ownerType) ^
-            Objects.hashCode(rawType);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn
+            Arrbys.ibsiCodf(bdtublTypfArgumfnts) ^
+            Objfdts.ibsiCodf(ownfrTypf) ^
+            Objfdts.ibsiCodf(rbwTypf);
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        if (ownerType != null) {
-            if (ownerType instanceof Class)
-                sb.append(((Class)ownerType).getName());
-            else
-                sb.append(ownerType.toString());
+        if (ownfrTypf != null) {
+            if (ownfrTypf instbndfof Clbss)
+                sb.bppfnd(((Clbss)ownfrTypf).gftNbmf());
+            flsf
+                sb.bppfnd(ownfrTypf.toString());
 
-            sb.append(".");
+            sb.bppfnd(".");
 
-            if (ownerType instanceof ParameterizedTypeImpl) {
-                // Find simple name of nested type by removing the
-                // shared prefix with owner.
-                sb.append(rawType.getName().replace( ((ParameterizedTypeImpl)ownerType).rawType.getName() + "$",
+            if (ownfrTypf instbndfof PbrbmftfrizfdTypfImpl) {
+                // Find simplf nbmf of nfstfd typf by rfmoving tif
+                // sibrfd prffix witi ownfr.
+                sb.bppfnd(rbwTypf.gftNbmf().rfplbdf( ((PbrbmftfrizfdTypfImpl)ownfrTypf).rbwTypf.gftNbmf() + "$",
                                          ""));
-            } else
-                sb.append(rawType.getName());
-        } else
-            sb.append(rawType.getName());
+            } flsf
+                sb.bppfnd(rbwTypf.gftNbmf());
+        } flsf
+            sb.bppfnd(rbwTypf.gftNbmf());
 
-        if (actualTypeArguments != null &&
-            actualTypeArguments.length > 0) {
-            sb.append("<");
-            boolean first = true;
-            for(Type t: actualTypeArguments) {
+        if (bdtublTypfArgumfnts != null &&
+            bdtublTypfArgumfnts.lfngti > 0) {
+            sb.bppfnd("<");
+            boolfbn first = truf;
+            for(Typf t: bdtublTypfArgumfnts) {
                 if (!first)
-                    sb.append(", ");
-                sb.append(t.getTypeName());
-                first = false;
+                    sb.bppfnd(", ");
+                sb.bppfnd(t.gftTypfNbmf());
+                first = fblsf;
             }
-            sb.append(">");
+            sb.bppfnd(">");
         }
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

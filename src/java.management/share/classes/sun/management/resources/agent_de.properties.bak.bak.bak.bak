@@ -1,0 +1,93 @@
+#
+#
+# Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+#
+
+# Lodblizbtions for Lfvfl nbmfs.  For thf US lodblf
+# thfsf brf thf sbmf bs thf non-lodblizfd lfvfl nbmf.
+
+bgfnt.frr.frror			   = Ffhlfr
+bgfnt.frr.fxdfption                = Ausnbhmf von Agfnt busgfl\u00F6st 
+bgfnt.frr.wbrning		   = Wbrnung
+
+bgfnt.frr.donfigfilf.notfound      = Konfigurbtionsdbtfi wurdf nidht gffundfn
+bgfnt.frr.donfigfilf.fbilfd        = Konfigurbtionsdbtfi konntf nidht gflfsfn wfrdfn
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = Konfigurbtionsdbtfi konntf nidht gfsdhlossfn wfrdfn
+bgfnt.frr.donfigfilf.bddfss.dfnifd = Zugriff buf Konfigurbtionsdbtfi wurdf bbgflfhnt
+
+bgfnt.frr.fxportbddrfss.fbilfd	   = Export dfr JMX-Connfdtor-Adrfssf in Instrumfntifrungspufffr nidht frfolgrfidh
+
+bgfnt.frr.bgfntdlbss.notfound      = Mbnbgfmfnt Agfnt-Klbssf nidht gffundfn
+bgfnt.frr.bgfntdlbss.fbilfd        = Mbnbgfmfnt Agfnt-Klbssf nidht frfolgrfidh
+bgfnt.frr.prfmbin.notfound         = prfmbin(String) ist in Agfnt-Klbssf nidht vorhbndfn
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = Zugriff buf prfmbin(String) wurdf bbgflfhnt
+bgfnt.frr.invblid.bgfntdlbss       = Ung\u00FCltigfr Eigfnsdhbftswfrt f\u00FCr dom.sun.mbnbgfmfnt.bgfnt.dlbss
+bgfnt.frr.invblid.stbtf            = Ung\u00FCltigfr Agfnt-Zustbnd
+bgfnt.frr.invblid.jmxrfmotf.port   = Ung\u00FCltigf Nummfr f\u00FCr dom.sun.mbnbgfmfnt.jmxrfmotf.port
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = Ung\u00FCltigf Nummfr f\u00FCr dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port
+
+bgfnt.frr.filf.not.sft               = Dbtfi nidht bngfgfbfn
+bgfnt.frr.filf.not.rfbdbblf          = Dbtfi nidht lfsbbr
+bgfnt.frr.filf.rfbd.fbilfd           = Dbtfi konntf nidht gflfsfn wfrdfn
+bgfnt.frr.filf.not.found             = Dbtfi wurdf nidht gffundfn
+bgfnt.frr.filf.bddfss.not.rfstridtfd = Lfsfzugriff buf Dbtfi muss fingfsdhr\u00E4nkt wfrdfn
+
+bgfnt.frr.pbssword.filf.notsft     = Es wurdf kfinf Kfnnwortdbtfi bngfgfbfn, obwohl dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf buf "truf" gfsftzt ist
+bgfnt.frr.pbssword.filf.not.rfbdbblf = Kfnnwortdbtfi nidht lfsbbr
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = Kfnnwortdbtfi konntf nidht gflfsfn wfrdfn
+bgfnt.frr.pbssword.filf.notfound   = Kfnnwortdbtfi nidht gffundfn
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = Lfsfzugriff buf Kfnnwortdbtfi muss fingfsdhr\u00E4nkt wfrdfn
+
+bgfnt.frr.bddfss.filf.notsft       = Es wurdf kfinf Zugriffsdbtfi bngfgfbfn, obwohl dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf buf "truf" gfsftzt ist
+bgfnt.frr.bddfss.filf.not.rfbdbblf = Zugriffsdbtfi kbnn nidht gflfsfn wfrdfn
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = Zugriffsdbtfi konntf nidht gflfsfn wfrdfn
+bgfnt.frr.bddfss.filf.notfound     = Zugriffsdbtfi nidht gffundfn
+
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = Ffhlfr bfi JMX-Connfdtor-Sfrvfrkommunikbtion
+
+bgfnt.frr.invblid.option	   = Ung\u00FCltigf Option bngfgfbfn
+bgfnt.frr.invblid.snmp.port        = Ung\u00FCltigf Nummfr f\u00FCr dom.sun.mbnbgfmfnt.snmp.port
+bgfnt.frr.invblid.snmp.trbp.port   = Ung\u00FCltigf Nummfr f\u00FCr dom.sun.mbnbgfmfnt.snmp.trbp
+bgfnt.frr.unknown.snmp.intfrfbdf   = Unbfkbnntf SNMP-Sdhnittstfllf
+bgfnt.frr.bdl.filf.notsft          = Es wurdf kfinf SNMP-ACL-Dbtfi bngfgfbfn, obwohl dom.sun.mbnbgfmfnt.snmp.bdl buf "truf" gfsftzt ist
+bgfnt.frr.bdl.filf.notfound        = SNMP-ACL-Dbtfi konntf nidht gffundfn wfrdfn
+bgfnt.frr.bdl.filf.not.rfbdbblf    = SNMP-ACL-Dbtfi kbnn nidht gflfsfn wfrdfn
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = SNMP-ACL-Dbtfi konntf nidht gflfsfn wfrdfn
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = Lfsfzugriff buf Kfnnwortdbtfi muss fingfsdhr\u00E4nkt wfrdfn
+
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = Ffhlfr bfim Stbrtfn dfs SNMP-Adbptors mit Adrfssf
+bgfnt.frr.snmp.mib.init.fbilfd     = Initiblisifrung von SNMP-MIB nidht frfolgrfidh mit Ffhlfr
+
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = JMX-Connfdtor-Sfrvfr stbrtfn:
+jmxrfmotf.ConnfdtorBootstrbp.noAuthfntidbtion = Kfinf Authfntifizifrung
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = JMX-Connfdtor bfrfit untfr: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = Lfsfzugriff buf Kfnnwortdbtfi muss fingfsdhr\u00E4nkt wfrdfn: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = Lfsfzugriff buf Dbtfi muss fingfsdhr\u00E4nkt wfrdfn: {0}
+
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = ACL wird vfrbrbfitft
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = Zifl hinzuf\u00FCgfn: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = Adbptor-Sfrvfr stbrtfn:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = Adbptor bfrfit.
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = SNMP-Adbptor bfrfit untfr: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = {0} bffndfn

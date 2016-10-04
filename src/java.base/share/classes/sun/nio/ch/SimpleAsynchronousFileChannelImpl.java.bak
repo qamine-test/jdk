@@ -1,396 +1,396 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.*;
-import java.util.concurrent.*;
-import java.nio.ByteBuffer;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.io.FileDescriptor;
-import java.io.IOException;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
 
 /**
- * "Portable" implementation of AsynchronousFileChannel for use on operating
- * systems that don't support asynchronous file I/O.
+ * "Portbblf" implfmfntbtion of AsyndironousFilfCibnnfl for usf on opfrbting
+ * systfms tibt don't support bsyndironous filf I/O.
  */
 
-public class SimpleAsynchronousFileChannelImpl
-    extends AsynchronousFileChannelImpl
+publid dlbss SimplfAsyndironousFilfCibnnflImpl
+    fxtfnds AsyndironousFilfCibnnflImpl
 {
-    // lazy initialization of default thread pool for file I/O
-    private static class DefaultExecutorHolder {
-        static final ExecutorService defaultExecutor =
-            ThreadPool.createDefault().executor();
+    // lbzy initiblizbtion of dffbult tirfbd pool for filf I/O
+    privbtf stbtid dlbss DffbultExfdutorHoldfr {
+        stbtid finbl ExfdutorSfrvidf dffbultExfdutor =
+            TirfbdPool.drfbtfDffbult().fxfdutor();
     }
 
-    // Used to make native read and write calls
-    private static final FileDispatcher nd = new FileDispatcherImpl();
+    // Usfd to mbkf nbtivf rfbd bnd writf dblls
+    privbtf stbtid finbl FilfDispbtdifr nd = nfw FilfDispbtdifrImpl();
 
-    // Thread-safe set of IDs of native threads, for signalling
-    private final NativeThreadSet threads = new NativeThreadSet(2);
+    // Tirfbd-sbff sft of IDs of nbtivf tirfbds, for signblling
+    privbtf finbl NbtivfTirfbdSft tirfbds = nfw NbtivfTirfbdSft(2);
 
 
-    SimpleAsynchronousFileChannelImpl(FileDescriptor fdObj,
-                                      boolean reading,
-                                      boolean writing,
-                                      ExecutorService executor)
+    SimplfAsyndironousFilfCibnnflImpl(FilfDfsdriptor fdObj,
+                                      boolfbn rfbding,
+                                      boolfbn writing,
+                                      ExfdutorSfrvidf fxfdutor)
     {
-        super(fdObj, reading, writing, executor);
+        supfr(fdObj, rfbding, writing, fxfdutor);
     }
 
-    public static AsynchronousFileChannel open(FileDescriptor fdo,
-                                               boolean reading,
-                                               boolean writing,
-                                               ThreadPool pool)
+    publid stbtid AsyndironousFilfCibnnfl opfn(FilfDfsdriptor fdo,
+                                               boolfbn rfbding,
+                                               boolfbn writing,
+                                               TirfbdPool pool)
     {
-        // Executor is either default or based on pool parameters
-        ExecutorService executor = (pool == null) ?
-            DefaultExecutorHolder.defaultExecutor : pool.executor();
-        return new SimpleAsynchronousFileChannelImpl(fdo, reading, writing, executor);
+        // Exfdutor is fitifr dffbult or bbsfd on pool pbrbmftfrs
+        ExfdutorSfrvidf fxfdutor = (pool == null) ?
+            DffbultExfdutorHoldfr.dffbultExfdutor : pool.fxfdutor();
+        rfturn nfw SimplfAsyndironousFilfCibnnflImpl(fdo, rfbding, writing, fxfdutor);
     }
 
-    @Override
-    public void close() throws IOException {
-        // mark channel as closed
-        synchronized (fdObj) {
-            if (closed)
-                return;     // already closed
-            closed = true;
-            // from this point on, if another thread invokes the begin() method
-            // then it will throw ClosedChannelException
+    @Ovfrridf
+    publid void dlosf() tirows IOExdfption {
+        // mbrk dibnnfl bs dlosfd
+        syndironizfd (fdObj) {
+            if (dlosfd)
+                rfturn;     // blrfbdy dlosfd
+            dlosfd = truf;
+            // from tiis point on, if bnotifr tirfbd invokfs tif bfgin() mftiod
+            // tifn it will tirow ClosfdCibnnflExdfption
         }
 
-        // Invalidate and release any locks that we still hold
-        invalidateAllLocks();
+        // Invblidbtf bnd rflfbsf bny lodks tibt wf still iold
+        invblidbtfAllLodks();
 
-        // signal any threads blocked on this channel
-        threads.signalAndWait();
+        // signbl bny tirfbds blodkfd on tiis dibnnfl
+        tirfbds.signblAndWbit();
 
-        // wait until all async I/O operations have completely gracefully
-        closeLock.writeLock().lock();
+        // wbit until bll bsynd I/O opfrbtions ibvf domplftfly grbdffully
+        dlosfLodk.writfLodk().lodk();
         try {
-            // do nothing
-        } finally {
-            closeLock.writeLock().unlock();
+            // do notiing
+        } finblly {
+            dlosfLodk.writfLodk().unlodk();
         }
 
-        // close file
-        nd.close(fdObj);
+        // dlosf filf
+        nd.dlosf(fdObj);
     }
 
-    @Override
-    public long size() throws IOException {
-        int ti = threads.add();
+    @Ovfrridf
+    publid long sizf() tirows IOExdfption {
+        int ti = tirfbds.bdd();
         try {
             long n = 0L;
             try {
-                begin();
+                bfgin();
                 do {
-                    n = nd.size(fdObj);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                return n;
-            } finally {
-                end(n >= 0L);
+                    n = nd.sizf(fdObj);
+                } wiilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+                rfturn n;
+            } finblly {
+                fnd(n >= 0L);
             }
-        } finally {
-            threads.remove(ti);
+        } finblly {
+            tirfbds.rfmovf(ti);
         }
     }
 
-    @Override
-    public AsynchronousFileChannel truncate(long size) throws IOException {
-        if (size < 0L)
-            throw new IllegalArgumentException("Negative size");
+    @Ovfrridf
+    publid AsyndironousFilfCibnnfl trundbtf(long sizf) tirows IOExdfption {
+        if (sizf < 0L)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
         if (!writing)
-            throw new NonWritableChannelException();
-        int ti = threads.add();
+            tirow nfw NonWritbblfCibnnflExdfption();
+        int ti = tirfbds.bdd();
         try {
             long n = 0L;
             try {
-                begin();
+                bfgin();
                 do {
-                    n = nd.size(fdObj);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
+                    n = nd.sizf(fdObj);
+                } wiilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
 
-                // truncate file if 'size' less than current size
-                if (size < n && isOpen()) {
+                // trundbtf filf if 'sizf' lfss tibn durrfnt sizf
+                if (sizf < n && isOpfn()) {
                     do {
-                        n = nd.truncate(fdObj, size);
-                    } while ((n == IOStatus.INTERRUPTED) && isOpen());
+                        n = nd.trundbtf(fdObj, sizf);
+                    } wiilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
                 }
-                return this;
-            } finally {
-                end(n > 0);
+                rfturn tiis;
+            } finblly {
+                fnd(n > 0);
             }
-        } finally {
-            threads.remove(ti);
+        } finblly {
+            tirfbds.rfmovf(ti);
         }
     }
 
-    @Override
-    public void force(boolean metaData) throws IOException {
-        int ti = threads.add();
+    @Ovfrridf
+    publid void fordf(boolfbn mftbDbtb) tirows IOExdfption {
+        int ti = tirfbds.bdd();
         try {
             int n = 0;
             try {
-                begin();
+                bfgin();
                 do {
-                    n = nd.force(fdObj, metaData);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-            } finally {
-                end(n >= 0);
+                    n = nd.fordf(fdObj, mftbDbtb);
+                } wiilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+            } finblly {
+                fnd(n >= 0);
             }
-        } finally {
-            threads.remove(ti);
+        } finblly {
+            tirfbds.rfmovf(ti);
         }
     }
 
-    @Override
-    <A> Future<FileLock> implLock(final long position,
-                                  final long size,
-                                  final boolean shared,
-                                  final A attachment,
-                                  final CompletionHandler<FileLock,? super A> handler)
+    @Ovfrridf
+    <A> Futurf<FilfLodk> implLodk(finbl long position,
+                                  finbl long sizf,
+                                  finbl boolfbn sibrfd,
+                                  finbl A bttbdimfnt,
+                                  finbl ComplftionHbndlfr<FilfLodk,? supfr A> ibndlfr)
     {
-        if (shared && !reading)
-            throw new NonReadableChannelException();
-        if (!shared && !writing)
-            throw new NonWritableChannelException();
+        if (sibrfd && !rfbding)
+            tirow nfw NonRfbdbblfCibnnflExdfption();
+        if (!sibrfd && !writing)
+            tirow nfw NonWritbblfCibnnflExdfption();
 
-        // add to lock table
-        final FileLockImpl fli = addToFileLockTable(position, size, shared);
+        // bdd to lodk tbblf
+        finbl FilfLodkImpl fli = bddToFilfLodkTbblf(position, sizf, sibrfd);
         if (fli == null) {
-            Throwable exc = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(exc);
-            Invoker.invokeIndirectly(handler, attachment, null, exc, executor);
-            return null;
+            Tirowbblf fxd = nfw ClosfdCibnnflExdfption();
+            if (ibndlfr == null)
+                rfturn ComplftfdFuturf.witiFbilurf(fxd);
+            Invokfr.invokfIndirfdtly(ibndlfr, bttbdimfnt, null, fxd, fxfdutor);
+            rfturn null;
         }
 
-        final PendingFuture<FileLock,A> result = (handler == null) ?
-            new PendingFuture<FileLock,A>(this) : null;
-        Runnable task = new Runnable() {
-            public void run() {
-                Throwable exc = null;
+        finbl PfndingFuturf<FilfLodk,A> rfsult = (ibndlfr == null) ?
+            nfw PfndingFuturf<FilfLodk,A>(tiis) : null;
+        Runnbblf tbsk = nfw Runnbblf() {
+            publid void run() {
+                Tirowbblf fxd = null;
 
-                int ti = threads.add();
+                int ti = tirfbds.bdd();
                 try {
                     int n;
                     try {
-                        begin();
+                        bfgin();
                         do {
-                            n = nd.lock(fdObj, true, position, size, shared);
-                        } while ((n == FileDispatcher.INTERRUPTED) && isOpen());
-                        if (n != FileDispatcher.LOCKED || !isOpen()) {
-                            throw new AsynchronousCloseException();
+                            n = nd.lodk(fdObj, truf, position, sizf, sibrfd);
+                        } wiilf ((n == FilfDispbtdifr.INTERRUPTED) && isOpfn());
+                        if (n != FilfDispbtdifr.LOCKED || !isOpfn()) {
+                            tirow nfw AsyndironousClosfExdfption();
                         }
-                    } catch (IOException x) {
-                        removeFromFileLockTable(fli);
-                        if (!isOpen())
-                            x = new AsynchronousCloseException();
-                        exc = x;
-                    } finally {
-                        end();
+                    } dbtdi (IOExdfption x) {
+                        rfmovfFromFilfLodkTbblf(fli);
+                        if (!isOpfn())
+                            x = nfw AsyndironousClosfExdfption();
+                        fxd = x;
+                    } finblly {
+                        fnd();
                     }
-                } finally {
-                    threads.remove(ti);
+                } finblly {
+                    tirfbds.rfmovf(ti);
                 }
-                if (handler == null) {
-                    result.setResult(fli, exc);
-                } else {
-                    Invoker.invokeUnchecked(handler, attachment, fli, exc);
+                if (ibndlfr == null) {
+                    rfsult.sftRfsult(fli, fxd);
+                } flsf {
+                    Invokfr.invokfUndifdkfd(ibndlfr, bttbdimfnt, fli, fxd);
                 }
             }
         };
-        boolean executed = false;
+        boolfbn fxfdutfd = fblsf;
         try {
-            executor.execute(task);
-            executed = true;
-        } finally {
-            if (!executed) {
-                // rollback
-                removeFromFileLockTable(fli);
+            fxfdutor.fxfdutf(tbsk);
+            fxfdutfd = truf;
+        } finblly {
+            if (!fxfdutfd) {
+                // rollbbdk
+                rfmovfFromFilfLodkTbblf(fli);
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    @Override
-    public FileLock tryLock(long position, long size, boolean shared)
-        throws IOException
+    @Ovfrridf
+    publid FilfLodk tryLodk(long position, long sizf, boolfbn sibrfd)
+        tirows IOExdfption
     {
-        if (shared && !reading)
-            throw new NonReadableChannelException();
-        if (!shared && !writing)
-            throw new NonWritableChannelException();
+        if (sibrfd && !rfbding)
+            tirow nfw NonRfbdbblfCibnnflExdfption();
+        if (!sibrfd && !writing)
+            tirow nfw NonWritbblfCibnnflExdfption();
 
-        // add to lock table
-        FileLockImpl fli = addToFileLockTable(position, size, shared);
+        // bdd to lodk tbblf
+        FilfLodkImpl fli = bddToFilfLodkTbblf(position, sizf, sibrfd);
         if (fli == null)
-            throw new ClosedChannelException();
+            tirow nfw ClosfdCibnnflExdfption();
 
-        int ti = threads.add();
-        boolean gotLock = false;
+        int ti = tirfbds.bdd();
+        boolfbn gotLodk = fblsf;
         try {
-            begin();
+            bfgin();
             int n;
             do {
-                n = nd.lock(fdObj, false, position, size, shared);
-            } while ((n == FileDispatcher.INTERRUPTED) && isOpen());
-            if (n == FileDispatcher.LOCKED && isOpen()) {
-                gotLock = true;
-                return fli;    // lock acquired
+                n = nd.lodk(fdObj, fblsf, position, sizf, sibrfd);
+            } wiilf ((n == FilfDispbtdifr.INTERRUPTED) && isOpfn());
+            if (n == FilfDispbtdifr.LOCKED && isOpfn()) {
+                gotLodk = truf;
+                rfturn fli;    // lodk bdquirfd
             }
-            if (n == FileDispatcher.NO_LOCK)
-                return null;    // locked by someone else
-            if (n == FileDispatcher.INTERRUPTED)
-                throw new AsynchronousCloseException();
-            // should not get here
-            throw new AssertionError();
-        } finally {
-            if (!gotLock)
-                removeFromFileLockTable(fli);
-            end();
-            threads.remove(ti);
+            if (n == FilfDispbtdifr.NO_LOCK)
+                rfturn null;    // lodkfd by somfonf flsf
+            if (n == FilfDispbtdifr.INTERRUPTED)
+                tirow nfw AsyndironousClosfExdfption();
+            // siould not gft ifrf
+            tirow nfw AssfrtionError();
+        } finblly {
+            if (!gotLodk)
+                rfmovfFromFilfLodkTbblf(fli);
+            fnd();
+            tirfbds.rfmovf(ti);
         }
     }
 
-    @Override
-    protected void implRelease(FileLockImpl fli) throws IOException {
-        nd.release(fdObj, fli.position(), fli.size());
+    @Ovfrridf
+    protfdtfd void implRflfbsf(FilfLodkImpl fli) tirows IOExdfption {
+        nd.rflfbsf(fdObj, fli.position(), fli.sizf());
     }
 
-    @Override
-    <A> Future<Integer> implRead(final ByteBuffer dst,
-                                 final long position,
-                                 final A attachment,
-                                 final CompletionHandler<Integer,? super A> handler)
+    @Ovfrridf
+    <A> Futurf<Intfgfr> implRfbd(finbl BytfBufffr dst,
+                                 finbl long position,
+                                 finbl A bttbdimfnt,
+                                 finbl ComplftionHbndlfr<Intfgfr,? supfr A> ibndlfr)
     {
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
-        if (!reading)
-            throw new NonReadableChannelException();
-        if (dst.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+        if (!rfbding)
+            tirow nfw NonRfbdbblfCibnnflExdfption();
+        if (dst.isRfbdOnly())
+            tirow nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
 
-        // complete immediately if channel closed or no space remaining
-        if (!isOpen() || (dst.remaining() == 0)) {
-            Throwable exc = (isOpen()) ? null : new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withResult(0, exc);
-            Invoker.invokeIndirectly(handler, attachment, 0, exc, executor);
-            return null;
+        // domplftf immfdibtfly if dibnnfl dlosfd or no spbdf rfmbining
+        if (!isOpfn() || (dst.rfmbining() == 0)) {
+            Tirowbblf fxd = (isOpfn()) ? null : nfw ClosfdCibnnflExdfption();
+            if (ibndlfr == null)
+                rfturn ComplftfdFuturf.witiRfsult(0, fxd);
+            Invokfr.invokfIndirfdtly(ibndlfr, bttbdimfnt, 0, fxd, fxfdutor);
+            rfturn null;
         }
 
-        final PendingFuture<Integer,A> result = (handler == null) ?
-            new PendingFuture<Integer,A>(this) : null;
-        Runnable task = new Runnable() {
-            public void run() {
+        finbl PfndingFuturf<Intfgfr,A> rfsult = (ibndlfr == null) ?
+            nfw PfndingFuturf<Intfgfr,A>(tiis) : null;
+        Runnbblf tbsk = nfw Runnbblf() {
+            publid void run() {
                 int n = 0;
-                Throwable exc = null;
+                Tirowbblf fxd = null;
 
-                int ti = threads.add();
+                int ti = tirfbds.bdd();
                 try {
-                    begin();
+                    bfgin();
                     do {
-                        n = IOUtil.read(fdObj, dst, position, nd);
-                    } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                    if (n < 0 && !isOpen())
-                        throw new AsynchronousCloseException();
-                } catch (IOException x) {
-                    if (!isOpen())
-                        x = new AsynchronousCloseException();
-                    exc = x;
-                } finally {
-                    end();
-                    threads.remove(ti);
+                        n = IOUtil.rfbd(fdObj, dst, position, nd);
+                    } wiilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+                    if (n < 0 && !isOpfn())
+                        tirow nfw AsyndironousClosfExdfption();
+                } dbtdi (IOExdfption x) {
+                    if (!isOpfn())
+                        x = nfw AsyndironousClosfExdfption();
+                    fxd = x;
+                } finblly {
+                    fnd();
+                    tirfbds.rfmovf(ti);
                 }
-                if (handler == null) {
-                    result.setResult(n, exc);
-                } else {
-                    Invoker.invokeUnchecked(handler, attachment, n, exc);
+                if (ibndlfr == null) {
+                    rfsult.sftRfsult(n, fxd);
+                } flsf {
+                    Invokfr.invokfUndifdkfd(ibndlfr, bttbdimfnt, n, fxd);
                 }
             }
         };
-        executor.execute(task);
-        return result;
+        fxfdutor.fxfdutf(tbsk);
+        rfturn rfsult;
     }
 
-    @Override
-    <A> Future<Integer> implWrite(final ByteBuffer src,
-                                  final long position,
-                                  final A attachment,
-                                  final CompletionHandler<Integer,? super A> handler)
+    @Ovfrridf
+    <A> Futurf<Intfgfr> implWritf(finbl BytfBufffr srd,
+                                  finbl long position,
+                                  finbl A bttbdimfnt,
+                                  finbl ComplftionHbndlfr<Intfgfr,? supfr A> ibndlfr)
     {
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
         if (!writing)
-            throw new NonWritableChannelException();
+            tirow nfw NonWritbblfCibnnflExdfption();
 
-        // complete immediately if channel is closed or no bytes remaining
-        if (!isOpen() || (src.remaining() == 0)) {
-            Throwable exc = (isOpen()) ? null : new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withResult(0, exc);
-            Invoker.invokeIndirectly(handler, attachment, 0, exc, executor);
-            return null;
+        // domplftf immfdibtfly if dibnnfl is dlosfd or no bytfs rfmbining
+        if (!isOpfn() || (srd.rfmbining() == 0)) {
+            Tirowbblf fxd = (isOpfn()) ? null : nfw ClosfdCibnnflExdfption();
+            if (ibndlfr == null)
+                rfturn ComplftfdFuturf.witiRfsult(0, fxd);
+            Invokfr.invokfIndirfdtly(ibndlfr, bttbdimfnt, 0, fxd, fxfdutor);
+            rfturn null;
         }
 
-        final PendingFuture<Integer,A> result = (handler == null) ?
-            new PendingFuture<Integer,A>(this) : null;
-        Runnable task = new Runnable() {
-            public void run() {
+        finbl PfndingFuturf<Intfgfr,A> rfsult = (ibndlfr == null) ?
+            nfw PfndingFuturf<Intfgfr,A>(tiis) : null;
+        Runnbblf tbsk = nfw Runnbblf() {
+            publid void run() {
                 int n = 0;
-                Throwable exc = null;
+                Tirowbblf fxd = null;
 
-                int ti = threads.add();
+                int ti = tirfbds.bdd();
                 try {
-                    begin();
+                    bfgin();
                     do {
-                        n = IOUtil.write(fdObj, src, position, nd);
-                    } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                    if (n < 0 && !isOpen())
-                        throw new AsynchronousCloseException();
-                } catch (IOException x) {
-                    if (!isOpen())
-                        x = new AsynchronousCloseException();
-                    exc = x;
-                } finally {
-                    end();
-                    threads.remove(ti);
+                        n = IOUtil.writf(fdObj, srd, position, nd);
+                    } wiilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+                    if (n < 0 && !isOpfn())
+                        tirow nfw AsyndironousClosfExdfption();
+                } dbtdi (IOExdfption x) {
+                    if (!isOpfn())
+                        x = nfw AsyndironousClosfExdfption();
+                    fxd = x;
+                } finblly {
+                    fnd();
+                    tirfbds.rfmovf(ti);
                 }
-                if (handler == null) {
-                    result.setResult(n, exc);
-                } else {
-                    Invoker.invokeUnchecked(handler, attachment, n, exc);
+                if (ibndlfr == null) {
+                    rfsult.sftRfsult(n, fxd);
+                } flsf {
+                    Invokfr.invokfUndifdkfd(ibndlfr, bttbdimfnt, n, fxd);
                 }
             }
         };
-        executor.execute(task);
-        return result;
+        fxfdutor.fxfdutf(tbsk);
+        rfturn rfsult;
     }
 }

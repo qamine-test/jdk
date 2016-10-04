@@ -1,1188 +1,1188 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.io.PrintStream;
-import java.util.Vector;
-import java.awt.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.SizeRequirements;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Vfdtor;
+import jbvb.bwt.*;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
+import jbvbx.swing.SizfRfquirfmfnts;
 
 /**
- * A view that arranges its children into a box shape by tiling
- * its children along an axis.  The box is somewhat like that
- * found in TeX where there is alignment of the
- * children, flexibility of the children is considered, etc.
- * This is a building block that might be useful to represent
- * things like a collection of lines, paragraphs,
- * lists, columns, pages, etc.  The axis along which the children are tiled is
- * considered the major axis.  The orthogonal axis is the minor axis.
+ * A vifw tibt brrbngfs its diildrfn into b box sibpf by tiling
+ * its diildrfn blong bn bxis.  Tif box is somfwibt likf tibt
+ * found in TfX wifrf tifrf is blignmfnt of tif
+ * diildrfn, flfxibility of tif diildrfn is donsidfrfd, ftd.
+ * Tiis is b building blodk tibt migit bf usfful to rfprfsfnt
+ * tiings likf b dollfdtion of linfs, pbrbgrbpis,
+ * lists, dolumns, pbgfs, ftd.  Tif bxis blong wiidi tif diildrfn brf tilfd is
+ * donsidfrfd tif mbjor bxis.  Tif ortiogonbl bxis is tif minor bxis.
  * <p>
- * Layout for each axis is handled separately by the methods
- * <code>layoutMajorAxis</code> and <code>layoutMinorAxis</code>.
- * Subclasses can change the layout algorithm by
- * reimplementing these methods.    These methods will be called
- * as necessary depending upon whether or not there is cached
- * layout information and the cache is considered
- * valid.  These methods are typically called if the given size
- * along the axis changes, or if <code>layoutChanged</code> is
- * called to force an updated layout.  The <code>layoutChanged</code>
- * method invalidates cached layout information, if there is any.
- * The requirements published to the parent view are calculated by
- * the methods <code>calculateMajorAxisRequirements</code>
- * and  <code>calculateMinorAxisRequirements</code>.
- * If the layout algorithm is changed, these methods will
- * likely need to be reimplemented.
+ * Lbyout for fbdi bxis is ibndlfd sfpbrbtfly by tif mftiods
+ * <dodf>lbyoutMbjorAxis</dodf> bnd <dodf>lbyoutMinorAxis</dodf>.
+ * Subdlbssfs dbn dibngf tif lbyout blgoritim by
+ * rfimplfmfnting tifsf mftiods.    Tifsf mftiods will bf dbllfd
+ * bs nfdfssbry dfpfnding upon wiftifr or not tifrf is dbdifd
+ * lbyout informbtion bnd tif dbdif is donsidfrfd
+ * vblid.  Tifsf mftiods brf typidblly dbllfd if tif givfn sizf
+ * blong tif bxis dibngfs, or if <dodf>lbyoutCibngfd</dodf> is
+ * dbllfd to fordf bn updbtfd lbyout.  Tif <dodf>lbyoutCibngfd</dodf>
+ * mftiod invblidbtfs dbdifd lbyout informbtion, if tifrf is bny.
+ * Tif rfquirfmfnts publisifd to tif pbrfnt vifw brf dbldulbtfd by
+ * tif mftiods <dodf>dbldulbtfMbjorAxisRfquirfmfnts</dodf>
+ * bnd  <dodf>dbldulbtfMinorAxisRfquirfmfnts</dodf>.
+ * If tif lbyout blgoritim is dibngfd, tifsf mftiods will
+ * likfly nffd to bf rfimplfmfntfd.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-public class BoxView extends CompositeView {
+publid dlbss BoxVifw fxtfnds CompositfVifw {
 
     /**
-     * Constructs a <code>BoxView</code>.
+     * Construdts b <dodf>BoxVifw</dodf>.
      *
-     * @param elem the element this view is responsible for
-     * @param axis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
+     * @pbrbm flfm tif flfmfnt tiis vifw is rfsponsiblf for
+     * @pbrbm bxis fitifr <dodf>Vifw.X_AXIS</dodf> or <dodf>Vifw.Y_AXIS</dodf>
      */
-    public BoxView(Element elem, int axis) {
-        super(elem);
-        tempRect = new Rectangle();
-        this.majorAxis = axis;
+    publid BoxVifw(Elfmfnt flfm, int bxis) {
+        supfr(flfm);
+        tfmpRfdt = nfw Rfdtbnglf();
+        tiis.mbjorAxis = bxis;
 
-        majorOffsets = new int[0];
-        majorSpans = new int[0];
-        majorReqValid = false;
-        majorAllocValid = false;
-        minorOffsets = new int[0];
-        minorSpans = new int[0];
-        minorReqValid = false;
-        minorAllocValid = false;
+        mbjorOffsfts = nfw int[0];
+        mbjorSpbns = nfw int[0];
+        mbjorRfqVblid = fblsf;
+        mbjorAllodVblid = fblsf;
+        minorOffsfts = nfw int[0];
+        minorSpbns = nfw int[0];
+        minorRfqVblid = fblsf;
+        minorAllodVblid = fblsf;
     }
 
     /**
-     * Fetches the tile axis property.  This is the axis along which
-     * the child views are tiled.
+     * Fftdifs tif tilf bxis propfrty.  Tiis is tif bxis blong wiidi
+     * tif diild vifws brf tilfd.
      *
-     * @return the major axis of the box, either
-     *  <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
+     * @rfturn tif mbjor bxis of tif box, fitifr
+     *  <dodf>Vifw.X_AXIS</dodf> or <dodf>Vifw.Y_AXIS</dodf>
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public int getAxis() {
-        return majorAxis;
+    publid int gftAxis() {
+        rfturn mbjorAxis;
     }
 
     /**
-     * Sets the tile axis property.  This is the axis along which
-     * the child views are tiled.
+     * Sfts tif tilf bxis propfrty.  Tiis is tif bxis blong wiidi
+     * tif diild vifws brf tilfd.
      *
-     * @param axis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
+     * @pbrbm bxis fitifr <dodf>Vifw.X_AXIS</dodf> or <dodf>Vifw.Y_AXIS</dodf>
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public void setAxis(int axis) {
-        boolean axisChanged = (axis != majorAxis);
-        majorAxis = axis;
-        if (axisChanged) {
-            preferenceChanged(null, true, true);
+    publid void sftAxis(int bxis) {
+        boolfbn bxisCibngfd = (bxis != mbjorAxis);
+        mbjorAxis = bxis;
+        if (bxisCibngfd) {
+            prfffrfndfCibngfd(null, truf, truf);
         }
     }
 
     /**
-     * Invalidates the layout along an axis.  This happens
-     * automatically if the preferences have changed for
-     * any of the child views.  In some cases the layout
-     * may need to be recalculated when the preferences
-     * have not changed.  The layout can be marked as
-     * invalid by calling this method.  The layout will
-     * be updated the next time the <code>setSize</code> method
-     * is called on this view (typically in paint).
+     * Invblidbtfs tif lbyout blong bn bxis.  Tiis ibppfns
+     * butombtidblly if tif prfffrfndfs ibvf dibngfd for
+     * bny of tif diild vifws.  In somf dbsfs tif lbyout
+     * mby nffd to bf rfdbldulbtfd wifn tif prfffrfndfs
+     * ibvf not dibngfd.  Tif lbyout dbn bf mbrkfd bs
+     * invblid by dblling tiis mftiod.  Tif lbyout will
+     * bf updbtfd tif nfxt timf tif <dodf>sftSizf</dodf> mftiod
+     * is dbllfd on tiis vifw (typidblly in pbint).
      *
-     * @param axis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
+     * @pbrbm bxis fitifr <dodf>Vifw.X_AXIS</dodf> or <dodf>Vifw.Y_AXIS</dodf>
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public void layoutChanged(int axis) {
-        if (axis == majorAxis) {
-            majorAllocValid = false;
-        } else {
-            minorAllocValid = false;
+    publid void lbyoutCibngfd(int bxis) {
+        if (bxis == mbjorAxis) {
+            mbjorAllodVblid = fblsf;
+        } flsf {
+            minorAllodVblid = fblsf;
         }
     }
 
     /**
-     * Determines if the layout is valid along the given axis.
+     * Dftfrminfs if tif lbyout is vblid blong tif givfn bxis.
      *
-     * @param axis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
+     * @pbrbm bxis fitifr <dodf>Vifw.X_AXIS</dodf> or <dodf>Vifw.Y_AXIS</dodf>
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    protected boolean isLayoutValid(int axis) {
-        if (axis == majorAxis) {
-            return majorAllocValid;
-        } else {
-            return minorAllocValid;
+    protfdtfd boolfbn isLbyoutVblid(int bxis) {
+        if (bxis == mbjorAxis) {
+            rfturn mbjorAllodVblid;
+        } flsf {
+            rfturn minorAllodVblid;
         }
     }
 
     /**
-     * Paints a child.  By default
-     * that is all it does, but a subclass can use this to paint
-     * things relative to the child.
+     * Pbints b diild.  By dffbult
+     * tibt is bll it dofs, but b subdlbss dbn usf tiis to pbint
+     * tiings rflbtivf to tif diild.
      *
-     * @param g the graphics context
-     * @param alloc the allocated region to paint into
-     * @param index the child index, &gt;= 0 &amp;&amp; &lt; getViewCount()
+     * @pbrbm g tif grbpiids dontfxt
+     * @pbrbm bllod tif bllodbtfd rfgion to pbint into
+     * @pbrbm indfx tif diild indfx, &gt;= 0 &bmp;&bmp; &lt; gftVifwCount()
      */
-    protected void paintChild(Graphics g, Rectangle alloc, int index) {
-        View child = getView(index);
-        child.paint(g, alloc);
+    protfdtfd void pbintCiild(Grbpiids g, Rfdtbnglf bllod, int indfx) {
+        Vifw diild = gftVifw(indfx);
+        diild.pbint(g, bllod);
     }
 
-    // --- View methods ---------------------------------------------
+    // --- Vifw mftiods ---------------------------------------------
 
     /**
-     * Invalidates the layout and resizes the cache of
-     * requests/allocations.  The child allocations can still
-     * be accessed for the old layout, but the new children
-     * will have an offset and span of 0.
+     * Invblidbtfs tif lbyout bnd rfsizfs tif dbdif of
+     * rfqufsts/bllodbtions.  Tif diild bllodbtions dbn still
+     * bf bddfssfd for tif old lbyout, but tif nfw diildrfn
+     * will ibvf bn offsft bnd spbn of 0.
      *
-     * @param index the starting index into the child views to insert
-     *   the new views; this should be a value &gt;= 0 and &lt;= getViewCount
-     * @param length the number of existing child views to remove;
-     *   This should be a value &gt;= 0 and &lt;= (getViewCount() - offset)
-     * @param elems the child views to add; this value can be
-     *   <code>null</code>to indicate no children are being added
-     *   (useful to remove)
+     * @pbrbm indfx tif stbrting indfx into tif diild vifws to insfrt
+     *   tif nfw vifws; tiis siould bf b vbluf &gt;= 0 bnd &lt;= gftVifwCount
+     * @pbrbm lfngti tif numbfr of fxisting diild vifws to rfmovf;
+     *   Tiis siould bf b vbluf &gt;= 0 bnd &lt;= (gftVifwCount() - offsft)
+     * @pbrbm flfms tif diild vifws to bdd; tiis vbluf dbn bf
+     *   <dodf>null</dodf>to indidbtf no diildrfn brf bfing bddfd
+     *   (usfful to rfmovf)
      */
-    public void replace(int index, int length, View[] elems) {
-        super.replace(index, length, elems);
+    publid void rfplbdf(int indfx, int lfngti, Vifw[] flfms) {
+        supfr.rfplbdf(indfx, lfngti, flfms);
 
-        // invalidate cache
-        int nInserted = (elems != null) ? elems.length : 0;
-        majorOffsets = updateLayoutArray(majorOffsets, index, nInserted);
-        majorSpans = updateLayoutArray(majorSpans, index, nInserted);
-        majorReqValid = false;
-        majorAllocValid = false;
-        minorOffsets = updateLayoutArray(minorOffsets, index, nInserted);
-        minorSpans = updateLayoutArray(minorSpans, index, nInserted);
-        minorReqValid = false;
-        minorAllocValid = false;
-    }
-
-    /**
-     * Resizes the given layout array to match the new number of
-     * child views.  The current number of child views are used to
-     * produce the new array.  The contents of the old array are
-     * inserted into the new array at the appropriate places so that
-     * the old layout information is transferred to the new array.
-     *
-     * @param oldArray the original layout array
-     * @param offset location where new views will be inserted
-     * @param nInserted the number of child views being inserted;
-     *          therefore the number of blank spaces to leave in the
-     *          new array at location <code>offset</code>
-     * @return the new layout array
-     */
-    int[] updateLayoutArray(int[] oldArray, int offset, int nInserted) {
-        int n = getViewCount();
-        int[] newArray = new int[n];
-
-        System.arraycopy(oldArray, 0, newArray, 0, offset);
-        System.arraycopy(oldArray, offset,
-                         newArray, offset + nInserted, n - nInserted - offset);
-        return newArray;
+        // invblidbtf dbdif
+        int nInsfrtfd = (flfms != null) ? flfms.lfngti : 0;
+        mbjorOffsfts = updbtfLbyoutArrby(mbjorOffsfts, indfx, nInsfrtfd);
+        mbjorSpbns = updbtfLbyoutArrby(mbjorSpbns, indfx, nInsfrtfd);
+        mbjorRfqVblid = fblsf;
+        mbjorAllodVblid = fblsf;
+        minorOffsfts = updbtfLbyoutArrby(minorOffsfts, indfx, nInsfrtfd);
+        minorSpbns = updbtfLbyoutArrby(minorSpbns, indfx, nInsfrtfd);
+        minorRfqVblid = fblsf;
+        minorAllodVblid = fblsf;
     }
 
     /**
-     * Forwards the given <code>DocumentEvent</code> to the child views
-     * that need to be notified of the change to the model.
-     * If a child changed its requirements and the allocation
-     * was valid prior to forwarding the portion of the box
-     * from the starting child to the end of the box will
-     * be repainted.
+     * Rfsizfs tif givfn lbyout brrby to mbtdi tif nfw numbfr of
+     * diild vifws.  Tif durrfnt numbfr of diild vifws brf usfd to
+     * produdf tif nfw brrby.  Tif dontfnts of tif old brrby brf
+     * insfrtfd into tif nfw brrby bt tif bppropribtf plbdfs so tibt
+     * tif old lbyout informbtion is trbnsffrrfd to tif nfw brrby.
      *
-     * @param ec changes to the element this view is responsible
-     *  for (may be <code>null</code> if there were no changes)
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see #insertUpdate
-     * @see #removeUpdate
-     * @see #changedUpdate
-     * @since 1.3
+     * @pbrbm oldArrby tif originbl lbyout brrby
+     * @pbrbm offsft lodbtion wifrf nfw vifws will bf insfrtfd
+     * @pbrbm nInsfrtfd tif numbfr of diild vifws bfing insfrtfd;
+     *          tifrfforf tif numbfr of blbnk spbdfs to lfbvf in tif
+     *          nfw brrby bt lodbtion <dodf>offsft</dodf>
+     * @rfturn tif nfw lbyout brrby
      */
-    protected void forwardUpdate(DocumentEvent.ElementChange ec,
-                                 DocumentEvent e, Shape a, ViewFactory f) {
-        boolean wasValid = isLayoutValid(majorAxis);
-        super.forwardUpdate(ec, e, a, f);
+    int[] updbtfLbyoutArrby(int[] oldArrby, int offsft, int nInsfrtfd) {
+        int n = gftVifwCount();
+        int[] nfwArrby = nfw int[n];
 
-        // determine if a repaint is needed
-        if (wasValid && (! isLayoutValid(majorAxis))) {
-            // Repaint is needed because one of the tiled children
-            // have changed their span along the major axis.  If there
-            // is a hosting component and an allocated shape we repaint.
-            Component c = getContainer();
-            if ((a != null) && (c != null)) {
-                int pos = e.getOffset();
-                int index = getViewIndexAtPosition(pos);
-                Rectangle alloc = getInsideAllocation(a);
-                if (majorAxis == X_AXIS) {
-                    alloc.x += majorOffsets[index];
-                    alloc.width -= majorOffsets[index];
-                } else {
-                    alloc.y += minorOffsets[index];
-                    alloc.height -= minorOffsets[index];
+        Systfm.brrbydopy(oldArrby, 0, nfwArrby, 0, offsft);
+        Systfm.brrbydopy(oldArrby, offsft,
+                         nfwArrby, offsft + nInsfrtfd, n - nInsfrtfd - offsft);
+        rfturn nfwArrby;
+    }
+
+    /**
+     * Forwbrds tif givfn <dodf>DodumfntEvfnt</dodf> to tif diild vifws
+     * tibt nffd to bf notififd of tif dibngf to tif modfl.
+     * If b diild dibngfd its rfquirfmfnts bnd tif bllodbtion
+     * wbs vblid prior to forwbrding tif portion of tif box
+     * from tif stbrting diild to tif fnd of tif box will
+     * bf rfpbintfd.
+     *
+     * @pbrbm fd dibngfs to tif flfmfnt tiis vifw is rfsponsiblf
+     *  for (mby bf <dodf>null</dodf> if tifrf wfrf no dibngfs)
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff #insfrtUpdbtf
+     * @sff #rfmovfUpdbtf
+     * @sff #dibngfdUpdbtf
+     * @sindf 1.3
+     */
+    protfdtfd void forwbrdUpdbtf(DodumfntEvfnt.ElfmfntCibngf fd,
+                                 DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+        boolfbn wbsVblid = isLbyoutVblid(mbjorAxis);
+        supfr.forwbrdUpdbtf(fd, f, b, f);
+
+        // dftfrminf if b rfpbint is nffdfd
+        if (wbsVblid && (! isLbyoutVblid(mbjorAxis))) {
+            // Rfpbint is nffdfd bfdbusf onf of tif tilfd diildrfn
+            // ibvf dibngfd tifir spbn blong tif mbjor bxis.  If tifrf
+            // is b iosting domponfnt bnd bn bllodbtfd sibpf wf rfpbint.
+            Componfnt d = gftContbinfr();
+            if ((b != null) && (d != null)) {
+                int pos = f.gftOffsft();
+                int indfx = gftVifwIndfxAtPosition(pos);
+                Rfdtbnglf bllod = gftInsidfAllodbtion(b);
+                if (mbjorAxis == X_AXIS) {
+                    bllod.x += mbjorOffsfts[indfx];
+                    bllod.widti -= mbjorOffsfts[indfx];
+                } flsf {
+                    bllod.y += minorOffsfts[indfx];
+                    bllod.ifigit -= minorOffsfts[indfx];
                 }
-                c.repaint(alloc.x, alloc.y, alloc.width, alloc.height);
+                d.rfpbint(bllod.x, bllod.y, bllod.widti, bllod.ifigit);
             }
         }
     }
 
     /**
-     * This is called by a child to indicate its
-     * preferred span has changed.  This is implemented to
-     * throw away cached layout information so that new
-     * calculations will be done the next time the children
-     * need an allocation.
+     * Tiis is dbllfd by b diild to indidbtf its
+     * prfffrrfd spbn ibs dibngfd.  Tiis is implfmfntfd to
+     * tirow bwby dbdifd lbyout informbtion so tibt nfw
+     * dbldulbtions will bf donf tif nfxt timf tif diildrfn
+     * nffd bn bllodbtion.
      *
-     * @param child the child view
-     * @param width true if the width preference should change
-     * @param height true if the height preference should change
+     * @pbrbm diild tif diild vifw
+     * @pbrbm widti truf if tif widti prfffrfndf siould dibngf
+     * @pbrbm ifigit truf if tif ifigit prfffrfndf siould dibngf
      */
-    public void preferenceChanged(View child, boolean width, boolean height) {
-        boolean majorChanged = (majorAxis == X_AXIS) ? width : height;
-        boolean minorChanged = (majorAxis == X_AXIS) ? height : width;
-        if (majorChanged) {
-            majorReqValid = false;
-            majorAllocValid = false;
+    publid void prfffrfndfCibngfd(Vifw diild, boolfbn widti, boolfbn ifigit) {
+        boolfbn mbjorCibngfd = (mbjorAxis == X_AXIS) ? widti : ifigit;
+        boolfbn minorCibngfd = (mbjorAxis == X_AXIS) ? ifigit : widti;
+        if (mbjorCibngfd) {
+            mbjorRfqVblid = fblsf;
+            mbjorAllodVblid = fblsf;
         }
-        if (minorChanged) {
-            minorReqValid = false;
-            minorAllocValid = false;
+        if (minorCibngfd) {
+            minorRfqVblid = fblsf;
+            minorAllodVblid = fblsf;
         }
-        super.preferenceChanged(child, width, height);
+        supfr.prfffrfndfCibngfd(diild, widti, ifigit);
     }
 
     /**
-     * Gets the resize weight.  A value of 0 or less is not resizable.
+     * Gfts tif rfsizf wfigit.  A vbluf of 0 or lfss is not rfsizbblf.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @return the weight
-     * @exception IllegalArgumentException for an invalid axis
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn tif wfigit
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis
      */
-    public int getResizeWeight(int axis) {
-        checkRequests(axis);
-        if (axis == majorAxis) {
-            if ((majorRequest.preferred != majorRequest.minimum) ||
-                (majorRequest.preferred != majorRequest.maximum)) {
-                return 1;
+    publid int gftRfsizfWfigit(int bxis) {
+        difdkRfqufsts(bxis);
+        if (bxis == mbjorAxis) {
+            if ((mbjorRfqufst.prfffrrfd != mbjorRfqufst.minimum) ||
+                (mbjorRfqufst.prfffrrfd != mbjorRfqufst.mbximum)) {
+                rfturn 1;
             }
-        } else {
-            if ((minorRequest.preferred != minorRequest.minimum) ||
-                (minorRequest.preferred != minorRequest.maximum)) {
-                return 1;
+        } flsf {
+            if ((minorRfqufst.prfffrrfd != minorRfqufst.minimum) ||
+                (minorRfqufst.prfffrrfd != minorRfqufst.mbximum)) {
+                rfturn 1;
             }
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Sets the size of the view along an axis.  This should cause
-     * layout of the view along the given axis.
+     * Sfts tif sizf of tif vifw blong bn bxis.  Tiis siould dbusf
+     * lbyout of tif vifw blong tif givfn bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @param span the span to layout to >= 0
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @pbrbm spbn tif spbn to lbyout to >= 0
      */
-    void setSpanOnAxis(int axis, float span) {
-        if (axis == majorAxis) {
-            if (majorSpan != (int) span) {
-                majorAllocValid = false;
+    void sftSpbnOnAxis(int bxis, flobt spbn) {
+        if (bxis == mbjorAxis) {
+            if (mbjorSpbn != (int) spbn) {
+                mbjorAllodVblid = fblsf;
             }
-            if (! majorAllocValid) {
-                // layout the major axis
-                majorSpan = (int) span;
-                checkRequests(majorAxis);
-                layoutMajorAxis(majorSpan, axis, majorOffsets, majorSpans);
-                majorAllocValid = true;
+            if (! mbjorAllodVblid) {
+                // lbyout tif mbjor bxis
+                mbjorSpbn = (int) spbn;
+                difdkRfqufsts(mbjorAxis);
+                lbyoutMbjorAxis(mbjorSpbn, bxis, mbjorOffsfts, mbjorSpbns);
+                mbjorAllodVblid = truf;
 
-                // flush changes to the children
-                updateChildSizes();
+                // flusi dibngfs to tif diildrfn
+                updbtfCiildSizfs();
             }
-        } else {
-            if (((int) span) != minorSpan) {
-                minorAllocValid = false;
+        } flsf {
+            if (((int) spbn) != minorSpbn) {
+                minorAllodVblid = fblsf;
             }
-            if (! minorAllocValid) {
-                // layout the minor axis
-                minorSpan = (int) span;
-                checkRequests(axis);
-                layoutMinorAxis(minorSpan, axis, minorOffsets, minorSpans);
-                minorAllocValid = true;
+            if (! minorAllodVblid) {
+                // lbyout tif minor bxis
+                minorSpbn = (int) spbn;
+                difdkRfqufsts(bxis);
+                lbyoutMinorAxis(minorSpbn, bxis, minorOffsfts, minorSpbns);
+                minorAllodVblid = truf;
 
-                // flush changes to the children
-                updateChildSizes();
+                // flusi dibngfs to tif diildrfn
+                updbtfCiildSizfs();
             }
         }
     }
 
     /**
-     * Propagates the current allocations to the child views.
+     * Propbgbtfs tif durrfnt bllodbtions to tif diild vifws.
      */
-    void updateChildSizes() {
-        int n = getViewCount();
-        if (majorAxis == X_AXIS) {
+    void updbtfCiildSizfs() {
+        int n = gftVifwCount();
+        if (mbjorAxis == X_AXIS) {
             for (int i = 0; i < n; i++) {
-                View v = getView(i);
-                v.setSize((float) majorSpans[i], (float) minorSpans[i]);
+                Vifw v = gftVifw(i);
+                v.sftSizf((flobt) mbjorSpbns[i], (flobt) minorSpbns[i]);
             }
-        } else {
+        } flsf {
             for (int i = 0; i < n; i++) {
-                View v = getView(i);
-                v.setSize((float) minorSpans[i], (float) majorSpans[i]);
+                Vifw v = gftVifw(i);
+                v.sftSizf((flobt) minorSpbns[i], (flobt) mbjorSpbns[i]);
             }
         }
     }
 
     /**
-     * Returns the size of the view along an axis.  This is implemented
-     * to return zero.
+     * Rfturns tif sizf of tif vifw blong bn bxis.  Tiis is implfmfntfd
+     * to rfturn zfro.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @return the current span of the view along the given axis, >= 0
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn tif durrfnt spbn of tif vifw blong tif givfn bxis, >= 0
      */
-    float getSpanOnAxis(int axis) {
-        if (axis == majorAxis) {
-            return majorSpan;
-        } else {
-            return minorSpan;
+    flobt gftSpbnOnAxis(int bxis) {
+        if (bxis == mbjorAxis) {
+            rfturn mbjorSpbn;
+        } flsf {
+            rfturn minorSpbn;
         }
     }
 
     /**
-     * Sets the size of the view.  This should cause
-     * layout of the view if the view caches any layout
-     * information.  This is implemented to call the
-     * layout method with the sizes inside of the insets.
+     * Sfts tif sizf of tif vifw.  Tiis siould dbusf
+     * lbyout of tif vifw if tif vifw dbdifs bny lbyout
+     * informbtion.  Tiis is implfmfntfd to dbll tif
+     * lbyout mftiod witi tif sizfs insidf of tif insfts.
      *
-     * @param width the width &gt;= 0
-     * @param height the height &gt;= 0
+     * @pbrbm widti tif widti &gt;= 0
+     * @pbrbm ifigit tif ifigit &gt;= 0
      */
-    public void setSize(float width, float height) {
-        layout(Math.max(0, (int)(width - getLeftInset() - getRightInset())),
-               Math.max(0, (int)(height - getTopInset() - getBottomInset())));
+    publid void sftSizf(flobt widti, flobt ifigit) {
+        lbyout(Mbti.mbx(0, (int)(widti - gftLfftInsft() - gftRigitInsft())),
+               Mbti.mbx(0, (int)(ifigit - gftTopInsft() - gftBottomInsft())));
     }
 
     /**
-     * Renders the <code>BoxView</code> using the given
-     * rendering surface and area
-     * on that surface.  Only the children that intersect
-     * the clip bounds of the given <code>Graphics</code>
-     * will be rendered.
+     * Rfndfrs tif <dodf>BoxVifw</dodf> using tif givfn
+     * rfndfring surfbdf bnd brfb
+     * on tibt surfbdf.  Only tif diildrfn tibt intfrsfdt
+     * tif dlip bounds of tif givfn <dodf>Grbpiids</dodf>
+     * will bf rfndfrfd.
      *
-     * @param g the rendering surface to use
-     * @param allocation the allocated region to render into
-     * @see View#paint
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm bllodbtion tif bllodbtfd rfgion to rfndfr into
+     * @sff Vifw#pbint
      */
-    public void paint(Graphics g, Shape allocation) {
-        Rectangle alloc = (allocation instanceof Rectangle) ?
-                           (Rectangle)allocation : allocation.getBounds();
-        int n = getViewCount();
-        int x = alloc.x + getLeftInset();
-        int y = alloc.y + getTopInset();
-        Rectangle clip = g.getClipBounds();
+    publid void pbint(Grbpiids g, Sibpf bllodbtion) {
+        Rfdtbnglf bllod = (bllodbtion instbndfof Rfdtbnglf) ?
+                           (Rfdtbnglf)bllodbtion : bllodbtion.gftBounds();
+        int n = gftVifwCount();
+        int x = bllod.x + gftLfftInsft();
+        int y = bllod.y + gftTopInsft();
+        Rfdtbnglf dlip = g.gftClipBounds();
         for (int i = 0; i < n; i++) {
-            tempRect.x = x + getOffset(X_AXIS, i);
-            tempRect.y = y + getOffset(Y_AXIS, i);
-            tempRect.width = getSpan(X_AXIS, i);
-            tempRect.height = getSpan(Y_AXIS, i);
-            int trx0 = tempRect.x, trx1 = trx0 + tempRect.width;
-            int try0 = tempRect.y, try1 = try0 + tempRect.height;
-            int crx0 = clip.x, crx1 = crx0 + clip.width;
-            int cry0 = clip.y, cry1 = cry0 + clip.height;
-            // We should paint views that intersect with clipping region
-            // even if the intersection has no inside points (is a line).
-            // This is needed for supporting views that have zero width, like
-            // views that contain only combining marks.
-            if ((trx1 >= crx0) && (try1 >= cry0) && (crx1 >= trx0) && (cry1 >= try0)) {
-                paintChild(g, tempRect, i);
+            tfmpRfdt.x = x + gftOffsft(X_AXIS, i);
+            tfmpRfdt.y = y + gftOffsft(Y_AXIS, i);
+            tfmpRfdt.widti = gftSpbn(X_AXIS, i);
+            tfmpRfdt.ifigit = gftSpbn(Y_AXIS, i);
+            int trx0 = tfmpRfdt.x, trx1 = trx0 + tfmpRfdt.widti;
+            int try0 = tfmpRfdt.y, try1 = try0 + tfmpRfdt.ifigit;
+            int drx0 = dlip.x, drx1 = drx0 + dlip.widti;
+            int dry0 = dlip.y, dry1 = dry0 + dlip.ifigit;
+            // Wf siould pbint vifws tibt intfrsfdt witi dlipping rfgion
+            // fvfn if tif intfrsfdtion ibs no insidf points (is b linf).
+            // Tiis is nffdfd for supporting vifws tibt ibvf zfro widti, likf
+            // vifws tibt dontbin only dombining mbrks.
+            if ((trx1 >= drx0) && (try1 >= dry0) && (drx1 >= trx0) && (dry1 >= try0)) {
+                pbintCiild(g, tfmpRfdt, i);
             }
         }
     }
 
     /**
-     * Fetches the allocation for the given child view.
-     * This enables finding out where various views
-     * are located.  This is implemented to return
-     * <code>null</code> if the layout is invalid,
-     * otherwise the superclass behavior is executed.
+     * Fftdifs tif bllodbtion for tif givfn diild vifw.
+     * Tiis fnbblfs finding out wifrf vbrious vifws
+     * brf lodbtfd.  Tiis is implfmfntfd to rfturn
+     * <dodf>null</dodf> if tif lbyout is invblid,
+     * otifrwisf tif supfrdlbss bfibvior is fxfdutfd.
      *
-     * @param index the index of the child, &gt;= 0 &amp;&amp; &gt; getViewCount()
-     * @param a  the allocation to this view
-     * @return the allocation to the child; or <code>null</code>
-     *          if <code>a</code> is <code>null</code>;
-     *          or <code>null</code> if the layout is invalid
+     * @pbrbm indfx tif indfx of tif diild, &gt;= 0 &bmp;&bmp; &gt; gftVifwCount()
+     * @pbrbm b  tif bllodbtion to tiis vifw
+     * @rfturn tif bllodbtion to tif diild; or <dodf>null</dodf>
+     *          if <dodf>b</dodf> is <dodf>null</dodf>;
+     *          or <dodf>null</dodf> if tif lbyout is invblid
      */
-    public Shape getChildAllocation(int index, Shape a) {
-        if (a != null) {
-            Shape ca = super.getChildAllocation(index, a);
-            if ((ca != null) && (! isAllocationValid())) {
-                // The child allocation may not have been set yet.
-                Rectangle r = (ca instanceof Rectangle) ?
-                    (Rectangle) ca : ca.getBounds();
-                if ((r.width == 0) && (r.height == 0)) {
-                    return null;
+    publid Sibpf gftCiildAllodbtion(int indfx, Sibpf b) {
+        if (b != null) {
+            Sibpf db = supfr.gftCiildAllodbtion(indfx, b);
+            if ((db != null) && (! isAllodbtionVblid())) {
+                // Tif diild bllodbtion mby not ibvf bffn sft yft.
+                Rfdtbnglf r = (db instbndfof Rfdtbnglf) ?
+                    (Rfdtbnglf) db : db.gftBounds();
+                if ((r.widti == 0) && (r.ifigit == 0)) {
+                    rfturn null;
                 }
             }
-            return ca;
+            rfturn db;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it.  This makes
-     * sure the allocation is valid before calling the superclass.
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it.  Tiis mbkfs
+     * surf tif bllodbtion is vblid bfforf dblling tif supfrdlbss.
      *
-     * @param pos the position to convert &gt;= 0
-     * @param a the allocated region to render into
-     * @return the bounding box of the given position
-     * @exception BadLocationException  if the given position does
-     *  not represent a valid location in the associated document
-     * @see View#modelToView
+     * @pbrbm pos tif position to donvfrt &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif bounding box of tif givfn position
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs
+     *  not rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     * @sff Vifw#modflToVifw
      */
-    public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-        if (! isAllocationValid()) {
-            Rectangle alloc = a.getBounds();
-            setSize(alloc.width, alloc.height);
+    publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+        if (! isAllodbtionVblid()) {
+            Rfdtbnglf bllod = b.gftBounds();
+            sftSizf(bllod.widti, bllod.ifigit);
         }
-        return super.modelToView(pos, a, b);
+        rfturn supfr.modflToVifw(pos, b, b);
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * doordinbtf spbdf of tif modfl.
      *
-     * @param x   x coordinate of the view location to convert &gt;= 0
-     * @param y   y coordinate of the view location to convert &gt;= 0
-     * @param a the allocated region to render into
-     * @return the location within the model that best represents the
-     *  given point in the view &gt;= 0
-     * @see View#viewToModel
+     * @pbrbm x   x doordinbtf of tif vifw lodbtion to donvfrt &gt;= 0
+     * @pbrbm y   y doordinbtf of tif vifw lodbtion to donvfrt &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     *  givfn point in tif vifw &gt;= 0
+     * @sff Vifw#vifwToModfl
      */
-    public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
-        if (! isAllocationValid()) {
-            Rectangle alloc = a.getBounds();
-            setSize(alloc.width, alloc.height);
+    publid int vifwToModfl(flobt x, flobt y, Sibpf b, Position.Bibs[] bibs) {
+        if (! isAllodbtionVblid()) {
+            Rfdtbnglf bllod = b.gftBounds();
+            sftSizf(bllod.widti, bllod.ifigit);
         }
-        return super.viewToModel(x, y, a, bias);
+        rfturn supfr.vifwToModfl(x, y, b, bibs);
     }
 
     /**
-     * Determines the desired alignment for this view along an
-     * axis.  This is implemented to give the total alignment
-     * needed to position the children with the alignment points
-     * lined up along the axis orthogonal to the axis that is
-     * being tiled.  The axis being tiled will request to be
-     * centered (i.e. 0.5f).
+     * Dftfrminfs tif dfsirfd blignmfnt for tiis vifw blong bn
+     * bxis.  Tiis is implfmfntfd to givf tif totbl blignmfnt
+     * nffdfd to position tif diildrfn witi tif blignmfnt points
+     * linfd up blong tif bxis ortiogonbl to tif bxis tibt is
+     * bfing tilfd.  Tif bxis bfing tilfd will rfqufst to bf
+     * dfntfrfd (i.f. 0.5f).
      *
-     * @param axis may be either <code>View.X_AXIS</code>
-     *   or <code>View.Y_AXIS</code>
-     * @return the desired alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f; this should
-     *   be a value between 0.0 and 1.0 where 0 indicates alignment at the
-     *   origin and 1.0 indicates alignment to the full span
-     *   away from the origin; an alignment of 0.5 would be the
-     *   center of the view
-     * @exception IllegalArgumentException for an invalid axis
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf>
+     *   or <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn tif dfsirfd blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f; tiis siould
+     *   bf b vbluf bftwffn 0.0 bnd 1.0 wifrf 0 indidbtfs blignmfnt bt tif
+     *   origin bnd 1.0 indidbtfs blignmfnt to tif full spbn
+     *   bwby from tif origin; bn blignmfnt of 0.5 would bf tif
+     *   dfntfr of tif vifw
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis
      */
-    public float getAlignment(int axis) {
-        checkRequests(axis);
-        if (axis == majorAxis) {
-            return majorRequest.alignment;
-        } else {
-            return minorRequest.alignment;
-        }
-    }
-
-    /**
-     * Determines the preferred span for this view along an
-     * axis.
-     *
-     * @param axis may be either <code>View.X_AXIS</code>
-     *           or <code>View.Y_AXIS</code>
-     * @return   the span the view would like to be rendered into &gt;= 0;
-     *           typically the view is told to render into the span
-     *           that is returned, although there is no guarantee;
-     *           the parent may choose to resize or break the view
-     * @exception IllegalArgumentException for an invalid axis type
-     */
-    public float getPreferredSpan(int axis) {
-        checkRequests(axis);
-        float marginSpan = (axis == X_AXIS) ? getLeftInset() + getRightInset() :
-            getTopInset() + getBottomInset();
-        if (axis == majorAxis) {
-            return ((float)majorRequest.preferred) + marginSpan;
-        } else {
-            return ((float)minorRequest.preferred) + marginSpan;
+    publid flobt gftAlignmfnt(int bxis) {
+        difdkRfqufsts(bxis);
+        if (bxis == mbjorAxis) {
+            rfturn mbjorRfqufst.blignmfnt;
+        } flsf {
+            rfturn minorRfqufst.blignmfnt;
         }
     }
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code>
-     *           or <code>View.Y_AXIS</code>
-     * @return  the span the view would like to be rendered into &gt;= 0;
-     *           typically the view is told to render into the span
-     *           that is returned, although there is no guarantee;
-     *           the parent may choose to resize or break the view
-     * @exception IllegalArgumentException for an invalid axis type
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf>
+     *           or <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0;
+     *           typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff;
+     *           tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis typf
      */
-    public float getMinimumSpan(int axis) {
-        checkRequests(axis);
-        float marginSpan = (axis == X_AXIS) ? getLeftInset() + getRightInset() :
-            getTopInset() + getBottomInset();
-        if (axis == majorAxis) {
-            return ((float)majorRequest.minimum) + marginSpan;
-        } else {
-            return ((float)minorRequest.minimum) + marginSpan;
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        difdkRfqufsts(bxis);
+        flobt mbrginSpbn = (bxis == X_AXIS) ? gftLfftInsft() + gftRigitInsft() :
+            gftTopInsft() + gftBottomInsft();
+        if (bxis == mbjorAxis) {
+            rfturn ((flobt)mbjorRfqufst.prfffrrfd) + mbrginSpbn;
+        } flsf {
+            rfturn ((flobt)minorRfqufst.prfffrrfd) + mbrginSpbn;
         }
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis.
+     * Dftfrminfs tif minimum spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code>
-     *           or <code>View.Y_AXIS</code>
-     * @return   the span the view would like to be rendered into &gt;= 0;
-     *           typically the view is told to render into the span
-     *           that is returned, although there is no guarantee;
-     *           the parent may choose to resize or break the view
-     * @exception IllegalArgumentException for an invalid axis type
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf>
+     *           or <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn  tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0;
+     *           typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff;
+     *           tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis typf
      */
-    public float getMaximumSpan(int axis) {
-        checkRequests(axis);
-        float marginSpan = (axis == X_AXIS) ? getLeftInset() + getRightInset() :
-            getTopInset() + getBottomInset();
-        if (axis == majorAxis) {
-            return ((float)majorRequest.maximum) + marginSpan;
-        } else {
-            return ((float)minorRequest.maximum) + marginSpan;
-        }
-    }
-
-    // --- local methods ----------------------------------------------------
-
-    /**
-     * Are the allocations for the children still
-     * valid?
-     *
-     * @return true if allocations still valid
-     */
-    protected boolean isAllocationValid() {
-        return (majorAllocValid && minorAllocValid);
-    }
-
-    /**
-     * Determines if a point falls before an allocated region.
-     *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param innerAlloc the allocated region; this is the area
-     *   inside of the insets
-     * @return true if the point lies before the region else false
-     */
-    protected boolean isBefore(int x, int y, Rectangle innerAlloc) {
-        if (majorAxis == View.X_AXIS) {
-            return (x < innerAlloc.x);
-        } else {
-            return (y < innerAlloc.y);
+    publid flobt gftMinimumSpbn(int bxis) {
+        difdkRfqufsts(bxis);
+        flobt mbrginSpbn = (bxis == X_AXIS) ? gftLfftInsft() + gftRigitInsft() :
+            gftTopInsft() + gftBottomInsft();
+        if (bxis == mbjorAxis) {
+            rfturn ((flobt)mbjorRfqufst.minimum) + mbrginSpbn;
+        } flsf {
+            rfturn ((flobt)minorRfqufst.minimum) + mbrginSpbn;
         }
     }
 
     /**
-     * Determines if a point falls after an allocated region.
+     * Dftfrminfs tif mbximum spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param innerAlloc the allocated region; this is the area
-     *   inside of the insets
-     * @return true if the point lies after the region else false
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf>
+     *           or <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0;
+     *           typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff;
+     *           tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis typf
      */
-    protected boolean isAfter(int x, int y, Rectangle innerAlloc) {
-        if (majorAxis == View.X_AXIS) {
-            return (x > (innerAlloc.width + innerAlloc.x));
-        } else {
-            return (y > (innerAlloc.height + innerAlloc.y));
+    publid flobt gftMbximumSpbn(int bxis) {
+        difdkRfqufsts(bxis);
+        flobt mbrginSpbn = (bxis == X_AXIS) ? gftLfftInsft() + gftRigitInsft() :
+            gftTopInsft() + gftBottomInsft();
+        if (bxis == mbjorAxis) {
+            rfturn ((flobt)mbjorRfqufst.mbximum) + mbrginSpbn;
+        } flsf {
+            rfturn ((flobt)minorRfqufst.mbximum) + mbrginSpbn;
+        }
+    }
+
+    // --- lodbl mftiods ----------------------------------------------------
+
+    /**
+     * Arf tif bllodbtions for tif diildrfn still
+     * vblid?
+     *
+     * @rfturn truf if bllodbtions still vblid
+     */
+    protfdtfd boolfbn isAllodbtionVblid() {
+        rfturn (mbjorAllodVblid && minorAllodVblid);
+    }
+
+    /**
+     * Dftfrminfs if b point fblls bfforf bn bllodbtfd rfgion.
+     *
+     * @pbrbm x tif X doordinbtf &gt;= 0
+     * @pbrbm y tif Y doordinbtf &gt;= 0
+     * @pbrbm innfrAllod tif bllodbtfd rfgion; tiis is tif brfb
+     *   insidf of tif insfts
+     * @rfturn truf if tif point lifs bfforf tif rfgion flsf fblsf
+     */
+    protfdtfd boolfbn isBfforf(int x, int y, Rfdtbnglf innfrAllod) {
+        if (mbjorAxis == Vifw.X_AXIS) {
+            rfturn (x < innfrAllod.x);
+        } flsf {
+            rfturn (y < innfrAllod.y);
         }
     }
 
     /**
-     * Fetches the child view at the given coordinates.
+     * Dftfrminfs if b point fblls bftfr bn bllodbtfd rfgion.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param alloc the parents inner allocation on entry, which should
-     *   be changed to the child's allocation on exit
-     * @return the view
+     * @pbrbm x tif X doordinbtf &gt;= 0
+     * @pbrbm y tif Y doordinbtf &gt;= 0
+     * @pbrbm innfrAllod tif bllodbtfd rfgion; tiis is tif brfb
+     *   insidf of tif insfts
+     * @rfturn truf if tif point lifs bftfr tif rfgion flsf fblsf
      */
-    protected View getViewAtPoint(int x, int y, Rectangle alloc) {
-        int n = getViewCount();
-        if (majorAxis == View.X_AXIS) {
-            if (x < (alloc.x + majorOffsets[0])) {
-                childAllocation(0, alloc);
-                return getView(0);
+    protfdtfd boolfbn isAftfr(int x, int y, Rfdtbnglf innfrAllod) {
+        if (mbjorAxis == Vifw.X_AXIS) {
+            rfturn (x > (innfrAllod.widti + innfrAllod.x));
+        } flsf {
+            rfturn (y > (innfrAllod.ifigit + innfrAllod.y));
+        }
+    }
+
+    /**
+     * Fftdifs tif diild vifw bt tif givfn doordinbtfs.
+     *
+     * @pbrbm x tif X doordinbtf &gt;= 0
+     * @pbrbm y tif Y doordinbtf &gt;= 0
+     * @pbrbm bllod tif pbrfnts innfr bllodbtion on fntry, wiidi siould
+     *   bf dibngfd to tif diild's bllodbtion on fxit
+     * @rfturn tif vifw
+     */
+    protfdtfd Vifw gftVifwAtPoint(int x, int y, Rfdtbnglf bllod) {
+        int n = gftVifwCount();
+        if (mbjorAxis == Vifw.X_AXIS) {
+            if (x < (bllod.x + mbjorOffsfts[0])) {
+                diildAllodbtion(0, bllod);
+                rfturn gftVifw(0);
             }
             for (int i = 0; i < n; i++) {
-                if (x < (alloc.x + majorOffsets[i])) {
-                    childAllocation(i - 1, alloc);
-                    return getView(i - 1);
+                if (x < (bllod.x + mbjorOffsfts[i])) {
+                    diildAllodbtion(i - 1, bllod);
+                    rfturn gftVifw(i - 1);
                 }
             }
-            childAllocation(n - 1, alloc);
-            return getView(n - 1);
-        } else {
-            if (y < (alloc.y + majorOffsets[0])) {
-                childAllocation(0, alloc);
-                return getView(0);
+            diildAllodbtion(n - 1, bllod);
+            rfturn gftVifw(n - 1);
+        } flsf {
+            if (y < (bllod.y + mbjorOffsfts[0])) {
+                diildAllodbtion(0, bllod);
+                rfturn gftVifw(0);
             }
             for (int i = 0; i < n; i++) {
-                if (y < (alloc.y + majorOffsets[i])) {
-                    childAllocation(i - 1, alloc);
-                    return getView(i - 1);
+                if (y < (bllod.y + mbjorOffsfts[i])) {
+                    diildAllodbtion(i - 1, bllod);
+                    rfturn gftVifw(i - 1);
                 }
             }
-            childAllocation(n - 1, alloc);
-            return getView(n - 1);
+            diildAllodbtion(n - 1, bllod);
+            rfturn gftVifw(n - 1);
         }
     }
 
     /**
-     * Allocates a region for a child view.
+     * Allodbtfs b rfgion for b diild vifw.
      *
-     * @param index the index of the child view to
-     *   allocate, &gt;= 0 &amp;&amp; &lt; getViewCount()
-     * @param alloc the allocated region
+     * @pbrbm indfx tif indfx of tif diild vifw to
+     *   bllodbtf, &gt;= 0 &bmp;&bmp; &lt; gftVifwCount()
+     * @pbrbm bllod tif bllodbtfd rfgion
      */
-    protected void childAllocation(int index, Rectangle alloc) {
-        alloc.x += getOffset(X_AXIS, index);
-        alloc.y += getOffset(Y_AXIS, index);
-        alloc.width = getSpan(X_AXIS, index);
-        alloc.height = getSpan(Y_AXIS, index);
+    protfdtfd void diildAllodbtion(int indfx, Rfdtbnglf bllod) {
+        bllod.x += gftOffsft(X_AXIS, indfx);
+        bllod.y += gftOffsft(Y_AXIS, indfx);
+        bllod.widti = gftSpbn(X_AXIS, indfx);
+        bllod.ifigit = gftSpbn(Y_AXIS, indfx);
     }
 
     /**
-     * Perform layout on the box
+     * Pfrform lbyout on tif box
      *
-     * @param width the width (inside of the insets) &gt;= 0
-     * @param height the height (inside of the insets) &gt;= 0
+     * @pbrbm widti tif widti (insidf of tif insfts) &gt;= 0
+     * @pbrbm ifigit tif ifigit (insidf of tif insfts) &gt;= 0
      */
-    protected void layout(int width, int height) {
-        setSpanOnAxis(X_AXIS, width);
-        setSpanOnAxis(Y_AXIS, height);
+    protfdtfd void lbyout(int widti, int ifigit) {
+        sftSpbnOnAxis(X_AXIS, widti);
+        sftSpbnOnAxis(Y_AXIS, ifigit);
     }
 
     /**
-     * Returns the current width of the box.  This is the width that
-     * it was last allocated.
-     * @return the current width of the box
+     * Rfturns tif durrfnt widti of tif box.  Tiis is tif widti tibt
+     * it wbs lbst bllodbtfd.
+     * @rfturn tif durrfnt widti of tif box
      */
-    public int getWidth() {
-        int span;
-        if (majorAxis == X_AXIS) {
-            span = majorSpan;
-        } else {
-            span = minorSpan;
+    publid int gftWidti() {
+        int spbn;
+        if (mbjorAxis == X_AXIS) {
+            spbn = mbjorSpbn;
+        } flsf {
+            spbn = minorSpbn;
         }
-        span += getLeftInset() - getRightInset();
-        return span;
+        spbn += gftLfftInsft() - gftRigitInsft();
+        rfturn spbn;
     }
 
     /**
-     * Returns the current height of the box.  This is the height that
-     * it was last allocated.
-     * @return the current height of the box
+     * Rfturns tif durrfnt ifigit of tif box.  Tiis is tif ifigit tibt
+     * it wbs lbst bllodbtfd.
+     * @rfturn tif durrfnt ifigit of tif box
      */
-    public int getHeight() {
-        int span;
-        if (majorAxis == Y_AXIS) {
-            span = majorSpan;
-        } else {
-            span = minorSpan;
+    publid int gftHfigit() {
+        int spbn;
+        if (mbjorAxis == Y_AXIS) {
+            spbn = mbjorSpbn;
+        } flsf {
+            spbn = minorSpbn;
         }
-        span += getTopInset() - getBottomInset();
-        return span;
+        spbn += gftTopInsft() - gftBottomInsft();
+        rfturn spbn;
     }
 
     /**
-     * Performs layout for the major axis of the box (i.e. the
-     * axis that it represents). The results of the layout (the
-     * offset and span for each children) are placed in the given
-     * arrays which represent the allocations to the children
-     * along the major axis.
+     * Pfrforms lbyout for tif mbjor bxis of tif box (i.f. tif
+     * bxis tibt it rfprfsfnts). Tif rfsults of tif lbyout (tif
+     * offsft bnd spbn for fbdi diildrfn) brf plbdfd in tif givfn
+     * brrbys wiidi rfprfsfnt tif bllodbtions to tif diildrfn
+     * blong tif mbjor bxis.
      *
-     * @param targetSpan the total span given to the view, which
-     *  would be used to layout the children
-     * @param axis the axis being layed out
-     * @param offsets the offsets from the origin of the view for
-     *  each of the child views; this is a return value and is
-     *  filled in by the implementation of this method
-     * @param spans the span of each child view; this is a return
-     *  value and is filled in by the implementation of this method
+     * @pbrbm tbrgftSpbn tif totbl spbn givfn to tif vifw, wiidi
+     *  would bf usfd to lbyout tif diildrfn
+     * @pbrbm bxis tif bxis bfing lbyfd out
+     * @pbrbm offsfts tif offsfts from tif origin of tif vifw for
+     *  fbdi of tif diild vifws; tiis is b rfturn vbluf bnd is
+     *  fillfd in by tif implfmfntbtion of tiis mftiod
+     * @pbrbm spbns tif spbn of fbdi diild vifw; tiis is b rfturn
+     *  vbluf bnd is fillfd in by tif implfmfntbtion of tiis mftiod
      */
-    protected void layoutMajorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
+    protfdtfd void lbyoutMbjorAxis(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
         /*
-         * first pass, calculate the preferred sizes
-         * and the flexibility to adjust the sizes.
+         * first pbss, dbldulbtf tif prfffrrfd sizfs
+         * bnd tif flfxibility to bdjust tif sizfs.
          */
-        long preferred = 0;
-        int n = getViewCount();
+        long prfffrrfd = 0;
+        int n = gftVifwCount();
         for (int i = 0; i < n; i++) {
-            View v = getView(i);
-            spans[i] = (int) v.getPreferredSpan(axis);
-            preferred += spans[i];
+            Vifw v = gftVifw(i);
+            spbns[i] = (int) v.gftPrfffrrfdSpbn(bxis);
+            prfffrrfd += spbns[i];
         }
 
         /*
-         * Second pass, expand or contract by as much as possible to reach
-         * the target span.
+         * Sfdond pbss, fxpbnd or dontrbdt by bs mudi bs possiblf to rfbdi
+         * tif tbrgft spbn.
          */
 
-        // determine the adjustment to be made
-        long desiredAdjustment = targetSpan - preferred;
-        float adjustmentFactor = 0.0f;
+        // dftfrminf tif bdjustmfnt to bf mbdf
+        long dfsirfdAdjustmfnt = tbrgftSpbn - prfffrrfd;
+        flobt bdjustmfntFbdtor = 0.0f;
         int[] diffs = null;
 
-        if (desiredAdjustment != 0) {
-            long totalSpan = 0;
-            diffs = new int[n];
+        if (dfsirfdAdjustmfnt != 0) {
+            long totblSpbn = 0;
+            diffs = nfw int[n];
             for (int i = 0; i < n; i++) {
-                View v = getView(i);
+                Vifw v = gftVifw(i);
                 int tmp;
-                if (desiredAdjustment < 0) {
-                    tmp = (int)v.getMinimumSpan(axis);
-                    diffs[i] = spans[i] - tmp;
-                } else {
-                    tmp = (int)v.getMaximumSpan(axis);
-                    diffs[i] = tmp - spans[i];
+                if (dfsirfdAdjustmfnt < 0) {
+                    tmp = (int)v.gftMinimumSpbn(bxis);
+                    diffs[i] = spbns[i] - tmp;
+                } flsf {
+                    tmp = (int)v.gftMbximumSpbn(bxis);
+                    diffs[i] = tmp - spbns[i];
                 }
-                totalSpan += tmp;
+                totblSpbn += tmp;
             }
 
-            float maximumAdjustment = Math.abs(totalSpan - preferred);
-                adjustmentFactor = desiredAdjustment / maximumAdjustment;
-                adjustmentFactor = Math.min(adjustmentFactor, 1.0f);
-                adjustmentFactor = Math.max(adjustmentFactor, -1.0f);
+            flobt mbximumAdjustmfnt = Mbti.bbs(totblSpbn - prfffrrfd);
+                bdjustmfntFbdtor = dfsirfdAdjustmfnt / mbximumAdjustmfnt;
+                bdjustmfntFbdtor = Mbti.min(bdjustmfntFbdtor, 1.0f);
+                bdjustmfntFbdtor = Mbti.mbx(bdjustmfntFbdtor, -1.0f);
             }
 
-        // make the adjustments
-        int totalOffset = 0;
+        // mbkf tif bdjustmfnts
+        int totblOffsft = 0;
         for (int i = 0; i < n; i++) {
-            offsets[i] = totalOffset;
-            if (desiredAdjustment != 0) {
-                float adjF = adjustmentFactor * diffs[i];
-                spans[i] += Math.round(adjF);
+            offsfts[i] = totblOffsft;
+            if (dfsirfdAdjustmfnt != 0) {
+                flobt bdjF = bdjustmfntFbdtor * diffs[i];
+                spbns[i] += Mbti.round(bdjF);
             }
-            totalOffset = (int) Math.min((long) totalOffset + (long) spans[i], Integer.MAX_VALUE);
+            totblOffsft = (int) Mbti.min((long) totblOffsft + (long) spbns[i], Intfgfr.MAX_VALUE);
         }
     }
 
     /**
-     * Performs layout for the minor axis of the box (i.e. the
-     * axis orthogonal to the axis that it represents). The results
-     * of the layout (the offset and span for each children) are
-     * placed in the given arrays which represent the allocations to
-     * the children along the minor axis.
+     * Pfrforms lbyout for tif minor bxis of tif box (i.f. tif
+     * bxis ortiogonbl to tif bxis tibt it rfprfsfnts). Tif rfsults
+     * of tif lbyout (tif offsft bnd spbn for fbdi diildrfn) brf
+     * plbdfd in tif givfn brrbys wiidi rfprfsfnt tif bllodbtions to
+     * tif diildrfn blong tif minor bxis.
      *
-     * @param targetSpan the total span given to the view, which
-     *  would be used to layout the children
-     * @param axis the axis being layed out
-     * @param offsets the offsets from the origin of the view for
-     *  each of the child views; this is a return value and is
-     *  filled in by the implementation of this method
-     * @param spans the span of each child view; this is a return
-     *  value and is filled in by the implementation of this method
+     * @pbrbm tbrgftSpbn tif totbl spbn givfn to tif vifw, wiidi
+     *  would bf usfd to lbyout tif diildrfn
+     * @pbrbm bxis tif bxis bfing lbyfd out
+     * @pbrbm offsfts tif offsfts from tif origin of tif vifw for
+     *  fbdi of tif diild vifws; tiis is b rfturn vbluf bnd is
+     *  fillfd in by tif implfmfntbtion of tiis mftiod
+     * @pbrbm spbns tif spbn of fbdi diild vifw; tiis is b rfturn
+     *  vbluf bnd is fillfd in by tif implfmfntbtion of tiis mftiod
      */
-    protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
-        int n = getViewCount();
+    protfdtfd void lbyoutMinorAxis(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
+        int n = gftVifwCount();
         for (int i = 0; i < n; i++) {
-            View v = getView(i);
-            int max = (int) v.getMaximumSpan(axis);
-            if (max < targetSpan) {
-                // can't make the child this wide, align it
-                float align = v.getAlignment(axis);
-                offsets[i] = (int) ((targetSpan - max) * align);
-                spans[i] = max;
-            } else {
-                // make it the target width, or as small as it can get.
-                int min = (int)v.getMinimumSpan(axis);
-                offsets[i] = 0;
-                spans[i] = Math.max(min, targetSpan);
+            Vifw v = gftVifw(i);
+            int mbx = (int) v.gftMbximumSpbn(bxis);
+            if (mbx < tbrgftSpbn) {
+                // dbn't mbkf tif diild tiis widf, blign it
+                flobt blign = v.gftAlignmfnt(bxis);
+                offsfts[i] = (int) ((tbrgftSpbn - mbx) * blign);
+                spbns[i] = mbx;
+            } flsf {
+                // mbkf it tif tbrgft widti, or bs smbll bs it dbn gft.
+                int min = (int)v.gftMinimumSpbn(bxis);
+                offsfts[i] = 0;
+                spbns[i] = Mbti.mbx(min, tbrgftSpbn);
             }
         }
     }
 
     /**
-     * Calculates the size requirements for the major axis
-     * <code>axis</code>.
+     * Cbldulbtfs tif sizf rfquirfmfnts for tif mbjor bxis
+     * <dodf>bxis</dodf>.
      *
-     * @param axis the axis being studied
-     * @param r the <code>SizeRequirements</code> object;
-     *          if <code>null</code> one will be created
-     * @return the newly initialized <code>SizeRequirements</code> object
-     * @see javax.swing.SizeRequirements
+     * @pbrbm bxis tif bxis bfing studifd
+     * @pbrbm r tif <dodf>SizfRfquirfmfnts</dodf> objfdt;
+     *          if <dodf>null</dodf> onf will bf drfbtfd
+     * @rfturn tif nfwly initiblizfd <dodf>SizfRfquirfmfnts</dodf> objfdt
+     * @sff jbvbx.swing.SizfRfquirfmfnts
      */
-    protected SizeRequirements calculateMajorAxisRequirements(int axis, SizeRequirements r) {
-        // calculate tiled request
-        float min = 0;
-        float pref = 0;
-        float max = 0;
+    protfdtfd SizfRfquirfmfnts dbldulbtfMbjorAxisRfquirfmfnts(int bxis, SizfRfquirfmfnts r) {
+        // dbldulbtf tilfd rfqufst
+        flobt min = 0;
+        flobt prff = 0;
+        flobt mbx = 0;
 
-        int n = getViewCount();
+        int n = gftVifwCount();
         for (int i = 0; i < n; i++) {
-            View v = getView(i);
-            min += v.getMinimumSpan(axis);
-            pref += v.getPreferredSpan(axis);
-            max += v.getMaximumSpan(axis);
+            Vifw v = gftVifw(i);
+            min += v.gftMinimumSpbn(bxis);
+            prff += v.gftPrfffrrfdSpbn(bxis);
+            mbx += v.gftMbximumSpbn(bxis);
         }
 
         if (r == null) {
-            r = new SizeRequirements();
+            r = nfw SizfRfquirfmfnts();
         }
-        r.alignment = 0.5f;
+        r.blignmfnt = 0.5f;
         r.minimum = (int) min;
-        r.preferred = (int) pref;
-        r.maximum = (int) max;
-        return r;
+        r.prfffrrfd = (int) prff;
+        r.mbximum = (int) mbx;
+        rfturn r;
     }
 
     /**
-     * Calculates the size requirements for the minor axis
-     * <code>axis</code>.
+     * Cbldulbtfs tif sizf rfquirfmfnts for tif minor bxis
+     * <dodf>bxis</dodf>.
      *
-     * @param axis the axis being studied
-     * @param r the <code>SizeRequirements</code> object;
-     *          if <code>null</code> one will be created
-     * @return the newly initialized <code>SizeRequirements</code> object
-     * @see javax.swing.SizeRequirements
+     * @pbrbm bxis tif bxis bfing studifd
+     * @pbrbm r tif <dodf>SizfRfquirfmfnts</dodf> objfdt;
+     *          if <dodf>null</dodf> onf will bf drfbtfd
+     * @rfturn tif nfwly initiblizfd <dodf>SizfRfquirfmfnts</dodf> objfdt
+     * @sff jbvbx.swing.SizfRfquirfmfnts
      */
-    protected SizeRequirements calculateMinorAxisRequirements(int axis, SizeRequirements r) {
+    protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis, SizfRfquirfmfnts r) {
         int min = 0;
-        long pref = 0;
-        int max = Integer.MAX_VALUE;
-        int n = getViewCount();
+        long prff = 0;
+        int mbx = Intfgfr.MAX_VALUE;
+        int n = gftVifwCount();
         for (int i = 0; i < n; i++) {
-            View v = getView(i);
-            min = Math.max((int) v.getMinimumSpan(axis), min);
-            pref = Math.max((int) v.getPreferredSpan(axis), pref);
-            max = Math.max((int) v.getMaximumSpan(axis), max);
+            Vifw v = gftVifw(i);
+            min = Mbti.mbx((int) v.gftMinimumSpbn(bxis), min);
+            prff = Mbti.mbx((int) v.gftPrfffrrfdSpbn(bxis), prff);
+            mbx = Mbti.mbx((int) v.gftMbximumSpbn(bxis), mbx);
         }
 
         if (r == null) {
-            r = new SizeRequirements();
-            r.alignment = 0.5f;
+            r = nfw SizfRfquirfmfnts();
+            r.blignmfnt = 0.5f;
         }
-        r.preferred = (int) pref;
+        r.prfffrrfd = (int) prff;
         r.minimum = min;
-        r.maximum = max;
-        return r;
+        r.mbximum = mbx;
+        rfturn r;
     }
 
     /**
-     * Checks the request cache and update if needed.
-     * @param axis the axis being studied
-     * @exception IllegalArgumentException if <code>axis</code> is
-     *  neither <code>View.X_AXIS</code> nor <code>View.Y_AXIS</code>
+     * Cifdks tif rfqufst dbdif bnd updbtf if nffdfd.
+     * @pbrbm bxis tif bxis bfing studifd
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bxis</dodf> is
+     *  nfitifr <dodf>Vifw.X_AXIS</dodf> nor <dodf>Vifw.Y_AXIS</dodf>
      */
-    void checkRequests(int axis) {
-        if ((axis != X_AXIS) && (axis != Y_AXIS)) {
-            throw new IllegalArgumentException("Invalid axis: " + axis);
+    void difdkRfqufsts(int bxis) {
+        if ((bxis != X_AXIS) && (bxis != Y_AXIS)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
         }
-        if (axis == majorAxis) {
-            if (!majorReqValid) {
-                majorRequest = calculateMajorAxisRequirements(axis,
-                                                              majorRequest);
-                majorReqValid = true;
+        if (bxis == mbjorAxis) {
+            if (!mbjorRfqVblid) {
+                mbjorRfqufst = dbldulbtfMbjorAxisRfquirfmfnts(bxis,
+                                                              mbjorRfqufst);
+                mbjorRfqVblid = truf;
             }
-        } else if (! minorReqValid) {
-            minorRequest = calculateMinorAxisRequirements(axis, minorRequest);
-            minorReqValid = true;
+        } flsf if (! minorRfqVblid) {
+            minorRfqufst = dbldulbtfMinorAxisRfquirfmfnts(bxis, minorRfqufst);
+            minorRfqVblid = truf;
         }
     }
 
     /**
-     * Computes the location and extent of each child view
-     * in this <code>BoxView</code> given the <code>targetSpan</code>,
-     * which is the width (or height) of the region we have to
-     * work with.
+     * Computfs tif lodbtion bnd fxtfnt of fbdi diild vifw
+     * in tiis <dodf>BoxVifw</dodf> givfn tif <dodf>tbrgftSpbn</dodf>,
+     * wiidi is tif widti (or ifigit) of tif rfgion wf ibvf to
+     * work witi.
      *
-     * @param targetSpan the total span given to the view, which
-     *  would be used to layout the children
-     * @param axis the axis being studied, either
-     *          <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
-     * @param offsets an empty array filled by this method with
-     *          values specifying the location  of each child view
-     * @param spans  an empty array filled by this method with
-     *          values specifying the extent of each child view
+     * @pbrbm tbrgftSpbn tif totbl spbn givfn to tif vifw, wiidi
+     *  would bf usfd to lbyout tif diildrfn
+     * @pbrbm bxis tif bxis bfing studifd, fitifr
+     *          <dodf>Vifw.X_AXIS</dodf> or <dodf>Vifw.Y_AXIS</dodf>
+     * @pbrbm offsfts bn fmpty brrby fillfd by tiis mftiod witi
+     *          vblufs spfdifying tif lodbtion  of fbdi diild vifw
+     * @pbrbm spbns  bn fmpty brrby fillfd by tiis mftiod witi
+     *          vblufs spfdifying tif fxtfnt of fbdi diild vifw
      */
-    protected void baselineLayout(int targetSpan, int axis, int[] offsets, int[] spans) {
-        int totalAscent = (int)(targetSpan * getAlignment(axis));
-        int totalDescent = targetSpan - totalAscent;
+    protfdtfd void bbsflinfLbyout(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
+        int totblAsdfnt = (int)(tbrgftSpbn * gftAlignmfnt(bxis));
+        int totblDfsdfnt = tbrgftSpbn - totblAsdfnt;
 
-        int n = getViewCount();
+        int n = gftVifwCount();
 
         for (int i = 0; i < n; i++) {
-            View v = getView(i);
-            float align = v.getAlignment(axis);
-            float viewSpan;
+            Vifw v = gftVifw(i);
+            flobt blign = v.gftAlignmfnt(bxis);
+            flobt vifwSpbn;
 
-            if (v.getResizeWeight(axis) > 0) {
-                // if resizable then resize to the best fit
+            if (v.gftRfsizfWfigit(bxis) > 0) {
+                // if rfsizbblf tifn rfsizf to tif bfst fit
 
-                // the smallest span possible
-                float minSpan = v.getMinimumSpan(axis);
-                // the largest span possible
-                float maxSpan = v.getMaximumSpan(axis);
+                // tif smbllfst spbn possiblf
+                flobt minSpbn = v.gftMinimumSpbn(bxis);
+                // tif lbrgfst spbn possiblf
+                flobt mbxSpbn = v.gftMbximumSpbn(bxis);
 
-                if (align == 0.0f) {
-                    // if the alignment is 0 then we need to fit into the descent
-                    viewSpan = Math.max(Math.min(maxSpan, totalDescent), minSpan);
-                } else if (align == 1.0f) {
-                    // if the alignment is 1 then we need to fit into the ascent
-                    viewSpan = Math.max(Math.min(maxSpan, totalAscent), minSpan);
-                } else {
-                    // figure out the span that we must fit into
-                    float fitSpan = Math.min(totalAscent / align,
-                                             totalDescent / (1.0f - align));
-                    // fit into the calculated span
-                    viewSpan = Math.max(Math.min(maxSpan, fitSpan), minSpan);
+                if (blign == 0.0f) {
+                    // if tif blignmfnt is 0 tifn wf nffd to fit into tif dfsdfnt
+                    vifwSpbn = Mbti.mbx(Mbti.min(mbxSpbn, totblDfsdfnt), minSpbn);
+                } flsf if (blign == 1.0f) {
+                    // if tif blignmfnt is 1 tifn wf nffd to fit into tif bsdfnt
+                    vifwSpbn = Mbti.mbx(Mbti.min(mbxSpbn, totblAsdfnt), minSpbn);
+                } flsf {
+                    // figurf out tif spbn tibt wf must fit into
+                    flobt fitSpbn = Mbti.min(totblAsdfnt / blign,
+                                             totblDfsdfnt / (1.0f - blign));
+                    // fit into tif dbldulbtfd spbn
+                    vifwSpbn = Mbti.mbx(Mbti.min(mbxSpbn, fitSpbn), minSpbn);
                 }
-            } else {
-                // otherwise use the preferred spans
-                viewSpan = v.getPreferredSpan(axis);
+            } flsf {
+                // otifrwisf usf tif prfffrrfd spbns
+                vifwSpbn = v.gftPrfffrrfdSpbn(bxis);
             }
 
-            offsets[i] = totalAscent - (int)(viewSpan * align);
-            spans[i] = (int)viewSpan;
+            offsfts[i] = totblAsdfnt - (int)(vifwSpbn * blign);
+            spbns[i] = (int)vifwSpbn;
         }
     }
 
     /**
-     * Calculates the size requirements for this <code>BoxView</code>
-     * by examining the size of each child view.
+     * Cbldulbtfs tif sizf rfquirfmfnts for tiis <dodf>BoxVifw</dodf>
+     * by fxbmining tif sizf of fbdi diild vifw.
      *
-     * @param axis the axis being studied
-     * @param r the <code>SizeRequirements</code> object;
-     *          if <code>null</code> one will be created
-     * @return the newly initialized <code>SizeRequirements</code> object
+     * @pbrbm bxis tif bxis bfing studifd
+     * @pbrbm r tif <dodf>SizfRfquirfmfnts</dodf> objfdt;
+     *          if <dodf>null</dodf> onf will bf drfbtfd
+     * @rfturn tif nfwly initiblizfd <dodf>SizfRfquirfmfnts</dodf> objfdt
      */
-    protected SizeRequirements baselineRequirements(int axis, SizeRequirements r) {
-        SizeRequirements totalAscent = new SizeRequirements();
-        SizeRequirements totalDescent = new SizeRequirements();
+    protfdtfd SizfRfquirfmfnts bbsflinfRfquirfmfnts(int bxis, SizfRfquirfmfnts r) {
+        SizfRfquirfmfnts totblAsdfnt = nfw SizfRfquirfmfnts();
+        SizfRfquirfmfnts totblDfsdfnt = nfw SizfRfquirfmfnts();
 
         if (r == null) {
-            r = new SizeRequirements();
+            r = nfw SizfRfquirfmfnts();
         }
 
-        r.alignment = 0.5f;
+        r.blignmfnt = 0.5f;
 
-        int n = getViewCount();
+        int n = gftVifwCount();
 
-        // loop through all children calculating the max of all their ascents and
-        // descents at minimum, preferred, and maximum sizes
+        // loop tirougi bll diildrfn dbldulbting tif mbx of bll tifir bsdfnts bnd
+        // dfsdfnts bt minimum, prfffrrfd, bnd mbximum sizfs
         for (int i = 0; i < n; i++) {
-            View v = getView(i);
-            float align = v.getAlignment(axis);
-            float span;
-            int ascent;
-            int descent;
+            Vifw v = gftVifw(i);
+            flobt blign = v.gftAlignmfnt(bxis);
+            flobt spbn;
+            int bsdfnt;
+            int dfsdfnt;
 
-            // find the maximum of the preferred ascents and descents
-            span = v.getPreferredSpan(axis);
-            ascent = (int)(align * span);
-            descent = (int)(span - ascent);
-            totalAscent.preferred = Math.max(ascent, totalAscent.preferred);
-            totalDescent.preferred = Math.max(descent, totalDescent.preferred);
+            // find tif mbximum of tif prfffrrfd bsdfnts bnd dfsdfnts
+            spbn = v.gftPrfffrrfdSpbn(bxis);
+            bsdfnt = (int)(blign * spbn);
+            dfsdfnt = (int)(spbn - bsdfnt);
+            totblAsdfnt.prfffrrfd = Mbti.mbx(bsdfnt, totblAsdfnt.prfffrrfd);
+            totblDfsdfnt.prfffrrfd = Mbti.mbx(dfsdfnt, totblDfsdfnt.prfffrrfd);
 
-            if (v.getResizeWeight(axis) > 0) {
-                // if the view is resizable then do the same for the minimum and
-                // maximum ascents and descents
-                span = v.getMinimumSpan(axis);
-                ascent = (int)(align * span);
-                descent = (int)(span - ascent);
-                totalAscent.minimum = Math.max(ascent, totalAscent.minimum);
-                totalDescent.minimum = Math.max(descent, totalDescent.minimum);
+            if (v.gftRfsizfWfigit(bxis) > 0) {
+                // if tif vifw is rfsizbblf tifn do tif sbmf for tif minimum bnd
+                // mbximum bsdfnts bnd dfsdfnts
+                spbn = v.gftMinimumSpbn(bxis);
+                bsdfnt = (int)(blign * spbn);
+                dfsdfnt = (int)(spbn - bsdfnt);
+                totblAsdfnt.minimum = Mbti.mbx(bsdfnt, totblAsdfnt.minimum);
+                totblDfsdfnt.minimum = Mbti.mbx(dfsdfnt, totblDfsdfnt.minimum);
 
-                span = v.getMaximumSpan(axis);
-                ascent = (int)(align * span);
-                descent = (int)(span - ascent);
-                totalAscent.maximum = Math.max(ascent, totalAscent.maximum);
-                totalDescent.maximum = Math.max(descent, totalDescent.maximum);
-            } else {
-                // otherwise use the preferred
-                totalAscent.minimum = Math.max(ascent, totalAscent.minimum);
-                totalDescent.minimum = Math.max(descent, totalDescent.minimum);
-                totalAscent.maximum = Math.max(ascent, totalAscent.maximum);
-                totalDescent.maximum = Math.max(descent, totalDescent.maximum);
+                spbn = v.gftMbximumSpbn(bxis);
+                bsdfnt = (int)(blign * spbn);
+                dfsdfnt = (int)(spbn - bsdfnt);
+                totblAsdfnt.mbximum = Mbti.mbx(bsdfnt, totblAsdfnt.mbximum);
+                totblDfsdfnt.mbximum = Mbti.mbx(dfsdfnt, totblDfsdfnt.mbximum);
+            } flsf {
+                // otifrwisf usf tif prfffrrfd
+                totblAsdfnt.minimum = Mbti.mbx(bsdfnt, totblAsdfnt.minimum);
+                totblDfsdfnt.minimum = Mbti.mbx(dfsdfnt, totblDfsdfnt.minimum);
+                totblAsdfnt.mbximum = Mbti.mbx(bsdfnt, totblAsdfnt.mbximum);
+                totblDfsdfnt.mbximum = Mbti.mbx(dfsdfnt, totblDfsdfnt.mbximum);
             }
         }
 
-        // we now have an overall preferred, minimum, and maximum ascent and descent
+        // wf now ibvf bn ovfrbll prfffrrfd, minimum, bnd mbximum bsdfnt bnd dfsdfnt
 
-        // calculate the preferred span as the sum of the preferred ascent and preferred descent
-        r.preferred = (int)Math.min((long)totalAscent.preferred + (long)totalDescent.preferred,
-                                    Integer.MAX_VALUE);
+        // dbldulbtf tif prfffrrfd spbn bs tif sum of tif prfffrrfd bsdfnt bnd prfffrrfd dfsdfnt
+        r.prfffrrfd = (int)Mbti.min((long)totblAsdfnt.prfffrrfd + (long)totblDfsdfnt.prfffrrfd,
+                                    Intfgfr.MAX_VALUE);
 
-        // calculate the preferred alignment as the preferred ascent divided by the preferred span
-        if (r.preferred > 0) {
-            r.alignment = (float)totalAscent.preferred / r.preferred;
+        // dbldulbtf tif prfffrrfd blignmfnt bs tif prfffrrfd bsdfnt dividfd by tif prfffrrfd spbn
+        if (r.prfffrrfd > 0) {
+            r.blignmfnt = (flobt)totblAsdfnt.prfffrrfd / r.prfffrrfd;
         }
 
 
-        if (r.alignment == 0.0f) {
-            // if the preferred alignment is 0 then the minimum and maximum spans are simply
-            // the minimum and maximum descents since there's nothing above the baseline
-            r.minimum = totalDescent.minimum;
-            r.maximum = totalDescent.maximum;
-        } else if (r.alignment == 1.0f) {
-            // if the preferred alignment is 1 then the minimum and maximum spans are simply
-            // the minimum and maximum ascents since there's nothing below the baseline
-            r.minimum = totalAscent.minimum;
-            r.maximum = totalAscent.maximum;
-        } else {
-            // we want to honor the preferred alignment so we calculate two possible minimum
-            // span values using 1) the minimum ascent and the alignment, and 2) the minimum
-            // descent and the alignment. We'll choose the larger of these two numbers.
-            r.minimum = Math.round(Math.max(totalAscent.minimum / r.alignment,
-                                          totalDescent.minimum / (1.0f - r.alignment)));
-            // a similar calculation is made for the maximum but we choose the smaller number.
-            r.maximum = Math.round(Math.min(totalAscent.maximum / r.alignment,
-                                          totalDescent.maximum / (1.0f - r.alignment)));
+        if (r.blignmfnt == 0.0f) {
+            // if tif prfffrrfd blignmfnt is 0 tifn tif minimum bnd mbximum spbns brf simply
+            // tif minimum bnd mbximum dfsdfnts sindf tifrf's notiing bbovf tif bbsflinf
+            r.minimum = totblDfsdfnt.minimum;
+            r.mbximum = totblDfsdfnt.mbximum;
+        } flsf if (r.blignmfnt == 1.0f) {
+            // if tif prfffrrfd blignmfnt is 1 tifn tif minimum bnd mbximum spbns brf simply
+            // tif minimum bnd mbximum bsdfnts sindf tifrf's notiing bflow tif bbsflinf
+            r.minimum = totblAsdfnt.minimum;
+            r.mbximum = totblAsdfnt.mbximum;
+        } flsf {
+            // wf wbnt to ionor tif prfffrrfd blignmfnt so wf dbldulbtf two possiblf minimum
+            // spbn vblufs using 1) tif minimum bsdfnt bnd tif blignmfnt, bnd 2) tif minimum
+            // dfsdfnt bnd tif blignmfnt. Wf'll dioosf tif lbrgfr of tifsf two numbfrs.
+            r.minimum = Mbti.round(Mbti.mbx(totblAsdfnt.minimum / r.blignmfnt,
+                                          totblDfsdfnt.minimum / (1.0f - r.blignmfnt)));
+            // b similbr dbldulbtion is mbdf for tif mbximum but wf dioosf tif smbllfr numbfr.
+            r.mbximum = Mbti.round(Mbti.min(totblAsdfnt.mbximum / r.blignmfnt,
+                                          totblDfsdfnt.mbximum / (1.0f - r.blignmfnt)));
         }
 
-        return r;
+        rfturn r;
     }
 
     /**
-     * Fetches the offset of a particular child's current layout.
-     * @param axis the axis being studied
-     * @param childIndex the index of the requested child
-     * @return the offset (location) for the specified child
+     * Fftdifs tif offsft of b pbrtidulbr diild's durrfnt lbyout.
+     * @pbrbm bxis tif bxis bfing studifd
+     * @pbrbm diildIndfx tif indfx of tif rfqufstfd diild
+     * @rfturn tif offsft (lodbtion) for tif spfdififd diild
      */
-    protected int getOffset(int axis, int childIndex) {
-        int[] offsets = (axis == majorAxis) ? majorOffsets : minorOffsets;
-        return offsets[childIndex];
+    protfdtfd int gftOffsft(int bxis, int diildIndfx) {
+        int[] offsfts = (bxis == mbjorAxis) ? mbjorOffsfts : minorOffsfts;
+        rfturn offsfts[diildIndfx];
     }
 
     /**
-     * Fetches the span of a particular child's current layout.
-     * @param axis the axis being studied
-     * @param childIndex the index of the requested child
-     * @return the span (width or height) of the specified child
+     * Fftdifs tif spbn of b pbrtidulbr diild's durrfnt lbyout.
+     * @pbrbm bxis tif bxis bfing studifd
+     * @pbrbm diildIndfx tif indfx of tif rfqufstfd diild
+     * @rfturn tif spbn (widti or ifigit) of tif spfdififd diild
      */
-    protected int getSpan(int axis, int childIndex) {
-        int[] spans = (axis == majorAxis) ? majorSpans : minorSpans;
-        return spans[childIndex];
+    protfdtfd int gftSpbn(int bxis, int diildIndfx) {
+        int[] spbns = (bxis == mbjorAxis) ? mbjorSpbns : minorSpbns;
+        rfturn spbns[diildIndfx];
     }
 
     /**
-     * Determines in which direction the next view lays.
-     * Consider the View at index n. Typically the <code>View</code>s
-     * are layed out from left to right, so that the <code>View</code>
-     * to the EAST will be at index n + 1, and the <code>View</code>
-     * to the WEST will be at index n - 1. In certain situations,
-     * such as with bidirectional text, it is possible
-     * that the <code>View</code> to EAST is not at index n + 1,
-     * but rather at index n - 1, or that the <code>View</code>
-     * to the WEST is not at index n - 1, but index n + 1.
-     * In this case this method would return true,
-     * indicating the <code>View</code>s are layed out in
-     * descending order. Otherwise the method would return false
-     * indicating the <code>View</code>s are layed out in ascending order.
+     * Dftfrminfs in wiidi dirfdtion tif nfxt vifw lbys.
+     * Considfr tif Vifw bt indfx n. Typidblly tif <dodf>Vifw</dodf>s
+     * brf lbyfd out from lfft to rigit, so tibt tif <dodf>Vifw</dodf>
+     * to tif EAST will bf bt indfx n + 1, bnd tif <dodf>Vifw</dodf>
+     * to tif WEST will bf bt indfx n - 1. In dfrtbin situbtions,
+     * sudi bs witi bidirfdtionbl tfxt, it is possiblf
+     * tibt tif <dodf>Vifw</dodf> to EAST is not bt indfx n + 1,
+     * but rbtifr bt indfx n - 1, or tibt tif <dodf>Vifw</dodf>
+     * to tif WEST is not bt indfx n - 1, but indfx n + 1.
+     * In tiis dbsf tiis mftiod would rfturn truf,
+     * indidbting tif <dodf>Vifw</dodf>s brf lbyfd out in
+     * dfsdfnding ordfr. Otifrwisf tif mftiod would rfturn fblsf
+     * indidbting tif <dodf>Vifw</dodf>s brf lbyfd out in bsdfnding ordfr.
      * <p>
-     * If the receiver is laying its <code>View</code>s along the
-     * <code>Y_AXIS</code>, this will will return the value from
-     * invoking the same method on the <code>View</code>
-     * responsible for rendering <code>position</code> and
-     * <code>bias</code>. Otherwise this will return false.
+     * If tif rfdfivfr is lbying its <dodf>Vifw</dodf>s blong tif
+     * <dodf>Y_AXIS</dodf>, tiis will will rfturn tif vbluf from
+     * invoking tif sbmf mftiod on tif <dodf>Vifw</dodf>
+     * rfsponsiblf for rfndfring <dodf>position</dodf> bnd
+     * <dodf>bibs</dodf>. Otifrwisf tiis will rfturn fblsf.
      *
-     * @param position position into the model
-     * @param bias either <code>Position.Bias.Forward</code> or
-     *          <code>Position.Bias.Backward</code>
-     * @return true if the <code>View</code>s surrounding the
-     *          <code>View</code> responding for rendering
-     *          <code>position</code> and <code>bias</code>
-     *          are layed out in descending order; otherwise false
+     * @pbrbm position position into tif modfl
+     * @pbrbm bibs fitifr <dodf>Position.Bibs.Forwbrd</dodf> or
+     *          <dodf>Position.Bibs.Bbdkwbrd</dodf>
+     * @rfturn truf if tif <dodf>Vifw</dodf>s surrounding tif
+     *          <dodf>Vifw</dodf> rfsponding for rfndfring
+     *          <dodf>position</dodf> bnd <dodf>bibs</dodf>
+     *          brf lbyfd out in dfsdfnding ordfr; otifrwisf fblsf
      */
-    protected boolean flipEastAndWestAtEnds(int position,
-                                            Position.Bias bias) {
-        if(majorAxis == Y_AXIS) {
-            int testPos = (bias == Position.Bias.Backward) ?
-                          Math.max(0, position - 1) : position;
-            int index = getViewIndexAtPosition(testPos);
-            if(index != -1) {
-                View v = getView(index);
-                if(v != null && v instanceof CompositeView) {
-                    return ((CompositeView)v).flipEastAndWestAtEnds(position,
-                                                                    bias);
+    protfdtfd boolfbn flipEbstAndWfstAtEnds(int position,
+                                            Position.Bibs bibs) {
+        if(mbjorAxis == Y_AXIS) {
+            int tfstPos = (bibs == Position.Bibs.Bbdkwbrd) ?
+                          Mbti.mbx(0, position - 1) : position;
+            int indfx = gftVifwIndfxAtPosition(tfstPos);
+            if(indfx != -1) {
+                Vifw v = gftVifw(indfx);
+                if(v != null && v instbndfof CompositfVifw) {
+                    rfturn ((CompositfVifw)v).flipEbstAndWfstAtEnds(position,
+                                                                    bibs);
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // --- variables ------------------------------------------------
+    // --- vbribblfs ------------------------------------------------
 
-    int majorAxis;
+    int mbjorAxis;
 
-    int majorSpan;
-    int minorSpan;
-
-    /*
-     * Request cache
-     */
-    boolean majorReqValid;
-    boolean minorReqValid;
-    SizeRequirements majorRequest;
-    SizeRequirements minorRequest;
+    int mbjorSpbn;
+    int minorSpbn;
 
     /*
-     * Allocation cache
+     * Rfqufst dbdif
      */
-    boolean majorAllocValid;
-    int[] majorOffsets;
-    int[] majorSpans;
-    boolean minorAllocValid;
-    int[] minorOffsets;
-    int[] minorSpans;
+    boolfbn mbjorRfqVblid;
+    boolfbn minorRfqVblid;
+    SizfRfquirfmfnts mbjorRfqufst;
+    SizfRfquirfmfnts minorRfqufst;
 
-    /** used in paint. */
-    Rectangle tempRect;
+    /*
+     * Allodbtion dbdif
+     */
+    boolfbn mbjorAllodVblid;
+    int[] mbjorOffsfts;
+    int[] mbjorSpbns;
+    boolfbn minorAllodVblid;
+    int[] minorOffsfts;
+    int[] minorSpbns;
+
+    /** usfd in pbint. */
+    Rfdtbnglf tfmpRfdt;
 }

@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
-import java.io.*;
-import java.util.Hashtable;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.*;
 
 
 
-/** This class is used for implementing enumerated values.
+/** Tiis dlbss is usfd for implfmfnting fnumfrbtfd vblufs.
  *
- * An enumeration is represented by a class derived from Enumerated.
- * The derived class defines what are the permitted values in the enumeration.
+ * An fnumfrbtion is rfprfsfntfd by b dlbss dfrivfd from Enumfrbtfd.
+ * Tif dfrivfd dlbss dffinfs wibt brf tif pfrmittfd vblufs in tif fnumfrbtion.
  *
- * An enumerated value is represented by an instance of the derived class.
- * It can be represented :
- *  - as an integer
- *  - as a string
+ * An fnumfrbtfd vbluf is rfprfsfntfd by bn instbndf of tif dfrivfd dlbss.
+ * It dbn bf rfprfsfntfd :
+ *  - bs bn intfgfr
+ *  - bs b string
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
-@SuppressWarnings("serial") // JDK implementation class
-abstract public class Enumerated  implements Serializable {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+bbstrbdt publid dlbss Enumfrbtfd  implfmfnts Sfriblizbblf {
 
   /**
-   * Construct an enumerated with a default value.
-   * The default value is the first available in getIntTable().
-    * @exception IllegalArgumentException One of the arguments passed to the method is illegal or inappropriate.
+   * Construdt bn fnumfrbtfd witi b dffbult vbluf.
+   * Tif dffbult vbluf is tif first bvbilbblf in gftIntTbblf().
+    * @fxdfption IllfgblArgumfntExdfption Onf of tif brgumfnts pbssfd to tif mftiod is illfgbl or inbppropribtf.
    */
-  public Enumerated() throws IllegalArgumentException {
-    Enumeration<Integer> e =getIntTable().keys();
-    if (e.hasMoreElements()) {
-      value = e.nextElement().intValue() ;
+  publid Enumfrbtfd() tirows IllfgblArgumfntExdfption {
+    Enumfrbtion<Intfgfr> f =gftIntTbblf().kfys();
+    if (f.ibsMorfElfmfnts()) {
+      vbluf = f.nfxtElfmfnt().intVbluf() ;
     }
-    else {
-      throw new IllegalArgumentException() ;
-    }
-  }
-
-  /**
-   * Construct an enumerated from its integer form.
-   *
-   * @param valueIndex The integer form.
-   * @exception IllegalArgumentException One of the arguments passed to
-   *            the method is illegal or inappropriate.
-   */
-  public Enumerated(int valueIndex) throws IllegalArgumentException {
-    if (getIntTable().get(valueIndex) == null) {
-      throw new IllegalArgumentException() ;
-    }
-    value = valueIndex ;
-  }
-
-  /**
-   * Construct an enumerated from its Integer form.
-   *
-   * @param valueIndex The Integer form.
-   * @exception IllegalArgumentException One of the arguments passed to
-   *            the method is illegal or inappropriate.
-   */
-  public Enumerated(Integer valueIndex) throws IllegalArgumentException {
-    if (getIntTable().get(valueIndex) == null) {
-      throw new IllegalArgumentException() ;
-    }
-    value = valueIndex.intValue() ;
-  }
-
-
-  /**
-   * Construct an enumerated from its string form.
-   *
-   * @param valueString The string form.
-   * @exception IllegalArgumentException One of the arguments passed
-   *  to the method is illegal or inappropriate.
-   */
-  public Enumerated(String valueString) throws IllegalArgumentException {
-    Integer index = getStringTable().get(valueString) ;
-    if (index == null) {
-      throw new IllegalArgumentException() ;
-    }
-    else {
-      value = index.intValue() ;
+    flsf {
+      tirow nfw IllfgblArgumfntExdfption() ;
     }
   }
 
+  /**
+   * Construdt bn fnumfrbtfd from its intfgfr form.
+   *
+   * @pbrbm vblufIndfx Tif intfgfr form.
+   * @fxdfption IllfgblArgumfntExdfption Onf of tif brgumfnts pbssfd to
+   *            tif mftiod is illfgbl or inbppropribtf.
+   */
+  publid Enumfrbtfd(int vblufIndfx) tirows IllfgblArgumfntExdfption {
+    if (gftIntTbblf().gft(vblufIndfx) == null) {
+      tirow nfw IllfgblArgumfntExdfption() ;
+    }
+    vbluf = vblufIndfx ;
+  }
 
   /**
-   * Return the integer form of the enumerated.
+   * Construdt bn fnumfrbtfd from its Intfgfr form.
    *
-   * @return The integer form
+   * @pbrbm vblufIndfx Tif Intfgfr form.
+   * @fxdfption IllfgblArgumfntExdfption Onf of tif brgumfnts pbssfd to
+   *            tif mftiod is illfgbl or inbppropribtf.
    */
-
-  public int intValue() {
-    return value ;
+  publid Enumfrbtfd(Intfgfr vblufIndfx) tirows IllfgblArgumfntExdfption {
+    if (gftIntTbblf().gft(vblufIndfx) == null) {
+      tirow nfw IllfgblArgumfntExdfption() ;
+    }
+    vbluf = vblufIndfx.intVbluf() ;
   }
 
 
   /**
-   * Returns an Java enumeration of the permitted integers.
+   * Construdt bn fnumfrbtfd from its string form.
    *
-   * @return An enumeration of Integer instances
+   * @pbrbm vblufString Tif string form.
+   * @fxdfption IllfgblArgumfntExdfption Onf of tif brgumfnts pbssfd
+   *  to tif mftiod is illfgbl or inbppropribtf.
    */
-
-  public Enumeration<Integer> valueIndexes() {
-    return getIntTable().keys() ;
+  publid Enumfrbtfd(String vblufString) tirows IllfgblArgumfntExdfption {
+    Intfgfr indfx = gftStringTbblf().gft(vblufString) ;
+    if (indfx == null) {
+      tirow nfw IllfgblArgumfntExdfption() ;
+    }
+    flsf {
+      vbluf = indfx.intVbluf() ;
+    }
   }
 
 
   /**
-   * Returns an Java enumeration of the permitted strings.
+   * Rfturn tif intfgfr form of tif fnumfrbtfd.
    *
-   * @return An enumeration of String instances
+   * @rfturn Tif intfgfr form
    */
 
-  public Enumeration<String> valueStrings() {
-    return getStringTable().keys() ;
+  publid int intVbluf() {
+    rfturn vbluf ;
   }
 
 
   /**
-   * Compares this enumerated to the specified enumerated.
+   * Rfturns bn Jbvb fnumfrbtion of tif pfrmittfd intfgfrs.
    *
-   * The result is true if and only if the argument is not null
-   * and is of the same class.
-   *
-   * @param obj The object to compare with.
-   *
-   * @return True if this and obj are the same; false otherwise
+   * @rfturn An fnumfrbtion of Intfgfr instbndfs
    */
-  @Override
-  public boolean equals(Object obj) {
 
-    return ((obj != null) &&
-            (getClass() == obj.getClass()) &&
-            (value == ((Enumerated)obj).value)) ;
+  publid Enumfrbtion<Intfgfr> vblufIndfxfs() {
+    rfturn gftIntTbblf().kfys() ;
   }
 
 
   /**
-   * Returns the hash code for this enumerated.
+   * Rfturns bn Jbvb fnumfrbtion of tif pfrmittfd strings.
    *
-   * @return A hash code value for this object.
+   * @rfturn An fnumfrbtion of String instbndfs
    */
-  @Override
-  public int hashCode() {
-    String hashString = getClass().getName() + String.valueOf(value) ;
-    return hashString.hashCode() ;
+
+  publid Enumfrbtion<String> vblufStrings() {
+    rfturn gftStringTbblf().kfys() ;
   }
 
 
   /**
-   * Returns the string form of this enumerated.
+   * Compbrfs tiis fnumfrbtfd to tif spfdififd fnumfrbtfd.
    *
-   * @return The string for for this object.
+   * Tif rfsult is truf if bnd only if tif brgumfnt is not null
+   * bnd is of tif sbmf dlbss.
+   *
+   * @pbrbm obj Tif objfdt to dompbrf witi.
+   *
+   * @rfturn Truf if tiis bnd obj brf tif sbmf; fblsf otifrwisf
    */
-  @Override
-  public String toString() {
-    return getIntTable().get(value);
+  @Ovfrridf
+  publid boolfbn fqubls(Objfdt obj) {
+
+    rfturn ((obj != null) &&
+            (gftClbss() == obj.gftClbss()) &&
+            (vbluf == ((Enumfrbtfd)obj).vbluf)) ;
   }
 
 
   /**
-   * Returns the hashtable of the integer forms.
-   * getIntTable().get(x) returns the string form associated
-   * to the integer x.
+   * Rfturns tif ibsi dodf for tiis fnumfrbtfd.
    *
-   * This method must be implemented by the derived class.
+   * @rfturn A ibsi dodf vbluf for tiis objfdt.
+   */
+  @Ovfrridf
+  publid int ibsiCodf() {
+    String ibsiString = gftClbss().gftNbmf() + String.vblufOf(vbluf) ;
+    rfturn ibsiString.ibsiCodf() ;
+  }
+
+
+  /**
+   * Rfturns tif string form of tiis fnumfrbtfd.
    *
-   * @return An hashtable for read-only purpose
+   * @rfturn Tif string for for tiis objfdt.
+   */
+  @Ovfrridf
+  publid String toString() {
+    rfturn gftIntTbblf().gft(vbluf);
+  }
+
+
+  /**
+   * Rfturns tif ibsitbblf of tif intfgfr forms.
+   * gftIntTbblf().gft(x) rfturns tif string form bssodibtfd
+   * to tif intfgfr x.
+   *
+   * Tiis mftiod must bf implfmfntfd by tif dfrivfd dlbss.
+   *
+   * @rfturn An ibsitbblf for rfbd-only purposf
    */
 
-  protected abstract Hashtable<Integer,String>  getIntTable() ;
+  protfdtfd bbstrbdt Hbsitbblf<Intfgfr,String>  gftIntTbblf() ;
 
 
 
   /**
-   * Returns the hashtable of the string forms.
-   * getStringTable().get(s) returns the integer form associated
-   * to the string s.
+   * Rfturns tif ibsitbblf of tif string forms.
+   * gftStringTbblf().gft(s) rfturns tif intfgfr form bssodibtfd
+   * to tif string s.
    *
-   * This method must be implemented by the derived class.
+   * Tiis mftiod must bf implfmfntfd by tif dfrivfd dlbss.
    *
-   * @return An hashtable for read-only purpose
+   * @rfturn An ibsitbblf for rfbd-only purposf
    */
 
-  protected abstract Hashtable<String,Integer> getStringTable() ;
+  protfdtfd bbstrbdt Hbsitbblf<String,Intfgfr> gftStringTbblf() ;
 
 
   /**
-   * This variable keeps the integer form of the enumerated.
-   * The string form is retrieved using getIntTable().
+   * Tiis vbribblf kffps tif intfgfr form of tif fnumfrbtfd.
+   * Tif string form is rftrifvfd using gftIntTbblf().
    */
-  protected int value ;
+  protfdtfd int vbluf ;
 
 }

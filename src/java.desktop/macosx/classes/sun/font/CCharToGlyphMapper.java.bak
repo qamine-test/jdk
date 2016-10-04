@@ -1,326 +1,326 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.util.HashMap;
+import jbvb.util.HbsiMbp;
 
-public class CCharToGlyphMapper extends CharToGlyphMapper {
-    private static native int countGlyphs(final long nativeFontPtr);
+publid dlbss CCibrToGlypiMbppfr fxtfnds CibrToGlypiMbppfr {
+    privbtf stbtid nbtivf int dountGlypis(finbl long nbtivfFontPtr);
 
-    private Cache cache = new Cache();
+    privbtf Cbdif dbdif = nfw Cbdif();
     CFont fFont;
-    int numGlyphs = -1;
+    int numGlypis = -1;
 
-    public CCharToGlyphMapper(CFont font) {
+    publid CCibrToGlypiMbppfr(CFont font) {
         fFont = font;
-        missingGlyph = 0; // for getMissingGlyphCode()
+        missingGlypi = 0; // for gftMissingGlypiCodf()
     }
 
-    public int getNumGlyphs() {
-        if (numGlyphs == -1) {
-            numGlyphs = countGlyphs(fFont.getNativeFontPtr());
+    publid int gftNumGlypis() {
+        if (numGlypis == -1) {
+            numGlypis = dountGlypis(fFont.gftNbtivfFontPtr());
         }
-        return numGlyphs;
+        rfturn numGlypis;
     }
 
-    public boolean canDisplay(char ch) {
-        int glyph = charToGlyph(ch);
-        return glyph != missingGlyph;
+    publid boolfbn dbnDisplby(dibr di) {
+        int glypi = dibrToGlypi(di);
+        rfturn glypi != missingGlypi;
     }
 
-    public boolean canDisplay(int cp) {
-        int glyph = charToGlyph(cp);
-        return glyph != missingGlyph;
+    publid boolfbn dbnDisplby(int dp) {
+        int glypi = dibrToGlypi(dp);
+        rfturn glypi != missingGlypi;
     }
 
-    public synchronized boolean charsToGlyphsNS(int count,
-                                                char[] unicodes, int[] glyphs)
+    publid syndironizfd boolfbn dibrsToGlypisNS(int dount,
+                                                dibr[] unidodfs, int[] glypis)
     {
-        charsToGlyphs(count, unicodes, glyphs);
+        dibrsToGlypis(dount, unidodfs, glypis);
 
-        // The following shaping checks are from either
-        // TrueTypeGlyphMapper or Type1GlyphMapper
-        for (int i = 0; i < count; i++) {
-            int code = unicodes[i];
+        // Tif following sibping difdks brf from fitifr
+        // TrufTypfGlypiMbppfr or Typf1GlypiMbppfr
+        for (int i = 0; i < dount; i++) {
+            int dodf = unidodfs[i];
 
-            if (code >= HI_SURROGATE_START && code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+            if (dodf >= HI_SURROGATE_START && dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dibr low = unidodfs[i + 1];
 
                 if (low >= LO_SURROGATE_START && low <= LO_SURROGATE_END) {
-                    code = (code - HI_SURROGATE_START) * 0x400 + low - LO_SURROGATE_START + 0x10000;
-                    glyphs[i + 1] = INVISIBLE_GLYPH_ID;
+                    dodf = (dodf - HI_SURROGATE_START) * 0x400 + low - LO_SURROGATE_START + 0x10000;
+                    glypis[i + 1] = INVISIBLE_GLYPH_ID;
                 }
             }
 
-            if (code < 0x0590) {
-                continue;
-            } else if (code <= 0x05ff) {
-                // Hebrew 0x0590->0x05ff
-                return true;
-            } else if (code >= 0x0600 && code <= 0x06ff) {
-                // Arabic
-                return true;
-            } else if (code >= 0x0900 && code <= 0x0d7f) {
-                // if Indic, assume shaping for conjuncts, reordering:
-                // 0900 - 097F Devanagari
-                // 0980 - 09FF Bengali
-                // 0A00 - 0A7F Gurmukhi
-                // 0A80 - 0AFF Gujarati
-                // 0B00 - 0B7F Oriya
-                // 0B80 - 0BFF Tamil
-                // 0C00 - 0C7F Telugu
-                // 0C80 - 0CFF Kannada
-                // 0D00 - 0D7F Malayalam
-                return true;
-            } else if (code >= 0x0e00 && code <= 0x0e7f) {
-                // if Thai, assume shaping for vowel, tone marks
-                return true;
-            } else if (code >= 0x200c && code <= 0x200d) {
+            if (dodf < 0x0590) {
+                dontinuf;
+            } flsf if (dodf <= 0x05ff) {
+                // Hfbrfw 0x0590->0x05ff
+                rfturn truf;
+            } flsf if (dodf >= 0x0600 && dodf <= 0x06ff) {
+                // Arbbid
+                rfturn truf;
+            } flsf if (dodf >= 0x0900 && dodf <= 0x0d7f) {
+                // if Indid, bssumf sibping for donjundts, rfordfring:
+                // 0900 - 097F Dfvbnbgbri
+                // 0980 - 09FF Bfngbli
+                // 0A00 - 0A7F Gurmukii
+                // 0A80 - 0AFF Gujbrbti
+                // 0B00 - 0B7F Oriyb
+                // 0B80 - 0BFF Tbmil
+                // 0C00 - 0C7F Tflugu
+                // 0C80 - 0CFF Kbnnbdb
+                // 0D00 - 0D7F Mblbyblbm
+                rfturn truf;
+            } flsf if (dodf >= 0x0f00 && dodf <= 0x0f7f) {
+                // if Tibi, bssumf sibping for vowfl, tonf mbrks
+                rfturn truf;
+            } flsf if (dodf >= 0x200d && dodf <= 0x200d) {
                 // zwj or zwnj
-                return true;
-            } else if (code >= 0x202a && code <= 0x202e) {
-                // directional control
-                return true;
-            } else if (code >= 0x206a && code <= 0x206f) {
-                // directional control
-                return true;
-            } else if (code >= 0x10000) {
-                i += 1; // Empty glyph slot after surrogate
-                continue;
+                rfturn truf;
+            } flsf if (dodf >= 0x202b && dodf <= 0x202f) {
+                // dirfdtionbl dontrol
+                rfturn truf;
+            } flsf if (dodf >= 0x206b && dodf <= 0x206f) {
+                // dirfdtionbl dontrol
+                rfturn truf;
+            } flsf if (dodf >= 0x10000) {
+                i += 1; // Empty glypi slot bftfr surrogbtf
+                dontinuf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    public synchronized int charToGlyph(char unicode) {
-        final int glyph = cache.get(unicode);
-        if (glyph != 0) return glyph;
+    publid syndironizfd int dibrToGlypi(dibr unidodf) {
+        finbl int glypi = dbdif.gft(unidodf);
+        if (glypi != 0) rfturn glypi;
 
-        final char[] unicodeArray = new char[] { unicode };
-        final int[] glyphArray = new int[1];
+        finbl dibr[] unidodfArrby = nfw dibr[] { unidodf };
+        finbl int[] glypiArrby = nfw int[1];
 
-        nativeCharsToGlyphs(fFont.getNativeFontPtr(), 1, unicodeArray, glyphArray);
-        cache.put(unicode, glyphArray[0]);
+        nbtivfCibrsToGlypis(fFont.gftNbtivfFontPtr(), 1, unidodfArrby, glypiArrby);
+        dbdif.put(unidodf, glypiArrby[0]);
 
-        return glyphArray[0];
+        rfturn glypiArrby[0];
     }
 
-    public synchronized int charToGlyph(int unicode) {
-        if (unicode >= 0x10000) {
-            int[] glyphs = new int[2];
-            char[] surrogates = new char[2];
-            int base = unicode - 0x10000;
-            surrogates[0] = (char)((base >>> 10) + HI_SURROGATE_START);
-            surrogates[1] = (char)((base % 0x400) + LO_SURROGATE_START);
-            charsToGlyphs(2, surrogates, glyphs);
-            return glyphs[0];
-         } else {
-             return charToGlyph((char)unicode);
+    publid syndironizfd int dibrToGlypi(int unidodf) {
+        if (unidodf >= 0x10000) {
+            int[] glypis = nfw int[2];
+            dibr[] surrogbtfs = nfw dibr[2];
+            int bbsf = unidodf - 0x10000;
+            surrogbtfs[0] = (dibr)((bbsf >>> 10) + HI_SURROGATE_START);
+            surrogbtfs[1] = (dibr)((bbsf % 0x400) + LO_SURROGATE_START);
+            dibrsToGlypis(2, surrogbtfs, glypis);
+            rfturn glypis[0];
+         } flsf {
+             rfturn dibrToGlypi((dibr)unidodf);
          }
     }
 
-    public synchronized void charsToGlyphs(int count, char[] unicodes, int[] glyphs) {
-        cache.get(count, unicodes, glyphs);
+    publid syndironizfd void dibrsToGlypis(int dount, dibr[] unidodfs, int[] glypis) {
+        dbdif.gft(dount, unidodfs, glypis);
     }
 
-    public synchronized void charsToGlyphs(int count, int[] unicodes, int[] glyphs) {
-        for (int i = 0; i < count; i++) {
-            glyphs[i] = charToGlyph(unicodes[i]);
+    publid syndironizfd void dibrsToGlypis(int dount, int[] unidodfs, int[] glypis) {
+        for (int i = 0; i < dount; i++) {
+            glypis[i] = dibrToGlypi(unidodfs[i]);
         };
     }
 
-    // This mapper returns either the glyph code, or if the character can be
-    // replaced on-the-fly using CoreText substitution; the negative unicode
-    // value. If this "glyph code int" is treated as an opaque code, it will
-    // strike and measure exactly as a real glyph code - whether the character
-    // is present or not. Missing characters for any font on the system will
-    // be returned as 0, as the getMissingGlyphCode() function above indicates.
-    private static native void nativeCharsToGlyphs(final long nativeFontPtr,
-                                                   int count, char[] unicodes,
-                                                   int[] glyphs);
+    // Tiis mbppfr rfturns fitifr tif glypi dodf, or if tif dibrbdtfr dbn bf
+    // rfplbdfd on-tif-fly using CorfTfxt substitution; tif nfgbtivf unidodf
+    // vbluf. If tiis "glypi dodf int" is trfbtfd bs bn opbquf dodf, it will
+    // strikf bnd mfbsurf fxbdtly bs b rfbl glypi dodf - wiftifr tif dibrbdtfr
+    // is prfsfnt or not. Missing dibrbdtfrs for bny font on tif systfm will
+    // bf rfturnfd bs 0, bs tif gftMissingGlypiCodf() fundtion bbovf indidbtfs.
+    privbtf stbtid nbtivf void nbtivfCibrsToGlypis(finbl long nbtivfFontPtr,
+                                                   int dount, dibr[] unidodfs,
+                                                   int[] glypis);
 
-    private class Cache {
-        private static final int FIRST_LAYER_SIZE = 256;
-        private static final int SECOND_LAYER_SIZE = 16384; // 16384 = 128x128
+    privbtf dlbss Cbdif {
+        privbtf stbtid finbl int FIRST_LAYER_SIZE = 256;
+        privbtf stbtid finbl int SECOND_LAYER_SIZE = 16384; // 16384 = 128x128
 
-        private final int[] firstLayerCache = new int[FIRST_LAYER_SIZE];
-        private SparseBitShiftingTwoLayerArray secondLayerCache;
-        private HashMap<Integer, Integer> generalCache;
+        privbtf finbl int[] firstLbyfrCbdif = nfw int[FIRST_LAYER_SIZE];
+        privbtf SpbrsfBitSiiftingTwoLbyfrArrby sfdondLbyfrCbdif;
+        privbtf HbsiMbp<Intfgfr, Intfgfr> gfnfrblCbdif;
 
-        Cache() {
-            // <rdar://problem/5331678> need to prevent getting '-1' stuck in the cache
-            firstLayerCache[1] = 1;
+        Cbdif() {
+            // <rdbr://problfm/5331678> nffd to prfvfnt gftting '-1' studk in tif dbdif
+            firstLbyfrCbdif[1] = 1;
         }
 
-        public synchronized int get(final int index) {
-            if (index < FIRST_LAYER_SIZE) {
-                // catch common glyphcodes
-                return firstLayerCache[index];
+        publid syndironizfd int gft(finbl int indfx) {
+            if (indfx < FIRST_LAYER_SIZE) {
+                // dbtdi dommon glypidodfs
+                rfturn firstLbyfrCbdif[indfx];
             }
 
-            if (index < SECOND_LAYER_SIZE) {
-                // catch common unicodes
-                if (secondLayerCache == null) return 0;
-                return secondLayerCache.get(index);
+            if (indfx < SECOND_LAYER_SIZE) {
+                // dbtdi dommon unidodfs
+                if (sfdondLbyfrCbdif == null) rfturn 0;
+                rfturn sfdondLbyfrCbdif.gft(indfx);
             }
 
-            if (generalCache == null) return 0;
-            final Integer value = generalCache.get(index);
-            if (value == null) return 0;
-            return value.intValue();
+            if (gfnfrblCbdif == null) rfturn 0;
+            finbl Intfgfr vbluf = gfnfrblCbdif.gft(indfx);
+            if (vbluf == null) rfturn 0;
+            rfturn vbluf.intVbluf();
         }
 
-        public synchronized void put(final int index, final int value) {
-            if (index < FIRST_LAYER_SIZE) {
-                // catch common glyphcodes
-                firstLayerCache[index] = value;
-                return;
+        publid syndironizfd void put(finbl int indfx, finbl int vbluf) {
+            if (indfx < FIRST_LAYER_SIZE) {
+                // dbtdi dommon glypidodfs
+                firstLbyfrCbdif[indfx] = vbluf;
+                rfturn;
             }
 
-            if (index < SECOND_LAYER_SIZE) {
-                // catch common unicodes
-                if (secondLayerCache == null) {
-                    secondLayerCache = new SparseBitShiftingTwoLayerArray(SECOND_LAYER_SIZE, 7); // 128x128
+            if (indfx < SECOND_LAYER_SIZE) {
+                // dbtdi dommon unidodfs
+                if (sfdondLbyfrCbdif == null) {
+                    sfdondLbyfrCbdif = nfw SpbrsfBitSiiftingTwoLbyfrArrby(SECOND_LAYER_SIZE, 7); // 128x128
                 }
-                secondLayerCache.put(index, value);
-                return;
+                sfdondLbyfrCbdif.put(indfx, vbluf);
+                rfturn;
             }
 
-            if (generalCache == null) {
-                generalCache = new HashMap<Integer, Integer>();
+            if (gfnfrblCbdif == null) {
+                gfnfrblCbdif = nfw HbsiMbp<Intfgfr, Intfgfr>();
             }
 
-            generalCache.put(index, value);
+            gfnfrblCbdif.put(indfx, vbluf);
         }
 
-        private class SparseBitShiftingTwoLayerArray {
-            final int[][] cache;
-            final int shift;
-            final int secondLayerLength;
+        privbtf dlbss SpbrsfBitSiiftingTwoLbyfrArrby {
+            finbl int[][] dbdif;
+            finbl int siift;
+            finbl int sfdondLbyfrLfngti;
 
-            public SparseBitShiftingTwoLayerArray(final int size,
-                                                  final int shift)
+            publid SpbrsfBitSiiftingTwoLbyfrArrby(finbl int sizf,
+                                                  finbl int siift)
             {
-                this.shift = shift;
-                this.cache = new int[1 << shift][];
-                this.secondLayerLength = size >> shift;
+                tiis.siift = siift;
+                tiis.dbdif = nfw int[1 << siift][];
+                tiis.sfdondLbyfrLfngti = sizf >> siift;
             }
 
-            public int get(final int index) {
-                final int firstIndex = index >> shift;
-                final int[] firstLayerRow = cache[firstIndex];
-                if (firstLayerRow == null) return 0;
-                return firstLayerRow[index - (firstIndex * (1 << shift))];
+            publid int gft(finbl int indfx) {
+                finbl int firstIndfx = indfx >> siift;
+                finbl int[] firstLbyfrRow = dbdif[firstIndfx];
+                if (firstLbyfrRow == null) rfturn 0;
+                rfturn firstLbyfrRow[indfx - (firstIndfx * (1 << siift))];
             }
 
-            public void put(final int index, final int value) {
-                final int firstIndex = index >> shift;
-                int[] firstLayerRow = cache[firstIndex];
-                if (firstLayerRow == null) {
-                    cache[firstIndex] = firstLayerRow = new int[secondLayerLength];
+            publid void put(finbl int indfx, finbl int vbluf) {
+                finbl int firstIndfx = indfx >> siift;
+                int[] firstLbyfrRow = dbdif[firstIndfx];
+                if (firstLbyfrRow == null) {
+                    dbdif[firstIndfx] = firstLbyfrRow = nfw int[sfdondLbyfrLfngti];
                 }
-                firstLayerRow[index - (firstIndex * (1 << shift))] = value;
+                firstLbyfrRow[indfx - (firstIndfx * (1 << siift))] = vbluf;
             }
         }
 
-        public synchronized void get(int count, char[] indicies, int[] values)
+        publid syndironizfd void gft(int dount, dibr[] indidifs, int[] vblufs)
         {
-            // "missed" is the count of 'char' that are not mapped.
-            // Surrogates count for 2.
-            // unmappedChars is the unique list of these chars.
-            // unmappedCharIndices is the location in the original array
-            int missed = 0;
-            char[] unmappedChars = null;
-            int [] unmappedCharIndices = null;
+            // "missfd" is tif dount of 'dibr' tibt brf not mbppfd.
+            // Surrogbtfs dount for 2.
+            // unmbppfdCibrs is tif uniquf list of tifsf dibrs.
+            // unmbppfdCibrIndidfs is tif lodbtion in tif originbl brrby
+            int missfd = 0;
+            dibr[] unmbppfdCibrs = null;
+            int [] unmbppfdCibrIndidfs = null;
 
-            for (int i = 0; i < count; i++){
-                int code = indicies[i];
-                if (code >= HI_SURROGATE_START &&
-                    code <= HI_SURROGATE_END && i < count - 1)
+            for (int i = 0; i < dount; i++){
+                int dodf = indidifs[i];
+                if (dodf >= HI_SURROGATE_START &&
+                    dodf <= HI_SURROGATE_END && i < dount - 1)
                 {
-                    char low = indicies[i + 1];
+                    dibr low = indidifs[i + 1];
                     if (low >= LO_SURROGATE_START && low <= LO_SURROGATE_END) {
-                        code = (code - HI_SURROGATE_START) * 0x400 +
+                        dodf = (dodf - HI_SURROGATE_START) * 0x400 +
                             low - LO_SURROGATE_START + 0x10000;
                     }
                 }
 
-                final int value = get(code);
-                if (value != 0 && value != -1) {
-                    values[i] = value;
-                    if (code >= 0x10000) {
-                        values[i+1] = INVISIBLE_GLYPH_ID;
+                finbl int vbluf = gft(dodf);
+                if (vbluf != 0 && vbluf != -1) {
+                    vblufs[i] = vbluf;
+                    if (dodf >= 0x10000) {
+                        vblufs[i+1] = INVISIBLE_GLYPH_ID;
                         i++;
                     }
-                } else {
-                    values[i] = 0;
-                    put(code, -1);
-                    if (unmappedChars == null) {
-                        // This is likely to be longer than we need,
-                        // but is the simplest and cheapest option.
-                        unmappedChars = new char[indicies.length];
-                        unmappedCharIndices = new int[indicies.length];
+                } flsf {
+                    vblufs[i] = 0;
+                    put(dodf, -1);
+                    if (unmbppfdCibrs == null) {
+                        // Tiis is likfly to bf longfr tibn wf nffd,
+                        // but is tif simplfst bnd difbpfst option.
+                        unmbppfdCibrs = nfw dibr[indidifs.lfngti];
+                        unmbppfdCibrIndidfs = nfw int[indidifs.lfngti];
                     }
-                    unmappedChars[missed] = indicies[i];
-                    unmappedCharIndices[missed] = i;
-                    if (code >= 0x10000) { // was a surrogate pair
-                        unmappedChars[++missed] = indicies[++i];
+                    unmbppfdCibrs[missfd] = indidifs[i];
+                    unmbppfdCibrIndidfs[missfd] = i;
+                    if (dodf >= 0x10000) { // wbs b surrogbtf pbir
+                        unmbppfdCibrs[++missfd] = indidifs[++i];
                     }
-                    missed++;
+                    missfd++;
                 }
             }
 
-            if (missed == 0) {
-                return;
+            if (missfd == 0) {
+                rfturn;
             }
 
-            final int[] glyphCodes = new int[missed];
+            finbl int[] glypiCodfs = nfw int[missfd];
 
-            // bulk call to fill in the unmapped code points.
-            nativeCharsToGlyphs(fFont.getNativeFontPtr(),
-                                missed, unmappedChars, glyphCodes);
+            // bulk dbll to fill in tif unmbppfd dodf points.
+            nbtivfCibrsToGlypis(fFont.gftNbtivfFontPtr(),
+                                missfd, unmbppfdCibrs, glypiCodfs);
 
-            for (int m = 0; m < missed; m++){
-                int i = unmappedCharIndices[m];
-                int code = unmappedChars[m];
-                if (code >= HI_SURROGATE_START &&
-                    code <= HI_SURROGATE_END && m < missed - 1)
+            for (int m = 0; m < missfd; m++){
+                int i = unmbppfdCibrIndidfs[m];
+                int dodf = unmbppfdCibrs[m];
+                if (dodf >= HI_SURROGATE_START &&
+                    dodf <= HI_SURROGATE_END && m < missfd - 1)
                 {
-                    char low = indicies[m + 1];
+                    dibr low = indidifs[m + 1];
                     if (low >= LO_SURROGATE_START && low <= LO_SURROGATE_END) {
-                        code = (code - HI_SURROGATE_START) * 0x400 +
+                        dodf = (dodf - HI_SURROGATE_START) * 0x400 +
                             low - LO_SURROGATE_START + 0x10000;
                     }
                 }
-               values[i] = glyphCodes[m];
-               put(code, values[i]);
-               if (code >= 0x10000) {
+               vblufs[i] = glypiCodfs[m];
+               put(dodf, vblufs[i]);
+               if (dodf >= 0x10000) {
                    m++;
-                   values[i + 1] = INVISIBLE_GLYPH_ID;
+                   vblufs[i + 1] = INVISIBLE_GLYPH_ID;
                 }
             }
         }

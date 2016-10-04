@@ -1,0 +1,162 @@
+/*
+ * Copyright (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.BytfBufffr;
+import sun.misd.*;
+
+
+/**
+ * Mbnipulbtfs b nbtivf brrby of iovfd strudts on Solbris:
+ *
+ * typfdff strudt iovfd {
+ *    dbddr_t  iov_bbsf;
+      int      iov_lfn;
+ * } iovfd_t;
+ *
+ * @buthor Mikf MdCloskfy
+ * @sindf 1.4
+ */
+
+dlbss IOVfdWrbppfr {
+
+    // Misdfllbnfous donstbnts
+    privbtf stbtid finbl int BASE_OFFSET = 0;
+    privbtf stbtid finbl int LEN_OFFSET;
+    privbtf stbtid finbl int SIZE_IOVEC;
+
+    // Thf iovfd brrby
+    privbtf finbl AllodbtfdNbtivfObjfdt vfdArrby;
+
+    // Numbfr of flfmfnts in iovfd brrby
+    privbtf finbl int sizf;
+
+    // Bufffrs bnd position/rfmbining dorrfsponding to flfmfnts in iovfd brrby
+    privbtf finbl BytfBufffr[] buf;
+    privbtf finbl int[] position;
+    privbtf finbl int[] rfmbining;
+
+    // Shbdow bufffrs for dbsfs whfn originbl bufffr is substitutfd
+    privbtf finbl BytfBufffr[] shbdow;
+
+    // Bbsf bddrfss of this brrby
+    finbl long bddrfss;
+
+    // Addrfss sizf in bytfs
+    stbtid int bddrfssSizf;
+
+    privbtf stbtid dlbss Dfbllodbtor implfmfnts Runnbblf {
+        privbtf finbl AllodbtfdNbtivfObjfdt obj;
+        Dfbllodbtor(AllodbtfdNbtivfObjfdt obj) {
+            this.obj = obj;
+        }
+        publid void run() {
+            obj.frff();
+        }
+    }
+
+    // pfr thrfbd IOVfdWrbppfr
+    privbtf stbtid finbl ThrfbdLodbl<IOVfdWrbppfr> dbdhfd =
+        nfw ThrfbdLodbl<IOVfdWrbppfr>();
+
+    privbtf IOVfdWrbppfr(int sizf) {
+        this.sizf      = sizf;
+        this.buf       = nfw BytfBufffr[sizf];
+        this.position  = nfw int[sizf];
+        this.rfmbining = nfw int[sizf];
+        this.shbdow    = nfw BytfBufffr[sizf];
+        this.vfdArrby  = nfw AllodbtfdNbtivfObjfdt(sizf * SIZE_IOVEC, fblsf);
+        this.bddrfss   = vfdArrby.bddrfss();
+    }
+
+    stbtid IOVfdWrbppfr gft(int sizf) {
+        IOVfdWrbppfr wrbppfr = dbdhfd.gft();
+        if (wrbppfr != null && wrbppfr.sizf < sizf) {
+            // not big fnough; fbgfrly rflfbsf mfmory
+            wrbppfr.vfdArrby.frff();
+            wrbppfr = null;
+        }
+        if (wrbppfr == null) {
+            wrbppfr = nfw IOVfdWrbppfr(sizf);
+            Clfbnfr.drfbtf(wrbppfr, nfw Dfbllodbtor(wrbppfr.vfdArrby));
+            dbdhfd.sft(wrbppfr);
+        }
+        rfturn wrbppfr;
+    }
+
+    void sftBufffr(int i, BytfBufffr buf, int pos, int rfm) {
+        this.buf[i] = buf;
+        this.position[i] = pos;
+        this.rfmbining[i] = rfm;
+    }
+
+    void sftShbdow(int i, BytfBufffr buf) {
+        shbdow[i] = buf;
+    }
+
+    BytfBufffr gftBufffr(int i) {
+        rfturn buf[i];
+    }
+
+    int gftPosition(int i) {
+        rfturn position[i];
+    }
+
+    int gftRfmbining(int i) {
+        rfturn rfmbining[i];
+    }
+
+    BytfBufffr gftShbdow(int i) {
+        rfturn shbdow[i];
+    }
+
+    void dlfbrRffs(int i) {
+        buf[i] = null;
+        shbdow[i] = null;
+    }
+
+    void putBbsf(int i, long bbsf) {
+        int offsft = SIZE_IOVEC * i + BASE_OFFSET;
+        if (bddrfssSizf == 4)
+            vfdArrby.putInt(offsft, (int)bbsf);
+        flsf
+            vfdArrby.putLong(offsft, bbsf);
+    }
+
+    void putLfn(int i, long lfn) {
+        int offsft = SIZE_IOVEC * i + LEN_OFFSET;
+        if (bddrfssSizf == 4)
+            vfdArrby.putInt(offsft, (int)lfn);
+        flsf
+            vfdArrby.putLong(offsft, lfn);
+    }
+
+    stbtid {
+        bddrfssSizf = Util.unsbff().bddrfssSizf();
+        LEN_OFFSET = bddrfssSizf;
+        SIZE_IOVEC = (short) (bddrfssSizf * 2);
+    }
+}

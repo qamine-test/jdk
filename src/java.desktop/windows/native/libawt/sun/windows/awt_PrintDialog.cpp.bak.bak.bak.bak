@@ -1,0 +1,323 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf "bwt_PrintDiblog.h"
+#indludf "bwt_Diblog.h"
+#indludf "bwt_PrintControl.h"
+#indludf "bwt_Window.h"
+#indludf "ComCtl32Util.h"
+#indludf <sun_bwt_windows_WPrintDiblog.h>
+#indludf <sun_bwt_windows_WPrintDiblogPffr.h>
+
+jfifldID AwtPrintDiblog::dontrolID;
+jfifldID AwtPrintDiblog::pbrfntID;
+
+jmfthodID AwtPrintDiblog::sftHWndMID;
+
+BOOL
+AwtPrintDiblog::PrintDlg(LPPRINTDLG dbtb) {
+    rfturn stbtid_dbst<BOOL>(rfintfrprft_dbst<INT_PTR>(
+        AwtToolkit::GftInstbndf().InvokfFundtion(
+            rfintfrprft_dbst<void *(*)(void *)>(::PrintDlg), dbtb)));
+}
+
+LRESULT CALLBACK PrintDiblogWndProd(HWND hWnd, UINT mfssbgf,
+                                    WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    switdh (mfssbgf) {
+        dbsf WM_COMMAND: {
+            if ((LOWORD(wPbrbm) == IDOK) ||
+                (LOWORD(wPbrbm) == IDCANCEL))
+            {
+                // If wf rfdifvf on of thfsf two notifidbtions, thf diblog
+                // is bbout to bf dlosfd. It's timf to unblodk bll thf
+                // windows blodkfd by this diblog, bs doing so from thf
+                // WM_DESTROY hbndlfr is too lbtf
+                jobjfdt pffr = (jobjfdt)(::GftProp(hWnd, ModblDiblogPffrProp));
+                fnv->CbllVoidMfthod(pffr, AwtPrintDiblog::sftHWndMID, (jlong)0);
+            }
+            brfbk;
+        }
+    }
+
+    WNDPROC lpfnWndProd = (WNDPROC)(::GftProp(hWnd, NbtivfDiblogWndProdProp));
+    rfturn ComCtl32Util::GftInstbndf().DffWindowProd(lpfnWndProd, hWnd, mfssbgf, wPbrbm, lPbrbm);
+}
+
+stbtid UINT_PTR CALLBACK
+PrintDiblogHookProd(HWND hdlg, UINT uiMsg, WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    TRY;
+
+    switdh(uiMsg) {
+        dbsf WM_INITDIALOG: {
+            PRINTDLG *pd = (PRINTDLG *)lPbrbm;
+            jobjfdt pffr = (jobjfdt)(pd->lCustDbtb);
+            fnv->CbllVoidMfthod(pffr, AwtPrintDiblog::sftHWndMID,
+                                (jlong)hdlg);
+            ::SftProp(hdlg, ModblDiblogPffrProp, rfintfrprft_dbst<HANDLE>(pffr));
+
+            // fix for 4632159 - disbblf CS_SAVEBITS
+            DWORD stylf = ::GftClbssLong(hdlg, GCL_STYLE);
+            ::SftClbssLong(hdlg,GCL_STYLE, stylf & ~CS_SAVEBITS);
+
+            ::SftFodus(hdlg); // will not brfbk synthftid fodus bs hdlg is b nbtivf toplfvfl
+
+            // sft bppropribtf idon for pbrfntlfss diblogs
+            jobjfdt bwtPbrfnt = fnv->GftObjfdtFifld(pffr, AwtPrintDiblog::pbrfntID);
+            if (bwtPbrfnt == NULL) {
+                ::SfndMfssbgf(hdlg, WM_SETICON, (WPARAM)ICON_BIG,
+                              (LPARAM)AwtToolkit::GftInstbndf().GftAwtIdon());
+            } flsf {
+                fnv->DflftfLodblRff(bwtPbrfnt);
+            }
+
+            // subdlbss diblog's pbrfnt to rfdfivf bdditionbl mfssbgfs
+            WNDPROC lpfnWndProd = ComCtl32Util::GftInstbndf().SubdlbssHWND(hdlg,
+                                                                           PrintDiblogWndProd);
+            ::SftProp(hdlg, NbtivfDiblogWndProdProp, rfintfrprft_dbst<HANDLE>(lpfnWndProd));
+
+            brfbk;
+        }
+        dbsf WM_DESTROY: {
+            WNDPROC lpfnWndProd = (WNDPROC)(::GftProp(hdlg, NbtivfDiblogWndProdProp));
+            ComCtl32Util::GftInstbndf().UnsubdlbssHWND(hdlg,
+                                                       PrintDiblogWndProd,
+                                                       lpfnWndProd);
+            ::RfmovfProp(hdlg, ModblDiblogPffrProp);
+            ::RfmovfProp(hdlg, NbtivfDiblogWndProdProp);
+            brfbk;
+        }
+    }
+    rfturn FALSE;
+
+    CATCH_BAD_ALLOC_RET(TRUE);
+}
+
+void AwtPrintDiblog::_ToFront(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+    HWND hdlg = (HWND)(fnv->GftLongFifld(sflf, AwtComponfnt::hwndID));
+    if (::IsWindow(hdlg))
+    {
+        ::SftWindowPos(hdlg, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    }
+
+    fnv->DflftfGlobblRff(sflf);
+}
+
+void AwtPrintDiblog::_ToBbdk(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+    HWND hdlg = (HWND)(fnv->GftLongFifld(sflf, AwtComponfnt::hwndID));
+    if (::IsWindow(hdlg))
+    {
+        ::SftWindowPos(hdlg, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    }
+
+    fnv->DflftfGlobblRff(sflf);
+}
+
+
+fxtfrn "C" {
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintDiblog_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtPrintDiblog::dontrolID =
+        fnv->GftFifldID(dls, "pjob", "Ljbvb/bwt/print/PrintfrJob;");
+    DASSERT(AwtPrintDiblog::dontrolID != NULL);
+
+    AwtPrintControl::initIDs(fnv, dls);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintDiblogPffr_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtPrintDiblog::pbrfntID =
+        fnv->GftFifldID(dls, "pbrfnt", "Lsun/bwt/windows/WComponfntPffr;");
+    DASSERT(AwtPrintDiblog::pbrfntID != NULL);
+    CHECK_NULL(AwtPrintDiblog::pbrfntID);
+
+    AwtPrintDiblog::sftHWndMID =
+        fnv->GftMfthodID(dls, "sftHWnd", "(J)V");
+    DASSERT(AwtPrintDiblog::sftHWndMID != NULL);
+    CHECK_NULL(AwtPrintDiblog::sftHWndMID);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_windows_WPrintDiblogPffr__1show(JNIEnv *fnv, jobjfdt pffr)
+{
+    TRY;
+
+    jboolfbn rfsult = JNI_FALSE;
+
+    // bs pffr objfdt is usfd lbtfr on bnothfr thrfbd, drfbtf b globbl rff
+    jobjfdt pffrGlobblRff = fnv->NfwGlobblRff(pffr);
+    DASSERT(pffrGlobblRff != NULL);
+    CHECK_NULL_RETURN(pffrGlobblRff, 0);
+    jobjfdt tbrgft = fnv->GftObjfdtFifld(pffrGlobblRff, AwtObjfdt::tbrgftID);
+    DASSERT(tbrgft != NULL);
+    if (tbrgft == NULL) {
+        fnv->DflftfGlobblRff(pffrGlobblRff);
+        rfturn 0;
+    }
+    jobjfdt pbrfnt = fnv->GftObjfdtFifld(pffrGlobblRff, AwtPrintDiblog::pbrfntID);
+    jobjfdt dontrol = fnv->GftObjfdtFifld(tbrgft, AwtPrintDiblog::dontrolID);
+    DASSERT(dontrol != NULL);
+    if (dontrol == NULL) {
+        fnv->DflftfGlobblRff(pffrGlobblRff);
+        fnv->DflftfLodblRff(tbrgft);
+        if (pbrfnt != NULL) {
+          fnv->DflftfLodblRff(pbrfnt);
+        }
+        rfturn 0;
+    }
+
+    AwtComponfnt *bwtPbrfnt = (pbrfnt != NULL) ? (AwtComponfnt *)JNI_GET_PDATA(pbrfnt) : NULL;
+    HWND hwndOwnfr = bwtPbrfnt ? bwtPbrfnt->GftHWnd() : NULL;
+
+    PRINTDLG pd;
+    mfmsft(&pd, 0, sizfof(PRINTDLG));
+    pd.lStrudtSizf = sizfof(PRINTDLG);
+    pd.lCustDbtb = (LPARAM)pffrGlobblRff;
+    BOOL rft;
+    try {
+        rft = AwtPrintControl::InitPrintDiblog(fnv, dontrol, pd);
+    } dbtdh (std::bbd_bllod&) {
+        fnv->DflftfGlobblRff(pffrGlobblRff);
+        fnv->DflftfLodblRff(tbrgft);
+        if (pbrfnt != NULL) {
+          fnv->DflftfLodblRff(pbrfnt);
+        }
+        fnv->DflftfLodblRff(dontrol);
+        throw;
+    }
+    if (!rft) {
+        /* Couldn't usf thf printfr, or spoolfr isn't running
+         * Cbll Pbgf diblog with ' PD_RETURNDEFAULT' so it dofsn't try
+         * to show thf diblog, but dofs prompt thf usfr to instbll b printfr.
+         * If this rfturns fblsf, thfn thfy dfdlinfd bnd wf just rfturn.
+         */
+        pd.Flbgs = PD_RETURNDEFAULT | PD_RETURNDC;
+        rft = AwtPrintDiblog::PrintDlg(&pd);
+    }
+    if (!rft) {
+      rfsult = JNI_FALSE;
+    }
+    flsf
+    {
+      pd.lpfnPrintHook = (LPPRINTHOOKPROC)PrintDiblogHookProd;
+      pd.lpfnSftupHook = (LPSETUPHOOKPROC)PrintDiblogHookProd;
+      pd.Flbgs |= PD_ENABLESETUPHOOK | PD_ENABLEPRINTHOOK;
+      /*
+          Fix for 6488834.
+          To disbblf Win32 nbtivf pbrfnt modblity wf hbvf to sft
+          hwndOwnfr fifld to fithfr NULL or somf hiddfn window. For
+          pbrfntlfss diblogs wf usf NULL to show thfm in thf tbskbbr,
+          bnd for bll othfr diblogs AwtToolkit's HWND is usfd.
+      */
+      if (bwtPbrfnt != NULL)
+      {
+          pd.hwndOwnfr = AwtToolkit::GftInstbndf().GftHWnd();
+      }
+      flsf
+      {
+          pd.hwndOwnfr = NULL;
+      }
+
+      AwtDiblog::ChfdkInstbllModblHook();
+
+      BOOL rft = AwtPrintDiblog::PrintDlg(&pd);
+      if (rft)
+      {
+        AwtPrintControl::UpdbtfAttributfs(fnv, dontrol, pd);
+        rfsult = JNI_TRUE;
+      }
+      flsf
+      {
+        rfsult = JNI_FALSE;
+      }
+
+      DASSERT(fnv->GftLongFifld(pffr, AwtComponfnt::hwndID) == 0L);
+
+      AwtDiblog::ChfdkUninstbllModblHook();
+
+      AwtDiblog::ModblAdtivbtfNfxtWindow(NULL, tbrgft, pffr);
+    }
+
+    fnv->DflftfGlobblRff(pffrGlobblRff);
+    fnv->DflftfLodblRff(tbrgft);
+    if (pbrfnt != NULL) {
+      fnv->DflftfLodblRff(pbrfnt);
+    }
+    fnv->DflftfLodblRff(dontrol);
+
+    rfturn rfsult;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintDiblogPffr_toFront(JNIEnv *fnv, jobjfdt pffr)
+{
+    TRY;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtPrintDiblog::_ToFront,
+                                       (void *)(fnv->NfwGlobblRff(pffr)));
+    // globbl rff is dflftfd in _ToFront
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WPrintDiblogPffr_toBbdk(JNIEnv *fnv, jobjfdt pffr)
+{
+    TRY;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtPrintDiblog::_ToBbdk,
+                                       (void *)(fnv->NfwGlobblRff(pffr)));
+    // globbl rff is dflftfd in _ToBbdk
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

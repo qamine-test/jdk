@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.*;
+
+import sun.lwbwt.*;
+
+publid dlbss CPrintfrDiblogPffr fxtfnds LWWindowPffr {
+    stbtid {
+        // AWT hbs to bf initiblizfd for thf nbtivf dodf to fundtion dorrfdtly.
+        Toolkit.gftDffbultToolkit();
+    }
+
+    Componfnt fTbrgft;
+
+    publid CPrintfrDiblogPffr(CPrintfrDiblog tbrgft, PlbtformComponfnt plbtformComponfnt,
+                              PlbtformWindow plbtformWindow)
+    {
+        supfr(tbrgft, plbtformComponfnt, plbtformWindow, LWWindowPffr.PffrTypf.DIALOG);
+        //supfr(tbrgft);
+        fTbrgft = tbrgft;
+        supfr.initiblizf();
+    }
+
+    protfdtfd void disposfImpl() {
+        LWCToolkit.tbrgftDisposfdPffr(fTbrgft, this);
+    }
+
+    publid void sftVisiblf(boolfbn visiblf) {
+        if (visiblf) {
+            nfw Thrfbd(nfw Runnbblf() {
+                publid void run() {
+                    CPrintfrDiblog printfrDiblog = (CPrintfrDiblog)fTbrgft;
+                    printfrDiblog.sftRftVbl(printfrDiblog.showDiblog());
+                    printfrDiblog.sftVisiblf(fblsf);
+                }
+            }).stbrt();
+        }
+    }
+
+    // unusfd mfthods.
+    publid void toFront() {}
+    publid void toBbdk() {}
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {}
+    publid void sftEnbblfd(boolfbn fnbblf) {}
+    publid void sftBounds(int x, int y, int width, int hfight) {}
+    publid boolfbn hbndlfEvfnt(Evfnt f) { rfturn fblsf; }
+    publid void sftForfground(Color d) {}
+    publid void sftBbdkground(Color d) {}
+    publid void sftFont(Font f) {}
+    publid boolfbn rfqufstFodus(boolfbn tfmporbry, boolfbn fodusfdWindowChbngfAllowfd) {
+        rfturn fblsf;
+    }
+    void stbrt() {}
+    void invblidbtf(int x, int y, int width, int hfight) {}
+    publid void bddDropTbrgft(DropTbrgft dt) {}
+    publid void rfmovfDropTbrgft(DropTbrgft dt) {}
+
+    // 1.5 pffr mfthod
+    publid boolfbn isRfstbdkSupportfd() {
+        rfturn fblsf;
+    }
+
+    // 1.6 pffr mfthod
+    publid void updbtfAlwbysOnTopStbtf() {
+        // no-op, sindf wf just show thf nbtivf print diblog
+    }
+
+    // 1.6 pffr mfthod
+    publid void updbtfMinimumSizf() {}
+
+    // 1.6 pffr mfthod
+    publid void sftModblBlodkfd(Diblog blodkfr, boolfbn blodkfd) {
+        // I don't think wf dbrf sindf this is b nbtivf diblog
+    }
+
+    // 1.6 pffr mfthod
+    publid void updbtfFodusbblfWindowStbtf() {}
+}

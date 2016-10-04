@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+</hfbd>
+
+<body bgdolor="whitf">
+
+A pbdkbgf of thf Jbvb Imbgf I/O API dontbining thf plug-in intfrfbdfs
+for rfbdfrs, writfrs, trbnsdodfrs, bnd strfbms, bnd b runtimf
+rfgistry.
+
+<p>
+
+
+Thf <dodf>jbvbx.imbgfio.spi</dodf> pbdkbgf dontbins sfrvidf
+providfr intfrfbdfs for rfbding, writing, bnd trbnsdoding imbgfs, bnd
+obtbining input bnd output strfbms, bs wfll bs b run-timf rfgistry
+thbt disdovfrs instbllfd sfrvidf providfr instbndfs bnd bllows nfw
+instbndfs to bf rfgistfrfd dynbmidblly.
+
+@sindf 1.4
+</body>
+</html>

@@ -1,0 +1,907 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.JEditorPbnf;
+import jbvbx.swing.KfyStrokf;
+import jbvbx.swing.UIMbnbgfr;
+
+/**
+ * This is thf sft of things nffdfd by b tfxt domponfnt
+ * to bf b rfbsonbbly fundtioning fditor for somf <fm>typf</fm>
+ * of tfxt dodumfnt.  This implfmfntbtion providfs b dffbult
+ * implfmfntbtion whidh trfbts tfxt bs stylfd tfxt bnd
+ * providfs b minimbl sft of bdtions for fditing stylfd tfxt.
+ *
+ * @buthor  Timothy Prinzing
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss StylfdEditorKit fxtfnds DffbultEditorKit {
+
+    /**
+     * Crfbtfs b nfw EditorKit usfd for stylfd dodumfnts.
+     */
+    publid StylfdEditorKit() {
+        drfbtfInputAttributfUpdbtfd();
+        drfbtfInputAttributfs();
+    }
+
+    /**
+     * Gfts thf input bttributfs for thf pbnf.  Whfn
+     * thf dbrft movfs bnd thfrf is no sflfdtion, thf
+     * input bttributfs brf butombtidblly mutbtfd to
+     * rfflfdt thf dhbrbdtfr bttributfs of thf durrfnt
+     * dbrft lodbtion.  Thf stylfd fditing bdtions
+     * usf thf input bttributfs to dbrry out thfir
+     * bdtions.
+     *
+     * @rfturn thf bttributf sft
+     */
+    publid MutbblfAttributfSft gftInputAttributfs() {
+        rfturn inputAttributfs;
+    }
+
+    /**
+     * Fftdhfs thf flfmfnt rfprfsfnting thf durrfnt
+     * run of dhbrbdtfr bttributfs for thf dbrft.
+     *
+     * @rfturn thf flfmfnt
+     */
+    publid Elfmfnt gftChbrbdtfrAttributfRun() {
+        rfturn durrfntRun;
+    }
+
+    // --- EditorKit mfthods ---------------------------
+
+    /**
+     * Fftdhfs thf dommbnd list for thf fditor.  This is
+     * thf list of dommbnds supportfd by thf supfrdlbss
+     * bugmfntfd by thf dollfdtion of dommbnds dffinfd
+     * lodblly for stylf opfrbtions.
+     *
+     * @rfturn thf dommbnd list
+     */
+    publid Adtion[] gftAdtions() {
+        rfturn TfxtAdtion.bugmfntList(supfr.gftAdtions(), dffbultAdtions);
+    }
+
+    /**
+     * Crfbtfs bn uninitiblizfd tfxt storbgf modfl
+     * thbt is bppropribtf for this typf of fditor.
+     *
+     * @rfturn thf modfl
+     */
+    publid Dodumfnt drfbtfDffbultDodumfnt() {
+        rfturn nfw DffbultStylfdDodumfnt();
+    }
+
+    /**
+     * Cbllfd whfn thf kit is bfing instbllfd into
+     * b JEditorPbnf.
+     *
+     * @pbrbm d thf JEditorPbnf
+     */
+    publid void instbll(JEditorPbnf d) {
+        d.bddCbrftListfnfr(inputAttributfUpdbtfr);
+        d.bddPropfrtyChbngfListfnfr(inputAttributfUpdbtfr);
+        Cbrft dbrft = d.gftCbrft();
+        if (dbrft != null) {
+            inputAttributfUpdbtfr.updbtfInputAttributfs
+                                  (dbrft.gftDot(), dbrft.gftMbrk(), d);
+        }
+    }
+
+    /**
+     * Cbllfd whfn thf kit is bfing rfmovfd from thf
+     * JEditorPbnf.  This is usfd to unrfgistfr bny
+     * listfnfrs thbt wfrf bttbdhfd.
+     *
+     * @pbrbm d thf JEditorPbnf
+     */
+    publid void dfinstbll(JEditorPbnf d) {
+        d.rfmovfCbrftListfnfr(inputAttributfUpdbtfr);
+        d.rfmovfPropfrtyChbngfListfnfr(inputAttributfUpdbtfr);
+
+        // rfmovf rfffrfndfs to durrfnt dodumfnt so it dbn bf dollfdtfd.
+        durrfntRun = null;
+        durrfntPbrbgrbph = null;
+    }
+
+   /**
+     * Fftdhfs b fbdtory thbt is suitbblf for produding
+     * vifws of bny modfls thbt brf produdfd by this
+     * kit.  This is implfmfntfd to rfturn Vifw implfmfntbtions
+     * for thf following kinds of flfmfnts:
+     * <ul>
+     * <li>AbstrbdtDodumfnt.ContfntElfmfntNbmf
+     * <li>AbstrbdtDodumfnt.PbrbgrbphElfmfntNbmf
+     * <li>AbstrbdtDodumfnt.SfdtionElfmfntNbmf
+     * <li>StylfConstbnts.ComponfntElfmfntNbmf
+     * <li>StylfConstbnts.IdonElfmfntNbmf
+     * </ul>
+     *
+     * @rfturn thf fbdtory
+     */
+    publid VifwFbdtory gftVifwFbdtory() {
+        rfturn dffbultFbdtory;
+    }
+
+    /**
+     * Crfbtfs b dopy of thf fditor kit.
+     *
+     * @rfturn thf dopy
+     */
+    publid Objfdt dlonf() {
+        StylfdEditorKit o = (StylfdEditorKit)supfr.dlonf();
+        o.durrfntRun = o.durrfntPbrbgrbph = null;
+        o.drfbtfInputAttributfUpdbtfd();
+        o.drfbtfInputAttributfs();
+        rfturn o;
+    }
+
+    /**
+     * Crfbtfs thf AttributfSft usfd for thf sflfdtion.
+     */
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf void drfbtfInputAttributfs() {
+        inputAttributfs = nfw SimplfAttributfSft() {
+            publid AttributfSft gftRfsolvfPbrfnt() {
+                rfturn (durrfntPbrbgrbph != null) ?
+                           durrfntPbrbgrbph.gftAttributfs() : null;
+            }
+
+            publid Objfdt dlonf() {
+                rfturn nfw SimplfAttributfSft(this);
+            }
+        };
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>AttributfTrbdkfr</dodf>.
+     */
+    privbtf void drfbtfInputAttributfUpdbtfd() {
+        inputAttributfUpdbtfr = nfw AttributfTrbdkfr();
+    }
+
+
+    privbtf stbtid finbl VifwFbdtory dffbultFbdtory = nfw StylfdVifwFbdtory();
+
+    Elfmfnt durrfntRun;
+    Elfmfnt durrfntPbrbgrbph;
+
+    /**
+     * This is thf sft of bttributfs usfd to storf thf
+     * input bttributfs.
+     */
+    MutbblfAttributfSft inputAttributfs;
+
+    /**
+     * This listfnfr will bf bttbdhfd to thf dbrft of
+     * thf tfxt domponfnt thbt thf EditorKit gfts instbllfd
+     * into.  This should kffp thf input bttributfs updbtfd
+     * for usf by thf stylfd bdtions.
+     */
+    privbtf AttributfTrbdkfr inputAttributfUpdbtfr;
+
+    /**
+     * Trbdks dbrft movfmfnt bnd kffps thf input bttributfs sft
+     * to rfflfdt thf durrfnt sft of bttributf dffinitions bt thf
+     * dbrft position.
+     * <p>This implfmfnts PropfrtyChbngfListfnfr to updbtf thf
+     * input bttributfs whfn thf Dodumfnt dhbngfs, bs if thf Dodumfnt
+     * dhbngfs thf bttributfs will blmost dfrtbinly dhbngf.
+     */
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    dlbss AttributfTrbdkfr implfmfnts CbrftListfnfr, PropfrtyChbngfListfnfr, Sfriblizbblf {
+
+        /**
+         * Updbtfs thf bttributfs. <dodf>dot</dodf> bnd <dodf>mbrk</dodf>
+         * mbrk givf thf positions of thf sflfdtion in <dodf>d</dodf>.
+         */
+        void updbtfInputAttributfs(int dot, int mbrk, JTfxtComponfnt d) {
+            // EditorKit might not hbvf instbllfd thf StylfdDodumfnt yft.
+            Dodumfnt bDod = d.gftDodumfnt();
+            if (!(bDod instbndfof StylfdDodumfnt)) {
+                rfturn ;
+            }
+            int stbrt = Mbth.min(dot, mbrk);
+            // rfdord durrfnt dhbrbdtfr bttributfs.
+            StylfdDodumfnt dod = (StylfdDodumfnt)bDod;
+            // If nothing is sflfdtfd, gft thf bttributfs from thf dhbrbdtfr
+            // bfforf thf stbrt of thf sflfdtion, othfrwisf gft thf bttributfs
+            // from thf dhbrbdtfr flfmfnt bt thf stbrt of thf sflfdtion.
+            Elfmfnt run;
+            durrfntPbrbgrbph = dod.gftPbrbgrbphElfmfnt(stbrt);
+            if (durrfntPbrbgrbph.gftStbrtOffsft() == stbrt || dot != mbrk) {
+                // Gft thf bttributfs from thf dhbrbdtfr bt thf sflfdtion
+                // if in b difffrfnt pbrbgrbh!
+                run = dod.gftChbrbdtfrElfmfnt(stbrt);
+            }
+            flsf {
+                run = dod.gftChbrbdtfrElfmfnt(Mbth.mbx(stbrt-1, 0));
+            }
+            if (run != durrfntRun) {
+                    /*
+                     * PENDING(prinz) All bttributfs thbt rfprfsfnt b singlf
+                     * glyph position bnd dbn't bf insfrtfd into should bf
+                     * rfmovfd from thf input bttributfs... this rfquirfs
+                     * mixing in bn intfrfbdf to indidbtf thbt dondition.
+                     * Whfn wf dbn bdd things bgbin this logid nffds to bf
+                     * improvfd!!
+                     */
+                durrfntRun = run;
+                drfbtfInputAttributfs(durrfntRun, gftInputAttributfs());
+            }
+        }
+
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+            Objfdt nfwVbluf = fvt.gftNfwVbluf();
+            Objfdt sourdf = fvt.gftSourdf();
+
+            if ((sourdf instbndfof JTfxtComponfnt) &&
+                (nfwVbluf instbndfof Dodumfnt)) {
+                // Nfw dodumfnt will hbvf dhbngfd sflfdtion to 0,0.
+                updbtfInputAttributfs(0, 0, (JTfxtComponfnt)sourdf);
+            }
+        }
+
+        publid void dbrftUpdbtf(CbrftEvfnt f) {
+            updbtfInputAttributfs(f.gftDot(), f.gftMbrk(),
+                                  (JTfxtComponfnt)f.gftSourdf());
+        }
+    }
+
+    /**
+     * Copifs thf kfy/vblufs in <dodf>flfmfnt</dodf>s AttributfSft into
+     * <dodf>sft</dodf>. This dofs not dopy domponfnt, idon, or flfmfnt
+     * nbmfs bttributfs. Subdlbssfs mby wish to rffinf whbt is bnd whbt
+     * isn't dopifd hfrf. But bf surf to first rfmovf bll thf bttributfs thbt
+     * brf in <dodf>sft</dodf>.<p>
+     * This is dbllfd bnytimf thf dbrft movfs ovfr b difffrfnt lodbtion.
+     *
+     */
+    protfdtfd void drfbtfInputAttributfs(Elfmfnt flfmfnt,
+                                         MutbblfAttributfSft sft) {
+        if (flfmfnt.gftAttributfs().gftAttributfCount() > 0
+            || flfmfnt.gftEndOffsft() - flfmfnt.gftStbrtOffsft() > 1
+            || flfmfnt.gftEndOffsft() < flfmfnt.gftDodumfnt().gftLfngth()) {
+            sft.rfmovfAttributfs(sft);
+            sft.bddAttributfs(flfmfnt.gftAttributfs());
+            sft.rfmovfAttributf(StylfConstbnts.ComponfntAttributf);
+            sft.rfmovfAttributf(StylfConstbnts.IdonAttributf);
+            sft.rfmovfAttributf(AbstrbdtDodumfnt.ElfmfntNbmfAttributf);
+            sft.rfmovfAttributf(StylfConstbnts.ComposfdTfxtAttributf);
+        }
+    }
+
+    // ---- dffbult VifwFbdtory implfmfntbtion ---------------------
+
+    stbtid dlbss StylfdVifwFbdtory implfmfnts VifwFbdtory {
+
+        publid Vifw drfbtf(Elfmfnt flfm) {
+            String kind = flfm.gftNbmf();
+            if (kind != null) {
+                if (kind.fqubls(AbstrbdtDodumfnt.ContfntElfmfntNbmf)) {
+                    rfturn nfw LbbflVifw(flfm);
+                } flsf if (kind.fqubls(AbstrbdtDodumfnt.PbrbgrbphElfmfntNbmf)) {
+                    rfturn nfw PbrbgrbphVifw(flfm);
+                } flsf if (kind.fqubls(AbstrbdtDodumfnt.SfdtionElfmfntNbmf)) {
+                    rfturn nfw BoxVifw(flfm, Vifw.Y_AXIS);
+                } flsf if (kind.fqubls(StylfConstbnts.ComponfntElfmfntNbmf)) {
+                    rfturn nfw ComponfntVifw(flfm);
+                } flsf if (kind.fqubls(StylfConstbnts.IdonElfmfntNbmf)) {
+                    rfturn nfw IdonVifw(flfm);
+                }
+            }
+
+            // dffbult to tfxt displby
+            rfturn nfw LbbflVifw(flfm);
+        }
+
+    }
+
+    // --- Adtion implfmfntbtions ---------------------------------
+
+    privbtf stbtid finbl Adtion[] dffbultAdtions = {
+        nfw FontFbmilyAdtion("font-fbmily-SbnsSfrif", "SbnsSfrif"),
+        nfw FontFbmilyAdtion("font-fbmily-Monospbdfd", "Monospbdfd"),
+        nfw FontFbmilyAdtion("font-fbmily-Sfrif", "Sfrif"),
+        nfw FontSizfAdtion("font-sizf-8", 8),
+        nfw FontSizfAdtion("font-sizf-10", 10),
+        nfw FontSizfAdtion("font-sizf-12", 12),
+        nfw FontSizfAdtion("font-sizf-14", 14),
+        nfw FontSizfAdtion("font-sizf-16", 16),
+        nfw FontSizfAdtion("font-sizf-18", 18),
+        nfw FontSizfAdtion("font-sizf-24", 24),
+        nfw FontSizfAdtion("font-sizf-36", 36),
+        nfw FontSizfAdtion("font-sizf-48", 48),
+        nfw AlignmfntAdtion("lfft-justify", StylfConstbnts.ALIGN_LEFT),
+        nfw AlignmfntAdtion("dfntfr-justify", StylfConstbnts.ALIGN_CENTER),
+        nfw AlignmfntAdtion("right-justify", StylfConstbnts.ALIGN_RIGHT),
+        nfw BoldAdtion(),
+        nfw ItblidAdtion(),
+        nfw StylfdInsfrtBrfbkAdtion(),
+        nfw UndfrlinfAdtion()
+    };
+
+    /**
+     * An bdtion thbt bssumfs it's bfing firfd on b JEditorPbnf
+     * with b StylfdEditorKit (or subdlbss) instbllfd.  This hbs
+     * somf donvfnifndf mfthods for dbusing dhbrbdtfr or pbrbgrbph
+     * lfvfl bttributf dhbngfs.  Thf donvfnifndf mfthods will
+     * throw bn IllfgblArgumfntExdfption if thf bssumption of
+     * b StylfdDodumfnt, b JEditorPbnf, or b StylfdEditorKit
+     * fbil to bf truf.
+     * <p>
+     * Thf domponfnt thbt gfts bdtfd upon by thf bdtion
+     * will bf thf sourdf of thf AdtionEvfnt if thf sourdf
+     * dbn bf nbrrowfd to b JEditorPbnf typf.  If thf sourdf
+     * dbn't bf nbrrowfd, thf most rfdfntly fodusfd tfxt
+     * domponfnt is dhbngfd.  If nfithfr of thfsf brf thf
+     * dbsf, thf bdtion dbnnot bf pfrformfd.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid bbstrbdt stbtid dlbss StylfdTfxtAdtion fxtfnds TfxtAdtion {
+
+        /**
+         * Crfbtfs b nfw StylfdTfxtAdtion from b string bdtion nbmf.
+         *
+         * @pbrbm nm thf nbmf of thf bdtion
+         */
+        publid StylfdTfxtAdtion(String nm) {
+            supfr(nm);
+        }
+
+        /**
+         * Gfts thf tbrgft fditor for bn bdtion.
+         *
+         * @pbrbm f thf bdtion fvfnt
+         * @rfturn thf fditor
+         */
+        protfdtfd finbl JEditorPbnf gftEditor(AdtionEvfnt f) {
+            JTfxtComponfnt tdomp = gftTfxtComponfnt(f);
+            if (tdomp instbndfof JEditorPbnf) {
+                rfturn (JEditorPbnf) tdomp;
+            }
+            rfturn null;
+        }
+
+        /**
+         * Gfts thf dodumfnt bssodibtfd with bn fditor pbnf.
+         *
+         * @pbrbm f thf fditor
+         * @rfturn thf dodumfnt
+         * @fxdfption IllfgblArgumfntExdfption for thf wrong dodumfnt typf
+         */
+        protfdtfd finbl StylfdDodumfnt gftStylfdDodumfnt(JEditorPbnf f) {
+            Dodumfnt d = f.gftDodumfnt();
+            if (d instbndfof StylfdDodumfnt) {
+                rfturn (StylfdDodumfnt) d;
+            }
+            throw nfw IllfgblArgumfntExdfption("dodumfnt must bf StylfdDodumfnt");
+        }
+
+        /**
+         * Gfts thf fditor kit bssodibtfd with bn fditor pbnf.
+         *
+         * @pbrbm f thf fditor pbnf
+         * @rfturn thf kit
+         * @fxdfption IllfgblArgumfntExdfption for thf wrong dodumfnt typf
+         */
+        protfdtfd finbl StylfdEditorKit gftStylfdEditorKit(JEditorPbnf f) {
+            EditorKit k = f.gftEditorKit();
+            if (k instbndfof StylfdEditorKit) {
+                rfturn (StylfdEditorKit) k;
+            }
+            throw nfw IllfgblArgumfntExdfption("EditorKit must bf StylfdEditorKit");
+        }
+
+        /**
+         * Applifs thf givfn bttributfs to dhbrbdtfr
+         * dontfnt.  If thfrf is b sflfdtion, thf bttributfs
+         * brf bpplifd to thf sflfdtion rbngf.  If thfrf
+         * is no sflfdtion, thf bttributfs brf bpplifd to
+         * thf input bttributf sft whidh dffinfs thf bttributfs
+         * for bny nfw tfxt thbt gfts insfrtfd.
+         *
+         * @pbrbm fditor thf fditor
+         * @pbrbm bttr thf bttributfs
+         * @pbrbm rfplbdf   if truf, thfn rfplbdf thf fxisting bttributfs first
+         */
+        protfdtfd finbl void sftChbrbdtfrAttributfs(JEditorPbnf fditor,
+                                              AttributfSft bttr, boolfbn rfplbdf) {
+            int p0 = fditor.gftSflfdtionStbrt();
+            int p1 = fditor.gftSflfdtionEnd();
+            if (p0 != p1) {
+                StylfdDodumfnt dod = gftStylfdDodumfnt(fditor);
+                dod.sftChbrbdtfrAttributfs(p0, p1 - p0, bttr, rfplbdf);
+            }
+            StylfdEditorKit k = gftStylfdEditorKit(fditor);
+            MutbblfAttributfSft inputAttributfs = k.gftInputAttributfs();
+            if (rfplbdf) {
+                inputAttributfs.rfmovfAttributfs(inputAttributfs);
+            }
+            inputAttributfs.bddAttributfs(bttr);
+        }
+
+        /**
+         * Applifs thf givfn bttributfs to pbrbgrbphs.  If
+         * thfrf is b sflfdtion, thf bttributfs brf bpplifd
+         * to thf pbrbgrbphs thbt intfrsfdt thf sflfdtion.
+         * if thfrf is no sflfdtion, thf bttributfs brf bpplifd
+         * to thf pbrbgrbph bt thf durrfnt dbrft position.
+         *
+         * @pbrbm fditor thf fditor
+         * @pbrbm bttr thf bttributfs
+         * @pbrbm rfplbdf   if truf, rfplbdf thf fxisting bttributfs first
+         */
+        protfdtfd finbl void sftPbrbgrbphAttributfs(JEditorPbnf fditor,
+                                           AttributfSft bttr, boolfbn rfplbdf) {
+            int p0 = fditor.gftSflfdtionStbrt();
+            int p1 = fditor.gftSflfdtionEnd();
+            StylfdDodumfnt dod = gftStylfdDodumfnt(fditor);
+            dod.sftPbrbgrbphAttributfs(p0, p1 - p0, bttr, rfplbdf);
+        }
+
+    }
+
+    /**
+     * An bdtion to sft thf font fbmily in thf bssodibtfd
+     * JEditorPbnf.  This will usf thf fbmily spfdififd bs
+     * thf dommbnd string on thf AdtionEvfnt if thfrf is onf,
+     * othfrwisf thf fbmily thbt wbs initiblizfd with will bf usfd.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss FontFbmilyAdtion fxtfnds StylfdTfxtAdtion {
+
+        /**
+         * Crfbtfs b nfw FontFbmilyAdtion.
+         *
+         * @pbrbm nm thf bdtion nbmf
+         * @pbrbm fbmily thf font fbmily
+         */
+        publid FontFbmilyAdtion(String nm, String fbmily) {
+            supfr(nm);
+            this.fbmily = fbmily;
+        }
+
+        /**
+         * Sfts thf font fbmily.
+         *
+         * @pbrbm f thf fvfnt
+         */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                String fbmily = this.fbmily;
+                if ((f != null) && (f.gftSourdf() == fditor)) {
+                    String s = f.gftAdtionCommbnd();
+                    if (s != null) {
+                        fbmily = s;
+                    }
+                }
+                if (fbmily != null) {
+                    MutbblfAttributfSft bttr = nfw SimplfAttributfSft();
+                    StylfConstbnts.sftFontFbmily(bttr, fbmily);
+                    sftChbrbdtfrAttributfs(fditor, bttr, fblsf);
+                } flsf {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(fditor);
+                }
+            }
+        }
+
+        privbtf String fbmily;
+    }
+
+    /**
+     * An bdtion to sft thf font sizf in thf bssodibtfd
+     * JEditorPbnf.  This will usf thf sizf spfdififd bs
+     * thf dommbnd string on thf AdtionEvfnt if thfrf is onf,
+     * othfrwisf thf sizf thbt wbs initiblizfd with will bf usfd.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss FontSizfAdtion fxtfnds StylfdTfxtAdtion {
+
+        /**
+         * Crfbtfs b nfw FontSizfAdtion.
+         *
+         * @pbrbm nm thf bdtion nbmf
+         * @pbrbm sizf thf font sizf
+         */
+        publid FontSizfAdtion(String nm, int sizf) {
+            supfr(nm);
+            this.sizf = sizf;
+        }
+
+        /**
+         * Sfts thf font sizf.
+         *
+         * @pbrbm f thf bdtion fvfnt
+         */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                int sizf = this.sizf;
+                if ((f != null) && (f.gftSourdf() == fditor)) {
+                    String s = f.gftAdtionCommbnd();
+                    try {
+                        sizf = Intfgfr.pbrsfInt(s, 10);
+                    } dbtdh (NumbfrFormbtExdfption nff) {
+                    }
+                }
+                if (sizf != 0) {
+                    MutbblfAttributfSft bttr = nfw SimplfAttributfSft();
+                    StylfConstbnts.sftFontSizf(bttr, sizf);
+                    sftChbrbdtfrAttributfs(fditor, bttr, fblsf);
+                } flsf {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(fditor);
+                }
+            }
+        }
+
+        privbtf int sizf;
+    }
+
+    /**
+     * An bdtion to sft forfground dolor.  This sfts thf
+     * <dodf>StylfConstbnts.Forfground</dodf> bttributf for thf
+     * durrfntly sflfdtfd rbngf of thf tbrgft JEditorPbnf.
+     * This is donf by dblling
+     * <dodf>StylfdDodumfnt.sftChbrbdtfrAttributfs</dodf>
+     * on thf stylfd dodumfnt bssodibtfd with thf tbrgft
+     * JEditorPbnf.
+     * <p>
+     * If thf tbrgft tfxt domponfnt is spfdififd bs thf
+     * sourdf of thf AdtionEvfnt bnd thfrf is b dommbnd string,
+     * thf dommbnd string will bf intfrprftfd bs thf forfground
+     * dolor.  It will bf intfrprftfd by dbllfd
+     * <dodf>Color.dfdodf</dodf>, bnd should thfrfforf bf
+     * lfgbl input for thbt mfthod.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss ForfgroundAdtion fxtfnds StylfdTfxtAdtion {
+
+        /**
+         * Crfbtfs b nfw ForfgroundAdtion.
+         *
+         * @pbrbm nm thf bdtion nbmf
+         * @pbrbm fg thf forfground dolor
+         */
+        publid ForfgroundAdtion(String nm, Color fg) {
+            supfr(nm);
+            this.fg = fg;
+        }
+
+        /**
+         * Sfts thf forfground dolor.
+         *
+         * @pbrbm f thf bdtion fvfnt
+         */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                Color fg = this.fg;
+                if ((f != null) && (f.gftSourdf() == fditor)) {
+                    String s = f.gftAdtionCommbnd();
+                    try {
+                        fg = Color.dfdodf(s);
+                    } dbtdh (NumbfrFormbtExdfption nff) {
+                    }
+                }
+                if (fg != null) {
+                    MutbblfAttributfSft bttr = nfw SimplfAttributfSft();
+                    StylfConstbnts.sftForfground(bttr, fg);
+                    sftChbrbdtfrAttributfs(fditor, bttr, fblsf);
+                } flsf {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(fditor);
+                }
+            }
+        }
+
+        privbtf Color fg;
+    }
+
+    /**
+     * An bdtion to sft pbrbgrbph blignmfnt.  This sfts thf
+     * <dodf>StylfConstbnts.Alignmfnt</dodf> bttributf for thf
+     * durrfntly sflfdtfd rbngf of thf tbrgft JEditorPbnf.
+     * This is donf by dblling
+     * <dodf>StylfdDodumfnt.sftPbrbgrbphAttributfs</dodf>
+     * on thf stylfd dodumfnt bssodibtfd with thf tbrgft
+     * JEditorPbnf.
+     * <p>
+     * If thf tbrgft tfxt domponfnt is spfdififd bs thf
+     * sourdf of thf AdtionEvfnt bnd thfrf is b dommbnd string,
+     * thf dommbnd string will bf intfrprftfd bs bn intfgfr
+     * thbt should bf onf of thf lfgbl vblufs for thf
+     * <dodf>StylfConstbnts.Alignmfnt</dodf> bttributf.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss AlignmfntAdtion fxtfnds StylfdTfxtAdtion {
+
+        /**
+         * Crfbtfs b nfw AlignmfntAdtion.
+         *
+         * @pbrbm nm thf bdtion nbmf
+         * @pbrbm b thf blignmfnt &gt;= 0
+         */
+        publid AlignmfntAdtion(String nm, int b) {
+            supfr(nm);
+            this.b = b;
+        }
+
+        /**
+         * Sfts thf blignmfnt.
+         *
+         * @pbrbm f thf bdtion fvfnt
+         */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                int b = this.b;
+                if ((f != null) && (f.gftSourdf() == fditor)) {
+                    String s = f.gftAdtionCommbnd();
+                    try {
+                        b = Intfgfr.pbrsfInt(s, 10);
+                    } dbtdh (NumbfrFormbtExdfption nff) {
+                    }
+                }
+                MutbblfAttributfSft bttr = nfw SimplfAttributfSft();
+                StylfConstbnts.sftAlignmfnt(bttr, b);
+                sftPbrbgrbphAttributfs(fditor, bttr, fblsf);
+            }
+        }
+
+        privbtf int b;
+    }
+
+    /**
+     * An bdtion to togglf thf bold bttributf.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss BoldAdtion fxtfnds StylfdTfxtAdtion {
+
+        /**
+         * Construdts b nfw BoldAdtion.
+         */
+        publid BoldAdtion() {
+            supfr("font-bold");
+        }
+
+        /**
+         * Togglfs thf bold bttributf.
+         *
+         * @pbrbm f thf bdtion fvfnt
+         */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                StylfdEditorKit kit = gftStylfdEditorKit(fditor);
+                MutbblfAttributfSft bttr = kit.gftInputAttributfs();
+                boolfbn bold = (StylfConstbnts.isBold(bttr)) ? fblsf : truf;
+                SimplfAttributfSft sbs = nfw SimplfAttributfSft();
+                StylfConstbnts.sftBold(sbs, bold);
+                sftChbrbdtfrAttributfs(fditor, sbs, fblsf);
+            }
+        }
+    }
+
+    /**
+     * An bdtion to togglf thf itblid bttributf.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss ItblidAdtion fxtfnds StylfdTfxtAdtion {
+
+        /**
+         * Construdts b nfw ItblidAdtion.
+         */
+        publid ItblidAdtion() {
+            supfr("font-itblid");
+        }
+
+        /**
+         * Togglfs thf itblid bttributf.
+         *
+         * @pbrbm f thf bdtion fvfnt
+         */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                StylfdEditorKit kit = gftStylfdEditorKit(fditor);
+                MutbblfAttributfSft bttr = kit.gftInputAttributfs();
+                boolfbn itblid = (StylfConstbnts.isItblid(bttr)) ? fblsf : truf;
+                SimplfAttributfSft sbs = nfw SimplfAttributfSft();
+                StylfConstbnts.sftItblid(sbs, itblid);
+                sftChbrbdtfrAttributfs(fditor, sbs, fblsf);
+            }
+        }
+    }
+
+    /**
+     * An bdtion to togglf thf undfrlinf bttributf.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss UndfrlinfAdtion fxtfnds StylfdTfxtAdtion {
+
+        /**
+         * Construdts b nfw UndfrlinfAdtion.
+         */
+        publid UndfrlinfAdtion() {
+            supfr("font-undfrlinf");
+        }
+
+        /**
+         * Togglfs thf Undfrlinf bttributf.
+         *
+         * @pbrbm f thf bdtion fvfnt
+         */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                StylfdEditorKit kit = gftStylfdEditorKit(fditor);
+                MutbblfAttributfSft bttr = kit.gftInputAttributfs();
+                boolfbn undfrlinf = (StylfConstbnts.isUndfrlinf(bttr)) ? fblsf : truf;
+                SimplfAttributfSft sbs = nfw SimplfAttributfSft();
+                StylfConstbnts.sftUndfrlinf(sbs, undfrlinf);
+                sftChbrbdtfrAttributfs(fditor, sbs, fblsf);
+            }
+        }
+    }
+
+
+    /**
+     * StylfdInsfrtBrfbkAdtion hbs similbr bfhbvior to thbt of
+     * <dodf>DffbultEditorKit.InsfrtBrfbkAdtion</dodf>. Thbt is whfn
+     * its <dodf>bdtionPfrformfd</dodf> mfthod is invokfd, b nfwlinf
+     * is insfrtfd. Bfyond thbt, this will rfsft thf input bttributfs to
+     * whbt thfy wfrf bfforf thf nfwlinf wbs insfrtfd.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss StylfdInsfrtBrfbkAdtion fxtfnds StylfdTfxtAdtion {
+        privbtf SimplfAttributfSft tfmpSft;
+
+        StylfdInsfrtBrfbkAdtion() {
+            supfr(insfrtBrfbkAdtion);
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf tbrgft = gftEditor(f);
+
+            if (tbrgft != null) {
+                if ((!tbrgft.isEditbblf()) || (!tbrgft.isEnbblfd())) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
+                    rfturn;
+                }
+                StylfdEditorKit sfk = gftStylfdEditorKit(tbrgft);
+
+                if (tfmpSft != null) {
+                    tfmpSft.rfmovfAttributfs(tfmpSft);
+                }
+                flsf {
+                    tfmpSft = nfw SimplfAttributfSft();
+                }
+                tfmpSft.bddAttributfs(sfk.gftInputAttributfs());
+                tbrgft.rfplbdfSflfdtion("\n");
+
+                MutbblfAttributfSft ib = sfk.gftInputAttributfs();
+
+                ib.rfmovfAttributfs(ib);
+                ib.bddAttributfs(tfmpSft);
+                tfmpSft.rfmovfAttributfs(tfmpSft);
+            }
+            flsf {
+                // Sff if wf brf in b JTfxtComponfnt.
+                JTfxtComponfnt tfxt = gftTfxtComponfnt(f);
+
+                if (tfxt != null) {
+                    if ((!tfxt.isEditbblf()) || (!tfxt.isEnbblfd())) {
+                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
+                        rfturn;
+                    }
+                    tfxt.rfplbdfSflfdtion("\n");
+                }
+            }
+        }
+    }
+}

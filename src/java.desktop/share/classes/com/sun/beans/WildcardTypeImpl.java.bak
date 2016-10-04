@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans;
+pbdkbgf dom.sun.bfbns;
 
-import java.lang.reflect.Type;
-import java.lang.reflect.WildcardType;
-import java.util.Arrays;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.lbng.rfflfdt.WilddbrdTypf;
+import jbvb.util.Arrbys;
 
 /**
- * This class implements {@link WildcardType WildcardType} compatibly with the JDK's
- * {@link sun.reflect.generics.reflectiveObjects.WildcardTypeImpl WildcardTypeImpl}.
- * Unfortunately we can't use the JDK's
- * {@link sun.reflect.generics.reflectiveObjects.WildcardTypeImpl WildcardTypeImpl} here as we do for
- * {@link sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl ParameterizedTypeImpl} and
- * {@link sun.reflect.generics.reflectiveObjects.GenericArrayTypeImpl GenericArrayTypeImpl},
- * because {@link sun.reflect.generics.reflectiveObjects.WildcardTypeImpl WildcardTypeImpl}'s
- * constructor takes parameters representing intermediate structures obtained during class-file parsing.
- * We could reconstruct versions of those structures but it would be more trouble than it's worth.
+ * Tiis dlbss implfmfnts {@link WilddbrdTypf WilddbrdTypf} dompbtibly witi tif JDK's
+ * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl}.
+ * Unfortunbtfly wf dbn't usf tif JDK's
+ * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl} ifrf bs wf do for
+ * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.PbrbmftfrizfdTypfImpl PbrbmftfrizfdTypfImpl} bnd
+ * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.GfnfridArrbyTypfImpl GfnfridArrbyTypfImpl},
+ * bfdbusf {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl}'s
+ * donstrudtor tbkfs pbrbmftfrs rfprfsfnting intfrmfdibtf strudturfs obtbinfd during dlbss-filf pbrsing.
+ * Wf dould rfdonstrudt vfrsions of tiosf strudturfs but it would bf morf troublf tibn it's worti.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Eamonn McManus
- * @author Sergey Malenkov
+ * @butior Ebmonn MdMbnus
+ * @butior Sfrgfy Mblfnkov
  */
-final class WildcardTypeImpl implements WildcardType {
-    private final Type[] upperBounds;
-    private final Type[] lowerBounds;
+finbl dlbss WilddbrdTypfImpl implfmfnts WilddbrdTypf {
+    privbtf finbl Typf[] uppfrBounds;
+    privbtf finbl Typf[] lowfrBounds;
 
     /**
-     * Creates a wildcard type with the requested bounds.
-     * Note that the array arguments are not cloned
-     * because instances of this class are never constructed
-     * from outside the containing package.
+     * Crfbtfs b wilddbrd typf witi tif rfqufstfd bounds.
+     * Notf tibt tif brrby brgumfnts brf not dlonfd
+     * bfdbusf instbndfs of tiis dlbss brf nfvfr donstrudtfd
+     * from outsidf tif dontbining pbdkbgf.
      *
-     * @param upperBounds  the array of types representing
-     *                     the upper bound(s) of this type variable
-     * @param lowerBounds  the array of types representing
-     *                     the lower bound(s) of this type variable
+     * @pbrbm uppfrBounds  tif brrby of typfs rfprfsfnting
+     *                     tif uppfr bound(s) of tiis typf vbribblf
+     * @pbrbm lowfrBounds  tif brrby of typfs rfprfsfnting
+     *                     tif lowfr bound(s) of tiis typf vbribblf
      */
-    WildcardTypeImpl(Type[] upperBounds, Type[] lowerBounds) {
-        this.upperBounds = upperBounds;
-        this.lowerBounds = lowerBounds;
+    WilddbrdTypfImpl(Typf[] uppfrBounds, Typf[] lowfrBounds) {
+        tiis.uppfrBounds = uppfrBounds;
+        tiis.lowfrBounds = lowfrBounds;
     }
 
     /**
-     * Returns an array of {@link Type Type} objects
-     * representing the upper bound(s) of this type variable.
-     * Note that if no upper bound is explicitly declared,
-     * the upper bound is {@link Object Object}.
+     * Rfturns bn brrby of {@link Typf Typf} objfdts
+     * rfprfsfnting tif uppfr bound(s) of tiis typf vbribblf.
+     * Notf tibt if no uppfr bound is fxpliditly dfdlbrfd,
+     * tif uppfr bound is {@link Objfdt Objfdt}.
      *
-     * @return an array of types representing
-     *         the upper bound(s) of this type variable
+     * @rfturn bn brrby of typfs rfprfsfnting
+     *         tif uppfr bound(s) of tiis typf vbribblf
      */
-    public Type[] getUpperBounds() {
-        return this.upperBounds.clone();
+    publid Typf[] gftUppfrBounds() {
+        rfturn tiis.uppfrBounds.dlonf();
     }
 
     /**
-     * Returns an array of {@link Type Type} objects
-     * representing the lower bound(s) of this type variable.
-     * Note that if no lower bound is explicitly declared,
-     * the lower bound is the type of {@code null}.
-     * In this case, a zero length array is returned.
+     * Rfturns bn brrby of {@link Typf Typf} objfdts
+     * rfprfsfnting tif lowfr bound(s) of tiis typf vbribblf.
+     * Notf tibt if no lowfr bound is fxpliditly dfdlbrfd,
+     * tif lowfr bound is tif typf of {@dodf null}.
+     * In tiis dbsf, b zfro lfngti brrby is rfturnfd.
      *
-     * @return an array of types representing
-     *         the lower bound(s) of this type variable
+     * @rfturn bn brrby of typfs rfprfsfnting
+     *         tif lowfr bound(s) of tiis typf vbribblf
      */
-    public Type[] getLowerBounds() {
-        return this.lowerBounds.clone();
+    publid Typf[] gftLowfrBounds() {
+        rfturn tiis.lowfrBounds.dlonf();
     }
 
     /**
-     * Indicates whether some other object is "equal to" this one.
-     * It is implemented compatibly with the JDK's
-     * {@link sun.reflect.generics.reflectiveObjects.WildcardTypeImpl WildcardTypeImpl}.
+     * Indidbtfs wiftifr somf otifr objfdt is "fqubl to" tiis onf.
+     * It is implfmfntfd dompbtibly witi tif JDK's
+     * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl}.
      *
-     * @param object  the reference object with which to compare
-     * @return {@code true} if this object is the same as the object argument;
-     *         {@code false} otherwise
-     * @see sun.reflect.generics.reflectiveObjects.WildcardTypeImpl#equals
+     * @pbrbm objfdt  tif rfffrfndf objfdt witi wiidi to dompbrf
+     * @rfturn {@dodf truf} if tiis objfdt is tif sbmf bs tif objfdt brgumfnt;
+     *         {@dodf fblsf} otifrwisf
+     * @sff sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl#fqubls
      */
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof WildcardType) {
-            WildcardType type = (WildcardType) object;
-            return Arrays.equals(this.upperBounds, type.getUpperBounds())
-                && Arrays.equals(this.lowerBounds, type.getLowerBounds());
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (objfdt instbndfof WilddbrdTypf) {
+            WilddbrdTypf typf = (WilddbrdTypf) objfdt;
+            rfturn Arrbys.fqubls(tiis.uppfrBounds, typf.gftUppfrBounds())
+                && Arrbys.fqubls(tiis.lowfrBounds, typf.gftLowfrBounds());
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code value for the object.
-     * It is implemented compatibly with the JDK's
-     * {@link sun.reflect.generics.reflectiveObjects.WildcardTypeImpl WildcardTypeImpl}.
+     * Rfturns b ibsi dodf vbluf for tif objfdt.
+     * It is implfmfntfd dompbtibly witi tif JDK's
+     * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl}.
      *
-     * @return a hash code value for this object
-     * @see sun.reflect.generics.reflectiveObjects.WildcardTypeImpl#hashCode
+     * @rfturn b ibsi dodf vbluf for tiis objfdt
+     * @sff sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl#ibsiCodf
      */
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(this.upperBounds)
-             ^ Arrays.hashCode(this.lowerBounds);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Arrbys.ibsiCodf(tiis.uppfrBounds)
+             ^ Arrbys.ibsiCodf(tiis.lowfrBounds);
     }
 
     /**
-     * Returns a string representation of the object.
-     * It is implemented compatibly with the JDK's
-     * {@link sun.reflect.generics.reflectiveObjects.WildcardTypeImpl WildcardTypeImpl}.
+     * Rfturns b string rfprfsfntbtion of tif objfdt.
+     * It is implfmfntfd dompbtibly witi tif JDK's
+     * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl}.
      *
-     * @return a string representation of the object
-     * @see sun.reflect.generics.reflectiveObjects.WildcardTypeImpl#toString
+     * @rfturn b string rfprfsfntbtion of tif objfdt
+     * @sff sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl#toString
      */
-    @Override
-    public String toString() {
-        StringBuilder sb;
-        Type[] bounds;
-        if (this.lowerBounds.length == 0) {
-            if (this.upperBounds.length == 0 || Object.class == this.upperBounds[0]) {
-                return "?";
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb;
+        Typf[] bounds;
+        if (tiis.lowfrBounds.lfngti == 0) {
+            if (tiis.uppfrBounds.lfngti == 0 || Objfdt.dlbss == tiis.uppfrBounds[0]) {
+                rfturn "?";
             }
-            bounds = this.upperBounds;
-            sb = new StringBuilder("? extends ");
+            bounds = tiis.uppfrBounds;
+            sb = nfw StringBuildfr("? fxtfnds ");
         }
-        else {
-            bounds = this.lowerBounds;
-            sb = new StringBuilder("? super ");
+        flsf {
+            bounds = tiis.lowfrBounds;
+            sb = nfw StringBuildfr("? supfr ");
         }
-        for (int i = 0; i < bounds.length; i++) {
+        for (int i = 0; i < bounds.lfngti; i++) {
             if (i > 0) {
-                sb.append(" & ");
+                sb.bppfnd(" & ");
             }
-            sb.append((bounds[i] instanceof Class)
-                    ? ((Class) bounds[i]).getName()
+            sb.bppfnd((bounds[i] instbndfof Clbss)
+                    ? ((Clbss) bounds[i]).gftNbmf()
                     : bounds[i].toString());
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

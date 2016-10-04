@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp.internal;
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
 
-import java.net.InetAddress;
-import com.sun.jmx.snmp.SnmpPduFactory;
-import com.sun.jmx.snmp.SnmpSecurityParameters;
-import com.sun.jmx.snmp.SnmpSecurityException;
-import com.sun.jmx.snmp.SnmpTooBigException;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpMsg;
+import jbvb.nft.InftAddrfss;
+import dom.sun.jmx.snmp.SnmpPduFbdtory;
+import dom.sun.jmx.snmp.SnmpSfdurityPbrbmftfrs;
+import dom.sun.jmx.snmp.SnmpSfdurityExdfption;
+import dom.sun.jmx.snmp.SnmpTooBigExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpMsg;
 
-import com.sun.jmx.snmp.internal.SnmpSecurityCache;
-import com.sun.jmx.snmp.SnmpBadSecurityLevelException;
+import dom.sun.jmx.snmp.intfrnbl.SnmpSfdurityCbdif;
+import dom.sun.jmx.snmp.SnmpBbdSfdurityLfvflExdfption;
 /**
- * <P> An <CODE>SnmpIncomingResponse</CODE> handles the unmarshalling of the received response.</P>
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * <P> An <CODE>SnmpIndomingRfsponsf</CODE> ibndlfs tif unmbrsiblling of tif rfdfivfd rfsponsf.</P>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
 
-public interface SnmpIncomingResponse {
+publid intfrfbdf SnmpIndomingRfsponsf {
     /**
-     * Returns the source address.
-     * @return The source address.
+     * Rfturns tif sourdf bddrfss.
+     * @rfturn Tif sourdf bddrfss.
      */
-    public InetAddress getAddress();
+    publid InftAddrfss gftAddrfss();
 
     /**
-     * Returns the source port.
-     * @return The source port.
+     * Rfturns tif sourdf port.
+     * @rfturn Tif sourdf port.
      */
-    public int getPort();
+    publid int gftPort();
 
     /**
-     * Gets the incoming response security parameters.
-     * @return The security parameters.
+     * Gfts tif indoming rfsponsf sfdurity pbrbmftfrs.
+     * @rfturn Tif sfdurity pbrbmftfrs.
      **/
-    public SnmpSecurityParameters getSecurityParameters();
+    publid SnmpSfdurityPbrbmftfrs gftSfdurityPbrbmftfrs();
     /**
-     * Call this method in order to reuse <CODE>SnmpOutgoingRequest</CODE> cache.
-     * @param cache The security cache.
+     * Cbll tiis mftiod in ordfr to rfusf <CODE>SnmpOutgoingRfqufst</CODE> dbdif.
+     * @pbrbm dbdif Tif sfdurity dbdif.
      */
-    public void setSecurityCache(SnmpSecurityCache cache);
+    publid void sftSfdurityCbdif(SnmpSfdurityCbdif dbdif);
     /**
-     * Gets the incoming response security level. This level is defined in
-     * {@link com.sun.jmx.snmp.SnmpEngine SnmpEngine}.
-     * @return The security level.
+     * Gfts tif indoming rfsponsf sfdurity lfvfl. Tiis lfvfl is dffinfd in
+     * {@link dom.sun.jmx.snmp.SnmpEnginf SnmpEnginf}.
+     * @rfturn Tif sfdurity lfvfl.
      */
-    public int getSecurityLevel();
+    publid int gftSfdurityLfvfl();
     /**
-     * Gets the incoming response security model.
-     * @return The security model.
+     * Gfts tif indoming rfsponsf sfdurity modfl.
+     * @rfturn Tif sfdurity modfl.
      */
-    public int getSecurityModel();
+    publid int gftSfdurityModfl();
     /**
-     * Gets the incoming response context name.
-     * @return The context name.
+     * Gfts tif indoming rfsponsf dontfxt nbmf.
+     * @rfturn Tif dontfxt nbmf.
      */
-    public byte[] getContextName();
+    publid bytf[] gftContfxtNbmf();
 
     /**
-     * Decodes the specified bytes and initializes itself with the received
-     * response.
+     * Dfdodfs tif spfdififd bytfs bnd initiblizfs itsflf witi tif rfdfivfd
+     * rfsponsf.
      *
-     * @param inputBytes The bytes to be decoded.
+     * @pbrbm inputBytfs Tif bytfs to bf dfdodfd.
      *
-     * @exception SnmpStatusException If the specified bytes are not a valid encoding.
+     * @fxdfption SnmpStbtusExdfption If tif spfdififd bytfs brf not b vblid fndoding.
      */
-    public SnmpMsg decodeMessage(byte[] inputBytes,
-                                 int byteCount,
-                                 InetAddress address,
+    publid SnmpMsg dfdodfMfssbgf(bytf[] inputBytfs,
+                                 int bytfCount,
+                                 InftAddrfss bddrfss,
                                  int port)
-        throws SnmpStatusException, SnmpSecurityException;
+        tirows SnmpStbtusExdfption, SnmpSfdurityExdfption;
 
     /**
-     * Gets the request PDU encoded in the received response.
+     * Gfts tif rfqufst PDU fndodfd in tif rfdfivfd rfsponsf.
      * <P>
-     * This method decodes the data field and returns the resulting PDU.
+     * Tiis mftiod dfdodfs tif dbtb fifld bnd rfturns tif rfsulting PDU.
      *
-     * @return The resulting PDU.
-     * @exception SnmpStatusException If the encoding is not valid.
+     * @rfturn Tif rfsulting PDU.
+     * @fxdfption SnmpStbtusExdfption If tif fndoding is not vblid.
      */
-    public SnmpPdu decodeSnmpPdu()
-        throws SnmpStatusException;
+    publid SnmpPdu dfdodfSnmpPdu()
+        tirows SnmpStbtusExdfption;
 
     /**
-     * Returns the response request Id.
-     * @param data The flat message.
-     * @return The request Id.
+     * Rfturns tif rfsponsf rfqufst Id.
+     * @pbrbm dbtb Tif flbt mfssbgf.
+     * @rfturn Tif rfqufst Id.
      */
-    public int getRequestId(byte[] data) throws SnmpStatusException;
+    publid int gftRfqufstId(bytf[] dbtb) tirows SnmpStbtusExdfption;
 
     /**
-     * Returns a stringified form of the message to send.
-     * @return The message state string.
+     * Rfturns b stringififd form of tif mfssbgf to sfnd.
+     * @rfturn Tif mfssbgf stbtf string.
      */
-    public String printMessage();
+    publid String printMfssbgf();
 }

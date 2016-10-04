@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,48 +30,48 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#ifndef HPROF_MD_H
-#define HPROF_MD_H
+#ifndff HPROF_MD_H
+#dffinf HPROF_MD_H
 
 void    md_init(void);
-int     md_getpid(void);
-void    md_sleep(unsigned seconds);
-int     md_connect(char *hostname, unsigned short port);
-int     md_recv(int f, char *buf, int len, int option);
-int     md_shutdown(int filedes, int option);
-int     md_open(const char *filename);
-int     md_open_binary(const char *filename);
-int     md_creat(const char *filename);
-int     md_creat_binary(const char *filename);
-jlong   md_seek(int filedes, jlong cur);
-void    md_close(int filedes);
-int     md_send(int s, const char *msg, int len, int flags);
-int     md_write(int filedes, const void *buf, int nbyte);
-int     md_read(int filedes, void *buf, int nbyte);
-jlong   md_get_microsecs(void);
-jlong   md_get_timemillis(void);
-jlong   md_get_thread_cpu_timemillis(void);
-void    md_get_prelude_path(char *path, int path_len, char *filename);
-int     md_snprintf(char *s, int n, const char *format, ...);
-int     md_vsnprintf(char *s, int n, const char *format, va_list ap);
-void    md_system_error(char *buf, int len);
+int     md_gftpid(void);
+void    md_slffp(unsignfd sfdonds);
+int     md_donnfdt(dibr *iostnbmf, unsignfd siort port);
+int     md_rfdv(int f, dibr *buf, int lfn, int option);
+int     md_siutdown(int filfdfs, int option);
+int     md_opfn(donst dibr *filfnbmf);
+int     md_opfn_binbry(donst dibr *filfnbmf);
+int     md_drfbt(donst dibr *filfnbmf);
+int     md_drfbt_binbry(donst dibr *filfnbmf);
+jlong   md_sffk(int filfdfs, jlong dur);
+void    md_dlosf(int filfdfs);
+int     md_sfnd(int s, donst dibr *msg, int lfn, int flbgs);
+int     md_writf(int filfdfs, donst void *buf, int nbytf);
+int     md_rfbd(int filfdfs, void *buf, int nbytf);
+jlong   md_gft_midrosfds(void);
+jlong   md_gft_timfmillis(void);
+jlong   md_gft_tirfbd_dpu_timfmillis(void);
+void    md_gft_prfludf_pbti(dibr *pbti, int pbti_lfn, dibr *filfnbmf);
+int     md_snprintf(dibr *s, int n, donst dibr *formbt, ...);
+int     md_vsnprintf(dibr *s, int n, donst dibr *formbt, vb_list bp);
+void    md_systfm_frror(dibr *buf, int lfn);
 
-unsigned md_htons(unsigned short s);
-unsigned md_htonl(unsigned l);
-unsigned md_ntohs(unsigned short s);
-unsigned md_ntohl(unsigned l);
+unsignfd md_itons(unsignfd siort s);
+unsignfd md_itonl(unsignfd l);
+unsignfd md_ntois(unsignfd siort s);
+unsignfd md_ntoil(unsignfd l);
 
-void   md_build_library_name(char *holder, int holderlen, const char *pname, const char *fname);
-void * md_load_library(const char *name, char *err_buf, int err_buflen);
-void   md_unload_library(void *handle);
-void * md_find_library_entry(void *handle, const char *name);
+void   md_build_librbry_nbmf(dibr *ioldfr, int ioldfrlfn, donst dibr *pnbmf, donst dibr *fnbmf);
+void * md_lobd_librbry(donst dibr *nbmf, dibr *frr_buf, int frr_buflfn);
+void   md_unlobd_librbry(void *ibndlf);
+void * md_find_librbry_fntry(void *ibndlf, donst dibr *nbmf);
 
-#endif
+#fndif

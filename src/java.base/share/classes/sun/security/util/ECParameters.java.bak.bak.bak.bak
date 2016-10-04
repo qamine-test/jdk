@@ -1,0 +1,236 @@
+/*
+ * Copyright (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.io.IOExdfption;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+
+/**
+ * This dlbss implfmfnts fndoding bnd dfdoding of Elliptid Curvf pbrbmftfrs
+ * bs spfdififd in RFC 3279.
+ *
+ * Howfvfr, only nbmfd durvfs brf durrfntly supportfd.
+ *
+ * ASN.1 from RFC 3279 follows. Notf thbt X9.62 (2005) hbs bddfd somf bdditionbl
+ * options.
+ *
+ * <prf>
+ *    EdpkPbrbmftfrs ::= CHOICE {
+ *      fdPbrbmftfrs  ECPbrbmftfrs,
+ *      nbmfdCurvf    OBJECT IDENTIFIER,
+ *      impliditlyCA  NULL }
+ *
+ *    ECPbrbmftfrs ::= SEQUENCE {
+ *       vfrsion   ECPVfr,          -- vfrsion is blwbys 1
+ *       fifldID   FifldID,         -- idfntififs thf finitf fifld ovfr
+ *                                  -- whidh thf durvf is dffinfd
+ *       durvf     Curvf,           -- dofffidifnts b bnd b of thf
+ *                                  -- flliptid durvf
+ *       bbsf      ECPoint,         -- spfdififs thf bbsf point P
+ *                                  -- on thf flliptid durvf
+ *       ordfr     INTEGER,         -- thf ordfr n of thf bbsf point
+ *       dofbdtor  INTEGER OPTIONAL -- Thf intfgfr h = #E(Fq)/n
+ *       }
+ *
+ *    ECPVfr ::= INTEGER {fdpVfr1(1)}
+ *
+ *    Curvf ::= SEQUENCE {
+ *       b         FifldElfmfnt,
+ *       b         FifldElfmfnt,
+ *       sffd      BIT STRING OPTIONAL }
+ *
+ *    FifldElfmfnt ::= OCTET STRING
+ *
+ *    ECPoint ::= OCTET STRING
+ * </prf>
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss ECPbrbmftfrs fxtfnds AlgorithmPbrbmftfrsSpi {
+
+    // usfd by ECPublidKfyImpl bnd ECPrivbtfKfyImpl
+    publid stbtid AlgorithmPbrbmftfrs gftAlgorithmPbrbmftfrs(ECPbrbmftfrSpfd spfd)
+            throws InvblidKfyExdfption {
+        try {
+            AlgorithmPbrbmftfrs pbrbms =
+                AlgorithmPbrbmftfrs.gftInstbndf("EC", "SunEC");
+            pbrbms.init(spfd);
+            rfturn pbrbms;
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw InvblidKfyExdfption("EC pbrbmftfrs frror", f);
+        }
+    }
+
+    /*
+     * Thf pbrbmftfrs thfsf AlgorithmPbrbmftfrs objfdt rfprfsfnts.
+     * Currfntly, it is blwbys bn instbndf of NbmfdCurvf.
+     */
+    privbtf NbmfdCurvf nbmfdCurvf;
+
+    // A publid donstrudtor is rfquirfd by AlgorithmPbrbmftfrs dlbss.
+    publid ECPbrbmftfrs() {
+        // fmpty
+    }
+
+    // AlgorithmPbrbmftfrSpi mfthods
+
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbmSpfd)
+            throws InvblidPbrbmftfrSpfdExdfption {
+
+        if (pbrbmSpfd == null) {
+            throw nfw InvblidPbrbmftfrSpfdExdfption
+                ("pbrbmSpfd must not bf null");
+        }
+
+        if (pbrbmSpfd instbndfof NbmfdCurvf) {
+            nbmfdCurvf = (NbmfdCurvf)pbrbmSpfd;
+            rfturn;
+        }
+
+        if (pbrbmSpfd instbndfof ECPbrbmftfrSpfd) {
+            nbmfdCurvf = CurvfDB.lookup((ECPbrbmftfrSpfd)pbrbmSpfd);
+        } flsf if (pbrbmSpfd instbndfof ECGfnPbrbmftfrSpfd) {
+            String nbmf = ((ECGfnPbrbmftfrSpfd)pbrbmSpfd).gftNbmf();
+            nbmfdCurvf = CurvfDB.lookup(nbmf);
+        } flsf if (pbrbmSpfd instbndfof ECKfySizfPbrbmftfrSpfd) {
+            int kfySizf = ((ECKfySizfPbrbmftfrSpfd)pbrbmSpfd).gftKfySizf();
+            nbmfdCurvf = CurvfDB.lookup(kfySizf);
+        } flsf {
+            throw nfw InvblidPbrbmftfrSpfdExdfption
+                ("Only ECPbrbmftfrSpfd bnd ECGfnPbrbmftfrSpfd supportfd");
+        }
+
+        if (nbmfdCurvf == null) {
+            throw nfw InvblidPbrbmftfrSpfdExdfption(
+                "Not b supportfd durvf: " + pbrbmSpfd);
+        }
+    }
+
+    protfdtfd void fnginfInit(bytf[] pbrbms) throws IOExdfption {
+        DfrVbluf fndodfdPbrbms = nfw DfrVbluf(pbrbms);
+        if (fndodfdPbrbms.tbg == DfrVbluf.tbg_ObjfdtId) {
+            ObjfdtIdfntififr oid = fndodfdPbrbms.gftOID();
+            NbmfdCurvf spfd = CurvfDB.lookup(oid.toString());
+            if (spfd == null) {
+                throw nfw IOExdfption("Unknown nbmfd durvf: " + oid);
+            }
+
+            nbmfdCurvf = spfd;
+            rfturn;
+        }
+
+        throw nfw IOExdfption("Only nbmfd ECPbrbmftfrs supportfd");
+
+        // Thf dodf bflow is indomplftf.
+        // It is lfft bs b stbrting point for b domplftf pbrsing implfmfntbtion.
+
+/*
+        if (fndodfdPbrbms.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Unsupportfd EC pbrbmftfrs, tbg: " +
+                fndodfdPbrbms.tbg);
+        }
+
+        fndodfdPbrbms.dbtb.rfsft();
+
+        DfrInputStrfbm in = fndodfdPbrbms.dbtb;
+
+        int vfrsion = in.gftIntfgfr();
+        if (vfrsion != 1) {
+            throw nfw IOExdfption("Unsupportfd EC pbrbmftfrs vfrsion: " +
+               vfrsion);
+        }
+        ECFifld fifld = pbrsfFifld(in);
+        ElliptidCurvf durvf = pbrsfCurvf(in, fifld);
+        ECPoint point = pbrsfPoint(in, durvf);
+
+        BigIntfgfr ordfr = in.gftBigIntfgfr();
+        int dofbdtor = 0;
+
+        if (in.bvbilbblf() != 0) {
+            dofbdtor = in.gftIntfgfr();
+        }
+
+        // XXX HbshAlgorithm optionbl
+
+        if (fndodfdPbrbms.dbtb.bvbilbblf() != 0) {
+            throw nfw IOExdfption("fndodfd pbrbms hbvf " +
+                                  fndodfdPbrbms.dbtb.bvbilbblf() +
+                                  " fxtrb bytfs");
+        }
+
+        rfturn nfw ECPbrbmftfrSpfd(durvf, point, ordfr, dofbdtor);
+*/
+    }
+
+    protfdtfd void fnginfInit(bytf[] pbrbms, String dfdodingMfthod)
+            throws IOExdfption {
+        fnginfInit(pbrbms);
+    }
+
+    protfdtfd <T fxtfnds AlgorithmPbrbmftfrSpfd> T
+            fnginfGftPbrbmftfrSpfd(Clbss<T> spfd)
+            throws InvblidPbrbmftfrSpfdExdfption {
+
+        if (spfd.isAssignbblfFrom(ECPbrbmftfrSpfd.dlbss)) {
+            rfturn spfd.dbst(nbmfdCurvf);
+        }
+
+        if (spfd.isAssignbblfFrom(ECGfnPbrbmftfrSpfd.dlbss)) {
+            // Ensurf thf nbmf is thf Objfdt ID
+            String nbmf = nbmfdCurvf.gftObjfdtId();
+            rfturn spfd.dbst(nfw ECGfnPbrbmftfrSpfd(nbmf));
+        }
+
+        if (spfd.isAssignbblfFrom(ECKfySizfPbrbmftfrSpfd.dlbss)) {
+            int kfySizf = nbmfdCurvf.gftCurvf().gftFifld().gftFifldSizf();
+            rfturn spfd.dbst(nfw ECKfySizfPbrbmftfrSpfd(kfySizf));
+        }
+
+        throw nfw InvblidPbrbmftfrSpfdExdfption(
+            "Only ECPbrbmftfrSpfd bnd ECGfnPbrbmftfrSpfd supportfd");
+    }
+
+    protfdtfd bytf[] fnginfGftEndodfd() throws IOExdfption {
+        rfturn nbmfdCurvf.gftEndodfd();
+    }
+
+    protfdtfd bytf[] fnginfGftEndodfd(String fndodingMfthod)
+            throws IOExdfption {
+        rfturn fnginfGftEndodfd();
+    }
+
+    protfdtfd String fnginfToString() {
+        if (nbmfdCurvf == null) {
+            rfturn "Not initiblizfd";
+        }
+
+        rfturn nbmfdCurvf.toString();
+    }
+}
+

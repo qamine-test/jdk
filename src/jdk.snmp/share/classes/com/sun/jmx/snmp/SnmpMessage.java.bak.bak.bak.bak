@@ -1,0 +1,362 @@
+/*
+ * Copyright (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+
+// jbvb imports
+//
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
+import jbvb.nft.InftAddrfss;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_LOGGER;
+
+/**
+ * Is b pbrtiblly dfdodfd rfprfsfntbtion of bn SNMP pbdkft.
+ * <P>
+ * You will not normblly nffd to usf this dlbss unlfss you dfdidf to
+ * implfmfnt your own {@link dom.sun.jmx.snmp.SnmpPduFbdtory SnmpPduFbdtory} objfdt.
+ * <P>
+ * Thf <CODE>SnmpMfssbgf</CODE> dlbss is dirfdtly mbppfd onto thf
+ * <CODE>Mfssbgf</CODE> syntbx dffinfd in RFC1157 bnd RFC1902.
+ * <BLOCKQUOTE>
+ * <PRE>
+ * Mfssbgf ::= SEQUENCE {
+ *    vfrsion       INTEGER { vfrsion(1) }, -- for SNMPv2
+ *    dommunity     OCTET STRING,           -- dommunity nbmf
+ *    dbtb          ANY                     -- bn SNMPv2 PDU
+ * }
+ * </PRE>
+ * </BLOCKQUOTE>
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sff SnmpPduFbdtory
+ * @sff SnmpPduPbdkft
+ *
+ */
+
+publid dlbss SnmpMfssbgf fxtfnds SnmpMsg implfmfnts SnmpDffinitions {
+    /**
+     * Community nbmf.
+     */
+    publid bytf[] dommunity ;
+
+    /**
+     * Endodfs this mfssbgf bnd puts thf rfsult in thf spfdififd bytf brrby.
+     * For intfrnbl usf only.
+     *
+     * @pbrbm outputBytfs An brrby to rfdfivf thf rfsulting fndoding.
+     *
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf rfsult dofs not fit
+     *                                           into thf spfdififd brrby.
+     */
+    publid int fndodfMfssbgf(bytf[] outputBytfs) throws SnmpTooBigExdfption {
+        int fndodingLfngth = 0 ;
+        if (dbtb == null)
+            throw nfw IllfgblArgumfntExdfption("Dbtb fifld is null") ;
+
+        //
+        // Rfmindfr: BfrEndodfr dofs bbdkwbrd fndoding !
+        //
+        try {
+            BfrEndodfr bfnd = nfw BfrEndodfr(outputBytfs) ;
+            bfnd.opfnSfqufndf() ;
+            bfnd.putAny(dbtb, dbtbLfngth) ;
+            bfnd.putOdtftString((dommunity != null) ? dommunity : nfw bytf[0]) ;
+            bfnd.putIntfgfr(vfrsion) ;
+            bfnd.dlosfSfqufndf() ;
+            fndodingLfngth = bfnd.trim() ;
+        }
+        dbtdh(ArrbyIndfxOutOfBoundsExdfption x) {
+            throw nfw SnmpTooBigExdfption() ;
+        }
+
+        rfturn fndodingLfngth ;
+    }
+    /**
+     * Rfturns thf bssodibtfd rfqufst ID.
+     * @pbrbm inputBytfs Thf flbt mfssbgf.
+     * @rfturn Thf rfqufst ID.
+     *
+     * @sindf 1.5
+     */
+    publid int gftRfqufstId(bytf[] inputBytfs) throws SnmpStbtusExdfption {
+        int rfqufstId = 0;
+        BfrDfdodfr bdfd = null;
+        BfrDfdodfr bdfd2 = null;
+        bytf[] bny = null;
+        try {
+            bdfd = nfw BfrDfdodfr(inputBytfs);
+            bdfd.opfnSfqufndf();
+            bdfd.fftdhIntfgfr();
+            bdfd.fftdhOdtftString();
+            bny = bdfd.fftdhAny();
+            bdfd2 = nfw BfrDfdodfr(bny);
+            int typf = bdfd2.gftTbg();
+            bdfd2.opfnSfqufndf(typf);
+            rfqufstId = bdfd2.fftdhIntfgfr();
+        }
+        dbtdh(BfrExdfption x) {
+            throw nfw SnmpStbtusExdfption("Invblid fndoding") ;
+        }
+        try {
+            bdfd.dlosfSfqufndf();
+        }
+        dbtdh(BfrExdfption x) {
+        }
+        try {
+            bdfd2.dlosfSfqufndf();
+        }
+        dbtdh(BfrExdfption x) {
+        }
+        rfturn rfqufstId;
+    }
+    /**
+     * Dfdodfs thf spfdififd bytfs bnd initiblizfs this mfssbgf.
+     * For intfrnbl usf only.
+     *
+     * @pbrbm inputBytfs Thf bytfs to bf dfdodfd.
+     *
+     * @fxdfption SnmpStbtusExdfption If thf spfdififd bytfs brf not b vblid fndoding.
+     */
+    publid void dfdodfMfssbgf(bytf[] inputBytfs, int bytfCount)
+        throws SnmpStbtusExdfption {
+        try {
+            BfrDfdodfr bdfd = nfw BfrDfdodfr(inputBytfs/*, bytfCount */) ; // FIXME
+            bdfd.opfnSfqufndf() ;
+            vfrsion = bdfd.fftdhIntfgfr() ;
+            dommunity = bdfd.fftdhOdtftString() ;
+            dbtb = bdfd.fftdhAny() ;
+            dbtbLfngth = dbtb.lfngth ;
+            bdfd.dlosfSfqufndf() ;
+        }
+        dbtdh(BfrExdfption x) {
+            throw nfw SnmpStbtusExdfption("Invblid fndoding") ;
+        }
+    }
+
+    /**
+     * Initiblizfs this mfssbgf with thf spfdififd <CODE>pdu</CODE>.
+     * <P>
+     * This mfthod initiblizfs thf dbtb fifld with bn brrby of
+     * <CODE>mbxDbtbLfngth</CODE> bytfs. It fndodfs thf <CODE>pdu</CODE>.
+     * Thf rfsulting fndoding is storfd in thf dbtb fifld
+     * bnd thf lfngth of thf fndoding is storfd in <CODE>dbtbLfngth</CODE>.
+     * <p>
+     * If thf fndoding lfngth fxdffds <CODE>mbxDbtbLfngth</CODE>,
+     * thf mfthod throws bn fxdfption.
+     *
+     * @pbrbm pdu Thf PDU to bf fndodfd.
+     * @pbrbm mbxDbtbLfngth Thf mbximum lfngth pfrmittfd for thf dbtb fifld.
+     *
+     * @fxdfption SnmpStbtusExdfption If thf spfdififd <CODE>pdu</CODE> is not vblid.
+     * @fxdfption SnmpTooBigExdfption If thf rfsulting fndoding dofs not fit
+     * into <CODE>mbxDbtbLfngth</CODE> bytfs.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf fndoding fxdffds <CODE>mbxDbtbLfngth</CODE>.
+     *
+     * @sindf 1.5
+     */
+    publid void fndodfSnmpPdu(SnmpPdu pdu, int mbxDbtbLfngth)
+        throws SnmpStbtusExdfption, SnmpTooBigExdfption {
+        //
+        // Thf fbsy work
+        //
+        SnmpPduPbdkft pdupbdkft = (SnmpPduPbdkft) pdu;
+        vfrsion = pdupbdkft.vfrsion ;
+        dommunity = pdupbdkft.dommunity ;
+        bddrfss = pdupbdkft.bddrfss ;
+        port = pdupbdkft.port ;
+
+        //
+        // Allodbtf thf brrby to rfdfivf thf fndoding.
+        //
+        dbtb = nfw bytf[mbxDbtbLfngth] ;
+
+        //
+        // Endodf thf pdupbdkft
+        // Rfmindfr: BfrEndodfr dofs bbdkwbrd fndoding !
+        //
+
+        try {
+            BfrEndodfr bfnd = nfw BfrEndodfr(dbtb) ;
+            bfnd.opfnSfqufndf() ;
+            fndodfVbrBindList(bfnd, pdupbdkft.vbrBindList) ;
+
+            switdh(pdupbdkft.typf) {
+
+            dbsf pduGftRfqufstPdu :
+            dbsf pduGftNfxtRfqufstPdu :
+            dbsf pduInformRfqufstPdu :
+            dbsf pduGftRfsponsfPdu :
+            dbsf pduSftRfqufstPdu :
+            dbsf pduV2TrbpPdu :
+            dbsf pduRfportPdu :
+                SnmpPduRfqufst rfqPdu = (SnmpPduRfqufst)pdupbdkft ;
+                bfnd.putIntfgfr(rfqPdu.frrorIndfx) ;
+                bfnd.putIntfgfr(rfqPdu.frrorStbtus) ;
+                bfnd.putIntfgfr(rfqPdu.rfqufstId) ;
+                brfbk ;
+
+            dbsf pduGftBulkRfqufstPdu :
+                SnmpPduBulk bulkPdu = (SnmpPduBulk)pdupbdkft ;
+                bfnd.putIntfgfr(bulkPdu.mbxRfpftitions) ;
+                bfnd.putIntfgfr(bulkPdu.nonRfpfbtfrs) ;
+                bfnd.putIntfgfr(bulkPdu.rfqufstId) ;
+                brfbk ;
+
+            dbsf pduV1TrbpPdu :
+                SnmpPduTrbp trbpPdu = (SnmpPduTrbp)pdupbdkft ;
+                bfnd.putIntfgfr(trbpPdu.timfStbmp, SnmpVbluf.TimftidksTbg) ;
+                bfnd.putIntfgfr(trbpPdu.spfdifidTrbp) ;
+                bfnd.putIntfgfr(trbpPdu.gfnfridTrbp) ;
+                if(trbpPdu.bgfntAddr != null)
+                    bfnd.putOdtftString(trbpPdu.bgfntAddr.bytfVbluf(), SnmpVbluf.IpAddrfssTbg) ;
+                flsf
+                    bfnd.putOdtftString(nfw bytf[0], SnmpVbluf.IpAddrfssTbg);
+                bfnd.putOid(trbpPdu.fntfrprisf.longVbluf()) ;
+                brfbk ;
+
+            dffbult:
+                throw nfw SnmpStbtusExdfption("Invblid pdu typf " + String.vblufOf(pdupbdkft.typf)) ;
+            }
+            bfnd.dlosfSfqufndf(pdupbdkft.typf) ;
+            dbtbLfngth = bfnd.trim() ;
+        }
+        dbtdh(ArrbyIndfxOutOfBoundsExdfption x) {
+            throw nfw SnmpTooBigExdfption() ;
+        }
+    }
+    /**
+     * Gfts thf PDU fndodfd in this mfssbgf.
+     * <P>
+     * This mfthod dfdodfs thf dbtb fifld bnd rfturns thf rfsulting PDU.
+     *
+     * @rfturn Thf rfsulting PDU.
+     * @fxdfption SnmpStbtusExdfption If thf fndoding is not vblid.
+     *
+     * @sindf 1.5
+     */
+    publid SnmpPdu dfdodfSnmpPdu()
+        throws SnmpStbtusExdfption {
+        //
+        // Dfdodf thf pdu
+        //
+        SnmpPduPbdkft pdu = null ;
+        BfrDfdodfr bdfd = nfw BfrDfdodfr(dbtb) ;
+        try {
+            int typf = bdfd.gftTbg() ;
+            bdfd.opfnSfqufndf(typf) ;
+            switdh(typf) {
+
+            dbsf pduGftRfqufstPdu :
+            dbsf pduGftNfxtRfqufstPdu :
+            dbsf pduInformRfqufstPdu :
+            dbsf pduGftRfsponsfPdu :
+            dbsf pduSftRfqufstPdu :
+            dbsf pduV2TrbpPdu :
+            dbsf pduRfportPdu :
+                SnmpPduRfqufst rfqPdu = nfw SnmpPduRfqufst() ;
+                rfqPdu.rfqufstId = bdfd.fftdhIntfgfr() ;
+                rfqPdu.frrorStbtus = bdfd.fftdhIntfgfr() ;
+                rfqPdu.frrorIndfx = bdfd.fftdhIntfgfr() ;
+                pdu = rfqPdu ;
+                brfbk ;
+
+            dbsf pduGftBulkRfqufstPdu :
+                SnmpPduBulk bulkPdu = nfw SnmpPduBulk() ;
+                bulkPdu.rfqufstId = bdfd.fftdhIntfgfr() ;
+                bulkPdu.nonRfpfbtfrs = bdfd.fftdhIntfgfr() ;
+                bulkPdu.mbxRfpftitions = bdfd.fftdhIntfgfr() ;
+                pdu = bulkPdu ;
+                brfbk ;
+
+            dbsf pduV1TrbpPdu :
+                SnmpPduTrbp trbpPdu = nfw SnmpPduTrbp() ;
+                trbpPdu.fntfrprisf = nfw SnmpOid(bdfd.fftdhOid()) ;
+                bytf []b = bdfd.fftdhOdtftString(SnmpVbluf.IpAddrfssTbg);
+                if(b.lfngth != 0)
+                    trbpPdu.bgfntAddr = nfw SnmpIpAddrfss(b) ;
+                flsf
+                    trbpPdu.bgfntAddr = null;
+                trbpPdu.gfnfridTrbp = bdfd.fftdhIntfgfr() ;
+                trbpPdu.spfdifidTrbp = bdfd.fftdhIntfgfr() ;
+                trbpPdu.timfStbmp = bdfd.fftdhIntfgfr(SnmpVbluf.TimftidksTbg) ;
+                pdu = trbpPdu ;
+                brfbk ;
+
+            dffbult:
+                throw nfw SnmpStbtusExdfption(snmpRspWrongEndoding) ;
+            }
+            pdu.typf = typf ;
+            pdu.vbrBindList = dfdodfVbrBindList(bdfd) ;
+            bdfd.dlosfSfqufndf() ;
+        } dbtdh(BfrExdfption f) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpMfssbgf.dlbss.gftNbmf(),
+                        "dfdodfSnmpPdu", "BfrExdfption", f);
+            }
+            throw nfw SnmpStbtusExdfption(snmpRspWrongEndoding);
+        } dbtdh(IllfgblArgumfntExdfption f) {
+            // bug id 4654066
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpMfssbgf.dlbss.gftNbmf(),
+                        "dfdodfSnmpPdu", "IllfgblArgumfntExdfption", f);
+            }
+            throw nfw SnmpStbtusExdfption(snmpRspWrongEndoding);
+        }
+
+        //
+        // Thf fbsy work
+        //
+        pdu.vfrsion = vfrsion ;
+        pdu.dommunity = dommunity ;
+        pdu.bddrfss = bddrfss ;
+        pdu.port = port ;
+
+        rfturn pdu;
+    }
+    /**
+     * Dumps this mfssbgf in b string.
+     *
+     * @rfturn Thf string dontbining thf dump.
+     */
+    publid String printMfssbgf() {
+        StringBuildfr sb = nfw StringBuildfr();
+        if (dommunity == null) {
+            sb.bppfnd("Community: null") ;
+        }
+        flsf {
+            sb.bppfnd("Community: {\n") ;
+            sb.bppfnd(dumpHfxBufffr(dommunity, 0, dommunity.lfngth)) ;
+            sb.bppfnd("\n}\n") ;
+        }
+        rfturn sb.bppfnd(supfr.printMfssbgf()).toString();
+    }
+
+}

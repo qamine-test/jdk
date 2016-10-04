@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * An object that may be registered with a watch service so that it can be
- * <em>watched</em> for changes and events.
+ * An objfdt tibt mby bf rfgistfrfd witi b wbtdi sfrvidf so tibt it dbn bf
+ * <fm>wbtdifd</fm> for dibngfs bnd fvfnts.
  *
- * <p> This interface defines the {@link #register register} method to register
- * the object with a {@link WatchService} returning a {@link WatchKey} to
- * represent the registration. An object may be registered with more than one
- * watch service. Registration with a watch service is cancelled by invoking the
- * key's {@link WatchKey#cancel cancel} method.
+ * <p> Tiis intfrfbdf dffinfs tif {@link #rfgistfr rfgistfr} mftiod to rfgistfr
+ * tif objfdt witi b {@link WbtdiSfrvidf} rfturning b {@link WbtdiKfy} to
+ * rfprfsfnt tif rfgistrbtion. An objfdt mby bf rfgistfrfd witi morf tibn onf
+ * wbtdi sfrvidf. Rfgistrbtion witi b wbtdi sfrvidf is dbndfllfd by invoking tif
+ * kfy's {@link WbtdiKfy#dbndfl dbndfl} mftiod.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @see Path#register
+ * @sff Pbti#rfgistfr
  */
 
-public interface Watchable {
+publid intfrfbdf Wbtdibblf {
 
     /**
-     * Registers an object with a watch service.
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
      *
-     * <p> If the file system object identified by this object is currently
-     * registered with the watch service then the watch key, representing that
-     * registration, is returned after changing the event set or modifiers to
-     * those specified by the {@code events} and {@code modifiers} parameters.
-     * Changing the event set does not cause pending events for the object to be
-     * discarded. Objects are automatically registered for the {@link
-     * StandardWatchEventKinds#OVERFLOW OVERFLOW} event. This event is not
-     * required to be present in the array of events.
+     * <p> If tif filf systfm objfdt idfntififd by tiis objfdt is durrfntly
+     * rfgistfrfd witi tif wbtdi sfrvidf tifn tif wbtdi kfy, rfprfsfnting tibt
+     * rfgistrbtion, is rfturnfd bftfr dibnging tif fvfnt sft or modififrs to
+     * tiosf spfdififd by tif {@dodf fvfnts} bnd {@dodf modififrs} pbrbmftfrs.
+     * Cibnging tif fvfnt sft dofs not dbusf pfnding fvfnts for tif objfdt to bf
+     * disdbrdfd. Objfdts brf butombtidblly rfgistfrfd for tif {@link
+     * StbndbrdWbtdiEvfntKinds#OVERFLOW OVERFLOW} fvfnt. Tiis fvfnt is not
+     * rfquirfd to bf prfsfnt in tif brrby of fvfnts.
      *
-     * <p> Otherwise the file system object has not yet been registered with the
-     * given watch service, so it is registered and the resulting new key is
-     * returned.
+     * <p> Otifrwisf tif filf systfm objfdt ibs not yft bffn rfgistfrfd witi tif
+     * givfn wbtdi sfrvidf, so it is rfgistfrfd bnd tif rfsulting nfw kfy is
+     * rfturnfd.
      *
-     * <p> Implementations of this interface should specify the events they
+     * <p> Implfmfntbtions of tiis intfrfbdf siould spfdify tif fvfnts tify
      * support.
      *
-     * @param   watcher
-     *          the watch service to which this object is to be registered
-     * @param   events
-     *          the events for which this object should be registered
-     * @param   modifiers
-     *          the modifiers, if any, that modify how the object is registered
+     * @pbrbm   wbtdifr
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     * @pbrbm   fvfnts
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
+     * @pbrbm   modififrs
+     *          tif modififrs, if bny, tibt modify iow tif objfdt is rfgistfrfd
      *
-     * @return  a key representing the registration of this object with the
-     *          given watch service
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     *          givfn wbtdi sfrvidf
      *
-     * @throws  UnsupportedOperationException
-     *          if unsupported events or modifiers are specified
-     * @throws  IllegalArgumentException
-     *          if an invalid of combination of events are modifiers are specified
-     * @throws  ClosedWatchServiceException
-     *          if the watch service is closed
-     * @throws  IOException
-     *          if an I/O error occurs
-     * @throws  SecurityException
-     *          if a security manager is installed and it denies an unspecified
-     *          permission required to monitor this object. Implementations of
-     *          this interface should specify the permission checks.
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          if unsupportfd fvfnts or modififrs brf spfdififd
+     * @tirows  IllfgblArgumfntExdfption
+     *          if bn invblid of dombinbtion of fvfnts brf modififrs brf spfdififd
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     *          if tif wbtdi sfrvidf is dlosfd
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
+     * @tirows  SfdurityExdfption
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
      */
-    WatchKey register(WatchService watcher,
-                      WatchEvent.Kind<?>[] events,
-                      WatchEvent.Modifier... modifiers)
-        throws IOException;
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr,
+                      WbtdiEvfnt.Kind<?>[] fvfnts,
+                      WbtdiEvfnt.Modififr... modififrs)
+        tirows IOExdfption;
 
 
     /**
-     * Registers an object with a watch service.
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
      *
-     * <p> An invocation of this method behaves in exactly the same way as the
-     * invocation
-     * <pre>
-     *     watchable.{@link #register(WatchService,WatchEvent.Kind[],WatchEvent.Modifier[]) register}(watcher, events, new WatchEvent.Modifier[0]);
-     * </pre>
+     * <p> An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf wby bs tif
+     * invodbtion
+     * <prf>
+     *     wbtdibblf.{@link #rfgistfr(WbtdiSfrvidf,WbtdiEvfnt.Kind[],WbtdiEvfnt.Modififr[]) rfgistfr}(wbtdifr, fvfnts, nfw WbtdiEvfnt.Modififr[0]);
+     * </prf>
      *
-     * @param   watcher
-     *          the watch service to which this object is to be registered
-     * @param   events
-     *          the events for which this object should be registered
+     * @pbrbm   wbtdifr
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     * @pbrbm   fvfnts
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
      *
-     * @return  a key representing the registration of this object with the
-     *          given watch service
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     *          givfn wbtdi sfrvidf
      *
-     * @throws  UnsupportedOperationException
-     *          if unsupported events are specified
-     * @throws  IllegalArgumentException
-     *          if an invalid of combination of events are specified
-     * @throws  ClosedWatchServiceException
-     *          if the watch service is closed
-     * @throws  IOException
-     *          if an I/O error occurs
-     * @throws  SecurityException
-     *          if a security manager is installed and it denies an unspecified
-     *          permission required to monitor this object. Implementations of
-     *          this interface should specify the permission checks.
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          if unsupportfd fvfnts brf spfdififd
+     * @tirows  IllfgblArgumfntExdfption
+     *          if bn invblid of dombinbtion of fvfnts brf spfdififd
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     *          if tif wbtdi sfrvidf is dlosfd
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
+     * @tirows  SfdurityExdfption
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
      */
-    WatchKey register(WatchService watcher, WatchEvent.Kind<?>... events)
-        throws IOException;
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr, WbtdiEvfnt.Kind<?>... fvfnts)
+        tirows IOExdfption;
 }

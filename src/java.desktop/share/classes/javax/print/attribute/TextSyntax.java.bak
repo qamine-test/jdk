@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.print.attribute;
+pbdkbgf jbvbx.print.bttributf;
 
-import java.io.Serializable;
-import java.util.Locale;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Lodblf;
 
 /**
- * Class TextSyntax is an abstract base class providing the common
- * implementation of all attributes whose value is a string. The text attribute
- * includes a locale to indicate the natural language. Thus, a text attribute
- * always represents a localized string. Once constructed, a text attribute's
- * value is immutable.
+ * Clbss TfxtSyntbx is bn bbstrbdt bbsf dlbss providing tif dommon
+ * implfmfntbtion of bll bttributfs wiosf vbluf is b string. Tif tfxt bttributf
+ * indludfs b lodblf to indidbtf tif nbturbl lbngubgf. Tius, b tfxt bttributf
+ * blwbys rfprfsfnts b lodblizfd string. Ondf donstrudtfd, b tfxt bttributf's
+ * vbluf is immutbblf.
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @butior  Dbvid Mfndfnibll
+ * @butior  Albn Kbminsky
  */
-public abstract class TextSyntax implements Serializable, Cloneable {
+publid bbstrbdt dlbss TfxtSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
 
-    private static final long serialVersionUID = -8130648736378144102L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8130648736378144102L;
 
     /**
-     * String value of this text attribute.
-     * @serial
+     * String vbluf of tiis tfxt bttributf.
+     * @sfribl
      */
-    private String value;
+    privbtf String vbluf;
 
     /**
-     * Locale of this text attribute.
-     * @serial
+     * Lodblf of tiis tfxt bttributf.
+     * @sfribl
      */
-    private Locale locale;
+    privbtf Lodblf lodblf;
 
     /**
-     * Constructs a TextAttribute with the specified string and locale.
+     * Construdts b TfxtAttributf witi tif spfdififd string bnd lodblf.
      *
-     * @param  value   Text string.
-     * @param  locale  Natural language of the text string. null
-     * is interpreted to mean the default locale for as returned
-     * by <code>Locale.getDefault()</code>
+     * @pbrbm  vbluf   Tfxt string.
+     * @pbrbm  lodblf  Nbturbl lbngubgf of tif tfxt string. null
+     * is intfrprftfd to mfbn tif dffbult lodblf for bs rfturnfd
+     * by <dodf>Lodblf.gftDffbult()</dodf>
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>value</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>vbluf</CODE> is null.
      */
-    protected TextSyntax(String value, Locale locale) {
-        this.value = verify (value);
-        this.locale = verify (locale);
+    protfdtfd TfxtSyntbx(String vbluf, Lodblf lodblf) {
+        tiis.vbluf = vfrify (vbluf);
+        tiis.lodblf = vfrify (lodblf);
     }
 
-    private static String verify(String value) {
-        if (value == null) {
-            throw new NullPointerException(" value is null");
+    privbtf stbtid String vfrify(String vbluf) {
+        if (vbluf == null) {
+            tirow nfw NullPointfrExdfption(" vbluf is null");
         }
-        return value;
+        rfturn vbluf;
     }
 
-    private static Locale verify(Locale locale) {
-        if (locale == null) {
-            return Locale.getDefault();
+    privbtf stbtid Lodblf vfrify(Lodblf lodblf) {
+        if (lodblf == null) {
+            rfturn Lodblf.gftDffbult();
         }
-        return locale;
+        rfturn lodblf;
     }
 
     /**
-     * Returns this text attribute's text string.
-     * @return the text string.
+     * Rfturns tiis tfxt bttributf's tfxt string.
+     * @rfturn tif tfxt string.
      */
-    public String getValue() {
-        return value;
+    publid String gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Returns this text attribute's text string's natural language (locale).
-     * @return the locale
+     * Rfturns tiis tfxt bttributf's tfxt string's nbturbl lbngubgf (lodblf).
+     * @rfturn tif lodblf
      */
-    public Locale getLocale() {
-        return locale;
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
     }
 
     /**
-     * Returns a hashcode for this text attribute.
+     * Rfturns b ibsidodf for tiis tfxt bttributf.
      *
-     * @return  A hashcode value for this object.
+     * @rfturn  A ibsidodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-        return value.hashCode() ^ locale.hashCode();
+    publid int ibsiCodf() {
+        rfturn vbluf.ibsiCodf() ^ lodblf.ibsiCodf();
     }
 
     /**
-     * Returns whether this text attribute is equivalent to the passed in
-     * object. To be equivalent, all of the following conditions must be true:
+     * Rfturns wiftifr tiis tfxt bttributf is fquivblfnt to tif pbssfd in
+     * objfdt. To bf fquivblfnt, bll of tif following donditions must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class TextSyntax.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss TfxtSyntbx.
      * <LI>
-     * This text attribute's underlying string and <CODE>object</CODE>'s
-     * underlying string are equal.
+     * Tiis tfxt bttributf's undfrlying string bnd <CODE>objfdt</CODE>'s
+     * undfrlying string brf fqubl.
      * <LI>
-     * This text attribute's locale and <CODE>object</CODE>'s locale are
-     * equal.
+     * Tiis tfxt bttributf's lodblf bnd <CODE>objfdt</CODE>'s lodblf brf
+     * fqubl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this text
-     *          attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis tfxt
+     *          bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return(object != null &&
-               object instanceof TextSyntax &&
-               this.value.equals (((TextSyntax) object).value) &&
-               this.locale.equals (((TextSyntax) object).locale));
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn(objfdt != null &&
+               objfdt instbndfof TfxtSyntbx &&
+               tiis.vbluf.fqubls (((TfxtSyntbx) objfdt).vbluf) &&
+               tiis.lodblf.fqubls (((TfxtSyntbx) objfdt).lodblf));
     }
 
     /**
-     * Returns a String identifying this text attribute. The String is
-     * the attribute's underlying text string.
+     * Rfturns b String idfntifying tiis tfxt bttributf. Tif String is
+     * tif bttributf's undfrlying tfxt string.
      *
-     * @return  A String identifying this object.
+     * @rfturn  A String idfntifying tiis objfdt.
      */
-    public String toString(){
-        return value;
+    publid String toString(){
+        rfturn vbluf;
     }
 
 }

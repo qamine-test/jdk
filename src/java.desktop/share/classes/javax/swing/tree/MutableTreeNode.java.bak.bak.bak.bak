@@ -1,0 +1,84 @@
+/*
+ * Copyright (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.trff;
+
+/**
+ * Dffinfs thf rfquirfmfnts for b trff nodf objfdt thbt dbn dhbngf --
+ * by bdding or rfmoving dhild nodfs, or by dhbnging thf dontfnts
+ * of b usfr objfdt storfd in thf nodf.
+ *
+ * @sff DffbultMutbblfTrffNodf
+ * @sff jbvbx.swing.JTrff
+ *
+ * @buthor Rob Dbvis
+ * @buthor Sdott Violft
+ */
+
+publid intfrfbdf MutbblfTrffNodf fxtfnds TrffNodf
+{
+    /**
+     * Adds <dodf>dhild</dodf> to thf rfdfivfr bt <dodf>indfx</dodf>.
+     * <dodf>dhild</dodf> will bf mfssbgfd with <dodf>sftPbrfnt</dodf>.
+     *
+     * @pbrbm dhild nodf to bf bddfd
+     * @pbrbm indfx indfx of thf rfdfivfr
+     */
+    void insfrt(MutbblfTrffNodf dhild, int indfx);
+
+    /**
+     * Rfmovfs thf dhild bt <dodf>indfx</dodf> from thf rfdfivfr.
+     *
+     * @pbrbm indfx indfx of dhild to bf rfmovfd
+     */
+    void rfmovf(int indfx);
+
+    /**
+     * Rfmovfs <dodf>nodf</dodf> from thf rfdfivfr. <dodf>sftPbrfnt</dodf>
+     * will bf mfssbgfd on <dodf>nodf</dodf>.
+     *
+     * @pbrbm nodf nodf to bf rfmovfd from thf rfdfivfr
+     */
+    void rfmovf(MutbblfTrffNodf nodf);
+
+    /**
+     * Rfsfts thf usfr objfdt of thf rfdfivfr to <dodf>objfdt</dodf>.
+     *
+     * @pbrbm objfdt objfdt to bf sft bs b rfdfivfr
+     */
+    void sftUsfrObjfdt(Objfdt objfdt);
+
+    /**
+     * Rfmovfs thf rfdfivfr from its pbrfnt.
+     */
+    void rfmovfFromPbrfnt();
+
+    /**
+     * Sfts thf pbrfnt of thf rfdfivfr to <dodf>nfwPbrfnt</dodf>.
+     *
+     * @pbrbm nfwPbrfnt nodf to bf sft bs pbrfnt of thf rfdfivfr
+     */
+    void sftPbrfnt(MutbblfTrffNodf nfwPbrfnt);
+}

@@ -1,0 +1,1814 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dhbnnfls.SodkftChbnnfl;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Sft;
+import jbvb.util.Collfdtions;
+
+/**
+ * This dlbss implfmfnts dlifnt sodkfts (blso dbllfd just
+ * "sodkfts"). A sodkft is bn fndpoint for dommunidbtion
+ * bftwffn two mbdhinfs.
+ * <p>
+ * Thf bdtubl work of thf sodkft is pfrformfd by bn instbndf of thf
+ * {@dodf SodkftImpl} dlbss. An bpplidbtion, by dhbnging
+ * thf sodkft fbdtory thbt drfbtfs thf sodkft implfmfntbtion,
+ * dbn donfigurf itsflf to drfbtf sodkfts bppropribtf to thf lodbl
+ * firfwbll.
+ *
+ * @buthor  unbsdribfd
+ * @sff     jbvb.nft.Sodkft#sftSodkftImplFbdtory(jbvb.nft.SodkftImplFbdtory)
+ * @sff     jbvb.nft.SodkftImpl
+ * @sff     jbvb.nio.dhbnnfls.SodkftChbnnfl
+ * @sindf   1.0
+ */
+publid
+dlbss Sodkft implfmfnts jbvb.io.Closfbblf {
+    /**
+     * Vbrious stbtfs of this sodkft.
+     */
+    privbtf boolfbn drfbtfd = fblsf;
+    privbtf boolfbn bound = fblsf;
+    privbtf boolfbn donnfdtfd = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+    privbtf Objfdt dlosfLodk = nfw Objfdt();
+    privbtf boolfbn shutIn = fblsf;
+    privbtf boolfbn shutOut = fblsf;
+
+    /**
+     * Thf implfmfntbtion of this Sodkft.
+     */
+    SodkftImpl impl;
+
+    /**
+     * Arf wf using bn oldfr SodkftImpl?
+     */
+    privbtf boolfbn oldImpl = fblsf;
+
+    /**
+     * Crfbtfs bn undonnfdtfd sodkft, with thf
+     * systfm-dffbult typf of SodkftImpl.
+     *
+     * @sindf   1.1
+     * @rfvisfd 1.4
+     */
+    publid Sodkft() {
+        sftImpl();
+    }
+
+    /**
+     * Crfbtfs bn undonnfdtfd sodkft, spfdifying thf typf of proxy, if bny,
+     * thbt should bf usfd rfgbrdlfss of bny othfr sfttings.
+     * <P>
+     * If thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkConnfdt} mfthod
+     * is dbllfd with thf proxy host bddrfss bnd port numbfr
+     * bs its brgumfnts. This dould rfsult in b SfdurityExdfption.
+     * <P>
+     * Exbmplfs:
+     * <UL> <LI>{@dodf Sodkft s = nfw Sodkft(Proxy.NO_PROXY);} will drfbtf
+     * b plbin sodkft ignoring bny othfr proxy donfigurbtion.</LI>
+     * <LI>{@dodf Sodkft s = nfw Sodkft(nfw Proxy(Proxy.Typf.SOCKS, nfw InftSodkftAddrfss("sodks.mydom.dom", 1080)));}
+     * will drfbtf b sodkft donnfdting through thf spfdififd SOCKS proxy
+     * sfrvfr.</LI>
+     * </UL>
+     *
+     * @pbrbm proxy b {@link jbvb.nft.Proxy Proxy} objfdt spfdifying whbt kind
+     *              of proxying should bf usfd.
+     * @throws IllfgblArgumfntExdfption if thf proxy is of bn invblid typf
+     *          or {@dodf null}.
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is prfsfnt bnd
+     *                           pfrmission to donnfdt to thf proxy is
+     *                           dfnifd.
+     * @sff jbvb.nft.ProxySflfdtor
+     * @sff jbvb.nft.Proxy
+     *
+     * @sindf   1.5
+     */
+    publid Sodkft(Proxy proxy) {
+        // Crfbtf b dopy of Proxy bs b sfdurity mfbsurf
+        if (proxy == null) {
+            throw nfw IllfgblArgumfntExdfption("Invblid Proxy");
+        }
+        Proxy p = proxy == Proxy.NO_PROXY ? Proxy.NO_PROXY
+                                          : sun.nft.ApplidbtionProxy.drfbtf(proxy);
+        Proxy.Typf typf = p.typf();
+        if (typf == Proxy.Typf.SOCKS || typf == Proxy.Typf.HTTP) {
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            InftSodkftAddrfss fpoint = (InftSodkftAddrfss) p.bddrfss();
+            if (fpoint.gftAddrfss() != null) {
+                dhfdkAddrfss (fpoint.gftAddrfss(), "Sodkft");
+            }
+            if (sfdurity != null) {
+                if (fpoint.isUnrfsolvfd())
+                    fpoint = nfw InftSodkftAddrfss(fpoint.gftHostNbmf(), fpoint.gftPort());
+                if (fpoint.isUnrfsolvfd())
+                    sfdurity.dhfdkConnfdt(fpoint.gftHostNbmf(), fpoint.gftPort());
+                flsf
+                    sfdurity.dhfdkConnfdt(fpoint.gftAddrfss().gftHostAddrfss(),
+                                  fpoint.gftPort());
+            }
+            impl = typf == Proxy.Typf.SOCKS ? nfw SodksSodkftImpl(p)
+                                            : nfw HttpConnfdtSodkftImpl(p);
+            impl.sftSodkft(this);
+        } flsf {
+            if (p == Proxy.NO_PROXY) {
+                if (fbdtory == null) {
+                    impl = nfw PlbinSodkftImpl();
+                    impl.sftSodkft(this);
+                } flsf
+                    sftImpl();
+            } flsf
+                throw nfw IllfgblArgumfntExdfption("Invblid Proxy");
+        }
+    }
+
+    /**
+     * Crfbtfs bn undonnfdtfd Sodkft with b usfr-spfdififd
+     * SodkftImpl.
+     *
+     * @pbrbm impl bn instbndf of b <B>SodkftImpl</B>
+     * thf subdlbss wishfs to usf on thf Sodkft.
+     *
+     * @fxdfption SodkftExdfption if thfrf is bn frror in thf undfrlying protodol,
+     * sudh bs b TCP frror.
+     * @sindf   1.1
+     */
+    protfdtfd Sodkft(SodkftImpl impl) throws SodkftExdfption {
+        this.impl = impl;
+        if (impl != null) {
+            dhfdkOldImpl();
+            this.impl.sftSodkft(this);
+        }
+    }
+
+    /**
+     * Crfbtfs b strfbm sodkft bnd donnfdts it to thf spfdififd port
+     * numbfr on thf nbmfd host.
+     * <p>
+     * If thf spfdififd host is {@dodf null} it is thf fquivblfnt of
+     * spfdifying thf bddrfss bs
+     * {@link jbvb.nft.InftAddrfss#gftByNbmf InftAddrfss.gftByNbmf}{@dodf (null)}.
+     * In othfr words, it is fquivblfnt to spfdifying bn bddrfss of thf
+     * loopbbdk intfrfbdf. </p>
+     * <p>
+     * If thf bpplidbtion hbs spfdififd b sfrvfr sodkft fbdtory, thbt
+     * fbdtory's {@dodf drfbtfSodkftImpl} mfthod is dbllfd to drfbtf
+     * thf bdtubl sodkft implfmfntbtion. Othfrwisf b "plbin" sodkft is drfbtfd.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its
+     * {@dodf dhfdkConnfdt} mfthod is dbllfd
+     * with thf host bddrfss bnd {@dodf port}
+     * bs its brgumfnts. This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm      host   thf host nbmf, or {@dodf null} for thf loopbbdk bddrfss.
+     * @pbrbm      port   thf port numbfr.
+     *
+     * @fxdfption  UnknownHostExdfption if thf IP bddrfss of
+     * thf host dould not bf dftfrminfd.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn drfbting thf sodkft.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkConnfdt} mfthod dofsn't bllow thf opfrbtion.
+     * @fxdfption  IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf
+     *             thf spfdififd rbngf of vblid port vblufs, whidh is bftwffn
+     *             0 bnd 65535, indlusivf.
+     * @sff        jbvb.nft.Sodkft#sftSodkftImplFbdtory(jbvb.nft.SodkftImplFbdtory)
+     * @sff        jbvb.nft.SodkftImpl
+     * @sff        jbvb.nft.SodkftImplFbdtory#drfbtfSodkftImpl()
+     * @sff        SfdurityMbnbgfr#dhfdkConnfdt
+     */
+    publid Sodkft(String host, int port)
+        throws UnknownHostExdfption, IOExdfption
+    {
+        this(host != null ? nfw InftSodkftAddrfss(host, port) :
+             nfw InftSodkftAddrfss(InftAddrfss.gftByNbmf(null), port),
+             (SodkftAddrfss) null, truf);
+    }
+
+    /**
+     * Crfbtfs b strfbm sodkft bnd donnfdts it to thf spfdififd port
+     * numbfr bt thf spfdififd IP bddrfss.
+     * <p>
+     * If thf bpplidbtion hbs spfdififd b sodkft fbdtory, thbt fbdtory's
+     * {@dodf drfbtfSodkftImpl} mfthod is dbllfd to drfbtf thf
+     * bdtubl sodkft implfmfntbtion. Othfrwisf b "plbin" sodkft is drfbtfd.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its
+     * {@dodf dhfdkConnfdt} mfthod is dbllfd
+     * with thf host bddrfss bnd {@dodf port}
+     * bs its brgumfnts. This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm      bddrfss   thf IP bddrfss.
+     * @pbrbm      port      thf port numbfr.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn drfbting thf sodkft.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkConnfdt} mfthod dofsn't bllow thf opfrbtion.
+     * @fxdfption  IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf
+     *             thf spfdififd rbngf of vblid port vblufs, whidh is bftwffn
+     *             0 bnd 65535, indlusivf.
+     * @fxdfption  NullPointfrExdfption if {@dodf bddrfss} is null.
+     * @sff        jbvb.nft.Sodkft#sftSodkftImplFbdtory(jbvb.nft.SodkftImplFbdtory)
+     * @sff        jbvb.nft.SodkftImpl
+     * @sff        jbvb.nft.SodkftImplFbdtory#drfbtfSodkftImpl()
+     * @sff        SfdurityMbnbgfr#dhfdkConnfdt
+     */
+    publid Sodkft(InftAddrfss bddrfss, int port) throws IOExdfption {
+        this(bddrfss != null ? nfw InftSodkftAddrfss(bddrfss, port) : null,
+             (SodkftAddrfss) null, truf);
+    }
+
+    /**
+     * Crfbtfs b sodkft bnd donnfdts it to thf spfdififd rfmotf host on
+     * thf spfdififd rfmotf port. Thf Sodkft will blso bind() to thf lodbl
+     * bddrfss bnd port supplifd.
+     * <p>
+     * If thf spfdififd host is {@dodf null} it is thf fquivblfnt of
+     * spfdifying thf bddrfss bs
+     * {@link jbvb.nft.InftAddrfss#gftByNbmf InftAddrfss.gftByNbmf}{@dodf (null)}.
+     * In othfr words, it is fquivblfnt to spfdifying bn bddrfss of thf
+     * loopbbdk intfrfbdf. </p>
+     * <p>
+     * A lodbl port numbfr of {@dodf zfro} will lft thf systfm pidk up b
+     * frff port in thf {@dodf bind} opfrbtion.</p>
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its
+     * {@dodf dhfdkConnfdt} mfthod is dbllfd
+     * with thf host bddrfss bnd {@dodf port}
+     * bs its brgumfnts. This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm host thf nbmf of thf rfmotf host, or {@dodf null} for thf loopbbdk bddrfss.
+     * @pbrbm port thf rfmotf port
+     * @pbrbm lodblAddr thf lodbl bddrfss thf sodkft is bound to, or
+     *        {@dodf null} for thf {@dodf bnyLodbl} bddrfss.
+     * @pbrbm lodblPort thf lodbl port thf sodkft is bound to, or
+     *        {@dodf zfro} for b systfm sflfdtfd frff port.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn drfbting thf sodkft.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkConnfdt} mfthod dofsn't bllow thf donnfdtion
+     *             to thf dfstinbtion, or if its {@dodf dhfdkListfn} mfthod
+     *             dofsn't bllow thf bind to thf lodbl port.
+     * @fxdfption  IllfgblArgumfntExdfption if thf port pbrbmftfr or lodblPort
+     *             pbrbmftfr is outsidf thf spfdififd rbngf of vblid port vblufs,
+     *             whidh is bftwffn 0 bnd 65535, indlusivf.
+     * @sff        SfdurityMbnbgfr#dhfdkConnfdt
+     * @sindf   1.1
+     */
+    publid Sodkft(String host, int port, InftAddrfss lodblAddr,
+                  int lodblPort) throws IOExdfption {
+        this(host != null ? nfw InftSodkftAddrfss(host, port) :
+               nfw InftSodkftAddrfss(InftAddrfss.gftByNbmf(null), port),
+             nfw InftSodkftAddrfss(lodblAddr, lodblPort), truf);
+    }
+
+    /**
+     * Crfbtfs b sodkft bnd donnfdts it to thf spfdififd rfmotf bddrfss on
+     * thf spfdififd rfmotf port. Thf Sodkft will blso bind() to thf lodbl
+     * bddrfss bnd port supplifd.
+     * <p>
+     * If thf spfdififd lodbl bddrfss is {@dodf null} it is thf fquivblfnt of
+     * spfdifying thf bddrfss bs thf AnyLodbl bddrfss
+     * (sff {@link jbvb.nft.InftAddrfss#isAnyLodblAddrfss InftAddrfss.isAnyLodblAddrfss}{@dodf ()}).
+     * <p>
+     * A lodbl port numbfr of {@dodf zfro} will lft thf systfm pidk up b
+     * frff port in thf {@dodf bind} opfrbtion.</p>
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its
+     * {@dodf dhfdkConnfdt} mfthod is dbllfd
+     * with thf host bddrfss bnd {@dodf port}
+     * bs its brgumfnts. This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm bddrfss thf rfmotf bddrfss
+     * @pbrbm port thf rfmotf port
+     * @pbrbm lodblAddr thf lodbl bddrfss thf sodkft is bound to, or
+     *        {@dodf null} for thf {@dodf bnyLodbl} bddrfss.
+     * @pbrbm lodblPort thf lodbl port thf sodkft is bound to or
+     *        {@dodf zfro} for b systfm sflfdtfd frff port.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn drfbting thf sodkft.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkConnfdt} mfthod dofsn't bllow thf donnfdtion
+     *             to thf dfstinbtion, or if its {@dodf dhfdkListfn} mfthod
+     *             dofsn't bllow thf bind to thf lodbl port.
+     * @fxdfption  IllfgblArgumfntExdfption if thf port pbrbmftfr or lodblPort
+     *             pbrbmftfr is outsidf thf spfdififd rbngf of vblid port vblufs,
+     *             whidh is bftwffn 0 bnd 65535, indlusivf.
+     * @fxdfption  NullPointfrExdfption if {@dodf bddrfss} is null.
+     * @sff        SfdurityMbnbgfr#dhfdkConnfdt
+     * @sindf   1.1
+     */
+    publid Sodkft(InftAddrfss bddrfss, int port, InftAddrfss lodblAddr,
+                  int lodblPort) throws IOExdfption {
+        this(bddrfss != null ? nfw InftSodkftAddrfss(bddrfss, port) : null,
+             nfw InftSodkftAddrfss(lodblAddr, lodblPort), truf);
+    }
+
+    /**
+     * Crfbtfs b strfbm sodkft bnd donnfdts it to thf spfdififd port
+     * numbfr on thf nbmfd host.
+     * <p>
+     * If thf spfdififd host is {@dodf null} it is thf fquivblfnt of
+     * spfdifying thf bddrfss bs
+     * {@link jbvb.nft.InftAddrfss#gftByNbmf InftAddrfss.gftByNbmf}{@dodf (null)}.
+     * In othfr words, it is fquivblfnt to spfdifying bn bddrfss of thf
+     * loopbbdk intfrfbdf. </p>
+     * <p>
+     * If thf strfbm brgumfnt is {@dodf truf}, this drfbtfs b
+     * strfbm sodkft. If thf strfbm brgumfnt is {@dodf fblsf}, it
+     * drfbtfs b dbtbgrbm sodkft.
+     * <p>
+     * If thf bpplidbtion hbs spfdififd b sfrvfr sodkft fbdtory, thbt
+     * fbdtory's {@dodf drfbtfSodkftImpl} mfthod is dbllfd to drfbtf
+     * thf bdtubl sodkft implfmfntbtion. Othfrwisf b "plbin" sodkft is drfbtfd.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its
+     * {@dodf dhfdkConnfdt} mfthod is dbllfd
+     * with thf host bddrfss bnd {@dodf port}
+     * bs its brgumfnts. This dould rfsult in b SfdurityExdfption.
+     * <p>
+     * If b UDP sodkft is usfd, TCP/IP rflbtfd sodkft options will not bpply.
+     *
+     * @pbrbm      host     thf host nbmf, or {@dodf null} for thf loopbbdk bddrfss.
+     * @pbrbm      port     thf port numbfr.
+     * @pbrbm      strfbm   b {@dodf boolfbn} indidbting whfthfr this is
+     *                      b strfbm sodkft or b dbtbgrbm sodkft.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn drfbting thf sodkft.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkConnfdt} mfthod dofsn't bllow thf opfrbtion.
+     * @fxdfption  IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf
+     *             thf spfdififd rbngf of vblid port vblufs, whidh is bftwffn
+     *             0 bnd 65535, indlusivf.
+     * @sff        jbvb.nft.Sodkft#sftSodkftImplFbdtory(jbvb.nft.SodkftImplFbdtory)
+     * @sff        jbvb.nft.SodkftImpl
+     * @sff        jbvb.nft.SodkftImplFbdtory#drfbtfSodkftImpl()
+     * @sff        SfdurityMbnbgfr#dhfdkConnfdt
+     * @dfprfdbtfd Usf DbtbgrbmSodkft instfbd for UDP trbnsport.
+     */
+    @Dfprfdbtfd
+    publid Sodkft(String host, int port, boolfbn strfbm) throws IOExdfption {
+        this(host != null ? nfw InftSodkftAddrfss(host, port) :
+               nfw InftSodkftAddrfss(InftAddrfss.gftByNbmf(null), port),
+             (SodkftAddrfss) null, strfbm);
+    }
+
+    /**
+     * Crfbtfs b sodkft bnd donnfdts it to thf spfdififd port numbfr bt
+     * thf spfdififd IP bddrfss.
+     * <p>
+     * If thf strfbm brgumfnt is {@dodf truf}, this drfbtfs b
+     * strfbm sodkft. If thf strfbm brgumfnt is {@dodf fblsf}, it
+     * drfbtfs b dbtbgrbm sodkft.
+     * <p>
+     * If thf bpplidbtion hbs spfdififd b sfrvfr sodkft fbdtory, thbt
+     * fbdtory's {@dodf drfbtfSodkftImpl} mfthod is dbllfd to drfbtf
+     * thf bdtubl sodkft implfmfntbtion. Othfrwisf b "plbin" sodkft is drfbtfd.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, its
+     * {@dodf dhfdkConnfdt} mfthod is dbllfd
+     * with {@dodf host.gftHostAddrfss()} bnd {@dodf port}
+     * bs its brgumfnts. This dould rfsult in b SfdurityExdfption.
+     * <p>
+     * If UDP sodkft is usfd, TCP/IP rflbtfd sodkft options will not bpply.
+     *
+     * @pbrbm      host     thf IP bddrfss.
+     * @pbrbm      port      thf port numbfr.
+     * @pbrbm      strfbm    if {@dodf truf}, drfbtf b strfbm sodkft;
+     *                       othfrwisf, drfbtf b dbtbgrbm sodkft.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn drfbting thf sodkft.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkConnfdt} mfthod dofsn't bllow thf opfrbtion.
+     * @fxdfption  IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf
+     *             thf spfdififd rbngf of vblid port vblufs, whidh is bftwffn
+     *             0 bnd 65535, indlusivf.
+     * @fxdfption  NullPointfrExdfption if {@dodf host} is null.
+     * @sff        jbvb.nft.Sodkft#sftSodkftImplFbdtory(jbvb.nft.SodkftImplFbdtory)
+     * @sff        jbvb.nft.SodkftImpl
+     * @sff        jbvb.nft.SodkftImplFbdtory#drfbtfSodkftImpl()
+     * @sff        SfdurityMbnbgfr#dhfdkConnfdt
+     * @dfprfdbtfd Usf DbtbgrbmSodkft instfbd for UDP trbnsport.
+     */
+    @Dfprfdbtfd
+    publid Sodkft(InftAddrfss host, int port, boolfbn strfbm) throws IOExdfption {
+        this(host != null ? nfw InftSodkftAddrfss(host, port) : null,
+             nfw InftSodkftAddrfss(0), strfbm);
+    }
+
+    privbtf Sodkft(SodkftAddrfss bddrfss, SodkftAddrfss lodblAddr,
+                   boolfbn strfbm) throws IOExdfption {
+        sftImpl();
+
+        // bbdkwbrd dompbtibility
+        if (bddrfss == null)
+            throw nfw NullPointfrExdfption();
+
+        try {
+            drfbtfImpl(strfbm);
+            if (lodblAddr != null)
+                bind(lodblAddr);
+            donnfdt(bddrfss);
+        } dbtdh (IOExdfption | IllfgblArgumfntExdfption | SfdurityExdfption f) {
+            try {
+                dlosf();
+            } dbtdh (IOExdfption df) {
+                f.bddSupprfssfd(df);
+            }
+            throw f;
+        }
+    }
+
+    /**
+     * Crfbtfs thf sodkft implfmfntbtion.
+     *
+     * @pbrbm strfbm b {@dodf boolfbn} vbluf : {@dodf truf} for b TCP sodkft,
+     *               {@dodf fblsf} for UDP.
+     * @throws IOExdfption if drfbtion fbils
+     * @sindf 1.4
+     */
+     void drfbtfImpl(boolfbn strfbm) throws SodkftExdfption {
+        if (impl == null)
+            sftImpl();
+        try {
+            impl.drfbtf(strfbm);
+            drfbtfd = truf;
+        } dbtdh (IOExdfption f) {
+            throw nfw SodkftExdfption(f.gftMfssbgf());
+        }
+    }
+
+    privbtf void dhfdkOldImpl() {
+        if (impl == null)
+            rfturn;
+        // SodkftImpl.donnfdt() is b protfdtfd mfthod, thfrfforf wf nffd to usf
+        // gftDfdlbrfdMfthod, thfrfforf wf nffd pfrmission to bddfss thf mfmbfr
+
+        oldImpl = AddfssControllfr.doPrivilfgfd
+                                (nfw PrivilfgfdAdtion<Boolfbn>() {
+            publid Boolfbn run() {
+                Clbss<?> dlbzz = impl.gftClbss();
+                whilf (truf) {
+                    try {
+                        dlbzz.gftDfdlbrfdMfthod("donnfdt", SodkftAddrfss.dlbss, int.dlbss);
+                        rfturn Boolfbn.FALSE;
+                    } dbtdh (NoSudhMfthodExdfption f) {
+                        dlbzz = dlbzz.gftSupfrdlbss();
+                        // jbvb.nft.SodkftImpl dlbss will blwbys hbvf this bbstrbdt mfthod.
+                        // If wf hbvf not found it by now in thf hifrbrdhy thfn it dofs not
+                        // fxist, wf brf bn old stylf impl.
+                        if (dlbzz.fqubls(jbvb.nft.SodkftImpl.dlbss)) {
+                            rfturn Boolfbn.TRUE;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Sfts impl to thf systfm-dffbult typf of SodkftImpl.
+     * @sindf 1.4
+     */
+    void sftImpl() {
+        if (fbdtory != null) {
+            impl = fbdtory.drfbtfSodkftImpl();
+            dhfdkOldImpl();
+        } flsf {
+            // No nffd to do b dhfdkOldImpl() hfrf, wf know it's bn up to dbtf
+            // SodkftImpl!
+            impl = nfw SodksSodkftImpl();
+        }
+        if (impl != null)
+            impl.sftSodkft(this);
+    }
+
+
+    /**
+     * Gft thf {@dodf SodkftImpl} bttbdhfd to this sodkft, drfbting
+     * it if nfdfssbry.
+     *
+     * @rfturn  thf {@dodf SodkftImpl} bttbdhfd to thbt SfrvfrSodkft.
+     * @throws SodkftExdfption if drfbtion fbils
+     * @sindf 1.4
+     */
+    SodkftImpl gftImpl() throws SodkftExdfption {
+        if (!drfbtfd)
+            drfbtfImpl(truf);
+        rfturn impl;
+    }
+
+    /**
+     * Connfdts this sodkft to thf sfrvfr.
+     *
+     * @pbrbm   fndpoint thf {@dodf SodkftAddrfss}
+     * @throws  IOExdfption if bn frror oddurs during thf donnfdtion
+     * @throws  jbvb.nio.dhbnnfls.IllfgblBlodkingModfExdfption
+     *          if this sodkft hbs bn bssodibtfd dhbnnfl,
+     *          bnd thf dhbnnfl is in non-blodking modf
+     * @throws  IllfgblArgumfntExdfption if fndpoint is null or is b
+     *          SodkftAddrfss subdlbss not supportfd by this sodkft
+     * @sindf 1.4
+     * @spfd JSR-51
+     */
+    publid void donnfdt(SodkftAddrfss fndpoint) throws IOExdfption {
+        donnfdt(fndpoint, 0);
+    }
+
+    /**
+     * Connfdts this sodkft to thf sfrvfr with b spfdififd timfout vbluf.
+     * A timfout of zfro is intfrprftfd bs bn infinitf timfout. Thf donnfdtion
+     * will thfn blodk until fstbblishfd or bn frror oddurs.
+     *
+     * @pbrbm   fndpoint thf {@dodf SodkftAddrfss}
+     * @pbrbm   timfout  thf timfout vbluf to bf usfd in millisfdonds.
+     * @throws  IOExdfption if bn frror oddurs during thf donnfdtion
+     * @throws  SodkftTimfoutExdfption if timfout fxpirfs bfforf donnfdting
+     * @throws  jbvb.nio.dhbnnfls.IllfgblBlodkingModfExdfption
+     *          if this sodkft hbs bn bssodibtfd dhbnnfl,
+     *          bnd thf dhbnnfl is in non-blodking modf
+     * @throws  IllfgblArgumfntExdfption if fndpoint is null or is b
+     *          SodkftAddrfss subdlbss not supportfd by this sodkft
+     * @sindf 1.4
+     * @spfd JSR-51
+     */
+    publid void donnfdt(SodkftAddrfss fndpoint, int timfout) throws IOExdfption {
+        if (fndpoint == null)
+            throw nfw IllfgblArgumfntExdfption("donnfdt: Thf bddrfss dbn't bf null");
+
+        if (timfout < 0)
+          throw nfw IllfgblArgumfntExdfption("donnfdt: timfout dbn't bf nfgbtivf");
+
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+
+        if (!oldImpl && isConnfdtfd())
+            throw nfw SodkftExdfption("blrfbdy donnfdtfd");
+
+        if (!(fndpoint instbndfof InftSodkftAddrfss))
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf");
+
+        InftSodkftAddrfss fpoint = (InftSodkftAddrfss) fndpoint;
+        InftAddrfss bddr = fpoint.gftAddrfss ();
+        int port = fpoint.gftPort();
+        dhfdkAddrfss(bddr, "donnfdt");
+
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            if (fpoint.isUnrfsolvfd())
+                sfdurity.dhfdkConnfdt(fpoint.gftHostNbmf(), port);
+            flsf
+                sfdurity.dhfdkConnfdt(bddr.gftHostAddrfss(), port);
+        }
+        if (!drfbtfd)
+            drfbtfImpl(truf);
+        if (!oldImpl)
+            impl.donnfdt(fpoint, timfout);
+        flsf if (timfout == 0) {
+            if (fpoint.isUnrfsolvfd())
+                impl.donnfdt(bddr.gftHostNbmf(), port);
+            flsf
+                impl.donnfdt(bddr, port);
+        } flsf
+            throw nfw UnsupportfdOpfrbtionExdfption("SodkftImpl.donnfdt(bddr, timfout)");
+        donnfdtfd = truf;
+        /*
+         * If thf sodkft wbs not bound bfforf thf donnfdt, it is now bfdbusf
+         * thf kfrnfl will hbvf pidkfd bn fphfmfrbl port & b lodbl bddrfss
+         */
+        bound = truf;
+    }
+
+    /**
+     * Binds thf sodkft to b lodbl bddrfss.
+     * <P>
+     * If thf bddrfss is {@dodf null}, thfn thf systfm will pidk up
+     * bn fphfmfrbl port bnd b vblid lodbl bddrfss to bind thf sodkft.
+     *
+     * @pbrbm   bindpoint thf {@dodf SodkftAddrfss} to bind to
+     * @throws  IOExdfption if thf bind opfrbtion fbils, or if thf sodkft
+     *                     is blrfbdy bound.
+     * @throws  IllfgblArgumfntExdfption if bindpoint is b
+     *          SodkftAddrfss subdlbss not supportfd by this sodkft
+     * @throws  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *          {@dodf dhfdkListfn} mfthod dofsn't bllow thf bind
+     *          to thf lodbl port.
+     *
+     * @sindf   1.4
+     * @sff #isBound
+     */
+    publid void bind(SodkftAddrfss bindpoint) throws IOExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        if (!oldImpl && isBound())
+            throw nfw SodkftExdfption("Alrfbdy bound");
+
+        if (bindpoint != null && (!(bindpoint instbndfof InftSodkftAddrfss)))
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf");
+        InftSodkftAddrfss fpoint = (InftSodkftAddrfss) bindpoint;
+        if (fpoint != null && fpoint.isUnrfsolvfd())
+            throw nfw SodkftExdfption("Unrfsolvfd bddrfss");
+        if (fpoint == null) {
+            fpoint = nfw InftSodkftAddrfss(0);
+        }
+        InftAddrfss bddr = fpoint.gftAddrfss();
+        int port = fpoint.gftPort();
+        dhfdkAddrfss (bddr, "bind");
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkListfn(port);
+        }
+        gftImpl().bind (bddr, port);
+        bound = truf;
+    }
+
+    privbtf void dhfdkAddrfss (InftAddrfss bddr, String op) {
+        if (bddr == null) {
+            rfturn;
+        }
+        if (!(bddr instbndfof Inft4Addrfss || bddr instbndfof Inft6Addrfss)) {
+            throw nfw IllfgblArgumfntExdfption(op + ": invblid bddrfss typf");
+        }
+    }
+
+    /**
+     * sft thf flbgs bftfr bn bddfpt() dbll.
+     */
+    finbl void postAddfpt() {
+        donnfdtfd = truf;
+        drfbtfd = truf;
+        bound = truf;
+    }
+
+    void sftCrfbtfd() {
+        drfbtfd = truf;
+    }
+
+    void sftBound() {
+        bound = truf;
+    }
+
+    void sftConnfdtfd() {
+        donnfdtfd = truf;
+    }
+
+    /**
+     * Rfturns thf bddrfss to whidh thf sodkft is donnfdtfd.
+     * <p>
+     * If thf sodkft wbs donnfdtfd prior to bfing {@link #dlosf dlosfd},
+     * thfn this mfthod will dontinuf to rfturn thf donnfdtfd bddrfss
+     * bftfr thf sodkft is dlosfd.
+     *
+     * @rfturn  thf rfmotf IP bddrfss to whidh this sodkft is donnfdtfd,
+     *          or {@dodf null} if thf sodkft is not donnfdtfd.
+     */
+    publid InftAddrfss gftInftAddrfss() {
+        if (!isConnfdtfd())
+            rfturn null;
+        try {
+            rfturn gftImpl().gftInftAddrfss();
+        } dbtdh (SodkftExdfption f) {
+        }
+        rfturn null;
+    }
+
+    /**
+     * Gfts thf lodbl bddrfss to whidh thf sodkft is bound.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr sft, its {@dodf dhfdkConnfdt} mfthod is
+     * dbllfd with thf lodbl bddrfss bnd {@dodf -1} bs its brgumfnts to sff
+     * if thf opfrbtion is bllowfd. If thf opfrbtion is not bllowfd,
+     * thf {@link InftAddrfss#gftLoopbbdkAddrfss loopbbdk} bddrfss is rfturnfd.
+     *
+     * @rfturn thf lodbl bddrfss to whidh thf sodkft is bound,
+     *         thf loopbbdk bddrfss if dfnifd by thf sfdurity mbnbgfr, or
+     *         thf wilddbrd bddrfss if thf sodkft is dlosfd or not bound yft.
+     * @sindf   1.1
+     *
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     */
+    publid InftAddrfss gftLodblAddrfss() {
+        // This is for bbdkwbrd dompbtibility
+        if (!isBound())
+            rfturn InftAddrfss.bnyLodblAddrfss();
+        InftAddrfss in = null;
+        try {
+            in = (InftAddrfss) gftImpl().gftOption(SodkftOptions.SO_BINDADDR);
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null)
+                sm.dhfdkConnfdt(in.gftHostAddrfss(), -1);
+            if (in.isAnyLodblAddrfss()) {
+                in = InftAddrfss.bnyLodblAddrfss();
+            }
+        } dbtdh (SfdurityExdfption f) {
+            in = InftAddrfss.gftLoopbbdkAddrfss();
+        } dbtdh (Exdfption f) {
+            in = InftAddrfss.bnyLodblAddrfss(); // "0.0.0.0"
+        }
+        rfturn in;
+    }
+
+    /**
+     * Rfturns thf rfmotf port numbfr to whidh this sodkft is donnfdtfd.
+     * <p>
+     * If thf sodkft wbs donnfdtfd prior to bfing {@link #dlosf dlosfd},
+     * thfn this mfthod will dontinuf to rfturn thf donnfdtfd port numbfr
+     * bftfr thf sodkft is dlosfd.
+     *
+     * @rfturn  thf rfmotf port numbfr to whidh this sodkft is donnfdtfd, or
+     *          0 if thf sodkft is not donnfdtfd yft.
+     */
+    publid int gftPort() {
+        if (!isConnfdtfd())
+            rfturn 0;
+        try {
+            rfturn gftImpl().gftPort();
+        } dbtdh (SodkftExdfption f) {
+            // Shouldn't hbppfn bs wf'rf donnfdtfd
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns thf lodbl port numbfr to whidh this sodkft is bound.
+     * <p>
+     * If thf sodkft wbs bound prior to bfing {@link #dlosf dlosfd},
+     * thfn this mfthod will dontinuf to rfturn thf lodbl port numbfr
+     * bftfr thf sodkft is dlosfd.
+     *
+     * @rfturn  thf lodbl port numbfr to whidh this sodkft is bound or -1
+     *          if thf sodkft is not bound yft.
+     */
+    publid int gftLodblPort() {
+        if (!isBound())
+            rfturn -1;
+        try {
+            rfturn gftImpl().gftLodblPort();
+        } dbtdh(SodkftExdfption f) {
+            // shouldn't hbppfn bs wf'rf bound
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns thf bddrfss of thf fndpoint this sodkft is donnfdtfd to, or
+     * {@dodf null} if it is undonnfdtfd.
+     * <p>
+     * If thf sodkft wbs donnfdtfd prior to bfing {@link #dlosf dlosfd},
+     * thfn this mfthod will dontinuf to rfturn thf donnfdtfd bddrfss
+     * bftfr thf sodkft is dlosfd.
+     *
+
+     * @rfturn b {@dodf SodkftAddrfss} rfprfsfnting thf rfmotf fndpoint of this
+     *         sodkft, or {@dodf null} if it is not donnfdtfd yft.
+     * @sff #gftInftAddrfss()
+     * @sff #gftPort()
+     * @sff #donnfdt(SodkftAddrfss, int)
+     * @sff #donnfdt(SodkftAddrfss)
+     * @sindf 1.4
+     */
+    publid SodkftAddrfss gftRfmotfSodkftAddrfss() {
+        if (!isConnfdtfd())
+            rfturn null;
+        rfturn nfw InftSodkftAddrfss(gftInftAddrfss(), gftPort());
+    }
+
+    /**
+     * Rfturns thf bddrfss of thf fndpoint this sodkft is bound to.
+     * <p>
+     * If b sodkft bound to bn fndpoint rfprfsfntfd by bn
+     * {@dodf InftSodkftAddrfss } is {@link #dlosf dlosfd},
+     * thfn this mfthod will dontinuf to rfturn bn {@dodf InftSodkftAddrfss}
+     * bftfr thf sodkft is dlosfd. In thbt dbsf thf rfturnfd
+     * {@dodf InftSodkftAddrfss}'s bddrfss is thf
+     * {@link InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss
+     * bnd its port is thf lodbl port thbt it wbs bound to.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr sft, its {@dodf dhfdkConnfdt} mfthod is
+     * dbllfd with thf lodbl bddrfss bnd {@dodf -1} bs its brgumfnts to sff
+     * if thf opfrbtion is bllowfd. If thf opfrbtion is not bllowfd,
+     * b {@dodf SodkftAddrfss} rfprfsfnting thf
+     * {@link InftAddrfss#gftLoopbbdkAddrfss loopbbdk} bddrfss bnd thf lodbl
+     * port to whidh this sodkft is bound is rfturnfd.
+     *
+     * @rfturn b {@dodf SodkftAddrfss} rfprfsfnting thf lodbl fndpoint of
+     *         this sodkft, or b {@dodf SodkftAddrfss} rfprfsfnting thf
+     *         loopbbdk bddrfss if dfnifd by thf sfdurity mbnbgfr, or
+     *         {@dodf null} if thf sodkft is not bound yft.
+     *
+     * @sff #gftLodblAddrfss()
+     * @sff #gftLodblPort()
+     * @sff #bind(SodkftAddrfss)
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     * @sindf 1.4
+     */
+
+    publid SodkftAddrfss gftLodblSodkftAddrfss() {
+        if (!isBound())
+            rfturn null;
+        rfturn nfw InftSodkftAddrfss(gftLodblAddrfss(), gftLodblPort());
+    }
+
+    /**
+     * Rfturns thf uniquf {@link jbvb.nio.dhbnnfls.SodkftChbnnfl SodkftChbnnfl}
+     * objfdt bssodibtfd with this sodkft, if bny.
+     *
+     * <p> A sodkft will hbvf b dhbnnfl if, bnd only if, thf dhbnnfl itsflf wbs
+     * drfbtfd vib thf {@link jbvb.nio.dhbnnfls.SodkftChbnnfl#opfn
+     * SodkftChbnnfl.opfn} or {@link
+     * jbvb.nio.dhbnnfls.SfrvfrSodkftChbnnfl#bddfpt SfrvfrSodkftChbnnfl.bddfpt}
+     * mfthods.
+     *
+     * @rfturn  thf sodkft dhbnnfl bssodibtfd with this sodkft,
+     *          or {@dodf null} if this sodkft wbs not drfbtfd
+     *          for b dhbnnfl
+     *
+     * @sindf 1.4
+     * @spfd JSR-51
+     */
+    publid SodkftChbnnfl gftChbnnfl() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn input strfbm for this sodkft.
+     *
+     * <p> If this sodkft hbs bn bssodibtfd dhbnnfl thfn thf rfsulting input
+     * strfbm dflfgbtfs bll of its opfrbtions to thf dhbnnfl.  If thf dhbnnfl
+     * is in non-blodking modf thfn thf input strfbm's {@dodf rfbd} opfrbtions
+     * will throw bn {@link jbvb.nio.dhbnnfls.IllfgblBlodkingModfExdfption}.
+     *
+     * <p>Undfr bbnormbl donditions thf undfrlying donnfdtion mby bf
+     * brokfn by thf rfmotf host or thf nftwork softwbrf (for fxbmplf
+     * b donnfdtion rfsft in thf dbsf of TCP donnfdtions). Whfn b
+     * brokfn donnfdtion is dftfdtfd by thf nftwork softwbrf thf
+     * following bpplifs to thf rfturnfd input strfbm :-
+     *
+     * <ul>
+     *
+     *   <li><p>Thf nftwork softwbrf mby disdbrd bytfs thbt brf bufffrfd
+     *   by thf sodkft. Bytfs thbt brfn't disdbrdfd by thf nftwork
+     *   softwbrf dbn bf rfbd using {@link jbvb.io.InputStrfbm#rfbd rfbd}.
+     *
+     *   <li><p>If thfrf brf no bytfs bufffrfd on thf sodkft, or bll
+     *   bufffrfd bytfs hbvf bffn donsumfd by
+     *   {@link jbvb.io.InputStrfbm#rfbd rfbd}, thfn bll subsfqufnt
+     *   dblls to {@link jbvb.io.InputStrfbm#rfbd rfbd} will throw bn
+     *   {@link jbvb.io.IOExdfption IOExdfption}.
+     *
+     *   <li><p>If thfrf brf no bytfs bufffrfd on thf sodkft, bnd thf
+     *   sodkft hbs not bffn dlosfd using {@link #dlosf dlosf}, thfn
+     *   {@link jbvb.io.InputStrfbm#bvbilbblf bvbilbblf} will
+     *   rfturn {@dodf 0}.
+     *
+     * </ul>
+     *
+     * <p> Closing thf rfturnfd {@link jbvb.io.InputStrfbm InputStrfbm}
+     * will dlosf thf bssodibtfd sodkft.
+     *
+     * @rfturn     bn input strfbm for rfbding bytfs from this sodkft.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn drfbting thf
+     *             input strfbm, thf sodkft is dlosfd, thf sodkft is
+     *             not donnfdtfd, or thf sodkft input hbs bffn shutdown
+     *             using {@link #shutdownInput()}
+     *
+     * @rfvisfd 1.4
+     * @spfd JSR-51
+     */
+    publid InputStrfbm gftInputStrfbm() throws IOExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        if (!isConnfdtfd())
+            throw nfw SodkftExdfption("Sodkft is not donnfdtfd");
+        if (isInputShutdown())
+            throw nfw SodkftExdfption("Sodkft input is shutdown");
+        finbl Sodkft s = this;
+        InputStrfbm is = null;
+        try {
+            is = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<InputStrfbm>() {
+                    publid InputStrfbm run() throws IOExdfption {
+                        rfturn impl.gftInputStrfbm();
+                    }
+                });
+        } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption f) {
+            throw (IOExdfption) f.gftExdfption();
+        }
+        rfturn is;
+    }
+
+    /**
+     * Rfturns bn output strfbm for this sodkft.
+     *
+     * <p> If this sodkft hbs bn bssodibtfd dhbnnfl thfn thf rfsulting output
+     * strfbm dflfgbtfs bll of its opfrbtions to thf dhbnnfl.  If thf dhbnnfl
+     * is in non-blodking modf thfn thf output strfbm's {@dodf writf}
+     * opfrbtions will throw bn {@link
+     * jbvb.nio.dhbnnfls.IllfgblBlodkingModfExdfption}.
+     *
+     * <p> Closing thf rfturnfd {@link jbvb.io.OutputStrfbm OutputStrfbm}
+     * will dlosf thf bssodibtfd sodkft.
+     *
+     * @rfturn     bn output strfbm for writing bytfs to this sodkft.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn drfbting thf
+     *               output strfbm or if thf sodkft is not donnfdtfd.
+     * @rfvisfd 1.4
+     * @spfd JSR-51
+     */
+    publid OutputStrfbm gftOutputStrfbm() throws IOExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        if (!isConnfdtfd())
+            throw nfw SodkftExdfption("Sodkft is not donnfdtfd");
+        if (isOutputShutdown())
+            throw nfw SodkftExdfption("Sodkft output is shutdown");
+        finbl Sodkft s = this;
+        OutputStrfbm os = null;
+        try {
+            os = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<OutputStrfbm>() {
+                    publid OutputStrfbm run() throws IOExdfption {
+                        rfturn impl.gftOutputStrfbm();
+                    }
+                });
+        } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption f) {
+            throw (IOExdfption) f.gftExdfption();
+        }
+        rfturn os;
+    }
+
+    /**
+     * Enbblf/disbblf {@link SodkftOptions#TCP_NODELAY TCP_NODELAY}
+     * (disbblf/fnbblf Nbglf's blgorithm).
+     *
+     * @pbrbm on {@dodf truf} to fnbblf TCP_NODELAY,
+     * {@dodf fblsf} to disbblf.
+     *
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     *
+     * @sindf   1.1
+     *
+     * @sff #gftTdpNoDflby()
+     */
+    publid void sftTdpNoDflby(boolfbn on) throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.TCP_NODELAY, Boolfbn.vblufOf(on));
+    }
+
+    /**
+     * Tfsts if {@link SodkftOptions#TCP_NODELAY TCP_NODELAY} is fnbblfd.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting whfthfr or not
+     *         {@link SodkftOptions#TCP_NODELAY TCP_NODELAY} is fnbblfd.
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     * @sindf   1.1
+     * @sff #sftTdpNoDflby(boolfbn)
+     */
+    publid boolfbn gftTdpNoDflby() throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        rfturn ((Boolfbn) gftImpl().gftOption(SodkftOptions.TCP_NODELAY)).boolfbnVbluf();
+    }
+
+    /**
+     * Enbblf/disbblf {@link SodkftOptions#SO_LINGER SO_LINGER} with thf
+     * spfdififd lingfr timf in sfdonds. Thf mbximum timfout vbluf is plbtform
+     * spfdifid.
+     *
+     * Thf sftting only bfffdts sodkft dlosf.
+     *
+     * @pbrbm on     whfthfr or not to lingfr on.
+     * @pbrbm lingfr how long to lingfr for, if on is truf.
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     * @fxdfption IllfgblArgumfntExdfption if thf lingfr vbluf is nfgbtivf.
+     * @sindf 1.1
+     * @sff #gftSoLingfr()
+     */
+    publid void sftSoLingfr(boolfbn on, int lingfr) throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        if (!on) {
+            gftImpl().sftOption(SodkftOptions.SO_LINGER, on);
+        } flsf {
+            if (lingfr < 0) {
+                throw nfw IllfgblArgumfntExdfption("invblid vbluf for SO_LINGER");
+            }
+            if (lingfr > 65535)
+                lingfr = 65535;
+            gftImpl().sftOption(SodkftOptions.SO_LINGER, lingfr);
+        }
+    }
+
+    /**
+     * Rfturns sftting for {@link SodkftOptions#SO_LINGER SO_LINGER}.
+     * -1 rfturns implifs thbt thf
+     * option is disbblfd.
+     *
+     * Thf sftting only bfffdts sodkft dlosf.
+     *
+     * @rfturn thf sftting for {@link SodkftOptions#SO_LINGER SO_LINGER}.
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     * @sindf   1.1
+     * @sff #sftSoLingfr(boolfbn, int)
+     */
+    publid int gftSoLingfr() throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        Objfdt o = gftImpl().gftOption(SodkftOptions.SO_LINGER);
+        if (o instbndfof Intfgfr) {
+            rfturn ((Intfgfr) o).intVbluf();
+        } flsf {
+            rfturn -1;
+        }
+    }
+
+    /**
+     * Sfnd onf bytf of urgfnt dbtb on thf sodkft. Thf bytf to bf sfnt is thf lowfst fight
+     * bits of thf dbtb pbrbmftfr. Thf urgfnt bytf is
+     * sfnt bftfr bny prfdfding writfs to thf sodkft OutputStrfbm
+     * bnd bfforf bny futurf writfs to thf OutputStrfbm.
+     * @pbrbm dbtb Thf bytf of dbtb to sfnd
+     * @fxdfption IOExdfption if thfrf is bn frror
+     *  sfnding thf dbtb.
+     * @sindf 1.4
+     */
+    publid void sfndUrgfntDbtb (int dbtb) throws IOExdfption  {
+        if (!gftImpl().supportsUrgfntDbtb ()) {
+            throw nfw SodkftExdfption ("Urgfnt dbtb not supportfd");
+        }
+        gftImpl().sfndUrgfntDbtb (dbtb);
+    }
+
+    /**
+     * Enbblf/disbblf {@link SodkftOptions#SO_OOBINLINE SO_OOBINLINE}
+     * (rfdfipt of TCP urgfnt dbtb)
+     *
+     * By dffbult, this option is disbblfd bnd TCP urgfnt dbtb rfdfivfd on b
+     * sodkft is silfntly disdbrdfd. If thf usfr wishfs to rfdfivf urgfnt dbtb, thfn
+     * this option must bf fnbblfd. Whfn fnbblfd, urgfnt dbtb is rfdfivfd
+     * inlinf with normbl dbtb.
+     * <p>
+     * Notf, only limitfd support is providfd for hbndling indoming urgfnt
+     * dbtb. In pbrtidulbr, no notifidbtion of indoming urgfnt dbtb is providfd
+     * bnd thfrf is no dbpbbility to distinguish bftwffn normbl dbtb bnd urgfnt
+     * dbtb unlfss providfd by b highfr lfvfl protodol.
+     *
+     * @pbrbm on {@dodf truf} to fnbblf
+     *           {@link SodkftOptions#SO_OOBINLINE SO_OOBINLINE},
+     *           {@dodf fblsf} to disbblf.
+     *
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     *
+     * @sindf   1.4
+     *
+     * @sff #gftOOBInlinf()
+     */
+    publid void sftOOBInlinf(boolfbn on) throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_OOBINLINE, Boolfbn.vblufOf(on));
+    }
+
+    /**
+     * Tfsts if {@link SodkftOptions#SO_OOBINLINE SO_OOBINLINE} is fnbblfd.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting whfthfr or not
+     *         {@link SodkftOptions#SO_OOBINLINE SO_OOBINLINE}is fnbblfd.
+     *
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     * @sindf   1.4
+     * @sff #sftOOBInlinf(boolfbn)
+     */
+    publid boolfbn gftOOBInlinf() throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        rfturn ((Boolfbn) gftImpl().gftOption(SodkftOptions.SO_OOBINLINE)).boolfbnVbluf();
+    }
+
+    /**
+     *  Enbblf/disbblf {@link SodkftOptions#SO_TIMEOUT SO_TIMEOUT}
+     *  with thf spfdififd timfout, in millisfdonds. With this option sft
+     *  to b non-zfro timfout, b rfbd() dbll on thf InputStrfbm bssodibtfd with
+     *  this Sodkft will blodk for only this bmount of timf.  If thf timfout
+     *  fxpirfs, b <B>jbvb.nft.SodkftTimfoutExdfption</B> is rbisfd, though thf
+     *  Sodkft is still vblid. Thf option <B>must</B> bf fnbblfd
+     *  prior to fntfring thf blodking opfrbtion to hbvf ffffdt. Thf
+     *  timfout must bf {@dodf > 0}.
+     *  A timfout of zfro is intfrprftfd bs bn infinitf timfout.
+     *
+     * @pbrbm timfout thf spfdififd timfout, in millisfdonds.
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     * @sindf   1.1
+     * @sff #gftSoTimfout()
+     */
+    publid syndhronizfd void sftSoTimfout(int timfout) throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        if (timfout < 0)
+          throw nfw IllfgblArgumfntExdfption("timfout dbn't bf nfgbtivf");
+
+        gftImpl().sftOption(SodkftOptions.SO_TIMEOUT, timfout);
+    }
+
+    /**
+     * Rfturns sftting for {@link SodkftOptions#SO_TIMEOUT SO_TIMEOUT}.
+     * 0 rfturns implifs thbt thf option is disbblfd (i.f., timfout of infinity).
+     *
+     * @rfturn thf sftting for {@link SodkftOptions#SO_TIMEOUT SO_TIMEOUT}
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     *
+     * @sindf   1.1
+     * @sff #sftSoTimfout(int)
+     */
+    publid syndhronizfd int gftSoTimfout() throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        Objfdt o = gftImpl().gftOption(SodkftOptions.SO_TIMEOUT);
+        /* fxtrb typf sbffty */
+        if (o instbndfof Intfgfr) {
+            rfturn ((Intfgfr) o).intVbluf();
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    /**
+     * Sfts thf {@link SodkftOptions#SO_SNDBUF SO_SNDBUF} option to thf
+     * spfdififd vbluf for this {@dodf Sodkft}.
+     * Thf {@link SodkftOptions#SO_SNDBUF SO_SNDBUF} option is usfd by thf
+     * plbtform's nftworking dodf bs b hint for thf sizf to sft thf undfrlying
+     * nftwork I/O bufffrs.
+     *
+     * <p>Bfdbusf {@link SodkftOptions#SO_SNDBUF SO_SNDBUF} is b hint,
+     * bpplidbtions thbt wbnt to vfrify whbt sizf thf bufffrs wfrf sft to
+     * should dbll {@link #gftSfndBufffrSizf()}.
+     *
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     *
+     * @pbrbm sizf thf sizf to whidh to sft thf sfnd bufffr
+     * sizf. This vbluf must bf grfbtfr thbn 0.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf
+     * vbluf is 0 or is nfgbtivf.
+     *
+     * @sff #gftSfndBufffrSizf()
+     * @sindf 1.2
+     */
+    publid syndhronizfd void sftSfndBufffrSizf(int sizf)
+    throws SodkftExdfption{
+        if (!(sizf > 0)) {
+            throw nfw IllfgblArgumfntExdfption("nfgbtivf sfnd sizf");
+        }
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_SNDBUF, sizf);
+    }
+
+    /**
+     * Gft vbluf of thf {@link SodkftOptions#SO_SNDBUF SO_SNDBUF} option
+     * for this {@dodf Sodkft}, thbt is thf bufffr sizf usfd by thf plbtform
+     * for output on this {@dodf Sodkft}.
+     * @rfturn thf vbluf of thf {@link SodkftOptions#SO_SNDBUF SO_SNDBUF}
+     *         option for this {@dodf Sodkft}.
+     *
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     *
+     * @sff #sftSfndBufffrSizf(int)
+     * @sindf 1.2
+     */
+    publid syndhronizfd int gftSfndBufffrSizf() throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        int rfsult = 0;
+        Objfdt o = gftImpl().gftOption(SodkftOptions.SO_SNDBUF);
+        if (o instbndfof Intfgfr) {
+            rfsult = ((Intfgfr)o).intVbluf();
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Sfts thf {@link SodkftOptions#SO_RCVBUF SO_RCVBUF} option to thf
+     * spfdififd vbluf for this {@dodf Sodkft}. Thf
+     * {@link SodkftOptions#SO_RCVBUF SO_RCVBUF} option is
+     * usfd by thf plbtform's nftworking dodf bs b hint for thf sizf to sft
+     * thf undfrlying nftwork I/O bufffrs.
+     *
+     * <p>Indrfbsing thf rfdfivf bufffr sizf dbn indrfbsf thf pfrformbndf of
+     * nftwork I/O for high-volumf donnfdtion, whilf dfdrfbsing it dbn
+     * hflp rfdudf thf bbdklog of indoming dbtb.
+     *
+     * <p>Bfdbusf {@link SodkftOptions#SO_RCVBUF SO_RCVBUF} is b hint,
+     * bpplidbtions thbt wbnt to vfrify whbt sizf thf bufffrs wfrf sft to
+     * should dbll {@link #gftRfdfivfBufffrSizf()}.
+     *
+     * <p>Thf vbluf of {@link SodkftOptions#SO_RCVBUF SO_RCVBUF} is blso usfd
+     * to sft thf TCP rfdfivf window thbt is bdvfrtizfd to thf rfmotf pffr.
+     * Gfnfrblly, thf window sizf dbn bf modififd bt bny timf whfn b sodkft is
+     * donnfdtfd. Howfvfr, if b rfdfivf window lbrgfr thbn 64K is rfquirfd thfn
+     * this must bf rfqufstfd <B>bfforf</B> thf sodkft is donnfdtfd to thf
+     * rfmotf pffr. Thfrf brf two dbsfs to bf bwbrf of:
+     * <ol>
+     * <li>For sodkfts bddfptfd from b SfrvfrSodkft, this must bf donf by dblling
+     * {@link SfrvfrSodkft#sftRfdfivfBufffrSizf(int)} bfforf thf SfrvfrSodkft
+     * is bound to b lodbl bddrfss.</li>
+     * <li>For dlifnt sodkfts, sftRfdfivfBufffrSizf() must bf dbllfd bfforf
+     * donnfdting thf sodkft to its rfmotf pffr.</li></ol>
+     * @pbrbm sizf thf sizf to whidh to sft thf rfdfivf bufffr
+     * sizf. This vbluf must bf grfbtfr thbn 0.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf vbluf is 0 or is
+     * nfgbtivf.
+     *
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     *
+     * @sff #gftRfdfivfBufffrSizf()
+     * @sff SfrvfrSodkft#sftRfdfivfBufffrSizf(int)
+     * @sindf 1.2
+     */
+    publid syndhronizfd void sftRfdfivfBufffrSizf(int sizf)
+    throws SodkftExdfption{
+        if (sizf <= 0) {
+            throw nfw IllfgblArgumfntExdfption("invblid rfdfivf sizf");
+        }
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_RCVBUF, sizf);
+    }
+
+    /**
+     * Gfts thf vbluf of thf {@link SodkftOptions#SO_RCVBUF SO_RCVBUF} option
+     * for this {@dodf Sodkft}, thbt is thf bufffr sizf usfd by thf plbtform
+     * for input on this {@dodf Sodkft}.
+     *
+     * @rfturn thf vbluf of thf {@link SodkftOptions#SO_RCVBUF SO_RCVBUF}
+     *         option for this {@dodf Sodkft}.
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     * @sff #sftRfdfivfBufffrSizf(int)
+     * @sindf 1.2
+     */
+    publid syndhronizfd int gftRfdfivfBufffrSizf()
+    throws SodkftExdfption{
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        int rfsult = 0;
+        Objfdt o = gftImpl().gftOption(SodkftOptions.SO_RCVBUF);
+        if (o instbndfof Intfgfr) {
+            rfsult = ((Intfgfr)o).intVbluf();
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Enbblf/disbblf {@link SodkftOptions#SO_KEEPALIVE SO_KEEPALIVE}.
+     *
+     * @pbrbm on  whfthfr or not to hbvf sodkft kffp blivf turnfd on.
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     * @sindf 1.3
+     * @sff #gftKffpAlivf()
+     */
+    publid void sftKffpAlivf(boolfbn on) throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_KEEPALIVE, Boolfbn.vblufOf(on));
+    }
+
+    /**
+     * Tfsts if {@link SodkftOptions#SO_KEEPALIVE SO_KEEPALIVE} is fnbblfd.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting whfthfr or not
+     *         {@link SodkftOptions#SO_KEEPALIVE SO_KEEPALIVE} is fnbblfd.
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     * @sindf   1.3
+     * @sff #sftKffpAlivf(boolfbn)
+     */
+    publid boolfbn gftKffpAlivf() throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        rfturn ((Boolfbn) gftImpl().gftOption(SodkftOptions.SO_KEEPALIVE)).boolfbnVbluf();
+    }
+
+    /**
+     * Sfts trbffid dlbss or typf-of-sfrvidf odtft in thf IP
+     * hfbdfr for pbdkfts sfnt from this Sodkft.
+     * As thf undfrlying nftwork implfmfntbtion mby ignorf this
+     * vbluf bpplidbtions should donsidfr it b hint.
+     *
+     * <P> Thf td <B>must</B> bf in thf rbngf {@dodf 0 <= td <=
+     * 255} or bn IllfgblArgumfntExdfption will bf thrown.
+     * <p>Notfs:
+     * <p>For Intfrnft Protodol v4 thf vbluf donsists of bn
+     * {@dodf intfgfr}, thf lfbst signifidbnt 8 bits of whidh
+     * rfprfsfnt thf vbluf of thf TOS odtft in IP pbdkfts sfnt by
+     * thf sodkft.
+     * RFC 1349 dffinfs thf TOS vblufs bs follows:
+     *
+     * <UL>
+     * <LI><CODE>IPTOS_LOWCOST (0x02)</CODE></LI>
+     * <LI><CODE>IPTOS_RELIABILITY (0x04)</CODE></LI>
+     * <LI><CODE>IPTOS_THROUGHPUT (0x08)</CODE></LI>
+     * <LI><CODE>IPTOS_LOWDELAY (0x10)</CODE></LI>
+     * </UL>
+     * Thf lbst low ordfr bit is blwbys ignorfd bs this
+     * dorrfsponds to thf MBZ (must bf zfro) bit.
+     * <p>
+     * Sftting bits in thf prfdfdfndf fifld mby rfsult in b
+     * SodkftExdfption indidbting thbt thf opfrbtion is not
+     * pfrmittfd.
+     * <p>
+     * As RFC 1122 sfdtion 4.2.4.2 indidbtfs, b domplibnt TCP
+     * implfmfntbtion should, but is not rfquirfd to, lft bpplidbtion
+     * dhbngf thf TOS fifld during thf lifftimf of b donnfdtion.
+     * So whfthfr thf typf-of-sfrvidf fifld dbn bf dhbngfd bftfr thf
+     * TCP donnfdtion hbs bffn fstbblishfd dfpfnds on thf implfmfntbtion
+     * in thf undfrlying plbtform. Applidbtions should not bssumf thbt
+     * thfy dbn dhbngf thf TOS fifld bftfr thf donnfdtion.
+     * <p>
+     * For Intfrnft Protodol v6 {@dodf td} is thf vbluf thbt
+     * would bf plbdfd into thf sin6_flowinfo fifld of thf IP hfbdfr.
+     *
+     * @pbrbm td        bn {@dodf int} vbluf for thf bitsft.
+     * @throws SodkftExdfption if thfrf is bn frror sftting thf
+     * trbffid dlbss or typf-of-sfrvidf
+     * @sindf 1.4
+     * @sff #gftTrbffidClbss
+     * @sff SodkftOptions#IP_TOS
+     */
+    publid void sftTrbffidClbss(int td) throws SodkftExdfption {
+        if (td < 0 || td > 255)
+            throw nfw IllfgblArgumfntExdfption("td is not in rbngf 0 -- 255");
+
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.IP_TOS, td);
+    }
+
+    /**
+     * Gfts trbffid dlbss or typf-of-sfrvidf in thf IP hfbdfr
+     * for pbdkfts sfnt from this Sodkft
+     * <p>
+     * As thf undfrlying nftwork implfmfntbtion mby ignorf thf
+     * trbffid dlbss or typf-of-sfrvidf sft using {@link #sftTrbffidClbss(int)}
+     * this mfthod mby rfturn b difffrfnt vbluf thbn wbs prfviously
+     * sft using thf {@link #sftTrbffidClbss(int)} mfthod on this Sodkft.
+     *
+     * @rfturn thf trbffid dlbss or typf-of-sfrvidf blrfbdy sft
+     * @throws SodkftExdfption if thfrf is bn frror obtbining thf
+     * trbffid dlbss or typf-of-sfrvidf vbluf.
+     * @sindf 1.4
+     * @sff #sftTrbffidClbss(int)
+     * @sff SodkftOptions#IP_TOS
+     */
+    publid int gftTrbffidClbss() throws SodkftExdfption {
+        rfturn ((Intfgfr) (gftImpl().gftOption(SodkftOptions.IP_TOS))).intVbluf();
+    }
+
+    /**
+     * Enbblf/disbblf thf {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR}
+     * sodkft option.
+     * <p>
+     * Whfn b TCP donnfdtion is dlosfd thf donnfdtion mby rfmbin
+     * in b timfout stbtf for b pfriod of timf bftfr thf donnfdtion
+     * is dlosfd (typidblly known bs thf {@dodf TIME_WAIT} stbtf
+     * or {@dodf 2MSL} wbit stbtf).
+     * For bpplidbtions using b wfll known sodkft bddrfss or port
+     * it mby not bf possiblf to bind b sodkft to thf rfquirfd
+     * {@dodf SodkftAddrfss} if thfrf is b donnfdtion in thf
+     * timfout stbtf involving thf sodkft bddrfss or port.
+     * <p>
+     * Enbbling {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR}
+     * prior to binding thf sodkft using {@link #bind(SodkftAddrfss)} bllows
+     * thf sodkft to bf bound fvfn though b prfvious donnfdtion is in b timfout
+     * stbtf.
+     * <p>
+     * Whfn b {@dodf Sodkft} is drfbtfd thf initibl sftting
+     * of {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR} is disbblfd.
+     * <p>
+     * Thf bfhbviour whfn {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR} is
+     * fnbblfd or disbblfd bftfr b sodkft is bound (Sff {@link #isBound()})
+     * is not dffinfd.
+     *
+     * @pbrbm on  whfthfr to fnbblf or disbblf thf sodkft option
+     * @fxdfption SodkftExdfption if bn frror oddurs fnbbling or
+     *            disbbling thf {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR}
+     *            sodkft option, or thf sodkft is dlosfd.
+     * @sindf 1.4
+     * @sff #gftRfusfAddrfss()
+     * @sff #bind(SodkftAddrfss)
+     * @sff #isClosfd()
+     * @sff #isBound()
+     */
+    publid void sftRfusfAddrfss(boolfbn on) throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_REUSEADDR, Boolfbn.vblufOf(on));
+    }
+
+    /**
+     * Tfsts if {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR} is fnbblfd.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting whfthfr or not
+     *         {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR} is fnbblfd.
+     * @fxdfption SodkftExdfption if thfrf is bn frror
+     * in thf undfrlying protodol, sudh bs b TCP frror.
+     * @sindf   1.4
+     * @sff #sftRfusfAddrfss(boolfbn)
+     */
+    publid boolfbn gftRfusfAddrfss() throws SodkftExdfption {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        rfturn ((Boolfbn) (gftImpl().gftOption(SodkftOptions.SO_REUSEADDR))).boolfbnVbluf();
+    }
+
+    /**
+     * Closfs this sodkft.
+     * <p>
+     * Any thrfbd durrfntly blodkfd in bn I/O opfrbtion upon this sodkft
+     * will throw b {@link SodkftExdfption}.
+     * <p>
+     * Ondf b sodkft hbs bffn dlosfd, it is not bvbilbblf for furthfr nftworking
+     * usf (i.f. dbn't bf rfdonnfdtfd or rfbound). A nfw sodkft nffds to bf
+     * drfbtfd.
+     *
+     * <p> Closing this sodkft will blso dlosf thf sodkft's
+     * {@link jbvb.io.InputStrfbm InputStrfbm} bnd
+     * {@link jbvb.io.OutputStrfbm OutputStrfbm}.
+     *
+     * <p> If this sodkft hbs bn bssodibtfd dhbnnfl thfn thf dhbnnfl is dlosfd
+     * bs wfll.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn dlosing this sodkft.
+     * @rfvisfd 1.4
+     * @spfd JSR-51
+     * @sff #isClosfd
+     */
+    publid syndhronizfd void dlosf() throws IOExdfption {
+        syndhronizfd(dlosfLodk) {
+            if (isClosfd())
+                rfturn;
+            if (drfbtfd)
+                impl.dlosf();
+            dlosfd = truf;
+        }
+    }
+
+    /**
+     * Plbdfs thf input strfbm for this sodkft bt "fnd of strfbm".
+     * Any dbtb sfnt to thf input strfbm sidf of thf sodkft is bdknowlfdgfd
+     * bnd thfn silfntly disdbrdfd.
+     * <p>
+     * If you rfbd from b sodkft input strfbm bftfr invoking this mfthod on thf
+     * sodkft, thf strfbm's {@dodf bvbilbblf} mfthod will rfturn 0, bnd its
+     * {@dodf rfbd} mfthods will rfturn {@dodf -1} (fnd of strfbm).
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs whfn shutting down this
+     * sodkft.
+     *
+     * @sindf 1.3
+     * @sff jbvb.nft.Sodkft#shutdownOutput()
+     * @sff jbvb.nft.Sodkft#dlosf()
+     * @sff jbvb.nft.Sodkft#sftSoLingfr(boolfbn, int)
+     * @sff #isInputShutdown
+     */
+    publid void shutdownInput() throws IOExdfption
+    {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        if (!isConnfdtfd())
+            throw nfw SodkftExdfption("Sodkft is not donnfdtfd");
+        if (isInputShutdown())
+            throw nfw SodkftExdfption("Sodkft input is blrfbdy shutdown");
+        gftImpl().shutdownInput();
+        shutIn = truf;
+    }
+
+    /**
+     * Disbblfs thf output strfbm for this sodkft.
+     * For b TCP sodkft, bny prfviously writtfn dbtb will bf sfnt
+     * followfd by TCP's normbl donnfdtion tfrminbtion sfqufndf.
+     *
+     * If you writf to b sodkft output strfbm bftfr invoking
+     * shutdownOutput() on thf sodkft, thf strfbm will throw
+     * bn IOExdfption.
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs whfn shutting down this
+     * sodkft.
+     *
+     * @sindf 1.3
+     * @sff jbvb.nft.Sodkft#shutdownInput()
+     * @sff jbvb.nft.Sodkft#dlosf()
+     * @sff jbvb.nft.Sodkft#sftSoLingfr(boolfbn, int)
+     * @sff #isOutputShutdown
+     */
+    publid void shutdownOutput() throws IOExdfption
+    {
+        if (isClosfd())
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        if (!isConnfdtfd())
+            throw nfw SodkftExdfption("Sodkft is not donnfdtfd");
+        if (isOutputShutdown())
+            throw nfw SodkftExdfption("Sodkft output is blrfbdy shutdown");
+        gftImpl().shutdownOutput();
+        shutOut = truf;
+    }
+
+    /**
+     * Convfrts this sodkft to b {@dodf String}.
+     *
+     * @rfturn  b string rfprfsfntbtion of this sodkft.
+     */
+    publid String toString() {
+        try {
+            if (isConnfdtfd())
+                rfturn "Sodkft[bddr=" + gftImpl().gftInftAddrfss() +
+                    ",port=" + gftImpl().gftPort() +
+                    ",lodblport=" + gftImpl().gftLodblPort() + "]";
+        } dbtdh (SodkftExdfption f) {
+        }
+        rfturn "Sodkft[undonnfdtfd]";
+    }
+
+    /**
+     * Rfturns thf donnfdtion stbtf of thf sodkft.
+     * <p>
+     * Notf: Closing b sodkft dofsn't dlfbr its donnfdtion stbtf, whidh mfbns
+     * this mfthod will rfturn {@dodf truf} for b dlosfd sodkft
+     * (sff {@link #isClosfd()}) if it wbs suddfssfuly donnfdtfd prior
+     * to bfing dlosfd.
+     *
+     * @rfturn truf if thf sodkft wbs suddfssfuly donnfdtfd to b sfrvfr
+     * @sindf 1.4
+     */
+    publid boolfbn isConnfdtfd() {
+        // Bfforf 1.3 Sodkfts wfrf blwbys donnfdtfd during drfbtion
+        rfturn donnfdtfd || oldImpl;
+    }
+
+    /**
+     * Rfturns thf binding stbtf of thf sodkft.
+     * <p>
+     * Notf: Closing b sodkft dofsn't dlfbr its binding stbtf, whidh mfbns
+     * this mfthod will rfturn {@dodf truf} for b dlosfd sodkft
+     * (sff {@link #isClosfd()}) if it wbs suddfssfuly bound prior
+     * to bfing dlosfd.
+     *
+     * @rfturn truf if thf sodkft wbs suddfssfuly bound to bn bddrfss
+     * @sindf 1.4
+     * @sff #bind
+     */
+    publid boolfbn isBound() {
+        // Bfforf 1.3 Sodkfts wfrf blwbys bound during drfbtion
+        rfturn bound || oldImpl;
+    }
+
+    /**
+     * Rfturns thf dlosfd stbtf of thf sodkft.
+     *
+     * @rfturn truf if thf sodkft hbs bffn dlosfd
+     * @sindf 1.4
+     * @sff #dlosf
+     */
+    publid boolfbn isClosfd() {
+        syndhronizfd(dlosfLodk) {
+            rfturn dlosfd;
+        }
+    }
+
+    /**
+     * Rfturns whfthfr thf rfbd-hblf of thf sodkft donnfdtion is dlosfd.
+     *
+     * @rfturn truf if thf input of thf sodkft hbs bffn shutdown
+     * @sindf 1.4
+     * @sff #shutdownInput
+     */
+    publid boolfbn isInputShutdown() {
+        rfturn shutIn;
+    }
+
+    /**
+     * Rfturns whfthfr thf writf-hblf of thf sodkft donnfdtion is dlosfd.
+     *
+     * @rfturn truf if thf output of thf sodkft hbs bffn shutdown
+     * @sindf 1.4
+     * @sff #shutdownOutput
+     */
+    publid boolfbn isOutputShutdown() {
+        rfturn shutOut;
+    }
+
+    /**
+     * Thf fbdtory for bll dlifnt sodkfts.
+     */
+    privbtf stbtid SodkftImplFbdtory fbdtory = null;
+
+    /**
+     * Sfts thf dlifnt sodkft implfmfntbtion fbdtory for thf
+     * bpplidbtion. Thf fbdtory dbn bf spfdififd only ondf.
+     * <p>
+     * Whfn bn bpplidbtion drfbtfs b nfw dlifnt sodkft, thf sodkft
+     * implfmfntbtion fbdtory's {@dodf drfbtfSodkftImpl} mfthod is
+     * dbllfd to drfbtf thf bdtubl sodkft implfmfntbtion.
+     * <p>
+     * Pbssing {@dodf null} to thf mfthod is b no-op unlfss thf fbdtory
+     * wbs blrfbdy sft.
+     * <p>If thfrf is b sfdurity mbnbgfr, this mfthod first dblls
+     * thf sfdurity mbnbgfr's {@dodf dhfdkSftFbdtory} mfthod
+     * to fnsurf thf opfrbtion is bllowfd.
+     * This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm      fbd   thf dfsirfd fbdtory.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn sftting thf
+     *               sodkft fbdtory.
+     * @fxdfption  SodkftExdfption  if thf fbdtory is blrfbdy dffinfd.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkSftFbdtory} mfthod dofsn't bllow thf opfrbtion.
+     * @sff        jbvb.nft.SodkftImplFbdtory#drfbtfSodkftImpl()
+     * @sff        SfdurityMbnbgfr#dhfdkSftFbdtory
+     */
+    publid stbtid syndhronizfd void sftSodkftImplFbdtory(SodkftImplFbdtory fbd)
+        throws IOExdfption
+    {
+        if (fbdtory != null) {
+            throw nfw SodkftExdfption("fbdtory blrfbdy dffinfd");
+        }
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkSftFbdtory();
+        }
+        fbdtory = fbd;
+    }
+
+    /**
+     * Sfts pfrformbndf prfffrfndfs for this sodkft.
+     *
+     * <p> Sodkfts usf thf TCP/IP protodol by dffbult.  Somf implfmfntbtions
+     * mby offfr bltfrnbtivf protodols whidh hbvf difffrfnt pfrformbndf
+     * dhbrbdtfristids thbn TCP/IP.  This mfthod bllows thf bpplidbtion to
+     * fxprfss its own prfffrfndfs bs to how thfsf trbdfoffs should bf mbdf
+     * whfn thf implfmfntbtion dhoosfs from thf bvbilbblf protodols.
+     *
+     * <p> Pfrformbndf prfffrfndfs brf dfsdribfd by thrff intfgfrs
+     * whosf vblufs indidbtf thf rflbtivf importbndf of short donnfdtion timf,
+     * low lbtfndy, bnd high bbndwidth.  Thf bbsolutf vblufs of thf intfgfrs
+     * brf irrflfvbnt; in ordfr to dhoosf b protodol thf vblufs brf simply
+     * dompbrfd, with lbrgfr vblufs indidbting strongfr prfffrfndfs. Nfgbtivf
+     * vblufs rfprfsfnt b lowfr priority thbn positivf vblufs. If thf
+     * bpplidbtion prfffrs short donnfdtion timf ovfr both low lbtfndy bnd high
+     * bbndwidth, for fxbmplf, thfn it dould invokf this mfthod with thf vblufs
+     * {@dodf (1, 0, 0)}.  If thf bpplidbtion prfffrs high bbndwidth bbovf low
+     * lbtfndy, bnd low lbtfndy bbovf short donnfdtion timf, thfn it dould
+     * invokf this mfthod with thf vblufs {@dodf (0, 1, 2)}.
+     *
+     * <p> Invoking this mfthod bftfr this sodkft hbs bffn donnfdtfd
+     * will hbvf no ffffdt.
+     *
+     * @pbrbm  donnfdtionTimf
+     *         An {@dodf int} fxprfssing thf rflbtivf importbndf of b short
+     *         donnfdtion timf
+     *
+     * @pbrbm  lbtfndy
+     *         An {@dodf int} fxprfssing thf rflbtivf importbndf of low
+     *         lbtfndy
+     *
+     * @pbrbm  bbndwidth
+     *         An {@dodf int} fxprfssing thf rflbtivf importbndf of high
+     *         bbndwidth
+     *
+     * @sindf 1.5
+     */
+    publid void sftPfrformbndfPrfffrfndfs(int donnfdtionTimf,
+                                          int lbtfndy,
+                                          int bbndwidth)
+    {
+        /* Not implfmfntfd yft */
+    }
+
+
+    /**
+     * Sfts thf vbluf of b sodkft option.
+     *
+     * @pbrbm nbmf Thf sodkft option
+     * @pbrbm vbluf Thf vbluf of thf sodkft option. A vbluf of {@dodf null}
+     *              mby bf vblid for somf options.
+     * @rfturn this Sodkft
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf sodkft dofs not support
+     *         thf option.
+     *
+     * @throws IllfgblArgumfntExdfption if thf vbluf is not vblid for
+     *         thf option.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs, or if thf sodkft is dlosfd.
+     *
+     * @throws NullPointfrExdfption if nbmf is {@dodf null}
+     *
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is sft bnd if thf sodkft
+     *         option rfquirfs b sfdurity pfrmission bnd if thf dbllfr dofs
+     *         not hbvf thf rfquirfd pfrmission.
+     *         {@link jbvb.nft.StbndbrdSodkftOptions StbndbrdSodkftOptions}
+     *         do not rfquirf bny sfdurity pfrmission.
+     *
+     * @sindf 1.9
+     */
+    publid <T> Sodkft sftOption(SodkftOption<T> nbmf, T vbluf) throws IOExdfption {
+        gftImpl().sftOption(nbmf, vbluf);
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf vbluf of b sodkft option.
+     *
+     * @pbrbm nbmf Thf sodkft option
+     *
+     * @rfturn Thf vbluf of thf sodkft option.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf sodkft dofs not support
+     *         thf option.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs, or if thf sodkft is dlosfd.
+     *
+     * @throws NullPointfrExdfption if nbmf is {@dodf null}
+     *
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is sft bnd if thf sodkft
+     *         option rfquirfs b sfdurity pfrmission bnd if thf dbllfr dofs
+     *         not hbvf thf rfquirfd pfrmission.
+     *         {@link jbvb.nft.StbndbrdSodkftOptions StbndbrdSodkftOptions}
+     *         do not rfquirf bny sfdurity pfrmission.
+     *
+     * @sindf 1.9
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid <T> T gftOption(SodkftOption<T> nbmf) throws IOExdfption {
+        rfturn gftImpl().gftOption(nbmf);
+    }
+
+    privbtf stbtid Sft<SodkftOption<?>> options;
+    privbtf stbtid boolfbn optionsSft = fblsf;
+
+    /**
+     * Rfturns b sft of thf sodkft options supportfd by this sodkft.
+     *
+     * This mfthod will dontinuf to rfturn thf sft of options fvfn bftfr
+     * thf sodkft hbs bffn dlosfd.
+     *
+     * @rfturn A sft of thf sodkft options supportfd by this sodkft. This sft
+     *         mby bf fmpty if thf sodkft's SodkftImpl dbnnot bf drfbtfd.
+     *
+     * @sindf 1.9
+     */
+    publid Sft<SodkftOption<?>> supportfdOptions() {
+        syndhronizfd (Sodkft.dlbss) {
+            if (optionsSft) {
+                rfturn options;
+            }
+            try {
+                SodkftImpl impl = gftImpl();
+                options = Collfdtions.unmodifibblfSft(impl.supportfdOptions());
+            } dbtdh (IOExdfption f) {
+                options = Collfdtions.fmptySft();
+            }
+            optionsSft = truf;
+            rfturn options;
+        }
+    }
+}

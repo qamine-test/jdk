@@ -1,615 +1,615 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.Writer;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.UnsupportedCharsetException;
-import java.nio.channels.spi.AbstractInterruptibleChannel;
-import java.util.concurrent.ExecutionException;
-import sun.nio.ch.ChannelInputStream;
-import sun.nio.cs.StreamDecoder;
-import sun.nio.cs.StreamEncoder;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.Rfbdfr;
+import jbvb.io.Writfr;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.nio.dibrsft.UnsupportfdCibrsftExdfption;
+import jbvb.nio.dibnnfls.spi.AbstrbdtIntfrruptiblfCibnnfl;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import sun.nio.di.CibnnflInputStrfbm;
+import sun.nio.ds.StrfbmDfdodfr;
+import sun.nio.ds.StrfbmEndodfr;
 
 
 /**
- * Utility methods for channels and streams.
+ * Utility mftiods for dibnnfls bnd strfbms.
  *
- * <p> This class defines static methods that support the interoperation of the
- * stream classes of the <tt>{@link java.io}</tt> package with the channel
- * classes of this package.  </p>
+ * <p> Tiis dlbss dffinfs stbtid mftiods tibt support tif intfropfrbtion of tif
+ * strfbm dlbssfs of tif <tt>{@link jbvb.io}</tt> pbdkbgf witi tif dibnnfl
+ * dlbssfs of tiis pbdkbgf.  </p>
  *
  *
- * @author Mark Reinhold
- * @author Mike McCloskey
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior Mikf MdCloskfy
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public final class Channels {
+publid finbl dlbss Cibnnfls {
 
-    private Channels() { }              // No instantiation
+    privbtf Cibnnfls() { }              // No instbntibtion
 
-    private static void checkNotNull(Object o, String name) {
+    privbtf stbtid void difdkNotNull(Objfdt o, String nbmf) {
         if (o == null)
-            throw new NullPointerException("\"" + name + "\" is null!");
+            tirow nfw NullPointfrExdfption("\"" + nbmf + "\" is null!");
     }
 
     /**
-     * Write all remaining bytes in buffer to the given channel.
-     * If the channel is selectable then it must be configured blocking.
+     * Writf bll rfmbining bytfs in bufffr to tif givfn dibnnfl.
+     * If tif dibnnfl is sflfdtbblf tifn it must bf donfigurfd blodking.
      */
-    private static void writeFullyImpl(WritableByteChannel ch, ByteBuffer bb)
-        throws IOException
+    privbtf stbtid void writfFullyImpl(WritbblfBytfCibnnfl di, BytfBufffr bb)
+        tirows IOExdfption
     {
-        while (bb.remaining() > 0) {
-            int n = ch.write(bb);
+        wiilf (bb.rfmbining() > 0) {
+            int n = di.writf(bb);
             if (n <= 0)
-                throw new RuntimeException("no bytes written");
+                tirow nfw RuntimfExdfption("no bytfs writtfn");
         }
     }
 
     /**
-     * Write all remaining bytes in buffer to the given channel.
+     * Writf bll rfmbining bytfs in bufffr to tif givfn dibnnfl.
      *
-     * @throws  IllegalBlockingModeException
-     *          If the channel is selectable and configured non-blocking.
+     * @tirows  IllfgblBlodkingModfExdfption
+     *          If tif dibnnfl is sflfdtbblf bnd donfigurfd non-blodking.
      */
-    private static void writeFully(WritableByteChannel ch, ByteBuffer bb)
-        throws IOException
+    privbtf stbtid void writfFully(WritbblfBytfCibnnfl di, BytfBufffr bb)
+        tirows IOExdfption
     {
-        if (ch instanceof SelectableChannel) {
-            SelectableChannel sc = (SelectableChannel)ch;
-            synchronized (sc.blockingLock()) {
-                if (!sc.isBlocking())
-                    throw new IllegalBlockingModeException();
-                writeFullyImpl(ch, bb);
+        if (di instbndfof SflfdtbblfCibnnfl) {
+            SflfdtbblfCibnnfl sd = (SflfdtbblfCibnnfl)di;
+            syndironizfd (sd.blodkingLodk()) {
+                if (!sd.isBlodking())
+                    tirow nfw IllfgblBlodkingModfExdfption();
+                writfFullyImpl(di, bb);
             }
-        } else {
-            writeFullyImpl(ch, bb);
+        } flsf {
+            writfFullyImpl(di, bb);
         }
     }
 
-    // -- Byte streams from channels --
+    // -- Bytf strfbms from dibnnfls --
 
     /**
-     * Constructs a stream that reads bytes from the given channel.
+     * Construdts b strfbm tibt rfbds bytfs from tif givfn dibnnfl.
      *
-     * <p> The <tt>read</tt> methods of the resulting stream will throw an
-     * {@link IllegalBlockingModeException} if invoked while the underlying
-     * channel is in non-blocking mode.  The stream will not be buffered, and
-     * it will not support the {@link InputStream#mark mark} or {@link
-     * InputStream#reset reset} methods.  The stream will be safe for access by
-     * multiple concurrent threads.  Closing the stream will in turn cause the
-     * channel to be closed.  </p>
+     * <p> Tif <tt>rfbd</tt> mftiods of tif rfsulting strfbm will tirow bn
+     * {@link IllfgblBlodkingModfExdfption} if invokfd wiilf tif undfrlying
+     * dibnnfl is in non-blodking modf.  Tif strfbm will not bf bufffrfd, bnd
+     * it will not support tif {@link InputStrfbm#mbrk mbrk} or {@link
+     * InputStrfbm#rfsft rfsft} mftiods.  Tif strfbm will bf sbff for bddfss by
+     * multiplf dondurrfnt tirfbds.  Closing tif strfbm will in turn dbusf tif
+     * dibnnfl to bf dlosfd.  </p>
      *
-     * @param  ch
-     *         The channel from which bytes will be read
+     * @pbrbm  di
+     *         Tif dibnnfl from wiidi bytfs will bf rfbd
      *
-     * @return  A new input stream
+     * @rfturn  A nfw input strfbm
      */
-    public static InputStream newInputStream(ReadableByteChannel ch) {
-        checkNotNull(ch, "ch");
-        return new sun.nio.ch.ChannelInputStream(ch);
+    publid stbtid InputStrfbm nfwInputStrfbm(RfbdbblfBytfCibnnfl di) {
+        difdkNotNull(di, "di");
+        rfturn nfw sun.nio.di.CibnnflInputStrfbm(di);
     }
 
     /**
-     * Constructs a stream that writes bytes to the given channel.
+     * Construdts b strfbm tibt writfs bytfs to tif givfn dibnnfl.
      *
-     * <p> The <tt>write</tt> methods of the resulting stream will throw an
-     * {@link IllegalBlockingModeException} if invoked while the underlying
-     * channel is in non-blocking mode.  The stream will not be buffered.  The
-     * stream will be safe for access by multiple concurrent threads.  Closing
-     * the stream will in turn cause the channel to be closed.  </p>
+     * <p> Tif <tt>writf</tt> mftiods of tif rfsulting strfbm will tirow bn
+     * {@link IllfgblBlodkingModfExdfption} if invokfd wiilf tif undfrlying
+     * dibnnfl is in non-blodking modf.  Tif strfbm will not bf bufffrfd.  Tif
+     * strfbm will bf sbff for bddfss by multiplf dondurrfnt tirfbds.  Closing
+     * tif strfbm will in turn dbusf tif dibnnfl to bf dlosfd.  </p>
      *
-     * @param  ch
-     *         The channel to which bytes will be written
+     * @pbrbm  di
+     *         Tif dibnnfl to wiidi bytfs will bf writtfn
      *
-     * @return  A new output stream
+     * @rfturn  A nfw output strfbm
      */
-    public static OutputStream newOutputStream(final WritableByteChannel ch) {
-        checkNotNull(ch, "ch");
+    publid stbtid OutputStrfbm nfwOutputStrfbm(finbl WritbblfBytfCibnnfl di) {
+        difdkNotNull(di, "di");
 
-        return new OutputStream() {
+        rfturn nfw OutputStrfbm() {
 
-                private ByteBuffer bb = null;
-                private byte[] bs = null;       // Invoker's previous array
-                private byte[] b1 = null;
+                privbtf BytfBufffr bb = null;
+                privbtf bytf[] bs = null;       // Invokfr's prfvious brrby
+                privbtf bytf[] b1 = null;
 
-                public synchronized void write(int b) throws IOException {
+                publid syndironizfd void writf(int b) tirows IOExdfption {
                    if (b1 == null)
-                        b1 = new byte[1];
-                    b1[0] = (byte)b;
-                    this.write(b1);
+                        b1 = nfw bytf[1];
+                    b1[0] = (bytf)b;
+                    tiis.writf(b1);
                 }
 
-                public synchronized void write(byte[] bs, int off, int len)
-                    throws IOException
+                publid syndironizfd void writf(bytf[] bs, int off, int lfn)
+                    tirows IOExdfption
                 {
-                    if ((off < 0) || (off > bs.length) || (len < 0) ||
-                        ((off + len) > bs.length) || ((off + len) < 0)) {
-                        throw new IndexOutOfBoundsException();
-                    } else if (len == 0) {
-                        return;
+                    if ((off < 0) || (off > bs.lfngti) || (lfn < 0) ||
+                        ((off + lfn) > bs.lfngti) || ((off + lfn) < 0)) {
+                        tirow nfw IndfxOutOfBoundsExdfption();
+                    } flsf if (lfn == 0) {
+                        rfturn;
                     }
-                    ByteBuffer bb = ((this.bs == bs)
-                                     ? this.bb
-                                     : ByteBuffer.wrap(bs));
-                    bb.limit(Math.min(off + len, bb.capacity()));
+                    BytfBufffr bb = ((tiis.bs == bs)
+                                     ? tiis.bb
+                                     : BytfBufffr.wrbp(bs));
+                    bb.limit(Mbti.min(off + lfn, bb.dbpbdity()));
                     bb.position(off);
-                    this.bb = bb;
-                    this.bs = bs;
-                    Channels.writeFully(ch, bb);
+                    tiis.bb = bb;
+                    tiis.bs = bs;
+                    Cibnnfls.writfFully(di, bb);
                 }
 
-                public void close() throws IOException {
-                    ch.close();
+                publid void dlosf() tirows IOExdfption {
+                    di.dlosf();
                 }
 
             };
     }
 
     /**
-     * Constructs a stream that reads bytes from the given channel.
+     * Construdts b strfbm tibt rfbds bytfs from tif givfn dibnnfl.
      *
-     * <p> The stream will not be buffered, and it will not support the {@link
-     * InputStream#mark mark} or {@link InputStream#reset reset} methods.  The
-     * stream will be safe for access by multiple concurrent threads.  Closing
-     * the stream will in turn cause the channel to be closed.  </p>
+     * <p> Tif strfbm will not bf bufffrfd, bnd it will not support tif {@link
+     * InputStrfbm#mbrk mbrk} or {@link InputStrfbm#rfsft rfsft} mftiods.  Tif
+     * strfbm will bf sbff for bddfss by multiplf dondurrfnt tirfbds.  Closing
+     * tif strfbm will in turn dbusf tif dibnnfl to bf dlosfd.  </p>
      *
-     * @param  ch
-     *         The channel from which bytes will be read
+     * @pbrbm  di
+     *         Tif dibnnfl from wiidi bytfs will bf rfbd
      *
-     * @return  A new input stream
+     * @rfturn  A nfw input strfbm
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static InputStream newInputStream(final AsynchronousByteChannel ch) {
-        checkNotNull(ch, "ch");
-        return new InputStream() {
+    publid stbtid InputStrfbm nfwInputStrfbm(finbl AsyndironousBytfCibnnfl di) {
+        difdkNotNull(di, "di");
+        rfturn nfw InputStrfbm() {
 
-            private ByteBuffer bb = null;
-            private byte[] bs = null;           // Invoker's previous array
-            private byte[] b1 = null;
+            privbtf BytfBufffr bb = null;
+            privbtf bytf[] bs = null;           // Invokfr's prfvious brrby
+            privbtf bytf[] b1 = null;
 
-            @Override
-            public synchronized int read() throws IOException {
+            @Ovfrridf
+            publid syndironizfd int rfbd() tirows IOExdfption {
                 if (b1 == null)
-                    b1 = new byte[1];
-                int n = this.read(b1);
+                    b1 = nfw bytf[1];
+                int n = tiis.rfbd(b1);
                 if (n == 1)
-                    return b1[0] & 0xff;
-                return -1;
+                    rfturn b1[0] & 0xff;
+                rfturn -1;
             }
 
-            @Override
-            public synchronized int read(byte[] bs, int off, int len)
-                throws IOException
+            @Ovfrridf
+            publid syndironizfd int rfbd(bytf[] bs, int off, int lfn)
+                tirows IOExdfption
             {
-                if ((off < 0) || (off > bs.length) || (len < 0) ||
-                    ((off + len) > bs.length) || ((off + len) < 0)) {
-                    throw new IndexOutOfBoundsException();
-                } else if (len == 0)
-                    return 0;
+                if ((off < 0) || (off > bs.lfngti) || (lfn < 0) ||
+                    ((off + lfn) > bs.lfngti) || ((off + lfn) < 0)) {
+                    tirow nfw IndfxOutOfBoundsExdfption();
+                } flsf if (lfn == 0)
+                    rfturn 0;
 
-                ByteBuffer bb = ((this.bs == bs)
-                                 ? this.bb
-                                 : ByteBuffer.wrap(bs));
+                BytfBufffr bb = ((tiis.bs == bs)
+                                 ? tiis.bb
+                                 : BytfBufffr.wrbp(bs));
                 bb.position(off);
-                bb.limit(Math.min(off + len, bb.capacity()));
-                this.bb = bb;
-                this.bs = bs;
+                bb.limit(Mbti.min(off + lfn, bb.dbpbdity()));
+                tiis.bb = bb;
+                tiis.bs = bs;
 
-                boolean interrupted = false;
+                boolfbn intfrruptfd = fblsf;
                 try {
                     for (;;) {
                         try {
-                            return ch.read(bb).get();
-                        } catch (ExecutionException ee) {
-                            throw new IOException(ee.getCause());
-                        } catch (InterruptedException ie) {
-                            interrupted = true;
+                            rfturn di.rfbd(bb).gft();
+                        } dbtdi (ExfdutionExdfption ff) {
+                            tirow nfw IOExdfption(ff.gftCbusf());
+                        } dbtdi (IntfrruptfdExdfption if) {
+                            intfrruptfd = truf;
                         }
                     }
-                } finally {
-                    if (interrupted)
-                        Thread.currentThread().interrupt();
+                } finblly {
+                    if (intfrruptfd)
+                        Tirfbd.durrfntTirfbd().intfrrupt();
                 }
             }
 
-            @Override
-            public void close() throws IOException {
-                ch.close();
+            @Ovfrridf
+            publid void dlosf() tirows IOExdfption {
+                di.dlosf();
             }
         };
     }
 
     /**
-     * Constructs a stream that writes bytes to the given channel.
+     * Construdts b strfbm tibt writfs bytfs to tif givfn dibnnfl.
      *
-     * <p> The stream will not be buffered. The stream will be safe for access
-     * by multiple concurrent threads.  Closing the stream will in turn cause
-     * the channel to be closed.  </p>
+     * <p> Tif strfbm will not bf bufffrfd. Tif strfbm will bf sbff for bddfss
+     * by multiplf dondurrfnt tirfbds.  Closing tif strfbm will in turn dbusf
+     * tif dibnnfl to bf dlosfd.  </p>
      *
-     * @param  ch
-     *         The channel to which bytes will be written
+     * @pbrbm  di
+     *         Tif dibnnfl to wiidi bytfs will bf writtfn
      *
-     * @return  A new output stream
+     * @rfturn  A nfw output strfbm
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static OutputStream newOutputStream(final AsynchronousByteChannel ch) {
-        checkNotNull(ch, "ch");
-        return new OutputStream() {
+    publid stbtid OutputStrfbm nfwOutputStrfbm(finbl AsyndironousBytfCibnnfl di) {
+        difdkNotNull(di, "di");
+        rfturn nfw OutputStrfbm() {
 
-            private ByteBuffer bb = null;
-            private byte[] bs = null;   // Invoker's previous array
-            private byte[] b1 = null;
+            privbtf BytfBufffr bb = null;
+            privbtf bytf[] bs = null;   // Invokfr's prfvious brrby
+            privbtf bytf[] b1 = null;
 
-            @Override
-            public synchronized void write(int b) throws IOException {
+            @Ovfrridf
+            publid syndironizfd void writf(int b) tirows IOExdfption {
                if (b1 == null)
-                    b1 = new byte[1];
-                b1[0] = (byte)b;
-                this.write(b1);
+                    b1 = nfw bytf[1];
+                b1[0] = (bytf)b;
+                tiis.writf(b1);
             }
 
-            @Override
-            public synchronized void write(byte[] bs, int off, int len)
-                throws IOException
+            @Ovfrridf
+            publid syndironizfd void writf(bytf[] bs, int off, int lfn)
+                tirows IOExdfption
             {
-                if ((off < 0) || (off > bs.length) || (len < 0) ||
-                    ((off + len) > bs.length) || ((off + len) < 0)) {
-                    throw new IndexOutOfBoundsException();
-                } else if (len == 0) {
-                    return;
+                if ((off < 0) || (off > bs.lfngti) || (lfn < 0) ||
+                    ((off + lfn) > bs.lfngti) || ((off + lfn) < 0)) {
+                    tirow nfw IndfxOutOfBoundsExdfption();
+                } flsf if (lfn == 0) {
+                    rfturn;
                 }
-                ByteBuffer bb = ((this.bs == bs)
-                                 ? this.bb
-                                 : ByteBuffer.wrap(bs));
-                bb.limit(Math.min(off + len, bb.capacity()));
+                BytfBufffr bb = ((tiis.bs == bs)
+                                 ? tiis.bb
+                                 : BytfBufffr.wrbp(bs));
+                bb.limit(Mbti.min(off + lfn, bb.dbpbdity()));
                 bb.position(off);
-                this.bb = bb;
-                this.bs = bs;
+                tiis.bb = bb;
+                tiis.bs = bs;
 
-                boolean interrupted = false;
+                boolfbn intfrruptfd = fblsf;
                 try {
-                    while (bb.remaining() > 0) {
+                    wiilf (bb.rfmbining() > 0) {
                         try {
-                            ch.write(bb).get();
-                        } catch (ExecutionException ee) {
-                            throw new IOException(ee.getCause());
-                        } catch (InterruptedException ie) {
-                            interrupted = true;
+                            di.writf(bb).gft();
+                        } dbtdi (ExfdutionExdfption ff) {
+                            tirow nfw IOExdfption(ff.gftCbusf());
+                        } dbtdi (IntfrruptfdExdfption if) {
+                            intfrruptfd = truf;
                         }
                     }
-                } finally {
-                    if (interrupted)
-                        Thread.currentThread().interrupt();
+                } finblly {
+                    if (intfrruptfd)
+                        Tirfbd.durrfntTirfbd().intfrrupt();
                 }
             }
 
-            @Override
-            public void close() throws IOException {
-                ch.close();
+            @Ovfrridf
+            publid void dlosf() tirows IOExdfption {
+                di.dlosf();
             }
         };
     }
 
 
-    // -- Channels from streams --
+    // -- Cibnnfls from strfbms --
 
     /**
-     * Constructs a channel that reads bytes from the given stream.
+     * Construdts b dibnnfl tibt rfbds bytfs from tif givfn strfbm.
      *
-     * <p> The resulting channel will not be buffered; it will simply redirect
-     * its I/O operations to the given stream.  Closing the channel will in
-     * turn cause the stream to be closed.  </p>
+     * <p> Tif rfsulting dibnnfl will not bf bufffrfd; it will simply rfdirfdt
+     * its I/O opfrbtions to tif givfn strfbm.  Closing tif dibnnfl will in
+     * turn dbusf tif strfbm to bf dlosfd.  </p>
      *
-     * @param  in
-     *         The stream from which bytes are to be read
+     * @pbrbm  in
+     *         Tif strfbm from wiidi bytfs brf to bf rfbd
      *
-     * @return  A new readable byte channel
+     * @rfturn  A nfw rfbdbblf bytf dibnnfl
      */
-    public static ReadableByteChannel newChannel(final InputStream in) {
-        checkNotNull(in, "in");
+    publid stbtid RfbdbblfBytfCibnnfl nfwCibnnfl(finbl InputStrfbm in) {
+        difdkNotNull(in, "in");
 
-        if (in instanceof FileInputStream &&
-            FileInputStream.class.equals(in.getClass())) {
-            return ((FileInputStream)in).getChannel();
+        if (in instbndfof FilfInputStrfbm &&
+            FilfInputStrfbm.dlbss.fqubls(in.gftClbss())) {
+            rfturn ((FilfInputStrfbm)in).gftCibnnfl();
         }
 
-        return new ReadableByteChannelImpl(in);
+        rfturn nfw RfbdbblfBytfCibnnflImpl(in);
     }
 
-    private static class ReadableByteChannelImpl
-        extends AbstractInterruptibleChannel    // Not really interruptible
-        implements ReadableByteChannel
+    privbtf stbtid dlbss RfbdbblfBytfCibnnflImpl
+        fxtfnds AbstrbdtIntfrruptiblfCibnnfl    // Not rfblly intfrruptiblf
+        implfmfnts RfbdbblfBytfCibnnfl
     {
-        InputStream in;
-        private static final int TRANSFER_SIZE = 8192;
-        private byte buf[] = new byte[0];
-        private boolean open = true;
-        private Object readLock = new Object();
+        InputStrfbm in;
+        privbtf stbtid finbl int TRANSFER_SIZE = 8192;
+        privbtf bytf buf[] = nfw bytf[0];
+        privbtf boolfbn opfn = truf;
+        privbtf Objfdt rfbdLodk = nfw Objfdt();
 
-        ReadableByteChannelImpl(InputStream in) {
-            this.in = in;
+        RfbdbblfBytfCibnnflImpl(InputStrfbm in) {
+            tiis.in = in;
         }
 
-        public int read(ByteBuffer dst) throws IOException {
-            int len = dst.remaining();
-            int totalRead = 0;
-            int bytesRead = 0;
-            synchronized (readLock) {
-                while (totalRead < len) {
-                    int bytesToRead = Math.min((len - totalRead),
+        publid int rfbd(BytfBufffr dst) tirows IOExdfption {
+            int lfn = dst.rfmbining();
+            int totblRfbd = 0;
+            int bytfsRfbd = 0;
+            syndironizfd (rfbdLodk) {
+                wiilf (totblRfbd < lfn) {
+                    int bytfsToRfbd = Mbti.min((lfn - totblRfbd),
                                                TRANSFER_SIZE);
-                    if (buf.length < bytesToRead)
-                        buf = new byte[bytesToRead];
-                    if ((totalRead > 0) && !(in.available() > 0))
-                        break; // block at most once
+                    if (buf.lfngti < bytfsToRfbd)
+                        buf = nfw bytf[bytfsToRfbd];
+                    if ((totblRfbd > 0) && !(in.bvbilbblf() > 0))
+                        brfbk; // blodk bt most ondf
                     try {
-                        begin();
-                        bytesRead = in.read(buf, 0, bytesToRead);
-                    } finally {
-                        end(bytesRead > 0);
+                        bfgin();
+                        bytfsRfbd = in.rfbd(buf, 0, bytfsToRfbd);
+                    } finblly {
+                        fnd(bytfsRfbd > 0);
                     }
-                    if (bytesRead < 0)
-                        break;
-                    else
-                        totalRead += bytesRead;
-                    dst.put(buf, 0, bytesRead);
+                    if (bytfsRfbd < 0)
+                        brfbk;
+                    flsf
+                        totblRfbd += bytfsRfbd;
+                    dst.put(buf, 0, bytfsRfbd);
                 }
-                if ((bytesRead < 0) && (totalRead == 0))
-                    return -1;
+                if ((bytfsRfbd < 0) && (totblRfbd == 0))
+                    rfturn -1;
 
-                return totalRead;
+                rfturn totblRfbd;
             }
         }
 
-        protected void implCloseChannel() throws IOException {
-            in.close();
-            open = false;
+        protfdtfd void implClosfCibnnfl() tirows IOExdfption {
+            in.dlosf();
+            opfn = fblsf;
         }
     }
 
 
     /**
-     * Constructs a channel that writes bytes to the given stream.
+     * Construdts b dibnnfl tibt writfs bytfs to tif givfn strfbm.
      *
-     * <p> The resulting channel will not be buffered; it will simply redirect
-     * its I/O operations to the given stream.  Closing the channel will in
-     * turn cause the stream to be closed.  </p>
+     * <p> Tif rfsulting dibnnfl will not bf bufffrfd; it will simply rfdirfdt
+     * its I/O opfrbtions to tif givfn strfbm.  Closing tif dibnnfl will in
+     * turn dbusf tif strfbm to bf dlosfd.  </p>
      *
-     * @param  out
-     *         The stream to which bytes are to be written
+     * @pbrbm  out
+     *         Tif strfbm to wiidi bytfs brf to bf writtfn
      *
-     * @return  A new writable byte channel
+     * @rfturn  A nfw writbblf bytf dibnnfl
      */
-    public static WritableByteChannel newChannel(final OutputStream out) {
-        checkNotNull(out, "out");
+    publid stbtid WritbblfBytfCibnnfl nfwCibnnfl(finbl OutputStrfbm out) {
+        difdkNotNull(out, "out");
 
-        if (out instanceof FileOutputStream &&
-            FileOutputStream.class.equals(out.getClass())) {
-                return ((FileOutputStream)out).getChannel();
+        if (out instbndfof FilfOutputStrfbm &&
+            FilfOutputStrfbm.dlbss.fqubls(out.gftClbss())) {
+                rfturn ((FilfOutputStrfbm)out).gftCibnnfl();
         }
 
-        return new WritableByteChannelImpl(out);
+        rfturn nfw WritbblfBytfCibnnflImpl(out);
     }
 
-    private static class WritableByteChannelImpl
-        extends AbstractInterruptibleChannel    // Not really interruptible
-        implements WritableByteChannel
+    privbtf stbtid dlbss WritbblfBytfCibnnflImpl
+        fxtfnds AbstrbdtIntfrruptiblfCibnnfl    // Not rfblly intfrruptiblf
+        implfmfnts WritbblfBytfCibnnfl
     {
-        OutputStream out;
-        private static final int TRANSFER_SIZE = 8192;
-        private byte buf[] = new byte[0];
-        private boolean open = true;
-        private Object writeLock = new Object();
+        OutputStrfbm out;
+        privbtf stbtid finbl int TRANSFER_SIZE = 8192;
+        privbtf bytf buf[] = nfw bytf[0];
+        privbtf boolfbn opfn = truf;
+        privbtf Objfdt writfLodk = nfw Objfdt();
 
-        WritableByteChannelImpl(OutputStream out) {
-            this.out = out;
+        WritbblfBytfCibnnflImpl(OutputStrfbm out) {
+            tiis.out = out;
         }
 
-        public int write(ByteBuffer src) throws IOException {
-            int len = src.remaining();
-            int totalWritten = 0;
-            synchronized (writeLock) {
-                while (totalWritten < len) {
-                    int bytesToWrite = Math.min((len - totalWritten),
+        publid int writf(BytfBufffr srd) tirows IOExdfption {
+            int lfn = srd.rfmbining();
+            int totblWrittfn = 0;
+            syndironizfd (writfLodk) {
+                wiilf (totblWrittfn < lfn) {
+                    int bytfsToWritf = Mbti.min((lfn - totblWrittfn),
                                                 TRANSFER_SIZE);
-                    if (buf.length < bytesToWrite)
-                        buf = new byte[bytesToWrite];
-                    src.get(buf, 0, bytesToWrite);
+                    if (buf.lfngti < bytfsToWritf)
+                        buf = nfw bytf[bytfsToWritf];
+                    srd.gft(buf, 0, bytfsToWritf);
                     try {
-                        begin();
-                        out.write(buf, 0, bytesToWrite);
-                    } finally {
-                        end(bytesToWrite > 0);
+                        bfgin();
+                        out.writf(buf, 0, bytfsToWritf);
+                    } finblly {
+                        fnd(bytfsToWritf > 0);
                     }
-                    totalWritten += bytesToWrite;
+                    totblWrittfn += bytfsToWritf;
                 }
-                return totalWritten;
+                rfturn totblWrittfn;
             }
         }
 
-        protected void implCloseChannel() throws IOException {
-            out.close();
-            open = false;
+        protfdtfd void implClosfCibnnfl() tirows IOExdfption {
+            out.dlosf();
+            opfn = fblsf;
         }
     }
 
 
-    // -- Character streams from channels --
+    // -- Cibrbdtfr strfbms from dibnnfls --
 
     /**
-     * Constructs a reader that decodes bytes from the given channel using the
-     * given decoder.
+     * Construdts b rfbdfr tibt dfdodfs bytfs from tif givfn dibnnfl using tif
+     * givfn dfdodfr.
      *
-     * <p> The resulting stream will contain an internal input buffer of at
-     * least <tt>minBufferCap</tt> bytes.  The stream's <tt>read</tt> methods
-     * will, as needed, fill the buffer by reading bytes from the underlying
-     * channel; if the channel is in non-blocking mode when bytes are to be
-     * read then an {@link IllegalBlockingModeException} will be thrown.  The
-     * resulting stream will not otherwise be buffered, and it will not support
-     * the {@link Reader#mark mark} or {@link Reader#reset reset} methods.
-     * Closing the stream will in turn cause the channel to be closed.  </p>
+     * <p> Tif rfsulting strfbm will dontbin bn intfrnbl input bufffr of bt
+     * lfbst <tt>minBufffrCbp</tt> bytfs.  Tif strfbm's <tt>rfbd</tt> mftiods
+     * will, bs nffdfd, fill tif bufffr by rfbding bytfs from tif undfrlying
+     * dibnnfl; if tif dibnnfl is in non-blodking modf wifn bytfs brf to bf
+     * rfbd tifn bn {@link IllfgblBlodkingModfExdfption} will bf tirown.  Tif
+     * rfsulting strfbm will not otifrwisf bf bufffrfd, bnd it will not support
+     * tif {@link Rfbdfr#mbrk mbrk} or {@link Rfbdfr#rfsft rfsft} mftiods.
+     * Closing tif strfbm will in turn dbusf tif dibnnfl to bf dlosfd.  </p>
      *
-     * @param  ch
-     *         The channel from which bytes will be read
+     * @pbrbm  di
+     *         Tif dibnnfl from wiidi bytfs will bf rfbd
      *
-     * @param  dec
-     *         The charset decoder to be used
+     * @pbrbm  dfd
+     *         Tif dibrsft dfdodfr to bf usfd
      *
-     * @param  minBufferCap
-     *         The minimum capacity of the internal byte buffer,
-     *         or <tt>-1</tt> if an implementation-dependent
-     *         default capacity is to be used
+     * @pbrbm  minBufffrCbp
+     *         Tif minimum dbpbdity of tif intfrnbl bytf bufffr,
+     *         or <tt>-1</tt> if bn implfmfntbtion-dfpfndfnt
+     *         dffbult dbpbdity is to bf usfd
      *
-     * @return  A new reader
+     * @rfturn  A nfw rfbdfr
      */
-    public static Reader newReader(ReadableByteChannel ch,
-                                   CharsetDecoder dec,
-                                   int minBufferCap)
+    publid stbtid Rfbdfr nfwRfbdfr(RfbdbblfBytfCibnnfl di,
+                                   CibrsftDfdodfr dfd,
+                                   int minBufffrCbp)
     {
-        checkNotNull(ch, "ch");
-        return StreamDecoder.forDecoder(ch, dec.reset(), minBufferCap);
+        difdkNotNull(di, "di");
+        rfturn StrfbmDfdodfr.forDfdodfr(di, dfd.rfsft(), minBufffrCbp);
     }
 
     /**
-     * Constructs a reader that decodes bytes from the given channel according
-     * to the named charset.
+     * Construdts b rfbdfr tibt dfdodfs bytfs from tif givfn dibnnfl bddording
+     * to tif nbmfd dibrsft.
      *
-     * <p> An invocation of this method of the form
+     * <p> An invodbtion of tiis mftiod of tif form
      *
-     * <blockquote><pre>
-     * Channels.newReader(ch, csname)</pre></blockquote>
+     * <blodkquotf><prf>
+     * Cibnnfls.nfwRfbdfr(di, dsnbmf)</prf></blodkquotf>
      *
-     * behaves in exactly the same way as the expression
+     * bfibvfs in fxbdtly tif sbmf wby bs tif fxprfssion
      *
-     * <blockquote><pre>
-     * Channels.newReader(ch,
-     *                    Charset.forName(csName)
-     *                        .newDecoder(),
-     *                    -1);</pre></blockquote>
+     * <blodkquotf><prf>
+     * Cibnnfls.nfwRfbdfr(di,
+     *                    Cibrsft.forNbmf(dsNbmf)
+     *                        .nfwDfdodfr(),
+     *                    -1);</prf></blodkquotf>
      *
-     * @param  ch
-     *         The channel from which bytes will be read
+     * @pbrbm  di
+     *         Tif dibnnfl from wiidi bytfs will bf rfbd
      *
-     * @param  csName
-     *         The name of the charset to be used
+     * @pbrbm  dsNbmf
+     *         Tif nbmf of tif dibrsft to bf usfd
      *
-     * @return  A new reader
+     * @rfturn  A nfw rfbdfr
      *
-     * @throws  UnsupportedCharsetException
-     *          If no support for the named charset is available
-     *          in this instance of the Java virtual machine
+     * @tirows  UnsupportfdCibrsftExdfption
+     *          If no support for tif nbmfd dibrsft is bvbilbblf
+     *          in tiis instbndf of tif Jbvb virtubl mbdiinf
      */
-    public static Reader newReader(ReadableByteChannel ch,
-                                   String csName)
+    publid stbtid Rfbdfr nfwRfbdfr(RfbdbblfBytfCibnnfl di,
+                                   String dsNbmf)
     {
-        checkNotNull(csName, "csName");
-        return newReader(ch, Charset.forName(csName).newDecoder(), -1);
+        difdkNotNull(dsNbmf, "dsNbmf");
+        rfturn nfwRfbdfr(di, Cibrsft.forNbmf(dsNbmf).nfwDfdodfr(), -1);
     }
 
     /**
-     * Constructs a writer that encodes characters using the given encoder and
-     * writes the resulting bytes to the given channel.
+     * Construdts b writfr tibt fndodfs dibrbdtfrs using tif givfn fndodfr bnd
+     * writfs tif rfsulting bytfs to tif givfn dibnnfl.
      *
-     * <p> The resulting stream will contain an internal output buffer of at
-     * least <tt>minBufferCap</tt> bytes.  The stream's <tt>write</tt> methods
-     * will, as needed, flush the buffer by writing bytes to the underlying
-     * channel; if the channel is in non-blocking mode when bytes are to be
-     * written then an {@link IllegalBlockingModeException} will be thrown.
-     * The resulting stream will not otherwise be buffered.  Closing the stream
-     * will in turn cause the channel to be closed.  </p>
+     * <p> Tif rfsulting strfbm will dontbin bn intfrnbl output bufffr of bt
+     * lfbst <tt>minBufffrCbp</tt> bytfs.  Tif strfbm's <tt>writf</tt> mftiods
+     * will, bs nffdfd, flusi tif bufffr by writing bytfs to tif undfrlying
+     * dibnnfl; if tif dibnnfl is in non-blodking modf wifn bytfs brf to bf
+     * writtfn tifn bn {@link IllfgblBlodkingModfExdfption} will bf tirown.
+     * Tif rfsulting strfbm will not otifrwisf bf bufffrfd.  Closing tif strfbm
+     * will in turn dbusf tif dibnnfl to bf dlosfd.  </p>
      *
-     * @param  ch
-     *         The channel to which bytes will be written
+     * @pbrbm  di
+     *         Tif dibnnfl to wiidi bytfs will bf writtfn
      *
-     * @param  enc
-     *         The charset encoder to be used
+     * @pbrbm  fnd
+     *         Tif dibrsft fndodfr to bf usfd
      *
-     * @param  minBufferCap
-     *         The minimum capacity of the internal byte buffer,
-     *         or <tt>-1</tt> if an implementation-dependent
-     *         default capacity is to be used
+     * @pbrbm  minBufffrCbp
+     *         Tif minimum dbpbdity of tif intfrnbl bytf bufffr,
+     *         or <tt>-1</tt> if bn implfmfntbtion-dfpfndfnt
+     *         dffbult dbpbdity is to bf usfd
      *
-     * @return  A new writer
+     * @rfturn  A nfw writfr
      */
-    public static Writer newWriter(final WritableByteChannel ch,
-                                   final CharsetEncoder enc,
-                                   final int minBufferCap)
+    publid stbtid Writfr nfwWritfr(finbl WritbblfBytfCibnnfl di,
+                                   finbl CibrsftEndodfr fnd,
+                                   finbl int minBufffrCbp)
     {
-        checkNotNull(ch, "ch");
-        return StreamEncoder.forEncoder(ch, enc.reset(), minBufferCap);
+        difdkNotNull(di, "di");
+        rfturn StrfbmEndodfr.forEndodfr(di, fnd.rfsft(), minBufffrCbp);
     }
 
     /**
-     * Constructs a writer that encodes characters according to the named
-     * charset and writes the resulting bytes to the given channel.
+     * Construdts b writfr tibt fndodfs dibrbdtfrs bddording to tif nbmfd
+     * dibrsft bnd writfs tif rfsulting bytfs to tif givfn dibnnfl.
      *
-     * <p> An invocation of this method of the form
+     * <p> An invodbtion of tiis mftiod of tif form
      *
-     * <blockquote><pre>
-     * Channels.newWriter(ch, csname)</pre></blockquote>
+     * <blodkquotf><prf>
+     * Cibnnfls.nfwWritfr(di, dsnbmf)</prf></blodkquotf>
      *
-     * behaves in exactly the same way as the expression
+     * bfibvfs in fxbdtly tif sbmf wby bs tif fxprfssion
      *
-     * <blockquote><pre>
-     * Channels.newWriter(ch,
-     *                    Charset.forName(csName)
-     *                        .newEncoder(),
-     *                    -1);</pre></blockquote>
+     * <blodkquotf><prf>
+     * Cibnnfls.nfwWritfr(di,
+     *                    Cibrsft.forNbmf(dsNbmf)
+     *                        .nfwEndodfr(),
+     *                    -1);</prf></blodkquotf>
      *
-     * @param  ch
-     *         The channel to which bytes will be written
+     * @pbrbm  di
+     *         Tif dibnnfl to wiidi bytfs will bf writtfn
      *
-     * @param  csName
-     *         The name of the charset to be used
+     * @pbrbm  dsNbmf
+     *         Tif nbmf of tif dibrsft to bf usfd
      *
-     * @return  A new writer
+     * @rfturn  A nfw writfr
      *
-     * @throws  UnsupportedCharsetException
-     *          If no support for the named charset is available
-     *          in this instance of the Java virtual machine
+     * @tirows  UnsupportfdCibrsftExdfption
+     *          If no support for tif nbmfd dibrsft is bvbilbblf
+     *          in tiis instbndf of tif Jbvb virtubl mbdiinf
      */
-    public static Writer newWriter(WritableByteChannel ch,
-                                   String csName)
+    publid stbtid Writfr nfwWritfr(WritbblfBytfCibnnfl di,
+                                   String dsNbmf)
     {
-        checkNotNull(csName, "csName");
-        return newWriter(ch, Charset.forName(csName).newEncoder(), -1);
+        difdkNotNull(dsNbmf, "dsNbmf");
+        rfturn nfwWritfr(di, Cibrsft.forNbmf(dsNbmf).nfwEndodfr(), -1);
     }
 }

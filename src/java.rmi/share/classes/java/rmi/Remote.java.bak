@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi;
+pbdkbgf jbvb.rmi;
 
 /**
- * The <code>Remote</code> interface serves to identify interfaces whose
- * methods may be invoked from a non-local virtual machine.  Any object that
- * is a remote object must directly or indirectly implement this interface.
- * Only those methods specified in a "remote interface", an interface that
- * extends <code>java.rmi.Remote</code> are available remotely.
+ * Tif <dodf>Rfmotf</dodf> intfrfbdf sfrvfs to idfntify intfrfbdfs wiosf
+ * mftiods mby bf invokfd from b non-lodbl virtubl mbdiinf.  Any objfdt tibt
+ * is b rfmotf objfdt must dirfdtly or indirfdtly implfmfnt tiis intfrfbdf.
+ * Only tiosf mftiods spfdififd in b "rfmotf intfrfbdf", bn intfrfbdf tibt
+ * fxtfnds <dodf>jbvb.rmi.Rfmotf</dodf> brf bvbilbblf rfmotfly.
  *
- * <p>Implementation classes can implement any number of remote interfaces and
- * can extend other remote implementation classes.  RMI provides some
- * convenience classes that remote object implementations can extend which
- * facilitate remote object creation.  These classes are
- * <code>java.rmi.server.UnicastRemoteObject</code> and
- * <code>java.rmi.activation.Activatable</code>.
+ * <p>Implfmfntbtion dlbssfs dbn implfmfnt bny numbfr of rfmotf intfrfbdfs bnd
+ * dbn fxtfnd otifr rfmotf implfmfntbtion dlbssfs.  RMI providfs somf
+ * donvfnifndf dlbssfs tibt rfmotf objfdt implfmfntbtions dbn fxtfnd wiidi
+ * fbdilitbtf rfmotf objfdt drfbtion.  Tifsf dlbssfs brf
+ * <dodf>jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt</dodf> bnd
+ * <dodf>jbvb.rmi.bdtivbtion.Adtivbtbblf</dodf>.
  *
- * <p>For complete details on RMI, see the <a
- href=../../../platform/rmi/spec/rmiTOC.html>RMI Specification</a> which describes the RMI API and system.
+ * <p>For domplftf dftbils on RMI, sff tif <b
+ irff=../../../plbtform/rmi/spfd/rmiTOC.itml>RMI Spfdifidbtion</b> wiidi dfsdribfs tif RMI API bnd systfm.
  *
- * @since   1.1
- * @author  Ann Wollrath
- * @see     java.rmi.server.UnicastRemoteObject
- * @see     java.rmi.activation.Activatable
+ * @sindf   1.1
+ * @butior  Ann Wollrbti
+ * @sff     jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt
+ * @sff     jbvb.rmi.bdtivbtion.Adtivbtbblf
  */
-public interface Remote {}
+publid intfrfbdf Rfmotf {}

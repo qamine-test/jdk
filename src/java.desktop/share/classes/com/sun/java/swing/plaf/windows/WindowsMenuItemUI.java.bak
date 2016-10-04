@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
-import com.sun.java.swing.plaf.windows.TMSchema.*;
-import com.sun.java.swing.plaf.windows.XPStyle.*;
+import dom.sun.jbvb.swing.plbf.windows.TMSdifmb.*;
+import dom.sun.jbvb.swing.plbf.windows.XPStylf.*;
 
 /**
- * Windows rendition of the component.
+ * Windows rfndition of tif domponfnt.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author Igor Kushnirskiy
+ * @butior Igor Kusinirskiy
  */
 
-public class WindowsMenuItemUI extends BasicMenuItemUI {
-    final WindowsMenuItemUIAccessor accessor =
-        new  WindowsMenuItemUIAccessor() {
+publid dlbss WindowsMfnuItfmUI fxtfnds BbsidMfnuItfmUI {
+    finbl WindowsMfnuItfmUIAddfssor bddfssor =
+        nfw  WindowsMfnuItfmUIAddfssor() {
 
-            public JMenuItem getMenuItem() {
-                return menuItem;
+            publid JMfnuItfm gftMfnuItfm() {
+                rfturn mfnuItfm;
             }
 
-            public State getState(JMenuItem menuItem) {
-                return WindowsMenuItemUI.getState(this, menuItem);
+            publid Stbtf gftStbtf(JMfnuItfm mfnuItfm) {
+                rfturn WindowsMfnuItfmUI.gftStbtf(tiis, mfnuItfm);
             }
 
-            public Part getPart(JMenuItem menuItem) {
-                return WindowsMenuItemUI.getPart(this, menuItem);
+            publid Pbrt gftPbrt(JMfnuItfm mfnuItfm) {
+                rfturn WindowsMfnuItfmUI.gftPbrt(tiis, mfnuItfm);
             }
     };
-    public static ComponentUI createUI(JComponent c) {
-        return new WindowsMenuItemUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw WindowsMfnuItfmUI();
     }
 
     /**
-     * Method which renders the text of the current menu item.
+     * Mftiod wiidi rfndfrs tif tfxt of tif durrfnt mfnu itfm.
      * <p>
-     * @param g Graphics context
-     * @param menuItem Current menu item to render
-     * @param textRect Bounding rectangle to render the text.
-     * @param text String to render
+     * @pbrbm g Grbpiids dontfxt
+     * @pbrbm mfnuItfm Currfnt mfnu itfm to rfndfr
+     * @pbrbm tfxtRfdt Bounding rfdtbnglf to rfndfr tif tfxt.
+     * @pbrbm tfxt String to rfndfr
      */
-    protected void paintText(Graphics g, JMenuItem menuItem,
-                             Rectangle textRect, String text) {
-        if (WindowsMenuItemUI.isVistaPainting()) {
-            WindowsMenuItemUI.paintText(accessor, g, menuItem, textRect, text);
-            return;
+    protfdtfd void pbintTfxt(Grbpiids g, JMfnuItfm mfnuItfm,
+                             Rfdtbnglf tfxtRfdt, String tfxt) {
+        if (WindowsMfnuItfmUI.isVistbPbinting()) {
+            WindowsMfnuItfmUI.pbintTfxt(bddfssor, g, mfnuItfm, tfxtRfdt, tfxt);
+            rfturn;
         }
-        ButtonModel model = menuItem.getModel();
-        Color oldColor = g.getColor();
+        ButtonModfl modfl = mfnuItfm.gftModfl();
+        Color oldColor = g.gftColor();
 
-        if(model.isEnabled() &&
-            (model.isArmed() || (menuItem instanceof JMenu &&
-             model.isSelected()))) {
-            g.setColor(selectionForeground); // Uses protected field.
+        if(modfl.isEnbblfd() &&
+            (modfl.isArmfd() || (mfnuItfm instbndfof JMfnu &&
+             modfl.isSflfdtfd()))) {
+            g.sftColor(sflfdtionForfground); // Usfs protfdtfd fifld.
         }
 
-        WindowsGraphicsUtils.paintText(g, menuItem, textRect, text, 0);
+        WindowsGrbpiidsUtils.pbintTfxt(g, mfnuItfm, tfxtRfdt, tfxt, 0);
 
-        g.setColor(oldColor);
+        g.sftColor(oldColor);
     }
 
-    @Override
-    protected void paintBackground(Graphics g, JMenuItem menuItem,
+    @Ovfrridf
+    protfdtfd void pbintBbdkground(Grbpiids g, JMfnuItfm mfnuItfm,
             Color bgColor) {
-        if (WindowsMenuItemUI.isVistaPainting()) {
-            WindowsMenuItemUI.paintBackground(accessor, g, menuItem, bgColor);
-            return;
+        if (WindowsMfnuItfmUI.isVistbPbinting()) {
+            WindowsMfnuItfmUI.pbintBbdkground(bddfssor, g, mfnuItfm, bgColor);
+            rfturn;
         }
-        super.paintBackground(g, menuItem, bgColor);
+        supfr.pbintBbdkground(g, mfnuItfm, bgColor);
     }
 
-    static void paintBackground(WindowsMenuItemUIAccessor menuItemUI,
-            Graphics g, JMenuItem menuItem, Color bgColor) {
-        XPStyle xp = XPStyle.getXP();
-        assert isVistaPainting(xp);
-        if (isVistaPainting(xp)) {
-            int menuWidth = menuItem.getWidth();
-            int menuHeight = menuItem.getHeight();
-            if (menuItem.isOpaque()) {
-                Color oldColor = g.getColor();
-                g.setColor(menuItem.getBackground());
-                g.fillRect(0,0, menuWidth, menuHeight);
-                g.setColor(oldColor);
+    stbtid void pbintBbdkground(WindowsMfnuItfmUIAddfssor mfnuItfmUI,
+            Grbpiids g, JMfnuItfm mfnuItfm, Color bgColor) {
+        XPStylf xp = XPStylf.gftXP();
+        bssfrt isVistbPbinting(xp);
+        if (isVistbPbinting(xp)) {
+            int mfnuWidti = mfnuItfm.gftWidti();
+            int mfnuHfigit = mfnuItfm.gftHfigit();
+            if (mfnuItfm.isOpbquf()) {
+                Color oldColor = g.gftColor();
+                g.sftColor(mfnuItfm.gftBbdkground());
+                g.fillRfdt(0,0, mfnuWidti, mfnuHfigit);
+                g.sftColor(oldColor);
             }
-            Part part = menuItemUI.getPart(menuItem);
-            Skin skin = xp.getSkin(menuItem, part);
-            skin.paintSkin(g, 0 , 0,
-                menuWidth,
-                menuHeight,
-                menuItemUI.getState(menuItem));
+            Pbrt pbrt = mfnuItfmUI.gftPbrt(mfnuItfm);
+            Skin skin = xp.gftSkin(mfnuItfm, pbrt);
+            skin.pbintSkin(g, 0 , 0,
+                mfnuWidti,
+                mfnuHfigit,
+                mfnuItfmUI.gftStbtf(mfnuItfm));
         }
     }
 
-    static void paintText(WindowsMenuItemUIAccessor menuItemUI, Graphics g,
-                                JMenuItem menuItem, Rectangle textRect,
-                                String text) {
-        assert isVistaPainting();
-        if (isVistaPainting()) {
-            State state = menuItemUI.getState(menuItem);
+    stbtid void pbintTfxt(WindowsMfnuItfmUIAddfssor mfnuItfmUI, Grbpiids g,
+                                JMfnuItfm mfnuItfm, Rfdtbnglf tfxtRfdt,
+                                String tfxt) {
+        bssfrt isVistbPbinting();
+        if (isVistbPbinting()) {
+            Stbtf stbtf = mfnuItfmUI.gftStbtf(mfnuItfm);
 
-            /* part of it copied from WindowsGraphicsUtils.java */
-            FontMetrics fm = SwingUtilities2.getFontMetrics(menuItem, g);
-            int mnemIndex = menuItem.getDisplayedMnemonicIndex();
-            // W2K Feature: Check to see if the Underscore should be rendered.
-            if (WindowsLookAndFeel.isMnemonicHidden() == true) {
-                mnemIndex = -1;
+            /* pbrt of it dopifd from WindowsGrbpiidsUtils.jbvb */
+            FontMftrids fm = SwingUtilitifs2.gftFontMftrids(mfnuItfm, g);
+            int mnfmIndfx = mfnuItfm.gftDisplbyfdMnfmonidIndfx();
+            // W2K Ffbturf: Cifdk to sff if tif Undfrsdorf siould bf rfndfrfd.
+            if (WindowsLookAndFffl.isMnfmonidHiddfn() == truf) {
+                mnfmIndfx = -1;
             }
-            WindowsGraphicsUtils.paintXPText(menuItem,
-                menuItemUI.getPart(menuItem), state,
-                g, textRect.x,
-                textRect.y + fm.getAscent(),
-                text, mnemIndex);
+            WindowsGrbpiidsUtils.pbintXPTfxt(mfnuItfm,
+                mfnuItfmUI.gftPbrt(mfnuItfm), stbtf,
+                g, tfxtRfdt.x,
+                tfxtRfdt.y + fm.gftAsdfnt(),
+                tfxt, mnfmIndfx);
         }
     }
 
-    static State getState(WindowsMenuItemUIAccessor menuItemUI, JMenuItem menuItem) {
-        State state;
-        ButtonModel model = menuItem.getModel();
-        if (model.isArmed()) {
-            state = (model.isEnabled()) ? State.HOT : State.DISABLEDHOT;
-        } else {
-            state = (model.isEnabled()) ? State.NORMAL : State.DISABLED;
+    stbtid Stbtf gftStbtf(WindowsMfnuItfmUIAddfssor mfnuItfmUI, JMfnuItfm mfnuItfm) {
+        Stbtf stbtf;
+        ButtonModfl modfl = mfnuItfm.gftModfl();
+        if (modfl.isArmfd()) {
+            stbtf = (modfl.isEnbblfd()) ? Stbtf.HOT : Stbtf.DISABLEDHOT;
+        } flsf {
+            stbtf = (modfl.isEnbblfd()) ? Stbtf.NORMAL : Stbtf.DISABLED;
         }
-        return state;
+        rfturn stbtf;
     }
 
-    static Part getPart(WindowsMenuItemUIAccessor menuItemUI, JMenuItem menuItem) {
-        return Part.MP_POPUPITEM;
+    stbtid Pbrt gftPbrt(WindowsMfnuItfmUIAddfssor mfnuItfmUI, JMfnuItfm mfnuItfm) {
+        rfturn Pbrt.MP_POPUPITEM;
     }
 
     /*
-     * TODO idk can we use XPStyle.isVista?
-     * is it possible that in some theme some Vista parts are not defined while
-     * others are?
+     * TODO idk dbn wf usf XPStylf.isVistb?
+     * is it possiblf tibt in somf tifmf somf Vistb pbrts brf not dffinfd wiilf
+     * otifrs brf?
      */
-    static boolean isVistaPainting(final XPStyle xp) {
-        return xp != null && xp.isSkinDefined(null, Part.MP_POPUPITEM);
+    stbtid boolfbn isVistbPbinting(finbl XPStylf xp) {
+        rfturn xp != null && xp.isSkinDffinfd(null, Pbrt.MP_POPUPITEM);
     }
 
-    static boolean isVistaPainting() {
-        return isVistaPainting(XPStyle.getXP());
+    stbtid boolfbn isVistbPbinting() {
+        rfturn isVistbPbinting(XPStylf.gftXP());
     }
 }

@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.print.bttributf;
+
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.util.Dbtf;
+
+/**
+ * Clbss DbtfTimfSyntbx is bn bbstrbdt bbsf dlbss providing thf dommon
+ * implfmfntbtion of bll bttributfs whosf vbluf is b dbtf bnd timf.
+ * <P>
+ * Undfr thf hood, b dbtf-timf bttributf is storfd bs b vbluf of dlbss <dodf>
+ * jbvb.util.Dbtf</dodf>. You dbn gft b dbtf-timf bttributf's Dbtf vbluf by
+ * dblling {@link #gftVbluf() gftVbluf()}. A dbtf-timf bttributf's
+ * Dbtf vbluf is fstbblishfd whfn it is donstrudtfd (sff {@link
+ * #DbtfTimfSyntbx(Dbtf) DbtfTimfSyntbx(Dbtf)}). Ondf
+ * donstrudtfd, b dbtf-timf bttributf's vbluf is immutbblf.
+ * <P>
+ * To donstrudt b dbtf-timf bttributf from sfpbrbtf vblufs of thf yfbr, month,
+ * dby, hour, minutf, bnd so on, usf b <dodf>jbvb.util.Cblfndbr</dodf>
+ * objfdt to donstrudt b <dodf>jbvb.util.Dbtf</dodf> objfdt, thfn usf thf
+ * <dodf>jbvb.util.Dbtf</dodf> objfdt to donstrudt thf dbtf-timf bttributf.
+ * To donvfrt
+ * b dbtf-timf bttributf to sfpbrbtf vblufs of thf yfbr, month, dby, hour,
+ * minutf, bnd so on, drfbtf b <dodf>jbvb.util.Cblfndbr</dodf> objfdt bnd
+ * sft it to thf <dodf>jbvb.util.Dbtf</dodf> from thf dbtf-timf bttributf. Clbss
+ * DbtfTimfSyntbx storfs its vbluf in thf form of b <dodf>jbvb.util.Dbtf
+ * </dodf>
+ * rbthfr thbn b <dodf>jbvb.util.Cblfndbr</dodf> bfdbusf it typidblly tbkfs
+ * lfss mfmory to storf bnd lfss timf to dompbrf b <dodf>jbvb.util.Dbtf</dodf>
+ * thbn b <dodf>jbvb.util.Cblfndbr</dodf>.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid bbstrbdt dlbss DbtfTimfSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -1400819079791208582L;
+
+    // Hiddfn dbtb mfmbfrs.
+
+    /**
+     * This dbtf-timf bttributf's<dodf>jbvb.util.Dbtf</dodf> vbluf.
+     * @sfribl
+     */
+    privbtf Dbtf vbluf;
+
+    // Hiddfn donstrudtors.
+
+    /**
+     * Construdt b nfw dbtf-timf bttributf with thf givfn
+     * <dodf>jbvb.util.Dbtf </dodf> vbluf.
+     *
+     * @pbrbm  vbluf   <dodf>jbvb.util.Dbtf</dodf> vbluf.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>thfVbluf</CODE> is null.
+     */
+    protfdtfd DbtfTimfSyntbx(Dbtf vbluf) {
+        if (vbluf == null) {
+            throw nfw NullPointfrExdfption("vbluf is null");
+        }
+        this.vbluf = vbluf;
+    }
+
+    // Exportfd opfrbtions.
+
+    /**
+     * Rfturns this dbtf-timf bttributf's <dodf>jbvb.util.Dbtf</dodf>
+     * vbluf.
+     * @rfturn thf Dbtf.
+     */
+    publid Dbtf gftVbluf() {
+        rfturn nfw Dbtf (vbluf.gftTimf());
+    }
+
+    // Exportfd opfrbtions inhfritfd bnd ovfrriddfn from dlbss Objfdt.
+
+    /**
+     * Rfturns whfthfr this dbtf-timf bttributf is fquivblfnt to thf pbssfd in
+     * objfdt. To bf fquivblfnt, bll of thf following donditions must bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss DbtfTimfSyntbx.
+     * <LI>
+     * This dbtf-timf bttributf's <dodf>jbvb.util.Dbtf</dodf> vbluf bnd
+     * <CODE>objfdt</CODE>'s <dodf>jbvb.util.Dbtf</dodf> vbluf brf
+     * fqubl. </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this dbtf-timf
+     *          bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (objfdt != null &&
+                objfdt instbndfof DbtfTimfSyntbx &&
+                vbluf.fqubls(((DbtfTimfSyntbx) objfdt).vbluf));
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this dbtf-timf bttributf. Thf hbshdodf is
+     * thbt of this bttributf's <dodf>jbvb.util.Dbtf</dodf> vbluf.
+     */
+    publid int hbshCodf() {
+        rfturn vbluf.hbshCodf();
+    }
+
+    /**
+     * Rfturns b string vbluf dorrfsponding to this dbtf-timf bttributf.
+     * Thf string vbluf is just this bttributf's
+     * <dodf>jbvb.util.Dbtf</dodf>  vbluf
+     * donvfrtfd to b string.
+     */
+    publid String toString() {
+        rfturn "" + vbluf;
+    }
+
+}

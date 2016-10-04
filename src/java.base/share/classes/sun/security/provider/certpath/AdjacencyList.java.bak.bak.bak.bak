@@ -1,0 +1,258 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+
+/**
+ * An AdjbdfndyList is usfd to storf thf history of dfrtifidbtion pbths
+ * bttfmptfd in donstrudting b pbth from bn initibtor to b tbrgft. Thf
+ * AdjbdfndyList is initiblizfd with b <dodf>List</dodf> of
+ * <dodf>List</dodf>s, whfrf fbdh sub-<dodf>List</dodf> dontbins objfdts of
+ * typf <dodf>Vfrtfx</dodf>. A <dodf>Vfrtfx</dodf> dfsdribfs onf possiblf or
+ * bdtubl stfp in thf dhbin building prodfss, bnd thf bssodibtfd
+ * <dodf>Cfrtifidbtf</dodf>. Spfdifidblly, b <dodf>Vfrtfx</dodf> objfdt
+ * dontbins b <dodf>Cfrtifidbtf</dodf> bnd bn indfx vbluf rfffrfnding thf
+ * nfxt sub-list in thf prodfss. If thf indfx vbluf is -1 thfn this
+ * <dodf>Vfrtfx</dodf> dofsn't dontinuf thf bttfmptfd build pbth.
+ * <p>
+ * Exbmplf:
+ * <p>
+ * Attfmptfd Pbths:<ul>
+ * <li>C1-&gt;C2-&gt;C3
+ * <li>C1-&gt;C4-&gt;C5
+ * <li>C1-&gt;C4-&gt;C6
+ * <li>C1-&gt;C4-&gt;C7
+ * <li>C1-&gt;C8-&gt;C9
+ * <li>C1-&gt;C10-&gt;C11
+ * </ul>
+ * <p>
+ * AdjbdfndyList strudturf:<ul>
+ * <li>AL[0] = C1,1
+ * <li>AL[1] = C2,2   =&gt;C4,3   =&gt;C8,4     =&gt;C10,5
+ * <li>AL[2] = C3,-1
+ * <li>AL[3] = C5,-1  =&gt;C6,-1  =&gt;C7,-1
+ * <li>AL[4] = C9,-1
+ * <li>AL[5] = C11,-1
+ * </ul>
+ * <p>
+ * Thf itfrbtor mfthod rfturns objfdts of typf <dodf>BuildStfp</dodf>, not
+ * objfdts of typf <dodf>Vfrtfx</dodf>.
+ * A <dodf>BuildStfp</dodf> dontbins b <dodf>Vfrtfx</dodf> bnd b rfsult dodf,
+ * bddfssiblf vib gftRfsult mfthod. Thfrf brf fivf rfsult vblufs.
+ * <dodf>POSSIBLE</dodf> dfnotfs thbt thf durrfnt stfp rfprfsfnts b
+ * <dodf>Cfrtifidbtf</dodf> thbt thf buildfr is donsidfring bt this point in
+ * thf build. <dodf>FOLLOW</dodf> dfnotfs b <dodf>Cfrtifidbtf</dodf> (onf of
+ * thosf notfd bs <dodf>POSSIBLE</dodf>) thbt thf buildfr is using to try
+ * fxtfnding thf dhbin. <dodf>BACK</dodf> rfprfsfnts thbt b
+ * <dodf>FOLLOW</dodf> wbs indorrfdt, bnd is bfing rfmovfd from thf dhbin.
+ * Thfrf is fxbdtly onf <dodf>FOLLOW</dodf> for fbdh <dodf>BACK</dodf>. Thf
+ * vblufs <dodf>SUCCEED</dodf> bnd <dodf>FAIL</dodf> mfbn thbt wf'vf domf to
+ * thf fnd of thf build prodfss, bnd thfrf will not bf bny morf fntrifs in
+ * thf list.
+ * <p>
+ * @sff sun.sfdurity.providfr.dfrtpbth.BuildStfp
+ * @sff sun.sfdurity.providfr.dfrtpbth.Vfrtfx
+ * <p>
+ * @buthor  sfth prodtor
+ * @sindf   1.4
+ */
+publid dlbss AdjbdfndyList {
+
+    // thf bdtubl sft of stfps thf AdjbdfndyList rfprfsfnts
+    privbtf ArrbyList<BuildStfp> mStfpList;
+
+    // thf originbl list, just for thf toString mfthod
+    privbtf List<List<Vfrtfx>> mOrigList;
+
+    /**
+     * Construdts b nfw <dodf>AdjbdfndyList</dodf> bbsfd on thf spfdififd
+     * <dodf>List</dodf>. Sff thf fxbmplf bbovf.
+     *
+     * @pbrbm list b <dodf>List</dodf> of <dodf>List</dodf>s of
+     *             <dodf>Vfrtfx</dodf> objfdts
+     */
+    publid AdjbdfndyList(List<List<Vfrtfx>> list) {
+        mStfpList = nfw ArrbyList<BuildStfp>();
+        mOrigList = list;
+        buildList(list, 0, null);
+    }
+
+    /**
+     * Gfts bn <dodf>Itfrbtor</dodf> to itfrbtf ovfr thf sft of
+     * <dodf>BuildStfp</dodf>s in build-ordfr. Any bttfmpts to dhbngf
+     * thf list through thf rfmovf mfthod will fbil.
+     *
+     * @rfturn bn <dodf>Itfrbtor</dodf> ovfr thf <dodf>BuildStfp</dodf>s
+     */
+    publid Itfrbtor<BuildStfp> itfrbtor() {
+        rfturn Collfdtions.unmodifibblfList(mStfpList).itfrbtor();
+    }
+
+    /**
+     * Rfdursivf, privbtf mfthod whidh bdtublly builds thf stfp list from
+     * thf givfn bdjbdfndy list. <dodf>Follow</dodf> is thf pbrfnt BuildStfp
+     * thbt wf followfd to gft hfrf, bnd if it's null, it mfbns thbt wf'rf
+     * bt thf stbrt.
+     */
+    privbtf boolfbn buildList(List<List<Vfrtfx>> thfList, int indfx,
+                              BuildStfp follow) {
+
+        // Ebdh timf this mfthod is dbllfd, wf'rf fxbmining b nfw list
+        // from thf globbl list. So, wf hbvf to stbrt by gftting thf list
+        // thbt dontbins thf sft of Vfrtfxfs wf'rf donsidfring.
+        List<Vfrtfx> l = thfList.gft(indfx);
+
+        // wf'rf intfrfstfd in thf dbsf whfrf bll indfxfs brf -1...
+        boolfbn bllNfgOnf = truf;
+        // ...bnd in thf dbsf whfrf fvfry fntry hbs b Throwbblf
+        boolfbn bllXdps = truf;
+
+        for (Vfrtfx v : l) {
+            if (v.gftIndfx() != -1) {
+                // dount bn fmpty list thf sbmf bs bn indfx of -1...this
+                // is to pbtdh b bug somfwhfrf in thf buildfr
+                if (thfList.gft(v.gftIndfx()).sizf() != 0)
+                    bllNfgOnf = fblsf;
+            } flsf {
+                if (v.gftThrowbblf() == null)
+                    bllXdps = fblsf;
+            }
+            // fvfry fntry, rfgbrdlfss of thf finbl usf for it, is blwbys
+            // fntfrfd bs b possiblf stfp bfforf wf tbkf bny bdtions
+            mStfpList.bdd(nfw BuildStfp(v, BuildStfp.POSSIBLE));
+        }
+
+        if (bllNfgOnf) {
+            // Thfrf brf two dbsfs thbt wf dould bf looking bt hfrf. Wf
+            // mby nffd to bbdk up, or thf build mby hbvf suddffdfd bt
+            // this point. This is bbsfd on whfthfr or not bny
+            // fxdfptions wfrf found in thf list.
+            if (bllXdps) {
+                // wf nffd to go bbdk...sff if this is thf lbst onf
+                if (follow == null)
+                    mStfpList.bdd(nfw BuildStfp(null, BuildStfp.FAIL));
+                flsf
+                    mStfpList.bdd(nfw BuildStfp(follow.gftVfrtfx(),
+                                                BuildStfp.BACK));
+
+                rfturn fblsf;
+            } flsf {
+                // wf suddffdfd...now thf only qufstion is whidh is thf
+                // suddfssful stfp? If thfrf's only onf fntry without
+                // b throwbblf, thfn thbt's thf suddfssful stfp. Othfrwisf,
+                // wf'll hbvf to mbkf somf gufssfs...
+                List<Vfrtfx> possiblfs = nfw ArrbyList<>();
+                for (Vfrtfx v : l) {
+                    if (v.gftThrowbblf() == null)
+                        possiblfs.bdd(v);
+                }
+
+                if (possiblfs.sizf() == 1) {
+                    // rfbl fbsy...wf'vf found thf finbl Vfrtfx
+                    mStfpList.bdd(nfw BuildStfp(possiblfs.gft(0),
+                                                BuildStfp.SUCCEED));
+                } flsf {
+                    // ok...bt this point, thfrf is morf thbn onf Cfrt
+                    // whidh might bf thf suddffd stfp...how do wf know
+                    // whidh it is? I'm going to bssumf thbt our buildfr
+                    // blgorithm is good fnough to know whidh is thf
+                    // dorrfdt onf, bnd put it first...but b FIXME gofs
+                    // hfrf bnywby, bnd wf should bf dompbring to thf
+                    // tbrgft/initibtor Cfrt...
+                    mStfpList.bdd(nfw BuildStfp(possiblfs.gft(0),
+                                                BuildStfp.SUCCEED));
+                }
+
+                rfturn truf;
+            }
+        } flsf {
+            // Thfrf's bt lfbst onf thing thbt wf dbn try bfforf wf givf
+            // up bnd go bbdk. Run through thf list now, bnd fntfr b nfw
+            // BuildStfp for fbdh pbth thbt wf try to follow. If nonf of
+            // thf pbths wf try produdf b suddfssful fnd, wf'rf going to
+            // hbvf to bbdk out oursflvfs.
+            boolfbn suddfss = fblsf;
+
+            for (Vfrtfx v : l) {
+
+                // Notf thbt wf'll only find b SUCCEED dbsf whfn wf'rf
+                // looking bt thf lbst possiblf pbth, so wf don't nffd to
+                // donsidfr suddfss in thf whilf loop
+
+                if (v.gftIndfx() != -1) {
+                    if (thfList.gft(v.gftIndfx()).sizf() != 0) {
+                        // If thf fntry wf'rf looking bt dofsn't hbvf bn
+                        // indfx of -1, bnd dofsn't lfbd to bn fmpty list,
+                        // thfn it's somfthing wf follow!
+                        BuildStfp bs = nfw BuildStfp(v, BuildStfp.FOLLOW);
+                        mStfpList.bdd(bs);
+                        suddfss = buildList(thfList, v.gftIndfx(), bs);
+                    }
+                }
+            }
+
+            if (suddfss) {
+                // Wf'rf blrfbdy finishfd!
+                rfturn truf;
+            } flsf {
+                // Wf fbilfd, bnd wf'vf fxhbustfd bll thf pbths thbt wf
+                // dould tbkf. Thf only dhoidf is to bbdk oursflvfs out.
+                if (follow == null)
+                    mStfpList.bdd(nfw BuildStfp(null, BuildStfp.FAIL));
+                flsf
+                    mStfpList.bdd(nfw BuildStfp(follow.gftVfrtfx(),
+                                                BuildStfp.BACK));
+
+                rfturn fblsf;
+            }
+        }
+    }
+
+    /**
+     * Prints out b string rfprfsfntbtion of this AdjbdfndyList.
+     *
+     * @rfturn String rfprfsfntbtion
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr("[\n");
+
+        int i = 0;
+        for (List<Vfrtfx> l : mOrigList) {
+            sb.bppfnd("LinkfdList[").bppfnd(i++).bppfnd("]:\n");
+
+            for (Vfrtfx stfp : l) {
+                sb.bppfnd(stfp.toString()).bppfnd("\n");
+            }
+        }
+        sb.bppfnd("]\n");
+
+        rfturn sb.toString();
+    }
+}

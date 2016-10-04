@@ -1,0 +1,198 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.Collfdtions;
+
+/**
+ * Abstrbdt hflpfr dlbss for notifidbtion fmittfr support.
+ */
+bbstrbdt dlbss NotifidbtionEmittfrSupport implfmfnts NotifidbtionEmittfr {
+
+    protfdtfd NotifidbtionEmittfrSupport() {
+    }
+
+    privbtf Objfdt listfnfrLodk = nfw Objfdt();
+
+    // Implfmfntbtion of NotifidbtionEmittfr intfrfbdf
+    // Clonfd from JMX NotifidbtionBrobddbstfrSupport dlbss.
+    publid void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt hbndbbdk) {
+
+        if (listfnfr == null) {
+            throw nfw IllfgblArgumfntExdfption ("Listfnfr dbn't bf null") ;
+        }
+
+        /* Adding b nfw listfnfr tbkfs O(n) timf whfrf n is thf numbfr
+           of fxisting listfnfrs.  If you hbvf b vfry lbrgf numbfr of
+           listfnfrs pfrformbndf dould dfgrbdf.  Thbt's b fbirly
+           surprising donfigurbtion, bnd it is hbrd to bvoid this
+           bfhbviour whilf still rftbining thf propfrty thbt thf
+           listfnfrList is not syndhronizfd whilf notifidbtions brf
+           bfing sfnt through it.  If this bfdomfs b problfm, b
+           possiblf solution would bf b multiplf-rfbdfrs singlf-writfr
+           sftup, so bny numbfr of sfndNotifidbtion() dblls dould run
+           dondurrfntly but thfy would fxdludf bn
+           bdd/rfmovfNotifidbtionListfnfr.  A simplfr but lfss
+           fffidifnt solution would bf to dlonf thf listfnfr list
+           fvfry timf b notifidbtion is sfnt.  */
+        syndhronizfd (listfnfrLodk) {
+            List<ListfnfrInfo> nfwList = nfw ArrbyList<>(listfnfrList.sizf() + 1);
+            nfwList.bddAll(listfnfrList);
+            nfwList.bdd(nfw ListfnfrInfo(listfnfr, filtfr, hbndbbdk));
+            listfnfrList = nfwList;
+        }
+    }
+
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+        throws ListfnfrNotFoundExdfption {
+
+        syndhronizfd (listfnfrLodk) {
+            List<ListfnfrInfo> nfwList = nfw ArrbyList<>(listfnfrList);
+            /* Wf sdbn thf list of listfnfrs in rfvfrsf ordfr bfdbusf
+               in forwbrd ordfr wf would hbvf to rfpfbt thf loop with
+               thf sbmf indfx bftfr b rfmovf.  */
+            for (int i=nfwList.sizf()-1; i>=0; i--) {
+                ListfnfrInfo li = nfwList.gft(i);
+
+                if (li.listfnfr == listfnfr)
+                    nfwList.rfmovf(i);
+            }
+            if (nfwList.sizf() == listfnfrList.sizf())
+                throw nfw ListfnfrNotFoundExdfption("Listfnfr not rfgistfrfd");
+            listfnfrList = nfwList;
+        }
+    }
+
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                           NotifidbtionFiltfr filtfr,
+                                           Objfdt hbndbbdk)
+            throws ListfnfrNotFoundExdfption {
+
+        boolfbn found = fblsf;
+
+        syndhronizfd (listfnfrLodk) {
+            List<ListfnfrInfo> nfwList = nfw ArrbyList<>(listfnfrList);
+            finbl int sizf = nfwList.sizf();
+            for (int i = 0; i < sizf; i++) {
+                ListfnfrInfo li =  nfwList.gft(i);
+
+                if (li.listfnfr == listfnfr) {
+                    found = truf;
+                    if (li.filtfr == filtfr
+                        && li.hbndbbdk == hbndbbdk) {
+                        nfwList.rfmovf(i);
+                        listfnfrList = nfwList;
+                        rfturn;
+                    }
+                }
+            }
+        }
+
+        if (found) {
+            /* Wf found this listfnfr, but not with thf givfn filtfr
+             * bnd hbndbbdk.  A morf informbtivf fxdfption mfssbgf mby
+             * mbkf dfbugging fbsifr.  */
+            throw nfw ListfnfrNotFoundExdfption("Listfnfr not rfgistfrfd " +
+                                                "with this filtfr bnd " +
+                                                "hbndbbdk");
+        } flsf {
+            throw nfw ListfnfrNotFoundExdfption("Listfnfr not rfgistfrfd");
+        }
+    }
+
+    void sfndNotifidbtion(Notifidbtion notifidbtion) {
+
+        if (notifidbtion == null) {
+            rfturn;
+        }
+
+        List<ListfnfrInfo> durrfntList;
+        syndhronizfd (listfnfrLodk) {
+            durrfntList = listfnfrList;
+        }
+
+        finbl int sizf = durrfntList.sizf();
+        for (int i = 0; i < sizf; i++) {
+            ListfnfrInfo li =  durrfntList.gft(i);
+
+            if (li.filtfr == null
+                || li.filtfr.isNotifidbtionEnbblfd(notifidbtion)) {
+                try {
+                    li.listfnfr.hbndlfNotifidbtion(notifidbtion, li.hbndbbdk);
+                } dbtdh (Exdfption f) {
+                    f.printStbdkTrbdf();
+                    throw nfw AssfrtionError("Error in invoking listfnfr");
+                }
+            }
+        }
+    }
+
+    boolfbn hbsListfnfrs() {
+        syndhronizfd (listfnfrLodk) {
+            rfturn !listfnfrList.isEmpty();
+        }
+    }
+
+    privbtf dlbss ListfnfrInfo {
+        publid NotifidbtionListfnfr listfnfr;
+        NotifidbtionFiltfr filtfr;
+        Objfdt hbndbbdk;
+
+        publid ListfnfrInfo(NotifidbtionListfnfr listfnfr,
+                            NotifidbtionFiltfr filtfr,
+                            Objfdt hbndbbdk) {
+            this.listfnfr = listfnfr;
+            this.filtfr = filtfr;
+            this.hbndbbdk = hbndbbdk;
+        }
+    }
+
+    /**
+     * Currfnt list of listfnfrs, b List of ListfnfrInfo.  Thf objfdt
+     * rfffrfndfd by this fifld is nfvfr modififd.  Instfbd, thf fifld
+     * is sft to b nfw objfdt whfn b listfnfr is bddfd or rfmovfd,
+     * within b syndhronizfd(this).  In this wby, thfrf is no nffd to
+     * syndhronizf whfn trbvfrsing thf list to sfnd b notifidbtion to
+     * thf listfnfrs in it.  Thbt bvoids potfntibl dfbdlodks if thf
+     * listfnfrs fnd up dfpfnding on othfr thrfbds thbt brf thfmsflvfs
+     * bddfssing this NotifidbtionBrobddbstfrSupport.
+     */
+    privbtf List<ListfnfrInfo> listfnfrList = Collfdtions.fmptyList();
+
+    bbstrbdt publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo();
+}

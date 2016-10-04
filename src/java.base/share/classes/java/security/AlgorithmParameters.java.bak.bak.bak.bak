@@ -1,0 +1,399 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.io.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+
+/**
+ * This dlbss is usfd bs bn opbquf rfprfsfntbtion of dryptogrbphid pbrbmftfrs.
+ *
+ * <p>An {@dodf AlgorithmPbrbmftfrs} objfdt for mbnbging thf pbrbmftfrs
+ * for b pbrtidulbr blgorithm dbn bf obtbinfd by
+ * dblling onf of thf {@dodf gftInstbndf} fbdtory mfthods
+ * (stbtid mfthods thbt rfturn instbndfs of b givfn dlbss).
+ *
+ * <p>Ondf bn {@dodf AlgorithmPbrbmftfrs} objfdt is obtbinfd, it must bf
+ * initiblizfd vib b dbll to {@dodf init}, using bn bppropribtf pbrbmftfr
+ * spfdifidbtion or pbrbmftfr fndoding.
+ *
+ * <p>A trbnspbrfnt pbrbmftfr spfdifidbtion is obtbinfd from bn
+ * {@dodf AlgorithmPbrbmftfrs} objfdt vib b dbll to
+ * {@dodf gftPbrbmftfrSpfd}, bnd b bytf fndoding of thf pbrbmftfrs is
+ * obtbinfd vib b dbll to {@dodf gftEndodfd}.
+ *
+ * <p> Evfry implfmfntbtion of thf Jbvb plbtform is rfquirfd to support thf
+ * following stbndbrd {@dodf AlgorithmPbrbmftfrs} blgorithms:
+ * <ul>
+ * <li>{@dodf AES}</li>
+ * <li>{@dodf DES}</li>
+ * <li>{@dodf DESfdf}</li>
+ * <li>{@dodf DiffifHfllmbn}</li>
+ * <li>{@dodf DSA}</li>
+ * </ul>
+ * Thfsf blgorithms brf dfsdribfd in thf <b hrff=
+ * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#AlgorithmPbrbmftfrs">
+ * AlgorithmPbrbmftfrs sfdtion</b> of thf
+ * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion.
+ * Consult thf rflfbsf dodumfntbtion for your implfmfntbtion to sff if bny
+ * othfr blgorithms brf supportfd.
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd
+ * @sff jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd
+ * @sff KfyPbirGfnfrbtor
+ *
+ * @sindf 1.2
+ */
+
+publid dlbss AlgorithmPbrbmftfrs {
+
+    // Thf providfr
+    privbtf Providfr providfr;
+
+    // Thf providfr implfmfntbtion (dflfgbtf)
+    privbtf AlgorithmPbrbmftfrsSpi pbrbmSpi;
+
+    // Thf blgorithm
+    privbtf String blgorithm;
+
+    // Hbs this objfdt bffn initiblizfd?
+    privbtf boolfbn initiblizfd = fblsf;
+
+    /**
+     * Crfbtfs bn AlgorithmPbrbmftfrs objfdt.
+     *
+     * @pbrbm pbrbmSpi thf dflfgbtf
+     * @pbrbm providfr thf providfr
+     * @pbrbm blgorithm thf blgorithm
+     */
+    protfdtfd AlgorithmPbrbmftfrs(AlgorithmPbrbmftfrsSpi pbrbmSpi,
+                                  Providfr providfr, String blgorithm)
+    {
+        this.pbrbmSpi = pbrbmSpi;
+        this.providfr = providfr;
+        this.blgorithm = blgorithm;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf blgorithm bssodibtfd with this pbrbmftfr objfdt.
+     *
+     * @rfturn thf blgorithm nbmf.
+     */
+    publid finbl String gftAlgorithm() {
+        rfturn this.blgorithm;
+    }
+
+    /**
+     * Rfturns b pbrbmftfr objfdt for thf spfdififd blgorithm.
+     *
+     * <p> This mfthod trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
+     * stbrting with thf most prfffrrfd Providfr.
+     * A nfw AlgorithmPbrbmftfrs objfdt fndbpsulbting thf
+     * AlgorithmPbrbmftfrsSpi implfmfntbtion from thf first
+     * Providfr thbt supports thf spfdififd blgorithm is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * <p> Thf rfturnfd pbrbmftfr objfdt must bf initiblizfd vib b dbll to
+     * {@dodf init}, using bn bppropribtf pbrbmftfr spfdifidbtion or
+     * pbrbmftfr fndoding.
+     *
+     * @pbrbm blgorithm thf nbmf of thf blgorithm rfqufstfd.
+     * Sff thf AlgorithmPbrbmftfrs sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#AlgorithmPbrbmftfrs">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @rfturn thf nfw pbrbmftfr objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if no Providfr supports bn
+     *          AlgorithmPbrbmftfrsSpi implfmfntbtion for thf
+     *          spfdififd blgorithm.
+     *
+     * @sff Providfr
+     */
+    publid stbtid AlgorithmPbrbmftfrs gftInstbndf(String blgorithm)
+    throws NoSudhAlgorithmExdfption {
+        try {
+            Objfdt[] objs = Sfdurity.gftImpl(blgorithm, "AlgorithmPbrbmftfrs",
+                                             (String)null);
+            rfturn nfw AlgorithmPbrbmftfrs((AlgorithmPbrbmftfrsSpi)objs[0],
+                                           (Providfr)objs[1],
+                                           blgorithm);
+        } dbtdh(NoSudhProvidfrExdfption f) {
+            throw nfw NoSudhAlgorithmExdfption(blgorithm + " not found");
+        }
+    }
+
+    /**
+     * Rfturns b pbrbmftfr objfdt for thf spfdififd blgorithm.
+     *
+     * <p> A nfw AlgorithmPbrbmftfrs objfdt fndbpsulbting thf
+     * AlgorithmPbrbmftfrsSpi implfmfntbtion from thf spfdififd providfr
+     * is rfturnfd.  Thf spfdififd providfr must bf rfgistfrfd
+     * in thf sfdurity providfr list.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * <p>Thf rfturnfd pbrbmftfr objfdt must bf initiblizfd vib b dbll to
+     * {@dodf init}, using bn bppropribtf pbrbmftfr spfdifidbtion or
+     * pbrbmftfr fndoding.
+     *
+     * @pbrbm blgorithm thf nbmf of thf blgorithm rfqufstfd.
+     * Sff thf AlgorithmPbrbmftfrs sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#AlgorithmPbrbmftfrs">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @pbrbm providfr thf nbmf of thf providfr.
+     *
+     * @rfturn thf nfw pbrbmftfr objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if bn AlgorithmPbrbmftfrsSpi
+     *          implfmfntbtion for thf spfdififd blgorithm is not
+     *          bvbilbblf from thf spfdififd providfr.
+     *
+     * @fxdfption NoSudhProvidfrExdfption if thf spfdififd providfr is not
+     *          rfgistfrfd in thf sfdurity providfr list.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf providfr nbmf is null
+     *          or fmpty.
+     *
+     * @sff Providfr
+     */
+    publid stbtid AlgorithmPbrbmftfrs gftInstbndf(String blgorithm,
+                                                  String providfr)
+        throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption
+    {
+        if (providfr == null || providfr.lfngth() == 0)
+            throw nfw IllfgblArgumfntExdfption("missing providfr");
+        Objfdt[] objs = Sfdurity.gftImpl(blgorithm, "AlgorithmPbrbmftfrs",
+                                         providfr);
+        rfturn nfw AlgorithmPbrbmftfrs((AlgorithmPbrbmftfrsSpi)objs[0],
+                                       (Providfr)objs[1],
+                                       blgorithm);
+    }
+
+    /**
+     * Rfturns b pbrbmftfr objfdt for thf spfdififd blgorithm.
+     *
+     * <p> A nfw AlgorithmPbrbmftfrs objfdt fndbpsulbting thf
+     * AlgorithmPbrbmftfrsSpi implfmfntbtion from thf spfdififd Providfr
+     * objfdt is rfturnfd.  Notf thbt thf spfdififd Providfr objfdt
+     * dofs not hbvf to bf rfgistfrfd in thf providfr list.
+     *
+     * <p>Thf rfturnfd pbrbmftfr objfdt must bf initiblizfd vib b dbll to
+     * {@dodf init}, using bn bppropribtf pbrbmftfr spfdifidbtion or
+     * pbrbmftfr fndoding.
+     *
+     * @pbrbm blgorithm thf nbmf of thf blgorithm rfqufstfd.
+     * Sff thf AlgorithmPbrbmftfrs sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#AlgorithmPbrbmftfrs">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @pbrbm providfr thf nbmf of thf providfr.
+     *
+     * @rfturn thf nfw pbrbmftfr objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if bn AlgorithmPbrbmftfrGfnfrbtorSpi
+     *          implfmfntbtion for thf spfdififd blgorithm is not bvbilbblf
+     *          from thf spfdififd Providfr objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf providfr is null.
+     *
+     * @sff Providfr
+     *
+     * @sindf 1.4
+     */
+    publid stbtid AlgorithmPbrbmftfrs gftInstbndf(String blgorithm,
+                                                  Providfr providfr)
+        throws NoSudhAlgorithmExdfption
+    {
+        if (providfr == null)
+            throw nfw IllfgblArgumfntExdfption("missing providfr");
+        Objfdt[] objs = Sfdurity.gftImpl(blgorithm, "AlgorithmPbrbmftfrs",
+                                         providfr);
+        rfturn nfw AlgorithmPbrbmftfrs((AlgorithmPbrbmftfrsSpi)objs[0],
+                                       (Providfr)objs[1],
+                                       blgorithm);
+    }
+
+    /**
+     * Rfturns thf providfr of this pbrbmftfr objfdt.
+     *
+     * @rfturn thf providfr of this pbrbmftfr objfdt
+     */
+    publid finbl Providfr gftProvidfr() {
+        rfturn this.providfr;
+    }
+
+    /**
+     * Initiblizfs this pbrbmftfr objfdt using thf pbrbmftfrs
+     * spfdififd in {@dodf pbrbmSpfd}.
+     *
+     * @pbrbm pbrbmSpfd thf pbrbmftfr spfdifidbtion.
+     *
+     * @fxdfption InvblidPbrbmftfrSpfdExdfption if thf givfn pbrbmftfr
+     * spfdifidbtion is inbppropribtf for thf initiblizbtion of this pbrbmftfr
+     * objfdt, or if this pbrbmftfr objfdt hbs blrfbdy bffn initiblizfd.
+     */
+    publid finbl void init(AlgorithmPbrbmftfrSpfd pbrbmSpfd)
+        throws InvblidPbrbmftfrSpfdExdfption
+    {
+        if (this.initiblizfd)
+            throw nfw InvblidPbrbmftfrSpfdExdfption("blrfbdy initiblizfd");
+        pbrbmSpi.fnginfInit(pbrbmSpfd);
+        this.initiblizfd = truf;
+    }
+
+    /**
+     * Imports thf spfdififd pbrbmftfrs bnd dfdodfs thfm bddording to thf
+     * primbry dfdoding formbt for pbrbmftfrs. Thf primbry dfdoding
+     * formbt for pbrbmftfrs is ASN.1, if bn ASN.1 spfdifidbtion for this typf
+     * of pbrbmftfrs fxists.
+     *
+     * @pbrbm pbrbms thf fndodfd pbrbmftfrs.
+     *
+     * @fxdfption IOExdfption on dfdoding frrors, or if this pbrbmftfr objfdt
+     * hbs blrfbdy bffn initiblizfd.
+     */
+    publid finbl void init(bytf[] pbrbms) throws IOExdfption {
+        if (this.initiblizfd)
+            throw nfw IOExdfption("blrfbdy initiblizfd");
+        pbrbmSpi.fnginfInit(pbrbms);
+        this.initiblizfd = truf;
+    }
+
+    /**
+     * Imports thf pbrbmftfrs from {@dodf pbrbms} bnd dfdodfs thfm
+     * bddording to thf spfdififd dfdoding sdhfmf.
+     * If {@dodf formbt} is null, thf
+     * primbry dfdoding formbt for pbrbmftfrs is usfd. Thf primbry dfdoding
+     * formbt is ASN.1, if bn ASN.1 spfdifidbtion for thfsf pbrbmftfrs
+     * fxists.
+     *
+     * @pbrbm pbrbms thf fndodfd pbrbmftfrs.
+     *
+     * @pbrbm formbt thf nbmf of thf dfdoding sdhfmf.
+     *
+     * @fxdfption IOExdfption on dfdoding frrors, or if this pbrbmftfr objfdt
+     * hbs blrfbdy bffn initiblizfd.
+     */
+    publid finbl void init(bytf[] pbrbms, String formbt) throws IOExdfption {
+        if (this.initiblizfd)
+            throw nfw IOExdfption("blrfbdy initiblizfd");
+        pbrbmSpi.fnginfInit(pbrbms, formbt);
+        this.initiblizfd = truf;
+    }
+
+    /**
+     * Rfturns b (trbnspbrfnt) spfdifidbtion of this pbrbmftfr objfdt.
+     * {@dodf pbrbmSpfd} idfntififs thf spfdifidbtion dlbss in whidh
+     * thf pbrbmftfrs should bf rfturnfd. It dould, for fxbmplf, bf
+     * {@dodf DSAPbrbmftfrSpfd.dlbss}, to indidbtf thbt thf
+     * pbrbmftfrs should bf rfturnfd in bn instbndf of thf
+     * {@dodf DSAPbrbmftfrSpfd} dlbss.
+     *
+     * @pbrbm <T> thf typf of thf pbrbmftfr spfdifidbtion to bf rfturrnfd
+     * @pbrbm pbrbmSpfd thf spfdifidbtion dlbss in whidh
+     * thf pbrbmftfrs should bf rfturnfd.
+     *
+     * @rfturn thf pbrbmftfr spfdifidbtion.
+     *
+     * @fxdfption InvblidPbrbmftfrSpfdExdfption if thf rfqufstfd pbrbmftfr
+     * spfdifidbtion is inbppropribtf for this pbrbmftfr objfdt, or if this
+     * pbrbmftfr objfdt hbs not bffn initiblizfd.
+     */
+    publid finbl <T fxtfnds AlgorithmPbrbmftfrSpfd>
+        T gftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        throws InvblidPbrbmftfrSpfdExdfption
+    {
+        if (this.initiblizfd == fblsf) {
+            throw nfw InvblidPbrbmftfrSpfdExdfption("not initiblizfd");
+        }
+        rfturn pbrbmSpi.fnginfGftPbrbmftfrSpfd(pbrbmSpfd);
+    }
+
+    /**
+     * Rfturns thf pbrbmftfrs in thfir primbry fndoding formbt.
+     * Thf primbry fndoding formbt for pbrbmftfrs is ASN.1, if bn ASN.1
+     * spfdifidbtion for this typf of pbrbmftfrs fxists.
+     *
+     * @rfturn thf pbrbmftfrs fndodfd using thfir primbry fndoding formbt.
+     *
+     * @fxdfption IOExdfption on fndoding frrors, or if this pbrbmftfr objfdt
+     * hbs not bffn initiblizfd.
+     */
+    publid finbl bytf[] gftEndodfd() throws IOExdfption
+    {
+        if (this.initiblizfd == fblsf) {
+            throw nfw IOExdfption("not initiblizfd");
+        }
+        rfturn pbrbmSpi.fnginfGftEndodfd();
+    }
+
+    /**
+     * Rfturns thf pbrbmftfrs fndodfd in thf spfdififd sdhfmf.
+     * If {@dodf formbt} is null, thf
+     * primbry fndoding formbt for pbrbmftfrs is usfd. Thf primbry fndoding
+     * formbt is ASN.1, if bn ASN.1 spfdifidbtion for thfsf pbrbmftfrs
+     * fxists.
+     *
+     * @pbrbm formbt thf nbmf of thf fndoding formbt.
+     *
+     * @rfturn thf pbrbmftfrs fndodfd using thf spfdififd fndoding sdhfmf.
+     *
+     * @fxdfption IOExdfption on fndoding frrors, or if this pbrbmftfr objfdt
+     * hbs not bffn initiblizfd.
+     */
+    publid finbl bytf[] gftEndodfd(String formbt) throws IOExdfption
+    {
+        if (this.initiblizfd == fblsf) {
+            throw nfw IOExdfption("not initiblizfd");
+        }
+        rfturn pbrbmSpi.fnginfGftEndodfd(formbt);
+    }
+
+    /**
+     * Rfturns b formbttfd string dfsdribing thf pbrbmftfrs.
+     *
+     * @rfturn b formbttfd string dfsdribing thf pbrbmftfrs, or null if this
+     * pbrbmftfr objfdt hbs not bffn initiblizfd.
+     */
+    publid finbl String toString() {
+        if (this.initiblizfd == fblsf) {
+            rfturn null;
+        }
+        rfturn pbrbmSpi.fnginfToString();
+    }
+}

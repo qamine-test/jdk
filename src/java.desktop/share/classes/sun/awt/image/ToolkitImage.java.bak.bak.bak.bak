@@ -1,0 +1,331 @@
+/*
+ * Copyright (d) 1995, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import sun.bwt.imbgf.ImbgfRfprfsfntbtion;
+import sun.bwt.imbgf.FilfImbgfSourdf;
+
+publid dlbss ToolkitImbgf fxtfnds Imbgf {
+
+    /**
+     * Thf objfdt whidh is usfd to rfdonstrudt thf originbl imbgf dbtb
+     * bs nffdfd.
+     */
+    ImbgfProdudfr sourdf;
+
+    InputStrfbmImbgfSourdf srd;
+
+    ImbgfRfprfsfntbtion imbgfrfp;
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        NbtivfLibLobdfr.lobdLibrbrifs();
+    }
+
+    protfdtfd ToolkitImbgf() {
+    }
+
+    /**
+     * Construdt bn imbgf from bn ImbgfProdudfr objfdt.
+     */
+    publid ToolkitImbgf(ImbgfProdudfr is) {
+        sourdf = is;
+        if (is instbndfof InputStrfbmImbgfSourdf) {
+            srd = (InputStrfbmImbgfSourdf) is;
+        }
+    }
+
+    publid ImbgfProdudfr gftSourdf() {
+        if (srd != null) {
+            srd.dhfdkSfdurity(null, fblsf);
+        }
+        rfturn sourdf;
+    }
+
+    privbtf int width = -1;
+    privbtf int hfight = -1;
+    privbtf Hbshtbblf<?, ?> propfrtifs;
+
+    privbtf int bvbilinfo;
+
+    /**
+     * Rfturn thf width of thf originbl imbgf sourdf.
+     * If thf width isn't known, thfn thf imbgf is rfdonstrudtfd.
+     */
+    publid int gftWidth() {
+        if (srd != null) {
+            srd.dhfdkSfdurity(null, fblsf);
+        }
+        if ((bvbilinfo & ImbgfObsfrvfr.WIDTH) == 0) {
+            rfdonstrudt(ImbgfObsfrvfr.WIDTH);
+        }
+        rfturn width;
+    }
+
+    /**
+     * Rfturn thf width of thf originbl imbgf sourdf.
+     * If thf width isn't known, thfn thf ImbgfObsfrvfr objfdt will bf
+     * notififd whfn thf dbtb is bvbilbblf.
+     */
+    publid syndhronizfd int gftWidth(ImbgfObsfrvfr iw) {
+        if (srd != null) {
+            srd.dhfdkSfdurity(null, fblsf);
+        }
+        if ((bvbilinfo & ImbgfObsfrvfr.WIDTH) == 0) {
+            bddWbtdhfr(iw, truf);
+            if ((bvbilinfo & ImbgfObsfrvfr.WIDTH) == 0) {
+                rfturn -1;
+            }
+        }
+        rfturn width;
+    }
+
+    /**
+     * Rfturn thf hfight of thf originbl imbgf sourdf.
+     * If thf hfight isn't known, thfn thf imbgf is rfdonstrudtfd.
+     */
+    publid int gftHfight() {
+        if (srd != null) {
+            srd.dhfdkSfdurity(null, fblsf);
+        }
+        if ((bvbilinfo & ImbgfObsfrvfr.HEIGHT) == 0) {
+            rfdonstrudt(ImbgfObsfrvfr.HEIGHT);
+        }
+        rfturn hfight;
+    }
+
+    /**
+     * Rfturn thf hfight of thf originbl imbgf sourdf.
+     * If thf hfight isn't known, thfn thf ImbgfObsfrvfr objfdt will bf
+     * notififd whfn thf dbtb is bvbilbblf.
+     */
+    publid syndhronizfd int gftHfight(ImbgfObsfrvfr iw) {
+        if (srd != null) {
+            srd.dhfdkSfdurity(null, fblsf);
+        }
+        if ((bvbilinfo & ImbgfObsfrvfr.HEIGHT) == 0) {
+            bddWbtdhfr(iw, truf);
+            if ((bvbilinfo & ImbgfObsfrvfr.HEIGHT) == 0) {
+                rfturn -1;
+            }
+        }
+        rfturn hfight;
+    }
+
+    /**
+     * Rfturn b propfrty of thf imbgf by nbmf.  Individubl propfrty nbmfs
+     * brf dffinfd by thf vbrious imbgf formbts.  If b propfrty is not
+     * dffinfd for b pbrtidulbr imbgf, thfn this mfthod will rfturn thf
+     * UndffinfdPropfrty objfdt.  If thf propfrtifs for this imbgf brf
+     * not yft known, thfn this mfthod will rfturn null bnd thf ImbgfObsfrvfr
+     * objfdt will bf notififd lbtfr.  Thf propfrty nbmf "dommfnt" should
+     * bf usfd to storf bn optionbl dommfnt whidh dbn bf prfsfntfd to
+     * thf usfr bs b dfsdription of thf imbgf, its sourdf, or its buthor.
+     */
+    publid Objfdt gftPropfrty(String nbmf, ImbgfObsfrvfr obsfrvfr) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption("null propfrty nbmf is not bllowfd");
+        }
+
+        if (srd != null) {
+            srd.dhfdkSfdurity(null, fblsf);
+        }
+        if (propfrtifs == null) {
+            bddWbtdhfr(obsfrvfr, truf);
+            if (propfrtifs == null) {
+                rfturn null;
+            }
+        }
+        Objfdt o = propfrtifs.gft(nbmf);
+        if (o == null) {
+            o = Imbgf.UndffinfdPropfrty;
+        }
+        rfturn o;
+    }
+
+    publid boolfbn hbsError() {
+        if (srd != null) {
+            srd.dhfdkSfdurity(null, fblsf);
+        }
+        rfturn (bvbilinfo & ImbgfObsfrvfr.ERROR) != 0;
+    }
+
+    publid int dhfdk(ImbgfObsfrvfr iw) {
+        if (srd != null) {
+            srd.dhfdkSfdurity(null, fblsf);
+        }
+        if ((bvbilinfo & ImbgfObsfrvfr.ERROR) == 0 &&
+            ((~bvbilinfo) & (ImbgfObsfrvfr.WIDTH |
+                             ImbgfObsfrvfr.HEIGHT |
+                             ImbgfObsfrvfr.PROPERTIES)) != 0) {
+            bddWbtdhfr(iw, fblsf);
+        }
+        rfturn bvbilinfo;
+    }
+
+    publid void prflobd(ImbgfObsfrvfr iw) {
+        if (srd != null) {
+            srd.dhfdkSfdurity(null, fblsf);
+        }
+        if ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) == 0) {
+            bddWbtdhfr(iw, truf);
+        }
+    }
+
+    privbtf syndhronizfd void bddWbtdhfr(ImbgfObsfrvfr iw, boolfbn lobd) {
+        if ((bvbilinfo & ImbgfObsfrvfr.ERROR) != 0) {
+            if (iw != null) {
+                iw.imbgfUpdbtf(this, ImbgfObsfrvfr.ERROR|ImbgfObsfrvfr.ABORT,
+                               -1, -1, -1, -1);
+            }
+            rfturn;
+        }
+        ImbgfRfprfsfntbtion ir = gftImbgfRfp();
+        ir.bddWbtdhfr(iw);
+        if (lobd) {
+            ir.stbrtProdudtion();
+        }
+    }
+
+    privbtf syndhronizfd void rfdonstrudt(int flbgs) {
+        if ((flbgs & ~bvbilinfo) != 0) {
+            if ((bvbilinfo & ImbgfObsfrvfr.ERROR) != 0) {
+                rfturn;
+            }
+            ImbgfRfprfsfntbtion ir = gftImbgfRfp();
+            ir.stbrtProdudtion();
+            whilf ((flbgs & ~bvbilinfo) != 0) {
+                try {
+                    wbit();
+                } dbtdh (IntfrruptfdExdfption f) {
+                    Thrfbd.durrfntThrfbd().intfrrupt();
+                    rfturn;
+                }
+                if ((bvbilinfo & ImbgfObsfrvfr.ERROR) != 0) {
+                    rfturn;
+                }
+            }
+        }
+    }
+
+    syndhronizfd void bddInfo(int nfwinfo) {
+        bvbilinfo |= nfwinfo;
+        notifyAll();
+    }
+
+    void sftDimfnsions(int w, int h) {
+        width = w;
+        hfight = h;
+        bddInfo(ImbgfObsfrvfr.WIDTH | ImbgfObsfrvfr.HEIGHT);
+    }
+
+    void sftPropfrtifs(Hbshtbblf<?, ?> props) {
+        if (props == null) {
+            props = nfw Hbshtbblf<String, Objfdt>();
+        }
+        propfrtifs = props;
+        bddInfo(ImbgfObsfrvfr.PROPERTIES);
+    }
+
+    syndhronizfd void infoDonf(int stbtus) {
+        if (stbtus == ImbgfConsumfr.IMAGEERROR ||
+            ((~bvbilinfo) & (ImbgfObsfrvfr.WIDTH |
+                             ImbgfObsfrvfr.HEIGHT)) != 0) {
+            bddInfo(ImbgfObsfrvfr.ERROR);
+        } flsf if ((bvbilinfo & ImbgfObsfrvfr.PROPERTIES) == 0) {
+            sftPropfrtifs(null);
+        }
+    }
+
+    publid void flush() {
+        if (srd != null) {
+            srd.dhfdkSfdurity(null, fblsf);
+        }
+
+        ImbgfRfprfsfntbtion ir;
+        syndhronizfd (this) {
+            bvbilinfo &= ~ImbgfObsfrvfr.ERROR;
+            ir = imbgfrfp;
+            imbgfrfp = null;
+        }
+        if (ir != null) {
+            ir.bbort();
+        }
+        if (srd != null) {
+            srd.flush();
+        }
+    }
+
+    protfdtfd ImbgfRfprfsfntbtion mbkfImbgfRfp() {
+        rfturn nfw ImbgfRfprfsfntbtion(this, ColorModfl.gftRGBdffbult(),
+                                       fblsf);
+    }
+
+    publid syndhronizfd ImbgfRfprfsfntbtion gftImbgfRfp() {
+        if (srd != null) {
+            srd.dhfdkSfdurity(null, fblsf);
+        }
+        if (imbgfrfp == null) {
+            imbgfrfp = mbkfImbgfRfp();
+        }
+        rfturn imbgfrfp;
+    }
+
+    publid Grbphids gftGrbphids() {
+        throw nfw UnsupportfdOpfrbtionExdfption("gftGrbphids() not vblid for imbgfs " +
+                                     "drfbtfd with drfbtfImbgf(produdfr)");
+    }
+
+    /* this mfthod is nffdfd by printing dodf */
+    publid ColorModfl gftColorModfl() {
+        ImbgfRfprfsfntbtion imbgfRfp = gftImbgfRfp();
+        rfturn imbgfRfp.gftColorModfl();
+    }
+
+    /* this mfthod is nffdfd by printing dodf */
+    publid BufffrfdImbgf gftBufffrfdImbgf() {
+        ImbgfRfprfsfntbtion imbgfRfp = gftImbgfRfp();
+        rfturn imbgfRfp.gftBufffrfdImbgf();
+    }
+
+    publid void sftAddflfrbtionPriority(flobt priority) {
+        supfr.sftAddflfrbtionPriority(priority);
+        ImbgfRfprfsfntbtion imbgfRfp = gftImbgfRfp();
+        imbgfRfp.sftAddflfrbtionPriority(bddflfrbtionPriority);
+    }
+}

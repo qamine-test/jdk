@@ -1,0 +1,4289 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="kn"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lodblfDisplbyPbttfrn>
+			<lodblfSfpbrbtor>,</lodblfSfpbrbtor>
+		</lodblfDisplbyPbttfrn>
+		<lbngubgfs>
+			<lbngubgf typf="bb">ಅಫಾರ್</lbngubgf>
+			<lbngubgf typf="bb">ಅಬ್ಖಾಜಿಯನ್</lbngubgf>
+			<lbngubgf typf="bdf">ಅಛಿನೀಸ್</lbngubgf>
+			<lbngubgf typf="bdh">ಅಕೋಲಿ</lbngubgf>
+			<lbngubgf typf="bdb">ಅಡಂಗ್‌ಮೆ</lbngubgf>
+			<lbngubgf typf="bdy">ಅಡೈಘೆ</lbngubgf>
+			<lbngubgf typf="bf">ಅವೆಸ್ಟನ್</lbngubgf>
+			<lbngubgf typf="bf">ಆಫ್ರಿಕಾನ್ಸ್</lbngubgf>
+			<lbngubgf typf="bfb">ಆಫ್ರೋ-ಏಶಿಯಾಟಿಕ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="bfh">ಆಫ್ರಿಹಿಲಿ</lbngubgf>
+			<lbngubgf typf="bin">ಐನು</lbngubgf>
+			<lbngubgf typf="bk">ಅಕನ್</lbngubgf>
+			<lbngubgf typf="bkk">ಅಕ್ಕಾಡಿಯನ್</lbngubgf>
+			<lbngubgf typf="blf">ಅಲೆಯುಟ್</lbngubgf>
+			<lbngubgf typf="blg">ಅಲ್ಗೊಂಕ್ವಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="blt">ದಕ್ಷಿಣ ಅಲ್ಟಾಯ್</lbngubgf>
+			<lbngubgf typf="bm">ಅಂಹರಿಕ್</lbngubgf>
+			<lbngubgf typf="bn">ಅರಗೊನೀಸ್</lbngubgf>
+			<lbngubgf typf="bng">ಪ್ರಾಚೀನ ಇಂಗ್ಲೀಷ್</lbngubgf>
+			<lbngubgf typf="bnp">ಆಂಗಿಕಾ</lbngubgf>
+			<lbngubgf typf="bpb">ಅಪಾಚಿ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="br">ಅರೇಬಿಕ್</lbngubgf>
+			<lbngubgf typf="brd">ಅರಾಮಿಕ್</lbngubgf>
+			<lbngubgf typf="brn">ಅರೌಕೇನಿಯನ್</lbngubgf>
+			<lbngubgf typf="brp">ಅರಪಾಹೋ</lbngubgf>
+			<lbngubgf typf="brt">ಕೃತಕ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="brw">ಅರಾವಾಕ್</lbngubgf>
+			<lbngubgf typf="bs">ಅಸ್ಸಾಮೀಸ್</lbngubgf>
+			<lbngubgf typf="bst">ಆಸ್ಟುರಿಯನ್</lbngubgf>
+			<lbngubgf typf="bth">ಅಥಪಾಸ್ಕನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="bus">ಆಸ್ಟ್ರೇಲಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="bv">ಅವರಿಕ್</lbngubgf>
+			<lbngubgf typf="bwb">ಅವಧಿ</lbngubgf>
+			<lbngubgf typf="by">ಅಯ್ಮಾರಾ</lbngubgf>
+			<lbngubgf typf="bz">ಅಜರ್‌ಬೈಜಾನಿ</lbngubgf>
+			<lbngubgf typf="bz" blt="short">ಅಝೆರಿ</lbngubgf>
+			<lbngubgf typf="bb">ಬಶ್ಕಿರ್</lbngubgf>
+			<lbngubgf typf="bbd">ಬಾಂಡಾ</lbngubgf>
+			<lbngubgf typf="bbi">ಬಮಿಲೇಕೆ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="bbl">ಬಲೂಚಿ</lbngubgf>
+			<lbngubgf typf="bbn">ಬಲಿನೀಸ್</lbngubgf>
+			<lbngubgf typf="bbs">ಬಸಾ</lbngubgf>
+			<lbngubgf typf="bbt">ಬಾಲ್ಟಿಕ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="bf">ಬೆಲರೂಸಿಯನ್</lbngubgf>
+			<lbngubgf typf="bfj">ಬೇಜಾ</lbngubgf>
+			<lbngubgf typf="bfm">ಬೆಂಬಾ</lbngubgf>
+			<lbngubgf typf="bfr">ಬೆರ್ಬರ್</lbngubgf>
+			<lbngubgf typf="bg">ಬಲ್ಗೇರಿಯನ್</lbngubgf>
+			<lbngubgf typf="bh">ಬಿಹಾರಿ</lbngubgf>
+			<lbngubgf typf="bho">ಭೋಜಪುರಿ</lbngubgf>
+			<lbngubgf typf="bi">ಬಿಸ್ಲಾಮಾ</lbngubgf>
+			<lbngubgf typf="bik">ಬಿಕೊಲ್</lbngubgf>
+			<lbngubgf typf="bin">ಬಿನಿ</lbngubgf>
+			<lbngubgf typf="blb">ಸಿಕ್ಸಿಕಾ</lbngubgf>
+			<lbngubgf typf="bm">ಬಂಬಾರಾ</lbngubgf>
+			<lbngubgf typf="bn">ಬೆಂಗಾಲಿ</lbngubgf>
+			<lbngubgf typf="bnt">ಬಂಟು</lbngubgf>
+			<lbngubgf typf="bo">ಟಿಬೇಟಿಯನ್</lbngubgf>
+			<lbngubgf typf="br">ಬ್ರೆಟನ್</lbngubgf>
+			<lbngubgf typf="brb">ಬ್ರಾಜ್</lbngubgf>
+			<lbngubgf typf="bs">ಬೋಸ್ನಿಯನ್</lbngubgf>
+			<lbngubgf typf="btk">ಬಟಾಕ್</lbngubgf>
+			<lbngubgf typf="bub">ಬುರಿಯಟ್</lbngubgf>
+			<lbngubgf typf="bug">ಬುಗಿನೀಸ್</lbngubgf>
+			<lbngubgf typf="byn">ಬ್ಲಿನ್</lbngubgf>
+			<lbngubgf typf="db">ಕೆಟಲಾನ್</lbngubgf>
+			<lbngubgf typf="dbd">ಕ್ಯಾಡ್ಡೋ</lbngubgf>
+			<lbngubgf typf="dbi">ಮಧ್ಯ ಅಮೇರಿಕನ್ ಇಂಡಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="dbr">ಕಾರಿಬ್</lbngubgf>
+			<lbngubgf typf="dbu">ಕಕೇಶಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="ddh">ಅಟ್ಸಮ್</lbngubgf>
+			<lbngubgf typf="df">ಚೆಚನ್</lbngubgf>
+			<lbngubgf typf="dfb">ಸೆಬುಆನೋ</lbngubgf>
+			<lbngubgf typf="dfl">ಸೆಲ್ಟಿಕ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="dh">ಕಮೊರೊ</lbngubgf>
+			<lbngubgf typf="dhb">ಚಿಬ್ಚಾ</lbngubgf>
+			<lbngubgf typf="dhg">ಚಗಟಾಯ್</lbngubgf>
+			<lbngubgf typf="dhk">ಚೂಕಿಸೆ</lbngubgf>
+			<lbngubgf typf="dhm">ಮಾರಿ</lbngubgf>
+			<lbngubgf typf="dhn">ಚಿನೂಕ್ ಜಾರ್ಗೋನ್</lbngubgf>
+			<lbngubgf typf="dho">ಚೋಕ್ಟಾವ್</lbngubgf>
+			<lbngubgf typf="dhp">ಚಿಪೆವ್ಯಾನ್</lbngubgf>
+			<lbngubgf typf="dhr">ಚೀರೋಕೀ</lbngubgf>
+			<lbngubgf typf="dhy">ಚೀಯೆನ್ನೇ</lbngubgf>
+			<lbngubgf typf="dmd">ಚಾಮಿಕ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="do">ಕೊರ್ಸಿಕನ್</lbngubgf>
+			<lbngubgf typf="dop">ಕೊಪ್ಟಿಕ್</lbngubgf>
+			<lbngubgf typf="dpf">ಇಂಗ್ಲೀಷ್-ಮೂಲದ ಕ್ರಿಯೋಲ್ ಅಥವಾ ಪಿಡ್ಗಿನ್</lbngubgf>
+			<lbngubgf typf="dpf">ಫ್ರೆಂಚ್-ಮೂಲದ ಕ್ರಿಯೋಲ್ ಅಥವಾ ಪಿಡ್ಗಿನ್</lbngubgf>
+			<lbngubgf typf="dpp">ಪೋರ್ಚುಗೀಸ್- ಮೂಲದ ಕ್ರಿಯೋಲ್ ಅಥವಾ ಪಿಡ್ಗಿನ್</lbngubgf>
+			<lbngubgf typf="dr">ಕ್ರೀ</lbngubgf>
+			<lbngubgf typf="drh">ಕ್ರಿಮೀಯನ್ ಟರ್ಕಿಷ್</lbngubgf>
+			<lbngubgf typf="drp">ಕ್ರಿಯೋಲ್ ಅಥವಾ ಪಿಡ್ಗಿನ್</lbngubgf>
+			<lbngubgf typf="ds">ಜೆಕ್</lbngubgf>
+			<lbngubgf typf="dsb">ಕಶುಬಿಯನ್</lbngubgf>
+			<lbngubgf typf="du">ಚರ್ಚ್ ಸ್ಲಾವಿಕ್</lbngubgf>
+			<lbngubgf typf="dus">ಕುಷಿಟಿಕ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="dv">ಚುವಾಶ್</lbngubgf>
+			<lbngubgf typf="dy">ವೆಲ್ಶ್</lbngubgf>
+			<lbngubgf typf="db">ಡ್ಯಾನಿಶ್</lbngubgf>
+			<lbngubgf typf="dbk">ಡಕೋಟ</lbngubgf>
+			<lbngubgf typf="dbr">ದರ್ಗ್ವಾ</lbngubgf>
+			<lbngubgf typf="dby">ದಾಯಕ್</lbngubgf>
+			<lbngubgf typf="df">ಜರ್ಮನ್</lbngubgf>
+			<lbngubgf typf="df_AT">ಆಸ್ಟ್ರಿಯನ್‌‌ನ ಜರ್ಮನ್‌</lbngubgf>
+			<lbngubgf typf="df_CH">ಸ್ವಿಸ್ ಹೈ ಜರ್ಮನ್</lbngubgf>
+			<lbngubgf typf="dfl">ಡೆಲಾವೇರ್</lbngubgf>
+			<lbngubgf typf="dfn">ಸ್ಲೇವ್</lbngubgf>
+			<lbngubgf typf="dgr">ಡೋಗ್ರಿಬ್</lbngubgf>
+			<lbngubgf typf="din">ಡಿಂಕಾ</lbngubgf>
+			<lbngubgf typf="doi">ಡೋಗ್ರಿ</lbngubgf>
+			<lbngubgf typf="drb">ಡ್ರಾವಿಡಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="dsb">ಲೋವರ್ ಸೋರ್ಬಿಯನ್</lbngubgf>
+			<lbngubgf typf="dub">ಡುವಾಲಾ</lbngubgf>
+			<lbngubgf typf="dum">ಮಧ್ಯ ಡಚ್</lbngubgf>
+			<lbngubgf typf="dv">ದಿವೆಹಿ</lbngubgf>
+			<lbngubgf typf="dyu">ಡ್ಯೂಲಾ</lbngubgf>
+			<lbngubgf typf="dz">ಜೋಂಗ್‌ಖಾ</lbngubgf>
+			<lbngubgf typf="ff">ಏವ್</lbngubgf>
+			<lbngubgf typf="ffi">ಎಫಿಕ್</lbngubgf>
+			<lbngubgf typf="fgy">ಪ್ರಾಚೀನ ಈಜಿಪ್ಟಿಯನ್</lbngubgf>
+			<lbngubgf typf="fkb">ಎಕಾಜುಕ್</lbngubgf>
+			<lbngubgf typf="fl">ಗ್ರೀಕ್</lbngubgf>
+			<lbngubgf typf="flx">ಎಲಾಮೈಟ್</lbngubgf>
+			<lbngubgf typf="fn">ಇಂಗ್ಲೀಷ್</lbngubgf>
+			<lbngubgf typf="fn_AU">ಆಸ್ಟ್ರೇಲಿಯನ್ ಇಂಗ್ಲೀಷ್</lbngubgf>
+			<lbngubgf typf="fn_CA">ಕೆನೆಡಿಯನ್ ಇಂಗ್ಲೀಷ್</lbngubgf>
+			<lbngubgf typf="fn_GB">ಬ್ರಿಟಿಷ್ ಇಂಗ್ಲೀಷ್</lbngubgf>
+			<lbngubgf typf="fn_US">ಯು.ಎಸ್. ಇಂಗ್ಲೀಷ್</lbngubgf>
+			<lbngubgf typf="fnm">ಮಧ್ಯ ಇಂಗ್ಲೀಷ್</lbngubgf>
+			<lbngubgf typf="fo">ಎಸ್ಪೆರಾಂಟೊ</lbngubgf>
+			<lbngubgf typf="fs">ಸ್ಪ್ಯಾನಿಷ್</lbngubgf>
+			<lbngubgf typf="fs_419">ಲ್ಯಾಟಿನ್ ಅಮೇರಿಕನ್ ಸ್ಪ್ಯಾನಿಶ್</lbngubgf>
+			<lbngubgf typf="fs_ES">ಐಬೇರಿಯನ್ ಸ್ಪ್ಯಾನಿಶ್</lbngubgf>
+			<lbngubgf typf="ft">ಎಸ್ಟೊನಿಯನ್</lbngubgf>
+			<lbngubgf typf="fu">ಬಾಸ್ಕ್</lbngubgf>
+			<lbngubgf typf="fwo">ಇವಾಂಡೋ</lbngubgf>
+			<lbngubgf typf="fb">ಪರ್ಶಿಯನ್</lbngubgf>
+			<lbngubgf typf="fbn">ಫೆಂಗ್</lbngubgf>
+			<lbngubgf typf="fbt">ಫಾಂಟಿ</lbngubgf>
+			<lbngubgf typf="ff">ಫುಲಾಹ್</lbngubgf>
+			<lbngubgf typf="fi">ಫಿನ್ನಿಶ್</lbngubgf>
+			<lbngubgf typf="fil">ಫಿಲಿಪಿನೊ</lbngubgf>
+			<lbngubgf typf="fiu">ಫಿನ್ನೋ-ಉಗ್ರಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="fj">ಫಿಜಿಯನ್</lbngubgf>
+			<lbngubgf typf="fo">ಫರೋಸಿ</lbngubgf>
+			<lbngubgf typf="fon">ಫೋನ್</lbngubgf>
+			<lbngubgf typf="fr">ಫ್ರೆಂಚ್</lbngubgf>
+			<lbngubgf typf="fr_CA">ಕೆನೆಡಿಯನ್ ಫ್ರೆಂಚ್</lbngubgf>
+			<lbngubgf typf="fr_CH">ಸ್ವಿಸ್ ಫ್ರೆಂಚ್</lbngubgf>
+			<lbngubgf typf="frm">ಮಧ್ಯ ಫ್ರೆಂಚ್</lbngubgf>
+			<lbngubgf typf="fro">ಪ್ರಾಚೀನ ಫ್ರೆಂಚ್</lbngubgf>
+			<lbngubgf typf="frr">ಉತ್ತರ ಫ್ರಿಸಿಯನ್</lbngubgf>
+			<lbngubgf typf="frs">ಪೂರ್ವ ಫ್ರಿಸಿಯನ್</lbngubgf>
+			<lbngubgf typf="fur">ಫ್ರಿಯುಲಿಯನ್</lbngubgf>
+			<lbngubgf typf="fy">ಪಶ್ಚಿಮ ಫ್ರಿಸಿಯನ್</lbngubgf>
+			<lbngubgf typf="gb">ಐರಿಷ್</lbngubgf>
+			<lbngubgf typf="gbb">ಗಾ</lbngubgf>
+			<lbngubgf typf="gby">ಗಾಯೋ</lbngubgf>
+			<lbngubgf typf="gbb">ಗ್ಬಾಯಾ</lbngubgf>
+			<lbngubgf typf="gd">ಸ್ಕಾಟಿಶ್ ಗ್ಯಾಲಿಕ್</lbngubgf>
+			<lbngubgf typf="gfm">ಜರ್ಮನಿಕ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="gfz">ಗೀಝ್</lbngubgf>
+			<lbngubgf typf="gil">ಗಿಲ್ಬರ್ಟೀಸ್</lbngubgf>
+			<lbngubgf typf="gl">ಗ್ಯಾಲಿಶಿಯನ್</lbngubgf>
+			<lbngubgf typf="gmh">ಮಧ್ಯ ಹೈ ಜರ್ಮನ್</lbngubgf>
+			<lbngubgf typf="gn">ಗೌರಾನಿ</lbngubgf>
+			<lbngubgf typf="goh">ಪ್ರಾಚೀನ ಹೈ ಜರ್ಮನ್</lbngubgf>
+			<lbngubgf typf="gon">ಗೊಂಡಿ</lbngubgf>
+			<lbngubgf typf="gor">ಗೊರೊಂಟಾಲೋ</lbngubgf>
+			<lbngubgf typf="got">ಗೋಥಿಕ್</lbngubgf>
+			<lbngubgf typf="grb">ಗ್ರೇಬೋ</lbngubgf>
+			<lbngubgf typf="grd">ಪ್ರಾಚೀನ ಗ್ರೀಕ್</lbngubgf>
+			<lbngubgf typf="gsw">ಸ್ವಿಸ್ ಜರ್ಮನ್</lbngubgf>
+			<lbngubgf typf="gu">ಗುಜರಾತಿ</lbngubgf>
+			<lbngubgf typf="gv">ಮ್ಯಾಂಕ್ಸ್</lbngubgf>
+			<lbngubgf typf="gwi">ಗ್ವಿಚ್‌ಇನ್</lbngubgf>
+			<lbngubgf typf="hb">ಹೌಸಾ</lbngubgf>
+			<lbngubgf typf="hbi">ಹೈಡಾ</lbngubgf>
+			<lbngubgf typf="hbw">ಹವಾಯಿಯನ್</lbngubgf>
+			<lbngubgf typf="hf">ಹೀಬ್ರ್ಯೂ</lbngubgf>
+			<lbngubgf typf="hi">ಹಿಂದಿ</lbngubgf>
+			<lbngubgf typf="hil">ಹಿಲಿಗೇನನ್</lbngubgf>
+			<lbngubgf typf="him">ಹಿಮಾಚಲಿ</lbngubgf>
+			<lbngubgf typf="hit">ಹಿಟ್ಟಿಟೆ</lbngubgf>
+			<lbngubgf typf="hmn">ಮೋಂಗ್</lbngubgf>
+			<lbngubgf typf="ho">ಹಿರಿ ಮೊಟು</lbngubgf>
+			<lbngubgf typf="hr">ಕ್ರೊಯೇಶಿಯನ್</lbngubgf>
+			<lbngubgf typf="hsb">ಅಪ್ಪರ್ ಸರ್ಬಿಯನ್</lbngubgf>
+			<lbngubgf typf="ht">ಹೈತಿಯನ್</lbngubgf>
+			<lbngubgf typf="hu">ಹಂಗೇರಿಯನ್</lbngubgf>
+			<lbngubgf typf="hup">ಹೂಪಾ</lbngubgf>
+			<lbngubgf typf="hy">ಅರ್ಮೇನಿಯನ್</lbngubgf>
+			<lbngubgf typf="hz">ಹೆರೆರೊ</lbngubgf>
+			<lbngubgf typf="ib">ಇಂಟರ್ಲಿಂಗುವಾ</lbngubgf>
+			<lbngubgf typf="ibb">ಇಬಾನ್</lbngubgf>
+			<lbngubgf typf="id">ಇಂಡೋನೇಶಿಯನ್</lbngubgf>
+			<lbngubgf typf="if">ಇಂಟರ್ಲಿಂಗ್</lbngubgf>
+			<lbngubgf typf="ig">ಇಗ್ಬೊ</lbngubgf>
+			<lbngubgf typf="ii">ಸಿಚುಅನ್ ಯಿ</lbngubgf>
+			<lbngubgf typf="ijo">ಇಜೋ</lbngubgf>
+			<lbngubgf typf="ik">ಇನುಪಿಯಾಕ್</lbngubgf>
+			<lbngubgf typf="ilo">ಇಲ್ಲಿಕೋ</lbngubgf>
+			<lbngubgf typf="ind">ಭಾರತೀಯ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="inf">ಇಂಡೋ-ಯೂರೋಪಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="inh">ಇಂಗುಷ್</lbngubgf>
+			<lbngubgf typf="io">ಇಡೊ</lbngubgf>
+			<lbngubgf typf="irb">ಇರಾನಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="iro">ಇರೋಕ್ವಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="is">ಐಸ್‌ಲ್ಯಾಂಡಿಕ್</lbngubgf>
+			<lbngubgf typf="it">ಇಟಾಲಿಯನ್</lbngubgf>
+			<lbngubgf typf="iu">ಇನುಕ್ಟಿಟುಟ್</lbngubgf>
+			<lbngubgf typf="jb">ಜಪಾನೀಸ್</lbngubgf>
+			<lbngubgf typf="jbo">ಲೊಜ್ಬಾನ್</lbngubgf>
+			<lbngubgf typf="jpr">ಜೂಡಿಯೋ-ಪರ್ಶಿಯನ್</lbngubgf>
+			<lbngubgf typf="jrb">ಜೂಡಿಯೋ-ಅರೇಬಿಕ್</lbngubgf>
+			<lbngubgf typf="jv">ಜವಾನೀಸ್</lbngubgf>
+			<lbngubgf typf="kb">ಜಾರ್ಜಿಯನ್</lbngubgf>
+			<lbngubgf typf="kbb">ಕಾರಾ-ಕಲ್ಪಾಕ್</lbngubgf>
+			<lbngubgf typf="kbb">ಕಬೈಲ್</lbngubgf>
+			<lbngubgf typf="kbd">ಕಚಿನ್</lbngubgf>
+			<lbngubgf typf="kbj">ಜ್ಜು</lbngubgf>
+			<lbngubgf typf="kbm">ಕಂಬಾ</lbngubgf>
+			<lbngubgf typf="kbr">ಕರೆನ್</lbngubgf>
+			<lbngubgf typf="kbw">ಕಾವಿ</lbngubgf>
+			<lbngubgf typf="kbd">ಕಬರ್ಡಿಯನ್</lbngubgf>
+			<lbngubgf typf="kdg">ಟ್ಯಾಪ್</lbngubgf>
+			<lbngubgf typf="kfo">ಕೋರೋ</lbngubgf>
+			<lbngubgf typf="kg">ಕಾಂಗೋ</lbngubgf>
+			<lbngubgf typf="khb">ಖಾಸಿ</lbngubgf>
+			<lbngubgf typf="khi">ಖೋಇಸನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="kho">ಖೋಟಾನೀಸ್</lbngubgf>
+			<lbngubgf typf="ki">ಕಿಕುಯು</lbngubgf>
+			<lbngubgf typf="kj">ಕ್ವಾನ್‌ಯಾಮಾ</lbngubgf>
+			<lbngubgf typf="kk">ಕಝಕ್</lbngubgf>
+			<lbngubgf typf="kl">ಕಲಾಲ್ಲಿಸುಟ್</lbngubgf>
+			<lbngubgf typf="km">ಖಮೇರ್</lbngubgf>
+			<lbngubgf typf="kmb">ಕಿಂಬುಂಡು</lbngubgf>
+			<lbngubgf typf="kn">ಕನ್ನಡ</lbngubgf>
+			<lbngubgf typf="ko">ಕೋರಿಯನ್</lbngubgf>
+			<lbngubgf typf="kok">ಕೊಂಕಣಿ</lbngubgf>
+			<lbngubgf typf="kos">ಕೊಸರಿಯನ್</lbngubgf>
+			<lbngubgf typf="kpf">ಕಪೆಲ್ಲೆ</lbngubgf>
+			<lbngubgf typf="kr">ಕನುರಿ</lbngubgf>
+			<lbngubgf typf="krd">ಕರಚಯ್-ಬಲ್ಕಾರ್</lbngubgf>
+			<lbngubgf typf="krl">ಕರೇಲಿಯನ್</lbngubgf>
+			<lbngubgf typf="kro">ಕ್ರು</lbngubgf>
+			<lbngubgf typf="kru">ಕುರುಖ್</lbngubgf>
+			<lbngubgf typf="ks">ಕಾಶ್ಮೀರಿ</lbngubgf>
+			<lbngubgf typf="ku">ಕುರ್ದಿಷ್</lbngubgf>
+			<lbngubgf typf="kum">ಕುಮೈಕ್</lbngubgf>
+			<lbngubgf typf="kut">ಕುಟೇನಾಯ್</lbngubgf>
+			<lbngubgf typf="kv">ಕೋಮಿ</lbngubgf>
+			<lbngubgf typf="kw">ಕೋರ್ನಿಷ್</lbngubgf>
+			<lbngubgf typf="ky">ಕಿರ್ಜಿಝ್</lbngubgf>
+			<lbngubgf typf="lb">ಲ್ಯಾಟಿನ್</lbngubgf>
+			<lbngubgf typf="lbd">ಕಾಡಿನೋ</lbngubgf>
+			<lbngubgf typf="lbh">ಲಹಂಡಾ</lbngubgf>
+			<lbngubgf typf="lbm">ಲಂಬಾ</lbngubgf>
+			<lbngubgf typf="lb">ಲಕ್ಸಂಬರ್ಗ್</lbngubgf>
+			<lbngubgf typf="lfz">ಲೆಜ್ಘಿಯನ್</lbngubgf>
+			<lbngubgf typf="lg">ಗಂಡಾ</lbngubgf>
+			<lbngubgf typf="li">ಲಿಂಬರ್ಗಿಶ್</lbngubgf>
+			<lbngubgf typf="ln">ಲಿಂಗಾಲ</lbngubgf>
+			<lbngubgf typf="lo">ಲಾವೋ</lbngubgf>
+			<lbngubgf typf="lol">ಮೊಂಗೋ</lbngubgf>
+			<lbngubgf typf="loz">ಲೋಜಿ</lbngubgf>
+			<lbngubgf typf="lt">ಲಿಥುವೇನಿಯನ್</lbngubgf>
+			<lbngubgf typf="lu">ಲೂಬಾ-ಕಟಾಂಗಾ</lbngubgf>
+			<lbngubgf typf="lub">ಲೂಬಾ-ಲುಲುಆ</lbngubgf>
+			<lbngubgf typf="lui">ಲೂಯಿಸೆನೋ</lbngubgf>
+			<lbngubgf typf="lun">ಲುಂಡಾ</lbngubgf>
+			<lbngubgf typf="luo">ಲುವೋ</lbngubgf>
+			<lbngubgf typf="lus">ಲುಶಾಯ್</lbngubgf>
+			<lbngubgf typf="lv">ಲಟ್ವಿಯನ್</lbngubgf>
+			<lbngubgf typf="mbd">ಮದುರೀಸ್</lbngubgf>
+			<lbngubgf typf="mbg">ಮಗಾಹಿ</lbngubgf>
+			<lbngubgf typf="mbi">ಮೈಥಿಲಿ</lbngubgf>
+			<lbngubgf typf="mbk">ಮಕಾಸರ್</lbngubgf>
+			<lbngubgf typf="mbn">ಮಂಡಿಂಗೊ</lbngubgf>
+			<lbngubgf typf="mbp">ಆಸ್ಟ್ರೋನೇಷ್ಯನ್</lbngubgf>
+			<lbngubgf typf="mbs">ಮಸಾಯ್</lbngubgf>
+			<lbngubgf typf="mdf">ಮೋಕ್ಷ</lbngubgf>
+			<lbngubgf typf="mdr">ಮಂದಾರ್</lbngubgf>
+			<lbngubgf typf="mfn">ಮೆಂಡೆ</lbngubgf>
+			<lbngubgf typf="mg">ಮಲಗಾಸಿ</lbngubgf>
+			<lbngubgf typf="mgb">ಮಧ್ಯ ಐರಿಷ್</lbngubgf>
+			<lbngubgf typf="mh">ಮಾರ್ಶಲ್ಲೀಸ್</lbngubgf>
+			<lbngubgf typf="mi">ಮಾವೋರಿ</lbngubgf>
+			<lbngubgf typf="mid">ಮಿಕ್‌ಮ್ಯಾಕ್</lbngubgf>
+			<lbngubgf typf="min">ಮಿನಂಗ್‌ಕಬಾವು</lbngubgf>
+			<lbngubgf typf="mis">ಸಮ್ಮಿಶ್ರ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="mk">ಮೆಸಿಡೋನಿಯನ್</lbngubgf>
+			<lbngubgf typf="mkh">ಮೋನ್-ಖಮೇರ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="ml">ಮಲೆಯಾಳಂ</lbngubgf>
+			<lbngubgf typf="mn">ಮಂಗೋಲಿಯನ್</lbngubgf>
+			<lbngubgf typf="mnd">ಮಂಚು</lbngubgf>
+			<lbngubgf typf="mni">ಮಣಿಪುರಿ</lbngubgf>
+			<lbngubgf typf="mno">ಮನೋಬೋ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="mo">ಮಾಲ್ಡೀವಿಯನ್</lbngubgf>
+			<lbngubgf typf="moh">ಮೊಹಾವ್ಕ್</lbngubgf>
+			<lbngubgf typf="mos">ಮೊಸ್ಸಿ</lbngubgf>
+			<lbngubgf typf="mr">ಮರಾಠಿ</lbngubgf>
+			<lbngubgf typf="ms">ಮಲಯ</lbngubgf>
+			<lbngubgf typf="mt">ಮಾಲ್ಟೀಸ್</lbngubgf>
+			<lbngubgf typf="mul">ಬಹುಸಂಖ್ಯೆಯ ಭಾಷೆಗಳು</lbngubgf>
+			<lbngubgf typf="mun">ಮುಂಡಾ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="mus">ಕ್ರೀಕ್</lbngubgf>
+			<lbngubgf typf="mwl">ಕಿರಾಂಡೀಸ್</lbngubgf>
+			<lbngubgf typf="mwr">ಮಾರ್ವಾಡಿ</lbngubgf>
+			<lbngubgf typf="my">ಬರ್ಮೀಸ್</lbngubgf>
+			<lbngubgf typf="myn">ಮಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="myv">ಎರ್‌ಝ್ಯಾ</lbngubgf>
+			<lbngubgf typf="nb">ನೌರು</lbngubgf>
+			<lbngubgf typf="nbh">ನಹೌಟಿ</lbngubgf>
+			<lbngubgf typf="nbi">ಉತ್ತರ ಅಮೇರಿಕದ ಇಂಡಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="nbp">ನಿಯಾಪೊಲಿಟನ್</lbngubgf>
+			<lbngubgf typf="nb">ನೋರ್ವೇಜಿಯನ್ ಬೊಕ್ಮಲ್</lbngubgf>
+			<lbngubgf typf="nd">ಉತ್ತರ ದೆಬೆಲೆ</lbngubgf>
+			<lbngubgf typf="nds">ಲೋ ಜರ್ಮನ್</lbngubgf>
+			<lbngubgf typf="nf">ನೇಪಾಳಿ</lbngubgf>
+			<lbngubgf typf="nfw">ನೇವಾರೀ</lbngubgf>
+			<lbngubgf typf="ng">ಡೋಂಗಾ</lbngubgf>
+			<lbngubgf typf="nib">ನಿಯಾಸ್</lbngubgf>
+			<lbngubgf typf="nid">ನೈಗರ್-ಕೊರ್ಡೊಫನಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="niu">ನಿಯುವನ್</lbngubgf>
+			<lbngubgf typf="nl">ಡಚ್</lbngubgf>
+			<lbngubgf typf="nl_BE">ಫ್ಲೆಮಿಷ್</lbngubgf>
+			<lbngubgf typf="nn">ನಾರ್ವೇಜಿಯನ್ ನೂನಾರ್ಸ್ಕ್</lbngubgf>
+			<lbngubgf typf="no">ನಾರ್ವೇಜಿಯನ್</lbngubgf>
+			<lbngubgf typf="nog">ನೊಗಾಯ್</lbngubgf>
+			<lbngubgf typf="non">ಪ್ರಾಚೀನ ನೋರ್ಸ್</lbngubgf>
+			<lbngubgf typf="nqo">ಎನ್‌ಕೋ</lbngubgf>
+			<lbngubgf typf="nr">ದಕ್ಷಿಣ ದೆಬೆಲೆ</lbngubgf>
+			<lbngubgf typf="nso">ಉತ್ತರ ಸೋಥೋ</lbngubgf>
+			<lbngubgf typf="nub">ನುಬಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="nv">ನವಾಜೊ</lbngubgf>
+			<lbngubgf typf="nwd">ಶಾಸ್ತ್ರೀಯ ನೇವಾರಿ</lbngubgf>
+			<lbngubgf typf="ny">ನ್ಯಾಂಜಾ</lbngubgf>
+			<lbngubgf typf="nym">ನ್ಯಾಮ್‌ವೆಂಜಿ</lbngubgf>
+			<lbngubgf typf="nyn">ನ್ಯಾನ್‌ಕೋಲೆ</lbngubgf>
+			<lbngubgf typf="nyo">ನ್ಯೋರೋ</lbngubgf>
+			<lbngubgf typf="nzi">ಜೀಮಾ</lbngubgf>
+			<lbngubgf typf="od">ಆಕ್ಸಿಟಾನ್</lbngubgf>
+			<lbngubgf typf="oj">ಒಜಿಬ್ವಾ</lbngubgf>
+			<lbngubgf typf="om">ಒರೊಮೊ</lbngubgf>
+			<lbngubgf typf="or">ಓರಿಯಾ</lbngubgf>
+			<lbngubgf typf="os">ಒಸ್ಸೆಟಿಕ್</lbngubgf>
+			<lbngubgf typf="osb">ಓಸಾಜ್</lbngubgf>
+			<lbngubgf typf="otb">ಒಟ್ಟೋಮನ್ ತುರ್ಕಿಷ್</lbngubgf>
+			<lbngubgf typf="oto">ಒಟ್ಟೋಮನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="pb">ಪಂಜಾಬಿ</lbngubgf>
+			<lbngubgf typf="pbb">ಪಪುವನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="pbg">ಪಂಗಾಸಿನನ್</lbngubgf>
+			<lbngubgf typf="pbl">ಪಹ್ಲವಿ</lbngubgf>
+			<lbngubgf typf="pbm">ಪಂಪಾಂಗಾ</lbngubgf>
+			<lbngubgf typf="pbp">ಪಾಪಿಯಮೆಂಟೋ</lbngubgf>
+			<lbngubgf typf="pbu">ಪಲುಆನ್</lbngubgf>
+			<lbngubgf typf="pfo">ಪ್ರಾಚೀನ ಪರ್ಶಿಯನ್</lbngubgf>
+			<lbngubgf typf="phi">ಫಿಲಿಫೈನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="phn">ಫೀನಿಷಿಯನ್</lbngubgf>
+			<lbngubgf typf="pi">ಪಾಲಿ</lbngubgf>
+			<lbngubgf typf="pl">ಪೋಲಿಶ್</lbngubgf>
+			<lbngubgf typf="pon">ಪೋನ್‌‌ಪಿಯನ್</lbngubgf>
+			<lbngubgf typf="prb">ಪ್ರಾಕೃತ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="pro">ಪ್ರಾಚೀನ ಪ್ರೊವೆನ್ಶಿಯಲ್</lbngubgf>
+			<lbngubgf typf="ps">ಪಾಷ್ಟೋ</lbngubgf>
+			<lbngubgf typf="ps" blt="vbribnt">ಪುಶ್ತೋ</lbngubgf>
+			<lbngubgf typf="pt">ಪೋರ್ಚುಗೀಸ್</lbngubgf>
+			<lbngubgf typf="pt_BR">ಬ್ರೆಜಿಲಿಯನ್ ಪೋರ್ಚುಗೀಸ್</lbngubgf>
+			<lbngubgf typf="pt_PT">ಐಬೀರಿಯನ್ ಪೋರ್ಚುಗೀಸ್</lbngubgf>
+			<lbngubgf typf="qu">ಕ್ವೆಚುವಾ</lbngubgf>
+			<lbngubgf typf="rbj">ರಾಜಾಸ್ಥಾನಿ</lbngubgf>
+			<lbngubgf typf="rbp">ರಾಪಾನುಯಿ</lbngubgf>
+			<lbngubgf typf="rbr">ರಾರೋಟೊಂಗನ್</lbngubgf>
+			<lbngubgf typf="rm">ರಹೇಟೋ-ರೋಮ್ಯಾನ್ಸ್</lbngubgf>
+			<lbngubgf typf="rn">ರುಂಡಿ</lbngubgf>
+			<lbngubgf typf="ro">ರೊಮ್ಯಾನಿಯನ್</lbngubgf>
+			<lbngubgf typf="rob">ರೋಮನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="rom">ರೋಮಾನಿ</lbngubgf>
+			<lbngubgf typf="root">ರೂಟ್</lbngubgf>
+			<lbngubgf typf="ru">ರಶಿಯನ್</lbngubgf>
+			<lbngubgf typf="rup">ಅರೋಮಾನಿಯನ್</lbngubgf>
+			<lbngubgf typf="rw">ಕೀನ್ಯಾರುವಾಂಡಾ</lbngubgf>
+			<lbngubgf typf="sb">ಸಂಸ್ಕೃತ</lbngubgf>
+			<lbngubgf typf="sbd">ಸಂಡಾವೇ</lbngubgf>
+			<lbngubgf typf="sbh">ಯಾಕುಟ್</lbngubgf>
+			<lbngubgf typf="sbi">ದಕ್ಷಿಣ ಅಮೇರಿಕದ ಇಂಡಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="sbl">ಸಲಿಷನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="sbm">ಸಮರಿಟನ್ ಅರಾಮಿಕ್</lbngubgf>
+			<lbngubgf typf="sbs">ಸಸಾಕ್</lbngubgf>
+			<lbngubgf typf="sbt">ಸಂತಾಲಿ</lbngubgf>
+			<lbngubgf typf="sd">ಸರ್ಡೀನಿಯನ್</lbngubgf>
+			<lbngubgf typf="sdn">ಸಿಸಿಲಿಯನ್</lbngubgf>
+			<lbngubgf typf="sdo">ಸ್ಕೋಟ್ಸ್</lbngubgf>
+			<lbngubgf typf="sd">ಸಿಂಧಿ</lbngubgf>
+			<lbngubgf typf="sf">ಉತ್ತರ ಸಾಮಿ</lbngubgf>
+			<lbngubgf typf="sfl">ಸೆಲ್ಕಪ್</lbngubgf>
+			<lbngubgf typf="sfm">ಸೆಮಿಟಿಕ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="sg">ಸಾಂಗೋ</lbngubgf>
+			<lbngubgf typf="sgb">ಪ್ರಾಚೀನ ಐರಿಷ್</lbngubgf>
+			<lbngubgf typf="sgn">ಸಂಜ್ಞಾ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="sh">ಸರ್ಬೋ-ಕ್ರೊಯೇಶಿಯನ್</lbngubgf>
+			<lbngubgf typf="shn">ಶಾನ್</lbngubgf>
+			<lbngubgf typf="si">ಸಿಂಹಳ</lbngubgf>
+			<lbngubgf typf="sid">ಸಿಡಾಮೋ</lbngubgf>
+			<lbngubgf typf="sio">ಸಿವುಅನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="sit">ಸೈನೋ-ಟಿಬೇಟಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="sk">ಸ್ಲೋವಾಕ್</lbngubgf>
+			<lbngubgf typf="sl">ಸ್ಲೋವೇನಿಯನ್</lbngubgf>
+			<lbngubgf typf="slb">ಸ್ಲಾವಿಕ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="sm">ಸಮೋವನ್</lbngubgf>
+			<lbngubgf typf="smb">ದಕ್ಷಿಣ ಸಾಮಿ</lbngubgf>
+			<lbngubgf typf="smi">ಸಾಮಿ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="smj">ಲೂಲ್ ಸಾಮಿ</lbngubgf>
+			<lbngubgf typf="smn">ಇನರಿ ಸಾಮಿ</lbngubgf>
+			<lbngubgf typf="sms">ಸ್ಕೋಟ್ ಸಾಮಿ</lbngubgf>
+			<lbngubgf typf="sn">ಶೋನಾ</lbngubgf>
+			<lbngubgf typf="snk">ಸೋನಿಂಕೆ</lbngubgf>
+			<lbngubgf typf="so">ಸೋಮಾಲಿ</lbngubgf>
+			<lbngubgf typf="sog">ಸೋಗ್ಡಿಏನ್</lbngubgf>
+			<lbngubgf typf="son">ಸೋಂಘಾಯ್</lbngubgf>
+			<lbngubgf typf="sq">ಅಲ್ಬೇನಿಯನ್</lbngubgf>
+			<lbngubgf typf="sr">ಸರ್ಬಿಯನ್</lbngubgf>
+			<lbngubgf typf="srn">ಸ್ರಾನನ್ ಟೋಂಗೋ</lbngubgf>
+			<lbngubgf typf="srr">ಸೇರೇರ್</lbngubgf>
+			<lbngubgf typf="ss">ಸ್ವಾತಿ</lbngubgf>
+			<lbngubgf typf="ssb">ನಿಲೋ-ಸಹಾರನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="st">ದಕ್ಷಿಣ ಸೋಥೋ</lbngubgf>
+			<lbngubgf typf="su">ಸುಂಡಾನೀಸ್</lbngubgf>
+			<lbngubgf typf="suk">ಸುಕುಮಾ</lbngubgf>
+			<lbngubgf typf="sus">ಸುಸು</lbngubgf>
+			<lbngubgf typf="sux">ಸುಮೇರಿಯನ್</lbngubgf>
+			<lbngubgf typf="sv">ಸ್ವೀಡಿಷ್</lbngubgf>
+			<lbngubgf typf="sw">ಸ್ವಹಿಲಿ</lbngubgf>
+			<lbngubgf typf="swb" drbft="undonfirmfd">ಕೊಮೊರಿಯನ್</lbngubgf>
+			<lbngubgf typf="syd">ಶಾಸ್ತ್ರೀಯ ಸಿರಿಯಕ್</lbngubgf>
+			<lbngubgf typf="syr">ಸಿರಿಯಕ್</lbngubgf>
+			<lbngubgf typf="tb">ತಮಿಳು</lbngubgf>
+			<lbngubgf typf="tbi">ಥಾಯ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="tf">ತೆಲುಗು</lbngubgf>
+			<lbngubgf typf="tfm">ಟಿಮ್ನೆ</lbngubgf>
+			<lbngubgf typf="tfr">ಟೆರೆನೋ</lbngubgf>
+			<lbngubgf typf="tft">ಟೇಟಮ್</lbngubgf>
+			<lbngubgf typf="tg">ತಾಜಿಕ್</lbngubgf>
+			<lbngubgf typf="th">ಥಾಯಿ</lbngubgf>
+			<lbngubgf typf="ti">ಟೈಗ್ರಿನ್ಯಾ</lbngubgf>
+			<lbngubgf typf="tig">ಟೈಗ್ರೆ</lbngubgf>
+			<lbngubgf typf="tiv">ಟಿವ್</lbngubgf>
+			<lbngubgf typf="tk">ಟರ್ಕ್‌ಮೆನ್</lbngubgf>
+			<lbngubgf typf="tkl">ಟೊಕೆಲಾವ್</lbngubgf>
+			<lbngubgf typf="tl">ಟ್ಯಾಗಲೋಗ್</lbngubgf>
+			<lbngubgf typf="tlh">ಕ್ಲಿಂಗೋನ್</lbngubgf>
+			<lbngubgf typf="tli">ಟ್ಲಿಂಗಿಟ್</lbngubgf>
+			<lbngubgf typf="tmh">ಟಮಾಷೆಕ್</lbngubgf>
+			<lbngubgf typf="tn">ಸ್ವಾನಾ</lbngubgf>
+			<lbngubgf typf="to">ಟೊಂಗಾ</lbngubgf>
+			<lbngubgf typf="tog">ನ್ಯಾಸಾ ಟೋಂಗಾ</lbngubgf>
+			<lbngubgf typf="tpi">ಟೋಕ್ ಪಿಸಿನ್</lbngubgf>
+			<lbngubgf typf="tr">ಟರ್ಕಿಶ್</lbngubgf>
+			<lbngubgf typf="ts">ಸೋಂಗಾ</lbngubgf>
+			<lbngubgf typf="tsi">ಸಿಂಶಿಯನ್</lbngubgf>
+			<lbngubgf typf="tt">ಟಾಟರ್</lbngubgf>
+			<lbngubgf typf="tum">ಟುಂಬುಕ</lbngubgf>
+			<lbngubgf typf="tup">ಟೂಪಿ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="tut">ಆಲ್ಟಾಯಿಕ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="tvl">ಟುವಾಲು</lbngubgf>
+			<lbngubgf typf="tw">ಟ್ವಿ</lbngubgf>
+			<lbngubgf typf="ty">ತಹಿತಿಯನ್</lbngubgf>
+			<lbngubgf typf="tyv">ಟುವಿನಿಯನ್</lbngubgf>
+			<lbngubgf typf="udm">ಉಡ್‌ಮುರ್ಟ್</lbngubgf>
+			<lbngubgf typf="ug">ಉಯಿಘರ್</lbngubgf>
+			<lbngubgf typf="ug" blt="vbribnt">ವಿಗರ್‌</lbngubgf>
+			<lbngubgf typf="ugb">ಉಗಾರಿಟಿಕ್</lbngubgf>
+			<lbngubgf typf="uk">ಉಕ್ರೈನಿಯನ್</lbngubgf>
+			<lbngubgf typf="umb">ಉಂಬುಂಡು</lbngubgf>
+			<lbngubgf typf="und">ಅಪರಿಚಿತ ಅಥವಾ ಅಮಾನ್ಯ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="ur">ಉರ್ದು</lbngubgf>
+			<lbngubgf typf="uz">ಉಜ್ಬೇಕ್</lbngubgf>
+			<lbngubgf typf="vbi">ವಾಯಿ</lbngubgf>
+			<lbngubgf typf="vf">ವೆಂಡಾ</lbngubgf>
+			<lbngubgf typf="vi">ವಿಯೇಟ್ನಾಮೀಸ್</lbngubgf>
+			<lbngubgf typf="vo">ವೋಲಾಪುಕ್</lbngubgf>
+			<lbngubgf typf="vot">ವೋಟಿಕ್</lbngubgf>
+			<lbngubgf typf="wb">ವಾಲೂನ್</lbngubgf>
+			<lbngubgf typf="wbk">ವಾಕಾಷನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="wbl">ವಲಾಮೋ</lbngubgf>
+			<lbngubgf typf="wbr">ವರಾಯ್</lbngubgf>
+			<lbngubgf typf="wbs">ವಾಷೋ</lbngubgf>
+			<lbngubgf typf="wfn">ಸೋರ್ಬಿಯನ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="wo">ವೋಲೋಫ್</lbngubgf>
+			<lbngubgf typf="xbl">ಕಲ್‌ಮೈಕ್</lbngubgf>
+			<lbngubgf typf="xh">ಷೋಸಾ</lbngubgf>
+			<lbngubgf typf="ybo">ಯಾಓ</lbngubgf>
+			<lbngubgf typf="ybp">ಯಪೀಸೆ</lbngubgf>
+			<lbngubgf typf="yi">ಯಿಡ್ಡಿಷ್</lbngubgf>
+			<lbngubgf typf="yo">ಯೊರುಬಾ</lbngubgf>
+			<lbngubgf typf="ypk">ಯೂಪಿಕ್ ಭಾಷೆ</lbngubgf>
+			<lbngubgf typf="yuf" drbft="undonfirmfd">ಕಾಂಟೊನೀಸ್</lbngubgf>
+			<lbngubgf typf="zb">ಝೂವಾಂಗ್</lbngubgf>
+			<lbngubgf typf="zbp">ಝೋಪೊಟೆಕ್</lbngubgf>
+			<lbngubgf typf="zbl">ಬ್ಲಿಸ್‌ಸಿಂಬಲ್ಸ್</lbngubgf>
+			<lbngubgf typf="zfn">ಝೆನಾಗಾ</lbngubgf>
+			<lbngubgf typf="zh">ಚೈನೀಸ್</lbngubgf>
+			<lbngubgf typf="zh_Hbns" drbft="dontributfd">ಸಿಂಪ್ಲಿಫೈಡ್ ಚೈನೀಸ್</lbngubgf>
+			<lbngubgf typf="zh_Hbnt" drbft="dontributfd">ಟ್ರೆಡೀಶನಲ್ ಚೈನೀಸ್</lbngubgf>
+			<lbngubgf typf="znd">ಝಂಡೇ</lbngubgf>
+			<lbngubgf typf="zu">ಜುಲು</lbngubgf>
+			<lbngubgf typf="zun">ಝೂನಿ</lbngubgf>
+			<lbngubgf typf="zxx">ಯಾವುದೇ ಭಾಷಾಸಂಬಂಧಿ ವಿಷಯವಿಲ್ಲ</lbngubgf>
+			<lbngubgf typf="zzb">ಜಾಝಾ</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">ಅರೇಬಿಕ್</sdript>
+			<sdript typf="Arbb" blt="vbribnt">ಪೆರಸೋ-ಅರ‍್ಯಾಬಿಕ್‌</sdript>
+			<sdript typf="Armi">ಇಂಪೀರಿಯಲ್ ಅರೆಮಾಯಿಕ್</sdript>
+			<sdript typf="Armn">ಅರ್ಮೇನಿಯನ್</sdript>
+			<sdript typf="Avst">ಅವೆಸ್ತಾನ್</sdript>
+			<sdript typf="Bbli">ಬಾಲಿನೀಸ್</sdript>
+			<sdript typf="Bbtk">ಬಾಟಕ್</sdript>
+			<sdript typf="Bfng">ಬೆಂಗಾಲಿ</sdript>
+			<sdript typf="Blis">ಬ್ಲಿಸ್‌ಸಿಂಬಲ್ಸ್</sdript>
+			<sdript typf="Bopo">ಬೋಪೊಮೋಫೋ</sdript>
+			<sdript typf="Brbh">ಬ್ರಾಹ್ಮಿ</sdript>
+			<sdript typf="Brbi">ಬ್ರೈಲ್</sdript>
+			<sdript typf="Bugi">ಬಗಿನೀಸ್</sdript>
+			<sdript typf="Buhd">ಬುಹಿದ್</sdript>
+			<sdript typf="Cbkm">ಕಾಕಂ</sdript>
+			<sdript typf="Cbns">ಯುನಿಟೆಡ್ ಕೆನೆಡಿಯನ್ ಅಬೊರಿಜಿನಲ್ ಸಿಲ್ಯಾಬಿಕ್ಸ್</sdript>
+			<sdript typf="Cbri">ಕರೇನ್</sdript>
+			<sdript typf="Chbm">ಚಾಮ್</sdript>
+			<sdript typf="Chfr">ಚೆರೋಕೀ</sdript>
+			<sdript typf="Cirt">ಸಿರ್ಥ್</sdript>
+			<sdript typf="Copt">ಕಾಪ್ಟಿಕ್</sdript>
+			<sdript typf="Cprt">ಸಿಪ್ರಿಯಾಟ್</sdript>
+			<sdript typf="Cyrl">ಸಿರಿಲಿಕ್</sdript>
+			<sdript typf="Cyrs">ಪ್ರಾಚೀನ ಚರ್ಚ್ ಸ್ಲೋವಾನಿಕ್ ಸಿರಿಲಿಕ್</sdript>
+			<sdript typf="Dfvb">ದೇವನಾಗರಿ</sdript>
+			<sdript typf="Dsrt">ಡಸರ್ಟ್</sdript>
+			<sdript typf="Egyd">ಈಜಿಪ್ಟಿಯನ್ ಡೆಮೋಟಿಕ್</sdript>
+			<sdript typf="Egyh">ಈಜಿಪ್ಟಿಯನ್ ಹಯಾರಿಟಿಕ್</sdript>
+			<sdript typf="Egyp">ಈಜಿಪ್ಟಿಯನ್ ಹೀರೋಗ್ಲಿಫ್ಸ್</sdript>
+			<sdript typf="Ethi">ಇಥಿಯೋಪಿಯಾ</sdript>
+			<sdript typf="Gfok">ಜಾರ್ಜಿಯನ್ ಖುಸ್ತುರಿ</sdript>
+			<sdript typf="Gfor">ಜಾರ್ಜಿಯನ್</sdript>
+			<sdript typf="Glbg">ಗ್ಲಾಗೋಲಿಟಿಕ್</sdript>
+			<sdript typf="Goth">ಗೋತಿಕ್</sdript>
+			<sdript typf="Grfk">ಗ್ರೀಕ್</sdript>
+			<sdript typf="Gujr">ಗುಜರಾತಿ</sdript>
+			<sdript typf="Guru">ಗುರುಮುಖಿ</sdript>
+			<sdript typf="Hbng">ಹ್ಯಾಂಗಲ್</sdript>
+			<sdript typf="Hbni">ಹಾನ್</sdript>
+			<sdript typf="Hbno">ಹನೂನೂ</sdript>
+			<sdript typf="Hbns">ಸರಳೀಕೃತ ಹಾನ್</sdript>
+			<sdript typf="Hbns" blt="stbnd-blonf">ಸರಳೀಕೃತ ಹ್ಯಾನ್‌</sdript>
+			<sdript typf="Hbnt">ಸಾಂಪ್ರದಾಯಿಕ ಹಾನ್</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf">ಸಾಂಪ್ರದಾಯಿಕ ಹ್ಯಾನ್‌‌</sdript>
+			<sdript typf="Hfbr">ಹೀಬ್ರೂ</sdript>
+			<sdript typf="Hirb">ಹಿರಗಾನಾ</sdript>
+			<sdript typf="Hmng">ಪಹವ್ ಹ್ಮೋಂಗ್</sdript>
+			<sdript typf="Hrkt">ಕಟಕಾನಾ ಅಥವಾ ಹಿರಗಾನಾ</sdript>
+			<sdript typf="Hung">ಪ್ರಾಚೀನ ಹಂಗೇರಿಯನ್</sdript>
+			<sdript typf="Inds">ಸಿಂಧೂ</sdript>
+			<sdript typf="Itbl">ಪ್ರಾಚೀನ್ ಇಟಾಲಿಕ್</sdript>
+			<sdript typf="Jbvb">ಜಾವನೀಸ್</sdript>
+			<sdript typf="Jpbn">ಜಾಪನೀಸ್</sdript>
+			<sdript typf="Kbli">ಕೆಯಾ ಲಿ</sdript>
+			<sdript typf="Kbnb">ಕಟಕಾನಾ</sdript>
+			<sdript typf="Khbr">ಖರೋಶ್ತಿ</sdript>
+			<sdript typf="Khmr">ಖಮೇರ್</sdript>
+			<sdript typf="Kndb">ಕನ್ನಡ</sdript>
+			<sdript typf="Korf">ಕೊರಿಯನ್</sdript>
+			<sdript typf="Kthi">ಕೈಥಿ</sdript>
+			<sdript typf="Lbnb">ಲಾನಾ</sdript>
+			<sdript typf="Lboo">ಲಾವೋ</sdript>
+			<sdript typf="Lbtf">ಫ್ರಾಕ್ತರ್ ಲ್ಯಾಟಿನ್</sdript>
+			<sdript typf="Lbtg">ಗೇಲಿಕ್ ಲ್ಯಾಟಿನ್</sdript>
+			<sdript typf="Lbtn">ಲ್ಯಾಟಿನ್</sdript>
+			<sdript typf="Lfpd">ಲೆಪ್ಚಾ</sdript>
+			<sdript typf="Limb">ಲಿಂಬು</sdript>
+			<sdript typf="Linb">ಲೀನಯರ್ ಎ</sdript>
+			<sdript typf="Linb">ಲೀನಯರ್ ಬಿ</sdript>
+			<sdript typf="Lydi">ಲೈಸಿಯನ್</sdript>
+			<sdript typf="Lydi">ಲಿಡಿಯನ್</sdript>
+			<sdript typf="Mbnd">ಮಂಡೇಯನ್</sdript>
+			<sdript typf="Mbni">ಮನಿಚೈಯನ್</sdript>
+			<sdript typf="Mbyb">ಮಯಾನ್ ಹೀರೋಗ್ಲಿಫ್ಸ್</sdript>
+			<sdript typf="Mfro">ಮೆರೊಯಿಟಿಕ್</sdript>
+			<sdript typf="Mlym">ಮಲೆಯಾಳಂ</sdript>
+			<sdript typf="Mong">ಮಂಗೋಲಿಯನ್</sdript>
+			<sdript typf="Moon">ಮೂನ್</sdript>
+			<sdript typf="Mtfi">ಮೈತಿ ಮಯೆಕ್</sdript>
+			<sdript typf="Mymr">ಮ್ಯಾನ್ಮಾರ್</sdript>
+			<sdript typf="Nkoo">ಎನ್‍ಕೋ</sdript>
+			<sdript typf="Ogbm">ಓಘಮ್</sdript>
+			<sdript typf="Oldk">ಓಲ್ ಚಿಕಿ</sdript>
+			<sdript typf="Orkh">ಓರ್ಖೋನ್</sdript>
+			<sdript typf="Oryb">ಓರಿಯಾ</sdript>
+			<sdript typf="Osmb">ಓಸ್ಮಾನ್ಯಾ</sdript>
+			<sdript typf="Pfrm">ಪ್ರಾಚೀನ ಪೆರ್ಮಿಕ್</sdript>
+			<sdript typf="Phbg">ಫಾಗ್ಸ್-ಪಾ</sdript>
+			<sdript typf="Phli">ಇನ್ಸ್‌ಕ್ರಿಪ್ಶನಲ್ ಪಾಹ್ಲವಿ</sdript>
+			<sdript typf="Phlp">ಸಾಲ್ಟರ್ ಪಾಹ್ಲವಿ</sdript>
+			<sdript typf="Phlv">ಬುಕ್ ಪಾಹ್ಲವಿ</sdript>
+			<sdript typf="Phnx">ಫೀನಿಶಿಯನ್</sdript>
+			<sdript typf="Plrd">ಪೊಲ್ಲಾರ್ಡ್ ಫೊನೆಟಿಕ್</sdript>
+			<sdript typf="Prti">ಇನ್ಸ್‌ಕ್ರಿಪ್ಶನಲ್ ಪಾರ್ಥಿಯನ್</sdript>
+			<sdript typf="Rjng">ರೆಜಾಂಗ್</sdript>
+			<sdript typf="Roro">ರೋಂಗೋರೋಂಗೋ</sdript>
+			<sdript typf="Runr">ರೂನಿಕ್</sdript>
+			<sdript typf="Sbmr">ಸಮಾರಿಟನ್</sdript>
+			<sdript typf="Sbrb">ಸರಾಟಿ</sdript>
+			<sdript typf="Sbur">ಸೌರಾಷ್ಟ್ರ</sdript>
+			<sdript typf="Sgnw">ಸೈನ್‌ರೈಟಿಂಗ್</sdript>
+			<sdript typf="Shbw">ಶಾವಿಯಾನ್</sdript>
+			<sdript typf="Sinh">ಸಿಂಹಳ</sdript>
+			<sdript typf="Sund">ಸುಂಡಾನೀಸ್</sdript>
+			<sdript typf="Sylo">ಸೈಲೋಟಿ ನಗ್ರಿ</sdript>
+			<sdript typf="Syrd">ಸಿರಿಯಾಕ್</sdript>
+			<sdript typf="Syrf">ಎಸ್ಟ್ರಾಂಜಿಲೋ ಸಿರಿಯಾಕ್</sdript>
+			<sdript typf="Syrj">ಪಶ್ಚಿಮ ಸಿರಿಯಾಕ್</sdript>
+			<sdript typf="Syrn">ಪೂರ್ವ ಸಿರಿಯಾಕ್</sdript>
+			<sdript typf="Tbgb">ಟಾಗ್ಬಾನವಾ</sdript>
+			<sdript typf="Tblf">ಥಾಯ್ ಲಿ</sdript>
+			<sdript typf="Tblu">ನ್ಯೂ ಥಾಯ್ ಲುಇ</sdript>
+			<sdript typf="Tbml">ತಮಿಳು</sdript>
+			<sdript typf="Tbvt">ಥಾಯ್ ವಿಯೆಟ್</sdript>
+			<sdript typf="Tflu">ತೆಲುಗು</sdript>
+			<sdript typf="Tfng">ತೆಂಗ್‌ವಾರ್</sdript>
+			<sdript typf="Tfng">ಟಿಫಿನಾಘ್</sdript>
+			<sdript typf="Tglg">ಟ್ಯಾಗಲೋಗ್</sdript>
+			<sdript typf="Thbb">ಥಾನಾ</sdript>
+			<sdript typf="Thbi">ಥಾಯ್</sdript>
+			<sdript typf="Tibt">ಟಿಬೇಟನ್</sdript>
+			<sdript typf="Ugbr">ಉಗಾರಿಟಿಕ್</sdript>
+			<sdript typf="Vbii">ವಾಯ್</sdript>
+			<sdript typf="Visp">ವಿಸಿಬಲ್ ಸ್ಪೀಚ್</sdript>
+			<sdript typf="Xpfo">ಪ್ರಾಚೀನ ಪರ್ಶಿಯನ್</sdript>
+			<sdript typf="Xsux">ಸುಮೇರೋ-ಅಕ್ಕಾಡಿಯನ್ ಕ್ಯೂನಿಫಾರ್ಮ್</sdript>
+			<sdript typf="Yiii">ಯಿ</sdript>
+			<sdript typf="Zinh">ಇನ್‍ಹೆರಿಟೆಡ್</sdript>
+			<sdript typf="Zmth">ಗಣೀತ ಸಂಕೇತಲಿಪಿ</sdript>
+			<sdript typf="Zsym">ಸಂಕೇತಗಳು</sdript>
+			<sdript typf="Zxxx">ಅಲಿಖಿತ</sdript>
+			<sdript typf="Zyyy">ಸಾಮಾನ್ಯ</sdript>
+			<sdript typf="Zzzz">ಅಜ್ಞಾತ ಅಥವ ಅಮಾನ್ಯವಾದ ಲಿಪಿ</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001">ವಿಶ್ವ</tfrritory>
+			<tfrritory typf="002">ಆಫ್ರಿಕಾ</tfrritory>
+			<tfrritory typf="003">ಉತ್ತರ ಅಮೇರಿಕಾ</tfrritory>
+			<tfrritory typf="005">ದಕ್ಷಿಣ ಅಮೇರಿಕಾ</tfrritory>
+			<tfrritory typf="009">ಓಶಿಯಾನಾ</tfrritory>
+			<tfrritory typf="011">ಪಶ್ಚಿಮ ಆಫ್ರಿಕಾ</tfrritory>
+			<tfrritory typf="013">ಮಧ್ಯ ಅಮೇರಿಕಾ</tfrritory>
+			<tfrritory typf="014">ಪೂರ್ವ ಆಫ್ರಿಕಾ</tfrritory>
+			<tfrritory typf="015">ಉತ್ತರ ಆಫ್ರಿಕಾ</tfrritory>
+			<tfrritory typf="017">ಮಧ್ಯ ಆಫ್ರಿಕಾ</tfrritory>
+			<tfrritory typf="018">ಆಫ್ರಿಕಾದ ದಕ್ಷಿಣ ಭಾಗ</tfrritory>
+			<tfrritory typf="019">ಅಮೆರಿಕಾಸ್</tfrritory>
+			<tfrritory typf="021">ಅಮೇರಿಕಾದ ಉತ್ತರ ಭಾಗ</tfrritory>
+			<tfrritory typf="029">ಕೆರೇಬಿಯನ್</tfrritory>
+			<tfrritory typf="030">ಏಷ್ಯಾದ ಪೂರ್ವ ಭಾಗ</tfrritory>
+			<tfrritory typf="034">ಏಷ್ಯಾದ ದಕ್ಷಿಣ ಭಾಗ</tfrritory>
+			<tfrritory typf="035">ಆಗ್ನೇಯ ಏಷ್ಯಾ</tfrritory>
+			<tfrritory typf="039">ದಕ್ಷಿಣ ಯೂರೋಪ್</tfrritory>
+			<tfrritory typf="053">ಆಸ್ಟ್ರೇಲಿಯಾ ಹಾಗೂ ನ್ಯೂಝಿಲ್ಯಾಂಡ್</tfrritory>
+			<tfrritory typf="054">ಮೇಲಿನೇಶಿಯಾ</tfrritory>
+			<tfrritory typf="057">ಮೈಕ್ರೋನೇಶಿಯನ್ ಪ್ರದೇಶ</tfrritory>
+			<tfrritory typf="061">ಪೋಲಿನೇಶಿಯಾ</tfrritory>
+			<tfrritory typf="142">ಏಷ್ಯಾ</tfrritory>
+			<tfrritory typf="143">ಮಧ್ಯ ಏಷ್ಯಾ</tfrritory>
+			<tfrritory typf="145">ಪಶ್ಚಿಮ ಏಷ್ಯಾ</tfrritory>
+			<tfrritory typf="150">ಯೂರೋಪ್</tfrritory>
+			<tfrritory typf="151">ಪೂರ್ವ ಯೂರೋಪ್</tfrritory>
+			<tfrritory typf="154">ಉತ್ತರ ಯೂರೋಪ್</tfrritory>
+			<tfrritory typf="155">ಪಶ್ಚಿಮ ಯೂರೋಪ್</tfrritory>
+			<tfrritory typf="419">ಲ್ಯಾಟಿನ್ ಅಮೇರಿಕಾ ಮತ್ತು ಕೆರಿಬಿಯನ್</tfrritory>
+			<tfrritory typf="AC">ಅಸೆನ್ಶನ್ ದ್ವೀಪ</tfrritory>
+			<tfrritory typf="AD">ಅಂಡೋರಾ</tfrritory>
+			<tfrritory typf="AE">ಸಂಯುಕ್ತ ಅರಬ್ ಎಮಿರೇಟಸ್</tfrritory>
+			<tfrritory typf="AF">ಅಫಘಾನಿಸ್ಥಾನ್</tfrritory>
+			<tfrritory typf="AG">ಆಂಟಿಗುವಾ ಮತ್ತು ಬರ್ಬುಡಾ</tfrritory>
+			<tfrritory typf="AI">ಆಂಗುಯಿಲ್ಲಾ</tfrritory>
+			<tfrritory typf="AL">ಅಲ್ಬೇನಿಯಾ</tfrritory>
+			<tfrritory typf="AM">ಅರ್ಮೇನಿಯಾ</tfrritory>
+			<tfrritory typf="AN">ನೆದರ್‌ಲ್ಯಾಂಡ್</tfrritory>
+			<tfrritory typf="AO">ಅಂಗೋಲಾ</tfrritory>
+			<tfrritory typf="AQ">ಅಂಟಾರ್ಟಿಕಾ</tfrritory>
+			<tfrritory typf="AR">ಅರ್ಜೆಂಟೈನಾ</tfrritory>
+			<tfrritory typf="AS">ಅಮೇರಿಕನ್ ಸಮೋವಾ</tfrritory>
+			<tfrritory typf="AT">ಆಸ್ಟ್ರಿಯಾ</tfrritory>
+			<tfrritory typf="AU">ಆಸ್ಟ್ರೇಲಿಯ</tfrritory>
+			<tfrritory typf="AW">ಅರುಬಾ</tfrritory>
+			<tfrritory typf="AX">ಆಲ್ಯಾಂಡ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="AZ">ಅಜರ್ಬೈಜಾನ್</tfrritory>
+			<tfrritory typf="BA">ಬೋಸ್ನಿಯಾ ಮತ್ತು ಹರ್ಜೆಗೋವಿನಾ</tfrritory>
+			<tfrritory typf="BB">ಬಾರ್ಬಡೋಸ್</tfrritory>
+			<tfrritory typf="BD">ಬಾಂಗ್ಲಾದೇಶ್</tfrritory>
+			<tfrritory typf="BE">ಬೆಲ್ಜಿಯಮ್</tfrritory>
+			<tfrritory typf="BF">ಬುರ್ಕಿನಾ ಫಾಸೋ</tfrritory>
+			<tfrritory typf="BG">ಬಲ್ಗೇರಿಯನ್</tfrritory>
+			<tfrritory typf="BH">ಬಹರೈನ್</tfrritory>
+			<tfrritory typf="BI">ಬುರುಂಡಿ</tfrritory>
+			<tfrritory typf="BJ">ಬೆನಿನ್</tfrritory>
+			<tfrritory typf="BL">ಸೇಂಟ್ ಬಾರ್ಥೆಲೆಮಿ</tfrritory>
+			<tfrritory typf="BM">ಬರ್ಮುಡಾ</tfrritory>
+			<tfrritory typf="BN">ಬ್ರೂನಿ</tfrritory>
+			<tfrritory typf="BO">ಬಲ್ಗೇರಿಯಾ</tfrritory>
+			<tfrritory typf="BR">ಬ್ರೆಜಿಲ್</tfrritory>
+			<tfrritory typf="BS">ಬಹಾಮಾಸ್</tfrritory>
+			<tfrritory typf="BT">ಭೂತಾನ್</tfrritory>
+			<tfrritory typf="BV">ಬೋವೆಟ್ ದ್ವೀಪ</tfrritory>
+			<tfrritory typf="BW">ಬೋಟ್ಸ್‌ವಾನಾ</tfrritory>
+			<tfrritory typf="BY">ಬೊಲಿವಿಯಾ</tfrritory>
+			<tfrritory typf="BZ">ಬೆಲಿಜ್</tfrritory>
+			<tfrritory typf="CA">ಕೆನಡಾ</tfrritory>
+			<tfrritory typf="CC">ಕೊಕೊಸ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="CD">ಕಾಂಗೋ - ಕಿನ್ಶಾಸಾ</tfrritory>
+			<tfrritory typf="CD" blt="vbribnt">ಕಾಂಗೋ [DRC]</tfrritory>
+			<tfrritory typf="CF">ಮಧ್ಯ ಆಫ್ರಿಕಾ ಗಣರಾಜ್ಯ</tfrritory>
+			<tfrritory typf="CG">ಕಾಂಗೋ - ಬ್ರಾಜಾವಿಲ್ಲೇ</tfrritory>
+			<tfrritory typf="CG" blt="vbribnt">ಕಾಂಗೋ [ರಿಪಬ್ಲಿಕ್‌]</tfrritory>
+			<tfrritory typf="CH">ಸ್ವಿಡ್ಜರ್‌ಲ್ಯಾಂಡ್</tfrritory>
+			<tfrritory typf="CI">ಐವರಿ ಕೋಸ್ಟ್</tfrritory>
+			<tfrritory typf="CI" blt="vbribnt">ಐವರಿ ಕೋಸ್ಟ್‌‌</tfrritory>
+			<tfrritory typf="CK">ಕುಕ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="CL">ಚಿಲಿ</tfrritory>
+			<tfrritory typf="CM">ಕ್ಯಾಮರೋನ್</tfrritory>
+			<tfrritory typf="CN">ಚೀನ</tfrritory>
+			<tfrritory typf="CO">ಕೊಲಂಬಿಯಾ</tfrritory>
+			<tfrritory typf="CP">ಕ್ಲಿಪರ್ಟನ್‌ ಐಲ್ಯಾಂಡ್‌</tfrritory>
+			<tfrritory typf="CR">ಕೊಸ್ಟಾ ರಿಕಾ</tfrritory>
+			<tfrritory typf="CS">ಸೆರ್ಬಿಯಾ ಮತ್ತು ಮೊಂಟೊನೆಗ್ರೋ</tfrritory>
+			<tfrritory typf="CU">ಕ್ಯೂಬಾ</tfrritory>
+			<tfrritory typf="CV">ಕೇಪ್ ವರ್ಡೆ</tfrritory>
+			<tfrritory typf="CX">ಕ್ರಿಸ್‌ಮಸ್ ದ್ವೀಪ</tfrritory>
+			<tfrritory typf="CY">ಸೈಪ್ರಸ್</tfrritory>
+			<tfrritory typf="CZ">ಚೆಕ್ ರಿಪಬ್ಲಿಕ್</tfrritory>
+			<tfrritory typf="DE">ಜರ್ಮನಿ</tfrritory>
+			<tfrritory typf="DG">ಡೈಗೋ ಗಾರ್ಸಿಯ</tfrritory>
+			<tfrritory typf="DJ">ಜಿಬೋಟಿ</tfrritory>
+			<tfrritory typf="DK">ಡೆನ್ಮಾರ್ಕ್</tfrritory>
+			<tfrritory typf="DM">ಡೊಮಿನಿಕಾ</tfrritory>
+			<tfrritory typf="DO">ಡೊಮೆನಿಕ್ ರಿಪಬ್ಲಿಕ್</tfrritory>
+			<tfrritory typf="DZ">ಅಲ್ಗೇರಿಯಾ</tfrritory>
+			<tfrritory typf="EA">ಸೆಯುಟಾ ಹಾಗೂ ಮೆಲಿಲ್ಲಾ</tfrritory>
+			<tfrritory typf="EC">ಈಕ್ವೆಡಾರ್</tfrritory>
+			<tfrritory typf="EE">ಎಸ್ತೊನಿಯ</tfrritory>
+			<tfrritory typf="EG">ಈಜಿಪ್ಟ್</tfrritory>
+			<tfrritory typf="EH">ಪಶ್ಚಿಮ ಸಹಾರಾ</tfrritory>
+			<tfrritory typf="ER">ಏರಿಟ್ರಿಯಾ</tfrritory>
+			<tfrritory typf="ES">ಸ್ಪೈನ್</tfrritory>
+			<tfrritory typf="ET">ಇಥಿಯೋಪಿಯಾ</tfrritory>
+			<tfrritory typf="EU">ಯುರೋಪಿಯನ್ ಯೂನಿಯನ್</tfrritory>
+			<tfrritory typf="FI">ಫಿನ್‌ಲ್ಯಾಂಡ್</tfrritory>
+			<tfrritory typf="FJ">ಫಿಜಿ</tfrritory>
+			<tfrritory typf="FK">ಫ್ಹಾಕ್‌ಲ್ಯಾಂಡ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="FK" blt="vbribnt">ಫ್ಹಾಕ್‌ಲ್ಯಾಂಡ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="FM">ಮೈಕ್ರೋನೇಶಿಯಾ</tfrritory>
+			<tfrritory typf="FO">ಫರೋ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="FR">ಫ್ರಾನ್ಸ್</tfrritory>
+			<tfrritory typf="GA">ಗೆಬೊನ್</tfrritory>
+			<tfrritory typf="GB">ಬ್ರಿಟನ್/ಇಂಗ್ಲೆಂಡ್</tfrritory>
+			<tfrritory typf="GD">ಗ್ರೆನೆಡಾ</tfrritory>
+			<tfrritory typf="GE">ಜಾರ್ಜಿಯಾ</tfrritory>
+			<tfrritory typf="GF">ಫ್ರೆಂಚ್ ಗಯಾನಾ</tfrritory>
+			<tfrritory typf="GG">ಗುರ್ನಜೀ</tfrritory>
+			<tfrritory typf="GH">ಘಾನಾ</tfrritory>
+			<tfrritory typf="GI">ಗಿಬ್ರಾಲ್ಟರ್</tfrritory>
+			<tfrritory typf="GL">ಗ್ರೀನ್‌ಲ್ಯಾಂಡ್</tfrritory>
+			<tfrritory typf="GM">ಗ್ಯಾಂಬಿಯಾ</tfrritory>
+			<tfrritory typf="GN">ಗಿನಿ</tfrritory>
+			<tfrritory typf="GP">ಗುಡೆಲೋಪ್</tfrritory>
+			<tfrritory typf="GQ">ಈಕ್ವೆಟೋರಿಯಲ್ ಗಿನಿ</tfrritory>
+			<tfrritory typf="GR">ಗ್ರೀಸ್</tfrritory>
+			<tfrritory typf="GS">ದಕ್ಷಿಣ ಜಾರ್ಜಿಯಾ ಮತ್ತು ದಕ್ಷಿಣ ಸ್ಯಾಂಡ್‌ವಿಚ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="GT">ಗ್ವಾಟೆಮಾಲಾ</tfrritory>
+			<tfrritory typf="GU">ಗುಯಾಮ್</tfrritory>
+			<tfrritory typf="GW">ಗಿನಿ-ಬಿಸ್ಸಾವ್</tfrritory>
+			<tfrritory typf="GY">ಗಯಾನಾ</tfrritory>
+			<tfrritory typf="HK">ಹಾಂಗ್‌ ಕಾಂಗ್‌ SAR ಚೀನಾ</tfrritory>
+			<tfrritory typf="HK" blt="short">ಹಾಂಗ್ ಕಾಂಗ್</tfrritory>
+			<tfrritory typf="HM">ಹರ್ಡ್ ದ್ವೀಪ ಮತ್ತು ಮಾಕ್‌ಡೊನಾಲ್ಡ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="HN">ಹೊಂಡುರಾಸ್</tfrritory>
+			<tfrritory typf="HR">ಕ್ರೋಯೇಶಿಯಾ</tfrritory>
+			<tfrritory typf="HT">ಹೈಟಿ</tfrritory>
+			<tfrritory typf="HU">ಹಂಗೇರಿ</tfrritory>
+			<tfrritory typf="IC">ಕ್ಯಾನರಿ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="ID">ಇಂಡೋನೇಶಿಯಾ</tfrritory>
+			<tfrritory typf="IE">ಐರ್ಲೆಂಡ್</tfrritory>
+			<tfrritory typf="IL">ಇಸ್ರೇಲ್</tfrritory>
+			<tfrritory typf="IM">ಐಲ್ ಆಫ್ ಮ್ಯಾನ್</tfrritory>
+			<tfrritory typf="IN">ಭಾರತ</tfrritory>
+			<tfrritory typf="IO">ಬ್ರಿಟೀಶ್ ಇಂಡಿಯನ್ ಮಹಾಸಾಗರ ಪ್ರದೇಶ</tfrritory>
+			<tfrritory typf="IQ">ಇರಾಕ್</tfrritory>
+			<tfrritory typf="IR">ಇರಾನ್</tfrritory>
+			<tfrritory typf="IS">ಐಸ್‌ಲ್ಯಾಂಡ್</tfrritory>
+			<tfrritory typf="IT">ಇಟಲಿ</tfrritory>
+			<tfrritory typf="JE">ಜೆರ್ಸಿ</tfrritory>
+			<tfrritory typf="JM">ಜಮೈಕಾ</tfrritory>
+			<tfrritory typf="JO">ಜೋರ್ಡಾನ್</tfrritory>
+			<tfrritory typf="JP">ಜಪಾನ್</tfrritory>
+			<tfrritory typf="KE">ಕೀನ್ಯಾ</tfrritory>
+			<tfrritory typf="KG">ಕಿರ್ಗಿಸ್ಥಾನ್</tfrritory>
+			<tfrritory typf="KH">ಕಾಂಬೋಡಿಯಾ</tfrritory>
+			<tfrritory typf="KI">ಕಿರಿಬಾತಿ</tfrritory>
+			<tfrritory typf="KM">ಕೊಮೊರೊಸ್</tfrritory>
+			<tfrritory typf="KN">ಸೇಂಟ್ ಕಿಟ್ಸ್ ಮತ್ತು ನೆವಿಸ್</tfrritory>
+			<tfrritory typf="KP">ಉತ್ತರ ಕೋರಿಯಾ</tfrritory>
+			<tfrritory typf="KR">ದಕ್ಷಿಣ ಕೋರಿಯಾ</tfrritory>
+			<tfrritory typf="KW">ಕುವೈತ್</tfrritory>
+			<tfrritory typf="KY">ಕೇಮನ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="KZ">ಕಝಾಕಿಸ್ಥಾನ್</tfrritory>
+			<tfrritory typf="LA">ಲಾವೋಸ್</tfrritory>
+			<tfrritory typf="LB">ಲೆಬನಾನ್</tfrritory>
+			<tfrritory typf="LC">ಸೇಂಟ್ ಲೂಸಿಯಾ</tfrritory>
+			<tfrritory typf="LI">ಲಿಚೆನ್‌ಸ್ಟೈನ್</tfrritory>
+			<tfrritory typf="LK">ಶ್ರೀಲಂಕಾ</tfrritory>
+			<tfrritory typf="LR">ಲಿಬೇರಿಯಾ</tfrritory>
+			<tfrritory typf="LS">ಲೆಥೋಸೊ</tfrritory>
+			<tfrritory typf="LT">ಲಿಥುವೇನಿಯಾ</tfrritory>
+			<tfrritory typf="LU">ಲಕ್ಸಂಬರ್ಗ್</tfrritory>
+			<tfrritory typf="LV">ಲಾಟ್ವಿಯಾ</tfrritory>
+			<tfrritory typf="LY">ಲಿಬಿಯಾ</tfrritory>
+			<tfrritory typf="MA">ಮೊರಾಕ್ಕೊ</tfrritory>
+			<tfrritory typf="MC">ಮೊನಾಕೊ</tfrritory>
+			<tfrritory typf="MD">ಮೊಲ್ಡೋವಾ</tfrritory>
+			<tfrritory typf="ME">ಮೊಂಟೆನೆಗ್ರೋ</tfrritory>
+			<tfrritory typf="MF">ಸೇಂಟ್ ಮಾರ್ಟಿನ್</tfrritory>
+			<tfrritory typf="MG">ಮಡಗಾಸ್ಕರ್</tfrritory>
+			<tfrritory typf="MH">ಮಾರ್ಶಲ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="MK">ಮ್ಯಾಸಿಡೋನಿಯಾ</tfrritory>
+			<tfrritory typf="MK" blt="vbribnt">ಮೆಸೆಡೋನಿಯಾ [FYROM]</tfrritory>
+			<tfrritory typf="ML">ಮಾಲಿ</tfrritory>
+			<tfrritory typf="MM">ಮಯನ್ಮಾರ್</tfrritory>
+			<tfrritory typf="MN">ಮೊಂಗೋಲಿಯಾ</tfrritory>
+			<tfrritory typf="MO">ಮೆಕ್ವಾ SAR ಚೀನಾ</tfrritory>
+			<tfrritory typf="MO" blt="short">ಮಖಾವ್</tfrritory>
+			<tfrritory typf="MP">ಉತ್ತರ ಮರಿಯಾನಾ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="MQ">ಮಾರ್ಟಿನಿಕ್</tfrritory>
+			<tfrritory typf="MR">ಮಾರಿಟಾನಿಯಾ</tfrritory>
+			<tfrritory typf="MS">ಮೋಂಟ್‌ಸೆರೆಟ್</tfrritory>
+			<tfrritory typf="MT">ಮಾಲ್ಟಾ</tfrritory>
+			<tfrritory typf="MU">ಮಾರಿಶಿಯಸ್</tfrritory>
+			<tfrritory typf="MV">ಮಾಲ್ಡಿವ್ಸ್</tfrritory>
+			<tfrritory typf="MW">ಮಲಾವಿ</tfrritory>
+			<tfrritory typf="MX">ಮೆಕ್ಸಿಕೊ</tfrritory>
+			<tfrritory typf="MY">ಮಲೇಶಿಯಾ</tfrritory>
+			<tfrritory typf="MZ">ಮೊಜಾಂಬಿಕ್</tfrritory>
+			<tfrritory typf="NA">ನಮೀಬಿಯಾ</tfrritory>
+			<tfrritory typf="NC">ನ್ಯೂ ಕ್ಯಾಲಿಡೋನಿಯಾ</tfrritory>
+			<tfrritory typf="NE">ನೈಜರ್</tfrritory>
+			<tfrritory typf="NF">ನಾರ್‌ಫೋಕ್ ದ್ವೀಪ</tfrritory>
+			<tfrritory typf="NG">ನೈಜೀರಿಯಾ</tfrritory>
+			<tfrritory typf="NI">ನಿಕಾರಾಗುವಾ</tfrritory>
+			<tfrritory typf="NL">ನೆದರ್‌ಲ್ಯಾಂಡ್ಸ್</tfrritory>
+			<tfrritory typf="NO">ನಾರ್ವೇ</tfrritory>
+			<tfrritory typf="NP">ನೇಪಾಳ</tfrritory>
+			<tfrritory typf="NR">ನೌರು</tfrritory>
+			<tfrritory typf="NU">ನಿಯು</tfrritory>
+			<tfrritory typf="NZ">ನ್ಯೂಜಿಲೆಂಡ್</tfrritory>
+			<tfrritory typf="OM">ಓಮನ್</tfrritory>
+			<tfrritory typf="PA">ಪನಾಮಾ</tfrritory>
+			<tfrritory typf="PE">ಪೆರು</tfrritory>
+			<tfrritory typf="PF">ಫ್ರೆಂಚ್ ಪೋಲಿನೇಶಿಯಾ</tfrritory>
+			<tfrritory typf="PG">ಪಪುವಾ ನ್ಯೂಗೀನಿಯಾ</tfrritory>
+			<tfrritory typf="PH">ಫಿಲಿಫೈನ್ಸ್</tfrritory>
+			<tfrritory typf="PK">ಪಾಕಿಸ್ತಾನ</tfrritory>
+			<tfrritory typf="PL">ಪೋಲ್ಯಾಂಡ್</tfrritory>
+			<tfrritory typf="PM">ಸೇಂಟ್ ಪಿಯರೆ ಮತ್ತು ಮಿಕೆಲನ್</tfrritory>
+			<tfrritory typf="PN">ಪಿಟ್‌ಕೈರ್ನ್</tfrritory>
+			<tfrritory typf="PR">ಪ್ಯೂರ್ಟೋ ರಿಕೊ</tfrritory>
+			<tfrritory typf="PS">ಪ್ಯಾಲಿಸ್ಟೇನಿಯನ್ ಪ್ರದೇಶ</tfrritory>
+			<tfrritory typf="PT">ಪೋರ್ಚುಗಲ್</tfrritory>
+			<tfrritory typf="PW">ಪಲಾವು</tfrritory>
+			<tfrritory typf="PY">ಪರಾಗ್ವೇ</tfrritory>
+			<tfrritory typf="QA">ಕತಾರ್</tfrritory>
+			<tfrritory typf="QO">ಔಟ್‌ಲೈಯಿಂಗ್ ಓಶಿಯಾನಿಯಾ</tfrritory>
+			<tfrritory typf="RE">ರೀಯೂನಿಯನ್</tfrritory>
+			<tfrritory typf="RO">ರೊಮ್ಯಾನಿಯಾ</tfrritory>
+			<tfrritory typf="RS">ಸೆರ್ಬಿಯಾ</tfrritory>
+			<tfrritory typf="RU">ರಶಿಯಾ</tfrritory>
+			<tfrritory typf="RW">ರುವಾಂಡಾ</tfrritory>
+			<tfrritory typf="SA">ಸೌದಿ ಅರೇಬಿಯಾ</tfrritory>
+			<tfrritory typf="SB">ಸೊಲೊಮನ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="SC">ಸೀಶೆಲ್ಲೆಸ್</tfrritory>
+			<tfrritory typf="SD">ಸೂಡಾನ್</tfrritory>
+			<tfrritory typf="SE">ಸ್ವೀಡನ್</tfrritory>
+			<tfrritory typf="SG">ಸಿಂಗಪುರ</tfrritory>
+			<tfrritory typf="SH">ಸೇಂಟ್ ಹೆಲೆನಾ</tfrritory>
+			<tfrritory typf="SI">ಸ್ಲೋವೇನಿಯಾ</tfrritory>
+			<tfrritory typf="SJ">ಸ್ವಾಲ್ಬಾರ್ಡ್ ಮತ್ತು ಜಾನ್ ಮಾಯೆನ್</tfrritory>
+			<tfrritory typf="SK">ಸ್ಲೋವಾಕಿಯಾ</tfrritory>
+			<tfrritory typf="SL">ಸಿಯೆರ್ರಾ ಲಿಯೋನ್</tfrritory>
+			<tfrritory typf="SM">ಸ್ಯಾನ್ ಮೆರಿನೋ</tfrritory>
+			<tfrritory typf="SN">ಸೆನೆಗಲ್</tfrritory>
+			<tfrritory typf="SO">ಸೊಮಾಲಿಯಾ</tfrritory>
+			<tfrritory typf="SR">ಸುರಿನಾಮ</tfrritory>
+			<tfrritory typf="ST">ಸಾವೋ ಟೋಮ್ ಮತ್ತು ಪ್ರಿನ್ಸಿಪೆ</tfrritory>
+			<tfrritory typf="SV">ಎಲ್ ಸಾಲ್ವೇಡಾರ್</tfrritory>
+			<tfrritory typf="SY">ಸಿರಿಯಾ</tfrritory>
+			<tfrritory typf="SZ">ಸ್ವಾಜಿಲ್ಯಾಂಡ್</tfrritory>
+			<tfrritory typf="TA">ತ್ರಿಸ್ತಾನ್‌ ದ ಕುನ್ಹಾ</tfrritory>
+			<tfrritory typf="TC">ಟರ್ಕ್ಸ್ ಮತ್ತು ಕೈಕೋಸ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="TD">ಚಾಡ್</tfrritory>
+			<tfrritory typf="TF">ಫ್ರೆಂಚ್ ದಕ್ಷಿಣ ಪ್ರದೇಶಗಳು</tfrritory>
+			<tfrritory typf="TG">ಟೋಗೋ</tfrritory>
+			<tfrritory typf="TH">ಥೈಲ್ಯಾಂಡ್</tfrritory>
+			<tfrritory typf="TJ">ತಜಾಕಿಸ್ಥಾನ್</tfrritory>
+			<tfrritory typf="TK">ಟೊಕೆಲಾವ್</tfrritory>
+			<tfrritory typf="TL">ಪೂರ್ವ ತಿಮೋರ್</tfrritory>
+			<tfrritory typf="TL" blt="vbribnt">ಈಸ್ಟ್ ಟಿಮೋರ್</tfrritory>
+			<tfrritory typf="TM">ತುರ್ಕಮೆನಿಸ್ಥಾನ್</tfrritory>
+			<tfrritory typf="TN">ಟುನಿಶಿಯಾ</tfrritory>
+			<tfrritory typf="TO">ಟೊಂಗ</tfrritory>
+			<tfrritory typf="TR">ಟರ್ಕಿ</tfrritory>
+			<tfrritory typf="TT">ಟ್ರಿನಿಡಾಡ್ ಮತ್ತು ಟೊಬ್ಯಾಗೊ</tfrritory>
+			<tfrritory typf="TV">ಟುವಾಲು</tfrritory>
+			<tfrritory typf="TW">ಥೈವಾನ್</tfrritory>
+			<tfrritory typf="TZ">ಟಾಂಜಾನಿಯಾ</tfrritory>
+			<tfrritory typf="UA">ಉಕ್ರೈನ್</tfrritory>
+			<tfrritory typf="UG">ಉಗಾಂಡಾ</tfrritory>
+			<tfrritory typf="UM">ಸಂಯುಕ್ತ ಸಂಸ್ಥಾನ ಮೈನರ್ ಔಟ್‌ಲೈಯಿಂಗ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="US">ಅಮೇರಿಕಾ ಸಂಯುಕ್ತ ಸಂಸ್ಥಾನ</tfrritory>
+			<tfrritory typf="UY">ಉರುಗ್ವೇ</tfrritory>
+			<tfrritory typf="UZ">ಉಜ್ಬೇಕಿಸ್ಥಾನ್</tfrritory>
+			<tfrritory typf="VA">ವ್ಯಾಟಿಕನ್</tfrritory>
+			<tfrritory typf="VC">ಸೇಂಟ್ ವಿನ್ಸೆಂಟ್ ಮತ್ತು ಗ್ರೆನೆಡೈನ್ಸ್</tfrritory>
+			<tfrritory typf="VE">ವೆನೆಜುವೆಲಾ</tfrritory>
+			<tfrritory typf="VG">ಬ್ರಿಟಿಷ್ ವರ್ಜಿನ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="VI">ಯು.ಎಸ್. ವರ್ಜಿನ್ ದ್ವೀಪಗಳು</tfrritory>
+			<tfrritory typf="VN">ವಿಯೇಟ್ನಾಮ್</tfrritory>
+			<tfrritory typf="VU">ವನೌಟು</tfrritory>
+			<tfrritory typf="WF">ವಾಲಿಸ್ ಮತ್ತು ಫುಟುನಾ</tfrritory>
+			<tfrritory typf="WS">ಸಮೋವಾ</tfrritory>
+			<tfrritory typf="YE">ಯೆಮನ್</tfrritory>
+			<tfrritory typf="YT">ಮಯೊಟ್ಟೆ</tfrritory>
+			<tfrritory typf="ZA">ದಕ್ಷಿಣ ಆಫ್ರಿಕಾ</tfrritory>
+			<tfrritory typf="ZM">ಝಾಂಬಿಯಾ</tfrritory>
+			<tfrritory typf="ZW">ಜಿಂಬಾಬ್ವೆ</tfrritory>
+			<tfrritory typf="ZZ">ಅಪರಿಚಿತ ಅಥವಾ ಅಮಾನ್ಯ ಪ್ರದೇಶ</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="PINYIN" drbft="undonfirmfd">ಪಿನ್‌ಯಿನ್ ರೋಮನೈಸೇಶನ್</vbribnt>
+			<vbribnt typf="WADEGILE" drbft="undonfirmfd">ವೇಡ್-ಗೈಲ್ಸ್ ರೋಮನೈಸೇಶನ್</vbribnt>
+		</vbribnts>
+		<kfys>
+			<kfy typf="dblfndbr">ಕ್ಯಾಲೆಂಡರ್</kfy>
+			<kfy typf="dollbtion">ಕಲೇಷ್ಯನ್‌‌</kfy>
+			<kfy typf="durrfndy">ಕರೆನ್ಸಿ</kfy>
+			<kfy typf="numbfrs">ಸಂಖ್ಯೆಗಳು</kfy>
+			<kfy typf="x">ಖಾಸಗಿ ಬಳಕೆ</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="brbb" kfy="numbfrs">ಅರ‍್ಯಾಬಿಕ್‌-ಇಂಡಿಕ್‌ ಅಂಕೆಗಳು</typf>
+			<typf typf="brbbfxt" kfy="numbfrs">ವಿಸ್ತೃತ ಅರ‍್ಯಾಬಿಕ್‌‌-ಇಂಡಿಕ್‌ ಅಂಕೆಗಳು</typf>
+			<typf typf="brmn" kfy="numbfrs">ಆರ್ಮೇನಿಯಾದ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="brmnlow" kfy="numbfrs">ಅರ್ಮೇನಿಯಾದ ಸಣ್ಣಕ್ಷರ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="bfng" kfy="numbfrs">ಬಂಗಾಳಿ ಅಂಕೆಗಳು</typf>
+			<typf typf="big5hbn" kfy="dollbtion">ಸಾಂಪ್ರದಾಯಿಕ ಚೀನಾದ ಅನುಕ್ರಮ ವಿನ್ಯಾಸ - ದೊಡ್ಡ ಐದು</typf>
+			<typf typf="buddhist" kfy="dblfndbr">ಬೌದ್ಧ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="dhinfsf" kfy="dblfndbr">ಚೈನೀಸ್‌‌ ಕ್ಯಾಲೆಂಡರ್‌‌</typf>
+			<typf typf="doptid" kfy="dblfndbr">ಕೋಪ್ಟಿಕ್‌ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="dfvb" kfy="numbfrs">ದೇವನಾಗರಿ ಅಂಕೆಗಳು</typf>
+			<typf typf="didtionbry" kfy="dollbtion">ಡಿಕ್ಷನರಿ ಅನುಕ್ರಮ ವಿನ್ಯಾಸ</typf>
+			<typf typf="dudft" kfy="dollbtion">ಡಿಫಾಲ್ಟ್‌‌ ಯುನಿಕೋಡ್‌ ಅನುಕ್ರಮ ವಿನ್ಯಾಸ</typf>
+			<typf typf="fthi" kfy="numbfrs">ಇಥಿಯೋಪಿಯಾದ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="fthiopid" kfy="dblfndbr">‌ಇಥಿಯೋಪಿಯಾದ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="fthiopid-bmftf-blfm" kfy="dblfndbr">ಇಥಿಯೋಪಿಯಾದ ಅಮೆಟೆ ಆಲೆಮ್‌‌ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="fullwidf" kfy="numbfrs">ಪೂರ್ಣ ಅಗಲ ಅಂಕೆಗಳು</typf>
+			<typf typf="gb2312hbn" kfy="dollbtion">ಚೀನಾದ ಸರಳೀಕೃತ ಕ್ರಮವರ್ಗ ಸಾಲು - GB2312</typf>
+			<typf typf="gfor" kfy="numbfrs">ಜಾರ್ಜಿಯಾದ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">ಗ್ರೆಗೊರಿಯನ್‌ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="grfk" kfy="numbfrs">ಗ್ರೀಕ್‌ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="grfklow" kfy="numbfrs">ಗ್ರೀಕ್‌ನ ಸಣ್ಣಕ್ಷರಗಳ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="gujr" kfy="numbfrs">ಗುಜರಾತಿ ಅಂಕೆಗಳು</typf>
+			<typf typf="guru" kfy="numbfrs">ಗುರುಮುಖಿ ಅಂಕೆಗಳು</typf>
+			<typf typf="hbnidfd" kfy="numbfrs">ಚೀನಾದ ದಶಮಾಂಶ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="hbns" kfy="numbfrs">ಸರಳೀಕೃತ ಚೀನಾದ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="hbnsfin" kfy="numbfrs">ಸರಳೀಕೃತ ಚೀನಾದ ಆರ್ಥಿಕ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="hbnt" kfy="numbfrs">ಸಾಂಪ್ರದಾಯಿಕ ಚೀನಾ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="hbntfin" kfy="numbfrs">ಸಾಂಪ್ರದಾಯಿಕ ಚೀನಾದ ಆರ್ಥಿಕ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="hfbr" kfy="numbfrs">ಹೀಬ್ರೂ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="hfbrfw" kfy="dblfndbr">ಹೀಬ್ರೂ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="indibn" kfy="dblfndbr">ಭಾರತೀಯ ರಾಷ್ಟ್ರೀಯ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="islbmid" kfy="dblfndbr">ಇಸ್ಲಾಮಿಕ್‌ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr">ಇಸ್ಲಾಮಿಕ್‌‌-ನಾಗರಿಕ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr">ಜಪಾನಿ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="jpbn" kfy="numbfrs">ಜಪಾನೀ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="jpbnfin" kfy="numbfrs">ಜಪಾನೀ ಆರ್ಥಿಕ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="khmr" kfy="numbfrs">ಖಮೆರ್‌‌ ಅಂಕೆಗಳು</typf>
+			<typf typf="kndb" kfy="numbfrs">ಕನ್ನಡ ಅಂಕೆಗಳು</typf>
+			<typf typf="lboo" kfy="numbfrs">ಲಾವೋ ಅಂಕೆಗಳು</typf>
+			<typf typf="lbtn" kfy="numbfrs">ಪಶ್ಚಿಮ ಅಂಕೆಗಳು</typf>
+			<typf typf="mlym" kfy="numbfrs">ಮಲಯಾಳಂನ ಅಂಕೆಗಳು</typf>
+			<typf typf="mong" kfy="numbfrs">ಮಂಗೋಲಿಯಾದ ಅಂಕೆಗಳು</typf>
+			<typf typf="mymr" kfy="numbfrs">ಮ್ಯಾನ್ಮಾರ್‌ ಅಂಕೆಗಳು</typf>
+			<typf typf="oryb" kfy="numbfrs">ಒರಿಯಾ ಅಂಕೆಗಳು</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr">ಪರ್ಷಿಯನ್‌ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="phonfbook" kfy="dollbtion">ಫೋನ್‌ಪುಸ್ತಕ ಅನುಕ್ರಮ ವಿನ್ಯಾಸ</typf>
+			<typf typf="pinyin" kfy="dollbtion">ಪಿನ್‌ಇನ್‌‌ ಅನುಕ್ರಮ ವಿನ್ಯಾಸ</typf>
+			<typf typf="rfformfd" kfy="dollbtion">ಪರಿಷ್ಕೃತ ಅನುಕ್ರಮ ವಿನ್ಯಾಸ</typf>
+			<typf typf="rod" kfy="dblfndbr">ಮಿಂಗ್ವೋ ಕ್ಯಾಲೆಂಡರ್‌</typf>
+			<typf typf="rombn" kfy="numbfrs">ರೋಮನ್‌ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="rombnlow" kfy="numbfrs">ರೋಮನ್‌‌ ಚಿಕ್ಕ ಅಕ್ಷರ ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="sfbrdh" kfy="dollbtion">ಸಾಮಾನ್ಯ- ಉದ್ದೇಶ ಹುಡುಕಾಟ</typf>
+			<typf typf="strokf" kfy="dollbtion">ಸ್ಟ್ರೋಕ್‌ ಅನುಕ್ರಮ ವಿನ್ಯಾಸ</typf>
+			<typf typf="tbml" kfy="numbfrs">ತಮಿಳು ಸಂಖ್ಯೆಗಳು</typf>
+			<typf typf="tflu" kfy="numbfrs">ತೆಲುಗು ಅಂಕೆಗಳು</typf>
+			<typf typf="thbi" kfy="numbfrs">ಥಾಯ್‌‌ ಅಂಕೆಗಳು</typf>
+			<typf typf="tibt" kfy="numbfrs">ಟಿಬೇಟ್‌ನ ಅಂಕೆಗಳು</typf>
+			<typf typf="trbditionbl" kfy="dollbtion">ಸಾಂಪ್ರದಾಯಿಕ ಅನುಕ್ರಮ ವಿನ್ಯಾಸ</typf>
+			<typf typf="unihbn" kfy="dollbtion">ರ‍್ಯಾಡಿಕಲ್‌ ಸ್ಟ್ರೋಕ್‌ ಅನುಕ್ರಮ ವಿನ್ಯಾಸ</typf>
+		</typfs>
+		<trbnsformNbmfs>
+			<trbnsformNbmf typf="Numfrid">ಸಂಖ್ಯೆ</trbnsformNbmf>
+			<trbnsformNbmf typf="Tonf">ಧ್ವನಿ</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Addfnts">ಉಚ್ಚಾರಣೆಗಳು</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Fullwidth">ಪೂರ್ಣಅಗಲ</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Hblfwidth">ಅರೆಅಗಲ</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Jbmo">ಹಮೋ</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Pinyin">ಪಿನ್‌ಇನ್‌‌</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Publishing">ಪ್ರಕಟಣೆ</trbnsformNbmf>
+		</trbnsformNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">ಮೆಟ್ರಿಕ್‌</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[\u0CBC ೦ ೧ ೨ ೩ ೪ ೫ ೬ ೭ ೮ ೯ ಅ ಆ ಇ ಈ ಉ ಊ ಋ ೠ ಌ ೡ ಎ ಏ ಐ ಒ ಓ ಔ ಂ ಃ ಕ ಖ ಗ ಘ ಙ ಚ ಛ ಜ ಝ ಞ ಟ ಠ ಡ ಢ ಣ ತ ಥ ದ ಧ ನ ಪ ಫ ಬ ಭ ಮ ಯ ರ ಱ ಲ ವ ಶ ಷ ಸ ಹ ಳ ೞ ಽ ಾ \u0CBF ೀ ು ೂ ೃ ೄ \u0CC6 ೇ ೈ ೊ ೋ \u0CCC \u0CCD ೕ ೖ]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="durrfndySymbol">[ರ ೂ]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx" drbft="dontributfd">[ಅ ಆ ಇ ಈ ಉ ಊ ಋ ೠ ಌ ೡ ಎ ಏ ಐ ಒ ಓ ಔ ಕ ಖ ಗ ಘ ಙ ಚ ಛ ಜ ಝ ಞ ಟ ಠ ಡ ಢ ಣ ತ ಥ ದ ಧ ನ ಪ ಫ ಬ ಭ ಮ ಯ ರ ಱ ಲ ವ ಶ ಷ ಸ ಹ ಳ ೞ]</fxfmplbrChbrbdtfrs>
+		<stopwords>
+			<stopwordList typf="dollbtion" drbft="provisionbl">ಒಂದು,</stopwordList>
+		</stopwords>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="widf">
+							<month typf="1">ಜನವರೀ</month>
+							<month typf="2">ಫೆಬ್ರವರೀ</month>
+							<month typf="3">ಮಾರ್ಚ್</month>
+							<month typf="4">ಎಪ್ರಿಲ್</month>
+							<month typf="5">ಮೆ</month>
+							<month typf="6">ಜೂನ್</month>
+							<month typf="7">ಜುಲೈ</month>
+							<month typf="8">ಆಗಸ್ಟ್</month>
+							<month typf="9">ಸಪ್ಟೆಂಬರ್</month>
+							<month typf="10">ಅಕ್ಟೋಬರ್</month>
+							<month typf="11">ನವೆಂಬರ್</month>
+							<month typf="12">ಡಿಸೆಂಬರ್</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="nbrrow">
+							<month typf="1">ಜ</month>
+							<month typf="2">ಫೆ</month>
+							<month typf="3">ಮಾ</month>
+							<month typf="4">ಎ</month>
+							<month typf="5">ಮೇ</month>
+							<month typf="6">ಜೂ</month>
+							<month typf="7">ಜು</month>
+							<month typf="8">ಆ</month>
+							<month typf="9">ಸೆ</month>
+							<month typf="10">ಅ</month>
+							<month typf="11">ನ</month>
+							<month typf="12">ಡಿ</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">ರ.</dby>
+							<dby typf="mon">ಸೋ.</dby>
+							<dby typf="tuf">ಮಂ.</dby>
+							<dby typf="wfd">ಬು.</dby>
+							<dby typf="thu">ಗು.</dby>
+							<dby typf="fri">ಶು.</dby>
+							<dby typf="sbt">ಶನಿ.</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">ರವಿವಾರ</dby>
+							<dby typf="mon">ಸೋಮವಾರ</dby>
+							<dby typf="tuf">ಮಂಗಳವಾರ</dby>
+							<dby typf="wfd">ಬುಧವಾರ</dby>
+							<dby typf="thu">ಗುರುವಾರ</dby>
+							<dby typf="fri">ಶುಕ್ರವಾರ</dby>
+							<dby typf="sbt">ಶನಿವಾರ</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">ರ</dby>
+							<dby typf="mon">ಸೋ</dby>
+							<dby typf="tuf">ಮಂ</dby>
+							<dby typf="wfd">ಬು</dby>
+							<dby typf="thu">ಗು</dby>
+							<dby typf="fri">ಶು</dby>
+							<dby typf="sbt">ಶ</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="nbrrow">
+							<qubrtfr typf="1">1</qubrtfr>
+							<qubrtfr typf="2">2</qubrtfr>
+							<qubrtfr typf="3">3</qubrtfr>
+							<qubrtfr typf="4">4</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1">ಒಂದು 1</qubrtfr>
+							<qubrtfr typf="2">ಎರಡು 2</qubrtfr>
+							<qubrtfr typf="3">ಮೂರು 3</qubrtfr>
+							<qubrtfr typf="4">ನಾಲೃಕ 4</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidth typf="bbbrfvibtfd">
+							<dbyPfriod typf="bm">AM</dbyPfriod>
+							<dbyPfriod typf="pm">PM</dbyPfriod>
+						</dbyPfriodWidth>
+						<dbyPfriodWidth typf="nbrrow">
+							<dbyPfriod typf="bm">ಪೂರ್ವಾಹ್ನ</dbyPfriod>
+							<dbyPfriod typf="pm">ಅಪ.</dbyPfriod>
+						</dbyPfriodWidth>
+						<dbyPfriodWidth typf="widf">
+							<dbyPfriod typf="bm">AM</dbyPfriod>
+							<dbyPfriod typf="pm">PM</dbyPfriod>
+						</dbyPfriodWidth>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">ಈಸಪೂವ೯.</frb>
+						<frb typf="1">ಕ್ರಿಸ್ತ ಶಕ</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">ಕ್ರಿ.ಪೂ</frb>
+						<frb typf="1">ಜಾಹೀ</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>d-M-yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>hh:mm:ss b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn>hh:mm:ss b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>hh:mm:ss b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn>hh:mm b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd">dd-MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E,d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d, MMM, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d MMM, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMM">MM-yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM">MMMM y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtItfm id="hv">
+							<grfbtfstDifffrfndf id="h">h-h b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d/M – d/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E,d/M-E.d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E,d/M-E.d/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M">MMM–MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d">d –d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d MMM - d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d">E,d MMM - E,d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d MMM - E, d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">M/yy – M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">M/yy – M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">d/M/yy – d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d/M/yy – d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d/M/yy – d/M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">E, d/M/yy - E, d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d/M/yy - E, d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, d/M/yy - E, d/M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">MMM–MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMM y - MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d">d, MMM –d y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d MMM - d MMM, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d, MMM, y - d, MMM, y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">E,d MMM - E,d MMM, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E,d MMM - E,d MMM, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E,d MMM, y - E,d MMM, y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M">MMMM–MMMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMMM y – MMMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>ಯುಗ</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>ವರ್ಷ</displbyNbmf>
+						<rflbtivf typf="-1">ಕೊನೆಯ ವರ್ಷ</rflbtivf>
+						<rflbtivf typf="0">ಈ ವರ್ಷ</rflbtivf>
+						<rflbtivf typf="1">ಮುಂದಿನ ವರ್ಷ</rflbtivf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf>ತಿಂಗಳು</displbyNbmf>
+						<rflbtivf typf="-1">ಕಳೆದ ತಿಂಗಳು</rflbtivf>
+						<rflbtivf typf="0">ಈ ತಿಂಗಳು</rflbtivf>
+						<rflbtivf typf="1">ಮುಂದಿನ ತಿಂಗಳು</rflbtivf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>ವಾರ</displbyNbmf>
+						<rflbtivf typf="-1">ಕೊನೆಯ ವಾರ</rflbtivf>
+						<rflbtivf typf="0">ಈ ವಾರ</rflbtivf>
+						<rflbtivf typf="1">ಮುಂದಿನ ವಾರ</rflbtivf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>ದಿನ</displbyNbmf>
+						<rflbtivf typf="-2">ಮೊನ್ನೆ</rflbtivf>
+						<rflbtivf typf="-1">ನಿನ್ನೆ</rflbtivf>
+						<rflbtivf typf="0">ಇಂದು</rflbtivf>
+						<rflbtivf typf="1">ನಾಳೆ</rflbtivf>
+						<rflbtivf typf="2">ನಾಡಿದ್ದು</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>ವಾರದ ದಿನ</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>ಪೂರ್ವಾಹ್ನ/ಅಪರಾಹ್ನ</displbyNbmf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf>ಗಂಟೆ</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>ನಿಮಿಷ</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>ಸೆಕೆಂಡ್</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>ಸಮಯ ವಲಯ:</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<hourFormbt>+HH:mm;-HH:mm</hourFormbt>
+			<rfgionFormbt>{0} ಸಮಯ</rfgionFormbt>
+			<fbllbbdkRfgionFormbt>{1} ಸಮಯ ({0})</fbllbbdkRfgionFormbt>
+			<zonf typf="Amfridb/North_Dbkotb/Bfulbh">
+				<fxfmplbrCity>ಬೆವುಲಾ ಉತ್ತರ ಡೆಕೊತಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity>ಅಜ್ಞಾತ ನಗರ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Andorrb">
+				<fxfmplbrCity>ಅಂಡೋರಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dubbi">
+				<fxfmplbrCity>ದುಬೈ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbbul">
+				<fxfmplbrCity>ಕಾಬೂಲ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Antigub">
+				<fxfmplbrCity>ಆಂಟಿಗುವಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Anguillb">
+				<fxfmplbrCity>ಅಂಗುಲ್ಲಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tirbnf">
+				<fxfmplbrCity>ಟಿರಾನೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfrfvbn">
+				<fxfmplbrCity>ಯೆರಿವಾನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Curbdbo">
+				<fxfmplbrCity>ಕ್ಯುರಾಕೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubndb">
+				<fxfmplbrCity>ಲುವಾಂಡಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Rothfrb">
+				<fxfmplbrCity>ರೊಥೇರಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Pblmfr">
+				<fxfmplbrCity>ಪಾಲ್ಮರ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/South_Polf">
+				<fxfmplbrCity>ದಕ್ಷಿಣ ಧ್ರುವ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Syowb">
+				<fxfmplbrCity>ಸ್ಯೋವಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Mbwson">
+				<fxfmplbrCity>ಮಾವ್ಸನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Dbvis">
+				<fxfmplbrCity>ಡೇವೀಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Vostok">
+				<fxfmplbrCity>ವೋಸ್ಟೋಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Cbsfy">
+				<fxfmplbrCity>ಕೇಸಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/DumontDUrvillf">
+				<fxfmplbrCity>ದುಮೋಂದ್‌ ಉರ್ವಿಯೇ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/MdMurdo">
+				<fxfmplbrCity>ಮ್ಯಾಕ್ಮುರ್ಡೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Rio_Gbllfgos">
+				<fxfmplbrCity>ರಿಯೋ ಗಯೇಗೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfndozb">
+				<fxfmplbrCity>ಮೆಂಡೊಜಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Jubn">
+				<fxfmplbrCity>ಸೇನ್‌‌ ಜುವಾನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Ushubib">
+				<fxfmplbrCity>ಉಶ್ವಾಯ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Lb_Riojb">
+				<fxfmplbrCity>ಲ ರ‍್ಯಾವ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Luis">
+				<fxfmplbrCity>ಸೇನ್‌‌ ಲೂಯಿಸ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbtbmbrdb">
+				<fxfmplbrCity>ಕಟಮಾರ್ಕ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbltb">
+				<fxfmplbrCity>ಸಾಲ್ಟಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jujuy">
+				<fxfmplbrCity>ಹೂಹ್ವೀ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Tudumbn">
+				<fxfmplbrCity>ಟುಕುಮಾನ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cordobb">
+				<fxfmplbrCity>ಕೊರ್ಡೊಬಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bufnos_Airfs">
+				<fxfmplbrCity>ಬ್ಯೂನಸ್ ಏರಿಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pbgo_Pbgo">
+				<fxfmplbrCity>ಪಾಗೊ ಪಾಗೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vifnnb">
+				<fxfmplbrCity>ವಿಯೆನ್ನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Pfrth">
+				<fxfmplbrCity>ಪರ್ಥ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Eudlb">
+				<fxfmplbrCity>ಯುಕ್ಲಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Dbrwin">
+				<fxfmplbrCity>ಡಾರ್ವಿನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Adflbidf">
+				<fxfmplbrCity>ಅಡಿಲೇಡ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brokfn_Hill">
+				<fxfmplbrCity>ಬ್ರೊಕನ್‌ ಹಿಲ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Currif">
+				<fxfmplbrCity>ಕರೀ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Mflbournf">
+				<fxfmplbrCity>ಮೆಲ್ಬೋರ್ನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Hobbrt">
+				<fxfmplbrCity>ಹೋಬರ್ಟ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lindfmbn">
+				<fxfmplbrCity>ಲಿಂದಮಾನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Sydnfy">
+				<fxfmplbrCity>ಸಿಡ್ನಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brisbbnf">
+				<fxfmplbrCity>ಬ್ರಿಸ್ಬೇನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lord_Howf">
+				<fxfmplbrCity>ಲಾರ್ಡ್‌ ಹೋವ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arubb">
+				<fxfmplbrCity>ಅರುಬಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbrifhbmn">
+				<fxfmplbrCity>ಮರೀಯಾಹಾಮನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbku">
+				<fxfmplbrCity>ಬಕು</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbrbjfvo">
+				<fxfmplbrCity>ಸರಜೆವೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbrbbdos">
+				<fxfmplbrCity>ಬಾರ್ಬಡೋಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dhbkb">
+				<fxfmplbrCity>ಢಾಕಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brussfls">
+				<fxfmplbrCity>ಬ್ರಸ್ಸೆಲ್ಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Oubgbdougou">
+				<fxfmplbrCity>ಔಗಾಡೋಗು</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sofib">
+				<fxfmplbrCity>ಸೋಫಿಯಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbhrbin">
+				<fxfmplbrCity>ಬಹ್ರೇನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bujumburb">
+				<fxfmplbrCity>ಬುಜುಂಬುರಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Porto-Novo">
+				<fxfmplbrCity>ಪೋರ್ಟೋ-ನೋವೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Bbrthflfmy">
+				<fxfmplbrCity>ಸೇಂಟ್‌ ಬಾರ್ತೆಲೆಮಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Bfrmudb">
+				<fxfmplbrCity>ಬರ್ಮುಡಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Brunfi">
+				<fxfmplbrCity>ಬ್ರೂನಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Lb_Pbz">
+				<fxfmplbrCity>ಲಾ ಪೆಜ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Eirunfpf">
+				<fxfmplbrCity>ಇರುನಿಪೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rio_Brbndo">
+				<fxfmplbrCity>ರಿಯೋ ಬ್ರ್ಯಾಂಕೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Porto_Vflho">
+				<fxfmplbrCity>ಪೋರ್ಟೊ ವೆಲ್ಹೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bob_Vistb">
+				<fxfmplbrCity>ಬೋವವೀಸ್ತಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbus">
+				<fxfmplbrCity>ಮನಾವ್ಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cuibbb">
+				<fxfmplbrCity>ಕ್ಯೂಇಬಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbntbrfm">
+				<fxfmplbrCity>ಸೇನ್‌‌ ತುರೆಮ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmpo_Grbndf">
+				<fxfmplbrCity>ಕಾಂಪೋ ಗ್ರಾಂದ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflfm">
+				<fxfmplbrCity>ಬೇಲೆಂ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arbgubinb">
+				<fxfmplbrCity>ಅರಾಗುಯಾನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbo_Pbulo">
+				<fxfmplbrCity>ಸಾವ್ ಪಾಲೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbhib">
+				<fxfmplbrCity>ಬಹೀಯಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Fortblfzb">
+				<fxfmplbrCity>ಫೊರ್ಟಲೆಜಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbdfio">
+				<fxfmplbrCity>ಮೆಸೀಯೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfdiff">
+				<fxfmplbrCity>ರೆಸೀಫಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Noronhb">
+				<fxfmplbrCity>ನೊರೊನ್ಹಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nbssbu">
+				<fxfmplbrCity>ನಸ್ಸೂವಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Thimphu">
+				<fxfmplbrCity>ಥಿಂಪು</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Gbboronf">
+				<fxfmplbrCity>ಗ್ಯಾಬರೋನೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Minsk">
+				<fxfmplbrCity>ಮಿನ್‌ಸ್ಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflizf">
+				<fxfmplbrCity>ಬೆಲೀಜ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson">
+				<fxfmplbrCity>ಡಾಸನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Whitfhorsf">
+				<fxfmplbrCity>ವೈಟ್‌ ಹಾರ್ಸ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Inuvik">
+				<fxfmplbrCity>ಇನೂವಿಕ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Vbndouvfr">
+				<fxfmplbrCity>ವ್ಯಾನ್‌ಕೂವರ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson_Crffk">
+				<fxfmplbrCity>ಡಾಸನ್‌ ಕ್ರೀಕ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Yfllowkniff">
+				<fxfmplbrCity>ಎಲ್ಲೋನೈಫ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Edmonton">
+				<fxfmplbrCity>ಎದ್ಮೊಂಟನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Swift_Currfnt">
+				<fxfmplbrCity>ಸ್ವಿಫ್ಟ್‌‌ ಕರೆಂಟ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmbridgf_Bby">
+				<fxfmplbrCity>ಕ್ಯಾಂಬ್ರಿಡ್ಜ್‌ ಬೇ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfginb">
+				<fxfmplbrCity>ರೆಜಿನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Winnipfg">
+				<fxfmplbrCity>ವಿನ್ನಿಪೆಗ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfsolutf">
+				<fxfmplbrCity>ರೆಸೊಲ್ಯೂಟ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbiny_Rivfr">
+				<fxfmplbrCity>ಮಳೆಯ ನದಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbnkin_Inlft">
+				<fxfmplbrCity>ರಂಕಿನ್‌ ಇನ್‌ಲೆಟ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Corbl_Hbrbour">
+				<fxfmplbrCity>ಅತಿಕೊಕನ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Thundfr_Bby">
+				<fxfmplbrCity>ಥಂಡರ್‌ ಬೇ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nipigon">
+				<fxfmplbrCity>ನಿಪಗಾನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Toronto">
+				<fxfmplbrCity>ಟೊರೊಂಟೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montrfbl">
+				<fxfmplbrCity>ಮೊಂತ್ರೆಯಲ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Iqbluit">
+				<fxfmplbrCity>ಇಕಾಲ್ವೆಟ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbngnirtung">
+				<fxfmplbrCity>ಪಾಂಗ್‌ನುತುಂಗ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mondton">
+				<fxfmplbrCity>ಮಾಂಕ್ಟನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hblifbx">
+				<fxfmplbrCity>ಹ್ಯಾಲಿಫ್ಯಾಕ್ಸ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Goosf_Bby">
+				<fxfmplbrCity>ಗೂಸ್‌ಬೇ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Glbdf_Bby">
+				<fxfmplbrCity>ಗ್ಲೇಸ್‌ ಬೇ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Blbnd-Sbblon">
+				<fxfmplbrCity>ಬ್ಲಾಂಕ್‌-ಸಬ್ಲೊನ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Johns">
+				<fxfmplbrCity>ಸೇಂಟ್‌‌.ಜಾನ್ಸ್‌‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Codos">
+				<fxfmplbrCity>ಕೊಕೋಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kinshbsb">
+				<fxfmplbrCity>ಕಿನ್ಷಾಸಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubumbbshi">
+				<fxfmplbrCity>ಲುಬುಂಬಾಶಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbngui">
+				<fxfmplbrCity>ಬಾಂಗಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Brbzzbvillf">
+				<fxfmplbrCity>ಬ್ರೆಜಾವೀಲ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zuridh">
+				<fxfmplbrCity>ಜ್ಯೂರಿಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Abidjbn">
+				<fxfmplbrCity>ಅಬಿಜಾನ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Rbrotongb">
+				<fxfmplbrCity>ರರೋಟೋಂಗಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ebstfr">
+				<fxfmplbrCity>ಈಸ್ಟರ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbntibgo">
+				<fxfmplbrCity>ಸ್ಯಾಂಟಿಯಾಗೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Doublb">
+				<fxfmplbrCity>ದೌಲಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbshgbr">
+				<fxfmplbrCity>ಕಾಶ್ಗಾರ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Urumqi">
+				<fxfmplbrCity>ಯೂರ‍್ಯೂಮ್‌ಚೀ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Chongqing">
+				<fxfmplbrCity>ಚೋಂಗ್‌ಕಿಂಗ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Shbnghbi">
+				<fxfmplbrCity>ಶಾಂಗೈ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hbrbin">
+				<fxfmplbrCity>ಹರ್ಬೆನ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bogotb">
+				<fxfmplbrCity>ಬೊಗೋಟ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Costb_Ridb">
+				<fxfmplbrCity>ಕೋಸ್ಟಾ ರಿಕಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hbvbnb">
+				<fxfmplbrCity>ಹವಾನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbpf_Vfrdf">
+				<fxfmplbrCity>ಕೇಪ್ ವೆರ್ಡ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Christmbs">
+				<fxfmplbrCity>ಕ್ರಿಸ್ಮಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Nidosib">
+				<fxfmplbrCity>ನಿಕೋಸಿಯಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Prbguf">
+				<fxfmplbrCity>ಪ್ರಾಗ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bfrlin">
+				<fxfmplbrCity>ಬರ್ಲಿನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Djibouti">
+				<fxfmplbrCity>ಡಿಬೌಟಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Copfnhbgfn">
+				<fxfmplbrCity>ಕೋಪೆನ್‌ಹೆಗನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dominidb">
+				<fxfmplbrCity>ಡೊಮಿನಿಕಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbnto_Domingo">
+				<fxfmplbrCity>ಸ್ಯಾಂಟೋ ಡೊಮಿಂಗೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Algifrs">
+				<fxfmplbrCity>ಅಲ್ಗೀರ್ಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gblbpbgos">
+				<fxfmplbrCity>ಗಲಾಪಗೋಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubybquil">
+				<fxfmplbrCity>ಗುಯಾಕ್ವಿಲ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tbllinn">
+				<fxfmplbrCity>ಟ್ಯಾಲೆನ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbiro">
+				<fxfmplbrCity>ಕೈರೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/El_Abiun">
+				<fxfmplbrCity>ಎಲ್ ಔನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Asmfrb">
+				<fxfmplbrCity>ಅಸ್ಮಾರಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbnbry">
+				<fxfmplbrCity>ಕ್ಯಾನರಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cfutb">
+				<fxfmplbrCity>ಸೆಯುಟಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbdrid">
+				<fxfmplbrCity>ಮ್ಯಾಡ್ರಿಡ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addis_Abbbb">
+				<fxfmplbrCity>ಆಡಿಸ್ ಅಬಾಬಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Hflsinki">
+				<fxfmplbrCity>ಹೆಲ್ಸಿಂಕಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fiji">
+				<fxfmplbrCity>ಫಿಜಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Stbnlfy">
+				<fxfmplbrCity>ಸ್ಟಾನ್ಲಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Truk">
+				<fxfmplbrCity>ಚುಕ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ponbpf">
+				<fxfmplbrCity>ಪೊನ್‌ಪಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kosrbf">
+				<fxfmplbrCity>ಕೋಸ್ರೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Fbfrof">
+				<fxfmplbrCity>ಫ್ಯಾರೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Pbris">
+				<fxfmplbrCity>ಪ್ಯಾರಿಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Librfvillf">
+				<fxfmplbrCity>ಲಿಬ್ರೆವೀಲ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/London">
+				<fxfmplbrCity>ಲಂಡನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grfnbdb">
+				<fxfmplbrCity>ಗ್ರೆನೇಡಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbilisi">
+				<fxfmplbrCity>ತ್ಯುಬಿಲ್ಸಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbyfnnf">
+				<fxfmplbrCity>ಕೆಯೆನಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gufrnsfy">
+				<fxfmplbrCity>ಗುರ್ನ್ಜೀ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addrb">
+				<fxfmplbrCity>ಅಕ್ರಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gibrbltbr">
+				<fxfmplbrCity>ಜಿಬ್ರಾಲ್ಟರ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Thulf">
+				<fxfmplbrCity>ಥೂಲೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Godthbb">
+				<fxfmplbrCity>ಗೋಡ್ಥಾಬ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sdorfsbysund">
+				<fxfmplbrCity>‍ಸ್ಕೋರ್ಸಬಿಸಂದ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbnmbrkshbvn">
+				<fxfmplbrCity>ಡೆನ್ಮಾರ್ಕ್‌ಶಾವನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbnjul">
+				<fxfmplbrCity>ಬಂಜುಲ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Conbkry">
+				<fxfmplbrCity>ಕೊನಾಕ್ರಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubdfloupf">
+				<fxfmplbrCity>ಗ್ವಾಡೆಲೋಪ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mblbbo">
+				<fxfmplbrCity>ಮಲಾಬೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Athfns">
+				<fxfmplbrCity>ಅಥೆನ್ಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/South_Gforgib">
+				<fxfmplbrCity>ದಕ್ಷಿಣ ಜಾರ್ಜಿಯಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubtfmblb">
+				<fxfmplbrCity>ಗ್ವಾಟೆಮಾಲಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubm">
+				<fxfmplbrCity>ಗ್ವಾಮ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bissbu">
+				<fxfmplbrCity>ಬಿಸ್ಸಾವ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Guybnb">
+				<fxfmplbrCity>ಗಯಾನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hong_Kong">
+				<fxfmplbrCity>ಹಾಂಗ್ ಕಾಂಗ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tfgudigblpb">
+				<fxfmplbrCity>ತೆಗುಸಿಗಲ್ಪಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbgrfb">
+				<fxfmplbrCity>ಜಾಗ್ರೆಬ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Port-bu-Prindf">
+				<fxfmplbrCity>ಪೋರ್ಟ್-ಒ-ಪ್ರಿನ್ಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budbpfst">
+				<fxfmplbrCity>ಬುಡಾಪೆಸ್ಟ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbkbrtb">
+				<fxfmplbrCity>ಜಕಾರ್ತಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pontibnbk">
+				<fxfmplbrCity>ಪಾಂಟಿಯಾನಾಕ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbkbssbr">
+				<fxfmplbrCity>ಮೆಕಾಸ್ಸರ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbybpurb">
+				<fxfmplbrCity>ಜಯಪುರ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Dublin">
+				<fxfmplbrCity>ಡುಬ್ಲಿನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jfrusblfm">
+				<fxfmplbrCity>ಜೆರುಸಲೆಮ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Islf_of_Mbn">
+				<fxfmplbrCity>ಐಲ್ ಆಫ್ ಮ್ಯಾನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Cblduttb">
+				<fxfmplbrCity>ಕೊಲ್ಕತ್ತಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Chbgos">
+				<fxfmplbrCity>ಚಾಗೊಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbghdbd">
+				<fxfmplbrCity>ಬಾಗ್ದಾದ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tfhrbn">
+				<fxfmplbrCity>ತೆಹ್ರಾನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Rfykjbvik">
+				<fxfmplbrCity>ರೈಕ್ಜಾವಿಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Romf">
+				<fxfmplbrCity>ರೋಮ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Jfrsfy">
+				<fxfmplbrCity>ಜೆರ್ಸಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jbmbidb">
+				<fxfmplbrCity>ಜಮೈಕಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ammbn">
+				<fxfmplbrCity>ಅಮ್ಮಾನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tokyo">
+				<fxfmplbrCity>ಟೋಕಿಯೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nbirobi">
+				<fxfmplbrCity>ನೈರೋಬಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bishkfk">
+				<fxfmplbrCity>ಬಿಶ್ಕೆಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Phnom_Pfnh">
+				<fxfmplbrCity>ನೋಮ್ ಪೆನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Endfrbury">
+				<fxfmplbrCity>ಎಂಡರ್ಬರಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kiritimbti">
+				<fxfmplbrCity>ಕಿರಿಸ್‌ಮಸ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbrbwb">
+				<fxfmplbrCity>ತರಾವಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Comoro">
+				<fxfmplbrCity>ಕೊಮೋರೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Kitts">
+				<fxfmplbrCity>ಸೇಂಟ್ ಕಿಟ್ಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pyongybng">
+				<fxfmplbrCity>ಪ್ಯಾಂಗ್ಂಯೇ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sfoul">
+				<fxfmplbrCity>ಸಿಯೋಲ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kuwbit">
+				<fxfmplbrCity>ಕುವೈತ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbymbn">
+				<fxfmplbrCity>ಕೇಮನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtbu">
+				<fxfmplbrCity>ಅಕ್ತಾವ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Orbl">
+				<fxfmplbrCity>ಓರಲ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtobf">
+				<fxfmplbrCity>ಅಕ್ಟೋಬೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qyzylordb">
+				<fxfmplbrCity>ಕಿಜೈಲೋರ್ದ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Almbty">
+				<fxfmplbrCity>ಅಲ್ಮಾಟಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vifntibnf">
+				<fxfmplbrCity>ವಿಯೆಂಟಿಯಾನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bfirut">
+				<fxfmplbrCity>ಬೀರಟ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Ludib">
+				<fxfmplbrCity>ಸೇಂಟ್ ಲೂಸಿಯಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbduz">
+				<fxfmplbrCity>ವಡೂಜ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Colombo">
+				<fxfmplbrCity>ಕೊಲಂಬೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Monrovib">
+				<fxfmplbrCity>ಮೊನ್ರೋವಿಯಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbsfru">
+				<fxfmplbrCity>ಮಸೇರು</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vilnius">
+				<fxfmplbrCity>ವಿಲ್ನಿಯಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Luxfmbourg">
+				<fxfmplbrCity>ಲಕ್ಸೆಂಬರ್ಗ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Rigb">
+				<fxfmplbrCity>ರಿಗಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tripoli">
+				<fxfmplbrCity>ಟ್ರೈಪೋಲಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbsbblbndb">
+				<fxfmplbrCity>ಕಾಸಾಬ್ಲಾಂಕಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Monbdo">
+				<fxfmplbrCity>ಮೊನಾಕೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Chisinbu">
+				<fxfmplbrCity>ಚಿಸಿನಾವ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Podgoridb">
+				<fxfmplbrCity>ಪೊದ್ಗೊರಿಸಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrigot">
+				<fxfmplbrCity>ಮರಿಗೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Antbnbnbrivo">
+				<fxfmplbrCity>ಅಂಟಾನನಾರಿವೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kwbjblfin">
+				<fxfmplbrCity>ಕ್ವಾಜಲೇನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbjuro">
+				<fxfmplbrCity>ಮಜುರೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Skopjf">
+				<fxfmplbrCity>ಸ್ಕಾಪಿಯಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbmbko">
+				<fxfmplbrCity>ಬಮಾಕೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Rbngoon">
+				<fxfmplbrCity>ರಂಗೂನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hovd">
+				<fxfmplbrCity>ಹೋವ್ಡ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ulbbnbbbtbr">
+				<fxfmplbrCity>ಉಲಾನ್ಬಾತರ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Choibblsbn">
+				<fxfmplbrCity>ಚೊಯ್ಬಾಲ್ಸನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbdbu">
+				<fxfmplbrCity>ಮಖಾವ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Sbipbn">
+				<fxfmplbrCity>ಸೈಪನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrtiniquf">
+				<fxfmplbrCity>ಮಾರ್ಟಿನಿಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Noubkdhott">
+				<fxfmplbrCity>ನೌವಾಕ್‌ಚೋಟ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montsfrrbt">
+				<fxfmplbrCity>ಮಾಂಟ್‌ಸೆರೇಟ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbltb">
+				<fxfmplbrCity>ಮಾಲ್ಟಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mburitius">
+				<fxfmplbrCity>ಮಾರಿಶಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbldivfs">
+				<fxfmplbrCity>ಮಾಲ್ಡೀವ್ಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Blbntyrf">
+				<fxfmplbrCity>ಬ್ಲ್ಯಾಂಟೈರ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tijubnb">
+				<fxfmplbrCity>ತಿಜ್ವಾನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hfrmosillo">
+				<fxfmplbrCity>ಹರ್ಮೊಸಿಲ್ಲೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbzbtlbn">
+				<fxfmplbrCity>ಮಜಾತ್ಲಾನ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Chihubhub">
+				<fxfmplbrCity>ಚಿವಾವ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfrrfy">
+				<fxfmplbrCity>ಮಾಂತುರೇ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfxido_City">
+				<fxfmplbrCity>ಮೆಕ್ಸಿಕೋ ನಗರ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfridb">
+				<fxfmplbrCity>ಮೆರಿದಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbndun">
+				<fxfmplbrCity>ಕಾನ್‌ಕೂನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kublb_Lumpur">
+				<fxfmplbrCity>ಕೌಲಾ ಲಂಪುರ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kudhing">
+				<fxfmplbrCity>ಕುಚಿಂಗ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbputo">
+				<fxfmplbrCity>ಮ್ಯಾಪುಟೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Windhofk">
+				<fxfmplbrCity>ವಿಂಡ್ಹೋಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Noumfb">
+				<fxfmplbrCity>ನ್ಯೂಮಿಯಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nibmfy">
+				<fxfmplbrCity>ನಿಯಾಮೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Norfolk">
+				<fxfmplbrCity>ನಾರ್ಫೋಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lbgos">
+				<fxfmplbrCity>ಲಾಗೋಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbgub">
+				<fxfmplbrCity>ಮನಾಗುವಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Amstfrdbm">
+				<fxfmplbrCity>ಆಮ್‌ಸ್ಟರ್‌ಡ್ಯಾಮ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Oslo">
+				<fxfmplbrCity>ಓಸ್ಲೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbtmbndu">
+				<fxfmplbrCity>ಕಠಮಂಡು</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Nburu">
+				<fxfmplbrCity>ನೌರು</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Niuf">
+				<fxfmplbrCity>ನಿಯು</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Chbthbm">
+				<fxfmplbrCity>ಶಾತಮ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Audklbnd">
+				<fxfmplbrCity>ಆಕ್ ಲ್ಯಾಂಡ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Musdbt">
+				<fxfmplbrCity>ಮಸ್ಕತ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbnbmb">
+				<fxfmplbrCity>ಪನಾಮಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Limb">
+				<fxfmplbrCity>ಲಿಮಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbhiti">
+				<fxfmplbrCity>ತಹಿತಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbrqufsbs">
+				<fxfmplbrCity>ಮಾರ್ಕ್ಯೂಸಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gbmbifr">
+				<fxfmplbrCity>ಗ್ಯಾಂಬಿಯರ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Port_Morfsby">
+				<fxfmplbrCity>ಪೋರ್ಟ್ ಮೋರ್ಸ್‌ಬೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbnilb">
+				<fxfmplbrCity>ಮನಿಲಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbrbdhi">
+				<fxfmplbrCity>ಕರಾಚಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Wbrsbw">
+				<fxfmplbrCity>ವಾರ್ಸಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Miquflon">
+				<fxfmplbrCity>ಮಿಕೆಲಾನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pitdbirn">
+				<fxfmplbrCity>ಪಿಟ್‌ಕೈರ್ನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pufrto_Rido">
+				<fxfmplbrCity>ಪ್ಯುರ್ಟೋ ರಿಕೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Gbzb">
+				<fxfmplbrCity>ಗಾಜಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Azorfs">
+				<fxfmplbrCity>ಅಝೋರಿಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Mbdfirb">
+				<fxfmplbrCity>ಮೆಡಿರಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Lisbon">
+				<fxfmplbrCity>ಲಿಸ್ಬನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pblbu">
+				<fxfmplbrCity>ಪಾಲಾವ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Asundion">
+				<fxfmplbrCity>ಅಸೂನ್ಷನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qbtbr">
+				<fxfmplbrCity>ಖತಾರ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Rfunion">
+				<fxfmplbrCity>ರಿಯೂನಿಯನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budhbrfst">
+				<fxfmplbrCity>ಬುಕಾರೆಸ್ಟ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bflgrbdf">
+				<fxfmplbrCity>ಬೆಲ್‌ಗ್ರಾದ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kbliningrbd">
+				<fxfmplbrCity>ಕಲೀನನ್‌ಗ್ರಾದ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mosdow">
+				<fxfmplbrCity>ಮಾಸ್ಕೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Volgogrbd">
+				<fxfmplbrCity>ವೊಲ್ಗೊಗ್ರಾದ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbmbrb">
+				<fxfmplbrCity>ಸಮರ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfkbtfrinburg">
+				<fxfmplbrCity>ಯಿಕಟೆರೆನ್‌ಬರ್ಗ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Omsk">
+				<fxfmplbrCity>ಓಮ್‌ಸ್ಕ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Novosibirsk">
+				<fxfmplbrCity>ನವೊಸ್‌ಬಿಸರ್ಕ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Krbsnoybrsk">
+				<fxfmplbrCity>ಕ್ರಾಸ್ನಿಯಾರ್ಸ್ಕ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Irkutsk">
+				<fxfmplbrCity>ಇರ್ಕುತ್ಸಕ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ybkutsk">
+				<fxfmplbrCity>ಯಕುತ್ಸಕ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vlbdivostok">
+				<fxfmplbrCity>ವ್ಲ್ಯಾದಿವೊಸ್ತೊಕ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbkhblin">
+				<fxfmplbrCity>ಶಾಕಲಿನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbgbdbn">
+				<fxfmplbrCity>ಮಘದಾನ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbmdhbtkb">
+				<fxfmplbrCity>ಕಮ್ಚತ್ಕ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Anbdyr">
+				<fxfmplbrCity>ಅನಡೀರ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kigbli">
+				<fxfmplbrCity>ಕಿಗಾಲಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Riybdh">
+				<fxfmplbrCity>ರಿಯಾದ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubdbldbnbl">
+				<fxfmplbrCity>ಗ್ವಾಡಲ್ಕೆನಾಲ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbhf">
+				<fxfmplbrCity>ಮಾಹೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Khbrtoum">
+				<fxfmplbrCity>ಖರ್ಟೋಮ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Stodkholm">
+				<fxfmplbrCity>ಸ್ಟಾಕ್ಹೋಮ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Singbporf">
+				<fxfmplbrCity>ಸಿಂಗಾಪೂರ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/St_Hflfnb">
+				<fxfmplbrCity>ಸೇಂಟ್ ಹೆಲೆನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Ljubljbnb">
+				<fxfmplbrCity>ಲ್ಯೂಬ್ಲ್ಯಾನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Ardtid/Longyfbrbyfn">
+				<fxfmplbrCity>ಲಾಂಗಿಯರ್‌ಬೇ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brbtislbvb">
+				<fxfmplbrCity>ಬ್ರಾಟಿಸ್ಲಾವ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Frfftown">
+				<fxfmplbrCity>ಫ್ರೀಟೌನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbn_Mbrino">
+				<fxfmplbrCity>ಸೇನ್‌‌ ಮೆರಿನೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbkbr">
+				<fxfmplbrCity>ಡಾಕರ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mogbdishu">
+				<fxfmplbrCity>ಮೊಗಾದಿಶು</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbrbmbribo">
+				<fxfmplbrCity>ಪರಮಾರಿಬೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Sbo_Tomf">
+				<fxfmplbrCity>ಸಾವೋ ಟೋಮ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/El_Sblvbdor">
+				<fxfmplbrCity>ಎಲ್ ಸಾಲ್ವಡೋರ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dbmbsdus">
+				<fxfmplbrCity>ಡಮಾಸ್ಕಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbbbbnf">
+				<fxfmplbrCity>ಅಂಬಬಾನೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grbnd_Turk">
+				<fxfmplbrCity>ಗ್ರ್ಯಾಂಡ್ ಟರ್ಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Ndjbmfnb">
+				<fxfmplbrCity>ಅನ್‌ಜಮೇನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Kfrguflfn">
+				<fxfmplbrCity>ಕೆರ್ಗ್ಯುಲೆನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lomf">
+				<fxfmplbrCity>ಲೋಮ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbngkok">
+				<fxfmplbrCity>ಬ್ಯಾಂಕಾಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dushbnbf">
+				<fxfmplbrCity>ದುಶಾಂಬೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fbkbofo">
+				<fxfmplbrCity>ಫಕೋಫೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dili">
+				<fxfmplbrCity>ದಿಲಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ashgbbbt">
+				<fxfmplbrCity>ಅಶ್ಗಬಾತ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tunis">
+				<fxfmplbrCity>ಟುನೀಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tongbtbpu">
+				<fxfmplbrCity>ಟೊಂಗಾಟಾಪು</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Istbnbul">
+				<fxfmplbrCity>ಇಸ್ತಾಂಬುಲ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Port_of_Spbin">
+				<fxfmplbrCity>ಪೋರ್ಟ್ ಆಫ್ ಸ್ಪೇನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Funbfuti">
+				<fxfmplbrCity>ಫುನಾಫುಟಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbipfi">
+				<fxfmplbrCity>ತೈಪೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbr_fs_Sblbbm">
+				<fxfmplbrCity>ಡಾರ್ ಎಸ್ ಸಲಾಮ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Uzhgorod">
+				<fxfmplbrCity>ಉಝ್‌‌ಗೊರದ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kifv">
+				<fxfmplbrCity>ಕಿವ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Simffropol">
+				<fxfmplbrCity>ಸಿಂಫರೋಪಲ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbporozhyf">
+				<fxfmplbrCity>ಜಾಪರೀಝಿಯಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kbmpblb">
+				<fxfmplbrCity>ಕಂಪಾಲಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Midwby">
+				<fxfmplbrCity>ಮಿಡ್‌ವೇ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Johnston">
+				<fxfmplbrCity>ಜಾನ್‌ಸ್ಟನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbkf">
+				<fxfmplbrCity>ವೇಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Adbk">
+				<fxfmplbrCity>ಅಡಕ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nomf">
+				<fxfmplbrCity>ನೋಮ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Honolulu">
+				<fxfmplbrCity>ಹೊನಲುಲು</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Andhorbgf">
+				<fxfmplbrCity>ಆಂಕೊರೇಜ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ybkutbt">
+				<fxfmplbrCity>ಯಕುತತ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Junfbu">
+				<fxfmplbrCity>ಜ್ಯುನಾವ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Los_Angflfs">
+				<fxfmplbrCity>ಲಾಸ್‌ ಏಂಜೆಲ್ಸ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Boisf">
+				<fxfmplbrCity>ಬ್ವಾಸಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Phofnix">
+				<fxfmplbrCity>ಫೀನಿಕ್ಸ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Shiprodk">
+				<fxfmplbrCity>ಶಿಪ್ರಾಕ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dfnvfr">
+				<fxfmplbrCity>ದೆನ್ವರ್‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/North_Dbkotb/Nfw_Sblfm">
+				<fxfmplbrCity>ನ್ಯೂ ಸಲೇಮ್‌, ಡೆಕೊತಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/North_Dbkotb/Cfntfr">
+				<fxfmplbrCity>ಕೇಂದ್ರ ಉತ್ತರ ಡೆಕೊತಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Chidbgo">
+				<fxfmplbrCity>ಶಿಕಾಗೋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfnominff">
+				<fxfmplbrCity>ಮೆನೊಮಿನೀ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vindfnnfs">
+				<fxfmplbrCity>ವೆನ್‌ಸೆನ್ಸ್‌‌, ಇಂಡಿಯಾನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Pftfrsburg">
+				<fxfmplbrCity>ಪೀಟರ್ಸ್‌‌ಬರ್ಗ್‌, ಇಂಡಿಯಾನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Tfll_City">
+				<fxfmplbrCity>ಟೆಲ್‌ ಸಿಟಿ, ಇಂಡಿಯಾನ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Knox">
+				<fxfmplbrCity>ನಾಕ್ಸ್‌‌, ಇಂಡಿಯಾನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Winbmbd">
+				<fxfmplbrCity>ವಿನಮ್ಯಾಕ್‌, ಇಂಡಿಯಾನ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Mbrfngo">
+				<fxfmplbrCity>ಮಾರೆಂಗೋ, ಇಂಡಿಯಾನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnbpolis">
+				<fxfmplbrCity>ಇಂಡಿಯಾನಾಪೊಲೀಸ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Louisvillf">
+				<fxfmplbrCity>ಲೂಯಿವಿಲ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vfvby">
+				<fxfmplbrCity>ವಿವೇ‌, ಇಂಡಿಯಾನಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Kfntudky/Montidfllo">
+				<fxfmplbrCity>ಮೊಂಟಿಸೆಲ್ಲೋ, ಕೆಂಟುಕಿ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dftroit">
+				<fxfmplbrCity>ಡಿಟ್ರಾಯ್‌‌</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nfw_York">
+				<fxfmplbrCity>ನ್ಯೂಯಾರ್ಕ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfvidfo">
+				<fxfmplbrCity>ಮಾಂಟಿವೀಡಿಯೊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbmbrkbnd">
+				<fxfmplbrCity>ಸಮರಖಂಡ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbshkfnt">
+				<fxfmplbrCity>ತಾಶ್ಕೆಂಟ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbtidbn">
+				<fxfmplbrCity>ವ್ಯಾಟಿಕನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Vindfnt">
+				<fxfmplbrCity>ಸೇಂಟ್ ವಿನ್ಸೆಂಟ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbrbdbs">
+				<fxfmplbrCity>ಕ್ಯಾರಕಾಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tortolb">
+				<fxfmplbrCity>ಟಾರ್ಟೊಲಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Thombs">
+				<fxfmplbrCity>ಸೆಂಟ್ ಥಾಮಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbigon">
+				<fxfmplbrCity>ಹೊ ಚಿ ಮಿನ್‌ ನಗರ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Efbtf">
+				<fxfmplbrCity>ಇಫೇಟ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbllis">
+				<fxfmplbrCity>ವ್ಯಾಲಿಸ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Apib">
+				<fxfmplbrCity>ಅಪಿಯಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Adfn">
+				<fxfmplbrCity>ಅಡೆನ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbyottf">
+				<fxfmplbrCity>ಮಯೊಟ್ಟೆ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Johbnnfsburg">
+				<fxfmplbrCity>ಜೊಹಾನ್ಸ್‌ಬರ್ಗ್</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lusbkb">
+				<fxfmplbrCity>ಲುಸಾಕಾ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Hbrbrf">
+				<fxfmplbrCity>ಹರಾರೆ</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Adrf">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಏಕರ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಏಕರ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಏಕರ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afghbnistbn">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಅಫ್ಝಾನಿಸ್ತಾನ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Cfntrbl">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಮಧ್ಯ ಆಫ್ರಿಕಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Ebstfrn">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಪೂರ್ವ ಆಫ್ರಿಕಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Southfrn">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ದಕ್ಷಿಣ ಆಫ್ರಿಕಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Wfstfrn">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಪಶ್ಚಿಮ ಆಫ್ರಿಕಾ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಪಶ್ಚಿಮ ಆಫ್ರಿಕಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಪಶ್ಚಿಮ ಆಫ್ರಿಕಾ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Aktyubinsk">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಅಕ್ಟ್ಯುಬಿನ್‌ಸ್ಕ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಅಕ್ಟ್ಯುಬಿನ್‌ಸ್ಕ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಅಕ್ಟ್ಯುಬಿನ್‌ಸ್ಕ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Albskb">
+				<long>
+					<gfnfrid>ಅಲಾಸ್ಕಾ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಅಲಸ್ಕಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>‌ಅಲಾಸ್ಕಾ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Albskb_Hbwbii">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಅಲಾಸ್ಕಾ-ಹವಾಯಿ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಅಲಾಸ್ಕಾ-ಹವಾಯಿ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಅಲಾಸ್ಕಾ-ಹವಾಯಿ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Almbty">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಆಲ್ಮೇಟಿ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಆಲ್ಮೇಟಿ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಆಲ್ಮೇಟಿ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ambzon">
+				<long>
+					<gfnfrid>ಅಮೆಜಾನ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಅಮೇಜಾನ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಅಮೇಜಾನ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+				<long>
+					<gfnfrid>ಕೇಂದ್ರ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಕೇಂದ್ರ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಕೇಂದ್ರ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<long>
+					<gfnfrid>ಪೂರ್ವ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಪೂರ್ವದ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಪೂರ್ವದ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Mountbin">
+				<long>
+					<gfnfrid>ಮೌಂಟೇನ್ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಮೌಂಟೇನ್‌‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಮೌಂಟೇನ್‌ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<long>
+					<gfnfrid>ಪೆಸಿಫಿಕ್ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಪೆಸಿಫಿಕ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಪೆಸಿಫಿಕ್‌ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Anbdyr">
+				<long>
+					<gfnfrid>ಅನಡೀರ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಅನಡೀರ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಅನಡೀರ್‌ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Aqtbu">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಅಕ್ಟೌ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಅಕ್ಟೌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಅಕ್ಟೌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Aqtobf">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಅಕ್ಟೋಬೆ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಅಕ್ಟೋಬೆ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಅಕ್ಟೋಬೆ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Arbbibn">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಅರಬ್ಬಿ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಅರಬ್ಬಿ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಅರಬ್ಬಿ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb">
+				<long>
+					<gfnfrid>ಅರ್ಜೆಂಟಿನಾ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಅರ್ಜೆಂಟಿನಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಅರ್ಜೆಂಟಿನಾ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb_Wfstfrn">
+				<long>
+					<gfnfrid>ಅರ್ಜೆಂಟಿನಾ ಪಶ್ಚಿಮ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಪಶ್ಚಿಮ ಅರ್ಜೆಂಟಿನಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಅರ್ಜೆಂಟಿನಾ ಪಶ್ಚಿಮ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Armfnib">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಅರ್ಮೇನಿಯಾ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಅರ್ಮೇನಿಯಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಅರ್ಮೇನಿಯಾ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ashkhbbbd">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಅಷ್ಕಬಾದ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಅಷ್ಕಬಾದ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಅಷ್ಕಬಾದ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Atlbntid">
+				<long>
+					<gfnfrid>ಅಟ್ಲಾಂಟಿಕ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಅಟ್ಲಾಂಟಿಕ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಅಟ್ಲಾಂಟಿಕ್‌ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Cfntrbl">
+				<long>
+					<gfnfrid>ಕೇಂದ್ರ ಆಸ್ಟ್ರೇಲಿಯಾ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಆಸ್ಟ್ರೇಲಿಯಾದ ಕೇಂದ್ರ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಆಸ್ಟ್ರೇಲಿಯಾದ ಕೇಂದ್ರ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_CfntrblWfstfrn">
+				<long>
+					<gfnfrid>ಆಸ್ಟ್ರೇಲಿಯಾದ ಕೇಂದ್ರ ಪಶ್ಚಿಮ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಆಸ್ಟ್ರೇಲಿಯಾದ ಕೇಂದ್ರ ಪಶ್ಚಿಮ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಆಸ್ಟ್ರೇಲಿಯಾದ ಕೇಂದ್ರ ಪಶ್ಚಿಮ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Ebstfrn">
+				<long>
+					<gfnfrid>ಪೂರ್ವ ಆಸ್ಟ್ರೇಲಿಯಾ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಆಸ್ಟ್ರೇಲಿಯಾದ ಪೂರ್ವ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಪೂರ್ವ ಆಸ್ಟ್ರೇಲಿಯಾದ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Wfstfrn">
+				<long>
+					<gfnfrid>ಪಶ್ಚಿಮ ಆಸ್ಟ್ರೇಲಿಯಾ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಆಸ್ಟ್ರೇಲಿಯಾದ ಪಶ್ಚಿಮ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಆಸ್ಟ್ರೇಲಿಯಾದ ಪಶ್ಚಿಮ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Azfrbbijbn">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಅಜರ್‌ಬೈಜಾನ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಅಜರ್‌ಬೈಜಾನ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಅಜರ್‌ಬೈಜಾನ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Azorfs">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಅಜೋರ್ಸ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಅಜೋರ್ಸ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಅಜೋರ್ಸ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bbku">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಬಾಕೂ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಬಾಕೂ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಬಾಕೂ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bbnglbdfsh">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಬಾಂಗ್ಲಾದೇಶ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಬಾಂಗ್ಲಾದೇಶ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಬಾಂಗ್ಲಾದೇಶ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bfring">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಬೇರಿಂಗ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಬೇರಿಂಗ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಬೇರಿಂಗ್ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bhutbn">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಭೂತಾನ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bolivib">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಬೊಲೀವಿಯಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bornfo">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಬೋರ್ನಿಯೋ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಬೋರ್ನಿಯೋ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಬೋರ್ನಿಯೋ ಪ್ರಮಾಣಿತ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Brbsilib">
+				<long>
+					<gfnfrid>ಬ್ರೆಸಿಲಿಯಾದ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಬ್ರೆಸಿಲಿಯಾದ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಬ್ರೆಸಿಲಿಯಾ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Brunfi">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಬ್ರುನೇಲಿ ದಾರುಸಲಮ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cbpf_Vfrdf">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಕೇಪ್ ವರ್ಡೆ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಕೇಪ್ ವರ್ಡೆ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಕೇಪ್ ವರ್ಡೆ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Chbmorro">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಕೆಮೋರೋ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Chbngbbi">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಚಾಂಗ್‌ಬಾಯ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Chbthbm">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಚಾತಮ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಚಾತಮ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಚಾತಮ್ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Chilf">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಚಿಲಿ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಚಿಲಿ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಚಿಲಿ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Chinb">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಚೀನಾ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಚೀನಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಚೀನಾ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Choibblsbn">
+				<long>
+					<gfnfrid>ಚೊಯ್‌‌ಬಲ್ಸಾನ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಚೊಯ್‌‌ಬಲ್ಸಾನ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಚೊಯ್‌‌ಬಾಲ್ಸನ್‌‌ ಬೇಸಿಗೆ ಕಾಲ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Christmbs">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಕ್ರಿಸ್‌ಮಸ್ ದ್ವೀಪ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Codos">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಕೋಕೋಸ್ ದ್ವೀಪಗಳ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Colombib">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಕೋಲಂಬಿಯಾ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಕೋಲಂಬಿಯಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಕೋಲಂಬಿಯಾ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cook">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಕುಕ್ ದ್ವೀಪಗಳ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಕುಕ್ ದ್ವೀಪಗಳ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಕುಕ್ ದ್ವೀಪಗಳ ಅರ್ಧ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cubb">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಕ್ಯೂಬಾ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಕ್ಯೂಬಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಕ್ಯೂಬಾ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dbddb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಡೆಕ್ಕಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dbvis">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಡೇವಿಸ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="DumontDUrvillf">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಡ್ಯೂಮಂಟ್-ಡೆ’ಉರ್ವಿಲ್ಲೆ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dushbnbf">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ದುಶಾಂಬೆ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ದುಶಾಂಬೆ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ದುಶಾಂಬೆ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dutdh_Guibnb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಡಚ್ ಗಯಾನಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ebst_Timor">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಪೂರ್ವ ತೈಮೂರ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ebstfr">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಈಸ್ಟರ್ ದ್ವೀಪಗಳ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಈಸ್ಟರ್ ದ್ವೀಪಗಳ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಈಸ್ಟರ್ ದ್ವೀಪಗಳ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Edubdor">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಈಕ್ವೆಡಾರ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<long>
+					<gfnfrid>ಕೇಂದ್ರೀಯ ಯೂರೋಪ್ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಕೇಂದ್ರೀಯ ಯೂರೋಪ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಕೇಂದ್ರೀಯ ಯೂರೋಪ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<long>
+					<gfnfrid>ಪೂರ್ವ ಯೂರೋಪ್ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಪೂರ್ವ ಯೂರೋಪ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಪೂರ್ವ ಯೂರೋಪ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Wfstfrn">
+				<long>
+					<gfnfrid>ಪಶ್ಚಿಮ ಯೂರೋಪ್ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಪಶ್ಚಿಮ ಯೂರೋಪ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಪಶ್ಚಿಮ ಯೂರೋಪ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Fblklbnd">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಫಾಕ್‌ಲ್ಯಾಂಡ್ ದ್ವೀಪಗಳ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಫಾಕ್‌ಲ್ಯಾಂಡ್ ದ್ವೀಪಗಳ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಫಾಕ್‌ಲ್ಯಾಂಡ್ ದ್ವೀಪಗಳ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Fiji">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಫಿಜಿ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಫಿಜಿ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಫಿಜಿ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Frfndh_Guibnb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಫ್ರೆಂಚ್ ಗಯಾನಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Frfndh_Southfrn">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಫ್ರೆಂಚ್ ದಕ್ಷಿಣ ಮತ್ತು ಅಂಟಾರ್ಕ್ಟಿಕ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Frunzf">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಫ್ರುಂಜೆ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಫ್ರುಂಜೆ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಫ್ರುಂಜೆ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gblbpbgos">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಗಾಲಪಾಗೋಸ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gbmbifr">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಗ್ಯಾಂಬಿಯರ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gforgib">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಜಾರ್ಜಿಯಾ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಜಾರ್ಜಿಯಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಜಾರ್ಜಿಯಾ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gilbfrt_Islbnds">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಗಿಲ್ಬರ್ಟ್ ದ್ವೀಪಗಳ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="GMT">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಗ್ರೀನ್‌ವಿಚ್ ಸರಾಸರಿ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Cfntrbl">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಕೇಂದ್ರೀಯ ಗ್ರೀನ್‌ಲ್ಯಾಂಡ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಕೇಂದ್ರೀಯ ಗ್ರೀನ್‌ಲ್ಯಾಂಡ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಕೇಂದ್ರೀಯ ಗ್ರೀನ್‌ಲ್ಯಾಂಡ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Ebstfrn">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಪೂರ್ವ ಗ್ರೀನ್‌ಲ್ಯಾಂಡ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಪೂರ್ವ ಗ್ರೀನ್‌ಲ್ಯಾಂಡ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಪೂರ್ವ ಗ್ರೀನ್‌ಲ್ಯಾಂಡ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Wfstfrn">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಪೂರ್ವ ಗ್ರೀನ್‌ಲ್ಯಾಂಡ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಪೂರ್ವ ಗ್ರೀನ್‌ಲ್ಯಾಂಡ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಪಶ್ಚಿಮ ಗ್ರೀನ್‌ಲ್ಯಾಂಡ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gubm">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಗುವಾಮ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gulf">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಗಲ್ಫ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Guybnb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಗಯಾನಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hbwbii_Alfutibn">
+				<long>
+					<gfnfrid>ಹವಾಯಿ ಅಲ್ಯೂಷಿಯನ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಹವಾಯಿ-ಅಲ್ಯೂಶಿಯನ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಹವಾಯಿ-ಅಲ್ಯೂಶಿಯನ್ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hong_Kong">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಹಾಂಗ್‌ಕಾಂಗ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಹಾಂಗ್‌ಕಾಂಗ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಹಾಂಗ್‌ಕಾಂಗ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hovd">
+				<long>
+					<gfnfrid>ಹೋವ್ದ್‌‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಹೋವ್ದ್‌‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಹೋವ್ಡ್‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indib">
+				<long>
+					<stbndbrd>ಭಾರತೀಯ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+				</long>
+				<short>
+					<stbndbrd>IST</stbndbrd>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Indibn_Odfbn">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಹಿಂದೂ ಮಹಾಸಾಗರ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indodhinb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಇಂಡೋಚೈನಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Cfntrbl">
+				<long>
+					<stbndbrd>ಇಂಡೊನೇಷ್ಯಾ ಕೇಂದ್ರ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Ebstfrn">
+				<long>
+					<stbndbrd>ಇಂಡೊನೇಷ್ಯಾ ಪೂರ್ವ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Wfstfrn">
+				<long>
+					<stbndbrd>ಪಶ್ಚಿಮ ಇಂಡೋನೇಷ್ಯಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Irbn">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಇರಾನ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಇರಾನ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಇರಾನ್ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Irkutsk">
+				<long>
+					<gfnfrid>ಇರಕೂತ್ಸಕ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಇರಕೂತ್ಸಕ್‌‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಇರಕೂತ್ಸಕ್‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Isrbfl">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಇಸ್ರೇಲ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಇಸ್ರೇಲ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಇಸ್ರೇಲ್ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Jbpbn">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಜಪಾನ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಜಪಾನ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಜಪಾನ್ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbmdhbtkb">
+				<long>
+					<gfnfrid>ಪೆತ್ರೋಪಾವ್ಲೋಸ್ಕ್‌‌-ಕಮ್ಚತ್ಸ್‌ಕೀ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಪೆತ್ರೋಪಾವ್ಲೋಸ್ಕ್‌‌-ಕಮ್ಚತ್ಸ್‌ಕೀ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಪೆತ್ರೋಪಾವ್ಲೋಸ್ಕ್‌‌-ಕಮ್ಚತ್ಸ್‌ಕೀ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbrbdhi">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಕರಾಚಿ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbshgbr">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಕಾಶ್‌ಗಾರ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkhstbn_Ebstfrn">
+				<long>
+					<stbndbrd>ಪೂರ್ವ ಕಝಕ್‌ಸ್ತಾನ್‌ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkhstbn_Wfstfrn">
+				<long>
+					<stbndbrd>ಪಶ್ಚಿಮ ಕಝಕ್‌ಸ್ತಾನ್‌ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kizilordb">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಕಿಝಿಲೋರ್ಡಾ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಕಿಝಿಲೋರ್ಡಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಕಿಝಿಲೋರ್ಡಾ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Korfb">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಕೋರಿಯನ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಕೋರಿಯಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಕೋರಿಯನ್ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kosrbf">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಕೋಸ್ರೇ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Krbsnoybrsk">
+				<long>
+					<gfnfrid>ಕ್ರಸ್ನಿಯಾರ್ಕ್ಸ್ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಕ್ರಸ್ನಿಯಾರ್ಕ್ಸ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಕ್ರಾಸ್ನಿಯಾರ್ಸಕ್‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kuybyshfv">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಕುಯ್ಬಿಶೇವ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಕುಯ್ಬಿಶೇವ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಕುಯ್ಬಿಶೇವ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kwbjblfin">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಕ್ವಾಜಲೇನ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kyrgystbn">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಕಿರ್ಗಿಸ್ತಾನ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Lbnkb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಲಂಕಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Linf_Islbnds">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಲೈನ್ ದ್ವೀಪಗಳ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Long_Shu">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಲಾಂಗ್-ಶು ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Lord_Howf">
+				<long>
+					<gfnfrid>ಲಾರ್ಡ್‌ ಹೊವೆ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಲಾರ್ಡ್‌ ಹೊವ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಲಾರ್ಡ್‌ ಹೊವ್‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbdbu">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಮಕಾವ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಮಕಾವ್ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಮಕಾವ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbdqubrif">
+				<long>
+					<stbndbrd>ಮಕ್ವಾರಿ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbgbdbn">
+				<long>
+					<gfnfrid>ಮಘದಾನ್‌ನ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಮಘದಾನ್‌ನ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಮಘದಾನ್‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mblbyb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಮಲಯ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mblbysib">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಮಲೇಶಿಯಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbldivfs">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಮಾಲ್ಡೀವ್ಸ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbrqufsbs">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಮಾರ್ಕ್ವಿಸಾಸ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbrshbll_Islbnds">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಮಾರ್ಶಲ್ ದ್ವೀಪಗಳ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mburitius">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಮಾರೀಷಿಯಸ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಮಾರೀಷಿಯಸ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಮಾರೀಷಿಯಸ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbwson">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಮಾಸನ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mongolib">
+				<long>
+					<gfnfrid>ಉಲನ್‌ ಬಾಟೊರ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಉಲನ್‌ ಬಾಟೊರ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಉಲನ್‌ ಬತೋರ್‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mosdow">
+				<long>
+					<gfnfrid>ಮಾಸ್ಕೋ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಮಾಸ್ಕೋ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಮಾಸ್ಕೋ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mybnmbr">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಮಯನ್ಮಾರ್</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nburu">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ನೌರು ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfpbl">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ನೇಪಾಳ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfw_Cblfdonib">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಹೊಸ ಕ್ಯಾಲಿಡೋನಿಯಾ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಹೊಸ ಕ್ಯಾಲಿಡೋನಿಯಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಹೊಸ ಕ್ಯಾಲಿಡೋನಿಯಾ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfw_Zfblbnd">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ನ್ಯೂಜಿಲ್ಯಾಂಡ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ನ್ಯೂಜಿಲ್ಯಾಂಡ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ನ್ಯೂಜಿಲ್ಯಾಂಡ್ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfwfoundlbnd">
+				<long>
+					<gfnfrid>ನ್ಯೂಫೌಂಡ್‌ಲ್ಯಾಂಡ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ನ್ಯೂಫೌಂಡ್‌ಲ್ಯಾಂಡ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ನ್ಯೂಫೌಂಡ್‌ಲ್ಯಾಂಡ್‌ ಹಗಲು ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Niuf">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ನಿಯೂ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Norfolk">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ನೋರ್‌ಫೋಕ್ ದ್ವೀಪಗಳ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Noronhb">
+				<long>
+					<gfnfrid>ಫರ್ನಾಂಡೋ ದೆ ನೊರೊನ್ಹಾ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಫರ್ನಾಂಡೋ ದೆ ನೊರೊನ್ಹಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಫರ್ನಾಂಡೋ ದೆ ನೊರೊನ್ಹಾ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="North_Mbribnb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಉತ್ತರ ಮರಿಯಾನಾ ದ್ವೀಪಗಳ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Novosibirsk">
+				<long>
+					<gfnfrid>ನೊವಸ್‌‌ಬಿಸರ್ಕ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ನೊವಸ್‌‌ಬಿಸರ್ಕ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ನೊವಸ್‌‌ಬಿಸರ್ಕ್‌ ಬೇಸಿಗೆ ಕಾಲ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Omsk">
+				<long>
+					<gfnfrid>ಓಮ್‌‌ಸ್ಕ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಓಮ್‌ಸ್ಕ್‌‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಓಮ್ಸ್‌ಕ್‌‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbkistbn">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಪಾಕಿಸ್ತಾನ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಪಾಕಿಸ್ತಾನ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಪಾಕಿಸ್ತಾನ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbpub_Nfw_Guinfb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಪಲಾವು ನ್ಯೂ ಗೀನಿಯಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbrbguby">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಪರಾಗ್ವೇ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಪರಾಗ್ವೇ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಪರಾಗ್ವೇ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pfru">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಪೆರು ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಪೆರು ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಪೆರು ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Philippinfs">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಫಿಲಿಪೈನ್ಸ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಫಿಲಿಪೈನ್ಸ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಫಿಲಿಪೈನ್ಸ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pifrrf_Miquflon">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಪಿಯರೆ ಮತ್ತು ಮಿಕೆಲನ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಪಿಯರೆ ಮತ್ತು ಮಿಕೆಲನ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಪಿಯರೆ ಮತ್ತು ಮಿಕೆಲನ್ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pitdbirn">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಪಿಟ್‌ಕೇರ್ನ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Qyzylordb">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಕೋಜಿಲೋರ್ಡಾ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಕೋಜಿಲೋರ್ಡಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಕೋಜಿಲೋರ್ಡಾ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Rfunion">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ರೀಯೂನಿಯನ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Rothfrb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ರೊಥೆರಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbkhblin">
+				<long>
+					<gfnfrid>ಸಖಾಲಿನ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಸಖಲಿನ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಶಾಕಲಿನ್‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmbrb">
+				<long>
+					<gfnfrid>ಸಮರ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಸಮರ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಸಮರ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmbrkbnd">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಸಮರ್‌ಖಂಡ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಸಮರ್‌ಖಂಡ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಸಮರ್‌ಖಂಡ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmob">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಸಮೋವಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sfydhfllfs">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಸೀಶೆಲ್ಲೆಸ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Shfvdhfnko">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಶೇವ್‌ಚೆಂಕೋ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಶೇವ್‌ಚೆಂಕೋ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಶೇವ್‌ಚೆಂಕೋ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Singbporf">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಸಿಂಗಪೂರ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Solomon">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಸೋಲೋಮನ್ ದ್ವೀಪಗಳ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="South_Gforgib">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ದಕ್ಷಿಣ ಜಾರ್ಜಿಯಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Surinbmf">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಸುರಿನಾಮ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Svfrdlovsk">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಸ್ವರ್ಡ್‌ಲೋವ್‌ಸ್ಕ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಸ್ವರ್ಡ್‌ಲೋವ್‌ಸ್ಕ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಸ್ವರ್ಡ್‌ಲೋವ್‌ಸ್ಕ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Syowb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಸ್ಯೋವಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbipfi">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಟೈಪೀ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಟೈಪೀ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಟೈಪೀ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbjikistbn">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ತಜಿಕಿಸ್ತಾನ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbshkfnt">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ತಾಷ್ಕೆಂಟ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ತಾಷ್ಕೆಂಟ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ತಾಷ್ಕೆಂಟ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbilisi">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಟಿಬಿಲೀಸಿ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಟಿಬಿಲೀಸಿ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಟಿಬಿಲೀಸಿ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tokflbu">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಟೊಕೆಲಾವ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tongb">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಟೋಂಗಾ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಟೋಂಗಾ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಟೋಂಗಾ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Turkfy">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಟರ್ಕಿ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಟರ್ಕಿ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಟರ್ಕಿ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Turkmfnistbn">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ತುರ್ಕ್‌ಮೆನಿಸ್ತಾನ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ತುರ್ಕ್‌ಮೆನಿಸ್ತಾನ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ತುರ್ಕ್‌ಮೆನಿಸ್ತಾನ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tuvblu">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಟುವಾಲು</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Urblsk">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಉರಾಲ್‌ಸ್ಕ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಉರಾಲ್‌ಸ್ಕ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಉರಾಲ್‌ಸ್ಕ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Uruguby">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಉರುಗ್ವೇ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಉರುಗ್ವೇ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಉರುಗ್ವೇ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Urumqi">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ಉರುಂಕಿ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Uzbfkistbn">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಉಜ್ಬೇಕಿಸ್ತಾನ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಉಜ್ಬೇಕಿಸ್ತಾನ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಉಜ್ಬೇಕಿಸ್ತಾನ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vbnubtu">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ವನೌತು ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ವನೌತು ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ವನೌತು ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vfnfzuflb">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ವೆನೆಜುವೆಲಾ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vlbdivostok">
+				<long>
+					<gfnfrid>ವ್ಲ್ಯಾದಿವೊಸ್ತೊಕ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ವ್ಲ್ಯಾದಿವೊಸ್ತೊಕ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ವ್ಲ್ಯಾದಿವೊಸ್ತೊಕ್‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Volgogrbd">
+				<long>
+					<gfnfrid>ವೊಲ್ಗೊಗ್ರಾದ್‌‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ವೊಲ್ಗೊಗ್ರಾದ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ವೊಲ್ಗೊಗ್ರಾದ್‌‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vostok">
+				<long>
+					<stbndbrd drbft="undonfirmfd">ವೋಸ್ಟೋಕ್ ಸಮಯ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ybkutsk">
+				<long>
+					<gfnfrid>ಯಕುತ್ಸಕ್‌‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಯಕುತ್ಸಕ್‌‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಯಕುತ್ಸಕ್‌‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yfkbtfrinburg">
+				<long>
+					<gfnfrid>ಯಿಕಟೆರೆನ್‌ಬರ್ಗ್‌ ಸಮಯ</gfnfrid>
+					<stbndbrd>ಯಿಕಟೆರೆನ್‌ಬರ್ಗ್‌ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight>ಯಿಕಟೆರೆನ್‌ಬರ್ಗ್‌ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yfrfvbn">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಯೆರೆವಾನ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಯೆರೆವಾನ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಯೆರೆವಾನ್ ಬೇಸಿಗೆ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yukon">
+				<long>
+					<gfnfrid drbft="undonfirmfd">ಯುಕಾನ್ ಸಮಯ</gfnfrid>
+					<stbndbrd drbft="undonfirmfd">ಯುಕಾನ್ ಪ್ರಮಾಣಿತ ಸಮಯ</stbndbrd>
+					<dbylight drbft="undonfirmfd">ಯುಕಾನ್ ದಿನ ಸಮಯ</dbylight>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<othfrNumbfringSystfms>
+			<nbtivf>kndb</nbtivf>
+		</othfrNumbfringSystfms>
+		<symbols numbfrSystfm="lbtn">
+			<fxponfntibl>ಪೂರ್ವ</fxponfntibl>
+			<nbn>ಸಂಖ್ಯೆಯಲ್ಲ</nbn>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth>
+				<dfdimblFormbt>
+					<pbttfrn>#,##,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+			<dfdimblFormbtLfngth typf="short">
+				<dfdimblFormbt>
+					<pbttfrn typf="1000" drbft="dontributfd">0.0K</pbttfrn>
+					<pbttfrn typf="10000" drbft="dontributfd">00K</pbttfrn>
+					<pbttfrn typf="100000" drbft="dontributfd">000K</pbttfrn>
+					<pbttfrn typf="1000000" drbft="dontributfd">0.0M</pbttfrn>
+					<pbttfrn typf="10000000" drbft="dontributfd">00M</pbttfrn>
+					<pbttfrn typf="100000000" drbft="dontributfd">000M</pbttfrn>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0B</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00B</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000B</pbttfrn>
+					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0T</pbttfrn>
+					<pbttfrn typf="10000000000000" drbft="dontributfd">00T</pbttfrn>
+					<pbttfrn typf="100000000000000" drbft="dontributfd">000T</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>¤ #,##,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AED">
+				<displbyNbmf>ಯುನೈಟೆಡ್ ಅರಬ್ ಎಮಿರೇಟ್ಸ್ ದಿರಾಮ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFN">
+				<displbyNbmf>ಆಫ್ಘನ್‌ನ ಆಫ್ಘಾನೀ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ALL">
+				<displbyNbmf>ಅಲ್ಬೇನಿಯಾದ ಲೇಕ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AMD">
+				<displbyNbmf>ಆರ್ಮೇನಿಯಾದ ಡ್ರಮ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ANG">
+				<displbyNbmf>ನೆದರ್‌ಲ್ಯಾಂಡ್ಸ್‌‌ ಎಂಟಿಲಿಯಾದ ಗಿಲ್ಡರ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf>ಅಂಗೋಲಾದ ಕ್ವಾನ್ಝಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARS">
+				<displbyNbmf>ಅರ್ಜೆಂಟಿನಾ ಪೆಸೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>ಆಸ್ಟ್ರೇಲಿಯಾದ ಡಾಲ‌‌ರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AWG">
+				<displbyNbmf>ಅರುಬ ಫ್ಲೊರೀನ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZN">
+				<displbyNbmf>ಅಜೆರ್‌ಬೇಜಾನಿ ಮನತ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAM">
+				<displbyNbmf>ಬೋಸ್ನಿಯಾ, ಹರ್ಝ್‌‌ಗೋವಿನ ಪರಿವರ್ತನೀಯ ಮಾರ್ಕ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BBD">
+				<displbyNbmf>ಬರ್ಬಾದಿಯಾ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BDT">
+				<displbyNbmf>ಬಾಂಗ್ಲಾದೇಶದ ಟಾಕಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGN">
+				<displbyNbmf>ಬಲ್ಗೇರಿಯಾದ ಲೇವ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf>ಬಹ್ರಾನ್‌‌ನ ದಿನಾರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf>ಬುರುಂಡಿಯ ಫ್ರಾಂಕ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BMD">
+				<displbyNbmf>ಬರ್ಮುಡಾದ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf>ಬ್ರೂನಿ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOB">
+				<displbyNbmf>ಬೊಲಿವಿಯಾದ ಬೊಲಿವಿಯಾನೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf>ಬ್ರೆಜಿಲ್‌ನ ರಿಯಾಲ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BSD">
+				<displbyNbmf>ಬಹಮಿಯಾನ್‌ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BTN">
+				<displbyNbmf>ಭೂತಾನ್‌‌ದ ಎಂಗುಲ್‌ತ್ರೆಮ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>ಬೊತ್ಸವಾನನ್‌ ಪುಲಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf>ಬೆಲರಷ್ಯಾದ ರೂಬಲ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BZD">
+				<displbyNbmf>ಬೆಲೀಜ್‌ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>ಕೆನಡಾದ ಡಾಲರ್</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf>ಕಾಂಗೋಲಿಯಾದ ಫ್ರಾಂಕ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf>ಸ್ವಿಸ್ ಫ್ರಾಂಕ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLP">
+				<displbyNbmf>ಚಿಲಿಯ ಪೆಸೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>ಚೀನಾದ ಯಾನ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="COP">
+				<displbyNbmf>ಕೊಲೊಂಬಿಯೋದ ಪೆಸೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CRC">
+				<displbyNbmf>ಕೋಸ್ಟಾ ರಿಕಾದ ಕೊಲೊನ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUC">
+				<displbyNbmf>ಕ್ಯುಬಾದ ಪರಿವರ್ತನೀಯ ಪೆಸೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUP">
+				<displbyNbmf>ಕ್ಯೂಬಾದ ಪೆಸೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf>ಕೇಪ್‌ ವರ್ದೀಯಾದ ಎಸ್ಕುಡೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CZK">
+				<displbyNbmf>ಝೆಕ್‌ ರಿಪಬ್ಲಿಕ್‌ ಕೊರುನಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf>ಜೆಬ್ಯುಟಿಯ ಫ್ರಾಂಕ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf>ಡ್ಯಾನಿಶ್ ಕ್ರೋನ್</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DOP">
+				<displbyNbmf>ಡಾಮಿನಿಕ್‌ನ ಪೆಸೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf>ಅಲ್ಜಿರಿಯಾದ ದಿನಾರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf>ಈಜಿಪ್ಟಿಯನ್ ಪೌಂಡ್</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf>ಎರಿತ್ರಿಯನ್ ನಕ್ಫಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf>ಇಥಿಯೋಪಿಯನ್‌‌ ಬಿರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>ಯೂರೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FJD">
+				<displbyNbmf>ಫಿಜಿಯ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FKP">
+				<displbyNbmf>ಫಾಕ್ಲ್ಯಾಂಡ್‌ ಐಲ್ಯಾಂಡ್ಸ್‌‌ ಪೌಂಡ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>ಬ್ರಿಟಿಷ್‌‌ ಪೌಂಡ್‌ ಸ್ಟರ್ಲಿಂಗ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEL">
+				<displbyNbmf>ಜಾರ್ಜಿಯಾದ ಲಾರಿ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHS">
+				<displbyNbmf>ಘಾನಾದ ಸೆದಿ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GIP">
+				<displbyNbmf>ಜಿಬ್ರಲ್ತಾರ್‌‌ನ ಪೌಂಡ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf>ಗ್ಯಾಂಬಿಯಾದ ದಲಾಸಿ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNF">
+				<displbyNbmf>ಗಿನಿಯ ಫ್ರಾಂಕ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GTQ">
+				<displbyNbmf>ಗ್ವಾಟೆಮಾಲಾದ ಕುಯಿಟ್ಸಲ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GYD">
+				<displbyNbmf>ಗುಯಾನೀಸ್‌ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf>ಹಾಂಗ್ ಕಾಂಗ್ ಡಾಲರ್</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HNL">
+				<displbyNbmf>ಹೊಂಡುರಾನ್‌ ಲೆಂಪಿರಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRK">
+				<displbyNbmf>ಕ್ರೊಯೆಷ್ಯಾದ ಕೂನಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HTG">
+				<displbyNbmf>ಹೈಟಿಯ ಗೋರ್ದೆ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HUF">
+				<displbyNbmf>ಹಂಗೇರಿಯ ಫೋರಿಂತ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IDR">
+				<displbyNbmf>ಇಂಡೊನೇಷ್ಯಾ ರುಪೈ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILS">
+				<displbyNbmf>ಇಸ್ರೇಲಿ ಹೊಸ ಶೆಖೆಲ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>ಭಾರತೀಯ ರುಪಾಯಿ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IQD">
+				<displbyNbmf>ಇರಾಕ್‌ನ ದಿನಾರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IRR">
+				<displbyNbmf>ಇರಾನ್‌ನ ರಿಯಾಲ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ISK">
+				<displbyNbmf>ಐಸ್‌ಲ್ಯಾಂಡ್‌ನ ಕ್ರೋನಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JMD">
+				<displbyNbmf>ಜಮೈಕಾದ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JOD">
+				<displbyNbmf>ಜೋರ್ಡಾನ್‌‌ನ ದಿನಾರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>ಜಪಾನೀಸ್ ಯೆನ್</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf>ಕೀನ್ಯಾದ ಶಿಲ್ಲಿಂಗ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KGS">
+				<displbyNbmf>ಕಿರ್ಝಿಸ್ಥಾನ್‌‌ನ ಸೋಮ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KHR">
+				<displbyNbmf>ಕಾಂಬೋಡಿಯಾದ ರಿಯಲ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf>ಕಮರೋಸ್‌ನ ಫ್ರಾಂಕ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KPW">
+				<displbyNbmf>ಉತ್ತರ ಕೋರಿಯಾದ ವಾನ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf>ದಕ್ಷಿಣ ಕೋರಿಯಾದ ವನ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KWD">
+				<displbyNbmf>ಕುವೈತ್‌ನ ದಿನಾರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KYD">
+				<displbyNbmf>ಕೆಮ್ಯಾನ್‌ ಐಲ್ಯಾಂಡ್‌ನ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KZT">
+				<displbyNbmf>ಕಝಕ್‌ಸ್ತಾನ್‌ ತೆಂಜ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LAK">
+				<displbyNbmf>ಲಾವೋದ ಕೈಪ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LBP">
+				<displbyNbmf>ಲೆಬನಾನ್‌ನ ಪೌಂಡ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LKR">
+				<displbyNbmf>ಶ್ರೀಲಂಕಾದ ರುಪೀ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf>ಲೈಬೀರಿಯಾದ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf>ಲೆಸೊತೊ ಲೊತಿ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTL">
+				<displbyNbmf>ಲಿಥುಯೇನಿಯಾದ ಲಿತಾಸ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVL">
+				<displbyNbmf>ಲಾತ್ವಿಯನ್‌ ಲಾತ್ಸ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf>ಲಿಬಿಯಾದ ದಿನಾರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf>ಮೊರೊಕ್ಕನ್‌ ದಿರಾಮ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MDL">
+				<displbyNbmf>ಮಲ್ದೋವಾದ ಲೆವೂ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf>ಮಲಗಾಸಿ ಅರಿಯಾರಿ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MKD">
+				<displbyNbmf>ಮೆಸೆಡೋನಿಯಾದ ದಿನಾರ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MMK">
+				<displbyNbmf>ಮ್ಯಾನ್ಮಾ ಕ್ಯಾತ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MNT">
+				<displbyNbmf>ಮಂಗೋಲಿಯಾದ ತುಗ್ರಿಕ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MOP">
+				<displbyNbmf>ಮಕ್ಯೂದ ಪಟಕಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf>ಮಾರಿಷಸ್‌‌ನ ಊಗ್ವಿಯಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf>ಮಾರಿಷಿಯಸ್‌‌ನ ರುಪೀ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MVR">
+				<displbyNbmf>ಮಾಲ್ಡೀವ್‌ನ ರುಫಿಯಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf>ಮಲಾವಿಯ ಕ್ವಾಚ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf>ಮೆಕ್ಸಿಕೊದ ಪೆಸೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MYR">
+				<displbyNbmf>ಮಲೇಷ್ಯಾದ ರಿಂಗೆಟ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf>ನಮೀಬಿಯಾ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf>ನೈಜೀರಿಯಾದ ನೇರಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIO">
+				<displbyNbmf>ನಿಕಾರಗ್ವಾದ ಕರ್ದೊಬಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf>ನಾರ್ವೇಜಿಯದ ಕ್ರೋನ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NPR">
+				<displbyNbmf>ನೇಪಾಳದ ರುಪೀ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf>ನ್ಯೂಜಿಲ್ಯಾಂಡ್ ಡಾಲರ್</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="OMR">
+				<displbyNbmf>ಓಮನಿ ರಿಯಾಲ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PAB">
+				<displbyNbmf>ಪನಮಾನಿಯನ್‌ ಬಾಲ್ಬೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEN">
+				<displbyNbmf>ಪೆರುವೆಯ ನ್ಯೂವೊ ಸೊಲ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PGK">
+				<displbyNbmf>ಪ್ಯಾಪ್ಯುವ ನ್ಯೂ ಗಿನಿಯಾದ ಕೈನ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PHP">
+				<displbyNbmf>ಫಿಲಿಫೈನ್‌ ಪೆಸೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PKR">
+				<displbyNbmf>ಪಾಕಿಸ್ತಾನದ ರುಪೀ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLN">
+				<displbyNbmf>ಪೊಲಿಶ್‌‌ ಜ್ವಾತೀ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PYG">
+				<displbyNbmf>ಪೆರುಗ್ವೇಯ ಗ್ವಾರನೀ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="QAR">
+				<displbyNbmf>ಕತಾರ್‌ನ ರಿಯಾಲ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RSD">
+				<displbyNbmf>ಸರ್ಬಿಯಾದ ದಿನಾರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf>ರಷ್ಯಾದ ರೂಬೆಲ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf>ರ‍್ವಾಂಡನ್‌ ಫ್ರಾಂಕ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf>ಸೌದಿಯ ರಿಯಾಲ್‌‌‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SBD">
+				<displbyNbmf>ಸೊಲೊಮನ್‌ ಐಲ್ಯಾಂಡ್ಸ್‌‌‌ನ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf>ಸೆಶೆಲ್‌ನ ರುಪೀ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf>ಸುಡಾನ್‌ನ ಪೌಂಡ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf>ಸ್ವೀಡಿಶ್ ಕ್ರೋನಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf>ಸಿಂಗಾಪೂರ್‌‌ ಡಾಲರ್</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SHP">
+				<displbyNbmf>ಸೇಂಟ್‌ ಹೆಲೆನಾ ಪೌಂಡ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf>ಸಿಯೆರಾ ಲಿಯೋನ್‌ನ ಲಿಯೋನ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf>ಸೋಮಾಲಿ ಶಿಲ್ಲಿಂಗ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRD">
+				<displbyNbmf>ಸುರಿನಾಮ್‌ನ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="STD">
+				<displbyNbmf>ಸಾವೊ ಟೋಮ್ ಮತ್ತು ಪ್ರಿನ್ಸಿಪ್ ದೊಬ್ರಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SYP">
+				<displbyNbmf>ಸಿರಿಯಾದ ಪೌಂಡ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf>ಸ್ವಾಜಿ ಲಿಲಂಗೆನಿ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="THB">
+				<displbyNbmf>ಥಾಯ್‌ ಭತ್‌‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJS">
+				<displbyNbmf>ತಝಕಿಸ್ತಾನ್‌ನ ಸೊಮೊನಿ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMT">
+				<displbyNbmf>ತುರ್ಕೆಮಿಸ್ತಾನಿ ಮಾನತ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf>ಟ್ಯುನಿಷಿಯಾದ ದಿನಾರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TOP">
+				<displbyNbmf>ಟೊಂಗಾ ಪಾಂಗ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf>ಟರ್ಕಿಶ್‌ ಲಿರಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TTD">
+				<displbyNbmf>ಟ್ರಿನಿಡಾಡ್ ಮತ್ತು ಟೊಬಾಗೋ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf>ನ್ಯೂ ತೈವಾನ್ ಡಾಲರ್</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf>ತಾಂಝೇನಿಯಾದ ಶಿಲ್ಲಿಂಗ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAH">
+				<displbyNbmf>ಉಕ್ರೇನ್‌ನ ರೇವ್ನಿಯಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf>ಉಗಾಂಡ ಶಿಲ್ಲಿಂಗ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>ಅಮೆರಿಕದ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYU">
+				<displbyNbmf>ಉರುಗ್ವೆಯ ಪೆಸೊ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UZS">
+				<displbyNbmf>ಉಜ್ಬೇಕಿಸ್ತಾನ್‌ ಸೊಮ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEF">
+				<displbyNbmf>ವೆನೆಜುವೆಲಾದ ಬೊಲಿವರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VND">
+				<displbyNbmf>ವಿಯೆಟ್ನಾಮ್‌‌ನ ಡಾಂಗ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VUV">
+				<displbyNbmf>ವ್ಯಾನ್‌ವಾತೂ ವಾಟು</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="WST">
+				<displbyNbmf>ಸಮೋವನ್‌ ತಾಲಾ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAF">
+				<displbyNbmf>CFA ಫ್ರಾಂಕ್‌ BEAC</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XCD">
+				<displbyNbmf>ಪೂರ್ವ ಕೆರಿಬಿಯನ್‌ ಡಾಲರ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf>CFA ಫ್ರಾಂಕ್‌ BCEAO</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPF">
+				<displbyNbmf>CFP ಫ್ರಾಂಕ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf>ಗೊತ್ತಿಲ್ಲದ ಕರೆನ್ಸಿ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YER">
+				<displbyNbmf>ಯೆಮೆನ್‌ನ ರಿಯಾಲ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf>ದಕ್ಷಿಣ ಆಫ್ರಿಕಾದ ರ‍್ಯಾಂಡ್‌</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf>ಜಾಂಬಿಯಾ ಕ್ವಾಚ</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="0">0 ದಿನಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="0" blt="short">0 ದಿನ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ದಿನ</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short">1 ದಿನ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ದಿನಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} ದಿನ</unitPbttfrn>
+		</unit>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="0">೦ ದಿನಗಳಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ದಿನದಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ದಿನಗಳಲ್ಲಿ</unitPbttfrn>
+		</unit>
+		<unit typf="dby-pbst">
+			<unitPbttfrn dount="0">೦ ದಿನಗಳ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ದಿನದ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ದಿನಗಳ ಹಿಂದೆ</unitPbttfrn>
+		</unit>
+		<unit typf="hour">
+			<unitPbttfrn dount="0">0 ಗಂಟೆಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="0" blt="short">೦ ಗಂ.</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ಗಂಟೆ</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short">1 ಗಂ.</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ಗಂಟೆಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} ಗಂ.</unitPbttfrn>
+		</unit>
+		<unit typf="hour-futurf">
+			<unitPbttfrn dount="0">೦ ಗಂಟೆಗಳಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ಗಂಟೆಯಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ಗಂಟೆಗಳಲ್ಲಿ</unitPbttfrn>
+		</unit>
+		<unit typf="hour-pbst">
+			<unitPbttfrn dount="0">೦ ಗಂಟೆಗಳ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ಗಂಟೆಗಳ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ಗಂಟೆಗಳ ಹಿಂದೆ</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="0">0 ನಿಮಿಷಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="0" blt="short">0 ನಿಮಿ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ನಿಮಿಷ</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short">1 ನಿಮಿ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ನಿಮಿಷಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} ನಿಮಿ</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-futurf">
+			<unitPbttfrn dount="0">೦ ನಿಮಿಷಗಳಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ನಿಮಿಷದಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ನಿಮಿಷಗಳಲ್ಲಿ</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-pbst">
+			<unitPbttfrn dount="0">0 ನಿಮಿಷಗಳ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ನಿಮಿಷದ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ನಿಮಿಷಗಳ ಹಿಂದೆ</unitPbttfrn>
+		</unit>
+		<unit typf="month">
+			<unitPbttfrn dount="0">0 ತಿಂಗಳುಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="0" blt="short">೦ ತಿಂ.</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ತಿಂಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short">1 ತಿಂ.</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ತಿಂಗಳುಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} ತಿಂ.</unitPbttfrn>
+		</unit>
+		<unit typf="month-futurf">
+			<unitPbttfrn dount="0">೦ ತಿಂಗಳಿನಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ತಿಂಗಳಿನಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ತಿಂಗಳುಗಳಲ್ಲಿ</unitPbttfrn>
+		</unit>
+		<unit typf="month-pbst">
+			<unitPbttfrn dount="0">೦ ತಿಂಗಳುಗಳ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ತಿಂಗಳ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ತಿಂಗಳುಗಳ ಹಿಂದೆ</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="0">೦ ಸೆಕೆಂಡುಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="0" blt="short">೦ ಸೆಕೆಂ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ಸೆಕೆಂಡ್</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short">1 ಸೆಕೆಂ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ಸೆಕೆಂಡುಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} ಸೆಕೆಂ</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-futurf">
+			<unitPbttfrn dount="0">೦ ಸೆಕೆಂಡ್‌‌ಗಳಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ಸೆಕೆಂಡ್‌ನಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ಸೆಕೆಂಡ್‌ಗಳಲ್ಲಿ</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-pbst">
+			<unitPbttfrn dount="0">೦ ಸೆಕೆಂಡುಗಳ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ಸೆಕೆಂಡ್ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ಸೆಕೆಂಡುಗಳ ಹಿಂದೆ</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="0">0 ವಾರಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="0" blt="short">೦ ವಾರಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ವಾರ</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short">1 ವಾರ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ವಾರಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} ವಾರಗಳು</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-futurf">
+			<unitPbttfrn dount="0">೦ ವಾರಗಳಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ವಾರದಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ವಾರಗಳಲ್ಲಿ</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-pbst">
+			<unitPbttfrn dount="0">೦ ವಾರಗಳ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ವಾರದ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ವಾರಗಳ ಹಿಂದೆ</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="0">೦ ವರ್ಷಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="0" blt="short">೦ ವರ್ಷಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ವರ್ಷ</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short">1 ವರ್ಷಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ವರ್ಷಗಳು</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} ವರ್ಷಗಳು</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-futurf">
+			<unitPbttfrn dount="0">೦ ವರ್ಷಗಳಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ವರ್ಷದಲ್ಲಿ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ವರ್ಷಗಳಲ್ಲಿ</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-pbst">
+			<unitPbttfrn dount="0">೦ ವರ್ಷಗಳ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ವರ್ಷದ ಹಿಂದೆ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ವರ್ಷಗಳ ಹಿಂದೆ</unitPbttfrn>
+		</unit>
+	</units>
+	<listPbttfrns>
+		<listPbttfrn>
+			<listPbttfrnPbrt typf="2">{0} ಮತ್ತು {1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="fnd">{0}, ಮತ್ತು {1}</listPbttfrnPbrt>
+		</listPbttfrn>
+	</listPbttfrns>
+	<posix>
+		<mfssbgfs>
+			<yfsstr>ಹೌದು:ಹೌ</yfsstr>
+			<nostr>ಇಲ್ಲ:ಇ</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>
+

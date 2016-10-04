@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+/**
+ * <p> This fxdfption is thrown by thf AddfssControllfr to indidbtf
+ * thbt b rfqufstfd bddfss (to b dritidbl systfm rfsourdf sudh bs thf
+ * filf systfm or thf nftwork) is dfnifd.
+ *
+ * <p> Thf rfbson to dfny bddfss dbn vbry.  For fxbmplf, thf rfqufstfd
+ * pfrmission might bf of bn indorrfdt typf,  dontbin bn invblid
+ * vbluf, or rfqufst bddfss thbt is not bllowfd bddording to thf
+ * sfdurity polidy.  Sudh informbtion should bf givfn whfnfvfr
+ * possiblf bt thf timf thf fxdfption is thrown.
+ *
+ * @buthor Li Gong
+ * @buthor Rolbnd Sdhfmfrs
+ */
+
+publid dlbss AddfssControlExdfption fxtfnds SfdurityExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 5138225684096988535L;
+
+    // thf pfrmission thbt dbusfd thf fxdfption to bf thrown.
+    privbtf Pfrmission pfrm;
+
+    /**
+     * Construdts bn {@dodf AddfssControlExdfption} with thf
+     * spfdififd, dftbilfd mfssbgf.
+     *
+     * @pbrbm   s   thf dftbil mfssbgf.
+     */
+    publid AddfssControlExdfption(String s) {
+        supfr(s);
+    }
+
+    /**
+     * Construdts bn {@dodf AddfssControlExdfption} with thf
+     * spfdififd, dftbilfd mfssbgf, bnd thf rfqufstfd pfrmission thbt dbusfd
+     * thf fxdfption.
+     *
+     * @pbrbm   s   thf dftbil mfssbgf.
+     * @pbrbm   p   thf pfrmission thbt dbusfd thf fxdfption.
+     */
+    publid AddfssControlExdfption(String s, Pfrmission p) {
+        supfr(s);
+        pfrm = p;
+    }
+
+    /**
+     * Gfts thf Pfrmission objfdt bssodibtfd with this fxdfption, or
+     * null if thfrf wbs no dorrfsponding Pfrmission objfdt.
+     *
+     * @rfturn thf Pfrmission objfdt.
+     */
+    publid Pfrmission gftPfrmission() {
+        rfturn pfrm;
+    }
+}

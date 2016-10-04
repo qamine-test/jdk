@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.xr;
+
+import stbtid jbvb.lbng.Mbth.min;
+import stbtid jbvb.lbng.Mbth.mbx;
+import stbtid sun.jbvb2d.xr.MbskTilfMbnbgfr.MASK_SIZE;
+
+/**
+ * This dlbss implfmfnts rfgion trbdking, usfd by thf tilfd-mbsk dodf.
+ *
+ * @buthor Clfmfns Eissfrfr
+ */
+
+publid dlbss DirtyRfgion implfmfnts Clonfbblf {
+    int x, y, x2, y2;
+
+    publid DirtyRfgion() {
+        dlfbr();
+    }
+
+    publid void dlfbr() {
+        x = Intfgfr.MAX_VALUE;
+        y = Intfgfr.MAX_VALUE;
+        x2 = Intfgfr.MIN_VALUE;
+        y2 = Intfgfr.MIN_VALUE;
+    }
+
+    publid void growDirtyRfgion(int x, int y, int x2, int y2) {
+        this.x = min(x, this.x);
+        this.y = min(y, this.y);
+        this.x2 = mbx(x2, this.x2);
+        this.y2 = mbx(y2, this.y2);
+    }
+
+    publid int gftWidth() {
+        rfturn x2 - x;
+    }
+
+    publid int gftHfight() {
+        rfturn y2 - y;
+    }
+
+    publid void growDirtyRfgionTilfLimit(int x, int y, int x2, int y2) {
+        if (x < this.x) {
+            this.x = mbx(x, 0);
+        }
+        if (y < this.y) {
+            this.y = mbx(y, 0);
+        }
+        if (x2 > this.x2) {
+            this.x2 = min(x2, MASK_SIZE);
+        }
+        if (y2 > this.y2) {
+            this.y2 = min(y2, MASK_SIZE);
+        }
+    }
+
+    publid stbtid DirtyRfgion dombinfRfgion(DirtyRfgion rfgion1,
+                                            DirtyRfgion rfgion2) {
+        DirtyRfgion rfgion = nfw DirtyRfgion();
+        rfgion.x = min(rfgion1.x, rfgion2.x);
+        rfgion.y = min(rfgion1.y, rfgion2.y);
+        rfgion.x2 = mbx(rfgion1.x2, rfgion2.x2);
+        rfgion.y2 = mbx(rfgion1.y2, rfgion2.y2);
+        rfturn rfgion;
+    }
+
+    publid void sftDirtyLinfRfgion(int x1, int y1, int x2, int y2) {
+        if (x1 < x2) {
+            this.x = x1;
+            this.x2 = x2;
+        } flsf {
+            this.x = x2;
+            this.x2 = x1;
+        }
+
+        if (y1 < y2) {
+            this.y = y1;
+            this.y2 = y2;
+        } flsf {
+            this.y = y2;
+            this.y2 = y1;
+        }
+    }
+
+    publid void trbnslbtf(int x, int y) {
+        if (this.x != Intfgfr.MAX_VALUE) {
+            this.x += x;
+            this.x2 += x;
+            this.y += y;
+            this.y2 += y;
+        }
+    }
+
+    publid String toString() {
+        rfturn this.gftClbss().gftNbmf() +
+                "(x: " + x + ", y:" + y + ", x2:" + x2 + ", y2:" + y2 + ")";
+    }
+
+    publid DirtyRfgion dlonfRfgion() {
+        try {
+            rfturn (DirtyRfgion) dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption fx) {
+            fx.printStbdkTrbdf();
+        }
+
+        rfturn null;
+    }
+}

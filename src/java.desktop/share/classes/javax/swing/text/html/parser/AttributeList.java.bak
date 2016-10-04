@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text.html.parser;
+pbdkbgf jbvbx.swing.tfxt.itml.pbrsfr;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.io.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.*;
 
 /**
- * This class defines the attributes of an SGML element
- * as described in a DTD using the ATTLIST construct.
- * An AttributeList can be obtained from the Element
- * class using the getAttributes() method.
+ * Tiis dlbss dffinfs tif bttributfs of bn SGML flfmfnt
+ * bs dfsdribfd in b DTD using tif ATTLIST donstrudt.
+ * An AttributfList dbn bf obtbinfd from tif Elfmfnt
+ * dlbss using tif gftAttributfs() mftiod.
  * <p>
- * It is actually an element in a linked list. Use the
- * getNext() method repeatedly to enumerate all the attributes
- * of an element.
+ * It is bdtublly bn flfmfnt in b linkfd list. Usf tif
+ * gftNfxt() mftiod rfpfbtfdly to fnumfrbtf bll tif bttributfs
+ * of bn flfmfnt.
  *
- * @see         Element
- * @author      Arthur Van Hoff
+ * @sff         Elfmfnt
+ * @butior      Artiur Vbn Hoff
  *
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public final
-class AttributeList implements DTDConstants, Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid finbl
+dlbss AttributfList implfmfnts DTDConstbnts, Sfriblizbblf {
 
     /**
-     * The attribute name
+     * Tif bttributf nbmf
      */
-    public String name;
+    publid String nbmf;
 
     /**
-     * The attribute type
+     * Tif bttributf typf
      */
-    public int type;
+    publid int typf;
 
     /**
-     * The possible attribute values
+     * Tif possiblf bttributf vblufs
      */
-    public Vector<?> values;
+    publid Vfdtor<?> vblufs;
 
     /**
-     * The attribute modifier
+     * Tif bttributf modififr
      */
-    public int modifier;
+    publid int modififr;
 
     /**
-     * The default attribute value
+     * Tif dffbult bttributf vbluf
      */
-    public String value;
+    publid String vbluf;
 
     /**
-     * The next attribute in the list
+     * Tif nfxt bttributf in tif list
      */
-    public AttributeList next;
+    publid AttributfList nfxt;
 
-    AttributeList() {
+    AttributfList() {
     }
 
     /**
-     * Create an attribute list element.
+     * Crfbtf bn bttributf list flfmfnt.
      *
-     * @param name  the attribute name
+     * @pbrbm nbmf  tif bttributf nbmf
      */
-    public AttributeList(String name) {
-        this.name = name;
+    publid AttributfList(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Create an attribute list element.
+     * Crfbtf bn bttributf list flfmfnt.
      *
-     * @param name      the attribute name
-     * @param type      the attribute type
-     * @param modifier  the attribute modifier
-     * @param value     the default attribute value
-     * @param values    the possible attribute values
-     * @param next      the next attribute in the list
+     * @pbrbm nbmf      tif bttributf nbmf
+     * @pbrbm typf      tif bttributf typf
+     * @pbrbm modififr  tif bttributf modififr
+     * @pbrbm vbluf     tif dffbult bttributf vbluf
+     * @pbrbm vblufs    tif possiblf bttributf vblufs
+     * @pbrbm nfxt      tif nfxt bttributf in tif list
      */
-    public AttributeList(String name, int type, int modifier, String value, Vector<?> values, AttributeList next) {
-        this.name = name;
-        this.type = type;
-        this.modifier = modifier;
-        this.value = value;
-        this.values = values;
-        this.next = next;
+    publid AttributfList(String nbmf, int typf, int modififr, String vbluf, Vfdtor<?> vblufs, AttributfList nfxt) {
+        tiis.nbmf = nbmf;
+        tiis.typf = typf;
+        tiis.modififr = modififr;
+        tiis.vbluf = vbluf;
+        tiis.vblufs = vblufs;
+        tiis.nfxt = nfxt;
     }
 
     /**
-     * @return attribute name
+     * @rfturn bttributf nbmf
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * @return attribute type
-     * @see DTDConstants
+     * @rfturn bttributf typf
+     * @sff DTDConstbnts
      */
-    public int getType() {
-        return type;
+    publid int gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * @return attribute modifier
-     * @see DTDConstants
+     * @rfturn bttributf modififr
+     * @sff DTDConstbnts
      */
-    public int getModifier() {
-        return modifier;
+    publid int gftModififr() {
+        rfturn modififr;
     }
 
     /**
-     * @return possible attribute values
+     * @rfturn possiblf bttributf vblufs
      */
-    public Enumeration<?> getValues() {
-        return (values != null) ? values.elements() : null;
+    publid Enumfrbtion<?> gftVblufs() {
+        rfturn (vblufs != null) ? vblufs.flfmfnts() : null;
     }
 
     /**
-     * @return default attribute value
+     * @rfturn dffbult bttributf vbluf
      */
-    public String getValue() {
-        return value;
+    publid String gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * @return the next attribute in the list
+     * @rfturn tif nfxt bttributf in tif list
      */
-    public AttributeList getNext() {
-        return next;
+    publid AttributfList gftNfxt() {
+        rfturn nfxt;
     }
 
     /**
-     * @return string representation
+     * @rfturn string rfprfsfntbtion
      */
-    public String toString() {
-        return name;
+    publid String toString() {
+        rfturn nbmf;
     }
 
     /**
-     * Create a hashtable of attribute types.
+     * Crfbtf b ibsitbblf of bttributf typfs.
      */
-    static Hashtable<Object, Object> attributeTypes = new Hashtable<Object, Object>();
+    stbtid Hbsitbblf<Objfdt, Objfdt> bttributfTypfs = nfw Hbsitbblf<Objfdt, Objfdt>();
 
-    static void defineAttributeType(String nm, int val) {
-        Integer num = Integer.valueOf(val);
-        attributeTypes.put(nm, num);
-        attributeTypes.put(num, nm);
+    stbtid void dffinfAttributfTypf(String nm, int vbl) {
+        Intfgfr num = Intfgfr.vblufOf(vbl);
+        bttributfTypfs.put(nm, num);
+        bttributfTypfs.put(num, nm);
     }
 
-    static {
-        defineAttributeType("CDATA", CDATA);
-        defineAttributeType("ENTITY", ENTITY);
-        defineAttributeType("ENTITIES", ENTITIES);
-        defineAttributeType("ID", ID);
-        defineAttributeType("IDREF", IDREF);
-        defineAttributeType("IDREFS", IDREFS);
-        defineAttributeType("NAME", NAME);
-        defineAttributeType("NAMES", NAMES);
-        defineAttributeType("NMTOKEN", NMTOKEN);
-        defineAttributeType("NMTOKENS", NMTOKENS);
-        defineAttributeType("NOTATION", NOTATION);
-        defineAttributeType("NUMBER", NUMBER);
-        defineAttributeType("NUMBERS", NUMBERS);
-        defineAttributeType("NUTOKEN", NUTOKEN);
-        defineAttributeType("NUTOKENS", NUTOKENS);
+    stbtid {
+        dffinfAttributfTypf("CDATA", CDATA);
+        dffinfAttributfTypf("ENTITY", ENTITY);
+        dffinfAttributfTypf("ENTITIES", ENTITIES);
+        dffinfAttributfTypf("ID", ID);
+        dffinfAttributfTypf("IDREF", IDREF);
+        dffinfAttributfTypf("IDREFS", IDREFS);
+        dffinfAttributfTypf("NAME", NAME);
+        dffinfAttributfTypf("NAMES", NAMES);
+        dffinfAttributfTypf("NMTOKEN", NMTOKEN);
+        dffinfAttributfTypf("NMTOKENS", NMTOKENS);
+        dffinfAttributfTypf("NOTATION", NOTATION);
+        dffinfAttributfTypf("NUMBER", NUMBER);
+        dffinfAttributfTypf("NUMBERS", NUMBERS);
+        dffinfAttributfTypf("NUTOKEN", NUTOKEN);
+        dffinfAttributfTypf("NUTOKENS", NUTOKENS);
 
-        attributeTypes.put("fixed", Integer.valueOf(FIXED));
-        attributeTypes.put("required", Integer.valueOf(REQUIRED));
-        attributeTypes.put("current", Integer.valueOf(CURRENT));
-        attributeTypes.put("conref", Integer.valueOf(CONREF));
-        attributeTypes.put("implied", Integer.valueOf(IMPLIED));
+        bttributfTypfs.put("fixfd", Intfgfr.vblufOf(FIXED));
+        bttributfTypfs.put("rfquirfd", Intfgfr.vblufOf(REQUIRED));
+        bttributfTypfs.put("durrfnt", Intfgfr.vblufOf(CURRENT));
+        bttributfTypfs.put("donrff", Intfgfr.vblufOf(CONREF));
+        bttributfTypfs.put("implifd", Intfgfr.vblufOf(IMPLIED));
     }
 
     /**
-     * Converts an attribute name to the type
+     * Convfrts bn bttributf nbmf to tif typf
      *
-     * @param nm an attribute name
-     * @return the type
+     * @pbrbm nm bn bttributf nbmf
+     * @rfturn tif typf
      */
-    public static int name2type(String nm) {
-        Integer i = (Integer)attributeTypes.get(nm);
-        return (i == null) ? CDATA : i.intValue();
+    publid stbtid int nbmf2typf(String nm) {
+        Intfgfr i = (Intfgfr)bttributfTypfs.gft(nm);
+        rfturn (i == null) ? CDATA : i.intVbluf();
     }
 
     /**
-     * Converts a type to the attribute name
+     * Convfrts b typf to tif bttributf nbmf
      *
-     * @param tp a type
-     * @return the attribute name
+     * @pbrbm tp b typf
+     * @rfturn tif bttributf nbmf
      */
-    public static String type2name(int tp) {
-        return (String)attributeTypes.get(Integer.valueOf(tp));
+    publid stbtid String typf2nbmf(int tp) {
+        rfturn (String)bttributfTypfs.gft(Intfgfr.vblufOf(tp));
     }
 }

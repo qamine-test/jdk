@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
 
-import sun.java2d.*;
+import sun.jbvb2d.*;
 
 /**
- * This is an implementation of a GraphicsEnvironment object for the default
- * local GraphicsEnvironment used by the Java Runtime Environment for Mac OS X
- * GUI environments.
+ * Tiis is bn implfmfntbtion of b GrbpiidsEnvironmfnt objfdt for tif dffbult
+ * lodbl GrbpiidsEnvironmfnt usfd by tif Jbvb Runtimf Environmfnt for Mbd OS X
+ * GUI fnvironmfnts.
  *
- * @see GraphicsDevice
- * @see GraphicsConfiguration
+ * @sff GrbpiidsDfvidf
+ * @sff GrbpiidsConfigurbtion
  */
-public final class CGraphicsEnvironment extends SunGraphicsEnvironment {
+publid finbl dlbss CGrbpiidsEnvironmfnt fxtfnds SunGrbpiidsEnvironmfnt {
 
     /**
-     * Fetch an array of all valid CoreGraphics display identifiers.
+     * Fftdi bn brrby of bll vblid CorfGrbpiids displby idfntififrs.
      */
-    private static native int[] getDisplayIDs();
+    privbtf stbtid nbtivf int[] gftDisplbyIDs();
 
     /**
-     * Fetch the CoreGraphics display ID for the 'main' display.
+     * Fftdi tif CorfGrbpiids displby ID for tif 'mbin' displby.
      */
-    private static native int getMainDisplayID();
+    privbtf stbtid nbtivf int gftMbinDisplbyID();
 
     /**
-     * Noop function that just acts as an entry point for someone to force a
-     * static initialization of this class.
+     * Noop fundtion tibt just bdts bs bn fntry point for somfonf to fordf b
+     * stbtid initiblizbtion of tiis dlbss.
      */
-    public static void init() { }
+    publid stbtid void init() { }
 
-    static {
-        // Load libraries and initialize the Toolkit.
-        Toolkit.getDefaultToolkit();
-        // Install the correct surface manager factory.
-        SurfaceManagerFactory.setInstance(new MacosxSurfaceManagerFactory());
+    stbtid {
+        // Lobd librbrifs bnd initiblizf tif Toolkit.
+        Toolkit.gftDffbultToolkit();
+        // Instbll tif dorrfdt surfbdf mbnbgfr fbdtory.
+        SurfbdfMbnbgfrFbdtory.sftInstbndf(nfw MbdosxSurfbdfMbnbgfrFbdtory());
     }
 
     /**
-     * Register the instance with CGDisplayRegisterReconfigurationCallback().
-     * The registration uses a weak global reference -- if our instance is
-     * garbage collected, the reference will be dropped.
+     * Rfgistfr tif instbndf witi CGDisplbyRfgistfrRfdonfigurbtionCbllbbdk().
+     * Tif rfgistrbtion usfs b wfbk globbl rfffrfndf -- if our instbndf is
+     * gbrbbgf dollfdtfd, tif rfffrfndf will bf droppfd.
      *
-     * @return Return the registration context (a pointer).
+     * @rfturn Rfturn tif rfgistrbtion dontfxt (b pointfr).
      */
-    private native long registerDisplayReconfiguration();
+    privbtf nbtivf long rfgistfrDisplbyRfdonfigurbtion();
 
     /**
-     * Remove the instance's registration with CGDisplayRemoveReconfigurationCallback()
+     * Rfmovf tif instbndf's rfgistrbtion witi CGDisplbyRfmovfRfdonfigurbtionCbllbbdk()
      */
-    private native void deregisterDisplayReconfiguration(long context);
+    privbtf nbtivf void dfrfgistfrDisplbyRfdonfigurbtion(long dontfxt);
 
-    /** Available CoreGraphics displays. */
-    private final Map<Integer, CGraphicsDevice> devices = new HashMap<>(5);
+    /** Avbilbblf CorfGrbpiids displbys. */
+    privbtf finbl Mbp<Intfgfr, CGrbpiidsDfvidf> dfvidfs = nfw HbsiMbp<>(5);
 
-    /** Reference to the display reconfiguration callback context. */
-    private final long displayReconfigContext;
+    /** Rfffrfndf to tif displby rfdonfigurbtion dbllbbdk dontfxt. */
+    privbtf finbl long displbyRfdonfigContfxt;
 
     /**
-     * Construct a new instance.
+     * Construdt b nfw instbndf.
      */
-    public CGraphicsEnvironment() {
-        if (isHeadless()) {
-            displayReconfigContext = 0L;
-            return;
+    publid CGrbpiidsEnvironmfnt() {
+        if (isHfbdlfss()) {
+            displbyRfdonfigContfxt = 0L;
+            rfturn;
         }
 
-        /* Populate the device table */
-        initDevices();
+        /* Populbtf tif dfvidf tbblf */
+        initDfvidfs();
 
-        /* Register our display reconfiguration listener */
-        displayReconfigContext = registerDisplayReconfiguration();
-        if (displayReconfigContext == 0L) {
-            throw new RuntimeException("Could not register CoreGraphics display reconfiguration callback");
+        /* Rfgistfr our displby rfdonfigurbtion listfnfr */
+        displbyRfdonfigContfxt = rfgistfrDisplbyRfdonfigurbtion();
+        if (displbyRfdonfigContfxt == 0L) {
+            tirow nfw RuntimfExdfption("Could not rfgistfr CorfGrbpiids displby rfdonfigurbtion dbllbbdk");
         }
     }
 
     /**
-     * Called by the CoreGraphics Display Reconfiguration Callback.
+     * Cbllfd by tif CorfGrbpiids Displby Rfdonfigurbtion Cbllbbdk.
      *
-     * @param displayId CoreGraphics displayId
-     * @param removed   true if displayId was removed, false otherwise.
+     * @pbrbm displbyId CorfGrbpiids displbyId
+     * @pbrbm rfmovfd   truf if displbyId wbs rfmovfd, fblsf otifrwisf.
      */
-    void _displayReconfiguration(final int displayId, final boolean removed) {
-        synchronized (this) {
-            if (removed && devices.containsKey(displayId)) {
-                final CGraphicsDevice gd = devices.remove(displayId);
-                gd.invalidate(getMainDisplayID());
-                gd.displayChanged();
+    void _displbyRfdonfigurbtion(finbl int displbyId, finbl boolfbn rfmovfd) {
+        syndironizfd (tiis) {
+            if (rfmovfd && dfvidfs.dontbinsKfy(displbyId)) {
+                finbl CGrbpiidsDfvidf gd = dfvidfs.rfmovf(displbyId);
+                gd.invblidbtf(gftMbinDisplbyID());
+                gd.displbyCibngfd();
             }
         }
-        initDevices();
+        initDfvidfs();
     }
 
-    @Override
-    protected void finalize() throws Throwable {
+    @Ovfrridf
+    protfdtfd void finblizf() tirows Tirowbblf {
         try {
-            super.finalize();
-        } finally {
-            deregisterDisplayReconfiguration(displayReconfigContext);
+            supfr.finblizf();
+        } finblly {
+            dfrfgistfrDisplbyRfdonfigurbtion(displbyRfdonfigContfxt);
         }
     }
 
     /**
-     * (Re)create all CGraphicsDevices, reuses a devices if it is possible.
+     * (Rf)drfbtf bll CGrbpiidsDfvidfs, rfusfs b dfvidfs if it is possiblf.
      */
-    private void initDevices() {
-        synchronized (this) {
-            final Map<Integer, CGraphicsDevice> old = new HashMap<>(devices);
-            devices.clear();
+    privbtf void initDfvidfs() {
+        syndironizfd (tiis) {
+            finbl Mbp<Intfgfr, CGrbpiidsDfvidf> old = nfw HbsiMbp<>(dfvidfs);
+            dfvidfs.dlfbr();
 
-            int mainID = getMainDisplayID();
+            int mbinID = gftMbinDisplbyID();
 
-            // initialization of the graphics device may change
-            // list of displays on hybrid systems via an activation
-            // of discrete video.
-            // So, we initialize the main display first, and then
-            // retrieve actual list of displays.
-            if (!old.containsKey(mainID)) {
-                old.put(mainID, new CGraphicsDevice(mainID));
+            // initiblizbtion of tif grbpiids dfvidf mby dibngf
+            // list of displbys on iybrid systfms vib bn bdtivbtion
+            // of disdrftf vidfo.
+            // So, wf initiblizf tif mbin displby first, bnd tifn
+            // rftrifvf bdtubl list of displbys.
+            if (!old.dontbinsKfy(mbinID)) {
+                old.put(mbinID, nfw CGrbpiidsDfvidf(mbinID));
             }
 
-            for (final int id : getDisplayIDs()) {
-                devices.put(id, old.containsKey(id) ? old.get(id)
-                                                    : new CGraphicsDevice(id));
+            for (finbl int id : gftDisplbyIDs()) {
+                dfvidfs.put(id, old.dontbinsKfy(id) ? old.gft(id)
+                                                    : nfw CGrbpiidsDfvidf(id));
             }
         }
-        displayChanged();
+        displbyCibngfd();
     }
 
-    @Override
-    public synchronized GraphicsDevice getDefaultScreenDevice() throws HeadlessException {
-        final int mainDisplayID = getMainDisplayID();
-        CGraphicsDevice d = devices.get(mainDisplayID);
+    @Ovfrridf
+    publid syndironizfd GrbpiidsDfvidf gftDffbultSdrffnDfvidf() tirows HfbdlfssExdfption {
+        finbl int mbinDisplbyID = gftMbinDisplbyID();
+        CGrbpiidsDfvidf d = dfvidfs.gft(mbinDisplbyID);
         if (d == null) {
-            // we do not expect that this may happen, the only response
-            // is to re-initialize the list of devices
-            initDevices();
+            // wf do not fxpfdt tibt tiis mby ibppfn, tif only rfsponsf
+            // is to rf-initiblizf tif list of dfvidfs
+            initDfvidfs();
 
-            d = devices.get(mainDisplayID);
+            d = dfvidfs.gft(mbinDisplbyID);
             if (d == null) {
-                throw new AWTError("no screen devices");
+                tirow nfw AWTError("no sdrffn dfvidfs");
             }
         }
-        return d;
+        rfturn d;
     }
 
-    @Override
-    public synchronized GraphicsDevice[] getScreenDevices() throws HeadlessException {
-        return devices.values().toArray(new CGraphicsDevice[devices.values().size()]);
+    @Ovfrridf
+    publid syndironizfd GrbpiidsDfvidf[] gftSdrffnDfvidfs() tirows HfbdlfssExdfption {
+        rfturn dfvidfs.vblufs().toArrby(nfw CGrbpiidsDfvidf[dfvidfs.vblufs().sizf()]);
     }
 
-    public synchronized GraphicsDevice getScreenDevice(int displayID) {
-        return devices.get(displayID);
+    publid syndironizfd GrbpiidsDfvidf gftSdrffnDfvidf(int displbyID) {
+        rfturn dfvidfs.gft(displbyID);
     }
 
-    @Override
-    protected synchronized int getNumScreens() {
-        return devices.size();
+    @Ovfrridf
+    protfdtfd syndironizfd int gftNumSdrffns() {
+        rfturn dfvidfs.sizf();
     }
 
-    @Override
-    protected GraphicsDevice makeScreenDevice(int screennum) {
-        throw new UnsupportedOperationException("This method is unused and should not be called in this implementation");
+    @Ovfrridf
+    protfdtfd GrbpiidsDfvidf mbkfSdrffnDfvidf(int sdrffnnum) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod is unusfd bnd siould not bf dbllfd in tiis implfmfntbtion");
     }
 
-    @Override
-    public boolean isDisplayLocal() {
-       return true;
+    @Ovfrridf
+    publid boolfbn isDisplbyLodbl() {
+       rfturn truf;
     }
 
-    static String[] sLogicalFonts = { "Serif", "SansSerif", "Monospaced", "Dialog", "DialogInput" };
+    stbtid String[] sLogidblFonts = { "Sfrif", "SbnsSfrif", "Monospbdfd", "Diblog", "DiblogInput" };
 
-    @Override
-    public Font[] getAllFonts() {
+    @Ovfrridf
+    publid Font[] gftAllFonts() {
 
-        Font[] newFonts;
-        Font[] superFonts = super.getAllFonts();
+        Font[] nfwFonts;
+        Font[] supfrFonts = supfr.gftAllFonts();
 
-        int numLogical = sLogicalFonts.length;
-        int numOtherFonts = superFonts.length;
+        int numLogidbl = sLogidblFonts.lfngti;
+        int numOtifrFonts = supfrFonts.lfngti;
 
-        newFonts = new Font[numOtherFonts + numLogical];
-        System.arraycopy(superFonts,0,newFonts,numLogical,numOtherFonts);
+        nfwFonts = nfw Font[numOtifrFonts + numLogidbl];
+        Systfm.brrbydopy(supfrFonts,0,nfwFonts,numLogidbl,numOtifrFonts);
 
-        for (int i = 0; i < numLogical; i++)
+        for (int i = 0; i < numLogidbl; i++)
         {
-            newFonts[i] = new Font(sLogicalFonts[i], Font.PLAIN, 1);
+            nfwFonts[i] = nfw Font(sLogidblFonts[i], Font.PLAIN, 1);
         }
-        return newFonts;
+        rfturn nfwFonts;
     }
 
 }

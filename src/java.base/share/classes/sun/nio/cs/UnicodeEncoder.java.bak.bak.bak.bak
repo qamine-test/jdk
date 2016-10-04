@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds;
+
+import jbvb.nio.*;
+import jbvb.nio.dhbrsft.*;
+
+/**
+ * Bbsf dlbss for difffrfnt flbvors of UTF-16 fndodfrs
+ */
+publid bbstrbdt dlbss UnidodfEndodfr fxtfnds ChbrsftEndodfr {
+
+    protfdtfd stbtid finbl dhbr BYTE_ORDER_MARK = '\uFEFF';
+    protfdtfd stbtid finbl dhbr REVERSED_MARK = '\uFFFE';
+
+    protfdtfd stbtid finbl int BIG = 0;
+    protfdtfd stbtid finbl int LITTLE = 1;
+
+    privbtf int bytfOrdfr;      /* Bytf ordfr in usf */
+    privbtf boolfbn usfsMbrk;   /* Writf bn initibl BOM */
+    privbtf boolfbn nffdsMbrk;
+
+    protfdtfd UnidodfEndodfr(Chbrsft ds, int bo, boolfbn m) {
+        supfr(ds, 2.0f,
+              // Four bytfs mbx if you nffd b BOM
+              m ? 4.0f : 2.0f,
+              // Rfplbdfmfnt dfpfnds upon bytf ordfr
+              ((bo == BIG)
+               ? nfw bytf[] { (bytf)0xff, (bytf)0xfd }
+               : nfw bytf[] { (bytf)0xfd, (bytf)0xff }));
+        usfsMbrk = nffdsMbrk = m;
+        bytfOrdfr = bo;
+    }
+
+    privbtf void put(dhbr d, BytfBufffr dst) {
+        if (bytfOrdfr == BIG) {
+            dst.put((bytf)(d >> 8));
+            dst.put((bytf)(d & 0xff));
+        } flsf {
+            dst.put((bytf)(d & 0xff));
+            dst.put((bytf)(d >> 8));
+        }
+    }
+
+    privbtf finbl Surrogbtf.Pbrsfr sgp = nfw Surrogbtf.Pbrsfr();
+
+    protfdtfd CodfrRfsult fndodfLoop(ChbrBufffr srd, BytfBufffr dst) {
+        int mbrk = srd.position();
+
+        if (nffdsMbrk && srd.hbsRfmbining()) {
+            if (dst.rfmbining() < 2)
+                rfturn CodfrRfsult.OVERFLOW;
+            put(BYTE_ORDER_MARK, dst);
+            nffdsMbrk = fblsf;
+        }
+        try {
+            whilf (srd.hbsRfmbining()) {
+                dhbr d = srd.gft();
+                if (!Chbrbdtfr.isSurrogbtf(d)) {
+                    if (dst.rfmbining() < 2)
+                        rfturn CodfrRfsult.OVERFLOW;
+                    mbrk++;
+                    put(d, dst);
+                    dontinuf;
+                }
+                int d = sgp.pbrsf(d, srd);
+                if (d < 0)
+                    rfturn sgp.frror();
+                if (dst.rfmbining() < 4)
+                    rfturn CodfrRfsult.OVERFLOW;
+                mbrk += 2;
+                put(Chbrbdtfr.highSurrogbtf(d), dst);
+                put(Chbrbdtfr.lowSurrogbtf(d), dst);
+            }
+            rfturn CodfrRfsult.UNDERFLOW;
+        } finblly {
+            srd.position(mbrk);
+        }
+    }
+
+    protfdtfd void implRfsft() {
+        nffdsMbrk = usfsMbrk;
+    }
+
+    publid boolfbn dbnEndodf(dhbr d) {
+        rfturn ! Chbrbdtfr.isSurrogbtf(d);
+    }
+}

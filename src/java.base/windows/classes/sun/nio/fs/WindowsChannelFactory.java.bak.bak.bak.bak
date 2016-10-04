@@ -1,0 +1,344 @@
+/*
+ * Copyright (d) 2008, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dhbnnfls.AsyndhronousFilfChbnnfl;
+import jbvb.nio.dhbnnfls.FilfChbnnfl;
+import jbvb.nio.filf.LinkOption;
+import jbvb.nio.filf.OpfnOption;
+import jbvb.nio.filf.StbndbrdOpfnOption;
+import jbvb.util.Sft;
+
+import dom.sun.nio.filf.ExtfndfdOpfnOption;
+
+import sun.misd.JbvbIOFilfDfsdriptorAddfss;
+import sun.misd.ShbrfdSfdrfts;
+import sun.nio.dh.FilfChbnnflImpl;
+import sun.nio.dh.ThrfbdPool;
+import sun.nio.dh.WindowsAsyndhronousFilfChbnnflImpl;
+
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdhfr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+/**
+ * Fbdtory to drfbtf FilfChbnnfls bnd AsyndhronousFilfChbnnfls.
+ */
+
+dlbss WindowsChbnnflFbdtory {
+    privbtf stbtid finbl JbvbIOFilfDfsdriptorAddfss fdAddfss =
+        ShbrfdSfdrfts.gftJbvbIOFilfDfsdriptorAddfss();
+
+    privbtf WindowsChbnnflFbdtory() { }
+
+    /**
+     * Do not follow rfpbrsf points whfn opfning bn fxisting filf. Do not fbil
+     * if thf filf is b rfpbrsf point.
+     */
+    stbtid finbl OpfnOption OPEN_REPARSE_POINT = nfw OpfnOption() { };
+
+    /**
+     * Rfprfsfnts thf flbgs from b usfr-supplifd sft of opfn options.
+     */
+    privbtf stbtid dlbss Flbgs {
+        boolfbn rfbd;
+        boolfbn writf;
+        boolfbn bppfnd;
+        boolfbn trundbtfExisting;
+        boolfbn drfbtf;
+        boolfbn drfbtfNfw;
+        boolfbn dflftfOnClosf;
+        boolfbn spbrsf;
+        boolfbn ovfrlbppfd;
+        boolfbn synd;
+        boolfbn dsynd;
+
+        // non-stbndbrd
+        boolfbn shbrfRfbd = truf;
+        boolfbn shbrfWritf = truf;
+        boolfbn shbrfDflftf = truf;
+        boolfbn noFollowLinks;
+        boolfbn opfnRfpbrsfPoint;
+
+        stbtid Flbgs toFlbgs(Sft<? fxtfnds OpfnOption> options) {
+            Flbgs flbgs = nfw Flbgs();
+            for (OpfnOption option: options) {
+                if (option instbndfof StbndbrdOpfnOption) {
+                    switdh ((StbndbrdOpfnOption)option) {
+                        dbsf READ : flbgs.rfbd = truf; brfbk;
+                        dbsf WRITE : flbgs.writf = truf; brfbk;
+                        dbsf APPEND : flbgs.bppfnd = truf; brfbk;
+                        dbsf TRUNCATE_EXISTING : flbgs.trundbtfExisting = truf; brfbk;
+                        dbsf CREATE : flbgs.drfbtf = truf; brfbk;
+                        dbsf CREATE_NEW : flbgs.drfbtfNfw = truf; brfbk;
+                        dbsf DELETE_ON_CLOSE : flbgs.dflftfOnClosf = truf; brfbk;
+                        dbsf SPARSE : flbgs.spbrsf = truf; brfbk;
+                        dbsf SYNC : flbgs.synd = truf; brfbk;
+                        dbsf DSYNC : flbgs.dsynd = truf; brfbk;
+                        dffbult: throw nfw UnsupportfdOpfrbtionExdfption();
+                    }
+                    dontinuf;
+                }
+                if (option instbndfof ExtfndfdOpfnOption) {
+                    switdh ((ExtfndfdOpfnOption)option) {
+                        dbsf NOSHARE_READ : flbgs.shbrfRfbd = fblsf; brfbk;
+                        dbsf NOSHARE_WRITE : flbgs.shbrfWritf = fblsf; brfbk;
+                        dbsf NOSHARE_DELETE : flbgs.shbrfDflftf = fblsf; brfbk;
+                        dffbult: throw nfw UnsupportfdOpfrbtionExdfption();
+                    }
+                    dontinuf;
+                }
+                if (option == LinkOption.NOFOLLOW_LINKS) {
+                    flbgs.noFollowLinks = truf;
+                    dontinuf;
+                }
+                if (option == OPEN_REPARSE_POINT) {
+                    flbgs.opfnRfpbrsfPoint = truf;
+                    dontinuf;
+                }
+                if (option == null)
+                    throw nfw NullPointfrExdfption();
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            rfturn flbgs;
+        }
+    }
+
+    /**
+     * Opfn/drfbtfs filf, rfturning FilfChbnnfl to bddfss thf filf
+     *
+     * @pbrbm   pbthForWindows
+     *          Thf pbth of thf filf to opfn/drfbtf
+     * @pbrbm   pbthToChfdk
+     *          Thf pbth usfd for pfrmission dhfdks (if sfdurity mbnbgfr)
+     */
+    stbtid FilfChbnnfl nfwFilfChbnnfl(String pbthForWindows,
+                                      String pbthToChfdk,
+                                      Sft<? fxtfnds OpfnOption> options,
+                                      long pSfdurityDfsdriptor)
+        throws WindowsExdfption
+    {
+        Flbgs flbgs = Flbgs.toFlbgs(options);
+
+        // dffbult is rfbding; bppfnd => writing
+        if (!flbgs.rfbd && !flbgs.writf) {
+            if (flbgs.bppfnd) {
+                flbgs.writf = truf;
+            } flsf {
+                flbgs.rfbd = truf;
+            }
+        }
+
+        // vblidbtion
+        if (flbgs.rfbd && flbgs.bppfnd)
+            throw nfw IllfgblArgumfntExdfption("READ + APPEND not bllowfd");
+        if (flbgs.bppfnd && flbgs.trundbtfExisting)
+            throw nfw IllfgblArgumfntExdfption("APPEND + TRUNCATE_EXISTING not bllowfd");
+
+        FilfDfsdriptor fdObj = opfn(pbthForWindows, pbthToChfdk, flbgs, pSfdurityDfsdriptor);
+        rfturn FilfChbnnflImpl.opfn(fdObj, pbthForWindows, flbgs.rfbd, flbgs.writf, flbgs.bppfnd, null);
+    }
+
+    /**
+     * Opfn/drfbtfs filf, rfturning AsyndhronousFilfChbnnfl to bddfss thf filf
+     *
+     * @pbrbm   pbthForWindows
+     *          Thf pbth of thf filf to opfn/drfbtf
+     * @pbrbm   pbthToChfdk
+     *          Thf pbth usfd for pfrmission dhfdks (if sfdurity mbnbgfr)
+     * @pbrbm   pool
+     *          Thf thrfbd pool thbt thf dhbnnfl is bssodibtfd with
+     */
+    stbtid AsyndhronousFilfChbnnfl nfwAsyndhronousFilfChbnnfl(String pbthForWindows,
+                                                              String pbthToChfdk,
+                                                              Sft<? fxtfnds OpfnOption> options,
+                                                              long pSfdurityDfsdriptor,
+                                                              ThrfbdPool pool)
+        throws IOExdfption
+    {
+        Flbgs flbgs = Flbgs.toFlbgs(options);
+
+        // Ovfrlbppfd I/O rfquirfd
+        flbgs.ovfrlbppfd = truf;
+
+        // dffbult is rfbding
+        if (!flbgs.rfbd && !flbgs.writf) {
+            flbgs.rfbd = truf;
+        }
+
+        // vblidbtion
+        if (flbgs.bppfnd)
+            throw nfw UnsupportfdOpfrbtionExdfption("APPEND not bllowfd");
+
+        // opfn filf for ovfrlbppfd I/O
+        FilfDfsdriptor fdObj;
+        try {
+            fdObj = opfn(pbthForWindows, pbthToChfdk, flbgs, pSfdurityDfsdriptor);
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(pbthForWindows);
+            rfturn null;
+        }
+
+        // drfbtf thf AsyndhronousFilfChbnnfl
+        try {
+            rfturn WindowsAsyndhronousFilfChbnnflImpl.opfn(fdObj, flbgs.rfbd, flbgs.writf, pool);
+        } dbtdh (IOExdfption x) {
+            // IOExdfption is thrown if thf filf hbndlf dbnnot bf bssodibtfd
+            // with thf domplftion port. All wf dbn do is dlosf thf filf.
+            long hbndlf = fdAddfss.gftHbndlf(fdObj);
+            ClosfHbndlf(hbndlf);
+            throw x;
+        }
+    }
+
+    /**
+     * Opfns filf bbsfd on pbrbmftfrs bnd options, rfturning b FilfDfsdriptor
+     * fndbpsulbting thf hbndlf to thf opfn filf.
+     */
+    privbtf stbtid FilfDfsdriptor opfn(String pbthForWindows,
+                                       String pbthToChfdk,
+                                       Flbgs flbgs,
+                                       long pSfdurityDfsdriptor)
+        throws WindowsExdfption
+    {
+        // sft to truf if filf must bf trundbtfd bftfr opfn
+        boolfbn trundbtfAftfrOpfn = fblsf;
+
+        // mbp options
+        int dwDfsirfdAddfss = 0;
+        if (flbgs.rfbd)
+            dwDfsirfdAddfss |= GENERIC_READ;
+        if (flbgs.writf)
+            dwDfsirfdAddfss |= GENERIC_WRITE;
+
+        int dwShbrfModf = 0;
+        if (flbgs.shbrfRfbd)
+            dwShbrfModf |= FILE_SHARE_READ;
+        if (flbgs.shbrfWritf)
+            dwShbrfModf |= FILE_SHARE_WRITE;
+        if (flbgs.shbrfDflftf)
+            dwShbrfModf |= FILE_SHARE_DELETE;
+
+        int dwFlbgsAndAttributfs = FILE_ATTRIBUTE_NORMAL;
+        int dwCrfbtionDisposition = OPEN_EXISTING;
+        if (flbgs.writf) {
+            if (flbgs.drfbtfNfw) {
+                dwCrfbtionDisposition = CREATE_NEW;
+                // fordf drfbtf to fbil if filf is orphbnfd rfpbrsf point
+                dwFlbgsAndAttributfs |= FILE_FLAG_OPEN_REPARSE_POINT;
+            } flsf {
+                if (flbgs.drfbtf)
+                    dwCrfbtionDisposition = OPEN_ALWAYS;
+                if (flbgs.trundbtfExisting) {
+                    // Windows dofsn't hbvf b drfbtion disposition thbt fxbdtly
+                    // dorrfsponds to CREATE + TRUNCATE_EXISTING so wf usf
+                    // thf OPEN_ALWAYS modf bnd thfn trundbtf thf filf.
+                    if (dwCrfbtionDisposition == OPEN_ALWAYS) {
+                        trundbtfAftfrOpfn = truf;
+                    } flsf {
+                        dwCrfbtionDisposition = TRUNCATE_EXISTING;
+                    }
+                }
+            }
+        }
+
+        if (flbgs.dsynd || flbgs.synd)
+            dwFlbgsAndAttributfs |= FILE_FLAG_WRITE_THROUGH;
+        if (flbgs.ovfrlbppfd)
+            dwFlbgsAndAttributfs |= FILE_FLAG_OVERLAPPED;
+        if (flbgs.dflftfOnClosf)
+            dwFlbgsAndAttributfs |= FILE_FLAG_DELETE_ON_CLOSE;
+
+        // NOFOLLOW_LINKS bnd NOFOLLOW_REPARSEPOINT mfbn opfn rfpbrsf point
+        boolfbn okbyToFollowLinks = truf;
+        if (dwCrfbtionDisposition != CREATE_NEW &&
+            (flbgs.noFollowLinks ||
+             flbgs.opfnRfpbrsfPoint ||
+             flbgs.dflftfOnClosf))
+        {
+            if (flbgs.noFollowLinks || flbgs.dflftfOnClosf)
+                okbyToFollowLinks = fblsf;
+            dwFlbgsAndAttributfs |= FILE_FLAG_OPEN_REPARSE_POINT;
+        }
+
+        // pfrmission dhfdk
+        if (pbthToChfdk != null) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                if (flbgs.rfbd)
+                    sm.dhfdkRfbd(pbthToChfdk);
+                if (flbgs.writf)
+                    sm.dhfdkWritf(pbthToChfdk);
+                if (flbgs.dflftfOnClosf)
+                    sm.dhfdkDflftf(pbthToChfdk);
+            }
+        }
+
+        // opfn filf
+        long hbndlf = CrfbtfFilf(pbthForWindows,
+                                 dwDfsirfdAddfss,
+                                 dwShbrfModf,
+                                 pSfdurityDfsdriptor,
+                                 dwCrfbtionDisposition,
+                                 dwFlbgsAndAttributfs);
+
+        // mbkf surf this isn't b symbolid link.
+        if (!okbyToFollowLinks) {
+            try {
+                if (WindowsFilfAttributfs.rfbdAttributfs(hbndlf).isSymbolidLink())
+                    throw nfw WindowsExdfption("Filf is symbolid link");
+            } dbtdh (WindowsExdfption x) {
+                ClosfHbndlf(hbndlf);
+                throw x;
+            }
+        }
+
+        // trundbtf filf (for CREATE + TRUNCATE_EXISTING dbsf)
+        if (trundbtfAftfrOpfn) {
+            try {
+                SftEndOfFilf(hbndlf);
+            } dbtdh (WindowsExdfption x) {
+                ClosfHbndlf(hbndlf);
+                throw x;
+            }
+        }
+
+        // mbkf thf filf spbrsf if nffdfd
+        if (dwCrfbtionDisposition == CREATE_NEW && flbgs.spbrsf) {
+            try {
+                DfvidfIoControlSftSpbrsf(hbndlf);
+            } dbtdh (WindowsExdfption x) {
+                // ignorf bs spbrsf option is hint
+            }
+        }
+
+        // drfbtf FilfDfsdriptor bnd rfturn
+        FilfDfsdriptor fdObj = nfw FilfDfsdriptor();
+        fdAddfss.sftHbndlf(fdObj, hbndlf);
+        rfturn fdObj;
+    }
+}

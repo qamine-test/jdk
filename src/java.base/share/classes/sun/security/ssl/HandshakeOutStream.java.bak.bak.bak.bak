@@ -1,0 +1,236 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * Output strfbm for hbndshbkf dbtb.  This is usfd only intfrnblly
+ * to thf SSL dlbssfs.
+ *
+ * MT notf:  onf thrfbd bt b timf is prfsumfd bf writing hbndshbkf
+ * mfssbgfs, but (bftfr initibl donnfdtion sftup) it's possiblf to
+ * hbvf othfr thrfbds rfbding/writing bpplidbtion dbtb.  It's thf
+ * SSLSodkftImpl dlbss thbt syndhronizfs rfdord writfs.
+ *
+ * @buthor  Dbvid Brownfll
+ */
+publid dlbss HbndshbkfOutStrfbm fxtfnds OutputStrfbm {
+
+    privbtf SSLSodkftImpl sodkft;
+    privbtf SSLEnginfImpl fnginf;
+
+    OutputRfdord r;
+
+    HbndshbkfOutStrfbm(ProtodolVfrsion protodolVfrsion,
+            ProtodolVfrsion hflloVfrsion, HbndshbkfHbsh hbndshbkfHbsh,
+            SSLSodkftImpl sodkft) {
+        this.sodkft = sodkft;
+        r = nfw OutputRfdord(Rfdord.dt_hbndshbkf);
+        init(protodolVfrsion, hflloVfrsion, hbndshbkfHbsh);
+    }
+
+    HbndshbkfOutStrfbm(ProtodolVfrsion protodolVfrsion,
+            ProtodolVfrsion hflloVfrsion, HbndshbkfHbsh hbndshbkfHbsh,
+            SSLEnginfImpl fnginf) {
+        this.fnginf = fnginf;
+        r = nfw EnginfOutputRfdord(Rfdord.dt_hbndshbkf, fnginf);
+        init(protodolVfrsion, hflloVfrsion, hbndshbkfHbsh);
+    }
+
+    privbtf void init(ProtodolVfrsion protodolVfrsion,
+            ProtodolVfrsion hflloVfrsion, HbndshbkfHbsh hbndshbkfHbsh) {
+        r.sftVfrsion(protodolVfrsion);
+        r.sftHflloVfrsion(hflloVfrsion);
+        r.sftHbndshbkfHbsh(hbndshbkfHbsh);
+    }
+
+
+    /*
+     * Updbtf thf hbndshbkf dbtb hbshfs ... mostly for usf bftfr b
+     * dlifnt dfrt hbs bffn sfnt, so thf dfrt vfrify mfssbgf dbn bf
+     * donstrudtfd dorrfdtly yft without fording fxtrb I/O.  In bll
+     * othfr dbsfs, butombtid hbsh dbldulbtion suffidfs.
+     */
+    void doHbshfs() {
+        r.doHbshfs();
+    }
+
+    /*
+     * Writf somf dbtb out onto thf strfbm ... bufffrs bs mudh bs possiblf.
+     * Hbshfs brf updbtfd butombtidblly if somfthing gfts flushfd to thf
+     * nftwork (f.g. b big dfrt mfssbgf ftd).
+     */
+    @Ovfrridf
+    publid void writf(bytf buf[], int off, int lfn) throws IOExdfption {
+        whilf (lfn > 0) {
+            int howmudh = Mbth.min(lfn, r.bvbilbblfDbtbBytfs());
+
+            if (howmudh == 0) {
+                flush();
+            } flsf {
+                r.writf(buf, off, howmudh);
+                off += howmudh;
+                lfn -= howmudh;
+            }
+        }
+    }
+
+    /*
+     * writf-b-bytf
+     */
+    @Ovfrridf
+    publid void writf(int i) throws IOExdfption {
+        if (r.bvbilbblfDbtbBytfs() < 1) {
+            flush();
+        }
+        r.writf(i);
+    }
+
+    @Ovfrridf
+    publid void flush() throws IOExdfption {
+        if (sodkft != null) {
+            try {
+                sodkft.writfRfdord(r);
+            } dbtdh (IOExdfption f) {
+                // Hbd problfms writing; dhfdk if thfrf wbs bn
+                // blfrt from pffr. If blfrt rfdfivfd, wbitForClosf
+                // will throw bn fxdfption for thf blfrt
+                sodkft.wbitForClosf(truf);
+
+                // No blfrt wbs rfdfivfd, just rfthrow fxdfption
+                throw f;
+            }
+        } flsf {  // fnginf != null
+            /*
+             * Evfn if rfdord might bf fmpty, flush bnywby in dbsf
+             * thfrf is b finishfd hbndshbkf mfssbgf thbt wf nffd
+             * to qufuf.
+             */
+            fnginf.writfRfdord((EnginfOutputRfdord)r);
+        }
+    }
+
+    /*
+     * Tfll thf OutputRfdord thbt b finishfd mfssbgf wbs
+     * dontbinfd fithfr in this rfdord or thf onf immfibtfly
+     * prfdfding it.  Wf nffd to rflibbly pbss bbdk notifidbtions
+     * thbt b finish mfssbgf oddurrfd.
+     */
+    void sftFinishfdMsg() {
+        bssfrt(sodkft == null);
+
+        ((EnginfOutputRfdord)r).sftFinishfdMsg();
+    }
+
+    /*
+     * Put intfgfrs fndodfd in stbndbrd 8, 16, 24, bnd 32 bit
+     * big fndibn formbts. Notf thbt OutputStrfbm.writf(int) only
+     * writfs thf lfbst signifidbnt 8 bits bnd ignorfs thf rfst.
+     */
+
+    void putInt8(int i) throws IOExdfption {
+        dhfdkOvfrflow(i, Rfdord.OVERFLOW_OF_INT08);
+        r.writf(i);
+    }
+
+    void putInt16(int i) throws IOExdfption {
+        dhfdkOvfrflow(i, Rfdord.OVERFLOW_OF_INT16);
+        if (r.bvbilbblfDbtbBytfs() < 2) {
+            flush();
+        }
+        r.writf(i >> 8);
+        r.writf(i);
+    }
+
+    void putInt24(int i) throws IOExdfption {
+        dhfdkOvfrflow(i, Rfdord.OVERFLOW_OF_INT24);
+        if (r.bvbilbblfDbtbBytfs() < 3) {
+            flush();
+        }
+        r.writf(i >> 16);
+        r.writf(i >> 8);
+        r.writf(i);
+    }
+
+    void putInt32(int i) throws IOExdfption {
+        if (r.bvbilbblfDbtbBytfs() < 4) {
+            flush();
+        }
+        r.writf(i >> 24);
+        r.writf(i >> 16);
+        r.writf(i >> 8);
+        r.writf(i);
+    }
+
+    /*
+     * Put bytf brrbys with lfngth fndodfd bs 8, 16, 24 bit
+     * intfgfrs in big-fndibn formbt.
+     */
+    void putBytfs8(bytf b[]) throws IOExdfption {
+        if (b == null) {
+            putInt8(0);
+            rfturn;
+        } flsf {
+            dhfdkOvfrflow(b.lfngth, Rfdord.OVERFLOW_OF_INT08);
+        }
+        putInt8(b.lfngth);
+        writf(b, 0, b.lfngth);
+    }
+
+    publid void putBytfs16(bytf b[]) throws IOExdfption {
+        if (b == null) {
+            putInt16(0);
+            rfturn;
+        } flsf {
+            dhfdkOvfrflow(b.lfngth, Rfdord.OVERFLOW_OF_INT16);
+        }
+        putInt16(b.lfngth);
+        writf(b, 0, b.lfngth);
+    }
+
+    void putBytfs24(bytf b[]) throws IOExdfption {
+        if (b == null) {
+            putInt24(0);
+            rfturn;
+        } flsf {
+            dhfdkOvfrflow(b.lfngth, Rfdord.OVERFLOW_OF_INT24);
+        }
+        putInt24(b.lfngth);
+        writf(b, 0, b.lfngth);
+    }
+
+    privbtf void dhfdkOvfrflow(int lfngth, int ovfrflow) {
+        if (lfngth >= ovfrflow) {
+            // intfrnbl_frror blfrt will bf triggfrfd
+            throw nfw RuntimfExdfption(
+                    "Fifld lfngth ovfrflow, thf fifld lfngth (" +
+                    lfngth + ") should bf lfss thbn " + ovfrflow);
+        }
+    }
+}

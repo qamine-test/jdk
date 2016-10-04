@@ -1,0 +1,1040 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.tfxt.spi.DbtfFormbtProvidfr;
+import jbvb.util.Cblfndbr;
+import jbvb.util.Dbtf;
+import jbvb.util.GrfgoribnCblfndbr;
+import jbvb.util.HbshMbp;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.TimfZonf;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
+
+/**
+ * {@dodf DbtfFormbt} is bn bbstrbdt dlbss for dbtf/timf formbtting subdlbssfs whidh
+ * formbts bnd pbrsfs dbtfs or timf in b lbngubgf-indfpfndfnt mbnnfr.
+ * Thf dbtf/timf formbtting subdlbss, sudh bs {@link SimplfDbtfFormbt}, bllows for
+ * formbtting (i.f., dbtf &rbrr; tfxt), pbrsing (tfxt &rbrr; dbtf), bnd
+ * normblizbtion.  Thf dbtf is rfprfsfntfd bs b <dodf>Dbtf</dodf> objfdt or
+ * bs thf millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT.
+ *
+ * <p>{@dodf DbtfFormbt} providfs mbny dlbss mfthods for obtbining dffbult dbtf/timf
+ * formbttfrs bbsfd on thf dffbult or b givfn lodblf bnd b numbfr of formbtting
+ * stylfs. Thf formbtting stylfs indludf {@link #FULL}, {@link #LONG}, {@link #MEDIUM}, bnd {@link #SHORT}. Morf
+ * dftbil bnd fxbmplfs of using thfsf stylfs brf providfd in thf mfthod
+ * dfsdriptions.
+ *
+ * <p>{@dodf DbtfFormbt} hflps you to formbt bnd pbrsf dbtfs for bny lodblf.
+ * Your dodf dbn bf domplftfly indfpfndfnt of thf lodblf donvfntions for
+ * months, dbys of thf wffk, or fvfn thf dblfndbr formbt: lunbr vs. solbr.
+ *
+ * <p>To formbt b dbtf for thf durrfnt Lodblf, usf onf of thf
+ * stbtid fbdtory mfthods:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * myString = DbtfFormbt.gftDbtfInstbndf().formbt(myDbtf);
+ * }</prf>
+ * </blodkquotf>
+ * <p>If you brf formbtting multiplf dbtfs, it is
+ * morf fffidifnt to gft thf formbt bnd usf it multiplf timfs so thbt
+ * thf systfm dofsn't hbvf to fftdh thf informbtion bbout thf lodbl
+ * lbngubgf bnd dountry donvfntions multiplf timfs.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * DbtfFormbt df = DbtfFormbt.gftDbtfInstbndf();
+ * for (int i = 0; i < myDbtf.lfngth; ++i) {
+ *     output.println(df.formbt(myDbtf[i]) + "; ");
+ * }
+ * }</prf>
+ * </blodkquotf>
+ * <p>To formbt b dbtf for b difffrfnt Lodblf, spfdify it in thf
+ * dbll to {@link #gftDbtfInstbndf(int, Lodblf) gftDbtfInstbndf()}.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * DbtfFormbt df = DbtfFormbt.gftDbtfInstbndf(DbtfFormbt.LONG, Lodblf.FRANCE);
+ * }</prf>
+ * </blodkquotf>
+ * <p>You dbn usf b DbtfFormbt to pbrsf blso.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * myDbtf = df.pbrsf(myString);
+ * }</prf>
+ * </blodkquotf>
+ * <p>Usf {@dodf gftDbtfInstbndf} to gft thf normbl dbtf formbt for thbt dountry.
+ * Thfrf brf othfr stbtid fbdtory mfthods bvbilbblf.
+ * Usf {@dodf gftTimfInstbndf} to gft thf timf formbt for thbt dountry.
+ * Usf {@dodf gftDbtfTimfInstbndf} to gft b dbtf bnd timf formbt. You dbn pbss in
+ * difffrfnt options to thfsf fbdtory mfthods to dontrol thf lfngth of thf
+ * rfsult; from {@link #SHORT} to {@link #MEDIUM} to {@link #LONG} to {@link #FULL}. Thf fxbdt rfsult dfpfnds
+ * on thf lodblf, but gfnfrblly:
+ * <ul><li>{@link #SHORT} is domplftfly numfrid, sudh bs {@dodf 12.13.52} or {@dodf 3:30pm}
+ * <li>{@link #MEDIUM} is longfr, sudh bs {@dodf Jbn 12, 1952}
+ * <li>{@link #LONG} is longfr, sudh bs {@dodf Jbnubry 12, 1952} or {@dodf 3:30:32pm}
+ * <li>{@link #FULL} is prftty domplftfly spfdififd, sudh bs
+ * {@dodf Tufsdby, April 12, 1952 AD or 3:30:42pm PST}.
+ * </ul>
+ *
+ * <p>You dbn blso sft thf timf zonf on thf formbt if you wish.
+ * If you wbnt fvfn morf dontrol ovfr thf formbt or pbrsing,
+ * (or wbnt to givf your usfrs morf dontrol),
+ * you dbn try dbsting thf {@dodf DbtfFormbt} you gft from thf fbdtory mfthods
+ * to b {@link SimplfDbtfFormbt}. This will work for thf mbjority
+ * of dountrifs; just rfmfmbfr to put it in b {@dodf try} blodk in dbsf you
+ * fndountfr bn unusubl onf.
+ *
+ * <p>You dbn blso usf forms of thf pbrsf bnd formbt mfthods with
+ * {@link PbrsfPosition} bnd {@link FifldPosition} to
+ * bllow you to
+ * <ul><li>progrfssivfly pbrsf through pifdfs of b string.
+ * <li>blign bny pbrtidulbr fifld, or find out whfrf it is for sflfdtion
+ * on thf sdrffn.
+ * </ul>
+ *
+ * <h3><b nbmf="syndhronizbtion">Syndhronizbtion</b></h3>
+ *
+ * <p>
+ * Dbtf formbts brf not syndhronizfd.
+ * It is rfdommfndfd to drfbtf sfpbrbtf formbt instbndfs for fbdh thrfbd.
+ * If multiplf thrfbds bddfss b formbt dondurrfntly, it must bf syndhronizfd
+ * fxtfrnblly.
+ *
+ * @sff          Formbt
+ * @sff          NumbfrFormbt
+ * @sff          SimplfDbtfFormbt
+ * @sff          jbvb.util.Cblfndbr
+ * @sff          jbvb.util.GrfgoribnCblfndbr
+ * @sff          jbvb.util.TimfZonf
+ * @buthor       Mbrk Dbvis, Chfn-Lifh Hubng, Albn Liu
+ */
+publid bbstrbdt dlbss DbtfFormbt fxtfnds Formbt {
+
+    /**
+     * Thf {@link Cblfndbr} instbndf usfd for dbldulbting thf dbtf-timf fiflds
+     * bnd thf instbnt of timf. This fifld is usfd for both formbtting bnd
+     * pbrsing.
+     *
+     * <p>Subdlbssfs should initiblizf this fifld to b {@link Cblfndbr}
+     * bppropribtf for thf {@link Lodblf} bssodibtfd with this
+     * <dodf>DbtfFormbt</dodf>.
+     * @sfribl
+     */
+    protfdtfd Cblfndbr dblfndbr;
+
+    /**
+     * Thf numbfr formbttfr thbt <dodf>DbtfFormbt</dodf> usfs to formbt numbfrs
+     * in dbtfs bnd timfs.  Subdlbssfs should initiblizf this to b numbfr formbt
+     * bppropribtf for thf lodblf bssodibtfd with this <dodf>DbtfFormbt</dodf>.
+     * @sfribl
+     */
+    protfdtfd NumbfrFormbt numbfrFormbt;
+
+    /**
+     * Usfful donstbnt for ERA fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int ERA_FIELD = 0;
+    /**
+     * Usfful donstbnt for YEAR fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int YEAR_FIELD = 1;
+    /**
+     * Usfful donstbnt for MONTH fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int MONTH_FIELD = 2;
+    /**
+     * Usfful donstbnt for DATE fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int DATE_FIELD = 3;
+    /**
+     * Usfful donstbnt for onf-bbsfd HOUR_OF_DAY fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     * HOUR_OF_DAY1_FIELD is usfd for thf onf-bbsfd 24-hour dlodk.
+     * For fxbmplf, 23:59 + 01:00 rfsults in 24:59.
+     */
+    publid finbl stbtid int HOUR_OF_DAY1_FIELD = 4;
+    /**
+     * Usfful donstbnt for zfro-bbsfd HOUR_OF_DAY fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     * HOUR_OF_DAY0_FIELD is usfd for thf zfro-bbsfd 24-hour dlodk.
+     * For fxbmplf, 23:59 + 01:00 rfsults in 00:59.
+     */
+    publid finbl stbtid int HOUR_OF_DAY0_FIELD = 5;
+    /**
+     * Usfful donstbnt for MINUTE fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int MINUTE_FIELD = 6;
+    /**
+     * Usfful donstbnt for SECOND fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int SECOND_FIELD = 7;
+    /**
+     * Usfful donstbnt for MILLISECOND fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int MILLISECOND_FIELD = 8;
+    /**
+     * Usfful donstbnt for DAY_OF_WEEK fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int DAY_OF_WEEK_FIELD = 9;
+    /**
+     * Usfful donstbnt for DAY_OF_YEAR fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int DAY_OF_YEAR_FIELD = 10;
+    /**
+     * Usfful donstbnt for DAY_OF_WEEK_IN_MONTH fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int DAY_OF_WEEK_IN_MONTH_FIELD = 11;
+    /**
+     * Usfful donstbnt for WEEK_OF_YEAR fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int WEEK_OF_YEAR_FIELD = 12;
+    /**
+     * Usfful donstbnt for WEEK_OF_MONTH fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int WEEK_OF_MONTH_FIELD = 13;
+    /**
+     * Usfful donstbnt for AM_PM fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int AM_PM_FIELD = 14;
+    /**
+     * Usfful donstbnt for onf-bbsfd HOUR fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     * HOUR1_FIELD is usfd for thf onf-bbsfd 12-hour dlodk.
+     * For fxbmplf, 11:30 PM + 1 hour rfsults in 12:30 AM.
+     */
+    publid finbl stbtid int HOUR1_FIELD = 15;
+    /**
+     * Usfful donstbnt for zfro-bbsfd HOUR fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     * HOUR0_FIELD is usfd for thf zfro-bbsfd 12-hour dlodk.
+     * For fxbmplf, 11:30 PM + 1 hour rfsults in 00:30 AM.
+     */
+    publid finbl stbtid int HOUR0_FIELD = 16;
+    /**
+     * Usfful donstbnt for TIMEZONE fifld blignmfnt.
+     * Usfd in FifldPosition of dbtf/timf formbtting.
+     */
+    publid finbl stbtid int TIMEZONE_FIELD = 17;
+
+    // Prodlbim sfribl dompbtibility with 1.1 FCS
+    privbtf stbtid finbl long sfriblVfrsionUID = 7218322306649953788L;
+
+    /**
+     * Ovfrridfs Formbt.
+     * Formbts b timf objfdt into b timf string. Exbmplfs of timf objfdts
+     * brf b timf vbluf fxprfssfd in millisfdonds bnd b Dbtf objfdt.
+     * @pbrbm obj must bf b Numbfr or b Dbtf.
+     * @pbrbm toAppfndTo thf string bufffr for thf rfturning timf string.
+     * @rfturn thf string bufffr pbssfd in bs toAppfndTo, with formbttfd tfxt bppfndfd.
+     * @pbrbm fifldPosition kffps trbdk of thf position of thf fifld
+     * within thf rfturnfd string.
+     * On input: bn blignmfnt fifld,
+     * if dfsirfd. On output: thf offsfts of thf blignmfnt fifld. For
+     * fxbmplf, givfn b timf tfxt "1996.07.10 AD bt 15:08:56 PDT",
+     * if thf givfn fifldPosition is DbtfFormbt.YEAR_FIELD, thf
+     * bfgin indfx bnd fnd indfx of fifldPosition will bf sft to
+     * 0 bnd 4, rfspfdtivfly.
+     * Notidf thbt if thf sbmf timf fifld bppfbrs
+     * morf thbn ondf in b pbttfrn, thf fifldPosition will bf sft for thf first
+     * oddurrfndf of thbt timf fifld. For instbndf, formbtting b Dbtf to
+     * thf timf string "1 PM PDT (Pbdifid Dbylight Timf)" using thf pbttfrn
+     * "h b z (zzzz)" bnd thf blignmfnt fifld DbtfFormbt.TIMEZONE_FIELD,
+     * thf bfgin indfx bnd fnd indfx of fifldPosition will bf sft to
+     * 5 bnd 8, rfspfdtivfly, for thf first oddurrfndf of thf timfzonf
+     * pbttfrn dhbrbdtfr 'z'.
+     * @sff jbvb.tfxt.Formbt
+     */
+    publid finbl StringBufffr formbt(Objfdt obj, StringBufffr toAppfndTo,
+                                     FifldPosition fifldPosition)
+    {
+        if (obj instbndfof Dbtf)
+            rfturn formbt( (Dbtf)obj, toAppfndTo, fifldPosition );
+        flsf if (obj instbndfof Numbfr)
+            rfturn formbt( nfw Dbtf(((Numbfr)obj).longVbluf()),
+                          toAppfndTo, fifldPosition );
+        flsf
+            throw nfw IllfgblArgumfntExdfption("Cbnnot formbt givfn Objfdt bs b Dbtf");
+    }
+
+    /**
+     * Formbts b Dbtf into b dbtf/timf string.
+     * @pbrbm dbtf b Dbtf to bf formbttfd into b dbtf/timf string.
+     * @pbrbm toAppfndTo thf string bufffr for thf rfturning dbtf/timf string.
+     * @pbrbm fifldPosition kffps trbdk of thf position of thf fifld
+     * within thf rfturnfd string.
+     * On input: bn blignmfnt fifld,
+     * if dfsirfd. On output: thf offsfts of thf blignmfnt fifld. For
+     * fxbmplf, givfn b timf tfxt "1996.07.10 AD bt 15:08:56 PDT",
+     * if thf givfn fifldPosition is DbtfFormbt.YEAR_FIELD, thf
+     * bfgin indfx bnd fnd indfx of fifldPosition will bf sft to
+     * 0 bnd 4, rfspfdtivfly.
+     * Notidf thbt if thf sbmf timf fifld bppfbrs
+     * morf thbn ondf in b pbttfrn, thf fifldPosition will bf sft for thf first
+     * oddurrfndf of thbt timf fifld. For instbndf, formbtting b Dbtf to
+     * thf timf string "1 PM PDT (Pbdifid Dbylight Timf)" using thf pbttfrn
+     * "h b z (zzzz)" bnd thf blignmfnt fifld DbtfFormbt.TIMEZONE_FIELD,
+     * thf bfgin indfx bnd fnd indfx of fifldPosition will bf sft to
+     * 5 bnd 8, rfspfdtivfly, for thf first oddurrfndf of thf timfzonf
+     * pbttfrn dhbrbdtfr 'z'.
+     * @rfturn thf string bufffr pbssfd in bs toAppfndTo, with formbttfd tfxt bppfndfd.
+     */
+    publid bbstrbdt StringBufffr formbt(Dbtf dbtf, StringBufffr toAppfndTo,
+                                        FifldPosition fifldPosition);
+
+    /**
+     * Formbts b Dbtf into b dbtf/timf string.
+     * @pbrbm dbtf thf timf vbluf to bf formbttfd into b timf string.
+     * @rfturn thf formbttfd timf string.
+     */
+    publid finbl String formbt(Dbtf dbtf)
+    {
+        rfturn formbt(dbtf, nfw StringBufffr(),
+                      DontCbrfFifldPosition.INSTANCE).toString();
+    }
+
+    /**
+     * Pbrsfs tfxt from thf bfginning of thf givfn string to produdf b dbtf.
+     * Thf mfthod mby not usf thf fntirf tfxt of thf givfn string.
+     * <p>
+     * Sff thf {@link #pbrsf(String, PbrsfPosition)} mfthod for morf informbtion
+     * on dbtf pbrsing.
+     *
+     * @pbrbm sourdf A <dodf>String</dodf> whosf bfginning should bf pbrsfd.
+     * @rfturn A <dodf>Dbtf</dodf> pbrsfd from thf string.
+     * @fxdfption PbrsfExdfption if thf bfginning of thf spfdififd string
+     *            dbnnot bf pbrsfd.
+     */
+    publid Dbtf pbrsf(String sourdf) throws PbrsfExdfption
+    {
+        PbrsfPosition pos = nfw PbrsfPosition(0);
+        Dbtf rfsult = pbrsf(sourdf, pos);
+        if (pos.indfx == 0)
+            throw nfw PbrsfExdfption("Unpbrsfbblf dbtf: \"" + sourdf + "\"" ,
+                pos.frrorIndfx);
+        rfturn rfsult;
+    }
+
+    /**
+     * Pbrsf b dbtf/timf string bddording to thf givfn pbrsf position.  For
+     * fxbmplf, b timf tfxt {@dodf "07/10/96 4:5 PM, PDT"} will bf pbrsfd into b {@dodf Dbtf}
+     * thbt is fquivblfnt to {@dodf Dbtf(837039900000L)}.
+     *
+     * <p> By dffbult, pbrsing is lfnifnt: If thf input is not in thf form usfd
+     * by this objfdt's formbt mfthod but dbn still bf pbrsfd bs b dbtf, thfn
+     * thf pbrsf suddffds.  Clifnts mby insist on stridt bdhfrfndf to thf
+     * formbt by dblling {@link #sftLfnifnt(boolfbn) sftLfnifnt(fblsf)}.
+     *
+     * <p>This pbrsing opfrbtion usfs thf {@link #dblfndbr} to produdf
+     * b {@dodf Dbtf}. As b rfsult, thf {@dodf dblfndbr}'s dbtf-timf
+     * fiflds bnd thf {@dodf TimfZonf} vbluf mby hbvf bffn
+     * ovfrwrittfn, dfpfnding on subdlbss implfmfntbtions. Any {@dodf
+     * TimfZonf} vbluf thbt hbs prfviously bffn sft by b dbll to
+     * {@link #sftTimfZonf(jbvb.util.TimfZonf) sftTimfZonf} mby nffd
+     * to bf rfstorfd for furthfr opfrbtions.
+     *
+     * @pbrbm sourdf  Thf dbtf/timf string to bf pbrsfd
+     *
+     * @pbrbm pos   On input, thf position bt whidh to stbrt pbrsing; on
+     *              output, thf position bt whidh pbrsing tfrminbtfd, or thf
+     *              stbrt position if thf pbrsf fbilfd.
+     *
+     * @rfturn      A {@dodf Dbtf}, or {@dodf null} if thf input dould not bf pbrsfd
+     */
+    publid bbstrbdt Dbtf pbrsf(String sourdf, PbrsfPosition pos);
+
+    /**
+     * Pbrsfs tfxt from b string to produdf b <dodf>Dbtf</dodf>.
+     * <p>
+     * Thf mfthod bttfmpts to pbrsf tfxt stbrting bt thf indfx givfn by
+     * <dodf>pos</dodf>.
+     * If pbrsing suddffds, thfn thf indfx of <dodf>pos</dodf> is updbtfd
+     * to thf indfx bftfr thf lbst dhbrbdtfr usfd (pbrsing dofs not nfdfssbrily
+     * usf bll dhbrbdtfrs up to thf fnd of thf string), bnd thf pbrsfd
+     * dbtf is rfturnfd. Thf updbtfd <dodf>pos</dodf> dbn bf usfd to
+     * indidbtf thf stbrting point for thf nfxt dbll to this mfthod.
+     * If bn frror oddurs, thfn thf indfx of <dodf>pos</dodf> is not
+     * dhbngfd, thf frror indfx of <dodf>pos</dodf> is sft to thf indfx of
+     * thf dhbrbdtfr whfrf thf frror oddurrfd, bnd null is rfturnfd.
+     * <p>
+     * Sff thf {@link #pbrsf(String, PbrsfPosition)} mfthod for morf informbtion
+     * on dbtf pbrsing.
+     *
+     * @pbrbm sourdf A <dodf>String</dodf>, pbrt of whidh should bf pbrsfd.
+     * @pbrbm pos A <dodf>PbrsfPosition</dodf> objfdt with indfx bnd frror
+     *            indfx informbtion bs dfsdribfd bbovf.
+     * @rfturn A <dodf>Dbtf</dodf> pbrsfd from thf string. In dbsf of
+     *         frror, rfturns null.
+     * @fxdfption NullPointfrExdfption if <dodf>pos</dodf> is null.
+     */
+    publid Objfdt pbrsfObjfdt(String sourdf, PbrsfPosition pos) {
+        rfturn pbrsf(sourdf, pos);
+    }
+
+    /**
+     * Constbnt for full stylf pbttfrn.
+     */
+    publid stbtid finbl int FULL = 0;
+    /**
+     * Constbnt for long stylf pbttfrn.
+     */
+    publid stbtid finbl int LONG = 1;
+    /**
+     * Constbnt for mfdium stylf pbttfrn.
+     */
+    publid stbtid finbl int MEDIUM = 2;
+    /**
+     * Constbnt for short stylf pbttfrn.
+     */
+    publid stbtid finbl int SHORT = 3;
+    /**
+     * Constbnt for dffbult stylf pbttfrn.  Its vbluf is MEDIUM.
+     */
+    publid stbtid finbl int DEFAULT = MEDIUM;
+
+    /**
+     * Gfts thf timf formbttfr with thf dffbult formbtting stylf
+     * for thf dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>This is fquivblfnt to dblling
+     * {@link #gftTimfInstbndf(int, Lodblf) gftTimfInstbndf(DEFAULT,
+     *     Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn b timf formbttfr.
+     */
+    publid finbl stbtid DbtfFormbt gftTimfInstbndf()
+    {
+        rfturn gft(DEFAULT, 0, 1, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Gfts thf timf formbttfr with thf givfn formbtting stylf
+     * for thf dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>This is fquivblfnt to dblling
+     * {@link #gftTimfInstbndf(int, Lodblf) gftTimfInstbndf(stylf,
+     *     Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @pbrbm stylf thf givfn formbtting stylf. For fxbmplf,
+     * SHORT for "h:mm b" in thf US lodblf.
+     * @rfturn b timf formbttfr.
+     */
+    publid finbl stbtid DbtfFormbt gftTimfInstbndf(int stylf)
+    {
+        rfturn gft(stylf, 0, 1, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Gfts thf timf formbttfr with thf givfn formbtting stylf
+     * for thf givfn lodblf.
+     * @pbrbm stylf thf givfn formbtting stylf. For fxbmplf,
+     * SHORT for "h:mm b" in thf US lodblf.
+     * @pbrbm bLodblf thf givfn lodblf.
+     * @rfturn b timf formbttfr.
+     */
+    publid finbl stbtid DbtfFormbt gftTimfInstbndf(int stylf,
+                                                 Lodblf bLodblf)
+    {
+        rfturn gft(stylf, 0, 1, bLodblf);
+    }
+
+    /**
+     * Gfts thf dbtf formbttfr with thf dffbult formbtting stylf
+     * for thf dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>This is fquivblfnt to dblling
+     * {@link #gftDbtfInstbndf(int, Lodblf) gftDbtfInstbndf(DEFAULT,
+     *     Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn b dbtf formbttfr.
+     */
+    publid finbl stbtid DbtfFormbt gftDbtfInstbndf()
+    {
+        rfturn gft(0, DEFAULT, 2, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Gfts thf dbtf formbttfr with thf givfn formbtting stylf
+     * for thf dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>This is fquivblfnt to dblling
+     * {@link #gftDbtfInstbndf(int, Lodblf) gftDbtfInstbndf(stylf,
+     *     Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @pbrbm stylf thf givfn formbtting stylf. For fxbmplf,
+     * SHORT for "M/d/yy" in thf US lodblf.
+     * @rfturn b dbtf formbttfr.
+     */
+    publid finbl stbtid DbtfFormbt gftDbtfInstbndf(int stylf)
+    {
+        rfturn gft(0, stylf, 2, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Gfts thf dbtf formbttfr with thf givfn formbtting stylf
+     * for thf givfn lodblf.
+     * @pbrbm stylf thf givfn formbtting stylf. For fxbmplf,
+     * SHORT for "M/d/yy" in thf US lodblf.
+     * @pbrbm bLodblf thf givfn lodblf.
+     * @rfturn b dbtf formbttfr.
+     */
+    publid finbl stbtid DbtfFormbt gftDbtfInstbndf(int stylf,
+                                                 Lodblf bLodblf)
+    {
+        rfturn gft(0, stylf, 2, bLodblf);
+    }
+
+    /**
+     * Gfts thf dbtf/timf formbttfr with thf dffbult formbtting stylf
+     * for thf dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>This is fquivblfnt to dblling
+     * {@link #gftDbtfTimfInstbndf(int, int, Lodblf) gftDbtfTimfInstbndf(DEFAULT,
+     *     DEFAULT, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn b dbtf/timf formbttfr.
+     */
+    publid finbl stbtid DbtfFormbt gftDbtfTimfInstbndf()
+    {
+        rfturn gft(DEFAULT, DEFAULT, 3, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Gfts thf dbtf/timf formbttfr with thf givfn dbtf bnd timf
+     * formbtting stylfs for thf dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>This is fquivblfnt to dblling
+     * {@link #gftDbtfTimfInstbndf(int, int, Lodblf) gftDbtfTimfInstbndf(dbtfStylf,
+     *     timfStylf, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @pbrbm dbtfStylf thf givfn dbtf formbtting stylf. For fxbmplf,
+     * SHORT for "M/d/yy" in thf US lodblf.
+     * @pbrbm timfStylf thf givfn timf formbtting stylf. For fxbmplf,
+     * SHORT for "h:mm b" in thf US lodblf.
+     * @rfturn b dbtf/timf formbttfr.
+     */
+    publid finbl stbtid DbtfFormbt gftDbtfTimfInstbndf(int dbtfStylf,
+                                                       int timfStylf)
+    {
+        rfturn gft(timfStylf, dbtfStylf, 3, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Gfts thf dbtf/timf formbttfr with thf givfn formbtting stylfs
+     * for thf givfn lodblf.
+     * @pbrbm dbtfStylf thf givfn dbtf formbtting stylf.
+     * @pbrbm timfStylf thf givfn timf formbtting stylf.
+     * @pbrbm bLodblf thf givfn lodblf.
+     * @rfturn b dbtf/timf formbttfr.
+     */
+    publid finbl stbtid DbtfFormbt
+        gftDbtfTimfInstbndf(int dbtfStylf, int timfStylf, Lodblf bLodblf)
+    {
+        rfturn gft(timfStylf, dbtfStylf, 3, bLodblf);
+    }
+
+    /**
+     * Gft b dffbult dbtf/timf formbttfr thbt usfs thf SHORT stylf for both thf
+     * dbtf bnd thf timf.
+     *
+     * @rfturn b dbtf/timf formbttfr
+     */
+    publid finbl stbtid DbtfFormbt gftInstbndf() {
+        rfturn gftDbtfTimfInstbndf(SHORT, SHORT);
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh thf
+     * <dodf>gft*Instbndf</dodf> mfthods of this dlbss dbn rfturn
+     * lodblizfd instbndfs.
+     * Thf rfturnfd brrby rfprfsfnts thf union of lodblfs supportfd by thf Jbvb
+     * runtimf bnd by instbllfd
+     * {@link jbvb.tfxt.spi.DbtfFormbtProvidfr DbtfFormbtProvidfr} implfmfntbtions.
+     * It must dontbin bt lfbst b <dodf>Lodblf</dodf> instbndf fqubl to
+     * {@link jbvb.util.Lodblf#US Lodblf.US}.
+     *
+     * @rfturn An brrby of lodblfs for whidh lodblizfd
+     *         <dodf>DbtfFormbt</dodf> instbndfs brf bvbilbblf.
+     */
+    publid stbtid Lodblf[] gftAvbilbblfLodblfs()
+    {
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(DbtfFormbtProvidfr.dlbss);
+        rfturn pool.gftAvbilbblfLodblfs();
+    }
+
+    /**
+     * Sft thf dblfndbr to bf usfd by this dbtf formbt.  Initiblly, thf dffbult
+     * dblfndbr for thf spfdififd or dffbult lodblf is usfd.
+     *
+     * <p>Any {@link jbvb.util.TimfZonf TimfZonf} bnd {@linkplbin
+     * #isLfnifnt() lfnifndy} vblufs thbt hbvf prfviously bffn sft brf
+     * ovfrwrittfn by {@dodf nfwCblfndbr}'s vblufs.
+     *
+     * @pbrbm nfwCblfndbr thf nfw {@dodf Cblfndbr} to bf usfd by thf dbtf formbt
+     */
+    publid void sftCblfndbr(Cblfndbr nfwCblfndbr)
+    {
+        this.dblfndbr = nfwCblfndbr;
+    }
+
+    /**
+     * Gfts thf dblfndbr bssodibtfd with this dbtf/timf formbttfr.
+     *
+     * @rfturn thf dblfndbr bssodibtfd with this dbtf/timf formbttfr.
+     */
+    publid Cblfndbr gftCblfndbr()
+    {
+        rfturn dblfndbr;
+    }
+
+    /**
+     * Allows you to sft thf numbfr formbttfr.
+     * @pbrbm nfwNumbfrFormbt thf givfn nfw NumbfrFormbt.
+     */
+    publid void sftNumbfrFormbt(NumbfrFormbt nfwNumbfrFormbt)
+    {
+        this.numbfrFormbt = nfwNumbfrFormbt;
+    }
+
+    /**
+     * Gfts thf numbfr formbttfr whidh this dbtf/timf formbttfr usfs to
+     * formbt bnd pbrsf b timf.
+     * @rfturn thf numbfr formbttfr whidh this dbtf/timf formbttfr usfs.
+     */
+    publid NumbfrFormbt gftNumbfrFormbt()
+    {
+        rfturn numbfrFormbt;
+    }
+
+    /**
+     * Sfts thf timf zonf for thf dblfndbr of this {@dodf DbtfFormbt} objfdt.
+     * This mfthod is fquivblfnt to thf following dbll.
+     * <blodkquotf><prf>{@dodf
+     * gftCblfndbr().sftTimfZonf(zonf)
+     * }</prf></blodkquotf>
+     *
+     * <p>Thf {@dodf TimfZonf} sft by this mfthod is ovfrwrittfn by b
+     * {@link #sftCblfndbr(jbvb.util.Cblfndbr) sftCblfndbr} dbll.
+     *
+     * <p>Thf {@dodf TimfZonf} sft by this mfthod mby bf ovfrwrittfn bs
+     * b rfsult of b dbll to thf pbrsf mfthod.
+     *
+     * @pbrbm zonf thf givfn nfw timf zonf.
+     */
+    publid void sftTimfZonf(TimfZonf zonf)
+    {
+        dblfndbr.sftTimfZonf(zonf);
+    }
+
+    /**
+     * Gfts thf timf zonf.
+     * This mfthod is fquivblfnt to thf following dbll.
+     * <blodkquotf><prf>{@dodf
+     * gftCblfndbr().gftTimfZonf()
+     * }</prf></blodkquotf>
+     *
+     * @rfturn thf timf zonf bssodibtfd with thf dblfndbr of DbtfFormbt.
+     */
+    publid TimfZonf gftTimfZonf()
+    {
+        rfturn dblfndbr.gftTimfZonf();
+    }
+
+    /**
+     * Spfdify whfthfr or not dbtf/timf pbrsing is to bf lfnifnt.  With
+     * lfnifnt pbrsing, thf pbrsfr mby usf hfuristids to intfrprft inputs thbt
+     * do not prfdisfly mbtdh this objfdt's formbt.  With stridt pbrsing,
+     * inputs must mbtdh this objfdt's formbt.
+     *
+     * <p>This mfthod is fquivblfnt to thf following dbll.
+     * <blodkquotf><prf>{@dodf
+     * gftCblfndbr().sftLfnifnt(lfnifnt)
+     * }</prf></blodkquotf>
+     *
+     * <p>This lfnifndy vbluf is ovfrwrittfn by b dbll to {@link
+     * #sftCblfndbr(jbvb.util.Cblfndbr) sftCblfndbr()}.
+     *
+     * @pbrbm lfnifnt whfn {@dodf truf}, pbrsing is lfnifnt
+     * @sff jbvb.util.Cblfndbr#sftLfnifnt(boolfbn)
+     */
+    publid void sftLfnifnt(boolfbn lfnifnt)
+    {
+        dblfndbr.sftLfnifnt(lfnifnt);
+    }
+
+    /**
+     * Tfll whfthfr dbtf/timf pbrsing is to bf lfnifnt.
+     * This mfthod is fquivblfnt to thf following dbll.
+     * <blodkquotf><prf>{@dodf
+     * gftCblfndbr().isLfnifnt()
+     * }</prf></blodkquotf>
+     *
+     * @rfturn {@dodf truf} if thf {@link #dblfndbr} is lfnifnt;
+     *         {@dodf fblsf} othfrwisf.
+     * @sff jbvb.util.Cblfndbr#isLfnifnt()
+     */
+    publid boolfbn isLfnifnt()
+    {
+        rfturn dblfndbr.isLfnifnt();
+    }
+
+    /**
+     * Ovfrridfs hbshCodf
+     */
+    publid int hbshCodf() {
+        rfturn numbfrFormbt.hbshCodf();
+        // just fnough fiflds for b rfbsonbblf distribution
+    }
+
+    /**
+     * Ovfrridfs fqubls
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) rfturn truf;
+        if (obj == null || gftClbss() != obj.gftClbss()) rfturn fblsf;
+        DbtfFormbt othfr = (DbtfFormbt) obj;
+        rfturn (// dblfndbr.fquivblfntTo(othfr.dblfndbr) // THIS API DOESN'T EXIST YET!
+                dblfndbr.gftFirstDbyOfWffk() == othfr.dblfndbr.gftFirstDbyOfWffk() &&
+                dblfndbr.gftMinimblDbysInFirstWffk() == othfr.dblfndbr.gftMinimblDbysInFirstWffk() &&
+                dblfndbr.isLfnifnt() == othfr.dblfndbr.isLfnifnt() &&
+                dblfndbr.gftTimfZonf().fqubls(othfr.dblfndbr.gftTimfZonf()) &&
+                numbfrFormbt.fqubls(othfr.numbfrFormbt));
+    }
+
+    /**
+     * Ovfrridfs Clonfbblf
+     */
+    publid Objfdt dlonf()
+    {
+        DbtfFormbt othfr = (DbtfFormbt) supfr.dlonf();
+        othfr.dblfndbr = (Cblfndbr) dblfndbr.dlonf();
+        othfr.numbfrFormbt = (NumbfrFormbt) numbfrFormbt.dlonf();
+        rfturn othfr;
+    }
+
+    /**
+     * Crfbtfs b DbtfFormbt with thf givfn timf bnd/or dbtf stylf in thf givfn
+     * lodblf.
+     * @pbrbm timfStylf b vbluf from 0 to 3 indidbting thf timf formbt,
+     * ignorfd if flbgs is 2
+     * @pbrbm dbtfStylf b vbluf from 0 to 3 indidbting thf timf formbt,
+     * ignorfd if flbgs is 1
+     * @pbrbm flbgs fithfr 1 for b timf formbt, 2 for b dbtf formbt,
+     * or 3 for b dbtf/timf formbt
+     * @pbrbm lod thf lodblf for thf formbt
+     */
+    privbtf stbtid DbtfFormbt gft(int timfStylf, int dbtfStylf,
+                                  int flbgs, Lodblf lod) {
+        if ((flbgs & 1) != 0) {
+            if (timfStylf < 0 || timfStylf > 3) {
+                throw nfw IllfgblArgumfntExdfption("Illfgbl timf stylf " + timfStylf);
+            }
+        } flsf {
+            timfStylf = -1;
+        }
+        if ((flbgs & 2) != 0) {
+            if (dbtfStylf < 0 || dbtfStylf > 3) {
+                throw nfw IllfgblArgumfntExdfption("Illfgbl dbtf stylf " + dbtfStylf);
+            }
+        } flsf {
+            dbtfStylf = -1;
+        }
+
+        LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(DbtfFormbtProvidfr.dlbss, lod);
+        DbtfFormbt dbtfFormbt = gft(bdbptfr, timfStylf, dbtfStylf, lod);
+        if (dbtfFormbt == null) {
+            dbtfFormbt = gft(LodblfProvidfrAdbptfr.forJRE(), timfStylf, dbtfStylf, lod);
+        }
+        rfturn dbtfFormbt;
+    }
+
+    privbtf stbtid DbtfFormbt gft(LodblfProvidfrAdbptfr bdbptfr, int timfStylf, int dbtfStylf, Lodblf lod) {
+        DbtfFormbtProvidfr providfr = bdbptfr.gftDbtfFormbtProvidfr();
+        DbtfFormbt dbtfFormbt;
+        if (timfStylf == -1) {
+            dbtfFormbt = providfr.gftDbtfInstbndf(dbtfStylf, lod);
+        } flsf {
+            if (dbtfStylf == -1) {
+                dbtfFormbt = providfr.gftTimfInstbndf(timfStylf, lod);
+            } flsf {
+                dbtfFormbt = providfr.gftDbtfTimfInstbndf(dbtfStylf, timfStylf, lod);
+            }
+        }
+        rfturn dbtfFormbt;
+    }
+
+    /**
+     * Crfbtf b nfw dbtf formbt.
+     */
+    protfdtfd DbtfFormbt() {}
+
+    /**
+     * Dffinfs donstbnts thbt brf usfd bs bttributf kfys in thf
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf> rfturnfd
+     * from <dodf>DbtfFormbt.formbtToChbrbdtfrItfrbtor</dodf> bnd bs
+     * fifld idfntififrs in <dodf>FifldPosition</dodf>.
+     * <p>
+     * Thf dlbss blso providfs two mfthods to mbp
+     * bftwffn its donstbnts bnd thf dorrfsponding Cblfndbr donstbnts.
+     *
+     * @sindf 1.4
+     * @sff jbvb.util.Cblfndbr
+     */
+    publid stbtid dlbss Fifld fxtfnds Formbt.Fifld {
+
+        // Prodlbim sfribl dompbtibility with 1.4 FCS
+        privbtf stbtid finbl long sfriblVfrsionUID = 7441350119349544720L;
+
+        // tbblf of bll instbndfs in this dlbss, usfd by rfbdRfsolvf
+        privbtf stbtid finbl Mbp<String, Fifld> instbndfMbp = nfw HbshMbp<>(18);
+        // Mbps from Cblfndbr donstbnt (sudh bs Cblfndbr.ERA) to Fifld
+        // donstbnt (sudh bs Fifld.ERA).
+        privbtf stbtid finbl Fifld[] dblfndbrToFifldMbpping =
+                                             nfw Fifld[Cblfndbr.FIELD_COUNT];
+
+        /** Cblfndbr fifld. */
+        privbtf int dblfndbrFifld;
+
+        /**
+         * Rfturns thf <dodf>Fifld</dodf> donstbnt thbt dorrfsponds to
+         * thf <dodf>Cblfndbr</dodf> donstbnt <dodf>dblfndbrFifld</dodf>.
+         * If thfrf is no dirfdt mbpping bftwffn thf <dodf>Cblfndbr</dodf>
+         * donstbnt bnd b <dodf>Fifld</dodf>, null is rfturnfd.
+         *
+         * @throws IllfgblArgumfntExdfption if <dodf>dblfndbrFifld</dodf> is
+         *         not thf vbluf of b <dodf>Cblfndbr</dodf> fifld donstbnt.
+         * @pbrbm dblfndbrFifld Cblfndbr fifld donstbnt
+         * @rfturn Fifld instbndf rfprfsfnting dblfndbrFifld.
+         * @sff jbvb.util.Cblfndbr
+         */
+        publid stbtid Fifld ofCblfndbrFifld(int dblfndbrFifld) {
+            if (dblfndbrFifld < 0 || dblfndbrFifld >=
+                        dblfndbrToFifldMbpping.lfngth) {
+                throw nfw IllfgblArgumfntExdfption("Unknown Cblfndbr donstbnt "
+                                                   + dblfndbrFifld);
+            }
+            rfturn dblfndbrToFifldMbpping[dblfndbrFifld];
+        }
+
+        /**
+         * Crfbtfs b <dodf>Fifld</dodf>.
+         *
+         * @pbrbm nbmf thf nbmf of thf <dodf>Fifld</dodf>
+         * @pbrbm dblfndbrFifld thf <dodf>Cblfndbr</dodf> donstbnt this
+         *        <dodf>Fifld</dodf> dorrfsponds to; bny vbluf, fvfn onf
+         *        outsidf thf rbngf of lfgbl <dodf>Cblfndbr</dodf> vblufs mby
+         *        bf usfd, but <dodf>-1</dodf> should bf usfd for vblufs
+         *        thbt don't dorrfspond to lfgbl <dodf>Cblfndbr</dodf> vblufs
+         */
+        protfdtfd Fifld(String nbmf, int dblfndbrFifld) {
+            supfr(nbmf);
+            this.dblfndbrFifld = dblfndbrFifld;
+            if (this.gftClbss() == DbtfFormbt.Fifld.dlbss) {
+                instbndfMbp.put(nbmf, this);
+                if (dblfndbrFifld >= 0) {
+                    // bssfrt(dblfndbrFifld < Cblfndbr.FIELD_COUNT);
+                    dblfndbrToFifldMbpping[dblfndbrFifld] = this;
+                }
+            }
+        }
+
+        /**
+         * Rfturns thf <dodf>Cblfndbr</dodf> fifld bssodibtfd with this
+         * bttributf. For fxbmplf, if this rfprfsfnts thf hours fifld of
+         * b <dodf>Cblfndbr</dodf>, this would rfturn
+         * <dodf>Cblfndbr.HOUR</dodf>. If thfrf is no dorrfsponding
+         * <dodf>Cblfndbr</dodf> donstbnt, this will rfturn -1.
+         *
+         * @rfturn Cblfndbr donstbnt for this fifld
+         * @sff jbvb.util.Cblfndbr
+         */
+        publid int gftCblfndbrFifld() {
+            rfturn dblfndbrFifld;
+        }
+
+        /**
+         * Rfsolvfs instbndfs bfing dfsfriblizfd to thf prfdffinfd donstbnts.
+         *
+         * @throws InvblidObjfdtExdfption if thf donstbnt dould not bf
+         *         rfsolvfd.
+         * @rfturn rfsolvfd DbtfFormbt.Fifld donstbnt
+         */
+        @Ovfrridf
+        protfdtfd Objfdt rfbdRfsolvf() throws InvblidObjfdtExdfption {
+            if (this.gftClbss() != DbtfFormbt.Fifld.dlbss) {
+                throw nfw InvblidObjfdtExdfption("subdlbss didn't dorrfdtly implfmfnt rfbdRfsolvf");
+            }
+
+            Objfdt instbndf = instbndfMbp.gft(gftNbmf());
+            if (instbndf != null) {
+                rfturn instbndf;
+            } flsf {
+                throw nfw InvblidObjfdtExdfption("unknown bttributf nbmf");
+            }
+        }
+
+        //
+        // Thf donstbnts
+        //
+
+        /**
+         * Constbnt idfntifying thf frb fifld.
+         */
+        publid finbl stbtid Fifld ERA = nfw Fifld("frb", Cblfndbr.ERA);
+
+        /**
+         * Constbnt idfntifying thf yfbr fifld.
+         */
+        publid finbl stbtid Fifld YEAR = nfw Fifld("yfbr", Cblfndbr.YEAR);
+
+        /**
+         * Constbnt idfntifying thf month fifld.
+         */
+        publid finbl stbtid Fifld MONTH = nfw Fifld("month", Cblfndbr.MONTH);
+
+        /**
+         * Constbnt idfntifying thf dby of month fifld.
+         */
+        publid finbl stbtid Fifld DAY_OF_MONTH = nfw
+                            Fifld("dby of month", Cblfndbr.DAY_OF_MONTH);
+
+        /**
+         * Constbnt idfntifying thf hour of dby fifld, whfrf thf lfgbl vblufs
+         * brf 1 to 24.
+         */
+        publid finbl stbtid Fifld HOUR_OF_DAY1 = nfw Fifld("hour of dby 1",-1);
+
+        /**
+         * Constbnt idfntifying thf hour of dby fifld, whfrf thf lfgbl vblufs
+         * brf 0 to 23.
+         */
+        publid finbl stbtid Fifld HOUR_OF_DAY0 = nfw
+               Fifld("hour of dby", Cblfndbr.HOUR_OF_DAY);
+
+        /**
+         * Constbnt idfntifying thf minutf fifld.
+         */
+        publid finbl stbtid Fifld MINUTE =nfw Fifld("minutf", Cblfndbr.MINUTE);
+
+        /**
+         * Constbnt idfntifying thf sfdond fifld.
+         */
+        publid finbl stbtid Fifld SECOND =nfw Fifld("sfdond", Cblfndbr.SECOND);
+
+        /**
+         * Constbnt idfntifying thf millisfdond fifld.
+         */
+        publid finbl stbtid Fifld MILLISECOND = nfw
+                Fifld("millisfdond", Cblfndbr.MILLISECOND);
+
+        /**
+         * Constbnt idfntifying thf dby of wffk fifld.
+         */
+        publid finbl stbtid Fifld DAY_OF_WEEK = nfw
+                Fifld("dby of wffk", Cblfndbr.DAY_OF_WEEK);
+
+        /**
+         * Constbnt idfntifying thf dby of yfbr fifld.
+         */
+        publid finbl stbtid Fifld DAY_OF_YEAR = nfw
+                Fifld("dby of yfbr", Cblfndbr.DAY_OF_YEAR);
+
+        /**
+         * Constbnt idfntifying thf dby of wffk fifld.
+         */
+        publid finbl stbtid Fifld DAY_OF_WEEK_IN_MONTH =
+                     nfw Fifld("dby of wffk in month",
+                                            Cblfndbr.DAY_OF_WEEK_IN_MONTH);
+
+        /**
+         * Constbnt idfntifying thf wffk of yfbr fifld.
+         */
+        publid finbl stbtid Fifld WEEK_OF_YEAR = nfw
+              Fifld("wffk of yfbr", Cblfndbr.WEEK_OF_YEAR);
+
+        /**
+         * Constbnt idfntifying thf wffk of month fifld.
+         */
+        publid finbl stbtid Fifld WEEK_OF_MONTH = nfw
+            Fifld("wffk of month", Cblfndbr.WEEK_OF_MONTH);
+
+        /**
+         * Constbnt idfntifying thf timf of dby indidbtor
+         * (f.g. "b.m." or "p.m.") fifld.
+         */
+        publid finbl stbtid Fifld AM_PM = nfw
+                            Fifld("bm pm", Cblfndbr.AM_PM);
+
+        /**
+         * Constbnt idfntifying thf hour fifld, whfrf thf lfgbl vblufs brf
+         * 1 to 12.
+         */
+        publid finbl stbtid Fifld HOUR1 = nfw Fifld("hour 1", -1);
+
+        /**
+         * Constbnt idfntifying thf hour fifld, whfrf thf lfgbl vblufs brf
+         * 0 to 11.
+         */
+        publid finbl stbtid Fifld HOUR0 = nfw
+                            Fifld("hour", Cblfndbr.HOUR);
+
+        /**
+         * Constbnt idfntifying thf timf zonf fifld.
+         */
+        publid finbl stbtid Fifld TIME_ZONE = nfw Fifld("timf zonf", -1);
+    }
+}

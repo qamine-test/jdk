@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,364 +30,364 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir.config;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir.donfig;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.logging.Logger;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.logging.Loggfr;
+import jbvbx.xml.bind.JAXBContfxt;
+import jbvbx.xml.bind.JAXBExdfption;
+import jbvbx.xml.bind.Mbrsibllfr;
+import jbvbx.xml.bind.Unmbrsibllfr;
 
 /**
- * The class XmlConfigUtils is used to deal with XML serialization
- * and XML files.
+ * Tif dlbss XmlConfigUtils is usfd to dfbl witi XML sfriblizbtion
+ * bnd XML filfs.
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  */
-public class XmlConfigUtils {
+publid dlbss XmlConfigUtils {
 
     /**
-     * A URI for our XML configuration namespace. This doesn't start with
-     * http:// because we are not going to publish this private schema
-     * anywhere.
+     * A URI for our XML donfigurbtion nbmfspbdf. Tiis dofsn't stbrt witi
+     * ittp:// bfdbusf wf brf not going to publisi tiis privbtf sdifmb
+     * bnywifrf.
      **/
-    public static final String NAMESPACE =
-            "jmx:com.sun.jmx.examples.scandir.config";
+    publid stbtid finbl String NAMESPACE =
+            "jmx:dom.sun.jmx.fxbmplfs.sdbndir.donfig";
     /**
-     * A logger for this class.
+     * A loggfr for tiis dlbss.
      **/
-    private static final Logger LOG =
-            Logger.getLogger(XmlConfigUtils.class.getName());
+    privbtf stbtid finbl Loggfr LOG =
+            Loggfr.gftLoggfr(XmlConfigUtils.dlbss.gftNbmf());
 
-    // Our JAXBContext.
-    private static JAXBContext context;
+    // Our JAXBContfxt.
+    privbtf stbtid JAXBContfxt dontfxt;
 
-    // The file name of the XML file in which an instance of this object
-    // will read and write XML data.
-    final String file;
+    // Tif filf nbmf of tif XML filf in wiidi bn instbndf of tiis objfdt
+    // will rfbd bnd writf XML dbtb.
+    finbl String filf;
 
     /**
-     * Creates a new instance of XmlConfigUtils.
-     * @param file The file name of the XML file in which an instance of this
-     *        object will read and write XML data.
+     * Crfbtfs b nfw instbndf of XmlConfigUtils.
+     * @pbrbm filf Tif filf nbmf of tif XML filf in wiidi bn instbndf of tiis
+     *        objfdt will rfbd bnd writf XML dbtb.
      */
-    public XmlConfigUtils(String file) {
-        this.file = file;
+    publid XmlConfigUtils(String filf) {
+        tiis.filf = filf;
     }
 
     /**
-     * Write the given bean to the XML file.
+     * Writf tif givfn bfbn to tif XML filf.
      * <p>
-     * Performs an atomic write, first writing in {@code <file>.new}, then
-     * renaming {@code <file>} to {@code <file>~}, then renaming
-     * renaming {@code <file>.new} to {@code <file>}.
+     * Pfrforms bn btomid writf, first writing in {@dodf <filf>.nfw}, tifn
+     * rfnbming {@dodf <filf>} to {@dodf <filf>~}, tifn rfnbming
+     * rfnbming {@dodf <filf>.nfw} to {@dodf <filf>}.
      * </p>
-     * @param bean The configuration to write in the XML file.
-     * @throws IOException if write to file failed.
+     * @pbrbm bfbn Tif donfigurbtion to writf in tif XML filf.
+     * @tirows IOExdfption if writf to filf fbilfd.
      **/
-    public synchronized void writeToFile(ScanManagerConfig bean)
-        throws IOException {
+    publid syndironizfd void writfToFilf(SdbnMbnbgfrConfig bfbn)
+        tirows IOExdfption {
 
-        // Creates a new file named <file>.new
-        final File f = newXmlTmpFile(file);
+        // Crfbtfs b nfw filf nbmfd <filf>.nfw
+        finbl Filf f = nfwXmlTmpFilf(filf);
         try {
-            final FileOutputStream out = new FileOutputStream(f);
-            boolean failed = true;
+            finbl FilfOutputStrfbm out = nfw FilfOutputStrfbm(f);
+            boolfbn fbilfd = truf;
             try {
-                // writes to <file>.new
-                write(bean,out,false);
+                // writfs to <filf>.nfw
+                writf(bfbn,out,fblsf);
 
-                // no exception: set failed=false for finaly {} block.
-                failed = false;
-            } finally {
-                out.close();
-                // An exception was raised: delete temporary file.
-                if (failed == true) f.delete();
+                // no fxdfption: sft fbilfd=fblsf for finbly {} blodk.
+                fbilfd = fblsf;
+            } finblly {
+                out.dlosf();
+                // An fxdfption wbs rbisfd: dflftf tfmporbry filf.
+                if (fbilfd == truf) f.dflftf();
             }
 
-            // rename <file> to <file>~ and <file>.new to <file>
-            commit(file,f);
-        } catch (JAXBException x) {
-            final IOException io =
-                    new IOException("Failed to write SessionConfigBean to " +
-                    file+": "+x,x);
-            throw io;
+            // rfnbmf <filf> to <filf>~ bnd <filf>.nfw to <filf>
+            dommit(filf,f);
+        } dbtdi (JAXBExdfption x) {
+            finbl IOExdfption io =
+                    nfw IOExdfption("Fbilfd to writf SfssionConfigBfbn to " +
+                    filf+": "+x,x);
+            tirow io;
         }
     }
 
     /**
-     * Creates an XML string representation of the given bean.
-     * @throws IllegalArgumentException if the bean class is not known by the
-     *         underlying XMLbinding context.
-     * @return An XML string representation of the given bean.
+     * Crfbtfs bn XML string rfprfsfntbtion of tif givfn bfbn.
+     * @tirows IllfgblArgumfntExdfption if tif bfbn dlbss is not known by tif
+     *         undfrlying XMLbinding dontfxt.
+     * @rfturn An XML string rfprfsfntbtion of tif givfn bfbn.
      **/
-    public static String toString(Object bean) {
+    publid stbtid String toString(Objfdt bfbn) {
         try {
-            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            final Marshaller m = createMarshaller();
-            m.setProperty(m.JAXB_FRAGMENT,Boolean.TRUE);
-            m.marshal(bean, baos);
-            return baos.toString();
-        } catch (JAXBException x) {
-            final IllegalArgumentException iae =
-                    new IllegalArgumentException(
-                        "Failed to write SessionConfigBean: "+x,x);
-            throw iae;
+            finbl BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+            finbl Mbrsibllfr m = drfbtfMbrsibllfr();
+            m.sftPropfrty(m.JAXB_FRAGMENT,Boolfbn.TRUE);
+            m.mbrsibl(bfbn, bbos);
+            rfturn bbos.toString();
+        } dbtdi (JAXBExdfption x) {
+            finbl IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption(
+                        "Fbilfd to writf SfssionConfigBfbn: "+x,x);
+            tirow ibf;
         }
     }
 
     /**
-     * Creates an XML clone of the given bean.
+     * Crfbtfs bn XML dlonf of tif givfn bfbn.
      * <p>
-     * In other words, this method XML-serializes the given bean, and
-     * XML-deserializes a copy of that bean.
+     * In otifr words, tiis mftiod XML-sfriblizfs tif givfn bfbn, bnd
+     * XML-dfsfriblizfs b dopy of tibt bfbn.
      * </p>
-     * @return A deep-clone of the given bean.
-     * @throws IllegalArgumentException if the bean class is not known by the
-     *         underlying XML binding context.
-     * @param bean The bean to clone.
+     * @rfturn A dffp-dlonf of tif givfn bfbn.
+     * @tirows IllfgblArgumfntExdfption if tif bfbn dlbss is not known by tif
+     *         undfrlying XML binding dontfxt.
+     * @pbrbm bfbn Tif bfbn to dlonf.
      */
-    public static ScanManagerConfig xmlClone(ScanManagerConfig bean) {
-        final Object clone = copy(bean);
-        return (ScanManagerConfig)clone;
+    publid stbtid SdbnMbnbgfrConfig xmlClonf(SdbnMbnbgfrConfig bfbn) {
+        finbl Objfdt dlonf = dopy(bfbn);
+        rfturn (SdbnMbnbgfrConfig)dlonf;
     }
 
     /**
-     * Creates an XML clone of the given bean.
+     * Crfbtfs bn XML dlonf of tif givfn bfbn.
      * <p>
-     * In other words, this method XML-serializes the given bean, and
-     * XML-deserializes a copy of that bean.
+     * In otifr words, tiis mftiod XML-sfriblizfs tif givfn bfbn, bnd
+     * XML-dfsfriblizfs b dopy of tibt bfbn.
      * </p>
-     * @throws IllegalArgumentException if the bean class is not known by the
-     *         underlying XML binding context.
-     * @return A deep-clone of the given bean.
+     * @tirows IllfgblArgumfntExdfption if tif bfbn dlbss is not known by tif
+     *         undfrlying XML binding dontfxt.
+     * @rfturn A dffp-dlonf of tif givfn bfbn.
      **/
-    private static Object copy(Object bean) {
+    privbtf stbtid Objfdt dopy(Objfdt bfbn) {
         try {
-            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            final Marshaller m = createMarshaller();
-            m.marshal(bean, baos);
-            final ByteArrayInputStream bais =
-                    new ByteArrayInputStream(baos.toByteArray());
-            return createUnmarshaller().unmarshal(bais);
-        } catch (JAXBException x) {
-            final IllegalArgumentException iae =
-                    new IllegalArgumentException("Failed to write SessionConfigBean: "+x,x);
-            throw iae;
+            finbl BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+            finbl Mbrsibllfr m = drfbtfMbrsibllfr();
+            m.mbrsibl(bfbn, bbos);
+            finbl BytfArrbyInputStrfbm bbis =
+                    nfw BytfArrbyInputStrfbm(bbos.toBytfArrby());
+            rfturn drfbtfUnmbrsibllfr().unmbrsibl(bbis);
+        } dbtdi (JAXBExdfption x) {
+            finbl IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption("Fbilfd to writf SfssionConfigBfbn: "+x,x);
+            tirow ibf;
         }
     }
 
     /**
-     * Creates an XML clone of the given bean.
+     * Crfbtfs bn XML dlonf of tif givfn bfbn.
      * <p>
-     * In other words, this method XML-serializes the given bean, and
-     * XML-deserializes a copy of that bean.
+     * In otifr words, tiis mftiod XML-sfriblizfs tif givfn bfbn, bnd
+     * XML-dfsfriblizfs b dopy of tibt bfbn.
      * </p>
-     * @return A deep-clone of the given bean.
-     * @throws IllegalArgumentException if the bean class is not known by the
-     *         underlying XML binding context.
-     * @param bean The bean to clone.
+     * @rfturn A dffp-dlonf of tif givfn bfbn.
+     * @tirows IllfgblArgumfntExdfption if tif bfbn dlbss is not known by tif
+     *         undfrlying XML binding dontfxt.
+     * @pbrbm bfbn Tif bfbn to dlonf.
      */
-    public static DirectoryScannerConfig xmlClone(DirectoryScannerConfig bean) {
-        final Object clone = copy(bean);
-        return (DirectoryScannerConfig)clone;
+    publid stbtid DirfdtorySdbnnfrConfig xmlClonf(DirfdtorySdbnnfrConfig bfbn) {
+        finbl Objfdt dlonf = dopy(bfbn);
+        rfturn (DirfdtorySdbnnfrConfig)dlonf;
     }
 
     /**
-     * Reads the configuration from the XML configuration file.
-     * @throws IOException if it fails to read the configuration.
-     * @return A {@code ScanManagerConfig} bean read from the
-     *         XML configuration file.
+     * Rfbds tif donfigurbtion from tif XML donfigurbtion filf.
+     * @tirows IOExdfption if it fbils to rfbd tif donfigurbtion.
+     * @rfturn A {@dodf SdbnMbnbgfrConfig} bfbn rfbd from tif
+     *         XML donfigurbtion filf.
      **/
-    public synchronized ScanManagerConfig readFromFile() throws IOException {
-        final File f = new File(file);
-        if (!f.exists())
-            throw new IOException("No such file: "+file);
-        if (!f.canRead())
-            throw new IOException("Can't read file: "+file);
+    publid syndironizfd SdbnMbnbgfrConfig rfbdFromFilf() tirows IOExdfption {
+        finbl Filf f = nfw Filf(filf);
+        if (!f.fxists())
+            tirow nfw IOExdfption("No sudi filf: "+filf);
+        if (!f.dbnRfbd())
+            tirow nfw IOExdfption("Cbn't rfbd filf: "+filf);
         try {
-            return read(f);
-        } catch (JAXBException x) {
-            final IOException io =
-                    new IOException("Failed to read SessionConfigBean from " +
-                    file+": "+x,x);
-            throw io;
+            rfturn rfbd(f);
+        } dbtdi (JAXBExdfption x) {
+            finbl IOExdfption io =
+                    nfw IOExdfption("Fbilfd to rfbd SfssionConfigBfbn from " +
+                    filf+": "+x,x);
+            tirow io;
         }
     }
 
     /**
-     * Reads the configuration from the given XML configuration file.
-     * @param f the file to read from.
-     * @return A {@code ScanManagerConfig} bean read from the
-     *         XML configuration file.
-     * @throws javax.xml.bind.JAXBException if it fails to read the configuration.
+     * Rfbds tif donfigurbtion from tif givfn XML donfigurbtion filf.
+     * @pbrbm f tif filf to rfbd from.
+     * @rfturn A {@dodf SdbnMbnbgfrConfig} bfbn rfbd from tif
+     *         XML donfigurbtion filf.
+     * @tirows jbvbx.xml.bind.JAXBExdfption if it fbils to rfbd tif donfigurbtion.
      */
-    public static ScanManagerConfig read(File f)
-        throws JAXBException {
-        final Unmarshaller u = createUnmarshaller();
-        return (ScanManagerConfig) u.unmarshal(f);
+    publid stbtid SdbnMbnbgfrConfig rfbd(Filf f)
+        tirows JAXBExdfption {
+        finbl Unmbrsibllfr u = drfbtfUnmbrsibllfr();
+        rfturn (SdbnMbnbgfrConfig) u.unmbrsibl(f);
 
     }
 
     /**
-     * Writes the given bean to the given output stream.
-     * @param bean the bean to write.
-     * @param os the output stream to write to.
-     * @param fragment whether the {@code <?xml ... ?>} header should be
-     *        included. The header is not included if the bean is just an
-     *        XML fragment encapsulated in a higher level XML element.
-     * @throws JAXBException An XML Binding exception occurred.
+     * Writfs tif givfn bfbn to tif givfn output strfbm.
+     * @pbrbm bfbn tif bfbn to writf.
+     * @pbrbm os tif output strfbm to writf to.
+     * @pbrbm frbgmfnt wiftifr tif {@dodf <?xml ... ?>} ifbdfr siould bf
+     *        indludfd. Tif ifbdfr is not indludfd if tif bfbn is just bn
+     *        XML frbgmfnt fndbpsulbtfd in b iigifr lfvfl XML flfmfnt.
+     * @tirows JAXBExdfption An XML Binding fxdfption oddurrfd.
      **/
-    public static void write(ScanManagerConfig bean, OutputStream os,
-            boolean fragment)
-        throws JAXBException {
-        writeXml((Object)bean,os,fragment);
+    publid stbtid void writf(SdbnMbnbgfrConfig bfbn, OutputStrfbm os,
+            boolfbn frbgmfnt)
+        tirows JAXBExdfption {
+        writfXml((Objfdt)bfbn,os,frbgmfnt);
     }
 
     /**
-     * Writes the given bean to the given output stream.
-     * @param bean the bean to write.
-     * @param os the output stream to write to.
-     * @param fragment whether the {@code <?xml ... ?>} header should be
-     *        included. The header is not included if the bean is just an
-     *        XML fragment encapsulated in a higher level XML element.
-     * @throws JAXBException An XML Binding exception occurred.
+     * Writfs tif givfn bfbn to tif givfn output strfbm.
+     * @pbrbm bfbn tif bfbn to writf.
+     * @pbrbm os tif output strfbm to writf to.
+     * @pbrbm frbgmfnt wiftifr tif {@dodf <?xml ... ?>} ifbdfr siould bf
+     *        indludfd. Tif ifbdfr is not indludfd if tif bfbn is just bn
+     *        XML frbgmfnt fndbpsulbtfd in b iigifr lfvfl XML flfmfnt.
+     * @tirows JAXBExdfption An XML Binding fxdfption oddurrfd.
      **/
-    public static void write(ResultRecord bean, OutputStream os, boolean fragment)
-        throws JAXBException {
-        writeXml((Object)bean,os,fragment);
+    publid stbtid void writf(RfsultRfdord bfbn, OutputStrfbm os, boolfbn frbgmfnt)
+        tirows JAXBExdfption {
+        writfXml((Objfdt)bfbn,os,frbgmfnt);
     }
 
     /**
-     * Writes the given bean to the given output stream.
-     * @param bean the bean to write.
-     * @param os the output stream to write to.
-     * @param fragment whether the {@code <?xml ... ?>} header should be
-     *        included. The header is not included if the bean is just an
-     *        XML fragment encapsulated in a higher level XML element.
-     * @throws JAXBException An XML Binding exception occurred.
+     * Writfs tif givfn bfbn to tif givfn output strfbm.
+     * @pbrbm bfbn tif bfbn to writf.
+     * @pbrbm os tif output strfbm to writf to.
+     * @pbrbm frbgmfnt wiftifr tif {@dodf <?xml ... ?>} ifbdfr siould bf
+     *        indludfd. Tif ifbdfr is not indludfd if tif bfbn is just bn
+     *        XML frbgmfnt fndbpsulbtfd in b iigifr lfvfl XML flfmfnt.
+     * @tirows JAXBExdfption An XML Binding fxdfption oddurrfd.
      **/
-    private static void writeXml(Object bean, OutputStream os, boolean fragment)
-        throws JAXBException {
-        final Marshaller m = createMarshaller();
-        if (fragment) m.setProperty(m.JAXB_FRAGMENT,Boolean.TRUE);
-        m.marshal(bean,os);
+    privbtf stbtid void writfXml(Objfdt bfbn, OutputStrfbm os, boolfbn frbgmfnt)
+        tirows JAXBExdfption {
+        finbl Mbrsibllfr m = drfbtfMbrsibllfr();
+        if (frbgmfnt) m.sftPropfrty(m.JAXB_FRAGMENT,Boolfbn.TRUE);
+        m.mbrsibl(bfbn,os);
     }
 
-    // Creates a JAXB Unmarshaller.
-    private static Unmarshaller createUnmarshaller() throws JAXBException {
-        return getContext().createUnmarshaller();
+    // Crfbtfs b JAXB Unmbrsibllfr.
+    privbtf stbtid Unmbrsibllfr drfbtfUnmbrsibllfr() tirows JAXBExdfption {
+        rfturn gftContfxt().drfbtfUnmbrsibllfr();
     }
 
-    // Creates a JAXB Marshaller - for nicely XML formatted output.
-    private static Marshaller createMarshaller() throws JAXBException {
-        final  Marshaller m = getContext().createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
-        return m;
+    // Crfbtfs b JAXB Mbrsibllfr - for nidfly XML formbttfd output.
+    privbtf stbtid Mbrsibllfr drfbtfMbrsibllfr() tirows JAXBExdfption {
+        finbl  Mbrsibllfr m = gftContfxt().drfbtfMbrsibllfr();
+        m.sftPropfrty(Mbrsibllfr.JAXB_FORMATTED_OUTPUT,Boolfbn.TRUE);
+        rfturn m;
     }
 
-    // Creates a JAXBContext if needed, and returns it.
-    // The JAXBContext instance we create will be able to handle the
-    // ScanManagerConfig and ResultRecord classes, plus all the property
-    // classes they reference (DirectoryScannerBean etc...).
+    // Crfbtfs b JAXBContfxt if nffdfd, bnd rfturns it.
+    // Tif JAXBContfxt instbndf wf drfbtf will bf bblf to ibndlf tif
+    // SdbnMbnbgfrConfig bnd RfsultRfdord dlbssfs, plus bll tif propfrty
+    // dlbssfs tify rfffrfndf (DirfdtorySdbnnfrBfbn ftd...).
     //
-    private static synchronized JAXBContext getContext() throws JAXBException {
-        if (context == null)
-            context = JAXBContext.newInstance(ScanManagerConfig.class,
-                                              ResultRecord.class);
-        return context;
+    privbtf stbtid syndironizfd JAXBContfxt gftContfxt() tirows JAXBExdfption {
+        if (dontfxt == null)
+            dontfxt = JAXBContfxt.nfwInstbndf(SdbnMbnbgfrConfig.dlbss,
+                                              RfsultRfdord.dlbss);
+        rfturn dontfxt;
     }
 
 
-    // Creates a new XML temporary file called <basename>.new
-    // This method is used to implement atomic writing to file.
-    // The usual sequence is:
+    // Crfbtfs b nfw XML tfmporbry filf dbllfd <bbsfnbmf>.nfw
+    // Tiis mftiod is usfd to implfmfnt btomid writing to filf.
+    // Tif usubl sfqufndf is:
     //
-    // Final tmp = newXmlTmpFile(basename);
-    // boolean failed = true;
+    // Finbl tmp = nfwXmlTmpFilf(bbsfnbmf);
+    // boolfbn fbilfd = truf;
     // try {
-    //      ... write to 'tmp' ...
-    //      // no exception: set failed=false for finaly {} block.
-    //      failed = false;
-    // } finally
-    //      // failed==true means there was an exception and
-    //      // commit won't be called...
-    //      if (failed==true) tmp.delete();
+    //      ... writf to 'tmp' ...
+    //      // no fxdfption: sft fbilfd=fblsf for finbly {} blodk.
+    //      fbilfd = fblsf;
+    // } finblly
+    //      // fbilfd==truf mfbns tifrf wbs bn fxdfption bnd
+    //      // dommit won't bf dbllfd...
+    //      if (fbilfd==truf) tmp.dflftf();
     // }
-    // commit(tmp,basename)
+    // dommit(tmp,bbsfnbmf)
     //
-    private static File newXmlTmpFile(String basename) throws IOException {
-        final File f = new File(basename+".new");
-        if (!f.createNewFile())
-            throw new IOException("file "+f.getName()+" already exists");
+    privbtf stbtid Filf nfwXmlTmpFilf(String bbsfnbmf) tirows IOExdfption {
+        finbl Filf f = nfw Filf(bbsfnbmf+".nfw");
+        if (!f.drfbtfNfwFilf())
+            tirow nfw IOExdfption("filf "+f.gftNbmf()+" blrfbdy fxists");
 
         try {
-            final OutputStream newStream = new FileOutputStream(f);
+            finbl OutputStrfbm nfwStrfbm = nfw FilfOutputStrfbm(f);
             try {
-                final String decl =
-                    "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
-                newStream.write(decl.getBytes("UTF-8"));
-                newStream.flush();
-            } finally {
-                newStream.close();
+                finbl String dfdl =
+                    "<?xml vfrsion=\"1.0\" fndoding=\"UTF-8\" stbndblonf=\"yfs\"?>";
+                nfwStrfbm.writf(dfdl.gftBytfs("UTF-8"));
+                nfwStrfbm.flusi();
+            } finblly {
+                nfwStrfbm.dlosf();
             }
-        } catch (IOException x) {
-            f.delete();
-            throw x;
+        } dbtdi (IOExdfption x) {
+            f.dflftf();
+            tirow x;
         }
-        return f;
+        rfturn f;
     }
 
-    // Commit the temporary file by renaming <basename> to <baesname>~
-    // and tmpFile to <basename>.
-    private static File commit(String basename, File tmpFile)
-        throws IOException {
+    // Commit tif tfmporbry filf by rfnbming <bbsfnbmf> to <bbfsnbmf>~
+    // bnd tmpFilf to <bbsfnbmf>.
+    privbtf stbtid Filf dommit(String bbsfnbmf, Filf tmpFilf)
+        tirows IOExdfption {
         try {
-            final String backupName = basename+"~";
-            final File desired = new File(basename);
-            final File backup = new File(backupName);
-            backup.delete();
-            if (desired.exists()) {
-                if (!desired.renameTo(new File(backupName)))
-                    throw new IOException("can't rename to "+backupName);
+            finbl String bbdkupNbmf = bbsfnbmf+"~";
+            finbl Filf dfsirfd = nfw Filf(bbsfnbmf);
+            finbl Filf bbdkup = nfw Filf(bbdkupNbmf);
+            bbdkup.dflftf();
+            if (dfsirfd.fxists()) {
+                if (!dfsirfd.rfnbmfTo(nfw Filf(bbdkupNbmf)))
+                    tirow nfw IOExdfption("dbn't rfnbmf to "+bbdkupNbmf);
             }
-            if (!tmpFile.renameTo(new File(basename)))
-                throw new IOException("can't rename to "+basename);
-        } catch (IOException x) {
-            tmpFile.delete();
-            throw x;
+            if (!tmpFilf.rfnbmfTo(nfw Filf(bbsfnbmf)))
+                tirow nfw IOExdfption("dbn't rfnbmf to "+bbsfnbmf);
+        } dbtdi (IOExdfption x) {
+            tmpFilf.dflftf();
+            tirow x;
         }
-        return new File(basename);
+        rfturn nfw Filf(bbsfnbmf);
     }
 
     /**
-     * Creates a new committed XML file for {@code <basename>}, containing only
-     * the {@code <?xml ...?>} header.
-     * <p>This method will rename {@code <basename>} to {@code <basename>~},
-     * if it exists.
+     * Crfbtfs b nfw dommittfd XML filf for {@dodf <bbsfnbmf>}, dontbining only
+     * tif {@dodf <?xml ...?>} ifbdfr.
+     * <p>Tiis mftiod will rfnbmf {@dodf <bbsfnbmf>} to {@dodf <bbsfnbmf>~},
+     * if it fxists.
      * </p>
-     * @return A newly created XML file containing the regular
-     *         {@code <?xml ...?>} header.
-     * @param basename The name of the new file.
-     * @throws IOException if the new XML file couldn't be created.
+     * @rfturn A nfwly drfbtfd XML filf dontbining tif rfgulbr
+     *         {@dodf <?xml ...?>} ifbdfr.
+     * @pbrbm bbsfnbmf Tif nbmf of tif nfw filf.
+     * @tirows IOExdfption if tif nfw XML filf douldn't bf drfbtfd.
      */
-    public static File createNewXmlFile(String basename) throws IOException {
-        return commit(basename,newXmlTmpFile(basename));
+    publid stbtid Filf drfbtfNfwXmlFilf(String bbsfnbmf) tirows IOExdfption {
+        rfturn dommit(bbsfnbmf,nfwXmlTmpFilf(bbsfnbmf));
     }
 
 }

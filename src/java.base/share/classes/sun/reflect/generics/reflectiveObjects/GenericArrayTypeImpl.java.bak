@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.generics.reflectiveObjects;
+pbdkbgf sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts;
 
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.Type;
-import java.util.Objects;
+import jbvb.lbng.rfflfdt.GfnfridArrbyTypf;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.util.Objfdts;
 
 /**
- * Implementation of GenericArrayType interface for core reflection.
+ * Implfmfntbtion of GfnfridArrbyTypf intfrfbdf for dorf rfflfdtion.
  */
-public class GenericArrayTypeImpl
-    implements GenericArrayType {
-    private Type genericComponentType;
+publid dlbss GfnfridArrbyTypfImpl
+    implfmfnts GfnfridArrbyTypf {
+    privbtf Typf gfnfridComponfntTypf;
 
-    // private constructor enforces use of static factory
-    private GenericArrayTypeImpl(Type ct) {
-        genericComponentType = ct;
+    // privbtf donstrudtor fnfordfs usf of stbtid fbdtory
+    privbtf GfnfridArrbyTypfImpl(Typf dt) {
+        gfnfridComponfntTypf = dt;
     }
 
     /**
-     * Factory method.
-     * @param ct - the desired component type of the generic array type
-     * being created
-     * @return a generic array type with the desired component type
+     * Fbdtory mftiod.
+     * @pbrbm dt - tif dfsirfd domponfnt typf of tif gfnfrid brrby typf
+     * bfing drfbtfd
+     * @rfturn b gfnfrid brrby typf witi tif dfsirfd domponfnt typf
      */
-    public static GenericArrayTypeImpl make(Type ct) {
-        return new GenericArrayTypeImpl(ct);
+    publid stbtid GfnfridArrbyTypfImpl mbkf(Typf dt) {
+        rfturn nfw GfnfridArrbyTypfImpl(dt);
     }
 
 
     /**
-     * Returns  a <tt>Type</tt> object representing the component type
-     * of this array.
+     * Rfturns  b <tt>Typf</tt> objfdt rfprfsfnting tif domponfnt typf
+     * of tiis brrby.
      *
-     * @return  a <tt>Type</tt> object representing the component type
-     *     of this array
-     * @since 1.5
+     * @rfturn  b <tt>Typf</tt> objfdt rfprfsfnting tif domponfnt typf
+     *     of tiis brrby
+     * @sindf 1.5
      */
-    public Type getGenericComponentType() {
-        return genericComponentType; // return cached component type
+    publid Typf gftGfnfridComponfntTypf() {
+        rfturn gfnfridComponfntTypf; // rfturn dbdifd domponfnt typf
     }
 
-    public String toString() {
-        Type componentType = getGenericComponentType();
-        StringBuilder sb = new StringBuilder();
+    publid String toString() {
+        Typf domponfntTypf = gftGfnfridComponfntTypf();
+        StringBuildfr sb = nfw StringBuildfr();
 
-        if (componentType instanceof Class)
-            sb.append(((Class)componentType).getName() );
-        else
-            sb.append(componentType.toString());
-        sb.append("[]");
-        return sb.toString();
+        if (domponfntTypf instbndfof Clbss)
+            sb.bppfnd(((Clbss)domponfntTypf).gftNbmf() );
+        flsf
+            sb.bppfnd(domponfntTypf.toString());
+        sb.bppfnd("[]");
+        rfturn sb.toString();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof GenericArrayType) {
-            GenericArrayType that = (GenericArrayType) o;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof GfnfridArrbyTypf) {
+            GfnfridArrbyTypf tibt = (GfnfridArrbyTypf) o;
 
-            return Objects.equals(genericComponentType, that.getGenericComponentType());
-        } else
-            return false;
+            rfturn Objfdts.fqubls(gfnfridComponfntTypf, tibt.gftGfnfridComponfntTypf());
+        } flsf
+            rfturn fblsf;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(genericComponentType);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Objfdts.ibsiCodf(gfnfridComponfntTypf);
     }
 }

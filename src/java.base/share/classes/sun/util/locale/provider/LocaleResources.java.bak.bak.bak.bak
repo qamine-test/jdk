@@ -1,0 +1,509 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion
+ * is dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd
+ * subsidibry of IBM. Thfsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf sun.util.lodblf.providfr;
+
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.Cblfndbr;
+import jbvb.util.LinkfdHbshSft;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import sun.util.dblfndbr.ZonfInfo;
+import sun.util.rfsourdfs.LodblfDbtb;
+import sun.util.rfsourdfs.OpfnListRfsourdfBundlf;
+import sun.util.rfsourdfs.PbrbllflListRfsourdfBundlf;
+import sun.util.rfsourdfs.TimfZonfNbmfsBundlf;
+
+/**
+ * Cfntrbl bddfssor to lodblf-dfpfndfnt rfsourdfs for JRE/CLDR providfr bdbptfrs.
+ *
+ * @buthor Mbsbyoshi Okutsu
+ * @buthor Nboto Sbto
+ */
+publid dlbss LodblfRfsourdfs {
+
+    privbtf finbl Lodblf lodblf;
+    privbtf finbl LodblfDbtb lodblfDbtb;
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+
+    // Rfsourdf dbdhf
+    privbtf CondurrfntMbp<String, RfsourdfRfffrfndf> dbdhf = nfw CondurrfntHbshMbp<>();
+    privbtf RfffrfndfQufuf<Objfdt> rfffrfndfQufuf = nfw RfffrfndfQufuf<>();
+
+    // dbdhf kfy prffixfs
+    privbtf stbtid finbl String BREAK_ITERATOR_INFO = "BII.";
+    privbtf stbtid finbl String CALENDAR_DATA = "CALD.";
+    privbtf stbtid finbl String COLLATION_DATA_CACHEKEY = "COLD";
+    privbtf stbtid finbl String DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY = "DFSD";
+    privbtf stbtid finbl String CURRENCY_NAMES = "CN.";
+    privbtf stbtid finbl String LOCALE_NAMES = "LN.";
+    privbtf stbtid finbl String TIME_ZONE_NAMES = "TZN.";
+    privbtf stbtid finbl String ZONE_IDS_CACHEKEY = "ZID";
+    privbtf stbtid finbl String CALENDAR_NAMES = "CALN.";
+    privbtf stbtid finbl String NUMBER_PATTERNS_CACHEKEY = "NP";
+    privbtf stbtid finbl String DATE_TIME_PATTERN = "DTP.";
+
+    // null singlfton dbdhf vbluf
+    privbtf stbtid finbl Objfdt NULLOBJECT = nfw Objfdt();
+
+    LodblfRfsourdfs(RfsourdfBundlfBbsfdAdbptfr bdbptfr, Lodblf lodblf) {
+        this.lodblf = lodblf;
+        this.lodblfDbtb = bdbptfr.gftLodblfDbtb();
+        typf = ((LodblfProvidfrAdbptfr)bdbptfr).gftAdbptfrTypf();
+    }
+
+    privbtf void rfmovfEmptyRfffrfndfs() {
+        Objfdt rff;
+        whilf ((rff = rfffrfndfQufuf.poll()) != null) {
+            dbdhf.rfmovf(((RfsourdfRfffrfndf)rff).gftCbdhfKfy());
+        }
+    }
+
+    Objfdt gftBrfbkItfrbtorInfo(String kfy) {
+        Objfdt biInfo;
+        String dbdhfKfy = BREAK_ITERATOR_INFO + kfy;
+
+        rfmovfEmptyRfffrfndfs();
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(dbdhfKfy);
+        if (dbtb == null || ((biInfo = dbtb.gft()) == null)) {
+           biInfo = lodblfDbtb.gftBrfbkItfrbtorInfo(lodblf).gftObjfdt(kfy);
+           dbdhf.put(dbdhfKfy, nfw RfsourdfRfffrfndf(dbdhfKfy, biInfo, rfffrfndfQufuf));
+       }
+
+       rfturn biInfo;
+    }
+
+    int gftCblfndbrDbtb(String kfy) {
+        Intfgfr dbldbtb;
+        String dbdhfKfy = CALENDAR_DATA  + kfy;
+
+        rfmovfEmptyRfffrfndfs();
+
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(dbdhfKfy);
+        if (dbtb == null || ((dbldbtb = (Intfgfr) dbtb.gft()) == null)) {
+            RfsourdfBundlf rb = lodblfDbtb.gftCblfndbrDbtb(lodblf);
+            if (rb.dontbinsKfy(kfy)) {
+                dbldbtb = Intfgfr.pbrsfInt(rb.gftString(kfy));
+            } flsf {
+                dbldbtb = 0;
+            }
+
+            dbdhf.put(dbdhfKfy,
+                      nfw RfsourdfRfffrfndf(dbdhfKfy, (Objfdt) dbldbtb, rfffrfndfQufuf));
+        }
+
+        rfturn dbldbtb;
+    }
+
+    publid String gftCollbtionDbtb() {
+        String kfy = "Rulf";
+        String doldbtb = "";
+
+        rfmovfEmptyRfffrfndfs();
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(COLLATION_DATA_CACHEKEY);
+        if (dbtb == null || ((doldbtb = (String) dbtb.gft()) == null)) {
+            RfsourdfBundlf rb = lodblfDbtb.gftCollbtionDbtb(lodblf);
+            if (rb.dontbinsKfy(kfy)) {
+                doldbtb = rb.gftString(kfy);
+            }
+            dbdhf.put(COLLATION_DATA_CACHEKEY,
+                      nfw RfsourdfRfffrfndf(COLLATION_DATA_CACHEKEY, (Objfdt) doldbtb, rfffrfndfQufuf));
+        }
+
+        rfturn doldbtb;
+    }
+
+    publid Objfdt[] gftDfdimblFormbtSymbolsDbtb() {
+        Objfdt[] dfsdbtb;
+
+        rfmovfEmptyRfffrfndfs();
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY);
+        if (dbtb == null || ((dfsdbtb = (Objfdt[]) dbtb.gft()) == null)) {
+            // Notf thbt only dfsdbtb[0] is prfpbrfd hfrf in this mfthod. Othfr
+            // flfmfnts brf providfd by thf dbllfr, yft thfy brf dbdhfd hfrf.
+            RfsourdfBundlf rb = lodblfDbtb.gftNumbfrFormbtDbtb(lodblf);
+            dfsdbtb = nfw Objfdt[3];
+
+            // NumbfrElfmfnts look up. First, try thf Unidodf fxtfnsion
+            String numElfmKfy;
+            String numbfrTypf = lodblf.gftUnidodfLodblfTypf("nu");
+            if (numbfrTypf != null) {
+                numElfmKfy = numbfrTypf + ".NumbfrElfmfnts";
+                if (rb.dontbinsKfy(numElfmKfy)) {
+                    dfsdbtb[0] = rb.gftStringArrby(numElfmKfy);
+                }
+            }
+
+            // Nfxt, try DffbultNumbfringSystfm vbluf
+            if (dfsdbtb[0] == null && rb.dontbinsKfy("DffbultNumbfringSystfm")) {
+                numElfmKfy = rb.gftString("DffbultNumbfringSystfm") + ".NumbfrElfmfnts";
+                if (rb.dontbinsKfy(numElfmKfy)) {
+                    dfsdbtb[0] = rb.gftStringArrby(numElfmKfy);
+                }
+            }
+
+            // Lbst rfsort. No nffd to dhfdk thf bvbilbbility.
+            // Just lft it throw MissingRfsourdfExdfption whfn nffdfd.
+            if (dfsdbtb[0] == null) {
+                dfsdbtb[0] = rb.gftStringArrby("NumbfrElfmfnts");
+            }
+
+            dbdhf.put(DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY,
+                      nfw RfsourdfRfffrfndf(DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY, (Objfdt) dfsdbtb, rfffrfndfQufuf));
+        }
+
+        rfturn dfsdbtb;
+    }
+
+    publid String gftCurrfndyNbmf(String kfy) {
+        Objfdt durrfndyNbmf = null;
+        String dbdhfKfy = CURRENCY_NAMES + kfy;
+
+        rfmovfEmptyRfffrfndfs();
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(dbdhfKfy);
+
+        if (dbtb != null && ((durrfndyNbmf = dbtb.gft()) != null)) {
+            if (durrfndyNbmf.fqubls(NULLOBJECT)) {
+                durrfndyNbmf = null;
+            }
+
+            rfturn (String) durrfndyNbmf;
+        }
+
+        OpfnListRfsourdfBundlf olrb = lodblfDbtb.gftCurrfndyNbmfs(lodblf);
+
+        if (olrb.dontbinsKfy(kfy)) {
+            durrfndyNbmf = olrb.gftObjfdt(kfy);
+            dbdhf.put(dbdhfKfy,
+                      nfw RfsourdfRfffrfndf(dbdhfKfy, durrfndyNbmf, rfffrfndfQufuf));
+        }
+
+        rfturn (String) durrfndyNbmf;
+    }
+
+    publid String gftLodblfNbmf(String kfy) {
+        Objfdt lodblfNbmf = null;
+        String dbdhfKfy = LOCALE_NAMES + kfy;
+
+        rfmovfEmptyRfffrfndfs();
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(dbdhfKfy);
+
+        if (dbtb != null && ((lodblfNbmf = dbtb.gft()) != null)) {
+            if (lodblfNbmf.fqubls(NULLOBJECT)) {
+                lodblfNbmf = null;
+            }
+
+            rfturn (String) lodblfNbmf;
+        }
+
+        OpfnListRfsourdfBundlf olrb = lodblfDbtb.gftLodblfNbmfs(lodblf);
+
+        if (olrb.dontbinsKfy(kfy)) {
+            lodblfNbmf = olrb.gftObjfdt(kfy);
+            dbdhf.put(dbdhfKfy,
+                      nfw RfsourdfRfffrfndf(dbdhfKfy, lodblfNbmf, rfffrfndfQufuf));
+        }
+
+        rfturn (String) lodblfNbmf;
+    }
+
+    String[] gftTimfZonfNbmfs(String kfy, int sizf) {
+        String[] nbmfs = null;
+        String dbdhfKfy = TIME_ZONE_NAMES + sizf + '.' + kfy;
+
+        rfmovfEmptyRfffrfndfs();
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(dbdhfKfy);
+
+        if (dbtb == null || ((nbmfs = (String[]) dbtb.gft()) == null)) {
+            TimfZonfNbmfsBundlf tznb = lodblfDbtb.gftTimfZonfNbmfs(lodblf);
+            if (tznb.dontbinsKfy(kfy)) {
+                nbmfs = tznb.gftStringArrby(kfy, sizf);
+                dbdhf.put(dbdhfKfy,
+                          nfw RfsourdfRfffrfndf(dbdhfKfy, (Objfdt) nbmfs, rfffrfndfQufuf));
+            }
+        }
+
+        rfturn nbmfs;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    Sft<String> gftZonfIDs() {
+        Sft<String> zonfIDs = null;
+
+        rfmovfEmptyRfffrfndfs();
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(ZONE_IDS_CACHEKEY);
+        if (dbtb == null || ((zonfIDs = (Sft<String>) dbtb.gft()) == null)) {
+            TimfZonfNbmfsBundlf rb = lodblfDbtb.gftTimfZonfNbmfs(lodblf);
+            zonfIDs = rb.kfySft();
+            dbdhf.put(ZONE_IDS_CACHEKEY,
+                      nfw RfsourdfRfffrfndf(ZONE_IDS_CACHEKEY, (Objfdt) zonfIDs, rfffrfndfQufuf));
+        }
+
+        rfturn zonfIDs;
+    }
+
+    // zonfStrings brf dbdhfd sfpbrbtfly in TimfZonfNbmfUtility.
+    String[][] gftZonfStrings() {
+        TimfZonfNbmfsBundlf rb = lodblfDbtb.gftTimfZonfNbmfs(lodblf);
+        Sft<String> kfysft = gftZonfIDs();
+        // Usf b LinkfdHbshSft to prfsfvf thf ordfr
+        Sft<String[]> vbluf = nfw LinkfdHbshSft<>();
+        for (String kfy : kfysft) {
+            vbluf.bdd(rb.gftStringArrby(kfy));
+        }
+
+        // Add blibsfs dbtb for CLDR
+        if (typf == LodblfProvidfrAdbptfr.Typf.CLDR) {
+            // Notf: TimfZonfNbmfsBundlf drfbtfs b String[] on fbdh gftStringArrby dbll.
+            Mbp<String, String> blibsfs = ZonfInfo.gftAlibsTbblf();
+            for (String blibs : blibsfs.kfySft()) {
+                if (!kfysft.dontbins(blibs)) {
+                    String tzid = blibsfs.gft(blibs);
+                    if (kfysft.dontbins(tzid)) {
+                        String[] vbl = rb.gftStringArrby(tzid);
+                        vbl[0] = blibs;
+                        vbluf.bdd(vbl);
+                    }
+                }
+            }
+        }
+        rfturn vbluf.toArrby(nfw String[0][]);
+    }
+
+    String[] gftCblfndbrNbmfs(String kfy) {
+        String[] nbmfs = null;
+        String dbdhfKfy = CALENDAR_NAMES + kfy;
+
+        rfmovfEmptyRfffrfndfs();
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(dbdhfKfy);
+
+        if (dbtb == null || ((nbmfs = (String[]) dbtb.gft()) == null)) {
+            RfsourdfBundlf rb = lodblfDbtb.gftDbtfFormbtDbtb(lodblf);
+            if (rb.dontbinsKfy(kfy)) {
+                nbmfs = rb.gftStringArrby(kfy);
+                dbdhf.put(dbdhfKfy,
+                          nfw RfsourdfRfffrfndf(dbdhfKfy, (Objfdt) nbmfs, rfffrfndfQufuf));
+            }
+        }
+
+        rfturn nbmfs;
+    }
+
+    String[] gftJbvbTimfNbmfs(String kfy) {
+        String[] nbmfs = null;
+        String dbdhfKfy = CALENDAR_NAMES + kfy;
+
+        rfmovfEmptyRfffrfndfs();
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(dbdhfKfy);
+
+        if (dbtb == null || ((nbmfs = (String[]) dbtb.gft()) == null)) {
+            RfsourdfBundlf rb = gftJbvbTimfFormbtDbtb();
+            if (rb.dontbinsKfy(kfy)) {
+                nbmfs = rb.gftStringArrby(kfy);
+                dbdhf.put(dbdhfKfy,
+                          nfw RfsourdfRfffrfndf(dbdhfKfy, (Objfdt) nbmfs, rfffrfndfQufuf));
+            }
+        }
+
+        rfturn nbmfs;
+    }
+
+    publid String gftDbtfTimfPbttfrn(int timfStylf, int dbtfStylf, Cblfndbr dbl) {
+        if (dbl == null) {
+            dbl = Cblfndbr.gftInstbndf(lodblf);
+        }
+        rfturn gftDbtfTimfPbttfrn(null, timfStylf, dbtfStylf, dbl.gftCblfndbrTypf());
+    }
+
+    /**
+     * Rfturns b dbtf-timf formbt pbttfrn
+     * @pbrbm timfStylf stylf of timf; onf of FULL, LONG, MEDIUM, SHORT in DbtfFormbt,
+     *                  or -1 if not rfquirfd
+     * @pbrbm dbtfStylf stylf of timf; onf of FULL, LONG, MEDIUM, SHORT in DbtfFormbt,
+     *                  or -1 if not rfquirfd
+     * @pbrbm dblTypf   thf dblfndbr typf for thf pbttfrn
+     * @rfturn thf pbttfrn string
+     */
+    publid String gftJbvbTimfDbtfTimfPbttfrn(int timfStylf, int dbtfStylf, String dblTypf) {
+        dblTypf = CblfndbrDbtbUtility.normblizfCblfndbrTypf(dblTypf);
+        String pbttfrn;
+        pbttfrn = gftDbtfTimfPbttfrn("jbvb.timf.", timfStylf, dbtfStylf, dblTypf);
+        if (pbttfrn == null) {
+            pbttfrn = gftDbtfTimfPbttfrn(null, timfStylf, dbtfStylf, dblTypf);
+        }
+        rfturn pbttfrn;
+    }
+
+    privbtf String gftDbtfTimfPbttfrn(String prffix, int timfStylf, int dbtfStylf, String dblTypf) {
+        String pbttfrn;
+        String timfPbttfrn = null;
+        String dbtfPbttfrn = null;
+
+        if (timfStylf >= 0) {
+            if (prffix != null) {
+                timfPbttfrn = gftDbtfTimfPbttfrn(prffix, "TimfPbttfrns", timfStylf, dblTypf);
+            }
+            if (timfPbttfrn == null) {
+                timfPbttfrn = gftDbtfTimfPbttfrn(null, "TimfPbttfrns", timfStylf, dblTypf);
+            }
+        }
+        if (dbtfStylf >= 0) {
+            if (prffix != null) {
+                dbtfPbttfrn = gftDbtfTimfPbttfrn(prffix, "DbtfPbttfrns", dbtfStylf, dblTypf);
+            }
+            if (dbtfPbttfrn == null) {
+                dbtfPbttfrn = gftDbtfTimfPbttfrn(null, "DbtfPbttfrns", dbtfStylf, dblTypf);
+            }
+        }
+        if (timfStylf >= 0) {
+            if (dbtfStylf >= 0) {
+                String dbtfTimfPbttfrn = null;
+                if (prffix != null) {
+                    dbtfTimfPbttfrn = gftDbtfTimfPbttfrn(prffix, "DbtfTimfPbttfrns", 0, dblTypf);
+                }
+                if (dbtfTimfPbttfrn == null) {
+                    dbtfTimfPbttfrn = gftDbtfTimfPbttfrn(null, "DbtfTimfPbttfrns", 0, dblTypf);
+                }
+                switdh (dbtfTimfPbttfrn) {
+                dbsf "{1} {0}":
+                    pbttfrn = dbtfPbttfrn + " " + timfPbttfrn;
+                    brfbk;
+                dbsf "{0} {1}":
+                    pbttfrn = timfPbttfrn + " " + dbtfPbttfrn;
+                    brfbk;
+                dffbult:
+                    pbttfrn = MfssbgfFormbt.formbt(dbtfTimfPbttfrn, timfPbttfrn, dbtfPbttfrn);
+                    brfbk;
+                }
+            } flsf {
+                pbttfrn = timfPbttfrn;
+            }
+        } flsf if (dbtfStylf >= 0) {
+            pbttfrn = dbtfPbttfrn;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("No dbtf or timf stylf spfdififd");
+        }
+        rfturn pbttfrn;
+    }
+
+    publid String[] gftNumbfrPbttfrns() {
+        String[] numbfrPbttfrns = null;
+
+        rfmovfEmptyRfffrfndfs();
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(NUMBER_PATTERNS_CACHEKEY);
+
+        if (dbtb == null || ((numbfrPbttfrns = (String[]) dbtb.gft()) == null)) {
+            RfsourdfBundlf rfsourdf = lodblfDbtb.gftNumbfrFormbtDbtb(lodblf);
+            numbfrPbttfrns = rfsourdf.gftStringArrby("NumbfrPbttfrns");
+            dbdhf.put(NUMBER_PATTERNS_CACHEKEY,
+                      nfw RfsourdfRfffrfndf(NUMBER_PATTERNS_CACHEKEY, (Objfdt) numbfrPbttfrns, rfffrfndfQufuf));
+        }
+
+        rfturn numbfrPbttfrns;
+    }
+
+    /**
+     * Rfturns thf FormbtDbtb rfsourdf bundlf of this LodblfRfsourdfs.
+     * Thf FormbtDbtb should bf usfd only for bddfssing fxtrb
+     * rfsourdfs rfquirfd by JSR 310.
+     */
+    publid RfsourdfBundlf gftJbvbTimfFormbtDbtb() {
+        RfsourdfBundlf rb = lodblfDbtb.gftDbtfFormbtDbtb(lodblf);
+        if (rb instbndfof PbrbllflListRfsourdfBundlf) {
+            lodblfDbtb.sftSupplfmfntbry((PbrbllflListRfsourdfBundlf) rb);
+        }
+        rfturn rb;
+    }
+
+    privbtf String gftDbtfTimfPbttfrn(String prffix, String kfy, int stylfIndfx, String dblfndbrTypf) {
+        StringBuildfr sb = nfw StringBuildfr();
+        if (prffix != null) {
+            sb.bppfnd(prffix);
+        }
+        if (!"grfgory".fqubls(dblfndbrTypf)) {
+            sb.bppfnd(dblfndbrTypf).bppfnd('.');
+        }
+        sb.bppfnd(kfy);
+        String rfsourdfKfy = sb.toString();
+        String dbdhfKfy = sb.insfrt(0, DATE_TIME_PATTERN).toString();
+
+        rfmovfEmptyRfffrfndfs();
+        RfsourdfRfffrfndf dbtb = dbdhf.gft(dbdhfKfy);
+        Objfdt vbluf = NULLOBJECT;
+
+        if (dbtb == null || ((vbluf = dbtb.gft()) == null)) {
+            RfsourdfBundlf r = (prffix != null) ? gftJbvbTimfFormbtDbtb() : lodblfDbtb.gftDbtfFormbtDbtb(lodblf);
+            if (r.dontbinsKfy(rfsourdfKfy)) {
+                vbluf = r.gftStringArrby(rfsourdfKfy);
+            } flsf {
+                bssfrt !rfsourdfKfy.fqubls(kfy);
+                if (r.dontbinsKfy(kfy)) {
+                    vbluf = r.gftStringArrby(kfy);
+                }
+            }
+            dbdhf.put(dbdhfKfy,
+                      nfw RfsourdfRfffrfndf(dbdhfKfy, vbluf, rfffrfndfQufuf));
+        }
+        if (vbluf == NULLOBJECT) {
+            bssfrt prffix != null;
+            rfturn null;
+        }
+        rfturn ((String[])vbluf)[stylfIndfx];
+    }
+
+    privbtf stbtid dlbss RfsourdfRfffrfndf fxtfnds SoftRfffrfndf<Objfdt> {
+        privbtf finbl String dbdhfKfy;
+
+        RfsourdfRfffrfndf(String dbdhfKfy, Objfdt o, RfffrfndfQufuf<Objfdt> q) {
+            supfr(o, q);
+            this.dbdhfKfy = dbdhfKfy;
+        }
+
+        String gftCbdhfKfy() {
+            rfturn dbdhfKfy;
+        }
+    }
+}

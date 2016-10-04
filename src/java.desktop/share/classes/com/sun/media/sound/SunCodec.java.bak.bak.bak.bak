@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+
+import jbvbx.sound.sbmplfd.spi.FormbtConvfrsionProvidfr;
+
+
+/**
+ * A dodfd dbn fndodf bnd/or dfdodf budio dbtb.  It providfs bn
+ * AudioInputStrfbm from whidh prodfssfd dbtb mby bf rfbd.
+ * <p>
+ * Its input formbt rfprfsfnts thf formbt of thf indoming
+ * budio dbtb, or thf formbt of thf dbtb in thf undfrlying strfbm.
+ * <p>
+ * Its output formbt rfprfsfnts thf formbt of thf prodfssfd, outgoing
+ * budio dbtb.  This is thf formbt of thf dbtb whidh mby bf rfbd from
+ * thf filtfrfd strfbm.
+ *
+ * @buthor Kbrb Kytlf
+ */
+bbstrbdt dlbss SunCodfd fxtfnds FormbtConvfrsionProvidfr {
+
+    privbtf finbl AudioFormbt.Endoding[] inputEndodings;
+    privbtf finbl AudioFormbt.Endoding[] outputEndodings;
+
+    /**
+     * Construdts b nfw dodfd objfdt.
+     */
+    SunCodfd(finbl AudioFormbt.Endoding[] inputEndodings,
+             finbl AudioFormbt.Endoding[] outputEndodings) {
+        this.inputEndodings = inputEndodings;
+        this.outputEndodings = outputEndodings;
+    }
+
+
+    /**
+     */
+    publid finbl AudioFormbt.Endoding[] gftSourdfEndodings() {
+        AudioFormbt.Endoding[] fndodings = nfw AudioFormbt.Endoding[inputEndodings.lfngth];
+        Systfm.brrbydopy(inputEndodings, 0, fndodings, 0, inputEndodings.lfngth);
+        rfturn fndodings;
+    }
+    /**
+     */
+    publid finbl AudioFormbt.Endoding[] gftTbrgftEndodings() {
+        AudioFormbt.Endoding[] fndodings = nfw AudioFormbt.Endoding[outputEndodings.lfngth];
+        Systfm.brrbydopy(outputEndodings, 0, fndodings, 0, outputEndodings.lfngth);
+        rfturn fndodings;
+    }
+
+    /**
+     */
+    publid bbstrbdt AudioFormbt.Endoding[] gftTbrgftEndodings(AudioFormbt sourdfFormbt);
+
+
+    /**
+     */
+    publid bbstrbdt AudioFormbt[] gftTbrgftFormbts(AudioFormbt.Endoding tbrgftEndoding, AudioFormbt sourdfFormbt);
+
+
+    /**
+     */
+    publid bbstrbdt AudioInputStrfbm gftAudioInputStrfbm(AudioFormbt.Endoding tbrgftEndoding, AudioInputStrfbm sourdfStrfbm);
+    /**
+     */
+    publid bbstrbdt AudioInputStrfbm gftAudioInputStrfbm(AudioFormbt tbrgftFormbt, AudioInputStrfbm sourdfStrfbm);
+
+
+}

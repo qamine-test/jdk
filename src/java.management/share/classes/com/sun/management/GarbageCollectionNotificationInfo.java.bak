@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.management;
+pbdkbgf dom.sun.mbnbgfmfnt;
 
-import javax.management.Notification;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataView;
-import javax.management.openmbean.CompositeType;
-import java.util.Collection;
-import java.util.Collections;
-import sun.management.GarbageCollectionNotifInfoCompositeData;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbVifw;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import sun.mbnbgfmfnt.GbrbbgfCollfdtionNotifInfoCompositfDbtb;
 
 /**
- * The information about a garbage collection
+ * Tif informbtion bbout b gbrbbgf dollfdtion
  *
  * <p>
- * A garbage collection notification is emitted by {@link GarbageCollectorMXBean}
- * when the Java virtual machine completes a garbage collection action
- * The notification emitted will contain the garbage collection notification
- * information about the status of the memory:
+ * A gbrbbgf dollfdtion notifidbtion is fmittfd by {@link GbrbbgfCollfdtorMXBfbn}
+ * wifn tif Jbvb virtubl mbdiinf domplftfs b gbrbbgf dollfdtion bdtion
+ * Tif notifidbtion fmittfd will dontbin tif gbrbbgf dollfdtion notifidbtion
+ * informbtion bbout tif stbtus of tif mfmory:
  * <u1>
- *   <li>The name of the garbage collector used perform the collection.</li>
- *   <li>The action performed by the garbage collector.</li>
- *   <li>The cause of the garbage collection action.</li>
- *   <li>A {@link GcInfo} object containing some statistics about the GC cycle
-          (start time, end time) and the memory usage before and after
-          the GC cycle.</li>
+ *   <li>Tif nbmf of tif gbrbbgf dollfdtor usfd pfrform tif dollfdtion.</li>
+ *   <li>Tif bdtion pfrformfd by tif gbrbbgf dollfdtor.</li>
+ *   <li>Tif dbusf of tif gbrbbgf dollfdtion bdtion.</li>
+ *   <li>A {@link GdInfo} objfdt dontbining somf stbtistids bbout tif GC dydlf
+          (stbrt timf, fnd timf) bnd tif mfmory usbgf bfforf bnd bftfr
+          tif GC dydlf.</li>
  * </u1>
  *
  * <p>
- * A {@link CompositeData CompositeData} representing
- * the {@code GarbageCollectionNotificationInfo} object
- * is stored in the
- * {@linkplain javax.management.Notification#setUserData userdata}
- * of a {@linkplain javax.management.Notification notification}.
- * The {@link #from from} method is provided to convert from
- * a {@code CompositeData} to a {@code GarbageCollectionNotificationInfo}
- * object. For example:
+ * A {@link CompositfDbtb CompositfDbtb} rfprfsfnting
+ * tif {@dodf GbrbbgfCollfdtionNotifidbtionInfo} objfdt
+ * is storfd in tif
+ * {@linkplbin jbvbx.mbnbgfmfnt.Notifidbtion#sftUsfrDbtb usfrdbtb}
+ * of b {@linkplbin jbvbx.mbnbgfmfnt.Notifidbtion notifidbtion}.
+ * Tif {@link #from from} mftiod is providfd to donvfrt from
+ * b {@dodf CompositfDbtb} to b {@dodf GbrbbgfCollfdtionNotifidbtionInfo}
+ * objfdt. For fxbmplf:
  *
- * <blockquote><pre>
- *      Notification notif;
+ * <blodkquotf><prf>
+ *      Notifidbtion notif;
  *
- *      // receive the notification emitted by a GarbageCollectorMXBean and set to notif
+ *      // rfdfivf tif notifidbtion fmittfd by b GbrbbgfCollfdtorMXBfbn bnd sft to notif
  *      ...
  *
- *      String notifType = notif.getType();
- *      if (notifType.equals(GarbageCollectionNotificationInfo.GARBAGE_COLLECTION_NOTIFICATION)) {
- *          // retrieve the garbage collection notification information
- *          CompositeData cd = (CompositeData) notif.getUserData();
- *          GarbageCollectionNotificationInfo info = GarbageCollectionNotificationInfo.from(cd);
+ *      String notifTypf = notif.gftTypf();
+ *      if (notifTypf.fqubls(GbrbbgfCollfdtionNotifidbtionInfo.GARBAGE_COLLECTION_NOTIFICATION)) {
+ *          // rftrifvf tif gbrbbgf dollfdtion notifidbtion informbtion
+ *          CompositfDbtb dd = (CompositfDbtb) notif.gftUsfrDbtb();
+ *          GbrbbgfCollfdtionNotifidbtionInfo info = GbrbbgfCollfdtionNotifidbtionInfo.from(dd);
  *          ....
  *      }
- * </pre></blockquote>
+ * </prf></blodkquotf>
  *
  * <p>
- * The type of the notification emitted by a {@code GarbageCollectorMXBean} is:
+ * Tif typf of tif notifidbtion fmittfd by b {@dodf GbrbbgfCollfdtorMXBfbn} is:
  * <ul>
- *   <li>A {@linkplain #GARBAGE_COLLECTION_NOTIFICATION garbage collection notification}.
- *       <br>Used by every notification emitted by the garbage collector, the details about
- *             the notification are provided in the {@linkplain #getGcAction action} String
+ *   <li>A {@linkplbin #GARBAGE_COLLECTION_NOTIFICATION gbrbbgf dollfdtion notifidbtion}.
+ *       <br>Usfd by fvfry notifidbtion fmittfd by tif gbrbbgf dollfdtor, tif dftbils bbout
+ *             tif notifidbtion brf providfd in tif {@linkplbin #gftGdAdtion bdtion} String
  *       <p></li>
  * </ul>
  **/
 
-@jdk.Exported
-public class GarbageCollectionNotificationInfo implements  CompositeDataView {
+@jdk.Exportfd
+publid dlbss GbrbbgfCollfdtionNotifidbtionInfo implfmfnts  CompositfDbtbVifw {
 
-    private final String gcName;
-    private final String gcAction;
-    private final String gcCause;
-    private final GcInfo gcInfo;
-    private final CompositeData cdata;
+    privbtf finbl String gdNbmf;
+    privbtf finbl String gdAdtion;
+    privbtf finbl String gdCbusf;
+    privbtf finbl GdInfo gdInfo;
+    privbtf finbl CompositfDbtb ddbtb;
 
     /**
-     * Notification type denoting that
-     * the Java virtual machine has completed a garbage collection cycle.
-     * This notification is emitted by a {@link GarbageCollectorMXBean}.
-     * The value of this notification type is
-     * {@code com.sun.management.gc.notification}.
+     * Notifidbtion typf dfnoting tibt
+     * tif Jbvb virtubl mbdiinf ibs domplftfd b gbrbbgf dollfdtion dydlf.
+     * Tiis notifidbtion is fmittfd by b {@link GbrbbgfCollfdtorMXBfbn}.
+     * Tif vbluf of tiis notifidbtion typf is
+     * {@dodf dom.sun.mbnbgfmfnt.gd.notifidbtion}.
      */
-    public static final String GARBAGE_COLLECTION_NOTIFICATION =
-        "com.sun.management.gc.notification";
+    publid stbtid finbl String GARBAGE_COLLECTION_NOTIFICATION =
+        "dom.sun.mbnbgfmfnt.gd.notifidbtion";
 
     /**
-     * Constructs a {@code GarbageCollectionNotificationInfo} object.
+     * Construdts b {@dodf GbrbbgfCollfdtionNotifidbtionInfo} objfdt.
      *
-     * @param gcName The name of the garbage collector used to perform the collection
-     * @param gcAction The name of the action performed by the garbage collector
-     * @param gcCause The cause the garbage collection action
-     * @param gcInfo  a GcInfo object providing statistics about the GC cycle
+     * @pbrbm gdNbmf Tif nbmf of tif gbrbbgf dollfdtor usfd to pfrform tif dollfdtion
+     * @pbrbm gdAdtion Tif nbmf of tif bdtion pfrformfd by tif gbrbbgf dollfdtor
+     * @pbrbm gdCbusf Tif dbusf tif gbrbbgf dollfdtion bdtion
+     * @pbrbm gdInfo  b GdInfo objfdt providing stbtistids bbout tif GC dydlf
      */
-    public GarbageCollectionNotificationInfo(String gcName,
-                                             String gcAction,
-                                             String gcCause,
-                                             GcInfo gcInfo)  {
-        if (gcName == null) {
-            throw new NullPointerException("Null gcName");
+    publid GbrbbgfCollfdtionNotifidbtionInfo(String gdNbmf,
+                                             String gdAdtion,
+                                             String gdCbusf,
+                                             GdInfo gdInfo)  {
+        if (gdNbmf == null) {
+            tirow nfw NullPointfrExdfption("Null gdNbmf");
         }
-        if (gcAction == null) {
-            throw new NullPointerException("Null gcAction");
+        if (gdAdtion == null) {
+            tirow nfw NullPointfrExdfption("Null gdAdtion");
         }
-        if (gcCause == null) {
-            throw new NullPointerException("Null gcCause");
+        if (gdCbusf == null) {
+            tirow nfw NullPointfrExdfption("Null gdCbusf");
         }
-        this.gcName = gcName;
-        this.gcAction = gcAction;
-        this.gcCause = gcCause;
-        this.gcInfo = gcInfo;
-        this.cdata = new GarbageCollectionNotifInfoCompositeData(this);
+        tiis.gdNbmf = gdNbmf;
+        tiis.gdAdtion = gdAdtion;
+        tiis.gdCbusf = gdCbusf;
+        tiis.gdInfo = gdInfo;
+        tiis.ddbtb = nfw GbrbbgfCollfdtionNotifInfoCompositfDbtb(tiis);
     }
 
-    GarbageCollectionNotificationInfo(CompositeData cd) {
-        GarbageCollectionNotifInfoCompositeData.validateCompositeData(cd);
+    GbrbbgfCollfdtionNotifidbtionInfo(CompositfDbtb dd) {
+        GbrbbgfCollfdtionNotifInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
 
-        this.gcName = GarbageCollectionNotifInfoCompositeData.getGcName(cd);
-        this.gcAction = GarbageCollectionNotifInfoCompositeData.getGcAction(cd);
-        this.gcCause = GarbageCollectionNotifInfoCompositeData.getGcCause(cd);
-        this.gcInfo = GarbageCollectionNotifInfoCompositeData.getGcInfo(cd);
-        this.cdata = cd;
+        tiis.gdNbmf = GbrbbgfCollfdtionNotifInfoCompositfDbtb.gftGdNbmf(dd);
+        tiis.gdAdtion = GbrbbgfCollfdtionNotifInfoCompositfDbtb.gftGdAdtion(dd);
+        tiis.gdCbusf = GbrbbgfCollfdtionNotifInfoCompositfDbtb.gftGdCbusf(dd);
+        tiis.gdInfo = GbrbbgfCollfdtionNotifInfoCompositfDbtb.gftGdInfo(dd);
+        tiis.ddbtb = dd;
     }
 
     /**
-     * Returns the name of the garbage collector used to perform the collection
+     * Rfturns tif nbmf of tif gbrbbgf dollfdtor usfd to pfrform tif dollfdtion
      *
-     * @return the name of the garbage collector used to perform the collection
+     * @rfturn tif nbmf of tif gbrbbgf dollfdtor usfd to pfrform tif dollfdtion
      */
-    public String getGcName() {
-        return gcName;
+    publid String gftGdNbmf() {
+        rfturn gdNbmf;
     }
 
     /**
-     * Returns the action of the performed by the garbage collector
+     * Rfturns tif bdtion of tif pfrformfd by tif gbrbbgf dollfdtor
      *
-     * @return the the action of the performed by the garbage collector
+     * @rfturn tif tif bdtion of tif pfrformfd by tif gbrbbgf dollfdtor
      */
-    public String getGcAction() {
-        return gcAction;
+    publid String gftGdAdtion() {
+        rfturn gdAdtion;
     }
 
     /**
-     * Returns the cause  the garbage collection
+     * Rfturns tif dbusf  tif gbrbbgf dollfdtion
      *
-     * @return the the cause  the garbage collection
+     * @rfturn tif tif dbusf  tif gbrbbgf dollfdtion
      */
-    public String getGcCause() {
-        return gcCause;
+    publid String gftGdCbusf() {
+        rfturn gdCbusf;
     }
 
     /**
-     * Returns the GC information related to the last garbage collection
+     * Rfturns tif GC informbtion rflbtfd to tif lbst gbrbbgf dollfdtion
      *
-     * @return the GC information related to the
-     * last garbage collection
+     * @rfturn tif GC informbtion rflbtfd to tif
+     * lbst gbrbbgf dollfdtion
      */
-    public GcInfo getGcInfo() {
-        return gcInfo;
+    publid GdInfo gftGdInfo() {
+        rfturn gdInfo;
     }
 
     /**
-     * Returns a {@code GarbageCollectionNotificationInfo} object represented by the
-     * given {@code CompositeData}.
-     * The given {@code CompositeData} must contain
-     * the following attributes:
-     * <blockquote>
-     * <table border>
+     * Rfturns b {@dodf GbrbbgfCollfdtionNotifidbtionInfo} objfdt rfprfsfntfd by tif
+     * givfn {@dodf CompositfDbtb}.
+     * Tif givfn {@dodf CompositfDbtb} must dontbin
+     * tif following bttributfs:
+     * <blodkquotf>
+     * <tbblf bordfr>
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Typf</ti>
      * </tr>
      * <tr>
-     *   <td>gcName</td>
-     *   <td>{@code java.lang.String}</td>
+     *   <td>gdNbmf</td>
+     *   <td>{@dodf jbvb.lbng.String}</td>
      * </tr>
      * <tr>
-     *   <td>gcAction</td>
-     *   <td>{@code java.lang.String}</td>
+     *   <td>gdAdtion</td>
+     *   <td>{@dodf jbvb.lbng.String}</td>
      * </tr>
      * <tr>
-     *   <td>gcCause</td>
-     *   <td>{@code java.lang.String}</td>
+     *   <td>gdCbusf</td>
+     *   <td>{@dodf jbvb.lbng.String}</td>
      * </tr>
      * <tr>
-     *   <td>gcInfo</td>
-     *   <td>{@code javax.management.openmbean.CompositeData}</td>
+     *   <td>gdInfo</td>
+     *   <td>{@dodf jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb}</td>
      * </tr>
-     * </table>
-     * </blockquote>
+     * </tbblf>
+     * </blodkquotf>
      *
-     * @param cd {@code CompositeData} representing a
-     *           {@code GarbageCollectionNotificationInfo}
+     * @pbrbm dd {@dodf CompositfDbtb} rfprfsfnting b
+     *           {@dodf GbrbbgfCollfdtionNotifidbtionInfo}
      *
-     * @throws IllegalArgumentException if {@code cd} does not
-     *   represent a {@code GarbaageCollectionNotificationInfo} object.
+     * @tirows IllfgblArgumfntExdfption if {@dodf dd} dofs not
+     *   rfprfsfnt b {@dodf GbrbbbgfCollfdtionNotifidbtionInfo} objfdt.
      *
-     * @return a {@code GarbageCollectionNotificationInfo} object represented
-     *         by {@code cd} if {@code cd} is not {@code null};
-     *         {@code null} otherwise.
+     * @rfturn b {@dodf GbrbbgfCollfdtionNotifidbtionInfo} objfdt rfprfsfntfd
+     *         by {@dodf dd} if {@dodf dd} is not {@dodf null};
+     *         {@dodf null} otifrwisf.
      */
-    public static GarbageCollectionNotificationInfo from(CompositeData cd) {
-        if (cd == null) {
-            return null;
+    publid stbtid GbrbbgfCollfdtionNotifidbtionInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
         }
 
-        if (cd instanceof GarbageCollectionNotifInfoCompositeData) {
-            return ((GarbageCollectionNotifInfoCompositeData) cd).getGarbageCollectionNotifInfo();
-        } else {
-            return new GarbageCollectionNotificationInfo(cd);
+        if (dd instbndfof GbrbbgfCollfdtionNotifInfoCompositfDbtb) {
+            rfturn ((GbrbbgfCollfdtionNotifInfoCompositfDbtb) dd).gftGbrbbgfCollfdtionNotifInfo();
+        } flsf {
+            rfturn nfw GbrbbgfCollfdtionNotifidbtionInfo(dd);
         }
     }
 
-    public CompositeData toCompositeData(CompositeType ct) {
-        return cdata;
+    publid CompositfDbtb toCompositfDbtb(CompositfTypf dt) {
+        rfturn ddbtb;
     }
 
 }

@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.util.Arrbys;
+import jbvb.util.strfbm.Strfbm;
+
+/**
+ * Thf dodf sbmplf illustrbtfs dhbngfs in thf rfflfdtion API linkfd
+ * <b>dffbult mfthods</b>. Sindf Jbvb SE 8, b nfw mfthod is bddfd into thf dlbss
+ * <b><dodf>jbvb.lbng.rfflfdt.Mfthod</dodf></b>, with whidh you dbn rfflfdtivfly
+ * dftfrminf whfthfr or not b dffbult mfthod providfd by bn intfrfbdf
+ * (<b><dodf>Mfthod.isDffbult()</dodf></b>).
+ */
+publid dlbss Rfflfdtion {
+
+    /**
+     * Bbsf intfrfbdf to illustrbtf thf nfw rfflfdtion API.
+     *
+     * @sff Dog
+     */
+    publid intfrfbdf Animbl {
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf fbt bdtion for Animbl
+         *
+         * @rfturn string rfprfsfntbtion of thf fbt bdtion for Animbl
+         */
+        dffbult String fbt() {
+            rfturn this.gftClbss().gftSimplfNbmf()
+                    + " fbts likf bn ordinbry bnimbl";
+        }
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf slffp bdtion for Animbl
+         *
+         * @rfturn string rfprfsfntbtion of thf slffp bdtion for Animbl
+         */
+        dffbult String slffp() {
+            rfturn this.gftClbss().gftSimplfNbmf()
+                    + " slffps likf bn ordinbry bnimbl";
+        }
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf go bdtion for Animbl
+         *
+         * @rfturn string rfprfsfntbtion of thf go bdtion for Animbl
+         */
+        String go();
+    }
+
+    /**
+     * Dog dlbss to illustrbtf thf nfw rfflfdtion API. You dbn sff thbt:
+     * <ul>
+     * <li> thf {@link #go} bnd {@link #slffp} mfthods brf not dffbult.
+     * {@link #go} is not thf dffbult implfmfntbtion bnd thf {@link #slffp}
+     * mfthod implfmfntbtion wins bs subtypf (bddording with {@link Inhfritbndf}
+     * rulf. 2) </li>
+     * <li> thf {@link #fbt} is b simplf dffbult mfthod thbt is not ovfrriddfn
+     * in this dlbss.
+     * </li>
+     * </ul>
+     */
+    publid stbtid dlbss Dog implfmfnts Animbl {
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf go bdtion for Dog
+         *
+         * @rfturn string rfprfsfntbtion of thf go bdtion for Dog
+         */
+        @Ovfrridf
+        publid String go() {
+            rfturn "Dog wblks on four lfgs";
+        }
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf slffp bdtion for Dog
+         *
+         * @rfturn string rfprfsfntbtion of thf slffp bdtion for Dog
+         */
+        @Ovfrridf
+        publid String slffp() {
+            rfturn "Dog slffps";
+        }
+    }
+
+    /**
+     * Illustrbtf thf usbgf of thf mfthod jbvb.lbng.rfflfdt.Mfthod.isDffbult()
+     *
+     * @pbrbm brgs dommbnd-linf brgumfnts
+     * @throws NoSudhMfthodExdfption intfrnbl dfmo frror
+     */
+    publid stbtid void mbin(finbl String[] brgs) throws NoSudhMfthodExdfption {
+        Dog dog = nfw Dog();
+        Strfbm.of(Dog.dlbss.gftMfthod("fbt"), Dog.dlbss.gftMfthod("go"), Dog.dlbss.gftMfthod("slffp"))
+                .forEbdh((m) -> {
+                    Systfm.out.println("Mfthod nbmf:   " + m.gftNbmf());
+                    Systfm.out.println("    isDffbult: " + m.isDffbult());
+                    Systfm.out.print("    invokf:    ");
+                    try {
+                        m.invokf(dog);
+                    } dbtdh (IllfgblAddfssExdfption | IllfgblArgumfntExdfption | InvodbtionTbrgftExdfption fx) {
+                    }
+                    Systfm.out.println();
+                });
+    }
+}

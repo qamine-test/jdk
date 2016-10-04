@@ -1,325 +1,325 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 
 /**
- * Abstract class for writing to character streams.  The only methods that a
- * subclass must implement are write(char[], int, int), flush(), and close().
- * Most subclasses, however, will override some of the methods defined here in
- * order to provide higher efficiency, additional functionality, or both.
+ * Abstrbdt dlbss for writing to dibrbdtfr strfbms.  Tif only mftiods tibt b
+ * subdlbss must implfmfnt brf writf(dibr[], int, int), flusi(), bnd dlosf().
+ * Most subdlbssfs, iowfvfr, will ovfrridf somf of tif mftiods dffinfd ifrf in
+ * ordfr to providf iigifr fffidifndy, bdditionbl fundtionblity, or boti.
  *
- * @see Writer
- * @see   BufferedWriter
- * @see   CharArrayWriter
- * @see   FilterWriter
- * @see   OutputStreamWriter
- * @see     FileWriter
- * @see   PipedWriter
- * @see   PrintWriter
- * @see   StringWriter
- * @see Reader
+ * @sff Writfr
+ * @sff   BufffrfdWritfr
+ * @sff   CibrArrbyWritfr
+ * @sff   FiltfrWritfr
+ * @sff   OutputStrfbmWritfr
+ * @sff     FilfWritfr
+ * @sff   PipfdWritfr
+ * @sff   PrintWritfr
+ * @sff   StringWritfr
+ * @sff Rfbdfr
  *
- * @author      Mark Reinhold
- * @since       1.1
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
  */
 
-public abstract class Writer implements Appendable, Closeable, Flushable {
+publid bbstrbdt dlbss Writfr implfmfnts Appfndbblf, Closfbblf, Flusibblf {
 
     /**
-     * Temporary buffer used to hold writes of strings and single characters
+     * Tfmporbry bufffr usfd to iold writfs of strings bnd singlf dibrbdtfrs
      */
-    private char[] writeBuffer;
+    privbtf dibr[] writfBufffr;
 
     /**
-     * Size of writeBuffer, must be >= 1
+     * Sizf of writfBufffr, must bf >= 1
      */
-    private static final int WRITE_BUFFER_SIZE = 1024;
+    privbtf stbtid finbl int WRITE_BUFFER_SIZE = 1024;
 
     /**
-     * The object used to synchronize operations on this stream.  For
-     * efficiency, a character-stream object may use an object other than
-     * itself to protect critical sections.  A subclass should therefore use
-     * the object in this field rather than <tt>this</tt> or a synchronized
-     * method.
+     * Tif objfdt usfd to syndironizf opfrbtions on tiis strfbm.  For
+     * fffidifndy, b dibrbdtfr-strfbm objfdt mby usf bn objfdt otifr tibn
+     * itsflf to protfdt dritidbl sfdtions.  A subdlbss siould tifrfforf usf
+     * tif objfdt in tiis fifld rbtifr tibn <tt>tiis</tt> or b syndironizfd
+     * mftiod.
      */
-    protected Object lock;
+    protfdtfd Objfdt lodk;
 
     /**
-     * Creates a new character-stream writer whose critical sections will
-     * synchronize on the writer itself.
+     * Crfbtfs b nfw dibrbdtfr-strfbm writfr wiosf dritidbl sfdtions will
+     * syndironizf on tif writfr itsflf.
      */
-    protected Writer() {
-        this.lock = this;
+    protfdtfd Writfr() {
+        tiis.lodk = tiis;
     }
 
     /**
-     * Creates a new character-stream writer whose critical sections will
-     * synchronize on the given object.
+     * Crfbtfs b nfw dibrbdtfr-strfbm writfr wiosf dritidbl sfdtions will
+     * syndironizf on tif givfn objfdt.
      *
-     * @param  lock
-     *         Object to synchronize on
+     * @pbrbm  lodk
+     *         Objfdt to syndironizf on
      */
-    protected Writer(Object lock) {
-        if (lock == null) {
-            throw new NullPointerException();
+    protfdtfd Writfr(Objfdt lodk) {
+        if (lodk == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.lock = lock;
+        tiis.lodk = lodk;
     }
 
     /**
-     * Writes a single character.  The character to be written is contained in
-     * the 16 low-order bits of the given integer value; the 16 high-order bits
-     * are ignored.
+     * Writfs b singlf dibrbdtfr.  Tif dibrbdtfr to bf writtfn is dontbinfd in
+     * tif 16 low-ordfr bits of tif givfn intfgfr vbluf; tif 16 iigi-ordfr bits
+     * brf ignorfd.
      *
-     * <p> Subclasses that intend to support efficient single-character output
-     * should override this method.
+     * <p> Subdlbssfs tibt intfnd to support fffidifnt singlf-dibrbdtfr output
+     * siould ovfrridf tiis mftiod.
      *
-     * @param  c
-     *         int specifying a character to be written
+     * @pbrbm  d
+     *         int spfdifying b dibrbdtfr to bf writtfn
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public void write(int c) throws IOException {
-        synchronized (lock) {
-            if (writeBuffer == null){
-                writeBuffer = new char[WRITE_BUFFER_SIZE];
+    publid void writf(int d) tirows IOExdfption {
+        syndironizfd (lodk) {
+            if (writfBufffr == null){
+                writfBufffr = nfw dibr[WRITE_BUFFER_SIZE];
             }
-            writeBuffer[0] = (char) c;
-            write(writeBuffer, 0, 1);
+            writfBufffr[0] = (dibr) d;
+            writf(writfBufffr, 0, 1);
         }
     }
 
     /**
-     * Writes an array of characters.
+     * Writfs bn brrby of dibrbdtfrs.
      *
-     * @param  cbuf
-     *         Array of characters to be written
+     * @pbrbm  dbuf
+     *         Arrby of dibrbdtfrs to bf writtfn
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public void write(char cbuf[]) throws IOException {
-        write(cbuf, 0, cbuf.length);
+    publid void writf(dibr dbuf[]) tirows IOExdfption {
+        writf(dbuf, 0, dbuf.lfngti);
     }
 
     /**
-     * Writes a portion of an array of characters.
+     * Writfs b portion of bn brrby of dibrbdtfrs.
      *
-     * @param  cbuf
-     *         Array of characters
+     * @pbrbm  dbuf
+     *         Arrby of dibrbdtfrs
      *
-     * @param  off
-     *         Offset from which to start writing characters
+     * @pbrbm  off
+     *         Offsft from wiidi to stbrt writing dibrbdtfrs
      *
-     * @param  len
-     *         Number of characters to write
+     * @pbrbm  lfn
+     *         Numbfr of dibrbdtfrs to writf
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    abstract public void write(char cbuf[], int off, int len) throws IOException;
+    bbstrbdt publid void writf(dibr dbuf[], int off, int lfn) tirows IOExdfption;
 
     /**
-     * Writes a string.
+     * Writfs b string.
      *
-     * @param  str
-     *         String to be written
+     * @pbrbm  str
+     *         String to bf writtfn
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public void write(String str) throws IOException {
-        write(str, 0, str.length());
+    publid void writf(String str) tirows IOExdfption {
+        writf(str, 0, str.lfngti());
     }
 
     /**
-     * Writes a portion of a string.
+     * Writfs b portion of b string.
      *
-     * @param  str
+     * @pbrbm  str
      *         A String
      *
-     * @param  off
-     *         Offset from which to start writing characters
+     * @pbrbm  off
+     *         Offsft from wiidi to stbrt writing dibrbdtfrs
      *
-     * @param  len
-     *         Number of characters to write
+     * @pbrbm  lfn
+     *         Numbfr of dibrbdtfrs to writf
      *
-     * @throws  IndexOutOfBoundsException
-     *          If <tt>off</tt> is negative, or <tt>len</tt> is negative,
-     *          or <tt>off+len</tt> is negative or greater than the length
-     *          of the given string
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>off</tt> is nfgbtivf, or <tt>lfn</tt> is nfgbtivf,
+     *          or <tt>off+lfn</tt> is nfgbtivf or grfbtfr tibn tif lfngti
+     *          of tif givfn string
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public void write(String str, int off, int len) throws IOException {
-        synchronized (lock) {
-            char cbuf[];
-            if (len <= WRITE_BUFFER_SIZE) {
-                if (writeBuffer == null) {
-                    writeBuffer = new char[WRITE_BUFFER_SIZE];
+    publid void writf(String str, int off, int lfn) tirows IOExdfption {
+        syndironizfd (lodk) {
+            dibr dbuf[];
+            if (lfn <= WRITE_BUFFER_SIZE) {
+                if (writfBufffr == null) {
+                    writfBufffr = nfw dibr[WRITE_BUFFER_SIZE];
                 }
-                cbuf = writeBuffer;
-            } else {    // Don't permanently allocate very large buffers.
-                cbuf = new char[len];
+                dbuf = writfBufffr;
+            } flsf {    // Don't pfrmbnfntly bllodbtf vfry lbrgf bufffrs.
+                dbuf = nfw dibr[lfn];
             }
-            str.getChars(off, (off + len), cbuf, 0);
-            write(cbuf, 0, len);
+            str.gftCibrs(off, (off + lfn), dbuf, 0);
+            writf(dbuf, 0, lfn);
         }
     }
 
     /**
-     * Appends the specified character sequence to this writer.
+     * Appfnds tif spfdififd dibrbdtfr sfqufndf to tiis writfr.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.bppfnd(dsq)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.write(csq.toString()) </pre>
+     * <prf>
+     *     out.writf(dsq.toString()) </prf>
      *
-     * <p> Depending on the specification of <tt>toString</tt> for the
-     * character sequence <tt>csq</tt>, the entire sequence may not be
-     * appended. For instance, invoking the <tt>toString</tt> method of a
-     * character buffer will return a subsequence whose content depends upon
-     * the buffer's position and limit.
+     * <p> Dfpfnding on tif spfdifidbtion of <tt>toString</tt> for tif
+     * dibrbdtfr sfqufndf <tt>dsq</tt>, tif fntirf sfqufndf mby not bf
+     * bppfndfd. For instbndf, invoking tif <tt>toString</tt> mftiod of b
+     * dibrbdtfr bufffr will rfturn b subsfqufndf wiosf dontfnt dfpfnds upon
+     * tif bufffr's position bnd limit.
      *
-     * @param  csq
-     *         The character sequence to append.  If <tt>csq</tt> is
-     *         <tt>null</tt>, then the four characters <tt>"null"</tt> are
-     *         appended to this writer.
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf to bppfnd.  If <tt>dsq</tt> is
+     *         <tt>null</tt>, tifn tif four dibrbdtfrs <tt>"null"</tt> brf
+     *         bppfndfd to tiis writfr.
      *
-     * @return  This writer
+     * @rfturn  Tiis writfr
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public Writer append(CharSequence csq) throws IOException {
-        if (csq == null)
-            write("null");
-        else
-            write(csq.toString());
-        return this;
+    publid Writfr bppfnd(CibrSfqufndf dsq) tirows IOExdfption {
+        if (dsq == null)
+            writf("null");
+        flsf
+            writf(dsq.toString());
+        rfturn tiis;
     }
 
     /**
-     * Appends a subsequence of the specified character sequence to this writer.
-     * <tt>Appendable</tt>.
+     * Appfnds b subsfqufndf of tif spfdififd dibrbdtfr sfqufndf to tiis writfr.
+     * <tt>Appfndbblf</tt>.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq, start,
-     * end)</tt> when <tt>csq</tt> is not <tt>null</tt> behaves in exactly the
-     * same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.bppfnd(dsq, stbrt,
+     * fnd)</tt> wifn <tt>dsq</tt> is not <tt>null</tt> bfibvfs in fxbdtly tif
+     * sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.write(csq.subSequence(start, end).toString()) </pre>
+     * <prf>
+     *     out.writf(dsq.subSfqufndf(stbrt, fnd).toString()) </prf>
      *
-     * @param  csq
-     *         The character sequence from which a subsequence will be
-     *         appended.  If <tt>csq</tt> is <tt>null</tt>, then characters
-     *         will be appended as if <tt>csq</tt> contained the four
-     *         characters <tt>"null"</tt>.
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf from wiidi b subsfqufndf will bf
+     *         bppfndfd.  If <tt>dsq</tt> is <tt>null</tt>, tifn dibrbdtfrs
+     *         will bf bppfndfd bs if <tt>dsq</tt> dontbinfd tif four
+     *         dibrbdtfrs <tt>"null"</tt>.
      *
-     * @param  start
-     *         The index of the first character in the subsequence
+     * @pbrbm  stbrt
+     *         Tif indfx of tif first dibrbdtfr in tif subsfqufndf
      *
-     * @param  end
-     *         The index of the character following the last character in the
-     *         subsequence
+     * @pbrbm  fnd
+     *         Tif indfx of tif dibrbdtfr following tif lbst dibrbdtfr in tif
+     *         subsfqufndf
      *
-     * @return  This writer
+     * @rfturn  Tiis writfr
      *
-     * @throws  IndexOutOfBoundsException
-     *          If <tt>start</tt> or <tt>end</tt> are negative, <tt>start</tt>
-     *          is greater than <tt>end</tt>, or <tt>end</tt> is greater than
-     *          <tt>csq.length()</tt>
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>stbrt</tt> or <tt>fnd</tt> brf nfgbtivf, <tt>stbrt</tt>
+     *          is grfbtfr tibn <tt>fnd</tt>, or <tt>fnd</tt> is grfbtfr tibn
+     *          <tt>dsq.lfngti()</tt>
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public Writer append(CharSequence csq, int start, int end) throws IOException {
-        CharSequence cs = (csq == null ? "null" : csq);
-        write(cs.subSequence(start, end).toString());
-        return this;
+    publid Writfr bppfnd(CibrSfqufndf dsq, int stbrt, int fnd) tirows IOExdfption {
+        CibrSfqufndf ds = (dsq == null ? "null" : dsq);
+        writf(ds.subSfqufndf(stbrt, fnd).toString());
+        rfturn tiis;
     }
 
     /**
-     * Appends the specified character to this writer.
+     * Appfnds tif spfdififd dibrbdtfr to tiis writfr.
      *
-     * <p> An invocation of this method of the form <tt>out.append(c)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.bppfnd(d)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.write(c) </pre>
+     * <prf>
+     *     out.writf(d) </prf>
      *
-     * @param  c
-     *         The 16-bit character to append
+     * @pbrbm  d
+     *         Tif 16-bit dibrbdtfr to bppfnd
      *
-     * @return  This writer
+     * @rfturn  Tiis writfr
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Writer append(char c) throws IOException {
-        write(c);
-        return this;
+    publid Writfr bppfnd(dibr d) tirows IOExdfption {
+        writf(d);
+        rfturn tiis;
     }
 
     /**
-     * Flushes the stream.  If the stream has saved any characters from the
-     * various write() methods in a buffer, write them immediately to their
-     * intended destination.  Then, if that destination is another character or
-     * byte stream, flush it.  Thus one flush() invocation will flush all the
-     * buffers in a chain of Writers and OutputStreams.
+     * Flusifs tif strfbm.  If tif strfbm ibs sbvfd bny dibrbdtfrs from tif
+     * vbrious writf() mftiods in b bufffr, writf tifm immfdibtfly to tifir
+     * intfndfd dfstinbtion.  Tifn, if tibt dfstinbtion is bnotifr dibrbdtfr or
+     * bytf strfbm, flusi it.  Tius onf flusi() invodbtion will flusi bll tif
+     * bufffrs in b dibin of Writfrs bnd OutputStrfbms.
      *
-     * <p> If the intended destination of this stream is an abstraction provided
-     * by the underlying operating system, for example a file, then flushing the
-     * stream guarantees only that bytes previously written to the stream are
-     * passed to the operating system for writing; it does not guarantee that
-     * they are actually written to a physical device such as a disk drive.
+     * <p> If tif intfndfd dfstinbtion of tiis strfbm is bn bbstrbdtion providfd
+     * by tif undfrlying opfrbting systfm, for fxbmplf b filf, tifn flusiing tif
+     * strfbm gubrbntffs only tibt bytfs prfviously writtfn to tif strfbm brf
+     * pbssfd to tif opfrbting systfm for writing; it dofs not gubrbntff tibt
+     * tify brf bdtublly writtfn to b piysidbl dfvidf sudi bs b disk drivf.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    abstract public void flush() throws IOException;
+    bbstrbdt publid void flusi() tirows IOExdfption;
 
     /**
-     * Closes the stream, flushing it first. Once the stream has been closed,
-     * further write() or flush() invocations will cause an IOException to be
-     * thrown. Closing a previously closed stream has no effect.
+     * Closfs tif strfbm, flusiing it first. Ondf tif strfbm ibs bffn dlosfd,
+     * furtifr writf() or flusi() invodbtions will dbusf bn IOExdfption to bf
+     * tirown. Closing b prfviously dlosfd strfbm ibs no ffffdt.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    abstract public void close() throws IOException;
+    bbstrbdt publid void dlosf() tirows IOExdfption;
 
 }

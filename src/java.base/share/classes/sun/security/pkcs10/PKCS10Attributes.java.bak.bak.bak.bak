@@ -1,0 +1,219 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds10;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf PKCS10 bttributfs for thf rfqufst.
+ * Thf ASN.1 syntbx for this is:
+ * <prf>
+ * Attributfs ::= SET OF Attributf
+ * </prf>
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff PKCS10
+ * @sff PKCS10Attributf
+ */
+publid dlbss PKCS10Attributfs implfmfnts DfrEndodfr {
+
+    privbtf Hbshtbblf<String, PKCS10Attributf> mbp =
+                        nfw Hbshtbblf<String, PKCS10Attributf>(3);
+
+    /**
+     * Dffbult donstrudtor for thf PKCS10 bttributf.
+     */
+    publid PKCS10Attributfs() { }
+
+    /**
+     * Crfbtf thf objfdt from thf brrby of PKCS10Attributf objfdts.
+     *
+     * @pbrbm bttrs thf brrby of PKCS10Attributf objfdts.
+     */
+    publid PKCS10Attributfs(PKCS10Attributf[] bttrs) {
+        for (int i = 0; i < bttrs.lfngth; i++) {
+            mbp.put(bttrs[i].gftAttributfId().toString(), bttrs[i]);
+        }
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DER strfbm.
+     * Thf DER strfbm dontbins thf SET OF Attributf.
+     *
+     * @pbrbm in thf DfrInputStrfbm to rfbd thf bttributfs from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid PKCS10Attributfs(DfrInputStrfbm in) throws IOExdfption {
+        DfrVbluf[] bttrs = in.gftSft(3, truf);
+
+        if (bttrs == null)
+            throw nfw IOExdfption("Illfgbl fndoding of bttributfs");
+        for (int i = 0; i < bttrs.lfngth; i++) {
+            PKCS10Attributf bttr = nfw PKCS10Attributf(bttrs[i]);
+            mbp.put(bttr.gftAttributfId().toString(), bttr);
+        }
+    }
+
+    /**
+     * Endodf thf bttributfs in DER form to thf strfbm.
+     *
+     * @pbrbm out thf OutputStrfbm to mbrshbl thf dontfnts to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        dfrEndodf(out);
+    }
+
+    /**
+     * Endodf thf bttributfs in DER form to thf strfbm.
+     * Implfmfnts thf <dodf>DfrEndodfr</dodf> intfrfbdf.
+     *
+     * @pbrbm out thf OutputStrfbm to mbrshbl thf dontfnts to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void dfrEndodf(OutputStrfbm out) throws IOExdfption {
+        // first dopy thf flfmfnts into bn brrby
+        Collfdtion<PKCS10Attributf> bllAttrs = mbp.vblufs();
+        PKCS10Attributf[] bttribs =
+                bllAttrs.toArrby(nfw PKCS10Attributf[mbp.sizf()]);
+
+        DfrOutputStrfbm bttrOut = nfw DfrOutputStrfbm();
+        bttrOut.putOrdfrfdSftOf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                                   truf, (bytf)0),
+                                bttribs);
+        out.writf(bttrOut.toBytfArrby());
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sftAttributf(String nbmf, Objfdt obj) {
+        if (obj instbndfof PKCS10Attributf) {
+            mbp.put(nbmf, (PKCS10Attributf)obj);
+        }
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid Objfdt gftAttributf(String nbmf) {
+        rfturn mbp.gft(nbmf);
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftfAttributf(String nbmf) {
+        mbp.rfmovf(nbmf);
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<PKCS10Attributf> gftElfmfnts() {
+        rfturn (mbp.flfmfnts());
+    }
+
+    /**
+     * Rfturn b Collfdtion of bttributfs fxisting within this
+     * PKCS10Attributfs objfdt.
+     */
+    publid Collfdtion<PKCS10Attributf> gftAttributfs() {
+        rfturn (Collfdtions.unmodifibblfCollfdtion(mbp.vblufs()));
+    }
+
+    /**
+     * Compbrfs this PKCS10Attributfs for fqublity with thf spfdififd
+     * objfdt. If thf <dodf>othfr</dodf> objfdt is bn
+     * <dodf>instbndfof</dodf> <dodf>PKCS10Attributfs</dodf>, thfn
+     * bll thf fntrifs brf dompbrfd with thf fntrifs from this.
+     *
+     * @pbrbm othfr thf objfdt to tfst for fqublity with this PKCS10Attributfs.
+     * @rfturn truf if bll thf fntrifs mbtdh thbt of thf Othfr,
+     * fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr)
+            rfturn truf;
+        if (!(othfr instbndfof PKCS10Attributfs))
+            rfturn fblsf;
+
+        Collfdtion<PKCS10Attributf> othfrsAttribs =
+                ((PKCS10Attributfs)othfr).gftAttributfs();
+        PKCS10Attributf[] bttrs =
+            othfrsAttribs.toArrby(nfw PKCS10Attributf[othfrsAttribs.sizf()]);
+        int lfn = bttrs.lfngth;
+        if (lfn != mbp.sizf())
+            rfturn fblsf;
+        PKCS10Attributf thisAttr, othfrAttr;
+        String kfy = null;
+        for (int i=0; i < lfn; i++) {
+            othfrAttr = bttrs[i];
+            kfy = othfrAttr.gftAttributfId().toString();
+
+            if (kfy == null)
+                rfturn fblsf;
+            thisAttr = mbp.gft(kfy);
+            if (thisAttr == null)
+                rfturn fblsf;
+            if (! thisAttr.fqubls(othfrAttr))
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b hbshdodf vbluf for this PKCS10Attributfs.
+     *
+     * @rfturn thf hbshdodf vbluf.
+     */
+    publid int hbshCodf() {
+        rfturn mbp.hbshCodf();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <tt>PKCS10Attributfs</tt> objfdt
+     * in thf form of b sft of fntrifs, fndlosfd in brbdfs bnd sfpbrbtfd
+     * by thf ASCII dhbrbdtfrs "<tt>,&nbsp;</tt>" (dommb bnd spbdf).
+     * <p>Ovfrridfs thf <tt>toString</tt> mfthod of <tt>Objfdt</tt>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this PKCS10Attributfs.
+     */
+    publid String toString() {
+        String s = mbp.sizf() + "\n" + mbp.toString();
+        rfturn s;
+    }
+}

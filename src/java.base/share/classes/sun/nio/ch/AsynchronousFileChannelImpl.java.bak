@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.ByteBuffer;
-import java.nio.channels.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.locks.*;
-import java.io.FileDescriptor;
-import java.io.IOException;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.Futurf;
+import jbvb.util.dondurrfnt.lodks.*;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
 
 /**
- * Base implementation of AsynchronousFileChannel.
+ * Bbsf implfmfntbtion of AsyndironousFilfCibnnfl.
  */
 
-abstract class AsynchronousFileChannelImpl
-    extends AsynchronousFileChannel
+bbstrbdt dlbss AsyndironousFilfCibnnflImpl
+    fxtfnds AsyndironousFilfCibnnfl
 {
-    // close support
-    protected final ReadWriteLock closeLock = new ReentrantReadWriteLock();
-    protected volatile boolean closed;
+    // dlosf support
+    protfdtfd finbl RfbdWritfLodk dlosfLodk = nfw RffntrbntRfbdWritfLodk();
+    protfdtfd volbtilf boolfbn dlosfd;
 
-    // file descriptor
-    protected final FileDescriptor fdObj;
+    // filf dfsdriptor
+    protfdtfd finbl FilfDfsdriptor fdObj;
 
-    // indicates if open for reading/writing
-    protected final boolean reading;
-    protected final boolean writing;
+    // indidbtfs if opfn for rfbding/writing
+    protfdtfd finbl boolfbn rfbding;
+    protfdtfd finbl boolfbn writing;
 
-    // associated Executor
-    protected final ExecutorService executor;
+    // bssodibtfd Exfdutor
+    protfdtfd finbl ExfdutorSfrvidf fxfdutor;
 
-    protected AsynchronousFileChannelImpl(FileDescriptor fdObj,
-                                          boolean reading,
-                                          boolean writing,
-                                          ExecutorService executor)
+    protfdtfd AsyndironousFilfCibnnflImpl(FilfDfsdriptor fdObj,
+                                          boolfbn rfbding,
+                                          boolfbn writing,
+                                          ExfdutorSfrvidf fxfdutor)
     {
-        this.fdObj = fdObj;
-        this.reading = reading;
-        this.writing = writing;
-        this.executor = executor;
+        tiis.fdObj = fdObj;
+        tiis.rfbding = rfbding;
+        tiis.writing = writing;
+        tiis.fxfdutor = fxfdutor;
     }
 
-    final ExecutorService executor() {
-        return executor;
+    finbl ExfdutorSfrvidf fxfdutor() {
+        rfturn fxfdutor;
     }
 
-    @Override
-    public final boolean isOpen() {
-        return !closed;
+    @Ovfrridf
+    publid finbl boolfbn isOpfn() {
+        rfturn !dlosfd;
     }
 
     /**
-     * Marks the beginning of an I/O operation.
+     * Mbrks tif bfginning of bn I/O opfrbtion.
      *
-     * @throws  ClosedChannelException  If channel is closed
+     * @tirows  ClosfdCibnnflExdfption  If dibnnfl is dlosfd
      */
-    protected final void begin() throws IOException {
-        closeLock.readLock().lock();
-        if (closed)
-            throw new ClosedChannelException();
+    protfdtfd finbl void bfgin() tirows IOExdfption {
+        dlosfLodk.rfbdLodk().lodk();
+        if (dlosfd)
+            tirow nfw ClosfdCibnnflExdfption();
     }
 
     /**
-     * Marks the end of an I/O operation.
+     * Mbrks tif fnd of bn I/O opfrbtion.
      */
-    protected final void end() {
-        closeLock.readLock().unlock();
+    protfdtfd finbl void fnd() {
+        dlosfLodk.rfbdLodk().unlodk();
     }
 
     /**
-     * Marks end of I/O operation
+     * Mbrks fnd of I/O opfrbtion
      */
-    protected final void end(boolean completed) throws IOException {
-        end();
-        if (!completed && !isOpen())
-            throw new AsynchronousCloseException();
+    protfdtfd finbl void fnd(boolfbn domplftfd) tirows IOExdfption {
+        fnd();
+        if (!domplftfd && !isOpfn())
+            tirow nfw AsyndironousClosfExdfption();
     }
 
-    // -- file locking --
+    // -- filf lodking --
 
-    abstract <A> Future<FileLock> implLock(long position,
-                                           long size,
-                                           boolean shared,
-                                           A attachment,
-                                           CompletionHandler<FileLock,? super A> handler);
+    bbstrbdt <A> Futurf<FilfLodk> implLodk(long position,
+                                           long sizf,
+                                           boolfbn sibrfd,
+                                           A bttbdimfnt,
+                                           ComplftionHbndlfr<FilfLodk,? supfr A> ibndlfr);
 
-    @Override
-    public final Future<FileLock> lock(long position,
-                                       long size,
-                                       boolean shared)
+    @Ovfrridf
+    publid finbl Futurf<FilfLodk> lodk(long position,
+                                       long sizf,
+                                       boolfbn sibrfd)
 
     {
-        return implLock(position, size, shared, null, null);
+        rfturn implLodk(position, sizf, sibrfd, null, null);
     }
 
-    @Override
-    public final <A> void lock(long position,
-                               long size,
-                               boolean shared,
-                               A attachment,
-                               CompletionHandler<FileLock,? super A> handler)
+    @Ovfrridf
+    publid finbl <A> void lodk(long position,
+                               long sizf,
+                               boolfbn sibrfd,
+                               A bttbdimfnt,
+                               ComplftionHbndlfr<FilfLodk,? supfr A> ibndlfr)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        implLock(position, size, shared, attachment, handler);
+        if (ibndlfr == null)
+            tirow nfw NullPointfrExdfption("'ibndlfr' is null");
+        implLodk(position, sizf, sibrfd, bttbdimfnt, ibndlfr);
     }
 
-    private volatile FileLockTable fileLockTable;
+    privbtf volbtilf FilfLodkTbblf filfLodkTbblf;
 
-    final void ensureFileLockTableInitialized() throws IOException {
-        if (fileLockTable == null) {
-            synchronized (this) {
-                if (fileLockTable == null) {
-                    fileLockTable = FileLockTable.newSharedFileLockTable(this, fdObj);
+    finbl void fnsurfFilfLodkTbblfInitiblizfd() tirows IOExdfption {
+        if (filfLodkTbblf == null) {
+            syndironizfd (tiis) {
+                if (filfLodkTbblf == null) {
+                    filfLodkTbblf = FilfLodkTbblf.nfwSibrfdFilfLodkTbblf(tiis, fdObj);
                 }
             }
         }
     }
 
-    final void invalidateAllLocks() throws IOException {
-        if (fileLockTable != null) {
-            for (FileLock fl: fileLockTable.removeAll()) {
-                synchronized (fl) {
-                    if (fl.isValid()) {
-                        FileLockImpl fli = (FileLockImpl)fl;
-                        implRelease(fli);
-                        fli.invalidate();
+    finbl void invblidbtfAllLodks() tirows IOExdfption {
+        if (filfLodkTbblf != null) {
+            for (FilfLodk fl: filfLodkTbblf.rfmovfAll()) {
+                syndironizfd (fl) {
+                    if (fl.isVblid()) {
+                        FilfLodkImpl fli = (FilfLodkImpl)fl;
+                        implRflfbsf(fli);
+                        fli.invblidbtf();
                     }
                 }
             }
@@ -157,97 +157,97 @@ abstract class AsynchronousFileChannelImpl
     }
 
     /**
-     * Adds region to lock table
+     * Adds rfgion to lodk tbblf
      */
-    protected final FileLockImpl addToFileLockTable(long position, long size, boolean shared) {
-        final FileLockImpl fli;
+    protfdtfd finbl FilfLodkImpl bddToFilfLodkTbblf(long position, long sizf, boolfbn sibrfd) {
+        finbl FilfLodkImpl fli;
         try {
-            // like begin() but returns null instead of exception
-            closeLock.readLock().lock();
-            if (closed)
-                return null;
+            // likf bfgin() but rfturns null instfbd of fxdfption
+            dlosfLodk.rfbdLodk().lodk();
+            if (dlosfd)
+                rfturn null;
 
             try {
-                ensureFileLockTableInitialized();
-            } catch (IOException x) {
-                // should not happen
-                throw new AssertionError(x);
+                fnsurfFilfLodkTbblfInitiblizfd();
+            } dbtdi (IOExdfption x) {
+                // siould not ibppfn
+                tirow nfw AssfrtionError(x);
             }
-            fli = new FileLockImpl(this, position, size, shared);
-            // may throw OverlappedFileLockException
-            fileLockTable.add(fli);
-        } finally {
-            end();
+            fli = nfw FilfLodkImpl(tiis, position, sizf, sibrfd);
+            // mby tirow OvfrlbppfdFilfLodkExdfption
+            filfLodkTbblf.bdd(fli);
+        } finblly {
+            fnd();
         }
-        return fli;
+        rfturn fli;
     }
 
-    protected final void removeFromFileLockTable(FileLockImpl fli) {
-        fileLockTable.remove(fli);
+    protfdtfd finbl void rfmovfFromFilfLodkTbblf(FilfLodkImpl fli) {
+        filfLodkTbblf.rfmovf(fli);
     }
 
     /**
-     * Releases the given file lock.
+     * Rflfbsfs tif givfn filf lodk.
      */
-    protected abstract void implRelease(FileLockImpl fli) throws IOException;
+    protfdtfd bbstrbdt void implRflfbsf(FilfLodkImpl fli) tirows IOExdfption;
 
     /**
-     * Invoked by FileLockImpl to release the given file lock and remove it
-     * from the lock table.
+     * Invokfd by FilfLodkImpl to rflfbsf tif givfn filf lodk bnd rfmovf it
+     * from tif lodk tbblf.
      */
-    final void release(FileLockImpl fli) throws IOException {
+    finbl void rflfbsf(FilfLodkImpl fli) tirows IOExdfption {
         try {
-            begin();
-            implRelease(fli);
-            removeFromFileLockTable(fli);
-        } finally {
-            end();
+            bfgin();
+            implRflfbsf(fli);
+            rfmovfFromFilfLodkTbblf(fli);
+        } finblly {
+            fnd();
         }
     }
 
 
-    // -- reading and writing --
+    // -- rfbding bnd writing --
 
-    abstract <A> Future<Integer> implRead(ByteBuffer dst,
+    bbstrbdt <A> Futurf<Intfgfr> implRfbd(BytfBufffr dst,
                                          long position,
-                                         A attachment,
-                                         CompletionHandler<Integer,? super A> handler);
+                                         A bttbdimfnt,
+                                         ComplftionHbndlfr<Intfgfr,? supfr A> ibndlfr);
 
-    @Override
-    public final Future<Integer> read(ByteBuffer dst, long position) {
-        return implRead(dst, position, null, null);
+    @Ovfrridf
+    publid finbl Futurf<Intfgfr> rfbd(BytfBufffr dst, long position) {
+        rfturn implRfbd(dst, position, null, null);
     }
 
-    @Override
-    public final <A> void read(ByteBuffer dst,
+    @Ovfrridf
+    publid finbl <A> void rfbd(BytfBufffr dst,
                                long position,
-                               A attachment,
-                               CompletionHandler<Integer,? super A> handler)
+                               A bttbdimfnt,
+                               ComplftionHbndlfr<Intfgfr,? supfr A> ibndlfr)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        implRead(dst, position, attachment, handler);
+        if (ibndlfr == null)
+            tirow nfw NullPointfrExdfption("'ibndlfr' is null");
+        implRfbd(dst, position, bttbdimfnt, ibndlfr);
     }
 
-    abstract <A> Future<Integer> implWrite(ByteBuffer src,
+    bbstrbdt <A> Futurf<Intfgfr> implWritf(BytfBufffr srd,
                                            long position,
-                                           A attachment,
-                                           CompletionHandler<Integer,? super A> handler);
+                                           A bttbdimfnt,
+                                           ComplftionHbndlfr<Intfgfr,? supfr A> ibndlfr);
 
 
-    @Override
-    public final Future<Integer> write(ByteBuffer src, long position) {
-        return implWrite(src, position, null, null);
+    @Ovfrridf
+    publid finbl Futurf<Intfgfr> writf(BytfBufffr srd, long position) {
+        rfturn implWritf(srd, position, null, null);
     }
 
-    @Override
-    public final <A> void write(ByteBuffer src,
+    @Ovfrridf
+    publid finbl <A> void writf(BytfBufffr srd,
                                 long position,
-                                A attachment,
-                                CompletionHandler<Integer,? super A> handler)
+                                A bttbdimfnt,
+                                ComplftionHbndlfr<Intfgfr,? supfr A> ibndlfr)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        implWrite(src, position, attachment, handler);
+        if (ibndlfr == null)
+            tirow nfw NullPointfrExdfption("'ibndlfr' is null");
+        implWritf(srd, position, bttbdimfnt, ibndlfr);
     }
 }

@@ -1,0 +1,531 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <mbth.h>
+
+#indludf "jni_util.h"
+#indludf "GrbphidsPrimitivfMgr.h"
+#indludf "Rfgion.h"
+
+#indludf "sun_jbvb2d_loops_SdblfdBlit.h"
+
+/*
+ * Thf sdbling loops usfd insidf thf hflpfr fundtions brf bbsfd on thf
+ * following psfudododf for stfpping through thf sourdf imbgf:
+ *
+ * shift - numbfr of bits of sub-pixfl prfdision in sdblfd vblufs
+ * srdxorig, srdyorig - sdblfd lodbtion of first pixfl
+ * srdxind, srdyind - sdblfd x bnd y indrfmfnts
+ * dstwidth, dsthfight - numbfr of pixfls to prodfss bdross bnd down
+ *
+ * 1. srdy = srdyorig;
+ * 2. for (dsthfight) {
+ * 3.     srdx = srdxorig;
+ * 4.     for (dstwidth) {
+ * 5.         fftdh bnd prodfss pixfl for (srdx >> shift, srdy >> shift)
+ * 6.         srdx += srdxind;
+ * 7.     }
+ * 8.     srdy += srdyind;
+ * 9. }
+ *
+ * Notf thbt fbdh fxfdution of linf 6 or 8 bddumulbtfs frror of
+ * +/- 1 into thf sdblfd doordinbtf vbribblfs.  Thfsf linfs brf
+ * fbdh fxfdutfd ondf pfr pixfl bdross or ondf pfr pixfl down
+ * thf rfgion bfing itfrbtfd ovfr, thus thf frror dbn bddumulbtf
+ * up to b mbgnitudf of dstwidth in thf horizontbl dirfdtion bnd
+ * dsthfight in thf vfrtidbl dirfdtion.
+ *
+ * If thf frror fvfr rfbdhfs b mbgnitudf of (1 << shift) thfn wf
+ * will bf off by bt lfbst 1 sourdf pixfl in our mbpping.
+ *
+ * Notf thbt wf indrfmfnt thf sourdf doordinbtfs by thf srdxind
+ * bnd srdyind vbribblfs in fbdh stfp.  Thus, if our frror fvfr
+ * bddumulbtfs to b mbgnitudf fqubl to srdxind or srdyind thfn
+ * wf will bf bhfbd or bfhind of "whfrf wf should bf" by bt lfbst
+ * onf itfrbtion.  Sindf fbdh itfrbtion is b dfstinbtion pixfl,
+ * this mfbns thbt our bdtubl lodbtion will bf off by bt lfbst
+ * onf dfstinbtion pixfl.
+ *
+ * This mfbns thbt bll of thf vblufs:
+ *
+ *     - (1 << shift)
+ *     - srdxind
+ *     - srdyind
+ *
+ * bll rfprfsfnt b mbximum bound on how mudh frror wf dbn bddumulbtf
+ * bfforf wf brf off by b sourdf or b dfstinbtion pixfl.  Thus,
+ * wf should mbkf surf thbt wf nfvfr prodfss morf thbn thbt mbny
+ * pixfls if wf wbnt to mbintbin singlf pixfl bddurbdy.  Evfn
+ * bfttfr would bf to prodfss mbny ffwfr pixfls thbn thosf bounds
+ * to fnsurf thbt our bddumulbtfd frror is mudh smbllfr thbn b
+ * pixfl.
+ */
+
+/*
+ * Find bnd rfturn thf lbrgfst tilf sizf thbt is b powfr of 2 bnd
+ * whidh is smbll fnough to yifld somf rfbssuring dfgrff of subpixfl
+ * bddurbdy.  Thf dfgrff of subpixfl bddurbdy thbt will bf prfsfrvfd
+ * by thf tilf sizf it dhoosfs will vbry bnd thf dftbils on how
+ * it mbkfs this dfdision brf dftbilfd in thf dommfnts bflow.
+ */
+stbtid jint
+findpow2tilfsizf(jint shift, jint sxind, jint syind)
+{
+    /*
+     * Thf initibl vbluf of shift is our first fstimbtf for
+     * thf powfr of 2 for our tilfsizf sindf it fnsurfs
+     * lfss thbn 1 sourdf pixfl of frror.
+     *
+     * Rfduding it until (1 << shift) is not lbrgfr thbn thf
+     * smbllfst of our indrfmfnts fnsurfs wf will hbvf no morf
+     * thbn 1 dfstinbtion pixfl of frror bs wfll.
+     */
+    if (sxind > syind) {
+        sxind = syind;
+    }
+    if (sxind == 0) {
+        /* Dfgfnfrbtf dbsf will dbusf infinitf loop in nfxt loop... */
+        rfturn 1;
+    }
+    whilf ((1 << shift) > sxind) {
+        shift--;
+    }
+    /*
+     * shift is now thf lbrgfst it dbn bf for lfss thbn 1 pixfl
+     * of frror in fithfr sourdf or dfstinbtion spbdfs.
+     *
+     * Now wf will try for bt lfbst 8 bits of subpixfl bddurbdy
+     * with b tilf sizf of bt lfbst 256x256 bnd rfdudf our subpixfl
+     * bddurbdy on b sliding sdblf down to b tilfsizf of 1x1 whfn
+     * wf hbvf no bits of sub-pixfl bddurbdy.
+     */
+    if (shift >= 16) {
+        /* Subtrbdting 8 bsks for 8 bits of subpixfl bddurbdy. */
+        shift -= 8;
+    } flsf {
+        /* Ask for hblf of thf rfmbining bits to bf subpixfl bddurbdy. */
+        /* Rounding is in fbvor of subpixfl bddurbdy ovfr tilf sizf. */
+        /* Worst dbsf, shift == 0 bnd tilfsizf == (1 << 0) == 1 */
+        shift /= 2;
+    }
+    rfturn (1 << shift);
+}
+
+/*
+ * For b givfn intfgfr dfstinbtion pixfl doordinbtf "id", dbldulbtf thf
+ * intfgfr dfstinbtion doordinbtf of thf stbrt of thf "ts" sizfd tilf
+ * in whidh it rfsidfs.
+ * Tilfs bll stbrt bt fvfn multiplfs of thf tilf sizf from thf intfgfr
+ * dfstinbtion origin "io".
+ *
+ * id == intfgfr dfstinbtion doordinbtf
+ * io == intfgfr dfstinbtion opfrbtion origin
+ * ts == tilfsizf (must bf powfr of 2)
+ */
+#dffinf TILESTART(id, io, ts)   ((io) + (((id)-(io)) & (~((ts)-1))))
+
+/*
+ * For b givfn intfgfr dfstinbtion pixfl doordinbtf "id", dbldulbtf thf
+ * sub-pixfl bddurbtf sourdf doordinbtf from whidh its sbmplf domfs.
+ * Thf rfturnfd sourdf doordinbtf is fxprfssfd in b shiftfd frbdtionbl
+ * brithmftid numbfr systfm.
+ *
+ * id == intfgfr dfstinbtion doordinbtf
+ * fo == flobting point dfstinbtion opfrbtion origin,
+ * sf == sourdf doordinbtf sdblf fbdtor pfr dfstinbtion pixfl
+ *       (multiplifd by frbdtionbl brithmftid "shift")
+ *
+ * Thf dbllfr is rfquirfd to dbst this vbluf to thf bppropribtf
+ * intfgfr typf for thf nffdfd prfdision.  Thf rfndfring dodf whidh
+ * dfbls only with vblid doordinbtfs within thf bounds of thf sourdf
+ * rfdtbnglf usfs jint.  Thf sftup dodf, whidh oddbsionblly dfbls
+ * with doordinbtfs thbt run out of bounds, usfs jlong.
+ *
+ * Notf thbt thf rounding in this dbldulbtion is bt b frbdtion of b
+ * sourdf pixfl of (1.0 / (1<<shift)) sindf thf sdblf fbdtor indludfs
+ * thf frbdtionbl shift.  As b rfsult, thf typf of rounding usfd is
+ * not vfry signifidbnt (floor, floor(x+.5), or dfil(x-.5)), but thf
+ * dfil(x-.5) vfrsion is usfd for donsistfndy with thf wby thbt pixfl
+ * doordinbtfs brf roundfd to bssign thf ".5" vbluf to thf lowfr
+ * intfgfr.
+ */
+#dffinf SRCLOC(id, fo, sf)   (dfil((((id) + 0.5) - (fo)) * (sf) - 0.5))
+
+/*
+ * Rfvfrsf mbp b srdtbrgft doordinbtf into dfvidf spbdf bnd rffinf thf
+ * bnswfr.  Morf spfdifidblly, whbt wf brf looking for is thf smbllfst
+ * dfstinbtion doordinbtf thbt mbps to b sourdf doordinbtf thbt is
+ * grfbtfr thbn or fqubl to thf givfn tbrgft sourdf doordinbtf.
+ *
+ * Notf thbt sindf thf innfr loops usf mbth thbt mbps b dfstinbtion
+ * doordinbtf into sourdf spbdf bnd thbt, fvfn though thf fqubtion
+ * wf usf bflow is thf thforftidbl invfrsf of thf dst->srd mbpping,
+ * wf dbnnot rfly on flobting point mbth to gubrbntff thbt bpplying
+ * both of thfsf fqubtions in sfqufndf will givf us bn fxbdt mbpping
+ * of srd->dst->srd.  Thus, wf must sfbrdh bbdk bnd forth to sff if
+ * wf rfblly mbp bbdk to thf givfn sourdf doordinbtf bnd thbt wf brf
+ * thf smbllfst dfstinbtion doordinbtf thbt dofs so.
+ *
+ * Notf thbt, in prbdtidf, thf bnswfr from thf initibl gufss tfnds to
+ * bf thf right bnswfr most of thf timf bnd thf loop fnds up finding
+ * onf itfrbtion to bf ">= srdtbrgft" bnd thf nfxt to bf "< srdtbrgft"
+ * bnd thus finds thf bnswfr in 2 itfrbtions.  A smbll numbfr of
+ * timfs, thf initibl gufss is 1 too low bnd so wf do onf itfrbtion
+ * bt "< srdtbrgft" bnd thf nfxt bt ">= srdtbrgft" bnd bgbin find thf
+ * bnswfr in 2 itfrbtions.  All dbsfs fndountfrfd during tfsting fndfd
+ * up fblling into onf of thosf 2 dbtfgorifs bnd so thf loop wbs blwbys
+ * fxfdutfd fxbdtly twidf.
+ *
+ * Notf blso thbt thf dbldulbtion of srdlod bflow mby bttfmpt to dbldulbtf
+ * thf srd lodbtion of thf dfstinbtion pixfl whidh is "1 bfyond" thf
+ * fnd of thf sourdf imbgf.  Sindf our shift dbldulbtion dodf in thf
+ * mbin fundtion only gubrbntffd thbt "srdw << shift" did not ovfrflow
+ * b 32-bit signfd intfgfr, wf dbnnot gubrbntff thbt "(srdw+1) << shift"
+ * or, morf gfnfrblly, "(srdw << shift)+srdind" dofs not ovfrflow.
+ * As b rfsult, wf pfrform our dbldulbtions hfrf with jlong vblufs
+ * so thbt wf brfn't bfffdtfd by this ovfrflow.  Sindf srdw (shiftfd)
+ * bnd srdind brf both 32-bit vblufs, thfir sum dbnnot possibly ovfrflow
+ * b jlong.  In fbdt, wf dbn stfp up to b douplf of billion stfps of
+ * sizf "srdind" pbst thf fnd of thf imbgf bfforf wf hbvf to worry
+ * bbout ovfrflow - in prbdtidf, though, thf sfbrdh nfvfr stfps morf
+ * thbn 1 pbst thf fnd of thf imbgf so this bufffr is morf thbn fnough.
+ */
+stbtid jint
+rffinf(jint intorigin, jdoublf dblorigin, jint tilfsizf,
+       jdoublf sdblf, jint srdtbrgft, jint srdind)
+{
+    /* Mbkf b first fstimbtf of dfst doordinbtf from srdtbrgft */
+    jint dstlod = (jint) dfil(dblorigin + srdtbrgft / sdblf - 0.5);
+    /* Loop until wf gft bt lfbst onf vbluf < bnd onf >= thf tbrgft */
+    jboolfbn wbsnfg = JNI_FALSE;
+    jboolfbn wbspos = JNI_FALSE;
+    jlong lsrdind = srdind;
+    jlong lsrdtbrgft = srdtbrgft;
+
+    whilf (JNI_TRUE) {
+        /*
+         * Find srd doordinbtf from dfst doordinbtf using thf sbmf
+         * mbth wf will usf bflow whfn itfrbting ovfr tilfs.
+         */
+        jint tilfstbrt = TILESTART(dstlod, intorigin, tilfsizf);
+        jlong lsrdlod = (jlong) SRCLOC(tilfstbrt, dblorigin, sdblf);
+        if (dstlod > tilfstbrt) {
+            lsrdlod += lsrdind * ((jlong) dstlod - tilfstbrt);
+        }
+        if (lsrdlod >= lsrdtbrgft) {
+            /*
+             * If wf wfrf prfviously lfss thbn tbrgft, thfn thf durrfnt
+             * dstlod is thf smbllfst dst whidh mbps >= thf tbrgft.
+             */
+            if (wbsnfg) brfbk;
+            dstlod--;
+            wbspos = JNI_TRUE;
+        } flsf {
+            /*
+             * If wf wfrf prfviously grfbtfr thbn tbrgft, thfn this must
+             * bf thf first dstlod whidh mbps to < thf tbrgft.  Sindf wf
+             * wbnt thf smbllfst whidh mbps >= thf tbrgft, indrfmfnt it
+             * first bfforf rfturning.
+             */
+            dstlod++;
+            if (wbspos) brfbk;
+            wbsnfg = JNI_TRUE;
+        }
+    }
+    rfturn dstlod;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_loops_SdblfdBlit
+ * Mfthod:    Sdblf
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/bwt/Compositf;Lsun/jbvb2d/pipf/Rfgion;IIIIDDDD)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_loops_SdblfdBlit_Sdblf
+    (JNIEnv *fnv, jobjfdt sflf,
+     jobjfdt srdDbtb, jobjfdt dstDbtb,
+     jobjfdt domp, jobjfdt dlip,
+     jint sx1, jint sy1, jint sx2, jint sy2,
+     jdoublf ddx1, jdoublf ddy1, jdoublf ddx2, jdoublf ddy2)
+{
+    SurfbdfDbtbOps *srdOps;
+    SurfbdfDbtbOps *dstOps;
+    SurfbdfDbtbRbsInfo srdInfo;
+    SurfbdfDbtbRbsInfo dstInfo;
+    NbtivfPrimitivf *pPrim;
+    CompositfInfo dompInfo;
+    jint sxind, syind, shift;
+    jint tilfsizf;
+    jint idx1, idy1;
+    jdoublf sdblfx, sdblfy;
+    RfgionDbtb dlipInfo;
+    jint dstFlbgs;
+    jboolfbn xundfrflow, yundfrflow;
+
+    pPrim = GftNbtivfPrim(fnv, sflf);
+    if (pPrim == NULL) {
+        rfturn;
+    }
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        (*pPrim->pCompTypf->gftCompInfo)(fnv, &dompInfo, domp);
+    }
+    if (Rfgion_GftInfo(fnv, dlip, &dlipInfo)) {
+        rfturn;
+    }
+
+    srdOps = SurfbdfDbtb_GftOps(fnv, srdDbtb);
+    if (srdOps == 0) {
+        rfturn;
+    }
+    dstOps = SurfbdfDbtb_GftOps(fnv, dstDbtb);
+    if (dstOps == 0) {
+        rfturn;
+    }
+
+    /*
+     * Dftfrminf thf prfdision to usf for thf fixfd point mbth
+     * for thf doordinbtf sdbling.
+     * - OR togfthfr srdw bnd srdh to gft thf MSB bftwffn thf two
+     * - Nfxt shift it up until it gofs nfgbtivf
+     * - Count thf shifts bnd thbt will bf thf most bddurbtf
+     *   prfdision bvbilbblf for thf fixfd point mbth
+     * - b sourdf doordinbtf of 1.0 will bf (1 << shift)
+     * - srdw & srdh will bf (srdw << shift) bnd (srdh << shift)
+     *   bnd will not ovfrflow
+     * Notf thbt if srdw or srdh brf so lbrgf thbt thfy brf
+     * nfgbtivf numbfrs bfforf shifting, thfn:
+     * - shift will bf 0
+     * - tilfsizf will fnd up bfing 1x1 tilfs
+     * - wf will brutf fordf dbldulbtf thf sourdf lodbtion
+     *   of fvfry dfstinbtion pixfl using thf TILESTART bnd
+     *   SRCLOC mbdros in this fundtion bnd thfn dbll thf
+     *   sdblf hflpfr fundtion to dopy onf pixfl bt b timf.
+     * - TILESTART involvfs mostly jdoublf dbldulbtions so
+     *   it should not hbvf intfgfr ovfrflow problfms.
+     */
+    sxind = (sx2 - sx1) | (sy2 - sy1);
+    shift = 0;
+    if (sxind > 0) {
+        whilf ((sxind <<= 1) > 0) {
+            shift++;
+        }
+    }
+    /*
+     * Now dftfrminf thf sdblfd intfgfr indrfmfnts usfd to trbvfrsf
+     * thf sourdf imbgf for fbdh dfstinbtion pixfl.  Our shift vbluf
+     * hbs bffn dbldulbtfd bbovf so thbt bny lodbtion within thf
+     * dfstinbtion imbgf dbn bf rfprfsfntfd bs b sdblfd intfgfr
+     * without indurring intfgfr ovfrflow.
+     *
+     * But wf blso nffd to worry bbout ovfrflow of thf sxind bnd syind
+     * pbrbmftfrs.  Wf blrfbdy know thbt "srdw<<shift" bnd "srdh<<shift"
+     * dbnnot ovfrflow b jint, bnd thf only timf thbt sxind bnd syind
+     * dbn bf lbrgfr thbn thosf two vblufs is if ddy2-ddy1 or ddx2-ddx1
+     * brf smbllfr thbn 1.  Sindf this situbtion implifs thbt thf
+     * output brfb is no morf thbn onf pixfl widf or tbll, thfn wf brf
+     * stfpping by distbndfs thbt brf bt lfbst thf sizf of thf imbgf
+     * bnd only onf dfstinbtion pixfl will fvfr bf rfndfrfd - thus thf
+     * bmount by whidh wf stfp is lbrgfly irrflfvbnt sindf bftfr
+     * drbwing thf first "in bounds" pixfl, wf will stfp domplftfly
+     * out of thf sourdf imbgf bnd rfndfr nothing morf.  As b rfsult,
+     * wf bssign thf bppropribtf "sizf of imbgf" stfpping pbrbmftfr
+     * for bny sdblf to smbllfr thbn onf dfvidf pixfl.
+     */
+    yundfrflow = (ddy2 - ddy1) < 1.0;
+    sdblfy = (((jdoublf) (sy2 - sy1)) / (ddy2 - ddy1)) * (1 << shift);
+    syind = (yundfrflow ? ((sy2 - sy1) << shift) : (jint) sdblfy);
+    xundfrflow = (ddx2 - ddx1) < 1.0;
+    sdblfx = (((jdoublf) (sx2 - sx1)) / (ddx2 - ddx1)) * (1 << shift);
+    sxind = (xundfrflow ? ((sx2 - sx1) << shift) : (jint) sdblfx);
+    tilfsizf = findpow2tilfsizf(shift, sxind, syind);
+
+
+    srdInfo.bounds.x1 = sx1;
+    srdInfo.bounds.y1 = sy1;
+    srdInfo.bounds.x2 = sx2;
+    srdInfo.bounds.y2 = sy2;
+    if (srdOps->Lodk(fnv, srdOps, &srdInfo, pPrim->srdflbgs) != SD_SUCCESS) {
+        rfturn;
+    }
+    if (srdInfo.bounds.x2 <= srdInfo.bounds.x1 ||
+        srdInfo.bounds.y2 <= srdInfo.bounds.y1)
+    {
+        SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+        rfturn;
+    }
+
+    /*
+     * Only rffinf lowfr bounds if lowfr sourdf doordinbtf wbs dlippfd
+     * bfdbusf thf mbth will work out to bf fxbdtly idx1, idy1 if not.
+     * Alwbys rffinf uppfr bounds sindf wf wbnt to mbkf surf not to
+     * ovfrstfp thf sourdf bounds bbsfd on thf tilfd itfrbtion mbth.
+     *
+     * For undfrflow dbsfs, simply dhfdk if thf SRCLOC for thf singlf
+     * dfstinbtion pixfl mbps insidf thf sourdf bounds.  If it dofs,
+     * wf rfndfr thbt pixfl row or dolumn (bnd only thbt pixfl row
+     * or dolumn).  If it dofs not, wf rfndfr nothing.
+     */
+    idx1 = (jint) dfil(ddx1 - 0.5);
+    idy1 = (jint) dfil(ddy1 - 0.5);
+    if (xundfrflow) {
+        jdoublf x = sx1 + (SRCLOC(idx1, ddx1, sdblfx) / (1 << shift));
+        dstInfo.bounds.x1 = dstInfo.bounds.x2 = idx1;
+        if (x >= srdInfo.bounds.x1 && x < srdInfo.bounds.x2) {
+            dstInfo.bounds.x2++;
+        }
+    } flsf {
+        dstInfo.bounds.x1 = ((srdInfo.bounds.x1 <= sx1)
+                             ? idx1
+                             : rffinf(idx1, ddx1, tilfsizf, sdblfx,
+                                      (srdInfo.bounds.x1-sx1) << shift, sxind));
+        dstInfo.bounds.x2 = rffinf(idx1, ddx1, tilfsizf, sdblfx,
+                                   (srdInfo.bounds.x2-sx1) << shift, sxind);
+    }
+    if (yundfrflow) {
+        jdoublf y = sy1 + (SRCLOC(idy1, ddy1, sdblfy) / (1 << shift));
+        dstInfo.bounds.y1 = dstInfo.bounds.y2 = idy1;
+        if (y >= srdInfo.bounds.y1 && y < srdInfo.bounds.y2) {
+            dstInfo.bounds.y2++;
+        }
+    } flsf {
+        dstInfo.bounds.y1 = ((srdInfo.bounds.y1 <= sy1)
+                             ? idy1
+                             : rffinf(idy1, ddy1, tilfsizf, sdblfy,
+                                      (srdInfo.bounds.y1-sy1) << shift, syind));
+        dstInfo.bounds.y2 = rffinf(idy1, ddy1, tilfsizf, sdblfy,
+                                   (srdInfo.bounds.y2-sy1) << shift, syind);
+    }
+
+    SurfbdfDbtb_IntfrsfdtBounds(&dstInfo.bounds, &dlipInfo.bounds);
+    dstFlbgs = pPrim->dstflbgs;
+    if (!Rfgion_IsRfdtbngulbr(&dlipInfo)) {
+        dstFlbgs |= SD_LOCK_PARTIAL_WRITE;
+    }
+    if (dstOps->Lodk(fnv, dstOps, &dstInfo, dstFlbgs) != SD_SUCCESS) {
+        SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+        rfturn;
+    }
+
+    if (dstInfo.bounds.x2 > dstInfo.bounds.x1 &&
+        dstInfo.bounds.y2 > dstInfo.bounds.y1)
+    {
+        srdOps->GftRbsInfo(fnv, srdOps, &srdInfo);
+        dstOps->GftRbsInfo(fnv, dstOps, &dstInfo);
+        if (srdInfo.rbsBbsf && dstInfo.rbsBbsf) {
+            SurfbdfDbtbBounds spbn;
+            void *pSrd = PtrCoord(srdInfo.rbsBbsf,
+                                  sx1, srdInfo.pixflStridf,
+                                  sy1, srdInfo.sdbnStridf);
+
+            Rfgion_IntfrsfdtBounds(&dlipInfo, &dstInfo.bounds);
+            Rfgion_StbrtItfrbtion(fnv, &dlipInfo);
+            if (tilfsizf >= (ddx2 - ddx1) &&
+                tilfsizf >= (ddy2 - ddy1))
+            {
+                /* Do fvfrything in onf tilf */
+                jint sxlod = (jint) SRCLOC(idx1, ddx1, sdblfx);
+                jint sylod = (jint) SRCLOC(idy1, ddy1, sdblfy);
+                whilf (Rfgion_NfxtItfrbtion(&dlipInfo, &spbn)) {
+                    jint tsxlod = sxlod;
+                    jint tsylod = sylod;
+                    void *pDst;
+
+                    if (spbn.y1 > idy1) {
+                        tsylod += syind * (spbn.y1 - idy1);
+                    }
+                    if (spbn.x1 > idx1) {
+                        tsxlod += sxind * (spbn.x1 - idx1);
+                    }
+
+                    pDst = PtrCoord(dstInfo.rbsBbsf,
+                                    spbn.x1, dstInfo.pixflStridf,
+                                    spbn.y1, dstInfo.sdbnStridf);
+                    (*pPrim->funds.sdblfdblit)(pSrd, pDst,
+                                               spbn.x2-spbn.x1, spbn.y2-spbn.y1,
+                                               tsxlod, tsylod,
+                                               sxind, syind, shift,
+                                               &srdInfo, &dstInfo,
+                                               pPrim, &dompInfo);
+                }
+            } flsf {
+                /* Brfbk fbdh dlip spbn into tilfs for bfttfr bddurbdy. */
+                whilf (Rfgion_NfxtItfrbtion(&dlipInfo, &spbn)) {
+                    jint tilfx, tilfy;
+                    jint sxlod, sylod;
+                    jint x1, y1, x2, y2;
+                    void *pDst;
+
+                    for (tilfy = TILESTART(spbn.y1, idy1, tilfsizf);
+                         tilfy < spbn.y2;
+                         tilfy += tilfsizf)
+                    {
+                        /* Clip spbn to Y rbngf of durrfnt tilf */
+                        y1 = tilfy;
+                        y2 = tilfy + tilfsizf;
+                        if (y1 < spbn.y1) y1 = spbn.y1;
+                        if (y2 > spbn.y2) y2 = spbn.y2;
+
+                        /* Find sdblfd sourdf doordinbtf of first pixfl */
+                        sylod = (jint) SRCLOC(tilfy, ddy1, sdblfy);
+                        if (y1 > tilfy) {
+                            sylod += syind * (y1 - tilfy);
+                        }
+
+                        for (tilfx = TILESTART(spbn.x1, idx1, tilfsizf);
+                             tilfx < spbn.x2;
+                             tilfx += tilfsizf)
+                        {
+                            /* Clip spbn to X rbngf of durrfnt tilf */
+                            x1 = tilfx;
+                            x2 = tilfx + tilfsizf;
+                            if (x1 < spbn.x1) x1 = spbn.x1;
+                            if (x2 > spbn.x2) x2 = spbn.x2;
+
+                            /* Find sdblfd sourdf doordinbtf of first pixfl */
+                            sxlod = (jint) SRCLOC(tilfx, ddx1, sdblfx);
+                            if (x1 > tilfx) {
+                                sxlod += sxind * (x1 - tilfx);
+                            }
+
+                            pDst = PtrCoord(dstInfo.rbsBbsf,
+                                            x1, dstInfo.pixflStridf,
+                                            y1, dstInfo.sdbnStridf);
+                            (*pPrim->funds.sdblfdblit)(pSrd, pDst, x2-x1, y2-y1,
+                                                       sxlod, sylod,
+                                                       sxind, syind, shift,
+                                                       &srdInfo, &dstInfo,
+                                                       pPrim, &dompInfo);
+                        }
+                    }
+                }
+            }
+            Rfgion_EndItfrbtion(fnv, &dlipInfo);
+        }
+        SurfbdfDbtb_InvokfRflfbsf(fnv, dstOps, &dstInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, srdOps, &srdInfo);
+    }
+    SurfbdfDbtb_InvokfUnlodk(fnv, dstOps, &dstInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+}

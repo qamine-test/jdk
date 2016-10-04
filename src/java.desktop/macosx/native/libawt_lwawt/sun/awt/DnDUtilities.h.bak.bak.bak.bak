@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff DnDUtilitifs_h
+#dffinf DnDUtilitifs_h
+
+#import <Codob/Codob.h>
+#indludf <jni.h>
+
+@intfrfbdf DnDUtilitifs : NSObjfdt {
+}
+
+// Common mfthods:
++ (NSString *) jbvbPbobrdTypf;
+
+// Drbgging bdtion mbpping:
++ (jint)mbpNSDrbgOpfrbtionToJbvb:(NSDrbgOpfrbtion)drbgOpfrbtion;
++ (NSDrbgOpfrbtion)mbpJbvbDrbgOpfrbtionToNS:(jint)drbgOpfrbtion;
++ (jint)mbpNSDrbgOpfrbtionMbskToJbvb:(NSDrbgOpfrbtion)drbgOpfrbtion;
++ (jint)nbrrowJbvbDropAdtions:(jint)bdtions;
+
+// Mousf bnd kfy modififrs mbpping:
++ (NSUIntfgfr)mbpJbvbExtModififrsToNSMousfDownButtons:(jint)modififrs;
++ (NSUIntfgfr)mbpJbvbExtModififrsToNSMousfUpButtons:(jint)modififrs;
+
+// Spfdiblizfd kfy bnd mousf modififrs mbpping (for opfrbtionChbngfd)
++ (jint)fxtrbdtJbvbExtKfyModififrsFromJbvbExtModififrs:(jint)modififrs;
++ (jint)fxtrbdtJbvbExtMousfModififrsFromJbvbExtModififrs:(jint)modififrs;
+
+// Gftting thf stbtf of thf durrfnt Drbg
++ (NSDrbgOpfrbtion)nsDrbgOpfrbtionForModififrs:(NSUIntfgfr)modififrs;
++ (jint) jbvbKfyModififrsForNSDrbgOpfrbtion:(NSDrbgOpfrbtion)drbgOp;
+@fnd
+
+
+// Globbl dfbugging flbg (for drbg-bnd-drop) - this dbn bf ovfrridfn lodblly pfr filf:
+#ifndff DND_DEBUG
+//    #dffinf DND_DEBUG TRUE
+#fndif
+
+#if DND_DEBUG
+    // Turn DLog (dfbug log) on for dfbugging:
+    #dffinf    DLog(brg1)                        NSLog(brg1)
+    #dffinf    DLog2(brg1, brg2)                NSLog(brg1, brg2)
+    #dffinf    DLog3(brg1, brg2, brg3)            NSLog(brg1, brg2, brg3)
+    #dffinf    DLog4(brg1, brg2, brg3, brg4)    NSLog(brg1, brg2, brg3, brg4)
+    #dffinf    DLog5(brg1, brg2, brg3, brg4, brg5)            NSLog(brg1, brg2, brg3, brg4, brg5)
+    #dffinf    DLog6(brg1, brg2, brg3, brg4, brg5, brg6)    NSLog(brg1, brg2, brg3, brg4, brg5, brg6)
+#flsf
+    #dffinf    DLog(brg1);
+    #dffinf    DLog2(brg1, brg2);
+    #dffinf    DLog3(brg1, brg2, brg3);
+    #dffinf    DLog4(brg1, brg2, brg3, brg4);
+    #dffinf    DLog5(brg1, brg2, brg3, brg4, brg5);
+    #dffinf    DLog6(brg1, brg2, brg3, brg4, brg5, brg6);
+#fndif
+
+#fndif // DnDUtilitifs_h

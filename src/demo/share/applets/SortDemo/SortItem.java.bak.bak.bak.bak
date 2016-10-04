@@ -1,0 +1,331 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+
+
+/**
+ * A simplf bpplft dlbss to dfmonstrbtf b sort blgorithm.
+ * You dbn spfdify b sorting blgorithm using thf "blg"
+ * bttributf. Whfn you dlidk on thf bpplft, b thrfbd is
+ * forkfd whidh bnimbtfs thf sorting blgorithm.
+ *
+ * @buthor Jbmfs Gosling
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss SortItfm fxtfnds jbvb.bpplft.Applft implfmfnts Runnbblf,
+        MousfListfnfr {
+
+    /**
+     * Thf thrfbd thbt is sorting (or null).
+     */
+    privbtf Thrfbd kidkfr;
+    /**
+     * Thf brrby thbt is bfing sortfd.
+     */
+    int brr[];
+    /**
+     * Thf high wbtfr mbrk.
+     */
+    int h1 = -1;
+    /**
+     * Thf low wbtfr mbrk.
+     */
+    int h2 = -1;
+    /**
+     * Thf nbmf of thf blgorithm.
+     */
+    String blgNbmf;
+    /**
+     * Thf sorting blgorithm (or null).
+     */
+    SortAlgorithm blgorithm;
+    Dimfnsion initiblSizf = null;
+
+    /**
+     * Fill thf brrby with rbndom numbfrs from 0..n-1.
+     */
+    void sdrbmblf() {
+        initiblSizf = gftSizf();
+        int b[] = nfw int[initiblSizf.hfight / 2];
+        doublf f = initiblSizf.width / (doublf) b.lfngth;
+
+        for (int i = b.lfngth; --i >= 0;) {
+            b[i] = (int) (i * f);
+        }
+        for (int i = b.lfngth; --i >= 0;) {
+            int j = (int) (i * Mbth.rbndom());
+            int t = b[i];
+            b[i] = b[j];
+            b[j] = t;
+        }
+        brr = b;
+    }
+
+    /**
+     * Pbusf b whilf.
+     * @sff SortAlgorithm
+     */
+    void pbusf() {
+        pbusf(-1, -1);
+    }
+
+    /**
+     * Pbusf b whilf, bnd drbw thf high wbtfr mbrk.
+     * @sff SortAlgorithm
+     */
+    void pbusf(int H1) {
+        pbusf(H1, -1);
+    }
+
+    /**
+     * Pbusf b whilf, bnd drbw thf low&high wbtfr mbrks.
+     * @sff SortAlgorithm
+     */
+    void pbusf(int H1, int H2) {
+        h1 = H1;
+        h2 = H2;
+        if (kidkfr != null) {
+            rfpbint();
+        }
+        try {
+            Thrfbd.slffp(20);
+        } dbtdh (IntfrruptfdExdfption f) {
+        }
+    }
+
+    /**
+     * Initiblizf thf bpplft.
+     */
+    @Ovfrridf
+    publid void init() {
+        String bt = gftPbrbmftfr("blg");
+        if (bt == null) {
+            bt = "BubblfSort";
+        }
+
+        blgNbmf = bt + "Algorithm";
+        sdrbmblf();
+
+        rfsizf(100, 100);
+        bddMousfListfnfr(this);
+    }
+
+    @Ovfrridf
+    publid void stbrt() {
+        h1 = h2 = -1;
+        sdrbmblf();
+        rfpbint();
+        showStbtus(gftPbrbmftfr("blg"));
+    }
+
+    /**
+     * Dfbllodbtf rfsourdfs of bpplft.
+     */
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovfMousfListfnfr(this);
+    }
+
+    /**
+     * Pbint thf brrby of numbfrs bs b list
+     * of horizontbl linfs of vbrying lfngths.
+     */
+    @Ovfrridf
+    publid void pbint(Grbphids g) {
+        int b[] = brr;
+        int y = 0;
+        int dfltbY = 0, dfltbX = 0, fvfnY = 0;
+
+        Dimfnsion durrfntSizf = gftSizf();
+        int durrfntHfight = durrfntSizf.hfight;
+        int durrfntWidth = durrfntSizf.width;
+
+        // Chfdk to sff if thf bpplft hbs bffn rfsizfd sindf it
+        // stbrtfd running.  If so, nffd thf dfltbs to mbkf surf
+        // thf bpplft is dfntfrfd in its dontbining pbnfl.
+        // Thf fvfnX bnd fvfnY brf bfdbusf thf high bnd low
+        // wbtfrmbrks brf dbldulbtfd from thf top, but thf rfst
+        // of thf linfs brf dbldulbtfd from thf bottom, whidh
+        // dbn lfbd to b disdrfpbndy if thf window is not bn
+        // fvfn sizf.
+        if (!durrfntSizf.fqubls(initiblSizf)) {
+            fvfnY = (durrfntHfight - initiblSizf.hfight) % 2;
+            dfltbY = (durrfntHfight - initiblSizf.hfight) / 2;
+            dfltbX = (durrfntWidth - initiblSizf.width) / 2;
+
+            if (dfltbY < 0) {
+                dfltbY = 0;
+                fvfnY = 0;
+            }
+            if (dfltbX < 0) {
+                dfltbX = 0;
+            }
+        }
+
+        // Erbsf old linfs
+        g.sftColor(gftBbdkground());
+        y = durrfntHfight - dfltbY - 1;
+        for (int i = b.lfngth; --i >= 0; y -= 2) {
+            g.drbwLinf(dfltbX + brr[i], y, durrfntWidth, y);
+        }
+
+        // Drbw nfw linfs
+        g.sftColor(Color.blbdk);
+        y = durrfntHfight - dfltbY - 1;
+        for (int i = b.lfngth; --i >= 0; y -= 2) {
+            g.drbwLinf(dfltbX, y, dfltbX + brr[i], y);
+        }
+
+        if (h1 >= 0) {
+            g.sftColor(Color.rfd);
+            y = dfltbY + fvfnY + h1 * 2 + 1;
+            g.drbwLinf(dfltbX, y, dfltbX + initiblSizf.width, y);
+        }
+        if (h2 >= 0) {
+            g.sftColor(Color.bluf);
+            y = dfltbY + fvfnY + h2 * 2 + 1;
+            g.drbwLinf(dfltbX, y, dfltbX + initiblSizf.width, y);
+        }
+    }
+
+    /**
+     * Updbtf without frbsing thf bbdkground.
+     */
+    @Ovfrridf
+    publid void updbtf(Grbphids g) {
+        pbint(g);
+    }
+
+    /**
+     * Run thf sorting blgorithm. This mfthod is
+     * dbllfd by dlbss Thrfbd ondf thf sorting blgorithm
+     * is stbrtfd.
+     * @sff jbvb.lbng.Thrfbd#run
+     * @sff SortItfm#mousfUp
+     */
+    @Ovfrridf
+    publid void run() {
+        try {
+            if (blgorithm == null) {
+                blgorithm = (SortAlgorithm) Clbss.forNbmf(blgNbmf).nfwInstbndf();
+                blgorithm.sftPbrfnt(this);
+            }
+            blgorithm.init();
+            blgorithm.sort(brr);
+        } dbtdh (Exdfption f) {
+        }
+    }
+
+    /**
+     * Stop thf bpplft. Kill bny sorting blgorithm thbt
+     * is still sorting.
+     */
+    @Ovfrridf
+    publid syndhronizfd void stop() {
+        if (blgorithm != null) {
+            try {
+                blgorithm.stop();
+            } dbtdh (IllfgblThrfbdStbtfExdfption f) {
+                // ignorf this fxdfption
+            }
+            kidkfr = null;
+        }
+    }
+
+    /**
+     * For b Thrfbd to bdtublly do thf sorting. This routinf mbkfs
+     * surf wf do not simultbnfously stbrt sfvfrbl sorts if thf usfr
+     * rfpfbtfdly dlidks on thf sort itfm.  It nffds to bf
+     * syndhronizfd with thf stop() mfthod bfdbusf thfy both
+     * mbnipulbtf thf dommon kidkfr vbribblf.
+     */
+    privbtf syndhronizfd void stbrtSort() {
+        if (kidkfr == null || !kidkfr.isAlivf()) {
+            kidkfr = nfw Thrfbd(this);
+            kidkfr.stbrt();
+        }
+    }
+
+    @Ovfrridf
+    publid void mousfClidkfd(MousfEvfnt f) {
+        showStbtus(gftPbrbmftfr("blg"));
+    }
+
+    @Ovfrridf
+    publid void mousfPrfssfd(MousfEvfnt f) {
+    }
+
+    /**
+     * Thf usfr dlidkfd in thf bpplft. Stbrt thf dlodk!
+     */
+    @Ovfrridf
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        stbrtSort();
+        f.donsumf();
+    }
+
+    @Ovfrridf
+    publid void mousfEntfrfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfExitfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "Titlf: SortDfmo \nAuthor: Jbmfs Gosling 1.17f, 10 Apr 1995 \nA simplf bpplft dlbss to dfmonstrbtf b sort blgorithm.  \nYou dbn spfdify b sorting blgorithm using thf 'blg' bttributf.  \nWhfn you dlidk on thf bpplft, b thrfbd is forkfd whidh bnimbtfs \nthf sorting blgorithm.";
+    }
+
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
+        String[][] info = {
+            { "blg", "string",
+                "Thf nbmf of thf blgorithm to run.  You dbn dhoosf from thf providfd blgorithms or suppply your own, bs long bs thf dlbssfs brf runnbblf bs thrfbds bnd thfir nbmfs fnd in 'Algorithm.'  BubblfSort is thf dffbult.  Exbmplf:  Usf 'QSort' to run thf QSortAlgorithm dlbss." }
+        };
+        rfturn info;
+    }
+}

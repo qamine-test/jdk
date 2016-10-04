@@ -1,818 +1,818 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.StringTokenizer;
+import jbvb.util.Collfdtions;
+import jbvb.util.Sft;
+import jbvb.util.StringTokfnizfr;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * A <code>JTextArea</code> is a multi-line area that displays plain text.
- * It is intended to be a lightweight component that provides source
- * compatibility with the <code>java.awt.TextArea</code> class where it can
- * reasonably do so.
- * You can find information and examples of using all the text components in
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/text.html">Using Text Components</a>,
- * a section in <em>The Java Tutorial.</em>
+ * A <dodf>JTfxtArfb</dodf> is b multi-linf brfb tibt displbys plbin tfxt.
+ * It is intfndfd to bf b ligitwfigit domponfnt tibt providfs sourdf
+ * dompbtibility witi tif <dodf>jbvb.bwt.TfxtArfb</dodf> dlbss wifrf it dbn
+ * rfbsonbbly do so.
+ * You dbn find informbtion bnd fxbmplfs of using bll tif tfxt domponfnts in
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/tfxt.itml">Using Tfxt Componfnts</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  *
  * <p>
- * This component has capabilities not found in the
- * <code>java.awt.TextArea</code> class.  The superclass should be
- * consulted for additional capabilities.
- * Alternative multi-line text classes with
- * more capabilities are <code>JTextPane</code> and <code>JEditorPane</code>.
+ * Tiis domponfnt ibs dbpbbilitifs not found in tif
+ * <dodf>jbvb.bwt.TfxtArfb</dodf> dlbss.  Tif supfrdlbss siould bf
+ * donsultfd for bdditionbl dbpbbilitifs.
+ * Altfrnbtivf multi-linf tfxt dlbssfs witi
+ * morf dbpbbilitifs brf <dodf>JTfxtPbnf</dodf> bnd <dodf>JEditorPbnf</dodf>.
  * <p>
- * The <code>java.awt.TextArea</code> internally handles scrolling.
- * <code>JTextArea</code> is different in that it doesn't manage scrolling,
- * but implements the swing <code>Scrollable</code> interface.  This allows it
- * to be placed inside a <code>JScrollPane</code> if scrolling
- * behavior is desired, and used directly if scrolling is not desired.
+ * Tif <dodf>jbvb.bwt.TfxtArfb</dodf> intfrnblly ibndlfs sdrolling.
+ * <dodf>JTfxtArfb</dodf> is difffrfnt in tibt it dofsn't mbnbgf sdrolling,
+ * but implfmfnts tif swing <dodf>Sdrollbblf</dodf> intfrfbdf.  Tiis bllows it
+ * to bf plbdfd insidf b <dodf>JSdrollPbnf</dodf> if sdrolling
+ * bfibvior is dfsirfd, bnd usfd dirfdtly if sdrolling is not dfsirfd.
  * <p>
- * The <code>java.awt.TextArea</code> has the ability to do line wrapping.
- * This was controlled by the horizontal scrolling policy.  Since
- * scrolling is not done by <code>JTextArea</code> directly, backward
- * compatibility must be provided another way.  <code>JTextArea</code> has
- * a bound property for line wrapping that controls whether or
- * not it will wrap lines.  By default, the line wrapping property
- * is set to false (not wrapped).
+ * Tif <dodf>jbvb.bwt.TfxtArfb</dodf> ibs tif bbility to do linf wrbpping.
+ * Tiis wbs dontrollfd by tif iorizontbl sdrolling polidy.  Sindf
+ * sdrolling is not donf by <dodf>JTfxtArfb</dodf> dirfdtly, bbdkwbrd
+ * dompbtibility must bf providfd bnotifr wby.  <dodf>JTfxtArfb</dodf> ibs
+ * b bound propfrty for linf wrbpping tibt dontrols wiftifr or
+ * not it will wrbp linfs.  By dffbult, tif linf wrbpping propfrty
+ * is sft to fblsf (not wrbppfd).
  * <p>
- * <code>java.awt.TextArea</code> has two properties <code>rows</code>
- * and <code>columns</code> that are used to determine the preferred size.
- * <code>JTextArea</code> uses these properties to indicate the
- * preferred size of the viewport when placed inside a <code>JScrollPane</code>
- * to match the functionality provided by <code>java.awt.TextArea</code>.
- * <code>JTextArea</code> has a preferred size of what is needed to
- * display all of the text, so that it functions properly inside of
- * a <code>JScrollPane</code>.  If the value for <code>rows</code>
- * or <code>columns</code> is equal to zero,
- * the preferred size along that axis is used for
- * the viewport preferred size along the same axis.
+ * <dodf>jbvb.bwt.TfxtArfb</dodf> ibs two propfrtifs <dodf>rows</dodf>
+ * bnd <dodf>dolumns</dodf> tibt brf usfd to dftfrminf tif prfffrrfd sizf.
+ * <dodf>JTfxtArfb</dodf> usfs tifsf propfrtifs to indidbtf tif
+ * prfffrrfd sizf of tif vifwport wifn plbdfd insidf b <dodf>JSdrollPbnf</dodf>
+ * to mbtdi tif fundtionblity providfd by <dodf>jbvb.bwt.TfxtArfb</dodf>.
+ * <dodf>JTfxtArfb</dodf> ibs b prfffrrfd sizf of wibt is nffdfd to
+ * displby bll of tif tfxt, so tibt it fundtions propfrly insidf of
+ * b <dodf>JSdrollPbnf</dodf>.  If tif vbluf for <dodf>rows</dodf>
+ * or <dodf>dolumns</dodf> is fqubl to zfro,
+ * tif prfffrrfd sizf blong tibt bxis is usfd for
+ * tif vifwport prfffrrfd sizf blong tif sbmf bxis.
  * <p>
- * The <code>java.awt.TextArea</code> could be monitored for changes by adding
- * a <code>TextListener</code> for <code>TextEvent</code>s.
- * In the <code>JTextComponent</code> based
- * components, changes are broadcasted from the model via a
- * <code>DocumentEvent</code> to <code>DocumentListeners</code>.
- * The <code>DocumentEvent</code> gives
- * the location of the change and the kind of change if desired.
- * The code fragment might look something like:
- * <pre>
- *    DocumentListener myListener = ??;
- *    JTextArea myArea = ??;
- *    myArea.getDocument().addDocumentListener(myListener);
- * </pre>
+ * Tif <dodf>jbvb.bwt.TfxtArfb</dodf> dould bf monitorfd for dibngfs by bdding
+ * b <dodf>TfxtListfnfr</dodf> for <dodf>TfxtEvfnt</dodf>s.
+ * In tif <dodf>JTfxtComponfnt</dodf> bbsfd
+ * domponfnts, dibngfs brf brobddbstfd from tif modfl vib b
+ * <dodf>DodumfntEvfnt</dodf> to <dodf>DodumfntListfnfrs</dodf>.
+ * Tif <dodf>DodumfntEvfnt</dodf> givfs
+ * tif lodbtion of tif dibngf bnd tif kind of dibngf if dfsirfd.
+ * Tif dodf frbgmfnt migit look somftiing likf:
+ * <prf>
+ *    DodumfntListfnfr myListfnfr = ??;
+ *    JTfxtArfb myArfb = ??;
+ *    myArfb.gftDodumfnt().bddDodumfntListfnfr(myListfnfr);
+ * </prf>
  *
  * <dl>
- * <dt><b>Newlines</b>
+ * <dt><b>Nfwlinfs</b>
  * <dd>
- * For a discussion on how newlines are handled, see
- * <a href="text/DefaultEditorKit.html">DefaultEditorKit</a>.
+ * For b disdussion on iow nfwlinfs brf ibndlfd, sff
+ * <b irff="tfxt/DffbultEditorKit.itml">DffbultEditorKit</b>.
  * </dl>
  *
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A multi-line area that displays plain text.
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A multi-linf brfb tibt displbys plbin tfxt.
  *
- * @author  Timothy Prinzing
- * @see JTextPane
- * @see JEditorPane
- * @since 1.2
+ * @butior  Timotiy Prinzing
+ * @sff JTfxtPbnf
+ * @sff JEditorPbnf
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JTextArea extends JTextComponent {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JTfxtArfb fxtfnds JTfxtComponfnt {
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "TextAreaUI";
+    privbtf stbtid finbl String uiClbssID = "TfxtArfbUI";
 
     /**
-     * Constructs a new TextArea.  A default model is set, the initial string
-     * is null, and rows/columns are set to 0.
+     * Construdts b nfw TfxtArfb.  A dffbult modfl is sft, tif initibl string
+     * is null, bnd rows/dolumns brf sft to 0.
      */
-    public JTextArea() {
-        this(null, null, 0, 0);
+    publid JTfxtArfb() {
+        tiis(null, null, 0, 0);
     }
 
     /**
-     * Constructs a new TextArea with the specified text displayed.
-     * A default model is created and rows/columns are set to 0.
+     * Construdts b nfw TfxtArfb witi tif spfdififd tfxt displbyfd.
+     * A dffbult modfl is drfbtfd bnd rows/dolumns brf sft to 0.
      *
-     * @param text the text to be displayed, or null
+     * @pbrbm tfxt tif tfxt to bf displbyfd, or null
      */
-    public JTextArea(String text) {
-        this(null, text, 0, 0);
+    publid JTfxtArfb(String tfxt) {
+        tiis(null, tfxt, 0, 0);
     }
 
     /**
-     * Constructs a new empty TextArea with the specified number of
-     * rows and columns.  A default model is created, and the initial
+     * Construdts b nfw fmpty TfxtArfb witi tif spfdififd numbfr of
+     * rows bnd dolumns.  A dffbult modfl is drfbtfd, bnd tif initibl
      * string is null.
      *
-     * @param rows the number of rows &gt;= 0
-     * @param columns the number of columns &gt;= 0
-     * @exception IllegalArgumentException if the rows or columns
-     *  arguments are negative.
+     * @pbrbm rows tif numbfr of rows &gt;= 0
+     * @pbrbm dolumns tif numbfr of dolumns &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption if tif rows or dolumns
+     *  brgumfnts brf nfgbtivf.
      */
-    public JTextArea(int rows, int columns) {
-        this(null, null, rows, columns);
+    publid JTfxtArfb(int rows, int dolumns) {
+        tiis(null, null, rows, dolumns);
     }
 
     /**
-     * Constructs a new TextArea with the specified text and number
-     * of rows and columns.  A default model is created.
+     * Construdts b nfw TfxtArfb witi tif spfdififd tfxt bnd numbfr
+     * of rows bnd dolumns.  A dffbult modfl is drfbtfd.
      *
-     * @param text the text to be displayed, or null
-     * @param rows the number of rows &gt;= 0
-     * @param columns the number of columns &gt;= 0
-     * @exception IllegalArgumentException if the rows or columns
-     *  arguments are negative.
+     * @pbrbm tfxt tif tfxt to bf displbyfd, or null
+     * @pbrbm rows tif numbfr of rows &gt;= 0
+     * @pbrbm dolumns tif numbfr of dolumns &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption if tif rows or dolumns
+     *  brgumfnts brf nfgbtivf.
      */
-    public JTextArea(String text, int rows, int columns) {
-        this(null, text, rows, columns);
+    publid JTfxtArfb(String tfxt, int rows, int dolumns) {
+        tiis(null, tfxt, rows, dolumns);
     }
 
     /**
-     * Constructs a new JTextArea with the given document model, and defaults
-     * for all of the other arguments (null, 0, 0).
+     * Construdts b nfw JTfxtArfb witi tif givfn dodumfnt modfl, bnd dffbults
+     * for bll of tif otifr brgumfnts (null, 0, 0).
      *
-     * @param doc  the model to use
+     * @pbrbm dod  tif modfl to usf
      */
-    public JTextArea(Document doc) {
-        this(doc, null, 0, 0);
+    publid JTfxtArfb(Dodumfnt dod) {
+        tiis(dod, null, 0, 0);
     }
 
     /**
-     * Constructs a new JTextArea with the specified number of rows
-     * and columns, and the given model.  All of the constructors
-     * feed through this constructor.
+     * Construdts b nfw JTfxtArfb witi tif spfdififd numbfr of rows
+     * bnd dolumns, bnd tif givfn modfl.  All of tif donstrudtors
+     * fffd tirougi tiis donstrudtor.
      *
-     * @param doc the model to use, or create a default one if null
-     * @param text the text to be displayed, null if none
-     * @param rows the number of rows &gt;= 0
-     * @param columns the number of columns &gt;= 0
-     * @exception IllegalArgumentException if the rows or columns
-     *  arguments are negative.
+     * @pbrbm dod tif modfl to usf, or drfbtf b dffbult onf if null
+     * @pbrbm tfxt tif tfxt to bf displbyfd, null if nonf
+     * @pbrbm rows tif numbfr of rows &gt;= 0
+     * @pbrbm dolumns tif numbfr of dolumns &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption if tif rows or dolumns
+     *  brgumfnts brf nfgbtivf.
      */
-    public JTextArea(Document doc, String text, int rows, int columns) {
-        super();
-        this.rows = rows;
-        this.columns = columns;
-        if (doc == null) {
-            doc = createDefaultModel();
+    publid JTfxtArfb(Dodumfnt dod, String tfxt, int rows, int dolumns) {
+        supfr();
+        tiis.rows = rows;
+        tiis.dolumns = dolumns;
+        if (dod == null) {
+            dod = drfbtfDffbultModfl();
         }
-        setDocument(doc);
-        if (text != null) {
-            setText(text);
-            select(0, 0);
+        sftDodumfnt(dod);
+        if (tfxt != null) {
+            sftTfxt(tfxt);
+            sflfdt(0, 0);
         }
         if (rows < 0) {
-            throw new IllegalArgumentException("rows: " + rows);
+            tirow nfw IllfgblArgumfntExdfption("rows: " + rows);
         }
-        if (columns < 0) {
-            throw new IllegalArgumentException("columns: " + columns);
+        if (dolumns < 0) {
+            tirow nfw IllfgblArgumfntExdfption("dolumns: " + dolumns);
         }
-        LookAndFeel.installProperty(this,
-                                    "focusTraversalKeysForward",
-                                    JComponent.
-                                    getManagingFocusForwardTraversalKeys());
-        LookAndFeel.installProperty(this,
-                                    "focusTraversalKeysBackward",
-                                    JComponent.
-                                    getManagingFocusBackwardTraversalKeys());
+        LookAndFffl.instbllPropfrty(tiis,
+                                    "fodusTrbvfrsblKfysForwbrd",
+                                    JComponfnt.
+                                    gftMbnbgingFodusForwbrdTrbvfrsblKfys());
+        LookAndFffl.instbllPropfrty(tiis,
+                                    "fodusTrbvfrsblKfysBbdkwbrd",
+                                    JComponfnt.
+                                    gftMbnbgingFodusBbdkwbrdTrbvfrsblKfys());
     }
 
     /**
-     * Returns the class ID for the UI.
+     * Rfturns tif dlbss ID for tif UI.
      *
-     * @return the ID ("TextAreaUI")
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @rfturn tif ID ("TfxtArfbUI")
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
     /**
-     * Creates the default implementation of the model
-     * to be used at construction if one isn't explicitly
-     * given.  A new instance of PlainDocument is returned.
+     * Crfbtfs tif dffbult implfmfntbtion of tif modfl
+     * to bf usfd bt donstrudtion if onf isn't fxpliditly
+     * givfn.  A nfw instbndf of PlbinDodumfnt is rfturnfd.
      *
-     * @return the default document model
+     * @rfturn tif dffbult dodumfnt modfl
      */
-    protected Document createDefaultModel() {
-        return new PlainDocument();
+    protfdtfd Dodumfnt drfbtfDffbultModfl() {
+        rfturn nfw PlbinDodumfnt();
     }
 
     /**
-     * Sets the number of characters to expand tabs to.
-     * This will be multiplied by the maximum advance for
-     * variable width fonts.  A PropertyChange event ("tabSize") is fired
-     * when the tab size changes.
+     * Sfts tif numbfr of dibrbdtfrs to fxpbnd tbbs to.
+     * Tiis will bf multiplifd by tif mbximum bdvbndf for
+     * vbribblf widti fonts.  A PropfrtyCibngf fvfnt ("tbbSizf") is firfd
+     * wifn tif tbb sizf dibngfs.
      *
-     * @param size number of characters to expand to
-     * @see #getTabSize
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: the number of characters to expand tabs to
+     * @pbrbm sizf numbfr of dibrbdtfrs to fxpbnd to
+     * @sff #gftTbbSizf
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: tif numbfr of dibrbdtfrs to fxpbnd tbbs to
      */
-    public void setTabSize(int size) {
-        Document doc = getDocument();
-        if (doc != null) {
-            int old = getTabSize();
-            doc.putProperty(PlainDocument.tabSizeAttribute, Integer.valueOf(size));
-            firePropertyChange("tabSize", old, size);
+    publid void sftTbbSizf(int sizf) {
+        Dodumfnt dod = gftDodumfnt();
+        if (dod != null) {
+            int old = gftTbbSizf();
+            dod.putPropfrty(PlbinDodumfnt.tbbSizfAttributf, Intfgfr.vblufOf(sizf));
+            firfPropfrtyCibngf("tbbSizf", old, sizf);
         }
     }
 
     /**
-     * Gets the number of characters used to expand tabs.  If the document is
-     * null or doesn't have a tab setting, return a default of 8.
+     * Gfts tif numbfr of dibrbdtfrs usfd to fxpbnd tbbs.  If tif dodumfnt is
+     * null or dofsn't ibvf b tbb sftting, rfturn b dffbult of 8.
      *
-     * @return the number of characters
+     * @rfturn tif numbfr of dibrbdtfrs
      */
-    public int getTabSize() {
-        int size = 8;
-        Document doc = getDocument();
-        if (doc != null) {
-            Integer i = (Integer) doc.getProperty(PlainDocument.tabSizeAttribute);
+    publid int gftTbbSizf() {
+        int sizf = 8;
+        Dodumfnt dod = gftDodumfnt();
+        if (dod != null) {
+            Intfgfr i = (Intfgfr) dod.gftPropfrty(PlbinDodumfnt.tbbSizfAttributf);
             if (i != null) {
-                size = i.intValue();
+                sizf = i.intVbluf();
             }
         }
-        return size;
+        rfturn sizf;
     }
 
     /**
-     * Sets the line-wrapping policy of the text area.  If set
-     * to true the lines will be wrapped if they are too long
-     * to fit within the allocated width.  If set to false,
-     * the lines will always be unwrapped.  A <code>PropertyChange</code>
-     * event ("lineWrap") is fired when the policy is changed.
-     * By default this property is false.
+     * Sfts tif linf-wrbpping polidy of tif tfxt brfb.  If sft
+     * to truf tif linfs will bf wrbppfd if tify brf too long
+     * to fit witiin tif bllodbtfd widti.  If sft to fblsf,
+     * tif linfs will blwbys bf unwrbppfd.  A <dodf>PropfrtyCibngf</dodf>
+     * fvfnt ("linfWrbp") is firfd wifn tif polidy is dibngfd.
+     * By dffbult tiis propfrty is fblsf.
      *
-     * @param wrap indicates if lines should be wrapped
-     * @see #getLineWrap
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: should lines be wrapped
+     * @pbrbm wrbp indidbtfs if linfs siould bf wrbppfd
+     * @sff #gftLinfWrbp
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: siould linfs bf wrbppfd
      */
-    public void setLineWrap(boolean wrap) {
-        boolean old = this.wrap;
-        this.wrap = wrap;
-        firePropertyChange("lineWrap", old, wrap);
+    publid void sftLinfWrbp(boolfbn wrbp) {
+        boolfbn old = tiis.wrbp;
+        tiis.wrbp = wrbp;
+        firfPropfrtyCibngf("linfWrbp", old, wrbp);
     }
 
     /**
-     * Gets the line-wrapping policy of the text area.  If set
-     * to true the lines will be wrapped if they are too long
-     * to fit within the allocated width.  If set to false,
-     * the lines will always be unwrapped.
+     * Gfts tif linf-wrbpping polidy of tif tfxt brfb.  If sft
+     * to truf tif linfs will bf wrbppfd if tify brf too long
+     * to fit witiin tif bllodbtfd widti.  If sft to fblsf,
+     * tif linfs will blwbys bf unwrbppfd.
      *
-     * @return if lines will be wrapped
+     * @rfturn if linfs will bf wrbppfd
      */
-    public boolean getLineWrap() {
-        return wrap;
+    publid boolfbn gftLinfWrbp() {
+        rfturn wrbp;
     }
 
     /**
-     * Sets the style of wrapping used if the text area is wrapping
-     * lines.  If set to true the lines will be wrapped at word
-     * boundaries (whitespace) if they are too long
-     * to fit within the allocated width.  If set to false,
-     * the lines will be wrapped at character boundaries.
-     * By default this property is false.
+     * Sfts tif stylf of wrbpping usfd if tif tfxt brfb is wrbpping
+     * linfs.  If sft to truf tif linfs will bf wrbppfd bt word
+     * boundbrifs (wiitfspbdf) if tify brf too long
+     * to fit witiin tif bllodbtfd widti.  If sft to fblsf,
+     * tif linfs will bf wrbppfd bt dibrbdtfr boundbrifs.
+     * By dffbult tiis propfrty is fblsf.
      *
-     * @param word indicates if word boundaries should be used
-     *   for line wrapping
-     * @see #getWrapStyleWord
-     * @beaninfo
-     *   preferred: false
-     *       bound: true
-     * description: should wrapping occur at word boundaries
+     * @pbrbm word indidbtfs if word boundbrifs siould bf usfd
+     *   for linf wrbpping
+     * @sff #gftWrbpStylfWord
+     * @bfbninfo
+     *   prfffrrfd: fblsf
+     *       bound: truf
+     * dfsdription: siould wrbpping oddur bt word boundbrifs
      */
-    public void setWrapStyleWord(boolean word) {
-        boolean old = this.word;
-        this.word = word;
-        firePropertyChange("wrapStyleWord", old, word);
+    publid void sftWrbpStylfWord(boolfbn word) {
+        boolfbn old = tiis.word;
+        tiis.word = word;
+        firfPropfrtyCibngf("wrbpStylfWord", old, word);
     }
 
     /**
-     * Gets the style of wrapping used if the text area is wrapping
-     * lines.  If set to true the lines will be wrapped at word
-     * boundaries (ie whitespace) if they are too long
-     * to fit within the allocated width.  If set to false,
-     * the lines will be wrapped at character boundaries.
+     * Gfts tif stylf of wrbpping usfd if tif tfxt brfb is wrbpping
+     * linfs.  If sft to truf tif linfs will bf wrbppfd bt word
+     * boundbrifs (if wiitfspbdf) if tify brf too long
+     * to fit witiin tif bllodbtfd widti.  If sft to fblsf,
+     * tif linfs will bf wrbppfd bt dibrbdtfr boundbrifs.
      *
-     * @return if the wrap style should be word boundaries
-     *  instead of character boundaries
-     * @see #setWrapStyleWord
+     * @rfturn if tif wrbp stylf siould bf word boundbrifs
+     *  instfbd of dibrbdtfr boundbrifs
+     * @sff #sftWrbpStylfWord
      */
-    public boolean getWrapStyleWord() {
-        return word;
+    publid boolfbn gftWrbpStylfWord() {
+        rfturn word;
     }
 
     /**
-     * Translates an offset into the components text to a
-     * line number.
+     * Trbnslbtfs bn offsft into tif domponfnts tfxt to b
+     * linf numbfr.
      *
-     * @param offset the offset &gt;= 0
-     * @return the line number &gt;= 0
-     * @exception BadLocationException thrown if the offset is
-     *   less than zero or greater than the document length.
+     * @pbrbm offsft tif offsft &gt;= 0
+     * @rfturn tif linf numbfr &gt;= 0
+     * @fxdfption BbdLodbtionExdfption tirown if tif offsft is
+     *   lfss tibn zfro or grfbtfr tibn tif dodumfnt lfngti.
      */
-    public int getLineOfOffset(int offset) throws BadLocationException {
-        Document doc = getDocument();
-        if (offset < 0) {
-            throw new BadLocationException("Can't translate offset to line", -1);
-        } else if (offset > doc.getLength()) {
-            throw new BadLocationException("Can't translate offset to line", doc.getLength()+1);
-        } else {
-            Element map = getDocument().getDefaultRootElement();
-            return map.getElementIndex(offset);
+    publid int gftLinfOfOffsft(int offsft) tirows BbdLodbtionExdfption {
+        Dodumfnt dod = gftDodumfnt();
+        if (offsft < 0) {
+            tirow nfw BbdLodbtionExdfption("Cbn't trbnslbtf offsft to linf", -1);
+        } flsf if (offsft > dod.gftLfngti()) {
+            tirow nfw BbdLodbtionExdfption("Cbn't trbnslbtf offsft to linf", dod.gftLfngti()+1);
+        } flsf {
+            Elfmfnt mbp = gftDodumfnt().gftDffbultRootElfmfnt();
+            rfturn mbp.gftElfmfntIndfx(offsft);
         }
     }
 
     /**
-     * Determines the number of lines contained in the area.
+     * Dftfrminfs tif numbfr of linfs dontbinfd in tif brfb.
      *
-     * @return the number of lines &gt; 0
+     * @rfturn tif numbfr of linfs &gt; 0
      */
-    public int getLineCount() {
-        Element map = getDocument().getDefaultRootElement();
-        return map.getElementCount();
+    publid int gftLinfCount() {
+        Elfmfnt mbp = gftDodumfnt().gftDffbultRootElfmfnt();
+        rfturn mbp.gftElfmfntCount();
     }
 
     /**
-     * Determines the offset of the start of the given line.
+     * Dftfrminfs tif offsft of tif stbrt of tif givfn linf.
      *
-     * @param line  the line number to translate &gt;= 0
-     * @return the offset &gt;= 0
-     * @exception BadLocationException thrown if the line is
-     * less than zero or greater or equal to the number of
-     * lines contained in the document (as reported by
-     * getLineCount).
+     * @pbrbm linf  tif linf numbfr to trbnslbtf &gt;= 0
+     * @rfturn tif offsft &gt;= 0
+     * @fxdfption BbdLodbtionExdfption tirown if tif linf is
+     * lfss tibn zfro or grfbtfr or fqubl to tif numbfr of
+     * linfs dontbinfd in tif dodumfnt (bs rfportfd by
+     * gftLinfCount).
      */
-    public int getLineStartOffset(int line) throws BadLocationException {
-        int lineCount = getLineCount();
-        if (line < 0) {
-            throw new BadLocationException("Negative line", -1);
-        } else if (line >= lineCount) {
-            throw new BadLocationException("No such line", getDocument().getLength()+1);
-        } else {
-            Element map = getDocument().getDefaultRootElement();
-            Element lineElem = map.getElement(line);
-            return lineElem.getStartOffset();
+    publid int gftLinfStbrtOffsft(int linf) tirows BbdLodbtionExdfption {
+        int linfCount = gftLinfCount();
+        if (linf < 0) {
+            tirow nfw BbdLodbtionExdfption("Nfgbtivf linf", -1);
+        } flsf if (linf >= linfCount) {
+            tirow nfw BbdLodbtionExdfption("No sudi linf", gftDodumfnt().gftLfngti()+1);
+        } flsf {
+            Elfmfnt mbp = gftDodumfnt().gftDffbultRootElfmfnt();
+            Elfmfnt linfElfm = mbp.gftElfmfnt(linf);
+            rfturn linfElfm.gftStbrtOffsft();
         }
     }
 
     /**
-     * Determines the offset of the end of the given line.
+     * Dftfrminfs tif offsft of tif fnd of tif givfn linf.
      *
-     * @param line  the line &gt;= 0
-     * @return the offset &gt;= 0
-     * @exception BadLocationException Thrown if the line is
-     * less than zero or greater or equal to the number of
-     * lines contained in the document (as reported by
-     * getLineCount).
+     * @pbrbm linf  tif linf &gt;= 0
+     * @rfturn tif offsft &gt;= 0
+     * @fxdfption BbdLodbtionExdfption Tirown if tif linf is
+     * lfss tibn zfro or grfbtfr or fqubl to tif numbfr of
+     * linfs dontbinfd in tif dodumfnt (bs rfportfd by
+     * gftLinfCount).
      */
-    public int getLineEndOffset(int line) throws BadLocationException {
-        int lineCount = getLineCount();
-        if (line < 0) {
-            throw new BadLocationException("Negative line", -1);
-        } else if (line >= lineCount) {
-            throw new BadLocationException("No such line", getDocument().getLength()+1);
-        } else {
-            Element map = getDocument().getDefaultRootElement();
-            Element lineElem = map.getElement(line);
-            int endOffset = lineElem.getEndOffset();
-            // hide the implicit break at the end of the document
-            return ((line == lineCount - 1) ? (endOffset - 1) : endOffset);
+    publid int gftLinfEndOffsft(int linf) tirows BbdLodbtionExdfption {
+        int linfCount = gftLinfCount();
+        if (linf < 0) {
+            tirow nfw BbdLodbtionExdfption("Nfgbtivf linf", -1);
+        } flsf if (linf >= linfCount) {
+            tirow nfw BbdLodbtionExdfption("No sudi linf", gftDodumfnt().gftLfngti()+1);
+        } flsf {
+            Elfmfnt mbp = gftDodumfnt().gftDffbultRootElfmfnt();
+            Elfmfnt linfElfm = mbp.gftElfmfnt(linf);
+            int fndOffsft = linfElfm.gftEndOffsft();
+            // iidf tif implidit brfbk bt tif fnd of tif dodumfnt
+            rfturn ((linf == linfCount - 1) ? (fndOffsft - 1) : fndOffsft);
         }
     }
 
-    // --- java.awt.TextArea methods ---------------------------------
+    // --- jbvb.bwt.TfxtArfb mftiods ---------------------------------
 
     /**
-     * Inserts the specified text at the specified position.  Does nothing
-     * if the model is null or if the text is null or empty.
+     * Insfrts tif spfdififd tfxt bt tif spfdififd position.  Dofs notiing
+     * if tif modfl is null or if tif tfxt is null or fmpty.
      *
-     * @param str the text to insert
-     * @param pos the position at which to insert &gt;= 0
-     * @exception IllegalArgumentException  if pos is an
-     *  invalid position in the model
-     * @see TextComponent#setText
-     * @see #replaceRange
+     * @pbrbm str tif tfxt to insfrt
+     * @pbrbm pos tif position bt wiidi to insfrt &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption  if pos is bn
+     *  invblid position in tif modfl
+     * @sff TfxtComponfnt#sftTfxt
+     * @sff #rfplbdfRbngf
      */
-    public void insert(String str, int pos) {
-        Document doc = getDocument();
-        if (doc != null) {
+    publid void insfrt(String str, int pos) {
+        Dodumfnt dod = gftDodumfnt();
+        if (dod != null) {
             try {
-                doc.insertString(pos, str, null);
-            } catch (BadLocationException e) {
-                throw new IllegalArgumentException(e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * Appends the given text to the end of the document.  Does nothing if
-     * the model is null or the string is null or empty.
-     *
-     * @param str the text to insert
-     * @see #insert
-     */
-    public void append(String str) {
-        Document doc = getDocument();
-        if (doc != null) {
-            try {
-                doc.insertString(doc.getLength(), str, null);
-            } catch (BadLocationException e) {
+                dod.insfrtString(pos, str, null);
+            } dbtdi (BbdLodbtionExdfption f) {
+                tirow nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
             }
         }
     }
 
     /**
-     * Replaces text from the indicated start to end position with the
-     * new text specified.  Does nothing if the model is null.  Simply
-     * does a delete if the new string is null or empty.
+     * Appfnds tif givfn tfxt to tif fnd of tif dodumfnt.  Dofs notiing if
+     * tif modfl is null or tif string is null or fmpty.
      *
-     * @param str the text to use as the replacement
-     * @param start the start position &gt;= 0
-     * @param end the end position &gt;= start
-     * @exception IllegalArgumentException  if part of the range is an
-     *  invalid position in the model
-     * @see #insert
-     * @see #replaceRange
+     * @pbrbm str tif tfxt to insfrt
+     * @sff #insfrt
      */
-    public void replaceRange(String str, int start, int end) {
-        if (end < start) {
-            throw new IllegalArgumentException("end before start");
-        }
-        Document doc = getDocument();
-        if (doc != null) {
+    publid void bppfnd(String str) {
+        Dodumfnt dod = gftDodumfnt();
+        if (dod != null) {
             try {
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).replace(start, end - start, str,
+                dod.insfrtString(dod.gftLfngti(), str, null);
+            } dbtdi (BbdLodbtionExdfption f) {
+            }
+        }
+    }
+
+    /**
+     * Rfplbdfs tfxt from tif indidbtfd stbrt to fnd position witi tif
+     * nfw tfxt spfdififd.  Dofs notiing if tif modfl is null.  Simply
+     * dofs b dflftf if tif nfw string is null or fmpty.
+     *
+     * @pbrbm str tif tfxt to usf bs tif rfplbdfmfnt
+     * @pbrbm stbrt tif stbrt position &gt;= 0
+     * @pbrbm fnd tif fnd position &gt;= stbrt
+     * @fxdfption IllfgblArgumfntExdfption  if pbrt of tif rbngf is bn
+     *  invblid position in tif modfl
+     * @sff #insfrt
+     * @sff #rfplbdfRbngf
+     */
+    publid void rfplbdfRbngf(String str, int stbrt, int fnd) {
+        if (fnd < stbrt) {
+            tirow nfw IllfgblArgumfntExdfption("fnd bfforf stbrt");
+        }
+        Dodumfnt dod = gftDodumfnt();
+        if (dod != null) {
+            try {
+                if (dod instbndfof AbstrbdtDodumfnt) {
+                    ((AbstrbdtDodumfnt)dod).rfplbdf(stbrt, fnd - stbrt, str,
                                                     null);
                 }
-                else {
-                    doc.remove(start, end - start);
-                    doc.insertString(start, str, null);
+                flsf {
+                    dod.rfmovf(stbrt, fnd - stbrt);
+                    dod.insfrtString(stbrt, str, null);
                 }
-            } catch (BadLocationException e) {
-                throw new IllegalArgumentException(e.getMessage());
+            } dbtdi (BbdLodbtionExdfption f) {
+                tirow nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
             }
         }
     }
 
     /**
-     * Returns the number of rows in the TextArea.
+     * Rfturns tif numbfr of rows in tif TfxtArfb.
      *
-     * @return the number of rows &gt;= 0
+     * @rfturn tif numbfr of rows &gt;= 0
      */
-    public int getRows() {
-        return rows;
+    publid int gftRows() {
+        rfturn rows;
     }
 
     /**
-     * Sets the number of rows for this TextArea.  Calls invalidate() after
-     * setting the new value.
+     * Sfts tif numbfr of rows for tiis TfxtArfb.  Cblls invblidbtf() bftfr
+     * sftting tif nfw vbluf.
      *
-     * @param rows the number of rows &gt;= 0
-     * @exception IllegalArgumentException if rows is less than 0
-     * @see #getRows
-     * @beaninfo
-     * description: the number of rows preferred for display
+     * @pbrbm rows tif numbfr of rows &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption if rows is lfss tibn 0
+     * @sff #gftRows
+     * @bfbninfo
+     * dfsdription: tif numbfr of rows prfffrrfd for displby
      */
-    public void setRows(int rows) {
-        int oldVal = this.rows;
+    publid void sftRows(int rows) {
+        int oldVbl = tiis.rows;
         if (rows < 0) {
-            throw new IllegalArgumentException("rows less than zero.");
+            tirow nfw IllfgblArgumfntExdfption("rows lfss tibn zfro.");
         }
-        if (rows != oldVal) {
-            this.rows = rows;
-            invalidate();
-        }
-    }
-
-    /**
-     * Defines the meaning of the height of a row.  This defaults to
-     * the height of the font.
-     *
-     * @return the height &gt;= 1
-     */
-    protected int getRowHeight() {
-        if (rowHeight == 0) {
-            FontMetrics metrics = getFontMetrics(getFont());
-            rowHeight = metrics.getHeight();
-        }
-        return rowHeight;
-    }
-
-    /**
-     * Returns the number of columns in the TextArea.
-     *
-     * @return number of columns &gt;= 0
-     */
-    public int getColumns() {
-        return columns;
-    }
-
-    /**
-     * Sets the number of columns for this TextArea.  Does an invalidate()
-     * after setting the new value.
-     *
-     * @param columns the number of columns &gt;= 0
-     * @exception IllegalArgumentException if columns is less than 0
-     * @see #getColumns
-     * @beaninfo
-     * description: the number of columns preferred for display
-     */
-    public void setColumns(int columns) {
-        int oldVal = this.columns;
-        if (columns < 0) {
-            throw new IllegalArgumentException("columns less than zero.");
-        }
-        if (columns != oldVal) {
-            this.columns = columns;
-            invalidate();
+        if (rows != oldVbl) {
+            tiis.rows = rows;
+            invblidbtf();
         }
     }
 
     /**
-     * Gets column width.
-     * The meaning of what a column is can be considered a fairly weak
-     * notion for some fonts.  This method is used to define the width
-     * of a column.  By default this is defined to be the width of the
-     * character <em>m</em> for the font used.  This method can be
-     * redefined to be some alternative amount.
+     * Dffinfs tif mfbning of tif ifigit of b row.  Tiis dffbults to
+     * tif ifigit of tif font.
      *
-     * @return the column width &gt;= 1
+     * @rfturn tif ifigit &gt;= 1
      */
-    protected int getColumnWidth() {
-        if (columnWidth == 0) {
-            FontMetrics metrics = getFontMetrics(getFont());
-            columnWidth = metrics.charWidth('m');
+    protfdtfd int gftRowHfigit() {
+        if (rowHfigit == 0) {
+            FontMftrids mftrids = gftFontMftrids(gftFont());
+            rowHfigit = mftrids.gftHfigit();
         }
-        return columnWidth;
+        rfturn rowHfigit;
     }
 
-    // --- Component methods -----------------------------------------
+    /**
+     * Rfturns tif numbfr of dolumns in tif TfxtArfb.
+     *
+     * @rfturn numbfr of dolumns &gt;= 0
+     */
+    publid int gftColumns() {
+        rfturn dolumns;
+    }
 
     /**
-     * Returns the preferred size of the TextArea.  This is the
-     * maximum of the size needed to display the text and the
-     * size requested for the viewport.
+     * Sfts tif numbfr of dolumns for tiis TfxtArfb.  Dofs bn invblidbtf()
+     * bftfr sftting tif nfw vbluf.
      *
-     * @return the size
+     * @pbrbm dolumns tif numbfr of dolumns &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption if dolumns is lfss tibn 0
+     * @sff #gftColumns
+     * @bfbninfo
+     * dfsdription: tif numbfr of dolumns prfffrrfd for displby
      */
-    public Dimension getPreferredSize() {
-        Dimension d = super.getPreferredSize();
-        d = (d == null) ? new Dimension(400,400) : d;
-        Insets insets = getInsets();
+    publid void sftColumns(int dolumns) {
+        int oldVbl = tiis.dolumns;
+        if (dolumns < 0) {
+            tirow nfw IllfgblArgumfntExdfption("dolumns lfss tibn zfro.");
+        }
+        if (dolumns != oldVbl) {
+            tiis.dolumns = dolumns;
+            invblidbtf();
+        }
+    }
 
-        if (columns != 0) {
-            d.width = Math.max(d.width, columns * getColumnWidth() +
-                    insets.left + insets.right);
+    /**
+     * Gfts dolumn widti.
+     * Tif mfbning of wibt b dolumn is dbn bf donsidfrfd b fbirly wfbk
+     * notion for somf fonts.  Tiis mftiod is usfd to dffinf tif widti
+     * of b dolumn.  By dffbult tiis is dffinfd to bf tif widti of tif
+     * dibrbdtfr <fm>m</fm> for tif font usfd.  Tiis mftiod dbn bf
+     * rfdffinfd to bf somf bltfrnbtivf bmount.
+     *
+     * @rfturn tif dolumn widti &gt;= 1
+     */
+    protfdtfd int gftColumnWidti() {
+        if (dolumnWidti == 0) {
+            FontMftrids mftrids = gftFontMftrids(gftFont());
+            dolumnWidti = mftrids.dibrWidti('m');
+        }
+        rfturn dolumnWidti;
+    }
+
+    // --- Componfnt mftiods -----------------------------------------
+
+    /**
+     * Rfturns tif prfffrrfd sizf of tif TfxtArfb.  Tiis is tif
+     * mbximum of tif sizf nffdfd to displby tif tfxt bnd tif
+     * sizf rfqufstfd for tif vifwport.
+     *
+     * @rfturn tif sizf
+     */
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        Dimfnsion d = supfr.gftPrfffrrfdSizf();
+        d = (d == null) ? nfw Dimfnsion(400,400) : d;
+        Insfts insfts = gftInsfts();
+
+        if (dolumns != 0) {
+            d.widti = Mbti.mbx(d.widti, dolumns * gftColumnWidti() +
+                    insfts.lfft + insfts.rigit);
         }
         if (rows != 0) {
-            d.height = Math.max(d.height, rows * getRowHeight() +
-                                insets.top + insets.bottom);
+            d.ifigit = Mbti.mbx(d.ifigit, rows * gftRowHfigit() +
+                                insfts.top + insfts.bottom);
         }
-        return d;
+        rfturn d;
     }
 
     /**
-     * Sets the current font.  This removes cached row height and column
-     * width so the new font will be reflected, and calls revalidate().
+     * Sfts tif durrfnt font.  Tiis rfmovfs dbdifd row ifigit bnd dolumn
+     * widti so tif nfw font will bf rfflfdtfd, bnd dblls rfvblidbtf().
      *
-     * @param f the font to use as the current font
+     * @pbrbm f tif font to usf bs tif durrfnt font
      */
-    public void setFont(Font f) {
-        super.setFont(f);
-        rowHeight = 0;
-        columnWidth = 0;
+    publid void sftFont(Font f) {
+        supfr.sftFont(f);
+        rowHfigit = 0;
+        dolumnWidti = 0;
     }
 
 
     /**
-     * Returns a string representation of this JTextArea. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis JTfxtArfb. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this JTextArea.
+     * @rfturn  b string rfprfsfntbtion of tiis JTfxtArfb.
      */
-    protected String paramString() {
-        String wrapString = (wrap ?
-                             "true" : "false");
+    protfdtfd String pbrbmString() {
+        String wrbpString = (wrbp ?
+                             "truf" : "fblsf");
         String wordString = (word ?
-                             "true" : "false");
+                             "truf" : "fblsf");
 
-        return super.paramString() +
-        ",colums=" + columns +
-        ",columWidth=" + columnWidth +
+        rfturn supfr.pbrbmString() +
+        ",dolums=" + dolumns +
+        ",dolumWidti=" + dolumnWidti +
         ",rows=" + rows +
-        ",rowHeight=" + rowHeight +
+        ",rowHfigit=" + rowHfigit +
         ",word=" + wordString +
-        ",wrap=" + wrapString;
+        ",wrbp=" + wrbpString;
     }
 
-    // --- Scrollable methods ----------------------------------------
+    // --- Sdrollbblf mftiods ----------------------------------------
 
     /**
-     * Returns true if a viewport should always force the width of this
-     * Scrollable to match the width of the viewport.  This is implemented
-     * to return true if the line wrapping policy is true, and false
-     * if lines are not being wrapped.
+     * Rfturns truf if b vifwport siould blwbys fordf tif widti of tiis
+     * Sdrollbblf to mbtdi tif widti of tif vifwport.  Tiis is implfmfntfd
+     * to rfturn truf if tif linf wrbpping polidy is truf, bnd fblsf
+     * if linfs brf not bfing wrbppfd.
      *
-     * @return true if a viewport should force the Scrollables width
-     * to match its own.
+     * @rfturn truf if b vifwport siould fordf tif Sdrollbblfs widti
+     * to mbtdi its own.
      */
-    public boolean getScrollableTracksViewportWidth() {
-        return (wrap) ? true : super.getScrollableTracksViewportWidth();
+    publid boolfbn gftSdrollbblfTrbdksVifwportWidti() {
+        rfturn (wrbp) ? truf : supfr.gftSdrollbblfTrbdksVifwportWidti();
     }
 
     /**
-     * Returns the preferred size of the viewport if this component
-     * is embedded in a JScrollPane.  This uses the desired column
-     * and row settings if they have been set, otherwise the superclass
-     * behavior is used.
+     * Rfturns tif prfffrrfd sizf of tif vifwport if tiis domponfnt
+     * is fmbfddfd in b JSdrollPbnf.  Tiis usfs tif dfsirfd dolumn
+     * bnd row sfttings if tify ibvf bffn sft, otifrwisf tif supfrdlbss
+     * bfibvior is usfd.
      *
-     * @return The preferredSize of a JViewport whose view is this Scrollable.
-     * @see JViewport#getPreferredSize
+     * @rfturn Tif prfffrrfdSizf of b JVifwport wiosf vifw is tiis Sdrollbblf.
+     * @sff JVifwport#gftPrfffrrfdSizf
      */
-    public Dimension getPreferredScrollableViewportSize() {
-        Dimension size = super.getPreferredScrollableViewportSize();
-        size = (size == null) ? new Dimension(400,400) : size;
-        Insets insets = getInsets();
+    publid Dimfnsion gftPrfffrrfdSdrollbblfVifwportSizf() {
+        Dimfnsion sizf = supfr.gftPrfffrrfdSdrollbblfVifwportSizf();
+        sizf = (sizf == null) ? nfw Dimfnsion(400,400) : sizf;
+        Insfts insfts = gftInsfts();
 
-        size.width = (columns == 0) ? size.width :
-                columns * getColumnWidth() + insets.left + insets.right;
-        size.height = (rows == 0) ? size.height :
-                rows * getRowHeight() + insets.top + insets.bottom;
-        return size;
+        sizf.widti = (dolumns == 0) ? sizf.widti :
+                dolumns * gftColumnWidti() + insfts.lfft + insfts.rigit;
+        sizf.ifigit = (rows == 0) ? sizf.ifigit :
+                rows * gftRowHfigit() + insfts.top + insfts.bottom;
+        rfturn sizf;
     }
 
     /**
-     * Components that display logical rows or columns should compute
-     * the scroll increment that will completely expose one new row
-     * or column, depending on the value of orientation.  This is implemented
-     * to use the values returned by the <code>getRowHeight</code> and
-     * <code>getColumnWidth</code> methods.
+     * Componfnts tibt displby logidbl rows or dolumns siould domputf
+     * tif sdroll indrfmfnt tibt will domplftfly fxposf onf nfw row
+     * or dolumn, dfpfnding on tif vbluf of orifntbtion.  Tiis is implfmfntfd
+     * to usf tif vblufs rfturnfd by tif <dodf>gftRowHfigit</dodf> bnd
+     * <dodf>gftColumnWidti</dodf> mftiods.
      * <p>
-     * Scrolling containers, like JScrollPane, will use this method
-     * each time the user requests a unit scroll.
+     * Sdrolling dontbinfrs, likf JSdrollPbnf, will usf tiis mftiod
+     * fbdi timf tif usfr rfqufsts b unit sdroll.
      *
-     * @param visibleRect the view area visible within the viewport
-     * @param orientation Either SwingConstants.VERTICAL or
-     *   SwingConstants.HORIZONTAL.
-     * @param direction Less than zero to scroll up/left,
-     *   greater than zero for down/right.
-     * @return The "unit" increment for scrolling in the specified direction
-     * @exception IllegalArgumentException for an invalid orientation
-     * @see JScrollBar#setUnitIncrement
-     * @see #getRowHeight
-     * @see #getColumnWidth
+     * @pbrbm visiblfRfdt tif vifw brfb visiblf witiin tif vifwport
+     * @pbrbm orifntbtion Eitifr SwingConstbnts.VERTICAL or
+     *   SwingConstbnts.HORIZONTAL.
+     * @pbrbm dirfdtion Lfss tibn zfro to sdroll up/lfft,
+     *   grfbtfr tibn zfro for down/rigit.
+     * @rfturn Tif "unit" indrfmfnt for sdrolling in tif spfdififd dirfdtion
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid orifntbtion
+     * @sff JSdrollBbr#sftUnitIndrfmfnt
+     * @sff #gftRowHfigit
+     * @sff #gftColumnWidti
      */
-    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        switch (orientation) {
-        case SwingConstants.VERTICAL:
-            return getRowHeight();
-        case SwingConstants.HORIZONTAL:
-            return getColumnWidth();
-        default:
-            throw new IllegalArgumentException("Invalid orientation: " + orientation);
+    publid int gftSdrollbblfUnitIndrfmfnt(Rfdtbnglf visiblfRfdt, int orifntbtion, int dirfdtion) {
+        switdi (orifntbtion) {
+        dbsf SwingConstbnts.VERTICAL:
+            rfturn gftRowHfigit();
+        dbsf SwingConstbnts.HORIZONTAL:
+            rfturn gftColumnWidti();
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid orifntbtion: " + orifntbtion);
         }
     }
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * Sff rfbdObjfdt() bnd writfObjfdt() in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
 
     /**
-     * Gets the AccessibleContext associated with this JTextArea.
-     * For JTextAreas, the AccessibleContext takes the form of an
-     * AccessibleJTextArea.
-     * A new AccessibleJTextArea instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JTfxtArfb.
+     * For JTfxtArfbs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJTfxtArfb.
+     * A nfw AddfssiblfJTfxtArfb instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJTextArea that serves as the
-     *         AccessibleContext of this JTextArea
+     * @rfturn bn AddfssiblfJTfxtArfb tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JTfxtArfb
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJTextArea();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJTfxtArfb();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JTextArea</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to text area user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JTfxtArfb</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to tfxt brfb usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJTextArea extends AccessibleJTextComponent {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJTfxtArfb fxtfnds AddfssiblfJTfxtComponfnt {
 
         /**
-         * Gets the state set of this object.
+         * Gfts tif stbtf sft of tiis objfdt.
          *
-         * @return an instance of AccessibleStateSet describing the states
-         * of the object
-         * @see AccessibleStateSet
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dfsdribing tif stbtfs
+         * of tif objfdt
+         * @sff AddfssiblfStbtfSft
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            states.add(AccessibleState.MULTI_LINE);
-            return states;
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            stbtfs.bdd(AddfssiblfStbtf.MULTI_LINE);
+            rfturn stbtfs;
         }
     }
 
-    // --- variables -------------------------------------------------
+    // --- vbribblfs -------------------------------------------------
 
-    private int rows;
-    private int columns;
-    private int columnWidth;
-    private int rowHeight;
-    private boolean wrap;
-    private boolean word;
+    privbtf int rows;
+    privbtf int dolumns;
+    privbtf int dolumnWidti;
+    privbtf int rowHfigit;
+    privbtf boolfbn wrbp;
+    privbtf boolfbn word;
 
 }

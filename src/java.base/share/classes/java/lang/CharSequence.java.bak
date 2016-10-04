@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.util.NoSuchElementException;
-import java.util.PrimitiveIterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.IntConsumer;
-import java.util.stream.IntStream;
-import java.util.stream.StreamSupport;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.PrimitivfItfrbtor;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.strfbm.IntStrfbm;
+import jbvb.util.strfbm.StrfbmSupport;
 
 /**
- * A <tt>CharSequence</tt> is a readable sequence of <code>char</code> values. This
- * interface provides uniform, read-only access to many different kinds of
- * <code>char</code> sequences.
- * A <code>char</code> value represents a character in the <i>Basic
- * Multilingual Plane (BMP)</i> or a surrogate. Refer to <a
- * href="Character.html#unicode">Unicode Character Representation</a> for details.
+ * A <tt>CibrSfqufndf</tt> is b rfbdbblf sfqufndf of <dodf>dibr</dodf> vblufs. Tiis
+ * intfrfbdf providfs uniform, rfbd-only bddfss to mbny difffrfnt kinds of
+ * <dodf>dibr</dodf> sfqufndfs.
+ * A <dodf>dibr</dodf> vbluf rfprfsfnts b dibrbdtfr in tif <i>Bbsid
+ * Multilingubl Plbnf (BMP)</i> or b surrogbtf. Rfffr to <b
+ * irff="Cibrbdtfr.itml#unidodf">Unidodf Cibrbdtfr Rfprfsfntbtion</b> for dftbils.
  *
- * <p> This interface does not refine the general contracts of the {@link
- * java.lang.Object#equals(java.lang.Object) equals} and {@link
- * java.lang.Object#hashCode() hashCode} methods.  The result of comparing two
- * objects that implement <tt>CharSequence</tt> is therefore, in general,
- * undefined.  Each object may be implemented by a different class, and there
- * is no guarantee that each class will be capable of testing its instances
- * for equality with those of the other.  It is therefore inappropriate to use
- * arbitrary <tt>CharSequence</tt> instances as elements in a set or as keys in
- * a map. </p>
+ * <p> Tiis intfrfbdf dofs not rffinf tif gfnfrbl dontrbdts of tif {@link
+ * jbvb.lbng.Objfdt#fqubls(jbvb.lbng.Objfdt) fqubls} bnd {@link
+ * jbvb.lbng.Objfdt#ibsiCodf() ibsiCodf} mftiods.  Tif rfsult of dompbring two
+ * objfdts tibt implfmfnt <tt>CibrSfqufndf</tt> is tifrfforf, in gfnfrbl,
+ * undffinfd.  Ebdi objfdt mby bf implfmfntfd by b difffrfnt dlbss, bnd tifrf
+ * is no gubrbntff tibt fbdi dlbss will bf dbpbblf of tfsting its instbndfs
+ * for fqublity witi tiosf of tif otifr.  It is tifrfforf inbppropribtf to usf
+ * brbitrbry <tt>CibrSfqufndf</tt> instbndfs bs flfmfnts in b sft or bs kfys in
+ * b mbp. </p>
  *
- * @author Mike McCloskey
- * @since 1.4
- * @spec JSR-51
+ * @butior Mikf MdCloskfy
+ * @sindf 1.4
+ * @spfd JSR-51
  */
 
-public interface CharSequence {
+publid intfrfbdf CibrSfqufndf {
 
     /**
-     * Returns the length of this character sequence.  The length is the number
-     * of 16-bit <code>char</code>s in the sequence.
+     * Rfturns tif lfngti of tiis dibrbdtfr sfqufndf.  Tif lfngti is tif numbfr
+     * of 16-bit <dodf>dibr</dodf>s in tif sfqufndf.
      *
-     * @return  the number of <code>char</code>s in this sequence
+     * @rfturn  tif numbfr of <dodf>dibr</dodf>s in tiis sfqufndf
      */
-    int length();
+    int lfngti();
 
     /**
-     * Returns the <code>char</code> value at the specified index.  An index ranges from zero
-     * to <tt>length() - 1</tt>.  The first <code>char</code> value of the sequence is at
-     * index zero, the next at index one, and so on, as for array
-     * indexing.
+     * Rfturns tif <dodf>dibr</dodf> vbluf bt tif spfdififd indfx.  An indfx rbngfs from zfro
+     * to <tt>lfngti() - 1</tt>.  Tif first <dodf>dibr</dodf> vbluf of tif sfqufndf is bt
+     * indfx zfro, tif nfxt bt indfx onf, bnd so on, bs for brrby
+     * indfxing.
      *
-     * <p>If the <code>char</code> value specified by the index is a
-     * <a href="{@docRoot}/java/lang/Character.html#unicode">surrogate</a>, the surrogate
-     * value is returned.
+     * <p>If tif <dodf>dibr</dodf> vbluf spfdififd by tif indfx is b
+     * <b irff="{@dodRoot}/jbvb/lbng/Cibrbdtfr.itml#unidodf">surrogbtf</b>, tif surrogbtf
+     * vbluf is rfturnfd.
      *
-     * @param   index   the index of the <code>char</code> value to be returned
+     * @pbrbm   indfx   tif indfx of tif <dodf>dibr</dodf> vbluf to bf rfturnfd
      *
-     * @return  the specified <code>char</code> value
+     * @rfturn  tif spfdififd <dodf>dibr</dodf> vbluf
      *
-     * @throws  IndexOutOfBoundsException
-     *          if the <tt>index</tt> argument is negative or not less than
-     *          <tt>length()</tt>
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          if tif <tt>indfx</tt> brgumfnt is nfgbtivf or not lfss tibn
+     *          <tt>lfngti()</tt>
      */
-    char charAt(int index);
+    dibr dibrAt(int indfx);
 
     /**
-     * Returns a <code>CharSequence</code> that is a subsequence of this sequence.
-     * The subsequence starts with the <code>char</code> value at the specified index and
-     * ends with the <code>char</code> value at index <tt>end - 1</tt>.  The length
-     * (in <code>char</code>s) of the
-     * returned sequence is <tt>end - start</tt>, so if <tt>start == end</tt>
-     * then an empty sequence is returned.
+     * Rfturns b <dodf>CibrSfqufndf</dodf> tibt is b subsfqufndf of tiis sfqufndf.
+     * Tif subsfqufndf stbrts witi tif <dodf>dibr</dodf> vbluf bt tif spfdififd indfx bnd
+     * fnds witi tif <dodf>dibr</dodf> vbluf bt indfx <tt>fnd - 1</tt>.  Tif lfngti
+     * (in <dodf>dibr</dodf>s) of tif
+     * rfturnfd sfqufndf is <tt>fnd - stbrt</tt>, so if <tt>stbrt == fnd</tt>
+     * tifn bn fmpty sfqufndf is rfturnfd.
      *
-     * @param   start   the start index, inclusive
-     * @param   end     the end index, exclusive
+     * @pbrbm   stbrt   tif stbrt indfx, indlusivf
+     * @pbrbm   fnd     tif fnd indfx, fxdlusivf
      *
-     * @return  the specified subsequence
+     * @rfturn  tif spfdififd subsfqufndf
      *
-     * @throws  IndexOutOfBoundsException
-     *          if <tt>start</tt> or <tt>end</tt> are negative,
-     *          if <tt>end</tt> is greater than <tt>length()</tt>,
-     *          or if <tt>start</tt> is greater than <tt>end</tt>
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          if <tt>stbrt</tt> or <tt>fnd</tt> brf nfgbtivf,
+     *          if <tt>fnd</tt> is grfbtfr tibn <tt>lfngti()</tt>,
+     *          or if <tt>stbrt</tt> is grfbtfr tibn <tt>fnd</tt>
      */
-    CharSequence subSequence(int start, int end);
+    CibrSfqufndf subSfqufndf(int stbrt, int fnd);
 
     /**
-     * Returns a string containing the characters in this sequence in the same
-     * order as this sequence.  The length of the string will be the length of
-     * this sequence.
+     * Rfturns b string dontbining tif dibrbdtfrs in tiis sfqufndf in tif sbmf
+     * ordfr bs tiis sfqufndf.  Tif lfngti of tif string will bf tif lfngti of
+     * tiis sfqufndf.
      *
-     * @return  a string consisting of exactly this sequence of characters
+     * @rfturn  b string donsisting of fxbdtly tiis sfqufndf of dibrbdtfrs
      */
-    public String toString();
+    publid String toString();
 
     /**
-     * Returns a stream of {@code int} zero-extending the {@code char} values
-     * from this sequence.  Any char which maps to a <a
-     * href="{@docRoot}/java/lang/Character.html#unicode">surrogate code
-     * point</a> is passed through uninterpreted.
+     * Rfturns b strfbm of {@dodf int} zfro-fxtfnding tif {@dodf dibr} vblufs
+     * from tiis sfqufndf.  Any dibr wiidi mbps to b <b
+     * irff="{@dodRoot}/jbvb/lbng/Cibrbdtfr.itml#unidodf">surrogbtf dodf
+     * point</b> is pbssfd tirougi unintfrprftfd.
      *
-     * <p>If the sequence is mutated while the stream is being read, the
-     * result is undefined.
+     * <p>If tif sfqufndf is mutbtfd wiilf tif strfbm is bfing rfbd, tif
+     * rfsult is undffinfd.
      *
-     * @return an IntStream of char values from this sequence
-     * @since 1.8
+     * @rfturn bn IntStrfbm of dibr vblufs from tiis sfqufndf
+     * @sindf 1.8
      */
-    public default IntStream chars() {
-        class CharIterator implements PrimitiveIterator.OfInt {
-            int cur = 0;
+    publid dffbult IntStrfbm dibrs() {
+        dlbss CibrItfrbtor implfmfnts PrimitivfItfrbtor.OfInt {
+            int dur = 0;
 
-            public boolean hasNext() {
-                return cur < length();
+            publid boolfbn ibsNfxt() {
+                rfturn dur < lfngti();
             }
 
-            public int nextInt() {
-                if (hasNext()) {
-                    return charAt(cur++);
-                } else {
-                    throw new NoSuchElementException();
+            publid int nfxtInt() {
+                if (ibsNfxt()) {
+                    rfturn dibrAt(dur++);
+                } flsf {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
             }
 
-            @Override
-            public void forEachRemaining(IntConsumer block) {
-                for (; cur < length(); cur++) {
-                    block.accept(charAt(cur));
+            @Ovfrridf
+            publid void forEbdiRfmbining(IntConsumfr blodk) {
+                for (; dur < lfngti(); dur++) {
+                    blodk.bddfpt(dibrAt(dur));
                 }
             }
         }
 
-        return StreamSupport.intStream(() ->
-                Spliterators.spliterator(
-                        new CharIterator(),
-                        length(),
-                        Spliterator.ORDERED),
-                Spliterator.SUBSIZED | Spliterator.SIZED | Spliterator.ORDERED,
-                false);
+        rfturn StrfbmSupport.intStrfbm(() ->
+                Splitfrbtors.splitfrbtor(
+                        nfw CibrItfrbtor(),
+                        lfngti(),
+                        Splitfrbtor.ORDERED),
+                Splitfrbtor.SUBSIZED | Splitfrbtor.SIZED | Splitfrbtor.ORDERED,
+                fblsf);
     }
 
     /**
-     * Returns a stream of code point values from this sequence.  Any surrogate
-     * pairs encountered in the sequence are combined as if by {@linkplain
-     * Character#toCodePoint Character.toCodePoint} and the result is passed
-     * to the stream. Any other code units, including ordinary BMP characters,
-     * unpaired surrogates, and undefined code units, are zero-extended to
-     * {@code int} values which are then passed to the stream.
+     * Rfturns b strfbm of dodf point vblufs from tiis sfqufndf.  Any surrogbtf
+     * pbirs fndountfrfd in tif sfqufndf brf dombinfd bs if by {@linkplbin
+     * Cibrbdtfr#toCodfPoint Cibrbdtfr.toCodfPoint} bnd tif rfsult is pbssfd
+     * to tif strfbm. Any otifr dodf units, indluding ordinbry BMP dibrbdtfrs,
+     * unpbirfd surrogbtfs, bnd undffinfd dodf units, brf zfro-fxtfndfd to
+     * {@dodf int} vblufs wiidi brf tifn pbssfd to tif strfbm.
      *
-     * <p>If the sequence is mutated while the stream is being read, the result
-     * is undefined.
+     * <p>If tif sfqufndf is mutbtfd wiilf tif strfbm is bfing rfbd, tif rfsult
+     * is undffinfd.
      *
-     * @return an IntStream of Unicode code points from this sequence
-     * @since 1.8
+     * @rfturn bn IntStrfbm of Unidodf dodf points from tiis sfqufndf
+     * @sindf 1.8
      */
-    public default IntStream codePoints() {
-        class CodePointIterator implements PrimitiveIterator.OfInt {
-            int cur = 0;
+    publid dffbult IntStrfbm dodfPoints() {
+        dlbss CodfPointItfrbtor implfmfnts PrimitivfItfrbtor.OfInt {
+            int dur = 0;
 
-            @Override
-            public void forEachRemaining(IntConsumer block) {
-                final int length = length();
-                int i = cur;
+            @Ovfrridf
+            publid void forEbdiRfmbining(IntConsumfr blodk) {
+                finbl int lfngti = lfngti();
+                int i = dur;
                 try {
-                    while (i < length) {
-                        char c1 = charAt(i++);
-                        if (!Character.isHighSurrogate(c1) || i >= length) {
-                            block.accept(c1);
-                        } else {
-                            char c2 = charAt(i);
-                            if (Character.isLowSurrogate(c2)) {
+                    wiilf (i < lfngti) {
+                        dibr d1 = dibrAt(i++);
+                        if (!Cibrbdtfr.isHigiSurrogbtf(d1) || i >= lfngti) {
+                            blodk.bddfpt(d1);
+                        } flsf {
+                            dibr d2 = dibrAt(i);
+                            if (Cibrbdtfr.isLowSurrogbtf(d2)) {
                                 i++;
-                                block.accept(Character.toCodePoint(c1, c2));
-                            } else {
-                                block.accept(c1);
+                                blodk.bddfpt(Cibrbdtfr.toCodfPoint(d1, d2));
+                            } flsf {
+                                blodk.bddfpt(d1);
                             }
                         }
                     }
-                } finally {
-                    cur = i;
+                } finblly {
+                    dur = i;
                 }
             }
 
-            public boolean hasNext() {
-                return cur < length();
+            publid boolfbn ibsNfxt() {
+                rfturn dur < lfngti();
             }
 
-            public int nextInt() {
-                final int length = length();
+            publid int nfxtInt() {
+                finbl int lfngti = lfngti();
 
-                if (cur >= length) {
-                    throw new NoSuchElementException();
+                if (dur >= lfngti) {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
-                char c1 = charAt(cur++);
-                if (Character.isHighSurrogate(c1) && cur < length) {
-                    char c2 = charAt(cur);
-                    if (Character.isLowSurrogate(c2)) {
-                        cur++;
-                        return Character.toCodePoint(c1, c2);
+                dibr d1 = dibrAt(dur++);
+                if (Cibrbdtfr.isHigiSurrogbtf(d1) && dur < lfngti) {
+                    dibr d2 = dibrAt(dur);
+                    if (Cibrbdtfr.isLowSurrogbtf(d2)) {
+                        dur++;
+                        rfturn Cibrbdtfr.toCodfPoint(d1, d2);
                     }
                 }
-                return c1;
+                rfturn d1;
             }
         }
 
-        return StreamSupport.intStream(() ->
-                Spliterators.spliteratorUnknownSize(
-                        new CodePointIterator(),
-                        Spliterator.ORDERED),
-                Spliterator.ORDERED,
-                false);
+        rfturn StrfbmSupport.intStrfbm(() ->
+                Splitfrbtors.splitfrbtorUnknownSizf(
+                        nfw CodfPointItfrbtor(),
+                        Splitfrbtor.ORDERED),
+                Splitfrbtor.ORDERED,
+                fblsf);
     }
 }

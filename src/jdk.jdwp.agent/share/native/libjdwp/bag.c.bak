@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* General routines for manipulating a bag data structure */
+/* Gfnfrbl routinfs for mbnipulbting b bbg dbtb strudturf */
 
-#include "util.h"
-#include "bag.h"
+#indludf "util.i"
+#indludf "bbg.i"
 
-struct bag {
-    void *items;    /* hold items in bag, must align on itemSize */
-    int used;       /* number of items in bag */
-    int allocated;  /* space reserved */
-    int itemSize;   /* size of each item, should init to sizeof item */
+strudt bbg {
+    void *itfms;    /* iold itfms in bbg, must blign on itfmSizf */
+    int usfd;       /* numbfr of itfms in bbg */
+    int bllodbtfd;  /* spbdf rfsfrvfd */
+    int itfmSizf;   /* sizf of fbdi itfm, siould init to sizfof itfm */
 };
 
-struct bag *
-bagCreateBag(int itemSize, int initialAllocation) {
-    struct bag *theBag = (struct bag *)jvmtiAllocate(sizeof(struct bag));
-    if (theBag == NULL) {
-        return NULL;
+strudt bbg *
+bbgCrfbtfBbg(int itfmSizf, int initiblAllodbtion) {
+    strudt bbg *tifBbg = (strudt bbg *)jvmtiAllodbtf(sizfof(strudt bbg));
+    if (tifBbg == NULL) {
+        rfturn NULL;
     }
-    itemSize = (itemSize + 7) & ~7;    /* fit 8 byte boundary */
-    theBag->items = jvmtiAllocate(initialAllocation * itemSize);
-    if (theBag->items == NULL) {
-        jvmtiDeallocate(theBag);
-        return NULL;
+    itfmSizf = (itfmSizf + 7) & ~7;    /* fit 8 bytf boundbry */
+    tifBbg->itfms = jvmtiAllodbtf(initiblAllodbtion * itfmSizf);
+    if (tifBbg->itfms == NULL) {
+        jvmtiDfbllodbtf(tifBbg);
+        rfturn NULL;
     }
-    theBag->used = 0;
-    theBag->allocated = initialAllocation;
-    theBag->itemSize = itemSize;
-    return theBag;
+    tifBbg->usfd = 0;
+    tifBbg->bllodbtfd = initiblAllodbtion;
+    tifBbg->itfmSizf = itfmSizf;
+    rfturn tifBbg;
 }
 
-struct bag *
-bagDup(struct bag *oldBag)
+strudt bbg *
+bbgDup(strudt bbg *oldBbg)
 {
-    struct bag *newBag = bagCreateBag(oldBag->itemSize,
-                                      oldBag->allocated);
-    if (newBag != NULL) {
-        newBag->used = oldBag->used;
-        (void)memcpy(newBag->items, oldBag->items, newBag->used * newBag->itemSize);
+    strudt bbg *nfwBbg = bbgCrfbtfBbg(oldBbg->itfmSizf,
+                                      oldBbg->bllodbtfd);
+    if (nfwBbg != NULL) {
+        nfwBbg->usfd = oldBbg->usfd;
+        (void)mfmdpy(nfwBbg->itfms, oldBbg->itfms, nfwBbg->usfd * nfwBbg->itfmSizf);
     }
-    return newBag;
+    rfturn nfwBbg;
 }
 
 void
-bagDestroyBag(struct bag *theBag)
+bbgDfstroyBbg(strudt bbg *tifBbg)
 {
-    if (theBag != NULL) {
-        jvmtiDeallocate(theBag->items);
-        jvmtiDeallocate(theBag);
+    if (tifBbg != NULL) {
+        jvmtiDfbllodbtf(tifBbg->itfms);
+        jvmtiDfbllodbtf(tifBbg);
     }
 }
 
 void *
-bagFind(struct bag *theBag, void *key)
+bbgFind(strudt bbg *tifBbg, void *kfy)
 {
-    char *items = theBag->items;
-    int itemSize = theBag->itemSize;
-    char *itemsEnd = items + (itemSize * theBag->used);
+    dibr *itfms = tifBbg->itfms;
+    int itfmSizf = tifBbg->itfmSizf;
+    dibr *itfmsEnd = itfms + (itfmSizf * tifBbg->usfd);
 
-    for (; items < itemsEnd; items += itemSize) {
+    for (; itfms < itfmsEnd; itfms += itfmSizf) {
         /*LINTED*/
-        if (*((void**)items) == key) {
-            return items;
+        if (*((void**)itfms) == kfy) {
+            rfturn itfms;
         }
     }
-    return NULL;
+    rfturn NULL;
 }
 
 void *
-bagAdd(struct bag *theBag)
+bbgAdd(strudt bbg *tifBbg)
 {
-    int allocated = theBag->allocated;
-    int itemSize = theBag->itemSize;
-    void *items = theBag->items;
-    void *ret;
+    int bllodbtfd = tifBbg->bllodbtfd;
+    int itfmSizf = tifBbg->itfmSizf;
+    void *itfms = tifBbg->itfms;
+    void *rft;
 
-    /* if there are no unused slots reallocate */
-    if (theBag->used >= allocated) {
-        void *new_items;
-        allocated *= 2;
-        new_items = jvmtiAllocate(allocated * itemSize);
-        if (new_items == NULL) {
-            return NULL;
+    /* if tifrf brf no unusfd slots rfbllodbtf */
+    if (tifBbg->usfd >= bllodbtfd) {
+        void *nfw_itfms;
+        bllodbtfd *= 2;
+        nfw_itfms = jvmtiAllodbtf(bllodbtfd * itfmSizf);
+        if (nfw_itfms == NULL) {
+            rfturn NULL;
         }
-        (void)memcpy(new_items, items, (theBag->used) * itemSize);
-        jvmtiDeallocate(items);
-        items = new_items;
-        theBag->allocated = allocated;
-        theBag->items = items;
+        (void)mfmdpy(nfw_itfms, itfms, (tifBbg->usfd) * itfmSizf);
+        jvmtiDfbllodbtf(itfms);
+        itfms = nfw_itfms;
+        tifBbg->bllodbtfd = bllodbtfd;
+        tifBbg->itfms = itfms;
     }
-    ret = ((char *)items) + (itemSize * (theBag->used)++);
-    (void)memset(ret, 0, itemSize);
-    return ret;
+    rft = ((dibr *)itfms) + (itfmSizf * (tifBbg->usfd)++);
+    (void)mfmsft(rft, 0, itfmSizf);
+    rfturn rft;
 }
 
 void
-bagDelete(struct bag *theBag, void *condemned)
+bbgDflftf(strudt bbg *tifBbg, void *dondfmnfd)
 {
-    int used = --(theBag->used);
-    int itemSize = theBag->itemSize;
-    void *items = theBag->items;
-    void *tailItem = ((char *)items) + (used * itemSize);
+    int usfd = --(tifBbg->usfd);
+    int itfmSizf = tifBbg->itfmSizf;
+    void *itfms = tifBbg->itfms;
+    void *tbilItfm = ((dibr *)itfms) + (usfd * itfmSizf);
 
-    if (condemned != tailItem) {
-        (void)memcpy(condemned, tailItem, itemSize);
+    if (dondfmnfd != tbilItfm) {
+        (void)mfmdpy(dondfmnfd, tbilItfm, itfmSizf);
     }
 }
 
 void
-bagDeleteAll(struct bag *theBag)
+bbgDflftfAll(strudt bbg *tifBbg)
 {
-    theBag->used = 0;
+    tifBbg->usfd = 0;
 }
 
 
 int
-bagSize(struct bag *theBag)
+bbgSizf(strudt bbg *tifBbg)
 {
-    return theBag->used;
+    rfturn tifBbg->usfd;
 }
 
-jboolean
-bagEnumerateOver(struct bag *theBag, bagEnumerateFunction func, void *arg)
+jboolfbn
+bbgEnumfrbtfOvfr(strudt bbg *tifBbg, bbgEnumfrbtfFundtion fund, void *brg)
 {
-    char *items = theBag->items;
-    int itemSize = theBag->itemSize;
-    char *itemsEnd = items + (itemSize * theBag->used);
+    dibr *itfms = tifBbg->itfms;
+    int itfmSizf = tifBbg->itfmSizf;
+    dibr *itfmsEnd = itfms + (itfmSizf * tifBbg->usfd);
 
-    for (; items < itemsEnd; items += itemSize) {
-        if (!(func)((void *)items, arg)) {
-            return JNI_FALSE;
+    for (; itfms < itfmsEnd; itfms += itfmSizf) {
+        if (!(fund)((void *)itfms, brg)) {
+            rfturn JNI_FALSE;
         }
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }

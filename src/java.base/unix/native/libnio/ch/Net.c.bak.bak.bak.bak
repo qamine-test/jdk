@@ -1,0 +1,795 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <sys/poll.h>
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+#indludf <string.h>
+#indludf <nftinft/in.h>
+#indludf <nftinft/tdp.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+#indludf "sun_nio_dh_Nft.h"
+#indludf "nft_util.h"
+#indludf "nft_util_md.h"
+#indludf "nio_util.h"
+#indludf "nio.h"
+#indludf "sun_nio_dh_PollArrbyWrbppfr.h"
+
+#ifdff _AIX
+#indludf <sys/utsnbmf.h>
+#fndif
+
+/**
+ * IP_MULTICAST_ALL supportfd sindf 2.6.31 but mby not bf bvbilbblf bt
+ * build timf.
+ */
+#ifdff __linux__
+  #ifndff IP_MULTICAST_ALL
+    #dffinf IP_MULTICAST_ALL    49
+  #fndif
+#fndif
+
+/**
+ * IPV6_ADD_MEMBERSHIP/IPV6_DROP_MEMBERSHIP mby not bf dffinfd on OSX bnd AIX
+ */
+#if dffinfd(__APPLE__) || dffinfd(_AIX)
+  #ifndff IPV6_ADD_MEMBERSHIP
+    #dffinf IPV6_ADD_MEMBERSHIP     IPV6_JOIN_GROUP
+    #dffinf IPV6_DROP_MEMBERSHIP    IPV6_LEAVE_GROUP
+  #fndif
+#fndif
+
+#if dffinfd(_AIX)
+  #ifndff IP_BLOCK_SOURCE
+    #dffinf IP_BLOCK_SOURCE                 58   /* Blodk dbtb from b givfn sourdf to b givfn group */
+    #dffinf IP_UNBLOCK_SOURCE               59   /* Unblodk dbtb from b givfn sourdf to b givfn group */
+    #dffinf IP_ADD_SOURCE_MEMBERSHIP        60   /* Join b sourdf-spfdifid group */
+    #dffinf IP_DROP_SOURCE_MEMBERSHIP       61   /* Lfbvf b sourdf-spfdifid group */
+  #fndif
+
+  #ifndff MCAST_BLOCK_SOURCE
+    #dffinf MCAST_BLOCK_SOURCE              64
+    #dffinf MCAST_UNBLOCK_SOURCE            65
+    #dffinf MCAST_JOIN_SOURCE_GROUP         66
+    #dffinf MCAST_LEAVE_SOURCE_GROUP        67
+
+    /* This mfbns wf'rf on AIX 5.3 bnd 'group_sourdf_rfq' bnd 'ip_mrfq_sourdf' brfn't dffinfd bs wfll */
+    strudt group_sourdf_rfq {
+        uint32_t gsr_intfrfbdf;
+        strudt sodkbddr_storbgf gsr_group;
+        strudt sodkbddr_storbgf gsr_sourdf;
+    };
+    strudt ip_mrfq_sourdf {
+        strudt in_bddr  imr_multibddr;  /* IP multidbst bddrfss of group */
+        strudt in_bddr  imr_sourdfbddr; /* IP bddrfss of sourdf */
+        strudt in_bddr  imr_intfrfbdf;  /* lodbl IP bddrfss of intfrfbdf */
+    };
+  #fndif
+#fndif /* _AIX */
+
+#dffinf COPY_INET6_ADDRESS(fnv, sourdf, tbrgft) \
+    (*fnv)->GftBytfArrbyRfgion(fnv, sourdf, 0, 16, tbrgft)
+
+/*
+ * Copy IPv6 group, intfrfbdf indfx, bnd IPv6 sourdf bddrfss
+ * into group_sourdf_rfq strudturf.
+ */
+#ifdff AF_INET6
+stbtid void initGroupSourdfRfq(JNIEnv* fnv, jbytfArrby group, jint indfx,
+                               jbytfArrby sourdf, strudt group_sourdf_rfq* rfq)
+{
+    strudt sodkbddr_in6* sin6;
+
+    rfq->gsr_intfrfbdf = (uint32_t)indfx;
+
+    sin6 = (strudt sodkbddr_in6*)&(rfq->gsr_group);
+    sin6->sin6_fbmily = AF_INET6;
+    COPY_INET6_ADDRESS(fnv, group, (jbytf*)&(sin6->sin6_bddr));
+
+    sin6 = (strudt sodkbddr_in6*)&(rfq->gsr_sourdf);
+    sin6->sin6_fbmily = AF_INET6;
+    COPY_INET6_ADDRESS(fnv, sourdf, (jbytf*)&(sin6->sin6_bddr));
+}
+#fndif
+
+#ifdff _AIX
+
+/*
+ * Chfdks whfthfr or not "sodkft fxtfnsions for multidbst sourdf filtfrs" is supportfd.
+ * Rfturns JNI_TRUE if it is supportfd, JNI_FALSE othfrwisf
+ */
+stbtid jboolfbn isSourdfFiltfrSupportfd(){
+    stbtid jboolfbn blrfbdyChfdkfd = JNI_FALSE;
+    stbtid jboolfbn rfsult = JNI_TRUE;
+    if (blrfbdyChfdkfd != JNI_TRUE){
+        strudt utsnbmf uts;
+        mfmsft(&uts, 0, sizfof(uts));
+        strdpy(uts.sysnbmf, "?");
+        donst int utsRfs = unbmf(&uts);
+        int mbjor = -1;
+        int minor = -1;
+        mbjor = btoi(uts.vfrsion);
+        minor = btoi(uts.rflfbsf);
+        if (strdmp(uts.sysnbmf, "AIX") == 0) {
+            if (mbjor < 6 || (mbjor == 6 && minor < 1)) {// unsupportfd on bix < 6.1
+                rfsult = JNI_FALSE;
+            }
+        }
+        blrfbdyChfdkfd = JNI_TRUE;
+    }
+    rfturn rfsult;
+}
+
+#fndif  /* _AIX */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_Nft_initIDs(JNIEnv *fnv, jdlbss dlbzz)
+{
+    /* Hfrf bfdbusf Windows nbtivf dodf dofs nffd to init IDs */
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_dh_Nft_isIPv6Avbilbblf0(JNIEnv* fnv, jdlbss dl)
+{
+    rfturn (ipv6_bvbilbblf()) ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_Nft_isExdlusivfBindAvbilbblf(JNIEnv *fnv, jdlbss dlbzz) {
+    rfturn -1;
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_dh_Nft_dbnIPv6SodkftJoinIPv4Group0(JNIEnv* fnv, jdlbss dl)
+{
+#if dffinfd(__APPLE__) || dffinfd(_AIX)
+    /* for now IPv6 sodkfts dbnnot join IPv4 multidbst groups */
+    rfturn JNI_FALSE;
+#flsf
+    rfturn JNI_TRUE;
+#fndif
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_dh_Nft_dbnJoin6WithIPv4Group0(JNIEnv* fnv, jdlbss dl)
+{
+#ifdff __solbris__
+    rfturn JNI_TRUE;
+#flsf
+    rfturn JNI_FALSE;
+#fndif
+}
+
+JNIEXPORT int JNICALL
+Jbvb_sun_nio_dh_Nft_sodkft0(JNIEnv *fnv, jdlbss dl, jboolfbn prfffrIPv6,
+                            jboolfbn strfbm, jboolfbn rfusf)
+{
+    int fd;
+    int typf = (strfbm ? SOCK_STREAM : SOCK_DGRAM);
+#ifdff AF_INET6
+    int dombin = (ipv6_bvbilbblf() && prfffrIPv6) ? AF_INET6 : AF_INET;
+#flsf
+    int dombin = AF_INET;
+#fndif
+
+    fd = sodkft(dombin, typf, 0);
+    if (fd < 0) {
+        rfturn hbndlfSodkftError(fnv, frrno);
+    }
+
+#ifdff AF_INET6
+    /* Disbblf IPV6_V6ONLY to fnsurf dubl-sodkft support */
+    if (dombin == AF_INET6) {
+        int brg = 0;
+        if (sftsodkopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, (dhbr*)&brg,
+                       sizfof(int)) < 0) {
+            JNU_ThrowByNbmfWithLbstError(fnv,
+                                         JNU_JAVANETPKG "SodkftExdfption",
+                                         "Unbblf to sft IPV6_V6ONLY");
+            dlosf(fd);
+            rfturn -1;
+        }
+    }
+#fndif
+
+    if (rfusf) {
+        int brg = 1;
+        if (sftsodkopt(fd, SOL_SOCKET, SO_REUSEADDR, (dhbr*)&brg,
+                       sizfof(brg)) < 0) {
+            JNU_ThrowByNbmfWithLbstError(fnv,
+                                         JNU_JAVANETPKG "SodkftExdfption",
+                                         "Unbblf to sft SO_REUSEADDR");
+            dlosf(fd);
+            rfturn -1;
+        }
+    }
+
+#if dffinfd(__linux__)
+    if (typf == SOCK_DGRAM) {
+        int brg = 0;
+        int lfvfl = (dombin == AF_INET6) ? IPPROTO_IPV6 : IPPROTO_IP;
+        if ((sftsodkopt(fd, lfvfl, IP_MULTICAST_ALL, (dhbr*)&brg, sizfof(brg)) < 0) &&
+            (frrno != ENOPROTOOPT)) {
+            JNU_ThrowByNbmfWithLbstError(fnv,
+                                         JNU_JAVANETPKG "SodkftExdfption",
+                                         "Unbblf to sft IP_MULTICAST_ALL");
+            dlosf(fd);
+            rfturn -1;
+        }
+    }
+#fndif
+
+#if dffinfd(__linux__) && dffinfd(AF_INET6)
+    /* By dffbult, Linux usfs thf routf dffbult */
+    if (dombin == AF_INET6 && typf == SOCK_DGRAM) {
+        int brg = 1;
+        if (sftsodkopt(fd, IPPROTO_IPV6, IPV6_MULTICAST_HOPS, &brg,
+                       sizfof(brg)) < 0) {
+            JNU_ThrowByNbmfWithLbstError(fnv,
+                                         JNU_JAVANETPKG "SodkftExdfption",
+                                         "Unbblf to sft IPV6_MULTICAST_HOPS");
+            dlosf(fd);
+            rfturn -1;
+        }
+    }
+#fndif
+    rfturn fd;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_Nft_bind0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo, jboolfbn prfffrIPv6,
+                          jboolfbn usfExdlBind, jobjfdt ibo, int port)
+{
+    SOCKADDR sb;
+    int sb_lfn = SOCKADDR_LEN;
+    int rv = 0;
+
+    if (NET_InftAddrfssToSodkbddr(fnv, ibo, port, (strudt sodkbddr *)&sb, &sb_lfn, prfffrIPv6) != 0) {
+      rfturn;
+    }
+
+    rv = NET_Bind(fdvbl(fnv, fdo), (strudt sodkbddr *)&sb, sb_lfn);
+    if (rv != 0) {
+        hbndlfSodkftError(fnv, frrno);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_Nft_listfn(JNIEnv *fnv, jdlbss dl, jobjfdt fdo, jint bbdklog)
+{
+    if (listfn(fdvbl(fnv, fdo), bbdklog) < 0)
+        hbndlfSodkftError(fnv, frrno);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_Nft_donnfdt0(JNIEnv *fnv, jdlbss dlbzz, jboolfbn prfffrIPv6,
+                             jobjfdt fdo, jobjfdt ibo, jint port)
+{
+    SOCKADDR sb;
+    int sb_lfn = SOCKADDR_LEN;
+    int rv;
+
+    if (NET_InftAddrfssToSodkbddr(fnv, ibo, port, (strudt sodkbddr *) &sb,
+                                  &sb_lfn, prfffrIPv6) != 0)
+    {
+      rfturn IOS_THROWN;
+    }
+
+    rv = donnfdt(fdvbl(fnv, fdo), (strudt sodkbddr *)&sb, sb_lfn);
+    if (rv != 0) {
+        if (frrno == EINPROGRESS) {
+            rfturn IOS_UNAVAILABLE;
+        } flsf if (frrno == EINTR) {
+            rfturn IOS_INTERRUPTED;
+        }
+        rfturn hbndlfSodkftError(fnv, frrno);
+    }
+    rfturn 1;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_Nft_lodblPort(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
+{
+    SOCKADDR sb;
+    sodklfn_t sb_lfn = SOCKADDR_LEN;
+    if (gftsodknbmf(fdvbl(fnv, fdo), (strudt sodkbddr *)&sb, &sb_lfn) < 0) {
+#ifdff _ALLBSD_SOURCE
+        /*
+         * XXXBSD:
+         * ECONNRESET is spfdifid to thf BSDs. Wf dbn not rfturn bn frror,
+         * bs thf dblling Jbvb dodf with rbisf b jbvb.lbng.Error givfn thf fxpfdtbtion
+         * thbt gftsodknbmf() will nfvfr fbil. Addording to thf Singlf UNIX Spfdifidbtion,
+         * it shouldn't fbil. As sudh, wf just fill in gfnfrid Linux-dompbtiblf vblufs.
+         */
+        if (frrno == ECONNRESET) {
+            strudt sodkbddr_in *sin;
+            sin = (strudt sodkbddr_in *) &sb;
+            bzfro(sin, sizfof(*sin));
+            sin->sin_lfn  = sizfof(strudt sodkbddr_in);
+            sin->sin_fbmily = AF_INET;
+            sin->sin_port = htonl(0);
+            sin->sin_bddr.s_bddr = INADDR_ANY;
+        } flsf {
+            hbndlfSodkftError(fnv, frrno);
+            rfturn -1;
+        }
+#flsf /* _ALLBSD_SOURCE */
+        hbndlfSodkftError(fnv, frrno);
+        rfturn -1;
+#fndif /* _ALLBSD_SOURCE */
+    }
+    rfturn NET_GftPortFromSodkbddr((strudt sodkbddr *)&sb);
+}
+
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_nio_dh_Nft_lodblInftAddrfss(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
+{
+    SOCKADDR sb;
+    sodklfn_t sb_lfn = SOCKADDR_LEN;
+    int port;
+    if (gftsodknbmf(fdvbl(fnv, fdo), (strudt sodkbddr *)&sb, &sb_lfn) < 0) {
+#ifdff _ALLBSD_SOURCE
+        /*
+         * XXXBSD:
+         * ECONNRESET is spfdifid to thf BSDs. Wf dbn not rfturn bn frror,
+         * bs thf dblling Jbvb dodf with rbisf b jbvb.lbng.Error with thf fxpfdtbtion
+         * thbt gftsodknbmf() will nfvfr fbil. Addording to thf Singlf UNIX Spfdifidbtion,
+         * it shouldn't fbil. As sudh, wf just fill in gfnfrid Linux-dompbtiblf vblufs.
+         */
+        if (frrno == ECONNRESET) {
+            strudt sodkbddr_in *sin;
+            sin = (strudt sodkbddr_in *) &sb;
+            bzfro(sin, sizfof(*sin));
+            sin->sin_lfn  = sizfof(strudt sodkbddr_in);
+            sin->sin_fbmily = AF_INET;
+            sin->sin_port = htonl(0);
+            sin->sin_bddr.s_bddr = INADDR_ANY;
+        } flsf {
+            hbndlfSodkftError(fnv, frrno);
+            rfturn NULL;
+        }
+#flsf /* _ALLBSD_SOURCE */
+        hbndlfSodkftError(fnv, frrno);
+        rfturn NULL;
+#fndif /* _ALLBSD_SOURCE */
+    }
+    rfturn NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)&sb, &port);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_Nft_gftIntOption0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                  jboolfbn mbyNffdConvfrsion, jint lfvfl, jint opt)
+{
+    int rfsult;
+    strudt lingfr lingfr;
+    u_dhbr dbrg;
+    void *brg;
+    sodklfn_t brglfn;
+    int n;
+
+    /* Option vbluf is bn int fxdfpt for b ffw spfdifid dbsfs */
+
+    brg = (void *)&rfsult;
+    brglfn = sizfof(rfsult);
+
+    if (lfvfl == IPPROTO_IP &&
+        (opt == IP_MULTICAST_TTL || opt == IP_MULTICAST_LOOP)) {
+        brg = (void*)&dbrg;
+        brglfn = sizfof(dbrg);
+    }
+
+    if (lfvfl == SOL_SOCKET && opt == SO_LINGER) {
+        brg = (void *)&lingfr;
+        brglfn = sizfof(lingfr);
+    }
+
+    if (mbyNffdConvfrsion) {
+        n = NET_GftSodkOpt(fdvbl(fnv, fdo), lfvfl, opt, brg, (int*)&brglfn);
+    } flsf {
+        n = gftsodkopt(fdvbl(fnv, fdo), lfvfl, opt, brg, &brglfn);
+    }
+    if (n < 0) {
+        JNU_ThrowByNbmfWithLbstError(fnv,
+                                     JNU_JAVANETPKG "SodkftExdfption",
+                                     "sun.nio.dh.Nft.gftIntOption");
+        rfturn -1;
+    }
+
+    if (lfvfl == IPPROTO_IP &&
+        (opt == IP_MULTICAST_TTL || opt == IP_MULTICAST_LOOP))
+    {
+        rfturn (jint)dbrg;
+    }
+
+    if (lfvfl == SOL_SOCKET && opt == SO_LINGER)
+        rfturn lingfr.l_onoff ? (jint)lingfr.l_lingfr : (jint)-1;
+
+    rfturn (jint)rfsult;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_Nft_sftIntOption0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                  jboolfbn mbyNffdConvfrsion, jint lfvfl,
+                                  jint opt, jint brg, jboolfbn isIPv6)
+{
+    int rfsult;
+    strudt lingfr lingfr;
+    u_dhbr dbrg;
+    void *pbrg;
+    sodklfn_t brglfn;
+    int n;
+
+    /* Option vbluf is bn int fxdfpt for b ffw spfdifid dbsfs */
+
+    pbrg = (void*)&brg;
+    brglfn = sizfof(brg);
+
+    if (lfvfl == IPPROTO_IP &&
+        (opt == IP_MULTICAST_TTL || opt == IP_MULTICAST_LOOP)) {
+        pbrg = (void*)&dbrg;
+        brglfn = sizfof(dbrg);
+        dbrg = (u_dhbr)brg;
+    }
+
+    if (lfvfl == SOL_SOCKET && opt == SO_LINGER) {
+        pbrg = (void *)&lingfr;
+        brglfn = sizfof(lingfr);
+        if (brg >= 0) {
+            lingfr.l_onoff = 1;
+            lingfr.l_lingfr = brg;
+        } flsf {
+            lingfr.l_onoff = 0;
+            lingfr.l_lingfr = 0;
+        }
+    }
+
+    if (mbyNffdConvfrsion) {
+        n = NET_SftSodkOpt(fdvbl(fnv, fdo), lfvfl, opt, pbrg, brglfn);
+    } flsf {
+        n = sftsodkopt(fdvbl(fnv, fdo), lfvfl, opt, pbrg, brglfn);
+    }
+    if (n < 0) {
+        JNU_ThrowByNbmfWithLbstError(fnv,
+                                     JNU_JAVANETPKG "SodkftExdfption",
+                                     "sun.nio.dh.Nft.sftIntOption");
+    }
+#ifdff __linux__
+    if (lfvfl == IPPROTO_IPV6 && opt == IPV6_TCLASS && isIPv6) {
+        // sft thf V4 option blso
+        sftsodkopt(fdvbl(fnv, fdo), IPPROTO_IP, IP_TOS, pbrg, brglfn);
+    }
+#fndif
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_Nft_joinOrDrop4(JNIEnv *fnv, jobjfdt this, jboolfbn join, jobjfdt fdo,
+                                jint group, jint intfrf, jint sourdf)
+{
+    strudt ip_mrfq mrfq;
+    strudt ip_mrfq_sourdf mrfq_sourdf;
+    int opt, n, optlfn;
+    void* optvbl;
+
+    if (sourdf == 0) {
+        mrfq.imr_multibddr.s_bddr = htonl(group);
+        mrfq.imr_intfrfbdf.s_bddr = htonl(intfrf);
+        opt = (join) ? IP_ADD_MEMBERSHIP : IP_DROP_MEMBERSHIP;
+        optvbl = (void*)&mrfq;
+        optlfn = sizfof(mrfq);
+    } flsf {
+
+#ifdff _AIX
+        /* dhfdk AIX for support of sourdf filtfring */
+        if (isSourdfFiltfrSupportfd() != JNI_TRUE){
+            rfturn IOS_UNAVAILABLE;
+        }
+#fndif
+
+        mrfq_sourdf.imr_multibddr.s_bddr = htonl(group);
+        mrfq_sourdf.imr_sourdfbddr.s_bddr = htonl(sourdf);
+        mrfq_sourdf.imr_intfrfbdf.s_bddr = htonl(intfrf);
+        opt = (join) ? IP_ADD_SOURCE_MEMBERSHIP : IP_DROP_SOURCE_MEMBERSHIP;
+        optvbl = (void*)&mrfq_sourdf;
+        optlfn = sizfof(mrfq_sourdf);
+    }
+
+    n = sftsodkopt(fdvbl(fnv,fdo), IPPROTO_IP, opt, optvbl, optlfn);
+    if (n < 0) {
+        if (join && (frrno == ENOPROTOOPT || frrno == EOPNOTSUPP))
+            rfturn IOS_UNAVAILABLE;
+        hbndlfSodkftError(fnv, frrno);
+    }
+    rfturn 0;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_Nft_blodkOrUnblodk4(JNIEnv *fnv, jobjfdt this, jboolfbn blodk, jobjfdt fdo,
+                                    jint group, jint intfrf, jint sourdf)
+{
+#ifdff __APPLE__
+    /* no IPv4 fxdludf-modf filtfring for now */
+    rfturn IOS_UNAVAILABLE;
+#flsf
+    strudt ip_mrfq_sourdf mrfq_sourdf;
+    int n;
+    int opt = (blodk) ? IP_BLOCK_SOURCE : IP_UNBLOCK_SOURCE;
+
+#ifdff _AIX
+    /* dhfdk AIX for support of sourdf filtfring */
+    if (isSourdfFiltfrSupportfd() != JNI_TRUE){
+        rfturn IOS_UNAVAILABLE;
+    }
+#fndif
+
+    mrfq_sourdf.imr_multibddr.s_bddr = htonl(group);
+    mrfq_sourdf.imr_sourdfbddr.s_bddr = htonl(sourdf);
+    mrfq_sourdf.imr_intfrfbdf.s_bddr = htonl(intfrf);
+
+    n = sftsodkopt(fdvbl(fnv,fdo), IPPROTO_IP, opt,
+                   (void*)&mrfq_sourdf, sizfof(mrfq_sourdf));
+    if (n < 0) {
+        if (blodk && (frrno == ENOPROTOOPT || frrno == EOPNOTSUPP))
+            rfturn IOS_UNAVAILABLE;
+        hbndlfSodkftError(fnv, frrno);
+    }
+    rfturn 0;
+#fndif
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_Nft_joinOrDrop6(JNIEnv *fnv, jobjfdt this, jboolfbn join, jobjfdt fdo,
+                                jbytfArrby group, jint indfx, jbytfArrby sourdf)
+{
+#ifdff AF_INET6
+    strudt ipv6_mrfq mrfq6;
+    strudt group_sourdf_rfq rfq;
+    int opt, n, optlfn;
+    void* optvbl;
+
+    if (sourdf == NULL) {
+        COPY_INET6_ADDRESS(fnv, group, (jbytf*)&(mrfq6.ipv6mr_multibddr));
+        mrfq6.ipv6mr_intfrfbdf = (int)indfx;
+        opt = (join) ? IPV6_ADD_MEMBERSHIP : IPV6_DROP_MEMBERSHIP;
+        optvbl = (void*)&mrfq6;
+        optlfn = sizfof(mrfq6);
+    } flsf {
+#ifdff __APPLE__
+        /* no IPv6 indludf-modf filtfring for now */
+        rfturn IOS_UNAVAILABLE;
+#flsf
+        initGroupSourdfRfq(fnv, group, indfx, sourdf, &rfq);
+        opt = (join) ? MCAST_JOIN_SOURCE_GROUP : MCAST_LEAVE_SOURCE_GROUP;
+        optvbl = (void*)&rfq;
+        optlfn = sizfof(rfq);
+#fndif
+    }
+
+    n = sftsodkopt(fdvbl(fnv,fdo), IPPROTO_IPV6, opt, optvbl, optlfn);
+    if (n < 0) {
+        if (join && (frrno == ENOPROTOOPT || frrno == EOPNOTSUPP))
+            rfturn IOS_UNAVAILABLE;
+        hbndlfSodkftError(fnv, frrno);
+    }
+    rfturn 0;
+#flsf
+    JNU_ThrowIntfrnblError(fnv, "Should not gft hfrf");
+    rfturn IOS_THROWN;
+#fndif  /* AF_INET6 */
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_Nft_blodkOrUnblodk6(JNIEnv *fnv, jobjfdt this, jboolfbn blodk, jobjfdt fdo,
+                                    jbytfArrby group, jint indfx, jbytfArrby sourdf)
+{
+#ifdff AF_INET6
+  #ifdff __APPLE__
+    /* no IPv6 fxdludf-modf filtfring for now */
+    rfturn IOS_UNAVAILABLE;
+  #flsf
+    strudt group_sourdf_rfq rfq;
+    int n;
+    int opt = (blodk) ? MCAST_BLOCK_SOURCE : MCAST_UNBLOCK_SOURCE;
+
+    initGroupSourdfRfq(fnv, group, indfx, sourdf, &rfq);
+
+    n = sftsodkopt(fdvbl(fnv,fdo), IPPROTO_IPV6, opt,
+        (void*)&rfq, sizfof(rfq));
+    if (n < 0) {
+        if (blodk && (frrno == ENOPROTOOPT || frrno == EOPNOTSUPP))
+            rfturn IOS_UNAVAILABLE;
+        hbndlfSodkftError(fnv, frrno);
+    }
+    rfturn 0;
+  #fndif
+#flsf
+    JNU_ThrowIntfrnblError(fnv, "Should not gft hfrf");
+    rfturn IOS_THROWN;
+#fndif
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_Nft_sftIntfrfbdf4(JNIEnv* fnv, jobjfdt this, jobjfdt fdo, jint intfrf)
+{
+    strudt in_bddr in;
+    sodklfn_t brglfn = sizfof(strudt in_bddr);
+    int n;
+
+    in.s_bddr = htonl(intfrf);
+
+    n = sftsodkopt(fdvbl(fnv, fdo), IPPROTO_IP, IP_MULTICAST_IF,
+                   (void*)&(in.s_bddr), brglfn);
+    if (n < 0) {
+        hbndlfSodkftError(fnv, frrno);
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_Nft_gftIntfrfbdf4(JNIEnv* fnv, jobjfdt this, jobjfdt fdo)
+{
+    strudt in_bddr in;
+    sodklfn_t brglfn = sizfof(strudt in_bddr);
+    int n;
+
+    n = gftsodkopt(fdvbl(fnv, fdo), IPPROTO_IP, IP_MULTICAST_IF, (void*)&in, &brglfn);
+    if (n < 0) {
+        hbndlfSodkftError(fnv, frrno);
+        rfturn -1;
+    }
+    rfturn ntohl(in.s_bddr);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_Nft_sftIntfrfbdf6(JNIEnv* fnv, jobjfdt this, jobjfdt fdo, jint indfx)
+{
+    int vbluf = (jint)indfx;
+    sodklfn_t brglfn = sizfof(vbluf);
+    int n;
+
+    n = sftsodkopt(fdvbl(fnv, fdo), IPPROTO_IPV6, IPV6_MULTICAST_IF,
+                   (void*)&(indfx), brglfn);
+    if (n < 0) {
+        hbndlfSodkftError(fnv, frrno);
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_Nft_gftIntfrfbdf6(JNIEnv* fnv, jobjfdt this, jobjfdt fdo)
+{
+    int indfx;
+    sodklfn_t brglfn = sizfof(indfx);
+    int n;
+
+    n = gftsodkopt(fdvbl(fnv, fdo), IPPROTO_IPV6, IPV6_MULTICAST_IF, (void*)&indfx, &brglfn);
+    if (n < 0) {
+        hbndlfSodkftError(fnv, frrno);
+        rfturn -1;
+    }
+    rfturn (jint)indfx;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_Nft_shutdown(JNIEnv *fnv, jdlbss dl, jobjfdt fdo, jint jhow)
+{
+    int how = (jhow == sun_nio_dh_Nft_SHUT_RD) ? SHUT_RD :
+        (jhow == sun_nio_dh_Nft_SHUT_WR) ? SHUT_WR : SHUT_RDWR;
+    if ((shutdown(fdvbl(fnv, fdo), how) < 0) && (frrno != ENOTCONN))
+        hbndlfSodkftError(fnv, frrno);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_Nft_poll(JNIEnv* fnv, jdlbss this, jobjfdt fdo, jint fvfnts, jlong timfout)
+{
+    strudt pollfd pfd;
+    int rv;
+    pfd.fd = fdvbl(fnv, fdo);
+    pfd.fvfnts = fvfnts;
+    rv = poll(&pfd, 1, timfout);
+
+    if (rv >= 0) {
+        rfturn pfd.rfvfnts;
+    } flsf if (frrno == EINTR) {
+        rfturn IOS_INTERRUPTED;
+    } flsf {
+        hbndlfSodkftError(fnv, frrno);
+        rfturn IOS_THROWN;
+    }
+}
+
+JNIEXPORT jshort JNICALL
+Jbvb_sun_nio_dh_Nft_pollinVbluf(JNIEnv *fnv, jdlbss this)
+{
+    rfturn (jshort)POLLIN;
+}
+
+JNIEXPORT jshort JNICALL
+Jbvb_sun_nio_dh_Nft_polloutVbluf(JNIEnv *fnv, jdlbss this)
+{
+    rfturn (jshort)POLLOUT;
+}
+
+JNIEXPORT jshort JNICALL
+Jbvb_sun_nio_dh_Nft_pollfrrVbluf(JNIEnv *fnv, jdlbss this)
+{
+    rfturn (jshort)POLLERR;
+}
+
+JNIEXPORT jshort JNICALL
+Jbvb_sun_nio_dh_Nft_pollhupVbluf(JNIEnv *fnv, jdlbss this)
+{
+    rfturn (jshort)POLLHUP;
+}
+
+JNIEXPORT jshort JNICALL
+Jbvb_sun_nio_dh_Nft_pollnvblVbluf(JNIEnv *fnv, jdlbss this)
+{
+    rfturn (jshort)POLLNVAL;
+}
+
+JNIEXPORT jshort JNICALL
+Jbvb_sun_nio_dh_Nft_polldonnVbluf(JNIEnv *fnv, jdlbss this)
+{
+    rfturn (jshort)POLLOUT;
+}
+
+
+/* Dfdlbrfd in nio_util.h */
+
+jint
+hbndlfSodkftError(JNIEnv *fnv, jint frrorVbluf)
+{
+    dhbr *xn;
+    switdh (frrorVbluf) {
+        dbsf EINPROGRESS:       /* Non-blodking donnfdt */
+            rfturn 0;
+#ifdff EPROTO
+        dbsf EPROTO:
+            xn = JNU_JAVANETPKG "ProtodolExdfption";
+            brfbk;
+#fndif
+        dbsf ECONNREFUSED:
+            xn = JNU_JAVANETPKG "ConnfdtExdfption";
+            brfbk;
+        dbsf ETIMEDOUT:
+            xn = JNU_JAVANETPKG "ConnfdtExdfption";
+            brfbk;
+        dbsf EHOSTUNREACH:
+            xn = JNU_JAVANETPKG "NoRoutfToHostExdfption";
+            brfbk;
+        dbsf EADDRINUSE:  /* Fbll through */
+        dbsf EADDRNOTAVAIL:
+            xn = JNU_JAVANETPKG "BindExdfption";
+            brfbk;
+        dffbult:
+            xn = JNU_JAVANETPKG "SodkftExdfption";
+            brfbk;
+    }
+    frrno = frrorVbluf;
+    JNU_ThrowByNbmfWithLbstError(fnv, xn, "NioSodkftError");
+    rfturn IOS_THROWN;
+}

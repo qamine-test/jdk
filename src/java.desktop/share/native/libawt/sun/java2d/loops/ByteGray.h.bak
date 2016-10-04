@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef ByteGray_h_Included
-#define ByteGray_h_Included
+#ifndff BytfGrby_i_Indludfd
+#dffinf BytfGrby_i_Indludfd
 
-#include "IntDcm.h"
+#indludf "IntDdm.i"
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "ByteGray".
+ * Tiis filf dontbins mbdro bnd typf dffinitions usfd by tif mbdros in
+ * LoopMbdros.i to mbnipulbtf b surfbdf of typf "BytfGrby".
  */
 
-typedef jubyte  ByteGrayPixelType;
-typedef jubyte  ByteGrayDataType;
+typfdff jubytf  BytfGrbyPixflTypf;
+typfdff jubytf  BytfGrbyDbtbTypf;
 
-#define ByteGrayIsOpaque 1
+#dffinf BytfGrbyIsOpbquf 1
 
-#define ByteGrayPixelStride     1
-#define ByteGrayBitsPerPixel    8
+#dffinf BytfGrbyPixflStridf     1
+#dffinf BytfGrbyBitsPfrPixfl    8
 
-#define DeclareByteGrayLoadVars(PREFIX)
-#define DeclareByteGrayStoreVars(PREFIX)
-#define SetByteGrayStoreVarsYPos(PREFIX, pRasInfo, y)
-#define SetByteGrayStoreVarsXPos(PREFIX, pRasInfo, x)
-#define InitByteGrayLoadVars(PREFIX, pRasInfo)
-#define InitByteGrayStoreVarsY(PREFIX, pRasInfo)
-#define InitByteGrayStoreVarsX(PREFIX, pRasInfo)
-#define NextByteGrayStoreVarsX(PREFIX)
-#define NextByteGrayStoreVarsY(PREFIX)
-#define DeclareByteGrayPixelData(PREFIX)
-#define ExtractByteGrayPixelData(PIXEL, PREFIX)
+#dffinf DfdlbrfBytfGrbyLobdVbrs(PREFIX)
+#dffinf DfdlbrfBytfGrbyStorfVbrs(PREFIX)
+#dffinf SftBytfGrbyStorfVbrsYPos(PREFIX, pRbsInfo, y)
+#dffinf SftBytfGrbyStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf InitBytfGrbyLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitBytfGrbyStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitBytfGrbyStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtBytfGrbyStorfVbrsX(PREFIX)
+#dffinf NfxtBytfGrbyStorfVbrsY(PREFIX)
+#dffinf DfdlbrfBytfGrbyPixflDbtb(PREFIX)
+#dffinf ExtrbdtBytfGrbyPixflDbtb(PIXEL, PREFIX)
 
-#define ByteGrayXparLutEntry            -1
-#define ByteGrayIsXparLutEntry(pix)     (pix < 0)
-#define StoreByteGrayNonXparFromArgb    StoreByteGrayFrom1IntArgb
-
-
-#define ComposeByteGrayFrom3ByteRgb(r, g, b) \
-    (ByteGrayDataType)(((77*(r)) + (150*(g)) + (29*(b)) + 128) / 256)
+#dffinf BytfGrbyXpbrLutEntry            -1
+#dffinf BytfGrbyIsXpbrLutEntry(pix)     (pix < 0)
+#dffinf StorfBytfGrbyNonXpbrFromArgb    StorfBytfGrbyFrom1IntArgb
 
 
-#define StoreByteGrayPixel(pRas, x, pixel) \
-    ((pRas)[x] = (jubyte) (pixel))
+#dffinf ComposfBytfGrbyFrom3BytfRgb(r, g, b) \
+    (BytfGrbyDbtbTypf)(((77*(r)) + (150*(g)) + (29*(b)) + 128) / 256)
 
-#define StoreByteGrayPixelData(pPix, x, pixel, PREFIX) \
-    StoreByteGrayPixel(pPix, x, pixel)
 
-#define ByteGrayPixelFromArgb(pixel, rgb, pRasInfo) \
+#dffinf StorfBytfGrbyPixfl(pRbs, x, pixfl) \
+    ((pRbs)[x] = (jubytf) (pixfl))
+
+#dffinf StorfBytfGrbyPixflDbtb(pPix, x, pixfl, PREFIX) \
+    StorfBytfGrbyPixfl(pPix, x, pixfl)
+
+#dffinf BytfGrbyPixflFromArgb(pixfl, rgb, pRbsInfo) \
     do { \
         jint r, g, b; \
-        ExtractIntDcmComponentsX123(rgb, r, g, b); \
-        (pixel) = ComposeByteGrayFrom3ByteRgb(r, g, b); \
-    } while (0)
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+        (pixfl) = ComposfBytfGrbyFrom3BytfRgb(r, g, b); \
+    } wiilf (0)
 
 
-#define LoadByteGrayTo1IntRgb(pRas, PREFIX, x, rgb) \
+#dffinf LobdBytfGrbyTo1IntRgb(pRbs, PREFIX, x, rgb) \
     do { \
-        int gray = (pRas)[x]; \
-        (rgb) = (((gray << 8) | gray) << 8) | gray; \
-    } while (0)
+        int grby = (pRbs)[x]; \
+        (rgb) = (((grby << 8) | grby) << 8) | grby; \
+    } wiilf (0)
 
-#define LoadByteGrayTo1IntArgb(pRas, PREFIX, x, argb) \
+#dffinf LobdBytfGrbyTo1IntArgb(pRbs, PREFIX, x, brgb) \
     do { \
-        int gray = (pRas)[x]; \
-        (argb) = (((((0xff << 8) | gray) << 8) | gray) << 8) | gray; \
-    } while (0)
+        int grby = (pRbs)[x]; \
+        (brgb) = (((((0xff << 8) | grby) << 8) | grby) << 8) | grby; \
+    } wiilf (0)
 
-#define LoadByteGrayTo3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    ((r) = (g) = (b) = (pRas)[x])
+#dffinf LobdBytfGrbyTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    ((r) = (g) = (b) = (pRbs)[x])
 
-#define LoadByteGrayTo4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#dffinf LobdBytfGrbyTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        LoadByteGrayTo3ByteRgb(pRas, PREFIX, x, r, g, b); \
-        (a) = 0xff; \
-    } while (0)
+        LobdBytfGrbyTo3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+        (b) = 0xff; \
+    } wiilf (0)
 
-#define LoadByteGrayTo1ByteGray(pRas, PREFIX, x, gray) \
-    (gray) = (pRas)[x]
+#dffinf LobdBytfGrbyTo1BytfGrby(pRbs, PREFIX, x, grby) \
+    (grby) = (pRbs)[x]
 
-#define StoreByteGrayFrom1IntRgb(pRas, PREFIX, x, rgb) \
+#dffinf StorfBytfGrbyFrom1IntRgb(pRbs, PREFIX, x, rgb) \
     do { \
         int r, g, b; \
-        ExtractIntDcmComponentsX123(rgb, r, g, b); \
-        StoreByteGrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b); \
-    } while (0)
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+        StorfBytfGrbyFrom3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+    } wiilf (0)
 
-#define StoreByteGrayFrom1IntArgb(pRas, PREFIX, x, argb) \
-    StoreByteGrayFrom1IntRgb(pRas, PREFIX, x, argb)
+#dffinf StorfBytfGrbyFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+    StorfBytfGrbyFrom1IntRgb(pRbs, PREFIX, x, brgb)
 
-#define StoreByteGrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    (pRas)[x] = ComposeByteGrayFrom3ByteRgb(r, g, b)
+#dffinf StorfBytfGrbyFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    (pRbs)[x] = ComposfBytfGrbyFrom3BytfRgb(r, g, b)
 
-#define StoreByteGrayFrom4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
-    StoreByteGrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b)
+#dffinf StorfBytfGrbyFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    StorfBytfGrbyFrom3BytfRgb(pRbs, PREFIX, x, r, g, b)
 
-#define StoreByteGrayFrom1ByteGray(pRas, PREFIX, x, gray) \
-    StoreByteGrayPixel(pRas, x, gray)
+#dffinf StorfBytfGrbyFrom1BytfGrby(pRbs, PREFIX, x, grby) \
+    StorfBytfGrbyPixfl(pRbs, x, grby)
 
-#define CopyByteGrayToIntArgbPre(pRGB, i, PREFIX, pRow, x) \
-    LoadByteGrayTo1IntArgb(pRow, PREFIX, x, pRGB[i])
+#dffinf CopyBytfGrbyToIntArgbPrf(pRGB, i, PREFIX, pRow, x) \
+    LobdBytfGrbyTo1IntArgb(pRow, PREFIX, x, pRGB[i])
 
 
-#define DeclareByteGrayAlphaLoadData(PREFIX)
-#define InitByteGrayAlphaLoadData(PREFIX, pRasInfo)
+#dffinf DfdlbrfBytfGrbyAlpibLobdDbtb(PREFIX)
+#dffinf InitBytfGrbyAlpibLobdDbtb(PREFIX, pRbsInfo)
 
-#define LoadAlphaFromByteGrayFor1ByteGray(pRas, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromBytfGrbyFor1BytfGrby(pRbs, PREFIX, COMP_PREFIX) \
     COMP_PREFIX ## A = 0xff
 
-#define Postload1ByteGrayFromByteGray(pRas, PREFIX, COMP_PREFIX) \
-    COMP_PREFIX ## G = pRas[0]
+#dffinf Postlobd1BytfGrbyFromBytfGrby(pRbs, PREFIX, COMP_PREFIX) \
+    COMP_PREFIX ## G = pRbs[0]
 
 
-#define ByteGrayIsPremultiplied 0
+#dffinf BytfGrbyIsPrfmultiplifd 0
 
-#define DeclareByteGrayBlendFillVars(PREFIX) \
-    jubyte PREFIX;
+#dffinf DfdlbrfBytfGrbyBlfndFillVbrs(PREFIX) \
+    jubytf PREFIX;
 
-#define ClearByteGrayBlendFillVars(PREFIX, argb) \
+#dffinf ClfbrBytfGrbyBlfndFillVbrs(PREFIX, brgb) \
     PREFIX = 0
 
-#define InitByteGrayBlendFillVarsNonPre(PREFIX, argb, COMP_PREFIX) \
-    PREFIX = (jubyte) COMP_PREFIX ## G
+#dffinf InitBytfGrbyBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX) \
+    PREFIX = (jubytf) COMP_PREFIX ## G
 
-#define InitByteGrayBlendFillVarsPre(PREFIX, argb, COMP_PREFIX)
+#dffinf InitBytfGrbyBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
 
-#define StoreByteGrayBlendFill(pRas, PREFIX, x, argb, COMP_PREFIX) \
-    (pRas)[x] = PREFIX
+#dffinf StorfBytfGrbyBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+    (pRbs)[x] = PREFIX
 
-#define StoreByteGrayFrom1ByteGrayComps(pRas, PREFIX, x, COMP_PREFIX) \
-    StoreByteGrayPixel(pRas, x, COMP_PREFIX ## G)
+#dffinf StorfBytfGrbyFrom1BytfGrbyComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StorfBytfGrbyPixfl(pRbs, x, COMP_PREFIX ## G)
 
-#endif /* ByteGray_h_Included */
+#fndif /* BytfGrby_i_Indludfd */

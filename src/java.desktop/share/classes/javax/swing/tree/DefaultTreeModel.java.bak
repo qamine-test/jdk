@@ -1,708 +1,708 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.tree;
+pbdkbgf jbvbx.swing.trff;
 
-import java.util.*;
-import java.beans.ConstructorProperties;
-import java.io.*;
-import javax.swing.event.*;
+import jbvb.util.*;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.io.*;
+import jbvbx.swing.fvfnt.*;
 
 /**
- * A simple tree data model that uses TreeNodes.
- * For further information and examples that use DefaultTreeModel,
- * see <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Trees</a>
- * in <em>The Java Tutorial.</em>
+ * A simplf trff dbtb modfl tibt usfs TrffNodfs.
+ * For furtifr informbtion bnd fxbmplfs tibt usf DffbultTrffModfl,
+ * sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.itml">How to Usf Trffs</b>
+ * in <fm>Tif Jbvb Tutoribl.</fm>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Rob Davis
- * @author Ray Ryan
- * @author Scott Violet
+ * @butior Rob Dbvis
+ * @butior Rby Rybn
+ * @butior Sdott Violft
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultTreeModel implements Serializable, TreeModel {
-    /** Root of the tree. */
-    protected TreeNode root;
-    /** Listeners. */
-    protected EventListenerList listenerList = new EventListenerList();
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultTrffModfl implfmfnts Sfriblizbblf, TrffModfl {
+    /** Root of tif trff. */
+    protfdtfd TrffNodf root;
+    /** Listfnfrs. */
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
     /**
-      * Determines how the <code>isLeaf</code> method figures
-      * out if a node is a leaf node. If true, a node is a leaf
-      * node if it does not allow children. (If it allows
-      * children, it is not a leaf node, even if no children
-      * are present.) That lets you distinguish between <i>folder</i>
-      * nodes and <i>file</i> nodes in a file system, for example.
+      * Dftfrminfs iow tif <dodf>isLfbf</dodf> mftiod figurfs
+      * out if b nodf is b lfbf nodf. If truf, b nodf is b lfbf
+      * nodf if it dofs not bllow diildrfn. (If it bllows
+      * diildrfn, it is not b lfbf nodf, fvfn if no diildrfn
+      * brf prfsfnt.) Tibt lfts you distinguisi bftwffn <i>foldfr</i>
+      * nodfs bnd <i>filf</i> nodfs in b filf systfm, for fxbmplf.
       * <p>
-      * If this value is false, then any node which has no
-      * children is a leaf node, and any node may acquire
-      * children.
+      * If tiis vbluf is fblsf, tifn bny nodf wiidi ibs no
+      * diildrfn is b lfbf nodf, bnd bny nodf mby bdquirf
+      * diildrfn.
       *
-      * @see TreeNode#getAllowsChildren
-      * @see TreeModel#isLeaf
-      * @see #setAsksAllowsChildren
+      * @sff TrffNodf#gftAllowsCiildrfn
+      * @sff TrffModfl#isLfbf
+      * @sff #sftAsksAllowsCiildrfn
       */
-    protected boolean asksAllowsChildren;
+    protfdtfd boolfbn bsksAllowsCiildrfn;
 
 
     /**
-      * Creates a tree in which any node can have children.
+      * Crfbtfs b trff in wiidi bny nodf dbn ibvf diildrfn.
       *
-      * @param root a TreeNode object that is the root of the tree
-      * @see #DefaultTreeModel(TreeNode, boolean)
+      * @pbrbm root b TrffNodf objfdt tibt is tif root of tif trff
+      * @sff #DffbultTrffModfl(TrffNodf, boolfbn)
       */
-     @ConstructorProperties({"root"})
-     public DefaultTreeModel(TreeNode root) {
-        this(root, false);
+     @ConstrudtorPropfrtifs({"root"})
+     publid DffbultTrffModfl(TrffNodf root) {
+        tiis(root, fblsf);
     }
 
     /**
-      * Creates a tree specifying whether any node can have children,
-      * or whether only certain nodes can have children.
+      * Crfbtfs b trff spfdifying wiftifr bny nodf dbn ibvf diildrfn,
+      * or wiftifr only dfrtbin nodfs dbn ibvf diildrfn.
       *
-      * @param root a TreeNode object that is the root of the tree
-      * @param asksAllowsChildren a boolean, false if any node can
-      *        have children, true if each node is asked to see if
-      *        it can have children
-      * @see #asksAllowsChildren
+      * @pbrbm root b TrffNodf objfdt tibt is tif root of tif trff
+      * @pbrbm bsksAllowsCiildrfn b boolfbn, fblsf if bny nodf dbn
+      *        ibvf diildrfn, truf if fbdi nodf is bskfd to sff if
+      *        it dbn ibvf diildrfn
+      * @sff #bsksAllowsCiildrfn
       */
-    public DefaultTreeModel(TreeNode root, boolean asksAllowsChildren) {
-        super();
-        this.root = root;
-        this.asksAllowsChildren = asksAllowsChildren;
+    publid DffbultTrffModfl(TrffNodf root, boolfbn bsksAllowsCiildrfn) {
+        supfr();
+        tiis.root = root;
+        tiis.bsksAllowsCiildrfn = bsksAllowsCiildrfn;
     }
 
     /**
-      * Sets whether or not to test leafness by asking getAllowsChildren()
-      * or isLeaf() to the TreeNodes.  If newvalue is true, getAllowsChildren()
-      * is messaged, otherwise isLeaf() is messaged.
+      * Sfts wiftifr or not to tfst lfbfnfss by bsking gftAllowsCiildrfn()
+      * or isLfbf() to tif TrffNodfs.  If nfwvbluf is truf, gftAllowsCiildrfn()
+      * is mfssbgfd, otifrwisf isLfbf() is mfssbgfd.
       *
-      * @param newValue if true, getAllowsChildren() is messaged, otherwise
-      *                 isLeaf() is messaged
+      * @pbrbm nfwVbluf if truf, gftAllowsCiildrfn() is mfssbgfd, otifrwisf
+      *                 isLfbf() is mfssbgfd
       */
-    public void setAsksAllowsChildren(boolean newValue) {
-        asksAllowsChildren = newValue;
+    publid void sftAsksAllowsCiildrfn(boolfbn nfwVbluf) {
+        bsksAllowsCiildrfn = nfwVbluf;
     }
 
     /**
-      * Tells how leaf nodes are determined.
+      * Tflls iow lfbf nodfs brf dftfrminfd.
       *
-      * @return true if only nodes which do not allow children are
-      *         leaf nodes, false if nodes which have no children
-      *         (even if allowed) are leaf nodes
-      * @see #asksAllowsChildren
+      * @rfturn truf if only nodfs wiidi do not bllow diildrfn brf
+      *         lfbf nodfs, fblsf if nodfs wiidi ibvf no diildrfn
+      *         (fvfn if bllowfd) brf lfbf nodfs
+      * @sff #bsksAllowsCiildrfn
       */
-    public boolean asksAllowsChildren() {
-        return asksAllowsChildren;
+    publid boolfbn bsksAllowsCiildrfn() {
+        rfturn bsksAllowsCiildrfn;
     }
 
     /**
-     * Sets the root to <code>root</code>. A null <code>root</code> implies
-     * the tree is to display nothing, and is legal.
+     * Sfts tif root to <dodf>root</dodf>. A null <dodf>root</dodf> implifs
+     * tif trff is to displby notiing, bnd is lfgbl.
      *
-     * @param root new value of tree root
+     * @pbrbm root nfw vbluf of trff root
      */
-    public void setRoot(TreeNode root) {
-        Object oldRoot = this.root;
-        this.root = root;
+    publid void sftRoot(TrffNodf root) {
+        Objfdt oldRoot = tiis.root;
+        tiis.root = root;
         if (root == null && oldRoot != null) {
-            fireTreeStructureChanged(this, null);
+            firfTrffStrudturfCibngfd(tiis, null);
         }
-        else {
-            nodeStructureChanged(root);
+        flsf {
+            nodfStrudturfCibngfd(root);
         }
     }
 
     /**
-     * Returns the root of the tree.  Returns null only if the tree has
-     * no nodes.
+     * Rfturns tif root of tif trff.  Rfturns null only if tif trff ibs
+     * no nodfs.
      *
-     * @return  the root of the tree
+     * @rfturn  tif root of tif trff
      */
-    public Object getRoot() {
-        return root;
+    publid Objfdt gftRoot() {
+        rfturn root;
     }
 
     /**
-     * Returns the index of child in parent.
-     * If either the parent or child is <code>null</code>, returns -1.
-     * @param parent a note in the tree, obtained from this data source
-     * @param child the node we are interested in
-     * @return the index of the child in the parent, or -1
-     *    if either the parent or the child is <code>null</code>
+     * Rfturns tif indfx of diild in pbrfnt.
+     * If fitifr tif pbrfnt or diild is <dodf>null</dodf>, rfturns -1.
+     * @pbrbm pbrfnt b notf in tif trff, obtbinfd from tiis dbtb sourdf
+     * @pbrbm diild tif nodf wf brf intfrfstfd in
+     * @rfturn tif indfx of tif diild in tif pbrfnt, or -1
+     *    if fitifr tif pbrfnt or tif diild is <dodf>null</dodf>
      */
-    public int getIndexOfChild(Object parent, Object child) {
-        if(parent == null || child == null)
-            return -1;
-        return ((TreeNode)parent).getIndex((TreeNode)child);
+    publid int gftIndfxOfCiild(Objfdt pbrfnt, Objfdt diild) {
+        if(pbrfnt == null || diild == null)
+            rfturn -1;
+        rfturn ((TrffNodf)pbrfnt).gftIndfx((TrffNodf)diild);
     }
 
     /**
-     * Returns the child of <I>parent</I> at index <I>index</I> in the parent's
-     * child array.  <I>parent</I> must be a node previously obtained from
-     * this data source. This should not return null if <i>index</i>
-     * is a valid index for <i>parent</i> (that is <i>index</i> &gt;= 0 &amp;&amp;
-     * <i>index</i> &lt; getChildCount(<i>parent</i>)).
+     * Rfturns tif diild of <I>pbrfnt</I> bt indfx <I>indfx</I> in tif pbrfnt's
+     * diild brrby.  <I>pbrfnt</I> must bf b nodf prfviously obtbinfd from
+     * tiis dbtb sourdf. Tiis siould not rfturn null if <i>indfx</i>
+     * is b vblid indfx for <i>pbrfnt</i> (tibt is <i>indfx</i> &gt;= 0 &bmp;&bmp;
+     * <i>indfx</i> &lt; gftCiildCount(<i>pbrfnt</i>)).
      *
-     * @param   parent  a node in the tree, obtained from this data source
-     * @return  the child of <I>parent</I> at index <I>index</I>
+     * @pbrbm   pbrfnt  b nodf in tif trff, obtbinfd from tiis dbtb sourdf
+     * @rfturn  tif diild of <I>pbrfnt</I> bt indfx <I>indfx</I>
      */
-    public Object getChild(Object parent, int index) {
-        return ((TreeNode)parent).getChildAt(index);
+    publid Objfdt gftCiild(Objfdt pbrfnt, int indfx) {
+        rfturn ((TrffNodf)pbrfnt).gftCiildAt(indfx);
     }
 
     /**
-     * Returns the number of children of <I>parent</I>.  Returns 0 if the node
-     * is a leaf or if it has no children.  <I>parent</I> must be a node
-     * previously obtained from this data source.
+     * Rfturns tif numbfr of diildrfn of <I>pbrfnt</I>.  Rfturns 0 if tif nodf
+     * is b lfbf or if it ibs no diildrfn.  <I>pbrfnt</I> must bf b nodf
+     * prfviously obtbinfd from tiis dbtb sourdf.
      *
-     * @param   parent  a node in the tree, obtained from this data source
-     * @return  the number of children of the node <I>parent</I>
+     * @pbrbm   pbrfnt  b nodf in tif trff, obtbinfd from tiis dbtb sourdf
+     * @rfturn  tif numbfr of diildrfn of tif nodf <I>pbrfnt</I>
      */
-    public int getChildCount(Object parent) {
-        return ((TreeNode)parent).getChildCount();
+    publid int gftCiildCount(Objfdt pbrfnt) {
+        rfturn ((TrffNodf)pbrfnt).gftCiildCount();
     }
 
     /**
-     * Returns whether the specified node is a leaf node.
-     * The way the test is performed depends on the
-     * <code>askAllowsChildren</code> setting.
+     * Rfturns wiftifr tif spfdififd nodf is b lfbf nodf.
+     * Tif wby tif tfst is pfrformfd dfpfnds on tif
+     * <dodf>bskAllowsCiildrfn</dodf> sftting.
      *
-     * @param node the node to check
-     * @return true if the node is a leaf node
+     * @pbrbm nodf tif nodf to difdk
+     * @rfturn truf if tif nodf is b lfbf nodf
      *
-     * @see #asksAllowsChildren
-     * @see TreeModel#isLeaf
+     * @sff #bsksAllowsCiildrfn
+     * @sff TrffModfl#isLfbf
      */
-    public boolean isLeaf(Object node) {
-        if(asksAllowsChildren)
-            return !((TreeNode)node).getAllowsChildren();
-        return ((TreeNode)node).isLeaf();
+    publid boolfbn isLfbf(Objfdt nodf) {
+        if(bsksAllowsCiildrfn)
+            rfturn !((TrffNodf)nodf).gftAllowsCiildrfn();
+        rfturn ((TrffNodf)nodf).isLfbf();
     }
 
     /**
-     * Invoke this method if you've modified the {@code TreeNode}s upon which
-     * this model depends. The model will notify all of its listeners that the
-     * model has changed.
+     * Invokf tiis mftiod if you'vf modififd tif {@dodf TrffNodf}s upon wiidi
+     * tiis modfl dfpfnds. Tif modfl will notify bll of its listfnfrs tibt tif
+     * modfl ibs dibngfd.
      */
-    public void reload() {
-        reload(root);
+    publid void rflobd() {
+        rflobd(root);
     }
 
     /**
-      * This sets the user object of the TreeNode identified by path
-      * and posts a node changed.  If you use custom user objects in
-      * the TreeModel you're going to need to subclass this and
-      * set the user object of the changed node to something meaningful.
+      * Tiis sfts tif usfr objfdt of tif TrffNodf idfntififd by pbti
+      * bnd posts b nodf dibngfd.  If you usf dustom usfr objfdts in
+      * tif TrffModfl you'rf going to nffd to subdlbss tiis bnd
+      * sft tif usfr objfdt of tif dibngfd nodf to somftiing mfbningful.
       */
-    public void valueForPathChanged(TreePath path, Object newValue) {
-        MutableTreeNode   aNode = (MutableTreeNode)path.getLastPathComponent();
+    publid void vblufForPbtiCibngfd(TrffPbti pbti, Objfdt nfwVbluf) {
+        MutbblfTrffNodf   bNodf = (MutbblfTrffNodf)pbti.gftLbstPbtiComponfnt();
 
-        aNode.setUserObject(newValue);
-        nodeChanged(aNode);
+        bNodf.sftUsfrObjfdt(nfwVbluf);
+        nodfCibngfd(bNodf);
     }
 
     /**
-     * Invoked this to insert newChild at location index in parents children.
-     * This will then message nodesWereInserted to create the appropriate
-     * event. This is the preferred way to add children as it will create
-     * the appropriate event.
+     * Invokfd tiis to insfrt nfwCiild bt lodbtion indfx in pbrfnts diildrfn.
+     * Tiis will tifn mfssbgf nodfsWfrfInsfrtfd to drfbtf tif bppropribtf
+     * fvfnt. Tiis is tif prfffrrfd wby to bdd diildrfn bs it will drfbtf
+     * tif bppropribtf fvfnt.
      *
-     * @param newChild  child node to be inserted
-     * @param parent    node to which children new node will be added
-     * @param index     index of parent's children
+     * @pbrbm nfwCiild  diild nodf to bf insfrtfd
+     * @pbrbm pbrfnt    nodf to wiidi diildrfn nfw nodf will bf bddfd
+     * @pbrbm indfx     indfx of pbrfnt's diildrfn
      */
-    public void insertNodeInto(MutableTreeNode newChild,
-                               MutableTreeNode parent, int index){
-        parent.insert(newChild, index);
+    publid void insfrtNodfInto(MutbblfTrffNodf nfwCiild,
+                               MutbblfTrffNodf pbrfnt, int indfx){
+        pbrfnt.insfrt(nfwCiild, indfx);
 
-        int[]           newIndexs = new int[1];
+        int[]           nfwIndfxs = nfw int[1];
 
-        newIndexs[0] = index;
-        nodesWereInserted(parent, newIndexs);
+        nfwIndfxs[0] = indfx;
+        nodfsWfrfInsfrtfd(pbrfnt, nfwIndfxs);
     }
 
     /**
-     * Message this to remove node from its parent. This will message
-     * nodesWereRemoved to create the appropriate event. This is the
-     * preferred way to remove a node as it handles the event creation
+     * Mfssbgf tiis to rfmovf nodf from its pbrfnt. Tiis will mfssbgf
+     * nodfsWfrfRfmovfd to drfbtf tif bppropribtf fvfnt. Tiis is tif
+     * prfffrrfd wby to rfmovf b nodf bs it ibndlfs tif fvfnt drfbtion
      * for you.
      *
-     * @param node the node to be removed from it's parrent
+     * @pbrbm nodf tif nodf to bf rfmovfd from it's pbrrfnt
      */
-    public void removeNodeFromParent(MutableTreeNode node) {
-        MutableTreeNode         parent = (MutableTreeNode)node.getParent();
+    publid void rfmovfNodfFromPbrfnt(MutbblfTrffNodf nodf) {
+        MutbblfTrffNodf         pbrfnt = (MutbblfTrffNodf)nodf.gftPbrfnt();
 
-        if(parent == null)
-            throw new IllegalArgumentException("node does not have a parent.");
+        if(pbrfnt == null)
+            tirow nfw IllfgblArgumfntExdfption("nodf dofs not ibvf b pbrfnt.");
 
-        int[]            childIndex = new int[1];
-        Object[]         removedArray = new Object[1];
+        int[]            diildIndfx = nfw int[1];
+        Objfdt[]         rfmovfdArrby = nfw Objfdt[1];
 
-        childIndex[0] = parent.getIndex(node);
-        parent.remove(childIndex[0]);
-        removedArray[0] = node;
-        nodesWereRemoved(parent, childIndex, removedArray);
+        diildIndfx[0] = pbrfnt.gftIndfx(nodf);
+        pbrfnt.rfmovf(diildIndfx[0]);
+        rfmovfdArrby[0] = nodf;
+        nodfsWfrfRfmovfd(pbrfnt, diildIndfx, rfmovfdArrby);
     }
 
     /**
-      * Invoke this method after you've changed how node is to be
-      * represented in the tree.
+      * Invokf tiis mftiod bftfr you'vf dibngfd iow nodf is to bf
+      * rfprfsfntfd in tif trff.
       *
-      * @param node the changed node
+      * @pbrbm nodf tif dibngfd nodf
       */
-    public void nodeChanged(TreeNode node) {
-        if(listenerList != null && node != null) {
-            TreeNode         parent = node.getParent();
+    publid void nodfCibngfd(TrffNodf nodf) {
+        if(listfnfrList != null && nodf != null) {
+            TrffNodf         pbrfnt = nodf.gftPbrfnt();
 
-            if(parent != null) {
-                int        anIndex = parent.getIndex(node);
-                if(anIndex != -1) {
-                    int[]        cIndexs = new int[1];
+            if(pbrfnt != null) {
+                int        bnIndfx = pbrfnt.gftIndfx(nodf);
+                if(bnIndfx != -1) {
+                    int[]        dIndfxs = nfw int[1];
 
-                    cIndexs[0] = anIndex;
-                    nodesChanged(parent, cIndexs);
+                    dIndfxs[0] = bnIndfx;
+                    nodfsCibngfd(pbrfnt, dIndfxs);
                 }
             }
-            else if (node == getRoot()) {
-                nodesChanged(node, null);
+            flsf if (nodf == gftRoot()) {
+                nodfsCibngfd(nodf, null);
             }
         }
     }
 
     /**
-     * Invoke this method if you've modified the {@code TreeNode}s upon which
-     * this model depends. The model will notify all of its listeners that the
-     * model has changed below the given node.
+     * Invokf tiis mftiod if you'vf modififd tif {@dodf TrffNodf}s upon wiidi
+     * tiis modfl dfpfnds. Tif modfl will notify bll of its listfnfrs tibt tif
+     * modfl ibs dibngfd bflow tif givfn nodf.
      *
-     * @param node the node below which the model has changed
+     * @pbrbm nodf tif nodf bflow wiidi tif modfl ibs dibngfd
      */
-    public void reload(TreeNode node) {
-        if(node != null) {
-            fireTreeStructureChanged(this, getPathToRoot(node), null, null);
+    publid void rflobd(TrffNodf nodf) {
+        if(nodf != null) {
+            firfTrffStrudturfCibngfd(tiis, gftPbtiToRoot(nodf), null, null);
         }
     }
 
     /**
-      * Invoke this method after you've inserted some TreeNodes into
-      * node.  childIndices should be the index of the new elements and
-      * must be sorted in ascending order.
+      * Invokf tiis mftiod bftfr you'vf insfrtfd somf TrffNodfs into
+      * nodf.  diildIndidfs siould bf tif indfx of tif nfw flfmfnts bnd
+      * must bf sortfd in bsdfnding ordfr.
       *
-      * @param node         parent node which children count been incremented
-      * @param childIndices indexes of inserted children
+      * @pbrbm nodf         pbrfnt nodf wiidi diildrfn dount bffn indrfmfntfd
+      * @pbrbm diildIndidfs indfxfs of insfrtfd diildrfn
       */
-    public void nodesWereInserted(TreeNode node, int[] childIndices) {
-        if(listenerList != null && node != null && childIndices != null
-           && childIndices.length > 0) {
-            int               cCount = childIndices.length;
-            Object[]          newChildren = new Object[cCount];
+    publid void nodfsWfrfInsfrtfd(TrffNodf nodf, int[] diildIndidfs) {
+        if(listfnfrList != null && nodf != null && diildIndidfs != null
+           && diildIndidfs.lfngti > 0) {
+            int               dCount = diildIndidfs.lfngti;
+            Objfdt[]          nfwCiildrfn = nfw Objfdt[dCount];
 
-            for(int counter = 0; counter < cCount; counter++)
-                newChildren[counter] = node.getChildAt(childIndices[counter]);
-            fireTreeNodesInserted(this, getPathToRoot(node), childIndices,
-                                  newChildren);
+            for(int dountfr = 0; dountfr < dCount; dountfr++)
+                nfwCiildrfn[dountfr] = nodf.gftCiildAt(diildIndidfs[dountfr]);
+            firfTrffNodfsInsfrtfd(tiis, gftPbtiToRoot(nodf), diildIndidfs,
+                                  nfwCiildrfn);
         }
     }
 
     /**
-      * Invoke this method after you've removed some TreeNodes from
-      * node.  childIndices should be the index of the removed elements and
-      * must be sorted in ascending order. And removedChildren should be
-      * the array of the children objects that were removed.
+      * Invokf tiis mftiod bftfr you'vf rfmovfd somf TrffNodfs from
+      * nodf.  diildIndidfs siould bf tif indfx of tif rfmovfd flfmfnts bnd
+      * must bf sortfd in bsdfnding ordfr. And rfmovfdCiildrfn siould bf
+      * tif brrby of tif diildrfn objfdts tibt wfrf rfmovfd.
       *
-      * @param node             parent node which childred were removed
-      * @param childIndices     indexes of removed childs
-      * @param removedChildren  array of the children objects that were removed
+      * @pbrbm nodf             pbrfnt nodf wiidi diildrfd wfrf rfmovfd
+      * @pbrbm diildIndidfs     indfxfs of rfmovfd diilds
+      * @pbrbm rfmovfdCiildrfn  brrby of tif diildrfn objfdts tibt wfrf rfmovfd
       */
-    public void nodesWereRemoved(TreeNode node, int[] childIndices,
-                                 Object[] removedChildren) {
-        if(node != null && childIndices != null) {
-            fireTreeNodesRemoved(this, getPathToRoot(node), childIndices,
-                                 removedChildren);
+    publid void nodfsWfrfRfmovfd(TrffNodf nodf, int[] diildIndidfs,
+                                 Objfdt[] rfmovfdCiildrfn) {
+        if(nodf != null && diildIndidfs != null) {
+            firfTrffNodfsRfmovfd(tiis, gftPbtiToRoot(nodf), diildIndidfs,
+                                 rfmovfdCiildrfn);
         }
     }
 
     /**
-      * Invoke this method after you've changed how the children identified by
-      * childIndicies are to be represented in the tree.
+      * Invokf tiis mftiod bftfr you'vf dibngfd iow tif diildrfn idfntififd by
+      * diildIndidifs brf to bf rfprfsfntfd in tif trff.
       *
-      * @param node         changed node
-      * @param childIndices indexes of changed children
+      * @pbrbm nodf         dibngfd nodf
+      * @pbrbm diildIndidfs indfxfs of dibngfd diildrfn
       */
-    public void nodesChanged(TreeNode node, int[] childIndices) {
-        if(node != null) {
-            if (childIndices != null) {
-                int            cCount = childIndices.length;
+    publid void nodfsCibngfd(TrffNodf nodf, int[] diildIndidfs) {
+        if(nodf != null) {
+            if (diildIndidfs != null) {
+                int            dCount = diildIndidfs.lfngti;
 
-                if(cCount > 0) {
-                    Object[]       cChildren = new Object[cCount];
+                if(dCount > 0) {
+                    Objfdt[]       dCiildrfn = nfw Objfdt[dCount];
 
-                    for(int counter = 0; counter < cCount; counter++)
-                        cChildren[counter] = node.getChildAt
-                            (childIndices[counter]);
-                    fireTreeNodesChanged(this, getPathToRoot(node),
-                                         childIndices, cChildren);
+                    for(int dountfr = 0; dountfr < dCount; dountfr++)
+                        dCiildrfn[dountfr] = nodf.gftCiildAt
+                            (diildIndidfs[dountfr]);
+                    firfTrffNodfsCibngfd(tiis, gftPbtiToRoot(nodf),
+                                         diildIndidfs, dCiildrfn);
                 }
             }
-            else if (node == getRoot()) {
-                fireTreeNodesChanged(this, getPathToRoot(node), null, null);
+            flsf if (nodf == gftRoot()) {
+                firfTrffNodfsCibngfd(tiis, gftPbtiToRoot(nodf), null, null);
             }
         }
     }
 
     /**
-      * Invoke this method if you've totally changed the children of
-      * node and its children's children...  This will post a
-      * treeStructureChanged event.
+      * Invokf tiis mftiod if you'vf totblly dibngfd tif diildrfn of
+      * nodf bnd its diildrfn's diildrfn...  Tiis will post b
+      * trffStrudturfCibngfd fvfnt.
       *
-      * @param node changed node
+      * @pbrbm nodf dibngfd nodf
       */
-    public void nodeStructureChanged(TreeNode node) {
-        if(node != null) {
-           fireTreeStructureChanged(this, getPathToRoot(node), null, null);
+    publid void nodfStrudturfCibngfd(TrffNodf nodf) {
+        if(nodf != null) {
+           firfTrffStrudturfCibngfd(tiis, gftPbtiToRoot(nodf), null, null);
         }
     }
 
     /**
-     * Builds the parents of node up to and including the root node,
-     * where the original node is the last element in the returned array.
-     * The length of the returned array gives the node's depth in the
-     * tree.
+     * Builds tif pbrfnts of nodf up to bnd indluding tif root nodf,
+     * wifrf tif originbl nodf is tif lbst flfmfnt in tif rfturnfd brrby.
+     * Tif lfngti of tif rfturnfd brrby givfs tif nodf's dfpti in tif
+     * trff.
      *
-     * @param aNode the TreeNode to get the path for
-     * @return an array of TreeNodes giving the path from the root
+     * @pbrbm bNodf tif TrffNodf to gft tif pbti for
+     * @rfturn bn brrby of TrffNodfs giving tif pbti from tif root
      */
-    public TreeNode[] getPathToRoot(TreeNode aNode) {
-        return getPathToRoot(aNode, 0);
+    publid TrffNodf[] gftPbtiToRoot(TrffNodf bNodf) {
+        rfturn gftPbtiToRoot(bNodf, 0);
     }
 
     /**
-     * Builds the parents of node up to and including the root node,
-     * where the original node is the last element in the returned array.
-     * The length of the returned array gives the node's depth in the
-     * tree.
+     * Builds tif pbrfnts of nodf up to bnd indluding tif root nodf,
+     * wifrf tif originbl nodf is tif lbst flfmfnt in tif rfturnfd brrby.
+     * Tif lfngti of tif rfturnfd brrby givfs tif nodf's dfpti in tif
+     * trff.
      *
-     * @param aNode  the TreeNode to get the path for
-     * @param depth  an int giving the number of steps already taken towards
-     *        the root (on recursive calls), used to size the returned array
-     * @return an array of TreeNodes giving the path from the root to the
-     *         specified node
+     * @pbrbm bNodf  tif TrffNodf to gft tif pbti for
+     * @pbrbm dfpti  bn int giving tif numbfr of stfps blrfbdy tbkfn towbrds
+     *        tif root (on rfdursivf dblls), usfd to sizf tif rfturnfd brrby
+     * @rfturn bn brrby of TrffNodfs giving tif pbti from tif root to tif
+     *         spfdififd nodf
      */
-    protected TreeNode[] getPathToRoot(TreeNode aNode, int depth) {
-        TreeNode[]              retNodes;
-        // This method recurses, traversing towards the root in order
-        // size the array. On the way back, it fills in the nodes,
-        // starting from the root and working back to the original node.
+    protfdtfd TrffNodf[] gftPbtiToRoot(TrffNodf bNodf, int dfpti) {
+        TrffNodf[]              rftNodfs;
+        // Tiis mftiod rfdursfs, trbvfrsing towbrds tif root in ordfr
+        // sizf tif brrby. On tif wby bbdk, it fills in tif nodfs,
+        // stbrting from tif root bnd working bbdk to tif originbl nodf.
 
-        /* Check for null, in case someone passed in a null node, or
-           they passed in an element that isn't rooted at root. */
-        if(aNode == null) {
-            if(depth == 0)
-                return null;
-            else
-                retNodes = new TreeNode[depth];
+        /* Cifdk for null, in dbsf somfonf pbssfd in b null nodf, or
+           tify pbssfd in bn flfmfnt tibt isn't rootfd bt root. */
+        if(bNodf == null) {
+            if(dfpti == 0)
+                rfturn null;
+            flsf
+                rftNodfs = nfw TrffNodf[dfpti];
         }
-        else {
-            depth++;
-            if(aNode == root)
-                retNodes = new TreeNode[depth];
-            else
-                retNodes = getPathToRoot(aNode.getParent(), depth);
-            retNodes[retNodes.length - depth] = aNode;
+        flsf {
+            dfpti++;
+            if(bNodf == root)
+                rftNodfs = nfw TrffNodf[dfpti];
+            flsf
+                rftNodfs = gftPbtiToRoot(bNodf.gftPbrfnt(), dfpti);
+            rftNodfs[rftNodfs.lfngti - dfpti] = bNodf;
         }
-        return retNodes;
+        rfturn rftNodfs;
     }
 
     //
-    //  Events
+    //  Evfnts
     //
 
     /**
-     * Adds a listener for the TreeModelEvent posted after the tree changes.
+     * Adds b listfnfr for tif TrffModflEvfnt postfd bftfr tif trff dibngfs.
      *
-     * @see     #removeTreeModelListener
-     * @param   l       the listener to add
+     * @sff     #rfmovfTrffModflListfnfr
+     * @pbrbm   l       tif listfnfr to bdd
      */
-    public void addTreeModelListener(TreeModelListener l) {
-        listenerList.add(TreeModelListener.class, l);
+    publid void bddTrffModflListfnfr(TrffModflListfnfr l) {
+        listfnfrList.bdd(TrffModflListfnfr.dlbss, l);
     }
 
     /**
-     * Removes a listener previously added with <B>addTreeModelListener()</B>.
+     * Rfmovfs b listfnfr prfviously bddfd witi <B>bddTrffModflListfnfr()</B>.
      *
-     * @see     #addTreeModelListener
-     * @param   l       the listener to remove
+     * @sff     #bddTrffModflListfnfr
+     * @pbrbm   l       tif listfnfr to rfmovf
      */
-    public void removeTreeModelListener(TreeModelListener l) {
-        listenerList.remove(TreeModelListener.class, l);
+    publid void rfmovfTrffModflListfnfr(TrffModflListfnfr l) {
+        listfnfrList.rfmovf(TrffModflListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the tree model listeners
-     * registered on this model.
+     * Rfturns bn brrby of bll tif trff modfl listfnfrs
+     * rfgistfrfd on tiis modfl.
      *
-     * @return all of this model's <code>TreeModelListener</code>s
-     *         or an empty
-     *         array if no tree model listeners are currently registered
+     * @rfturn bll of tiis modfl's <dodf>TrffModflListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no trff modfl listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see #addTreeModelListener
-     * @see #removeTreeModelListener
+     * @sff #bddTrffModflListfnfr
+     * @sff #rfmovfTrffModflListfnfr
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public TreeModelListener[] getTreeModelListeners() {
-        return listenerList.getListeners(TreeModelListener.class);
+    publid TrffModflListfnfr[] gftTrffModflListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(TrffModflListfnfr.dlbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
      *
-     * @param source the source of the {@code TreeModelEvent};
-     *               typically {@code this}
-     * @param path the path to the parent of the nodes that changed; use
-     *             {@code null} to identify the root has changed
-     * @param childIndices the indices of the changed elements
-     * @param children the changed elements
+     * @pbrbm sourdf tif sourdf of tif {@dodf TrffModflEvfnt};
+     *               typidblly {@dodf tiis}
+     * @pbrbm pbti tif pbti to tif pbrfnt of tif nodfs tibt dibngfd; usf
+     *             {@dodf null} to idfntify tif root ibs dibngfd
+     * @pbrbm diildIndidfs tif indidfs of tif dibngfd flfmfnts
+     * @pbrbm diildrfn tif dibngfd flfmfnts
      */
-    protected void fireTreeNodesChanged(Object source, Object[] path,
-                                        int[] childIndices,
-                                        Object[] children) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path,
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeNodesChanged(e);
+    protfdtfd void firfTrffNodfsCibngfd(Objfdt sourdf, Objfdt[] pbti,
+                                        int[] diildIndidfs,
+                                        Objfdt[] diildrfn) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        TrffModflEvfnt f = null;
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TrffModflListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (f == null)
+                    f = nfw TrffModflEvfnt(sourdf, pbti,
+                                           diildIndidfs, diildrfn);
+                ((TrffModflListfnfr)listfnfrs[i+1]).trffNodfsCibngfd(f);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
      *
-     * @param source the source of the {@code TreeModelEvent};
-     *               typically {@code this}
-     * @param path the path to the parent the nodes were added to
-     * @param childIndices the indices of the new elements
-     * @param children the new elements
+     * @pbrbm sourdf tif sourdf of tif {@dodf TrffModflEvfnt};
+     *               typidblly {@dodf tiis}
+     * @pbrbm pbti tif pbti to tif pbrfnt tif nodfs wfrf bddfd to
+     * @pbrbm diildIndidfs tif indidfs of tif nfw flfmfnts
+     * @pbrbm diildrfn tif nfw flfmfnts
      */
-    protected void fireTreeNodesInserted(Object source, Object[] path,
-                                        int[] childIndices,
-                                        Object[] children) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path,
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeNodesInserted(e);
+    protfdtfd void firfTrffNodfsInsfrtfd(Objfdt sourdf, Objfdt[] pbti,
+                                        int[] diildIndidfs,
+                                        Objfdt[] diildrfn) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        TrffModflEvfnt f = null;
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TrffModflListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (f == null)
+                    f = nfw TrffModflEvfnt(sourdf, pbti,
+                                           diildIndidfs, diildrfn);
+                ((TrffModflListfnfr)listfnfrs[i+1]).trffNodfsInsfrtfd(f);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
      *
-     * @param source the source of the {@code TreeModelEvent};
-     *               typically {@code this}
-     * @param path the path to the parent the nodes were removed from
-     * @param childIndices the indices of the removed elements
-     * @param children the removed elements
+     * @pbrbm sourdf tif sourdf of tif {@dodf TrffModflEvfnt};
+     *               typidblly {@dodf tiis}
+     * @pbrbm pbti tif pbti to tif pbrfnt tif nodfs wfrf rfmovfd from
+     * @pbrbm diildIndidfs tif indidfs of tif rfmovfd flfmfnts
+     * @pbrbm diildrfn tif rfmovfd flfmfnts
      */
-    protected void fireTreeNodesRemoved(Object source, Object[] path,
-                                        int[] childIndices,
-                                        Object[] children) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path,
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeNodesRemoved(e);
+    protfdtfd void firfTrffNodfsRfmovfd(Objfdt sourdf, Objfdt[] pbti,
+                                        int[] diildIndidfs,
+                                        Objfdt[] diildrfn) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        TrffModflEvfnt f = null;
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TrffModflListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (f == null)
+                    f = nfw TrffModflEvfnt(sourdf, pbti,
+                                           diildIndidfs, diildrfn);
+                ((TrffModflListfnfr)listfnfrs[i+1]).trffNodfsRfmovfd(f);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
      *
-     * @param source the source of the {@code TreeModelEvent};
-     *               typically {@code this}
-     * @param path the path to the parent of the structure that has changed;
-     *             use {@code null} to identify the root has changed
-     * @param childIndices the indices of the affected elements
-     * @param children the affected elements
+     * @pbrbm sourdf tif sourdf of tif {@dodf TrffModflEvfnt};
+     *               typidblly {@dodf tiis}
+     * @pbrbm pbti tif pbti to tif pbrfnt of tif strudturf tibt ibs dibngfd;
+     *             usf {@dodf null} to idfntify tif root ibs dibngfd
+     * @pbrbm diildIndidfs tif indidfs of tif bfffdtfd flfmfnts
+     * @pbrbm diildrfn tif bfffdtfd flfmfnts
      */
-    protected void fireTreeStructureChanged(Object source, Object[] path,
-                                        int[] childIndices,
-                                        Object[] children) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path,
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeStructureChanged(e);
+    protfdtfd void firfTrffStrudturfCibngfd(Objfdt sourdf, Objfdt[] pbti,
+                                        int[] diildIndidfs,
+                                        Objfdt[] diildrfn) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        TrffModflEvfnt f = null;
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TrffModflListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (f == null)
+                    f = nfw TrffModflEvfnt(sourdf, pbti,
+                                           diildIndidfs, diildrfn);
+                ((TrffModflListfnfr)listfnfrs[i+1]).trffStrudturfCibngfd(f);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.
      *
-     * @param source the source of the {@code TreeModelEvent};
-     *               typically {@code this}
-     * @param path the path to the parent of the structure that has changed;
-     *             use {@code null} to identify the root has changed
+     * @pbrbm sourdf tif sourdf of tif {@dodf TrffModflEvfnt};
+     *               typidblly {@dodf tiis}
+     * @pbrbm pbti tif pbti to tif pbrfnt of tif strudturf tibt ibs dibngfd;
+     *             usf {@dodf null} to idfntify tif root ibs dibngfd
      */
-    private void fireTreeStructureChanged(Object source, TreePath path) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path);
-                ((TreeModelListener)listeners[i+1]).treeStructureChanged(e);
+    privbtf void firfTrffStrudturfCibngfd(Objfdt sourdf, TrffPbti pbti) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        TrffModflEvfnt f = null;
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TrffModflListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (f == null)
+                    f = nfw TrffModflEvfnt(sourdf, pbti);
+                ((TrffModflListfnfr)listfnfrs[i+1]).trffStrudturfCibngfd(f);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this model.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis modfl.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using tif
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      *
      * <p>
      *
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal,
-     * such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>DefaultTreeModel</code> <code>m</code>
-     * for its tree model listeners with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl,
+     * sudi bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>DffbultTrffModfl</dodf> <dodf>m</dodf>
+     * for its trff modfl listfnfrs witi tif following dodf:
      *
-     * <pre>TreeModelListener[] tmls = (TreeModelListener[])(m.getListeners(TreeModelListener.class));</pre>
+     * <prf>TrffModflListfnfr[] tmls = (TrffModflListfnfr[])(m.gftListfnfrs(TrffModflListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no sudi listfnfrs fxist, tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s on this component,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm listfnfrTypf tif typf of listfnfrs rfqufstfd; tiis pbrbmftfr
+     *          siould spfdify bn intfrfbdf tibt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on tiis domponfnt,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @see #getTreeModelListeners
+     * @sff #gftTrffModflListfnfrs
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        return listenerList.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
     }
 
-    // Serialization support.
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        Vector<Object> values = new Vector<Object>();
+    // Sfriblizbtion support.
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        Vfdtor<Objfdt> vblufs = nfw Vfdtor<Objfdt>();
 
-        s.defaultWriteObject();
-        // Save the root, if its Serializable.
-        if(root != null && root instanceof Serializable) {
-            values.addElement("root");
-            values.addElement(root);
+        s.dffbultWritfObjfdt();
+        // Sbvf tif root, if its Sfriblizbblf.
+        if(root != null && root instbndfof Sfriblizbblf) {
+            vblufs.bddElfmfnt("root");
+            vblufs.bddElfmfnt(root);
         }
-        s.writeObject(values);
+        s.writfObjfdt(vblufs);
     }
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
 
-        Vector<?>       values = (Vector)s.readObject();
-        int             indexCounter = 0;
-        int             maxCounter = values.size();
+        Vfdtor<?>       vblufs = (Vfdtor)s.rfbdObjfdt();
+        int             indfxCountfr = 0;
+        int             mbxCountfr = vblufs.sizf();
 
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("root")) {
-            root = (TreeNode)values.elementAt(++indexCounter);
-            indexCounter++;
+        if(indfxCountfr < mbxCountfr && vblufs.flfmfntAt(indfxCountfr).
+           fqubls("root")) {
+            root = (TrffNodf)vblufs.flfmfntAt(++indfxCountfr);
+            indfxCountfr++;
         }
     }
 
 
-} // End of class DefaultTreeModel
+} // End of dlbss DffbultTrffModfl

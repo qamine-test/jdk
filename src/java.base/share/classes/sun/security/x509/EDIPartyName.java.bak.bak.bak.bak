@@ -1,0 +1,257 @@
+/*
+ * Copyright (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf EDIPbrtyNbmf of thf GfnfrblNbmf dhoidf.
+ * Thf ASN.1 syntbx for this is:
+ * <prf>
+ * EDIPbrtyNbmf ::= SEQUENCE {
+ *     nbmfAssignfr  [0]  DirfdtoryString OPTIONAL,
+ *     pbrtyNbmf     [1]  DirfdtoryString }
+ * </prf>
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff GfnfrblNbmf
+ * @sff GfnfrblNbmfs
+ * @sff GfnfrblNbmfIntfrfbdf
+ */
+publid dlbss EDIPbrtyNbmf implfmfnts GfnfrblNbmfIntfrfbdf {
+
+    // Privbtf dbtb mfmbfrs
+    privbtf stbtid finbl bytf TAG_ASSIGNER = 0;
+    privbtf stbtid finbl bytf TAG_PARTYNAME = 1;
+
+    privbtf String bssignfr = null;
+    privbtf String pbrty = null;
+
+    privbtf int myhbsh = -1;
+
+    /**
+     * Crfbtf thf EDIPbrtyNbmf objfdt from thf spfdififd nbmfs.
+     *
+     * @pbrbm bssignfrNbmf thf nbmf of thf bssignfr
+     * @pbrbm pbrtyNbmf thf nbmf of thf EDI pbrty.
+     */
+    publid EDIPbrtyNbmf(String bssignfrNbmf, String pbrtyNbmf) {
+        this.bssignfr = bssignfrNbmf;
+        this.pbrty = pbrtyNbmf;
+    }
+
+    /**
+     * Crfbtf thf EDIPbrtyNbmf objfdt from thf spfdififd nbmf.
+     *
+     * @pbrbm pbrtyNbmf thf nbmf of thf EDI pbrty.
+     */
+    publid EDIPbrtyNbmf(String pbrtyNbmf) {
+        this.pbrty = pbrtyNbmf;
+    }
+
+    /**
+     * Crfbtf thf EDIPbrtyNbmf objfdt from thf pbssfd fndodfd Dfr vbluf.
+     *
+     * @pbrbm dfrVbluf thf fndodfd DER EDIPbrtyNbmf.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid EDIPbrtyNbmf(DfrVbluf dfrVbluf) throws IOExdfption {
+        DfrInputStrfbm in = nfw DfrInputStrfbm(dfrVbluf.toBytfArrby());
+        DfrVbluf[] sfq = in.gftSfqufndf(2);
+
+        int lfn = sfq.lfngth;
+        if (lfn < 1 || lfn > 2)
+            throw nfw IOExdfption("Invblid fndoding of EDIPbrtyNbmf");
+
+        for (int i = 0; i < lfn; i++) {
+            DfrVbluf opt = sfq[i];
+            if (opt.isContfxtSpfdifid(TAG_ASSIGNER) &&
+                !opt.isConstrudtfd()) {
+                if (bssignfr != null)
+                    throw nfw IOExdfption("Duplidbtf nbmfAssignfr found in"
+                                          + " EDIPbrtyNbmf");
+                opt = opt.dbtb.gftDfrVbluf();
+                bssignfr = opt.gftAsString();
+            }
+            if (opt.isContfxtSpfdifid(TAG_PARTYNAME) &&
+                !opt.isConstrudtfd()) {
+                if (pbrty != null)
+                    throw nfw IOExdfption("Duplidbtf pbrtyNbmf found in"
+                                          + " EDIPbrtyNbmf");
+                opt = opt.dbtb.gftDfrVbluf();
+                pbrty = opt.gftAsString();
+            }
+        }
+    }
+
+    /**
+     * Rfturn thf typf of thf GfnfrblNbmf.
+     */
+    publid int gftTypf() {
+        rfturn (GfnfrblNbmfIntfrfbdf.NAME_EDI);
+    }
+
+    /**
+     * Endodf thf EDI pbrty nbmf into thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DER strfbm to fndodf thf EDIPbrtyNbmf to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tbggfd = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+
+        if (bssignfr != null) {
+            DfrOutputStrfbm tmp2 = nfw DfrOutputStrfbm();
+            // XXX - shd dhfdk is dhbrs fit into PrintbblfString
+            tmp2.putPrintbblfString(bssignfr);
+            tbggfd.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                 fblsf, TAG_ASSIGNER), tmp2);
+        }
+        if (pbrty == null)
+            throw  nfw IOExdfption("Cbnnot hbvf null pbrtyNbmf");
+
+        // XXX - shd dhfdk is dhbrs fit into PrintbblfString
+        tmp.putPrintbblfString(pbrty);
+        tbggfd.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                 fblsf, TAG_PARTYNAME), tmp);
+
+        out.writf(DfrVbluf.tbg_Sfqufndf, tbggfd);
+    }
+
+    /**
+     * Rfturn thf bssignfrNbmf
+     *
+     * @rfturns String bssignfrNbmf
+     */
+    publid String gftAssignfrNbmf() {
+        rfturn bssignfr;
+    }
+
+    /**
+     * Rfturn thf pbrtyNbmf
+     *
+     * @rfturns String pbrtyNbmf
+     */
+    publid String gftPbrtyNbmf() {
+        rfturn pbrty;
+    }
+
+    /**
+     * Compbrf this EDIPbrtyNbmf with bnothfr.  Dofs b bytf-string
+     * dompbrison without rfgbrd to typf of thf pbrtyNbmf bnd
+     * thf bssignfrNbmf.
+     *
+     * @rfturns truf if thf two nbmfs mbtdh
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (!(othfr instbndfof EDIPbrtyNbmf))
+            rfturn fblsf;
+        String othfrAssignfr = ((EDIPbrtyNbmf)othfr).bssignfr;
+        if (this.bssignfr == null) {
+            if (othfrAssignfr != null)
+                rfturn fblsf;
+        } flsf {
+            if (!(this.bssignfr.fqubls(othfrAssignfr)))
+                rfturn fblsf;
+        }
+        String othfrPbrty = ((EDIPbrtyNbmf)othfr).pbrty;
+        if (this.pbrty == null) {
+            if (othfrPbrty != null)
+                rfturn fblsf;
+        } flsf {
+            if (!(this.pbrty.fqubls(othfrPbrty)))
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this EDIPbrtyNbmf.
+     *
+     * @rfturn b hbsh dodf vbluf.
+     */
+    publid int hbshCodf() {
+        if (myhbsh == -1) {
+            myhbsh = 37 + pbrty.hbshCodf();
+            if (bssignfr != null) {
+                myhbsh = 37 * myhbsh + bssignfr.hbshCodf();
+            }
+        }
+        rfturn myhbsh;
+    }
+
+    /**
+     * Rfturn thf printbblf string.
+     */
+    publid String toString() {
+        rfturn ("EDIPbrtyNbmf: " +
+                 ((bssignfr == null) ? "" :
+                   ("  nbmfAssignfr = " + bssignfr + ","))
+                 + "  pbrtyNbmf = " + pbrty);
+    }
+
+    /**
+     * Rfturn donstrbint typf:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbmf is difffrfnt typf from nbmf (i.f. dofs not donstrbin)
+     *   <li>NAME_MATCH = 0: input nbmf mbtdhfs nbmf
+     *   <li>NAME_NARROWS = 1: input nbmf nbrrows nbmf
+     *   <li>NAME_WIDENS = 2: input nbmf widfns nbmf
+     *   <li>NAME_SAME_TYPE = 3: input nbmf dofs not mbtdh or nbrrow nbmf, but is sbmf typf
+     * </ul>.  Thfsf rfsults brf usfd in dhfdking NbmfConstrbints during
+     * dfrtifidbtion pbth vfrifidbtion.
+     *
+     * @pbrbm inputNbmf to bf dhfdkfd for bfing donstrbinfd
+     * @rfturns donstrbint typf bbovf
+     * @throws UnsupportfdOpfrbtionExdfption if nbmf is sbmf typf, but dompbrison opfrbtions brf
+     *          not supportfd for this nbmf typf.
+     */
+    publid int donstrbins(GfnfrblNbmfIntfrfbdf inputNbmf) throws UnsupportfdOpfrbtionExdfption {
+        int donstrbintTypf;
+        if (inputNbmf == null)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf if (inputNbmf.gftTypf() != NAME_EDI)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf {
+            throw nfw UnsupportfdOpfrbtionExdfption("Nbrrowing, widfning, bnd mbtdhing of nbmfs not supportfd for EDIPbrtyNbmf");
+        }
+        rfturn donstrbintTypf;
+    }
+
+    /**
+     * Rfturn subtrff dfpth of this nbmf for purposfs of dftfrmining
+     * NbmfConstrbints minimum bnd mbximum bounds bnd for dbldulbting
+     * pbth lfngths in nbmf subtrffs.
+     *
+     * @rfturns distbndf of nbmf from root
+     * @throws UnsupportfdOpfrbtionExdfption if not supportfd for this nbmf typf
+     */
+    publid int subtrffDfpth() throws UnsupportfdOpfrbtionExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("subtrffDfpth() not supportfd for EDIPbrtyNbmf");
+    }
+
+}

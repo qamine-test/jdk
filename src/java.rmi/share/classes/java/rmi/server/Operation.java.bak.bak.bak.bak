@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 1996, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.sfrvfr;
+
+/**
+ * An <dodf>Opfrbtion</dodf> dontbins b dfsdription of b Jbvb mfthod.
+ * <dodf>Opfrbtion</dodf> objfdts wfrf usfd in JDK1.1 vfrsion stubs bnd
+ * skflftons. Thf <dodf>Opfrbtion</dodf> dlbss is not nffdfd for 1.2 stylf
+ * stubs (stubs gfnfrbtfd with <dodf>rmid -v1.2</dodf>); hfndf, this dlbss
+ * is dfprfdbtfd.
+ *
+ * @sindf 1.1
+ * @dfprfdbtfd no rfplbdfmfnt
+ */
+@Dfprfdbtfd
+publid dlbss Opfrbtion {
+    privbtf String opfrbtion;
+
+    /**
+     * Crfbtfs b nfw Opfrbtion objfdt.
+     * @pbrbm op mfthod nbmf
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.1
+     */
+    @Dfprfdbtfd
+    publid Opfrbtion(String op) {
+        opfrbtion = op;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf mfthod.
+     * @rfturn mfthod nbmf
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.1
+     */
+    @Dfprfdbtfd
+    publid String gftOpfrbtion() {
+        rfturn opfrbtion;
+    }
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of thf opfrbtion.
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.1
+     */
+    @Dfprfdbtfd
+    publid String toString() {
+        rfturn opfrbtion;
+    }
+}

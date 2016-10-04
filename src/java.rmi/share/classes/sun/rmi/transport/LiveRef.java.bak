@@ -1,317 +1,317 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.transport;
+pbdkbgf sun.rmi.trbnsport;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.server.ObjID;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.util.Arrays;
-import sun.rmi.transport.tcp.TCPEndpoint;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.util.Arrbys;
+import sun.rmi.trbnsport.tdp.TCPEndpoint;
 
 /**
- * NOTE: There is a JDK-internal dependency on the existence of this
- * class and its getClientSocketFactory method in the implementation
- * of javax.management.remote.rmi.RMIConnector.
+ * NOTE: Tifrf is b JDK-intfrnbl dfpfndfndy on tif fxistfndf of tiis
+ * dlbss bnd its gftClifntSodkftFbdtory mftiod in tif implfmfntbtion
+ * of jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor.
  **/
-public class LiveRef implements Cloneable {
-    /** wire representation for the object*/
-    private final Endpoint ep;
-    private final ObjID id;
+publid dlbss LivfRff implfmfnts Clonfbblf {
+    /** wirf rfprfsfntbtion for tif objfdt*/
+    privbtf finbl Endpoint fp;
+    privbtf finbl ObjID id;
 
-    /** cached connection service for the object */
-    private transient Channel ch;
+    /** dbdifd donnfdtion sfrvidf for tif objfdt */
+    privbtf trbnsifnt Cibnnfl di;
 
-    /** flag to indicate whether this ref specifies a local server or
-     * is a ref for a remote object (surrogate)
+    /** flbg to indidbtf wiftifr tiis rff spfdififs b lodbl sfrvfr or
+     * is b rff for b rfmotf objfdt (surrogbtf)
      */
-    private final boolean isLocal;
+    privbtf finbl boolfbn isLodbl;
 
     /**
-     * Construct a "well-known" live reference to a remote object
-     * @param isLocalServer If true, indicates this ref specifies a local
-     * server in this address space; if false, the ref is for a remote
-     * object (hence a surrogate or proxy) in another address space.
+     * Construdt b "wfll-known" livf rfffrfndf to b rfmotf objfdt
+     * @pbrbm isLodblSfrvfr If truf, indidbtfs tiis rff spfdififs b lodbl
+     * sfrvfr in tiis bddrfss spbdf; if fblsf, tif rff is for b rfmotf
+     * objfdt (ifndf b surrogbtf or proxy) in bnotifr bddrfss spbdf.
      */
-    public LiveRef(ObjID objID, Endpoint endpoint, boolean isLocal) {
-        ep = endpoint;
+    publid LivfRff(ObjID objID, Endpoint fndpoint, boolfbn isLodbl) {
+        fp = fndpoint;
         id = objID;
-        this.isLocal = isLocal;
+        tiis.isLodbl = isLodbl;
     }
 
     /**
-     * Construct a new live reference for a server object in the local
-     * address space.
+     * Construdt b nfw livf rfffrfndf for b sfrvfr objfdt in tif lodbl
+     * bddrfss spbdf.
      */
-    public LiveRef(int port) {
-        this((new ObjID()), port);
+    publid LivfRff(int port) {
+        tiis((nfw ObjID()), port);
     }
 
     /**
-     * Construct a new live reference for a server object in the local
-     * address space, to use sockets of the specified type.
+     * Construdt b nfw livf rfffrfndf for b sfrvfr objfdt in tif lodbl
+     * bddrfss spbdf, to usf sodkfts of tif spfdififd typf.
      */
-    public LiveRef(int port,
-                   RMIClientSocketFactory csf,
-                   RMIServerSocketFactory ssf)
+    publid LivfRff(int port,
+                   RMIClifntSodkftFbdtory dsf,
+                   RMISfrvfrSodkftFbdtory ssf)
     {
-        this((new ObjID()), port, csf, ssf);
+        tiis((nfw ObjID()), port, dsf, ssf);
     }
 
     /**
-     * Construct a new live reference for a "well-known" server object
-     * in the local address space.
+     * Construdt b nfw livf rfffrfndf for b "wfll-known" sfrvfr objfdt
+     * in tif lodbl bddrfss spbdf.
      */
-    public LiveRef(ObjID objID, int port) {
-        this(objID, TCPEndpoint.getLocalEndpoint(port), true);
+    publid LivfRff(ObjID objID, int port) {
+        tiis(objID, TCPEndpoint.gftLodblEndpoint(port), truf);
     }
 
     /**
-     * Construct a new live reference for a "well-known" server object
-     * in the local address space, to use sockets of the specified type.
+     * Construdt b nfw livf rfffrfndf for b "wfll-known" sfrvfr objfdt
+     * in tif lodbl bddrfss spbdf, to usf sodkfts of tif spfdififd typf.
      */
-    public LiveRef(ObjID objID, int port, RMIClientSocketFactory csf,
-                   RMIServerSocketFactory ssf)
+    publid LivfRff(ObjID objID, int port, RMIClifntSodkftFbdtory dsf,
+                   RMISfrvfrSodkftFbdtory ssf)
     {
-        this(objID, TCPEndpoint.getLocalEndpoint(port, csf, ssf), true);
+        tiis(objID, TCPEndpoint.gftLodblEndpoint(port, dsf, ssf), truf);
     }
 
     /**
-     * Return a shallow copy of this ref.
+     * Rfturn b sibllow dopy of tiis rff.
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            LiveRef newRef = (LiveRef) super.clone();
-            return newRef;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e.toString(), e);
+            LivfRff nfwRff = (LivfRff) supfr.dlonf();
+            rfturn nfwRff;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f.toString(), f);
         }
     }
 
     /**
-     * Return the port number associated with this ref.
+     * Rfturn tif port numbfr bssodibtfd witi tiis rff.
      */
-    public int getPort() {
-        return ((TCPEndpoint) ep).getPort();
+    publid int gftPort() {
+        rfturn ((TCPEndpoint) fp).gftPort();
     }
 
     /**
-     * Return the client socket factory associated with this ref.
+     * Rfturn tif dlifnt sodkft fbdtory bssodibtfd witi tiis rff.
      *
-     * NOTE: There is a JDK-internal dependency on the existence of
-     * this method in the implementation of
-     * javax.management.remote.rmi.RMIConnector.
+     * NOTE: Tifrf is b JDK-intfrnbl dfpfndfndy on tif fxistfndf of
+     * tiis mftiod in tif implfmfntbtion of
+     * jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor.
      **/
-    public RMIClientSocketFactory getClientSocketFactory() {
-        return ((TCPEndpoint) ep).getClientSocketFactory();
+    publid RMIClifntSodkftFbdtory gftClifntSodkftFbdtory() {
+        rfturn ((TCPEndpoint) fp).gftClifntSodkftFbdtory();
     }
 
     /**
-     * Return the server socket factory associated with this ref.
+     * Rfturn tif sfrvfr sodkft fbdtory bssodibtfd witi tiis rff.
      */
-    public RMIServerSocketFactory getServerSocketFactory() {
-        return ((TCPEndpoint) ep).getServerSocketFactory();
+    publid RMISfrvfrSodkftFbdtory gftSfrvfrSodkftFbdtory() {
+        rfturn ((TCPEndpoint) fp).gftSfrvfrSodkftFbdtory();
     }
 
     /**
-     * Export the object to accept incoming calls.
+     * Export tif objfdt to bddfpt indoming dblls.
      */
-    public void exportObject(Target target) throws RemoteException {
-        ep.exportObject(target);
+    publid void fxportObjfdt(Tbrgft tbrgft) tirows RfmotfExdfption {
+        fp.fxportObjfdt(tbrgft);
     }
 
-    public Channel getChannel() throws RemoteException {
-        if (ch == null) {
-            ch = ep.getChannel();
+    publid Cibnnfl gftCibnnfl() tirows RfmotfExdfption {
+        if (di == null) {
+            di = fp.gftCibnnfl();
         }
-        return ch;
+        rfturn di;
     }
 
-    public ObjID getObjID() {
-        return id;
+    publid ObjID gftObjID() {
+        rfturn id;
     }
 
-    Endpoint getEndpoint() {
-        return ep;
+    Endpoint gftEndpoint() {
+        rfturn fp;
     }
 
-    public String toString() {
-        String type;
+    publid String toString() {
+        String typf;
 
-        if (isLocal)
-            type = "local";
-        else
-            type = "remote";
-        return "[endpoint:" + ep + "(" + type + ")," +
+        if (isLodbl)
+            typf = "lodbl";
+        flsf
+            typf = "rfmotf";
+        rfturn "[fndpoint:" + fp + "(" + typf + ")," +
             "objID:" + id + "]";
     }
 
-    public int hashCode() {
-        return id.hashCode();
+    publid int ibsiCodf() {
+        rfturn id.ibsiCodf();
     }
 
-    public boolean equals(Object obj) {
-        if (obj != null && obj instanceof LiveRef) {
-            LiveRef ref = (LiveRef) obj;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj != null && obj instbndfof LivfRff) {
+            LivfRff rff = (LivfRff) obj;
 
-            return (ep.equals(ref.ep) && id.equals(ref.id) &&
-                    isLocal == ref.isLocal);
-        } else {
-            return false;
+            rfturn (fp.fqubls(rff.fp) && id.fqubls(rff.id) &&
+                    isLodbl == rff.isLodbl);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public boolean remoteEquals(Object obj) {
-        if (obj != null && obj instanceof LiveRef) {
-            LiveRef ref = (LiveRef) obj;
+    publid boolfbn rfmotfEqubls(Objfdt obj) {
+        if (obj != null && obj instbndfof LivfRff) {
+            LivfRff rff = (LivfRff) obj;
 
-            TCPEndpoint thisEp = ((TCPEndpoint) ep);
-            TCPEndpoint refEp = ((TCPEndpoint) ref.ep);
+            TCPEndpoint tiisEp = ((TCPEndpoint) fp);
+            TCPEndpoint rffEp = ((TCPEndpoint) rff.fp);
 
-            RMIClientSocketFactory thisClientFactory =
-                thisEp.getClientSocketFactory();
-            RMIClientSocketFactory refClientFactory =
-                refEp.getClientSocketFactory();
+            RMIClifntSodkftFbdtory tiisClifntFbdtory =
+                tiisEp.gftClifntSodkftFbdtory();
+            RMIClifntSodkftFbdtory rffClifntFbdtory =
+                rffEp.gftClifntSodkftFbdtory();
 
             /**
-             * Fix for 4254103: LiveRef.remoteEquals should not fail
-             * if one of the objects in the comparison has a null
-             * server socket.  Comparison should only consider the
-             * following criteria:
+             * Fix for 4254103: LivfRff.rfmotfEqubls siould not fbil
+             * if onf of tif objfdts in tif dompbrison ibs b null
+             * sfrvfr sodkft.  Compbrison siould only donsidfr tif
+             * following dritfrib:
              *
-             * hosts, ports, client socket factories and object IDs.
+             * iosts, ports, dlifnt sodkft fbdtorifs bnd objfdt IDs.
              */
-            if (thisEp.getPort() != refEp.getPort() ||
-                !thisEp.getHost().equals(refEp.getHost()))
+            if (tiisEp.gftPort() != rffEp.gftPort() ||
+                !tiisEp.gftHost().fqubls(rffEp.gftHost()))
             {
-                return false;
+                rfturn fblsf;
             }
-            if ((thisClientFactory == null) ^ (refClientFactory == null)) {
-                return false;
+            if ((tiisClifntFbdtory == null) ^ (rffClifntFbdtory == null)) {
+                rfturn fblsf;
             }
-            if ((thisClientFactory != null) &&
-                !((thisClientFactory.getClass() ==
-                   refClientFactory.getClass()) &&
-                  (thisClientFactory.equals(refClientFactory))))
+            if ((tiisClifntFbdtory != null) &&
+                !((tiisClifntFbdtory.gftClbss() ==
+                   rffClifntFbdtory.gftClbss()) &&
+                  (tiisClifntFbdtory.fqubls(rffClifntFbdtory))))
             {
-                return false;
+                rfturn fblsf;
             }
-            return (id.equals(ref.id));
-        } else {
-            return false;
+            rfturn (id.fqubls(rff.id));
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public void write(ObjectOutput out, boolean useNewFormat)
-        throws IOException
+    publid void writf(ObjfdtOutput out, boolfbn usfNfwFormbt)
+        tirows IOExdfption
     {
-        boolean isResultStream = false;
-        if (out instanceof ConnectionOutputStream) {
-            ConnectionOutputStream stream = (ConnectionOutputStream) out;
-            isResultStream = stream.isResultStream();
+        boolfbn isRfsultStrfbm = fblsf;
+        if (out instbndfof ConnfdtionOutputStrfbm) {
+            ConnfdtionOutputStrfbm strfbm = (ConnfdtionOutputStrfbm) out;
+            isRfsultStrfbm = strfbm.isRfsultStrfbm();
             /*
-             * Ensure that referential integrity is not broken while
-             * this LiveRef is in transit.  If it is being marshalled
-             * as part of a result, it may not otherwise be strongly
-             * reachable after the remote call has completed; even if
-             * it is being marshalled as part of an argument, the VM
-             * may determine that the reference on the stack is no
-             * longer reachable after marshalling (see 6181943)--
-             * therefore, tell the stream to save a reference until a
-             * timeout expires or, for results, a DGCAck message has
-             * been received from the caller, or for arguments, the
-             * remote call has completed.  For a "local" LiveRef, save
-             * a reference to the impl directly, because the impl is
-             * not reachable from the LiveRef (see 4114579);
-             * otherwise, save a reference to the LiveRef, for the
-             * client-side DGC to watch over.  (Also see 4017232.)
+             * Ensurf tibt rfffrfntibl intfgrity is not brokfn wiilf
+             * tiis LivfRff is in trbnsit.  If it is bfing mbrsibllfd
+             * bs pbrt of b rfsult, it mby not otifrwisf bf strongly
+             * rfbdibblf bftfr tif rfmotf dbll ibs domplftfd; fvfn if
+             * it is bfing mbrsibllfd bs pbrt of bn brgumfnt, tif VM
+             * mby dftfrminf tibt tif rfffrfndf on tif stbdk is no
+             * longfr rfbdibblf bftfr mbrsiblling (sff 6181943)--
+             * tifrfforf, tfll tif strfbm to sbvf b rfffrfndf until b
+             * timfout fxpirfs or, for rfsults, b DGCAdk mfssbgf ibs
+             * bffn rfdfivfd from tif dbllfr, or for brgumfnts, tif
+             * rfmotf dbll ibs domplftfd.  For b "lodbl" LivfRff, sbvf
+             * b rfffrfndf to tif impl dirfdtly, bfdbusf tif impl is
+             * not rfbdibblf from tif LivfRff (sff 4114579);
+             * otifrwisf, sbvf b rfffrfndf to tif LivfRff, for tif
+             * dlifnt-sidf DGC to wbtdi ovfr.  (Also sff 4017232.)
              */
-            if (isLocal) {
-                ObjectEndpoint oe =
-                    new ObjectEndpoint(id, ep.getInboundTransport());
-                Target target = ObjectTable.getTarget(oe);
+            if (isLodbl) {
+                ObjfdtEndpoint of =
+                    nfw ObjfdtEndpoint(id, fp.gftInboundTrbnsport());
+                Tbrgft tbrgft = ObjfdtTbblf.gftTbrgft(of);
 
-                if (target != null) {
-                    Remote impl = target.getImpl();
+                if (tbrgft != null) {
+                    Rfmotf impl = tbrgft.gftImpl();
                     if (impl != null) {
-                        stream.saveObject(impl);
+                        strfbm.sbvfObjfdt(impl);
                     }
                 }
-            } else {
-                stream.saveObject(this);
+            } flsf {
+                strfbm.sbvfObjfdt(tiis);
             }
         }
-        // All together now write out the endpoint, id, and flag
+        // All togftifr now writf out tif fndpoint, id, bnd flbg
 
-        // (need to choose whether or not to use old JDK1.1 endpoint format)
-        if (useNewFormat) {
-            ((TCPEndpoint) ep).write(out);
-        } else {
-            ((TCPEndpoint) ep).writeHostPortFormat(out);
+        // (nffd to dioosf wiftifr or not to usf old JDK1.1 fndpoint formbt)
+        if (usfNfwFormbt) {
+            ((TCPEndpoint) fp).writf(out);
+        } flsf {
+            ((TCPEndpoint) fp).writfHostPortFormbt(out);
         }
-        id.write(out);
-        out.writeBoolean(isResultStream);
+        id.writf(out);
+        out.writfBoolfbn(isRfsultStrfbm);
     }
 
-    public static LiveRef read(ObjectInput in, boolean useNewFormat)
-        throws IOException, ClassNotFoundException
+    publid stbtid LivfRff rfbd(ObjfdtInput in, boolfbn usfNfwFormbt)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        Endpoint ep;
+        Endpoint fp;
         ObjID id;
 
-        // Now read in the endpoint, id, and result flag
-        // (need to choose whether or not to read old JDK1.1 endpoint format)
-        if (useNewFormat) {
-            ep = TCPEndpoint.read(in);
-        } else {
-            ep = TCPEndpoint.readHostPortFormat(in);
+        // Now rfbd in tif fndpoint, id, bnd rfsult flbg
+        // (nffd to dioosf wiftifr or not to rfbd old JDK1.1 fndpoint formbt)
+        if (usfNfwFormbt) {
+            fp = TCPEndpoint.rfbd(in);
+        } flsf {
+            fp = TCPEndpoint.rfbdHostPortFormbt(in);
         }
-        id = ObjID.read(in);
-        boolean isResultStream = in.readBoolean();
+        id = ObjID.rfbd(in);
+        boolfbn isRfsultStrfbm = in.rfbdBoolfbn();
 
-        LiveRef ref = new LiveRef(id, ep, false);
+        LivfRff rff = nfw LivfRff(id, fp, fblsf);
 
-        if (in instanceof ConnectionInputStream) {
-            ConnectionInputStream stream = (ConnectionInputStream)in;
-            // save ref to send "dirty" call after all args/returns
-            // have been unmarshaled.
-            stream.saveRef(ref);
-            if (isResultStream) {
-                // set flag in stream indicating that remote objects were
-                // unmarshaled.  A DGC ack should be sent by the transport.
-                stream.setAckNeeded();
+        if (in instbndfof ConnfdtionInputStrfbm) {
+            ConnfdtionInputStrfbm strfbm = (ConnfdtionInputStrfbm)in;
+            // sbvf rff to sfnd "dirty" dbll bftfr bll brgs/rfturns
+            // ibvf bffn unmbrsiblfd.
+            strfbm.sbvfRff(rff);
+            if (isRfsultStrfbm) {
+                // sft flbg in strfbm indidbting tibt rfmotf objfdts wfrf
+                // unmbrsiblfd.  A DGC bdk siould bf sfnt by tif trbnsport.
+                strfbm.sftAdkNffdfd();
             }
-        } else {
-            DGCClient.registerRefs(ep, Arrays.asList(new LiveRef[] { ref }));
+        } flsf {
+            DGCClifnt.rfgistfrRffs(fp, Arrbys.bsList(nfw LivfRff[] { rff }));
         }
 
-        return ref;
+        rfturn rff;
     }
 }

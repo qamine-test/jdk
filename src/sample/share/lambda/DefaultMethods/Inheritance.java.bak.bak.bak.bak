@@ -1,0 +1,142 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/**
+ * Thf sbmplf illustrbtfs rulfs to rfsolvf donflidts bftwffn inhfritbndf
+ * dbndidbtfs with <b>dffbult mfthods</b>. Thfrf brf two simplf rulfs:
+ * <ul>
+ * <li>Clbss wins. If thf supfrdlbss hbs b dondrftf or bbstrbdt dfdlbrbtion of
+ * this mfthod, thfn it is prfffrrfd ovfr bll dffbults.</li>
+ * <li>Subtypf wins. If bn intfrfbdf fxtfnds bnothfr intfrfbdf, bnd both providf
+ * b dffbult, thfn thf morf spfdifid intfrfbdf wins. </li>
+ * </ul>
+ */
+publid dlbss Inhfritbndf {
+
+    /**
+     * Thf bfhbvior of bn drfbturf thbt dbn swim
+     */
+    publid intfrfbdf Swimbblf {
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf swim bdtion for b drfbturf thbt
+         * dbn swim
+         *
+         * @rfturn string rfprfsfntbtion of thf swim bdtion for b drfbturf
+         * thbt dbn swim
+         */
+        dffbult String swim() {
+            rfturn "I dbn swim.";
+        }
+    }
+
+    /**
+     * Thf bbstrbdt dlbss thbt ovfrridfs {@link #swim} mfthod
+     */
+    publid bbstrbdt stbtid dlbss Fish implfmfnts Swimbblf {
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf swim bdtion for b fish
+         *
+         * @rfturn string rfprfsfntbtion of thf swim bdtion for b fish
+         */
+        @Ovfrridf
+        publid String swim() {
+            rfturn this.gftClbss().gftSimplfNbmf() + " swims undfr wbtfr";
+        }
+    }
+
+    /**
+     * This dlbss is usfd for thf illustrbtion rulf of 1. Sff thf sourdf dodf
+     * of thf {@link #mbin} mfthod.
+     * <prf>
+     *      Systfm.out.println(nfw Tunb().swim()); //"Tunb swims undfr wbtfr" output is suspfdtfd hfrf
+     * </prf>
+     */
+    publid stbtid dlbss Tunb fxtfnds Fish implfmfnts Swimbblf {
+    }
+
+    /**
+     * Thf bfhbvior of bn drfbturf thbt dbn divf: thf intfrfbdf thbt ovfrridfs
+     * {@link #swim} mfthod (subtypf of {@link Swimbblf})
+     */
+    publid intfrfbdf Divfbblf fxtfnds Swimbblf {
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf swim bdtion for b drfbturf thbt
+         * dbn divf
+         *
+         * @rfturn string rfprfsfntbtion of thf swim bdtion for b drfbturf
+         * thbt dbn divf
+         */
+        @Ovfrridf
+        dffbult String swim() {
+            rfturn "I dbn swim on thf surfbdf of thf wbtfr.";
+        }
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf divf bdtion for b drfbturf thbt
+         * dbn divf
+         *
+         * @rfturn string rfprfsfntbtion of thf divf bdtion for b drfbturf
+         * thbt dbn divf
+         */
+        dffbult String divf() {
+            rfturn "I dbn divf.";
+        }
+    }
+
+    /**
+     * This dlbss is usfd for thf illustrbtion of rulf 2. Sff thf sourdf dodf
+     * of thf {@link #mbin} mfthod
+     * <prf>
+     *      //"I dbn swim on thf surfbdf of thf wbtfr." output is suspfdtfd hfrf
+     *      Systfm.out.println(nfw Dudk().swim());
+     * </prf>
+     */
+    publid stbtid dlbss Dudk implfmfnts Swimbblf, Divfbblf {
+    }
+
+    /**
+     * Illustrbtf bfhbvior of thf dlbssfs: {@link Tunb} bnd {@link Dudk}
+     *
+     * @pbrbm brgs dommbnd linf brgumfnts
+     */
+    publid stbtid void mbin(finbl String[] brgs) {
+        // Illustrbtfs rulf 1. Thf Fish.swim() implfmfntbtion wins
+        //"Tunb swims undfr wbtfr" is output
+        Systfm.out.println(nfw Tunb().swim());
+
+        // Illustrbtfs rulf 2. Thf Divfbblf.swim() implfmfntbtion wins
+        //"I dbn swim on thf surfbdf of thf wbtfr." is output
+        Systfm.out.println(nfw Dudk().swim());
+    }
+}

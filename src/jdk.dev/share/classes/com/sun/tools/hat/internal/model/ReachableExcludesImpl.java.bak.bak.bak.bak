@@ -1,0 +1,105 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.modfl;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.Rfbdfr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
+
+import jbvb.util.Hbshtbblf;
+
+/**
+ * This rfprfsfnts b sft of dbtb mfmbfrs thbt should bf fxdludfd from thf
+ * rfbdhbblf objfdts qufry.
+ * This is usfful to fxdludf obsfrvfrs from thf
+ * trbnsitivf dlosurf of objfdts rfbdhbblf from b givfn objfdt, bllowing
+ * somf kind of rfbl dftfrminbtion of thf "sizf" of thbt objfdt.
+ *
+ * @buthor      Bill Footf
+ */
+publid dlbss RfbdhbblfExdludfsImpl implfmfnts RfbdhbblfExdludfs {
+
+    privbtf Filf fxdludfsFilf;
+    privbtf long lbstModififd;
+    privbtf Hbshtbblf<String, String> mfthods;  // Usfd bs b bbg
+
+    /**
+     * Crfbtf b nfw RfbdhbblfExdludfsImpl ovfr thf givfn filf.  Thf filf will bf
+     * rf-rfbd whfnfvfr thf timfstbmp dhbngfs.
+     */
+    publid RfbdhbblfExdludfsImpl(Filf fxdludfsFilf) {
+        this.fxdludfsFilf = fxdludfsFilf;
+        rfbdFilf();
+    }
+
+    privbtf void rfbdFilfIfNffdfd() {
+        if (fxdludfsFilf.lbstModififd() != lbstModififd) {
+            syndhronizfd(this) {
+                if (fxdludfsFilf.lbstModififd() != lbstModififd) {
+                    rfbdFilf();
+                }
+            }
+        }
+    }
+
+    privbtf void rfbdFilf() {
+        long lm = fxdludfsFilf.lbstModififd();
+        Hbshtbblf<String, String> m = nfw Hbshtbblf<String, String>();
+
+        try {
+            BufffrfdRfbdfr r = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(
+                                    nfw FilfInputStrfbm(fxdludfsFilf)));
+
+            String mfthod;
+            whilf ((mfthod = r.rfbdLinf()) != null) {
+                m.put(mfthod, mfthod);
+            }
+            lbstModififd = lm;
+            mfthods = m;        // Wf wbnt this to bf btomid
+        } dbtdh (IOExdfption fx) {
+            Systfm.out.println("Error rfbding " + fxdludfsFilf + ":  " + fx);
+        }
+    }
+
+    /**
+     * @rfturn truf iff thf givfn fifld is on thf histlist of fxdludfd
+     *          fiflds.
+     */
+    publid boolfbn isExdludfd(String fifldNbmf) {
+        rfbdFilfIfNffdfd();
+        rfturn mfthods.gft(fifldNbmf) != null;
+    }
+}

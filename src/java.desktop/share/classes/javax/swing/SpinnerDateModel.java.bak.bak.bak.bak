@@ -1,0 +1,465 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.util.*;
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+ * A <dodf>SpinnfrModfl</dodf> for sfqufndfs of <dodf>Dbtf</dodf>s.
+ * Thf uppfr bnd lowfr bounds of thf sfqufndf brf dffinfd by propfrtifs dbllfd
+ * <dodf>stbrt</dodf> bnd <dodf>fnd</dodf> bnd thf sizf
+ * of thf indrfbsf or dfdrfbsf domputfd by thf <dodf>nfxtVbluf</dodf>
+ * bnd <dodf>prfviousVbluf</dodf> mfthods is dffinfd by b propfrty
+ * dbllfd <dodf>dblfndbrFifld</dodf>.  Thf <dodf>stbrt</dodf>
+ * bnd <dodf>fnd</dodf> propfrtifs dbn bf <dodf>null</dodf> to
+ * indidbtf thbt thf sfqufndf hbs no lowfr or uppfr limit.
+ * <p>
+ * Thf vbluf of thf <dodf>dblfndbrFifld</dodf> propfrty must bf onf of thf
+ * <dodf>jbvb.util.Cblfndbr</dodf> donstbnts thbt spfdify b fifld
+ * within b <dodf>Cblfndbr</dodf>.  Thf <dodf>gftNfxtVbluf</dodf>
+ * bnd <dodf>gftPrfviousVbluf</dodf>
+ * mfthods dhbngf thf dbtf forwbrd or bbdkwbrds by this bmount.
+ * For fxbmplf, if <dodf>dblfndbrFifld</dodf> is <dodf>Cblfndbr.DAY_OF_WEEK</dodf>,
+ * thfn <dodf>nfxtVbluf</dodf> produdfs b <dodf>Dbtf</dodf> thbt's 24
+ * hours bftfr thf durrfnt <dodf>vbluf</dodf>, bnd <dodf>prfviousVbluf</dodf>
+ * produdfs b <dodf>Dbtf</dodf> thbt's 24 hours fbrlifr.
+ * <p>
+ * Thf lfgbl vblufs for <dodf>dblfndbrFifld</dodf> brf:
+ * <ul>
+ *   <li><dodf>Cblfndbr.ERA</dodf>
+ *   <li><dodf>Cblfndbr.YEAR</dodf>
+ *   <li><dodf>Cblfndbr.MONTH</dodf>
+ *   <li><dodf>Cblfndbr.WEEK_OF_YEAR</dodf>
+ *   <li><dodf>Cblfndbr.WEEK_OF_MONTH</dodf>
+ *   <li><dodf>Cblfndbr.DAY_OF_MONTH</dodf>
+ *   <li><dodf>Cblfndbr.DAY_OF_YEAR</dodf>
+ *   <li><dodf>Cblfndbr.DAY_OF_WEEK</dodf>
+ *   <li><dodf>Cblfndbr.DAY_OF_WEEK_IN_MONTH</dodf>
+ *   <li><dodf>Cblfndbr.AM_PM</dodf>
+ *   <li><dodf>Cblfndbr.HOUR</dodf>
+ *   <li><dodf>Cblfndbr.HOUR_OF_DAY</dodf>
+ *   <li><dodf>Cblfndbr.MINUTE</dodf>
+ *   <li><dodf>Cblfndbr.SECOND</dodf>
+ *   <li><dodf>Cblfndbr.MILLISECOND</dodf>
+ * </ul>
+ * Howfvfr somf UIs mby sft thf dblfndbrFifld bfforf dommitting thf fdit
+ * to spin thf fifld undfr thf dursor. If you only wbnt onf fifld to
+ * spin you dbn subdlbss bnd ignorf thf sftCblfndbrFifld dblls.
+ * <p>
+ * This modfl inhfrits b <dodf>ChbngfListfnfr</dodf>.  Thf
+ * <dodf>ChbngfListfnfrs</dodf> brf notififd whfnfvfr thf modfls
+ * <dodf>vbluf</dodf>, <dodf>dblfndbrFifld</dodf>,
+ * <dodf>stbrt</dodf>, or <dodf>fnd</dodf> propfrtifs dhbngfs.
+ *
+ * @sff JSpinnfr
+ * @sff SpinnfrModfl
+ * @sff AbstrbdtSpinnfrModfl
+ * @sff SpinnfrListModfl
+ * @sff SpinnfrNumbfrModfl
+ * @sff Cblfndbr#bdd
+ *
+ * @buthor Hbns Mullfr
+ * @sindf 1.4
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss SpinnfrDbtfModfl fxtfnds AbstrbdtSpinnfrModfl implfmfnts Sfriblizbblf
+{
+    privbtf Compbrbblf<Dbtf> stbrt, fnd;
+    privbtf Cblfndbr vbluf;
+    privbtf int dblfndbrFifld;
+
+
+    privbtf boolfbn dblfndbrFifldOK(int dblfndbrFifld) {
+        switdh(dblfndbrFifld) {
+        dbsf Cblfndbr.ERA:
+        dbsf Cblfndbr.YEAR:
+        dbsf Cblfndbr.MONTH:
+        dbsf Cblfndbr.WEEK_OF_YEAR:
+        dbsf Cblfndbr.WEEK_OF_MONTH:
+        dbsf Cblfndbr.DAY_OF_MONTH:
+        dbsf Cblfndbr.DAY_OF_YEAR:
+        dbsf Cblfndbr.DAY_OF_WEEK:
+        dbsf Cblfndbr.DAY_OF_WEEK_IN_MONTH:
+        dbsf Cblfndbr.AM_PM:
+        dbsf Cblfndbr.HOUR:
+        dbsf Cblfndbr.HOUR_OF_DAY:
+        dbsf Cblfndbr.MINUTE:
+        dbsf Cblfndbr.SECOND:
+        dbsf Cblfndbr.MILLISECOND:
+            rfturn truf;
+        dffbult:
+            rfturn fblsf;
+        }
+    }
+
+
+    /**
+     * Crfbtfs b <dodf>SpinnfrDbtfModfl</dodf> thbt rfprfsfnts b sfqufndf of dbtfs
+     * bftwffn <dodf>stbrt</dodf> bnd <dodf>fnd</dodf>.  Thf
+     * <dodf>nfxtVbluf</dodf> bnd <dodf>prfviousVbluf</dodf> mfthods
+     * domputf flfmfnts of thf sfqufndf by bdvbnding or rfvfrsing
+     * thf durrfnt dbtf <dodf>vbluf</dodf> by thf
+     * <dodf>dblfndbrFifld</dodf> timf unit.  For b prfdisf dfsdription
+     * of whbt it mfbns to indrfmfnt or dfdrfmfnt b <dodf>Cblfndbr</dodf>
+     * <dodf>fifld</dodf>, sff thf <dodf>bdd</dodf> mfthod in
+     * <dodf>jbvb.util.Cblfndbr</dodf>.
+     * <p>
+     * Thf <dodf>stbrt</dodf> bnd <dodf>fnd</dodf> pbrbmftfrs dbn bf
+     * <dodf>null</dodf> to indidbtf thbt thf rbngf dofsn't hbvf bn
+     * uppfr or lowfr bound.  If <dodf>vbluf</dodf> or
+     * <dodf>dblfndbrFifld</dodf> is <dodf>null</dodf>, or if both
+     * <dodf>stbrt</dodf> bnd <dodf>fnd</dodf> brf spfdififd bnd
+     * <dodf>minimum &gt; mbximum</dodf> thfn bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     * Similbrly if <dodf>(minimum &lt;= vbluf &lt;= mbximum)</dodf> is fblsf,
+     * bn IllfgblArgumfntExdfption is thrown.
+     *
+     * @pbrbm vbluf thf durrfnt (non <dodf>null</dodf>) vbluf of thf modfl
+     * @pbrbm stbrt thf first dbtf in thf sfqufndf or <dodf>null</dodf>
+     * @pbrbm fnd thf lbst dbtf in thf sfqufndf or <dodf>null</dodf>
+     * @pbrbm dblfndbrFifld onf of
+     *   <ul>
+     *    <li><dodf>Cblfndbr.ERA</dodf>
+     *    <li><dodf>Cblfndbr.YEAR</dodf>
+     *    <li><dodf>Cblfndbr.MONTH</dodf>
+     *    <li><dodf>Cblfndbr.WEEK_OF_YEAR</dodf>
+     *    <li><dodf>Cblfndbr.WEEK_OF_MONTH</dodf>
+     *    <li><dodf>Cblfndbr.DAY_OF_MONTH</dodf>
+     *    <li><dodf>Cblfndbr.DAY_OF_YEAR</dodf>
+     *    <li><dodf>Cblfndbr.DAY_OF_WEEK</dodf>
+     *    <li><dodf>Cblfndbr.DAY_OF_WEEK_IN_MONTH</dodf>
+     *    <li><dodf>Cblfndbr.AM_PM</dodf>
+     *    <li><dodf>Cblfndbr.HOUR</dodf>
+     *    <li><dodf>Cblfndbr.HOUR_OF_DAY</dodf>
+     *    <li><dodf>Cblfndbr.MINUTE</dodf>
+     *    <li><dodf>Cblfndbr.SECOND</dodf>
+     *    <li><dodf>Cblfndbr.MILLISECOND</dodf>
+     *   </ul>
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>vbluf</dodf> or
+     *    <dodf>dblfndbrFifld</dodf> brf <dodf>null</dodf>,
+     *    if <dodf>dblfndbrFifld</dodf> isn't vblid,
+     *    or if thf following fxprfssion is
+     *    fblsf: <dodf>(stbrt &lt;= vbluf &lt;= fnd)</dodf>.
+     *
+     * @sff Cblfndbr#bdd
+     * @sff #sftVbluf
+     * @sff #sftStbrt
+     * @sff #sftEnd
+     * @sff #sftCblfndbrFifld
+     */
+    publid SpinnfrDbtfModfl(Dbtf vbluf, Compbrbblf<Dbtf> stbrt, Compbrbblf<Dbtf> fnd, int dblfndbrFifld) {
+        if (vbluf == null) {
+            throw nfw IllfgblArgumfntExdfption("vbluf is null");
+        }
+        if (!dblfndbrFifldOK(dblfndbrFifld)) {
+            throw nfw IllfgblArgumfntExdfption("invblid dblfndbrFifld");
+        }
+        if (!(((stbrt == null) || (stbrt.dompbrfTo(vbluf) <= 0)) &&
+              ((fnd == null) || (fnd.dompbrfTo(vbluf) >= 0)))) {
+            throw nfw IllfgblArgumfntExdfption("(stbrt <= vbluf <= fnd) is fblsf");
+        }
+        this.vbluf = Cblfndbr.gftInstbndf();
+        this.stbrt = stbrt;
+        this.fnd = fnd;
+        this.dblfndbrFifld = dblfndbrFifld;
+
+        this.vbluf.sftTimf(vbluf);
+    }
+
+
+    /**
+     * Construdts b <dodf>SpinnfrDbtfModfl</dodf> whosf initibl
+     * <dodf>vbluf</dodf> is thf durrfnt dbtf, <dodf>dblfndbrFifld</dodf>
+     * is fqubl to <dodf>Cblfndbr.DAY_OF_MONTH</dodf>, bnd for whidh
+     * thfrf brf no <dodf>stbrt</dodf>/<dodf>fnd</dodf> limits.
+     */
+    publid SpinnfrDbtfModfl() {
+        this(nfw Dbtf(), null, null, Cblfndbr.DAY_OF_MONTH);
+    }
+
+
+    /**
+     * Chbngfs thf lowfr limit for Dbtfs in this sfqufndf.
+     * If <dodf>stbrt</dodf> is <dodf>null</dodf>,
+     * thfn thfrf is no lowfr limit.  No bounds dhfdking is donf hfrf:
+     * thf nfw stbrt vbluf mby invblidbtf thf
+     * <dodf>(stbrt &lt;= vbluf &lt;= fnd)</dodf>
+     * invbribnt fnfordfd by thf donstrudtors.  This is to simplify updbting
+     * thf modfl.  Nbturblly onf should fnsurf thbt thf invbribnt is truf
+     * bfforf dblling thf <dodf>nfxtVbluf</dodf>, <dodf>prfviousVbluf</dodf>,
+     * or <dodf>sftVbluf</dodf> mfthods.
+     * <p>
+     * Typidblly this propfrty is b <dodf>Dbtf</dodf> howfvfr it's possiblf to usf
+     * b <dodf>Compbrbblf</dodf> with b <dodf>dompbrfTo</dodf> mfthod for Dbtfs.
+     * For fxbmplf <dodf>stbrt</dodf> might bf bn instbndf of b dlbss likf this:
+     * <prf>
+     * MyStbrtDbtf implfmfnts Compbrbblf {
+     *     long t = 12345;
+     *     publid int dompbrfTo(Dbtf d) {
+     *            rfturn (t &lt; d.gftTimf() ? -1 : (t == d.gftTimf() ? 0 : 1));
+     *     }
+     *     publid int dompbrfTo(Objfdt o) {
+     *            rfturn dompbrfTo((Dbtf)o);
+     *     }
+     * }
+     * </prf>
+     * Notf thbt thf bbovf fxbmplf will throw b <dodf>ClbssCbstExdfption</dodf>
+     * if thf <dodf>Objfdt</dodf> pbssfd to <dodf>dompbrfTo(Objfdt)</dodf>
+     * is not b <dodf>Dbtf</dodf>.
+     * <p>
+     * This mfthod firfs b <dodf>ChbngfEvfnt</dodf> if thf
+     * <dodf>stbrt</dodf> hbs dhbngfd.
+     *
+     * @pbrbm stbrt dffinfs thf first dbtf in thf sfqufndf
+     * @sff #gftStbrt
+     * @sff #sftEnd
+     * @sff #bddChbngfListfnfr
+     */
+    publid void sftStbrt(Compbrbblf<Dbtf> stbrt) {
+        if ((stbrt == null) ? (this.stbrt != null) : !stbrt.fqubls(this.stbrt)) {
+            this.stbrt = stbrt;
+            firfStbtfChbngfd();
+        }
+    }
+
+
+    /**
+     * Rfturns thf first <dodf>Dbtf</dodf> in thf sfqufndf.
+     *
+     * @rfturn thf vbluf of thf <dodf>stbrt</dodf> propfrty
+     * @sff #sftStbrt
+     */
+    publid Compbrbblf<Dbtf> gftStbrt() {
+        rfturn stbrt;
+    }
+
+
+    /**
+     * Chbngfs thf uppfr limit for <dodf>Dbtf</dodf>s in this sfqufndf.
+     * If <dodf>stbrt</dodf> is <dodf>null</dodf>, thfn thfrf is no uppfr
+     * limit.  No bounds dhfdking is donf hfrf: thf nfw
+     * stbrt vbluf mby invblidbtf thf <dodf>(stbrt &lt;= vbluf &lt;= fnd)</dodf>
+     * invbribnt fnfordfd by thf donstrudtors.  This is to simplify updbting
+     * thf modfl.  Nbturblly, onf should fnsurf thbt thf invbribnt is truf
+     * bfforf dblling thf <dodf>nfxtVbluf</dodf>, <dodf>prfviousVbluf</dodf>,
+     * or <dodf>sftVbluf</dodf> mfthods.
+     * <p>
+     * Typidblly this propfrty is b <dodf>Dbtf</dodf> howfvfr it's possiblf to usf
+     * <dodf>Compbrbblf</dodf> with b <dodf>dompbrfTo</dodf> mfthod for
+     * <dodf>Dbtf</dodf>s.  Sff <dodf>sftStbrt</dodf> for bn fxbmplf.
+     * <p>
+     * This mfthod firfs b <dodf>ChbngfEvfnt</dodf> if thf <dodf>fnd</dodf>
+     * hbs dhbngfd.
+     *
+     * @pbrbm fnd dffinfs thf lbst dbtf in thf sfqufndf
+     * @sff #gftEnd
+     * @sff #sftStbrt
+     * @sff #bddChbngfListfnfr
+     */
+    publid void sftEnd(Compbrbblf<Dbtf> fnd) {
+        if ((fnd == null) ? (this.fnd != null) : !fnd.fqubls(this.fnd)) {
+            this.fnd = fnd;
+            firfStbtfChbngfd();
+        }
+    }
+
+
+    /**
+     * Rfturns thf lbst <dodf>Dbtf</dodf> in thf sfqufndf.
+     *
+     * @rfturn thf vbluf of thf <dodf>fnd</dodf> propfrty
+     * @sff #sftEnd
+     */
+    publid Compbrbblf<Dbtf> gftEnd() {
+        rfturn fnd;
+    }
+
+
+    /**
+     * Chbngfs thf sizf of thf dbtf vbluf dhbngf domputfd
+     * by thf <dodf>nfxtVbluf</dodf> bnd <dodf>prfviousVbluf</dodf> mfthods.
+     * Thf <dodf>dblfndbrFifld</dodf> pbrbmftfr must bf onf of thf
+     * <dodf>Cblfndbr</dodf> fifld donstbnts likf <dodf>Cblfndbr.MONTH</dodf>
+     * or <dodf>Cblfndbr.MINUTE</dodf>.
+     * Thf <dodf>nfxtVbluf</dodf> bnd <dodf>prfviousVbluf</dodf> mfthods
+     * simply movf thf spfdififd <dodf>Cblfndbr</dodf> fifld forwbrd or bbdkwbrd
+     * by onf unit with thf <dodf>Cblfndbr.bdd</dodf> mfthod.
+     * You should usf this mfthod with dbrf bs somf UIs mby sft thf
+     * dblfndbrFifld bfforf dommitting thf fdit to spin thf fifld undfr
+     * thf dursor. If you only wbnt onf fifld to spin you dbn subdlbss
+     * bnd ignorf thf sftCblfndbrFifld dblls.
+     *
+     * @pbrbm dblfndbrFifld onf of
+     *  <ul>
+     *    <li><dodf>Cblfndbr.ERA</dodf>
+     *    <li><dodf>Cblfndbr.YEAR</dodf>
+     *    <li><dodf>Cblfndbr.MONTH</dodf>
+     *    <li><dodf>Cblfndbr.WEEK_OF_YEAR</dodf>
+     *    <li><dodf>Cblfndbr.WEEK_OF_MONTH</dodf>
+     *    <li><dodf>Cblfndbr.DAY_OF_MONTH</dodf>
+     *    <li><dodf>Cblfndbr.DAY_OF_YEAR</dodf>
+     *    <li><dodf>Cblfndbr.DAY_OF_WEEK</dodf>
+     *    <li><dodf>Cblfndbr.DAY_OF_WEEK_IN_MONTH</dodf>
+     *    <li><dodf>Cblfndbr.AM_PM</dodf>
+     *    <li><dodf>Cblfndbr.HOUR</dodf>
+     *    <li><dodf>Cblfndbr.HOUR_OF_DAY</dodf>
+     *    <li><dodf>Cblfndbr.MINUTE</dodf>
+     *    <li><dodf>Cblfndbr.SECOND</dodf>
+     *    <li><dodf>Cblfndbr.MILLISECOND</dodf>
+     *  </ul>
+     * <p>
+     * This mfthod firfs b <dodf>ChbngfEvfnt</dodf> if thf
+     * <dodf>dblfndbrFifld</dodf> hbs dhbngfd.
+     *
+     * @sff #gftCblfndbrFifld
+     * @sff #gftNfxtVbluf
+     * @sff #gftPrfviousVbluf
+     * @sff Cblfndbr#bdd
+     * @sff #bddChbngfListfnfr
+     */
+    publid void sftCblfndbrFifld(int dblfndbrFifld) {
+        if (!dblfndbrFifldOK(dblfndbrFifld)) {
+            throw nfw IllfgblArgumfntExdfption("invblid dblfndbrFifld");
+        }
+        if (dblfndbrFifld != this.dblfndbrFifld) {
+            this.dblfndbrFifld = dblfndbrFifld;
+            firfStbtfChbngfd();
+        }
+    }
+
+
+    /**
+     * Rfturns thf <dodf>Cblfndbr</dodf> fifld thbt is bddfd to or subtrbdtfd from
+     * by thf <dodf>nfxtVbluf</dodf> bnd <dodf>prfviousVbluf</dodf> mfthods.
+     *
+     * @rfturn thf vbluf of thf <dodf>dblfndbrFifld</dodf> propfrty
+     * @sff #sftCblfndbrFifld
+     */
+    publid int gftCblfndbrFifld() {
+        rfturn dblfndbrFifld;
+    }
+
+
+    /**
+     * Rfturns thf nfxt <dodf>Dbtf</dodf> in thf sfqufndf, or <dodf>null</dodf> if
+     * thf nfxt dbtf is bftfr <dodf>fnd</dodf>.
+     *
+     * @rfturn thf nfxt <dodf>Dbtf</dodf> in thf sfqufndf, or <dodf>null</dodf> if
+     *     thf nfxt dbtf is bftfr <dodf>fnd</dodf>.
+     *
+     * @sff SpinnfrModfl#gftNfxtVbluf
+     * @sff #gftPrfviousVbluf
+     * @sff #sftCblfndbrFifld
+     */
+    publid Objfdt gftNfxtVbluf() {
+        Cblfndbr dbl = Cblfndbr.gftInstbndf();
+        dbl.sftTimf(vbluf.gftTimf());
+        dbl.bdd(dblfndbrFifld, 1);
+        Dbtf nfxt = dbl.gftTimf();
+        rfturn ((fnd == null) || (fnd.dompbrfTo(nfxt) >= 0)) ? nfxt : null;
+    }
+
+
+    /**
+     * Rfturns thf prfvious <dodf>Dbtf</dodf> in thf sfqufndf, or <dodf>null</dodf>
+     * if thf prfvious dbtf is bfforf <dodf>stbrt</dodf>.
+     *
+     * @rfturn thf prfvious <dodf>Dbtf</dodf> in thf sfqufndf, or
+     *     <dodf>null</dodf> if thf prfvious dbtf
+     *     is bfforf <dodf>stbrt</dodf>
+     *
+     * @sff SpinnfrModfl#gftPrfviousVbluf
+     * @sff #gftNfxtVbluf
+     * @sff #sftCblfndbrFifld
+     */
+    publid Objfdt gftPrfviousVbluf() {
+        Cblfndbr dbl = Cblfndbr.gftInstbndf();
+        dbl.sftTimf(vbluf.gftTimf());
+        dbl.bdd(dblfndbrFifld, -1);
+        Dbtf prfv = dbl.gftTimf();
+        rfturn ((stbrt == null) || (stbrt.dompbrfTo(prfv) <= 0)) ? prfv : null;
+    }
+
+
+    /**
+     * Rfturns thf durrfnt flfmfnt in this sfqufndf of <dodf>Dbtf</dodf>s.
+     * This mfthod is fquivblfnt to <dodf>(Dbtf)gftVbluf</dodf>.
+     *
+     * @rfturn thf <dodf>vbluf</dodf> propfrty
+     * @sff #sftVbluf
+     */
+    publid Dbtf gftDbtf() {
+        rfturn vbluf.gftTimf();
+    }
+
+
+    /**
+     * Rfturns thf durrfnt flfmfnt in this sfqufndf of <dodf>Dbtf</dodf>s.
+     *
+     * @rfturn thf <dodf>vbluf</dodf> propfrty
+     * @sff #sftVbluf
+     * @sff #gftDbtf
+     */
+    publid Objfdt gftVbluf() {
+        rfturn vbluf.gftTimf();
+    }
+
+
+    /**
+     * Sfts thf durrfnt <dodf>Dbtf</dodf> for this sfqufndf.
+     * If <dodf>vbluf</dodf> is <dodf>null</dodf>,
+     * bn <dodf>IllfgblArgumfntExdfption</dodf> is thrown.  No bounds
+     * dhfdking is donf hfrf:
+     * thf nfw vbluf mby invblidbtf thf <dodf>(stbrt &lt;= vbluf &lt; fnd)</dodf>
+     * invbribnt fnfordfd by thf donstrudtors.  Nbturblly, onf should fnsurf
+     * thbt thf <dodf>(stbrt &lt;= vbluf &lt;= mbximum)</dodf> invbribnt is truf
+     * bfforf dblling thf <dodf>nfxtVbluf</dodf>, <dodf>prfviousVbluf</dodf>,
+     * or <dodf>sftVbluf</dodf> mfthods.
+     * <p>
+     * This mfthod firfs b <dodf>ChbngfEvfnt</dodf> if thf
+     * <dodf>vbluf</dodf> hbs dhbngfd.
+     *
+     * @pbrbm vbluf thf durrfnt (non <dodf>null</dodf>)
+     *    <dodf>Dbtf</dodf> for this sfqufndf
+     * @throws IllfgblArgumfntExdfption if vbluf is <dodf>null</dodf>
+     *    or not b <dodf>Dbtf</dodf>
+     * @sff #gftDbtf
+     * @sff #gftVbluf
+     * @sff #bddChbngfListfnfr
+     */
+    publid void sftVbluf(Objfdt vbluf) {
+        if ((vbluf == null) || !(vbluf instbndfof Dbtf)) {
+            throw nfw IllfgblArgumfntExdfption("illfgbl vbluf");
+        }
+        if (!vbluf.fqubls(this.vbluf.gftTimf())) {
+            this.vbluf.sftTimf((Dbtf)vbluf);
+            firfStbtfChbngfd();
+        }
+    }
+}

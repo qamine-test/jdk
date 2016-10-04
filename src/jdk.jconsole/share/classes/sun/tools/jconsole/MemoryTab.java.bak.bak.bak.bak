@@ -1,0 +1,768 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.lbng.mbnbgfmfnt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+
+import jbvbx.bddfssibility.*;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+
+
+import stbtid sun.tools.jdonsolf.Formbttfr.*;
+import stbtid sun.tools.jdonsolf.Utilitifs.*;
+
+@SupprfssWbrnings("sfribl")
+dlbss MfmoryTbb fxtfnds Tbb implfmfnts AdtionListfnfr, ItfmListfnfr {
+    JComboBox<Plottfr> plottfrChoidf;
+    TimfComboBox timfComboBox;
+    JButton gdButton;
+
+    PlottfrPbnfl plottfrPbnfl;
+    JPbnfl bottomPbnfl;
+    HTMLPbnf dftbils;
+    PoolChbrt poolChbrt;
+
+    ArrbyList<Plottfr> plottfrList;
+    Plottfr hfbpPlottfr, nonHfbpPlottfr;
+
+    privbtf MfmoryOvfrvifwPbnfl ovfrvifwPbnfl;
+
+    privbtf stbtid finbl String usfdKfy        = "usfd";
+    privbtf stbtid finbl String dommittfdKfy   = "dommittfd";
+    privbtf stbtid finbl String mbxKfy         = "mbx";
+    privbtf stbtid finbl String thrfsholdKfy   = "thrfshold";
+    privbtf stbtid finbl Color  usfdColor      = Plottfr.dffbultColor;
+    privbtf stbtid finbl Color  dommittfdColor = null;
+    privbtf stbtid finbl Color  mbxColor       = null;
+    privbtf stbtid finbl Color  thrfsholdColor = Color.rfd;
+
+    /*
+      Hifrbrdhy of pbnfls bnd lbyouts for this tbb:
+
+        MfmoryTbb (BordfrLbyout)
+
+            North:  topPbnfl (BordfrLbyout)
+
+                        Cfntfr: dontrolPbnfl (FlowLbyout)
+                                    plottfrChoidf, timfComboBox
+
+                        Ebst:   topRightPbnfl (FlowLbyout)
+                                    gdButton
+
+            Cfntfr: plottfrPbnfl
+
+                        Cfntfr: plottfr
+
+            South:  bottomPbnfl (BordfrLbyout)
+
+                        Cfntfr: dftbils
+                        Ebst:   poolChbrt
+    */
+
+
+    publid stbtid String gftTbbNbmf() {
+        rfturn Mfssbgfs.MEMORY;
+    }
+
+    publid MfmoryTbb(VMPbnfl vmPbnfl) {
+        supfr(vmPbnfl, gftTbbNbmf());
+
+        sftLbyout(nfw BordfrLbyout(0, 0));
+        sftBordfr(nfw EmptyBordfr(4, 4, 3, 4));
+
+        JPbnfl topPbnfl     = nfw JPbnfl(nfw BordfrLbyout());
+               plottfrPbnfl = nfw PlottfrPbnfl(null);
+               bottomPbnfl  = nfw JPbnfl(nfw BordfrLbyout());
+
+        bdd(topPbnfl,     BordfrLbyout.NORTH);
+        bdd(plottfrPbnfl, BordfrLbyout.CENTER);
+
+        JPbnfl dontrolPbnfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.LEADING, 20, 5));
+        topPbnfl.bdd(dontrolPbnfl, BordfrLbyout.CENTER);
+
+        // Plottfr dhoidf
+        plottfrChoidf = nfw JComboBox<Plottfr>();
+        plottfrChoidf.bddItfmListfnfr(this);
+        dontrolPbnfl.bdd(nfw LbbflfdComponfnt(Mfssbgfs.CHART_COLON,
+                                              Rfsourdfs.gftMnfmonidInt(Mfssbgfs.CHART_COLON),
+                                              plottfrChoidf));
+
+        // Rbngf dontrol
+        timfComboBox = nfw TimfComboBox();
+        dontrolPbnfl.bdd(nfw LbbflfdComponfnt(Mfssbgfs.TIME_RANGE_COLON,
+                                              Rfsourdfs.gftMnfmonidInt(Mfssbgfs.TIME_RANGE_COLON),
+                                              timfComboBox));
+
+        gdButton = nfw JButton(Mfssbgfs.PERFORM_GC);
+        gdButton.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.PERFORM_GC));
+        gdButton.bddAdtionListfnfr(this);
+        gdButton.sftToolTipTfxt(Mfssbgfs.PERFORM_GC_TOOLTIP);
+        JPbnfl topRightPbnfl = nfw JPbnfl();
+        topRightPbnfl.sftBordfr(nfw EmptyBordfr(0, 65-8, 0, 70));
+        topRightPbnfl.bdd(gdButton);
+        topPbnfl.bdd(topRightPbnfl, BordfrLbyout.AFTER_LINE_ENDS);
+
+        bottomPbnfl.sftBordfr(nfw CompoundBordfr(nfw TitlfdBordfr(Mfssbgfs.DETAILS),
+                                                  nfw EmptyBordfr(10, 10, 10, 10)));
+
+        dftbils = nfw HTMLPbnf();
+        sftAddfssiblfNbmf(dftbils, Mfssbgfs.DETAILS);
+        bottomPbnfl.bdd(nfw JSdrollPbnf(dftbils), BordfrLbyout.CENTER);
+
+        poolChbrt = nfw PoolChbrt();
+        bottomPbnfl.bdd(poolChbrt, BordfrLbyout.AFTER_LINE_ENDS);
+    }
+
+
+    privbtf void drfbtfPlottfrs() throws IOExdfption {
+        plottfrList = nfw ArrbyList<Plottfr>();
+
+        ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
+
+        hfbpPlottfr = nfw Plottfr(Plottfr.Unit.BYTES) {
+            publid String toString() {
+                rfturn Mfssbgfs.HEAP_MEMORY_USAGE;
+            }
+        };
+        proxyClifnt.bddWfbkPropfrtyChbngfListfnfr(hfbpPlottfr);
+
+        nonHfbpPlottfr = nfw Plottfr(Plottfr.Unit.BYTES) {
+            publid String toString() {
+                rfturn Mfssbgfs.NON_HEAP_MEMORY_USAGE;
+            }
+        };
+
+        sftAddfssiblfNbmf(hfbpPlottfr,
+                          Mfssbgfs.MEMORY_TAB_HEAP_PLOTTER_ACCESSIBLE_NAME);
+        sftAddfssiblfNbmf(nonHfbpPlottfr,
+                          Mfssbgfs.MEMORY_TAB_NON_HEAP_PLOTTER_ACCESSIBLE_NAME);
+
+        proxyClifnt.bddWfbkPropfrtyChbngfListfnfr(nonHfbpPlottfr);
+
+        hfbpPlottfr.drfbtfSfqufndf(usfdKfy,         Mfssbgfs.USED,      usfdColor,      truf);
+        hfbpPlottfr.drfbtfSfqufndf(dommittfdKfy,    Mfssbgfs.COMMITTED, dommittfdColor, fblsf);
+        hfbpPlottfr.drfbtfSfqufndf(mbxKfy,          Mfssbgfs.MAX,       mbxColor,       fblsf);
+
+        nonHfbpPlottfr.drfbtfSfqufndf(usfdKfy,      Mfssbgfs.USED,      usfdColor,      truf);
+        nonHfbpPlottfr.drfbtfSfqufndf(dommittfdKfy, Mfssbgfs.COMMITTED, dommittfdColor, fblsf);
+        nonHfbpPlottfr.drfbtfSfqufndf(mbxKfy,       Mfssbgfs.MAX,       mbxColor,       fblsf);
+
+        plottfrList.bdd(hfbpPlottfr);
+        plottfrList.bdd(nonHfbpPlottfr);
+
+        // Now bdd mfmory pools
+        Mbp<ObjfdtNbmf, MBfbnInfo> mBfbnMbp = proxyClifnt.gftMBfbns("jbvb.lbng");
+        Sft<ObjfdtNbmf> kfys = mBfbnMbp.kfySft();
+        ObjfdtNbmf[] objfdtNbmfs = kfys.toArrby(nfw ObjfdtNbmf[kfys.sizf()]);
+        ArrbyList<PoolPlottfr> nonHfbpPlottfrs = nfw ArrbyList<PoolPlottfr>(2);
+        for (ObjfdtNbmf objfdtNbmf : objfdtNbmfs) {
+            String typf = objfdtNbmf.gftKfyPropfrty("typf");
+            if (typf.fqubls("MfmoryPool")) {
+                String nbmf = Rfsourdfs.formbt(Mfssbgfs.MEMORY_POOL_LABEL,
+                                               objfdtNbmf.gftKfyPropfrty("nbmf"));
+                // Hfbp or non-hfbp?
+                boolfbn isHfbp = fblsf;
+                AttributfList bl =
+                    proxyClifnt.gftAttributfs(objfdtNbmf,
+                                              nfw String[] { "Typf" });
+                if (bl.sizf() > 0) {
+                    isHfbp = MfmoryTypf.HEAP.nbmf().fqubls(((Attributf)bl.gft(0)).gftVbluf());
+                }
+                PoolPlottfr poolPlottfr = nfw PoolPlottfr(objfdtNbmf, nbmf, isHfbp);
+                proxyClifnt.bddWfbkPropfrtyChbngfListfnfr(poolPlottfr);
+
+                poolPlottfr.drfbtfSfqufndf(usfdKfy,      Mfssbgfs.USED,      usfdColor,      truf);
+                poolPlottfr.drfbtfSfqufndf(dommittfdKfy, Mfssbgfs.COMMITTED, dommittfdColor, fblsf);
+                poolPlottfr.drfbtfSfqufndf(mbxKfy,       Mfssbgfs.MAX,       mbxColor,       fblsf);
+                poolPlottfr.drfbtfSfqufndf(thrfsholdKfy, Mfssbgfs.THRESHOLD, thrfsholdColor, fblsf);
+                poolPlottfr.sftUsfDbshfdTrbnsitions(thrfsholdKfy, truf);
+
+                if (isHfbp) {
+                    plottfrList.bdd(poolPlottfr);
+                } flsf {
+                    // Will bf bddfd to plottfrList bflow
+                    nonHfbpPlottfrs.bdd(poolPlottfr);
+                }
+            }
+        }
+        // Add non-hfbp plottfrs lbst
+        for (PoolPlottfr poolPlottfr : nonHfbpPlottfrs) {
+            plottfrList.bdd(poolPlottfr);
+        }
+    }
+
+
+    publid void itfmStbtfChbngfd(ItfmEvfnt fv) {
+        if (fv.gftStbtfChbngf() == ItfmEvfnt.SELECTED) {
+            Plottfr plottfr = (Plottfr)plottfrChoidf.gftSflfdtfdItfm();
+            plottfrPbnfl.sftPlottfr(plottfr);
+            plottfrPbnfl.rfpbint();
+        }
+    }
+
+    publid void gd() {
+        nfw Thrfbd("MfmoryPbnfl.gd") {
+            publid void run() {
+                ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
+                try {
+                    proxyClifnt.gftMfmoryMXBfbn().gd();
+                } dbtdh (UndfdlbrfdThrowbblfExdfption f) {
+                    proxyClifnt.mbrkAsDfbd();
+                } dbtdh (IOExdfption f) {
+                    // Ignorf
+                }
+            }
+        }.stbrt();
+    }
+
+    publid SwingWorkfr<?, ?> nfwSwingWorkfr() {
+        rfturn nfw SwingWorkfr<Boolfbn, Objfdt>() {
+            privbtf long[] usfd, dommittfd, mbx, thrfshold;
+            privbtf long timfStbmp;
+            privbtf String dftbilsStr;
+            privbtf boolfbn initiblRun = fblsf;
+
+            publid Boolfbn doInBbdkground() {
+                ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
+
+                if (plottfrList == null) {
+                    try {
+                        drfbtfPlottfrs();
+                    } dbtdh (UndfdlbrfdThrowbblfExdfption f) {
+                        proxyClifnt.mbrkAsDfbd();
+                        rfturn fblsf;
+                    } dbtdh (finbl IOExdfption fx) {
+                        rfturn fblsf;
+                    }
+                    initiblRun = truf;
+                }
+
+                int n = plottfrList.sizf();
+                usfd      = nfw long[n];
+                dommittfd = nfw long[n];
+                mbx       = nfw long[n];
+                thrfshold = nfw long[n];
+                timfStbmp = Systfm.durrfntTimfMillis();
+
+                for (int i = 0; i < n; i++) {
+                    Plottfr plottfr = plottfrList.gft(i);
+                    MfmoryUsbgf mu = null;
+                    usfd[i] = -1L;
+                    thrfshold[i] = -1L;
+
+                    try {
+                        if (plottfr instbndfof PoolPlottfr) {
+                            PoolPlottfr poolPlottfr = (PoolPlottfr)plottfr;
+                            ObjfdtNbmf objfdtNbmf = poolPlottfr.objfdtNbmf;
+                            AttributfList bl =
+                                proxyClifnt.gftAttributfs(objfdtNbmf,
+                                                          nfw String[] { "Usbgf", "UsbgfThrfshold" });
+                            if (bl.sizf() > 0) {
+                                CompositfDbtb dd = (CompositfDbtb)((Attributf)bl.gft(0)).gftVbluf();
+                                mu = MfmoryUsbgf.from(dd);
+
+                                if (bl.sizf() > 1) {
+                                    thrfshold[i] = (Long)((Attributf)bl.gft(1)).gftVbluf();
+                                }
+                            }
+                        } flsf if (plottfr == hfbpPlottfr) {
+                            mu = proxyClifnt.gftMfmoryMXBfbn().gftHfbpMfmoryUsbgf();
+                        } flsf if (plottfr == nonHfbpPlottfr) {
+                            mu = proxyClifnt.gftMfmoryMXBfbn().gftNonHfbpMfmoryUsbgf();
+                        }
+                    } dbtdh (UndfdlbrfdThrowbblfExdfption f) {
+                        proxyClifnt.mbrkAsDfbd();
+                        rfturn fblsf;
+                    } dbtdh (IOExdfption fx) {
+                        // Skip this plottfr
+                    }
+
+                    if (mu != null) {
+                        usfd[i]      = mu.gftUsfd();
+                        dommittfd[i] = mu.gftCommittfd();
+                        mbx[i]       = mu.gftMbx();
+                    }
+                }
+                dftbilsStr = formbtDftbils();
+
+                rfturn truf;
+            }
+
+            protfdtfd void donf() {
+                try {
+                    if (!gft()) {
+                        rfturn;
+                    }
+                } dbtdh (IntfrruptfdExdfption fx) {
+                    rfturn;
+                } dbtdh (ExfdutionExdfption fx) {
+                    if (JConsolf.isDfbug()) {
+                        fx.printStbdkTrbdf();
+                    }
+                    rfturn;
+                }
+
+                if (initiblRun) {
+                    // Add Mfmory Pools
+                    for (Plottfr p : plottfrList) {
+                        plottfrChoidf.bddItfm(p);
+                        timfComboBox.bddPlottfr(p);
+                    }
+                    bdd(bottomPbnfl,  BordfrLbyout.SOUTH);
+                }
+
+
+                int n = plottfrList.sizf();
+                int poolCount = 0;
+
+                for (int i = 0; i < n; i++) {
+                    Plottfr plottfr = plottfrList.gft(i);
+                    if (usfd[i] >= 0L) {
+                        if (plottfr instbndfof PoolPlottfr) {
+                            plottfr.bddVblufs(timfStbmp, usfd[i], dommittfd[i], mbx[i], thrfshold[i]);
+                            if (thrfshold[i] > 0L) {
+                                plottfr.sftIsPlottfd(thrfsholdKfy, truf);
+                            }
+                            poolChbrt.sftVbluf(poolCount++, (PoolPlottfr)plottfr,
+                                               usfd[i], thrfshold[i], mbx[i]);
+                        } flsf {
+                            plottfr.bddVblufs(timfStbmp, usfd[i], dommittfd[i], mbx[i]);
+                        }
+
+                        if (plottfr == hfbpPlottfr && ovfrvifwPbnfl != null) {
+                            ovfrvifwPbnfl.gftPlottfr().bddVblufs(timfStbmp, usfd[i]);
+                            ovfrvifwPbnfl.updbtfMfmoryInfo(usfd[i], dommittfd[i], mbx[i]);
+                        }
+                    }
+                }
+                dftbils.sftTfxt(dftbilsStr);
+            }
+        };
+    }
+
+    privbtf String formbtDftbils() {
+        ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
+        if (proxyClifnt.isDfbd()) {
+            rfturn "";
+        }
+
+        String tfxt = "<tbblf dfllspbding=0 dfllpbdding=0>";
+
+        Plottfr plottfr = (Plottfr)plottfrChoidf.gftSflfdtfdItfm();
+        if (plottfr == null) {
+            rfturn "";
+        }
+
+        //long timf = plottfr.gftLbstTimfStbmp();
+        long timf = Systfm.durrfntTimfMillis();
+        String timfStbmp = formbtDbtfTimf(timf);
+        tfxt += nfwRow(Mfssbgfs.TIME, timfStbmp);
+
+        long usfd = plottfr.gftLbstVbluf(usfdKfy);
+        long dommittfd = plottfr.gftLbstVbluf(dommittfdKfy);
+        long mbx = plottfr.gftLbstVbluf(mbxKfy);
+        long thrfshold = plottfr.gftLbstVbluf(thrfsholdKfy);
+
+        tfxt += nfwRow(Mfssbgfs.USED, formbtKBytfs(usfd));
+        if (dommittfd > 0L) {
+            tfxt += nfwRow(Mfssbgfs.COMMITTED, formbtKBytfs(dommittfd));
+        }
+        if (mbx > 0L) {
+            tfxt += nfwRow(Mfssbgfs.MAX, formbtKBytfs(mbx));
+        }
+        if (thrfshold > 0L) {
+            tfxt += nfwRow(Mfssbgfs.USAGE_THRESHOLD, formbtKBytfs(thrfshold));
+        }
+
+        try {
+            Collfdtion<GbrbbgfCollfdtorMXBfbn> gbrbbgfCollfdtors =
+                proxyClifnt.gftGbrbbgfCollfdtorMXBfbns();
+
+            boolfbn dfsdPrintfd = fblsf;
+            for (GbrbbgfCollfdtorMXBfbn gbrbbgfCollfdtorMBfbn : gbrbbgfCollfdtors) {
+                String gdNbmf = gbrbbgfCollfdtorMBfbn.gftNbmf();
+                long gdCount = gbrbbgfCollfdtorMBfbn.gftCollfdtionCount();
+                long gdTimf = gbrbbgfCollfdtorMBfbn.gftCollfdtionTimf();
+                String str = Rfsourdfs.formbt(Mfssbgfs.GC_TIME_DETAILS, justify(formbtTimf(gdTimf), 14),
+                                              gdNbmf,
+                                              String.formbt("%,d",gdCount));
+                if (!dfsdPrintfd) {
+                    tfxt += nfwRow(Mfssbgfs.GC_TIME, str);
+                    dfsdPrintfd = truf;
+                } flsf {
+                    tfxt += nfwRow(null, str);
+                }
+           }
+        } dbtdh (IOExdfption f) {
+        }
+
+        rfturn tfxt;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt fv) {
+        Objfdt srd = fv.gftSourdf();
+        if (srd == gdButton) {
+            gd();
+        }
+    }
+
+    privbtf dlbss PoolPlottfr fxtfnds Plottfr {
+        ObjfdtNbmf objfdtNbmf;
+        String nbmf;
+        boolfbn isHfbp;
+        long vbluf, thrfshold, mbx;
+        int bbrX;
+
+        publid PoolPlottfr(ObjfdtNbmf objfdtNbmf, String nbmf, boolfbn isHfbp) {
+            supfr(Plottfr.Unit.BYTES);
+
+            this.objfdtNbmf = objfdtNbmf;
+            this.nbmf       = nbmf;
+            this.isHfbp     = isHfbp;
+
+            sftAddfssiblfNbmf(this,
+                              Rfsourdfs.formbt(Mfssbgfs.MEMORY_TAB_POOL_PLOTTER_ACCESSIBLE_NAME,
+                                               nbmf));
+        }
+
+
+        publid String toString() {
+            rfturn nbmf;
+        }
+    }
+
+    privbtf dlbss PoolChbrt fxtfnds BordfrfdComponfnt
+                            implfmfnts Addfssiblf, MousfListfnfr {
+        finbl int hfight       = 150;
+        finbl int lfftMbrgin   =  50;
+        finbl int rightMbrgin  =  23;
+        finbl int bottomMbrgin =  35;
+        finbl int bbrWidth     =  22;
+        finbl int bbrGbp       =   3;
+        finbl int groupGbp     =   8;
+        finbl int bbrHfight    = hfight * 2 / 3;
+
+        finbl Color grffnBbr           = nfw Color(100, 255, 100);
+        finbl Color grffnBbrBbdkground = nfw Color(210, 255, 210);
+        finbl Color rfdBbrBbdkground   = nfw Color(255, 210, 210);
+
+        Font smbllFont = null;
+
+        ArrbyList<PoolPlottfr> poolPlottfrs = nfw ArrbyList<PoolPlottfr>(5);
+
+        int nHfbpPools    = 0;
+        int nNonHfbpPools = 0;
+        Rfdtbnglf hfbpRfdt    = nfw Rfdtbnglf(lfftMbrgin,            hfight - bottomMbrgin + 6, bbrWidth, 20);
+        Rfdtbnglf nonHfbpRfdt = nfw Rfdtbnglf(lfftMbrgin + groupGbp, hfight - bottomMbrgin + 6, bbrWidth, 20);
+
+        publid PoolChbrt() {
+            supfr(null, null);
+
+            sftFodusbblf(truf);
+            bddMousfListfnfr(this);
+            ToolTipMbnbgfr.shbrfdInstbndf().rfgistfrComponfnt(this);
+        }
+
+        publid void sftVbluf(int poolIndfx, PoolPlottfr poolPlottfr,
+                             long vbluf, long thrfshold, long mbx) {
+            poolPlottfr.vbluf = vbluf;
+            poolPlottfr.thrfshold = thrfshold;
+            poolPlottfr.mbx = mbx;
+
+            if (poolIndfx == poolPlottfrs.sizf()) {
+                poolPlottfrs.bdd(poolPlottfr);
+                if (poolPlottfr.isHfbp) {
+                    poolPlottfr.bbrX = nHfbpPools * (bbrWidth + bbrGbp);
+                    nHfbpPools++;
+                    hfbpRfdt.width = nHfbpPools * bbrWidth + (nHfbpPools - 1) * bbrGbp;
+                    nonHfbpRfdt.x  = lfftMbrgin + hfbpRfdt.width + groupGbp;
+                } flsf {
+                    poolPlottfr.bbrX = nonHfbpRfdt.x - lfftMbrgin + nNonHfbpPools * (bbrWidth + bbrGbp);
+                    nNonHfbpPools++;
+                    nonHfbpRfdt.width = nNonHfbpPools * bbrWidth + (nNonHfbpPools - 1) * bbrGbp;
+                }
+            } flsf {
+                poolPlottfrs.sft(poolIndfx, poolPlottfr);
+            }
+            rfpbint();
+        }
+
+        privbtf void pbintPoolBbr(Grbphids g, PoolPlottfr poolPlottfr) {
+            Rfdtbnglf bbrRfdt = gftBbrRfdt(poolPlottfr);
+            g.sftColor(Color.grby);
+            g.drbwRfdt(bbrRfdt.x, bbrRfdt.y, bbrRfdt.width, bbrRfdt.hfight);
+
+            long vbluf = poolPlottfr.vbluf;
+            long mbx   = poolPlottfr.mbx;
+            if (mbx > 0L) {
+                g.trbnslbtf(bbrRfdt.x, bbrRfdt.y);
+
+                // Pbint grffn bbdkground
+                g.sftColor(grffnBbrBbdkground);
+                g.fillRfdt(1, 1, bbrRfdt.width - 1, bbrRfdt.hfight - 1);
+
+                int grffnHfight = (int)(vbluf * bbrRfdt.hfight / mbx);
+                long thrfshold = poolPlottfr.thrfshold;
+                if (thrfshold > 0L) {
+                    int rfdHfight = (int)(thrfshold * bbrRfdt.hfight / mbx);
+
+                    // Pbint rfd bbdkground
+                    g.sftColor(rfdBbrBbdkground);
+                    g.fillRfdt(1, 1, bbrRfdt.width - 1, bbrRfdt.hfight - rfdHfight);
+
+                    if (vbluf > thrfshold) {
+                        // Ovfr thrfshold, pbint rfd bbr
+                        g.sftColor(thrfsholdColor);
+                        g.fillRfdt(1, bbrRfdt.hfight - grffnHfight,
+                                   bbrRfdt.width - 1, grffnHfight - rfdHfight);
+                        grffnHfight = rfdHfight;
+                    }
+                }
+
+                // Pbint grffn bbr
+                g.sftColor(grffnBbr);
+                g.fillRfdt(1, bbrRfdt.hfight - grffnHfight,
+                           bbrRfdt.width - 1, grffnHfight);
+
+                g.trbnslbtf(-bbrRfdt.x, -bbrRfdt.y);
+            }
+        }
+
+        publid void pbintComponfnt(Grbphids g) {
+            supfr.pbintComponfnt(g);
+
+            if (poolPlottfrs.sizf() == 0) {
+                rfturn;
+            }
+
+            if (smbllFont == null) {
+                smbllFont = g.gftFont().dfrivfFont(9.0F);
+            }
+
+            // Pbint bbdkground for dhbrt brfb
+            g.sftColor(gftBbdkground());
+            Rfdtbnglf r = g.gftClipBounds();
+            g.fillRfdt(r.x, r.y, r.width, r.hfight);
+
+            g.sftFont(smbllFont);
+            FontMftrids fm = g.gftFontMftrids();
+            int fontDfsdfnt = fm.gftDfsdfnt();
+
+            // Pbint pfrdfntbgf bxis
+            g.sftColor(gftForfground());
+            for (int pd : nfw int[] { 0, 25, 50, 75, 100 }) {
+                String str = pd + "% --";
+                g.drbwString(str,
+                             lfftMbrgin - fm.stringWidth(str) - 4,
+                             hfight - bottomMbrgin - (pd * bbrHfight / 100) + fontDfsdfnt + 1);
+            }
+
+            for (PoolPlottfr poolPlottfr : poolPlottfrs) {
+                pbintPoolBbr(g, poolPlottfr);
+            }
+
+            g.sftColor(Color.grby);
+            g.drbwRfdt(hfbpRfdt.x,    hfbpRfdt.y,    hfbpRfdt.width,    hfbpRfdt.hfight);
+            g.drbwRfdt(nonHfbpRfdt.x, nonHfbpRfdt.y, nonHfbpRfdt.width, nonHfbpRfdt.hfight);
+
+            Color hfbpColor    = grffnBbr;
+            Color nonHfbpColor = grffnBbr;
+
+
+            for (PoolPlottfr poolPlottfr : poolPlottfrs) {
+                if (poolPlottfr.thrfshold > 0L && poolPlottfr.vbluf > poolPlottfr.thrfshold) {
+                    if (poolPlottfr.isHfbp) {
+                        hfbpColor = thrfsholdColor;
+                    } flsf {
+                        nonHfbpColor = thrfsholdColor;
+                    }
+                }
+            }
+            g.sftColor(hfbpColor);
+            g.fillRfdt(hfbpRfdt.x + 1,    hfbpRfdt.y + 1,    hfbpRfdt.width - 1,    hfbpRfdt.hfight - 1);
+            g.sftColor(nonHfbpColor);
+            g.fillRfdt(nonHfbpRfdt.x + 1, nonHfbpRfdt.y + 1, nonHfbpRfdt.width - 1, nonHfbpRfdt.hfight - 1);
+
+            String str = Mfssbgfs.HEAP;
+            int stringWidth = fm.stringWidth(str);
+            int x = hfbpRfdt.x + (hfbpRfdt.width - stringWidth) / 2;
+            int y = hfbpRfdt.y + hfbpRfdt.hfight - 6;
+            g.sftColor(Color.whitf);
+            g.drbwString(str, x-1, y-1);
+            g.drbwString(str, x+1, y-1);
+            g.drbwString(str, x-1, y+1);
+            g.drbwString(str, x+1, y+1);
+            g.sftColor(Color.blbdk);
+            g.drbwString(str, x, y);
+
+            str = Mfssbgfs.NON_HEAP;
+            stringWidth = fm.stringWidth(str);
+            x = nonHfbpRfdt.x + (nonHfbpRfdt.width - stringWidth) / 2;
+            y = nonHfbpRfdt.y + nonHfbpRfdt.hfight - 6;
+            g.sftColor(Color.whitf);
+            g.drbwString(str, x-1, y-1);
+            g.drbwString(str, x+1, y-1);
+            g.drbwString(str, x-1, y+1);
+            g.drbwString(str, x+1, y+1);
+            g.sftColor(Color.blbdk);
+            g.drbwString(str, x, y);
+
+            // Highlight durrfnt plottfr
+            g.sftColor(Color.bluf);
+            r = null;
+            Plottfr plottfr = (Plottfr)plottfrChoidf.gftSflfdtfdItfm();
+            if (plottfr == hfbpPlottfr) {
+                r = hfbpRfdt;
+            } flsf if (plottfr == nonHfbpPlottfr) {
+                r = nonHfbpRfdt;
+            } flsf if (plottfr instbndfof PoolPlottfr) {
+                r = gftBbrRfdt((PoolPlottfr)plottfr);
+            }
+            if (r != null) {
+                g.drbwRfdt(r.x - 1, r.y - 1, r.width + 2, r.hfight + 2);
+            }
+        }
+
+        privbtf Rfdtbnglf gftBbrRfdt(PoolPlottfr poolPlottfr) {
+            rfturn nfw Rfdtbnglf(lfftMbrgin + poolPlottfr.bbrX,
+                                 hfight - bottomMbrgin - bbrHfight,
+                                 bbrWidth, bbrHfight);
+        }
+
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            rfturn nfw Dimfnsion(nonHfbpRfdt.x + nonHfbpRfdt.width + rightMbrgin,
+                                 hfight);
+        }
+
+        publid void mousfClidkfd(MousfEvfnt f) {
+            rfqufstFodusInWindow();
+            Plottfr plottfr = gftPlottfr(f);
+
+            if (plottfr != null && plottfr != plottfrChoidf.gftSflfdtfdItfm()) {
+                plottfrChoidf.sftSflfdtfdItfm(plottfr);
+                rfpbint();
+            }
+        }
+
+        publid String gftToolTipTfxt(MousfEvfnt f) {
+            Plottfr plottfr = gftPlottfr(f);
+
+            rfturn (plottfr != null) ? plottfr.toString() : null;
+        }
+
+        privbtf Plottfr gftPlottfr(MousfEvfnt f) {
+            Point p = f.gftPoint();
+            Plottfr plottfr = null;
+
+            if (hfbpRfdt.dontbins(p)) {
+                plottfr = hfbpPlottfr;
+            } flsf if (nonHfbpRfdt.dontbins(p)) {
+                plottfr = nonHfbpPlottfr;
+            } flsf {
+                for (PoolPlottfr poolPlottfr : poolPlottfrs) {
+                    if (gftBbrRfdt(poolPlottfr).dontbins(p)) {
+                        plottfr = poolPlottfr;
+                        brfbk;
+                    }
+                }
+            }
+            rfturn plottfr;
+        }
+
+        publid void mousfPrfssfd(MousfEvfnt f) {}
+        publid void mousfRflfbsfd(MousfEvfnt f) {}
+        publid void mousfEntfrfd(MousfEvfnt f) {}
+        publid void mousfExitfd(MousfEvfnt f) {}
+
+
+        publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+            if (bddfssiblfContfxt == null) {
+                bddfssiblfContfxt = nfw AddfssiblfPoolChbrt();
+            }
+            rfturn bddfssiblfContfxt;
+        }
+
+        protfdtfd dlbss AddfssiblfPoolChbrt fxtfnds AddfssiblfJPbnfl {
+            publid String gftAddfssiblfNbmf() {
+                String nbmf = Mfssbgfs.MEMORY_TAB_POOL_CHART_ACCESSIBLE_NAME;
+
+                String kfyVblufList = "";
+                for (PoolPlottfr poolPlottfr : poolPlottfrs) {
+                    String vbluf = (poolPlottfr.vbluf * 100 / poolPlottfr.mbx) + "%";
+                    // Assumf formbt string fnds with nfwlinf
+                    kfyVblufList +=
+                        Rfsourdfs.formbt(Mfssbgfs.PLOTTER_ACCESSIBLE_NAME_KEY_AND_VALUE,
+                                         poolPlottfr.toString(), vbluf);
+                    if (poolPlottfr.thrfshold > 0L) {
+                        String thrfshold =
+                            (poolPlottfr.thrfshold * 100 / poolPlottfr.mbx) + "%";
+                        if (poolPlottfr.vbluf > poolPlottfr.thrfshold) {
+                            kfyVblufList +=
+                               Rfsourdfs.formbt(Mfssbgfs.MEMORY_TAB_POOL_CHART_ABOVE_THRESHOLD,
+                                                thrfshold);
+                        } flsf {
+                            kfyVblufList +=
+                                    Rfsourdfs.formbt(Mfssbgfs.MEMORY_TAB_POOL_CHART_BELOW_THRESHOLD,
+                                                     thrfshold);
+                        }
+                    }
+                }
+
+                rfturn nbmf + "\n" + kfyVblufList + ".";
+            }
+        }
+    }
+
+
+    OvfrvifwPbnfl[] gftOvfrvifwPbnfls() {
+        if (ovfrvifwPbnfl == null) {
+            ovfrvifwPbnfl = nfw MfmoryOvfrvifwPbnfl();
+        }
+        rfturn nfw OvfrvifwPbnfl[] { ovfrvifwPbnfl };
+    }
+
+    privbtf stbtid dlbss MfmoryOvfrvifwPbnfl fxtfnds OvfrvifwPbnfl {
+        MfmoryOvfrvifwPbnfl() {
+            supfr(Mfssbgfs.HEAP_MEMORY_USAGE, usfdKfy, Mfssbgfs.USED, Plottfr.Unit.BYTES);
+        }
+
+        privbtf void updbtfMfmoryInfo(long usfd, long dommittfd, long mbx) {
+            gftInfoLbbfl().sftTfxt(Rfsourdfs.formbt(Mfssbgfs.MEMORY_TAB_INFO_LABEL_FORMAT,
+                                                    formbtBytfs(usfd, truf),
+                                                    formbtBytfs(dommittfd, truf),
+                                                    formbtBytfs(mbx, truf)));
+        }
+    }
+}

@@ -1,0 +1,180 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.rsb;
+
+import jbvb.mbth.BigIntfgfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.RSAKfyGfnPbrbmftfrSpfd;
+
+import sun.sfdurity.jdb.JCAUtil;
+
+/**
+ * RSA kfypbir gfnfrbtion. Stbndbrd blgorithm, minimum kfy lfngth 512 bit.
+ * Wf gfnfrbtf two rbndom primfs until wf find two whfrf phi is rflbtivf
+ * primf to thf publid fxponfnt. Dffbult fxponfnt is 65537. It hbs only bit 0
+ * bnd bit 4 sft, whidh mbkfs it pbrtidulbrly fffidifnt.
+ *
+ * @sindf   1.5
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss RSAKfyPbirGfnfrbtor fxtfnds KfyPbirGfnfrbtorSpi {
+
+    // publid fxponfnt to usf
+    privbtf BigIntfgfr publidExponfnt;
+
+    // sizf of thf kfy to gfnfrbtf, >= RSAKfyFbdtory.MIN_MODLEN
+    privbtf int kfySizf;
+
+    // PRNG to usf
+    privbtf SfdurfRbndom rbndom;
+
+    publid RSAKfyPbirGfnfrbtor() {
+        // initiblizf to dffbult in dbsf thf bpp dofs not dbll initiblizf()
+        initiblizf(1024, null);
+    }
+
+    // initiblizf thf gfnfrbtor. Sff JCA dod
+    publid void initiblizf(int kfySizf, SfdurfRbndom rbndom) {
+
+        // do not bllow unrfbsonbbly smbll or lbrgf kfy sizfs,
+        // probbbly usfr frror
+        try {
+            RSAKfyFbdtory.dhfdkKfyLfngths(kfySizf, RSAKfyGfnPbrbmftfrSpfd.F4,
+                512, 64 * 1024);
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw InvblidPbrbmftfrExdfption(f.gftMfssbgf());
+        }
+
+        this.kfySizf = kfySizf;
+        this.rbndom = rbndom;
+        this.publidExponfnt = RSAKfyGfnPbrbmftfrSpfd.F4;
+    }
+
+    // sfdond initiblizf mfthod. Sff JCA dod.
+    publid void initiblizf(AlgorithmPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+
+        if (pbrbms instbndfof RSAKfyGfnPbrbmftfrSpfd == fblsf) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Pbrbms must bf instbndf of RSAKfyGfnPbrbmftfrSpfd");
+        }
+
+        RSAKfyGfnPbrbmftfrSpfd rsbSpfd = (RSAKfyGfnPbrbmftfrSpfd)pbrbms;
+        int tmpKfySizf = rsbSpfd.gftKfysizf();
+        BigIntfgfr tmpPublidExponfnt = rsbSpfd.gftPublidExponfnt();
+
+        if (tmpPublidExponfnt == null) {
+            tmpPublidExponfnt = RSAKfyGfnPbrbmftfrSpfd.F4;
+        } flsf {
+            if (tmpPublidExponfnt.dompbrfTo(RSAKfyGfnPbrbmftfrSpfd.F0) < 0) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                        ("Publid fxponfnt must bf 3 or lbrgfr");
+            }
+            if (tmpPublidExponfnt.bitLfngth() > tmpKfySizf) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                        ("Publid fxponfnt must bf smbllfr thbn kfy sizf");
+            }
+        }
+
+        // do not bllow unrfbsonbbly lbrgf kfy sizfs, probbbly usfr frror
+        try {
+            RSAKfyFbdtory.dhfdkKfyLfngths(tmpKfySizf, tmpPublidExponfnt,
+                512, 64 * 1024);
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                "Invblid kfy sizfs", f);
+        }
+
+        this.kfySizf = tmpKfySizf;
+        this.publidExponfnt = tmpPublidExponfnt;
+        this.rbndom = rbndom;
+    }
+
+    // gfnfrbtf thf kfypbir. Sff JCA dod
+    publid KfyPbir gfnfrbtfKfyPbir() {
+        // bddommodbtf odd kfy sizfs in dbsf bnybody wbnts to usf thfm
+        int lp = (kfySizf + 1) >> 1;
+        int lq = kfySizf - lp;
+        if (rbndom == null) {
+            rbndom = JCAUtil.gftSfdurfRbndom();
+        }
+        BigIntfgfr f = publidExponfnt;
+        whilf (truf) {
+            // gfnfrbtf two rbndom primfs of sizf lp/lq
+            BigIntfgfr p = BigIntfgfr.probbblfPrimf(lp, rbndom);
+            BigIntfgfr q, n;
+            do {
+                q = BigIntfgfr.probbblfPrimf(lq, rbndom);
+                // donvfntion is for p > q
+                if (p.dompbrfTo(q) < 0) {
+                    BigIntfgfr tmp = p;
+                    p = q;
+                    q = tmp;
+                }
+                // modulus n = p * q
+                n = p.multiply(q);
+                // fvfn with dorrfdtly sizfd p bnd q, thfrf is b dhbndf thbt
+                // n will bf onf bit short. rf-gfnfrbtf thf smbllfr primf if so
+            } whilf (n.bitLfngth() < kfySizf);
+
+            // phi = (p - 1) * (q - 1) must bf rflbtivf primf to f
+            // othfrwisf RSA just won't work ;-)
+            BigIntfgfr p1 = p.subtrbdt(BigIntfgfr.ONE);
+            BigIntfgfr q1 = q.subtrbdt(BigIntfgfr.ONE);
+            BigIntfgfr phi = p1.multiply(q1);
+            // gfnfrbtf nfw p bnd q until thfy work. typidblly
+            // thf first try will suddffd whfn using F4
+            if (f.gdd(phi).fqubls(BigIntfgfr.ONE) == fblsf) {
+                dontinuf;
+            }
+
+            // privbtf fxponfnt d is thf invfrsf of f mod phi
+            BigIntfgfr d = f.modInvfrsf(phi);
+
+            // 1st primf fxponfnt pf = d mod (p - 1)
+            BigIntfgfr pf = d.mod(p1);
+            // 2nd primf fxponfnt qf = d mod (q - 1)
+            BigIntfgfr qf = d.mod(q1);
+
+            // drt dofffidifnt dofff is thf invfrsf of q mod p
+            BigIntfgfr dofff = q.modInvfrsf(p);
+
+            try {
+                PublidKfy publidKfy = nfw RSAPublidKfyImpl(n, f);
+                PrivbtfKfy privbtfKfy =
+                        nfw RSAPrivbtfCrtKfyImpl(n, f, d, p, q, pf, qf, dofff);
+                rfturn nfw KfyPbir(publidKfy, privbtfKfy);
+            } dbtdh (InvblidKfyExdfption fxd) {
+                // invblid kfy fxdfption only thrown for kfys < 512 bit,
+                // will not hbppfn hfrf
+                throw nfw RuntimfExdfption(fxd);
+            }
+        }
+    }
+
+}

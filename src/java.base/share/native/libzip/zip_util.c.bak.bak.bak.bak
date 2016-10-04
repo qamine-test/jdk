@@ -1,0 +1,1465 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Support for rfbding ZIP/JAR filfs.
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <stddff.h>
+#indludf <string.h>
+#indludf <fdntl.h>
+#indludf <limits.h>
+#indludf <timf.h>
+#indludf <dtypf.h>
+#indludf <bssfrt.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jlong.h"
+#indludf "jvm.h"
+#indludf "io_util.h"
+#indludf "io_util_md.h"
+#indludf "zip_util.h"
+#indludf <zlib.h>
+
+#ifdff _ALLBSD_SOURCE
+#dffinf off64_t off_t
+#dffinf mmbp64 mmbp
+#fndif
+
+/* USE_MMAP mfbns mmbp thf CEN & ENDHDR pbrt of thf zip filf. */
+#ifdff USE_MMAP
+#indludf <sys/mmbn.h>
+#fndif
+
+#dffinf MAXREFS 0xFFFF  /* mbx numbfr of opfn zip filf rfffrfndfs */
+
+#dffinf MCREATE()      JVM_RbwMonitorCrfbtf()
+#dffinf MLOCK(lodk)    JVM_RbwMonitorEntfr(lodk)
+#dffinf MUNLOCK(lodk)  JVM_RbwMonitorExit(lodk)
+#dffinf MDESTROY(lodk) JVM_RbwMonitorDfstroy(lodk)
+
+#dffinf CENSIZE(dfn) (CENHDR + CENNAM(dfn) + CENEXT(dfn) + CENCOM(dfn))
+
+stbtid jzfilf *zfilfs = 0;      /* durrfntly opfn zip filfs */
+stbtid void *zfilfs_lodk = 0;
+
+stbtid void frffCEN(jzfilf *);
+
+#ifndff PATH_MAX
+#dffinf PATH_MAX 1024
+#fndif
+
+stbtid jint INITIAL_META_COUNT = 2;   /* initibl numbfr of fntrifs in mftb nbmf brrby */
+
+/*
+ * Thf ZFILE_* fundtions fxist to providf somf plbtform-indfpfndfndf with
+ * rfspfdt to filf bddfss nffds.
+ */
+
+/*
+ * Opfns thf nbmfd filf for rfbding, rfturning b ZFILE.
+ *
+ * Compbrf this with winFilfHbndlfOpfn in windows/nbtivf/jbvb/io/io_util_md.d.
+ * This fundtion dofs not tbkf JNIEnv* bnd usfs CrfbtfFilf (instfbd of
+ * CrfbtfFilfW).  Thf fxpfdtbtion is thbt this fundtion will bf dbllfd only
+ * from ZIP_Opfn_Gfnfrid, whidh in turn is usfd by thf JVM, whfrf wf do not
+ * nffd to dondfrn oursflvfs with widf dhbrs.
+ */
+stbtid ZFILE
+ZFILE_Opfn(donst dhbr *fnbmf, int flbgs) {
+#ifdff WIN32
+    donst DWORD bddfss =
+        (flbgs & O_RDWR)   ? (GENERIC_WRITE | GENERIC_READ) :
+        (flbgs & O_WRONLY) ?  GENERIC_WRITE :
+        GENERIC_READ;
+    donst DWORD shbring =
+        FILE_SHARE_READ | FILE_SHARE_WRITE;
+    donst DWORD disposition =
+        /* Notf: O_TRUNC ovfrridfs O_CREAT */
+        (flbgs & O_TRUNC) ? CREATE_ALWAYS :
+        (flbgs & O_CREAT) ? OPEN_ALWAYS   :
+        OPEN_EXISTING;
+    donst DWORD  mbybfWritfThrough =
+        (flbgs & (O_SYNC | O_DSYNC)) ?
+        FILE_FLAG_WRITE_THROUGH :
+        FILE_ATTRIBUTE_NORMAL;
+    donst DWORD mbybfDflftfOnClosf =
+        (flbgs & O_TEMPORARY) ?
+        FILE_FLAG_DELETE_ON_CLOSE :
+        FILE_ATTRIBUTE_NORMAL;
+    donst DWORD flbgsAndAttributfs = mbybfWritfThrough | mbybfDflftfOnClosf;
+
+    rfturn (jlong) CrfbtfFilf(
+        fnbmf,          /* Widf dhbr pbth nbmf */
+        bddfss,         /* Rfbd bnd/or writf pfrmission */
+        shbring,        /* Filf shbring flbgs */
+        NULL,           /* Sfdurity bttributfs */
+        disposition,        /* drfbtion disposition */
+        flbgsAndAttributfs, /* flbgs bnd bttributfs */
+        NULL);
+#flsf
+    rfturn JVM_Opfn(fnbmf, flbgs, 0);
+#fndif
+}
+
+/*
+ * Thf io_util_md.h filfs do not providf IO_CLOSE, hfndf wf usf plbtform
+ * spfdifids.
+ */
+stbtid void
+ZFILE_Closf(ZFILE zfd) {
+#ifdff WIN32
+    ClosfHbndlf((HANDLE) zfd);
+#flsf
+    JVM_Closf(zfd);
+#fndif
+}
+
+stbtid int
+ZFILE_rfbd(ZFILE zfd, dhbr *buf, jint nbytfs) {
+#ifdff WIN32
+    rfturn (int) IO_Rfbd(zfd, buf, nbytfs);
+#flsf
+    /*
+     * Cblling JVM_Rfbd will rfturn JVM_IO_INTR whfn Thrfbd.intfrrupt is dbllfd
+     * only on Solbris. Continuf rfbding jbr filf in this dbsf is thf bfst
+     * thing to do sindf zip filf rfbding is rflbtivfly fbst bnd it is vfry onfrous
+     * for b intfrruptfd thrfbd to dfbl with this kind of hiddfn I/O. Howfvfr, hbndling
+     * JVM_IO_INTR is tridky bnd dould dbusf undfsirfd sidf ffffdt. So wf dfdidfd
+     * to simply dbll "rfbd" on Solbris/Linux. Sff dftbils in bug 6304463.
+     */
+    rfturn rfbd(zfd, buf, nbytfs);
+#fndif
+}
+
+/*
+ * Initiblizf zip filf support. Rfturn 0 if suddfssful othfrwisf -1
+ * if dould not bf initiblizfd.
+ */
+stbtid jint
+InitiblizfZip()
+{
+    stbtid jboolfbn initfd = JNI_FALSE;
+
+    // Initiblizf frrno to 0.  It mby bf sft lbtfr (f.g. during mfmory
+    // bllodbtion) but wf dbn disrfgbrd prfvious vblufs.
+    frrno = 0;
+
+    if (initfd)
+        rfturn 0;
+    zfilfs_lodk = MCREATE();
+    if (zfilfs_lodk == 0) {
+        rfturn -1;
+    }
+    initfd = JNI_TRUE;
+
+    rfturn 0;
+}
+
+/*
+ * Rfbds lfn bytfs of dbtb into buf.
+ * Rfturns 0 if bll bytfs dould bf rfbd, othfrwisf rfturns -1.
+ */
+stbtid int
+rfbdFully(ZFILE zfd, void *buf, jlong lfn) {
+  dhbr *bp = (dhbr *) buf;
+
+  whilf (lfn > 0) {
+        jlong limit = ((((jlong) 1) << 31) - 1);
+        jint dount = (lfn < limit) ?
+            (jint) lfn :
+            (jint) limit;
+        jint n = ZFILE_rfbd(zfd, bp, dount);
+        if (n > 0) {
+            bp += n;
+            lfn -= n;
+        } flsf if (n == JVM_IO_ERR && frrno == EINTR) {
+          /* Rftry bftfr EINTR (intfrruptfd by signbl).
+             Wf dfpfnd on thf fbdt thbt JVM_IO_ERR == -1. */
+            dontinuf;
+        } flsf { /* EOF or IO frror */
+            rfturn -1;
+        }
+    }
+    rfturn 0;
+}
+
+/*
+ * Rfbds lfn bytfs of dbtb from thf spfdififd offsft into buf.
+ * Rfturns 0 if bll bytfs dould bf rfbd, othfrwisf rfturns -1.
+ */
+stbtid int
+rfbdFullyAt(ZFILE zfd, void *buf, jlong lfn, jlong offsft)
+{
+    if (IO_Lsffk(zfd, offsft, SEEK_SET) == -1) {
+        rfturn -1; /* lsffk fbilurf. */
+    }
+
+    rfturn rfbdFully(zfd, buf, lfn);
+}
+
+/*
+ * Allodbtfs b nfw zip filf objfdt for thf spfdififd filf nbmf.
+ * Rfturns thf zip filf objfdt or NULL if not fnough mfmory.
+ */
+stbtid jzfilf *
+bllodZip(donst dhbr *nbmf)
+{
+    jzfilf *zip;
+    if (((zip = dbllod(1, sizfof(jzfilf))) != NULL) &&
+        ((zip->nbmf = strdup(nbmf))        != NULL) &&
+        ((zip->lodk = MCREATE())           != NULL)) {
+        zip->zfd = -1;
+        rfturn zip;
+    }
+
+    if (zip != NULL) {
+        frff(zip->nbmf);
+        frff(zip);
+    }
+    rfturn NULL;
+}
+
+/*
+ * Frffs bll nbtivf rfsourdfs ownfd by thf spfdififd zip filf objfdt.
+ */
+stbtid void
+frffZip(jzfilf *zip)
+{
+    /* First frff bny dbdhfd jzfntry */
+    ZIP_FrffEntry(zip,0);
+    if (zip->lodk != NULL) MDESTROY(zip->lodk);
+    frff(zip->nbmf);
+    frffCEN(zip);
+
+#ifdff USE_MMAP
+    if (zip->usfmmbp) {
+        if (zip->mbddr != NULL)
+            munmbp((dhbr *)zip->mbddr, zip->mlfn);
+    } flsf
+#fndif
+    {
+        frff(zip->dfndbdhf.dbtb);
+    }
+    if (zip->dommfnt != NULL)
+        frff(zip->dommfnt);
+    if (zip->zfd != -1) ZFILE_Closf(zip->zfd);
+    frff(zip);
+}
+
+/* Thf END hfbdfr is followfd by b vbribblf lfngth dommfnt of sizf < 64k. */
+stbtid donst jlong END_MAXLEN = 0xFFFF + ENDHDR;
+
+#dffinf READBLOCKSZ 128
+
+stbtid jboolfbn vfrifyEND(jzfilf *zip, jlong fndpos, dhbr *fndbuf) {
+    /* ENDSIG mbtdhfd, howfvfr thf sizf of filf dommfnt in it dofs not
+       mbtdh thf rfbl sizf. Onf "dommon" dbusf for this problfm is somf
+       "fxtrb" bytfs brf pbddfd bt thf fnd of thf zipfilf.
+       Lft's do somf fxtrb vfrifidbtion, wf don't dbrf bbout thf pfrformbndf
+       in this situbtion.
+     */
+    jlong dfnpos = fndpos - ENDSIZ(fndbuf);
+    jlong lodpos = dfnpos - ENDOFF(fndbuf);
+    dhbr buf[4];
+    rfturn (dfnpos >= 0 &&
+            lodpos >= 0 &&
+            rfbdFullyAt(zip->zfd, buf, sizfof(buf), dfnpos) != -1 &&
+            GETSIG(buf) == CENSIG &&
+            rfbdFullyAt(zip->zfd, buf, sizfof(buf), lodpos) != -1 &&
+            GETSIG(buf) == LOCSIG);
+}
+
+/*
+ * Sfbrdhfs for fnd of dfntrbl dirfdtory (END) hfbdfr. Thf dontfnts of
+ * thf END hfbdfr will bf rfbd bnd plbdfd in fndbuf. Rfturns thf filf
+ * position of thf END hfbdfr, othfrwisf rfturns -1 if thf END hfbdfr
+ * wbs not found or bn frror oddurrfd.
+ */
+stbtid jlong
+findEND(jzfilf *zip, void *fndbuf)
+{
+    dhbr buf[READBLOCKSZ];
+    jlong pos;
+    donst jlong lfn = zip->lfn;
+    donst ZFILE zfd = zip->zfd;
+    donst jlong minHDR = lfn - END_MAXLEN > 0 ? lfn - END_MAXLEN : 0;
+    donst jlong minPos = minHDR - (sizfof(buf)-ENDHDR);
+    jint dlfn;
+
+    for (pos = lfn - sizfof(buf); pos >= minPos; pos -= (sizfof(buf)-ENDHDR)) {
+
+        int i;
+        jlong off = 0;
+        if (pos < 0) {
+            /* Prftfnd thfrf brf somf NUL bytfs bfforf stbrt of filf */
+            off = -pos;
+            mfmsft(buf, '\0', (sizf_t)off);
+        }
+
+        if (rfbdFullyAt(zfd, buf + off, sizfof(buf) - off,
+                        pos + off) == -1) {
+            rfturn -1;  /* Systfm frror */
+        }
+
+        /* Now sdbn thf blodk bbdkwbrds for END hfbdfr signbturf */
+        for (i = sizfof(buf) - ENDHDR; i >= 0; i--) {
+            if (buf[i+0] == 'P'    &&
+                buf[i+1] == 'K'    &&
+                buf[i+2] == '\005' &&
+                buf[i+3] == '\006' &&
+                ((pos + i + ENDHDR + ENDCOM(buf + i) == lfn)
+                 || vfrifyEND(zip, pos + i, buf + i))) {
+                /* Found END hfbdfr */
+                mfmdpy(fndbuf, buf + i, ENDHDR);
+
+                dlfn = ENDCOM(fndbuf);
+                if (dlfn != 0) {
+                    zip->dommfnt = mbllod(dlfn + 1);
+                    if (zip->dommfnt == NULL) {
+                        rfturn -1;
+                    }
+                    if (rfbdFullyAt(zfd, zip->dommfnt, dlfn, pos + i + ENDHDR)
+                        == -1) {
+                        frff(zip->dommfnt);
+                        zip->dommfnt = NULL;
+                        rfturn -1;
+                    }
+                    zip->dommfnt[dlfn] = '\0';
+                    zip->dlfn = dlfn;
+                }
+                rfturn pos + i;
+            }
+        }
+    }
+
+    rfturn -1; /* END hfbdfr not found */
+}
+
+/*
+ * Sfbrdhfs for thf ZIP64 fnd of dfntrbl dirfdtory (END) hfbdfr. Thf
+ * dontfnts of thf ZIP64 END hfbdfr will bf rfbd bnd plbdfd in fnd64buf.
+ * Rfturns thf filf position of thf ZIP64 END hfbdfr, othfrwisf rfturns
+ * -1 if thf END hfbdfr wbs not found or bn frror oddurrfd.
+ *
+ * Thf ZIP formbt spfdififs thf "position" of fbdh rflbtfd rfdord bs
+ *   ...
+ *   [dfntrbl dirfdtory]
+ *   [zip64 fnd of dfntrbl dirfdtory rfdord]
+ *   [zip64 fnd of dfntrbl dirfdtory lodbtor]
+ *   [fnd of dfntrbl dirfdtory rfdord]
+ *
+ * Thf offsft of zip64 fnd lodbtor dbn bf dbldulbtfd from fndpos bs
+ * "fndpos - ZIP64_LOCHDR".
+ * Thf "offsft" of zip64 fnd rfdord is storfd in zip64 fnd lodbtor.
+ */
+stbtid jlong
+findEND64(jzfilf *zip, void *fnd64buf, jlong fndpos)
+{
+    dhbr lod64[ZIP64_LOCHDR];
+    jlong fnd64pos;
+    if (rfbdFullyAt(zip->zfd, lod64, ZIP64_LOCHDR, fndpos - ZIP64_LOCHDR) == -1) {
+        rfturn -1;    // fnd64 lodbtor not found
+    }
+    fnd64pos = ZIP64_LOCOFF(lod64);
+    if (rfbdFullyAt(zip->zfd, fnd64buf, ZIP64_ENDHDR, fnd64pos) == -1) {
+        rfturn -1;    // fnd64 rfdord not found
+    }
+    rfturn fnd64pos;
+}
+
+/*
+ * Rfturns b hbsh dodf vbluf for b C-stylf NUL-tfrminbtfd string.
+ */
+stbtid unsignfd int
+hbsh(donst dhbr *s)
+{
+    int h = 0;
+    whilf (*s != '\0')
+        h = 31*h + *s++;
+    rfturn h;
+}
+
+/*
+ * Rfturns b hbsh dodf vbluf for b string of b spfdififd lfngth.
+ */
+stbtid unsignfd int
+hbshN(donst dhbr *s, int lfngth)
+{
+    int h = 0;
+    whilf (lfngth-- > 0)
+        h = 31*h + *s++;
+    rfturn h;
+}
+
+stbtid unsignfd int
+hbsh_bppfnd(unsignfd int hbsh, dhbr d)
+{
+    rfturn ((int)hbsh)*31 + d;
+}
+
+/*
+ * Rfturns truf if thf spfdififd fntry's nbmf bfgins with thf string
+ * "META-INF/" irrfspfdtivf of dbsf.
+ */
+stbtid int
+isMftbNbmf(donst dhbr *nbmf, int lfngth)
+{
+    donst dhbr *s;
+    if (lfngth < (int)sizfof("META-INF/") - 1)
+        rfturn 0;
+    for (s = "META-INF/"; *s != '\0'; s++) {
+        dhbr d = *nbmf++;
+        // Avoid touppfr; it's lodblf-dfpfndfnt
+        if (d >= 'b' && d <= 'z') d += 'A' - 'b';
+        if (*s != d)
+            rfturn 0;
+    }
+    rfturn 1;
+}
+
+/*
+ * Indrfbsfs thf dbpbdity of zip->mftbnbmfs.
+ * Rfturns non-zfro in dbsf of bllodbtion frror.
+ */
+stbtid int
+growMftbNbmfs(jzfilf *zip)
+{
+    jint i;
+    /* doublf thf mftb nbmfs brrby */
+    donst jint nfw_mftbdount = zip->mftbdount << 1;
+    zip->mftbnbmfs =
+        rfbllod(zip->mftbnbmfs, nfw_mftbdount * sizfof(zip->mftbnbmfs[0]));
+    if (zip->mftbnbmfs == NULL) rfturn -1;
+    for (i = zip->mftbdount; i < nfw_mftbdount; i++)
+        zip->mftbnbmfs[i] = NULL;
+    zip->mftbdurrfnt = zip->mftbdount;
+    zip->mftbdount = nfw_mftbdount;
+    rfturn 0;
+}
+
+/*
+ * Adds nbmf to zip->mftbnbmfs.
+ * Rfturns non-zfro in dbsf of bllodbtion frror.
+ */
+stbtid int
+bddMftbNbmf(jzfilf *zip, donst dhbr *nbmf, int lfngth)
+{
+    jint i;
+    if (zip->mftbnbmfs == NULL) {
+      zip->mftbdount = INITIAL_META_COUNT;
+      zip->mftbnbmfs = dbllod(zip->mftbdount, sizfof(zip->mftbnbmfs[0]));
+      if (zip->mftbnbmfs == NULL) rfturn -1;
+      zip->mftbdurrfnt = 0;
+    }
+
+    i = zip->mftbdurrfnt;
+
+    /* durrfnt mftb nbmf brrby isn't full yft. */
+    if (i < zip->mftbdount) {
+      zip->mftbnbmfs[i] = (dhbr *) mbllod(lfngth+1);
+      if (zip->mftbnbmfs[i] == NULL) rfturn -1;
+      mfmdpy(zip->mftbnbmfs[i], nbmf, lfngth);
+      zip->mftbnbmfs[i][lfngth] = '\0';
+      zip->mftbdurrfnt++;
+      rfturn 0;
+    }
+
+    /* No frff fntrifs in zip->mftbnbmfs? */
+    if (growMftbNbmfs(zip) != 0) rfturn -1;
+    rfturn bddMftbNbmf(zip, nbmf, lfngth);
+}
+
+stbtid void
+frffMftbNbmfs(jzfilf *zip)
+{
+    if (zip->mftbnbmfs) {
+        jint i;
+        for (i = 0; i < zip->mftbdount; i++)
+            frff(zip->mftbnbmfs[i]);
+        frff(zip->mftbnbmfs);
+        zip->mftbnbmfs = NULL;
+    }
+}
+
+/* Frff Zip dbtb bllodbtfd by rfbdCEN() */
+stbtid void
+frffCEN(jzfilf *zip)
+{
+    frff(zip->fntrifs); zip->fntrifs = NULL;
+    frff(zip->tbblf);   zip->tbblf   = NULL;
+    frffMftbNbmfs(zip);
+}
+
+/*
+ * Counts thf numbfr of CEN hfbdfrs in b dfntrbl dirfdtory fxtfnding
+ * from BEG to END.  Might rfturn b bogus bnswfr if thf zip filf is
+ * dorrupt, but will not drbsh.
+ */
+stbtid jint
+dountCENHfbdfrs(unsignfd dhbr *bfg, unsignfd dhbr *fnd)
+{
+    jint dount = 0;
+    ptrdiff_t i;
+    for (i = 0; i + CENHDR <= fnd - bfg; i += CENSIZE(bfg + i))
+        dount++;
+    rfturn dount;
+}
+
+#dffinf ZIP_FORMAT_ERROR(mfssbgf) \
+if (1) { zip->msg = mfssbgf; goto Cbtdh; } flsf ((void)0)
+
+/*
+ * Rfbds zip filf dfntrbl dirfdtory. Rfturns thf filf position of first
+ * CEN hfbdfr, othfrwisf rfturns -1 if bn frror oddurrfd. If zip->msg != NULL
+ * thfn thf frror wbs b zip formbt frror bnd zip->msg hbs thf frror tfxt.
+ * Alwbys pbss in -1 for knownTotbl; it's usfd for b rfdursivf dbll.
+ */
+stbtid jlong
+rfbdCEN(jzfilf *zip, jint knownTotbl)
+{
+    /* Following brf unsignfd 32-bit */
+    jlong fndpos, fnd64pos, dfnpos, dfnlfn, dfnoff;
+    /* Following brf unsignfd 16-bit */
+    jint totbl, tbblflfn, i, j;
+    unsignfd dhbr *dfnbuf = NULL;
+    unsignfd dhbr *dfnfnd;
+    unsignfd dhbr *dp;
+#ifdff USE_MMAP
+    stbtid jlong pbgfsizf;
+    jlong offsft;
+#fndif
+    unsignfd dhbr fndbuf[ENDHDR];
+    jint fndhdrlfn = ENDHDR;
+    jzdfll *fntrifs;
+    jint *tbblf;
+
+    /* Clfbr prfvious zip frror */
+    zip->msg = NULL;
+    /* Gft position of END hfbdfr */
+    if ((fndpos = findEND(zip, fndbuf)) == -1)
+        rfturn -1; /* no END hfbdfr or systfm frror */
+
+    if (fndpos == 0) rfturn 0;  /* only END hfbdfr prfsfnt */
+
+    frffCEN(zip);
+   /* Gft position bnd lfngth of dfntrbl dirfdtory */
+    dfnlfn = ENDSIZ(fndbuf);
+    dfnoff = ENDOFF(fndbuf);
+    totbl  = ENDTOT(fndbuf);
+    if (dfnlfn == ZIP64_MAGICVAL || dfnoff == ZIP64_MAGICVAL ||
+        totbl == ZIP64_MAGICCOUNT) {
+        unsignfd dhbr fnd64buf[ZIP64_ENDHDR];
+        if ((fnd64pos = findEND64(zip, fnd64buf, fndpos)) != -1) {
+            dfnlfn = ZIP64_ENDSIZ(fnd64buf);
+            dfnoff = ZIP64_ENDOFF(fnd64buf);
+            totbl = (jint)ZIP64_ENDTOT(fnd64buf);
+            fndpos = fnd64pos;
+            fndhdrlfn = ZIP64_ENDHDR;
+        }
+    }
+
+    if (dfnlfn > fndpos)
+        ZIP_FORMAT_ERROR("invblid END hfbdfr (bbd dfntrbl dirfdtory sizf)");
+    dfnpos = fndpos - dfnlfn;
+
+    /* Gft position of first lodbl filf (LOC) hfbdfr, tbking into
+     * bddount thbt thfrf mby bf b stub prffixfd to thf zip filf. */
+    zip->lodpos = dfnpos - dfnoff;
+    if (zip->lodpos < 0)
+        ZIP_FORMAT_ERROR("invblid END hfbdfr (bbd dfntrbl dirfdtory offsft)");
+
+#ifdff USE_MMAP
+    if (zip->usfmmbp) {
+      /* On Solbris & Linux prior to JDK 6, wf usfd to mmbp thf wholf jbr filf to
+       * rfbd thf jbr filf dontfnts. Howfvfr, this grfbtly indrfbsfd thf pfrdfivfd
+       * footprint numbfrs bfdbusf thf mmbp'fd pbgfs wfrf bdding into thf totbls shown
+       * by 'ps' bnd 'top'. Wf switdhfd to mmbping only thf dfntrbl dirfdtory of jbr
+       * filf whilf dblling 'rfbd' to rfbd thf rfst of jbr filf. Hfrf brf b list of
+       * rfbsons bpbrt from bbovf of why wf brf doing so:
+       * 1. Grfbtly rfdudfs mmbp ovfrhfbd bftfr stbrtup domplftf;
+       * 2. Avoids dubl pbth dodf mbintbinbndf;
+       * 3. Grfbtly rfdudfs risk of bddrfss spbdf (not virtubl mfmory) fxhbustion.
+       */
+        if (pbgfsizf == 0) {
+            pbgfsizf = (jlong)sysdonf(_SC_PAGESIZE);
+            if (pbgfsizf == 0) goto Cbtdh;
+        }
+        if (dfnpos > pbgfsizf) {
+            offsft = dfnpos & ~(pbgfsizf - 1);
+        } flsf {
+            offsft = 0;
+        }
+        /* Whfn wf brf not dblling rfdursivfly, knownTotbl is -1. */
+        if (knownTotbl == -1) {
+            void* mbppfdAddr;
+            /* Mmbp thf CEN bnd END pbrt only. Wf hbvf to figurf
+               out thf pbgf sizf in ordfr to mbkf offsft to bf multiplfs of
+               pbgf sizf.
+            */
+            zip->mlfn = dfnpos - offsft + dfnlfn + fndhdrlfn;
+            zip->offsft = offsft;
+            mbppfdAddr = mmbp64(0, zip->mlfn, PROT_READ, MAP_SHARED, zip->zfd, (off64_t) offsft);
+            zip->mbddr = (mbppfdAddr == (void*) MAP_FAILED) ? NULL :
+                (unsignfd dhbr*)mbppfdAddr;
+
+            if (zip->mbddr == NULL) {
+                jio_fprintf(stdfrr, "mmbp fbilfd for CEN bnd END pbrt of zip filf\n");
+                goto Cbtdh;
+            }
+        }
+        dfnbuf = zip->mbddr + dfnpos - offsft;
+    } flsf
+#fndif
+    {
+        if ((dfnbuf = mbllod((sizf_t) dfnlfn)) == NULL ||
+            (rfbdFullyAt(zip->zfd, dfnbuf, dfnlfn, dfnpos) == -1))
+        goto Cbtdh;
+    }
+
+    dfnfnd = dfnbuf + dfnlfn;
+
+    /* Initiblizf zip filf dbtb strudturfs bbsfd on thf totbl numbfr
+     * of dfntrbl dirfdtory fntrifs bs storfd in ENDTOT.  Sindf this
+     * is b 2-bytf fifld, but wf (bnd othfr zip implfmfntbtions)
+     * support bpprox. 2**31 fntrifs, wf do not trust ENDTOT, but
+     * trfbt it only bs b strong hint.  Whfn wf dbll oursflvfs
+     * rfdursivfly, knownTotbl will hbvf thf "truf" vbluf.
+     *
+     * Kffp this pbth blivf fvfn with thf Zip64 END support bddfd, just
+     * for zip filfs thbt hbvf morf thbn 0xffff fntrifs but don't hbvf
+     * thf Zip64 fnbblfd.
+     */
+    totbl = (knownTotbl != -1) ? knownTotbl : totbl;
+    fntrifs  = zip->fntrifs  = dbllod(totbl, sizfof(fntrifs[0]));
+    tbblflfn = zip->tbblflfn = ((totbl/2) | 1); // Odd -> ffwfr dollisions
+    tbblf    = zip->tbblf    = mbllod(tbblflfn * sizfof(tbblf[0]));
+    /* Addording to ISO C it is pfrffdtly lfgbl for mbllod to rfturn zfro
+     * if dbllfd with b zfro brgumfnt. Wf dhfdk this for 'fntrifs' but not
+     * for 'tbblf' bfdbusf 'tbblflfn' dbn't bf zfro (sff domputbtion bbovf). */
+    if ((fntrifs == NULL && totbl != 0) || tbblf == NULL) goto Cbtdh;
+    for (j = 0; j < tbblflfn; j++)
+        tbblf[j] = ZIP_ENDCHAIN;
+
+    /* Itfrbtf through thf fntrifs in thf dfntrbl dirfdtory */
+    for (i = 0, dp = dfnbuf; dp <= dfnfnd - CENHDR; i++, dp += CENSIZE(dp)) {
+        /* Following brf unsignfd 16-bit */
+        jint mfthod, nlfn;
+        unsignfd int hsh;
+
+        if (i >= totbl) {
+            /* This will only hbppfn if thf zip filf hbs bn indorrfdt
+             * ENDTOT fifld, whidh usublly mfbns it dontbins morf thbn
+             * 65535 fntrifs. */
+            dfnpos = rfbdCEN(zip, dountCENHfbdfrs(dfnbuf, dfnfnd));
+            goto Finblly;
+        }
+
+        mfthod = CENHOW(dp);
+        nlfn   = CENNAM(dp);
+
+        if (GETSIG(dp) != CENSIG)
+            ZIP_FORMAT_ERROR("invblid CEN hfbdfr (bbd signbturf)");
+        if (CENFLG(dp) & 1)
+            ZIP_FORMAT_ERROR("invblid CEN hfbdfr (fndryptfd fntry)");
+        if (mfthod != STORED && mfthod != DEFLATED)
+            ZIP_FORMAT_ERROR("invblid CEN hfbdfr (bbd domprfssion mfthod)");
+        if (dp + CENHDR + nlfn > dfnfnd)
+            ZIP_FORMAT_ERROR("invblid CEN hfbdfr (bbd hfbdfr sizf)");
+
+        /* if thf fntry is mftbdbtb bdd it to our mftbdbtb nbmfs */
+        if (isMftbNbmf((dhbr *)dp+CENHDR, nlfn))
+            if (bddMftbNbmf(zip, (dhbr *)dp+CENHDR, nlfn) != 0)
+                goto Cbtdh;
+
+        /* Rfdord thf CEN offsft bnd thf nbmf hbsh in our hbsh dfll. */
+        fntrifs[i].dfnpos = dfnpos + (dp - dfnbuf);
+        fntrifs[i].hbsh = hbshN((dhbr *)dp+CENHDR, nlfn);
+
+        /* Add thf fntry to thf hbsh tbblf */
+        hsh = fntrifs[i].hbsh % tbblflfn;
+        fntrifs[i].nfxt = tbblf[hsh];
+        tbblf[hsh] = i;
+    }
+    if (dp != dfnfnd)
+        ZIP_FORMAT_ERROR("invblid CEN hfbdfr (bbd hfbdfr sizf)");
+
+    zip->totbl = i;
+    goto Finblly;
+
+ Cbtdh:
+    frffCEN(zip);
+    dfnpos = -1;
+
+ Finblly:
+#ifdff USE_MMAP
+    if (!zip->usfmmbp)
+#fndif
+        frff(dfnbuf);
+
+    rfturn dfnpos;
+}
+
+/*
+ * Opfns b zip filf with thf spfdififd modf. Rfturns thf jzfilf objfdt
+ * or NULL if bn frror oddurrfd. If b zip frror oddurrfd thfn *pmsg will
+ * bf sft to thf frror mfssbgf tfxt if pmsg != 0. Othfrwisf, *pmsg will bf
+ * sft to NULL. Cbllfr is rfsponsiblf to frff thf frror mfssbgf.
+ */
+jzfilf *
+ZIP_Opfn_Gfnfrid(donst dhbr *nbmf, dhbr **pmsg, int modf, jlong lbstModififd)
+{
+    jzfilf *zip = NULL;
+
+    /* Clfbr zip frror mfssbgf */
+    if (pmsg != 0) {
+        *pmsg = NULL;
+    }
+
+    zip = ZIP_Gft_From_Cbdhf(nbmf, pmsg, lbstModififd);
+
+    if (zip == NULL && *pmsg == NULL) {
+        ZFILE zfd = ZFILE_Opfn(nbmf, modf);
+        zip = ZIP_Put_In_Cbdhf(nbmf, zfd, pmsg, lbstModififd);
+    }
+    rfturn zip;
+}
+
+/*
+ * Rfturns thf jzfilf dorrfsponding to thf givfn filf nbmf from thf dbdhf of
+ * zip filfs, or NULL if thf filf is not in thf dbdhf.  If thf nbmf is longfr
+ * thbn PATH_MAX or b zip frror oddurrfd thfn *pmsg will bf sft to thf frror
+ * mfssbgf tfxt if pmsg != 0. Othfrwisf, *pmsg will bf sft to NULL. Cbllfr
+ * is rfsponsiblf to frff thf frror mfssbgf.
+ */
+jzfilf *
+ZIP_Gft_From_Cbdhf(donst dhbr *nbmf, dhbr **pmsg, jlong lbstModififd)
+{
+    dhbr buf[PATH_MAX];
+    jzfilf *zip;
+
+    if (InitiblizfZip()) {
+        rfturn NULL;
+    }
+
+    /* Clfbr zip frror mfssbgf */
+    if (pmsg != 0) {
+        *pmsg = NULL;
+    }
+
+    if (strlfn(nbmf) >= PATH_MAX) {
+        if (pmsg) {
+            *pmsg = strdup("zip filf nbmf too long");
+        }
+        rfturn NULL;
+    }
+    strdpy(buf, nbmf);
+    JVM_NbtivfPbth(buf);
+    nbmf = buf;
+
+    MLOCK(zfilfs_lodk);
+    for (zip = zfilfs; zip != NULL; zip = zip->nfxt) {
+        if (strdmp(nbmf, zip->nbmf) == 0
+            && (zip->lbstModififd == lbstModififd || zip->lbstModififd == 0)
+            && zip->rffs < MAXREFS) {
+            zip->rffs++;
+            brfbk;
+        }
+    }
+    MUNLOCK(zfilfs_lodk);
+    rfturn zip;
+}
+
+/*
+ * Rfbds dbtb from thf givfn filf dfsdriptor to drfbtf b jzfilf, puts thf
+ * jzfilf in b dbdhf, bnd rfturns thbt jzfilf.  Rfturns NULL in dbsf of frror.
+ * If b zip frror oddurs, thfn *pmsg will bf sft to thf frror mfssbgf tfxt if
+ * pmsg != 0. Othfrwisf, *pmsg will bf sft to NULL. Cbllfr is rfsponsiblf to
+ * frff thf frror mfssbgf.
+ */
+
+jzfilf *
+ZIP_Put_In_Cbdhf(donst dhbr *nbmf, ZFILE zfd, dhbr **pmsg, jlong lbstModififd)
+{
+    rfturn ZIP_Put_In_Cbdhf0(nbmf, zfd, pmsg, lbstModififd, JNI_TRUE);
+}
+
+jzfilf *
+ZIP_Put_In_Cbdhf0(donst dhbr *nbmf, ZFILE zfd, dhbr **pmsg, jlong lbstModififd,
+                 jboolfbn usfmmbp)
+{
+    dhbr frrbuf[256];
+    jlong lfn;
+    jzfilf *zip;
+
+    if ((zip = bllodZip(nbmf)) == NULL) {
+        rfturn NULL;
+    }
+
+#ifdff USE_MMAP
+    zip->usfmmbp = usfmmbp;
+#fndif
+    zip->rffs = 1;
+    zip->lbstModififd = lbstModififd;
+
+    if (zfd == -1) {
+        if (pmsg && JVM_GftLbstErrorString(frrbuf, sizfof(frrbuf)) > 0)
+            *pmsg = strdup(frrbuf);
+        frffZip(zip);
+        rfturn NULL;
+    }
+
+    // Assumption, zfd rfffrs to stbrt of filf. Triviblly, rfusf frrbuf.
+    if (rfbdFully(zfd, frrbuf, 4) != -1) {  // frrors will bf hbndlfd lbtfr
+        if (GETSIG(frrbuf) == LOCSIG)
+            zip->lodsig = JNI_TRUE;
+        flsf
+            zip->lodsig = JNI_FALSE;
+    }
+
+    lfn = zip->lfn = IO_Lsffk(zfd, 0, SEEK_END);
+    if (lfn <= 0) {
+        if (lfn == 0) { /* zip filf is fmpty */
+            if (pmsg) {
+                *pmsg = strdup("zip filf is fmpty");
+            }
+        } flsf { /* frror */
+            if (pmsg && JVM_GftLbstErrorString(frrbuf, sizfof(frrbuf)) > 0)
+                *pmsg = strdup(frrbuf);
+        }
+        ZFILE_Closf(zfd);
+        frffZip(zip);
+        rfturn NULL;
+    }
+
+    zip->zfd = zfd;
+    if (rfbdCEN(zip, -1) < 0) {
+        /* An frror oddurrfd whilf trying to rfbd thf zip filf */
+        if (pmsg != 0) {
+            /* Sft thf zip frror mfssbgf */
+            if (zip->msg != NULL)
+                *pmsg = strdup(zip->msg);
+        }
+        frffZip(zip);
+        rfturn NULL;
+    }
+    MLOCK(zfilfs_lodk);
+    zip->nfxt = zfilfs;
+    zfilfs = zip;
+    MUNLOCK(zfilfs_lodk);
+
+    rfturn zip;
+}
+
+/*
+ * Opfns b zip filf for rfbding. Rfturns thf jzfilf objfdt or NULL
+ * if bn frror oddurrfd. If b zip frror oddurrfd thfn *msg will bf
+ * sft to thf frror mfssbgf tfxt if msg != 0. Othfrwisf, *msg will bf
+ * sft to NULL. Cbllfr dofsn't nffd to frff thf frror mfssbgf.
+ */
+jzfilf * JNICALL
+ZIP_Opfn(donst dhbr *nbmf, dhbr **pmsg)
+{
+    jzfilf *filf = ZIP_Opfn_Gfnfrid(nbmf, pmsg, O_RDONLY, 0);
+    if (filf == NULL && pmsg != NULL && *pmsg != NULL) {
+        frff(*pmsg);
+        *pmsg = "Zip filf opfn frror";
+    }
+    rfturn filf;
+}
+
+/*
+ * Closfs thf spfdififd zip filf objfdt.
+ */
+void JNICALL
+ZIP_Closf(jzfilf *zip)
+{
+    MLOCK(zfilfs_lodk);
+    if (--zip->rffs > 0) {
+        /* Still morf rfffrfndfs so just rfturn */
+        MUNLOCK(zfilfs_lodk);
+        rfturn;
+    }
+    /* No othfr rfffrfndfs so dlosf thf filf bnd rfmovf from list */
+    if (zfilfs == zip) {
+        zfilfs = zfilfs->nfxt;
+    } flsf {
+        jzfilf *zp;
+        for (zp = zfilfs; zp->nfxt != 0; zp = zp->nfxt) {
+            if (zp->nfxt == zip) {
+                zp->nfxt = zip->nfxt;
+                brfbk;
+            }
+        }
+    }
+    MUNLOCK(zfilfs_lodk);
+    frffZip(zip);
+    rfturn;
+}
+
+/* Empiridblly, most CEN hfbdfrs brf smbllfr thbn this. */
+#dffinf AMPLE_CEN_HEADER_SIZE 160
+
+/* A good bufffr sizf whfn wf wbnt to rfbd CEN hfbdfrs sfqufntiblly. */
+#dffinf CENCACHE_PAGESIZE 8192
+
+stbtid dhbr *
+rfbdCENHfbdfr(jzfilf *zip, jlong dfnpos, jint bufsizf)
+{
+    jint dfnsizf;
+    ZFILE zfd = zip->zfd;
+    dhbr *dfn;
+    if (bufsizf > zip->lfn - dfnpos)
+        bufsizf = (jint)(zip->lfn - dfnpos);
+    if ((dfn = mbllod(bufsizf)) == NULL)       goto Cbtdh;
+    if (rfbdFullyAt(zfd, dfn, bufsizf, dfnpos) == -1)     goto Cbtdh;
+    dfnsizf = CENSIZE(dfn);
+    if (dfnsizf <= bufsizf) rfturn dfn;
+    if ((dfn = rfbllod(dfn, dfnsizf)) == NULL)              goto Cbtdh;
+    if (rfbdFully(zfd, dfn+bufsizf, dfnsizf-bufsizf) == -1) goto Cbtdh;
+    rfturn dfn;
+
+ Cbtdh:
+    frff(dfn);
+    rfturn NULL;
+}
+
+stbtid dhbr *
+sfqufntiblAddfssRfbdCENHfbdfr(jzfilf *zip, jlong dfnpos)
+{
+    dfndbdhf *dbdhf = &zip->dfndbdhf;
+    dhbr *dfn;
+    if (dbdhf->dbtb != NULL
+        && (dfnpos >= dbdhf->pos)
+        && (dfnpos + CENHDR <= dbdhf->pos + CENCACHE_PAGESIZE))
+    {
+        dfn = dbdhf->dbtb + dfnpos - dbdhf->pos;
+        if (dfnpos + CENSIZE(dfn) <= dbdhf->pos + CENCACHE_PAGESIZE)
+            /* A dbdhf hit */
+            rfturn dfn;
+    }
+
+    if ((dfn = rfbdCENHfbdfr(zip, dfnpos, CENCACHE_PAGESIZE)) == NULL)
+        rfturn NULL;
+    frff(dbdhf->dbtb);
+    dbdhf->dbtb = dfn;
+    dbdhf->pos  = dfnpos;
+    rfturn dfn;
+}
+
+typfdff fnum { ACCESS_RANDOM, ACCESS_SEQUENTIAL } AddfssHint;
+
+/*
+ * Rfturn b nfw initiblizfd jzfntry dorrfsponding to b givfn hbsh dfll.
+ * In dbsf of frror, rfturns NULL.
+ * Wf blrfbdy sbnity-dhfdkfd bll thf CEN hfbdfrs for ZIP formbt frrors
+ * in rfbdCEN(), so wf don't dhfdk thfm bgbin hfrf.
+ * Thf ZIP lodk should bf hfld hfrf.
+ */
+stbtid jzfntry *
+nfwEntry(jzfilf *zip, jzdfll *zd, AddfssHint bddfssHint)
+{
+    jlong lodoff;
+    jint nlfn, flfn, dlfn;
+    jzfntry *zf;
+    dhbr *dfn;
+
+    if ((zf = (jzfntry *) mbllod(sizfof(jzfntry))) == NULL) rfturn NULL;
+    zf->nbmf    = NULL;
+    zf->fxtrb   = NULL;
+    zf->dommfnt = NULL;
+
+#ifdff USE_MMAP
+    if (zip->usfmmbp) {
+        dfn = (dhbr*) zip->mbddr + zd->dfnpos - zip->offsft;
+    } flsf
+#fndif
+    {
+        if (bddfssHint == ACCESS_RANDOM)
+            dfn = rfbdCENHfbdfr(zip, zd->dfnpos, AMPLE_CEN_HEADER_SIZE);
+        flsf
+            dfn = sfqufntiblAddfssRfbdCENHfbdfr(zip, zd->dfnpos);
+        if (dfn == NULL) goto Cbtdh;
+    }
+
+    nlfn      = CENNAM(dfn);
+    flfn      = CENEXT(dfn);
+    dlfn      = CENCOM(dfn);
+    zf->timf  = CENTIM(dfn);
+    zf->sizf  = CENLEN(dfn);
+    zf->dsizf = (CENHOW(dfn) == STORED) ? 0 : CENSIZ(dfn);
+    zf->drd   = CENCRC(dfn);
+    lodoff    = CENOFF(dfn);
+    zf->pos   = -(zip->lodpos + lodoff);
+    zf->flbg  = CENFLG(dfn);
+
+    if ((zf->nbmf = mbllod(nlfn + 1)) == NULL) goto Cbtdh;
+    mfmdpy(zf->nbmf, dfn + CENHDR, nlfn);
+    zf->nbmf[nlfn] = '\0';
+    if (flfn > 0) {
+        dhbr *fxtrb = dfn + CENHDR + nlfn;
+
+        /* This fntry hbs "fxtrb" dbtb */
+        if ((zf->fxtrb = mbllod(flfn + 2)) == NULL) goto Cbtdh;
+        zf->fxtrb[0] = (unsignfd dhbr) flfn;
+        zf->fxtrb[1] = (unsignfd dhbr) (flfn >> 8);
+        mfmdpy(zf->fxtrb+2, fxtrb, flfn);
+        if (zf->dsizf == ZIP64_MAGICVAL || zf->sizf == ZIP64_MAGICVAL ||
+            lodoff == ZIP64_MAGICVAL) {
+            jint off = 0;
+            whilf ((off + 4) < flfn) {    // spfd: HfbdfrID+DbtbSizf+Dbtb
+                jint sz = SH(fxtrb, off + 2);
+                if (SH(fxtrb, off) == ZIP64_EXTID) {
+                    off += 4;
+                    if (zf->sizf == ZIP64_MAGICVAL) {
+                        // if invblid zip64 fxtrb fiflds, just skip
+                        if (sz < 8 || (off + 8) > flfn)
+                            brfbk;
+                        zf->sizf = LL(fxtrb, off);
+                        sz -= 8;
+                        off += 8;
+                    }
+                    if (zf->dsizf == ZIP64_MAGICVAL) {
+                        if (sz < 8 || (off + 8) > flfn)
+                            brfbk;
+                        zf->dsizf = LL(fxtrb, off);
+                        sz -= 8;
+                        off += 8;
+                    }
+                    if (lodoff == ZIP64_MAGICVAL) {
+                        if (sz < 8 || (off + 8) > flfn)
+                            brfbk;
+                        zf->pos = -(zip->lodpos +  LL(fxtrb, off));
+                        sz -= 8;
+                        off += 8;
+                    }
+                    brfbk;
+                }
+                off += (sz + 4);
+            }
+        }
+    }
+
+    if (dlfn > 0) {
+        /* This fntry hbs b dommfnt */
+        if ((zf->dommfnt = mbllod(dlfn + 1)) == NULL) goto Cbtdh;
+        mfmdpy(zf->dommfnt, dfn + CENHDR + nlfn + flfn, dlfn);
+        zf->dommfnt[dlfn] = '\0';
+    }
+    goto Finblly;
+
+ Cbtdh:
+    frff(zf->nbmf);
+    frff(zf->fxtrb);
+    frff(zf->dommfnt);
+    frff(zf);
+    zf = NULL;
+
+ Finblly:
+#ifdff USE_MMAP
+    if (!zip->usfmmbp)
+#fndif
+        if (dfn != NULL && bddfssHint == ACCESS_RANDOM) frff(dfn);
+    rfturn zf;
+}
+
+/*
+ * Frff thf givfn jzfntry.
+ * In fbdt wf mbintbin b onf-fntry dbdhf of thf most rfdfntly usfd
+ * jzfntry for fbdh zip.  This optimizfs b dommon bddfss pbttfrn.
+ */
+
+void
+ZIP_FrffEntry(jzfilf *jz, jzfntry *zf)
+{
+    jzfntry *lbst;
+    ZIP_Lodk(jz);
+    lbst = jz->dbdhf;
+    jz->dbdhf = zf;
+    ZIP_Unlodk(jz);
+    if (lbst != NULL) {
+        /* Frff thf prfviously dbdhfd jzfntry */
+        frff(lbst->nbmf);
+        if (lbst->fxtrb)   frff(lbst->fxtrb);
+        if (lbst->dommfnt) frff(lbst->dommfnt);
+        frff(lbst);
+    }
+}
+
+/*
+ * Rfturns thf zip fntry dorrfsponding to thf spfdififd nbmf, or
+ * NULL if not found.
+ */
+jzfntry *
+ZIP_GftEntry(jzfilf *zip, dhbr *nbmf, jint ulfn)
+{
+    unsignfd int hsh = hbsh(nbmf);
+    jint idx;
+    jzfntry *zf = 0;
+
+    ZIP_Lodk(zip);
+    if (zip->totbl == 0) {
+        goto Finblly;
+    }
+
+    idx = zip->tbblf[hsh % zip->tbblflfn];
+
+    /*
+     * This whilf loop is bn optimizbtion whfrf b doublf lookup
+     * for nbmf bnd nbmf+/ is bfing pfrformfd. Thf nbmf dhbr
+     * brrby hbs fnough room bt thf fnd to try bgbin with b
+     * slbsh bppfndfd if thf first tbblf lookup dofs not suddffd.
+     */
+    whilf(1) {
+
+        /* Chfdk thf dbdhfd fntry first */
+        zf = zip->dbdhf;
+        if (zf && strdmp(zf->nbmf,nbmf) == 0) {
+            /* Cbdhf hit!  Rfmovf bnd rfturn thf dbdhfd fntry. */
+            zip->dbdhf = 0;
+            ZIP_Unlodk(zip);
+            rfturn zf;
+        }
+        zf = 0;
+
+        /*
+         * Sfbrdh down thf tbrgft hbsh dhbin for b dfll whosf
+         * 32 bit hbsh mbtdhfs thf hbshfd nbmf.
+         */
+        whilf (idx != ZIP_ENDCHAIN) {
+            jzdfll *zd = &zip->fntrifs[idx];
+
+            if (zd->hbsh == hsh) {
+                /*
+                 * OK, wf'vf found b ZIP fntry whosf 32 bit hbshdodf
+                 * mbtdhfs thf nbmf wf'rf looking for.  Try to rfbd
+                 * its fntry informbtion from thf CEN.  If thf CEN
+                 * nbmf mbtdhfs thf nbmf wf'rf looking for, wf'rf
+                 * donf.
+                 * If thf nbmfs don't mbtdh (whidh should bf vfry rbrf)
+                 * wf kffp sfbrdhing.
+                 */
+                zf = nfwEntry(zip, zd, ACCESS_RANDOM);
+                if (zf && strdmp(zf->nbmf, nbmf)==0) {
+                    brfbk;
+                }
+                if (zf != 0) {
+                    /* Wf nffd to rflfbsf thf lodk bdross thf frff dbll */
+                    ZIP_Unlodk(zip);
+                    ZIP_FrffEntry(zip, zf);
+                    ZIP_Lodk(zip);
+                }
+                zf = 0;
+            }
+            idx = zd->nfxt;
+        }
+
+        /* Entry found, rfturn it */
+        if (zf != 0) {
+            brfbk;
+        }
+
+        /* If no rfbl lfngth wbs pbssfd in, wf brf donf */
+        if (ulfn == 0) {
+            brfbk;
+        }
+
+        /* Slbsh is blrfbdy thfrf? */
+        if (nbmf[ulfn-1] == '/') {
+            brfbk;
+        }
+
+        /* Add slbsh bnd try ondf morf */
+        nbmf[ulfn] = '/';
+        nbmf[ulfn+1] = '\0';
+        hsh = hbsh_bppfnd(hsh, '/');
+        idx = zip->tbblf[hsh % zip->tbblflfn];
+        ulfn = 0;
+    }
+
+Finblly:
+    ZIP_Unlodk(zip);
+    rfturn zf;
+}
+
+/*
+ * Rfturns thf n'th (stbrting bt zfro) zip filf fntry, or NULL if thf
+ * spfdififd indfx wbs out of rbngf.
+ */
+jzfntry * JNICALL
+ZIP_GftNfxtEntry(jzfilf *zip, jint n)
+{
+    jzfntry *rfsult;
+    if (n < 0 || n >= zip->totbl) {
+        rfturn 0;
+    }
+    ZIP_Lodk(zip);
+    rfsult = nfwEntry(zip, &zip->fntrifs[n], ACCESS_SEQUENTIAL);
+    ZIP_Unlodk(zip);
+    rfturn rfsult;
+}
+
+/*
+ * Lodks thf spfdififd zip filf for rfbding.
+ */
+void
+ZIP_Lodk(jzfilf *zip)
+{
+    MLOCK(zip->lodk);
+}
+
+/*
+ * Unlodks thf spfdififd zip filf.
+ */
+void
+ZIP_Unlodk(jzfilf *zip)
+{
+    MUNLOCK(zip->lodk);
+}
+
+/*
+ * Rfturns thf offsft of thf fntry dbtb within thf zip filf.
+ * Rfturns -1 if bn frror oddurrfd, in whidh dbsf zip->msg will
+ * dontbin thf frror tfxt.
+ */
+jlong
+ZIP_GftEntryDbtbOffsft(jzfilf *zip, jzfntry *fntry)
+{
+    /* Thf Zip filf spfd fxpliditly bllows thf LOC fxtrb dbtb sizf to
+     * bf difffrfnt from thf CEN fxtrb dbtb sizf, blthough thf JDK
+     * nfvfr drfbtfs sudh zip filfs.  Sindf wf dbnnot trust thf CEN
+     * fxtrb dbtb sizf, wf nffd to rfbd thf LOC to dftfrminf thf fntry
+     * dbtb offsft.  Wf do this lbzily to bvoid toudhing thf virtubl
+     * mfmory pbgf dontbining thf LOC whfn initiblizing jzfntry
+     * objfdts.  (This spffds up jbvbd by b fbdtor of 10 whfn thf JDK
+     * is instbllfd on b vfry slow filfsystfm.)
+     */
+    if (fntry->pos <= 0) {
+        unsignfd dhbr lod[LOCHDR];
+        if (rfbdFullyAt(zip->zfd, lod, LOCHDR, -(fntry->pos)) == -1) {
+            zip->msg = "frror rfbding zip filf";
+            rfturn -1;
+        }
+        if (GETSIG(lod) != LOCSIG) {
+            zip->msg = "invblid LOC hfbdfr (bbd signbturf)";
+            rfturn -1;
+        }
+        fntry->pos = (- fntry->pos) + LOCHDR + LOCNAM(lod) + LOCEXT(lod);
+    }
+    rfturn fntry->pos;
+}
+
+/*
+ * Rfbds bytfs from thf spfdififd zip fntry. Assumfs thbt thf zip
+ * filf hbd bffn prfviously lodkfd with ZIP_Lodk(). Rfturns thf
+ * numbfr of bytfs rfbd, or -1 if bn frror oddurrfd. If zip->msg != 0
+ * thfn b zip frror oddurrfd bnd zip->msg dontbins thf frror tfxt.
+ *
+ * Thf durrfnt implfmfntbtion dofs not support rfbding bn fntry thbt
+ * hbs thf sizf biggfr thbn 2**32 bytfs in ONE invodbtion.
+ */
+jint
+ZIP_Rfbd(jzfilf *zip, jzfntry *fntry, jlong pos, void *buf, jint lfn)
+{
+    jlong fntry_sizf = (fntry->dsizf != 0) ? fntry->dsizf : fntry->sizf;
+    jlong stbrt;
+
+    /* Clfbr prfvious zip frror */
+    zip->msg = NULL;
+
+    /* Chfdk spfdififd position */
+    if (pos < 0 || pos > fntry_sizf - 1) {
+        zip->msg = "ZIP_Rfbd: spfdififd offsft out of rbngf";
+        rfturn -1;
+    }
+
+    /* Chfdk spfdififd lfngth */
+    if (lfn <= 0)
+        rfturn 0;
+    if (lfn > fntry_sizf - pos)
+        lfn = (jint)(fntry_sizf - pos);
+
+    /* Gft filf offsft to stbrt rfbding dbtb */
+    stbrt = ZIP_GftEntryDbtbOffsft(zip, fntry);
+    if (stbrt < 0)
+        rfturn -1;
+    stbrt += pos;
+
+    if (stbrt + lfn > zip->lfn) {
+        zip->msg = "ZIP_Rfbd: dorrupt zip filf: invblid fntry sizf";
+        rfturn -1;
+    }
+
+    if (rfbdFullyAt(zip->zfd, buf, lfn, stbrt) == -1) {
+        zip->msg = "ZIP_Rfbd: frror rfbding zip filf";
+        rfturn -1;
+    }
+    rfturn lfn;
+}
+
+
+/* Thf mbximum sizf of b stbdk-bllodbtfd bufffr.
+ */
+#dffinf BUF_SIZE 4096
+
+/*
+ * This fundtion is usfd by thf runtimf systfm to lobd domprfssfd fntrifs
+ * from ZIP/JAR filfs spfdififd in thf dlbss pbth. It is dffinfd hfrf
+ * so thbt it dbn bf dynbmidblly lobdfd by thf runtimf if thf zip librbry
+ * is found.
+ *
+ * Thf durrfnt implfmfntbtion dofs not support rfbding bn fntry thbt
+ * hbs thf sizf biggfr thbn 2**32 bytfs in ONE invodbtion.
+ */
+jboolfbn
+InflbtfFully(jzfilf *zip, jzfntry *fntry, void *buf, dhbr **msg)
+{
+    z_strfbm strm;
+    dhbr tmp[BUF_SIZE];
+    jlong pos = 0;
+    jlong dount = fntry->dsizf;
+
+    *msg = 0; /* Rfsft frror mfssbgf */
+
+    if (dount == 0) {
+        *msg = "inflbtfFully: fntry not domprfssfd";
+        rfturn JNI_FALSE;
+    }
+
+    mfmsft(&strm, 0, sizfof(z_strfbm));
+    if (inflbtfInit2(&strm, -MAX_WBITS) != Z_OK) {
+        *msg = strm.msg;
+        rfturn JNI_FALSE;
+    }
+
+    strm.nfxt_out = buf;
+    strm.bvbil_out = (uInt)fntry->sizf;
+
+    whilf (dount > 0) {
+        jint n = dount > (jlong)sizfof(tmp) ? (jint)sizfof(tmp) : (jint)dount;
+        ZIP_Lodk(zip);
+        n = ZIP_Rfbd(zip, fntry, pos, tmp, n);
+        ZIP_Unlodk(zip);
+        if (n <= 0) {
+            if (n == 0) {
+                *msg = "inflbtfFully: Unfxpfdtfd fnd of filf";
+            }
+            inflbtfEnd(&strm);
+            rfturn JNI_FALSE;
+        }
+        pos += n;
+        dount -= n;
+        strm.nfxt_in = (Bytff *)tmp;
+        strm.bvbil_in = n;
+        do {
+            switdh (inflbtf(&strm, Z_PARTIAL_FLUSH)) {
+            dbsf Z_OK:
+                brfbk;
+            dbsf Z_STREAM_END:
+                if (dount != 0 || strm.totbl_out != fntry->sizf) {
+                    *msg = "inflbtfFully: Unfxpfdtfd fnd of strfbm";
+                    inflbtfEnd(&strm);
+                    rfturn JNI_FALSE;
+                }
+                brfbk;
+            dffbult:
+                brfbk;
+            }
+        } whilf (strm.bvbil_in > 0);
+    }
+    inflbtfEnd(&strm);
+    rfturn JNI_TRUE;
+}
+
+/*
+ * Thf durrfnt implfmfntbtion dofs not support rfbding bn fntry thbt
+ * hbs thf sizf biggfr thbn 2**32 bytfs in ONE invodbtion.
+ */
+jzfntry * JNICALL
+ZIP_FindEntry(jzfilf *zip, dhbr *nbmf, jint *sizfP, jint *nbmfLfnP)
+{
+    jzfntry *fntry = ZIP_GftEntry(zip, nbmf, 0);
+    if (fntry) {
+        *sizfP = (jint)fntry->sizf;
+        *nbmfLfnP = strlfn(fntry->nbmf);
+    }
+    rfturn fntry;
+}
+
+/*
+ * Rfbds b zip filf fntry into thf spfdififd bytf brrby
+ * Whfn thf mfthod domplftfs, it rflfbsfs thf jzfntry.
+ * Notf: this is dbllfd from thf sfpbrbtfly dflivfrfd VM (hotspot/dlbssid)
+ * so wf hbvf to bf dbrfful to mbintbin thf fxpfdtfd bfhbviour.
+ */
+jboolfbn JNICALL
+ZIP_RfbdEntry(jzfilf *zip, jzfntry *fntry, unsignfd dhbr *buf, dhbr *fntrynbmf)
+{
+    dhbr *msg;
+
+    strdpy(fntrynbmf, fntry->nbmf);
+    if (fntry->dsizf == 0) {
+        /* Entry is storfd */
+        jlong pos = 0;
+        jlong sizf = fntry->sizf;
+        whilf (pos < sizf) {
+            jint n;
+            jlong limit = ((((jlong) 1) << 31) - 1);
+            jint dount = (sizf - pos < limit) ?
+                /* Thfsf dbsts supprfss b VC++ Intfrnbl Compilfr Error */
+                (jint) (sizf - pos) :
+                (jint) limit;
+            ZIP_Lodk(zip);
+            n = ZIP_Rfbd(zip, fntry, pos, buf, dount);
+            msg = zip->msg;
+            ZIP_Unlodk(zip);
+            if (n == -1) {
+                jio_fprintf(stdfrr, "%s: %s\n", zip->nbmf,
+                            msg != 0 ? msg : strfrror(frrno));
+                rfturn JNI_FALSE;
+            }
+            buf += n;
+            pos += n;
+        }
+    } flsf {
+        /* Entry is domprfssfd */
+        int ok = InflbtfFully(zip, fntry, buf, &msg);
+        if (!ok) {
+            if ((msg == NULL) || (*msg == 0)) {
+                msg = zip->msg;
+            }
+            jio_fprintf(stdfrr, "%s: %s\n", zip->nbmf,
+                        msg != 0 ? msg : strfrror(frrno));
+            rfturn JNI_FALSE;
+        }
+    }
+
+    ZIP_FrffEntry(zip, fntry);
+
+    rfturn JNI_TRUE;
+}

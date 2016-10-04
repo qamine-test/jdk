@@ -1,420 +1,420 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.validator;
+pbdkbgf sun.sfdurity.vblidbtor;
 
-import java.io.IOException;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.cert.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.*;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.x509.X509CertImpl;
-import sun.security.x509.NetscapeCertTypeExtension;
-import sun.security.util.DerValue;
-import sun.security.util.DerInputStream;
-import sun.security.util.ObjectIdentifier;
+import sun.sfdurity.x509.X509CfrtImpl;
+import sun.sfdurity.x509.NftsdbpfCfrtTypfExtfnsion;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.ObjfdtIdfntififr;
 
-import sun.security.provider.certpath.AlgorithmChecker;
-import sun.security.provider.certpath.UntrustedChecker;
+import sun.sfdurity.providfr.dfrtpbti.AlgoritimCifdkfr;
+import sun.sfdurity.providfr.dfrtpbti.UntrustfdCifdkfr;
 
 /**
- * A simple validator implementation. It is based on code from the JSSE
- * X509TrustManagerImpl. This implementation is designed for compatibility with
- * deployed certificates and previous J2SE versions. It will never support
- * more advanced features and will be deemphasized in favor of the PKIX
- * validator going forward.
+ * A simplf vblidbtor implfmfntbtion. It is bbsfd on dodf from tif JSSE
+ * X509TrustMbnbgfrImpl. Tiis implfmfntbtion is dfsignfd for dompbtibility witi
+ * dfployfd dfrtifidbtfs bnd prfvious J2SE vfrsions. It will nfvfr support
+ * morf bdvbndfd ffbturfs bnd will bf dffmpibsizfd in fbvor of tif PKIX
+ * vblidbtor going forwbrd.
  * <p>
- * {@code SimpleValidator} objects are immutable once they have been created.
- * Please DO NOT add methods that can change the state of an instance once
- * it has been created.
+ * {@dodf SimplfVblidbtor} objfdts brf immutbblf ondf tify ibvf bffn drfbtfd.
+ * Plfbsf DO NOT bdd mftiods tibt dbn dibngf tif stbtf of bn instbndf ondf
+ * it ibs bffn drfbtfd.
  *
- * @author Andreas Sterbenz
+ * @butior Andrfbs Stfrbfnz
  */
-public final class SimpleValidator extends Validator {
+publid finbl dlbss SimplfVblidbtor fxtfnds Vblidbtor {
 
-    // Constants for the OIDs we need
+    // Constbnts for tif OIDs wf nffd
 
-    final static String OID_BASIC_CONSTRAINTS = "2.5.29.19";
+    finbl stbtid String OID_BASIC_CONSTRAINTS = "2.5.29.19";
 
-    final static String OID_NETSCAPE_CERT_TYPE = "2.16.840.1.113730.1.1";
+    finbl stbtid String OID_NETSCAPE_CERT_TYPE = "2.16.840.1.113730.1.1";
 
-    final static String OID_KEY_USAGE = "2.5.29.15";
+    finbl stbtid String OID_KEY_USAGE = "2.5.29.15";
 
-    final static String OID_EXTENDED_KEY_USAGE = "2.5.29.37";
+    finbl stbtid String OID_EXTENDED_KEY_USAGE = "2.5.29.37";
 
-    final static String OID_EKU_ANY_USAGE = "2.5.29.37.0";
+    finbl stbtid String OID_EKU_ANY_USAGE = "2.5.29.37.0";
 
-    final static ObjectIdentifier OBJID_NETSCAPE_CERT_TYPE =
-        NetscapeCertTypeExtension.NetscapeCertType_Id;
+    finbl stbtid ObjfdtIdfntififr OBJID_NETSCAPE_CERT_TYPE =
+        NftsdbpfCfrtTypfExtfnsion.NftsdbpfCfrtTypf_Id;
 
-    private final static String NSCT_SSL_CA =
-                                NetscapeCertTypeExtension.SSL_CA;
+    privbtf finbl stbtid String NSCT_SSL_CA =
+                                NftsdbpfCfrtTypfExtfnsion.SSL_CA;
 
-    private final static String NSCT_CODE_SIGNING_CA =
-                                NetscapeCertTypeExtension.OBJECT_SIGNING_CA;
-
-    /**
-     * The trusted certificates as:
-     * Map (X500Principal)subject of trusted cert -> List of X509Certificate
-     * The list is used because there may be multiple certificates
-     * with an identical subject DN.
-     */
-    private final Map<X500Principal, List<X509Certificate>>
-                                            trustedX500Principals;
+    privbtf finbl stbtid String NSCT_CODE_SIGNING_CA =
+                                NftsdbpfCfrtTypfExtfnsion.OBJECT_SIGNING_CA;
 
     /**
-     * Set of the trusted certificates. Present only for
-     * getTrustedCertificates().
+     * Tif trustfd dfrtifidbtfs bs:
+     * Mbp (X500Prindipbl)subjfdt of trustfd dfrt -> List of X509Cfrtifidbtf
+     * Tif list is usfd bfdbusf tifrf mby bf multiplf dfrtifidbtfs
+     * witi bn idfntidbl subjfdt DN.
      */
-    private final Collection<X509Certificate> trustedCerts;
+    privbtf finbl Mbp<X500Prindipbl, List<X509Cfrtifidbtf>>
+                                            trustfdX500Prindipbls;
 
-    SimpleValidator(String variant, Collection<X509Certificate> trustedCerts) {
-        super(TYPE_SIMPLE, variant);
-        this.trustedCerts = trustedCerts;
-        trustedX500Principals =
-                        new HashMap<X500Principal, List<X509Certificate>>();
-        for (X509Certificate cert : trustedCerts) {
-            X500Principal principal = cert.getSubjectX500Principal();
-            List<X509Certificate> list = trustedX500Principals.get(principal);
+    /**
+     * Sft of tif trustfd dfrtifidbtfs. Prfsfnt only for
+     * gftTrustfdCfrtifidbtfs().
+     */
+    privbtf finbl Collfdtion<X509Cfrtifidbtf> trustfdCfrts;
+
+    SimplfVblidbtor(String vbribnt, Collfdtion<X509Cfrtifidbtf> trustfdCfrts) {
+        supfr(TYPE_SIMPLE, vbribnt);
+        tiis.trustfdCfrts = trustfdCfrts;
+        trustfdX500Prindipbls =
+                        nfw HbsiMbp<X500Prindipbl, List<X509Cfrtifidbtf>>();
+        for (X509Cfrtifidbtf dfrt : trustfdCfrts) {
+            X500Prindipbl prindipbl = dfrt.gftSubjfdtX500Prindipbl();
+            List<X509Cfrtifidbtf> list = trustfdX500Prindipbls.gft(prindipbl);
             if (list == null) {
-                // this actually should be a set, but duplicate entries
-                // are not a problem and we can avoid the Set overhead
-                list = new ArrayList<X509Certificate>(2);
-                trustedX500Principals.put(principal, list);
+                // tiis bdtublly siould bf b sft, but duplidbtf fntrifs
+                // brf not b problfm bnd wf dbn bvoid tif Sft ovfrifbd
+                list = nfw ArrbyList<X509Cfrtifidbtf>(2);
+                trustfdX500Prindipbls.put(prindipbl, list);
             }
-            list.add(cert);
+            list.bdd(dfrt);
         }
     }
 
-    public Collection<X509Certificate> getTrustedCertificates() {
-        return trustedCerts;
+    publid Collfdtion<X509Cfrtifidbtf> gftTrustfdCfrtifidbtfs() {
+        rfturn trustfdCfrts;
     }
 
     /**
-     * Perform simple validation of chain. The arguments otherCerts and
-     * parameter are ignored.
+     * Pfrform simplf vblidbtion of dibin. Tif brgumfnts otifrCfrts bnd
+     * pbrbmftfr brf ignorfd.
      */
-    @Override
-    X509Certificate[] engineValidate(X509Certificate[] chain,
-            Collection<X509Certificate> otherCerts,
-            AlgorithmConstraints constraints,
-            Object parameter) throws CertificateException {
-        if ((chain == null) || (chain.length == 0)) {
-            throw new CertificateException
-                ("null or zero-length certificate chain");
+    @Ovfrridf
+    X509Cfrtifidbtf[] fnginfVblidbtf(X509Cfrtifidbtf[] dibin,
+            Collfdtion<X509Cfrtifidbtf> otifrCfrts,
+            AlgoritimConstrbints donstrbints,
+            Objfdt pbrbmftfr) tirows CfrtifidbtfExdfption {
+        if ((dibin == null) || (dibin.lfngti == 0)) {
+            tirow nfw CfrtifidbtfExdfption
+                ("null or zfro-lfngti dfrtifidbtf dibin");
         }
 
-        // make sure chain includes a trusted cert
-        chain = buildTrustedChain(chain);
+        // mbkf surf dibin indludfs b trustfd dfrt
+        dibin = buildTrustfdCibin(dibin);
 
-        @SuppressWarnings("deprecation")
-        Date date = validationDate;
-        if (date == null) {
-            date = new Date();
+        @SupprfssWbrnings("dfprfdbtion")
+        Dbtf dbtf = vblidbtionDbtf;
+        if (dbtf == null) {
+            dbtf = nfw Dbtf();
         }
 
-        // create distrusted certificates checker
-        UntrustedChecker untrustedChecker = new UntrustedChecker();
+        // drfbtf distrustfd dfrtifidbtfs difdkfr
+        UntrustfdCifdkfr untrustfdCifdkfr = nfw UntrustfdCifdkfr();
 
-        // create default algorithm constraints checker
-        TrustAnchor anchor = new TrustAnchor(chain[chain.length - 1], null);
-        AlgorithmChecker defaultAlgChecker = new AlgorithmChecker(anchor);
+        // drfbtf dffbult blgoritim donstrbints difdkfr
+        TrustAndior bndior = nfw TrustAndior(dibin[dibin.lfngti - 1], null);
+        AlgoritimCifdkfr dffbultAlgCifdkfr = nfw AlgoritimCifdkfr(bndior);
 
-        // create application level algorithm constraints checker
-        AlgorithmChecker appAlgChecker = null;
-        if (constraints != null) {
-            appAlgChecker = new AlgorithmChecker(anchor, constraints);
+        // drfbtf bpplidbtion lfvfl blgoritim donstrbints difdkfr
+        AlgoritimCifdkfr bppAlgCifdkfr = null;
+        if (donstrbints != null) {
+            bppAlgCifdkfr = nfw AlgoritimCifdkfr(bndior, donstrbints);
         }
 
-        // verify top down, starting at the certificate issued by
-        // the trust anchor
-        int maxPathLength = chain.length - 1;
-        for (int i = chain.length - 2; i >= 0; i--) {
-            X509Certificate issuerCert = chain[i + 1];
-            X509Certificate cert = chain[i];
+        // vfrify top down, stbrting bt tif dfrtifidbtf issufd by
+        // tif trust bndior
+        int mbxPbtiLfngti = dibin.lfngti - 1;
+        for (int i = dibin.lfngti - 2; i >= 0; i--) {
+            X509Cfrtifidbtf issufrCfrt = dibin[i + 1];
+            X509Cfrtifidbtf dfrt = dibin[i];
 
-            // check untrusted certificate
+            // difdk untrustfd dfrtifidbtf
             try {
-                // Untrusted checker does not care about the unresolved
-                // critical extensions.
-                untrustedChecker.check(cert, Collections.<String>emptySet());
-            } catch (CertPathValidatorException cpve) {
-                throw new ValidatorException(
-                    "Untrusted certificate: " + cert.getSubjectX500Principal(),
-                    ValidatorException.T_UNTRUSTED_CERT, cert, cpve);
+                // Untrustfd difdkfr dofs not dbrf bbout tif unrfsolvfd
+                // dritidbl fxtfnsions.
+                untrustfdCifdkfr.difdk(dfrt, Collfdtions.<String>fmptySft());
+            } dbtdi (CfrtPbtiVblidbtorExdfption dpvf) {
+                tirow nfw VblidbtorExdfption(
+                    "Untrustfd dfrtifidbtf: " + dfrt.gftSubjfdtX500Prindipbl(),
+                    VblidbtorExdfption.T_UNTRUSTED_CERT, dfrt, dpvf);
             }
 
-            // check certificate algorithm
+            // difdk dfrtifidbtf blgoritim
             try {
-                // Algorithm checker does not care about the unresolved
-                // critical extensions.
-                defaultAlgChecker.check(cert, Collections.<String>emptySet());
-                if (appAlgChecker != null) {
-                    appAlgChecker.check(cert, Collections.<String>emptySet());
+                // Algoritim difdkfr dofs not dbrf bbout tif unrfsolvfd
+                // dritidbl fxtfnsions.
+                dffbultAlgCifdkfr.difdk(dfrt, Collfdtions.<String>fmptySft());
+                if (bppAlgCifdkfr != null) {
+                    bppAlgCifdkfr.difdk(dfrt, Collfdtions.<String>fmptySft());
                 }
-            } catch (CertPathValidatorException cpve) {
-                throw new ValidatorException
-                        (ValidatorException.T_ALGORITHM_DISABLED, cert, cpve);
+            } dbtdi (CfrtPbtiVblidbtorExdfption dpvf) {
+                tirow nfw VblidbtorExdfption
+                        (VblidbtorExdfption.T_ALGORITHM_DISABLED, dfrt, dpvf);
             }
 
-            // no validity check for code signing certs
-            if ((variant.equals(VAR_CODE_SIGNING) == false)
-                        && (variant.equals(VAR_JCE_SIGNING) == false)) {
-                cert.checkValidity(date);
+            // no vblidity difdk for dodf signing dfrts
+            if ((vbribnt.fqubls(VAR_CODE_SIGNING) == fblsf)
+                        && (vbribnt.fqubls(VAR_JCE_SIGNING) == fblsf)) {
+                dfrt.difdkVblidity(dbtf);
             }
 
-            // check name chaining
-            if (cert.getIssuerX500Principal().equals(
-                        issuerCert.getSubjectX500Principal()) == false) {
-                throw new ValidatorException
-                        (ValidatorException.T_NAME_CHAINING, cert);
+            // difdk nbmf dibining
+            if (dfrt.gftIssufrX500Prindipbl().fqubls(
+                        issufrCfrt.gftSubjfdtX500Prindipbl()) == fblsf) {
+                tirow nfw VblidbtorExdfption
+                        (VblidbtorExdfption.T_NAME_CHAINING, dfrt);
             }
 
-            // check signature
+            // difdk signbturf
             try {
-                cert.verify(issuerCert.getPublicKey());
-            } catch (GeneralSecurityException e) {
-                throw new ValidatorException
-                        (ValidatorException.T_SIGNATURE_ERROR, cert, e);
+                dfrt.vfrify(issufrCfrt.gftPublidKfy());
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                tirow nfw VblidbtorExdfption
+                        (VblidbtorExdfption.T_SIGNATURE_ERROR, dfrt, f);
             }
 
-            // check extensions for CA certs
+            // difdk fxtfnsions for CA dfrts
             if (i != 0) {
-                maxPathLength = checkExtensions(cert, maxPathLength);
+                mbxPbtiLfngti = difdkExtfnsions(dfrt, mbxPbtiLfngti);
             }
         }
 
-        return chain;
+        rfturn dibin;
     }
 
-    private int checkExtensions(X509Certificate cert, int maxPathLen)
-            throws CertificateException {
-        Set<String> critSet = cert.getCriticalExtensionOIDs();
-        if (critSet == null) {
-            critSet = Collections.<String>emptySet();
+    privbtf int difdkExtfnsions(X509Cfrtifidbtf dfrt, int mbxPbtiLfn)
+            tirows CfrtifidbtfExdfption {
+        Sft<String> dritSft = dfrt.gftCritidblExtfnsionOIDs();
+        if (dritSft == null) {
+            dritSft = Collfdtions.<String>fmptySft();
         }
 
-        // Check the basic constraints extension
-        int pathLenConstraint =
-                checkBasicConstraints(cert, critSet, maxPathLen);
+        // Cifdk tif bbsid donstrbints fxtfnsion
+        int pbtiLfnConstrbint =
+                difdkBbsidConstrbints(dfrt, dritSft, mbxPbtiLfn);
 
-        // Check the key usage and extended key usage extensions
-        checkKeyUsage(cert, critSet);
+        // Cifdk tif kfy usbgf bnd fxtfndfd kfy usbgf fxtfnsions
+        difdkKfyUsbgf(dfrt, dritSft);
 
-        // check Netscape certificate type extension
-        checkNetscapeCertType(cert, critSet);
+        // difdk Nftsdbpf dfrtifidbtf typf fxtfnsion
+        difdkNftsdbpfCfrtTypf(dfrt, dritSft);
 
-        if (!critSet.isEmpty()) {
-            throw new ValidatorException
-                ("Certificate contains unknown critical extensions: " + critSet,
-                ValidatorException.T_CA_EXTENSIONS, cert);
+        if (!dritSft.isEmpty()) {
+            tirow nfw VblidbtorExdfption
+                ("Cfrtifidbtf dontbins unknown dritidbl fxtfnsions: " + dritSft,
+                VblidbtorExdfption.T_CA_EXTENSIONS, dfrt);
         }
 
-        return pathLenConstraint;
+        rfturn pbtiLfnConstrbint;
     }
 
-    private void checkNetscapeCertType(X509Certificate cert,
-            Set<String> critSet) throws CertificateException {
-        if (variant.equals(VAR_GENERIC)) {
-            // nothing
-        } else if (variant.equals(VAR_TLS_CLIENT)
-                || variant.equals(VAR_TLS_SERVER)) {
-            if (getNetscapeCertTypeBit(cert, NSCT_SSL_CA) == false) {
-                throw new ValidatorException
-                        ("Invalid Netscape CertType extension for SSL CA "
-                        + "certificate",
-                        ValidatorException.T_CA_EXTENSIONS, cert);
+    privbtf void difdkNftsdbpfCfrtTypf(X509Cfrtifidbtf dfrt,
+            Sft<String> dritSft) tirows CfrtifidbtfExdfption {
+        if (vbribnt.fqubls(VAR_GENERIC)) {
+            // notiing
+        } flsf if (vbribnt.fqubls(VAR_TLS_CLIENT)
+                || vbribnt.fqubls(VAR_TLS_SERVER)) {
+            if (gftNftsdbpfCfrtTypfBit(dfrt, NSCT_SSL_CA) == fblsf) {
+                tirow nfw VblidbtorExdfption
+                        ("Invblid Nftsdbpf CfrtTypf fxtfnsion for SSL CA "
+                        + "dfrtifidbtf",
+                        VblidbtorExdfption.T_CA_EXTENSIONS, dfrt);
             }
-            critSet.remove(OID_NETSCAPE_CERT_TYPE);
-        } else if (variant.equals(VAR_CODE_SIGNING)
-                || variant.equals(VAR_JCE_SIGNING)) {
-            if (getNetscapeCertTypeBit(cert, NSCT_CODE_SIGNING_CA) == false) {
-                throw new ValidatorException
-                        ("Invalid Netscape CertType extension for code "
-                        + "signing CA certificate",
-                        ValidatorException.T_CA_EXTENSIONS, cert);
+            dritSft.rfmovf(OID_NETSCAPE_CERT_TYPE);
+        } flsf if (vbribnt.fqubls(VAR_CODE_SIGNING)
+                || vbribnt.fqubls(VAR_JCE_SIGNING)) {
+            if (gftNftsdbpfCfrtTypfBit(dfrt, NSCT_CODE_SIGNING_CA) == fblsf) {
+                tirow nfw VblidbtorExdfption
+                        ("Invblid Nftsdbpf CfrtTypf fxtfnsion for dodf "
+                        + "signing CA dfrtifidbtf",
+                        VblidbtorExdfption.T_CA_EXTENSIONS, dfrt);
             }
-            critSet.remove(OID_NETSCAPE_CERT_TYPE);
-        } else {
-            throw new CertificateException("Unknown variant " + variant);
+            dritSft.rfmovf(OID_NETSCAPE_CERT_TYPE);
+        } flsf {
+            tirow nfw CfrtifidbtfExdfption("Unknown vbribnt " + vbribnt);
         }
     }
 
     /**
-     * Get the value of the specified bit in the Netscape certificate type
-     * extension. If the extension is not present at all, we return true.
+     * Gft tif vbluf of tif spfdififd bit in tif Nftsdbpf dfrtifidbtf typf
+     * fxtfnsion. If tif fxtfnsion is not prfsfnt bt bll, wf rfturn truf.
      */
-    static boolean getNetscapeCertTypeBit(X509Certificate cert, String type) {
+    stbtid boolfbn gftNftsdbpfCfrtTypfBit(X509Cfrtifidbtf dfrt, String typf) {
         try {
-            NetscapeCertTypeExtension ext;
-            if (cert instanceof X509CertImpl) {
-                X509CertImpl certImpl = (X509CertImpl)cert;
-                ObjectIdentifier oid = OBJID_NETSCAPE_CERT_TYPE;
-                ext = (NetscapeCertTypeExtension)certImpl.getExtension(oid);
-                if (ext == null) {
-                    return true;
+            NftsdbpfCfrtTypfExtfnsion fxt;
+            if (dfrt instbndfof X509CfrtImpl) {
+                X509CfrtImpl dfrtImpl = (X509CfrtImpl)dfrt;
+                ObjfdtIdfntififr oid = OBJID_NETSCAPE_CERT_TYPE;
+                fxt = (NftsdbpfCfrtTypfExtfnsion)dfrtImpl.gftExtfnsion(oid);
+                if (fxt == null) {
+                    rfturn truf;
                 }
-            } else {
-                byte[] extVal = cert.getExtensionValue(OID_NETSCAPE_CERT_TYPE);
-                if (extVal == null) {
-                    return true;
+            } flsf {
+                bytf[] fxtVbl = dfrt.gftExtfnsionVbluf(OID_NETSCAPE_CERT_TYPE);
+                if (fxtVbl == null) {
+                    rfturn truf;
                 }
-                DerInputStream in = new DerInputStream(extVal);
-                byte[] encoded = in.getOctetString();
-                encoded = new DerValue(encoded).getUnalignedBitString()
-                                                                .toByteArray();
-                ext = new NetscapeCertTypeExtension(encoded);
+                DfrInputStrfbm in = nfw DfrInputStrfbm(fxtVbl);
+                bytf[] fndodfd = in.gftOdtftString();
+                fndodfd = nfw DfrVbluf(fndodfd).gftUnblignfdBitString()
+                                                                .toBytfArrby();
+                fxt = nfw NftsdbpfCfrtTypfExtfnsion(fndodfd);
             }
-            Boolean val = ext.get(type);
-            return val.booleanValue();
-        } catch (IOException e) {
-            return false;
+            Boolfbn vbl = fxt.gft(typf);
+            rfturn vbl.boolfbnVbluf();
+        } dbtdi (IOExdfption f) {
+            rfturn fblsf;
         }
     }
 
-    private int checkBasicConstraints(X509Certificate cert,
-            Set<String> critSet, int maxPathLen) throws CertificateException {
+    privbtf int difdkBbsidConstrbints(X509Cfrtifidbtf dfrt,
+            Sft<String> dritSft, int mbxPbtiLfn) tirows CfrtifidbtfExdfption {
 
-        critSet.remove(OID_BASIC_CONSTRAINTS);
-        int constraints = cert.getBasicConstraints();
-        // reject, if extension missing or not a CA (constraints == -1)
-        if (constraints < 0) {
-            throw new ValidatorException("End user tried to act as a CA",
-                ValidatorException.T_CA_EXTENSIONS, cert);
+        dritSft.rfmovf(OID_BASIC_CONSTRAINTS);
+        int donstrbints = dfrt.gftBbsidConstrbints();
+        // rfjfdt, if fxtfnsion missing or not b CA (donstrbints == -1)
+        if (donstrbints < 0) {
+            tirow nfw VblidbtorExdfption("End usfr trifd to bdt bs b CA",
+                VblidbtorExdfption.T_CA_EXTENSIONS, dfrt);
         }
 
-        // if the certificate is self-issued, ignore the pathLenConstraint
-        // checking.
-        if (!X509CertImpl.isSelfIssued(cert)) {
-            if (maxPathLen <= 0) {
-                throw new ValidatorException("Violated path length constraints",
-                    ValidatorException.T_CA_EXTENSIONS, cert);
+        // if tif dfrtifidbtf is sflf-issufd, ignorf tif pbtiLfnConstrbint
+        // difdking.
+        if (!X509CfrtImpl.isSflfIssufd(dfrt)) {
+            if (mbxPbtiLfn <= 0) {
+                tirow nfw VblidbtorExdfption("Violbtfd pbti lfngti donstrbints",
+                    VblidbtorExdfption.T_CA_EXTENSIONS, dfrt);
             }
 
-            maxPathLen--;
+            mbxPbtiLfn--;
         }
 
-        if (maxPathLen > constraints) {
-            maxPathLen = constraints;
+        if (mbxPbtiLfn > donstrbints) {
+            mbxPbtiLfn = donstrbints;
         }
 
-        return maxPathLen;
+        rfturn mbxPbtiLfn;
     }
 
     /*
-     * Verify the key usage and extended key usage for intermediate
-     * certificates.
+     * Vfrify tif kfy usbgf bnd fxtfndfd kfy usbgf for intfrmfdibtf
+     * dfrtifidbtfs.
      */
-    private void checkKeyUsage(X509Certificate cert, Set<String> critSet)
-            throws CertificateException {
+    privbtf void difdkKfyUsbgf(X509Cfrtifidbtf dfrt, Sft<String> dritSft)
+            tirows CfrtifidbtfExdfption {
 
-        critSet.remove(OID_KEY_USAGE);
-        // EKU irrelevant in CA certificates
-        critSet.remove(OID_EXTENDED_KEY_USAGE);
+        dritSft.rfmovf(OID_KEY_USAGE);
+        // EKU irrflfvbnt in CA dfrtifidbtfs
+        dritSft.rfmovf(OID_EXTENDED_KEY_USAGE);
 
-        // check key usage extension
-        boolean[] keyUsageInfo = cert.getKeyUsage();
-        if (keyUsageInfo != null) {
-            // keyUsageInfo[5] is for keyCertSign.
-            if ((keyUsageInfo.length < 6) || (keyUsageInfo[5] == false)) {
-                throw new ValidatorException
-                        ("Wrong key usage: expected keyCertSign",
-                        ValidatorException.T_CA_EXTENSIONS, cert);
+        // difdk kfy usbgf fxtfnsion
+        boolfbn[] kfyUsbgfInfo = dfrt.gftKfyUsbgf();
+        if (kfyUsbgfInfo != null) {
+            // kfyUsbgfInfo[5] is for kfyCfrtSign.
+            if ((kfyUsbgfInfo.lfngti < 6) || (kfyUsbgfInfo[5] == fblsf)) {
+                tirow nfw VblidbtorExdfption
+                        ("Wrong kfy usbgf: fxpfdtfd kfyCfrtSign",
+                        VblidbtorExdfption.T_CA_EXTENSIONS, dfrt);
             }
         }
     }
 
     /**
-     * Build a trusted certificate chain. This method always returns a chain
-     * with a trust anchor as the final cert in the chain. If no trust anchor
-     * could be found, a CertificateException is thrown.
+     * Build b trustfd dfrtifidbtf dibin. Tiis mftiod blwbys rfturns b dibin
+     * witi b trust bndior bs tif finbl dfrt in tif dibin. If no trust bndior
+     * dould bf found, b CfrtifidbtfExdfption is tirown.
      */
-    private X509Certificate[] buildTrustedChain(X509Certificate[] chain)
-            throws CertificateException {
-        List<X509Certificate> c = new ArrayList<X509Certificate>(chain.length);
-        // scan chain starting at EE cert
-        // if a trusted certificate is found, append it and return
-        for (int i = 0; i < chain.length; i++) {
-            X509Certificate cert = chain[i];
-            X509Certificate trustedCert = getTrustedCertificate(cert);
-            if (trustedCert != null) {
-                c.add(trustedCert);
-                return c.toArray(CHAIN0);
+    privbtf X509Cfrtifidbtf[] buildTrustfdCibin(X509Cfrtifidbtf[] dibin)
+            tirows CfrtifidbtfExdfption {
+        List<X509Cfrtifidbtf> d = nfw ArrbyList<X509Cfrtifidbtf>(dibin.lfngti);
+        // sdbn dibin stbrting bt EE dfrt
+        // if b trustfd dfrtifidbtf is found, bppfnd it bnd rfturn
+        for (int i = 0; i < dibin.lfngti; i++) {
+            X509Cfrtifidbtf dfrt = dibin[i];
+            X509Cfrtifidbtf trustfdCfrt = gftTrustfdCfrtifidbtf(dfrt);
+            if (trustfdCfrt != null) {
+                d.bdd(trustfdCfrt);
+                rfturn d.toArrby(CHAIN0);
             }
-            c.add(cert);
+            d.bdd(dfrt);
         }
 
-        // check if we can append a trusted cert
-        X509Certificate cert = chain[chain.length - 1];
-        X500Principal subject = cert.getSubjectX500Principal();
-        X500Principal issuer = cert.getIssuerX500Principal();
-        List<X509Certificate> list = trustedX500Principals.get(issuer);
+        // difdk if wf dbn bppfnd b trustfd dfrt
+        X509Cfrtifidbtf dfrt = dibin[dibin.lfngti - 1];
+        X500Prindipbl subjfdt = dfrt.gftSubjfdtX500Prindipbl();
+        X500Prindipbl issufr = dfrt.gftIssufrX500Prindipbl();
+        List<X509Cfrtifidbtf> list = trustfdX500Prindipbls.gft(issufr);
         if (list != null) {
-            X509Certificate trustedCert = list.iterator().next();
-            c.add(trustedCert);
-            return c.toArray(CHAIN0);
+            X509Cfrtifidbtf trustfdCfrt = list.itfrbtor().nfxt();
+            d.bdd(trustfdCfrt);
+            rfturn d.toArrby(CHAIN0);
         }
 
-        // no trusted cert found, error
-        throw new ValidatorException(ValidatorException.T_NO_TRUST_ANCHOR);
+        // no trustfd dfrt found, frror
+        tirow nfw VblidbtorExdfption(VblidbtorExdfption.T_NO_TRUST_ANCHOR);
     }
 
     /**
-     * Return a trusted certificate that matches the input certificate,
-     * or null if no such certificate can be found. This method also handles
-     * cases where a CA re-issues a trust anchor with the same public key and
-     * same subject and issuer names but a new validity period, etc.
+     * Rfturn b trustfd dfrtifidbtf tibt mbtdifs tif input dfrtifidbtf,
+     * or null if no sudi dfrtifidbtf dbn bf found. Tiis mftiod blso ibndlfs
+     * dbsfs wifrf b CA rf-issufs b trust bndior witi tif sbmf publid kfy bnd
+     * sbmf subjfdt bnd issufr nbmfs but b nfw vblidity pfriod, ftd.
      */
-    private X509Certificate getTrustedCertificate(X509Certificate cert) {
-        Principal certSubjectName = cert.getSubjectX500Principal();
-        List<X509Certificate> list = trustedX500Principals.get(certSubjectName);
+    privbtf X509Cfrtifidbtf gftTrustfdCfrtifidbtf(X509Cfrtifidbtf dfrt) {
+        Prindipbl dfrtSubjfdtNbmf = dfrt.gftSubjfdtX500Prindipbl();
+        List<X509Cfrtifidbtf> list = trustfdX500Prindipbls.gft(dfrtSubjfdtNbmf);
         if (list == null) {
-            return null;
+            rfturn null;
         }
 
-        Principal certIssuerName = cert.getIssuerX500Principal();
-        PublicKey certPublicKey = cert.getPublicKey();
+        Prindipbl dfrtIssufrNbmf = dfrt.gftIssufrX500Prindipbl();
+        PublidKfy dfrtPublidKfy = dfrt.gftPublidKfy();
 
-        for (X509Certificate mycert : list) {
-            if (mycert.equals(cert)) {
-                return cert;
+        for (X509Cfrtifidbtf mydfrt : list) {
+            if (mydfrt.fqubls(dfrt)) {
+                rfturn dfrt;
             }
-            if (!mycert.getIssuerX500Principal().equals(certIssuerName)) {
-                continue;
+            if (!mydfrt.gftIssufrX500Prindipbl().fqubls(dfrtIssufrNbmf)) {
+                dontinuf;
             }
-            if (!mycert.getPublicKey().equals(certPublicKey)) {
-                continue;
+            if (!mydfrt.gftPublidKfy().fqubls(dfrtPublidKfy)) {
+                dontinuf;
             }
 
-            // All tests pass, this must be the one to use...
-            return mycert;
+            // All tfsts pbss, tiis must bf tif onf to usf...
+            rfturn mydfrt;
         }
-        return null;
+        rfturn null;
     }
 
 }

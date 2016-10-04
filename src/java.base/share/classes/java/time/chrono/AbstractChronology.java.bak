@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,727 +59,727 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_YEAR;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_YEAR;
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
-import static java.time.temporal.ChronoField.DAY_OF_YEAR;
-import static java.time.temporal.ChronoField.EPOCH_DAY;
-import static java.time.temporal.ChronoField.ERA;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.PROLEPTIC_MONTH;
-import static java.time.temporal.ChronoField.YEAR;
-import static java.time.temporal.ChronoField.YEAR_OF_ERA;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.WEEKS;
-import static java.time.temporal.TemporalAdjusters.nextOrSame;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_DAY_OF_WEEK_IN_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_DAY_OF_WEEK_IN_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_WEEK_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_WEEK_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_WEEK;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.EPOCH_DAY;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ERA;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.PROLEPTIC_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR_OF_ERA;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.MONTHS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.WEEKS;
+import stbtid jbvb.timf.tfmporbl.TfmporblAdjustfrs.nfxtOrSbmf;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamException;
-import java.io.Serializable;
-import java.time.DateTimeException;
-import java.time.DayOfWeek;
-import java.time.format.ResolverStyle;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.TemporalField;
-import java.time.temporal.ValueRange;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ServiceLoader;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbyOfWffk;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.TfmporblAdjustfrs;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * An abstract implementation of a calendar system, used to organize and identify dates.
+ * An bbstrbdt implfmfntbtion of b dblfndbr systfm, usfd to orgbnizf bnd idfntify dbtfs.
  * <p>
- * The main date and time API is built on the ISO calendar system.
- * The chronology operates behind the scenes to represent the general concept of a calendar system.
+ * Tif mbin dbtf bnd timf API is built on tif ISO dblfndbr systfm.
+ * Tif dironology opfrbtfs bfiind tif sdfnfs to rfprfsfnt tif gfnfrbl dondfpt of b dblfndbr systfm.
  * <p>
- * See {@link Chronology} for more details.
+ * Sff {@link Cironology} for morf dftbils.
  *
- * @implSpec
- * This class is separated from the {@code Chronology} interface so that the static methods
- * are not inherited. While {@code Chronology} can be implemented directly, it is strongly
- * recommended to extend this abstract class instead.
+ * @implSpfd
+ * Tiis dlbss is sfpbrbtfd from tif {@dodf Cironology} intfrfbdf so tibt tif stbtid mftiods
+ * brf not inifritfd. Wiilf {@dodf Cironology} dbn bf implfmfntfd dirfdtly, it is strongly
+ * rfdommfndfd to fxtfnd tiis bbstrbdt dlbss instfbd.
  * <p>
- * This class must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * Subclasses should be Serializable wherever possible.
+ * Tiis dlbss must bf implfmfntfd witi dbrf to fnsurf otifr dlbssfs opfrbtf dorrfdtly.
+ * All implfmfntbtions tibt dbn bf instbntibtfd must bf finbl, immutbblf bnd tirfbd-sbff.
+ * Subdlbssfs siould bf Sfriblizbblf wifrfvfr possiblf.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public abstract class AbstractChronology implements Chronology {
+publid bbstrbdt dlbss AbstrbdtCironology implfmfnts Cironology {
 
     /**
-     * ChronoLocalDate order constant.
+     * CironoLodblDbtf ordfr donstbnt.
      */
-    static final Comparator<ChronoLocalDate> DATE_ORDER =
-        (Comparator<ChronoLocalDate> & Serializable) (date1, date2) -> {
-            return Long.compare(date1.toEpochDay(), date2.toEpochDay());
+    stbtid finbl Compbrbtor<CironoLodblDbtf> DATE_ORDER =
+        (Compbrbtor<CironoLodblDbtf> & Sfriblizbblf) (dbtf1, dbtf2) -> {
+            rfturn Long.dompbrf(dbtf1.toEpodiDby(), dbtf2.toEpodiDby());
         };
     /**
-     * ChronoLocalDateTime order constant.
+     * CironoLodblDbtfTimf ordfr donstbnt.
      */
-    static final Comparator<ChronoLocalDateTime<? extends ChronoLocalDate>> DATE_TIME_ORDER =
-        (Comparator<ChronoLocalDateTime<? extends ChronoLocalDate>> & Serializable) (dateTime1, dateTime2) -> {
-            int cmp = Long.compare(dateTime1.toLocalDate().toEpochDay(), dateTime2.toLocalDate().toEpochDay());
-            if (cmp == 0) {
-                cmp = Long.compare(dateTime1.toLocalTime().toNanoOfDay(), dateTime2.toLocalTime().toNanoOfDay());
+    stbtid finbl Compbrbtor<CironoLodblDbtfTimf<? fxtfnds CironoLodblDbtf>> DATE_TIME_ORDER =
+        (Compbrbtor<CironoLodblDbtfTimf<? fxtfnds CironoLodblDbtf>> & Sfriblizbblf) (dbtfTimf1, dbtfTimf2) -> {
+            int dmp = Long.dompbrf(dbtfTimf1.toLodblDbtf().toEpodiDby(), dbtfTimf2.toLodblDbtf().toEpodiDby());
+            if (dmp == 0) {
+                dmp = Long.dompbrf(dbtfTimf1.toLodblTimf().toNbnoOfDby(), dbtfTimf2.toLodblTimf().toNbnoOfDby());
             }
-            return cmp;
+            rfturn dmp;
         };
     /**
-     * ChronoZonedDateTime order constant.
+     * CironoZonfdDbtfTimf ordfr donstbnt.
      */
-    static final Comparator<ChronoZonedDateTime<?>> INSTANT_ORDER =
-            (Comparator<ChronoZonedDateTime<?>> & Serializable) (dateTime1, dateTime2) -> {
-                int cmp = Long.compare(dateTime1.toEpochSecond(), dateTime2.toEpochSecond());
-                if (cmp == 0) {
-                    cmp = Long.compare(dateTime1.toLocalTime().getNano(), dateTime2.toLocalTime().getNano());
+    stbtid finbl Compbrbtor<CironoZonfdDbtfTimf<?>> INSTANT_ORDER =
+            (Compbrbtor<CironoZonfdDbtfTimf<?>> & Sfriblizbblf) (dbtfTimf1, dbtfTimf2) -> {
+                int dmp = Long.dompbrf(dbtfTimf1.toEpodiSfdond(), dbtfTimf2.toEpodiSfdond());
+                if (dmp == 0) {
+                    dmp = Long.dompbrf(dbtfTimf1.toLodblTimf().gftNbno(), dbtfTimf2.toLodblTimf().gftNbno());
                 }
-                return cmp;
+                rfturn dmp;
             };
 
     /**
-     * Map of available calendars by ID.
+     * Mbp of bvbilbblf dblfndbrs by ID.
      */
-    private static final ConcurrentHashMap<String, Chronology> CHRONOS_BY_ID = new ConcurrentHashMap<>();
+    privbtf stbtid finbl CondurrfntHbsiMbp<String, Cironology> CHRONOS_BY_ID = nfw CondurrfntHbsiMbp<>();
     /**
-     * Map of available calendars by calendar type.
+     * Mbp of bvbilbblf dblfndbrs by dblfndbr typf.
      */
-    private static final ConcurrentHashMap<String, Chronology> CHRONOS_BY_TYPE = new ConcurrentHashMap<>();
+    privbtf stbtid finbl CondurrfntHbsiMbp<String, Cironology> CHRONOS_BY_TYPE = nfw CondurrfntHbsiMbp<>();
 
     /**
-     * Register a Chronology by its ID and type for lookup by {@link #of(String)}.
-     * Chronologies must not be registered until they are completely constructed.
-     * Specifically, not in the constructor of Chronology.
+     * Rfgistfr b Cironology by its ID bnd typf for lookup by {@link #of(String)}.
+     * Cironologifs must not bf rfgistfrfd until tify brf domplftfly donstrudtfd.
+     * Spfdifidblly, not in tif donstrudtor of Cironology.
      *
-     * @param chrono the chronology to register; not null
-     * @return the already registered Chronology if any, may be null
+     * @pbrbm dirono tif dironology to rfgistfr; not null
+     * @rfturn tif blrfbdy rfgistfrfd Cironology if bny, mby bf null
      */
-    static Chronology registerChrono(Chronology chrono) {
-        return registerChrono(chrono, chrono.getId());
+    stbtid Cironology rfgistfrCirono(Cironology dirono) {
+        rfturn rfgistfrCirono(dirono, dirono.gftId());
     }
 
     /**
-     * Register a Chronology by ID and type for lookup by {@link #of(String)}.
-     * Chronos must not be registered until they are completely constructed.
-     * Specifically, not in the constructor of Chronology.
+     * Rfgistfr b Cironology by ID bnd typf for lookup by {@link #of(String)}.
+     * Cironos must not bf rfgistfrfd until tify brf domplftfly donstrudtfd.
+     * Spfdifidblly, not in tif donstrudtor of Cironology.
      *
-     * @param chrono the chronology to register; not null
-     * @param id the ID to register the chronology; not null
-     * @return the already registered Chronology if any, may be null
+     * @pbrbm dirono tif dironology to rfgistfr; not null
+     * @pbrbm id tif ID to rfgistfr tif dironology; not null
+     * @rfturn tif blrfbdy rfgistfrfd Cironology if bny, mby bf null
      */
-    static Chronology registerChrono(Chronology chrono, String id) {
-        Chronology prev = CHRONOS_BY_ID.putIfAbsent(id, chrono);
-        if (prev == null) {
-            String type = chrono.getCalendarType();
-            if (type != null) {
-                CHRONOS_BY_TYPE.putIfAbsent(type, chrono);
+    stbtid Cironology rfgistfrCirono(Cironology dirono, String id) {
+        Cironology prfv = CHRONOS_BY_ID.putIfAbsfnt(id, dirono);
+        if (prfv == null) {
+            String typf = dirono.gftCblfndbrTypf();
+            if (typf != null) {
+                CHRONOS_BY_TYPE.putIfAbsfnt(typf, dirono);
             }
         }
-        return prev;
+        rfturn prfv;
     }
 
     /**
-     * Initialization of the maps from id and type to Chronology.
-     * The ServiceLoader is used to find and register any implementations
-     * of {@link java.time.chrono.AbstractChronology} found in the bootclass loader.
-     * The built-in chronologies are registered explicitly.
-     * Calendars configured via the Thread's context classloader are local
-     * to that thread and are ignored.
+     * Initiblizbtion of tif mbps from id bnd typf to Cironology.
+     * Tif SfrvidfLobdfr is usfd to find bnd rfgistfr bny implfmfntbtions
+     * of {@link jbvb.timf.dirono.AbstrbdtCironology} found in tif bootdlbss lobdfr.
+     * Tif built-in dironologifs brf rfgistfrfd fxpliditly.
+     * Cblfndbrs donfigurfd vib tif Tirfbd's dontfxt dlbsslobdfr brf lodbl
+     * to tibt tirfbd bnd brf ignorfd.
      * <p>
-     * The initialization is done only once using the registration
-     * of the IsoChronology as the test and the final step.
-     * Multiple threads may perform the initialization concurrently.
-     * Only the first registration of each Chronology is retained by the
-     * ConcurrentHashMap.
-     * @return true if the cache was initialized
+     * Tif initiblizbtion is donf only ondf using tif rfgistrbtion
+     * of tif IsoCironology bs tif tfst bnd tif finbl stfp.
+     * Multiplf tirfbds mby pfrform tif initiblizbtion dondurrfntly.
+     * Only tif first rfgistrbtion of fbdi Cironology is rftbinfd by tif
+     * CondurrfntHbsiMbp.
+     * @rfturn truf if tif dbdif wbs initiblizfd
      */
-    private static boolean initCache() {
-        if (CHRONOS_BY_ID.get("ISO") == null) {
-            // Initialization is incomplete
+    privbtf stbtid boolfbn initCbdif() {
+        if (CHRONOS_BY_ID.gft("ISO") == null) {
+            // Initiblizbtion is indomplftf
 
-            // Register built-in Chronologies
-            registerChrono(HijrahChronology.INSTANCE);
-            registerChrono(JapaneseChronology.INSTANCE);
-            registerChrono(MinguoChronology.INSTANCE);
-            registerChrono(ThaiBuddhistChronology.INSTANCE);
+            // Rfgistfr built-in Cironologifs
+            rfgistfrCirono(HijrbiCironology.INSTANCE);
+            rfgistfrCirono(JbpbnfsfCironology.INSTANCE);
+            rfgistfrCirono(MinguoCironology.INSTANCE);
+            rfgistfrCirono(TibiBuddiistCironology.INSTANCE);
 
-            // Register Chronologies from the ServiceLoader
-            @SuppressWarnings("rawtypes")
-            ServiceLoader<AbstractChronology> loader =  ServiceLoader.load(AbstractChronology.class, null);
-            for (AbstractChronology chrono : loader) {
-                String id = chrono.getId();
-                if (id.equals("ISO") || registerChrono(chrono) != null) {
-                    // Log the attempt to replace an existing Chronology
-                    PlatformLogger logger = PlatformLogger.getLogger("java.time.chrono");
-                    logger.warning("Ignoring duplicate Chronology, from ServiceLoader configuration "  + id);
+            // Rfgistfr Cironologifs from tif SfrvidfLobdfr
+            @SupprfssWbrnings("rbwtypfs")
+            SfrvidfLobdfr<AbstrbdtCironology> lobdfr =  SfrvidfLobdfr.lobd(AbstrbdtCironology.dlbss, null);
+            for (AbstrbdtCironology dirono : lobdfr) {
+                String id = dirono.gftId();
+                if (id.fqubls("ISO") || rfgistfrCirono(dirono) != null) {
+                    // Log tif bttfmpt to rfplbdf bn fxisting Cironology
+                    PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr("jbvb.timf.dirono");
+                    loggfr.wbrning("Ignoring duplidbtf Cironology, from SfrvidfLobdfr donfigurbtion "  + id);
                 }
             }
 
-            // finally, register IsoChronology to mark initialization is complete
-            registerChrono(IsoChronology.INSTANCE);
-            return true;
+            // finblly, rfgistfr IsoCironology to mbrk initiblizbtion is domplftf
+            rfgistfrCirono(IsoCironology.INSTANCE);
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Chronology} from a locale.
+     * Obtbins bn instbndf of {@dodf Cironology} from b lodblf.
      * <p>
-     * See {@link Chronology#ofLocale(Locale)}.
+     * Sff {@link Cironology#ofLodblf(Lodblf)}.
      *
-     * @param locale  the locale to use to obtain the calendar system, not null
-     * @return the calendar system associated with the locale, not null
-     * @throws java.time.DateTimeException if the locale-specified calendar cannot be found
+     * @pbrbm lodblf  tif lodblf to usf to obtbin tif dblfndbr systfm, not null
+     * @rfturn tif dblfndbr systfm bssodibtfd witi tif lodblf, not null
+     * @tirows jbvb.timf.DbtfTimfExdfption if tif lodblf-spfdififd dblfndbr dbnnot bf found
      */
-    static Chronology ofLocale(Locale locale) {
-        Objects.requireNonNull(locale, "locale");
-        String type = locale.getUnicodeLocaleType("ca");
-        if (type == null || "iso".equals(type) || "iso8601".equals(type)) {
-            return IsoChronology.INSTANCE;
+    stbtid Cironology ofLodblf(Lodblf lodblf) {
+        Objfdts.rfquirfNonNull(lodblf, "lodblf");
+        String typf = lodblf.gftUnidodfLodblfTypf("db");
+        if (typf == null || "iso".fqubls(typf) || "iso8601".fqubls(typf)) {
+            rfturn IsoCironology.INSTANCE;
         }
-        // Not pre-defined; lookup by the type
+        // Not prf-dffinfd; lookup by tif typf
         do {
-            Chronology chrono = CHRONOS_BY_TYPE.get(type);
-            if (chrono != null) {
-                return chrono;
+            Cironology dirono = CHRONOS_BY_TYPE.gft(typf);
+            if (dirono != null) {
+                rfturn dirono;
             }
-            // If not found, do the initialization (once) and repeat the lookup
-        } while (initCache());
+            // If not found, do tif initiblizbtion (ondf) bnd rfpfbt tif lookup
+        } wiilf (initCbdif());
 
-        // Look for a Chronology using ServiceLoader of the Thread's ContextClassLoader
-        // Application provided Chronologies must not be cached
-        @SuppressWarnings("rawtypes")
-        ServiceLoader<Chronology> loader = ServiceLoader.load(Chronology.class);
-        for (Chronology chrono : loader) {
-            if (type.equals(chrono.getCalendarType())) {
-                return chrono;
+        // Look for b Cironology using SfrvidfLobdfr of tif Tirfbd's ContfxtClbssLobdfr
+        // Applidbtion providfd Cironologifs must not bf dbdifd
+        @SupprfssWbrnings("rbwtypfs")
+        SfrvidfLobdfr<Cironology> lobdfr = SfrvidfLobdfr.lobd(Cironology.dlbss);
+        for (Cironology dirono : lobdfr) {
+            if (typf.fqubls(dirono.gftCblfndbrTypf())) {
+                rfturn dirono;
             }
         }
-        throw new DateTimeException("Unknown calendar system: " + type);
+        tirow nfw DbtfTimfExdfption("Unknown dblfndbr systfm: " + typf);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Chronology} from a chronology ID or
-     * calendar system type.
+     * Obtbins bn instbndf of {@dodf Cironology} from b dironology ID or
+     * dblfndbr systfm typf.
      * <p>
-     * See {@link Chronology#of(String)}.
+     * Sff {@link Cironology#of(String)}.
      *
-     * @param id  the chronology ID or calendar system type, not null
-     * @return the chronology with the identifier requested, not null
-     * @throws java.time.DateTimeException if the chronology cannot be found
+     * @pbrbm id  tif dironology ID or dblfndbr systfm typf, not null
+     * @rfturn tif dironology witi tif idfntififr rfqufstfd, not null
+     * @tirows jbvb.timf.DbtfTimfExdfption if tif dironology dbnnot bf found
      */
-    static Chronology of(String id) {
-        Objects.requireNonNull(id, "id");
+    stbtid Cironology of(String id) {
+        Objfdts.rfquirfNonNull(id, "id");
         do {
-            Chronology chrono = of0(id);
-            if (chrono != null) {
-                return chrono;
+            Cironology dirono = of0(id);
+            if (dirono != null) {
+                rfturn dirono;
             }
-            // If not found, do the initialization (once) and repeat the lookup
-        } while (initCache());
+            // If not found, do tif initiblizbtion (ondf) bnd rfpfbt tif lookup
+        } wiilf (initCbdif());
 
-        // Look for a Chronology using ServiceLoader of the Thread's ContextClassLoader
-        // Application provided Chronologies must not be cached
-        @SuppressWarnings("rawtypes")
-        ServiceLoader<Chronology> loader = ServiceLoader.load(Chronology.class);
-        for (Chronology chrono : loader) {
-            if (id.equals(chrono.getId()) || id.equals(chrono.getCalendarType())) {
-                return chrono;
+        // Look for b Cironology using SfrvidfLobdfr of tif Tirfbd's ContfxtClbssLobdfr
+        // Applidbtion providfd Cironologifs must not bf dbdifd
+        @SupprfssWbrnings("rbwtypfs")
+        SfrvidfLobdfr<Cironology> lobdfr = SfrvidfLobdfr.lobd(Cironology.dlbss);
+        for (Cironology dirono : lobdfr) {
+            if (id.fqubls(dirono.gftId()) || id.fqubls(dirono.gftCblfndbrTypf())) {
+                rfturn dirono;
             }
         }
-        throw new DateTimeException("Unknown chronology: " + id);
+        tirow nfw DbtfTimfExdfption("Unknown dironology: " + id);
     }
 
     /**
-     * Obtains an instance of {@code Chronology} from a chronology ID or
-     * calendar system type.
+     * Obtbins bn instbndf of {@dodf Cironology} from b dironology ID or
+     * dblfndbr systfm typf.
      *
-     * @param id  the chronology ID or calendar system type, not null
-     * @return the chronology with the identifier requested, or {@code null} if not found
+     * @pbrbm id  tif dironology ID or dblfndbr systfm typf, not null
+     * @rfturn tif dironology witi tif idfntififr rfqufstfd, or {@dodf null} if not found
      */
-    private static Chronology of0(String id) {
-        Chronology chrono = CHRONOS_BY_ID.get(id);
-        if (chrono == null) {
-            chrono = CHRONOS_BY_TYPE.get(id);
+    privbtf stbtid Cironology of0(String id) {
+        Cironology dirono = CHRONOS_BY_ID.gft(id);
+        if (dirono == null) {
+            dirono = CHRONOS_BY_TYPE.gft(id);
         }
-        return chrono;
+        rfturn dirono;
     }
 
     /**
-     * Returns the available chronologies.
+     * Rfturns tif bvbilbblf dironologifs.
      * <p>
-     * Each returned {@code Chronology} is available for use in the system.
-     * The set of chronologies includes the system chronologies and
-     * any chronologies provided by the application via ServiceLoader
-     * configuration.
+     * Ebdi rfturnfd {@dodf Cironology} is bvbilbblf for usf in tif systfm.
+     * Tif sft of dironologifs indludfs tif systfm dironologifs bnd
+     * bny dironologifs providfd by tif bpplidbtion vib SfrvidfLobdfr
+     * donfigurbtion.
      *
-     * @return the independent, modifiable set of the available chronology IDs, not null
+     * @rfturn tif indfpfndfnt, modifibblf sft of tif bvbilbblf dironology IDs, not null
      */
-    static Set<Chronology> getAvailableChronologies() {
-        initCache();       // force initialization
-        HashSet<Chronology> chronos = new HashSet<>(CHRONOS_BY_ID.values());
+    stbtid Sft<Cironology> gftAvbilbblfCironologifs() {
+        initCbdif();       // fordf initiblizbtion
+        HbsiSft<Cironology> dironos = nfw HbsiSft<>(CHRONOS_BY_ID.vblufs());
 
-        /// Add in Chronologies from the ServiceLoader configuration
-        @SuppressWarnings("rawtypes")
-        ServiceLoader<Chronology> loader = ServiceLoader.load(Chronology.class);
-        for (Chronology chrono : loader) {
-            chronos.add(chrono);
+        /// Add in Cironologifs from tif SfrvidfLobdfr donfigurbtion
+        @SupprfssWbrnings("rbwtypfs")
+        SfrvidfLobdfr<Cironology> lobdfr = SfrvidfLobdfr.lobd(Cironology.dlbss);
+        for (Cironology dirono : lobdfr) {
+            dironos.bdd(dirono);
         }
-        return chronos;
+        rfturn dironos;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Creates an instance.
+     * Crfbtfs bn instbndf.
      */
-    protected AbstractChronology() {
+    protfdtfd AbstrbdtCironology() {
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Resolves parsed {@code ChronoField} values into a date during parsing.
+     * Rfsolvfs pbrsfd {@dodf CironoFifld} vblufs into b dbtf during pbrsing.
      * <p>
-     * Most {@code TemporalField} implementations are resolved using the
-     * resolve method on the field. By contrast, the {@code ChronoField} class
-     * defines fields that only have meaning relative to the chronology.
-     * As such, {@code ChronoField} date fields are resolved here in the
-     * context of a specific chronology.
+     * Most {@dodf TfmporblFifld} implfmfntbtions brf rfsolvfd using tif
+     * rfsolvf mftiod on tif fifld. By dontrbst, tif {@dodf CironoFifld} dlbss
+     * dffinfs fiflds tibt only ibvf mfbning rflbtivf to tif dironology.
+     * As sudi, {@dodf CironoFifld} dbtf fiflds brf rfsolvfd ifrf in tif
+     * dontfxt of b spfdifid dironology.
      * <p>
-     * {@code ChronoField} instances are resolved by this method, which may
-     * be overridden in subclasses.
+     * {@dodf CironoFifld} instbndfs brf rfsolvfd by tiis mftiod, wiidi mby
+     * bf ovfrriddfn in subdlbssfs.
      * <ul>
-     * <li>{@code EPOCH_DAY} - If present, this is converted to a date and
-     *  all other date fields are then cross-checked against the date.
-     * <li>{@code PROLEPTIC_MONTH} - If present, then it is split into the
-     *  {@code YEAR} and {@code MONTH_OF_YEAR}. If the mode is strict or smart
-     *  then the field is validated.
-     * <li>{@code YEAR_OF_ERA} and {@code ERA} - If both are present, then they
-     *  are combined to form a {@code YEAR}. In lenient mode, the {@code YEAR_OF_ERA}
-     *  range is not validated, in smart and strict mode it is. The {@code ERA} is
-     *  validated for range in all three modes. If only the {@code YEAR_OF_ERA} is
-     *  present, and the mode is smart or lenient, then the last available era
-     *  is assumed. In strict mode, no era is assumed and the {@code YEAR_OF_ERA} is
-     *  left untouched. If only the {@code ERA} is present, then it is left untouched.
-     * <li>{@code YEAR}, {@code MONTH_OF_YEAR} and {@code DAY_OF_MONTH} -
-     *  If all three are present, then they are combined to form a date.
-     *  In all three modes, the {@code YEAR} is validated.
-     *  If the mode is smart or strict, then the month and day are validated.
-     *  If the mode is lenient, then the date is combined in a manner equivalent to
-     *  creating a date on the first day of the first month in the requested year,
-     *  then adding the difference in months, then the difference in days.
-     *  If the mode is smart, and the day-of-month is greater than the maximum for
-     *  the year-month, then the day-of-month is adjusted to the last day-of-month.
-     *  If the mode is strict, then the three fields must form a valid date.
-     * <li>{@code YEAR} and {@code DAY_OF_YEAR} -
-     *  If both are present, then they are combined to form a date.
-     *  In all three modes, the {@code YEAR} is validated.
-     *  If the mode is lenient, then the date is combined in a manner equivalent to
-     *  creating a date on the first day of the requested year, then adding
-     *  the difference in days.
-     *  If the mode is smart or strict, then the two fields must form a valid date.
-     * <li>{@code YEAR}, {@code MONTH_OF_YEAR}, {@code ALIGNED_WEEK_OF_MONTH} and
-     *  {@code ALIGNED_DAY_OF_WEEK_IN_MONTH} -
-     *  If all four are present, then they are combined to form a date.
-     *  In all three modes, the {@code YEAR} is validated.
-     *  If the mode is lenient, then the date is combined in a manner equivalent to
-     *  creating a date on the first day of the first month in the requested year, then adding
-     *  the difference in months, then the difference in weeks, then in days.
-     *  If the mode is smart or strict, then the all four fields are validated to
-     *  their outer ranges. The date is then combined in a manner equivalent to
-     *  creating a date on the first day of the requested year and month, then adding
-     *  the amount in weeks and days to reach their values. If the mode is strict,
-     *  the date is additionally validated to check that the day and week adjustment
-     *  did not change the month.
-     * <li>{@code YEAR}, {@code MONTH_OF_YEAR}, {@code ALIGNED_WEEK_OF_MONTH} and
-     *  {@code DAY_OF_WEEK} - If all four are present, then they are combined to
-     *  form a date. The approach is the same as described above for
-     *  years, months and weeks in {@code ALIGNED_DAY_OF_WEEK_IN_MONTH}.
-     *  The day-of-week is adjusted as the next or same matching day-of-week once
-     *  the years, months and weeks have been handled.
-     * <li>{@code YEAR}, {@code ALIGNED_WEEK_OF_YEAR} and {@code ALIGNED_DAY_OF_WEEK_IN_YEAR} -
-     *  If all three are present, then they are combined to form a date.
-     *  In all three modes, the {@code YEAR} is validated.
-     *  If the mode is lenient, then the date is combined in a manner equivalent to
-     *  creating a date on the first day of the requested year, then adding
-     *  the difference in weeks, then in days.
-     *  If the mode is smart or strict, then the all three fields are validated to
-     *  their outer ranges. The date is then combined in a manner equivalent to
-     *  creating a date on the first day of the requested year, then adding
-     *  the amount in weeks and days to reach their values. If the mode is strict,
-     *  the date is additionally validated to check that the day and week adjustment
-     *  did not change the year.
-     * <li>{@code YEAR}, {@code ALIGNED_WEEK_OF_YEAR} and {@code DAY_OF_WEEK} -
-     *  If all three are present, then they are combined to form a date.
-     *  The approach is the same as described above for years and weeks in
-     *  {@code ALIGNED_DAY_OF_WEEK_IN_YEAR}. The day-of-week is adjusted as the
-     *  next or same matching day-of-week once the years and weeks have been handled.
+     * <li>{@dodf EPOCH_DAY} - If prfsfnt, tiis is donvfrtfd to b dbtf bnd
+     *  bll otifr dbtf fiflds brf tifn dross-difdkfd bgbinst tif dbtf.
+     * <li>{@dodf PROLEPTIC_MONTH} - If prfsfnt, tifn it is split into tif
+     *  {@dodf YEAR} bnd {@dodf MONTH_OF_YEAR}. If tif modf is stridt or smbrt
+     *  tifn tif fifld is vblidbtfd.
+     * <li>{@dodf YEAR_OF_ERA} bnd {@dodf ERA} - If boti brf prfsfnt, tifn tify
+     *  brf dombinfd to form b {@dodf YEAR}. In lfnifnt modf, tif {@dodf YEAR_OF_ERA}
+     *  rbngf is not vblidbtfd, in smbrt bnd stridt modf it is. Tif {@dodf ERA} is
+     *  vblidbtfd for rbngf in bll tirff modfs. If only tif {@dodf YEAR_OF_ERA} is
+     *  prfsfnt, bnd tif modf is smbrt or lfnifnt, tifn tif lbst bvbilbblf frb
+     *  is bssumfd. In stridt modf, no frb is bssumfd bnd tif {@dodf YEAR_OF_ERA} is
+     *  lfft untoudifd. If only tif {@dodf ERA} is prfsfnt, tifn it is lfft untoudifd.
+     * <li>{@dodf YEAR}, {@dodf MONTH_OF_YEAR} bnd {@dodf DAY_OF_MONTH} -
+     *  If bll tirff brf prfsfnt, tifn tify brf dombinfd to form b dbtf.
+     *  In bll tirff modfs, tif {@dodf YEAR} is vblidbtfd.
+     *  If tif modf is smbrt or stridt, tifn tif monti bnd dby brf vblidbtfd.
+     *  If tif modf is lfnifnt, tifn tif dbtf is dombinfd in b mbnnfr fquivblfnt to
+     *  drfbting b dbtf on tif first dby of tif first monti in tif rfqufstfd yfbr,
+     *  tifn bdding tif difffrfndf in montis, tifn tif difffrfndf in dbys.
+     *  If tif modf is smbrt, bnd tif dby-of-monti is grfbtfr tibn tif mbximum for
+     *  tif yfbr-monti, tifn tif dby-of-monti is bdjustfd to tif lbst dby-of-monti.
+     *  If tif modf is stridt, tifn tif tirff fiflds must form b vblid dbtf.
+     * <li>{@dodf YEAR} bnd {@dodf DAY_OF_YEAR} -
+     *  If boti brf prfsfnt, tifn tify brf dombinfd to form b dbtf.
+     *  In bll tirff modfs, tif {@dodf YEAR} is vblidbtfd.
+     *  If tif modf is lfnifnt, tifn tif dbtf is dombinfd in b mbnnfr fquivblfnt to
+     *  drfbting b dbtf on tif first dby of tif rfqufstfd yfbr, tifn bdding
+     *  tif difffrfndf in dbys.
+     *  If tif modf is smbrt or stridt, tifn tif two fiflds must form b vblid dbtf.
+     * <li>{@dodf YEAR}, {@dodf MONTH_OF_YEAR}, {@dodf ALIGNED_WEEK_OF_MONTH} bnd
+     *  {@dodf ALIGNED_DAY_OF_WEEK_IN_MONTH} -
+     *  If bll four brf prfsfnt, tifn tify brf dombinfd to form b dbtf.
+     *  In bll tirff modfs, tif {@dodf YEAR} is vblidbtfd.
+     *  If tif modf is lfnifnt, tifn tif dbtf is dombinfd in b mbnnfr fquivblfnt to
+     *  drfbting b dbtf on tif first dby of tif first monti in tif rfqufstfd yfbr, tifn bdding
+     *  tif difffrfndf in montis, tifn tif difffrfndf in wffks, tifn in dbys.
+     *  If tif modf is smbrt or stridt, tifn tif bll four fiflds brf vblidbtfd to
+     *  tifir outfr rbngfs. Tif dbtf is tifn dombinfd in b mbnnfr fquivblfnt to
+     *  drfbting b dbtf on tif first dby of tif rfqufstfd yfbr bnd monti, tifn bdding
+     *  tif bmount in wffks bnd dbys to rfbdi tifir vblufs. If tif modf is stridt,
+     *  tif dbtf is bdditionblly vblidbtfd to difdk tibt tif dby bnd wffk bdjustmfnt
+     *  did not dibngf tif monti.
+     * <li>{@dodf YEAR}, {@dodf MONTH_OF_YEAR}, {@dodf ALIGNED_WEEK_OF_MONTH} bnd
+     *  {@dodf DAY_OF_WEEK} - If bll four brf prfsfnt, tifn tify brf dombinfd to
+     *  form b dbtf. Tif bpprobdi is tif sbmf bs dfsdribfd bbovf for
+     *  yfbrs, montis bnd wffks in {@dodf ALIGNED_DAY_OF_WEEK_IN_MONTH}.
+     *  Tif dby-of-wffk is bdjustfd bs tif nfxt or sbmf mbtdiing dby-of-wffk ondf
+     *  tif yfbrs, montis bnd wffks ibvf bffn ibndlfd.
+     * <li>{@dodf YEAR}, {@dodf ALIGNED_WEEK_OF_YEAR} bnd {@dodf ALIGNED_DAY_OF_WEEK_IN_YEAR} -
+     *  If bll tirff brf prfsfnt, tifn tify brf dombinfd to form b dbtf.
+     *  In bll tirff modfs, tif {@dodf YEAR} is vblidbtfd.
+     *  If tif modf is lfnifnt, tifn tif dbtf is dombinfd in b mbnnfr fquivblfnt to
+     *  drfbting b dbtf on tif first dby of tif rfqufstfd yfbr, tifn bdding
+     *  tif difffrfndf in wffks, tifn in dbys.
+     *  If tif modf is smbrt or stridt, tifn tif bll tirff fiflds brf vblidbtfd to
+     *  tifir outfr rbngfs. Tif dbtf is tifn dombinfd in b mbnnfr fquivblfnt to
+     *  drfbting b dbtf on tif first dby of tif rfqufstfd yfbr, tifn bdding
+     *  tif bmount in wffks bnd dbys to rfbdi tifir vblufs. If tif modf is stridt,
+     *  tif dbtf is bdditionblly vblidbtfd to difdk tibt tif dby bnd wffk bdjustmfnt
+     *  did not dibngf tif yfbr.
+     * <li>{@dodf YEAR}, {@dodf ALIGNED_WEEK_OF_YEAR} bnd {@dodf DAY_OF_WEEK} -
+     *  If bll tirff brf prfsfnt, tifn tify brf dombinfd to form b dbtf.
+     *  Tif bpprobdi is tif sbmf bs dfsdribfd bbovf for yfbrs bnd wffks in
+     *  {@dodf ALIGNED_DAY_OF_WEEK_IN_YEAR}. Tif dby-of-wffk is bdjustfd bs tif
+     *  nfxt or sbmf mbtdiing dby-of-wffk ondf tif yfbrs bnd wffks ibvf bffn ibndlfd.
      * </ul>
      * <p>
-     * The default implementation is suitable for most calendar systems.
-     * If {@link java.time.temporal.ChronoField#YEAR_OF_ERA} is found without an {@link java.time.temporal.ChronoField#ERA}
-     * then the last era in {@link #eras()} is used.
-     * The implementation assumes a 7 day week, that the first day-of-month
-     * has the value 1, that first day-of-year has the value 1, and that the
-     * first of the month and year always exists.
+     * Tif dffbult implfmfntbtion is suitbblf for most dblfndbr systfms.
+     * If {@link jbvb.timf.tfmporbl.CironoFifld#YEAR_OF_ERA} is found witiout bn {@link jbvb.timf.tfmporbl.CironoFifld#ERA}
+     * tifn tif lbst frb in {@link #frbs()} is usfd.
+     * Tif implfmfntbtion bssumfs b 7 dby wffk, tibt tif first dby-of-monti
+     * ibs tif vbluf 1, tibt first dby-of-yfbr ibs tif vbluf 1, bnd tibt tif
+     * first of tif monti bnd yfbr blwbys fxists.
      *
-     * @param fieldValues  the map of fields to values, which can be updated, not null
-     * @param resolverStyle  the requested type of resolve, not null
-     * @return the resolved date, null if insufficient information to create a date
-     * @throws java.time.DateTimeException if the date cannot be resolved, typically
-     *  because of a conflict in the input data
+     * @pbrbm fifldVblufs  tif mbp of fiflds to vblufs, wiidi dbn bf updbtfd, not null
+     * @pbrbm rfsolvfrStylf  tif rfqufstfd typf of rfsolvf, not null
+     * @rfturn tif rfsolvfd dbtf, null if insuffidifnt informbtion to drfbtf b dbtf
+     * @tirows jbvb.timf.DbtfTimfExdfption if tif dbtf dbnnot bf rfsolvfd, typidblly
+     *  bfdbusf of b donflidt in tif input dbtb
      */
-    @Override
-    public ChronoLocalDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        // check epoch-day before inventing era
-        if (fieldValues.containsKey(EPOCH_DAY)) {
-            return dateEpochDay(fieldValues.remove(EPOCH_DAY));
+    @Ovfrridf
+    publid CironoLodblDbtf rfsolvfDbtf(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        // difdk fpodi-dby bfforf invfnting frb
+        if (fifldVblufs.dontbinsKfy(EPOCH_DAY)) {
+            rfturn dbtfEpodiDby(fifldVblufs.rfmovf(EPOCH_DAY));
         }
 
-        // fix proleptic month before inventing era
-        resolveProlepticMonth(fieldValues, resolverStyle);
+        // fix prolfptid monti bfforf invfnting frb
+        rfsolvfProlfptidMonti(fifldVblufs, rfsolvfrStylf);
 
-        // invent era if necessary to resolve year-of-era
-        ChronoLocalDate resolved = resolveYearOfEra(fieldValues, resolverStyle);
-        if (resolved != null) {
-            return resolved;
+        // invfnt frb if nfdfssbry to rfsolvf yfbr-of-frb
+        CironoLodblDbtf rfsolvfd = rfsolvfYfbrOfErb(fifldVblufs, rfsolvfrStylf);
+        if (rfsolvfd != null) {
+            rfturn rfsolvfd;
         }
 
-        // build date
-        if (fieldValues.containsKey(YEAR)) {
-            if (fieldValues.containsKey(MONTH_OF_YEAR)) {
-                if (fieldValues.containsKey(DAY_OF_MONTH)) {
-                    return resolveYMD(fieldValues, resolverStyle);
+        // build dbtf
+        if (fifldVblufs.dontbinsKfy(YEAR)) {
+            if (fifldVblufs.dontbinsKfy(MONTH_OF_YEAR)) {
+                if (fifldVblufs.dontbinsKfy(DAY_OF_MONTH)) {
+                    rfturn rfsolvfYMD(fifldVblufs, rfsolvfrStylf);
                 }
-                if (fieldValues.containsKey(ALIGNED_WEEK_OF_MONTH)) {
-                    if (fieldValues.containsKey(ALIGNED_DAY_OF_WEEK_IN_MONTH)) {
-                        return resolveYMAA(fieldValues, resolverStyle);
+                if (fifldVblufs.dontbinsKfy(ALIGNED_WEEK_OF_MONTH)) {
+                    if (fifldVblufs.dontbinsKfy(ALIGNED_DAY_OF_WEEK_IN_MONTH)) {
+                        rfturn rfsolvfYMAA(fifldVblufs, rfsolvfrStylf);
                     }
-                    if (fieldValues.containsKey(DAY_OF_WEEK)) {
-                        return resolveYMAD(fieldValues, resolverStyle);
-                    }
-                }
-            }
-            if (fieldValues.containsKey(DAY_OF_YEAR)) {
-                return resolveYD(fieldValues, resolverStyle);
-            }
-            if (fieldValues.containsKey(ALIGNED_WEEK_OF_YEAR)) {
-                if (fieldValues.containsKey(ALIGNED_DAY_OF_WEEK_IN_YEAR)) {
-                    return resolveYAA(fieldValues, resolverStyle);
-                }
-                if (fieldValues.containsKey(DAY_OF_WEEK)) {
-                    return resolveYAD(fieldValues, resolverStyle);
-                }
-            }
-        }
-        return null;
-    }
-
-    void resolveProlepticMonth(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        Long pMonth = fieldValues.remove(PROLEPTIC_MONTH);
-        if (pMonth != null) {
-            if (resolverStyle != ResolverStyle.LENIENT) {
-                PROLEPTIC_MONTH.checkValidValue(pMonth);
-            }
-            // first day-of-month is likely to be safest for setting proleptic-month
-            // cannot add to year zero, as not all chronologies have a year zero
-            ChronoLocalDate chronoDate = dateNow()
-                    .with(DAY_OF_MONTH, 1).with(PROLEPTIC_MONTH, pMonth);
-            addFieldValue(fieldValues, MONTH_OF_YEAR, chronoDate.get(MONTH_OF_YEAR));
-            addFieldValue(fieldValues, YEAR, chronoDate.get(YEAR));
-        }
-    }
-
-    ChronoLocalDate resolveYearOfEra(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        Long yoeLong = fieldValues.remove(YEAR_OF_ERA);
-        if (yoeLong != null) {
-            Long eraLong = fieldValues.remove(ERA);
-            int yoe;
-            if (resolverStyle != ResolverStyle.LENIENT) {
-                yoe = range(YEAR_OF_ERA).checkValidIntValue(yoeLong, YEAR_OF_ERA);
-            } else {
-                yoe = Math.toIntExact(yoeLong);
-            }
-            if (eraLong != null) {
-                Era eraObj = eraOf(range(ERA).checkValidIntValue(eraLong, ERA));
-                addFieldValue(fieldValues, YEAR, prolepticYear(eraObj, yoe));
-            } else {
-                if (fieldValues.containsKey(YEAR)) {
-                    int year = range(YEAR).checkValidIntValue(fieldValues.get(YEAR), YEAR);
-                    ChronoLocalDate chronoDate = dateYearDay(year, 1);
-                    addFieldValue(fieldValues, YEAR, prolepticYear(chronoDate.getEra(), yoe));
-                } else if (resolverStyle == ResolverStyle.STRICT) {
-                    // do not invent era if strict
-                    // reinstate the field removed earlier, no cross-check issues
-                    fieldValues.put(YEAR_OF_ERA, yoeLong);
-                } else {
-                    List<Era> eras = eras();
-                    if (eras.isEmpty()) {
-                        addFieldValue(fieldValues, YEAR, yoe);
-                    } else {
-                        Era eraObj = eras.get(eras.size() - 1);
-                        addFieldValue(fieldValues, YEAR, prolepticYear(eraObj, yoe));
+                    if (fifldVblufs.dontbinsKfy(DAY_OF_WEEK)) {
+                        rfturn rfsolvfYMAD(fifldVblufs, rfsolvfrStylf);
                     }
                 }
             }
-        } else if (fieldValues.containsKey(ERA)) {
-            range(ERA).checkValidValue(fieldValues.get(ERA), ERA);  // always validated
+            if (fifldVblufs.dontbinsKfy(DAY_OF_YEAR)) {
+                rfturn rfsolvfYD(fifldVblufs, rfsolvfrStylf);
+            }
+            if (fifldVblufs.dontbinsKfy(ALIGNED_WEEK_OF_YEAR)) {
+                if (fifldVblufs.dontbinsKfy(ALIGNED_DAY_OF_WEEK_IN_YEAR)) {
+                    rfturn rfsolvfYAA(fifldVblufs, rfsolvfrStylf);
+                }
+                if (fifldVblufs.dontbinsKfy(DAY_OF_WEEK)) {
+                    rfturn rfsolvfYAD(fifldVblufs, rfsolvfrStylf);
+                }
+            }
         }
-        return null;
+        rfturn null;
     }
 
-    ChronoLocalDate resolveYMD(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
-        if (resolverStyle == ResolverStyle.LENIENT) {
-            long months = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1);
-            long days = Math.subtractExact(fieldValues.remove(DAY_OF_MONTH), 1);
-            return date(y, 1, 1).plus(months, MONTHS).plus(days, DAYS);
+    void rfsolvfProlfptidMonti(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        Long pMonti = fifldVblufs.rfmovf(PROLEPTIC_MONTH);
+        if (pMonti != null) {
+            if (rfsolvfrStylf != RfsolvfrStylf.LENIENT) {
+                PROLEPTIC_MONTH.difdkVblidVbluf(pMonti);
+            }
+            // first dby-of-monti is likfly to bf sbffst for sftting prolfptid-monti
+            // dbnnot bdd to yfbr zfro, bs not bll dironologifs ibvf b yfbr zfro
+            CironoLodblDbtf dironoDbtf = dbtfNow()
+                    .witi(DAY_OF_MONTH, 1).witi(PROLEPTIC_MONTH, pMonti);
+            bddFifldVbluf(fifldVblufs, MONTH_OF_YEAR, dironoDbtf.gft(MONTH_OF_YEAR));
+            bddFifldVbluf(fifldVblufs, YEAR, dironoDbtf.gft(YEAR));
         }
-        int moy = range(MONTH_OF_YEAR).checkValidIntValue(fieldValues.remove(MONTH_OF_YEAR), MONTH_OF_YEAR);
-        ValueRange domRange = range(DAY_OF_MONTH);
-        int dom = domRange.checkValidIntValue(fieldValues.remove(DAY_OF_MONTH), DAY_OF_MONTH);
-        if (resolverStyle == ResolverStyle.SMART) {  // previous valid
+    }
+
+    CironoLodblDbtf rfsolvfYfbrOfErb(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        Long yofLong = fifldVblufs.rfmovf(YEAR_OF_ERA);
+        if (yofLong != null) {
+            Long frbLong = fifldVblufs.rfmovf(ERA);
+            int yof;
+            if (rfsolvfrStylf != RfsolvfrStylf.LENIENT) {
+                yof = rbngf(YEAR_OF_ERA).difdkVblidIntVbluf(yofLong, YEAR_OF_ERA);
+            } flsf {
+                yof = Mbti.toIntExbdt(yofLong);
+            }
+            if (frbLong != null) {
+                Erb frbObj = frbOf(rbngf(ERA).difdkVblidIntVbluf(frbLong, ERA));
+                bddFifldVbluf(fifldVblufs, YEAR, prolfptidYfbr(frbObj, yof));
+            } flsf {
+                if (fifldVblufs.dontbinsKfy(YEAR)) {
+                    int yfbr = rbngf(YEAR).difdkVblidIntVbluf(fifldVblufs.gft(YEAR), YEAR);
+                    CironoLodblDbtf dironoDbtf = dbtfYfbrDby(yfbr, 1);
+                    bddFifldVbluf(fifldVblufs, YEAR, prolfptidYfbr(dironoDbtf.gftErb(), yof));
+                } flsf if (rfsolvfrStylf == RfsolvfrStylf.STRICT) {
+                    // do not invfnt frb if stridt
+                    // rfinstbtf tif fifld rfmovfd fbrlifr, no dross-difdk issufs
+                    fifldVblufs.put(YEAR_OF_ERA, yofLong);
+                } flsf {
+                    List<Erb> frbs = frbs();
+                    if (frbs.isEmpty()) {
+                        bddFifldVbluf(fifldVblufs, YEAR, yof);
+                    } flsf {
+                        Erb frbObj = frbs.gft(frbs.sizf() - 1);
+                        bddFifldVbluf(fifldVblufs, YEAR, prolfptidYfbr(frbObj, yof));
+                    }
+                }
+            }
+        } flsf if (fifldVblufs.dontbinsKfy(ERA)) {
+            rbngf(ERA).difdkVblidVbluf(fifldVblufs.gft(ERA), ERA);  // blwbys vblidbtfd
+        }
+        rfturn null;
+    }
+
+    CironoLodblDbtf rfsolvfYMD(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        int y = rbngf(YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(YEAR), YEAR);
+        if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+            long montis = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(MONTH_OF_YEAR), 1);
+            long dbys = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(DAY_OF_MONTH), 1);
+            rfturn dbtf(y, 1, 1).plus(montis, MONTHS).plus(dbys, DAYS);
+        }
+        int moy = rbngf(MONTH_OF_YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(MONTH_OF_YEAR), MONTH_OF_YEAR);
+        VblufRbngf domRbngf = rbngf(DAY_OF_MONTH);
+        int dom = domRbngf.difdkVblidIntVbluf(fifldVblufs.rfmovf(DAY_OF_MONTH), DAY_OF_MONTH);
+        if (rfsolvfrStylf == RfsolvfrStylf.SMART) {  // prfvious vblid
             try {
-                return date(y, moy, dom);
-            } catch (DateTimeException ex) {
-                return date(y, moy, 1).with(TemporalAdjusters.lastDayOfMonth());
+                rfturn dbtf(y, moy, dom);
+            } dbtdi (DbtfTimfExdfption fx) {
+                rfturn dbtf(y, moy, 1).witi(TfmporblAdjustfrs.lbstDbyOfMonti());
             }
         }
-        return date(y, moy, dom);
+        rfturn dbtf(y, moy, dom);
     }
 
-    ChronoLocalDate resolveYD(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
-        if (resolverStyle == ResolverStyle.LENIENT) {
-            long days = Math.subtractExact(fieldValues.remove(DAY_OF_YEAR), 1);
-            return dateYearDay(y, 1).plus(days, DAYS);
+    CironoLodblDbtf rfsolvfYD(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        int y = rbngf(YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(YEAR), YEAR);
+        if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+            long dbys = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(DAY_OF_YEAR), 1);
+            rfturn dbtfYfbrDby(y, 1).plus(dbys, DAYS);
         }
-        int doy = range(DAY_OF_YEAR).checkValidIntValue(fieldValues.remove(DAY_OF_YEAR), DAY_OF_YEAR);
-        return dateYearDay(y, doy);  // smart is same as strict
+        int doy = rbngf(DAY_OF_YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(DAY_OF_YEAR), DAY_OF_YEAR);
+        rfturn dbtfYfbrDby(y, doy);  // smbrt is sbmf bs stridt
     }
 
-    ChronoLocalDate resolveYMAA(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
-        if (resolverStyle == ResolverStyle.LENIENT) {
-            long months = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1);
-            long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), 1);
-            long days = Math.subtractExact(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_MONTH), 1);
-            return date(y, 1, 1).plus(months, MONTHS).plus(weeks, WEEKS).plus(days, DAYS);
+    CironoLodblDbtf rfsolvfYMAA(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        int y = rbngf(YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(YEAR), YEAR);
+        if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+            long montis = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(MONTH_OF_YEAR), 1);
+            long wffks = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(ALIGNED_WEEK_OF_MONTH), 1);
+            long dbys = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(ALIGNED_DAY_OF_WEEK_IN_MONTH), 1);
+            rfturn dbtf(y, 1, 1).plus(montis, MONTHS).plus(wffks, WEEKS).plus(dbys, DAYS);
         }
-        int moy = range(MONTH_OF_YEAR).checkValidIntValue(fieldValues.remove(MONTH_OF_YEAR), MONTH_OF_YEAR);
-        int aw = range(ALIGNED_WEEK_OF_MONTH).checkValidIntValue(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), ALIGNED_WEEK_OF_MONTH);
-        int ad = range(ALIGNED_DAY_OF_WEEK_IN_MONTH).checkValidIntValue(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_MONTH), ALIGNED_DAY_OF_WEEK_IN_MONTH);
-        ChronoLocalDate date = date(y, moy, 1).plus((aw - 1) * 7 + (ad - 1), DAYS);
-        if (resolverStyle == ResolverStyle.STRICT && date.get(MONTH_OF_YEAR) != moy) {
-            throw new DateTimeException("Strict mode rejected resolved date as it is in a different month");
+        int moy = rbngf(MONTH_OF_YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(MONTH_OF_YEAR), MONTH_OF_YEAR);
+        int bw = rbngf(ALIGNED_WEEK_OF_MONTH).difdkVblidIntVbluf(fifldVblufs.rfmovf(ALIGNED_WEEK_OF_MONTH), ALIGNED_WEEK_OF_MONTH);
+        int bd = rbngf(ALIGNED_DAY_OF_WEEK_IN_MONTH).difdkVblidIntVbluf(fifldVblufs.rfmovf(ALIGNED_DAY_OF_WEEK_IN_MONTH), ALIGNED_DAY_OF_WEEK_IN_MONTH);
+        CironoLodblDbtf dbtf = dbtf(y, moy, 1).plus((bw - 1) * 7 + (bd - 1), DAYS);
+        if (rfsolvfrStylf == RfsolvfrStylf.STRICT && dbtf.gft(MONTH_OF_YEAR) != moy) {
+            tirow nfw DbtfTimfExdfption("Stridt modf rfjfdtfd rfsolvfd dbtf bs it is in b difffrfnt monti");
         }
-        return date;
+        rfturn dbtf;
     }
 
-    ChronoLocalDate resolveYMAD(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
-        if (resolverStyle == ResolverStyle.LENIENT) {
-            long months = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1);
-            long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), 1);
-            long dow = Math.subtractExact(fieldValues.remove(DAY_OF_WEEK), 1);
-            return resolveAligned(date(y, 1, 1), months, weeks, dow);
+    CironoLodblDbtf rfsolvfYMAD(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        int y = rbngf(YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(YEAR), YEAR);
+        if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+            long montis = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(MONTH_OF_YEAR), 1);
+            long wffks = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(ALIGNED_WEEK_OF_MONTH), 1);
+            long dow = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(DAY_OF_WEEK), 1);
+            rfturn rfsolvfAlignfd(dbtf(y, 1, 1), montis, wffks, dow);
         }
-        int moy = range(MONTH_OF_YEAR).checkValidIntValue(fieldValues.remove(MONTH_OF_YEAR), MONTH_OF_YEAR);
-        int aw = range(ALIGNED_WEEK_OF_MONTH).checkValidIntValue(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), ALIGNED_WEEK_OF_MONTH);
-        int dow = range(DAY_OF_WEEK).checkValidIntValue(fieldValues.remove(DAY_OF_WEEK), DAY_OF_WEEK);
-        ChronoLocalDate date = date(y, moy, 1).plus((aw - 1) * 7, DAYS).with(nextOrSame(DayOfWeek.of(dow)));
-        if (resolverStyle == ResolverStyle.STRICT && date.get(MONTH_OF_YEAR) != moy) {
-            throw new DateTimeException("Strict mode rejected resolved date as it is in a different month");
+        int moy = rbngf(MONTH_OF_YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(MONTH_OF_YEAR), MONTH_OF_YEAR);
+        int bw = rbngf(ALIGNED_WEEK_OF_MONTH).difdkVblidIntVbluf(fifldVblufs.rfmovf(ALIGNED_WEEK_OF_MONTH), ALIGNED_WEEK_OF_MONTH);
+        int dow = rbngf(DAY_OF_WEEK).difdkVblidIntVbluf(fifldVblufs.rfmovf(DAY_OF_WEEK), DAY_OF_WEEK);
+        CironoLodblDbtf dbtf = dbtf(y, moy, 1).plus((bw - 1) * 7, DAYS).witi(nfxtOrSbmf(DbyOfWffk.of(dow)));
+        if (rfsolvfrStylf == RfsolvfrStylf.STRICT && dbtf.gft(MONTH_OF_YEAR) != moy) {
+            tirow nfw DbtfTimfExdfption("Stridt modf rfjfdtfd rfsolvfd dbtf bs it is in b difffrfnt monti");
         }
-        return date;
+        rfturn dbtf;
     }
 
-    ChronoLocalDate resolveYAA(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
-        if (resolverStyle == ResolverStyle.LENIENT) {
-            long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), 1);
-            long days = Math.subtractExact(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_YEAR), 1);
-            return dateYearDay(y, 1).plus(weeks, WEEKS).plus(days, DAYS);
+    CironoLodblDbtf rfsolvfYAA(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        int y = rbngf(YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(YEAR), YEAR);
+        if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+            long wffks = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(ALIGNED_WEEK_OF_YEAR), 1);
+            long dbys = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(ALIGNED_DAY_OF_WEEK_IN_YEAR), 1);
+            rfturn dbtfYfbrDby(y, 1).plus(wffks, WEEKS).plus(dbys, DAYS);
         }
-        int aw = range(ALIGNED_WEEK_OF_YEAR).checkValidIntValue(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), ALIGNED_WEEK_OF_YEAR);
-        int ad = range(ALIGNED_DAY_OF_WEEK_IN_YEAR).checkValidIntValue(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_YEAR), ALIGNED_DAY_OF_WEEK_IN_YEAR);
-        ChronoLocalDate date = dateYearDay(y, 1).plus((aw - 1) * 7 + (ad - 1), DAYS);
-        if (resolverStyle == ResolverStyle.STRICT && date.get(YEAR) != y) {
-            throw new DateTimeException("Strict mode rejected resolved date as it is in a different year");
+        int bw = rbngf(ALIGNED_WEEK_OF_YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(ALIGNED_WEEK_OF_YEAR), ALIGNED_WEEK_OF_YEAR);
+        int bd = rbngf(ALIGNED_DAY_OF_WEEK_IN_YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(ALIGNED_DAY_OF_WEEK_IN_YEAR), ALIGNED_DAY_OF_WEEK_IN_YEAR);
+        CironoLodblDbtf dbtf = dbtfYfbrDby(y, 1).plus((bw - 1) * 7 + (bd - 1), DAYS);
+        if (rfsolvfrStylf == RfsolvfrStylf.STRICT && dbtf.gft(YEAR) != y) {
+            tirow nfw DbtfTimfExdfption("Stridt modf rfjfdtfd rfsolvfd dbtf bs it is in b difffrfnt yfbr");
         }
-        return date;
+        rfturn dbtf;
     }
 
-    ChronoLocalDate resolveYAD(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
-        if (resolverStyle == ResolverStyle.LENIENT) {
-            long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), 1);
-            long dow = Math.subtractExact(fieldValues.remove(DAY_OF_WEEK), 1);
-            return resolveAligned(dateYearDay(y, 1), 0, weeks, dow);
+    CironoLodblDbtf rfsolvfYAD(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        int y = rbngf(YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(YEAR), YEAR);
+        if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+            long wffks = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(ALIGNED_WEEK_OF_YEAR), 1);
+            long dow = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(DAY_OF_WEEK), 1);
+            rfturn rfsolvfAlignfd(dbtfYfbrDby(y, 1), 0, wffks, dow);
         }
-        int aw = range(ALIGNED_WEEK_OF_YEAR).checkValidIntValue(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), ALIGNED_WEEK_OF_YEAR);
-        int dow = range(DAY_OF_WEEK).checkValidIntValue(fieldValues.remove(DAY_OF_WEEK), DAY_OF_WEEK);
-        ChronoLocalDate date = dateYearDay(y, 1).plus((aw - 1) * 7, DAYS).with(nextOrSame(DayOfWeek.of(dow)));
-        if (resolverStyle == ResolverStyle.STRICT && date.get(YEAR) != y) {
-            throw new DateTimeException("Strict mode rejected resolved date as it is in a different year");
+        int bw = rbngf(ALIGNED_WEEK_OF_YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(ALIGNED_WEEK_OF_YEAR), ALIGNED_WEEK_OF_YEAR);
+        int dow = rbngf(DAY_OF_WEEK).difdkVblidIntVbluf(fifldVblufs.rfmovf(DAY_OF_WEEK), DAY_OF_WEEK);
+        CironoLodblDbtf dbtf = dbtfYfbrDby(y, 1).plus((bw - 1) * 7, DAYS).witi(nfxtOrSbmf(DbyOfWffk.of(dow)));
+        if (rfsolvfrStylf == RfsolvfrStylf.STRICT && dbtf.gft(YEAR) != y) {
+            tirow nfw DbtfTimfExdfption("Stridt modf rfjfdtfd rfsolvfd dbtf bs it is in b difffrfnt yfbr");
         }
-        return date;
+        rfturn dbtf;
     }
 
-    ChronoLocalDate resolveAligned(ChronoLocalDate base, long months, long weeks, long dow) {
-        ChronoLocalDate date = base.plus(months, MONTHS).plus(weeks, WEEKS);
+    CironoLodblDbtf rfsolvfAlignfd(CironoLodblDbtf bbsf, long montis, long wffks, long dow) {
+        CironoLodblDbtf dbtf = bbsf.plus(montis, MONTHS).plus(wffks, WEEKS);
         if (dow > 7) {
-            date = date.plus((dow - 1) / 7, WEEKS);
+            dbtf = dbtf.plus((dow - 1) / 7, WEEKS);
             dow = ((dow - 1) % 7) + 1;
-        } else if (dow < 1) {
-            date = date.plus(Math.subtractExact(dow,  7) / 7, WEEKS);
+        } flsf if (dow < 1) {
+            dbtf = dbtf.plus(Mbti.subtrbdtExbdt(dow,  7) / 7, WEEKS);
             dow = ((dow + 6) % 7) + 1;
         }
-        return date.with(nextOrSame(DayOfWeek.of((int) dow)));
+        rfturn dbtf.witi(nfxtOrSbmf(DbyOfWffk.of((int) dow)));
     }
 
     /**
-     * Adds a field-value pair to the map, checking for conflicts.
+     * Adds b fifld-vbluf pbir to tif mbp, difdking for donflidts.
      * <p>
-     * If the field is not already present, then the field-value pair is added to the map.
-     * If the field is already present and it has the same value as that specified, no action occurs.
-     * If the field is already present and it has a different value to that specified, then
-     * an exception is thrown.
+     * If tif fifld is not blrfbdy prfsfnt, tifn tif fifld-vbluf pbir is bddfd to tif mbp.
+     * If tif fifld is blrfbdy prfsfnt bnd it ibs tif sbmf vbluf bs tibt spfdififd, no bdtion oddurs.
+     * If tif fifld is blrfbdy prfsfnt bnd it ibs b difffrfnt vbluf to tibt spfdififd, tifn
+     * bn fxdfption is tirown.
      *
-     * @param field  the field to add, not null
-     * @param value  the value to add, not null
-     * @throws java.time.DateTimeException if the field is already present with a different value
+     * @pbrbm fifld  tif fifld to bdd, not null
+     * @pbrbm vbluf  tif vbluf to bdd, not null
+     * @tirows jbvb.timf.DbtfTimfExdfption if tif fifld is blrfbdy prfsfnt witi b difffrfnt vbluf
      */
-    void addFieldValue(Map<TemporalField, Long> fieldValues, ChronoField field, long value) {
-        Long old = fieldValues.get(field);  // check first for better error message
-        if (old != null && old.longValue() != value) {
-            throw new DateTimeException("Conflict found: " + field + " " + old + " differs from " + field + " " + value);
+    void bddFifldVbluf(Mbp<TfmporblFifld, Long> fifldVblufs, CironoFifld fifld, long vbluf) {
+        Long old = fifldVblufs.gft(fifld);  // difdk first for bfttfr frror mfssbgf
+        if (old != null && old.longVbluf() != vbluf) {
+            tirow nfw DbtfTimfExdfption("Conflidt found: " + fifld + " " + old + " difffrs from " + fifld + " " + vbluf);
         }
-        fieldValues.put(field, value);
+        fifldVblufs.put(fifld, vbluf);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this chronology to another chronology.
+     * Compbrfs tiis dironology to bnotifr dironology.
      * <p>
-     * The comparison order first by the chronology ID string, then by any
-     * additional information specific to the subclass.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * Tif dompbrison ordfr first by tif dironology ID string, tifn by bny
+     * bdditionbl informbtion spfdifid to tif subdlbss.
+     * It is "donsistfnt witi fqubls", bs dffinfd by {@link Compbrbblf}.
      *
-     * @implSpec
-     * This implementation compares the chronology ID.
-     * Subclasses must compare any additional state that they store.
+     * @implSpfd
+     * Tiis implfmfntbtion dompbrfs tif dironology ID.
+     * Subdlbssfs must dompbrf bny bdditionbl stbtf tibt tify storf.
      *
-     * @param other  the other chronology to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm otifr  tif otifr dironology to dompbrf to, not null
+     * @rfturn tif dompbrbtor vbluf, nfgbtivf if lfss, positivf if grfbtfr
      */
-    @Override
-    public int compareTo(Chronology other) {
-        return getId().compareTo(other.getId());
+    @Ovfrridf
+    publid int dompbrfTo(Cironology otifr) {
+        rfturn gftId().dompbrfTo(otifr.gftId());
     }
 
     /**
-     * Checks if this chronology is equal to another chronology.
+     * Cifdks if tiis dironology is fqubl to bnotifr dironology.
      * <p>
-     * The comparison is based on the entire state of the object.
+     * Tif dompbrison is bbsfd on tif fntirf stbtf of tif objfdt.
      *
-     * @implSpec
-     * This implementation checks the type and calls
-     * {@link #compareTo(java.time.chrono.Chronology)}.
+     * @implSpfd
+     * Tiis implfmfntbtion difdks tif typf bnd dblls
+     * {@link #dompbrfTo(jbvb.timf.dirono.Cironology)}.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other chronology
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr dironology
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-           return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+           rfturn truf;
         }
-        if (obj instanceof AbstractChronology) {
-            return compareTo((AbstractChronology) obj) == 0;
+        if (obj instbndfof AbstrbdtCironology) {
+            rfturn dompbrfTo((AbstrbdtCironology) obj) == 0;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * A hash code for this chronology.
+     * A ibsi dodf for tiis dironology.
      * <p>
-     * The hash code should be based on the entire state of the object.
+     * Tif ibsi dodf siould bf bbsfd on tif fntirf stbtf of tif objfdt.
      *
-     * @implSpec
-     * This implementation is based on the chronology ID and class.
-     * Subclasses should add any additional state that they store.
+     * @implSpfd
+     * Tiis implfmfntbtion is bbsfd on tif dironology ID bnd dlbss.
+     * Subdlbssfs siould bdd bny bdditionbl stbtf tibt tify storf.
      *
-     * @return a suitable hash code
+     * @rfturn b suitbblf ibsi dodf
      */
-    @Override
-    public int hashCode() {
-        return getClass().hashCode() ^ getId().hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn gftClbss().ibsiCodf() ^ gftId().ibsiCodf();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this chronology as a {@code String}, using the chronology ID.
+     * Outputs tiis dironology bs b {@dodf String}, using tif dironology ID.
      *
-     * @return a string representation of this chronology, not null
+     * @rfturn b string rfprfsfntbtion of tiis dironology, not null
      */
-    @Override
-    public String toString() {
-        return getId();
+    @Ovfrridf
+    publid String toString() {
+        rfturn gftId();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the Chronology using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * <pre>
-     *  out.writeByte(1);  // identifies this as a Chronology
-     *  out.writeUTF(getId());
-     * </pre>
+     * Writfs tif Cironology using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * <prf>
+     *  out.writfBytf(1);  // idfntififs tiis bs b Cironology
+     *  out.writfUTF(gftId());
+     * </prf>
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    Object writeReplace() {
-        return new Ser(Ser.CHRONO_TYPE, this);
+    Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.CHRONO_TYPE, tiis);
     }
 
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws java.io.InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows jbvb.io.InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows ObjfdtStrfbmExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeUTF(getId());
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        out.writfUTF(gftId());
     }
 
-    static Chronology readExternal(DataInput in) throws IOException {
-        String id = in.readUTF();
-        return Chronology.of(id);
+    stbtid Cironology rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+        String id = in.rfbdUTF();
+        rfturn Cironology.of(id);
     }
 
 }

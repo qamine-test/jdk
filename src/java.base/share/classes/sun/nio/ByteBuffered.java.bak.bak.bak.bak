@@ -1,0 +1,58 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.io.IOExdfption;
+
+/** This is bn intfrfbdf to bdbpt fxisting APIs to usf {@link jbvb.nio.BytfBufffr
+ *  <tt>BytfBufffrs</tt>} bs thf undfrlying
+ *  dbtb formbt.  Only thf initibl produdfr bnd finbl donsumfr hbvf to bf dhbngfd.<p>
+ *
+ *  For fxbmplf, thf Zip/Jbr dodf supports {@link jbvb.io.InputStrfbm <tt>InputStrfbms</tt>}.
+ *  To mbkf thf Zip dodf usf {@link jbvb.nio.MbppfdBytfBufffr <tt>MbppfdBytfBufffrs</tt>} bs
+ *  thf undfrlying dbtb strudturf, it dbn drfbtf b dlbss of InputStrfbm thbt wrbps thf BytfBufffr,
+ *  bnd implfmfnts thf BytfBufffrfd intfrfbdf. A do-opfrbting dlbss sfvfrbl lbyfrs
+ *  bwby dbn bsk thf InputStrfbm if it is bn instbndf of BytfBufffrfd, thfn
+ *  dbll thf {@link #gftBytfBufffr()} mfthod.
+ */
+publid intfrfbdf BytfBufffrfd {
+
+     /**
+     * Rfturns thf <tt>BytfBufffr</tt> bfhind this objfdt, if this pbrtidulbr
+     * instbndf hbs onf. An implfmfntbtion of <tt>gftBytfBufffr()</tt> is bllowfd
+     * to rfturn <tt>null</tt> for bny rfbson.
+     *
+     * @rfturn  Thf <tt>BytfBufffr</tt>, if this pbrtidulbr instbndf hbs onf,
+     *          or <tt>null</tt> othfrwisf.
+     *
+     * @throws  IOExdfption
+     *          If thf BytfBufffr is no longfr vblid.
+     *
+     * @sindf  1.5
+     */
+    publid BytfBufffr gftBytfBufffr() throws IOExdfption;
+}

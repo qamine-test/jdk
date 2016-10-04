@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
-import javax.management.openmbean.CompositeData;
-import sun.management.MemoryNotifInfoCompositeData;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import sun.mbnbgfmfnt.MfmoryNotifInfoCompositfDbtb;
 
 /**
- * The information about a memory notification.
+ * Tif informbtion bbout b mfmory notifidbtion.
  *
  * <p>
- * A memory notification is emitted by {@link MemoryMXBean}
- * when the Java virtual machine detects that the memory usage
- * of a memory pool is exceeding a threshold value.
- * The notification emitted will contain the memory notification
- * information about the detected condition:
+ * A mfmory notifidbtion is fmittfd by {@link MfmoryMXBfbn}
+ * wifn tif Jbvb virtubl mbdiinf dftfdts tibt tif mfmory usbgf
+ * of b mfmory pool is fxdffding b tirfsiold vbluf.
+ * Tif notifidbtion fmittfd will dontbin tif mfmory notifidbtion
+ * informbtion bbout tif dftfdtfd dondition:
  * <ul>
- *   <li>The name of the memory pool.</li>
- *   <li>The memory usage of the memory pool when the notification
- *       was constructed.</li>
- *   <li>The number of times that the memory usage has crossed
- *       a threshold when the notification was constructed.
- *       For usage threshold notifications, this count will be the
- *       {@link MemoryPoolMXBean#getUsageThresholdCount usage threshold
- *       count}.  For collection threshold notifications,
- *       this count will be the
- *       {@link MemoryPoolMXBean#getCollectionUsageThresholdCount
- *       collection usage threshold count}.
+ *   <li>Tif nbmf of tif mfmory pool.</li>
+ *   <li>Tif mfmory usbgf of tif mfmory pool wifn tif notifidbtion
+ *       wbs donstrudtfd.</li>
+ *   <li>Tif numbfr of timfs tibt tif mfmory usbgf ibs drossfd
+ *       b tirfsiold wifn tif notifidbtion wbs donstrudtfd.
+ *       For usbgf tirfsiold notifidbtions, tiis dount will bf tif
+ *       {@link MfmoryPoolMXBfbn#gftUsbgfTirfsioldCount usbgf tirfsiold
+ *       dount}.  For dollfdtion tirfsiold notifidbtions,
+ *       tiis dount will bf tif
+ *       {@link MfmoryPoolMXBfbn#gftCollfdtionUsbgfTirfsioldCount
+ *       dollfdtion usbgf tirfsiold dount}.
  *       </li>
  * </ul>
  *
  * <p>
- * A {@link CompositeData CompositeData} representing
- * the <tt>MemoryNotificationInfo</tt> object
- * is stored in the
- * {@link javax.management.Notification#setUserData user data}
- * of a {@link javax.management.Notification notification}.
- * The {@link #from from} method is provided to convert from
- * a <tt>CompositeData</tt> to a <tt>MemoryNotificationInfo</tt>
- * object. For example:
+ * A {@link CompositfDbtb CompositfDbtb} rfprfsfnting
+ * tif <tt>MfmoryNotifidbtionInfo</tt> objfdt
+ * is storfd in tif
+ * {@link jbvbx.mbnbgfmfnt.Notifidbtion#sftUsfrDbtb usfr dbtb}
+ * of b {@link jbvbx.mbnbgfmfnt.Notifidbtion notifidbtion}.
+ * Tif {@link #from from} mftiod is providfd to donvfrt from
+ * b <tt>CompositfDbtb</tt> to b <tt>MfmoryNotifidbtionInfo</tt>
+ * objfdt. For fxbmplf:
  *
- * <blockquote><pre>
- *      Notification notif;
+ * <blodkquotf><prf>
+ *      Notifidbtion notif;
  *
- *      // receive the notification emitted by MemoryMXBean and set to notif
+ *      // rfdfivf tif notifidbtion fmittfd by MfmoryMXBfbn bnd sft to notif
  *      ...
  *
- *      String notifType = notif.getType();
- *      if (notifType.equals(MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED) ||
- *          notifType.equals(MemoryNotificationInfo.MEMORY_COLLECTION_THRESHOLD_EXCEEDED)) {
- *          // retrieve the memory notification information
- *          CompositeData cd = (CompositeData) notif.getUserData();
- *          MemoryNotificationInfo info = MemoryNotificationInfo.from(cd);
+ *      String notifTypf = notif.gftTypf();
+ *      if (notifTypf.fqubls(MfmoryNotifidbtionInfo.MEMORY_THRESHOLD_EXCEEDED) ||
+ *          notifTypf.fqubls(MfmoryNotifidbtionInfo.MEMORY_COLLECTION_THRESHOLD_EXCEEDED)) {
+ *          // rftrifvf tif mfmory notifidbtion informbtion
+ *          CompositfDbtb dd = (CompositfDbtb) notif.gftUsfrDbtb();
+ *          MfmoryNotifidbtionInfo info = MfmoryNotifidbtionInfo.from(dd);
  *          ....
  *      }
- * </pre></blockquote>
+ * </prf></blodkquotf>
  *
  * <p>
- * The types of notifications emitted by <tt>MemoryMXBean</tt> are:
+ * Tif typfs of notifidbtions fmittfd by <tt>MfmoryMXBfbn</tt> brf:
  * <ul>
  *   <li>A {@link #MEMORY_THRESHOLD_EXCEEDED
- *       usage threshold exceeded notification}.
- *       <br>This notification will be emitted when
- *       the memory usage of a memory pool is increased and has reached
- *       or exceeded its
- *       <a href="MemoryPoolMXBean.html#UsageThreshold"> usage threshold</a> value.
- *       Subsequent crossing of the usage threshold value does not cause
- *       further notification until the memory usage has returned
- *       to become less than the usage threshold value.
+ *       usbgf tirfsiold fxdffdfd notifidbtion}.
+ *       <br>Tiis notifidbtion will bf fmittfd wifn
+ *       tif mfmory usbgf of b mfmory pool is indrfbsfd bnd ibs rfbdifd
+ *       or fxdffdfd its
+ *       <b irff="MfmoryPoolMXBfbn.itml#UsbgfTirfsiold"> usbgf tirfsiold</b> vbluf.
+ *       Subsfqufnt drossing of tif usbgf tirfsiold vbluf dofs not dbusf
+ *       furtifr notifidbtion until tif mfmory usbgf ibs rfturnfd
+ *       to bfdomf lfss tibn tif usbgf tirfsiold vbluf.
  *       </li>
  *   <li>A {@link #MEMORY_COLLECTION_THRESHOLD_EXCEEDED
- *       collection usage threshold exceeded notification}.
- *       <br>This notification will be emitted when
- *       the memory usage of a memory pool is greater than or equal to its
- *       <a href="MemoryPoolMXBean.html#CollectionThreshold">
- *       collection usage threshold</a> after the Java virtual machine
- *       has expended effort in recycling unused objects in that
- *       memory pool.</li>
+ *       dollfdtion usbgf tirfsiold fxdffdfd notifidbtion}.
+ *       <br>Tiis notifidbtion will bf fmittfd wifn
+ *       tif mfmory usbgf of b mfmory pool is grfbtfr tibn or fqubl to its
+ *       <b irff="MfmoryPoolMXBfbn.itml#CollfdtionTirfsiold">
+ *       dollfdtion usbgf tirfsiold</b> bftfr tif Jbvb virtubl mbdiinf
+ *       ibs fxpfndfd fffort in rfdydling unusfd objfdts in tibt
+ *       mfmory pool.</li>
  * </ul>
  *
- * @author  Mandy Chung
- * @since   1.5
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
  *
  */
-public class MemoryNotificationInfo {
-    private final String poolName;
-    private final MemoryUsage usage;
-    private final long count;
+publid dlbss MfmoryNotifidbtionInfo {
+    privbtf finbl String poolNbmf;
+    privbtf finbl MfmoryUsbgf usbgf;
+    privbtf finbl long dount;
 
     /**
-     * Notification type denoting that
-     * the memory usage of a memory pool has
-     * reached or exceeded its
-     * <a href="MemoryPoolMXBean.html#UsageThreshold"> usage threshold</a> value.
-     * This notification is emitted by {@link MemoryMXBean}.
-     * Subsequent crossing of the usage threshold value does not cause
-     * further notification until the memory usage has returned
-     * to become less than the usage threshold value.
-     * The value of this notification type is
-     * <tt>java.management.memory.threshold.exceeded</tt>.
+     * Notifidbtion typf dfnoting tibt
+     * tif mfmory usbgf of b mfmory pool ibs
+     * rfbdifd or fxdffdfd its
+     * <b irff="MfmoryPoolMXBfbn.itml#UsbgfTirfsiold"> usbgf tirfsiold</b> vbluf.
+     * Tiis notifidbtion is fmittfd by {@link MfmoryMXBfbn}.
+     * Subsfqufnt drossing of tif usbgf tirfsiold vbluf dofs not dbusf
+     * furtifr notifidbtion until tif mfmory usbgf ibs rfturnfd
+     * to bfdomf lfss tibn tif usbgf tirfsiold vbluf.
+     * Tif vbluf of tiis notifidbtion typf is
+     * <tt>jbvb.mbnbgfmfnt.mfmory.tirfsiold.fxdffdfd</tt>.
      */
-    public static final String MEMORY_THRESHOLD_EXCEEDED =
-        "java.management.memory.threshold.exceeded";
+    publid stbtid finbl String MEMORY_THRESHOLD_EXCEEDED =
+        "jbvb.mbnbgfmfnt.mfmory.tirfsiold.fxdffdfd";
 
     /**
-     * Notification type denoting that
-     * the memory usage of a memory pool is greater than or equal to its
-     * <a href="MemoryPoolMXBean.html#CollectionThreshold">
-     * collection usage threshold</a> after the Java virtual machine
-     * has expended effort in recycling unused objects in that
-     * memory pool.
-     * This notification is emitted by {@link MemoryMXBean}.
-     * The value of this notification type is
-     * <tt>java.management.memory.collection.threshold.exceeded</tt>.
+     * Notifidbtion typf dfnoting tibt
+     * tif mfmory usbgf of b mfmory pool is grfbtfr tibn or fqubl to its
+     * <b irff="MfmoryPoolMXBfbn.itml#CollfdtionTirfsiold">
+     * dollfdtion usbgf tirfsiold</b> bftfr tif Jbvb virtubl mbdiinf
+     * ibs fxpfndfd fffort in rfdydling unusfd objfdts in tibt
+     * mfmory pool.
+     * Tiis notifidbtion is fmittfd by {@link MfmoryMXBfbn}.
+     * Tif vbluf of tiis notifidbtion typf is
+     * <tt>jbvb.mbnbgfmfnt.mfmory.dollfdtion.tirfsiold.fxdffdfd</tt>.
      */
-    public static final String MEMORY_COLLECTION_THRESHOLD_EXCEEDED =
-        "java.management.memory.collection.threshold.exceeded";
+    publid stbtid finbl String MEMORY_COLLECTION_THRESHOLD_EXCEEDED =
+        "jbvb.mbnbgfmfnt.mfmory.dollfdtion.tirfsiold.fxdffdfd";
 
     /**
-     * Constructs a <tt>MemoryNotificationInfo</tt> object.
+     * Construdts b <tt>MfmoryNotifidbtionInfo</tt> objfdt.
      *
-     * @param poolName The name of the memory pool which triggers this notification.
-     * @param usage Memory usage of the memory pool.
-     * @param count The threshold crossing count.
+     * @pbrbm poolNbmf Tif nbmf of tif mfmory pool wiidi triggfrs tiis notifidbtion.
+     * @pbrbm usbgf Mfmory usbgf of tif mfmory pool.
+     * @pbrbm dount Tif tirfsiold drossing dount.
      */
-    public MemoryNotificationInfo(String poolName,
-                                  MemoryUsage usage,
-                                  long count) {
-        if (poolName == null) {
-            throw new NullPointerException("Null poolName");
+    publid MfmoryNotifidbtionInfo(String poolNbmf,
+                                  MfmoryUsbgf usbgf,
+                                  long dount) {
+        if (poolNbmf == null) {
+            tirow nfw NullPointfrExdfption("Null poolNbmf");
         }
-        if (usage == null) {
-            throw new NullPointerException("Null usage");
-        }
-
-        this.poolName = poolName;
-        this.usage = usage;
-        this.count = count;
-    }
-
-    MemoryNotificationInfo(CompositeData cd) {
-        MemoryNotifInfoCompositeData.validateCompositeData(cd);
-
-        this.poolName = MemoryNotifInfoCompositeData.getPoolName(cd);
-        this.usage = MemoryNotifInfoCompositeData.getUsage(cd);
-        this.count = MemoryNotifInfoCompositeData.getCount(cd);
-    }
-
-    /**
-     * Returns the name of the memory pool that triggers this notification.
-     * The memory pool usage has crossed a threshold.
-     *
-     * @return the name of the memory pool that triggers this notification.
-     */
-    public String getPoolName() {
-        return poolName;
-    }
-
-    /**
-     * Returns the memory usage of the memory pool
-     * when this notification was constructed.
-     *
-     * @return the memory usage of the memory pool
-     * when this notification was constructed.
-     */
-    public MemoryUsage getUsage() {
-        return usage;
-    }
-
-    /**
-     * Returns the number of times that the memory usage has crossed
-     * a threshold when the notification was constructed.
-     * For usage threshold notifications, this count will be the
-     * {@link MemoryPoolMXBean#getUsageThresholdCount threshold
-     * count}.  For collection threshold notifications,
-     * this count will be the
-     * {@link MemoryPoolMXBean#getCollectionUsageThresholdCount
-     * collection usage threshold count}.
-     *
-     * @return the number of times that the memory usage has crossed
-     * a threshold when the notification was constructed.
-     */
-    public long getCount() {
-        return count;
-    }
-
-    /**
-     * Returns a <tt>MemoryNotificationInfo</tt> object represented by the
-     * given <tt>CompositeData</tt>.
-     * The given <tt>CompositeData</tt> must contain
-     * the following attributes:
-     * <blockquote>
-     * <table border summary="The attributes and the types the given CompositeData contains">
-     * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
-     * </tr>
-     * <tr>
-     *   <td>poolName</td>
-     *   <td><tt>java.lang.String</tt></td>
-     * </tr>
-     * <tr>
-     *   <td>usage</td>
-     *   <td><tt>javax.management.openmbean.CompositeData</tt></td>
-     * </tr>
-     * <tr>
-     *   <td>count</td>
-     *   <td><tt>java.lang.Long</tt></td>
-     * </tr>
-     * </table>
-     * </blockquote>
-     *
-     * @param cd <tt>CompositeData</tt> representing a
-     *           <tt>MemoryNotificationInfo</tt>
-     *
-     * @throws IllegalArgumentException if <tt>cd</tt> does not
-     *   represent a <tt>MemoryNotificationInfo</tt> object.
-     *
-     * @return a <tt>MemoryNotificationInfo</tt> object represented
-     *         by <tt>cd</tt> if <tt>cd</tt> is not <tt>null</tt>;
-     *         <tt>null</tt> otherwise.
-     */
-    public static MemoryNotificationInfo from(CompositeData cd) {
-        if (cd == null) {
-            return null;
+        if (usbgf == null) {
+            tirow nfw NullPointfrExdfption("Null usbgf");
         }
 
-        if (cd instanceof MemoryNotifInfoCompositeData) {
-            return ((MemoryNotifInfoCompositeData) cd).getMemoryNotifInfo();
-        } else {
-            return new MemoryNotificationInfo(cd);
+        tiis.poolNbmf = poolNbmf;
+        tiis.usbgf = usbgf;
+        tiis.dount = dount;
+    }
+
+    MfmoryNotifidbtionInfo(CompositfDbtb dd) {
+        MfmoryNotifInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
+
+        tiis.poolNbmf = MfmoryNotifInfoCompositfDbtb.gftPoolNbmf(dd);
+        tiis.usbgf = MfmoryNotifInfoCompositfDbtb.gftUsbgf(dd);
+        tiis.dount = MfmoryNotifInfoCompositfDbtb.gftCount(dd);
+    }
+
+    /**
+     * Rfturns tif nbmf of tif mfmory pool tibt triggfrs tiis notifidbtion.
+     * Tif mfmory pool usbgf ibs drossfd b tirfsiold.
+     *
+     * @rfturn tif nbmf of tif mfmory pool tibt triggfrs tiis notifidbtion.
+     */
+    publid String gftPoolNbmf() {
+        rfturn poolNbmf;
+    }
+
+    /**
+     * Rfturns tif mfmory usbgf of tif mfmory pool
+     * wifn tiis notifidbtion wbs donstrudtfd.
+     *
+     * @rfturn tif mfmory usbgf of tif mfmory pool
+     * wifn tiis notifidbtion wbs donstrudtfd.
+     */
+    publid MfmoryUsbgf gftUsbgf() {
+        rfturn usbgf;
+    }
+
+    /**
+     * Rfturns tif numbfr of timfs tibt tif mfmory usbgf ibs drossfd
+     * b tirfsiold wifn tif notifidbtion wbs donstrudtfd.
+     * For usbgf tirfsiold notifidbtions, tiis dount will bf tif
+     * {@link MfmoryPoolMXBfbn#gftUsbgfTirfsioldCount tirfsiold
+     * dount}.  For dollfdtion tirfsiold notifidbtions,
+     * tiis dount will bf tif
+     * {@link MfmoryPoolMXBfbn#gftCollfdtionUsbgfTirfsioldCount
+     * dollfdtion usbgf tirfsiold dount}.
+     *
+     * @rfturn tif numbfr of timfs tibt tif mfmory usbgf ibs drossfd
+     * b tirfsiold wifn tif notifidbtion wbs donstrudtfd.
+     */
+    publid long gftCount() {
+        rfturn dount;
+    }
+
+    /**
+     * Rfturns b <tt>MfmoryNotifidbtionInfo</tt> objfdt rfprfsfntfd by tif
+     * givfn <tt>CompositfDbtb</tt>.
+     * Tif givfn <tt>CompositfDbtb</tt> must dontbin
+     * tif following bttributfs:
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Tif bttributfs bnd tif typfs tif givfn CompositfDbtb dontbins">
+     * <tr>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Typf</ti>
+     * </tr>
+     * <tr>
+     *   <td>poolNbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>usbgf</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>dount</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * </tbblf>
+     * </blodkquotf>
+     *
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b
+     *           <tt>MfmoryNotifidbtionInfo</tt>
+     *
+     * @tirows IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     *   rfprfsfnt b <tt>MfmoryNotifidbtionInfo</tt> objfdt.
+     *
+     * @rfturn b <tt>MfmoryNotifidbtionInfo</tt> objfdt rfprfsfntfd
+     *         by <tt>dd</tt> if <tt>dd</tt> is not <tt>null</tt>;
+     *         <tt>null</tt> otifrwisf.
+     */
+    publid stbtid MfmoryNotifidbtionInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
+        }
+
+        if (dd instbndfof MfmoryNotifInfoCompositfDbtb) {
+            rfturn ((MfmoryNotifInfoCompositfDbtb) dd).gftMfmoryNotifInfo();
+        } flsf {
+            rfturn nfw MfmoryNotifidbtionInfo(dd);
         }
     }
 }

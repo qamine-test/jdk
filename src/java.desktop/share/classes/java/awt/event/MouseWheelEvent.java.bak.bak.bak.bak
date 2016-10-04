@@ -1,0 +1,449 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.bwt.Componfnt;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * An fvfnt whidh indidbtfs thbt thf mousf whffl wbs rotbtfd in b domponfnt.
+ * <P>
+ * A whffl mousf is b mousf whidh hbs b whffl in plbdf of thf middlf button.
+ * This whffl dbn bf rotbtfd towbrds or bwby from thf usfr.  Mousf whffls brf
+ * most oftfn usfd for sdrolling, though othfr usfs brf possiblf.
+ * <P>
+ * A MousfWhfflEvfnt objfdt is pbssfd to fvfry <dodf>MousfWhfflListfnfr</dodf>
+ * objfdt whidh rfgistfrfd to rfdfivf thf "intfrfsting" mousf fvfnts using thf
+ * domponfnt's <dodf>bddMousfWhfflListfnfr</dodf> mfthod.  Ebdh sudh listfnfr
+ * objfdt gfts b <dodf>MousfEvfnt</dodf> dontbining thf mousf fvfnt.
+ * <P>
+ * Duf to thf mousf whffl's spfdibl rflbtionship to sdrolling Componfnts,
+ * MousfWhfflEvfnts brf dflivfrfd somfwhbt difffrfntly thbn othfr MousfEvfnts.
+ * This is bfdbusf whilf othfr MousfEvfnts usublly bfffdt b dhbngf on
+ * thf Componfnt dirfdtly undfr thf mousf
+ * dursor (for instbndf, whfn dlidking b button), MousfWhfflEvfnts oftfn hbvf
+ * bn ffffdt bwby from thf mousf dursor (moving thf whffl whilf
+ * ovfr b Componfnt insidf b SdrollPbnf should sdroll onf of thf
+ * Sdrollbbrs on thf SdrollPbnf).
+ * <P>
+ * MousfWhfflEvfnts stbrt dflivfry from thf Componfnt undfrnfbth thf
+ * mousf dursor.  If MousfWhfflEvfnts brf not fnbblfd on thf
+ * Componfnt, thf fvfnt is dflivfrfd to thf first bndfstor
+ * Contbinfr with MousfWhfflEvfnts fnbblfd.  This will usublly bf
+ * b SdrollPbnf with whffl sdrolling fnbblfd.  Thf sourdf
+ * Componfnt bnd x,y doordinbtfs will bf rflbtivf to thf fvfnt's
+ * finbl dfstinbtion (thf SdrollPbnf).  This bllows b domplfx
+ * GUI to bf instbllfd without modifidbtion into b SdrollPbnf, bnd
+ * for bll MousfWhfflEvfnts to bf dflivfrfd to thf SdrollPbnf for
+ * sdrolling.
+ * <P>
+ * Somf AWT Componfnts brf implfmfntfd using nbtivf widgfts whidh
+ * displby thfir own sdrollbbrs bnd hbndlf thfir own sdrolling.
+ * Thf pbrtidulbr Componfnts for whidh this is truf will vbry from
+ * plbtform to plbtform.  Whfn thf mousf whffl is
+ * movfd ovfr onf of thfsf Componfnts, thf fvfnt is dflivfrfd strbight to
+ * thf nbtivf widgft, bnd not propbgbtfd to bndfstors.
+ * <P>
+ * Plbtforms offfr dustomizbtion of thf bmount of sdrolling thbt
+ * should tbkf plbdf whfn thf mousf whffl is movfd.  Thf two most
+ * dommon sfttings brf to sdroll b dfrtbin numbfr of "units"
+ * (dommonly linfs of tfxt in b tfxt-bbsfd domponfnt) or bn fntirf "blodk"
+ * (similbr to pbgf-up/pbgf-down).  Thf MousfWhfflEvfnt offfrs
+ * mfthods for donforming to thf undfrlying plbtform sfttings.  Thfsf
+ * plbtform sfttings dbn bf dhbngfd bt bny timf by thf usfr.  MousfWhfflEvfnts
+ * rfflfdt thf most rfdfnt sfttings.
+ * <P>
+ * Thf <dodf>MousfWhfflEvfnt</dodf> dlbss indludfs mfthods for
+ * gftting thf numbfr of "dlidks" by whidh thf mousf whffl is rotbtfd.
+ * Thf {@link #gftWhfflRotbtion} mfthod rfturns thf intfgfr numbfr
+ * of "dlidks" dorrfsponding to thf numbfr of notdhfs by whidh thf whffl wbs
+ * rotbtfd. In bddition to this mfthod, thf <dodf>MousfWhfflEvfnt</dodf>
+ * dlbss providfs thf {@link #gftPrfdisfWhfflRotbtion} mfthod whidh rfturns
+ * b doublf numbfr of "dlidks" in dbsf b pbrtibl rotbtion oddurrfd.
+ * Thf {@link #gftPrfdisfWhfflRotbtion} mfthod is usfful if b mousf supports
+ * b high-rfsolution whffl, sudh bs b frffly rotbting whffl with no
+ * notdhfs. Applidbtions dbn bfnffit by using this mfthod to prodfss
+ * mousf whffl fvfnts morf prfdisfly, bnd thus, mbking visubl pfrdfption
+ * smoothfr.
+ *
+ * @buthor Brfnt Christibn
+ * @sff MousfWhfflListfnfr
+ * @sff jbvb.bwt.SdrollPbnf
+ * @sff jbvb.bwt.SdrollPbnf#sftWhfflSdrollingEnbblfd(boolfbn)
+ * @sff jbvbx.swing.JSdrollPbnf
+ * @sff jbvbx.swing.JSdrollPbnf#sftWhfflSdrollingEnbblfd(boolfbn)
+ * @sindf 1.4
+ */
+
+publid dlbss MousfWhfflEvfnt fxtfnds MousfEvfnt {
+
+    /**
+     * Constbnt rfprfsfnting sdrolling by "units" (likf sdrolling with thf
+     * brrow kfys)
+     *
+     * @sff #gftSdrollTypf
+     */
+    @Nbtivf publid stbtid finbl int WHEEL_UNIT_SCROLL = 0;
+
+    /**
+     * Constbnt rfprfsfnting sdrolling by b "blodk" (likf sdrolling
+     * with pbgf-up, pbgf-down kfys)
+     *
+     * @sff #gftSdrollTypf
+     */
+    @Nbtivf publid stbtid finbl int WHEEL_BLOCK_SCROLL = 1;
+
+    /**
+     * Indidbtfs whbt sort of sdrolling should tbkf plbdf in rfsponsf to this
+     * fvfnt, bbsfd on plbtform sfttings.  Lfgbl vblufs brf:
+     * <ul>
+     * <li> WHEEL_UNIT_SCROLL
+     * <li> WHEEL_BLOCK_SCROLL
+     * </ul>
+     *
+     * @sff #gftSdrollTypf
+     */
+    int sdrollTypf;
+
+    /**
+     * Only vblid for sdrollTypf WHEEL_UNIT_SCROLL.
+     * Indidbtfs numbfr of units thbt should bf sdrollfd pfr
+     * dlidk of mousf whffl rotbtion, bbsfd on plbtform sfttings.
+     *
+     * @sff #gftSdrollAmount
+     * @sff #gftSdrollTypf
+     */
+    int sdrollAmount;
+
+    /**
+     * Indidbtfs how fbr thf mousf whffl wbs rotbtfd.
+     *
+     * @sff #gftWhfflRotbtion
+     */
+    int whfflRotbtion;
+
+    /**
+     * Indidbtfs how fbr thf mousf whffl wbs rotbtfd.
+     *
+     * @sff #gftPrfdisfWhfflRotbtion
+     */
+    doublf prfdisfWhfflRotbtion;
+
+    /*
+     * sfriblVfrsionUID
+     */
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6459879390515399677L;
+
+    /**
+     * Construdts b <dodf>MousfWhfflEvfnt</dodf> objfdt with thf
+     * spfdififd sourdf domponfnt, typf, modififrs, doordinbtfs,
+     * sdroll typf, sdroll bmount, bnd whffl rotbtion.
+     * <p>Absolutf doordinbtfs xAbs bnd yAbs brf sft to sourdf's lodbtion on sdrffn plus
+     * rflbtivf doordinbtfs x bnd y. xAbs bnd yAbs brf sft to zfro if thf sourdf is not showing.
+     * <p>Notf thbt pbssing in bn invblid <dodf>id</dodf> rfsults in
+     * unspfdififd bfhbvior. This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf         thf <dodf>Componfnt</dodf> thbt originbtfd
+     *                       thf fvfnt
+     * @pbrbm id             thf intfgfr thbt idfntififs thf fvfnt
+     * @pbrbm whfn           b long thbt givfs thf timf thf fvfnt oddurrfd
+     * @pbrbm modififrs      thf modififr kfys down during fvfnt
+     *                       (shift, dtrl, blt, mftb)
+     * @pbrbm x              thf horizontbl x doordinbtf for thf mousf lodbtion
+     * @pbrbm y              thf vfrtidbl y doordinbtf for thf mousf lodbtion
+     * @pbrbm dlidkCount     thf numbfr of mousf dlidks bssodibtfd with fvfnt
+     * @pbrbm popupTriggfr   b boolfbn, truf if this fvfnt is b triggfr for b
+     *                       popup-mfnu
+     * @pbrbm sdrollTypf     thf typf of sdrolling whidh should tbkf plbdf in
+     *                       rfsponsf to this fvfnt;  vblid vblufs brf
+     *                       <dodf>WHEEL_UNIT_SCROLL</dodf> bnd
+     *                       <dodf>WHEEL_BLOCK_SCROLL</dodf>
+     * @pbrbm  sdrollAmount  for sdrollTypf <dodf>WHEEL_UNIT_SCROLL</dodf>,
+     *                       thf numbfr of units to bf sdrollfd
+     * @pbrbm whfflRotbtion  thf intfgfr numbfr of "dlidks" by whidh thf mousf
+     *                       whffl wbs rotbtfd
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, boolfbn)
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, int, int, boolfbn, int)
+     */
+    publid MousfWhfflEvfnt (Componfnt sourdf, int id, long whfn, int modififrs,
+                      int x, int y, int dlidkCount, boolfbn popupTriggfr,
+                      int sdrollTypf, int sdrollAmount, int whfflRotbtion) {
+
+        this(sourdf, id, whfn, modififrs, x, y, 0, 0, dlidkCount,
+             popupTriggfr, sdrollTypf, sdrollAmount, whfflRotbtion);
+    }
+
+    /**
+     * Construdts b <dodf>MousfWhfflEvfnt</dodf> objfdt with thf
+     * spfdififd sourdf domponfnt, typf, modififrs, doordinbtfs,
+     * bbsolutf doordinbtfs, sdroll typf, sdroll bmount, bnd whffl rotbtion.
+     * <p>Notf thbt pbssing in bn invblid <dodf>id</dodf> rfsults in
+     * unspfdififd bfhbvior. This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.<p>
+     * Evfn if indonsistfnt vblufs for rflbtivf bnd bbsolutf doordinbtfs brf
+     * pbssfd to thf donstrudtor, thf MousfWhfflEvfnt instbndf is still
+     * drfbtfd bnd no fxdfption is thrown.
+     *
+     * @pbrbm sourdf         thf <dodf>Componfnt</dodf> thbt originbtfd
+     *                       thf fvfnt
+     * @pbrbm id             thf intfgfr thbt idfntififs thf fvfnt
+     * @pbrbm whfn           b long thbt givfs thf timf thf fvfnt oddurrfd
+     * @pbrbm modififrs      thf modififr kfys down during fvfnt
+     *                       (shift, dtrl, blt, mftb)
+     * @pbrbm x              thf horizontbl x doordinbtf for thf mousf lodbtion
+     * @pbrbm y              thf vfrtidbl y doordinbtf for thf mousf lodbtion
+     * @pbrbm xAbs           thf bbsolutf horizontbl x doordinbtf for thf mousf lodbtion
+     * @pbrbm yAbs           thf bbsolutf vfrtidbl y doordinbtf for thf mousf lodbtion
+     * @pbrbm dlidkCount     thf numbfr of mousf dlidks bssodibtfd with fvfnt
+     * @pbrbm popupTriggfr   b boolfbn, truf if this fvfnt is b triggfr for b
+     *                       popup-mfnu
+     * @pbrbm sdrollTypf     thf typf of sdrolling whidh should tbkf plbdf in
+     *                       rfsponsf to this fvfnt;  vblid vblufs brf
+     *                       <dodf>WHEEL_UNIT_SCROLL</dodf> bnd
+     *                       <dodf>WHEEL_BLOCK_SCROLL</dodf>
+     * @pbrbm  sdrollAmount  for sdrollTypf <dodf>WHEEL_UNIT_SCROLL</dodf>,
+     *                       thf numbfr of units to bf sdrollfd
+     * @pbrbm whfflRotbtion  thf intfgfr numbfr of "dlidks" by whidh thf mousf
+     *                       whffl wbs rotbtfd
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, boolfbn)
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, int, int, boolfbn, int)
+     * @sindf 1.6
+     */
+    publid MousfWhfflEvfnt (Componfnt sourdf, int id, long whfn, int modififrs,
+                            int x, int y, int xAbs, int yAbs, int dlidkCount, boolfbn popupTriggfr,
+                            int sdrollTypf, int sdrollAmount, int whfflRotbtion) {
+
+        this(sourdf, id, whfn, modififrs, x, y, xAbs, yAbs, dlidkCount, popupTriggfr,
+             sdrollTypf, sdrollAmount, whfflRotbtion, whfflRotbtion);
+
+    }
+
+
+    /**
+     * Construdts b <dodf>MousfWhfflEvfnt</dodf> objfdt with thf spfdififd
+     * sourdf domponfnt, typf, modififrs, doordinbtfs, bbsolutf doordinbtfs,
+     * sdroll typf, sdroll bmount, bnd whffl rotbtion.
+     * <p>Notf thbt pbssing in bn invblid <dodf>id</dodf> pbrbmftfr rfsults
+     * in unspfdififd bfhbvior. This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf> fqubls
+     * <dodf>null</dodf>.
+     * <p>Evfn if indonsistfnt vblufs for rflbtivf bnd bbsolutf doordinbtfs
+     * brf pbssfd to thf donstrudtor, b <dodf>MousfWhfflEvfnt</dodf> instbndf
+     * is still drfbtfd bnd no fxdfption is thrown.
+     *
+     * @pbrbm sourdf         thf <dodf>Componfnt</dodf> thbt originbtfd thf fvfnt
+     * @pbrbm id             thf intfgfr vbluf thbt idfntififs thf fvfnt
+     * @pbrbm whfn           b long vbluf thbt givfs thf timf whfn thf fvfnt oddurrfd
+     * @pbrbm modififrs      thf modififr kfys down during fvfnt
+     *                       (shift, dtrl, blt, mftb)
+     * @pbrbm x              thf horizontbl <dodf>x</dodf> doordinbtf for thf
+     *                       mousf lodbtion
+     * @pbrbm y              thf vfrtidbl <dodf>y</dodf> doordinbtf for thf
+     *                       mousf lodbtion
+     * @pbrbm xAbs           thf bbsolutf horizontbl <dodf>x</dodf> doordinbtf for
+     *                       thf mousf lodbtion
+     * @pbrbm yAbs           thf bbsolutf vfrtidbl <dodf>y</dodf> doordinbtf for
+     *                       thf mousf lodbtion
+     * @pbrbm dlidkCount     thf numbfr of mousf dlidks bssodibtfd with thf fvfnt
+     * @pbrbm popupTriggfr   b boolfbn vbluf, <dodf>truf</dodf> if this fvfnt is b triggfr
+     *                       for b popup-mfnu
+     * @pbrbm sdrollTypf     thf typf of sdrolling whidh should tbkf plbdf in
+     *                       rfsponsf to this fvfnt;  vblid vblufs brf
+     *                       <dodf>WHEEL_UNIT_SCROLL</dodf> bnd
+     *                       <dodf>WHEEL_BLOCK_SCROLL</dodf>
+     * @pbrbm  sdrollAmount  for sdrollTypf <dodf>WHEEL_UNIT_SCROLL</dodf>,
+     *                       thf numbfr of units to bf sdrollfd
+     * @pbrbm whfflRotbtion  thf intfgfr numbfr of "dlidks" by whidh thf mousf whffl
+     *                       wbs rotbtfd
+     * @pbrbm prfdisfWhfflRotbtion thf doublf numbfr of "dlidks" by whidh thf mousf whffl
+     *                       wbs rotbtfd
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, boolfbn)
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, int, int, boolfbn, int)
+     * @sindf 1.7
+     */
+    publid MousfWhfflEvfnt (Componfnt sourdf, int id, long whfn, int modififrs,
+                            int x, int y, int xAbs, int yAbs, int dlidkCount, boolfbn popupTriggfr,
+                            int sdrollTypf, int sdrollAmount, int whfflRotbtion, doublf prfdisfWhfflRotbtion) {
+
+        supfr(sourdf, id, whfn, modififrs, x, y, xAbs, yAbs, dlidkCount,
+              popupTriggfr, MousfEvfnt.NOBUTTON);
+
+        this.sdrollTypf = sdrollTypf;
+        this.sdrollAmount = sdrollAmount;
+        this.whfflRotbtion = whfflRotbtion;
+        this.prfdisfWhfflRotbtion = prfdisfWhfflRotbtion;
+
+    }
+
+    /**
+     * Rfturns thf typf of sdrolling thbt should tbkf plbdf in rfsponsf to this
+     * fvfnt.  This is dftfrminfd by thf nbtivf plbtform.  Lfgbl vblufs brf:
+     * <ul>
+     * <li> MousfWhfflEvfnt.WHEEL_UNIT_SCROLL
+     * <li> MousfWhfflEvfnt.WHEEL_BLOCK_SCROLL
+     * </ul>
+     *
+     * @rfturn fithfr MousfWhfflEvfnt.WHEEL_UNIT_SCROLL or
+     *  MousfWhfflEvfnt.WHEEL_BLOCK_SCROLL, dfpfnding on thf donfigurbtion of
+     *  thf nbtivf plbtform.
+     * @sff jbvb.bwt.Adjustbblf#gftUnitIndrfmfnt
+     * @sff jbvb.bwt.Adjustbblf#gftBlodkIndrfmfnt
+     * @sff jbvbx.swing.Sdrollbblf#gftSdrollbblfUnitIndrfmfnt
+     * @sff jbvbx.swing.Sdrollbblf#gftSdrollbblfBlodkIndrfmfnt
+     */
+    publid int gftSdrollTypf() {
+        rfturn sdrollTypf;
+    }
+
+    /**
+     * Rfturns thf numbfr of units thbt should bf sdrollfd pfr
+     * dlidk of mousf whffl rotbtion.
+     * Only vblid if <dodf>gftSdrollTypf</dodf> rfturns
+     * <dodf>MousfWhfflEvfnt.WHEEL_UNIT_SCROLL</dodf>
+     *
+     * @rfturn numbfr of units to sdroll, or bn undffinfd vbluf if
+     *  <dodf>gftSdrollTypf</dodf> rfturns
+     *  <dodf>MousfWhfflEvfnt.WHEEL_BLOCK_SCROLL</dodf>
+     * @sff #gftSdrollTypf
+     */
+    publid int gftSdrollAmount() {
+        rfturn sdrollAmount;
+    }
+
+    /**
+     * Rfturns thf numbfr of "dlidks" thf mousf whffl wbs rotbtfd, bs bn intfgfr.
+     * A pbrtibl rotbtion mby oddur if thf mousf supports b high-rfsolution whffl.
+     * In this dbsf, thf mfthod rfturns zfro until b full "dlidk" hbs bffn bddumulbtfd.
+     *
+     * @rfturn nfgbtivf vblufs if thf mousf whffl wbs rotbtfd up/bwby from
+     * thf usfr, bnd positivf vblufs if thf mousf whffl wbs rotbtfd down/
+     * towbrds thf usfr
+     * @sff #gftPrfdisfWhfflRotbtion
+     */
+    publid int gftWhfflRotbtion() {
+        rfturn whfflRotbtion;
+    }
+
+    /**
+     * Rfturns thf numbfr of "dlidks" thf mousf whffl wbs rotbtfd, bs b doublf.
+     * A pbrtibl rotbtion mby oddur if thf mousf supports b high-rfsolution whffl.
+     * In this dbsf, thf rfturn vbluf will indludf b frbdtionbl "dlidk".
+     *
+     * @rfturn nfgbtivf vblufs if thf mousf whffl wbs rotbtfd up or bwby from
+     * thf usfr, bnd positivf vblufs if thf mousf whffl wbs rotbtfd down or
+     * towbrds thf usfr
+     * @sff #gftWhfflRotbtion
+     * @sindf 1.7
+     */
+    publid doublf gftPrfdisfWhfflRotbtion() {
+        rfturn prfdisfWhfflRotbtion;
+    }
+
+    /**
+     * This is b donvfnifndf mfthod to bid in thf implfmfntbtion of
+     * thf dommon-dbsf MousfWhfflListfnfr - to sdroll b SdrollPbnf or
+     * JSdrollPbnf by bn bmount whidh donforms to thf plbtform sfttings.
+     * (Notf, howfvfr, thbt <dodf>SdrollPbnf</dodf> bnd
+     * <dodf>JSdrollPbnf</dodf> blrfbdy hbvf this fundtionblity built in.)
+     * <P>
+     * This mfthod rfturns thf numbfr of units to sdroll whfn sdroll typf is
+     * MousfWhfflEvfnt.WHEEL_UNIT_SCROLL, bnd should only bf dbllfd if
+     * <dodf>gftSdrollTypf</dodf> rfturns MousfWhfflEvfnt.WHEEL_UNIT_SCROLL.
+     * <P>
+     * Dirfdtion of sdroll, bmount of whffl movfmfnt,
+     * bnd plbtform sfttings for whffl sdrolling brf bll bddountfd for.
+     * This mfthod dofs not bnd dbnnot tbkf into bddount vbluf of thf
+     * Adjustbblf/Sdrollbblf unit indrfmfnt, bs this will vbry bmong
+     * sdrolling domponfnts.
+     * <P>
+     * A simplififd fxbmplf of how this mfthod might bf usfd in b
+     * listfnfr:
+     * <prf>
+     *  mousfWhfflMovfd(MousfWhfflEvfnt fvfnt) {
+     *      SdrollPbnf sp = gftSdrollPbnfFromSomfwhfrf();
+     *      Adjustbblf bdj = sp.gftVAdjustbblf()
+     *      if (MousfWhfflEvfnt.gftSdrollTypf() == WHEEL_UNIT_SCROLL) {
+     *          int totblSdrollAmount =
+     *              fvfnt.gftUnitsToSdroll() *
+     *              bdj.gftUnitIndrfmfnt();
+     *          bdj.sftVbluf(bdj.gftVbluf() + totblSdrollAmount);
+     *      }
+     *  }
+     * </prf>
+     *
+     * @rfturn thf numbfr of units to sdroll bbsfd on thf dirfdtion bnd bmount
+     *  of mousf whffl rotbtion, bnd on thf whffl sdrolling sfttings of thf
+     *  nbtivf plbtform
+     * @sff #gftSdrollTypf
+     * @sff #gftSdrollAmount
+     * @sff MousfWhfflListfnfr
+     * @sff jbvb.bwt.Adjustbblf
+     * @sff jbvb.bwt.Adjustbblf#gftUnitIndrfmfnt
+     * @sff jbvbx.swing.Sdrollbblf
+     * @sff jbvbx.swing.Sdrollbblf#gftSdrollbblfUnitIndrfmfnt
+     * @sff jbvb.bwt.SdrollPbnf
+     * @sff jbvb.bwt.SdrollPbnf#sftWhfflSdrollingEnbblfd
+     * @sff jbvbx.swing.JSdrollPbnf
+     * @sff jbvbx.swing.JSdrollPbnf#sftWhfflSdrollingEnbblfd
+     */
+    publid int gftUnitsToSdroll() {
+        rfturn sdrollAmount * whfflRotbtion;
+    }
+
+    /**
+     * Rfturns b pbrbmftfr string idfntifying this fvfnt.
+     * This mfthod is usfful for fvfnt-logging bnd for dfbugging.
+     *
+     * @rfturn b string idfntifying thf fvfnt bnd its bttributfs
+     */
+    publid String pbrbmString() {
+        String sdrollTypfStr = null;
+
+        if (gftSdrollTypf() == WHEEL_UNIT_SCROLL) {
+            sdrollTypfStr = "WHEEL_UNIT_SCROLL";
+        }
+        flsf if (gftSdrollTypf() == WHEEL_BLOCK_SCROLL) {
+            sdrollTypfStr = "WHEEL_BLOCK_SCROLL";
+        }
+        flsf {
+            sdrollTypfStr = "unknown sdroll typf";
+        }
+        rfturn supfr.pbrbmString()+",sdrollTypf="+sdrollTypfStr+
+         ",sdrollAmount="+gftSdrollAmount()+",whfflRotbtion="+
+         gftWhfflRotbtion()+",prfdisfWhfflRotbtion="+gftPrfdisfWhfflRotbtion();
+    }
+}

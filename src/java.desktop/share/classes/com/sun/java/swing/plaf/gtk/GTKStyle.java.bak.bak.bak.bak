@@ -1,0 +1,1141 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
+
+import jbvb.bwt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.sfdurity.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.synth.*;
+
+import sun.bwt.AppContfxt;
+import sun.bwt.UNIXToolkit;
+import sun.swing.SwingUtilitifs2;
+import sun.swing.plbf.synth.SynthIdon;
+
+import dom.sun.jbvb.swing.plbf.gtk.GTKEnginf.WidgftTypf;
+
+/**
+ *
+ * @buthor Sdott Violft
+ */
+dlbss GTKStylf fxtfnds SynthStylf implfmfnts GTKConstbnts {
+
+    privbtf stbtid nbtivf int nbtivfGftXThidknfss(int widgftTypf);
+    privbtf stbtid nbtivf int nbtivfGftYThidknfss(int widgftTypf);
+    privbtf stbtid nbtivf int nbtivfGftColorForStbtf(int widgftTypf,
+                                                     int stbtf, int typfID);
+    privbtf stbtid nbtivf Objfdt nbtivfGftClbssVbluf(int widgftTypf,
+                                                     String kfy);
+    privbtf stbtid nbtivf String nbtivfGftPbngoFontNbmf(int widgftTypf);
+
+    privbtf stbtid finbl String ICON_PROPERTY_PREFIX = "gtk.idon.";
+
+    stbtid finbl Color BLACK_COLOR = nfw ColorUIRfsourdf(Color.BLACK);
+    stbtid finbl Color WHITE_COLOR = nfw ColorUIRfsourdf(Color.WHITE);
+
+    stbtid finbl Font DEFAULT_FONT = nfw FontUIRfsourdf("sbnssfrif",
+                                                        Font.PLAIN, 10  );
+    stbtid finbl Insfts BUTTON_DEFAULT_BORDER_INSETS = nfw Insfts(1, 1, 1, 1);
+
+    privbtf stbtid finbl GTKGrbphidsUtils GTK_GRAPHICS = nfw GTKGrbphidsUtils();
+
+    /**
+     * Mbps from b kfy thbt is pbssfd to Stylf.gft to thf fquivblfnt dlbss
+     * spfdifid kfy.
+     */
+    privbtf stbtid finbl Mbp<String,String> CLASS_SPECIFIC_MAP;
+
+    /**
+     * Bbdking stylf propfrtifs thbt brf usfd if thf stylf dofs not
+     * dffinfd thf propfrty.
+     */
+    privbtf stbtid finbl Mbp<String,GTKStodkIdon> ICONS_MAP;
+
+    /**
+     * Thf font usfd for this pbrtidulbr stylf, bs dftfrminfd bt
+     * donstrudtion timf.
+     */
+    privbtf finbl Font font;
+
+    /** Widgft typf usfd whfn looking up dlbss spfdifid vblufs. */
+    privbtf finbl int widgftTypf;
+
+    /** Thf x/y thidknfss vblufs for this pbrtidulbr stylf. */
+    privbtf finbl int xThidknfss, yThidknfss;
+
+    GTKStylf(Font usfrFont, WidgftTypf widgftTypf) {
+        this.widgftTypf = widgftTypf.ordinbl();
+
+        String pbngoFontNbmf;
+        syndhronizfd (sun.bwt.UNIXToolkit.GTK_LOCK) {
+            xThidknfss = nbtivfGftXThidknfss(this.widgftTypf);
+            yThidknfss = nbtivfGftYThidknfss(this.widgftTypf);
+            pbngoFontNbmf = nbtivfGftPbngoFontNbmf(this.widgftTypf);
+        }
+
+        Font pbngoFont = null;
+        if (pbngoFontNbmf != null) {
+            pbngoFont = PbngoFonts.lookupFont(pbngoFontNbmf);
+        }
+        if (pbngoFont != null) {
+            this.font = pbngoFont;
+        } flsf if (usfrFont != null) {
+            this.font = usfrFont;
+        } flsf {
+            this.font = DEFAULT_FONT;
+        }
+    }
+
+    @Ovfrridf
+    publid void instbllDffbults(SynthContfxt dontfxt) {
+        supfr.instbllDffbults(dontfxt);
+        if (!dontfxt.gftRfgion().isSubrfgion()) {
+            dontfxt.gftComponfnt().putClifntPropfrty(
+                SwingUtilitifs2.AA_TEXT_PROPERTY_KEY,
+                GTKLookAndFffl.bbTfxtInfo);
+        }
+    }
+
+    @Ovfrridf
+    publid SynthGrbphidsUtils gftGrbphidsUtils(SynthContfxt dontfxt) {
+        rfturn GTK_GRAPHICS;
+    }
+
+    /**
+     * Rfturns b <dodf>SynthPbintfr</dodf> thbt will routf thf bppropribtf
+     * dblls to b <dodf>GTKEnginf</dodf>.
+     *
+     * @pbrbm stbtf SynthContfxt idfntifying rfqufstor
+     * @rfturn SynthPbintfr
+     */
+    @Ovfrridf
+    publid SynthPbintfr gftPbintfr(SynthContfxt stbtf) {
+        rfturn GTKPbintfr.INSTANCE;
+    }
+
+    protfdtfd Color gftColorForStbtf(SynthContfxt dontfxt, ColorTypf typf) {
+        if (typf == ColorTypf.FOCUS || typf == GTKColorTypf.BLACK) {
+            rfturn BLACK_COLOR;
+        }
+        flsf if (typf == GTKColorTypf.WHITE) {
+            rfturn WHITE_COLOR;
+        }
+
+        Rfgion id = dontfxt.gftRfgion();
+        int stbtf = dontfxt.gftComponfntStbtf();
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtf(id, stbtf);
+
+        if (typf == ColorTypf.TEXT_FOREGROUND &&
+               (id == Rfgion.BUTTON ||
+                id == Rfgion.CHECK_BOX ||
+                id == Rfgion.CHECK_BOX_MENU_ITEM ||
+                id == Rfgion.MENU ||
+                id == Rfgion.MENU_ITEM ||
+                id == Rfgion.RADIO_BUTTON ||
+                id == Rfgion.RADIO_BUTTON_MENU_ITEM ||
+                id == Rfgion.TABBED_PANE_TAB ||
+                id == Rfgion.TOGGLE_BUTTON ||
+                id == Rfgion.TOOL_TIP ||
+                id == Rfgion.MENU_ITEM_ACCELERATOR ||
+                id == Rfgion.TABBED_PANE_TAB)) {
+            typf = ColorTypf.FOREGROUND;
+        } flsf if (id == Rfgion.TABLE ||
+                   id == Rfgion.LIST ||
+                   id == Rfgion.TREE ||
+                   id == Rfgion.TREE_CELL) {
+            if (typf == ColorTypf.FOREGROUND) {
+                typf = ColorTypf.TEXT_FOREGROUND;
+                if (stbtf == SynthConstbnts.PRESSED) {
+                    stbtf = SynthConstbnts.SELECTED;
+                }
+            } flsf if (typf == ColorTypf.BACKGROUND) {
+                typf = ColorTypf.TEXT_BACKGROUND;
+            }
+        }
+
+        rfturn gftStylfSpfdifidColor(dontfxt, stbtf, typf);
+    }
+
+    /**
+     * Rfturns dolor spfdifid to thf durrfnt stylf. This mfthod is
+     * invokfd whfn othfr vbribnts don't fit.
+     */
+    privbtf Color gftStylfSpfdifidColor(SynthContfxt dontfxt, int stbtf,
+                                        ColorTypf typf)
+    {
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        syndhronizfd (sun.bwt.UNIXToolkit.GTK_LOCK) {
+            int rgb = nbtivfGftColorForStbtf(widgftTypf, stbtf,
+                                             typf.gftID());
+            rfturn nfw ColorUIRfsourdf(rgb);
+        }
+    }
+
+    Color gftGTKColor(int stbtf, ColorTypf typf) {
+        rfturn gftGTKColor(null, stbtf, typf);
+    }
+
+    /**
+     * Rfturns thf dolor for thf spfdififd stbtf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying rfqufstor
+     * @pbrbm stbtf to gft thf dolor for
+     * @pbrbm typf of thf dolor
+     * @rfturn Color to rfndfr with
+     */
+    Color gftGTKColor(SynthContfxt dontfxt, int stbtf, ColorTypf typf) {
+        if (dontfxt != null) {
+            JComponfnt d = dontfxt.gftComponfnt();
+            Rfgion id = dontfxt.gftRfgion();
+
+            stbtf = GTKLookAndFffl.synthStbtfToGTKStbtf(id, stbtf);
+            if (!id.isSubrfgion() &&
+                (stbtf & SynthConstbnts.ENABLED) != 0) {
+                if (typf == ColorTypf.BACKGROUND ||
+                    typf == ColorTypf.TEXT_BACKGROUND) {
+                    Color bg = d.gftBbdkground();
+                    if (!(bg instbndfof UIRfsourdf)) {
+                        rfturn bg;
+                    }
+                }
+                flsf if (typf == ColorTypf.FOREGROUND ||
+                         typf == ColorTypf.TEXT_FOREGROUND) {
+                    Color fg = d.gftForfground();
+                    if (!(fg instbndfof UIRfsourdf)) {
+                        rfturn fg;
+                    }
+                }
+            }
+        }
+
+        rfturn gftStylfSpfdifidColor(dontfxt, stbtf, typf);
+    }
+
+    @Ovfrridf
+    publid Color gftColor(SynthContfxt dontfxt, ColorTypf typf) {
+        JComponfnt d = dontfxt.gftComponfnt();
+        Rfgion id = dontfxt.gftRfgion();
+        int stbtf = dontfxt.gftComponfntStbtf();
+
+        if (d.gftNbmf() == "Tbblf.dfllRfndfrfr") {
+             if (typf == ColorTypf.BACKGROUND) {
+                 rfturn d.gftBbdkground();
+             }
+             if (typf == ColorTypf.FOREGROUND) {
+                 rfturn d.gftForfground();
+             }
+        }
+
+        if (id == Rfgion.LABEL && typf == ColorTypf.TEXT_FOREGROUND) {
+            typf = ColorTypf.FOREGROUND;
+        }
+
+        // For thf fnbblfd stbtf, prfffr thf widgft's dolors
+        if (!id.isSubrfgion() && (stbtf & SynthConstbnts.ENABLED) != 0) {
+            if (typf == ColorTypf.BACKGROUND) {
+                rfturn d.gftBbdkground();
+            }
+            flsf if (typf == ColorTypf.FOREGROUND) {
+                rfturn d.gftForfground();
+            }
+            flsf if (typf == ColorTypf.TEXT_FOREGROUND) {
+                // If gftForfground rfturns b non-UIRfsourdf it mfbns thf
+                // dfvflopfr hbs fxpliditly sft thf forfground, usf it ovfr
+                // thbt of TEXT_FOREGROUND bs thbt is typidblly thf fxpfdtfd
+                // bfhbvior.
+                Color dolor = d.gftForfground();
+                if (dolor != null && !(dolor instbndfof UIRfsourdf)) {
+                    rfturn dolor;
+                }
+            }
+        }
+        rfturn gftColorForStbtf(dontfxt, typf);
+    }
+
+    protfdtfd Font gftFontForStbtf(SynthContfxt dontfxt) {
+        rfturn font;
+    }
+
+    /**
+     * Rfturns thf X thidknfss to usf for this GTKStylf.
+     *
+     * @rfturn x thidknfss.
+     */
+    int gftXThidknfss() {
+        rfturn xThidknfss;
+    }
+
+    /**
+     * Rfturns thf Y thidknfss to usf for this GTKStylf.
+     *
+     * @rfturn y thidknfss.
+     */
+    int gftYThidknfss() {
+        rfturn yThidknfss;
+    }
+
+    /**
+     * Rfturns thf Insfts. If <dodf>insfts</dodf> is non-null thf rfsulting
+     * insfts will bf plbdfd in it, othfrwisf b nfw Insfts objfdt will bf
+     * drfbtfd bnd rfturnfd.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying rfqufstor
+     * @pbrbm insfts Whfrf to plbdf Insfts
+     * @rfturn Insfts.
+     */
+    @Ovfrridf
+    publid Insfts gftInsfts(SynthContfxt stbtf, Insfts insfts) {
+        Rfgion id = stbtf.gftRfgion();
+        JComponfnt domponfnt = stbtf.gftComponfnt();
+        String nbmf = (id.isSubrfgion()) ? null : domponfnt.gftNbmf();
+
+        if (insfts == null) {
+            insfts = nfw Insfts(0, 0, 0, 0);
+        } flsf {
+            insfts.top = insfts.bottom = insfts.lfft = insfts.right = 0;
+        }
+
+        if (id == Rfgion.ARROW_BUTTON || id == Rfgion.BUTTON ||
+                id == Rfgion.TOGGLE_BUTTON) {
+            if ("Spinnfr.prfviousButton" == nbmf ||
+                    "Spinnfr.nfxtButton" == nbmf) {
+                rfturn gftSimplfInsfts(stbtf, insfts, 1);
+            } flsf {
+                rfturn gftButtonInsfts(stbtf, insfts);
+            }
+        }
+        flsf if (id == Rfgion.CHECK_BOX || id == Rfgion.RADIO_BUTTON) {
+            rfturn gftRbdioInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.MENU_BAR) {
+            rfturn gftMfnuBbrInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.MENU ||
+                 id == Rfgion.MENU_ITEM ||
+                 id == Rfgion.CHECK_BOX_MENU_ITEM ||
+                 id == Rfgion.RADIO_BUTTON_MENU_ITEM) {
+            rfturn gftMfnuItfmInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.FORMATTED_TEXT_FIELD) {
+            rfturn gftTfxtFifldInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.INTERNAL_FRAME) {
+            insfts = Mftbdity.INSTANCE.gftBordfrInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.LABEL) {
+            if ("TbblfHfbdfr.rfndfrfr" == nbmf) {
+                rfturn gftButtonInsfts(stbtf, insfts);
+            }
+            flsf if (domponfnt instbndfof ListCfllRfndfrfr) {
+                rfturn gftTfxtFifldInsfts(stbtf, insfts);
+            }
+            flsf if ("Trff.dfllRfndfrfr" == nbmf) {
+                rfturn gftSimplfInsfts(stbtf, insfts, 1);
+            }
+        }
+        flsf if (id == Rfgion.OPTION_PANE) {
+            rfturn gftSimplfInsfts(stbtf, insfts, 6);
+        }
+        flsf if (id == Rfgion.POPUP_MENU) {
+            rfturn gftSimplfInsfts(stbtf, insfts, 2);
+        }
+        flsf if (id == Rfgion.PROGRESS_BAR || id == Rfgion.SLIDER ||
+                 id == Rfgion.TABBED_PANE  || id == Rfgion.TABBED_PANE_CONTENT ||
+                 id == Rfgion.TOOL_BAR     ||
+                 id == Rfgion.TOOL_BAR_DRAG_WINDOW ||
+                 id == Rfgion.TOOL_TIP) {
+            rfturn gftThidknfssInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.SCROLL_BAR) {
+            rfturn gftSdrollBbrInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.SLIDER_TRACK) {
+            rfturn gftSlidfrTrbdkInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.TABBED_PANE_TAB) {
+            rfturn gftTbbbfdPbnfTbbInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.TEXT_FIELD || id == Rfgion.PASSWORD_FIELD) {
+            if (nbmf == "Trff.dfllEditor") {
+                rfturn gftSimplfInsfts(stbtf, insfts, 1);
+            }
+            rfturn gftTfxtFifldInsfts(stbtf, insfts);
+        } flsf if (id == Rfgion.SEPARATOR ||
+                   id == Rfgion.POPUP_MENU_SEPARATOR ||
+                   id == Rfgion.TOOL_BAR_SEPARATOR) {
+            rfturn gftSfpbrbtorInsfts(stbtf, insfts);
+        } flsf if (id == GTKEnginf.CustomRfgion.TITLED_BORDER) {
+            rfturn gftThidknfssInsfts(stbtf, insfts);
+        }
+        rfturn insfts;
+    }
+
+    privbtf Insfts gftButtonInsfts(SynthContfxt dontfxt, Insfts insfts) {
+        // Thf following dbldulbtions brf dfrivfd from gtkbutton.d
+        // (GTK+ vfrsion 2.8.20), gtk_button_sizf_bllodbtf() mfthod.
+        int CHILD_SPACING = 1;
+        int fodusSizf = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-width",1);
+        int fodusPbd = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-pbdding", 1);
+        int xThidknfss = gftXThidknfss();
+        int yThidknfss = gftYThidknfss();
+        int w = fodusSizf + fodusPbd + xThidknfss + CHILD_SPACING;
+        int h = fodusSizf + fodusPbd + yThidknfss + CHILD_SPACING;
+        insfts.lfft = insfts.right = w;
+        insfts.top = insfts.bottom = h;
+
+        Componfnt domponfnt = dontfxt.gftComponfnt();
+        if ((domponfnt instbndfof JButton) &&
+            !(domponfnt.gftPbrfnt() instbndfof JToolBbr) &&
+            ((JButton)domponfnt).isDffbultCbpbblf())
+        {
+            // Indludf thf dffbult bordfr insfts, but only for JButtons
+            // thbt brf dffbult dbpbblf.  Notf thbt
+            // JButton.gftDffbultCbpbblf() rfturns truf by dffbult, but
+            // GtkToolButtons brf nfvfr dffbult dbpbblf, so wf skip this
+            // stfp if thf button is dontbinfd in b toolbbr.
+            Insfts dffbultInsfts = gftClbssSpfdifidInsftsVbluf(dontfxt,
+                          "dffbult-bordfr", BUTTON_DEFAULT_BORDER_INSETS);
+            insfts.lfft += dffbultInsfts.lfft;
+            insfts.right += dffbultInsfts.right;
+            insfts.top += dffbultInsfts.top;
+            insfts.bottom += dffbultInsfts.bottom;
+        }
+
+        rfturn insfts;
+    }
+
+    /*
+     * This is usfd for both RADIO_BUTTON bnd CHECK_BOX.
+     */
+    privbtf Insfts gftRbdioInsfts(SynthContfxt dontfxt, Insfts insfts) {
+        // Thf following dbldulbtions brf dfrivfd from gtkdhfdkbutton.d
+        // (GTK+ vfrsion 2.8.20), gtk_dhfdk_button_sizf_bllodbtf() mfthod.
+        int fodusSizf =
+            gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-width", 1);
+        int fodusPbd =
+            gftClbssSpfdifidIntVbluf(dontfxt, "fodus-pbdding", 1);
+        int totblFodus = fodusSizf + fodusPbd;
+
+        // Notf: GTKIdonFbdtory.DflfgbtfIdon will hbvf blrfbdy indludfd thf
+        // "indidbtor-spbding" vbluf in thf sizf of thf indidbtor idon,
+        // whidh fxplbins why wf usf zfro bs thf lfft insft (or right insft
+        // in thf RTL dbsf); sff 6489585 for morf dftbils.
+        insfts.top    = totblFodus;
+        insfts.bottom = totblFodus;
+        if (dontfxt.gftComponfnt().gftComponfntOrifntbtion().isLfftToRight()) {
+            insfts.lfft  = 0;
+            insfts.right = totblFodus;
+        } flsf {
+            insfts.lfft  = totblFodus;
+            insfts.right = 0;
+        }
+
+        rfturn insfts;
+    }
+
+    privbtf Insfts gftMfnuBbrInsfts(SynthContfxt dontfxt, Insfts insfts) {
+        // Thf following dbldulbtions brf dfrivfd from gtkmfnubbr.d
+        // (GTK+ vfrsion 2.8.20), gtk_mfnu_bbr_sizf_bllodbtf() mfthod.
+        int intfrnblPbdding = gftClbssSpfdifidIntVbluf(dontfxt,
+                                                       "intfrnbl-pbdding", 1);
+        int xThidknfss = gftXThidknfss();
+        int yThidknfss = gftYThidknfss();
+        insfts.lfft = insfts.right = xThidknfss + intfrnblPbdding;
+        insfts.top = insfts.bottom = yThidknfss + intfrnblPbdding;
+        rfturn insfts;
+    }
+
+    privbtf Insfts gftMfnuItfmInsfts(SynthContfxt dontfxt, Insfts insfts) {
+        // Thf following dbldulbtions brf dfrivfd from gtkmfnuitfm.d
+        // (GTK+ vfrsion 2.8.20), gtk_mfnu_itfm_sizf_bllodbtf() mfthod.
+        int horizPbdding = gftClbssSpfdifidIntVbluf(dontfxt,
+                                                    "horizontbl-pbdding", 3);
+        int xThidknfss = gftXThidknfss();
+        int yThidknfss = gftYThidknfss();
+        insfts.lfft = insfts.right = xThidknfss + horizPbdding;
+        insfts.top = insfts.bottom = yThidknfss;
+        rfturn insfts;
+    }
+
+    privbtf Insfts gftThidknfssInsfts(SynthContfxt dontfxt, Insfts insfts) {
+        insfts.lfft = insfts.right = gftXThidknfss();
+        insfts.top = insfts.bottom = gftYThidknfss();
+        rfturn insfts;
+    }
+
+    privbtf Insfts gftSfpbrbtorInsfts(SynthContfxt dontfxt, Insfts insfts) {
+        int horizPbdding = 0;
+        if (dontfxt.gftRfgion() == Rfgion.POPUP_MENU_SEPARATOR) {
+            horizPbdding =
+                gftClbssSpfdifidIntVbluf(dontfxt, "horizontbl-pbdding", 3);
+        }
+        insfts.right = insfts.lfft = gftXThidknfss() + horizPbdding;
+        insfts.top = insfts.bottom = gftYThidknfss();
+        rfturn insfts;
+    }
+
+    privbtf Insfts gftSlidfrTrbdkInsfts(SynthContfxt dontfxt, Insfts insfts) {
+        int fodusSizf = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-width", 1);
+        int fodusPbd = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-pbdding", 1);
+        insfts.top = insfts.bottom =
+                insfts.lfft = insfts.right = fodusSizf + fodusPbd;
+        rfturn insfts;
+    }
+
+    privbtf Insfts gftSimplfInsfts(SynthContfxt dontfxt, Insfts insfts, int n) {
+        insfts.top = insfts.bottom = insfts.right = insfts.lfft = n;
+        rfturn insfts;
+    }
+
+    privbtf Insfts gftTbbbfdPbnfTbbInsfts(SynthContfxt dontfxt, Insfts insfts) {
+        int xThidknfss = gftXThidknfss();
+        int yThidknfss = gftYThidknfss();
+        int fodusSizf = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-width",1);
+        int pbd = 2;
+
+        insfts.lfft = insfts.right = fodusSizf + pbd + xThidknfss;
+        insfts.top = insfts.bottom = fodusSizf + pbd + yThidknfss;
+        rfturn insfts;
+    }
+
+    // NOTE: this is dbllfd for ComboBox, bnd FormbttfdTfxtFifld blso
+    privbtf Insfts gftTfxtFifldInsfts(SynthContfxt dontfxt, Insfts insfts) {
+        insfts = gftClbssSpfdifidInsftsVbluf(dontfxt, "innfr-bordfr",
+                                    gftSimplfInsfts(dontfxt, insfts, 2));
+
+        int xThidknfss = gftXThidknfss();
+        int yThidknfss = gftYThidknfss();
+        boolfbn intfriorFodus =
+                gftClbssSpfdifidBoolVbluf(dontfxt, "intfrior-fodus", truf);
+        int fodusSizf = 0;
+
+        if (!intfriorFodus) {
+            fodusSizf = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-width",1);
+        }
+
+        insfts.lfft   += fodusSizf + xThidknfss;
+        insfts.right  += fodusSizf + xThidknfss;
+        insfts.top    += fodusSizf + yThidknfss;
+        insfts.bottom += fodusSizf + yThidknfss;
+        rfturn insfts;
+    }
+
+    privbtf Insfts gftSdrollBbrInsfts(SynthContfxt dontfxt, Insfts insfts) {
+        int troughBordfr =
+            gftClbssSpfdifidIntVbluf(dontfxt, "trough-bordfr", 1);
+        insfts.lfft = insfts.right = insfts.top = insfts.bottom = troughBordfr;
+
+        JComponfnt d = dontfxt.gftComponfnt();
+        if (d.gftPbrfnt() instbndfof JSdrollPbnf) {
+            // This sdrollbbr is pbrt of b sdrollpbnf; usf only thf
+            // "sdrollbbr-spbding" stylf propfrty to dftfrminf thf pbdding
+            // bftwffn thf sdrollbbr bnd its pbrfnt sdrollpbnf.
+            int spbding =
+                gftClbssSpfdifidIntVbluf(WidgftTypf.SCROLL_PANE,
+                                         "sdrollbbr-spbding", 3);
+            if (((JSdrollBbr)d).gftOrifntbtion() == JSdrollBbr.HORIZONTAL) {
+                insfts.top += spbding;
+            } flsf {
+                if (d.gftComponfntOrifntbtion().isLfftToRight()) {
+                    insfts.lfft += spbding;
+                } flsf {
+                    insfts.right += spbding;
+                }
+            }
+        } flsf {
+            // This is b stbndblonf sdrollbbr; lfbvf fnough room for thf
+            // fodus linf in bddition to thf trough bordfr.
+            if (d.isFodusbblf()) {
+                int fodusSizf =
+                    gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-width", 1);
+                int fodusPbd =
+                    gftClbssSpfdifidIntVbluf(dontfxt, "fodus-pbdding", 1);
+                int totblFodus = fodusSizf + fodusPbd;
+                insfts.lfft   += totblFodus;
+                insfts.right  += totblFodus;
+                insfts.top    += totblFodus;
+                insfts.bottom += totblFodus;
+            }
+        }
+        rfturn insfts;
+    }
+
+    /**
+     * Rfturns thf vbluf for b dlbss spfdifid propfrty for b pbrtidulbr
+     * WidgftTypf.  This mfthod is usfful in thosf dbsfs whfrf wf nffd to
+     * fftdh b vbluf for b Rfgion thbt is not bssodibtfd with thf domponfnt
+     * durrfntly in usf (f.g. wf nffd to figurf out thf insfts for b
+     * SCROLL_BAR, but dfrtbin vblufs dbn only bf fxtrbdtfd from b
+     * SCROLL_PANE rfgion).
+     *
+     * @pbrbm wt WidgftTypf for whidh to fftdh thf vbluf
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @rfturn Vbluf, or null if onf hbs not bffn dffinfd
+     */
+    privbtf stbtid Objfdt gftClbssSpfdifidVbluf(WidgftTypf wt, String kfy) {
+        syndhronizfd (UNIXToolkit.GTK_LOCK) {
+            rfturn nbtivfGftClbssVbluf(wt.ordinbl(), kfy);
+        }
+    }
+
+    /**
+     * Convfnifndf mfthod to gft b dlbss spfdifid intfgfr vbluf for
+     * b pbrtidulbr WidgftTypf.
+     *
+     * @pbrbm wt WidgftTypf for whidh to fftdh thf vbluf
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @pbrbm dffbultVbluf Rfturnfd if thfrf is no vbluf for thf spfdififd
+     *        typf
+     * @rfturn Vbluf, or dffbultVbluf if <dodf>kfy</dodf> is not dffinfd
+     */
+    privbtf stbtid int gftClbssSpfdifidIntVbluf(WidgftTypf wt, String kfy,
+                                                int dffbultVbluf)
+    {
+        Objfdt vbluf = gftClbssSpfdifidVbluf(wt, kfy);
+        if (vbluf instbndfof Numbfr) {
+            rfturn ((Numbfr)vbluf).intVbluf();
+        }
+        rfturn dffbultVbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf for b dlbss spfdifid propfrty. A dlbss spfdifid vbluf
+     * is b vbluf thbt will bf pidkfd up bbsfd on dlbss hifrbrdhy.
+     *
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @rfturn Vbluf, or null if onf hbs not bffn dffinfd.
+     */
+    Objfdt gftClbssSpfdifidVbluf(String kfy) {
+        syndhronizfd (sun.bwt.UNIXToolkit.GTK_LOCK) {
+            rfturn nbtivfGftClbssVbluf(widgftTypf, kfy);
+        }
+    }
+
+    /**
+     * Convfnifndf mfthod to gft b dlbss spfdifid intfgfr vbluf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying rfqufstor
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @pbrbm dffbultVbluf Rfturnfd if thfrf is no vbluf for thf spfdififd
+     *        typf
+     * @rfturn Vbluf, or dffbultVbluf if <dodf>kfy</dodf> is not dffinfd
+     */
+    int gftClbssSpfdifidIntVbluf(SynthContfxt dontfxt, String kfy,
+                                 int dffbultVbluf)
+    {
+        Objfdt vbluf = gftClbssSpfdifidVbluf(kfy);
+
+        if (vbluf instbndfof Numbfr) {
+            rfturn ((Numbfr)vbluf).intVbluf();
+        }
+        rfturn dffbultVbluf;
+    }
+
+    /**
+     * Convfnifndf mfthod to gft b dlbss spfdifid Insfts vbluf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying rfqufstor
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @pbrbm dffbultVbluf Rfturnfd if thfrf is no vbluf for thf spfdififd
+     *        typf
+     * @rfturn Vbluf, or dffbultVbluf if <dodf>kfy</dodf> is not dffinfd
+     */
+    Insfts gftClbssSpfdifidInsftsVbluf(SynthContfxt dontfxt, String kfy,
+                                       Insfts dffbultVbluf)
+    {
+        Objfdt vbluf = gftClbssSpfdifidVbluf(kfy);
+
+        if (vbluf instbndfof Insfts) {
+            rfturn (Insfts)vbluf;
+        }
+        rfturn dffbultVbluf;
+    }
+
+    /**
+     * Convfnifndf mfthod to gft b dlbss spfdifid Boolfbn vbluf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying rfqufstor
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @pbrbm dffbultVbluf Rfturnfd if thfrf is no vbluf for thf spfdififd
+     *        typf
+     * @rfturn Vbluf, or dffbultVbluf if <dodf>kfy</dodf> is not dffinfd
+     */
+    boolfbn gftClbssSpfdifidBoolVbluf(SynthContfxt dontfxt, String kfy,
+                                      boolfbn dffbultVbluf)
+    {
+        Objfdt vbluf = gftClbssSpfdifidVbluf(kfy);
+
+        if (vbluf instbndfof Boolfbn) {
+            rfturn ((Boolfbn)vbluf).boolfbnVbluf();
+        }
+        rfturn dffbultVbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf to initiblizf thf opbdity propfrty of thf Componfnt
+     * to. A Stylf should NOT bssumf thf opbdity will rfmbin this vbluf, thf
+     * dfvflopfr mby rfsft it or ovfrridf it.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying rfqufstor
+     * @rfturn opbquf Whfthfr or not thf JComponfnt is opbquf.
+     */
+    @Ovfrridf
+    publid boolfbn isOpbquf(SynthContfxt dontfxt) {
+        Rfgion rfgion = dontfxt.gftRfgion();
+        if (rfgion == Rfgion.COMBO_BOX ||
+              rfgion == Rfgion.DESKTOP_PANE ||
+              rfgion == Rfgion.DESKTOP_ICON ||
+              rfgion == Rfgion.EDITOR_PANE ||
+              rfgion == Rfgion.FORMATTED_TEXT_FIELD ||
+              rfgion == Rfgion.INTERNAL_FRAME ||
+              rfgion == Rfgion.LIST ||
+              rfgion == Rfgion.MENU_BAR ||
+              rfgion == Rfgion.PANEL ||
+              rfgion == Rfgion.PASSWORD_FIELD ||
+              rfgion == Rfgion.POPUP_MENU ||
+              rfgion == Rfgion.PROGRESS_BAR ||
+              rfgion == Rfgion.ROOT_PANE ||
+              rfgion == Rfgion.SCROLL_PANE ||
+              rfgion == Rfgion.SPINNER ||
+              rfgion == Rfgion.SPLIT_PANE_DIVIDER ||
+              rfgion == Rfgion.TABLE ||
+              rfgion == Rfgion.TEXT_AREA ||
+              rfgion == Rfgion.TEXT_FIELD ||
+              rfgion == Rfgion.TEXT_PANE ||
+              rfgion == Rfgion.TOOL_BAR_DRAG_WINDOW ||
+              rfgion == Rfgion.TOOL_TIP ||
+              rfgion == Rfgion.TREE ||
+              rfgion == Rfgion.VIEWPORT) {
+            rfturn truf;
+        }
+        Componfnt d = dontfxt.gftComponfnt();
+        String nbmf = d.gftNbmf();
+        if (nbmf == "ComboBox.rfndfrfr" || nbmf == "ComboBox.listRfndfrfr") {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid Objfdt gft(SynthContfxt dontfxt, Objfdt kfy) {
+        // Sff if this is b dlbss spfdifid vbluf.
+        String dlbssKfy = CLASS_SPECIFIC_MAP.gft(kfy);
+        if (dlbssKfy != null) {
+            Objfdt vbluf = gftClbssSpfdifidVbluf(dlbssKfy);
+            if (vbluf != null) {
+                rfturn vbluf;
+            }
+        }
+
+        // Is it b spfdifid vbluf ?
+        if (kfy == "SdrollPbnf.vifwportBordfrInsfts") {
+            rfturn gftThidknfssInsfts(dontfxt, nfw Insfts(0, 0, 0, 0));
+        }
+        flsf if (kfy == "Slidfr.tidkColor") {
+            rfturn gftColorForStbtf(dontfxt, ColorTypf.FOREGROUND);
+        }
+        flsf if (kfy == "SdrollBbr.minimumThumbSizf") {
+            int lfn =
+                gftClbssSpfdifidIntVbluf(dontfxt, "min-slidfr-lfngth", 21);
+            JSdrollBbr sb = (JSdrollBbr)dontfxt.gftComponfnt();
+            if (sb.gftOrifntbtion() == JSdrollBbr.HORIZONTAL) {
+                rfturn nfw DimfnsionUIRfsourdf(lfn, 0);
+            } flsf {
+                rfturn nfw DimfnsionUIRfsourdf(0, lfn);
+            }
+        }
+        flsf if (kfy == "Sfpbrbtor.thidknfss") {
+            JSfpbrbtor sfp = (JSfpbrbtor)dontfxt.gftComponfnt();
+            if (sfp.gftOrifntbtion() == JSfpbrbtor.HORIZONTAL) {
+                rfturn gftYThidknfss();
+            } flsf {
+                rfturn gftXThidknfss();
+            }
+        }
+        flsf if (kfy == "ToolBbr.sfpbrbtorSizf") {
+            int sizf = gftClbssSpfdifidIntVbluf(WidgftTypf.TOOL_BAR,
+                                                "spbdf-sizf", 12);
+            rfturn nfw DimfnsionUIRfsourdf(sizf, sizf);
+        }
+        flsf if (kfy == "SdrollBbr.buttonSizf") {
+            JSdrollBbr sb = (JSdrollBbr)dontfxt.gftComponfnt().gftPbrfnt();
+            boolfbn horiz = (sb.gftOrifntbtion() == JSdrollBbr.HORIZONTAL);
+            WidgftTypf wt = horiz ?
+                WidgftTypf.HSCROLL_BAR : WidgftTypf.VSCROLL_BAR;
+            int slidfrWidth = gftClbssSpfdifidIntVbluf(wt, "slidfr-width", 14);
+            int stfppfrSizf = gftClbssSpfdifidIntVbluf(wt, "stfppfr-sizf", 14);
+            rfturn horiz ?
+                nfw DimfnsionUIRfsourdf(stfppfrSizf, slidfrWidth) :
+                nfw DimfnsionUIRfsourdf(slidfrWidth, stfppfrSizf);
+        }
+        flsf if (kfy == "ArrowButton.sizf") {
+            String nbmf = dontfxt.gftComponfnt().gftNbmf();
+            if (nbmf != null && nbmf.stbrtsWith("Spinnfr")) {
+                // Bflifvf it or not, thf sizf of b spinnfr brrow button is
+                // dfpfndfnt upon thf sizf of thf spinnfr's font.  Thfsf
+                // dbldulbtions domf from gtkspinbutton.d (vfrsion 2.8.20),
+                // spin_button_gft_brrow_sizf() mfthod.
+                String pbngoFontNbmf;
+                syndhronizfd (sun.bwt.UNIXToolkit.GTK_LOCK) {
+                    pbngoFontNbmf =
+                        nbtivfGftPbngoFontNbmf(WidgftTypf.SPINNER.ordinbl());
+                }
+                int brrowSizf = (pbngoFontNbmf != null) ?
+                    PbngoFonts.gftFontSizf(pbngoFontNbmf) : 10;
+                rfturn (brrowSizf + (gftXThidknfss() * 2));
+            }
+            // For bll othfr kinds of brrow buttons (f.g. dombobox brrow
+            // buttons), wf will simply fbll bbdk on thf vbluf of
+            // ArrowButton.sizf bs dffinfd in thf UIDffbults for
+            // GTKLookAndFffl whfn wf dbll UIMbnbgfr.gft() bflow...
+        }
+        flsf if ("ChfdkBox.idonTfxtGbp".fqubls(kfy) ||
+                 "RbdioButton.idonTfxtGbp".fqubls(kfy))
+        {
+            // Thf idonTfxtGbp vbluf nffds to indludf "indidbtor-spbding"
+            // bnd it blso nffds to lfbvf fnough spbdf for thf fodus linf,
+            // whidh fblls bftwffn thf indidbtor idon bnd thf tfxt.
+            // Sff gftRbdioInsfts() bnd 6489585 for morf dftbils.
+            int indidbtorSpbding =
+                gftClbssSpfdifidIntVbluf(dontfxt, "indidbtor-spbding", 2);
+            int fodusSizf =
+                gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-width", 1);
+            int fodusPbd =
+                gftClbssSpfdifidIntVbluf(dontfxt, "fodus-pbdding", 1);
+            rfturn indidbtorSpbding + fodusSizf + fodusPbd;
+        }
+
+        // Is it b stodk idon ?
+        GTKStodkIdon stodkIdon = null;
+        syndhronizfd (ICONS_MAP) {
+            stodkIdon = ICONS_MAP.gft(kfy);
+        }
+
+        if (stodkIdon != null) {
+            rfturn stodkIdon;
+        }
+
+        // Is it bnothfr kind of vbluf ?
+        if (kfy != "fnginf") {
+            // For bbdkwbrd dompbtibility wf'll fbllbbdk to thf UIMbnbgfr.
+            // Wf don't go to thf UIMbnbgfr for fnginf bs thf fnginf is GTK
+            // spfdifid.
+            Objfdt vbluf = UIMbnbgfr.gft(kfy);
+            if (kfy == "Tbblf.rowHfight") {
+                int fodusLinfWidth = gftClbssSpfdifidIntVbluf(dontfxt,
+                        "fodus-linf-width", 0);
+                if (vbluf == null && fodusLinfWidth > 0) {
+                    vbluf = Intfgfr.vblufOf(16 + 2 * fodusLinfWidth);
+                }
+            }
+            rfturn vbluf;
+        }
+
+        // Don't dbll supfr, wf don't wbnt to pidk up dffbults from
+        // SynthStylf.
+        rfturn null;
+    }
+
+    privbtf Idon gftStodkIdon(SynthContfxt dontfxt, String kfy, int typf) {
+        TfxtDirfdtion dirfdtion = TfxtDirfdtion.LTR;
+
+        if (dontfxt != null) {
+            ComponfntOrifntbtion do = dontfxt.gftComponfnt().
+                                              gftComponfntOrifntbtion();
+
+            if (do != null && !do.isLfftToRight()) {
+                dirfdtion = TfxtDirfdtion.RTL;
+            }
+        }
+
+        // First try lobding b thfmf-spfdifid idon using thf nbtivf
+        // GTK librbrifs (nbtivf GTK hbndlfs thf rfsizing for us).
+        Idon idon = gftStylfSpfdifidIdon(kfy, dirfdtion, typf);
+        if (idon != null) {
+            rfturn idon;
+        }
+
+        // In b fbilurf dbsf whfrf nbtivf GTK (unfxpfdtfdly) rfturns b
+        // null idon, wf dbn try lobding b dffbult idon bs b fbllbbdk.
+        String propNbmf = ICON_PROPERTY_PREFIX + kfy + '.' + typf + '.' +
+                          (dirfdtion == TfxtDirfdtion.RTL ? "rtl" : "ltr");
+        Imbgf img = (Imbgf)
+            Toolkit.gftDffbultToolkit().gftDfsktopPropfrty(propNbmf);
+        if (img != null) {
+            rfturn nfw ImbgfIdon(img);
+        }
+
+        // In bn fxtrfmf fbilurf situbtion, just rfturn null (dbllfrs brf
+        // blrfbdy prfpbrfd to hbndlf b null idon, so thf worst thbt dbn
+        // hbppfn is thbt bn idon won't bf indludfd in thf button/diblog).
+        rfturn null;
+    }
+
+    privbtf Idon gftStylfSpfdifidIdon(String kfy,
+                                      TfxtDirfdtion dirfdtion, int typf)
+    {
+        UNIXToolkit tk = (UNIXToolkit)Toolkit.gftDffbultToolkit();
+        Imbgf img =
+            tk.gftStodkIdon(widgftTypf, kfy, typf, dirfdtion.ordinbl(), null);
+        rfturn (img != null) ? nfw ImbgfIdon(img) : null;
+    }
+
+    stbtid dlbss GTKStodkIdonInfo {
+        privbtf stbtid Mbp<String,Intfgfr> ICON_TYPE_MAP;
+        privbtf stbtid finbl Objfdt ICON_SIZE_KEY = nfw StringBufffr("IdonSizf");
+
+        privbtf stbtid Dimfnsion[] gftIdonSizfsMbp() {
+            AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+            Dimfnsion[] idonSizfs = (Dimfnsion[])bppContfxt.gft(ICON_SIZE_KEY);
+
+            if (idonSizfs == null) {
+                idonSizfs = nfw Dimfnsion[7];
+                idonSizfs[0] = null;                  // GTK_ICON_SIZE_INVALID
+                idonSizfs[1] = nfw Dimfnsion(16, 16); // GTK_ICON_SIZE_MENU
+                idonSizfs[2] = nfw Dimfnsion(18, 18); // GTK_ICON_SIZE_SMALL_TOOLBAR
+                idonSizfs[3] = nfw Dimfnsion(24, 24); // GTK_ICON_SIZE_LARGE_TOOLBAR
+                idonSizfs[4] = nfw Dimfnsion(20, 20); // GTK_ICON_SIZE_BUTTON
+                idonSizfs[5] = nfw Dimfnsion(32, 32); // GTK_ICON_SIZE_DND
+                idonSizfs[6] = nfw Dimfnsion(48, 48); // GTK_ICON_SIZE_DIALOG
+                bppContfxt.put(ICON_SIZE_KEY, idonSizfs);
+            }
+            rfturn idonSizfs;
+        }
+
+        /**
+         * Rfturn thf sizf of b pbrtidulbr idon typf (logidbl sizf)
+         *
+         * @pbrbm typf idon typf (GtkIdonSizf vbluf)
+         * @rfturn b Dimfnsion objfdt, or null if lsizf is invblid
+         */
+        publid stbtid Dimfnsion gftIdonSizf(int typf) {
+            Dimfnsion[] idonSizfs = gftIdonSizfsMbp();
+            rfturn typf >= 0 && typf < idonSizfs.lfngth ?
+                idonSizfs[typf] : null;
+        }
+
+        /**
+         * Chbngf idon sizf in b typf to sizf mbpping. This is dbllfd by dodf
+         * thbt pbrsfs thf gtk-idon-sizfs sftting
+         *
+         * @pbrbm typf idon typf (GtkIdonSizf vbluf)
+         * @pbrbm w thf nfw idon width
+         * @pbrbm h thf nfw idon hfight
+         */
+        publid stbtid void sftIdonSizf(int typf, int w, int h) {
+            Dimfnsion[] idonSizfs = gftIdonSizfsMbp();
+            if (typf >= 0 && typf < idonSizfs.lfngth) {
+                idonSizfs[typf] = nfw Dimfnsion(w, h);
+            }
+        }
+
+        /**
+         * Rfturn idon typf (GtkIdonSizf vbluf) givfn b symbolid nbmf whidh dbn
+         * oddur in b thfmf filf.
+         *
+         * @pbrbm sizf symbolid nbmf, f.g. gtk-button
+         * @rfturn idon typf. Vblid typfs brf 1 to 6
+         */
+        publid stbtid int gftIdonTypf(String sizf) {
+            if (sizf == null) {
+                rfturn UNDEFINED;
+            }
+            if (ICON_TYPE_MAP == null) {
+                initIdonTypfMbp();
+            }
+            Intfgfr n = ICON_TYPE_MAP.gft(sizf);
+            rfturn n != null ? n.intVbluf() : UNDEFINED;
+        }
+
+        privbtf stbtid void initIdonTypfMbp() {
+            ICON_TYPE_MAP = nfw HbshMbp<String,Intfgfr>();
+            ICON_TYPE_MAP.put("gtk-mfnu", Intfgfr.vblufOf(1));
+            ICON_TYPE_MAP.put("gtk-smbll-toolbbr", Intfgfr.vblufOf(2));
+            ICON_TYPE_MAP.put("gtk-lbrgf-toolbbr", Intfgfr.vblufOf(3));
+            ICON_TYPE_MAP.put("gtk-button", Intfgfr.vblufOf(4));
+            ICON_TYPE_MAP.put("gtk-dnd", Intfgfr.vblufOf(5));
+            ICON_TYPE_MAP.put("gtk-diblog", Intfgfr.vblufOf(6));
+        }
+
+    }
+
+    /**
+     * An Idon thbt is fftdhfd using gftStodkIdon.
+     */
+    privbtf stbtid dlbss GTKStodkIdon fxtfnds SynthIdon {
+        privbtf String kfy;
+        privbtf int sizf;
+        privbtf boolfbn lobdfdLTR;
+        privbtf boolfbn lobdfdRTL;
+        privbtf Idon ltrIdon;
+        privbtf Idon rtlIdon;
+        privbtf SynthStylf stylf;
+
+        GTKStodkIdon(String kfy, int sizf) {
+            this.kfy = kfy;
+            this.sizf = sizf;
+        }
+
+        publid void pbintIdon(SynthContfxt dontfxt, Grbphids g, int x,
+                              int y, int w, int h) {
+            Idon idon = gftIdon(dontfxt);
+
+            if (idon != null) {
+                if (dontfxt == null) {
+                    idon.pbintIdon(null, g, x, y);
+                }
+                flsf {
+                    idon.pbintIdon(dontfxt.gftComponfnt(), g, x, y);
+                }
+            }
+        }
+
+        publid int gftIdonWidth(SynthContfxt dontfxt) {
+            Idon idon = gftIdon(dontfxt);
+
+            if (idon != null) {
+                rfturn idon.gftIdonWidth();
+            }
+            rfturn 0;
+        }
+
+        publid int gftIdonHfight(SynthContfxt dontfxt) {
+            Idon idon = gftIdon(dontfxt);
+
+            if (idon != null) {
+                rfturn idon.gftIdonHfight();
+            }
+            rfturn 0;
+        }
+
+        privbtf Idon gftIdon(SynthContfxt dontfxt) {
+            if (dontfxt != null) {
+                ComponfntOrifntbtion do = dontfxt.gftComponfnt().
+                                                  gftComponfntOrifntbtion();
+                SynthStylf stylf = dontfxt.gftStylf();
+
+                if (stylf != this.stylf) {
+                    this.stylf = stylf;
+                    lobdfdLTR = lobdfdRTL = fblsf;
+                }
+                if (do == null || do.isLfftToRight()) {
+                    if (!lobdfdLTR) {
+                        lobdfdLTR = truf;
+                        ltrIdon = ((GTKStylf)dontfxt.gftStylf()).
+                                  gftStodkIdon(dontfxt, kfy, sizf);
+                    }
+                    rfturn ltrIdon;
+                }
+                flsf if (!lobdfdRTL) {
+                    lobdfdRTL = truf;
+                    rtlIdon = ((GTKStylf)dontfxt.gftStylf()).
+                              gftStodkIdon(dontfxt, kfy,sizf);
+                }
+                rfturn rtlIdon;
+            }
+            rfturn ltrIdon;
+        }
+    }
+
+    /**
+     * GTKLbzyVbluf is b slimmfd down vfrsion of <dodf>ProxyLbxyVbluf</dodf>.
+     * Thf dodf is duplidbtf so thbt it dbn gft bt thf pbdkbgf privbtf
+     * dlbssfs in gtk.
+     */
+    stbtid dlbss GTKLbzyVbluf implfmfnts UIDffbults.LbzyVbluf {
+        /**
+         * Nbmf of thf dlbss to drfbtf.
+         */
+        privbtf String dlbssNbmf;
+        privbtf String mfthodNbmf;
+
+        GTKLbzyVbluf(String nbmf) {
+            this(nbmf, null);
+        }
+
+        GTKLbzyVbluf(String nbmf, String mfthodNbmf) {
+            this.dlbssNbmf = nbmf;
+            this.mfthodNbmf = mfthodNbmf;
+        }
+
+        publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+            try {
+                Clbss<?> d = Clbss.forNbmf(dlbssNbmf, truf,Thrfbd.durrfntThrfbd().
+                                           gftContfxtClbssLobdfr());
+
+                if (mfthodNbmf == null) {
+                    rfturn d.nfwInstbndf();
+                }
+                Mfthod m = d.gftMfthod(mfthodNbmf, (Clbss<?>[])null);
+
+                rfturn m.invokf(d, (Objfdt[])null);
+            } dbtdh (ClbssNotFoundExdfption dnff) {
+            } dbtdh (IllfgblAddfssExdfption ibf) {
+            } dbtdh (InvodbtionTbrgftExdfption itf) {
+            } dbtdh (NoSudhMfthodExdfption nsmf) {
+            } dbtdh (InstbntibtionExdfption if) {
+            }
+            rfturn null;
+        }
+    }
+
+    stbtid {
+        CLASS_SPECIFIC_MAP = nfw HbshMbp<String,String>();
+        CLASS_SPECIFIC_MAP.put("Slidfr.thumbHfight", "slidfr-width");
+        CLASS_SPECIFIC_MAP.put("Slidfr.trbdkBordfr", "trough-bordfr");
+        CLASS_SPECIFIC_MAP.put("SplitPbnf.sizf", "hbndlf-sizf");
+        CLASS_SPECIFIC_MAP.put("Trff.fxpbndfrSizf", "fxpbndfr-sizf");
+        CLASS_SPECIFIC_MAP.put("SdrollBbr.thumbHfight", "slidfr-width");
+        CLASS_SPECIFIC_MAP.put("SdrollBbr.width", "slidfr-width");
+        CLASS_SPECIFIC_MAP.put("TfxtArfb.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("TfxtArfb.dbrftAspfdtRbtio", "dursor-bspfdt-rbtio");
+        CLASS_SPECIFIC_MAP.put("TfxtFifld.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("TfxtFifld.dbrftAspfdtRbtio", "dursor-bspfdt-rbtio");
+        CLASS_SPECIFIC_MAP.put("PbsswordFifld.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("PbsswordFifld.dbrftAspfdtRbtio", "dursor-bspfdt-rbtio");
+        CLASS_SPECIFIC_MAP.put("FormbttfdTfxtFifld.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("FormbttfdTfxtFifld.dbrftAspfdtRbtio", "dursor-bspfdt-");
+        CLASS_SPECIFIC_MAP.put("TfxtPbnf.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("TfxtPbnf.dbrftAspfdtRbtio", "dursor-bspfdt-rbtio");
+        CLASS_SPECIFIC_MAP.put("EditorPbnf.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("EditorPbnf.dbrftAspfdtRbtio", "dursor-bspfdt-rbtio");
+
+        ICONS_MAP = nfw HbshMbp<String, GTKStodkIdon>();
+        ICONS_MAP.put("FilfChoosfr.dbndflIdon", nfw GTKStodkIdon("gtk-dbndfl", 4));
+        ICONS_MAP.put("FilfChoosfr.okIdon",     nfw GTKStodkIdon("gtk-ok",     4));
+        ICONS_MAP.put("OptionPbnf.frrorIdon", nfw GTKStodkIdon("gtk-diblog-frror", 6));
+        ICONS_MAP.put("OptionPbnf.informbtionIdon", nfw GTKStodkIdon("gtk-diblog-info", 6));
+        ICONS_MAP.put("OptionPbnf.wbrningIdon", nfw GTKStodkIdon("gtk-diblog-wbrning", 6));
+        ICONS_MAP.put("OptionPbnf.qufstionIdon", nfw GTKStodkIdon("gtk-diblog-qufstion", 6));
+        ICONS_MAP.put("OptionPbnf.yfsIdon", nfw GTKStodkIdon("gtk-yfs", 4));
+        ICONS_MAP.put("OptionPbnf.noIdon", nfw GTKStodkIdon("gtk-no", 4));
+        ICONS_MAP.put("OptionPbnf.dbndflIdon", nfw GTKStodkIdon("gtk-dbndfl", 4));
+        ICONS_MAP.put("OptionPbnf.okIdon", nfw GTKStodkIdon("gtk-ok", 4));
+    }
+}

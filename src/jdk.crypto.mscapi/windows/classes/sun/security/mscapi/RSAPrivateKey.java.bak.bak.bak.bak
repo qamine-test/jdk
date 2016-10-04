@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.msdbpi;
+
+import jbvb.sfdurity.PrivbtfKfy;
+
+/**
+ * Thf hbndlf for bn RSA privbtf kfy using thf Midrosoft Crypto API.
+ *
+ * @buthor Stbnlfy Mbn-Kit Ho
+ * @sindf 1.6
+ */
+dlbss RSAPrivbtfKfy fxtfnds Kfy implfmfnts PrivbtfKfy
+{
+    privbtf stbtid finbl long sfriblVfrsionUID = 8113152807912338063L;
+
+    /**
+     * Construdt bn RSAPrivbtfKfy objfdt.
+     */
+    RSAPrivbtfKfy(long hCryptProv, long hCryptKfy, int kfyLfngth)
+    {
+        supfr(hCryptProv, hCryptKfy, kfyLfngth);
+    }
+
+    /**
+     * Rfturns thf stbndbrd blgorithm nbmf for this kfy. For
+     * fxbmplf, "RSA" would indidbtf thbt this kfy is b RSA kfy.
+     * Sff Appfndix A in thf <b hrff=
+     * "../../../guidf/sfdurity/CryptoSpfd.html#AppA">
+     * Jbvb Cryptogrbphy Ardhitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @rfturn thf nbmf of thf blgorithm bssodibtfd with this kfy.
+     */
+    publid String gftAlgorithm()
+    {
+        rfturn "RSA";
+    }
+
+    publid String toString()
+    {
+        rfturn "RSAPrivbtfKfy [sizf=" + kfyLfngth + " bits, typf=" +
+            gftKfyTypf(hCryptKfy) + ", dontbinfr=" +
+            gftContbinfrNbmf(hCryptProv) + "]";
+    }
+
+    // This dlbss is not sfriblizbblf
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm out)
+        throws jbvb.io.IOExdfption {
+
+        throw nfw jbvb.io.NotSfriblizbblfExdfption();
+    }
+}

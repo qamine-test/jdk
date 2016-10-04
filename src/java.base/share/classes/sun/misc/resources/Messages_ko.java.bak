@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc.resources;
+pbdkbgf sun.misd.rfsourdfs;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
- * for sun.misc.
+ * <p> Tiis dlbss rfprfsfnts tif <dodf>RfsourdfBundlf</dodf>
+ * for sun.misd.
  *
- * @author Michael Colburn
+ * @butior Midibfl Colburn
  */
 
-public class Messages_ko extends java.util.ListResourceBundle {
+publid dlbss Mfssbgfs_ko fxtfnds jbvb.util.ListRfsourdfBundlf {
 
     /**
-     * Returns the contents of this <code>ResourceBundle</code>.
+     * Rfturns tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      * <p>
-     * @return the contents of this <code>ResourceBundle</code>.
+     * @rfturn tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      */
-    public Object[][] getContents() {
-        return contents;
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
     }
 
-    private static final Object[][] contents = {
-        { "optpkg.versionerror", "\uC624\uB958: {0} JAR \uD30C\uC77C\uC5D0 \uBD80\uC801\uD569\uD55C \uBC84\uC804 \uD615\uC2DD\uC774 \uC0AC\uC6A9\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uC124\uBA85\uC11C\uC5D0\uC11C \uC9C0\uC6D0\uB418\uB294 \uBC84\uC804 \uD615\uC2DD\uC744 \uD655\uC778\uD558\uC2ED\uC2DC\uC624." },
-        { "optpkg.attributeerror", "\uC624\uB958: \uD544\uC694\uD55C {0} JAR manifest \uC18D\uC131\uC774 {1} JAR \uD30C\uC77C\uC5D0 \uC124\uC815\uB418\uC5B4 \uC788\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4." },
-        { "optpkg.attributeserror", "\uC624\uB958: \uD544\uC694\uD55C \uC77C\uBD80 JAR manifest \uC18D\uC131\uC774 {0} JAR \uD30C\uC77C\uC5D0 \uC124\uC815\uB418\uC5B4 \uC788\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4." }
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
+        { "optpkg.vfrsionfrror", "\uC624\uB958: {0} JAR \uD30C\uC77C\uC5D0 \uBD80\uC801\uD569\uD55C \uBC84\uC804 \uD615\uC2DD\uC774 \uC0AC\uC6A9\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uC124\uBA85\uC11C\uC5D0\uC11C \uC9C0\uC6D0\uB418\uB294 \uBC84\uC804 \uD615\uC2DD\uC744 \uD655\uC778\uD558\uC2ED\uC2DC\uC624." },
+        { "optpkg.bttributffrror", "\uC624\uB958: \uD544\uC694\uD55C {0} JAR mbniffst \uC18D\uC131\uC774 {1} JAR \uD30C\uC77C\uC5D0 \uC124\uC815\uB418\uC5B4 \uC788\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4." },
+        { "optpkg.bttributfsfrror", "\uC624\uB958: \uD544\uC694\uD55C \uC77C\uBD80 JAR mbniffst \uC18D\uC131\uC774 {0} JAR \uD30C\uC77C\uC5D0 \uC124\uC815\uB418\uC5B4 \uC788\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4." }
     };
 
 }

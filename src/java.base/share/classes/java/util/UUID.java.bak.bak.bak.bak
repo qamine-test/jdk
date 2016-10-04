@@ -1,0 +1,463 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.sfdurity.*;
+
+import sun.misd.JbvbLbngAddfss;
+import sun.misd.ShbrfdSfdrfts;
+
+/**
+ * A dlbss thbt rfprfsfnts bn immutbblf univfrsblly uniquf idfntififr (UUID).
+ * A UUID rfprfsfnts b 128-bit vbluf.
+ *
+ * <p> Thfrf fxist difffrfnt vbribnts of thfsf globbl idfntififrs.  Thf mfthods
+ * of this dlbss brf for mbnipulbting thf Lfbdh-Sblz vbribnt, blthough thf
+ * donstrudtors bllow thf drfbtion of bny vbribnt of UUID (dfsdribfd bflow).
+ *
+ * <p> Thf lbyout of b vbribnt 2 (Lfbdh-Sblz) UUID is bs follows:
+ *
+ * Thf most signifidbnt long donsists of thf following unsignfd fiflds:
+ * <prf>
+ * 0xFFFFFFFF00000000 timf_low
+ * 0x00000000FFFF0000 timf_mid
+ * 0x000000000000F000 vfrsion
+ * 0x0000000000000FFF timf_hi
+ * </prf>
+ * Thf lfbst signifidbnt long donsists of thf following unsignfd fiflds:
+ * <prf>
+ * 0xC000000000000000 vbribnt
+ * 0x3FFF000000000000 dlodk_sfq
+ * 0x0000FFFFFFFFFFFF nodf
+ * </prf>
+ *
+ * <p> Thf vbribnt fifld dontbins b vbluf whidh idfntififs thf lbyout of thf
+ * {@dodf UUID}.  Thf bit lbyout dfsdribfd bbovf is vblid only for b {@dodf
+ * UUID} with b vbribnt vbluf of 2, whidh indidbtfs thf Lfbdh-Sblz vbribnt.
+ *
+ * <p> Thf vfrsion fifld holds b vbluf thbt dfsdribfs thf typf of this {@dodf
+ * UUID}.  Thfrf brf four difffrfnt bbsid typfs of UUIDs: timf-bbsfd, DCE
+ * sfdurity, nbmf-bbsfd, bnd rbndomly gfnfrbtfd UUIDs.  Thfsf typfs hbvf b
+ * vfrsion vbluf of 1, 2, 3 bnd 4, rfspfdtivfly.
+ *
+ * <p> For morf informbtion indluding blgorithms usfd to drfbtf {@dodf UUID}s,
+ * sff <b hrff="http://www.iftf.org/rfd/rfd4122.txt"> <i>RFC&nbsp;4122: A
+ * Univfrsblly Uniquf IDfntififr (UUID) URN Nbmfspbdf</i></b>, sfdtion 4.2
+ * &quot;Algorithms for Crfbting b Timf-Bbsfd UUID&quot;.
+ *
+ * @sindf   1.5
+ */
+publid finbl dlbss UUID implfmfnts jbvb.io.Sfriblizbblf, Compbrbblf<UUID> {
+
+    /**
+     * Explidit sfriblVfrsionUID for intfropfrbbility.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4856846361193249489L;
+
+    /*
+     * Thf most signifidbnt 64 bits of this UUID.
+     *
+     * @sfribl
+     */
+    privbtf finbl long mostSigBits;
+
+    /*
+     * Thf lfbst signifidbnt 64 bits of this UUID.
+     *
+     * @sfribl
+     */
+    privbtf finbl long lfbstSigBits;
+
+    privbtf stbtid finbl JbvbLbngAddfss jlb = ShbrfdSfdrfts.gftJbvbLbngAddfss();
+
+    /*
+     * Thf rbndom numbfr gfnfrbtor usfd by this dlbss to drfbtf rbndom
+     * bbsfd UUIDs. In b holdfr dlbss to dfffr initiblizbtion until nffdfd.
+     */
+    privbtf stbtid dlbss Holdfr {
+        stbtid finbl SfdurfRbndom numbfrGfnfrbtor = nfw SfdurfRbndom();
+    }
+
+    // Construdtors bnd Fbdtorifs
+
+    /*
+     * Privbtf donstrudtor whidh usfs b bytf brrby to donstrudt thf nfw UUID.
+     */
+    privbtf UUID(bytf[] dbtb) {
+        long msb = 0;
+        long lsb = 0;
+        bssfrt dbtb.lfngth == 16 : "dbtb must bf 16 bytfs in lfngth";
+        for (int i=0; i<8; i++)
+            msb = (msb << 8) | (dbtb[i] & 0xff);
+        for (int i=8; i<16; i++)
+            lsb = (lsb << 8) | (dbtb[i] & 0xff);
+        this.mostSigBits = msb;
+        this.lfbstSigBits = lsb;
+    }
+
+    /**
+     * Construdts b nfw {@dodf UUID} using thf spfdififd dbtb.  {@dodf
+     * mostSigBits} is usfd for thf most signifidbnt 64 bits of thf {@dodf
+     * UUID} bnd {@dodf lfbstSigBits} bfdomfs thf lfbst signifidbnt 64 bits of
+     * thf {@dodf UUID}.
+     *
+     * @pbrbm  mostSigBits
+     *         Thf most signifidbnt bits of thf {@dodf UUID}
+     *
+     * @pbrbm  lfbstSigBits
+     *         Thf lfbst signifidbnt bits of thf {@dodf UUID}
+     */
+    publid UUID(long mostSigBits, long lfbstSigBits) {
+        this.mostSigBits = mostSigBits;
+        this.lfbstSigBits = lfbstSigBits;
+    }
+
+    /**
+     * Stbtid fbdtory to rftrifvf b typf 4 (psfudo rbndomly gfnfrbtfd) UUID.
+     *
+     * Thf {@dodf UUID} is gfnfrbtfd using b dryptogrbphidblly strong psfudo
+     * rbndom numbfr gfnfrbtor.
+     *
+     * @rfturn  A rbndomly gfnfrbtfd {@dodf UUID}
+     */
+    publid stbtid UUID rbndomUUID() {
+        SfdurfRbndom ng = Holdfr.numbfrGfnfrbtor;
+
+        bytf[] rbndomBytfs = nfw bytf[16];
+        ng.nfxtBytfs(rbndomBytfs);
+        rbndomBytfs[6]  &= 0x0f;  /* dlfbr vfrsion        */
+        rbndomBytfs[6]  |= 0x40;  /* sft to vfrsion 4     */
+        rbndomBytfs[8]  &= 0x3f;  /* dlfbr vbribnt        */
+        rbndomBytfs[8]  |= 0x80;  /* sft to IETF vbribnt  */
+        rfturn nfw UUID(rbndomBytfs);
+    }
+
+    /**
+     * Stbtid fbdtory to rftrifvf b typf 3 (nbmf bbsfd) {@dodf UUID} bbsfd on
+     * thf spfdififd bytf brrby.
+     *
+     * @pbrbm  nbmf
+     *         A bytf brrby to bf usfd to donstrudt b {@dodf UUID}
+     *
+     * @rfturn  A {@dodf UUID} gfnfrbtfd from thf spfdififd brrby
+     */
+    publid stbtid UUID nbmfUUIDFromBytfs(bytf[] nbmf) {
+        MfssbgfDigfst md;
+        try {
+            md = MfssbgfDigfst.gftInstbndf("MD5");
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            throw nfw IntfrnblError("MD5 not supportfd", nsbf);
+        }
+        bytf[] md5Bytfs = md.digfst(nbmf);
+        md5Bytfs[6]  &= 0x0f;  /* dlfbr vfrsion        */
+        md5Bytfs[6]  |= 0x30;  /* sft to vfrsion 3     */
+        md5Bytfs[8]  &= 0x3f;  /* dlfbr vbribnt        */
+        md5Bytfs[8]  |= 0x80;  /* sft to IETF vbribnt  */
+        rfturn nfw UUID(md5Bytfs);
+    }
+
+    /**
+     * Crfbtfs b {@dodf UUID} from thf string stbndbrd rfprfsfntbtion bs
+     * dfsdribfd in thf {@link #toString} mfthod.
+     *
+     * @pbrbm  nbmf
+     *         A string thbt spfdififs b {@dodf UUID}
+     *
+     * @rfturn  A {@dodf UUID} with thf spfdififd vbluf
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If nbmf dofs not donform to thf string rfprfsfntbtion bs
+     *          dfsdribfd in {@link #toString}
+     *
+     */
+    publid stbtid UUID fromString(String nbmf) {
+        if (nbmf.lfngth() > 36) {
+            throw nfw IllfgblArgumfntExdfption("UUID string too lbrgf");
+        }
+
+        int dbsh1 = nbmf.indfxOf('-', 0);
+        int dbsh2 = nbmf.indfxOf('-', dbsh1 + 1);
+        int dbsh3 = nbmf.indfxOf('-', dbsh2 + 1);
+        int dbsh4 = nbmf.indfxOf('-', dbsh3 + 1);
+        int dbsh5 = nbmf.indfxOf('-', dbsh4 + 1);
+
+        // For bny vblid input, dbsh1 through dbsh4 will bf positivf bnd dbsh5
+        // nfgbtivf, but it's fnough to dhfdk dbsh4 bnd dbsh5:
+        // - if dbsh1 is -1, dbsh4 will bf -1
+        // - if dbsh1 is positivf but dbsh2 is -1, dbsh4 will bf -1
+        // - if dbsh1 bnd dbsh2 is positivf, dbsh3 will bf -1, dbsh4 will bf
+        //   positivf, but so will dbsh5
+        if (dbsh4 < 0 || dbsh5 >= 0) {
+            throw nfw IllfgblArgumfntExdfption("Invblid UUID string: " + nbmf);
+        }
+
+        long mostSigBits = Long.pbrsfLong(nbmf, 16, 0, dbsh1) & 0xffffffffL;
+        mostSigBits <<= 16;
+        mostSigBits |= Long.pbrsfLong(nbmf, 16, dbsh1 + 1, dbsh2) & 0xffffL;
+        mostSigBits <<= 16;
+        mostSigBits |= Long.pbrsfLong(nbmf, 16, dbsh2 + 1, dbsh3) & 0xffffL;
+
+        long lfbstSigBits = Long.pbrsfLong(nbmf, 16, dbsh3 + 1, dbsh4) & 0xffffL;
+        lfbstSigBits <<= 48;
+        lfbstSigBits |= Long.pbrsfLong(nbmf, 16, dbsh4 + 1) & 0xffffffffffffL;
+
+        rfturn nfw UUID(mostSigBits, lfbstSigBits);
+    }
+
+    // Fifld Addfssor Mfthods
+
+    /**
+     * Rfturns thf lfbst signifidbnt 64 bits of this UUID's 128 bit vbluf.
+     *
+     * @rfturn  Thf lfbst signifidbnt 64 bits of this UUID's 128 bit vbluf
+     */
+    publid long gftLfbstSignifidbntBits() {
+        rfturn lfbstSigBits;
+    }
+
+    /**
+     * Rfturns thf most signifidbnt 64 bits of this UUID's 128 bit vbluf.
+     *
+     * @rfturn  Thf most signifidbnt 64 bits of this UUID's 128 bit vbluf
+     */
+    publid long gftMostSignifidbntBits() {
+        rfturn mostSigBits;
+    }
+
+    /**
+     * Thf vfrsion numbfr bssodibtfd with this {@dodf UUID}.  Thf vfrsion
+     * numbfr dfsdribfs how this {@dodf UUID} wbs gfnfrbtfd.
+     *
+     * Thf vfrsion numbfr hbs thf following mfbning:
+     * <ul>
+     * <li>1    Timf-bbsfd UUID
+     * <li>2    DCE sfdurity UUID
+     * <li>3    Nbmf-bbsfd UUID
+     * <li>4    Rbndomly gfnfrbtfd UUID
+     * </ul>
+     *
+     * @rfturn  Thf vfrsion numbfr of this {@dodf UUID}
+     */
+    publid int vfrsion() {
+        // Vfrsion is bits mbskfd by 0x000000000000F000 in MS long
+        rfturn (int)((mostSigBits >> 12) & 0x0f);
+    }
+
+    /**
+     * Thf vbribnt numbfr bssodibtfd with this {@dodf UUID}.  Thf vbribnt
+     * numbfr dfsdribfs thf lbyout of thf {@dodf UUID}.
+     *
+     * Thf vbribnt numbfr hbs thf following mfbning:
+     * <ul>
+     * <li>0    Rfsfrvfd for NCS bbdkwbrd dompbtibility
+     * <li>2    <b hrff="http://www.iftf.org/rfd/rfd4122.txt">IETF&nbsp;RFC&nbsp;4122</b>
+     * (Lfbdh-Sblz), usfd by this dlbss
+     * <li>6    Rfsfrvfd, Midrosoft Corporbtion bbdkwbrd dompbtibility
+     * <li>7    Rfsfrvfd for futurf dffinition
+     * </ul>
+     *
+     * @rfturn  Thf vbribnt numbfr of this {@dodf UUID}
+     */
+    publid int vbribnt() {
+        // This fifld is domposfd of b vbrying numbfr of bits.
+        // 0    -    -    Rfsfrvfd for NCS bbdkwbrd dompbtibility
+        // 1    0    -    Thf IETF bkb Lfbdh-Sblz vbribnt (usfd by this dlbss)
+        // 1    1    0    Rfsfrvfd, Midrosoft bbdkwbrd dompbtibility
+        // 1    1    1    Rfsfrvfd for futurf dffinition.
+        rfturn (int) ((lfbstSigBits >>> (64 - (lfbstSigBits >>> 62)))
+                      & (lfbstSigBits >> 63));
+    }
+
+    /**
+     * Thf timfstbmp vbluf bssodibtfd with this UUID.
+     *
+     * <p> Thf 60 bit timfstbmp vbluf is donstrudtfd from thf timf_low,
+     * timf_mid, bnd timf_hi fiflds of this {@dodf UUID}.  Thf rfsulting
+     * timfstbmp is mfbsurfd in 100-nbnosfdond units sindf midnight,
+     * Odtobfr 15, 1582 UTC.
+     *
+     * <p> Thf timfstbmp vbluf is only mfbningful in b timf-bbsfd UUID, whidh
+     * hbs vfrsion typf 1.  If this {@dodf UUID} is not b timf-bbsfd UUID thfn
+     * this mfthod throws UnsupportfdOpfrbtionExdfption.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption
+     *         If this UUID is not b vfrsion 1 UUID
+     * @rfturn Thf timfstbmp of this {@dodf UUID}.
+     */
+    publid long timfstbmp() {
+        if (vfrsion() != 1) {
+            throw nfw UnsupportfdOpfrbtionExdfption("Not b timf-bbsfd UUID");
+        }
+
+        rfturn (mostSigBits & 0x0FFFL) << 48
+             | ((mostSigBits >> 16) & 0x0FFFFL) << 32
+             | mostSigBits >>> 32;
+    }
+
+    /**
+     * Thf dlodk sfqufndf vbluf bssodibtfd with this UUID.
+     *
+     * <p> Thf 14 bit dlodk sfqufndf vbluf is donstrudtfd from thf dlodk
+     * sfqufndf fifld of this UUID.  Thf dlodk sfqufndf fifld is usfd to
+     * gubrbntff tfmporbl uniqufnfss in b timf-bbsfd UUID.
+     *
+     * <p> Thf {@dodf dlodkSfqufndf} vbluf is only mfbningful in b timf-bbsfd
+     * UUID, whidh hbs vfrsion typf 1.  If this UUID is not b timf-bbsfd UUID
+     * thfn this mfthod throws UnsupportfdOpfrbtionExdfption.
+     *
+     * @rfturn  Thf dlodk sfqufndf of this {@dodf UUID}
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this UUID is not b vfrsion 1 UUID
+     */
+    publid int dlodkSfqufndf() {
+        if (vfrsion() != 1) {
+            throw nfw UnsupportfdOpfrbtionExdfption("Not b timf-bbsfd UUID");
+        }
+
+        rfturn (int)((lfbstSigBits & 0x3FFF000000000000L) >>> 48);
+    }
+
+    /**
+     * Thf nodf vbluf bssodibtfd with this UUID.
+     *
+     * <p> Thf 48 bit nodf vbluf is donstrudtfd from thf nodf fifld of this
+     * UUID.  This fifld is intfndfd to hold thf IEEE 802 bddrfss of thf mbdhinf
+     * thbt gfnfrbtfd this UUID to gubrbntff spbtibl uniqufnfss.
+     *
+     * <p> Thf nodf vbluf is only mfbningful in b timf-bbsfd UUID, whidh hbs
+     * vfrsion typf 1.  If this UUID is not b timf-bbsfd UUID thfn this mfthod
+     * throws UnsupportfdOpfrbtionExdfption.
+     *
+     * @rfturn  Thf nodf vbluf of this {@dodf UUID}
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this UUID is not b vfrsion 1 UUID
+     */
+    publid long nodf() {
+        if (vfrsion() != 1) {
+            throw nfw UnsupportfdOpfrbtionExdfption("Not b timf-bbsfd UUID");
+        }
+
+        rfturn lfbstSigBits & 0x0000FFFFFFFFFFFFL;
+    }
+
+    // Objfdt Inhfritfd Mfthods
+
+    /**
+     * Rfturns b {@dodf String} objfdt rfprfsfnting this {@dodf UUID}.
+     *
+     * <p> Thf UUID string rfprfsfntbtion is bs dfsdribfd by this BNF:
+     * <blodkquotf><prf>
+     * {@dodf
+     * UUID                   = <timf_low> "-" <timf_mid> "-"
+     *                          <timf_high_bnd_vfrsion> "-"
+     *                          <vbribnt_bnd_sfqufndf> "-"
+     *                          <nodf>
+     * timf_low               = 4*<hfxOdtft>
+     * timf_mid               = 2*<hfxOdtft>
+     * timf_high_bnd_vfrsion  = 2*<hfxOdtft>
+     * vbribnt_bnd_sfqufndf   = 2*<hfxOdtft>
+     * nodf                   = 6*<hfxOdtft>
+     * hfxOdtft               = <hfxDigit><hfxDigit>
+     * hfxDigit               =
+     *       "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+     *       | "b" | "b" | "d" | "d" | "f" | "f"
+     *       | "A" | "B" | "C" | "D" | "E" | "F"
+     * }</prf></blodkquotf>
+     *
+     * @rfturn  A string rfprfsfntbtion of this {@dodf UUID}
+     */
+    publid String toString() {
+        dhbr[] dhbrs = nfw dhbr[36];
+        jlb.formbtUnsignfdLong(mostSigBits >> 32, 4, dhbrs, 0, 8);
+        dhbrs[8] = '-';
+        jlb.formbtUnsignfdLong(mostSigBits >> 16, 4, dhbrs, 9, 4);
+        dhbrs[13] = '-';
+        jlb.formbtUnsignfdLong(mostSigBits, 4, dhbrs, 14, 4);
+        dhbrs[18] = '-';
+        jlb.formbtUnsignfdLong(lfbstSigBits >> 48, 4, dhbrs, 19, 4);
+        dhbrs[23] = '-';
+        jlb.formbtUnsignfdLong(lfbstSigBits, 4, dhbrs, 24, 12);
+        rfturn jlb.nfwStringUnsbff(dhbrs);
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this {@dodf UUID}.
+     *
+     * @rfturn  A hbsh dodf vbluf for this {@dodf UUID}
+     */
+    publid int hbshCodf() {
+        long hilo = mostSigBits ^ lfbstSigBits;
+        rfturn ((int)(hilo >> 32)) ^ (int) hilo;
+    }
+
+    /**
+     * Compbrfs this objfdt to thf spfdififd objfdt.  Thf rfsult is {@dodf
+     * truf} if bnd only if thf brgumfnt is not {@dodf null}, is b {@dodf UUID}
+     * objfdt, hbs thf sbmf vbribnt, bnd dontbins thf sbmf vbluf, bit for bit,
+     * bs this {@dodf UUID}.
+     *
+     * @pbrbm  obj
+     *         Thf objfdt to bf dompbrfd
+     *
+     * @rfturn  {@dodf truf} if thf objfdts brf thf sbmf; {@dodf fblsf}
+     *          othfrwisf
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((null == obj) || (obj.gftClbss() != UUID.dlbss))
+            rfturn fblsf;
+        UUID id = (UUID)obj;
+        rfturn (mostSigBits == id.mostSigBits &&
+                lfbstSigBits == id.lfbstSigBits);
+    }
+
+    // Compbrison Opfrbtions
+
+    /**
+     * Compbrfs this UUID with thf spfdififd UUID.
+     *
+     * <p> Thf first of two UUIDs is grfbtfr thbn thf sfdond if thf most
+     * signifidbnt fifld in whidh thf UUIDs difffr is grfbtfr for thf first
+     * UUID.
+     *
+     * @pbrbm  vbl
+     *         {@dodf UUID} to whidh this {@dodf UUID} is to bf dompbrfd
+     *
+     * @rfturn  -1, 0 or 1 bs this {@dodf UUID} is lfss thbn, fqubl to, or
+     *          grfbtfr thbn {@dodf vbl}
+     *
+     */
+    publid int dompbrfTo(UUID vbl) {
+        // Thf ordfring is intfntionblly sft up so thbt thf UUIDs
+        // dbn simply bf numfridblly dompbrfd bs two numbfrs
+        rfturn (this.mostSigBits < vbl.mostSigBits ? -1 :
+                (this.mostSigBits > vbl.mostSigBits ? 1 :
+                 (this.lfbstSigBits < vbl.lfbstSigBits ? -1 :
+                  (this.lfbstSigBits > vbl.lfbstSigBits ? 1 :
+                   0))));
+    }
+}

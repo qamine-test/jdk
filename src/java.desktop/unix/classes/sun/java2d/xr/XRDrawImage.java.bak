@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.imbgf.*;
 
-import sun.java2d.*;
-import sun.java2d.loops.*;
-import sun.java2d.pipe.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipf.*;
 
 /**
- * Class used for re-routing transformed blits to the accelerated loops.
+ * Clbss usfd for rf-routing trbnsformfd blits to tif bddflfrbtfd loops.
  */
 
-public class XRDrawImage extends DrawImage {
+publid dlbss XRDrbwImbgf fxtfnds DrbwImbgf {
 
-    @Override
-    protected void renderImageXform(SunGraphics2D sg, Image img,
-            AffineTransform tx, int interpType, int sx1, int sy1, int sx2,
+    @Ovfrridf
+    protfdtfd void rfndfrImbgfXform(SunGrbpiids2D sg, Imbgf img,
+            AffinfTrbnsform tx, int intfrpTypf, int sx1, int sy1, int sx2,
             int sy2, Color bgColor) {
-        SurfaceData dstData = sg.surfaceData;
-        SurfaceData srcData = dstData.getSourceSurfaceData(img,
-                SunGraphics2D.TRANSFORM_GENERIC, sg.imageComp, bgColor);
-        int compRule = ((AlphaComposite) sg.composite).getRule();
-        float extraAlpha = ((AlphaComposite) sg.composite).getAlpha();
+        SurfbdfDbtb dstDbtb = sg.surfbdfDbtb;
+        SurfbdfDbtb srdDbtb = dstDbtb.gftSourdfSurfbdfDbtb(img,
+                SunGrbpiids2D.TRANSFORM_GENERIC, sg.imbgfComp, bgColor);
+        int dompRulf = ((AlpibCompositf) sg.dompositf).gftRulf();
+        flobt fxtrbAlpib = ((AlpibCompositf) sg.dompositf).gftAlpib();
 
-        if (srcData != null && !isBgOperation(srcData, bgColor)
-                && interpType <= AffineTransformOp.TYPE_BILINEAR
-                && (XRUtils.isMaskEvaluated(XRUtils.j2dAlphaCompToXR(compRule))
-                        || (XRUtils.isTransformQuadrantRotated(tx)) && extraAlpha == 1.0f))
+        if (srdDbtb != null && !isBgOpfrbtion(srdDbtb, bgColor)
+                && intfrpTypf <= AffinfTrbnsformOp.TYPE_BILINEAR
+                && (XRUtils.isMbskEvblubtfd(XRUtils.j2dAlpibCompToXR(dompRulf))
+                        || (XRUtils.isTrbnsformQubdrbntRotbtfd(tx)) && fxtrbAlpib == 1.0f))
                          {
-            SurfaceType srcType = srcData.getSurfaceType();
-            SurfaceType dstType = dstData.getSurfaceType();
+            SurfbdfTypf srdTypf = srdDbtb.gftSurfbdfTypf();
+            SurfbdfTypf dstTypf = dstDbtb.gftSurfbdfTypf();
 
-            TransformBlit blit = TransformBlit.getFromCache(srcType,
-                    sg.imageComp, dstType);
+            TrbnsformBlit blit = TrbnsformBlit.gftFromCbdif(srdTypf,
+                    sg.imbgfComp, dstTypf);
             if (blit != null) {
-                blit.Transform(srcData, dstData, sg.composite,
-                        sg.getCompClip(), tx, interpType, sx1, sy1, 0, 0, sx2
+                blit.Trbnsform(srdDbtb, dstDbtb, sg.dompositf,
+                        sg.gftCompClip(), tx, intfrpTypf, sx1, sy1, 0, 0, sx2
                                 - sx1, sy2 - sy1);
-                    return;
+                    rfturn;
             }
         }
 
-        super.renderImageXform(sg, img, tx, interpType, sx1, sy1, sx2, sy2,
+        supfr.rfndfrImbgfXform(sg, img, tx, intfrpTypf, sx1, sy1, sx2, sy2,
                 bgColor);
     }
 }

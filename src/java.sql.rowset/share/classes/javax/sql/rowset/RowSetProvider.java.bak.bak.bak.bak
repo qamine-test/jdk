@@ -1,0 +1,323 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sql.SQLExdfption;
+import jbvb.util.PropfrtyPfrmission;
+import jbvb.util.SfrvidfConfigurbtionError;
+import jbvb.util.SfrvidfLobdfr;
+import jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/**
+ * A fbdtory API thbt fnbblfs bpplidbtions to obtbin b
+ * {@dodf RowSftFbdtory} implfmfntbtion  thbt dbn bf usfd to drfbtf difffrfnt
+ * typfs of {@dodf RowSft} implfmfntbtions.
+ * <p>
+ * Exbmplf:
+ * </p>
+ * <prf>
+ * RowSftFbdtory bFbdtory = RowSftProvidfr.nfwFbdtory();
+ * CbdhfdRowSft drs = bFbdtory.drfbtfCbdhfdRowSft();
+ * ...
+ * RowSftFbdtory rsf = RowSftProvidfr.nfwFbdtory("dom.sun.rowsft.RowSftFbdtoryImpl", null);
+ * WfbRowSft wrs = rsf.drfbtfWfbRowSft();
+ * </prf>
+ *<p>
+ * Trbding of this dlbss mby bf fnbblfd by sftting thf Systfm propfrty
+ * {@dodf jbvbx.sql.rowsft.RowSftFbdtory.dfbug} to bny vbluf but {@dodf fblsf}.
+ * </p>
+ *
+ * @buthor Lbndf Andfrsfn
+ * @sindf 1.7
+ */
+publid dlbss RowSftProvidfr {
+
+    privbtf stbtid finbl String ROWSET_DEBUG_PROPERTY = "jbvbx.sql.rowsft.RowSftProvidfr.dfbug";
+    privbtf stbtid finbl String ROWSET_FACTORY_IMPL = "dom.sun.rowsft.RowSftFbdtoryImpl";
+    privbtf stbtid finbl String ROWSET_FACTORY_NAME = "jbvbx.sql.rowsft.RowSftFbdtory";
+    /**
+     * Intfrnbl dfbug flbg.
+     */
+    privbtf stbtid boolfbn dfbug = truf;
+
+
+    stbtid {
+        // Chfdk to sff if thf dfbug propfrty is sft
+        String vbl = gftSystfmPropfrty(ROWSET_DEBUG_PROPERTY);
+        // Allow simply sftting thf prop to turn on dfbug
+        dfbug = vbl != null && !"fblsf".fqubls(vbl);
+    }
+
+    /**
+     * RowSftProvidfr donstrudtor
+     */
+    protfdtfd RowSftProvidfr () {
+    }
+
+    /**
+     * <p>Crfbtfs b nfw instbndf of b <dodf>RowSftFbdtory</dodf>
+     * implfmfntbtion.  This mfthod usfs thf following
+     * look up ordfr to dftfrminf
+     * thf <dodf>RowSftFbdtory</dodf> implfmfntbtion dlbss to lobd:</p>
+     * <ul>
+     * <li>
+     * Thf Systfm propfrty {@dodf jbvbx.sql.rowsft.RowSftFbdtory}.  For fxbmplf:
+     * <ul>
+     * <li>
+     * -Djbvbx.sql.rowsft.RowSftFbdtory=dom.sun.rowsft.RowSftFbdtoryImpl
+     * </li>
+     * </ul>
+     * <li>
+     * Thf {@link SfrvidfLobdfr} API. Thf {@dodf SfrvidfLobdfr} API will look
+     * for b dlbss nbmf in thf filf
+     * {@dodf META-INF/sfrvidfs/jbvbx.sql.rowsft.RowSftFbdtory}
+     * in jbrs bvbilbblf to thf runtimf. For fxbmplf, to hbvf thf thf RowSftFbdtory
+     * implfmfntbtion {@dodf dom.sun.rowsft.RowSftFbdtoryImpl } lobdfd, thf
+     * fntry in {@dodf META-INF/sfrvidfs/jbvbx.sql.rowsft.RowSftFbdtory} would bf:
+     *  <ul>
+     * <li>
+     * {@dodf dom.sun.rowsft.RowSftFbdtoryImpl }
+     * </li>
+     * </ul>
+     * </li>
+     * <li>
+     * Plbtform dffbult <dodf>RowSftFbdtory</dodf> instbndf.
+     * </li>
+     * </ul>
+     *
+     * <p>Ondf bn bpplidbtion hbs obtbinfd b rfffrfndf to b {@dodf RowSftFbdtory},
+     * it dbn usf thf fbdtory to obtbin RowSft instbndfs.</p>
+     *
+     * @rfturn Nfw instbndf of b <dodf>RowSftFbdtory</dodf>
+     *
+     * @throws SQLExdfption if thf dffbult fbdtory dlbss dbnnot bf lobdfd,
+     * instbntibtfd. Thf dbusf will bf sft to bdtubl Exdfption
+     *
+     * @sff SfrvidfLobdfr
+     * @sindf 1.7
+     */
+    publid stbtid RowSftFbdtory nfwFbdtory()
+            throws SQLExdfption {
+        // Usf thf systfm propfrty first
+        RowSftFbdtory fbdtory = null;
+        String fbdtoryClbssNbmf = null;
+        try {
+            trbdf("Chfdking for Rowsft Systfm Propfrty...");
+            fbdtoryClbssNbmf = gftSystfmPropfrty(ROWSET_FACTORY_NAME);
+            if (fbdtoryClbssNbmf != null) {
+                trbdf("Found systfm propfrty, vbluf=" + fbdtoryClbssNbmf);
+                fbdtory = (RowSftFbdtory) RfflfdtUtil.nfwInstbndf(gftFbdtoryClbss(fbdtoryClbssNbmf, null, truf));
+            }
+        }  dbtdh (Exdfption f) {
+            throw nfw SQLExdfption( "RowSftFbdtory: " + fbdtoryClbssNbmf +
+                    " dould not bf instbntibtfd: ", f);
+        }
+
+        // Chfdk to sff if wf found thf RowSftFbdtory vib b Systfm propfrty
+        if (fbdtory == null) {
+            // If thf RowSftFbdtory is not found vib b Systfm Propfrty, now
+            // look it up vib thf SfrvidfLobdfr API bnd if not found, usf thf
+            // Jbvb SE dffbult.
+            fbdtory = lobdVibSfrvidfLobdfr();
+            fbdtory =
+                    fbdtory == null ? nfwFbdtory(ROWSET_FACTORY_IMPL, null) : fbdtory;
+        }
+        rfturn (fbdtory);
+    }
+
+    /**
+     * <p>Crfbtfs  b nfw instbndf of b <dodf>RowSftFbdtory</dodf> from thf
+     * spfdififd fbdtory dlbss nbmf.
+     * This fundtion is usfful whfn thfrf brf multiplf providfrs in thf dlbsspbth.
+     * It givfs morf dontrol to thf bpplidbtion bs it dbn spfdify whidh providfr
+     * should bf lobdfd.</p>
+     *
+     * <p>Ondf bn bpplidbtion hbs obtbinfd b rfffrfndf to b <dodf>RowSftFbdtory</dodf>
+     * it dbn usf thf fbdtory to obtbin RowSft instbndfs.</p>
+     *
+     * @pbrbm fbdtoryClbssNbmf fully qublififd fbdtory dlbss nbmf thbt
+     * providfs  bn implfmfntbtion of <dodf>jbvbx.sql.rowsft.RowSftFbdtory</dodf>.
+     *
+     * @pbrbm dl <dodf>ClbssLobdfr</dodf> usfd to lobd thf fbdtory
+     * dlbss. If <dodf>null</dodf> durrfnt <dodf>Thrfbd</dodf>'s dontfxt
+     * dlbssLobdfr is usfd to lobd thf fbdtory dlbss.
+     *
+     * @rfturn Nfw instbndf of b <dodf>RowSftFbdtory</dodf>
+     *
+     * @throws SQLExdfption if <dodf>fbdtoryClbssNbmf</dodf> is
+     * <dodf>null</dodf>, or thf fbdtory dlbss dbnnot bf lobdfd, instbntibtfd.
+     *
+     * @sff #nfwFbdtory()
+     *
+     * @sindf 1.7
+     */
+    publid stbtid RowSftFbdtory nfwFbdtory(String fbdtoryClbssNbmf, ClbssLobdfr dl)
+            throws SQLExdfption {
+
+        trbdf("***In nfwInstbndf()");
+
+        if(fbdtoryClbssNbmf == null) {
+            throw nfw SQLExdfption("Error: fbdtoryClbssNbmf dbnnot bf null");
+        }
+        try {
+            RfflfdtUtil.dhfdkPbdkbgfAddfss(fbdtoryClbssNbmf);
+        } dbtdh (jbvb.sfdurity.AddfssControlExdfption f) {
+            throw nfw SQLExdfption("Addfss Exdfption",f);
+        }
+
+        try {
+            Clbss<?> providfrClbss = gftFbdtoryClbss(fbdtoryClbssNbmf, dl, fblsf);
+            RowSftFbdtory instbndf = (RowSftFbdtory) providfrClbss.nfwInstbndf();
+            if (dfbug) {
+                trbdf("Crfbtfd nfw instbndf of " + providfrClbss +
+                        " using ClbssLobdfr: " + dl);
+            }
+            rfturn instbndf;
+        } dbtdh (ClbssNotFoundExdfption x) {
+            throw nfw SQLExdfption(
+                    "Providfr " + fbdtoryClbssNbmf + " not found", x);
+        } dbtdh (Exdfption x) {
+            throw nfw SQLExdfption(
+                    "Providfr " + fbdtoryClbssNbmf + " dould not bf instbntibtfd: " + x,
+                    x);
+        }
+    }
+
+    /*
+     * Rfturns thf dlbss lobdfr to bf usfd.
+     * @rfturn Thf ClbssLobdfr to usf.
+     *
+     */
+    stbtid privbtf ClbssLobdfr gftContfxtClbssLobdfr() throws SfdurityExdfption {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+
+            publid ClbssLobdfr run() {
+                ClbssLobdfr dl = null;
+
+                dl = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+
+                if (dl == null) {
+                    dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                }
+
+                rfturn dl;
+            }
+        });
+    }
+
+    /**
+     * Attfmpt to lobd b dlbss using thf dlbss lobdfr supplifd. If thbt fbils
+     * bnd fbll bbdk is fnbblfd, thf durrfnt (i.f. bootstrbp) dlbss lobdfr is
+     * trifd.
+     *
+     * If thf dlbss lobdfr supplifd is <dodf>null</dodf>, first try using thf
+     * dontfxt dlbss lobdfr followfd by thf durrfnt dlbss lobdfr.
+     *  @rfturn Thf dlbss whidh wbs lobdfd
+     */
+    stbtid privbtf Clbss<?> gftFbdtoryClbss(String fbdtoryClbssNbmf, ClbssLobdfr dl,
+            boolfbn doFbllbbdk) throws ClbssNotFoundExdfption {
+        try {
+            if (dl == null) {
+                dl = gftContfxtClbssLobdfr();
+                if (dl == null) {
+                    throw nfw ClbssNotFoundExdfption();
+                } flsf {
+                    rfturn dl.lobdClbss(fbdtoryClbssNbmf);
+                }
+            } flsf {
+                rfturn dl.lobdClbss(fbdtoryClbssNbmf);
+            }
+        } dbtdh (ClbssNotFoundExdfption f) {
+            if (doFbllbbdk) {
+                // Usf durrfnt dlbss lobdfr
+                rfturn Clbss.forNbmf(fbdtoryClbssNbmf, truf, RowSftFbdtory.dlbss.gftClbssLobdfr());
+            } flsf {
+                throw f;
+            }
+        }
+    }
+
+    /**
+     * Usf thf SfrvidfLobdfr mfdhbnism to lobd  thf dffbult RowSftFbdtory
+     * @rfturn dffbult RowSftFbdtory Implfmfntbtion
+     */
+    stbtid privbtf RowSftFbdtory lobdVibSfrvidfLobdfr() throws SQLExdfption {
+        RowSftFbdtory thfFbdtory = null;
+        try {
+            trbdf("***in lobdVibSfrvidfLobdfr():");
+            for (RowSftFbdtory fbdtory : SfrvidfLobdfr.lobd(jbvbx.sql.rowsft.RowSftFbdtory.dlbss)) {
+                trbdf(" Lobding donf by thf jbvb.util.SfrvidfLobdfr :" + fbdtory.gftClbss().gftNbmf());
+                thfFbdtory = fbdtory;
+                brfbk;
+            }
+        } dbtdh (SfrvidfConfigurbtionError f) {
+            throw nfw SQLExdfption(
+                    "RowSftFbdtory: Error lodbting RowSftFbdtory using Sfrvidf "
+                    + "Lobdfr API: " + f, f);
+        }
+        rfturn thfFbdtory;
+
+    }
+
+    /**
+     * Rfturns thf rfqufstfd Systfm Propfrty.  If b {@dodf SfdurityExdfption}
+     * oddurs, just rfturn NULL
+     * @pbrbm propNbmf - Systfm propfrty to rftrifvf
+     * @rfturn Thf Systfm propfrty vbluf or NULL if thf propfrty dofs not fxist
+     * or b {@dodf SfdurityExdfption} oddurs.
+     */
+    stbtid privbtf String gftSystfmPropfrty(finbl String propNbmf) {
+        String propfrty = null;
+        try {
+            propfrty = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+
+                publid String run() {
+                    rfturn Systfm.gftPropfrty(propNbmf);
+                }
+            }, null, nfw PropfrtyPfrmission(propNbmf, "rfbd"));
+        } dbtdh (SfdurityExdfption sf) {
+            trbdf("frror gftting " + propNbmf + ":  "+ sf);
+            if (dfbug) {
+                sf.printStbdkTrbdf();
+            }
+        }
+        rfturn propfrty;
+    }
+
+    /**
+     * Dfbug routinf whidh will output trbding if thf Systfm Propfrty
+     * -Djbvbx.sql.rowsft.RowSftFbdtory.dfbug is sft
+     * @pbrbm msg - Thf dfbug mfssbgf to displby
+     */
+    privbtf stbtid void trbdf(String msg) {
+        if (dfbug) {
+            Systfm.frr.println("###RowSfts: " + msg);
+        }
+    }
+}

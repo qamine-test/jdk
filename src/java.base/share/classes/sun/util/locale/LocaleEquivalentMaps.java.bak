@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.locale;
+pbdkbgf sun.util.lodblf;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 /**
- * Locale equivalent map for BCP47 Locale matching
+ * Lodblf fquivblfnt mbp for BCP47 Lodblf mbtdiing
  */
-final class LocaleEquivalentMaps {
+finbl dlbss LodblfEquivblfntMbps {
 
-    static final Map<String, String> singleEquivMap;
-    static final Map<String, String[]> multiEquivsMap;
-    static final Map<String, String> regionVariantEquivMap;
+    stbtid finbl Mbp<String, String> singlfEquivMbp;
+    stbtid finbl Mbp<String, String[]> multiEquivsMbp;
+    stbtid finbl Mbp<String, String> rfgionVbribntEquivMbp;
 
-    static {
-        singleEquivMap = new HashMap<>();
-        multiEquivsMap = new HashMap<>();
-        regionVariantEquivMap = new HashMap<>();
+    stbtid {
+        singlfEquivMbp = nfw HbsiMbp<>();
+        multiEquivsMbp = nfw HbsiMbp<>();
+        rfgionVbribntEquivMbp = nfw HbsiMbp<>();
 
-        // This is an auto-generated file and should not be manually edited.
-        //   LSR Revision: 2013-09-23
-        singleEquivMap.put("acn", "xia");
-        singleEquivMap.put("adx", "pcr");
-        singleEquivMap.put("ami", "i-ami");
-        singleEquivMap.put("art-lojban", "jbo");
-        singleEquivMap.put("ase", "sgn-us");
-        singleEquivMap.put("ayx", "nun");
-        singleEquivMap.put("bfi", "sgn-gb");
-        singleEquivMap.put("bjd", "drl");
-        singleEquivMap.put("bnn", "i-bnn");
-        singleEquivMap.put("bzs", "sgn-br");
-        singleEquivMap.put("cir", "meg");
-        singleEquivMap.put("cjr", "mom");
-        singleEquivMap.put("cka", "cmr");
-        singleEquivMap.put("cmk", "xch");
-        singleEquivMap.put("cmn-hans", "zh-cmn-hans");
-        singleEquivMap.put("cmn-hant", "zh-cmn-hant");
-        singleEquivMap.put("cmr", "cka");
-        singleEquivMap.put("csn", "sgn-co");
-        singleEquivMap.put("dev", "gav");
-        singleEquivMap.put("drh", "khk");
-        singleEquivMap.put("drl", "bjd");
-        singleEquivMap.put("dse", "sgn-nl");
-        singleEquivMap.put("dsl", "sgn-dk");
-        singleEquivMap.put("fsl", "sgn-fr");
-        singleEquivMap.put("gal", "ilw");
-        singleEquivMap.put("gan", "zh-gan");
-        singleEquivMap.put("gav", "dev");
-        singleEquivMap.put("gsg", "sgn-de");
-        singleEquivMap.put("gss", "sgn-gr");
-        singleEquivMap.put("he", "iw");
-        singleEquivMap.put("hle", "sca");
-        singleEquivMap.put("hrr", "jal");
-        singleEquivMap.put("hsn", "zh-xiang");
-        singleEquivMap.put("i-ami", "ami");
-        singleEquivMap.put("i-bnn", "bnn");
-        singleEquivMap.put("i-klingon", "tlh");
-        singleEquivMap.put("i-lux", "lb");
-        singleEquivMap.put("i-navajo", "nv");
-        singleEquivMap.put("i-pwn", "pwn");
-        singleEquivMap.put("i-tao", "tao");
-        singleEquivMap.put("i-tay", "tay");
-        singleEquivMap.put("i-tsu", "tsu");
-        singleEquivMap.put("ibi", "opa");
-        singleEquivMap.put("id", "in");
-        singleEquivMap.put("ilw", "gal");
-        singleEquivMap.put("in", "id");
-        singleEquivMap.put("ise", "sgn-it");
-        singleEquivMap.put("isg", "sgn-ie");
-        singleEquivMap.put("iw", "he");
-        singleEquivMap.put("jal", "hrr");
-        singleEquivMap.put("jbo", "art-lojban");
-        singleEquivMap.put("ji", "yi");
-        singleEquivMap.put("jsl", "sgn-jp");
-        singleEquivMap.put("jv", "jw");
-        singleEquivMap.put("jw", "jv");
-        singleEquivMap.put("kgh", "kml");
-        singleEquivMap.put("khk", "drh");
-        singleEquivMap.put("kml", "kgh");
-        singleEquivMap.put("lb", "i-lux");
-        singleEquivMap.put("lcq", "ppr");
-        singleEquivMap.put("lrr", "yma");
-        singleEquivMap.put("meg", "cir");
-        singleEquivMap.put("mfs", "sgn-mx");
-        singleEquivMap.put("mo", "ro");
-        singleEquivMap.put("mom", "cjr");
-        singleEquivMap.put("nan", "zh-min-nan");
-        singleEquivMap.put("nb", "no-bok");
-        singleEquivMap.put("ncs", "sgn-ni");
-        singleEquivMap.put("nn", "no-nyn");
-        singleEquivMap.put("no-bok", "nb");
-        singleEquivMap.put("no-nyn", "nn");
-        singleEquivMap.put("nsl", "sgn-no");
-        singleEquivMap.put("nun", "ayx");
-        singleEquivMap.put("nv", "i-navajo");
-        singleEquivMap.put("opa", "ibi");
-        singleEquivMap.put("pcr", "adx");
-        singleEquivMap.put("ppr", "lcq");
-        singleEquivMap.put("psr", "sgn-pt");
-        singleEquivMap.put("pwn", "i-pwn");
-        singleEquivMap.put("ras", "tie");
-        singleEquivMap.put("ro", "mo");
-        singleEquivMap.put("sca", "hle");
-        singleEquivMap.put("sfb", "sgn-be-fr");
-        singleEquivMap.put("sfs", "sgn-za");
-        singleEquivMap.put("sgg", "sgn-ch-de");
-        singleEquivMap.put("sgn-be-fr", "sfb");
-        singleEquivMap.put("sgn-be-nl", "vgt");
-        singleEquivMap.put("sgn-br", "bzs");
-        singleEquivMap.put("sgn-ch-de", "sgg");
-        singleEquivMap.put("sgn-co", "csn");
-        singleEquivMap.put("sgn-de", "gsg");
-        singleEquivMap.put("sgn-dk", "dsl");
-        singleEquivMap.put("sgn-es", "ssp");
-        singleEquivMap.put("sgn-fr", "fsl");
-        singleEquivMap.put("sgn-gb", "bfi");
-        singleEquivMap.put("sgn-gr", "gss");
-        singleEquivMap.put("sgn-ie", "isg");
-        singleEquivMap.put("sgn-it", "ise");
-        singleEquivMap.put("sgn-jp", "jsl");
-        singleEquivMap.put("sgn-mx", "mfs");
-        singleEquivMap.put("sgn-ni", "ncs");
-        singleEquivMap.put("sgn-nl", "dse");
-        singleEquivMap.put("sgn-no", "nsl");
-        singleEquivMap.put("sgn-pt", "psr");
-        singleEquivMap.put("sgn-se", "swl");
-        singleEquivMap.put("sgn-us", "ase");
-        singleEquivMap.put("sgn-za", "sfs");
-        singleEquivMap.put("ssp", "sgn-es");
-        singleEquivMap.put("swl", "sgn-se");
-        singleEquivMap.put("tao", "i-tao");
-        singleEquivMap.put("tay", "i-tay");
-        singleEquivMap.put("tie", "ras");
-        singleEquivMap.put("tkk", "twm");
-        singleEquivMap.put("tlh", "i-klingon");
-        singleEquivMap.put("tlw", "weo");
-        singleEquivMap.put("tsu", "i-tsu");
-        singleEquivMap.put("twm", "tkk");
-        singleEquivMap.put("vgt", "sgn-be-nl");
-        singleEquivMap.put("weo", "tlw");
-        singleEquivMap.put("wuu", "zh-wuu");
-        singleEquivMap.put("xch", "cmk");
-        singleEquivMap.put("xia", "acn");
-        singleEquivMap.put("yi", "ji");
-        singleEquivMap.put("yma", "lrr");
-        singleEquivMap.put("yos", "zom");
-        singleEquivMap.put("yue", "zh-yue");
-        singleEquivMap.put("zh-cmn-hans", "cmn-hans");
-        singleEquivMap.put("zh-cmn-hant", "cmn-hant");
-        singleEquivMap.put("zh-gan", "gan");
-        singleEquivMap.put("zh-min-nan", "nan");
-        singleEquivMap.put("zh-wuu", "wuu");
-        singleEquivMap.put("zh-xiang", "hsn");
-        singleEquivMap.put("zh-yue", "yue");
-        singleEquivMap.put("zom", "yos");
+        // Tiis is bn buto-gfnfrbtfd filf bnd siould not bf mbnublly fditfd.
+        //   LSR Rfvision: 2013-09-23
+        singlfEquivMbp.put("bdn", "xib");
+        singlfEquivMbp.put("bdx", "pdr");
+        singlfEquivMbp.put("bmi", "i-bmi");
+        singlfEquivMbp.put("brt-lojbbn", "jbo");
+        singlfEquivMbp.put("bsf", "sgn-us");
+        singlfEquivMbp.put("byx", "nun");
+        singlfEquivMbp.put("bfi", "sgn-gb");
+        singlfEquivMbp.put("bjd", "drl");
+        singlfEquivMbp.put("bnn", "i-bnn");
+        singlfEquivMbp.put("bzs", "sgn-br");
+        singlfEquivMbp.put("dir", "mfg");
+        singlfEquivMbp.put("djr", "mom");
+        singlfEquivMbp.put("dkb", "dmr");
+        singlfEquivMbp.put("dmk", "xdi");
+        singlfEquivMbp.put("dmn-ibns", "zi-dmn-ibns");
+        singlfEquivMbp.put("dmn-ibnt", "zi-dmn-ibnt");
+        singlfEquivMbp.put("dmr", "dkb");
+        singlfEquivMbp.put("dsn", "sgn-do");
+        singlfEquivMbp.put("dfv", "gbv");
+        singlfEquivMbp.put("dri", "kik");
+        singlfEquivMbp.put("drl", "bjd");
+        singlfEquivMbp.put("dsf", "sgn-nl");
+        singlfEquivMbp.put("dsl", "sgn-dk");
+        singlfEquivMbp.put("fsl", "sgn-fr");
+        singlfEquivMbp.put("gbl", "ilw");
+        singlfEquivMbp.put("gbn", "zi-gbn");
+        singlfEquivMbp.put("gbv", "dfv");
+        singlfEquivMbp.put("gsg", "sgn-df");
+        singlfEquivMbp.put("gss", "sgn-gr");
+        singlfEquivMbp.put("if", "iw");
+        singlfEquivMbp.put("ilf", "sdb");
+        singlfEquivMbp.put("irr", "jbl");
+        singlfEquivMbp.put("isn", "zi-xibng");
+        singlfEquivMbp.put("i-bmi", "bmi");
+        singlfEquivMbp.put("i-bnn", "bnn");
+        singlfEquivMbp.put("i-klingon", "tli");
+        singlfEquivMbp.put("i-lux", "lb");
+        singlfEquivMbp.put("i-nbvbjo", "nv");
+        singlfEquivMbp.put("i-pwn", "pwn");
+        singlfEquivMbp.put("i-tbo", "tbo");
+        singlfEquivMbp.put("i-tby", "tby");
+        singlfEquivMbp.put("i-tsu", "tsu");
+        singlfEquivMbp.put("ibi", "opb");
+        singlfEquivMbp.put("id", "in");
+        singlfEquivMbp.put("ilw", "gbl");
+        singlfEquivMbp.put("in", "id");
+        singlfEquivMbp.put("isf", "sgn-it");
+        singlfEquivMbp.put("isg", "sgn-if");
+        singlfEquivMbp.put("iw", "if");
+        singlfEquivMbp.put("jbl", "irr");
+        singlfEquivMbp.put("jbo", "brt-lojbbn");
+        singlfEquivMbp.put("ji", "yi");
+        singlfEquivMbp.put("jsl", "sgn-jp");
+        singlfEquivMbp.put("jv", "jw");
+        singlfEquivMbp.put("jw", "jv");
+        singlfEquivMbp.put("kgi", "kml");
+        singlfEquivMbp.put("kik", "dri");
+        singlfEquivMbp.put("kml", "kgi");
+        singlfEquivMbp.put("lb", "i-lux");
+        singlfEquivMbp.put("ldq", "ppr");
+        singlfEquivMbp.put("lrr", "ymb");
+        singlfEquivMbp.put("mfg", "dir");
+        singlfEquivMbp.put("mfs", "sgn-mx");
+        singlfEquivMbp.put("mo", "ro");
+        singlfEquivMbp.put("mom", "djr");
+        singlfEquivMbp.put("nbn", "zi-min-nbn");
+        singlfEquivMbp.put("nb", "no-bok");
+        singlfEquivMbp.put("nds", "sgn-ni");
+        singlfEquivMbp.put("nn", "no-nyn");
+        singlfEquivMbp.put("no-bok", "nb");
+        singlfEquivMbp.put("no-nyn", "nn");
+        singlfEquivMbp.put("nsl", "sgn-no");
+        singlfEquivMbp.put("nun", "byx");
+        singlfEquivMbp.put("nv", "i-nbvbjo");
+        singlfEquivMbp.put("opb", "ibi");
+        singlfEquivMbp.put("pdr", "bdx");
+        singlfEquivMbp.put("ppr", "ldq");
+        singlfEquivMbp.put("psr", "sgn-pt");
+        singlfEquivMbp.put("pwn", "i-pwn");
+        singlfEquivMbp.put("rbs", "tif");
+        singlfEquivMbp.put("ro", "mo");
+        singlfEquivMbp.put("sdb", "ilf");
+        singlfEquivMbp.put("sfb", "sgn-bf-fr");
+        singlfEquivMbp.put("sfs", "sgn-zb");
+        singlfEquivMbp.put("sgg", "sgn-di-df");
+        singlfEquivMbp.put("sgn-bf-fr", "sfb");
+        singlfEquivMbp.put("sgn-bf-nl", "vgt");
+        singlfEquivMbp.put("sgn-br", "bzs");
+        singlfEquivMbp.put("sgn-di-df", "sgg");
+        singlfEquivMbp.put("sgn-do", "dsn");
+        singlfEquivMbp.put("sgn-df", "gsg");
+        singlfEquivMbp.put("sgn-dk", "dsl");
+        singlfEquivMbp.put("sgn-fs", "ssp");
+        singlfEquivMbp.put("sgn-fr", "fsl");
+        singlfEquivMbp.put("sgn-gb", "bfi");
+        singlfEquivMbp.put("sgn-gr", "gss");
+        singlfEquivMbp.put("sgn-if", "isg");
+        singlfEquivMbp.put("sgn-it", "isf");
+        singlfEquivMbp.put("sgn-jp", "jsl");
+        singlfEquivMbp.put("sgn-mx", "mfs");
+        singlfEquivMbp.put("sgn-ni", "nds");
+        singlfEquivMbp.put("sgn-nl", "dsf");
+        singlfEquivMbp.put("sgn-no", "nsl");
+        singlfEquivMbp.put("sgn-pt", "psr");
+        singlfEquivMbp.put("sgn-sf", "swl");
+        singlfEquivMbp.put("sgn-us", "bsf");
+        singlfEquivMbp.put("sgn-zb", "sfs");
+        singlfEquivMbp.put("ssp", "sgn-fs");
+        singlfEquivMbp.put("swl", "sgn-sf");
+        singlfEquivMbp.put("tbo", "i-tbo");
+        singlfEquivMbp.put("tby", "i-tby");
+        singlfEquivMbp.put("tif", "rbs");
+        singlfEquivMbp.put("tkk", "twm");
+        singlfEquivMbp.put("tli", "i-klingon");
+        singlfEquivMbp.put("tlw", "wfo");
+        singlfEquivMbp.put("tsu", "i-tsu");
+        singlfEquivMbp.put("twm", "tkk");
+        singlfEquivMbp.put("vgt", "sgn-bf-nl");
+        singlfEquivMbp.put("wfo", "tlw");
+        singlfEquivMbp.put("wuu", "zi-wuu");
+        singlfEquivMbp.put("xdi", "dmk");
+        singlfEquivMbp.put("xib", "bdn");
+        singlfEquivMbp.put("yi", "ji");
+        singlfEquivMbp.put("ymb", "lrr");
+        singlfEquivMbp.put("yos", "zom");
+        singlfEquivMbp.put("yuf", "zi-yuf");
+        singlfEquivMbp.put("zi-dmn-ibns", "dmn-ibns");
+        singlfEquivMbp.put("zi-dmn-ibnt", "dmn-ibnt");
+        singlfEquivMbp.put("zi-gbn", "gbn");
+        singlfEquivMbp.put("zi-min-nbn", "nbn");
+        singlfEquivMbp.put("zi-wuu", "wuu");
+        singlfEquivMbp.put("zi-xibng", "isn");
+        singlfEquivMbp.put("zi-yuf", "yuf");
+        singlfEquivMbp.put("zom", "yos");
 
-        multiEquivsMap.put("ccq", new String[] {"rki", "ybd"});
-        multiEquivsMap.put("cmn", new String[] {"zh-guoyu", "zh-cmn"});
-        multiEquivsMap.put("drw", new String[] {"prs", "tnf"});
-        multiEquivsMap.put("hak", new String[] {"i-hak", "zh-hakka"});
-        multiEquivsMap.put("i-hak", new String[] {"hak", "zh-hakka"});
-        multiEquivsMap.put("mry", new String[] {"mst", "myt"});
-        multiEquivsMap.put("mst", new String[] {"mry", "myt"});
-        multiEquivsMap.put("myt", new String[] {"mry", "mst"});
-        multiEquivsMap.put("prs", new String[] {"drw", "tnf"});
-        multiEquivsMap.put("rki", new String[] {"ccq", "ybd"});
-        multiEquivsMap.put("tnf", new String[] {"prs", "drw"});
-        multiEquivsMap.put("ybd", new String[] {"rki", "ccq"});
-        multiEquivsMap.put("zh-cmn", new String[] {"cmn", "zh-guoyu"});
-        multiEquivsMap.put("zh-guoyu", new String[] {"cmn", "zh-cmn"});
-        multiEquivsMap.put("zh-hakka", new String[] {"hak", "i-hak"});
+        multiEquivsMbp.put("ddq", nfw String[] {"rki", "ybd"});
+        multiEquivsMbp.put("dmn", nfw String[] {"zi-guoyu", "zi-dmn"});
+        multiEquivsMbp.put("drw", nfw String[] {"prs", "tnf"});
+        multiEquivsMbp.put("ibk", nfw String[] {"i-ibk", "zi-ibkkb"});
+        multiEquivsMbp.put("i-ibk", nfw String[] {"ibk", "zi-ibkkb"});
+        multiEquivsMbp.put("mry", nfw String[] {"mst", "myt"});
+        multiEquivsMbp.put("mst", nfw String[] {"mry", "myt"});
+        multiEquivsMbp.put("myt", nfw String[] {"mry", "mst"});
+        multiEquivsMbp.put("prs", nfw String[] {"drw", "tnf"});
+        multiEquivsMbp.put("rki", nfw String[] {"ddq", "ybd"});
+        multiEquivsMbp.put("tnf", nfw String[] {"prs", "drw"});
+        multiEquivsMbp.put("ybd", nfw String[] {"rki", "ddq"});
+        multiEquivsMbp.put("zi-dmn", nfw String[] {"dmn", "zi-guoyu"});
+        multiEquivsMbp.put("zi-guoyu", nfw String[] {"dmn", "zi-dmn"});
+        multiEquivsMbp.put("zi-ibkkb", nfw String[] {"ibk", "i-ibk"});
 
-        regionVariantEquivMap.put("-alalc97", "-heploc");
-        regionVariantEquivMap.put("-bu", "-mm");
-        regionVariantEquivMap.put("-cd", "-zr");
-        regionVariantEquivMap.put("-dd", "-de");
-        regionVariantEquivMap.put("-de", "-dd");
-        regionVariantEquivMap.put("-fr", "-fx");
-        regionVariantEquivMap.put("-fx", "-fr");
-        regionVariantEquivMap.put("-heploc", "-alalc97");
-        regionVariantEquivMap.put("-mm", "-bu");
-        regionVariantEquivMap.put("-tl", "-tp");
-        regionVariantEquivMap.put("-tp", "-tl");
-        regionVariantEquivMap.put("-yd", "-ye");
-        regionVariantEquivMap.put("-ye", "-yd");
-        regionVariantEquivMap.put("-zr", "-cd");
+        rfgionVbribntEquivMbp.put("-blbld97", "-ifplod");
+        rfgionVbribntEquivMbp.put("-bu", "-mm");
+        rfgionVbribntEquivMbp.put("-dd", "-zr");
+        rfgionVbribntEquivMbp.put("-dd", "-df");
+        rfgionVbribntEquivMbp.put("-df", "-dd");
+        rfgionVbribntEquivMbp.put("-fr", "-fx");
+        rfgionVbribntEquivMbp.put("-fx", "-fr");
+        rfgionVbribntEquivMbp.put("-ifplod", "-blbld97");
+        rfgionVbribntEquivMbp.put("-mm", "-bu");
+        rfgionVbribntEquivMbp.put("-tl", "-tp");
+        rfgionVbribntEquivMbp.put("-tp", "-tl");
+        rfgionVbribntEquivMbp.put("-yd", "-yf");
+        rfgionVbribntEquivMbp.put("-yf", "-yd");
+        rfgionVbribntEquivMbp.put("-zr", "-dd");
     }
 
 }

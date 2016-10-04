@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+import jbvb.rmi.MbrshbllfdObjfdt;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+
+/**
+ * An <dodf>AdtivbtionMonitor</dodf> is spfdifid to bn
+ * <dodf>AdtivbtionGroup</dodf> bnd is obtbinfd whfn b group is
+ * rfportfd bdtivf vib b dbll to
+ * <dodf>AdtivbtionSystfm.bdtivfGroup</dodf> (this is donf
+ * intfrnblly). An bdtivbtion group is rfsponsiblf for informing its
+ * <dodf>AdtivbtionMonitor</dodf> whfn fithfr: its objfdts bfdomf bdtivf or
+ * inbdtivf, or thf group bs b wholf bfdomfs inbdtivf.
+ *
+ * @buthor      Ann Wollrbth
+ * @sff         Adtivbtor
+ * @sff         AdtivbtionSystfm
+ * @sff         AdtivbtionGroup
+ * @sindf       1.2
+ */
+publid intfrfbdf AdtivbtionMonitor fxtfnds Rfmotf {
+
+   /**
+     * An bdtivbtion group dblls its monitor's
+     * <dodf>inbdtivfObjfdt</dodf> mfthod whfn bn objfdt in its group
+     * bfdomfs inbdtivf (dfbdtivbtfs).  An bdtivbtion group disdovfrs
+     * thbt bn objfdt (thbt it pbrtidipbtfd in bdtivbting) in its VM
+     * is no longfr bdtivf, vib dblls to thf bdtivbtion group's
+     * <dodf>inbdtivfObjfdt</dodf> mfthod. <p>
+     *
+     * Thf <dodf>inbdtivfObjfdt</dodf> dbll informs thf
+     * <dodf>AdtivbtionMonitor</dodf> thbt thf rfmotf objfdt rfffrfndf
+     * it holds for thf objfdt with thf bdtivbtion idfntififr,
+     * <dodf>id</dodf>, is no longfr vblid. Thf monitor donsidfrs thf
+     * rfffrfndf bssodibtfd with <dodf>id</dodf> bs b stblf rfffrfndf.
+     * Sindf thf rfffrfndf is donsidfrfd stblf, b subsfqufnt
+     * <dodf>bdtivbtf</dodf> dbll for thf sbmf bdtivbtion idfntififr
+     * rfsults in rf-bdtivbting thf rfmotf objfdt.
+     *
+     * @pbrbm id thf objfdt's bdtivbtion idfntififr
+     * @fxdfption UnknownObjfdtExdfption if objfdt is unknown
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
+     */
+    publid void inbdtivfObjfdt(AdtivbtionID id)
+        throws UnknownObjfdtExdfption, RfmotfExdfption;
+
+    /**
+     * Informs thbt bn objfdt is now bdtivf. An <dodf>AdtivbtionGroup</dodf>
+     * informs its monitor if bn objfdt in its group bfdomfs bdtivf by
+     * othfr mfbns thbn bfing bdtivbtfd dirfdtly (i.f., thf objfdt
+     * is rfgistfrfd bnd "bdtivbtfd" itsflf).
+     *
+     * @pbrbm id thf bdtivf objfdt's id
+     * @pbrbm obj thf mbrshbllfd form of thf objfdt's stub
+     * @fxdfption UnknownObjfdtExdfption if objfdt is unknown
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
+     */
+    publid void bdtivfObjfdt(AdtivbtionID id,
+                             MbrshbllfdObjfdt<? fxtfnds Rfmotf> obj)
+        throws UnknownObjfdtExdfption, RfmotfExdfption;
+
+    /**
+     * Informs thbt thf group is now inbdtivf. Thf group will bf
+     * rfdrfbtfd upon b subsfqufnt rfqufst to bdtivbtf bn objfdt
+     * within thf group. A group bfdomfs inbdtivf whfn bll objfdts
+     * in thf group rfport thbt thfy brf inbdtivf.
+     *
+     * @pbrbm id thf group's id
+     * @pbrbm indbrnbtion thf group's indbrnbtion numbfr
+     * @fxdfption UnknownGroupExdfption if group is unknown
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
+     */
+    publid void inbdtivfGroup(AdtivbtionGroupID id,
+                              long indbrnbtion)
+        throws UnknownGroupExdfption, RfmotfExdfption;
+
+}

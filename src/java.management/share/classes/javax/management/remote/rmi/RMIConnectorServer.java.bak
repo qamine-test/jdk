@@ -1,853 +1,853 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.remote.rmi;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf.rmi;
 
 
-import com.sun.jmx.remote.security.MBeanServerFileAccessController;
-import com.sun.jmx.remote.internal.IIOPHelper;
-import com.sun.jmx.remote.util.ClassLogger;
-import com.sun.jmx.remote.util.EnvHelp;
+import dom.sun.jmx.rfmotf.sfdurity.MBfbnSfrvfrFilfAddfssControllfr;
+import dom.sun.jmx.rfmotf.intfrnbl.IIOPHflpfr;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.MalformedURLException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanServer;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
 
-import javax.management.remote.JMXConnectionNotification;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorServer;
-import javax.management.remote.JMXServiceURL;
-import javax.management.remote.MBeanServerForwarder;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtionNotifidbtion;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL;
+import jbvbx.mbnbgfmfnt.rfmotf.MBfbnSfrvfrForwbrdfr;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import jbvbx.nbming.InitiblContfxt;
+import jbvbx.nbming.NbmingExdfption;
 
 /**
- * <p>A JMX API connector server that creates RMI-based connections
- * from remote clients.  Usually, such connector servers are made
- * using {@link javax.management.remote.JMXConnectorServerFactory
- * JMXConnectorServerFactory}.  However, specialized applications can
- * use this class directly, for example with an {@link RMIServerImpl}
- * object.</p>
+ * <p>A JMX API donnfdtor sfrvfr tibt drfbtfs RMI-bbsfd donnfdtions
+ * from rfmotf dlifnts.  Usublly, sudi donnfdtor sfrvfrs brf mbdf
+ * using {@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory
+ * JMXConnfdtorSfrvfrFbdtory}.  Howfvfr, spfdiblizfd bpplidbtions dbn
+ * usf tiis dlbss dirfdtly, for fxbmplf witi bn {@link RMISfrvfrImpl}
+ * objfdt.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class RMIConnectorServer extends JMXConnectorServer {
+publid dlbss RMIConnfdtorSfrvfr fxtfnds JMXConnfdtorSfrvfr {
     /**
-     * <p>Name of the attribute that specifies whether the {@link
-     * RMIServer} stub that represents an RMI connector server should
-     * override an existing stub at the same address.  The value
-     * associated with this attribute, if any, should be a string that
-     * is equal, ignoring case, to <code>"true"</code> or
-     * <code>"false"</code>.  The default value is false.</p>
+     * <p>Nbmf of tif bttributf tibt spfdififs wiftifr tif {@link
+     * RMISfrvfr} stub tibt rfprfsfnts bn RMI donnfdtor sfrvfr siould
+     * ovfrridf bn fxisting stub bt tif sbmf bddrfss.  Tif vbluf
+     * bssodibtfd witi tiis bttributf, if bny, siould bf b string tibt
+     * is fqubl, ignoring dbsf, to <dodf>"truf"</dodf> or
+     * <dodf>"fblsf"</dodf>.  Tif dffbult vbluf is fblsf.</p>
      */
-    public static final String JNDI_REBIND_ATTRIBUTE =
-        "jmx.remote.jndi.rebind";
+    publid stbtid finbl String JNDI_REBIND_ATTRIBUTE =
+        "jmx.rfmotf.jndi.rfbind";
 
     /**
-     * <p>Name of the attribute that specifies the {@link
-     * RMIClientSocketFactory} for the RMI objects created in
-     * conjunction with this connector. The value associated with this
-     * attribute must be of type <code>RMIClientSocketFactory</code> and can
-     * only be specified in the <code>Map</code> argument supplied when
-     * creating a connector server.</p>
+     * <p>Nbmf of tif bttributf tibt spfdififs tif {@link
+     * RMIClifntSodkftFbdtory} for tif RMI objfdts drfbtfd in
+     * donjundtion witi tiis donnfdtor. Tif vbluf bssodibtfd witi tiis
+     * bttributf must bf of typf <dodf>RMIClifntSodkftFbdtory</dodf> bnd dbn
+     * only bf spfdififd in tif <dodf>Mbp</dodf> brgumfnt supplifd wifn
+     * drfbting b donnfdtor sfrvfr.</p>
      */
-    public static final String RMI_CLIENT_SOCKET_FACTORY_ATTRIBUTE =
-        "jmx.remote.rmi.client.socket.factory";
+    publid stbtid finbl String RMI_CLIENT_SOCKET_FACTORY_ATTRIBUTE =
+        "jmx.rfmotf.rmi.dlifnt.sodkft.fbdtory";
 
     /**
-     * <p>Name of the attribute that specifies the {@link
-     * RMIServerSocketFactory} for the RMI objects created in
-     * conjunction with this connector. The value associated with this
-     * attribute must be of type <code>RMIServerSocketFactory</code> and can
-     * only be specified in the <code>Map</code> argument supplied when
-     * creating a connector server.</p>
+     * <p>Nbmf of tif bttributf tibt spfdififs tif {@link
+     * RMISfrvfrSodkftFbdtory} for tif RMI objfdts drfbtfd in
+     * donjundtion witi tiis donnfdtor. Tif vbluf bssodibtfd witi tiis
+     * bttributf must bf of typf <dodf>RMISfrvfrSodkftFbdtory</dodf> bnd dbn
+     * only bf spfdififd in tif <dodf>Mbp</dodf> brgumfnt supplifd wifn
+     * drfbting b donnfdtor sfrvfr.</p>
      */
-    public static final String RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE =
-        "jmx.remote.rmi.server.socket.factory";
+    publid stbtid finbl String RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE =
+        "jmx.rfmotf.rmi.sfrvfr.sodkft.fbdtory";
 
     /**
-     * <p>Makes an <code>RMIConnectorServer</code>.
-     * This is equivalent to calling {@link #RMIConnectorServer(
-     * JMXServiceURL,Map,RMIServerImpl,MBeanServer)
-     * RMIConnectorServer(directoryURL,environment,null,null)}</p>
+     * <p>Mbkfs bn <dodf>RMIConnfdtorSfrvfr</dodf>.
+     * Tiis is fquivblfnt to dblling {@link #RMIConnfdtorSfrvfr(
+     * JMXSfrvidfURL,Mbp,RMISfrvfrImpl,MBfbnSfrvfr)
+     * RMIConnfdtorSfrvfr(dirfdtoryURL,fnvironmfnt,null,null)}</p>
      *
-     * @param url the URL defining how to create the connector server.
-     * Cannot be null.
+     * @pbrbm url tif URL dffining iow to drfbtf tif donnfdtor sfrvfr.
+     * Cbnnot bf null.
      *
-     * @param environment attributes governing the creation and
-     * storing of the RMI object.  Can be null, which is equivalent to
-     * an empty Map.
+     * @pbrbm fnvironmfnt bttributfs govfrning tif drfbtion bnd
+     * storing of tif RMI objfdt.  Cbn bf null, wiidi is fquivblfnt to
+     * bn fmpty Mbp.
      *
-     * @exception IllegalArgumentException if <code>url</code> is null.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>url</dodf> is null.
      *
-     * @exception MalformedURLException if <code>url</code> does not
-     * conform to the syntax for an RMI connector, or if its protocol
-     * is not recognized by this implementation. Only "rmi" and "iiop"
-     * are valid when this constructor is used.
+     * @fxdfption MblformfdURLExdfption if <dodf>url</dodf> dofs not
+     * donform to tif syntbx for bn RMI donnfdtor, or if its protodol
+     * is not rfdognizfd by tiis implfmfntbtion. Only "rmi" bnd "iiop"
+     * brf vblid wifn tiis donstrudtor is usfd.
      *
-     * @exception IOException if the connector server cannot be created
-     * for some reason or if it is inevitable that its {@link #start()
-     * start} method will fail.
+     * @fxdfption IOExdfption if tif donnfdtor sfrvfr dbnnot bf drfbtfd
+     * for somf rfbson or if it is infvitbblf tibt its {@link #stbrt()
+     * stbrt} mftiod will fbil.
      */
-    public RMIConnectorServer(JMXServiceURL url, Map<String,?> environment)
-            throws IOException {
-        this(url, environment, (MBeanServer) null);
+    publid RMIConnfdtorSfrvfr(JMXSfrvidfURL url, Mbp<String,?> fnvironmfnt)
+            tirows IOExdfption {
+        tiis(url, fnvironmfnt, (MBfbnSfrvfr) null);
     }
 
     /**
-     * <p>Makes an <code>RMIConnectorServer</code> for the given MBean
-     * server.
-     * This is equivalent to calling {@link #RMIConnectorServer(
-     * JMXServiceURL,Map,RMIServerImpl,MBeanServer)
-     * RMIConnectorServer(directoryURL,environment,null,mbeanServer)}</p>
+     * <p>Mbkfs bn <dodf>RMIConnfdtorSfrvfr</dodf> for tif givfn MBfbn
+     * sfrvfr.
+     * Tiis is fquivblfnt to dblling {@link #RMIConnfdtorSfrvfr(
+     * JMXSfrvidfURL,Mbp,RMISfrvfrImpl,MBfbnSfrvfr)
+     * RMIConnfdtorSfrvfr(dirfdtoryURL,fnvironmfnt,null,mbfbnSfrvfr)}</p>
      *
-     * @param url the URL defining how to create the connector server.
-     * Cannot be null.
+     * @pbrbm url tif URL dffining iow to drfbtf tif donnfdtor sfrvfr.
+     * Cbnnot bf null.
      *
-     * @param environment attributes governing the creation and
-     * storing of the RMI object.  Can be null, which is equivalent to
-     * an empty Map.
+     * @pbrbm fnvironmfnt bttributfs govfrning tif drfbtion bnd
+     * storing of tif RMI objfdt.  Cbn bf null, wiidi is fquivblfnt to
+     * bn fmpty Mbp.
      *
-     * @param mbeanServer the MBean server to which the new connector
-     * server is attached, or null if it will be attached by being
-     * registered as an MBean in the MBean server.
+     * @pbrbm mbfbnSfrvfr tif MBfbn sfrvfr to wiidi tif nfw donnfdtor
+     * sfrvfr is bttbdifd, or null if it will bf bttbdifd by bfing
+     * rfgistfrfd bs bn MBfbn in tif MBfbn sfrvfr.
      *
-     * @exception IllegalArgumentException if <code>url</code> is null.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>url</dodf> is null.
      *
-     * @exception MalformedURLException if <code>url</code> does not
-     * conform to the syntax for an RMI connector, or if its protocol
-     * is not recognized by this implementation. Only "rmi" and "iiop"
-     * are valid when this constructor is used.
+     * @fxdfption MblformfdURLExdfption if <dodf>url</dodf> dofs not
+     * donform to tif syntbx for bn RMI donnfdtor, or if its protodol
+     * is not rfdognizfd by tiis implfmfntbtion. Only "rmi" bnd "iiop"
+     * brf vblid wifn tiis donstrudtor is usfd.
      *
-     * @exception IOException if the connector server cannot be created
-     * for some reason or if it is inevitable that its {@link #start()
-     * start} method will fail.
+     * @fxdfption IOExdfption if tif donnfdtor sfrvfr dbnnot bf drfbtfd
+     * for somf rfbson or if it is infvitbblf tibt its {@link #stbrt()
+     * stbrt} mftiod will fbil.
      */
-    public RMIConnectorServer(JMXServiceURL url, Map<String,?> environment,
-                              MBeanServer mbeanServer)
-            throws IOException {
-        this(url, environment, (RMIServerImpl) null, mbeanServer);
+    publid RMIConnfdtorSfrvfr(JMXSfrvidfURL url, Mbp<String,?> fnvironmfnt,
+                              MBfbnSfrvfr mbfbnSfrvfr)
+            tirows IOExdfption {
+        tiis(url, fnvironmfnt, (RMISfrvfrImpl) null, mbfbnSfrvfr);
     }
 
     /**
-     * <p>Makes an <code>RMIConnectorServer</code> for the given MBean
-     * server.</p>
+     * <p>Mbkfs bn <dodf>RMIConnfdtorSfrvfr</dodf> for tif givfn MBfbn
+     * sfrvfr.</p>
      *
-     * @param url the URL defining how to create the connector server.
-     * Cannot be null.
+     * @pbrbm url tif URL dffining iow to drfbtf tif donnfdtor sfrvfr.
+     * Cbnnot bf null.
      *
-     * @param environment attributes governing the creation and
-     * storing of the RMI object.  Can be null, which is equivalent to
-     * an empty Map.
+     * @pbrbm fnvironmfnt bttributfs govfrning tif drfbtion bnd
+     * storing of tif RMI objfdt.  Cbn bf null, wiidi is fquivblfnt to
+     * bn fmpty Mbp.
      *
-     * @param rmiServerImpl An implementation of the RMIServer interface,
-     *  consistent with the protocol type specified in <var>url</var>.
-     *  If this parameter is non null, the protocol type specified by
-     *  <var>url</var> is not constrained, and is assumed to be valid.
-     *  Otherwise, only "rmi" and "iiop" will be recognized.
+     * @pbrbm rmiSfrvfrImpl An implfmfntbtion of tif RMISfrvfr intfrfbdf,
+     *  donsistfnt witi tif protodol typf spfdififd in <vbr>url</vbr>.
+     *  If tiis pbrbmftfr is non null, tif protodol typf spfdififd by
+     *  <vbr>url</vbr> is not donstrbinfd, bnd is bssumfd to bf vblid.
+     *  Otifrwisf, only "rmi" bnd "iiop" will bf rfdognizfd.
      *
-     * @param mbeanServer the MBean server to which the new connector
-     * server is attached, or null if it will be attached by being
-     * registered as an MBean in the MBean server.
+     * @pbrbm mbfbnSfrvfr tif MBfbn sfrvfr to wiidi tif nfw donnfdtor
+     * sfrvfr is bttbdifd, or null if it will bf bttbdifd by bfing
+     * rfgistfrfd bs bn MBfbn in tif MBfbn sfrvfr.
      *
-     * @exception IllegalArgumentException if <code>url</code> is null.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>url</dodf> is null.
      *
-     * @exception MalformedURLException if <code>url</code> does not
-     * conform to the syntax for an RMI connector, or if its protocol
-     * is not recognized by this implementation. Only "rmi" and "iiop"
-     * are recognized when <var>rmiServerImpl</var> is null.
+     * @fxdfption MblformfdURLExdfption if <dodf>url</dodf> dofs not
+     * donform to tif syntbx for bn RMI donnfdtor, or if its protodol
+     * is not rfdognizfd by tiis implfmfntbtion. Only "rmi" bnd "iiop"
+     * brf rfdognizfd wifn <vbr>rmiSfrvfrImpl</vbr> is null.
      *
-     * @exception IOException if the connector server cannot be created
-     * for some reason or if it is inevitable that its {@link #start()
-     * start} method will fail.
+     * @fxdfption IOExdfption if tif donnfdtor sfrvfr dbnnot bf drfbtfd
+     * for somf rfbson or if it is infvitbblf tibt its {@link #stbrt()
+     * stbrt} mftiod will fbil.
      *
-     * @see #start
+     * @sff #stbrt
      */
-    public RMIConnectorServer(JMXServiceURL url, Map<String,?> environment,
-                              RMIServerImpl rmiServerImpl,
-                              MBeanServer mbeanServer)
-            throws IOException {
-        super(mbeanServer);
+    publid RMIConnfdtorSfrvfr(JMXSfrvidfURL url, Mbp<String,?> fnvironmfnt,
+                              RMISfrvfrImpl rmiSfrvfrImpl,
+                              MBfbnSfrvfr mbfbnSfrvfr)
+            tirows IOExdfption {
+        supfr(mbfbnSfrvfr);
 
-        if (url == null) throw new
-            IllegalArgumentException("Null JMXServiceURL");
-        if (rmiServerImpl == null) {
-            final String prt = url.getProtocol();
-            if (prt == null || !(prt.equals("rmi") || prt.equals("iiop"))) {
-                final String msg = "Invalid protocol type: " + prt;
-                throw new MalformedURLException(msg);
+        if (url == null) tirow nfw
+            IllfgblArgumfntExdfption("Null JMXSfrvidfURL");
+        if (rmiSfrvfrImpl == null) {
+            finbl String prt = url.gftProtodol();
+            if (prt == null || !(prt.fqubls("rmi") || prt.fqubls("iiop"))) {
+                finbl String msg = "Invblid protodol typf: " + prt;
+                tirow nfw MblformfdURLExdfption(msg);
             }
-            final String urlPath = url.getURLPath();
-            if (!urlPath.equals("")
-                && !urlPath.equals("/")
-                && !urlPath.startsWith("/jndi/")) {
-                final String msg = "URL path must be empty or start with " +
+            finbl String urlPbti = url.gftURLPbti();
+            if (!urlPbti.fqubls("")
+                && !urlPbti.fqubls("/")
+                && !urlPbti.stbrtsWiti("/jndi/")) {
+                finbl String msg = "URL pbti must bf fmpty or stbrt witi " +
                     "/jndi/";
-                throw new MalformedURLException(msg);
+                tirow nfw MblformfdURLExdfption(msg);
             }
         }
 
-        if (environment == null)
-            this.attributes = Collections.emptyMap();
-        else {
-            EnvHelp.checkAttributes(environment);
-            this.attributes = Collections.unmodifiableMap(environment);
+        if (fnvironmfnt == null)
+            tiis.bttributfs = Collfdtions.fmptyMbp();
+        flsf {
+            EnvHflp.difdkAttributfs(fnvironmfnt);
+            tiis.bttributfs = Collfdtions.unmodifibblfMbp(fnvironmfnt);
         }
 
-        this.address = url;
-        this.rmiServerImpl = rmiServerImpl;
+        tiis.bddrfss = url;
+        tiis.rmiSfrvfrImpl = rmiSfrvfrImpl;
     }
 
     /**
-     * <p>Returns a client stub for this connector server.  A client
-     * stub is a serializable object whose {@link
-     * JMXConnector#connect(Map) connect} method can be used to make
-     * one new connection to this connector server.</p>
+     * <p>Rfturns b dlifnt stub for tiis donnfdtor sfrvfr.  A dlifnt
+     * stub is b sfriblizbblf objfdt wiosf {@link
+     * JMXConnfdtor#donnfdt(Mbp) donnfdt} mftiod dbn bf usfd to mbkf
+     * onf nfw donnfdtion to tiis donnfdtor sfrvfr.</p>
      *
-     * @param env client connection parameters of the same sort that
-     * could be provided to {@link JMXConnector#connect(Map)
-     * JMXConnector.connect(Map)}.  Can be null, which is equivalent
-     * to an empty map.
+     * @pbrbm fnv dlifnt donnfdtion pbrbmftfrs of tif sbmf sort tibt
+     * dould bf providfd to {@link JMXConnfdtor#donnfdt(Mbp)
+     * JMXConnfdtor.donnfdt(Mbp)}.  Cbn bf null, wiidi is fquivblfnt
+     * to bn fmpty mbp.
      *
-     * @return a client stub that can be used to make a new connection
-     * to this connector server.
+     * @rfturn b dlifnt stub tibt dbn bf usfd to mbkf b nfw donnfdtion
+     * to tiis donnfdtor sfrvfr.
      *
-     * @exception UnsupportedOperationException if this connector
-     * server does not support the generation of client stubs.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tiis donnfdtor
+     * sfrvfr dofs not support tif gfnfrbtion of dlifnt stubs.
      *
-     * @exception IllegalStateException if the JMXConnectorServer is
-     * not started (see {@link #isActive()}).
+     * @fxdfption IllfgblStbtfExdfption if tif JMXConnfdtorSfrvfr is
+     * not stbrtfd (sff {@link #isAdtivf()}).
      *
-     * @exception IOException if a communications problem means that a
-     * stub cannot be created.
+     * @fxdfption IOExdfption if b dommunidbtions problfm mfbns tibt b
+     * stub dbnnot bf drfbtfd.
      **/
-    public JMXConnector toJMXConnector(Map<String,?> env) throws IOException {
-        // The serialized for of rmiServerImpl is automatically
-        // a RMI server stub.
-        if (!isActive()) throw new
-            IllegalStateException("Connector is not active");
+    publid JMXConnfdtor toJMXConnfdtor(Mbp<String,?> fnv) tirows IOExdfption {
+        // Tif sfriblizfd for of rmiSfrvfrImpl is butombtidblly
+        // b RMI sfrvfr stub.
+        if (!isAdtivf()) tirow nfw
+            IllfgblStbtfExdfption("Connfdtor is not bdtivf");
 
-        // Merge maps
-        Map<String, Object> usemap = new HashMap<String, Object>(
-                (this.attributes==null)?Collections.<String, Object>emptyMap():
-                    this.attributes);
+        // Mfrgf mbps
+        Mbp<String, Objfdt> usfmbp = nfw HbsiMbp<String, Objfdt>(
+                (tiis.bttributfs==null)?Collfdtions.<String, Objfdt>fmptyMbp():
+                    tiis.bttributfs);
 
-        if (env != null) {
-            EnvHelp.checkAttributes(env);
-            usemap.putAll(env);
+        if (fnv != null) {
+            EnvHflp.difdkAttributfs(fnv);
+            usfmbp.putAll(fnv);
         }
 
-        usemap = EnvHelp.filterAttributes(usemap);
+        usfmbp = EnvHflp.filtfrAttributfs(usfmbp);
 
-        final RMIServer stub=(RMIServer)rmiServerImpl.toStub();
+        finbl RMISfrvfr stub=(RMISfrvfr)rmiSfrvfrImpl.toStub();
 
-        return new RMIConnector(stub, usemap);
+        rfturn nfw RMIConnfdtor(stub, usfmbp);
     }
 
     /**
-     * <p>Activates the connector server, that is starts listening for
-     * client connections.  Calling this method when the connector
-     * server is already active has no effect.  Calling this method
-     * when the connector server has been stopped will generate an
-     * <code>IOException</code>.</p>
+     * <p>Adtivbtfs tif donnfdtor sfrvfr, tibt is stbrts listfning for
+     * dlifnt donnfdtions.  Cblling tiis mftiod wifn tif donnfdtor
+     * sfrvfr is blrfbdy bdtivf ibs no ffffdt.  Cblling tiis mftiod
+     * wifn tif donnfdtor sfrvfr ibs bffn stoppfd will gfnfrbtf bn
+     * <dodf>IOExdfption</dodf>.</p>
      *
-     * <p>The behavior of this method when called for the first time
-     * depends on the parameters that were supplied at construction,
-     * as described below.</p>
+     * <p>Tif bfibvior of tiis mftiod wifn dbllfd for tif first timf
+     * dfpfnds on tif pbrbmftfrs tibt wfrf supplifd bt donstrudtion,
+     * bs dfsdribfd bflow.</p>
      *
-     * <p>First, an object of a subclass of {@link RMIServerImpl} is
-     * required, to export the connector server through RMI:</p>
+     * <p>First, bn objfdt of b subdlbss of {@link RMISfrvfrImpl} is
+     * rfquirfd, to fxport tif donnfdtor sfrvfr tirougi RMI:</p>
      *
      * <ul>
      *
-     * <li>If an <code>RMIServerImpl</code> was supplied to the
-     * constructor, it is used.
+     * <li>If bn <dodf>RMISfrvfrImpl</dodf> wbs supplifd to tif
+     * donstrudtor, it is usfd.
      *
-     * <li>Otherwise, if the protocol part of the
-     * <code>JMXServiceURL</code> supplied to the constructor was
-     * <code>iiop</code>, an object of type {@link RMIIIOPServerImpl}
-     * is created.
+     * <li>Otifrwisf, if tif protodol pbrt of tif
+     * <dodf>JMXSfrvidfURL</dodf> supplifd to tif donstrudtor wbs
+     * <dodf>iiop</dodf>, bn objfdt of typf {@link RMIIIOPSfrvfrImpl}
+     * is drfbtfd.
      *
-     * <li>Otherwise, if the <code>JMXServiceURL</code>
-     * was null, or its protocol part was <code>rmi</code>, an object
-     * of type {@link RMIJRMPServerImpl} is created.
+     * <li>Otifrwisf, if tif <dodf>JMXSfrvidfURL</dodf>
+     * wbs null, or its protodol pbrt wbs <dodf>rmi</dodf>, bn objfdt
+     * of typf {@link RMIJRMPSfrvfrImpl} is drfbtfd.
      *
-     * <li>Otherwise, the implementation can create an
-     * implementation-specific {@link RMIServerImpl} or it can throw
-     * {@link MalformedURLException}.
+     * <li>Otifrwisf, tif implfmfntbtion dbn drfbtf bn
+     * implfmfntbtion-spfdifid {@link RMISfrvfrImpl} or it dbn tirow
+     * {@link MblformfdURLExdfption}.
      *
      * </ul>
      *
-     * <p>If the given address includes a JNDI directory URL as
-     * specified in the package documentation for {@link
-     * javax.management.remote.rmi}, then this
-     * <code>RMIConnectorServer</code> will bootstrap by binding the
-     * <code>RMIServerImpl</code> to the given address.</p>
+     * <p>If tif givfn bddrfss indludfs b JNDI dirfdtory URL bs
+     * spfdififd in tif pbdkbgf dodumfntbtion for {@link
+     * jbvbx.mbnbgfmfnt.rfmotf.rmi}, tifn tiis
+     * <dodf>RMIConnfdtorSfrvfr</dodf> will bootstrbp by binding tif
+     * <dodf>RMISfrvfrImpl</dodf> to tif givfn bddrfss.</p>
      *
-     * <p>If the URL path part of the <code>JMXServiceURL</code> was
-     * empty or a single slash (<code>/</code>), then the RMI object
-     * will not be bound to a directory.  Instead, a reference to it
-     * will be encoded in the URL path of the RMIConnectorServer
-     * address (returned by {@link #getAddress()}).  The encodings for
-     * <code>rmi</code> and <code>iiop</code> are described in the
-     * package documentation for {@link
-     * javax.management.remote.rmi}.</p>
+     * <p>If tif URL pbti pbrt of tif <dodf>JMXSfrvidfURL</dodf> wbs
+     * fmpty or b singlf slbsi (<dodf>/</dodf>), tifn tif RMI objfdt
+     * will not bf bound to b dirfdtory.  Instfbd, b rfffrfndf to it
+     * will bf fndodfd in tif URL pbti of tif RMIConnfdtorSfrvfr
+     * bddrfss (rfturnfd by {@link #gftAddrfss()}).  Tif fndodings for
+     * <dodf>rmi</dodf> bnd <dodf>iiop</dodf> brf dfsdribfd in tif
+     * pbdkbgf dodumfntbtion for {@link
+     * jbvbx.mbnbgfmfnt.rfmotf.rmi}.</p>
      *
-     * <p>The behavior when the URL path is neither empty nor a JNDI
-     * directory URL, or when the protocol is neither <code>rmi</code>
-     * nor <code>iiop</code>, is implementation defined, and may
-     * include throwing {@link MalformedURLException} when the
-     * connector server is created or when it is started.</p>
+     * <p>Tif bfibvior wifn tif URL pbti is nfitifr fmpty nor b JNDI
+     * dirfdtory URL, or wifn tif protodol is nfitifr <dodf>rmi</dodf>
+     * nor <dodf>iiop</dodf>, is implfmfntbtion dffinfd, bnd mby
+     * indludf tirowing {@link MblformfdURLExdfption} wifn tif
+     * donnfdtor sfrvfr is drfbtfd or wifn it is stbrtfd.</p>
      *
-     * @exception IllegalStateException if the connector server has
-     * not been attached to an MBean server.
-     * @exception IOException if the connector server cannot be
-     * started, or in the case of the {@code iiop} protocol, that
-     * RMI/IIOP is not supported.
+     * @fxdfption IllfgblStbtfExdfption if tif donnfdtor sfrvfr ibs
+     * not bffn bttbdifd to bn MBfbn sfrvfr.
+     * @fxdfption IOExdfption if tif donnfdtor sfrvfr dbnnot bf
+     * stbrtfd, or in tif dbsf of tif {@dodf iiop} protodol, tibt
+     * RMI/IIOP is not supportfd.
      */
-    public synchronized void start() throws IOException {
-        final boolean tracing = logger.traceOn();
+    publid syndironizfd void stbrt() tirows IOExdfption {
+        finbl boolfbn trbding = loggfr.trbdfOn();
 
-        if (state == STARTED) {
-            if (tracing) logger.trace("start", "already started");
-            return;
-        } else if (state == STOPPED) {
-            if (tracing) logger.trace("start", "already stopped");
-            throw new IOException("The server has been stopped.");
+        if (stbtf == STARTED) {
+            if (trbding) loggfr.trbdf("stbrt", "blrfbdy stbrtfd");
+            rfturn;
+        } flsf if (stbtf == STOPPED) {
+            if (trbding) loggfr.trbdf("stbrt", "blrfbdy stoppfd");
+            tirow nfw IOExdfption("Tif sfrvfr ibs bffn stoppfd.");
         }
 
-        if (getMBeanServer() == null)
-            throw new IllegalStateException("This connector server is not " +
-                                            "attached to an MBean server");
+        if (gftMBfbnSfrvfr() == null)
+            tirow nfw IllfgblStbtfExdfption("Tiis donnfdtor sfrvfr is not " +
+                                            "bttbdifd to bn MBfbn sfrvfr");
 
-        // Check the internal access file property to see
-        // if an MBeanServerForwarder is to be provided
+        // Cifdk tif intfrnbl bddfss filf propfrty to sff
+        // if bn MBfbnSfrvfrForwbrdfr is to bf providfd
         //
-        if (attributes != null) {
-            // Check if access file property is specified
+        if (bttributfs != null) {
+            // Cifdk if bddfss filf propfrty is spfdififd
             //
-            String accessFile =
-                (String) attributes.get("jmx.remote.x.access.file");
-            if (accessFile != null) {
-                // Access file property specified, create an instance
-                // of the MBeanServerFileAccessController class
+            String bddfssFilf =
+                (String) bttributfs.gft("jmx.rfmotf.x.bddfss.filf");
+            if (bddfssFilf != null) {
+                // Addfss filf propfrty spfdififd, drfbtf bn instbndf
+                // of tif MBfbnSfrvfrFilfAddfssControllfr dlbss
                 //
-                MBeanServerForwarder mbsf;
+                MBfbnSfrvfrForwbrdfr mbsf;
                 try {
-                    mbsf = new MBeanServerFileAccessController(accessFile);
-                } catch (IOException e) {
-                    throw EnvHelp.initCause(
-                        new IllegalArgumentException(e.getMessage()), e);
+                    mbsf = nfw MBfbnSfrvfrFilfAddfssControllfr(bddfssFilf);
+                } dbtdi (IOExdfption f) {
+                    tirow EnvHflp.initCbusf(
+                        nfw IllfgblArgumfntExdfption(f.gftMfssbgf()), f);
                 }
-                // Set the MBeanServerForwarder
+                // Sft tif MBfbnSfrvfrForwbrdfr
                 //
-                setMBeanServerForwarder(mbsf);
+                sftMBfbnSfrvfrForwbrdfr(mbsf);
             }
         }
 
         try {
-            if (tracing) logger.trace("start", "setting default class loader");
-            defaultClassLoader = EnvHelp.resolveServerClassLoader(
-                    attributes, getMBeanServer());
-        } catch (InstanceNotFoundException infc) {
-            IllegalArgumentException x = new
-                IllegalArgumentException("ClassLoader not found: "+infc);
-            throw EnvHelp.initCause(x,infc);
+            if (trbding) loggfr.trbdf("stbrt", "sftting dffbult dlbss lobdfr");
+            dffbultClbssLobdfr = EnvHflp.rfsolvfSfrvfrClbssLobdfr(
+                    bttributfs, gftMBfbnSfrvfr());
+        } dbtdi (InstbndfNotFoundExdfption infd) {
+            IllfgblArgumfntExdfption x = nfw
+                IllfgblArgumfntExdfption("ClbssLobdfr not found: "+infd);
+            tirow EnvHflp.initCbusf(x,infd);
         }
 
-        if (tracing) logger.trace("start", "setting RMIServer object");
-        final RMIServerImpl rmiServer;
+        if (trbding) loggfr.trbdf("stbrt", "sftting RMISfrvfr objfdt");
+        finbl RMISfrvfrImpl rmiSfrvfr;
 
-        if (rmiServerImpl != null)
-            rmiServer = rmiServerImpl;
-        else
-            rmiServer = newServer();
+        if (rmiSfrvfrImpl != null)
+            rmiSfrvfr = rmiSfrvfrImpl;
+        flsf
+            rmiSfrvfr = nfwSfrvfr();
 
-        rmiServer.setMBeanServer(getMBeanServer());
-        rmiServer.setDefaultClassLoader(defaultClassLoader);
-        rmiServer.setRMIConnectorServer(this);
-        rmiServer.export();
+        rmiSfrvfr.sftMBfbnSfrvfr(gftMBfbnSfrvfr());
+        rmiSfrvfr.sftDffbultClbssLobdfr(dffbultClbssLobdfr);
+        rmiSfrvfr.sftRMIConnfdtorSfrvfr(tiis);
+        rmiSfrvfr.fxport();
 
         try {
-            if (tracing) logger.trace("start", "getting RMIServer object to export");
-            final RMIServer objref = objectToBind(rmiServer, attributes);
+            if (trbding) loggfr.trbdf("stbrt", "gftting RMISfrvfr objfdt to fxport");
+            finbl RMISfrvfr objrff = objfdtToBind(rmiSfrvfr, bttributfs);
 
-            if (address != null && address.getURLPath().startsWith("/jndi/")) {
-                final String jndiUrl = address.getURLPath().substring(6);
+            if (bddrfss != null && bddrfss.gftURLPbti().stbrtsWiti("/jndi/")) {
+                finbl String jndiUrl = bddrfss.gftURLPbti().substring(6);
 
-                if (tracing)
-                    logger.trace("start", "Using external directory: " + jndiUrl);
+                if (trbding)
+                    loggfr.trbdf("stbrt", "Using fxtfrnbl dirfdtory: " + jndiUrl);
 
-                String stringBoolean = (String) attributes.get(JNDI_REBIND_ATTRIBUTE);
-                final boolean rebind = EnvHelp.computeBooleanFromString( stringBoolean );
+                String stringBoolfbn = (String) bttributfs.gft(JNDI_REBIND_ATTRIBUTE);
+                finbl boolfbn rfbind = EnvHflp.domputfBoolfbnFromString( stringBoolfbn );
 
-                if (tracing)
-                    logger.trace("start", JNDI_REBIND_ATTRIBUTE + "=" + rebind);
+                if (trbding)
+                    loggfr.trbdf("stbrt", JNDI_REBIND_ATTRIBUTE + "=" + rfbind);
 
                 try {
-                    if (tracing) logger.trace("start", "binding to " + jndiUrl);
+                    if (trbding) loggfr.trbdf("stbrt", "binding to " + jndiUrl);
 
-                    final Hashtable<?, ?> usemap = EnvHelp.mapToHashtable(attributes);
+                    finbl Hbsitbblf<?, ?> usfmbp = EnvHflp.mbpToHbsitbblf(bttributfs);
 
-                    bind(jndiUrl, usemap, objref, rebind);
+                    bind(jndiUrl, usfmbp, objrff, rfbind);
 
                     boundJndiUrl = jndiUrl;
-                } catch (NamingException e) {
-                    // fit e in the nested exception if we are on 1.4
-                    throw newIOException("Cannot bind to URL ["+jndiUrl+"]: "
-                                         + e, e);
+                } dbtdi (NbmingExdfption f) {
+                    // fit f in tif nfstfd fxdfption if wf brf on 1.4
+                    tirow nfwIOExdfption("Cbnnot bind to URL ["+jndiUrl+"]: "
+                                         + f, f);
                 }
-            } else {
-                // if jndiURL is null, we must encode the stub into the URL.
-                if (tracing) logger.trace("start", "Encoding URL");
+            } flsf {
+                // if jndiURL is null, wf must fndodf tif stub into tif URL.
+                if (trbding) loggfr.trbdf("stbrt", "Endoding URL");
 
-                encodeStubInAddress(objref, attributes);
+                fndodfStubInAddrfss(objrff, bttributfs);
 
-                if (tracing) logger.trace("start", "Encoded URL: " + this.address);
+                if (trbding) loggfr.trbdf("stbrt", "Endodfd URL: " + tiis.bddrfss);
             }
-        } catch (Exception e) {
+        } dbtdi (Exdfption f) {
             try {
-                rmiServer.close();
-            } catch (Exception x) {
-                // OK: we are already throwing another exception
+                rmiSfrvfr.dlosf();
+            } dbtdi (Exdfption x) {
+                // OK: wf brf blrfbdy tirowing bnotifr fxdfption
             }
-            if (e instanceof RuntimeException)
-                throw (RuntimeException) e;
-            else if (e instanceof IOException)
-                throw (IOException) e;
-            else
-                throw newIOException("Got unexpected exception while " +
-                                     "starting the connector server: "
-                                     + e, e);
+            if (f instbndfof RuntimfExdfption)
+                tirow (RuntimfExdfption) f;
+            flsf if (f instbndfof IOExdfption)
+                tirow (IOExdfption) f;
+            flsf
+                tirow nfwIOExdfption("Got unfxpfdtfd fxdfption wiilf " +
+                                     "stbrting tif donnfdtor sfrvfr: "
+                                     + f, f);
         }
 
-        rmiServerImpl = rmiServer;
+        rmiSfrvfrImpl = rmiSfrvfr;
 
-        synchronized(openedServers) {
-            openedServers.add(this);
+        syndironizfd(opfnfdSfrvfrs) {
+            opfnfdSfrvfrs.bdd(tiis);
         }
 
-        state = STARTED;
+        stbtf = STARTED;
 
-        if (tracing) {
-            logger.trace("start", "Connector Server Address = " + address);
-            logger.trace("start", "started.");
+        if (trbding) {
+            loggfr.trbdf("stbrt", "Connfdtor Sfrvfr Addrfss = " + bddrfss);
+            loggfr.trbdf("stbrt", "stbrtfd.");
         }
     }
 
     /**
-     * <p>Deactivates the connector server, that is, stops listening for
-     * client connections.  Calling this method will also close all
-     * client connections that were made by this server.  After this
-     * method returns, whether normally or with an exception, the
-     * connector server will not create any new client
-     * connections.</p>
+     * <p>Dfbdtivbtfs tif donnfdtor sfrvfr, tibt is, stops listfning for
+     * dlifnt donnfdtions.  Cblling tiis mftiod will blso dlosf bll
+     * dlifnt donnfdtions tibt wfrf mbdf by tiis sfrvfr.  Aftfr tiis
+     * mftiod rfturns, wiftifr normblly or witi bn fxdfption, tif
+     * donnfdtor sfrvfr will not drfbtf bny nfw dlifnt
+     * donnfdtions.</p>
      *
-     * <p>Once a connector server has been stopped, it cannot be started
-     * again.</p>
+     * <p>Ondf b donnfdtor sfrvfr ibs bffn stoppfd, it dbnnot bf stbrtfd
+     * bgbin.</p>
      *
-     * <p>Calling this method when the connector server has already
-     * been stopped has no effect.  Calling this method when the
-     * connector server has not yet been started will disable the
-     * connector server object permanently.</p>
+     * <p>Cblling tiis mftiod wifn tif donnfdtor sfrvfr ibs blrfbdy
+     * bffn stoppfd ibs no ffffdt.  Cblling tiis mftiod wifn tif
+     * donnfdtor sfrvfr ibs not yft bffn stbrtfd will disbblf tif
+     * donnfdtor sfrvfr objfdt pfrmbnfntly.</p>
      *
-     * <p>If closing a client connection produces an exception, that
-     * exception is not thrown from this method.  A {@link
-     * JMXConnectionNotification} is emitted from this MBean with the
-     * connection ID of the connection that could not be closed.</p>
+     * <p>If dlosing b dlifnt donnfdtion produdfs bn fxdfption, tibt
+     * fxdfption is not tirown from tiis mftiod.  A {@link
+     * JMXConnfdtionNotifidbtion} is fmittfd from tiis MBfbn witi tif
+     * donnfdtion ID of tif donnfdtion tibt dould not bf dlosfd.</p>
      *
-     * <p>Closing a connector server is a potentially slow operation.
-     * For example, if a client machine with an open connection has
-     * crashed, the close operation might have to wait for a network
-     * protocol timeout.  Callers that do not want to block in a close
-     * operation should do it in a separate thread.</p>
+     * <p>Closing b donnfdtor sfrvfr is b potfntiblly slow opfrbtion.
+     * For fxbmplf, if b dlifnt mbdiinf witi bn opfn donnfdtion ibs
+     * drbsifd, tif dlosf opfrbtion migit ibvf to wbit for b nftwork
+     * protodol timfout.  Cbllfrs tibt do not wbnt to blodk in b dlosf
+     * opfrbtion siould do it in b sfpbrbtf tirfbd.</p>
      *
-     * <p>This method calls the method {@link RMIServerImpl#close()
-     * close} on the connector server's <code>RMIServerImpl</code>
-     * object.</p>
+     * <p>Tiis mftiod dblls tif mftiod {@link RMISfrvfrImpl#dlosf()
+     * dlosf} on tif donnfdtor sfrvfr's <dodf>RMISfrvfrImpl</dodf>
+     * objfdt.</p>
      *
-     * <p>If the <code>RMIServerImpl</code> was bound to a JNDI
-     * directory by the {@link #start() start} method, it is unbound
-     * from the directory by this method.</p>
+     * <p>If tif <dodf>RMISfrvfrImpl</dodf> wbs bound to b JNDI
+     * dirfdtory by tif {@link #stbrt() stbrt} mftiod, it is unbound
+     * from tif dirfdtory by tiis mftiod.</p>
      *
-     * @exception IOException if the server cannot be closed cleanly,
-     * or if the <code>RMIServerImpl</code> cannot be unbound from the
-     * directory.  When this exception is thrown, the server has
-     * already attempted to close all client connections, if
-     * appropriate; to call {@link RMIServerImpl#close()}; and to
-     * unbind the <code>RMIServerImpl</code> from its directory, if
-     * appropriate.  All client connections are closed except possibly
-     * those that generated exceptions when the server attempted to
-     * close them.
+     * @fxdfption IOExdfption if tif sfrvfr dbnnot bf dlosfd dlfbnly,
+     * or if tif <dodf>RMISfrvfrImpl</dodf> dbnnot bf unbound from tif
+     * dirfdtory.  Wifn tiis fxdfption is tirown, tif sfrvfr ibs
+     * blrfbdy bttfmptfd to dlosf bll dlifnt donnfdtions, if
+     * bppropribtf; to dbll {@link RMISfrvfrImpl#dlosf()}; bnd to
+     * unbind tif <dodf>RMISfrvfrImpl</dodf> from its dirfdtory, if
+     * bppropribtf.  All dlifnt donnfdtions brf dlosfd fxdfpt possibly
+     * tiosf tibt gfnfrbtfd fxdfptions wifn tif sfrvfr bttfmptfd to
+     * dlosf tifm.
      */
-    public void stop() throws IOException {
-        final boolean tracing = logger.traceOn();
+    publid void stop() tirows IOExdfption {
+        finbl boolfbn trbding = loggfr.trbdfOn();
 
-        synchronized (this) {
-            if (state == STOPPED) {
-                if (tracing) logger.trace("stop","already stopped.");
-                return;
-            } else if (state == CREATED) {
-                if (tracing) logger.trace("stop","not started yet.");
+        syndironizfd (tiis) {
+            if (stbtf == STOPPED) {
+                if (trbding) loggfr.trbdf("stop","blrfbdy stoppfd.");
+                rfturn;
+            } flsf if (stbtf == CREATED) {
+                if (trbding) loggfr.trbdf("stop","not stbrtfd yft.");
             }
 
-            if (tracing) logger.trace("stop", "stopping.");
-            state = STOPPED;
+            if (trbding) loggfr.trbdf("stop", "stopping.");
+            stbtf = STOPPED;
         }
 
-        synchronized(openedServers) {
-            openedServers.remove(this);
+        syndironizfd(opfnfdSfrvfrs) {
+            opfnfdSfrvfrs.rfmovf(tiis);
         }
 
-        IOException exception = null;
+        IOExdfption fxdfption = null;
 
-        // rmiServerImpl can be null if stop() called without start()
-        if (rmiServerImpl != null) {
+        // rmiSfrvfrImpl dbn bf null if stop() dbllfd witiout stbrt()
+        if (rmiSfrvfrImpl != null) {
             try {
-                if (tracing) logger.trace("stop", "closing RMI server.");
-                rmiServerImpl.close();
-            } catch (IOException e) {
-                if (tracing) logger.trace("stop", "failed to close RMI server: " + e);
-                if (logger.debugOn()) logger.debug("stop",e);
-                exception = e;
+                if (trbding) loggfr.trbdf("stop", "dlosing RMI sfrvfr.");
+                rmiSfrvfrImpl.dlosf();
+            } dbtdi (IOExdfption f) {
+                if (trbding) loggfr.trbdf("stop", "fbilfd to dlosf RMI sfrvfr: " + f);
+                if (loggfr.dfbugOn()) loggfr.dfbug("stop",f);
+                fxdfption = f;
             }
         }
 
         if (boundJndiUrl != null) {
             try {
-                if (tracing)
-                    logger.trace("stop",
-                          "unbind from external directory: " + boundJndiUrl);
+                if (trbding)
+                    loggfr.trbdf("stop",
+                          "unbind from fxtfrnbl dirfdtory: " + boundJndiUrl);
 
-                final Hashtable<?, ?> usemap = EnvHelp.mapToHashtable(attributes);
+                finbl Hbsitbblf<?, ?> usfmbp = EnvHflp.mbpToHbsitbblf(bttributfs);
 
-                InitialContext ctx =
-                    new InitialContext(usemap);
+                InitiblContfxt dtx =
+                    nfw InitiblContfxt(usfmbp);
 
-                ctx.unbind(boundJndiUrl);
+                dtx.unbind(boundJndiUrl);
 
-                ctx.close();
-            } catch (NamingException e) {
-                if (tracing) logger.trace("stop", "failed to unbind RMI server: "+e);
-                if (logger.debugOn()) logger.debug("stop",e);
-                // fit e in as the nested exception if we are on 1.4
-                if (exception == null)
-                    exception = newIOException("Cannot bind to URL: " + e, e);
+                dtx.dlosf();
+            } dbtdi (NbmingExdfption f) {
+                if (trbding) loggfr.trbdf("stop", "fbilfd to unbind RMI sfrvfr: "+f);
+                if (loggfr.dfbugOn()) loggfr.dfbug("stop",f);
+                // fit f in bs tif nfstfd fxdfption if wf brf on 1.4
+                if (fxdfption == null)
+                    fxdfption = nfwIOExdfption("Cbnnot bind to URL: " + f, f);
             }
         }
 
-        if (exception != null) throw exception;
+        if (fxdfption != null) tirow fxdfption;
 
-        if (tracing) logger.trace("stop", "stopped");
+        if (trbding) loggfr.trbdf("stop", "stoppfd");
     }
 
-    public synchronized boolean isActive() {
-        return (state == STARTED);
+    publid syndironizfd boolfbn isAdtivf() {
+        rfturn (stbtf == STARTED);
     }
 
-    public JMXServiceURL getAddress() {
-        if (!isActive())
-            return null;
-        return address;
+    publid JMXSfrvidfURL gftAddrfss() {
+        if (!isAdtivf())
+            rfturn null;
+        rfturn bddrfss;
     }
 
-    public Map<String,?> getAttributes() {
-        Map<String, ?> map = EnvHelp.filterAttributes(attributes);
-        return Collections.unmodifiableMap(map);
+    publid Mbp<String,?> gftAttributfs() {
+        Mbp<String, ?> mbp = EnvHflp.filtfrAttributfs(bttributfs);
+        rfturn Collfdtions.unmodifibblfMbp(mbp);
     }
 
-    @Override
-    public synchronized
-        void setMBeanServerForwarder(MBeanServerForwarder mbsf) {
-        super.setMBeanServerForwarder(mbsf);
-        if (rmiServerImpl != null)
-            rmiServerImpl.setMBeanServer(getMBeanServer());
+    @Ovfrridf
+    publid syndironizfd
+        void sftMBfbnSfrvfrForwbrdfr(MBfbnSfrvfrForwbrdfr mbsf) {
+        supfr.sftMBfbnSfrvfrForwbrdfr(mbsf);
+        if (rmiSfrvfrImpl != null)
+            rmiSfrvfrImpl.sftMBfbnSfrvfr(gftMBfbnSfrvfr());
     }
 
-    /* We repeat the definitions of connection{Opened,Closed,Failed}
-       here so that they are accessible to other classes in this package
-       even though they have protected access.  */
+    /* Wf rfpfbt tif dffinitions of donnfdtion{Opfnfd,Closfd,Fbilfd}
+       ifrf so tibt tify brf bddfssiblf to otifr dlbssfs in tiis pbdkbgf
+       fvfn tiougi tify ibvf protfdtfd bddfss.  */
 
-    @Override
-    protected void connectionOpened(String connectionId, String message,
-                                    Object userData) {
-        super.connectionOpened(connectionId, message, userData);
+    @Ovfrridf
+    protfdtfd void donnfdtionOpfnfd(String donnfdtionId, String mfssbgf,
+                                    Objfdt usfrDbtb) {
+        supfr.donnfdtionOpfnfd(donnfdtionId, mfssbgf, usfrDbtb);
     }
 
-    @Override
-    protected void connectionClosed(String connectionId, String message,
-                                    Object userData) {
-        super.connectionClosed(connectionId, message, userData);
+    @Ovfrridf
+    protfdtfd void donnfdtionClosfd(String donnfdtionId, String mfssbgf,
+                                    Objfdt usfrDbtb) {
+        supfr.donnfdtionClosfd(donnfdtionId, mfssbgf, usfrDbtb);
     }
 
-    @Override
-    protected void connectionFailed(String connectionId, String message,
-                                    Object userData) {
-        super.connectionFailed(connectionId, message, userData);
-    }
-
-    /**
-     * Bind a stub to a registry.
-     * @param jndiUrl URL of the stub in the registry, extracted
-     *        from the <code>JMXServiceURL</code>.
-     * @param attributes A Hashtable containing environment parameters,
-     *        built from the Map specified at this object creation.
-     * @param rmiServer The object to bind in the registry
-     * @param rebind true if the object must be rebound.
-     **/
-    void bind(String jndiUrl, Hashtable<?, ?> attributes,
-              RMIServer rmiServer, boolean rebind)
-        throws NamingException, MalformedURLException {
-        // if jndiURL is not null, we nust bind the stub to a
-        // directory.
-        InitialContext ctx =
-            new InitialContext(attributes);
-
-        if (rebind)
-            ctx.rebind(jndiUrl, rmiServer);
-        else
-            ctx.bind(jndiUrl, rmiServer);
-        ctx.close();
+    @Ovfrridf
+    protfdtfd void donnfdtionFbilfd(String donnfdtionId, String mfssbgf,
+                                    Objfdt usfrDbtb) {
+        supfr.donnfdtionFbilfd(donnfdtionId, mfssbgf, usfrDbtb);
     }
 
     /**
-     * Creates a new RMIServerImpl.
+     * Bind b stub to b rfgistry.
+     * @pbrbm jndiUrl URL of tif stub in tif rfgistry, fxtrbdtfd
+     *        from tif <dodf>JMXSfrvidfURL</dodf>.
+     * @pbrbm bttributfs A Hbsitbblf dontbining fnvironmfnt pbrbmftfrs,
+     *        built from tif Mbp spfdififd bt tiis objfdt drfbtion.
+     * @pbrbm rmiSfrvfr Tif objfdt to bind in tif rfgistry
+     * @pbrbm rfbind truf if tif objfdt must bf rfbound.
      **/
-    RMIServerImpl newServer() throws IOException {
-        final boolean iiop = isIiopURL(address,true);
-        final int port;
-        if (address == null)
+    void bind(String jndiUrl, Hbsitbblf<?, ?> bttributfs,
+              RMISfrvfr rmiSfrvfr, boolfbn rfbind)
+        tirows NbmingExdfption, MblformfdURLExdfption {
+        // if jndiURL is not null, wf nust bind tif stub to b
+        // dirfdtory.
+        InitiblContfxt dtx =
+            nfw InitiblContfxt(bttributfs);
+
+        if (rfbind)
+            dtx.rfbind(jndiUrl, rmiSfrvfr);
+        flsf
+            dtx.bind(jndiUrl, rmiSfrvfr);
+        dtx.dlosf();
+    }
+
+    /**
+     * Crfbtfs b nfw RMISfrvfrImpl.
+     **/
+    RMISfrvfrImpl nfwSfrvfr() tirows IOExdfption {
+        finbl boolfbn iiop = isIiopURL(bddrfss,truf);
+        finbl int port;
+        if (bddrfss == null)
             port = 0;
-        else
-            port = address.getPort();
+        flsf
+            port = bddrfss.gftPort();
         if (iiop)
-            return newIIOPServer(attributes);
-        else
-            return newJRMPServer(attributes, port);
+            rfturn nfwIIOPSfrvfr(bttributfs);
+        flsf
+            rfturn nfwJRMPSfrvfr(bttributfs, port);
     }
 
     /**
-     * Encode a stub into the JMXServiceURL.
-     * @param rmiServer The stub object to encode in the URL
-     * @param attributes A Map containing environment parameters,
-     *        built from the Map specified at this object creation.
+     * Endodf b stub into tif JMXSfrvidfURL.
+     * @pbrbm rmiSfrvfr Tif stub objfdt to fndodf in tif URL
+     * @pbrbm bttributfs A Mbp dontbining fnvironmfnt pbrbmftfrs,
+     *        built from tif Mbp spfdififd bt tiis objfdt drfbtion.
      **/
-    private void encodeStubInAddress(
-            RMIServer rmiServer, Map<String, ?> attributes)
-            throws IOException {
+    privbtf void fndodfStubInAddrfss(
+            RMISfrvfr rmiSfrvfr, Mbp<String, ?> bttributfs)
+            tirows IOExdfption {
 
-        final String protocol, host;
-        final int port;
+        finbl String protodol, iost;
+        finbl int port;
 
-        if (address == null) {
-            if (IIOPHelper.isStub(rmiServer))
-                protocol = "iiop";
-            else
-                protocol = "rmi";
-            host = null; // will default to local host name
+        if (bddrfss == null) {
+            if (IIOPHflpfr.isStub(rmiSfrvfr))
+                protodol = "iiop";
+            flsf
+                protodol = "rmi";
+            iost = null; // will dffbult to lodbl iost nbmf
             port = 0;
-        } else {
-            protocol = address.getProtocol();
-            host = (address.getHost().equals("")) ? null : address.getHost();
-            port = address.getPort();
+        } flsf {
+            protodol = bddrfss.gftProtodol();
+            iost = (bddrfss.gftHost().fqubls("")) ? null : bddrfss.gftHost();
+            port = bddrfss.gftPort();
         }
 
-        final String urlPath = encodeStub(rmiServer, attributes);
+        finbl String urlPbti = fndodfStub(rmiSfrvfr, bttributfs);
 
-        address = new JMXServiceURL(protocol, host, port, urlPath);
+        bddrfss = nfw JMXSfrvidfURL(protodol, iost, port, urlPbti);
     }
 
-    static boolean isIiopURL(JMXServiceURL directoryURL, boolean strict)
-        throws MalformedURLException {
-        String protocol = directoryURL.getProtocol();
-        if (protocol.equals("rmi"))
-            return false;
-        else if (protocol.equals("iiop"))
-            return true;
-        else if (strict) {
+    stbtid boolfbn isIiopURL(JMXSfrvidfURL dirfdtoryURL, boolfbn stridt)
+        tirows MblformfdURLExdfption {
+        String protodol = dirfdtoryURL.gftProtodol();
+        if (protodol.fqubls("rmi"))
+            rfturn fblsf;
+        flsf if (protodol.fqubls("iiop"))
+            rfturn truf;
+        flsf if (stridt) {
 
-            throw new MalformedURLException("URL must have protocol " +
+            tirow nfw MblformfdURLExdfption("URL must ibvf protodol " +
                                             "\"rmi\" or \"iiop\": \"" +
-                                            protocol + "\"");
+                                            protodol + "\"");
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the IOR of the given rmiServer.
+     * Rfturns tif IOR of tif givfn rmiSfrvfr.
      **/
-    static String encodeStub(
-            RMIServer rmiServer, Map<String, ?> env) throws IOException {
-        if (IIOPHelper.isStub(rmiServer))
-            return "/ior/" + encodeIIOPStub(rmiServer, env);
-        else
-            return "/stub/" + encodeJRMPStub(rmiServer, env);
+    stbtid String fndodfStub(
+            RMISfrvfr rmiSfrvfr, Mbp<String, ?> fnv) tirows IOExdfption {
+        if (IIOPHflpfr.isStub(rmiSfrvfr))
+            rfturn "/ior/" + fndodfIIOPStub(rmiSfrvfr, fnv);
+        flsf
+            rfturn "/stub/" + fndodfJRMPStub(rmiSfrvfr, fnv);
     }
 
-    static String encodeJRMPStub(
-            RMIServer rmiServer, Map<String, ?> env)
-            throws IOException {
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        ObjectOutputStream oout = new ObjectOutputStream(bout);
-        oout.writeObject(rmiServer);
-        oout.close();
-        byte[] bytes = bout.toByteArray();
-        return byteArrayToBase64(bytes);
+    stbtid String fndodfJRMPStub(
+            RMISfrvfr rmiSfrvfr, Mbp<String, ?> fnv)
+            tirows IOExdfption {
+        BytfArrbyOutputStrfbm bout = nfw BytfArrbyOutputStrfbm();
+        ObjfdtOutputStrfbm oout = nfw ObjfdtOutputStrfbm(bout);
+        oout.writfObjfdt(rmiSfrvfr);
+        oout.dlosf();
+        bytf[] bytfs = bout.toBytfArrby();
+        rfturn bytfArrbyToBbsf64(bytfs);
     }
 
-    static String encodeIIOPStub(
-            RMIServer rmiServer, Map<String, ?> env)
-            throws IOException {
+    stbtid String fndodfIIOPStub(
+            RMISfrvfr rmiSfrvfr, Mbp<String, ?> fnv)
+            tirows IOExdfption {
         try {
-            Object orb = IIOPHelper.getOrb(rmiServer);
-            return IIOPHelper.objectToString(orb, rmiServer);
-        } catch (RuntimeException x) {
-            throw newIOException(x.getMessage(), x);
+            Objfdt orb = IIOPHflpfr.gftOrb(rmiSfrvfr);
+            rfturn IIOPHflpfr.objfdtToString(orb, rmiSfrvfr);
+        } dbtdi (RuntimfExdfption x) {
+            tirow nfwIOExdfption(x.gftMfssbgf(), x);
         }
     }
 
     /**
-     * Object that we will bind to the registry.
-     * This object is a stub connected to our RMIServerImpl.
+     * Objfdt tibt wf will bind to tif rfgistry.
+     * Tiis objfdt is b stub donnfdtfd to our RMISfrvfrImpl.
      **/
-    private static RMIServer objectToBind(
-            RMIServerImpl rmiServer, Map<String, ?> env)
-        throws IOException {
-        return RMIConnector.
-            connectStub((RMIServer)rmiServer.toStub(),env);
+    privbtf stbtid RMISfrvfr objfdtToBind(
+            RMISfrvfrImpl rmiSfrvfr, Mbp<String, ?> fnv)
+        tirows IOExdfption {
+        rfturn RMIConnfdtor.
+            donnfdtStub((RMISfrvfr)rmiSfrvfr.toStub(),fnv);
     }
 
-    private static RMIServerImpl newJRMPServer(Map<String, ?> env, int port)
-            throws IOException {
-        RMIClientSocketFactory csf = (RMIClientSocketFactory)
-            env.get(RMI_CLIENT_SOCKET_FACTORY_ATTRIBUTE);
-        RMIServerSocketFactory ssf = (RMIServerSocketFactory)
-            env.get(RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE);
-        return new RMIJRMPServerImpl(port, csf, ssf, env);
+    privbtf stbtid RMISfrvfrImpl nfwJRMPSfrvfr(Mbp<String, ?> fnv, int port)
+            tirows IOExdfption {
+        RMIClifntSodkftFbdtory dsf = (RMIClifntSodkftFbdtory)
+            fnv.gft(RMI_CLIENT_SOCKET_FACTORY_ATTRIBUTE);
+        RMISfrvfrSodkftFbdtory ssf = (RMISfrvfrSodkftFbdtory)
+            fnv.gft(RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE);
+        rfturn nfw RMIJRMPSfrvfrImpl(port, dsf, ssf, fnv);
     }
 
-    private static RMIServerImpl newIIOPServer(Map<String, ?> env)
-            throws IOException {
-        return new RMIIIOPServerImpl(env);
+    privbtf stbtid RMISfrvfrImpl nfwIIOPSfrvfr(Mbp<String, ?> fnv)
+            tirows IOExdfption {
+        rfturn nfw RMIIIOPSfrvfrImpl(fnv);
     }
 
-    private static String byteArrayToBase64(byte[] a) {
-        int aLen = a.length;
-        int numFullGroups = aLen/3;
-        int numBytesInPartialGroup = aLen - 3*numFullGroups;
-        int resultLen = 4*((aLen + 2)/3);
-        final StringBuilder result = new StringBuilder(resultLen);
+    privbtf stbtid String bytfArrbyToBbsf64(bytf[] b) {
+        int bLfn = b.lfngti;
+        int numFullGroups = bLfn/3;
+        int numBytfsInPbrtiblGroup = bLfn - 3*numFullGroups;
+        int rfsultLfn = 4*((bLfn + 2)/3);
+        finbl StringBuildfr rfsult = nfw StringBuildfr(rfsultLfn);
 
-        // Translate all full groups from byte array elements to Base64
+        // Trbnslbtf bll full groups from bytf brrby flfmfnts to Bbsf64
         int inCursor = 0;
         for (int i=0; i<numFullGroups; i++) {
-            int byte0 = a[inCursor++] & 0xff;
-            int byte1 = a[inCursor++] & 0xff;
-            int byte2 = a[inCursor++] & 0xff;
-            result.append(intToAlpha[byte0 >> 2]);
-            result.append(intToAlpha[(byte0 << 4)&0x3f | (byte1 >> 4)]);
-            result.append(intToAlpha[(byte1 << 2)&0x3f | (byte2 >> 6)]);
-            result.append(intToAlpha[byte2 & 0x3f]);
+            int bytf0 = b[inCursor++] & 0xff;
+            int bytf1 = b[inCursor++] & 0xff;
+            int bytf2 = b[inCursor++] & 0xff;
+            rfsult.bppfnd(intToAlpib[bytf0 >> 2]);
+            rfsult.bppfnd(intToAlpib[(bytf0 << 4)&0x3f | (bytf1 >> 4)]);
+            rfsult.bppfnd(intToAlpib[(bytf1 << 2)&0x3f | (bytf2 >> 6)]);
+            rfsult.bppfnd(intToAlpib[bytf2 & 0x3f]);
         }
 
-        // Translate partial group if present
-        if (numBytesInPartialGroup != 0) {
-            int byte0 = a[inCursor++] & 0xff;
-            result.append(intToAlpha[byte0 >> 2]);
-            if (numBytesInPartialGroup == 1) {
-                result.append(intToAlpha[(byte0 << 4) & 0x3f]);
-                result.append("==");
-            } else {
-                // assert numBytesInPartialGroup == 2;
-                int byte1 = a[inCursor++] & 0xff;
-                result.append(intToAlpha[(byte0 << 4)&0x3f | (byte1 >> 4)]);
-                result.append(intToAlpha[(byte1 << 2)&0x3f]);
-                result.append('=');
+        // Trbnslbtf pbrtibl group if prfsfnt
+        if (numBytfsInPbrtiblGroup != 0) {
+            int bytf0 = b[inCursor++] & 0xff;
+            rfsult.bppfnd(intToAlpib[bytf0 >> 2]);
+            if (numBytfsInPbrtiblGroup == 1) {
+                rfsult.bppfnd(intToAlpib[(bytf0 << 4) & 0x3f]);
+                rfsult.bppfnd("==");
+            } flsf {
+                // bssfrt numBytfsInPbrtiblGroup == 2;
+                int bytf1 = b[inCursor++] & 0xff;
+                rfsult.bppfnd(intToAlpib[(bytf0 << 4)&0x3f | (bytf1 >> 4)]);
+                rfsult.bppfnd(intToAlpib[(bytf1 << 2)&0x3f]);
+                rfsult.bppfnd('=');
             }
         }
-        // assert inCursor == a.length;
-        // assert result.length() == resultLen;
-        return result.toString();
+        // bssfrt inCursor == b.lfngti;
+        // bssfrt rfsult.lfngti() == rfsultLfn;
+        rfturn rfsult.toString();
     }
 
     /**
-     * This array is a lookup table that translates 6-bit positive integer
-     * index values into their "Base64 Alphabet" equivalents as specified
-     * in Table 1 of RFC 2045.
+     * Tiis brrby is b lookup tbblf tibt trbnslbtfs 6-bit positivf intfgfr
+     * indfx vblufs into tifir "Bbsf64 Alpibbft" fquivblfnts bs spfdififd
+     * in Tbblf 1 of RFC 2045.
      */
-    private static final char intToAlpha[] = {
+    privbtf stbtid finbl dibr intToAlpib[] = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
         'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'b', 'b', 'd', 'd', 'f', 'f', 'g', 'i', 'i', 'j', 'k', 'l', 'm',
         'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
     };
 
     /**
-     * Construct a new IOException with a nested exception.
-     * The nested exception is set only if JDK {@literal >= 1.4}
+     * Construdt b nfw IOExdfption witi b nfstfd fxdfption.
+     * Tif nfstfd fxdfption is sft only if JDK {@litfrbl >= 1.4}
      */
-    private static IOException newIOException(String message,
-                                              Throwable cause) {
-        final IOException x = new IOException(message);
-        return EnvHelp.initCause(x,cause);
+    privbtf stbtid IOExdfption nfwIOExdfption(String mfssbgf,
+                                              Tirowbblf dbusf) {
+        finbl IOExdfption x = nfw IOExdfption(mfssbgf);
+        rfturn EnvHflp.initCbusf(x,dbusf);
     }
 
 
-    // Private variables
+    // Privbtf vbribblfs
     // -----------------
 
-    private static ClassLogger logger =
-        new ClassLogger("javax.management.remote.rmi", "RMIConnectorServer");
+    privbtf stbtid ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.rmi", "RMIConnfdtorSfrvfr");
 
-    private JMXServiceURL address;
-    private RMIServerImpl rmiServerImpl;
-    private final Map<String, ?> attributes;
-    private ClassLoader defaultClassLoader = null;
+    privbtf JMXSfrvidfURL bddrfss;
+    privbtf RMISfrvfrImpl rmiSfrvfrImpl;
+    privbtf finbl Mbp<String, ?> bttributfs;
+    privbtf ClbssLobdfr dffbultClbssLobdfr = null;
 
-    private String boundJndiUrl;
+    privbtf String boundJndiUrl;
 
-    // state
-    private static final int CREATED = 0;
-    private static final int STARTED = 1;
-    private static final int STOPPED = 2;
+    // stbtf
+    privbtf stbtid finbl int CREATED = 0;
+    privbtf stbtid finbl int STARTED = 1;
+    privbtf stbtid finbl int STOPPED = 2;
 
-    private int state = CREATED;
-    private final static Set<RMIConnectorServer> openedServers =
-            new HashSet<RMIConnectorServer>();
+    privbtf int stbtf = CREATED;
+    privbtf finbl stbtid Sft<RMIConnfdtorSfrvfr> opfnfdSfrvfrs =
+            nfw HbsiSft<RMIConnfdtorSfrvfr>();
 }

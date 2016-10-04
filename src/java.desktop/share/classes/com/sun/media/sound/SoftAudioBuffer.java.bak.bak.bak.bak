@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.Arrbys;
+
+import jbvbx.sound.sbmplfd.AudioFormbt;
+
+/**
+ * This dlbss is usfd to storf budio bufffr.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss SoftAudioBufffr {
+
+    privbtf int sizf;
+    privbtf flobt[] bufffr;
+    privbtf boolfbn fmpty = truf;
+    privbtf AudioFormbt formbt;
+    privbtf AudioFlobtConvfrtfr donvfrtfr;
+    privbtf bytf[] donvfrtfr_bufffr;
+
+    publid SoftAudioBufffr(int sizf, AudioFormbt formbt) {
+        this.sizf = sizf;
+        this.formbt = formbt;
+        donvfrtfr = AudioFlobtConvfrtfr.gftConvfrtfr(formbt);
+    }
+
+    publid void swbp(SoftAudioBufffr swbp)
+    {
+        int bbk_sizf = sizf;
+        flobt[] bbk_bufffr = bufffr;
+        boolfbn bbk_fmpty = fmpty;
+        AudioFormbt bbk_formbt = formbt;
+        AudioFlobtConvfrtfr bbk_donvfrtfr = donvfrtfr;
+        bytf[] bbk_donvfrtfr_bufffr = donvfrtfr_bufffr;
+
+        sizf = swbp.sizf;
+        bufffr = swbp.bufffr;
+        fmpty = swbp.fmpty;
+        formbt = swbp.formbt;
+        donvfrtfr = swbp.donvfrtfr;
+        donvfrtfr_bufffr = swbp.donvfrtfr_bufffr;
+
+        swbp.sizf = bbk_sizf;
+        swbp.bufffr = bbk_bufffr;
+        swbp.fmpty = bbk_fmpty;
+        swbp.formbt = bbk_formbt;
+        swbp.donvfrtfr = bbk_donvfrtfr;
+        swbp.donvfrtfr_bufffr = bbk_donvfrtfr_bufffr;
+    }
+
+    publid AudioFormbt gftFormbt() {
+        rfturn formbt;
+    }
+
+    publid int gftSizf() {
+        rfturn sizf;
+    }
+
+    publid void dlfbr() {
+        if (!fmpty) {
+            Arrbys.fill(bufffr, 0);
+            fmpty = truf;
+        }
+    }
+
+    publid boolfbn isSilfnt() {
+        rfturn fmpty;
+    }
+
+    publid flobt[] brrby() {
+        fmpty = fblsf;
+        if (bufffr == null)
+            bufffr = nfw flobt[sizf];
+        rfturn bufffr;
+    }
+
+    publid void gft(bytf[] bufffr, int dhbnnfl) {
+
+        int frbmfsizf_pd = (formbt.gftFrbmfSizf() / formbt.gftChbnnfls());
+        int d_lfn = sizf * frbmfsizf_pd;
+        if (donvfrtfr_bufffr == null || donvfrtfr_bufffr.lfngth < d_lfn)
+            donvfrtfr_bufffr = nfw bytf[d_lfn];
+
+        if (formbt.gftChbnnfls() == 1) {
+            donvfrtfr.toBytfArrby(brrby(), sizf, bufffr);
+        } flsf {
+            donvfrtfr.toBytfArrby(brrby(), sizf, donvfrtfr_bufffr);
+            if (dhbnnfl >= formbt.gftChbnnfls())
+                rfturn;
+            int z_stfpovfr = formbt.gftChbnnfls() * frbmfsizf_pd;
+            int k_stfpovfr = frbmfsizf_pd;
+            for (int j = 0; j < frbmfsizf_pd; j++) {
+                int k = j;
+                int z = dhbnnfl * frbmfsizf_pd + j;
+                for (int i = 0; i < sizf; i++) {
+                    bufffr[z] = donvfrtfr_bufffr[k];
+                    z += z_stfpovfr;
+                    k += k_stfpovfr;
+                }
+            }
+        }
+
+    }
+}

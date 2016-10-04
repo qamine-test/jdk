@@ -1,235 +1,235 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import sun.nio.cs.StreamEncoder;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import sun.nio.ds.StrfbmEndodfr;
 
 
 /**
- * An OutputStreamWriter is a bridge from character streams to byte streams:
- * Characters written to it are encoded into bytes using a specified {@link
- * java.nio.charset.Charset charset}.  The charset that it uses
- * may be specified by name or may be given explicitly, or the platform's
- * default charset may be accepted.
+ * An OutputStrfbmWritfr is b bridgf from dibrbdtfr strfbms to bytf strfbms:
+ * Cibrbdtfrs writtfn to it brf fndodfd into bytfs using b spfdififd {@link
+ * jbvb.nio.dibrsft.Cibrsft dibrsft}.  Tif dibrsft tibt it usfs
+ * mby bf spfdififd by nbmf or mby bf givfn fxpliditly, or tif plbtform's
+ * dffbult dibrsft mby bf bddfptfd.
  *
- * <p> Each invocation of a write() method causes the encoding converter to be
- * invoked on the given character(s).  The resulting bytes are accumulated in a
- * buffer before being written to the underlying output stream.  The size of
- * this buffer may be specified, but by default it is large enough for most
- * purposes.  Note that the characters passed to the write() methods are not
- * buffered.
+ * <p> Ebdi invodbtion of b writf() mftiod dbusfs tif fndoding donvfrtfr to bf
+ * invokfd on tif givfn dibrbdtfr(s).  Tif rfsulting bytfs brf bddumulbtfd in b
+ * bufffr bfforf bfing writtfn to tif undfrlying output strfbm.  Tif sizf of
+ * tiis bufffr mby bf spfdififd, but by dffbult it is lbrgf fnougi for most
+ * purposfs.  Notf tibt tif dibrbdtfrs pbssfd to tif writf() mftiods brf not
+ * bufffrfd.
  *
- * <p> For top efficiency, consider wrapping an OutputStreamWriter within a
- * BufferedWriter so as to avoid frequent converter invocations.  For example:
+ * <p> For top fffidifndy, donsidfr wrbpping bn OutputStrfbmWritfr witiin b
+ * BufffrfdWritfr so bs to bvoid frfqufnt donvfrtfr invodbtions.  For fxbmplf:
  *
- * <pre>
- * Writer out
- *   = new BufferedWriter(new OutputStreamWriter(System.out));
- * </pre>
+ * <prf>
+ * Writfr out
+ *   = nfw BufffrfdWritfr(nfw OutputStrfbmWritfr(Systfm.out));
+ * </prf>
  *
- * <p> A <i>surrogate pair</i> is a character represented by a sequence of two
- * <tt>char</tt> values: A <i>high</i> surrogate in the range '&#92;uD800' to
- * '&#92;uDBFF' followed by a <i>low</i> surrogate in the range '&#92;uDC00' to
+ * <p> A <i>surrogbtf pbir</i> is b dibrbdtfr rfprfsfntfd by b sfqufndf of two
+ * <tt>dibr</tt> vblufs: A <i>iigi</i> surrogbtf in tif rbngf '&#92;uD800' to
+ * '&#92;uDBFF' followfd by b <i>low</i> surrogbtf in tif rbngf '&#92;uDC00' to
  * '&#92;uDFFF'.
  *
- * <p> A <i>malformed surrogate element</i> is a high surrogate that is not
- * followed by a low surrogate or a low surrogate that is not preceded by a
- * high surrogate.
+ * <p> A <i>mblformfd surrogbtf flfmfnt</i> is b iigi surrogbtf tibt is not
+ * followfd by b low surrogbtf or b low surrogbtf tibt is not prfdfdfd by b
+ * iigi surrogbtf.
  *
- * <p> This class always replaces malformed surrogate elements and unmappable
- * character sequences with the charset's default <i>substitution sequence</i>.
- * The {@linkplain java.nio.charset.CharsetEncoder} class should be used when more
- * control over the encoding process is required.
+ * <p> Tiis dlbss blwbys rfplbdfs mblformfd surrogbtf flfmfnts bnd unmbppbblf
+ * dibrbdtfr sfqufndfs witi tif dibrsft's dffbult <i>substitution sfqufndf</i>.
+ * Tif {@linkplbin jbvb.nio.dibrsft.CibrsftEndodfr} dlbss siould bf usfd wifn morf
+ * dontrol ovfr tif fndoding prodfss is rfquirfd.
  *
- * @see BufferedWriter
- * @see OutputStream
- * @see java.nio.charset.Charset
+ * @sff BufffrfdWritfr
+ * @sff OutputStrfbm
+ * @sff jbvb.nio.dibrsft.Cibrsft
  *
- * @author      Mark Reinhold
- * @since       1.1
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
  */
 
-public class OutputStreamWriter extends Writer {
+publid dlbss OutputStrfbmWritfr fxtfnds Writfr {
 
-    private final StreamEncoder se;
+    privbtf finbl StrfbmEndodfr sf;
 
     /**
-     * Creates an OutputStreamWriter that uses the named charset.
+     * Crfbtfs bn OutputStrfbmWritfr tibt usfs tif nbmfd dibrsft.
      *
-     * @param  out
-     *         An OutputStream
+     * @pbrbm  out
+     *         An OutputStrfbm
      *
-     * @param  charsetName
-     *         The name of a supported
-     *         {@link java.nio.charset.Charset charset}
+     * @pbrbm  dibrsftNbmf
+     *         Tif nbmf of b supportfd
+     *         {@link jbvb.nio.dibrsft.Cibrsft dibrsft}
      *
-     * @exception  UnsupportedEncodingException
-     *             If the named encoding is not supported
+     * @fxdfption  UnsupportfdEndodingExdfption
+     *             If tif nbmfd fndoding is not supportfd
      */
-    public OutputStreamWriter(OutputStream out, String charsetName)
-        throws UnsupportedEncodingException
+    publid OutputStrfbmWritfr(OutputStrfbm out, String dibrsftNbmf)
+        tirows UnsupportfdEndodingExdfption
     {
-        super(out);
-        if (charsetName == null)
-            throw new NullPointerException("charsetName");
-        se = StreamEncoder.forOutputStreamWriter(out, this, charsetName);
+        supfr(out);
+        if (dibrsftNbmf == null)
+            tirow nfw NullPointfrExdfption("dibrsftNbmf");
+        sf = StrfbmEndodfr.forOutputStrfbmWritfr(out, tiis, dibrsftNbmf);
     }
 
     /**
-     * Creates an OutputStreamWriter that uses the default character encoding.
+     * Crfbtfs bn OutputStrfbmWritfr tibt usfs tif dffbult dibrbdtfr fndoding.
      *
-     * @param  out  An OutputStream
+     * @pbrbm  out  An OutputStrfbm
      */
-    public OutputStreamWriter(OutputStream out) {
-        super(out);
+    publid OutputStrfbmWritfr(OutputStrfbm out) {
+        supfr(out);
         try {
-            se = StreamEncoder.forOutputStreamWriter(out, this, (String)null);
-        } catch (UnsupportedEncodingException e) {
-            throw new Error(e);
+            sf = StrfbmEndodfr.forOutputStrfbmWritfr(out, tiis, (String)null);
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            tirow nfw Error(f);
         }
     }
 
     /**
-     * Creates an OutputStreamWriter that uses the given charset.
+     * Crfbtfs bn OutputStrfbmWritfr tibt usfs tif givfn dibrsft.
      *
-     * @param  out
-     *         An OutputStream
+     * @pbrbm  out
+     *         An OutputStrfbm
      *
-     * @param  cs
-     *         A charset
+     * @pbrbm  ds
+     *         A dibrsft
      *
-     * @since 1.4
-     * @spec JSR-51
+     * @sindf 1.4
+     * @spfd JSR-51
      */
-    public OutputStreamWriter(OutputStream out, Charset cs) {
-        super(out);
-        if (cs == null)
-            throw new NullPointerException("charset");
-        se = StreamEncoder.forOutputStreamWriter(out, this, cs);
+    publid OutputStrfbmWritfr(OutputStrfbm out, Cibrsft ds) {
+        supfr(out);
+        if (ds == null)
+            tirow nfw NullPointfrExdfption("dibrsft");
+        sf = StrfbmEndodfr.forOutputStrfbmWritfr(out, tiis, ds);
     }
 
     /**
-     * Creates an OutputStreamWriter that uses the given charset encoder.
+     * Crfbtfs bn OutputStrfbmWritfr tibt usfs tif givfn dibrsft fndodfr.
      *
-     * @param  out
-     *         An OutputStream
+     * @pbrbm  out
+     *         An OutputStrfbm
      *
-     * @param  enc
-     *         A charset encoder
+     * @pbrbm  fnd
+     *         A dibrsft fndodfr
      *
-     * @since 1.4
-     * @spec JSR-51
+     * @sindf 1.4
+     * @spfd JSR-51
      */
-    public OutputStreamWriter(OutputStream out, CharsetEncoder enc) {
-        super(out);
-        if (enc == null)
-            throw new NullPointerException("charset encoder");
-        se = StreamEncoder.forOutputStreamWriter(out, this, enc);
+    publid OutputStrfbmWritfr(OutputStrfbm out, CibrsftEndodfr fnd) {
+        supfr(out);
+        if (fnd == null)
+            tirow nfw NullPointfrExdfption("dibrsft fndodfr");
+        sf = StrfbmEndodfr.forOutputStrfbmWritfr(out, tiis, fnd);
     }
 
     /**
-     * Returns the name of the character encoding being used by this stream.
+     * Rfturns tif nbmf of tif dibrbdtfr fndoding bfing usfd by tiis strfbm.
      *
-     * <p> If the encoding has an historical name then that name is returned;
-     * otherwise the encoding's canonical name is returned.
+     * <p> If tif fndoding ibs bn iistoridbl nbmf tifn tibt nbmf is rfturnfd;
+     * otifrwisf tif fndoding's dbnonidbl nbmf is rfturnfd.
      *
-     * <p> If this instance was created with the {@link
-     * #OutputStreamWriter(OutputStream, String)} constructor then the returned
-     * name, being unique for the encoding, may differ from the name passed to
-     * the constructor.  This method may return <tt>null</tt> if the stream has
-     * been closed. </p>
+     * <p> If tiis instbndf wbs drfbtfd witi tif {@link
+     * #OutputStrfbmWritfr(OutputStrfbm, String)} donstrudtor tifn tif rfturnfd
+     * nbmf, bfing uniquf for tif fndoding, mby difffr from tif nbmf pbssfd to
+     * tif donstrudtor.  Tiis mftiod mby rfturn <tt>null</tt> if tif strfbm ibs
+     * bffn dlosfd. </p>
      *
-     * @return The historical name of this encoding, or possibly
-     *         <code>null</code> if the stream has been closed
+     * @rfturn Tif iistoridbl nbmf of tiis fndoding, or possibly
+     *         <dodf>null</dodf> if tif strfbm ibs bffn dlosfd
      *
-     * @see java.nio.charset.Charset
+     * @sff jbvb.nio.dibrsft.Cibrsft
      *
-     * @revised 1.4
-     * @spec JSR-51
+     * @rfvisfd 1.4
+     * @spfd JSR-51
      */
-    public String getEncoding() {
-        return se.getEncoding();
+    publid String gftEndoding() {
+        rfturn sf.gftEndoding();
     }
 
     /**
-     * Flushes the output buffer to the underlying byte stream, without flushing
-     * the byte stream itself.  This method is non-private only so that it may
-     * be invoked by PrintStream.
+     * Flusifs tif output bufffr to tif undfrlying bytf strfbm, witiout flusiing
+     * tif bytf strfbm itsflf.  Tiis mftiod is non-privbtf only so tibt it mby
+     * bf invokfd by PrintStrfbm.
      */
-    void flushBuffer() throws IOException {
-        se.flushBuffer();
+    void flusiBufffr() tirows IOExdfption {
+        sf.flusiBufffr();
     }
 
     /**
-     * Writes a single character.
+     * Writfs b singlf dibrbdtfr.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void write(int c) throws IOException {
-        se.write(c);
+    publid void writf(int d) tirows IOExdfption {
+        sf.writf(d);
     }
 
     /**
-     * Writes a portion of an array of characters.
+     * Writfs b portion of bn brrby of dibrbdtfrs.
      *
-     * @param  cbuf  Buffer of characters
-     * @param  off   Offset from which to start writing characters
-     * @param  len   Number of characters to write
+     * @pbrbm  dbuf  Bufffr of dibrbdtfrs
+     * @pbrbm  off   Offsft from wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm  lfn   Numbfr of dibrbdtfrs to writf
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void write(char cbuf[], int off, int len) throws IOException {
-        se.write(cbuf, off, len);
+    publid void writf(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+        sf.writf(dbuf, off, lfn);
     }
 
     /**
-     * Writes a portion of a string.
+     * Writfs b portion of b string.
      *
-     * @param  str  A String
-     * @param  off  Offset from which to start writing characters
-     * @param  len  Number of characters to write
+     * @pbrbm  str  A String
+     * @pbrbm  off  Offsft from wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm  lfn  Numbfr of dibrbdtfrs to writf
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void write(String str, int off, int len) throws IOException {
-        se.write(str, off, len);
+    publid void writf(String str, int off, int lfn) tirows IOExdfption {
+        sf.writf(str, off, lfn);
     }
 
     /**
-     * Flushes the stream.
+     * Flusifs tif strfbm.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void flush() throws IOException {
-        se.flush();
+    publid void flusi() tirows IOExdfption {
+        sf.flusi();
     }
 
-    public void close() throws IOException {
-        se.close();
+    publid void dlosf() tirows IOExdfption {
+        sf.dlosf();
     }
 }

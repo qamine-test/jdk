@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.security.*;
+import jbvb.sfdurity.*;
 
 /**
- * The "KeyManager" for ephemeral RSA keys. Ephemeral DH and ECDH keys
- * are handled by the DHCrypt and ECDHCrypt classes, respectively.
+ * Tif "KfyMbnbgfr" for fpifmfrbl RSA kfys. Epifmfrbl DH bnd ECDH kfys
+ * brf ibndlfd by tif DHCrypt bnd ECDHCrypt dlbssfs, rfspfdtivfly.
  *
- * @author  Andreas Sterbenz
+ * @butior  Andrfbs Stfrbfnz
  */
-final class EphemeralKeyManager {
+finbl dlbss EpifmfrblKfyMbnbgfr {
 
-    // indices for the keys array below
-    private final static int INDEX_RSA512 = 0;
-    private final static int INDEX_RSA1024 = 1;
+    // indidfs for tif kfys brrby bflow
+    privbtf finbl stbtid int INDEX_RSA512 = 0;
+    privbtf finbl stbtid int INDEX_RSA1024 = 1;
 
     /*
-     * Current cached RSA KeyPairs. Elements are never null.
-     * Indexed via the the constants above.
+     * Currfnt dbdifd RSA KfyPbirs. Elfmfnts brf nfvfr null.
+     * Indfxfd vib tif tif donstbnts bbovf.
      */
-    private final EphemeralKeyPair[] keys = new EphemeralKeyPair[] {
-        new EphemeralKeyPair(null),
-        new EphemeralKeyPair(null),
+    privbtf finbl EpifmfrblKfyPbir[] kfys = nfw EpifmfrblKfyPbir[] {
+        nfw EpifmfrblKfyPbir(null),
+        nfw EpifmfrblKfyPbir(null),
     };
 
-    EphemeralKeyManager() {
-        // empty
+    EpifmfrblKfyMbnbgfr() {
+        // fmpty
     }
 
     /*
-     * Get a temporary RSA KeyPair.
+     * Gft b tfmporbry RSA KfyPbir.
      */
-    KeyPair getRSAKeyPair(boolean export, SecureRandom random) {
-        int length, index;
-        if (export) {
-            length = 512;
-            index = INDEX_RSA512;
-        } else {
-            length = 1024;
-            index = INDEX_RSA1024;
+    KfyPbir gftRSAKfyPbir(boolfbn fxport, SfdurfRbndom rbndom) {
+        int lfngti, indfx;
+        if (fxport) {
+            lfngti = 512;
+            indfx = INDEX_RSA512;
+        } flsf {
+            lfngti = 1024;
+            indfx = INDEX_RSA1024;
         }
 
-        synchronized (keys) {
-            KeyPair kp = keys[index].getKeyPair();
+        syndironizfd (kfys) {
+            KfyPbir kp = kfys[indfx].gftKfyPbir();
             if (kp == null) {
                 try {
-                    KeyPairGenerator kgen = JsseJce.getKeyPairGenerator("RSA");
-                    kgen.initialize(length, random);
-                    keys[index] = new EphemeralKeyPair(kgen.genKeyPair());
-                    kp = keys[index].getKeyPair();
-                } catch (Exception e) {
-                    // ignore
+                    KfyPbirGfnfrbtor kgfn = JssfJdf.gftKfyPbirGfnfrbtor("RSA");
+                    kgfn.initiblizf(lfngti, rbndom);
+                    kfys[indfx] = nfw EpifmfrblKfyPbir(kgfn.gfnKfyPbir());
+                    kp = kfys[indfx].gftKfyPbir();
+                } dbtdi (Exdfption f) {
+                    // ignorf
                 }
             }
-            return kp;
+            rfturn kp;
         }
     }
 
     /**
-     * Inner class to handle storage of ephemeral KeyPairs.
+     * Innfr dlbss to ibndlf storbgf of fpifmfrbl KfyPbirs.
      */
-    private static class EphemeralKeyPair {
+    privbtf stbtid dlbss EpifmfrblKfyPbir {
 
-        // maximum number of times a KeyPair is used
-        private final static int MAX_USE = 200;
+        // mbximum numbfr of timfs b KfyPbir is usfd
+        privbtf finbl stbtid int MAX_USE = 200;
 
-        // maximum time interval in which the keypair is used (1 hour in ms)
-        private final static long USE_INTERVAL = 3600*1000;
+        // mbximum timf intfrvbl in wiidi tif kfypbir is usfd (1 iour in ms)
+        privbtf finbl stbtid long USE_INTERVAL = 3600*1000;
 
-        private KeyPair keyPair;
-        private int uses;
-        private long expirationTime;
+        privbtf KfyPbir kfyPbir;
+        privbtf int usfs;
+        privbtf long fxpirbtionTimf;
 
-        private EphemeralKeyPair(KeyPair keyPair) {
-            this.keyPair = keyPair;
-            expirationTime = System.currentTimeMillis() + USE_INTERVAL;
+        privbtf EpifmfrblKfyPbir(KfyPbir kfyPbir) {
+            tiis.kfyPbir = kfyPbir;
+            fxpirbtionTimf = Systfm.durrfntTimfMillis() + USE_INTERVAL;
         }
 
         /*
-         * Check if the KeyPair can still be used.
+         * Cifdk if tif KfyPbir dbn still bf usfd.
          */
-        private boolean isValid() {
-            return (keyPair != null) && (uses < MAX_USE)
-                   && (System.currentTimeMillis() < expirationTime);
+        privbtf boolfbn isVblid() {
+            rfturn (kfyPbir != null) && (usfs < MAX_USE)
+                   && (Systfm.durrfntTimfMillis() < fxpirbtionTimf);
         }
 
         /*
-         * Return the KeyPair or null if it is invalid.
+         * Rfturn tif KfyPbir or null if it is invblid.
          */
-        private KeyPair getKeyPair() {
-            if (isValid() == false) {
-                keyPair = null;
-                return null;
+        privbtf KfyPbir gftKfyPbir() {
+            if (isVblid() == fblsf) {
+                kfyPbir = null;
+                rfturn null;
             }
-            uses++;
-            return keyPair;
+            usfs++;
+            rfturn kfyPbir;
         }
     }
 }

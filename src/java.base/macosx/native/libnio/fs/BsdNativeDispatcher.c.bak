@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
 
-#include <sys/param.h>
-#include <sys/mount.h>
-#ifdef ST_RDONLY
-#define statfs statvfs
-#define getfsstat getvfsstat
-#define f_flags f_flag
-#define ISREADONLY ST_RDONLY
-#else
-#define ISREADONLY MNT_RDONLY
-#endif
+#indludf <sys/pbrbm.i>
+#indludf <sys/mount.i>
+#ifdff ST_RDONLY
+#dffinf stbtfs stbtvfs
+#dffinf gftfsstbt gftvfsstbt
+#dffinf f_flbgs f_flbg
+#dffinf ISREADONLY ST_RDONLY
+#flsf
+#dffinf ISREADONLY MNT_RDONLY
+#fndif
 
-#include <stdlib.h>
-#include <string.h>
+#indludf <stdlib.i>
+#indludf <string.i>
 
-static jfieldID entry_name;
-static jfieldID entry_dir;
-static jfieldID entry_fstype;
-static jfieldID entry_options;
+stbtid jfifldID fntry_nbmf;
+stbtid jfifldID fntry_dir;
+stbtid jfifldID fntry_fstypf;
+stbtid jfifldID fntry_options;
 
-struct fsstat_iter {
-    struct statfs *buf;
+strudt fsstbt_itfr {
+    strudt stbtfs *buf;
     int pos;
-    int nentries;
+    int nfntrifs;
 };
 
-#include "sun_nio_fs_BsdNativeDispatcher.h"
+#indludf "sun_nio_fs_BsdNbtivfDispbtdifr.i"
 
-static void throwUnixException(JNIEnv* env, int errnum) {
-    jobject x = JNU_NewObjectByName(env, "sun/nio/fs/UnixException",
-        "(I)V", errnum);
+stbtid void tirowUnixExdfption(JNIEnv* fnv, int frrnum) {
+    jobjfdt x = JNU_NfwObjfdtByNbmf(fnv, "sun/nio/fs/UnixExdfption",
+        "(I)V", frrnum);
     if (x != NULL) {
-        (*env)->Throw(env, x);
+        (*fnv)->Tirow(fnv, x);
     }
 }
 
 /**
- * Initialize jfieldIDs
+ * Initiblizf jfifldIDs
  */
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_BsdNativeDispatcher_initIDs(JNIEnv* env, jclass this)
+Jbvb_sun_nio_fs_BsdNbtivfDispbtdifr_initIDs(JNIEnv* fnv, jdlbss tiis)
 {
-    jclass clazz;
+    jdlbss dlbzz;
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/UnixMountEntry");
-    CHECK_NULL(clazz);
-    entry_name = (*env)->GetFieldID(env, clazz, "name", "[B");
-    CHECK_NULL(entry_name);
-    entry_dir = (*env)->GetFieldID(env, clazz, "dir", "[B");
-    CHECK_NULL(entry_dir);
-    entry_fstype = (*env)->GetFieldID(env, clazz, "fstype", "[B");
-    CHECK_NULL(entry_fstype);
-    entry_options = (*env)->GetFieldID(env, clazz, "opts", "[B");
-    CHECK_NULL(entry_options);
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/UnixMountEntry");
+    CHECK_NULL(dlbzz);
+    fntry_nbmf = (*fnv)->GftFifldID(fnv, dlbzz, "nbmf", "[B");
+    CHECK_NULL(fntry_nbmf);
+    fntry_dir = (*fnv)->GftFifldID(fnv, dlbzz, "dir", "[B");
+    CHECK_NULL(fntry_dir);
+    fntry_fstypf = (*fnv)->GftFifldID(fnv, dlbzz, "fstypf", "[B");
+    CHECK_NULL(fntry_fstypf);
+    fntry_options = (*fnv)->GftFifldID(fnv, dlbzz, "opts", "[B");
+    CHECK_NULL(fntry_options);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_BsdNativeDispatcher_getfsstat(JNIEnv* env, jclass this)
+Jbvb_sun_nio_fs_BsdNbtivfDispbtdifr_gftfsstbt(JNIEnv* fnv, jdlbss tiis)
 {
-    int nentries;
-    size_t bufsize;
-    struct fsstat_iter *iter = malloc(sizeof(*iter));
+    int nfntrifs;
+    sizf_t bufsizf;
+    strudt fsstbt_itfr *itfr = mbllod(sizfof(*itfr));
 
-    if (iter == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "native heap");
-        return 0;
+    if (itfr == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, "nbtivf ifbp");
+        rfturn 0;
     }
 
-    iter->pos = 0;
-    iter->nentries = 0;
-    iter->buf = NULL;
+    itfr->pos = 0;
+    itfr->nfntrifs = 0;
+    itfr->buf = NULL;
 
-    nentries = getfsstat(NULL, 0, MNT_NOWAIT);
+    nfntrifs = gftfsstbt(NULL, 0, MNT_NOWAIT);
 
-    if (nentries <= 0) {
-        free(iter);
-        throwUnixException(env, errno);
-        return 0;
+    if (nfntrifs <= 0) {
+        frff(itfr);
+        tirowUnixExdfption(fnv, frrno);
+        rfturn 0;
     }
 
-    // It's possible that a new filesystem gets mounted between
-    // the first getfsstat and the second so loop until consistant
+    // It's possiblf tibt b nfw filfsystfm gfts mountfd bftwffn
+    // tif first gftfsstbt bnd tif sfdond so loop until donsistbnt
 
-    while (nentries != iter->nentries) {
-        if (iter->buf != NULL)
-            free(iter->buf);
+    wiilf (nfntrifs != itfr->nfntrifs) {
+        if (itfr->buf != NULL)
+            frff(itfr->buf);
 
-        bufsize = nentries * sizeof(struct statfs);
-        iter->nentries = nentries;
+        bufsizf = nfntrifs * sizfof(strudt stbtfs);
+        itfr->nfntrifs = nfntrifs;
 
-        iter->buf = malloc(bufsize);
-        if (iter->buf == NULL) {
-            free(iter);
-            JNU_ThrowOutOfMemoryError(env, "native heap");
-            return 0;
+        itfr->buf = mbllod(bufsizf);
+        if (itfr->buf == NULL) {
+            frff(itfr);
+            JNU_TirowOutOfMfmoryError(fnv, "nbtivf ifbp");
+            rfturn 0;
         }
 
-        nentries = getfsstat(iter->buf, bufsize, MNT_WAIT);
-        if (nentries <= 0) {
-            free(iter->buf);
-            free(iter);
-            throwUnixException(env, errno);
-            return 0;
+        nfntrifs = gftfsstbt(itfr->buf, bufsizf, MNT_WAIT);
+        if (nfntrifs <= 0) {
+            frff(itfr->buf);
+            frff(itfr);
+            tirowUnixExdfption(fnv, frrno);
+            rfturn 0;
         }
     }
 
-    return (jlong)iter;
+    rfturn (jlong)itfr;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_BsdNativeDispatcher_fsstatEntry(JNIEnv* env, jclass this,
-    jlong value, jobject entry)
+Jbvb_sun_nio_fs_BsdNbtivfDispbtdifr_fsstbtEntry(JNIEnv* fnv, jdlbss tiis,
+    jlong vbluf, jobjfdt fntry)
 {
-    struct fsstat_iter *iter = jlong_to_ptr(value);
-    jsize len;
-    jbyteArray bytes;
-    char* name;
-    char* dir;
-    char* fstype;
-    char* options;
-    dev_t dev;
+    strudt fsstbt_itfr *itfr = jlong_to_ptr(vbluf);
+    jsizf lfn;
+    jbytfArrby bytfs;
+    dibr* nbmf;
+    dibr* dir;
+    dibr* fstypf;
+    dibr* options;
+    dfv_t dfv;
 
-    if (iter == NULL || iter->pos >= iter->nentries)
-       return -1;
+    if (itfr == NULL || itfr->pos >= itfr->nfntrifs)
+       rfturn -1;
 
-    name = iter->buf[iter->pos].f_mntfromname;
-    dir = iter->buf[iter->pos].f_mntonname;
-    fstype = iter->buf[iter->pos].f_fstypename;
-    if (iter->buf[iter->pos].f_flags & ISREADONLY)
+    nbmf = itfr->buf[itfr->pos].f_mntfromnbmf;
+    dir = itfr->buf[itfr->pos].f_mntonnbmf;
+    fstypf = itfr->buf[itfr->pos].f_fstypfnbmf;
+    if (itfr->buf[itfr->pos].f_flbgs & ISREADONLY)
         options="ro";
-    else
+    flsf
         options="";
 
-    iter->pos++;
+    itfr->pos++;
 
-    len = strlen(name);
-    bytes = (*env)->NewByteArray(env, len);
-    if (bytes == NULL)
-        return -1;
-    (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte*)name);
-    (*env)->SetObjectField(env, entry, entry_name, bytes);
+    lfn = strlfn(nbmf);
+    bytfs = (*fnv)->NfwBytfArrby(fnv, lfn);
+    if (bytfs == NULL)
+        rfturn -1;
+    (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, 0, lfn, (jbytf*)nbmf);
+    (*fnv)->SftObjfdtFifld(fnv, fntry, fntry_nbmf, bytfs);
 
-    len = strlen(dir);
-    bytes = (*env)->NewByteArray(env, len);
-    if (bytes == NULL)
-        return -1;
-    (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte*)dir);
-    (*env)->SetObjectField(env, entry, entry_dir, bytes);
+    lfn = strlfn(dir);
+    bytfs = (*fnv)->NfwBytfArrby(fnv, lfn);
+    if (bytfs == NULL)
+        rfturn -1;
+    (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, 0, lfn, (jbytf*)dir);
+    (*fnv)->SftObjfdtFifld(fnv, fntry, fntry_dir, bytfs);
 
-    len = strlen(fstype);
-    bytes = (*env)->NewByteArray(env, len);
-    if (bytes == NULL)
-        return -1;
-    (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte*)fstype);
-    (*env)->SetObjectField(env, entry, entry_fstype, bytes);
+    lfn = strlfn(fstypf);
+    bytfs = (*fnv)->NfwBytfArrby(fnv, lfn);
+    if (bytfs == NULL)
+        rfturn -1;
+    (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, 0, lfn, (jbytf*)fstypf);
+    (*fnv)->SftObjfdtFifld(fnv, fntry, fntry_fstypf, bytfs);
 
-    len = strlen(options);
-    bytes = (*env)->NewByteArray(env, len);
-    if (bytes == NULL)
-        return -1;
-    (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte*)options);
-    (*env)->SetObjectField(env, entry, entry_options, bytes);
+    lfn = strlfn(options);
+    bytfs = (*fnv)->NfwBytfArrby(fnv, lfn);
+    if (bytfs == NULL)
+        rfturn -1;
+    (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, 0, lfn, (jbytf*)options);
+    (*fnv)->SftObjfdtFifld(fnv, fntry, fntry_options, bytfs);
 
-    return 0;
+    rfturn 0;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_BsdNativeDispatcher_endfsstat(JNIEnv* env, jclass this, jlong value)
+Jbvb_sun_nio_fs_BsdNbtivfDispbtdifr_fndfsstbt(JNIEnv* fnv, jdlbss tiis, jlong vbluf)
 {
-    struct fsstat_iter *iter = jlong_to_ptr(value);
+    strudt fsstbt_itfr *itfr = jlong_to_ptr(vbluf);
 
-    if (iter != NULL) {
-        free(iter->buf);
-        free(iter);
+    if (itfr != NULL) {
+        frff(itfr->buf);
+        frff(itfr);
     }
 }

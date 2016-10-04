@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.security.*;
-import java.util.HashMap;
-import java.io.ByteArrayOutputStream;
+import jbvb.sfdurity.*;
+import jbvb.util.HbsiMbp;
+import jbvb.io.BytfArrbyOutputStrfbm;
 
 /**
- * This class is used to compute digests on sections of the Manifest.
+ * Tiis dlbss is usfd to domputf digfsts on sfdtions of tif Mbniffst.
  */
-public class ManifestDigester {
+publid dlbss MbniffstDigfstfr {
 
-    public static final String MF_MAIN_ATTRS = "Manifest-Main-Attributes";
+    publid stbtid finbl String MF_MAIN_ATTRS = "Mbniffst-Mbin-Attributfs";
 
-    /** the raw bytes of the manifest */
-    private byte rawBytes[];
+    /** tif rbw bytfs of tif mbniffst */
+    privbtf bytf rbwBytfs[];
 
-    /** the offset/length pair for a section */
-    private HashMap<String, Entry> entries; // key is a UTF-8 string
+    /** tif offsft/lfngti pbir for b sfdtion */
+    privbtf HbsiMbp<String, Entry> fntrifs; // kfy is b UTF-8 string
 
-    /** state returned by findSection */
-    static class Position {
-        int endOfFirstLine; // not including newline character
+    /** stbtf rfturnfd by findSfdtion */
+    stbtid dlbss Position {
+        int fndOfFirstLinf; // not indluding nfwlinf dibrbdtfr
 
-        int endOfSection; // end of section, not including the blank line
-                          // between sections
-        int startOfNext;  // the start of the next section
+        int fndOfSfdtion; // fnd of sfdtion, not indluding tif blbnk linf
+                          // bftwffn sfdtions
+        int stbrtOfNfxt;  // tif stbrt of tif nfxt sfdtion
     }
 
     /**
-     * find a section in the manifest.
+     * find b sfdtion in tif mbniffst.
      *
-     * @param offset should point to the starting offset with in the
-     * raw bytes of the next section.
+     * @pbrbm offsft siould point to tif stbrting offsft witi in tif
+     * rbw bytfs of tif nfxt sfdtion.
      *
-     * @pos set by
+     * @pos sft by
      *
-     * @returns false if end of bytes has been reached, otherwise returns
-     *          true
+     * @rfturns fblsf if fnd of bytfs ibs bffn rfbdifd, otifrwisf rfturns
+     *          truf
      */
-    @SuppressWarnings("fallthrough")
-    private boolean findSection(int offset, Position pos)
+    @SupprfssWbrnings("fblltirougi")
+    privbtf boolfbn findSfdtion(int offsft, Position pos)
     {
-        int i = offset, len = rawBytes.length;
-        int last = offset;
-        int next;
-        boolean allBlank = true;
+        int i = offsft, lfn = rbwBytfs.lfngti;
+        int lbst = offsft;
+        int nfxt;
+        boolfbn bllBlbnk = truf;
 
-        pos.endOfFirstLine = -1;
+        pos.fndOfFirstLinf = -1;
 
-        while (i < len) {
-            byte b = rawBytes[i];
-            switch(b) {
-            case '\r':
-                if (pos.endOfFirstLine == -1)
-                    pos.endOfFirstLine = i-1;
-                if ((i < len) &&  (rawBytes[i+1] == '\n'))
+        wiilf (i < lfn) {
+            bytf b = rbwBytfs[i];
+            switdi(b) {
+            dbsf '\r':
+                if (pos.fndOfFirstLinf == -1)
+                    pos.fndOfFirstLinf = i-1;
+                if ((i < lfn) &&  (rbwBytfs[i+1] == '\n'))
                     i++;
-                /* fall through */
-            case '\n':
-                if (pos.endOfFirstLine == -1)
-                    pos.endOfFirstLine = i-1;
-                if (allBlank || (i == len-1)) {
-                    if (i == len-1)
-                        pos.endOfSection = i;
-                    else
-                        pos.endOfSection = last;
-                    pos.startOfNext = i+1;
-                    return true;
+                /* fbll tirougi */
+            dbsf '\n':
+                if (pos.fndOfFirstLinf == -1)
+                    pos.fndOfFirstLinf = i-1;
+                if (bllBlbnk || (i == lfn-1)) {
+                    if (i == lfn-1)
+                        pos.fndOfSfdtion = i;
+                    flsf
+                        pos.fndOfSfdtion = lbst;
+                    pos.stbrtOfNfxt = i+1;
+                    rfturn truf;
                 }
-                else {
-                    // start of a new line
-                    last = i;
-                    allBlank = true;
+                flsf {
+                    // stbrt of b nfw linf
+                    lbst = i;
+                    bllBlbnk = truf;
                 }
-                break;
-            default:
-                allBlank = false;
-                break;
+                brfbk;
+            dffbult:
+                bllBlbnk = fblsf;
+                brfbk;
             }
             i++;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public ManifestDigester(byte bytes[])
+    publid MbniffstDigfstfr(bytf bytfs[])
     {
-        rawBytes = bytes;
-        entries = new HashMap<String, Entry>();
+        rbwBytfs = bytfs;
+        fntrifs = nfw HbsiMbp<String, Entry>();
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
 
-        Position pos = new Position();
+        Position pos = nfw Position();
 
-        if (!findSection(0, pos))
-            return; // XXX: exception?
+        if (!findSfdtion(0, pos))
+            rfturn; // XXX: fxdfption?
 
-        // create an entry for main attributes
-        entries.put(MF_MAIN_ATTRS,
-                new Entry(0, pos.endOfSection + 1, pos.startOfNext, rawBytes));
+        // drfbtf bn fntry for mbin bttributfs
+        fntrifs.put(MF_MAIN_ATTRS,
+                nfw Entry(0, pos.fndOfSfdtion + 1, pos.stbrtOfNfxt, rbwBytfs));
 
-        int start = pos.startOfNext;
-        while(findSection(start, pos)) {
-            int len = pos.endOfFirstLine-start+1;
-            int sectionLen = pos.endOfSection-start+1;
-            int sectionLenWithBlank = pos.startOfNext-start;
+        int stbrt = pos.stbrtOfNfxt;
+        wiilf(findSfdtion(stbrt, pos)) {
+            int lfn = pos.fndOfFirstLinf-stbrt+1;
+            int sfdtionLfn = pos.fndOfSfdtion-stbrt+1;
+            int sfdtionLfnWitiBlbnk = pos.stbrtOfNfxt-stbrt;
 
-            if (len > 6) {
-                if (isNameAttr(bytes, start)) {
-                    StringBuilder nameBuf = new StringBuilder(sectionLen);
+            if (lfn > 6) {
+                if (isNbmfAttr(bytfs, stbrt)) {
+                    StringBuildfr nbmfBuf = nfw StringBuildfr(sfdtionLfn);
 
                     try {
-                        nameBuf.append(
-                            new String(bytes, start+6, len-6, "UTF8"));
+                        nbmfBuf.bppfnd(
+                            nfw String(bytfs, stbrt+6, lfn-6, "UTF8"));
 
-                        int i = start + len;
-                        if ((i-start) < sectionLen) {
-                            if (bytes[i] == '\r') {
+                        int i = stbrt + lfn;
+                        if ((i-stbrt) < sfdtionLfn) {
+                            if (bytfs[i] == '\r') {
                                 i += 2;
-                            } else {
+                            } flsf {
                                 i += 1;
                             }
                         }
 
-                        while ((i-start) < sectionLen) {
-                            if (bytes[i++] == ' ') {
-                                // name is wrapped
-                                int wrapStart = i;
-                                while (((i-start) < sectionLen)
-                                        && (bytes[i++] != '\n'));
-                                    if (bytes[i-1] != '\n')
-                                        return; // XXX: exception?
-                                    int wrapLen;
-                                    if (bytes[i-2] == '\r')
-                                        wrapLen = i-wrapStart-2;
-                                    else
-                                        wrapLen = i-wrapStart-1;
+                        wiilf ((i-stbrt) < sfdtionLfn) {
+                            if (bytfs[i++] == ' ') {
+                                // nbmf is wrbppfd
+                                int wrbpStbrt = i;
+                                wiilf (((i-stbrt) < sfdtionLfn)
+                                        && (bytfs[i++] != '\n'));
+                                    if (bytfs[i-1] != '\n')
+                                        rfturn; // XXX: fxdfption?
+                                    int wrbpLfn;
+                                    if (bytfs[i-2] == '\r')
+                                        wrbpLfn = i-wrbpStbrt-2;
+                                    flsf
+                                        wrbpLfn = i-wrbpStbrt-1;
 
-                            nameBuf.append(new String(bytes, wrapStart,
-                                                      wrapLen, "UTF8"));
-                            } else {
-                                break;
+                            nbmfBuf.bppfnd(nfw String(bytfs, wrbpStbrt,
+                                                      wrbpLfn, "UTF8"));
+                            } flsf {
+                                brfbk;
                             }
                         }
 
-                        entries.put(nameBuf.toString(),
-                            new Entry(start, sectionLen, sectionLenWithBlank,
-                                rawBytes));
+                        fntrifs.put(nbmfBuf.toString(),
+                            nfw Entry(stbrt, sfdtionLfn, sfdtionLfnWitiBlbnk,
+                                rbwBytfs));
 
-                    } catch (java.io.UnsupportedEncodingException uee) {
-                        throw new IllegalStateException(
-                            "UTF8 not available on platform");
+                    } dbtdi (jbvb.io.UnsupportfdEndodingExdfption uff) {
+                        tirow nfw IllfgblStbtfExdfption(
+                            "UTF8 not bvbilbblf on plbtform");
                     }
                 }
             }
-            start = pos.startOfNext;
+            stbrt = pos.stbrtOfNfxt;
         }
     }
 
-    private boolean isNameAttr(byte bytes[], int start)
+    privbtf boolfbn isNbmfAttr(bytf bytfs[], int stbrt)
     {
-        return ((bytes[start] == 'N') || (bytes[start] == 'n')) &&
-               ((bytes[start+1] == 'a') || (bytes[start+1] == 'A')) &&
-               ((bytes[start+2] == 'm') || (bytes[start+2] == 'M')) &&
-               ((bytes[start+3] == 'e') || (bytes[start+3] == 'E')) &&
-               (bytes[start+4] == ':') &&
-               (bytes[start+5] == ' ');
+        rfturn ((bytfs[stbrt] == 'N') || (bytfs[stbrt] == 'n')) &&
+               ((bytfs[stbrt+1] == 'b') || (bytfs[stbrt+1] == 'A')) &&
+               ((bytfs[stbrt+2] == 'm') || (bytfs[stbrt+2] == 'M')) &&
+               ((bytfs[stbrt+3] == 'f') || (bytfs[stbrt+3] == 'E')) &&
+               (bytfs[stbrt+4] == ':') &&
+               (bytfs[stbrt+5] == ' ');
     }
 
-    public static class Entry {
-        int offset;
-        int length;
-        int lengthWithBlankLine;
-        byte[] rawBytes;
-        boolean oldStyle;
+    publid stbtid dlbss Entry {
+        int offsft;
+        int lfngti;
+        int lfngtiWitiBlbnkLinf;
+        bytf[] rbwBytfs;
+        boolfbn oldStylf;
 
-        public Entry(int offset, int length,
-                     int lengthWithBlankLine, byte[] rawBytes)
+        publid Entry(int offsft, int lfngti,
+                     int lfngtiWitiBlbnkLinf, bytf[] rbwBytfs)
         {
-            this.offset = offset;
-            this.length = length;
-            this.lengthWithBlankLine = lengthWithBlankLine;
-            this.rawBytes = rawBytes;
+            tiis.offsft = offsft;
+            tiis.lfngti = lfngti;
+            tiis.lfngtiWitiBlbnkLinf = lfngtiWitiBlbnkLinf;
+            tiis.rbwBytfs = rbwBytfs;
         }
 
-        public byte[] digest(MessageDigest md)
+        publid bytf[] digfst(MfssbgfDigfst md)
         {
-            md.reset();
-            if (oldStyle) {
-                doOldStyle(md,rawBytes, offset, lengthWithBlankLine);
-            } else {
-                md.update(rawBytes, offset, lengthWithBlankLine);
+            md.rfsft();
+            if (oldStylf) {
+                doOldStylf(md,rbwBytfs, offsft, lfngtiWitiBlbnkLinf);
+            } flsf {
+                md.updbtf(rbwBytfs, offsft, lfngtiWitiBlbnkLinf);
             }
-            return md.digest();
+            rfturn md.digfst();
         }
 
-        private void doOldStyle(MessageDigest md,
-                                byte[] bytes,
-                                int offset,
-                                int length)
+        privbtf void doOldStylf(MfssbgfDigfst md,
+                                bytf[] bytfs,
+                                int offsft,
+                                int lfngti)
         {
-            // this is too gross to even document, but here goes
-            // the 1.1 jar verification code ignored spaces at the
-            // end of lines when calculating digests, so that is
-            // what this code does. It only gets called if we
-            // are parsing a 1.1 signed signature file
-            int i = offset;
-            int start = offset;
-            int max = offset + length;
-            int prev = -1;
-            while(i <max) {
-                if ((bytes[i] == '\r') && (prev == ' ')) {
-                    md.update(bytes, start, i-start-1);
-                    start = i;
+            // tiis is too gross to fvfn dodumfnt, but ifrf gofs
+            // tif 1.1 jbr vfrifidbtion dodf ignorfd spbdfs bt tif
+            // fnd of linfs wifn dbldulbting digfsts, so tibt is
+            // wibt tiis dodf dofs. It only gfts dbllfd if wf
+            // brf pbrsing b 1.1 signfd signbturf filf
+            int i = offsft;
+            int stbrt = offsft;
+            int mbx = offsft + lfngti;
+            int prfv = -1;
+            wiilf(i <mbx) {
+                if ((bytfs[i] == '\r') && (prfv == ' ')) {
+                    md.updbtf(bytfs, stbrt, i-stbrt-1);
+                    stbrt = i;
                 }
-                prev = bytes[i];
+                prfv = bytfs[i];
                 i++;
             }
-            md.update(bytes, start, i-start);
+            md.updbtf(bytfs, stbrt, i-stbrt);
         }
 
 
-        /** Netscape doesn't include the new line. Intel and JavaSoft do */
+        /** Nftsdbpf dofsn't indludf tif nfw linf. Intfl bnd JbvbSoft do */
 
-        public byte[] digestWorkaround(MessageDigest md)
+        publid bytf[] digfstWorkbround(MfssbgfDigfst md)
         {
-            md.reset();
-            md.update(rawBytes, offset, length);
-            return md.digest();
+            md.rfsft();
+            md.updbtf(rbwBytfs, offsft, lfngti);
+            rfturn md.digfst();
         }
     }
 
-    public Entry get(String name, boolean oldStyle) {
-        Entry e = entries.get(name);
-        if (e != null)
-            e.oldStyle = oldStyle;
-        return e;
+    publid Entry gft(String nbmf, boolfbn oldStylf) {
+        Entry f = fntrifs.gft(nbmf);
+        if (f != null)
+            f.oldStylf = oldStylf;
+        rfturn f;
     }
 
-    public byte[] manifestDigest(MessageDigest md)
+    publid bytf[] mbniffstDigfst(MfssbgfDigfst md)
         {
-            md.reset();
-            md.update(rawBytes, 0, rawBytes.length);
-            return md.digest();
+            md.rfsft();
+            md.updbtf(rbwBytfs, 0, rbwBytfs.lfngti);
+            rfturn md.digfst();
         }
 
 }

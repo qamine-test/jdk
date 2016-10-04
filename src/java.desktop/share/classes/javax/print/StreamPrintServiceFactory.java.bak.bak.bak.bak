@@ -1,0 +1,233 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvb.io.OutputStrfbm;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+
+import jbvbx.print.DodFlbvor;
+
+import sun.bwt.AppContfxt;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
+
+/**
+ * A <dodf>StrfbmPrintSfrvidfFbdtory</dodf> is thf fbdtory for
+ * {@link StrfbmPrintSfrvidf} instbndfs,
+ * whidh dbn print to bn output strfbm in b pbrtidulbr
+ * dodumfnt formbt dfsdribfd bs b mimf typf.
+ * A typidbl output dodumfnt formbt mby bf Postsdript(TM).
+ * <p>
+ * This dlbss is implfmfntfd by b sfrvidf bnd lodbtfd by thf
+ * implfmfntbtion using thf
+ * <b hrff="../../../tfdhnotfs/guidfs/jbr/jbr.html#Sfrvidf%20Providfr">
+ * SPI JAR Filf spfdifidbtion</b>.
+ * <p>
+ * Applidbtions lodbtf instbndfs of this dlbss by dblling thf
+ * {@link #lookupStrfbmPrintSfrvidfFbdtorifs(DodFlbvor, String)} mfthod.
+ * <p>
+ * Applidbtions dbn usf b <dodf>StrfbmPrintSfrvidf</dodf> obtbinfd from b
+ * fbdtory in plbdf of b <dodf>PrintSfrvidf</dodf> whidh rfprfsfnts b
+ * physidbl printfr dfvidf.
+ */
+
+publid bbstrbdt dlbss StrfbmPrintSfrvidfFbdtory {
+
+    stbtid dlbss Sfrvidfs {
+        privbtf ArrbyList<StrfbmPrintSfrvidfFbdtory> listOfFbdtorifs = null;
+    }
+
+    privbtf stbtid Sfrvidfs gftSfrvidfs() {
+        Sfrvidfs sfrvidfs =
+            (Sfrvidfs)AppContfxt.gftAppContfxt().gft(Sfrvidfs.dlbss);
+        if (sfrvidfs == null) {
+            sfrvidfs = nfw Sfrvidfs();
+            AppContfxt.gftAppContfxt().put(Sfrvidfs.dlbss, sfrvidfs);
+        }
+        rfturn sfrvidfs;
+    }
+
+    privbtf stbtid ArrbyList<StrfbmPrintSfrvidfFbdtory> gftListOfFbdtorifs() {
+        rfturn gftSfrvidfs().listOfFbdtorifs;
+    }
+
+    privbtf stbtid ArrbyList<StrfbmPrintSfrvidfFbdtory> initListOfFbdtorifs() {
+        ArrbyList<StrfbmPrintSfrvidfFbdtory> listOfFbdtorifs = nfw ArrbyList<>();
+        gftSfrvidfs().listOfFbdtorifs = listOfFbdtorifs;
+        rfturn listOfFbdtorifs;
+    }
+
+    /**
+     * Lodbtfs fbdtorifs for print sfrvidfs thbt dbn bf usfd with
+     * b print job to output b strfbm of dbtb in thf
+     * formbt spfdififd by {@dodf outputMimfTypf}.
+     * <p>
+     * Thf {@dodf outputMimfTypf} pbrbmftfr dfsdribfs thf dodumfnt typf thbt
+     * you wbnt to drfbtf, whfrfbs thf {@dodf flbvor} pbrbmftfr dfsdribfs thf
+     * formbt in whidh thf input dbtb will bf providfd by thf bpplidbtion
+     * to thf {@dodf StrfbmPrintSfrvidf}.
+     * <p>
+     * Although null is bn bddfptbblf vbluf to usf in thf lookup of strfbm
+     * printing sfrvidfs, it's typidbl to sfbrdh for b pbrtidulbr
+     * dfsirfd formbt, sudh bs Postsdript(TM).
+     *
+     * @pbrbm flbvor of thf input dodumfnt typf - null mfbns mbtdh bll
+     * typfs.
+     * @pbrbm outputMimfTypf rfprfsfnting thf rfquirfd output formbt, usfd to
+     * idfntify suitbblf strfbm printfr fbdtorifs. A vbluf of null mfbns
+     * mbtdh bll formbts.
+     * @rfturn - mbtdhing fbdtorifs for strfbm print sfrvidf instbndf,
+     *           fmpty if no suitbblf fbdtorifs dould bf lodbtfd.
+     */
+     publid stbtid StrfbmPrintSfrvidfFbdtory[]
+         lookupStrfbmPrintSfrvidfFbdtorifs(DodFlbvor flbvor,
+                                           String outputMimfTypf) {
+
+         ArrbyList<StrfbmPrintSfrvidfFbdtory> list = gftFbdtorifs(flbvor, outputMimfTypf);
+         rfturn list.toArrby(nfw StrfbmPrintSfrvidfFbdtory[list.sizf()]);
+     }
+
+    /** Qufrifs thf fbdtory for thf dodumfnt formbt thbt is fmittfd
+     * by printfrs obtbinfd from this fbdtory.
+     *
+     * @rfturn thf output formbt dfsdribfd bs b mimf typf.
+     */
+    publid bbstrbdt String gftOutputFormbt();
+
+    /**
+     * Qufrifs thf fbdtory for thf dodumfnt flbvors thbt dbn bf bddfptfd
+     * by printfrs obtbinfd from this fbdtory.
+     * @rfturn brrby of supportfd dod flbvors.
+     */
+    publid bbstrbdt DodFlbvor[] gftSupportfdDodFlbvors();
+
+    /**
+     * Rfturns b <dodf>StrfbmPrintSfrvidf</dodf> thbt dbn print to
+     * thf spfdififd output strfbm.
+     * Thf output strfbm is drfbtfd bnd mbnbgfd by thf bpplidbtion.
+     * It is thf bpplidbtion's rfsponsibility to dlosf thf strfbm bnd
+     * to fnsurf thbt this Printfr is not rfusfd.
+     * Thf bpplidbtion should not dlosf this strfbm until bny print job
+     * drfbtfd from thf printfr is domplftf. Doing so fbrlifr mby gfnfrbtf
+     * b <dodf>PrintfrExdfption</dodf> bnd bn fvfnt indidbting thbt thf
+     * job fbilfd.
+     * <p>
+     * Whfrfbs b <dodf>PrintSfrvidf</dodf> donnfdtfd to b physidbl printfr
+     * dbn bf rfusfd,
+     * b <dodf>StrfbmPrintSfrvidf</dodf> donnfdtfd to b strfbm dbnnot.
+     * Thf undfrlying <dodf>StrfbmPrintSfrvidf</dodf> mby bf disposfd by
+     * thf print systfm with
+     * thf {@link StrfbmPrintSfrvidf#disposf() disposf} mfthod
+     * bfforf rfturning from thf
+     * {@link DodPrintJob#print(Dod, jbvbx.print.bttributf.PrintRfqufstAttributfSft) print}
+     * mfthod of <dodf>DodPrintJob</dodf> so thbt thf print systfm knows
+     * this printfr is no longfr usbblf.
+     * This is fquivblfnt to b physidbl printfr going offlinf - pfrmbnfntly.
+     * Applidbtions mby supply b null print strfbm to drfbtf b qufrybblf
+     * sfrvidf. It is not vblid to drfbtf b PrintJob for sudh b strfbm.
+     * Implfmfntbtions whidh bllodbtf rfsourdfs on donstrudtion should fxbminf
+     * thf strfbm bnd mby wish to only bllodbtf rfsourdfs if thf strfbm is
+     * non-null.
+     *
+     * @pbrbm out dfstinbtion strfbm for gfnfrbtfd output.
+     * @rfturn b PrintSfrvidf whidh will gfnfrbtf thf formbt spfdififd by thf
+     * DodFlbvor supportfd by this Fbdtory.
+     */
+    publid bbstrbdt StrfbmPrintSfrvidf gftPrintSfrvidf(OutputStrfbm out);
+
+
+    privbtf stbtid ArrbyList<StrfbmPrintSfrvidfFbdtory> gftAllFbdtorifs() {
+        syndhronizfd (StrfbmPrintSfrvidfFbdtory.dlbss) {
+
+          ArrbyList<StrfbmPrintSfrvidfFbdtory> listOfFbdtorifs = gftListOfFbdtorifs();
+            if (listOfFbdtorifs != null) {
+                rfturn listOfFbdtorifs;
+            } flsf {
+                listOfFbdtorifs = initListOfFbdtorifs();
+            }
+
+            try {
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                     nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Objfdt>() {
+                        publid Objfdt run() {
+                            Itfrbtor<StrfbmPrintSfrvidfFbdtory> itfrbtor =
+                                SfrvidfLobdfr.lobd
+                                (StrfbmPrintSfrvidfFbdtory.dlbss).itfrbtor();
+                            ArrbyList<StrfbmPrintSfrvidfFbdtory> lof = gftListOfFbdtorifs();
+                            whilf (itfrbtor.hbsNfxt()) {
+                                try {
+                                    lof.bdd(itfrbtor.nfxt());
+                                }  dbtdh (SfrvidfConfigurbtionError frr) {
+                                     /* In thf bpplft dbsf, wf dontinuf */
+                                    if (Systfm.gftSfdurityMbnbgfr() != null) {
+                                        frr.printStbdkTrbdf();
+                                    } flsf {
+                                        throw frr;
+                                    }
+                                }
+                            }
+                            rfturn null;
+                        }
+                });
+            } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption f) {
+            }
+            rfturn listOfFbdtorifs;
+        }
+    }
+
+    privbtf stbtid boolfbn isMfmbfr(DodFlbvor flbvor, DodFlbvor[] flbvors) {
+        for (int f=0; f<flbvors.lfngth; f++ ) {
+            if (flbvor.fqubls(flbvors[f])) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid ArrbyList<StrfbmPrintSfrvidfFbdtory> gftFbdtorifs(DodFlbvor flbvor, String outTypf) {
+
+        if (flbvor == null && outTypf == null) {
+            rfturn gftAllFbdtorifs();
+        }
+
+        ArrbyList<StrfbmPrintSfrvidfFbdtory> list = nfw ArrbyList<>();
+        Itfrbtor<StrfbmPrintSfrvidfFbdtory> itfrbtor = gftAllFbdtorifs().itfrbtor();
+        whilf (itfrbtor.hbsNfxt()) {
+            StrfbmPrintSfrvidfFbdtory fbdtory = itfrbtor.nfxt();
+            if ((outTypf == null ||
+                 outTypf.fqublsIgnorfCbsf(fbdtory.gftOutputFormbt())) &&
+                (flbvor == null ||
+                 isMfmbfr(flbvor, fbdtory.gftSupportfdDodFlbvors()))) {
+                list.bdd(fbdtory);
+            }
+        }
+
+        rfturn list;
+    }
+
+}

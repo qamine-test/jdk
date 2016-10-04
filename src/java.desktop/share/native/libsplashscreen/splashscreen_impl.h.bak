@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef SPLASHSCREEN_IMPL_H
-#define SPLASHSCREEN_IMPL_H
+#ifndff SPLASHSCREEN_IMPL_H
+#dffinf SPLASHSCREEN_IMPL_H
 
-#include "splashscreen_config.h"
-#include "splashscreen_gfx.h"
+#indludf "splbsisdrffn_donfig.i"
+#indludf "splbsisdrffn_gfx.i"
 
-SPLASHEXPORT int SplashLoadMemory(void *pdata, int size); /* requires preloading the file */
-SPLASHEXPORT int SplashLoadFile(const char *filename);  // FIXME: range checking for SplashLoadMemory
+SPLASHEXPORT int SplbsiLobdMfmory(void *pdbtb, int sizf); /* rfquirfs prflobding tif filf */
+SPLASHEXPORT int SplbsiLobdFilf(donst dibr *filfnbmf);  // FIXME: rbngf difdking for SplbsiLobdMfmory
 
-SPLASHEXPORT void SplashInit(void);
-SPLASHEXPORT void SplashClose(void);
+SPLASHEXPORT void SplbsiInit(void);
+SPLASHEXPORT void SplbsiClosf(void);
 
-SPLASHEXPORT void SplashSetScaleFactor(float);
-SPLASHEXPORT char* SplashGetScaledImageName(const char*, const char*, float*);
+SPLASHEXPORT void SplbsiSftSdblfFbdtor(flobt);
+SPLASHEXPORT dibr* SplbsiGftSdblfdImbgfNbmf(donst dibr*, donst dibr*, flobt*);
 
 SPLASHEXPORT void
-SplashSetFileJarName(const char* fileName, const char* jarName);
+SplbsiSftFilfJbrNbmf(donst dibr* filfNbmf, donst dibr* jbrNbmf);
 
-typedef struct SplashImage
+typfdff strudt SplbsiImbgf
 {
-    rgbquad_t *bitmapBits;
-    int delay;                  /* before next image display, in msec                                                       */
-#if defined(WITH_WIN32)
-    HRGN hRgn;
-#elif defined(WITH_X11)
-    XRectangle *rects;
-    int numRects;
-#endif
-} SplashImage;
+    rgbqubd_t *bitmbpBits;
+    int dflby;                  /* bfforf nfxt imbgf displby, in msfd                                                       */
+#if dffinfd(WITH_WIN32)
+    HRGN iRgn;
+#flif dffinfd(WITH_X11)
+    XRfdtbnglf *rfdts;
+    int numRfdts;
+#fndif
+} SplbsiImbgf;
 
-#define SPLASH_COLOR_MAP_SIZE 0x100
+#dffinf SPLASH_COLOR_MAP_SIZE 0x100
 
-typedef struct Splash
+typfdff strudt Splbsi
 {
-    ImageFormat screenFormat;   /* must be preset before image decoding */
-    DitherSettings dithers[3];
-    ImageFormat imageFormat;
-    rgbquad_t colorMap[SPLASH_COLOR_MAP_SIZE];
-    int byteAlignment;          /* must be preset before image decoding */
-    int maskRequired;           /* must be preset before image decoding */
-    int width;                  /* in pixels */
-    int height;                 /* in pixels */
-    int frameCount;
-    SplashImage *frames;        /* dynamically allocated array of frame descriptors */
-    unsigned time;              /* in msec, origin is not important */
-    rgbquad_t *overlayData;     /* overlay image data, always rgbquads */
-    ImageRect overlayRect;
-    ImageFormat overlayFormat;
-    void *screenData;
-    int screenStride;           /* stored scanline length in bytes */
-    int currentFrame;           // currentFrame==-1 means image is not loaded
+    ImbgfFormbt sdrffnFormbt;   /* must bf prfsft bfforf imbgf dfdoding */
+    DitifrSfttings ditifrs[3];
+    ImbgfFormbt imbgfFormbt;
+    rgbqubd_t dolorMbp[SPLASH_COLOR_MAP_SIZE];
+    int bytfAlignmfnt;          /* must bf prfsft bfforf imbgf dfdoding */
+    int mbskRfquirfd;           /* must bf prfsft bfforf imbgf dfdoding */
+    int widti;                  /* in pixfls */
+    int ifigit;                 /* in pixfls */
+    int frbmfCount;
+    SplbsiImbgf *frbmfs;        /* dynbmidblly bllodbtfd brrby of frbmf dfsdriptors */
+    unsignfd timf;              /* in msfd, origin is not importbnt */
+    rgbqubd_t *ovfrlbyDbtb;     /* ovfrlby imbgf dbtb, blwbys rgbqubds */
+    ImbgfRfdt ovfrlbyRfdt;
+    ImbgfFormbt ovfrlbyFormbt;
+    void *sdrffnDbtb;
+    int sdrffnStridf;           /* storfd sdbnlinf lfngti in bytfs */
+    int durrfntFrbmf;           // durrfntFrbmf==-1 mfbns imbgf is not lobdfd
     int loopCount;
     int x, y;
-    rgbquad_t colorIndex[SPLASH_COLOR_MAP_SIZE];
-    int isVisible;
-    char*       fileName;       /* stored in 16-bit unicode (jchars) */
-    int         fileNameLen;
-    char*       jarName;        /* stored in 16-bit unicode (jchars) */
-    int         jarNameLen;
-    float       scaleFactor;
-#if defined(WITH_WIN32)
-    BOOL isLayered;
-    HWND hWnd;
-    HPALETTE hPalette;
-    CRITICAL_SECTION lock;
-#elif defined(WITH_X11)
-    int controlpipe[2];
-    Display *display;
+    rgbqubd_t dolorIndfx[SPLASH_COLOR_MAP_SIZE];
+    int isVisiblf;
+    dibr*       filfNbmf;       /* storfd in 16-bit unidodf (jdibrs) */
+    int         filfNbmfLfn;
+    dibr*       jbrNbmf;        /* storfd in 16-bit unidodf (jdibrs) */
+    int         jbrNbmfLfn;
+    flobt       sdblfFbdtor;
+#if dffinfd(WITH_WIN32)
+    BOOL isLbyfrfd;
+    HWND iWnd;
+    HPALETTE iPblfttf;
+    CRITICAL_SECTION lodk;
+#flif dffinfd(WITH_X11)
+    int dontrolpipf[2];
+    Displby *displby;
     Window window;
-    Screen *screen;
-    Visual *visual;
-    Colormap cmap;
-    pthread_mutex_t lock;
-    Cursor cursor;
+    Sdrffn *sdrffn;
+    Visubl *visubl;
+    Colormbp dmbp;
+    ptirfbd_mutfx_t lodk;
+    Cursor dursor;
     XWMHints* wmHints;
-#elif defined(WITH_MACOSX)
-    pthread_mutex_t lock;
-    int controlpipe[2];
+#flif dffinfd(WITH_MACOSX)
+    ptirfbd_mutfx_t lodk;
+    int dontrolpipf[2];
     NSWindow * window;
-#endif
-} Splash;
+#fndif
+} Splbsi;
 
-/* various shared and/or platform dependent splash screen functions */
+/* vbrious sibrfd bnd/or plbtform dfpfndfnt splbsi sdrffn fundtions */
 
-/*************** Platform-specific ******************/
+/*************** Plbtform-spfdifid ******************/
 
-/* To be implemented in the platform-specific native code. */
-
-
-void SplashInitPlatform(Splash * splash);
-void SplashCreateThread(Splash * splash);
-void SplashCleanupPlatform(Splash * splash);
-void SplashDonePlatform(Splash * splash);
-
-unsigned SplashTime();
-char* SplashConvertStringAlloc(const char* in, int *size);
-char* SplashGetScaledImageName(const char* jarName,
-                               const char* fileName, float *scaleFactor);
-
-void SplashLock(Splash * splash);
-void SplashUnlock(Splash * splash);
-
-void SplashInitFrameShape(Splash * splash, int imageIndex);
-
-void SplashUpdate(Splash * splash);
-void SplashReconfigure(Splash * splash);
-void SplashClosePlatform(Splash * splash);
+/* To bf implfmfntfd in tif plbtform-spfdifid nbtivf dodf. */
 
 
+void SplbsiInitPlbtform(Splbsi * splbsi);
+void SplbsiCrfbtfTirfbd(Splbsi * splbsi);
+void SplbsiClfbnupPlbtform(Splbsi * splbsi);
+void SplbsiDonfPlbtform(Splbsi * splbsi);
 
-/********************* Shared **********************/
-Splash *SplashGetInstance();
+unsignfd SplbsiTimf();
+dibr* SplbsiConvfrtStringAllod(donst dibr* in, int *sizf);
+dibr* SplbsiGftSdblfdImbgfNbmf(donst dibr* jbrNbmf,
+                               donst dibr* filfNbmf, flobt *sdblfFbdtor);
 
-int SplashIsStillLooping(Splash * splash);
-void SplashNextFrame(Splash * splash);
-void SplashStart(Splash * splash);
-void SplashDone(Splash * splash);
+void SplbsiLodk(Splbsi * splbsi);
+void SplbsiUnlodk(Splbsi * splbsi);
 
-void SplashUpdateScreenData(Splash * splash);
+void SplbsiInitFrbmfSibpf(Splbsi * splbsi, int imbgfIndfx);
 
-void SplashCleanup(Splash * splash);
-void SplashSetScaleFactor(float scaleFactor);
+void SplbsiUpdbtf(Splbsi * splbsi);
+void SplbsiRfdonfigurf(Splbsi * splbsi);
+void SplbsiClosfPlbtform(Splbsi * splbsi);
 
 
-typedef struct SplashStream {
-    int (*read)(void* pStream, void* pData, int nBytes);
-    int (*peek)(void* pStream);
-    void (*close)(void* pStream);
+
+/********************* Sibrfd **********************/
+Splbsi *SplbsiGftInstbndf();
+
+int SplbsiIsStillLooping(Splbsi * splbsi);
+void SplbsiNfxtFrbmf(Splbsi * splbsi);
+void SplbsiStbrt(Splbsi * splbsi);
+void SplbsiDonf(Splbsi * splbsi);
+
+void SplbsiUpdbtfSdrffnDbtb(Splbsi * splbsi);
+
+void SplbsiClfbnup(Splbsi * splbsi);
+void SplbsiSftSdblfFbdtor(flobt sdblfFbdtor);
+
+
+typfdff strudt SplbsiStrfbm {
+    int (*rfbd)(void* pStrfbm, void* pDbtb, int nBytfs);
+    int (*pffk)(void* pStrfbm);
+    void (*dlosf)(void* pStrfbm);
     union {
-        struct {
+        strudt {
             FILE* f;
         } stdio;
-        struct {
-            unsigned char* pData;
-            unsigned char* pDataEnd;
-        } mem;
-    } arg;
-} SplashStream;
+        strudt {
+            unsignfd dibr* pDbtb;
+            unsignfd dibr* pDbtbEnd;
+        } mfm;
+    } brg;
+} SplbsiStrfbm;
 
-int SplashStreamInitFile(SplashStream * stream, const char* filename);
-int SplashStreamInitMemory(SplashStream * stream, void * pData, int size);
+int SplbsiStrfbmInitFilf(SplbsiStrfbm * strfbm, donst dibr* filfnbmf);
+int SplbsiStrfbmInitMfmory(SplbsiStrfbm * strfbm, void * pDbtb, int sizf);
 
-/* image decoding */
-int SplashDecodeGifStream(Splash * splash, SplashStream * stream);
-int SplashDecodeJpegStream(Splash * splash, SplashStream * stream);
-int SplashDecodePngStream(Splash * splash, SplashStream * stream);
+/* imbgf dfdoding */
+int SplbsiDfdodfGifStrfbm(Splbsi * splbsi, SplbsiStrfbm * strfbm);
+int SplbsiDfdodfJpfgStrfbm(Splbsi * splbsi, SplbsiStrfbm * strfbm);
+int SplbsiDfdodfPngStrfbm(Splbsi * splbsi, SplbsiStrfbm * strfbm);
 
-/* utility functions */
+/* utility fundtions */
 
-int BitmapToYXBandedRectangles(ImageRect * pSrcRect, RECT_T * out);
+int BitmbpToYXBbndfdRfdtbnglfs(ImbgfRfdt * pSrdRfdt, RECT_T * out);
 
-#define SAFE_TO_ALLOC(c, sz)                                               \
-    (((c) > 0) && ((sz) > 0) &&                                            \
-     ((0xffffffffu / ((unsigned int)(c))) > (unsigned int)(sz)))
+#dffinf SAFE_TO_ALLOC(d, sz)                                               \
+    (((d) > 0) && ((sz) > 0) &&                                            \
+     ((0xffffffffu / ((unsignfd int)(d))) > (unsignfd int)(sz)))
 
-#define dbgprintf printf
+#dffinf dbgprintf printf
 
-#endif
+#fndif

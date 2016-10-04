@@ -1,456 +1,456 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import java.security.AccessController;
-import java.text.spi.BreakIteratorProvider;
-import java.text.spi.CollatorProvider;
-import java.text.spi.DateFormatProvider;
-import java.text.spi.DateFormatSymbolsProvider;
-import java.text.spi.DecimalFormatSymbolsProvider;
-import java.text.spi.NumberFormatProvider;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.spi.CalendarDataProvider;
-import java.util.spi.CalendarNameProvider;
-import java.util.spi.CurrencyNameProvider;
-import java.util.spi.LocaleNameProvider;
-import java.util.spi.LocaleServiceProvider;
-import java.util.spi.TimeZoneNameProvider;
-import sun.util.cldr.CLDRLocaleProviderAdapter;
-import sun.util.spi.CalendarProvider;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.tfxt.spi.BrfbkItfrbtorProvidfr;
+import jbvb.tfxt.spi.CollbtorProvidfr;
+import jbvb.tfxt.spi.DbtfFormbtProvidfr;
+import jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr;
+import jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr;
+import jbvb.tfxt.spi.NumbfrFormbtProvidfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.spi.CblfndbrDbtbProvidfr;
+import jbvb.util.spi.CblfndbrNbmfProvidfr;
+import jbvb.util.spi.CurrfndyNbmfProvidfr;
+import jbvb.util.spi.LodblfNbmfProvidfr;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
+import jbvb.util.spi.TimfZonfNbmfProvidfr;
+import sun.util.dldr.CLDRLodblfProvidfrAdbptfr;
+import sun.util.spi.CblfndbrProvidfr;
 
 /**
- * The LocaleProviderAdapter abstract class.
+ * Tif LodblfProvidfrAdbptfr bbstrbdt dlbss.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @butior Nboto Sbto
+ * @butior Mbsbyosii Okutsu
  */
-public abstract class LocaleProviderAdapter {
+publid bbstrbdt dlbss LodblfProvidfrAdbptfr {
     /**
-     * Adapter type.
+     * Adbptfr typf.
      */
-    public static enum Type {
-        JRE("sun.util.resources", "sun.text.resources"),
-        CLDR("sun.util.resources.cldr", "sun.text.resources.cldr"),
+    publid stbtid fnum Typf {
+        JRE("sun.util.rfsourdfs", "sun.tfxt.rfsourdfs"),
+        CLDR("sun.util.rfsourdfs.dldr", "sun.tfxt.rfsourdfs.dldr"),
         SPI,
         HOST,
-        FALLBACK("sun.util.resources", "sun.text.resources");
+        FALLBACK("sun.util.rfsourdfs", "sun.tfxt.rfsourdfs");
 
-        private final String UTIL_RESOURCES_PACKAGE;
-        private final String TEXT_RESOURCES_PACKAGE;
+        privbtf finbl String UTIL_RESOURCES_PACKAGE;
+        privbtf finbl String TEXT_RESOURCES_PACKAGE;
 
-        private Type() {
-            this(null, null);
+        privbtf Typf() {
+            tiis(null, null);
         }
 
-        private Type(String util, String text) {
+        privbtf Typf(String util, String tfxt) {
             UTIL_RESOURCES_PACKAGE = util;
-            TEXT_RESOURCES_PACKAGE = text;
+            TEXT_RESOURCES_PACKAGE = tfxt;
         }
 
-        public String getUtilResourcesPackage() {
-            return UTIL_RESOURCES_PACKAGE;
+        publid String gftUtilRfsourdfsPbdkbgf() {
+            rfturn UTIL_RESOURCES_PACKAGE;
         }
 
-        public String getTextResourcesPackage() {
-            return TEXT_RESOURCES_PACKAGE;
+        publid String gftTfxtRfsourdfsPbdkbgf() {
+            rfturn TEXT_RESOURCES_PACKAGE;
         }
     }
 
     /**
-     * LocaleProviderAdapter preference list. The default list is intended
-     * to behave the same manner in JDK7.
+     * LodblfProvidfrAdbptfr prfffrfndf list. Tif dffbult list is intfndfd
+     * to bfibvf tif sbmf mbnnfr in JDK7.
      */
-    private static final List<Type> adapterPreference;
+    privbtf stbtid finbl List<Typf> bdbptfrPrfffrfndf;
 
     /**
-     * JRE Locale Data Adapter instance
+     * JRE Lodblf Dbtb Adbptfr instbndf
      */
-    private static LocaleProviderAdapter jreLocaleProviderAdapter = new JRELocaleProviderAdapter();
+    privbtf stbtid LodblfProvidfrAdbptfr jrfLodblfProvidfrAdbptfr = nfw JRELodblfProvidfrAdbptfr();
 
     /**
-     * SPI Locale Data Adapter instance
+     * SPI Lodblf Dbtb Adbptfr instbndf
      */
-    private static LocaleProviderAdapter spiLocaleProviderAdapter = new SPILocaleProviderAdapter();
+    privbtf stbtid LodblfProvidfrAdbptfr spiLodblfProvidfrAdbptfr = nfw SPILodblfProvidfrAdbptfr();
 
     /**
-     * CLDR Locale Data Adapter instance, if any.
+     * CLDR Lodblf Dbtb Adbptfr instbndf, if bny.
      */
-    private static LocaleProviderAdapter cldrLocaleProviderAdapter = null;
+    privbtf stbtid LodblfProvidfrAdbptfr dldrLodblfProvidfrAdbptfr = null;
 
     /**
-     * HOST Locale Data Adapter instance, if any.
+     * HOST Lodblf Dbtb Adbptfr instbndf, if bny.
      */
-    private static LocaleProviderAdapter hostLocaleProviderAdapter = null;
+    privbtf stbtid LodblfProvidfrAdbptfr iostLodblfProvidfrAdbptfr = null;
 
     /**
-     * FALLBACK Locale Data Adapter instance. It's basically the same with JRE, but only kicks
-     * in for the root locale.
+     * FALLBACK Lodblf Dbtb Adbptfr instbndf. It's bbsidblly tif sbmf witi JRE, but only kidks
+     * in for tif root lodblf.
      */
-    private static LocaleProviderAdapter fallbackLocaleProviderAdapter = null;
+    privbtf stbtid LodblfProvidfrAdbptfr fbllbbdkLodblfProvidfrAdbptfr = null;
 
     /**
-     * Default fallback adapter type, which should return something meaningful in any case.
-     * This is either JRE or FALLBACK.
+     * Dffbult fbllbbdk bdbptfr typf, wiidi siould rfturn somftiing mfbningful in bny dbsf.
+     * Tiis is fitifr JRE or FALLBACK.
      */
-    static LocaleProviderAdapter.Type defaultLocaleProviderAdapter = null;
+    stbtid LodblfProvidfrAdbptfr.Typf dffbultLodblfProvidfrAdbptfr = null;
 
     /**
-     * Adapter lookup cache.
+     * Adbptfr lookup dbdif.
      */
-    private static ConcurrentMap<Class<? extends LocaleServiceProvider>, ConcurrentMap<Locale, LocaleProviderAdapter>>
-        adapterCache = new ConcurrentHashMap<>();
+    privbtf stbtid CondurrfntMbp<Clbss<? fxtfnds LodblfSfrvidfProvidfr>, CondurrfntMbp<Lodblf, LodblfProvidfrAdbptfr>>
+        bdbptfrCbdif = nfw CondurrfntHbsiMbp<>();
 
-    static {
-        String order = AccessController.doPrivileged(
-                           new sun.security.action.GetPropertyAction("java.locale.providers"));
-        List<Type> typeList = new ArrayList<>();
+    stbtid {
+        String ordfr = AddfssControllfr.doPrivilfgfd(
+                           nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("jbvb.lodblf.providfrs"));
+        List<Typf> typfList = nfw ArrbyList<>();
 
-        // Check user specified adapter preference
-        if (order != null && order.length() != 0) {
-            String[] types = order.split(",");
-            for (String type : types) {
+        // Cifdk usfr spfdififd bdbptfr prfffrfndf
+        if (ordfr != null && ordfr.lfngti() != 0) {
+            String[] typfs = ordfr.split(",");
+            for (String typf : typfs) {
                 try {
-                    Type aType = Type.valueOf(type.trim().toUpperCase(Locale.ROOT));
+                    Typf bTypf = Typf.vblufOf(typf.trim().toUppfrCbsf(Lodblf.ROOT));
 
-                    // load adapter if necessary
-                    switch (aType) {
-                        case CLDR:
-                            if (cldrLocaleProviderAdapter == null) {
-                                cldrLocaleProviderAdapter = new CLDRLocaleProviderAdapter();
+                    // lobd bdbptfr if nfdfssbry
+                    switdi (bTypf) {
+                        dbsf CLDR:
+                            if (dldrLodblfProvidfrAdbptfr == null) {
+                                dldrLodblfProvidfrAdbptfr = nfw CLDRLodblfProvidfrAdbptfr();
                             }
-                            break;
-                        case HOST:
-                            if (hostLocaleProviderAdapter == null) {
-                                hostLocaleProviderAdapter = new HostLocaleProviderAdapter();
+                            brfbk;
+                        dbsf HOST:
+                            if (iostLodblfProvidfrAdbptfr == null) {
+                                iostLodblfProvidfrAdbptfr = nfw HostLodblfProvidfrAdbptfr();
                             }
-                            break;
+                            brfbk;
                     }
-                    if (!typeList.contains(aType)) {
-                        typeList.add(aType);
+                    if (!typfList.dontbins(bTypf)) {
+                        typfList.bdd(bTypf);
                     }
-                } catch (IllegalArgumentException | UnsupportedOperationException e) {
-                    // could be caused by the user specifying wrong
-                    // provider name or format in the system property
-                    LocaleServiceProviderPool.config(LocaleProviderAdapter.class, e.toString());
+                } dbtdi (IllfgblArgumfntExdfption | UnsupportfdOpfrbtionExdfption f) {
+                    // dould bf dbusfd by tif usfr spfdifying wrong
+                    // providfr nbmf or formbt in tif systfm propfrty
+                    LodblfSfrvidfProvidfrPool.donfig(LodblfProvidfrAdbptfr.dlbss, f.toString());
                 }
             }
         }
 
-        if (!typeList.isEmpty()) {
-            if (!typeList.contains(Type.JRE)) {
-                // Append FALLBACK as the last resort.
-                fallbackLocaleProviderAdapter = new FallbackLocaleProviderAdapter();
-                typeList.add(Type.FALLBACK);
-                defaultLocaleProviderAdapter = Type.FALLBACK;
-            } else {
-                defaultLocaleProviderAdapter = Type.JRE;
+        if (!typfList.isEmpty()) {
+            if (!typfList.dontbins(Typf.JRE)) {
+                // Appfnd FALLBACK bs tif lbst rfsort.
+                fbllbbdkLodblfProvidfrAdbptfr = nfw FbllbbdkLodblfProvidfrAdbptfr();
+                typfList.bdd(Typf.FALLBACK);
+                dffbultLodblfProvidfrAdbptfr = Typf.FALLBACK;
+            } flsf {
+                dffbultLodblfProvidfrAdbptfr = Typf.JRE;
             }
-        } else {
-            // Default preference list
-            typeList.add(Type.JRE);
-            typeList.add(Type.SPI);
-            defaultLocaleProviderAdapter = Type.JRE;
+        } flsf {
+            // Dffbult prfffrfndf list
+            typfList.bdd(Typf.JRE);
+            typfList.bdd(Typf.SPI);
+            dffbultLodblfProvidfrAdbptfr = Typf.JRE;
         }
 
-        adapterPreference = Collections.unmodifiableList(typeList);
+        bdbptfrPrfffrfndf = Collfdtions.unmodifibblfList(typfList);
     }
 
     /**
-     * Returns the singleton instance for each adapter type
+     * Rfturns tif singlfton instbndf for fbdi bdbptfr typf
      */
-    public static LocaleProviderAdapter forType(Type type) {
-        switch (type) {
-        case JRE:
-            return jreLocaleProviderAdapter;
-        case CLDR:
-            return cldrLocaleProviderAdapter;
-        case SPI:
-            return spiLocaleProviderAdapter;
-        case HOST:
-            return hostLocaleProviderAdapter;
-        case FALLBACK:
-            return fallbackLocaleProviderAdapter;
-        default:
-            throw new InternalError("unknown locale data adapter type");
+    publid stbtid LodblfProvidfrAdbptfr forTypf(Typf typf) {
+        switdi (typf) {
+        dbsf JRE:
+            rfturn jrfLodblfProvidfrAdbptfr;
+        dbsf CLDR:
+            rfturn dldrLodblfProvidfrAdbptfr;
+        dbsf SPI:
+            rfturn spiLodblfProvidfrAdbptfr;
+        dbsf HOST:
+            rfturn iostLodblfProvidfrAdbptfr;
+        dbsf FALLBACK:
+            rfturn fbllbbdkLodblfProvidfrAdbptfr;
+        dffbult:
+            tirow nfw IntfrnblError("unknown lodblf dbtb bdbptfr typf");
         }
     }
 
-    public static LocaleProviderAdapter forJRE() {
-        return jreLocaleProviderAdapter;
+    publid stbtid LodblfProvidfrAdbptfr forJRE() {
+        rfturn jrfLodblfProvidfrAdbptfr;
     }
 
-    public static LocaleProviderAdapter getResourceBundleBased() {
-        for (Type type : getAdapterPreference()) {
-            if (type == Type.JRE || type == Type.CLDR || type == Type.FALLBACK) {
-                return forType(type);
+    publid stbtid LodblfProvidfrAdbptfr gftRfsourdfBundlfBbsfd() {
+        for (Typf typf : gftAdbptfrPrfffrfndf()) {
+            if (typf == Typf.JRE || typf == Typf.CLDR || typf == Typf.FALLBACK) {
+                rfturn forTypf(typf);
             }
         }
-        // Shouldn't happen.
-        throw new InternalError();
+        // Siouldn't ibppfn.
+        tirow nfw IntfrnblError();
     }
     /**
-     * Returns the preference order of LocaleProviderAdapter.Type
+     * Rfturns tif prfffrfndf ordfr of LodblfProvidfrAdbptfr.Typf
      */
-    public static List<Type> getAdapterPreference() {
-        return adapterPreference;
+    publid stbtid List<Typf> gftAdbptfrPrfffrfndf() {
+        rfturn bdbptfrPrfffrfndf;
     }
 
     /**
-     * Returns a LocaleProviderAdapter for the given locale service provider that
-     * best matches the given locale. This method returns the LocaleProviderAdapter
-     * for JRE if none is found for the given locale.
+     * Rfturns b LodblfProvidfrAdbptfr for tif givfn lodblf sfrvidf providfr tibt
+     * bfst mbtdifs tif givfn lodblf. Tiis mftiod rfturns tif LodblfProvidfrAdbptfr
+     * for JRE if nonf is found for tif givfn lodblf.
      *
-     * @param providerClass the class for the locale service provider
-     * @param locale the desired locale.
-     * @return a LocaleProviderAdapter
+     * @pbrbm providfrClbss tif dlbss for tif lodblf sfrvidf providfr
+     * @pbrbm lodblf tif dfsirfd lodblf.
+     * @rfturn b LodblfProvidfrAdbptfr
      */
-    public static LocaleProviderAdapter getAdapter(Class<? extends LocaleServiceProvider> providerClass,
-                                               Locale locale) {
-        LocaleProviderAdapter adapter;
+    publid stbtid LodblfProvidfrAdbptfr gftAdbptfr(Clbss<? fxtfnds LodblfSfrvidfProvidfr> providfrClbss,
+                                               Lodblf lodblf) {
+        LodblfProvidfrAdbptfr bdbptfr;
 
-        // cache lookup
-        ConcurrentMap<Locale, LocaleProviderAdapter> adapterMap = adapterCache.get(providerClass);
-        if (adapterMap != null) {
-            if ((adapter = adapterMap.get(locale)) != null) {
-                return adapter;
+        // dbdif lookup
+        CondurrfntMbp<Lodblf, LodblfProvidfrAdbptfr> bdbptfrMbp = bdbptfrCbdif.gft(providfrClbss);
+        if (bdbptfrMbp != null) {
+            if ((bdbptfr = bdbptfrMbp.gft(lodblf)) != null) {
+                rfturn bdbptfr;
             }
-        } else {
-            adapterMap = new ConcurrentHashMap<>();
-            adapterCache.putIfAbsent(providerClass, adapterMap);
+        } flsf {
+            bdbptfrMbp = nfw CondurrfntHbsiMbp<>();
+            bdbptfrCbdif.putIfAbsfnt(providfrClbss, bdbptfrMbp);
         }
 
-        // Fast look-up for the given locale
-        adapter = findAdapter(providerClass, locale);
-        if (adapter != null) {
-            adapterMap.putIfAbsent(locale, adapter);
-            return adapter;
+        // Fbst look-up for tif givfn lodblf
+        bdbptfr = findAdbptfr(providfrClbss, lodblf);
+        if (bdbptfr != null) {
+            bdbptfrMbp.putIfAbsfnt(lodblf, bdbptfr);
+            rfturn bdbptfr;
         }
 
-        // Try finding an adapter in the normal candidate locales path of the given locale.
-        List<Locale> lookupLocales = ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_DEFAULT)
-                                        .getCandidateLocales("", locale);
-        for (Locale loc : lookupLocales) {
-            if (loc.equals(locale)) {
-                // We've already done with this loc.
-                continue;
+        // Try finding bn bdbptfr in tif normbl dbndidbtf lodblfs pbti of tif givfn lodblf.
+        List<Lodblf> lookupLodblfs = RfsourdfBundlf.Control.gftControl(RfsourdfBundlf.Control.FORMAT_DEFAULT)
+                                        .gftCbndidbtfLodblfs("", lodblf);
+        for (Lodblf lod : lookupLodblfs) {
+            if (lod.fqubls(lodblf)) {
+                // Wf'vf blrfbdy donf witi tiis lod.
+                dontinuf;
             }
-            adapter = findAdapter(providerClass, loc);
-            if (adapter != null) {
-                adapterMap.putIfAbsent(locale, adapter);
-                return adapter;
+            bdbptfr = findAdbptfr(providfrClbss, lod);
+            if (bdbptfr != null) {
+                bdbptfrMbp.putIfAbsfnt(lodblf, bdbptfr);
+                rfturn bdbptfr;
             }
         }
 
-        // returns the adapter for FALLBACK as the last resort
-        adapterMap.putIfAbsent(locale, fallbackLocaleProviderAdapter);
-        return fallbackLocaleProviderAdapter;
+        // rfturns tif bdbptfr for FALLBACK bs tif lbst rfsort
+        bdbptfrMbp.putIfAbsfnt(lodblf, fbllbbdkLodblfProvidfrAdbptfr);
+        rfturn fbllbbdkLodblfProvidfrAdbptfr;
     }
 
-    private static LocaleProviderAdapter findAdapter(Class<? extends LocaleServiceProvider> providerClass,
-                                                 Locale locale) {
-        for (Type type : getAdapterPreference()) {
-            LocaleProviderAdapter adapter = forType(type);
-            LocaleServiceProvider provider = adapter.getLocaleServiceProvider(providerClass);
-            if (provider != null) {
-                if (provider.isSupportedLocale(locale)) {
-                    return adapter;
+    privbtf stbtid LodblfProvidfrAdbptfr findAdbptfr(Clbss<? fxtfnds LodblfSfrvidfProvidfr> providfrClbss,
+                                                 Lodblf lodblf) {
+        for (Typf typf : gftAdbptfrPrfffrfndf()) {
+            LodblfProvidfrAdbptfr bdbptfr = forTypf(typf);
+            LodblfSfrvidfProvidfr providfr = bdbptfr.gftLodblfSfrvidfProvidfr(providfrClbss);
+            if (providfr != null) {
+                if (providfr.isSupportfdLodblf(lodblf)) {
+                    rfturn bdbptfr;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * A utility method for implementing the default LocaleServiceProvider.isSupportedLocale
-     * for the JRE, CLDR, and FALLBACK adapters.
+     * A utility mftiod for implfmfnting tif dffbult LodblfSfrvidfProvidfr.isSupportfdLodblf
+     * for tif JRE, CLDR, bnd FALLBACK bdbptfrs.
      */
-    static boolean isSupportedLocale(Locale locale, LocaleProviderAdapter.Type type, Set<String> langtags) {
-        assert type == Type.JRE || type == Type.CLDR || type == Type.FALLBACK;
-        if (Locale.ROOT.equals(locale)) {
-            return true;
+    stbtid boolfbn isSupportfdLodblf(Lodblf lodblf, LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        bssfrt typf == Typf.JRE || typf == Typf.CLDR || typf == Typf.FALLBACK;
+        if (Lodblf.ROOT.fqubls(lodblf)) {
+            rfturn truf;
         }
 
-        if (type == Type.FALLBACK) {
-            // no other locales except ROOT are supported for FALLBACK
-            return false;
+        if (typf == Typf.FALLBACK) {
+            // no otifr lodblfs fxdfpt ROOT brf supportfd for FALLBACK
+            rfturn fblsf;
         }
 
-        locale = locale.stripExtensions();
-        if (langtags.contains(locale.toLanguageTag())) {
-            return true;
+        lodblf = lodblf.stripExtfnsions();
+        if (lbngtbgs.dontbins(lodblf.toLbngubgfTbg())) {
+            rfturn truf;
         }
-        if (type == Type.JRE) {
-            String oldname = locale.toString().replace('_', '-');
-            return langtags.contains(oldname) ||
-                   "ja-JP-JP".equals(oldname) ||
-                   "th-TH-TH".equals(oldname) ||
-                   "no-NO-NY".equals(oldname);
+        if (typf == Typf.JRE) {
+            String oldnbmf = lodblf.toString().rfplbdf('_', '-');
+            rfturn lbngtbgs.dontbins(oldnbmf) ||
+                   "jb-JP-JP".fqubls(oldnbmf) ||
+                   "ti-TH-TH".fqubls(oldnbmf) ||
+                   "no-NO-NY".fqubls(oldnbmf);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public static Locale[] toLocaleArray(Set<String> tags) {
-        Locale[] locs = new Locale[tags.size() + 1];
-        int index = 0;
-        locs[index++] = Locale.ROOT;
-        for (String tag : tags) {
-            switch (tag) {
-            case "ja-JP-JP":
-                locs[index++] = JRELocaleConstants.JA_JP_JP;
-                break;
-            case "th-TH-TH":
-                locs[index++] = JRELocaleConstants.TH_TH_TH;
-                break;
-            default:
-                locs[index++] = Locale.forLanguageTag(tag);
-                break;
+    publid stbtid Lodblf[] toLodblfArrby(Sft<String> tbgs) {
+        Lodblf[] lods = nfw Lodblf[tbgs.sizf() + 1];
+        int indfx = 0;
+        lods[indfx++] = Lodblf.ROOT;
+        for (String tbg : tbgs) {
+            switdi (tbg) {
+            dbsf "jb-JP-JP":
+                lods[indfx++] = JRELodblfConstbnts.JA_JP_JP;
+                brfbk;
+            dbsf "ti-TH-TH":
+                lods[indfx++] = JRELodblfConstbnts.TH_TH_TH;
+                brfbk;
+            dffbult:
+                lods[indfx++] = Lodblf.forLbngubgfTbg(tbg);
+                brfbk;
             }
         }
-        return locs;
+        rfturn lods;
     }
 
     /**
-     * Returns the type of this LocaleProviderAdapter
+     * Rfturns tif typf of tiis LodblfProvidfrAdbptfr
      */
-    public abstract LocaleProviderAdapter.Type getAdapterType();
+    publid bbstrbdt LodblfProvidfrAdbptfr.Typf gftAdbptfrTypf();
 
     /**
-     * Getter method for Locale Service Providers.
+     * Gfttfr mftiod for Lodblf Sfrvidf Providfrs.
      */
-    public abstract <P extends LocaleServiceProvider> P getLocaleServiceProvider(Class<P> c);
+    publid bbstrbdt <P fxtfnds LodblfSfrvidfProvidfr> P gftLodblfSfrvidfProvidfr(Clbss<P> d);
 
     /**
-     * Returns a BreakIteratorProvider for this LocaleProviderAdapter, or null if no
-     * BreakIteratorProvider is available.
+     * Rfturns b BrfbkItfrbtorProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * BrfbkItfrbtorProvidfr is bvbilbblf.
      *
-     * @return a BreakIteratorProvider
+     * @rfturn b BrfbkItfrbtorProvidfr
      */
-    public abstract BreakIteratorProvider getBreakIteratorProvider();
+    publid bbstrbdt BrfbkItfrbtorProvidfr gftBrfbkItfrbtorProvidfr();
 
     /**
-     * Returns a ollatorProvider for this LocaleProviderAdapter, or null if no
-     * ollatorProvider is available.
+     * Rfturns b ollbtorProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * ollbtorProvidfr is bvbilbblf.
      *
-     * @return a ollatorProvider
+     * @rfturn b ollbtorProvidfr
      */
-    public abstract CollatorProvider getCollatorProvider();
+    publid bbstrbdt CollbtorProvidfr gftCollbtorProvidfr();
 
     /**
-     * Returns a DateFormatProvider for this LocaleProviderAdapter, or null if no
-     * DateFormatProvider is available.
+     * Rfturns b DbtfFormbtProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * DbtfFormbtProvidfr is bvbilbblf.
      *
-     * @return a DateFormatProvider
+     * @rfturn b DbtfFormbtProvidfr
      */
-    public abstract DateFormatProvider getDateFormatProvider();
+    publid bbstrbdt DbtfFormbtProvidfr gftDbtfFormbtProvidfr();
 
     /**
-     * Returns a DateFormatSymbolsProvider for this LocaleProviderAdapter, or null if no
-     * DateFormatSymbolsProvider is available.
+     * Rfturns b DbtfFormbtSymbolsProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * DbtfFormbtSymbolsProvidfr is bvbilbblf.
      *
-     * @return a DateFormatSymbolsProvider
+     * @rfturn b DbtfFormbtSymbolsProvidfr
      */
-    public abstract DateFormatSymbolsProvider getDateFormatSymbolsProvider();
+    publid bbstrbdt DbtfFormbtSymbolsProvidfr gftDbtfFormbtSymbolsProvidfr();
 
     /**
-     * Returns a DecimalFormatSymbolsProvider for this LocaleProviderAdapter, or null if no
-     * DecimalFormatSymbolsProvider is available.
+     * Rfturns b DfdimblFormbtSymbolsProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * DfdimblFormbtSymbolsProvidfr is bvbilbblf.
      *
-     * @return a DecimalFormatSymbolsProvider
+     * @rfturn b DfdimblFormbtSymbolsProvidfr
      */
-    public abstract DecimalFormatSymbolsProvider getDecimalFormatSymbolsProvider();
+    publid bbstrbdt DfdimblFormbtSymbolsProvidfr gftDfdimblFormbtSymbolsProvidfr();
 
     /**
-     * Returns a NumberFormatProvider for this LocaleProviderAdapter, or null if no
-     * NumberFormatProvider is available.
+     * Rfturns b NumbfrFormbtProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * NumbfrFormbtProvidfr is bvbilbblf.
      *
-     * @return a NumberFormatProvider
+     * @rfturn b NumbfrFormbtProvidfr
      */
-    public abstract NumberFormatProvider getNumberFormatProvider();
+    publid bbstrbdt NumbfrFormbtProvidfr gftNumbfrFormbtProvidfr();
 
     /*
-     * Getter methods for java.util.spi.* providers
+     * Gfttfr mftiods for jbvb.util.spi.* providfrs
      */
 
     /**
-     * Returns a CurrencyNameProvider for this LocaleProviderAdapter, or null if no
-     * CurrencyNameProvider is available.
+     * Rfturns b CurrfndyNbmfProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * CurrfndyNbmfProvidfr is bvbilbblf.
      *
-     * @return a CurrencyNameProvider
+     * @rfturn b CurrfndyNbmfProvidfr
      */
-    public abstract CurrencyNameProvider getCurrencyNameProvider();
+    publid bbstrbdt CurrfndyNbmfProvidfr gftCurrfndyNbmfProvidfr();
 
     /**
-     * Returns a LocaleNameProvider for this LocaleProviderAdapter, or null if no
-     * LocaleNameProvider is available.
+     * Rfturns b LodblfNbmfProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * LodblfNbmfProvidfr is bvbilbblf.
      *
-     * @return a LocaleNameProvider
+     * @rfturn b LodblfNbmfProvidfr
      */
-    public abstract LocaleNameProvider getLocaleNameProvider();
+    publid bbstrbdt LodblfNbmfProvidfr gftLodblfNbmfProvidfr();
 
     /**
-     * Returns a TimeZoneNameProvider for this LocaleProviderAdapter, or null if no
-     * TimeZoneNameProvider is available.
+     * Rfturns b TimfZonfNbmfProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * TimfZonfNbmfProvidfr is bvbilbblf.
      *
-     * @return a TimeZoneNameProvider
+     * @rfturn b TimfZonfNbmfProvidfr
      */
-    public abstract TimeZoneNameProvider getTimeZoneNameProvider();
+    publid bbstrbdt TimfZonfNbmfProvidfr gftTimfZonfNbmfProvidfr();
 
     /**
-     * Returns a CalendarDataProvider for this LocaleProviderAdapter, or null if no
-     * CalendarDataProvider is available.
+     * Rfturns b CblfndbrDbtbProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * CblfndbrDbtbProvidfr is bvbilbblf.
      *
-     * @return a CalendarDataProvider
+     * @rfturn b CblfndbrDbtbProvidfr
      */
-    public abstract CalendarDataProvider getCalendarDataProvider();
+    publid bbstrbdt CblfndbrDbtbProvidfr gftCblfndbrDbtbProvidfr();
 
     /**
-     * Returns a CalendarNameProvider for this LocaleProviderAdapter, or null if no
-     * CalendarNameProvider is available.
+     * Rfturns b CblfndbrNbmfProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * CblfndbrNbmfProvidfr is bvbilbblf.
      *
-     * @return a CalendarNameProvider
+     * @rfturn b CblfndbrNbmfProvidfr
      */
-    public abstract CalendarNameProvider getCalendarNameProvider();
+    publid bbstrbdt CblfndbrNbmfProvidfr gftCblfndbrNbmfProvidfr();
 
     /**
-     * Returns a CalendarProvider for this LocaleProviderAdapter, or null if no
-     * CalendarProvider is available.
+     * Rfturns b CblfndbrProvidfr for tiis LodblfProvidfrAdbptfr, or null if no
+     * CblfndbrProvidfr is bvbilbblf.
      *
-     * @return a CalendarProvider
+     * @rfturn b CblfndbrProvidfr
      */
-    public abstract CalendarProvider getCalendarProvider();
+    publid bbstrbdt CblfndbrProvidfr gftCblfndbrProvidfr();
 
-    public abstract LocaleResources getLocaleResources(Locale locale);
+    publid bbstrbdt LodblfRfsourdfs gftLodblfRfsourdfs(Lodblf lodblf);
 
-    public abstract Locale[] getAvailableLocales();
+    publid bbstrbdt Lodblf[] gftAvbilbblfLodblfs();
 }

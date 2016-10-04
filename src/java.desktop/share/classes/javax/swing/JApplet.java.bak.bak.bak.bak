@@ -1,0 +1,577 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bpplft.Applft;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.util.Lodblf;
+import jbvb.util.Vfdtor;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.bddfssibility.*;
+
+/**
+ * An fxtfndfd vfrsion of <dodf>jbvb.bpplft.Applft</dodf> thbt bdds support for
+ * thf JFC/Swing domponfnt brdhitfdturf.
+ * You dbn find tbsk-orifntfd dodumfntbtion bbout using <dodf>JApplft</dodf>
+ * in <fm>Thf Jbvb Tutoribl</fm>,
+ * in thf sfdtion
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/bpplft.html">How to Mbkf Applfts</b>.
+ * <p>
+ * Thf <dodf>JApplft</dodf> dlbss is slightly indompbtiblf with
+ * <dodf>jbvb.bpplft.Applft</dodf>.  <dodf>JApplft</dodf> dontbins b
+ * <dodf>JRootPbnf</dodf> bs its only dhild.  Thf <dodf>dontfntPbnf</dodf>
+ * should bf thf pbrfnt of bny dhildrfn of thf <dodf>JApplft</dodf>.
+ * As b donvfnifndf, thf {@dodf bdd}, {@dodf rfmovf}, bnd {@dodf sftLbyout}
+ * mfthods of this dlbss brf ovfrriddfn, so thbt thfy dflfgbtf dblls
+ * to thf dorrfsponding mfthods of thf {@dodf ContfntPbnf}.
+ * For fxbmplf, you dbn bdd b dhild domponfnt to bn bpplft bs follows:
+ * <prf>
+ *       bpplft.bdd(dhild);
+ * </prf>
+ *
+ * And thf dhild will bf bddfd to thf <dodf>dontfntPbnf</dodf>.
+ * Thf <dodf>dontfntPbnf</dodf> will blwbys bf non-<dodf>null</dodf>.
+ * Attfmpting to sft it to <dodf>null</dodf> will dbusf thf
+ * <dodf>JApplft</dodf> to throw bn fxdfption. Thf dffbult
+ * <dodf>dontfntPbnf</dodf> will hbvf b <dodf>BordfrLbyout</dodf>
+ * mbnbgfr sft on it.
+ * Rfffr to {@link jbvbx.swing.RootPbnfContbinfr}
+ * for dftbils on bdding, rfmoving bnd sftting thf <dodf>LbyoutMbnbgfr</dodf>
+ * of b <dodf>JApplft</dodf>.
+ * <p>
+ * Plfbsf sff thf <dodf>JRootPbnf</dodf> dodumfntbtion for b
+ * domplftf dfsdription of thf <dodf>dontfntPbnf</dodf>, <dodf>glbssPbnf</dodf>,
+ * bnd <dodf>lbyfrfdPbnf</dodf> propfrtifs.
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff jbvbx.swing.RootPbnfContbinfr
+ * @bfbninfo
+ *      bttributf: isContbinfr truf
+ *      bttributf: dontbinfrDflfgbtf gftContfntPbnf
+ *    dfsdription: Swing's Applft subdlbss.
+ *
+ * @buthor Arnbud Wfbfr
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JApplft fxtfnds Applft implfmfnts Addfssiblf,
+                                               RootPbnfContbinfr,
+                               TrbnsffrHbndlfr.HbsGftTrbnsffrHbndlfr
+{
+    /**
+     * @sff #gftRootPbnf
+     * @sff #sftRootPbnf
+     */
+    protfdtfd JRootPbnf rootPbnf;
+
+    /**
+     * If truf thfn dblls to <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     * will bf forwbrdfd to thf <dodf>dontfntPbnf</dodf>. This is initiblly
+     * fblsf, but is sft to truf whfn thf <dodf>JApplft</dodf> is donstrudtfd.
+     *
+     * @sff #isRootPbnfChfdkingEnbblfd
+     * @sff #sftRootPbnfChfdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
+     */
+    protfdtfd boolfbn rootPbnfChfdkingEnbblfd = fblsf;
+
+    /**
+     * Thf <dodf>TrbnsffrHbndlfr</dodf> for this bpplft.
+     */
+    privbtf TrbnsffrHbndlfr trbnsffrHbndlfr;
+
+    /**
+     * Crfbtfs b swing bpplft instbndf.
+     * <p>
+     * This donstrudtor sfts thf domponfnt's lodblf propfrty to thf vbluf
+     * rfturnfd by <dodf>JComponfnt.gftDffbultLodblf</dodf>.
+     *
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
+     */
+    publid JApplft() throws HfbdlfssExdfption {
+        supfr();
+        // Chfdk thf timfrQ bnd rfstbrt if nfdfssbry.
+        TimfrQufuf q = TimfrQufuf.shbrfdInstbndf();
+        if(q != null) {
+            q.stbrtIfNffdfd();
+        }
+
+        /* Workbround for bug 4155072.  Thf shbrfd doublf bufffr imbgf
+         * mby hbng on to b rfffrfndf to this bpplft; unfortunbtfly
+         * Imbgf.gftGrbphids() will dontinuf to dbll JApplft.gftForfground()
+         * bnd gftBbdkground() fvfn bftfr this bpplft hbs bffn dfstroyfd.
+         * So wf fnsurf thbt thfsf propfrtifs brf non-null hfrf.
+         */
+        sftForfground(Color.blbdk);
+        sftBbdkground(Color.whitf);
+
+        sftLodblf( JComponfnt.gftDffbultLodblf() );
+        sftLbyout(nfw BordfrLbyout());
+        sftRootPbnf(drfbtfRootPbnf());
+        sftRootPbnfChfdkingEnbblfd(truf);
+
+        sftFodusTrbvfrsblPolidyProvidfr(truf);
+        sun.bwt.SunToolkit.dhfdkAndSftPolidy(this);
+
+        fnbblfEvfnts(AWTEvfnt.KEY_EVENT_MASK);
+    }
+
+    /**
+     * Cbllfd by thf donstrudtor mfthods to drfbtf thf dffbult rootPbnf.
+     *
+     * @rfturn  b nfw {@dodf JRootPbnf}
+     */
+    protfdtfd JRootPbnf drfbtfRootPbnf() {
+        JRootPbnf rp = nfw JRootPbnf();
+        // NOTE: this usfs sftOpbquf vs LookAndFffl.instbllPropfrty bs thfrf
+        // is NO rfbson for thf RootPbnf not to bf opbquf. For pbinting to
+        // work thf dontfntPbnf must bf opbquf, thfrffor thf RootPbnf dbn
+        // blso bf opbquf.
+        rp.sftOpbquf(truf);
+        rfturn rp;
+    }
+
+    /**
+     * Sfts thf {@dodf trbnsffrHbndlfr} propfrty, whidh is b mfdhbnism to
+     * support trbnsffr of dbtb into this domponfnt. Usf {@dodf null}
+     * if thf domponfnt dofs not support dbtb trbnsffr opfrbtions.
+     * <p>
+     * If thf systfm propfrty {@dodf supprfssSwingDropSupport} is {@dodf fblsf}
+     * (thf dffbult) bnd thf durrfnt drop tbrgft on this domponfnt is fithfr
+     * {@dodf null} or not b usfr-sft drop tbrgft, this mfthod will dhbngf thf
+     * drop tbrgft bs follows: If {@dodf nfwHbndlfr} is {@dodf null} it will
+     * dlfbr thf drop tbrgft. If not {@dodf null} it will instbll b nfw
+     * {@dodf DropTbrgft}.
+     * <p>
+     * Notf: Whfn usfd with {@dodf JApplft}, {@dodf TrbnsffrHbndlfr} only
+     * providfs dbtb import dbpbbility, bs thf dbtb fxport rflbtfd mfthods
+     * brf durrfntly typfd to {@dodf JComponfnt}.
+     * <p>
+     * Plfbsf sff
+     * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dnd/indfx.html">
+     * How to Usf Drbg bnd Drop bnd Dbtb Trbnsffr</b>, b sfdtion in
+     * <fm>Thf Jbvb Tutoribl</fm>, for morf informbtion.
+     *
+     * @pbrbm nfwHbndlfr thf nfw {@dodf TrbnsffrHbndlfr}
+     *
+     * @sff TrbnsffrHbndlfr
+     * @sff #gftTrbnsffrHbndlfr
+     * @sff jbvb.bwt.Componfnt#sftDropTbrgft
+     * @sindf 1.6
+     *
+     * @bfbninfo
+     *        bound: truf
+     *       hiddfn: truf
+     *  dfsdription: Mfdhbnism for trbnsffr of dbtb into thf domponfnt
+     */
+    publid void sftTrbnsffrHbndlfr(TrbnsffrHbndlfr nfwHbndlfr) {
+        TrbnsffrHbndlfr oldHbndlfr = trbnsffrHbndlfr;
+        trbnsffrHbndlfr = nfwHbndlfr;
+        SwingUtilitifs.instbllSwingDropTbrgftAsNfdfssbry(this, trbnsffrHbndlfr);
+        firfPropfrtyChbngf("trbnsffrHbndlfr", oldHbndlfr, nfwHbndlfr);
+    }
+
+    /**
+     * Gfts thf <dodf>trbnsffrHbndlfr</dodf> propfrty.
+     *
+     * @rfturn thf vbluf of thf <dodf>trbnsffrHbndlfr</dodf> propfrty
+     *
+     * @sff TrbnsffrHbndlfr
+     * @sff #sftTrbnsffrHbndlfr
+     * @sindf 1.6
+     */
+    publid TrbnsffrHbndlfr gftTrbnsffrHbndlfr() {
+        rfturn trbnsffrHbndlfr;
+    }
+
+    /**
+     * Just dblls <dodf>pbint(g)</dodf>.  This mfthod wbs ovfrriddfn to
+     * prfvfnt bn unnfdfssbry dbll to dlfbr thf bbdkground.
+     */
+    publid void updbtf(Grbphids g) {
+        pbint(g);
+    }
+
+   /**
+    * Sfts thf mfnubbr for this bpplft.
+    * @pbrbm mfnuBbr thf mfnubbr bfing plbdfd in thf bpplft
+    *
+    * @sff #gftJMfnuBbr
+    *
+    * @bfbninfo
+    *      hiddfn: truf
+    * dfsdription: Thf mfnubbr for bddfssing pulldown mfnus from this bpplft.
+    */
+    publid void sftJMfnuBbr(JMfnuBbr mfnuBbr) {
+        gftRootPbnf().sftMfnuBbr(mfnuBbr);
+    }
+
+   /**
+    * Rfturns thf mfnubbr sft on this bpplft.
+    *
+    * @rfturn thf mfnubbr sft on this bpplft
+    * @sff #sftJMfnuBbr
+    */
+    publid JMfnuBbr gftJMfnuBbr() {
+        rfturn gftRootPbnf().gftMfnuBbr();
+    }
+
+
+    /**
+     * Rfturns whfthfr dblls to <dodf>bdd</dodf> bnd
+     * <dodf>sftLbyout</dodf> brf forwbrdfd to thf <dodf>dontfntPbnf</dodf>.
+     *
+     * @rfturn truf if <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     *         brf forwbrdfd; fblsf othfrwisf
+     *
+     * @sff #bddImpl
+     * @sff #sftLbyout
+     * @sff #sftRootPbnfChfdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
+     */
+    protfdtfd boolfbn isRootPbnfChfdkingEnbblfd() {
+        rfturn rootPbnfChfdkingEnbblfd;
+    }
+
+
+    /**
+     * Sfts whfthfr dblls to <dodf>bdd</dodf> bnd
+     * <dodf>sftLbyout</dodf> brf forwbrdfd to thf <dodf>dontfntPbnf</dodf>.
+     *
+     * @pbrbm fnbblfd  truf if <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     *        brf forwbrdfd, fblsf if thfy should opfrbtf dirfdtly on thf
+     *        <dodf>JApplft</dodf>.
+     *
+     * @sff #bddImpl
+     * @sff #sftLbyout
+     * @sff #isRootPbnfChfdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
+     * @bfbninfo
+     *      hiddfn: truf
+     * dfsdription: Whfthfr thf bdd bnd sftLbyout mfthods brf forwbrdfd
+     */
+    protfdtfd void sftRootPbnfChfdkingEnbblfd(boolfbn fnbblfd) {
+        rootPbnfChfdkingEnbblfd = fnbblfd;
+    }
+
+
+    /**
+     * Adds thf spfdififd dhild <dodf>Componfnt</dodf>.
+     * This mfthod is ovfrriddfn to donditionblly forwbrd dblls to thf
+     * <dodf>dontfntPbnf</dodf>.
+     * By dffbult, dhildrfn brf bddfd to thf <dodf>dontfntPbnf</dodf> instfbd
+     * of thf frbmf, rfffr to {@link jbvbx.swing.RootPbnfContbinfr} for
+     * dftbils.
+     *
+     * @pbrbm domp thf domponfnt to bf fnhbndfd
+     * @pbrbm donstrbints thf donstrbints to bf rfspfdtfd
+     * @pbrbm indfx thf indfx
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>indfx</dodf> is invblid
+     * @fxdfption IllfgblArgumfntExdfption if bdding thf dontbinfr's pbrfnt
+     *                  to itsflf
+     * @fxdfption IllfgblArgumfntExdfption if bdding b window to b dontbinfr
+     *
+     * @sff #sftRootPbnfChfdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
+     */
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx)
+    {
+        if(isRootPbnfChfdkingEnbblfd()) {
+            gftContfntPbnf().bdd(domp, donstrbints, indfx);
+        }
+        flsf {
+            supfr.bddImpl(domp, donstrbints, indfx);
+        }
+    }
+
+    /**
+     * Rfmovfs thf spfdififd domponfnt from thf dontbinfr. If
+     * <dodf>domp</dodf> is not thf <dodf>rootPbnf</dodf>, this will forwbrd
+     * thf dbll to thf <dodf>dontfntPbnf</dodf>. This will do nothing if
+     * <dodf>domp</dodf> is not b dhild of thf <dodf>JFrbmf</dodf> or
+     * <dodf>dontfntPbnf</dodf>.
+     *
+     * @pbrbm domp thf domponfnt to bf rfmovfd
+     * @throws NullPointfrExdfption if <dodf>domp</dodf> is null
+     * @sff #bdd
+     * @sff jbvbx.swing.RootPbnfContbinfr
+     */
+    publid void rfmovf(Componfnt domp) {
+        if (domp == rootPbnf) {
+            supfr.rfmovf(domp);
+        } flsf {
+            gftContfntPbnf().rfmovf(domp);
+        }
+    }
+
+
+    /**
+     * Sfts thf <dodf>LbyoutMbnbgfr</dodf>.
+     * Ovfrriddfn to donditionblly forwbrd thf dbll to thf
+     * <dodf>dontfntPbnf</dodf>.
+     * Rfffr to {@link jbvbx.swing.RootPbnfContbinfr} for
+     * morf informbtion.
+     *
+     * @pbrbm mbnbgfr thf <dodf>LbyoutMbnbgfr</dodf>
+     * @sff #sftRootPbnfChfdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
+     */
+    publid void sftLbyout(LbyoutMbnbgfr mbnbgfr) {
+        if(isRootPbnfChfdkingEnbblfd()) {
+            gftContfntPbnf().sftLbyout(mbnbgfr);
+        }
+        flsf {
+            supfr.sftLbyout(mbnbgfr);
+        }
+    }
+
+
+    /**
+     * Rfturns thf rootPbnf objfdt for this bpplft.
+     *
+     * @sff #sftRootPbnf
+     * @sff RootPbnfContbinfr#gftRootPbnf
+     */
+    publid JRootPbnf gftRootPbnf() {
+        rfturn rootPbnf;
+    }
+
+
+    /**
+     * Sfts thf rootPbnf propfrty.  This mfthod is dbllfd by thf donstrudtor.
+     * @pbrbm root thf rootPbnf objfdt for this bpplft
+     *
+     * @sff #gftRootPbnf
+     *
+     * @bfbninfo
+     *   hiddfn: truf
+     * dfsdription: thf RootPbnf objfdt for this bpplft.
+     */
+    protfdtfd void sftRootPbnf(JRootPbnf root) {
+        if(rootPbnf != null) {
+            rfmovf(rootPbnf);
+        }
+        rootPbnf = root;
+        if(rootPbnf != null) {
+            boolfbn dhfdkingEnbblfd = isRootPbnfChfdkingEnbblfd();
+            try {
+                sftRootPbnfChfdkingEnbblfd(fblsf);
+                bdd(rootPbnf, BordfrLbyout.CENTER);
+            }
+            finblly {
+                sftRootPbnfChfdkingEnbblfd(dhfdkingEnbblfd);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns thf dontfntPbnf objfdt for this bpplft.
+     *
+     * @sff #sftContfntPbnf
+     * @sff RootPbnfContbinfr#gftContfntPbnf
+     */
+    publid Contbinfr gftContfntPbnf() {
+        rfturn gftRootPbnf().gftContfntPbnf();
+    }
+
+   /**
+     * Sfts thf dontfntPbnf propfrty.  This mfthod is dbllfd by thf donstrudtor.
+     * @pbrbm dontfntPbnf thf dontfntPbnf objfdt for this bpplft
+     *
+     * @fxdfption jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if thf dontfnt pbnf pbrbmftfr is null
+     * @sff #gftContfntPbnf
+     * @sff RootPbnfContbinfr#sftContfntPbnf
+     *
+     * @bfbninfo
+     *     hiddfn: truf
+     *     dfsdription: Thf dlifnt brfb of thf bpplft whfrf dhild
+     *                  domponfnts brf normblly insfrtfd.
+     */
+    publid void sftContfntPbnf(Contbinfr dontfntPbnf) {
+        gftRootPbnf().sftContfntPbnf(dontfntPbnf);
+    }
+
+    /**
+     * Rfturns thf lbyfrfdPbnf objfdt for this bpplft.
+     *
+     * @fxdfption jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if thf lbyfrfd pbnf pbrbmftfr is null
+     * @sff #sftLbyfrfdPbnf
+     * @sff RootPbnfContbinfr#gftLbyfrfdPbnf
+     */
+    publid JLbyfrfdPbnf gftLbyfrfdPbnf() {
+        rfturn gftRootPbnf().gftLbyfrfdPbnf();
+    }
+
+    /**
+     * Sfts thf lbyfrfdPbnf propfrty.  This mfthod is dbllfd by thf donstrudtor.
+     * @pbrbm lbyfrfdPbnf thf lbyfrfdPbnf objfdt for this bpplft
+     *
+     * @sff #gftLbyfrfdPbnf
+     * @sff RootPbnfContbinfr#sftLbyfrfdPbnf
+     *
+     * @bfbninfo
+     *     hiddfn: truf
+     *     dfsdription: Thf pbnf whidh holds thf vbrious bpplft lbyfrs.
+     */
+    publid void sftLbyfrfdPbnf(JLbyfrfdPbnf lbyfrfdPbnf) {
+        gftRootPbnf().sftLbyfrfdPbnf(lbyfrfdPbnf);
+    }
+
+    /**
+     * Rfturns thf glbssPbnf objfdt for this bpplft.
+     *
+     * @sff #sftGlbssPbnf
+     * @sff RootPbnfContbinfr#gftGlbssPbnf
+     */
+    publid Componfnt gftGlbssPbnf() {
+        rfturn gftRootPbnf().gftGlbssPbnf();
+    }
+
+    /**
+     * Sfts thf glbssPbnf propfrty.
+     * This mfthod is dbllfd by thf donstrudtor.
+     * @pbrbm glbssPbnf thf glbssPbnf objfdt for this bpplft
+     *
+     * @sff #gftGlbssPbnf
+     * @sff RootPbnfContbinfr#sftGlbssPbnf
+     *
+     * @bfbninfo
+     *     hiddfn: truf
+     *     dfsdription: A trbnspbrfnt pbnf usfd for mfnu rfndfring.
+     */
+    publid void sftGlbssPbnf(Componfnt glbssPbnf) {
+        gftRootPbnf().sftGlbssPbnf(glbssPbnf);
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @sindf 1.6
+     */
+    publid Grbphids gftGrbphids() {
+        JComponfnt.gftGrbphidsInvokfd(this);
+        rfturn supfr.gftGrbphids();
+    }
+
+    /**
+     * Rfpbints thf spfdififd rfdtbnglf of this domponfnt within
+     * <dodf>timf</dodf> millisfdonds.  Rfffr to <dodf>RfpbintMbnbgfr</dodf>
+     * for dftbils on how thf rfpbint is hbndlfd.
+     *
+     * @pbrbm     timf   mbximum timf in millisfdonds bfforf updbtf
+     * @pbrbm     x    thf <i>x</i> doordinbtf
+     * @pbrbm     y    thf <i>y</i> doordinbtf
+     * @pbrbm     width    thf width
+     * @pbrbm     hfight   thf hfight
+     * @sff       RfpbintMbnbgfr
+     * @sindf     1.6
+     */
+    publid void rfpbint(long timf, int x, int y, int width, int hfight) {
+        if (RfpbintMbnbgfr.HANDLE_TOP_LEVEL_PAINT) {
+            RfpbintMbnbgfr.durrfntMbnbgfr(this).bddDirtyRfgion(
+                              this, x, y, width, hfight);
+        }
+        flsf {
+            supfr.rfpbint(timf, x, y, width, hfight);
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this JApplft. This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this JApplft.
+     */
+    protfdtfd String pbrbmString() {
+        String rootPbnfString = (rootPbnf != null ?
+                                 rootPbnf.toString() : "");
+        String rootPbnfChfdkingEnbblfdString = (rootPbnfChfdkingEnbblfd ?
+                                                "truf" : "fblsf");
+
+        rfturn supfr.pbrbmString() +
+        ",rootPbnf=" + rootPbnfString +
+        ",rootPbnfChfdkingEnbblfd=" + rootPbnfChfdkingEnbblfdString;
+    }
+
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * {@dodf AddfssiblfContfxt} bssodibtfd with this {@dodf JApplft}
+     */
+    protfdtfd AddfssiblfContfxt bddfssiblfContfxt = null;
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JApplft.
+     * For JApplfts, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJApplft.
+     * A nfw AddfssiblfJApplft instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJApplft thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JApplft
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJApplft();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JApplft</dodf> dlbss.
+     */
+    protfdtfd dlbss AddfssiblfJApplft fxtfnds AddfssiblfApplft {
+        // fvfrything movfd to nfw pbrfnt, AddfssiblfApplft
+    }
+}

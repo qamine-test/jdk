@@ -1,485 +1,485 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import javax.swing.plaf.*;
-import javax.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
 
 /**
- * {@code MetalTheme} provides the color palette and fonts used by
- * the Java Look and Feel.
+ * {@dodf MftblTifmf} providfs tif dolor pblfttf bnd fonts usfd by
+ * tif Jbvb Look bnd Fffl.
  * <p>
- * {@code MetalTheme} is abstract, see {@code DefaultMetalTheme} and
- * {@code OceanTheme} for concrete implementations.
+ * {@dodf MftblTifmf} is bbstrbdt, sff {@dodf DffbultMftblTifmf} bnd
+ * {@dodf OdfbnTifmf} for dondrftf implfmfntbtions.
  * <p>
- * {@code MetalLookAndFeel} maintains the current theme that the
- * the {@code ComponentUI} implementations for metal use. Refer to
- * {@link MetalLookAndFeel#setCurrentTheme
- * MetalLookAndFeel.setCurrentTheme(MetalTheme)} for details on changing
- * the current theme.
+ * {@dodf MftblLookAndFffl} mbintbins tif durrfnt tifmf tibt tif
+ * tif {@dodf ComponfntUI} implfmfntbtions for mftbl usf. Rfffr to
+ * {@link MftblLookAndFffl#sftCurrfntTifmf
+ * MftblLookAndFffl.sftCurrfntTifmf(MftblTifmf)} for dftbils on dibnging
+ * tif durrfnt tifmf.
  * <p>
- * {@code MetalTheme} provides a number of public methods for getting
- * colors. These methods are implemented in terms of a
- * handful of protected abstract methods. A subclass need only override
- * the protected abstract methods ({@code getPrimary1},
- * {@code getPrimary2}, {@code getPrimary3}, {@code getSecondary1},
- * {@code getSecondary2}, and {@code getSecondary3}); although a subclass
- * may override the other public methods for more control over the set of
- * colors that are used.
+ * {@dodf MftblTifmf} providfs b numbfr of publid mftiods for gftting
+ * dolors. Tifsf mftiods brf implfmfntfd in tfrms of b
+ * ibndful of protfdtfd bbstrbdt mftiods. A subdlbss nffd only ovfrridf
+ * tif protfdtfd bbstrbdt mftiods ({@dodf gftPrimbry1},
+ * {@dodf gftPrimbry2}, {@dodf gftPrimbry3}, {@dodf gftSfdondbry1},
+ * {@dodf gftSfdondbry2}, bnd {@dodf gftSfdondbry3}); bltiougi b subdlbss
+ * mby ovfrridf tif otifr publid mftiods for morf dontrol ovfr tif sft of
+ * dolors tibt brf usfd.
  * <p>
- * Concrete implementations of {@code MetalTheme} must return {@code non-null}
- * values from all methods. While the behavior of returning {@code null} is
- * not specified, returning {@code null} will result in incorrect behavior.
+ * Condrftf implfmfntbtions of {@dodf MftblTifmf} must rfturn {@dodf non-null}
+ * vblufs from bll mftiods. Wiilf tif bfibvior of rfturning {@dodf null} is
+ * not spfdififd, rfturning {@dodf null} will rfsult in indorrfdt bfibvior.
  * <p>
- * It is strongly recommended that subclasses return completely opaque colors.
- * To do otherwise may result in rendering problems, such as visual garbage.
+ * It is strongly rfdommfndfd tibt subdlbssfs rfturn domplftfly opbquf dolors.
+ * To do otifrwisf mby rfsult in rfndfring problfms, sudi bs visubl gbrbbgf.
  *
- * @see DefaultMetalTheme
- * @see OceanTheme
- * @see MetalLookAndFeel#setCurrentTheme
+ * @sff DffbultMftblTifmf
+ * @sff OdfbnTifmf
+ * @sff MftblLookAndFffl#sftCurrfntTifmf
  *
- * @author Steve Wilson
+ * @butior Stfvf Wilson
  */
-public abstract class MetalTheme {
+publid bbstrbdt dlbss MftblTifmf {
 
-    // Contants identifying the various Fonts that are Theme can support
-    static final int CONTROL_TEXT_FONT = 0;
-    static final int SYSTEM_TEXT_FONT = 1;
-    static final int USER_TEXT_FONT = 2;
-    static final int MENU_TEXT_FONT = 3;
-    static final int WINDOW_TITLE_FONT = 4;
-    static final int SUB_TEXT_FONT = 5;
+    // Contbnts idfntifying tif vbrious Fonts tibt brf Tifmf dbn support
+    stbtid finbl int CONTROL_TEXT_FONT = 0;
+    stbtid finbl int SYSTEM_TEXT_FONT = 1;
+    stbtid finbl int USER_TEXT_FONT = 2;
+    stbtid finbl int MENU_TEXT_FONT = 3;
+    stbtid finbl int WINDOW_TITLE_FONT = 4;
+    stbtid finbl int SUB_TEXT_FONT = 5;
 
-    static ColorUIResource white = new ColorUIResource( 255, 255, 255 );
-    private static ColorUIResource black = new ColorUIResource( 0, 0, 0 );
+    stbtid ColorUIRfsourdf wiitf = nfw ColorUIRfsourdf( 255, 255, 255 );
+    privbtf stbtid ColorUIRfsourdf blbdk = nfw ColorUIRfsourdf( 0, 0, 0 );
 
     /**
-     * Returns the name of this theme.
+     * Rfturns tif nbmf of tiis tifmf.
      *
-     * @return the name of this theme
+     * @rfturn tif nbmf of tiis tifmf
      */
-    public abstract String getName();
+    publid bbstrbdt String gftNbmf();
 
     /**
-     * Returns the primary 1 color.
+     * Rfturns tif primbry 1 dolor.
      *
-     * @return the primary 1 color
+     * @rfturn tif primbry 1 dolor
      */
-    protected abstract ColorUIResource getPrimary1();  // these are blue in Metal Default Theme
+    protfdtfd bbstrbdt ColorUIRfsourdf gftPrimbry1();  // tifsf brf bluf in Mftbl Dffbult Tifmf
 
     /**
-     * Returns the primary 2 color.
+     * Rfturns tif primbry 2 dolor.
      *
-     * @return the primary 2 color
+     * @rfturn tif primbry 2 dolor
      */
-    protected abstract ColorUIResource getPrimary2();
+    protfdtfd bbstrbdt ColorUIRfsourdf gftPrimbry2();
 
     /**
-     * Returns the primary 3 color.
+     * Rfturns tif primbry 3 dolor.
      *
-     * @return the primary 3 color
+     * @rfturn tif primbry 3 dolor
      */
-    protected abstract ColorUIResource getPrimary3();
+    protfdtfd bbstrbdt ColorUIRfsourdf gftPrimbry3();
 
     /**
-     * Returns the secondary 1 color.
+     * Rfturns tif sfdondbry 1 dolor.
      *
-     * @return the secondary 1 color
+     * @rfturn tif sfdondbry 1 dolor
      */
-    protected abstract ColorUIResource getSecondary1();  // these are gray in Metal Default Theme
+    protfdtfd bbstrbdt ColorUIRfsourdf gftSfdondbry1();  // tifsf brf grby in Mftbl Dffbult Tifmf
 
     /**
-     * Returns the secondary 2 color.
+     * Rfturns tif sfdondbry 2 dolor.
      *
-     * @return the secondary 2 color
+     * @rfturn tif sfdondbry 2 dolor
      */
-    protected abstract ColorUIResource getSecondary2();
+    protfdtfd bbstrbdt ColorUIRfsourdf gftSfdondbry2();
 
     /**
-     * Returns the secondary 3 color.
+     * Rfturns tif sfdondbry 3 dolor.
      *
-     * @return the secondary 3 color
+     * @rfturn tif sfdondbry 3 dolor
      */
-    protected abstract ColorUIResource getSecondary3();
+    protfdtfd bbstrbdt ColorUIRfsourdf gftSfdondbry3();
 
     /**
-     * Returns the control text font.
+     * Rfturns tif dontrol tfxt font.
      *
-     * @return the control text font
+     * @rfturn tif dontrol tfxt font
      */
-    public abstract FontUIResource getControlTextFont();
+    publid bbstrbdt FontUIRfsourdf gftControlTfxtFont();
 
     /**
-     * Returns the system text font.
+     * Rfturns tif systfm tfxt font.
      *
-     * @return the system text font
+     * @rfturn tif systfm tfxt font
      */
-    public abstract FontUIResource getSystemTextFont();
+    publid bbstrbdt FontUIRfsourdf gftSystfmTfxtFont();
 
     /**
-     * Returns the user text font.
+     * Rfturns tif usfr tfxt font.
      *
-     * @return the user text font
+     * @rfturn tif usfr tfxt font
      */
-    public abstract FontUIResource getUserTextFont();
+    publid bbstrbdt FontUIRfsourdf gftUsfrTfxtFont();
 
     /**
-     * Returns the menu text font.
+     * Rfturns tif mfnu tfxt font.
      *
-     * @return the menu text font
+     * @rfturn tif mfnu tfxt font
      */
-    public abstract FontUIResource getMenuTextFont();
+    publid bbstrbdt FontUIRfsourdf gftMfnuTfxtFont();
 
     /**
-     * Returns the window title font.
+     * Rfturns tif window titlf font.
      *
-     * @return the window title font
+     * @rfturn tif window titlf font
      */
-    public abstract FontUIResource getWindowTitleFont();
+    publid bbstrbdt FontUIRfsourdf gftWindowTitlfFont();
 
     /**
-     * Returns the sub-text font.
+     * Rfturns tif sub-tfxt font.
      *
-     * @return the sub-text font
+     * @rfturn tif sub-tfxt font
      */
-    public abstract FontUIResource getSubTextFont();
+    publid bbstrbdt FontUIRfsourdf gftSubTfxtFont();
 
     /**
-     * Returns the white color. This returns opaque white
-     * ({@code 0xFFFFFFFF}).
+     * Rfturns tif wiitf dolor. Tiis rfturns opbquf wiitf
+     * ({@dodf 0xFFFFFFFF}).
      *
-     * @return the white color
+     * @rfturn tif wiitf dolor
      */
-    protected ColorUIResource getWhite() { return white; }
+    protfdtfd ColorUIRfsourdf gftWiitf() { rfturn wiitf; }
 
     /**
-     * Returns the black color. This returns opaque black
-     * ({@code 0xFF000000}).
+     * Rfturns tif blbdk dolor. Tiis rfturns opbquf blbdk
+     * ({@dodf 0xFF000000}).
      *
-     * @return the black color
+     * @rfturn tif blbdk dolor
      */
-    protected ColorUIResource getBlack() { return black; }
+    protfdtfd ColorUIRfsourdf gftBlbdk() { rfturn blbdk; }
 
     /**
-     * Returns the focus color. This returns the value of
-     * {@code getPrimary2()}.
+     * Rfturns tif fodus dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftPrimbry2()}.
      *
-     * @return the focus color
+     * @rfturn tif fodus dolor
      */
-    public ColorUIResource getFocusColor() { return getPrimary2(); }
+    publid ColorUIRfsourdf gftFodusColor() { rfturn gftPrimbry2(); }
 
     /**
-     * Returns the desktop color. This returns the value of
-     * {@code getPrimary2()}.
+     * Rfturns tif dfsktop dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftPrimbry2()}.
      *
-     * @return the desktop color
+     * @rfturn tif dfsktop dolor
      */
-    public  ColorUIResource getDesktopColor() { return getPrimary2(); }
+    publid  ColorUIRfsourdf gftDfsktopColor() { rfturn gftPrimbry2(); }
 
     /**
-     * Returns the control color. This returns the value of
-     * {@code getSecondary3()}.
+     * Rfturns tif dontrol dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftSfdondbry3()}.
      *
-     * @return the control color
+     * @rfturn tif dontrol dolor
      */
-    public ColorUIResource getControl() { return getSecondary3(); }
+    publid ColorUIRfsourdf gftControl() { rfturn gftSfdondbry3(); }
 
     /**
-     * Returns the control shadow color. This returns
-     * the value of {@code getSecondary2()}.
+     * Rfturns tif dontrol sibdow dolor. Tiis rfturns
+     * tif vbluf of {@dodf gftSfdondbry2()}.
      *
-     * @return the control shadow color
+     * @rfturn tif dontrol sibdow dolor
      */
-    public ColorUIResource getControlShadow() { return getSecondary2(); }
+    publid ColorUIRfsourdf gftControlSibdow() { rfturn gftSfdondbry2(); }
 
     /**
-     * Returns the control dark shadow color. This returns
-     * the value of {@code getSecondary1()}.
+     * Rfturns tif dontrol dbrk sibdow dolor. Tiis rfturns
+     * tif vbluf of {@dodf gftSfdondbry1()}.
      *
-     * @return the control dark shadow color
+     * @rfturn tif dontrol dbrk sibdow dolor
      */
-    public ColorUIResource getControlDarkShadow() { return getSecondary1(); }
+    publid ColorUIRfsourdf gftControlDbrkSibdow() { rfturn gftSfdondbry1(); }
 
     /**
-     * Returns the control info color. This returns
-     * the value of {@code getBlack()}.
+     * Rfturns tif dontrol info dolor. Tiis rfturns
+     * tif vbluf of {@dodf gftBlbdk()}.
      *
-     * @return the control info color
+     * @rfturn tif dontrol info dolor
      */
-    public ColorUIResource getControlInfo() { return getBlack(); }
+    publid ColorUIRfsourdf gftControlInfo() { rfturn gftBlbdk(); }
 
     /**
-     * Returns the control highlight color. This returns
-     * the value of {@code getWhite()}.
+     * Rfturns tif dontrol iigiligit dolor. Tiis rfturns
+     * tif vbluf of {@dodf gftWiitf()}.
      *
-     * @return the control highlight color
+     * @rfturn tif dontrol iigiligit dolor
      */
-    public ColorUIResource getControlHighlight() { return getWhite(); }
+    publid ColorUIRfsourdf gftControlHigiligit() { rfturn gftWiitf(); }
 
     /**
-     * Returns the control disabled color. This returns
-     * the value of {@code getSecondary2()}.
+     * Rfturns tif dontrol disbblfd dolor. Tiis rfturns
+     * tif vbluf of {@dodf gftSfdondbry2()}.
      *
-     * @return the control disabled color
+     * @rfturn tif dontrol disbblfd dolor
      */
-    public ColorUIResource getControlDisabled() { return getSecondary2(); }
+    publid ColorUIRfsourdf gftControlDisbblfd() { rfturn gftSfdondbry2(); }
 
     /**
-     * Returns the primary control color. This returns
-     * the value of {@code getPrimary3()}.
+     * Rfturns tif primbry dontrol dolor. Tiis rfturns
+     * tif vbluf of {@dodf gftPrimbry3()}.
      *
-     * @return the primary control color
+     * @rfturn tif primbry dontrol dolor
      */
-    public ColorUIResource getPrimaryControl() { return getPrimary3(); }
+    publid ColorUIRfsourdf gftPrimbryControl() { rfturn gftPrimbry3(); }
 
     /**
-     * Returns the primary control shadow color. This returns
-     * the value of {@code getPrimary2()}.
+     * Rfturns tif primbry dontrol sibdow dolor. Tiis rfturns
+     * tif vbluf of {@dodf gftPrimbry2()}.
      *
-     * @return the primary control shadow color
+     * @rfturn tif primbry dontrol sibdow dolor
      */
-    public ColorUIResource getPrimaryControlShadow() { return getPrimary2(); }
+    publid ColorUIRfsourdf gftPrimbryControlSibdow() { rfturn gftPrimbry2(); }
     /**
-     * Returns the primary control dark shadow color. This
-     * returns the value of {@code getPrimary1()}.
+     * Rfturns tif primbry dontrol dbrk sibdow dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftPrimbry1()}.
      *
-     * @return the primary control dark shadow color
+     * @rfturn tif primbry dontrol dbrk sibdow dolor
      */
-    public ColorUIResource getPrimaryControlDarkShadow() { return getPrimary1(); }
+    publid ColorUIRfsourdf gftPrimbryControlDbrkSibdow() { rfturn gftPrimbry1(); }
 
     /**
-     * Returns the primary control info color. This
-     * returns the value of {@code getBlack()}.
+     * Rfturns tif primbry dontrol info dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftBlbdk()}.
      *
-     * @return the primary control info color
+     * @rfturn tif primbry dontrol info dolor
      */
-    public ColorUIResource getPrimaryControlInfo() { return getBlack(); }
+    publid ColorUIRfsourdf gftPrimbryControlInfo() { rfturn gftBlbdk(); }
 
     /**
-     * Returns the primary control highlight color. This
-     * returns the value of {@code getWhite()}.
+     * Rfturns tif primbry dontrol iigiligit dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftWiitf()}.
      *
-     * @return the primary control highlight color
+     * @rfturn tif primbry dontrol iigiligit dolor
      */
-    public ColorUIResource getPrimaryControlHighlight() { return getWhite(); }
+    publid ColorUIRfsourdf gftPrimbryControlHigiligit() { rfturn gftWiitf(); }
 
     /**
-     * Returns the system text color. This returns the value of
-     * {@code getBlack()}.
+     * Rfturns tif systfm tfxt dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftBlbdk()}.
      *
-     * @return the system text color
+     * @rfturn tif systfm tfxt dolor
      */
-    public ColorUIResource getSystemTextColor() { return getBlack(); }
+    publid ColorUIRfsourdf gftSystfmTfxtColor() { rfturn gftBlbdk(); }
 
     /**
-     * Returns the control text color. This returns the value of
-     * {@code getControlInfo()}.
+     * Rfturns tif dontrol tfxt dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftControlInfo()}.
      *
-     * @return the control text color
+     * @rfturn tif dontrol tfxt dolor
      */
-    public ColorUIResource getControlTextColor() { return getControlInfo(); }
+    publid ColorUIRfsourdf gftControlTfxtColor() { rfturn gftControlInfo(); }
 
     /**
-     * Returns the inactive control text color. This returns the value of
-     * {@code getControlDisabled()}.
+     * Rfturns tif inbdtivf dontrol tfxt dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftControlDisbblfd()}.
      *
-     * @return the inactive control text color
+     * @rfturn tif inbdtivf dontrol tfxt dolor
      */
-    public ColorUIResource getInactiveControlTextColor() { return getControlDisabled(); }
+    publid ColorUIRfsourdf gftInbdtivfControlTfxtColor() { rfturn gftControlDisbblfd(); }
 
     /**
-     * Returns the inactive system text color. This returns the value of
-     * {@code getSecondary2()}.
+     * Rfturns tif inbdtivf systfm tfxt dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftSfdondbry2()}.
      *
-     * @return the inactive system text color
+     * @rfturn tif inbdtivf systfm tfxt dolor
      */
-    public ColorUIResource getInactiveSystemTextColor() { return getSecondary2(); }
+    publid ColorUIRfsourdf gftInbdtivfSystfmTfxtColor() { rfturn gftSfdondbry2(); }
 
     /**
-     * Returns the user text color. This returns the value of
-     * {@code getBlack()}.
+     * Rfturns tif usfr tfxt dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftBlbdk()}.
      *
-     * @return the user text color
+     * @rfturn tif usfr tfxt dolor
      */
-    public ColorUIResource getUserTextColor() { return getBlack(); }
+    publid ColorUIRfsourdf gftUsfrTfxtColor() { rfturn gftBlbdk(); }
 
     /**
-     * Returns the text highlight color. This returns the value of
-     * {@code getPrimary3()}.
+     * Rfturns tif tfxt iigiligit dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftPrimbry3()}.
      *
-     * @return the text highlight color
+     * @rfturn tif tfxt iigiligit dolor
      */
-    public ColorUIResource getTextHighlightColor() { return getPrimary3(); }
+    publid ColorUIRfsourdf gftTfxtHigiligitColor() { rfturn gftPrimbry3(); }
 
     /**
-     * Returns the highlighted text color. This returns the value of
-     * {@code getControlTextColor()}.
+     * Rfturns tif iigiligitfd tfxt dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftControlTfxtColor()}.
      *
-     * @return the highlighted text color
+     * @rfturn tif iigiligitfd tfxt dolor
      */
-    public ColorUIResource getHighlightedTextColor() { return getControlTextColor(); }
+    publid ColorUIRfsourdf gftHigiligitfdTfxtColor() { rfturn gftControlTfxtColor(); }
 
     /**
-     * Returns the window background color. This returns the value of
-     * {@code getWhite()}.
+     * Rfturns tif window bbdkground dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftWiitf()}.
      *
-     * @return the window background color
+     * @rfturn tif window bbdkground dolor
      */
-    public ColorUIResource getWindowBackground() { return getWhite(); }
+    publid ColorUIRfsourdf gftWindowBbdkground() { rfturn gftWiitf(); }
 
     /**
-     * Returns the window title background color. This returns the value of
-     * {@code getPrimary3()}.
+     * Rfturns tif window titlf bbdkground dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftPrimbry3()}.
      *
-     * @return the window title background color
+     * @rfturn tif window titlf bbdkground dolor
      */
-    public ColorUIResource getWindowTitleBackground() { return getPrimary3(); }
+    publid ColorUIRfsourdf gftWindowTitlfBbdkground() { rfturn gftPrimbry3(); }
 
     /**
-     * Returns the window title foreground color. This returns the value of
-     * {@code getBlack()}.
+     * Rfturns tif window titlf forfground dolor. Tiis rfturns tif vbluf of
+     * {@dodf gftBlbdk()}.
      *
-     * @return the window title foreground color
+     * @rfturn tif window titlf forfground dolor
      */
-    public ColorUIResource getWindowTitleForeground() { return getBlack(); }
+    publid ColorUIRfsourdf gftWindowTitlfForfground() { rfturn gftBlbdk(); }
 
     /**
-     * Returns the window title inactive background color. This
-     * returns the value of {@code getSecondary3()}.
+     * Rfturns tif window titlf inbdtivf bbdkground dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftSfdondbry3()}.
      *
-     * @return the window title inactive background color
+     * @rfturn tif window titlf inbdtivf bbdkground dolor
      */
-    public ColorUIResource getWindowTitleInactiveBackground() { return getSecondary3(); }
+    publid ColorUIRfsourdf gftWindowTitlfInbdtivfBbdkground() { rfturn gftSfdondbry3(); }
 
     /**
-     * Returns the window title inactive foreground color. This
-     * returns the value of {@code getBlack()}.
+     * Rfturns tif window titlf inbdtivf forfground dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftBlbdk()}.
      *
-     * @return the window title inactive foreground color
+     * @rfturn tif window titlf inbdtivf forfground dolor
      */
-    public ColorUIResource getWindowTitleInactiveForeground() { return getBlack(); }
+    publid ColorUIRfsourdf gftWindowTitlfInbdtivfForfground() { rfturn gftBlbdk(); }
 
     /**
-     * Returns the menu background color. This
-     * returns the value of {@code getSecondary3()}.
+     * Rfturns tif mfnu bbdkground dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftSfdondbry3()}.
      *
-     * @return the menu background color
+     * @rfturn tif mfnu bbdkground dolor
      */
-    public ColorUIResource getMenuBackground() { return getSecondary3(); }
+    publid ColorUIRfsourdf gftMfnuBbdkground() { rfturn gftSfdondbry3(); }
 
     /**
-     * Returns the menu foreground color. This
-     * returns the value of {@code getBlack()}.
+     * Rfturns tif mfnu forfground dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftBlbdk()}.
      *
-     * @return the menu foreground color
+     * @rfturn tif mfnu forfground dolor
      */
-    public ColorUIResource getMenuForeground() { return  getBlack(); }
+    publid ColorUIRfsourdf gftMfnuForfground() { rfturn  gftBlbdk(); }
 
     /**
-     * Returns the menu selected background color. This
-     * returns the value of {@code getPrimary2()}.
+     * Rfturns tif mfnu sflfdtfd bbdkground dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftPrimbry2()}.
      *
-     * @return the menu selected background color
+     * @rfturn tif mfnu sflfdtfd bbdkground dolor
      */
-    public ColorUIResource getMenuSelectedBackground() { return getPrimary2(); }
+    publid ColorUIRfsourdf gftMfnuSflfdtfdBbdkground() { rfturn gftPrimbry2(); }
 
     /**
-     * Returns the menu selected foreground color. This
-     * returns the value of {@code getBlack()}.
+     * Rfturns tif mfnu sflfdtfd forfground dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftBlbdk()}.
      *
-     * @return the menu selected foreground color
+     * @rfturn tif mfnu sflfdtfd forfground dolor
      */
-    public ColorUIResource getMenuSelectedForeground() { return getBlack(); }
+    publid ColorUIRfsourdf gftMfnuSflfdtfdForfground() { rfturn gftBlbdk(); }
 
     /**
-     * Returns the menu disabled foreground color. This
-     * returns the value of {@code getSecondary2()}.
+     * Rfturns tif mfnu disbblfd forfground dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftSfdondbry2()}.
      *
-     * @return the menu disabled foreground color
+     * @rfturn tif mfnu disbblfd forfground dolor
      */
-    public ColorUIResource getMenuDisabledForeground() { return getSecondary2(); }
+    publid ColorUIRfsourdf gftMfnuDisbblfdForfground() { rfturn gftSfdondbry2(); }
 
     /**
-     * Returns the separator background color. This
-     * returns the value of {@code getWhite()}.
+     * Rfturns tif sfpbrbtor bbdkground dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftWiitf()}.
      *
-     * @return the separator background color
+     * @rfturn tif sfpbrbtor bbdkground dolor
      */
-    public ColorUIResource getSeparatorBackground() { return getWhite(); }
+    publid ColorUIRfsourdf gftSfpbrbtorBbdkground() { rfturn gftWiitf(); }
 
     /**
-     * Returns the separator foreground color. This
-     * returns the value of {@code getPrimary1()}.
+     * Rfturns tif sfpbrbtor forfground dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftPrimbry1()}.
      *
-     * @return the separator foreground color
+     * @rfturn tif sfpbrbtor forfground dolor
      */
-    public ColorUIResource getSeparatorForeground() { return getPrimary1(); }
+    publid ColorUIRfsourdf gftSfpbrbtorForfground() { rfturn gftPrimbry1(); }
 
     /**
-     * Returns the accelerator foreground color. This
-     * returns the value of {@code getPrimary1()}.
+     * Rfturns tif bddflfrbtor forfground dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftPrimbry1()}.
      *
-     * @return the accelerator foreground color
+     * @rfturn tif bddflfrbtor forfground dolor
      */
-    public ColorUIResource getAcceleratorForeground() { return getPrimary1(); }
+    publid ColorUIRfsourdf gftAddflfrbtorForfground() { rfturn gftPrimbry1(); }
 
     /**
-     * Returns the accelerator selected foreground color. This
-     * returns the value of {@code getBlack()}.
+     * Rfturns tif bddflfrbtor sflfdtfd forfground dolor. Tiis
+     * rfturns tif vbluf of {@dodf gftBlbdk()}.
      *
-     * @return the accelerator selected foreground color
+     * @rfturn tif bddflfrbtor sflfdtfd forfground dolor
      */
-    public ColorUIResource getAcceleratorSelectedForeground() { return getBlack(); }
+    publid ColorUIRfsourdf gftAddflfrbtorSflfdtfdForfground() { rfturn gftBlbdk(); }
 
     /**
-     * Adds values specific to this theme to the defaults table. This method
-     * is invoked when the look and feel defaults are obtained from
-     * {@code MetalLookAndFeel}.
+     * Adds vblufs spfdifid to tiis tifmf to tif dffbults tbblf. Tiis mftiod
+     * is invokfd wifn tif look bnd fffl dffbults brf obtbinfd from
+     * {@dodf MftblLookAndFffl}.
      * <p>
-     * This implementation does nothing; it is provided for subclasses
-     * that wish to customize the defaults table.
+     * Tiis implfmfntbtion dofs notiing; it is providfd for subdlbssfs
+     * tibt wisi to dustomizf tif dffbults tbblf.
      *
-     * @param table the {@code UIDefaults} to add the values to
+     * @pbrbm tbblf tif {@dodf UIDffbults} to bdd tif vblufs to
      *
-     * @see MetalLookAndFeel#getDefaults
+     * @sff MftblLookAndFffl#gftDffbults
      */
-    public void addCustomEntriesToTable(UIDefaults table) {}
+    publid void bddCustomEntrifsToTbblf(UIDffbults tbblf) {}
 
     /**
-     * This is invoked when a MetalLookAndFeel is installed and about to
-     * start using this theme. When we can add API this should be nuked
-     * in favor of DefaultMetalTheme overriding addCustomEntriesToTable.
+     * Tiis is invokfd wifn b MftblLookAndFffl is instbllfd bnd bbout to
+     * stbrt using tiis tifmf. Wifn wf dbn bdd API tiis siould bf nukfd
+     * in fbvor of DffbultMftblTifmf ovfrriding bddCustomEntrifsToTbblf.
      */
-    void install() {
+    void instbll() {
     }
 
     /**
-     * Returns true if this is a theme provided by the core platform.
+     * Rfturns truf if tiis is b tifmf providfd by tif dorf plbtform.
      */
-    boolean isSystemTheme() {
-        return false;
+    boolfbn isSystfmTifmf() {
+        rfturn fblsf;
     }
 }

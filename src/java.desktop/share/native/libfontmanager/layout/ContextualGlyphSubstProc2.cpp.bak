@@ -1,170 +1,170 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp.  and others 1998-2013 - All Rights Reserved
+ * (C) Copyrigit IBM Corp.  bnd otifrs 1998-2013 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "MorphTables.h"
-#include "StateTables.h"
-#include "MorphStateTables.h"
-#include "SubtableProcessor2.h"
-#include "StateTableProcessor2.h"
-#include "ContextualGlyphSubstProc2.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "StbtfTbblfs.i"
+#indludf "MorpiStbtfTbblfs.i"
+#indludf "SubtbblfProdfssor2.i"
+#indludf "StbtfTbblfProdfssor2.i"
+#indludf "ContfxtublGlypiSubstProd2.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ContextualGlyphSubstitutionProcessor2)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ContfxtublGlypiSubstitutionProdfssor2)
 
-ContextualGlyphSubstitutionProcessor2::ContextualGlyphSubstitutionProcessor2(
-                                  const LEReferenceTo<MorphSubtableHeader2> &morphSubtableHeader, LEErrorCode &success)
-  : StateTableProcessor2(morphSubtableHeader, success), contextualGlyphHeader(morphSubtableHeader, success)
+ContfxtublGlypiSubstitutionProdfssor2::ContfxtublGlypiSubstitutionProdfssor2(
+                                  donst LERfffrfndfTo<MorpiSubtbblfHfbdfr2> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+  : StbtfTbblfProdfssor2(morpiSubtbblfHfbdfr, suddfss), dontfxtublGlypiHfbdfr(morpiSubtbblfHfbdfr, suddfss)
 {
-    if(LE_FAILURE(success)) return;
-    le_uint32 perGlyphTableOffset = SWAPL(contextualGlyphHeader->perGlyphTableOffset);
-    perGlyphTable = LEReferenceToArrayOf<le_uint32> (stHeader, success, perGlyphTableOffset, LE_UNBOUNDED_ARRAY);
-    entryTable = LEReferenceToArrayOf<ContextualGlyphStateEntry2>(stHeader, success, entryTableOffset, LE_UNBOUNDED_ARRAY);
+    if(LE_FAILURE(suddfss)) rfturn;
+    lf_uint32 pfrGlypiTbblfOffsft = SWAPL(dontfxtublGlypiHfbdfr->pfrGlypiTbblfOffsft);
+    pfrGlypiTbblf = LERfffrfndfToArrbyOf<lf_uint32> (stHfbdfr, suddfss, pfrGlypiTbblfOffsft, LE_UNBOUNDED_ARRAY);
+    fntryTbblf = LERfffrfndfToArrbyOf<ContfxtublGlypiStbtfEntry2>(stHfbdfr, suddfss, fntryTbblfOffsft, LE_UNBOUNDED_ARRAY);
 }
 
-ContextualGlyphSubstitutionProcessor2::~ContextualGlyphSubstitutionProcessor2()
+ContfxtublGlypiSubstitutionProdfssor2::~ContfxtublGlypiSubstitutionProdfssor2()
 {
 }
 
-void ContextualGlyphSubstitutionProcessor2::beginStateTable()
+void ContfxtublGlypiSubstitutionProdfssor2::bfginStbtfTbblf()
 {
-    markGlyph = 0;
+    mbrkGlypi = 0;
 }
 
-le_uint16 ContextualGlyphSubstitutionProcessor2::processStateEntry(LEGlyphStorage &glyphStorage, le_int32 &currGlyph,
-    EntryTableIndex2 index, LEErrorCode &success)
+lf_uint16 ContfxtublGlypiSubstitutionProdfssor2::prodfssStbtfEntry(LEGlypiStorbgf &glypiStorbgf, lf_int32 &durrGlypi,
+    EntryTbblfIndfx2 indfx, LEErrorCodf &suddfss)
 {
-    if(LE_FAILURE(success)) return 0;
-    const ContextualGlyphStateEntry2 *entry = entryTable.getAlias(index, success);
-    if(LE_FAILURE(success)) return 0;
-    le_uint16 newState = SWAPW(entry->newStateIndex);
-    le_uint16 flags = SWAPW(entry->flags);
-    le_int16 markIndex = SWAPW(entry->markIndex);
-    le_int16 currIndex = SWAPW(entry->currIndex);
+    if(LE_FAILURE(suddfss)) rfturn 0;
+    donst ContfxtublGlypiStbtfEntry2 *fntry = fntryTbblf.gftAlibs(indfx, suddfss);
+    if(LE_FAILURE(suddfss)) rfturn 0;
+    lf_uint16 nfwStbtf = SWAPW(fntry->nfwStbtfIndfx);
+    lf_uint16 flbgs = SWAPW(fntry->flbgs);
+    lf_int16 mbrkIndfx = SWAPW(fntry->mbrkIndfx);
+    lf_int16 durrIndfx = SWAPW(fntry->durrIndfx);
 
-    if (markIndex != -1) {
-        le_uint32 offset = SWAPL(perGlyphTable(markIndex, success));
-        LEGlyphID mGlyph = glyphStorage[markGlyph];
-        TTGlyphID newGlyph = lookup(offset, mGlyph, success);
-        glyphStorage[markGlyph] = LE_SET_GLYPH(mGlyph, newGlyph);
+    if (mbrkIndfx != -1) {
+        lf_uint32 offsft = SWAPL(pfrGlypiTbblf(mbrkIndfx, suddfss));
+        LEGlypiID mGlypi = glypiStorbgf[mbrkGlypi];
+        TTGlypiID nfwGlypi = lookup(offsft, mGlypi, suddfss);
+        glypiStorbgf[mbrkGlypi] = LE_SET_GLYPH(mGlypi, nfwGlypi);
     }
 
-    if (currIndex != -1) {
-        le_uint32 offset = SWAPL(perGlyphTable(currIndex, success));
-        LEGlyphID thisGlyph = glyphStorage[currGlyph];
-        TTGlyphID newGlyph = lookup(offset, thisGlyph, success);
-        glyphStorage[currGlyph] = LE_SET_GLYPH(thisGlyph, newGlyph);
+    if (durrIndfx != -1) {
+        lf_uint32 offsft = SWAPL(pfrGlypiTbblf(durrIndfx, suddfss));
+        LEGlypiID tiisGlypi = glypiStorbgf[durrGlypi];
+        TTGlypiID nfwGlypi = lookup(offsft, tiisGlypi, suddfss);
+        glypiStorbgf[durrGlypi] = LE_SET_GLYPH(tiisGlypi, nfwGlypi);
     }
 
-    if (flags & cgsSetMark) {
-        markGlyph = currGlyph;
+    if (flbgs & dgsSftMbrk) {
+        mbrkGlypi = durrGlypi;
     }
 
-    if (!(flags & cgsDontAdvance)) {
-        currGlyph += dir;
+    if (!(flbgs & dgsDontAdvbndf)) {
+        durrGlypi += dir;
     }
 
-    return newState;
+    rfturn nfwStbtf;
 }
 
-TTGlyphID ContextualGlyphSubstitutionProcessor2::lookup(le_uint32 offset, LEGlyphID gid, LEErrorCode &success)
+TTGlypiID ContfxtublGlypiSubstitutionProdfssor2::lookup(lf_uint32 offsft, LEGlypiID gid, LEErrorCodf &suddfss)
 {
-    TTGlyphID newGlyph = 0xFFFF;
-    if(LE_FAILURE(success))  return newGlyph;
-    LEReferenceTo<LookupTable> lookupTable(perGlyphTable, success, offset);
-    if(LE_FAILURE(success))  return newGlyph;
-    le_int16 format = SWAPW(lookupTable->format);
+    TTGlypiID nfwGlypi = 0xFFFF;
+    if(LE_FAILURE(suddfss))  rfturn nfwGlypi;
+    LERfffrfndfTo<LookupTbblf> lookupTbblf(pfrGlypiTbblf, suddfss, offsft);
+    if(LE_FAILURE(suddfss))  rfturn nfwGlypi;
+    lf_int16 formbt = SWAPW(lookupTbblf->formbt);
 
-    switch (format) {
-        case ltfSimpleArray: {
-#ifdef TEST_FORMAT
-            // Disabled pending for design review
-            LEReferenceTo<SimpleArrayLookupTable> lookupTable0(lookupTable, success);
-            LEReferenceToArrayOf<LookupValue> valueArray(lookupTable0, success, &lookupTable0->valueArray[0], LE_UNBOUNDED_ARRAY);
-            if(LE_FAILURE(success))  return newGlyph;
-            TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(gid);
-            newGlyph = SWAPW(lookupTable0->valueArray(glyphCode, success));
-#endif
-            break;
+    switdi (formbt) {
+        dbsf ltfSimplfArrby: {
+#ifdff TEST_FORMAT
+            // Disbblfd pfnding for dfsign rfvifw
+            LERfffrfndfTo<SimplfArrbyLookupTbblf> lookupTbblf0(lookupTbblf, suddfss);
+            LERfffrfndfToArrbyOf<LookupVbluf> vblufArrby(lookupTbblf0, suddfss, &lookupTbblf0->vblufArrby[0], LE_UNBOUNDED_ARRAY);
+            if(LE_FAILURE(suddfss))  rfturn nfwGlypi;
+            TTGlypiID glypiCodf = (TTGlypiID) LE_GET_GLYPH(gid);
+            nfwGlypi = SWAPW(lookupTbblf0->vblufArrby(glypiCodf, suddfss));
+#fndif
+            brfbk;
         }
-        case ltfSegmentSingle: {
-#ifdef TEST_FORMAT
-            // Disabled pending for design review
-            LEReferenceTo<SegmentSingleLookupTable> lookupTable2 = (SegmentSingleLookupTable *) lookupTable;
-            const LookupSegment *segment = lookupTable2->lookupSegment(lookupTable2->segments, gid);
-            if (segment != NULL) {
-                newGlyph = SWAPW(segment->value);
+        dbsf ltfSfgmfntSinglf: {
+#ifdff TEST_FORMAT
+            // Disbblfd pfnding for dfsign rfvifw
+            LERfffrfndfTo<SfgmfntSinglfLookupTbblf> lookupTbblf2 = (SfgmfntSinglfLookupTbblf *) lookupTbblf;
+            donst LookupSfgmfnt *sfgmfnt = lookupTbblf2->lookupSfgmfnt(lookupTbblf2->sfgmfnts, gid);
+            if (sfgmfnt != NULL) {
+                nfwGlypi = SWAPW(sfgmfnt->vbluf);
             }
-#endif
-            break;
+#fndif
+            brfbk;
         }
-        case ltfSegmentArray: {
-            //printf("Context Lookup Table Format4: specific interpretation needed!\n");
-            break;
+        dbsf ltfSfgmfntArrby: {
+            //printf("Contfxt Lookup Tbblf Formbt4: spfdifid intfrprftbtion nffdfd!\n");
+            brfbk;
         }
-        case ltfSingleTable:
+        dbsf ltfSinglfTbblf:
         {
-#ifdef TEST_FORMAT
-            // Disabled pending for design review
-            LEReferenceTo<SingleTableLookupTable> lookupTable6 = (SingleTableLookupTable *) lookupTable;
-            const LEReferenceTo<LookupSingle> segment = lookupTable6->lookupSingle(lookupTable6->entries, gid);
-            if (segment != NULL) {
-                newGlyph = SWAPW(segment->value);
+#ifdff TEST_FORMAT
+            // Disbblfd pfnding for dfsign rfvifw
+            LERfffrfndfTo<SinglfTbblfLookupTbblf> lookupTbblf6 = (SinglfTbblfLookupTbblf *) lookupTbblf;
+            donst LERfffrfndfTo<LookupSinglf> sfgmfnt = lookupTbblf6->lookupSinglf(lookupTbblf6->fntrifs, gid);
+            if (sfgmfnt != NULL) {
+                nfwGlypi = SWAPW(sfgmfnt->vbluf);
             }
-#endif
-            break;
+#fndif
+            brfbk;
         }
-        case ltfTrimmedArray: {
-            LEReferenceTo<TrimmedArrayLookupTable> lookupTable8(lookupTable, success);
-            if (LE_FAILURE(success)) return newGlyph;
-            TTGlyphID firstGlyph = SWAPW(lookupTable8->firstGlyph);
-            TTGlyphID glyphCount = SWAPW(lookupTable8->glyphCount);
-            TTGlyphID lastGlyph  = firstGlyph + glyphCount;
-            TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(gid);
-            if ((glyphCode >= firstGlyph) && (glyphCode < lastGlyph)) {
-              LEReferenceToArrayOf<LookupValue> valueArray(lookupTable8, success, &lookupTable8->valueArray[0], glyphCount);
-              if (LE_FAILURE(success)) { return newGlyph; }
-              newGlyph = SWAPW(valueArray(glyphCode - firstGlyph, success));
+        dbsf ltfTrimmfdArrby: {
+            LERfffrfndfTo<TrimmfdArrbyLookupTbblf> lookupTbblf8(lookupTbblf, suddfss);
+            if (LE_FAILURE(suddfss)) rfturn nfwGlypi;
+            TTGlypiID firstGlypi = SWAPW(lookupTbblf8->firstGlypi);
+            TTGlypiID glypiCount = SWAPW(lookupTbblf8->glypiCount);
+            TTGlypiID lbstGlypi  = firstGlypi + glypiCount;
+            TTGlypiID glypiCodf = (TTGlypiID) LE_GET_GLYPH(gid);
+            if ((glypiCodf >= firstGlypi) && (glypiCodf < lbstGlypi)) {
+              LERfffrfndfToArrbyOf<LookupVbluf> vblufArrby(lookupTbblf8, suddfss, &lookupTbblf8->vblufArrby[0], glypiCount);
+              if (LE_FAILURE(suddfss)) { rfturn nfwGlypi; }
+              nfwGlypi = SWAPW(vblufArrby(glypiCodf - firstGlypi, suddfss));
             }
         }
-        default:
-            break;
+        dffbult:
+            brfbk;
     }
-    return newGlyph;
+    rfturn nfwGlypi;
 }
 
-void ContextualGlyphSubstitutionProcessor2::endStateTable()
+void ContfxtublGlypiSubstitutionProdfssor2::fndStbtfTbblf()
 {
 }
 

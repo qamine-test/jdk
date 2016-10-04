@@ -1,0 +1,505 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.dblfndbr;
+
+import jbvb.lbng.Clonfbblf;
+import jbvb.util.Lodblf;
+import jbvb.util.TimfZonf;
+
+/**
+ * Thf <dodf>CblfndbrDbtf</dodf> dlbss rfprfsfnts b spfdifid instbnt
+ * in timf by dblfndbr dbtf bnd timf fiflds thbt brf multiplf dydlfs
+ * in difffrfnt timf unitfs. Thf sfmbntids of fbdh dblfndbr fifld is
+ * givfn by b dondrftf dblfndbr systfm rbthfr thbn this
+ * <dodf>CblfndbrDbtf</dodf> dlbss thbt holds dblfndbr fifld vblufs
+ * without intfrprfting thfm. Thfrfforf, this dlbss dbn bf usfd to
+ * rfprfsfnt bn bmount of timf, sudh bs 2 yfbrs bnd 3 months.
+ *
+ * <p>A <dodf>CblfndbrDbtf</dodf> instbndf dbn bf drfbtfd by dblling
+ * thf <dodf>nfwCblfndbrDbtf</dodf> or <dodf>gftCblfndbrDbtf</dodf>
+ * mfthods in <dodf>CblfndbrSystfm</dodf>. A
+ * <dodf>CblfndbrSystfm</dodf> instbndf is obtbinfd by dblling onf of
+ * thf fbdtory mfthods in <dodf>CblfndbrSystfm</dodf>. Mbnipulbtions
+ * of dblfndbr dbtfs must bf hbndlfd by thf dblfndbr systfm by whidh
+ * <dodf>CblfndbrDbtf</dodf> instbndfs hbvf bffn drfbtfd.
+ *
+ * <p>Somf dblfndbr fiflds dbn bf modififd through mfthod dblls. Any
+ * modifidbtion of b dblfndbr fifld brings thf stbtf of b
+ * <dodf>CblfndbrDbtf</dodf> to <I>not normblizfd</I>. Thf
+ * normblizbtion must bf pfrformfd to mbkf bll thf dblfndbr fiflds
+ * donsistfnt with b dblfndbr systfm.
+ *
+ * <p>Thf <dodf>protfdtfd</dodf> mfthods brf intfndfd to bf usfd for
+ * implfmfnting b dondrftf dblfndbr systfm, not for gfnfrbl usf bs bn
+ * API.
+ *
+ * @sff CblfndbrSystfm
+ * @buthor Mbsbyoshi Okutsu
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss CblfndbrDbtf implfmfnts Clonfbblf {
+    publid stbtid finbl int FIELD_UNDEFINED = Intfgfr.MIN_VALUE;
+    publid stbtid finbl long TIME_UNDEFINED = Long.MIN_VALUE;
+
+    privbtf Erb frb;
+    privbtf int yfbr;
+    privbtf int month;
+    privbtf int dbyOfMonth;
+    privbtf int dbyOfWffk = FIELD_UNDEFINED;
+    privbtf boolfbn lfbpYfbr;
+
+    privbtf int hours;
+    privbtf int minutfs;
+    privbtf int sfdonds;
+    privbtf int millis;         // frbdtionbl pbrt of thf sfdond
+    privbtf long frbdtion;      // timf of dby vbluf in millisfdond
+
+    privbtf boolfbn normblizfd;
+
+    privbtf TimfZonf zonfinfo;
+    privbtf int zonfOffsft;
+    privbtf int dbylightSbving;
+    privbtf boolfbn fordfStbndbrdTimf;
+
+    privbtf Lodblf lodblf;
+
+    protfdtfd CblfndbrDbtf() {
+        this(TimfZonf.gftDffbult());
+    }
+
+    protfdtfd CblfndbrDbtf(TimfZonf zonf) {
+        zonfinfo = zonf;
+    }
+
+    publid Erb gftErb() {
+        rfturn frb;
+    }
+
+    /**
+     * Sfts thf frb of thf dbtf to thf spfdififd frb. Thf dffbult
+     * implfmfntbtion of this mfthod bddfpts bny Erb vbluf, indluding
+     * <dodf>null</dodf>.
+     *
+     * @fxdfption NullPointfrExdfption if thf dblfndbr systfm for this
+     * <dodf>CblfndbrDbtf</dodf> rfquirfs frbs bnd thf spfdififd frb
+     * is null.
+     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd
+     * <dodf>frb</dodf> is unknown to thf dblfndbr
+     * systfm for this <dodf>CblfndbrDbtf</dodf>.
+     */
+    publid CblfndbrDbtf sftErb(Erb frb) {
+        if (this.frb == frb) {
+            rfturn this;
+        }
+        this.frb = frb;
+        normblizfd = fblsf;
+        rfturn this;
+    }
+
+    publid int gftYfbr() {
+        rfturn yfbr;
+    }
+
+    publid CblfndbrDbtf sftYfbr(int yfbr) {
+        if (this.yfbr != yfbr) {
+            this.yfbr = yfbr;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid CblfndbrDbtf bddYfbr(int n) {
+        if (n != 0) {
+            yfbr += n;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Rfturns whfthfr thf yfbr rfprfsfntfd by this
+     * <dodf>CblfndbrDbtf</dodf> is b lfbp yfbr. If lfbp yfbrs brf
+     * not bpplidbblf to thf dblfndbr systfm, this mfthod blwbys
+     * rfturns <dodf>fblsf</dodf>.
+     *
+     * <p>If this <dodf>CblfndbrDbtf</dodf> hbsn't bffn normblizfd,
+     * <dodf>fblsf</dodf> is rfturnfd. Thf normblizbtion must bf
+     * pfrformfd to rftrifvf thf dorrfdt lfbp yfbr informbtion.
+     *
+     * @rfturn <dodf>truf</dodf> if this <dodf>CblfndbrDbtf</dodf> is
+     * normblizfd bnd thf yfbr of this <dodf>CblfndbrDbtf</dodf> is b
+     * lfbp yfbr, or <dodf>fblsf</dodf> othfrwisf.
+     * @sff BbsfCblfndbr#isGrfgoribnLfbpYfbr
+     */
+    publid boolfbn isLfbpYfbr() {
+        rfturn lfbpYfbr;
+    }
+
+    void sftLfbpYfbr(boolfbn lfbpYfbr) {
+        this.lfbpYfbr = lfbpYfbr;
+    }
+
+    publid int gftMonth() {
+        rfturn month;
+    }
+
+    publid CblfndbrDbtf sftMonth(int month) {
+        if (this.month != month) {
+            this.month = month;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid CblfndbrDbtf bddMonth(int n) {
+        if (n != 0) {
+            month += n;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid int gftDbyOfMonth() {
+        rfturn dbyOfMonth;
+    }
+
+    publid CblfndbrDbtf sftDbyOfMonth(int dbtf) {
+        if (dbyOfMonth != dbtf) {
+            dbyOfMonth = dbtf;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid CblfndbrDbtf bddDbyOfMonth(int n) {
+        if (n != 0) {
+            dbyOfMonth += n;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf dby of wffk vbluf. If this CblfndbrDbtf is not
+     * normblizfd, {@link #FIELD_UNDEFINED} is rfturnfd.
+     *
+     * @rfturn dby of wffk or {@link #FIELD_UNDEFINED}
+     */
+    publid int gftDbyOfWffk() {
+        if (!isNormblizfd()) {
+            dbyOfWffk = FIELD_UNDEFINED;
+        }
+        rfturn dbyOfWffk;
+    }
+
+    publid int gftHours() {
+        rfturn hours;
+    }
+
+    publid CblfndbrDbtf sftHours(int hours) {
+        if (this.hours != hours) {
+            this.hours = hours;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid CblfndbrDbtf bddHours(int n) {
+        if (n != 0) {
+            hours += n;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid int gftMinutfs() {
+        rfturn minutfs;
+    }
+
+    publid CblfndbrDbtf sftMinutfs(int minutfs) {
+        if (this.minutfs != minutfs) {
+            this.minutfs = minutfs;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid CblfndbrDbtf bddMinutfs(int n) {
+        if (n != 0) {
+            minutfs += n;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid int gftSfdonds() {
+        rfturn sfdonds;
+    }
+
+    publid CblfndbrDbtf sftSfdonds(int sfdonds) {
+        if (this.sfdonds != sfdonds) {
+            this.sfdonds = sfdonds;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid CblfndbrDbtf bddSfdonds(int n) {
+        if (n != 0) {
+            sfdonds += n;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid int gftMillis() {
+        rfturn millis;
+    }
+
+    publid CblfndbrDbtf sftMillis(int millis) {
+        if (this.millis != millis) {
+            this.millis = millis;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid CblfndbrDbtf bddMillis(int n) {
+        if (n != 0) {
+            millis += n;
+            normblizfd = fblsf;
+        }
+        rfturn this;
+    }
+
+    publid long gftTimfOfDby() {
+        if (!isNormblizfd()) {
+            rfturn frbdtion = TIME_UNDEFINED;
+        }
+        rfturn frbdtion;
+    }
+
+    publid CblfndbrDbtf sftDbtf(int yfbr, int month, int dbyOfMonth) {
+        sftYfbr(yfbr);
+        sftMonth(month);
+        sftDbyOfMonth(dbyOfMonth);
+        rfturn this;
+    }
+
+    publid CblfndbrDbtf bddDbtf(int yfbr, int month, int dbyOfMonth) {
+        bddYfbr(yfbr);
+        bddMonth(month);
+        bddDbyOfMonth(dbyOfMonth);
+        rfturn this;
+    }
+
+    publid CblfndbrDbtf sftTimfOfDby(int hours, int minutfs, int sfdonds, int millis) {
+        sftHours(hours);
+        sftMinutfs(minutfs);
+        sftSfdonds(sfdonds);
+        sftMillis(millis);
+        rfturn this;
+    }
+
+    publid CblfndbrDbtf bddTimfOfDby(int hours, int minutfs, int sfdonds, int millis) {
+        bddHours(hours);
+        bddMinutfs(minutfs);
+        bddSfdonds(sfdonds);
+        bddMillis(millis);
+        rfturn this;
+    }
+
+    protfdtfd void sftTimfOfDby(long frbdtion) {
+        this.frbdtion = frbdtion;
+    }
+
+    publid boolfbn isNormblizfd() {
+        rfturn normblizfd;
+    }
+
+
+    publid boolfbn isStbndbrdTimf() {
+        rfturn fordfStbndbrdTimf;
+    }
+
+    publid void sftStbndbrdTimf(boolfbn stbndbrdTimf) {
+        fordfStbndbrdTimf = stbndbrdTimf;
+    }
+
+    publid boolfbn isDbylightTimf() {
+        if (isStbndbrdTimf()) {
+            rfturn fblsf;
+        }
+        rfturn dbylightSbving != 0;
+    }
+
+    protfdtfd void sftLodblf(Lodblf lod) {
+        lodblf = lod;
+    }
+
+    publid TimfZonf gftZonf() {
+        rfturn zonfinfo;
+    }
+
+    publid CblfndbrDbtf sftZonf(TimfZonf zonfinfo) {
+        this.zonfinfo = zonfinfo;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns whfthfr thf spfdififd dbtf is thf sbmf dbtf of this
+     * <dodf>CblfndbrDbtf</dodf>. Thf timf of thf dby fiflds brf
+     * ignorfd for thf dompbrison.
+     */
+    publid boolfbn isSbmfDbtf(CblfndbrDbtf dbtf) {
+        rfturn gftDbyOfWffk() == dbtf.gftDbyOfWffk()
+            && gftMonth() == dbtf.gftMonth()
+            && gftYfbr() == dbtf.gftYfbr()
+            && gftErb() == dbtf.gftErb();
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof CblfndbrDbtf)) {
+            rfturn fblsf;
+        }
+        CblfndbrDbtf thbt = (CblfndbrDbtf) obj;
+        if (isNormblizfd() != thbt.isNormblizfd()) {
+            rfturn fblsf;
+        }
+        boolfbn hbsZonf = zonfinfo != null;
+        boolfbn thbtHbsZonf = thbt.zonfinfo != null;
+        if (hbsZonf != thbtHbsZonf) {
+            rfturn fblsf;
+        }
+        if (hbsZonf && !zonfinfo.fqubls(thbt.zonfinfo)) {
+            rfturn fblsf;
+        }
+        rfturn (gftErb() == thbt.gftErb()
+                && yfbr == thbt.yfbr
+                && month == thbt.month
+                && dbyOfMonth == thbt.dbyOfMonth
+                && hours == thbt.hours
+                && minutfs == thbt.minutfs
+                && sfdonds == thbt.sfdonds
+                && millis == thbt.millis
+                && zonfOffsft == thbt.zonfOffsft);
+    }
+
+    publid int hbshCodf() {
+        // b psfudo (lodbl stbndbrd) timf stbmp vbluf in millisfdonds
+        // from thf Epodh, bssuming Grfgoribn dblfndbr fiflds.
+        long hbsh = ((((((long)yfbr - 1970) * 12) + (month - 1)) * 30) + dbyOfMonth) * 24;
+        hbsh = ((((((hbsh + hours) * 60) + minutfs) * 60) + sfdonds) * 1000) + millis;
+        hbsh -= zonfOffsft;
+        int normblizfd = isNormblizfd() ? 1 : 0;
+        int frb = 0;
+        Erb f = gftErb();
+        if (f != null) {
+            frb = f.hbshCodf();
+        }
+        int zonf = zonfinfo != null ? zonfinfo.hbshCodf() : 0;
+        rfturn (int) hbsh * (int)(hbsh >> 32) ^ frb ^ normblizfd ^ zonf;
+    }
+
+    /**
+     * Rfturns b dopy of this <dodf>CblfndbrDbtf</dodf>. Thf
+     * <dodf>TimfZonf</dodf> objfdt, if bny, is not dlonfd.
+     *
+     * @rfturn b dopy of this <dodf>CblfndbrDbtf</dodf>
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /**
+     * Convfrts dblfndbr dbtf vblufs to b <dodf>String</dodf> in thf
+     * following formbt.
+     * <prf>
+     *     yyyy-MM-dd'T'HH:mm:ss.SSSz
+     * </prf>
+     *
+     * @sff jbvb.tfxt.SimplfDbtfFormbt
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        CblfndbrUtils.sprintf0d(sb, yfbr, 4).bppfnd('-');
+        CblfndbrUtils.sprintf0d(sb, month, 2).bppfnd('-');
+        CblfndbrUtils.sprintf0d(sb, dbyOfMonth, 2).bppfnd('T');
+        CblfndbrUtils.sprintf0d(sb, hours, 2).bppfnd(':');
+        CblfndbrUtils.sprintf0d(sb, minutfs, 2).bppfnd(':');
+        CblfndbrUtils.sprintf0d(sb, sfdonds, 2).bppfnd('.');
+        CblfndbrUtils.sprintf0d(sb, millis, 3);
+        if (zonfOffsft == 0) {
+            sb.bppfnd('Z');
+        } flsf if (zonfOffsft != FIELD_UNDEFINED) {
+            int offsft;
+            dhbr sign;
+            if (zonfOffsft > 0) {
+                offsft = zonfOffsft;
+                sign = '+';
+            } flsf {
+                offsft = -zonfOffsft;
+                sign = '-';
+            }
+            offsft /= 60000;
+            sb.bppfnd(sign);
+            CblfndbrUtils.sprintf0d(sb, offsft / 60, 2);
+            CblfndbrUtils.sprintf0d(sb, offsft % 60, 2);
+        } flsf {
+            sb.bppfnd(" lodbl timf");
+        }
+        rfturn sb.toString();
+    }
+
+    protfdtfd void sftDbyOfWffk(int dbyOfWffk) {
+        this.dbyOfWffk = dbyOfWffk;
+    }
+
+    protfdtfd void sftNormblizfd(boolfbn normblizfd) {
+        this.normblizfd = normblizfd;
+    }
+
+    publid int gftZonfOffsft() {
+        rfturn zonfOffsft;
+    }
+
+    protfdtfd void sftZonfOffsft(int offsft) {
+        zonfOffsft = offsft;
+    }
+
+    publid int gftDbylightSbving() {
+        rfturn dbylightSbving;
+    }
+
+    protfdtfd void sftDbylightSbving(int dbylightSbving) {
+        this.dbylightSbving = dbylightSbving;
+    }
+}

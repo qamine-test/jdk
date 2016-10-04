@@ -1,47 +1,47 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
-Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 
-</head>
+</ifbd>
 
-<body bgcolor="white">
+<body bgdolor="wiitf">
 
-Classes supporting the built-in JPEG plug-in.
+Clbssfs supporting tif built-in JPEG plug-in.
 
 <P>
 
-This package contains some support classes for the built-in JPEG
-reader and writer plug-ins.  Classes are provided for representing
-quantization and Huffman tables, and extensions of
-<code>ImageReadParam</code> and <code>ImageWriteParam</code> are
-provided to supply tables during the reading and writing process.  For
-more information about the operation of the built-in JPEG plug-ins,
-see the <A HREF="../../metadata/doc-files/jpeg_metadata.html">JPEG
-metadata format specification and usage notes</A>.
+Tiis pbdkbgf dontbins somf support dlbssfs for tif built-in JPEG
+rfbdfr bnd writfr plug-ins.  Clbssfs brf providfd for rfprfsfnting
+qubntizbtion bnd Huffmbn tbblfs, bnd fxtfnsions of
+<dodf>ImbgfRfbdPbrbm</dodf> bnd <dodf>ImbgfWritfPbrbm</dodf> brf
+providfd to supply tbblfs during tif rfbding bnd writing prodfss.  For
+morf informbtion bbout tif opfrbtion of tif built-in JPEG plug-ins,
+sff tif <A HREF="../../mftbdbtb/dod-filfs/jpfg_mftbdbtb.itml">JPEG
+mftbdbtb formbt spfdifidbtion bnd usbgf notfs</A>.
 
 <BR>
 <BR>
@@ -51,12 +51,12 @@ metadata format specification and usage notes</A>.
 
 <HR>
 
-Java<SUP><FONT SIZE="-2">TM</FONT></SUP> Image I/O API Specification
+Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> Imbgf I/O API Spfdifidbtion
 <BR>
 <BR>
-Public Draft 2 (specification version 0.5)
+Publid Drbft 2 (spfdifidbtion vfrsion 0.5)
 <BR>
-Release: October 1, 2000
+Rflfbsf: Odtobfr 1, 2000
 <BR>
 <BR>
 
@@ -64,6 +64,6 @@ Release: October 1, 2000
 
 -->
 
-@since 1.4
+@sindf 1.4
 </body>
-</html>
+</itml>

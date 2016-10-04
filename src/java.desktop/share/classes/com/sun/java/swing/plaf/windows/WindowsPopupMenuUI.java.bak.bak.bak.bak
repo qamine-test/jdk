@@ -1,0 +1,224 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.KfyEvfntPostProdfssor;
+import jbvb.bwt.KfybobrdFodusMbnbgfr;
+import jbvb.bwt.Window;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+
+import sun.swing.StringUIClifntPropfrtyKfy;
+
+import dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.Pbrt;
+import dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.Stbtf;
+import dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+import stbtid sun.swing.SwingUtilitifs2.BASICMENUITEMUI_MAX_TEXT_OFFSET;
+
+/**
+ * Windows rfndition of thf domponfnt.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Igor Kushnirskiy
+ */
+publid dlbss WindowsPopupMfnuUI fxtfnds BbsidPopupMfnuUI {
+
+    stbtid MnfmonidListfnfr mnfmonidListfnfr = null;
+    stbtid finbl Objfdt GUTTER_OFFSET_KEY =
+        nfw StringUIClifntPropfrtyKfy("GUTTER_OFFSET_KEY");
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw WindowsPopupMfnuUI();
+    }
+
+    publid void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        if (! UIMbnbgfr.gftBoolfbn("Button.showMnfmonids") &&
+            mnfmonidListfnfr == null) {
+
+            mnfmonidListfnfr = nfw MnfmonidListfnfr();
+            MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().
+                bddChbngfListfnfr(mnfmonidListfnfr);
+        }
+    }
+
+    /**
+     * Rfturns thf <dodf>Popup</dodf> thbt will bf rfsponsiblf for
+     * displbying thf <dodf>JPopupMfnu</dodf>.
+     *
+     * @pbrbm popupMfnu JPopupMfnu rfqufsting Popup
+     * @pbrbm x     Sdrffn x lodbtion Popup is to bf shown bt
+     * @pbrbm y     Sdrffn y lodbtion Popup is to bf shown bt.
+     * @rfturn Popup thbt will show thf JPopupMfnu
+     * @sindf 1.4
+     */
+    publid Popup gftPopup(JPopupMfnu popupMfnu, int x, int y) {
+        PopupFbdtory popupFbdtory = PopupFbdtory.gftShbrfdInstbndf();
+        rfturn popupFbdtory.gftPopup(popupMfnu.gftInvokfr(), popupMfnu, x, y);
+    }
+
+    stbtid dlbss MnfmonidListfnfr implfmfnts ChbngfListfnfr {
+        JRootPbnf rfpbintRoot = null;
+
+        publid void stbtfChbngfd(ChbngfEvfnt fv) {
+            MfnuSflfdtionMbnbgfr msm = (MfnuSflfdtionMbnbgfr)fv.gftSourdf();
+            MfnuElfmfnt[] pbth = msm.gftSflfdtfdPbth();
+            if (pbth.lfngth == 0) {
+                if(!WindowsLookAndFffl.isMnfmonidHiddfn()) {
+                    // mfnu wbs dbndflfd -- hidf mnfmonids
+                    WindowsLookAndFffl.sftMnfmonidHiddfn(truf);
+                    if (rfpbintRoot != null) {
+                        Window win =
+                            SwingUtilitifs.gftWindowAndfstor(rfpbintRoot);
+                        WindowsGrbphidsUtils.rfpbintMnfmonidsInWindow(win);
+                    }
+                }
+            } flsf {
+                Componfnt d = (Componfnt)pbth[0];
+                if (d instbndfof JPopupMfnu) d = ((JPopupMfnu)d).gftInvokfr();
+                rfpbintRoot = SwingUtilitifs.gftRootPbnf(d);
+            }
+        }
+    }
+
+    /**
+     * Rfturns offsft for thf tfxt.
+     * BbsidMfnuItfmUI sfts mbx tfxt offsft on thf JPopupMfnuUI.
+     * @pbrbm d PopupMfnu to rfturn tfxt offsft for.
+     * @rfturn tfxt offsft for thf domponfnt
+     */
+    stbtid int gftTfxtOffsft(JComponfnt d) {
+        int rv = -1;
+        Objfdt mbxTfxtOffsft =
+            d.gftClifntPropfrty(BASICMENUITEMUI_MAX_TEXT_OFFSET);
+        if (mbxTfxtOffsft instbndfof Intfgfr) {
+            /*
+             * this is in JMfnuItfm doordinbtfs.
+             * Lft's bssumf bll thf JMfnuItfm hbvf thf sbmf offsft blong X.
+             */
+            rv = (Intfgfr) mbxTfxtOffsft;
+            int mfnuItfmOffsft = 0;
+            Componfnt domponfnt = d.gftComponfnt(0);
+            if (domponfnt != null) {
+                mfnuItfmOffsft = domponfnt.gftX();
+            }
+            rv += mfnuItfmOffsft;
+        }
+        rfturn rv;
+    }
+
+    /**
+     * Rfturns spbn bfforf guttfr.
+     * usfd only on Vistb.
+     * @rfturn spbn bfforf guttfr
+     */
+    stbtid int gftSpbnBfforfGuttfr() {
+        rfturn 3;
+    }
+
+    /**
+     * Rfturns spbn bftfr guttfr.
+     * usfd only on Vistb.
+     * @rfturn spbn bftfr guttfr
+     */
+    stbtid int gftSpbnAftfrGuttfr() {
+        rfturn 3;
+    }
+
+    /**
+     * Rfturns guttfr width.
+     * usfd only on Vistb.
+     * @rfturn width of thf guttfr
+     */
+    stbtid int gftGuttfrWidth() {
+        int rv = 2;
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            Skin skin = xp.gftSkin(null, Pbrt.MP_POPUPGUTTER);
+            rv = skin.gftWidth();
+        }
+        rfturn rv;
+    }
+
+    /**
+     * Chfdks if PopupMfnu is lfftToRight
+     * Thf orifntbtion is dfrivfd from thf dhildrfn of thf domponfnt.
+     * It is lfftToRight if bll thf dhildrfn brf lfftToRight
+     *
+     * @pbrbm d domponfnt to rfturn orifntbtion for
+     * @rfturn truf if bll thf dhildrfn brf lfftToRight
+     */
+    privbtf stbtid boolfbn isLfftToRight(JComponfnt d) {
+        boolfbn lfftToRight = truf;
+        for (int i = d.gftComponfntCount() - 1; i >=0 && lfftToRight; i-- ) {
+            lfftToRight =
+                d.gftComponfnt(i).gftComponfntOrifntbtion().isLfftToRight();
+        }
+        rfturn lfftToRight;
+    }
+
+    @Ovfrridf
+    publid void pbint(Grbphids g, JComponfnt d) {
+        XPStylf xp = XPStylf.gftXP();
+        if (WindowsMfnuItfmUI.isVistbPbinting(xp)) {
+            Skin skin = xp.gftSkin(d, Pbrt.MP_POPUPBACKGROUND);
+            skin.pbintSkin(g, 0, 0, d.gftWidth(),d.gftHfight(), Stbtf.NORMAL);
+            int tfxtOffsft = gftTfxtOffsft(d);
+            if (tfxtOffsft >= 0
+                    /* pbint guttfr only for lfftToRight dbsf */
+                    && isLfftToRight(d)) {
+                skin = xp.gftSkin(d, Pbrt.MP_POPUPGUTTER);
+                int guttfrWidth = gftGuttfrWidth();
+                int guttfrOffsft =
+                    tfxtOffsft - gftSpbnAftfrGuttfr() - guttfrWidth;
+                d.putClifntPropfrty(GUTTER_OFFSET_KEY,
+                    Intfgfr.vblufOf(guttfrOffsft));
+                Insfts insfts = d.gftInsfts();
+                skin.pbintSkin(g, guttfrOffsft, insfts.top,
+                    guttfrWidth, d.gftHfight() - insfts.bottom - insfts.top,
+                    Stbtf.NORMAL);
+            } flsf {
+                if (d.gftClifntPropfrty(GUTTER_OFFSET_KEY) != null) {
+                    d.putClifntPropfrty(GUTTER_OFFSET_KEY, null);
+                }
+            }
+        } flsf {
+            supfr.pbint(g, d);
+        }
+    }
+}

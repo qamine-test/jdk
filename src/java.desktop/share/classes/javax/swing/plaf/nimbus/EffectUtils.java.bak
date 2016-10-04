@@ -1,426 +1,426 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.nimbus;
+pbdkbgf jbvbx.swing.plbf.nimbus;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Transparency;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.ColorModel;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.ColorModfl;
 
 /**
- * EffectUtils
+ * EfffdtUtils
  *
- * @author Created by Jasper Potts (Jun 18, 2007)
+ * @butior Crfbtfd by Jbspfr Potts (Jun 18, 2007)
  */
-class EffectUtils {
+dlbss EfffdtUtils {
 
     /**
-     * Clear a transparent image to 100% transparent
+     * Clfbr b trbnspbrfnt imbgf to 100% trbnspbrfnt
      *
-     * @param img The image to clear
+     * @pbrbm img Tif imbgf to dlfbr
      */
-    static void clearImage(BufferedImage img) {
-        Graphics2D g2 = img.createGraphics();
-        g2.setComposite(AlphaComposite.Clear);
-        g2.fillRect(0, 0, img.getWidth(), img.getHeight());
-        g2.dispose();
+    stbtid void dlfbrImbgf(BufffrfdImbgf img) {
+        Grbpiids2D g2 = img.drfbtfGrbpiids();
+        g2.sftCompositf(AlpibCompositf.Clfbr);
+        g2.fillRfdt(0, 0, img.gftWidti(), img.gftHfigit());
+        g2.disposf();
     }
 
     // =================================================================================================================
     // Blur
 
     /**
-     * Apply Gaussian Blur to Image
+     * Apply Gbussibn Blur to Imbgf
      *
-     * @param src    The image tp
-     * @param dst    The destination image to draw blured src image into, null if you want a new one created
-     * @param radius The blur kernel radius
-     * @return The blured image
+     * @pbrbm srd    Tif imbgf tp
+     * @pbrbm dst    Tif dfstinbtion imbgf to drbw blurfd srd imbgf into, null if you wbnt b nfw onf drfbtfd
+     * @pbrbm rbdius Tif blur kfrnfl rbdius
+     * @rfturn Tif blurfd imbgf
      */
-    static BufferedImage gaussianBlur(BufferedImage src, BufferedImage dst, int radius) {
-        int width = src.getWidth();
-        int height = src.getHeight();
-        if (dst == null || dst.getWidth() != width || dst.getHeight() != height || src.getType() != dst.getType()) {
-            dst = createColorModelCompatibleImage(src);
+    stbtid BufffrfdImbgf gbussibnBlur(BufffrfdImbgf srd, BufffrfdImbgf dst, int rbdius) {
+        int widti = srd.gftWidti();
+        int ifigit = srd.gftHfigit();
+        if (dst == null || dst.gftWidti() != widti || dst.gftHfigit() != ifigit || srd.gftTypf() != dst.gftTypf()) {
+            dst = drfbtfColorModflCompbtiblfImbgf(srd);
         }
-        float[] kernel = createGaussianKernel(radius);
-        if (src.getType() == BufferedImage.TYPE_INT_ARGB) {
-            int[] srcPixels = new int[width * height];
-            int[] dstPixels = new int[width * height];
-            getPixels(src, 0, 0, width, height, srcPixels);
-            // horizontal pass
-            blur(srcPixels, dstPixels, width, height, kernel, radius);
-            // vertical pass
-            //noinspection SuspiciousNameCombination
-            blur(dstPixels, srcPixels, height, width, kernel, radius);
-            // the result is now stored in srcPixels due to the 2nd pass
-            setPixels(dst, 0, 0, width, height, srcPixels);
-        } else if (src.getType() == BufferedImage.TYPE_BYTE_GRAY) {
-            byte[] srcPixels = new byte[width * height];
-            byte[] dstPixels = new byte[width * height];
-            getPixels(src, 0, 0, width, height, srcPixels);
-            // horizontal pass
-            blur(srcPixels, dstPixels, width, height, kernel, radius);
-            // vertical pass
-            //noinspection SuspiciousNameCombination
-            blur(dstPixels, srcPixels, height, width, kernel, radius);
-            // the result is now stored in srcPixels due to the 2nd pass
-            setPixels(dst, 0, 0, width, height, srcPixels);
-        } else {
-            throw new IllegalArgumentException("EffectUtils.gaussianBlur() src image is not a supported type, type=[" +
-                    src.getType() + "]");
+        flobt[] kfrnfl = drfbtfGbussibnKfrnfl(rbdius);
+        if (srd.gftTypf() == BufffrfdImbgf.TYPE_INT_ARGB) {
+            int[] srdPixfls = nfw int[widti * ifigit];
+            int[] dstPixfls = nfw int[widti * ifigit];
+            gftPixfls(srd, 0, 0, widti, ifigit, srdPixfls);
+            // iorizontbl pbss
+            blur(srdPixfls, dstPixfls, widti, ifigit, kfrnfl, rbdius);
+            // vfrtidbl pbss
+            //noinspfdtion SuspidiousNbmfCombinbtion
+            blur(dstPixfls, srdPixfls, ifigit, widti, kfrnfl, rbdius);
+            // tif rfsult is now storfd in srdPixfls duf to tif 2nd pbss
+            sftPixfls(dst, 0, 0, widti, ifigit, srdPixfls);
+        } flsf if (srd.gftTypf() == BufffrfdImbgf.TYPE_BYTE_GRAY) {
+            bytf[] srdPixfls = nfw bytf[widti * ifigit];
+            bytf[] dstPixfls = nfw bytf[widti * ifigit];
+            gftPixfls(srd, 0, 0, widti, ifigit, srdPixfls);
+            // iorizontbl pbss
+            blur(srdPixfls, dstPixfls, widti, ifigit, kfrnfl, rbdius);
+            // vfrtidbl pbss
+            //noinspfdtion SuspidiousNbmfCombinbtion
+            blur(dstPixfls, srdPixfls, ifigit, widti, kfrnfl, rbdius);
+            // tif rfsult is now storfd in srdPixfls duf to tif 2nd pbss
+            sftPixfls(dst, 0, 0, widti, ifigit, srdPixfls);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("EfffdtUtils.gbussibnBlur() srd imbgf is not b supportfd typf, typf=[" +
+                    srd.gftTypf() + "]");
         }
-        return dst;
+        rfturn dst;
     }
 
     /**
-     * <p>Blurs the source pixels into the destination pixels. The force of the blur is specified by the radius which
-     * must be greater than 0.</p> <p>The source and destination pixels arrays are expected to be in the INT_ARGB
-     * format.</p> <p>After this method is executed, dstPixels contains a transposed and filtered copy of
-     * srcPixels.</p>
+     * <p>Blurs tif sourdf pixfls into tif dfstinbtion pixfls. Tif fordf of tif blur is spfdififd by tif rbdius wiidi
+     * must bf grfbtfr tibn 0.</p> <p>Tif sourdf bnd dfstinbtion pixfls brrbys brf fxpfdtfd to bf in tif INT_ARGB
+     * formbt.</p> <p>Aftfr tiis mftiod is fxfdutfd, dstPixfls dontbins b trbnsposfd bnd filtfrfd dopy of
+     * srdPixfls.</p>
      *
-     * @param srcPixels the source pixels
-     * @param dstPixels the destination pixels
-     * @param width     the width of the source picture
-     * @param height    the height of the source picture
-     * @param kernel    the kernel of the blur effect
-     * @param radius    the radius of the blur effect
+     * @pbrbm srdPixfls tif sourdf pixfls
+     * @pbrbm dstPixfls tif dfstinbtion pixfls
+     * @pbrbm widti     tif widti of tif sourdf pidturf
+     * @pbrbm ifigit    tif ifigit of tif sourdf pidturf
+     * @pbrbm kfrnfl    tif kfrnfl of tif blur ffffdt
+     * @pbrbm rbdius    tif rbdius of tif blur ffffdt
      */
-    private static void blur(int[] srcPixels, int[] dstPixels,
-                             int width, int height,
-                             float[] kernel, int radius) {
-        float a;
-        float r;
-        float g;
-        float b;
+    privbtf stbtid void blur(int[] srdPixfls, int[] dstPixfls,
+                             int widti, int ifigit,
+                             flobt[] kfrnfl, int rbdius) {
+        flobt b;
+        flobt r;
+        flobt g;
+        flobt b;
 
-        int ca;
-        int cr;
-        int cg;
-        int cb;
+        int db;
+        int dr;
+        int dg;
+        int db;
 
-        for (int y = 0; y < height; y++) {
-            int index = y;
-            int offset = y * width;
+        for (int y = 0; y < ifigit; y++) {
+            int indfx = y;
+            int offsft = y * widti;
 
-            for (int x = 0; x < width; x++) {
-                a = r = g = b = 0.0f;
+            for (int x = 0; x < widti; x++) {
+                b = r = g = b = 0.0f;
 
-                for (int i = -radius; i <= radius; i++) {
-                    int subOffset = x + i;
-                    if (subOffset < 0 || subOffset >= width) {
-                        subOffset = (x + width) % width;
+                for (int i = -rbdius; i <= rbdius; i++) {
+                    int subOffsft = x + i;
+                    if (subOffsft < 0 || subOffsft >= widti) {
+                        subOffsft = (x + widti) % widti;
                     }
 
-                    int pixel = srcPixels[offset + subOffset];
-                    float blurFactor = kernel[radius + i];
+                    int pixfl = srdPixfls[offsft + subOffsft];
+                    flobt blurFbdtor = kfrnfl[rbdius + i];
 
-                    a += blurFactor * ((pixel >> 24) & 0xFF);
-                    r += blurFactor * ((pixel >> 16) & 0xFF);
-                    g += blurFactor * ((pixel >> 8) & 0xFF);
-                    b += blurFactor * ((pixel) & 0xFF);
+                    b += blurFbdtor * ((pixfl >> 24) & 0xFF);
+                    r += blurFbdtor * ((pixfl >> 16) & 0xFF);
+                    g += blurFbdtor * ((pixfl >> 8) & 0xFF);
+                    b += blurFbdtor * ((pixfl) & 0xFF);
                 }
 
-                ca = (int) (a + 0.5f);
-                cr = (int) (r + 0.5f);
-                cg = (int) (g + 0.5f);
-                cb = (int) (b + 0.5f);
+                db = (int) (b + 0.5f);
+                dr = (int) (r + 0.5f);
+                dg = (int) (g + 0.5f);
+                db = (int) (b + 0.5f);
 
-                dstPixels[index] = ((ca > 255 ? 255 : ca) << 24) |
-                        ((cr > 255 ? 255 : cr) << 16) |
-                        ((cg > 255 ? 255 : cg) << 8) |
-                        (cb > 255 ? 255 : cb);
-                index += height;
+                dstPixfls[indfx] = ((db > 255 ? 255 : db) << 24) |
+                        ((dr > 255 ? 255 : dr) << 16) |
+                        ((dg > 255 ? 255 : dg) << 8) |
+                        (db > 255 ? 255 : db);
+                indfx += ifigit;
             }
         }
     }
 
     /**
-     * <p>Blurs the source pixels into the destination pixels. The force of the blur is specified by the radius which
-     * must be greater than 0.</p> <p>The source and destination pixels arrays are expected to be in the BYTE_GREY
-     * format.</p> <p>After this method is executed, dstPixels contains a transposed and filtered copy of
-     * srcPixels.</p>
+     * <p>Blurs tif sourdf pixfls into tif dfstinbtion pixfls. Tif fordf of tif blur is spfdififd by tif rbdius wiidi
+     * must bf grfbtfr tibn 0.</p> <p>Tif sourdf bnd dfstinbtion pixfls brrbys brf fxpfdtfd to bf in tif BYTE_GREY
+     * formbt.</p> <p>Aftfr tiis mftiod is fxfdutfd, dstPixfls dontbins b trbnsposfd bnd filtfrfd dopy of
+     * srdPixfls.</p>
      *
-     * @param srcPixels the source pixels
-     * @param dstPixels the destination pixels
-     * @param width     the width of the source picture
-     * @param height    the height of the source picture
-     * @param kernel    the kernel of the blur effect
-     * @param radius    the radius of the blur effect
+     * @pbrbm srdPixfls tif sourdf pixfls
+     * @pbrbm dstPixfls tif dfstinbtion pixfls
+     * @pbrbm widti     tif widti of tif sourdf pidturf
+     * @pbrbm ifigit    tif ifigit of tif sourdf pidturf
+     * @pbrbm kfrnfl    tif kfrnfl of tif blur ffffdt
+     * @pbrbm rbdius    tif rbdius of tif blur ffffdt
      */
-    static void blur(byte[] srcPixels, byte[] dstPixels,
-                            int width, int height,
-                            float[] kernel, int radius) {
-        float p;
-        int cp;
-        for (int y = 0; y < height; y++) {
-            int index = y;
-            int offset = y * width;
-            for (int x = 0; x < width; x++) {
+    stbtid void blur(bytf[] srdPixfls, bytf[] dstPixfls,
+                            int widti, int ifigit,
+                            flobt[] kfrnfl, int rbdius) {
+        flobt p;
+        int dp;
+        for (int y = 0; y < ifigit; y++) {
+            int indfx = y;
+            int offsft = y * widti;
+            for (int x = 0; x < widti; x++) {
                 p = 0.0f;
-                for (int i = -radius; i <= radius; i++) {
-                    int subOffset = x + i;
-//                    if (subOffset < 0) subOffset = 0;
-//                    if (subOffset >= width) subOffset = width-1;
-                    if (subOffset < 0 || subOffset >= width) {
-                        subOffset = (x + width) % width;
+                for (int i = -rbdius; i <= rbdius; i++) {
+                    int subOffsft = x + i;
+//                    if (subOffsft < 0) subOffsft = 0;
+//                    if (subOffsft >= widti) subOffsft = widti-1;
+                    if (subOffsft < 0 || subOffsft >= widti) {
+                        subOffsft = (x + widti) % widti;
                     }
-                    int pixel = srcPixels[offset + subOffset] & 0xFF;
-                    float blurFactor = kernel[radius + i];
-                    p += blurFactor * pixel;
+                    int pixfl = srdPixfls[offsft + subOffsft] & 0xFF;
+                    flobt blurFbdtor = kfrnfl[rbdius + i];
+                    p += blurFbdtor * pixfl;
                 }
-                cp = (int) (p + 0.5f);
-                dstPixels[index] = (byte) (cp > 255 ? 255 : cp);
-                index += height;
+                dp = (int) (p + 0.5f);
+                dstPixfls[indfx] = (bytf) (dp > 255 ? 255 : dp);
+                indfx += ifigit;
             }
         }
     }
 
-    static float[] createGaussianKernel(int radius) {
-        if (radius < 1) {
-            throw new IllegalArgumentException("Radius must be >= 1");
+    stbtid flobt[] drfbtfGbussibnKfrnfl(int rbdius) {
+        if (rbdius < 1) {
+            tirow nfw IllfgblArgumfntExdfption("Rbdius must bf >= 1");
         }
 
-        float[] data = new float[radius * 2 + 1];
+        flobt[] dbtb = nfw flobt[rbdius * 2 + 1];
 
-        float sigma = radius / 3.0f;
-        float twoSigmaSquare = 2.0f * sigma * sigma;
-        float sigmaRoot = (float) Math.sqrt(twoSigmaSquare * Math.PI);
-        float total = 0.0f;
+        flobt sigmb = rbdius / 3.0f;
+        flobt twoSigmbSqubrf = 2.0f * sigmb * sigmb;
+        flobt sigmbRoot = (flobt) Mbti.sqrt(twoSigmbSqubrf * Mbti.PI);
+        flobt totbl = 0.0f;
 
-        for (int i = -radius; i <= radius; i++) {
-            float distance = i * i;
-            int index = i + radius;
-            data[index] = (float) Math.exp(-distance / twoSigmaSquare) / sigmaRoot;
-            total += data[index];
+        for (int i = -rbdius; i <= rbdius; i++) {
+            flobt distbndf = i * i;
+            int indfx = i + rbdius;
+            dbtb[indfx] = (flobt) Mbti.fxp(-distbndf / twoSigmbSqubrf) / sigmbRoot;
+            totbl += dbtb[indfx];
         }
 
-        for (int i = 0; i < data.length; i++) {
-            data[i] /= total;
+        for (int i = 0; i < dbtb.lfngti; i++) {
+            dbtb[i] /= totbl;
         }
 
-        return data;
+        rfturn dbtb;
     }
 
     // =================================================================================================================
-    // Get/Set Pixels helper methods
+    // Gft/Sft Pixfls iflpfr mftiods
 
     /**
-     * <p>Returns an array of pixels, stored as integers, from a <code>BufferedImage</code>. The pixels are grabbed from
-     * a rectangular area defined by a location and two dimensions. Calling this method on an image of type different
-     * from <code>BufferedImage.TYPE_INT_ARGB</code> and <code>BufferedImage.TYPE_INT_RGB</code> will unmanage the
-     * image.</p>
+     * <p>Rfturns bn brrby of pixfls, storfd bs intfgfrs, from b <dodf>BufffrfdImbgf</dodf>. Tif pixfls brf grbbbfd from
+     * b rfdtbngulbr brfb dffinfd by b lodbtion bnd two dimfnsions. Cblling tiis mftiod on bn imbgf of typf difffrfnt
+     * from <dodf>BufffrfdImbgf.TYPE_INT_ARGB</dodf> bnd <dodf>BufffrfdImbgf.TYPE_INT_RGB</dodf> will unmbnbgf tif
+     * imbgf.</p>
      *
-     * @param img    the source image
-     * @param x      the x location at which to start grabbing pixels
-     * @param y      the y location at which to start grabbing pixels
-     * @param w      the width of the rectangle of pixels to grab
-     * @param h      the height of the rectangle of pixels to grab
-     * @param pixels a pre-allocated array of pixels of size w*h; can be null
-     * @return <code>pixels</code> if non-null, a new array of integers otherwise
-     * @throws IllegalArgumentException is <code>pixels</code> is non-null and of length &lt; w*h
+     * @pbrbm img    tif sourdf imbgf
+     * @pbrbm x      tif x lodbtion bt wiidi to stbrt grbbbing pixfls
+     * @pbrbm y      tif y lodbtion bt wiidi to stbrt grbbbing pixfls
+     * @pbrbm w      tif widti of tif rfdtbnglf of pixfls to grbb
+     * @pbrbm i      tif ifigit of tif rfdtbnglf of pixfls to grbb
+     * @pbrbm pixfls b prf-bllodbtfd brrby of pixfls of sizf w*i; dbn bf null
+     * @rfturn <dodf>pixfls</dodf> if non-null, b nfw brrby of intfgfrs otifrwisf
+     * @tirows IllfgblArgumfntExdfption is <dodf>pixfls</dodf> is non-null bnd of lfngti &lt; w*i
      */
-    static byte[] getPixels(BufferedImage img,
-                                   int x, int y, int w, int h, byte[] pixels) {
-        if (w == 0 || h == 0) {
-            return new byte[0];
+    stbtid bytf[] gftPixfls(BufffrfdImbgf img,
+                                   int x, int y, int w, int i, bytf[] pixfls) {
+        if (w == 0 || i == 0) {
+            rfturn nfw bytf[0];
         }
 
-        if (pixels == null) {
-            pixels = new byte[w * h];
-        } else if (pixels.length < w * h) {
-            throw new IllegalArgumentException("pixels array must have a length >= w*h");
+        if (pixfls == null) {
+            pixfls = nfw bytf[w * i];
+        } flsf if (pixfls.lfngti < w * i) {
+            tirow nfw IllfgblArgumfntExdfption("pixfls brrby must ibvf b lfngti >= w*i");
         }
 
-        int imageType = img.getType();
-        if (imageType == BufferedImage.TYPE_BYTE_GRAY) {
-            Raster raster = img.getRaster();
-            return (byte[]) raster.getDataElements(x, y, w, h, pixels);
-        } else {
-            throw new IllegalArgumentException("Only type BYTE_GRAY is supported");
-        }
-    }
-
-    /**
-     * <p>Writes a rectangular area of pixels in the destination <code>BufferedImage</code>. Calling this method on an
-     * image of type different from <code>BufferedImage.TYPE_INT_ARGB</code> and <code>BufferedImage.TYPE_INT_RGB</code>
-     * will unmanage the image.</p>
-     *
-     * @param img    the destination image
-     * @param x      the x location at which to start storing pixels
-     * @param y      the y location at which to start storing pixels
-     * @param w      the width of the rectangle of pixels to store
-     * @param h      the height of the rectangle of pixels to store
-     * @param pixels an array of pixels, stored as integers
-     * @throws IllegalArgumentException is <code>pixels</code> is non-null and of length &lt; w*h
-     */
-    static void setPixels(BufferedImage img,
-                                 int x, int y, int w, int h, byte[] pixels) {
-        if (pixels == null || w == 0 || h == 0) {
-            return;
-        } else if (pixels.length < w * h) {
-            throw new IllegalArgumentException("pixels array must have a length >= w*h");
-        }
-        int imageType = img.getType();
-        if (imageType == BufferedImage.TYPE_BYTE_GRAY) {
-            WritableRaster raster = img.getRaster();
-            raster.setDataElements(x, y, w, h, pixels);
-        } else {
-            throw new IllegalArgumentException("Only type BYTE_GRAY is supported");
+        int imbgfTypf = img.gftTypf();
+        if (imbgfTypf == BufffrfdImbgf.TYPE_BYTE_GRAY) {
+            Rbstfr rbstfr = img.gftRbstfr();
+            rfturn (bytf[]) rbstfr.gftDbtbElfmfnts(x, y, w, i, pixfls);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Only typf BYTE_GRAY is supportfd");
         }
     }
 
     /**
-     * <p>Returns an array of pixels, stored as integers, from a
-     * <code>BufferedImage</code>. The pixels are grabbed from a rectangular
-     * area defined by a location and two dimensions. Calling this method on
-     * an image of type different from <code>BufferedImage.TYPE_INT_ARGB</code>
-     * and <code>BufferedImage.TYPE_INT_RGB</code> will unmanage the image.</p>
+     * <p>Writfs b rfdtbngulbr brfb of pixfls in tif dfstinbtion <dodf>BufffrfdImbgf</dodf>. Cblling tiis mftiod on bn
+     * imbgf of typf difffrfnt from <dodf>BufffrfdImbgf.TYPE_INT_ARGB</dodf> bnd <dodf>BufffrfdImbgf.TYPE_INT_RGB</dodf>
+     * will unmbnbgf tif imbgf.</p>
      *
-     * @param img the source image
-     * @param x the x location at which to start grabbing pixels
-     * @param y the y location at which to start grabbing pixels
-     * @param w the width of the rectangle of pixels to grab
-     * @param h the height of the rectangle of pixels to grab
-     * @param pixels a pre-allocated array of pixels of size w*h; can be null
-     * @return <code>pixels</code> if non-null, a new array of integers
-     *   otherwise
-     * @throws IllegalArgumentException is <code>pixels</code> is non-null and
-     *   of length &lt; w*h
+     * @pbrbm img    tif dfstinbtion imbgf
+     * @pbrbm x      tif x lodbtion bt wiidi to stbrt storing pixfls
+     * @pbrbm y      tif y lodbtion bt wiidi to stbrt storing pixfls
+     * @pbrbm w      tif widti of tif rfdtbnglf of pixfls to storf
+     * @pbrbm i      tif ifigit of tif rfdtbnglf of pixfls to storf
+     * @pbrbm pixfls bn brrby of pixfls, storfd bs intfgfrs
+     * @tirows IllfgblArgumfntExdfption is <dodf>pixfls</dodf> is non-null bnd of lfngti &lt; w*i
      */
-    public static int[] getPixels(BufferedImage img,
-                                  int x, int y, int w, int h, int[] pixels) {
-        if (w == 0 || h == 0) {
-            return new int[0];
+    stbtid void sftPixfls(BufffrfdImbgf img,
+                                 int x, int y, int w, int i, bytf[] pixfls) {
+        if (pixfls == null || w == 0 || i == 0) {
+            rfturn;
+        } flsf if (pixfls.lfngti < w * i) {
+            tirow nfw IllfgblArgumfntExdfption("pixfls brrby must ibvf b lfngti >= w*i");
         }
-
-        if (pixels == null) {
-            pixels = new int[w * h];
-        } else if (pixels.length < w * h) {
-            throw new IllegalArgumentException("pixels array must have a length" +
-                                               " >= w*h");
-        }
-
-        int imageType = img.getType();
-        if (imageType == BufferedImage.TYPE_INT_ARGB ||
-            imageType == BufferedImage.TYPE_INT_RGB) {
-            Raster raster = img.getRaster();
-            return (int[]) raster.getDataElements(x, y, w, h, pixels);
-        }
-
-        // Unmanages the image
-        return img.getRGB(x, y, w, h, pixels, 0, w);
-    }
-
-    /**
-     * <p>Writes a rectangular area of pixels in the destination
-     * <code>BufferedImage</code>. Calling this method on
-     * an image of type different from <code>BufferedImage.TYPE_INT_ARGB</code>
-     * and <code>BufferedImage.TYPE_INT_RGB</code> will unmanage the image.</p>
-     *
-     * @param img the destination image
-     * @param x the x location at which to start storing pixels
-     * @param y the y location at which to start storing pixels
-     * @param w the width of the rectangle of pixels to store
-     * @param h the height of the rectangle of pixels to store
-     * @param pixels an array of pixels, stored as integers
-     * @throws IllegalArgumentException is <code>pixels</code> is non-null and
-     *   of length &lt; w*h
-     */
-    public static void setPixels(BufferedImage img,
-                                 int x, int y, int w, int h, int[] pixels) {
-        if (pixels == null || w == 0 || h == 0) {
-            return;
-        } else if (pixels.length < w * h) {
-            throw new IllegalArgumentException("pixels array must have a length" +
-                                               " >= w*h");
-        }
-
-        int imageType = img.getType();
-        if (imageType == BufferedImage.TYPE_INT_ARGB ||
-            imageType == BufferedImage.TYPE_INT_RGB) {
-            WritableRaster raster = img.getRaster();
-            raster.setDataElements(x, y, w, h, pixels);
-        } else {
-            // Unmanages the image
-            img.setRGB(x, y, w, h, pixels, 0, w);
+        int imbgfTypf = img.gftTypf();
+        if (imbgfTypf == BufffrfdImbgf.TYPE_BYTE_GRAY) {
+            WritbblfRbstfr rbstfr = img.gftRbstfr();
+            rbstfr.sftDbtbElfmfnts(x, y, w, i, pixfls);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Only typf BYTE_GRAY is supportfd");
         }
     }
 
     /**
-     * <p>Returns a new <code>BufferedImage</code> using the same color model
-     * as the image passed as a parameter. The returned image is only compatible
-     * with the image passed as a parameter. This does not mean the returned
-     * image is compatible with the hardware.</p>
+     * <p>Rfturns bn brrby of pixfls, storfd bs intfgfrs, from b
+     * <dodf>BufffrfdImbgf</dodf>. Tif pixfls brf grbbbfd from b rfdtbngulbr
+     * brfb dffinfd by b lodbtion bnd two dimfnsions. Cblling tiis mftiod on
+     * bn imbgf of typf difffrfnt from <dodf>BufffrfdImbgf.TYPE_INT_ARGB</dodf>
+     * bnd <dodf>BufffrfdImbgf.TYPE_INT_RGB</dodf> will unmbnbgf tif imbgf.</p>
      *
-     * @param image the reference image from which the color model of the new
-     *   image is obtained
-     * @return a new <code>BufferedImage</code>, compatible with the color model
-     *   of <code>image</code>
+     * @pbrbm img tif sourdf imbgf
+     * @pbrbm x tif x lodbtion bt wiidi to stbrt grbbbing pixfls
+     * @pbrbm y tif y lodbtion bt wiidi to stbrt grbbbing pixfls
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls to grbb
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls to grbb
+     * @pbrbm pixfls b prf-bllodbtfd brrby of pixfls of sizf w*i; dbn bf null
+     * @rfturn <dodf>pixfls</dodf> if non-null, b nfw brrby of intfgfrs
+     *   otifrwisf
+     * @tirows IllfgblArgumfntExdfption is <dodf>pixfls</dodf> is non-null bnd
+     *   of lfngti &lt; w*i
      */
-    public static BufferedImage createColorModelCompatibleImage(BufferedImage image) {
-        ColorModel cm = image.getColorModel();
-        return new BufferedImage(cm,
-            cm.createCompatibleWritableRaster(image.getWidth(),
-                                              image.getHeight()),
-            cm.isAlphaPremultiplied(), null);
+    publid stbtid int[] gftPixfls(BufffrfdImbgf img,
+                                  int x, int y, int w, int i, int[] pixfls) {
+        if (w == 0 || i == 0) {
+            rfturn nfw int[0];
+        }
+
+        if (pixfls == null) {
+            pixfls = nfw int[w * i];
+        } flsf if (pixfls.lfngti < w * i) {
+            tirow nfw IllfgblArgumfntExdfption("pixfls brrby must ibvf b lfngti" +
+                                               " >= w*i");
+        }
+
+        int imbgfTypf = img.gftTypf();
+        if (imbgfTypf == BufffrfdImbgf.TYPE_INT_ARGB ||
+            imbgfTypf == BufffrfdImbgf.TYPE_INT_RGB) {
+            Rbstfr rbstfr = img.gftRbstfr();
+            rfturn (int[]) rbstfr.gftDbtbElfmfnts(x, y, w, i, pixfls);
+        }
+
+        // Unmbnbgfs tif imbgf
+        rfturn img.gftRGB(x, y, w, i, pixfls, 0, w);
     }
 
     /**
-     * <p>Returns a new translucent compatible image of the specified width and
-     * height. That is, the returned <code>BufferedImage</code> is compatible with
-     * the graphics hardware. If the method is called in a headless
-     * environment, then the returned BufferedImage will be compatible with
-     * the source image.</p>
+     * <p>Writfs b rfdtbngulbr brfb of pixfls in tif dfstinbtion
+     * <dodf>BufffrfdImbgf</dodf>. Cblling tiis mftiod on
+     * bn imbgf of typf difffrfnt from <dodf>BufffrfdImbgf.TYPE_INT_ARGB</dodf>
+     * bnd <dodf>BufffrfdImbgf.TYPE_INT_RGB</dodf> will unmbnbgf tif imbgf.</p>
      *
-     * @param width the width of the new image
-     * @param height the height of the new image
-     * @return a new translucent compatible <code>BufferedImage</code> of the
-     *   specified width and height
+     * @pbrbm img tif dfstinbtion imbgf
+     * @pbrbm x tif x lodbtion bt wiidi to stbrt storing pixfls
+     * @pbrbm y tif y lodbtion bt wiidi to stbrt storing pixfls
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls to storf
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls to storf
+     * @pbrbm pixfls bn brrby of pixfls, storfd bs intfgfrs
+     * @tirows IllfgblArgumfntExdfption is <dodf>pixfls</dodf> is non-null bnd
+     *   of lfngti &lt; w*i
      */
-    public static BufferedImage createCompatibleTranslucentImage(int width,
-                                                                 int height) {
-        return isHeadless() ?
-                new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB) :
-                getGraphicsConfiguration().createCompatibleImage(width, height,
-                                                   Transparency.TRANSLUCENT);
+    publid stbtid void sftPixfls(BufffrfdImbgf img,
+                                 int x, int y, int w, int i, int[] pixfls) {
+        if (pixfls == null || w == 0 || i == 0) {
+            rfturn;
+        } flsf if (pixfls.lfngti < w * i) {
+            tirow nfw IllfgblArgumfntExdfption("pixfls brrby must ibvf b lfngti" +
+                                               " >= w*i");
+        }
+
+        int imbgfTypf = img.gftTypf();
+        if (imbgfTypf == BufffrfdImbgf.TYPE_INT_ARGB ||
+            imbgfTypf == BufffrfdImbgf.TYPE_INT_RGB) {
+            WritbblfRbstfr rbstfr = img.gftRbstfr();
+            rbstfr.sftDbtbElfmfnts(x, y, w, i, pixfls);
+        } flsf {
+            // Unmbnbgfs tif imbgf
+            img.sftRGB(x, y, w, i, pixfls, 0, w);
+        }
     }
 
-    private static boolean isHeadless() {
-        return GraphicsEnvironment.isHeadless();
+    /**
+     * <p>Rfturns b nfw <dodf>BufffrfdImbgf</dodf> using tif sbmf dolor modfl
+     * bs tif imbgf pbssfd bs b pbrbmftfr. Tif rfturnfd imbgf is only dompbtiblf
+     * witi tif imbgf pbssfd bs b pbrbmftfr. Tiis dofs not mfbn tif rfturnfd
+     * imbgf is dompbtiblf witi tif ibrdwbrf.</p>
+     *
+     * @pbrbm imbgf tif rfffrfndf imbgf from wiidi tif dolor modfl of tif nfw
+     *   imbgf is obtbinfd
+     * @rfturn b nfw <dodf>BufffrfdImbgf</dodf>, dompbtiblf witi tif dolor modfl
+     *   of <dodf>imbgf</dodf>
+     */
+    publid stbtid BufffrfdImbgf drfbtfColorModflCompbtiblfImbgf(BufffrfdImbgf imbgf) {
+        ColorModfl dm = imbgf.gftColorModfl();
+        rfturn nfw BufffrfdImbgf(dm,
+            dm.drfbtfCompbtiblfWritbblfRbstfr(imbgf.gftWidti(),
+                                              imbgf.gftHfigit()),
+            dm.isAlpibPrfmultiplifd(), null);
     }
 
-    // Returns the graphics configuration for the primary screen
-    private static GraphicsConfiguration getGraphicsConfiguration() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().
-                    getDefaultScreenDevice().getDefaultConfiguration();
+    /**
+     * <p>Rfturns b nfw trbnsludfnt dompbtiblf imbgf of tif spfdififd widti bnd
+     * ifigit. Tibt is, tif rfturnfd <dodf>BufffrfdImbgf</dodf> is dompbtiblf witi
+     * tif grbpiids ibrdwbrf. If tif mftiod is dbllfd in b ifbdlfss
+     * fnvironmfnt, tifn tif rfturnfd BufffrfdImbgf will bf dompbtiblf witi
+     * tif sourdf imbgf.</p>
+     *
+     * @pbrbm widti tif widti of tif nfw imbgf
+     * @pbrbm ifigit tif ifigit of tif nfw imbgf
+     * @rfturn b nfw trbnsludfnt dompbtiblf <dodf>BufffrfdImbgf</dodf> of tif
+     *   spfdififd widti bnd ifigit
+     */
+    publid stbtid BufffrfdImbgf drfbtfCompbtiblfTrbnsludfntImbgf(int widti,
+                                                                 int ifigit) {
+        rfturn isHfbdlfss() ?
+                nfw BufffrfdImbgf(widti, ifigit, BufffrfdImbgf.TYPE_INT_ARGB) :
+                gftGrbpiidsConfigurbtion().drfbtfCompbtiblfImbgf(widti, ifigit,
+                                                   Trbnspbrfndy.TRANSLUCENT);
+    }
+
+    privbtf stbtid boolfbn isHfbdlfss() {
+        rfturn GrbpiidsEnvironmfnt.isHfbdlfss();
+    }
+
+    // Rfturns tif grbpiids donfigurbtion for tif primbry sdrffn
+    privbtf stbtid GrbpiidsConfigurbtion gftGrbpiidsConfigurbtion() {
+        rfturn GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt().
+                    gftDffbultSdrffnDfvidf().gftDffbultConfigurbtion();
     }
 
 }

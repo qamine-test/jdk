@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstatd;
+pbdkbgf sun.tools.jstbtd;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.remote.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.rfmotf.*;
 
 /**
- * Concrete implementation of the RemoteVm interface for the HotSpot PerfData
- * shared memory implementation of the jvmstat monitoring APIs. This class
- * providing remote access to the instrumentation exported by a local HotSpot
- * Java Virtual Machine. The instrumentation buffer is shipped in whole to
- * the remote machine, which is responsible for parsing and provide access
- * to the contained data.
+ * Condrftf implfmfntbtion of tif RfmotfVm intfrfbdf for tif HotSpot PfrfDbtb
+ * sibrfd mfmory implfmfntbtion of tif jvmstbt monitoring APIs. Tiis dlbss
+ * providing rfmotf bddfss to tif instrumfntbtion fxportfd by b lodbl HotSpot
+ * Jbvb Virtubl Mbdiinf. Tif instrumfntbtion bufffr is siippfd in wiolf to
+ * tif rfmotf mbdiinf, wiidi is rfsponsiblf for pbrsing bnd providf bddfss
+ * to tif dontbinfd dbtb.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class RemoteVmImpl implements RemoteVm {
+publid dlbss RfmotfVmImpl implfmfnts RfmotfVm {
 
-    private BufferedMonitoredVm mvm;
+    privbtf BufffrfdMonitorfdVm mvm;
 
-    RemoteVmImpl(BufferedMonitoredVm mvm) {
-        this.mvm = mvm;
+    RfmotfVmImpl(BufffrfdMonitorfdVm mvm) {
+        tiis.mvm = mvm;
     }
 
-    public byte[] getBytes() {
-        return mvm.getBytes();
+    publid bytf[] gftBytfs() {
+        rfturn mvm.gftBytfs();
     }
 
-    public int getCapacity() {
-        return mvm.getCapacity();
+    publid int gftCbpbdity() {
+        rfturn mvm.gftCbpbdity();
     }
 
-    public void detach() {
-        mvm.detach();
+    publid void dftbdi() {
+        mvm.dftbdi();
     }
 
-    public int getLocalVmId() {
-        return mvm.getVmIdentifier().getLocalVmId();
+    publid int gftLodblVmId() {
+        rfturn mvm.gftVmIdfntififr().gftLodblVmId();
     }
 }

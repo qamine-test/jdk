@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import sun.misd.*;
+
+
+/**
+ * Mbnipulbtfs b nbtivf brrby of pollfd strudts on Solbris:
+ *
+ * typfdff strudt pollfd {
+ *    int fd;
+ *    short fvfnts;
+ *    short rfvfnts;
+ * } pollfd_t;
+ *
+ * @buthor Mikf MdCloskfy
+ * @sindf 1.4
+ */
+
+publid dlbss PollArrbyWrbppfr fxtfnds AbstrbdtPollArrbyWrbppfr {
+
+    // Filf dfsdriptor to writf for intfrrupt
+    int intfrruptFD;
+
+    PollArrbyWrbppfr(int nfwSizf) {
+        nfwSizf = (nfwSizf + 1) * SIZE_POLLFD;
+        pollArrby = nfw AllodbtfdNbtivfObjfdt(nfwSizf, fblsf);
+        pollArrbyAddrfss = pollArrby.bddrfss();
+        totblChbnnfls = 1;
+    }
+
+    void initIntfrrupt(int fd0, int fd1) {
+        intfrruptFD = fd1;
+        putDfsdriptor(0, fd0);
+        putEvfntOps(0, Nft.POLLIN);
+        putRfvfntOps(0, 0);
+    }
+
+    void rflfbsf(int i) {
+        rfturn;
+    }
+
+    void frff() {
+        pollArrby.frff();
+    }
+
+    /**
+     * Prfpbrf bnothfr pollfd strudt for usf.
+     */
+    void bddEntry(SflChImpl sd) {
+        putDfsdriptor(totblChbnnfls, IOUtil.fdVbl(sd.gftFD()));
+        putEvfntOps(totblChbnnfls, 0);
+        putRfvfntOps(totblChbnnfls, 0);
+        totblChbnnfls++;
+    }
+
+    /**
+     * Writfs thf pollfd fntry from thf sourdf wrbppfr bt thf sourdf indfx
+     * ovfr thf fntry in thf tbrgft wrbppfr bt thf tbrgft indfx. Thf sourdf
+     * brrby rfmbins undhbngfd unlfss thf sourdf brrby bnd thf tbrgft brf
+     * thf sbmf brrby.
+     */
+    stbtid void rfplbdfEntry(PollArrbyWrbppfr sourdf, int sindfx,
+                      PollArrbyWrbppfr tbrgft, int tindfx) {
+        tbrgft.putDfsdriptor(tindfx, sourdf.gftDfsdriptor(sindfx));
+        tbrgft.putEvfntOps(tindfx, sourdf.gftEvfntOps(sindfx));
+        tbrgft.putRfvfntOps(tindfx, sourdf.gftRfvfntOps(sindfx));
+    }
+
+    /**
+     * Grows thf pollfd brrby to b sizf thbt will bddommodbtf nfwSizf
+     * pollfd fntrifs. This mfthod dofs no dhfdking of thf nfwSizf
+     * to dftfrminf if it is in fbdt biggfr thbn thf old sizf: it
+     * blwbys rfbllodbtfs bn brrby of thf nfw sizf.
+     */
+    void grow(int nfwSizf) {
+        // drfbtf nfw brrby
+        PollArrbyWrbppfr tfmp = nfw PollArrbyWrbppfr(nfwSizf);
+
+        // Copy ovfr fxisting fntrifs
+        for (int i=0; i<totblChbnnfls; i++)
+            rfplbdfEntry(this, i, tfmp, i);
+
+        // Swbp nfw brrby into pollArrby fifld
+        pollArrby.frff();
+        pollArrby = tfmp.pollArrby;
+        pollArrbyAddrfss = pollArrby.bddrfss();
+    }
+
+    int poll(int numfds, int offsft, long timfout) {
+        rfturn poll0(pollArrbyAddrfss + (offsft * SIZE_POLLFD),
+                     numfds, timfout);
+    }
+
+    publid void intfrrupt() {
+        intfrrupt(intfrruptFD);
+    }
+
+    privbtf nbtivf int poll0(long pollAddrfss, int numfds, long timfout);
+
+    privbtf stbtid nbtivf void intfrrupt(int fd);
+
+    stbtid {
+        IOUtil.lobd();
+    }
+}

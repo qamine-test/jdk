@@ -1,0 +1,1370 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ * <P>Thf objfdt usfd for fxfduting b stbtid SQL stbtfmfnt
+ * bnd rfturning thf rfsults it produdfs.
+ * <P>
+ * By dffbult, only onf <dodf>RfsultSft</dodf> objfdt pfr <dodf>Stbtfmfnt</dodf>
+ * objfdt dbn bf opfn bt thf sbmf timf. Thfrfforf, if thf rfbding of onf
+ * <dodf>RfsultSft</dodf> objfdt is intfrlfbvfd
+ * with thf rfbding of bnothfr, fbdh must hbvf bffn gfnfrbtfd by
+ * difffrfnt <dodf>Stbtfmfnt</dodf> objfdts. All fxfdution mfthods in thf
+ * <dodf>Stbtfmfnt</dodf> intfrfbdf impliditly dlosf b durrfnt
+ * <dodf>RfsultSft</dodf> objfdt of thf stbtfmfnt if bn opfn onf fxists.
+ *
+ * @sff Connfdtion#drfbtfStbtfmfnt
+ * @sff RfsultSft
+ */
+publid intfrfbdf Stbtfmfnt fxtfnds Wrbppfr, AutoClosfbblf {
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt, whidh rfturns b singlf
+     * <dodf>RfsultSft</dodf> objfdt.
+     *<p>
+     * <strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     * @pbrbm sql bn SQL stbtfmfnt to bf sfnt to thf dbtbbbsf, typidblly b
+     *        stbtid SQL <dodf>SELECT</dodf> stbtfmfnt
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt thbt dontbins thf dbtb produdfd
+     *         by thf givfn qufry; nfvfr <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf givfn
+     *            SQL stbtfmfnt produdfs bnything othfr thbn b singlf
+     *            <dodf>RfsultSft</dodf> objfdt, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     */
+    RfsultSft fxfdutfQufry(String sql) throws SQLExdfption;
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt, whidh mby bf bn <dodf>INSERT</dodf>,
+     * <dodf>UPDATE</dodf>, or <dodf>DELETE</dodf> stbtfmfnt or bn
+     * SQL stbtfmfnt thbt rfturns nothing, sudh bs bn SQL DDL stbtfmfnt.
+     *<p>
+     * <strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     * @pbrbm sql bn SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnt, sudh bs <dodf>INSERT</dodf>, <dodf>UPDATE</dodf> or
+     * <dodf>DELETE</dodf>; or bn SQL stbtfmfnt thbt rfturns nothing,
+     * sudh bs b DDL stbtfmfnt.
+     *
+     * @rfturn fithfr (1) thf row dount for SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnts
+     *         or (2) 0 for SQL stbtfmfnts thbt rfturn nothing
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf givfn
+     * SQL stbtfmfnt produdfs b <dodf>RfsultSft</dodf> objfdt, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     */
+    int fxfdutfUpdbtf(String sql) throws SQLExdfption;
+
+    /**
+     * Rflfbsfs this <dodf>Stbtfmfnt</dodf> objfdt's dbtbbbsf
+     * bnd JDBC rfsourdfs immfdibtfly instfbd of wbiting for
+     * this to hbppfn whfn it is butombtidblly dlosfd.
+     * It is gfnfrblly good prbdtidf to rflfbsf rfsourdfs bs soon bs
+     * you brf finishfd with thfm to bvoid tying up dbtbbbsf
+     * rfsourdfs.
+     * <P>
+     * Cblling thf mfthod <dodf>dlosf</dodf> on b <dodf>Stbtfmfnt</dodf>
+     * objfdt thbt is blrfbdy dlosfd hbs no ffffdt.
+     * <P>
+     * <B>Notf:</B>Whfn b <dodf>Stbtfmfnt</dodf> objfdt is
+     * dlosfd, its durrfnt <dodf>RfsultSft</dodf> objfdt, if onf fxists, is
+     * blso dlosfd.
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    void dlosf() throws SQLExdfption;
+
+    //----------------------------------------------------------------------
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of bytfs thbt dbn bf
+     * rfturnfd for dhbrbdtfr bnd binbry dolumn vblufs in b <dodf>RfsultSft</dodf>
+     * objfdt produdfd by this <dodf>Stbtfmfnt</dodf> objfdt.
+     * This limit bpplifs only to  <dodf>BINARY</dodf>, <dodf>VARBINARY</dodf>,
+     * <dodf>LONGVARBINARY</dodf>, <dodf>CHAR</dodf>, <dodf>VARCHAR</dodf>,
+     * <dodf>NCHAR</dodf>, <dodf>NVARCHAR</dodf>, <dodf>LONGNVARCHAR</dodf>
+     * bnd <dodf>LONGVARCHAR</dodf> dolumns.  If thf limit is fxdffdfd, thf
+     * fxdfss dbtb is silfntly disdbrdfd.
+     *
+     * @rfturn thf durrfnt dolumn sizf limit for dolumns storing dhbrbdtfr bnd
+     *         binbry vblufs; zfro mfbns thfrf is no limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sff #sftMbxFifldSizf
+     */
+    int gftMbxFifldSizf() throws SQLExdfption;
+
+    /**
+     * Sfts thf limit for thf mbximum numbfr of bytfs thbt dbn bf rfturnfd for
+     * dhbrbdtfr bnd binbry dolumn vblufs in b <dodf>RfsultSft</dodf>
+     * objfdt produdfd by this <dodf>Stbtfmfnt</dodf> objfdt.
+     *
+     * This limit bpplifs
+     * only to <dodf>BINARY</dodf>, <dodf>VARBINARY</dodf>,
+     * <dodf>LONGVARBINARY</dodf>, <dodf>CHAR</dodf>, <dodf>VARCHAR</dodf>,
+     * <dodf>NCHAR</dodf>, <dodf>NVARCHAR</dodf>, <dodf>LONGNVARCHAR</dodf> bnd
+     * <dodf>LONGVARCHAR</dodf> fiflds.  If thf limit is fxdffdfd, thf fxdfss dbtb
+     * is silfntly disdbrdfd. For mbximum portbbility, usf vblufs
+     * grfbtfr thbn 256.
+     *
+     * @pbrbm mbx thf nfw dolumn sizf limit in bytfs; zfro mfbns thfrf is no limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     *            or thf dondition {@dodf mbx >= 0} is not sbtisfifd
+     * @sff #gftMbxFifldSizf
+     */
+    void sftMbxFifldSizf(int mbx) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of rows thbt b
+     * <dodf>RfsultSft</dodf> objfdt produdfd by this
+     * <dodf>Stbtfmfnt</dodf> objfdt dbn dontbin.  If this limit is fxdffdfd,
+     * thf fxdfss rows brf silfntly droppfd.
+     *
+     * @rfturn thf durrfnt mbximum numbfr of rows for b <dodf>RfsultSft</dodf>
+     *         objfdt produdfd by this <dodf>Stbtfmfnt</dodf> objfdt;
+     *         zfro mfbns thfrf is no limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sff #sftMbxRows
+     */
+    int gftMbxRows() throws SQLExdfption;
+
+    /**
+     * Sfts thf limit for thf mbximum numbfr of rows thbt bny
+     * <dodf>RfsultSft</dodf> objfdt  gfnfrbtfd by this <dodf>Stbtfmfnt</dodf>
+     * objfdt dbn dontbin to thf givfn numbfr.
+     * If thf limit is fxdffdfd, thf fxdfss
+     * rows brf silfntly droppfd.
+     *
+     * @pbrbm mbx thf nfw mbx rows limit; zfro mfbns thfrf is no limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     *            or thf dondition {@dodf mbx >= 0} is not sbtisfifd
+     * @sff #gftMbxRows
+     */
+    void sftMbxRows(int mbx) throws SQLExdfption;
+
+    /**
+     * Sfts fsdbpf prodfssing on or off.
+     * If fsdbpf sdbnning is on (thf dffbult), thf drivfr will do
+     * fsdbpf substitution bfforf sfnding thf SQL stbtfmfnt to thf dbtbbbsf.
+     *<p>
+     * Thf {@dodf Connfdtion} bnd {@dodf DbtbSourdf} propfrty
+     * {@dodf fsdbpfProdfssing} mby bf usfd to dhbngf thf dffbult fsdbpf prodfssing
+     * bfhbvior.  A vbluf of truf (thf dffbult) fnbblfs fsdbpf Prodfssing for
+     * bll {@dodf Stbtfmfnt} objfdts. A vbluf of fblsf disbblfs fsdbpf prodfssing
+     * for bll {@dodf Stbtfmfnt} objfdts.  Thf {@dodf sftEsdbpfProdfssing}
+     * mfthod mby bf usfd to spfdify thf fsdbpf prodfssing bfhbvior for bn
+     * individubl {@dodf Stbtfmfnt} objfdt.
+     * <p>
+     * Notf: Sindf prfpbrfd stbtfmfnts hbvf usublly bffn pbrsfd prior
+     * to mbking this dbll, disbbling fsdbpf prodfssing for
+     * <dodf>PrfpbrfdStbtfmfnts</dodf> objfdts will hbvf no ffffdt.
+     *
+     * @pbrbm fnbblf <dodf>truf</dodf> to fnbblf fsdbpf prodfssing;
+     *       <dodf>fblsf</dodf> to disbblf it
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     */
+    void sftEsdbpfProdfssing(boolfbn fnbblf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf numbfr of sfdonds thf drivfr will
+     * wbit for b <dodf>Stbtfmfnt</dodf> objfdt to fxfdutf.
+     * If thf limit is fxdffdfd, b
+     * <dodf>SQLExdfption</dodf> is thrown.
+     *
+     * @rfturn thf durrfnt qufry timfout limit in sfdonds; zfro mfbns thfrf is
+     *         no limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sff #sftQufryTimfout
+     */
+    int gftQufryTimfout() throws SQLExdfption;
+
+    /**
+     * Sfts thf numbfr of sfdonds thf drivfr will wbit for b
+     * <dodf>Stbtfmfnt</dodf> objfdt to fxfdutf to thf givfn numbfr of sfdonds.
+     *By dffbult thfrf is no limit on thf bmount of timf bllowfd for b running
+     * stbtfmfnt to domplftf. If thf limit is fxdffdfd, bn
+     * <dodf>SQLTimfoutExdfption</dodf> is thrown.
+     * A JDBC drivfr must bpply this limit to thf <dodf>fxfdutf</dodf>,
+     * <dodf>fxfdutfQufry</dodf> bnd <dodf>fxfdutfUpdbtf</dodf> mfthods.
+     * <p>
+     * <strong>Notf:</strong> JDBC drivfr implfmfntbtions mby blso bpply this
+     * limit to {@dodf RfsultSft} mfthods
+     * (donsult your drivfr vfndor dodumfntbtion for dftbils).
+     * <p>
+     * <strong>Notf:</strong> In thf dbsf of {@dodf Stbtfmfnt} bbtdhing, it is
+     * implfmfntbtion dffinfd bs to whfthfr thf timf-out is bpplifd to
+     * individubl SQL dommbnds bddfd vib thf {@dodf bddBbtdh} mfthod or to
+     * thf fntirf bbtdh of SQL dommbnds invokfd by thf {@dodf fxfdutfBbtdh}
+     * mfthod (donsult your drivfr vfndor dodumfntbtion for dftbils).
+     *
+     * @pbrbm sfdonds thf nfw qufry timfout limit in sfdonds; zfro mfbns
+     *        thfrf is no limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     *            or thf dondition {@dodf sfdonds >= 0} is not sbtisfifd
+     * @sff #gftQufryTimfout
+     */
+    void sftQufryTimfout(int sfdonds) throws SQLExdfption;
+
+    /**
+     * Cbndfls this <dodf>Stbtfmfnt</dodf> objfdt if both thf DBMS bnd
+     * drivfr support bborting bn SQL stbtfmfnt.
+     * This mfthod dbn bf usfd by onf thrfbd to dbndfl b stbtfmfnt thbt
+     * is bfing fxfdutfd by bnothfr thrfbd.
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     */
+    void dbndfl() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf first wbrning rfportfd by dblls on this <dodf>Stbtfmfnt</dodf> objfdt.
+     * Subsfqufnt <dodf>Stbtfmfnt</dodf> objfdt wbrnings will bf dhbinfd to this
+     * <dodf>SQLWbrning</dodf> objfdt.
+     *
+     * <p>Thf wbrning dhbin is butombtidblly dlfbrfd fbdh timf
+     * b stbtfmfnt is (rf)fxfdutfd. This mfthod mby not bf dbllfd on b dlosfd
+     * <dodf>Stbtfmfnt</dodf> objfdt; doing so will dbusf bn <dodf>SQLExdfption</dodf>
+     * to bf thrown.
+     *
+     * <P><B>Notf:</B> If you brf prodfssing b <dodf>RfsultSft</dodf> objfdt, bny
+     * wbrnings bssodibtfd with rfbds on thbt <dodf>RfsultSft</dodf> objfdt
+     * will bf dhbinfd on it rbthfr thbn on thf <dodf>Stbtfmfnt</dodf>
+     * objfdt thbt produdfd it.
+     *
+     * @rfturn thf first <dodf>SQLWbrning</dodf> objfdt or <dodf>null</dodf>
+     *         if thfrf brf no wbrnings
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     */
+    SQLWbrning gftWbrnings() throws SQLExdfption;
+
+    /**
+     * Clfbrs bll thf wbrnings rfportfd on this <dodf>Stbtfmfnt</dodf>
+     * objfdt. Aftfr b dbll to this mfthod,
+     * thf mfthod <dodf>gftWbrnings</dodf> will rfturn
+     * <dodf>null</dodf> until b nfw wbrning is rfportfd for this
+     * <dodf>Stbtfmfnt</dodf> objfdt.
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     */
+    void dlfbrWbrnings() throws SQLExdfption;
+
+    /**
+     * Sfts thf SQL dursor nbmf to thf givfn <dodf>String</dodf>, whidh
+     * will bf usfd by subsfqufnt <dodf>Stbtfmfnt</dodf> objfdt
+     * <dodf>fxfdutf</dodf> mfthods. This nbmf dbn thfn bf
+     * usfd in SQL positionfd updbtf or dflftf stbtfmfnts to idfntify thf
+     * durrfnt row in thf <dodf>RfsultSft</dodf> objfdt gfnfrbtfd by this
+     * stbtfmfnt.  If thf dbtbbbsf dofs not support positionfd updbtf/dflftf,
+     * this mfthod is b noop.  To insurf thbt b dursor hbs thf propfr isolbtion
+     * lfvfl to support updbtfs, thf dursor's <dodf>SELECT</dodf> stbtfmfnt
+     * should hbvf thf form <dodf>SELECT FOR UPDATE</dodf>.  If
+     * <dodf>FOR UPDATE</dodf> is not prfsfnt, positionfd updbtfs mby fbil.
+     *
+     * <P><B>Notf:</B> By dffinition, thf fxfdution of positionfd updbtfs bnd
+     * dflftfs must bf donf by b difffrfnt <dodf>Stbtfmfnt</dodf> objfdt thbn
+     * thf onf thbt gfnfrbtfd thf <dodf>RfsultSft</dodf> objfdt bfing usfd for
+     * positioning. Also, dursor nbmfs must bf uniquf within b donnfdtion.
+     *
+     * @pbrbm nbmf thf nfw dursor nbmf, whidh must bf uniquf within
+     *             b donnfdtion
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @throws SQLFfbturfNotSupportfdExdfption  if thf JDBC drivfr dofs not support this mfthod
+     */
+    void sftCursorNbmf(String nbmf) throws SQLExdfption;
+
+    //----------------------- Multiplf Rfsults --------------------------
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt, whidh mby rfturn multiplf rfsults.
+     * In somf (undommon) situbtions, b singlf SQL stbtfmfnt mby rfturn
+     * multiplf rfsult sfts bnd/or updbtf dounts.  Normblly you dbn ignorf
+     * this unlfss you brf (1) fxfduting b storfd prodfdurf thbt you know mby
+     * rfturn multiplf rfsults or (2) you brf dynbmidblly fxfduting bn
+     * unknown SQL string.
+     * <P>
+     * Thf <dodf>fxfdutf</dodf> mfthod fxfdutfs bn SQL stbtfmfnt bnd indidbtfs thf
+     * form of thf first rfsult.  You must thfn usf thf mfthods
+     * <dodf>gftRfsultSft</dodf> or <dodf>gftUpdbtfCount</dodf>
+     * to rftrifvf thf rfsult, bnd <dodf>gftMorfRfsults</dodf> to
+     * movf to bny subsfqufnt rfsult(s).
+     * <p>
+     *<strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     * @pbrbm sql bny SQL stbtfmfnt
+     * @rfturn <dodf>truf</dodf> if thf first rfsult is b <dodf>RfsultSft</dodf>
+     *         objfdt; <dodf>fblsf</dodf> if it is bn updbtf dount or thfrf brf
+     *         no rfsults
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>,
+     * thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     * @sff #gftRfsultSft
+     * @sff #gftUpdbtfCount
+     * @sff #gftMorfRfsults
+     */
+    boolfbn fxfdutf(String sql) throws SQLExdfption;
+
+    /**
+     *  Rftrifvfs thf durrfnt rfsult bs b <dodf>RfsultSft</dodf> objfdt.
+     *  This mfthod should bf dbllfd only ondf pfr rfsult.
+     *
+     * @rfturn thf durrfnt rfsult bs b <dodf>RfsultSft</dodf> objfdt or
+     * <dodf>null</dodf> if thf rfsult is bn updbtf dount or thfrf brf no morf rfsults
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sff #fxfdutf
+     */
+    RfsultSft gftRfsultSft() throws SQLExdfption;
+
+    /**
+     *  Rftrifvfs thf durrfnt rfsult bs bn updbtf dount;
+     *  if thf rfsult is b <dodf>RfsultSft</dodf> objfdt or thfrf brf no morf rfsults, -1
+     *  is rfturnfd. This mfthod should bf dbllfd only ondf pfr rfsult.
+     *
+     * @rfturn thf durrfnt rfsult bs bn updbtf dount; -1 if thf durrfnt rfsult is b
+     * <dodf>RfsultSft</dodf> objfdt or thfrf brf no morf rfsults
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sff #fxfdutf
+     */
+    int gftUpdbtfCount() throws SQLExdfption;
+
+    /**
+     * Movfs to this <dodf>Stbtfmfnt</dodf> objfdt's nfxt rfsult, rfturns
+     * <dodf>truf</dodf> if it is b <dodf>RfsultSft</dodf> objfdt, bnd
+     * impliditly dlosfs bny durrfnt <dodf>RfsultSft</dodf>
+     * objfdt(s) obtbinfd with thf mfthod <dodf>gftRfsultSft</dodf>.
+     *
+     * <P>Thfrf brf no morf rfsults whfn thf following is truf:
+     * <PRE>{@dodf
+     *     // stmt is b Stbtfmfnt objfdt
+     *     ((stmt.gftMorfRfsults() == fblsf) && (stmt.gftUpdbtfCount() == -1))
+     * }</PRE>
+     *
+     * @rfturn <dodf>truf</dodf> if thf nfxt rfsult is b <dodf>RfsultSft</dodf>
+     *         objfdt; <dodf>fblsf</dodf> if it is bn updbtf dount or thfrf brf
+     *         no morf rfsults
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sff #fxfdutf
+     */
+    boolfbn gftMorfRfsults() throws SQLExdfption;
+
+
+    //--------------------------JDBC 2.0-----------------------------
+
+
+    /**
+     * Givfs thf drivfr b hint bs to thf dirfdtion in whidh
+     * rows will bf prodfssfd in <dodf>RfsultSft</dodf>
+     * objfdts drfbtfd using this <dodf>Stbtfmfnt</dodf> objfdt.  Thf
+     * dffbult vbluf is <dodf>RfsultSft.FETCH_FORWARD</dodf>.
+     * <P>
+     * Notf thbt this mfthod sfts thf dffbult fftdh dirfdtion for
+     * rfsult sfts gfnfrbtfd by this <dodf>Stbtfmfnt</dodf> objfdt.
+     * Ebdh rfsult sft hbs its own mfthods for gftting bnd sftting
+     * its own fftdh dirfdtion.
+     *
+     * @pbrbm dirfdtion thf initibl dirfdtion for prodfssing rows
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * or thf givfn dirfdtion
+     * is not onf of <dodf>RfsultSft.FETCH_FORWARD</dodf>,
+     * <dodf>RfsultSft.FETCH_REVERSE</dodf>, or <dodf>RfsultSft.FETCH_UNKNOWN</dodf>
+     * @sindf 1.2
+     * @sff #gftFftdhDirfdtion
+     */
+    void sftFftdhDirfdtion(int dirfdtion) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf dirfdtion for fftdhing rows from
+     * dbtbbbsf tbblfs thbt is thf dffbult for rfsult sfts
+     * gfnfrbtfd from this <dodf>Stbtfmfnt</dodf> objfdt.
+     * If this <dodf>Stbtfmfnt</dodf> objfdt hbs not sft
+     * b fftdh dirfdtion by dblling thf mfthod <dodf>sftFftdhDirfdtion</dodf>,
+     * thf rfturn vbluf is implfmfntbtion-spfdifid.
+     *
+     * @rfturn thf dffbult fftdh dirfdtion for rfsult sfts gfnfrbtfd
+     *          from this <dodf>Stbtfmfnt</dodf> objfdt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sindf 1.2
+     * @sff #sftFftdhDirfdtion
+     */
+    int gftFftdhDirfdtion() throws SQLExdfption;
+
+    /**
+     * Givfs thf JDBC drivfr b hint bs to thf numbfr of rows thbt should
+     * bf fftdhfd from thf dbtbbbsf whfn morf rows brf nffdfd for
+     * <dodf>RfsultSft</dodf> objfdts gfnfrbtfd by this <dodf>Stbtfmfnt</dodf>.
+     * If thf vbluf spfdififd is zfro, thfn thf hint is ignorfd.
+     * Thf dffbult vbluf is zfro.
+     *
+     * @pbrbm rows thf numbfr of rows to fftdh
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf> or thf
+     *        dondition {@dodf rows >= 0} is not sbtisfifd.
+     * @sindf 1.2
+     * @sff #gftFftdhSizf
+     */
+    void sftFftdhSizf(int rows) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf numbfr of rfsult sft rows thbt is thf dffbult
+     * fftdh sizf for <dodf>RfsultSft</dodf> objfdts
+     * gfnfrbtfd from this <dodf>Stbtfmfnt</dodf> objfdt.
+     * If this <dodf>Stbtfmfnt</dodf> objfdt hbs not sft
+     * b fftdh sizf by dblling thf mfthod <dodf>sftFftdhSizf</dodf>,
+     * thf rfturn vbluf is implfmfntbtion-spfdifid.
+     *
+     * @rfturn thf dffbult fftdh sizf for rfsult sfts gfnfrbtfd
+     *          from this <dodf>Stbtfmfnt</dodf> objfdt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sindf 1.2
+     * @sff #sftFftdhSizf
+     */
+    int gftFftdhSizf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf rfsult sft dondurrfndy for <dodf>RfsultSft</dodf> objfdts
+     * gfnfrbtfd by this <dodf>Stbtfmfnt</dodf> objfdt.
+     *
+     * @rfturn fithfr <dodf>RfsultSft.CONCUR_READ_ONLY</dodf> or
+     * <dodf>RfsultSft.CONCUR_UPDATABLE</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sindf 1.2
+     */
+    int gftRfsultSftCondurrfndy() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf rfsult sft typf for <dodf>RfsultSft</dodf> objfdts
+     * gfnfrbtfd by this <dodf>Stbtfmfnt</dodf> objfdt.
+     *
+     * @rfturn onf of <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     * <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     * <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sindf 1.2
+     */
+    int gftRfsultSftTypf()  throws SQLExdfption;
+
+    /**
+     * Adds thf givfn SQL dommbnd to thf durrfnt list of dommbnds for this
+     * <dodf>Stbtfmfnt</dodf> objfdt. Thf dommbnds in this list dbn bf
+     * fxfdutfd bs b bbtdh by dblling thf mfthod <dodf>fxfdutfBbtdh</dodf>.
+     * <P>
+     *<strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     * @pbrbm sql typidblly this is b SQL <dodf>INSERT</dodf> or
+     * <dodf>UPDATE</dodf> stbtfmfnt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf
+     * drivfr dofs not support bbtdh updbtfs, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @sff #fxfdutfBbtdh
+     * @sff DbtbbbsfMftbDbtb#supportsBbtdhUpdbtfs
+     * @sindf 1.2
+     */
+    void bddBbtdh( String sql ) throws SQLExdfption;
+
+    /**
+     * Emptifs this <dodf>Stbtfmfnt</dodf> objfdt's durrfnt list of
+     * SQL dommbnds.
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *  this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf> or thf
+     * drivfr dofs not support bbtdh updbtfs
+     * @sff #bddBbtdh
+     * @sff DbtbbbsfMftbDbtb#supportsBbtdhUpdbtfs
+     * @sindf 1.2
+     */
+    void dlfbrBbtdh() throws SQLExdfption;
+
+    /**
+     * Submits b bbtdh of dommbnds to thf dbtbbbsf for fxfdution bnd
+     * if bll dommbnds fxfdutf suddfssfully, rfturns bn brrby of updbtf dounts.
+     * Thf <dodf>int</dodf> flfmfnts of thf brrby thbt is rfturnfd brf ordfrfd
+     * to dorrfspond to thf dommbnds in thf bbtdh, whidh brf ordfrfd
+     * bddording to thf ordfr in whidh thfy wfrf bddfd to thf bbtdh.
+     * Thf flfmfnts in thf brrby rfturnfd by thf mfthod <dodf>fxfdutfBbtdh</dodf>
+     * mby bf onf of thf following:
+     * <OL>
+     * <LI>A numbfr grfbtfr thbn or fqubl to zfro -- indidbtfs thbt thf
+     * dommbnd wbs prodfssfd suddfssfully bnd is bn updbtf dount giving thf
+     * numbfr of rows in thf dbtbbbsf thbt wfrf bfffdtfd by thf dommbnd's
+     * fxfdution
+     * <LI>A vbluf of <dodf>SUCCESS_NO_INFO</dodf> -- indidbtfs thbt thf dommbnd wbs
+     * prodfssfd suddfssfully but thbt thf numbfr of rows bfffdtfd is
+     * unknown
+     * <P>
+     * If onf of thf dommbnds in b bbtdh updbtf fbils to fxfdutf propfrly,
+     * this mfthod throws b <dodf>BbtdhUpdbtfExdfption</dodf>, bnd b JDBC
+     * drivfr mby or mby not dontinuf to prodfss thf rfmbining dommbnds in
+     * thf bbtdh.  Howfvfr, thf drivfr's bfhbvior must bf donsistfnt with b
+     * pbrtidulbr DBMS, fithfr blwbys dontinuing to prodfss dommbnds or nfvfr
+     * dontinuing to prodfss dommbnds.  If thf drivfr dontinufs prodfssing
+     * bftfr b fbilurf, thf brrby rfturnfd by thf mfthod
+     * <dodf>BbtdhUpdbtfExdfption.gftUpdbtfCounts</dodf>
+     * will dontbin bs mbny flfmfnts bs thfrf brf dommbnds in thf bbtdh, bnd
+     * bt lfbst onf of thf flfmfnts will bf thf following:
+     *
+     * <LI>A vbluf of <dodf>EXECUTE_FAILED</dodf> -- indidbtfs thbt thf dommbnd fbilfd
+     * to fxfdutf suddfssfully bnd oddurs only if b drivfr dontinufs to
+     * prodfss dommbnds bftfr b dommbnd fbils
+     * </OL>
+     * <P>
+     * Thf possiblf implfmfntbtions bnd rfturn vblufs hbvf bffn modififd in
+     * thf Jbvb 2 SDK, Stbndbrd Edition, vfrsion 1.3 to
+     * bddommodbtf thf option of dontinuing to prodfss dommbnds in b bbtdh
+     * updbtf bftfr b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt hbs bffn thrown.
+     *
+     * @rfturn bn brrby of updbtf dounts dontbining onf flfmfnt for fbdh
+     * dommbnd in thf bbtdh.  Thf flfmfnts of thf brrby brf ordfrfd bddording
+     * to thf ordfr in whidh dommbnds wfrf bddfd to thf bbtdh.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf> or thf
+     * drivfr dofs not support bbtdh stbtfmfnts. Throws {@link BbtdhUpdbtfExdfption}
+     * (b subdlbss of <dodf>SQLExdfption</dodf>) if onf of thf dommbnds sfnt to thf
+     * dbtbbbsf fbils to fxfdutf propfrly or bttfmpts to rfturn b rfsult sft.
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     *
+     * @sff #bddBbtdh
+     * @sff DbtbbbsfMftbDbtb#supportsBbtdhUpdbtfs
+     * @sindf 1.2
+     */
+    int[] fxfdutfBbtdh() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf <dodf>Connfdtion</dodf> objfdt
+     * thbt produdfd this <dodf>Stbtfmfnt</dodf> objfdt.
+     * @rfturn thf donnfdtion thbt produdfd this stbtfmfnt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sindf 1.2
+     */
+    Connfdtion gftConnfdtion()  throws SQLExdfption;
+
+  //--------------------------JDBC 3.0-----------------------------
+
+    /**
+     * Thf donstbnt indidbting thbt thf durrfnt <dodf>RfsultSft</dodf> objfdt
+     * should bf dlosfd whfn dblling <dodf>gftMorfRfsults</dodf>.
+     *
+     * @sindf 1.4
+     */
+    int CLOSE_CURRENT_RESULT = 1;
+
+    /**
+     * Thf donstbnt indidbting thbt thf durrfnt <dodf>RfsultSft</dodf> objfdt
+     * should not bf dlosfd whfn dblling <dodf>gftMorfRfsults</dodf>.
+     *
+     * @sindf 1.4
+     */
+    int KEEP_CURRENT_RESULT = 2;
+
+    /**
+     * Thf donstbnt indidbting thbt bll <dodf>RfsultSft</dodf> objfdts thbt
+     * hbvf prfviously bffn kfpt opfn should bf dlosfd whfn dblling
+     * <dodf>gftMorfRfsults</dodf>.
+     *
+     * @sindf 1.4
+     */
+    int CLOSE_ALL_RESULTS = 3;
+
+    /**
+     * Thf donstbnt indidbting thbt b bbtdh stbtfmfnt fxfdutfd suddfssfully
+     * but thbt no dount of thf numbfr of rows it bfffdtfd is bvbilbblf.
+     *
+     * @sindf 1.4
+     */
+    int SUCCESS_NO_INFO = -2;
+
+    /**
+     * Thf donstbnt indidbting thbt bn frror oddurrfd whilf fxfduting b
+     * bbtdh stbtfmfnt.
+     *
+     * @sindf 1.4
+     */
+    int EXECUTE_FAILED = -3;
+
+    /**
+     * Thf donstbnt indidbting thbt gfnfrbtfd kfys should bf mbdf
+     * bvbilbblf for rftrifvbl.
+     *
+     * @sindf 1.4
+     */
+    int RETURN_GENERATED_KEYS = 1;
+
+    /**
+     * Thf donstbnt indidbting thbt gfnfrbtfd kfys should not bf mbdf
+     * bvbilbblf for rftrifvbl.
+     *
+     * @sindf 1.4
+     */
+    int NO_GENERATED_KEYS = 2;
+
+    /**
+     * Movfs to this <dodf>Stbtfmfnt</dodf> objfdt's nfxt rfsult, dfbls with
+     * bny durrfnt <dodf>RfsultSft</dodf> objfdt(s) bddording  to thf instrudtions
+     * spfdififd by thf givfn flbg, bnd rfturns
+     * <dodf>truf</dodf> if thf nfxt rfsult is b <dodf>RfsultSft</dodf> objfdt.
+     *
+     * <P>Thfrf brf no morf rfsults whfn thf following is truf:
+     * <PRE>{@dodf
+     *     // stmt is b Stbtfmfnt objfdt
+     *     ((stmt.gftMorfRfsults(durrfnt) == fblsf) && (stmt.gftUpdbtfCount() == -1))
+     * }</PRE>
+     *
+     * @pbrbm durrfnt onf of thf following <dodf>Stbtfmfnt</dodf>
+     *        donstbnts indidbting whbt should hbppfn to durrfnt
+     *        <dodf>RfsultSft</dodf> objfdts obtbinfd using thf mfthod
+     *        <dodf>gftRfsultSft</dodf>:
+     *        <dodf>Stbtfmfnt.CLOSE_CURRENT_RESULT</dodf>,
+     *        <dodf>Stbtfmfnt.KEEP_CURRENT_RESULT</dodf>, or
+     *        <dodf>Stbtfmfnt.CLOSE_ALL_RESULTS</dodf>
+     * @rfturn <dodf>truf</dodf> if thf nfxt rfsult is b <dodf>RfsultSft</dodf>
+     *         objfdt; <dodf>fblsf</dodf> if it is bn updbtf dount or thfrf brf no
+     *         morf rfsults
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf> or thf brgumfnt
+         *         supplifd is not onf of thf following:
+     *        <dodf>Stbtfmfnt.CLOSE_CURRENT_RESULT</dodf>,
+     *        <dodf>Stbtfmfnt.KEEP_CURRENT_RESULT</dodf> or
+     *        <dodf>Stbtfmfnt.CLOSE_ALL_RESULTS</dodf>
+     *@fxdfption SQLFfbturfNotSupportfdExdfption if
+     * <dodf>DbtbbbsfMftbDbtb.supportsMultiplfOpfnRfsults</dodf> rfturns
+     * <dodf>fblsf</dodf> bnd fithfr
+     *        <dodf>Stbtfmfnt.KEEP_CURRENT_RESULT</dodf> or
+     *        <dodf>Stbtfmfnt.CLOSE_ALL_RESULTS</dodf> brf supplifd bs
+     * thf brgumfnt.
+     * @sindf 1.4
+     * @sff #fxfdutf
+     */
+    boolfbn gftMorfRfsults(int durrfnt) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs bny buto-gfnfrbtfd kfys drfbtfd bs b rfsult of fxfduting this
+     * <dodf>Stbtfmfnt</dodf> objfdt. If this <dodf>Stbtfmfnt</dodf> objfdt did
+     * not gfnfrbtf bny kfys, bn fmpty <dodf>RfsultSft</dodf>
+     * objfdt is rfturnfd.
+     *
+     *<p><B>Notf:</B>If thf dolumns whidh rfprfsfnt thf buto-gfnfrbtfd kfys wfrf not spfdififd,
+     * thf JDBC drivfr implfmfntbtion will dftfrminf thf dolumns whidh bfst rfprfsfnt thf buto-gfnfrbtfd kfys.
+     *
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt dontbining thf buto-gfnfrbtfd kfy(s)
+     *         gfnfrbtfd by thf fxfdution of this <dodf>Stbtfmfnt</dodf> objfdt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @throws SQLFfbturfNotSupportfdExdfption  if thf JDBC drivfr dofs not support this mfthod
+     * @sindf 1.4
+     */
+    RfsultSft gftGfnfrbtfdKfys() throws SQLExdfption;
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt bnd signbls thf drivfr with thf
+     * givfn flbg bbout whfthfr thf
+     * buto-gfnfrbtfd kfys produdfd by this <dodf>Stbtfmfnt</dodf> objfdt
+     * should bf mbdf bvbilbblf for rftrifvbl.  Thf drivfr will ignorf thf
+     * flbg if thf SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (thf list of sudh stbtfmfnts is vfndor-spfdifid).
+     *<p>
+     * <strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     * @pbrbm sql bn SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnt, sudh bs <dodf>INSERT</dodf>, <dodf>UPDATE</dodf> or
+     * <dodf>DELETE</dodf>; or bn SQL stbtfmfnt thbt rfturns nothing,
+     * sudh bs b DDL stbtfmfnt.
+     *
+     * @pbrbm butoGfnfrbtfdKfys b flbg indidbting whfthfr buto-gfnfrbtfd kfys
+     *        should bf mbdf bvbilbblf for rftrifvbl;
+     *         onf of thf following donstbnts:
+     *         <dodf>Stbtfmfnt.RETURN_GENERATED_KEYS</dodf>
+     *         <dodf>Stbtfmfnt.NO_GENERATED_KEYS</dodf>
+     * @rfturn fithfr (1) thf row dount for SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnts
+     *         or (2) 0 for SQL stbtfmfnts thbt rfturn nothing
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *  this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf givfn
+     *            SQL stbtfmfnt rfturns b <dodf>RfsultSft</dodf> objfdt,
+     *            thf givfn donstbnt is not onf of thosf bllowfd, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod with b donstbnt of Stbtfmfnt.RETURN_GENERATED_KEYS
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     * @sindf 1.4
+     */
+    int fxfdutfUpdbtf(String sql, int butoGfnfrbtfdKfys) throws SQLExdfption;
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt bnd signbls thf drivfr thbt thf
+     * buto-gfnfrbtfd kfys indidbtfd in thf givfn brrby should bf mbdf bvbilbblf
+     * for rftrifvbl.   This brrby dontbins thf indfxfs of thf dolumns in thf
+     * tbrgft tbblf thbt dontbin thf buto-gfnfrbtfd kfys thbt should bf mbdf
+     * bvbilbblf. Thf drivfr will ignorf thf brrby if thf SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (thf list of sudh stbtfmfnts is vfndor-spfdifid).
+     *<p>
+     * <strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     * @pbrbm sql bn SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnt, sudh bs <dodf>INSERT</dodf>, <dodf>UPDATE</dodf> or
+     * <dodf>DELETE</dodf>; or bn SQL stbtfmfnt thbt rfturns nothing,
+     * sudh bs b DDL stbtfmfnt.
+     *
+     * @pbrbm dolumnIndfxfs bn brrby of dolumn indfxfs indidbting thf dolumns
+     *        thbt should bf rfturnfd from thf insfrtfd row
+     * @rfturn fithfr (1) thf row dount for SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnts
+     *         or (2) 0 for SQL stbtfmfnts thbt rfturn nothing
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf SQL
+     * stbtfmfnt rfturns b <dodf>RfsultSft</dodf> objfdt,thf sfdond brgumfnt
+     * supplifd to this mfthod is not bn
+     * <dodf>int</dodf> brrby whosf flfmfnts brf vblid dolumn indfxfs, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @throws SQLFfbturfNotSupportfdExdfption  if thf JDBC drivfr dofs not support this mfthod
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     * @sindf 1.4
+     */
+    int fxfdutfUpdbtf(String sql, int dolumnIndfxfs[]) throws SQLExdfption;
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt bnd signbls thf drivfr thbt thf
+     * buto-gfnfrbtfd kfys indidbtfd in thf givfn brrby should bf mbdf bvbilbblf
+     * for rftrifvbl.   This brrby dontbins thf nbmfs of thf dolumns in thf
+     * tbrgft tbblf thbt dontbin thf buto-gfnfrbtfd kfys thbt should bf mbdf
+     * bvbilbblf. Thf drivfr will ignorf thf brrby if thf SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (thf list of sudh stbtfmfnts is vfndor-spfdifid).
+     *<p>
+     * <strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     * @pbrbm sql bn SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnt, sudh bs <dodf>INSERT</dodf>, <dodf>UPDATE</dodf> or
+     * <dodf>DELETE</dodf>; or bn SQL stbtfmfnt thbt rfturns nothing,
+     * sudh bs b DDL stbtfmfnt.
+     * @pbrbm dolumnNbmfs bn brrby of thf nbmfs of thf dolumns thbt should bf
+     *        rfturnfd from thf insfrtfd row
+     * @rfturn fithfr thf row dount for <dodf>INSERT</dodf>, <dodf>UPDATE</dodf>,
+     *         or <dodf>DELETE</dodf> stbtfmfnts, or 0 for SQL stbtfmfnts
+     *         thbt rfturn nothing
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *  this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf SQL
+     *            stbtfmfnt rfturns b <dodf>RfsultSft</dodf> objfdt, thf
+     *            sfdond brgumfnt supplifd to this mfthod is not b <dodf>String</dodf> brrby
+     *            whosf flfmfnts brf vblid dolumn nbmfs, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @throws SQLFfbturfNotSupportfdExdfption  if thf JDBC drivfr dofs not support this mfthod
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     * @sindf 1.4
+     */
+    int fxfdutfUpdbtf(String sql, String dolumnNbmfs[]) throws SQLExdfption;
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt, whidh mby rfturn multiplf rfsults,
+     * bnd signbls thf drivfr thbt bny
+     * buto-gfnfrbtfd kfys should bf mbdf bvbilbblf
+     * for rftrifvbl.  Thf drivfr will ignorf this signbl if thf SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (thf list of sudh stbtfmfnts is vfndor-spfdifid).
+     * <P>
+     * In somf (undommon) situbtions, b singlf SQL stbtfmfnt mby rfturn
+     * multiplf rfsult sfts bnd/or updbtf dounts.  Normblly you dbn ignorf
+     * this unlfss you brf (1) fxfduting b storfd prodfdurf thbt you know mby
+     * rfturn multiplf rfsults or (2) you brf dynbmidblly fxfduting bn
+     * unknown SQL string.
+     * <P>
+     * Thf <dodf>fxfdutf</dodf> mfthod fxfdutfs bn SQL stbtfmfnt bnd indidbtfs thf
+     * form of thf first rfsult.  You must thfn usf thf mfthods
+     * <dodf>gftRfsultSft</dodf> or <dodf>gftUpdbtfCount</dodf>
+     * to rftrifvf thf rfsult, bnd <dodf>gftMorfRfsults</dodf> to
+     * movf to bny subsfqufnt rfsult(s).
+     *<p>
+     *<strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     * @pbrbm sql bny SQL stbtfmfnt
+     * @pbrbm butoGfnfrbtfdKfys b donstbnt indidbting whfthfr buto-gfnfrbtfd
+     *        kfys should bf mbdf bvbilbblf for rftrifvbl using thf mfthod
+     *        <dodf>gftGfnfrbtfdKfys</dodf>; onf of thf following donstbnts:
+     *        <dodf>Stbtfmfnt.RETURN_GENERATED_KEYS</dodf> or
+     *        <dodf>Stbtfmfnt.NO_GENERATED_KEYS</dodf>
+     * @rfturn <dodf>truf</dodf> if thf first rfsult is b <dodf>RfsultSft</dodf>
+     *         objfdt; <dodf>fblsf</dodf> if it is bn updbtf dount or thfrf brf
+     *         no rfsults
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf sfdond
+     *         pbrbmftfr supplifd to this mfthod is not
+     *         <dodf>Stbtfmfnt.RETURN_GENERATED_KEYS</dodf> or
+     *         <dodf>Stbtfmfnt.NO_GENERATED_KEYS</dodf>,
+     * thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod with b donstbnt of Stbtfmfnt.RETURN_GENERATED_KEYS
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     * @sff #gftRfsultSft
+     * @sff #gftUpdbtfCount
+     * @sff #gftMorfRfsults
+     * @sff #gftGfnfrbtfdKfys
+     *
+     * @sindf 1.4
+     */
+    boolfbn fxfdutf(String sql, int butoGfnfrbtfdKfys) throws SQLExdfption;
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt, whidh mby rfturn multiplf rfsults,
+     * bnd signbls thf drivfr thbt thf
+     * buto-gfnfrbtfd kfys indidbtfd in thf givfn brrby should bf mbdf bvbilbblf
+     * for rftrifvbl.  This brrby dontbins thf indfxfs of thf dolumns in thf
+     * tbrgft tbblf thbt dontbin thf buto-gfnfrbtfd kfys thbt should bf mbdf
+     * bvbilbblf.  Thf drivfr will ignorf thf brrby if thf SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (thf list of sudh stbtfmfnts is vfndor-spfdifid).
+     * <P>
+     * Undfr somf (undommon) situbtions, b singlf SQL stbtfmfnt mby rfturn
+     * multiplf rfsult sfts bnd/or updbtf dounts.  Normblly you dbn ignorf
+     * this unlfss you brf (1) fxfduting b storfd prodfdurf thbt you know mby
+     * rfturn multiplf rfsults or (2) you brf dynbmidblly fxfduting bn
+     * unknown SQL string.
+     * <P>
+     * Thf <dodf>fxfdutf</dodf> mfthod fxfdutfs bn SQL stbtfmfnt bnd indidbtfs thf
+     * form of thf first rfsult.  You must thfn usf thf mfthods
+     * <dodf>gftRfsultSft</dodf> or <dodf>gftUpdbtfCount</dodf>
+     * to rftrifvf thf rfsult, bnd <dodf>gftMorfRfsults</dodf> to
+     * movf to bny subsfqufnt rfsult(s).
+     *<p>
+     * <strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     * @pbrbm sql bny SQL stbtfmfnt
+     * @pbrbm dolumnIndfxfs bn brrby of thf indfxfs of thf dolumns in thf
+     *        insfrtfd row thbt should bf  mbdf bvbilbblf for rftrifvbl by b
+     *        dbll to thf mfthod <dodf>gftGfnfrbtfdKfys</dodf>
+     * @rfturn <dodf>truf</dodf> if thf first rfsult is b <dodf>RfsultSft</dodf>
+     *         objfdt; <dodf>fblsf</dodf> if it is bn updbtf dount or thfrf
+     *         brf no rfsults
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf
+     *            flfmfnts in thf <dodf>int</dodf> brrby pbssfd to this mfthod
+     *            brf not vblid dolumn indfxfs, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @throws SQLFfbturfNotSupportfdExdfption  if thf JDBC drivfr dofs not support this mfthod
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     * @sff #gftRfsultSft
+     * @sff #gftUpdbtfCount
+     * @sff #gftMorfRfsults
+     *
+     * @sindf 1.4
+     */
+    boolfbn fxfdutf(String sql, int dolumnIndfxfs[]) throws SQLExdfption;
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt, whidh mby rfturn multiplf rfsults,
+     * bnd signbls thf drivfr thbt thf
+     * buto-gfnfrbtfd kfys indidbtfd in thf givfn brrby should bf mbdf bvbilbblf
+     * for rftrifvbl. This brrby dontbins thf nbmfs of thf dolumns in thf
+     * tbrgft tbblf thbt dontbin thf buto-gfnfrbtfd kfys thbt should bf mbdf
+     * bvbilbblf.  Thf drivfr will ignorf thf brrby if thf SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (thf list of sudh stbtfmfnts is vfndor-spfdifid).
+     * <P>
+     * In somf (undommon) situbtions, b singlf SQL stbtfmfnt mby rfturn
+     * multiplf rfsult sfts bnd/or updbtf dounts.  Normblly you dbn ignorf
+     * this unlfss you brf (1) fxfduting b storfd prodfdurf thbt you know mby
+     * rfturn multiplf rfsults or (2) you brf dynbmidblly fxfduting bn
+     * unknown SQL string.
+     * <P>
+     * Thf <dodf>fxfdutf</dodf> mfthod fxfdutfs bn SQL stbtfmfnt bnd indidbtfs thf
+     * form of thf first rfsult.  You must thfn usf thf mfthods
+     * <dodf>gftRfsultSft</dodf> or <dodf>gftUpdbtfCount</dodf>
+     * to rftrifvf thf rfsult, bnd <dodf>gftMorfRfsults</dodf> to
+     * movf to bny subsfqufnt rfsult(s).
+     *<p>
+     * <strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     * @pbrbm sql bny SQL stbtfmfnt
+     * @pbrbm dolumnNbmfs bn brrby of thf nbmfs of thf dolumns in thf insfrtfd
+     *        row thbt should bf mbdf bvbilbblf for rftrifvbl by b dbll to thf
+     *        mfthod <dodf>gftGfnfrbtfdKfys</dodf>
+     * @rfturn <dodf>truf</dodf> if thf nfxt rfsult is b <dodf>RfsultSft</dodf>
+     *         objfdt; <dodf>fblsf</dodf> if it is bn updbtf dount or thfrf
+     *         brf no morf rfsults
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>,thf
+     *          flfmfnts of thf <dodf>String</dodf> brrby pbssfd to this
+     *          mfthod brf not vblid dolumn nbmfs, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @throws SQLFfbturfNotSupportfdExdfption  if thf JDBC drivfr dofs not support this mfthod
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     * @sff #gftRfsultSft
+     * @sff #gftUpdbtfCount
+     * @sff #gftMorfRfsults
+     * @sff #gftGfnfrbtfdKfys
+     *
+     * @sindf 1.4
+     */
+    boolfbn fxfdutf(String sql, String dolumnNbmfs[]) throws SQLExdfption;
+
+   /**
+     * Rftrifvfs thf rfsult sft holdbbility for <dodf>RfsultSft</dodf> objfdts
+     * gfnfrbtfd by this <dodf>Stbtfmfnt</dodf> objfdt.
+     *
+     * @rfturn fithfr <dodf>RfsultSft.HOLD_CURSORS_OVER_COMMIT</dodf> or
+     *         <dodf>RfsultSft.CLOSE_CURSORS_AT_COMMIT</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     *
+     * @sindf 1.4
+     */
+    int gftRfsultSftHoldbbility() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this <dodf>Stbtfmfnt</dodf> objfdt hbs bffn dlosfd. A <dodf>Stbtfmfnt</dodf> is dlosfd if thf
+     * mfthod dlosf hbs bffn dbllfd on it, or if it is butombtidblly dlosfd.
+     * @rfturn truf if this <dodf>Stbtfmfnt</dodf> objfdt is dlosfd; fblsf if it is still opfn
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+    boolfbn isClosfd() throws SQLExdfption;
+
+        /**
+         * Rfqufsts thbt b <dodf>Stbtfmfnt</dodf> bf poolfd or not poolfd.  Thf vbluf
+         * spfdififd is b hint to thf stbtfmfnt pool implfmfntbtion indidbting
+         * whfthfr thf bpplidbtion wbnts thf stbtfmfnt to bf poolfd.  It is up to
+         * thf stbtfmfnt pool mbnbgfr bs to whfthfr thf hint is usfd.
+         * <p>
+         * Thf poolbblf vbluf of b stbtfmfnt is bpplidbblf to both intfrnbl
+         * stbtfmfnt dbdhfs implfmfntfd by thf drivfr bnd fxtfrnbl stbtfmfnt dbdhfs
+         * implfmfntfd by bpplidbtion sfrvfrs bnd othfr bpplidbtions.
+         * <p>
+         * By dffbult, b <dodf>Stbtfmfnt</dodf> is not poolbblf whfn drfbtfd, bnd
+         * b <dodf>PrfpbrfdStbtfmfnt</dodf> bnd <dodf>CbllbblfStbtfmfnt</dodf>
+         * brf poolbblf whfn drfbtfd.
+         *
+         * @pbrbm poolbblf              rfqufsts thbt thf stbtfmfnt bf poolfd if truf bnd
+         *                                              thbt thf stbtfmfnt not bf poolfd if fblsf
+         *
+         * @throws SQLExdfption if this mfthod is dbllfd on b dlosfd
+         * <dodf>Stbtfmfnt</dodf>
+         *
+         * @sindf 1.6
+         */
+        void sftPoolbblf(boolfbn poolbblf)
+                throws SQLExdfption;
+
+        /**
+         * Rfturns b  vbluf indidbting whfthfr thf <dodf>Stbtfmfnt</dodf>
+         * is poolbblf or not.
+         *
+         * @rfturn              <dodf>truf</dodf> if thf <dodf>Stbtfmfnt</dodf>
+         * is poolbblf; <dodf>fblsf</dodf> othfrwisf
+         *
+         * @throws SQLExdfption if this mfthod is dbllfd on b dlosfd
+         * <dodf>Stbtfmfnt</dodf>
+         *
+         * @sindf 1.6
+         *
+         * @sff jbvb.sql.Stbtfmfnt#sftPoolbblf(boolfbn) sftPoolbblf(boolfbn)
+         */
+        boolfbn isPoolbblf()
+                throws SQLExdfption;
+
+    //--------------------------JDBC 4.1 -----------------------------
+
+    /**
+     * Spfdififs thbt this {@dodf Stbtfmfnt} will bf dlosfd whfn bll its
+     * dfpfndfnt rfsult sfts brf dlosfd. If fxfdution of thf {@dodf Stbtfmfnt}
+     * dofs not produdf bny rfsult sfts, this mfthod hbs no ffffdt.
+     * <p>
+     * <strong>Notf:</strong> Multiplf dblls to {@dodf dlosfOnComplftion} do
+     * not togglf thf ffffdt on this {@dodf Stbtfmfnt}. Howfvfr, b dbll to
+     * {@dodf dlosfOnComplftion} dofs ffffdt both thf subsfqufnt fxfdution of
+     * stbtfmfnts, bnd stbtfmfnts thbt durrfntly hbvf opfn, dfpfndfnt,
+     * rfsult sfts.
+     *
+     * @throws SQLExdfption if this mfthod is dbllfd on b dlosfd
+     * {@dodf Stbtfmfnt}
+     * @sindf 1.7
+     */
+    publid void dlosfOnComplftion() throws SQLExdfption;
+
+    /**
+     * Rfturns b vbluf indidbting whfthfr this {@dodf Stbtfmfnt} will bf
+     * dlosfd whfn bll its dfpfndfnt rfsult sfts brf dlosfd.
+     * @rfturn {@dodf truf} if thf {@dodf Stbtfmfnt} will bf dlosfd whfn bll
+     * of its dfpfndfnt rfsult sfts brf dlosfd; {@dodf fblsf} othfrwisf
+     * @throws SQLExdfption if this mfthod is dbllfd on b dlosfd
+     * {@dodf Stbtfmfnt}
+     * @sindf 1.7
+     */
+    publid boolfbn isClosfOnComplftion() throws SQLExdfption;
+
+
+    //--------------------------JDBC 4.2 -----------------------------
+
+    /**
+     *  Rftrifvfs thf durrfnt rfsult bs bn updbtf dount; if thf rfsult
+     * is b <dodf>RfsultSft</dodf> objfdt or thfrf brf no morf rfsults, -1
+     *  is rfturnfd. This mfthod should bf dbllfd only ondf pfr rfsult.
+     * <p>
+     * This mfthod should bf usfd whfn thf rfturnfd row dount mby fxdffd
+     * {@link Intfgfr#MAX_VALUE}.
+     *<p>
+     * Thf dffbult implfmfntbtion will throw {@dodf UnsupportfdOpfrbtionExdfption}
+     *
+     * @rfturn thf durrfnt rfsult bs bn updbtf dount; -1 if thf durrfnt rfsult
+     * is b <dodf>RfsultSft</dodf> objfdt or thfrf brf no morf rfsults
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sff #fxfdutf
+     * @sindf 1.8
+     */
+    dffbult long gftLbrgfUpdbtfCount() throws SQLExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("gftLbrgfUpdbtfCount not implfmfntfd");
+    }
+
+    /**
+     * Sfts thf limit for thf mbximum numbfr of rows thbt bny
+     * <dodf>RfsultSft</dodf> objfdt  gfnfrbtfd by this <dodf>Stbtfmfnt</dodf>
+     * objfdt dbn dontbin to thf givfn numbfr.
+     * If thf limit is fxdffdfd, thf fxdfss
+     * rows brf silfntly droppfd.
+     * <p>
+     * This mfthod should bf usfd whfn thf row limit mby fxdffd
+     * {@link Intfgfr#MAX_VALUE}.
+     *<p>
+     * Thf dffbult implfmfntbtion will throw {@dodf UnsupportfdOpfrbtionExdfption}
+     *
+     * @pbrbm mbx thf nfw mbx rows limit; zfro mfbns thfrf is no limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     *            or thf dondition {@dodf mbx >= 0} is not sbtisfifd
+     * @sff #gftMbxRows
+     * @sindf 1.8
+     */
+    dffbult void sftLbrgfMbxRows(long mbx) throws SQLExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("sftLbrgfMbxRows not implfmfntfd");
+    }
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of rows thbt b
+     * <dodf>RfsultSft</dodf> objfdt produdfd by this
+     * <dodf>Stbtfmfnt</dodf> objfdt dbn dontbin.  If this limit is fxdffdfd,
+     * thf fxdfss rows brf silfntly droppfd.
+     * <p>
+     * This mfthod should bf usfd whfn thf rfturnfd row limit mby fxdffd
+     * {@link Intfgfr#MAX_VALUE}.
+     *<p>
+     * Thf dffbult implfmfntbtion will rfturn {@dodf 0}
+     *
+     * @rfturn thf durrfnt mbximum numbfr of rows for b <dodf>RfsultSft</dodf>
+     *         objfdt produdfd by this <dodf>Stbtfmfnt</dodf> objfdt;
+     *         zfro mfbns thfrf is no limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>
+     * @sff #sftMbxRows
+     * @sindf 1.8
+     */
+    dffbult long gftLbrgfMbxRows() throws SQLExdfption {
+        rfturn 0;
+    }
+
+    /**
+     * Submits b bbtdh of dommbnds to thf dbtbbbsf for fxfdution bnd
+     * if bll dommbnds fxfdutf suddfssfully, rfturns bn brrby of updbtf dounts.
+     * Thf <dodf>long</dodf> flfmfnts of thf brrby thbt is rfturnfd brf ordfrfd
+     * to dorrfspond to thf dommbnds in thf bbtdh, whidh brf ordfrfd
+     * bddording to thf ordfr in whidh thfy wfrf bddfd to thf bbtdh.
+     * Thf flfmfnts in thf brrby rfturnfd by thf mfthod {@dodf fxfdutfLbrgfBbtdh}
+     * mby bf onf of thf following:
+     * <OL>
+     * <LI>A numbfr grfbtfr thbn or fqubl to zfro -- indidbtfs thbt thf
+     * dommbnd wbs prodfssfd suddfssfully bnd is bn updbtf dount giving thf
+     * numbfr of rows in thf dbtbbbsf thbt wfrf bfffdtfd by thf dommbnd's
+     * fxfdution
+     * <LI>A vbluf of <dodf>SUCCESS_NO_INFO</dodf> -- indidbtfs thbt thf dommbnd wbs
+     * prodfssfd suddfssfully but thbt thf numbfr of rows bfffdtfd is
+     * unknown
+     * <P>
+     * If onf of thf dommbnds in b bbtdh updbtf fbils to fxfdutf propfrly,
+     * this mfthod throws b <dodf>BbtdhUpdbtfExdfption</dodf>, bnd b JDBC
+     * drivfr mby or mby not dontinuf to prodfss thf rfmbining dommbnds in
+     * thf bbtdh.  Howfvfr, thf drivfr's bfhbvior must bf donsistfnt with b
+     * pbrtidulbr DBMS, fithfr blwbys dontinuing to prodfss dommbnds or nfvfr
+     * dontinuing to prodfss dommbnds.  If thf drivfr dontinufs prodfssing
+     * bftfr b fbilurf, thf brrby rfturnfd by thf mfthod
+     * <dodf>BbtdhUpdbtfExdfption.gftLbrgfUpdbtfCounts</dodf>
+     * will dontbin bs mbny flfmfnts bs thfrf brf dommbnds in thf bbtdh, bnd
+     * bt lfbst onf of thf flfmfnts will bf thf following:
+     *
+     * <LI>A vbluf of <dodf>EXECUTE_FAILED</dodf> -- indidbtfs thbt thf dommbnd fbilfd
+     * to fxfdutf suddfssfully bnd oddurs only if b drivfr dontinufs to
+     * prodfss dommbnds bftfr b dommbnd fbils
+     * </OL>
+     * <p>
+     * This mfthod should bf usfd whfn thf rfturnfd row dount mby fxdffd
+     * {@link Intfgfr#MAX_VALUE}.
+     *<p>
+     * Thf dffbult implfmfntbtion will throw {@dodf UnsupportfdOpfrbtionExdfption}
+     *
+     * @rfturn bn brrby of updbtf dounts dontbining onf flfmfnt for fbdh
+     * dommbnd in thf bbtdh.  Thf flfmfnts of thf brrby brf ordfrfd bddording
+     * to thf ordfr in whidh dommbnds wfrf bddfd to thf bbtdh.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf> or thf
+     * drivfr dofs not support bbtdh stbtfmfnts. Throws {@link BbtdhUpdbtfExdfption}
+     * (b subdlbss of <dodf>SQLExdfption</dodf>) if onf of thf dommbnds sfnt to thf
+     * dbtbbbsf fbils to fxfdutf propfrly or bttfmpts to rfturn b rfsult sft.
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     *
+     * @sff #bddBbtdh
+     * @sff DbtbbbsfMftbDbtb#supportsBbtdhUpdbtfs
+     * @sindf 1.8
+     */
+    dffbult long[] fxfdutfLbrgfBbtdh() throws SQLExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("fxfdutfLbrgfBbtdh not implfmfntfd");
+    }
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt, whidh mby bf bn <dodf>INSERT</dodf>,
+     * <dodf>UPDATE</dodf>, or <dodf>DELETE</dodf> stbtfmfnt or bn
+     * SQL stbtfmfnt thbt rfturns nothing, sudh bs bn SQL DDL stbtfmfnt.
+     * <p>
+     * This mfthod should bf usfd whfn thf rfturnfd row dount mby fxdffd
+     * {@link Intfgfr#MAX_VALUE}.
+     * <p>
+     * <strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     *<p>
+     * Thf dffbult implfmfntbtion will throw {@dodf UnsupportfdOpfrbtionExdfption}
+     *
+     * @pbrbm sql bn SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnt,
+     * sudh bs <dodf>INSERT</dodf>, <dodf>UPDATE</dodf> or
+     * <dodf>DELETE</dodf>; or bn SQL stbtfmfnt thbt rfturns nothing,
+     * sudh bs b DDL stbtfmfnt.
+     *
+     * @rfturn fithfr (1) thf row dount for SQL Dbtb Mbnipulbtion Lbngubgf
+     * (DML) stbtfmfnts or (2) 0 for SQL stbtfmfnts thbt rfturn nothing
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf givfn
+     * SQL stbtfmfnt produdfs b <dodf>RfsultSft</dodf> objfdt, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     * @sindf 1.8
+     */
+    dffbult long fxfdutfLbrgfUpdbtf(String sql) throws SQLExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("fxfdutfLbrgfUpdbtf not implfmfntfd");
+    }
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt bnd signbls thf drivfr with thf
+     * givfn flbg bbout whfthfr thf
+     * buto-gfnfrbtfd kfys produdfd by this <dodf>Stbtfmfnt</dodf> objfdt
+     * should bf mbdf bvbilbblf for rftrifvbl.  Thf drivfr will ignorf thf
+     * flbg if thf SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (thf list of sudh stbtfmfnts is vfndor-spfdifid).
+     * <p>
+     * This mfthod should bf usfd whfn thf rfturnfd row dount mby fxdffd
+     * {@link Intfgfr#MAX_VALUE}.
+     * <p>
+     * <strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     *<p>
+     * Thf dffbult implfmfntbtion will throw {@dodf SQLFfbturfNotSupportfdExdfption}
+     *
+     * @pbrbm sql bn SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnt,
+     * sudh bs <dodf>INSERT</dodf>, <dodf>UPDATE</dodf> or
+     * <dodf>DELETE</dodf>; or bn SQL stbtfmfnt thbt rfturns nothing,
+     * sudh bs b DDL stbtfmfnt.
+     *
+     * @pbrbm butoGfnfrbtfdKfys b flbg indidbting whfthfr buto-gfnfrbtfd kfys
+     *        should bf mbdf bvbilbblf for rftrifvbl;
+     *         onf of thf following donstbnts:
+     *         <dodf>Stbtfmfnt.RETURN_GENERATED_KEYS</dodf>
+     *         <dodf>Stbtfmfnt.NO_GENERATED_KEYS</dodf>
+     * @rfturn fithfr (1) thf row dount for SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnts
+     *         or (2) 0 for SQL stbtfmfnts thbt rfturn nothing
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *  this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf givfn
+     *            SQL stbtfmfnt rfturns b <dodf>RfsultSft</dodf> objfdt,
+     *            thf givfn donstbnt is not onf of thosf bllowfd, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod with b donstbnt of Stbtfmfnt.RETURN_GENERATED_KEYS
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     * @sindf 1.8
+     */
+    dffbult long fxfdutfLbrgfUpdbtf(String sql, int butoGfnfrbtfdKfys)
+            throws SQLExdfption {
+        throw nfw SQLFfbturfNotSupportfdExdfption("fxfdutfLbrgfUpdbtf not implfmfntfd");
+    }
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt bnd signbls thf drivfr thbt thf
+     * buto-gfnfrbtfd kfys indidbtfd in thf givfn brrby should bf mbdf bvbilbblf
+     * for rftrifvbl.   This brrby dontbins thf indfxfs of thf dolumns in thf
+     * tbrgft tbblf thbt dontbin thf buto-gfnfrbtfd kfys thbt should bf mbdf
+     * bvbilbblf. Thf drivfr will ignorf thf brrby if thf SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (thf list of sudh stbtfmfnts is vfndor-spfdifid).
+     * <p>
+     * This mfthod should bf usfd whfn thf rfturnfd row dount mby fxdffd
+     * {@link Intfgfr#MAX_VALUE}.
+     * <p>
+     * <strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     *<p>
+     * Thf dffbult implfmfntbtion will throw {@dodf SQLFfbturfNotSupportfdExdfption}
+     *
+     * @pbrbm sql bn SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnt,
+     * sudh bs <dodf>INSERT</dodf>, <dodf>UPDATE</dodf> or
+     * <dodf>DELETE</dodf>; or bn SQL stbtfmfnt thbt rfturns nothing,
+     * sudh bs b DDL stbtfmfnt.
+     *
+     * @pbrbm dolumnIndfxfs bn brrby of dolumn indfxfs indidbting thf dolumns
+     *        thbt should bf rfturnfd from thf insfrtfd row
+     * @rfturn fithfr (1) thf row dount for SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnts
+     *         or (2) 0 for SQL stbtfmfnts thbt rfturn nothing
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf SQL
+     * stbtfmfnt rfturns b <dodf>RfsultSft</dodf> objfdt,thf sfdond brgumfnt
+     * supplifd to this mfthod is not bn
+     * <dodf>int</dodf> brrby whosf flfmfnts brf vblid dolumn indfxfs, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @throws SQLFfbturfNotSupportfdExdfption  if thf JDBC drivfr dofs not support this mfthod
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     * @sindf 1.8
+     */
+    dffbult long fxfdutfLbrgfUpdbtf(String sql, int dolumnIndfxfs[]) throws SQLExdfption {
+        throw nfw SQLFfbturfNotSupportfdExdfption("fxfdutfLbrgfUpdbtf not implfmfntfd");
+    }
+
+    /**
+     * Exfdutfs thf givfn SQL stbtfmfnt bnd signbls thf drivfr thbt thf
+     * buto-gfnfrbtfd kfys indidbtfd in thf givfn brrby should bf mbdf bvbilbblf
+     * for rftrifvbl.   This brrby dontbins thf nbmfs of thf dolumns in thf
+     * tbrgft tbblf thbt dontbin thf buto-gfnfrbtfd kfys thbt should bf mbdf
+     * bvbilbblf. Thf drivfr will ignorf thf brrby if thf SQL stbtfmfnt
+     * is not bn <dodf>INSERT</dodf> stbtfmfnt, or bn SQL stbtfmfnt bblf to rfturn
+     * buto-gfnfrbtfd kfys (thf list of sudh stbtfmfnts is vfndor-spfdifid).
+     * <p>
+     * This mfthod should bf usfd whfn thf rfturnfd row dount mby fxdffd
+     * {@link Intfgfr#MAX_VALUE}.
+     * <p>
+     * <strong>Notf:</strong>This mfthod dbnnot bf dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>.
+     *<p>
+     * Thf dffbult implfmfntbtion will throw {@dodf SQLFfbturfNotSupportfdExdfption}
+     *
+     * @pbrbm sql bn SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnt,
+     * sudh bs <dodf>INSERT</dodf>, <dodf>UPDATE</dodf> or
+     * <dodf>DELETE</dodf>; or bn SQL stbtfmfnt thbt rfturns nothing,
+     * sudh bs b DDL stbtfmfnt.
+     * @pbrbm dolumnNbmfs bn brrby of thf nbmfs of thf dolumns thbt should bf
+     *        rfturnfd from thf insfrtfd row
+     * @rfturn fithfr thf row dount for <dodf>INSERT</dodf>, <dodf>UPDATE</dodf>,
+     *         or <dodf>DELETE</dodf> stbtfmfnts, or 0 for SQL stbtfmfnts
+     *         thbt rfturn nothing
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     *  this mfthod is dbllfd on b dlosfd <dodf>Stbtfmfnt</dodf>, thf SQL
+     *            stbtfmfnt rfturns b <dodf>RfsultSft</dodf> objfdt, thf
+     *            sfdond brgumfnt supplifd to this mfthod is not b <dodf>String</dodf> brrby
+     *            whosf flfmfnts brf vblid dolumn nbmfs, thf mfthod is dbllfd on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> or <dodf>CbllbblfStbtfmfnt</dodf>
+     * @throws SQLFfbturfNotSupportfdExdfption  if thf JDBC drivfr dofs not support this mfthod
+     * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+     * timfout vbluf thbt wbs spfdififd by thf {@dodf sftQufryTimfout}
+     * mfthod hbs bffn fxdffdfd bnd hbs bt lfbst bttfmptfd to dbndfl
+     * thf durrfntly running {@dodf Stbtfmfnt}
+     * @sindf 1.8
+     */
+    dffbult long fxfdutfLbrgfUpdbtf(String sql, String dolumnNbmfs[])
+            throws SQLExdfption {
+        throw nfw SQLFfbturfNotSupportfdExdfption("fxfdutfLbrgfUpdbtf not implfmfntfd");
+    }
+}

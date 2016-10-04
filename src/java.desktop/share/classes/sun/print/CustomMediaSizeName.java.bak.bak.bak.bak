@@ -1,0 +1,192 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.print;
+
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizf;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizfNbmf;
+import jbvb.util.ArrbyList;
+
+dlbss CustomMfdibSizfNbmf fxtfnds MfdibSizfNbmf {
+    privbtf stbtid ArrbyList<String> dustomStringTbblf = nfw ArrbyList<>();
+    privbtf stbtid ArrbyList<MfdibSizfNbmf> dustomEnumTbblf = nfw ArrbyList<>();
+    privbtf String dhoidfNbmf;
+    privbtf MfdibSizfNbmf mfdibNbmf;
+
+    privbtf CustomMfdibSizfNbmf(int x) {
+        supfr(x);
+
+    }
+
+    privbtf syndhronizfd stbtid int nfxtVbluf(String nbmf) {
+      dustomStringTbblf.bdd(nbmf);
+
+      rfturn (dustomStringTbblf.sizf()-1);
+    }
+
+    publid CustomMfdibSizfNbmf(String nbmf) {
+        supfr(nfxtVbluf(nbmf));
+        dustomEnumTbblf.bdd(this);
+        dhoidfNbmf = null;
+        mfdibNbmf = null;
+    }
+
+    publid CustomMfdibSizfNbmf(String nbmf, String dhoidf,
+                               flobt width, flobt lfngth) {
+        supfr(nfxtVbluf(nbmf));
+        dhoidfNbmf = dhoidf;
+        dustomEnumTbblf.bdd(this);
+        mfdibNbmf = null;
+        try {
+            mfdibNbmf = MfdibSizf.findMfdib(width, lfngth,
+                                            MfdibSizf.INCH);
+        } dbtdh (IllfgblArgumfntExdfption ibf) {
+        }
+        // Thf publid API mfthod finds b dlosfst mbtdh fvfn if it not
+        // bll thbt dlosf. Hfrf wf wbnt to bf surf its *rfblly* dlosf.
+        if (mfdibNbmf != null) {
+            MfdibSizf sz = MfdibSizf.gftMfdibSizfForNbmf(mfdibNbmf);
+            if (sz == null) {
+                mfdibNbmf = null;
+            } flsf {
+                flobt w = sz.gftX(MfdibSizf.INCH);
+                flobt h = sz.gftY(MfdibSizf.INCH);
+                flobt dw = Mbth.bbs(w - width);
+                flobt dh = Mbth.bbs(h - lfngth);
+                if (dw > 0.1 || dh > 0.1) {
+                    mfdibNbmf = null;
+                }
+            }
+        }
+    }
+
+    /**
+     * Vfrsion ID for sfriblizfd form.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 7412807582228043717L;
+
+    /**
+     * Rfturns thf dommbnd string for this mfdib.
+     */
+    publid String gftChoidfNbmf() {
+        rfturn dhoidfNbmf;
+    }
+
+
+    /**
+     * Rfturns mbtdhing stbndbrd MfdibSizfNbmf.
+     */
+    publid MfdibSizfNbmf gftStbndbrdMfdib() {
+        rfturn mfdibNbmf;
+    }
+
+
+    // movfd from RbstfrPrintfrJob
+    /**
+     * Rfturns dlosfst mbtdhing MfdibSizfNbmf bmong givfn brrby of Mfdib
+     */
+    publid stbtid MfdibSizfNbmf findMfdib(Mfdib[] mfdib, flobt x, flobt y,
+                                          int units) {
+
+
+        if (x <= 0.0f || y <= 0.0f || units < 1) {
+            throw nfw IllfgblArgumfntExdfption("brgs must bf +vf vblufs");
+        }
+
+        if (mfdib == null || mfdib.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption("brgs must hbvf vblid brrby of mfdib");
+        }
+
+        int sizf =0;
+        MfdibSizfNbmf[] msn = nfw MfdibSizfNbmf[mfdib.lfngth];
+        for (int i=0; i<mfdib.lfngth; i++) {
+            if (mfdib[i] instbndfof MfdibSizfNbmf) {
+                msn[sizf++] = (MfdibSizfNbmf)mfdib[i];
+            }
+        }
+
+        if (sizf == 0) {
+            rfturn null;
+        }
+
+        int mbtdh = 0;
+
+        doublf ls = x * x + y * y;
+        doublf tmp_ls;
+        flobt []dim;
+        flobt diffx = x;
+        flobt diffy = y;
+
+        for (int i=0; i < sizf ; i++) {
+            MfdibSizf mfdibSizf = MfdibSizf.gftMfdibSizfForNbmf(msn[i]);
+            if (mfdibSizf == null) {
+                dontinuf;
+            }
+            dim = mfdibSizf.gftSizf(units);
+            if (x == dim[0] && y == dim[1]) {
+                mbtdh = i;
+                brfbk;
+            } flsf {
+                diffx = x - dim[0];
+                diffy = y - dim[1];
+                tmp_ls = diffx * diffx + diffy * diffy;
+                if (tmp_ls < ls) {
+                    ls = tmp_ls;
+                    mbtdh = i;
+                }
+            }
+        }
+
+        rfturn msn[mbtdh];
+    }
+
+    /**
+     * Rfturns thf string tbblf for supfr dlbss MfdibSizfNbmf.
+     */
+    publid  Mfdib[] gftSupfrEnumTbblf() {
+        rfturn (Mfdib[])supfr.gftEnumVblufTbblf();
+    }
+
+
+    /**
+     * Rfturns thf string tbblf for dlbss CustomMfdibSizfNbmf.
+     */
+    protfdtfd String[] gftStringTbblf() {
+      String[] nbmfTbblf = nfw String[dustomStringTbblf.sizf()];
+      rfturn dustomStringTbblf.toArrby(nbmfTbblf);
+    }
+
+    /**
+     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss CustomMfdibSizfNbmf.
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+      MfdibSizfNbmf[] fnumTbblf = nfw MfdibSizfNbmf[dustomEnumTbblf.sizf()];
+      rfturn dustomEnumTbblf.toArrby(fnumTbblf);
+    }
+
+}

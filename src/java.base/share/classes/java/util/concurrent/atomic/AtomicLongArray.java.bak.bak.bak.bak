@@ -1,0 +1,362 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.btomid;
+import jbvb.util.fundtion.LongUnbryOpfrbtor;
+import jbvb.util.fundtion.LongBinbryOpfrbtor;
+import sun.misd.Unsbff;
+
+/**
+ * A {@dodf long} brrby in whidh flfmfnts mby bf updbtfd btomidblly.
+ * Sff thf {@link jbvb.util.dondurrfnt.btomid} pbdkbgf spfdifidbtion
+ * for dfsdription of thf propfrtifs of btomid vbribblfs.
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ */
+publid dlbss AtomidLongArrby implfmfnts jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -2308431214976778248L;
+
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+    privbtf stbtid finbl int bbsf = unsbff.brrbyBbsfOffsft(long[].dlbss);
+    privbtf stbtid finbl int shift;
+    privbtf finbl long[] brrby;
+
+    stbtid {
+        int sdblf = unsbff.brrbyIndfxSdblf(long[].dlbss);
+        if ((sdblf & (sdblf - 1)) != 0)
+            throw nfw Error("dbtb typf sdblf not b powfr of two");
+        shift = 31 - Intfgfr.numbfrOfLfbdingZfros(sdblf);
+    }
+
+    privbtf long dhfdkfdBytfOffsft(int i) {
+        if (i < 0 || i >= brrby.lfngth)
+            throw nfw IndfxOutOfBoundsExdfption("indfx " + i);
+
+        rfturn bytfOffsft(i);
+    }
+
+    privbtf stbtid long bytfOffsft(int i) {
+        rfturn ((long) i << shift) + bbsf;
+    }
+
+    /**
+     * Crfbtfs b nfw AtomidLongArrby of thf givfn lfngth, with bll
+     * flfmfnts initiblly zfro.
+     *
+     * @pbrbm lfngth thf lfngth of thf brrby
+     */
+    publid AtomidLongArrby(int lfngth) {
+        brrby = nfw long[lfngth];
+    }
+
+    /**
+     * Crfbtfs b nfw AtomidLongArrby with thf sbmf lfngth bs, bnd
+     * bll flfmfnts dopifd from, thf givfn brrby.
+     *
+     * @pbrbm brrby thf brrby to dopy flfmfnts from
+     * @throws NullPointfrExdfption if brrby is null
+     */
+    publid AtomidLongArrby(long[] brrby) {
+        // Visibility gubrbntffd by finbl fifld gubrbntffs
+        this.brrby = brrby.dlonf();
+    }
+
+    /**
+     * Rfturns thf lfngth of thf brrby.
+     *
+     * @rfturn thf lfngth of thf brrby
+     */
+    publid finbl int lfngth() {
+        rfturn brrby.lfngth;
+    }
+
+    /**
+     * Gfts thf durrfnt vbluf bt position {@dodf i}.
+     *
+     * @pbrbm i thf indfx
+     * @rfturn thf durrfnt vbluf
+     */
+    publid finbl long gft(int i) {
+        rfturn gftRbw(dhfdkfdBytfOffsft(i));
+    }
+
+    privbtf long gftRbw(long offsft) {
+        rfturn unsbff.gftLongVolbtilf(brrby, offsft);
+    }
+
+    /**
+     * Sfts thf flfmfnt bt position {@dodf i} to thf givfn vbluf.
+     *
+     * @pbrbm i thf indfx
+     * @pbrbm nfwVbluf thf nfw vbluf
+     */
+    publid finbl void sft(int i, long nfwVbluf) {
+        unsbff.putLongVolbtilf(brrby, dhfdkfdBytfOffsft(i), nfwVbluf);
+    }
+
+    /**
+     * Evfntublly sfts thf flfmfnt bt position {@dodf i} to thf givfn vbluf.
+     *
+     * @pbrbm i thf indfx
+     * @pbrbm nfwVbluf thf nfw vbluf
+     * @sindf 1.6
+     */
+    publid finbl void lbzySft(int i, long nfwVbluf) {
+        unsbff.putOrdfrfdLong(brrby, dhfdkfdBytfOffsft(i), nfwVbluf);
+    }
+
+    /**
+     * Atomidblly sfts thf flfmfnt bt position {@dodf i} to thf givfn vbluf
+     * bnd rfturns thf old vbluf.
+     *
+     * @pbrbm i thf indfx
+     * @pbrbm nfwVbluf thf nfw vbluf
+     * @rfturn thf prfvious vbluf
+     */
+    publid finbl long gftAndSft(int i, long nfwVbluf) {
+        rfturn unsbff.gftAndSftLong(brrby, dhfdkfdBytfOffsft(i), nfwVbluf);
+    }
+
+    /**
+     * Atomidblly sfts thf flfmfnt bt position {@dodf i} to thf givfn
+     * updbtfd vbluf if thf durrfnt vbluf {@dodf ==} thf fxpfdtfd vbluf.
+     *
+     * @pbrbm i thf indfx
+     * @pbrbm fxpfdt thf fxpfdtfd vbluf
+     * @pbrbm updbtf thf nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful. Fblsf rfturn indidbtfs thbt
+     * thf bdtubl vbluf wbs not fqubl to thf fxpfdtfd vbluf.
+     */
+    publid finbl boolfbn dompbrfAndSft(int i, long fxpfdt, long updbtf) {
+        rfturn dompbrfAndSftRbw(dhfdkfdBytfOffsft(i), fxpfdt, updbtf);
+    }
+
+    privbtf boolfbn dompbrfAndSftRbw(long offsft, long fxpfdt, long updbtf) {
+        rfturn unsbff.dompbrfAndSwbpLong(brrby, offsft, fxpfdt, updbtf);
+    }
+
+    /**
+     * Atomidblly sfts thf flfmfnt bt position {@dodf i} to thf givfn
+     * updbtfd vbluf if thf durrfnt vbluf {@dodf ==} thf fxpfdtfd vbluf.
+     *
+     * <p><b hrff="pbdkbgf-summbry.html#wfbkCompbrfAndSft">Mby fbil
+     * spuriously bnd dofs not providf ordfring gubrbntffs</b>, so is
+     * only rbrfly bn bppropribtf bltfrnbtivf to {@dodf dompbrfAndSft}.
+     *
+     * @pbrbm i thf indfx
+     * @pbrbm fxpfdt thf fxpfdtfd vbluf
+     * @pbrbm updbtf thf nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful
+     */
+    publid finbl boolfbn wfbkCompbrfAndSft(int i, long fxpfdt, long updbtf) {
+        rfturn dompbrfAndSft(i, fxpfdt, updbtf);
+    }
+
+    /**
+     * Atomidblly indrfmfnts by onf thf flfmfnt bt indfx {@dodf i}.
+     *
+     * @pbrbm i thf indfx
+     * @rfturn thf prfvious vbluf
+     */
+    publid finbl long gftAndIndrfmfnt(int i) {
+        rfturn gftAndAdd(i, 1);
+    }
+
+    /**
+     * Atomidblly dfdrfmfnts by onf thf flfmfnt bt indfx {@dodf i}.
+     *
+     * @pbrbm i thf indfx
+     * @rfturn thf prfvious vbluf
+     */
+    publid finbl long gftAndDfdrfmfnt(int i) {
+        rfturn gftAndAdd(i, -1);
+    }
+
+    /**
+     * Atomidblly bdds thf givfn vbluf to thf flfmfnt bt indfx {@dodf i}.
+     *
+     * @pbrbm i thf indfx
+     * @pbrbm dfltb thf vbluf to bdd
+     * @rfturn thf prfvious vbluf
+     */
+    publid finbl long gftAndAdd(int i, long dfltb) {
+        rfturn unsbff.gftAndAddLong(brrby, dhfdkfdBytfOffsft(i), dfltb);
+    }
+
+    /**
+     * Atomidblly indrfmfnts by onf thf flfmfnt bt indfx {@dodf i}.
+     *
+     * @pbrbm i thf indfx
+     * @rfturn thf updbtfd vbluf
+     */
+    publid finbl long indrfmfntAndGft(int i) {
+        rfturn gftAndAdd(i, 1) + 1;
+    }
+
+    /**
+     * Atomidblly dfdrfmfnts by onf thf flfmfnt bt indfx {@dodf i}.
+     *
+     * @pbrbm i thf indfx
+     * @rfturn thf updbtfd vbluf
+     */
+    publid finbl long dfdrfmfntAndGft(int i) {
+        rfturn gftAndAdd(i, -1) - 1;
+    }
+
+    /**
+     * Atomidblly bdds thf givfn vbluf to thf flfmfnt bt indfx {@dodf i}.
+     *
+     * @pbrbm i thf indfx
+     * @pbrbm dfltb thf vbluf to bdd
+     * @rfturn thf updbtfd vbluf
+     */
+    publid long bddAndGft(int i, long dfltb) {
+        rfturn gftAndAdd(i, dfltb) + dfltb;
+    }
+
+    /**
+     * Atomidblly updbtfs thf flfmfnt bt indfx {@dodf i} with thf rfsults
+     * of bpplying thf givfn fundtion, rfturning thf prfvious vbluf. Thf
+     * fundtion should bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * whfn bttfmptfd updbtfs fbil duf to dontfntion bmong thrfbds.
+     *
+     * @pbrbm i thf indfx
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn thf prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl long gftAndUpdbtf(int i, LongUnbryOpfrbtor updbtfFundtion) {
+        long offsft = dhfdkfdBytfOffsft(i);
+        long prfv, nfxt;
+        do {
+            prfv = gftRbw(offsft);
+            nfxt = updbtfFundtion.bpplyAsLong(prfv);
+        } whilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn prfv;
+    }
+
+    /**
+     * Atomidblly updbtfs thf flfmfnt bt indfx {@dodf i} with thf rfsults
+     * of bpplying thf givfn fundtion, rfturning thf updbtfd vbluf. Thf
+     * fundtion should bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * whfn bttfmptfd updbtfs fbil duf to dontfntion bmong thrfbds.
+     *
+     * @pbrbm i thf indfx
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn thf updbtfd vbluf
+     * @sindf 1.8
+     */
+    publid finbl long updbtfAndGft(int i, LongUnbryOpfrbtor updbtfFundtion) {
+        long offsft = dhfdkfdBytfOffsft(i);
+        long prfv, nfxt;
+        do {
+            prfv = gftRbw(offsft);
+            nfxt = updbtfFundtion.bpplyAsLong(prfv);
+        } whilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn nfxt;
+    }
+
+    /**
+     * Atomidblly updbtfs thf flfmfnt bt indfx {@dodf i} with thf
+     * rfsults of bpplying thf givfn fundtion to thf durrfnt bnd
+     * givfn vblufs, rfturning thf prfvious vbluf. Thf fundtion should
+     * bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd whfn bttfmptfd
+     * updbtfs fbil duf to dontfntion bmong thrfbds.  Thf fundtion is
+     * bpplifd with thf durrfnt vbluf bt indfx {@dodf i} bs its first
+     * brgumfnt, bnd thf givfn updbtf bs thf sfdond brgumfnt.
+     *
+     * @pbrbm i thf indfx
+     * @pbrbm x thf updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn thf prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl long gftAndAddumulbtf(int i, long x,
+                                      LongBinbryOpfrbtor bddumulbtorFundtion) {
+        long offsft = dhfdkfdBytfOffsft(i);
+        long prfv, nfxt;
+        do {
+            prfv = gftRbw(offsft);
+            nfxt = bddumulbtorFundtion.bpplyAsLong(prfv, x);
+        } whilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn prfv;
+    }
+
+    /**
+     * Atomidblly updbtfs thf flfmfnt bt indfx {@dodf i} with thf
+     * rfsults of bpplying thf givfn fundtion to thf durrfnt bnd
+     * givfn vblufs, rfturning thf updbtfd vbluf. Thf fundtion should
+     * bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd whfn bttfmptfd
+     * updbtfs fbil duf to dontfntion bmong thrfbds.  Thf fundtion is
+     * bpplifd with thf durrfnt vbluf bt indfx {@dodf i} bs its first
+     * brgumfnt, bnd thf givfn updbtf bs thf sfdond brgumfnt.
+     *
+     * @pbrbm i thf indfx
+     * @pbrbm x thf updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn thf updbtfd vbluf
+     * @sindf 1.8
+     */
+    publid finbl long bddumulbtfAndGft(int i, long x,
+                                      LongBinbryOpfrbtor bddumulbtorFundtion) {
+        long offsft = dhfdkfdBytfOffsft(i);
+        long prfv, nfxt;
+        do {
+            prfv = gftRbw(offsft);
+            nfxt = bddumulbtorFundtion.bpplyAsLong(prfv, x);
+        } whilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn nfxt;
+    }
+
+    /**
+     * Rfturns thf String rfprfsfntbtion of thf durrfnt vblufs of brrby.
+     * @rfturn thf String rfprfsfntbtion of thf durrfnt vblufs of brrby
+     */
+    publid String toString() {
+        int iMbx = brrby.lfngth - 1;
+        if (iMbx == -1)
+            rfturn "[]";
+
+        StringBuildfr b = nfw StringBuildfr();
+        b.bppfnd('[');
+        for (int i = 0; ; i++) {
+            b.bppfnd(gftRbw(bytfOffsft(i)));
+            if (i == iMbx)
+                rfturn b.bppfnd(']').toString();
+            b.bppfnd(',').bppfnd(' ');
+        }
+    }
+
+}

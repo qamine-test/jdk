@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.print;
+pbdkbgf jbvb.bwt.print;
 
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
 /**
- * The <code>Paper</code> class describes the physical characteristics of
- * a piece of paper.
+ * Tif <dodf>Pbpfr</dodf> dlbss dfsdribfs tif piysidbl dibrbdtfristids of
+ * b pifdf of pbpfr.
  * <p>
- * When creating a <code>Paper</code> object, it is the application's
- * responsibility to ensure that the paper size and the imageable area
- * are compatible.  For example, if the paper size is changed from
- * 11 x 17 to 8.5 x 11, the application might need to reduce the
- * imageable area so that whatever is printed fits on the page.
- * @see #setSize(double, double)
- * @see #setImageableArea(double, double, double, double)
+ * Wifn drfbting b <dodf>Pbpfr</dodf> objfdt, it is tif bpplidbtion's
+ * rfsponsibility to fnsurf tibt tif pbpfr sizf bnd tif imbgfbblf brfb
+ * brf dompbtiblf.  For fxbmplf, if tif pbpfr sizf is dibngfd from
+ * 11 x 17 to 8.5 x 11, tif bpplidbtion migit nffd to rfdudf tif
+ * imbgfbblf brfb so tibt wibtfvfr is printfd fits on tif pbgf.
+ * @sff #sftSizf(doublf, doublf)
+ * @sff #sftImbgfbblfArfb(doublf, doublf, doublf, doublf)
  */
-public class Paper implements Cloneable {
+publid dlbss Pbpfr implfmfnts Clonfbblf {
 
- /* Private Class Variables */
+ /* Privbtf Clbss Vbribblfs */
 
-    private static final int INCH = 72;
-    private static final double LETTER_WIDTH = 8.5 * INCH;
-    private static final double LETTER_HEIGHT = 11 * INCH;
+    privbtf stbtid finbl int INCH = 72;
+    privbtf stbtid finbl doublf LETTER_WIDTH = 8.5 * INCH;
+    privbtf stbtid finbl doublf LETTER_HEIGHT = 11 * INCH;
 
- /* Instance Variables */
-
-    /**
-     * The height of the physical page in 1/72nds
-     * of an inch. The number is stored as a floating
-     * point value rather than as an integer
-     * to facilitate the conversion from metric
-     * units to 1/72nds of an inch and then back.
-     * (This may or may not be a good enough reason
-     * for a float).
-     */
-    private double mHeight;
+ /* Instbndf Vbribblfs */
 
     /**
-     * The width of the physical page in 1/72nds
-     * of an inch.
+     * Tif ifigit of tif piysidbl pbgf in 1/72nds
+     * of bn indi. Tif numbfr is storfd bs b flobting
+     * point vbluf rbtifr tibn bs bn intfgfr
+     * to fbdilitbtf tif donvfrsion from mftrid
+     * units to 1/72nds of bn indi bnd tifn bbdk.
+     * (Tiis mby or mby not bf b good fnougi rfbson
+     * for b flobt).
      */
-    private double mWidth;
+    privbtf doublf mHfigit;
 
     /**
-     * The area of the page on which drawing will
-     * be visable. The area outside of this
-     * rectangle but on the Page generally
-     * reflects the printer's hardware margins.
-     * The origin of the physical page is
-     * at (0, 0) with this rectangle provided
-     * in that coordinate system.
+     * Tif widti of tif piysidbl pbgf in 1/72nds
+     * of bn indi.
      */
-    private Rectangle2D mImageableArea;
-
- /* Constructors */
+    privbtf doublf mWidti;
 
     /**
-     * Creates a letter sized piece of paper
-     * with one inch margins.
+     * Tif brfb of tif pbgf on wiidi drbwing will
+     * bf visbblf. Tif brfb outsidf of tiis
+     * rfdtbnglf but on tif Pbgf gfnfrblly
+     * rfflfdts tif printfr's ibrdwbrf mbrgins.
+     * Tif origin of tif piysidbl pbgf is
+     * bt (0, 0) witi tiis rfdtbnglf providfd
+     * in tibt doordinbtf systfm.
      */
-    public Paper() {
-        mHeight = LETTER_HEIGHT;
-        mWidth = LETTER_WIDTH;
-        mImageableArea = new Rectangle2D.Double(INCH, INCH,
-                                                mWidth - 2 * INCH,
-                                                mHeight - 2 * INCH);
+    privbtf Rfdtbnglf2D mImbgfbblfArfb;
+
+ /* Construdtors */
+
+    /**
+     * Crfbtfs b lfttfr sizfd pifdf of pbpfr
+     * witi onf indi mbrgins.
+     */
+    publid Pbpfr() {
+        mHfigit = LETTER_HEIGHT;
+        mWidti = LETTER_WIDTH;
+        mImbgfbblfArfb = nfw Rfdtbnglf2D.Doublf(INCH, INCH,
+                                                mWidti - 2 * INCH,
+                                                mHfigit - 2 * INCH);
     }
 
- /* Instance Methods */
+ /* Instbndf Mftiods */
 
     /**
-     * Creates a copy of this <code>Paper</code> with the same contents
-     * as this <code>Paper</code>.
-     * @return a copy of this <code>Paper</code>.
+     * Crfbtfs b dopy of tiis <dodf>Pbpfr</dodf> witi tif sbmf dontfnts
+     * bs tiis <dodf>Pbpfr</dodf>.
+     * @rfturn b dopy of tiis <dodf>Pbpfr</dodf>.
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
 
-        Paper newPaper;
+        Pbpfr nfwPbpfr;
 
         try {
-            /* It's okay to copy the reference to the imageable
-             * area into the clone since we always return a copy
-             * of the imageable area when asked for it.
+            /* It's okby to dopy tif rfffrfndf to tif imbgfbblf
+             * brfb into tif dlonf sindf wf blwbys rfturn b dopy
+             * of tif imbgfbblf brfb wifn bskfd for it.
              */
-            newPaper = (Paper) super.clone();
+            nfwPbpfr = (Pbpfr) supfr.dlonf();
 
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            newPaper = null;    // should never happen.
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            f.printStbdkTrbdf();
+            nfwPbpfr = null;    // siould nfvfr ibppfn.
         }
 
-        return newPaper;
+        rfturn nfwPbpfr;
     }
 
     /**
-     * Returns the height of the page in 1/72nds of an inch.
-     * @return the height of the page described by this
-     *          <code>Paper</code>.
+     * Rfturns tif ifigit of tif pbgf in 1/72nds of bn indi.
+     * @rfturn tif ifigit of tif pbgf dfsdribfd by tiis
+     *          <dodf>Pbpfr</dodf>.
      */
-    public double getHeight() {
-        return mHeight;
+    publid doublf gftHfigit() {
+        rfturn mHfigit;
     }
 
     /**
-     * Sets the width and height of this <code>Paper</code>
-     * object, which represents the properties of the page onto
-     * which printing occurs.
-     * The dimensions are supplied in 1/72nds of
-     * an inch.
-     * @param width the value to which to set this <code>Paper</code>
-     * object's width
-     * @param height the value to which to set this <code>Paper</code>
-     * object's height
+     * Sfts tif widti bnd ifigit of tiis <dodf>Pbpfr</dodf>
+     * objfdt, wiidi rfprfsfnts tif propfrtifs of tif pbgf onto
+     * wiidi printing oddurs.
+     * Tif dimfnsions brf supplifd in 1/72nds of
+     * bn indi.
+     * @pbrbm widti tif vbluf to wiidi to sft tiis <dodf>Pbpfr</dodf>
+     * objfdt's widti
+     * @pbrbm ifigit tif vbluf to wiidi to sft tiis <dodf>Pbpfr</dodf>
+     * objfdt's ifigit
      */
-    public void setSize(double width, double height) {
-        mWidth = width;
-        mHeight = height;
+    publid void sftSizf(doublf widti, doublf ifigit) {
+        mWidti = widti;
+        mHfigit = ifigit;
     }
 
     /**
-     * Returns the width of the page in 1/72nds
-     * of an inch.
-     * @return the width of the page described by this
-     * <code>Paper</code>.
+     * Rfturns tif widti of tif pbgf in 1/72nds
+     * of bn indi.
+     * @rfturn tif widti of tif pbgf dfsdribfd by tiis
+     * <dodf>Pbpfr</dodf>.
      */
-    public double getWidth() {
-        return mWidth;
+    publid doublf gftWidti() {
+        rfturn mWidti;
     }
 
     /**
-     * Sets the imageable area of this <code>Paper</code>.  The
-     * imageable area is the area on the page in which printing
-     * occurs.
-     * @param x the X coordinate to which to set the
-     * upper-left corner of the imageable area of this <code>Paper</code>
-     * @param y the Y coordinate to which to set the
-     * upper-left corner of the imageable area of this <code>Paper</code>
-     * @param width the value to which to set the width of the
-     * imageable area of this <code>Paper</code>
-     * @param height the value to which to set the height of the
-     * imageable area of this <code>Paper</code>
+     * Sfts tif imbgfbblf brfb of tiis <dodf>Pbpfr</dodf>.  Tif
+     * imbgfbblf brfb is tif brfb on tif pbgf in wiidi printing
+     * oddurs.
+     * @pbrbm x tif X doordinbtf to wiidi to sft tif
+     * uppfr-lfft dornfr of tif imbgfbblf brfb of tiis <dodf>Pbpfr</dodf>
+     * @pbrbm y tif Y doordinbtf to wiidi to sft tif
+     * uppfr-lfft dornfr of tif imbgfbblf brfb of tiis <dodf>Pbpfr</dodf>
+     * @pbrbm widti tif vbluf to wiidi to sft tif widti of tif
+     * imbgfbblf brfb of tiis <dodf>Pbpfr</dodf>
+     * @pbrbm ifigit tif vbluf to wiidi to sft tif ifigit of tif
+     * imbgfbblf brfb of tiis <dodf>Pbpfr</dodf>
      */
-    public void setImageableArea(double x, double y,
-                                 double width, double height) {
-        mImageableArea = new Rectangle2D.Double(x, y, width,height);
+    publid void sftImbgfbblfArfb(doublf x, doublf y,
+                                 doublf widti, doublf ifigit) {
+        mImbgfbblfArfb = nfw Rfdtbnglf2D.Doublf(x, y, widti,ifigit);
     }
 
     /**
-     * Returns the x coordinate of the upper-left corner of this
-     * <code>Paper</code> object's imageable area.
-     * @return the x coordinate of the imageable area.
+     * Rfturns tif x doordinbtf of tif uppfr-lfft dornfr of tiis
+     * <dodf>Pbpfr</dodf> objfdt's imbgfbblf brfb.
+     * @rfturn tif x doordinbtf of tif imbgfbblf brfb.
      */
-    public double getImageableX() {
-        return mImageableArea.getX();
+    publid doublf gftImbgfbblfX() {
+        rfturn mImbgfbblfArfb.gftX();
     }
 
     /**
-     * Returns the y coordinate of the upper-left corner of this
-     * <code>Paper</code> object's imageable area.
-     * @return the y coordinate of the imageable area.
+     * Rfturns tif y doordinbtf of tif uppfr-lfft dornfr of tiis
+     * <dodf>Pbpfr</dodf> objfdt's imbgfbblf brfb.
+     * @rfturn tif y doordinbtf of tif imbgfbblf brfb.
      */
-    public double getImageableY() {
-        return mImageableArea.getY();
+    publid doublf gftImbgfbblfY() {
+        rfturn mImbgfbblfArfb.gftY();
     }
 
     /**
-     * Returns the width of this <code>Paper</code> object's imageable
-     * area.
-     * @return the width of the imageable area.
+     * Rfturns tif widti of tiis <dodf>Pbpfr</dodf> objfdt's imbgfbblf
+     * brfb.
+     * @rfturn tif widti of tif imbgfbblf brfb.
      */
-    public double getImageableWidth() {
-        return mImageableArea.getWidth();
+    publid doublf gftImbgfbblfWidti() {
+        rfturn mImbgfbblfArfb.gftWidti();
     }
 
     /**
-     * Returns the height of this <code>Paper</code> object's imageable
-     * area.
-     * @return the height of the imageable area.
+     * Rfturns tif ifigit of tiis <dodf>Pbpfr</dodf> objfdt's imbgfbblf
+     * brfb.
+     * @rfturn tif ifigit of tif imbgfbblf brfb.
      */
-    public double getImageableHeight() {
-        return mImageableArea.getHeight();
+    publid doublf gftImbgfbblfHfigit() {
+        rfturn mImbgfbblfArfb.gftHfigit();
     }
 }

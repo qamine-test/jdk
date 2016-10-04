@@ -1,0 +1,199 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.bordfr;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Componfnt;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * A dlbss thbt implfmfnts bn fmpty bordfr with no sizf.
+ * This providfs b donvfnifnt bbsf dlbss from whidh othfr bordfr
+ * dlbssfs dbn bf fbsily dfrivfd.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Dbvid Klobb
+ */
+@SupprfssWbrnings("sfribl")
+publid bbstrbdt dlbss AbstrbdtBordfr implfmfnts Bordfr, Sfriblizbblf
+{
+    /**
+     * This dffbult implfmfntbtion dofs no pbinting.
+     * @pbrbm d thf domponfnt for whidh this bordfr is bfing pbintfd
+     * @pbrbm g thf pbint grbphids
+     * @pbrbm x thf x position of thf pbintfd bordfr
+     * @pbrbm y thf y position of thf pbintfd bordfr
+     * @pbrbm width thf width of thf pbintfd bordfr
+     * @pbrbm hfight thf hfight of thf pbintfd bordfr
+     */
+    publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int width, int hfight) {
+    }
+
+    /**
+     * This dffbult implfmfntbtion rfturns b nfw {@link Insfts} objfdt
+     * thbt is initiblizfd by thf {@link #gftBordfrInsfts(Componfnt,Insfts)}
+     * mfthod.
+     * By dffbult thf {@dodf top}, {@dodf lfft}, {@dodf bottom},
+     * bnd {@dodf right} fiflds brf sft to {@dodf 0}.
+     *
+     * @pbrbm d  thf domponfnt for whidh this bordfr insfts vbluf bpplifs
+     * @rfturn b nfw {@link Insfts} objfdt
+     */
+    publid Insfts gftBordfrInsfts(Componfnt d)       {
+        rfturn gftBordfrInsfts(d, nfw Insfts(0, 0, 0, 0));
+    }
+
+    /**
+     * Rfinitiblizfs thf insfts pbrbmftfr with this Bordfr's durrfnt Insfts.
+     * @pbrbm d thf domponfnt for whidh this bordfr insfts vbluf bpplifs
+     * @pbrbm insfts thf objfdt to bf rfinitiblizfd
+     * @rfturn thf <dodf>insfts</dodf> objfdt
+     */
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        insfts.lfft = insfts.top = insfts.right = insfts.bottom = 0;
+        rfturn insfts;
+    }
+
+    /**
+     * This dffbult implfmfntbtion rfturns fblsf.
+     * @rfturn fblsf
+     */
+    publid boolfbn isBordfrOpbquf() { rfturn fblsf; }
+
+    /**
+     * This donvfnifndf mfthod dblls thf stbtid mfthod.
+     * @pbrbm d thf domponfnt for whidh this bordfr is bfing domputfd
+     * @pbrbm x thf x position of thf bordfr
+     * @pbrbm y thf y position of thf bordfr
+     * @pbrbm width thf width of thf bordfr
+     * @pbrbm hfight thf hfight of thf bordfr
+     * @rfturn b <dodf>Rfdtbnglf</dodf> dontbining thf intfrior doordinbtfs
+     */
+    publid Rfdtbnglf gftIntfriorRfdtbnglf(Componfnt d, int x, int y, int width, int hfight) {
+        rfturn gftIntfriorRfdtbnglf(d, this, x, y, width, hfight);
+    }
+
+    /**
+     * Rfturns b rfdtbnglf using thf brgumfnts minus thf
+     * insfts of thf bordfr. This is usfful for dftfrmining thf brfb
+     * thbt domponfnts should drbw in thbt will not intfrsfdt thf bordfr.
+     * @pbrbm d thf domponfnt for whidh this bordfr is bfing domputfd
+     * @pbrbm b thf <dodf>Bordfr</dodf> objfdt
+     * @pbrbm x thf x position of thf bordfr
+     * @pbrbm y thf y position of thf bordfr
+     * @pbrbm width thf width of thf bordfr
+     * @pbrbm hfight thf hfight of thf bordfr
+     * @rfturn b <dodf>Rfdtbnglf</dodf> dontbining thf intfrior doordinbtfs
+     */
+    publid stbtid Rfdtbnglf gftIntfriorRfdtbnglf(Componfnt d, Bordfr b, int x, int y, int width, int hfight) {
+        Insfts insfts;
+        if(b != null)
+            insfts = b.gftBordfrInsfts(d);
+        flsf
+            insfts = nfw Insfts(0, 0, 0, 0);
+        rfturn nfw Rfdtbnglf(x + insfts.lfft,
+                                    y + insfts.top,
+                                    width - insfts.right - insfts.lfft,
+                                    hfight - insfts.top - insfts.bottom);
+    }
+
+    /**
+     * Rfturns thf bbsflinf.  A rfturn vbluf lfss thbn 0 indidbtfs thf bordfr
+     * dofs not hbvf b rfbsonbblf bbsflinf.
+     * <p>
+     * Thf dffbult implfmfntbtion rfturns -1.  Subdlbssfs thbt support
+     * bbsflinf should ovfrridf bppropribtfly.  If b vbluf &gt;= 0 is
+     * rfturnfd, thfn thf domponfnt hbs b vblid bbsflinf for bny
+     * sizf &gt;= thf minimum sizf bnd <dodf>gftBbsflinfRfsizfBfhbvior</dodf>
+     * dbn bf usfd to dftfrminf how thf bbsflinf dhbngfs with sizf.
+     *
+     * @pbrbm d <dodf>Componfnt</dodf> bbsflinf is bfing rfqufstfd for
+     * @pbrbm width thf width to gft thf bbsflinf for
+     * @pbrbm hfight thf hfight to gft thf bbsflinf for
+     * @rfturn thf bbsflinf or &lt; 0 indidbting thfrf is no rfbsonbblf
+     *         bbsflinf
+     * @throws IllfgblArgumfntExdfption if width or hfight is &lt; 0
+     * @sff jbvb.bwt.Componfnt#gftBbsflinf(int,int)
+     * @sff jbvb.bwt.Componfnt#gftBbsflinfRfsizfBfhbvior()
+     * @sindf 1.6
+     */
+    publid int gftBbsflinf(Componfnt d, int width, int hfight) {
+        if (width < 0 || hfight < 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "Width bnd hfight must bf >= 0");
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns bn fnum indidbting how thf bbsflinf of b domponfnt
+     * dhbngfs bs thf sizf dhbngfs.  This mfthod is primbrily mfbnt for
+     * lbyout mbnbgfrs bnd GUI buildfrs.
+     * <p>
+     * Thf dffbult implfmfntbtion rfturns
+     * <dodf>BbsflinfRfsizfBfhbvior.OTHER</dodf>, subdlbssfs thbt support
+     * bbsflinf should ovfrridf bppropribtfly.  Subdlbssfs should
+     * nfvfr rfturn <dodf>null</dodf>; if thf bbsflinf dbn not bf
+     * dbldulbtfd rfturn <dodf>BbsflinfRfsizfBfhbvior.OTHER</dodf>.  Cbllfrs
+     * should first bsk for thf bbsflinf using
+     * <dodf>gftBbsflinf</dodf> bnd if b vbluf &gt;= 0 is rfturnfd usf
+     * this mfthod.  It is bddfptbblf for this mfthod to rfturn b
+     * vbluf othfr thbn <dodf>BbsflinfRfsizfBfhbvior.OTHER</dodf> fvfn if
+     * <dodf>gftBbsflinf</dodf> rfturns b vbluf lfss thbn 0.
+     *
+     * @pbrbm d <dodf>Componfnt</dodf> to rfturn bbsflinf rfsizf bfhbvior for
+     * @rfturn bn fnum indidbting how thf bbsflinf dhbngfs bs thf bordfr is
+     *         rfsizfd
+     * @sff jbvb.bwt.Componfnt#gftBbsflinf(int,int)
+     * @sff jbvb.bwt.Componfnt#gftBbsflinfRfsizfBfhbvior()
+     * @sindf 1.6
+     */
+    publid Componfnt.BbsflinfRfsizfBfhbvior gftBbsflinfRfsizfBfhbvior(
+            Componfnt d) {
+        if (d == null) {
+            throw nfw NullPointfrExdfption("Componfnt must bf non-null");
+        }
+        rfturn Componfnt.BbsflinfRfsizfBfhbvior.OTHER;
+    }
+
+    /*
+     * Convfnifndf fundtion for dftfrmining ComponfntOrifntbtion.
+     * Hflps us bvoid hbving Mungf dirfdtivfs throughout thf dodf.
+     */
+    stbtid boolfbn isLfftToRight( Componfnt d ) {
+        rfturn d.gftComponfntOrifntbtion().isLfftToRight();
+    }
+
+}

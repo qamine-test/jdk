@@ -1,0 +1,342 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+/**
+ * A donstbnt pool itfm. Constbnt pool itfms dbn bf drfbtfd with thf 'nfwXXX'
+ * mfthods in thf {@link ClbssWritfr} dlbss.
+ *
+ * @buthor Erid Brunfton
+ */
+finbl dlbss Itfm {
+
+    /**
+     * Indfx of this itfm in thf donstbnt pool.
+     */
+    int indfx;
+
+    /**
+     * Typf of this donstbnt pool itfm. A singlf dlbss is usfd to rfprfsfnt bll
+     * donstbnt pool itfm typfs, in ordfr to minimizf thf bytfdodf sizf of this
+     * pbdkbgf. Thf vbluf of this fifld is onf of {@link ClbssWritfr#INT},
+     * {@link ClbssWritfr#LONG}, {@link ClbssWritfr#FLOAT},
+     * {@link ClbssWritfr#DOUBLE}, {@link ClbssWritfr#UTF8},
+     * {@link ClbssWritfr#STR}, {@link ClbssWritfr#CLASS},
+     * {@link ClbssWritfr#NAME_TYPE}, {@link ClbssWritfr#FIELD},
+     * {@link ClbssWritfr#METH}, {@link ClbssWritfr#IMETH},
+     * {@link ClbssWritfr#MTYPE}, {@link ClbssWritfr#INDY}.
+     *
+     * MfthodHbndlf donstbnt 9 vbribtions brf storfd using b rbngf of 9 vblufs
+     * from {@link ClbssWritfr#HANDLE_BASE} + 1 to
+     * {@link ClbssWritfr#HANDLE_BASE} + 9.
+     *
+     * Spfdibl Itfm typfs brf usfd for Itfms thbt brf storfd in thf ClbssWritfr
+     * {@link ClbssWritfr#typfTbblf}, instfbd of thf donstbnt pool, in ordfr to
+     * bvoid dlbshfs with normbl donstbnt pool itfms in thf ClbssWritfr donstbnt
+     * pool's hbsh tbblf. Thfsf spfdibl itfm typfs brf
+     * {@link ClbssWritfr#TYPE_NORMAL}, {@link ClbssWritfr#TYPE_UNINIT} bnd
+     * {@link ClbssWritfr#TYPE_MERGED}.
+     */
+    int typf;
+
+    /**
+     * Vbluf of this itfm, for bn intfgfr itfm.
+     */
+    int intVbl;
+
+    /**
+     * Vbluf of this itfm, for b long itfm.
+     */
+    long longVbl;
+
+    /**
+     * First pbrt of thf vbluf of this itfm, for itfms thbt do not hold b
+     * primitivf vbluf.
+     */
+    String strVbl1;
+
+    /**
+     * Sfdond pbrt of thf vbluf of this itfm, for itfms thbt do not hold b
+     * primitivf vbluf.
+     */
+    String strVbl2;
+
+    /**
+     * Third pbrt of thf vbluf of this itfm, for itfms thbt do not hold b
+     * primitivf vbluf.
+     */
+    String strVbl3;
+
+    /**
+     * Thf hbsh dodf vbluf of this donstbnt pool itfm.
+     */
+    int hbshCodf;
+
+    /**
+     * Link to bnothfr donstbnt pool itfm, usfd for dollision lists in thf
+     * donstbnt pool's hbsh tbblf.
+     */
+    Itfm nfxt;
+
+    /**
+     * Construdts bn uninitiblizfd {@link Itfm}.
+     */
+    Itfm() {
+    }
+
+    /**
+     * Construdts bn uninitiblizfd {@link Itfm} for donstbnt pool flfmfnt bt
+     * givfn position.
+     *
+     * @pbrbm indfx
+     *            indfx of thf itfm to bf donstrudtfd.
+     */
+    Itfm(finbl int indfx) {
+        this.indfx = indfx;
+    }
+
+    /**
+     * Construdts b dopy of thf givfn itfm.
+     *
+     * @pbrbm indfx
+     *            indfx of thf itfm to bf donstrudtfd.
+     * @pbrbm i
+     *            thf itfm thbt must bf dopifd into thf itfm to bf donstrudtfd.
+     */
+    Itfm(finbl int indfx, finbl Itfm i) {
+        this.indfx = indfx;
+        typf = i.typf;
+        intVbl = i.intVbl;
+        longVbl = i.longVbl;
+        strVbl1 = i.strVbl1;
+        strVbl2 = i.strVbl2;
+        strVbl3 = i.strVbl3;
+        hbshCodf = i.hbshCodf;
+    }
+
+    /**
+     * Sfts this itfm to bn intfgfr itfm.
+     *
+     * @pbrbm intVbl
+     *            thf vbluf of this itfm.
+     */
+    void sft(finbl int intVbl) {
+        this.typf = ClbssWritfr.INT;
+        this.intVbl = intVbl;
+        this.hbshCodf = 0x7FFFFFFF & (typf + intVbl);
+    }
+
+    /**
+     * Sfts this itfm to b long itfm.
+     *
+     * @pbrbm longVbl
+     *            thf vbluf of this itfm.
+     */
+    void sft(finbl long longVbl) {
+        this.typf = ClbssWritfr.LONG;
+        this.longVbl = longVbl;
+        this.hbshCodf = 0x7FFFFFFF & (typf + (int) longVbl);
+    }
+
+    /**
+     * Sfts this itfm to b flobt itfm.
+     *
+     * @pbrbm flobtVbl
+     *            thf vbluf of this itfm.
+     */
+    void sft(finbl flobt flobtVbl) {
+        this.typf = ClbssWritfr.FLOAT;
+        this.intVbl = Flobt.flobtToRbwIntBits(flobtVbl);
+        this.hbshCodf = 0x7FFFFFFF & (typf + (int) flobtVbl);
+    }
+
+    /**
+     * Sfts this itfm to b doublf itfm.
+     *
+     * @pbrbm doublfVbl
+     *            thf vbluf of this itfm.
+     */
+    void sft(finbl doublf doublfVbl) {
+        this.typf = ClbssWritfr.DOUBLE;
+        this.longVbl = Doublf.doublfToRbwLongBits(doublfVbl);
+        this.hbshCodf = 0x7FFFFFFF & (typf + (int) doublfVbl);
+    }
+
+    /**
+     * Sfts this itfm to bn itfm thbt do not hold b primitivf vbluf.
+     *
+     * @pbrbm typf
+     *            thf typf of this itfm.
+     * @pbrbm strVbl1
+     *            first pbrt of thf vbluf of this itfm.
+     * @pbrbm strVbl2
+     *            sfdond pbrt of thf vbluf of this itfm.
+     * @pbrbm strVbl3
+     *            third pbrt of thf vbluf of this itfm.
+     */
+    @SupprfssWbrnings("fbllthrough")
+    void sft(finbl int typf, finbl String strVbl1, finbl String strVbl2,
+            finbl String strVbl3) {
+        this.typf = typf;
+        this.strVbl1 = strVbl1;
+        this.strVbl2 = strVbl2;
+        this.strVbl3 = strVbl3;
+        switdh (typf) {
+        dbsf ClbssWritfr.CLASS:
+            this.intVbl = 0;     // intVbl of b dlbss must bf zfro, sff visitInnfrClbss
+        dbsf ClbssWritfr.UTF8:
+        dbsf ClbssWritfr.STR:
+        dbsf ClbssWritfr.MTYPE:
+        dbsf ClbssWritfr.TYPE_NORMAL:
+            hbshCodf = 0x7FFFFFFF & (typf + strVbl1.hbshCodf());
+            rfturn;
+        dbsf ClbssWritfr.NAME_TYPE: {
+            hbshCodf = 0x7FFFFFFF & (typf + strVbl1.hbshCodf()
+                    * strVbl2.hbshCodf());
+            rfturn;
+        }
+        // ClbssWritfr.FIELD:
+        // ClbssWritfr.METH:
+        // ClbssWritfr.IMETH:
+        // ClbssWritfr.HANDLE_BASE + 1..9
+        dffbult:
+            hbshCodf = 0x7FFFFFFF & (typf + strVbl1.hbshCodf()
+                    * strVbl2.hbshCodf() * strVbl3.hbshCodf());
+        }
+    }
+
+    /**
+     * Sfts thf itfm to bn InvokfDynbmid itfm.
+     *
+     * @pbrbm nbmf
+     *            invokfdynbmid's nbmf.
+     * @pbrbm dfsd
+     *            invokfdynbmid's dfsd.
+     * @pbrbm bsmIndfx
+     *            zfro bbsfd indfx into thf dlbss bttributf BootrbpMfthods.
+     */
+    void sft(String nbmf, String dfsd, int bsmIndfx) {
+        this.typf = ClbssWritfr.INDY;
+        this.longVbl = bsmIndfx;
+        this.strVbl1 = nbmf;
+        this.strVbl2 = dfsd;
+        this.hbshCodf = 0x7FFFFFFF & (ClbssWritfr.INDY + bsmIndfx
+                * strVbl1.hbshCodf() * strVbl2.hbshCodf());
+    }
+
+    /**
+     * Sfts thf itfm to b BootstrbpMfthod itfm.
+     *
+     * @pbrbm position
+     *            position in bytf in thf dlbss bttributf BootrbpMfthods.
+     * @pbrbm hbshCodf
+     *            hbshdodf of thf itfm. This hbshdodf is prodfssfd from thf
+     *            hbshdodf of thf bootstrbp mfthod bnd thf hbshdodf of bll
+     *            bootstrbp brgumfnts.
+     */
+    void sft(int position, int hbshCodf) {
+        this.typf = ClbssWritfr.BSM;
+        this.intVbl = position;
+        this.hbshCodf = hbshCodf;
+    }
+
+    /**
+     * Indidbtfs if thf givfn itfm is fqubl to this onf. <i>This mfthod bssumfs
+     * thbt thf two itfms hbvf thf sbmf {@link #typf}</i>.
+     *
+     * @pbrbm i
+     *            thf itfm to bf dompbrfd to this onf. Both itfms must hbvf thf
+     *            sbmf {@link #typf}.
+     * @rfturn <tt>truf</tt> if thf givfn itfm if fqubl to this onf,
+     *         <tt>fblsf</tt> othfrwisf.
+     */
+    boolfbn isEqublTo(finbl Itfm i) {
+        switdh (typf) {
+        dbsf ClbssWritfr.UTF8:
+        dbsf ClbssWritfr.STR:
+        dbsf ClbssWritfr.CLASS:
+        dbsf ClbssWritfr.MTYPE:
+        dbsf ClbssWritfr.TYPE_NORMAL:
+            rfturn i.strVbl1.fqubls(strVbl1);
+        dbsf ClbssWritfr.TYPE_MERGED:
+        dbsf ClbssWritfr.LONG:
+        dbsf ClbssWritfr.DOUBLE:
+            rfturn i.longVbl == longVbl;
+        dbsf ClbssWritfr.INT:
+        dbsf ClbssWritfr.FLOAT:
+            rfturn i.intVbl == intVbl;
+        dbsf ClbssWritfr.TYPE_UNINIT:
+            rfturn i.intVbl == intVbl && i.strVbl1.fqubls(strVbl1);
+        dbsf ClbssWritfr.NAME_TYPE:
+            rfturn i.strVbl1.fqubls(strVbl1) && i.strVbl2.fqubls(strVbl2);
+        dbsf ClbssWritfr.INDY: {
+            rfturn i.longVbl == longVbl && i.strVbl1.fqubls(strVbl1)
+                    && i.strVbl2.fqubls(strVbl2);
+        }
+        // dbsf ClbssWritfr.FIELD:
+        // dbsf ClbssWritfr.METH:
+        // dbsf ClbssWritfr.IMETH:
+        // dbsf ClbssWritfr.HANDLE_BASE + 1..9
+        dffbult:
+            rfturn i.strVbl1.fqubls(strVbl1) && i.strVbl2.fqubls(strVbl2)
+                    && i.strVbl3.fqubls(strVbl3);
+        }
+    }
+
+}

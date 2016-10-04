@@ -1,416 +1,416 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * A data output stream lets an application write primitive Java data
- * types to an output stream in a portable way. An application can
- * then use a data input stream to read the data back in.
+ * A dbtb output strfbm lfts bn bpplidbtion writf primitivf Jbvb dbtb
+ * typfs to bn output strfbm in b portbblf wby. An bpplidbtion dbn
+ * tifn usf b dbtb input strfbm to rfbd tif dbtb bbdk in.
  *
- * @author  unascribed
- * @see     java.io.DataInputStream
- * @since   1.0
+ * @butior  unbsdribfd
+ * @sff     jbvb.io.DbtbInputStrfbm
+ * @sindf   1.0
  */
-public
-class DataOutputStream extends FilterOutputStream implements DataOutput {
+publid
+dlbss DbtbOutputStrfbm fxtfnds FiltfrOutputStrfbm implfmfnts DbtbOutput {
     /**
-     * The number of bytes written to the data output stream so far.
-     * If this counter overflows, it will be wrapped to Integer.MAX_VALUE.
+     * Tif numbfr of bytfs writtfn to tif dbtb output strfbm so fbr.
+     * If tiis dountfr ovfrflows, it will bf wrbppfd to Intfgfr.MAX_VALUE.
      */
-    protected int written;
+    protfdtfd int writtfn;
 
     /**
-     * bytearr is initialized on demand by writeUTF
+     * bytfbrr is initiblizfd on dfmbnd by writfUTF
      */
-    private byte[] bytearr = null;
+    privbtf bytf[] bytfbrr = null;
 
     /**
-     * Creates a new data output stream to write data to the specified
-     * underlying output stream. The counter <code>written</code> is
-     * set to zero.
+     * Crfbtfs b nfw dbtb output strfbm to writf dbtb to tif spfdififd
+     * undfrlying output strfbm. Tif dountfr <dodf>writtfn</dodf> is
+     * sft to zfro.
      *
-     * @param   out   the underlying output stream, to be saved for later
-     *                use.
-     * @see     java.io.FilterOutputStream#out
+     * @pbrbm   out   tif undfrlying output strfbm, to bf sbvfd for lbtfr
+     *                usf.
+     * @sff     jbvb.io.FiltfrOutputStrfbm#out
      */
-    public DataOutputStream(OutputStream out) {
-        super(out);
+    publid DbtbOutputStrfbm(OutputStrfbm out) {
+        supfr(out);
     }
 
     /**
-     * Increases the written counter by the specified value
-     * until it reaches Integer.MAX_VALUE.
+     * Indrfbsfs tif writtfn dountfr by tif spfdififd vbluf
+     * until it rfbdifs Intfgfr.MAX_VALUE.
      */
-    private void incCount(int value) {
-        int temp = written + value;
-        if (temp < 0) {
-            temp = Integer.MAX_VALUE;
+    privbtf void indCount(int vbluf) {
+        int tfmp = writtfn + vbluf;
+        if (tfmp < 0) {
+            tfmp = Intfgfr.MAX_VALUE;
         }
-        written = temp;
+        writtfn = tfmp;
     }
 
     /**
-     * Writes the specified byte (the low eight bits of the argument
-     * <code>b</code>) to the underlying output stream. If no exception
-     * is thrown, the counter <code>written</code> is incremented by
-     * <code>1</code>.
+     * Writfs tif spfdififd bytf (tif low figit bits of tif brgumfnt
+     * <dodf>b</dodf>) to tif undfrlying output strfbm. If no fxdfption
+     * is tirown, tif dountfr <dodf>writtfn</dodf> is indrfmfntfd by
+     * <dodf>1</dodf>.
      * <p>
-     * Implements the <code>write</code> method of <code>OutputStream</code>.
+     * Implfmfnts tif <dodf>writf</dodf> mftiod of <dodf>OutputStrfbm</dodf>.
      *
-     * @param      b   the <code>byte</code> to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      b   tif <dodf>bytf</dodf> to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
      */
-    public synchronized void write(int b) throws IOException {
-        out.write(b);
-        incCount(1);
+    publid syndironizfd void writf(int b) tirows IOExdfption {
+        out.writf(b);
+        indCount(1);
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array
-     * starting at offset <code>off</code> to the underlying output stream.
-     * If no exception is thrown, the counter <code>written</code> is
-     * incremented by <code>len</code>.
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd bytf brrby
+     * stbrting bt offsft <dodf>off</dodf> to tif undfrlying output strfbm.
+     * If no fxdfption is tirown, tif dountfr <dodf>writtfn</dodf> is
+     * indrfmfntfd by <dodf>lfn</dodf>.
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      b     tif dbtb.
+     * @pbrbm      off   tif stbrt offsft in tif dbtb.
+     * @pbrbm      lfn   tif numbfr of bytfs to writf.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
      */
-    public synchronized void write(byte b[], int off, int len)
-        throws IOException
+    publid syndironizfd void writf(bytf b[], int off, int lfn)
+        tirows IOExdfption
     {
-        out.write(b, off, len);
-        incCount(len);
+        out.writf(b, off, lfn);
+        indCount(lfn);
     }
 
     /**
-     * Flushes this data output stream. This forces any buffered output
-     * bytes to be written out to the stream.
+     * Flusifs tiis dbtb output strfbm. Tiis fordfs bny bufffrfd output
+     * bytfs to bf writtfn out to tif strfbm.
      * <p>
-     * The <code>flush</code> method of <code>DataOutputStream</code>
-     * calls the <code>flush</code> method of its underlying output stream.
+     * Tif <dodf>flusi</dodf> mftiod of <dodf>DbtbOutputStrfbm</dodf>
+     * dblls tif <dodf>flusi</dodf> mftiod of its undfrlying output strfbm.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
-     * @see        java.io.OutputStream#flush()
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     * @sff        jbvb.io.OutputStrfbm#flusi()
      */
-    public void flush() throws IOException {
-        out.flush();
+    publid void flusi() tirows IOExdfption {
+        out.flusi();
     }
 
     /**
-     * Writes a <code>boolean</code> to the underlying output stream as
-     * a 1-byte value. The value <code>true</code> is written out as the
-     * value <code>(byte)1</code>; the value <code>false</code> is
-     * written out as the value <code>(byte)0</code>. If no exception is
-     * thrown, the counter <code>written</code> is incremented by
-     * <code>1</code>.
+     * Writfs b <dodf>boolfbn</dodf> to tif undfrlying output strfbm bs
+     * b 1-bytf vbluf. Tif vbluf <dodf>truf</dodf> is writtfn out bs tif
+     * vbluf <dodf>(bytf)1</dodf>; tif vbluf <dodf>fblsf</dodf> is
+     * writtfn out bs tif vbluf <dodf>(bytf)0</dodf>. If no fxdfption is
+     * tirown, tif dountfr <dodf>writtfn</dodf> is indrfmfntfd by
+     * <dodf>1</dodf>.
      *
-     * @param      v   a <code>boolean</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   b <dodf>boolfbn</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
      */
-    public final void writeBoolean(boolean v) throws IOException {
-        out.write(v ? 1 : 0);
-        incCount(1);
+    publid finbl void writfBoolfbn(boolfbn v) tirows IOExdfption {
+        out.writf(v ? 1 : 0);
+        indCount(1);
     }
 
     /**
-     * Writes out a <code>byte</code> to the underlying output stream as
-     * a 1-byte value. If no exception is thrown, the counter
-     * <code>written</code> is incremented by <code>1</code>.
+     * Writfs out b <dodf>bytf</dodf> to tif undfrlying output strfbm bs
+     * b 1-bytf vbluf. If no fxdfption is tirown, tif dountfr
+     * <dodf>writtfn</dodf> is indrfmfntfd by <dodf>1</dodf>.
      *
-     * @param      v   a <code>byte</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   b <dodf>bytf</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
      */
-    public final void writeByte(int v) throws IOException {
-        out.write(v);
-        incCount(1);
+    publid finbl void writfBytf(int v) tirows IOExdfption {
+        out.writf(v);
+        indCount(1);
     }
 
     /**
-     * Writes a <code>short</code> to the underlying output stream as two
-     * bytes, high byte first. If no exception is thrown, the counter
-     * <code>written</code> is incremented by <code>2</code>.
+     * Writfs b <dodf>siort</dodf> to tif undfrlying output strfbm bs two
+     * bytfs, iigi bytf first. If no fxdfption is tirown, tif dountfr
+     * <dodf>writtfn</dodf> is indrfmfntfd by <dodf>2</dodf>.
      *
-     * @param      v   a <code>short</code> to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   b <dodf>siort</dodf> to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
      */
-    public final void writeShort(int v) throws IOException {
-        out.write((v >>> 8) & 0xFF);
-        out.write((v >>> 0) & 0xFF);
-        incCount(2);
+    publid finbl void writfSiort(int v) tirows IOExdfption {
+        out.writf((v >>> 8) & 0xFF);
+        out.writf((v >>> 0) & 0xFF);
+        indCount(2);
     }
 
     /**
-     * Writes a <code>char</code> to the underlying output stream as a
-     * 2-byte value, high byte first. If no exception is thrown, the
-     * counter <code>written</code> is incremented by <code>2</code>.
+     * Writfs b <dodf>dibr</dodf> to tif undfrlying output strfbm bs b
+     * 2-bytf vbluf, iigi bytf first. If no fxdfption is tirown, tif
+     * dountfr <dodf>writtfn</dodf> is indrfmfntfd by <dodf>2</dodf>.
      *
-     * @param      v   a <code>char</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   b <dodf>dibr</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
      */
-    public final void writeChar(int v) throws IOException {
-        out.write((v >>> 8) & 0xFF);
-        out.write((v >>> 0) & 0xFF);
-        incCount(2);
+    publid finbl void writfCibr(int v) tirows IOExdfption {
+        out.writf((v >>> 8) & 0xFF);
+        out.writf((v >>> 0) & 0xFF);
+        indCount(2);
     }
 
     /**
-     * Writes an <code>int</code> to the underlying output stream as four
-     * bytes, high byte first. If no exception is thrown, the counter
-     * <code>written</code> is incremented by <code>4</code>.
+     * Writfs bn <dodf>int</dodf> to tif undfrlying output strfbm bs four
+     * bytfs, iigi bytf first. If no fxdfption is tirown, tif dountfr
+     * <dodf>writtfn</dodf> is indrfmfntfd by <dodf>4</dodf>.
      *
-     * @param      v   an <code>int</code> to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   bn <dodf>int</dodf> to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
      */
-    public final void writeInt(int v) throws IOException {
-        out.write((v >>> 24) & 0xFF);
-        out.write((v >>> 16) & 0xFF);
-        out.write((v >>>  8) & 0xFF);
-        out.write((v >>>  0) & 0xFF);
-        incCount(4);
+    publid finbl void writfInt(int v) tirows IOExdfption {
+        out.writf((v >>> 24) & 0xFF);
+        out.writf((v >>> 16) & 0xFF);
+        out.writf((v >>>  8) & 0xFF);
+        out.writf((v >>>  0) & 0xFF);
+        indCount(4);
     }
 
-    private byte writeBuffer[] = new byte[8];
+    privbtf bytf writfBufffr[] = nfw bytf[8];
 
     /**
-     * Writes a <code>long</code> to the underlying output stream as eight
-     * bytes, high byte first. In no exception is thrown, the counter
-     * <code>written</code> is incremented by <code>8</code>.
+     * Writfs b <dodf>long</dodf> to tif undfrlying output strfbm bs figit
+     * bytfs, iigi bytf first. In no fxdfption is tirown, tif dountfr
+     * <dodf>writtfn</dodf> is indrfmfntfd by <dodf>8</dodf>.
      *
-     * @param      v   a <code>long</code> to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   b <dodf>long</dodf> to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
      */
-    public final void writeLong(long v) throws IOException {
-        writeBuffer[0] = (byte)(v >>> 56);
-        writeBuffer[1] = (byte)(v >>> 48);
-        writeBuffer[2] = (byte)(v >>> 40);
-        writeBuffer[3] = (byte)(v >>> 32);
-        writeBuffer[4] = (byte)(v >>> 24);
-        writeBuffer[5] = (byte)(v >>> 16);
-        writeBuffer[6] = (byte)(v >>>  8);
-        writeBuffer[7] = (byte)(v >>>  0);
-        out.write(writeBuffer, 0, 8);
-        incCount(8);
-    }
-
-    /**
-     * Converts the float argument to an <code>int</code> using the
-     * <code>floatToIntBits</code> method in class <code>Float</code>,
-     * and then writes that <code>int</code> value to the underlying
-     * output stream as a 4-byte quantity, high byte first. If no
-     * exception is thrown, the counter <code>written</code> is
-     * incremented by <code>4</code>.
-     *
-     * @param      v   a <code>float</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
-     * @see        java.lang.Float#floatToIntBits(float)
-     */
-    public final void writeFloat(float v) throws IOException {
-        writeInt(Float.floatToIntBits(v));
+    publid finbl void writfLong(long v) tirows IOExdfption {
+        writfBufffr[0] = (bytf)(v >>> 56);
+        writfBufffr[1] = (bytf)(v >>> 48);
+        writfBufffr[2] = (bytf)(v >>> 40);
+        writfBufffr[3] = (bytf)(v >>> 32);
+        writfBufffr[4] = (bytf)(v >>> 24);
+        writfBufffr[5] = (bytf)(v >>> 16);
+        writfBufffr[6] = (bytf)(v >>>  8);
+        writfBufffr[7] = (bytf)(v >>>  0);
+        out.writf(writfBufffr, 0, 8);
+        indCount(8);
     }
 
     /**
-     * Converts the double argument to a <code>long</code> using the
-     * <code>doubleToLongBits</code> method in class <code>Double</code>,
-     * and then writes that <code>long</code> value to the underlying
-     * output stream as an 8-byte quantity, high byte first. If no
-     * exception is thrown, the counter <code>written</code> is
-     * incremented by <code>8</code>.
+     * Convfrts tif flobt brgumfnt to bn <dodf>int</dodf> using tif
+     * <dodf>flobtToIntBits</dodf> mftiod in dlbss <dodf>Flobt</dodf>,
+     * bnd tifn writfs tibt <dodf>int</dodf> vbluf to tif undfrlying
+     * output strfbm bs b 4-bytf qubntity, iigi bytf first. If no
+     * fxdfption is tirown, tif dountfr <dodf>writtfn</dodf> is
+     * indrfmfntfd by <dodf>4</dodf>.
      *
-     * @param      v   a <code>double</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
-     * @see        java.lang.Double#doubleToLongBits(double)
+     * @pbrbm      v   b <dodf>flobt</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     * @sff        jbvb.lbng.Flobt#flobtToIntBits(flobt)
      */
-    public final void writeDouble(double v) throws IOException {
-        writeLong(Double.doubleToLongBits(v));
+    publid finbl void writfFlobt(flobt v) tirows IOExdfption {
+        writfInt(Flobt.flobtToIntBits(v));
     }
 
     /**
-     * Writes out the string to the underlying output stream as a
-     * sequence of bytes. Each character in the string is written out, in
-     * sequence, by discarding its high eight bits. If no exception is
-     * thrown, the counter <code>written</code> is incremented by the
-     * length of <code>s</code>.
+     * Convfrts tif doublf brgumfnt to b <dodf>long</dodf> using tif
+     * <dodf>doublfToLongBits</dodf> mftiod in dlbss <dodf>Doublf</dodf>,
+     * bnd tifn writfs tibt <dodf>long</dodf> vbluf to tif undfrlying
+     * output strfbm bs bn 8-bytf qubntity, iigi bytf first. If no
+     * fxdfption is tirown, tif dountfr <dodf>writtfn</dodf> is
+     * indrfmfntfd by <dodf>8</dodf>.
      *
-     * @param      s   a string of bytes to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   b <dodf>doublf</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     * @sff        jbvb.lbng.Doublf#doublfToLongBits(doublf)
      */
-    public final void writeBytes(String s) throws IOException {
-        int len = s.length();
-        for (int i = 0 ; i < len ; i++) {
-            out.write((byte)s.charAt(i));
+    publid finbl void writfDoublf(doublf v) tirows IOExdfption {
+        writfLong(Doublf.doublfToLongBits(v));
+    }
+
+    /**
+     * Writfs out tif string to tif undfrlying output strfbm bs b
+     * sfqufndf of bytfs. Ebdi dibrbdtfr in tif string is writtfn out, in
+     * sfqufndf, by disdbrding its iigi figit bits. If no fxdfption is
+     * tirown, tif dountfr <dodf>writtfn</dodf> is indrfmfntfd by tif
+     * lfngti of <dodf>s</dodf>.
+     *
+     * @pbrbm      s   b string of bytfs to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid finbl void writfBytfs(String s) tirows IOExdfption {
+        int lfn = s.lfngti();
+        for (int i = 0 ; i < lfn ; i++) {
+            out.writf((bytf)s.dibrAt(i));
         }
-        incCount(len);
+        indCount(lfn);
     }
 
     /**
-     * Writes a string to the underlying output stream as a sequence of
-     * characters. Each character is written to the data output stream as
-     * if by the <code>writeChar</code> method. If no exception is
-     * thrown, the counter <code>written</code> is incremented by twice
-     * the length of <code>s</code>.
+     * Writfs b string to tif undfrlying output strfbm bs b sfqufndf of
+     * dibrbdtfrs. Ebdi dibrbdtfr is writtfn to tif dbtb output strfbm bs
+     * if by tif <dodf>writfCibr</dodf> mftiod. If no fxdfption is
+     * tirown, tif dountfr <dodf>writtfn</dodf> is indrfmfntfd by twidf
+     * tif lfngti of <dodf>s</dodf>.
      *
-     * @param      s   a <code>String</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.DataOutputStream#writeChar(int)
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      s   b <dodf>String</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.DbtbOutputStrfbm#writfCibr(int)
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
      */
-    public final void writeChars(String s) throws IOException {
-        int len = s.length();
-        for (int i = 0 ; i < len ; i++) {
-            int v = s.charAt(i);
-            out.write((v >>> 8) & 0xFF);
-            out.write((v >>> 0) & 0xFF);
+    publid finbl void writfCibrs(String s) tirows IOExdfption {
+        int lfn = s.lfngti();
+        for (int i = 0 ; i < lfn ; i++) {
+            int v = s.dibrAt(i);
+            out.writf((v >>> 8) & 0xFF);
+            out.writf((v >>> 0) & 0xFF);
         }
-        incCount(len * 2);
+        indCount(lfn * 2);
     }
 
     /**
-     * Writes a string to the underlying output stream using
-     * <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
-     * encoding in a machine-independent manner.
+     * Writfs b string to tif undfrlying output strfbm using
+     * <b irff="DbtbInput.itml#modififd-utf-8">modififd UTF-8</b>
+     * fndoding in b mbdiinf-indfpfndfnt mbnnfr.
      * <p>
-     * First, two bytes are written to the output stream as if by the
-     * <code>writeShort</code> method giving the number of bytes to
-     * follow. This value is the number of bytes actually written out,
-     * not the length of the string. Following the length, each character
-     * of the string is output, in sequence, using the modified UTF-8 encoding
-     * for the character. If no exception is thrown, the counter
-     * <code>written</code> is incremented by the total number of
-     * bytes written to the output stream. This will be at least two
-     * plus the length of <code>str</code>, and at most two plus
-     * thrice the length of <code>str</code>.
+     * First, two bytfs brf writtfn to tif output strfbm bs if by tif
+     * <dodf>writfSiort</dodf> mftiod giving tif numbfr of bytfs to
+     * follow. Tiis vbluf is tif numbfr of bytfs bdtublly writtfn out,
+     * not tif lfngti of tif string. Following tif lfngti, fbdi dibrbdtfr
+     * of tif string is output, in sfqufndf, using tif modififd UTF-8 fndoding
+     * for tif dibrbdtfr. If no fxdfption is tirown, tif dountfr
+     * <dodf>writtfn</dodf> is indrfmfntfd by tif totbl numbfr of
+     * bytfs writtfn to tif output strfbm. Tiis will bf bt lfbst two
+     * plus tif lfngti of <dodf>str</dodf>, bnd bt most two plus
+     * tiridf tif lfngti of <dodf>str</dodf>.
      *
-     * @param      str   a string to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      str   b string to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public final void writeUTF(String str) throws IOException {
-        writeUTF(str, this);
+    publid finbl void writfUTF(String str) tirows IOExdfption {
+        writfUTF(str, tiis);
     }
 
     /**
-     * Writes a string to the specified DataOutput using
-     * <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
-     * encoding in a machine-independent manner.
+     * Writfs b string to tif spfdififd DbtbOutput using
+     * <b irff="DbtbInput.itml#modififd-utf-8">modififd UTF-8</b>
+     * fndoding in b mbdiinf-indfpfndfnt mbnnfr.
      * <p>
-     * First, two bytes are written to out as if by the <code>writeShort</code>
-     * method giving the number of bytes to follow. This value is the number of
-     * bytes actually written out, not the length of the string. Following the
-     * length, each character of the string is output, in sequence, using the
-     * modified UTF-8 encoding for the character. If no exception is thrown, the
-     * counter <code>written</code> is incremented by the total number of
-     * bytes written to the output stream. This will be at least two
-     * plus the length of <code>str</code>, and at most two plus
-     * thrice the length of <code>str</code>.
+     * First, two bytfs brf writtfn to out bs if by tif <dodf>writfSiort</dodf>
+     * mftiod giving tif numbfr of bytfs to follow. Tiis vbluf is tif numbfr of
+     * bytfs bdtublly writtfn out, not tif lfngti of tif string. Following tif
+     * lfngti, fbdi dibrbdtfr of tif string is output, in sfqufndf, using tif
+     * modififd UTF-8 fndoding for tif dibrbdtfr. If no fxdfption is tirown, tif
+     * dountfr <dodf>writtfn</dodf> is indrfmfntfd by tif totbl numbfr of
+     * bytfs writtfn to tif output strfbm. Tiis will bf bt lfbst two
+     * plus tif lfngti of <dodf>str</dodf>, bnd bt most two plus
+     * tiridf tif lfngti of <dodf>str</dodf>.
      *
-     * @param      str   a string to be written.
-     * @param      out   destination to write to
-     * @return     The number of bytes written out.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      str   b string to bf writtfn.
+     * @pbrbm      out   dfstinbtion to writf to
+     * @rfturn     Tif numbfr of bytfs writtfn out.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    static int writeUTF(String str, DataOutput out) throws IOException {
-        int strlen = str.length();
-        int utflen = 0;
-        int c, count = 0;
+    stbtid int writfUTF(String str, DbtbOutput out) tirows IOExdfption {
+        int strlfn = str.lfngti();
+        int utflfn = 0;
+        int d, dount = 0;
 
-        /* use charAt instead of copying String to char array */
-        for (int i = 0; i < strlen; i++) {
-            c = str.charAt(i);
-            if ((c >= 0x0001) && (c <= 0x007F)) {
-                utflen++;
-            } else if (c > 0x07FF) {
-                utflen += 3;
-            } else {
-                utflen += 2;
+        /* usf dibrAt instfbd of dopying String to dibr brrby */
+        for (int i = 0; i < strlfn; i++) {
+            d = str.dibrAt(i);
+            if ((d >= 0x0001) && (d <= 0x007F)) {
+                utflfn++;
+            } flsf if (d > 0x07FF) {
+                utflfn += 3;
+            } flsf {
+                utflfn += 2;
             }
         }
 
-        if (utflen > 65535)
-            throw new UTFDataFormatException(
-                "encoded string too long: " + utflen + " bytes");
+        if (utflfn > 65535)
+            tirow nfw UTFDbtbFormbtExdfption(
+                "fndodfd string too long: " + utflfn + " bytfs");
 
-        byte[] bytearr = null;
-        if (out instanceof DataOutputStream) {
-            DataOutputStream dos = (DataOutputStream)out;
-            if(dos.bytearr == null || (dos.bytearr.length < (utflen+2)))
-                dos.bytearr = new byte[(utflen*2) + 2];
-            bytearr = dos.bytearr;
-        } else {
-            bytearr = new byte[utflen+2];
+        bytf[] bytfbrr = null;
+        if (out instbndfof DbtbOutputStrfbm) {
+            DbtbOutputStrfbm dos = (DbtbOutputStrfbm)out;
+            if(dos.bytfbrr == null || (dos.bytfbrr.lfngti < (utflfn+2)))
+                dos.bytfbrr = nfw bytf[(utflfn*2) + 2];
+            bytfbrr = dos.bytfbrr;
+        } flsf {
+            bytfbrr = nfw bytf[utflfn+2];
         }
 
-        bytearr[count++] = (byte) ((utflen >>> 8) & 0xFF);
-        bytearr[count++] = (byte) ((utflen >>> 0) & 0xFF);
+        bytfbrr[dount++] = (bytf) ((utflfn >>> 8) & 0xFF);
+        bytfbrr[dount++] = (bytf) ((utflfn >>> 0) & 0xFF);
 
         int i=0;
-        for (i=0; i<strlen; i++) {
-           c = str.charAt(i);
-           if (!((c >= 0x0001) && (c <= 0x007F))) break;
-           bytearr[count++] = (byte) c;
+        for (i=0; i<strlfn; i++) {
+           d = str.dibrAt(i);
+           if (!((d >= 0x0001) && (d <= 0x007F))) brfbk;
+           bytfbrr[dount++] = (bytf) d;
         }
 
-        for (;i < strlen; i++){
-            c = str.charAt(i);
-            if ((c >= 0x0001) && (c <= 0x007F)) {
-                bytearr[count++] = (byte) c;
+        for (;i < strlfn; i++){
+            d = str.dibrAt(i);
+            if ((d >= 0x0001) && (d <= 0x007F)) {
+                bytfbrr[dount++] = (bytf) d;
 
-            } else if (c > 0x07FF) {
-                bytearr[count++] = (byte) (0xE0 | ((c >> 12) & 0x0F));
-                bytearr[count++] = (byte) (0x80 | ((c >>  6) & 0x3F));
-                bytearr[count++] = (byte) (0x80 | ((c >>  0) & 0x3F));
-            } else {
-                bytearr[count++] = (byte) (0xC0 | ((c >>  6) & 0x1F));
-                bytearr[count++] = (byte) (0x80 | ((c >>  0) & 0x3F));
+            } flsf if (d > 0x07FF) {
+                bytfbrr[dount++] = (bytf) (0xE0 | ((d >> 12) & 0x0F));
+                bytfbrr[dount++] = (bytf) (0x80 | ((d >>  6) & 0x3F));
+                bytfbrr[dount++] = (bytf) (0x80 | ((d >>  0) & 0x3F));
+            } flsf {
+                bytfbrr[dount++] = (bytf) (0xC0 | ((d >>  6) & 0x1F));
+                bytfbrr[dount++] = (bytf) (0x80 | ((d >>  0) & 0x3F));
             }
         }
-        out.write(bytearr, 0, utflen+2);
-        return utflen + 2;
+        out.writf(bytfbrr, 0, utflfn+2);
+        rfturn utflfn + 2;
     }
 
     /**
-     * Returns the current value of the counter <code>written</code>,
-     * the number of bytes written to this data output stream so far.
-     * If the counter overflows, it will be wrapped to Integer.MAX_VALUE.
+     * Rfturns tif durrfnt vbluf of tif dountfr <dodf>writtfn</dodf>,
+     * tif numbfr of bytfs writtfn to tiis dbtb output strfbm so fbr.
+     * If tif dountfr ovfrflows, it will bf wrbppfd to Intfgfr.MAX_VALUE.
      *
-     * @return  the value of the <code>written</code> field.
-     * @see     java.io.DataOutputStream#written
+     * @rfturn  tif vbluf of tif <dodf>writtfn</dodf> fifld.
+     * @sff     jbvb.io.DbtbOutputStrfbm#writtfn
      */
-    public final int size() {
-        return written;
+    publid finbl int sizf() {
+        rfturn writtfn;
     }
 }

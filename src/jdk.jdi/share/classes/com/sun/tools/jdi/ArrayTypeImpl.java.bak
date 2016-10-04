@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
-public class ArrayTypeImpl extends ReferenceTypeImpl
-    implements ArrayType
+publid dlbss ArrbyTypfImpl fxtfnds RfffrfndfTypfImpl
+    implfmfnts ArrbyTypf
 {
-    protected ArrayTypeImpl(VirtualMachine aVm, long aRef) {
-        super(aVm, aRef);
+    protfdtfd ArrbyTypfImpl(VirtublMbdiinf bVm, long bRff) {
+        supfr(bVm, bRff);
     }
 
-    public ArrayReference newInstance(int length) {
+    publid ArrbyRfffrfndf nfwInstbndf(int lfngti) {
         try {
-            return (ArrayReference)JDWP.ArrayType.NewInstance.
-                                       process(vm, this, length).newArray;
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            rfturn (ArrbyRfffrfndf)JDWP.ArrbyTypf.NfwInstbndf.
+                                       prodfss(vm, tiis, lfngti).nfwArrby;
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
     }
 
-    public String componentSignature() {
-        return signature().substring(1); // Just skip the leading '['
+    publid String domponfntSignbturf() {
+        rfturn signbturf().substring(1); // Just skip tif lfbding '['
     }
 
-    public String componentTypeName() {
-        JNITypeParser parser = new JNITypeParser(componentSignature());
-        return parser.typeName();
+    publid String domponfntTypfNbmf() {
+        JNITypfPbrsfr pbrsfr = nfw JNITypfPbrsfr(domponfntSignbturf());
+        rfturn pbrsfr.typfNbmf();
     }
 
-    Type type() throws ClassNotLoadedException {
-        return findType(componentSignature());
+    Typf typf() tirows ClbssNotLobdfdExdfption {
+        rfturn findTypf(domponfntSignbturf());
     }
 
-    @Override
-    void addVisibleMethods(Map<String, Method> map, Set<InterfaceType> seenInterfaces) {
-        // arrays don't have methods
+    @Ovfrridf
+    void bddVisiblfMftiods(Mbp<String, Mftiod> mbp, Sft<IntfrfbdfTypf> sffnIntfrfbdfs) {
+        // brrbys don't ibvf mftiods
     }
 
-    public List<Method> allMethods() {
-        return new ArrayList<Method>(0);   // arrays don't have methods
+    publid List<Mftiod> bllMftiods() {
+        rfturn nfw ArrbyList<Mftiod>(0);   // brrbys don't ibvf mftiods
     }
 
     /*
-     * Find the type object, if any, of a component type of this array.
-     * The component type does not have to be immediate; e.g. this method
-     * can be used to find the component Foo of Foo[][]. This method takes
-     * advantage of the property that an array and its component must have
-     * the same class loader. Since array set operations don't have an
-     * implicit enclosing type like field and variable set operations,
-     * this method is sometimes needed for proper type checking.
+     * Find tif typf objfdt, if bny, of b domponfnt typf of tiis brrby.
+     * Tif domponfnt typf dofs not ibvf to bf immfdibtf; f.g. tiis mftiod
+     * dbn bf usfd to find tif domponfnt Foo of Foo[][]. Tiis mftiod tbkfs
+     * bdvbntbgf of tif propfrty tibt bn brrby bnd its domponfnt must ibvf
+     * tif sbmf dlbss lobdfr. Sindf brrby sft opfrbtions don't ibvf bn
+     * implidit fndlosing typf likf fifld bnd vbribblf sft opfrbtions,
+     * tiis mftiod is somftimfs nffdfd for propfr typf difdking.
      */
-    Type findComponentType(String signature) throws ClassNotLoadedException {
-        byte tag = (byte)signature.charAt(0);
-        if (PacketStream.isObjectTag(tag)) {
-            // It's a reference type
-            JNITypeParser parser = new JNITypeParser(componentSignature());
-            List<ReferenceType> list = vm.classesByName(parser.typeName());
-            Iterator<ReferenceType> iter = list.iterator();
-            while (iter.hasNext()) {
-                ReferenceType type = iter.next();
-                ClassLoaderReference cl = type.classLoader();
-                if ((cl == null)?
-                         (classLoader() == null) :
-                         (cl.equals(classLoader()))) {
-                    return type;
+    Typf findComponfntTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+        bytf tbg = (bytf)signbturf.dibrAt(0);
+        if (PbdkftStrfbm.isObjfdtTbg(tbg)) {
+            // It's b rfffrfndf typf
+            JNITypfPbrsfr pbrsfr = nfw JNITypfPbrsfr(domponfntSignbturf());
+            List<RfffrfndfTypf> list = vm.dlbssfsByNbmf(pbrsfr.typfNbmf());
+            Itfrbtor<RfffrfndfTypf> itfr = list.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                RfffrfndfTypf typf = itfr.nfxt();
+                ClbssLobdfrRfffrfndf dl = typf.dlbssLobdfr();
+                if ((dl == null)?
+                         (dlbssLobdfr() == null) :
+                         (dl.fqubls(dlbssLobdfr()))) {
+                    rfturn typf;
                 }
             }
-            // Component class has not yet been loaded
-            throw new ClassNotLoadedException(componentTypeName());
-        } else {
-            // It's a primitive type
-            return vm.primitiveTypeMirror(tag);
+            // Componfnt dlbss ibs not yft bffn lobdfd
+            tirow nfw ClbssNotLobdfdExdfption(domponfntTypfNbmf());
+        } flsf {
+            // It's b primitivf typf
+            rfturn vm.primitivfTypfMirror(tbg);
         }
     }
 
-    public Type componentType() throws ClassNotLoadedException {
-        return findComponentType(componentSignature());
+    publid Typf domponfntTypf() tirows ClbssNotLobdfdExdfption {
+        rfturn findComponfntTypf(domponfntSignbturf());
     }
 
-    static boolean isComponentAssignable(Type destination, Type source) {
-        if (source instanceof PrimitiveType) {
-            // Assignment of primitive arrays requires identical
-            // component types.
-            return source.equals(destination);
-        } else {
-            if (destination instanceof PrimitiveType) {
-                return false;
+    stbtid boolfbn isComponfntAssignbblf(Typf dfstinbtion, Typf sourdf) {
+        if (sourdf instbndfof PrimitivfTypf) {
+            // Assignmfnt of primitivf brrbys rfquirfs idfntidbl
+            // domponfnt typfs.
+            rfturn sourdf.fqubls(dfstinbtion);
+        } flsf {
+            if (dfstinbtion instbndfof PrimitivfTypf) {
+                rfturn fblsf;
             }
 
-            ReferenceTypeImpl refSource = (ReferenceTypeImpl)source;
-            ReferenceTypeImpl refDestination = (ReferenceTypeImpl)destination;
-            // Assignment of object arrays requires availability
-            // of widening conversion of component types
-            return refSource.isAssignableTo(refDestination);
+            RfffrfndfTypfImpl rffSourdf = (RfffrfndfTypfImpl)sourdf;
+            RfffrfndfTypfImpl rffDfstinbtion = (RfffrfndfTypfImpl)dfstinbtion;
+            // Assignmfnt of objfdt brrbys rfquirfs bvbilbbility
+            // of widfning donvfrsion of domponfnt typfs
+            rfturn rffSourdf.isAssignbblfTo(rffDfstinbtion);
         }
     }
 
     /*
-     * Return true if an instance of the  given reference type
-     * can be assigned to a variable of this type
+     * Rfturn truf if bn instbndf of tif  givfn rfffrfndf typf
+     * dbn bf bssignfd to b vbribblf of tiis typf
      */
-    boolean isAssignableTo(ReferenceType destType) {
-        if (destType instanceof ArrayType) {
+    boolfbn isAssignbblfTo(RfffrfndfTypf dfstTypf) {
+        if (dfstTypf instbndfof ArrbyTypf) {
             try {
-                Type destComponentType = ((ArrayType)destType).componentType();
-                return isComponentAssignable(destComponentType, componentType());
-            } catch (ClassNotLoadedException e) {
-                // One or both component types has not yet been
-                // loaded => can't assign
-                return false;
+                Typf dfstComponfntTypf = ((ArrbyTypf)dfstTypf).domponfntTypf();
+                rfturn isComponfntAssignbblf(dfstComponfntTypf, domponfntTypf());
+            } dbtdi (ClbssNotLobdfdExdfption f) {
+                // Onf or boti domponfnt typfs ibs not yft bffn
+                // lobdfd => dbn't bssign
+                rfturn fblsf;
             }
-        } else if (destType instanceof InterfaceType) {
-            // Only valid InterfaceType assignee is Cloneable
-            return destType.name().equals("java.lang.Cloneable");
-        } else {
-            // Only valid ClassType assignee is Object
-            return destType.name().equals("java.lang.Object");
+        } flsf if (dfstTypf instbndfof IntfrfbdfTypf) {
+            // Only vblid IntfrfbdfTypf bssignff is Clonfbblf
+            rfturn dfstTypf.nbmf().fqubls("jbvb.lbng.Clonfbblf");
+        } flsf {
+            // Only vblid ClbssTypf bssignff is Objfdt
+            rfturn dfstTypf.nbmf().fqubls("jbvb.lbng.Objfdt");
         }
     }
 
-    List<ReferenceType> inheritedTypes() {
-        return new ArrayList<ReferenceType>(0);
+    List<RfffrfndfTypf> inifritfdTypfs() {
+        rfturn nfw ArrbyList<RfffrfndfTypf>(0);
     }
 
-    void getModifiers() {
-        if (modifiers != -1) {
-            return;
+    void gftModififrs() {
+        if (modififrs != -1) {
+            rfturn;
         }
         /*
-         * For object arrays, the return values for Interface
-         * Accessible.isPrivate(), Accessible.isProtected(),
-         * etc... are the same as would be returned for the
-         * component type.  Fetch the modifier bits from the
-         * component type and use those.
+         * For objfdt brrbys, tif rfturn vblufs for Intfrfbdf
+         * Addfssiblf.isPrivbtf(), Addfssiblf.isProtfdtfd(),
+         * ftd... brf tif sbmf bs would bf rfturnfd for tif
+         * domponfnt typf.  Fftdi tif modififr bits from tif
+         * domponfnt typf bnd usf tiosf.
          *
-         * For primitive arrays, the modifiers are always
-         *   VMModifiers.FINAL | VMModifiers.PUBLIC
+         * For primitivf brrbys, tif modififrs brf blwbys
+         *   VMModififrs.FINAL | VMModififrs.PUBLIC
          *
-         * Reference com.sun.jdi.Accessible.java.
+         * Rfffrfndf dom.sun.jdi.Addfssiblf.jbvb.
          */
         try {
-            Type t = componentType();
-            if (t instanceof PrimitiveType) {
-                modifiers = VMModifiers.FINAL | VMModifiers.PUBLIC;
-            } else {
-                ReferenceType rt = (ReferenceType)t;
-                modifiers = rt.modifiers();
+            Typf t = domponfntTypf();
+            if (t instbndfof PrimitivfTypf) {
+                modififrs = VMModififrs.FINAL | VMModififrs.PUBLIC;
+            } flsf {
+                RfffrfndfTypf rt = (RfffrfndfTypf)t;
+                modififrs = rt.modififrs();
             }
-        } catch (ClassNotLoadedException cnle) {
-            cnle.printStackTrace();
+        } dbtdi (ClbssNotLobdfdExdfption dnlf) {
+            dnlf.printStbdkTrbdf();
         }
     }
 
-    public String toString() {
-       return "array class " + name() + " (" + loaderString() + ")";
+    publid String toString() {
+       rfturn "brrby dlbss " + nbmf() + " (" + lobdfrString() + ")";
     }
 
     /*
-     * Save a pointless trip over the wire for these methods
-     * which have undefined results for arrays.
+     * Sbvf b pointlfss trip ovfr tif wirf for tifsf mftiods
+     * wiidi ibvf undffinfd rfsults for brrbys.
      */
-    public boolean isPrepared() { return true; }
-    public boolean isVerified() { return true; }
-    public boolean isInitialized() { return true; }
-    public boolean failedToInitialize() { return false; }
-    public boolean isAbstract() { return false; }
+    publid boolfbn isPrfpbrfd() { rfturn truf; }
+    publid boolfbn isVfrififd() { rfturn truf; }
+    publid boolfbn isInitiblizfd() { rfturn truf; }
+    publid boolfbn fbilfdToInitiblizf() { rfturn fblsf; }
+    publid boolfbn isAbstrbdt() { rfturn fblsf; }
 
     /*
-     * Defined always to be true for arrays
+     * Dffinfd blwbys to bf truf for brrbys
      */
-    public boolean isFinal() { return true; }
+    publid boolfbn isFinbl() { rfturn truf; }
 
     /*
-     * Defined always to be false for arrays
+     * Dffinfd blwbys to bf fblsf for brrbys
      */
-    public boolean isStatic() { return false; }
+    publid boolfbn isStbtid() { rfturn fblsf; }
 }

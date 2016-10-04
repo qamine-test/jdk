@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library.
+ * Tif Originbl Codf is tif flliptid durvf mbti librbry.
  *
- * The Initial Developer of the Original Code is
- * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 2003
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs
  *
  *********************************************************************** */
 
-#ifndef _ECL_H
-#define _ECL_H
+#ifndff _ECL_H
+#dffinf _ECL_H
 
-/* Although this is not an exported header file, code which uses elliptic
- * curve point operations will need to include it. */
+/* Altiougi tiis is not bn fxportfd ifbdfr filf, dodf wiidi usfs flliptid
+ * durvf point opfrbtions will nffd to indludf it. */
 
-#include "ecl-exp.h"
-#include "mpi.h"
+#indludf "fdl-fxp.i"
+#indludf "mpi.i"
 
-struct ECGroupStr;
-typedef struct ECGroupStr ECGroup;
+strudt ECGroupStr;
+typfdff strudt ECGroupStr ECGroup;
 
-/* Construct ECGroup from hexadecimal representations of parameters. */
-ECGroup *ECGroup_fromHex(const ECCurveParams * params, int kmflag);
+/* Construdt ECGroup from ifxbdfdimbl rfprfsfntbtions of pbrbmftfrs. */
+ECGroup *ECGroup_fromHfx(donst ECCurvfPbrbms * pbrbms, int kmflbg);
 
-/* Construct ECGroup from named parameters. */
-ECGroup *ECGroup_fromName(const ECCurveName name, int kmflag);
+/* Construdt ECGroup from nbmfd pbrbmftfrs. */
+ECGroup *ECGroup_fromNbmf(donst ECCurvfNbmf nbmf, int kmflbg);
 
-/* Free an allocated ECGroup. */
-void ECGroup_free(ECGroup *group);
+/* Frff bn bllodbtfd ECGroup. */
+void ECGroup_frff(ECGroup *group);
 
-/* Construct ECCurveParams from an ECCurveName */
-ECCurveParams *EC_GetNamedCurveParams(const ECCurveName name, int kmflag);
+/* Construdt ECCurvfPbrbms from bn ECCurvfNbmf */
+ECCurvfPbrbms *EC_GftNbmfdCurvfPbrbms(donst ECCurvfNbmf nbmf, int kmflbg);
 
-/* Duplicates an ECCurveParams */
-ECCurveParams *ECCurveParams_dup(const ECCurveParams * params, int kmflag);
+/* Duplidbtfs bn ECCurvfPbrbms */
+ECCurvfPbrbms *ECCurvfPbrbms_dup(donst ECCurvfPbrbms * pbrbms, int kmflbg);
 
-/* Free an allocated ECCurveParams */
-void EC_FreeCurveParams(ECCurveParams * params);
+/* Frff bn bllodbtfd ECCurvfPbrbms */
+void EC_FrffCurvfPbrbms(ECCurvfPbrbms * pbrbms);
 
-/* Elliptic curve scalar-point multiplication. Computes Q(x, y) = k * P(x,
- * y).  If x, y = NULL, then P is assumed to be the generator (base point)
- * of the group of points on the elliptic curve. Input and output values
- * are assumed to be NOT field-encoded. */
-mp_err ECPoint_mul(const ECGroup *group, const mp_int *k, const mp_int *px,
-                                   const mp_int *py, mp_int *qx, mp_int *qy);
+/* Elliptid durvf sdblbr-point multiplidbtion. Computfs Q(x, y) = k * P(x,
+ * y).  If x, y = NULL, tifn P is bssumfd to bf tif gfnfrbtor (bbsf point)
+ * of tif group of points on tif flliptid durvf. Input bnd output vblufs
+ * brf bssumfd to bf NOT fifld-fndodfd. */
+mp_frr ECPoint_mul(donst ECGroup *group, donst mp_int *k, donst mp_int *px,
+                                   donst mp_int *py, mp_int *qx, mp_int *qy);
 
-/* Elliptic curve scalar-point multiplication. Computes Q(x, y) = k1 * G +
- * k2 * P(x, y), where G is the generator (base point) of the group of
- * points on the elliptic curve. Input and output values are assumed to
- * be NOT field-encoded. */
-mp_err ECPoints_mul(const ECGroup *group, const mp_int *k1,
-                                        const mp_int *k2, const mp_int *px, const mp_int *py,
+/* Elliptid durvf sdblbr-point multiplidbtion. Computfs Q(x, y) = k1 * G +
+ * k2 * P(x, y), wifrf G is tif gfnfrbtor (bbsf point) of tif group of
+ * points on tif flliptid durvf. Input bnd output vblufs brf bssumfd to
+ * bf NOT fifld-fndodfd. */
+mp_frr ECPoints_mul(donst ECGroup *group, donst mp_int *k1,
+                                        donst mp_int *k2, donst mp_int *px, donst mp_int *py,
                                         mp_int *qx, mp_int *qy);
 
-/* Validates an EC public key as described in Section 5.2.2 of X9.62.
- * Returns MP_YES if the public key is valid, MP_NO if the public key
- * is invalid, or an error code if the validation could not be
- * performed. */
-mp_err ECPoint_validate(const ECGroup *group, const mp_int *px, const
+/* Vblidbtfs bn EC publid kfy bs dfsdribfd in Sfdtion 5.2.2 of X9.62.
+ * Rfturns MP_YES if tif publid kfy is vblid, MP_NO if tif publid kfy
+ * is invblid, or bn frror dodf if tif vblidbtion dould not bf
+ * pfrformfd. */
+mp_frr ECPoint_vblidbtf(donst ECGroup *group, donst mp_int *px, donst
                                         mp_int *py);
 
-#endif /* _ECL_H */
+#fndif /* _ECL_H */

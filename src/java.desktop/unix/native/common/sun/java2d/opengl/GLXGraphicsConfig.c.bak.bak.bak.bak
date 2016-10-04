@@ -1,0 +1,672 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <string.h>
+
+#indludf "sun_jbvb2d_opfngl_GLXGrbphidsConfig.h"
+
+#indludf "jni.h"
+#indludf "jlong.h"
+#indludf "GLXGrbphidsConfig.h"
+#indludf "GLXSurfbdfDbtb.h"
+#indludf "bwt_GrbphidsEnv.h"
+#indludf "bwt_util.h"
+
+#ifndff HEADLESS
+
+fxtfrn Bool usingXinfrbmb;
+
+/**
+ * This is b globblly shbrfd dontfxt usfd whfn drfbting tfxturfs.  Whfn bny
+ * nfw dontfxts brf drfbtfd, thfy spfdify this dontfxt bs thf "shbrf list"
+ * dontfxt, whidh mfbns bny tfxturf objfdts drfbtfd whfn this shbrfd dontfxt
+ * is durrfnt will bf bvbilbblf to bny othfr dontfxt.
+ */
+stbtid GLXContfxt shbrfdContfxt = 0;
+
+/**
+ * Attfmpts to initiblizf GLX bnd thf dorf OpfnGL librbry.  For this mfthod
+ * to rfturn JNI_TRUE, thf following must bf truf:
+ *     - libGL must bf lobdfd suddfssfully (vib dlopfn)
+ *     - bll fundtion symbols from libGL must bf bvbilbblf bnd lobdfd propfrly
+ *     - thf GLX fxtfnsion must bf bvbilbblf through X11
+ *     - dlifnt GLX vfrsion must bf >= 1.3
+ * If bny of thfsf rfquirfmfnts brf not mft, this mfthod will rfturn
+ * JNI_FALSE, indidbting thfrf is no hopf of using GLX/OpfnGL for bny
+ * GrbphidsConfig in thf fnvironmfnt.
+ */
+stbtid jboolfbn
+GLXGC_InitGLX()
+{
+    int frrorbbsf, fvfntbbsf;
+    donst dhbr *vfrsion;
+
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "GLXGC_InitGLX");
+
+    if (!OGLFunds_OpfnLibrbry()) {
+        rfturn JNI_FALSE;
+    }
+
+    if (!OGLFunds_InitPlbtformFunds() ||
+        !OGLFunds_InitBbsfFunds() ||
+        !OGLFunds_InitExtFunds())
+    {
+        OGLFunds_ClosfLibrbry();
+        rfturn JNI_FALSE;
+    }
+
+    if (!j2d_glXQufryExtfnsion(bwt_displby, &frrorbbsf, &fvfntbbsf)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXGC_InitGLX: GLX fxtfnsion is not prfsfnt");
+        OGLFunds_ClosfLibrbry();
+        rfturn JNI_FALSE;
+    }
+
+    vfrsion = j2d_glXGftClifntString(bwt_displby, GLX_VERSION);
+    if (vfrsion == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXGC_InitGLX: dould not qufry GLX vfrsion");
+        OGLFunds_ClosfLibrbry();
+        rfturn JNI_FALSE;
+    }
+
+    // wf now only vfrify thbt thf dlifnt GLX vfrsion is >= 1.3 (if thf
+    // sfrvfr dofs not support GLX 1.3, thfn wf will find thbt out lbtfr
+    // whfn wf bttfmpt to drfbtf b GLXFBConfig)
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+                   "GLXGC_InitGLX: dlifnt GLX vfrsion=%s", vfrsion);
+    if (!((vfrsion[0] == '1' && vfrsion[2] >= '3') || (vfrsion[0] > '1'))) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXGC_InitGLX: invblid GLX vfrsion; 1.3 is rfquirfd");
+        OGLFunds_ClosfLibrbry();
+        rfturn JNI_FALSE;
+    }
+
+    rfturn JNI_TRUE;
+}
+
+/**
+ * Rfturns JNI_TRUE if GLX is bvbilbblf for thf durrfnt displby.  Notf thbt
+ * this mfthod will bttfmpt to initiblizf GLX (bnd bll thf nfdfssbry fundtion
+ * symbols) if it hbs not bffn blrfbdy.  Thf AWT_LOCK must bf bdquirfd bfforf
+ * dblling this mfthod.
+ */
+jboolfbn
+GLXGC_IsGLXAvbilbblf()
+{
+    stbtid jboolfbn glxAvbilbblf = JNI_FALSE;
+    stbtid jboolfbn firstTimf = JNI_TRUE;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGC_IsGLXAvbilbblf");
+
+    if (firstTimf) {
+        glxAvbilbblf = GLXGC_InitGLX();
+        firstTimf = JNI_FALSE;
+    }
+
+    rfturn glxAvbilbblf;
+}
+
+/**
+ * Disposfs bll mfmory bnd rfsourdfs bllodbtfd for thf givfn OGLContfxt.
+ */
+stbtid void
+GLXGC_DfstroyOGLContfxt(OGLContfxt *ogld)
+{
+    GLXCtxInfo *dtxinfo;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGC_DfstroyOGLContfxt");
+
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXGC_DfstroyOGLContfxt: dontfxt is null");
+        rfturn;
+    }
+
+    // bt this point, this dontfxt will bf durrfnt to its sdrbtdh surfbdf
+    // so thf following GL/GLX opfrbtions should bf sbff...
+
+    OGLContfxt_DfstroyContfxtRfsourdfs(ogld);
+
+    dtxinfo = (GLXCtxInfo *)ogld->dtxInfo;
+    if (dtxinfo != NULL) {
+        // rflfbsf thf durrfnt dontfxt bfforf wf dontinuf
+        j2d_glXMbkfContfxtCurrfnt(bwt_displby, Nonf, Nonf, NULL);
+
+        if (dtxinfo->dontfxt != 0) {
+            j2d_glXDfstroyContfxt(bwt_displby, dtxinfo->dontfxt);
+        }
+        if (dtxinfo->sdrbtdhSurfbdf != 0) {
+            j2d_glXDfstroyPbufffr(bwt_displby, dtxinfo->sdrbtdhSurfbdf);
+        }
+
+        frff(dtxinfo);
+    }
+
+    frff(ogld);
+}
+
+/**
+ * Disposfs bll mfmory bnd rfsourdfs bssodibtfd with thf givfn
+ * GLXGrbphidsConfigInfo (indluding its nbtivf OGLContfxt dbtb).
+ */
+void
+OGLGC_DfstroyOGLGrbphidsConfig(jlong pConfigInfo)
+{
+    GLXGrbphidsConfigInfo *glxinfo =
+        (GLXGrbphidsConfigInfo *)jlong_to_ptr(pConfigInfo);
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLGC_DfstroyOGLGrbphidsConfig");
+
+    if (glxinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLGC_DfstroyOGLGrbphidsConfig: info is null");
+        rfturn;
+    }
+
+    if (glxinfo->dontfxt != NULL) {
+        GLXGC_DfstroyOGLContfxt(glxinfo->dontfxt);
+    }
+
+    frff(glxinfo);
+}
+
+/**
+ * Attfmpts to drfbtf b nfw GLXFBConfig for thf rfqufstfd sdrffn bnd visubl.
+ * If visublid is 0, this mfthod will itfrbtf through bll GLXFBConfigs (if
+ * bny) thbt mbtdh thf rfqufstfd bttributfs bnd will bttfmpt to find bn
+ * fbdonfig with b minimbl dombinfd dfpth+stfndil bufffr.  Notf thbt wf
+ * durrfntly only nffd dfpth dbpbbilitifs (for shbpf dlipping purposfs), but
+ * glXChoosfFBConfig() will oftfn rfturn b list of fbdonfigs with thf lbrgfst
+ * dfpth bufffr (bnd stfndil) sizfs bt thf top of thf list.  Thfrfforf, wf
+ * sdbn through thf wholf list to find thf most VRAM-fffidifnt fbdonfig.
+ * If visublid is non-zfro, thf GLXFBConfig bssodibtfd with thf givfn visubl
+ * is dhosfn (bssuming it mffts thf rfqufstfd bttributfs).  If thfrf brf no
+ * vblid GLXFBConfigs bvbilbblf, this mfthod rfturns 0.
+ */
+stbtid GLXFBConfig
+GLXGC_InitFBConfig(JNIEnv *fnv, jint sdrffnnum, VisublID visublid)
+{
+    GLXFBConfig *fbdonfigs;
+    GLXFBConfig dhosfnConfig = 0;
+    int ndonfs, i;
+    int bttrlist[] = {GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT | GLX_PBUFFER_BIT,
+                      GLX_RENDER_TYPE, GLX_RGBA_BIT,
+                      GLX_CONFIG_CAVEAT, GLX_NONE, // bvoid "slow" donfigs
+                      GLX_DEPTH_SIZE, 16, // bnything >= 16 will work for us
+                      0};
+
+    // this is thf initibl minimum vbluf for thf dombinfd dfpth+stfndil sizf
+    // (wf initiblizf it to somf bbsurdly high vbluf; rfblistid vblufs will
+    // bf mudh lfss thbn this numbfr)
+    int minDfpthPlusStfndil = 512;
+
+    J2dRlsTrbdfLn2(J2D_TRACE_INFO, "GLXGC_InitFBConfig: sdn=%d vis=0x%x",
+                   sdrffnnum, visublid);
+
+    // find bll fbdonfigs for this sdrffn with thf providfd bttributfs
+    fbdonfigs = j2d_glXChoosfFBConfig(bwt_displby, sdrffnnum,
+                                      bttrlist, &ndonfs);
+
+    if ((fbdonfigs == NULL) || (ndonfs <= 0)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_InitFBConfig: dould not find bny vblid fbdonfigs");
+        rfturn 0;
+    }
+
+    J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  dbndidbtf fbdonfigs:");
+
+    // itfrbtf through thf list of fbdonfigs, looking for thf onf thbt mbtdhfs
+    // thf rfqufstfd VisublID bnd supports RGBA rfndfring bs wfll bs thf
+    // drfbtion of windows bnd pbufffrs
+    for (i = 0; i < ndonfs; i++) {
+        XVisublInfo *xvi;
+        VisublID fbvisublid;
+        GLXFBConfig fbd = fbdonfigs[i];
+
+        // gft VisublID from GLXFBConfig
+        xvi = j2d_glXGftVisublFromFBConfig(bwt_displby, fbd);
+        if (xvi == NULL) {
+            dontinuf;
+        }
+        fbvisublid = xvi->visublid;
+        XFrff(xvi);
+
+        if (visublid == 0 || visublid == fbvisublid) {
+            int dtypf, rtypf, dfpth, stfndil, db, blphb, gbmmb;
+
+            // gft GLX-spfdifid bttributfs from GLXFBConfig
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_DRAWABLE_TYPE, &dtypf);
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_RENDER_TYPE, &rtypf);
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_DEPTH_SIZE, &dfpth);
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_STENCIL_SIZE, &stfndil);
+
+            // thfsf bttributfs don't bfffdt our dfdision, but thfy brf
+            // intfrfsting for trbdf logs, so wf will qufry thfm bnywby
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_DOUBLEBUFFER, &db);
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_ALPHA_SIZE, &blphb);
+
+            J2dRlsTrbdf5(J2D_TRACE_VERBOSE,
+                "[V]     id=0x%x db=%d blphb=%d dfpth=%d stfndil=%d vblid=",
+                         fbvisublid, db, blphb, dfpth, stfndil);
+
+#ifdff __spbrd
+            /*
+             * Sun's OpfnGL implfmfntbtion will blwbys
+             * rfturn bt lfbst two GLXFBConfigs (visubls) from
+             * glXChoosfFBConfig().  Thf first will bf b linfbr (gbmmb
+             * dorrfdtfd) visubl; thf sfdond will hbvf thf sbmf dbpbbilitifs
+             * bs thf first, fxdfpt it will bf b non-linfbr (non-gbmmb
+             * dorrfdtfd) visubl, whidh is thf onf wf wbnt, othfrwisf
+             * fvfrything will look "wbshfd out".  So wf will rfjfdt bny
+             * visubls thbt hbvf gbmmb vblufs othfr thbn 1.0 (thf vbluf
+             * rfturnfd by glXGftFBConfigAttrib() will bf sdblfd
+             * by 100, so 100 dorrfsponds to b gbmmb vbluf of 1.0, 220
+             * dorrfsponds to 2.2, bnd so on).
+             */
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_GAMMA_VALUE_SUN, &gbmmb);
+            if (gbmmb != 100) {
+                J2dRlsTrbdf(J2D_TRACE_VERBOSE, "fblsf (linfbr visubl)\n");
+                dontinuf;
+            }
+#fndif /* __spbrd */
+
+            if ((dtypf & GLX_WINDOW_BIT) &&
+                (dtypf & GLX_PBUFFER_BIT) &&
+                (rtypf & GLX_RGBA_BIT) &&
+                (dfpth >= 16))
+            {
+                if (visublid == 0) {
+                    // whfn visublid == 0, wf loop through bll donfigs
+                    // looking for bn fbdonfig thbt hbs thf smbllfst dombinfd
+                    // dfpth+stfndil sizf (this kffps VRAM usbgf to b minimum)
+                    if ((dfpth + stfndil) < minDfpthPlusStfndil) {
+                        J2dRlsTrbdf(J2D_TRACE_VERBOSE, "truf\n");
+                        minDfpthPlusStfndil = dfpth + stfndil;
+                        dhosfnConfig = fbd;
+                    } flsf {
+                        J2dRlsTrbdf(J2D_TRACE_VERBOSE,
+                                    "fblsf (lbrgf dfpth)\n");
+                    }
+                    dontinuf;
+                } flsf {
+                    // in this dbsf, visublid == fbvisublid, whidh mfbns
+                    // wf'vf found b vblid fbdonfig dorrfsponding to thf
+                    // rfqufstfd VisublID, so brfbk out of thf loop
+                    J2dRlsTrbdf(J2D_TRACE_VERBOSE, "truf\n");
+                    dhosfnConfig = fbd;
+                    brfbk;
+                }
+            } flsf {
+                J2dRlsTrbdf(J2D_TRACE_VERBOSE, "fblsf (bbd mbtdh)\n");
+            }
+        }
+    }
+
+    // frff thf list of fbdonfigs
+    XFrff(fbdonfigs);
+
+    if (dhosfnConfig == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_InitFBConfig: dould not find bn bppropribtf fbdonfig");
+        rfturn 0;
+    }
+
+    rfturn dhosfnConfig;
+}
+
+/**
+ * Rfturns thf X11 VisublID thbt dorrfsponds to thf bfst GLXFBConfig for thf
+ * givfn sdrffn.  If no vblid visubl dould bf found, this mfthod rfturns zfro.
+ * Notf thbt this mfthod will bttfmpt to initiblizf GLX (bnd bll thf
+ * nfdfssbry fundtion symbols) if it hbs not bffn blrfbdy.  Thf AWT_LOCK
+ * must bf bdquirfd bfforf dblling this mfthod.
+ */
+VisublID
+GLXGC_FindBfstVisubl(JNIEnv *fnv, jint sdrffn)
+{
+    GLXFBConfig fbd;
+    XVisublInfo *xvi;
+    VisublID visublid;
+
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO, "GLXGC_FindBfstVisubl: sdn=%d", sdrffn);
+
+    if (!GLXGC_IsGLXAvbilbblf()) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_FindBfstVisubl: dould not initiblizf GLX");
+        rfturn 0;
+    }
+
+    fbd = GLXGC_InitFBConfig(fnv, sdrffn, 0);
+    if (fbd == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_FindBfstVisubl: dould not find bfst visubl");
+        rfturn 0;
+    }
+
+    xvi = j2d_glXGftVisublFromFBConfig(bwt_displby, fbd);
+    if (xvi == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_FindBfstVisubl: dould not gft visubl for fbdonfig");
+        rfturn 0;
+    }
+
+    visublid = xvi->visublid;
+    XFrff(xvi);
+
+    J2dRlsTrbdfLn2(J2D_TRACE_INFO,
+        "GLXGC_FindBfstVisubl: dhosf 0x%x bs thf bfst visubl for sdrffn %d",
+                   visublid, sdrffn);
+
+    rfturn visublid;
+}
+
+/**
+ * Crfbtfs b sdrbtdh pbufffr, whidh dbn bf usfd to mbkf b dontfxt durrfnt
+ * for fxtfnsion qufrifs, ftd.
+ */
+stbtid GLXPbufffr
+GLXGC_InitSdrbtdhPbufffr(GLXFBConfig fbdonfig)
+{
+    int pbbttrlist[] = {GLX_PBUFFER_WIDTH, 1,
+                        GLX_PBUFFER_HEIGHT, 1,
+                        GLX_PRESERVED_CONTENTS, GL_FALSE,
+                        0};
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGC_InitSdrbtdhPbufffr");
+
+    rfturn j2d_glXCrfbtfPbufffr(bwt_displby, fbdonfig, pbbttrlist);
+}
+
+/**
+ * Initiblizfs b nfw OGLContfxt, whidh indludfs thf nbtivf GLXContfxt hbndlf
+ * bnd somf othfr importbnt informbtion sudh bs thf bssodibtfd GLXFBConfig.
+ */
+stbtid OGLContfxt *
+GLXGC_InitOGLContfxt(GLXFBConfig fbdonfig, GLXContfxt dontfxt,
+                     GLXPbufffr sdrbtdh, jint dbps)
+{
+    OGLContfxt *ogld;
+    GLXCtxInfo *dtxinfo;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGC_InitOGLContfxt");
+
+    ogld = (OGLContfxt *)mbllod(sizfof(OGLContfxt));
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_InitOGLContfxt: dould not bllodbtf mfmory for ogld");
+        rfturn NULL;
+    }
+
+    mfmsft(ogld, 0, sizfof(OGLContfxt));
+
+    dtxinfo = (GLXCtxInfo *)mbllod(sizfof(GLXCtxInfo));
+    if (dtxinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_InitOGLContfxt: dould not bllodbtf mfmory for dtxinfo");
+        frff(ogld);
+        rfturn NULL;
+    }
+
+    dtxinfo->fbdonfig = fbdonfig;
+    dtxinfo->dontfxt = dontfxt;
+    dtxinfo->sdrbtdhSurfbdf = sdrbtdh;
+    ogld->dtxInfo = dtxinfo;
+    ogld->dbps = dbps;
+
+    rfturn ogld;
+}
+
+#fndif /* !HEADLESS */
+
+/**
+ * Dftfrminfs whfthfr thf GLX pipflinf dbn bf usfd for b givfn GrbphidsConfig
+ * providfd its sdrffn numbfr bnd visubl ID.  If thf minimum rfquirfmfnts brf
+ * mft, thf nbtivf GLXGrbphidsConfigInfo strudturf is initiblizfd for this
+ * GrbphidsConfig with thf nfdfssbry informbtion (GLXFBConfig, ftd.)
+ * bnd b pointfr to this strudturf is rfturnfd bs b jlong.  If
+ * initiblizbtion fbils bt bny point, zfro is rfturnfd, indidbting thbt GLX
+ * dbnnot bf usfd for this GrbphidsConfig (wf should fbllbbdk on thf fxisting
+ * X11 pipflinf).
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_jbvb2d_opfngl_GLXGrbphidsConfig_gftGLXConfigInfo(JNIEnv *fnv,
+                                                          jdlbss glxgd,
+                                                          jint sdrffnnum,
+                                                          jint visnum)
+{
+#ifndff HEADLESS
+    OGLContfxt *ogld;
+    GLXFBConfig fbdonfig;
+    GLXContfxt dontfxt;
+    GLXPbufffr sdrbtdh;
+    GLXGrbphidsConfigInfo *glxinfo;
+    jint dbps = CAPS_EMPTY;
+    int db, blphb;
+    donst unsignfd dhbr *vfrsionstr;
+
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "GLXGrbphidsConfig_gftGLXConfigInfo");
+
+    if (usingXinfrbmb) {
+        // whfn Xinfrbmb is fnbblfd, thf sdrffn ID nffds to bf 0
+        sdrffnnum = 0;
+    }
+
+    fbdonfig = GLXGC_InitFBConfig(fnv, sdrffnnum, (VisublID)visnum);
+    if (fbdonfig == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbphidsConfig_gftGLXConfigInfo: dould not drfbtf fbdonfig");
+        rfturn 0L;
+    }
+
+    if (shbrfdContfxt == 0) {
+        // drfbtf thf onf shbrfd dontfxt
+        shbrfdContfxt = j2d_glXCrfbtfNfwContfxt(bwt_displby, fbdonfig,
+                                                GLX_RGBA_TYPE, 0, GL_TRUE);
+        if (shbrfdContfxt == 0) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                "GLXGrbphidsConfig_gftGLXConfigInfo: dould not drfbtf shbrfd dontfxt");
+            rfturn 0L;
+        }
+    }
+
+    // drfbtf thf GLXContfxt for this GLXGrbphidsConfig
+    dontfxt = j2d_glXCrfbtfNfwContfxt(bwt_displby, fbdonfig,
+                                      GLX_RGBA_TYPE, shbrfdContfxt,
+                                      GL_TRUE);
+    if (dontfxt == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbphidsConfig_gftGLXConfigInfo: dould not drfbtf GLX dontfxt");
+        rfturn 0L;
+    }
+
+    // this is prftty skftdhy, but it sffms to bf thf fbsifst wby to drfbtf
+    // somf form of GLXDrbwbblf using only thf displby bnd b GLXFBConfig
+    // (in ordfr to mbkf thf dontfxt durrfnt for dhfdking thf vfrsion,
+    // fxtfnsions, ftd)...
+    sdrbtdh = GLXGC_InitSdrbtdhPbufffr(fbdonfig);
+    if (sdrbtdh == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbphidsConfig_gftGLXConfigInfo: dould not drfbtf sdrbtdh pbufffr");
+        j2d_glXDfstroyContfxt(bwt_displby, dontfxt);
+        rfturn 0L;
+    }
+
+    // thf dontfxt must bf mbdf durrfnt bfforf wf dbn qufry thf
+    // vfrsion bnd fxtfnsion strings
+    j2d_glXMbkfContfxtCurrfnt(bwt_displby, sdrbtdh, sdrbtdh, dontfxt);
+
+#ifdff __spbrd
+    /*
+     * 6438225: Thf softwbrf rbstfrizfr usfd by Sun's OpfnGL librbrifs
+     * for dfrtbin bobrds hbs qublity issufs, bnd bfsidfs, pfrformbndf
+     * of thfsf bobrds is not high fnough to justify thf usf of thf
+     * OpfnGL-bbsfd Jbvb 2D pipflinf.  If wf dftfdt onf of thf following
+     * bobrds vib thf GL_RENDERER string, just givf up:
+     *   - FFB[2[+]] ("Crfbtor[3D]")
+     *   - PGX-sfrifs ("m64")
+     *   - AFB ("Elitf3D")
+     */
+    {
+        donst dhbr *rfndfrfr = (donst dhbr *)j2d_glGftString(GL_RENDERER);
+
+        J2dRlsTrbdfLn1(J2D_TRACE_VERBOSE,
+            "GLXGrbphidsConfig_gftGLXConfigInfo: dftfdtfd rfndfrfr (%s)",
+            (rfndfrfr == NULL) ? "null" : rfndfrfr);
+
+        if (rfndfrfr == NULL ||
+            strndmp(rfndfrfr, "Crfbtor", 7) == 0 ||
+            strndmp(rfndfrfr, "SUNWm64", 7) == 0 ||
+            strndmp(rfndfrfr, "Elitf", 5) == 0)
+        {
+            J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                "GLXGrbphidsConfig_gftGLXConfigInfo: unsupportfd bobrd (%s)",
+                (rfndfrfr == NULL) ? "null" : rfndfrfr);
+            j2d_glXMbkfContfxtCurrfnt(bwt_displby, Nonf, Nonf, NULL);
+            j2d_glXDfstroyPbufffr(bwt_displby, sdrbtdh);
+            j2d_glXDfstroyContfxt(bwt_displby, dontfxt);
+            rfturn 0L;
+        }
+    }
+#fndif /* __spbrd */
+
+    vfrsionstr = j2d_glGftString(GL_VERSION);
+    OGLContfxt_GftExtfnsionInfo(fnv, &dbps);
+
+    // dfstroy thf tfmporbry rfsourdfs
+    j2d_glXMbkfContfxtCurrfnt(bwt_displby, Nonf, Nonf, NULL);
+
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+        "GLXGrbphidsConfig_gftGLXConfigInfo: OpfnGL vfrsion=%s",
+                   (vfrsionstr == NULL) ? "null" : (dhbr *)vfrsionstr);
+
+    if (!OGLContfxt_IsVfrsionSupportfd(vfrsionstr)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbphidsConfig_gftGLXConfigInfo: OpfnGL 1.2 is rfquirfd");
+        j2d_glXDfstroyPbufffr(bwt_displby, sdrbtdh);
+        j2d_glXDfstroyContfxt(bwt_displby, dontfxt);
+        rfturn 0L;
+    }
+
+    // gft donfig-spfdifid dbpbbilitifs
+    j2d_glXGftFBConfigAttrib(bwt_displby, fbdonfig, GLX_DOUBLEBUFFER, &db);
+    if (db) {
+        dbps |= CAPS_DOUBLEBUFFERED;
+    }
+    j2d_glXGftFBConfigAttrib(bwt_displby, fbdonfig, GLX_ALPHA_SIZE, &blphb);
+    if (blphb > 0) {
+        dbps |= CAPS_STORED_ALPHA;
+    }
+
+    // initiblizf thf OGLContfxt, whidh wrbps thf GLXFBConfig bnd GLXContfxt
+    ogld = GLXGC_InitOGLContfxt(fbdonfig, dontfxt, sdrbtdh, dbps);
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbphidsConfig_gftGLXConfigInfo: dould not drfbtf ogld");
+        j2d_glXDfstroyPbufffr(bwt_displby, sdrbtdh);
+        j2d_glXDfstroyContfxt(bwt_displby, dontfxt);
+        rfturn 0L;
+    }
+
+    J2dTrbdfLn(J2D_TRACE_VERBOSE,
+        "GLXGrbphidsConfig_gftGLXConfigInfo: finishfd dhfdking dfpfndfndifs");
+
+    // drfbtf thf GLXGrbphidsConfigInfo rfdord for this donfig
+    glxinfo = (GLXGrbphidsConfigInfo *)mbllod(sizfof(GLXGrbphidsConfigInfo));
+    if (glxinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbphidsConfig_gftGLXConfigInfo: dould not bllodbtf mfmory for glxinfo");
+        GLXGC_DfstroyOGLContfxt(ogld);
+        rfturn 0L;
+    }
+
+    glxinfo->sdrffn = sdrffnnum;
+    glxinfo->visubl = visnum;
+    glxinfo->dontfxt = ogld;
+    glxinfo->fbdonfig = fbdonfig;
+
+    rfturn ptr_to_jlong(glxinfo);
+#flsf
+    rfturn 0L;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_opfngl_GLXGrbphidsConfig_initConfig(JNIEnv *fnv,
+                                                    jobjfdt glxgd,
+                                                    jlong bDbtb,
+                                                    jlong donfigInfo)
+{
+#ifndff HEADLESS
+    GLXGrbphidsConfigInfo *glxinfo;
+    AwtGrbphidsConfigDbtbPtr donfigDbtb =
+        (AwtGrbphidsConfigDbtbPtr)jlong_to_ptr(bDbtb);
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGrbphidsConfig_initConfig");
+
+    if (donfigDbtb == NULL) {
+        JNU_ThrowNullPointfrExdfption(fnv, "Nbtivf GrbphidsConfig missing");
+        rfturn;
+    }
+
+    glxinfo = (GLXGrbphidsConfigInfo *)jlong_to_ptr(donfigInfo);
+    if (glxinfo == NULL) {
+        JNU_ThrowNullPointfrExdfption(fnv,
+                                      "GLXGrbphidsConfigInfo dbtb missing");
+        rfturn;
+    }
+
+    donfigDbtb->glxInfo = glxinfo;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_jbvb2d_opfngl_GLXGrbphidsConfig_gftOGLCbpbbilitifs(JNIEnv *fnv,
+                                                            jdlbss glxgd,
+                                                            jlong donfigInfo)
+{
+#ifndff HEADLESS
+    GLXGrbphidsConfigInfo *glxinfo =
+        (GLXGrbphidsConfigInfo *)jlong_to_ptr(donfigInfo);
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGrbphidsConfig_gftOGLCbpbbilitifs");
+
+    if (glxinfo == NULL || glxinfo->dontfxt == NULL) {
+        rfturn CAPS_EMPTY;
+    }
+
+    rfturn glxinfo->dontfxt->dbps;
+#flsf
+    rfturn CAPS_EMPTY;
+#fndif /* !HEADLESS */
+}

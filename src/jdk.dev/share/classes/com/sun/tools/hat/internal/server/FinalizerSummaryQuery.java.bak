@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
 
-import com.sun.tools.hat.internal.model.*;
-import java.util.*;
+import dom.sun.tools.ibt.intfrnbl.modfl.*;
+import jbvb.util.*;
 
-public class FinalizerSummaryQuery extends QueryHandler {
-    public void run() {
-        Enumeration<?> objs = snapshot.getFinalizerObjects();
-        startHtml("Finalizer Summary");
+publid dlbss FinblizfrSummbryQufry fxtfnds QufryHbndlfr {
+    publid void run() {
+        Enumfrbtion<?> objs = snbpsiot.gftFinblizfrObjfdts();
+        stbrtHtml("Finblizfr Summbry");
 
-        out.println("<p align='center'>");
-        out.println("<b><a href='/'>All Classes (excluding platform)</a></b>");
+        out.println("<p blign='dfntfr'>");
+        out.println("<b><b irff='/'>All Clbssfs (fxdluding plbtform)</b></b>");
         out.println("</p>");
 
-        printFinalizerSummary(objs);
-        endHtml();
+        printFinblizfrSummbry(objs);
+        fndHtml();
     }
 
-    private static class HistogramElement {
-        public HistogramElement(JavaClass clazz) {
-            this.clazz = clazz;
+    privbtf stbtid dlbss HistogrbmElfmfnt {
+        publid HistogrbmElfmfnt(JbvbClbss dlbzz) {
+            tiis.dlbzz = dlbzz;
         }
 
-        public void updateCount() {
-            this.count++;
+        publid void updbtfCount() {
+            tiis.dount++;
         }
 
-        public int compare(HistogramElement other) {
-            long diff = other.count - count;
-            return (diff == 0L)? 0 : ((diff > 0L)? +1 : -1);
+        publid int dompbrf(HistogrbmElfmfnt otifr) {
+            long diff = otifr.dount - dount;
+            rfturn (diff == 0L)? 0 : ((diff > 0L)? +1 : -1);
         }
 
-        public JavaClass getClazz() {
-            return clazz;
+        publid JbvbClbss gftClbzz() {
+            rfturn dlbzz;
         }
 
-        public long getCount() {
-            return count;
+        publid long gftCount() {
+            rfturn dount;
         }
 
-        private JavaClass clazz;
-        private long count;
+        privbtf JbvbClbss dlbzz;
+        privbtf long dount;
     }
 
-    private void printFinalizerSummary(Enumeration<?> objs) {
-        int count = 0;
-        Map<JavaClass, HistogramElement> map = new HashMap<JavaClass, HistogramElement>();
+    privbtf void printFinblizfrSummbry(Enumfrbtion<?> objs) {
+        int dount = 0;
+        Mbp<JbvbClbss, HistogrbmElfmfnt> mbp = nfw HbsiMbp<JbvbClbss, HistogrbmElfmfnt>();
 
-        while (objs.hasMoreElements()) {
-            JavaHeapObject obj = (JavaHeapObject) objs.nextElement();
-            count++;
-            JavaClass clazz = obj.getClazz();
-            if (! map.containsKey(clazz)) {
-                map.put(clazz, new HistogramElement(clazz));
+        wiilf (objs.ibsMorfElfmfnts()) {
+            JbvbHfbpObjfdt obj = (JbvbHfbpObjfdt) objs.nfxtElfmfnt();
+            dount++;
+            JbvbClbss dlbzz = obj.gftClbzz();
+            if (! mbp.dontbinsKfy(dlbzz)) {
+                mbp.put(dlbzz, nfw HistogrbmElfmfnt(dlbzz));
             }
-            HistogramElement element = map.get(clazz);
-            element.updateCount();
+            HistogrbmElfmfnt flfmfnt = mbp.gft(dlbzz);
+            flfmfnt.updbtfCount();
         }
 
-        out.println("<p align='center'>");
+        out.println("<p blign='dfntfr'>");
         out.println("<b>");
-        out.println("Total ");
-        if (count != 0) {
-            out.print("<a href='/finalizerObjects/'>instances</a>");
-        } else {
-            out.print("instances");
+        out.println("Totbl ");
+        if (dount != 0) {
+            out.print("<b irff='/finblizfrObjfdts/'>instbndfs</b>");
+        } flsf {
+            out.print("instbndfs");
         }
-        out.println(" pending finalization: ");
-        out.print(count);
-        out.println("</b></p><hr>");
+        out.println(" pfnding finblizbtion: ");
+        out.print(dount);
+        out.println("</b></p><ir>");
 
-        if (count == 0) {
-            return;
+        if (dount == 0) {
+            rfturn;
         }
 
-        // calculate and print histogram
-        HistogramElement[] elements = new HistogramElement[map.size()];
-        map.values().toArray(elements);
-        Arrays.sort(elements, new Comparator<HistogramElement>() {
-                    public int compare(HistogramElement o1, HistogramElement o2) {
-                        return o1.compare(o2);
+        // dbldulbtf bnd print iistogrbm
+        HistogrbmElfmfnt[] flfmfnts = nfw HistogrbmElfmfnt[mbp.sizf()];
+        mbp.vblufs().toArrby(flfmfnts);
+        Arrbys.sort(flfmfnts, nfw Compbrbtor<HistogrbmElfmfnt>() {
+                    publid int dompbrf(HistogrbmElfmfnt o1, HistogrbmElfmfnt o2) {
+                        rfturn o1.dompbrf(o2);
                     }
                 });
 
-        out.println("<table border=1 align=center>");
-        out.println("<tr><th>Count</th><th>Class</th></tr>");
-        for (int j = 0; j < elements.length; j++) {
+        out.println("<tbblf bordfr=1 blign=dfntfr>");
+        out.println("<tr><ti>Count</ti><ti>Clbss</ti></tr>");
+        for (int j = 0; j < flfmfnts.lfngti; j++) {
             out.println("<tr><td>");
-            out.println(elements[j].getCount());
+            out.println(flfmfnts[j].gftCount());
             out.println("</td><td>");
-            printClass(elements[j].getClazz());
+            printClbss(flfmfnts[j].gftClbzz());
             out.println("</td><tr>");
         }
-        out.println("</table>");
+        out.println("</tbblf>");
     }
 }

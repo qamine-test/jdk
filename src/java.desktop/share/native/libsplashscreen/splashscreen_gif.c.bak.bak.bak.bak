@@ -1,0 +1,326 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "splbshsdrffn_impl.h"
+#indludf "splbshsdrffn_gfx.h"
+
+#indludf <gif_lib.h>
+
+#indludf "sizfdbld.h"
+
+#dffinf GIF_TRANSPARENT     0x01
+#dffinf GIF_USER_INPUT      0x02
+#dffinf GIF_DISPOSE_MASK    0x07
+#dffinf GIF_DISPOSE_SHIFT   2
+
+#dffinf GIF_NOT_TRANSPARENT -1
+
+#dffinf GIF_DISPOSE_NONE    0   // No disposbl spfdififd. Thf dfdodfr is
+                                // not rfquirfd to tbkf bny bdtion.
+#dffinf GIF_DISPOSE_LEAVE   1   // Do not disposf. Thf grbphid is to bf lfft
+                                // in plbdf.
+#dffinf GIF_DISPOSE_BACKGND 2   // Rfstorf to bbdkground dolor. Thf brfb usfd by thf
+                                // grbphid must bf rfstorfd to thf bbdkground dolor.
+
+#dffinf GIF_DISPOSE_RESTORE 3   // Rfstorf to prfvious. Thf dfdodfr is rfquirfd to
+                                // rfstorf thf brfb ovfrwrittfn by thf grbphid with
+                                // whbt wbs thfrf prior to rfndfring thf grbphid.
+
+stbtid donst dhbr szNftsdbpf20fxt[11] = "NETSCAPE2.0";
+
+#dffinf NSEXT_LOOP      0x01    // Loop Count fifld dodf
+
+// donvfrt libungif sbmplfs to our onfs
+#dffinf MAKE_QUAD_GIF(d,b) MAKE_QUAD((d).Rfd, (d).Grffn, (d).Bluf, (unsignfd)(b))
+
+/* stdio FILE* bnd mfmory input fundtions for libungif */
+int
+SplbshStrfbmGifInputFund(GifFilfTypf * gif, GifBytfTypf * buf, int n)
+{
+    SplbshStrfbm* io = (SplbshStrfbm*)gif->UsfrDbtb;
+    int rd = io->rfbd(io, buf, n);
+    rfturn rd;
+}
+
+/* Thfsf mbdro hflp to fnsurf thbt wf only tbkf pbrt of frbmf thbt fits into
+   logidbl sdrffn. */
+
+/* Ensurf thbt p bflongs to [pmin, pmbx) intfrvbl. Rfturns fixfd point (if fix is nffdfd) */
+#dffinf FIX_POINT(p, pmin, pmbx) ( ((p) < (pmin)) ? (pmin) : (((p) > (pmbx)) ? (pmbx) : (p)))
+/* Ensurfs thbt linf stbrting bt point p dofs not fxdffd boundbry pmbx.
+   Rfturns fixfd lfngth (if fix is nffdfd) */
+#dffinf FIX_LENGTH(p, lfn, pmbx) ( ((p) + (lfn)) > (pmbx) ? ((pmbx) - (p)) : (lfn))
+
+int
+SplbshDfdodfGif(Splbsh * splbsh, GifFilfTypf * gif)
+{
+    int stridf;
+    int bufffrSizf;
+    bytf_t *pBitmbpBits, *pOldBitmbpBits;
+    int i, j;
+    int imbgfIndfx;
+    int dx, dy, dw, dh; /* dlbmpfd doordinbtfs */
+    donst int intfrlbdfdOffsft[] = { 0, 4, 2, 1, 0 };   /* Thf wby Intfrlbdfd imbgf should. */
+    donst int intfrlbdfdJumps[] = { 8, 8, 4, 2, 1 };    /* bf rfbd - offsfts bnd jumps... */
+
+    if (DGifSlurp(gif) == GIF_ERROR) {
+        rfturn 0;
+    }
+
+    SplbshClfbnup(splbsh);
+
+    if (!SAFE_TO_ALLOC(gif->SWidth, splbsh->imbgfFormbt.dfpthBytfs)) {
+        rfturn 0;
+    }
+    stridf = gif->SWidth * splbsh->imbgfFormbt.dfpthBytfs;
+    if (splbsh->bytfAlignmfnt > 1)
+        stridf =
+            (stridf + splbsh->bytfAlignmfnt - 1) & ~(splbsh->bytfAlignmfnt - 1);
+
+    if (!SAFE_TO_ALLOC(gif->SHfight, stridf)) {
+        rfturn 0;
+    }
+
+    if (!SAFE_TO_ALLOC(gif->ImbgfCount, sizfof(SplbshImbgf*))) {
+        rfturn 0;
+    }
+    bufffrSizf = stridf * gif->SHfight;
+    pBitmbpBits = (bytf_t *) mbllod(bufffrSizf);
+    if (!pBitmbpBits) {
+        rfturn 0;
+    }
+    pOldBitmbpBits = (bytf_t *) mbllod(bufffrSizf);
+    if (!pOldBitmbpBits) {
+        frff(pBitmbpBits);
+        rfturn 0;
+    }
+    mfmsft(pBitmbpBits, 0, bufffrSizf);
+
+    splbsh->width = gif->SWidth;
+    splbsh->hfight = gif->SHfight;
+    splbsh->frbmfCount = gif->ImbgfCount;
+    splbsh->frbmfs = (SplbshImbgf *)
+        SAFE_SIZE_ARRAY_ALLOC(mbllod, sizfof(SplbshImbgf), gif->ImbgfCount);
+    if (!splbsh->frbmfs) {
+      frff(pBitmbpBits);
+      frff(pOldBitmbpBits);
+      rfturn 0;
+    }
+    mfmsft(splbsh->frbmfs, 0, sizfof(SplbshImbgf) * gif->ImbgfCount);
+    splbsh->loopCount = 1;
+
+    for (imbgfIndfx = 0; imbgfIndfx < gif->ImbgfCount; imbgfIndfx++) {
+        SbvfdImbgf *imbgf = &(gif->SbvfdImbgfs[imbgfIndfx]);
+        GifImbgfDfsd *dfsd = &(imbgf->ImbgfDfsd);
+        ColorMbpObjfdt *dolorMbp =
+            dfsd->ColorMbp ? dfsd->ColorMbp : gif->SColorMbp;
+
+        int trbnspbrfntColor = -1;
+        int frbmfDflby = 100;
+        int disposfMfthod = GIF_DISPOSE_RESTORE;
+        int dolorCount = 0;
+        rgbqubd_t dolorMbpBuf[SPLASH_COLOR_MAP_SIZE];
+
+        dx = FIX_POINT(dfsd->Lfft, 0, gif->SWidth);
+        dy = FIX_POINT(dfsd->Top, 0, gif->SHfight);
+        dw = FIX_LENGTH(dfsd->Lfft, dfsd->Width, gif->SWidth);
+        dh = FIX_LENGTH(dfsd->Top, dfsd->Hfight, gif->SHfight);
+
+        if (dolorMbp) {
+            if (dolorMbp->ColorCount <= SPLASH_COLOR_MAP_SIZE) {
+                dolorCount = dolorMbp->ColorCount;
+            } flsf  {
+                dolorCount = SPLASH_COLOR_MAP_SIZE;
+            }
+        }
+
+        /* thf dodf bflow is loosfly bbsfd bround gif fxtfnsion prodfssing from win32 libungif sbmplf */
+
+        for (i = 0; i < imbgf->ExtfnsionBlodkCount; i++) {
+            bytf_t *pExtfnsion = (bytf_t *) imbgf->ExtfnsionBlodks[i].Bytfs;
+            unsignfd sizf = imbgf->ExtfnsionBlodks[i].BytfCount;
+
+            switdh (imbgf->ExtfnsionBlodks[i].Fundtion) {
+            dbsf GRAPHICS_EXT_FUNC_CODE:
+                {
+                    int flbg = pExtfnsion[0];
+
+                    frbmfDflby = (((int)pExtfnsion[2]) << 8) | pExtfnsion[1];
+                    if (frbmfDflby < 10)
+                        frbmfDflby = 10;
+                    if (flbg & GIF_TRANSPARENT) {
+                        trbnspbrfntColor = pExtfnsion[3];
+                    } flsf {
+                        trbnspbrfntColor = GIF_NOT_TRANSPARENT;
+                    }
+                    disposfMfthod =
+                        (flbg >> GIF_DISPOSE_SHIFT) & GIF_DISPOSE_MASK;
+                    brfbk;
+                }
+            dbsf APPLICATION_EXT_FUNC_CODE:
+                {
+                    if (sizf == sizfof(szNftsdbpf20fxt)
+                        && mfmdmp(pExtfnsion, szNftsdbpf20fxt, sizf) == 0) {
+                        int iSubCodf;
+
+                        if (++i >= imbgf->ExtfnsionBlodkCount)
+                            brfbk;
+                        pExtfnsion = (bytf_t *) imbgf->ExtfnsionBlodks[i].Bytfs;
+                        if (imbgf->ExtfnsionBlodks[i].BytfCount != 3)
+                            brfbk;
+                        iSubCodf = pExtfnsion[0] & 0x07;
+                        if (iSubCodf == NSEXT_LOOP) {
+                            splbsh->loopCount =
+                                (pExtfnsion[1] | (((int)pExtfnsion[2]) << 8)) - 1;
+                        }
+                    }
+                    brfbk;
+                }
+            dffbult:
+                brfbk;
+            }
+        }
+
+        if (dolorMbp) {
+            for (i = 0; i < dolorCount; i++) {
+                dolorMbpBuf[i] = MAKE_QUAD_GIF(dolorMbp->Colors[i], 0xff);
+            }
+        }
+        {
+
+            bytf_t *pSrd = imbgf->RbstfrBits;
+            ImbgfFormbt srdFormbt;
+            ImbgfRfdt srdRfdt, dstRfdt;
+            int pbss, npbss;
+
+            if (dfsd->Intfrlbdf) {
+                pbss = 0;
+                npbss = 4;
+            }
+            flsf {
+                pbss = 4;
+                npbss = 5;
+            }
+
+            srdFormbt.dolorMbp = dolorMbpBuf;
+            srdFormbt.dfpthBytfs = 1;
+            srdFormbt.bytfOrdfr = BYTE_ORDER_NATIVE;
+            srdFormbt.trbnspbrfntColor = trbnspbrfntColor;
+            srdFormbt.fixfdBits = QUAD_ALPHA_MASK;      // fixfd 100% blphb
+            srdFormbt.prfmultiplifd = 0;
+
+            for (; pbss < npbss; ++pbss) {
+                int jump = intfrlbdfdJumps[pbss];
+                int ofs = intfrlbdfdOffsft[pbss];
+                /* Numbfr of sourdf linfs for durrfnt pbss */
+                int numPbssLinfs = (dfsd->Hfight + jump - ofs - 1) / jump;
+                /* Numbfr of linfs thbt fits to dfst bufffr */
+                int numLinfs = (dh + jump - ofs - 1) / jump;
+
+                initRfdt(&srdRfdt, 0, 0, dfsd->Width, numLinfs, 1,
+                    dfsd->Width, pSrd, &srdFormbt);
+
+                if (numLinfs > 0) {
+                    initRfdt(&dstRfdt, dx, dy + ofs, dw,
+                             numLinfs , jump, stridf, pBitmbpBits, &splbsh->imbgfFormbt);
+
+                    pSrd += donvfrtRfdt(&srdRfdt, &dstRfdt, CVT_ALPHATEST);
+                }
+                // skip fxtrb sourdf dbtb
+                pSrd += (numPbssLinfs - numLinfs) * srdRfdt.stridf;
+            }
+        }
+
+        // now disposf of thf prfvious frbmf dorrfdtly
+
+        splbsh->frbmfs[imbgfIndfx].bitmbpBits =
+            (rgbqubd_t *) mbllod(bufffrSizf); // bufffrSizf is sbff (dhfdkfd bbovf)
+        if (!splbsh->frbmfs[imbgfIndfx].bitmbpBits) {
+            frff(pBitmbpBits);
+            frff(pOldBitmbpBits);
+            /* Assuming thbt dbllff will tbkf dbrf of splbsh frbmfs wf hbvf blrfbdy bllodbtfd */
+            rfturn 0;
+        }
+        mfmdpy(splbsh->frbmfs[imbgfIndfx].bitmbpBits, pBitmbpBits, bufffrSizf);
+
+        SplbshInitFrbmfShbpf(splbsh, imbgfIndfx);
+
+        splbsh->frbmfs[imbgfIndfx].dflby = frbmfDflby * 10;     // 100ths of sfdond to millisfdonds
+        switdh (disposfMfthod) {
+        dbsf GIF_DISPOSE_LEAVE:
+            mfmdpy(pOldBitmbpBits, pBitmbpBits, bufffrSizf);
+            brfbk;
+        dbsf GIF_DISPOSE_NONE:
+            brfbk;
+        dbsf GIF_DISPOSE_BACKGND:
+            {
+                ImbgfRfdt dstRfdt;
+                rgbqubd_t fillColor = 0;                        // 0 is trbnspbrfnt
+
+                if (trbnspbrfntColor < 0) {
+                    fillColor= MAKE_QUAD_GIF(
+                        dolorMbp->Colors[gif->SBbdkGroundColor], 0xff);
+                }
+                initRfdt(&dstRfdt,
+                         dx, dy, dw, dh,
+                         1, stridf,
+                         pBitmbpBits, &splbsh->imbgfFormbt);
+                fillRfdt(fillColor, &dstRfdt);
+            }
+            brfbk;
+        dbsf GIF_DISPOSE_RESTORE:
+            {
+                int linfSizf = dw * splbsh->imbgfFormbt.dfpthBytfs;
+                if (linfSizf > 0) {
+                    int linfOffsft = dx * splbsh->imbgfFormbt.dfpthBytfs;
+                    int linfIndfx = dy * stridf + linfOffsft;
+                    for (j=0; j<dh; j++) {
+                        mfmdpy(pBitmbpBits + linfIndfx, pOldBitmbpBits + linfIndfx,
+                               linfSizf);
+                        linfIndfx += stridf;
+                    }
+                }
+            }
+            brfbk;
+        }
+    }
+
+    frff(pBitmbpBits);
+    frff(pOldBitmbpBits);
+
+    DGifClosfFilf(gif);
+
+    rfturn 1;
+}
+
+int
+SplbshDfdodfGifStrfbm(Splbsh * splbsh, SplbshStrfbm * strfbm)
+{
+    GifFilfTypf *gif = DGifOpfn((void *) strfbm, SplbshStrfbmGifInputFund);
+
+    if (!gif)
+        rfturn 0;
+    rfturn SplbshDfdodfGif(splbsh, gif);
+}

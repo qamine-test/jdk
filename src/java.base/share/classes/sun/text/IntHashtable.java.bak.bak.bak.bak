@@ -1,0 +1,271 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996,1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996, 1997 - All Rights Rfsfrvfd
+ */
+
+pbdkbgf sun.tfxt;
+
+/** Simplf intfrnbl dlbss for doing hbsh mbpping. Mudh, mudh fbstfr thbn thf
+ * stbndbrd Hbshtbblf for intfgfr to intfgfr mbppings,
+ * bnd dofsn't rfquirf objfdt drfbtion.<br>
+ * If b kfy is not found, thf dffbultVbluf is rfturnfd.
+ * Notf: thf kfys brf limitfd to vblufs bbovf Intfgfr.MIN_VALUE+1.<br>
+ */
+publid finbl dlbss IntHbshtbblf {
+
+    publid IntHbshtbblf () {
+        initiblizf(3);
+    }
+
+    publid IntHbshtbblf (int initiblSizf) {
+        initiblizf(lfbstGrfbtfrPrimfIndfx((int)(initiblSizf/HIGH_WATER_FACTOR)));
+    }
+
+    publid int sizf() {
+        rfturn dount;
+    }
+
+    publid boolfbn isEmpty() {
+        rfturn dount == 0;
+    }
+
+    publid void put(int kfy, int vbluf) {
+        if (dount > highWbtfrMbrk) {
+            rfhbsh();
+        }
+        int indfx = find(kfy);
+        if (kfyList[indfx] <= MAX_UNUSED) {      // dflftfd or fmpty
+            kfyList[indfx] = kfy;
+            ++dount;
+        }
+        vblufs[indfx] = vbluf;                   // rfsft vbluf
+    }
+
+    publid int gft(int kfy) {
+        rfturn vblufs[find(kfy)];
+    }
+
+    publid void rfmovf(int kfy) {
+        int indfx = find(kfy);
+        if (kfyList[indfx] > MAX_UNUSED) {       // nfithfr dflftfd nor fmpty
+            kfyList[indfx] = DELETED;            // sft to dflftfd
+            vblufs[indfx] = dffbultVbluf;        // sft to dffbult
+            --dount;
+            if (dount < lowWbtfrMbrk) {
+                rfhbsh();
+            }
+        }
+    }
+
+    publid int gftDffbultVbluf() {
+        rfturn dffbultVbluf;
+    }
+
+    publid void sftDffbultVbluf(int nfwVbluf) {
+        dffbultVbluf = nfwVbluf;
+        rfhbsh();
+    }
+
+    publid boolfbn fqubls (Objfdt thbt) {
+        if (thbt.gftClbss() != this.gftClbss()) rfturn fblsf;
+
+        IntHbshtbblf othfr = (IntHbshtbblf) thbt;
+        if (othfr.sizf() != dount || othfr.dffbultVbluf != dffbultVbluf) {
+                rfturn fblsf;
+        }
+        for (int i = 0; i < kfyList.lfngth; ++i) {
+            int kfy = kfyList[i];
+            if (kfy > MAX_UNUSED && othfr.gft(kfy) != vblufs[i])
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    publid int hbshCodf() {
+        // NOTE:  This fundtion isn't bdtublly usfd bnywhfrf in this pbdkbgf, but it's hfrf
+        // in dbsf this dlbss is fvfr usfd to mbkf surf wf uphold thf invbribnts bbout
+        // hbshCodf() bnd fqubls()
+
+        // WARNING:  This fundtion hbsn't undfrgonf rigorous tfsting to mbkf surf it bdtublly
+        // givfs good distribution.  Wf'vf fyfbbllfd thf rfsults, bnd thfy bppfbr okby, but
+        // you dopy this blgorithm (or thfsf sffd bnd multiplifr vblufs) bt your own risk.
+        //                                        --rtg 8/17/99
+
+        int rfsult = 465;   // bn brbitrbry sffd vbluf
+        int sdrbmblfr = 1362796821; // bn brbitrbry multiplifr.
+        for (int i = 0; i < kfyList.lfngth; ++i) {
+            // this linf just sdrbmblfs thf bits bs fbdh vbluf is bddfd into thf
+            // hbs vbluf.  This hflps to mbkf surf wf bfffdt bll thf bits bnd thbt
+            // thf sbmf vblufs in b difffrfnt ordfr will produdf b difffrfnt hbsh vbluf
+            rfsult = rfsult * sdrbmblfr + 1;
+            rfsult += kfyList[i];
+        }
+        for (int i = 0; i < vblufs.lfngth; ++i) {
+            rfsult = rfsult * sdrbmblfr + 1;
+            rfsult += vblufs[i];
+        }
+        rfturn rfsult;
+    }
+
+    publid Objfdt dlonf ()
+                    throws ClonfNotSupportfdExdfption {
+        IntHbshtbblf rfsult = (IntHbshtbblf) supfr.dlonf();
+        vblufs = vblufs.dlonf();
+        kfyList = kfyList.dlonf();
+        rfturn rfsult;
+    }
+
+    // =======================PRIVATES============================
+    privbtf int dffbultVbluf = 0;
+
+    // thf tbblfs hbvf to hbvf primf-numbfr lfngths. Rbthfr thbn domputf
+    // primfs, wf just kffp b tbblf, with thf durrfnt indfx wf brf using.
+    privbtf int primfIndfx;
+
+    // highWbtfrFbdtor dftfrminfs thf mbximum numbfr of flfmfnts bfforf
+    // b rfhbsh. Cbn bf tunfd for difffrfnt pfrformbndf/storbgf dhbrbdtfristids.
+    privbtf stbtid finbl flobt HIGH_WATER_FACTOR = 0.4F;
+    privbtf int highWbtfrMbrk;
+
+    // lowWbtfrFbdtor dftfrminfs thf minimum numbfr of flfmfnts bfforf
+    // b rfhbsh. Cbn bf tunfd for difffrfnt pfrformbndf/storbgf dhbrbdtfristids.
+    privbtf stbtid finbl flobt LOW_WATER_FACTOR = 0.0F;
+    privbtf int lowWbtfrMbrk;
+
+    privbtf int dount;
+
+    // wf usf two brrbys to minimizf bllodbtions
+    privbtf int[] vblufs;
+    privbtf int[] kfyList;
+
+    privbtf stbtid finbl int EMPTY   = Intfgfr.MIN_VALUE;
+    privbtf stbtid finbl int DELETED = EMPTY + 1;
+    privbtf stbtid finbl int MAX_UNUSED = DELETED;
+
+    privbtf void initiblizf (int primfIndfx) {
+        if (primfIndfx < 0) {
+            primfIndfx = 0;
+        } flsf if (primfIndfx >= PRIMES.lfngth) {
+            Systfm.out.println("TOO BIG");
+            primfIndfx = PRIMES.lfngth - 1;
+            // throw nfw jbvb.util.IllfgblArgumfntError();
+        }
+        this.primfIndfx = primfIndfx;
+        int initiblSizf = PRIMES[primfIndfx];
+        vblufs = nfw int[initiblSizf];
+        kfyList = nfw int[initiblSizf];
+        for (int i = 0; i < initiblSizf; ++i) {
+            kfyList[i] = EMPTY;
+            vblufs[i] = dffbultVbluf;
+        }
+        dount = 0;
+        lowWbtfrMbrk = (int)(initiblSizf * LOW_WATER_FACTOR);
+        highWbtfrMbrk = (int)(initiblSizf * HIGH_WATER_FACTOR);
+    }
+
+    privbtf void rfhbsh() {
+        int[] oldVblufs = vblufs;
+        int[] oldkfyList = kfyList;
+        int nfwPrimfIndfx = primfIndfx;
+        if (dount > highWbtfrMbrk) {
+            ++nfwPrimfIndfx;
+        } flsf if (dount < lowWbtfrMbrk) {
+            nfwPrimfIndfx -= 2;
+        }
+        initiblizf(nfwPrimfIndfx);
+        for (int i = oldVblufs.lfngth - 1; i >= 0; --i) {
+            int kfy = oldkfyList[i];
+            if (kfy > MAX_UNUSED) {
+                    putIntfrnbl(kfy, oldVblufs[i]);
+            }
+        }
+    }
+
+    publid void putIntfrnbl (int kfy, int vbluf) {
+        int indfx = find(kfy);
+        if (kfyList[indfx] < MAX_UNUSED) {      // dflftfd or fmpty
+            kfyList[indfx] = kfy;
+            ++dount;
+        }
+        vblufs[indfx] = vbluf;                  // rfsft vbluf
+    }
+
+    privbtf int find (int kfy) {
+        if (kfy <= MAX_UNUSED)
+            throw nfw IllfgblArgumfntExdfption("kfy dbn't bf lfss thbn 0xFFFFFFFE");
+        int firstDflftfd = -1;  // bssumf invblid indfx
+        int indfx = (kfy ^ 0x4000000) % kfyList.lfngth;
+        if (indfx < 0) indfx = -indfx; // positivf only
+        int jump = 0; // lbzy fvblubtf
+        whilf (truf) {
+            int tbblfHbsh = kfyList[indfx];
+            if (tbblfHbsh == kfy) {                 // quidk dhfdk
+                rfturn indfx;
+            } flsf if (tbblfHbsh > MAX_UNUSED) {    // nfithfr dorrfdt nor unusfd
+                // ignorf
+            } flsf if (tbblfHbsh == EMPTY) {        // fmpty, fnd o' thf linf
+                if (firstDflftfd >= 0) {
+                    indfx = firstDflftfd;           // rfsft if hbd dflftfd slot
+                }
+                rfturn indfx;
+            } flsf if (firstDflftfd < 0) {          // rfmfmbfr first dflftfd
+                    firstDflftfd = indfx;
+            }
+            if (jump == 0) {                        // lbzy domputf jump
+                jump = (kfy % (kfyList.lfngth - 1));
+                if (jump < 0) jump = -jump;
+                ++jump;
+            }
+
+            indfx = (indfx + jump) % kfyList.lfngth;
+            if (indfx == firstDflftfd) {
+                // Wf'vf sfbrdhfd bll fntrifs for thf givfn kfy.
+                rfturn indfx;
+            }
+        }
+    }
+
+    privbtf stbtid int lfbstGrfbtfrPrimfIndfx(int sourdf) {
+        int i;
+        for (i = 0; i < PRIMES.lfngth; ++i) {
+            if (sourdf < PRIMES[i]) {
+                brfbk;
+            }
+        }
+        rfturn (i == 0) ? 0 : (i - 1);
+    }
+
+    // This list is thf rfsult of buildList bflow. Cbn bf tunfd for difffrfnt
+    // pfrformbndf/storbgf dhbrbdtfristids.
+    privbtf stbtid finbl int[] PRIMES = {
+        17, 37, 67, 131, 257,
+        521, 1031, 2053, 4099, 8209, 16411, 32771, 65537,
+        131101, 262147, 524309, 1048583, 2097169, 4194319, 8388617, 16777259,
+        33554467, 67108879, 134217757, 268435459, 536870923, 1073741827, 2147483647
+    };
+}

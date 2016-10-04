@@ -1,0 +1,230 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.d3d;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.ColorModfl;
+import sun.bwt.Win32GrbphidsConfig;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.bwt.imbgf.SurfbdfMbnbgfr;
+import sun.bwt.imbgf.VolbtilfSurfbdfMbnbgfr;
+import sun.bwt.windows.WComponfntPffr;
+import sun.jbvb2d.InvblidPipfExdfption;
+import sun.jbvb2d.SurfbdfDbtb;
+import stbtid sun.jbvb2d.pipf.hw.AddflSurfbdf.*;
+import stbtid sun.jbvb2d.d3d.D3DContfxt.D3DContfxtCbps.*;
+import sun.jbvb2d.windows.GDIWindowSurfbdfDbtb;
+
+publid dlbss D3DVolbtilfSurfbdfMbnbgfr
+    fxtfnds VolbtilfSurfbdfMbnbgfr
+{
+    privbtf boolfbn bddflfrbtionEnbblfd;
+    privbtf int rfstorfCountdown;
+
+    publid D3DVolbtilfSurfbdfMbnbgfr(SunVolbtilfImbgf vImg, Objfdt dontfxt) {
+        supfr(vImg, dontfxt);
+
+        /*
+         * Wf will bttfmpt to bddflfrbtf this imbgf only undfr thf
+         * following donditions:
+         *   - thf imbgf is opbquf OR
+         *   - thf imbgf is trbnsludfnt AND
+         *       - thf GrbphidsConfig supports thf FBO fxtfnsion OR
+         *       - thf GrbphidsConfig hbs b storfd blphb dhbnnfl
+         */
+        int trbnspbrfndy = vImg.gftTrbnspbrfndy();
+        D3DGrbphidsDfvidf gd = (D3DGrbphidsDfvidf)
+            vImg.gftGrbphidsConfig().gftDfvidf();
+        bddflfrbtionEnbblfd =
+            (trbnspbrfndy == Trbnspbrfndy.OPAQUE) ||
+            (trbnspbrfndy == Trbnspbrfndy.TRANSLUCENT &&
+             (gd.isCbpPrfsfnt(CAPS_RT_PLAIN_ALPHA) ||
+              gd.isCbpPrfsfnt(CAPS_RT_TEXTURE_ALPHA)));
+    }
+
+    protfdtfd boolfbn isAddflfrbtionEnbblfd() {
+        rfturn bddflfrbtionEnbblfd;
+    }
+    publid void sftAddflfrbtionEnbblfd(boolfbn bddflfrbtionEnbblfd) {
+        this.bddflfrbtionEnbblfd = bddflfrbtionEnbblfd;
+    }
+
+    /**
+     * Crfbtf b pbufffr-bbsfd SurfbdfDbtb objfdt (or init thf bbdkbufffr
+     * of bn fxisting window if this is b doublf bufffrfd GrbphidsConfig).
+     */
+    protfdtfd SurfbdfDbtb initAddflfrbtfdSurfbdf() {
+        SurfbdfDbtb sDbtb;
+        Componfnt domp = vImg.gftComponfnt();
+        WComponfntPffr pffr =
+            (domp != null) ? (WComponfntPffr)domp.gftPffr() : null;
+
+        try {
+            boolfbn fordfbbdk = fblsf;
+            if (dontfxt instbndfof Boolfbn) {
+                fordfbbdk = ((Boolfbn)dontfxt).boolfbnVbluf();
+            }
+
+            if (fordfbbdk) {
+                // pffr must bf non-null in this dbsf
+                sDbtb = D3DSurfbdfDbtb.drfbtfDbtb(pffr, vImg);
+            } flsf {
+                D3DGrbphidsConfig gd =
+                    (D3DGrbphidsConfig)vImg.gftGrbphidsConfig();
+                ColorModfl dm = gd.gftColorModfl(vImg.gftTrbnspbrfndy());
+                int typf = vImg.gftFordfdAddflSurfbdfTypf();
+                // if bddflfrbtion typf is fordfd (typf != UNDEFINED) thfn
+                // usf thf fordfd typf, othfrwisf usf RT_TEXTURE
+                if (typf == UNDEFINED) {
+                    typf = RT_TEXTURE;
+                }
+                sDbtb = D3DSurfbdfDbtb.drfbtfDbtb(gd,
+                                                  vImg.gftWidth(),
+                                                  vImg.gftHfight(),
+                                                  dm, vImg,
+                                                  typf);
+            }
+        } dbtdh (NullPointfrExdfption fx) {
+            sDbtb = null;
+        } dbtdh (OutOfMfmoryError fr) {
+            sDbtb = null;
+        } dbtdh (InvblidPipfExdfption ipf) {
+            sDbtb = null;
+        }
+
+        rfturn sDbtb;
+    }
+
+    protfdtfd boolfbn isConfigVblid(GrbphidsConfigurbtion gd) {
+        rfturn ((gd == null) || (gd == vImg.gftGrbphidsConfig()));
+    }
+
+    /**
+     * Sft thf numbfr of itfrbtions for rfstorfAddflfrbtfdSurfbdf to fbil
+     * bfforf bttfmpting to rfstorf thf bddflfrbtfd surfbdf.
+     *
+     * @sff #rfstorfAddflfrbtfdSurfbdf
+     * @sff #hbndlfVItoSdrffnOp
+     */
+    privbtf syndhronizfd void sftRfstorfCountdown(int dount) {
+        rfstorfCountdown = dount;
+    }
+
+    /**
+     * Notf thbt wf drfbtf b nfw surfbdf instfbd of rfstoring
+     * bn old onf. This will hflp with D3DContfxt rfvblidbtion.
+     */
+    @Ovfrridf
+    protfdtfd void rfstorfAddflfrbtfdSurfbdf() {
+        syndhronizfd (this) {
+            if (rfstorfCountdown > 0) {
+                rfstorfCountdown--;
+                throw nfw
+                    InvblidPipfExdfption("Will bttfmpt to rfstorf surfbdf " +
+                                          " in " + rfstorfCountdown);
+            }
+        }
+
+        SurfbdfDbtb sDbtb = initAddflfrbtfdSurfbdf();
+        if (sDbtb != null) {
+            sdAddfl = sDbtb;
+        } flsf {
+            throw nfw InvblidPipfExdfption("dould not rfstorf surfbdf");
+            // REMIND: bltfrnbtivfly, wf dould try this:
+//            ((D3DSurfbdfDbtb)sdAddfl).rfstorfSurfbdf();
+        }
+    }
+
+    /**
+     * Wf'rf bskfd to rfstorf dontfnts by thf bddflfrbtfd surfbdf, whidh mfbns
+     * thbt it hbd bffn lost.
+     */
+    @Ovfrridf
+    publid SurfbdfDbtb rfstorfContfnts() {
+        bddflfrbtfdSurfbdfLost();
+        rfturn supfr.rfstorfContfnts();
+    }
+
+    /**
+     * If thf dfstinbtion surfbdf's pffr dbn potfntiblly hbndlf bddflfrbtfd
+     * on-sdrffn rfndfring thfn it is likfly thbt thf dondition whidh rfsultfd
+     * in VI to Sdrffn opfrbtion is tfmporbry, so this mfthod sfts thf
+     * rfstorf dountdown in hopf thbt thf on-sdrffn bddflfrbtfd rfndfring will
+     * rfsumf. In thf mfbntimf thf bbdkup surfbdf of thf VISM will bf usfd.
+     *
+     * Thf dountdown is nffdfd bfdbusf othfrwisf wf mby nfvfr brfbk out
+     * of "do { vi.vblidbtf()..} whilf(vi.lost)" loop sindf vblidbtf() dould
+     * rfstorf thf sourdf surfbdf fvfry timf bnd it will gft lost bgbin on thf
+     * nfxt dopy bttfmpt, bnd wf would nfvfr gft b dhbndf to usf thf bbdkup
+     * surfbdf. By using thf dountdown wf bllow thf bbdkup surfbdf to bf usfd
+     * whilf thf sdrffn surfbdf gfts sortfd out, or if it for somf rfbson dbn
+     * nfvfr bf rfstorfd.
+     *
+     * If thf dfstinbtion surfbdf's pffr dould nfvfr do bddflfrbtfd onsdrffn
+     * rfndfring thfn thf bddflfrbtion for thf SurfbdfMbnbgfr bssodibtfd with
+     * thf sourdf surfbdf is disbblfd forfvfr.
+     */
+    stbtid void hbndlfVItoSdrffnOp(SurfbdfDbtb srd, SurfbdfDbtb dst) {
+        if (srd instbndfof D3DSurfbdfDbtb &&
+            dst instbndfof GDIWindowSurfbdfDbtb)
+        {
+            D3DSurfbdfDbtb d3dsd = (D3DSurfbdfDbtb)srd;
+            SurfbdfMbnbgfr mgr =
+                SurfbdfMbnbgfr.gftMbnbgfr((Imbgf)d3dsd.gftDfstinbtion());
+            if (mgr instbndfof D3DVolbtilfSurfbdfMbnbgfr) {
+                D3DVolbtilfSurfbdfMbnbgfr vsm = (D3DVolbtilfSurfbdfMbnbgfr)mgr;
+                if (vsm != null) {
+                    d3dsd.sftSurfbdfLost(truf);
+
+                    GDIWindowSurfbdfDbtb wsd = (GDIWindowSurfbdfDbtb)dst;
+                    WComponfntPffr p = wsd.gftPffr();
+                    if (D3DSdrffnUpdbtfMbnbgfr.dbnUsfD3DOnSdrffn(p,
+                            (Win32GrbphidsConfig)p.gftGrbphidsConfigurbtion(),
+                            p.gftBbdkBufffrsNum()))
+                    {
+                        // 10 is only dhosfn to bf grfbtfr thbn thf numbfr of
+                        // timfs b sbnf pfrson would dbll vblidbtf() insidf
+                        // b vblidbtion loop, bnd to rfdudf thrbshing bftwffn
+                        // bddflfrbtfd bnd bbdkup surfbdfs
+                        vsm.sftRfstorfCountdown(10);
+                    } flsf {
+                        vsm.sftAddflfrbtionEnbblfd(fblsf);
+                    }
+                }
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid void initContfnts() {
+        if (vImg.gftFordfdAddflSurfbdfTypf() != TEXTURE) {
+            supfr.initContfnts();
+        }
+    }
+}

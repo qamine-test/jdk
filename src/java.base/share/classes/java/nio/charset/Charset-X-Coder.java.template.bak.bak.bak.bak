@@ -1,0 +1,996 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#wbrn This filf is prfprodfssfd bfforf bfing dompilfd
+
+pbdkbgf jbvb.nio.dhbrsft;
+
+import jbvb.nio.Bufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.BufffrOvfrflowExdfption;
+import jbvb.nio.BufffrUndfrflowExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.nio.dhbrsft.CodfrMblfundtionError;                  // jbvbdod
+import jbvb.util.Arrbys;
+
+
+/**
+ * An fnginf thbt dbn trbnsform b sfqufndf of $itypfsPhrbsf$ into b sfqufndf of
+ * $otypfsPhrbsf$.
+ *
+ * <b nbmf="stfps"></b>
+ *
+ * <p> Thf input $itypf$ sfqufndf is providfd in b $itypf$ bufffr or b sfrifs
+ * of sudh bufffrs.  Thf output $otypf$ sfqufndf is writtfn to b $otypf$ bufffr
+ * or b sfrifs of sudh bufffrs.  $A$ $dodfr$ should blwbys bf usfd by mbking
+ * thf following sfqufndf of mfthod invodbtions, hfrfinbftfr rfffrrfd to bs $b$
+ * <i>$doding$ opfrbtion</i>:
+ *
+ * <ol>
+ *
+ *   <li><p> Rfsft thf $dodfr$ vib thf {@link #rfsft rfsft} mfthod, unlfss it
+ *   hbs not bffn usfd bfforf; </p></li>
+ *
+ *   <li><p> Invokf thf {@link #$dodf$ $dodf$} mfthod zfro or morf timfs, bs
+ *   long bs bdditionbl input mby bf bvbilbblf, pbssing <tt>fblsf</tt> for thf
+ *   <tt>fndOfInput</tt> brgumfnt bnd filling thf input bufffr bnd flushing thf
+ *   output bufffr bftwffn invodbtions; </p></li>
+ *
+ *   <li><p> Invokf thf {@link #$dodf$ $dodf$} mfthod onf finbl timf, pbssing
+ *   <tt>truf</tt> for thf <tt>fndOfInput</tt> brgumfnt; bnd thfn </p></li>
+ *
+ *   <li><p> Invokf thf {@link #flush flush} mfthod so thbt thf $dodfr$ dbn
+ *   flush bny intfrnbl stbtf to thf output bufffr. </p></li>
+ *
+ * </ol>
+ *
+ * Ebdh invodbtion of thf {@link #$dodf$ $dodf$} mfthod will $dodf$ bs mbny
+ * $itypf$s bs possiblf from thf input bufffr, writing thf rfsulting $otypf$s
+ * to thf output bufffr.  Thf {@link #$dodf$ $dodf$} mfthod rfturns whfn morf
+ * input is rfquirfd, whfn thfrf is not fnough room in thf output bufffr, or
+ * whfn $b$ $doding$ frror hbs oddurrfd.  In fbdh dbsf b {@link CodfrRfsult}
+ * objfdt is rfturnfd to dfsdribf thf rfbson for tfrminbtion.  An invokfr dbn
+ * fxbminf this objfdt bnd fill thf input bufffr, flush thf output bufffr, or
+ * bttfmpt to rfdovfr from $b$ $doding$ frror, bs bppropribtf, bnd try bgbin.
+ *
+ * <b nbmf="df"></b>
+ *
+ * <p> Thfrf brf two gfnfrbl typfs of $doding$ frrors.  If thf input $itypf$
+ * sfqufndf is $notLfgbl$ thfn thf input is donsidfrfd <i>mblformfd</i>.  If
+ * thf input $itypf$ sfqufndf is lfgbl but dbnnot bf mbppfd to b vblid
+ * $outSfqufndf$ thfn bn <i>unmbppbblf dhbrbdtfr</i> hbs bffn fndountfrfd.
+ *
+ * <b nbmf="dbf"></b>
+ *
+ * <p> How $b$ $doding$ frror is hbndlfd dfpfnds upon thf bdtion rfqufstfd for
+ * thbt typf of frror, whidh is dfsdribfd by bn instbndf of thf {@link
+ * CodingErrorAdtion} dlbss.  Thf possiblf frror bdtions brf to {@linkplbin
+ * CodingErrorAdtion#IGNORE ignorf} thf frronfous input, {@linkplbin
+ * CodingErrorAdtion#REPORT rfport} thf frror to thf invokfr vib
+ * thf rfturnfd {@link CodfrRfsult} objfdt, or {@linkplbin CodingErrorAdtion#REPLACE
+ * rfplbdf} thf frronfous input with thf durrfnt vbluf of thf
+ * rfplbdfmfnt $rfplTypfNbmf$.  Thf rfplbdfmfnt
+ *
+#if[fndodfr]
+ * is initiblly sft to thf $dodfr$'s dffbult rfplbdfmfnt, whidh oftfn
+ * (but not blwbys) hbs thf initibl vbluf&nbsp;$dffbultRfplNbmf$;
+#fnd[fndodfr]
+#if[dfdodfr]
+ * hbs thf initibl vbluf $dffbultRfplNbmf$;
+#fnd[dfdodfr]
+ *
+ * its vbluf mby bf dhbngfd vib thf {@link #rfplbdfWith($rfplFQTypf$)
+ * rfplbdfWith} mfthod.
+ *
+ * <p> Thf dffbult bdtion for mblformfd-input bnd unmbppbblf-dhbrbdtfr frrors
+ * is to {@linkplbin CodingErrorAdtion#REPORT rfport} thfm.  Thf
+ * mblformfd-input frror bdtion mby bf dhbngfd vib thf {@link
+ * #onMblformfdInput(CodingErrorAdtion) onMblformfdInput} mfthod; thf
+ * unmbppbblf-dhbrbdtfr bdtion mby bf dhbngfd vib thf {@link
+ * #onUnmbppbblfChbrbdtfr(CodingErrorAdtion) onUnmbppbblfChbrbdtfr} mfthod.
+ *
+ * <p> This dlbss is dfsignfd to hbndlf mbny of thf dftbils of thf $doding$
+ * prodfss, indluding thf implfmfntbtion of frror bdtions.  $A$ $dodfr$ for b
+ * spfdifid dhbrsft, whidh is b dondrftf subdlbss of this dlbss, nffd only
+ * implfmfnt thf bbstrbdt {@link #$dodf$Loop $dodf$Loop} mfthod, whidh
+ * fndbpsulbtfs thf bbsid $doding$ loop.  A subdlbss thbt mbintbins intfrnbl
+ * stbtf should, bdditionblly, ovfrridf thf {@link #implFlush implFlush} bnd
+ * {@link #implRfsft implRfsft} mfthods.
+ *
+ * <p> Instbndfs of this dlbss brf not sbff for usf by multiplf dondurrfnt
+ * thrfbds.  </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ *
+ * @sff BytfBufffr
+ * @sff ChbrBufffr
+ * @sff Chbrsft
+ * @sff Chbrsft$OthfrCodfr$
+ */
+
+publid bbstrbdt dlbss Chbrsft$Codfr$ {
+
+    privbtf finbl Chbrsft dhbrsft;
+    privbtf finbl flobt bvfrbgf$ItypfsPfrOtypf$;
+    privbtf finbl flobt mbx$ItypfsPfrOtypf$;
+
+    privbtf $rfplTypf$ rfplbdfmfnt;
+    privbtf CodingErrorAdtion mblformfdInputAdtion
+        = CodingErrorAdtion.REPORT;
+    privbtf CodingErrorAdtion unmbppbblfChbrbdtfrAdtion
+        = CodingErrorAdtion.REPORT;
+
+    // Intfrnbl stbtfs
+    //
+    privbtf stbtid finbl int ST_RESET   = 0;
+    privbtf stbtid finbl int ST_CODING  = 1;
+    privbtf stbtid finbl int ST_END     = 2;
+    privbtf stbtid finbl int ST_FLUSHED = 3;
+
+    privbtf int stbtf = ST_RESET;
+
+    privbtf stbtid String stbtfNbmfs[]
+        = { "RESET", "CODING", "CODING_END", "FLUSHED" };
+
+
+    /**
+     * Initiblizfs b nfw $dodfr$.  Thf nfw $dodfr$ will hbvf thf givfn
+     * $otypfs-pfr-itypf$ bnd rfplbdfmfnt vblufs.
+     *
+     * @pbrbm  ds
+     *         Thf dhbrsft thbt drfbtfd this $dodfr$
+     *
+     * @pbrbm  bvfrbgf$ItypfsPfrOtypf$
+     *         A positivf flobt vbluf indidbting thf fxpfdtfd numbfr of
+     *         $otypf$s thbt will bf produdfd for fbdh input $itypf$
+     *
+     * @pbrbm  mbx$ItypfsPfrOtypf$
+     *         A positivf flobt vbluf indidbting thf mbximum numbfr of
+     *         $otypf$s thbt will bf produdfd for fbdh input $itypf$
+     *
+     * @pbrbm  rfplbdfmfnt
+     *         Thf initibl rfplbdfmfnt; must not bf <tt>null</tt>, must hbvf
+     *         non-zfro lfngth, must not bf longfr thbn mbx$ItypfsPfrOtypf$,
+     *         bnd must bf {@linkplbin #isLfgblRfplbdfmfnt lfgbl}
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf prfdonditions on thf pbrbmftfrs do not hold
+     */
+    {#if[fndodfr]?protfdtfd:privbtf}
+    Chbrsft$Codfr$(Chbrsft ds,
+                   flobt bvfrbgf$ItypfsPfrOtypf$,
+                   flobt mbx$ItypfsPfrOtypf$,
+                   $rfplTypf$ rfplbdfmfnt)
+    {
+        this.dhbrsft = ds;
+        if (bvfrbgf$ItypfsPfrOtypf$ <= 0.0f)
+            throw nfw IllfgblArgumfntExdfption("Non-positivf "
+                                               + "bvfrbgf$ItypfsPfrOtypf$");
+        if (mbx$ItypfsPfrOtypf$ <= 0.0f)
+            throw nfw IllfgblArgumfntExdfption("Non-positivf "
+                                               + "mbx$ItypfsPfrOtypf$");
+        if (!Chbrsft.btBugLfvfl("1.4")) {
+            if (bvfrbgf$ItypfsPfrOtypf$ > mbx$ItypfsPfrOtypf$)
+                throw nfw IllfgblArgumfntExdfption("bvfrbgf$ItypfsPfrOtypf$"
+                                                   + " fxdffds "
+                                                   + "mbx$ItypfsPfrOtypf$");
+        }
+        this.rfplbdfmfnt = rfplbdfmfnt;
+        this.bvfrbgf$ItypfsPfrOtypf$ = bvfrbgf$ItypfsPfrOtypf$;
+        this.mbx$ItypfsPfrOtypf$ = mbx$ItypfsPfrOtypf$;
+        rfplbdfWith(rfplbdfmfnt);
+    }
+
+    /**
+     * Initiblizfs b nfw $dodfr$.  Thf nfw $dodfr$ will hbvf thf givfn
+     * $otypfs-pfr-itypf$ vblufs bnd its rfplbdfmfnt will bf thf
+     * $rfplTypfNbmf$ $dffbultRfplNbmf$.
+     *
+     * @pbrbm  ds
+     *         Thf dhbrsft thbt drfbtfd this $dodfr$
+     *
+     * @pbrbm  bvfrbgf$ItypfsPfrOtypf$
+     *         A positivf flobt vbluf indidbting thf fxpfdtfd numbfr of
+     *         $otypf$s thbt will bf produdfd for fbdh input $itypf$
+     *
+     * @pbrbm  mbx$ItypfsPfrOtypf$
+     *         A positivf flobt vbluf indidbting thf mbximum numbfr of
+     *         $otypf$s thbt will bf produdfd for fbdh input $itypf$
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf prfdonditions on thf pbrbmftfrs do not hold
+     */
+    protfdtfd Chbrsft$Codfr$(Chbrsft ds,
+                             flobt bvfrbgf$ItypfsPfrOtypf$,
+                             flobt mbx$ItypfsPfrOtypf$)
+    {
+        this(ds,
+             bvfrbgf$ItypfsPfrOtypf$, mbx$ItypfsPfrOtypf$,
+             $dffbultRfpl$);
+    }
+
+    /**
+     * Rfturns thf dhbrsft thbt drfbtfd this $dodfr$.
+     *
+     * @rfturn  This $dodfr$'s dhbrsft
+     */
+    publid finbl Chbrsft dhbrsft() {
+        rfturn dhbrsft;
+    }
+
+    /**
+     * Rfturns this $dodfr$'s rfplbdfmfnt vbluf.
+     *
+     * @rfturn  This $dodfr$'s durrfnt rfplbdfmfnt,
+     *          whidh is nfvfr <tt>null</tt> bnd is nfvfr fmpty
+     */
+    publid finbl $rfplTypf$ rfplbdfmfnt() {
+#if[dfdodfr]
+        rfturn rfplbdfmfnt;
+#fnd[dfdodfr]
+#if[fndodfr]
+        rfturn Arrbys.dopyOf(rfplbdfmfnt, rfplbdfmfnt.$rfplLfngth$);
+#fnd[fndodfr]
+    }
+
+    /**
+     * Chbngfs this $dodfr$'s rfplbdfmfnt vbluf.
+     *
+     * <p> This mfthod invokfs thf {@link #implRfplbdfWith implRfplbdfWith}
+     * mfthod, pbssing thf nfw rfplbdfmfnt, bftfr dhfdking thbt thf nfw
+     * rfplbdfmfnt is bddfptbblf.  </p>
+     *
+     * @pbrbm  nfwRfplbdfmfnt  Thf rfplbdfmfnt vbluf
+     *
+#if[dfdodfr]
+     *         Thf nfw rfplbdfmfnt; must not bf <tt>null</tt>
+     *         bnd must hbvf non-zfro lfngth
+#fnd[dfdodfr]
+#if[fndodfr]
+     *         Thf nfw rfplbdfmfnt; must not bf <tt>null</tt>, must hbvf
+     *         non-zfro lfngth, must not bf longfr thbn thf vbluf rfturnfd by
+     *         thf {@link #mbx$ItypfsPfrOtypf$() mbx$ItypfsPfrOtypf$} mfthod, bnd
+     *         must bf {@link #isLfgblRfplbdfmfnt lfgbl}
+#fnd[fndodfr]
+     *
+     * @rfturn  This $dodfr$
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf prfdonditions on thf pbrbmftfr do not hold
+     */
+    publid finbl Chbrsft$Codfr$ rfplbdfWith($rfplTypf$ nfwRfplbdfmfnt) {
+        if (nfwRfplbdfmfnt == null)
+            throw nfw IllfgblArgumfntExdfption("Null rfplbdfmfnt");
+        int lfn = nfwRfplbdfmfnt.$rfplLfngth$;
+        if (lfn == 0)
+            throw nfw IllfgblArgumfntExdfption("Empty rfplbdfmfnt");
+        if (lfn > mbx$ItypfsPfrOtypf$)
+            throw nfw IllfgblArgumfntExdfption("Rfplbdfmfnt too long");
+#if[dfdodfr]
+        this.rfplbdfmfnt = nfwRfplbdfmfnt;
+#fnd[dfdodfr]
+#if[fndodfr]
+        if (!isLfgblRfplbdfmfnt(nfwRfplbdfmfnt))
+            throw nfw IllfgblArgumfntExdfption("Illfgbl rfplbdfmfnt");
+        this.rfplbdfmfnt = Arrbys.dopyOf(nfwRfplbdfmfnt, nfwRfplbdfmfnt.$rfplLfngth$);
+#fnd[fndodfr]
+        implRfplbdfWith(this.rfplbdfmfnt);
+        rfturn this;
+    }
+
+    /**
+     * Rfports b dhbngf to this $dodfr$'s rfplbdfmfnt vbluf.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod dofs nothing.  This mfthod
+     * should bf ovfrriddfn by $dodfr$s thbt rfquirf notifidbtion of dhbngfs to
+     * thf rfplbdfmfnt.  </p>
+     *
+     * @pbrbm  nfwRfplbdfmfnt    Thf rfplbdfmfnt vbluf
+     */
+    protfdtfd void implRfplbdfWith($rfplTypf$ nfwRfplbdfmfnt) {
+    }
+
+#if[fndodfr]
+
+    privbtf WfbkRfffrfndf<ChbrsftDfdodfr> dbdhfdDfdodfr = null;
+
+    /**
+     * Tflls whfthfr or not thf givfn bytf brrby is b lfgbl rfplbdfmfnt vbluf
+     * for this fndodfr.
+     *
+     * <p> A rfplbdfmfnt is lfgbl if, bnd only if, it is b lfgbl sfqufndf of
+     * bytfs in this fndodfr's dhbrsft; thbt is, it must bf possiblf to dfdodf
+     * thf rfplbdfmfnt into onf or morf sixtffn-bit Unidodf dhbrbdtfrs.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod is not vfry fffidifnt; it
+     * should gfnfrblly bf ovfrriddfn to improvf pfrformbndf.  </p>
+     *
+     * @pbrbm  rfpl  Thf bytf brrby to bf tfstfd
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, thf givfn bytf brrby
+     *          is b lfgbl rfplbdfmfnt vbluf for this fndodfr
+     */
+    publid boolfbn isLfgblRfplbdfmfnt(bytf[] rfpl) {
+        WfbkRfffrfndf<ChbrsftDfdodfr> wr = dbdhfdDfdodfr;
+        ChbrsftDfdodfr dfd = null;
+        if ((wr == null) || ((dfd = wr.gft()) == null)) {
+            dfd = dhbrsft().nfwDfdodfr();
+            dfd.onMblformfdInput(CodingErrorAdtion.REPORT);
+            dfd.onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPORT);
+            dbdhfdDfdodfr = nfw WfbkRfffrfndf<ChbrsftDfdodfr>(dfd);
+        } flsf {
+            dfd.rfsft();
+        }
+        BytfBufffr bb = BytfBufffr.wrbp(rfpl);
+        ChbrBufffr db = ChbrBufffr.bllodbtf((int)(bb.rfmbining()
+                                                  * dfd.mbxChbrsPfrBytf()));
+        CodfrRfsult dr = dfd.dfdodf(bb, db, truf);
+        rfturn !dr.isError();
+    }
+
+#fnd[fndodfr]
+
+    /**
+     * Rfturns this $dodfr$'s durrfnt bdtion for mblformfd-input frrors.
+     *
+     * @rfturn Thf durrfnt mblformfd-input bdtion, whidh is nfvfr <tt>null</tt>
+     */
+    publid CodingErrorAdtion mblformfdInputAdtion() {
+        rfturn mblformfdInputAdtion;
+    }
+
+    /**
+     * Chbngfs this $dodfr$'s bdtion for mblformfd-input frrors.
+     *
+     * <p> This mfthod invokfs thf {@link #implOnMblformfdInput
+     * implOnMblformfdInput} mfthod, pbssing thf nfw bdtion.  </p>
+     *
+     * @pbrbm  nfwAdtion  Thf nfw bdtion; must not bf <tt>null</tt>
+     *
+     * @rfturn  This $dodfr$
+     *
+     * @throws IllfgblArgumfntExdfption
+     *         If thf prfdondition on thf pbrbmftfr dofs not hold
+     */
+    publid finbl Chbrsft$Codfr$ onMblformfdInput(CodingErrorAdtion nfwAdtion) {
+        if (nfwAdtion == null)
+            throw nfw IllfgblArgumfntExdfption("Null bdtion");
+        mblformfdInputAdtion = nfwAdtion;
+        implOnMblformfdInput(nfwAdtion);
+        rfturn this;
+    }
+
+    /**
+     * Rfports b dhbngf to this $dodfr$'s mblformfd-input bdtion.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod dofs nothing.  This mfthod
+     * should bf ovfrriddfn by $dodfr$s thbt rfquirf notifidbtion of dhbngfs to
+     * thf mblformfd-input bdtion.  </p>
+     *
+     * @pbrbm  nfwAdtion  Thf nfw bdtion
+     */
+    protfdtfd void implOnMblformfdInput(CodingErrorAdtion nfwAdtion) { }
+
+    /**
+     * Rfturns this $dodfr$'s durrfnt bdtion for unmbppbblf-dhbrbdtfr frrors.
+     *
+     * @rfturn Thf durrfnt unmbppbblf-dhbrbdtfr bdtion, whidh is nfvfr
+     *         <tt>null</tt>
+     */
+    publid CodingErrorAdtion unmbppbblfChbrbdtfrAdtion() {
+        rfturn unmbppbblfChbrbdtfrAdtion;
+    }
+
+    /**
+     * Chbngfs this $dodfr$'s bdtion for unmbppbblf-dhbrbdtfr frrors.
+     *
+     * <p> This mfthod invokfs thf {@link #implOnUnmbppbblfChbrbdtfr
+     * implOnUnmbppbblfChbrbdtfr} mfthod, pbssing thf nfw bdtion.  </p>
+     *
+     * @pbrbm  nfwAdtion  Thf nfw bdtion; must not bf <tt>null</tt>
+     *
+     * @rfturn  This $dodfr$
+     *
+     * @throws IllfgblArgumfntExdfption
+     *         If thf prfdondition on thf pbrbmftfr dofs not hold
+     */
+    publid finbl Chbrsft$Codfr$ onUnmbppbblfChbrbdtfr(CodingErrorAdtion
+                                                      nfwAdtion)
+    {
+        if (nfwAdtion == null)
+            throw nfw IllfgblArgumfntExdfption("Null bdtion");
+        unmbppbblfChbrbdtfrAdtion = nfwAdtion;
+        implOnUnmbppbblfChbrbdtfr(nfwAdtion);
+        rfturn this;
+    }
+
+    /**
+     * Rfports b dhbngf to this $dodfr$'s unmbppbblf-dhbrbdtfr bdtion.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod dofs nothing.  This mfthod
+     * should bf ovfrriddfn by $dodfr$s thbt rfquirf notifidbtion of dhbngfs to
+     * thf unmbppbblf-dhbrbdtfr bdtion.  </p>
+     *
+     * @pbrbm  nfwAdtion  Thf nfw bdtion
+     */
+    protfdtfd void implOnUnmbppbblfChbrbdtfr(CodingErrorAdtion nfwAdtion) { }
+
+    /**
+     * Rfturns thf bvfrbgf numbfr of $otypf$s thbt will bf produdfd for fbdh
+     * $itypf$ of input.  This hfuristid vbluf mby bf usfd to fstimbtf thf sizf
+     * of thf output bufffr rfquirfd for b givfn input sfqufndf.
+     *
+     * @rfturn  Thf bvfrbgf numbfr of $otypf$s produdfd
+     *          pfr $itypf$ of input
+     */
+    publid finbl flobt bvfrbgf$ItypfsPfrOtypf$() {
+        rfturn bvfrbgf$ItypfsPfrOtypf$;
+    }
+
+    /**
+     * Rfturns thf mbximum numbfr of $otypf$s thbt will bf produdfd for fbdh
+     * $itypf$ of input.  This vbluf mby bf usfd to domputf thf worst-dbsf sizf
+     * of thf output bufffr rfquirfd for b givfn input sfqufndf.
+     *
+     * @rfturn  Thf mbximum numbfr of $otypf$s thbt will bf produdfd pfr
+     *          $itypf$ of input
+     */
+    publid finbl flobt mbx$ItypfsPfrOtypf$() {
+        rfturn mbx$ItypfsPfrOtypf$;
+    }
+
+    /**
+     * $Codf$s bs mbny $itypf$s bs possiblf from thf givfn input bufffr,
+     * writing thf rfsults to thf givfn output bufffr.
+     *
+     * <p> Thf bufffrs brf rfbd from, bnd writtfn to, stbrting bt thfir durrfnt
+     * positions.  At most {@link Bufffr#rfmbining in.rfmbining()} $itypf$s
+     * will bf rfbd bnd bt most {@link Bufffr#rfmbining out.rfmbining()}
+     * $otypf$s will bf writtfn.  Thf bufffrs' positions will bf bdvbndfd to
+     * rfflfdt thf $itypf$s rfbd bnd thf $otypf$s writtfn, but thfir mbrks bnd
+     * limits will not bf modififd.
+     *
+     * <p> In bddition to rfbding $itypf$s from thf input bufffr bnd writing
+     * $otypf$s to thf output bufffr, this mfthod rfturns b {@link CodfrRfsult}
+     * objfdt to dfsdribf its rfbson for tfrminbtion:
+     *
+     * <ul>
+     *
+     *   <li><p> {@link CodfrRfsult#UNDERFLOW} indidbtfs thbt bs mudh of thf
+     *   input bufffr bs possiblf hbs bffn $dodf$d.  If thfrf is no furthfr
+     *   input thfn thf invokfr dbn prodffd to thf nfxt stfp of thf
+     *   <b hrff="#stfps">$doding$ opfrbtion</b>.  Othfrwisf this mfthod
+     *   should bf invokfd bgbin with furthfr input.  </p></li>
+     *
+     *   <li><p> {@link CodfrRfsult#OVERFLOW} indidbtfs thbt thfrf is
+     *   insuffidifnt spbdf in thf output bufffr to $dodf$ bny morf $itypf$s.
+     *   This mfthod should bf invokfd bgbin with bn output bufffr thbt hbs
+     *   morf {@linkplbin Bufffr#rfmbining rfmbining} $otypf$s. This is
+     *   typidblly donf by drbining bny $dodf$d $otypf$s from thf output
+     *   bufffr.  </p></li>
+     *
+     *   <li><p> A {@linkplbin CodfrRfsult#mblformfdForLfngth
+     *   mblformfd-input} rfsult indidbtfs thbt b mblformfd-input
+     *   frror hbs bffn dftfdtfd.  Thf mblformfd $itypf$s bfgin bt thf input
+     *   bufffr's (possibly indrfmfntfd) position; thf numbfr of mblformfd
+     *   $itypf$s mby bf dftfrminfd by invoking thf rfsult objfdt's {@link
+     *   CodfrRfsult#lfngth() lfngth} mfthod.  This dbsf bpplifs only if thf
+     *   {@linkplbin #onMblformfdInput mblformfd bdtion} of this $dodfr$
+     *   is {@link CodingErrorAdtion#REPORT}; othfrwisf thf mblformfd input
+     *   will bf ignorfd or rfplbdfd, bs rfqufstfd.  </p></li>
+     *
+     *   <li><p> An {@linkplbin CodfrRfsult#unmbppbblfForLfngth
+     *   unmbppbblf-dhbrbdtfr} rfsult indidbtfs thbt bn
+     *   unmbppbblf-dhbrbdtfr frror hbs bffn dftfdtfd.  Thf $itypf$s thbt
+     *   $dodf$ thf unmbppbblf dhbrbdtfr bfgin bt thf input bufffr's (possibly
+     *   indrfmfntfd) position; thf numbfr of sudh $itypf$s mby bf dftfrminfd
+     *   by invoking thf rfsult objfdt's {@link CodfrRfsult#lfngth() lfngth}
+     *   mfthod.  This dbsf bpplifs only if thf {@linkplbin #onUnmbppbblfChbrbdtfr
+     *   unmbppbblf bdtion} of this $dodfr$ is {@link
+     *   CodingErrorAdtion#REPORT}; othfrwisf thf unmbppbblf dhbrbdtfr will bf
+     *   ignorfd or rfplbdfd, bs rfqufstfd.  </p></li>
+     *
+     * </ul>
+     *
+     * In bny dbsf, if this mfthod is to bf rfinvokfd in thf sbmf $doding$
+     * opfrbtion thfn dbrf should bf tbkfn to prfsfrvf bny $itypf$s rfmbining
+     * in thf input bufffr so thbt thfy brf bvbilbblf to thf nfxt invodbtion.
+     *
+     * <p> Thf <tt>fndOfInput</tt> pbrbmftfr bdvisfs this mfthod bs to whfthfr
+     * thf invokfr dbn providf furthfr input bfyond thbt dontbinfd in thf givfn
+     * input bufffr.  If thfrf is b possibility of providing bdditionbl input
+     * thfn thf invokfr should pbss <tt>fblsf</tt> for this pbrbmftfr; if thfrf
+     * is no possibility of providing furthfr input thfn thf invokfr should
+     * pbss <tt>truf</tt>.  It is not frronfous, bnd in fbdt it is quitf
+     * dommon, to pbss <tt>fblsf</tt> in onf invodbtion bnd lbtfr disdovfr thbt
+     * no furthfr input wbs bdtublly bvbilbblf.  It is dritidbl, howfvfr, thbt
+     * thf finbl invodbtion of this mfthod in b sfqufndf of invodbtions blwbys
+     * pbss <tt>truf</tt> so thbt bny rfmbining un$dodf$d input will bf trfbtfd
+     * bs bfing mblformfd.
+     *
+     * <p> This mfthod works by invoking thf {@link #$dodf$Loop $dodf$Loop}
+     * mfthod, intfrprfting its rfsults, hbndling frror donditions, bnd
+     * rfinvoking it bs nfdfssbry.  </p>
+     *
+     *
+     * @pbrbm  in
+     *         Thf input $itypf$ bufffr
+     *
+     * @pbrbm  out
+     *         Thf output $otypf$ bufffr
+     *
+     * @pbrbm  fndOfInput
+     *         <tt>truf</tt> if, bnd only if, thf invokfr dbn providf no
+     *         bdditionbl input $itypf$s bfyond thosf in thf givfn bufffr
+     *
+     * @rfturn  A dodfr-rfsult objfdt dfsdribing thf rfbson for tfrminbtion
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If $b$ $doding$ opfrbtion is blrfbdy in progrfss bnd thf prfvious
+     *          stfp wbs bn invodbtion nfithfr of thf {@link #rfsft rfsft}
+     *          mfthod, nor of this mfthod with b vbluf of <tt>fblsf</tt> for
+     *          thf <tt>fndOfInput</tt> pbrbmftfr, nor of this mfthod with b
+     *          vbluf of <tt>truf</tt> for thf <tt>fndOfInput</tt> pbrbmftfr
+     *          but b rfturn vbluf indidbting bn indomplftf $doding$ opfrbtion
+     *
+     * @throws  CodfrMblfundtionError
+     *          If bn invodbtion of thf $dodf$Loop mfthod thrfw
+     *          bn unfxpfdtfd fxdfption
+     */
+    publid finbl CodfrRfsult $dodf$($Itypf$Bufffr in, $Otypf$Bufffr out,
+                                    boolfbn fndOfInput)
+    {
+        int nfwStbtf = fndOfInput ? ST_END : ST_CODING;
+        if ((stbtf != ST_RESET) && (stbtf != ST_CODING)
+            && !(fndOfInput && (stbtf == ST_END)))
+            throwIllfgblStbtfExdfption(stbtf, nfwStbtf);
+        stbtf = nfwStbtf;
+
+        for (;;) {
+
+            CodfrRfsult dr;
+            try {
+                dr = $dodf$Loop(in, out);
+            } dbtdh (BufffrUndfrflowExdfption x) {
+                throw nfw CodfrMblfundtionError(x);
+            } dbtdh (BufffrOvfrflowExdfption x) {
+                throw nfw CodfrMblfundtionError(x);
+            }
+
+            if (dr.isOvfrflow())
+                rfturn dr;
+
+            if (dr.isUndfrflow()) {
+                if (fndOfInput && in.hbsRfmbining()) {
+                    dr = CodfrRfsult.mblformfdForLfngth(in.rfmbining());
+                    // Fbll through to mblformfd-input dbsf
+                } flsf {
+                    rfturn dr;
+                }
+            }
+
+            CodingErrorAdtion bdtion = null;
+            if (dr.isMblformfd())
+                bdtion = mblformfdInputAdtion;
+            flsf if (dr.isUnmbppbblf())
+                bdtion = unmbppbblfChbrbdtfrAdtion;
+            flsf
+                bssfrt fblsf : dr.toString();
+
+            if (bdtion == CodingErrorAdtion.REPORT)
+                rfturn dr;
+
+            if (bdtion == CodingErrorAdtion.REPLACE) {
+                if (out.rfmbining() < rfplbdfmfnt.$rfplLfngth$)
+                    rfturn CodfrRfsult.OVERFLOW;
+                out.put(rfplbdfmfnt);
+            }
+
+            if ((bdtion == CodingErrorAdtion.IGNORE)
+                || (bdtion == CodingErrorAdtion.REPLACE)) {
+                // Skip frronfous input fithfr wby
+                in.position(in.position() + dr.lfngth());
+                dontinuf;
+            }
+
+            bssfrt fblsf;
+        }
+
+    }
+
+    /**
+     * Flushfs this $dodfr$.
+     *
+     * <p> Somf $dodfr$s mbintbin intfrnbl stbtf bnd mby nffd to writf somf
+     * finbl $otypf$s to thf output bufffr ondf thf ovfrbll input sfqufndf hbs
+     * bffn rfbd.
+     *
+     * <p> Any bdditionbl output is writtfn to thf output bufffr bfginning bt
+     * its durrfnt position.  At most {@link Bufffr#rfmbining out.rfmbining()}
+     * $otypf$s will bf writtfn.  Thf bufffr's position will bf bdvbndfd
+     * bppropribtfly, but its mbrk bnd limit will not bf modififd.
+     *
+     * <p> If this mfthod domplftfs suddfssfully thfn it rfturns {@link
+     * CodfrRfsult#UNDERFLOW}.  If thfrf is insuffidifnt room in thf output
+     * bufffr thfn it rfturns {@link CodfrRfsult#OVERFLOW}.  If this hbppfns
+     * thfn this mfthod must bf invokfd bgbin, with bn output bufffr thbt hbs
+     * morf room, in ordfr to domplftf thf durrfnt <b hrff="#stfps">$doding$
+     * opfrbtion</b>.
+     *
+     * <p> If this $dodfr$ hbs blrfbdy bffn flushfd thfn invoking this mfthod
+     * hbs no ffffdt.
+     *
+     * <p> This mfthod invokfs thf {@link #implFlush implFlush} mfthod to
+     * pfrform thf bdtubl flushing opfrbtion.  </p>
+     *
+     * @pbrbm  out
+     *         Thf output $otypf$ bufffr
+     *
+     * @rfturn  A dodfr-rfsult objfdt, fithfr {@link CodfrRfsult#UNDERFLOW} or
+     *          {@link CodfrRfsult#OVERFLOW}
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If thf prfvious stfp of thf durrfnt $doding$ opfrbtion wbs bn
+     *          invodbtion nfithfr of thf {@link #flush flush} mfthod nor of
+     *          thf thrff-brgumfnt {@link
+     *          #$dodf$($Itypf$Bufffr,$Otypf$Bufffr,boolfbn) $dodf$} mfthod
+     *          with b vbluf of <tt>truf</tt> for thf <tt>fndOfInput</tt>
+     *          pbrbmftfr
+     */
+    publid finbl CodfrRfsult flush($Otypf$Bufffr out) {
+        if (stbtf == ST_END) {
+            CodfrRfsult dr = implFlush(out);
+            if (dr.isUndfrflow())
+                stbtf = ST_FLUSHED;
+            rfturn dr;
+        }
+
+        if (stbtf != ST_FLUSHED)
+            throwIllfgblStbtfExdfption(stbtf, ST_FLUSHED);
+
+        rfturn CodfrRfsult.UNDERFLOW; // Alrfbdy flushfd
+    }
+
+    /**
+     * Flushfs this $dodfr$.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod dofs nothing, bnd blwbys
+     * rfturns {@link CodfrRfsult#UNDERFLOW}.  This mfthod should bf ovfrriddfn
+     * by $dodfr$s thbt mby nffd to writf finbl $otypf$s to thf output bufffr
+     * ondf thf fntirf input sfqufndf hbs bffn rfbd. </p>
+     *
+     * @pbrbm  out
+     *         Thf output $otypf$ bufffr
+     *
+     * @rfturn  A dodfr-rfsult objfdt, fithfr {@link CodfrRfsult#UNDERFLOW} or
+     *          {@link CodfrRfsult#OVERFLOW}
+     */
+    protfdtfd CodfrRfsult implFlush($Otypf$Bufffr out) {
+        rfturn CodfrRfsult.UNDERFLOW;
+    }
+
+    /**
+     * Rfsfts this $dodfr$, dlfbring bny intfrnbl stbtf.
+     *
+     * <p> This mfthod rfsfts dhbrsft-indfpfndfnt stbtf bnd blso invokfs thf
+     * {@link #implRfsft() implRfsft} mfthod in ordfr to pfrform bny
+     * dhbrsft-spfdifid rfsft bdtions.  </p>
+     *
+     * @rfturn  This $dodfr$
+     *
+     */
+    publid finbl Chbrsft$Codfr$ rfsft() {
+        implRfsft();
+        stbtf = ST_RESET;
+        rfturn this;
+    }
+
+    /**
+     * Rfsfts this $dodfr$, dlfbring bny dhbrsft-spfdifid intfrnbl stbtf.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod dofs nothing.  This mfthod
+     * should bf ovfrriddfn by $dodfr$s thbt mbintbin intfrnbl stbtf.  </p>
+     */
+    protfdtfd void implRfsft() { }
+
+    /**
+     * $Codf$s onf or morf $itypf$s into onf or morf $otypf$s.
+     *
+     * <p> This mfthod fndbpsulbtfs thf bbsid $doding$ loop, $doding$ bs mbny
+     * $itypf$s bs possiblf until it fithfr runs out of input, runs out of room
+     * in thf output bufffr, or fndountfrs $b$ $doding$ frror.  This mfthod is
+     * invokfd by thf {@link #$dodf$ $dodf$} mfthod, whidh hbndlfs rfsult
+     * intfrprftbtion bnd frror rfdovfry.
+     *
+     * <p> Thf bufffrs brf rfbd from, bnd writtfn to, stbrting bt thfir durrfnt
+     * positions.  At most {@link Bufffr#rfmbining in.rfmbining()} $itypf$s
+     * will bf rfbd, bnd bt most {@link Bufffr#rfmbining out.rfmbining()}
+     * $otypf$s will bf writtfn.  Thf bufffrs' positions will bf bdvbndfd to
+     * rfflfdt thf $itypf$s rfbd bnd thf $otypf$s writtfn, but thfir mbrks bnd
+     * limits will not bf modififd.
+     *
+     * <p> This mfthod rfturns b {@link CodfrRfsult} objfdt to dfsdribf its
+     * rfbson for tfrminbtion, in thf sbmf mbnnfr bs thf {@link #$dodf$ $dodf$}
+     * mfthod.  Most implfmfntbtions of this mfthod will hbndlf $doding$ frrors
+     * by rfturning bn bppropribtf rfsult objfdt for intfrprftbtion by thf
+     * {@link #$dodf$ $dodf$} mfthod.  An optimizfd implfmfntbtion mby instfbd
+     * fxbminf thf rflfvbnt frror bdtion bnd implfmfnt thbt bdtion itsflf.
+     *
+     * <p> An implfmfntbtion of this mfthod mby pfrform brbitrbry lookbhfbd by
+     * rfturning {@link CodfrRfsult#UNDERFLOW} until it rfdfivfs suffidifnt
+     * input.  </p>
+     *
+     * @pbrbm  in
+     *         Thf input $itypf$ bufffr
+     *
+     * @pbrbm  out
+     *         Thf output $otypf$ bufffr
+     *
+     * @rfturn  A dodfr-rfsult objfdt dfsdribing thf rfbson for tfrminbtion
+     */
+    protfdtfd bbstrbdt CodfrRfsult $dodf$Loop($Itypf$Bufffr in,
+                                              $Otypf$Bufffr out);
+
+    /**
+     * Convfnifndf mfthod thbt $dodf$s thf rfmbining dontfnt of b singlf input
+     * $itypf$ bufffr into b nfwly-bllodbtfd $otypf$ bufffr.
+     *
+     * <p> This mfthod implfmfnts bn fntirf <b hrff="#stfps">$doding$
+     * opfrbtion</b>; thbt is, it rfsfts this $dodfr$, thfn it $dodf$s thf
+     * $itypf$s in thf givfn $itypf$ bufffr, bnd finblly it flushfs this
+     * $dodfr$.  This mfthod should thfrfforf not bf invokfd if $b$ $doding$
+     * opfrbtion is blrfbdy in progrfss.  </p>
+     *
+     * @pbrbm  in
+     *         Thf input $itypf$ bufffr
+     *
+     * @rfturn A nfwly-bllodbtfd $otypf$ bufffr dontbining thf rfsult of thf
+     *         $doding$ opfrbtion.  Thf bufffr's position will bf zfro bnd its
+     *         limit will follow thf lbst $otypf$ writtfn.
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If $b$ $doding$ opfrbtion is blrfbdy in progrfss
+     *
+     * @throws  MblformfdInputExdfption
+     *          If thf $itypf$ sfqufndf stbrting bt thf input bufffr's durrfnt
+     *          position is $notLfgbl$ bnd thf durrfnt mblformfd-input bdtion
+     *          is {@link CodingErrorAdtion#REPORT}
+     *
+     * @throws  UnmbppbblfChbrbdtfrExdfption
+     *          If thf $itypf$ sfqufndf stbrting bt thf input bufffr's durrfnt
+     *          position dbnnot bf mbppfd to bn fquivblfnt $otypf$ sfqufndf bnd
+     *          thf durrfnt unmbppbblf-dhbrbdtfr bdtion is {@link
+     *          CodingErrorAdtion#REPORT}
+     */
+    publid finbl $Otypf$Bufffr $dodf$($Itypf$Bufffr in)
+        throws ChbrbdtfrCodingExdfption
+    {
+        int n = (int)(in.rfmbining() * bvfrbgf$ItypfsPfrOtypf$());
+        $Otypf$Bufffr out = $Otypf$Bufffr.bllodbtf(n);
+
+        if ((n == 0) && (in.rfmbining() == 0))
+            rfturn out;
+        rfsft();
+        for (;;) {
+            CodfrRfsult dr = in.hbsRfmbining() ?
+                $dodf$(in, out, truf) : CodfrRfsult.UNDERFLOW;
+            if (dr.isUndfrflow())
+                dr = flush(out);
+
+            if (dr.isUndfrflow())
+                brfbk;
+            if (dr.isOvfrflow()) {
+                n = 2*n + 1;    // Ensurf progrfss; n might bf 0!
+                $Otypf$Bufffr o = $Otypf$Bufffr.bllodbtf(n);
+                out.flip();
+                o.put(out);
+                out = o;
+                dontinuf;
+            }
+            dr.throwExdfption();
+        }
+        out.flip();
+        rfturn out;
+    }
+
+#if[dfdodfr]
+
+    /**
+     * Tflls whfthfr or not this dfdodfr implfmfnts bn buto-dftfdting dhbrsft.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod blwbys rfturns
+     * <tt>fblsf</tt>; it should bf ovfrriddfn by buto-dftfdting dfdodfrs to
+     * rfturn <tt>truf</tt>.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this dfdodfr implfmfnts bn
+     *          buto-dftfdting dhbrsft
+     */
+    publid boolfbn isAutoDftfdting() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Tflls whfthfr or not this dfdodfr hbs yft dftfdtfd b
+     * dhbrsft&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> If this dfdodfr implfmfnts bn buto-dftfdting dhbrsft thfn bt b
+     * singlf point during b dfdoding opfrbtion this mfthod mby stbrt rfturning
+     * <tt>truf</tt> to indidbtf thbt b spfdifid dhbrsft hbs bffn dftfdtfd in
+     * thf input bytf sfqufndf.  Ondf this oddurs, thf {@link #dftfdtfdChbrsft
+     * dftfdtfdChbrsft} mfthod mby bf invokfd to rftrifvf thf dftfdtfd dhbrsft.
+     *
+     * <p> Thbt this mfthod rfturns <tt>fblsf</tt> dofs not imply thbt no bytfs
+     * hbvf yft bffn dfdodfd.  Somf buto-dftfdting dfdodfrs brf dbpbblf of
+     * dfdoding somf, or fvfn bll, of bn input bytf sfqufndf without fixing on
+     * b pbrtidulbr dhbrsft.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod blwbys throws bn {@link
+     * UnsupportfdOpfrbtionExdfption}; it should bf ovfrriddfn by
+     * buto-dftfdting dfdodfrs to rfturn <tt>truf</tt> ondf thf input dhbrsft
+     * hbs bffn dftfrminfd.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this dfdodfr hbs dftfdtfd b
+     *          spfdifid dhbrsft
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this dfdodfr dofs not implfmfnt bn buto-dftfdting dhbrsft
+     */
+    publid boolfbn isChbrsftDftfdtfd() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Rftrifvfs thf dhbrsft thbt wbs dftfdtfd by this
+     * dfdodfr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> If this dfdodfr implfmfnts bn buto-dftfdting dhbrsft thfn this
+     * mfthod rfturns thf bdtubl dhbrsft ondf it hbs bffn dftfdtfd.  Aftfr thbt
+     * point, this mfthod rfturns thf sbmf vbluf for thf durbtion of thf
+     * durrfnt dfdoding opfrbtion.  If not fnough input bytfs hbvf yft bffn
+     * rfbd to dftfrminf thf bdtubl dhbrsft thfn this mfthod throws bn {@link
+     * IllfgblStbtfExdfption}.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod blwbys throws bn {@link
+     * UnsupportfdOpfrbtionExdfption}; it should bf ovfrriddfn by
+     * buto-dftfdting dfdodfrs to rfturn thf bppropribtf vbluf.  </p>
+     *
+     * @rfturn  Thf dhbrsft dftfdtfd by this buto-dftfdting dfdodfr,
+     *          or <tt>null</tt> if thf dhbrsft hbs not yft bffn dftfrminfd
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If insuffidifnt bytfs hbvf bffn rfbd to dftfrminf b dhbrsft
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this dfdodfr dofs not implfmfnt bn buto-dftfdting dhbrsft
+     */
+    publid Chbrsft dftfdtfdChbrsft() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+#fnd[dfdodfr]
+
+#if[fndodfr]
+
+    privbtf boolfbn dbnEndodf(ChbrBufffr db) {
+        if (stbtf == ST_FLUSHED)
+            rfsft();
+        flsf if (stbtf != ST_RESET)
+            throwIllfgblStbtfExdfption(stbtf, ST_CODING);
+        CodingErrorAdtion mb = mblformfdInputAdtion();
+        CodingErrorAdtion ub = unmbppbblfChbrbdtfrAdtion();
+        try {
+            onMblformfdInput(CodingErrorAdtion.REPORT);
+            onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPORT);
+            fndodf(db);
+        } dbtdh (ChbrbdtfrCodingExdfption x) {
+            rfturn fblsf;
+        } finblly {
+            onMblformfdInput(mb);
+            onUnmbppbblfChbrbdtfr(ub);
+            rfsft();
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Tflls whfthfr or not this fndodfr dbn fndodf thf givfn dhbrbdtfr.
+     *
+     * <p> This mfthod rfturns <tt>fblsf</tt> if thf givfn dhbrbdtfr is b
+     * surrogbtf dhbrbdtfr; sudh dhbrbdtfrs dbn bf intfrprftfd only whfn thfy
+     * brf mfmbfrs of b pbir donsisting of b high surrogbtf followfd by b low
+     * surrogbtf.  Thf {@link #dbnEndodf(jbvb.lbng.ChbrSfqufndf)
+     * dbnEndodf(ChbrSfqufndf)} mfthod mby bf usfd to tfst whfthfr or not b
+     * dhbrbdtfr sfqufndf dbn bf fndodfd.
+     *
+     * <p> This mfthod mby modify this fndodfr's stbtf; it should thfrfforf not
+     * bf invokfd if bn <b hrff="#stfps">fndoding opfrbtion</b> is blrfbdy in
+     * progrfss.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod is not vfry fffidifnt; it
+     * should gfnfrblly bf ovfrriddfn to improvf pfrformbndf.  </p>
+     *
+     * @pbrbm   d
+     *          Thf givfn dhbrbdtfr
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this fndodfr dbn fndodf
+     *          thf givfn dhbrbdtfr
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If $b$ $doding$ opfrbtion is blrfbdy in progrfss
+     */
+    publid boolfbn dbnEndodf(dhbr d) {
+        ChbrBufffr db = ChbrBufffr.bllodbtf(1);
+        db.put(d);
+        db.flip();
+        rfturn dbnEndodf(db);
+    }
+
+    /**
+     * Tflls whfthfr or not this fndodfr dbn fndodf thf givfn dhbrbdtfr
+     * sfqufndf.
+     *
+     * <p> If this mfthod rfturns <tt>fblsf</tt> for b pbrtidulbr dhbrbdtfr
+     * sfqufndf thfn morf informbtion bbout why thf sfqufndf dbnnot bf fndodfd
+     * mby bf obtbinfd by pfrforming b full <b hrff="#stfps">fndoding
+     * opfrbtion</b>.
+     *
+     * <p> This mfthod mby modify this fndodfr's stbtf; it should thfrfforf not
+     * bf invokfd if bn fndoding opfrbtion is blrfbdy in progrfss.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod is not vfry fffidifnt; it
+     * should gfnfrblly bf ovfrriddfn to improvf pfrformbndf.  </p>
+     *
+     * @pbrbm   ds
+     *          Thf givfn dhbrbdtfr sfqufndf
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this fndodfr dbn fndodf
+     *          thf givfn dhbrbdtfr without throwing bny fxdfptions bnd without
+     *          pfrforming bny rfplbdfmfnts
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If $b$ $doding$ opfrbtion is blrfbdy in progrfss
+     */
+    publid boolfbn dbnEndodf(ChbrSfqufndf ds) {
+        ChbrBufffr db;
+        if (ds instbndfof ChbrBufffr)
+            db = ((ChbrBufffr)ds).duplidbtf();
+        flsf
+            db = ChbrBufffr.wrbp(ds.toString());
+        rfturn dbnEndodf(db);
+    }
+
+#fnd[fndodfr]
+
+
+    privbtf void throwIllfgblStbtfExdfption(int from, int to) {
+        throw nfw IllfgblStbtfExdfption("Currfnt stbtf = " + stbtfNbmfs[from]
+                                        + ", nfw stbtf = " + stbtfNbmfs[to]);
+    }
+
+}

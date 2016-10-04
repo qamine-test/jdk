@@ -1,0 +1,413 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.bwt.dnd;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Cursor;
+
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Point;
+
+import jbvb.bwt.fvfnt.InputEvfnt;
+
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.util.EvfntObjfdt;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+
+
+/**
+ * A <dodf>DrbgGfsturfEvfnt</dodf> is pbssfd
+ * to <dodf>DrbgGfsturfListfnfr</dodf>'s
+ * drbgGfsturfRfdognizfd() mfthod
+ * whfn b pbrtidulbr <dodf>DrbgGfsturfRfdognizfr</dodf> dftfdts thbt b
+ * plbtform dfpfndfnt drbg initibting gfsturf hbs oddurrfd
+ * on thf <dodf>Componfnt</dodf> thbt it is trbdking.
+ *
+ * Thf {@dodf bdtion} fifld of bny {@dodf DrbgGfsturfEvfnt} instbndf should tbkf onf of thf following
+ * vblufs:
+ * <ul>
+ * <li> {@dodf DnDConstbnts.ACTION_COPY}
+ * <li> {@dodf DnDConstbnts.ACTION_MOVE}
+ * <li> {@dodf DnDConstbnts.ACTION_LINK}
+ * </ul>
+ * Assigning thf vbluf difffrfnt from listfd bbovf will dbusf bn unspfdififd bfhbvior.
+ *
+ * @sff jbvb.bwt.dnd.DrbgGfsturfRfdognizfr
+ * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
+ * @sff jbvb.bwt.dnd.DrbgSourdf
+ * @sff jbvb.bwt.dnd.DnDConstbnts
+ */
+
+publid dlbss DrbgGfsturfEvfnt fxtfnds EvfntObjfdt {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 9080172649166731306L;
+
+    /**
+     * Construdts b <dodf>DrbgGfsturfEvfnt</dodf> objfdt givfn by thf
+     * <dodf>DrbgGfsturfRfdognizfr</dodf> instbndf firing this fvfnt,
+     * bn {@dodf bdt} pbrbmftfr rfprfsfnting
+     * thf usfr's prfffrrfd bdtion, bn {@dodf ori} pbrbmftfr
+     * indidbting thf origin of thf drbg, bnd b {@dodf List} of
+     * fvfnts thbt domprisf thf gfsturf({@dodf fvs} pbrbmftfr).
+     *
+     * @pbrbm dgr Thf <dodf>DrbgGfsturfRfdognizfr</dodf> firing this fvfnt
+     * @pbrbm bdt Thf usfr's prfffrrfd bdtion.
+     *            For informbtion on bllowbblf vblufs, sff
+     *            thf dlbss dfsdription for {@link DrbgGfsturfEvfnt}
+     * @pbrbm ori Thf origin of thf drbg
+     * @pbrbm fvs Thf <dodf>List</dodf> of fvfnts thbt domprisf thf gfsturf
+     *
+     * @throws IllfgblArgumfntExdfption if bny pbrbmftfr fqubls {@dodf null}
+     * @throws IllfgblArgumfntExdfption if thf bdt pbrbmftfr dofs not domply with
+     *                                  thf vblufs givfn in thf dlbss
+     *                                  dfsdription for {@link DrbgGfsturfEvfnt}
+     * @sff jbvb.bwt.dnd.DnDConstbnts
+     */
+
+    publid DrbgGfsturfEvfnt(DrbgGfsturfRfdognizfr dgr, int bdt, Point ori,
+                            List<? fxtfnds InputEvfnt> fvs)
+    {
+        supfr(dgr);
+
+        if ((domponfnt = dgr.gftComponfnt()) == null)
+            throw nfw IllfgblArgumfntExdfption("null domponfnt");
+        if ((drbgSourdf = dgr.gftDrbgSourdf()) == null)
+            throw nfw IllfgblArgumfntExdfption("null DrbgSourdf");
+
+        if (fvs == null || fvs.isEmpty())
+            throw nfw IllfgblArgumfntExdfption("null or fmpty list of fvfnts");
+
+        if (bdt != DnDConstbnts.ACTION_COPY &&
+            bdt != DnDConstbnts.ACTION_MOVE &&
+            bdt != DnDConstbnts.ACTION_LINK)
+            throw nfw IllfgblArgumfntExdfption("bbd bdtion");
+
+        if (ori == null) throw nfw IllfgblArgumfntExdfption("null origin");
+
+        fvfnts     = fvs;
+        bdtion     = bdt;
+        origin     = ori;
+    }
+
+    /**
+     * Rfturns thf sourdf bs b <dodf>DrbgGfsturfRfdognizfr</dodf>.
+     *
+     * @rfturn thf sourdf bs b <dodf>DrbgGfsturfRfdognizfr</dodf>
+     */
+
+    publid DrbgGfsturfRfdognizfr gftSourdfAsDrbgGfsturfRfdognizfr() {
+        rfturn (DrbgGfsturfRfdognizfr)gftSourdf();
+    }
+
+    /**
+     * Rfturns thf <dodf>Componfnt</dodf> bssodibtfd
+     * with this <dodf>DrbgGfsturfEvfnt</dodf>.
+     *
+     * @rfturn thf Componfnt
+     */
+
+    publid Componfnt gftComponfnt() { rfturn domponfnt; }
+
+    /**
+     * Rfturns thf <dodf>DrbgSourdf</dodf>.
+     *
+     * @rfturn thf <dodf>DrbgSourdf</dodf>
+     */
+
+    publid DrbgSourdf gftDrbgSourdf() { rfturn drbgSourdf; }
+
+    /**
+     * Rfturns b <dodf>Point</dodf> in thf doordinbtfs
+     * of thf <dodf>Componfnt</dodf> ovfr whidh thf drbg originbtfd.
+     *
+     * @rfturn thf Point whfrf thf drbg originbtfd in Componfnt doords.
+     */
+
+    publid Point gftDrbgOrigin() {
+        rfturn origin;
+    }
+
+    /**
+     * Rfturns bn <dodf>Itfrbtor</dodf> for thf fvfnts
+     * domprising thf gfsturf.
+     *
+     * @rfturn bn Itfrbtor for thf fvfnts domprising thf gfsturf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid Itfrbtor<InputEvfnt> itfrbtor() { rfturn fvfnts.itfrbtor(); }
+
+    /**
+     * Rfturns bn <dodf>Objfdt</dodf> brrby of thf
+     * fvfnts domprising thf drbg gfsturf.
+     *
+     * @rfturn bn brrby of thf fvfnts domprising thf gfsturf
+     */
+
+    publid Objfdt[] toArrby() { rfturn fvfnts.toArrby(); }
+
+    /**
+     * Rfturns bn brrby of thf fvfnts domprising thf drbg gfsturf.
+     *
+     * @pbrbm brrby thf brrby of <dodf>EvfntObjfdt</dodf> sub(typfs)
+     *
+     * @rfturn bn brrby of thf fvfnts domprising thf gfsturf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid Objfdt[] toArrby(Objfdt[] brrby) { rfturn fvfnts.toArrby(brrby); }
+
+    /**
+     * Rfturns bn <dodf>int</dodf> rfprfsfnting thf
+     * bdtion sflfdtfd by thf usfr.
+     *
+     * @rfturn thf bdtion sflfdtfd by thf usfr
+     */
+
+    publid int gftDrbgAdtion() { rfturn bdtion; }
+
+    /**
+     * Rfturns thf initibl fvfnt thbt triggfrfd thf gfsturf.
+     *
+     * @rfturn thf first "triggfring" fvfnt in thf sfqufndf of thf gfsturf
+     */
+
+    publid InputEvfnt gftTriggfrEvfnt() {
+        rfturn gftSourdfAsDrbgGfsturfRfdognizfr().gftTriggfrEvfnt();
+    }
+
+    /**
+     * Stbrts thf drbg opfrbtion givfn thf <dodf>Cursor</dodf> for this drbg
+     * opfrbtion bnd thf <dodf>Trbnsffrbblf</dodf> rfprfsfnting thf sourdf dbtb
+     * for this drbg opfrbtion.
+     * <br>
+     * If b <dodf>null</dodf> <dodf>Cursor</dodf> is spfdififd no fxdfption will
+     * bf thrown bnd dffbult drbg dursors will bf usfd instfbd.
+     * <br>
+     * If b <dodf>null</dodf> <dodf>Trbnsffrbblf</dodf> is spfdififd
+     * <dodf>NullPointfrExdfption</dodf> will bf thrown.
+     * @pbrbm drbgCursor     Thf initibl {@dodf Cursor} for this drbg opfrbtion
+     *                       or {@dodf null} for thf dffbult dursor hbndling;
+     *                       sff
+     *                       <b hrff="DrbgSourdfContfxt.html#dffbultCursor">DrbgSourdfContfxt</b>
+     *                       for morf dftbils on thf dursor hbndling mfdhbnism
+     *                       during drbg bnd drop
+     * @pbrbm trbnsffrbblf Thf <dodf>Trbnsffrbblf</dodf> rfprfsfnting thf sourdf
+     *                     dbtb for this drbg opfrbtion.
+     *
+     * @throws InvblidDnDOpfrbtionExdfption if thf Drbg bnd Drop
+     *         systfm is unbblf to initibtf b drbg opfrbtion, or if thf usfr
+     *         bttfmpts to stbrt b drbg whilf bn fxisting drbg opfrbtion is
+     *         still fxfduting.
+     * @throws NullPointfrExdfption if thf {@dodf Trbnsffrbblf} is {@dodf null}
+     * @sindf 1.4
+     */
+    publid void stbrtDrbg(Cursor drbgCursor, Trbnsffrbblf trbnsffrbblf)
+      throws InvblidDnDOpfrbtionExdfption {
+        drbgSourdf.stbrtDrbg(this, drbgCursor, trbnsffrbblf, null);
+    }
+
+    /**
+     * Stbrts thf drbg givfn thf initibl <dodf>Cursor</dodf> to displby,
+     * thf <dodf>Trbnsffrbblf</dodf> objfdt,
+     * bnd thf <dodf>DrbgSourdfListfnfr</dodf> to usf.
+     *
+     * @pbrbm drbgCursor     Thf initibl {@dodf Cursor} for this drbg opfrbtion
+     *                       or {@dodf null} for thf dffbult dursor hbndling;
+     *                       sff
+     *                       <b hrff="DrbgSourdfContfxt.html#dffbultCursor">DrbgSourdfContfxt</b>
+     *                       for morf dftbils on thf dursor hbndling mfdhbnism
+     *                       during drbg bnd drop
+     * @pbrbm trbnsffrbblf Thf sourdf's Trbnsffrbblf
+     * @pbrbm dsl          Thf sourdf's DrbgSourdfListfnfr
+     *
+     * @throws InvblidDnDOpfrbtionExdfption if
+     * thf Drbg bnd Drop systfm is unbblf to
+     * initibtf b drbg opfrbtion, or if thf usfr
+     * bttfmpts to stbrt b drbg whilf bn fxisting
+     * drbg opfrbtion is still fxfduting.
+     */
+
+    publid void stbrtDrbg(Cursor drbgCursor, Trbnsffrbblf trbnsffrbblf, DrbgSourdfListfnfr dsl) throws InvblidDnDOpfrbtionExdfption {
+        drbgSourdf.stbrtDrbg(this, drbgCursor, trbnsffrbblf, dsl);
+    }
+
+    /**
+     * Stbrt thf drbg givfn thf initibl <dodf>Cursor</dodf> to displby,
+     * b drbg <dodf>Imbgf</dodf>, thf offsft of
+     * thf <dodf>Imbgf</dodf>,
+     * thf <dodf>Trbnsffrbblf</dodf> objfdt, bnd
+     * thf <dodf>DrbgSourdfListfnfr</dodf> to usf.
+     *
+     * @pbrbm drbgCursor     Thf initibl {@dodf Cursor} for this drbg opfrbtion
+     *                       or {@dodf null} for thf dffbult dursor hbndling;
+     *                       sff
+     *                       <b hrff="DrbgSourdfContfxt.html#dffbultCursor">DrbgSourdfContfxt</b>
+     *                       for morf dftbils on thf dursor hbndling mfdhbnism
+     *                       during drbg bnd drop
+     * @pbrbm drbgImbgf    Thf sourdf's drbgImbgf
+     * @pbrbm imbgfOffsft  Thf drbgImbgf's offsft
+     * @pbrbm trbnsffrbblf Thf sourdf's Trbnsffrbblf
+     * @pbrbm dsl          Thf sourdf's DrbgSourdfListfnfr
+     *
+     * @throws InvblidDnDOpfrbtionExdfption if
+     * thf Drbg bnd Drop systfm is unbblf to
+     * initibtf b drbg opfrbtion, or if thf usfr
+     * bttfmpts to stbrt b drbg whilf bn fxisting
+     * drbg opfrbtion is still fxfduting.
+     */
+
+    publid void stbrtDrbg(Cursor drbgCursor, Imbgf drbgImbgf, Point imbgfOffsft, Trbnsffrbblf trbnsffrbblf, DrbgSourdfListfnfr dsl) throws InvblidDnDOpfrbtionExdfption {
+        drbgSourdf.stbrtDrbg(this,  drbgCursor, drbgImbgf, imbgfOffsft, trbnsffrbblf, dsl);
+    }
+
+    /**
+     * Sfriblizfs this <dodf>DrbgGfsturfEvfnt</dodf>. Pfrforms dffbult
+     * sfriblizbtion bnd thfn writfs out this objfdt's <dodf>List</dodf> of
+     * gfsturf fvfnts if bnd only if thf <dodf>List</dodf> dbn bf sfriblizfd.
+     * If not, <dodf>null</dodf> is writtfn instfbd. In this dbsf, b
+     * <dodf>DrbgGfsturfEvfnt</dodf> drfbtfd from thf rfsulting dfsfriblizfd
+     * strfbm will dontbin bn fmpty <dodf>List</dodf> of gfsturf fvfnts.
+     *
+     * @sfriblDbtb Thf dffbult sfriblizbblf fiflds, in blphbbftidbl ordfr,
+     *             followfd by fithfr b <dodf>List</dodf> instbndf, or
+     *             <dodf>null</dodf>.
+     * @sindf 1.4
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+
+        s.writfObjfdt(SfriblizbtionTfstfr.tfst(fvfnts) ? fvfnts : null);
+    }
+
+    /**
+     * Dfsfriblizfs this <dodf>DrbgGfsturfEvfnt</dodf>. This mfthod first
+     * pfrforms dffbult dfsfriblizbtion for bll non-<dodf>trbnsifnt</dodf>
+     * fiflds. An bttfmpt is thfn mbdf to dfsfriblizf this objfdt's
+     * <dodf>List</dodf> of gfsturf fvfnts bs wfll. This is first bttfmptfd
+     * by dfsfriblizing thf fifld <dodf>fvfnts</dodf>, bfdbusf, in rflfbsfs
+     * prior to 1.4, b non-<dodf>trbnsifnt</dodf> fifld of this nbmf storfd thf
+     * <dodf>List</dodf> of gfsturf fvfnts. If this fbils, thf nfxt objfdt in
+     * thf strfbm is usfd instfbd. If thf rfsulting <dodf>List</dodf> is
+     * <dodf>null</dodf>, this objfdt's <dodf>List</dodf> of gfsturf fvfnts
+     * is sft to bn fmpty <dodf>List</dodf>.
+     *
+     * @sindf 1.4
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws ClbssNotFoundExdfption, IOExdfption
+    {
+        ObjfdtInputStrfbm.GftFifld f = s.rfbdFiflds();
+
+        DrbgSourdf nfwDrbgSourdf = (DrbgSourdf)f.gft("drbgSourdf", null);
+        if (nfwDrbgSourdf == null) {
+            throw nfw InvblidObjfdtExdfption("null DrbgSourdf");
+        }
+        drbgSourdf = nfwDrbgSourdf;
+
+        Componfnt nfwComponfnt = (Componfnt)f.gft("domponfnt", null);
+        if (nfwComponfnt == null) {
+            throw nfw InvblidObjfdtExdfption("null domponfnt");
+        }
+        domponfnt = nfwComponfnt;
+
+        Point nfwOrigin = (Point)f.gft("origin", null);
+        if (nfwOrigin == null) {
+            throw nfw InvblidObjfdtExdfption("null origin");
+        }
+        origin = nfwOrigin;
+
+        int nfwAdtion = f.gft("bdtion", 0);
+        if (nfwAdtion != DnDConstbnts.ACTION_COPY &&
+                nfwAdtion != DnDConstbnts.ACTION_MOVE &&
+                nfwAdtion != DnDConstbnts.ACTION_LINK) {
+            throw nfw InvblidObjfdtExdfption("bbd bdtion");
+        }
+        bdtion = nfwAdtion;
+
+        // Prf-1.4 support. 'fvfnts' wbs prfviously non-trbnsifnt
+        @SupprfssWbrnings("rbwtypfs")
+        List nfwEvfnts;
+        try {
+            nfwEvfnts = (List)f.gft("fvfnts", null);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            // 1.4-dompbtiblf bytf strfbm. 'fvfnts' wbs writtfn fxpliditly
+            nfwEvfnts = (List)s.rfbdObjfdt();
+        }
+
+        // Implfmfntbtion bssumfs 'fvfnts' is nfvfr null.
+        if (nfwEvfnts != null && nfwEvfnts.isEmpty()) {
+            // Construdtor trfbts fmpty fvfnts list bs invblid vbluf
+            // Throw fxdfption if sfriblizfd list is fmpty
+            throw nfw InvblidObjfdtExdfption("fmpty list of fvfnts");
+        } flsf if (nfwEvfnts == null) {
+            nfwEvfnts = Collfdtions.fmptyList();
+        }
+        fvfnts = nfwEvfnts;
+    }
+
+    /*
+     * fiflds
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf trbnsifnt List fvfnts;
+
+    /**
+     * Thf DrbgSourdf bssodibtfd with this DrbgGfsturfEvfnt.
+     *
+     * @sfribl
+     */
+    privbtf DrbgSourdf drbgSourdf;
+
+    /**
+     * Thf Componfnt bssodibtfd with this DrbgGfsturfEvfnt.
+     *
+     * @sfribl
+     */
+    privbtf Componfnt  domponfnt;
+
+    /**
+     * Thf origin of thf drbg.
+     *
+     * @sfribl
+     */
+    privbtf Point      origin;
+
+    /**
+     * Thf usfr's prfffrrfd bdtion.
+     *
+     * @sfribl
+     */
+    privbtf int        bdtion;
+}

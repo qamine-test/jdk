@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import jbvb.lbng.bnnotbtion.Rftfntion;
+import jbvb.lbng.bnnotbtion.Tbrgft;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import stbtid jbvb.lbng.bnnotbtion.ElfmfntTypf.TYPE;
+import stbtid jbvb.lbng.bnnotbtion.RftfntionPolidy.RUNTIME;
 
 /**
- * An annotation used to specify some swing-related information
- * for the automatically generated {@code BeanInfo} classes.
- * This annotation is not used if the annotated class
- * has a corresponding user-defined {@code BeanInfo} class,
- * which does not imply the automatic analysis.
+ * An bnnotbtion usfd to spfdify somf swing-rflbtfd informbtion
+ * for tif butombtidblly gfnfrbtfd {@dodf BfbnInfo} dlbssfs.
+ * Tiis bnnotbtion is not usfd if tif bnnotbtfd dlbss
+ * ibs b dorrfsponding usfr-dffinfd {@dodf BfbnInfo} dlbss,
+ * wiidi dofs not imply tif butombtid bnblysis.
  * <p>
- * The {@code isContainer} {@link java.beans.BeanDescriptor#getValue
- * feature attribute} was introduced primarily for the Swing library.
- * All Swing components extend the {@link java.awt.Container Container}
- * class by design, so the builder tool assumes that all Swing components
- * are containers.  The {@link java.beans.BeanInfo BeanInfo} classes
- * with the {@code isContainer} attribute allow to directly specify
- * whether a Swing component is a container or not.
+ * Tif {@dodf isContbinfr} {@link jbvb.bfbns.BfbnDfsdriptor#gftVbluf
+ * ffbturf bttributf} wbs introdudfd primbrily for tif Swing librbry.
+ * All Swing domponfnts fxtfnd tif {@link jbvb.bwt.Contbinfr Contbinfr}
+ * dlbss by dfsign, so tif buildfr tool bssumfs tibt bll Swing domponfnts
+ * brf dontbinfrs.  Tif {@link jbvb.bfbns.BfbnInfo BfbnInfo} dlbssfs
+ * witi tif {@dodf isContbinfr} bttributf bllow to dirfdtly spfdify
+ * wiftifr b Swing domponfnt is b dontbinfr or not.
  *
- * @since 1.9
+ * @sindf 1.9
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-@Target({TYPE})
-@Retention(RUNTIME)
-public @interface SwingContainer {
+@Tbrgft({TYPE})
+@Rftfntion(RUNTIME)
+publid @intfrfbdf SwingContbinfr {
     /**
-     * The value that indicates whether the annotated class can be used
-     * as a container for other Swing components or not.
+     * Tif vbluf tibt indidbtfs wiftifr tif bnnotbtfd dlbss dbn bf usfd
+     * bs b dontbinfr for otifr Swing domponfnts or not.
      *
-     * @return {@code true} if the annotated class is a Swing container;
-     *         {@code false} otherwise.
+     * @rfturn {@dodf truf} if tif bnnotbtfd dlbss is b Swing dontbinfr;
+     *         {@dodf fblsf} otifrwisf.
      */
-    boolean value() default true;
+    boolfbn vbluf() dffbult truf;
 
     /**
-     * The name of the getter method in the annotated class,
-     * which returns the corresponding Swing container,
-     * if it is not recommended to add subcomponents
-     * to the annotated class directly.
+     * Tif nbmf of tif gfttfr mftiod in tif bnnotbtfd dlbss,
+     * wiidi rfturns tif dorrfsponding Swing dontbinfr,
+     * if it is not rfdommfndfd to bdd subdomponfnts
+     * to tif bnnotbtfd dlbss dirfdtly.
      *
-     * @return the name of the getter method in the annotated class,
-     *         which returns the corresponding Swing container,
-     *         or an empty string if the method name is not set.
+     * @rfturn tif nbmf of tif gfttfr mftiod in tif bnnotbtfd dlbss,
+     *         wiidi rfturns tif dorrfsponding Swing dontbinfr,
+     *         or bn fmpty string if tif mftiod nbmf is not sft.
      */
-    String delegate() default "";
+    String dflfgbtf() dffbult "";
 }

@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
-.\" Title: jhbt
-.\" Lbngubge: English
-.\" Dbte: 2013年11月21日
-.\" SectDesc: トラブルシューティング・ツール
-.\" Softwbre: JDK 8
-.\" Arch: 汎用
+.\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jibt
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
-.TH "jhbt" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jibt" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jhbt \- Jbvbヒープを分析します。このコマンドは試験的なもので、サポートされていません。
+jibt \- Jbvbヒープを分析します。このコマンドは試験的なもので、サポートされていません。
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIjhbt\fR [ \fIoptions\fR ] \fIhebp\-dump\-file\fR 
+\fIjibt\fR [ \fIoptions\fR ] \fIifbp\-dump\-filf\fR 
 .fi
 .if n \{\
 .RE
@@ -67,21 +67,21 @@ jhbt \- Jbvbヒープを分析します。このコマンドは試験的なもので、サポートされていま
 コマンドライン・オプション。オプションを参照してください。
 .RE
 .PP
-\fIhebp\-dump\-file\fR
+\fIifbp\-dump\-filf\fR
 .RS 4
-ブラウズ対象となるJbvbバイナリ・ヒープ・ダンプ・ファイル。複数のヒープ・ダンプを含むダンプ・ファイルの場合、\fImyfile\&.hprof#3\fRのようにファイル名の後に\fI#<number>\fRを付加することで、ファイル内の特定のダンプを指定できます。
+ブラウズ対象となるJbvbバイナリ・ヒープ・ダンプ・ファイル。複数のヒープ・ダンプを含むダンプ・ファイルの場合、\fImyfilf\&.iprof#3\fRのようにファイル名の後に\fI#<numbfr>\fRを付加することで、ファイル内の特定のダンプを指定できます。
 .RE
 .SH "説明"
 .PP
-\fIjhbt\fRコマンドはJbvbヒープ・ダンプ・ファイルを解析し、Webサーバーを開始します。\fIjhbt\fRコマンドを使用して、お気に入りのブラウザでヒープ・ダンプを参照できます。\fIjhbt\fRコマンドは、既知のクラス\fIMyClbss\fRのすべてのインスタンスを表示するなどの事前設計済の問合せやObject Query Lbngubge (OQL)をサポートします。ヒープ・ダンプの問合せを除き、OQLはSQLに似ています。OQLのヘルプには、\fIjhbt\fRコマンドによって表示されるOQLヘルプ・ページからアクセスできます。デフォルト・ポートを使用する場合、OQLのヘルプはhttp://locblhost:7000/oqlhelp/で利用可能です。
+\fIjibt\fRコマンドはJbvbヒープ・ダンプ・ファイルを解析し、Wfbサーバーを開始します。\fIjibt\fRコマンドを使用して、お気に入りのブラウザでヒープ・ダンプを参照できます。\fIjibt\fRコマンドは、既知のクラス\fIMyClbss\fRのすべてのインスタンスを表示するなどの事前設計済の問合せやObjfdt Qufry Lbngubgf (OQL)をサポートします。ヒープ・ダンプの問合せを除き、OQLはSQLに似ています。OQLのヘルプには、\fIjibt\fRコマンドによって表示されるOQLヘルプ・ページからアクセスできます。デフォルト・ポートを使用する場合、OQLのヘルプはittp://lodbliost:7000/oqliflp/で利用可能です。
 .PP
 Jbvbのヒープ・ダンプを生成するには、次のいくつかの方法があります。
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -89,98 +89,98 @@ Jbvbのヒープ・ダンプを生成するには、次のいくつかの方法があります。
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fIjconsole\fRオプションを使用して\fIHotSpotDibgnosticMXBebn\fR経由で実行時にヒープ・ダンプを取得します。jconsole(1)および\fIHotSpotDibgnosticMXBebn\fRのインタフェースの説明(
-http://docs\&.orbcle\&.com/jbvbse/8/docs/jre/bpi/mbnbgement/extension/com/sun/mbnbgement/HotSpotDibgnosticMXBebn\&.html)を参照してください。
+\fIjdonsolf\fRオプションを使用して\fIHotSpotDibgnostidMXBfbn\fR経由で実行時にヒープ・ダンプを取得します。jdonsolf(1)および\fIHotSpotDibgnostidMXBfbn\fRのインタフェースの説明(
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/HotSpotDibgnostidMXBfbn\&.itml)を参照してください。
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-ヒープ・ダンプは、\fI\-XX:+HebpDumpOnOutOfMemoryError\fR
-Jbvb仮想マシン(JVM)オプションを指定することで、\fIOutOfMemoryError\fRがスローされたときに生成されます。
+ヒープ・ダンプは、\fI\-XX:+HfbpDumpOnOutOfMfmoryError\fR
+Jbvb仮想マシン(JVM)オプションを指定することで、\fIOutOfMfmoryError\fRがスローされたときに生成されます。
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fIhprof\fRコマンドを使用します。HPROF: Hebp/CPUプロファイリング・ツール
-(http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/sbmples/hprof\&.html)を参照してください
+\fIiprof\fRコマンドを使用します。HPROF: Hfbp/CPUプロファイリング・ツール
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)を参照してください
 .RE
 .SH "オプション"
 .PP
-\-stbck fblse|true
+\-stbdk fblsf|truf
 .RS 4
-オブジェクト割当呼出しスタックの追跡を無効にします。ヒープ・ダンプ内で割当サイト情報が使用できない場合、このフラグを\fIfblse\fRに設定する必要があります。デフォルトは\fItrue\fRです。
+オブジェクト割当呼出しスタックの追跡を無効にします。ヒープ・ダンプ内で割当サイト情報が使用できない場合、このフラグを\fIfblsf\fRに設定する必要があります。デフォルトは\fItruf\fRです。
 .RE
 .PP
-\-refs fblse|true
+\-rffs fblsf|truf
 .RS 4
-オブジェクトへの参照の追跡を無効にします。デフォルトは\fItrue\fRです。デフォルトでは、ヒープ内のすべてのオブジェクトについて、バックポインタ(指定されたオブジェクトをポイントしているオブジェクト。参照者または受信参照とも呼ばれる)が計算されます。
+オブジェクトへの参照の追跡を無効にします。デフォルトは\fItruf\fRです。デフォルトでは、ヒープ内のすべてのオブジェクトについて、バックポインタ(指定されたオブジェクトをポイントしているオブジェクト。参照者または受信参照とも呼ばれる)が計算されます。
 .RE
 .PP
-\-port \fIport\-number\fR
+\-port \fIport\-numbfr\fR
 .RS 4
-\fIjhbt\fRのHTTPサーバーのポートを設定します。デフォルトは7000です。
+\fIjibt\fRのHTTPサーバーのポートを設定します。デフォルトは7000です。
 .RE
 .PP
-\-exclude \fIexclude\-file\fR
+\-fxdludf \fIfxdludf\-filf\fR
 .RS 4
-到達可能なオブジェクトの問合せから除外する必要があるデータ・メンバーの一覧を含むファイルを指定します。たとえば、このファイルに\fIjbvb\&.lbng\&.String\&.vblue\fRが含まれていた場合、特定のオブジェクト\fIo\fRから到達可能なオブジェクトのリストを計算する際に、\fIjbvb\&.lbng\&.String\&.vblue\fRフィールドに関連する参照パスが考慮されなくなります。
+到達可能なオブジェクトの問合せから除外する必要があるデータ・メンバーの一覧を含むファイルを指定します。たとえば、このファイルに\fIjbvb\&.lbng\&.String\&.vbluf\fRが含まれていた場合、特定のオブジェクト\fIo\fRから到達可能なオブジェクトのリストを計算する際に、\fIjbvb\&.lbng\&.String\&.vbluf\fRフィールドに関連する参照パスが考慮されなくなります。
 .RE
 .PP
-\-bbseline \fIexclude\-file\fR
+\-bbsflinf \fIfxdludf\-filf\fR
 .RS 4
 ベースラインとなるヒープ・ダンプを指定します。両方のヒープ・ダンプ内で同じオブジェクトIDを持つオブジェクトは新規ではないとしてマークされます。他のオブジェクトは新規としてマークされます。これは、異なる2つのヒープ・ダンプを比較する際に役立ちます。
 .RE
 .PP
-\-debug \fIint\fR
+\-dfbug \fIint\fR
 .RS 4
 このツールのデバッグ・レベルを設定します。レベル0はデバッグ出力がないことを意味します。より大きな値を設定すると、より冗長なモードになります。
 .RE
 .PP
-\-version
+\-vfrsion
 .RS 4
 リリース番号をレポートして終了します
 .RE
 .PP
-\-h
+\-i
 .RS 4
 ヘルプ・メッセージを表示して終了します。
 .RE
 .PP
-\-help
+\-iflp
 .RS 4
 ヘルプ・メッセージを表示して終了します。
 .RE
 .PP
 \-J\fIflbg\fR
 .RS 4
-\fIjhbt\fRコマンドを実行しているJbvb仮想マシンに\fIflbg\fRを渡します。たとえば、512Mバイトの最大ヒープ・サイズを使用するには、\fI\-J\-Xmx512m\fRとします。
+\fIjibt\fRコマンドを実行しているJbvb仮想マシンに\fIflbg\fRを渡します。たとえば、512Mバイトの最大ヒープ・サイズを使用するには、\fI\-J\-Xmx512m\fRとします。
 .RE
 .SH "関連項目"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -188,26 +188,26 @@ jmbp(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-jconsole(1)
+jdonsolf(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-HPROF: Hebp/CPUプロファイリング・ツール
-(http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/sbmples/hprof\&.html)
+HPROF: Hfbp/CPUプロファイリング・ツール
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml)
 .RE
 .br
 'pl 8.5i

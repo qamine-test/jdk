@@ -1,656 +1,656 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.im;
+pbdkbgf sun.bwt.im;
 
-import java.awt.AWTEvent;
-import java.awt.AWTKeyStroke;
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.Frame;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.im.InputMethodRequests;
-import java.awt.im.spi.InputMethod;
-import java.lang.Character.Subset;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
-import sun.util.logging.PlatformLogger;
-import sun.awt.SunToolkit;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.AWTKfyStrokf;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Window;
+import jbvb.bwt.fvfnt.ComponfntEvfnt;
+import jbvb.bwt.fvfnt.ComponfntListfnfr;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.InputMftiodEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowListfnfr;
+import jbvb.bwt.im.InputMftiodRfqufsts;
+import jbvb.bwt.im.spi.InputMftiod;
+import jbvb.lbng.Cibrbdtfr.Subsft;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.prffs.BbdkingStorfExdfption;
+import jbvb.util.prffs.Prfffrfndfs;
+import sun.util.logging.PlbtformLoggfr;
+import sun.bwt.SunToolkit;
 
 /**
- * This InputContext class contains parts of the implementation of
- * java.text.im.InputContext. These parts have been moved
- * here to avoid exposing protected members that are needed by the
- * subclass InputMethodContext.
+ * Tiis InputContfxt dlbss dontbins pbrts of tif implfmfntbtion of
+ * jbvb.tfxt.im.InputContfxt. Tifsf pbrts ibvf bffn movfd
+ * ifrf to bvoid fxposing protfdtfd mfmbfrs tibt brf nffdfd by tif
+ * subdlbss InputMftiodContfxt.
  *
- * @see java.awt.im.InputContext
- * @author JavaSoft Asia/Pacific
+ * @sff jbvb.bwt.im.InputContfxt
+ * @butior JbvbSoft Asib/Pbdifid
  */
 
-public class InputContext extends java.awt.im.InputContext
-                          implements ComponentListener, WindowListener {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.im.InputContext");
-    // The current input method is represented by two objects:
-    // a locator is used to keep information about the selected
-    // input method and locale until we actually need a real input
-    // method; only then the input method itself is created.
-    // Once there is an input method, the input method's locale
-    // takes precedence over locale information in the locator.
-    private InputMethodLocator inputMethodLocator;
-    private InputMethod inputMethod;
-    private boolean inputMethodCreationFailed;
+publid dlbss InputContfxt fxtfnds jbvb.bwt.im.InputContfxt
+                          implfmfnts ComponfntListfnfr, WindowListfnfr {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.im.InputContfxt");
+    // Tif durrfnt input mftiod is rfprfsfntfd by two objfdts:
+    // b lodbtor is usfd to kffp informbtion bbout tif sflfdtfd
+    // input mftiod bnd lodblf until wf bdtublly nffd b rfbl input
+    // mftiod; only tifn tif input mftiod itsflf is drfbtfd.
+    // Ondf tifrf is bn input mftiod, tif input mftiod's lodblf
+    // tbkfs prfdfdfndf ovfr lodblf informbtion in tif lodbtor.
+    privbtf InputMftiodLodbtor inputMftiodLodbtor;
+    privbtf InputMftiod inputMftiod;
+    privbtf boolfbn inputMftiodCrfbtionFbilfd;
 
-    // holding bin for previously used input method instances, but not the current one
-    private HashMap<InputMethodLocator, InputMethod> usedInputMethods;
+    // iolding bin for prfviously usfd input mftiod instbndfs, but not tif durrfnt onf
+    privbtf HbsiMbp<InputMftiodLodbtor, InputMftiod> usfdInputMftiods;
 
-    // the current client component is kept until the user focusses on a different
-    // client component served by the same input context. When that happens, we call
-    // endComposition so that text doesn't jump from one component to another.
-    private Component currentClientComponent;
-    private Component awtFocussedComponent;
-    private boolean   isInputMethodActive;
-    private Subset[]  characterSubsets = null;
+    // tif durrfnt dlifnt domponfnt is kfpt until tif usfr fodussfs on b difffrfnt
+    // dlifnt domponfnt sfrvfd by tif sbmf input dontfxt. Wifn tibt ibppfns, wf dbll
+    // fndComposition so tibt tfxt dofsn't jump from onf domponfnt to bnotifr.
+    privbtf Componfnt durrfntClifntComponfnt;
+    privbtf Componfnt bwtFodussfdComponfnt;
+    privbtf boolfbn   isInputMftiodAdtivf;
+    privbtf Subsft[]  dibrbdtfrSubsfts = null;
 
-    // true if composition area has been set to invisible when focus was lost
-    private boolean compositionAreaHidden = false;
+    // truf if domposition brfb ibs bffn sft to invisiblf wifn fodus wbs lost
+    privbtf boolfbn dompositionArfbHiddfn = fblsf;
 
-    // The input context for whose input method we may have to call hideWindows
-    private static InputContext inputMethodWindowContext;
+    // Tif input dontfxt for wiosf input mftiod wf mby ibvf to dbll iidfWindows
+    privbtf stbtid InputContfxt inputMftiodWindowContfxt;
 
-    // Previously active input method to decide whether we need to call
-    // InputMethodAdapter.stopListening() on activateInputMethod()
-    private static InputMethod previousInputMethod = null;
+    // Prfviously bdtivf input mftiod to dfdidf wiftifr wf nffd to dbll
+    // InputMftiodAdbptfr.stopListfning() on bdtivbtfInputMftiod()
+    privbtf stbtid InputMftiod prfviousInputMftiod = null;
 
-    // true if the current input method requires client window change notification
-    private boolean clientWindowNotificationEnabled = false;
-    // client window to which this input context is listening
-    private Window clientWindowListened;
-    // cache location notification
-    private Rectangle clientWindowLocation = null;
-    // holding the state of clientWindowNotificationEnabled of only non-current input methods
-    private HashMap<InputMethod, Boolean> perInputMethodState;
+    // truf if tif durrfnt input mftiod rfquirfs dlifnt window dibngf notifidbtion
+    privbtf boolfbn dlifntWindowNotifidbtionEnbblfd = fblsf;
+    // dlifnt window to wiidi tiis input dontfxt is listfning
+    privbtf Window dlifntWindowListfnfd;
+    // dbdif lodbtion notifidbtion
+    privbtf Rfdtbnglf dlifntWindowLodbtion = null;
+    // iolding tif stbtf of dlifntWindowNotifidbtionEnbblfd of only non-durrfnt input mftiods
+    privbtf HbsiMbp<InputMftiod, Boolfbn> pfrInputMftiodStbtf;
 
-    // Input Method selection hot key stuff
-    private static AWTKeyStroke inputMethodSelectionKey;
-    private static boolean inputMethodSelectionKeyInitialized = false;
-    private static final String inputMethodSelectionKeyPath = "/java/awt/im/selectionKey";
-    private static final String inputMethodSelectionKeyCodeName = "keyCode";
-    private static final String inputMethodSelectionKeyModifiersName = "modifiers";
+    // Input Mftiod sflfdtion iot kfy stuff
+    privbtf stbtid AWTKfyStrokf inputMftiodSflfdtionKfy;
+    privbtf stbtid boolfbn inputMftiodSflfdtionKfyInitiblizfd = fblsf;
+    privbtf stbtid finbl String inputMftiodSflfdtionKfyPbti = "/jbvb/bwt/im/sflfdtionKfy";
+    privbtf stbtid finbl String inputMftiodSflfdtionKfyCodfNbmf = "kfyCodf";
+    privbtf stbtid finbl String inputMftiodSflfdtionKfyModififrsNbmf = "modififrs";
 
     /**
-     * Constructs an InputContext.
+     * Construdts bn InputContfxt.
      */
-    protected InputContext() {
-        InputMethodManager imm = InputMethodManager.getInstance();
-        synchronized (InputContext.class) {
-            if (!inputMethodSelectionKeyInitialized) {
-                inputMethodSelectionKeyInitialized = true;
-                if (imm.hasMultipleInputMethods()) {
-                    initializeInputMethodSelectionKey();
+    protfdtfd InputContfxt() {
+        InputMftiodMbnbgfr imm = InputMftiodMbnbgfr.gftInstbndf();
+        syndironizfd (InputContfxt.dlbss) {
+            if (!inputMftiodSflfdtionKfyInitiblizfd) {
+                inputMftiodSflfdtionKfyInitiblizfd = truf;
+                if (imm.ibsMultiplfInputMftiods()) {
+                    initiblizfInputMftiodSflfdtionKfy();
                 }
             }
         }
-        selectInputMethod(imm.getDefaultKeyboardLocale());
+        sflfdtInputMftiod(imm.gftDffbultKfybobrdLodblf());
     }
 
     /**
-     * @see java.awt.im.InputContext#selectInputMethod
-     * @exception NullPointerException when the locale is null.
+     * @sff jbvb.bwt.im.InputContfxt#sflfdtInputMftiod
+     * @fxdfption NullPointfrExdfption wifn tif lodblf is null.
      */
-    public synchronized boolean selectInputMethod(Locale locale) {
-        if (locale == null) {
-            throw new NullPointerException();
+    publid syndironizfd boolfbn sflfdtInputMftiod(Lodblf lodblf) {
+        if (lodblf == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        // see whether the current input method supports the locale
-        if (inputMethod != null) {
-            if (inputMethod.setLocale(locale)) {
-                return true;
+        // sff wiftifr tif durrfnt input mftiod supports tif lodblf
+        if (inputMftiod != null) {
+            if (inputMftiod.sftLodblf(lodblf)) {
+                rfturn truf;
             }
-        } else if (inputMethodLocator != null) {
-            // This is not 100% correct, since the input method
-            // may support the locale without advertising it.
-            // But before we try instantiations and setLocale,
-            // we look for an input method that's more confident.
-            if (inputMethodLocator.isLocaleAvailable(locale)) {
-                inputMethodLocator = inputMethodLocator.deriveLocator(locale);
-                return true;
+        } flsf if (inputMftiodLodbtor != null) {
+            // Tiis is not 100% dorrfdt, sindf tif input mftiod
+            // mby support tif lodblf witiout bdvfrtising it.
+            // But bfforf wf try instbntibtions bnd sftLodblf,
+            // wf look for bn input mftiod tibt's morf donfidfnt.
+            if (inputMftiodLodbtor.isLodblfAvbilbblf(lodblf)) {
+                inputMftiodLodbtor = inputMftiodLodbtor.dfrivfLodbtor(lodblf);
+                rfturn truf;
             }
         }
 
-        // see whether there's some other input method that supports the locale
-        InputMethodLocator newLocator = InputMethodManager.getInstance().findInputMethod(locale);
-        if (newLocator != null) {
-            changeInputMethod(newLocator);
-            return true;
+        // sff wiftifr tifrf's somf otifr input mftiod tibt supports tif lodblf
+        InputMftiodLodbtor nfwLodbtor = InputMftiodMbnbgfr.gftInstbndf().findInputMftiod(lodblf);
+        if (nfwLodbtor != null) {
+            dibngfInputMftiod(nfwLodbtor);
+            rfturn truf;
         }
 
-        // make one last desperate effort with the current input method
-        // ??? is this good? This is pretty high cost for something that's likely to fail.
-        if (inputMethod == null && inputMethodLocator != null) {
-            inputMethod = getInputMethod();
-            if (inputMethod != null) {
-                return inputMethod.setLocale(locale);
+        // mbkf onf lbst dfspfrbtf fffort witi tif durrfnt input mftiod
+        // ??? is tiis good? Tiis is prftty iigi dost for somftiing tibt's likfly to fbil.
+        if (inputMftiod == null && inputMftiodLodbtor != null) {
+            inputMftiod = gftInputMftiod();
+            if (inputMftiod != null) {
+                rfturn inputMftiod.sftLodblf(lodblf);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * @see java.awt.im.InputContext#getLocale
+     * @sff jbvb.bwt.im.InputContfxt#gftLodblf
      */
-    public Locale getLocale() {
-        if (inputMethod != null) {
-            return inputMethod.getLocale();
-        } else if (inputMethodLocator != null) {
-            return inputMethodLocator.getLocale();
-        } else {
-            return null;
+    publid Lodblf gftLodblf() {
+        if (inputMftiod != null) {
+            rfturn inputMftiod.gftLodblf();
+        } flsf if (inputMftiodLodbtor != null) {
+            rfturn inputMftiodLodbtor.gftLodblf();
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * @see java.awt.im.InputContext#setCharacterSubsets
+     * @sff jbvb.bwt.im.InputContfxt#sftCibrbdtfrSubsfts
      */
-    public void setCharacterSubsets(Subset[] subsets) {
-        if (subsets == null) {
-            characterSubsets = null;
-        } else {
-            characterSubsets = new Subset[subsets.length];
-            System.arraycopy(subsets, 0,
-                             characterSubsets, 0, characterSubsets.length);
+    publid void sftCibrbdtfrSubsfts(Subsft[] subsfts) {
+        if (subsfts == null) {
+            dibrbdtfrSubsfts = null;
+        } flsf {
+            dibrbdtfrSubsfts = nfw Subsft[subsfts.lfngti];
+            Systfm.brrbydopy(subsfts, 0,
+                             dibrbdtfrSubsfts, 0, dibrbdtfrSubsfts.lfngti);
         }
-        if (inputMethod != null) {
-            inputMethod.setCharacterSubsets(subsets);
+        if (inputMftiod != null) {
+            inputMftiod.sftCibrbdtfrSubsfts(subsfts);
         }
     }
 
     /**
-     * @see java.awt.im.InputContext#reconvert
-     * @since 1.3
-     * @exception UnsupportedOperationException when input method is null
+     * @sff jbvb.bwt.im.InputContfxt#rfdonvfrt
+     * @sindf 1.3
+     * @fxdfption UnsupportfdOpfrbtionExdfption wifn input mftiod is null
      */
-    public synchronized void reconvert() {
-        InputMethod inputMethod = getInputMethod();
-        if (inputMethod == null) {
-            throw new UnsupportedOperationException();
+    publid syndironizfd void rfdonvfrt() {
+        InputMftiod inputMftiod = gftInputMftiod();
+        if (inputMftiod == null) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
-        inputMethod.reconvert();
+        inputMftiod.rfdonvfrt();
     }
 
     /**
-     * @see java.awt.im.InputContext#dispatchEvent
+     * @sff jbvb.bwt.im.InputContfxt#dispbtdiEvfnt
      */
-    @SuppressWarnings("fallthrough")
-    public void dispatchEvent(AWTEvent event) {
+    @SupprfssWbrnings("fblltirougi")
+    publid void dispbtdiEvfnt(AWTEvfnt fvfnt) {
 
-        if (event instanceof InputMethodEvent) {
-            return;
+        if (fvfnt instbndfof InputMftiodEvfnt) {
+            rfturn;
         }
 
-        // Ignore focus events that relate to the InputMethodWindow of this context.
-        // This is a workaround.  Should be removed after 4452384 is fixed.
-        if (event instanceof FocusEvent) {
-            Component opposite = ((FocusEvent)event).getOppositeComponent();
-            if ((opposite != null) &&
-                (getComponentWindow(opposite) instanceof InputMethodWindow) &&
-                (opposite.getInputContext() == this)) {
-                return;
+        // Ignorf fodus fvfnts tibt rflbtf to tif InputMftiodWindow of tiis dontfxt.
+        // Tiis is b workbround.  Siould bf rfmovfd bftfr 4452384 is fixfd.
+        if (fvfnt instbndfof FodusEvfnt) {
+            Componfnt oppositf = ((FodusEvfnt)fvfnt).gftOppositfComponfnt();
+            if ((oppositf != null) &&
+                (gftComponfntWindow(oppositf) instbndfof InputMftiodWindow) &&
+                (oppositf.gftInputContfxt() == tiis)) {
+                rfturn;
             }
         }
 
-        InputMethod inputMethod = getInputMethod();
-        int id = event.getID();
+        InputMftiod inputMftiod = gftInputMftiod();
+        int id = fvfnt.gftID();
 
-        switch (id) {
-        case FocusEvent.FOCUS_GAINED:
-            focusGained((Component) event.getSource());
-            break;
+        switdi (id) {
+        dbsf FodusEvfnt.FOCUS_GAINED:
+            fodusGbinfd((Componfnt) fvfnt.gftSourdf());
+            brfbk;
 
-        case FocusEvent.FOCUS_LOST:
-            focusLost((Component) event.getSource(), ((FocusEvent) event).isTemporary());
-            break;
+        dbsf FodusEvfnt.FOCUS_LOST:
+            fodusLost((Componfnt) fvfnt.gftSourdf(), ((FodusEvfnt) fvfnt).isTfmporbry());
+            brfbk;
 
-        case KeyEvent.KEY_PRESSED:
-            if (checkInputMethodSelectionKey((KeyEvent)event)) {
-                // pop up the input method selection menu
-                InputMethodManager.getInstance().notifyChangeRequestByHotKey((Component)event.getSource());
-                break;
+        dbsf KfyEvfnt.KEY_PRESSED:
+            if (difdkInputMftiodSflfdtionKfy((KfyEvfnt)fvfnt)) {
+                // pop up tif input mftiod sflfdtion mfnu
+                InputMftiodMbnbgfr.gftInstbndf().notifyCibngfRfqufstByHotKfy((Componfnt)fvfnt.gftSourdf());
+                brfbk;
             }
 
-            // fall through
+            // fbll tirougi
 
-        default:
-            if ((inputMethod != null) && (event instanceof InputEvent)) {
-                inputMethod.dispatchEvent(event);
+        dffbult:
+            if ((inputMftiod != null) && (fvfnt instbndfof InputEvfnt)) {
+                inputMftiod.dispbtdiEvfnt(fvfnt);
             }
         }
     }
 
     /**
-     * Handles focus gained events for any component that's using
-     * this input context.
-     * These events are generated by AWT when the keyboard focus
-     * moves to a component.
-     * Besides actual client components, the source components
-     * may also be the composition area or any component in an
-     * input method window.
+     * Hbndlfs fodus gbinfd fvfnts for bny domponfnt tibt's using
+     * tiis input dontfxt.
+     * Tifsf fvfnts brf gfnfrbtfd by AWT wifn tif kfybobrd fodus
+     * movfs to b domponfnt.
+     * Bfsidfs bdtubl dlifnt domponfnts, tif sourdf domponfnts
+     * mby blso bf tif domposition brfb or bny domponfnt in bn
+     * input mftiod window.
      * <p>
-     * When handling the focus event for a client component, this
-     * method checks whether the input context was previously
-     * active for a different client component, and if so, calls
-     * endComposition for the previous client component.
+     * Wifn ibndling tif fodus fvfnt for b dlifnt domponfnt, tiis
+     * mftiod difdks wiftifr tif input dontfxt wbs prfviously
+     * bdtivf for b difffrfnt dlifnt domponfnt, bnd if so, dblls
+     * fndComposition for tif prfvious dlifnt domponfnt.
      *
-     * @param source the component gaining the focus
+     * @pbrbm sourdf tif domponfnt gbining tif fodus
      */
-    private void focusGained(Component source) {
+    privbtf void fodusGbinfd(Componfnt sourdf) {
 
         /*
-         * NOTE: When a Container is removing its Component which
-         * invokes this.removeNotify(), the Container has the global
-         * Component lock. It is possible to happen that an
-         * application thread is calling this.removeNotify() while an
-         * AWT event queue thread is dispatching a focus event via
-         * this.dispatchEvent(). If an input method uses AWT
-         * components (e.g., IIIMP status window), it causes deadlock,
-         * for example, Component.show()/hide() in this situation
-         * because hide/show tried to obtain the lock.  Therefore,
-         * it's necessary to obtain the global Component lock before
-         * activating or deactivating an input method.
+         * NOTE: Wifn b Contbinfr is rfmoving its Componfnt wiidi
+         * invokfs tiis.rfmovfNotify(), tif Contbinfr ibs tif globbl
+         * Componfnt lodk. It is possiblf to ibppfn tibt bn
+         * bpplidbtion tirfbd is dblling tiis.rfmovfNotify() wiilf bn
+         * AWT fvfnt qufuf tirfbd is dispbtdiing b fodus fvfnt vib
+         * tiis.dispbtdiEvfnt(). If bn input mftiod usfs AWT
+         * domponfnts (f.g., IIIMP stbtus window), it dbusfs dfbdlodk,
+         * for fxbmplf, Componfnt.siow()/iidf() in tiis situbtion
+         * bfdbusf iidf/siow trifd to obtbin tif lodk.  Tifrfforf,
+         * it's nfdfssbry to obtbin tif globbl Componfnt lodk bfforf
+         * bdtivbting or dfbdtivbting bn input mftiod.
          */
-        synchronized (source.getTreeLock()) {
-            synchronized (this) {
-                if ("sun.awt.im.CompositionArea".equals(source.getClass().getName())) {
-                    // no special handling for this one
-                } else if (getComponentWindow(source) instanceof InputMethodWindow) {
-                    // no special handling for this one either
-                } else {
-                    if (!source.isDisplayable()) {
-                        // Component is being disposed
-                        return;
+        syndironizfd (sourdf.gftTrffLodk()) {
+            syndironizfd (tiis) {
+                if ("sun.bwt.im.CompositionArfb".fqubls(sourdf.gftClbss().gftNbmf())) {
+                    // no spfdibl ibndling for tiis onf
+                } flsf if (gftComponfntWindow(sourdf) instbndfof InputMftiodWindow) {
+                    // no spfdibl ibndling for tiis onf fitifr
+                } flsf {
+                    if (!sourdf.isDisplbybblf()) {
+                        // Componfnt is bfing disposfd
+                        rfturn;
                     }
 
-                    // Focus went to a real client component.
-                    // Check whether we're switching between client components
-                    // that share an input context. We can't do that earlier
-                    // than here because we don't want to end composition
-                    // until we really know we're switching to a different component
-                    if (inputMethod != null) {
-                        if (currentClientComponent != null && currentClientComponent != source) {
-                            if (!isInputMethodActive) {
-                                activateInputMethod(false);
+                    // Fodus wfnt to b rfbl dlifnt domponfnt.
+                    // Cifdk wiftifr wf'rf switdiing bftwffn dlifnt domponfnts
+                    // tibt sibrf bn input dontfxt. Wf dbn't do tibt fbrlifr
+                    // tibn ifrf bfdbusf wf don't wbnt to fnd domposition
+                    // until wf rfblly know wf'rf switdiing to b difffrfnt domponfnt
+                    if (inputMftiod != null) {
+                        if (durrfntClifntComponfnt != null && durrfntClifntComponfnt != sourdf) {
+                            if (!isInputMftiodAdtivf) {
+                                bdtivbtfInputMftiod(fblsf);
                             }
-                            endComposition();
-                            deactivateInputMethod(false);
+                            fndComposition();
+                            dfbdtivbtfInputMftiod(fblsf);
                         }
                     }
 
-                    currentClientComponent = source;
+                    durrfntClifntComponfnt = sourdf;
                 }
 
-                awtFocussedComponent = source;
-                if (inputMethod instanceof InputMethodAdapter) {
-                    ((InputMethodAdapter) inputMethod).setAWTFocussedComponent(source);
+                bwtFodussfdComponfnt = sourdf;
+                if (inputMftiod instbndfof InputMftiodAdbptfr) {
+                    ((InputMftiodAdbptfr) inputMftiod).sftAWTFodussfdComponfnt(sourdf);
                 }
 
-                // it's possible that the input method is still active because
-                // we suppressed a deactivate cause by an input method window
-                // coming up
-                if (!isInputMethodActive) {
-                    activateInputMethod(true);
+                // it's possiblf tibt tif input mftiod is still bdtivf bfdbusf
+                // wf supprfssfd b dfbdtivbtf dbusf by bn input mftiod window
+                // doming up
+                if (!isInputMftiodAdtivf) {
+                    bdtivbtfInputMftiod(truf);
                 }
 
 
-                // If the client component is an active client with the below-the-spot
-                // input style, then make the composition window undecorated without a title bar.
-                InputMethodContext inputContext = ((InputMethodContext)this);
-                if (!inputContext.isCompositionAreaVisible()) {
-                      InputMethodRequests req = source.getInputMethodRequests();
-                      if (req != null && inputContext.useBelowTheSpotInput()) {
-                          inputContext.setCompositionAreaUndecorated(true);
-                      } else {
-                          inputContext.setCompositionAreaUndecorated(false);
+                // If tif dlifnt domponfnt is bn bdtivf dlifnt witi tif bflow-tif-spot
+                // input stylf, tifn mbkf tif domposition window undfdorbtfd witiout b titlf bbr.
+                InputMftiodContfxt inputContfxt = ((InputMftiodContfxt)tiis);
+                if (!inputContfxt.isCompositionArfbVisiblf()) {
+                      InputMftiodRfqufsts rfq = sourdf.gftInputMftiodRfqufsts();
+                      if (rfq != null && inputContfxt.usfBflowTifSpotInput()) {
+                          inputContfxt.sftCompositionArfbUndfdorbtfd(truf);
+                      } flsf {
+                          inputContfxt.sftCompositionArfbUndfdorbtfd(fblsf);
                       }
                 }
-                // restores the composition area if it was set to invisible
-                // when focus got lost
-                if (compositionAreaHidden == true) {
-                    ((InputMethodContext)this).setCompositionAreaVisible(true);
-                    compositionAreaHidden = false;
+                // rfstorfs tif domposition brfb if it wbs sft to invisiblf
+                // wifn fodus got lost
+                if (dompositionArfbHiddfn == truf) {
+                    ((InputMftiodContfxt)tiis).sftCompositionArfbVisiblf(truf);
+                    dompositionArfbHiddfn = fblsf;
                 }
             }
         }
     }
 
     /**
-     * Activates the current input method of this input context, and grabs
-     * the composition area for use by this input context.
-     * If updateCompositionArea is true, the text in the composition area
-     * is updated (set to false if the text is going to change immediately
-     * to avoid screen flicker).
+     * Adtivbtfs tif durrfnt input mftiod of tiis input dontfxt, bnd grbbs
+     * tif domposition brfb for usf by tiis input dontfxt.
+     * If updbtfCompositionArfb is truf, tif tfxt in tif domposition brfb
+     * is updbtfd (sft to fblsf if tif tfxt is going to dibngf immfdibtfly
+     * to bvoid sdrffn flidkfr).
      */
-    private void activateInputMethod(boolean updateCompositionArea) {
-        // call hideWindows() if this input context uses a different
-        // input method than the previously activated one
-        if (inputMethodWindowContext != null && inputMethodWindowContext != this &&
-                inputMethodWindowContext.inputMethodLocator != null &&
-                !inputMethodWindowContext.inputMethodLocator.sameInputMethod(inputMethodLocator) &&
-                inputMethodWindowContext.inputMethod != null) {
-            inputMethodWindowContext.inputMethod.hideWindows();
+    privbtf void bdtivbtfInputMftiod(boolfbn updbtfCompositionArfb) {
+        // dbll iidfWindows() if tiis input dontfxt usfs b difffrfnt
+        // input mftiod tibn tif prfviously bdtivbtfd onf
+        if (inputMftiodWindowContfxt != null && inputMftiodWindowContfxt != tiis &&
+                inputMftiodWindowContfxt.inputMftiodLodbtor != null &&
+                !inputMftiodWindowContfxt.inputMftiodLodbtor.sbmfInputMftiod(inputMftiodLodbtor) &&
+                inputMftiodWindowContfxt.inputMftiod != null) {
+            inputMftiodWindowContfxt.inputMftiod.iidfWindows();
         }
-        inputMethodWindowContext = this;
+        inputMftiodWindowContfxt = tiis;
 
-        if (inputMethod != null) {
-            if (previousInputMethod != inputMethod &&
-                    previousInputMethod instanceof InputMethodAdapter) {
-                // let the host adapter pass through the input events for the
-                // new input method
-                ((InputMethodAdapter) previousInputMethod).stopListening();
+        if (inputMftiod != null) {
+            if (prfviousInputMftiod != inputMftiod &&
+                    prfviousInputMftiod instbndfof InputMftiodAdbptfr) {
+                // lft tif iost bdbptfr pbss tirougi tif input fvfnts for tif
+                // nfw input mftiod
+                ((InputMftiodAdbptfr) prfviousInputMftiod).stopListfning();
             }
-            previousInputMethod = null;
+            prfviousInputMftiod = null;
 
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("Current client component " + currentClientComponent);
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("Currfnt dlifnt domponfnt " + durrfntClifntComponfnt);
             }
-            if (inputMethod instanceof InputMethodAdapter) {
-                ((InputMethodAdapter) inputMethod).setClientComponent(currentClientComponent);
+            if (inputMftiod instbndfof InputMftiodAdbptfr) {
+                ((InputMftiodAdbptfr) inputMftiod).sftClifntComponfnt(durrfntClifntComponfnt);
             }
-            inputMethod.activate();
-            isInputMethodActive = true;
+            inputMftiod.bdtivbtf();
+            isInputMftiodAdtivf = truf;
 
-            if (perInputMethodState != null) {
-                Boolean state = perInputMethodState.remove(inputMethod);
-                if (state != null) {
-                    clientWindowNotificationEnabled = state.booleanValue();
+            if (pfrInputMftiodStbtf != null) {
+                Boolfbn stbtf = pfrInputMftiodStbtf.rfmovf(inputMftiod);
+                if (stbtf != null) {
+                    dlifntWindowNotifidbtionEnbblfd = stbtf.boolfbnVbluf();
                 }
             }
-            if (clientWindowNotificationEnabled) {
-                if (!addedClientWindowListeners()) {
-                    addClientWindowListeners();
+            if (dlifntWindowNotifidbtionEnbblfd) {
+                if (!bddfdClifntWindowListfnfrs()) {
+                    bddClifntWindowListfnfrs();
                 }
-                synchronized(this) {
-                    if (clientWindowListened != null) {
-                        notifyClientWindowChange(clientWindowListened);
+                syndironizfd(tiis) {
+                    if (dlifntWindowListfnfd != null) {
+                        notifyClifntWindowCibngf(dlifntWindowListfnfd);
                     }
                 }
-            } else {
-                if (addedClientWindowListeners()) {
-                    removeClientWindowListeners();
+            } flsf {
+                if (bddfdClifntWindowListfnfrs()) {
+                    rfmovfClifntWindowListfnfrs();
                 }
             }
         }
-        InputMethodManager.getInstance().setInputContext(this);
+        InputMftiodMbnbgfr.gftInstbndf().sftInputContfxt(tiis);
 
-        ((InputMethodContext) this).grabCompositionArea(updateCompositionArea);
+        ((InputMftiodContfxt) tiis).grbbCompositionArfb(updbtfCompositionArfb);
     }
 
-    static Window getComponentWindow(Component component) {
-        while (true) {
-            if (component == null) {
-                return null;
-            } else if (component instanceof Window) {
-                return (Window) component;
-            } else {
-                component = component.getParent();
+    stbtid Window gftComponfntWindow(Componfnt domponfnt) {
+        wiilf (truf) {
+            if (domponfnt == null) {
+                rfturn null;
+            } flsf if (domponfnt instbndfof Window) {
+                rfturn (Window) domponfnt;
+            } flsf {
+                domponfnt = domponfnt.gftPbrfnt();
             }
         }
     }
 
     /**
-     * Handles focus lost events for any component that's using
-     * this input context.
-     * These events are generated by AWT when the keyboard focus
-     * moves away from a component.
-     * Besides actual client components, the source components
-     * may also be the composition area or any component in an
-     * input method window.
+     * Hbndlfs fodus lost fvfnts for bny domponfnt tibt's using
+     * tiis input dontfxt.
+     * Tifsf fvfnts brf gfnfrbtfd by AWT wifn tif kfybobrd fodus
+     * movfs bwby from b domponfnt.
+     * Bfsidfs bdtubl dlifnt domponfnts, tif sourdf domponfnts
+     * mby blso bf tif domposition brfb or bny domponfnt in bn
+     * input mftiod window.
      *
-     * @param source the component losing the focus
-     * @isTemporary whether the focus change is temporary
+     * @pbrbm sourdf tif domponfnt losing tif fodus
+     * @isTfmporbry wiftifr tif fodus dibngf is tfmporbry
      */
-    private void focusLost(Component source, boolean isTemporary) {
+    privbtf void fodusLost(Componfnt sourdf, boolfbn isTfmporbry) {
 
-        // see the note on synchronization in focusGained
-        synchronized (source.getTreeLock()) {
-            synchronized (this) {
+        // sff tif notf on syndironizbtion in fodusGbinfd
+        syndironizfd (sourdf.gftTrffLodk()) {
+            syndironizfd (tiis) {
 
-                // We need to suppress deactivation if removeNotify has been called earlier.
-                // This is indicated by isInputMethodActive == false.
-                if (isInputMethodActive) {
-                    deactivateInputMethod(isTemporary);
+                // Wf nffd to supprfss dfbdtivbtion if rfmovfNotify ibs bffn dbllfd fbrlifr.
+                // Tiis is indidbtfd by isInputMftiodAdtivf == fblsf.
+                if (isInputMftiodAdtivf) {
+                    dfbdtivbtfInputMftiod(isTfmporbry);
                 }
 
-                awtFocussedComponent = null;
-                if (inputMethod instanceof InputMethodAdapter) {
-                    ((InputMethodAdapter) inputMethod).setAWTFocussedComponent(null);
+                bwtFodussfdComponfnt = null;
+                if (inputMftiod instbndfof InputMftiodAdbptfr) {
+                    ((InputMftiodAdbptfr) inputMftiod).sftAWTFodussfdComponfnt(null);
                 }
 
-                // hides the composition area if currently it is visible
-                InputMethodContext inputContext = ((InputMethodContext)this);
-                if (inputContext.isCompositionAreaVisible()) {
-                    inputContext.setCompositionAreaVisible(false);
-                    compositionAreaHidden = true;
+                // iidfs tif domposition brfb if durrfntly it is visiblf
+                InputMftiodContfxt inputContfxt = ((InputMftiodContfxt)tiis);
+                if (inputContfxt.isCompositionArfbVisiblf()) {
+                    inputContfxt.sftCompositionArfbVisiblf(fblsf);
+                    dompositionArfbHiddfn = truf;
                 }
             }
         }
     }
 
     /**
-     * Checks the key event is the input method selection key or not.
+     * Cifdks tif kfy fvfnt is tif input mftiod sflfdtion kfy or not.
      */
-    private boolean checkInputMethodSelectionKey(KeyEvent event) {
-        if (inputMethodSelectionKey != null) {
-            AWTKeyStroke aKeyStroke = AWTKeyStroke.getAWTKeyStrokeForEvent(event);
-            return inputMethodSelectionKey.equals(aKeyStroke);
-        } else {
-            return false;
+    privbtf boolfbn difdkInputMftiodSflfdtionKfy(KfyEvfnt fvfnt) {
+        if (inputMftiodSflfdtionKfy != null) {
+            AWTKfyStrokf bKfyStrokf = AWTKfyStrokf.gftAWTKfyStrokfForEvfnt(fvfnt);
+            rfturn inputMftiodSflfdtionKfy.fqubls(bKfyStrokf);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    private void deactivateInputMethod(boolean isTemporary) {
-        InputMethodManager.getInstance().setInputContext(null);
-        if (inputMethod != null) {
-            isInputMethodActive = false;
-            inputMethod.deactivate(isTemporary);
-            previousInputMethod = inputMethod;
+    privbtf void dfbdtivbtfInputMftiod(boolfbn isTfmporbry) {
+        InputMftiodMbnbgfr.gftInstbndf().sftInputContfxt(null);
+        if (inputMftiod != null) {
+            isInputMftiodAdtivf = fblsf;
+            inputMftiod.dfbdtivbtf(isTfmporbry);
+            prfviousInputMftiod = inputMftiod;
         }
     }
 
     /**
-     * Switches from the current input method to the one described by newLocator.
-     * The current input method, if any, is asked to end composition, deactivated,
-     * and saved for future use. The newLocator is made the current locator. If
-     * the input context is active, an input method instance for the new locator
-     * is obtained; otherwise this is deferred until required.
+     * Switdifs from tif durrfnt input mftiod to tif onf dfsdribfd by nfwLodbtor.
+     * Tif durrfnt input mftiod, if bny, is bskfd to fnd domposition, dfbdtivbtfd,
+     * bnd sbvfd for futurf usf. Tif nfwLodbtor is mbdf tif durrfnt lodbtor. If
+     * tif input dontfxt is bdtivf, bn input mftiod instbndf for tif nfw lodbtor
+     * is obtbinfd; otifrwisf tiis is dfffrrfd until rfquirfd.
      */
-    synchronized void changeInputMethod(InputMethodLocator newLocator) {
-        // If we don't have a locator yet, this must be a new input context.
-        // If we created a new input method here, we might get into an
-        // infinite loop: create input method -> create some input method window ->
-        // create new input context -> add input context to input method manager's context list ->
-        // call changeInputMethod on it.
-        // So, just record the locator. dispatchEvent will create the input method when needed.
-        if (inputMethodLocator == null) {
-            inputMethodLocator = newLocator;
-            inputMethodCreationFailed = false;
-            return;
+    syndironizfd void dibngfInputMftiod(InputMftiodLodbtor nfwLodbtor) {
+        // If wf don't ibvf b lodbtor yft, tiis must bf b nfw input dontfxt.
+        // If wf drfbtfd b nfw input mftiod ifrf, wf migit gft into bn
+        // infinitf loop: drfbtf input mftiod -> drfbtf somf input mftiod window ->
+        // drfbtf nfw input dontfxt -> bdd input dontfxt to input mftiod mbnbgfr's dontfxt list ->
+        // dbll dibngfInputMftiod on it.
+        // So, just rfdord tif lodbtor. dispbtdiEvfnt will drfbtf tif input mftiod wifn nffdfd.
+        if (inputMftiodLodbtor == null) {
+            inputMftiodLodbtor = nfwLodbtor;
+            inputMftiodCrfbtionFbilfd = fblsf;
+            rfturn;
         }
 
-        // If the same input method is specified, just keep it.
-        // Adjust the locale if necessary.
-        if (inputMethodLocator.sameInputMethod(newLocator)) {
-            Locale newLocale = newLocator.getLocale();
-            if (newLocale != null && inputMethodLocator.getLocale() != newLocale) {
-                if (inputMethod != null) {
-                    inputMethod.setLocale(newLocale);
+        // If tif sbmf input mftiod is spfdififd, just kffp it.
+        // Adjust tif lodblf if nfdfssbry.
+        if (inputMftiodLodbtor.sbmfInputMftiod(nfwLodbtor)) {
+            Lodblf nfwLodblf = nfwLodbtor.gftLodblf();
+            if (nfwLodblf != null && inputMftiodLodbtor.gftLodblf() != nfwLodblf) {
+                if (inputMftiod != null) {
+                    inputMftiod.sftLodblf(nfwLodblf);
                 }
-                inputMethodLocator = newLocator;
+                inputMftiodLodbtor = nfwLodbtor;
             }
-            return;
+            rfturn;
         }
 
-        // Switch out the old input method
-        Locale savedLocale = inputMethodLocator.getLocale();
-        boolean wasInputMethodActive = isInputMethodActive;
-        boolean wasCompositionEnabledSupported = false;
-        boolean wasCompositionEnabled = false;
-        if (inputMethod != null) {
+        // Switdi out tif old input mftiod
+        Lodblf sbvfdLodblf = inputMftiodLodbtor.gftLodblf();
+        boolfbn wbsInputMftiodAdtivf = isInputMftiodAdtivf;
+        boolfbn wbsCompositionEnbblfdSupportfd = fblsf;
+        boolfbn wbsCompositionEnbblfd = fblsf;
+        if (inputMftiod != null) {
             try {
-                wasCompositionEnabled = inputMethod.isCompositionEnabled();
-                wasCompositionEnabledSupported = true;
-            } catch (UnsupportedOperationException e) { }
+                wbsCompositionEnbblfd = inputMftiod.isCompositionEnbblfd();
+                wbsCompositionEnbblfdSupportfd = truf;
+            } dbtdi (UnsupportfdOpfrbtionExdfption f) { }
 
-            if (currentClientComponent != null) {
-                if (!isInputMethodActive) {
-                    activateInputMethod(false);
+            if (durrfntClifntComponfnt != null) {
+                if (!isInputMftiodAdtivf) {
+                    bdtivbtfInputMftiod(fblsf);
                 }
-                endComposition();
-                deactivateInputMethod(false);
-                if (inputMethod instanceof InputMethodAdapter) {
-                    ((InputMethodAdapter) inputMethod).setClientComponent(null);
+                fndComposition();
+                dfbdtivbtfInputMftiod(fblsf);
+                if (inputMftiod instbndfof InputMftiodAdbptfr) {
+                    ((InputMftiodAdbptfr) inputMftiod).sftClifntComponfnt(null);
                 }
             }
-            savedLocale = inputMethod.getLocale();
+            sbvfdLodblf = inputMftiod.gftLodblf();
 
-            // keep the input method instance around for future use
-            if (usedInputMethods == null) {
-                usedInputMethods = new HashMap<>(5);
+            // kffp tif input mftiod instbndf bround for futurf usf
+            if (usfdInputMftiods == null) {
+                usfdInputMftiods = nfw HbsiMbp<>(5);
             }
-            if (perInputMethodState == null) {
-                perInputMethodState = new HashMap<>(5);
+            if (pfrInputMftiodStbtf == null) {
+                pfrInputMftiodStbtf = nfw HbsiMbp<>(5);
             }
-            usedInputMethods.put(inputMethodLocator.deriveLocator(null), inputMethod);
-            perInputMethodState.put(inputMethod,
-                                    Boolean.valueOf(clientWindowNotificationEnabled));
-            enableClientWindowNotification(inputMethod, false);
-            if (this == inputMethodWindowContext) {
-                inputMethod.hideWindows();
-                inputMethodWindowContext = null;
+            usfdInputMftiods.put(inputMftiodLodbtor.dfrivfLodbtor(null), inputMftiod);
+            pfrInputMftiodStbtf.put(inputMftiod,
+                                    Boolfbn.vblufOf(dlifntWindowNotifidbtionEnbblfd));
+            fnbblfClifntWindowNotifidbtion(inputMftiod, fblsf);
+            if (tiis == inputMftiodWindowContfxt) {
+                inputMftiod.iidfWindows();
+                inputMftiodWindowContfxt = null;
             }
-            inputMethodLocator = null;
-            inputMethod = null;
-            inputMethodCreationFailed = false;
+            inputMftiodLodbtor = null;
+            inputMftiod = null;
+            inputMftiodCrfbtionFbilfd = fblsf;
         }
 
-        // Switch in the new input method
-        if (newLocator.getLocale() == null && savedLocale != null &&
-                newLocator.isLocaleAvailable(savedLocale)) {
-            newLocator = newLocator.deriveLocator(savedLocale);
+        // Switdi in tif nfw input mftiod
+        if (nfwLodbtor.gftLodblf() == null && sbvfdLodblf != null &&
+                nfwLodbtor.isLodblfAvbilbblf(sbvfdLodblf)) {
+            nfwLodbtor = nfwLodbtor.dfrivfLodbtor(sbvfdLodblf);
         }
-        inputMethodLocator = newLocator;
-        inputMethodCreationFailed = false;
+        inputMftiodLodbtor = nfwLodbtor;
+        inputMftiodCrfbtionFbilfd = fblsf;
 
-        // activate the new input method if the old one was active
-        if (wasInputMethodActive) {
-            inputMethod = getInputMethodInstance();
-            if (inputMethod instanceof InputMethodAdapter) {
-                ((InputMethodAdapter) inputMethod).setAWTFocussedComponent(awtFocussedComponent);
+        // bdtivbtf tif nfw input mftiod if tif old onf wbs bdtivf
+        if (wbsInputMftiodAdtivf) {
+            inputMftiod = gftInputMftiodInstbndf();
+            if (inputMftiod instbndfof InputMftiodAdbptfr) {
+                ((InputMftiodAdbptfr) inputMftiod).sftAWTFodussfdComponfnt(bwtFodussfdComponfnt);
             }
-            activateInputMethod(true);
+            bdtivbtfInputMftiod(truf);
         }
 
-        // enable/disable composition if the old one supports querying enable/disable
-        if (wasCompositionEnabledSupported) {
-            inputMethod = getInputMethod();
-            if (inputMethod != null) {
+        // fnbblf/disbblf domposition if tif old onf supports qufrying fnbblf/disbblf
+        if (wbsCompositionEnbblfdSupportfd) {
+            inputMftiod = gftInputMftiod();
+            if (inputMftiod != null) {
                 try {
-                    inputMethod.setCompositionEnabled(wasCompositionEnabled);
-                } catch (UnsupportedOperationException e) { }
+                    inputMftiod.sftCompositionEnbblfd(wbsCompositionEnbblfd);
+                } dbtdi (UnsupportfdOpfrbtionExdfption f) { }
             }
         }
     }
 
     /**
-     * Returns the client component.
+     * Rfturns tif dlifnt domponfnt.
      */
-    Component getClientComponent() {
-        return currentClientComponent;
+    Componfnt gftClifntComponfnt() {
+        rfturn durrfntClifntComponfnt;
     }
 
     /**
-     * @see java.awt.im.InputContext#removeNotify
-     * @exception NullPointerException when the component is null.
+     * @sff jbvb.bwt.im.InputContfxt#rfmovfNotify
+     * @fxdfption NullPointfrExdfption wifn tif domponfnt is null.
      */
-    public synchronized void removeNotify(Component component) {
-        if (component == null) {
-            throw new NullPointerException();
+    publid syndironizfd void rfmovfNotify(Componfnt domponfnt) {
+        if (domponfnt == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        if (inputMethod == null) {
-            if (component == currentClientComponent) {
-                currentClientComponent = null;
+        if (inputMftiod == null) {
+            if (domponfnt == durrfntClifntComponfnt) {
+                durrfntClifntComponfnt = null;
             }
-            return;
+            rfturn;
         }
 
-        // We may or may not get a FOCUS_LOST event for this component,
-        // so do the deactivation stuff here too.
-        if (component == awtFocussedComponent) {
-            focusLost(component, false);
+        // Wf mby or mby not gft b FOCUS_LOST fvfnt for tiis domponfnt,
+        // so do tif dfbdtivbtion stuff ifrf too.
+        if (domponfnt == bwtFodussfdComponfnt) {
+            fodusLost(domponfnt, fblsf);
         }
 
-        if (component == currentClientComponent) {
-            if (isInputMethodActive) {
-                // component wasn't the one that had the focus
-                deactivateInputMethod(false);
+        if (domponfnt == durrfntClifntComponfnt) {
+            if (isInputMftiodAdtivf) {
+                // domponfnt wbsn't tif onf tibt ibd tif fodus
+                dfbdtivbtfInputMftiod(fblsf);
             }
-            inputMethod.removeNotify();
-            if (clientWindowNotificationEnabled && addedClientWindowListeners()) {
-                removeClientWindowListeners();
+            inputMftiod.rfmovfNotify();
+            if (dlifntWindowNotifidbtionEnbblfd && bddfdClifntWindowListfnfrs()) {
+                rfmovfClifntWindowListfnfrs();
             }
-            currentClientComponent = null;
-            if (inputMethod instanceof InputMethodAdapter) {
-                ((InputMethodAdapter) inputMethod).setClientComponent(null);
+            durrfntClifntComponfnt = null;
+            if (inputMftiod instbndfof InputMftiodAdbptfr) {
+                ((InputMftiodAdbptfr) inputMftiod).sftClifntComponfnt(null);
             }
 
-            // removeNotify() can be issued from a thread other than the event dispatch
-            // thread.  In that case, avoid possible deadlock between Component.AWTTreeLock
-            // and InputMethodContext.compositionAreaHandlerLock by releasing the composition
-            // area on the event dispatch thread.
-            if (EventQueue.isDispatchThread()) {
-                ((InputMethodContext)this).releaseCompositionArea();
-            } else {
-                EventQueue.invokeLater(new Runnable() {
-                    public void run() {
-                        ((InputMethodContext)InputContext.this).releaseCompositionArea();
+            // rfmovfNotify() dbn bf issufd from b tirfbd otifr tibn tif fvfnt dispbtdi
+            // tirfbd.  In tibt dbsf, bvoid possiblf dfbdlodk bftwffn Componfnt.AWTTrffLodk
+            // bnd InputMftiodContfxt.dompositionArfbHbndlfrLodk by rflfbsing tif domposition
+            // brfb on tif fvfnt dispbtdi tirfbd.
+            if (EvfntQufuf.isDispbtdiTirfbd()) {
+                ((InputMftiodContfxt)tiis).rflfbsfCompositionArfb();
+            } flsf {
+                EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+                    publid void run() {
+                        ((InputMftiodContfxt)InputContfxt.tiis).rflfbsfCompositionArfb();
                     }
                 });
             }
@@ -658,411 +658,411 @@ public class InputContext extends java.awt.im.InputContext
     }
 
     /**
-     * @see java.awt.im.InputContext#dispose
-     * @exception IllegalStateException when the currentClientComponent is not null
+     * @sff jbvb.bwt.im.InputContfxt#disposf
+     * @fxdfption IllfgblStbtfExdfption wifn tif durrfntClifntComponfnt is not null
      */
-    public synchronized void dispose() {
-        if (currentClientComponent != null) {
-            throw new IllegalStateException("Can't dispose InputContext while it's active");
+    publid syndironizfd void disposf() {
+        if (durrfntClifntComponfnt != null) {
+            tirow nfw IllfgblStbtfExdfption("Cbn't disposf InputContfxt wiilf it's bdtivf");
         }
-        if (inputMethod != null) {
-            if (this == inputMethodWindowContext) {
-                inputMethod.hideWindows();
-                inputMethodWindowContext = null;
+        if (inputMftiod != null) {
+            if (tiis == inputMftiodWindowContfxt) {
+                inputMftiod.iidfWindows();
+                inputMftiodWindowContfxt = null;
             }
-            if (inputMethod == previousInputMethod) {
-                previousInputMethod = null;
+            if (inputMftiod == prfviousInputMftiod) {
+                prfviousInputMftiod = null;
             }
-            if (clientWindowNotificationEnabled) {
-                if (addedClientWindowListeners()) {
-                    removeClientWindowListeners();
+            if (dlifntWindowNotifidbtionEnbblfd) {
+                if (bddfdClifntWindowListfnfrs()) {
+                    rfmovfClifntWindowListfnfrs();
                 }
-                clientWindowNotificationEnabled = false;
+                dlifntWindowNotifidbtionEnbblfd = fblsf;
             }
-            inputMethod.dispose();
+            inputMftiod.disposf();
 
-            // in case the input method enabled the client window
-            // notification in dispose(), which shouldn't happen, it
-            // needs to be cleaned up again.
-            if (clientWindowNotificationEnabled) {
-                enableClientWindowNotification(inputMethod, false);
+            // in dbsf tif input mftiod fnbblfd tif dlifnt window
+            // notifidbtion in disposf(), wiidi siouldn't ibppfn, it
+            // nffds to bf dlfbnfd up bgbin.
+            if (dlifntWindowNotifidbtionEnbblfd) {
+                fnbblfClifntWindowNotifidbtion(inputMftiod, fblsf);
             }
 
-            inputMethod = null;
+            inputMftiod = null;
         }
-        inputMethodLocator = null;
-        if (usedInputMethods != null && !usedInputMethods.isEmpty()) {
-            Iterator<InputMethod> iterator = usedInputMethods.values().iterator();
-            usedInputMethods = null;
-            while (iterator.hasNext()) {
-                iterator.next().dispose();
+        inputMftiodLodbtor = null;
+        if (usfdInputMftiods != null && !usfdInputMftiods.isEmpty()) {
+            Itfrbtor<InputMftiod> itfrbtor = usfdInputMftiods.vblufs().itfrbtor();
+            usfdInputMftiods = null;
+            wiilf (itfrbtor.ibsNfxt()) {
+                itfrbtor.nfxt().disposf();
             }
         }
 
-        // cleanup client window notification variables
-        clientWindowNotificationEnabled = false;
-        clientWindowListened = null;
-        perInputMethodState = null;
+        // dlfbnup dlifnt window notifidbtion vbribblfs
+        dlifntWindowNotifidbtionEnbblfd = fblsf;
+        dlifntWindowListfnfd = null;
+        pfrInputMftiodStbtf = null;
     }
 
     /**
-     * @see java.awt.im.InputContext#getInputMethodControlObject
+     * @sff jbvb.bwt.im.InputContfxt#gftInputMftiodControlObjfdt
      */
-    public synchronized Object getInputMethodControlObject() {
-        InputMethod inputMethod = getInputMethod();
+    publid syndironizfd Objfdt gftInputMftiodControlObjfdt() {
+        InputMftiod inputMftiod = gftInputMftiod();
 
-        if (inputMethod != null) {
-            return inputMethod.getControlObject();
-        } else {
-            return null;
+        if (inputMftiod != null) {
+            rfturn inputMftiod.gftControlObjfdt();
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * @see java.awt.im.InputContext#setCompositionEnabled(boolean)
-     * @exception UnsupportedOperationException when input method is null
+     * @sff jbvb.bwt.im.InputContfxt#sftCompositionEnbblfd(boolfbn)
+     * @fxdfption UnsupportfdOpfrbtionExdfption wifn input mftiod is null
      */
-    public void setCompositionEnabled(boolean enable) {
-        InputMethod inputMethod = getInputMethod();
+    publid void sftCompositionEnbblfd(boolfbn fnbblf) {
+        InputMftiod inputMftiod = gftInputMftiod();
 
-        if (inputMethod == null) {
-            throw new UnsupportedOperationException();
+        if (inputMftiod == null) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
-        inputMethod.setCompositionEnabled(enable);
+        inputMftiod.sftCompositionEnbblfd(fnbblf);
     }
 
     /**
-     * @see java.awt.im.InputContext#isCompositionEnabled
-     * @exception UnsupportedOperationException when input method is null
+     * @sff jbvb.bwt.im.InputContfxt#isCompositionEnbblfd
+     * @fxdfption UnsupportfdOpfrbtionExdfption wifn input mftiod is null
      */
-    public boolean isCompositionEnabled() {
-        InputMethod inputMethod = getInputMethod();
+    publid boolfbn isCompositionEnbblfd() {
+        InputMftiod inputMftiod = gftInputMftiod();
 
-        if (inputMethod == null) {
-            throw new UnsupportedOperationException();
+        if (inputMftiod == null) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
-        return inputMethod.isCompositionEnabled();
+        rfturn inputMftiod.isCompositionEnbblfd();
     }
 
     /**
-     * @return a string with information about the current input method.
-     * @exception UnsupportedOperationException when input method is null
+     * @rfturn b string witi informbtion bbout tif durrfnt input mftiod.
+     * @fxdfption UnsupportfdOpfrbtionExdfption wifn input mftiod is null
      */
-    public String getInputMethodInfo() {
-        InputMethod inputMethod = getInputMethod();
+    publid String gftInputMftiodInfo() {
+        InputMftiod inputMftiod = gftInputMftiod();
 
-        if (inputMethod == null) {
-            throw new UnsupportedOperationException("Null input method");
+        if (inputMftiod == null) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Null input mftiod");
         }
 
-        String inputMethodInfo = null;
-        if (inputMethod instanceof InputMethodAdapter) {
-            // returns the information about the host native input method.
-            inputMethodInfo = ((InputMethodAdapter)inputMethod).
-                getNativeInputMethodInfo();
+        String inputMftiodInfo = null;
+        if (inputMftiod instbndfof InputMftiodAdbptfr) {
+            // rfturns tif informbtion bbout tif iost nbtivf input mftiod.
+            inputMftiodInfo = ((InputMftiodAdbptfr)inputMftiod).
+                gftNbtivfInputMftiodInfo();
         }
 
-        // extracts the information from the InputMethodDescriptor
-        // associated with the current java input method.
-        if (inputMethodInfo == null && inputMethodLocator != null) {
-            inputMethodInfo = inputMethodLocator.getDescriptor().
-                getInputMethodDisplayName(getLocale(), SunToolkit.
-                                          getStartupLocale());
+        // fxtrbdts tif informbtion from tif InputMftiodDfsdriptor
+        // bssodibtfd witi tif durrfnt jbvb input mftiod.
+        if (inputMftiodInfo == null && inputMftiodLodbtor != null) {
+            inputMftiodInfo = inputMftiodLodbtor.gftDfsdriptor().
+                gftInputMftiodDisplbyNbmf(gftLodblf(), SunToolkit.
+                                          gftStbrtupLodblf());
         }
 
-        if (inputMethodInfo != null && !inputMethodInfo.equals("")) {
-            return inputMethodInfo;
+        if (inputMftiodInfo != null && !inputMftiodInfo.fqubls("")) {
+            rfturn inputMftiodInfo;
         }
 
-        // do our best to return something useful.
-        return inputMethod.toString() + "-" + inputMethod.getLocale().toString();
+        // do our bfst to rfturn somftiing usfful.
+        rfturn inputMftiod.toString() + "-" + inputMftiod.gftLodblf().toString();
     }
 
     /**
-     * Turns off the native IM. The native IM is diabled when
-     * the deactive method of InputMethod is called. It is
-     * delayed until the active method is called on a different
-     * peer component. This method is provided to explicitly disable
-     * the native IM.
+     * Turns off tif nbtivf IM. Tif nbtivf IM is dibblfd wifn
+     * tif dfbdtivf mftiod of InputMftiod is dbllfd. It is
+     * dflbyfd until tif bdtivf mftiod is dbllfd on b difffrfnt
+     * pffr domponfnt. Tiis mftiod is providfd to fxpliditly disbblf
+     * tif nbtivf IM.
      */
-    public void disableNativeIM() {
-        InputMethod inputMethod = getInputMethod();
-        if (inputMethod != null && inputMethod instanceof InputMethodAdapter) {
-            ((InputMethodAdapter)inputMethod).stopListening();
+    publid void disbblfNbtivfIM() {
+        InputMftiod inputMftiod = gftInputMftiod();
+        if (inputMftiod != null && inputMftiod instbndfof InputMftiodAdbptfr) {
+            ((InputMftiodAdbptfr)inputMftiod).stopListfning();
         }
     }
 
 
-    private synchronized InputMethod getInputMethod() {
-        if (inputMethod != null) {
-            return inputMethod;
+    privbtf syndironizfd InputMftiod gftInputMftiod() {
+        if (inputMftiod != null) {
+            rfturn inputMftiod;
         }
 
-        if (inputMethodCreationFailed) {
-            return null;
+        if (inputMftiodCrfbtionFbilfd) {
+            rfturn null;
         }
 
-        inputMethod = getInputMethodInstance();
-        return inputMethod;
+        inputMftiod = gftInputMftiodInstbndf();
+        rfturn inputMftiod;
     }
 
     /**
-     * Returns an instance of the input method described by
-     * the current input method locator. This may be an input
-     * method that was previously used and switched out of,
-     * or a new instance. The locale, character subsets, and
-     * input method context of the input method are set.
+     * Rfturns bn instbndf of tif input mftiod dfsdribfd by
+     * tif durrfnt input mftiod lodbtor. Tiis mby bf bn input
+     * mftiod tibt wbs prfviously usfd bnd switdifd out of,
+     * or b nfw instbndf. Tif lodblf, dibrbdtfr subsfts, bnd
+     * input mftiod dontfxt of tif input mftiod brf sft.
      *
-     * The inputMethodCreationFailed field is set to true if the
-     * instantiation failed.
+     * Tif inputMftiodCrfbtionFbilfd fifld is sft to truf if tif
+     * instbntibtion fbilfd.
      *
-     * @return an InputMethod instance
-     * @see java.awt.im.spi.InputMethod#setInputMethodContext
-     * @see java.awt.im.spi.InputMethod#setLocale
-     * @see java.awt.im.spi.InputMethod#setCharacterSubsets
+     * @rfturn bn InputMftiod instbndf
+     * @sff jbvb.bwt.im.spi.InputMftiod#sftInputMftiodContfxt
+     * @sff jbvb.bwt.im.spi.InputMftiod#sftLodblf
+     * @sff jbvb.bwt.im.spi.InputMftiod#sftCibrbdtfrSubsfts
      */
-    private InputMethod getInputMethodInstance() {
-        InputMethodLocator locator = inputMethodLocator;
-        if (locator == null) {
-            inputMethodCreationFailed = true;
-            return null;
+    privbtf InputMftiod gftInputMftiodInstbndf() {
+        InputMftiodLodbtor lodbtor = inputMftiodLodbtor;
+        if (lodbtor == null) {
+            inputMftiodCrfbtionFbilfd = truf;
+            rfturn null;
         }
 
-        Locale locale = locator.getLocale();
-        InputMethod inputMethodInstance = null;
+        Lodblf lodblf = lodbtor.gftLodblf();
+        InputMftiod inputMftiodInstbndf = null;
 
-        // see whether we have a previously used input method
-        if (usedInputMethods != null) {
-            inputMethodInstance = usedInputMethods.remove(locator.deriveLocator(null));
-            if (inputMethodInstance != null) {
-                if (locale != null) {
-                    inputMethodInstance.setLocale(locale);
+        // sff wiftifr wf ibvf b prfviously usfd input mftiod
+        if (usfdInputMftiods != null) {
+            inputMftiodInstbndf = usfdInputMftiods.rfmovf(lodbtor.dfrivfLodbtor(null));
+            if (inputMftiodInstbndf != null) {
+                if (lodblf != null) {
+                    inputMftiodInstbndf.sftLodblf(lodblf);
                 }
-                inputMethodInstance.setCharacterSubsets(characterSubsets);
-                Boolean state = perInputMethodState.remove(inputMethodInstance);
-                if (state != null) {
-                    enableClientWindowNotification(inputMethodInstance, state.booleanValue());
+                inputMftiodInstbndf.sftCibrbdtfrSubsfts(dibrbdtfrSubsfts);
+                Boolfbn stbtf = pfrInputMftiodStbtf.rfmovf(inputMftiodInstbndf);
+                if (stbtf != null) {
+                    fnbblfClifntWindowNotifidbtion(inputMftiodInstbndf, stbtf.boolfbnVbluf());
                 }
-                ((InputMethodContext) this).setInputMethodSupportsBelowTheSpot(
-                        (!(inputMethodInstance instanceof InputMethodAdapter)) ||
-                        ((InputMethodAdapter) inputMethodInstance).supportsBelowTheSpot());
-                return inputMethodInstance;
+                ((InputMftiodContfxt) tiis).sftInputMftiodSupportsBflowTifSpot(
+                        (!(inputMftiodInstbndf instbndfof InputMftiodAdbptfr)) ||
+                        ((InputMftiodAdbptfr) inputMftiodInstbndf).supportsBflowTifSpot());
+                rfturn inputMftiodInstbndf;
             }
         }
 
-        // need to create new instance
+        // nffd to drfbtf nfw instbndf
         try {
-            inputMethodInstance = locator.getDescriptor().createInputMethod();
+            inputMftiodInstbndf = lodbtor.gftDfsdriptor().drfbtfInputMftiod();
 
-            if (locale != null) {
-                inputMethodInstance.setLocale(locale);
+            if (lodblf != null) {
+                inputMftiodInstbndf.sftLodblf(lodblf);
             }
-            inputMethodInstance.setInputMethodContext((InputMethodContext) this);
-            inputMethodInstance.setCharacterSubsets(characterSubsets);
+            inputMftiodInstbndf.sftInputMftiodContfxt((InputMftiodContfxt) tiis);
+            inputMftiodInstbndf.sftCibrbdtfrSubsfts(dibrbdtfrSubsfts);
 
-        } catch (Exception e) {
-            logCreationFailed(e);
+        } dbtdi (Exdfption f) {
+            logCrfbtionFbilfd(f);
 
-            // there are a number of bad things that can happen while creating
-            // the input method. In any case, we just continue without an
-            // input method.
-            inputMethodCreationFailed = true;
+            // tifrf brf b numbfr of bbd tiings tibt dbn ibppfn wiilf drfbting
+            // tif input mftiod. In bny dbsf, wf just dontinuf witiout bn
+            // input mftiod.
+            inputMftiodCrfbtionFbilfd = truf;
 
-            // if the instance has been created, then it means either
-            // setLocale() or setInputMethodContext() failed.
-            if (inputMethodInstance != null) {
-                inputMethodInstance = null;
+            // if tif instbndf ibs bffn drfbtfd, tifn it mfbns fitifr
+            // sftLodblf() or sftInputMftiodContfxt() fbilfd.
+            if (inputMftiodInstbndf != null) {
+                inputMftiodInstbndf = null;
             }
-        } catch (LinkageError e) {
-            logCreationFailed(e);
+        } dbtdi (LinkbgfError f) {
+            logCrfbtionFbilfd(f);
 
-            // same as above
-            inputMethodCreationFailed = true;
+            // sbmf bs bbovf
+            inputMftiodCrfbtionFbilfd = truf;
         }
-        ((InputMethodContext) this).setInputMethodSupportsBelowTheSpot(
-                (!(inputMethodInstance instanceof InputMethodAdapter)) ||
-                ((InputMethodAdapter) inputMethodInstance).supportsBelowTheSpot());
-        return inputMethodInstance;
+        ((InputMftiodContfxt) tiis).sftInputMftiodSupportsBflowTifSpot(
+                (!(inputMftiodInstbndf instbndfof InputMftiodAdbptfr)) ||
+                ((InputMftiodAdbptfr) inputMftiodInstbndf).supportsBflowTifSpot());
+        rfturn inputMftiodInstbndf;
     }
 
-    private void logCreationFailed(Throwable throwable) {
-        PlatformLogger logger = PlatformLogger.getLogger("sun.awt.im");
-        if (logger.isLoggable(PlatformLogger.Level.CONFIG)) {
-            String errorTextFormat = Toolkit.getProperty("AWT.InputMethodCreationFailed",
-                                                         "Could not create {0}. Reason: {1}");
-            Object[] args =
-                {inputMethodLocator.getDescriptor().getInputMethodDisplayName(null, Locale.getDefault()),
-                 throwable.getLocalizedMessage()};
-            MessageFormat mf = new MessageFormat(errorTextFormat);
-            logger.config(mf.format(args));
+    privbtf void logCrfbtionFbilfd(Tirowbblf tirowbblf) {
+        PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr("sun.bwt.im");
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.CONFIG)) {
+            String frrorTfxtFormbt = Toolkit.gftPropfrty("AWT.InputMftiodCrfbtionFbilfd",
+                                                         "Could not drfbtf {0}. Rfbson: {1}");
+            Objfdt[] brgs =
+                {inputMftiodLodbtor.gftDfsdriptor().gftInputMftiodDisplbyNbmf(null, Lodblf.gftDffbult()),
+                 tirowbblf.gftLodblizfdMfssbgf()};
+            MfssbgfFormbt mf = nfw MfssbgfFormbt(frrorTfxtFormbt);
+            loggfr.donfig(mf.formbt(brgs));
         }
     }
 
-    InputMethodLocator getInputMethodLocator() {
-        if (inputMethod != null) {
-            return inputMethodLocator.deriveLocator(inputMethod.getLocale());
+    InputMftiodLodbtor gftInputMftiodLodbtor() {
+        if (inputMftiod != null) {
+            rfturn inputMftiodLodbtor.dfrivfLodbtor(inputMftiod.gftLodblf());
         }
-        return inputMethodLocator;
-    }
-
-    /**
-     * @see java.awt.im.InputContext#endComposition
-     */
-    public synchronized void endComposition() {
-        if (inputMethod != null) {
-            inputMethod.endComposition();
-        }
+        rfturn inputMftiodLodbtor;
     }
 
     /**
-     * @see java.awt.im.spi.InputMethodContext#enableClientWindowNotification
+     * @sff jbvb.bwt.im.InputContfxt#fndComposition
      */
-    synchronized void enableClientWindowNotification(InputMethod requester,
-                                                     boolean enable) {
-        // in case this request is not from the current input method,
-        // store the request and handle it when this requesting input
-        // method becomes the current one.
-        if (requester != inputMethod) {
-            if (perInputMethodState == null) {
-                perInputMethodState = new HashMap<>(5);
+    publid syndironizfd void fndComposition() {
+        if (inputMftiod != null) {
+            inputMftiod.fndComposition();
+        }
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMftiodContfxt#fnbblfClifntWindowNotifidbtion
+     */
+    syndironizfd void fnbblfClifntWindowNotifidbtion(InputMftiod rfqufstfr,
+                                                     boolfbn fnbblf) {
+        // in dbsf tiis rfqufst is not from tif durrfnt input mftiod,
+        // storf tif rfqufst bnd ibndlf it wifn tiis rfqufsting input
+        // mftiod bfdomfs tif durrfnt onf.
+        if (rfqufstfr != inputMftiod) {
+            if (pfrInputMftiodStbtf == null) {
+                pfrInputMftiodStbtf = nfw HbsiMbp<>(5);
             }
-            perInputMethodState.put(requester, Boolean.valueOf(enable));
-            return;
+            pfrInputMftiodStbtf.put(rfqufstfr, Boolfbn.vblufOf(fnbblf));
+            rfturn;
         }
 
-        if (clientWindowNotificationEnabled != enable) {
-            clientWindowLocation = null;
-            clientWindowNotificationEnabled = enable;
+        if (dlifntWindowNotifidbtionEnbblfd != fnbblf) {
+            dlifntWindowLodbtion = null;
+            dlifntWindowNotifidbtionEnbblfd = fnbblf;
         }
-        if (clientWindowNotificationEnabled) {
-            if (!addedClientWindowListeners()) {
-                addClientWindowListeners();
+        if (dlifntWindowNotifidbtionEnbblfd) {
+            if (!bddfdClifntWindowListfnfrs()) {
+                bddClifntWindowListfnfrs();
             }
-            if (clientWindowListened != null) {
-                clientWindowLocation = null;
-                notifyClientWindowChange(clientWindowListened);
+            if (dlifntWindowListfnfd != null) {
+                dlifntWindowLodbtion = null;
+                notifyClifntWindowCibngf(dlifntWindowListfnfd);
             }
-        } else {
-            if (addedClientWindowListeners()) {
-                removeClientWindowListeners();
+        } flsf {
+            if (bddfdClifntWindowListfnfrs()) {
+                rfmovfClifntWindowListfnfrs();
             }
         }
     }
 
-    private synchronized void notifyClientWindowChange(Window window) {
-        if (inputMethod == null) {
-            return;
+    privbtf syndironizfd void notifyClifntWindowCibngf(Window window) {
+        if (inputMftiod == null) {
+            rfturn;
         }
 
-        // if the window is invisible or iconified, send null to the input method.
-        if (!window.isVisible() ||
-            ((window instanceof Frame) && ((Frame)window).getState() == Frame.ICONIFIED)) {
-            clientWindowLocation = null;
-            inputMethod.notifyClientWindowChange(null);
-            return;
+        // if tif window is invisiblf or idonififd, sfnd null to tif input mftiod.
+        if (!window.isVisiblf() ||
+            ((window instbndfof Frbmf) && ((Frbmf)window).gftStbtf() == Frbmf.ICONIFIED)) {
+            dlifntWindowLodbtion = null;
+            inputMftiod.notifyClifntWindowCibngf(null);
+            rfturn;
         }
-        Rectangle location = window.getBounds();
-        if (clientWindowLocation == null || !clientWindowLocation.equals(location)) {
-            clientWindowLocation = location;
-            inputMethod.notifyClientWindowChange(clientWindowLocation);
+        Rfdtbnglf lodbtion = window.gftBounds();
+        if (dlifntWindowLodbtion == null || !dlifntWindowLodbtion.fqubls(lodbtion)) {
+            dlifntWindowLodbtion = lodbtion;
+            inputMftiod.notifyClifntWindowCibngf(dlifntWindowLodbtion);
         }
     }
 
-    private synchronized void addClientWindowListeners() {
-        Component client = getClientComponent();
-        if (client == null) {
-            return;
+    privbtf syndironizfd void bddClifntWindowListfnfrs() {
+        Componfnt dlifnt = gftClifntComponfnt();
+        if (dlifnt == null) {
+            rfturn;
         }
-        Window window = getComponentWindow(client);
+        Window window = gftComponfntWindow(dlifnt);
         if (window == null) {
-            return;
+            rfturn;
         }
-        window.addComponentListener(this);
-        window.addWindowListener(this);
-        clientWindowListened = window;
+        window.bddComponfntListfnfr(tiis);
+        window.bddWindowListfnfr(tiis);
+        dlifntWindowListfnfd = window;
     }
 
-    private synchronized void removeClientWindowListeners() {
-        clientWindowListened.removeComponentListener(this);
-        clientWindowListened.removeWindowListener(this);
-        clientWindowListened = null;
+    privbtf syndironizfd void rfmovfClifntWindowListfnfrs() {
+        dlifntWindowListfnfd.rfmovfComponfntListfnfr(tiis);
+        dlifntWindowListfnfd.rfmovfWindowListfnfr(tiis);
+        dlifntWindowListfnfd = null;
     }
 
     /**
-     * Returns true if listeners have been set up for client window
-     * change notification.
+     * Rfturns truf if listfnfrs ibvf bffn sft up for dlifnt window
+     * dibngf notifidbtion.
      */
-    private boolean addedClientWindowListeners() {
-        return clientWindowListened != null;
+    privbtf boolfbn bddfdClifntWindowListfnfrs() {
+        rfturn dlifntWindowListfnfd != null;
     }
 
     /*
-     * ComponentListener and WindowListener implementation
+     * ComponfntListfnfr bnd WindowListfnfr implfmfntbtion
      */
-    public void componentResized(ComponentEvent e) {
-        notifyClientWindowChange((Window)e.getComponent());
+    publid void domponfntRfsizfd(ComponfntEvfnt f) {
+        notifyClifntWindowCibngf((Window)f.gftComponfnt());
     }
 
-    public void componentMoved(ComponentEvent e) {
-        notifyClientWindowChange((Window)e.getComponent());
+    publid void domponfntMovfd(ComponfntEvfnt f) {
+        notifyClifntWindowCibngf((Window)f.gftComponfnt());
     }
 
-    public void componentShown(ComponentEvent e) {
-        notifyClientWindowChange((Window)e.getComponent());
+    publid void domponfntSiown(ComponfntEvfnt f) {
+        notifyClifntWindowCibngf((Window)f.gftComponfnt());
     }
 
-    public void componentHidden(ComponentEvent e) {
-        notifyClientWindowChange((Window)e.getComponent());
+    publid void domponfntHiddfn(ComponfntEvfnt f) {
+        notifyClifntWindowCibngf((Window)f.gftComponfnt());
     }
 
-    public void windowOpened(WindowEvent e) {}
-    public void windowClosing(WindowEvent e) {}
-    public void windowClosed(WindowEvent e) {}
+    publid void windowOpfnfd(WindowEvfnt f) {}
+    publid void windowClosing(WindowEvfnt f) {}
+    publid void windowClosfd(WindowEvfnt f) {}
 
-    public void windowIconified(WindowEvent e) {
-        notifyClientWindowChange(e.getWindow());
+    publid void windowIdonififd(WindowEvfnt f) {
+        notifyClifntWindowCibngf(f.gftWindow());
     }
 
-    public void windowDeiconified(WindowEvent e) {
-        notifyClientWindowChange(e.getWindow());
+    publid void windowDfidonififd(WindowEvfnt f) {
+        notifyClifntWindowCibngf(f.gftWindow());
     }
 
-    public void windowActivated(WindowEvent e) {}
-    public void windowDeactivated(WindowEvent e) {}
+    publid void windowAdtivbtfd(WindowEvfnt f) {}
+    publid void windowDfbdtivbtfd(WindowEvfnt f) {}
 
     /**
-     * Initializes the input method selection key definition in preference trees
+     * Initiblizfs tif input mftiod sflfdtion kfy dffinition in prfffrfndf trffs
      */
-    private void initializeInputMethodSelectionKey() {
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            public Object run() {
-                // Look in user's tree
-                Preferences root = Preferences.userRoot();
-                inputMethodSelectionKey = getInputMethodSelectionKeyStroke(root);
+    privbtf void initiblizfInputMftiodSflfdtionKfy() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                // Look in usfr's trff
+                Prfffrfndfs root = Prfffrfndfs.usfrRoot();
+                inputMftiodSflfdtionKfy = gftInputMftiodSflfdtionKfyStrokf(root);
 
-                if (inputMethodSelectionKey == null) {
-                    // Look in system's tree
-                    root = Preferences.systemRoot();
-                    inputMethodSelectionKey = getInputMethodSelectionKeyStroke(root);
+                if (inputMftiodSflfdtionKfy == null) {
+                    // Look in systfm's trff
+                    root = Prfffrfndfs.systfmRoot();
+                    inputMftiodSflfdtionKfy = gftInputMftiodSflfdtionKfyStrokf(root);
                 }
-                return null;
+                rfturn null;
             }
         });
     }
 
-    private AWTKeyStroke getInputMethodSelectionKeyStroke(Preferences root) {
+    privbtf AWTKfyStrokf gftInputMftiodSflfdtionKfyStrokf(Prfffrfndfs root) {
         try {
-            if (root.nodeExists(inputMethodSelectionKeyPath)) {
-                Preferences node = root.node(inputMethodSelectionKeyPath);
-                int keyCode = node.getInt(inputMethodSelectionKeyCodeName, KeyEvent.VK_UNDEFINED);
-                if (keyCode != KeyEvent.VK_UNDEFINED) {
-                    int modifiers = node.getInt(inputMethodSelectionKeyModifiersName, 0);
-                    return AWTKeyStroke.getAWTKeyStroke(keyCode, modifiers);
+            if (root.nodfExists(inputMftiodSflfdtionKfyPbti)) {
+                Prfffrfndfs nodf = root.nodf(inputMftiodSflfdtionKfyPbti);
+                int kfyCodf = nodf.gftInt(inputMftiodSflfdtionKfyCodfNbmf, KfyEvfnt.VK_UNDEFINED);
+                if (kfyCodf != KfyEvfnt.VK_UNDEFINED) {
+                    int modififrs = nodf.gftInt(inputMftiodSflfdtionKfyModififrsNbmf, 0);
+                    rfturn AWTKfyStrokf.gftAWTKfyStrokf(kfyCodf, modififrs);
                 }
             }
-        } catch (BackingStoreException bse) {
+        } dbtdi (BbdkingStorfExdfption bsf) {
         }
 
-        return null;
+        rfturn null;
     }
 }

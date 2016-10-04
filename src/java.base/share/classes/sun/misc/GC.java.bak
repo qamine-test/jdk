@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.SortfdSft;
+import jbvb.util.TrffSft;
 
 
 /**
- * Support for garbage-collection latency requests.
+ * Support for gbrbbgf-dollfdtion lbtfndy rfqufsts.
  *
- * @author   Mark Reinhold
- * @since    1.2
+ * @butior   Mbrk Rfiniold
+ * @sindf    1.2
  */
 
-public class GC {
+publid dlbss GC {
 
-    private GC() { }            /* To prevent instantiation */
+    privbtf GC() { }            /* To prfvfnt instbntibtion */
 
 
-    /* Latency-target value indicating that there's no active target
+    /* Lbtfndy-tbrgft vbluf indidbting tibt tifrf's no bdtivf tbrgft
      */
-    private static final long NO_TARGET = Long.MAX_VALUE;
+    privbtf stbtid finbl long NO_TARGET = Long.MAX_VALUE;
 
-    /* The current latency target, or NO_TARGET if there is no target
+    /* Tif durrfnt lbtfndy tbrgft, or NO_TARGET if tifrf is no tbrgft
      */
-    private static long latencyTarget = NO_TARGET;
+    privbtf stbtid long lbtfndyTbrgft = NO_TARGET;
 
-    /* The daemon thread that implements the latency-target mechanism,
-     * or null if there is presently no daemon thread
+    /* Tif dbfmon tirfbd tibt implfmfnts tif lbtfndy-tbrgft mfdibnism,
+     * or null if tifrf is prfsfntly no dbfmon tirfbd
      */
-    private static Thread daemon = null;
+    privbtf stbtid Tirfbd dbfmon = null;
 
-    /* The lock object for the latencyTarget and daemon fields.  The daemon
-     * thread, if it exists, waits on this lock for notification that the
-     * latency target has changed.
+    /* Tif lodk objfdt for tif lbtfndyTbrgft bnd dbfmon fiflds.  Tif dbfmon
+     * tirfbd, if it fxists, wbits on tiis lodk for notifidbtion tibt tif
+     * lbtfndy tbrgft ibs dibngfd.
      */
-    private static class LatencyLock extends Object { };
-    private static Object lock = new LatencyLock();
+    privbtf stbtid dlbss LbtfndyLodk fxtfnds Objfdt { };
+    privbtf stbtid Objfdt lodk = nfw LbtfndyLodk();
 
 
     /**
-     * Returns the maximum <em>object-inspection age</em>, which is the number
-     * of real-time milliseconds that have elapsed since the
-     * least-recently-inspected heap object was last inspected by the garbage
-     * collector.
+     * Rfturns tif mbximum <fm>objfdt-inspfdtion bgf</fm>, wiidi is tif numbfr
+     * of rfbl-timf millisfdonds tibt ibvf flbpsfd sindf tif
+     * lfbst-rfdfntly-inspfdtfd ifbp objfdt wbs lbst inspfdtfd by tif gbrbbgf
+     * dollfdtor.
      *
-     * <p> For simple stop-the-world collectors this value is just the time
-     * since the most recent collection.  For generational collectors it is the
-     * time since the oldest generation was most recently collected.  Other
-     * collectors are free to return a pessimistic estimate of the elapsed
-     * time, or simply the time since the last full collection was performed.
+     * <p> For simplf stop-tif-world dollfdtors tiis vbluf is just tif timf
+     * sindf tif most rfdfnt dollfdtion.  For gfnfrbtionbl dollfdtors it is tif
+     * timf sindf tif oldfst gfnfrbtion wbs most rfdfntly dollfdtfd.  Otifr
+     * dollfdtors brf frff to rfturn b pfssimistid fstimbtf of tif flbpsfd
+     * timf, or simply tif timf sindf tif lbst full dollfdtion wbs pfrformfd.
      *
-     * <p> Note that in the presence of reference objects, a given object that
-     * is no longer strongly reachable may have to be inspected multiple times
-     * before it can be reclaimed.
+     * <p> Notf tibt in tif prfsfndf of rfffrfndf objfdts, b givfn objfdt tibt
+     * is no longfr strongly rfbdibblf mby ibvf to bf inspfdtfd multiplf timfs
+     * bfforf it dbn bf rfdlbimfd.
      */
-    public static native long maxObjectInspectionAge();
+    publid stbtid nbtivf long mbxObjfdtInspfdtionAgf();
 
 
-    private static class Daemon extends Thread {
+    privbtf stbtid dlbss Dbfmon fxtfnds Tirfbd {
 
-        public void run() {
+        publid void run() {
             for (;;) {
                 long l;
-                synchronized (lock) {
+                syndironizfd (lodk) {
 
-                    l = latencyTarget;
+                    l = lbtfndyTbrgft;
                     if (l == NO_TARGET) {
-                        /* No latency target, so exit */
-                        GC.daemon = null;
-                        return;
+                        /* No lbtfndy tbrgft, so fxit */
+                        GC.dbfmon = null;
+                        rfturn;
                     }
 
-                    long d = maxObjectInspectionAge();
+                    long d = mbxObjfdtInspfdtionAgf();
                     if (d >= l) {
-                        /* Do a full collection.  There is a remote possibility
-                         * that a full collection will occurr between the time
-                         * we sample the inspection age and the time the GC
-                         * actually starts, but this is sufficiently unlikely
-                         * that it doesn't seem worth the more expensive JVM
-                         * interface that would be required.
+                        /* Do b full dollfdtion.  Tifrf is b rfmotf possibility
+                         * tibt b full dollfdtion will oddurr bftwffn tif timf
+                         * wf sbmplf tif inspfdtion bgf bnd tif timf tif GC
+                         * bdtublly stbrts, but tiis is suffidifntly unlikfly
+                         * tibt it dofsn't sffm worti tif morf fxpfnsivf JVM
+                         * intfrfbdf tibt would bf rfquirfd.
                          */
-                        System.gc();
+                        Systfm.gd();
                         d = 0;
                     }
 
-                    /* Wait for the latency period to expire,
-                     * or for notification that the period has changed
+                    /* Wbit for tif lbtfndy pfriod to fxpirf,
+                     * or for notifidbtion tibt tif pfriod ibs dibngfd
                      */
                     try {
-                        lock.wait(l - d);
-                    } catch (InterruptedException x) {
-                        continue;
+                        lodk.wbit(l - d);
+                    } dbtdi (IntfrruptfdExdfption x) {
+                        dontinuf;
                     }
                 }
             }
         }
 
-        private Daemon(ThreadGroup tg) {
-            super(tg, "GC Daemon");
+        privbtf Dbfmon(TirfbdGroup tg) {
+            supfr(tg, "GC Dbfmon");
         }
 
-        /* Create a new daemon thread in the root thread group */
-        public static void create() {
-            PrivilegedAction<Void> pa = new PrivilegedAction<Void>() {
-                public Void run() {
-                    ThreadGroup tg = Thread.currentThread().getThreadGroup();
-                    for (ThreadGroup tgn = tg;
+        /* Crfbtf b nfw dbfmon tirfbd in tif root tirfbd group */
+        publid stbtid void drfbtf() {
+            PrivilfgfdAdtion<Void> pb = nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    TirfbdGroup tg = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                    for (TirfbdGroup tgn = tg;
                          tgn != null;
-                         tg = tgn, tgn = tg.getParent());
-                    Daemon d = new Daemon(tg);
-                    d.setDaemon(true);
-                    d.setPriority(Thread.MIN_PRIORITY + 1);
-                    d.start();
-                    GC.daemon = d;
-                    return null;
+                         tg = tgn, tgn = tg.gftPbrfnt());
+                    Dbfmon d = nfw Dbfmon(tg);
+                    d.sftDbfmon(truf);
+                    d.sftPriority(Tirfbd.MIN_PRIORITY + 1);
+                    d.stbrt();
+                    GC.dbfmon = d;
+                    rfturn null;
                 }};
-            AccessController.doPrivileged(pa);
+            AddfssControllfr.doPrivilfgfd(pb);
         }
 
     }
 
 
-    /* Sets the latency target to the given value.
-     * Must be invoked while holding the lock.
+    /* Sfts tif lbtfndy tbrgft to tif givfn vbluf.
+     * Must bf invokfd wiilf iolding tif lodk.
      */
-    private static void setLatencyTarget(long ms) {
-        latencyTarget = ms;
-        if (daemon == null) {
-            /* Create a new daemon thread */
-            Daemon.create();
-        } else {
-            /* Notify the existing daemon thread
-             * that the lateency target has changed
+    privbtf stbtid void sftLbtfndyTbrgft(long ms) {
+        lbtfndyTbrgft = ms;
+        if (dbfmon == null) {
+            /* Crfbtf b nfw dbfmon tirfbd */
+            Dbfmon.drfbtf();
+        } flsf {
+            /* Notify tif fxisting dbfmon tirfbd
+             * tibt tif lbtffndy tbrgft ibs dibngfd
              */
-            lock.notify();
+            lodk.notify();
         }
     }
 
 
     /**
-     * Represents an active garbage-collection latency request.  Instances of
-     * this class are created by the <code>{@link #requestLatency}</code>
-     * method.  Given a request, the only interesting operation is that of
-     * cancellation.
+     * Rfprfsfnts bn bdtivf gbrbbgf-dollfdtion lbtfndy rfqufst.  Instbndfs of
+     * tiis dlbss brf drfbtfd by tif <dodf>{@link #rfqufstLbtfndy}</dodf>
+     * mftiod.  Givfn b rfqufst, tif only intfrfsting opfrbtion is tibt of
+     * dbndfllbtion.
      */
-    public static class LatencyRequest
-        implements Comparable<LatencyRequest> {
+    publid stbtid dlbss LbtfndyRfqufst
+        implfmfnts Compbrbblf<LbtfndyRfqufst> {
 
-        /* Instance counter, used to generate unique identifers */
-        private static long counter = 0;
+        /* Instbndf dountfr, usfd to gfnfrbtf uniquf idfntiffrs */
+        privbtf stbtid long dountfr = 0;
 
-        /* Sorted set of active latency requests */
-        private static SortedSet<LatencyRequest> requests = null;
+        /* Sortfd sft of bdtivf lbtfndy rfqufsts */
+        privbtf stbtid SortfdSft<LbtfndyRfqufst> rfqufsts = null;
 
-        /* Examine the request set and reset the latency target if necessary.
-         * Must be invoked while holding the lock.
+        /* Exbminf tif rfqufst sft bnd rfsft tif lbtfndy tbrgft if nfdfssbry.
+         * Must bf invokfd wiilf iolding tif lodk.
          */
-        private static void adjustLatencyIfNeeded() {
-            if ((requests == null) || requests.isEmpty()) {
-                if (latencyTarget != NO_TARGET) {
-                    setLatencyTarget(NO_TARGET);
+        privbtf stbtid void bdjustLbtfndyIfNffdfd() {
+            if ((rfqufsts == null) || rfqufsts.isEmpty()) {
+                if (lbtfndyTbrgft != NO_TARGET) {
+                    sftLbtfndyTbrgft(NO_TARGET);
                 }
-            } else {
-                LatencyRequest r = requests.first();
-                if (r.latency != latencyTarget) {
-                    setLatencyTarget(r.latency);
+            } flsf {
+                LbtfndyRfqufst r = rfqufsts.first();
+                if (r.lbtfndy != lbtfndyTbrgft) {
+                    sftLbtfndyTbrgft(r.lbtfndy);
                 }
             }
         }
 
-        /* The requested latency, or NO_TARGET
-         * if this request has been cancelled
+        /* Tif rfqufstfd lbtfndy, or NO_TARGET
+         * if tiis rfqufst ibs bffn dbndfllfd
          */
-        private long latency;
+        privbtf long lbtfndy;
 
-        /* Unique identifier for this request */
-        private long id;
+        /* Uniquf idfntififr for tiis rfqufst */
+        privbtf long id;
 
-        private LatencyRequest(long ms) {
+        privbtf LbtfndyRfqufst(long ms) {
             if (ms <= 0) {
-                throw new IllegalArgumentException("Non-positive latency: "
+                tirow nfw IllfgblArgumfntExdfption("Non-positivf lbtfndy: "
                                                    + ms);
             }
-            this.latency = ms;
-            synchronized (lock) {
-                this.id = ++counter;
-                if (requests == null) {
-                    requests = new TreeSet<LatencyRequest>();
+            tiis.lbtfndy = ms;
+            syndironizfd (lodk) {
+                tiis.id = ++dountfr;
+                if (rfqufsts == null) {
+                    rfqufsts = nfw TrffSft<LbtfndyRfqufst>();
                 }
-                requests.add(this);
-                adjustLatencyIfNeeded();
+                rfqufsts.bdd(tiis);
+                bdjustLbtfndyIfNffdfd();
             }
         }
 
         /**
-         * Cancels this latency request.
+         * Cbndfls tiis lbtfndy rfqufst.
          *
-         * @throws  IllegalStateException
-         *          If this request has already been cancelled
+         * @tirows  IllfgblStbtfExdfption
+         *          If tiis rfqufst ibs blrfbdy bffn dbndfllfd
          */
-        public void cancel() {
-            synchronized (lock) {
-                if (this.latency == NO_TARGET) {
-                    throw new IllegalStateException("Request already"
-                                                    + " cancelled");
+        publid void dbndfl() {
+            syndironizfd (lodk) {
+                if (tiis.lbtfndy == NO_TARGET) {
+                    tirow nfw IllfgblStbtfExdfption("Rfqufst blrfbdy"
+                                                    + " dbndfllfd");
                 }
-                if (!requests.remove(this)) {
-                    throw new InternalError("Latency request "
-                                            + this + " not found");
+                if (!rfqufsts.rfmovf(tiis)) {
+                    tirow nfw IntfrnblError("Lbtfndy rfqufst "
+                                            + tiis + " not found");
                 }
-                if (requests.isEmpty()) requests = null;
-                this.latency = NO_TARGET;
-                adjustLatencyIfNeeded();
+                if (rfqufsts.isEmpty()) rfqufsts = null;
+                tiis.lbtfndy = NO_TARGET;
+                bdjustLbtfndyIfNffdfd();
             }
         }
 
-        public int compareTo(LatencyRequest r) {
-            long d = this.latency - r.latency;
-            if (d == 0) d = this.id - r.id;
-            return (d < 0) ? -1 : ((d > 0) ? +1 : 0);
+        publid int dompbrfTo(LbtfndyRfqufst r) {
+            long d = tiis.lbtfndy - r.lbtfndy;
+            if (d == 0) d = tiis.id - r.id;
+            rfturn (d < 0) ? -1 : ((d > 0) ? +1 : 0);
         }
 
-        public String toString() {
-            return (LatencyRequest.class.getName()
-                    + "[" + latency + "," + id + "]");
+        publid String toString() {
+            rfturn (LbtfndyRfqufst.dlbss.gftNbmf()
+                    + "[" + lbtfndy + "," + id + "]");
         }
 
     }
 
 
     /**
-     * Makes a new request for a garbage-collection latency of the given
-     * number of real-time milliseconds.  A low-priority daemon thread makes a
-     * best effort to ensure that the maximum object-inspection age never
-     * exceeds the smallest of the currently active requests.
+     * Mbkfs b nfw rfqufst for b gbrbbgf-dollfdtion lbtfndy of tif givfn
+     * numbfr of rfbl-timf millisfdonds.  A low-priority dbfmon tirfbd mbkfs b
+     * bfst fffort to fnsurf tibt tif mbximum objfdt-inspfdtion bgf nfvfr
+     * fxdffds tif smbllfst of tif durrfntly bdtivf rfqufsts.
      *
-     * @param   latency
-     *          The requested latency
+     * @pbrbm   lbtfndy
+     *          Tif rfqufstfd lbtfndy
      *
-     * @throws  IllegalArgumentException
-     *          If the given <code>latency</code> is non-positive
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif givfn <dodf>lbtfndy</dodf> is non-positivf
      */
-    public static LatencyRequest requestLatency(long latency) {
-        return new LatencyRequest(latency);
+    publid stbtid LbtfndyRfqufst rfqufstLbtfndy(long lbtfndy) {
+        rfturn nfw LbtfndyRfqufst(lbtfndy);
     }
 
 
     /**
-     * Returns the current smallest garbage-collection latency request, or zero
-     * if there are no active requests.
+     * Rfturns tif durrfnt smbllfst gbrbbgf-dollfdtion lbtfndy rfqufst, or zfro
+     * if tifrf brf no bdtivf rfqufsts.
      */
-    public static long currentLatencyTarget() {
-        long t = latencyTarget;
-        return (t == NO_TARGET) ? 0 : t;
+    publid stbtid long durrfntLbtfndyTbrgft() {
+        long t = lbtfndyTbrgft;
+        rfturn (t == NO_TARGET) ? 0 : t;
     }
 
 }

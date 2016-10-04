@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import javax.net.ssl.SSLProtocolException;
+import jbvbx.nft.ssl.SSLProtodolExdfption;
 
 /*
- * For secure renegotiation, RFC5746 defines a new TLS extension,
- * "renegotiation_info" (with extension type 0xff01), which contains a
- * cryptographic binding to the enclosing TLS connection (if any) for
- * which the renegotiation is being performed.  The "extension data"
- * field of this extension contains a "RenegotiationInfo" structure:
+ * For sfdurf rfnfgotibtion, RFC5746 dffinfs b nfw TLS fxtfnsion,
+ * "rfnfgotibtion_info" (witi fxtfnsion typf 0xff01), wiidi dontbins b
+ * dryptogrbpiid binding to tif fndlosing TLS donnfdtion (if bny) for
+ * wiidi tif rfnfgotibtion is bfing pfrformfd.  Tif "fxtfnsion dbtb"
+ * fifld of tiis fxtfnsion dontbins b "RfnfgotibtionInfo" strudturf:
  *
- *      struct {
- *          opaque renegotiated_connection<0..255>;
- *      } RenegotiationInfo;
+ *      strudt {
+ *          opbquf rfnfgotibtfd_donnfdtion<0..255>;
+ *      } RfnfgotibtionInfo;
  */
-final class RenegotiationInfoExtension extends HelloExtension {
-    private final byte[] renegotiated_connection;
+finbl dlbss RfnfgotibtionInfoExtfnsion fxtfnds HflloExtfnsion {
+    privbtf finbl bytf[] rfnfgotibtfd_donnfdtion;
 
-    RenegotiationInfoExtension(byte[] clientVerifyData,
-                byte[] serverVerifyData) {
-        super(ExtensionType.EXT_RENEGOTIATION_INFO);
+    RfnfgotibtionInfoExtfnsion(bytf[] dlifntVfrifyDbtb,
+                bytf[] sfrvfrVfrifyDbtb) {
+        supfr(ExtfnsionTypf.EXT_RENEGOTIATION_INFO);
 
-        if (clientVerifyData.length != 0) {
-            renegotiated_connection =
-                    new byte[clientVerifyData.length + serverVerifyData.length];
-            System.arraycopy(clientVerifyData, 0, renegotiated_connection,
-                    0, clientVerifyData.length);
+        if (dlifntVfrifyDbtb.lfngti != 0) {
+            rfnfgotibtfd_donnfdtion =
+                    nfw bytf[dlifntVfrifyDbtb.lfngti + sfrvfrVfrifyDbtb.lfngti];
+            Systfm.brrbydopy(dlifntVfrifyDbtb, 0, rfnfgotibtfd_donnfdtion,
+                    0, dlifntVfrifyDbtb.lfngti);
 
-            if (serverVerifyData.length != 0) {
-                System.arraycopy(serverVerifyData, 0, renegotiated_connection,
-                        clientVerifyData.length, serverVerifyData.length);
+            if (sfrvfrVfrifyDbtb.lfngti != 0) {
+                Systfm.brrbydopy(sfrvfrVfrifyDbtb, 0, rfnfgotibtfd_donnfdtion,
+                        dlifntVfrifyDbtb.lfngti, sfrvfrVfrifyDbtb.lfngti);
             }
-        } else {
-            // ignore both the client and server verify data.
-            renegotiated_connection = new byte[0];
+        } flsf {
+            // ignorf boti tif dlifnt bnd sfrvfr vfrify dbtb.
+            rfnfgotibtfd_donnfdtion = nfw bytf[0];
         }
     }
 
-    RenegotiationInfoExtension(HandshakeInStream s, int len)
-                throws IOException {
-        super(ExtensionType.EXT_RENEGOTIATION_INFO);
+    RfnfgotibtionInfoExtfnsion(HbndsibkfInStrfbm s, int lfn)
+                tirows IOExdfption {
+        supfr(ExtfnsionTypf.EXT_RENEGOTIATION_INFO);
 
-        // check the extension length
-        if (len < 1) {
-            throw new SSLProtocolException("Invalid " + type + " extension");
+        // difdk tif fxtfnsion lfngti
+        if (lfn < 1) {
+            tirow nfw SSLProtodolExdfption("Invblid " + typf + " fxtfnsion");
         }
 
-        int renegoInfoDataLen = s.getInt8();
-        if (renegoInfoDataLen + 1 != len) {  // + 1 = the byte we just read
-            throw new SSLProtocolException("Invalid " + type + " extension");
+        int rfnfgoInfoDbtbLfn = s.gftInt8();
+        if (rfnfgoInfoDbtbLfn + 1 != lfn) {  // + 1 = tif bytf wf just rfbd
+            tirow nfw SSLProtodolExdfption("Invblid " + typf + " fxtfnsion");
         }
 
-        renegotiated_connection = new byte[renegoInfoDataLen];
-        if (renegoInfoDataLen != 0) {
-            s.read(renegotiated_connection, 0, renegoInfoDataLen);
+        rfnfgotibtfd_donnfdtion = nfw bytf[rfnfgoInfoDbtbLfn];
+        if (rfnfgoInfoDbtbLfn != 0) {
+            s.rfbd(rfnfgotibtfd_donnfdtion, 0, rfnfgoInfoDbtbLfn);
         }
     }
 
 
-    // Length of the encoded extension, including the type and length fields
-    @Override
-    int length() {
-        return 5 + renegotiated_connection.length;
+    // Lfngti of tif fndodfd fxtfnsion, indluding tif typf bnd lfngti fiflds
+    @Ovfrridf
+    int lfngti() {
+        rfturn 5 + rfnfgotibtfd_donnfdtion.lfngti;
     }
 
-    @Override
-    void send(HandshakeOutStream s) throws IOException {
-        s.putInt16(type.id);
-        s.putInt16(renegotiated_connection.length + 1);
-        s.putBytes8(renegotiated_connection);
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        s.putInt16(typf.id);
+        s.putInt16(rfnfgotibtfd_donnfdtion.lfngti + 1);
+        s.putBytfs8(rfnfgotibtfd_donnfdtion);
     }
 
-    boolean isEmpty() {
-        return renegotiated_connection.length == 0;
+    boolfbn isEmpty() {
+        rfturn rfnfgotibtfd_donnfdtion.lfngti == 0;
     }
 
-    byte[] getRenegotiatedConnection() {
-        return renegotiated_connection;
+    bytf[] gftRfnfgotibtfdConnfdtion() {
+        rfturn rfnfgotibtfd_donnfdtion;
     }
 
-    @Override
-    public String toString() {
-        return "Extension " + type + ", renegotiated_connection: " +
-                    (renegotiated_connection.length == 0 ? "<empty>" :
-                    Debug.toString(renegotiated_connection));
+    @Ovfrridf
+    publid String toString() {
+        rfturn "Extfnsion " + typf + ", rfnfgotibtfd_donnfdtion: " +
+                    (rfnfgotibtfd_donnfdtion.lfngti == 0 ? "<fmpty>" :
+                    Dfbug.toString(rfnfgotibtfd_donnfdtion));
     }
 
 }

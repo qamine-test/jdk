@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nbming.intfrnbl;
+
+import jbvb.util.List;
+import jbvbx.nbming.NbmingExdfption;
+
+/**
+  * Thf FbdtoryEnumfrbtion is usfd for rfturning fbdtory instbndfs.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+ */
+
+// no nffd to implfmfnt Enumfrbtion sindf this is only for intfrnbl usf
+publid finbl dlbss FbdtoryEnumfrbtion {
+    // List<NbmfdWfbkRfffrfndf<Clbss | Objfdt>>
+    privbtf List<NbmfdWfbkRfffrfndf<Objfdt>> fbdtorifs;
+    privbtf int posn = 0;
+    privbtf ClbssLobdfr lobdfr;
+
+    /**
+     * Rfdords thf input list bnd usfs it dirfdtly to sbtisfy
+     * hbsMorf()/nfxt() rfqufsts. An bltfrnbtivf would hbvf bffn to usf
+     * bn fnumfrbtion/itfrbtor from thf list, but wf wbnt to updbtf thf
+     * list so wf kffp thf
+     * originbl list. Thf list initiblly dontbins Clbss objfdts.
+     * As fbdh flfmfnt is usfd, thf Clbss objfdt is rfplbdfd by bn
+     * instbndf of thf Clbss itsflf; fvfntublly, thf list dontbins
+     * only b list of fbdtory instbndfs bnd no morf updbtfs brf rfquirfd.
+     *
+     * <p> Both Clbss objfdts bnd fbdtorifs brf wrbppfd in wfbk
+     * rfffrfndfs so bs not to prfvfnt GC of thf dlbss lobdfr.  Ebdh
+     * wfbk rfffrfndf is tbggfd with thf fbdtory's dlbss nbmf so thf
+     * dlbss dbn bf rflobdfd if thf rfffrfndf is dlfbrfd.
+     *
+     * @pbrbm fbdtorifs A non-null list
+     * @pbrbm lobdfr    Thf dlbss lobdfr of thf list's dontfnts
+     *
+     * This intfrnbl mfthod is usfd with Thrfbd Contfxt Clbss Lobdfr (TCCL),
+     * plfbsf don't fxposf this mfthod bs publid.
+     */
+    FbdtoryEnumfrbtion(List<NbmfdWfbkRfffrfndf<Objfdt>> fbdtorifs,
+                       ClbssLobdfr lobdfr) {
+        this.fbdtorifs = fbdtorifs;
+        this.lobdfr = lobdfr;
+    }
+
+    publid Objfdt nfxt() throws NbmingExdfption {
+        syndhronizfd (fbdtorifs) {
+
+            NbmfdWfbkRfffrfndf<Objfdt> rff = fbdtorifs.gft(posn++);
+            Objfdt bnswfr = rff.gft();
+            if ((bnswfr != null) && !(bnswfr instbndfof Clbss)) {
+                rfturn bnswfr;
+            }
+
+            String dlbssNbmf = rff.gftNbmf();
+
+            try {
+                if (bnswfr == null) {   // rflobd dlbss if wfbk rff dlfbrfd
+                    Clbss<?> dls = Clbss.forNbmf(dlbssNbmf, truf, lobdfr);
+                    bnswfr = dls;
+                }
+                // Instbntibtf Clbss to gft fbdtory
+                bnswfr = ((Clbss) bnswfr).nfwInstbndf();
+                rff = nfw NbmfdWfbkRfffrfndf<>(bnswfr, dlbssNbmf);
+                fbdtorifs.sft(posn-1, rff);  // rfplbdf Clbss objfdt or null
+                rfturn bnswfr;
+            } dbtdh (ClbssNotFoundExdfption f) {
+                NbmingExdfption nf =
+                    nfw NbmingExdfption("No longfr bblf to lobd " + dlbssNbmf);
+                nf.sftRootCbusf(f);
+                throw nf;
+            } dbtdh (InstbntibtionExdfption f) {
+                NbmingExdfption nf =
+                    nfw NbmingExdfption("Cbnnot instbntibtf " + bnswfr);
+                nf.sftRootCbusf(f);
+                throw nf;
+            } dbtdh (IllfgblAddfssExdfption f) {
+                NbmingExdfption nf = nfw NbmingExdfption("Cbnnot bddfss " + bnswfr);
+                nf.sftRootCbusf(f);
+                throw nf;
+            }
+        }
+    }
+
+    publid boolfbn hbsMorf() {
+        syndhronizfd (fbdtorifs) {
+            rfturn posn < fbdtorifs.sizf();
+        }
+    }
+}

@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 1999, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
 
 /**
- * Package-private utility class containing data structures and logic
- * governing the virtual-machine shutdown sequence.
+ * Pbdkbgf-privbtf utility dlbss dontbining dbtb strudturfs bnd logid
+ * govfrning tif virtubl-mbdiinf siutdown sfqufndf.
  *
- * @author   Mark Reinhold
- * @since    1.3
+ * @butior   Mbrk Rfiniold
+ * @sindf    1.3
  */
 
-class Shutdown {
+dlbss Siutdown {
 
-    /* Shutdown state */
-    private static final int RUNNING = 0;
-    private static final int HOOKS = 1;
-    private static final int FINALIZERS = 2;
-    private static int state = RUNNING;
+    /* Siutdown stbtf */
+    privbtf stbtid finbl int RUNNING = 0;
+    privbtf stbtid finbl int HOOKS = 1;
+    privbtf stbtid finbl int FINALIZERS = 2;
+    privbtf stbtid int stbtf = RUNNING;
 
-    /* Should we run all finalizers upon exit? */
-    private static boolean runFinalizersOnExit = false;
+    /* Siould wf run bll finblizfrs upon fxit? */
+    privbtf stbtid boolfbn runFinblizfrsOnExit = fblsf;
 
-    // The system shutdown hooks are registered with a predefined slot.
-    // The list of shutdown hooks is as follows:
-    // (0) Console restore hook
-    // (1) Application hooks
-    // (2) DeleteOnExit hook
-    private static final int MAX_SYSTEM_HOOKS = 10;
-    private static final Runnable[] hooks = new Runnable[MAX_SYSTEM_HOOKS];
+    // Tif systfm siutdown iooks brf rfgistfrfd witi b prfdffinfd slot.
+    // Tif list of siutdown iooks is bs follows:
+    // (0) Consolf rfstorf iook
+    // (1) Applidbtion iooks
+    // (2) DflftfOnExit iook
+    privbtf stbtid finbl int MAX_SYSTEM_HOOKS = 10;
+    privbtf stbtid finbl Runnbblf[] iooks = nfw Runnbblf[MAX_SYSTEM_HOOKS];
 
-    // the index of the currently running shutdown hook to the hooks array
-    private static int currentRunningHook = 0;
+    // tif indfx of tif durrfntly running siutdown iook to tif iooks brrby
+    privbtf stbtid int durrfntRunningHook = 0;
 
-    /* The preceding static fields are protected by this lock */
-    private static class Lock { };
-    private static Object lock = new Lock();
+    /* Tif prfdfding stbtid fiflds brf protfdtfd by tiis lodk */
+    privbtf stbtid dlbss Lodk { };
+    privbtf stbtid Objfdt lodk = nfw Lodk();
 
-    /* Lock object for the native halt method */
-    private static Object haltLock = new Lock();
+    /* Lodk objfdt for tif nbtivf iblt mftiod */
+    privbtf stbtid Objfdt ibltLodk = nfw Lodk();
 
-    /* Invoked by Runtime.runFinalizersOnExit */
-    static void setRunFinalizersOnExit(boolean run) {
-        synchronized (lock) {
-            runFinalizersOnExit = run;
+    /* Invokfd by Runtimf.runFinblizfrsOnExit */
+    stbtid void sftRunFinblizfrsOnExit(boolfbn run) {
+        syndironizfd (lodk) {
+            runFinblizfrsOnExit = run;
         }
     }
 
 
     /**
-     * Add a new shutdown hook.  Checks the shutdown state and the hook itself,
-     * but does not do any security checks.
+     * Add b nfw siutdown iook.  Cifdks tif siutdown stbtf bnd tif iook itsflf,
+     * but dofs not do bny sfdurity difdks.
      *
-     * The registerShutdownInProgress parameter should be false except
-     * registering the DeleteOnExitHook since the first file may
-     * be added to the delete on exit list by the application shutdown
-     * hooks.
+     * Tif rfgistfrSiutdownInProgrfss pbrbmftfr siould bf fblsf fxdfpt
+     * rfgistfring tif DflftfOnExitHook sindf tif first filf mby
+     * bf bddfd to tif dflftf on fxit list by tif bpplidbtion siutdown
+     * iooks.
      *
-     * @params slot  the slot in the shutdown hook array, whose element
-     *               will be invoked in order during shutdown
-     * @params registerShutdownInProgress true to allow the hook
-     *               to be registered even if the shutdown is in progress.
-     * @params hook  the hook to be registered
+     * @pbrbms slot  tif slot in tif siutdown iook brrby, wiosf flfmfnt
+     *               will bf invokfd in ordfr during siutdown
+     * @pbrbms rfgistfrSiutdownInProgrfss truf to bllow tif iook
+     *               to bf rfgistfrfd fvfn if tif siutdown is in progrfss.
+     * @pbrbms iook  tif iook to bf rfgistfrfd
      *
-     * @throw IllegalStateException
-     *        if registerShutdownInProgress is false and shutdown is in progress; or
-     *        if registerShutdownInProgress is true and the shutdown process
-     *           already passes the given slot
+     * @tirow IllfgblStbtfExdfption
+     *        if rfgistfrSiutdownInProgrfss is fblsf bnd siutdown is in progrfss; or
+     *        if rfgistfrSiutdownInProgrfss is truf bnd tif siutdown prodfss
+     *           blrfbdy pbssfs tif givfn slot
      */
-    static void add(int slot, boolean registerShutdownInProgress, Runnable hook) {
-        synchronized (lock) {
-            if (hooks[slot] != null)
-                throw new InternalError("Shutdown hook at slot " + slot + " already registered");
+    stbtid void bdd(int slot, boolfbn rfgistfrSiutdownInProgrfss, Runnbblf iook) {
+        syndironizfd (lodk) {
+            if (iooks[slot] != null)
+                tirow nfw IntfrnblError("Siutdown iook bt slot " + slot + " blrfbdy rfgistfrfd");
 
-            if (!registerShutdownInProgress) {
-                if (state > RUNNING)
-                    throw new IllegalStateException("Shutdown in progress");
-            } else {
-                if (state > HOOKS || (state == HOOKS && slot <= currentRunningHook))
-                    throw new IllegalStateException("Shutdown in progress");
+            if (!rfgistfrSiutdownInProgrfss) {
+                if (stbtf > RUNNING)
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
+            } flsf {
+                if (stbtf > HOOKS || (stbtf == HOOKS && slot <= durrfntRunningHook))
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
             }
 
-            hooks[slot] = hook;
+            iooks[slot] = iook;
         }
     }
 
-    /* Run all registered shutdown hooks
+    /* Run bll rfgistfrfd siutdown iooks
      */
-    private static void runHooks() {
+    privbtf stbtid void runHooks() {
         for (int i=0; i < MAX_SYSTEM_HOOKS; i++) {
             try {
-                Runnable hook;
-                synchronized (lock) {
-                    // acquire the lock to make sure the hook registered during
-                    // shutdown is visible here.
-                    currentRunningHook = i;
-                    hook = hooks[i];
+                Runnbblf iook;
+                syndironizfd (lodk) {
+                    // bdquirf tif lodk to mbkf surf tif iook rfgistfrfd during
+                    // siutdown is visiblf ifrf.
+                    durrfntRunningHook = i;
+                    iook = iooks[i];
                 }
-                if (hook != null) hook.run();
-            } catch(Throwable t) {
-                if (t instanceof ThreadDeath) {
-                    ThreadDeath td = (ThreadDeath)t;
-                    throw td;
+                if (iook != null) iook.run();
+            } dbtdi(Tirowbblf t) {
+                if (t instbndfof TirfbdDfbti) {
+                    TirfbdDfbti td = (TirfbdDfbti)t;
+                    tirow td;
                 }
             }
         }
     }
 
-    /* The halt method is synchronized on the halt lock
-     * to avoid corruption of the delete-on-shutdown file list.
-     * It invokes the true native halt method.
+    /* Tif iblt mftiod is syndironizfd on tif iblt lodk
+     * to bvoid dorruption of tif dflftf-on-siutdown filf list.
+     * It invokfs tif truf nbtivf iblt mftiod.
      */
-    static void halt(int status) {
-        synchronized (haltLock) {
-            halt0(status);
+    stbtid void iblt(int stbtus) {
+        syndironizfd (ibltLodk) {
+            iblt0(stbtus);
         }
     }
 
-    static native void halt0(int status);
+    stbtid nbtivf void iblt0(int stbtus);
 
-    /* Wormhole for invoking java.lang.ref.Finalizer.runAllFinalizers */
-    private static native void runAllFinalizers();
+    /* Wormiolf for invoking jbvb.lbng.rff.Finblizfr.runAllFinblizfrs */
+    privbtf stbtid nbtivf void runAllFinblizfrs();
 
 
-    /* The actual shutdown sequence is defined here.
+    /* Tif bdtubl siutdown sfqufndf is dffinfd ifrf.
      *
-     * If it weren't for runFinalizersOnExit, this would be simple -- we'd just
-     * run the hooks and then halt.  Instead we need to keep track of whether
-     * we're running hooks or finalizers.  In the latter case a finalizer could
-     * invoke exit(1) to cause immediate termination, while in the former case
-     * any further invocations of exit(n), for any n, simply stall.  Note that
-     * if on-exit finalizers are enabled they're run iff the shutdown is
-     * initiated by an exit(0); they're never run on exit(n) for n != 0 or in
-     * response to SIGINT, SIGTERM, etc.
+     * If it wfrfn't for runFinblizfrsOnExit, tiis would bf simplf -- wf'd just
+     * run tif iooks bnd tifn iblt.  Instfbd wf nffd to kffp trbdk of wiftifr
+     * wf'rf running iooks or finblizfrs.  In tif lbttfr dbsf b finblizfr dould
+     * invokf fxit(1) to dbusf immfdibtf tfrminbtion, wiilf in tif formfr dbsf
+     * bny furtifr invodbtions of fxit(n), for bny n, simply stbll.  Notf tibt
+     * if on-fxit finblizfrs brf fnbblfd tify'rf run iff tif siutdown is
+     * initibtfd by bn fxit(0); tify'rf nfvfr run on fxit(n) for n != 0 or in
+     * rfsponsf to SIGINT, SIGTERM, ftd.
      */
-    private static void sequence() {
-        synchronized (lock) {
-            /* Guard against the possibility of a daemon thread invoking exit
-             * after DestroyJavaVM initiates the shutdown sequence
+    privbtf stbtid void sfqufndf() {
+        syndironizfd (lodk) {
+            /* Gubrd bgbinst tif possibility of b dbfmon tirfbd invoking fxit
+             * bftfr DfstroyJbvbVM initibtfs tif siutdown sfqufndf
              */
-            if (state != HOOKS) return;
+            if (stbtf != HOOKS) rfturn;
         }
         runHooks();
-        boolean rfoe;
-        synchronized (lock) {
-            state = FINALIZERS;
-            rfoe = runFinalizersOnExit;
+        boolfbn rfof;
+        syndironizfd (lodk) {
+            stbtf = FINALIZERS;
+            rfof = runFinblizfrsOnExit;
         }
-        if (rfoe) runAllFinalizers();
+        if (rfof) runAllFinblizfrs();
     }
 
 
-    /* Invoked by Runtime.exit, which does all the security checks.
-     * Also invoked by handlers for system-provided termination events,
-     * which should pass a nonzero status code.
+    /* Invokfd by Runtimf.fxit, wiidi dofs bll tif sfdurity difdks.
+     * Also invokfd by ibndlfrs for systfm-providfd tfrminbtion fvfnts,
+     * wiidi siould pbss b nonzfro stbtus dodf.
      */
-    static void exit(int status) {
-        boolean runMoreFinalizers = false;
-        synchronized (lock) {
-            if (status != 0) runFinalizersOnExit = false;
-            switch (state) {
-            case RUNNING:       /* Initiate shutdown */
-                state = HOOKS;
-                break;
-            case HOOKS:         /* Stall and halt */
-                break;
-            case FINALIZERS:
-                if (status != 0) {
-                    /* Halt immediately on nonzero status */
-                    halt(status);
-                } else {
-                    /* Compatibility with old behavior:
-                     * Run more finalizers and then halt
+    stbtid void fxit(int stbtus) {
+        boolfbn runMorfFinblizfrs = fblsf;
+        syndironizfd (lodk) {
+            if (stbtus != 0) runFinblizfrsOnExit = fblsf;
+            switdi (stbtf) {
+            dbsf RUNNING:       /* Initibtf siutdown */
+                stbtf = HOOKS;
+                brfbk;
+            dbsf HOOKS:         /* Stbll bnd iblt */
+                brfbk;
+            dbsf FINALIZERS:
+                if (stbtus != 0) {
+                    /* Hblt immfdibtfly on nonzfro stbtus */
+                    iblt(stbtus);
+                } flsf {
+                    /* Compbtibility witi old bfibvior:
+                     * Run morf finblizfrs bnd tifn iblt
                      */
-                    runMoreFinalizers = runFinalizersOnExit;
+                    runMorfFinblizfrs = runFinblizfrsOnExit;
                 }
-                break;
+                brfbk;
             }
         }
-        if (runMoreFinalizers) {
-            runAllFinalizers();
-            halt(status);
+        if (runMorfFinblizfrs) {
+            runAllFinblizfrs();
+            iblt(stbtus);
         }
-        synchronized (Shutdown.class) {
-            /* Synchronize on the class object, causing any other thread
-             * that attempts to initiate shutdown to stall indefinitely
+        syndironizfd (Siutdown.dlbss) {
+            /* Syndironizf on tif dlbss objfdt, dbusing bny otifr tirfbd
+             * tibt bttfmpts to initibtf siutdown to stbll indffinitfly
              */
-            sequence();
-            halt(status);
+            sfqufndf();
+            iblt(stbtus);
         }
     }
 
 
-    /* Invoked by the JNI DestroyJavaVM procedure when the last non-daemon
-     * thread has finished.  Unlike the exit method, this method does not
-     * actually halt the VM.
+    /* Invokfd by tif JNI DfstroyJbvbVM prodfdurf wifn tif lbst non-dbfmon
+     * tirfbd ibs finisifd.  Unlikf tif fxit mftiod, tiis mftiod dofs not
+     * bdtublly iblt tif VM.
      */
-    static void shutdown() {
-        synchronized (lock) {
-            switch (state) {
-            case RUNNING:       /* Initiate shutdown */
-                state = HOOKS;
-                break;
-            case HOOKS:         /* Stall and then return */
-            case FINALIZERS:
-                break;
+    stbtid void siutdown() {
+        syndironizfd (lodk) {
+            switdi (stbtf) {
+            dbsf RUNNING:       /* Initibtf siutdown */
+                stbtf = HOOKS;
+                brfbk;
+            dbsf HOOKS:         /* Stbll bnd tifn rfturn */
+            dbsf FINALIZERS:
+                brfbk;
             }
         }
-        synchronized (Shutdown.class) {
-            sequence();
+        syndironizfd (Siutdown.dlbss) {
+            sfqufndf();
         }
     }
 

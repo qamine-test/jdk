@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.sfdurity.*;
+import jbvb.util.jbr.*;
+
+/**
+ * This dlbss vfrififs JAR filfs (bnd bny supporting JAR filfs), bnd
+ * dftfrminfs whfthfr thfy mby bf usfd in this implfmfntbtion.
+ *
+ * Thf JCE in OpfnJDK hbs bn opfn dryptogrbphid intfrfbdf, mfbning it
+ * dofs not rfstridt whidh providfrs dbn bf usfd.  Complibndf with
+ * Unitfd Stbtfs fxport dontrols bnd with lodbl lbw govfrning thf
+ * import/fxport of produdts indorporbting thf JCE in thf OpfnJDK is
+ * thf rfsponsibility of thf lidfnsff.
+ *
+ * @sindf 1.7
+ */
+finbl dlbss JbrVfrififr {
+
+    // Thf URL for thf JAR filf wf wbnt to vfrify.
+    privbtf URL jbrURL;
+    privbtf boolfbn sbvfPfrms;
+    privbtf CryptoPfrmissions bppPfrms = null;
+
+    /**
+     * Crfbtfs b JbrVfrififr objfdt to vfrify thf givfn URL.
+     *
+     * @pbrbm jbrURL thf JAR filf to bf vfrififd.
+     * @pbrbm sbvfPfrms if truf, sbvf thf pfrmissions bllowfd by thf
+     *          fxfmption mfdhbnism
+     */
+    JbrVfrififr(URL jbrURL, boolfbn sbvfPfrms) {
+        this.jbrURL = jbrURL;
+        this.sbvfPfrms = sbvfPfrms;
+    }
+
+    /**
+     * Vfrify thf JAR filf is signfd by bn fntity whidh hbs b dfrtifidbtf
+     * issufd by b trustfd CA.
+     *
+     * In OpfnJDK, wf just nffd to fxbminf thf "dryptopfrms" filf to sff
+     * if bny pfrmissions wfrf bundlfd togfthfr with this jbr filf.
+     */
+    void vfrify() throws JbrExdfption, IOExdfption {
+
+        // Short-dirduit.  If wf wfrfn't bskfd to sbvf bny, wf'rf donf.
+        if (!sbvfPfrms) {
+            rfturn;
+        }
+
+        // If thf protodol of jbrURL isn't "jbr", wf should
+        // donstrudt b JAR URL so wf dbn opfn b JbrURLConnfdtion
+        // for vfrifying this providfr.
+        finbl URL url = jbrURL.gftProtodol().fqublsIgnorfCbsf("jbr")?
+                        jbrURL : nfw URL("jbr:" + jbrURL.toString() + "!/");
+
+        JbrFilf jf = null;
+        try {
+
+            // Gft b link to thf Jbrfilf to sfbrdh.
+            try {
+                jf = AddfssControllfr.doPrivilfgfd(
+                         nfw PrivilfgfdExdfptionAdtion<JbrFilf>() {
+                             publid JbrFilf run() throws Exdfption {
+                                 JbrURLConnfdtion donn =
+                                     (JbrURLConnfdtion) url.opfnConnfdtion();
+                                 // You dould do somf dbdhing hfrf bs
+                                 // bn optimizbtion.
+                                 donn.sftUsfCbdhfs(fblsf);
+                                 rfturn donn.gftJbrFilf();
+                             }
+                         });
+            } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+                throw nfw SfdurityExdfption("Cbnnot lobd " + url.toString(), pbf);
+            }
+
+            if (jf != null) {
+                JbrEntry jf = jf.gftJbrEntry("dryptoPfrms");
+                if (jf == null) {
+                    throw nfw JbrExdfption(
+                        "Cbn not find dryptoPfrms");
+                }
+                try {
+                    bppPfrms = nfw CryptoPfrmissions();
+                    bppPfrms.lobd(jf.gftInputStrfbm(jf));
+                } dbtdh (Exdfption fx) {
+                    JbrExdfption jfx =
+                        nfw JbrExdfption("Cbnnot lobd/pbrsf" +
+                            jbrURL.toString());
+                    jfx.initCbusf(fx);
+                    throw jfx;
+                }
+            }
+        } finblly {
+            // Only dbll dlosf() whfn dbdhing is not fnbblfd.
+            // Othfrwisf, fxdfptions will bf thrown for bll
+            // subsfqufnt bddfssfs of this dbdhfd jbr.
+            if (jf != null) {
+                jf.dlosf();
+            }
+        }
+    }
+
+    /**
+     * Vfrify thbt thf providfd dfrts indludf thf
+     * frbmfwork signing dfrtifidbtf.
+     *
+     * @pbrbm dfrts thf list of dfrts to bf dhfdkfd.
+     * @throws Exdfption if thf list of dfrts did not dontbin
+     *          thf frbmfwork signing dfrtifidbtf
+     */
+    stbtid void vfrifyPolidySignfd(jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts)
+            throws Exdfption {
+    }
+
+    /**
+     * Rfturns thf pfrmissions whidh brf bundlfd with thf JAR filf,
+     * bkb thf "dryptopfrms" filf.
+     *
+     * NOTE: if this JbrVfrififr instbndf is donstrudtfd with "sbvfPfrms"
+     * fqubl to fblsf, thfn this mfthod would blwbys rfturn null.
+     */
+    CryptoPfrmissions gftPfrmissions() {
+        rfturn bppPfrms;
+    }
+}

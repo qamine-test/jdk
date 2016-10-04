@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import sun.awt.AWTPermissions;
+import sun.bwt.AWTPfrmissions;
 
 /**
- * <code>MouseInfo</code>  provides methods for getting information about the mouse,
- * such as mouse pointer location and the number of mouse buttons.
+ * <dodf>MousfInfo</dodf>  providfs mftiods for gftting informbtion bbout tif mousf,
+ * sudi bs mousf pointfr lodbtion bnd tif numbfr of mousf buttons.
  *
- * @author     Roman Poborchiy
- * @since 1.5
+ * @butior     Rombn Pobordiiy
+ * @sindf 1.5
  */
 
-public class MouseInfo {
+publid dlbss MousfInfo {
 
     /**
-     * Private constructor to prevent instantiation.
+     * Privbtf donstrudtor to prfvfnt instbntibtion.
      */
-    private MouseInfo() {
+    privbtf MousfInfo() {
     }
 
     /**
-     * Returns a <code>PointerInfo</code> instance that represents the current
-     * location of the mouse pointer.
-     * The <code>GraphicsDevice</code> stored in this <code>PointerInfo</code>
-     * contains the mouse pointer. The coordinate system used for the mouse position
-     * depends on whether or not the <code>GraphicsDevice</code> is part of a virtual
-     * screen device.
-     * For virtual screen devices, the coordinates are given in the virtual
-     * coordinate system, otherwise they are returned in the coordinate system
-     * of the <code>GraphicsDevice</code>. See {@link GraphicsConfiguration}
-     * for more information about the virtual screen devices.
-     * On systems without a mouse, returns <code>null</code>.
+     * Rfturns b <dodf>PointfrInfo</dodf> instbndf tibt rfprfsfnts tif durrfnt
+     * lodbtion of tif mousf pointfr.
+     * Tif <dodf>GrbpiidsDfvidf</dodf> storfd in tiis <dodf>PointfrInfo</dodf>
+     * dontbins tif mousf pointfr. Tif doordinbtf systfm usfd for tif mousf position
+     * dfpfnds on wiftifr or not tif <dodf>GrbpiidsDfvidf</dodf> is pbrt of b virtubl
+     * sdrffn dfvidf.
+     * For virtubl sdrffn dfvidfs, tif doordinbtfs brf givfn in tif virtubl
+     * doordinbtf systfm, otifrwisf tify brf rfturnfd in tif doordinbtf systfm
+     * of tif <dodf>GrbpiidsDfvidf</dodf>. Sff {@link GrbpiidsConfigurbtion}
+     * for morf informbtion bbout tif virtubl sdrffn dfvidfs.
+     * On systfms witiout b mousf, rfturns <dodf>null</dodf>.
      * <p>
-     * If there is a security manager, its <code>checkPermission</code> method
-     * is called with an <code>AWTPermission("watchMousePointer")</code>
-     * permission before creating and returning a <code>PointerInfo</code>
-     * object. This may result in a <code>SecurityException</code>.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkPfrmission</dodf> mftiod
+     * is dbllfd witi bn <dodf>AWTPfrmission("wbtdiMousfPointfr")</dodf>
+     * pfrmission bfforf drfbting bnd rfturning b <dodf>PointfrInfo</dodf>
+     * objfdt. Tiis mby rfsult in b <dodf>SfdurityExdfption</dodf>.
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless() returns true
-     * @exception SecurityException if a security manager exists and its
-     *            <code>checkPermission</code> method doesn't allow the operation
-     * @see       GraphicsConfiguration
-     * @see       SecurityManager#checkPermission
-     * @see       java.awt.AWTPermission
-     * @return    location of the mouse pointer
-     * @since     1.5
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss() rfturns truf
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *            <dodf>difdkPfrmission</dodf> mftiod dofsn't bllow tif opfrbtion
+     * @sff       GrbpiidsConfigurbtion
+     * @sff       SfdurityMbnbgfr#difdkPfrmission
+     * @sff       jbvb.bwt.AWTPfrmission
+     * @rfturn    lodbtion of tif mousf pointfr
+     * @sindf     1.5
      */
-    public static PointerInfo getPointerInfo() throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    publid stbtid PointfrInfo gftPointfrInfo() tirows HfbdlfssExdfption {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
         }
 
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPermission(AWTPermissions.WATCH_MOUSE_PERMISSION);
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPfrmission(AWTPfrmissions.WATCH_MOUSE_PERMISSION);
         }
 
-        Point point = new Point(0, 0);
-        int deviceNum = Toolkit.getDefaultToolkit().getMouseInfoPeer().fillPointWithCoords(point);
-        GraphicsDevice[] gds = GraphicsEnvironment.getLocalGraphicsEnvironment().
-                                   getScreenDevices();
-        PointerInfo retval = null;
-        if (areScreenDevicesIndependent(gds)) {
-            retval = new PointerInfo(gds[deviceNum], point);
-        } else {
-            for (int i = 0; i < gds.length; i++) {
-                GraphicsConfiguration gc = gds[i].getDefaultConfiguration();
-                Rectangle bounds = gc.getBounds();
-                if (bounds.contains(point)) {
-                    retval = new PointerInfo(gds[i], point);
+        Point point = nfw Point(0, 0);
+        int dfvidfNum = Toolkit.gftDffbultToolkit().gftMousfInfoPffr().fillPointWitiCoords(point);
+        GrbpiidsDfvidf[] gds = GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt().
+                                   gftSdrffnDfvidfs();
+        PointfrInfo rftvbl = null;
+        if (brfSdrffnDfvidfsIndfpfndfnt(gds)) {
+            rftvbl = nfw PointfrInfo(gds[dfvidfNum], point);
+        } flsf {
+            for (int i = 0; i < gds.lfngti; i++) {
+                GrbpiidsConfigurbtion gd = gds[i].gftDffbultConfigurbtion();
+                Rfdtbnglf bounds = gd.gftBounds();
+                if (bounds.dontbins(point)) {
+                    rftvbl = nfw PointfrInfo(gds[i], point);
                 }
             }
         }
 
-        return retval;
+        rfturn rftvbl;
     }
 
-    private static boolean areScreenDevicesIndependent(GraphicsDevice[] gds) {
-        for (int i = 0; i < gds.length; i++) {
-            Rectangle bounds = gds[i].getDefaultConfiguration().getBounds();
+    privbtf stbtid boolfbn brfSdrffnDfvidfsIndfpfndfnt(GrbpiidsDfvidf[] gds) {
+        for (int i = 0; i < gds.lfngti; i++) {
+            Rfdtbnglf bounds = gds[i].gftDffbultConfigurbtion().gftBounds();
             if (bounds.x != 0 || bounds.y != 0) {
-                return false;
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the number of buttons on the mouse.
-     * On systems without a mouse, returns <code>-1</code>.
+     * Rfturns tif numbfr of buttons on tif mousf.
+     * On systfms witiout b mousf, rfturns <dodf>-1</dodf>.
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless() returns true
-     * @return number of buttons on the mouse
-     * @since 1.5
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss() rfturns truf
+     * @rfturn numbfr of buttons on tif mousf
+     * @sindf 1.5
      */
-    public static int getNumberOfButtons() throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    publid stbtid int gftNumbfrOfButtons() tirows HfbdlfssExdfption {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
         }
-        Object prop = Toolkit.getDefaultToolkit().
-                              getDesktopProperty("awt.mouse.numButtons");
-        if (prop instanceof Integer) {
-            return ((Integer)prop).intValue();
+        Objfdt prop = Toolkit.gftDffbultToolkit().
+                              gftDfsktopPropfrty("bwt.mousf.numButtons");
+        if (prop instbndfof Intfgfr) {
+            rfturn ((Intfgfr)prop).intVbluf();
         }
 
-        // This should never happen.
-        assert false : "awt.mouse.numButtons is not an integer property";
-        return 0;
+        // Tiis siould nfvfr ibppfn.
+        bssfrt fblsf : "bwt.mousf.numButtons is not bn intfgfr propfrty";
+        rfturn 0;
     }
 
 }

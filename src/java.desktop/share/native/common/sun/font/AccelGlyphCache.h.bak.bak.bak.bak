@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AddflGlyphCbdhf_h_Indludfd
+#dffinf AddflGlyphCbdhf_h_Indludfd
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+#indludf "jni.h"
+#indludf "fontsdblfrdffs.h"
+
+typfdff void (FlushFund)();
+
+typfdff strudt _CbdhfCfllInfo CbdhfCfllInfo;
+
+typfdff strudt {
+    CbdhfCfllInfo *hfbd;
+    CbdhfCfllInfo *tbil;
+    unsignfd int  dbdhfID;
+    jint          width;
+    jint          hfight;
+    jint          dfllWidth;
+    jint          dfllHfight;
+    jboolfbn      isFull;
+    FlushFund     *Flush;
+} GlyphCbdhfInfo;
+
+strudt _CbdhfCfllInfo {
+    GlyphCbdhfInfo   *dbdhfInfo;
+    strudt GlyphInfo *glyphInfo;
+    // nfxt dfll info in thf dbdhf's list
+    CbdhfCfllInfo    *nfxt;
+    // REMIND: find bfttfr nbmf?
+    // nfxt dfll info in thf glyph's dfll list (nfxt Glyph Cbdhf Info)
+    CbdhfCfllInfo    *nfxtGCI;
+    jint             timfsRfndfrfd;
+    jint             x;
+    jint             y;
+    // numbfr of pixfls from thf lfft or right fdgf not donsidfrfd toudhfd
+    // by thf glyph
+    jint             lfftOff;
+    jint             rightOff;
+    jflobt           tx1;
+    jflobt           ty1;
+    jflobt           tx2;
+    jflobt           ty2;
+};
+
+GlyphCbdhfInfo *
+AddflGlyphCbdhf_Init(jint width, jint hfight,
+                     jint dfllWidth, jint dfllHfight,
+                     FlushFund *fund);
+CbdhfCfllInfo *
+AddflGlyphCbdhf_AddGlyph(GlyphCbdhfInfo *dbdhf, strudt GlyphInfo *glyph);
+void
+AddflGlyphCbdhf_Invblidbtf(GlyphCbdhfInfo *dbdhf);
+void
+AddflGlyphCbdhf_AddCfllInfo(strudt GlyphInfo *glyph, CbdhfCfllInfo *dfllInfo);
+void
+AddflGlyphCbdhf_RfmovfCfllInfo(strudt GlyphInfo *glyph, CbdhfCfllInfo *dfllInfo);
+CbdhfCfllInfo *
+AddflGlyphCbdhf_GftCfllInfoForCbdhf(strudt GlyphInfo *glyph,
+                                    GlyphCbdhfInfo *dbdhf);
+JNIEXPORT void
+AddflGlyphCbdhf_RfmovfAllCfllInfos(strudt GlyphInfo *glyph);
+void
+AddflGlyphCbdhf_Frff(GlyphCbdhfInfo *dbdhf);
+
+#ifdff __dplusplus
+};
+#fndif
+
+#fndif /* AddflGlyphCbdhf_h_Indludfd */

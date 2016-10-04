@@ -1,224 +1,224 @@
 /*
- * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.concurrent.locks.*;
-import java.io.IOException;
-import static sun.nio.fs.UnixNativeDispatcher.*;
+import jbvb.nio.filf.*;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.dondurrfnt.lodks.*;
+import jbvb.io.IOExdfption;
+import stbtid sun.nio.fs.UnixNbtivfDispbtdifr.*;
 
 /**
- * Unix implementation of java.nio.file.DirectoryStream
+ * Unix implfmfntbtion of jbvb.nio.filf.DirfdtoryStrfbm
  */
 
-class UnixDirectoryStream
-    implements DirectoryStream<Path>
+dlbss UnixDirfdtoryStrfbm
+    implfmfnts DirfdtoryStrfbm<Pbti>
 {
-    // path to directory when originally opened
-    private final UnixPath dir;
+    // pbti to dirfdtory wifn originblly opfnfd
+    privbtf finbl UnixPbti dir;
 
-    // directory pointer (returned by opendir)
-    private final long dp;
+    // dirfdtory pointfr (rfturnfd by opfndir)
+    privbtf finbl long dp;
 
-    // filter (may be null)
-    private final DirectoryStream.Filter<? super Path> filter;
+    // filtfr (mby bf null)
+    privbtf finbl DirfdtoryStrfbm.Filtfr<? supfr Pbti> filtfr;
 
-    // used to coordinate closing of directory stream
-    private final ReentrantReadWriteLock streamLock =
-        new ReentrantReadWriteLock(true);
+    // usfd to doordinbtf dlosing of dirfdtory strfbm
+    privbtf finbl RffntrbntRfbdWritfLodk strfbmLodk =
+        nfw RffntrbntRfbdWritfLodk(truf);
 
-    // indicates if directory stream is open (synchronize on closeLock)
-    private volatile boolean isClosed;
+    // indidbtfs if dirfdtory strfbm is opfn (syndironizf on dlosfLodk)
+    privbtf volbtilf boolfbn isClosfd;
 
-    // directory iterator
-    private Iterator<Path> iterator;
+    // dirfdtory itfrbtor
+    privbtf Itfrbtor<Pbti> itfrbtor;
 
     /**
-     * Initializes a new instance
+     * Initiblizfs b nfw instbndf
      */
-    UnixDirectoryStream(UnixPath dir, long dp, DirectoryStream.Filter<? super Path> filter) {
-        this.dir = dir;
-        this.dp = dp;
-        this.filter = filter;
+    UnixDirfdtoryStrfbm(UnixPbti dir, long dp, DirfdtoryStrfbm.Filtfr<? supfr Pbti> filtfr) {
+        tiis.dir = dir;
+        tiis.dp = dp;
+        tiis.filtfr = filtfr;
     }
 
-    protected final UnixPath directory() {
-        return dir;
+    protfdtfd finbl UnixPbti dirfdtory() {
+        rfturn dir;
     }
 
-    protected final Lock readLock() {
-        return streamLock.readLock();
+    protfdtfd finbl Lodk rfbdLodk() {
+        rfturn strfbmLodk.rfbdLodk();
     }
 
-    protected final Lock writeLock() {
-        return streamLock.writeLock();
+    protfdtfd finbl Lodk writfLodk() {
+        rfturn strfbmLodk.writfLodk();
     }
 
-    protected final boolean isOpen() {
-        return !isClosed;
+    protfdtfd finbl boolfbn isOpfn() {
+        rfturn !isClosfd;
     }
 
-    protected final boolean closeImpl() throws IOException {
-        if (!isClosed) {
-            isClosed = true;
+    protfdtfd finbl boolfbn dlosfImpl() tirows IOExdfption {
+        if (!isClosfd) {
+            isClosfd = truf;
             try {
-                closedir(dp);
-            } catch (UnixException x) {
-                throw new IOException(x.errorString());
+                dlosfdir(dp);
+            } dbtdi (UnixExdfption x) {
+                tirow nfw IOExdfption(x.frrorString());
             }
-            return true;
-        } else {
-            return false;
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    @Override
-    public void close()
-        throws IOException
+    @Ovfrridf
+    publid void dlosf()
+        tirows IOExdfption
     {
-        writeLock().lock();
+        writfLodk().lodk();
         try {
-            closeImpl();
-        } finally {
-            writeLock().unlock();
+            dlosfImpl();
+        } finblly {
+            writfLodk().unlodk();
         }
     }
 
-    protected final Iterator<Path> iterator(DirectoryStream<Path> ds) {
-        if (isClosed) {
-            throw new IllegalStateException("Directory stream is closed");
+    protfdtfd finbl Itfrbtor<Pbti> itfrbtor(DirfdtoryStrfbm<Pbti> ds) {
+        if (isClosfd) {
+            tirow nfw IllfgblStbtfExdfption("Dirfdtory strfbm is dlosfd");
         }
-        synchronized (this) {
-            if (iterator != null)
-                throw new IllegalStateException("Iterator already obtained");
-            iterator = new UnixDirectoryIterator(ds);
-            return iterator;
+        syndironizfd (tiis) {
+            if (itfrbtor != null)
+                tirow nfw IllfgblStbtfExdfption("Itfrbtor blrfbdy obtbinfd");
+            itfrbtor = nfw UnixDirfdtoryItfrbtor(ds);
+            rfturn itfrbtor;
         }
     }
 
-    @Override
-    public Iterator<Path> iterator() {
-        return iterator(this);
+    @Ovfrridf
+    publid Itfrbtor<Pbti> itfrbtor() {
+        rfturn itfrbtor(tiis);
     }
 
     /**
-     * Iterator implementation
+     * Itfrbtor implfmfntbtion
      */
-    private class UnixDirectoryIterator implements Iterator<Path> {
-        private final DirectoryStream<Path> stream;
+    privbtf dlbss UnixDirfdtoryItfrbtor implfmfnts Itfrbtor<Pbti> {
+        privbtf finbl DirfdtoryStrfbm<Pbti> strfbm;
 
-        // true when at EOF
-        private boolean atEof;
+        // truf wifn bt EOF
+        privbtf boolfbn btEof;
 
-        // next entry to return
-        private Path nextEntry;
+        // nfxt fntry to rfturn
+        privbtf Pbti nfxtEntry;
 
-        UnixDirectoryIterator(DirectoryStream<Path> stream) {
-            atEof = false;
-            this.stream = stream;
+        UnixDirfdtoryItfrbtor(DirfdtoryStrfbm<Pbti> strfbm) {
+            btEof = fblsf;
+            tiis.strfbm = strfbm;
         }
 
-        // Return true if file name is "." or ".."
-        private boolean isSelfOrParent(byte[] nameAsBytes) {
-            if (nameAsBytes[0] == '.') {
-                if ((nameAsBytes.length == 1) ||
-                    (nameAsBytes.length == 2 && nameAsBytes[1] == '.')) {
-                    return true;
+        // Rfturn truf if filf nbmf is "." or ".."
+        privbtf boolfbn isSflfOrPbrfnt(bytf[] nbmfAsBytfs) {
+            if (nbmfAsBytfs[0] == '.') {
+                if ((nbmfAsBytfs.lfngti == 1) ||
+                    (nbmfAsBytfs.lfngti == 2 && nbmfAsBytfs[1] == '.')) {
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
-        // Returns next entry (or null)
-        private Path readNextEntry() {
-            assert Thread.holdsLock(this);
+        // Rfturns nfxt fntry (or null)
+        privbtf Pbti rfbdNfxtEntry() {
+            bssfrt Tirfbd.ioldsLodk(tiis);
 
             for (;;) {
-                byte[] nameAsBytes = null;
+                bytf[] nbmfAsBytfs = null;
 
-                // prevent close while reading
-                readLock().lock();
+                // prfvfnt dlosf wiilf rfbding
+                rfbdLodk().lodk();
                 try {
-                    if (isOpen()) {
-                        nameAsBytes = readdir(dp);
+                    if (isOpfn()) {
+                        nbmfAsBytfs = rfbddir(dp);
                     }
-                } catch (UnixException x) {
-                    IOException ioe = x.asIOException(dir);
-                    throw new DirectoryIteratorException(ioe);
-                } finally {
-                    readLock().unlock();
+                } dbtdi (UnixExdfption x) {
+                    IOExdfption iof = x.bsIOExdfption(dir);
+                    tirow nfw DirfdtoryItfrbtorExdfption(iof);
+                } finblly {
+                    rfbdLodk().unlodk();
                 }
 
                 // EOF
-                if (nameAsBytes == null) {
-                    atEof = true;
-                    return null;
+                if (nbmfAsBytfs == null) {
+                    btEof = truf;
+                    rfturn null;
                 }
 
-                // ignore "." and ".."
-                if (!isSelfOrParent(nameAsBytes)) {
-                    Path entry = dir.resolve(nameAsBytes);
+                // ignorf "." bnd ".."
+                if (!isSflfOrPbrfnt(nbmfAsBytfs)) {
+                    Pbti fntry = dir.rfsolvf(nbmfAsBytfs);
 
-                    // return entry if no filter or filter accepts it
+                    // rfturn fntry if no filtfr or filtfr bddfpts it
                     try {
-                        if (filter == null || filter.accept(entry))
-                            return entry;
-                    } catch (IOException ioe) {
-                        throw new DirectoryIteratorException(ioe);
+                        if (filtfr == null || filtfr.bddfpt(fntry))
+                            rfturn fntry;
+                    } dbtdi (IOExdfption iof) {
+                        tirow nfw DirfdtoryItfrbtorExdfption(iof);
                     }
                 }
             }
         }
 
-        @Override
-        public synchronized boolean hasNext() {
-            if (nextEntry == null && !atEof)
-                nextEntry = readNextEntry();
-            return nextEntry != null;
+        @Ovfrridf
+        publid syndironizfd boolfbn ibsNfxt() {
+            if (nfxtEntry == null && !btEof)
+                nfxtEntry = rfbdNfxtEntry();
+            rfturn nfxtEntry != null;
         }
 
-        @Override
-        public synchronized Path next() {
-            Path result;
-            if (nextEntry == null && !atEof) {
-                result = readNextEntry();
-            } else {
-                result = nextEntry;
-                nextEntry = null;
+        @Ovfrridf
+        publid syndironizfd Pbti nfxt() {
+            Pbti rfsult;
+            if (nfxtEntry == null && !btEof) {
+                rfsult = rfbdNfxtEntry();
+            } flsf {
+                rfsult = nfxtEntry;
+                nfxtEntry = null;
             }
-            if (result == null)
-                throw new NoSuchElementException();
-            return result;
+            if (rfsult == null)
+                tirow nfw NoSudiElfmfntExdfption();
+            rfturn rfsult;
         }
 
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
+        @Ovfrridf
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 }

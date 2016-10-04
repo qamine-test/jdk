@@ -1,568 +1,568 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
-Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 
-<title>PNG Metadata Format Specification</title>
-</head>
+<titlf>PNG Mftbdbtb Formbt Spfdifidbtion</titlf>
+</ifbd>
 
-<body bgcolor="white">
+<body bgdolor="wiitf">
 
-<center><h1>
-PNG Metadata Format Specification
-</h1></center>
-
-<p>
-
-The PNG native format encodes the complete contents of a PNG file
-chunk by chunk, except for the IDAT chunks that contain the actual
-image data.  Chunks that are not defined in the PNG 1.2 specification
-are stored under the <code>UnknownChunks</code> element.  Note that it
-is the responsibility of application software to implement the rules
-for PNG readers, writers, and editors (<i>e.g.</i>, the rules
-concerning unsafe-to-copy chunks) described in the PNG specification.
-The Image I/O library is not, in and of itself, a PNG reader, writer,
-or editor in the sense of the specification.  Rather, it is a tool
-that may be used to build PNG readers, writers, and editors.
+<dfntfr><i1>
+PNG Mftbdbtb Formbt Spfdifidbtion
+</i1></dfntfr>
 
 <p>
 
-The image's actual width, height, bit depth, and color type will
-override any values passed to the writer via metadata, with one
-exception.  If the image has an <code>IndexColorModel</code>, the
-color table entries will be checked to determine if they form a
-uniform grayscale ramp. If so, the image will normally be encoded
-using as grayscale instead of palette color.  However, if the color
-type set in the metadata is "Palette", palette color will be used.
+Tif PNG nbtivf formbt fndodfs tif domplftf dontfnts of b PNG filf
+diunk by diunk, fxdfpt for tif IDAT diunks tibt dontbin tif bdtubl
+imbgf dbtb.  Ciunks tibt brf not dffinfd in tif PNG 1.2 spfdifidbtion
+brf storfd undfr tif <dodf>UnknownCiunks</dodf> flfmfnt.  Notf tibt it
+is tif rfsponsibility of bpplidbtion softwbrf to implfmfnt tif rulfs
+for PNG rfbdfrs, writfrs, bnd fditors (<i>f.g.</i>, tif rulfs
+dondfrning unsbff-to-dopy diunks) dfsdribfd in tif PNG spfdifidbtion.
+Tif Imbgf I/O librbry is not, in bnd of itsflf, b PNG rfbdfr, writfr,
+or fditor in tif sfnsf of tif spfdifidbtion.  Rbtifr, it is b tool
+tibt mby bf usfd to build PNG rfbdfrs, writfrs, bnd fditors.
+
+<p>
+
+Tif imbgf's bdtubl widti, ifigit, bit dfpti, bnd dolor typf will
+ovfrridf bny vblufs pbssfd to tif writfr vib mftbdbtb, witi onf
+fxdfption.  If tif imbgf ibs bn <dodf>IndfxColorModfl</dodf>, tif
+dolor tbblf fntrifs will bf difdkfd to dftfrminf if tify form b
+uniform grbysdblf rbmp. If so, tif imbgf will normblly bf fndodfd
+using bs grbysdblf instfbd of pblfttf dolor.  Howfvfr, if tif dolor
+typf sft in tif mftbdbtb is "Pblfttf", pblfttf dolor will bf usfd.
 
 <p>
  
-If no metadata is supplied when encoding an image, the header is
-initialized from the image being encoded, and no optional chunks are
-included.
+If no mftbdbtb is supplifd wifn fndoding bn imbgf, tif ifbdfr is
+initiblizfd from tif imbgf bfing fndodfd, bnd no optionbl diunks brf
+indludfd.
 
 <p>
 
-The semantics of the standard chunks are described in the <A
-HREF="http://www.libpng.org/pub/png/spec/">PNG specification</A>.
-Note that there are some restrictions on which chunks may appear
-for each color type. In particular,
+Tif sfmbntids of tif stbndbrd diunks brf dfsdribfd in tif <A
+HREF="ittp://www.libpng.org/pub/png/spfd/">PNG spfdifidbtion</A>.
+Notf tibt tifrf brf somf rfstridtions on wiidi diunks mby bppfbr
+for fbdi dolor typf. In pbrtidulbr,
 
 <ul>
-  <li>A <code>PLTE</code> chunk may not appear in a <code>Gray</code>
-or <code>GrayAlpha</code> image
+  <li>A <dodf>PLTE</dodf> diunk mby not bppfbr in b <dodf>Grby</dodf>
+or <dodf>GrbyAlpib</dodf> imbgf
 
-  <li><code>hIST</code> and <code>tRNS</code> chunks require a prior
-<code>PLTE</code> chunk
+  <li><dodf>iIST</dodf> bnd <dodf>tRNS</dodf> diunks rfquirf b prior
+<dodf>PLTE</dodf> diunk
 
-  <li>A <code>tRNS</code> chunk may not appear in
-<code>GrayAlpha</code> and <code>RGBA</code> images
+  <li>A <dodf>tRNS</dodf> diunk mby not bppfbr in
+<dodf>GrbyAlpib</dodf> bnd <dodf>RGBA</dodf> imbgfs
 </ul>
 
-The child nodes of the <code>bKGD</code>, <code>sBIT</code>, and
-<code>tRNS</code> chunks must match the image's color type.
+Tif diild nodfs of tif <dodf>bKGD</dodf>, <dodf>sBIT</dodf>, bnd
+<dodf>tRNS</dodf> diunks must mbtdi tif imbgf's dolor typf.
 
 <p> 
 
-Certain chunks may meaningfully appear multiple times in a PNG file,
-in particular the text-related chunks.  In order to simplify the
-metadata format, multiple instances of these chunks are consolidated
-under a single parent node (<i>e.g.</i>, the <code>tEXt</code> node),
-which may have zero or more children (<i>e.g.</i>,
-<code>tEXtEntry</code> nodes).  If no children are present, no chunk
-will be written.  Similarly, unknown chunks are stored as children of
-a single <code>UnknownChunks</code> node.
+Cfrtbin diunks mby mfbningfully bppfbr multiplf timfs in b PNG filf,
+in pbrtidulbr tif tfxt-rflbtfd diunks.  In ordfr to simplify tif
+mftbdbtb formbt, multiplf instbndfs of tifsf diunks brf donsolidbtfd
+undfr b singlf pbrfnt nodf (<i>f.g.</i>, tif <dodf>tEXt</dodf> nodf),
+wiidi mby ibvf zfro or morf diildrfn (<i>f.g.</i>,
+<dodf>tEXtEntry</dodf> nodfs).  If no diildrfn brf prfsfnt, no diunk
+will bf writtfn.  Similbrly, unknown diunks brf storfd bs diildrfn of
+b singlf <dodf>UnknownCiunks</dodf> nodf.
 
 <p>
 
-It is not possible to control the ordering of the chunks as they are
-written, or to determine the order of the chunks in a file being read.
+It is not possiblf to dontrol tif ordfring of tif diunks bs tify brf
+writtfn, or to dftfrminf tif ordfr of tif diunks in b filf bfing rfbd.
 
-<pre>
-&lt;!DOCTYPE "javax_imageio_png_1.0" [
+<prf>
+&lt;!DOCTYPE "jbvbx_imbgfio_png_1.0" [
 
-  &lt;!ELEMENT "javax_imageio_png_1.0" (IHDR?, PLTE?, bKGD?, cHRM?, 
-    gAMA?, hIST?, iCCP?, iTXt?, pHYS?, sBIT?, sPLT?, sRGB?, tEXt?, 
-    tIME?, tRNS?, zTXt?, UnknownChunks?)&gt;
+  &lt;!ELEMENT "jbvbx_imbgfio_png_1.0" (IHDR?, PLTE?, bKGD?, dHRM?, 
+    gAMA?, iIST?, iCCP?, iTXt?, pHYS?, sBIT?, sPLT?, sRGB?, tEXt?, 
+    tIME?, tRNS?, zTXt?, UnknownCiunks?)&gt;
 
     &lt;!ELEMENT "IHDR" EMPTY&gt;
-      &lt;!-- The IHDR chunk, containing the header --&gt;
-      &lt;!ATTLIST "IHDR" "width" #CDATA #REQUIRED&gt;
-        &lt;!-- The width of the image in pixels --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 2147483647 (inclusive) --&gt;
-      &lt;!ATTLIST "IHDR" "height" #CDATA #REQUIRED&gt;
-        &lt;!-- The height of the image in pixels --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 2147483647 (inclusive) --&gt;
-      &lt;!ATTLIST "IHDR" "bitDepth" ("1" | "2" | "4" | "8" | "16")
+      &lt;!-- Tif IHDR diunk, dontbining tif ifbdfr --&gt;
+      &lt;!ATTLIST "IHDR" "widti" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif widti of tif imbgf in pixfls --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 2147483647 (indlusivf) --&gt;
+      &lt;!ATTLIST "IHDR" "ifigit" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif ifigit of tif imbgf in pixfls --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 2147483647 (indlusivf) --&gt;
+      &lt;!ATTLIST "IHDR" "bitDfpti" ("1" | "2" | "4" | "8" | "16")
          #REQUIRED&gt;
-        &lt;!-- The bit depth of the image samples --&gt;
-      &lt;!ATTLIST "IHDR" "colorType" ("Grayscale" | "RGB" | "Palette" | 
-        "GrayAlpha" | "RGBAlpha") #REQUIRED&gt;
-        &lt;!-- The color type of the image --&gt;
-      &lt;!ATTLIST "IHDR" "compressionMethod" ("deflate") #REQUIRED&gt;
-        &lt;!-- The compression used for image data, always "deflate" --&gt;
-      &lt;!ATTLIST "IHDR" "filterMethod" ("adaptive") #REQUIRED&gt;
-        &lt;!-- The filtering method used for compression, always "adaptive" --&gt;
-      &lt;!ATTLIST "IHDR" "interlaceMethod" ("none" | "adam7") #REQUIRED&gt;
-        &lt;!-- The interlacing method, "none" or "adam7" --&gt;
+        &lt;!-- Tif bit dfpti of tif imbgf sbmplfs --&gt;
+      &lt;!ATTLIST "IHDR" "dolorTypf" ("Grbysdblf" | "RGB" | "Pblfttf" | 
+        "GrbyAlpib" | "RGBAlpib") #REQUIRED&gt;
+        &lt;!-- Tif dolor typf of tif imbgf --&gt;
+      &lt;!ATTLIST "IHDR" "domprfssionMftiod" ("dfflbtf") #REQUIRED&gt;
+        &lt;!-- Tif domprfssion usfd for imbgf dbtb, blwbys "dfflbtf" --&gt;
+      &lt;!ATTLIST "IHDR" "filtfrMftiod" ("bdbptivf") #REQUIRED&gt;
+        &lt;!-- Tif filtfring mftiod usfd for domprfssion, blwbys "bdbptivf" --&gt;
+      &lt;!ATTLIST "IHDR" "intfrlbdfMftiod" ("nonf" | "bdbm7") #REQUIRED&gt;
+        &lt;!-- Tif intfrlbding mftiod, "nonf" or "bdbm7" --&gt;
 
     &lt;!ELEMENT "PLTE" (PLTEEntry)*&gt;
-      &lt;!-- The PLTE chunk, containing the palette --&gt;
-      &lt;!-- Min children: 1 --&gt;
-      &lt;!-- Max children: 256 --&gt;
+      &lt;!-- Tif PLTE diunk, dontbining tif pblfttf --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
 
       &lt;!ELEMENT "PLTEEntry" EMPTY&gt;
-        &lt;!-- A palette entry --&gt;
-        &lt;!ATTLIST "PLTEEntry" "index" #CDATA #REQUIRED&gt;
-          &lt;!-- The index of a palette entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "PLTEEntry" "red" #CDATA #REQUIRED&gt;
-          &lt;!-- The red value of a palette entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "PLTEEntry" "green" #CDATA #REQUIRED&gt;
-          &lt;!-- The green value of a palette entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "PLTEEntry" "blue" #CDATA #REQUIRED&gt;
-          &lt;!-- The blue value of a palette entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+        &lt;!-- A pblfttf fntry --&gt;
+        &lt;!ATTLIST "PLTEEntry" "indfx" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif indfx of b pblfttf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "PLTEEntry" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif rfd vbluf of b pblfttf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "PLTEEntry" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif grffn vbluf of b pblfttf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "PLTEEntry" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif bluf vbluf of b pblfttf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-    &lt;!ELEMENT "bKGD" (bKGD_Grayscale | bKGD_RGB | bKGD_Palette)&gt;
-      &lt;!-- The bKGD chunk, containing the background color --&gt;
+    &lt;!ELEMENT "bKGD" (bKGD_Grbysdblf | bKGD_RGB | bKGD_Pblfttf)&gt;
+      &lt;!-- Tif bKGD diunk, dontbining tif bbdkground dolor --&gt;
 
-      &lt;!ELEMENT "bKGD_Grayscale" EMPTY&gt;
-        &lt;!-- A grayscale background color, for Gray and GrayAlpha images --&gt;
-        &lt;!ATTLIST "bKGD_Grayscale" "gray" #CDATA #REQUIRED&gt;
-          &lt;!-- A gray value to be used as a background --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
+      &lt;!ELEMENT "bKGD_Grbysdblf" EMPTY&gt;
+        &lt;!-- A grbysdblf bbdkground dolor, for Grby bnd GrbyAlpib imbgfs --&gt;
+        &lt;!ATTLIST "bKGD_Grbysdblf" "grby" #CDATA #REQUIRED&gt;
+          &lt;!-- A grby vbluf to bf usfd bs b bbdkground --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
 
       &lt;!ELEMENT "bKGD_RGB" EMPTY&gt;
-        &lt;!-- An RGB background color, for RGB and RGBAlpha images --&gt;
-        &lt;!ATTLIST "bKGD_RGB" "red" #CDATA #REQUIRED&gt;
-          &lt;!-- A red value to be used as a background --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "bKGD_RGB" "green" #CDATA #REQUIRED&gt;
-          &lt;!-- A green value to be used as a background --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "bKGD_RGB" "blue" #CDATA #REQUIRED&gt;
-          &lt;!-- A blue value to be used as a background --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
+        &lt;!-- An RGB bbdkground dolor, for RGB bnd RGBAlpib imbgfs --&gt;
+        &lt;!ATTLIST "bKGD_RGB" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- A rfd vbluf to bf usfd bs b bbdkground --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "bKGD_RGB" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- A grffn vbluf to bf usfd bs b bbdkground --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "bKGD_RGB" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- A bluf vbluf to bf usfd bs b bbdkground --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
 
-      &lt;!ELEMENT "bKGD_Palette" EMPTY&gt;
-        &lt;!-- A background palette index --&gt;
-        &lt;!ATTLIST "bKGD_Palette" "index" #CDATA #REQUIRED&gt;
-          &lt;!-- A palette index to be used as a background --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+      &lt;!ELEMENT "bKGD_Pblfttf" EMPTY&gt;
+        &lt;!-- A bbdkground pblfttf indfx --&gt;
+        &lt;!ATTLIST "bKGD_Pblfttf" "indfx" #CDATA #REQUIRED&gt;
+          &lt;!-- A pblfttf indfx to bf usfd bs b bbdkground --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-    &lt;!ELEMENT "cHRM" EMPTY&gt;
-      &lt;!-- The cHRM chunk, containing color calibration --&gt;
-      &lt;!ATTLIST "cHRM" "whitePointX" #CDATA #REQUIRED&gt;
-        &lt;!-- The CIE x coordinate of the white point, multiplied by 1e5 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "cHRM" "whitePointY" #CDATA #REQUIRED&gt;
-        &lt;!-- The CIE y coordinate of the white point, multiplied by 1e5 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "cHRM" "redX" #CDATA #REQUIRED&gt;
-        &lt;!-- The CIE x coordinate of the red primary, multiplied by 1e5 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "cHRM" "redY" #CDATA #REQUIRED&gt;
-        &lt;!-- The CIE y coordinate of the red primary, multiplied by 1e5 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "cHRM" "greenX" #CDATA #REQUIRED&gt;
-        &lt;!-- The CIE x coordinate of the green primary, multiplied by 1e5 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "cHRM" "greenY" #CDATA #REQUIRED&gt;
-        &lt;!-- The CIE y coordinate of the green primary, multiplied by 1e5 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "cHRM" "blueX" #CDATA #REQUIRED&gt;
-        &lt;!-- The CIE x coordinate of the blue primary, multiplied by 1e5 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "cHRM" "blueY" #CDATA #REQUIRED&gt;
-        &lt;!-- The CIE y coordinate of the blue primary, multiplied by 1e5 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
+    &lt;!ELEMENT "dHRM" EMPTY&gt;
+      &lt;!-- Tif dHRM diunk, dontbining dolor dblibrbtion --&gt;
+      &lt;!ATTLIST "dHRM" "wiitfPointX" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif CIE x doordinbtf of tif wiitf point, multiplifd by 1f5 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "dHRM" "wiitfPointY" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif CIE y doordinbtf of tif wiitf point, multiplifd by 1f5 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "dHRM" "rfdX" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif CIE x doordinbtf of tif rfd primbry, multiplifd by 1f5 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "dHRM" "rfdY" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif CIE y doordinbtf of tif rfd primbry, multiplifd by 1f5 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "dHRM" "grffnX" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif CIE x doordinbtf of tif grffn primbry, multiplifd by 1f5 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "dHRM" "grffnY" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif CIE y doordinbtf of tif grffn primbry, multiplifd by 1f5 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "dHRM" "blufX" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif CIE x doordinbtf of tif bluf primbry, multiplifd by 1f5 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "dHRM" "blufY" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif CIE y doordinbtf of tif bluf primbry, multiplifd by 1f5 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
 
     &lt;!ELEMENT "gAMA" EMPTY&gt;
-      &lt;!-- The gAMA chunk, containing the image gamma --&gt;
-      &lt;!ATTLIST "gAMA" "value" #CDATA #REQUIRED&gt;
-        &lt;!-- The image gamma, multiplied by 1e5 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 2147483647 (inclusive) --&gt;
+      &lt;!-- Tif gAMA diunk, dontbining tif imbgf gbmmb --&gt;
+      &lt;!ATTLIST "gAMA" "vbluf" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif imbgf gbmmb, multiplifd by 1f5 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 2147483647 (indlusivf) --&gt;
 
-    &lt;!ELEMENT "hIST" (hISTEntry)*&gt;
-      &lt;!-- The hIST chunk, containing histogram information  --&gt;
-      &lt;!-- Min children: 1 --&gt;
-      &lt;!-- Max children: 256 --&gt;
+    &lt;!ELEMENT "iIST" (iISTEntry)*&gt;
+      &lt;!-- Tif iIST diunk, dontbining iistogrbm informbtion  --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
 
-      &lt;!ELEMENT "hISTEntry" EMPTY&gt;
-        &lt;!-- A histogram entry --&gt;
-        &lt;!ATTLIST "hISTEntry" "index" #CDATA #REQUIRED&gt;
-          &lt;!-- The palette index of this histogram entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "hISTEntry" "value" #CDATA #REQUIRED&gt;
-          &lt;!-- The frequency of this histogram entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
+      &lt;!ELEMENT "iISTEntry" EMPTY&gt;
+        &lt;!-- A iistogrbm fntry --&gt;
+        &lt;!ATTLIST "iISTEntry" "indfx" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif pblfttf indfx of tiis iistogrbm fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "iISTEntry" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif frfqufndy of tiis iistogrbm fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
 
     &lt;!ELEMENT "iCCP" EMPTY&gt;
-      &lt;!-- The iCCP chunk, containing an ICC color profile --&gt;
-      &lt;!-- User object: array of byte --&gt;
-      &lt;!-- Min length: 0 --&gt;
-      &lt;!-- Max length: 2147483647 --&gt;
-      &lt;!ATTLIST "iCCP" "profileName" #CDATA #REQUIRED&gt;
-        &lt;!-- The name of this ICC profile --&gt;
-        &lt;!-- Data type: String --&gt;
-      &lt;!ATTLIST "iCCP" "compressionMethod" ("deflate") #REQUIRED&gt;
-        &lt;!-- The compression method used to store this ICC profile --&gt;
+      &lt;!-- Tif iCCP diunk, dontbining bn ICC dolor profilf --&gt;
+      &lt;!-- Usfr objfdt: brrby of bytf --&gt;
+      &lt;!-- Min lfngti: 0 --&gt;
+      &lt;!-- Mbx lfngti: 2147483647 --&gt;
+      &lt;!ATTLIST "iCCP" "profilfNbmf" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif nbmf of tiis ICC profilf --&gt;
+        &lt;!-- Dbtb typf: String --&gt;
+      &lt;!ATTLIST "iCCP" "domprfssionMftiod" ("dfflbtf") #REQUIRED&gt;
+        &lt;!-- Tif domprfssion mftiod usfd to storf tiis ICC profilf --&gt;
 
     &lt;!ELEMENT "iTXt" (iTXtEntry)*&gt;
-      &lt;!-- The iTXt chunk, containing internationalized text --&gt;
-      &lt;!-- Min children: 1 --&gt;
-      &lt;!-- Max children: 2147483647 --&gt;
+      &lt;!-- Tif iTXt diunk, dontbining intfrnbtionblizfd tfxt --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
 
       &lt;!ELEMENT "iTXtEntry" EMPTY&gt;
-        &lt;!-- A localized text entry --&gt;
-        &lt;!ATTLIST "iTXtEntry" "keyword" #CDATA #REQUIRED&gt;
-          &lt;!-- The keyword --&gt;
-          &lt;!-- Data type: String --&gt;
-        &lt;!ATTLIST "iTXtEntry" "compressionFlag" ("TRUE" | "FALSE")
+        &lt;!-- A lodblizfd tfxt fntry --&gt;
+        &lt;!ATTLIST "iTXtEntry" "kfyword" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif kfyword --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "iTXtEntry" "domprfssionFlbg" ("TRUE" | "FALSE")
            #REQUIRED&gt;
-        &lt;!ATTLIST "iTXtEntry" "compressionMethod" #CDATA #REQUIRED&gt;
-          &lt;!-- The compression method used to store this iTXt entry --&gt;
-          &lt;!-- Data type: String --&gt;
-        &lt;!ATTLIST "iTXtEntry" "languageTag" #CDATA #REQUIRED&gt;
-          &lt;!-- The ISO tag describing the language this iTXt entry --&gt;
-          &lt;!-- Data type: String --&gt;
-        &lt;!ATTLIST "iTXtEntry" "translatedKeyword" #CDATA #REQUIRED&gt;
-          &lt;!-- The translated keyword for iTXt entry --&gt;
-          &lt;!-- Data type: String --&gt;
-        &lt;!ATTLIST "iTXtEntry" "text" #CDATA #REQUIRED&gt;
-          &lt;!-- The localized text --&gt;
-          &lt;!-- Data type: String --&gt;
+        &lt;!ATTLIST "iTXtEntry" "domprfssionMftiod" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif domprfssion mftiod usfd to storf tiis iTXt fntry --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "iTXtEntry" "lbngubgfTbg" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif ISO tbg dfsdribing tif lbngubgf tiis iTXt fntry --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "iTXtEntry" "trbnslbtfdKfyword" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif trbnslbtfd kfyword for iTXt fntry --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "iTXtEntry" "tfxt" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif lodblizfd tfxt --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
 
     &lt;!ELEMENT "pHYS" EMPTY&gt;
-      &lt;!-- The pHYS chunk, containing the pixel size and aspect ratio --&gt;
-      &lt;!ATTLIST "pHYS" "pixelsPerUnitXAxis" #CDATA #REQUIRED&gt;
-        &lt;!-- The number of horizontal pixels per unit, multiplied by 1e5 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 2147483647 (inclusive) --&gt;
-      &lt;!ATTLIST "pHYS" "pixelsPerUnitYAxis" #CDATA #REQUIRED&gt;
-        &lt;!-- The number of vertical pixels per unit, multiplied by 1e5 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 2147483647 (inclusive) --&gt;
-      &lt;!ATTLIST "pHYS" "unitSpecifier" ("unknown" | "meter") #REQUIRED&gt;
-        &lt;!-- The unit specifier for this chunk (i.e., meters) --&gt;
+      &lt;!-- Tif pHYS diunk, dontbining tif pixfl sizf bnd bspfdt rbtio --&gt;
+      &lt;!ATTLIST "pHYS" "pixflsPfrUnitXAxis" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif numbfr of iorizontbl pixfls pfr unit, multiplifd by 1f5 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 2147483647 (indlusivf) --&gt;
+      &lt;!ATTLIST "pHYS" "pixflsPfrUnitYAxis" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif numbfr of vfrtidbl pixfls pfr unit, multiplifd by 1f5 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 2147483647 (indlusivf) --&gt;
+      &lt;!ATTLIST "pHYS" "unitSpfdififr" ("unknown" | "mftfr") #REQUIRED&gt;
+        &lt;!-- Tif unit spfdififr for tiis diunk (i.f., mftfrs) --&gt;
 
-    &lt;!ELEMENT "sBIT" (sBIT_Grayscale | sBIT_GrayAlpha | sBIT_RGB | 
-      sBIT_RGBAlpha | sBIT_Palette)&gt;
-      &lt;!-- The sBIT chunk, containing significant bit information --&gt;
+    &lt;!ELEMENT "sBIT" (sBIT_Grbysdblf | sBIT_GrbyAlpib | sBIT_RGB | 
+      sBIT_RGBAlpib | sBIT_Pblfttf)&gt;
+      &lt;!-- Tif sBIT diunk, dontbining signifidbnt bit informbtion --&gt;
 
-      &lt;!ELEMENT "sBIT_Grayscale" EMPTY&gt;
-        &lt;!-- Significant bit information for gray samples --&gt;
-        &lt;!ATTLIST "sBIT_Grayscale" "gray" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the gray samples --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+      &lt;!ELEMENT "sBIT_Grbysdblf" EMPTY&gt;
+        &lt;!-- Signifidbnt bit informbtion for grby sbmplfs --&gt;
+        &lt;!ATTLIST "sBIT_Grbysdblf" "grby" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif grby sbmplfs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-      &lt;!ELEMENT "sBIT_GrayAlpha" EMPTY&gt;
-        &lt;!-- Significant bit information for gray and alpha samples --&gt;
-        &lt;!ATTLIST "sBIT_GrayAlpha" "gray" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the gray samples --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sBIT_GrayAlpha" "alpha" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the alpha samples --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+      &lt;!ELEMENT "sBIT_GrbyAlpib" EMPTY&gt;
+        &lt;!-- Signifidbnt bit informbtion for grby bnd blpib sbmplfs --&gt;
+        &lt;!ATTLIST "sBIT_GrbyAlpib" "grby" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif grby sbmplfs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sBIT_GrbyAlpib" "blpib" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif blpib sbmplfs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
       &lt;!ELEMENT "sBIT_RGB" EMPTY&gt;
-        &lt;!-- Significant bit information for RGB samples --&gt;
-        &lt;!ATTLIST "sBIT_RGB" "red" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the red samples --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sBIT_RGB" "green" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the green samples --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sBIT_RGB" "blue" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the blue samples --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+        &lt;!-- Signifidbnt bit informbtion for RGB sbmplfs --&gt;
+        &lt;!ATTLIST "sBIT_RGB" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif rfd sbmplfs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sBIT_RGB" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif grffn sbmplfs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sBIT_RGB" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif bluf sbmplfs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-      &lt;!ELEMENT "sBIT_RGBAlpha" EMPTY&gt;
-        &lt;!-- Significant bit information for RGBA samples --&gt;
-        &lt;!ATTLIST "sBIT_RGBAlpha" "red" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the red samples --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sBIT_RGBAlpha" "green" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the green samples --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sBIT_RGBAlpha" "blue" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the blue samples --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sBIT_RGBAlpha" "alpha" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the alpha samples --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+      &lt;!ELEMENT "sBIT_RGBAlpib" EMPTY&gt;
+        &lt;!-- Signifidbnt bit informbtion for RGBA sbmplfs --&gt;
+        &lt;!ATTLIST "sBIT_RGBAlpib" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif rfd sbmplfs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sBIT_RGBAlpib" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif grffn sbmplfs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sBIT_RGBAlpib" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif bluf sbmplfs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sBIT_RGBAlpib" "blpib" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif blpib sbmplfs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-      &lt;!ELEMENT "sBIT_Palette" EMPTY&gt;
-        &lt;!-- Significant bit information for RGB palette entries --&gt;
-        &lt;!ATTLIST "sBIT_Palette" "red" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the red palette entries --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sBIT_Palette" "green" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the green palette entries --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sBIT_Palette" "blue" #CDATA #REQUIRED&gt;
-          &lt;!-- The number of significant bits of the blue palette entries --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+      &lt;!ELEMENT "sBIT_Pblfttf" EMPTY&gt;
+        &lt;!-- Signifidbnt bit informbtion for RGB pblfttf fntrifs --&gt;
+        &lt;!ATTLIST "sBIT_Pblfttf" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif rfd pblfttf fntrifs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sBIT_Pblfttf" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif grffn pblfttf fntrifs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sBIT_Pblfttf" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif numbfr of signifidbnt bits of tif bluf pblfttf fntrifs --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
     &lt;!ELEMENT "sPLT" (sPLTEntry)*&gt;
-      &lt;!-- The sPLT chunk, containing a suggested palette --&gt;
-      &lt;!-- Min children: 1 --&gt;
-      &lt;!-- Max children: 256 --&gt;
+      &lt;!-- Tif sPLT diunk, dontbining b suggfstfd pblfttf --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
 
       &lt;!ELEMENT "sPLTEntry" EMPTY&gt;
-        &lt;!-- A suggested palette entry --&gt;
-        &lt;!ATTLIST "sPLTEntry" "index" #CDATA #REQUIRED&gt;
-          &lt;!-- The index of a suggested palette entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sPLTEntry" "red" #CDATA #REQUIRED&gt;
-          &lt;!-- The red value of a suggested palette entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sPLTEntry" "green" #CDATA #REQUIRED&gt;
-          &lt;!-- The green value of a suggested palette entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sPLTEntry" "blue" #CDATA #REQUIRED&gt;
-          &lt;!-- The blue value of a suggested palette entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "sPLTEntry" "alpha" #CDATA #REQUIRED&gt;
-          &lt;!-- The blue value of a suggested palette entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+        &lt;!-- A suggfstfd pblfttf fntry --&gt;
+        &lt;!ATTLIST "sPLTEntry" "indfx" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif indfx of b suggfstfd pblfttf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sPLTEntry" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif rfd vbluf of b suggfstfd pblfttf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sPLTEntry" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif grffn vbluf of b suggfstfd pblfttf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sPLTEntry" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif bluf vbluf of b suggfstfd pblfttf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "sPLTEntry" "blpib" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif bluf vbluf of b suggfstfd pblfttf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
     &lt;!ELEMENT "sRGB" EMPTY&gt;
-      &lt;!-- The sRGB chunk, containing rendering intent information --&gt;
-      &lt;!ATTLIST "sRGB" "renderingIntent" ("Perceptual" | 
-        "Relative colorimetric" | "Saturation" | 
-        "Absolute colorimetric") #REQUIRED&gt;
-        &lt;!-- The rendering intent --&gt;
+      &lt;!-- Tif sRGB diunk, dontbining rfndfring intfnt informbtion --&gt;
+      &lt;!ATTLIST "sRGB" "rfndfringIntfnt" ("Pfrdfptubl" | 
+        "Rflbtivf dolorimftrid" | "Sbturbtion" | 
+        "Absolutf dolorimftrid") #REQUIRED&gt;
+        &lt;!-- Tif rfndfring intfnt --&gt;
 
     &lt;!ELEMENT "tEXt" (tEXtEntry)*&gt;
-      &lt;!-- The tEXt chunk, containing text --&gt;
-      &lt;!-- Min children: 1 --&gt;
-      &lt;!-- Max children: 2147483647 --&gt;
+      &lt;!-- Tif tEXt diunk, dontbining tfxt --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
 
       &lt;!ELEMENT "tEXtEntry" EMPTY&gt;
-        &lt;!-- A text entry --&gt;
-        &lt;!ATTLIST "tEXtEntry" "keyword" #CDATA #REQUIRED&gt;
-          &lt;!-- The keyword --&gt;
-          &lt;!-- Data type: String --&gt;
-        &lt;!ATTLIST "tEXtEntry" "value" #CDATA #REQUIRED&gt;
-          &lt;!-- The text --&gt;
-          &lt;!-- Data type: String --&gt;
+        &lt;!-- A tfxt fntry --&gt;
+        &lt;!ATTLIST "tEXtEntry" "kfyword" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif kfyword --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "tEXtEntry" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif tfxt --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
 
     &lt;!ELEMENT "tIME" EMPTY&gt;
-      &lt;!-- The tIME chunk, containing the image modification time --&gt;
-      &lt;!ATTLIST "tIME" "year" #CDATA #REQUIRED&gt;
-        &lt;!-- The year when the image was last modified --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "tIME" "month" #CDATA #REQUIRED&gt;
-        &lt;!-- The month when the image was last modified, 1 = January --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 12 (inclusive) --&gt;
-      &lt;!ATTLIST "tIME" "day" #CDATA #REQUIRED&gt;
-        &lt;!-- The day of the month when the image was last modified --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 31 (inclusive) --&gt;
-      &lt;!ATTLIST "tIME" "hour" #CDATA #REQUIRED&gt;
-        &lt;!-- The hour when the image was last modified --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 23 (inclusive) --&gt;
-      &lt;!ATTLIST "tIME" "minute" #CDATA #REQUIRED&gt;
-        &lt;!-- The minute when the image was last modified --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 59 (inclusive) --&gt;
-      &lt;!ATTLIST "tIME" "second" #CDATA #REQUIRED&gt;
-        &lt;!-- The second when the image was last modified, 60 = leap second --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 60 (inclusive) --&gt;
+      &lt;!-- Tif tIME diunk, dontbining tif imbgf modifidbtion timf --&gt;
+      &lt;!ATTLIST "tIME" "yfbr" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif yfbr wifn tif imbgf wbs lbst modififd --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "tIME" "monti" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif monti wifn tif imbgf wbs lbst modififd, 1 = Jbnubry --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 12 (indlusivf) --&gt;
+      &lt;!ATTLIST "tIME" "dby" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif dby of tif monti wifn tif imbgf wbs lbst modififd --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 31 (indlusivf) --&gt;
+      &lt;!ATTLIST "tIME" "iour" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif iour wifn tif imbgf wbs lbst modififd --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 23 (indlusivf) --&gt;
+      &lt;!ATTLIST "tIME" "minutf" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif minutf wifn tif imbgf wbs lbst modififd --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 59 (indlusivf) --&gt;
+      &lt;!ATTLIST "tIME" "sfdond" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif sfdond wifn tif imbgf wbs lbst modififd, 60 = lfbp sfdond --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 60 (indlusivf) --&gt;
 
-    &lt;!ELEMENT "tRNS" (tRNS_Grayscale | tRNS_RGB | tRNS_Palette)&gt;
-      &lt;!-- The tRNS chunk, containing transparency information --&gt;
+    &lt;!ELEMENT "tRNS" (tRNS_Grbysdblf | tRNS_RGB | tRNS_Pblfttf)&gt;
+      &lt;!-- Tif tRNS diunk, dontbining trbnspbrfndy informbtion --&gt;
 
-      &lt;!ELEMENT "tRNS_Grayscale" EMPTY&gt;
-        &lt;!-- A grayscale value that should be considered transparent --&gt;
-        &lt;!ATTLIST "tRNS_Grayscale" "gray" #CDATA #REQUIRED&gt;
-          &lt;!-- The gray value to be considered transparent --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
+      &lt;!ELEMENT "tRNS_Grbysdblf" EMPTY&gt;
+        &lt;!-- A grbysdblf vbluf tibt siould bf donsidfrfd trbnspbrfnt --&gt;
+        &lt;!ATTLIST "tRNS_Grbysdblf" "grby" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif grby vbluf to bf donsidfrfd trbnspbrfnt --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
 
       &lt;!ELEMENT "tRNS_RGB" EMPTY&gt;
-        &lt;!-- An RGB value that should be considered transparent --&gt;
-        &lt;!ATTLIST "tRNS_RGB" "red" #CDATA #REQUIRED&gt;
-          &lt;!-- The red value to be considered transparent --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "tRNS_RGB" "green" #CDATA #REQUIRED&gt;
-          &lt;!-- The green value to be considered transparent --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "tRNS_RGB" "blue" #CDATA #REQUIRED&gt;
-          &lt;!-- The blure value to be considered transparent --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
+        &lt;!-- An RGB vbluf tibt siould bf donsidfrfd trbnspbrfnt --&gt;
+        &lt;!ATTLIST "tRNS_RGB" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif rfd vbluf to bf donsidfrfd trbnspbrfnt --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "tRNS_RGB" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif grffn vbluf to bf donsidfrfd trbnspbrfnt --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "tRNS_RGB" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif blurf vbluf to bf donsidfrfd trbnspbrfnt --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
 
-      &lt;!ELEMENT "tRNS_Palette" EMPTY&gt;
-        &lt;!-- A palette index that should be considered transparent --&gt;
-        &lt;!ATTLIST "tRNS_Palette" "index" #CDATA #REQUIRED&gt;
-          &lt;!-- A palette index to be considered transparent --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "tRNS_Palette" "alpha" #CDATA #REQUIRED&gt;
-          &lt;!-- The transparency associated with the palette entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+      &lt;!ELEMENT "tRNS_Pblfttf" EMPTY&gt;
+        &lt;!-- A pblfttf indfx tibt siould bf donsidfrfd trbnspbrfnt --&gt;
+        &lt;!ATTLIST "tRNS_Pblfttf" "indfx" #CDATA #REQUIRED&gt;
+          &lt;!-- A pblfttf indfx to bf donsidfrfd trbnspbrfnt --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "tRNS_Pblfttf" "blpib" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif trbnspbrfndy bssodibtfd witi tif pblfttf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
     &lt;!ELEMENT "zTXt" (zTXtEntry)*&gt;
-      &lt;!-- The zTXt chunk, containing compressed text --&gt;
-      &lt;!-- Min children: 1 --&gt;
-      &lt;!-- Max children: 2147483647 --&gt;
+      &lt;!-- Tif zTXt diunk, dontbining domprfssfd tfxt --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
 
       &lt;!ELEMENT "zTXtEntry" EMPTY&gt;
-        &lt;!-- A compressed text entry --&gt;
-        &lt;!-- User object: array of byte --&gt;
-        &lt;!-- Min length: 0 --&gt;
-        &lt;!-- Max length: 2147483647 --&gt;
-        &lt;!ATTLIST "zTXtEntry" "keyword" #CDATA #REQUIRED&gt;
-          &lt;!-- The keyword --&gt;
-          &lt;!-- Data type: String --&gt;
-        &lt;!ATTLIST "zTXtEntry" "compressionMethod" ("deflate")
+        &lt;!-- A domprfssfd tfxt fntry --&gt;
+        &lt;!-- Usfr objfdt: brrby of bytf --&gt;
+        &lt;!-- Min lfngti: 0 --&gt;
+        &lt;!-- Mbx lfngti: 2147483647 --&gt;
+        &lt;!ATTLIST "zTXtEntry" "kfyword" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif kfyword --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "zTXtEntry" "domprfssionMftiod" ("dfflbtf")
            #REQUIRED&gt;
-          &lt;!-- The compressed text --&gt;
+          &lt;!-- Tif domprfssfd tfxt --&gt;
 
-    &lt;!ELEMENT "UnknownChunks" (UnknownChunk)*&gt;
-      &lt;!-- A set of unknown chunks --&gt;
-      &lt;!-- Min children: 1 --&gt;
-      &lt;!-- Max children: 2147483647 --&gt;
+    &lt;!ELEMENT "UnknownCiunks" (UnknownCiunk)*&gt;
+      &lt;!-- A sft of unknown diunks --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
 
-      &lt;!ELEMENT "UnknownChunk" EMPTY&gt;
-        &lt;!-- Unknown chunk data stored as a byte array --&gt;
-        &lt;!-- User object: array of byte --&gt;
-        &lt;!-- Min length: 0 --&gt;
-        &lt;!-- Max length: 2147483647 --&gt;
-        &lt;!ATTLIST "UnknownChunk" "type" #CDATA #REQUIRED&gt;
-          &lt;!-- The 4-character type of the unknown chunk --&gt;
-          &lt;!-- Data type: String --&gt;
+      &lt;!ELEMENT "UnknownCiunk" EMPTY&gt;
+        &lt;!-- Unknown diunk dbtb storfd bs b bytf brrby --&gt;
+        &lt;!-- Usfr objfdt: brrby of bytf --&gt;
+        &lt;!-- Min lfngti: 0 --&gt;
+        &lt;!-- Mbx lfngti: 2147483647 --&gt;
+        &lt;!ATTLIST "UnknownCiunk" "typf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif 4-dibrbdtfr typf of tif unknown diunk --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
 ]&gt;
-</pre>
+</prf>
 
 </body>
-</html>
+</itml>

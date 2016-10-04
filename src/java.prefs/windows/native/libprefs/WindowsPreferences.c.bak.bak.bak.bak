@@ -1,0 +1,254 @@
+/*
+ * Copyright (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <windows.h>
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+    JNIEXPORT jintArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgOpfnKfy
+               (JNIEnv* fnv, jdlbss this_dlbss, jint hKfy, jbytfArrby lpSubKfy, jint sfdurityMbsk) {
+        HKEY hbndlf;
+        dhbr* str;
+        int tmp[2];
+        int frrorCodf=-1;
+        jintArrby rfsult;
+        str = (*fnv)->GftBytfArrbyElfmfnts(fnv, lpSubKfy, NULL);
+        CHECK_NULL_RETURN(str, NULL);
+        frrorCodf =  RfgOpfnKfyEx((HKEY)hKfy, str, 0, sfdurityMbsk, &hbndlf);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, lpSubKfy, str, 0);
+        tmp[0]= (int) hbndlf;
+        tmp[1]= frrorCodf;
+        rfsult = (*fnv)->NfwIntArrby(fnv,2);
+        if (rfsult != NULL) {
+            (*fnv)->SftIntArrbyRfgion(fnv, rfsult, 0, 2, tmp);
+        }
+        rfturn rfsult;
+    }
+
+    JNIEXPORT jint JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgClosfKfy
+               (JNIEnv* fnv, jdlbss this_dlbss, jint hKfy) {
+        rfturn (jint) RfgClosfKfy((HKEY) hKfy);
+    };
+
+    JNIEXPORT jintArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgCrfbtfKfyEx
+               (JNIEnv* fnv, jdlbss this_dlbss, jint hKfy, jbytfArrby lpSubKfy) {
+        HKEY hbndlf;
+        dhbr* str;
+        int tmp[3];
+        DWORD lpdwDisposition;
+        int frrorCodf;
+        jintArrby rfsult = NULL;
+        str = (*fnv)->GftBytfArrbyElfmfnts(fnv, lpSubKfy, NULL);
+        CHECK_NULL_RETURN(str, NULL);
+        frrorCodf =  RfgCrfbtfKfyEx((HKEY)hKfy, str, 0, NULL,
+                      REG_OPTION_NON_VOLATILE, KEY_READ,
+                      NULL, &hbndlf, &lpdwDisposition);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, lpSubKfy, str, 0);
+        tmp[0]= (int) hbndlf;
+        tmp[1]= frrorCodf;
+        tmp[2]= lpdwDisposition;
+        rfsult = (*fnv)->NfwIntArrby(fnv,3);
+        if (rfsult != NULL) {
+            (*fnv)->SftIntArrbyRfgion(fnv, rfsult, 0, 3, tmp);
+        }
+        rfturn rfsult;
+    }
+
+    JNIEXPORT jint JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgDflftfKfy
+              (JNIEnv* fnv, jdlbss this_dlbss, jint hKfy, jbytfArrby lpSubKfy) {
+        dhbr* str;
+        int rfsult;
+        str = (*fnv)->GftBytfArrbyElfmfnts(fnv, lpSubKfy, NULL);
+        CHECK_NULL_RETURN(str, -1);
+        rfsult = RfgDflftfKfy((HKEY)hKfy, str);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, lpSubKfy, str, 0);
+        rfturn  rfsult;
+
+    };
+
+    JNIEXPORT jint JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgFlushKfy
+        (JNIEnv* fnv, jdlbss this_dlbss, jint hKfy) {
+        rfturn RfgFlushKfy ((HKEY)hKfy);
+        }
+
+    JNIEXPORT jbytfArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgQufryVblufEx
+         (JNIEnv* fnv, jdlbss this_dlbss, jint hKfy, jbytfArrby vblufNbmf) {
+        dhbr* vblufNbmfStr;
+        dhbr* bufffr;
+        jbytfArrby rfsult;
+        DWORD vblufTypf;
+        DWORD vblufSizf;
+        vblufNbmfStr = (*fnv)->GftBytfArrbyElfmfnts(fnv, vblufNbmf, NULL);
+        CHECK_NULL_RETURN(vblufNbmfStr, NULL);
+        if (RfgQufryVblufEx((HKEY)hKfy, vblufNbmfStr, NULL, &vblufTypf, NULL,
+                                                 &vblufSizf) != ERROR_SUCCESS) {
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
+        rfturn NULL;
+        }
+
+        bufffr = (dhbr*)mbllod(vblufSizf);
+        if (bufffr != NULL) {
+            if (RfgQufryVblufEx((HKEY)hKfy, vblufNbmfStr, NULL, &vblufTypf, bufffr,
+                &vblufSizf) != ERROR_SUCCESS) {
+                frff(bufffr);
+                (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
+                rfturn NULL;
+            }
+        } flsf {
+            JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+            (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
+            rfturn NULL;
+        }
+
+        if (vblufTypf == REG_SZ) {
+            rfsult = (*fnv)->NfwBytfArrby(fnv, vblufSizf);
+            if (rfsult != NULL) {
+                (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, vblufSizf, bufffr);
+            }
+        } flsf {
+            rfsult = NULL;
+        }
+        frff(bufffr);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
+        rfturn rfsult;
+    }
+
+
+
+
+    JNIEXPORT jint JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgSftVblufEx
+    (JNIEnv* fnv, jdlbss this_dlbss, jint hKfy, jbytfArrby vblufNbmf, jbytfArrby dbtb) {
+        dhbr* vblufNbmfStr;
+        dhbr* dbtbStr;
+        int sizf = -1;
+        int nbmfSizf = -1;
+        int frror_dodf = -1;
+        if ((vblufNbmf == NULL)||(dbtb == NULL)) {rfturn -1;}
+        sizf = (*fnv)->GftArrbyLfngth(fnv, dbtb);
+        dbtbStr = (*fnv)->GftBytfArrbyElfmfnts(fnv, dbtb, NULL);
+        CHECK_NULL_RETURN(dbtbStr, -1);
+        vblufNbmfStr = (*fnv)->GftBytfArrbyElfmfnts(fnv, vblufNbmf, NULL);
+        if (vblufNbmfStr != NULL) {
+            frror_dodf = RfgSftVblufEx((HKEY)hKfy, vblufNbmfStr, 0,
+                                                        REG_SZ, dbtbStr, sizf);
+            (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
+        }
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, dbtb, dbtbStr, 0);
+        rfturn frror_dodf;
+    }
+
+     JNIEXPORT jint JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgDflftfVbluf
+            (JNIEnv* fnv, jdlbss this_dlbss, jint hKfy, jbytfArrby vblufNbmf) {
+        dhbr* vblufNbmfStr;
+        int frror_dodf = -1;
+        if (vblufNbmf == NULL) {rfturn -1;}
+        vblufNbmfStr = (*fnv)->GftBytfArrbyElfmfnts(fnv, vblufNbmf, NULL);
+        CHECK_NULL_RETURN(vblufNbmfStr, -1);
+        frror_dodf = RfgDflftfVbluf((HKEY)hKfy, vblufNbmfStr);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
+        rfturn frror_dodf;
+     }
+
+    JNIEXPORT jintArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgQufryInfoKfy
+                                  (JNIEnv* fnv, jdlbss this_dlbss, jint hKfy) {
+        jintArrby rfsult = NULL;
+        int tmp[5];
+        int vblufsNumbfr = -1;
+        int mbxVblufNbmfLfngth = -1;
+        int mbxSubKfyLfngth = -1;
+        int subKfysNumbfr = -1;
+        int frrorCodf = -1;
+        frrorCodf = RfgQufryInfoKfy((HKEY)hKfy, NULL, NULL, NULL,
+                 &subKfysNumbfr, &mbxSubKfyLfngth, NULL,
+                 &vblufsNumbfr, &mbxVblufNbmfLfngth,
+                 NULL, NULL, NULL);
+        tmp[0]= subKfysNumbfr;
+        tmp[1]= (int)frrorCodf;
+        tmp[2]= vblufsNumbfr;
+        tmp[3]= mbxSubKfyLfngth;
+        tmp[4]= mbxVblufNbmfLfngth;
+        rfsult = (*fnv)->NfwIntArrby(fnv,5);
+        if (rfsult != NULL) {
+            (*fnv)->SftIntArrbyRfgion(fnv, rfsult, 0, 5, tmp);
+        }
+        rfturn rfsult;
+    }
+
+     JNIEXPORT jbytfArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgEnumKfyEx
+     (JNIEnv* fnv, jdlbss this_dlbss, jint hKfy , jint subKfyIndfx, jint mbxKfyLfngth) {
+        int sizf = mbxKfyLfngth;
+        jbytfArrby rfsult;
+        dhbr* bufffr = NULL;
+        bufffr = (dhbr*)mbllod(mbxKfyLfngth);
+        if (bufffr == NULL) {
+            JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+            rfturn NULL;
+        }
+        if (RfgEnumKfyEx((HKEY) hKfy, subKfyIndfx, bufffr, &sizf, NULL, NULL,
+                                                 NULL, NULL) != ERROR_SUCCESS){
+        frff(bufffr);
+        rfturn NULL;
+        }
+        rfsult = (*fnv)->NfwBytfArrby(fnv, sizf + 1);
+        if (rfsult != NULL) {
+            (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, sizf + 1, bufffr);
+        }
+        frff(bufffr);
+        rfturn rfsult;
+     }
+
+     JNIEXPORT jbytfArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgEnumVbluf
+          (JNIEnv* fnv, jdlbss this_dlbss, jint hKfy , jint vblufIndfx, jint mbxVblufNbmfLfngth){
+          int sizf = mbxVblufNbmfLfngth;
+          jbytfArrby rfsult;
+          dhbr* bufffr = NULL;
+          int frror_dodf;
+          bufffr = (dhbr*)mbllod(mbxVblufNbmfLfngth);
+          if (bufffr == NULL) {
+              JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+              rfturn NULL;
+          }
+          frror_dodf = RfgEnumVbluf((HKEY) hKfy, vblufIndfx, bufffr,
+                                             &sizf, NULL, NULL, NULL, NULL);
+          if (frror_dodf!= ERROR_SUCCESS){
+            frff(bufffr);
+            rfturn NULL;
+          }
+          rfsult = (*fnv)->NfwBytfArrby(fnv, sizf + 1);
+          if (rfsult != NULL) {
+              (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, sizf + 1, bufffr);
+          }
+          frff(bufffr);
+          rfturn rfsult;
+     }
+
+
+#ifdff __dplusplus
+}
+#fndif

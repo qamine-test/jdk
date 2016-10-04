@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+
+/**
+ * A trbnspbrfnt strfbm thbt updbtfs thf bssodibtfd mfssbgf digfst using
+ * thf bits going through thf strfbm.
+ *
+ * <p>To domplftf thf mfssbgf digfst domputbtion, dbll onf of thf
+ * {@dodf digfst} mfthods on thf bssodibtfd mfssbgf
+ * digfst bftfr your dblls to onf of this digfst output strfbm's
+ * {@link #writf(int) writf} mfthods.
+ *
+ * <p>It is possiblf to turn this strfbm on or off (sff
+ * {@link #on(boolfbn) on}). Whfn it is on, b dbll to onf of thf
+ * {@dodf writf} mfthods rfsults in
+ * bn updbtf on thf mfssbgf digfst.  But whfn it is off, thf mfssbgf
+ * digfst is not updbtfd. Thf dffbult is for thf strfbm to bf on.
+ *
+ * @sff MfssbgfDigfst
+ * @sff DigfstInputStrfbm
+ *
+ * @buthor Bfnjbmin Rfnbud
+ */
+publid dlbss DigfstOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+
+    privbtf boolfbn on = truf;
+
+    /**
+     * Thf mfssbgf digfst bssodibtfd with this strfbm.
+     */
+    protfdtfd MfssbgfDigfst digfst;
+
+    /**
+     * Crfbtfs b digfst output strfbm, using thf spfdififd output strfbm
+     * bnd mfssbgf digfst.
+     *
+     * @pbrbm strfbm thf output strfbm.
+     *
+     * @pbrbm digfst thf mfssbgf digfst to bssodibtf with this strfbm.
+     */
+    publid DigfstOutputStrfbm(OutputStrfbm strfbm, MfssbgfDigfst digfst) {
+        supfr(strfbm);
+        sftMfssbgfDigfst(digfst);
+    }
+
+    /**
+     * Rfturns thf mfssbgf digfst bssodibtfd with this strfbm.
+     *
+     * @rfturn thf mfssbgf digfst bssodibtfd with this strfbm.
+     * @sff #sftMfssbgfDigfst(jbvb.sfdurity.MfssbgfDigfst)
+     */
+    publid MfssbgfDigfst gftMfssbgfDigfst() {
+        rfturn digfst;
+    }
+
+    /**
+     * Assodibtfs thf spfdififd mfssbgf digfst with this strfbm.
+     *
+     * @pbrbm digfst thf mfssbgf digfst to bf bssodibtfd with this strfbm.
+     * @sff #gftMfssbgfDigfst()
+     */
+    publid void sftMfssbgfDigfst(MfssbgfDigfst digfst) {
+        this.digfst = digfst;
+    }
+
+    /**
+     * Updbtfs thf mfssbgf digfst (if thf digfst fundtion is on) using
+     * thf spfdififd bytf, bnd in bny dbsf writfs thf bytf
+     * to thf output strfbm. Thbt is, if thf digfst fundtion is on
+     * (sff {@link #on(boolfbn) on}), this mfthod dblls
+     * {@dodf updbtf} on thf mfssbgf digfst bssodibtfd with this
+     * strfbm, pbssing it thf bytf {@dodf b}. This mfthod thfn
+     * writfs thf bytf to thf output strfbm, blodking until thf bytf
+     * is bdtublly writtfn.
+     *
+     * @pbrbm b thf bytf to bf usfd for updbting bnd writing to thf
+     * output strfbm.
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     *
+     * @sff MfssbgfDigfst#updbtf(bytf)
+     */
+    publid void writf(int b) throws IOExdfption {
+        out.writf(b);
+        if (on) {
+            digfst.updbtf((bytf)b);
+        }
+    }
+
+    /**
+     * Updbtfs thf mfssbgf digfst (if thf digfst fundtion is on) using
+     * thf spfdififd subbrrby, bnd in bny dbsf writfs thf subbrrby to
+     * thf output strfbm. Thbt is, if thf digfst fundtion is on (sff
+     * {@link #on(boolfbn) on}), this mfthod dblls {@dodf updbtf}
+     * on thf mfssbgf digfst bssodibtfd with this strfbm, pbssing it
+     * thf subbrrby spfdifidbtions. This mfthod thfn writfs thf subbrrby
+     * bytfs to thf output strfbm, blodking until thf bytfs brf bdtublly
+     * writtfn.
+     *
+     * @pbrbm b thf brrby dontbining thf subbrrby to bf usfd for updbting
+     * bnd writing to thf output strfbm.
+     *
+     * @pbrbm off thf offsft into {@dodf b} of thf first bytf to
+     * bf updbtfd bnd writtfn.
+     *
+     * @pbrbm lfn thf numbfr of bytfs of dbtb to bf updbtfd bnd writtfn
+     * from {@dodf b}, stbrting bt offsft {@dodf off}.
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     *
+     * @sff MfssbgfDigfst#updbtf(bytf[], int, int)
+     */
+    publid void writf(bytf[] b, int off, int lfn) throws IOExdfption {
+        out.writf(b, off, lfn);
+        if (on) {
+            digfst.updbtf(b, off, lfn);
+        }
+    }
+
+    /**
+     * Turns thf digfst fundtion on or off. Thf dffbult is on.  Whfn
+     * it is on, b dbll to onf of thf {@dodf writf} mfthods rfsults in bn
+     * updbtf on thf mfssbgf digfst.  But whfn it is off, thf mfssbgf
+     * digfst is not updbtfd.
+     *
+     * @pbrbm on truf to turn thf digfst fundtion on, fblsf to turn it
+     * off.
+     */
+    publid void on(boolfbn on) {
+        this.on = on;
+    }
+
+    /**
+     * Prints b string rfprfsfntbtion of this digfst output strfbm bnd
+     * its bssodibtfd mfssbgf digfst objfdt.
+     */
+     publid String toString() {
+         rfturn "[Digfst Output Strfbm] " + digfst.toString();
+     }
+}

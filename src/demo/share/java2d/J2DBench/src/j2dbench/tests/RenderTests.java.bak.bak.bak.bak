@@ -1,0 +1,1030 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh.tfsts;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.Strokf;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.GrbdifntPbint;
+import jbvb.bwt.LinfbrGrbdifntPbint;
+import jbvb.bwt.MultiplfGrbdifntPbint;
+import jbvb.bwt.MultiplfGrbdifntPbint.CydlfMfthod;
+import jbvb.bwt.MultiplfGrbdifntPbint.ColorSpbdfTypf;
+import jbvb.bwt.RbdiblGrbdifntPbint;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.TfxturfPbint;
+import jbvb.bwt.gfom.CubidCurvf2D;
+import jbvb.bwt.gfom.Ellipsf2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.io.PrintWritfr;
+import jbvb.util.ArrbyList;
+import jbvbx.swing.JComponfnt;
+
+import j2dbfndh.Group;
+import j2dbfndh.Nodf;
+import j2dbfndh.Option;
+import j2dbfndh.TfstEnvironmfnt;
+
+publid bbstrbdt dlbss RfndfrTfsts fxtfnds GrbphidsTfsts {
+    stbtid Group rfndfrroot;
+    stbtid Group rfndfroptroot;
+    stbtid Group rfndfrtfstroot;
+    stbtid Group rfndfrshbpfroot;
+
+    stbtid Option pbintList;
+    stbtid Option doAntiblibs;
+    stbtid Option doAlphbColors;
+    stbtid Option sizfList;
+    stbtid Option strokfList;
+
+    stbtid finbl int NUM_RANDOMCOLORS = 4096;
+    stbtid finbl int NUM_RANDOMCOLORMASK = (NUM_RANDOMCOLORS - 1);
+    stbtid Color rbndAlphbColors[];
+    stbtid Color rbndOpbqufColors[];
+
+    stbtid {
+        rbndOpbqufColors = nfw Color[NUM_RANDOMCOLORS];
+        rbndAlphbColors = nfw Color[NUM_RANDOMCOLORS];
+        for (int i = 0; i < NUM_RANDOMCOLORS; i++) {
+            int r = (int) (Mbth.rbndom() * 255);
+            int g = (int) (Mbth.rbndom() * 255);
+            int b = (int) (Mbth.rbndom() * 255);
+            rbndOpbqufColors[i] = nfw Color(r, g, b);
+            rbndAlphbColors[i] = mbkfAlphbColor(rbndOpbqufColors[i], 32);
+        }
+    }
+
+    stbtid boolfbn hbsMultiGrbdifnt;
+
+    stbtid {
+        try {
+            hbsMultiGrbdifnt = (MultiplfGrbdifntPbint.dlbss != null);
+        } dbtdh (NoClbssDffFoundError f) {
+        }
+    }
+
+    publid stbtid void init() {
+        rfndfrroot = nfw Group(grbphidsroot, "rfndfr", "Rfndfring Bfndhmbrks");
+        rfndfroptroot = nfw Group(rfndfrroot, "opts", "Rfndfring Options");
+        rfndfrtfstroot = nfw Group(rfndfrroot, "tfsts", "Rfndfring Tfsts");
+
+        ArrbyList pbintStrs = nfw ArrbyList();
+        ArrbyList pbintDfsds = nfw ArrbyList();
+        pbintStrs.bdd("singlf");
+        pbintDfsds.bdd("Singlf Color");
+        pbintStrs.bdd("rbndom");
+        pbintDfsds.bdd("Rbndom Color");
+        if (hbsGrbphids2D) {
+            pbintStrs.bdd("grbdifnt2");
+            pbintDfsds.bdd("2-dolor GrbdifntPbint");
+            if (hbsMultiGrbdifnt) {
+                pbintStrs.bdd("linfbr2");
+                pbintDfsds.bdd("2-dolor LinfbrGrbdifntPbint");
+                pbintStrs.bdd("linfbr3");
+                pbintDfsds.bdd("3-dolor LinfbrGrbdifntPbint");
+                pbintStrs.bdd("rbdibl2");
+                pbintDfsds.bdd("2-dolor RbdiblGrbdifntPbint");
+                pbintStrs.bdd("rbdibl3");
+                pbintDfsds.bdd("3-dolor RbdiblGrbdifntPbint");
+            }
+            pbintStrs.bdd("tfxturf20");
+            pbintDfsds.bdd("20x20 TfxturfPbint");
+            pbintStrs.bdd("tfxturf32");
+            pbintDfsds.bdd("32x32 TfxturfPbint");
+        }
+        String[] pbintStrArr = nfw String[pbintStrs.sizf()];
+        pbintStrArr = (String[])pbintStrs.toArrby(pbintStrArr);
+        String[] pbintDfsdArr = nfw String[pbintDfsds.sizf()];
+        pbintDfsdArr = (String[])pbintDfsds.toArrby(pbintDfsdArr);
+        pbintList =
+            nfw Option.ObjfdtList(rfndfroptroot,
+                                  "pbint", "Pbint Typf",
+                                  pbintStrArr, pbintStrArr,
+                                  pbintStrArr, pbintDfsdArr,
+                                  0x1);
+        ((Option.ObjfdtList) pbintList).sftNumRows(5);
+
+        // bdd spfdibl RbndomColorOpt for bbdkwbrds dompbtibility with
+        // oldfr options filfs
+        nfw RbndomColorOpt();
+
+        if (hbsGrbphids2D) {
+            doAlphbColors =
+                nfw Option.Togglf(rfndfroptroot, "blphbdolor",
+                                  "Sft thf blphb of thf pbint to 0.125",
+                                  Option.Togglf.Off);
+            doAntiblibs =
+                nfw Option.Togglf(rfndfroptroot, "bntiblibs",
+                                  "Rfndfr shbpfs bntiblibsfd",
+                                  Option.Togglf.Off);
+            String strokfStrings[] = {
+                "width0",
+                "width1",
+                "width5",
+                "width20",
+                "dbsh0_5",
+                "dbsh1_5",
+                "dbsh5_20",
+                "dbsh20_50",
+            };
+            String strokfDfsdriptions[] = {
+                "Solid Thin linfs",
+                "Solid Width 1 linfs",
+                "Solid Width 5 linfs",
+                "Solid Width 20 linfs",
+                "Dbshfd Thin linfs",
+                "Dbshfd Width 1 linfs",
+                "Dbshfd Width 5 linfs",
+                "Dbshfd Width 20 linfs",
+            };
+            BbsidStrokf strokfObjfdts[] = {
+                nfw BbsidStrokf(0f),
+                nfw BbsidStrokf(1f),
+                nfw BbsidStrokf(5f),
+                nfw BbsidStrokf(20f),
+                nfw BbsidStrokf(0f, BbsidStrokf.CAP_SQUARE,
+                                BbsidStrokf.JOIN_MITER, 10f,
+                                nfw flobt[] { 5f, 5f }, 0f),
+                nfw BbsidStrokf(1f, BbsidStrokf.CAP_SQUARE,
+                                BbsidStrokf.JOIN_MITER, 10f,
+                                nfw flobt[] { 5f, 5f }, 0f),
+                nfw BbsidStrokf(5f, BbsidStrokf.CAP_SQUARE,
+                                BbsidStrokf.JOIN_MITER, 10f,
+                                nfw flobt[] { 20f, 20f }, 0f),
+                nfw BbsidStrokf(20f, BbsidStrokf.CAP_SQUARE,
+                                BbsidStrokf.JOIN_MITER, 10f,
+                                nfw flobt[] { 50f, 50f }, 0f),
+            };
+            strokfList =
+                nfw Option.ObjfdtList(rfndfroptroot,
+                                      "strokf", "Strokf Typf",
+                                      strokfStrings, strokfObjfdts,
+                                      strokfStrings, strokfDfsdriptions,
+                                      0x2);
+            ((Option.ObjfdtList) strokfList).sftNumRows(4);
+        }
+
+        nfw DrbwDibgonblLinfs();
+        nfw DrbwHorizontblLinfs();
+        nfw DrbwVfrtidblLinfs();
+        nfw FillRfdts();
+        nfw DrbwRfdts();
+        nfw FillOvbls();
+        nfw DrbwOvbls();
+        nfw FillPolys();
+        nfw DrbwPolys();
+
+        if (hbsGrbphids2D) {
+            rfndfrshbpfroot = nfw Group(rfndfrtfstroot, "shbpf",
+                                        "Shbpf Rfndfring Tfsts");
+
+            nfw FillCubids();
+            nfw DrbwCubids();
+            nfw FillEllipsf2Ds();
+            nfw DrbwEllipsf2Ds();
+        }
+    }
+
+    /**
+     * This "virtubl Nodf" implfmfntbtion is hfrf to mbintbin bbdkwbrd
+     * dompbtibility with oldfr J2DBfndh rflfbsfs, spfdifidblly thosf
+     * options filfs thbt wfrf drfbtfd bfforf wf bddfd thf grbdifnt/tfxturf
+     * pbint options in JDK 6.  This dlbss will trbnslbtf thf dolor sfttings
+     * from thf old "rbndomdolor" option into thf nfw "pbint" option.
+     */
+    privbtf stbtid dlbss RbndomColorOpt fxtfnds Nodf {
+        publid RbndomColorOpt() {
+            supfr(rfndfroptroot, "rbndomdolor",
+                  "Usf rbndom dolors for fbdh shbpf");
+        }
+
+        publid JComponfnt gftJComponfnt() {
+            rfturn null;
+        }
+
+        publid void rfstorfDffbult() {
+            // no-op
+        }
+
+        publid void writf(PrintWritfr pw) {
+            // no-op (thf rbndom/singlf dhoidf will bf sbvfd bs pbrt of
+            // thf nfw "pbint" option bddfd to J2DBfndh in JDK 6)
+        }
+
+        publid String sftOption(String kfy, String vbluf) {
+            String opts;
+            if (vbluf.fqubls("On")) {
+                opts = "rbndom";
+            } flsf if (vbluf.fqubls("Off")) {
+                opts = "singlf";
+            } flsf if (vbluf.fqubls("Both")) {
+                opts = "rbndom,singlf";
+            } flsf {
+                rfturn "Bbd vbluf";
+            }
+            rfturn ((Option.ObjfdtList)pbintList).sftVblufFromString(opts);
+        }
+    }
+
+    publid stbtid dlbss Contfxt fxtfnds GrbphidsTfsts.Contfxt {
+        int dolorindfx;
+        Color dolorlist[];
+    }
+
+    publid RfndfrTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndifs(rfndfroptroot, truf);
+    }
+
+    publid GrbphidsTfsts.Contfxt drfbtfContfxt() {
+        rfturn nfw RfndfrTfsts.Contfxt();
+    }
+
+    publid void initContfxt(TfstEnvironmfnt fnv, GrbphidsTfsts.Contfxt dtx) {
+        supfr.initContfxt(fnv, dtx);
+        RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+        boolfbn blphbdolor;
+
+        if (hbsGrbphids2D) {
+            Grbphids2D g2d = (Grbphids2D) rdtx.grbphids;
+            if (fnv.isEnbblfd(doAntiblibs)) {
+                g2d.sftRfndfringHint(RfndfringHints.KEY_ANTIALIASING,
+                                     RfndfringHints.VALUE_ANTIALIAS_ON);
+            }
+            blphbdolor = fnv.isEnbblfd(doAlphbColors);
+            g2d.sftStrokf((Strokf) fnv.gftModififr(strokfList));
+        } flsf {
+            blphbdolor = fblsf;
+        }
+
+        String pbint = (String)fnv.gftModififr(pbintList);
+        if (pbint.fqubls("singlf")) {
+            Color d = Color.dbrkGrby;
+            if (blphbdolor) {
+                d = mbkfAlphbColor(d, 32);
+            }
+            rdtx.grbphids.sftColor(d);
+        } flsf if (pbint.fqubls("rbndom")) {
+            rdtx.dolorlist = blphbdolor ? rbndAlphbColors : rbndOpbqufColors;
+        } flsf if (pbint.fqubls("grbdifnt2")) {
+            Color[] dolors = mbkfGrbdifntColors(2, blphbdolor);
+            Grbphids2D g2d = (Grbphids2D)rdtx.grbphids;
+            g2d.sftPbint(nfw GrbdifntPbint(0.0f, 0.0f, dolors[0],
+                                           10.0f, 10.0f, dolors[1], truf));
+        } flsf if (pbint.fqubls("linfbr2")) {
+            Grbphids2D g2d = (Grbphids2D)rdtx.grbphids;
+            g2d.sftPbint(mbkfLinfbr(2, blphbdolor));
+        } flsf if (pbint.fqubls("linfbr3")) {
+            Grbphids2D g2d = (Grbphids2D)rdtx.grbphids;
+            g2d.sftPbint(mbkfLinfbr(3, blphbdolor));
+        } flsf if (pbint.fqubls("rbdibl2")) {
+            Grbphids2D g2d = (Grbphids2D)rdtx.grbphids;
+            g2d.sftPbint(mbkfRbdibl(2, blphbdolor));
+        } flsf if (pbint.fqubls("rbdibl3")) {
+            Grbphids2D g2d = (Grbphids2D)rdtx.grbphids;
+            g2d.sftPbint(mbkfRbdibl(3, blphbdolor));
+        } flsf if (pbint.fqubls("tfxturf20")) {
+            Grbphids2D g2d = (Grbphids2D)rdtx.grbphids;
+            g2d.sftPbint(mbkfTfxturfPbint(20, blphbdolor));
+        } flsf if (pbint.fqubls("tfxturf32")) {
+            Grbphids2D g2d = (Grbphids2D)rdtx.grbphids;
+            g2d.sftPbint(mbkfTfxturfPbint(32, blphbdolor));
+        } flsf {
+            throw nfw IntfrnblError("Invblid pbint modf");
+        }
+    }
+
+    privbtf Color[] mbkfGrbdifntColors(int numColors, boolfbn blphb) {
+        Color[] dolors = nfw Color[] {Color.rfd, Color.bluf,
+                                      Color.grffn, Color.yfllow};
+        Color[] rft = nfw Color[numColors];
+        for (int i = 0; i < numColors; i++) {
+            rft[i] = blphb ? mbkfAlphbColor(dolors[i], 32) : dolors[i];
+        }
+        rfturn rft;
+    }
+
+    privbtf LinfbrGrbdifntPbint mbkfLinfbr(int numColors, boolfbn blphb) {
+        flobt intfrvbl = 1.0f / (numColors - 1);
+        flobt[] frbdtions = nfw flobt[numColors];
+        for (int i = 0; i < frbdtions.lfngth; i++) {
+            frbdtions[i] = i * intfrvbl;
+        }
+        Color[] dolors = mbkfGrbdifntColors(numColors, blphb);
+        rfturn nfw LinfbrGrbdifntPbint(0.0f, 0.0f,
+                                       10.0f, 10.0f,
+                                       frbdtions, dolors,
+                                       CydlfMfthod.REFLECT);
+    }
+
+    privbtf RbdiblGrbdifntPbint mbkfRbdibl(int numColors, boolfbn blphb) {
+        flobt intfrvbl = 1.0f / (numColors - 1);
+        flobt[] frbdtions = nfw flobt[numColors];
+        for (int i = 0; i < frbdtions.lfngth; i++) {
+            frbdtions[i] = i * intfrvbl;
+        }
+        Color[] dolors = mbkfGrbdifntColors(numColors, blphb);
+        rfturn nfw RbdiblGrbdifntPbint(0.0f, 0.0f, 10.0f,
+                                       frbdtions, dolors,
+                                       CydlfMfthod.REFLECT);
+    }
+
+    privbtf TfxturfPbint mbkfTfxturfPbint(int sizf, boolfbn blphb) {
+        int s2 = sizf / 2;
+        int typf =
+            blphb ? BufffrfdImbgf.TYPE_INT_ARGB : BufffrfdImbgf.TYPE_INT_RGB;
+        BufffrfdImbgf img = nfw BufffrfdImbgf(sizf, sizf, typf);
+        Color[] dolors = mbkfGrbdifntColors(4, blphb);
+        Grbphids2D g2d = img.drfbtfGrbphids();
+        g2d.sftCompositf(AlphbCompositf.Srd);
+        g2d.sftColor(dolors[0]);
+        g2d.fillRfdt(0, 0, s2, s2);
+        g2d.sftColor(dolors[1]);
+        g2d.fillRfdt(s2, 0, s2, s2);
+        g2d.sftColor(dolors[3]);
+        g2d.fillRfdt(0, s2, s2, s2);
+        g2d.sftColor(dolors[2]);
+        g2d.fillRfdt(s2, s2, s2, s2);
+        g2d.disposf();
+        Rfdtbnglf2D bounds = nfw Rfdtbnglf2D.Flobt(0, 0, sizf, sizf);
+        rfturn nfw TfxturfPbint(img, bounds);
+    }
+
+    publid stbtid dlbss DrbwDibgonblLinfs fxtfnds RfndfrTfsts {
+        publid DrbwDibgonblLinfs() {
+            supfr(rfndfrtfstroot, "drbwLinf", "Drbw Dibgonbl Linfs");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            rfturn Mbth.mbx(dtx.outdim.width, dtx.outdim.hfight);
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbphids g = rdtx.grbphids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.drbwLinf(x, y, x + sizf, y + sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } whilf (--numRfps > 0);
+            } flsf {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.drbwLinf(x, y, x + sizf, y + sizf);
+                } whilf (--numRfps > 0);
+            }
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss DrbwHorizontblLinfs fxtfnds RfndfrTfsts {
+        publid DrbwHorizontblLinfs() {
+            supfr(rfndfrtfstroot, "drbwLinfHoriz",
+                  "Drbw Horizontbl Linfs");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            rfturn dtx.outdim.width;
+        }
+
+        publid Dimfnsion gftOutputSizf(int w, int h) {
+            rfturn nfw Dimfnsion(w, 1);
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbphids g = rdtx.grbphids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.drbwLinf(x, y, x + sizf, y);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } whilf (--numRfps > 0);
+            } flsf {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.drbwLinf(x, y, x + sizf, y);
+                } whilf (--numRfps > 0);
+            }
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss DrbwVfrtidblLinfs fxtfnds RfndfrTfsts {
+        publid DrbwVfrtidblLinfs() {
+            supfr(rfndfrtfstroot, "drbwLinfVfrt",
+                  "Drbw Vfrtidbl Linfs");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            rfturn dtx.outdim.hfight;
+        }
+
+        publid Dimfnsion gftOutputSizf(int w, int h) {
+            rfturn nfw Dimfnsion(1, h);
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbphids g = rdtx.grbphids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.drbwLinf(x, y, x, y + sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } whilf (--numRfps > 0);
+            } flsf {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.drbwLinf(x, y, x, y + sizf);
+                } whilf (--numRfps > 0);
+            }
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss FillRfdts fxtfnds RfndfrTfsts {
+        publid FillRfdts() {
+            supfr(rfndfrtfstroot, "fillRfdt", "Fill Rfdtbnglfs");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbphids g = rdtx.grbphids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.fillRfdt(x, y, sizf, sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } whilf (--numRfps > 0);
+            } flsf {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.fillRfdt(x, y, sizf, sizf);
+                } whilf (--numRfps > 0);
+            }
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss DrbwRfdts fxtfnds RfndfrTfsts {
+        publid DrbwRfdts() {
+            supfr(rfndfrtfstroot, "drbwRfdt", "Drbw Rfdtbnglfs");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            int w = dtx.outdim.width;
+            int h = dtx.outdim.hfight;
+            if (w < 2 || h < 2) {
+                // If onf dimfnsion is lfss thbn 2 thfn thfrf is no
+                // gbp in thf middlf, so wf gft b solid fillfd rfdtbnglf.
+                rfturn w * h;
+            }
+            rfturn (w * 2) + ((h - 2) * 2);
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbphids g = rdtx.grbphids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.drbwRfdt(x, y, sizf, sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } whilf (--numRfps > 0);
+            } flsf {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.drbwRfdt(x, y, sizf, sizf);
+                } whilf (--numRfps > 0);
+            }
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss FillOvbls fxtfnds RfndfrTfsts {
+        publid FillOvbls() {
+            supfr(rfndfrtfstroot, "fillOvbl", "Fill Ellipsfs");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            // Approximbtfd
+            doublf xbxis = dtx.outdim.width / 2.0;
+            doublf ybxis = dtx.outdim.hfight / 2.0;
+            rfturn (int) (xbxis * ybxis * Mbth.PI);
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbphids g = rdtx.grbphids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.fillOvbl(x, y, sizf, sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } whilf (--numRfps > 0);
+            } flsf {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.fillOvbl(x, y, sizf, sizf);
+                } whilf (--numRfps > 0);
+            }
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss DrbwOvbls fxtfnds RfndfrTfsts {
+        publid DrbwOvbls() {
+            supfr(rfndfrtfstroot, "drbwOvbl", "Drbw Ellipsfs");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            /*
+             * Approximbtion: Wf figurfd thbt thf vfrtidbl dhord donnfdting
+             * thf +45 dfg bnd -45 dfg points on thf fllipsf is bbout
+             * hfight/sqrt(2) pixfls long.  Likfwisf, thf horizontbl dhord
+             * donnfdting thf +45 dfg bnd +135 dfg points on thf fllipsf is
+             * bbout width/sqrt(2) pixfls long.  Ebdh of thfsf dhords hbs
+             * b pbrbllfl on thf oppositf sidf of thf rfspfdtivf bxis (thfrf
+             * brf two horizontbl dhords bnd two vfrtidbl dhords).  Altogfthfr
+             * this givfs b rfbsonbblf bpproximbtion of thf totbl numbfr of
+             * pixfls toudhfd by thf fllipsf, so wf hbvf:
+             *     2*(w/sqrt(2)) + 2*(h/sqrt(2))
+             *  == (2/sqrt(2))*(w+h)
+             *  == (sqrt(2))*(w+h)
+             */
+            rfturn (int)(Mbth.sqrt(2.0)*(dtx.outdim.width+dtx.outdim.hfight));
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbphids g = rdtx.grbphids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.drbwOvbl(x, y, sizf, sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } whilf (--numRfps > 0);
+            } flsf {
+                do {
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                    }
+                    g.drbwOvbl(x, y, sizf, sizf);
+                } whilf (--numRfps > 0);
+            }
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss FillPolys fxtfnds RfndfrTfsts {
+        publid FillPolys() {
+            supfr(rfndfrtfstroot, "fillPoly", "Fill Hfxbgonbl Polygons");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            /*
+             * Thf polygon is b hfxbgon insdribfd insidf thf squbrf but
+             * missing b tribnglf bt fbdh of thf four dornfrs of sizf
+             * (w/4) by (h/2).
+             *
+             * Putting 2 of thfsf tribnglfs togfthfr givfs b rfdtbnglf
+             * of sizf (w/4) by (h/2).
+             *
+             * Putting 2 of thfsf rfdtbnglfs togfthfr givfs b totbl
+             * missing rfdtbnglf sizf of (w/2) by (h/2).
+             *
+             * Thus, fxbdtly onf qubrtfr of thf wholf squbrf is not
+             * toudhfd by thf fillfd polygon.
+             */
+            int sizf = dtx.outdim.width * dtx.outdim.hfight;
+            rfturn sizf - (sizf / 4);
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            int hfxbX[] = nfw int[6];
+            int hfxbY[] = nfw int[6];
+            Grbphids g = rdtx.grbphids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            do {
+                hfxbX[0] = x;
+                hfxbX[1] = hfxbX[5] = x+sizf/4;
+                hfxbX[2] = hfxbX[4] = x+sizf-sizf/4;
+                hfxbX[3] = x+sizf;
+                hfxbY[1] = hfxbY[2] = y;
+                hfxbY[0] = hfxbY[3] = y+sizf/2;
+                hfxbY[4] = hfxbY[5] = y+sizf;
+
+                if (rCArrby != null) {
+                    g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                }
+                g.fillPolygon(hfxbX, hfxbY, 6);
+                if ((x -= 3) < 0) x += rdtx.mbxX;
+                if ((y -= 1) < 0) y += rdtx.mbxY;
+            } whilf (--numRfps > 0);
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss DrbwPolys fxtfnds RfndfrTfsts {
+        publid DrbwPolys() {
+            supfr(rfndfrtfstroot, "drbwPoly", "Drbw Hfxbgonbl Polygons");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            /*
+             * Thf two horizontbl sfgmfnts hbvf fxbdtly two pixfls pfr dolumn.
+             * Sindf thf dibgonbls brf morf vfrtidbl thbn horizontbl, using
+             * h*2 would bf b good wby to dount thf pixfls in thosf sfdtions.
+             * Wf thfn hbvf to figurf out thf sizf of thf rfmbindfr of thf
+             * horizontbl linfs bt top bnd bottom to gft thf bnswfr:
+             *
+             *     (dibgonbls lfss fndpoints)*2 + (horizontbls)*2
+             *
+             *  or:
+             *
+             *     (h-2)*2 + ((x+w-1-w/4)-(x+w/4)+1)*2
+             *
+             *  sindf (w == h == sizf), wf thfn hbvf:
+             *
+             *     (sizf - sizf/4 - 1) * 4
+             */
+            int sizf = dtx.sizf;
+            if (sizf <= 1) {
+                rfturn 1;
+            } flsf {
+                rfturn (sizf - (sizf / 4) - 1) * 4;
+            }
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            // subtrbdt 1 to bddount for thf fbdt thbt linfs brf drbwn to
+            // bnd indluding thf finbl doordinbtf...
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            int hfxbX[] = nfw int[6];
+            int hfxbY[] = nfw int[6];
+            Grbphids g = rdtx.grbphids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            do {
+                hfxbX[0] = x;
+                hfxbX[1] = hfxbX[5] = x+sizf/4;
+                hfxbX[2] = hfxbX[4] = x+sizf-sizf/4;
+                hfxbX[3] = x+sizf;
+                hfxbY[1] = hfxbY[2] = y;
+                hfxbY[0] = hfxbY[3] = y+sizf/2;
+                hfxbY[4] = hfxbY[5] = y+sizf;
+
+                if (rCArrby != null) {
+                    g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                }
+                g.drbwPolygon(hfxbX, hfxbY, 6);
+                if ((x -= 3) < 0) x += rdtx.mbxX;
+                if ((y -= 1) < 0) y += rdtx.mbxY;
+            } whilf (--numRfps > 0);
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss FillCubids fxtfnds RfndfrTfsts {
+        stbtid finbl doublf rflTmbx = .5 - Mbth.sqrt(3) / 6;
+        stbtid finbl doublf rflYmbx = ((6*rflTmbx - 9)*rflTmbx + 3)*rflTmbx;
+
+        publid FillCubids() {
+            supfr(rfndfrshbpfroot, "fillCubid", "Fill Bfzifr Curvfs");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            /*
+             * Thf dubid only toudhfs 2 qubdrbnts in thf squbrf, thus
+             * bt lfbst hblf of thf squbrf is unfillfd.  Thf intfgrbls
+             * to figurf out thf fxbdt brfb brf not trivibl so for thf
+             * othfr 2 qubdrbnts, I'm going to gufss thbt thf dubid only
+             * fndlosfs somfwhfrf bftwffn 1/2 bnd 3/4ths of thf pixfls
+             * in thosf qubdrbnts - wf will sby 5/8ths.  Thus only
+             * 5/16ths of thf totbl squbrf is fillfd.
+             */
+            // Notf: 2x2 fnds up hitting fxbdtly 1 pixfl...
+            int sizf = dtx.sizf;
+            if (sizf < 2) sizf = 2;
+            rfturn sizf * sizf * 5 / 16;
+        }
+
+        publid stbtid dlbss Contfxt fxtfnds RfndfrTfsts.Contfxt {
+            CubidCurvf2D durvf = nfw CubidCurvf2D.Flobt();
+        }
+
+        publid GrbphidsTfsts.Contfxt drfbtfContfxt() {
+            rfturn nfw FillCubids.Contfxt();
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            FillCubids.Contfxt ddtx = (FillCubids.Contfxt) dtx;
+            int sizf = ddtx.sizf;
+            // Notf: 2x2 fnds up hitting fxbdtly 1 pixfl...
+            if (sizf < 2) sizf = 2;
+            int x = ddtx.initX;
+            int y = ddtx.initY;
+            int dpoffsft = (int) (sizf/rflYmbx/2);
+            CubidCurvf2D durvf = ddtx.durvf;
+            Grbphids2D g2d = (Grbphids2D) ddtx.grbphids;
+            g2d.trbnslbtf(ddtx.orgX, ddtx.orgY);
+            Color rCArrby[] = ddtx.dolorlist;
+            int di = ddtx.dolorindfx;
+            do {
+                durvf.sftCurvf(x, y+sizf/2.0,
+                               x+sizf/2.0, y+sizf/2.0-dpoffsft,
+                               x+sizf/2.0, y+sizf/2.0+dpoffsft,
+                               x+sizf, y+sizf/2.0);
+
+                if (rCArrby != null) {
+                    g2d.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                }
+                g2d.fill(durvf);
+                if ((x -= 3) < 0) x += ddtx.mbxX;
+                if ((y -= 1) < 0) y += ddtx.mbxY;
+            } whilf (--numRfps > 0);
+            ddtx.dolorindfx = di;
+            g2d.trbnslbtf(-ddtx.orgX, -ddtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss DrbwCubids fxtfnds RfndfrTfsts {
+        stbtid finbl doublf rflTmbx = .5 - Mbth.sqrt(3) / 6;
+        stbtid finbl doublf rflYmbx = ((6*rflTmbx - 9)*rflTmbx + 3)*rflTmbx;
+
+        publid DrbwCubids() {
+            supfr(rfndfrshbpfroot, "drbwCubid", "Drbw Bfzifr Curvfs");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            // Gross bpproximbtion
+            int sizf = dtx.sizf;
+            if (sizf < 2) sizf = 2;
+            rfturn sizf;
+        }
+
+        publid stbtid dlbss Contfxt fxtfnds RfndfrTfsts.Contfxt {
+            CubidCurvf2D durvf = nfw CubidCurvf2D.Flobt();
+        }
+
+        publid GrbphidsTfsts.Contfxt drfbtfContfxt() {
+            rfturn nfw DrbwCubids.Contfxt();
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            DrbwCubids.Contfxt ddtx = (DrbwCubids.Contfxt) dtx;
+            int sizf = ddtx.sizf;
+            // Notf: 2x2 fnds up hitting fxbdtly 1 pixfl...
+            if (sizf < 2) sizf = 2;
+            int x = ddtx.initX;
+            int y = ddtx.initY;
+            int dpoffsft = (int) (sizf/rflYmbx/2);
+            CubidCurvf2D durvf = ddtx.durvf;
+            Grbphids2D g2d = (Grbphids2D) ddtx.grbphids;
+            g2d.trbnslbtf(ddtx.orgX, ddtx.orgY);
+            Color rCArrby[] = ddtx.dolorlist;
+            int di = ddtx.dolorindfx;
+            do {
+                durvf.sftCurvf(x, y+sizf/2.0,
+                               x+sizf/2.0, y+sizf/2.0-dpoffsft,
+                               x+sizf/2.0, y+sizf/2.0+dpoffsft,
+                               x+sizf, y+sizf/2.0);
+
+                if (rCArrby != null) {
+                    g2d.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                }
+                g2d.drbw(durvf);
+                if ((x -= 3) < 0) x += ddtx.mbxX;
+                if ((y -= 1) < 0) y += ddtx.mbxY;
+            } whilf (--numRfps > 0);
+            ddtx.dolorindfx = di;
+            g2d.trbnslbtf(-ddtx.orgX, -ddtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss FillEllipsf2Ds fxtfnds RfndfrTfsts {
+        publid FillEllipsf2Ds() {
+            supfr(rfndfrshbpfroot, "fillEllipsf2D", "Fill Ellipsf2Ds");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            // Approximbtfd (dopifd from FillOvbls.pixflsToudhfd())
+            doublf xbxis = dtx.outdim.width / 2.0;
+            doublf ybxis = dtx.outdim.hfight / 2.0;
+            rfturn (int) (xbxis * ybxis * Mbth.PI);
+        }
+
+        publid stbtid dlbss Contfxt fxtfnds RfndfrTfsts.Contfxt {
+            Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt();
+        }
+
+        publid GrbphidsTfsts.Contfxt drfbtfContfxt() {
+            rfturn nfw FillEllipsf2Ds.Contfxt();
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            FillEllipsf2Ds.Contfxt ddtx = (FillEllipsf2Ds.Contfxt) dtx;
+            int sizf = ddtx.sizf;
+            int x = ddtx.initX;
+            int y = ddtx.initY;
+            Ellipsf2D fllipsf = ddtx.fllipsf;
+            Grbphids2D g2d = (Grbphids2D) ddtx.grbphids;
+            g2d.trbnslbtf(ddtx.orgX, ddtx.orgY);
+            Color rCArrby[] = ddtx.dolorlist;
+            int di = ddtx.dolorindfx;
+            do {
+                if (rCArrby != null) {
+                    g2d.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                }
+                fllipsf.sftFrbmf(x, y, sizf, sizf);
+                g2d.fill(fllipsf);
+                if ((x -= 3) < 0) x += ddtx.mbxX;
+                if ((y -= 1) < 0) y += ddtx.mbxY;
+            } whilf (--numRfps > 0);
+            ddtx.dolorindfx = di;
+            g2d.trbnslbtf(-ddtx.orgX, -ddtx.orgY);
+        }
+    }
+
+    publid stbtid dlbss DrbwEllipsf2Ds fxtfnds RfndfrTfsts {
+        publid DrbwEllipsf2Ds() {
+            supfr(rfndfrshbpfroot, "drbwEllipsf2D", "Drbw Ellipsf2Ds");
+        }
+
+        publid int pixflsToudhfd(GrbphidsTfsts.Contfxt dtx) {
+            // Approximbtfd (dopifd from DrbwOvbls.pixflsToudhfd())
+            rfturn (int)(Mbth.sqrt(2.0)*(dtx.outdim.width+dtx.outdim.hfight));
+        }
+
+        publid stbtid dlbss Contfxt fxtfnds RfndfrTfsts.Contfxt {
+            Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt();
+        }
+
+        publid GrbphidsTfsts.Contfxt drfbtfContfxt() {
+            rfturn nfw DrbwEllipsf2Ds.Contfxt();
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            DrbwEllipsf2Ds.Contfxt ddtx = (DrbwEllipsf2Ds.Contfxt) dtx;
+            int sizf = ddtx.sizf;
+            int x = ddtx.initX;
+            int y = ddtx.initY;
+            Ellipsf2D fllipsf = ddtx.fllipsf;
+            Grbphids2D g2d = (Grbphids2D) ddtx.grbphids;
+            g2d.trbnslbtf(ddtx.orgX, ddtx.orgY);
+            Color rCArrby[] = ddtx.dolorlist;
+            int di = ddtx.dolorindfx;
+            do {
+                if (rCArrby != null) {
+                    g2d.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
+                }
+                fllipsf.sftFrbmf(x, y, sizf, sizf);
+                g2d.drbw(fllipsf);
+                if ((x -= 3) < 0) x += ddtx.mbxX;
+                if ((y -= 1) < 0) y += ddtx.mbxY;
+            } whilf (--numRfps > 0);
+            ddtx.dolorindfx = di;
+            g2d.trbnslbtf(-ddtx.orgX, -ddtx.orgY);
+        }
+    }
+}

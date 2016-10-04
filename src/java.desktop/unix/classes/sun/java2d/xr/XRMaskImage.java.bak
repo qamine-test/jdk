@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
-import java.awt.*;
-import java.awt.geom.*;
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
 
 /**
- *  Management of mask used for some blit-types.
+ *  Mbnbgfmfnt of mbsk usfd for somf blit-typfs.
  *
- * @author Clemens Eisserer
+ * @butior Clfmfns Eissfrfr
  */
 
-public class XRMaskImage {
+publid dlbss XRMbskImbgf {
 
-    private static final int MASK_SCALE_FACTOR = 8;
+    privbtf stbtid finbl int MASK_SCALE_FACTOR = 8;
 
-    private static final int BLIT_MASK_SIZE = 8;
+    privbtf stbtid finbl int BLIT_MASK_SIZE = 8;
 
-    Dimension blitMaskDimensions = new Dimension(BLIT_MASK_SIZE, BLIT_MASK_SIZE);
-    int blitMaskPixmap;
-    int blitMaskPicture;
-    int lastMaskWidth = 0;
-    int lastMaskHeight = 0;
-    int lastEA = -1;
-    AffineTransform lastMaskTransform;
+    Dimfnsion blitMbskDimfnsions = nfw Dimfnsion(BLIT_MASK_SIZE, BLIT_MASK_SIZE);
+    int blitMbskPixmbp;
+    int blitMbskPidturf;
+    int lbstMbskWidti = 0;
+    int lbstMbskHfigit = 0;
+    int lbstEA = -1;
+    AffinfTrbnsform lbstMbskTrbnsform;
 
-    XRCompositeManager xrMgr;
-    XRBackend con;
+    XRCompositfMbnbgfr xrMgr;
+    XRBbdkfnd don;
 
-    public XRMaskImage(XRCompositeManager xrMgr, int parentDrawable) {
-        this.xrMgr = xrMgr;
-        this.con = xrMgr.getBackend();
+    publid XRMbskImbgf(XRCompositfMbnbgfr xrMgr, int pbrfntDrbwbblf) {
+        tiis.xrMgr = xrMgr;
+        tiis.don = xrMgr.gftBbdkfnd();
 
-        initBlitMask(parentDrawable, BLIT_MASK_SIZE, BLIT_MASK_SIZE);
+        initBlitMbsk(pbrfntDrbwbblf, BLIT_MASK_SIZE, BLIT_MASK_SIZE);
     }
 
 
     /**
-     * Prepares a mask used by a TransformedBlit, fills mask-contents and applies
-     * transformation.
+     * Prfpbrfs b mbsk usfd by b TrbnsformfdBlit, fills mbsk-dontfnts bnd bpplifs
+     * trbnsformbtion.
      */
-    public int prepareBlitMask(XRSurfaceData dst, AffineTransform maskTX, int width,
-            int height) {
+    publid int prfpbrfBlitMbsk(XRSurfbdfDbtb dst, AffinfTrbnsform mbskTX, int widti,
+            int ifigit) {
 
-        int maskWidth = Math.max(width / MASK_SCALE_FACTOR, 1);
-        int maskHeight = Math.max(height / MASK_SCALE_FACTOR, 1);
-        maskTX.scale(((double) width) / maskWidth, ((double) height) / maskHeight);
+        int mbskWidti = Mbti.mbx(widti / MASK_SCALE_FACTOR, 1);
+        int mbskHfigit = Mbti.mbx(ifigit / MASK_SCALE_FACTOR, 1);
+        mbskTX.sdblf(((doublf) widti) / mbskWidti, ((doublf) ifigit) / mbskHfigit);
 
         try {
-            maskTX.invert();
-        } catch (NoninvertibleTransformException ex) {
-            maskTX.setToIdentity();
+            mbskTX.invfrt();
+        } dbtdi (NoninvfrtiblfTrbnsformExdfption fx) {
+            mbskTX.sftToIdfntity();
         }
 
-        ensureBlitMaskSize(maskWidth, maskHeight);
+        fnsurfBlitMbskSizf(mbskWidti, mbskHfigit);
 
-        if (lastMaskTransform == null || !lastMaskTransform.equals(maskTX)) {
-                con.setPictureTransform(blitMaskPicture, maskTX);
-                lastMaskTransform = maskTX;
+        if (lbstMbskTrbnsform == null || !lbstMbskTrbnsform.fqubls(mbskTX)) {
+                don.sftPidturfTrbnsform(blitMbskPidturf, mbskTX);
+                lbstMbskTrbnsform = mbskTX;
         }
 
-        int currentEA = xrMgr.getAlphaColor().getAlpha();
-        if (lastMaskWidth != maskWidth || lastMaskHeight != maskHeight || lastEA != currentEA)  {
-            //Only clear mask, if previous mask area is larger than new one, otherwise simple overpaint it
-            if (lastMaskWidth > maskWidth || lastMaskHeight > maskHeight)  {
-                con.renderRectangle(blitMaskPicture, XRUtils.PictOpClear, XRColor.NO_ALPHA, 0, 0, lastMaskWidth, lastMaskHeight);
+        int durrfntEA = xrMgr.gftAlpibColor().gftAlpib();
+        if (lbstMbskWidti != mbskWidti || lbstMbskHfigit != mbskHfigit || lbstEA != durrfntEA)  {
+            //Only dlfbr mbsk, if prfvious mbsk brfb is lbrgfr tibn nfw onf, otifrwisf simplf ovfrpbint it
+            if (lbstMbskWidti > mbskWidti || lbstMbskHfigit > mbskHfigit)  {
+                don.rfndfrRfdtbnglf(blitMbskPidturf, XRUtils.PidtOpClfbr, XRColor.NO_ALPHA, 0, 0, lbstMbskWidti, lbstMbskHfigit);
             }
 
-            con.renderRectangle(blitMaskPicture, XRUtils.PictOpSrc, xrMgr.getAlphaColor(), 0, 0, maskWidth, maskHeight);
-            lastEA = currentEA;
+            don.rfndfrRfdtbnglf(blitMbskPidturf, XRUtils.PidtOpSrd, xrMgr.gftAlpibColor(), 0, 0, mbskWidti, mbskHfigit);
+            lbstEA = durrfntEA;
         }
 
-        lastMaskWidth = maskWidth;
-        lastMaskHeight = maskHeight;
+        lbstMbskWidti = mbskWidti;
+        lbstMbskHfigit = mbskHfigit;
 
-        return blitMaskPicture;
+        rfturn blitMbskPidturf;
     }
 
-    private void initBlitMask(int parentDrawable, int width, int height) {
-        int newPM = con.createPixmap(parentDrawable, 8, width, height);
-        int newPict = con.createPicture(newPM, XRUtils.PictStandardA8);
+    privbtf void initBlitMbsk(int pbrfntDrbwbblf, int widti, int ifigit) {
+        int nfwPM = don.drfbtfPixmbp(pbrfntDrbwbblf, 8, widti, ifigit);
+        int nfwPidt = don.drfbtfPidturf(nfwPM, XRUtils.PidtStbndbrdA8);
 
-        /*Free old mask*/
-        if (blitMaskPixmap != 0) {
-            con.freePixmap(blitMaskPixmap);
-            con.freePicture(blitMaskPicture);
+        /*Frff old mbsk*/
+        if (blitMbskPixmbp != 0) {
+            don.frffPixmbp(blitMbskPixmbp);
+            don.frffPidturf(blitMbskPidturf);
         }
 
-        blitMaskPixmap = newPM;
-        blitMaskPicture = newPict;
+        blitMbskPixmbp = nfwPM;
+        blitMbskPidturf = nfwPidt;
 
-        con.renderRectangle(blitMaskPicture, XRUtils.PictOpClear, XRColor.NO_ALPHA, 0, 0, width, height);
+        don.rfndfrRfdtbnglf(blitMbskPidturf, XRUtils.PidtOpClfbr, XRColor.NO_ALPHA, 0, 0, widti, ifigit);
 
-        blitMaskDimensions.width = width;
-        blitMaskDimensions.height = height;
-        lastMaskWidth = 0;
-        lastMaskHeight = 0;
-        lastMaskTransform = null;
+        blitMbskDimfnsions.widti = widti;
+        blitMbskDimfnsions.ifigit = ifigit;
+        lbstMbskWidti = 0;
+        lbstMbskHfigit = 0;
+        lbstMbskTrbnsform = null;
     }
 
-    private void ensureBlitMaskSize(int minSizeX, int minSizeY) {
-        if (minSizeX > blitMaskDimensions.width || minSizeY > blitMaskDimensions.height) {
-            int newWidth = Math.max(minSizeX, blitMaskDimensions.width);
-            int newHeight = Math.max(minSizeY, blitMaskDimensions.height);
-            initBlitMask(blitMaskPixmap, newWidth, newHeight);
+    privbtf void fnsurfBlitMbskSizf(int minSizfX, int minSizfY) {
+        if (minSizfX > blitMbskDimfnsions.widti || minSizfY > blitMbskDimfnsions.ifigit) {
+            int nfwWidti = Mbti.mbx(minSizfX, blitMbskDimfnsions.widti);
+            int nfwHfigit = Mbti.mbx(minSizfY, blitMbskDimfnsions.ifigit);
+            initBlitMbsk(blitMbskPixmbp, nfwWidti, nfwHfigit);
         }
     }
 }

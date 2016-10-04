@@ -1,380 +1,380 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.util.Stack;
-import java.util.Enumeration;
+import jbvb.util.Stbdk;
+import jbvb.util.Enumfrbtion;
 
 /**
  * <p>
- * ElementIterator, as the name suggests, iterates over the Element
- * tree.  The constructor can be invoked with either Document or an Element
- * as an argument.  If the constructor is invoked with a Document as an
- * argument then the root of the iteration is the return value of
- * document.getDefaultRootElement().
+ * ElfmfntItfrbtor, bs tif nbmf suggfsts, itfrbtfs ovfr tif Elfmfnt
+ * trff.  Tif donstrudtor dbn bf invokfd witi fitifr Dodumfnt or bn Elfmfnt
+ * bs bn brgumfnt.  If tif donstrudtor is invokfd witi b Dodumfnt bs bn
+ * brgumfnt tifn tif root of tif itfrbtion is tif rfturn vbluf of
+ * dodumfnt.gftDffbultRootElfmfnt().
  *
- * The iteration happens in a depth-first manner.  In terms of how
- * boundary conditions are handled:
- * a) if next() is called before first() or current(), the
- *    root will be returned.
- * b) next() returns null to indicate the end of the list.
- * c) previous() returns null when the current element is the root
- *    or next() has returned null.
+ * Tif itfrbtion ibppfns in b dfpti-first mbnnfr.  In tfrms of iow
+ * boundbry donditions brf ibndlfd:
+ * b) if nfxt() is dbllfd bfforf first() or durrfnt(), tif
+ *    root will bf rfturnfd.
+ * b) nfxt() rfturns null to indidbtf tif fnd of tif list.
+ * d) prfvious() rfturns null wifn tif durrfnt flfmfnt is tif root
+ *    or nfxt() ibs rfturnfd null.
  *
- * The ElementIterator does no locking of the Element tree. This means
- * that it does not track any changes.  It is the responsibility of the
- * user of this class, to ensure that no changes happen during element
- * iteration.
+ * Tif ElfmfntItfrbtor dofs no lodking of tif Elfmfnt trff. Tiis mfbns
+ * tibt it dofs not trbdk bny dibngfs.  It is tif rfsponsibility of tif
+ * usfr of tiis dlbss, to fnsurf tibt no dibngfs ibppfn during flfmfnt
+ * itfrbtion.
  *
- * Simple usage example:
+ * Simplf usbgf fxbmplf:
  *
- *    public void iterate() {
- *        ElementIterator it = new ElementIterator(root);
- *        Element elem;
- *        while (true) {
- *           if ((elem = next()) != null) {
- *               // process element
- *               System.out.println("elem: " + elem.getName());
- *           } else {
- *               break;
+ *    publid void itfrbtf() {
+ *        ElfmfntItfrbtor it = nfw ElfmfntItfrbtor(root);
+ *        Elfmfnt flfm;
+ *        wiilf (truf) {
+ *           if ((flfm = nfxt()) != null) {
+ *               // prodfss flfmfnt
+ *               Systfm.out.println("flfm: " + flfm.gftNbmf());
+ *           } flsf {
+ *               brfbk;
  *           }
  *        }
  *    }
  *
- * @author Sunita Mani
+ * @butior Sunitb Mbni
  *
  */
 
-public class ElementIterator implements Cloneable {
+publid dlbss ElfmfntItfrbtor implfmfnts Clonfbblf {
 
 
-    private Element root;
-    private Stack<StackItem> elementStack = null;
+    privbtf Elfmfnt root;
+    privbtf Stbdk<StbdkItfm> flfmfntStbdk = null;
 
     /**
-     * The StackItem class stores the element
-     * as well as a child index.  If the
-     * index is -1, then the element represented
-     * on the stack is the element itself.
-     * Otherwise, the index functions as as index
-     * into the vector of children of the element.
-     * In this case, the item on the stack
-     * represents the "index"th child of the element
+     * Tif StbdkItfm dlbss storfs tif flfmfnt
+     * bs wfll bs b diild indfx.  If tif
+     * indfx is -1, tifn tif flfmfnt rfprfsfntfd
+     * on tif stbdk is tif flfmfnt itsflf.
+     * Otifrwisf, tif indfx fundtions bs bs indfx
+     * into tif vfdtor of diildrfn of tif flfmfnt.
+     * In tiis dbsf, tif itfm on tif stbdk
+     * rfprfsfnts tif "indfx"ti diild of tif flfmfnt
      *
      */
-    private class StackItem implements Cloneable {
-        Element item;
-        int childIndex;
+    privbtf dlbss StbdkItfm implfmfnts Clonfbblf {
+        Elfmfnt itfm;
+        int diildIndfx;
 
-        private StackItem(Element elem) {
+        privbtf StbdkItfm(Elfmfnt flfm) {
             /**
-             * -1 index implies a self reference,
-             * as opposed to an index into its
-             * list of children.
+             * -1 indfx implifs b sflf rfffrfndf,
+             * bs opposfd to bn indfx into its
+             * list of diildrfn.
              */
-            this.item = elem;
-            this.childIndex = -1;
+            tiis.itfm = flfm;
+            tiis.diildIndfx = -1;
         }
 
-        private void incrementIndex() {
-            childIndex++;
+        privbtf void indrfmfntIndfx() {
+            diildIndfx++;
         }
 
-        private Element getElement() {
-            return item;
+        privbtf Elfmfnt gftElfmfnt() {
+            rfturn itfm;
         }
 
-        private int getIndex() {
-            return childIndex;
+        privbtf int gftIndfx() {
+            rfturn diildIndfx;
         }
 
-        protected Object clone() throws java.lang.CloneNotSupportedException {
-            return super.clone();
+        protfdtfd Objfdt dlonf() tirows jbvb.lbng.ClonfNotSupportfdExdfption {
+            rfturn supfr.dlonf();
         }
     }
 
     /**
-     * Creates a new ElementIterator. The
-     * root element is taken to get the
-     * default root element of the document.
+     * Crfbtfs b nfw ElfmfntItfrbtor. Tif
+     * root flfmfnt is tbkfn to gft tif
+     * dffbult root flfmfnt of tif dodumfnt.
      *
-     * @param document a Document.
+     * @pbrbm dodumfnt b Dodumfnt.
      */
-    public ElementIterator(Document document) {
-        root = document.getDefaultRootElement();
+    publid ElfmfntItfrbtor(Dodumfnt dodumfnt) {
+        root = dodumfnt.gftDffbultRootElfmfnt();
     }
 
 
     /**
-     * Creates a new ElementIterator.
+     * Crfbtfs b nfw ElfmfntItfrbtor.
      *
-     * @param root the root Element.
+     * @pbrbm root tif root Elfmfnt.
      */
-    public ElementIterator(Element root) {
-        this.root = root;
+    publid ElfmfntItfrbtor(Elfmfnt root) {
+        tiis.root = root;
     }
 
 
     /**
-     * Clones the ElementIterator.
+     * Clonfs tif ElfmfntItfrbtor.
      *
-     * @return a cloned ElementIterator Object.
+     * @rfturn b dlonfd ElfmfntItfrbtor Objfdt.
      */
-    public synchronized Object clone() {
+    publid syndironizfd Objfdt dlonf() {
 
         try {
-            ElementIterator it = new ElementIterator(root);
-            if (elementStack != null) {
-                it.elementStack = new Stack<StackItem>();
-                for (int i = 0; i < elementStack.size(); i++) {
-                    StackItem item = elementStack.elementAt(i);
-                    StackItem clonee = (StackItem)item.clone();
-                    it.elementStack.push(clonee);
+            ElfmfntItfrbtor it = nfw ElfmfntItfrbtor(root);
+            if (flfmfntStbdk != null) {
+                it.flfmfntStbdk = nfw Stbdk<StbdkItfm>();
+                for (int i = 0; i < flfmfntStbdk.sizf(); i++) {
+                    StbdkItfm itfm = flfmfntStbdk.flfmfntAt(i);
+                    StbdkItfm dlonff = (StbdkItfm)itfm.dlonf();
+                    it.flfmfntStbdk.pusi(dlonff);
                 }
             }
-            return it;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+            rfturn it;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
     }
 
 
     /**
-     * Fetches the first element.
+     * Fftdifs tif first flfmfnt.
      *
-     * @return an Element.
+     * @rfturn bn Elfmfnt.
      */
-    public Element first() {
-        // just in case...
+    publid Elfmfnt first() {
+        // just in dbsf...
         if (root == null) {
-            return null;
+            rfturn null;
         }
 
-        elementStack = new Stack<StackItem>();
-        if (root.getElementCount() != 0) {
-            elementStack.push(new StackItem(root));
+        flfmfntStbdk = nfw Stbdk<StbdkItfm>();
+        if (root.gftElfmfntCount() != 0) {
+            flfmfntStbdk.pusi(nfw StbdkItfm(root));
         }
-        return root;
+        rfturn root;
     }
 
     /**
-     * Fetches the current depth of element tree.
+     * Fftdifs tif durrfnt dfpti of flfmfnt trff.
      *
-     * @return the depth.
+     * @rfturn tif dfpti.
      */
-    public int depth() {
-        if (elementStack == null) {
-            return 0;
+    publid int dfpti() {
+        if (flfmfntStbdk == null) {
+            rfturn 0;
         }
-        return elementStack.size();
+        rfturn flfmfntStbdk.sizf();
     }
 
 
     /**
-     * Fetches the current Element.
+     * Fftdifs tif durrfnt Elfmfnt.
      *
-     * @return element on top of the stack or
-     *          <code>null</code> if the root element is <code>null</code>
+     * @rfturn flfmfnt on top of tif stbdk or
+     *          <dodf>null</dodf> if tif root flfmfnt is <dodf>null</dodf>
      */
-    public Element current() {
+    publid Elfmfnt durrfnt() {
 
-        if (elementStack == null) {
-            return first();
+        if (flfmfntStbdk == null) {
+            rfturn first();
         }
 
         /*
-          get a handle to the element on top of the stack.
+          gft b ibndlf to tif flfmfnt on top of tif stbdk.
         */
-        if (! elementStack.empty()) {
-            StackItem item = elementStack.peek();
-            Element elem = item.getElement();
-            int index = item.getIndex();
-            // self reference
-            if (index == -1) {
-                return elem;
+        if (! flfmfntStbdk.fmpty()) {
+            StbdkItfm itfm = flfmfntStbdk.pffk();
+            Elfmfnt flfm = itfm.gftElfmfnt();
+            int indfx = itfm.gftIndfx();
+            // sflf rfffrfndf
+            if (indfx == -1) {
+                rfturn flfm;
             }
-            // return the child at location "index".
-            return elem.getElement(index);
+            // rfturn tif diild bt lodbtion "indfx".
+            rfturn flfm.gftElfmfnt(indfx);
         }
-        return null;
+        rfturn null;
     }
 
 
     /**
-     * Fetches the next Element. The strategy
-     * used to locate the next element is
-     * a depth-first search.
+     * Fftdifs tif nfxt Elfmfnt. Tif strbtfgy
+     * usfd to lodbtf tif nfxt flfmfnt is
+     * b dfpti-first sfbrdi.
      *
-     * @return the next element or <code>null</code>
-     *          at the end of the list.
+     * @rfturn tif nfxt flfmfnt or <dodf>null</dodf>
+     *          bt tif fnd of tif list.
      */
-    public Element next() {
+    publid Elfmfnt nfxt() {
 
-        /* if current() has not been invoked
-           and next is invoked, the very first
-           element will be returned. */
-        if (elementStack == null) {
-            return first();
+        /* if durrfnt() ibs not bffn invokfd
+           bnd nfxt is invokfd, tif vfry first
+           flfmfnt will bf rfturnfd. */
+        if (flfmfntStbdk == null) {
+            rfturn first();
         }
 
-        // no more elements
-        if (elementStack.isEmpty()) {
-            return null;
+        // no morf flfmfnts
+        if (flfmfntStbdk.isEmpty()) {
+            rfturn null;
         }
 
-        // get a handle to the element on top of the stack
+        // gft b ibndlf to tif flfmfnt on top of tif stbdk
 
-        StackItem item = elementStack.peek();
-        Element elem = item.getElement();
-        int index = item.getIndex();
+        StbdkItfm itfm = flfmfntStbdk.pffk();
+        Elfmfnt flfm = itfm.gftElfmfnt();
+        int indfx = itfm.gftIndfx();
 
-        if (index+1 < elem.getElementCount()) {
-            Element child = elem.getElement(index+1);
-            if (child.isLeaf()) {
-                /* In this case we merely want to increment
-                   the child index of the item on top of the
-                   stack.*/
-                item.incrementIndex();
-            } else {
-                /* In this case we need to push the child(branch)
-                   on the stack so that we can iterate over its
-                   children. */
-                elementStack.push(new StackItem(child));
+        if (indfx+1 < flfm.gftElfmfntCount()) {
+            Elfmfnt diild = flfm.gftElfmfnt(indfx+1);
+            if (diild.isLfbf()) {
+                /* In tiis dbsf wf mfrfly wbnt to indrfmfnt
+                   tif diild indfx of tif itfm on top of tif
+                   stbdk.*/
+                itfm.indrfmfntIndfx();
+            } flsf {
+                /* In tiis dbsf wf nffd to pusi tif diild(brbndi)
+                   on tif stbdk so tibt wf dbn itfrbtf ovfr its
+                   diildrfn. */
+                flfmfntStbdk.pusi(nfw StbdkItfm(diild));
             }
-            return child;
-        } else {
-            /* No more children for the item on top of the
-               stack therefore pop the stack. */
-            elementStack.pop();
-            if (!elementStack.isEmpty()) {
-                /* Increment the child index for the item that
-                   is now on top of the stack. */
-                StackItem top = elementStack.peek();
-                top.incrementIndex();
-                /* We now want to return its next child, therefore
-                   call next() recursively. */
-                return next();
+            rfturn diild;
+        } flsf {
+            /* No morf diildrfn for tif itfm on top of tif
+               stbdk tifrfforf pop tif stbdk. */
+            flfmfntStbdk.pop();
+            if (!flfmfntStbdk.isEmpty()) {
+                /* Indrfmfnt tif diild indfx for tif itfm tibt
+                   is now on top of tif stbdk. */
+                StbdkItfm top = flfmfntStbdk.pffk();
+                top.indrfmfntIndfx();
+                /* Wf now wbnt to rfturn its nfxt diild, tifrfforf
+                   dbll nfxt() rfdursivfly. */
+                rfturn nfxt();
             }
         }
-        return null;
+        rfturn null;
     }
 
 
     /**
-     * Fetches the previous Element. If however the current
-     * element is the last element, or the current element
-     * is null, then null is returned.
+     * Fftdifs tif prfvious Elfmfnt. If iowfvfr tif durrfnt
+     * flfmfnt is tif lbst flfmfnt, or tif durrfnt flfmfnt
+     * is null, tifn null is rfturnfd.
      *
-     * @return previous <code>Element</code> if available
+     * @rfturn prfvious <dodf>Elfmfnt</dodf> if bvbilbblf
      *
      */
-    public Element previous() {
+    publid Elfmfnt prfvious() {
 
-        int stackSize;
-        if (elementStack == null || (stackSize = elementStack.size()) == 0) {
-            return null;
+        int stbdkSizf;
+        if (flfmfntStbdk == null || (stbdkSizf = flfmfntStbdk.sizf()) == 0) {
+            rfturn null;
         }
 
-        // get a handle to the element on top of the stack
+        // gft b ibndlf to tif flfmfnt on top of tif stbdk
         //
-        StackItem item = elementStack.peek();
-        Element elem = item.getElement();
-        int index = item.getIndex();
+        StbdkItfm itfm = flfmfntStbdk.pffk();
+        Elfmfnt flfm = itfm.gftElfmfnt();
+        int indfx = itfm.gftIndfx();
 
-        if (index > 0) {
-            /* return child at previous index. */
-            return getDeepestLeaf(elem.getElement(--index));
-        } else if (index == 0) {
-            /* this implies that current is the element's
-               first child, therefore previous is the
-               element itself. */
-            return elem;
-        } else if (index == -1) {
-            if (stackSize == 1) {
-                // current is the root, nothing before it.
-                return null;
+        if (indfx > 0) {
+            /* rfturn diild bt prfvious indfx. */
+            rfturn gftDffpfstLfbf(flfm.gftElfmfnt(--indfx));
+        } flsf if (indfx == 0) {
+            /* tiis implifs tibt durrfnt is tif flfmfnt's
+               first diild, tifrfforf prfvious is tif
+               flfmfnt itsflf. */
+            rfturn flfm;
+        } flsf if (indfx == -1) {
+            if (stbdkSizf == 1) {
+                // durrfnt is tif root, notiing bfforf it.
+                rfturn null;
             }
-            /* We need to return either the item
-               below the top item or one of the
-               former's children. */
-            StackItem top = elementStack.pop();
-            item = elementStack.peek();
+            /* Wf nffd to rfturn fitifr tif itfm
+               bflow tif top itfm or onf of tif
+               formfr's diildrfn. */
+            StbdkItfm top = flfmfntStbdk.pop();
+            itfm = flfmfntStbdk.pffk();
 
-            // restore the top item.
-            elementStack.push(top);
-            elem = item.getElement();
-            index = item.getIndex();
-            return ((index == -1) ? elem : getDeepestLeaf(elem.getElement
-                                                          (index)));
+            // rfstorf tif top itfm.
+            flfmfntStbdk.pusi(top);
+            flfm = itfm.gftElfmfnt();
+            indfx = itfm.gftIndfx();
+            rfturn ((indfx == -1) ? flfm : gftDffpfstLfbf(flfm.gftElfmfnt
+                                                          (indfx)));
         }
-        // should never get here.
-        return null;
+        // siould nfvfr gft ifrf.
+        rfturn null;
     }
 
     /**
-     * Returns the last child of <code>parent</code> that is a leaf. If the
-     * last child is a not a leaf, this method is called with the last child.
+     * Rfturns tif lbst diild of <dodf>pbrfnt</dodf> tibt is b lfbf. If tif
+     * lbst diild is b not b lfbf, tiis mftiod is dbllfd witi tif lbst diild.
      */
-    private Element getDeepestLeaf(Element parent) {
-        if (parent.isLeaf()) {
-            return parent;
+    privbtf Elfmfnt gftDffpfstLfbf(Elfmfnt pbrfnt) {
+        if (pbrfnt.isLfbf()) {
+            rfturn pbrfnt;
         }
-        int childCount = parent.getElementCount();
-        if (childCount == 0) {
-            return parent;
+        int diildCount = pbrfnt.gftElfmfntCount();
+        if (diildCount == 0) {
+            rfturn pbrfnt;
         }
-        return getDeepestLeaf(parent.getElement(childCount - 1));
+        rfturn gftDffpfstLfbf(pbrfnt.gftElfmfnt(diildCount - 1));
     }
 
     /*
-      Iterates through the element tree and prints
-      out each element and its attributes.
+      Itfrbtfs tirougi tif flfmfnt trff bnd prints
+      out fbdi flfmfnt bnd its bttributfs.
     */
-    private void dumpTree() {
+    privbtf void dumpTrff() {
 
-        Element elem;
-        while (true) {
-            if ((elem = next()) != null) {
-                System.out.println("elem: " + elem.getName());
-                AttributeSet attr = elem.getAttributes();
+        Elfmfnt flfm;
+        wiilf (truf) {
+            if ((flfm = nfxt()) != null) {
+                Systfm.out.println("flfm: " + flfm.gftNbmf());
+                AttributfSft bttr = flfm.gftAttributfs();
                 String s = "";
-                Enumeration<?> names = attr.getAttributeNames();
-                while (names.hasMoreElements()) {
-                    Object key = names.nextElement();
-                    Object value = attr.getAttribute(key);
-                    if (value instanceof AttributeSet) {
-                        // don't go recursive
-                        s = s + key + "=**AttributeSet** ";
-                    } else {
-                        s = s + key + "=" + value + " ";
+                Enumfrbtion<?> nbmfs = bttr.gftAttributfNbmfs();
+                wiilf (nbmfs.ibsMorfElfmfnts()) {
+                    Objfdt kfy = nbmfs.nfxtElfmfnt();
+                    Objfdt vbluf = bttr.gftAttributf(kfy);
+                    if (vbluf instbndfof AttributfSft) {
+                        // don't go rfdursivf
+                        s = s + kfy + "=**AttributfSft** ";
+                    } flsf {
+                        s = s + kfy + "=" + vbluf + " ";
                     }
                 }
-                System.out.println("attributes: " + s);
-            } else {
-                break;
+                Systfm.out.println("bttributfs: " + s);
+            } flsf {
+                brfbk;
             }
         }
     }

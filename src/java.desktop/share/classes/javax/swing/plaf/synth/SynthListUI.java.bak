@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import java.awt.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bwt.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JList}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JList}.
  *
- * @author Scott Violet
- * @since 1.7
+ * @butior Sdott Violft
+ * @sindf 1.7
  */
-public class SynthListUI extends BasicListUI
-                         implements PropertyChangeListener, SynthUI {
-    private SynthStyle style;
-    private boolean useListColors;
-    private boolean useUIBorder;
+publid dlbss SyntiListUI fxtfnds BbsidListUI
+                         implfmfnts PropfrtyCibngfListfnfr, SyntiUI {
+    privbtf SyntiStylf stylf;
+    privbtf boolfbn usfListColors;
+    privbtf boolfbn usfUIBordfr;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crfbtfs b nfw UI objfdt for tif givfn domponfnt.
      *
-     * @param list component to create UI object for
-     * @return the UI object
+     * @pbrbm list domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent list) {
-        return new SynthListUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt list) {
+        rfturn nfw SyntiListUI();
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintListBackground(context,
-                          g, 0, 0, c.getWidth(), c.getHeight());
-        context.dispose();
-        paint(g, c);
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintListBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit());
+        dontfxt.disposf();
+        pbint(g, d);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintListBorder(context, g, x, y, w, h);
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintListBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installListeners() {
-        super.installListeners();
-        list.addPropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        list.bddPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((JList)e.getSource());
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(f)) {
+            updbtfStylf((JList)f.gftSourdf());
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        list.removePropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        list.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installDefaults() {
-        if (list.getCellRenderer() == null ||
-                 (list.getCellRenderer() instanceof UIResource)) {
-            list.setCellRenderer(new SynthListCellRenderer());
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        if (list.gftCfllRfndfrfr() == null ||
+                 (list.gftCfllRfndfrfr() instbndfof UIRfsourdf)) {
+            list.sftCfllRfndfrfr(nfw SyntiListCfllRfndfrfr());
         }
-        updateStyle(list);
+        updbtfStylf(list);
     }
 
-    private void updateStyle(JComponent c) {
-        SynthContext context = getContext(list, ENABLED);
-        SynthStyle oldStyle = style;
+    privbtf void updbtfStylf(JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(list, ENABLED);
+        SyntiStylf oldStylf = stylf;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
 
-        if (style != oldStyle) {
-            context.setComponentState(SELECTED);
-            Color sbg = list.getSelectionBackground();
-            if (sbg == null || sbg instanceof UIResource) {
-                list.setSelectionBackground(style.getColor(
-                                 context, ColorType.TEXT_BACKGROUND));
+        if (stylf != oldStylf) {
+            dontfxt.sftComponfntStbtf(SELECTED);
+            Color sbg = list.gftSflfdtionBbdkground();
+            if (sbg == null || sbg instbndfof UIRfsourdf) {
+                list.sftSflfdtionBbdkground(stylf.gftColor(
+                                 dontfxt, ColorTypf.TEXT_BACKGROUND));
             }
 
-            Color sfg = list.getSelectionForeground();
-            if (sfg == null || sfg instanceof UIResource) {
-                list.setSelectionForeground(style.getColor(
-                                 context, ColorType.TEXT_FOREGROUND));
+            Color sfg = list.gftSflfdtionForfground();
+            if (sfg == null || sfg instbndfof UIRfsourdf) {
+                list.sftSflfdtionForfground(stylf.gftColor(
+                                 dontfxt, ColorTypf.TEXT_FOREGROUND));
             }
 
-            useListColors = style.getBoolean(context,
-                                  "List.rendererUseListColors", true);
-            useUIBorder = style.getBoolean(context,
-                                  "List.rendererUseUIBorder", true);
+            usfListColors = stylf.gftBoolfbn(dontfxt,
+                                  "List.rfndfrfrUsfListColors", truf);
+            usfUIBordfr = stylf.gftBoolfbn(dontfxt,
+                                  "List.rfndfrfrUsfUIBordfr", truf);
 
-            int height = style.getInt(context, "List.cellHeight", -1);
-            if (height != -1) {
-                list.setFixedCellHeight(height);
+            int ifigit = stylf.gftInt(dontfxt, "List.dfllHfigit", -1);
+            if (ifigit != -1) {
+                list.sftFixfdCfllHfigit(ifigit);
             }
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
             }
         }
-        context.dispose();
+        dontfxt.disposf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallDefaults() {
-        super.uninstallDefaults();
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        supfr.uninstbllDffbults();
 
-        SynthContext context = getContext(list, ENABLED);
+        SyntiContfxt dontfxt = gftContfxt(list, ENABLED);
 
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
-    private int getComponentState(JComponent c) {
-        return SynthLookAndFeel.getComponentState(c);
+    privbtf int gftComponfntStbtf(JComponfnt d) {
+        rfturn SyntiLookAndFffl.gftComponfntStbtf(d);
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class SynthListCellRenderer extends DefaultListCellRenderer.UIResource {
-        @Override public String getName() {
-            return "List.cellRenderer";
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss SyntiListCfllRfndfrfr fxtfnds DffbultListCfllRfndfrfr.UIRfsourdf {
+        @Ovfrridf publid String gftNbmf() {
+            rfturn "List.dfllRfndfrfr";
         }
 
-        @Override public void setBorder(Border b) {
-            if (useUIBorder || b instanceof SynthBorder) {
-                super.setBorder(b);
+        @Ovfrridf publid void sftBordfr(Bordfr b) {
+            if (usfUIBordfr || b instbndfof SyntiBordfr) {
+                supfr.sftBordfr(b);
             }
         }
 
-        @Override public Component getListCellRendererComponent(JList<?> list, Object value,
-                  int index, boolean isSelected, boolean cellHasFocus) {
-            if (!useListColors && (isSelected || cellHasFocus)) {
-                SynthLookAndFeel.setSelectedUI((SynthLabelUI)SynthLookAndFeel.
-                             getUIOfType(getUI(), SynthLabelUI.class),
-                                   isSelected, cellHasFocus, list.isEnabled(), false);
+        @Ovfrridf publid Componfnt gftListCfllRfndfrfrComponfnt(JList<?> list, Objfdt vbluf,
+                  int indfx, boolfbn isSflfdtfd, boolfbn dfllHbsFodus) {
+            if (!usfListColors && (isSflfdtfd || dfllHbsFodus)) {
+                SyntiLookAndFffl.sftSflfdtfdUI((SyntiLbbflUI)SyntiLookAndFffl.
+                             gftUIOfTypf(gftUI(), SyntiLbbflUI.dlbss),
+                                   isSflfdtfd, dfllHbsFodus, list.isEnbblfd(), fblsf);
             }
-            else {
-                SynthLookAndFeel.resetSelectedUI();
+            flsf {
+                SyntiLookAndFffl.rfsftSflfdtfdUI();
             }
 
-            super.getListCellRendererComponent(list, value, index,
-                                               isSelected, cellHasFocus);
-            return this;
+            supfr.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx,
+                                               isSflfdtfd, dfllHbsFodus);
+            rfturn tiis;
         }
 
-        @Override public void paint(Graphics g) {
-            super.paint(g);
-            SynthLookAndFeel.resetSelectedUI();
+        @Ovfrridf publid void pbint(Grbpiids g) {
+            supfr.pbint(g);
+            SyntiLookAndFffl.rfsftSflfdtfdUI();
         }
     }
 }

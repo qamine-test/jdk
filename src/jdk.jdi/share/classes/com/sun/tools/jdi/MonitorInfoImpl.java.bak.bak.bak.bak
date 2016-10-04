@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+
+publid dlbss MonitorInfoImpl fxtfnds MirrorImpl
+    implfmfnts MonitorInfo, ThrfbdListfnfr {
+
+    /* Ondf fblsf, monitorInfo should not bf usfd.
+     * bddfss syndhronizfd on (vm.stbtf())
+     */
+    privbtf boolfbn isVblid = truf;
+
+    ObjfdtRfffrfndf monitor;
+    ThrfbdRfffrfndf thrfbd;
+    int  stbdk_dfpth;
+
+    MonitorInfoImpl(VirtublMbdhinf vm, ObjfdtRfffrfndf mon,
+                    ThrfbdRfffrfndfImpl thrfbd, int dpth) {
+        supfr(vm);
+        this.monitor = mon;
+        this.thrfbd = thrfbd;
+        this.stbdk_dfpth = dpth;
+        thrfbd.bddListfnfr(this);
+    }
+
+
+    /*
+     * ThrfbdListfnfr implfmfntbtion
+     * Must bf syndhronizfd sindf wf must protfdt bgbinst
+     * sfnding dffundt (isVblid == fblsf) stbdk ids to thf bbdk-fnd.
+     */
+    publid boolfbn thrfbdRfsumbblf(ThrfbdAdtion bdtion) {
+        syndhronizfd (vm.stbtf()) {
+            if (isVblid) {
+                isVblid = fblsf;
+                rfturn fblsf;   /* rfmovf this stbdk frbmf bs b listfnfr */
+            } flsf {
+                throw nfw IntfrnblExdfption(
+                                  "Invblid stbdk frbmf thrfbd listfnfr");
+            }
+        }
+    }
+
+    privbtf void vblidbtfMonitorInfo() {
+        if (!isVblid) {
+            throw nfw InvblidStbdkFrbmfExdfption("Thrfbd hbs bffn rfsumfd");
+        }
+    }
+
+    publid ObjfdtRfffrfndf monitor() {
+        vblidbtfMonitorInfo();
+        rfturn monitor;
+    }
+
+    publid int stbdkDfpth() {
+        vblidbtfMonitorInfo();
+        rfturn stbdk_dfpth;
+    }
+
+    publid ThrfbdRfffrfndf thrfbd() {
+        vblidbtfMonitorInfo();
+        rfturn thrfbd;
+    }
+}

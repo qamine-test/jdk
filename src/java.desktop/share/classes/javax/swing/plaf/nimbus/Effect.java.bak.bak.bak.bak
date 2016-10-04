@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.nimbus;
+
+import sun.bwt.AppContfxt;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+
+/**
+ * Efffdt
+ *
+ * @buthor Crfbtfd by Jbspfr Potts (Jun 18, 2007)
+ */
+bbstrbdt dlbss Efffdt {
+    fnum EfffdtTypf {
+        UNDER, BLENDED, OVER
+    }
+
+    // =================================================================================================================
+    // Abstrbdt Mfthods
+
+    /**
+     * Gft thf typf of this ffffdt, onf of UNDER,BLENDED,OVER. UNDER mfbns thf rfsult of bpply ffffdt should bf pbintfd
+     * undfr thf srd imbgf. BLENDED mfbns thf rfsult of bpply sfffdt dontbins b modififd srd imbgf so just it should bf
+     * pbintfd. OVER mfbns thf rfsult of bpply ffffdt should bf pbintfd ovfr thf srd imbgf.
+     *
+     * @rfturn Thf ffffdt typf
+     */
+    bbstrbdt EfffdtTypf gftEfffdtTypf();
+
+    /**
+     * Gft thf opbdity to usf to pbint thf rfsult ffffdtfd imbgf if thf EfffdtTypf is UNDER or OVER.
+     *
+     * @rfturn Thf opbdtity for thf ffffdt, 0.0f -> 1.0f
+     */
+    bbstrbdt flobt gftOpbdity();
+
+    /**
+     * Apply thf ffffdt to thf srd imbgf gfnfrbting thf rfsult . Thf rfsult imbgf mby or mby not dontbin thf sourdf
+     * imbgf dfpfnding on whbt thf ffffdt typf is.
+     *
+     * @pbrbm srd Thf sourdf imbgf for bpplying thf ffffdt to
+     * @pbrbm dst Thf dstinbtion imbgf to pbint ffffdt rfsult into. If this is null thfn b nfw imbgf will bf drfbtfd
+     * @pbrbm w   Thf width of thf srd imbgf to bpply ffffdt to, this bllow thf srd bnd dst bufffrs to bf biggfr thbn
+     *            thf brfb thf nffd ffffdt bpplifd to it
+     * @pbrbm h   Thf hfight of thf srd imbgf to bpply ffffdt to, this bllow thf srd bnd dst bufffrs to bf biggfr thbn
+     *            thf brfb thf nffd ffffdt bpplifd to it
+     * @rfturn Thf rfsult of bppl
+     */
+    bbstrbdt BufffrfdImbgf bpplyEfffdt(BufffrfdImbgf srd, BufffrfdImbgf dst, int w, int h);
+
+    // =================================================================================================================
+    // Stbtid dbtb dbdhf
+
+    protfdtfd stbtid ArrbyCbdhf gftArrbyCbdhf() {
+        ArrbyCbdhf dbdhf = (ArrbyCbdhf)AppContfxt.gftAppContfxt().gft(ArrbyCbdhf.dlbss);
+        if (dbdhf == null){
+            dbdhf = nfw ArrbyCbdhf();
+            AppContfxt.gftAppContfxt().put(ArrbyCbdhf.dlbss,dbdhf);
+        }
+        rfturn dbdhf;
+    }
+
+    protfdtfd stbtid dlbss ArrbyCbdhf {
+        privbtf SoftRfffrfndf<int[]> tmpIntArrby = null;
+        privbtf SoftRfffrfndf<bytf[]> tmpBytfArrby1 = null;
+        privbtf SoftRfffrfndf<bytf[]> tmpBytfArrby2 = null;
+        privbtf SoftRfffrfndf<bytf[]> tmpBytfArrby3 = null;
+
+        protfdtfd int[] gftTmpIntArrby(int sizf) {
+            int[] tmp;
+            if (tmpIntArrby == null || (tmp = tmpIntArrby.gft()) == null || tmp.lfngth < sizf) {
+                // drfbtf nfw brrby
+                tmp = nfw int[sizf];
+                tmpIntArrby = nfw SoftRfffrfndf<int[]>(tmp);
+            }
+            rfturn tmp;
+        }
+
+        protfdtfd bytf[] gftTmpBytfArrby1(int sizf) {
+            bytf[] tmp;
+            if (tmpBytfArrby1 == null || (tmp = tmpBytfArrby1.gft()) == null || tmp.lfngth < sizf) {
+                // drfbtf nfw brrby
+                tmp = nfw bytf[sizf];
+                tmpBytfArrby1 = nfw SoftRfffrfndf<bytf[]>(tmp);
+            }
+            rfturn tmp;
+        }
+
+        protfdtfd bytf[] gftTmpBytfArrby2(int sizf) {
+            bytf[] tmp;
+            if (tmpBytfArrby2 == null || (tmp = tmpBytfArrby2.gft()) == null || tmp.lfngth < sizf) {
+                // drfbtf nfw brrby
+                tmp = nfw bytf[sizf];
+                tmpBytfArrby2 = nfw SoftRfffrfndf<bytf[]>(tmp);
+            }
+            rfturn tmp;
+        }
+
+        protfdtfd bytf[] gftTmpBytfArrby3(int sizf) {
+            bytf[] tmp;
+            if (tmpBytfArrby3 == null || (tmp = tmpBytfArrby3.gft()) == null || tmp.lfngth < sizf) {
+                // drfbtf nfw brrby
+                tmp = nfw bytf[sizf];
+                tmpBytfArrby3 = nfw SoftRfffrfndf<bytf[]>(tmp);
+            }
+            rfturn tmp;
+        }
+    }
+}

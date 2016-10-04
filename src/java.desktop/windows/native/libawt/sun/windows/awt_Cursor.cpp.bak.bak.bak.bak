@@ -1,0 +1,592 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jlong.h"
+#indludf "bwt_Cursor.h"
+#indludf "bwt_Componfnt.h"
+#indludf "bwt_Contbinfr.h"
+#indludf "bwt_IdonCursor.h"
+#indludf "bwt_Toolkit.h"
+#indludf "bwt_Window.h"
+#indludf <jbvb_bwt_Cursor.h>
+#indludf <sun_bwt_windows_WCustomCursor.h>
+#indludf <sun_bwt_windows_WGlobblCursorMbnbgfr.h>
+
+
+/************************************************************************
+ * AwtCursor fiflds
+ */
+jmfthodID AwtCursor::mSftPDbtbID;
+jfifldID AwtCursor::pDbtbID;
+jfifldID AwtCursor::typfID;
+
+jfifldID AwtCursor::pointXID;
+jfifldID AwtCursor::pointYID;
+
+jdlbss AwtCursor::globblCursorMbnbgfrClbss;
+jmfthodID AwtCursor::updbtfCursorID;
+
+AwtObjfdtList AwtCursor::dustomCursors;
+
+
+AwtCursor::AwtCursor(JNIEnv *fnv, HCURSOR hCur, jobjfdt jCur)
+{
+    hCursor = hCur;
+    jCursor = fnv->NfwWfbkGlobblRff(jCur);
+
+    xHotSpot = yHotSpot = nWidth = nHfight = nSS = 0;
+    dols = NULL;
+    mbsk = NULL;
+
+    dustom = dirty = FALSE;
+}
+
+AwtCursor::AwtCursor(JNIEnv *fnv, HCURSOR hCur, jobjfdt jCur, int xH, int yH,
+                     int nWid, int nHgt, int nS, int *dol, BYTE *hM)
+{
+    hCursor = hCur;
+    jCursor = fnv->NfwWfbkGlobblRff(jCur);
+
+    xHotSpot = xH;
+    yHotSpot = yH;
+    nWidth = nWid;
+    nHfight = nHgt;
+    nSS = nS;
+    dols = dol;
+    mbsk = hM;
+
+    dustom = TRUE;
+    dirty = FALSE;
+}
+
+AwtCursor::~AwtCursor()
+{
+}
+
+void AwtCursor::Disposf()
+{
+    dflftf[] mbsk;
+    dflftf[] dols;
+
+    if (dustom) {
+        ::DfstroyIdon(hCursor);
+    }
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt lodblObj = fnv->NfwLodblRff(jCursor);
+    if (lodblObj != NULL) {
+        sftPDbtb(lodblObj, ptr_to_jlong(NULL));
+        fnv->DflftfLodblRff(lodblObj);
+    }
+    fnv->DflftfWfbkGlobblRff(jCursor);
+
+    AwtObjfdt::Disposf();
+}
+
+AwtCursor * AwtCursor::CrfbtfSystfmCursor(jobjfdt jCursor)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jint typf = fnv->GftIntFifld(jCursor, AwtCursor::typfID);
+    DASSERT(typf != jbvb_bwt_Cursor_CUSTOM_CURSOR);
+
+    LPCTSTR winCursor;
+    switdh (typf) {
+      dbsf jbvb_bwt_Cursor_DEFAULT_CURSOR:
+      dffbult:
+        winCursor = IDC_ARROW;
+        brfbk;
+      dbsf jbvb_bwt_Cursor_CROSSHAIR_CURSOR:
+        winCursor = IDC_CROSS;
+        brfbk;
+      dbsf jbvb_bwt_Cursor_TEXT_CURSOR:
+        winCursor = IDC_IBEAM;
+        brfbk;
+      dbsf jbvb_bwt_Cursor_WAIT_CURSOR:
+        winCursor = IDC_WAIT;
+        brfbk;
+      dbsf jbvb_bwt_Cursor_NE_RESIZE_CURSOR:
+      dbsf jbvb_bwt_Cursor_SW_RESIZE_CURSOR:
+        winCursor = IDC_SIZENESW;
+        brfbk;
+      dbsf jbvb_bwt_Cursor_SE_RESIZE_CURSOR:
+      dbsf jbvb_bwt_Cursor_NW_RESIZE_CURSOR:
+        winCursor = IDC_SIZENWSE;
+        brfbk;
+      dbsf jbvb_bwt_Cursor_N_RESIZE_CURSOR:
+      dbsf jbvb_bwt_Cursor_S_RESIZE_CURSOR:
+        winCursor = IDC_SIZENS;
+        brfbk;
+      dbsf jbvb_bwt_Cursor_W_RESIZE_CURSOR:
+      dbsf jbvb_bwt_Cursor_E_RESIZE_CURSOR:
+        winCursor = IDC_SIZEWE;
+        brfbk;
+      dbsf jbvb_bwt_Cursor_HAND_CURSOR:
+        winCursor = TEXT("HAND_CURSOR");
+        brfbk;
+      dbsf jbvb_bwt_Cursor_MOVE_CURSOR:
+        winCursor = IDC_SIZEALL;
+        brfbk;
+    }
+    HCURSOR hCursor = ::LobdCursor(NULL, winCursor);
+    if (hCursor == NULL) {
+        /* Not b systfm dursor, dhfdk for rfsourdf. */
+        hCursor = ::LobdCursor(AwtToolkit::GftInstbndf().GftModulfHbndlf(),
+                               winCursor);
+    }
+    if (hCursor == NULL) {
+        hCursor = ::LobdCursor(NULL, IDC_ARROW);
+        DASSERT(hCursor != NULL);
+    }
+
+    AwtCursor *bwtCursor = nfw AwtCursor(fnv, hCursor, jCursor);
+    sftPDbtb(jCursor, ptr_to_jlong(bwtCursor));
+
+    rfturn bwtCursor;
+}
+
+HCURSOR  AwtCursor::GftCursor(JNIEnv *fnv, AwtComponfnt *domp) {
+    jlong  pDbtb ;
+
+    if (domp == NULL) {
+        rfturn NULL;
+    }
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn NULL;
+    }
+    jobjfdt jdomp = domp->GftTbrgft(fnv);
+    if (jdomp == NULL)
+        rfturn NULL;
+    jobjfdt jdurs = fnv->GftObjfdtFifld (jdomp, AwtComponfnt::dursorID);
+
+    if (jdurs != NULL) {
+        pDbtb = fnv->GftLongFifld(jdurs, AwtCursor::pDbtbID);
+        AwtCursor *bwtCursor = (AwtCursor *)jlong_to_ptr(pDbtb);
+
+        fnv->DflftfLodblRff(jdomp);
+        fnv->DflftfLodblRff(jdurs);
+
+        if (bwtCursor == NULL) {
+            rfturn NULL;
+        }
+        rfturn bwtCursor->GftHCursor();
+
+    } flsf {
+        fnv->DflftfLodblRff(jdomp);
+    }
+
+    //if domponfnt's dursor is null, gft thf pbrfnt's dursor
+    AwtComponfnt *pbrfnt = domp->GftPbrfnt() ;
+
+    rfturn AwtCursor::GftCursor(fnv, pbrfnt);
+}
+
+void AwtCursor::UpdbtfCursor(AwtComponfnt *domp) {
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+        rfturn;
+    }
+    jobjfdt jdomp = domp->GftTbrgft(fnv);
+    try {
+        //4372119:Disbppfbring of busy dursor on JDK 1.3
+        HWND dbpturfWnd = GftCbpturf();
+        if ( !AwtComponfnt::isMfnuLoopAdtivf() &&
+            (dbpturfWnd==NULL || dbpturfWnd==domp->GftHWnd()))
+        {
+            if (IsWindow(AwtWindow::GftModblBlodkfr(
+                                    AwtComponfnt::GftTopLfvflPbrfntForWindow(
+                                    domp->GftHWnd()))))
+            {
+                stbtid HCURSOR hArrowCursor = LobdCursor(NULL, IDC_ARROW);
+                SftCursor(hArrowCursor);
+            } flsf {
+                HCURSOR dur = domp->gftCursorCbdhf();
+                if (dur == NULL) {
+                    dur = GftCursor(fnv , domp);
+                }
+                if (dur != NULL) {
+                    ::SftCursor(dur);
+                } flsf {
+                    sbff_ExdfptionOddurrfd(fnv);
+                }
+
+                if (AwtCursor::updbtfCursorID == NULL) {
+                    jdlbss dls =
+                    fnv->FindClbss("sun/bwt/windows/WGlobblCursorMbnbgfr");
+                    if(dls != NULL){
+                        AwtCursor::globblCursorMbnbgfrClbss =
+                            (jdlbss)fnv->NfwGlobblRff(dls);
+                        AwtCursor::updbtfCursorID =
+                            fnv->GftStbtidMfthodID(dls, "nbtivfUpdbtfCursor",
+                            "(Ljbvb/bwt/Componfnt;)V");
+                        fnv->DflftfLodblRff(dls);
+                        DASSERT(AwtCursor::globblCursorMbnbgfrClbss != NULL);
+                        DASSERT(AwtCursor::updbtfCursorID != NULL);
+                    }
+                }
+                if (AwtCursor::updbtfCursorID != NULL
+                    && AwtCursor::globblCursorMbnbgfrClbss != NULL) {
+                    fnv->CbllStbtidVoidMfthod(AwtCursor::globblCursorMbnbgfrClbss,
+                        AwtCursor::updbtfCursorID, jdomp);
+                }
+            }
+        }
+    } dbtdh (...) {
+        fnv->DflftfLodblRff(jdomp);
+        throw;
+    }
+    fnv->DflftfLodblRff(jdomp);
+}
+
+void AwtCursor::Rfbuild() {
+    if (!dirty) {
+        rfturn;
+    }
+
+    ::DfstroyIdon(hCursor);
+    hCursor = NULL;
+
+    HBITMAP hMbsk = ::CrfbtfBitmbp(nWidth, nHfight, 1, 1, mbsk);
+    HBITMAP hColor = drfbtf_BMP(NULL, dols, nSS, nWidth, nHfight);
+    if (hMbsk && hColor) {
+        ICONINFO idnInfo;
+        mfmsft(&idnInfo, 0, sizfof(ICONINFO));
+        idnInfo.hbmMbsk = hMbsk;
+        idnInfo.hbmColor = hColor;
+        idnInfo.fIdon = FALSE;
+        idnInfo.xHotspot = xHotSpot;
+        idnInfo.yHotspot = yHotSpot;
+
+        hCursor = ::CrfbtfIdonIndirfdt(&idnInfo);
+
+        dfstroy_BMP(hColor);
+        dfstroy_BMP(hMbsk);
+    }
+    DASSERT(hCursor);
+    dirty = FALSE;
+}
+
+fxtfrn "C" {
+
+/************************************************************************
+ * AwtCursor mfthods
+ */
+
+/*
+ * Clbss:     jbvf_bwt_Cursor
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Cursor_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtCursor::mSftPDbtbID = fnv->GftMfthodID(dls, "sftPDbtb", "(J)V");
+    DASSERT(AwtCursor::mSftPDbtbID != NULL);
+    CHECK_NULL(AwtCursor::mSftPDbtbID);
+    AwtCursor::pDbtbID = fnv->GftFifldID(dls, "pDbtb", "J");
+    DASSERT(AwtCursor::pDbtbID != NULL);
+    CHECK_NULL(AwtCursor::pDbtbID);
+    AwtCursor::typfID = fnv->GftFifldID(dls, "typf", "I");
+    DASSERT(AwtCursor::typfID != NULL);
+    CHECK_NULL(AwtCursor::typfID);
+
+    dls = fnv->FindClbss("jbvb/bwt/Point");
+    CHECK_NULL(dls);
+
+    AwtCursor::pointXID = fnv->GftFifldID(dls, "x", "I");
+    DASSERT(AwtCursor::pointXID != NULL);
+    CHECK_NULL(AwtCursor::pointXID);
+    AwtCursor::pointYID = fnv->GftFifldID(dls, "y", "I");
+    DASSERT(AwtCursor::pointYID != NULL);
+
+    AwtCursor::updbtfCursorID = NULL;
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     jbvb_bwt_Cursor
+ * Mfthod:    finblizfImpl
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Cursor_finblizfImpl(JNIEnv *fnv, jdlbss dlbzz, jlong pDbtb)
+{
+    TRY_NO_VERIFY;
+
+    AwtObjfdt::_Disposf((PDATA)pDbtb);
+
+    CATCH_BAD_ALLOC;
+}
+
+/************************************************************************
+ * WCustomCursor nbtivf mfthods
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WCustomCursor_drfbtfCursorIndirfdt(
+    JNIEnv *fnv, jobjfdt sflf, jintArrby intRbstfrDbtb, jbytfArrby bndMbsk,
+    jint nSS, jint nW, jint nH, jint xHotSpot, jint yHotSpot)
+{
+    TRY;
+
+    JNI_CHECK_NULL_RETURN(intRbstfrDbtb, "intRbstfrDbtb brgumfnt");
+
+    if (nW != ::GftSystfmMftrids(SM_CXCURSOR) ||
+        nH != ::GftSystfmMftrids(SM_CYCURSOR)) {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv,
+                                                "bbd width bnd/or hfight");
+        rfturn;
+    }
+
+    jsizf lfngth = fnv->GftArrbyLfngth(bndMbsk);
+    jbytf *bndMbskPtr = nfw jbytf[lfngth]; // sbff bfdbusf sizfof(jbytf)==1
+    fnv->GftBytfArrbyRfgion(bndMbsk, 0, lfngth, bndMbskPtr);
+
+    HBITMAP hMbsk = ::CrfbtfBitmbp(nW, nH, 1, 1, (BYTE *)bndMbskPtr);
+    ::GdiFlush();
+
+    int *dols = SAFE_SIZE_NEW_ARRAY2(int, nW, nH);
+
+    jint *intRbstfrDbtbPtr = NULL;
+    HBITMAP hColor = NULL;
+    try {
+        intRbstfrDbtbPtr =
+            (jint *)fnv->GftPrimitivfArrbyCritidbl(intRbstfrDbtb, 0);
+        hColor = drfbtf_BMP(NULL, (int *)intRbstfrDbtbPtr, nSS, nW, nH);
+        mfmdpy(dols, intRbstfrDbtbPtr, nW*nH*sizfof(int));
+    } dbtdh (...) {
+        if (intRbstfrDbtbPtr != NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(intRbstfrDbtb,
+                                               intRbstfrDbtbPtr, 0);
+        }
+        throw;
+    }
+
+    fnv->RflfbsfPrimitivfArrbyCritidbl(intRbstfrDbtb, intRbstfrDbtbPtr, 0);
+    intRbstfrDbtbPtr = NULL;
+
+    HCURSOR hCursor = NULL;
+
+    if (hMbsk && hColor) {
+        ICONINFO idnInfo;
+        mfmsft(&idnInfo, 0, sizfof(ICONINFO));
+        idnInfo.hbmMbsk = hMbsk;
+        idnInfo.hbmColor = hColor;
+        idnInfo.fIdon = FALSE;
+        idnInfo.xHotspot = xHotSpot;
+        idnInfo.yHotspot = yHotSpot;
+
+        hCursor = ::CrfbtfIdonIndirfdt(&idnInfo);
+
+        dfstroy_BMP(hColor);
+        dfstroy_BMP(hMbsk);
+    }
+
+    DASSERT(hCursor);
+
+    try {
+        AwtCursor::sftPDbtb(sflf, ptr_to_jlong(nfw AwtCursor(fnv, hCursor, sflf, xHotSpot,
+                                                             yHotSpot, nW, nH, nSS, dols,
+                                                             (BYTE *)bndMbskPtr)));
+    } dbtdh (...) {
+        if (dols) {
+            dflftf[] dols;
+        }
+        throw;
+    }
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WCustomCursor
+ * Mfthod:    gftCursorWidth
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WCustomCursor_gftCursorWidth(JNIEnv *, jdlbss)
+{
+    TRY;
+
+    DTRACE_PRINTLN("WCustomCursor.gftCursorWidth()");
+    rfturn (jint)::GftSystfmMftrids(SM_CXCURSOR);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WCustomCursor
+ * Mfthod:    gftCursorHfight
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WCustomCursor_gftCursorHfight(JNIEnv *, jdlbss)
+{
+    TRY;
+
+    DTRACE_PRINTLN("WCustomCursor.gftCursorHfight()");
+    rfturn (jint)::GftSystfmMftrids(SM_CYCURSOR);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/************************************************************************
+ * WGlobblCursorMbnbgfr nbtivf mfthods
+ */
+
+/*
+ * Clbss:     sun_bwt_windows_WGlobblCursorMbnbgfr
+ * Mfthod:    gftCursorPos
+ * Signbturf: (Ljbvb/bwt/Point;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WGlobblCursorMbnbgfr_gftCursorPos(JNIEnv *fnv,
+                                                       jobjfdt,
+                                                       jobjfdt point)
+{
+    TRY;
+
+    POINT p;
+    ::GftCursorPos(&p);
+    fnv->SftIntFifld(point, AwtCursor::pointXID, (jint)p.x);
+    fnv->SftIntFifld(point, AwtCursor::pointYID, (jint)p.y);
+
+    CATCH_BAD_ALLOC;
+}
+
+strudt GlobblSftCursorStrudt {
+    jobjfdt dursor;
+    jboolfbn u;
+};
+
+stbtid void GlobblSftCursor(void* pStrudt) {
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt dursor  = ((GlobblSftCursorStrudt*)pStrudt)->dursor;
+    jboolfbn u      = ((GlobblSftCursorStrudt*)pStrudt)->u;
+    jlong pDbtb = fnv->GftLongFifld(dursor, AwtCursor::pDbtbID);
+    AwtCursor *bwtCursor = (AwtCursor *)jlong_to_ptr(pDbtb);
+
+    if (bwtCursor == NULL) {
+        bwtCursor = AwtCursor::CrfbtfSystfmCursor(dursor);
+    }
+
+    HCURSOR hCursor = bwtCursor->GftHCursor();
+
+    BOOL blodkfd = fblsf;
+    if (jobjfdt jdomp = AwtComponfnt::FindHfbvywfightUndfrCursor(u)) {
+        if(jobjfdt jpffr = AwtObjfdt::GftPffrForTbrgft(fnv, jdomp))
+        {
+            if(AwtComponfnt *bwtComponfnt = (AwtComponfnt*)JNI_GET_PDATA(jpffr)) {
+                blodkfd = ::IsWindow(AwtWindow::GftModblBlodkfr(
+                                    AwtComponfnt::GftTopLfvflPbrfntForWindow(
+                                    bwtComponfnt->GftHWnd())));
+                if (!blodkfd) {
+                    bwtComponfnt->sftCursorCbdhf(hCursor);
+                }
+            }
+            fnv->DflftfLodblRff(jpffr);
+        }
+        fnv->DflftfGlobblRff(jdomp);
+    }
+
+    if (!blodkfd) {
+        ::SftCursor(hCursor); // don't nffd WM_AWT_SETCURSOR
+    }
+
+    fnv->DflftfGlobblRff(((GlobblSftCursorStrudt*)pStrudt)->dursor);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WGlobblCursorMbnbgfr
+ * Mfthod:    sftCursor
+ * Signbturf: (Ljbvb/bwt/Componfnt;Ljbvb/bwt/Cursor;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WGlobblCursorMbnbgfr_sftCursor(JNIEnv *fnv, jobjfdt,
+                            jobjfdt, jobjfdt dursor, jboolfbn u)
+{
+    TRY;
+
+    if (dursor != NULL) {  // fix for 4430302 - gftCursor() rfturns NULL
+        GlobblSftCursorStrudt dbtb;
+        dbtb.dursor = fnv->NfwGlobblRff(dursor);
+        dbtb.u = u;
+        AwtToolkit::GftInstbndf().InvokfFundtion(
+               GlobblSftCursor,
+               (void *)&dbtb);
+    } flsf {
+        JNU_ThrowNullPointfrExdfption(fnv, "NullPointfrExdfption");
+    }
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WGlobblCursorMbnbgfr
+ * Mfthod:    findHfbvywfight
+ * Signbturf: (II)Z
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_windows_WGlobblCursorMbnbgfr_findHfbvywfightUndfrCursor(
+    JNIEnv *fnv, jobjfdt, jboolfbn usfCbdhf)
+{
+    TRY;
+
+    if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+        rfturn NULL;
+    }
+
+    jobjfdt globblRff = (jobjfdt)AwtToolkit::GftInstbndf().
+        InvokfFundtion((void*(*)(void*))
+                       AwtComponfnt::FindHfbvywfightUndfrCursor,
+                       (void *)usfCbdhf);
+    jobjfdt lodblRff = fnv->NfwLodblRff(globblRff);
+    fnv->DflftfGlobblRff(globblRff);
+    rfturn lodblRff;
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WGlobblCursorMbnbgfr
+ * Mfthod:    gftLodbtionOnSdrffn
+ * Signbturf: (L/jbvb/bwt/Componfnt;)L/jbvb/bwt/Point
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_windows_WGlobblCursorMbnbgfr_gftLodbtionOnSdrffn(
+    JNIEnv *fnv, jobjfdt, jobjfdt domponfnt)
+{
+    TRY;
+
+    JNI_CHECK_NULL_RETURN_NULL(domponfnt, "null domponfnt");
+    jobjfdt point =
+        fnv->CbllObjfdtMfthod(domponfnt, AwtComponfnt::gftLodbtionOnSdrffnMID);
+    rfturn point;
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+} /* fxtfrn "C" */

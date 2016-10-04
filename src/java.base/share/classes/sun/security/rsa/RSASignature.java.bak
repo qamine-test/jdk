@@ -1,308 +1,308 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.rsa;
+pbdkbgf sun.sfdurity.rsb;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.util.Arrbys;
 
-import java.security.*;
-import java.security.interfaces.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
 
-import sun.security.util.*;
-import sun.security.x509.AlgorithmId;
+import sun.sfdurity.util.*;
+import sun.sfdurity.x509.AlgoritimId;
 
 /**
- * PKCS#1 RSA signatures with the various message digest algorithms.
- * This file contains an abstract base class with all the logic plus
- * a nested static class for each of the message digest algorithms
- * (see end of the file). We support MD2, MD5, SHA-1, SHA-224, SHA-256,
- * SHA-384, and SHA-512.
+ * PKCS#1 RSA signbturfs witi tif vbrious mfssbgf digfst blgoritims.
+ * Tiis filf dontbins bn bbstrbdt bbsf dlbss witi bll tif logid plus
+ * b nfstfd stbtid dlbss for fbdi of tif mfssbgf digfst blgoritims
+ * (sff fnd of tif filf). Wf support MD2, MD5, SHA-1, SHA-224, SHA-256,
+ * SHA-384, bnd SHA-512.
  *
- * @since   1.5
- * @author  Andreas Sterbenz
+ * @sindf   1.5
+ * @butior  Andrfbs Stfrbfnz
  */
-public abstract class RSASignature extends SignatureSpi {
+publid bbstrbdt dlbss RSASignbturf fxtfnds SignbturfSpi {
 
-    // we sign an ASN.1 SEQUENCE of AlgorithmId and digest
-    // it has the form 30:xx:30:xx:[digestOID]:05:00:04:xx:[digest]
-    // this means the encoded length is (8 + digestOID.length + digest.length)
-    private static final int baseLength = 8;
+    // wf sign bn ASN.1 SEQUENCE of AlgoritimId bnd digfst
+    // it ibs tif form 30:xx:30:xx:[digfstOID]:05:00:04:xx:[digfst]
+    // tiis mfbns tif fndodfd lfngti is (8 + digfstOID.lfngti + digfst.lfngti)
+    privbtf stbtid finbl int bbsfLfngti = 8;
 
-    // object identifier for the message digest algorithm used
-    private final ObjectIdentifier digestOID;
+    // objfdt idfntififr for tif mfssbgf digfst blgoritim usfd
+    privbtf finbl ObjfdtIdfntififr digfstOID;
 
-    // length of the encoded signature blob
-    private final int encodedLength;
+    // lfngti of tif fndodfd signbturf blob
+    privbtf finbl int fndodfdLfngti;
 
-    // message digest implementation we use
-    private final MessageDigest md;
-    // flag indicating whether the digest is reset
-    private boolean digestReset;
+    // mfssbgf digfst implfmfntbtion wf usf
+    privbtf finbl MfssbgfDigfst md;
+    // flbg indidbting wiftifr tif digfst is rfsft
+    privbtf boolfbn digfstRfsft;
 
-    // private key, if initialized for signing
-    private RSAPrivateKey privateKey;
-    // public key, if initialized for verifying
-    private RSAPublicKey publicKey;
+    // privbtf kfy, if initiblizfd for signing
+    privbtf RSAPrivbtfKfy privbtfKfy;
+    // publid kfy, if initiblizfd for vfrifying
+    privbtf RSAPublidKfy publidKfy;
 
-    // padding to use, set when the initSign/initVerify is called
-    private RSAPadding padding;
+    // pbdding to usf, sft wifn tif initSign/initVfrify is dbllfd
+    privbtf RSAPbdding pbdding;
 
     /**
-     * Construct a new RSASignature. Used by subclasses.
+     * Construdt b nfw RSASignbturf. Usfd by subdlbssfs.
      */
-    RSASignature(String algorithm, ObjectIdentifier digestOID, int oidLength) {
-        this.digestOID = digestOID;
+    RSASignbturf(String blgoritim, ObjfdtIdfntififr digfstOID, int oidLfngti) {
+        tiis.digfstOID = digfstOID;
         try {
-            md = MessageDigest.getInstance(algorithm);
-        } catch (NoSuchAlgorithmException e) {
-            throw new ProviderException(e);
+            md = MfssbgfDigfst.gftInstbndf(blgoritim);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            tirow nfw ProvidfrExdfption(f);
         }
-        digestReset = true;
-        encodedLength = baseLength + oidLength + md.getDigestLength();
+        digfstRfsft = truf;
+        fndodfdLfngti = bbsfLfngti + oidLfngti + md.gftDigfstLfngti();
     }
 
-    // initialize for verification. See JCA doc
-    protected void engineInitVerify(PublicKey publicKey)
-            throws InvalidKeyException {
-        RSAPublicKey rsaKey = (RSAPublicKey)RSAKeyFactory.toRSAKey(publicKey);
-        this.privateKey = null;
-        this.publicKey = rsaKey;
-        initCommon(rsaKey, null);
+    // initiblizf for vfrifidbtion. Sff JCA dod
+    protfdtfd void fnginfInitVfrify(PublidKfy publidKfy)
+            tirows InvblidKfyExdfption {
+        RSAPublidKfy rsbKfy = (RSAPublidKfy)RSAKfyFbdtory.toRSAKfy(publidKfy);
+        tiis.privbtfKfy = null;
+        tiis.publidKfy = rsbKfy;
+        initCommon(rsbKfy, null);
     }
 
-    // initialize for signing. See JCA doc
-    protected void engineInitSign(PrivateKey privateKey)
-            throws InvalidKeyException {
-        engineInitSign(privateKey, null);
+    // initiblizf for signing. Sff JCA dod
+    protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy)
+            tirows InvblidKfyExdfption {
+        fnginfInitSign(privbtfKfy, null);
     }
 
-    // initialize for signing. See JCA doc
-    protected void engineInitSign(PrivateKey privateKey, SecureRandom random)
-            throws InvalidKeyException {
-        RSAPrivateKey rsaKey =
-            (RSAPrivateKey)RSAKeyFactory.toRSAKey(privateKey);
-        this.privateKey = rsaKey;
-        this.publicKey = null;
-        initCommon(rsaKey, random);
+    // initiblizf for signing. Sff JCA dod
+    protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption {
+        RSAPrivbtfKfy rsbKfy =
+            (RSAPrivbtfKfy)RSAKfyFbdtory.toRSAKfy(privbtfKfy);
+        tiis.privbtfKfy = rsbKfy;
+        tiis.publidKfy = null;
+        initCommon(rsbKfy, rbndom);
     }
 
     /**
-     * Init code common to sign and verify.
+     * Init dodf dommon to sign bnd vfrify.
      */
-    private void initCommon(RSAKey rsaKey, SecureRandom random)
-            throws InvalidKeyException {
-        resetDigest();
-        int keySize = RSACore.getByteLength(rsaKey);
+    privbtf void initCommon(RSAKfy rsbKfy, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption {
+        rfsftDigfst();
+        int kfySizf = RSACorf.gftBytfLfngti(rsbKfy);
         try {
-            padding = RSAPadding.getInstance
-                (RSAPadding.PAD_BLOCKTYPE_1, keySize, random);
-        } catch (InvalidAlgorithmParameterException iape) {
-            throw new InvalidKeyException(iape.getMessage());
+            pbdding = RSAPbdding.gftInstbndf
+                (RSAPbdding.PAD_BLOCKTYPE_1, kfySizf, rbndom);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+            tirow nfw InvblidKfyExdfption(ibpf.gftMfssbgf());
         }
-        int maxDataSize = padding.getMaxDataSize();
-        if (encodedLength > maxDataSize) {
-            throw new InvalidKeyException
-                ("Key is too short for this signature algorithm");
-        }
-    }
-
-    /**
-     * Reset the message digest if it is not already reset.
-     */
-    private void resetDigest() {
-        if (digestReset == false) {
-            md.reset();
-            digestReset = true;
+        int mbxDbtbSizf = pbdding.gftMbxDbtbSizf();
+        if (fndodfdLfngti > mbxDbtbSizf) {
+            tirow nfw InvblidKfyExdfption
+                ("Kfy is too siort for tiis signbturf blgoritim");
         }
     }
 
     /**
-     * Return the message digest value.
+     * Rfsft tif mfssbgf digfst if it is not blrfbdy rfsft.
      */
-    private byte[] getDigestValue() {
-        digestReset = true;
-        return md.digest();
+    privbtf void rfsftDigfst() {
+        if (digfstRfsft == fblsf) {
+            md.rfsft();
+            digfstRfsft = truf;
+        }
     }
 
-    // update the signature with the plaintext data. See JCA doc
-    protected void engineUpdate(byte b) throws SignatureException {
-        md.update(b);
-        digestReset = false;
+    /**
+     * Rfturn tif mfssbgf digfst vbluf.
+     */
+    privbtf bytf[] gftDigfstVbluf() {
+        digfstRfsft = truf;
+        rfturn md.digfst();
     }
 
-    // update the signature with the plaintext data. See JCA doc
-    protected void engineUpdate(byte[] b, int off, int len)
-            throws SignatureException {
-        md.update(b, off, len);
-        digestReset = false;
+    // updbtf tif signbturf witi tif plbintfxt dbtb. Sff JCA dod
+    protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption {
+        md.updbtf(b);
+        digfstRfsft = fblsf;
     }
 
-    // update the signature with the plaintext data. See JCA doc
-    protected void engineUpdate(ByteBuffer b) {
-        md.update(b);
-        digestReset = false;
+    // updbtf tif signbturf witi tif plbintfxt dbtb. Sff JCA dod
+    protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+            tirows SignbturfExdfption {
+        md.updbtf(b, off, lfn);
+        digfstRfsft = fblsf;
     }
 
-    // sign the data and return the signature. See JCA doc
-    protected byte[] engineSign() throws SignatureException {
-        byte[] digest = getDigestValue();
+    // updbtf tif signbturf witi tif plbintfxt dbtb. Sff JCA dod
+    protfdtfd void fnginfUpdbtf(BytfBufffr b) {
+        md.updbtf(b);
+        digfstRfsft = fblsf;
+    }
+
+    // sign tif dbtb bnd rfturn tif signbturf. Sff JCA dod
+    protfdtfd bytf[] fnginfSign() tirows SignbturfExdfption {
+        bytf[] digfst = gftDigfstVbluf();
         try {
-            byte[] encoded = encodeSignature(digestOID, digest);
-            byte[] padded = padding.pad(encoded);
-            byte[] encrypted = RSACore.rsa(padded, privateKey);
-            return encrypted;
-        } catch (GeneralSecurityException e) {
-            throw new SignatureException("Could not sign data", e);
-        } catch (IOException e) {
-            throw new SignatureException("Could not encode data", e);
+            bytf[] fndodfd = fndodfSignbturf(digfstOID, digfst);
+            bytf[] pbddfd = pbdding.pbd(fndodfd);
+            bytf[] fndryptfd = RSACorf.rsb(pbddfd, privbtfKfy);
+            rfturn fndryptfd;
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw SignbturfExdfption("Could not sign dbtb", f);
+        } dbtdi (IOExdfption f) {
+            tirow nfw SignbturfExdfption("Could not fndodf dbtb", f);
         }
     }
 
-    // verify the data and return the result. See JCA doc
-    protected boolean engineVerify(byte[] sigBytes) throws SignatureException {
-        if (sigBytes.length != RSACore.getByteLength(publicKey)) {
-            throw new SignatureException("Signature length not correct: got " +
-                    sigBytes.length + " but was expecting " +
-                    RSACore.getByteLength(publicKey));
+    // vfrify tif dbtb bnd rfturn tif rfsult. Sff JCA dod
+    protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs) tirows SignbturfExdfption {
+        if (sigBytfs.lfngti != RSACorf.gftBytfLfngti(publidKfy)) {
+            tirow nfw SignbturfExdfption("Signbturf lfngti not dorrfdt: got " +
+                    sigBytfs.lfngti + " but wbs fxpfdting " +
+                    RSACorf.gftBytfLfngti(publidKfy));
         }
-        byte[] digest = getDigestValue();
+        bytf[] digfst = gftDigfstVbluf();
         try {
-            byte[] decrypted = RSACore.rsa(sigBytes, publicKey);
-            byte[] unpadded = padding.unpad(decrypted);
-            byte[] decodedDigest = decodeSignature(digestOID, unpadded);
-            return Arrays.equals(digest, decodedDigest);
-        } catch (javax.crypto.BadPaddingException e) {
-            // occurs if the app has used the wrong RSA public key
-            // or if sigBytes is invalid
-            // return false rather than propagating the exception for
-            // compatibility/ease of use
-            return false;
-        } catch (IOException e) {
-            throw new SignatureException("Signature encoding error", e);
+            bytf[] dfdryptfd = RSACorf.rsb(sigBytfs, publidKfy);
+            bytf[] unpbddfd = pbdding.unpbd(dfdryptfd);
+            bytf[] dfdodfdDigfst = dfdodfSignbturf(digfstOID, unpbddfd);
+            rfturn Arrbys.fqubls(digfst, dfdodfdDigfst);
+        } dbtdi (jbvbx.drypto.BbdPbddingExdfption f) {
+            // oddurs if tif bpp ibs usfd tif wrong RSA publid kfy
+            // or if sigBytfs is invblid
+            // rfturn fblsf rbtifr tibn propbgbting tif fxdfption for
+            // dompbtibility/fbsf of usf
+            rfturn fblsf;
+        } dbtdi (IOExdfption f) {
+            tirow nfw SignbturfExdfption("Signbturf fndoding frror", f);
         }
     }
 
     /**
-     * Encode the digest, return the to-be-signed data.
-     * Also used by the PKCS#11 provider.
+     * Endodf tif digfst, rfturn tif to-bf-signfd dbtb.
+     * Also usfd by tif PKCS#11 providfr.
      */
-    public static byte[] encodeSignature(ObjectIdentifier oid, byte[] digest)
-            throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        new AlgorithmId(oid).encode(out);
-        out.putOctetString(digest);
-        DerValue result =
-            new DerValue(DerValue.tag_Sequence, out.toByteArray());
-        return result.toByteArray();
+    publid stbtid bytf[] fndodfSignbturf(ObjfdtIdfntififr oid, bytf[] digfst)
+            tirows IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        nfw AlgoritimId(oid).fndodf(out);
+        out.putOdtftString(digfst);
+        DfrVbluf rfsult =
+            nfw DfrVbluf(DfrVbluf.tbg_Sfqufndf, out.toBytfArrby());
+        rfturn rfsult.toBytfArrby();
     }
 
     /**
-     * Decode the signature data. Verify that the object identifier matches
-     * and return the message digest.
+     * Dfdodf tif signbturf dbtb. Vfrify tibt tif objfdt idfntififr mbtdifs
+     * bnd rfturn tif mfssbgf digfst.
      */
-    public static byte[] decodeSignature(ObjectIdentifier oid, byte[] signature)
-            throws IOException {
-        DerInputStream in = new DerInputStream(signature);
-        DerValue[] values = in.getSequence(2);
-        if ((values.length != 2) || (in.available() != 0)) {
-            throw new IOException("SEQUENCE length error");
+    publid stbtid bytf[] dfdodfSignbturf(ObjfdtIdfntififr oid, bytf[] signbturf)
+            tirows IOExdfption {
+        DfrInputStrfbm in = nfw DfrInputStrfbm(signbturf);
+        DfrVbluf[] vblufs = in.gftSfqufndf(2);
+        if ((vblufs.lfngti != 2) || (in.bvbilbblf() != 0)) {
+            tirow nfw IOExdfption("SEQUENCE lfngti frror");
         }
-        AlgorithmId algId = AlgorithmId.parse(values[0]);
-        if (algId.getOID().equals((Object)oid) == false) {
-            throw new IOException("ObjectIdentifier mismatch: "
-                + algId.getOID());
+        AlgoritimId blgId = AlgoritimId.pbrsf(vblufs[0]);
+        if (blgId.gftOID().fqubls((Objfdt)oid) == fblsf) {
+            tirow nfw IOExdfption("ObjfdtIdfntififr mismbtdi: "
+                + blgId.gftOID());
         }
-        if (algId.getEncodedParams() != null) {
-            throw new IOException("Unexpected AlgorithmId parameters");
+        if (blgId.gftEndodfdPbrbms() != null) {
+            tirow nfw IOExdfption("Unfxpfdtfd AlgoritimId pbrbmftfrs");
         }
-        byte[] digest = values[1].getOctetString();
-        return digest;
+        bytf[] digfst = vblufs[1].gftOdtftString();
+        rfturn digfst;
     }
 
-    // set parameter, not supported. See JCA doc
-    @Deprecated
-    protected void engineSetParameter(String param, Object value)
-            throws InvalidParameterException {
-        throw new UnsupportedOperationException("setParameter() not supported");
+    // sft pbrbmftfr, not supportfd. Sff JCA dod
+    @Dfprfdbtfd
+    protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+            tirows InvblidPbrbmftfrExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("sftPbrbmftfr() not supportfd");
     }
 
-    // get parameter, not supported. See JCA doc
-    @Deprecated
-    protected Object engineGetParameter(String param)
-            throws InvalidParameterException {
-        throw new UnsupportedOperationException("getParameter() not supported");
+    // gft pbrbmftfr, not supportfd. Sff JCA dod
+    @Dfprfdbtfd
+    protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+            tirows InvblidPbrbmftfrExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("gftPbrbmftfr() not supportfd");
     }
 
-    // Nested class for MD2withRSA signatures
-    public static final class MD2withRSA extends RSASignature {
-        public MD2withRSA() {
-            super("MD2", AlgorithmId.MD2_oid, 10);
-        }
-    }
-
-    // Nested class for MD5withRSA signatures
-    public static final class MD5withRSA extends RSASignature {
-        public MD5withRSA() {
-            super("MD5", AlgorithmId.MD5_oid, 10);
+    // Nfstfd dlbss for MD2witiRSA signbturfs
+    publid stbtid finbl dlbss MD2witiRSA fxtfnds RSASignbturf {
+        publid MD2witiRSA() {
+            supfr("MD2", AlgoritimId.MD2_oid, 10);
         }
     }
 
-    // Nested class for SHA1withRSA signatures
-    public static final class SHA1withRSA extends RSASignature {
-        public SHA1withRSA() {
-            super("SHA-1", AlgorithmId.SHA_oid, 7);
+    // Nfstfd dlbss for MD5witiRSA signbturfs
+    publid stbtid finbl dlbss MD5witiRSA fxtfnds RSASignbturf {
+        publid MD5witiRSA() {
+            supfr("MD5", AlgoritimId.MD5_oid, 10);
         }
     }
 
-    // Nested class for SHA224withRSA signatures
-    public static final class SHA224withRSA extends RSASignature {
-        public SHA224withRSA() {
-            super("SHA-224", AlgorithmId.SHA224_oid, 11);
+    // Nfstfd dlbss for SHA1witiRSA signbturfs
+    publid stbtid finbl dlbss SHA1witiRSA fxtfnds RSASignbturf {
+        publid SHA1witiRSA() {
+            supfr("SHA-1", AlgoritimId.SHA_oid, 7);
         }
     }
 
-    // Nested class for SHA256withRSA signatures
-    public static final class SHA256withRSA extends RSASignature {
-        public SHA256withRSA() {
-            super("SHA-256", AlgorithmId.SHA256_oid, 11);
+    // Nfstfd dlbss for SHA224witiRSA signbturfs
+    publid stbtid finbl dlbss SHA224witiRSA fxtfnds RSASignbturf {
+        publid SHA224witiRSA() {
+            supfr("SHA-224", AlgoritimId.SHA224_oid, 11);
         }
     }
 
-    // Nested class for SHA384withRSA signatures
-    public static final class SHA384withRSA extends RSASignature {
-        public SHA384withRSA() {
-            super("SHA-384", AlgorithmId.SHA384_oid, 11);
+    // Nfstfd dlbss for SHA256witiRSA signbturfs
+    publid stbtid finbl dlbss SHA256witiRSA fxtfnds RSASignbturf {
+        publid SHA256witiRSA() {
+            supfr("SHA-256", AlgoritimId.SHA256_oid, 11);
         }
     }
 
-    // Nested class for SHA512withRSA signatures
-    public static final class SHA512withRSA extends RSASignature {
-        public SHA512withRSA() {
-            super("SHA-512", AlgorithmId.SHA512_oid, 11);
+    // Nfstfd dlbss for SHA384witiRSA signbturfs
+    publid stbtid finbl dlbss SHA384witiRSA fxtfnds RSASignbturf {
+        publid SHA384witiRSA() {
+            supfr("SHA-384", AlgoritimId.SHA384_oid, 11);
+        }
+    }
+
+    // Nfstfd dlbss for SHA512witiRSA signbturfs
+    publid stbtid finbl dlbss SHA512witiRSA fxtfnds RSASignbturf {
+        publid SHA512witiRSA() {
+            supfr("SHA-512", AlgoritimId.SHA512_oid, 11);
         }
     }
 

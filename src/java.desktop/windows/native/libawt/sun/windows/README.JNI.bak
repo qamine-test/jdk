@@ -1,135 +1,135 @@
-[sl@eng 97/07/24]
+[sl@fng 97/07/24]
 
-All the free-standing functions (those that are not JNI native
-methods) must not leak local references.  Local references are
-automatically freed when the native method returns to Java. However,
-the free-standing functions are called from the event loop that never
-returns to Java. If these functions do not clean up the local
-references they create, the Java objects corresponding to the local
-references will never be garbage collected.
+All tif frff-stbnding fundtions (tiosf tibt brf not JNI nbtivf
+mftiods) must not lfbk lodbl rfffrfndfs.  Lodbl rfffrfndfs brf
+butombtidblly frffd wifn tif nbtivf mftiod rfturns to Jbvb. Howfvfr,
+tif frff-stbnding fundtions brf dbllfd from tif fvfnt loop tibt nfvfr
+rfturns to Jbvb. If tifsf fundtions do not dlfbn up tif lodbl
+rfffrfndfs tify drfbtf, tif Jbvb objfdts dorrfsponding to tif lodbl
+rfffrfndfs will nfvfr bf gbrbbgf dollfdtfd.
 
-This is caused by the fact that JNI does not clean up local refs 
-until control returns to Java. However, this problem is somewhat
-unique to AWT code because AWT code has long-running native methods
-that never return.
+Tiis is dbusfd by tif fbdt tibt JNI dofs not dlfbn up lodbl rffs 
+until dontrol rfturns to Jbvb. Howfvfr, tiis problfm is somfwibt
+uniquf to AWT dodf bfdbusf AWT dodf ibs long-running nbtivf mftiods
+tibt nfvfr rfturn.
 
-Local refs may be cleaned up manually *before* control returns to 
-Java in one of the following two ways:
+Lodbl rffs mby bf dlfbnfd up mbnublly *bfforf* dontrol rfturns to 
+Jbvb in onf of tif following two wbys:
 
-1. Use EnsureLocalCapacity at the beginning of the function to make
-sure the VM has enough memory to create the number of JNI local refs
-needed in the function. Use DeleteLocalRef to clean up any local ref
-created inside the function that are not returned as the result. For
-example:
+1. Usf EnsurfLodblCbpbdity bt tif bfginning of tif fundtion to mbkf
+surf tif VM ibs fnougi mfmory to drfbtf tif numbfr of JNI lodbl rffs
+nffdfd in tif fundtion. Usf DflftfLodblRff to dlfbn up bny lodbl rff
+drfbtfd insidf tif fundtion tibt brf not rfturnfd bs tif rfsult. For
+fxbmplf:
 
-  void AwtComponent::MeasureListItem(JNIEnv *env, 
-				     MEASUREITEMSTRUCT far& measureInfo)
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
   {
-      if (env->EnsureLocalCapacity(1) < 0) {
-	  return;
+      if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+	  rfturn;
       }
-      jobject dimension = PreferredItemSize(env);
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
 
-      ... /* Use dimension */
+      ... /* Usf dimfnsion */
 
-      env->DeleteLocalRef(dimension);
+      fnv->DflftfLodblRff(dimfnsion);
   }
 
-2. Use PushLocalFrame and PopLocalFrame to start a new local reference
-frame. All the local refs created in the new frame will be automatically
-freed when PopLocalFrame is called. For example, the above function can be
-rewritten as follows:
+2. Usf PusiLodblFrbmf bnd PopLodblFrbmf to stbrt b nfw lodbl rfffrfndf
+frbmf. All tif lodbl rffs drfbtfd in tif nfw frbmf will bf butombtidblly
+frffd wifn PopLodblFrbmf is dbllfd. For fxbmplf, tif bbovf fundtion dbn bf
+rfwrittfn bs follows:
 
-  void AwtComponent::MeasureListItem(JNIEnv *env, 
-				     MEASUREITEMSTRUCT far& measureInfo)
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
   {
-      if (env->PushLocalFrame(1) < 0) {
-	  return;
+      if (fnv->PusiLodblFrbmf(1) < 0) {
+	  rfturn;
       }
-      jobject dimension = PreferredItemSize(env);
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
 
-      ... /* Use dimension */
+      ... /* Usf dimfnsion */
 
-      env->PopLocalFrame(NULL);
+      fnv->PopLodblFrbmf(NULL);
   }
 
-The second approach is easier to use when there are multiple local refs 
-to manage. The first approach is more efficient when the function only 
-needs to create a small number (3 or less) of local refs.
+Tif sfdond bpprobdi is fbsifr to usf wifn tifrf brf multiplf lodbl rffs 
+to mbnbgf. Tif first bpprobdi is morf fffidifnt wifn tif fundtion only 
+nffds to drfbtf b smbll numbfr (3 or lfss) of lodbl rffs.
 
-Pay special attention to local refs created inside a loop. They must be
-deleted after every iteration, otherwise they accumulate very quickly:
+Pby spfdibl bttfntion to lodbl rffs drfbtfd insidf b loop. Tify must bf
+dflftfd bftfr fvfry itfrbtion, otifrwisf tify bddumulbtf vfry quidkly:
 
-int AwtFont::getFontDescriptorNumber(JNIEnv *env, jobject font,
-				     jobject fontDescriptor)
+int AwtFont::gftFontDfsdriptorNumbfr(JNIEnv *fnv, jobjfdt font,
+				     jobjfdt fontDfsdriptor)
 {
-    ... /* other stuff */
+    ... /* otifr stuff */
 
-    jarray array = ...
+    jbrrby brrby = ...
 
     for (i = 0; i < num; i++){
-	refFontDescriptor = env->GetObjectArrayElement(array, i);
-	if (env->IsSameObject(refFontDescriptor, fontDescriptor)) {
-	    env->DeleteLocalRef(refFontDescriptor);
-	    env->DeleteLocalRef(array);
-	    return i;
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	    fnv->DflftfLodblRff(rffFontDfsdriptor);
+	    fnv->DflftfLodblRff(brrby);
+	    rfturn i;
 	}
-	env->DeleteLocalRef(refFontDescriptor);
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
     }
-    env->DeleteLocalRef(array);
-    return 0;	// Not found.  Use default.
+    fnv->DflftfLodblRff(brrby);
+    rfturn 0;	// Not found.  Usf dffbult.
 }
 
-Note that we must make sure the local refs are cleaned up at every possible
-return branch. To reduce code duplication, many AWT functions use "goto"
-to jump to a common set of cleanup statements.
+Notf tibt wf must mbkf surf tif lodbl rffs brf dlfbnfd up bt fvfry possiblf
+rfturn brbndi. To rfdudf dodf duplidbtion, mbny AWT fundtions usf "goto"
+to jump to b dommon sft of dlfbnup stbtfmfnts.
 
-Even if we use PushLocalFrame, we must still delete the local refs created
-in the loop:
+Evfn if wf usf PusiLodblFrbmf, wf must still dflftf tif lodbl rffs drfbtfd
+in tif loop:
 
-    if (env->PushLocalFrame(2) < 0)
-	return 0;
-    jarray array = ...
+    if (fnv->PusiLodblFrbmf(2) < 0)
+	rfturn 0;
+    jbrrby brrby = ...
     for (i = 0; i < num; i++){
-	refFontDescriptor = env->GetObjectArrayElement(array, i);
-	if (env->IsSameObject(refFontDescriptor, fontDescriptor)) {
-	    env->PopLocalFrame(NULL);
-	    return i;
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	    fnv->PopLodblFrbmf(NULL);
+	    rfturn i;
 	}
-	env->DeleteLocalRef(refFontDescriptor);
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
     }
-    env->PopLocalFrame(NULL);
-    return 0;	// Not found.  Use default.
+    fnv->PopLodblFrbmf(NULL);
+    rfturn 0;	// Not found.  Usf dffbult.
 
-unless we ensure that we have space for all possible local refs we are 
-going to create inside the loop (note the different argument passed 
-to PushLocalFrame):
+unlfss wf fnsurf tibt wf ibvf spbdf for bll possiblf lodbl rffs wf brf 
+going to drfbtf insidf tif loop (notf tif difffrfnt brgumfnt pbssfd 
+to PusiLodblFrbmf):
 
-// Maximum number of local refs we can create in this code segment is
+// Mbximum numbfr of lodbl rffs wf dbn drfbtf in tiis dodf sfgmfnt is
 // num + 1.
-    if (env->PushLocalFrame(num + 1) < 0)
-	return 0;
-    jarray array = ...
+    if (fnv->PusiLodblFrbmf(num + 1) < 0)
+	rfturn 0;
+    jbrrby brrby = ...
     for (i = 0; i < num; i++){
-	refFontDescriptor = env->GetObjectArrayElement(array, i);
-	if (env->IsSameObject(refFontDescriptor, fontDescriptor)) {
-	    env->PopLocalFrame(NULL);
-	    return i;
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	    fnv->PopLodblFrbmf(NULL);
+	    rfturn i;
 	}
-// no longer necessary. env->DeleteLocalRef(refFontDescriptor);
+// no longfr nfdfssbry. fnv->DflftfLodblRff(rffFontDfsdriptor);
     }
-    env->PopLocalFrame(NULL);
-    return 0;	// Not found.  Use default.
+    fnv->PopLodblFrbmf(NULL);
+    rfturn 0;	// Not found.  Usf dffbult.
 
 THINGS TO DO:
 
-    1. Investigate another possibility of dealing with local refs. Instead
-    of making sure every free-standing function does not leak local refs,
-    we could alternatively create a new local ref frame for each invocation
-    of callback functions. All local refs created during the execution of 
-    the callback will then be automatically freed.
+    1. Invfstigbtf bnotifr possibility of dfbling witi lodbl rffs. Instfbd
+    of mbking surf fvfry frff-stbnding fundtion dofs not lfbk lodbl rffs,
+    wf dould bltfrnbtivfly drfbtf b nfw lodbl rff frbmf for fbdi invodbtion
+    of dbllbbdk fundtions. All lodbl rffs drfbtfd during tif fxfdution of 
+    tif dbllbbdk will tifn bf butombtidblly frffd.
 
-    2. Handle exceptions properly. The current code lacks error checking
-    and recovery. This leads to random runtime crashes.
+    2. Hbndlf fxdfptions propfrly. Tif durrfnt dodf lbdks frror difdking
+    bnd rfdovfry. Tiis lfbds to rbndom runtimf drbsifs.
 
 

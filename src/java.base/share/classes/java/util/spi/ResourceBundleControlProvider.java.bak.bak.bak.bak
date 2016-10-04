@@ -1,0 +1,65 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.spi;
+
+import jbvb.util.RfsourdfBundlf;
+
+/**
+ * An intfrfbdf for sfrvidf providfrs thbt providf implfmfntbtions of {@link
+ * jbvb.util.RfsourdfBundlf.Control}. Thf <b
+ * hrff="../RfsourdfBundlf.html#dffbult_bfhbvior">dffbult rfsourdf bundlf lobding
+ * bfhbvior</b> of thf {@dodf RfsourdfBundlf.gftBundlf} fbdtory mfthods thbt tbkf
+ * no {@link jbvb.util.RfsourdfBundlf.Control} instbndf dbn bf modififd with {@dodf
+ * RfsourdfBundlfControlProvidfr} implfmfntbtions.
+ *
+ * <p>Providfr implfmfntbtions must bf pbdkbgfd using thf <b
+ * hrff="../../../../tfdhnotfs/guidfs/fxtfnsions/indfx.html">Jbvb Extfnsion
+ * Mfdhbnism</b> bs instbllfd fxtfnsions. Rfffr to {@link jbvb.util.SfrvidfLobdfr}
+ * for thf fxtfnsion pbdkbging. Any instbllfd {@dodf
+ * RfsourdfBundlfControlProvidfr} implfmfntbtions brf lobdfd using {@link
+ * jbvb.util.SfrvidfLobdfr} bt thf {@dodf RfsourdfBundlf} dlbss lobding timf.
+ *
+ * @buthor Mbsbyoshi Okutsu
+ * @sindf 1.8
+ * @sff RfsourdfBundlf#gftBundlf(String, jbvb.util.Lodblf, ClbssLobdfr, RfsourdfBundlf.Control)
+ *      RfsourdfBundlf.gftBundlf
+ * @sff jbvb.util.SfrvidfLobdfr#lobdInstbllfd(Clbss)
+ */
+publid intfrfbdf RfsourdfBundlfControlProvidfr {
+    /**
+     * Rfturns b {@dodf RfsourdfBundlf.Control} instbndf thbt is usfd
+     * to hbndlf rfsourdf bundlf lobding for thf givfn {@dodf
+     * bbsfNbmf}. This mfthod must rfturn {@dodf null} if thf givfn
+     * {@dodf bbsfNbmf} isn't hbndlfd by this providfr.
+     *
+     * @pbrbm bbsfNbmf thf bbsf nbmf of thf rfsourdf bundlf
+     * @rfturn b {@dodf RfsourdfBundlf.Control} instbndf,
+     *         or {@dodf null} if thf givfn {@dodf bbsfNbmf} is not
+     *         bpplidbblf to this providfr.
+     * @throws NullPointfrExdfption if {@dodf bbsfNbmf} is {@dodf null}
+     */
+    publid RfsourdfBundlf.Control gftControl(String bbsfNbmf);
+}

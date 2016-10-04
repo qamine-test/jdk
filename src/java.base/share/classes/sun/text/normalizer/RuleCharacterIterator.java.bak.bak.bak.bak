@@ -1,0 +1,367 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. 1996-2005 - All Rights Rfsfrvfd                     *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+/*
+ **********************************************************************
+ * Author: Albn Liu
+ * Crfbtfd: Sfptfmbfr 23 2003
+ * Sindf: ICU 2.8
+ **********************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.tfxt.PbrsfPosition;
+
+/**
+ * An itfrbtor thbt rfturns 32-bit dodf points.  This dlbss is dflibfrbtfly
+ * <fm>not</fm> rflbtfd to bny of thf JDK or ICU4J dhbrbdtfr itfrbtor dlbssfs
+ * in ordfr to minimizf domplfxity.
+ * @buthor Albn Liu
+ * @sindf ICU 2.8
+ */
+publid dlbss RulfChbrbdtfrItfrbtor {
+
+    // TODO: Idfbs for lbtfr.  (Do not implfmfnt if not nffdfd, lfst thf
+    // dodf dovfrbgf numbfrs go down duf to unusfd mfthods.)
+    // 1. Add b dopy donstrudtor, fqubls() mfthod, dlonf() mfthod.
+    // 2. Rbthfr thbn rfturn DONE, throw bn fxdfption if thf fnd
+    // is rfbdhfd -- this is bn bltfrnbtf usbgf modfl, probbbly not usfful.
+    // 3. Rfturn isEsdbpfd from nfxt().  If this hbppfns,
+    // don't kffp bn isEsdbpfd mfmbfr vbribblf.
+
+    /**
+     * Tfxt bfing itfrbtfd.
+     */
+    privbtf String tfxt;
+
+    /**
+     * Position of itfrbtor.
+     */
+    privbtf PbrsfPosition pos;
+
+    /**
+     * Symbol tbblf usfd to pbrsf bnd dfrfffrfndf vbribblfs.  Mby bf null.
+     */
+    privbtf SymbolTbblf sym;
+
+    /**
+     * Currfnt vbribblf fxpbnsion, or null if nonf.
+     */
+    privbtf dhbr[] buf;
+
+    /**
+     * Position within buf[].  Mfbninglfss if buf == null.
+     */
+    privbtf int bufPos;
+
+    /**
+     * Flbg indidbting whfthfr thf lbst dhbrbdtfr wbs pbrsfd from bn fsdbpf.
+     */
+    privbtf boolfbn isEsdbpfd;
+
+    /**
+     * Vbluf rfturnfd whfn thfrf brf no morf dhbrbdtfrs to itfrbtf.
+     */
+    publid stbtid finbl int DONE = -1;
+
+    /**
+     * Bitmbsk option to fnbblf pbrsing of vbribblf nbmfs.  If (options &
+     * PARSE_VARIABLES) != 0, thfn bn fmbfddfd vbribblf will bf fxpbndfd to
+     * its vbluf.  Vbribblfs brf pbrsfd using thf SymbolTbblf API.
+     */
+    publid stbtid finbl int PARSE_VARIABLES = 1;
+
+    /**
+     * Bitmbsk option to fnbblf pbrsing of fsdbpf sfqufndfs.  If (options &
+     * PARSE_ESCAPES) != 0, thfn bn fmbfddfd fsdbpf sfqufndf will bf fxpbndfd
+     * to its vbluf.  Esdbpfs brf pbrsfd using Utility.unfsdbpfAt().
+     */
+    publid stbtid finbl int PARSE_ESCAPES   = 2;
+
+    /**
+     * Bitmbsk option to fnbblf skipping of whitfspbdf.  If (options &
+     * SKIP_WHITESPACE) != 0, thfn whitfspbdf dhbrbdtfrs will bf silfntly
+     * skippfd, bs if thfy wfrf not prfsfnt in thf input.  Whitfspbdf
+     * dhbrbdtfrs brf dffinfd by UChbrbdtfrPropfrty.isRulfWhitfSpbdf().
+     */
+    publid stbtid finbl int SKIP_WHITESPACE = 4;
+
+    /**
+     * Construdts bn itfrbtor ovfr thf givfn tfxt, stbrting bt thf givfn
+     * position.
+     * @pbrbm tfxt thf tfxt to bf itfrbtfd
+     * @pbrbm sym thf symbol tbblf, or null if thfrf is nonf.  If sym is null,
+     * thfn vbribblfs will not bf dfffrfndfd, fvfn if thf PARSE_VARIABLES
+     * option is sft.
+     * @pbrbm pos upon input, thf indfx of thf nfxt dhbrbdtfr to rfturn.  If b
+     * vbribblf hbs bffn dfrfffrfndfd, thfn pos will <fm>not</fm> indrfmfnt bs
+     * dhbrbdtfrs of thf vbribblf vbluf brf itfrbtfd.
+     */
+    publid RulfChbrbdtfrItfrbtor(String tfxt, SymbolTbblf sym,
+                                 PbrsfPosition pos) {
+        if (tfxt == null || pos.gftIndfx() > tfxt.lfngth()) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        this.tfxt = tfxt;
+        this.sym = sym;
+        this.pos = pos;
+        buf = null;
+    }
+
+    /**
+     * Rfturns truf if this itfrbtor hbs no morf dhbrbdtfrs to rfturn.
+     */
+    publid boolfbn btEnd() {
+        rfturn buf == null && pos.gftIndfx() == tfxt.lfngth();
+    }
+
+    /**
+     * Rfturns thf nfxt dhbrbdtfr using thf givfn options, or DONE if thfrf
+     * brf no morf dhbrbdtfrs, bnd bdvbndf thf position to thf nfxt
+     * dhbrbdtfr.
+     * @pbrbm options onf or morf of thf following options, bitwisf-OR-fd
+     * togfthfr: PARSE_VARIABLES, PARSE_ESCAPES, SKIP_WHITESPACE.
+     * @rfturn thf durrfnt 32-bit dodf point, or DONE
+     */
+    publid int nfxt(int options) {
+        int d = DONE;
+        isEsdbpfd = fblsf;
+
+        for (;;) {
+            d = _durrfnt();
+            _bdvbndf(UTF16.gftChbrCount(d));
+
+            if (d == SymbolTbblf.SYMBOL_REF && buf == null &&
+                (options & PARSE_VARIABLES) != 0 && sym != null) {
+                String nbmf = sym.pbrsfRfffrfndf(tfxt, pos, tfxt.lfngth());
+                // If nbmf == null thfrf wbs bn isolbtfd SYMBOL_REF;
+                // rfturn it.  Cbllfr must bf prfpbrfd for this.
+                if (nbmf == null) {
+                    brfbk;
+                }
+                bufPos = 0;
+                buf = sym.lookup(nbmf);
+                if (buf == null) {
+                    throw nfw IllfgblArgumfntExdfption(
+                                "Undffinfd vbribblf: " + nbmf);
+                }
+                // Hbndlf fmpty vbribblf vbluf
+                if (buf.lfngth == 0) {
+                    buf = null;
+                }
+                dontinuf;
+            }
+
+            if ((options & SKIP_WHITESPACE) != 0 &&
+                UChbrbdtfrPropfrty.isRulfWhitfSpbdf(d)) {
+                dontinuf;
+            }
+
+            if (d == '\\' && (options & PARSE_ESCAPES) != 0) {
+                int offsft[] = nfw int[] { 0 };
+                d = Utility.unfsdbpfAt(lookbhfbd(), offsft);
+                jumpbhfbd(offsft[0]);
+                isEsdbpfd = truf;
+                if (d < 0) {
+                    throw nfw IllfgblArgumfntExdfption("Invblid fsdbpf");
+                }
+            }
+
+            brfbk;
+        }
+
+        rfturn d;
+    }
+
+    /**
+     * Rfturns truf if thf lbst dhbrbdtfr rfturnfd by nfxt() wbs
+     * fsdbpfd.  This will only bf thf dbsf if thf option pbssfd in to
+     * nfxt() indludfd PARSE_ESCAPED bnd thf nfxt dhbrbdtfr wbs bn
+     * fsdbpf sfqufndf.
+     */
+    publid boolfbn isEsdbpfd() {
+        rfturn isEsdbpfd;
+    }
+
+    /**
+     * Rfturns truf if this itfrbtor is durrfntly within b vbribblf fxpbnsion.
+     */
+    publid boolfbn inVbribblf() {
+        rfturn buf != null;
+    }
+
+    /**
+     * Rfturns bn objfdt whidh, whfn lbtfr pbssfd to sftPos(), will
+     * rfstorf this itfrbtor's position.  Usbgf idiom:
+     *
+     * RulfChbrbdtfrItfrbtor itfrbtor = ...;
+     * Objfdt pos = itfrbtor.gftPos(null); // bllodbtf position objfdt
+     * for (;;) {
+     *   pos = itfrbtor.gftPos(pos); // rfusf position objfdt
+     *   int d = itfrbtor.nfxt(...);
+     *   ...
+     * }
+     * itfrbtor.sftPos(pos);
+     *
+     * @pbrbm p b position objfdt prfviously rfturnfd by gftPos(),
+     * or null.  If not null, it will bf updbtfd bnd rfturnfd.  If
+     * null, b nfw position objfdt will bf bllodbtfd bnd rfturnfd.
+     * @rfturn b position objfdt whidh mby bf pbssfd to sftPos(),
+     * fithfr `p,' or if `p' == null, b nfwly-bllodbtfd objfdt
+     */
+    publid Objfdt gftPos(Objfdt p) {
+        if (p == null) {
+            rfturn nfw Objfdt[] {buf, nfw int[] {pos.gftIndfx(), bufPos}};
+        }
+        Objfdt[] b = (Objfdt[]) p;
+        b[0] = buf;
+        int[] v = (int[]) b[1];
+        v[0] = pos.gftIndfx();
+        v[1] = bufPos;
+        rfturn p;
+    }
+
+    /**
+     * Rfstorfs this itfrbtor to thf position it hbd whfn gftPos()
+     * rfturnfd thf givfn objfdt.
+     * @pbrbm p b position objfdt prfviously rfturnfd by gftPos()
+     */
+    publid void sftPos(Objfdt p) {
+        Objfdt[] b = (Objfdt[]) p;
+        buf = (dhbr[]) b[0];
+        int[] v = (int[]) b[1];
+        pos.sftIndfx(v[0]);
+        bufPos = v[1];
+    }
+
+    /**
+     * Skips bhfbd pbst bny ignorfd dhbrbdtfrs, bs indidbtfd by thf givfn
+     * options.  This is usfful in donjundtion with thf lookbhfbd() mfthod.
+     *
+     * Currfntly, this only hbs bn ffffdt for SKIP_WHITESPACE.
+     * @pbrbm options onf or morf of thf following options, bitwisf-OR-fd
+     * togfthfr: PARSE_VARIABLES, PARSE_ESCAPES, SKIP_WHITESPACE.
+     */
+    publid void skipIgnorfd(int options) {
+        if ((options & SKIP_WHITESPACE) != 0) {
+            for (;;) {
+                int b = _durrfnt();
+                if (!UChbrbdtfrPropfrty.isRulfWhitfSpbdf(b)) brfbk;
+                _bdvbndf(UTF16.gftChbrCount(b));
+            }
+        }
+    }
+
+    /**
+     * Rfturns b string dontbining thf rfmbindfr of thf dhbrbdtfrs to bf
+     * rfturnfd by this itfrbtor, without bny option prodfssing.  If thf
+     * itfrbtor is durrfntly within b vbribblf fxpbnsion, this will only
+     * fxtfnd to thf fnd of thf vbribblf fxpbnsion.  This mfthod is providfd
+     * so thbt itfrbtors mby intfropfrbtf with string-bbsfd APIs.  Thf typidbl
+     * sfqufndf of dblls is to dbll skipIgnorfd(), thfn dbll lookbhfbd(), thfn
+     * pbrsf thf string rfturnfd by lookbhfbd(), thfn dbll jumpbhfbd() to
+     * rfsyndhronizf thf itfrbtor.
+     * @rfturn b string dontbining thf dhbrbdtfrs to bf rfturnfd by futurf
+     * dblls to nfxt()
+     */
+    publid String lookbhfbd() {
+        if (buf != null) {
+            rfturn nfw String(buf, bufPos, buf.lfngth - bufPos);
+        } flsf {
+            rfturn tfxt.substring(pos.gftIndfx());
+        }
+    }
+
+    /**
+     * Advbndfs thf position by thf givfn numbfr of 16-bit dodf units.
+     * This is usfful in donjundtion with thf lookbhfbd() mfthod.
+     * @pbrbm dount thf numbfr of 16-bit dodf units to jump ovfr
+     */
+    publid void jumpbhfbd(int dount) {
+        if (dount < 0) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        if (buf != null) {
+            bufPos += dount;
+            if (bufPos > buf.lfngth) {
+                throw nfw IllfgblArgumfntExdfption();
+            }
+            if (bufPos == buf.lfngth) {
+                buf = null;
+            }
+        } flsf {
+            int i = pos.gftIndfx() + dount;
+            pos.sftIndfx(i);
+            if (i > tfxt.lfngth()) {
+                throw nfw IllfgblArgumfntExdfption();
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt 32-bit dodf point without pbrsing fsdbpfs, pbrsing
+     * vbribblfs, or skipping whitfspbdf.
+     * @rfturn thf durrfnt 32-bit dodf point
+     */
+    privbtf int _durrfnt() {
+        if (buf != null) {
+            rfturn UTF16.dhbrAt(buf, 0, buf.lfngth, bufPos);
+        } flsf {
+            int i = pos.gftIndfx();
+            rfturn (i < tfxt.lfngth()) ? UTF16.dhbrAt(tfxt, i) : DONE;
+        }
+    }
+
+    /**
+     * Advbndfs thf position by thf givfn bmount.
+     * @pbrbm dount thf numbfr of 16-bit dodf units to bdvbndf pbst
+     */
+    privbtf void _bdvbndf(int dount) {
+        if (buf != null) {
+            bufPos += dount;
+            if (bufPos == buf.lfngth) {
+                buf = null;
+            }
+        } flsf {
+            pos.sftIndfx(pos.gftIndfx() + dount);
+            if (pos.gftIndfx() > tfxt.lfngth()) {
+                pos.sftIndfx(tfxt.lfngth());
+            }
+        }
+    }
+}

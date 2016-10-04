@@ -1,0 +1,1801 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.bwt.*;
+import jbvb.util.BitSft;
+import jbvb.util.Vfdtor;
+import jbvb.util.Arrbys;
+import jbvbx.swing.SizfRfquirfmfnts;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
+
+import jbvbx.swing.tfxt.*;
+
+/**
+ * HTML tbblf vifw.
+ *
+ * @buthor  Timothy Prinzing
+ * @sff     Vifw
+ */
+/*publid*/ dlbss TbblfVifw fxtfnds BoxVifw implfmfnts VifwFbdtory {
+
+    /**
+     * Construdts b TbblfVifw for thf givfn flfmfnt.
+     *
+     * @pbrbm flfm thf flfmfnt thbt this vifw is rfsponsiblf for
+     */
+    publid TbblfVifw(Elfmfnt flfm) {
+        supfr(flfm, Vifw.Y_AXIS);
+        rows = nfw Vfdtor<RowVifw>();
+        gridVblid = fblsf;
+        dbptionIndfx = -1;
+        totblColumnRfquirfmfnts = nfw SizfRfquirfmfnts();
+    }
+
+    /**
+     * Crfbtfs b nfw tbblf row.
+     *
+     * @pbrbm flfm bn flfmfnt
+     * @rfturn thf row
+     */
+    protfdtfd RowVifw drfbtfTbblfRow(Elfmfnt flfm) {
+        // PENDING(prinz) nffd to bdd support for somf of thf othfr
+        // flfmfnts, but for now just ignorf bnything thbt is not
+        // b TR.
+        Objfdt o = flfm.gftAttributfs().gftAttributf(StylfConstbnts.NbmfAttributf);
+        if (o == HTML.Tbg.TR) {
+            rfturn nfw RowVifw(flfm);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Thf numbfr of dolumns in thf tbblf.
+     */
+    publid int gftColumnCount() {
+        rfturn dolumnSpbns.lfngth;
+    }
+
+    /**
+     * Fftdhfs thf spbn (width) of thf givfn dolumn.
+     * This is usfd by thf nfstfd dflls to qufry thf
+     * sizfs of grid lodbtions outsidf of thfmsflvfs.
+     */
+    publid int gftColumnSpbn(int dol) {
+        if (dol < dolumnSpbns.lfngth) {
+            rfturn dolumnSpbns[dol];
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Thf numbfr of rows in thf tbblf.
+     */
+    publid int gftRowCount() {
+        rfturn rows.sizf();
+    }
+
+    /**
+     * Fftdh thf spbn of multiplf rows.  This indludfs
+     * thf bordfr brfb.
+     */
+    publid int gftMultiRowSpbn(int row0, int row1) {
+        RowVifw rv0 = gftRow(row0);
+        RowVifw rv1 = gftRow(row1);
+        if ((rv0 != null) && (rv1 != null)) {
+            int indfx0 = rv0.vifwIndfx;
+            int indfx1 = rv1.vifwIndfx;
+            int spbn = gftOffsft(Y_AXIS, indfx1) - gftOffsft(Y_AXIS, indfx0) +
+                gftSpbn(Y_AXIS, indfx1);
+            rfturn spbn;
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Fftdhfs thf spbn (hfight) of thf givfn row.
+     */
+    publid int gftRowSpbn(int row) {
+        RowVifw rv = gftRow(row);
+        if (rv != null) {
+            rfturn gftSpbn(Y_AXIS, rv.vifwIndfx);
+        }
+        rfturn 0;
+    }
+
+    RowVifw gftRow(int row) {
+        if (row < rows.sizf()) {
+            rfturn rows.flfmfntAt(row);
+        }
+        rfturn null;
+    }
+
+    protfdtfd Vifw gftVifwAtPoint(int x, int y, Rfdtbnglf bllod) {
+        int n = gftVifwCount();
+        Vifw v;
+        Rfdtbnglf bllodbtion = nfw Rfdtbnglf();
+        for (int i = 0; i < n; i++) {
+            bllodbtion.sftBounds(bllod);
+            dhildAllodbtion(i, bllodbtion);
+            v = gftVifw(i);
+            if (v instbndfof RowVifw) {
+                v = ((RowVifw)v).findVifwAtPoint(x, y, bllodbtion);
+                if (v != null) {
+                    bllod.sftBounds(bllodbtion);
+                    rfturn v;
+                }
+            }
+        }
+        rfturn supfr.gftVifwAtPoint(x, y, bllod);
+    }
+
+    /**
+     * Dftfrminfs thf numbfr of dolumns oddupifd by
+     * thf tbblf dfll rfprfsfntfd by givfn flfmfnt.
+     */
+    protfdtfd int gftColumnsOddupifd(Vifw v) {
+        AttributfSft b = v.gftElfmfnt().gftAttributfs();
+
+        if (b.isDffinfd(HTML.Attributf.COLSPAN)) {
+            String s = (String) b.gftAttributf(HTML.Attributf.COLSPAN);
+            if (s != null) {
+                try {
+                    rfturn Intfgfr.pbrsfInt(s);
+                } dbtdh (NumbfrFormbtExdfption nff) {
+                    // fbll through to onf dolumn
+                }
+            }
+        }
+
+        rfturn 1;
+    }
+
+    /**
+     * Dftfrminfs thf numbfr of rows oddupifd by
+     * thf tbblf dfll rfprfsfntfd by givfn flfmfnt.
+     */
+    protfdtfd int gftRowsOddupifd(Vifw v) {
+        AttributfSft b = v.gftElfmfnt().gftAttributfs();
+
+        if (b.isDffinfd(HTML.Attributf.ROWSPAN)) {
+            String s = (String) b.gftAttributf(HTML.Attributf.ROWSPAN);
+            if (s != null) {
+                try {
+                    rfturn Intfgfr.pbrsfInt(s);
+                } dbtdh (NumbfrFormbtExdfption nff) {
+                    // fbll through to onf row
+                }
+            }
+        }
+
+        rfturn 1;
+    }
+
+    protfdtfd void invblidbtfGrid() {
+        gridVblid = fblsf;
+    }
+
+    protfdtfd StylfShfft gftStylfShfft() {
+        HTMLDodumfnt dod = (HTMLDodumfnt) gftDodumfnt();
+        rfturn dod.gftStylfShfft();
+    }
+
+    /**
+     * Updbtf thf insfts, whidh dontbin thf dbption if thfrf
+     * is b dbption.
+     */
+    void updbtfInsfts() {
+        short top = (short) pbintfr.gftInsft(TOP, this);
+        short bottom = (short) pbintfr.gftInsft(BOTTOM, this);
+        if (dbptionIndfx != -1) {
+            Vifw dbption = gftVifw(dbptionIndfx);
+            short h = (short) dbption.gftPrfffrrfdSpbn(Y_AXIS);
+            AttributfSft b = dbption.gftAttributfs();
+            Objfdt blign = b.gftAttributf(CSS.Attributf.CAPTION_SIDE);
+            if ((blign != null) && (blign.fqubls("bottom"))) {
+                bottom += h;
+            } flsf {
+                top += h;
+            }
+        }
+        sftInsfts(top, (short) pbintfr.gftInsft(LEFT, this),
+                  bottom, (short) pbintfr.gftInsft(RIGHT, this));
+    }
+
+    /**
+     * Updbtf bny dbdhfd vblufs thbt domf from bttributfs.
+     */
+    protfdtfd void sftPropfrtifsFromAttributfs() {
+        StylfShfft shfft = gftStylfShfft();
+        bttr = shfft.gftVifwAttributfs(this);
+        pbintfr = shfft.gftBoxPbintfr(bttr);
+        if (bttr != null) {
+            sftInsfts((short) pbintfr.gftInsft(TOP, this),
+                      (short) pbintfr.gftInsft(LEFT, this),
+                          (short) pbintfr.gftInsft(BOTTOM, this),
+                      (short) pbintfr.gftInsft(RIGHT, this));
+
+            CSS.LfngthVbluf lv = (CSS.LfngthVbluf)
+                bttr.gftAttributf(CSS.Attributf.BORDER_SPACING);
+            if (lv != null) {
+                dfllSpbding = (int) lv.gftVbluf();
+            } flsf {
+                // Dffbult dfll spbding fqubls 2
+                dfllSpbding = 2;
+            }
+            lv = (CSS.LfngthVbluf)
+                    bttr.gftAttributf(CSS.Attributf.BORDER_TOP_WIDTH);
+            if (lv != null) {
+                    bordfrWidth = (int) lv.gftVbluf();
+            } flsf {
+                    bordfrWidth = 0;
+            }
+        }
+    }
+
+    /**
+     * Fill in thf grid lodbtions thbt brf plbdfholdfrs
+     * for multi-dolumn, multi-row, bnd missing grid
+     * lodbtions.
+     */
+    void updbtfGrid() {
+        if (! gridVblid) {
+            rflbtivfCflls = fblsf;
+            multiRowCflls = fblsf;
+
+            // dftfrminf whidh vifws brf tbblf rows bnd dlfbr out
+            // grid points mbrkfd fillfd.
+            dbptionIndfx = -1;
+            rows.rfmovfAllElfmfnts();
+            int n = gftVifwCount();
+            for (int i = 0; i < n; i++) {
+                Vifw v = gftVifw(i);
+                if (v instbndfof RowVifw) {
+                    rows.bddElfmfnt((RowVifw) v);
+                    RowVifw rv = (RowVifw) v;
+                    rv.dlfbrFillfdColumns();
+                    rv.rowIndfx = rows.sizf() - 1;
+                    rv.vifwIndfx = i;
+                } flsf {
+                    Objfdt o = v.gftElfmfnt().gftAttributfs().gftAttributf(StylfConstbnts.NbmfAttributf);
+                    if (o instbndfof HTML.Tbg) {
+                        HTML.Tbg kind = (HTML.Tbg) o;
+                        if (kind == HTML.Tbg.CAPTION) {
+                            dbptionIndfx = i;
+                        }
+                    }
+                }
+            }
+
+            int mbxColumns = 0;
+            int nrows = rows.sizf();
+            for (int row = 0; row < nrows; row++) {
+                RowVifw rv = gftRow(row);
+                int dol = 0;
+                for (int dfll = 0; dfll < rv.gftVifwCount(); dfll++, dol++) {
+                    Vifw dv = rv.gftVifw(dfll);
+                    if (! rflbtivfCflls) {
+                        AttributfSft b = dv.gftAttributfs();
+                        CSS.LfngthVbluf lv = (CSS.LfngthVbluf)
+                            b.gftAttributf(CSS.Attributf.WIDTH);
+                        if ((lv != null) && (lv.isPfrdfntbgf())) {
+                            rflbtivfCflls = truf;
+                        }
+                    }
+                    // bdvbndf to b frff dolumn
+                    for (; rv.isFillfd(dol); dol++);
+                    int rowSpbn = gftRowsOddupifd(dv);
+                    if (rowSpbn > 1) {
+                        multiRowCflls = truf;
+                    }
+                    int dolSpbn = gftColumnsOddupifd(dv);
+                    if ((dolSpbn > 1) || (rowSpbn > 1)) {
+                        // fill in thf ovfrflow fntrifs for this dfll
+                        int rowLimit = row + rowSpbn;
+                        int dolLimit = dol + dolSpbn;
+                        for (int i = row; i < rowLimit; i++) {
+                            for (int j = dol; j < dolLimit; j++) {
+                                if (i != row || j != dol) {
+                                    bddFill(i, j);
+                                }
+                            }
+                        }
+                        if (dolSpbn > 1) {
+                            dol += dolSpbn - 1;
+                        }
+                    }
+                }
+                mbxColumns = Mbth.mbx(mbxColumns, dol);
+            }
+
+            // sftup thf dolumn lbyout/rfquirfmfnts
+            dolumnSpbns = nfw int[mbxColumns];
+            dolumnOffsfts = nfw int[mbxColumns];
+            dolumnRfquirfmfnts = nfw SizfRfquirfmfnts[mbxColumns];
+            for (int i = 0; i < mbxColumns; i++) {
+                dolumnRfquirfmfnts[i] = nfw SizfRfquirfmfnts();
+                dolumnRfquirfmfnts[i].mbximum = Intfgfr.MAX_VALUE;
+            }
+            gridVblid = truf;
+        }
+    }
+
+    /**
+     * Mbrk b grid lodbtion bs fillfd in for b dflls ovfrflow.
+     */
+    void bddFill(int row, int dol) {
+        RowVifw rv = gftRow(row);
+        if (rv != null) {
+            rv.fillColumn(dol);
+        }
+    }
+
+    /**
+     * Lbyout thf dolumns to fit within thf givfn tbrgft spbn.
+     *
+     * @pbrbm tbrgftSpbn thf givfn spbn for totbl of bll thf tbblf
+     *  dolumns
+     * @pbrbm rfqs thf rfquirfmfnts dfsirfd for fbdh dolumn.  This
+     *  is thf dolumn mbximum of thf dflls minimum, prfffrrfd, bnd
+     *  mbximum rfqufstfd spbn
+     * @pbrbm spbns thf rfturn vbluf of how mudh to bllodbtfd to
+     *  fbdh dolumn
+     * @pbrbm offsfts thf rfturn vbluf of thf offsft from thf
+     *  origin for fbdh dolumn
+     * @rfturn thf offsft from thf origin bnd thf spbn for fbdh dolumn
+     *  in thf offsfts bnd spbns pbrbmftfrs
+     */
+    protfdtfd void lbyoutColumns(int tbrgftSpbn, int[] offsfts, int[] spbns,
+                                 SizfRfquirfmfnts[] rfqs) {
+        //dlfbn offsfts bnd spbns
+        Arrbys.fill(offsfts, 0);
+        Arrbys.fill(spbns, 0);
+        dolItfrbtor.sftLbyoutArrbys(offsfts, spbns, tbrgftSpbn);
+        CSS.dbldulbtfTilfdLbyout(dolItfrbtor, tbrgftSpbn);
+    }
+
+    /**
+     * Cbldulbtf thf rfquirfmfnts for fbdh dolumn.  Thf dbldulbtion
+     * is donf bs two pbssfs ovfr thf tbblf.  Thf tbblf dflls thbt
+     * oddupy b singlf dolumn brf sdbnnfd first to dftfrminf thf
+     * mbximum of minimum, prfffrrfd, bnd mbximum spbns blong thf
+     * givf bxis.  Tbblf dflls thbt spbn multiplf dolumns brf fxdludfd
+     * from thf first pbss.  A sfdond pbss is mbdf to dftfrminf if
+     * thf dflls thbt spbn multiplf dolumns brf sbtisfifd.  If thf
+     * dolumn rfquirfmfnts brf not sbtisififd, thf nffds of thf
+     * multi-dolumn dfll is mixfd into thf fxisting dolumn rfquirfmfnts.
+     * Thf dbldulbtion of thf multi-dolumn distribution is bbsfd upon
+     * thf proportions of thf fxisting dolumn rfquirfmfnts bnd tbking
+     * into donsidfrbtion bny donstrbining mbximums.
+     */
+    void dbldulbtfColumnRfquirfmfnts(int bxis) {
+        // dlfbn dolumnRfquirfmfnts
+        for (SizfRfquirfmfnts rfq : dolumnRfquirfmfnts) {
+            rfq.minimum = 0;
+            rfq.prfffrrfd = 0;
+            rfq.mbximum = Intfgfr.MAX_VALUE;
+        }
+        Contbinfr host = gftContbinfr();
+        if (host != null) {
+            if (host instbndfof JTfxtComponfnt) {
+                skipCommfnts = !((JTfxtComponfnt)host).isEditbblf();
+            } flsf {
+                skipCommfnts = truf;
+            }
+        }
+        // pbss 1 - singlf dolumn dflls
+        boolfbn hbsMultiColumn = fblsf;
+        int nrows = gftRowCount();
+        for (int i = 0; i < nrows; i++) {
+            RowVifw row = gftRow(i);
+            int dol = 0;
+            int ndflls = row.gftVifwCount();
+            for (int dfll = 0; dfll < ndflls; dfll++) {
+                Vifw dv = row.gftVifw(dfll);
+                if (skipCommfnts && !(dv instbndfof CfllVifw)) {
+                    dontinuf;
+                }
+                for (; row.isFillfd(dol); dol++); // bdvbndf to b frff dolumn
+                int rowSpbn = gftRowsOddupifd(dv);
+                int dolSpbn = gftColumnsOddupifd(dv);
+                if (dolSpbn == 1) {
+                    dhfdkSinglfColumnCfll(bxis, dol, dv);
+                } flsf {
+                    hbsMultiColumn = truf;
+                    dol += dolSpbn - 1;
+                }
+                dol++;
+            }
+        }
+
+        // pbss 2 - multi-dolumn dflls
+        if (hbsMultiColumn) {
+            for (int i = 0; i < nrows; i++) {
+                RowVifw row = gftRow(i);
+                int dol = 0;
+                int ndflls = row.gftVifwCount();
+                for (int dfll = 0; dfll < ndflls; dfll++) {
+                    Vifw dv = row.gftVifw(dfll);
+                    if (skipCommfnts && !(dv instbndfof CfllVifw)) {
+                        dontinuf;
+                    }
+                    for (; row.isFillfd(dol); dol++); // bdvbndf to b frff dolumn
+                    int dolSpbn = gftColumnsOddupifd(dv);
+                    if (dolSpbn > 1) {
+                        dhfdkMultiColumnCfll(bxis, dol, dolSpbn, dv);
+                        dol += dolSpbn - 1;
+                    }
+                    dol++;
+                }
+            }
+        }
+    }
+
+    /**
+     * dhfdk thf rfquirfmfnts of b tbblf dfll thbt spbns b singlf dolumn.
+     */
+    void dhfdkSinglfColumnCfll(int bxis, int dol, Vifw v) {
+        SizfRfquirfmfnts rfq = dolumnRfquirfmfnts[dol];
+        rfq.minimum = Mbth.mbx((int) v.gftMinimumSpbn(bxis), rfq.minimum);
+        rfq.prfffrrfd = Mbth.mbx((int) v.gftPrfffrrfdSpbn(bxis), rfq.prfffrrfd);
+    }
+
+    /**
+     * dhfdk thf rfquirfmfnts of b tbblf dfll thbt spbns multiplf
+     * dolumns.
+     */
+    void dhfdkMultiColumnCfll(int bxis, int dol, int ndols, Vifw v) {
+        // dbldulbtf thf totbls
+        long min = 0;
+        long prff = 0;
+        long mbx = 0;
+        for (int i = 0; i < ndols; i++) {
+            SizfRfquirfmfnts rfq = dolumnRfquirfmfnts[dol + i];
+            min += rfq.minimum;
+            prff += rfq.prfffrrfd;
+            mbx += rfq.mbximum;
+        }
+
+        // dhfdk if thf minimum sizf nffds bdjustmfnt.
+        int dmin = (int) v.gftMinimumSpbn(bxis);
+        if (dmin > min) {
+            /*
+             * thf dolumns thbt this dfll spbns nffd bdjustmfnt to fit
+             * this tbblf dfll.... dbldulbtf thf bdjustmfnts.
+             */
+            SizfRfquirfmfnts[] rfqs = nfw SizfRfquirfmfnts[ndols];
+            for (int i = 0; i < ndols; i++) {
+                rfqs[i] = dolumnRfquirfmfnts[dol + i];
+            }
+            int[] spbns = nfw int[ndols];
+            int[] offsfts = nfw int[ndols];
+            SizfRfquirfmfnts.dbldulbtfTilfdPositions(dmin, null, rfqs,
+                                                     offsfts, spbns);
+            // bpply thf bdjustmfnts
+            for (int i = 0; i < ndols; i++) {
+                SizfRfquirfmfnts rfq = rfqs[i];
+                rfq.minimum = Mbth.mbx(spbns[i], rfq.minimum);
+                rfq.prfffrrfd = Mbth.mbx(rfq.minimum, rfq.prfffrrfd);
+                rfq.mbximum = Mbth.mbx(rfq.prfffrrfd, rfq.mbximum);
+            }
+        }
+
+        // dhfdk if thf prfffrrfd sizf nffds bdjustmfnt.
+        int dprff = (int) v.gftPrfffrrfdSpbn(bxis);
+        if (dprff > prff) {
+            /*
+             * thf dolumns thbt this dfll spbns nffd bdjustmfnt to fit
+             * this tbblf dfll.... dbldulbtf thf bdjustmfnts.
+             */
+            SizfRfquirfmfnts[] rfqs = nfw SizfRfquirfmfnts[ndols];
+            for (int i = 0; i < ndols; i++) {
+                rfqs[i] = dolumnRfquirfmfnts[dol + i];
+            }
+            int[] spbns = nfw int[ndols];
+            int[] offsfts = nfw int[ndols];
+            SizfRfquirfmfnts.dbldulbtfTilfdPositions(dprff, null, rfqs,
+                                                     offsfts, spbns);
+            // bpply thf bdjustmfnts
+            for (int i = 0; i < ndols; i++) {
+                SizfRfquirfmfnts rfq = rfqs[i];
+                rfq.prfffrrfd = Mbth.mbx(spbns[i], rfq.prfffrrfd);
+                rfq.mbximum = Mbth.mbx(rfq.prfffrrfd, rfq.mbximum);
+            }
+        }
+
+    }
+
+    // --- BoxVifw mfthods -----------------------------------------
+
+    /**
+     * Cbldulbtf thf rfquirfmfnts for thf minor bxis.  This is dbllfd by
+     * thf supfrdlbss whfnfvfr thf rfquirfmfnts nffd to bf updbtfd (i.f.
+     * b prfffrfndfChbngfd wbs mfssbgfd through this vifw).
+     * <p>
+     * This is implfmfntfd to dbldulbtf thf rfquirfmfnts bs thf sum of thf
+     * rfquirfmfnts of thf dolumns bnd thfn bdjust it if thf
+     * CSS width or hfight bttributf is spfdififd bnd bpplidbblf to
+     * thf bxis.
+     */
+    protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis, SizfRfquirfmfnts r) {
+        updbtfGrid();
+
+        // dbldulbtf dolumn rfquirfmfnts for fbdh dolumn
+        dbldulbtfColumnRfquirfmfnts(bxis);
+
+
+        // thf rfquirfmfnts brf thf sum of thf dolumns.
+        if (r == null) {
+            r = nfw SizfRfquirfmfnts();
+        }
+        long min = 0;
+        long prff = 0;
+        int n = dolumnRfquirfmfnts.lfngth;
+        for (int i = 0; i < n; i++) {
+            SizfRfquirfmfnts rfq = dolumnRfquirfmfnts[i];
+            min += rfq.minimum;
+            prff += rfq.prfffrrfd;
+        }
+        int bdjust = (n + 1) * dfllSpbding + 2 * bordfrWidth;
+        min += bdjust;
+        prff += bdjust;
+        r.minimum = (int) min;
+        r.prfffrrfd = (int) prff;
+        r.mbximum = (int) prff;
+
+
+        AttributfSft bttr = gftAttributfs();
+        CSS.LfngthVbluf dssWidth = (CSS.LfngthVbluf)bttr.gftAttributf(
+                                                    CSS.Attributf.WIDTH);
+
+        if (BlodkVifw.spbnSftFromAttributfs(bxis, r, dssWidth, null)) {
+            if (r.minimum < (int)min) {
+                // Thf usfr hbs rfqufstfd b smbllfr sizf thbn is nffdfd to
+                // show thf tbblf, ovfrridf it.
+                r.mbximum = r.minimum = r.prfffrrfd = (int) min;
+            }
+        }
+        totblColumnRfquirfmfnts.minimum = r.minimum;
+        totblColumnRfquirfmfnts.prfffrrfd = r.prfffrrfd;
+        totblColumnRfquirfmfnts.mbximum = r.mbximum;
+
+        // sft thf blignmfnt
+        Objfdt o = bttr.gftAttributf(CSS.Attributf.TEXT_ALIGN);
+        if (o != null) {
+            // sft horizontbl blignmfnt
+            String tb = o.toString();
+            if (tb.fqubls("lfft")) {
+                r.blignmfnt = 0;
+            } flsf if (tb.fqubls("dfntfr")) {
+                r.blignmfnt = 0.5f;
+            } flsf if (tb.fqubls("right")) {
+                r.blignmfnt = 1;
+            } flsf {
+                r.blignmfnt = 0;
+            }
+        } flsf {
+            r.blignmfnt = 0;
+        }
+
+        rfturn r;
+    }
+
+    /**
+     * Cbldulbtf thf rfquirfmfnts for thf mbjor bxis.  This is dbllfd by
+     * thf supfrdlbss whfnfvfr thf rfquirfmfnts nffd to bf updbtfd (i.f.
+     * b prfffrfndfChbngfd wbs mfssbgfd through this vifw).
+     * <p>
+     * This is implfmfntfd to providf thf supfrdlbss bfhbvior bdjustfd for
+     * multi-row tbblf dflls.
+     */
+    protfdtfd SizfRfquirfmfnts dbldulbtfMbjorAxisRfquirfmfnts(int bxis, SizfRfquirfmfnts r) {
+        updbtfInsfts();
+        rowItfrbtor.updbtfAdjustmfnts();
+        r = CSS.dbldulbtfTilfdRfquirfmfnts(rowItfrbtor, r);
+        r.mbximum = r.prfffrrfd;
+        rfturn r;
+    }
+
+    /**
+     * Pfrform lbyout for thf minor bxis of thf box (i.f. thf
+     * bxis orthogonbl to thf bxis thbt it rfprfsfnts).  Thf rfsults
+     * of thf lbyout should bf plbdfd in thf givfn brrbys whidh rfprfsfnt
+     * thf bllodbtions to thf dhildrfn blong thf minor bxis.  This
+     * is dbllfd by thf supfrdlbss whfnfvfr thf lbyout nffds to bf
+     * updbtfd blong thf minor bxis.
+     * <p>
+     * This is implfmfntfd to dbll thf
+     * <b hrff="#lbyoutColumns">lbyoutColumns</b> mfthod, bnd thfn
+     * forwbrd to thf supfrdlbss to bdtublly dbrry out thf lbyout
+     * of thf tbblfs rows.
+     *
+     * @pbrbm tbrgftSpbn thf totbl spbn givfn to thf vifw, whidh
+     *  would bf usfd to lbyout thf dhildrfn
+     * @pbrbm bxis thf bxis bfing lbyfd out
+     * @pbrbm offsfts thf offsfts from thf origin of thf vifw for
+     *  fbdh of thf dhild vifws.  This is b rfturn vbluf bnd is
+     *  fillfd in by thf implfmfntbtion of this mfthod
+     * @pbrbm spbns thf spbn of fbdh dhild vifw;  this is b rfturn
+     *  vbluf bnd is fillfd in by thf implfmfntbtion of this mfthod
+     * @rfturn thf offsft bnd spbn for fbdh dhild vifw in thf
+     *  offsfts bnd spbns pbrbmftfrs
+     */
+    protfdtfd void lbyoutMinorAxis(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
+        // mbkf grid is propfrly rfprfsfntfd
+        updbtfGrid();
+
+        // bll of thf row lbyouts brf invblid, so mbrk thfm thbt wby
+        int n = gftRowCount();
+        for (int i = 0; i < n; i++) {
+            RowVifw row = gftRow(i);
+            row.lbyoutChbngfd(bxis);
+        }
+
+        // dbldulbtf dolumn spbns
+        lbyoutColumns(tbrgftSpbn, dolumnOffsfts, dolumnSpbns, dolumnRfquirfmfnts);
+
+        // dontinuf normbl lbyout
+        supfr.lbyoutMinorAxis(tbrgftSpbn, bxis, offsfts, spbns);
+    }
+
+
+    /**
+     * Pfrform lbyout for thf mbjor bxis of thf box (i.f. thf
+     * bxis thbt it rfprfsfnts).  Thf rfsults
+     * of thf lbyout should bf plbdfd in thf givfn brrbys whidh rfprfsfnt
+     * thf bllodbtions to thf dhildrfn blong thf minor bxis.  This
+     * is dbllfd by thf supfrdlbss whfnfvfr thf lbyout nffds to bf
+     * updbtfd blong thf minor bxis.
+     * <p>
+     * This mfthod is whfrf thf lbyout of thf tbblf rows within thf
+     * tbblf tbkfs plbdf.  This mfthod is implfmfntfd to dbll thf usf
+     * thf RowItfrbtor bnd thf CSS dollbpsing tilf to lbyout
+     * with bordfr spbding bnd bordfr dollbpsing dbpbbilitifs.
+     *
+     * @pbrbm tbrgftSpbn thf totbl spbn givfn to thf vifw, whidh
+     *  would bf usfd to lbyout thf dhildrfn
+     * @pbrbm bxis thf bxis bfing lbyfd out
+     * @pbrbm offsfts thf offsfts from thf origin of thf vifw for
+     *  fbdh of thf dhild vifws; this is b rfturn vbluf bnd is
+     *  fillfd in by thf implfmfntbtion of this mfthod
+     * @pbrbm spbns thf spbn of fbdh dhild vifw; this is b rfturn
+     *  vbluf bnd is fillfd in by thf implfmfntbtion of this mfthod
+     * @rfturn thf offsft bnd spbn for fbdh dhild vifw in thf
+     *  offsfts bnd spbns pbrbmftfrs
+     */
+    protfdtfd void lbyoutMbjorAxis(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
+        rowItfrbtor.sftLbyoutArrbys(offsfts, spbns);
+        CSS.dbldulbtfTilfdLbyout(rowItfrbtor, tbrgftSpbn);
+
+        if (dbptionIndfx != -1) {
+            // plbdf thf dbption
+            Vifw dbption = gftVifw(dbptionIndfx);
+            int h = (int) dbption.gftPrfffrrfdSpbn(Y_AXIS);
+            spbns[dbptionIndfx] = h;
+            short boxBottom = (short) pbintfr.gftInsft(BOTTOM, this);
+            if (boxBottom != gftBottomInsft()) {
+                offsfts[dbptionIndfx] = tbrgftSpbn + boxBottom;
+            } flsf {
+                offsfts[dbptionIndfx] = - gftTopInsft();
+            }
+        }
+    }
+
+    /**
+     * Fftdhfs thf dhild vifw thbt rfprfsfnts thf givfn position in
+     * thf modfl.  This is implfmfntfd to wblk through thf dhildrfn
+     * looking for b rbngf thbt dontbins thf givfn position.  In this
+     * vifw thf dhildrfn do not nfdfssbrily hbvf b onf to onf mbpping
+     * with thf dhild flfmfnts.
+     *
+     * @pbrbm pos  thf sfbrdh position >= 0
+     * @pbrbm b  thf bllodbtion to thf tbblf on fntry, bnd thf
+     *   bllodbtion of thf vifw dontbining thf position on fxit
+     * @rfturn  thf vifw rfprfsfnting thf givfn position, or
+     *   null if thfrf isn't onf
+     */
+    protfdtfd Vifw gftVifwAtPosition(int pos, Rfdtbnglf b) {
+        int n = gftVifwCount();
+        for (int i = 0; i < n; i++) {
+            Vifw v = gftVifw(i);
+            int p0 = v.gftStbrtOffsft();
+            int p1 = v.gftEndOffsft();
+            if ((pos >= p0) && (pos < p1)) {
+                // it's in this vifw.
+                if (b != null) {
+                    dhildAllodbtion(i, b);
+                }
+                rfturn v;
+            }
+        }
+        if (pos == gftEndOffsft()) {
+            Vifw v = gftVifw(n - 1);
+            if (b != null) {
+                this.dhildAllodbtion(n - 1, b);
+            }
+            rfturn v;
+        }
+        rfturn null;
+    }
+
+    // --- Vifw mfthods ---------------------------------------------
+
+    /**
+     * Fftdhfs thf bttributfs to usf whfn rfndfring.  This is
+     * implfmfntfd to multiplfx thf bttributfs spfdififd in thf
+     * modfl with b StylfShfft.
+     */
+    publid AttributfSft gftAttributfs() {
+        if (bttr == null) {
+            StylfShfft shfft = gftStylfShfft();
+            bttr = shfft.gftVifwAttributfs(this);
+        }
+        rfturn bttr;
+    }
+
+    /**
+     * Rfndfrs using thf givfn rfndfring surfbdf bnd brfb on thbt
+     * surfbdf.  This is implfmfntfd to dflfgbtf to thf dss box
+     * pbintfr to pbint thf bordfr bnd bbdkground prior to thf
+     * intfrior.  Thf supfrdlbss dulls rfndfring thf dhildrfn
+     * thbt don't dirfdtly intfrsfdt thf dlip bnd thf row mby
+     * hbvf dflls hbnging from b row bbovf in it.  Thf tbblf
+     * dofs not usf thf supfrdlbss rfndfring bfhbvior bnd instfbd
+     * pbints bll of thf rows bnd lfts thf rows dull thosf
+     * dflls not intfrsfdting thf dlip rfgion.
+     *
+     * @pbrbm g thf rfndfring surfbdf to usf
+     * @pbrbm bllodbtion thf bllodbtfd rfgion to rfndfr into
+     * @sff Vifw#pbint
+     */
+    publid void pbint(Grbphids g, Shbpf bllodbtion) {
+        // pbint thf bordfr
+        Rfdtbnglf b = bllodbtion.gftBounds();
+        sftSizf(b.width, b.hfight);
+        if (dbptionIndfx != -1) {
+            // bdjust thf bordfr for thf dbption
+            short top = (short) pbintfr.gftInsft(TOP, this);
+            short bottom = (short) pbintfr.gftInsft(BOTTOM, this);
+            if (top != gftTopInsft()) {
+                int h = gftTopInsft() - top;
+                b.y += h;
+                b.hfight -= h;
+            } flsf {
+                b.hfight -= gftBottomInsft() - bottom;
+            }
+        }
+        pbintfr.pbint(g, b.x, b.y, b.width, b.hfight, this);
+        // pbint intfrior
+        int n = gftVifwCount();
+        for (int i = 0; i < n; i++) {
+            Vifw v = gftVifw(i);
+            v.pbint(g, gftChildAllodbtion(i, bllodbtion));
+        }
+        //supfr.pbint(g, b);
+    }
+
+    /**
+     * Estbblishfs thf pbrfnt vifw for this vifw.  This is
+     * gubrbntffd to bf dbllfd bfforf bny othfr mfthods if thf
+     * pbrfnt vifw is fundtioning propfrly.
+     * <p>
+     * This is implfmfntfd
+     * to forwbrd to thf supfrdlbss bs wfll bs dbll thf
+     * <b hrff="#sftPropfrtifsFromAttributfs">sftPropfrtifsFromAttributfs</b>
+     * mfthod to sft thf pbrbgrbph propfrtifs from thf dss
+     * bttributfs.  Thf dbll is mbdf bt this timf to fnsurf
+     * thf bbility to rfsolvf upwbrd through thf pbrfnts
+     * vifw bttributfs.
+     *
+     * @pbrbm pbrfnt thf nfw pbrfnt, or null if thf vifw is
+     *  bfing rfmovfd from b pbrfnt it wbs prfviously bddfd
+     *  to
+     */
+    publid void sftPbrfnt(Vifw pbrfnt) {
+        supfr.sftPbrfnt(pbrfnt);
+        if (pbrfnt != null) {
+            sftPropfrtifsFromAttributfs();
+        }
+    }
+
+    /**
+     * Fftdhfs thf VifwFbdtory implfmfntbtion thbt is fffding
+     * thf vifw hifrbrdhy.
+     * This rfplbdfs thf VifwFbdtory with bn implfmfntbtion thbt
+     * dblls through to thf drfbtfTbblfRow bnd drfbtfTbblfCfll
+     * mfthods.   If thf flfmfnt givfn to thf fbdtory isn't b
+     * tbblf row or dfll, thf rfqufst is dflfgbtfd to thf fbdtory
+     * produdfd by thf supfrdlbss bfhbvior.
+     *
+     * @rfturn thf fbdtory, null if nonf
+     */
+    publid VifwFbdtory gftVifwFbdtory() {
+        rfturn this;
+    }
+
+    /**
+     * Givfs notifidbtion thbt somfthing wbs insfrtfd into
+     * thf dodumfnt in b lodbtion thbt this vifw is rfsponsiblf for.
+     * This rfplbdfs thf VifwFbdtory with bn implfmfntbtion thbt
+     * dblls through to thf drfbtfTbblfRow bnd drfbtfTbblfCfll
+     * mfthods.   If thf flfmfnt givfn to thf fbdtory isn't b
+     * tbblf row or dfll, thf rfqufst is dflfgbtfd to thf fbdtory
+     * pbssfd bs bn brgumfnt.
+     *
+     * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sff Vifw#insfrtUpdbtf
+     */
+    publid void insfrtUpdbtf(DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+        supfr.insfrtUpdbtf(f, b, this);
+    }
+
+    /**
+     * Givfs notifidbtion thbt somfthing wbs rfmovfd from thf dodumfnt
+     * in b lodbtion thbt this vifw is rfsponsiblf for.
+     * This rfplbdfs thf VifwFbdtory with bn implfmfntbtion thbt
+     * dblls through to thf drfbtfTbblfRow bnd drfbtfTbblfCfll
+     * mfthods.   If thf flfmfnt givfn to thf fbdtory isn't b
+     * tbblf row or dfll, thf rfqufst is dflfgbtfd to thf fbdtory
+     * pbssfd bs bn brgumfnt.
+     *
+     * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sff Vifw#rfmovfUpdbtf
+     */
+    publid void rfmovfUpdbtf(DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+        supfr.rfmovfUpdbtf(f, b, this);
+    }
+
+    /**
+     * Givfs notifidbtion from thf dodumfnt thbt bttributfs wfrf dhbngfd
+     * in b lodbtion thbt this vifw is rfsponsiblf for.
+     * This rfplbdfs thf VifwFbdtory with bn implfmfntbtion thbt
+     * dblls through to thf drfbtfTbblfRow bnd drfbtfTbblfCfll
+     * mfthods.   If thf flfmfnt givfn to thf fbdtory isn't b
+     * tbblf row or dfll, thf rfqufst is dflfgbtfd to thf fbdtory
+     * pbssfd bs bn brgumfnt.
+     *
+     * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sff Vifw#dhbngfdUpdbtf
+     */
+    publid void dhbngfdUpdbtf(DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+        supfr.dhbngfdUpdbtf(f, b, this);
+    }
+
+    protfdtfd void forwbrdUpdbtf(DodumfntEvfnt.ElfmfntChbngf fd,
+                                 DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+        supfr.forwbrdUpdbtf(fd, f, b, f);
+        // A dhbngf in bny of thf tbblf dflls usublly ffffdts thf wholf tbblf,
+        // so rfdrbw it bll!
+        if (b != null) {
+            Componfnt d = gftContbinfr();
+            if (d != null) {
+                Rfdtbnglf bllod = (b instbndfof Rfdtbnglf) ? (Rfdtbnglf)b :
+                                   b.gftBounds();
+                d.rfpbint(bllod.x, bllod.y, bllod.width, bllod.hfight);
+            }
+        }
+    }
+
+    /**
+     * Chbngf thf dhild vifws.  This is implfmfntfd to
+     * providf thf supfrdlbss bfhbvior bnd invblidbtf thf
+     * grid so thbt rows bnd dolumns will bf rfdbldulbtfd.
+     */
+    publid void rfplbdf(int offsft, int lfngth, Vifw[] vifws) {
+        supfr.rfplbdf(offsft, lfngth, vifws);
+        invblidbtfGrid();
+    }
+
+    // --- VifwFbdtory mfthods ------------------------------------------
+
+    /**
+     * Thf tbblf itsflf bdts bs b fbdtory for thf vbrious
+     * vifws thbt bdtublly rfprfsfnt pifdfs of thf tbblf.
+     * All othfr fbdtory bdtivity is dflfgbtfd to thf fbdtory
+     * rfturnfd by thf pbrfnt of thf tbblf.
+     */
+    publid Vifw drfbtf(Elfmfnt flfm) {
+        Objfdt o = flfm.gftAttributfs().gftAttributf(StylfConstbnts.NbmfAttributf);
+        if (o instbndfof HTML.Tbg) {
+            HTML.Tbg kind = (HTML.Tbg) o;
+            if (kind == HTML.Tbg.TR) {
+                rfturn drfbtfTbblfRow(flfm);
+            } flsf if ((kind == HTML.Tbg.TD) || (kind == HTML.Tbg.TH)) {
+                rfturn nfw CfllVifw(flfm);
+            } flsf if (kind == HTML.Tbg.CAPTION) {
+                rfturn nfw jbvbx.swing.tfxt.html.PbrbgrbphVifw(flfm);
+            }
+        }
+        // dffbult is to dflfgbtf to thf normbl fbdtory
+        Vifw p = gftPbrfnt();
+        if (p != null) {
+            VifwFbdtory f = p.gftVifwFbdtory();
+            if (f != null) {
+                rfturn f.drfbtf(flfm);
+            }
+        }
+        rfturn null;
+    }
+
+    // ---- vbribblfs ----------------------------------------------------
+
+    privbtf AttributfSft bttr;
+    privbtf StylfShfft.BoxPbintfr pbintfr;
+
+    privbtf int dfllSpbding;
+    privbtf int bordfrWidth;
+
+    /**
+     * Thf indfx of thf dbption vifw if thfrf is b dbption.
+     * This hbs b vbluf of -1 if thfrf is no dbption.  Thf
+     * dbption livfs in thf insft brfb of thf tbblf, bnd is
+     * updbtfd with fbdh timf thf grid is rfdbldulbtfd.
+     */
+    privbtf int dbptionIndfx;
+
+    /**
+     * Do bny of thf tbblf dflls dontbin b rflbtivf sizf
+     * spfdifidbtion?  This is updbtfd with fbdh dbll to
+     * updbtfGrid().  If this is truf, thf ColumnItfrbtor
+     * will do fxtrb work to dbldulbtf rflbtivf dfll
+     * spfdifidbtions.
+     */
+    privbtf boolfbn rflbtivfCflls;
+
+    /**
+     * Do bny of thf tbblf dflls spbn multiplf rows?  If
+     * truf, thf RowRfquirfmfntItfrbtor will do bdditionbl
+     * work to bdjust thf rfquirfmfnts of rows spbnnfd by
+     * b singlf tbblf dfll.  This is updbtfd with fbdh dbll to
+     * updbtfGrid().
+     */
+    privbtf boolfbn multiRowCflls;
+
+    int[] dolumnSpbns;
+    int[] dolumnOffsfts;
+    /**
+     * SizfRfquirfmfnts for bll thf dolumns.
+     */
+    SizfRfquirfmfnts totblColumnRfquirfmfnts;
+    SizfRfquirfmfnts[] dolumnRfquirfmfnts;
+
+    RowItfrbtor rowItfrbtor = nfw RowItfrbtor();
+    ColumnItfrbtor dolItfrbtor = nfw ColumnItfrbtor();
+
+    Vfdtor<RowVifw> rows;
+
+    // whfthfr to displby dommfnts insidf tbblf or not.
+    boolfbn skipCommfnts = fblsf;
+
+    boolfbn gridVblid;
+    stbtid finbl privbtf BitSft EMPTY = nfw BitSft();
+
+    dlbss ColumnItfrbtor implfmfnts CSS.LbyoutItfrbtor {
+
+        /**
+         * Disbblf pfrdfntbgf bdjustmfnts whidh should only bpply
+         * whfn dbldulbting lbyout, not rfquirfmfnts.
+         */
+        void disbblfPfrdfntbgfs() {
+            pfrdfntbgfs = null;
+        }
+
+        /**
+         * Updbtf pfrdfntbgf bdjustmfnts if thfy brf nffdfd.
+         */
+        privbtf void updbtfPfrdfntbgfsAndAdjustmfntWfights(int spbn) {
+            bdjustmfntWfights = nfw int[dolumnRfquirfmfnts.lfngth];
+            for (int i = 0; i < dolumnRfquirfmfnts.lfngth; i++) {
+                bdjustmfntWfights[i] = 0;
+            }
+            if (rflbtivfCflls) {
+                pfrdfntbgfs = nfw int[dolumnRfquirfmfnts.lfngth];
+            } flsf {
+                pfrdfntbgfs = null;
+            }
+            int nrows = gftRowCount();
+            for (int rowIndfx = 0; rowIndfx < nrows; rowIndfx++) {
+                RowVifw row = gftRow(rowIndfx);
+                int dol = 0;
+                int ndflls = row.gftVifwCount();
+                for (int dfll = 0; dfll < ndflls; dfll++, dol++) {
+                    Vifw dv = row.gftVifw(dfll);
+                    for (; row.isFillfd(dol); dol++); // bdvbndf to b frff dolumn
+                    int rowSpbn = gftRowsOddupifd(dv);
+                    int dolSpbn = gftColumnsOddupifd(dv);
+                    AttributfSft b = dv.gftAttributfs();
+                    CSS.LfngthVbluf lv = (CSS.LfngthVbluf)
+                        b.gftAttributf(CSS.Attributf.WIDTH);
+                    if ( lv != null ) {
+                        int lfn = (int) (lv.gftVbluf(spbn) / dolSpbn + 0.5f);
+                        for (int i = 0; i < dolSpbn; i++) {
+                            if (lv.isPfrdfntbgf()) {
+                                // bdd b pfrdfntbgf rfquirfmfnt
+                                pfrdfntbgfs[dol+i] = Mbth.mbx(pfrdfntbgfs[dol+i], lfn);
+                                bdjustmfntWfights[dol + i] = Mbth.mbx(bdjustmfntWfights[dol + i], WorstAdjustmfntWfight);
+                            } flsf {
+                                bdjustmfntWfights[dol + i] = Mbth.mbx(bdjustmfntWfights[dol + i], WorstAdjustmfntWfight - 1);
+                            }
+                        }
+                    }
+                    dol += dolSpbn - 1;
+                }
+            }
+        }
+
+        /**
+         * Sft thf lbyout brrbys to usf for holding lbyout rfsults
+         */
+        publid void sftLbyoutArrbys(int offsfts[], int spbns[], int tbrgftSpbn) {
+            this.offsfts = offsfts;
+            this.spbns = spbns;
+            updbtfPfrdfntbgfsAndAdjustmfntWfights(tbrgftSpbn);
+        }
+
+        // --- RfquirfmfntItfrbtor mfthods -------------------
+
+        publid int gftCount() {
+            rfturn dolumnRfquirfmfnts.lfngth;
+        }
+
+        publid void sftIndfx(int i) {
+            dol = i;
+        }
+
+        publid void sftOffsft(int offs) {
+            offsfts[dol] = offs;
+        }
+
+        publid int gftOffsft() {
+            rfturn offsfts[dol];
+        }
+
+        publid void sftSpbn(int spbn) {
+            spbns[dol] = spbn;
+        }
+
+        publid int gftSpbn() {
+            rfturn spbns[dol];
+        }
+
+        publid flobt gftMinimumSpbn(flobt pbrfntSpbn) {
+            // do not dbrf for pfrdfntbgfs, sindf min spbn dbn't
+            // bf lfss thbn dolumnRfquirfmfnts[dol].minimum,
+            // but dbn bf lfss thbn pfrdfntbgf vbluf.
+            rfturn dolumnRfquirfmfnts[dol].minimum;
+        }
+
+        publid flobt gftPrfffrrfdSpbn(flobt pbrfntSpbn) {
+            if ((pfrdfntbgfs != null) && (pfrdfntbgfs[dol] != 0)) {
+                rfturn Mbth.mbx(pfrdfntbgfs[dol], dolumnRfquirfmfnts[dol].minimum);
+            }
+            rfturn dolumnRfquirfmfnts[dol].prfffrrfd;
+        }
+
+        publid flobt gftMbximumSpbn(flobt pbrfntSpbn) {
+            rfturn dolumnRfquirfmfnts[dol].mbximum;
+        }
+
+        publid flobt gftBordfrWidth() {
+            rfturn bordfrWidth;
+        }
+
+
+        publid flobt gftLfbdingCollbpsfSpbn() {
+            rfturn dfllSpbding;
+        }
+
+        publid flobt gftTrbilingCollbpsfSpbn() {
+            rfturn dfllSpbding;
+        }
+
+        publid int gftAdjustmfntWfight() {
+            rfturn bdjustmfntWfights[dol];
+        }
+
+        /**
+         * Currfnt dolumn indfx
+         */
+        privbtf int dol;
+
+        /**
+         * pfrdfntbgf vblufs (mby bf null sindf thfrf
+         * might not bf bny).
+         */
+        privbtf int[] pfrdfntbgfs;
+
+        privbtf int[] bdjustmfntWfights;
+
+        privbtf int[] offsfts;
+        privbtf int[] spbns;
+    }
+
+    dlbss RowItfrbtor implfmfnts CSS.LbyoutItfrbtor {
+
+        RowItfrbtor() {
+        }
+
+        void updbtfAdjustmfnts() {
+            int bxis = Y_AXIS;
+            if (multiRowCflls) {
+                // bdjust rfquirfmfnts of multi-row dflls
+                int n = gftRowCount();
+                bdjustmfnts = nfw int[n];
+                for (int i = 0; i < n; i++) {
+                    RowVifw rv = gftRow(i);
+                    if (rv.multiRowCflls == truf) {
+                        int ndflls = rv.gftVifwCount();
+                        for (int j = 0; j < ndflls; j++) {
+                            Vifw v = rv.gftVifw(j);
+                            int nrows = gftRowsOddupifd(v);
+                            if (nrows > 1) {
+                                int spbnNffdfd = (int) v.gftPrfffrrfdSpbn(bxis);
+                                bdjustMultiRowSpbn(spbnNffdfd, nrows, i);
+                            }
+                        }
+                    }
+                }
+            } flsf {
+                bdjustmfnts = null;
+            }
+        }
+
+        /**
+         * Fixup prfffrfndfs to bddommodbtf b multi-row tbblf dfll
+         * if not blrfbdy dovfrfd by fxisting prfffrfndfs.  This is
+         * b no-op if not bll of thf rows nffdfd (to do this dhfdk/fixup)
+         * hbvf brrivfd yft.
+         */
+        void bdjustMultiRowSpbn(int spbnNffdfd, int nrows, int rowIndfx) {
+            if ((rowIndfx + nrows) > gftCount()) {
+                // rows brf missing (dould bf b bbd rowspbn spfdifidbtion)
+                // or not bll thf rows hbvf brrivfd.  Do thf bfst wf dbn with
+                // thf durrfnt sft of rows.
+                nrows = gftCount() - rowIndfx;
+                if (nrows < 1) {
+                    rfturn;
+                }
+            }
+            int spbn = 0;
+            for (int i = 0; i < nrows; i++) {
+                RowVifw rv = gftRow(rowIndfx + i);
+                spbn += rv.gftPrfffrrfdSpbn(Y_AXIS);
+            }
+            if (spbnNffdfd > spbn) {
+                int bdjust = (spbnNffdfd - spbn);
+                int rowAdjust = bdjust / nrows;
+                int firstAdjust = rowAdjust + (bdjust - (rowAdjust * nrows));
+                RowVifw rv = gftRow(rowIndfx);
+                bdjustmfnts[rowIndfx] = Mbth.mbx(bdjustmfnts[rowIndfx],
+                                                 firstAdjust);
+                for (int i = 1; i < nrows; i++) {
+                    bdjustmfnts[rowIndfx + i] = Mbth.mbx(
+                        bdjustmfnts[rowIndfx + i], rowAdjust);
+                }
+            }
+        }
+
+        void sftLbyoutArrbys(int[] offsfts, int[] spbns) {
+            this.offsfts = offsfts;
+            this.spbns = spbns;
+        }
+
+        // --- RfquirfmfntItfrbtor mfthods -------------------
+
+        publid void sftOffsft(int offs) {
+            RowVifw rv = gftRow(row);
+            if (rv != null) {
+                offsfts[rv.vifwIndfx] = offs;
+            }
+        }
+
+        publid int gftOffsft() {
+            RowVifw rv = gftRow(row);
+            if (rv != null) {
+                rfturn offsfts[rv.vifwIndfx];
+            }
+            rfturn 0;
+        }
+
+        publid void sftSpbn(int spbn) {
+            RowVifw rv = gftRow(row);
+            if (rv != null) {
+                spbns[rv.vifwIndfx] = spbn;
+            }
+        }
+
+        publid int gftSpbn() {
+            RowVifw rv = gftRow(row);
+            if (rv != null) {
+                rfturn spbns[rv.vifwIndfx];
+            }
+            rfturn 0;
+        }
+
+        publid int gftCount() {
+            rfturn rows.sizf();
+        }
+
+        publid void sftIndfx(int i) {
+            row = i;
+        }
+
+        publid flobt gftMinimumSpbn(flobt pbrfntSpbn) {
+            rfturn gftPrfffrrfdSpbn(pbrfntSpbn);
+        }
+
+        publid flobt gftPrfffrrfdSpbn(flobt pbrfntSpbn) {
+            RowVifw rv = gftRow(row);
+            if (rv != null) {
+                int bdjust = (bdjustmfnts != null) ? bdjustmfnts[row] : 0;
+                rfturn rv.gftPrfffrrfdSpbn(TbblfVifw.this.gftAxis()) + bdjust;
+            }
+            rfturn 0;
+        }
+
+        publid flobt gftMbximumSpbn(flobt pbrfntSpbn) {
+            rfturn gftPrfffrrfdSpbn(pbrfntSpbn);
+        }
+
+        publid flobt gftBordfrWidth() {
+            rfturn bordfrWidth;
+        }
+
+        publid flobt gftLfbdingCollbpsfSpbn() {
+            rfturn dfllSpbding;
+        }
+
+        publid flobt gftTrbilingCollbpsfSpbn() {
+            rfturn dfllSpbding;
+        }
+
+        publid int gftAdjustmfntWfight() {
+            rfturn 0;
+        }
+
+        /**
+         * Currfnt row indfx
+         */
+        privbtf int row;
+
+        /**
+         * Adjustmfnts to thf row rfquirfmfnts to hbndlf multi-row
+         * tbblf dflls.
+         */
+        privbtf int[] bdjustmfnts;
+
+        privbtf int[] offsfts;
+        privbtf int[] spbns;
+    }
+
+    /**
+     * Vifw of b row in b row-dfntrid tbblf.
+     */
+    publid dlbss RowVifw fxtfnds BoxVifw {
+
+        /**
+         * Construdts b TbblfVifw for thf givfn flfmfnt.
+         *
+         * @pbrbm flfm thf flfmfnt thbt this vifw is rfsponsiblf for
+         */
+        publid RowVifw(Elfmfnt flfm) {
+            supfr(flfm, Vifw.X_AXIS);
+            fillColumns = nfw BitSft();
+            RowVifw.this.sftPropfrtifsFromAttributfs();
+        }
+
+        void dlfbrFillfdColumns() {
+            fillColumns.bnd(EMPTY);
+        }
+
+        void fillColumn(int dol) {
+            fillColumns.sft(dol);
+        }
+
+        boolfbn isFillfd(int dol) {
+            rfturn fillColumns.gft(dol);
+        }
+
+        /**
+         * Thf numbfr of dolumns prfsfnt in this row.
+         */
+        int gftColumnCount() {
+            int nfill = 0;
+            int n = fillColumns.sizf();
+            for (int i = 0; i < n; i++) {
+                if (fillColumns.gft(i)) {
+                    nfill ++;
+                }
+            }
+            rfturn gftVifwCount() + nfill;
+        }
+
+        /**
+         * Fftdhfs thf bttributfs to usf whfn rfndfring.  This is
+         * implfmfntfd to multiplfx thf bttributfs spfdififd in thf
+         * modfl with b StylfShfft.
+         */
+        publid AttributfSft gftAttributfs() {
+            rfturn bttr;
+        }
+
+        Vifw findVifwAtPoint(int x, int y, Rfdtbnglf bllod) {
+            int n = gftVifwCount();
+            for (int i = 0; i < n; i++) {
+                if (gftChildAllodbtion(i, bllod).dontbins(x, y)) {
+                    dhildAllodbtion(i, bllod);
+                    rfturn gftVifw(i);
+                }
+            }
+            rfturn null;
+        }
+
+        protfdtfd StylfShfft gftStylfShfft() {
+            HTMLDodumfnt dod = (HTMLDodumfnt) gftDodumfnt();
+            rfturn dod.gftStylfShfft();
+        }
+
+        /**
+         * This is dbllfd by b dhild to indidbtf its
+         * prfffrrfd spbn hbs dhbngfd.  This is implfmfntfd to
+         * fxfdutf thf supfrdlbss bfhbvior bnd wfll bs try to
+         * dftfrminf if b row with b multi-row dfll hbngs bdross
+         * this row.  If b multi-row dfll dovfrs this row it blso
+         * nffds to propbgbtf b prfffrfndfChbngfd so thbt it will
+         * rfdbldulbtf thf multi-row dfll.
+         *
+         * @pbrbm dhild thf dhild vifw
+         * @pbrbm width truf if thf width prfffrfndf should dhbngf
+         * @pbrbm hfight truf if thf hfight prfffrfndf should dhbngf
+         */
+        publid void prfffrfndfChbngfd(Vifw dhild, boolfbn width, boolfbn hfight) {
+            supfr.prfffrfndfChbngfd(dhild, width, hfight);
+            if (TbblfVifw.this.multiRowCflls && hfight) {
+                for (int i = rowIndfx  - 1; i >= 0; i--) {
+                    RowVifw rv = TbblfVifw.this.gftRow(i);
+                    if (rv.multiRowCflls) {
+                        rv.prfffrfndfChbngfd(null, fblsf, truf);
+                        brfbk;
+                    }
+                }
+            }
+        }
+
+        // Thf mbjor bxis rfquirfmfnts for b row brf didtbtfd by thf dolumn
+        // rfquirfmfnts. Thfsf mfthods usf thf vbluf dbldulbtfd by
+        // TbblfVifw.
+        protfdtfd SizfRfquirfmfnts dbldulbtfMbjorAxisRfquirfmfnts(int bxis, SizfRfquirfmfnts r) {
+            SizfRfquirfmfnts rfq = nfw SizfRfquirfmfnts();
+            rfq.minimum = totblColumnRfquirfmfnts.minimum;
+            rfq.mbximum = totblColumnRfquirfmfnts.mbximum;
+            rfq.prfffrrfd = totblColumnRfquirfmfnts.prfffrrfd;
+            rfq.blignmfnt = 0f;
+            rfturn rfq;
+        }
+
+        publid flobt gftMinimumSpbn(int bxis) {
+            flobt vbluf;
+
+            if (bxis == Vifw.X_AXIS) {
+                vbluf = totblColumnRfquirfmfnts.minimum + gftLfftInsft() +
+                        gftRightInsft();
+            }
+            flsf {
+                vbluf = supfr.gftMinimumSpbn(bxis);
+            }
+            rfturn vbluf;
+        }
+
+        publid flobt gftMbximumSpbn(int bxis) {
+            flobt vbluf;
+
+            if (bxis == Vifw.X_AXIS) {
+                // Wf'rf flfxiblf.
+                vbluf = (flobt)Intfgfr.MAX_VALUE;
+            }
+            flsf {
+                vbluf = supfr.gftMbximumSpbn(bxis);
+            }
+            rfturn vbluf;
+        }
+
+        publid flobt gftPrfffrrfdSpbn(int bxis) {
+            flobt vbluf;
+
+            if (bxis == Vifw.X_AXIS) {
+                vbluf = totblColumnRfquirfmfnts.prfffrrfd + gftLfftInsft() +
+                        gftRightInsft();
+            }
+            flsf {
+                vbluf = supfr.gftPrfffrrfdSpbn(bxis);
+            }
+            rfturn vbluf;
+        }
+
+        publid void dhbngfdUpdbtf(DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+            supfr.dhbngfdUpdbtf(f, b, f);
+            int pos = f.gftOffsft();
+            if (pos <= gftStbrtOffsft() && (pos + f.gftLfngth()) >=
+                gftEndOffsft()) {
+                RowVifw.this.sftPropfrtifsFromAttributfs();
+            }
+        }
+
+        /**
+         * Rfndfrs using thf givfn rfndfring surfbdf bnd brfb on thbt
+         * surfbdf.  This is implfmfntfd to dflfgbtf to thf dss box
+         * pbintfr to pbint thf bordfr bnd bbdkground prior to thf
+         * intfrior.
+         *
+         * @pbrbm g thf rfndfring surfbdf to usf
+         * @pbrbm bllodbtion thf bllodbtfd rfgion to rfndfr into
+         * @sff Vifw#pbint
+         */
+        publid void pbint(Grbphids g, Shbpf bllodbtion) {
+            Rfdtbnglf b = (Rfdtbnglf) bllodbtion;
+            pbintfr.pbint(g, b.x, b.y, b.width, b.hfight, this);
+            supfr.pbint(g, b);
+        }
+
+        /**
+         * Chbngf thf dhild vifws.  This is implfmfntfd to
+         * providf thf supfrdlbss bfhbvior bnd invblidbtf thf
+         * grid so thbt rows bnd dolumns will bf rfdbldulbtfd.
+         */
+        publid void rfplbdf(int offsft, int lfngth, Vifw[] vifws) {
+            supfr.rfplbdf(offsft, lfngth, vifws);
+            invblidbtfGrid();
+        }
+
+        /**
+         * Cbldulbtf thf hfight rfquirfmfnts of thf tbblf row.  Thf
+         * rfquirfmfnts of multi-row dflls brf not donsidfrfd for this
+         * dbldulbtion.  Thf tbblf itsflf will dhfdk bnd bdjust thf row
+         * rfquirfmfnts for bll thf rows thbt hbvf multi-row dflls spbnning
+         * thfm.  This mfthod updbtfs thf multi-row flbg thbt indidbtfs thbt
+         * this row bnd rows bflow nffd bdditionbl donsidfrbtion.
+         */
+        protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis, SizfRfquirfmfnts r) {
+//          rfturn supfr.dbldulbtfMinorAxisRfquirfmfnts(bxis, r);
+            long min = 0;
+            long prff = 0;
+            long mbx = 0;
+            multiRowCflls = fblsf;
+            int n = gftVifwCount();
+            for (int i = 0; i < n; i++) {
+                Vifw v = gftVifw(i);
+                if (gftRowsOddupifd(v) > 1) {
+                    multiRowCflls = truf;
+                    mbx = Mbth.mbx((int) v.gftMbximumSpbn(bxis), mbx);
+                } flsf {
+                    min = Mbth.mbx((int) v.gftMinimumSpbn(bxis), min);
+                    prff = Mbth.mbx((int) v.gftPrfffrrfdSpbn(bxis), prff);
+                    mbx = Mbth.mbx((int) v.gftMbximumSpbn(bxis), mbx);
+                }
+            }
+
+            if (r == null) {
+                r = nfw SizfRfquirfmfnts();
+                r.blignmfnt = 0.5f;
+            }
+            r.prfffrrfd = (int) prff;
+            r.minimum = (int) min;
+            r.mbximum = (int) mbx;
+            rfturn r;
+        }
+
+        /**
+         * Pfrform lbyout for thf mbjor bxis of thf box (i.f. thf
+         * bxis thbt it rfprfsfnts).  Thf rfsults of thf lbyout should
+         * bf plbdfd in thf givfn brrbys whidh rfprfsfnt thf bllodbtions
+         * to thf dhildrfn blong thf mbjor bxis.
+         * <p>
+         * This is rf-implfmfntfd to givf fbdh dhild thf spbn of thf dolumn
+         * width for thf tbblf, bnd to givf dflls thbt spbn multiplf dolumns
+         * thf multi-dolumn spbn.
+         *
+         * @pbrbm tbrgftSpbn thf totbl spbn givfn to thf vifw, whidh
+         *  would bf usfd to lbyout thf dhildrfn
+         * @pbrbm bxis thf bxis bfing lbyfd out
+         * @pbrbm offsfts thf offsfts from thf origin of thf vifw for
+         *  fbdh of thf dhild vifws; this is b rfturn vbluf bnd is
+         *  fillfd in by thf implfmfntbtion of this mfthod
+         * @pbrbm spbns thf spbn of fbdh dhild vifw; this is b rfturn
+         *  vbluf bnd is fillfd in by thf implfmfntbtion of this mfthod
+         * @rfturn thf offsft bnd spbn for fbdh dhild vifw in thf
+         *  offsfts bnd spbns pbrbmftfrs
+         */
+        protfdtfd void lbyoutMbjorAxis(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
+            int dol = 0;
+            int ndflls = gftVifwCount();
+            for (int dfll = 0; dfll < ndflls; dfll++) {
+                Vifw dv = gftVifw(dfll);
+                if (skipCommfnts && !(dv instbndfof CfllVifw)) {
+                    dontinuf;
+                }
+                for (; isFillfd(dol); dol++); // bdvbndf to b frff dolumn
+                int dolSpbn = gftColumnsOddupifd(dv);
+                spbns[dfll] = dolumnSpbns[dol];
+                offsfts[dfll] = dolumnOffsfts[dol];
+                if (dolSpbn > 1) {
+                    int n = dolumnSpbns.lfngth;
+                    for (int j = 1; j < dolSpbn; j++) {
+                        // Bfdbusf thf tbblf mby bf only pbrtiblly formfd, somf
+                        // of thf dolumns mby not yft fxist.  Thfrfforf wf dhfdk
+                        // thf bounds.
+                        if ((dol+j) < n) {
+                            spbns[dfll] += dolumnSpbns[dol+j];
+                            spbns[dfll] += dfllSpbding;
+                        }
+                    }
+                    dol += dolSpbn - 1;
+                }
+                dol++;
+            }
+        }
+
+        /**
+         * Pfrform lbyout for thf minor bxis of thf box (i.f. thf
+         * bxis orthogonbl to thf bxis thbt it rfprfsfnts).  Thf rfsults
+         * of thf lbyout should bf plbdfd in thf givfn brrbys whidh rfprfsfnt
+         * thf bllodbtions to thf dhildrfn blong thf minor bxis.  This
+         * is dbllfd by thf supfrdlbss whfnfvfr thf lbyout nffds to bf
+         * updbtfd blong thf minor bxis.
+         * <p>
+         * This is implfmfntfd to dflfgbtf to thf supfrdlbss, thfn bdjust
+         * thf spbn for bny dfll thbt spbns multiplf rows.
+         *
+         * @pbrbm tbrgftSpbn thf totbl spbn givfn to thf vifw, whidh
+         *  would bf usfd to lbyout thf dhildrfn
+         * @pbrbm bxis thf bxis bfing lbyfd out
+         * @pbrbm offsfts thf offsfts from thf origin of thf vifw for
+         *  fbdh of thf dhild vifws; this is b rfturn vbluf bnd is
+         *  fillfd in by thf implfmfntbtion of this mfthod
+         * @pbrbm spbns thf spbn of fbdh dhild vifw; this is b rfturn
+         *  vbluf bnd is fillfd in by thf implfmfntbtion of this mfthod
+         * @rfturn thf offsft bnd spbn for fbdh dhild vifw in thf
+         *  offsfts bnd spbns pbrbmftfrs
+         */
+        protfdtfd void lbyoutMinorAxis(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
+            supfr.lbyoutMinorAxis(tbrgftSpbn, bxis, offsfts, spbns);
+            int dol = 0;
+            int ndflls = gftVifwCount();
+            for (int dfll = 0; dfll < ndflls; dfll++, dol++) {
+                Vifw dv = gftVifw(dfll);
+                for (; isFillfd(dol); dol++); // bdvbndf to b frff dolumn
+                int dolSpbn = gftColumnsOddupifd(dv);
+                int rowSpbn = gftRowsOddupifd(dv);
+                if (rowSpbn > 1) {
+
+                    int row0 = rowIndfx;
+                    int row1 = Mbth.min(rowIndfx + rowSpbn - 1, gftRowCount()-1);
+                    spbns[dfll] = gftMultiRowSpbn(row0, row1);
+                }
+                if (dolSpbn > 1) {
+                    dol += dolSpbn - 1;
+                }
+            }
+        }
+
+        /**
+         * Dftfrminfs thf rfsizbbility of thf vifw blong thf
+         * givfn bxis.  A vbluf of 0 or lfss is not rfsizbblf.
+         *
+         * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
+         * @rfturn thf rfsizf wfight
+         * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis
+         */
+        publid int gftRfsizfWfight(int bxis) {
+            rfturn 1;
+        }
+
+        /**
+         * Fftdhfs thf dhild vifw thbt rfprfsfnts thf givfn position in
+         * thf modfl.  This is implfmfntfd to wblk through thf dhildrfn
+         * looking for b rbngf thbt dontbins thf givfn position.  In this
+         * vifw thf dhildrfn do not nfdfssbrily hbvf b onf to onf mbpping
+         * with thf dhild flfmfnts.
+         *
+         * @pbrbm pos  thf sfbrdh position >= 0
+         * @pbrbm b  thf bllodbtion to thf tbblf on fntry, bnd thf
+         *   bllodbtion of thf vifw dontbining thf position on fxit
+         * @rfturn  thf vifw rfprfsfnting thf givfn position, or
+         *   null if thfrf isn't onf
+         */
+        protfdtfd Vifw gftVifwAtPosition(int pos, Rfdtbnglf b) {
+            int n = gftVifwCount();
+            for (int i = 0; i < n; i++) {
+                Vifw v = gftVifw(i);
+                int p0 = v.gftStbrtOffsft();
+                int p1 = v.gftEndOffsft();
+                if ((pos >= p0) && (pos < p1)) {
+                    // it's in this vifw.
+                    if (b != null) {
+                        dhildAllodbtion(i, b);
+                    }
+                    rfturn v;
+                }
+            }
+            if (pos == gftEndOffsft()) {
+                Vifw v = gftVifw(n - 1);
+                if (b != null) {
+                    this.dhildAllodbtion(n - 1, b);
+                }
+                rfturn v;
+            }
+            rfturn null;
+        }
+
+        /**
+         * Updbtf bny dbdhfd vblufs thbt domf from bttributfs.
+         */
+        void sftPropfrtifsFromAttributfs() {
+            StylfShfft shfft = gftStylfShfft();
+            bttr = shfft.gftVifwAttributfs(this);
+            pbintfr = shfft.gftBoxPbintfr(bttr);
+        }
+
+        privbtf StylfShfft.BoxPbintfr pbintfr;
+        privbtf AttributfSft bttr;
+
+        /** dolumns fillfd by multi-dolumn or multi-row dflls */
+        BitSft fillColumns;
+
+        /**
+         * Thf row indfx within thf ovfrbll grid
+         */
+        int rowIndfx;
+
+        /**
+         * Thf vifw indfx (for row indfx to vifw indfx donvfrsion).
+         * This is sft by thf updbtfGrid mfthod.
+         */
+        int vifwIndfx;
+
+        /**
+         * Dofs this tbblf row hbvf dflls thbt spbn multiplf rows?
+         */
+        boolfbn multiRowCflls;
+
+    }
+
+    /**
+     * Dffbult vifw of bn html tbblf dfll.  This nffds to bf movfd
+     * somfwhfrf flsf.
+     */
+    dlbss CfllVifw fxtfnds BlodkVifw {
+
+        /**
+         * Construdts b TbblfCfll for thf givfn flfmfnt.
+         *
+         * @pbrbm flfm thf flfmfnt thbt this vifw is rfsponsiblf for
+         */
+        publid CfllVifw(Elfmfnt flfm) {
+            supfr(flfm, Y_AXIS);
+        }
+
+        /**
+         * Pfrform lbyout for thf mbjor bxis of thf box (i.f. thf
+         * bxis thbt it rfprfsfnts).  Thf rfsults of thf lbyout should
+         * bf plbdfd in thf givfn brrbys whidh rfprfsfnt thf bllodbtions
+         * to thf dhildrfn blong thf mbjor bxis.  This is dbllfd by thf
+         * supfrdlbss to rfdbldulbtf thf positions of thf dhild vifws
+         * whfn thf lbyout might hbvf dhbngfd.
+         * <p>
+         * This is implfmfntfd to dflfgbtf to thf supfrdlbss to
+         * tilf thf dhildrfn.  If thf tbrgft spbn is grfbtfr thbn
+         * wbs nffdfd, thf offsfts brf bdjustfd to blign thf dhildrfn
+         * (i.f. position bddording to thf html vblign bttributf).
+         *
+         * @pbrbm tbrgftSpbn thf totbl spbn givfn to thf vifw, whidh
+         *  would bf usfd to lbyout thf dhildrfn
+         * @pbrbm bxis thf bxis bfing lbyfd out
+         * @pbrbm offsfts thf offsfts from thf origin of thf vifw for
+         *  fbdh of thf dhild vifws; this is b rfturn vbluf bnd is
+         *  fillfd in by thf implfmfntbtion of this mfthod
+         * @pbrbm spbns thf spbn of fbdh dhild vifw; this is b rfturn
+         *  vbluf bnd is fillfd in by thf implfmfntbtion of this mfthod
+         * @rfturn thf offsft bnd spbn for fbdh dhild vifw in thf
+         *  offsfts bnd spbns pbrbmftfrs
+         */
+        protfdtfd void lbyoutMbjorAxis(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
+            supfr.lbyoutMbjorAxis(tbrgftSpbn, bxis, offsfts, spbns);
+            // dbldulbtf usbgf
+            int usfd = 0;
+            int n = spbns.lfngth;
+            for (int i = 0; i < n; i++) {
+                usfd += spbns[i];
+            }
+
+            // dbldulbtf bdjustmfnts
+            int bdjust = 0;
+            if (usfd < tbrgftSpbn) {
+                // PENDING(prinz) dhbngf to usf thf dss blignmfnt.
+                String vblign = (String) gftElfmfnt().gftAttributfs().gftAttributf(
+                    HTML.Attributf.VALIGN);
+                if (vblign == null) {
+                    AttributfSft rowAttr = gftElfmfnt().gftPbrfntElfmfnt().gftAttributfs();
+                    vblign = (String) rowAttr.gftAttributf(HTML.Attributf.VALIGN);
+                }
+                if ((vblign == null) || vblign.fqubls("middlf")) {
+                    bdjust = (tbrgftSpbn - usfd) / 2;
+                } flsf if (vblign.fqubls("bottom")) {
+                    bdjust = tbrgftSpbn - usfd;
+                }
+            }
+
+            // mbkf bdjustmfnts.
+            if (bdjust != 0) {
+                for (int i = 0; i < n; i++) {
+                    offsfts[i] += bdjust;
+                }
+            }
+        }
+
+        /**
+         * Cbldulbtf thf rfquirfmfnts nffdfd blong thf mbjor bxis.
+         * This is dbllfd by thf supfrdlbss whfnfvfr thf rfquirfmfnts
+         * nffd to bf updbtfd (i.f. b prfffrfndfChbngfd wbs mfssbgfd
+         * through this vifw).
+         * <p>
+         * This is implfmfntfd to dflfgbtf to thf supfrdlbss, but
+         * indidbtf thf mbximum sizf is vfry lbrgf (i.f. thf dfll
+         * is willing to fxpfnd to oddupy thf full hfight of thf row).
+         *
+         * @pbrbm bxis thf bxis bfing lbyfd out.
+         * @pbrbm r thf rfquirfmfnts to fill in.  If null, b nfw onf
+         *  should bf bllodbtfd.
+         */
+        protfdtfd SizfRfquirfmfnts dbldulbtfMbjorAxisRfquirfmfnts(int bxis,
+                                                                  SizfRfquirfmfnts r) {
+            SizfRfquirfmfnts rfq = supfr.dbldulbtfMbjorAxisRfquirfmfnts(bxis, r);
+            rfq.mbximum = Intfgfr.MAX_VALUE;
+            rfturn rfq;
+        }
+
+        @Ovfrridf
+        protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis, SizfRfquirfmfnts r) {
+            SizfRfquirfmfnts rv = supfr.dbldulbtfMinorAxisRfquirfmfnts(bxis, r);
+            //for thf dfll thf minimum should bf dfrivfd from thf dhild vifws
+            //thf pbrfnt bfhbviour is to usf CSS for thbt
+            int n = gftVifwCount();
+            int min = 0;
+            for (int i = 0; i < n; i++) {
+                Vifw v = gftVifw(i);
+                min = Mbth.mbx((int) v.gftMinimumSpbn(bxis), min);
+            }
+            rv.minimum = Mbth.min(rv.minimum, min);
+            rfturn rv;
+        }
+    }
+
+
+}

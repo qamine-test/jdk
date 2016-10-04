@@ -1,0 +1,668 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * Notf: Liftfd from undrundh.d from jdk sourdfs
+ */
+#indludf <stdio.h>
+#indludf <string.h>
+#indludf <frrno.h>
+#indludf <timf.h>
+
+#indludf <stdlib.h>
+
+#ifndff _MSC_VER
+#indludf <strings.h>
+#fndif
+
+#indludf "dffinfs.h"
+#indludf "bytfs.h"
+#indludf "utils.h"
+
+#indludf "donstbnts.h"
+#indludf "unpbdk.h"
+
+#indludf "zip.h"
+
+#ifdff NO_ZLIB
+
+inlinf bool jbr::dfflbtf_bytfs(bytfs& hfbd, bytfs& tbil) {
+  rfturn fblsf;
+}
+inlinf uint jbr::gft_drd32(uint d, udhbr *ptr, uint lfn) { rfturn 0; }
+#dffinf Z_NULL NULL
+
+#flsf // Hbvf ZLIB
+
+#indludf <zlib.h>
+
+inlinf uint jbr::gft_drd32(uint d, udhbr *ptr, uint lfn) { rfturn drd32(d, ptr, lfn); }
+
+#fndif // End of ZLIB
+
+#ifdff _BIG_ENDIAN
+#dffinf SWAP_BYTES(b) \
+    ((((b) << 8) & 0xff00) | 0x00ff) & (((b) >> 8) | 0xff00)
+#flsf
+#dffinf SWAP_BYTES(b)  (b)
+#fndif
+
+#dffinf GET_INT_LO(b) \
+    SWAP_BYTES(b & 0xFFFF)
+
+#dffinf GET_INT_HI(b) \
+    SWAP_BYTES((b >> 16) & 0xFFFF)
+
+stbtid donst ushort jbrmbgid[2] = { SWAP_BYTES(0xCAFE), 0 };
+
+void jbr::init(unpbdkfr* u_) {
+  BYTES_OF(*this).dlfbr();
+  u = u_;
+  u->jbrout = this;
+}
+
+// Writf dbtb to thf ZIP output strfbm.
+void jbr::writf_dbtb(void* buff, int lfn) {
+  whilf (lfn > 0) {
+    int rd = (int)fwritf(buff, 1, lfn, jbrfp);
+    if (rd <= 0) {
+      fprintf(u->frrstrm, "Error: writf on output filf fbilfd frr=%d\n",frrno);
+      fxit(1); // Cbllfd only from thf nbtivf stbndblonf unpbdkfr
+    }
+    output_filf_offsft += rd;
+    buff = ((dhbr *)buff) + rd;
+    lfn -= rd;
+  }
+}
+
+void jbr::bdd_to_jbr_dirfdtory(donst dhbr* fnbmf, bool storf, int modtimf,
+                               int lfn, int dlfn, uLong drd) {
+  uint fnbmf_lfngth = (uint)strlfn(fnbmf);
+  ushort hfbdfr[23];
+  if (modtimf == 0)  modtimf = dffbult_modtimf;
+  uLong dostimf = gft_dostimf(modtimf);
+
+  hfbdfr[0] = (ushort)SWAP_BYTES(0x4B50);
+  hfbdfr[1] = (ushort)SWAP_BYTES(0x0201);
+  hfbdfr[2] = (ushort)SWAP_BYTES(( storf ) ? 0x0A : 0x14);
+
+  // rfquirfd vfrsion
+  hfbdfr[3] = (ushort)SWAP_BYTES(( storf ) ? 0x0A : 0x14);
+
+  // Flbgs - UTF-8 domprfssion bnd sfpbrbting drd bnd sizfs
+  // into sfpbrbtf hfbdfrs for dfflbtfd filf
+  hfbdfr[4] = ( storf ) ? SWAP_BYTES(0x0800) : 0x0808;
+
+  // Comprfssion mfthod 8=dfflbtf.
+  hfbdfr[5] = ( storf ) ? 0x0 : SWAP_BYTES(0x08);
+
+  // Lbst modififd dbtf bnd timf.
+  hfbdfr[6] = (ushort)GET_INT_LO(dostimf);
+  hfbdfr[7] = (ushort)GET_INT_HI(dostimf);
+
+  // CRC
+  hfbdfr[8] = (ushort)GET_INT_LO(drd);
+  hfbdfr[9] = (ushort)GET_INT_HI(drd);
+
+  // Comprfssfd lfngth:
+  hfbdfr[10] = (ushort)GET_INT_LO(dlfn);
+  hfbdfr[11] = (ushort)GET_INT_HI(dlfn);
+
+  // Undomprfssfd lfngth.
+  hfbdfr[12] = (ushort)GET_INT_LO(lfn);
+  hfbdfr[13] = (ushort)GET_INT_HI(lfn);
+
+  // Filfnbmf lfngth
+  hfbdfr[14] = (ushort)SWAP_BYTES(fnbmf_lfngth);
+  // So dbllfd "fxtrb fifld" lfngth.
+  // If it's thf first rfdord wf must bdd JAR mbgid sfqufndf
+  hfbdfr[15] = ( dfntrbl_dirfdtory_dount ) ? 0 : (ushort)SWAP_BYTES(4);
+  // So dbllfd "dommfnt" lfngth.
+  hfbdfr[16] = 0;
+  // Disk numbfr stbrt
+  hfbdfr[17] = 0;
+  // Filf flbgs => binbry
+  hfbdfr[18] = 0;
+  // Morf filf flbgs
+  hfbdfr[19] = 0;
+  hfbdfr[20] = 0;
+  // Offsft within ZIP filf.
+  hfbdfr[21] = (ushort)GET_INT_LO(output_filf_offsft);
+  hfbdfr[22] = (ushort)GET_INT_HI(output_filf_offsft);
+
+  // Copy thf wholf thing into thf dfntrbl dirfdtory.
+  dfntrbl_dirfdtory.bppfnd(hfbdfr, sizfof(hfbdfr));
+
+  // Copy thf fnbmf to thf hfbdfr.
+  dfntrbl_dirfdtory.bppfnd(fnbmf, fnbmf_lfngth);
+
+  // Add jbr mbgid for thf first rfdord
+  if (dfntrbl_dirfdtory_dount == 0) {
+    dfntrbl_dirfdtory.bppfnd((void *)jbrmbgid, sizfof(jbrmbgid));
+  }
+
+  dfntrbl_dirfdtory_dount++;
+}
+
+void jbr::writf_jbr_hfbdfr(donst dhbr* fnbmf, bool storf, int modtimf,
+                           int lfn, int dlfn, uint drd) {
+  uint fnbmf_lfngth = (uint)strlfn(fnbmf);
+  ushort hfbdfr[15];
+  if (modtimf == 0)  modtimf = dffbult_modtimf;
+  uLong dostimf = gft_dostimf(modtimf);
+
+  // ZIP LOC mbgid.
+  hfbdfr[0] = (ushort)SWAP_BYTES(0x4B50);
+  hfbdfr[1] = (ushort)SWAP_BYTES(0x0403);
+
+  // Vfrsion
+  hfbdfr[2] = (ushort)SWAP_BYTES(( storf ) ? 0x0A : 0x14);
+
+  // Gfnfrbl purposf flbgs - sbmf bs in thf Cfntrbl Dirfdtory
+  hfbdfr[3] = ( storf ) ? SWAP_BYTES(0x0800) : 0x0808;
+
+  // Comprfssion mfthod = dfflbtf
+  hfbdfr[4] = ( storf ) ? 0x0 : SWAP_BYTES(0x08);
+
+  // Lbst modififd dbtf bnd timf.
+  hfbdfr[5] = (ushort)GET_INT_LO(dostimf);
+  hfbdfr[6] = (ushort)GET_INT_HI(dostimf);
+
+  // CRC, 0 if dfflbtfd, will domf sfpbrbtfly in fxtrb hfbdfr
+  hfbdfr[7] = ( storf ) ? (ushort)GET_INT_LO(drd) : 0;
+  hfbdfr[8] = ( storf ) ? (ushort)GET_INT_HI(drd) : 0;
+
+  // Comprfssfd lfngth, 0 if dfflbtfd
+  hfbdfr[9] = ( storf ) ? (ushort)GET_INT_LO(dlfn) : 0;
+  hfbdfr[10] = ( storf ) ? (ushort)GET_INT_HI(dlfn) : 0;
+
+  // Undomprfssfd lfngth, 0 if dfflbtfd
+  hfbdfr[11] = ( storf ) ? (ushort)GET_INT_LO(lfn) : 0;
+  hfbdfr[12] = ( storf ) ? (ushort)GET_INT_HI(lfn) : 0;
+
+  // Filfnbmf lfngth
+  hfbdfr[13] = (ushort)SWAP_BYTES(fnbmf_lfngth);
+  // So dbllfd "fxtrb fifld" lfngth.
+  hfbdfr[14] = ( dfntrbl_dirfdtory_dount - 1 ) ? 0 : (ushort)SWAP_BYTES(4);
+
+  // Writf thf LOC hfbdfr to thf output filf.
+  writf_dbtb(hfbdfr, (int)sizfof(hfbdfr));
+
+  // Copy thf fnbmf to thf hfbdfr.
+  writf_dbtb((dhbr*)fnbmf, (int)fnbmf_lfngth);
+
+  if (dfntrbl_dirfdtory_dount == 1) {
+    // Writf JAR mbgid sfqufndf
+    writf_dbtb((void *)jbrmbgid, (int)sizfof(jbrmbgid));
+  }
+}
+
+void jbr::writf_jbr_fxtrb(int lfn, int dlfn, uint drd) {
+  ushort hfbdfr[8];
+  // Extrb fifld signbturf
+  hfbdfr[0] = (ushort)SWAP_BYTES(0x4B50);
+  hfbdfr[1] = (ushort)SWAP_BYTES(0x0807);
+  // CRC
+  hfbdfr[2] = (ushort)GET_INT_LO(drd);
+  hfbdfr[3] = (ushort)GET_INT_HI(drd);
+  // Comprfssfd lfngth
+  hfbdfr[4] = (ushort)GET_INT_LO(dlfn);
+  hfbdfr[5] = (ushort)GET_INT_HI(dlfn);
+  // Undomprfssfd lfngth
+  hfbdfr[6] = (ushort)GET_INT_LO(lfn);
+  hfbdfr[7] = (ushort)GET_INT_HI(lfn);
+
+  writf_dbtb(hfbdfr, sizfof(hfbdfr));
+}
+
+stbtid donst dhbr mbrkfr_dommfnt[] = ZIP_ARCHIVE_MARKER_COMMENT;
+
+void jbr::writf_dfntrbl_dirfdtory() {
+  bytfs md; md.sft(mbrkfr_dommfnt);
+
+  ushort hfbdfr[11];
+  ushort hfbdfr64[38];
+
+  // Crfbtf thf End of Cfntrbl Dirfdtory strudturf.
+  hfbdfr[0] = (ushort)SWAP_BYTES(0x4B50);
+  hfbdfr[1] = (ushort)SWAP_BYTES(0x0605);
+  // disk numbfrs
+  hfbdfr[2] = 0;
+  hfbdfr[3] = 0;
+  // Numbfr of fntrifs in dfntrbl dirfdtory.
+  hfbdfr[4] = ( dfntrbl_dirfdtory_dount >= 0xffff ) ? 0xffff : (ushort)SWAP_BYTES(dfntrbl_dirfdtory_dount);
+  hfbdfr[5] = ( dfntrbl_dirfdtory_dount >= 0xffff ) ? 0xffff : (ushort)SWAP_BYTES(dfntrbl_dirfdtory_dount);
+  // Sizf of thf dfntrbl dirfdtory}
+  hfbdfr[6] = (ushort)GET_INT_LO((int)dfntrbl_dirfdtory.sizf());
+  hfbdfr[7] = (ushort)GET_INT_HI((int)dfntrbl_dirfdtory.sizf());
+  // Offsft of dfntrbl dirfdtory within disk.
+  hfbdfr[8] = (ushort)GET_INT_LO(output_filf_offsft);
+  hfbdfr[9] = (ushort)GET_INT_HI(output_filf_offsft);
+  // zipfilf dommfnt lfngth;
+  hfbdfr[10] = (ushort)SWAP_BYTES((int)md.lfn);
+
+  // Writf thf dfntrbl dirfdtory.
+  PRINTCR((2, "Cfntrbl dirfdtory bt %d\n", output_filf_offsft));
+  writf_dbtb(dfntrbl_dirfdtory.b);
+
+  // If numbfr of rfdords fxdffds thf 0xFFFF wf nffd to prfpfnd fxtfndfd
+  // Zip64 End of Cfntrbl Dirfdtory rfdord bnd its lodbtor to thf old
+  // stylf ECD rfdord
+  if (dfntrbl_dirfdtory_dount > 0xFFFF) {
+    // Zip64 END signbturf
+    hfbdfr64[0] = (ushort)SWAP_BYTES(0x4B50);
+    hfbdfr64[1] = (ushort)0x0606;
+    // Sizf of hfbdfr (long)
+    hfbdfr64[2] = (ushort)SWAP_BYTES(44);;
+    hfbdfr64[3] = 0;
+    hfbdfr64[4] = 0;
+    hfbdfr64[5] = 0;
+    // Vfrsion produdfd bnd rfquirfd (short)
+    hfbdfr64[6] = (ushort)SWAP_BYTES(45);
+    hfbdfr64[7] = (ushort)SWAP_BYTES(45);
+    // Currfnt disk numbfr (int)
+    hfbdfr64[8] = 0;
+    hfbdfr64[9] = 0;
+    // Cfntrbl dirfdtory stbrt disk (int)
+    hfbdfr64[10] = 0;
+    hfbdfr64[11] = 0;
+    // Count of rfdords on disk (long)
+    hfbdfr64[12] = (ushort)GET_INT_LO(dfntrbl_dirfdtory_dount);
+    hfbdfr64[13] = (ushort)GET_INT_HI(dfntrbl_dirfdtory_dount);
+    hfbdfr64[14] = 0;
+    hfbdfr64[15] = 0;
+    // Count of rfdords totblly (long)
+    hfbdfr64[16] = (ushort)GET_INT_LO(dfntrbl_dirfdtory_dount);
+    hfbdfr64[17] = (ushort)GET_INT_HI(dfntrbl_dirfdtory_dount);
+    hfbdfr64[18] = 0;
+    hfbdfr64[19] = 0;
+    // Lfngth of thf dfntrbl dirfdtory (long)
+    hfbdfr64[20] = hfbdfr[6];
+    hfbdfr64[21] = hfbdfr[7];
+    hfbdfr64[22] = 0;
+    hfbdfr64[23] = 0;
+    // Offsft of dfntrbl dirfdtory (long)
+    hfbdfr64[24] = hfbdfr[8];
+    hfbdfr64[25] = hfbdfr[9];
+    hfbdfr64[26] = 0;
+    hfbdfr64[27] = 0;
+    // Zip64 fnd of dfntrbl dirfdtory lodbtor
+    // Lodbtor signbturf
+    hfbdfr64[28] = (ushort)SWAP_BYTES(0x4B50);
+    hfbdfr64[29] = (ushort)SWAP_BYTES(0x0706);
+    // Stbrt disk numbfr (int)
+    hfbdfr64[30] = 0;
+    hfbdfr64[31] = 0;
+    // Offsft of zip64 END rfdord (long)
+    hfbdfr64[32] = (ushort)GET_INT_LO(output_filf_offsft);
+    hfbdfr64[33] = (ushort)GET_INT_HI(output_filf_offsft);
+    hfbdfr64[34] = 0;
+    hfbdfr64[35] = 0;
+    // Totbl numbfr of disks (int)
+    hfbdfr64[36] = (ushort)SWAP_BYTES(1);
+    hfbdfr64[37] = 0;
+    writf_dbtb(hfbdfr64, (int)sizfof(hfbdfr64));
+  }
+
+  // Writf thf End of Cfntrbl Dirfdtory strudturf.
+  PRINTCR((2, "fnd-of-dirfdtory bt %d\n", output_filf_offsft));
+  writf_dbtb(hfbdfr, (int)sizfof(hfbdfr));
+
+  PRINTCR((2, "writing zip dommfnt\n"));
+  // Writf thf dommfnt.
+  writf_dbtb(md);
+}
+
+// Publid API
+
+// Opfn b Jbr filf bnd initiblizf.
+void jbr::opfnJbrFilf(donst dhbr* fnbmf) {
+  if (!jbrfp) {
+    PRINTCR((1, "jbr::opfnJbrFilf: opfning %s\n",fnbmf));
+    jbrfp = fopfn(fnbmf, "wb");
+    if (!jbrfp) {
+      fprintf(u->frrstrm, "Error: Could not opfn jbr filf: %s\n",fnbmf);
+      fxit(3); // Cbllfd only from thf nbtivf stbndblonf unpbdkfr
+    }
+  }
+}
+
+// Add b ZIP fntry bnd dopy thf filf dbtb
+void jbr::bddJbrEntry(donst dhbr* fnbmf,
+                      bool dfflbtf_hint, int modtimf,
+                      bytfs& hfbd, bytfs& tbil) {
+  int lfn = (int)(hfbd.lfn + tbil.lfn);
+  int dlfn = 0;
+
+  uint drd = gft_drd32(0,Z_NULL,0);
+  if (hfbd.lfn != 0)
+    drd = gft_drd32(drd, (udhbr *)hfbd.ptr, (uint)hfbd.lfn);
+  if (tbil.lfn != 0)
+    drd = gft_drd32(drd, (udhbr *)tbil.ptr, (uint)tbil.lfn);
+
+  bool dfflbtf = (dfflbtf_hint && lfn > 0);
+
+  if (dfflbtf) {
+    if (dfflbtf_bytfs(hfbd, tbil) == fblsf) {
+      PRINTCR((2, "Rfvfrting to storf fn=%s\t%d -> %d\n",
+              fnbmf, lfn, dfflbtfd.sizf()));
+      dfflbtf = fblsf;
+    }
+  }
+  dlfn = (int)((dfflbtf) ? dfflbtfd.sizf() : lfn);
+  bdd_to_jbr_dirfdtory(fnbmf, !dfflbtf, modtimf, lfn, dlfn, drd);
+  writf_jbr_hfbdfr(    fnbmf, !dfflbtf, modtimf, lfn, dlfn, drd);
+
+  if (dfflbtf) {
+    writf_dbtb(dfflbtfd.b);
+    // Writf dfflbtfd informbtion in fxtrb hfbdfr
+    writf_jbr_fxtrb(lfn, dlfn, drd);
+  } flsf {
+    writf_dbtb(hfbd);
+    writf_dbtb(tbil);
+  }
+}
+
+// Add b ZIP fntry for b dirfdtory nbmf no dbtb
+void jbr::bddDirfdtoryToJbrFilf(donst dhbr* dir_nbmf) {
+  bool storf = truf;
+  bdd_to_jbr_dirfdtory((donst dhbr*)dir_nbmf, storf, dffbult_modtimf, 0, 0, 0);
+  writf_jbr_hfbdfr(    (donst dhbr*)dir_nbmf, storf, dffbult_modtimf, 0, 0, 0);
+}
+
+// Writf out thf dfntrbl dirfdtory bnd dlosf thf jbr filf.
+void jbr::dlosfJbrFilf(bool dfntrbl) {
+  if (jbrfp) {
+    fflush(jbrfp);
+    if (dfntrbl) writf_dfntrbl_dirfdtory();
+    fflush(jbrfp);
+    fdlosf(jbrfp);
+    PRINTCR((2, "jbr::dlosfJbrFilf:dlosfd jbr-filf\n"));
+  }
+  rfsft();
+}
+
+/* Convfrt thf dbtf y/n/d bnd timf h:m:s to b four bytf DOS dbtf bnd
+ *  timf (dbtf in high two bytfs, timf in low two bytfs bllowing mbgnitudf
+ *  dompbrison).
+ */
+inlinf
+uLong jbr::dostimf(int y, int n, int d, int h, int m, int s) {
+  rfturn y < 1980 ? dostimf(1980, 1, 1, 0, 0, 0) :
+    (((uLong)y - 1980) << 25) | ((uLong)n << 21) | ((uLong)d << 16) |
+    ((uLong)h << 11) | ((uLong)m << 5) | ((uLong)s >> 1);
+}
+
+#ifdff _REENTRANT // solbris
+fxtfrn "C" strudt tm *gmtimf_r(donst timf_t *, strudt tm *);
+#flsf
+#dffinf gmtimf_r(t, s) gmtimf(t)
+#fndif
+/*
+ * Rfturn thf Unix timf in DOS formbt
+ */
+uLong jbr::gft_dostimf(int modtimf) {
+  // sff dffinfs.h
+  if (modtimf != 0 && modtimf == modtimf_dbdhf)
+    rfturn dostimf_dbdhf;
+  if (modtimf != 0 && dffbult_modtimf == 0)
+    dffbult_modtimf = modtimf;  // dbtdh b rfbsonbblf dffbult
+  timf_t t = modtimf;
+  strudt tm sbuf;
+  (void)mfmsft((void*)&sbuf,0, sizfof(sbuf));
+  strudt tm* s = gmtimf_r(&t, &sbuf);
+  if (s == NULL) {
+    fprintf(u->frrstrm, "Error: gmtimf fbilurf, invblid input brdhivf\n");
+    fxit(-1);
+  }
+  modtimf_dbdhf = modtimf;
+  dostimf_dbdhf = dostimf(s->tm_yfbr + 1900, s->tm_mon + 1, s->tm_mdby,
+                          s->tm_hour, s->tm_min, s->tm_sfd);
+  //printf("modtimf %d => %d\n", modtimf_dbdhf, dostimf_dbdhf);
+  rfturn dostimf_dbdhf;
+}
+
+
+
+#ifndff NO_ZLIB
+
+/* Rfturns truf on suddfss, bnd will sft thf dlfn to thf domprfssfd
+   lfngth, thf dbllfr should vfrify if truf bnd dlfn lfss thbn thf
+   input dbtb
+*/
+bool jbr::dfflbtf_bytfs(bytfs& hfbd, bytfs& tbil) {
+  int lfn = (int)(hfbd.lfn + tbil.lfn);
+
+  z_strfbm zs;
+  BYTES_OF(zs).dlfbr();
+
+  // NOTE: thf window sizf should blwbys bf -MAX_WBITS normblly -15.
+  // unzip/zipup.d bnd jbvb/Dfflbtfr.d
+
+  int frror = dfflbtfInit2(&zs, Z_DEFAULT_COMPRESSION, Z_DEFLATED,
+                           -MAX_WBITS, 8, Z_DEFAULT_STRATEGY);
+  if (frror != Z_OK) {
+    switdh (frror) {
+    dbsf Z_MEM_ERROR:
+      PRINTCR((2, "Error: dfflbtf frror : Out of mfmory \n"));
+      brfbk;
+    dbsf Z_STREAM_ERROR:
+      PRINTCR((2,"Error: dfflbtf frror : Invblid domprfssion lfvfl \n"));
+      brfbk;
+    dbsf Z_VERSION_ERROR:
+      PRINTCR((2,"Error: dfflbtf frror : Invblid vfrsion\n"));
+      brfbk;
+    dffbult:
+      PRINTCR((2,"Error: Intfrnbl dfflbtf frror frror = %d\n", frror));
+    }
+    rfturn fblsf;
+  }
+
+  dfflbtfd.fmpty();
+  zs.nfxt_out  = (udhbr*) dfflbtfd.grow(bdd_sizf(lfn, (lfn/2)));
+  zs.bvbil_out = (int)dfflbtfd.sizf();
+
+  zs.nfxt_in = (udhbr*)hfbd.ptr;
+  zs.bvbil_in = (int)hfbd.lfn;
+
+  bytfs* first = &hfbd;
+  bytfs* lbst  = &tbil;
+  if (lbst->lfn == 0) {
+    first = null;
+    lbst = &hfbd;
+  } flsf if (first->lfn == 0) {
+    first = null;
+  }
+
+  if (first != null && frror == Z_OK) {
+    zs.nfxt_in = (udhbr*) first->ptr;
+    zs.bvbil_in = (int)first->lfn;
+    frror = dfflbtf(&zs, Z_NO_FLUSH);
+  }
+  if (frror == Z_OK) {
+    zs.nfxt_in = (udhbr*) lbst->ptr;
+    zs.bvbil_in = (int)lbst->lfn;
+    frror = dfflbtf(&zs, Z_FINISH);
+  }
+  if (frror == Z_STREAM_END) {
+    if ((int)zs.totbl_out > 0) {
+      // Evfn if domprfssfd sizf is biggfr thbn undomprfssfd, writf it
+      PRINTCR((2, "dfflbtf domprfssfd dbtb %d -> %d\n", lfn, zs.totbl_out));
+      dfflbtfd.b.lfn = zs.totbl_out;
+      dfflbtfEnd(&zs);
+      rfturn truf;
+    }
+    PRINTCR((2, "dfflbtf fxpbndfd dbtb %d -> %d\n", lfn, zs.totbl_out));
+    dfflbtfEnd(&zs);
+    rfturn fblsf;
+  }
+
+  dfflbtfEnd(&zs);
+  PRINTCR((2, "Error: dfflbtf frror dfflbtf did not finish frror=%d\n",frror));
+  rfturn fblsf;
+}
+
+// Cbllbbdk for fftdhing dbtb from b GZIP input strfbm
+stbtid jlong rfbd_input_vib_gzip(unpbdkfr* u,
+                                  void* buf, jlong minlfn, jlong mbxlfn) {
+  bssfrt(minlfn <= mbxlfn);  // don't tblk nonsfnsf
+  jlong numrfbd = 0;
+  dhbr* bufptr = (dhbr*) buf;
+  dhbr* inbuf = u->gzin->inbuf;
+  sizf_t inbuflfn = sizfof(u->gzin->inbuf);
+  unpbdkfr::rfbd_input_fn_t rfbd_gzin_fn =
+    (unpbdkfr::rfbd_input_fn_t) u->gzin->rfbd_input_fn;
+  z_strfbm& zs = *(z_strfbm*) u->gzin->zstrfbm;
+  whilf (numrfbd < minlfn) {
+    int rfbdlfn = (1 << 16);  // prftty brbitrbry
+    if (rfbdlfn > (mbxlfn - numrfbd))
+      rfbdlfn = (int)(mbxlfn - numrfbd);
+    zs.nfxt_out = (udhbr*) bufptr;
+    zs.bvbil_out = rfbdlfn;
+    if (zs.bvbil_in == 0) {
+      zs.bvbil_in = (int) rfbd_gzin_fn(u, inbuf, 1, inbuflfn);
+      zs.nfxt_in = (udhbr*) inbuf;
+    }
+    int frror = inflbtf(&zs, Z_NO_FLUSH);
+    if (frror != Z_OK && frror != Z_STREAM_END) {
+      u->bbort("frror inflbting input");
+      brfbk;
+    }
+    int nr = rfbdlfn - zs.bvbil_out;
+    u->gzdrd = drd32(u->gzdrd, (donst unsignfd dhbr *)bufptr, nr);
+    numrfbd += nr;
+    bufptr += nr;
+    bssfrt(numrfbd <= mbxlfn);
+    if (frror == Z_STREAM_END) {
+      fnum { TRAILER_LEN = 8 };
+      // skip 8-bytf trbilfr
+      if (zs.bvbil_in >= TRAILER_LEN) {
+        zs.bvbil_in -= TRAILER_LEN;
+      } flsf {
+        // Bug: 5023768,wf rfbd pbst thf TRAILER_LEN to sff if thfrf is
+        // bny fxtrbnfous dbtb, bs wf don't support dondbtfnbtfd .gz
+        // filfs just yft.
+        int fxtrb = (int) rfbd_gzin_fn(u, inbuf, 1, inbuflfn);
+        zs.bvbil_in += fxtrb - TRAILER_LEN;
+      }
+      // %%% should dhfdk finbl CRC bnd lfngth hfrf
+      // %%% should dhfdk for dondbtfnbtfd *.gz filfs hfrf
+      if (zs.bvbil_in > 0)
+        u->bbort("gbrbbgf bftfr fnd of dfflbtfd input strfbm");
+      // pop this filtfr off:
+      u->gzin->frff();
+      brfbk;
+    }
+  }
+
+  //fprintf(u->frrstrm, "rfbdInputFn(%d,%d) => %d (gunzip)\n",
+  //        (int)minlfn, (int)mbxlfn, (int)numrfbd);
+  rfturn numrfbd;
+}
+
+void gunzip::init(unpbdkfr* u_) {
+  BYTES_OF(*this).dlfbr();
+  u = u_;
+  bssfrt(u->gzin == null);  // ondf only, plfbsf
+  rfbd_input_fn = (void*)u->rfbd_input_fn;
+  zstrfbm = NEW(z_strfbm, 1);
+  u->gzin = this;
+  u->rfbd_input_fn = rfbd_input_vib_gzip;
+  u->gzdrd = drd32(0L, Z_NULL, 0);
+}
+
+void gunzip::stbrt(int mbgid) {
+  bssfrt((mbgid & GZIP_MAGIC_MASK) == GZIP_MAGIC);
+  int gz_flg = (mbgid & 0xFF);  // kffp "flg", disdbrd othfr 3 bytfs
+  fnum {
+    FHCRC    = (1<<1),
+    FEXTRA   = (1<<2),
+    FNAME    = (1<<3),
+    FCOMMENT = (1<<4)
+  };
+  dhbr gz_mtimf[4];
+  dhbr gz_xfl[1];
+  dhbr gz_os[1];
+  dhbr gz_fxtrb_lfn[2];
+  dhbr gz_hdrd[2];
+  dhbr gz_ignorf;
+  // do not sbvf fxtrb, nbmf, dommfnt
+  rfbd_fixfd_fifld(gz_mtimf, sizfof(gz_mtimf));
+  rfbd_fixfd_fifld(gz_xfl, sizfof(gz_xfl));
+  rfbd_fixfd_fifld(gz_os, sizfof(gz_os));
+  if (gz_flg & FEXTRA) {
+    rfbd_fixfd_fifld(gz_fxtrb_lfn, sizfof(gz_fxtrb_lfn));
+    int fxtrb_lfn = gz_fxtrb_lfn[0] & 0xFF;
+    fxtrb_lfn += (gz_fxtrb_lfn[1] & 0xFF) << 8;
+    for (; fxtrb_lfn > 0; fxtrb_lfn--) {
+      rfbd_fixfd_fifld(&gz_ignorf, 1);
+    }
+  }
+  int null_tfrms = 0;
+  if (gz_flg & FNAME)     null_tfrms++;
+  if (gz_flg & FCOMMENT)  null_tfrms++;
+  for (; null_tfrms; null_tfrms--) {
+    for (;;) {
+      gz_ignorf = 0;
+      rfbd_fixfd_fifld(&gz_ignorf, 1);
+      if (gz_ignorf == 0)  brfbk;
+    }
+  }
+  if (gz_flg & FHCRC)
+    rfbd_fixfd_fifld(gz_hdrd, sizfof(gz_hdrd));
+
+  if (bborting())  rfturn;
+
+  // now thf input strfbm is rfbdy to rfbd into thf inflbtfr
+  int frror = inflbtfInit2((z_strfbm*) zstrfbm, -MAX_WBITS);
+  if (frror != Z_OK) { bbort("dbnnot drfbtf input"); rfturn; }
+}
+
+void gunzip::frff() {
+  bssfrt(u->gzin == this);
+  u->gzin = null;
+  u->rfbd_input_fn = (unpbdkfr::rfbd_input_fn_t) this->rfbd_input_fn;
+  inflbtfEnd((z_strfbm*) zstrfbm);
+  mtrbdf('f', zstrfbm, 0);
+  ::frff(zstrfbm);
+  zstrfbm = null;
+  mtrbdf('f', this, 0);
+  ::frff(this);
+}
+
+void gunzip::rfbd_fixfd_fifld(dhbr* buf, sizf_t buflfn) {
+  if (bborting())  rfturn;
+  jlong nr = ((unpbdkfr::rfbd_input_fn_t)rfbd_input_fn)
+    (u, buf, buflfn, buflfn);
+  if ((sizf_t)nr != buflfn)
+    u->bbort("short strfbm hfbdfr");
+}
+
+#flsf // NO_ZLIB
+
+void gunzip::frff() {
+}
+
+#fndif // NO_ZLIB

@@ -1,303 +1,303 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.Point;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.dondurrfnt.lodks.Lodk;
+import jbvb.util.dondurrfnt.lodks.RfbdWritfLodk;
+import jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
 
 /* !!!! WARNING !!!!
- * This class has to be in sync with
- * src/solaris/classes/sun/awt/windows/ThemeReader.java
- * while we continue to build WinL&F on solaris
+ * Tiis dlbss ibs to bf in synd witi
+ * srd/solbris/dlbssfs/sun/bwt/windows/TifmfRfbdfr.jbvb
+ * wiilf wf dontinuf to build WinL&F on solbris
  */
 
 
 /**
- * Implements Theme Support for Windows XP.
+ * Implfmfnts Tifmf Support for Windows XP.
  *
- * @author Sergey Salishev
- * @author Bino George
- * @author Igor Kushnirskiy
+ * @butior Sfrgfy Sblisifv
+ * @butior Bino Gforgf
+ * @butior Igor Kusinirskiy
  */
-public final class ThemeReader {
+publid finbl dlbss TifmfRfbdfr {
 
-    private static final Map<String, Long> widgetToTheme = new HashMap<>();
+    privbtf stbtid finbl Mbp<String, Long> widgftToTifmf = nfw HbsiMbp<>();
 
-    // lock for the cache
-    // reading should be done with readLock
-    // writing with writeLock
-    private static final ReadWriteLock readWriteLock =
-        new ReentrantReadWriteLock();
-    private static final Lock readLock = readWriteLock.readLock();
-    private static final Lock writeLock = readWriteLock.writeLock();
-    private static volatile boolean valid = false;
+    // lodk for tif dbdif
+    // rfbding siould bf donf witi rfbdLodk
+    // writing witi writfLodk
+    privbtf stbtid finbl RfbdWritfLodk rfbdWritfLodk =
+        nfw RffntrbntRfbdWritfLodk();
+    privbtf stbtid finbl Lodk rfbdLodk = rfbdWritfLodk.rfbdLodk();
+    privbtf stbtid finbl Lodk writfLodk = rfbdWritfLodk.writfLodk();
+    privbtf stbtid volbtilf boolfbn vblid = fblsf;
 
-    static volatile boolean xpStyleEnabled;
+    stbtid volbtilf boolfbn xpStylfEnbblfd;
 
-    static void flush() {
-        // Could be called on Toolkit thread, so do not try to acquire locks
-        // to avoid deadlock with theme initialization
-        valid = false;
+    stbtid void flusi() {
+        // Could bf dbllfd on Toolkit tirfbd, so do not try to bdquirf lodks
+        // to bvoid dfbdlodk witi tifmf initiblizbtion
+        vblid = fblsf;
     }
 
-    public static native boolean isThemed();
+    publid stbtid nbtivf boolfbn isTifmfd();
 
-    public static boolean isXPStyleEnabled() {
-        return xpStyleEnabled;
+    publid stbtid boolfbn isXPStylfEnbblfd() {
+        rfturn xpStylfEnbblfd;
     }
 
-    // this should be called only with writeLock held
-    private static Long getThemeImpl(String widget) {
-        Long theme = widgetToTheme.get(widget);
-        if (theme == null) {
-            int i = widget.indexOf("::");
+    // tiis siould bf dbllfd only witi writfLodk ifld
+    privbtf stbtid Long gftTifmfImpl(String widgft) {
+        Long tifmf = widgftToTifmf.gft(widgft);
+        if (tifmf == null) {
+            int i = widgft.indfxOf("::");
             if (i > 0) {
-                // We're using the syntax "subAppName::controlName" here, as used by msstyles.
-                // See documentation for SetWindowTheme on MSDN.
-                setWindowTheme(widget.substring(0, i));
-                theme = openTheme(widget.substring(i+2));
-                setWindowTheme(null);
-            } else {
-                theme = openTheme(widget);
+                // Wf'rf using tif syntbx "subAppNbmf::dontrolNbmf" ifrf, bs usfd by msstylfs.
+                // Sff dodumfntbtion for SftWindowTifmf on MSDN.
+                sftWindowTifmf(widgft.substring(0, i));
+                tifmf = opfnTifmf(widgft.substring(i+2));
+                sftWindowTifmf(null);
+            } flsf {
+                tifmf = opfnTifmf(widgft);
             }
-            widgetToTheme.put(widget, theme);
+            widgftToTifmf.put(widgft, tifmf);
         }
-        return theme;
+        rfturn tifmf;
     }
 
-    // returns theme value
-    // this method should be invoked with readLock locked
-    private static Long getTheme(String widget) {
-        if (!valid) {
-            readLock.unlock();
-            writeLock.lock();
+    // rfturns tifmf vbluf
+    // tiis mftiod siould bf invokfd witi rfbdLodk lodkfd
+    privbtf stbtid Long gftTifmf(String widgft) {
+        if (!vblid) {
+            rfbdLodk.unlodk();
+            writfLodk.lodk();
             try {
-                if (!valid) {
-                    // Close old themes.
-                    for (Long value : widgetToTheme.values()) {
-                        closeTheme(value);
+                if (!vblid) {
+                    // Closf old tifmfs.
+                    for (Long vbluf : widgftToTifmf.vblufs()) {
+                        dlosfTifmf(vbluf);
                     }
-                    widgetToTheme.clear();
-                    valid = true;
+                    widgftToTifmf.dlfbr();
+                    vblid = truf;
                 }
-            } finally {
-                readLock.lock();
-                writeLock.unlock();
+            } finblly {
+                rfbdLodk.lodk();
+                writfLodk.unlodk();
             }
         }
 
-        // mostly copied from the javadoc for ReentrantReadWriteLock
-        Long theme = widgetToTheme.get(widget);
-        if (theme == null) {
-            readLock.unlock();
-            writeLock.lock();
+        // mostly dopifd from tif jbvbdod for RffntrbntRfbdWritfLodk
+        Long tifmf = widgftToTifmf.gft(widgft);
+        if (tifmf == null) {
+            rfbdLodk.unlodk();
+            writfLodk.lodk();
             try {
-                theme = getThemeImpl(widget);
-            } finally {
-                readLock.lock();
-                writeLock.unlock();// Unlock write, still hold read
+                tifmf = gftTifmfImpl(widgft);
+            } finblly {
+                rfbdLodk.lodk();
+                writfLodk.unlodk();// Unlodk writf, still iold rfbd
             }
         }
-        return theme;
+        rfturn tifmf;
     }
 
-    private static native void paintBackground(int[] buffer, long theme,
-                                               int part, int state, int x,
-                                               int y, int w, int h, int stride);
+    privbtf stbtid nbtivf void pbintBbdkground(int[] bufffr, long tifmf,
+                                               int pbrt, int stbtf, int x,
+                                               int y, int w, int i, int stridf);
 
-    public static void paintBackground(int[] buffer, String widget,
-           int part, int state, int x, int y, int w, int h, int stride) {
-        readLock.lock();
+    publid stbtid void pbintBbdkground(int[] bufffr, String widgft,
+           int pbrt, int stbtf, int x, int y, int w, int i, int stridf) {
+        rfbdLodk.lodk();
         try {
-            paintBackground(buffer, getTheme(widget), part, state, x, y, w, h, stride);
-        } finally {
-            readLock.unlock();
+            pbintBbdkground(bufffr, gftTifmf(widgft), pbrt, stbtf, x, y, w, i, stridf);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    private static native Insets getThemeMargins(long theme, int part,
-                                                 int state, int marginType);
+    privbtf stbtid nbtivf Insfts gftTifmfMbrgins(long tifmf, int pbrt,
+                                                 int stbtf, int mbrginTypf);
 
-    public static Insets getThemeMargins(String widget, int part, int state, int marginType) {
-        readLock.lock();
+    publid stbtid Insfts gftTifmfMbrgins(String widgft, int pbrt, int stbtf, int mbrginTypf) {
+        rfbdLodk.lodk();
         try {
-            return getThemeMargins(getTheme(widget), part, state, marginType);
-        } finally {
-            readLock.unlock();
+            rfturn gftTifmfMbrgins(gftTifmf(widgft), pbrt, stbtf, mbrginTypf);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    private static native boolean isThemePartDefined(long theme, int part, int state);
+    privbtf stbtid nbtivf boolfbn isTifmfPbrtDffinfd(long tifmf, int pbrt, int stbtf);
 
-    public static boolean isThemePartDefined(String widget, int part, int state) {
-        readLock.lock();
+    publid stbtid boolfbn isTifmfPbrtDffinfd(String widgft, int pbrt, int stbtf) {
+        rfbdLodk.lodk();
         try {
-            return isThemePartDefined(getTheme(widget), part, state);
-        } finally {
-            readLock.unlock();
+            rfturn isTifmfPbrtDffinfd(gftTifmf(widgft), pbrt, stbtf);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    private static native Color getColor(long theme, int part, int state,
-                                         int property);
+    privbtf stbtid nbtivf Color gftColor(long tifmf, int pbrt, int stbtf,
+                                         int propfrty);
 
-    public static Color getColor(String widget, int part, int state, int property) {
-        readLock.lock();
+    publid stbtid Color gftColor(String widgft, int pbrt, int stbtf, int propfrty) {
+        rfbdLodk.lodk();
         try {
-            return getColor(getTheme(widget), part, state, property);
-        } finally {
-            readLock.unlock();
+            rfturn gftColor(gftTifmf(widgft), pbrt, stbtf, propfrty);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    private static native int getInt(long theme, int part, int state,
-                                     int property);
+    privbtf stbtid nbtivf int gftInt(long tifmf, int pbrt, int stbtf,
+                                     int propfrty);
 
-    public static int getInt(String widget, int part, int state, int property) {
-        readLock.lock();
+    publid stbtid int gftInt(String widgft, int pbrt, int stbtf, int propfrty) {
+        rfbdLodk.lodk();
         try {
-            return getInt(getTheme(widget), part, state, property);
-        } finally {
-            readLock.unlock();
+            rfturn gftInt(gftTifmf(widgft), pbrt, stbtf, propfrty);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    private static native int getEnum(long theme, int part, int state,
-                                      int property);
+    privbtf stbtid nbtivf int gftEnum(long tifmf, int pbrt, int stbtf,
+                                      int propfrty);
 
-    public static int getEnum(String widget, int part, int state, int property) {
-        readLock.lock();
+    publid stbtid int gftEnum(String widgft, int pbrt, int stbtf, int propfrty) {
+        rfbdLodk.lodk();
         try {
-            return getEnum(getTheme(widget), part, state, property);
-        } finally {
-            readLock.unlock();
+            rfturn gftEnum(gftTifmf(widgft), pbrt, stbtf, propfrty);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    private static native boolean getBoolean(long theme, int part, int state,
-                                             int property);
+    privbtf stbtid nbtivf boolfbn gftBoolfbn(long tifmf, int pbrt, int stbtf,
+                                             int propfrty);
 
-    public static boolean getBoolean(String widget, int part, int state,
-                                     int property) {
-        readLock.lock();
+    publid stbtid boolfbn gftBoolfbn(String widgft, int pbrt, int stbtf,
+                                     int propfrty) {
+        rfbdLodk.lodk();
         try {
-            return getBoolean(getTheme(widget), part, state, property);
-        } finally {
-            readLock.unlock();
+            rfturn gftBoolfbn(gftTifmf(widgft), pbrt, stbtf, propfrty);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    private static native boolean getSysBoolean(long theme, int property);
+    privbtf stbtid nbtivf boolfbn gftSysBoolfbn(long tifmf, int propfrty);
 
-    public static boolean getSysBoolean(String widget, int property) {
-        readLock.lock();
+    publid stbtid boolfbn gftSysBoolfbn(String widgft, int propfrty) {
+        rfbdLodk.lodk();
         try {
-            return getSysBoolean(getTheme(widget), property);
-        } finally {
-            readLock.unlock();
+            rfturn gftSysBoolfbn(gftTifmf(widgft), propfrty);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    private static native Point getPoint(long theme, int part, int state,
-                                         int property);
+    privbtf stbtid nbtivf Point gftPoint(long tifmf, int pbrt, int stbtf,
+                                         int propfrty);
 
-    public static Point getPoint(String widget, int part, int state, int property) {
-        readLock.lock();
+    publid stbtid Point gftPoint(String widgft, int pbrt, int stbtf, int propfrty) {
+        rfbdLodk.lodk();
         try {
-            return getPoint(getTheme(widget), part, state, property);
-        } finally {
-            readLock.unlock();
+            rfturn gftPoint(gftTifmf(widgft), pbrt, stbtf, propfrty);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    private static native Dimension getPosition(long theme, int part, int state,
-                                                int property);
+    privbtf stbtid nbtivf Dimfnsion gftPosition(long tifmf, int pbrt, int stbtf,
+                                                int propfrty);
 
-    public static Dimension getPosition(String widget, int part, int state,
-                                        int property) {
-        readLock.lock();
+    publid stbtid Dimfnsion gftPosition(String widgft, int pbrt, int stbtf,
+                                        int propfrty) {
+        rfbdLodk.lodk();
         try {
-            return getPosition(getTheme(widget), part,state,property);
-        } finally {
-            readLock.unlock();
+            rfturn gftPosition(gftTifmf(widgft), pbrt,stbtf,propfrty);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    private static native Dimension getPartSize(long theme, int part,
-                                                int state);
+    privbtf stbtid nbtivf Dimfnsion gftPbrtSizf(long tifmf, int pbrt,
+                                                int stbtf);
 
-    public static Dimension getPartSize(String widget, int part, int state) {
-        readLock.lock();
+    publid stbtid Dimfnsion gftPbrtSizf(String widgft, int pbrt, int stbtf) {
+        rfbdLodk.lodk();
         try {
-            return getPartSize(getTheme(widget), part, state);
-        } finally {
-            readLock.unlock();
+            rfturn gftPbrtSizf(gftTifmf(widgft), pbrt, stbtf);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    private static native long openTheme(String widget);
+    privbtf stbtid nbtivf long opfnTifmf(String widgft);
 
-    private static native void closeTheme(long theme);
+    privbtf stbtid nbtivf void dlosfTifmf(long tifmf);
 
-    private static native void setWindowTheme(String subAppName);
+    privbtf stbtid nbtivf void sftWindowTifmf(String subAppNbmf);
 
-    private static native long getThemeTransitionDuration(long theme, int part,
-                                        int stateFrom, int stateTo, int propId);
+    privbtf stbtid nbtivf long gftTifmfTrbnsitionDurbtion(long tifmf, int pbrt,
+                                        int stbtfFrom, int stbtfTo, int propId);
 
-    public static long getThemeTransitionDuration(String widget, int part,
-                                       int stateFrom, int stateTo, int propId) {
-        readLock.lock();
+    publid stbtid long gftTifmfTrbnsitionDurbtion(String widgft, int pbrt,
+                                       int stbtfFrom, int stbtfTo, int propId) {
+        rfbdLodk.lodk();
         try {
-            return getThemeTransitionDuration(getTheme(widget),
-                                              part, stateFrom, stateTo, propId);
-        } finally {
-            readLock.unlock();
+            rfturn gftTifmfTrbnsitionDurbtion(gftTifmf(widgft),
+                                              pbrt, stbtfFrom, stbtfTo, propId);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 
-    public static native boolean isGetThemeTransitionDurationDefined();
+    publid stbtid nbtivf boolfbn isGftTifmfTrbnsitionDurbtionDffinfd();
 
-    private static native Insets getThemeBackgroundContentMargins(long theme,
-                     int part, int state, int boundingWidth, int boundingHeight);
+    privbtf stbtid nbtivf Insfts gftTifmfBbdkgroundContfntMbrgins(long tifmf,
+                     int pbrt, int stbtf, int boundingWidti, int boundingHfigit);
 
-    public static Insets getThemeBackgroundContentMargins(String widget,
-                    int part, int state, int boundingWidth, int boundingHeight) {
-        readLock.lock();
+    publid stbtid Insfts gftTifmfBbdkgroundContfntMbrgins(String widgft,
+                    int pbrt, int stbtf, int boundingWidti, int boundingHfigit) {
+        rfbdLodk.lodk();
         try {
-            return getThemeBackgroundContentMargins(getTheme(widget),
-                                    part, state, boundingWidth, boundingHeight);
-        } finally {
-            readLock.unlock();
+            rfturn gftTifmfBbdkgroundContfntMbrgins(gftTifmf(widgft),
+                                    pbrt, stbtf, boundingWidti, boundingHfigit);
+        } finblly {
+            rfbdLodk.unlodk();
         }
     }
 }

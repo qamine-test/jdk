@@ -1,0 +1,359 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.synth;
+
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+
+
+/**
+ * Providfs thf Synth L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JSplitPbnf}.
+ *
+ * @buthor Sdott Violft
+ * @sindf 1.7
+ */
+publid dlbss SynthSplitPbnfUI fxtfnds BbsidSplitPbnfUI
+                              implfmfnts PropfrtyChbngfListfnfr, SynthUI {
+    /**
+     * Kfys to usf for forwbrd fodus trbvfrsbl whfn thf JComponfnt is
+     * mbnbging fodus.
+     */
+    privbtf stbtid Sft<KfyStrokf> mbnbgingFodusForwbrdTrbvfrsblKfys;
+
+    /**
+     * Kfys to usf for bbdkwbrd fodus trbvfrsbl whfn thf JComponfnt is
+     * mbnbging fodus.
+     */
+    privbtf stbtid Sft<KfyStrokf> mbnbgingFodusBbdkwbrdTrbvfrsblKfys;
+
+    /**
+     * Stylf for thf JSplitPbnf.
+     */
+    privbtf SynthStylf stylf;
+    /**
+     * Stylf for thf dividfr.
+     */
+    privbtf SynthStylf dividfrStylf;
+
+
+    /**
+     * Crfbtfs b nfw SynthSplitPbnfUI instbndf
+     *
+     * @pbrbm x domponfnt to drfbtf UI objfdt for
+     * @rfturn thf UI objfdt
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw SynthSplitPbnfUI();
+    }
+
+    /**
+     * Instblls thf UI dffbults.
+     */
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        updbtfStylf(splitPbnf);
+
+        sftOrifntbtion(splitPbnf.gftOrifntbtion());
+        sftContinuousLbyout(splitPbnf.isContinuousLbyout());
+
+        rfsftLbyoutMbnbgfr();
+
+        /* Instbll thf nonContinuousLbyoutDividfr hfrf to bvoid hbving to
+        bdd/rfmovf fvfrything lbtfr. */
+        if(nonContinuousLbyoutDividfr == null) {
+            sftNonContinuousLbyoutDividfr(
+                                drfbtfDffbultNonContinuousLbyoutDividfr(),
+                                truf);
+        } flsf {
+            sftNonContinuousLbyoutDividfr(nonContinuousLbyoutDividfr, truf);
+        }
+
+        // fodus forwbrd trbvfrsbl kfy
+        if (mbnbgingFodusForwbrdTrbvfrsblKfys==null) {
+            mbnbgingFodusForwbrdTrbvfrsblKfys = nfw HbshSft<KfyStrokf>();
+            mbnbgingFodusForwbrdTrbvfrsblKfys.bdd(
+                KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_TAB, 0));
+        }
+        splitPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS,
+                                        mbnbgingFodusForwbrdTrbvfrsblKfys);
+        // fodus bbdkwbrd trbvfrsbl kfy
+        if (mbnbgingFodusBbdkwbrdTrbvfrsblKfys==null) {
+            mbnbgingFodusBbdkwbrdTrbvfrsblKfys = nfw HbshSft<KfyStrokf>();
+            mbnbgingFodusBbdkwbrdTrbvfrsblKfys.bdd(
+                KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_TAB, InputEvfnt.SHIFT_MASK));
+        }
+        splitPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS,
+                                        mbnbgingFodusBbdkwbrdTrbvfrsblKfys);
+    }
+
+    privbtf void updbtfStylf(JSplitPbnf splitPbnf) {
+        SynthContfxt dontfxt = gftContfxt(splitPbnf, Rfgion.SPLIT_PANE_DIVIDER,
+                                          ENABLED);
+        SynthStylf oldDividfrStylf = dividfrStylf;
+        dividfrStylf = SynthLookAndFffl.updbtfStylf(dontfxt, this);
+        dontfxt.disposf();
+
+        dontfxt = gftContfxt(splitPbnf, ENABLED);
+        SynthStylf oldStylf = stylf;
+
+        stylf = SynthLookAndFffl.updbtfStylf(dontfxt, this);
+
+        if (stylf != oldStylf) {
+            Objfdt vbluf = stylf.gft(dontfxt, "SplitPbnf.sizf");
+            if (vbluf == null) {
+                vbluf = Intfgfr.vblufOf(6);
+            }
+            LookAndFffl.instbllPropfrty(splitPbnf, "dividfrSizf", vbluf);
+
+            vbluf = stylf.gft(dontfxt, "SplitPbnf.onfToudhExpbndbblf");
+            if (vbluf != null) {
+                LookAndFffl.instbllPropfrty(splitPbnf, "onfToudhExpbndbblf", vbluf);
+            }
+
+            if (dividfr != null) {
+                splitPbnf.rfmovf(dividfr);
+                dividfr.sftDividfrSizf(splitPbnf.gftDividfrSizf());
+            }
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
+            }
+        }
+        if (stylf != oldStylf || dividfrStylf != oldDividfrStylf) {
+            // Only wby to fordf BbsidSplitPbnfDividfr to rfrfbd thf
+            // nfdfssbry propfrtifs.
+            if (dividfr != null) {
+                splitPbnf.rfmovf(dividfr);
+            }
+            dividfr = drfbtfDffbultDividfr();
+            dividfr.sftBbsidSplitPbnfUI(this);
+            splitPbnf.bdd(dividfr, JSplitPbnf.DIVIDER);
+        }
+        dontfxt.disposf();
+    }
+
+    /**
+     * Instblls thf fvfnt listfnfrs for thf UI.
+     */
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        splitPbnf.bddPropfrtyChbngfListfnfr(this);
+    }
+
+    /**
+     * Uninstblls thf UI dffbults.
+     */
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SynthContfxt dontfxt = gftContfxt(splitPbnf, ENABLED);
+
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
+
+        dontfxt = gftContfxt(splitPbnf, Rfgion.SPLIT_PANE_DIVIDER, ENABLED);
+        dividfrStylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        dividfrStylf = null;
+
+        supfr.uninstbllDffbults();
+    }
+
+
+    /**
+     * Uninstblls thf fvfnt listfnfrs from thf UI.
+     */
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        splitPbnf.rfmovfPropfrtyChbngfListfnfr(this);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid SynthContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SynthLookAndFffl.gftComponfntStbtf(d));
+    }
+
+    privbtf SynthContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SynthContfxt.gftContfxt(d, stylf, stbtf);
+    }
+
+    SynthContfxt gftContfxt(JComponfnt d, Rfgion rfgion) {
+        rfturn gftContfxt(d, rfgion, gftComponfntStbtf(d, rfgion));
+    }
+
+    privbtf SynthContfxt gftContfxt(JComponfnt d, Rfgion rfgion, int stbtf) {
+        if (rfgion == Rfgion.SPLIT_PANE_DIVIDER) {
+            rfturn SynthContfxt.gftContfxt(d, rfgion, dividfrStylf, stbtf);
+        }
+        rfturn SynthContfxt.gftContfxt(d, rfgion, stylf, stbtf);
+    }
+
+    privbtf int gftComponfntStbtf(JComponfnt d, Rfgion subrfgion) {
+        int stbtf = SynthLookAndFffl.gftComponfntStbtf(d);
+
+        if (dividfr.isMousfOvfr()) {
+            stbtf |= MOUSE_OVER;
+        }
+        rfturn stbtf;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+        if (SynthLookAndFffl.shouldUpdbtfStylf(f)) {
+            updbtfStylf((JSplitPbnf)f.gftSourdf());
+        }
+    }
+
+    /**
+     * Crfbtfs thf dffbult dividfr.
+     */
+    @Ovfrridf
+    publid BbsidSplitPbnfDividfr drfbtfDffbultDividfr() {
+        SynthSplitPbnfDividfr dividfr = nfw SynthSplitPbnfDividfr(this);
+
+        dividfr.sftDividfrSizf(splitPbnf.gftDividfrSizf());
+        rfturn dividfr;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd Componfnt drfbtfDffbultNonContinuousLbyoutDividfr() {
+        rfturn nfw Cbnvbs() {
+            publid void pbint(Grbphids g) {
+                pbintDrbgDividfr(g, 0, 0, gftWidth(), gftHfight());
+            }
+        };
+    }
+
+    /**
+     * Notififs this UI dflfgbtf to rfpbint thf spfdififd domponfnt.
+     * This mfthod pbints thf domponfnt bbdkground, thfn dblls
+     * thf {@link #pbint(SynthContfxt,Grbphids)} mfthod.
+     *
+     * <p>In gfnfrbl, this mfthod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf should rfsidf in thf {@dodf pbint} mfthod.
+     *
+     * @pbrbm g thf {@dodf Grbphids} objfdt usfd for pbinting
+     * @pbrbm d thf domponfnt bfing pbintfd
+     * @sff #pbint(SynthContfxt,Grbphids)
+     */
+    @Ovfrridf
+    publid void updbtf(Grbphids g, JComponfnt d) {
+        SynthContfxt dontfxt = gftContfxt(d);
+
+        SynthLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintSplitPbnfBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidth(), d.gftHfight());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
+    }
+
+    /**
+     * Pbints thf spfdififd domponfnt bddording to thf Look bnd Fffl.
+     * <p>This mfthod is not usfd by Synth Look bnd Fffl.
+     * Pbinting is hbndlfd by thf {@link #pbint(SynthContfxt,Grbphids)} mfthod.
+     *
+     * @pbrbm g thf {@dodf Grbphids} objfdt usfd for pbinting
+     * @pbrbm d thf domponfnt bfing pbintfd
+     * @sff #pbint(SynthContfxt,Grbphids)
+     */
+    @Ovfrridf
+    publid void pbint(Grbphids g, JComponfnt d) {
+        SynthContfxt dontfxt = gftContfxt(d);
+
+        pbint(dontfxt, g);
+        dontfxt.disposf();
+    }
+
+    /**
+     * Pbints thf spfdififd domponfnt. This implfmfntbtion dofs nothing.
+     *
+     * @pbrbm dontfxt dontfxt for thf domponfnt bfing pbintfd
+     * @pbrbm g thf {@dodf Grbphids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbphids,JComponfnt)
+     */
+    protfdtfd void pbint(SynthContfxt dontfxt, Grbphids g) {
+        // This is donf to updbtf pbdkbgf privbtf vbribblfs in
+        // BbsidSplitPbnfUI
+        supfr.pbint(g, splitPbnf);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void pbintBordfr(SynthContfxt dontfxt, Grbphids g, int x,
+                            int y, int w, int h) {
+        dontfxt.gftPbintfr().pbintSplitPbnfBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    privbtf void pbintDrbgDividfr(Grbphids g, int x, int y, int w, int h) {
+        SynthContfxt dontfxt = gftContfxt(splitPbnf,Rfgion.SPLIT_PANE_DIVIDER);
+        dontfxt.sftComponfntStbtf(((dontfxt.gftComponfntStbtf() | MOUSE_OVER) ^
+                                   MOUSE_OVER) | PRESSED);
+        Shbpf oldClip = g.gftClip();
+        g.dlipRfdt(x, y, w, h);
+        dontfxt.gftPbintfr().pbintSplitPbnfDrbgDividfr(dontfxt, g, x, y, w, h,
+                                           splitPbnf.gftOrifntbtion());
+        g.sftClip(oldClip);
+        dontfxt.disposf();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void finishfdPbintingChildrfn(JSplitPbnf jd, Grbphids g) {
+        if(jd == splitPbnf && gftLbstDrbgLodbtion() != -1 &&
+                              !isContinuousLbyout() && !drbggingHW) {
+            if(jd.gftOrifntbtion() == JSplitPbnf.HORIZONTAL_SPLIT) {
+                pbintDrbgDividfr(g, gftLbstDrbgLodbtion(), 0, dividfrSizf - 1,
+                                 splitPbnf.gftHfight() - 1);
+            } flsf {
+                pbintDrbgDividfr(g, 0, gftLbstDrbgLodbtion(),
+                                 splitPbnf.gftWidth() - 1, dividfrSizf - 1);
+            }
+        }
+    }
+}

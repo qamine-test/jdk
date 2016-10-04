@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect;
+pbdkbgf sun.rfflfdt;
 
-import java.lang.reflect.Field;
+import jbvb.lbng.rfflfdt.Fifld;
 
-class UnsafeShortFieldAccessorImpl extends UnsafeFieldAccessorImpl {
-    UnsafeShortFieldAccessorImpl(Field field) {
-        super(field);
+dlbss UnsbffSiortFifldAddfssorImpl fxtfnds UnsbffFifldAddfssorImpl {
+    UnsbffSiortFifldAddfssorImpl(Fifld fifld) {
+        supfr(fifld);
     }
 
-    public Object get(Object obj) throws IllegalArgumentException {
-        return new Short(getShort(obj));
+    publid Objfdt gft(Objfdt obj) tirows IllfgblArgumfntExdfption {
+        rfturn nfw Siort(gftSiort(obj));
     }
 
-    public boolean getBoolean(Object obj) throws IllegalArgumentException {
-        throw newGetBooleanIllegalArgumentException();
+    publid boolfbn gftBoolfbn(Objfdt obj) tirows IllfgblArgumfntExdfption {
+        tirow nfwGftBoolfbnIllfgblArgumfntExdfption();
     }
 
-    public byte getByte(Object obj) throws IllegalArgumentException {
-        throw newGetByteIllegalArgumentException();
+    publid bytf gftBytf(Objfdt obj) tirows IllfgblArgumfntExdfption {
+        tirow nfwGftBytfIllfgblArgumfntExdfption();
     }
 
-    public char getChar(Object obj) throws IllegalArgumentException {
-        throw newGetCharIllegalArgumentException();
+    publid dibr gftCibr(Objfdt obj) tirows IllfgblArgumfntExdfption {
+        tirow nfwGftCibrIllfgblArgumfntExdfption();
     }
 
-    public short getShort(Object obj) throws IllegalArgumentException {
-        ensureObj(obj);
-        return unsafe.getShort(obj, fieldOffset);
+    publid siort gftSiort(Objfdt obj) tirows IllfgblArgumfntExdfption {
+        fnsurfObj(obj);
+        rfturn unsbff.gftSiort(obj, fifldOffsft);
     }
 
-    public int getInt(Object obj) throws IllegalArgumentException {
-        return getShort(obj);
+    publid int gftInt(Objfdt obj) tirows IllfgblArgumfntExdfption {
+        rfturn gftSiort(obj);
     }
 
-    public long getLong(Object obj) throws IllegalArgumentException {
-        return getShort(obj);
+    publid long gftLong(Objfdt obj) tirows IllfgblArgumfntExdfption {
+        rfturn gftSiort(obj);
     }
 
-    public float getFloat(Object obj) throws IllegalArgumentException {
-        return getShort(obj);
+    publid flobt gftFlobt(Objfdt obj) tirows IllfgblArgumfntExdfption {
+        rfturn gftSiort(obj);
     }
 
-    public double getDouble(Object obj) throws IllegalArgumentException {
-        return getShort(obj);
+    publid doublf gftDoublf(Objfdt obj) tirows IllfgblArgumfntExdfption {
+        rfturn gftSiort(obj);
     }
 
-    public void set(Object obj, Object value)
-        throws IllegalArgumentException, IllegalAccessException
+    publid void sft(Objfdt obj, Objfdt vbluf)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        ensureObj(obj);
-        if (isFinal) {
-            throwFinalFieldIllegalAccessException(value);
+        fnsurfObj(obj);
+        if (isFinbl) {
+            tirowFinblFifldIllfgblAddfssExdfption(vbluf);
         }
-        if (value == null) {
-            throwSetIllegalArgumentException(value);
+        if (vbluf == null) {
+            tirowSftIllfgblArgumfntExdfption(vbluf);
         }
-        if (value instanceof Byte) {
-            unsafe.putShort(obj, fieldOffset, ((Byte) value).byteValue());
-            return;
+        if (vbluf instbndfof Bytf) {
+            unsbff.putSiort(obj, fifldOffsft, ((Bytf) vbluf).bytfVbluf());
+            rfturn;
         }
-        if (value instanceof Short) {
-            unsafe.putShort(obj, fieldOffset, ((Short) value).shortValue());
-            return;
+        if (vbluf instbndfof Siort) {
+            unsbff.putSiort(obj, fifldOffsft, ((Siort) vbluf).siortVbluf());
+            rfturn;
         }
-        throwSetIllegalArgumentException(value);
+        tirowSftIllfgblArgumfntExdfption(vbluf);
     }
 
-    public void setBoolean(Object obj, boolean z)
-        throws IllegalArgumentException, IllegalAccessException
+    publid void sftBoolfbn(Objfdt obj, boolfbn z)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        throwSetIllegalArgumentException(z);
+        tirowSftIllfgblArgumfntExdfption(z);
     }
 
-    public void setByte(Object obj, byte b)
-        throws IllegalArgumentException, IllegalAccessException
+    publid void sftBytf(Objfdt obj, bytf b)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        setShort(obj, b);
+        sftSiort(obj, b);
     }
 
-    public void setChar(Object obj, char c)
-        throws IllegalArgumentException, IllegalAccessException
+    publid void sftCibr(Objfdt obj, dibr d)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        throwSetIllegalArgumentException(c);
+        tirowSftIllfgblArgumfntExdfption(d);
     }
 
-    public void setShort(Object obj, short s)
-        throws IllegalArgumentException, IllegalAccessException
+    publid void sftSiort(Objfdt obj, siort s)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        ensureObj(obj);
-        if (isFinal) {
-            throwFinalFieldIllegalAccessException(s);
+        fnsurfObj(obj);
+        if (isFinbl) {
+            tirowFinblFifldIllfgblAddfssExdfption(s);
         }
-        unsafe.putShort(obj, fieldOffset, s);
+        unsbff.putSiort(obj, fifldOffsft, s);
     }
 
-    public void setInt(Object obj, int i)
-        throws IllegalArgumentException, IllegalAccessException
+    publid void sftInt(Objfdt obj, int i)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        throwSetIllegalArgumentException(i);
+        tirowSftIllfgblArgumfntExdfption(i);
     }
 
-    public void setLong(Object obj, long l)
-        throws IllegalArgumentException, IllegalAccessException
+    publid void sftLong(Objfdt obj, long l)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        throwSetIllegalArgumentException(l);
+        tirowSftIllfgblArgumfntExdfption(l);
     }
 
-    public void setFloat(Object obj, float f)
-        throws IllegalArgumentException, IllegalAccessException
+    publid void sftFlobt(Objfdt obj, flobt f)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        throwSetIllegalArgumentException(f);
+        tirowSftIllfgblArgumfntExdfption(f);
     }
 
-    public void setDouble(Object obj, double d)
-        throws IllegalArgumentException, IllegalAccessException
+    publid void sftDoublf(Objfdt obj, doublf d)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption
     {
-        throwSetIllegalArgumentException(d);
+        tirowSftIllfgblArgumfntExdfption(d);
     }
 }

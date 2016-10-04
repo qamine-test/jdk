@@ -1,345 +1,345 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.IOException;
-import java.security.AccessController;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Map;
-import sun.security.action.GetIntegerAction;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.BitSft;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
 
 /**
- * Manipulates a native array of epoll_event structs on Linux:
+ * Mbnipulbtfs b nbtivf brrby of fpoll_fvfnt strudts on Linux:
  *
- * typedef union epoll_data {
+ * typfdff union fpoll_dbtb {
  *     void *ptr;
  *     int fd;
  *     __uint32_t u32;
  *     __uint64_t u64;
- *  } epoll_data_t;
+ *  } fpoll_dbtb_t;
  *
- * struct epoll_event {
- *     __uint32_t events;
- *     epoll_data_t data;
+ * strudt fpoll_fvfnt {
+ *     __uint32_t fvfnts;
+ *     fpoll_dbtb_t dbtb;
  * };
  *
- * The system call to wait for I/O events is epoll_wait(2). It populates an
- * array of epoll_event structures that are passed to the call. The data
- * member of the epoll_event structure contains the same data as was set
- * when the file descriptor was registered to epoll via epoll_ctl(2). In
- * this implementation we set data.fd to be the file descriptor that we
- * register. That way, we have the file descriptor available when we
- * process the events.
+ * Tif systfm dbll to wbit for I/O fvfnts is fpoll_wbit(2). It populbtfs bn
+ * brrby of fpoll_fvfnt strudturfs tibt brf pbssfd to tif dbll. Tif dbtb
+ * mfmbfr of tif fpoll_fvfnt strudturf dontbins tif sbmf dbtb bs wbs sft
+ * wifn tif filf dfsdriptor wbs rfgistfrfd to fpoll vib fpoll_dtl(2). In
+ * tiis implfmfntbtion wf sft dbtb.fd to bf tif filf dfsdriptor tibt wf
+ * rfgistfr. Tibt wby, wf ibvf tif filf dfsdriptor bvbilbblf wifn wf
+ * prodfss tif fvfnts.
  */
 
-class EPollArrayWrapper {
+dlbss EPollArrbyWrbppfr {
     // EPOLL_EVENTS
-    private static final int EPOLLIN      = 0x001;
+    privbtf stbtid finbl int EPOLLIN      = 0x001;
 
-    // opcodes
-    private static final int EPOLL_CTL_ADD      = 1;
-    private static final int EPOLL_CTL_DEL      = 2;
-    private static final int EPOLL_CTL_MOD      = 3;
+    // opdodfs
+    privbtf stbtid finbl int EPOLL_CTL_ADD      = 1;
+    privbtf stbtid finbl int EPOLL_CTL_DEL      = 2;
+    privbtf stbtid finbl int EPOLL_CTL_MOD      = 3;
 
-    // Miscellaneous constants
-    private static final int SIZE_EPOLLEVENT  = sizeofEPollEvent();
-    private static final int EVENT_OFFSET     = 0;
-    private static final int DATA_OFFSET      = offsetofData();
-    private static final int FD_OFFSET        = DATA_OFFSET;
-    private static final int OPEN_MAX         = IOUtil.fdLimit();
-    private static final int NUM_EPOLLEVENTS  = Math.min(OPEN_MAX, 8192);
+    // Misdfllbnfous donstbnts
+    privbtf stbtid finbl int SIZE_EPOLLEVENT  = sizfofEPollEvfnt();
+    privbtf stbtid finbl int EVENT_OFFSET     = 0;
+    privbtf stbtid finbl int DATA_OFFSET      = offsftofDbtb();
+    privbtf stbtid finbl int FD_OFFSET        = DATA_OFFSET;
+    privbtf stbtid finbl int OPEN_MAX         = IOUtil.fdLimit();
+    privbtf stbtid finbl int NUM_EPOLLEVENTS  = Mbti.min(OPEN_MAX, 8192);
 
-    // Special value to indicate that an update should be ignored
-    private static final byte  KILLED = (byte)-1;
+    // Spfdibl vbluf to indidbtf tibt bn updbtf siould bf ignorfd
+    privbtf stbtid finbl bytf  KILLED = (bytf)-1;
 
-    // Initial size of arrays for fd registration changes
-    private static final int INITIAL_PENDING_UPDATE_SIZE = 64;
+    // Initibl sizf of brrbys for fd rfgistrbtion dibngfs
+    privbtf stbtid finbl int INITIAL_PENDING_UPDATE_SIZE = 64;
 
-    // maximum size of updatesLow
-    private static final int MAX_UPDATE_ARRAY_SIZE = AccessController.doPrivileged(
-        new GetIntegerAction("sun.nio.ch.maxUpdateArraySize", Math.min(OPEN_MAX, 64*1024)));
+    // mbximum sizf of updbtfsLow
+    privbtf stbtid finbl int MAX_UPDATE_ARRAY_SIZE = AddfssControllfr.doPrivilfgfd(
+        nfw GftIntfgfrAdtion("sun.nio.di.mbxUpdbtfArrbySizf", Mbti.min(OPEN_MAX, 64*1024)));
 
-    // The fd of the epoll driver
-    private final int epfd;
+    // Tif fd of tif fpoll drivfr
+    privbtf finbl int fpfd;
 
-     // The epoll_event array for results from epoll_wait
-    private final AllocatedNativeObject pollArray;
+     // Tif fpoll_fvfnt brrby for rfsults from fpoll_wbit
+    privbtf finbl AllodbtfdNbtivfObjfdt pollArrby;
 
-    // Base address of the epoll_event array
-    private final long pollArrayAddress;
+    // Bbsf bddrfss of tif fpoll_fvfnt brrby
+    privbtf finbl long pollArrbyAddrfss;
 
-    // The fd of the interrupt line going out
-    private int outgoingInterruptFD;
+    // Tif fd of tif intfrrupt linf going out
+    privbtf int outgoingIntfrruptFD;
 
-    // The fd of the interrupt line coming in
-    private int incomingInterruptFD;
+    // Tif fd of tif intfrrupt linf doming in
+    privbtf int indomingIntfrruptFD;
 
-    // The index of the interrupt FD
-    private int interruptedIndex;
+    // Tif indfx of tif intfrrupt FD
+    privbtf int intfrruptfdIndfx;
 
-    // Number of updated pollfd entries
-    int updated;
+    // Numbfr of updbtfd pollfd fntrifs
+    int updbtfd;
 
-    // object to synchronize fd registration changes
-    private final Object updateLock = new Object();
+    // objfdt to syndironizf fd rfgistrbtion dibngfs
+    privbtf finbl Objfdt updbtfLodk = nfw Objfdt();
 
-    // number of file descriptors with registration changes pending
-    private int updateCount;
+    // numbfr of filf dfsdriptors witi rfgistrbtion dibngfs pfnding
+    privbtf int updbtfCount;
 
-    // file descriptors with registration changes pending
-    private int[] updateDescriptors = new int[INITIAL_PENDING_UPDATE_SIZE];
+    // filf dfsdriptors witi rfgistrbtion dibngfs pfnding
+    privbtf int[] updbtfDfsdriptors = nfw int[INITIAL_PENDING_UPDATE_SIZE];
 
-    // events for file descriptors with registration changes pending, indexed
-    // by file descriptor and stored as bytes for efficiency reasons. For
-    // file descriptors higher than MAX_UPDATE_ARRAY_SIZE (unlimited case at
-    // least) then the update is stored in a map.
-    private final byte[] eventsLow = new byte[MAX_UPDATE_ARRAY_SIZE];
-    private Map<Integer,Byte> eventsHigh;
+    // fvfnts for filf dfsdriptors witi rfgistrbtion dibngfs pfnding, indfxfd
+    // by filf dfsdriptor bnd storfd bs bytfs for fffidifndy rfbsons. For
+    // filf dfsdriptors iigifr tibn MAX_UPDATE_ARRAY_SIZE (unlimitfd dbsf bt
+    // lfbst) tifn tif updbtf is storfd in b mbp.
+    privbtf finbl bytf[] fvfntsLow = nfw bytf[MAX_UPDATE_ARRAY_SIZE];
+    privbtf Mbp<Intfgfr,Bytf> fvfntsHigi;
 
-    // Used by release and updateRegistrations to track whether a file
-    // descriptor is registered with epoll.
-    private final BitSet registered = new BitSet();
+    // Usfd by rflfbsf bnd updbtfRfgistrbtions to trbdk wiftifr b filf
+    // dfsdriptor is rfgistfrfd witi fpoll.
+    privbtf finbl BitSft rfgistfrfd = nfw BitSft();
 
 
-    EPollArrayWrapper() throws IOException {
-        // creates the epoll file descriptor
-        epfd = epollCreate();
+    EPollArrbyWrbppfr() tirows IOExdfption {
+        // drfbtfs tif fpoll filf dfsdriptor
+        fpfd = fpollCrfbtf();
 
-        // the epoll_event array passed to epoll_wait
-        int allocationSize = NUM_EPOLLEVENTS * SIZE_EPOLLEVENT;
-        pollArray = new AllocatedNativeObject(allocationSize, true);
-        pollArrayAddress = pollArray.address();
+        // tif fpoll_fvfnt brrby pbssfd to fpoll_wbit
+        int bllodbtionSizf = NUM_EPOLLEVENTS * SIZE_EPOLLEVENT;
+        pollArrby = nfw AllodbtfdNbtivfObjfdt(bllodbtionSizf, truf);
+        pollArrbyAddrfss = pollArrby.bddrfss();
 
-        // eventHigh needed when using file descriptors > 64k
+        // fvfntHigi nffdfd wifn using filf dfsdriptors > 64k
         if (OPEN_MAX > MAX_UPDATE_ARRAY_SIZE)
-            eventsHigh = new HashMap<>();
+            fvfntsHigi = nfw HbsiMbp<>();
     }
 
-    void initInterrupt(int fd0, int fd1) {
-        outgoingInterruptFD = fd1;
-        incomingInterruptFD = fd0;
-        epollCtl(epfd, EPOLL_CTL_ADD, fd0, EPOLLIN);
+    void initIntfrrupt(int fd0, int fd1) {
+        outgoingIntfrruptFD = fd1;
+        indomingIntfrruptFD = fd0;
+        fpollCtl(fpfd, EPOLL_CTL_ADD, fd0, EPOLLIN);
     }
 
-    void putEventOps(int i, int event) {
-        int offset = SIZE_EPOLLEVENT * i + EVENT_OFFSET;
-        pollArray.putInt(offset, event);
+    void putEvfntOps(int i, int fvfnt) {
+        int offsft = SIZE_EPOLLEVENT * i + EVENT_OFFSET;
+        pollArrby.putInt(offsft, fvfnt);
     }
 
-    void putDescriptor(int i, int fd) {
-        int offset = SIZE_EPOLLEVENT * i + FD_OFFSET;
-        pollArray.putInt(offset, fd);
+    void putDfsdriptor(int i, int fd) {
+        int offsft = SIZE_EPOLLEVENT * i + FD_OFFSET;
+        pollArrby.putInt(offsft, fd);
     }
 
-    int getEventOps(int i) {
-        int offset = SIZE_EPOLLEVENT * i + EVENT_OFFSET;
-        return pollArray.getInt(offset);
+    int gftEvfntOps(int i) {
+        int offsft = SIZE_EPOLLEVENT * i + EVENT_OFFSET;
+        rfturn pollArrby.gftInt(offsft);
     }
 
-    int getDescriptor(int i) {
-        int offset = SIZE_EPOLLEVENT * i + FD_OFFSET;
-        return pollArray.getInt(offset);
-    }
-
-    /**
-     * Returns {@code true} if updates for the given key (file
-     * descriptor) are killed.
-     */
-    private boolean isEventsHighKilled(Integer key) {
-        assert key >= MAX_UPDATE_ARRAY_SIZE;
-        Byte value = eventsHigh.get(key);
-        return (value != null && value == KILLED);
+    int gftDfsdriptor(int i) {
+        int offsft = SIZE_EPOLLEVENT * i + FD_OFFSET;
+        rfturn pollArrby.gftInt(offsft);
     }
 
     /**
-     * Sets the pending update events for the given file descriptor. This
-     * method has no effect if the update events is already set to KILLED,
-     * unless {@code force} is {@code true}.
+     * Rfturns {@dodf truf} if updbtfs for tif givfn kfy (filf
+     * dfsdriptor) brf killfd.
      */
-    private void setUpdateEvents(int fd, byte events, boolean force) {
+    privbtf boolfbn isEvfntsHigiKillfd(Intfgfr kfy) {
+        bssfrt kfy >= MAX_UPDATE_ARRAY_SIZE;
+        Bytf vbluf = fvfntsHigi.gft(kfy);
+        rfturn (vbluf != null && vbluf == KILLED);
+    }
+
+    /**
+     * Sfts tif pfnding updbtf fvfnts for tif givfn filf dfsdriptor. Tiis
+     * mftiod ibs no ffffdt if tif updbtf fvfnts is blrfbdy sft to KILLED,
+     * unlfss {@dodf fordf} is {@dodf truf}.
+     */
+    privbtf void sftUpdbtfEvfnts(int fd, bytf fvfnts, boolfbn fordf) {
         if (fd < MAX_UPDATE_ARRAY_SIZE) {
-            if ((eventsLow[fd] != KILLED) || force) {
-                eventsLow[fd] = events;
+            if ((fvfntsLow[fd] != KILLED) || fordf) {
+                fvfntsLow[fd] = fvfnts;
             }
-        } else {
-            Integer key = Integer.valueOf(fd);
-            if (!isEventsHighKilled(key) || force) {
-                eventsHigh.put(key, Byte.valueOf(events));
+        } flsf {
+            Intfgfr kfy = Intfgfr.vblufOf(fd);
+            if (!isEvfntsHigiKillfd(kfy) || fordf) {
+                fvfntsHigi.put(kfy, Bytf.vblufOf(fvfnts));
             }
         }
     }
 
     /**
-     * Returns the pending update events for the given file descriptor.
+     * Rfturns tif pfnding updbtf fvfnts for tif givfn filf dfsdriptor.
      */
-    private byte getUpdateEvents(int fd) {
+    privbtf bytf gftUpdbtfEvfnts(int fd) {
         if (fd < MAX_UPDATE_ARRAY_SIZE) {
-            return eventsLow[fd];
-        } else {
-            Byte result = eventsHigh.get(Integer.valueOf(fd));
-            // result should never be null
-            return result.byteValue();
+            rfturn fvfntsLow[fd];
+        } flsf {
+            Bytf rfsult = fvfntsHigi.gft(Intfgfr.vblufOf(fd));
+            // rfsult siould nfvfr bf null
+            rfturn rfsult.bytfVbluf();
         }
     }
 
     /**
-     * Update the events for a given file descriptor
+     * Updbtf tif fvfnts for b givfn filf dfsdriptor
      */
-    void setInterest(int fd, int mask) {
-        synchronized (updateLock) {
-            // record the file descriptor and events
-            int oldCapacity = updateDescriptors.length;
-            if (updateCount == oldCapacity) {
-                int newCapacity = oldCapacity + INITIAL_PENDING_UPDATE_SIZE;
-                int[] newDescriptors = new int[newCapacity];
-                System.arraycopy(updateDescriptors, 0, newDescriptors, 0, oldCapacity);
-                updateDescriptors = newDescriptors;
+    void sftIntfrfst(int fd, int mbsk) {
+        syndironizfd (updbtfLodk) {
+            // rfdord tif filf dfsdriptor bnd fvfnts
+            int oldCbpbdity = updbtfDfsdriptors.lfngti;
+            if (updbtfCount == oldCbpbdity) {
+                int nfwCbpbdity = oldCbpbdity + INITIAL_PENDING_UPDATE_SIZE;
+                int[] nfwDfsdriptors = nfw int[nfwCbpbdity];
+                Systfm.brrbydopy(updbtfDfsdriptors, 0, nfwDfsdriptors, 0, oldCbpbdity);
+                updbtfDfsdriptors = nfwDfsdriptors;
             }
-            updateDescriptors[updateCount++] = fd;
+            updbtfDfsdriptors[updbtfCount++] = fd;
 
-            // events are stored as bytes for efficiency reasons
-            byte b = (byte)mask;
-            assert (b == mask) && (b != KILLED);
-            setUpdateEvents(fd, b, false);
+            // fvfnts brf storfd bs bytfs for fffidifndy rfbsons
+            bytf b = (bytf)mbsk;
+            bssfrt (b == mbsk) && (b != KILLED);
+            sftUpdbtfEvfnts(fd, b, fblsf);
         }
     }
 
     /**
-     * Add a file descriptor
+     * Add b filf dfsdriptor
      */
-    void add(int fd) {
-        // force the initial update events to 0 as it may be KILLED by a
-        // previous registration.
-        synchronized (updateLock) {
-            assert !registered.get(fd);
-            setUpdateEvents(fd, (byte)0, true);
+    void bdd(int fd) {
+        // fordf tif initibl updbtf fvfnts to 0 bs it mby bf KILLED by b
+        // prfvious rfgistrbtion.
+        syndironizfd (updbtfLodk) {
+            bssfrt !rfgistfrfd.gft(fd);
+            sftUpdbtfEvfnts(fd, (bytf)0, truf);
         }
     }
 
     /**
-     * Remove a file descriptor
+     * Rfmovf b filf dfsdriptor
      */
-    void remove(int fd) {
-        synchronized (updateLock) {
-            // kill pending and future update for this file descriptor
-            setUpdateEvents(fd, KILLED, false);
+    void rfmovf(int fd) {
+        syndironizfd (updbtfLodk) {
+            // kill pfnding bnd futurf updbtf for tiis filf dfsdriptor
+            sftUpdbtfEvfnts(fd, KILLED, fblsf);
 
-            // remove from epoll
-            if (registered.get(fd)) {
-                epollCtl(epfd, EPOLL_CTL_DEL, fd, 0);
-                registered.clear(fd);
-            }
-        }
-    }
-
-    /**
-     * Close epoll file descriptor and free poll array
-     */
-    void closeEPollFD() throws IOException {
-        FileDispatcherImpl.closeIntFD(epfd);
-        pollArray.free();
-    }
-
-    int poll(long timeout) throws IOException {
-        updateRegistrations();
-        updated = epollWait(pollArrayAddress, NUM_EPOLLEVENTS, timeout, epfd);
-        for (int i=0; i<updated; i++) {
-            if (getDescriptor(i) == incomingInterruptFD) {
-                interruptedIndex = i;
-                interrupted = true;
-                break;
+            // rfmovf from fpoll
+            if (rfgistfrfd.gft(fd)) {
+                fpollCtl(fpfd, EPOLL_CTL_DEL, fd, 0);
+                rfgistfrfd.dlfbr(fd);
             }
         }
-        return updated;
     }
 
     /**
-     * Update the pending registrations.
+     * Closf fpoll filf dfsdriptor bnd frff poll brrby
      */
-    private void updateRegistrations() {
-        synchronized (updateLock) {
+    void dlosfEPollFD() tirows IOExdfption {
+        FilfDispbtdifrImpl.dlosfIntFD(fpfd);
+        pollArrby.frff();
+    }
+
+    int poll(long timfout) tirows IOExdfption {
+        updbtfRfgistrbtions();
+        updbtfd = fpollWbit(pollArrbyAddrfss, NUM_EPOLLEVENTS, timfout, fpfd);
+        for (int i=0; i<updbtfd; i++) {
+            if (gftDfsdriptor(i) == indomingIntfrruptFD) {
+                intfrruptfdIndfx = i;
+                intfrruptfd = truf;
+                brfbk;
+            }
+        }
+        rfturn updbtfd;
+    }
+
+    /**
+     * Updbtf tif pfnding rfgistrbtions.
+     */
+    privbtf void updbtfRfgistrbtions() {
+        syndironizfd (updbtfLodk) {
             int j = 0;
-            while (j < updateCount) {
-                int fd = updateDescriptors[j];
-                short events = getUpdateEvents(fd);
-                boolean isRegistered = registered.get(fd);
-                int opcode = 0;
+            wiilf (j < updbtfCount) {
+                int fd = updbtfDfsdriptors[j];
+                siort fvfnts = gftUpdbtfEvfnts(fd);
+                boolfbn isRfgistfrfd = rfgistfrfd.gft(fd);
+                int opdodf = 0;
 
-                if (events != KILLED) {
-                    if (isRegistered) {
-                        opcode = (events != 0) ? EPOLL_CTL_MOD : EPOLL_CTL_DEL;
-                    } else {
-                        opcode = (events != 0) ? EPOLL_CTL_ADD : 0;
+                if (fvfnts != KILLED) {
+                    if (isRfgistfrfd) {
+                        opdodf = (fvfnts != 0) ? EPOLL_CTL_MOD : EPOLL_CTL_DEL;
+                    } flsf {
+                        opdodf = (fvfnts != 0) ? EPOLL_CTL_ADD : 0;
                     }
-                    if (opcode != 0) {
-                        epollCtl(epfd, opcode, fd, events);
-                        if (opcode == EPOLL_CTL_ADD) {
-                            registered.set(fd);
-                        } else if (opcode == EPOLL_CTL_DEL) {
-                            registered.clear(fd);
+                    if (opdodf != 0) {
+                        fpollCtl(fpfd, opdodf, fd, fvfnts);
+                        if (opdodf == EPOLL_CTL_ADD) {
+                            rfgistfrfd.sft(fd);
+                        } flsf if (opdodf == EPOLL_CTL_DEL) {
+                            rfgistfrfd.dlfbr(fd);
                         }
                     }
                 }
                 j++;
             }
-            updateCount = 0;
+            updbtfCount = 0;
         }
     }
 
-    // interrupt support
-    private boolean interrupted = false;
+    // intfrrupt support
+    privbtf boolfbn intfrruptfd = fblsf;
 
-    public void interrupt() {
-        interrupt(outgoingInterruptFD);
+    publid void intfrrupt() {
+        intfrrupt(outgoingIntfrruptFD);
     }
 
-    public int interruptedIndex() {
-        return interruptedIndex;
+    publid int intfrruptfdIndfx() {
+        rfturn intfrruptfdIndfx;
     }
 
-    boolean interrupted() {
-        return interrupted;
+    boolfbn intfrruptfd() {
+        rfturn intfrruptfd;
     }
 
-    void clearInterrupted() {
-        interrupted = false;
+    void dlfbrIntfrruptfd() {
+        intfrruptfd = fblsf;
     }
 
-    static {
-        IOUtil.load();
+    stbtid {
+        IOUtil.lobd();
         init();
     }
 
-    private native int epollCreate();
-    private native void epollCtl(int epfd, int opcode, int fd, int events);
-    private native int epollWait(long pollAddress, int numfds, long timeout,
-                                 int epfd) throws IOException;
-    private static native int sizeofEPollEvent();
-    private static native int offsetofData();
-    private static native void interrupt(int fd);
-    private static native void init();
+    privbtf nbtivf int fpollCrfbtf();
+    privbtf nbtivf void fpollCtl(int fpfd, int opdodf, int fd, int fvfnts);
+    privbtf nbtivf int fpollWbit(long pollAddrfss, int numfds, long timfout,
+                                 int fpfd) tirows IOExdfption;
+    privbtf stbtid nbtivf int sizfofEPollEvfnt();
+    privbtf stbtid nbtivf int offsftofDbtb();
+    privbtf stbtid nbtivf void intfrrupt(int fd);
+    privbtf stbtid nbtivf void init();
 }

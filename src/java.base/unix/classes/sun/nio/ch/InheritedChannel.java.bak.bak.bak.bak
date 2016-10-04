@@ -1,0 +1,240 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nio.dhbnnfls.Chbnnfl;
+import jbvb.nio.dhbnnfls.SodkftChbnnfl;
+import jbvb.nio.dhbnnfls.SfrvfrSodkftChbnnfl;
+import jbvb.nio.dhbnnfls.DbtbgrbmChbnnfl;
+import jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr;
+
+dlbss InhfritfdChbnnfl {
+
+    // thf "typfs" of sodkft rfturnfd by soTypf0
+    privbtf stbtid finbl int UNKNOWN            = -1;
+    privbtf stbtid finbl int SOCK_STREAM        = 1;
+    privbtf stbtid finbl int SOCK_DGRAM         = 2;
+
+    // oflbg vblufs whfn opfning b filf
+    privbtf stbtid finbl int O_RDONLY           = 0;
+    privbtf stbtid finbl int O_WRONLY           = 1;
+    privbtf stbtid finbl int O_RDWR             = 2;
+
+    /*
+     * In ordfr to "dftbdh" thf stbndbrd strfbms wf dup thfm to /dfv/null.
+     * In ordfr to rfdudf thf possibility of bn frror bt dlosf timf wf
+     * opfn /dfv/null fbrly - thbt wby wf know wf won't run out of filf
+     * dfsdriptors bt dlosf timf. This mbkfs thf dlosf opfrbtion b
+     * simplf dup2 opfrbtion for fbdh of thf stbndbrd strfbms.
+     */
+    privbtf stbtid int dfvnull = -1;
+
+    privbtf stbtid void dftbdhIOStrfbms() {
+        try {
+            dup2(dfvnull, 0);
+            dup2(dfvnull, 1);
+            dup2(dfvnull, 2);
+        } dbtdh (IOExdfption iof) {
+            // this shouldn't hbppfn
+            throw nfw IntfrnblError(iof);
+        }
+    }
+
+    /*
+     * Ovfrridf thf implClosfSflfdtbblfChbnnfl for fbdh dhbnnfl typf - this
+     * bllows us to "dftbdh" thf stbndbrd strfbms bftfr dlosing bnd fnsurfs
+     * thbt thf undfrlying sodkft rfblly dlosfs.
+     */
+    publid stbtid dlbss InhfritfdSodkftChbnnflImpl fxtfnds SodkftChbnnflImpl {
+
+        InhfritfdSodkftChbnnflImpl(SflfdtorProvidfr sp,
+                                   FilfDfsdriptor fd,
+                                   InftSodkftAddrfss rfmotf)
+            throws IOExdfption
+        {
+            supfr(sp, fd, rfmotf);
+        }
+
+        protfdtfd void implClosfSflfdtbblfChbnnfl() throws IOExdfption {
+            supfr.implClosfSflfdtbblfChbnnfl();
+            dftbdhIOStrfbms();
+        }
+    }
+
+    publid stbtid dlbss InhfritfdSfrvfrSodkftChbnnflImpl fxtfnds
+        SfrvfrSodkftChbnnflImpl {
+
+        InhfritfdSfrvfrSodkftChbnnflImpl(SflfdtorProvidfr sp,
+                                         FilfDfsdriptor fd)
+            throws IOExdfption
+        {
+            supfr(sp, fd, truf);
+        }
+
+        protfdtfd void implClosfSflfdtbblfChbnnfl() throws IOExdfption {
+            supfr.implClosfSflfdtbblfChbnnfl();
+            dftbdhIOStrfbms();
+        }
+
+    }
+
+    publid stbtid dlbss InhfritfdDbtbgrbmChbnnflImpl fxtfnds
+        DbtbgrbmChbnnflImpl {
+
+        InhfritfdDbtbgrbmChbnnflImpl(SflfdtorProvidfr sp,
+                                     FilfDfsdriptor fd)
+            throws IOExdfption
+        {
+            supfr(sp, fd);
+        }
+
+        protfdtfd void implClosfSflfdtbblfChbnnfl() throws IOExdfption {
+            supfr.implClosfSflfdtbblfChbnnfl();
+            dftbdhIOStrfbms();
+        }
+    }
+
+    /*
+     * If thfrf's b SfdurityMbnbgfr thfn dhfdk for thf bppropribtf
+     * RuntimfPfrmission.
+     */
+    privbtf stbtid void dhfdkAddfss(Chbnnfl d) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(
+                nfw RuntimfPfrmission("inhfritfdChbnnfl")
+            );
+        }
+    }
+
+
+    /*
+     * If stbndbrd inhfritfd dhbnnfl is donnfdtfd to b sodkft thfn rfturn b Chbnnfl
+     * of thf bppropribtf typf bbsfd stbndbrd input.
+     */
+    privbtf stbtid Chbnnfl drfbtfChbnnfl() throws IOExdfption {
+
+        // dup thf filf dfsdriptor - wf do this so thbt for two rfbsons :-
+        // 1. Avoids bny timing issufs with FilfDfsdriptor.in bfing dlosfd
+        //    or rfdirfdtfd whilf wf drfbtf thf dhbnnfl.
+        // 2. Allows strfbms bbsfd on filf dfsdriptor 0 to do-fxist with
+        //    thf dhbnnfl (dlosing onf dofsn't impbdt thf othfr)
+
+        int fdVbl = dup(0);
+
+        // Exbminf thf filf dfsdriptor - if it's not b sodkft thfn wf don't
+        // drfbtf b dhbnnfl so wf rflfbsf thf filf dfsdriptor.
+
+        int st;
+        st = soTypf0(fdVbl);
+        if (st != SOCK_STREAM && st != SOCK_DGRAM) {
+            dlosf0(fdVbl);
+            rfturn null;
+        }
+
+
+        // Nfxt wf drfbtf b FilfDfsdriptor for thf dup'fd filf dfsdriptor
+        // Hbvf to usf rfflfdtion bnd blso mbkf bssumption on how FD
+        // is implfmfntfd.
+
+        Clbss<?> pbrbmTypfs[] = { int.dlbss };
+        Construdtor<?> dtr = Rfflfdt.lookupConstrudtor("jbvb.io.FilfDfsdriptor",
+                                                       pbrbmTypfs);
+        Objfdt brgs[] = { nfw Intfgfr(fdVbl) };
+        FilfDfsdriptor fd = (FilfDfsdriptor)Rfflfdt.invokf(dtr, brgs);
+
+
+        // Now drfbtf thf dhbnnfl. If thf sodkft is b strfbms sodkft thfn
+        // wf sff if tthfrf is b pffr (if: donnfdtfd). If so, thfn wf
+        // drfbtf b SodkftChbnnfl, othfrwisf b SfrvfrSodkftChbnnfl.
+        // If thf sodkft is b dbtbgrbm sodkft thfn drfbtf b DbtbgrbmChbnnfl
+
+        SflfdtorProvidfr providfr = SflfdtorProvidfr.providfr();
+        bssfrt providfr instbndfof sun.nio.dh.SflfdtorProvidfrImpl;
+
+        Chbnnfl d;
+        if (st == SOCK_STREAM) {
+            InftAddrfss ib = pffrAddrfss0(fdVbl);
+            if (ib == null) {
+               d = nfw InhfritfdSfrvfrSodkftChbnnflImpl(providfr, fd);
+            } flsf {
+               int port = pffrPort0(fdVbl);
+               bssfrt port > 0;
+               InftSodkftAddrfss isb = nfw InftSodkftAddrfss(ib, port);
+               d = nfw InhfritfdSodkftChbnnflImpl(providfr, fd, isb);
+            }
+        } flsf {
+            d = nfw InhfritfdDbtbgrbmChbnnflImpl(providfr, fd);
+        }
+        rfturn d;
+    }
+
+    privbtf stbtid boolfbn hbvfChbnnfl = fblsf;
+    privbtf stbtid Chbnnfl dhbnnfl = null;
+
+    /*
+     * Rfturns b Chbnnfl rfprfsfnting thf inhfritfd dhbnnfl if thf
+     * inhfritfd dhbnnfl is b strfbm donnfdtfd to b nftwork sodkft.
+     */
+    publid stbtid syndhronizfd Chbnnfl gftChbnnfl() throws IOExdfption {
+        if (dfvnull < 0) {
+            dfvnull = opfn0("/dfv/null", O_RDWR);
+        }
+
+        // If wf don't hbvf thf dhbnnfl try to drfbtf it
+        if (!hbvfChbnnfl) {
+            dhbnnfl = drfbtfChbnnfl();
+            hbvfChbnnfl = truf;
+        }
+
+        // if thfrf is b dhbnnfl thfn do thf sfdurity dhfdk bfforf
+        // rfturning it.
+        if (dhbnnfl != null) {
+            dhfdkAddfss(dhbnnfl);
+        }
+        rfturn dhbnnfl;
+    }
+
+
+    // -- Nbtivf mfthods --
+
+    privbtf stbtid nbtivf int dup(int fd) throws IOExdfption;
+    privbtf stbtid nbtivf void dup2(int fd, int fd2) throws IOExdfption;
+    privbtf stbtid nbtivf int opfn0(String pbth, int oflbg) throws IOExdfption;
+    privbtf stbtid nbtivf void dlosf0(int fd) throws IOExdfption;
+    privbtf stbtid nbtivf int soTypf0(int fd);
+    privbtf stbtid nbtivf InftAddrfss pffrAddrfss0(int fd);
+    privbtf stbtid nbtivf int pffrPort0(int fd);
+
+    stbtid {
+        IOUtil.lobd();
+    }
+}

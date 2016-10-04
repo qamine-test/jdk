@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+# modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+# brf mft:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+#     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,20 +29,20 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-MemoryMonitor demonstrates the use of the java.lang.management API 
-in observing the memory usage of all memory pools consumed by
-the application.
+MfmoryMonitor dfmonstrbtfs tif usf of tif jbvb.lbng.mbnbgfmfnt API 
+in obsfrving tif mfmory usbgf of bll mfmory pools donsumfd by
+tif bpplidbtion.
 
-This simple demo program queries the memory usage of each memory pool
-and plots the memory usage history graph.
+Tiis simplf dfmo progrbm qufrifs tif mfmory usbgf of fbdi mfmory pool
+bnd plots tif mfmory usbgf iistory grbpi.
 
-To run the MemoryMonitor demo
+To run tif MfmoryMonitor dfmo
 
-   java -jar <JDK_HOME>/demo/management/MemoryMonitor/MemoryMonitor.jar 
+   jbvb -jbr <JDK_HOME>/dfmo/mbnbgfmfnt/MfmoryMonitor/MfmoryMonitor.jbr 
 
-These instructions assume that this installation's version of the java
-command is in your path.  If it isn't, then you should either
-specify the complete path to the java command or update your
-PATH environment variable as described in the installation
-instructions for the Java(TM) SDK.
+Tifsf instrudtions bssumf tibt tiis instbllbtion's vfrsion of tif jbvb
+dommbnd is in your pbti.  If it isn't, tifn you siould fitifr
+spfdify tif domplftf pbti to tif jbvb dommbnd or updbtf your
+PATH fnvironmfnt vbribblf bs dfsdribfd in tif instbllbtion
+instrudtions for tif Jbvb(TM) SDK.
 

@@ -1,0 +1,496 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+/**
+ * A <dodf>ShortMfssbgf</dodf> dontbins b MIDI mfssbgf thbt hbs bt most
+ * two dbtb bytfs following its stbtus bytf.  Thf typfs of MIDI mfssbgf
+ * thbt sbtisfy this dritfrion brf dhbnnfl voidf, dhbnnfl modf, systfm dommon,
+ * bnd systfm rfbl-timf--in othfr words, fvfrything fxdfpt systfm fxdlusivf
+ * bnd mftb-fvfnts.  Thf <dodf>ShortMfssbgf</dodf> dlbss providfs mfthods
+ * for gftting bnd sftting thf dontfnts of thf MIDI mfssbgf.
+ * <p>
+ * A numbfr of <dodf>ShortMfssbgf</dodf> mfthods hbvf intfgfr pbrbmftfrs by whidh
+ * you spfdify b MIDI stbtus or dbtb bytf.  If you know thf numfrid vbluf, you
+ * dbn fxprfss it dirfdtly.  For systfm dommon bnd systfm rfbl-timf mfssbgfs,
+ * you dbn oftfn usf thf dorrfsponding fiflds of <dodf>ShortMfssbgf</dodf>, sudh bs
+ * {@link #SYSTEM_RESET SYSTEM_RESET}.  For dhbnnfl mfssbgfs,
+ * thf uppfr four bits of thf stbtus bytf brf spfdififd by b dommbnd vbluf bnd
+ * thf lowfr four bits brf spfdififd by b MIDI dhbnnfl numbfr. To
+ * donvfrt indoming MIDI dbtb bytfs thbt brf in thf form of Jbvb's signfd bytfs,
+ * you dbn usf thf <A HREF="MidiMfssbgf.html#intfgfrsVsBytfs">donvfrsion dodf</A>
+ * givfn in thf <dodf>{@link MidiMfssbgf}</dodf> dlbss dfsdription.
+ *
+ * @sff SysfxMfssbgf
+ * @sff MftbMfssbgf
+ *
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ */
+
+publid dlbss ShortMfssbgf fxtfnds MidiMfssbgf {
+
+
+    // Stbtus bytf dffinfs
+
+
+    // Systfm dommon mfssbgfs
+
+    /**
+     * Stbtus bytf for MIDI Timf Codf Qubrtfr Frbmf mfssbgf (0xF1, or 241).
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int MIDI_TIME_CODE                              = 0xF1; // 241
+
+    /**
+     * Stbtus bytf for Song Position Pointfr mfssbgf (0xF2, or 242).
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int SONG_POSITION_POINTER               = 0xF2; // 242
+
+    /**
+     * Stbtus bytf for MIDI Song Sflfdt mfssbgf (0xF3, or 243).
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int SONG_SELECT                                 = 0xF3; // 243
+
+    /**
+     * Stbtus bytf for Tunf Rfqufst mfssbgf (0xF6, or 246).
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int TUNE_REQUEST                                = 0xF6; // 246
+
+    /**
+     * Stbtus bytf for End of Systfm Exdlusivf mfssbgf (0xF7, or 247).
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int END_OF_EXCLUSIVE                    = 0xF7; // 247
+
+
+    // Systfm rfbl-timf mfssbgfs
+
+    /**
+     * Stbtus bytf for Timing Clodk mfssbgf (0xF8, or 248).
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int TIMING_CLOCK                                = 0xF8; // 248
+
+    /**
+     * Stbtus bytf for Stbrt mfssbgf (0xFA, or 250).
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int START                                               = 0xFA; // 250
+
+    /**
+     * Stbtus bytf for Continuf mfssbgf (0xFB, or 251).
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int CONTINUE                                    = 0xFB; // 251
+
+    /**
+     * Stbtus bytf for Stop mfssbgf (0xFC, or 252).
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int STOP                                                = 0xFC; //252
+
+    /**
+     * Stbtus bytf for Adtivf Sfnsing mfssbgf (0xFE, or 254).
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int ACTIVE_SENSING                              = 0xFE; // 254
+
+    /**
+     * Stbtus bytf for Systfm Rfsft mfssbgf (0xFF, or 255).
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int SYSTEM_RESET                                = 0xFF; // 255
+
+
+    // Chbnnfl voidf mfssbgf uppfr nibblf dffinfs
+
+    /**
+     * Commbnd vbluf for Notf Off mfssbgf (0x80, or 128)
+     */
+    publid stbtid finbl int NOTE_OFF                                    = 0x80;  // 128
+
+    /**
+     * Commbnd vbluf for Notf On mfssbgf (0x90, or 144)
+     */
+    publid stbtid finbl int NOTE_ON                                             = 0x90;  // 144
+
+    /**
+     * Commbnd vbluf for Polyphonid Kfy Prfssurf (Aftfrtoudh) mfssbgf (0xA0, or 160)
+     */
+    publid stbtid finbl int POLY_PRESSURE                               = 0xA0;  // 160
+
+    /**
+     * Commbnd vbluf for Control Chbngf mfssbgf (0xB0, or 176)
+     */
+    publid stbtid finbl int CONTROL_CHANGE                              = 0xB0;  // 176
+
+    /**
+     * Commbnd vbluf for Progrbm Chbngf mfssbgf (0xC0, or 192)
+     */
+    publid stbtid finbl int PROGRAM_CHANGE                              = 0xC0;  // 192
+
+    /**
+     * Commbnd vbluf for Chbnnfl Prfssurf (Aftfrtoudh) mfssbgf (0xD0, or 208)
+     */
+    publid stbtid finbl int CHANNEL_PRESSURE                    = 0xD0;  // 208
+
+    /**
+     * Commbnd vbluf for Pitdh Bfnd mfssbgf (0xE0, or 224)
+     */
+    publid stbtid finbl int PITCH_BEND                                  = 0xE0;  // 224
+
+
+    // Instbndf vbribblfs
+
+    /**
+     * Construdts b nfw <dodf>ShortMfssbgf</dodf>.  Thf
+     * dontfnts of thf nfw mfssbgf brf gubrbntffd to spfdify
+     * b vblid MIDI mfssbgf.  Subsfqufntly, you mby sft thf
+     * dontfnts of thf mfssbgf using onf of thf <dodf>sftMfssbgf</dodf>
+     * mfthods.
+     * @sff #sftMfssbgf
+     */
+    publid ShortMfssbgf() {
+        this(nfw bytf[3]);
+        // Dffbult mfssbgf dbtb: NOTE_ON on Chbnnfl 0 with mbx volumf
+        dbtb[0] = (bytf) (NOTE_ON & 0xFF);
+        dbtb[1] = (bytf) 64;
+        dbtb[2] = (bytf) 127;
+        lfngth = 3;
+    }
+
+    /**
+     * Construdts b nfw {@dodf ShortMfssbgf} whidh rfprfsfnts b MIDI
+     * mfssbgf thbt tbkfs no dbtb bytfs.
+     * Thf dontfnts of thf mfssbgf dbn bf dhbngfd by using onf of
+     * thf {@dodf sftMfssbgf} mfthods.
+     *
+     * @pbrbm stbtus thf MIDI stbtus bytf
+     * @throws InvblidMidiDbtbExdfption if {@dodf stbtus} dofs not spfdify
+     *     b vblid MIDI stbtus bytf for b mfssbgf thbt rfquirfs no dbtb bytfs
+     * @sff #sftMfssbgf(int)
+     * @sff #sftMfssbgf(int, int, int)
+     * @sff #sftMfssbgf(int, int, int, int)
+     * @sff #gftStbtus()
+     * @sindf 1.7
+     */
+    publid ShortMfssbgf(int stbtus) throws InvblidMidiDbtbExdfption {
+        supfr(null);
+        sftMfssbgf(stbtus); // dbn throw InvblidMidiDbtbExdfption
+    }
+
+    /**
+     * Construdts b nfw {@dodf ShortMfssbgf} whidh rfprfsfnts b MIDI mfssbgf
+     * thbt tbkfs up to two dbtb bytfs. If thf mfssbgf only tbkfs onf dbtb bytf,
+     * thf sfdond dbtb bytf is ignorfd. If thf mfssbgf dofs not tbkf
+     * bny dbtb bytfs, both dbtb bytfs brf ignorfd.
+     * Thf dontfnts of thf mfssbgf dbn bf dhbngfd by using onf of
+     * thf {@dodf sftMfssbgf} mfthods.
+     *
+     * @pbrbm stbtus   thf MIDI stbtus bytf
+     * @pbrbm dbtb1    thf first dbtb bytf
+     * @pbrbm dbtb2    thf sfdond dbtb bytf
+     * @throws InvblidMidiDbtbExdfption if thf stbtus bytf or bll dbtb bytfs
+     *     bflonging to thf mfssbgf do not spfdify b vblid MIDI mfssbgf
+     * @sff #sftMfssbgf(int)
+     * @sff #sftMfssbgf(int, int, int)
+     * @sff #sftMfssbgf(int, int, int, int)
+     * @sff #gftStbtus()
+     * @sff #gftDbtb1()
+     * @sff #gftDbtb2()
+     * @sindf 1.7
+     */
+    publid ShortMfssbgf(int stbtus, int dbtb1, int dbtb2)
+            throws InvblidMidiDbtbExdfption {
+        supfr(null);
+        sftMfssbgf(stbtus, dbtb1, dbtb2); // dbn throw InvblidMidiDbtbExdfption
+    }
+
+    /**
+     * Construdts b nfw {@dodf ShortMfssbgf} whidh rfprfsfnts b dhbnnfl
+     * MIDI mfssbgf thbt tbkfs up to two dbtb bytfs. If thf mfssbgf only tbkfs
+     * onf dbtb bytf, thf sfdond dbtb bytf is ignorfd. If thf mfssbgf dofs not
+     * tbkf bny dbtb bytfs, both dbtb bytfs brf ignorfd.
+     * Thf dontfnts of thf mfssbgf dbn bf dhbngfd by using onf of
+     * thf {@dodf sftMfssbgf} mfthods.
+     *
+     * @pbrbm dommbnd  thf MIDI dommbnd rfprfsfntfd by this mfssbgf
+     * @pbrbm dhbnnfl  thf dhbnnfl bssodibtfd with thf mfssbgf
+     * @pbrbm dbtb1    thf first dbtb bytf
+     * @pbrbm dbtb2    thf sfdond dbtb bytf
+     * @throws InvblidMidiDbtbExdfption if thf dommbnd vbluf, dhbnnfl vbluf
+     *     or bll dbtb bytfs bflonging to thf mfssbgf do not spfdify
+     *     b vblid MIDI mfssbgf
+     * @sff #sftMfssbgf(int)
+     * @sff #sftMfssbgf(int, int, int)
+     * @sff #sftMfssbgf(int, int, int, int)
+     * @sff #gftCommbnd()
+     * @sff #gftChbnnfl()
+     * @sff #gftDbtb1()
+     * @sff #gftDbtb2()
+     * @sindf 1.7
+     */
+    publid ShortMfssbgf(int dommbnd, int dhbnnfl, int dbtb1, int dbtb2)
+            throws InvblidMidiDbtbExdfption {
+        supfr(null);
+        sftMfssbgf(dommbnd, dhbnnfl, dbtb1, dbtb2);
+    }
+
+
+    /**
+     * Construdts b nfw <dodf>ShortMfssbgf</dodf>.
+     * @pbrbm dbtb bn brrby of bytfs dontbining thf domplftf mfssbgf.
+     * Thf mfssbgf dbtb mby bf dhbngfd using thf <dodf>sftMfssbgf</dodf>
+     * mfthod.
+     * @sff #sftMfssbgf
+     */
+    // $$fb this should throw bn Exdfption in dbsf of bn illfgbl mfssbgf!
+    protfdtfd ShortMfssbgf(bytf[] dbtb) {
+        // $$fb this mby sft bn invblid mfssbgf.
+        // Cbn't dorrfdt without dompromising dompbtibility
+        supfr(dbtb);
+    }
+
+
+    /**
+     * Sfts thf pbrbmftfrs for b MIDI mfssbgf thbt tbkfs no dbtb bytfs.
+     * @pbrbm stbtus    thf MIDI stbtus bytf
+     * @throws  InvblidMidiDbtbExdfption if <dodf>stbtus</dodf> dofs not
+     * spfdify b vblid MIDI stbtus bytf for b mfssbgf thbt rfquirfs no dbtb bytfs.
+     * @sff #sftMfssbgf(int, int, int)
+     * @sff #sftMfssbgf(int, int, int, int)
+     */
+    publid void sftMfssbgf(int stbtus) throws InvblidMidiDbtbExdfption {
+        // dhfdk for vblid vblufs
+        int dbtbLfngth = gftDbtbLfngth(stbtus); // dbn throw InvblidMidiDbtbExdfption
+        if (dbtbLfngth != 0) {
+            throw nfw InvblidMidiDbtbExdfption("Stbtus bytf; " + stbtus + " rfquirfs " + dbtbLfngth + " dbtb bytfs");
+        }
+        sftMfssbgf(stbtus, 0, 0);
+    }
+
+
+    /**
+     * Sfts thf  pbrbmftfrs for b MIDI mfssbgf thbt tbkfs onf or two dbtb
+     * bytfs.  If thf mfssbgf tbkfs only onf dbtb bytf, thf sfdond dbtb
+     * bytf is ignorfd; if thf mfssbgf dofs not tbkf bny dbtb bytfs, both
+     * dbtb bytfs brf ignorfd.
+     *
+     * @pbrbm stbtus    thf MIDI stbtus bytf
+     * @pbrbm dbtb1             thf first dbtb bytf
+     * @pbrbm dbtb2             thf sfdond dbtb bytf
+     * @throws  InvblidMidiDbtbExdfption if thf
+     * thf stbtus bytf, or bll dbtb bytfs bflonging to thf mfssbgf, do
+     * not spfdify b vblid MIDI mfssbgf.
+     * @sff #sftMfssbgf(int, int, int, int)
+     * @sff #sftMfssbgf(int)
+     */
+    publid void sftMfssbgf(int stbtus, int dbtb1, int dbtb2) throws InvblidMidiDbtbExdfption {
+        // dhfdk for vblid vblufs
+        int dbtbLfngth = gftDbtbLfngth(stbtus); // dbn throw InvblidMidiDbtbExdfption
+        if (dbtbLfngth > 0) {
+            if (dbtb1 < 0 || dbtb1 > 127) {
+                throw nfw InvblidMidiDbtbExdfption("dbtb1 out of rbngf: " + dbtb1);
+            }
+            if (dbtbLfngth > 1) {
+                if (dbtb2 < 0 || dbtb2 > 127) {
+                    throw nfw InvblidMidiDbtbExdfption("dbtb2 out of rbngf: " + dbtb2);
+                }
+            }
+        }
+
+
+        // sft thf lfngth
+        lfngth = dbtbLfngth + 1;
+        // rf-bllodbtf brrby if ShortMfssbgf(bytf[]) donstrudtor gbvf brrby with ffwfr flfmfnts
+        if (dbtb == null || dbtb.lfngth < lfngth) {
+            dbtb = nfw bytf[3];
+        }
+
+        // sft thf dbtb
+        dbtb[0] = (bytf) (stbtus & 0xFF);
+        if (lfngth > 1) {
+            dbtb[1] = (bytf) (dbtb1 & 0xFF);
+            if (lfngth > 2) {
+                dbtb[2] = (bytf) (dbtb2 & 0xFF);
+            }
+        }
+    }
+
+
+    /**
+     * Sfts thf short mfssbgf pbrbmftfrs for b  dhbnnfl mfssbgf
+     * whidh tbkfs up to two dbtb bytfs.  If thf mfssbgf only
+     * tbkfs onf dbtb bytf, thf sfdond dbtb bytf is ignorfd; if
+     * thf mfssbgf dofs not tbkf bny dbtb bytfs, both dbtb bytfs
+     * brf ignorfd.
+     *
+     * @pbrbm dommbnd   thf MIDI dommbnd rfprfsfntfd by this mfssbgf
+     * @pbrbm dhbnnfl   thf dhbnnfl bssodibtfd with thf mfssbgf
+     * @pbrbm dbtb1             thf first dbtb bytf
+     * @pbrbm dbtb2             thf sfdond dbtb bytf
+     * @throws          InvblidMidiDbtbExdfption if thf
+     * stbtus bytf or bll dbtb bytfs bflonging to thf mfssbgf, do
+     * not spfdify b vblid MIDI mfssbgf
+     *
+     * @sff #sftMfssbgf(int, int, int)
+     * @sff #sftMfssbgf(int)
+     * @sff #gftCommbnd
+     * @sff #gftChbnnfl
+     * @sff #gftDbtb1
+     * @sff #gftDbtb2
+     */
+    publid void sftMfssbgf(int dommbnd, int dhbnnfl, int dbtb1, int dbtb2) throws InvblidMidiDbtbExdfption {
+        // dhfdk for vblid vblufs
+        if (dommbnd >= 0xF0 || dommbnd < 0x80) {
+            throw nfw InvblidMidiDbtbExdfption("dommbnd out of rbngf: 0x" + Intfgfr.toHfxString(dommbnd));
+        }
+        if ((dhbnnfl & 0xFFFFFFF0) != 0) { // <=> (dhbnnfl<0 || dhbnnfl>15)
+            throw nfw InvblidMidiDbtbExdfption("dhbnnfl out of rbngf: " + dhbnnfl);
+        }
+        sftMfssbgf((dommbnd & 0xF0) | (dhbnnfl & 0x0F), dbtb1, dbtb2);
+    }
+
+
+    /**
+     * Obtbins thf MIDI dhbnnfl bssodibtfd with this fvfnt.  This mfthod
+     * bssumfs thbt thf fvfnt is b MIDI dhbnnfl mfssbgf; if not, thf rfturn
+     * vbluf will not bf mfbningful.
+     * @rfturn MIDI dhbnnfl bssodibtfd with thf mfssbgf.
+     * @sff #sftMfssbgf(int, int, int, int)
+     */
+    publid int gftChbnnfl() {
+        // this rfturns 0 if bn invblid mfssbgf is sft
+        rfturn (gftStbtus() & 0x0F);
+    }
+
+
+    /**
+     * Obtbins thf MIDI dommbnd bssodibtfd with this fvfnt.  This mfthod
+     * bssumfs thbt thf fvfnt is b MIDI dhbnnfl mfssbgf; if not, thf rfturn
+     * vbluf will not bf mfbningful.
+     * @rfturn thf MIDI dommbnd bssodibtfd with this fvfnt
+     * @sff #sftMfssbgf(int, int, int, int)
+     */
+    publid int gftCommbnd() {
+        // this rfturns 0 if bn invblid mfssbgf is sft
+        rfturn (gftStbtus() & 0xF0);
+    }
+
+
+    /**
+     * Obtbins thf first dbtb bytf in thf mfssbgf.
+     * @rfturn thf vbluf of thf <dodf>dbtb1</dodf> fifld
+     * @sff #sftMfssbgf(int, int, int)
+     */
+    publid int gftDbtb1() {
+        if (lfngth > 1) {
+            rfturn (dbtb[1] & 0xFF);
+        }
+        rfturn 0;
+    }
+
+
+    /**
+     * Obtbins thf sfdond dbtb bytf in thf mfssbgf.
+     * @rfturn thf vbluf of thf <dodf>dbtb2</dodf> fifld
+     * @sff #sftMfssbgf(int, int, int)
+     */
+    publid int gftDbtb2() {
+        if (lfngth > 2) {
+            rfturn (dbtb[2] & 0xFF);
+        }
+        rfturn 0;
+    }
+
+
+    /**
+     * Crfbtfs b nfw objfdt of thf sbmf dlbss bnd with thf sbmf dontfnts
+     * bs this objfdt.
+     * @rfturn b dlonf of this instbndf.
+     */
+    publid Objfdt dlonf() {
+        bytf[] nfwDbtb = nfw bytf[lfngth];
+        Systfm.brrbydopy(dbtb, 0, nfwDbtb, 0, nfwDbtb.lfngth);
+
+        ShortMfssbgf msg = nfw ShortMfssbgf(nfwDbtb);
+        rfturn msg;
+    }
+
+
+    /**
+     * Rftrifvfs thf numbfr of dbtb bytfs bssodibtfd with b pbrtidulbr
+     * stbtus bytf vbluf.
+     * @pbrbm stbtus stbtus bytf vbluf, whidh must rfprfsfnt b short MIDI mfssbgf
+     * @rfturn dbtb lfngth in bytfs (0, 1, or 2)
+     * @throws InvblidMidiDbtbExdfption if thf
+     * <dodf>stbtus</dodf> brgumfnt dofs not rfprfsfnt thf stbtus bytf for bny
+     * short mfssbgf
+     */
+    protfdtfd finbl int gftDbtbLfngth(int stbtus) throws InvblidMidiDbtbExdfption {
+        // systfm dommon bnd systfm rfbl-timf mfssbgfs
+        switdh(stbtus) {
+        dbsf 0xF6:                      // Tunf Rfqufst
+        dbsf 0xF7:                      // EOX
+            // Systfm rfbl-timf mfssbgfs
+        dbsf 0xF8:                      // Timing Clodk
+        dbsf 0xF9:                      // Undffinfd
+        dbsf 0xFA:                      // Stbrt
+        dbsf 0xFB:                      // Continuf
+        dbsf 0xFC:                      // Stop
+        dbsf 0xFD:                      // Undffinfd
+        dbsf 0xFE:                      // Adtivf Sfnsing
+        dbsf 0xFF:                      // Systfm Rfsft
+            rfturn 0;
+        dbsf 0xF1:                      // MTC Qubrtfr Frbmf
+        dbsf 0xF3:                      // Song Sflfdt
+            rfturn 1;
+        dbsf 0xF2:                      // Song Position Pointfr
+            rfturn 2;
+        dffbult:
+        }
+
+        // dhbnnfl voidf bnd modf mfssbgfs
+        switdh(stbtus & 0xF0) {
+        dbsf 0x80:
+        dbsf 0x90:
+        dbsf 0xA0:
+        dbsf 0xB0:
+        dbsf 0xE0:
+            rfturn 2;
+        dbsf 0xC0:
+        dbsf 0xD0:
+            rfturn 1;
+        dffbult:
+            throw nfw InvblidMidiDbtbExdfption("Invblid stbtus bytf: " + stbtus);
+        }
+    }
+}

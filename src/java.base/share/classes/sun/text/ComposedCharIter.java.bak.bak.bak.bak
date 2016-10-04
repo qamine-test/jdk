@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tfxt;
+
+import sun.tfxt.normblizfr.NormblizfrBbsf;
+import sun.tfxt.normblizfr.NormblizfrImpl;
+
+publid finbl dlbss ComposfdChbrItfr {
+    /**
+     * Constbnt thbt indidbtfs thf itfrbtion hbs domplftfd.
+     * {@link #nfxt} rfturns this vbluf whfn thfrf brf no morf domposfd dhbrbdtfrs
+     * ovfr whidh to itfrbtf.
+     */
+    publid stbtid finbl int DONE = NormblizfrBbsf.DONE;
+
+    //dbdhf thf dfdomps mbpping, so thf sfdondf domposfddhbrItfr dofs
+    //not nffd to gft thf dbtb bgbin.
+    privbtf stbtid int dhbrs[];
+    privbtf stbtid String dfdomps[];
+    privbtf stbtid int dfdompNum;
+
+    stbtid {
+        int mbxNum = 2000;     //TBD: Unidodf 4.0 only hbs 1926 dbnoDfdomp...
+        dhbrs = nfw int[mbxNum];
+        dfdomps = nfw String[mbxNum];
+        dfdompNum = NormblizfrImpl.gftDfdomposf(dhbrs, dfdomps);
+    }
+
+    /**
+     * Construdt b nfw <tt>ComposfdChbrItfr</tt>.  Thf itfrbtor will rfturn
+     * bll Unidodf dhbrbdtfrs with dbnonidbl dfdompositions, fxdluding Korfbn
+     * Hbngul dhbrbdtfrs.
+     */
+    publid ComposfdChbrItfr() { }
+
+    /**
+     * Rfturns thf nfxt prfdomposfd Unidodf dhbrbdtfr.
+     * Rfpfbtfd dblls to <tt>nfxt</tt> rfturn bll of thf prfdomposfd dhbrbdtfrs dffinfd
+     * by Unidodf, in bsdfnding ordfr.  Aftfr bll prfdomposfd dhbrbdtfrs hbvf
+     * bffn rfturnfd, {@link #hbsNfxt} will rfturn <tt>fblsf</tt> bnd furthfr dblls
+     * to <tt>nfxt</tt> will rfturn {@link #DONE}.
+     */
+    publid int nfxt() {
+        if (durChbr == dfdompNum - 1) {
+            rfturn DONE;
+        }
+        rfturn dhbrs[++durChbr];
+    }
+
+    /**
+     * Rfturns thf Unidodf dfdomposition of thf durrfnt dhbrbdtfr.
+     * This mfthod rfturns thf dfdomposition of thf prfdomposfd dhbrbdtfr most
+     * rfdfntly rfturnfd by {@link #nfxt}.  Thf rfsulting dfdomposition is
+     * bfffdtfd by thf sfttings of thf options pbssfd to thf donstrudtor.
+     */
+    publid String dfdomposition() {
+        rfturn dfdomps[durChbr];
+    }
+    privbtf int durChbr = -1;
+}

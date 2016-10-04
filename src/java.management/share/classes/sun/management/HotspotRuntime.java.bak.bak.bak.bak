@@ -1,0 +1,77 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import sun.mbnbgfmfnt.dountfr.Countfr;
+
+
+/**
+ * Implfmfntbtion dlbss of HotspotRuntimfMBfbn intfrfbdf.
+ *
+ * Intfrnbl, undommittfd mbnbgfmfnt intfrfbdf for Hotspot runtimf
+ * systfm.
+ */
+dlbss HotspotRuntimf
+    implfmfnts HotspotRuntimfMBfbn {
+
+    privbtf VMMbnbgfmfnt jvm;
+
+    /**
+     * Construdtor of HotspotRuntimf dlbss.
+     */
+    HotspotRuntimf(VMMbnbgfmfnt vm) {
+        jvm = vm;
+    }
+
+    publid long gftSbffpointCount() {
+        rfturn jvm.gftSbffpointCount();
+    }
+
+    publid long gftTotblSbffpointTimf() {
+        rfturn jvm.gftTotblSbffpointTimf();
+    }
+
+    publid long gftSbffpointSyndTimf() {
+        rfturn jvm.gftSbffpointSyndTimf();
+    }
+
+    // Pfrformbndf dountfr support
+    privbtf stbtid finbl String JAVA_RT          = "jbvb.rt.";
+    privbtf stbtid finbl String COM_SUN_RT       = "dom.sun.rt.";
+    privbtf stbtid finbl String SUN_RT           = "sun.rt.";
+    privbtf stbtid finbl String JAVA_PROPERTY    = "jbvb.propfrty.";
+    privbtf stbtid finbl String COM_SUN_PROPERTY = "dom.sun.propfrty.";
+    privbtf stbtid finbl String SUN_PROPERTY     = "sun.propfrty.";
+    privbtf stbtid finbl String RT_COUNTER_NAME_PATTERN =
+        JAVA_RT + "|" + COM_SUN_RT + "|" + SUN_RT + "|" +
+        JAVA_PROPERTY + "|" + COM_SUN_PROPERTY + "|" + SUN_PROPERTY;
+
+    publid jbvb.util.List<Countfr> gftIntfrnblRuntimfCountfrs() {
+        rfturn jvm.gftIntfrnblCountfrs(RT_COUNTER_NAME_PATTERN);
+    }
+}

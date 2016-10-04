@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "SurfaceData.h"
-#import "BufImgSurfaceData.h"
-#import "AWTFont.h"
-#import <Cocoa/Cocoa.h>
+#import "SurfbdfDbtb.i"
+#import "BufImgSurfbdfDbtb.i"
+#import "AWTFont.i"
+#import <Codob/Codob.i>
 
-// these flags are not defined on Tiger on PPC, so we need to make them a no-op
-#if !defined(kCGBitmapByteOrder32Host)
-#define kCGBitmapByteOrder32Host 0
-#endif
-#if !defined(kCGBitmapByteOrder16Host)
-#define kCGBitmapByteOrder16Host 0
-#endif
+// tifsf flbgs brf not dffinfd on Tigfr on PPC, so wf nffd to mbkf tifm b no-op
+#if !dffinfd(kCGBitmbpBytfOrdfr32Host)
+#dffinf kCGBitmbpBytfOrdfr32Host 0
+#fndif
+#if !dffinfd(kCGBitmbpBytfOrdfr16Host)
+#dffinf kCGBitmbpBytfOrdfr16Host 0
+#fndif
 
-// NOTE : Modify the printSurfaceDataDiagnostics API if you change this enum
-enum SDRenderType
+// NOTE : Modify tif printSurfbdfDbtbDibgnostids API if you dibngf tiis fnum
+fnum SDRfndfrTypf
 {
-    SD_Nothing,
-    SD_Stroke,
+    SD_Notiing,
+    SD_Strokf,
     SD_Fill,
     SD_EOFill,
-    SD_Shade,
-    SD_Pattern,
-    SD_Image,
-    SD_Text,
-    SD_CopyArea,
-    SD_Queue,
-    SD_External
+    SD_Sibdf,
+    SD_Pbttfrn,
+    SD_Imbgf,
+    SD_Tfxt,
+    SD_CopyArfb,
+    SD_Qufuf,
+    SD_Extfrnbl
 };
-typedef enum SDRenderType SDRenderType;
+typfdff fnum SDRfndfrTypf SDRfndfrTypf;
 
-struct _stateShadingInfo
+strudt _stbtfSibdingInfo
 {
-    CGPoint    start;
-    CGPoint    end;
-    CGFloat    colors[8];
-    BOOL    cyclic;
-    CGFloat    length; // of the total segment (used by the cyclic gradient)
-    CGFloat    period; // of the cycle (used by the cyclic gradient)
-    CGFloat    offset; // of the cycle from the start (used by the cyclic gradient)
+    CGPoint    stbrt;
+    CGPoint    fnd;
+    CGFlobt    dolors[8];
+    BOOL    dydlid;
+    CGFlobt    lfngti; // of tif totbl sfgmfnt (usfd by tif dydlid grbdifnt)
+    CGFlobt    pfriod; // of tif dydlf (usfd by tif dydlid grbdifnt)
+    CGFlobt    offsft; // of tif dydlf from tif stbrt (usfd by tif dydlid grbdifnt)
 };
-typedef struct _stateShadingInfo StateShadingInfo;
+typfdff strudt _stbtfSibdingInfo StbtfSibdingInfo;
 
-struct _statePatternInfo
+strudt _stbtfPbttfrnInfo
 {
-    CGFloat    tx;
-    CGFloat    ty;
-    CGFloat    sx;
-    CGFloat    sy;
-    jint    width;
-    jint    height;
-    jobject    sdata;
+    CGFlobt    tx;
+    CGFlobt    ty;
+    CGFlobt    sx;
+    CGFlobt    sy;
+    jint    widti;
+    jint    ifigit;
+    jobjfdt    sdbtb;
 };
-typedef struct _statePatternInfo StatePatternInfo;
+typfdff strudt _stbtfPbttfrnInfo StbtfPbttfrnInfo;
 
-struct _stateGraphicsInfo
+strudt _stbtfGrbpiidsInfo
 {
-    BOOL                adjustedLineWidth;
-    BOOL                adjustedAntialias;
-    BOOL                antialiased;
-    jint                interpolation;
-    BOOL                simpleColor;
-    BOOL                simpleStroke;
-    CGAffineTransform    ctm;
-    CGFloat                offsetX;
-    CGFloat                offsetY;
-    struct CGPoint*        batchedLines;
-    UInt32                batchedLinesCount;
+    BOOL                bdjustfdLinfWidti;
+    BOOL                bdjustfdAntiblibs;
+    BOOL                bntiblibsfd;
+    jint                intfrpolbtion;
+    BOOL                simplfColor;
+    BOOL                simplfStrokf;
+    CGAffinfTrbnsform    dtm;
+    CGFlobt                offsftX;
+    CGFlobt                offsftY;
+    strudt CGPoint*        bbtdifdLinfs;
+    UInt32                bbtdifdLinfsCount;
 };
-typedef struct _stateGraphicsInfo StateGraphicsInfo;
+typfdff strudt _stbtfGrbpiidsInfo StbtfGrbpiidsInfo;
 
-typedef struct _QuartzSDOps QuartzSDOps;
-typedef void BeginContextFunc(JNIEnv *env, QuartzSDOps *qsdo, SDRenderType renderType);
-typedef void FinishContextFunc(JNIEnv *env, QuartzSDOps *qsdo);
-struct _QuartzSDOps
+typfdff strudt _QubrtzSDOps QubrtzSDOps;
+typfdff void BfginContfxtFund(JNIEnv *fnv, QubrtzSDOps *qsdo, SDRfndfrTypf rfndfrTypf);
+typfdff void FinisiContfxtFund(JNIEnv *fnv, QubrtzSDOps *qsdo);
+strudt _QubrtzSDOps
 {
-    BufImgSDOps                sdo; // must be the first entry!
+    BufImgSDOps                sdo; // must bf tif first fntry!
 
-    BeginContextFunc*        BeginSurface;        // used to set graphics states (clip, color, stroke, etc...)
-    FinishContextFunc*        FinishSurface;        // used to finish drawing primitives
-    BOOL                    newContext;
-    CGContextRef            cgRef;
+    BfginContfxtFund*        BfginSurfbdf;        // usfd to sft grbpiids stbtfs (dlip, dolor, strokf, ftd...)
+    FinisiContfxtFund*        FinisiSurfbdf;        // usfd to finisi drbwing primitivfs
+    BOOL                    nfwContfxt;
+    CGContfxtRff            dgRff;
 
-    jint*                    javaGraphicsStates;
-    jobject                    javaGraphicsStatesObjects;
+    jint*                    jbvbGrbpiidsStbtfs;
+    jobjfdt                    jbvbGrbpiidsStbtfsObjfdts;
 
-    SDRenderType            renderType;
+    SDRfndfrTypf            rfndfrTypf;
 
-    // rdar://problem/5214320
-    // Gradient/Texture fills of Java GeneralPath don't respect the even odd winding rule (quartz pipeline).
-    BOOL                    isEvenOddFill;        // Tracks whether the original render type passed into
-                                                // SetUpCGContext(...) is SD_EOFILL.
-                                                // The reason for this field is because SetUpCGContext(...) can
-                                                // change the render type after calling SetUpPaint(...), and right
-                                                // after that, the possibly new render type is then assigned into
-                                                // qsdo->renderType.  Sigh!!!
-                                                // This field is potentially used within CompleteCGContext(...) or
-                                                // its callees.
+    // rdbr://problfm/5214320
+    // Grbdifnt/Tfxturf fills of Jbvb GfnfrblPbti don't rfspfdt tif fvfn odd winding rulf (qubrtz pipflinf).
+    BOOL                    isEvfnOddFill;        // Trbdks wiftifr tif originbl rfndfr typf pbssfd into
+                                                // SftUpCGContfxt(...) is SD_EOFILL.
+                                                // Tif rfbson for tiis fifld is bfdbusf SftUpCGContfxt(...) dbn
+                                                // dibngf tif rfndfr typf bftfr dblling SftUpPbint(...), bnd rigit
+                                                // bftfr tibt, tif possibly nfw rfndfr typf is tifn bssignfd into
+                                                // qsdo->rfndfrTypf.  Sigi!!!
+                                                // Tiis fifld is potfntiblly usfd witiin ComplftfCGContfxt(...) or
+                                                // its dbllffs.
 
-    StateShadingInfo*        shadingInfo;        // tracks shading and its parameters
-    StatePatternInfo*        patternInfo;        // tracks pattern and its parameters
-    StateGraphicsInfo        graphicsStateInfo;    // tracks other graphics state
+    StbtfSibdingInfo*        sibdingInfo;        // trbdks sibding bnd its pbrbmftfrs
+    StbtfPbttfrnInfo*        pbttfrnInfo;        // trbdks pbttfrn bnd its pbrbmftfrs
+    StbtfGrbpiidsInfo        grbpiidsStbtfInfo;    // trbdks otifr grbpiids stbtf
 
-    BOOL  syncContentsToLayer;    // should changed pixels be synced to a CALayer
-    CGRect updateRect;     // used by the layer synchronization code to track update rects.
+    BOOL  syndContfntsToLbyfr;    // siould dibngfd pixfls bf syndfd to b CALbyfr
+    CGRfdt updbtfRfdt;     // usfd by tif lbyfr syndironizbtion dodf to trbdk updbtf rfdts.
 };
 
-void SetUpCGContext(JNIEnv *env, QuartzSDOps *qsdo, SDRenderType renderType);
-SDRenderType DoShapeUsingCG(CGContextRef cgRef, jint *types, jfloat *coords, jint numtypes, BOOL fill, CGFloat offsetX, CGFloat offsetY);
-SDRenderType SetUpPaint(JNIEnv *env, QuartzSDOps *qsdo, SDRenderType renderType);
-void CompleteCGContext(JNIEnv *env, QuartzSDOps *qsdo);
+void SftUpCGContfxt(JNIEnv *fnv, QubrtzSDOps *qsdo, SDRfndfrTypf rfndfrTypf);
+SDRfndfrTypf DoSibpfUsingCG(CGContfxtRff dgRff, jint *typfs, jflobt *doords, jint numtypfs, BOOL fill, CGFlobt offsftX, CGFlobt offsftY);
+SDRfndfrTypf SftUpPbint(JNIEnv *fnv, QubrtzSDOps *qsdo, SDRfndfrTypf rfndfrTypf);
+void ComplftfCGContfxt(JNIEnv *fnv, QubrtzSDOps *qsdo);
 
-NSColor* ByteParametersToNSColor(JNIEnv* env, jint *javaGraphicsStates, NSColor* defColor);
+NSColor* BytfPbrbmftfrsToNSColor(JNIEnv* fnv, jint *jbvbGrbpiidsStbtfs, NSColor* dffColor);
 
-#define JNF_COCOA_RENDERER_EXIT(env) \
-} @catch(NSException *localException) { \
-    qsdo->FinishSurface(env, qsdo); \
-    [JNFException throwToJava:env exception:localException]; \
+#dffinf JNF_COCOA_RENDERER_EXIT(fnv) \
+} @dbtdi(NSExdfption *lodblExdfption) { \
+    qsdo->FinisiSurfbdf(fnv, qsdo); \
+    [JNFExdfption tirowToJbvb:fnv fxdfption:lodblExdfption]; \
 } \
-        if (_token) JNFNativeMethodExit(_token); \
+        if (_tokfn) JNFNbtivfMftiodExit(_tokfn); \
 }

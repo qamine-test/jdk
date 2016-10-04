@@ -1,520 +1,520 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
 /**
  *
- * The {@code Byte} class wraps a value of primitive type {@code byte}
- * in an object.  An object of type {@code Byte} contains a single
- * field whose type is {@code byte}.
+ * Tif {@dodf Bytf} dlbss wrbps b vbluf of primitivf typf {@dodf bytf}
+ * in bn objfdt.  An objfdt of typf {@dodf Bytf} dontbins b singlf
+ * fifld wiosf typf is {@dodf bytf}.
  *
- * <p>In addition, this class provides several methods for converting
- * a {@code byte} to a {@code String} and a {@code String} to a {@code
- * byte}, as well as other constants and methods useful when dealing
- * with a {@code byte}.
+ * <p>In bddition, tiis dlbss providfs sfvfrbl mftiods for donvfrting
+ * b {@dodf bytf} to b {@dodf String} bnd b {@dodf String} to b {@dodf
+ * bytf}, bs wfll bs otifr donstbnts bnd mftiods usfful wifn dfbling
+ * witi b {@dodf bytf}.
  *
- * @author  Nakul Saraiya
- * @author  Joseph D. Darcy
- * @see     java.lang.Number
- * @since   1.1
+ * @butior  Nbkul Sbrbiyb
+ * @butior  Josfpi D. Dbrdy
+ * @sff     jbvb.lbng.Numbfr
+ * @sindf   1.1
  */
-public final class Byte extends Number implements Comparable<Byte> {
+publid finbl dlbss Bytf fxtfnds Numbfr implfmfnts Compbrbblf<Bytf> {
 
     /**
-     * A constant holding the minimum value a {@code byte} can
-     * have, -2<sup>7</sup>.
+     * A donstbnt iolding tif minimum vbluf b {@dodf bytf} dbn
+     * ibvf, -2<sup>7</sup>.
      */
-    public static final byte   MIN_VALUE = -128;
+    publid stbtid finbl bytf   MIN_VALUE = -128;
 
     /**
-     * A constant holding the maximum value a {@code byte} can
-     * have, 2<sup>7</sup>-1.
+     * A donstbnt iolding tif mbximum vbluf b {@dodf bytf} dbn
+     * ibvf, 2<sup>7</sup>-1.
      */
-    public static final byte   MAX_VALUE = 127;
+    publid stbtid finbl bytf   MAX_VALUE = 127;
 
     /**
-     * The {@code Class} instance representing the primitive type
-     * {@code byte}.
+     * Tif {@dodf Clbss} instbndf rfprfsfnting tif primitivf typf
+     * {@dodf bytf}.
      */
-    @SuppressWarnings("unchecked")
-    public static final Class<Byte>     TYPE = (Class<Byte>) Class.getPrimitiveClass("byte");
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid finbl Clbss<Bytf>     TYPE = (Clbss<Bytf>) Clbss.gftPrimitivfClbss("bytf");
 
     /**
-     * Returns a new {@code String} object representing the
-     * specified {@code byte}. The radix is assumed to be 10.
+     * Rfturns b nfw {@dodf String} objfdt rfprfsfnting tif
+     * spfdififd {@dodf bytf}. Tif rbdix is bssumfd to bf 10.
      *
-     * @param b the {@code byte} to be converted
-     * @return the string representation of the specified {@code byte}
-     * @see java.lang.Integer#toString(int)
+     * @pbrbm b tif {@dodf bytf} to bf donvfrtfd
+     * @rfturn tif string rfprfsfntbtion of tif spfdififd {@dodf bytf}
+     * @sff jbvb.lbng.Intfgfr#toString(int)
      */
-    public static String toString(byte b) {
-        return Integer.toString((int)b, 10);
+    publid stbtid String toString(bytf b) {
+        rfturn Intfgfr.toString((int)b, 10);
     }
 
-    private static class ByteCache {
-        private ByteCache(){}
+    privbtf stbtid dlbss BytfCbdif {
+        privbtf BytfCbdif(){}
 
-        static final Byte cache[] = new Byte[-(-128) + 127 + 1];
+        stbtid finbl Bytf dbdif[] = nfw Bytf[-(-128) + 127 + 1];
 
-        static {
-            for(int i = 0; i < cache.length; i++)
-                cache[i] = new Byte((byte)(i - 128));
+        stbtid {
+            for(int i = 0; i < dbdif.lfngti; i++)
+                dbdif[i] = nfw Bytf((bytf)(i - 128));
         }
     }
 
     /**
-     * Returns a {@code Byte} instance representing the specified
-     * {@code byte} value.
-     * If a new {@code Byte} instance is not required, this method
-     * should generally be used in preference to the constructor
-     * {@link #Byte(byte)}, as this method is likely to yield
-     * significantly better space and time performance since
-     * all byte values are cached.
+     * Rfturns b {@dodf Bytf} instbndf rfprfsfnting tif spfdififd
+     * {@dodf bytf} vbluf.
+     * If b nfw {@dodf Bytf} instbndf is not rfquirfd, tiis mftiod
+     * siould gfnfrblly bf usfd in prfffrfndf to tif donstrudtor
+     * {@link #Bytf(bytf)}, bs tiis mftiod is likfly to yifld
+     * signifidbntly bfttfr spbdf bnd timf pfrformbndf sindf
+     * bll bytf vblufs brf dbdifd.
      *
-     * @param  b a byte value.
-     * @return a {@code Byte} instance representing {@code b}.
-     * @since  1.5
+     * @pbrbm  b b bytf vbluf.
+     * @rfturn b {@dodf Bytf} instbndf rfprfsfnting {@dodf b}.
+     * @sindf  1.5
      */
-    public static Byte valueOf(byte b) {
-        final int offset = 128;
-        return ByteCache.cache[(int)b + offset];
+    publid stbtid Bytf vblufOf(bytf b) {
+        finbl int offsft = 128;
+        rfturn BytfCbdif.dbdif[(int)b + offsft];
     }
 
     /**
-     * Parses the string argument as a signed {@code byte} in the
-     * radix specified by the second argument. The characters in the
-     * string must all be digits, of the specified radix (as
-     * determined by whether {@link java.lang.Character#digit(char,
-     * int)} returns a nonnegative value) except that the first
-     * character may be an ASCII minus sign {@code '-'}
-     * ({@code '\u005Cu002D'}) to indicate a negative value or an
-     * ASCII plus sign {@code '+'} ({@code '\u005Cu002B'}) to
-     * indicate a positive value.  The resulting {@code byte} value is
-     * returned.
+     * Pbrsfs tif string brgumfnt bs b signfd {@dodf bytf} in tif
+     * rbdix spfdififd by tif sfdond brgumfnt. Tif dibrbdtfrs in tif
+     * string must bll bf digits, of tif spfdififd rbdix (bs
+     * dftfrminfd by wiftifr {@link jbvb.lbng.Cibrbdtfr#digit(dibr,
+     * int)} rfturns b nonnfgbtivf vbluf) fxdfpt tibt tif first
+     * dibrbdtfr mby bf bn ASCII minus sign {@dodf '-'}
+     * ({@dodf '\u005Cu002D'}) to indidbtf b nfgbtivf vbluf or bn
+     * ASCII plus sign {@dodf '+'} ({@dodf '\u005Cu002B'}) to
+     * indidbtf b positivf vbluf.  Tif rfsulting {@dodf bytf} vbluf is
+     * rfturnfd.
      *
-     * <p>An exception of type {@code NumberFormatException} is
-     * thrown if any of the following situations occurs:
+     * <p>An fxdfption of typf {@dodf NumbfrFormbtExdfption} is
+     * tirown if bny of tif following situbtions oddurs:
      * <ul>
-     * <li> The first argument is {@code null} or is a string of
-     * length zero.
+     * <li> Tif first brgumfnt is {@dodf null} or is b string of
+     * lfngti zfro.
      *
-     * <li> The radix is either smaller than {@link
-     * java.lang.Character#MIN_RADIX} or larger than {@link
-     * java.lang.Character#MAX_RADIX}.
+     * <li> Tif rbdix is fitifr smbllfr tibn {@link
+     * jbvb.lbng.Cibrbdtfr#MIN_RADIX} or lbrgfr tibn {@link
+     * jbvb.lbng.Cibrbdtfr#MAX_RADIX}.
      *
-     * <li> Any character of the string is not a digit of the
-     * specified radix, except that the first character may be a minus
-     * sign {@code '-'} ({@code '\u005Cu002D'}) or plus sign
-     * {@code '+'} ({@code '\u005Cu002B'}) provided that the
-     * string is longer than length 1.
+     * <li> Any dibrbdtfr of tif string is not b digit of tif
+     * spfdififd rbdix, fxdfpt tibt tif first dibrbdtfr mby bf b minus
+     * sign {@dodf '-'} ({@dodf '\u005Cu002D'}) or plus sign
+     * {@dodf '+'} ({@dodf '\u005Cu002B'}) providfd tibt tif
+     * string is longfr tibn lfngti 1.
      *
-     * <li> The value represented by the string is not a value of type
-     * {@code byte}.
+     * <li> Tif vbluf rfprfsfntfd by tif string is not b vbluf of typf
+     * {@dodf bytf}.
      * </ul>
      *
-     * @param s         the {@code String} containing the
-     *                  {@code byte}
-     *                  representation to be parsed
-     * @param radix     the radix to be used while parsing {@code s}
-     * @return          the {@code byte} value represented by the string
-     *                   argument in the specified radix
-     * @throws          NumberFormatException If the string does
-     *                  not contain a parsable {@code byte}.
+     * @pbrbm s         tif {@dodf String} dontbining tif
+     *                  {@dodf bytf}
+     *                  rfprfsfntbtion to bf pbrsfd
+     * @pbrbm rbdix     tif rbdix to bf usfd wiilf pbrsing {@dodf s}
+     * @rfturn          tif {@dodf bytf} vbluf rfprfsfntfd by tif string
+     *                   brgumfnt in tif spfdififd rbdix
+     * @tirows          NumbfrFormbtExdfption If tif string dofs
+     *                  not dontbin b pbrsbblf {@dodf bytf}.
      */
-    public static byte parseByte(String s, int radix)
-        throws NumberFormatException {
-        int i = Integer.parseInt(s, radix);
+    publid stbtid bytf pbrsfBytf(String s, int rbdix)
+        tirows NumbfrFormbtExdfption {
+        int i = Intfgfr.pbrsfInt(s, rbdix);
         if (i < MIN_VALUE || i > MAX_VALUE)
-            throw new NumberFormatException(
-                "Value out of range. Value:\"" + s + "\" Radix:" + radix);
-        return (byte)i;
+            tirow nfw NumbfrFormbtExdfption(
+                "Vbluf out of rbngf. Vbluf:\"" + s + "\" Rbdix:" + rbdix);
+        rfturn (bytf)i;
     }
 
     /**
-     * Parses the string argument as a signed decimal {@code
-     * byte}. The characters in the string must all be decimal digits,
-     * except that the first character may be an ASCII minus sign
-     * {@code '-'} ({@code '\u005Cu002D'}) to indicate a negative
-     * value or an ASCII plus sign {@code '+'}
-     * ({@code '\u005Cu002B'}) to indicate a positive value. The
-     * resulting {@code byte} value is returned, exactly as if the
-     * argument and the radix 10 were given as arguments to the {@link
-     * #parseByte(java.lang.String, int)} method.
+     * Pbrsfs tif string brgumfnt bs b signfd dfdimbl {@dodf
+     * bytf}. Tif dibrbdtfrs in tif string must bll bf dfdimbl digits,
+     * fxdfpt tibt tif first dibrbdtfr mby bf bn ASCII minus sign
+     * {@dodf '-'} ({@dodf '\u005Cu002D'}) to indidbtf b nfgbtivf
+     * vbluf or bn ASCII plus sign {@dodf '+'}
+     * ({@dodf '\u005Cu002B'}) to indidbtf b positivf vbluf. Tif
+     * rfsulting {@dodf bytf} vbluf is rfturnfd, fxbdtly bs if tif
+     * brgumfnt bnd tif rbdix 10 wfrf givfn bs brgumfnts to tif {@link
+     * #pbrsfBytf(jbvb.lbng.String, int)} mftiod.
      *
-     * @param s         a {@code String} containing the
-     *                  {@code byte} representation to be parsed
-     * @return          the {@code byte} value represented by the
-     *                  argument in decimal
-     * @throws          NumberFormatException if the string does not
-     *                  contain a parsable {@code byte}.
+     * @pbrbm s         b {@dodf String} dontbining tif
+     *                  {@dodf bytf} rfprfsfntbtion to bf pbrsfd
+     * @rfturn          tif {@dodf bytf} vbluf rfprfsfntfd by tif
+     *                  brgumfnt in dfdimbl
+     * @tirows          NumbfrFormbtExdfption if tif string dofs not
+     *                  dontbin b pbrsbblf {@dodf bytf}.
      */
-    public static byte parseByte(String s) throws NumberFormatException {
-        return parseByte(s, 10);
+    publid stbtid bytf pbrsfBytf(String s) tirows NumbfrFormbtExdfption {
+        rfturn pbrsfBytf(s, 10);
     }
 
     /**
-     * Returns a {@code Byte} object holding the value
-     * extracted from the specified {@code String} when parsed
-     * with the radix given by the second argument. The first argument
-     * is interpreted as representing a signed {@code byte} in
-     * the radix specified by the second argument, exactly as if the
-     * argument were given to the {@link #parseByte(java.lang.String,
-     * int)} method. The result is a {@code Byte} object that
-     * represents the {@code byte} value specified by the string.
+     * Rfturns b {@dodf Bytf} objfdt iolding tif vbluf
+     * fxtrbdtfd from tif spfdififd {@dodf String} wifn pbrsfd
+     * witi tif rbdix givfn by tif sfdond brgumfnt. Tif first brgumfnt
+     * is intfrprftfd bs rfprfsfnting b signfd {@dodf bytf} in
+     * tif rbdix spfdififd by tif sfdond brgumfnt, fxbdtly bs if tif
+     * brgumfnt wfrf givfn to tif {@link #pbrsfBytf(jbvb.lbng.String,
+     * int)} mftiod. Tif rfsult is b {@dodf Bytf} objfdt tibt
+     * rfprfsfnts tif {@dodf bytf} vbluf spfdififd by tif string.
      *
-     * <p> In other words, this method returns a {@code Byte} object
-     * equal to the value of:
+     * <p> In otifr words, tiis mftiod rfturns b {@dodf Bytf} objfdt
+     * fqubl to tif vbluf of:
      *
-     * <blockquote>
-     * {@code new Byte(Byte.parseByte(s, radix))}
-     * </blockquote>
+     * <blodkquotf>
+     * {@dodf nfw Bytf(Bytf.pbrsfBytf(s, rbdix))}
+     * </blodkquotf>
      *
-     * @param s         the string to be parsed
-     * @param radix     the radix to be used in interpreting {@code s}
-     * @return          a {@code Byte} object holding the value
-     *                  represented by the string argument in the
-     *                  specified radix.
-     * @throws          NumberFormatException If the {@code String} does
-     *                  not contain a parsable {@code byte}.
+     * @pbrbm s         tif string to bf pbrsfd
+     * @pbrbm rbdix     tif rbdix to bf usfd in intfrprfting {@dodf s}
+     * @rfturn          b {@dodf Bytf} objfdt iolding tif vbluf
+     *                  rfprfsfntfd by tif string brgumfnt in tif
+     *                  spfdififd rbdix.
+     * @tirows          NumbfrFormbtExdfption If tif {@dodf String} dofs
+     *                  not dontbin b pbrsbblf {@dodf bytf}.
      */
-    public static Byte valueOf(String s, int radix)
-        throws NumberFormatException {
-        return valueOf(parseByte(s, radix));
+    publid stbtid Bytf vblufOf(String s, int rbdix)
+        tirows NumbfrFormbtExdfption {
+        rfturn vblufOf(pbrsfBytf(s, rbdix));
     }
 
     /**
-     * Returns a {@code Byte} object holding the value
-     * given by the specified {@code String}. The argument is
-     * interpreted as representing a signed decimal {@code byte},
-     * exactly as if the argument were given to the {@link
-     * #parseByte(java.lang.String)} method. The result is a
-     * {@code Byte} object that represents the {@code byte}
-     * value specified by the string.
+     * Rfturns b {@dodf Bytf} objfdt iolding tif vbluf
+     * givfn by tif spfdififd {@dodf String}. Tif brgumfnt is
+     * intfrprftfd bs rfprfsfnting b signfd dfdimbl {@dodf bytf},
+     * fxbdtly bs if tif brgumfnt wfrf givfn to tif {@link
+     * #pbrsfBytf(jbvb.lbng.String)} mftiod. Tif rfsult is b
+     * {@dodf Bytf} objfdt tibt rfprfsfnts tif {@dodf bytf}
+     * vbluf spfdififd by tif string.
      *
-     * <p> In other words, this method returns a {@code Byte} object
-     * equal to the value of:
+     * <p> In otifr words, tiis mftiod rfturns b {@dodf Bytf} objfdt
+     * fqubl to tif vbluf of:
      *
-     * <blockquote>
-     * {@code new Byte(Byte.parseByte(s))}
-     * </blockquote>
+     * <blodkquotf>
+     * {@dodf nfw Bytf(Bytf.pbrsfBytf(s))}
+     * </blodkquotf>
      *
-     * @param s         the string to be parsed
-     * @return          a {@code Byte} object holding the value
-     *                  represented by the string argument
-     * @throws          NumberFormatException If the {@code String} does
-     *                  not contain a parsable {@code byte}.
+     * @pbrbm s         tif string to bf pbrsfd
+     * @rfturn          b {@dodf Bytf} objfdt iolding tif vbluf
+     *                  rfprfsfntfd by tif string brgumfnt
+     * @tirows          NumbfrFormbtExdfption If tif {@dodf String} dofs
+     *                  not dontbin b pbrsbblf {@dodf bytf}.
      */
-    public static Byte valueOf(String s) throws NumberFormatException {
-        return valueOf(s, 10);
+    publid stbtid Bytf vblufOf(String s) tirows NumbfrFormbtExdfption {
+        rfturn vblufOf(s, 10);
     }
 
     /**
-     * Decodes a {@code String} into a {@code Byte}.
-     * Accepts decimal, hexadecimal, and octal numbers given by
-     * the following grammar:
+     * Dfdodfs b {@dodf String} into b {@dodf Bytf}.
+     * Addfpts dfdimbl, ifxbdfdimbl, bnd odtbl numbfrs givfn by
+     * tif following grbmmbr:
      *
-     * <blockquote>
+     * <blodkquotf>
      * <dl>
-     * <dt><i>DecodableString:</i>
-     * <dd><i>Sign<sub>opt</sub> DecimalNumeral</i>
-     * <dd><i>Sign<sub>opt</sub></i> {@code 0x} <i>HexDigits</i>
-     * <dd><i>Sign<sub>opt</sub></i> {@code 0X} <i>HexDigits</i>
-     * <dd><i>Sign<sub>opt</sub></i> {@code #} <i>HexDigits</i>
-     * <dd><i>Sign<sub>opt</sub></i> {@code 0} <i>OctalDigits</i>
+     * <dt><i>DfdodbblfString:</i>
+     * <dd><i>Sign<sub>opt</sub> DfdimblNumfrbl</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf 0x} <i>HfxDigits</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf 0X} <i>HfxDigits</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf #} <i>HfxDigits</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf 0} <i>OdtblDigits</i>
      *
      * <dt><i>Sign:</i>
-     * <dd>{@code -}
-     * <dd>{@code +}
+     * <dd>{@dodf -}
+     * <dd>{@dodf +}
      * </dl>
-     * </blockquote>
+     * </blodkquotf>
      *
-     * <i>DecimalNumeral</i>, <i>HexDigits</i>, and <i>OctalDigits</i>
-     * are as defined in section 3.10.1 of
-     * <cite>The Java&trade; Language Specification</cite>,
-     * except that underscores are not accepted between digits.
+     * <i>DfdimblNumfrbl</i>, <i>HfxDigits</i>, bnd <i>OdtblDigits</i>
+     * brf bs dffinfd in sfdtion 3.10.1 of
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>,
+     * fxdfpt tibt undfrsdorfs brf not bddfptfd bftwffn digits.
      *
-     * <p>The sequence of characters following an optional
-     * sign and/or radix specifier ("{@code 0x}", "{@code 0X}",
-     * "{@code #}", or leading zero) is parsed as by the {@code
-     * Byte.parseByte} method with the indicated radix (10, 16, or 8).
-     * This sequence of characters must represent a positive value or
-     * a {@link NumberFormatException} will be thrown.  The result is
-     * negated if first character of the specified {@code String} is
-     * the minus sign.  No whitespace characters are permitted in the
-     * {@code String}.
+     * <p>Tif sfqufndf of dibrbdtfrs following bn optionbl
+     * sign bnd/or rbdix spfdififr ("{@dodf 0x}", "{@dodf 0X}",
+     * "{@dodf #}", or lfbding zfro) is pbrsfd bs by tif {@dodf
+     * Bytf.pbrsfBytf} mftiod witi tif indidbtfd rbdix (10, 16, or 8).
+     * Tiis sfqufndf of dibrbdtfrs must rfprfsfnt b positivf vbluf or
+     * b {@link NumbfrFormbtExdfption} will bf tirown.  Tif rfsult is
+     * nfgbtfd if first dibrbdtfr of tif spfdififd {@dodf String} is
+     * tif minus sign.  No wiitfspbdf dibrbdtfrs brf pfrmittfd in tif
+     * {@dodf String}.
      *
-     * @param     nm the {@code String} to decode.
-     * @return   a {@code Byte} object holding the {@code byte}
-     *          value represented by {@code nm}
-     * @throws  NumberFormatException  if the {@code String} does not
-     *            contain a parsable {@code byte}.
-     * @see java.lang.Byte#parseByte(java.lang.String, int)
+     * @pbrbm     nm tif {@dodf String} to dfdodf.
+     * @rfturn   b {@dodf Bytf} objfdt iolding tif {@dodf bytf}
+     *          vbluf rfprfsfntfd by {@dodf nm}
+     * @tirows  NumbfrFormbtExdfption  if tif {@dodf String} dofs not
+     *            dontbin b pbrsbblf {@dodf bytf}.
+     * @sff jbvb.lbng.Bytf#pbrsfBytf(jbvb.lbng.String, int)
      */
-    public static Byte decode(String nm) throws NumberFormatException {
-        int i = Integer.decode(nm);
+    publid stbtid Bytf dfdodf(String nm) tirows NumbfrFormbtExdfption {
+        int i = Intfgfr.dfdodf(nm);
         if (i < MIN_VALUE || i > MAX_VALUE)
-            throw new NumberFormatException(
-                    "Value " + i + " out of range from input " + nm);
-        return valueOf((byte)i);
+            tirow nfw NumbfrFormbtExdfption(
+                    "Vbluf " + i + " out of rbngf from input " + nm);
+        rfturn vblufOf((bytf)i);
     }
 
     /**
-     * The value of the {@code Byte}.
+     * Tif vbluf of tif {@dodf Bytf}.
      *
-     * @serial
+     * @sfribl
      */
-    private final byte value;
+    privbtf finbl bytf vbluf;
 
     /**
-     * Constructs a newly allocated {@code Byte} object that
-     * represents the specified {@code byte} value.
+     * Construdts b nfwly bllodbtfd {@dodf Bytf} objfdt tibt
+     * rfprfsfnts tif spfdififd {@dodf bytf} vbluf.
      *
-     * @param value     the value to be represented by the
-     *                  {@code Byte}.
+     * @pbrbm vbluf     tif vbluf to bf rfprfsfntfd by tif
+     *                  {@dodf Bytf}.
      */
-    public Byte(byte value) {
-        this.value = value;
+    publid Bytf(bytf vbluf) {
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * Constructs a newly allocated {@code Byte} object that
-     * represents the {@code byte} value indicated by the
-     * {@code String} parameter. The string is converted to a
-     * {@code byte} value in exactly the manner used by the
-     * {@code parseByte} method for radix 10.
+     * Construdts b nfwly bllodbtfd {@dodf Bytf} objfdt tibt
+     * rfprfsfnts tif {@dodf bytf} vbluf indidbtfd by tif
+     * {@dodf String} pbrbmftfr. Tif string is donvfrtfd to b
+     * {@dodf bytf} vbluf in fxbdtly tif mbnnfr usfd by tif
+     * {@dodf pbrsfBytf} mftiod for rbdix 10.
      *
-     * @param s         the {@code String} to be converted to a
-     *                  {@code Byte}
-     * @throws           NumberFormatException If the {@code String}
-     *                  does not contain a parsable {@code byte}.
-     * @see        java.lang.Byte#parseByte(java.lang.String, int)
+     * @pbrbm s         tif {@dodf String} to bf donvfrtfd to b
+     *                  {@dodf Bytf}
+     * @tirows           NumbfrFormbtExdfption If tif {@dodf String}
+     *                  dofs not dontbin b pbrsbblf {@dodf bytf}.
+     * @sff        jbvb.lbng.Bytf#pbrsfBytf(jbvb.lbng.String, int)
      */
-    public Byte(String s) throws NumberFormatException {
-        this.value = parseByte(s, 10);
+    publid Bytf(String s) tirows NumbfrFormbtExdfption {
+        tiis.vbluf = pbrsfBytf(s, 10);
     }
 
     /**
-     * Returns the value of this {@code Byte} as a
-     * {@code byte}.
+     * Rfturns tif vbluf of tiis {@dodf Bytf} bs b
+     * {@dodf bytf}.
      */
-    public byte byteValue() {
-        return value;
+    publid bytf bytfVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Returns the value of this {@code Byte} as a {@code short} after
-     * a widening primitive conversion.
-     * @jls 5.1.2 Widening Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf Bytf} bs b {@dodf siort} bftfr
+     * b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public short shortValue() {
-        return (short)value;
+    publid siort siortVbluf() {
+        rfturn (siort)vbluf;
     }
 
     /**
-     * Returns the value of this {@code Byte} as an {@code int} after
-     * a widening primitive conversion.
-     * @jls 5.1.2 Widening Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf Bytf} bs bn {@dodf int} bftfr
+     * b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public int intValue() {
-        return (int)value;
+    publid int intVbluf() {
+        rfturn (int)vbluf;
     }
 
     /**
-     * Returns the value of this {@code Byte} as a {@code long} after
-     * a widening primitive conversion.
-     * @jls 5.1.2 Widening Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf Bytf} bs b {@dodf long} bftfr
+     * b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public long longValue() {
-        return (long)value;
+    publid long longVbluf() {
+        rfturn (long)vbluf;
     }
 
     /**
-     * Returns the value of this {@code Byte} as a {@code float} after
-     * a widening primitive conversion.
-     * @jls 5.1.2 Widening Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf Bytf} bs b {@dodf flobt} bftfr
+     * b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public float floatValue() {
-        return (float)value;
+    publid flobt flobtVbluf() {
+        rfturn (flobt)vbluf;
     }
 
     /**
-     * Returns the value of this {@code Byte} as a {@code double}
-     * after a widening primitive conversion.
-     * @jls 5.1.2 Widening Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf Bytf} bs b {@dodf doublf}
+     * bftfr b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public double doubleValue() {
-        return (double)value;
+    publid doublf doublfVbluf() {
+        rfturn (doublf)vbluf;
     }
 
     /**
-     * Returns a {@code String} object representing this
-     * {@code Byte}'s value.  The value is converted to signed
-     * decimal representation and returned as a string, exactly as if
-     * the {@code byte} value were given as an argument to the
-     * {@link java.lang.Byte#toString(byte)} method.
+     * Rfturns b {@dodf String} objfdt rfprfsfnting tiis
+     * {@dodf Bytf}'s vbluf.  Tif vbluf is donvfrtfd to signfd
+     * dfdimbl rfprfsfntbtion bnd rfturnfd bs b string, fxbdtly bs if
+     * tif {@dodf bytf} vbluf wfrf givfn bs bn brgumfnt to tif
+     * {@link jbvb.lbng.Bytf#toString(bytf)} mftiod.
      *
-     * @return  a string representation of the value of this object in
-     *          base&nbsp;10.
+     * @rfturn  b string rfprfsfntbtion of tif vbluf of tiis objfdt in
+     *          bbsf&nbsp;10.
      */
-    public String toString() {
-        return Integer.toString((int)value);
+    publid String toString() {
+        rfturn Intfgfr.toString((int)vbluf);
     }
 
     /**
-     * Returns a hash code for this {@code Byte}; equal to the result
-     * of invoking {@code intValue()}.
+     * Rfturns b ibsi dodf for tiis {@dodf Bytf}; fqubl to tif rfsult
+     * of invoking {@dodf intVbluf()}.
      *
-     * @return a hash code value for this {@code Byte}
+     * @rfturn b ibsi dodf vbluf for tiis {@dodf Bytf}
      */
-    @Override
-    public int hashCode() {
-        return Byte.hashCode(value);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Bytf.ibsiCodf(vbluf);
     }
 
     /**
-     * Returns a hash code for a {@code byte} value; compatible with
-     * {@code Byte.hashCode()}.
+     * Rfturns b ibsi dodf for b {@dodf bytf} vbluf; dompbtiblf witi
+     * {@dodf Bytf.ibsiCodf()}.
      *
-     * @param value the value to hash
-     * @return a hash code value for a {@code byte} value.
-     * @since 1.8
+     * @pbrbm vbluf tif vbluf to ibsi
+     * @rfturn b ibsi dodf vbluf for b {@dodf bytf} vbluf.
+     * @sindf 1.8
      */
-    public static int hashCode(byte value) {
-        return (int)value;
+    publid stbtid int ibsiCodf(bytf vbluf) {
+        rfturn (int)vbluf;
     }
 
     /**
-     * Compares this object to the specified object.  The result is
-     * {@code true} if and only if the argument is not
-     * {@code null} and is a {@code Byte} object that
-     * contains the same {@code byte} value as this object.
+     * Compbrfs tiis objfdt to tif spfdififd objfdt.  Tif rfsult is
+     * {@dodf truf} if bnd only if tif brgumfnt is not
+     * {@dodf null} bnd is b {@dodf Bytf} objfdt tibt
+     * dontbins tif sbmf {@dodf bytf} vbluf bs tiis objfdt.
      *
-     * @param obj       the object to compare with
-     * @return          {@code true} if the objects are the same;
-     *                  {@code false} otherwise.
+     * @pbrbm obj       tif objfdt to dompbrf witi
+     * @rfturn          {@dodf truf} if tif objfdts brf tif sbmf;
+     *                  {@dodf fblsf} otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Byte) {
-            return value == ((Byte)obj).byteValue();
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Bytf) {
+            rfturn vbluf == ((Bytf)obj).bytfVbluf();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Compares two {@code Byte} objects numerically.
+     * Compbrfs two {@dodf Bytf} objfdts numfridblly.
      *
-     * @param   anotherByte   the {@code Byte} to be compared.
-     * @return  the value {@code 0} if this {@code Byte} is
-     *          equal to the argument {@code Byte}; a value less than
-     *          {@code 0} if this {@code Byte} is numerically less
-     *          than the argument {@code Byte}; and a value greater than
-     *           {@code 0} if this {@code Byte} is numerically
-     *           greater than the argument {@code Byte} (signed
-     *           comparison).
-     * @since   1.2
+     * @pbrbm   bnotifrBytf   tif {@dodf Bytf} to bf dompbrfd.
+     * @rfturn  tif vbluf {@dodf 0} if tiis {@dodf Bytf} is
+     *          fqubl to tif brgumfnt {@dodf Bytf}; b vbluf lfss tibn
+     *          {@dodf 0} if tiis {@dodf Bytf} is numfridblly lfss
+     *          tibn tif brgumfnt {@dodf Bytf}; bnd b vbluf grfbtfr tibn
+     *           {@dodf 0} if tiis {@dodf Bytf} is numfridblly
+     *           grfbtfr tibn tif brgumfnt {@dodf Bytf} (signfd
+     *           dompbrison).
+     * @sindf   1.2
      */
-    public int compareTo(Byte anotherByte) {
-        return compare(this.value, anotherByte.value);
+    publid int dompbrfTo(Bytf bnotifrBytf) {
+        rfturn dompbrf(tiis.vbluf, bnotifrBytf.vbluf);
     }
 
     /**
-     * Compares two {@code byte} values numerically.
-     * The value returned is identical to what would be returned by:
-     * <pre>
-     *    Byte.valueOf(x).compareTo(Byte.valueOf(y))
-     * </pre>
+     * Compbrfs two {@dodf bytf} vblufs numfridblly.
+     * Tif vbluf rfturnfd is idfntidbl to wibt would bf rfturnfd by:
+     * <prf>
+     *    Bytf.vblufOf(x).dompbrfTo(Bytf.vblufOf(y))
+     * </prf>
      *
-     * @param  x the first {@code byte} to compare
-     * @param  y the second {@code byte} to compare
-     * @return the value {@code 0} if {@code x == y};
-     *         a value less than {@code 0} if {@code x < y}; and
-     *         a value greater than {@code 0} if {@code x > y}
-     * @since 1.7
+     * @pbrbm  x tif first {@dodf bytf} to dompbrf
+     * @pbrbm  y tif sfdond {@dodf bytf} to dompbrf
+     * @rfturn tif vbluf {@dodf 0} if {@dodf x == y};
+     *         b vbluf lfss tibn {@dodf 0} if {@dodf x < y}; bnd
+     *         b vbluf grfbtfr tibn {@dodf 0} if {@dodf x > y}
+     * @sindf 1.7
      */
-    public static int compare(byte x, byte y) {
-        return x - y;
+    publid stbtid int dompbrf(bytf x, bytf y) {
+        rfturn x - y;
     }
 
     /**
-     * Converts the argument to an {@code int} by an unsigned
-     * conversion.  In an unsigned conversion to an {@code int}, the
-     * high-order 24 bits of the {@code int} are zero and the
-     * low-order 8 bits are equal to the bits of the {@code byte} argument.
+     * Convfrts tif brgumfnt to bn {@dodf int} by bn unsignfd
+     * donvfrsion.  In bn unsignfd donvfrsion to bn {@dodf int}, tif
+     * iigi-ordfr 24 bits of tif {@dodf int} brf zfro bnd tif
+     * low-ordfr 8 bits brf fqubl to tif bits of tif {@dodf bytf} brgumfnt.
      *
-     * Consequently, zero and positive {@code byte} values are mapped
-     * to a numerically equal {@code int} value and negative {@code
-     * byte} values are mapped to an {@code int} value equal to the
+     * Consfqufntly, zfro bnd positivf {@dodf bytf} vblufs brf mbppfd
+     * to b numfridblly fqubl {@dodf int} vbluf bnd nfgbtivf {@dodf
+     * bytf} vblufs brf mbppfd to bn {@dodf int} vbluf fqubl to tif
      * input plus 2<sup>8</sup>.
      *
-     * @param  x the value to convert to an unsigned {@code int}
-     * @return the argument converted to {@code int} by an unsigned
-     *         conversion
-     * @since 1.8
+     * @pbrbm  x tif vbluf to donvfrt to bn unsignfd {@dodf int}
+     * @rfturn tif brgumfnt donvfrtfd to {@dodf int} by bn unsignfd
+     *         donvfrsion
+     * @sindf 1.8
      */
-    public static int toUnsignedInt(byte x) {
-        return ((int) x) & 0xff;
+    publid stbtid int toUnsignfdInt(bytf x) {
+        rfturn ((int) x) & 0xff;
     }
 
     /**
-     * Converts the argument to a {@code long} by an unsigned
-     * conversion.  In an unsigned conversion to a {@code long}, the
-     * high-order 56 bits of the {@code long} are zero and the
-     * low-order 8 bits are equal to the bits of the {@code byte} argument.
+     * Convfrts tif brgumfnt to b {@dodf long} by bn unsignfd
+     * donvfrsion.  In bn unsignfd donvfrsion to b {@dodf long}, tif
+     * iigi-ordfr 56 bits of tif {@dodf long} brf zfro bnd tif
+     * low-ordfr 8 bits brf fqubl to tif bits of tif {@dodf bytf} brgumfnt.
      *
-     * Consequently, zero and positive {@code byte} values are mapped
-     * to a numerically equal {@code long} value and negative {@code
-     * byte} values are mapped to a {@code long} value equal to the
+     * Consfqufntly, zfro bnd positivf {@dodf bytf} vblufs brf mbppfd
+     * to b numfridblly fqubl {@dodf long} vbluf bnd nfgbtivf {@dodf
+     * bytf} vblufs brf mbppfd to b {@dodf long} vbluf fqubl to tif
      * input plus 2<sup>8</sup>.
      *
-     * @param  x the value to convert to an unsigned {@code long}
-     * @return the argument converted to {@code long} by an unsigned
-     *         conversion
-     * @since 1.8
+     * @pbrbm  x tif vbluf to donvfrt to bn unsignfd {@dodf long}
+     * @rfturn tif brgumfnt donvfrtfd to {@dodf long} by bn unsignfd
+     *         donvfrsion
+     * @sindf 1.8
      */
-    public static long toUnsignedLong(byte x) {
-        return ((long) x) & 0xffL;
+    publid stbtid long toUnsignfdLong(bytf x) {
+        rfturn ((long) x) & 0xffL;
     }
 
 
     /**
-     * The number of bits used to represent a {@code byte} value in two's
-     * complement binary form.
+     * Tif numbfr of bits usfd to rfprfsfnt b {@dodf bytf} vbluf in two's
+     * domplfmfnt binbry form.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final int SIZE = 8;
+    publid stbtid finbl int SIZE = 8;
 
     /**
-     * The number of bytes used to represent a {@code byte} value in two's
-     * complement binary form.
+     * Tif numbfr of bytfs usfd to rfprfsfnt b {@dodf bytf} vbluf in two's
+     * domplfmfnt binbry form.
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public static final int BYTES = SIZE / Byte.SIZE;
+    publid stbtid finbl int BYTES = SIZE / Bytf.SIZE;
 
-    /** use serialVersionUID from JDK 1.1. for interoperability */
-    private static final long serialVersionUID = -7183698231559129828L;
+    /** usf sfriblVfrsionUID from JDK 1.1. for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7183698231559129828L;
 }

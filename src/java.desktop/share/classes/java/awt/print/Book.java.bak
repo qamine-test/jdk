@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.print;
+pbdkbgf jbvb.bwt.print;
 
-import java.util.Vector;
+import jbvb.util.Vfdtor;
 
 /**
- * The <code>Book</code> class provides a representation of a document in
- * which pages may have different page formats and page painters. This
- * class uses the {@link Pageable} interface to interact with a
- * {@link PrinterJob}.
- * @see Pageable
- * @see PrinterJob
+ * Tif <dodf>Book</dodf> dlbss providfs b rfprfsfntbtion of b dodumfnt in
+ * wiidi pbgfs mby ibvf difffrfnt pbgf formbts bnd pbgf pbintfrs. Tiis
+ * dlbss usfs tif {@link Pbgfbblf} intfrfbdf to intfrbdt witi b
+ * {@link PrintfrJob}.
+ * @sff Pbgfbblf
+ * @sff PrintfrJob
 */
 
-public class Book implements Pageable {
+publid dlbss Book implfmfnts Pbgfbblf {
 
- /* Class Constants */
+ /* Clbss Constbnts */
 
- /* Class Variables */
+ /* Clbss Vbribblfs */
 
- /* Instance Variables */
-
-    /**
-     * The set of pages that make up the Book.
-     */
-    private Vector<BookPage> mPages;
-
- /* Instance Methods */
+ /* Instbndf Vbribblfs */
 
     /**
-     *  Creates a new, empty <code>Book</code>.
+     * Tif sft of pbgfs tibt mbkf up tif Book.
      */
-    public Book() {
-        mPages = new Vector<>();
+    privbtf Vfdtor<BookPbgf> mPbgfs;
+
+ /* Instbndf Mftiods */
+
+    /**
+     *  Crfbtfs b nfw, fmpty <dodf>Book</dodf>.
+     */
+    publid Book() {
+        mPbgfs = nfw Vfdtor<>();
     }
 
     /**
-     * Returns the number of pages in this <code>Book</code>.
-     * @return the number of pages this <code>Book</code> contains.
+     * Rfturns tif numbfr of pbgfs in tiis <dodf>Book</dodf>.
+     * @rfturn tif numbfr of pbgfs tiis <dodf>Book</dodf> dontbins.
      */
-    public int getNumberOfPages(){
-        return mPages.size();
+    publid int gftNumbfrOfPbgfs(){
+        rfturn mPbgfs.sizf();
     }
 
     /**
-     * Returns the {@link PageFormat} of the page specified by
-     * <code>pageIndex</code>.
-     * @param pageIndex the zero based index of the page whose
-     *            <code>PageFormat</code> is being requested
-     * @return the <code>PageFormat</code> describing the size and
-     *          orientation of the page.
-     * @throws IndexOutOfBoundsException if the <code>Pageable</code>
-     *          does not contain the requested page
+     * Rfturns tif {@link PbgfFormbt} of tif pbgf spfdififd by
+     * <dodf>pbgfIndfx</dodf>.
+     * @pbrbm pbgfIndfx tif zfro bbsfd indfx of tif pbgf wiosf
+     *            <dodf>PbgfFormbt</dodf> is bfing rfqufstfd
+     * @rfturn tif <dodf>PbgfFormbt</dodf> dfsdribing tif sizf bnd
+     *          orifntbtion of tif pbgf.
+     * @tirows IndfxOutOfBoundsExdfption if tif <dodf>Pbgfbblf</dodf>
+     *          dofs not dontbin tif rfqufstfd pbgf
      */
-    public PageFormat getPageFormat(int pageIndex)
-        throws IndexOutOfBoundsException
+    publid PbgfFormbt gftPbgfFormbt(int pbgfIndfx)
+        tirows IndfxOutOfBoundsExdfption
     {
-        return getPage(pageIndex).getPageFormat();
+        rfturn gftPbgf(pbgfIndfx).gftPbgfFormbt();
     }
 
     /**
-     * Returns the {@link Printable} instance responsible for rendering
-     * the page specified by <code>pageIndex</code>.
-     * @param pageIndex the zero based index of the page whose
-     *                  <code>Printable</code> is being requested
-     * @return the <code>Printable</code> that renders the page.
-     * @throws IndexOutOfBoundsException if the <code>Pageable</code>
-     *            does not contain the requested page
+     * Rfturns tif {@link Printbblf} instbndf rfsponsiblf for rfndfring
+     * tif pbgf spfdififd by <dodf>pbgfIndfx</dodf>.
+     * @pbrbm pbgfIndfx tif zfro bbsfd indfx of tif pbgf wiosf
+     *                  <dodf>Printbblf</dodf> is bfing rfqufstfd
+     * @rfturn tif <dodf>Printbblf</dodf> tibt rfndfrs tif pbgf.
+     * @tirows IndfxOutOfBoundsExdfption if tif <dodf>Pbgfbblf</dodf>
+     *            dofs not dontbin tif rfqufstfd pbgf
      */
-    public Printable getPrintable(int pageIndex)
-        throws IndexOutOfBoundsException
+    publid Printbblf gftPrintbblf(int pbgfIndfx)
+        tirows IndfxOutOfBoundsExdfption
     {
-        return getPage(pageIndex).getPrintable();
+        rfturn gftPbgf(pbgfIndfx).gftPrintbblf();
     }
 
     /**
-     * Sets the <code>PageFormat</code> and the <code>Painter</code> for a
-     * specified page number.
-     * @param pageIndex the zero based index of the page whose
-     *                  painter and format is altered
-     * @param painter   the <code>Printable</code> instance that
-     *                  renders the page
-     * @param page      the size and orientation of the page
-     * @throws IndexOutOfBoundsException if the specified
-     *          page is not already in this <code>Book</code>
-     * @throws NullPointerException if the <code>painter</code> or
-     *          <code>page</code> argument is <code>null</code>
+     * Sfts tif <dodf>PbgfFormbt</dodf> bnd tif <dodf>Pbintfr</dodf> for b
+     * spfdififd pbgf numbfr.
+     * @pbrbm pbgfIndfx tif zfro bbsfd indfx of tif pbgf wiosf
+     *                  pbintfr bnd formbt is bltfrfd
+     * @pbrbm pbintfr   tif <dodf>Printbblf</dodf> instbndf tibt
+     *                  rfndfrs tif pbgf
+     * @pbrbm pbgf      tif sizf bnd orifntbtion of tif pbgf
+     * @tirows IndfxOutOfBoundsExdfption if tif spfdififd
+     *          pbgf is not blrfbdy in tiis <dodf>Book</dodf>
+     * @tirows NullPointfrExdfption if tif <dodf>pbintfr</dodf> or
+     *          <dodf>pbgf</dodf> brgumfnt is <dodf>null</dodf>
      */
-    public void setPage(int pageIndex, Printable painter, PageFormat page)
-        throws IndexOutOfBoundsException
+    publid void sftPbgf(int pbgfIndfx, Printbblf pbintfr, PbgfFormbt pbgf)
+        tirows IndfxOutOfBoundsExdfption
     {
-        if (painter == null) {
-            throw new NullPointerException("painter is null");
+        if (pbintfr == null) {
+            tirow nfw NullPointfrExdfption("pbintfr is null");
         }
 
-        if (page == null) {
-            throw new NullPointerException("page is null");
+        if (pbgf == null) {
+            tirow nfw NullPointfrExdfption("pbgf is null");
         }
 
-        mPages.setElementAt(new BookPage(painter, page), pageIndex);
+        mPbgfs.sftElfmfntAt(nfw BookPbgf(pbintfr, pbgf), pbgfIndfx);
     }
 
     /**
-     * Appends a single page to the end of this <code>Book</code>.
-     * @param painter   the <code>Printable</code> instance that
-     *                  renders the page
-     * @param page      the size and orientation of the page
-     * @throws NullPointerException
-     *          If the <code>painter</code> or <code>page</code>
-     *          argument is <code>null</code>
+     * Appfnds b singlf pbgf to tif fnd of tiis <dodf>Book</dodf>.
+     * @pbrbm pbintfr   tif <dodf>Printbblf</dodf> instbndf tibt
+     *                  rfndfrs tif pbgf
+     * @pbrbm pbgf      tif sizf bnd orifntbtion of tif pbgf
+     * @tirows NullPointfrExdfption
+     *          If tif <dodf>pbintfr</dodf> or <dodf>pbgf</dodf>
+     *          brgumfnt is <dodf>null</dodf>
      */
-    public void append(Printable painter, PageFormat page) {
-        mPages.addElement(new BookPage(painter, page));
+    publid void bppfnd(Printbblf pbintfr, PbgfFormbt pbgf) {
+        mPbgfs.bddElfmfnt(nfw BookPbgf(pbintfr, pbgf));
     }
 
     /**
-     * Appends <code>numPages</code> pages to the end of this
-     * <code>Book</code>.  Each of the pages is associated with
-     * <code>page</code>.
-     * @param painter   the <code>Printable</code> instance that renders
-     *                  the page
-     * @param page      the size and orientation of the page
-     * @param numPages  the number of pages to be added to the
-     *                  this <code>Book</code>.
-     * @throws NullPointerException
-     *          If the <code>painter</code> or <code>page</code>
-     *          argument is <code>null</code>
+     * Appfnds <dodf>numPbgfs</dodf> pbgfs to tif fnd of tiis
+     * <dodf>Book</dodf>.  Ebdi of tif pbgfs is bssodibtfd witi
+     * <dodf>pbgf</dodf>.
+     * @pbrbm pbintfr   tif <dodf>Printbblf</dodf> instbndf tibt rfndfrs
+     *                  tif pbgf
+     * @pbrbm pbgf      tif sizf bnd orifntbtion of tif pbgf
+     * @pbrbm numPbgfs  tif numbfr of pbgfs to bf bddfd to tif
+     *                  tiis <dodf>Book</dodf>.
+     * @tirows NullPointfrExdfption
+     *          If tif <dodf>pbintfr</dodf> or <dodf>pbgf</dodf>
+     *          brgumfnt is <dodf>null</dodf>
      */
-    public void append(Printable painter, PageFormat page, int numPages) {
-        BookPage bookPage = new BookPage(painter, page);
-        int pageIndex = mPages.size();
-        int newSize = pageIndex + numPages;
+    publid void bppfnd(Printbblf pbintfr, PbgfFormbt pbgf, int numPbgfs) {
+        BookPbgf bookPbgf = nfw BookPbgf(pbintfr, pbgf);
+        int pbgfIndfx = mPbgfs.sizf();
+        int nfwSizf = pbgfIndfx + numPbgfs;
 
-        mPages.setSize(newSize);
-        for(int i = pageIndex; i < newSize; i++){
-            mPages.setElementAt(bookPage, i);
+        mPbgfs.sftSizf(nfwSizf);
+        for(int i = pbgfIndfx; i < nfwSizf; i++){
+            mPbgfs.sftElfmfntAt(bookPbgf, i);
         }
     }
 
     /**
-     * Return the BookPage for the page specified by 'pageIndex'.
+     * Rfturn tif BookPbgf for tif pbgf spfdififd by 'pbgfIndfx'.
      */
-    private BookPage getPage(int pageIndex)
-        throws ArrayIndexOutOfBoundsException
+    privbtf BookPbgf gftPbgf(int pbgfIndfx)
+        tirows ArrbyIndfxOutOfBoundsExdfption
     {
-        return mPages.elementAt(pageIndex);
+        rfturn mPbgfs.flfmfntAt(pbgfIndfx);
     }
 
     /**
-     * The BookPage inner class describes an individual
-     * page in a Book through a PageFormat-Printable pair.
+     * Tif BookPbgf innfr dlbss dfsdribfs bn individubl
+     * pbgf in b Book tirougi b PbgfFormbt-Printbblf pbir.
      */
-    private class BookPage {
+    privbtf dlbss BookPbgf {
         /**
-         *  The size and orientation of the page.
+         *  Tif sizf bnd orifntbtion of tif pbgf.
          */
-        private PageFormat mFormat;
+        privbtf PbgfFormbt mFormbt;
 
         /**
-         * The instance that will draw the page.
+         * Tif instbndf tibt will drbw tif pbgf.
          */
-        private Printable mPainter;
+        privbtf Printbblf mPbintfr;
 
         /**
-         * A new instance where 'format' describes the page's
-         * size and orientation and 'painter' is the instance
-         * that will draw the page's graphics.
-         * @throws  NullPointerException
-         *          If the <code>painter</code> or <code>format</code>
-         *          argument is <code>null</code>
+         * A nfw instbndf wifrf 'formbt' dfsdribfs tif pbgf's
+         * sizf bnd orifntbtion bnd 'pbintfr' is tif instbndf
+         * tibt will drbw tif pbgf's grbpiids.
+         * @tirows  NullPointfrExdfption
+         *          If tif <dodf>pbintfr</dodf> or <dodf>formbt</dodf>
+         *          brgumfnt is <dodf>null</dodf>
          */
-        BookPage(Printable painter, PageFormat format) {
+        BookPbgf(Printbblf pbintfr, PbgfFormbt formbt) {
 
-            if (painter == null || format == null) {
-                throw new NullPointerException();
+            if (pbintfr == null || formbt == null) {
+                tirow nfw NullPointfrExdfption();
             }
 
-            mFormat = format;
-            mPainter = painter;
+            mFormbt = formbt;
+            mPbintfr = pbintfr;
         }
 
         /**
-         * Return the instance that paints the
-         * page.
+         * Rfturn tif instbndf tibt pbints tif
+         * pbgf.
          */
-        Printable getPrintable() {
-            return mPainter;
+        Printbblf gftPrintbblf() {
+            rfturn mPbintfr;
         }
 
         /**
-         * Return the format of the page.
+         * Rfturn tif formbt of tif pbgf.
          */
-        PageFormat getPageFormat() {
-            return mFormat;
+        PbgfFormbt gftPbgfFormbt() {
+            rfturn mFormbt;
         }
     }
 }

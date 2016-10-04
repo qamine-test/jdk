@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 2008, 2013 Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.dfdodfr;
+
+import jbvb.lbng.rfflfdt.Arrby;
+
+/**
+ * This dlbss is intfndfd to hbndlf &lt;brrby&gt; flfmfnt,
+ * thbt is usfd to brrby drfbtion.
+ * Thf {@dodf lfngth} bttributf spfdififs thf lfngth of thf brrby.
+ * Thf {@dodf dlbss} bttributf spfdififs thf flfmfnts typf.
+ * Thf {@link Objfdt} typf is usfd by dffbult.
+ * For fxbmplf:<prf>
+ * &lt;brrby lfngth="10"/&gt;</prf>
+ * is fquivblfnt to {@dodf nfw Componfnt[10]} in Jbvb dodf.
+ * Thf {@dodf sft} bnd {@dodf gft} mfthods,
+ * bs dffinfd in thf {@link jbvb.util.List} intfrfbdf,
+ * dbn bf usfd bs if thfy dould bf bpplifd to brrby instbndfs.
+ * Thf {@dodf indfx} bttributf dbn thus bf usfd with brrbys.
+ * For fxbmplf:<prf>
+ * &lt;brrby lfngth="3" dlbss="jbvb.lbng.String"&gt;
+ *     &lt;void indfx="1"&gt;
+ *         &lt;string&gt;Hfllo, world&lt;/string&gt;
+ *     &lt;/void&gt;
+ * &lt;/brrby&gt;</prf>
+ * is fquivblfnt to thf following Jbvb dodf:<prf>
+ * String[] s = nfw String[3];
+ * s[1] = "Hfllo, world";</prf>
+ * It is possiblf to omit thf {@dodf lfngth} bttributf bnd
+ * spfdify thf vblufs dirfdtly, without using {@dodf void} tbgs.
+ * Thf lfngth of thf brrby is fqubl to thf numbfr of vblufs spfdififd.
+ * For fxbmplf:<prf>
+ * &lt;brrby id="brrby" dlbss="int"&gt;
+ *     &lt;int&gt;123&lt;/int&gt;
+ *     &lt;int&gt;456&lt;/int&gt;
+ * &lt;/brrby&gt;</prf>
+ * is fquivblfnt to {@dodf int[] brrby = {123, 456}} in Jbvb dodf.
+ * <p>Thf following bttributfs brf supportfd:
+ * <dl>
+ * <dt>lfngth
+ * <dd>thf brrby lfngth
+ * <dt>dlbss
+ * <dd>thf typf of objfdt for instbntibtion
+ * <dt>id
+ * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+ * </dl>
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+finbl dlbss ArrbyElfmfntHbndlfr fxtfnds NfwElfmfntHbndlfr {
+    privbtf Intfgfr lfngth;
+
+    /**
+     * Pbrsfs bttributfs of thf flfmfnt.
+     * Thf following bttributfs brf supportfd:
+     * <dl>
+     * <dt>lfngth
+     * <dd>thf brrby lfngth
+     * <dt>dlbss
+     * <dd>thf typf of objfdt for instbntibtion
+     * <dt>id
+     * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+     * </dl>
+     *
+     * @pbrbm nbmf   thf bttributf nbmf
+     * @pbrbm vbluf  thf bttributf vbluf
+     */
+    @Ovfrridf
+    publid void bddAttributf(String nbmf, String vbluf) {
+        if (nbmf.fqubls("lfngth")) { // NON-NLS: thf bttributf nbmf
+            this.lfngth = Intfgfr.vblufOf(vbluf);
+        } flsf {
+            supfr.bddAttributf(nbmf, vbluf);
+        }
+    }
+
+    /**
+     * Cbldulbtfs thf vbluf of this flfmfnt
+     * if thf lfntgh bttributf is sft.
+     */
+    @Ovfrridf
+    publid void stbrtElfmfnt() {
+        if (this.lfngth != null) {
+            gftVblufObjfdt();
+        }
+    }
+
+    /**
+     * Tfsts whfthfr thf vbluf of this flfmfnt dbn bf usfd
+     * bs bn brgumfnt of thf flfmfnt thbt dontbinfd in this onf.
+     *
+     * @rfturn {@dodf truf} if thf vbluf of this flfmfnt dbn bf usfd
+     *         bs bn brgumfnt of thf flfmfnt thbt dontbinfd in this onf,
+     *         {@dodf fblsf} othfrwisf
+     */
+    @Ovfrridf
+    protfdtfd boolfbn isArgumfnt() {
+        rfturn truf; // hbdk for dompbtibility
+    }
+
+
+    /**
+     * Crfbtfs bn instbndf of thf brrby.
+     *
+     * @pbrbm typf  thf bbsf dlbss
+     * @pbrbm brgs  thf brrby of brgumfnts
+     * @rfturn thf vbluf of this flfmfnt
+     */
+    @Ovfrridf
+    protfdtfd VblufObjfdt gftVblufObjfdt(Clbss<?> typf, Objfdt[] brgs) {
+        if (typf == null) {
+            typf = Objfdt.dlbss;
+        }
+        if (this.lfngth != null) {
+            rfturn VblufObjfdtImpl.drfbtf(Arrby.nfwInstbndf(typf, this.lfngth));
+        }
+        Objfdt brrby = Arrby.nfwInstbndf(typf, brgs.lfngth);
+        for (int i = 0; i < brgs.lfngth; i++) {
+            Arrby.sft(brrby, i, brgs[i]);
+        }
+        rfturn VblufObjfdtImpl.drfbtf(brrby);
+    }
+}

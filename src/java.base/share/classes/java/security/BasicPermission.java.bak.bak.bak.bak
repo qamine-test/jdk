@@ -1,0 +1,554 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Collfdtions;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * Thf BbsidPfrmission dlbss fxtfnds thf Pfrmission dlbss, bnd
+ * dbn bf usfd bs thf bbsf dlbss for pfrmissions thbt wbnt to
+ * follow thf sbmf nbming donvfntion bs BbsidPfrmission.
+ * <P>
+ * Thf nbmf for b BbsidPfrmission is thf nbmf of thf givfn pfrmission
+ * (for fxbmplf, "fxit",
+ * "sftFbdtory", "print.qufufJob", ftd). Thf nbming
+ * donvfntion follows thf  hifrbrdhidbl propfrty nbming donvfntion.
+ * An bstfrisk mby bppfbr by itsflf, or if immfdibtfly prfdfdfd by b "."
+ * mby bppfbr bt thf fnd of thf nbmf, to signify b wilddbrd mbtdh.
+ * For fxbmplf, "*" bnd "jbvb.*" signify b wilddbrd mbtdh, whilf "*jbvb", "b*b",
+ * bnd "jbvb*" do not.
+ * <P>
+ * Thf bdtion string (inhfritfd from Pfrmission) is unusfd.
+ * Thus, BbsidPfrmission is dommonly usfd bs thf bbsf dlbss for
+ * "nbmfd" pfrmissions
+ * (onfs thbt dontbin b nbmf but no bdtions list; you fithfr hbvf thf
+ * nbmfd pfrmission or you don't.)
+ * Subdlbssfs mby implfmfnt bdtions on top of BbsidPfrmission,
+ * if dfsirfd.
+ * <p>
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
+ *
+ * @buthor Mbribnnf Mufllfr
+ * @buthor Rolbnd Sdhfmfrs
+ */
+
+publid bbstrbdt dlbss BbsidPfrmission fxtfnds Pfrmission
+    implfmfnts jbvb.io.Sfriblizbblf
+{
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6279438298436773498L;
+
+    // dofs this pfrmission hbvf b wilddbrd bt thf fnd?
+    privbtf trbnsifnt boolfbn wilddbrd;
+
+    // thf nbmf without thf wilddbrd on thf fnd
+    privbtf trbnsifnt String pbth;
+
+    // is this pfrmission thf old-stylf fxitVM pfrmission (prf JDK 1.6)?
+    privbtf trbnsifnt boolfbn fxitVM;
+
+    /**
+     * initiblizf b BbsidPfrmission objfdt. Common to bll donstrudtors.
+     */
+    privbtf void init(String nbmf) {
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption("nbmf dbn't bf null");
+
+        int lfn = nbmf.lfngth();
+
+        if (lfn == 0) {
+            throw nfw IllfgblArgumfntExdfption("nbmf dbn't bf fmpty");
+        }
+
+        dhbr lbst = nbmf.dhbrAt(lfn - 1);
+
+        // Is wilddbrd or fnds with ".*"?
+        if (lbst == '*' && (lfn == 1 || nbmf.dhbrAt(lfn - 2) == '.')) {
+            wilddbrd = truf;
+            if (lfn == 1) {
+                pbth = "";
+            } flsf {
+                pbth = nbmf.substring(0, lfn - 1);
+            }
+        } flsf {
+            if (nbmf.fqubls("fxitVM")) {
+                wilddbrd = truf;
+                pbth = "fxitVM.";
+                fxitVM = truf;
+            } flsf {
+                pbth = nbmf;
+            }
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw BbsidPfrmission with thf spfdififd nbmf.
+     * Nbmf is thf symbolid nbmf of thf pfrmission, sudh bs
+     * "sftFbdtory",
+     * "print.qufufJob", or "topLfvflWindow", ftd.
+     *
+     * @pbrbm nbmf thf nbmf of thf BbsidPfrmission.
+     *
+     * @throws NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
+     */
+    publid BbsidPfrmission(String nbmf) {
+        supfr(nbmf);
+        init(nbmf);
+    }
+
+
+    /**
+     * Crfbtfs b nfw BbsidPfrmission objfdt with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf BbsidPfrmission, bnd thf
+     * bdtions String is durrfntly unusfd.
+     *
+     * @pbrbm nbmf thf nbmf of thf BbsidPfrmission.
+     * @pbrbm bdtions ignorfd.
+     *
+     * @throws NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
+     */
+    publid BbsidPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf);
+        init(nbmf);
+    }
+
+    /**
+     * Chfdks if thf spfdififd pfrmission is "implifd" by
+     * this objfdt.
+     * <P>
+     * Morf spfdifidblly, this mfthod rfturns truf if:
+     * <ul>
+     * <li> <i>p</i>'s dlbss is thf sbmf bs this objfdt's dlbss, bnd
+     * <li> <i>p</i>'s nbmf fqubls or (in thf dbsf of wilddbrds)
+     *      is implifd by this objfdt's
+     *      nbmf. For fxbmplf, "b.b.*" implifs "b.b.d".
+     * </ul>
+     *
+     * @pbrbm p thf pfrmission to dhfdk bgbinst.
+     *
+     * @rfturn truf if thf pbssfd pfrmission is fqubl to or
+     * implifd by this pfrmission, fblsf othfrwisf.
+     */
+    publid boolfbn implifs(Pfrmission p) {
+        if ((p == null) || (p.gftClbss() != gftClbss()))
+            rfturn fblsf;
+
+        BbsidPfrmission thbt = (BbsidPfrmission) p;
+
+        if (this.wilddbrd) {
+            if (thbt.wilddbrd) {
+                // onf wilddbrd dbn imply bnothfr
+                rfturn thbt.pbth.stbrtsWith(pbth);
+            } flsf {
+                // mbkf surf bp.pbth is longfr so b.b.* dofsn't imply b.b
+                rfturn (thbt.pbth.lfngth() > this.pbth.lfngth()) &&
+                    thbt.pbth.stbrtsWith(this.pbth);
+            }
+        } flsf {
+            if (thbt.wilddbrd) {
+                // b non-wilddbrd dbn't imply b wilddbrd
+                rfturn fblsf;
+            }
+            flsf {
+                rfturn this.pbth.fqubls(thbt.pbth);
+            }
+        }
+    }
+
+    /**
+     * Chfdks two BbsidPfrmission objfdts for fqublity.
+     * Chfdks thbt <i>obj</i>'s dlbss is thf sbmf bs this objfdt's dlbss
+     * bnd hbs thf sbmf nbmf bs this objfdt.
+     * <P>
+     * @pbrbm obj thf objfdt wf brf tfsting for fqublity with this objfdt.
+     * @rfturn truf if <i>obj</i>'s dlbss is thf sbmf bs this objfdt's dlbss
+     *  bnd hbs thf sbmf nbmf bs this BbsidPfrmission objfdt, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this)
+            rfturn truf;
+
+        if ((obj == null) || (obj.gftClbss() != gftClbss()))
+            rfturn fblsf;
+
+        BbsidPfrmission bp = (BbsidPfrmission) obj;
+
+        rfturn gftNbmf().fqubls(bp.gftNbmf());
+    }
+
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt.
+     * Thf hbsh dodf usfd is thf hbsh dodf of thf nbmf, thbt is,
+     * {@dodf gftNbmf().hbshCodf()}, whfrf {@dodf gftNbmf} is
+     * from thf Pfrmission supfrdlbss.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn this.gftNbmf().hbshCodf();
+    }
+
+    /**
+     * Rfturns thf dbnonidbl string rfprfsfntbtion of thf bdtions,
+     * whidh durrfntly is thf fmpty string "", sindf thfrf brf no bdtions for
+     * b BbsidPfrmission.
+     *
+     * @rfturn thf fmpty string "".
+     */
+    publid String gftAdtions() {
+        rfturn "";
+    }
+
+    /**
+     * Rfturns b nfw PfrmissionCollfdtion objfdt for storing BbsidPfrmission
+     * objfdts.
+     *
+     * <p>BbsidPfrmission objfdts must bf storfd in b mbnnfr thbt bllows thfm
+     * to bf insfrtfd in bny ordfr, but thbt blso fnbblfs thf
+     * PfrmissionCollfdtion {@dodf implifs} mfthod
+     * to bf implfmfntfd in bn fffidifnt (bnd donsistfnt) mbnnfr.
+     *
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for
+     * storing BbsidPfrmissions.
+     */
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw BbsidPfrmissionCollfdtion(this.gftClbss());
+    }
+
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of thf BbsidPfrmission from
+     * b strfbm.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+         throws IOExdfption, ClbssNotFoundExdfption
+    {
+        s.dffbultRfbdObjfdt();
+        // init is dbllfd to initiblizf thf rfst of thf vblufs.
+        init(gftNbmf());
+    }
+
+    /**
+     * Rfturns thf dbnonidbl nbmf of this BbsidPfrmission.
+     * All intfrnbl invodbtions of gftNbmf should invokf this mfthod, so
+     * thbt thf prf-JDK 1.6 "fxitVM" bnd durrfnt "fxitVM.*" pfrmission brf
+     * fquivblfnt in fqubls/hbshCodf mfthods.
+     *
+     * @rfturn thf dbnonidbl nbmf of this BbsidPfrmission.
+     */
+    finbl String gftCbnonidblNbmf() {
+        rfturn fxitVM ? "fxitVM.*" : gftNbmf();
+    }
+}
+
+/**
+ * A BbsidPfrmissionCollfdtion storfs b dollfdtion
+ * of BbsidPfrmission pfrmissions. BbsidPfrmission objfdts
+ * must bf storfd in b mbnnfr thbt bllows thfm to bf insfrtfd in bny
+ * ordfr, but fnbblf thf implifs fundtion to fvblubtf thf implifs
+ * mfthod in bn fffidifnt (bnd donsistfnt) mbnnfr.
+ *
+ * A BbsidPfrmissionCollfdtion hbndlfs dompbring b pfrmission likf "b.b.d.d.f"
+ * with b Pfrmission sudh bs "b.b.*", or "*".
+ *
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ *
+ *
+ * @buthor Rolbnd Sdhfmfrs
+ *
+ * @sfribl indludf
+ */
+
+finbl dlbss BbsidPfrmissionCollfdtion
+    fxtfnds PfrmissionCollfdtion
+    implfmfnts jbvb.io.Sfriblizbblf
+{
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 739301742472979399L;
+
+    /**
+      * Kfy is nbmf, vbluf is pfrmission. All pfrmission objfdts in
+      * dollfdtion must bf of thf sbmf typf.
+      * Not sfriblizfd; sff sfriblizbtion sfdtion bt fnd of dlbss.
+      */
+    privbtf trbnsifnt Mbp<String, Pfrmission> pfrms;
+
+    /**
+     * This is sft to {@dodf truf} if this BbsidPfrmissionCollfdtion
+     * dontbins b BbsidPfrmission with '*' bs its pfrmission nbmf.
+     *
+     * @sff #sfriblPfrsistfntFiflds
+     */
+    privbtf boolfbn bll_bllowfd;
+
+    /**
+     * Thf dlbss to whidh bll BbsidPfrmissions in this
+     * BbsidPfrmissionCollfdtion bflongs.
+     *
+     * @sff #sfriblPfrsistfntFiflds
+     */
+    privbtf Clbss<?> pfrmClbss;
+
+    /**
+     * Crfbtf bn fmpty BbsidPfrmissionCollfdtion objfdt.
+     *
+     */
+
+    publid BbsidPfrmissionCollfdtion(Clbss<?> dlbzz) {
+        pfrms = nfw HbshMbp<String, Pfrmission>(11);
+        bll_bllowfd = fblsf;
+        pfrmClbss = dlbzz;
+    }
+
+    /**
+     * Adds b pfrmission to thf BbsidPfrmissions. Thf kfy for thf hbsh is
+     * pfrmission.pbth.
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to bdd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption - if thf pfrmission is not b
+     *                                       BbsidPfrmission, or if
+     *                                       thf pfrmission is not of thf
+     *                                       sbmf Clbss bs thf othfr
+     *                                       pfrmissions in this dollfdtion.
+     *
+     * @fxdfption SfdurityExdfption - if this BbsidPfrmissionCollfdtion objfdt
+     *                                hbs bffn mbrkfd rfbdonly
+     */
+    publid void bdd(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof BbsidPfrmission))
+            throw nfw IllfgblArgumfntExdfption("invblid pfrmission: "+
+                                               pfrmission);
+        if (isRfbdOnly())
+            throw nfw SfdurityExdfption("bttfmpt to bdd b Pfrmission to b rfbdonly PfrmissionCollfdtion");
+
+        BbsidPfrmission bp = (BbsidPfrmission) pfrmission;
+
+        // mbkf surf wf only bdd nfw BbsidPfrmissions of thf sbmf dlbss
+        // Also dhfdk null for dompbtibility with dfsfriblizfd form from
+        // prfvious vfrsions.
+        if (pfrmClbss == null) {
+            // bdding first pfrmission
+            pfrmClbss = bp.gftClbss();
+        } flsf {
+            if (bp.gftClbss() != pfrmClbss)
+                throw nfw IllfgblArgumfntExdfption("invblid pfrmission: " +
+                                                pfrmission);
+        }
+
+        syndhronizfd (this) {
+            pfrms.put(bp.gftCbnonidblNbmf(), pfrmission);
+        }
+
+        // No synd on bll_bllowfd; stblfnfss OK
+        if (!bll_bllowfd) {
+            if (bp.gftCbnonidblNbmf().fqubls("*"))
+                bll_bllowfd = truf;
+        }
+    }
+
+    /**
+     * Chfdk bnd sff if this sft of pfrmissions implifs thf pfrmissions
+     * fxprfssfd in "pfrmission".
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to dompbrf
+     *
+     * @rfturn truf if "pfrmission" is b propfr subsft of b pfrmission in
+     * thf sft, fblsf if not.
+     */
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof BbsidPfrmission))
+            rfturn fblsf;
+
+        BbsidPfrmission bp = (BbsidPfrmission) pfrmission;
+
+        // rbndom subdlbssfs of BbsidPfrmission do not imply fbdh othfr
+        if (bp.gftClbss() != pfrmClbss)
+            rfturn fblsf;
+
+        // short dirduit if thf "*" Pfrmission wbs bddfd
+        if (bll_bllowfd)
+            rfturn truf;
+
+        // strbtfgy:
+        // Chfdk for full mbtdh first. Thfn work our wby up thf
+        // pbth looking for mbtdhfs on b.b..*
+
+        String pbth = bp.gftCbnonidblNbmf();
+        //Systfm.out.println("dhfdk "+pbth);
+
+        Pfrmission x;
+
+        syndhronizfd (this) {
+            x = pfrms.gft(pbth);
+        }
+
+        if (x != null) {
+            // wf hbvf b dirfdt hit!
+            rfturn x.implifs(pfrmission);
+        }
+
+        // work our wby up thf trff...
+        int lbst, offsft;
+
+        offsft = pbth.lfngth()-1;
+
+        whilf ((lbst = pbth.lbstIndfxOf('.', offsft)) != -1) {
+
+            pbth = pbth.substring(0, lbst+1) + "*";
+            //Systfm.out.println("dhfdk "+pbth);
+
+            syndhronizfd (this) {
+                x = pfrms.gft(pbth);
+            }
+
+            if (x != null) {
+                rfturn x.implifs(pfrmission);
+            }
+            offsft = lbst -1;
+        }
+
+        // wf don't hbvf to dhfdk for "*" bs it wbs blrfbdy dhfdkfd
+        // bt thf top (bll_bllowfd), so wf just rfturn fblsf
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of bll thf BbsidPfrmission objfdts in thf
+     * dontbinfr.
+     *
+     * @rfturn bn fnumfrbtion of bll thf BbsidPfrmission objfdts.
+     */
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        // Convfrt Itfrbtor of Mbp vblufs into bn Enumfrbtion
+        syndhronizfd (this) {
+            rfturn Collfdtions.fnumfrbtion(pfrms.vblufs());
+        }
+    }
+
+    // Nffd to mbintbin sfriblizbtion intfropfrbbility with fbrlifr rflfbsfs,
+    // whidh hbd thf sfriblizbblf fifld:
+    //
+    // @sfribl thf Hbshtbblf is indfxfd by thf BbsidPfrmission nbmf
+    //
+    // privbtf Hbshtbblf pfrmissions;
+    /**
+     * @sfriblFifld pfrmissions jbvb.util.Hbshtbblf
+     *    Thf BbsidPfrmissions in this BbsidPfrmissionCollfdtion.
+     *    All BbsidPfrmissions in thf dollfdtion must bflong to thf sbmf dlbss.
+     *    Thf Hbshtbblf is indfxfd by thf BbsidPfrmission nbmf; thf vbluf
+     *    of thf Hbshtbblf fntry is thf pfrmission.
+     * @sfriblFifld bll_bllowfd boolfbn
+     *   This is sft to {@dodf truf} if this BbsidPfrmissionCollfdtion
+     *   dontbins b BbsidPfrmission with '*' bs its pfrmission nbmf.
+     * @sfriblFifld pfrmClbss jbvb.lbng.Clbss
+     *   Thf dlbss to whidh bll BbsidPfrmissions in this
+     *   BbsidPfrmissionCollfdtion bflongs.
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("pfrmissions", Hbshtbblf.dlbss),
+        nfw ObjfdtStrfbmFifld("bll_bllowfd", Boolfbn.TYPE),
+        nfw ObjfdtStrfbmFifld("pfrmClbss", Clbss.dlbss),
+    };
+
+    /**
+     * @sfriblDbtb Dffbult fiflds.
+     */
+    /*
+     * Writfs thf dontfnts of thf pfrms fifld out bs b Hbshtbblf for
+     * sfriblizbtion dompbtibility with fbrlifr rflfbsfs. bll_bllowfd
+     * bnd pfrmClbss undhbngfd.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) throws IOExdfption {
+        // Don't dbll out.dffbultWritfObjfdt()
+
+        // Copy pfrms into b Hbshtbblf
+        Hbshtbblf<String, Pfrmission> pfrmissions =
+                nfw Hbshtbblf<>(pfrms.sizf()*2);
+
+        syndhronizfd (this) {
+            pfrmissions.putAll(pfrms);
+        }
+
+        // Writf out sfriblizbblf fiflds
+        ObjfdtOutputStrfbm.PutFifld pfiflds = out.putFiflds();
+        pfiflds.put("bll_bllowfd", bll_bllowfd);
+        pfiflds.put("pfrmissions", pfrmissions);
+        pfiflds.put("pfrmClbss", pfrmClbss);
+        out.writfFiflds();
+    }
+
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of thf
+     * BbsidPfrmissionCollfdtion from b strfbm.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+         throws IOExdfption, ClbssNotFoundExdfption
+    {
+        // Don't dbll dffbultRfbdObjfdt()
+
+        // Rfbd in sfriblizfd fiflds
+        ObjfdtInputStrfbm.GftFifld gfiflds = in.rfbdFiflds();
+
+        // Gft pfrmissions
+        // writfObjfdt writfs b Hbshtbblf<String, Pfrmission> for thf
+        // pfrmissions kfy, so this dbst is sbff, unlfss thf dbtb is dorrupt.
+        @SupprfssWbrnings("undhfdkfd")
+        Hbshtbblf<String, Pfrmission> pfrmissions =
+                (Hbshtbblf<String, Pfrmission>)gfiflds.gft("pfrmissions", null);
+        pfrms = nfw HbshMbp<String, Pfrmission>(pfrmissions.sizf()*2);
+        pfrms.putAll(pfrmissions);
+
+        // Gft bll_bllowfd
+        bll_bllowfd = gfiflds.gft("bll_bllowfd", fblsf);
+
+        // Gft pfrmClbss
+        pfrmClbss = (Clbss<?>) gfiflds.gft("pfrmClbss", null);
+
+        if (pfrmClbss == null) {
+            // sft pfrmClbss
+            Enumfrbtion<Pfrmission> f = pfrmissions.flfmfnts();
+            if (f.hbsMorfElfmfnts()) {
+                Pfrmission p = f.nfxtElfmfnt();
+                pfrmClbss = p.gftClbss();
+            }
+        }
+    }
+}

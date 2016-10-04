@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.finder;
+pbdkbgf dom.sun.bfbns.findfr;
 
 /**
- * This class is designed to be a key of a cache
- * of constructors or methods.
+ * Tiis dlbss is dfsignfd to bf b kfy of b dbdif
+ * of donstrudtors or mftiods.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-final class Signature {
-    private final Class<?> type;
-    private final String name;
-    private final Class<?>[] args;
+finbl dlbss Signbturf {
+    privbtf finbl Clbss<?> typf;
+    privbtf finbl String nbmf;
+    privbtf finbl Clbss<?>[] brgs;
 
-    private volatile int code;
-
-    /**
-     * Constructs signature for constructor.
-     *
-     * @param type  the class that contains constructor
-     * @param args  the types of constructor's parameters
-     */
-    Signature(Class<?> type, Class<?>[] args) {
-        this(type, null, args);
-    }
+    privbtf volbtilf int dodf;
 
     /**
-     * Constructs signature for method.
+     * Construdts signbturf for donstrudtor.
      *
-     * @param type  the class that contains method
-     * @param name  the name of the method
-     * @param args  the types of method's parameters
+     * @pbrbm typf  tif dlbss tibt dontbins donstrudtor
+     * @pbrbm brgs  tif typfs of donstrudtor's pbrbmftfrs
      */
-    Signature(Class<?> type, String name, Class<?>[] args) {
-        this.type = type;
-        this.name = name;
-        this.args = args;
-    }
-
-    Class<?> getType() {
-        return this.type;
-    }
-
-    String getName() {
-        return this.name;
-    }
-
-    Class<?>[] getArgs() {
-        return this.args;
+    Signbturf(Clbss<?> typf, Clbss<?>[] brgs) {
+        tiis(typf, null, brgs);
     }
 
     /**
-     * Indicates whether some other object is "equal to" this one.
+     * Construdts signbturf for mftiod.
      *
-     * @param object  the reference object with which to compare
-     * @return {@code true} if this object is the same as the
-     *         {@code object} argument, {@code false} otherwise
-     * @see #hashCode()
+     * @pbrbm typf  tif dlbss tibt dontbins mftiod
+     * @pbrbm nbmf  tif nbmf of tif mftiod
+     * @pbrbm brgs  tif typfs of mftiod's pbrbmftfrs
      */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
+    Signbturf(Clbss<?> typf, String nbmf, Clbss<?>[] brgs) {
+        tiis.typf = typf;
+        tiis.nbmf = nbmf;
+        tiis.brgs = brgs;
+    }
+
+    Clbss<?> gftTypf() {
+        rfturn tiis.typf;
+    }
+
+    String gftNbmf() {
+        rfturn tiis.nbmf;
+    }
+
+    Clbss<?>[] gftArgs() {
+        rfturn tiis.brgs;
+    }
+
+    /**
+     * Indidbtfs wiftifr somf otifr objfdt is "fqubl to" tiis onf.
+     *
+     * @pbrbm objfdt  tif rfffrfndf objfdt witi wiidi to dompbrf
+     * @rfturn {@dodf truf} if tiis objfdt is tif sbmf bs tif
+     *         {@dodf objfdt} brgumfnt, {@dodf fblsf} otifrwisf
+     * @sff #ibsiCodf()
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (tiis == objfdt) {
+            rfturn truf;
         }
-        if (object instanceof Signature) {
-            Signature signature = (Signature) object;
-            return isEqual(signature.type, this.type)
-                && isEqual(signature.name, this.name)
-                && isEqual(signature.args, this.args);
+        if (objfdt instbndfof Signbturf) {
+            Signbturf signbturf = (Signbturf) objfdt;
+            rfturn isEqubl(signbturf.typf, tiis.typf)
+                && isEqubl(signbturf.nbmf, tiis.nbmf)
+                && isEqubl(signbturf.brgs, tiis.brgs);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Indicates whether some object is "equal to" another one.
-     * This method supports {@code null} values.
+     * Indidbtfs wiftifr somf objfdt is "fqubl to" bnotifr onf.
+     * Tiis mftiod supports {@dodf null} vblufs.
      *
-     * @param obj1  the first reference object that will compared
-     * @param obj2  the second reference object that will compared
-     * @return {@code true} if first object is the same as the second object,
-     *         {@code false} otherwise
+     * @pbrbm obj1  tif first rfffrfndf objfdt tibt will dompbrfd
+     * @pbrbm obj2  tif sfdond rfffrfndf objfdt tibt will dompbrfd
+     * @rfturn {@dodf truf} if first objfdt is tif sbmf bs tif sfdond objfdt,
+     *         {@dodf fblsf} otifrwisf
      */
-    private static boolean isEqual(Object obj1, Object obj2) {
-        return (obj1 == null)
+    privbtf stbtid boolfbn isEqubl(Objfdt obj1, Objfdt obj2) {
+        rfturn (obj1 == null)
                 ? obj2 == null
-                : obj1.equals(obj2);
+                : obj1.fqubls(obj2);
     }
 
     /**
-     * Indicates whether some array is "equal to" another one.
-     * This method supports {@code null} values.
+     * Indidbtfs wiftifr somf brrby is "fqubl to" bnotifr onf.
+     * Tiis mftiod supports {@dodf null} vblufs.
      *
-     * @param args1 the first reference array that will compared
-     * @param args2 the second reference array that will compared
-     * @return {@code true} if first array is the same as the second array,
-     *         {@code false} otherwise
+     * @pbrbm brgs1 tif first rfffrfndf brrby tibt will dompbrfd
+     * @pbrbm brgs2 tif sfdond rfffrfndf brrby tibt will dompbrfd
+     * @rfturn {@dodf truf} if first brrby is tif sbmf bs tif sfdond brrby,
+     *         {@dodf fblsf} otifrwisf
      */
-    private static boolean isEqual(Class<?>[] args1, Class<?>[] args2) {
-        if ((args1 == null) || (args2 == null)) {
-            return args1 == args2;
+    privbtf stbtid boolfbn isEqubl(Clbss<?>[] brgs1, Clbss<?>[] brgs2) {
+        if ((brgs1 == null) || (brgs2 == null)) {
+            rfturn brgs1 == brgs2;
         }
-        if (args1.length != args2.length) {
-            return false;
+        if (brgs1.lfngti != brgs2.lfngti) {
+            rfturn fblsf;
         }
-        for (int i = 0; i < args1.length; i++) {
-            if (!isEqual(args1[i], args2[i])) {
-                return false;
+        for (int i = 0; i < brgs1.lfngti; i++) {
+            if (!isEqubl(brgs1[i], brgs2[i])) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns a hash code value for the object.
-     * This method is supported for the benefit of hashtables
-     * such as {@link java.util.HashMap} or {@link java.util.HashSet}.
-     * Hash code computed using algorithm
-     * suggested in Effective Java, Item 8.
+     * Rfturns b ibsi dodf vbluf for tif objfdt.
+     * Tiis mftiod is supportfd for tif bfnffit of ibsitbblfs
+     * sudi bs {@link jbvb.util.HbsiMbp} or {@link jbvb.util.HbsiSft}.
+     * Hbsi dodf domputfd using blgoritim
+     * suggfstfd in Efffdtivf Jbvb, Itfm 8.
      *
-     * @return a hash code value for this object
-     * @see #equals(Object)
+     * @rfturn b ibsi dodf vbluf for tiis objfdt
+     * @sff #fqubls(Objfdt)
      */
-    @Override
-    public int hashCode() {
-        if (this.code == 0) {
-            int code = 17;
-            code = addHashCode(code, this.type);
-            code = addHashCode(code, this.name);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        if (tiis.dodf == 0) {
+            int dodf = 17;
+            dodf = bddHbsiCodf(dodf, tiis.typf);
+            dodf = bddHbsiCodf(dodf, tiis.nbmf);
 
-            if (this.args != null) {
-                for (Class<?> arg : this.args) {
-                    code = addHashCode(code, arg);
+            if (tiis.brgs != null) {
+                for (Clbss<?> brg : tiis.brgs) {
+                    dodf = bddHbsiCodf(dodf, brg);
                 }
             }
-            this.code = code;
+            tiis.dodf = dodf;
         }
-        return this.code;
+        rfturn tiis.dodf;
     }
 
     /**
-     * Adds hash code value if specified object.
-     * This is a part of the algorithm
-     * suggested in Effective Java, Item 8.
+     * Adds ibsi dodf vbluf if spfdififd objfdt.
+     * Tiis is b pbrt of tif blgoritim
+     * suggfstfd in Efffdtivf Jbvb, Itfm 8.
      *
-     * @param code    current hash code value
-     * @param object  object that updates hash code value
-     * @return updated hash code value
-     * @see #hashCode()
+     * @pbrbm dodf    durrfnt ibsi dodf vbluf
+     * @pbrbm objfdt  objfdt tibt updbtfs ibsi dodf vbluf
+     * @rfturn updbtfd ibsi dodf vbluf
+     * @sff #ibsiCodf()
      */
-    private static int addHashCode(int code, Object object) {
-        code *= 37;
-        return (object != null)
-                ? code + object.hashCode()
-                : code;
+    privbtf stbtid int bddHbsiCodf(int dodf, Objfdt objfdt) {
+        dodf *= 37;
+        rfturn (objfdt != null)
+                ? dodf + objfdt.ibsiCodf()
+                : dodf;
     }
 }

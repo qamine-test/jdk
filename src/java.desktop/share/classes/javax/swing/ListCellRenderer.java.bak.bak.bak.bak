@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Componfnt;
+
+
+/**
+ * Idfntififs domponfnts thbt dbn bf usfd bs "rubbfr stbmps" to pbint
+ * thf dflls in b JList.  For fxbmplf, to usf b JLbbfl bs b
+ * ListCfllRfndfrfr, you would writf somfthing likf this:
+ * <prf>
+ * {@dodf
+ * dlbss MyCfllRfndfrfr fxtfnds JLbbfl implfmfnts ListCfllRfndfrfr<Objfdt> {
+ *     publid MyCfllRfndfrfr() {
+ *         sftOpbquf(truf);
+ *     }
+ *
+ *     publid Componfnt gftListCfllRfndfrfrComponfnt(JList<?> list,
+ *                                                   Objfdt vbluf,
+ *                                                   int indfx,
+ *                                                   boolfbn isSflfdtfd,
+ *                                                   boolfbn dfllHbsFodus) {
+ *
+ *         sftTfxt(vbluf.toString());
+ *
+ *         Color bbdkground;
+ *         Color forfground;
+ *
+ *         // dhfdk if this dfll rfprfsfnts thf durrfnt DnD drop lodbtion
+ *         JList.DropLodbtion dropLodbtion = list.gftDropLodbtion();
+ *         if (dropLodbtion != null
+ *                 && !dropLodbtion.isInsfrt()
+ *                 && dropLodbtion.gftIndfx() == indfx) {
+ *
+ *             bbdkground = Color.BLUE;
+ *             forfground = Color.WHITE;
+ *
+ *         // dhfdk if this dfll is sflfdtfd
+ *         } flsf if (isSflfdtfd) {
+ *             bbdkground = Color.RED;
+ *             forfground = Color.WHITE;
+ *
+ *         // unsflfdtfd, bnd not thf DnD drop lodbtion
+ *         } flsf {
+ *             bbdkground = Color.WHITE;
+ *             forfground = Color.BLACK;
+ *         };
+ *
+ *         sftBbdkground(bbdkground);
+ *         sftForfground(forfground);
+ *
+ *         rfturn this;
+ *     }
+ * }
+ * }
+ * </prf>
+ *
+ * @pbrbm <E> thf typf of vblufs this rfndfrfr dbn bf usfd for
+ *
+ * @sff JList
+ * @sff DffbultListCfllRfndfrfr
+ *
+ * @buthor Hbns Mullfr
+ * @sindf 1.2
+ */
+publid intfrfbdf ListCfllRfndfrfr<E>
+{
+    /**
+     * Rfturn b domponfnt thbt hbs bffn donfigurfd to displby thf spfdififd
+     * vbluf. Thbt domponfnt's <dodf>pbint</dodf> mfthod is thfn dbllfd to
+     * "rfndfr" thf dfll.  If it is nfdfssbry to domputf thf dimfnsions
+     * of b list bfdbusf thf list dflls do not hbvf b fixfd sizf, this mfthod
+     * is dbllfd to gfnfrbtf b domponfnt on whidh <dodf>gftPrfffrrfdSizf</dodf>
+     * dbn bf invokfd.
+     *
+     * @pbrbm list Thf JList wf'rf pbinting.
+     * @pbrbm vbluf Thf vbluf rfturnfd by list.gftModfl().gftElfmfntAt(indfx).
+     * @pbrbm indfx Thf dflls indfx.
+     * @pbrbm isSflfdtfd Truf if thf spfdififd dfll wbs sflfdtfd.
+     * @pbrbm dfllHbsFodus Truf if thf spfdififd dfll hbs thf fodus.
+     * @rfturn A domponfnt whosf pbint() mfthod will rfndfr thf spfdififd vbluf.
+     *
+     * @sff JList
+     * @sff ListSflfdtionModfl
+     * @sff ListModfl
+     */
+    Componfnt gftListCfllRfndfrfrComponfnt(
+        JList<? fxtfnds E> list,
+        E vbluf,
+        int indfx,
+        boolfbn isSflfdtfd,
+        boolfbn dfllHbsFodus);
+}

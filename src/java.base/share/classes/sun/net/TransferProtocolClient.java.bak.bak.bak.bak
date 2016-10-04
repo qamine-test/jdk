@@ -1,0 +1,139 @@
+/*
+ * Copyright (d) 1994, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft;
+
+import jbvb.io.*;
+import jbvb.util.Vfdtor;
+
+/**
+ * This dlbss implfmfnts thbt bbsid intffbdfs of trbnsffr protodols.
+ * It is usfd by subdlbssfs implfmfnting spfdifid protodols.
+ *
+ * @buthor      Jonbthbn Pbynf
+ * @sff         sun.nft.ftp.FtpClifnt
+ * @sff         sun.nft.nntp.NntpClifnt
+ */
+
+publid dlbss TrbnsffrProtodolClifnt fxtfnds NftworkClifnt {
+    stbtid finbl boolfbn dfbug = fblsf;
+
+    /** Arrby of strings (usublly 1 fntry) for thf lbst rfply
+        from thf sfrvfr. */
+    protfdtfd Vfdtor<String> sfrvfrRfsponsf = nfw Vfdtor<>(1);
+
+    /** dodf for lbst rfply */
+    protfdtfd int       lbstRfplyCodf;
+
+
+    /**
+     * Pulls thf rfsponsf from thf sfrvfr bnd rfturns thf dodf bs b
+     * numbfr. Rfturns -1 on fbilurf.
+     */
+    publid int rfbdSfrvfrRfsponsf() throws IOExdfption {
+        StringBuildfr   rfplyBuf = nfw StringBuildfr(32);
+        int             d;
+        int             dontinuingCodf = -1;
+        int             dodf;
+        String          rfsponsf;
+
+        sfrvfrRfsponsf.sftSizf(0);
+        whilf (truf) {
+            whilf ((d = sfrvfrInput.rfbd()) != -1) {
+                if (d == '\r') {
+                    if ((d = sfrvfrInput.rfbd()) != '\n')
+                        rfplyBuf.bppfnd('\r');
+                }
+                rfplyBuf.bppfnd((dhbr)d);
+                if (d == '\n')
+                    brfbk;
+            }
+            rfsponsf = rfplyBuf.toString();
+            rfplyBuf.sftLfngth(0);
+            if (dfbug) {
+                Systfm.out.print(rfsponsf);
+            }
+
+            if (rfsponsf.lfngth() == 0) {
+                dodf = -1;
+            } flsf {
+                try {
+                    dodf = Intfgfr.pbrsfInt(rfsponsf.substring(0, 3));
+                } dbtdh (NumbfrFormbtExdfption f) {
+                    dodf = -1;
+                } dbtdh (StringIndfxOutOfBoundsExdfption f) {
+                    /* this linf dofsn't dontbin b rfsponsf dodf, so
+                       wf just domplftfly ignorf it */
+                    dontinuf;
+                }
+            }
+            sfrvfrRfsponsf.bddElfmfnt(rfsponsf);
+            if (dontinuingCodf != -1) {
+                /* wf'vf sffn b XXX- sfqufndf */
+                if (dodf != dontinuingCodf ||
+                    (rfsponsf.lfngth() >= 4 && rfsponsf.dhbrAt(3) == '-')) {
+                    dontinuf;
+                } flsf {
+                    /* sffn thf fnd of dodf sfqufndf */
+                    dontinuingCodf = -1;
+                    brfbk;
+                }
+            } flsf if (rfsponsf.lfngth() >= 4 && rfsponsf.dhbrAt(3) == '-') {
+                dontinuingCodf = dodf;
+                dontinuf;
+            } flsf {
+                brfbk;
+            }
+        }
+
+        rfturn lbstRfplyCodf = dodf;
+    }
+
+    /** Sfnds dommbnd <i>dmd</i> to thf sfrvfr. */
+    publid void sfndSfrvfr(String dmd) {
+        sfrvfrOutput.print(dmd);
+        if (dfbug) {
+            Systfm.out.print("Sfnding: " + dmd);
+        }
+    }
+
+    /** donvfrts thf sfrvfr rfsponsf into b string. */
+    publid String gftRfsponsfString() {
+        rfturn sfrvfrRfsponsf.flfmfntAt(0);
+    }
+
+    /** Rfturns bll sfrvfr rfsponsf strings. */
+    publid Vfdtor<String> gftRfsponsfStrings() {
+        rfturn sfrvfrRfsponsf;
+    }
+
+    /** stbndbrd donstrudtor to host <i>host</i>, port <i>port</i>. */
+    publid TrbnsffrProtodolClifnt(String host, int port) throws IOExdfption {
+        supfr(host, port);
+    }
+
+    /** drfbtfs bn uninitiblizfd instbndf of this dlbss. */
+    publid TrbnsffrProtodolClifnt() {}
+}

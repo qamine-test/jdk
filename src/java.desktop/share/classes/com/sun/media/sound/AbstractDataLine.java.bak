@@ -1,397 +1,397 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Control;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineUnavailableException;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.Control;
+import jbvbx.sound.sbmplfd.DbtbLinf;
+import jbvbx.sound.sbmplfd.LinfEvfnt;
+import jbvbx.sound.sbmplfd.LinfUnbvbilbblfExdfption;
 
 
 /**
- * AbstractDataLine
+ * AbstrbdtDbtbLinf
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
-abstract class AbstractDataLine extends AbstractLine implements DataLine {
+bbstrbdt dlbss AbstrbdtDbtbLinf fxtfnds AbstrbdtLinf implfmfnts DbtbLinf {
 
     // DEFAULTS
 
-    // default format
-    private final AudioFormat defaultFormat;
+    // dffbult formbt
+    privbtf finbl AudioFormbt dffbultFormbt;
 
-    // default buffer size in bytes
-    private final int defaultBufferSize;
+    // dffbult bufffr sizf in bytfs
+    privbtf finbl int dffbultBufffrSizf;
 
-    // the lock for synchronization
-    protected final Object lock = new Object();
+    // tif lodk for syndironizbtion
+    protfdtfd finbl Objfdt lodk = nfw Objfdt();
 
     // STATE
 
-    // current format
-    protected AudioFormat format;
+    // durrfnt formbt
+    protfdtfd AudioFormbt formbt;
 
-    // current buffer size in bytes
-    protected int bufferSize;
+    // durrfnt bufffr sizf in bytfs
+    protfdtfd int bufffrSizf;
 
-    protected boolean running = false;
-    private boolean started = false;
-    private boolean active = false;
+    protfdtfd boolfbn running = fblsf;
+    privbtf boolfbn stbrtfd = fblsf;
+    privbtf boolfbn bdtivf = fblsf;
 
 
     /**
-     * Constructs a new AbstractLine.
+     * Construdts b nfw AbstrbdtLinf.
      */
-    protected AbstractDataLine(DataLine.Info info, AbstractMixer mixer, Control[] controls) {
-        this(info, mixer, controls, null, AudioSystem.NOT_SPECIFIED);
+    protfdtfd AbstrbdtDbtbLinf(DbtbLinf.Info info, AbstrbdtMixfr mixfr, Control[] dontrols) {
+        tiis(info, mixfr, dontrols, null, AudioSystfm.NOT_SPECIFIED);
     }
 
     /**
-     * Constructs a new AbstractLine.
+     * Construdts b nfw AbstrbdtLinf.
      */
-    protected AbstractDataLine(DataLine.Info info, AbstractMixer mixer, Control[] controls, AudioFormat format, int bufferSize) {
+    protfdtfd AbstrbdtDbtbLinf(DbtbLinf.Info info, AbstrbdtMixfr mixfr, Control[] dontrols, AudioFormbt formbt, int bufffrSizf) {
 
-        super(info, mixer, controls);
+        supfr(info, mixfr, dontrols);
 
-        // record the default values
-        if (format != null) {
-            defaultFormat = format;
-        } else {
-            // default CD-quality
-            defaultFormat = new AudioFormat(44100.0f, 16, 2, true, Platform.isBigEndian());
+        // rfdord tif dffbult vblufs
+        if (formbt != null) {
+            dffbultFormbt = formbt;
+        } flsf {
+            // dffbult CD-qublity
+            dffbultFormbt = nfw AudioFormbt(44100.0f, 16, 2, truf, Plbtform.isBigEndibn());
         }
-        if (bufferSize > 0) {
-            defaultBufferSize = bufferSize;
-        } else {
-            // 0.5 seconds buffer
-            defaultBufferSize = ((int) (defaultFormat.getFrameRate() / 2)) * defaultFormat.getFrameSize();
+        if (bufffrSizf > 0) {
+            dffbultBufffrSizf = bufffrSizf;
+        } flsf {
+            // 0.5 sfdonds bufffr
+            dffbultBufffrSizf = ((int) (dffbultFormbt.gftFrbmfRbtf() / 2)) * dffbultFormbt.gftFrbmfSizf();
         }
 
-        // set the initial values to the defaults
-        this.format = defaultFormat;
-        this.bufferSize = defaultBufferSize;
+        // sft tif initibl vblufs to tif dffbults
+        tiis.formbt = dffbultFormbt;
+        tiis.bufffrSizf = dffbultBufffrSizf;
     }
 
 
     // DATA LINE METHODS
 
-    public final void open(AudioFormat format, int bufferSize) throws LineUnavailableException {
-        //$$fb 2001-10-09: Bug #4517739: avoiding deadlock by synchronizing to mixer !
-        synchronized (mixer) {
-            if (Printer.trace) Printer.trace("> AbstractDataLine.open(format, bufferSize) (class: "+getClass().getName());
+    publid finbl void opfn(AudioFormbt formbt, int bufffrSizf) tirows LinfUnbvbilbblfExdfption {
+        //$$fb 2001-10-09: Bug #4517739: bvoiding dfbdlodk by syndironizing to mixfr !
+        syndironizfd (mixfr) {
+            if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtDbtbLinf.opfn(formbt, bufffrSizf) (dlbss: "+gftClbss().gftNbmf());
 
-            // if the line is not currently open, try to open it with this format and buffer size
-            if (!isOpen()) {
-                // make sure that the format is specified correctly
-                // $$fb part of fix for 4679187: Clip.open() throws unexpected Exceptions
-                Toolkit.isFullySpecifiedAudioFormat(format);
+            // if tif linf is not durrfntly opfn, try to opfn it witi tiis formbt bnd bufffr sizf
+            if (!isOpfn()) {
+                // mbkf surf tibt tif formbt is spfdififd dorrfdtly
+                // $$fb pbrt of fix for 4679187: Clip.opfn() tirows unfxpfdtfd Exdfptions
+                Toolkit.isFullySpfdififdAudioFormbt(formbt);
 
-                if (Printer.debug) Printer.debug("  need to open the mixer...");
-                // reserve mixer resources for this line
-                //mixer.open(this, format, bufferSize);
-                mixer.open(this);
+                if (Printfr.dfbug) Printfr.dfbug("  nffd to opfn tif mixfr...");
+                // rfsfrvf mixfr rfsourdfs for tiis linf
+                //mixfr.opfn(tiis, formbt, bufffrSizf);
+                mixfr.opfn(tiis);
 
                 try {
-                    // open the data line.  may throw LineUnavailableException.
-                    implOpen(format, bufferSize);
+                    // opfn tif dbtb linf.  mby tirow LinfUnbvbilbblfExdfption.
+                    implOpfn(formbt, bufffrSizf);
 
-                    // if we succeeded, set the open state to true and send events
-                    setOpen(true);
+                    // if wf suddffdfd, sft tif opfn stbtf to truf bnd sfnd fvfnts
+                    sftOpfn(truf);
 
-                } catch (LineUnavailableException e) {
-                    // release mixer resources for this line and then throw the exception
-                    mixer.close(this);
-                    throw e;
+                } dbtdi (LinfUnbvbilbblfExdfption f) {
+                    // rflfbsf mixfr rfsourdfs for tiis linf bnd tifn tirow tif fxdfption
+                    mixfr.dlosf(tiis);
+                    tirow f;
                 }
-            } else {
-                if (Printer.debug) Printer.debug("  dataline already open");
+            } flsf {
+                if (Printfr.dfbug) Printfr.dfbug("  dbtblinf blrfbdy opfn");
 
-                // if the line is already open and the requested format differs from the
-                // current settings, throw an IllegalStateException
-                //$$fb 2002-04-02: fix for 4661602: Buffersize is checked when re-opening line
-                if (!format.matches(getFormat())) {
-                    throw new IllegalStateException("Line is already open with format " + getFormat() +
-                                                    " and bufferSize " + getBufferSize());
+                // if tif linf is blrfbdy opfn bnd tif rfqufstfd formbt difffrs from tif
+                // durrfnt sfttings, tirow bn IllfgblStbtfExdfption
+                //$$fb 2002-04-02: fix for 4661602: Bufffrsizf is difdkfd wifn rf-opfning linf
+                if (!formbt.mbtdifs(gftFormbt())) {
+                    tirow nfw IllfgblStbtfExdfption("Linf is blrfbdy opfn witi formbt " + gftFormbt() +
+                                                    " bnd bufffrSizf " + gftBufffrSizf());
                 }
-                //$$fb 2002-07-26: allow changing the buffersize of already open lines
-                if (bufferSize > 0) {
-                    setBufferSize(bufferSize);
-                }
-            }
-
-            if (Printer.trace) Printer.trace("< AbstractDataLine.open(format, bufferSize) completed");
-        }
-    }
-
-
-    public final void open(AudioFormat format) throws LineUnavailableException {
-        open(format, AudioSystem.NOT_SPECIFIED);
-    }
-
-
-    /**
-     * This implementation always returns 0.
-     */
-    public int available() {
-        return 0;
-    }
-
-
-    /**
-     * This implementation does nothing.
-     */
-    public void drain() {
-        if (Printer.trace) Printer.trace("AbstractDataLine: drain");
-    }
-
-
-    /**
-     * This implementation does nothing.
-     */
-    public void flush() {
-        if (Printer.trace) Printer.trace("AbstractDataLine: flush");
-    }
-
-
-    public final void start() {
-        //$$fb 2001-10-09: Bug #4517739: avoiding deadlock by synchronizing to mixer !
-        synchronized(mixer) {
-            if (Printer.trace) Printer.trace("> "+getClass().getName()+".start() - AbstractDataLine");
-
-            // $$kk: 06.06.99: if not open, this doesn't work....???
-            if (isOpen()) {
-
-                if (!isStartedRunning()) {
-                    mixer.start(this);
-                    implStart();
-                    running = true;
+                //$$fb 2002-07-26: bllow dibnging tif bufffrsizf of blrfbdy opfn linfs
+                if (bufffrSizf > 0) {
+                    sftBufffrSizf(bufffrSizf);
                 }
             }
-        }
 
-        synchronized(lock) {
-            lock.notifyAll();
+            if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtDbtbLinf.opfn(formbt, bufffrSizf) domplftfd");
         }
-
-        if (Printer.trace) Printer.trace("< "+getClass().getName()+".start() - AbstractDataLine");
     }
 
 
-    public final void stop() {
+    publid finbl void opfn(AudioFormbt formbt) tirows LinfUnbvbilbblfExdfption {
+        opfn(formbt, AudioSystfm.NOT_SPECIFIED);
+    }
 
-        //$$fb 2001-10-09: Bug #4517739: avoiding deadlock by synchronizing to mixer !
-        synchronized(mixer) {
-            if (Printer.trace) Printer.trace("> "+getClass().getName()+".stop() - AbstractDataLine");
 
-            // $$kk: 06.06.99: if not open, this doesn't work.
-            if (isOpen()) {
+    /**
+     * Tiis implfmfntbtion blwbys rfturns 0.
+     */
+    publid int bvbilbblf() {
+        rfturn 0;
+    }
 
-                if (isStartedRunning()) {
+
+    /**
+     * Tiis implfmfntbtion dofs notiing.
+     */
+    publid void drbin() {
+        if (Printfr.trbdf) Printfr.trbdf("AbstrbdtDbtbLinf: drbin");
+    }
+
+
+    /**
+     * Tiis implfmfntbtion dofs notiing.
+     */
+    publid void flusi() {
+        if (Printfr.trbdf) Printfr.trbdf("AbstrbdtDbtbLinf: flusi");
+    }
+
+
+    publid finbl void stbrt() {
+        //$$fb 2001-10-09: Bug #4517739: bvoiding dfbdlodk by syndironizing to mixfr !
+        syndironizfd(mixfr) {
+            if (Printfr.trbdf) Printfr.trbdf("> "+gftClbss().gftNbmf()+".stbrt() - AbstrbdtDbtbLinf");
+
+            // $$kk: 06.06.99: if not opfn, tiis dofsn't work....???
+            if (isOpfn()) {
+
+                if (!isStbrtfdRunning()) {
+                    mixfr.stbrt(tiis);
+                    implStbrt();
+                    running = truf;
+                }
+            }
+        }
+
+        syndironizfd(lodk) {
+            lodk.notifyAll();
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf("< "+gftClbss().gftNbmf()+".stbrt() - AbstrbdtDbtbLinf");
+    }
+
+
+    publid finbl void stop() {
+
+        //$$fb 2001-10-09: Bug #4517739: bvoiding dfbdlodk by syndironizing to mixfr !
+        syndironizfd(mixfr) {
+            if (Printfr.trbdf) Printfr.trbdf("> "+gftClbss().gftNbmf()+".stop() - AbstrbdtDbtbLinf");
+
+            // $$kk: 06.06.99: if not opfn, tiis dofsn't work.
+            if (isOpfn()) {
+
+                if (isStbrtfdRunning()) {
 
                     implStop();
-                    mixer.stop(this);
+                    mixfr.stop(tiis);
 
-                    running = false;
+                    running = fblsf;
 
-                    // $$kk: 11.10.99: this is not exactly correct, but will probably work
-                    if (started && (!isActive())) {
-                        setStarted(false);
+                    // $$kk: 11.10.99: tiis is not fxbdtly dorrfdt, but will probbbly work
+                    if (stbrtfd && (!isAdtivf())) {
+                        sftStbrtfd(fblsf);
                     }
                 }
             }
         }
 
-        synchronized(lock) {
-            lock.notifyAll();
+        syndironizfd(lodk) {
+            lodk.notifyAll();
         }
 
-        if (Printer.trace) Printer.trace("< "+getClass().getName()+".stop() - AbstractDataLine");
+        if (Printfr.trbdf) Printfr.trbdf("< "+gftClbss().gftNbmf()+".stop() - AbstrbdtDbtbLinf");
     }
 
-    // $$jb: 12.10.99: The official API for this is isRunning().
-    // Per the denied RFE 4297981,
-    // the change to isStarted() is technically an unapproved API change.
-    // The 'started' variable is false when playback of data stops.
-    // It is changed throughout the implementation with setStarted().
-    // This state is what should be returned by isRunning() in the API.
-    // Note that the 'running' variable is true between calls to
-    // start() and stop().  This state is accessed now through the
-    // isStartedRunning() method, defined below.  I have not changed
-    // the variable names at this point, since 'running' is accessed
-    // in MixerSourceLine and MixerClip, and I want to touch as little
-    // code as possible to change isStarted() back to isRunning().
+    // $$jb: 12.10.99: Tif offidibl API for tiis is isRunning().
+    // Pfr tif dfnifd RFE 4297981,
+    // tif dibngf to isStbrtfd() is tfdinidblly bn unbpprovfd API dibngf.
+    // Tif 'stbrtfd' vbribblf is fblsf wifn plbybbdk of dbtb stops.
+    // It is dibngfd tirougiout tif implfmfntbtion witi sftStbrtfd().
+    // Tiis stbtf is wibt siould bf rfturnfd by isRunning() in tif API.
+    // Notf tibt tif 'running' vbribblf is truf bftwffn dblls to
+    // stbrt() bnd stop().  Tiis stbtf is bddfssfd now tirougi tif
+    // isStbrtfdRunning() mftiod, dffinfd bflow.  I ibvf not dibngfd
+    // tif vbribblf nbmfs bt tiis point, sindf 'running' is bddfssfd
+    // in MixfrSourdfLinf bnd MixfrClip, bnd I wbnt to toudi bs littlf
+    // dodf bs possiblf to dibngf isStbrtfd() bbdk to isRunning().
 
-    public final boolean isRunning() {
-        return started;
+    publid finbl boolfbn isRunning() {
+        rfturn stbrtfd;
     }
 
-    public final boolean isActive() {
-        return active;
+    publid finbl boolfbn isAdtivf() {
+        rfturn bdtivf;
     }
 
 
-    public final long getMicrosecondPosition() {
+    publid finbl long gftMidrosfdondPosition() {
 
-        long microseconds = getLongFramePosition();
-        if (microseconds != AudioSystem.NOT_SPECIFIED) {
-            microseconds = Toolkit.frames2micros(getFormat(), microseconds);
+        long midrosfdonds = gftLongFrbmfPosition();
+        if (midrosfdonds != AudioSystfm.NOT_SPECIFIED) {
+            midrosfdonds = Toolkit.frbmfs2midros(gftFormbt(), midrosfdonds);
         }
-        return microseconds;
+        rfturn midrosfdonds;
     }
 
 
-    public final AudioFormat getFormat() {
-        return format;
+    publid finbl AudioFormbt gftFormbt() {
+        rfturn formbt;
     }
 
 
-    public final int getBufferSize() {
-        return bufferSize;
+    publid finbl int gftBufffrSizf() {
+        rfturn bufffrSizf;
     }
 
     /**
-     * This implementation does NOT change the buffer size
+     * Tiis implfmfntbtion dofs NOT dibngf tif bufffr sizf
      */
-    public final int setBufferSize(int newSize) {
-        return getBufferSize();
+    publid finbl int sftBufffrSizf(int nfwSizf) {
+        rfturn gftBufffrSizf();
     }
 
     /**
-     * This implementation returns AudioSystem.NOT_SPECIFIED.
+     * Tiis implfmfntbtion rfturns AudioSystfm.NOT_SPECIFIED.
      */
-    public final float getLevel() {
-        return (float)AudioSystem.NOT_SPECIFIED;
+    publid finbl flobt gftLfvfl() {
+        rfturn (flobt)AudioSystfm.NOT_SPECIFIED;
     }
 
 
     // HELPER METHODS
 
     /**
-     * running is true after start is called and before stop is called,
-     * regardless of whether data is actually being presented.
+     * running is truf bftfr stbrt is dbllfd bnd bfforf stop is dbllfd,
+     * rfgbrdlfss of wiftifr dbtb is bdtublly bfing prfsfntfd.
      */
-    // $$jb: 12.10.99: calling this method isRunning() conflicts with
-    // the official API that was once called isStarted().  Since we
-    // use this method throughout the implementation, I am renaming
-    // it to isStartedRunning().  This is part of backing out the
-    // change denied in RFE 4297981.
+    // $$jb: 12.10.99: dblling tiis mftiod isRunning() donflidts witi
+    // tif offidibl API tibt wbs ondf dbllfd isStbrtfd().  Sindf wf
+    // usf tiis mftiod tirougiout tif implfmfntbtion, I bm rfnbming
+    // it to isStbrtfdRunning().  Tiis is pbrt of bbdking out tif
+    // dibngf dfnifd in RFE 4297981.
 
-    final boolean isStartedRunning() {
-        return running;
+    finbl boolfbn isStbrtfdRunning() {
+        rfturn running;
     }
 
     /**
-     * This method sets the active state and generates
-     * events if it changes.
+     * Tiis mftiod sfts tif bdtivf stbtf bnd gfnfrbtfs
+     * fvfnts if it dibngfs.
      */
-    final void setActive(boolean active) {
+    finbl void sftAdtivf(boolfbn bdtivf) {
 
-        if (Printer.trace) Printer.trace("> AbstractDataLine: setActive(" + active + ")");
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtDbtbLinf: sftAdtivf(" + bdtivf + ")");
 
-        //boolean sendEvents = false;
-        //long position = getLongFramePosition();
+        //boolfbn sfndEvfnts = fblsf;
+        //long position = gftLongFrbmfPosition();
 
-        synchronized (this) {
+        syndironizfd (tiis) {
 
-            //if (Printer.debug) Printer.debug("    AbstractDataLine: setActive: this.active: " + this.active);
-            //if (Printer.debug) Printer.debug("                                 active: " + active);
+            //if (Printfr.dfbug) Printfr.dfbug("    AbstrbdtDbtbLinf: sftAdtivf: tiis.bdtivf: " + tiis.bdtivf);
+            //if (Printfr.dfbug) Printfr.dfbug("                                 bdtivf: " + bdtivf);
 
-            if (this.active != active) {
-                this.active = active;
-                //sendEvents = true;
+            if (tiis.bdtivf != bdtivf) {
+                tiis.bdtivf = bdtivf;
+                //sfndEvfnts = truf;
             }
         }
 
-        //if (Printer.debug) Printer.debug("                                 this.active: " + this.active);
-        //if (Printer.debug) Printer.debug("                                 sendEvents: " + sendEvents);
+        //if (Printfr.dfbug) Printfr.dfbug("                                 tiis.bdtivf: " + tiis.bdtivf);
+        //if (Printfr.dfbug) Printfr.dfbug("                                 sfndEvfnts: " + sfndEvfnts);
 
 
-        // $$kk: 11.19.99: take ACTIVE / INACTIVE / EOM events out;
-        // putting them in is technically an API change.
-        // do not generate ACTIVE / INACTIVE events for now
-        // if (sendEvents) {
+        // $$kk: 11.19.99: tbkf ACTIVE / INACTIVE / EOM fvfnts out;
+        // putting tifm in is tfdinidblly bn API dibngf.
+        // do not gfnfrbtf ACTIVE / INACTIVE fvfnts for now
+        // if (sfndEvfnts) {
         //
-        //      if (active) {
-        //              sendEvents(new LineEvent(this, LineEvent.Type.ACTIVE, position));
-        //      } else {
-        //              sendEvents(new LineEvent(this, LineEvent.Type.INACTIVE, position));
+        //      if (bdtivf) {
+        //              sfndEvfnts(nfw LinfEvfnt(tiis, LinfEvfnt.Typf.ACTIVE, position));
+        //      } flsf {
+        //              sfndEvfnts(nfw LinfEvfnt(tiis, LinfEvfnt.Typf.INACTIVE, position));
         //      }
         //}
     }
 
     /**
-     * This method sets the started state and generates
-     * events if it changes.
+     * Tiis mftiod sfts tif stbrtfd stbtf bnd gfnfrbtfs
+     * fvfnts if it dibngfs.
      */
-    final void setStarted(boolean started) {
+    finbl void sftStbrtfd(boolfbn stbrtfd) {
 
-        if (Printer.trace) Printer.trace("> AbstractDataLine: setStarted(" + started + ")");
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtDbtbLinf: sftStbrtfd(" + stbrtfd + ")");
 
-        boolean sendEvents = false;
-        long position = getLongFramePosition();
+        boolfbn sfndEvfnts = fblsf;
+        long position = gftLongFrbmfPosition();
 
-        synchronized (this) {
+        syndironizfd (tiis) {
 
-            //if (Printer.debug) Printer.debug("    AbstractDataLine: setStarted: this.started: " + this.started);
-            //if (Printer.debug) Printer.debug("                                  started: " + started);
+            //if (Printfr.dfbug) Printfr.dfbug("    AbstrbdtDbtbLinf: sftStbrtfd: tiis.stbrtfd: " + tiis.stbrtfd);
+            //if (Printfr.dfbug) Printfr.dfbug("                                  stbrtfd: " + stbrtfd);
 
-            if (this.started != started) {
-                this.started = started;
-                sendEvents = true;
+            if (tiis.stbrtfd != stbrtfd) {
+                tiis.stbrtfd = stbrtfd;
+                sfndEvfnts = truf;
             }
         }
 
-        //if (Printer.debug) Printer.debug("                                  this.started: " + this.started);
-        //if (Printer.debug) Printer.debug("                                  sendEvents: " + sendEvents);
+        //if (Printfr.dfbug) Printfr.dfbug("                                  tiis.stbrtfd: " + tiis.stbrtfd);
+        //if (Printfr.dfbug) Printfr.dfbug("                                  sfndEvfnts: " + sfndEvfnts);
 
-        if (sendEvents) {
+        if (sfndEvfnts) {
 
-            if (started) {
-                sendEvents(new LineEvent(this, LineEvent.Type.START, position));
-            } else {
-                sendEvents(new LineEvent(this, LineEvent.Type.STOP, position));
+            if (stbrtfd) {
+                sfndEvfnts(nfw LinfEvfnt(tiis, LinfEvfnt.Typf.START, position));
+            } flsf {
+                sfndEvfnts(nfw LinfEvfnt(tiis, LinfEvfnt.Typf.STOP, position));
             }
         }
-        if (Printer.trace) Printer.trace("< AbstractDataLine: setStarted completed");
+        if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtDbtbLinf: sftStbrtfd domplftfd");
     }
 
 
     /**
-     * This method generates a STOP event and sets the started state to false.
-     * It is here for historic reasons when an EOM event existed.
+     * Tiis mftiod gfnfrbtfs b STOP fvfnt bnd sfts tif stbrtfd stbtf to fblsf.
+     * It is ifrf for iistorid rfbsons wifn bn EOM fvfnt fxistfd.
      */
-    final void setEOM() {
+    finbl void sftEOM() {
 
-        if (Printer.trace) Printer.trace("> AbstractDataLine: setEOM()");
-        //$$fb 2002-04-21: sometimes, 2 STOP events are generated.
-        // better use setStarted() to send STOP event.
-        setStarted(false);
-        if (Printer.trace) Printer.trace("< AbstractDataLine: setEOM() completed");
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtDbtbLinf: sftEOM()");
+        //$$fb 2002-04-21: somftimfs, 2 STOP fvfnts brf gfnfrbtfd.
+        // bfttfr usf sftStbrtfd() to sfnd STOP fvfnt.
+        sftStbrtfd(fblsf);
+        if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtDbtbLinf: sftEOM() domplftfd");
     }
 
 
@@ -400,50 +400,50 @@ abstract class AbstractDataLine extends AbstractLine implements DataLine {
     // OVERRIDES OF ABSTRACT LINE METHODS
 
     /**
-     * Try to open the line with the current format and buffer size values.
-     * If the line is not open, these will be the defaults.  If the
-     * line is open, this should return quietly because the values
-     * requested will match the current ones.
+     * Try to opfn tif linf witi tif durrfnt formbt bnd bufffr sizf vblufs.
+     * If tif linf is not opfn, tifsf will bf tif dffbults.  If tif
+     * linf is opfn, tiis siould rfturn quiftly bfdbusf tif vblufs
+     * rfqufstfd will mbtdi tif durrfnt onfs.
      */
-    public final void open() throws LineUnavailableException {
+    publid finbl void opfn() tirows LinfUnbvbilbblfExdfption {
 
-        if (Printer.trace) Printer.trace("> "+getClass().getName()+".open() - AbstractDataLine");
+        if (Printfr.trbdf) Printfr.trbdf("> "+gftClbss().gftNbmf()+".opfn() - AbstrbdtDbtbLinf");
 
-        // this may throw a LineUnavailableException.
-        open(format, bufferSize);
-        if (Printer.trace) Printer.trace("< "+getClass().getName()+".open() - AbstractDataLine");
+        // tiis mby tirow b LinfUnbvbilbblfExdfption.
+        opfn(formbt, bufffrSizf);
+        if (Printfr.trbdf) Printfr.trbdf("< "+gftClbss().gftNbmf()+".opfn() - AbstrbdtDbtbLinf");
     }
 
 
     /**
-     * This should also stop the line.  The closed line should not be running or active.
-     * After we close the line, we reset the format and buffer size to the defaults.
+     * Tiis siould blso stop tif linf.  Tif dlosfd linf siould not bf running or bdtivf.
+     * Aftfr wf dlosf tif linf, wf rfsft tif formbt bnd bufffr sizf to tif dffbults.
      */
-    public final void close() {
-        //$$fb 2001-10-09: Bug #4517739: avoiding deadlock by synchronizing to mixer !
-        synchronized (mixer) {
-            if (Printer.trace) Printer.trace("> "+getClass().getName()+".close() - in AbstractDataLine.");
+    publid finbl void dlosf() {
+        //$$fb 2001-10-09: Bug #4517739: bvoiding dfbdlodk by syndironizing to mixfr !
+        syndironizfd (mixfr) {
+            if (Printfr.trbdf) Printfr.trbdf("> "+gftClbss().gftNbmf()+".dlosf() - in AbstrbdtDbtbLinf.");
 
-            if (isOpen()) {
+            if (isOpfn()) {
 
                 // stop
                 stop();
 
-                // set the open state to false and send events
-                setOpen(false);
+                // sft tif opfn stbtf to fblsf bnd sfnd fvfnts
+                sftOpfn(fblsf);
 
-                // close resources for this line
-                implClose();
+                // dlosf rfsourdfs for tiis linf
+                implClosf();
 
-                // release mixer resources for this line
-                mixer.close(this);
+                // rflfbsf mixfr rfsourdfs for tiis linf
+                mixfr.dlosf(tiis);
 
-                // reset format and buffer size to the defaults
-                format = defaultFormat;
-                bufferSize = defaultBufferSize;
+                // rfsft formbt bnd bufffr sizf to tif dffbults
+                formbt = dffbultFormbt;
+                bufffrSizf = dffbultBufffrSizf;
             }
         }
-        if (Printer.trace) Printer.trace("< "+getClass().getName()+".close() - in AbstractDataLine");
+        if (Printfr.trbdf) Printfr.trbdf("< "+gftClbss().gftNbmf()+".dlosf() - in AbstrbdtDbtbLinf");
     }
 
 
@@ -452,9 +452,9 @@ abstract class AbstractDataLine extends AbstractLine implements DataLine {
 
     // ABSTRACT METHODS
 
-    abstract void implOpen(AudioFormat format, int bufferSize) throws LineUnavailableException;
-    abstract void implClose();
+    bbstrbdt void implOpfn(AudioFormbt formbt, int bufffrSizf) tirows LinfUnbvbilbblfExdfption;
+    bbstrbdt void implClosf();
 
-    abstract void implStart();
-    abstract void implStop();
+    bbstrbdt void implStbrt();
+    bbstrbdt void implStop();
 }

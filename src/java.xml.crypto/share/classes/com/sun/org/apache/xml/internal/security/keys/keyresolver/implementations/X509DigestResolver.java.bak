@@ -1,163 +1,163 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions;
 
-import java.security.PublicKey;
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
-import java.util.Iterator;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.Arrbys;
+import jbvb.util.Itfrbtor;
 
-import javax.crypto.SecretKey;
+import jbvbx.drypto.SfdrftKfy;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.content.X509Data;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509Digest;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverException;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverSpi;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.X509Dbtb;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509.XMLX509Digfst;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * KeyResolverSpi implementation which resolves public keys and X.509 certificates from a
- * <code>dsig11:X509Digest</code> element.
+ * KfyRfsolvfrSpi implfmfntbtion wiidi rfsolvfs publid kfys bnd X.509 dfrtifidbtfs from b
+ * <dodf>dsig11:X509Digfst</dodf> flfmfnt.
  *
- * @author Brent Putman (putmanb@georgetown.edu)
+ * @butior Brfnt Putmbn (putmbnb@gforgftown.fdu)
  */
-public class X509DigestResolver extends KeyResolverSpi {
+publid dlbss X509DigfstRfsolvfr fxtfnds KfyRfsolvfrSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(X509DigestResolver.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(X509DigfstRfsolvfr.dlbss.gftNbmf());
 
-    /** {@inheritDoc}. */
-    public boolean engineCanResolve(Element element, String baseURI, StorageResolver storage) {
-        if (XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_X509DATA)) {
+    /** {@inifritDod}. */
+    publid boolfbn fnginfCbnRfsolvf(Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf) {
+        if (XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_X509DATA)) {
             try {
-                X509Data x509Data = new X509Data(element, baseURI);
-                return x509Data.containsDigest();
-            } catch (XMLSecurityException e) {
-                return false;
+                X509Dbtb x509Dbtb = nfw X509Dbtb(flfmfnt, bbsfURI);
+                rfturn x509Dbtb.dontbinsDigfst();
+            } dbtdi (XMLSfdurityExdfption f) {
+                rfturn fblsf;
             }
-        } else {
-            return false;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    /** {@inheritDoc}. */
-    public PublicKey engineLookupAndResolvePublicKey(Element element, String baseURI, StorageResolver storage)
-        throws KeyResolverException {
+    /** {@inifritDod}. */
+    publid PublidKfy fnginfLookupAndRfsolvfPublidKfy(Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf)
+        tirows KfyRfsolvfrExdfption {
 
-        X509Certificate cert = this.engineLookupResolveX509Certificate(element, baseURI, storage);
+        X509Cfrtifidbtf dfrt = tiis.fnginfLookupRfsolvfX509Cfrtifidbtf(flfmfnt, bbsfURI, storbgf);
 
-        if (cert != null) {
-            return cert.getPublicKey();
+        if (dfrt != null) {
+            rfturn dfrt.gftPublidKfy();
         }
 
-        return null;
+        rfturn null;
     }
 
-    /** {@inheritDoc}. */
-    public X509Certificate engineLookupResolveX509Certificate(Element element, String baseURI, StorageResolver storage)
-        throws KeyResolverException {
+    /** {@inifritDod}. */
+    publid X509Cfrtifidbtf fnginfLookupRfsolvfX509Cfrtifidbtf(Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf)
+        tirows KfyRfsolvfrExdfption {
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName());
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Cbn I rfsolvf " + flfmfnt.gftTbgNbmf());
         }
 
-        if (!engineCanResolve(element, baseURI, storage)) {
-            return null;
+        if (!fnginfCbnRfsolvf(flfmfnt, bbsfURI, storbgf)) {
+            rfturn null;
         }
 
         try {
-            return resolveCertificate(element, baseURI, storage);
-        } catch (XMLSecurityException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "XMLSecurityException", e);
+            rfturn rfsolvfCfrtifidbtf(flfmfnt, bbsfURI, storbgf);
+        } dbtdi (XMLSfdurityExdfption f) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "XMLSfdurityExdfption", f);
             }
         }
 
-        return null;
+        rfturn null;
     }
 
-    /** {@inheritDoc}. */
-    public SecretKey engineLookupAndResolveSecretKey(Element element, String baseURI, StorageResolver storage)
-        throws KeyResolverException {
-        return null;
+    /** {@inifritDod}. */
+    publid SfdrftKfy fnginfLookupAndRfsolvfSfdrftKfy(Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf)
+        tirows KfyRfsolvfrExdfption {
+        rfturn null;
     }
 
     /**
-     * Resolves from the storage resolver the actual certificate represented by the digest.
+     * Rfsolvfs from tif storbgf rfsolvfr tif bdtubl dfrtifidbtf rfprfsfntfd by tif digfst.
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn
+     * @tirows XMLSfdurityExdfption
      */
-    private X509Certificate resolveCertificate(Element element, String baseURI, StorageResolver storage)
-        throws XMLSecurityException {
+    privbtf X509Cfrtifidbtf rfsolvfCfrtifidbtf(Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf)
+        tirows XMLSfdurityExdfption {
 
-        XMLX509Digest x509Digests[] = null;
+        XMLX509Digfst x509Digfsts[] = null;
 
-        Element x509childNodes[] = XMLUtils.selectDs11Nodes(element.getFirstChild(), Constants._TAG_X509DIGEST);
+        Elfmfnt x509diildNodfs[] = XMLUtils.sflfdtDs11Nodfs(flfmfnt.gftFirstCiild(), Constbnts._TAG_X509DIGEST);
 
-        if (x509childNodes == null || x509childNodes.length <= 0) {
-            return null;
+        if (x509diildNodfs == null || x509diildNodfs.lfngti <= 0) {
+            rfturn null;
         }
 
         try {
-            checkStorage(storage);
+            difdkStorbgf(storbgf);
 
-            x509Digests = new XMLX509Digest[x509childNodes.length];
+            x509Digfsts = nfw XMLX509Digfst[x509diildNodfs.lfngti];
 
-            for (int i = 0; i < x509childNodes.length; i++) {
-                x509Digests[i] = new XMLX509Digest(x509childNodes[i], baseURI);
+            for (int i = 0; i < x509diildNodfs.lfngti; i++) {
+                x509Digfsts[i] = nfw XMLX509Digfst(x509diildNodfs[i], bbsfURI);
             }
 
-            Iterator<Certificate> storageIterator = storage.getIterator();
-            while (storageIterator.hasNext()) {
-                X509Certificate cert = (X509Certificate) storageIterator.next();
+            Itfrbtor<Cfrtifidbtf> storbgfItfrbtor = storbgf.gftItfrbtor();
+            wiilf (storbgfItfrbtor.ibsNfxt()) {
+                X509Cfrtifidbtf dfrt = (X509Cfrtifidbtf) storbgfItfrbtor.nfxt();
 
-                for (int i = 0; i < x509Digests.length; i++) {
-                    XMLX509Digest keyInfoDigest = x509Digests[i];
-                    byte[] certDigestBytes = XMLX509Digest.getDigestBytesFromCert(cert, keyInfoDigest.getAlgorithm());
+                for (int i = 0; i < x509Digfsts.lfngti; i++) {
+                    XMLX509Digfst kfyInfoDigfst = x509Digfsts[i];
+                    bytf[] dfrtDigfstBytfs = XMLX509Digfst.gftDigfstBytfsFromCfrt(dfrt, kfyInfoDigfst.gftAlgoritim());
 
-                    if (Arrays.equals(keyInfoDigest.getDigestBytes(), certDigestBytes)) {
-                        if (log.isLoggable(java.util.logging.Level.FINE)) {
-                            log.log(java.util.logging.Level.FINE, "Found certificate with: " + cert.getSubjectX500Principal().getName());
+                    if (Arrbys.fqubls(kfyInfoDigfst.gftDigfstBytfs(), dfrtDigfstBytfs)) {
+                        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                            log.log(jbvb.util.logging.Lfvfl.FINE, "Found dfrtifidbtf witi: " + dfrt.gftSubjfdtX500Prindipbl().gftNbmf());
                         }
-                        return cert;
+                        rfturn dfrt;
                     }
 
                 }
             }
 
-        } catch (XMLSecurityException ex) {
-            throw new KeyResolverException("empty", ex);
+        } dbtdi (XMLSfdurityExdfption fx) {
+            tirow nfw KfyRfsolvfrExdfption("fmpty", fx);
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Method checkSrorage
+     * Mftiod difdkSrorbgf
      *
-     * @param storage
-     * @throws KeyResolverException
+     * @pbrbm storbgf
+     * @tirows KfyRfsolvfrExdfption
      */
-    private void checkStorage(StorageResolver storage) throws KeyResolverException {
-        if (storage == null) {
-            Object exArgs[] = { Constants._TAG_X509DIGEST };
-            KeyResolverException ex = new KeyResolverException("KeyResolver.needStorageResolver", exArgs);
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "", ex);
+    privbtf void difdkStorbgf(StorbgfRfsolvfr storbgf) tirows KfyRfsolvfrExdfption {
+        if (storbgf == null) {
+            Objfdt fxArgs[] = { Constbnts._TAG_X509DIGEST };
+            KfyRfsolvfrExdfption fx = nfw KfyRfsolvfrExdfption("KfyRfsolvfr.nffdStorbgfRfsolvfr", fxArgs);
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "", fx);
             }
-            throw ex;
+            tirow fx;
         }
     }
 

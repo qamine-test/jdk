@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.tools.jarsigner;
+pbdkbgf sun.sfdurity.tools.jbrsignfr;
 
-import java.io.IOException;
-import java.net.URI;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+import jbvb.io.IOExdfption;
+import jbvb.nft.URI;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
-import com.sun.jarsigner.*;
-import sun.security.pkcs.PKCS7;
-import sun.security.util.*;
-import sun.security.x509.*;
+import dom.sun.jbrsignfr.*;
+import sun.sfdurity.pkds.PKCS7;
+import sun.sfdurity.util.*;
+import sun.sfdurity.x509.*;
 
 /**
- * This class implements a content signing service.
- * It generates a timestamped signature for a given content according to
- * <a href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</a>.
- * The signature along with a trusted timestamp and the signer's certificate
- * are all packaged into a standard PKCS #7 Signed Data message.
+ * Tiis dlbss implfmfnts b dontfnt signing sfrvidf.
+ * It gfnfrbtfs b timfstbmpfd signbturf for b givfn dontfnt bddording to
+ * <b irff="ittp://www.iftf.org/rfd/rfd3161.txt">RFC 3161</b>.
+ * Tif signbturf blong witi b trustfd timfstbmp bnd tif signfr's dfrtifidbtf
+ * brf bll pbdkbgfd into b stbndbrd PKCS #7 Signfd Dbtb mfssbgf.
  *
- * @author Vincent Ryan
+ * @butior Vindfnt Rybn
  */
 
-public final class TimestampedSigner extends ContentSigner {
+publid finbl dlbss TimfstbmpfdSignfr fxtfnds ContfntSignfr {
 
     /*
-     * Object identifier for the subject information access X.509 certificate
-     * extension.
+     * Objfdt idfntififr for tif subjfdt informbtion bddfss X.509 dfrtifidbtf
+     * fxtfnsion.
      */
-    private static final String SUBJECT_INFO_ACCESS_OID = "1.3.6.1.5.5.7.1.11";
+    privbtf stbtid finbl String SUBJECT_INFO_ACCESS_OID = "1.3.6.1.5.5.7.1.11";
 
     /*
-     * Object identifier for the timestamping access descriptors.
+     * Objfdt idfntififr for tif timfstbmping bddfss dfsdriptors.
      */
-    private static final ObjectIdentifier AD_TIMESTAMPING_Id;
-    static {
-        ObjectIdentifier tmp = null;
+    privbtf stbtid finbl ObjfdtIdfntififr AD_TIMESTAMPING_Id;
+    stbtid {
+        ObjfdtIdfntififr tmp = null;
         try {
-            tmp = new ObjectIdentifier("1.3.6.1.5.5.7.48.3");
-        } catch (IOException e) {
-            // ignore
+            tmp = nfw ObjfdtIdfntififr("1.3.6.1.5.5.7.48.3");
+        } dbtdi (IOExdfption f) {
+            // ignorf
         }
         AD_TIMESTAMPING_Id = tmp;
     }
 
     /**
-     * Instantiates a content signer that supports timestamped signatures.
+     * Instbntibtfs b dontfnt signfr tibt supports timfstbmpfd signbturfs.
      */
-    public TimestampedSigner() {
+    publid TimfstbmpfdSignfr() {
     }
 
     /**
-     * Generates a PKCS #7 signed data message that includes a signature
-     * timestamp.
-     * This method is used when a signature has already been generated.
-     * The signature, a signature timestamp, the signer's certificate chain,
-     * and optionally the content that was signed, are packaged into a PKCS #7
-     * signed data message.
+     * Gfnfrbtfs b PKCS #7 signfd dbtb mfssbgf tibt indludfs b signbturf
+     * timfstbmp.
+     * Tiis mftiod is usfd wifn b signbturf ibs blrfbdy bffn gfnfrbtfd.
+     * Tif signbturf, b signbturf timfstbmp, tif signfr's dfrtifidbtf dibin,
+     * bnd optionblly tif dontfnt tibt wbs signfd, brf pbdkbgfd into b PKCS #7
+     * signfd dbtb mfssbgf.
      *
-     * @param params The non-null input parameters.
-     * @param omitContent true if the content should be omitted from the
-     *        signed data message. Otherwise the content is included.
-     * @param applyTimestamp true if the signature should be timestamped.
-     *        Otherwise timestamping is not performed.
-     * @return A PKCS #7 signed data message including a signature timestamp.
-     * @throws NoSuchAlgorithmException The exception is thrown if the signature
-     *         algorithm is unrecognised.
-     * @throws CertificateException The exception is thrown if an error occurs
-     *         while processing the signer's certificate or the TSA's
-     *         certificate.
-     * @throws IOException The exception is thrown if an error occurs while
-     *         generating the signature timestamp or while generating the signed
-     *         data message.
-     * @throws NullPointerException The exception is thrown if parameters is
+     * @pbrbm pbrbms Tif non-null input pbrbmftfrs.
+     * @pbrbm omitContfnt truf if tif dontfnt siould bf omittfd from tif
+     *        signfd dbtb mfssbgf. Otifrwisf tif dontfnt is indludfd.
+     * @pbrbm bpplyTimfstbmp truf if tif signbturf siould bf timfstbmpfd.
+     *        Otifrwisf timfstbmping is not pfrformfd.
+     * @rfturn A PKCS #7 signfd dbtb mfssbgf indluding b signbturf timfstbmp.
+     * @tirows NoSudiAlgoritimExdfption Tif fxdfption is tirown if tif signbturf
+     *         blgoritim is unrfdognisfd.
+     * @tirows CfrtifidbtfExdfption Tif fxdfption is tirown if bn frror oddurs
+     *         wiilf prodfssing tif signfr's dfrtifidbtf or tif TSA's
+     *         dfrtifidbtf.
+     * @tirows IOExdfption Tif fxdfption is tirown if bn frror oddurs wiilf
+     *         gfnfrbting tif signbturf timfstbmp or wiilf gfnfrbting tif signfd
+     *         dbtb mfssbgf.
+     * @tirows NullPointfrExdfption Tif fxdfption is tirown if pbrbmftfrs is
      *         null.
      */
-    public byte[] generateSignedData(ContentSignerParameters params,
-        boolean omitContent, boolean applyTimestamp)
-            throws NoSuchAlgorithmException, CertificateException, IOException {
+    publid bytf[] gfnfrbtfSignfdDbtb(ContfntSignfrPbrbmftfrs pbrbms,
+        boolfbn omitContfnt, boolfbn bpplyTimfstbmp)
+            tirows NoSudiAlgoritimExdfption, CfrtifidbtfExdfption, IOExdfption {
 
-        if (params == null) {
-            throw new NullPointerException();
+        if (pbrbms == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        // Parse the signature algorithm to extract the digest
-        // algorithm. The expected format is:
-        //     "<digest>with<encryption>"
-        // or  "<digest>with<encryption>and<mgf>"
-        String signatureAlgorithm = params.getSignatureAlgorithm();
+        // Pbrsf tif signbturf blgoritim to fxtrbdt tif digfst
+        // blgoritim. Tif fxpfdtfd formbt is:
+        //     "<digfst>witi<fndryption>"
+        // or  "<digfst>witi<fndryption>bnd<mgf>"
+        String signbturfAlgoritim = pbrbms.gftSignbturfAlgoritim();
 
-        X509Certificate[] signerChain = params.getSignerCertificateChain();
-        byte[] signature = params.getSignature();
+        X509Cfrtifidbtf[] signfrCibin = pbrbms.gftSignfrCfrtifidbtfCibin();
+        bytf[] signbturf = pbrbms.gftSignbturf();
 
-        // Include or exclude content
-        byte[] content = (omitContent == true) ? null : params.getContent();
+        // Indludf or fxdludf dontfnt
+        bytf[] dontfnt = (omitContfnt == truf) ? null : pbrbms.gftContfnt();
 
-        URI tsaURI = null;
-        if (applyTimestamp) {
-            tsaURI = params.getTimestampingAuthority();
-            if (tsaURI == null) {
-                // Examine TSA cert
-                tsaURI = getTimestampingURI(
-                    params.getTimestampingAuthorityCertificate());
-                if (tsaURI == null) {
-                    throw new CertificateException(
-                        "Subject Information Access extension not found");
+        URI tsbURI = null;
+        if (bpplyTimfstbmp) {
+            tsbURI = pbrbms.gftTimfstbmpingAutiority();
+            if (tsbURI == null) {
+                // Exbminf TSA dfrt
+                tsbURI = gftTimfstbmpingURI(
+                    pbrbms.gftTimfstbmpingAutiorityCfrtifidbtf());
+                if (tsbURI == null) {
+                    tirow nfw CfrtifidbtfExdfption(
+                        "Subjfdt Informbtion Addfss fxtfnsion not found");
                 }
             }
         }
-        return PKCS7.generateSignedData(signature, signerChain, content,
-                                        params.getSignatureAlgorithm(), tsaURI,
-                                        params.getTSAPolicyID(),
-                                        params.getTSADigestAlg());
+        rfturn PKCS7.gfnfrbtfSignfdDbtb(signbturf, signfrCibin, dontfnt,
+                                        pbrbms.gftSignbturfAlgoritim(), tsbURI,
+                                        pbrbms.gftTSAPolidyID(),
+                                        pbrbms.gftTSADigfstAlg());
     }
 
     /**
-     * Examine the certificate for a Subject Information Access extension
-     * (<a href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280</a>).
-     * The extension's <tt>accessMethod</tt> field should contain the object
-     * identifier defined for timestamping: 1.3.6.1.5.5.7.48.3 and its
-     * <tt>accessLocation</tt> field should contain an HTTP or HTTPS URL.
+     * Exbminf tif dfrtifidbtf for b Subjfdt Informbtion Addfss fxtfnsion
+     * (<b irff="ittp://www.iftf.org/rfd/rfd3280.txt">RFC 3280</b>).
+     * Tif fxtfnsion's <tt>bddfssMftiod</tt> fifld siould dontbin tif objfdt
+     * idfntififr dffinfd for timfstbmping: 1.3.6.1.5.5.7.48.3 bnd its
+     * <tt>bddfssLodbtion</tt> fifld siould dontbin bn HTTP or HTTPS URL.
      *
-     * @param tsaCertificate An X.509 certificate for the TSA.
-     * @return An HTTP or HTTPS URI or null if none was found.
+     * @pbrbm tsbCfrtifidbtf An X.509 dfrtifidbtf for tif TSA.
+     * @rfturn An HTTP or HTTPS URI or null if nonf wbs found.
      */
-    public static URI getTimestampingURI(X509Certificate tsaCertificate) {
+    publid stbtid URI gftTimfstbmpingURI(X509Cfrtifidbtf tsbCfrtifidbtf) {
 
-        if (tsaCertificate == null) {
-            return null;
+        if (tsbCfrtifidbtf == null) {
+            rfturn null;
         }
-        // Parse the extensions
+        // Pbrsf tif fxtfnsions
         try {
-            byte[] extensionValue =
-                tsaCertificate.getExtensionValue(SUBJECT_INFO_ACCESS_OID);
-            if (extensionValue == null) {
-                return null;
+            bytf[] fxtfnsionVbluf =
+                tsbCfrtifidbtf.gftExtfnsionVbluf(SUBJECT_INFO_ACCESS_OID);
+            if (fxtfnsionVbluf == null) {
+                rfturn null;
             }
-            DerInputStream der = new DerInputStream(extensionValue);
-            der = new DerInputStream(der.getOctetString());
-            DerValue[] derValue = der.getSequence(5);
-            AccessDescription description;
-            GeneralName location;
-            URIName uri;
-            for (int i = 0; i < derValue.length; i++) {
-                description = new AccessDescription(derValue[i]);
-                if (description.getAccessMethod()
-                        .equals((Object)AD_TIMESTAMPING_Id)) {
-                    location = description.getAccessLocation();
-                    if (location.getType() == GeneralNameInterface.NAME_URI) {
-                        uri = (URIName) location.getName();
-                        if (uri.getScheme().equalsIgnoreCase("http") ||
-                                uri.getScheme().equalsIgnoreCase("https")) {
-                            return uri.getURI();
+            DfrInputStrfbm dfr = nfw DfrInputStrfbm(fxtfnsionVbluf);
+            dfr = nfw DfrInputStrfbm(dfr.gftOdtftString());
+            DfrVbluf[] dfrVbluf = dfr.gftSfqufndf(5);
+            AddfssDfsdription dfsdription;
+            GfnfrblNbmf lodbtion;
+            URINbmf uri;
+            for (int i = 0; i < dfrVbluf.lfngti; i++) {
+                dfsdription = nfw AddfssDfsdription(dfrVbluf[i]);
+                if (dfsdription.gftAddfssMftiod()
+                        .fqubls((Objfdt)AD_TIMESTAMPING_Id)) {
+                    lodbtion = dfsdription.gftAddfssLodbtion();
+                    if (lodbtion.gftTypf() == GfnfrblNbmfIntfrfbdf.NAME_URI) {
+                        uri = (URINbmf) lodbtion.gftNbmf();
+                        if (uri.gftSdifmf().fqublsIgnorfCbsf("ittp") ||
+                                uri.gftSdifmf().fqublsIgnorfCbsf("ittps")) {
+                            rfturn uri.gftURI();
                         }
                     }
                 }
             }
-        } catch (IOException ioe) {
-            // ignore
+        } dbtdi (IOExdfption iof) {
+            // ignorf
         }
-        return null;
+        rfturn null;
     }
 }

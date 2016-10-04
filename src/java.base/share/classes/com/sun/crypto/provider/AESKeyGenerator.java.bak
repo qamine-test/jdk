@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.SecureRandom;
-import java.security.InvalidParameterException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.spec.AlgorithmParameterSpec;
-import javax.crypto.KeyGeneratorSpi;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvbx.drypto.KfyGfnfrbtorSpi;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
 
 
 /**
- * This class generates a AES key.
+ * Tiis dlbss gfnfrbtfs b AES kfy.
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  *
  */
 
-public final class AESKeyGenerator extends KeyGeneratorSpi {
+publid finbl dlbss AESKfyGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
 
-    private SecureRandom random = null;
-    private int keySize = 16; // default keysize (in number of bytes)
+    privbtf SfdurfRbndom rbndom = null;
+    privbtf int kfySizf = 16; // dffbult kfysizf (in numbfr of bytfs)
 
     /**
-     * Empty constructor.
+     * Empty donstrudtor.
      */
-    public AESKeyGenerator() {
+    publid AESKfyGfnfrbtor() {
     }
 
     /**
-     * Initializes this key generator.
+     * Initiblizfs tiis kfy gfnfrbtor.
      *
-     * @param random the source of randomness for this generator
+     * @pbrbm rbndom tif sourdf of rbndomnfss for tiis gfnfrbtor
      */
-    protected void engineInit(SecureRandom random) {
-        this.random = random;
+    protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+        tiis.rbndom = rbndom;
     }
 
     /**
-     * Initializes this key generator with the specified parameter
-     * set and a user-provided source of randomness.
+     * Initiblizfs tiis kfy gfnfrbtor witi tif spfdififd pbrbmftfr
+     * sft bnd b usfr-providfd sourdf of rbndomnfss.
      *
-     * @param params the key generation parameters
-     * @param random the source of randomness for this key generator
+     * @pbrbm pbrbms tif kfy gfnfrbtion pbrbmftfrs
+     * @pbrbm rbndom tif sourdf of rbndomnfss for tiis kfy gfnfrbtor
      *
-     * @exception InvalidAlgorithmParameterException if <code>params</code> is
-     * inappropriate for this key generator
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if <dodf>pbrbms</dodf> is
+     * inbppropribtf for tiis kfy gfnfrbtor
      */
-    protected void engineInit(AlgorithmParameterSpec params,
-                              SecureRandom random)
-        throws InvalidAlgorithmParameterException {
-            throw new InvalidAlgorithmParameterException
-                ("AES key generation does not take any parameters");
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom)
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("AES kfy gfnfrbtion dofs not tbkf bny pbrbmftfrs");
     }
 
     /**
-     * Initializes this key generator for a certain keysize, using the given
-     * source of randomness.
+     * Initiblizfs tiis kfy gfnfrbtor for b dfrtbin kfysizf, using tif givfn
+     * sourdf of rbndomnfss.
      *
-     * @param keysize the keysize. This is an algorithm-specific
-     * metric specified in number of bits.
-     * @param random the source of randomness for this key generator
+     * @pbrbm kfysizf tif kfysizf. Tiis is bn blgoritim-spfdifid
+     * mftrid spfdififd in numbfr of bits.
+     * @pbrbm rbndom tif sourdf of rbndomnfss for tiis kfy gfnfrbtor
      */
-    protected void engineInit(int keysize, SecureRandom random) {
-        if (((keysize % 8) != 0) ||
-            (!AESCrypt.isKeySizeValid(keysize/8))) {
-            throw new InvalidParameterException
-                ("Wrong keysize: must be equal to 128, 192 or 256");
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        if (((kfysizf % 8) != 0) ||
+            (!AESCrypt.isKfySizfVblid(kfysizf/8))) {
+            tirow nfw InvblidPbrbmftfrExdfption
+                ("Wrong kfysizf: must bf fqubl to 128, 192 or 256");
         }
-        this.keySize = keysize/8;
-        this.engineInit(random);
+        tiis.kfySizf = kfysizf/8;
+        tiis.fnginfInit(rbndom);
     }
 
     /**
-     * Generates the AES key.
+     * Gfnfrbtfs tif AES kfy.
      *
-     * @return the new AES key
+     * @rfturn tif nfw AES kfy
      */
-    protected SecretKey engineGenerateKey() {
-        SecretKeySpec aesKey = null;
+    protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+        SfdrftKfySpfd bfsKfy = null;
 
-        if (this.random == null) {
-            this.random = SunJCE.getRandom();
+        if (tiis.rbndom == null) {
+            tiis.rbndom = SunJCE.gftRbndom();
         }
 
-        byte[] keyBytes = new byte[keySize];
-        this.random.nextBytes(keyBytes);
-        aesKey = new SecretKeySpec(keyBytes, "AES");
-        return aesKey;
+        bytf[] kfyBytfs = nfw bytf[kfySizf];
+        tiis.rbndom.nfxtBytfs(kfyBytfs);
+        bfsKfy = nfw SfdrftKfySpfd(kfyBytfs, "AES");
+        rfturn bfsKfy;
     }
 }

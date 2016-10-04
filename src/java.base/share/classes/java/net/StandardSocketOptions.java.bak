@@ -1,367 +1,367 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
 /**
- * Defines the <em>standard</em> socket options.
+ * Dffinfs tif <fm>stbndbrd</fm> sodkft options.
  *
- * <p> The {@link SocketOption#name name} of each socket option defined by this
- * class is its field name.
+ * <p> Tif {@link SodkftOption#nbmf nbmf} of fbdi sodkft option dffinfd by tiis
+ * dlbss is its fifld nbmf.
  *
- * <p> In this release, the socket options defined here are used by {@link
- * java.nio.channels.NetworkChannel network} channels in the {@link
- * java.nio.channels channels} package.
+ * <p> In tiis rflfbsf, tif sodkft options dffinfd ifrf brf usfd by {@link
+ * jbvb.nio.dibnnfls.NftworkCibnnfl nftwork} dibnnfls in tif {@link
+ * jbvb.nio.dibnnfls dibnnfls} pbdkbgf.
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public final class StandardSocketOptions {
-    private StandardSocketOptions() { }
+publid finbl dlbss StbndbrdSodkftOptions {
+    privbtf StbndbrdSodkftOptions() { }
 
     // -- SOL_SOCKET --
 
     /**
-     * Allow transmission of broadcast datagrams.
+     * Allow trbnsmission of brobddbst dbtbgrbms.
      *
-     * <p> The value of this socket option is a {@code Boolean} that represents
-     * whether the option is enabled or disabled. The option is specific to
-     * datagram-oriented sockets sending to {@link java.net.Inet4Address IPv4}
-     * broadcast addresses. When the socket option is enabled then the socket
-     * can be used to send <em>broadcast datagrams</em>.
+     * <p> Tif vbluf of tiis sodkft option is b {@dodf Boolfbn} tibt rfprfsfnts
+     * wiftifr tif option is fnbblfd or disbblfd. Tif option is spfdifid to
+     * dbtbgrbm-orifntfd sodkfts sfnding to {@link jbvb.nft.Inft4Addrfss IPv4}
+     * brobddbst bddrfssfs. Wifn tif sodkft option is fnbblfd tifn tif sodkft
+     * dbn bf usfd to sfnd <fm>brobddbst dbtbgrbms</fm>.
      *
-     * <p> The initial value of this socket option is {@code FALSE}. The socket
-     * option may be enabled or disabled at any time. Some operating systems may
-     * require that the Java virtual machine be started with implementation
-     * specific privileges to enable this option or send broadcast datagrams.
+     * <p> Tif initibl vbluf of tiis sodkft option is {@dodf FALSE}. Tif sodkft
+     * option mby bf fnbblfd or disbblfd bt bny timf. Somf opfrbting systfms mby
+     * rfquirf tibt tif Jbvb virtubl mbdiinf bf stbrtfd witi implfmfntbtion
+     * spfdifid privilfgfs to fnbblf tiis option or sfnd brobddbst dbtbgrbms.
      *
-     * @see <a href="http://www.ietf.org/rfc/rfc919.txt">RFC&nbsp;929:
-     * Broadcasting Internet Datagrams</a>
-     * @see DatagramSocket#setBroadcast
+     * @sff <b irff="ittp://www.iftf.org/rfd/rfd919.txt">RFC&nbsp;929:
+     * Brobddbsting Intfrnft Dbtbgrbms</b>
+     * @sff DbtbgrbmSodkft#sftBrobddbst
      */
-    public static final SocketOption<Boolean> SO_BROADCAST =
-        new StdSocketOption<Boolean>("SO_BROADCAST", Boolean.class);
+    publid stbtid finbl SodkftOption<Boolfbn> SO_BROADCAST =
+        nfw StdSodkftOption<Boolfbn>("SO_BROADCAST", Boolfbn.dlbss);
 
     /**
-     * Keep connection alive.
+     * Kffp donnfdtion blivf.
      *
-     * <p> The value of this socket option is a {@code Boolean} that represents
-     * whether the option is enabled or disabled. When the {@code SO_KEEPALIVE}
-     * option is enabled the operating system may use a <em>keep-alive</em>
-     * mechanism to periodically probe the other end of a connection when the
-     * connection is otherwise idle. The exact semantics of the keep alive
-     * mechanism is system dependent and therefore unspecified.
+     * <p> Tif vbluf of tiis sodkft option is b {@dodf Boolfbn} tibt rfprfsfnts
+     * wiftifr tif option is fnbblfd or disbblfd. Wifn tif {@dodf SO_KEEPALIVE}
+     * option is fnbblfd tif opfrbting systfm mby usf b <fm>kffp-blivf</fm>
+     * mfdibnism to pfriodidblly probf tif otifr fnd of b donnfdtion wifn tif
+     * donnfdtion is otifrwisf idlf. Tif fxbdt sfmbntids of tif kffp blivf
+     * mfdibnism is systfm dfpfndfnt bnd tifrfforf unspfdififd.
      *
-     * <p> The initial value of this socket option is {@code FALSE}. The socket
-     * option may be enabled or disabled at any time.
+     * <p> Tif initibl vbluf of tiis sodkft option is {@dodf FALSE}. Tif sodkft
+     * option mby bf fnbblfd or disbblfd bt bny timf.
      *
-     * @see <a href="http://www.ietf.org/rfc/rfc1122.txt">RFC&nbsp;1122
-     * Requirements for Internet Hosts -- Communication Layers</a>
-     * @see Socket#setKeepAlive
+     * @sff <b irff="ittp://www.iftf.org/rfd/rfd1122.txt">RFC&nbsp;1122
+     * Rfquirfmfnts for Intfrnft Hosts -- Communidbtion Lbyfrs</b>
+     * @sff Sodkft#sftKffpAlivf
      */
-    public static final SocketOption<Boolean> SO_KEEPALIVE =
-        new StdSocketOption<Boolean>("SO_KEEPALIVE", Boolean.class);
+    publid stbtid finbl SodkftOption<Boolfbn> SO_KEEPALIVE =
+        nfw StdSodkftOption<Boolfbn>("SO_KEEPALIVE", Boolfbn.dlbss);
 
     /**
-     * The size of the socket send buffer.
+     * Tif sizf of tif sodkft sfnd bufffr.
      *
-     * <p> The value of this socket option is an {@code Integer} that is the
-     * size of the socket send buffer in bytes. The socket send buffer is an
-     * output buffer used by the networking implementation. It may need to be
-     * increased for high-volume connections. The value of the socket option is
-     * a <em>hint</em> to the implementation to size the buffer and the actual
-     * size may differ. The socket option can be queried to retrieve the actual
-     * size.
+     * <p> Tif vbluf of tiis sodkft option is bn {@dodf Intfgfr} tibt is tif
+     * sizf of tif sodkft sfnd bufffr in bytfs. Tif sodkft sfnd bufffr is bn
+     * output bufffr usfd by tif nftworking implfmfntbtion. It mby nffd to bf
+     * indrfbsfd for iigi-volumf donnfdtions. Tif vbluf of tif sodkft option is
+     * b <fm>iint</fm> to tif implfmfntbtion to sizf tif bufffr bnd tif bdtubl
+     * sizf mby difffr. Tif sodkft option dbn bf qufrifd to rftrifvf tif bdtubl
+     * sizf.
      *
-     * <p> For datagram-oriented sockets, the size of the send buffer may limit
-     * the size of the datagrams that may be sent by the socket. Whether
-     * datagrams larger than the buffer size are sent or discarded is system
-     * dependent.
+     * <p> For dbtbgrbm-orifntfd sodkfts, tif sizf of tif sfnd bufffr mby limit
+     * tif sizf of tif dbtbgrbms tibt mby bf sfnt by tif sodkft. Wiftifr
+     * dbtbgrbms lbrgfr tibn tif bufffr sizf brf sfnt or disdbrdfd is systfm
+     * dfpfndfnt.
      *
-     * <p> The initial/default size of the socket send buffer and the range of
-     * allowable values is system dependent although a negative size is not
-     * allowed. An attempt to set the socket send buffer to larger than its
-     * maximum size causes it to be set to its maximum size.
+     * <p> Tif initibl/dffbult sizf of tif sodkft sfnd bufffr bnd tif rbngf of
+     * bllowbblf vblufs is systfm dfpfndfnt bltiougi b nfgbtivf sizf is not
+     * bllowfd. An bttfmpt to sft tif sodkft sfnd bufffr to lbrgfr tibn its
+     * mbximum sizf dbusfs it to bf sft to its mbximum sizf.
      *
-     * <p> An implementation allows this socket option to be set before the
-     * socket is bound or connected. Whether an implementation allows the
-     * socket send buffer to be changed after the socket is bound is system
-     * dependent.
+     * <p> An implfmfntbtion bllows tiis sodkft option to bf sft bfforf tif
+     * sodkft is bound or donnfdtfd. Wiftifr bn implfmfntbtion bllows tif
+     * sodkft sfnd bufffr to bf dibngfd bftfr tif sodkft is bound is systfm
+     * dfpfndfnt.
      *
-     * @see Socket#setSendBufferSize
+     * @sff Sodkft#sftSfndBufffrSizf
      */
-    public static final SocketOption<Integer> SO_SNDBUF =
-        new StdSocketOption<Integer>("SO_SNDBUF", Integer.class);
+    publid stbtid finbl SodkftOption<Intfgfr> SO_SNDBUF =
+        nfw StdSodkftOption<Intfgfr>("SO_SNDBUF", Intfgfr.dlbss);
 
 
     /**
-     * The size of the socket receive buffer.
+     * Tif sizf of tif sodkft rfdfivf bufffr.
      *
-     * <p> The value of this socket option is an {@code Integer} that is the
-     * size of the socket receive buffer in bytes. The socket receive buffer is
-     * an input buffer used by the networking implementation. It may need to be
-     * increased for high-volume connections or decreased to limit the possible
-     * backlog of incoming data. The value of the socket option is a
-     * <em>hint</em> to the implementation to size the buffer and the actual
-     * size may differ.
+     * <p> Tif vbluf of tiis sodkft option is bn {@dodf Intfgfr} tibt is tif
+     * sizf of tif sodkft rfdfivf bufffr in bytfs. Tif sodkft rfdfivf bufffr is
+     * bn input bufffr usfd by tif nftworking implfmfntbtion. It mby nffd to bf
+     * indrfbsfd for iigi-volumf donnfdtions or dfdrfbsfd to limit tif possiblf
+     * bbdklog of indoming dbtb. Tif vbluf of tif sodkft option is b
+     * <fm>iint</fm> to tif implfmfntbtion to sizf tif bufffr bnd tif bdtubl
+     * sizf mby difffr.
      *
-     * <p> For datagram-oriented sockets, the size of the receive buffer may
-     * limit the size of the datagrams that can be received. Whether datagrams
-     * larger than the buffer size can be received is system dependent.
-     * Increasing the socket receive buffer may be important for cases where
-     * datagrams arrive in bursts faster than they can be processed.
+     * <p> For dbtbgrbm-orifntfd sodkfts, tif sizf of tif rfdfivf bufffr mby
+     * limit tif sizf of tif dbtbgrbms tibt dbn bf rfdfivfd. Wiftifr dbtbgrbms
+     * lbrgfr tibn tif bufffr sizf dbn bf rfdfivfd is systfm dfpfndfnt.
+     * Indrfbsing tif sodkft rfdfivf bufffr mby bf importbnt for dbsfs wifrf
+     * dbtbgrbms brrivf in bursts fbstfr tibn tify dbn bf prodfssfd.
      *
-     * <p> In the case of stream-oriented sockets and the TCP/IP protocol, the
-     * size of the socket receive buffer may be used when advertising the size
-     * of the TCP receive window to the remote peer.
+     * <p> In tif dbsf of strfbm-orifntfd sodkfts bnd tif TCP/IP protodol, tif
+     * sizf of tif sodkft rfdfivf bufffr mby bf usfd wifn bdvfrtising tif sizf
+     * of tif TCP rfdfivf window to tif rfmotf pffr.
      *
-     * <p> The initial/default size of the socket receive buffer and the range
-     * of allowable values is system dependent although a negative size is not
-     * allowed. An attempt to set the socket receive buffer to larger than its
-     * maximum size causes it to be set to its maximum size.
+     * <p> Tif initibl/dffbult sizf of tif sodkft rfdfivf bufffr bnd tif rbngf
+     * of bllowbblf vblufs is systfm dfpfndfnt bltiougi b nfgbtivf sizf is not
+     * bllowfd. An bttfmpt to sft tif sodkft rfdfivf bufffr to lbrgfr tibn its
+     * mbximum sizf dbusfs it to bf sft to its mbximum sizf.
      *
-     * <p> An implementation allows this socket option to be set before the
-     * socket is bound or connected. Whether an implementation allows the
-     * socket receive buffer to be changed after the socket is bound is system
-     * dependent.
+     * <p> An implfmfntbtion bllows tiis sodkft option to bf sft bfforf tif
+     * sodkft is bound or donnfdtfd. Wiftifr bn implfmfntbtion bllows tif
+     * sodkft rfdfivf bufffr to bf dibngfd bftfr tif sodkft is bound is systfm
+     * dfpfndfnt.
      *
-     * @see <a href="http://www.ietf.org/rfc/rfc1323.txt">RFC&nbsp;1323: TCP
-     * Extensions for High Performance</a>
-     * @see Socket#setReceiveBufferSize
-     * @see ServerSocket#setReceiveBufferSize
+     * @sff <b irff="ittp://www.iftf.org/rfd/rfd1323.txt">RFC&nbsp;1323: TCP
+     * Extfnsions for Higi Pfrformbndf</b>
+     * @sff Sodkft#sftRfdfivfBufffrSizf
+     * @sff SfrvfrSodkft#sftRfdfivfBufffrSizf
      */
-    public static final SocketOption<Integer> SO_RCVBUF =
-        new StdSocketOption<Integer>("SO_RCVBUF", Integer.class);
+    publid stbtid finbl SodkftOption<Intfgfr> SO_RCVBUF =
+        nfw StdSodkftOption<Intfgfr>("SO_RCVBUF", Intfgfr.dlbss);
 
     /**
-     * Re-use address.
+     * Rf-usf bddrfss.
      *
-     * <p> The value of this socket option is a {@code Boolean} that represents
-     * whether the option is enabled or disabled. The exact semantics of this
-     * socket option are socket type and system dependent.
+     * <p> Tif vbluf of tiis sodkft option is b {@dodf Boolfbn} tibt rfprfsfnts
+     * wiftifr tif option is fnbblfd or disbblfd. Tif fxbdt sfmbntids of tiis
+     * sodkft option brf sodkft typf bnd systfm dfpfndfnt.
      *
-     * <p> In the case of stream-oriented sockets, this socket option will
-     * usually determine whether the socket can be bound to a socket address
-     * when a previous connection involving that socket address is in the
-     * <em>TIME_WAIT</em> state. On implementations where the semantics differ,
-     * and the socket option is not required to be enabled in order to bind the
-     * socket when a previous connection is in this state, then the
-     * implementation may choose to ignore this option.
+     * <p> In tif dbsf of strfbm-orifntfd sodkfts, tiis sodkft option will
+     * usublly dftfrminf wiftifr tif sodkft dbn bf bound to b sodkft bddrfss
+     * wifn b prfvious donnfdtion involving tibt sodkft bddrfss is in tif
+     * <fm>TIME_WAIT</fm> stbtf. On implfmfntbtions wifrf tif sfmbntids difffr,
+     * bnd tif sodkft option is not rfquirfd to bf fnbblfd in ordfr to bind tif
+     * sodkft wifn b prfvious donnfdtion is in tiis stbtf, tifn tif
+     * implfmfntbtion mby dioosf to ignorf tiis option.
      *
-     * <p> For datagram-oriented sockets the socket option is used to allow
-     * multiple programs bind to the same address. This option should be enabled
-     * when the socket is to be used for Internet Protocol (IP) multicasting.
+     * <p> For dbtbgrbm-orifntfd sodkfts tif sodkft option is usfd to bllow
+     * multiplf progrbms bind to tif sbmf bddrfss. Tiis option siould bf fnbblfd
+     * wifn tif sodkft is to bf usfd for Intfrnft Protodol (IP) multidbsting.
      *
-     * <p> An implementation allows this socket option to be set before the
-     * socket is bound or connected. Changing the value of this socket option
-     * after the socket is bound has no effect. The default value of this
-     * socket option is system dependent.
+     * <p> An implfmfntbtion bllows tiis sodkft option to bf sft bfforf tif
+     * sodkft is bound or donnfdtfd. Cibnging tif vbluf of tiis sodkft option
+     * bftfr tif sodkft is bound ibs no ffffdt. Tif dffbult vbluf of tiis
+     * sodkft option is systfm dfpfndfnt.
      *
-     * @see <a href="http://www.ietf.org/rfc/rfc793.txt">RFC&nbsp;793: Transmission
-     * Control Protocol</a>
-     * @see ServerSocket#setReuseAddress
+     * @sff <b irff="ittp://www.iftf.org/rfd/rfd793.txt">RFC&nbsp;793: Trbnsmission
+     * Control Protodol</b>
+     * @sff SfrvfrSodkft#sftRfusfAddrfss
      */
-    public static final SocketOption<Boolean> SO_REUSEADDR =
-        new StdSocketOption<Boolean>("SO_REUSEADDR", Boolean.class);
+    publid stbtid finbl SodkftOption<Boolfbn> SO_REUSEADDR =
+        nfw StdSodkftOption<Boolfbn>("SO_REUSEADDR", Boolfbn.dlbss);
 
     /**
-     * Linger on close if data is present.
+     * Lingfr on dlosf if dbtb is prfsfnt.
      *
-     * <p> The value of this socket option is an {@code Integer} that controls
-     * the action taken when unsent data is queued on the socket and a method
-     * to close the socket is invoked. If the value of the socket option is zero
-     * or greater, then it represents a timeout value, in seconds, known as the
-     * <em>linger interval</em>. The linger interval is the timeout for the
-     * {@code close} method to block while the operating system attempts to
-     * transmit the unsent data or it decides that it is unable to transmit the
-     * data. If the value of the socket option is less than zero then the option
-     * is disabled. In that case the {@code close} method does not wait until
-     * unsent data is transmitted; if possible the operating system will transmit
-     * any unsent data before the connection is closed.
+     * <p> Tif vbluf of tiis sodkft option is bn {@dodf Intfgfr} tibt dontrols
+     * tif bdtion tbkfn wifn unsfnt dbtb is qufufd on tif sodkft bnd b mftiod
+     * to dlosf tif sodkft is invokfd. If tif vbluf of tif sodkft option is zfro
+     * or grfbtfr, tifn it rfprfsfnts b timfout vbluf, in sfdonds, known bs tif
+     * <fm>lingfr intfrvbl</fm>. Tif lingfr intfrvbl is tif timfout for tif
+     * {@dodf dlosf} mftiod to blodk wiilf tif opfrbting systfm bttfmpts to
+     * trbnsmit tif unsfnt dbtb or it dfdidfs tibt it is unbblf to trbnsmit tif
+     * dbtb. If tif vbluf of tif sodkft option is lfss tibn zfro tifn tif option
+     * is disbblfd. In tibt dbsf tif {@dodf dlosf} mftiod dofs not wbit until
+     * unsfnt dbtb is trbnsmittfd; if possiblf tif opfrbting systfm will trbnsmit
+     * bny unsfnt dbtb bfforf tif donnfdtion is dlosfd.
      *
-     * <p> This socket option is intended for use with sockets that are configured
-     * in {@link java.nio.channels.SelectableChannel#isBlocking() blocking} mode
-     * only. The behavior of the {@code close} method when this option is
-     * enabled on a non-blocking socket is not defined.
+     * <p> Tiis sodkft option is intfndfd for usf witi sodkfts tibt brf donfigurfd
+     * in {@link jbvb.nio.dibnnfls.SflfdtbblfCibnnfl#isBlodking() blodking} modf
+     * only. Tif bfibvior of tif {@dodf dlosf} mftiod wifn tiis option is
+     * fnbblfd on b non-blodking sodkft is not dffinfd.
      *
-     * <p> The initial value of this socket option is a negative value, meaning
-     * that the option is disabled. The option may be enabled, or the linger
-     * interval changed, at any time. The maximum value of the linger interval
-     * is system dependent. Setting the linger interval to a value that is
-     * greater than its maximum value causes the linger interval to be set to
-     * its maximum value.
+     * <p> Tif initibl vbluf of tiis sodkft option is b nfgbtivf vbluf, mfbning
+     * tibt tif option is disbblfd. Tif option mby bf fnbblfd, or tif lingfr
+     * intfrvbl dibngfd, bt bny timf. Tif mbximum vbluf of tif lingfr intfrvbl
+     * is systfm dfpfndfnt. Sftting tif lingfr intfrvbl to b vbluf tibt is
+     * grfbtfr tibn its mbximum vbluf dbusfs tif lingfr intfrvbl to bf sft to
+     * its mbximum vbluf.
      *
-     * @see Socket#setSoLinger
+     * @sff Sodkft#sftSoLingfr
      */
-    public static final SocketOption<Integer> SO_LINGER =
-        new StdSocketOption<Integer>("SO_LINGER", Integer.class);
+    publid stbtid finbl SodkftOption<Intfgfr> SO_LINGER =
+        nfw StdSodkftOption<Intfgfr>("SO_LINGER", Intfgfr.dlbss);
 
 
     // -- IPPROTO_IP --
 
     /**
-     * The Type of Service (ToS) octet in the Internet Protocol (IP) header.
+     * Tif Typf of Sfrvidf (ToS) odtft in tif Intfrnft Protodol (IP) ifbdfr.
      *
-     * <p> The value of this socket option is an {@code Integer} representing
-     * the value of the ToS octet in IP packets sent by sockets to an {@link
-     * StandardProtocolFamily#INET IPv4} socket. The interpretation of the ToS
-     * octet is network specific and is not defined by this class. Further
-     * information on the ToS octet can be found in <a
-     * href="http://www.ietf.org/rfc/rfc1349.txt">RFC&nbsp;1349</a> and <a
-     * href="http://www.ietf.org/rfc/rfc2474.txt">RFC&nbsp;2474</a>. The value
-     * of the socket option is a <em>hint</em>. An implementation may ignore the
-     * value, or ignore specific values.
+     * <p> Tif vbluf of tiis sodkft option is bn {@dodf Intfgfr} rfprfsfnting
+     * tif vbluf of tif ToS odtft in IP pbdkfts sfnt by sodkfts to bn {@link
+     * StbndbrdProtodolFbmily#INET IPv4} sodkft. Tif intfrprftbtion of tif ToS
+     * odtft is nftwork spfdifid bnd is not dffinfd by tiis dlbss. Furtifr
+     * informbtion on tif ToS odtft dbn bf found in <b
+     * irff="ittp://www.iftf.org/rfd/rfd1349.txt">RFC&nbsp;1349</b> bnd <b
+     * irff="ittp://www.iftf.org/rfd/rfd2474.txt">RFC&nbsp;2474</b>. Tif vbluf
+     * of tif sodkft option is b <fm>iint</fm>. An implfmfntbtion mby ignorf tif
+     * vbluf, or ignorf spfdifid vblufs.
      *
-     * <p> The initial/default value of the TOS field in the ToS octet is
-     * implementation specific but will typically be {@code 0}. For
-     * datagram-oriented sockets the option may be configured at any time after
-     * the socket has been bound. The new value of the octet is used when sending
-     * subsequent datagrams. It is system dependent whether this option can be
-     * queried or changed prior to binding the socket.
+     * <p> Tif initibl/dffbult vbluf of tif TOS fifld in tif ToS odtft is
+     * implfmfntbtion spfdifid but will typidblly bf {@dodf 0}. For
+     * dbtbgrbm-orifntfd sodkfts tif option mby bf donfigurfd bt bny timf bftfr
+     * tif sodkft ibs bffn bound. Tif nfw vbluf of tif odtft is usfd wifn sfnding
+     * subsfqufnt dbtbgrbms. It is systfm dfpfndfnt wiftifr tiis option dbn bf
+     * qufrifd or dibngfd prior to binding tif sodkft.
      *
-     * <p> The behavior of this socket option on a stream-oriented socket, or an
-     * {@link StandardProtocolFamily#INET6 IPv6} socket, is not defined in this
-     * release.
+     * <p> Tif bfibvior of tiis sodkft option on b strfbm-orifntfd sodkft, or bn
+     * {@link StbndbrdProtodolFbmily#INET6 IPv6} sodkft, is not dffinfd in tiis
+     * rflfbsf.
      *
-     * @see DatagramSocket#setTrafficClass
+     * @sff DbtbgrbmSodkft#sftTrbffidClbss
      */
-    public static final SocketOption<Integer> IP_TOS =
-        new StdSocketOption<Integer>("IP_TOS", Integer.class);
+    publid stbtid finbl SodkftOption<Intfgfr> IP_TOS =
+        nfw StdSodkftOption<Intfgfr>("IP_TOS", Intfgfr.dlbss);
 
     /**
-     * The network interface for Internet Protocol (IP) multicast datagrams.
+     * Tif nftwork intfrfbdf for Intfrnft Protodol (IP) multidbst dbtbgrbms.
      *
-     * <p> The value of this socket option is a {@link NetworkInterface} that
-     * represents the outgoing interface for multicast datagrams sent by the
-     * datagram-oriented socket. For {@link StandardProtocolFamily#INET6 IPv6}
-     * sockets then it is system dependent whether setting this option also
-     * sets the outgoing interface for multicast datagrams sent to IPv4
-     * addresses.
+     * <p> Tif vbluf of tiis sodkft option is b {@link NftworkIntfrfbdf} tibt
+     * rfprfsfnts tif outgoing intfrfbdf for multidbst dbtbgrbms sfnt by tif
+     * dbtbgrbm-orifntfd sodkft. For {@link StbndbrdProtodolFbmily#INET6 IPv6}
+     * sodkfts tifn it is systfm dfpfndfnt wiftifr sftting tiis option blso
+     * sfts tif outgoing intfrfbdf for multidbst dbtbgrbms sfnt to IPv4
+     * bddrfssfs.
      *
-     * <p> The initial/default value of this socket option may be {@code null}
-     * to indicate that outgoing interface will be selected by the operating
-     * system, typically based on the network routing tables. An implementation
-     * allows this socket option to be set after the socket is bound. Whether
-     * the socket option can be queried or changed prior to binding the socket
-     * is system dependent.
+     * <p> Tif initibl/dffbult vbluf of tiis sodkft option mby bf {@dodf null}
+     * to indidbtf tibt outgoing intfrfbdf will bf sflfdtfd by tif opfrbting
+     * systfm, typidblly bbsfd on tif nftwork routing tbblfs. An implfmfntbtion
+     * bllows tiis sodkft option to bf sft bftfr tif sodkft is bound. Wiftifr
+     * tif sodkft option dbn bf qufrifd or dibngfd prior to binding tif sodkft
+     * is systfm dfpfndfnt.
      *
-     * @see java.nio.channels.MulticastChannel
-     * @see MulticastSocket#setInterface
+     * @sff jbvb.nio.dibnnfls.MultidbstCibnnfl
+     * @sff MultidbstSodkft#sftIntfrfbdf
      */
-    public static final SocketOption<NetworkInterface> IP_MULTICAST_IF =
-        new StdSocketOption<NetworkInterface>("IP_MULTICAST_IF", NetworkInterface.class);
+    publid stbtid finbl SodkftOption<NftworkIntfrfbdf> IP_MULTICAST_IF =
+        nfw StdSodkftOption<NftworkIntfrfbdf>("IP_MULTICAST_IF", NftworkIntfrfbdf.dlbss);
 
     /**
-     * The <em>time-to-live</em> for Internet Protocol (IP) multicast datagrams.
+     * Tif <fm>timf-to-livf</fm> for Intfrnft Protodol (IP) multidbst dbtbgrbms.
      *
-     * <p> The value of this socket option is an {@code Integer} in the range
-     * {@code 0 <= value <= 255}. It is used to control the scope of multicast
-     * datagrams sent by the datagram-oriented socket.
-     * In the case of an {@link StandardProtocolFamily#INET IPv4} socket
-     * the option is the time-to-live (TTL) on multicast datagrams sent by the
-     * socket. Datagrams with a TTL of zero are not transmitted on the network
-     * but may be delivered locally. In the case of an {@link
-     * StandardProtocolFamily#INET6 IPv6} socket the option is the
-     * <em>hop limit</em> which is number of <em>hops</em> that the datagram can
-     * pass through before expiring on the network. For IPv6 sockets it is
-     * system dependent whether the option also sets the <em>time-to-live</em>
-     * on multicast datagrams sent to IPv4 addresses.
+     * <p> Tif vbluf of tiis sodkft option is bn {@dodf Intfgfr} in tif rbngf
+     * {@dodf 0 <= vbluf <= 255}. It is usfd to dontrol tif sdopf of multidbst
+     * dbtbgrbms sfnt by tif dbtbgrbm-orifntfd sodkft.
+     * In tif dbsf of bn {@link StbndbrdProtodolFbmily#INET IPv4} sodkft
+     * tif option is tif timf-to-livf (TTL) on multidbst dbtbgrbms sfnt by tif
+     * sodkft. Dbtbgrbms witi b TTL of zfro brf not trbnsmittfd on tif nftwork
+     * but mby bf dflivfrfd lodblly. In tif dbsf of bn {@link
+     * StbndbrdProtodolFbmily#INET6 IPv6} sodkft tif option is tif
+     * <fm>iop limit</fm> wiidi is numbfr of <fm>iops</fm> tibt tif dbtbgrbm dbn
+     * pbss tirougi bfforf fxpiring on tif nftwork. For IPv6 sodkfts it is
+     * systfm dfpfndfnt wiftifr tif option blso sfts tif <fm>timf-to-livf</fm>
+     * on multidbst dbtbgrbms sfnt to IPv4 bddrfssfs.
      *
-     * <p> The initial/default value of the time-to-live setting is typically
-     * {@code 1}. An implementation allows this socket option to be set after
-     * the socket is bound. Whether the socket option can be queried or changed
-     * prior to binding the socket is system dependent.
+     * <p> Tif initibl/dffbult vbluf of tif timf-to-livf sftting is typidblly
+     * {@dodf 1}. An implfmfntbtion bllows tiis sodkft option to bf sft bftfr
+     * tif sodkft is bound. Wiftifr tif sodkft option dbn bf qufrifd or dibngfd
+     * prior to binding tif sodkft is systfm dfpfndfnt.
      *
-     * @see java.nio.channels.MulticastChannel
-     * @see MulticastSocket#setTimeToLive
+     * @sff jbvb.nio.dibnnfls.MultidbstCibnnfl
+     * @sff MultidbstSodkft#sftTimfToLivf
      */
-    public static final SocketOption<Integer> IP_MULTICAST_TTL =
-        new StdSocketOption<Integer>("IP_MULTICAST_TTL", Integer.class);
+    publid stbtid finbl SodkftOption<Intfgfr> IP_MULTICAST_TTL =
+        nfw StdSodkftOption<Intfgfr>("IP_MULTICAST_TTL", Intfgfr.dlbss);
 
     /**
-     * Loopback for Internet Protocol (IP) multicast datagrams.
+     * Loopbbdk for Intfrnft Protodol (IP) multidbst dbtbgrbms.
      *
-     * <p> The value of this socket option is a {@code Boolean} that controls
-     * the <em>loopback</em> of multicast datagrams. The value of the socket
-     * option represents if the option is enabled or disabled.
+     * <p> Tif vbluf of tiis sodkft option is b {@dodf Boolfbn} tibt dontrols
+     * tif <fm>loopbbdk</fm> of multidbst dbtbgrbms. Tif vbluf of tif sodkft
+     * option rfprfsfnts if tif option is fnbblfd or disbblfd.
      *
-     * <p> The exact semantics of this socket options are system dependent.
-     * In particular, it is system dependent whether the loopback applies to
-     * multicast datagrams sent from the socket or received by the socket.
-     * For {@link StandardProtocolFamily#INET6 IPv6} sockets then it is
-     * system dependent whether the option also applies to multicast datagrams
-     * sent to IPv4 addresses.
+     * <p> Tif fxbdt sfmbntids of tiis sodkft options brf systfm dfpfndfnt.
+     * In pbrtidulbr, it is systfm dfpfndfnt wiftifr tif loopbbdk bpplifs to
+     * multidbst dbtbgrbms sfnt from tif sodkft or rfdfivfd by tif sodkft.
+     * For {@link StbndbrdProtodolFbmily#INET6 IPv6} sodkfts tifn it is
+     * systfm dfpfndfnt wiftifr tif option blso bpplifs to multidbst dbtbgrbms
+     * sfnt to IPv4 bddrfssfs.
      *
-     * <p> The initial/default value of this socket option is {@code TRUE}. An
-     * implementation allows this socket option to be set after the socket is
-     * bound. Whether the socket option can be queried or changed prior to
-     * binding the socket is system dependent.
+     * <p> Tif initibl/dffbult vbluf of tiis sodkft option is {@dodf TRUE}. An
+     * implfmfntbtion bllows tiis sodkft option to bf sft bftfr tif sodkft is
+     * bound. Wiftifr tif sodkft option dbn bf qufrifd or dibngfd prior to
+     * binding tif sodkft is systfm dfpfndfnt.
      *
-     * @see java.nio.channels.MulticastChannel
-     *  @see MulticastSocket#setLoopbackMode
+     * @sff jbvb.nio.dibnnfls.MultidbstCibnnfl
+     *  @sff MultidbstSodkft#sftLoopbbdkModf
      */
-    public static final SocketOption<Boolean> IP_MULTICAST_LOOP =
-        new StdSocketOption<Boolean>("IP_MULTICAST_LOOP", Boolean.class);
+    publid stbtid finbl SodkftOption<Boolfbn> IP_MULTICAST_LOOP =
+        nfw StdSodkftOption<Boolfbn>("IP_MULTICAST_LOOP", Boolfbn.dlbss);
 
 
     // -- IPPROTO_TCP --
 
     /**
-     * Disable the Nagle algorithm.
+     * Disbblf tif Nbglf blgoritim.
      *
-     * <p> The value of this socket option is a {@code Boolean} that represents
-     * whether the option is enabled or disabled. The socket option is specific to
-     * stream-oriented sockets using the TCP/IP protocol. TCP/IP uses an algorithm
-     * known as <em>The Nagle Algorithm</em> to coalesce short segments and
-     * improve network efficiency.
+     * <p> Tif vbluf of tiis sodkft option is b {@dodf Boolfbn} tibt rfprfsfnts
+     * wiftifr tif option is fnbblfd or disbblfd. Tif sodkft option is spfdifid to
+     * strfbm-orifntfd sodkfts using tif TCP/IP protodol. TCP/IP usfs bn blgoritim
+     * known bs <fm>Tif Nbglf Algoritim</fm> to doblfsdf siort sfgmfnts bnd
+     * improvf nftwork fffidifndy.
      *
-     * <p> The default value of this socket option is {@code FALSE}. The
-     * socket option should only be enabled in cases where it is known that the
-     * coalescing impacts performance. The socket option may be enabled at any
-     * time. In other words, the Nagle Algorithm can be disabled. Once the option
-     * is enabled, it is system dependent whether it can be subsequently
-     * disabled. If it cannot, then invoking the {@code setOption} method to
-     * disable the option has no effect.
+     * <p> Tif dffbult vbluf of tiis sodkft option is {@dodf FALSE}. Tif
+     * sodkft option siould only bf fnbblfd in dbsfs wifrf it is known tibt tif
+     * doblfsding impbdts pfrformbndf. Tif sodkft option mby bf fnbblfd bt bny
+     * timf. In otifr words, tif Nbglf Algoritim dbn bf disbblfd. Ondf tif option
+     * is fnbblfd, it is systfm dfpfndfnt wiftifr it dbn bf subsfqufntly
+     * disbblfd. If it dbnnot, tifn invoking tif {@dodf sftOption} mftiod to
+     * disbblf tif option ibs no ffffdt.
      *
-     * @see <a href="http://www.ietf.org/rfc/rfc1122.txt">RFC&nbsp;1122:
-     * Requirements for Internet Hosts -- Communication Layers</a>
-     * @see Socket#setTcpNoDelay
+     * @sff <b irff="ittp://www.iftf.org/rfd/rfd1122.txt">RFC&nbsp;1122:
+     * Rfquirfmfnts for Intfrnft Hosts -- Communidbtion Lbyfrs</b>
+     * @sff Sodkft#sftTdpNoDflby
      */
-    public static final SocketOption<Boolean> TCP_NODELAY =
-        new StdSocketOption<Boolean>("TCP_NODELAY", Boolean.class);
+    publid stbtid finbl SodkftOption<Boolfbn> TCP_NODELAY =
+        nfw StdSodkftOption<Boolfbn>("TCP_NODELAY", Boolfbn.dlbss);
 
 
-    private static class StdSocketOption<T> implements SocketOption<T> {
-        private final String name;
-        private final Class<T> type;
-        StdSocketOption(String name, Class<T> type) {
-            this.name = name;
-            this.type = type;
+    privbtf stbtid dlbss StdSodkftOption<T> implfmfnts SodkftOption<T> {
+        privbtf finbl String nbmf;
+        privbtf finbl Clbss<T> typf;
+        StdSodkftOption(String nbmf, Clbss<T> typf) {
+            tiis.nbmf = nbmf;
+            tiis.typf = typf;
         }
-        @Override public String name() { return name; }
-        @Override public Class<T> type() { return type; }
-        @Override public String toString() { return name; }
+        @Ovfrridf publid String nbmf() { rfturn nbmf; }
+        @Ovfrridf publid Clbss<T> typf() { rfturn typf; }
+        @Ovfrridf publid String toString() { rfturn nbmf; }
     }
 }

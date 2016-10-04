@@ -1,317 +1,317 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.internal;
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
 
-import com.sun.jmx.remote.security.NotificationAccessController;
-import com.sun.jmx.remote.util.ClassLogger;
-import com.sun.jmx.remote.util.EnvHelp;
-import java.io.IOException;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.management.InstanceNotFoundException;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanPermission;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerDelegate;
-import javax.management.MBeanServerNotification;
-import javax.management.Notification;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationFilter;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
-import javax.management.remote.NotificationResult;
-import javax.management.remote.TargetedNotification;
-import javax.management.MalformedObjectNameException;
-import javax.security.auth.Subject;
+import dom.sun.jmx.rfmotf.sfdurity.NotifidbtionAddfssControllfr;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnPfrmission;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrNotifidbtion;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.ObjfdtInstbndf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.rfmotf.NotifidbtionRfsult;
+import jbvbx.mbnbgfmfnt.rfmotf.TbrgftfdNotifidbtion;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.sfdurity.buti.Subjfdt;
 
-public class ServerNotifForwarder {
+publid dlbss SfrvfrNotifForwbrdfr {
 
 
-    public ServerNotifForwarder(MBeanServer mbeanServer,
-                                Map<String, ?> env,
-                                NotificationBuffer notifBuffer,
-                                String connectionId) {
-        this.mbeanServer = mbeanServer;
-        this.notifBuffer = notifBuffer;
-        this.connectionId = connectionId;
-        connectionTimeout = EnvHelp.getServerConnectionTimeout(env);
+    publid SfrvfrNotifForwbrdfr(MBfbnSfrvfr mbfbnSfrvfr,
+                                Mbp<String, ?> fnv,
+                                NotifidbtionBufffr notifBufffr,
+                                String donnfdtionId) {
+        tiis.mbfbnSfrvfr = mbfbnSfrvfr;
+        tiis.notifBufffr = notifBufffr;
+        tiis.donnfdtionId = donnfdtionId;
+        donnfdtionTimfout = EnvHflp.gftSfrvfrConnfdtionTimfout(fnv);
 
-        String stringBoolean = (String) env.get("jmx.remote.x.check.notification.emission");
-        checkNotificationEmission = EnvHelp.computeBooleanFromString( stringBoolean );
-        notificationAccessController =
-                EnvHelp.getNotificationAccessController(env);
+        String stringBoolfbn = (String) fnv.gft("jmx.rfmotf.x.difdk.notifidbtion.fmission");
+        difdkNotifidbtionEmission = EnvHflp.domputfBoolfbnFromString( stringBoolfbn );
+        notifidbtionAddfssControllfr =
+                EnvHflp.gftNotifidbtionAddfssControllfr(fnv);
     }
 
-    public Integer addNotificationListener(final ObjectName name,
-        final NotificationFilter filter)
-        throws InstanceNotFoundException, IOException {
+    publid Intfgfr bddNotifidbtionListfnfr(finbl ObjfdtNbmf nbmf,
+        finbl NotifidbtionFiltfr filtfr)
+        tirows InstbndfNotFoundExdfption, IOExdfption {
 
-        if (logger.traceOn()) {
-            logger.trace("addNotificationListener",
-                "Add a listener at " + name);
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("bddNotifidbtionListfnfr",
+                "Add b listfnfr bt " + nbmf);
         }
 
-        checkState();
+        difdkStbtf();
 
-        // Explicitly check MBeanPermission for addNotificationListener
+        // Expliditly difdk MBfbnPfrmission for bddNotifidbtionListfnfr
         //
-        checkMBeanPermission(name, "addNotificationListener");
-        if (notificationAccessController != null) {
-            notificationAccessController.addNotificationListener(
-                connectionId, name, getSubject());
+        difdkMBfbnPfrmission(nbmf, "bddNotifidbtionListfnfr");
+        if (notifidbtionAddfssControllfr != null) {
+            notifidbtionAddfssControllfr.bddNotifidbtionListfnfr(
+                donnfdtionId, nbmf, gftSubjfdt());
         }
         try {
-            boolean instanceOf =
-            AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<Boolean>() {
-                        public Boolean run() throws InstanceNotFoundException {
-                            return mbeanServer.isInstanceOf(name, broadcasterClass);
+            boolfbn instbndfOf =
+            AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<Boolfbn>() {
+                        publid Boolfbn run() tirows InstbndfNotFoundExdfption {
+                            rfturn mbfbnSfrvfr.isInstbndfOf(nbmf, brobddbstfrClbss);
                         }
             });
-            if (!instanceOf) {
-                throw new IllegalArgumentException("The specified MBean [" +
-                    name + "] is not a " +
-                    "NotificationBroadcaster " +
-                    "object.");
+            if (!instbndfOf) {
+                tirow nfw IllfgblArgumfntExdfption("Tif spfdififd MBfbn [" +
+                    nbmf + "] is not b " +
+                    "NotifidbtionBrobddbstfr " +
+                    "objfdt.");
             }
-        } catch (PrivilegedActionException e) {
-            throw (InstanceNotFoundException) extractException(e);
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow (InstbndfNotFoundExdfption) fxtrbdtExdfption(f);
         }
 
-        final Integer id = getListenerID();
+        finbl Intfgfr id = gftListfnfrID();
 
-        // 6238731: set the default domain if no domain is set.
-        ObjectName nn = name;
-        if (name.getDomain() == null || name.getDomain().equals("")) {
+        // 6238731: sft tif dffbult dombin if no dombin is sft.
+        ObjfdtNbmf nn = nbmf;
+        if (nbmf.gftDombin() == null || nbmf.gftDombin().fqubls("")) {
             try {
-                nn = ObjectName.getInstance(mbeanServer.getDefaultDomain(),
-                                            name.getKeyPropertyList());
-            } catch (MalformedObjectNameException mfoe) {
-                // impossible, but...
-                IOException ioe = new IOException(mfoe.getMessage());
-                ioe.initCause(mfoe);
-                throw ioe;
+                nn = ObjfdtNbmf.gftInstbndf(mbfbnSfrvfr.gftDffbultDombin(),
+                                            nbmf.gftKfyPropfrtyList());
+            } dbtdi (MblformfdObjfdtNbmfExdfption mfof) {
+                // impossiblf, but...
+                IOExdfption iof = nfw IOExdfption(mfof.gftMfssbgf());
+                iof.initCbusf(mfof);
+                tirow iof;
             }
         }
 
-        synchronized (listenerMap) {
-            IdAndFilter idaf = new IdAndFilter(id, filter);
-            Set<IdAndFilter> set = listenerMap.get(nn);
-            // Tread carefully because if set.size() == 1 it may be the
-            // Collections.singleton we make here, which is unmodifiable.
-            if (set == null)
-                set = Collections.singleton(idaf);
-            else {
-                if (set.size() == 1)
-                    set = new HashSet<IdAndFilter>(set);
-                set.add(idaf);
+        syndironizfd (listfnfrMbp) {
+            IdAndFiltfr idbf = nfw IdAndFiltfr(id, filtfr);
+            Sft<IdAndFiltfr> sft = listfnfrMbp.gft(nn);
+            // Trfbd dbrffully bfdbusf if sft.sizf() == 1 it mby bf tif
+            // Collfdtions.singlfton wf mbkf ifrf, wiidi is unmodifibblf.
+            if (sft == null)
+                sft = Collfdtions.singlfton(idbf);
+            flsf {
+                if (sft.sizf() == 1)
+                    sft = nfw HbsiSft<IdAndFiltfr>(sft);
+                sft.bdd(idbf);
             }
-            listenerMap.put(nn, set);
+            listfnfrMbp.put(nn, sft);
         }
 
-        return id;
+        rfturn id;
     }
 
-    public void removeNotificationListener(ObjectName name,
-        Integer[] listenerIDs)
-        throws Exception {
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+        Intfgfr[] listfnfrIDs)
+        tirows Exdfption {
 
-        if (logger.traceOn()) {
-            logger.trace("removeNotificationListener",
-                "Remove some listeners from " + name);
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("rfmovfNotifidbtionListfnfr",
+                "Rfmovf somf listfnfrs from " + nbmf);
         }
 
-        checkState();
+        difdkStbtf();
 
-        // Explicitly check MBeanPermission for removeNotificationListener
+        // Expliditly difdk MBfbnPfrmission for rfmovfNotifidbtionListfnfr
         //
-        checkMBeanPermission(name, "removeNotificationListener");
-        if (notificationAccessController != null) {
-            notificationAccessController.removeNotificationListener(
-                connectionId, name, getSubject());
+        difdkMBfbnPfrmission(nbmf, "rfmovfNotifidbtionListfnfr");
+        if (notifidbtionAddfssControllfr != null) {
+            notifidbtionAddfssControllfr.rfmovfNotifidbtionListfnfr(
+                donnfdtionId, nbmf, gftSubjfdt());
         }
 
-        Exception re = null;
-        for (int i = 0 ; i < listenerIDs.length ; i++) {
+        Exdfption rf = null;
+        for (int i = 0 ; i < listfnfrIDs.lfngti ; i++) {
             try {
-                removeNotificationListener(name, listenerIDs[i]);
-            } catch (Exception e) {
-                // Give back the first exception
+                rfmovfNotifidbtionListfnfr(nbmf, listfnfrIDs[i]);
+            } dbtdi (Exdfption f) {
+                // Givf bbdk tif first fxdfption
                 //
-                if (re != null) {
-                    re = e;
+                if (rf != null) {
+                    rf = f;
                 }
             }
         }
-        if (re != null) {
-            throw re;
+        if (rf != null) {
+            tirow rf;
         }
     }
 
-    public void removeNotificationListener(ObjectName name, Integer listenerID)
-    throws
-        InstanceNotFoundException,
-        ListenerNotFoundException,
-        IOException {
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf, Intfgfr listfnfrID)
+    tirows
+        InstbndfNotFoundExdfption,
+        ListfnfrNotFoundExdfption,
+        IOExdfption {
 
-        if (logger.traceOn()) {
-            logger.trace("removeNotificationListener",
-                "Remove the listener " + listenerID + " from " + name);
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("rfmovfNotifidbtionListfnfr",
+                "Rfmovf tif listfnfr " + listfnfrID + " from " + nbmf);
         }
 
-        checkState();
+        difdkStbtf();
 
-        if (name != null && !name.isPattern()) {
-            if (!mbeanServer.isRegistered(name)) {
-                throw new InstanceNotFoundException("The MBean " + name +
-                    " is not registered.");
+        if (nbmf != null && !nbmf.isPbttfrn()) {
+            if (!mbfbnSfrvfr.isRfgistfrfd(nbmf)) {
+                tirow nfw InstbndfNotFoundExdfption("Tif MBfbn " + nbmf +
+                    " is not rfgistfrfd.");
             }
         }
 
-        synchronized (listenerMap) {
-            // Tread carefully because if set.size() == 1 it may be a
-            // Collections.singleton, which is unmodifiable.
-            Set<IdAndFilter> set = listenerMap.get(name);
-            IdAndFilter idaf = new IdAndFilter(listenerID, null);
-            if (set == null || !set.contains(idaf))
-                throw new ListenerNotFoundException("Listener not found");
-            if (set.size() == 1)
-                listenerMap.remove(name);
-            else
-                set.remove(idaf);
+        syndironizfd (listfnfrMbp) {
+            // Trfbd dbrffully bfdbusf if sft.sizf() == 1 it mby bf b
+            // Collfdtions.singlfton, wiidi is unmodifibblf.
+            Sft<IdAndFiltfr> sft = listfnfrMbp.gft(nbmf);
+            IdAndFiltfr idbf = nfw IdAndFiltfr(listfnfrID, null);
+            if (sft == null || !sft.dontbins(idbf))
+                tirow nfw ListfnfrNotFoundExdfption("Listfnfr not found");
+            if (sft.sizf() == 1)
+                listfnfrMbp.rfmovf(nbmf);
+            flsf
+                sft.rfmovf(idbf);
         }
     }
 
-    /* This is the object that will apply our filtering to candidate
-     * notifications.  First of all, if there are no listeners for the
-     * ObjectName that the notification is coming from, we go no further.
-     * Then, for each listener, we must apply the corresponding filter (if any)
-     * and ignore the listener if the filter rejects.  Finally, we apply
-     * some access checks which may also reject the listener.
+    /* Tiis is tif objfdt tibt will bpply our filtfring to dbndidbtf
+     * notifidbtions.  First of bll, if tifrf brf no listfnfrs for tif
+     * ObjfdtNbmf tibt tif notifidbtion is doming from, wf go no furtifr.
+     * Tifn, for fbdi listfnfr, wf must bpply tif dorrfsponding filtfr (if bny)
+     * bnd ignorf tif listfnfr if tif filtfr rfjfdts.  Finblly, wf bpply
+     * somf bddfss difdks wiidi mby blso rfjfdt tif listfnfr.
      *
-     * A given notification may trigger several listeners on the same MBean,
-     * which is why listenerMap is a Map<ObjectName, Set<IdAndFilter>> and
-     * why we add the found notifications to a supplied List rather than
-     * just returning a boolean.
+     * A givfn notifidbtion mby triggfr sfvfrbl listfnfrs on tif sbmf MBfbn,
+     * wiidi is wiy listfnfrMbp is b Mbp<ObjfdtNbmf, Sft<IdAndFiltfr>> bnd
+     * wiy wf bdd tif found notifidbtions to b supplifd List rbtifr tibn
+     * just rfturning b boolfbn.
      */
-    private final NotifForwarderBufferFilter bufferFilter = new NotifForwarderBufferFilter();
+    privbtf finbl NotifForwbrdfrBufffrFiltfr bufffrFiltfr = nfw NotifForwbrdfrBufffrFiltfr();
 
-    final class NotifForwarderBufferFilter implements NotificationBufferFilter {
-        public void apply(List<TargetedNotification> targetedNotifs,
-                          ObjectName source, Notification notif) {
-            // We proceed in two stages here, to avoid holding the listenerMap
-            // lock while invoking the filters (which are user code).
-            final IdAndFilter[] candidates;
-            synchronized (listenerMap) {
-                final Set<IdAndFilter> set = listenerMap.get(source);
-                if (set == null) {
-                    logger.debug("bufferFilter", "no listeners for this name");
-                    return;
+    finbl dlbss NotifForwbrdfrBufffrFiltfr implfmfnts NotifidbtionBufffrFiltfr {
+        publid void bpply(List<TbrgftfdNotifidbtion> tbrgftfdNotifs,
+                          ObjfdtNbmf sourdf, Notifidbtion notif) {
+            // Wf prodffd in two stbgfs ifrf, to bvoid iolding tif listfnfrMbp
+            // lodk wiilf invoking tif filtfrs (wiidi brf usfr dodf).
+            finbl IdAndFiltfr[] dbndidbtfs;
+            syndironizfd (listfnfrMbp) {
+                finbl Sft<IdAndFiltfr> sft = listfnfrMbp.gft(sourdf);
+                if (sft == null) {
+                    loggfr.dfbug("bufffrFiltfr", "no listfnfrs for tiis nbmf");
+                    rfturn;
                 }
-                candidates = new IdAndFilter[set.size()];
-                set.toArray(candidates);
+                dbndidbtfs = nfw IdAndFiltfr[sft.sizf()];
+                sft.toArrby(dbndidbtfs);
             }
-            // We don't synchronize on targetedNotifs, because it is a local
-            // variable of our caller and no other thread can see it.
-            for (IdAndFilter idaf : candidates) {
-                final NotificationFilter nf = idaf.getFilter();
-                if (nf == null || nf.isNotificationEnabled(notif)) {
-                    logger.debug("bufferFilter", "filter matches");
-                    final TargetedNotification tn =
-                            new TargetedNotification(notif, idaf.getId());
-                    if (allowNotificationEmission(source, tn))
-                        targetedNotifs.add(tn);
+            // Wf don't syndironizf on tbrgftfdNotifs, bfdbusf it is b lodbl
+            // vbribblf of our dbllfr bnd no otifr tirfbd dbn sff it.
+            for (IdAndFiltfr idbf : dbndidbtfs) {
+                finbl NotifidbtionFiltfr nf = idbf.gftFiltfr();
+                if (nf == null || nf.isNotifidbtionEnbblfd(notif)) {
+                    loggfr.dfbug("bufffrFiltfr", "filtfr mbtdifs");
+                    finbl TbrgftfdNotifidbtion tn =
+                            nfw TbrgftfdNotifidbtion(notif, idbf.gftId());
+                    if (bllowNotifidbtionEmission(sourdf, tn))
+                        tbrgftfdNotifs.bdd(tn);
                 }
             }
         }
     };
 
-    public NotificationResult fetchNotifs(long startSequenceNumber,
-        long timeout,
-        int maxNotifications) {
-        if (logger.traceOn()) {
-            logger.trace("fetchNotifs", "Fetching notifications, the " +
-                "startSequenceNumber is " + startSequenceNumber +
-                ", the timeout is " + timeout +
-                ", the maxNotifications is " + maxNotifications);
+    publid NotifidbtionRfsult fftdiNotifs(long stbrtSfqufndfNumbfr,
+        long timfout,
+        int mbxNotifidbtions) {
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("fftdiNotifs", "Fftdiing notifidbtions, tif " +
+                "stbrtSfqufndfNumbfr is " + stbrtSfqufndfNumbfr +
+                ", tif timfout is " + timfout +
+                ", tif mbxNotifidbtions is " + mbxNotifidbtions);
         }
 
-        NotificationResult nr;
-        final long t = Math.min(connectionTimeout, timeout);
+        NotifidbtionRfsult nr;
+        finbl long t = Mbti.min(donnfdtionTimfout, timfout);
         try {
-            nr = notifBuffer.fetchNotifications(bufferFilter,
-                startSequenceNumber,
-                t, maxNotifications);
-            snoopOnUnregister(nr);
-        } catch (InterruptedException ire) {
-            nr = new NotificationResult(0L, 0L, new TargetedNotification[0]);
+            nr = notifBufffr.fftdiNotifidbtions(bufffrFiltfr,
+                stbrtSfqufndfNumbfr,
+                t, mbxNotifidbtions);
+            snoopOnUnrfgistfr(nr);
+        } dbtdi (IntfrruptfdExdfption irf) {
+            nr = nfw NotifidbtionRfsult(0L, 0L, nfw TbrgftfdNotifidbtion[0]);
         }
 
-        if (logger.traceOn()) {
-            logger.trace("fetchNotifs", "Forwarding the notifs: "+nr);
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("fftdiNotifs", "Forwbrding tif notifs: "+nr);
         }
 
-        return nr;
+        rfturn nr;
     }
 
-    // The standard RMI connector client will register a listener on the MBeanServerDelegate
-    // in order to be told when MBeans are unregistered.  We snoop on fetched notifications
-    // so that we can know too, and remove the corresponding entry from the listenerMap.
-    // See 6957378.
-    private void snoopOnUnregister(NotificationResult nr) {
-        List<IdAndFilter> copy = null;
-        synchronized (listenerMap) {
-            Set<IdAndFilter> delegateSet = listenerMap.get(MBeanServerDelegate.DELEGATE_NAME);
-            if (delegateSet == null || delegateSet.isEmpty()) {
-                return;
+    // Tif stbndbrd RMI donnfdtor dlifnt will rfgistfr b listfnfr on tif MBfbnSfrvfrDflfgbtf
+    // in ordfr to bf told wifn MBfbns brf unrfgistfrfd.  Wf snoop on fftdifd notifidbtions
+    // so tibt wf dbn know too, bnd rfmovf tif dorrfsponding fntry from tif listfnfrMbp.
+    // Sff 6957378.
+    privbtf void snoopOnUnrfgistfr(NotifidbtionRfsult nr) {
+        List<IdAndFiltfr> dopy = null;
+        syndironizfd (listfnfrMbp) {
+            Sft<IdAndFiltfr> dflfgbtfSft = listfnfrMbp.gft(MBfbnSfrvfrDflfgbtf.DELEGATE_NAME);
+            if (dflfgbtfSft == null || dflfgbtfSft.isEmpty()) {
+                rfturn;
             }
-            copy = new ArrayList<>(delegateSet);
+            dopy = nfw ArrbyList<>(dflfgbtfSft);
         }
 
-        for (TargetedNotification tn : nr.getTargetedNotifications()) {
-            Integer id = tn.getListenerID();
-            for (IdAndFilter idaf : copy) {
-                if (idaf.id == id) {
-                    // This is a notification from the MBeanServerDelegate.
-                    Notification n = tn.getNotification();
-                    if (n instanceof MBeanServerNotification &&
-                            n.getType().equals(MBeanServerNotification.UNREGISTRATION_NOTIFICATION)) {
-                        MBeanServerNotification mbsn = (MBeanServerNotification) n;
-                        ObjectName gone = mbsn.getMBeanName();
-                        synchronized (listenerMap) {
-                            listenerMap.remove(gone);
+        for (TbrgftfdNotifidbtion tn : nr.gftTbrgftfdNotifidbtions()) {
+            Intfgfr id = tn.gftListfnfrID();
+            for (IdAndFiltfr idbf : dopy) {
+                if (idbf.id == id) {
+                    // Tiis is b notifidbtion from tif MBfbnSfrvfrDflfgbtf.
+                    Notifidbtion n = tn.gftNotifidbtion();
+                    if (n instbndfof MBfbnSfrvfrNotifidbtion &&
+                            n.gftTypf().fqubls(MBfbnSfrvfrNotifidbtion.UNREGISTRATION_NOTIFICATION)) {
+                        MBfbnSfrvfrNotifidbtion mbsn = (MBfbnSfrvfrNotifidbtion) n;
+                        ObjfdtNbmf gonf = mbsn.gftMBfbnNbmf();
+                        syndironizfd (listfnfrMbp) {
+                            listfnfrMbp.rfmovf(gonf);
                         }
                     }
                 }
@@ -319,25 +319,25 @@ public class ServerNotifForwarder {
         }
     }
 
-    public void terminate() {
-        if (logger.traceOn()) {
-            logger.trace("terminate", "Be called.");
+    publid void tfrminbtf() {
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("tfrminbtf", "Bf dbllfd.");
         }
 
-        synchronized(terminationLock) {
-            if (terminated) {
-                return;
+        syndironizfd(tfrminbtionLodk) {
+            if (tfrminbtfd) {
+                rfturn;
             }
 
-            terminated = true;
+            tfrminbtfd = truf;
 
-            synchronized(listenerMap) {
-                listenerMap.clear();
+            syndironizfd(listfnfrMbp) {
+                listfnfrMbp.dlfbr();
             }
         }
 
-        if (logger.traceOn()) {
-            logger.trace("terminate", "Terminated.");
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("tfrminbtf", "Tfrminbtfd.");
         }
     }
 
@@ -345,131 +345,131 @@ public class ServerNotifForwarder {
     // PRIVATE METHODS
     //----------------
 
-    private Subject getSubject() {
-        return Subject.getSubject(AccessController.getContext());
+    privbtf Subjfdt gftSubjfdt() {
+        rfturn Subjfdt.gftSubjfdt(AddfssControllfr.gftContfxt());
     }
 
-    private void checkState() throws IOException {
-        synchronized(terminationLock) {
-            if (terminated) {
-                throw new IOException("The connection has been terminated.");
+    privbtf void difdkStbtf() tirows IOExdfption {
+        syndironizfd(tfrminbtionLodk) {
+            if (tfrminbtfd) {
+                tirow nfw IOExdfption("Tif donnfdtion ibs bffn tfrminbtfd.");
             }
         }
     }
 
-    private Integer getListenerID() {
-        synchronized(listenerCounterLock) {
-            return listenerCounter++;
+    privbtf Intfgfr gftListfnfrID() {
+        syndironizfd(listfnfrCountfrLodk) {
+            rfturn listfnfrCountfr++;
         }
     }
 
     /**
-     * Explicitly check the MBeanPermission for
-     * the current access control context.
+     * Expliditly difdk tif MBfbnPfrmission for
+     * tif durrfnt bddfss dontrol dontfxt.
      */
-    public final void checkMBeanPermission(
-            final ObjectName name, final String actions)
-            throws InstanceNotFoundException, SecurityException {
-        checkMBeanPermission(mbeanServer,name,actions);
+    publid finbl void difdkMBfbnPfrmission(
+            finbl ObjfdtNbmf nbmf, finbl String bdtions)
+            tirows InstbndfNotFoundExdfption, SfdurityExdfption {
+        difdkMBfbnPfrmission(mbfbnSfrvfr,nbmf,bdtions);
     }
 
-    static void checkMBeanPermission(
-            final MBeanServer mbs, final ObjectName name, final String actions)
-            throws InstanceNotFoundException, SecurityException {
+    stbtid void difdkMBfbnPfrmission(
+            finbl MBfbnSfrvfr mbs, finbl ObjfdtNbmf nbmf, finbl String bdtions)
+            tirows InstbndfNotFoundExdfption, SfdurityExdfption {
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            AccessControlContext acc = AccessController.getContext();
-            ObjectInstance oi;
+            AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+            ObjfdtInstbndf oi;
             try {
-                oi = AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<ObjectInstance>() {
-                        public ObjectInstance run()
-                        throws InstanceNotFoundException {
-                            return mbs.getObjectInstance(name);
+                oi = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<ObjfdtInstbndf>() {
+                        publid ObjfdtInstbndf run()
+                        tirows InstbndfNotFoundExdfption {
+                            rfturn mbs.gftObjfdtInstbndf(nbmf);
                         }
                 });
-            } catch (PrivilegedActionException e) {
-                throw (InstanceNotFoundException) extractException(e);
+            } dbtdi (PrivilfgfdAdtionExdfption f) {
+                tirow (InstbndfNotFoundExdfption) fxtrbdtExdfption(f);
             }
-            String classname = oi.getClassName();
-            MBeanPermission perm = new MBeanPermission(
-                classname,
+            String dlbssnbmf = oi.gftClbssNbmf();
+            MBfbnPfrmission pfrm = nfw MBfbnPfrmission(
+                dlbssnbmf,
                 null,
-                name,
-                actions);
-            sm.checkPermission(perm, acc);
+                nbmf,
+                bdtions);
+            sm.difdkPfrmission(pfrm, bdd);
         }
     }
 
     /**
-     * Check if the caller has the right to get the following notifications.
+     * Cifdk if tif dbllfr ibs tif rigit to gft tif following notifidbtions.
      */
-    private boolean allowNotificationEmission(ObjectName name,
-                                              TargetedNotification tn) {
+    privbtf boolfbn bllowNotifidbtionEmission(ObjfdtNbmf nbmf,
+                                              TbrgftfdNotifidbtion tn) {
         try {
-            if (checkNotificationEmission) {
-                checkMBeanPermission(name, "addNotificationListener");
+            if (difdkNotifidbtionEmission) {
+                difdkMBfbnPfrmission(nbmf, "bddNotifidbtionListfnfr");
             }
-            if (notificationAccessController != null) {
-                notificationAccessController.fetchNotification(
-                        connectionId, name, tn.getNotification(), getSubject());
+            if (notifidbtionAddfssControllfr != null) {
+                notifidbtionAddfssControllfr.fftdiNotifidbtion(
+                        donnfdtionId, nbmf, tn.gftNotifidbtion(), gftSubjfdt());
             }
-            return true;
-        } catch (SecurityException e) {
-            if (logger.debugOn()) {
-                logger.debug("fetchNotifs", "Notification " +
-                        tn.getNotification() + " not forwarded: the " +
-                        "caller didn't have the required access rights");
+            rfturn truf;
+        } dbtdi (SfdurityExdfption f) {
+            if (loggfr.dfbugOn()) {
+                loggfr.dfbug("fftdiNotifs", "Notifidbtion " +
+                        tn.gftNotifidbtion() + " not forwbrdfd: tif " +
+                        "dbllfr didn't ibvf tif rfquirfd bddfss rigits");
             }
-            return false;
-        } catch (Exception e) {
-            if (logger.debugOn()) {
-                logger.debug("fetchNotifs", "Notification " +
-                        tn.getNotification() + " not forwarded: " +
-                        "got an unexpected exception: " + e);
+            rfturn fblsf;
+        } dbtdi (Exdfption f) {
+            if (loggfr.dfbugOn()) {
+                loggfr.dfbug("fftdiNotifs", "Notifidbtion " +
+                        tn.gftNotifidbtion() + " not forwbrdfd: " +
+                        "got bn unfxpfdtfd fxdfption: " + f);
             }
-            return false;
+            rfturn fblsf;
         }
     }
 
     /**
-     * Iterate until we extract the real exception
-     * from a stack of PrivilegedActionExceptions.
+     * Itfrbtf until wf fxtrbdt tif rfbl fxdfption
+     * from b stbdk of PrivilfgfdAdtionExdfptions.
      */
-    private static Exception extractException(Exception e) {
-        while (e instanceof PrivilegedActionException) {
-            e = ((PrivilegedActionException)e).getException();
+    privbtf stbtid Exdfption fxtrbdtExdfption(Exdfption f) {
+        wiilf (f instbndfof PrivilfgfdAdtionExdfption) {
+            f = ((PrivilfgfdAdtionExdfption)f).gftExdfption();
         }
-        return e;
+        rfturn f;
     }
 
-    private static class IdAndFilter {
-        private Integer id;
-        private NotificationFilter filter;
+    privbtf stbtid dlbss IdAndFiltfr {
+        privbtf Intfgfr id;
+        privbtf NotifidbtionFiltfr filtfr;
 
-        IdAndFilter(Integer id, NotificationFilter filter) {
-            this.id = id;
-            this.filter = filter;
+        IdAndFiltfr(Intfgfr id, NotifidbtionFiltfr filtfr) {
+            tiis.id = id;
+            tiis.filtfr = filtfr;
         }
 
-        Integer getId() {
-            return this.id;
+        Intfgfr gftId() {
+            rfturn tiis.id;
         }
 
-        NotificationFilter getFilter() {
-            return this.filter;
+        NotifidbtionFiltfr gftFiltfr() {
+            rfturn tiis.filtfr;
         }
 
-        @Override
-        public int hashCode() {
-            return id.hashCode();
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn id.ibsiCodf();
         }
 
-        @Override
-        public boolean equals(Object o) {
-            return ((o instanceof IdAndFilter) &&
-                    ((IdAndFilter) o).getId().equals(getId()));
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn ((o instbndfof IdAndFiltfr) &&
+                    ((IdAndFiltfr) o).gftId().fqubls(gftId()));
         }
     }
 
@@ -478,29 +478,29 @@ public class ServerNotifForwarder {
     // PRIVATE VARIABLES
     //------------------
 
-    private MBeanServer mbeanServer;
+    privbtf MBfbnSfrvfr mbfbnSfrvfr;
 
-    private final String connectionId;
+    privbtf finbl String donnfdtionId;
 
-    private final long connectionTimeout;
+    privbtf finbl long donnfdtionTimfout;
 
-    private static int listenerCounter = 0;
-    private final static int[] listenerCounterLock = new int[0];
+    privbtf stbtid int listfnfrCountfr = 0;
+    privbtf finbl stbtid int[] listfnfrCountfrLodk = nfw int[0];
 
-    private NotificationBuffer notifBuffer;
-    private final Map<ObjectName, Set<IdAndFilter>> listenerMap =
-            new HashMap<ObjectName, Set<IdAndFilter>>();
+    privbtf NotifidbtionBufffr notifBufffr;
+    privbtf finbl Mbp<ObjfdtNbmf, Sft<IdAndFiltfr>> listfnfrMbp =
+            nfw HbsiMbp<ObjfdtNbmf, Sft<IdAndFiltfr>>();
 
-    private boolean terminated = false;
-    private final int[] terminationLock = new int[0];
+    privbtf boolfbn tfrminbtfd = fblsf;
+    privbtf finbl int[] tfrminbtionLodk = nfw int[0];
 
-    static final String broadcasterClass =
-        NotificationBroadcaster.class.getName();
+    stbtid finbl String brobddbstfrClbss =
+        NotifidbtionBrobddbstfr.dlbss.gftNbmf();
 
-    private final boolean checkNotificationEmission;
+    privbtf finbl boolfbn difdkNotifidbtionEmission;
 
-    private final NotificationAccessController notificationAccessController;
+    privbtf finbl NotifidbtionAddfssControllfr notifidbtionAddfssControllfr;
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc", "ServerNotifForwarder");
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd", "SfrvfrNotifForwbrdfr");
 }

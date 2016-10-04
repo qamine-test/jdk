@@ -1,877 +1,877 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.net.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
+import jbvb.nft.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
-import java.security.Principal;
-import java.security.PrivateKey;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateEncodingException;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfEndodingExdfption;
 
-import javax.crypto.SecretKey;
+import jbvbx.drypto.SfdrftKfy;
 
-import javax.net.ssl.SSLSessionContext;
-import javax.net.ssl.SSLSessionBindingListener;
-import javax.net.ssl.SSLSessionBindingEvent;
-import javax.net.ssl.SSLPeerUnverifiedException;
-import javax.net.ssl.SSLPermission;
-import javax.net.ssl.ExtendedSSLSession;
-import javax.net.ssl.SNIServerName;
+import jbvbx.nft.ssl.SSLSfssionContfxt;
+import jbvbx.nft.ssl.SSLSfssionBindingListfnfr;
+import jbvbx.nft.ssl.SSLSfssionBindingEvfnt;
+import jbvbx.nft.ssl.SSLPffrUnvfrififdExdfption;
+import jbvbx.nft.ssl.SSLPfrmission;
+import jbvbx.nft.ssl.ExtfndfdSSLSfssion;
+import jbvbx.nft.ssl.SNISfrvfrNbmf;
 
-import static sun.security.ssl.CipherSuite.KeyExchange.*;
+import stbtid sun.sfdurity.ssl.CipifrSuitf.KfyExdibngf.*;
 
 /**
- * Implements the SSL session interface, and exposes the session context
- * which is maintained by SSL servers.
+ * Implfmfnts tif SSL sfssion intfrfbdf, bnd fxposfs tif sfssion dontfxt
+ * wiidi is mbintbinfd by SSL sfrvfrs.
  *
- * <P> Servers have the ability to manage the sessions associated with
- * their authentication context(s).  They can do this by enumerating the
- * IDs of the sessions which are cached, examining those sessions, and then
- * perhaps invalidating a given session so that it can't be used again.
- * If servers do not explicitly manage the cache, sessions will linger
- * until memory is low enough that the runtime environment purges cache
- * entries automatically to reclaim space.
+ * <P> Sfrvfrs ibvf tif bbility to mbnbgf tif sfssions bssodibtfd witi
+ * tifir butifntidbtion dontfxt(s).  Tify dbn do tiis by fnumfrbting tif
+ * IDs of tif sfssions wiidi brf dbdifd, fxbmining tiosf sfssions, bnd tifn
+ * pfribps invblidbting b givfn sfssion so tibt it dbn't bf usfd bgbin.
+ * If sfrvfrs do not fxpliditly mbnbgf tif dbdif, sfssions will lingfr
+ * until mfmory is low fnougi tibt tif runtimf fnvironmfnt purgfs dbdif
+ * fntrifs butombtidblly to rfdlbim spbdf.
  *
- * <P><em> The only reason this class is not package-private is that
- * there's no other public way to get at the server session context which
- * is associated with any given authentication context. </em>
+ * <P><fm> Tif only rfbson tiis dlbss is not pbdkbgf-privbtf is tibt
+ * tifrf's no otifr publid wby to gft bt tif sfrvfr sfssion dontfxt wiidi
+ * is bssodibtfd witi bny givfn butifntidbtion dontfxt. </fm>
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-final class SSLSessionImpl extends ExtendedSSLSession {
+finbl dlbss SSLSfssionImpl fxtfnds ExtfndfdSSLSfssion {
 
     /*
-     * we only really need a single null session
+     * wf only rfblly nffd b singlf null sfssion
      */
-    static final SSLSessionImpl         nullSession = new SSLSessionImpl();
+    stbtid finbl SSLSfssionImpl         nullSfssion = nfw SSLSfssionImpl();
 
-    // compression methods
-    private static final byte           compression_null = 0;
+    // domprfssion mftiods
+    privbtf stbtid finbl bytf           domprfssion_null = 0;
 
     /*
-     * The state of a single session, as described in section 7.1
-     * of the SSLv3 spec.
+     * Tif stbtf of b singlf sfssion, bs dfsdribfd in sfdtion 7.1
+     * of tif SSLv3 spfd.
      */
-    private final ProtocolVersion       protocolVersion;
-    private final SessionId             sessionId;
-    private X509Certificate[]   peerCerts;
-    private byte                compressionMethod;
-    private CipherSuite         cipherSuite;
-    private SecretKey           masterSecret;
+    privbtf finbl ProtodolVfrsion       protodolVfrsion;
+    privbtf finbl SfssionId             sfssionId;
+    privbtf X509Cfrtifidbtf[]   pffrCfrts;
+    privbtf bytf                domprfssionMftiod;
+    privbtf CipifrSuitf         dipifrSuitf;
+    privbtf SfdrftKfy           mbstfrSfdrft;
 
     /*
-     * Information not part of the SSLv3 protocol spec, but used
-     * to support session management policies.
+     * Informbtion not pbrt of tif SSLv3 protodol spfd, but usfd
+     * to support sfssion mbnbgfmfnt polidifs.
      */
-    private final long          creationTime = System.currentTimeMillis();
-    private long                lastUsedTime = 0;
-    private final String        host;
-    private final int           port;
-    private SSLSessionContextImpl       context;
-    private int                 sessionCount;
-    private boolean             invalidated;
-    private X509Certificate[]   localCerts;
-    private PrivateKey          localPrivateKey;
-    private String[]            localSupportedSignAlgs;
-    private String[]            peerSupportedSignAlgs;
-    private List<SNIServerName>    requestedServerNames;
+    privbtf finbl long          drfbtionTimf = Systfm.durrfntTimfMillis();
+    privbtf long                lbstUsfdTimf = 0;
+    privbtf finbl String        iost;
+    privbtf finbl int           port;
+    privbtf SSLSfssionContfxtImpl       dontfxt;
+    privbtf int                 sfssionCount;
+    privbtf boolfbn             invblidbtfd;
+    privbtf X509Cfrtifidbtf[]   lodblCfrts;
+    privbtf PrivbtfKfy          lodblPrivbtfKfy;
+    privbtf String[]            lodblSupportfdSignAlgs;
+    privbtf String[]            pffrSupportfdSignAlgs;
+    privbtf List<SNISfrvfrNbmf>    rfqufstfdSfrvfrNbmfs;
 
 
-    // Principals for non-certificate based cipher suites
-    private Principal peerPrincipal;
-    private Principal localPrincipal;
+    // Prindipbls for non-dfrtifidbtf bbsfd dipifr suitfs
+    privbtf Prindipbl pffrPrindipbl;
+    privbtf Prindipbl lodblPrindipbl;
 
     /*
-     * We count session creations, eventually for statistical data but
-     * also since counters make shorter debugging IDs than the big ones
-     * we use in the protocol for uniqueness-over-time.
+     * Wf dount sfssion drfbtions, fvfntublly for stbtistidbl dbtb but
+     * blso sindf dountfrs mbkf siortfr dfbugging IDs tibn tif big onfs
+     * wf usf in tif protodol for uniqufnfss-ovfr-timf.
      */
-    private static volatile int counter = 0;
+    privbtf stbtid volbtilf int dountfr = 0;
 
     /*
-     * Use of session caches is globally enabled/disabled.
+     * Usf of sfssion dbdifs is globblly fnbblfd/disbblfd.
      */
-    private static boolean      defaultRejoinable = true;
+    privbtf stbtid boolfbn      dffbultRfjoinbblf = truf;
 
-    /* Class and subclass dynamic debugging support */
-    private static final Debug debug = Debug.getInstance("ssl");
+    /* Clbss bnd subdlbss dynbmid dfbugging support */
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
 
     /*
-     * Create a new non-rejoinable session, using the default (null)
-     * cipher spec.  This constructor returns a session which could
-     * be used either by a client or by a server, as a connection is
-     * first opened and before handshaking begins.
+     * Crfbtf b nfw non-rfjoinbblf sfssion, using tif dffbult (null)
+     * dipifr spfd.  Tiis donstrudtor rfturns b sfssion wiidi dould
+     * bf usfd fitifr by b dlifnt or by b sfrvfr, bs b donnfdtion is
+     * first opfnfd bnd bfforf ibndsibking bfgins.
      */
-    private SSLSessionImpl() {
-        this(ProtocolVersion.NONE, CipherSuite.C_NULL, null,
-            new SessionId(false, null), null, -1);
+    privbtf SSLSfssionImpl() {
+        tiis(ProtodolVfrsion.NONE, CipifrSuitf.C_NULL, null,
+            nfw SfssionId(fblsf, null), null, -1);
     }
 
     /*
-     * Create a new session, using a given cipher spec.  This will
-     * be rejoinable if session caching is enabled; the constructor
-     * is intended mostly for use by serves.
+     * Crfbtf b nfw sfssion, using b givfn dipifr spfd.  Tiis will
+     * bf rfjoinbblf if sfssion dbdiing is fnbblfd; tif donstrudtor
+     * is intfndfd mostly for usf by sfrvfs.
      */
-    SSLSessionImpl(ProtocolVersion protocolVersion, CipherSuite cipherSuite,
-            Collection<SignatureAndHashAlgorithm> algorithms,
-            SecureRandom generator, String host, int port) {
-        this(protocolVersion, cipherSuite, algorithms,
-             new SessionId(defaultRejoinable, generator), host, port);
+    SSLSfssionImpl(ProtodolVfrsion protodolVfrsion, CipifrSuitf dipifrSuitf,
+            Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims,
+            SfdurfRbndom gfnfrbtor, String iost, int port) {
+        tiis(protodolVfrsion, dipifrSuitf, blgoritims,
+             nfw SfssionId(dffbultRfjoinbblf, gfnfrbtor), iost, port);
     }
 
     /*
-     * Record a new session, using a given cipher spec and session ID.
+     * Rfdord b nfw sfssion, using b givfn dipifr spfd bnd sfssion ID.
      */
-    SSLSessionImpl(ProtocolVersion protocolVersion, CipherSuite cipherSuite,
-            Collection<SignatureAndHashAlgorithm> algorithms,
-            SessionId id, String host, int port) {
-        this.protocolVersion = protocolVersion;
-        sessionId = id;
-        peerCerts = null;
-        compressionMethod = compression_null;
-        this.cipherSuite = cipherSuite;
-        masterSecret = null;
-        this.host = host;
-        this.port = port;
-        sessionCount = ++counter;
-        localSupportedSignAlgs =
-            SignatureAndHashAlgorithm.getAlgorithmNames(algorithms);
+    SSLSfssionImpl(ProtodolVfrsion protodolVfrsion, CipifrSuitf dipifrSuitf,
+            Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims,
+            SfssionId id, String iost, int port) {
+        tiis.protodolVfrsion = protodolVfrsion;
+        sfssionId = id;
+        pffrCfrts = null;
+        domprfssionMftiod = domprfssion_null;
+        tiis.dipifrSuitf = dipifrSuitf;
+        mbstfrSfdrft = null;
+        tiis.iost = iost;
+        tiis.port = port;
+        sfssionCount = ++dountfr;
+        lodblSupportfdSignAlgs =
+            SignbturfAndHbsiAlgoritim.gftAlgoritimNbmfs(blgoritims);
 
-        if (debug != null && Debug.isOn("session")) {
-            System.out.println("%% Initialized:  " + this);
+        if (dfbug != null && Dfbug.isOn("sfssion")) {
+            Systfm.out.println("%% Initiblizfd:  " + tiis);
         }
     }
 
-    void setMasterSecret(SecretKey secret) {
-        if (masterSecret == null) {
-            masterSecret = secret;
-        } else {
-            throw new RuntimeException("setMasterSecret() error");
-        }
-    }
-
-    /**
-     * Returns the master secret ... treat with extreme caution!
-     */
-    SecretKey getMasterSecret() {
-        return masterSecret;
-    }
-
-    void setPeerCertificates(X509Certificate[] peer) {
-        if (peerCerts == null) {
-            peerCerts = peer;
-        }
-    }
-
-    void setLocalCertificates(X509Certificate[] local) {
-        localCerts = local;
-    }
-
-    void setLocalPrivateKey(PrivateKey privateKey) {
-        localPrivateKey = privateKey;
-    }
-
-    void setPeerSupportedSignatureAlgorithms(
-            Collection<SignatureAndHashAlgorithm> algorithms) {
-        peerSupportedSignAlgs =
-            SignatureAndHashAlgorithm.getAlgorithmNames(algorithms);
-    }
-
-    void setRequestedServerNames(List<SNIServerName> requestedServerNames) {
-        this.requestedServerNames = new ArrayList<>(requestedServerNames);
-    }
-
-    /**
-     * Set the peer principal.
-     */
-    void setPeerPrincipal(Principal principal) {
-        if (peerPrincipal == null) {
-            peerPrincipal = principal;
+    void sftMbstfrSfdrft(SfdrftKfy sfdrft) {
+        if (mbstfrSfdrft == null) {
+            mbstfrSfdrft = sfdrft;
+        } flsf {
+            tirow nfw RuntimfExdfption("sftMbstfrSfdrft() frror");
         }
     }
 
     /**
-     * Set the local principal.
+     * Rfturns tif mbstfr sfdrft ... trfbt witi fxtrfmf dbution!
      */
-    void setLocalPrincipal(Principal principal) {
-        localPrincipal = principal;
+    SfdrftKfy gftMbstfrSfdrft() {
+        rfturn mbstfrSfdrft;
+    }
+
+    void sftPffrCfrtifidbtfs(X509Cfrtifidbtf[] pffr) {
+        if (pffrCfrts == null) {
+            pffrCfrts = pffr;
+        }
+    }
+
+    void sftLodblCfrtifidbtfs(X509Cfrtifidbtf[] lodbl) {
+        lodblCfrts = lodbl;
+    }
+
+    void sftLodblPrivbtfKfy(PrivbtfKfy privbtfKfy) {
+        lodblPrivbtfKfy = privbtfKfy;
+    }
+
+    void sftPffrSupportfdSignbturfAlgoritims(
+            Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims) {
+        pffrSupportfdSignAlgs =
+            SignbturfAndHbsiAlgoritim.gftAlgoritimNbmfs(blgoritims);
+    }
+
+    void sftRfqufstfdSfrvfrNbmfs(List<SNISfrvfrNbmf> rfqufstfdSfrvfrNbmfs) {
+        tiis.rfqufstfdSfrvfrNbmfs = nfw ArrbyList<>(rfqufstfdSfrvfrNbmfs);
     }
 
     /**
-     * Returns true iff this session may be resumed ... sessions are
-     * usually resumable.  Security policies may suggest otherwise,
-     * for example sessions that haven't been used for a while (say,
-     * a working day) won't be resumable, and sessions might have a
-     * maximum lifetime in any case.
+     * Sft tif pffr prindipbl.
      */
-    boolean isRejoinable() {
-        return sessionId != null && sessionId.length() != 0 &&
-            !invalidated && isLocalAuthenticationValid();
-    }
-
-    @Override
-    public synchronized boolean isValid() {
-        return isRejoinable();
+    void sftPffrPrindipbl(Prindipbl prindipbl) {
+        if (pffrPrindipbl == null) {
+            pffrPrindipbl = prindipbl;
+        }
     }
 
     /**
-     * Check if the authentication used when establishing this session
-     * is still valid. Returns true if no authentication was used
+     * Sft tif lodbl prindipbl.
      */
-    boolean isLocalAuthenticationValid() {
-        if (localPrivateKey != null) {
+    void sftLodblPrindipbl(Prindipbl prindipbl) {
+        lodblPrindipbl = prindipbl;
+    }
+
+    /**
+     * Rfturns truf iff tiis sfssion mby bf rfsumfd ... sfssions brf
+     * usublly rfsumbblf.  Sfdurity polidifs mby suggfst otifrwisf,
+     * for fxbmplf sfssions tibt ibvfn't bffn usfd for b wiilf (sby,
+     * b working dby) won't bf rfsumbblf, bnd sfssions migit ibvf b
+     * mbximum lifftimf in bny dbsf.
+     */
+    boolfbn isRfjoinbblf() {
+        rfturn sfssionId != null && sfssionId.lfngti() != 0 &&
+            !invblidbtfd && isLodblAutifntidbtionVblid();
+    }
+
+    @Ovfrridf
+    publid syndironizfd boolfbn isVblid() {
+        rfturn isRfjoinbblf();
+    }
+
+    /**
+     * Cifdk if tif butifntidbtion usfd wifn fstbblisiing tiis sfssion
+     * is still vblid. Rfturns truf if no butifntidbtion wbs usfd
+     */
+    boolfbn isLodblAutifntidbtionVblid() {
+        if (lodblPrivbtfKfy != null) {
             try {
-                // if the private key is no longer valid, getAlgorithm()
-                // should throw an exception
-                // (e.g. Smartcard has been removed from the reader)
-                localPrivateKey.getAlgorithm();
-            } catch (Exception e) {
-                invalidate();
-                return false;
+                // if tif privbtf kfy is no longfr vblid, gftAlgoritim()
+                // siould tirow bn fxdfption
+                // (f.g. Smbrtdbrd ibs bffn rfmovfd from tif rfbdfr)
+                lodblPrivbtfKfy.gftAlgoritim();
+            } dbtdi (Exdfption f) {
+                invblidbtf();
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the ID for this session.  The ID is fixed for the
-     * duration of the session; neither it, nor its value, changes.
+     * Rfturns tif ID for tiis sfssion.  Tif ID is fixfd for tif
+     * durbtion of tif sfssion; nfitifr it, nor its vbluf, dibngfs.
      */
-    @Override
-    public byte[] getId() {
-        return sessionId.getId();
+    @Ovfrridf
+    publid bytf[] gftId() {
+        rfturn sfssionId.gftId();
     }
 
     /**
-     * For server sessions, this returns the set of sessions which
-     * are currently valid in this process.  For client sessions,
-     * this returns null.
+     * For sfrvfr sfssions, tiis rfturns tif sft of sfssions wiidi
+     * brf durrfntly vblid in tiis prodfss.  For dlifnt sfssions,
+     * tiis rfturns null.
      */
-    @Override
-    public SSLSessionContext getSessionContext() {
+    @Ovfrridf
+    publid SSLSfssionContfxt gftSfssionContfxt() {
         /*
-         * An interim security policy until we can do something
-         * more specific in 1.2. Only allow trusted code (code which
-         * can set system properties) to get an
-         * SSLSessionContext. This is to limit the ability of code to
-         * look up specific sessions or enumerate over them. Otherwise,
-         * code can only get session objects from successful SSL
-         * connections which implies that they must have had permission
-         * to make the network connection in the first place.
+         * An intfrim sfdurity polidy until wf dbn do somftiing
+         * morf spfdifid in 1.2. Only bllow trustfd dodf (dodf wiidi
+         * dbn sft systfm propfrtifs) to gft bn
+         * SSLSfssionContfxt. Tiis is to limit tif bbility of dodf to
+         * look up spfdifid sfssions or fnumfrbtf ovfr tifm. Otifrwisf,
+         * dodf dbn only gft sfssion objfdts from suddfssful SSL
+         * donnfdtions wiidi implifs tibt tify must ibvf ibd pfrmission
+         * to mbkf tif nftwork donnfdtion in tif first plbdf.
          */
-        SecurityManager sm;
-        if ((sm = System.getSecurityManager()) != null) {
-            sm.checkPermission(new SSLPermission("getSSLSessionContext"));
+        SfdurityMbnbgfr sm;
+        if ((sm = Systfm.gftSfdurityMbnbgfr()) != null) {
+            sm.difdkPfrmission(nfw SSLPfrmission("gftSSLSfssionContfxt"));
         }
 
-        return context;
+        rfturn dontfxt;
     }
 
 
-    SessionId getSessionId() {
-        return sessionId;
+    SfssionId gftSfssionId() {
+        rfturn sfssionId;
     }
 
 
     /**
-     * Returns the cipher spec in use on this session
+     * Rfturns tif dipifr spfd in usf on tiis sfssion
      */
-    CipherSuite getSuite() {
-        return cipherSuite;
+    CipifrSuitf gftSuitf() {
+        rfturn dipifrSuitf;
     }
 
     /**
-     * Resets the cipher spec in use on this session
+     * Rfsfts tif dipifr spfd in usf on tiis sfssion
      */
-    void setSuite(CipherSuite suite) {
-       cipherSuite = suite;
+    void sftSuitf(CipifrSuitf suitf) {
+       dipifrSuitf = suitf;
 
-       if (debug != null && Debug.isOn("session")) {
-           System.out.println("%% Negotiating:  " + this);
+       if (dfbug != null && Dfbug.isOn("sfssion")) {
+           Systfm.out.println("%% Nfgotibting:  " + tiis);
        }
     }
 
     /**
-     * Returns the name of the cipher suite in use on this session
+     * Rfturns tif nbmf of tif dipifr suitf in usf on tiis sfssion
      */
-    @Override
-    public String getCipherSuite() {
-        return getSuite().name;
+    @Ovfrridf
+    publid String gftCipifrSuitf() {
+        rfturn gftSuitf().nbmf;
     }
 
-    ProtocolVersion getProtocolVersion() {
-        return protocolVersion;
-    }
-
-    /**
-     * Returns the standard name of the protocol in use on this session
-     */
-    @Override
-    public String getProtocol() {
-        return getProtocolVersion().name;
+    ProtodolVfrsion gftProtodolVfrsion() {
+        rfturn protodolVfrsion;
     }
 
     /**
-     * Returns the compression technique used in this session
+     * Rfturns tif stbndbrd nbmf of tif protodol in usf on tiis sfssion
      */
-    byte getCompression() {
-        return compressionMethod;
+    @Ovfrridf
+    publid String gftProtodol() {
+        rfturn gftProtodolVfrsion().nbmf;
     }
 
     /**
-     * Returns the hashcode for this session
+     * Rfturns tif domprfssion tfdiniquf usfd in tiis sfssion
      */
-    @Override
-    public int hashCode() {
-        return sessionId.hashCode();
+    bytf gftComprfssion() {
+        rfturn domprfssionMftiod;
+    }
+
+    /**
+     * Rfturns tif ibsidodf for tiis sfssion
+     */
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn sfssionId.ibsiCodf();
     }
 
 
     /**
-     * Returns true if sessions have same ids, false otherwise.
+     * Rfturns truf if sfssions ibvf sbmf ids, fblsf otifrwisf.
      */
-    @Override
-    public boolean equals(Object obj) {
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
 
-        if (obj == this) {
-            return true;
+        if (obj == tiis) {
+            rfturn truf;
         }
 
-        if (obj instanceof SSLSessionImpl) {
-            SSLSessionImpl sess = (SSLSessionImpl) obj;
-            return (sessionId != null) && (sessionId.equals(
-                        sess.getSessionId()));
+        if (obj instbndfof SSLSfssionImpl) {
+            SSLSfssionImpl sfss = (SSLSfssionImpl) obj;
+            rfturn (sfssionId != null) && (sfssionId.fqubls(
+                        sfss.gftSfssionId()));
         }
 
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * Return the cert chain presented by the peer in the
-     * java.security.cert format.
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Rfturn tif dfrt dibin prfsfntfd by tif pffr in tif
+     * jbvb.sfdurity.dfrt formbt.
+     * Notf: Tiis mftiod dbn bf usfd only wifn using dfrtifidbtf-bbsfd
+     * dipifr suitfs; using it witi non-dfrtifidbtf-bbsfd dipifr suitfs,
+     * sudi bs Kfrbfros, will tirow bn SSLPffrUnvfrififdExdfption.
      *
-     * @return array of peer X.509 certs, with the peer's own cert
-     *  first in the chain, and with the "root" CA last.
+     * @rfturn brrby of pffr X.509 dfrts, witi tif pffr's own dfrt
+     *  first in tif dibin, bnd witi tif "root" CA lbst.
      */
-    @Override
-    public java.security.cert.Certificate[] getPeerCertificates()
-            throws SSLPeerUnverifiedException {
+    @Ovfrridf
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftPffrCfrtifidbtfs()
+            tirows SSLPffrUnvfrififdExdfption {
         //
-        // clone to preserve integrity of session ... caller can't
-        // change record of peer identity even by accident, much
-        // less do it intentionally.
+        // dlonf to prfsfrvf intfgrity of sfssion ... dbllfr dbn't
+        // dibngf rfdord of pffr idfntity fvfn by bddidfnt, mudi
+        // lfss do it intfntionblly.
         //
-        if ((cipherSuite.keyExchange == K_KRB5) ||
-            (cipherSuite.keyExchange == K_KRB5_EXPORT)) {
-            throw new SSLPeerUnverifiedException("no certificates expected"
-                        + " for Kerberos cipher suites");
+        if ((dipifrSuitf.kfyExdibngf == K_KRB5) ||
+            (dipifrSuitf.kfyExdibngf == K_KRB5_EXPORT)) {
+            tirow nfw SSLPffrUnvfrififdExdfption("no dfrtifidbtfs fxpfdtfd"
+                        + " for Kfrbfros dipifr suitfs");
         }
-        if (peerCerts == null) {
-            throw new SSLPeerUnverifiedException("peer not authenticated");
+        if (pffrCfrts == null) {
+            tirow nfw SSLPffrUnvfrififdExdfption("pffr not butifntidbtfd");
         }
-        // Certs are immutable objects, therefore we don't clone them.
-        // But do need to clone the array, so that nothing is inserted
-        // into peerCerts.
-        return (java.security.cert.Certificate[])peerCerts.clone();
+        // Cfrts brf immutbblf objfdts, tifrfforf wf don't dlonf tifm.
+        // But do nffd to dlonf tif brrby, so tibt notiing is insfrtfd
+        // into pffrCfrts.
+        rfturn (jbvb.sfdurity.dfrt.Cfrtifidbtf[])pffrCfrts.dlonf();
     }
 
     /**
-     * Return the cert chain presented to the peer in the
-     * java.security.cert format.
-     * Note: This method is useful only when using certificate-based
-     * cipher suites.
+     * Rfturn tif dfrt dibin prfsfntfd to tif pffr in tif
+     * jbvb.sfdurity.dfrt formbt.
+     * Notf: Tiis mftiod is usfful only wifn using dfrtifidbtf-bbsfd
+     * dipifr suitfs.
      *
-     * @return array of peer X.509 certs, with the peer's own cert
-     *  first in the chain, and with the "root" CA last.
+     * @rfturn brrby of pffr X.509 dfrts, witi tif pffr's own dfrt
+     *  first in tif dibin, bnd witi tif "root" CA lbst.
      */
-    @Override
-    public java.security.cert.Certificate[] getLocalCertificates() {
+    @Ovfrridf
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftLodblCfrtifidbtfs() {
         //
-        // clone to preserve integrity of session ... caller can't
-        // change record of peer identity even by accident, much
-        // less do it intentionally.
-        return (localCerts == null ? null :
-            (java.security.cert.Certificate[])localCerts.clone());
+        // dlonf to prfsfrvf intfgrity of sfssion ... dbllfr dbn't
+        // dibngf rfdord of pffr idfntity fvfn by bddidfnt, mudi
+        // lfss do it intfntionblly.
+        rfturn (lodblCfrts == null ? null :
+            (jbvb.sfdurity.dfrt.Cfrtifidbtf[])lodblCfrts.dlonf());
     }
 
     /**
-     * Return the cert chain presented by the peer in the
-     * javax.security.cert format.
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Rfturn tif dfrt dibin prfsfntfd by tif pffr in tif
+     * jbvbx.sfdurity.dfrt formbt.
+     * Notf: Tiis mftiod dbn bf usfd only wifn using dfrtifidbtf-bbsfd
+     * dipifr suitfs; using it witi non-dfrtifidbtf-bbsfd dipifr suitfs,
+     * sudi bs Kfrbfros, will tirow bn SSLPffrUnvfrififdExdfption.
      *
-     * @return array of peer X.509 certs, with the peer's own cert
-     *  first in the chain, and with the "root" CA last.
+     * @rfturn brrby of pffr X.509 dfrts, witi tif pffr's own dfrt
+     *  first in tif dibin, bnd witi tif "root" CA lbst.
      */
-    @Override
-    public javax.security.cert.X509Certificate[] getPeerCertificateChain()
-            throws SSLPeerUnverifiedException {
+    @Ovfrridf
+    publid jbvbx.sfdurity.dfrt.X509Cfrtifidbtf[] gftPffrCfrtifidbtfCibin()
+            tirows SSLPffrUnvfrififdExdfption {
         //
-        // clone to preserve integrity of session ... caller can't
-        // change record of peer identity even by accident, much
-        // less do it intentionally.
+        // dlonf to prfsfrvf intfgrity of sfssion ... dbllfr dbn't
+        // dibngf rfdord of pffr idfntity fvfn by bddidfnt, mudi
+        // lfss do it intfntionblly.
         //
-        if ((cipherSuite.keyExchange == K_KRB5) ||
-            (cipherSuite.keyExchange == K_KRB5_EXPORT)) {
-            throw new SSLPeerUnverifiedException("no certificates expected"
-                        + " for Kerberos cipher suites");
+        if ((dipifrSuitf.kfyExdibngf == K_KRB5) ||
+            (dipifrSuitf.kfyExdibngf == K_KRB5_EXPORT)) {
+            tirow nfw SSLPffrUnvfrififdExdfption("no dfrtifidbtfs fxpfdtfd"
+                        + " for Kfrbfros dipifr suitfs");
         }
-        if (peerCerts == null) {
-            throw new SSLPeerUnverifiedException("peer not authenticated");
+        if (pffrCfrts == null) {
+            tirow nfw SSLPffrUnvfrififdExdfption("pffr not butifntidbtfd");
         }
-        javax.security.cert.X509Certificate[] certs;
-        certs = new javax.security.cert.X509Certificate[peerCerts.length];
-        for (int i = 0; i < peerCerts.length; i++) {
-            byte[] der = null;
+        jbvbx.sfdurity.dfrt.X509Cfrtifidbtf[] dfrts;
+        dfrts = nfw jbvbx.sfdurity.dfrt.X509Cfrtifidbtf[pffrCfrts.lfngti];
+        for (int i = 0; i < pffrCfrts.lfngti; i++) {
+            bytf[] dfr = null;
             try {
-                der = peerCerts[i].getEncoded();
-                certs[i] = javax.security.cert.X509Certificate.getInstance(der);
-            } catch (CertificateEncodingException e) {
-                throw new SSLPeerUnverifiedException(e.getMessage());
-            } catch (javax.security.cert.CertificateException e) {
-                throw new SSLPeerUnverifiedException(e.getMessage());
+                dfr = pffrCfrts[i].gftEndodfd();
+                dfrts[i] = jbvbx.sfdurity.dfrt.X509Cfrtifidbtf.gftInstbndf(dfr);
+            } dbtdi (CfrtifidbtfEndodingExdfption f) {
+                tirow nfw SSLPffrUnvfrififdExdfption(f.gftMfssbgf());
+            } dbtdi (jbvbx.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+                tirow nfw SSLPffrUnvfrififdExdfption(f.gftMfssbgf());
             }
         }
 
-        return certs;
+        rfturn dfrts;
     }
 
     /**
-     * Return the cert chain presented by the peer.
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Rfturn tif dfrt dibin prfsfntfd by tif pffr.
+     * Notf: Tiis mftiod dbn bf usfd only wifn using dfrtifidbtf-bbsfd
+     * dipifr suitfs; using it witi non-dfrtifidbtf-bbsfd dipifr suitfs,
+     * sudi bs Kfrbfros, will tirow bn SSLPffrUnvfrififdExdfption.
      *
-     * @return array of peer X.509 certs, with the peer's own cert
-     *  first in the chain, and with the "root" CA last.
+     * @rfturn brrby of pffr X.509 dfrts, witi tif pffr's own dfrt
+     *  first in tif dibin, bnd witi tif "root" CA lbst.
      */
-    public X509Certificate[] getCertificateChain()
-            throws SSLPeerUnverifiedException {
+    publid X509Cfrtifidbtf[] gftCfrtifidbtfCibin()
+            tirows SSLPffrUnvfrififdExdfption {
         /*
-         * clone to preserve integrity of session ... caller can't
-         * change record of peer identity even by accident, much
-         * less do it intentionally.
+         * dlonf to prfsfrvf intfgrity of sfssion ... dbllfr dbn't
+         * dibngf rfdord of pffr idfntity fvfn by bddidfnt, mudi
+         * lfss do it intfntionblly.
          */
-        if ((cipherSuite.keyExchange == K_KRB5) ||
-            (cipherSuite.keyExchange == K_KRB5_EXPORT)) {
-            throw new SSLPeerUnverifiedException("no certificates expected"
-                        + " for Kerberos cipher suites");
+        if ((dipifrSuitf.kfyExdibngf == K_KRB5) ||
+            (dipifrSuitf.kfyExdibngf == K_KRB5_EXPORT)) {
+            tirow nfw SSLPffrUnvfrififdExdfption("no dfrtifidbtfs fxpfdtfd"
+                        + " for Kfrbfros dipifr suitfs");
         }
-        if (peerCerts != null) {
-            return peerCerts.clone();
-        } else {
-            throw new SSLPeerUnverifiedException("peer not authenticated");
+        if (pffrCfrts != null) {
+            rfturn pffrCfrts.dlonf();
+        } flsf {
+            tirow nfw SSLPffrUnvfrififdExdfption("pffr not butifntidbtfd");
         }
     }
 
     /**
-     * Returns the identity of the peer which was established as part of
-     * defining the session.
+     * Rfturns tif idfntity of tif pffr wiidi wbs fstbblisifd bs pbrt of
+     * dffining tif sfssion.
      *
-     * @return the peer's principal. Returns an X500Principal of the
-     * end-entity certificate for X509-based cipher suites, and
-     * Principal for Kerberos cipher suites.
+     * @rfturn tif pffr's prindipbl. Rfturns bn X500Prindipbl of tif
+     * fnd-fntity dfrtifidbtf for X509-bbsfd dipifr suitfs, bnd
+     * Prindipbl for Kfrbfros dipifr suitfs.
      *
-     * @throws SSLPeerUnverifiedException if the peer's identity has not
-     *          been verified
+     * @tirows SSLPffrUnvfrififdExdfption if tif pffr's idfntity ibs not
+     *          bffn vfrififd
      */
-    @Override
-    public Principal getPeerPrincipal()
-                throws SSLPeerUnverifiedException
+    @Ovfrridf
+    publid Prindipbl gftPffrPrindipbl()
+                tirows SSLPffrUnvfrififdExdfption
     {
-        if ((cipherSuite.keyExchange == K_KRB5) ||
-            (cipherSuite.keyExchange == K_KRB5_EXPORT)) {
-            if (peerPrincipal == null) {
-                throw new SSLPeerUnverifiedException("peer not authenticated");
-            } else {
-                // Eliminate dependency on KerberosPrincipal
-                return peerPrincipal;
+        if ((dipifrSuitf.kfyExdibngf == K_KRB5) ||
+            (dipifrSuitf.kfyExdibngf == K_KRB5_EXPORT)) {
+            if (pffrPrindipbl == null) {
+                tirow nfw SSLPffrUnvfrififdExdfption("pffr not butifntidbtfd");
+            } flsf {
+                // Eliminbtf dfpfndfndy on KfrbfrosPrindipbl
+                rfturn pffrPrindipbl;
             }
         }
-        if (peerCerts == null) {
-            throw new SSLPeerUnverifiedException("peer not authenticated");
+        if (pffrCfrts == null) {
+            tirow nfw SSLPffrUnvfrififdExdfption("pffr not butifntidbtfd");
         }
-        return peerCerts[0].getSubjectX500Principal();
+        rfturn pffrCfrts[0].gftSubjfdtX500Prindipbl();
     }
 
     /**
-     * Returns the principal that was sent to the peer during handshaking.
+     * Rfturns tif prindipbl tibt wbs sfnt to tif pffr during ibndsibking.
      *
-     * @return the principal sent to the peer. Returns an X500Principal
-     * of the end-entity certificate for X509-based cipher suites, and
-     * Principal for Kerberos cipher suites. If no principal was
-     * sent, then null is returned.
+     * @rfturn tif prindipbl sfnt to tif pffr. Rfturns bn X500Prindipbl
+     * of tif fnd-fntity dfrtifidbtf for X509-bbsfd dipifr suitfs, bnd
+     * Prindipbl for Kfrbfros dipifr suitfs. If no prindipbl wbs
+     * sfnt, tifn null is rfturnfd.
      */
-    @Override
-    public Principal getLocalPrincipal() {
+    @Ovfrridf
+    publid Prindipbl gftLodblPrindipbl() {
 
-        if ((cipherSuite.keyExchange == K_KRB5) ||
-            (cipherSuite.keyExchange == K_KRB5_EXPORT)) {
-                // Eliminate dependency on KerberosPrincipal
-                return (localPrincipal == null ? null : localPrincipal);
+        if ((dipifrSuitf.kfyExdibngf == K_KRB5) ||
+            (dipifrSuitf.kfyExdibngf == K_KRB5_EXPORT)) {
+                // Eliminbtf dfpfndfndy on KfrbfrosPrindipbl
+                rfturn (lodblPrindipbl == null ? null : lodblPrindipbl);
         }
-        return (localCerts == null ? null :
-                localCerts[0].getSubjectX500Principal());
+        rfturn (lodblCfrts == null ? null :
+                lodblCfrts[0].gftSubjfdtX500Prindipbl());
     }
 
     /**
-     * Returns the time this session was created.
+     * Rfturns tif timf tiis sfssion wbs drfbtfd.
      */
-    @Override
-    public long getCreationTime() {
-        return creationTime;
+    @Ovfrridf
+    publid long gftCrfbtionTimf() {
+        rfturn drfbtionTimf;
     }
 
     /**
-     * Returns the last time this session was used to initialize
-     * a connection.
+     * Rfturns tif lbst timf tiis sfssion wbs usfd to initiblizf
+     * b donnfdtion.
      */
-    @Override
-    public long getLastAccessedTime() {
-        return (lastUsedTime != 0) ? lastUsedTime : creationTime;
+    @Ovfrridf
+    publid long gftLbstAddfssfdTimf() {
+        rfturn (lbstUsfdTimf != 0) ? lbstUsfdTimf : drfbtionTimf;
     }
 
-    void setLastAccessedTime(long time) {
-        lastUsedTime = time;
+    void sftLbstAddfssfdTimf(long timf) {
+        lbstUsfdTimf = timf;
     }
 
 
     /**
-     * Returns the network address of the session's peer.  This
-     * implementation does not insist that connections between
-     * different ports on the same host must necessarily belong
-     * to different sessions, though that is of course allowed.
+     * Rfturns tif nftwork bddrfss of tif sfssion's pffr.  Tiis
+     * implfmfntbtion dofs not insist tibt donnfdtions bftwffn
+     * difffrfnt ports on tif sbmf iost must nfdfssbrily bflong
+     * to difffrfnt sfssions, tiougi tibt is of doursf bllowfd.
      */
-    public InetAddress getPeerAddress() {
+    publid InftAddrfss gftPffrAddrfss() {
         try {
-            return InetAddress.getByName(host);
-        } catch (java.net.UnknownHostException e) {
-            return null;
+            rfturn InftAddrfss.gftByNbmf(iost);
+        } dbtdi (jbvb.nft.UnknownHostExdfption f) {
+            rfturn null;
         }
     }
 
-    @Override
-    public String getPeerHost() {
-        return host;
-    }
-
-    /**
-     * Need to provide the port info for caching sessions based on
-     * host and port. Accessed by SSLSessionContextImpl
-     */
-    @Override
-    public int getPeerPort() {
-        return port;
-    }
-
-    void setContext(SSLSessionContextImpl ctx) {
-        if (context == null) {
-            context = ctx;
-        }
+    @Ovfrridf
+    publid String gftPffrHost() {
+        rfturn iost;
     }
 
     /**
-     * Invalidate a session.  Active connections may still exist, but
-     * no connections will be able to rejoin this session.
+     * Nffd to providf tif port info for dbdiing sfssions bbsfd on
+     * iost bnd port. Addfssfd by SSLSfssionContfxtImpl
      */
-    @Override
-    synchronized public void invalidate() {
-        //
-        // Can't invalidate the NULL session -- this would be
-        // attempted when we get a handshaking error on a brand
-        // new connection, with no "real" session yet.
-        //
-        if (this == nullSession) {
-            return;
+    @Ovfrridf
+    publid int gftPffrPort() {
+        rfturn port;
+    }
+
+    void sftContfxt(SSLSfssionContfxtImpl dtx) {
+        if (dontfxt == null) {
+            dontfxt = dtx;
         }
-        invalidated = true;
-        if (debug != null && Debug.isOn("session")) {
-            System.out.println("%% Invalidated:  " + this);
+    }
+
+    /**
+     * Invblidbtf b sfssion.  Adtivf donnfdtions mby still fxist, but
+     * no donnfdtions will bf bblf to rfjoin tiis sfssion.
+     */
+    @Ovfrridf
+    syndironizfd publid void invblidbtf() {
+        //
+        // Cbn't invblidbtf tif NULL sfssion -- tiis would bf
+        // bttfmptfd wifn wf gft b ibndsibking frror on b brbnd
+        // nfw donnfdtion, witi no "rfbl" sfssion yft.
+        //
+        if (tiis == nullSfssion) {
+            rfturn;
         }
-        if (context != null) {
-            context.remove(sessionId);
-            context = null;
+        invblidbtfd = truf;
+        if (dfbug != null && Dfbug.isOn("sfssion")) {
+            Systfm.out.println("%% Invblidbtfd:  " + tiis);
+        }
+        if (dontfxt != null) {
+            dontfxt.rfmovf(sfssionId);
+            dontfxt = null;
         }
     }
 
     /*
-     * Table of application-specific session data indexed by an application
-     * key and the calling security context. This is important since
-     * sessions can be shared across different protection domains.
+     * Tbblf of bpplidbtion-spfdifid sfssion dbtb indfxfd by bn bpplidbtion
+     * kfy bnd tif dblling sfdurity dontfxt. Tiis is importbnt sindf
+     * sfssions dbn bf sibrfd bdross difffrfnt protfdtion dombins.
      */
-    private Hashtable<SecureKey, Object> table = new Hashtable<>();
+    privbtf Hbsitbblf<SfdurfKfy, Objfdt> tbblf = nfw Hbsitbblf<>();
 
     /**
-     * Assigns a session value.  Session change events are given if
-     * appropriate, to any original value as well as the new value.
+     * Assigns b sfssion vbluf.  Sfssion dibngf fvfnts brf givfn if
+     * bppropribtf, to bny originbl vbluf bs wfll bs tif nfw vbluf.
      */
-    @Override
-    public void putValue(String key, Object value) {
-        if ((key == null) || (value == null)) {
-            throw new IllegalArgumentException("arguments can not be null");
+    @Ovfrridf
+    publid void putVbluf(String kfy, Objfdt vbluf) {
+        if ((kfy == null) || (vbluf == null)) {
+            tirow nfw IllfgblArgumfntExdfption("brgumfnts dbn not bf null");
         }
 
-        SecureKey secureKey = new SecureKey(key);
-        Object oldValue = table.put(secureKey, value);
+        SfdurfKfy sfdurfKfy = nfw SfdurfKfy(kfy);
+        Objfdt oldVbluf = tbblf.put(sfdurfKfy, vbluf);
 
-        if (oldValue instanceof SSLSessionBindingListener) {
-            SSLSessionBindingEvent e;
+        if (oldVbluf instbndfof SSLSfssionBindingListfnfr) {
+            SSLSfssionBindingEvfnt f;
 
-            e = new SSLSessionBindingEvent(this, key);
-            ((SSLSessionBindingListener)oldValue).valueUnbound(e);
+            f = nfw SSLSfssionBindingEvfnt(tiis, kfy);
+            ((SSLSfssionBindingListfnfr)oldVbluf).vblufUnbound(f);
         }
-        if (value instanceof SSLSessionBindingListener) {
-            SSLSessionBindingEvent e;
+        if (vbluf instbndfof SSLSfssionBindingListfnfr) {
+            SSLSfssionBindingEvfnt f;
 
-            e = new SSLSessionBindingEvent(this, key);
-            ((SSLSessionBindingListener)value).valueBound(e);
+            f = nfw SSLSfssionBindingEvfnt(tiis, kfy);
+            ((SSLSfssionBindingListfnfr)vbluf).vblufBound(f);
         }
     }
 
 
     /**
-     * Returns the specified session value.
+     * Rfturns tif spfdififd sfssion vbluf.
      */
-    @Override
-    public Object getValue(String key) {
-        if (key == null) {
-            throw new IllegalArgumentException("argument can not be null");
+    @Ovfrridf
+    publid Objfdt gftVbluf(String kfy) {
+        if (kfy == null) {
+            tirow nfw IllfgblArgumfntExdfption("brgumfnt dbn not bf null");
         }
 
-        SecureKey secureKey = new SecureKey(key);
-        return table.get(secureKey);
+        SfdurfKfy sfdurfKfy = nfw SfdurfKfy(kfy);
+        rfturn tbblf.gft(sfdurfKfy);
     }
 
 
     /**
-     * Removes the specified session value, delivering a session changed
-     * event as appropriate.
+     * Rfmovfs tif spfdififd sfssion vbluf, dflivfring b sfssion dibngfd
+     * fvfnt bs bppropribtf.
      */
-    @Override
-    public void removeValue(String key) {
-        if (key == null) {
-            throw new IllegalArgumentException("argument can not be null");
+    @Ovfrridf
+    publid void rfmovfVbluf(String kfy) {
+        if (kfy == null) {
+            tirow nfw IllfgblArgumfntExdfption("brgumfnt dbn not bf null");
         }
 
-        SecureKey secureKey = new SecureKey(key);
-        Object value = table.remove(secureKey);
+        SfdurfKfy sfdurfKfy = nfw SfdurfKfy(kfy);
+        Objfdt vbluf = tbblf.rfmovf(sfdurfKfy);
 
-        if (value instanceof SSLSessionBindingListener) {
-            SSLSessionBindingEvent e;
+        if (vbluf instbndfof SSLSfssionBindingListfnfr) {
+            SSLSfssionBindingEvfnt f;
 
-            e = new SSLSessionBindingEvent(this, key);
-            ((SSLSessionBindingListener)value).valueUnbound(e);
+            f = nfw SSLSfssionBindingEvfnt(tiis, kfy);
+            ((SSLSfssionBindingListfnfr)vbluf).vblufUnbound(f);
         }
     }
 
 
     /**
-     * Lists the names of the session values.
+     * Lists tif nbmfs of tif sfssion vblufs.
      */
-    @Override
-    public String[] getValueNames() {
-        Enumeration<SecureKey> e;
-        Vector<Object> v = new Vector<>();
-        SecureKey key;
-        Object securityCtx = SecureKey.getCurrentSecurityContext();
+    @Ovfrridf
+    publid String[] gftVblufNbmfs() {
+        Enumfrbtion<SfdurfKfy> f;
+        Vfdtor<Objfdt> v = nfw Vfdtor<>();
+        SfdurfKfy kfy;
+        Objfdt sfdurityCtx = SfdurfKfy.gftCurrfntSfdurityContfxt();
 
-        for (e = table.keys(); e.hasMoreElements(); ) {
-            key = e.nextElement();
+        for (f = tbblf.kfys(); f.ibsMorfElfmfnts(); ) {
+            kfy = f.nfxtElfmfnt();
 
-            if (securityCtx.equals(key.getSecurityContext())) {
-                v.addElement(key.getAppKey());
+            if (sfdurityCtx.fqubls(kfy.gftSfdurityContfxt())) {
+                v.bddElfmfnt(kfy.gftAppKfy());
             }
         }
-        String[] names = new String[v.size()];
-        v.copyInto(names);
+        String[] nbmfs = nfw String[v.sizf()];
+        v.dopyInto(nbmfs);
 
-        return names;
+        rfturn nbmfs;
     }
 
     /**
-     * Use large packet sizes now or follow RFC 2246 packet sizes (2^14)
-     * until changed.
+     * Usf lbrgf pbdkft sizfs now or follow RFC 2246 pbdkft sizfs (2^14)
+     * until dibngfd.
      *
-     * In the TLS specification (section 6.2.1, RFC2246), it is not
-     * recommended that the plaintext has more than 2^14 bytes.
-     * However, some TLS implementations violate the specification.
-     * This is a workaround for interoperability with these stacks.
+     * In tif TLS spfdifidbtion (sfdtion 6.2.1, RFC2246), it is not
+     * rfdommfndfd tibt tif plbintfxt ibs morf tibn 2^14 bytfs.
+     * Howfvfr, somf TLS implfmfntbtions violbtf tif spfdifidbtion.
+     * Tiis is b workbround for intfropfrbbility witi tifsf stbdks.
      *
-     * Application could accept large fragments up to 2^15 bytes by
-     * setting the system property jsse.SSLEngine.acceptLargeFragments
-     * to "true".
+     * Applidbtion dould bddfpt lbrgf frbgmfnts up to 2^15 bytfs by
+     * sftting tif systfm propfrty jssf.SSLEnginf.bddfptLbrgfFrbgmfnts
+     * to "truf".
      */
-    private boolean acceptLargeFragments =
-        Debug.getBooleanProperty("jsse.SSLEngine.acceptLargeFragments", false);
+    privbtf boolfbn bddfptLbrgfFrbgmfnts =
+        Dfbug.gftBoolfbnPropfrty("jssf.SSLEnginf.bddfptLbrgfFrbgmfnts", fblsf);
 
     /**
-     * Expand the buffer size of both SSL/TLS network packet and
-     * application data.
+     * Expbnd tif bufffr sizf of boti SSL/TLS nftwork pbdkft bnd
+     * bpplidbtion dbtb.
      */
-    protected synchronized void expandBufferSizes() {
-        acceptLargeFragments = true;
+    protfdtfd syndironizfd void fxpbndBufffrSizfs() {
+        bddfptLbrgfFrbgmfnts = truf;
     }
 
     /**
-     * Gets the current size of the largest SSL/TLS packet that is expected
-     * when using this session.
+     * Gfts tif durrfnt sizf of tif lbrgfst SSL/TLS pbdkft tibt is fxpfdtfd
+     * wifn using tiis sfssion.
      */
-    @Override
-    public synchronized int getPacketBufferSize() {
-        return acceptLargeFragments ?
-                Record.maxLargeRecordSize : Record.maxRecordSize;
+    @Ovfrridf
+    publid syndironizfd int gftPbdkftBufffrSizf() {
+        rfturn bddfptLbrgfFrbgmfnts ?
+                Rfdord.mbxLbrgfRfdordSizf : Rfdord.mbxRfdordSizf;
     }
 
     /**
-     * Gets the current size of the largest application data that is
-     * expected when using this session.
+     * Gfts tif durrfnt sizf of tif lbrgfst bpplidbtion dbtb tibt is
+     * fxpfdtfd wifn using tiis sfssion.
      */
-    @Override
-    public synchronized int getApplicationBufferSize() {
-        return getPacketBufferSize() - Record.headerSize;
+    @Ovfrridf
+    publid syndironizfd int gftApplidbtionBufffrSizf() {
+        rfturn gftPbdkftBufffrSizf() - Rfdord.ifbdfrSizf;
     }
 
     /**
-     * Gets an array of supported signature algorithms that the local side is
-     * willing to verify.
+     * Gfts bn brrby of supportfd signbturf blgoritims tibt tif lodbl sidf is
+     * willing to vfrify.
      */
-    @Override
-    public String[] getLocalSupportedSignatureAlgorithms() {
-        if (localSupportedSignAlgs != null) {
-            return localSupportedSignAlgs.clone();
+    @Ovfrridf
+    publid String[] gftLodblSupportfdSignbturfAlgoritims() {
+        if (lodblSupportfdSignAlgs != null) {
+            rfturn lodblSupportfdSignAlgs.dlonf();
         }
 
-        return new String[0];
+        rfturn nfw String[0];
     }
 
     /**
-     * Gets an array of supported signature algorithms that the peer is
-     * able to verify.
+     * Gfts bn brrby of supportfd signbturf blgoritims tibt tif pffr is
+     * bblf to vfrify.
      */
-    @Override
-    public String[] getPeerSupportedSignatureAlgorithms() {
-        if (peerSupportedSignAlgs != null) {
-            return peerSupportedSignAlgs.clone();
+    @Ovfrridf
+    publid String[] gftPffrSupportfdSignbturfAlgoritims() {
+        if (pffrSupportfdSignAlgs != null) {
+            rfturn pffrSupportfdSignAlgs.dlonf();
         }
 
-        return new String[0];
+        rfturn nfw String[0];
     }
 
     /**
-     * Obtains a <code>List</code> containing all {@link SNIServerName}s
-     * of the requested Server Name Indication (SNI) extension.
+     * Obtbins b <dodf>List</dodf> dontbining bll {@link SNISfrvfrNbmf}s
+     * of tif rfqufstfd Sfrvfr Nbmf Indidbtion (SNI) fxtfnsion.
      */
-    @Override
-    public List<SNIServerName> getRequestedServerNames() {
-        if (requestedServerNames != null && !requestedServerNames.isEmpty()) {
-            return Collections.<SNIServerName>unmodifiableList(
-                                                requestedServerNames);
+    @Ovfrridf
+    publid List<SNISfrvfrNbmf> gftRfqufstfdSfrvfrNbmfs() {
+        if (rfqufstfdSfrvfrNbmfs != null && !rfqufstfdSfrvfrNbmfs.isEmpty()) {
+            rfturn Collfdtions.<SNISfrvfrNbmf>unmodifibblfList(
+                                                rfqufstfdSfrvfrNbmfs);
         }
 
-        return Collections.<SNIServerName>emptyList();
+        rfturn Collfdtions.<SNISfrvfrNbmf>fmptyList();
     }
 
-    /** Returns a string representation of this SSL session */
-    @Override
-    public String toString() {
-        return "[Session-" + sessionCount
-            + ", " + getCipherSuite()
+    /** Rfturns b string rfprfsfntbtion of tiis SSL sfssion */
+    @Ovfrridf
+    publid String toString() {
+        rfturn "[Sfssion-" + sfssionCount
+            + ", " + gftCipifrSuitf()
             + "]";
     }
 
     /**
-     * When SSL sessions are finalized, all values bound to
-     * them are removed.
+     * Wifn SSL sfssions brf finblizfd, bll vblufs bound to
+     * tifm brf rfmovfd.
      */
-    @Override
-    protected void finalize() throws Throwable {
-        String[] names = getValueNames();
-        for (int i = 0; i < names.length; i++) {
-            removeValue(names[i]);
+    @Ovfrridf
+    protfdtfd void finblizf() tirows Tirowbblf {
+        String[] nbmfs = gftVblufNbmfs();
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            rfmovfVbluf(nbmfs[i]);
         }
     }
 }
 
 
 /**
- * This "struct" class serves as a Hash Key that combines an
- * application-specific key and a security context.
+ * Tiis "strudt" dlbss sfrvfs bs b Hbsi Kfy tibt dombinfs bn
+ * bpplidbtion-spfdifid kfy bnd b sfdurity dontfxt.
  */
-class SecureKey {
-    private static Object       nullObject = new Object();
-    private Object        appKey;
-    private Object      securityCtx;
+dlbss SfdurfKfy {
+    privbtf stbtid Objfdt       nullObjfdt = nfw Objfdt();
+    privbtf Objfdt        bppKfy;
+    privbtf Objfdt      sfdurityCtx;
 
-    static Object getCurrentSecurityContext() {
-        SecurityManager sm = System.getSecurityManager();
-        Object context = null;
+    stbtid Objfdt gftCurrfntSfdurityContfxt() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        Objfdt dontfxt = null;
 
         if (sm != null)
-            context = sm.getSecurityContext();
-        if (context == null)
-            context = nullObject;
-        return context;
+            dontfxt = sm.gftSfdurityContfxt();
+        if (dontfxt == null)
+            dontfxt = nullObjfdt;
+        rfturn dontfxt;
     }
 
-    SecureKey(Object key) {
-        this.appKey = key;
-        this.securityCtx = getCurrentSecurityContext();
+    SfdurfKfy(Objfdt kfy) {
+        tiis.bppKfy = kfy;
+        tiis.sfdurityCtx = gftCurrfntSfdurityContfxt();
     }
 
-    Object getAppKey() {
-        return appKey;
+    Objfdt gftAppKfy() {
+        rfturn bppKfy;
     }
 
-    Object getSecurityContext() {
-        return securityCtx;
+    Objfdt gftSfdurityContfxt() {
+        rfturn sfdurityCtx;
     }
 
-    @Override
-    public int hashCode() {
-        return appKey.hashCode() ^ securityCtx.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn bppKfy.ibsiCodf() ^ sfdurityCtx.ibsiCodf();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof SecureKey && ((SecureKey)o).appKey.equals(appKey)
-                        && ((SecureKey)o).securityCtx.equals(securityCtx);
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        rfturn o instbndfof SfdurfKfy && ((SfdurfKfy)o).bppKfy.fqubls(bppKfy)
+                        && ((SfdurfKfy)o).sfdurityCtx.fqubls(sfdurityCtx);
     }
 }

@@ -1,440 +1,440 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.rsa;
+pbdkbgf sun.sfdurity.rsb;
 
-import java.math.BigInteger;
-import java.util.*;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.*;
 
-import java.security.SecureRandom;
-import java.security.interfaces.*;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.intfrfbdfs.*;
 
-import javax.crypto.BadPaddingException;
+import jbvbx.drypto.BbdPbddingExdfption;
 
-import sun.security.jca.JCAUtil;
+import sun.sfdurity.jdb.JCAUtil;
 
 /**
- * Core of the RSA implementation. Has code to perform public and private key
- * RSA operations (with and without CRT for private key ops). Private CRT ops
- * also support blinding to twart timing attacks.
+ * Corf of tif RSA implfmfntbtion. Hbs dodf to pfrform publid bnd privbtf kfy
+ * RSA opfrbtions (witi bnd witiout CRT for privbtf kfy ops). Privbtf CRT ops
+ * blso support blinding to twbrt timing bttbdks.
  *
- * The code in this class only does the core RSA operation. Padding and
- * unpadding must be done externally.
+ * Tif dodf in tiis dlbss only dofs tif dorf RSA opfrbtion. Pbdding bnd
+ * unpbdding must bf donf fxtfrnblly.
  *
- * Note: RSA keys should be at least 512 bits long
+ * Notf: RSA kfys siould bf bt lfbst 512 bits long
  *
- * @since   1.5
- * @author  Andreas Sterbenz
+ * @sindf   1.5
+ * @butior  Andrfbs Stfrbfnz
  */
-public final class RSACore {
+publid finbl dlbss RSACorf {
 
-    // globally enable/disable use of blinding
-    private final static boolean ENABLE_BLINDING = true;
+    // globblly fnbblf/disbblf usf of blinding
+    privbtf finbl stbtid boolfbn ENABLE_BLINDING = truf;
 
-    // cache for blinding parameters. Map<BigInteger, BlindingParameters>
-    // use a weak hashmap so that cached values are automatically cleared
-    // when the modulus is GC'ed
-    private final static Map<BigInteger, BlindingParameters>
-                blindingCache = new WeakHashMap<>();
+    // dbdif for blinding pbrbmftfrs. Mbp<BigIntfgfr, BlindingPbrbmftfrs>
+    // usf b wfbk ibsimbp so tibt dbdifd vblufs brf butombtidblly dlfbrfd
+    // wifn tif modulus is GC'fd
+    privbtf finbl stbtid Mbp<BigIntfgfr, BlindingPbrbmftfrs>
+                blindingCbdif = nfw WfbkHbsiMbp<>();
 
-    private RSACore() {
-        // empty
+    privbtf RSACorf() {
+        // fmpty
     }
 
     /**
-     * Return the number of bytes required to store the magnitude byte[] of
-     * this BigInteger. Do not count a 0x00 byte toByteArray() would
-     * prefix for 2's complement form.
+     * Rfturn tif numbfr of bytfs rfquirfd to storf tif mbgnitudf bytf[] of
+     * tiis BigIntfgfr. Do not dount b 0x00 bytf toBytfArrby() would
+     * prffix for 2's domplfmfnt form.
      */
-    public static int getByteLength(BigInteger b) {
-        int n = b.bitLength();
-        return (n + 7) >> 3;
+    publid stbtid int gftBytfLfngti(BigIntfgfr b) {
+        int n = b.bitLfngti();
+        rfturn (n + 7) >> 3;
     }
 
     /**
-     * Return the number of bytes required to store the modulus of this
-     * RSA key.
+     * Rfturn tif numbfr of bytfs rfquirfd to storf tif modulus of tiis
+     * RSA kfy.
      */
-    public static int getByteLength(RSAKey key) {
-        return getByteLength(key.getModulus());
+    publid stbtid int gftBytfLfngti(RSAKfy kfy) {
+        rfturn gftBytfLfngti(kfy.gftModulus());
     }
 
-    // temporary, used by RSACipher and RSAPadding. Move this somewhere else
-    public static byte[] convert(byte[] b, int ofs, int len) {
-        if ((ofs == 0) && (len == b.length)) {
-            return b;
-        } else {
-            byte[] t = new byte[len];
-            System.arraycopy(b, ofs, t, 0, len);
-            return t;
+    // tfmporbry, usfd by RSACipifr bnd RSAPbdding. Movf tiis somfwifrf flsf
+    publid stbtid bytf[] donvfrt(bytf[] b, int ofs, int lfn) {
+        if ((ofs == 0) && (lfn == b.lfngti)) {
+            rfturn b;
+        } flsf {
+            bytf[] t = nfw bytf[lfn];
+            Systfm.brrbydopy(b, ofs, t, 0, lfn);
+            rfturn t;
         }
     }
 
     /**
-     * Perform an RSA public key operation.
+     * Pfrform bn RSA publid kfy opfrbtion.
      */
-    public static byte[] rsa(byte[] msg, RSAPublicKey key)
-            throws BadPaddingException {
-        return crypt(msg, key.getModulus(), key.getPublicExponent());
+    publid stbtid bytf[] rsb(bytf[] msg, RSAPublidKfy kfy)
+            tirows BbdPbddingExdfption {
+        rfturn drypt(msg, kfy.gftModulus(), kfy.gftPublidExponfnt());
     }
 
     /**
-     * Perform an RSA private key operation. Uses CRT if the key is a
-     * CRT key.
+     * Pfrform bn RSA privbtf kfy opfrbtion. Usfs CRT if tif kfy is b
+     * CRT kfy.
      */
-    public static byte[] rsa(byte[] msg, RSAPrivateKey key)
-            throws BadPaddingException {
-        if (key instanceof RSAPrivateCrtKey) {
-            return crtCrypt(msg, (RSAPrivateCrtKey)key);
-        } else {
-            return priCrypt(msg, key.getModulus(), key.getPrivateExponent());
+    publid stbtid bytf[] rsb(bytf[] msg, RSAPrivbtfKfy kfy)
+            tirows BbdPbddingExdfption {
+        if (kfy instbndfof RSAPrivbtfCrtKfy) {
+            rfturn drtCrypt(msg, (RSAPrivbtfCrtKfy)kfy);
+        } flsf {
+            rfturn priCrypt(msg, kfy.gftModulus(), kfy.gftPrivbtfExponfnt());
         }
     }
 
     /**
-     * RSA public key ops. Simple modPow().
+     * RSA publid kfy ops. Simplf modPow().
      */
-    private static byte[] crypt(byte[] msg, BigInteger n, BigInteger exp)
-            throws BadPaddingException {
-        BigInteger m = parseMsg(msg, n);
-        BigInteger c = m.modPow(exp, n);
-        return toByteArray(c, getByteLength(n));
+    privbtf stbtid bytf[] drypt(bytf[] msg, BigIntfgfr n, BigIntfgfr fxp)
+            tirows BbdPbddingExdfption {
+        BigIntfgfr m = pbrsfMsg(msg, n);
+        BigIntfgfr d = m.modPow(fxp, n);
+        rfturn toBytfArrby(d, gftBytfLfngti(n));
     }
 
     /**
-     * RSA non-CRT private key operations.
+     * RSA non-CRT privbtf kfy opfrbtions.
      */
-    private static byte[] priCrypt(byte[] msg, BigInteger n, BigInteger exp)
-            throws BadPaddingException {
+    privbtf stbtid bytf[] priCrypt(bytf[] msg, BigIntfgfr n, BigIntfgfr fxp)
+            tirows BbdPbddingExdfption {
 
-        BigInteger c = parseMsg(msg, n);
-        BlindingRandomPair brp = null;
-        BigInteger m;
+        BigIntfgfr d = pbrsfMsg(msg, n);
+        BlindingRbndomPbir brp = null;
+        BigIntfgfr m;
         if (ENABLE_BLINDING) {
-            brp = getBlindingRandomPair(null, exp, n);
-            c = c.multiply(brp.u).mod(n);
-            m = c.modPow(exp, n);
+            brp = gftBlindingRbndomPbir(null, fxp, n);
+            d = d.multiply(brp.u).mod(n);
+            m = d.modPow(fxp, n);
             m = m.multiply(brp.v).mod(n);
-        } else {
-            m = c.modPow(exp, n);
+        } flsf {
+            m = d.modPow(fxp, n);
         }
 
-        return toByteArray(m, getByteLength(n));
+        rfturn toBytfArrby(m, gftBytfLfngti(n));
     }
 
     /**
-     * RSA private key operations with CRT. Algorithm and variable naming
-     * are taken from PKCS#1 v2.1, section 5.1.2.
+     * RSA privbtf kfy opfrbtions witi CRT. Algoritim bnd vbribblf nbming
+     * brf tbkfn from PKCS#1 v2.1, sfdtion 5.1.2.
      */
-    private static byte[] crtCrypt(byte[] msg, RSAPrivateCrtKey key)
-            throws BadPaddingException {
-        BigInteger n = key.getModulus();
-        BigInteger c = parseMsg(msg, n);
-        BigInteger p = key.getPrimeP();
-        BigInteger q = key.getPrimeQ();
-        BigInteger dP = key.getPrimeExponentP();
-        BigInteger dQ = key.getPrimeExponentQ();
-        BigInteger qInv = key.getCrtCoefficient();
-        BigInteger e = key.getPublicExponent();
-        BigInteger d = key.getPrivateExponent();
+    privbtf stbtid bytf[] drtCrypt(bytf[] msg, RSAPrivbtfCrtKfy kfy)
+            tirows BbdPbddingExdfption {
+        BigIntfgfr n = kfy.gftModulus();
+        BigIntfgfr d = pbrsfMsg(msg, n);
+        BigIntfgfr p = kfy.gftPrimfP();
+        BigIntfgfr q = kfy.gftPrimfQ();
+        BigIntfgfr dP = kfy.gftPrimfExponfntP();
+        BigIntfgfr dQ = kfy.gftPrimfExponfntQ();
+        BigIntfgfr qInv = kfy.gftCrtCofffidifnt();
+        BigIntfgfr f = kfy.gftPublidExponfnt();
+        BigIntfgfr d = kfy.gftPrivbtfExponfnt();
 
-        BlindingRandomPair brp;
+        BlindingRbndomPbir brp;
         if (ENABLE_BLINDING) {
-            brp = getBlindingRandomPair(e, d, n);
-            c = c.multiply(brp.u).mod(n);
+            brp = gftBlindingRbndomPbir(f, d, n);
+            d = d.multiply(brp.u).mod(n);
         }
 
-        // m1 = c ^ dP mod p
-        BigInteger m1 = c.modPow(dP, p);
-        // m2 = c ^ dQ mod q
-        BigInteger m2 = c.modPow(dQ, q);
+        // m1 = d ^ dP mod p
+        BigIntfgfr m1 = d.modPow(dP, p);
+        // m2 = d ^ dQ mod q
+        BigIntfgfr m2 = d.modPow(dQ, q);
 
-        // h = (m1 - m2) * qInv mod p
-        BigInteger mtmp = m1.subtract(m2);
+        // i = (m1 - m2) * qInv mod p
+        BigIntfgfr mtmp = m1.subtrbdt(m2);
         if (mtmp.signum() < 0) {
-            mtmp = mtmp.add(p);
+            mtmp = mtmp.bdd(p);
         }
-        BigInteger h = mtmp.multiply(qInv).mod(p);
+        BigIntfgfr i = mtmp.multiply(qInv).mod(p);
 
-        // m = m2 + q * h
-        BigInteger m = h.multiply(q).add(m2);
+        // m = m2 + q * i
+        BigIntfgfr m = i.multiply(q).bdd(m2);
 
         if (ENABLE_BLINDING) {
             m = m.multiply(brp.v).mod(n);
         }
 
-        return toByteArray(m, getByteLength(n));
+        rfturn toBytfArrby(m, gftBytfLfngti(n));
     }
 
     /**
-     * Parse the msg into a BigInteger and check against the modulus n.
+     * Pbrsf tif msg into b BigIntfgfr bnd difdk bgbinst tif modulus n.
      */
-    private static BigInteger parseMsg(byte[] msg, BigInteger n)
-            throws BadPaddingException {
-        BigInteger m = new BigInteger(1, msg);
-        if (m.compareTo(n) >= 0) {
-            throw new BadPaddingException("Message is larger than modulus");
+    privbtf stbtid BigIntfgfr pbrsfMsg(bytf[] msg, BigIntfgfr n)
+            tirows BbdPbddingExdfption {
+        BigIntfgfr m = nfw BigIntfgfr(1, msg);
+        if (m.dompbrfTo(n) >= 0) {
+            tirow nfw BbdPbddingExdfption("Mfssbgf is lbrgfr tibn modulus");
         }
-        return m;
+        rfturn m;
     }
 
     /**
-     * Return the encoding of this BigInteger that is exactly len bytes long.
-     * Prefix/strip off leading 0x00 bytes if necessary.
-     * Precondition: bi must fit into len bytes
+     * Rfturn tif fndoding of tiis BigIntfgfr tibt is fxbdtly lfn bytfs long.
+     * Prffix/strip off lfbding 0x00 bytfs if nfdfssbry.
+     * Prfdondition: bi must fit into lfn bytfs
      */
-    private static byte[] toByteArray(BigInteger bi, int len) {
-        byte[] b = bi.toByteArray();
-        int n = b.length;
-        if (n == len) {
-            return b;
+    privbtf stbtid bytf[] toBytfArrby(BigIntfgfr bi, int lfn) {
+        bytf[] b = bi.toBytfArrby();
+        int n = b.lfngti;
+        if (n == lfn) {
+            rfturn b;
         }
-        // BigInteger prefixed a 0x00 byte for 2's complement form, remove it
-        if ((n == len + 1) && (b[0] == 0)) {
-            byte[] t = new byte[len];
-            System.arraycopy(b, 1, t, 0, len);
-            return t;
+        // BigIntfgfr prffixfd b 0x00 bytf for 2's domplfmfnt form, rfmovf it
+        if ((n == lfn + 1) && (b[0] == 0)) {
+            bytf[] t = nfw bytf[lfn];
+            Systfm.brrbydopy(b, 1, t, 0, lfn);
+            rfturn t;
         }
-        // must be smaller
-        assert (n < len);
-        byte[] t = new byte[len];
-        System.arraycopy(b, 0, t, (len - n), n);
-        return t;
+        // must bf smbllfr
+        bssfrt (n < lfn);
+        bytf[] t = nfw bytf[lfn];
+        Systfm.brrbydopy(b, 0, t, (lfn - n), n);
+        rfturn t;
     }
 
     /**
-     * Parameters (u,v) for RSA Blinding.  This is described in the RSA
-     * Bulletin#2 (Jan 96) and other places:
+     * Pbrbmftfrs (u,v) for RSA Blinding.  Tiis is dfsdribfd in tif RSA
+     * Bullftin#2 (Jbn 96) bnd otifr plbdfs:
      *
-     *     ftp://ftp.rsa.com/pub/pdfs/bull-2.pdf
+     *     ftp://ftp.rsb.dom/pub/pdfs/bull-2.pdf
      *
-     * The standard RSA Blinding decryption requires the public key exponent
-     * (e) and modulus (n), and converts ciphertext (c) to plaintext (p).
+     * Tif stbndbrd RSA Blinding dfdryption rfquirfs tif publid kfy fxponfnt
+     * (f) bnd modulus (n), bnd donvfrts dipifrtfxt (d) to plbintfxt (p).
      *
-     * Before the modular exponentiation operation, the input message should
-     * be multiplied by (u (mod n)), and afterward the result is corrected
-     * by multiplying with (v (mod n)).  The system should reject messages
-     * equal to (0 (mod n)).  That is:
+     * Bfforf tif modulbr fxponfntibtion opfrbtion, tif input mfssbgf siould
+     * bf multiplifd by (u (mod n)), bnd bftfrwbrd tif rfsult is dorrfdtfd
+     * by multiplying witi (v (mod n)).  Tif systfm siould rfjfdt mfssbgfs
+     * fqubl to (0 (mod n)).  Tibt is:
      *
-     *     1.  Generate r between 0 and n-1, relatively prime to n.
-     *     2.  Compute x = (c*u) mod n
-     *     3.  Compute y = (x^d) mod n
-     *     4.  Compute p = (y*v) mod n
+     *     1.  Gfnfrbtf r bftwffn 0 bnd n-1, rflbtivfly primf to n.
+     *     2.  Computf x = (d*u) mod n
+     *     3.  Computf y = (x^d) mod n
+     *     4.  Computf p = (y*v) mod n
      *
-     * The Java APIs allows for either standard RSAPrivateKey or
-     * RSAPrivateCrtKey RSA keys.
+     * Tif Jbvb APIs bllows for fitifr stbndbrd RSAPrivbtfKfy or
+     * RSAPrivbtfCrtKfy RSA kfys.
      *
-     * If the public exponent is available to us (e.g. RSAPrivateCrtKey),
-     * choose a random r, then let (u, v):
+     * If tif publid fxponfnt is bvbilbblf to us (f.g. RSAPrivbtfCrtKfy),
+     * dioosf b rbndom r, tifn lft (u, v):
      *
-     *     u = r ^ e mod n
+     *     u = r ^ f mod n
      *     v = r ^ (-1) mod n
      *
-     * The proof follows:
+     * Tif proof follows:
      *
-     *     p = (((c * u) ^ d mod n) * v) mod n
-     *       = ((c ^ d) * (u ^ d) * v) mod n
-     *       = ((c ^ d) * (r ^ e) ^ d) * (r ^ (-1))) mod n
-     *       = ((c ^ d) * (r ^ (e * d)) * (r ^ (-1))) mod n
-     *       = ((c ^ d) * (r ^ 1) * (r ^ (-1))) mod n  (see below)
-     *       = (c ^ d) mod n
+     *     p = (((d * u) ^ d mod n) * v) mod n
+     *       = ((d ^ d) * (u ^ d) * v) mod n
+     *       = ((d ^ d) * (r ^ f) ^ d) * (r ^ (-1))) mod n
+     *       = ((d ^ d) * (r ^ (f * d)) * (r ^ (-1))) mod n
+     *       = ((d ^ d) * (r ^ 1) * (r ^ (-1))) mod n  (sff bflow)
+     *       = (d ^ d) mod n
      *
-     * because in RSA cryptosystem, d is the multiplicative inverse of e:
+     * bfdbusf in RSA dryptosystfm, d is tif multiplidbtivf invfrsf of f:
      *
-     *    (r^(e * d)) mod n
+     *    (r^(f * d)) mod n
      *       = (r ^ 1) mod n
      *       = r mod n
      *
-     * However, if the public exponent is not available (e.g. RSAPrivateKey),
-     * we mitigate the timing issue by using a similar random number blinding
-     * approach using the private key:
+     * Howfvfr, if tif publid fxponfnt is not bvbilbblf (f.g. RSAPrivbtfKfy),
+     * wf mitigbtf tif timing issuf by using b similbr rbndom numbfr blinding
+     * bpprobdi using tif privbtf kfy:
      *
      *     u = r
      *     v = ((r ^ (-1)) ^ d) mod n
      *
-     * This returns the same plaintext because:
+     * Tiis rfturns tif sbmf plbintfxt bfdbusf:
      *
-     *     p = (((c * u) ^ d mod n) * v) mod n
-     *       = ((c ^ d) * (u ^ d) * v) mod n
-     *       = ((c ^ d) * (u ^ d) * ((u ^ (-1)) ^d)) mod n
-     *       = (c ^ d) mod n
+     *     p = (((d * u) ^ d mod n) * v) mod n
+     *       = ((d ^ d) * (u ^ d) * v) mod n
+     *       = ((d ^ d) * (u ^ d) * ((u ^ (-1)) ^d)) mod n
+     *       = (d ^ d) mod n
      *
-     * Computing inverses mod n and random number generation is slow, so
-     * it is often not practical to generate a new random (u, v) pair for
-     * each new exponentiation.  The calculation of parameters might even be
-     * subject to timing attacks.  However, (u, v) pairs should not be
-     * reused since they themselves might be compromised by timing attacks,
-     * leaving the private exponent vulnerable.  An efficient solution to
-     * this problem is update u and v before each modular exponentiation
-     * step by computing:
+     * Computing invfrsfs mod n bnd rbndom numbfr gfnfrbtion is slow, so
+     * it is oftfn not prbdtidbl to gfnfrbtf b nfw rbndom (u, v) pbir for
+     * fbdi nfw fxponfntibtion.  Tif dbldulbtion of pbrbmftfrs migit fvfn bf
+     * subjfdt to timing bttbdks.  Howfvfr, (u, v) pbirs siould not bf
+     * rfusfd sindf tify tifmsflvfs migit bf dompromisfd by timing bttbdks,
+     * lfbving tif privbtf fxponfnt vulnfrbblf.  An fffidifnt solution to
+     * tiis problfm is updbtf u bnd v bfforf fbdi modulbr fxponfntibtion
+     * stfp by domputing:
      *
      *     u = u ^ 2
      *     v = v ^ 2
      *
-     * The total performance cost is small.
+     * Tif totbl pfrformbndf dost is smbll.
      */
-    private final static class BlindingRandomPair {
-        final BigInteger u;
-        final BigInteger v;
+    privbtf finbl stbtid dlbss BlindingRbndomPbir {
+        finbl BigIntfgfr u;
+        finbl BigIntfgfr v;
 
-        BlindingRandomPair(BigInteger u, BigInteger v) {
-            this.u = u;
-            this.v = v;
+        BlindingRbndomPbir(BigIntfgfr u, BigIntfgfr v) {
+            tiis.u = u;
+            tiis.v = v;
         }
     }
 
     /**
-     * Set of blinding parameters for a given RSA key.
+     * Sft of blinding pbrbmftfrs for b givfn RSA kfy.
      *
-     * The RSA modulus is usually unique, so we index by modulus in
-     * {@code blindingCache}.  However, to protect against the unlikely
-     * case of two keys sharing the same modulus, we also store the public
-     * or the private exponent.  This means we cannot cache blinding
-     * parameters for multiple keys that share the same modulus, but
-     * since sharing moduli is fundamentally broken and insecure, this
-     * does not matter.
+     * Tif RSA modulus is usublly uniquf, so wf indfx by modulus in
+     * {@dodf blindingCbdif}.  Howfvfr, to protfdt bgbinst tif unlikfly
+     * dbsf of two kfys sibring tif sbmf modulus, wf blso storf tif publid
+     * or tif privbtf fxponfnt.  Tiis mfbns wf dbnnot dbdif blinding
+     * pbrbmftfrs for multiplf kfys tibt sibrf tif sbmf modulus, but
+     * sindf sibring moduli is fundbmfntblly brokfn bnd insfdurf, tiis
+     * dofs not mbttfr.
      */
-    private final static class BlindingParameters {
-        private final static BigInteger BIG_TWO = BigInteger.valueOf(2L);
+    privbtf finbl stbtid dlbss BlindingPbrbmftfrs {
+        privbtf finbl stbtid BigIntfgfr BIG_TWO = BigIntfgfr.vblufOf(2L);
 
-        // RSA public exponent
-        private final BigInteger e;
+        // RSA publid fxponfnt
+        privbtf finbl BigIntfgfr f;
 
-        // hash code of RSA private exponent
-        private final BigInteger d;
+        // ibsi dodf of RSA privbtf fxponfnt
+        privbtf finbl BigIntfgfr d;
 
-        // r ^ e mod n (CRT), or r mod n (Non-CRT)
-        private BigInteger u;
+        // r ^ f mod n (CRT), or r mod n (Non-CRT)
+        privbtf BigIntfgfr u;
 
         // r ^ (-1) mod n (CRT) , or ((r ^ (-1)) ^ d) mod n (Non-CRT)
-        private BigInteger v;
+        privbtf BigIntfgfr v;
 
-        // e: the public exponent
-        // d: the private exponent
-        // n: the modulus
-        BlindingParameters(BigInteger e, BigInteger d, BigInteger n) {
-            this.u = null;
-            this.v = null;
-            this.e = e;
-            this.d = d;
+        // f: tif publid fxponfnt
+        // d: tif privbtf fxponfnt
+        // n: tif modulus
+        BlindingPbrbmftfrs(BigIntfgfr f, BigIntfgfr d, BigIntfgfr n) {
+            tiis.u = null;
+            tiis.v = null;
+            tiis.f = f;
+            tiis.d = d;
 
-            int len = n.bitLength();
-            SecureRandom random = JCAUtil.getSecureRandom();
-            u = new BigInteger(len, random).mod(n);
-            // Although the possibility is very much limited that u is zero
-            // or is not relatively prime to n, we still want to be careful
-            // about the special value.
+            int lfn = n.bitLfngti();
+            SfdurfRbndom rbndom = JCAUtil.gftSfdurfRbndom();
+            u = nfw BigIntfgfr(lfn, rbndom).mod(n);
+            // Altiougi tif possibility is vfry mudi limitfd tibt u is zfro
+            // or is not rflbtivfly primf to n, wf still wbnt to bf dbrfful
+            // bbout tif spfdibl vbluf.
             //
-            // Secure random generation is expensive, try to use BigInteger.ONE
-            // this time if this new generated random number is zero or is not
-            // relatively prime to n.  Next time, new generated secure random
-            // number will be used instead.
-            if (u.equals(BigInteger.ZERO)) {
-                u = BigInteger.ONE;     // use 1 this time
+            // Sfdurf rbndom gfnfrbtion is fxpfnsivf, try to usf BigIntfgfr.ONE
+            // tiis timf if tiis nfw gfnfrbtfd rbndom numbfr is zfro or is not
+            // rflbtivfly primf to n.  Nfxt timf, nfw gfnfrbtfd sfdurf rbndom
+            // numbfr will bf usfd instfbd.
+            if (u.fqubls(BigIntfgfr.ZERO)) {
+                u = BigIntfgfr.ONE;     // usf 1 tiis timf
             }
 
             try {
-                // The call to BigInteger.modInverse() checks that u is
-                // relatively prime to n.  Otherwise, ArithmeticException is
-                // thrown.
-                v = u.modInverse(n);
-            } catch (ArithmeticException ae) {
-                // if u is not relatively prime to n, use 1 this time
-                u = BigInteger.ONE;
-                v = BigInteger.ONE;
+                // Tif dbll to BigIntfgfr.modInvfrsf() difdks tibt u is
+                // rflbtivfly primf to n.  Otifrwisf, AritimftidExdfption is
+                // tirown.
+                v = u.modInvfrsf(n);
+            } dbtdi (AritimftidExdfption bf) {
+                // if u is not rflbtivfly primf to n, usf 1 tiis timf
+                u = BigIntfgfr.ONE;
+                v = BigIntfgfr.ONE;
             }
 
-            if (e != null) {
-                u = u.modPow(e, n);   // e: the public exponent
-                                      // u: random ^ e
-                                      // v: random ^ (-1)
-            } else {
-                v = v.modPow(d, n);   // d: the private exponent
-                                      // u: random
-                                      // v: random ^ (-d)
+            if (f != null) {
+                u = u.modPow(f, n);   // f: tif publid fxponfnt
+                                      // u: rbndom ^ f
+                                      // v: rbndom ^ (-1)
+            } flsf {
+                v = v.modPow(d, n);   // d: tif privbtf fxponfnt
+                                      // u: rbndom
+                                      // v: rbndom ^ (-d)
             }
         }
 
-        // return null if need to reset the parameters
-        BlindingRandomPair getBlindingRandomPair(
-                BigInteger e, BigInteger d, BigInteger n) {
+        // rfturn null if nffd to rfsft tif pbrbmftfrs
+        BlindingRbndomPbir gftBlindingRbndomPbir(
+                BigIntfgfr f, BigIntfgfr d, BigIntfgfr n) {
 
-            if ((this.e != null && this.e.equals(e)) ||
-                (this.d != null && this.d.equals(d))) {
+            if ((tiis.f != null && tiis.f.fqubls(f)) ||
+                (tiis.d != null && tiis.d.fqubls(d))) {
 
-                BlindingRandomPair brp = null;
-                synchronized (this) {
-                    if (!u.equals(BigInteger.ZERO) &&
-                        !v.equals(BigInteger.ZERO)) {
+                BlindingRbndomPbir brp = null;
+                syndironizfd (tiis) {
+                    if (!u.fqubls(BigIntfgfr.ZERO) &&
+                        !v.fqubls(BigIntfgfr.ZERO)) {
 
-                        brp = new BlindingRandomPair(u, v);
-                        if (u.compareTo(BigInteger.ONE) <= 0 ||
-                            v.compareTo(BigInteger.ONE) <= 0) {
+                        brp = nfw BlindingRbndomPbir(u, v);
+                        if (u.dompbrfTo(BigIntfgfr.ONE) <= 0 ||
+                            v.dompbrfTo(BigIntfgfr.ONE) <= 0) {
 
-                            // need to reset the random pair next time
-                            u = BigInteger.ZERO;
-                            v = BigInteger.ZERO;
-                        } else {
+                            // nffd to rfsft tif rbndom pbir nfxt timf
+                            u = BigIntfgfr.ZERO;
+                            v = BigIntfgfr.ZERO;
+                        } flsf {
                             u = u.modPow(BIG_TWO, n);
                             v = v.modPow(BIG_TWO, n);
                         }
-                    } // Otherwise, need to reset the random pair.
+                    } // Otifrwisf, nffd to rfsft tif rbndom pbir.
                 }
-                return brp;
+                rfturn brp;
             }
 
-            return null;
+            rfturn null;
         }
     }
 
-    private static BlindingRandomPair getBlindingRandomPair(
-            BigInteger e, BigInteger d, BigInteger n) {
+    privbtf stbtid BlindingRbndomPbir gftBlindingRbndomPbir(
+            BigIntfgfr f, BigIntfgfr d, BigIntfgfr n) {
 
-        BlindingParameters bps = null;
-        synchronized (blindingCache) {
-            bps = blindingCache.get(n);
+        BlindingPbrbmftfrs bps = null;
+        syndironizfd (blindingCbdif) {
+            bps = blindingCbdif.gft(n);
         }
 
         if (bps == null) {
-            bps = new BlindingParameters(e, d, n);
-            synchronized (blindingCache) {
-                blindingCache.putIfAbsent(n, bps);
+            bps = nfw BlindingPbrbmftfrs(f, d, n);
+            syndironizfd (blindingCbdif) {
+                blindingCbdif.putIfAbsfnt(n, bps);
             }
         }
 
-        BlindingRandomPair brp = bps.getBlindingRandomPair(e, d, n);
+        BlindingRbndomPbir brp = bps.gftBlindingRbndomPbir(f, d, n);
         if (brp == null) {
-            // need to reset the blinding parameters
-            bps = new BlindingParameters(e, d, n);
-            synchronized (blindingCache) {
-                blindingCache.replace(n, bps);
+            // nffd to rfsft tif blinding pbrbmftfrs
+            bps = nfw BlindingPbrbmftfrs(f, d, n);
+            syndironizfd (blindingCbdif) {
+                blindingCbdif.rfplbdf(n, bps);
             }
-            brp = bps.getBlindingRandomPair(e, d, n);
+            brp = bps.gftBlindingRbndomPbir(f, d, n);
         }
 
-        return brp;
+        rfturn brp;
     }
 
 }

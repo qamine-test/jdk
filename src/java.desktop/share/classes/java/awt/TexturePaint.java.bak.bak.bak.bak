@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+
+/**
+ * Thf <dodf>TfxturfPbint</dodf> dlbss providfs b wby to fill b
+ * {@link Shbpf} with b tfxturf thbt is spfdififd bs
+ * b {@link BufffrfdImbgf}. Thf sizf of thf <dodf>BufffrfdImbgf</dodf>
+ * objfdt should bf smbll bfdbusf thf <dodf>BufffrfdImbgf</dodf> dbtb
+ * is dopifd by thf <dodf>TfxturfPbint</dodf> objfdt.
+ * At donstrudtion timf, thf tfxturf is bndhorfd to thf uppfr
+ * lfft dornfr of b {@link Rfdtbnglf2D} thbt is
+ * spfdififd in usfr spbdf.  Tfxturf is domputfd for
+ * lodbtions in thf dfvidf spbdf by dondfptublly rfplidbting thf
+ * spfdififd <dodf>Rfdtbnglf2D</dodf> infinitfly in bll dirfdtions
+ * in usfr spbdf bnd mbpping thf <dodf>BufffrfdImbgf</dodf> to fbdh
+ * rfplidbtfd <dodf>Rfdtbnglf2D</dodf>.
+ * @sff Pbint
+ * @sff Grbphids2D#sftPbint
+ * @vfrsion 1.48, 06/05/07
+ */
+
+publid dlbss TfxturfPbint implfmfnts Pbint {
+
+    BufffrfdImbgf bufImg;
+    doublf tx;
+    doublf ty;
+    doublf sx;
+    doublf sy;
+
+    /**
+     * Construdts b <dodf>TfxturfPbint</dodf> objfdt.
+     * @pbrbm txtr thf <dodf>BufffrfdImbgf</dodf> objfdt with thf tfxturf
+     * usfd for pbinting
+     * @pbrbm bndhor thf <dodf>Rfdtbnglf2D</dodf> in usfr spbdf usfd to
+     * bndhor bnd rfplidbtf thf tfxturf
+     */
+    publid TfxturfPbint(BufffrfdImbgf txtr,
+                        Rfdtbnglf2D bndhor) {
+        this.bufImg = txtr;
+        this.tx = bndhor.gftX();
+        this.ty = bndhor.gftY();
+        this.sx = bndhor.gftWidth() / bufImg.gftWidth();
+        this.sy = bndhor.gftHfight() / bufImg.gftHfight();
+    }
+
+    /**
+     * Rfturns thf <dodf>BufffrfdImbgf</dodf> tfxturf usfd to
+     * fill thf shbpfs.
+     * @rfturn b <dodf>BufffrfdImbgf</dodf>.
+     */
+    publid BufffrfdImbgf gftImbgf() {
+        rfturn bufImg;
+    }
+
+    /**
+     * Rfturns b dopy of thf bndhor rfdtbnglf whidh positions bnd
+     * sizfs thf tfxturfd imbgf.
+     * @rfturn thf <dodf>Rfdtbnglf2D</dodf> usfd to bndhor bnd
+     * sizf this <dodf>TfxturfPbint</dodf>.
+     */
+    publid Rfdtbnglf2D gftAndhorRfdt() {
+        rfturn nfw Rfdtbnglf2D.Doublf(tx, ty,
+                                      sx * bufImg.gftWidth(),
+                                      sy * bufImg.gftHfight());
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * gfnfrbtf b tilfd imbgf pbttfrn.
+     * Sff thf {@link Pbint#drfbtfContfxt spfdifidbtion} of thf
+     * mfthod in thf {@link Pbint} intfrfbdf for informbtion
+     * on null pbrbmftfr hbndling.
+     *
+     * @pbrbm dm thf prfffrrfd {@link ColorModfl} whidh rfprfsfnts thf most donvfnifnt
+     *           formbt for thf dbllfr to rfdfivf thf pixfl dbtb, or {@dodf null}
+     *           if thfrf is no prfffrfndf.
+     * @pbrbm dfvidfBounds thf dfvidf spbdf bounding box
+     *                     of thf grbphids primitivf bfing rfndfrfd.
+     * @pbrbm usfrBounds thf usfr spbdf bounding box
+     *                   of thf grbphids primitivf bfing rfndfrfd.
+     * @pbrbm xform thf {@link AffinfTrbnsform} from usfr
+     *              spbdf into dfvidf spbdf.
+     * @pbrbm hints thf sft of hints thbt thf dontfxt objfdt dbn usf to
+     *              dhoosf bftwffn rfndfring bltfrnbtivfs.
+     * @rfturn thf {@dodf PbintContfxt} for
+     *         gfnfrbting dolor pbttfrns.
+     * @sff Pbint
+     * @sff PbintContfxt
+     * @sff ColorModfl
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf2D
+     * @sff AffinfTrbnsform
+     * @sff RfndfringHints
+     */
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+                                      Rfdtbnglf dfvidfBounds,
+                                      Rfdtbnglf2D usfrBounds,
+                                      AffinfTrbnsform xform,
+                                      RfndfringHints hints) {
+        if (xform == null) {
+            xform = nfw AffinfTrbnsform();
+        } flsf {
+            xform = (AffinfTrbnsform) xform.dlonf();
+        }
+        xform.trbnslbtf(tx, ty);
+        xform.sdblf(sx, sy);
+
+        rfturn TfxturfPbintContfxt.gftContfxt(bufImg, xform, hints,
+                                              dfvidfBounds);
+    }
+
+    /**
+     * Rfturns thf trbnspbrfndy modf for this <dodf>TfxturfPbint</dodf>.
+     * @rfturn thf trbnspbrfndy modf for this <dodf>TfxturfPbint</dodf>
+     * bs bn intfgfr vbluf.
+     * @sff Trbnspbrfndy
+     */
+    publid int gftTrbnspbrfndy() {
+        rfturn (bufImg.gftColorModfl()).gftTrbnspbrfndy();
+    }
+
+}

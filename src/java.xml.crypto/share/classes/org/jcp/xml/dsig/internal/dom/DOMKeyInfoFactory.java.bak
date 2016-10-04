@@ -1,166 +1,166 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMKeyInfoFactory.java 1333869 2012-05-04 10:42:44Z coheigea $
+ * $Id: DOMKfyInfoFbdtory.jbvb 1333869 2012-05-04 10:42:44Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import java.math.BigInteger;
-import java.security.KeyException;
-import java.security.PublicKey;
-import java.util.List;
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.keyinfo.*;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.KfyExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.util.List;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.kfyinfo.*;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
 /**
- * DOM-based implementation of KeyInfoFactory.
+ * DOM-bbsfd implfmfntbtion of KfyInfoFbdtory.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public final class DOMKeyInfoFactory extends KeyInfoFactory {
+publid finbl dlbss DOMKfyInfoFbdtory fxtfnds KfyInfoFbdtory {
 
-    public DOMKeyInfoFactory() { }
+    publid DOMKfyInfoFbdtory() { }
 
-    @SuppressWarnings("rawtypes")
-    public KeyInfo newKeyInfo(List content) {
-        return newKeyInfo(content, null);
+    @SupprfssWbrnings("rbwtypfs")
+    publid KfyInfo nfwKfyInfo(List dontfnt) {
+        rfturn nfwKfyInfo(dontfnt, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public KeyInfo newKeyInfo(List content, String id) {
-        return new DOMKeyInfo(content, id);
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid KfyInfo nfwKfyInfo(List dontfnt, String id) {
+        rfturn nfw DOMKfyInfo(dontfnt, id);
     }
 
-    public KeyName newKeyName(String name) {
-        return new DOMKeyName(name);
+    publid KfyNbmf nfwKfyNbmf(String nbmf) {
+        rfturn nfw DOMKfyNbmf(nbmf);
     }
 
-    public KeyValue newKeyValue(PublicKey key)  throws KeyException {
-        String algorithm = key.getAlgorithm();
-        if (algorithm.equals("DSA")) {
-            return new DOMKeyValue.DSA(key);
-        } else if (algorithm.equals("RSA")) {
-            return new DOMKeyValue.RSA(key);
-        } else if (algorithm.equals("EC")) {
-            return new DOMKeyValue.EC(key);
-        } else {
-            throw new KeyException("unsupported key algorithm: " + algorithm);
+    publid KfyVbluf nfwKfyVbluf(PublidKfy kfy)  tirows KfyExdfption {
+        String blgoritim = kfy.gftAlgoritim();
+        if (blgoritim.fqubls("DSA")) {
+            rfturn nfw DOMKfyVbluf.DSA(kfy);
+        } flsf if (blgoritim.fqubls("RSA")) {
+            rfturn nfw DOMKfyVbluf.RSA(kfy);
+        } flsf if (blgoritim.fqubls("EC")) {
+            rfturn nfw DOMKfyVbluf.EC(kfy);
+        } flsf {
+            tirow nfw KfyExdfption("unsupportfd kfy blgoritim: " + blgoritim);
         }
     }
 
-    public PGPData newPGPData(byte[] keyId) {
-        return newPGPData(keyId, null, null);
+    publid PGPDbtb nfwPGPDbtb(bytf[] kfyId) {
+        rfturn nfwPGPDbtb(kfyId, null, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public PGPData newPGPData(byte[] keyId, byte[] keyPacket, List other) {
-        return new DOMPGPData(keyId, keyPacket, other);
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid PGPDbtb nfwPGPDbtb(bytf[] kfyId, bytf[] kfyPbdkft, List otifr) {
+        rfturn nfw DOMPGPDbtb(kfyId, kfyPbdkft, otifr);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public PGPData newPGPData(byte[] keyPacket, List other) {
-        return new DOMPGPData(keyPacket, other);
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid PGPDbtb nfwPGPDbtb(bytf[] kfyPbdkft, List otifr) {
+        rfturn nfw DOMPGPDbtb(kfyPbdkft, otifr);
     }
 
-    public RetrievalMethod newRetrievalMethod(String uri) {
-        return newRetrievalMethod(uri, null, null);
+    publid RftrifvblMftiod nfwRftrifvblMftiod(String uri) {
+        rfturn nfwRftrifvblMftiod(uri, null, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public RetrievalMethod newRetrievalMethod(String uri, String type,
-        List transforms) {
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid RftrifvblMftiod nfwRftrifvblMftiod(String uri, String typf,
+        List trbnsforms) {
         if (uri == null) {
-            throw new NullPointerException("uri must not be null");
+            tirow nfw NullPointfrExdfption("uri must not bf null");
         }
-        return new DOMRetrievalMethod(uri, type, transforms);
+        rfturn nfw DOMRftrifvblMftiod(uri, typf, trbnsforms);
     }
 
-    @SuppressWarnings("rawtypes")
-    public X509Data newX509Data(List content) {
-        return new DOMX509Data(content);
+    @SupprfssWbrnings("rbwtypfs")
+    publid X509Dbtb nfwX509Dbtb(List dontfnt) {
+        rfturn nfw DOMX509Dbtb(dontfnt);
     }
 
-    public X509IssuerSerial newX509IssuerSerial(String issuerName,
-        BigInteger serialNumber) {
-        return new DOMX509IssuerSerial(issuerName, serialNumber);
+    publid X509IssufrSfribl nfwX509IssufrSfribl(String issufrNbmf,
+        BigIntfgfr sfriblNumbfr) {
+        rfturn nfw DOMX509IssufrSfribl(issufrNbmf, sfriblNumbfr);
     }
 
-    public boolean isFeatureSupported(String feature) {
-        if (feature == null) {
-            throw new NullPointerException();
-        } else {
-            return false;
-        }
-    }
-
-    public URIDereferencer getURIDereferencer() {
-        return DOMURIDereferencer.INSTANCE;
-    }
-
-    public KeyInfo unmarshalKeyInfo(XMLStructure xmlStructure)
-        throws MarshalException {
-        if (xmlStructure == null) {
-            throw new NullPointerException("xmlStructure cannot be null");
-        }
-        if (!(xmlStructure instanceof javax.xml.crypto.dom.DOMStructure)) {
-            throw new ClassCastException("xmlStructure must be of type DOMStructure");
-        }
-        Node node =
-            ((javax.xml.crypto.dom.DOMStructure) xmlStructure).getNode();
-        node.normalize();
-
-        Element element = null;
-        if (node.getNodeType() == Node.DOCUMENT_NODE) {
-            element = ((Document) node).getDocumentElement();
-        } else if (node.getNodeType() == Node.ELEMENT_NODE) {
-            element = (Element) node;
-        } else {
-            throw new MarshalException
-                ("xmlStructure does not contain a proper Node");
-        }
-
-        // check tag
-        String tag = element.getLocalName();
-        if (tag == null) {
-            throw new MarshalException("Document implementation must " +
-                "support DOM Level 2 and be namespace aware");
-        }
-        if (tag.equals("KeyInfo")) {
-            return new DOMKeyInfo(element, new UnmarshalContext(), getProvider());
-        } else {
-            throw new MarshalException("invalid KeyInfo tag: " + tag);
+    publid boolfbn isFfbturfSupportfd(String ffbturf) {
+        if (ffbturf == null) {
+            tirow nfw NullPointfrExdfption();
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    private static class UnmarshalContext extends DOMCryptoContext {
-        UnmarshalContext() {}
+    publid URIDfrfffrfndfr gftURIDfrfffrfndfr() {
+        rfturn DOMURIDfrfffrfndfr.INSTANCE;
+    }
+
+    publid KfyInfo unmbrsiblKfyInfo(XMLStrudturf xmlStrudturf)
+        tirows MbrsiblExdfption {
+        if (xmlStrudturf == null) {
+            tirow nfw NullPointfrExdfption("xmlStrudturf dbnnot bf null");
+        }
+        if (!(xmlStrudturf instbndfof jbvbx.xml.drypto.dom.DOMStrudturf)) {
+            tirow nfw ClbssCbstExdfption("xmlStrudturf must bf of typf DOMStrudturf");
+        }
+        Nodf nodf =
+            ((jbvbx.xml.drypto.dom.DOMStrudturf) xmlStrudturf).gftNodf();
+        nodf.normblizf();
+
+        Elfmfnt flfmfnt = null;
+        if (nodf.gftNodfTypf() == Nodf.DOCUMENT_NODE) {
+            flfmfnt = ((Dodumfnt) nodf).gftDodumfntElfmfnt();
+        } flsf if (nodf.gftNodfTypf() == Nodf.ELEMENT_NODE) {
+            flfmfnt = (Elfmfnt) nodf;
+        } flsf {
+            tirow nfw MbrsiblExdfption
+                ("xmlStrudturf dofs not dontbin b propfr Nodf");
+        }
+
+        // difdk tbg
+        String tbg = flfmfnt.gftLodblNbmf();
+        if (tbg == null) {
+            tirow nfw MbrsiblExdfption("Dodumfnt implfmfntbtion must " +
+                "support DOM Lfvfl 2 bnd bf nbmfspbdf bwbrf");
+        }
+        if (tbg.fqubls("KfyInfo")) {
+            rfturn nfw DOMKfyInfo(flfmfnt, nfw UnmbrsiblContfxt(), gftProvidfr());
+        } flsf {
+            tirow nfw MbrsiblExdfption("invblid KfyInfo tbg: " + tbg);
+        }
+    }
+
+    privbtf stbtid dlbss UnmbrsiblContfxt fxtfnds DOMCryptoContfxt {
+        UnmbrsiblContfxt() {}
     }
 
 }

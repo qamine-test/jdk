@@ -1,116 +1,116 @@
 /* 
- * Copyright (c) 1998, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-char * const opcode_in_out[][2] = {
+dibr * donst opdodf_in_out[][2] = {
    {"", ""}, 		/* nop */
-   {"", "A"}, 		/* aconst_null */
-   {"", "I"}, 		/* iconst_m1 */
-   {"", "I"}, 		/* iconst_0 */
-   {"", "I"}, 		/* iconst_1 */
-   {"", "I"}, 		/* iconst_2 */
-   {"", "I"}, 		/* iconst_3 */
-   {"", "I"}, 		/* iconst_4 */
-   {"", "I"}, 		/* iconst_5 */
-   {"", "L"}, 		/* lconst_0 */
-   {"", "L"}, 		/* lconst_1 */
-   {"", "F"}, 		/* fconst_0 */
-   {"", "F"}, 		/* fconst_1 */
-   {"", "F"}, 		/* fconst_2 */
-   {"", "D"}, 		/* dconst_0 */
-   {"", "D"}, 		/* dconst_1 */
-   {"", "I"}, 		/* bipush */
-   {"", "I"}, 		/* sipush */
-   {"", "?"}, 		/* ldc */
-   {"", "?"}, 		/* ldc_w */
-   {"", "?"}, 		/* ldc2_w */
-   {"", "I"}, 		/* iload */
-   {"", "L"}, 		/* lload */
-   {"", "F"}, 		/* fload */
-   {"", "D"}, 		/* dload */
-   {"", "A"}, 		/* aload */
-   {"", "I"}, 		/* iload_0 */
-   {"", "I"}, 		/* iload_1 */
-   {"", "I"}, 		/* iload_2 */
-   {"", "I"}, 		/* iload_3 */
-   {"", "L"}, 		/* lload_0 */
-   {"", "L"}, 		/* lload_1 */
-   {"", "L"}, 		/* lload_2 */
-   {"", "L"}, 		/* lload_3 */
-   {"", "F"}, 		/* fload_0 */
-   {"", "F"}, 		/* fload_1 */
-   {"", "F"}, 		/* fload_2 */
-   {"", "F"}, 		/* fload_3 */
-   {"", "D"}, 		/* dload_0 */
-   {"", "D"}, 		/* dload_1 */
-   {"", "D"}, 		/* dload_2 */
-   {"", "D"}, 		/* dload_3 */
-   {"", "A"}, 		/* aload_0 */
-   {"", "A"}, 		/* aload_1 */
-   {"", "A"}, 		/* aload_2 */
-   {"", "A"}, 		/* aload_3 */
-   {"[I]I", "I"}, 		/* iaload */
-   {"[L]I", "L"}, 		/* laload */
-   {"[F]I", "F"}, 		/* faload */
-   {"[D]I", "D"}, 		/* daload */
-   {"[A]I", "A"}, 		/* aaload */
-   {"[B]I", "I"}, 		/* baload */
-   {"[C]I", "I"}, 		/* caload */
-   {"[S]I", "I"}, 		/* saload */
-   {"I", ""}, 		/* istore */
-   {"L", ""}, 		/* lstore */
-   {"F", ""}, 		/* fstore */
-   {"D", ""}, 		/* dstore */
-   {"A", ""}, 		/* astore */
-   {"I", ""}, 		/* istore_0 */
-   {"I", ""}, 		/* istore_1 */
-   {"I", ""}, 		/* istore_2 */
-   {"I", ""}, 		/* istore_3 */
-   {"L", ""}, 		/* lstore_0 */
-   {"L", ""}, 		/* lstore_1 */
-   {"L", ""}, 		/* lstore_2 */
-   {"L", ""}, 		/* lstore_3 */
-   {"F", ""}, 		/* fstore_0 */
-   {"F", ""}, 		/* fstore_1 */
-   {"F", ""}, 		/* fstore_2 */
-   {"F", ""}, 		/* fstore_3 */
-   {"D", ""}, 		/* dstore_0 */
-   {"D", ""}, 		/* dstore_1 */
-   {"D", ""}, 		/* dstore_2 */
-   {"D", ""}, 		/* dstore_3 */
-   {"A", ""}, 		/* astore_0 */
-   {"A", ""}, 		/* astore_1 */
-   {"A", ""}, 		/* astore_2 */
-   {"A", ""}, 		/* astore_3 */
-   {"[I]II", ""}, 		/* iastore */
-   {"[L]IL", ""}, 		/* lastore */
-   {"[F]IF", ""}, 		/* fastore */
-   {"[D]ID", ""}, 		/* dastore */
-   {"[A]IA", ""}, 		/* aastore */
-   {"[B]II", ""}, 		/* bastore */
-   {"[C]II", ""}, 		/* castore */
-   {"[S]II", ""}, 		/* sastore */
+   {"", "A"}, 		/* bdonst_null */
+   {"", "I"}, 		/* idonst_m1 */
+   {"", "I"}, 		/* idonst_0 */
+   {"", "I"}, 		/* idonst_1 */
+   {"", "I"}, 		/* idonst_2 */
+   {"", "I"}, 		/* idonst_3 */
+   {"", "I"}, 		/* idonst_4 */
+   {"", "I"}, 		/* idonst_5 */
+   {"", "L"}, 		/* ldonst_0 */
+   {"", "L"}, 		/* ldonst_1 */
+   {"", "F"}, 		/* fdonst_0 */
+   {"", "F"}, 		/* fdonst_1 */
+   {"", "F"}, 		/* fdonst_2 */
+   {"", "D"}, 		/* ddonst_0 */
+   {"", "D"}, 		/* ddonst_1 */
+   {"", "I"}, 		/* bipusi */
+   {"", "I"}, 		/* sipusi */
+   {"", "?"}, 		/* ldd */
+   {"", "?"}, 		/* ldd_w */
+   {"", "?"}, 		/* ldd2_w */
+   {"", "I"}, 		/* ilobd */
+   {"", "L"}, 		/* llobd */
+   {"", "F"}, 		/* flobd */
+   {"", "D"}, 		/* dlobd */
+   {"", "A"}, 		/* blobd */
+   {"", "I"}, 		/* ilobd_0 */
+   {"", "I"}, 		/* ilobd_1 */
+   {"", "I"}, 		/* ilobd_2 */
+   {"", "I"}, 		/* ilobd_3 */
+   {"", "L"}, 		/* llobd_0 */
+   {"", "L"}, 		/* llobd_1 */
+   {"", "L"}, 		/* llobd_2 */
+   {"", "L"}, 		/* llobd_3 */
+   {"", "F"}, 		/* flobd_0 */
+   {"", "F"}, 		/* flobd_1 */
+   {"", "F"}, 		/* flobd_2 */
+   {"", "F"}, 		/* flobd_3 */
+   {"", "D"}, 		/* dlobd_0 */
+   {"", "D"}, 		/* dlobd_1 */
+   {"", "D"}, 		/* dlobd_2 */
+   {"", "D"}, 		/* dlobd_3 */
+   {"", "A"}, 		/* blobd_0 */
+   {"", "A"}, 		/* blobd_1 */
+   {"", "A"}, 		/* blobd_2 */
+   {"", "A"}, 		/* blobd_3 */
+   {"[I]I", "I"}, 		/* iblobd */
+   {"[L]I", "L"}, 		/* lblobd */
+   {"[F]I", "F"}, 		/* fblobd */
+   {"[D]I", "D"}, 		/* dblobd */
+   {"[A]I", "A"}, 		/* bblobd */
+   {"[B]I", "I"}, 		/* bblobd */
+   {"[C]I", "I"}, 		/* dblobd */
+   {"[S]I", "I"}, 		/* sblobd */
+   {"I", ""}, 		/* istorf */
+   {"L", ""}, 		/* lstorf */
+   {"F", ""}, 		/* fstorf */
+   {"D", ""}, 		/* dstorf */
+   {"A", ""}, 		/* bstorf */
+   {"I", ""}, 		/* istorf_0 */
+   {"I", ""}, 		/* istorf_1 */
+   {"I", ""}, 		/* istorf_2 */
+   {"I", ""}, 		/* istorf_3 */
+   {"L", ""}, 		/* lstorf_0 */
+   {"L", ""}, 		/* lstorf_1 */
+   {"L", ""}, 		/* lstorf_2 */
+   {"L", ""}, 		/* lstorf_3 */
+   {"F", ""}, 		/* fstorf_0 */
+   {"F", ""}, 		/* fstorf_1 */
+   {"F", ""}, 		/* fstorf_2 */
+   {"F", ""}, 		/* fstorf_3 */
+   {"D", ""}, 		/* dstorf_0 */
+   {"D", ""}, 		/* dstorf_1 */
+   {"D", ""}, 		/* dstorf_2 */
+   {"D", ""}, 		/* dstorf_3 */
+   {"A", ""}, 		/* bstorf_0 */
+   {"A", ""}, 		/* bstorf_1 */
+   {"A", ""}, 		/* bstorf_2 */
+   {"A", ""}, 		/* bstorf_3 */
+   {"[I]II", ""}, 		/* ibstorf */
+   {"[L]IL", ""}, 		/* lbstorf */
+   {"[F]IF", ""}, 		/* fbstorf */
+   {"[D]ID", ""}, 		/* dbstorf */
+   {"[A]IA", ""}, 		/* bbstorf */
+   {"[B]II", ""}, 		/* bbstorf */
+   {"[C]II", ""}, 		/* dbstorf */
+   {"[S]II", ""}, 		/* sbstorf */
    {"1", ""}, 		/* pop */
    {"2+1", ""}, 		/* pop2 */
    {"1", "11"}, 		/* dup */
@@ -119,11 +119,11 @@ char * const opcode_in_out[][2] = {
    {"2+1", "2121"}, 		/* dup2 */
    {"32+1", "21321"}, 		/* dup2_x1 */
    {"4+32+1", "214321"}, 		/* dup2_x2 */
-   {"21", "12"}, 		/* swap */
-   {"II", "I"}, 		/* iadd */
-   {"LL", "L"}, 		/* ladd */
-   {"FF", "F"}, 		/* fadd */
-   {"DD", "D"}, 		/* dadd */
+   {"21", "12"}, 		/* swbp */
+   {"II", "I"}, 		/* ibdd */
+   {"LL", "L"}, 		/* lbdd */
+   {"FF", "F"}, 		/* fbdd */
+   {"DD", "D"}, 		/* dbdd */
    {"II", "I"}, 		/* isub */
    {"LL", "L"}, 		/* lsub */
    {"FF", "F"}, 		/* fsub */
@@ -136,27 +136,27 @@ char * const opcode_in_out[][2] = {
    {"LL", "L"}, 		/* ldiv */
    {"FF", "F"}, 		/* fdiv */
    {"DD", "D"}, 		/* ddiv */
-   {"II", "I"}, 		/* irem */
-   {"LL", "L"}, 		/* lrem */
-   {"FF", "F"}, 		/* frem */
-   {"DD", "D"}, 		/* drem */
-   {"I", "I"}, 		/* ineg */
-   {"L", "L"}, 		/* lneg */
-   {"F", "F"}, 		/* fneg */
-   {"D", "D"}, 		/* dneg */
-   {"II", "I"}, 		/* ishl */
-   {"LI", "L"}, 		/* lshl */
-   {"II", "I"}, 		/* ishr */
-   {"LI", "L"}, 		/* lshr */
-   {"II", "I"}, 		/* iushr */
-   {"LI", "L"}, 		/* lushr */
-   {"II", "I"}, 		/* iand */
-   {"LL", "L"}, 		/* land */
+   {"II", "I"}, 		/* irfm */
+   {"LL", "L"}, 		/* lrfm */
+   {"FF", "F"}, 		/* frfm */
+   {"DD", "D"}, 		/* drfm */
+   {"I", "I"}, 		/* infg */
+   {"L", "L"}, 		/* lnfg */
+   {"F", "F"}, 		/* fnfg */
+   {"D", "D"}, 		/* dnfg */
+   {"II", "I"}, 		/* isil */
+   {"LI", "L"}, 		/* lsil */
+   {"II", "I"}, 		/* isir */
+   {"LI", "L"}, 		/* lsir */
+   {"II", "I"}, 		/* iusir */
+   {"LI", "L"}, 		/* lusir */
+   {"II", "I"}, 		/* ibnd */
+   {"LL", "L"}, 		/* lbnd */
    {"II", "I"}, 		/* ior */
    {"LL", "L"}, 		/* lor */
    {"II", "I"}, 		/* ixor */
    {"LL", "L"}, 		/* lxor */
-   {"", ""}, 		/* iinc */
+   {"", ""}, 		/* iind */
    {"I", "L"}, 		/* i2l */
    {"I", "F"}, 		/* i2f */
    {"I", "D"}, 		/* i2d */
@@ -170,88 +170,88 @@ char * const opcode_in_out[][2] = {
    {"D", "L"}, 		/* d2l */
    {"D", "F"}, 		/* d2f */
    {"I", "I"}, 		/* i2b */
-   {"I", "I"}, 		/* i2c */
+   {"I", "I"}, 		/* i2d */
    {"I", "I"}, 		/* i2s */
-   {"LL", "I"}, 		/* lcmp */
-   {"FF", "I"}, 		/* fcmpl */
-   {"FF", "I"}, 		/* fcmpg */
-   {"DD", "I"}, 		/* dcmpl */
-   {"DD", "I"}, 		/* dcmpg */
-   {"I", ""}, 		/* ifeq */
-   {"I", ""}, 		/* ifne */
+   {"LL", "I"}, 		/* ldmp */
+   {"FF", "I"}, 		/* fdmpl */
+   {"FF", "I"}, 		/* fdmpg */
+   {"DD", "I"}, 		/* ddmpl */
+   {"DD", "I"}, 		/* ddmpg */
+   {"I", ""}, 		/* iffq */
+   {"I", ""}, 		/* ifnf */
    {"I", ""}, 		/* iflt */
-   {"I", ""}, 		/* ifge */
+   {"I", ""}, 		/* ifgf */
    {"I", ""}, 		/* ifgt */
-   {"I", ""}, 		/* ifle */
-   {"II", ""}, 		/* if_icmpeq */
-   {"II", ""}, 		/* if_icmpne */
-   {"II", ""}, 		/* if_icmplt */
-   {"II", ""}, 		/* if_icmpge */
-   {"II", ""}, 		/* if_icmpgt */
-   {"II", ""}, 		/* if_icmple */
-   {"AA", ""}, 		/* if_acmpeq */
-   {"AA", ""}, 		/* if_acmpne */
+   {"I", ""}, 		/* iflf */
+   {"II", ""}, 		/* if_idmpfq */
+   {"II", ""}, 		/* if_idmpnf */
+   {"II", ""}, 		/* if_idmplt */
+   {"II", ""}, 		/* if_idmpgf */
+   {"II", ""}, 		/* if_idmpgt */
+   {"II", ""}, 		/* if_idmplf */
+   {"AA", ""}, 		/* if_bdmpfq */
+   {"AA", ""}, 		/* if_bdmpnf */
    {"", ""}, 		/* goto */
    {"", "R"}, 		/* jsr */
-   {"", ""}, 		/* ret */
-   {"I", ""}, 		/* tableswitch */
-   {"I", ""}, 		/* lookupswitch */
-   {"I", ""}, 		/* ireturn */
-   {"L", ""}, 		/* lreturn */
-   {"F", ""}, 		/* freturn */
-   {"D", ""}, 		/* dreturn */
-   {"A", ""}, 		/* areturn */
-   {"", ""}, 		/* return */
-   {"", "?"}, 		/* getstatic */
-   {"?", ""}, 		/* putstatic */
-   {"A", "?"}, 		/* getfield */
-   {"?", ""}, 		/* putfield */
-   {"?", "?"}, 		/* invokevirtual */
-   {"?", "?"}, 		/* invokespecial */
-   {"?", "?"}, 		/* invokestatic */
-   {"?", "?"}, 		/* invokeinterface */
-   {"?", "?"}, 		/* invokedynamic */
-   {"", "A"}, 		/* new */
-   {"I", "A"}, 		/* newarray */
-   {"I", "A"}, 		/* anewarray */
-   {"[?]", "I"}, 		/* arraylength */
-   {"O", ""}, 		/* athrow */
-   {"A", "A"}, 		/* checkcast */
-   {"A", "I"}, 		/* instanceof */
-   {"A", ""}, 		/* monitorenter */
-   {"A", ""}, 		/* monitorexit */
-   {"", ""}, 		/* wide */
-   {"?", "A"}, 		/* multianewarray */
+   {"", ""}, 		/* rft */
+   {"I", ""}, 		/* tbblfswitdi */
+   {"I", ""}, 		/* lookupswitdi */
+   {"I", ""}, 		/* irfturn */
+   {"L", ""}, 		/* lrfturn */
+   {"F", ""}, 		/* frfturn */
+   {"D", ""}, 		/* drfturn */
+   {"A", ""}, 		/* brfturn */
+   {"", ""}, 		/* rfturn */
+   {"", "?"}, 		/* gftstbtid */
+   {"?", ""}, 		/* putstbtid */
+   {"A", "?"}, 		/* gftfifld */
+   {"?", ""}, 		/* putfifld */
+   {"?", "?"}, 		/* invokfvirtubl */
+   {"?", "?"}, 		/* invokfspfdibl */
+   {"?", "?"}, 		/* invokfstbtid */
+   {"?", "?"}, 		/* invokfintfrfbdf */
+   {"?", "?"}, 		/* invokfdynbmid */
+   {"", "A"}, 		/* nfw */
+   {"I", "A"}, 		/* nfwbrrby */
+   {"I", "A"}, 		/* bnfwbrrby */
+   {"[?]", "I"}, 		/* brrbylfngti */
+   {"O", ""}, 		/* btirow */
+   {"A", "A"}, 		/* difdkdbst */
+   {"A", "I"}, 		/* instbndfof */
+   {"A", ""}, 		/* monitorfntfr */
+   {"A", ""}, 		/* monitorfxit */
+   {"", ""}, 		/* widf */
+   {"?", "A"}, 		/* multibnfwbrrby */
    {"A", ""}, 		/* ifnull */
    {"A", ""}, 		/* ifnonnull */
    {"", ""}, 		/* goto_w */
    {"", "R"}, 		/* jsr_w */
-   {"", ""}, 		/* breakpoint */
-   {"", "?"}, 		/* ldc_quick */
-   {"", "?"}, 		/* ldc_w_quick */
-   {"", "?"}, 		/* ldc2_w_quick */
-   {"A", "?"}, 		/* getfield_quick */
-   {"?", ""}, 		/* putfield_quick */
-   {"A", "?"}, 		/* getfield2_quick */
-   {"?", ""}, 		/* putfield2_quick */
-   {"", "?"}, 		/* getstatic_quick */
-   {"?", ""}, 		/* putstatic_quick */
-   {"", "?"}, 		/* getstatic2_quick */
-   {"?", "_"}, 		/* putstatic2_quick */
-   {"?", "?"}, 		/* invokevirtual_quick */
-   {"?", "?"}, 		/* invokenonvirtual_quick */
-   {"?", "?"}, 		/* invokesuper_quick */
-   {"?", "?"}, 		/* invokestatic_quick */
-   {"?", "?"}, 		/* invokeinterface_quick */
-   {"?", "?"}, 		/* invokevirtualobject_quick */
-   {"?", "?"}, 		/* invokeignored_quick */
-   {"", "A"}, 		/* new_quick */
-   {"I", "A"}, 		/* anewarray_quick */
-   {"?", "A"}, 		/* multianewarray_quick */
-   {"A", "A"}, 		/* checkcast_quick */
-   {"A", "I"}, 		/* instanceof_quick */
-   {"?", "?"}, 		/* invokevirtual_quick_w */
-   {"A", "?"}, 		/* getfield_quick_w */
-   {"?", ""}, 		/* putfield_quick_w */
-   {"A", ""}, 		/* nonnull_quick */
+   {"", ""}, 		/* brfbkpoint */
+   {"", "?"}, 		/* ldd_quidk */
+   {"", "?"}, 		/* ldd_w_quidk */
+   {"", "?"}, 		/* ldd2_w_quidk */
+   {"A", "?"}, 		/* gftfifld_quidk */
+   {"?", ""}, 		/* putfifld_quidk */
+   {"A", "?"}, 		/* gftfifld2_quidk */
+   {"?", ""}, 		/* putfifld2_quidk */
+   {"", "?"}, 		/* gftstbtid_quidk */
+   {"?", ""}, 		/* putstbtid_quidk */
+   {"", "?"}, 		/* gftstbtid2_quidk */
+   {"?", "_"}, 		/* putstbtid2_quidk */
+   {"?", "?"}, 		/* invokfvirtubl_quidk */
+   {"?", "?"}, 		/* invokfnonvirtubl_quidk */
+   {"?", "?"}, 		/* invokfsupfr_quidk */
+   {"?", "?"}, 		/* invokfstbtid_quidk */
+   {"?", "?"}, 		/* invokfintfrfbdf_quidk */
+   {"?", "?"}, 		/* invokfvirtublobjfdt_quidk */
+   {"?", "?"}, 		/* invokfignorfd_quidk */
+   {"", "A"}, 		/* nfw_quidk */
+   {"I", "A"}, 		/* bnfwbrrby_quidk */
+   {"?", "A"}, 		/* multibnfwbrrby_quidk */
+   {"A", "A"}, 		/* difdkdbst_quidk */
+   {"A", "I"}, 		/* instbndfof_quidk */
+   {"?", "?"}, 		/* invokfvirtubl_quidk_w */
+   {"A", "?"}, 		/* gftfifld_quidk_w */
+   {"?", ""}, 		/* putfifld_quidk_w */
+   {"A", ""}, 		/* nonnull_quidk */
 };

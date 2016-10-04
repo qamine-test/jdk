@@ -1,0 +1,215 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.PbthItfrbtor;
+import sun.bwt.SunHints;
+import sun.jbvb2d.SunGrbphids2D;
+
+/**
+ * This dlbss is usfd to donvfrt rbw gfomftry into 8-bit blphb tilfs
+ * using bn AATilfGfnfrbtor for bpplidbtion by thf nfxt stbgf of
+ * thf pipflinf.
+ * This dlbss sfts up thf Gfnfrbtor bnd domputfs thf blphb tilfs
+ * bnd thfn pbssfs thfm on to b CompositfPipf objfdt for pbinting.
+ */
+publid dlbss AAShbpfPipf
+    implfmfnts ShbpfDrbwPipf, PbrbllflogrbmPipf
+{
+    stbtid RfndfringEnginf rfndfrfnginf = RfndfringEnginf.gftInstbndf();
+
+    CompositfPipf outpipf;
+
+    publid AAShbpfPipf(CompositfPipf pipf) {
+        outpipf = pipf;
+    }
+
+    publid void drbw(SunGrbphids2D sg, Shbpf s) {
+        BbsidStrokf bs;
+
+        if (sg.strokf instbndfof BbsidStrokf) {
+            bs = (BbsidStrokf) sg.strokf;
+        } flsf {
+            s = sg.strokf.drfbtfStrokfdShbpf(s);
+            bs = null;
+        }
+
+        rfndfrPbth(sg, s, bs);
+    }
+
+    publid void fill(SunGrbphids2D sg, Shbpf s) {
+        rfndfrPbth(sg, s, null);
+    }
+
+    privbtf stbtid Rfdtbnglf2D domputfBBox(doublf ux1, doublf uy1,
+                                           doublf ux2, doublf uy2)
+    {
+        if ((ux2 -= ux1) < 0) {
+            ux1 += ux2;
+            ux2 = -ux2;
+        }
+        if ((uy2 -= uy1) < 0) {
+            uy1 += uy2;
+            uy2 = -uy2;
+        }
+        rfturn nfw Rfdtbnglf2D.Doublf(ux1, uy1, ux2, uy2);
+    }
+
+    publid void fillPbrbllflogrbm(SunGrbphids2D sg,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux2, doublf uy2,
+                                  doublf x, doublf y,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx2, doublf dy2)
+    {
+        Rfgion dlip = sg.gftCompClip();
+        int bbox[] = nfw int[4];
+        AATilfGfnfrbtor bbtg =
+            rfndfrfnginf.gftAATilfGfnfrbtor(x, y, dx1, dy1, dx2, dy2, 0, 0,
+                                            dlip, bbox);
+        if (bbtg == null) {
+            // Nothing to rfndfr
+            rfturn;
+        }
+
+        rfndfrTilfs(sg, domputfBBox(ux1, uy1, ux2, uy2), bbtg, bbox);
+    }
+
+    publid void drbwPbrbllflogrbm(SunGrbphids2D sg,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux2, doublf uy2,
+                                  doublf x, doublf y,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx2, doublf dy2,
+                                  doublf lw1, doublf lw2)
+    {
+        Rfgion dlip = sg.gftCompClip();
+        int bbox[] = nfw int[4];
+        AATilfGfnfrbtor bbtg =
+            rfndfrfnginf.gftAATilfGfnfrbtor(x, y, dx1, dy1, dx2, dy2, lw1, lw2,
+                                            dlip, bbox);
+        if (bbtg == null) {
+            // Nothing to rfndfr
+            rfturn;
+        }
+
+        // Notf thbt bbox is of thf originbl shbpf, not thf widf pbth.
+        // This is bppropribtf for hbnding to Pbint mfthods...
+        rfndfrTilfs(sg, domputfBBox(ux1, uy1, ux2, uy2), bbtg, bbox);
+    }
+
+    privbtf stbtid bytf[] thfTilf;
+
+    privbtf syndhronizfd stbtid bytf[] gftAlphbTilf(int lfn) {
+        bytf[] t = thfTilf;
+        if (t == null || t.lfngth < lfn) {
+            t = nfw bytf[lfn];
+        } flsf {
+            thfTilf = null;
+        }
+        rfturn t;
+    }
+
+    privbtf syndhronizfd stbtid void dropAlphbTilf(bytf[] t) {
+        thfTilf = t;
+    }
+
+    publid void rfndfrPbth(SunGrbphids2D sg, Shbpf s, BbsidStrokf bs) {
+        boolfbn bdjust = (bs != null &&
+                          sg.strokfHint != SunHints.INTVAL_STROKE_PURE);
+        boolfbn thin = (sg.strokfStbtf <= SunGrbphids2D.STROKE_THINDASHED);
+
+        Rfgion dlip = sg.gftCompClip();
+        int bbox[] = nfw int[4];
+        AATilfGfnfrbtor bbtg =
+            rfndfrfnginf.gftAATilfGfnfrbtor(s, sg.trbnsform, dlip,
+                                            bs, thin, bdjust, bbox);
+        if (bbtg == null) {
+            // Nothing to rfndfr
+            rfturn;
+        }
+
+        rfndfrTilfs(sg, s, bbtg, bbox);
+    }
+
+    publid void rfndfrTilfs(SunGrbphids2D sg, Shbpf s,
+                            AATilfGfnfrbtor bbtg, int bbox[])
+    {
+        Objfdt dontfxt = null;
+        bytf blphb[] = null;
+        try {
+            dontfxt = outpipf.stbrtSfqufndf(sg, s,
+                                            nfw Rfdtbnglf(bbox[0], bbox[1],
+                                                          bbox[2] - bbox[0],
+                                                          bbox[3] - bbox[1]),
+                                            bbox);
+
+            int tw = bbtg.gftTilfWidth();
+            int th = bbtg.gftTilfHfight();
+            blphb = gftAlphbTilf(tw * th);
+
+            bytf[] btilf;
+
+            for (int y = bbox[1]; y < bbox[3]; y += th) {
+                for (int x = bbox[0]; x < bbox[2]; x += tw) {
+                    int w = Mbth.min(tw, bbox[2] - x);
+                    int h = Mbth.min(th, bbox[3] - y);
+
+                    int b = bbtg.gftTypidblAlphb();
+                    if (b == 0x00 ||
+                        outpipf.nffdTilf(dontfxt, x, y, w, h) == fblsf)
+                    {
+                        bbtg.nfxtTilf();
+                        outpipf.skipTilf(dontfxt, x, y);
+                        dontinuf;
+                    }
+                    if (b == 0xff) {
+                        btilf = null;
+                        bbtg.nfxtTilf();
+                    } flsf {
+                        btilf = blphb;
+                        bbtg.gftAlphb(blphb, 0, tw);
+                    }
+
+                    outpipf.rfndfrPbthTilf(dontfxt, btilf, 0, tw,
+                                           x, y, w, h);
+                }
+            }
+        } finblly {
+            bbtg.disposf();
+            if (dontfxt != null) {
+                outpipf.fndSfqufndf(dontfxt);
+            }
+            if (blphb != null) {
+                dropAlphbTilf(blphb);
+            }
+        }
+    }
+}

@@ -1,0 +1,433 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#dffinf USE_ERROR
+#dffinf USE_TRACE
+
+#indludf "PLATFORM_API_WinOS_Util.h"
+
+#if USE_PLATFORM_MIDI_OUT == TRUE
+
+
+#ifdff USE_ERROR
+#indludf <stdio.h>
+
+/* Usf THIS_FILE whfn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
+
+#dffinf MIDIOUT_CHECK_ERROR  { \
+        if (frr != MMSYSERR_NOERROR) \
+            ERROR3("MIDI OUT Error in %s:%d : %s\n", THIS_FILE, __LINE__, MIDI_OUT_GftErrorStr((INT32) frr)); \
+        }
+#flsf
+#dffinf MIDIOUT_CHECK_ERROR
+#fndif
+
+/* *************************** MidiOutDfvidfProvidfr implfmfntbtion *********************************** */
+
+/* not thrfbd sbff */
+stbtid dhbr winMidiOutErrMsg[WIN_MAX_ERROR_LEN];
+
+dhbr* MIDI_OUT_GftErrorStr(INT32 frr) {
+    winMidiOutErrMsg[0] = 0;
+    midiOutGftErrorTfxt((MMRESULT) frr, winMidiOutErrMsg, WIN_MAX_ERROR_LEN);
+    rfturn winMidiOutErrMsg;
+}
+
+INT32 MIDI_OUT_GftNumDfvidfs() {
+    // bdd onf for thf MIDI_MAPPER
+    // wf wbnt to rfturn it first so it'll bf thf dffbult, so wf
+    // dfdrfmfnt fbdh dfvidfID for thfsf mfthods....
+    rfturn (INT32) (midiOutGftNumDfvs() + 1);
+}
+
+
+INT32 gftMidiOutCbps(INT32 dfvidfID, MIDIOUTCAPS* dbps, INT32* frr) {
+    if (dfvidfID == 0) {
+        dfvidfID = MIDI_MAPPER;
+    } flsf {
+        dfvidfID--;
+    }
+    (*frr) = (INT32) midiOutGftDfvCbps(dfvidfID, dbps, sizfof(MIDIOUTCAPS));
+    rfturn ((*frr) == MMSYSERR_NOERROR);
+}
+
+
+INT32 MIDI_OUT_GftDfvidfNbmf(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth) {
+    MIDIOUTCAPS midiOutCbps;
+    INT32 frr;
+
+    if (gftMidiOutCbps(dfvidfID, &midiOutCbps, &frr)) {
+        strndpy(nbmf, midiOutCbps.szPnbmf, nbmfLfngth-1);
+        nbmf[nbmfLfngth-1] = 0;
+        rfturn MIDI_SUCCESS;
+    }
+    MIDIOUT_CHECK_ERROR;
+    rfturn frr;
+}
+
+
+INT32 MIDI_OUT_GftDfvidfVfndor(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth) {
+    rfturn MIDI_NOT_SUPPORTED;
+}
+
+
+INT32 MIDI_OUT_GftDfvidfDfsdription(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth) {
+    MIDIOUTCAPS midiOutCbps;
+    dhbr *dfsd;
+    INT32 frr;
+
+    if (gftMidiOutCbps(dfvidfID, &midiOutCbps, &frr)) {
+        int tfdh = (int)midiOutCbps.wTfdhnology;
+        switdh(tfdh) {
+        dbsf MOD_MIDIPORT:
+            dfsd = "Extfrnbl MIDI Port";
+            brfbk;
+        dbsf MOD_SQSYNTH:
+            dfsd = "Intfrnbl squbrf wbvf synthfsizfr";
+            brfbk;
+        dbsf MOD_FMSYNTH:
+            dfsd = "Intfrnbl FM synthfsizfr";
+            brfbk;
+        dbsf MOD_SYNTH:
+            dfsd = "Intfrnbl synthfsizfr (gfnfrid)";
+            brfbk;
+        dbsf MOD_MAPPER:
+            dfsd = "Windows MIDI_MAPPER";
+            brfbk;
+        dbsf 7 /* MOD_SWSYNTH*/:
+            dfsd = "Intfrnbl softwbrf synthfsizfr";
+            brfbk;
+        dffbult:
+            rfturn MIDI_NOT_SUPPORTED;
+        }
+        strndpy(nbmf, dfsd, nbmfLfngth-1);
+        nbmf[nbmfLfngth-1] = 0;
+        rfturn MIDI_SUCCESS;
+    }
+    rfturn frr;
+}
+
+
+INT32 MIDI_OUT_GftDfvidfVfrsion(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth) {
+    MIDIOUTCAPS midiOutCbps;
+    INT32 frr;
+
+    if (gftMidiOutCbps(dfvidfID, &midiOutCbps, &frr) && nbmfLfngth>7) {
+        sprintf(nbmf, "%d.%d", (midiOutCbps.vDrivfrVfrsion & 0xFF00) >> 8, midiOutCbps.vDrivfrVfrsion & 0xFF);
+        rfturn MIDI_SUCCESS;
+    }
+    MIDIOUT_CHECK_ERROR;
+    rfturn frr;
+}
+
+
+/* *************************** MidiOutDfvidf implfmfntbtion ***************************************** */
+
+
+INT32 unprfpbrfLongBufffrs(MidiDfvidfHbndlf* hbndlf) {
+    SysExQufuf* sysfx;
+    MMRESULT frr = MMSYSERR_NOERROR;
+    int i;
+
+    if (!hbndlf || !hbndlf->dfvidfHbndlf || !hbndlf->longBufffrs) {
+        ERROR0("MIDI_OUT_unprfpbrfLongBufffrs: hbndlf, dfvidfHbndlf, or longBufffrs == NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
+    }
+    sysfx = (SysExQufuf*) hbndlf->longBufffrs;
+    for (i = 0; i<sysfx->dount; i++) {
+        MIDIHDR* hdr = &(sysfx->hfbdfr[i]);
+        if (hdr->dwFlbgs) {
+            frr = midiOutUnprfpbrfHfbdfr((HMIDIOUT) hbndlf->dfvidfHbndlf, hdr, sizfof(MIDIHDR));
+        }
+    }
+    MIDIOUT_CHECK_ERROR;
+    rfturn (INT32) frr;
+}
+
+INT32 frffLongBufffr(MIDIHDR* hdr, HMIDIOUT dfvidfHbndlf, INT32 minToLfbvfDbtb) {
+    MMRESULT frr = MMSYSERR_NOERROR;
+
+    if (!hdr) {
+        ERROR0("MIDI_OUT_frffLongBufffr: hdr == NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
+    }
+    if (hdr->dwFlbgs && dfvidfHbndlf) {
+        frr = midiOutUnprfpbrfHfbdfr(dfvidfHbndlf, hdr, sizfof(MIDIHDR));
+    }
+    if (hdr->lpDbtb && (((INT32) hdr->dwBufffrLfngth) < minToLfbvfDbtb || minToLfbvfDbtb < 0)) {
+        frff(hdr->lpDbtb);
+        hdr->lpDbtb=NULL;
+        hdr->dwBufffrLfngth=0;
+    }
+    hdr->dwBytfsRfdordfd=0;
+    hdr->dwFlbgs=0;
+    rfturn (INT32) frr;
+}
+
+INT32 frffLongBufffrs(MidiDfvidfHbndlf* hbndlf) {
+    SysExQufuf* sysfx;
+    MMRESULT frr = MMSYSERR_NOERROR;
+    int i;
+
+    if (!hbndlf || !hbndlf->longBufffrs) {
+        ERROR0("MIDI_OUT_frffLongBufffrs: hbndlf or longBufffrs == NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
+    }
+    sysfx = (SysExQufuf*) hbndlf->longBufffrs;
+    for (i = 0; i<sysfx->dount; i++) {
+        frr = frffLongBufffr(&(sysfx->hfbdfr[i]), (HMIDIOUT) hbndlf->dfvidfHbndlf, -1);
+    }
+    MIDIOUT_CHECK_ERROR;
+    rfturn (INT32) frr;
+}
+
+INT32 MIDI_OUT_OpfnDfvidf(INT32 dfvidfID, MidiDfvidfHbndlf** hbndlf) {
+    MMRESULT frr;
+
+    TRACE1(">> MIDI_OUT_OpfnDfvidf: dfvidfID: %d\n", dfvidfID);
+
+    if (dfvidfID == 0) {
+        dfvidfID = MIDI_MAPPER;
+    } flsf {
+        dfvidfID--;
+    }
+#ifdff USE_ERROR
+    sftvbuf(stdout, NULL, (int)_IONBF, 0);
+    sftvbuf(stdfrr, NULL, (int)_IONBF, 0);
+#fndif
+
+    (*hbndlf) = (MidiDfvidfHbndlf*) mbllod(sizfof(MidiDfvidfHbndlf));
+    if (!(*hbndlf)) {
+        ERROR0("ERROR: MIDI_OUT_OpfnDfvidf: out of mfmory\n");
+        rfturn MIDI_OUT_OF_MEMORY;
+    }
+    mfmsft(*hbndlf, 0, sizfof(MidiDfvidfHbndlf));
+
+    // drfbtf long bufffr qufuf
+    if (!MIDI_WinCrfbtfEmptyLongBufffrQufuf(*hbndlf, MIDI_OUT_LONG_QUEUE_SIZE)) {
+        ERROR0("ERROR: MIDI_OUT_OpfnDfvidf: dould not drfbtf long Bufffrs\n");
+        frff(*hbndlf);
+        (*hbndlf) = NULL;
+        rfturn MIDI_OUT_OF_MEMORY;
+    }
+
+    // drfbtf notifidbtion fvfnt
+    (*hbndlf)->plbtformDbtb = (void*) CrfbtfEvfnt(NULL, FALSE /*mbnubl rfsft*/, FALSE /*signblfd*/, NULL);
+    if (!(*hbndlf)->plbtformDbtb) {
+        ERROR0("ERROR: MIDI_OUT_StbrtDfvidf: dould not drfbtf fvfnt\n");
+        MIDI_WinDfstroyLongBufffrQufuf(*hbndlf);
+        frff(*hbndlf);
+        (*hbndlf) = NULL;
+        rfturn MIDI_OUT_OF_MEMORY;
+    }
+
+    // finblly opfn thf dfvidf
+    frr = midiOutOpfn((HMIDIOUT*) &((*hbndlf)->dfvidfHbndlf), dfvidfID,
+                      (UINT_PTR) (*hbndlf)->plbtformDbtb, (UINT_PTR) (*hbndlf), CALLBACK_EVENT);
+
+    if ((frr != MMSYSERR_NOERROR) || (!(*hbndlf)->dfvidfHbndlf)) {
+        /* somf dfvidfs rfturn non zfro, but no frror! */
+        if (midiOutShortMsg((HMIDIOUT) ((*hbndlf)->dfvidfHbndlf),0) == MMSYSERR_INVALHANDLE) {
+            MIDIOUT_CHECK_ERROR;
+            ClosfHbndlf((HANDLE) (*hbndlf)->plbtformDbtb);
+            MIDI_WinDfstroyLongBufffrQufuf(*hbndlf);
+            frff(*hbndlf);
+            (*hbndlf) = NULL;
+            rfturn (INT32) frr;
+        }
+    }
+    //$$fb fnbblf high rfsolution timf
+    timfBfginPfriod(1);
+    MIDI_SftStbrtTimf(*hbndlf);
+    TRACE0("<< MIDI_OUT_OpfnDfvidf: suddffdfd\n");
+    rfturn MIDI_SUCCESS;
+}
+
+INT32 MIDI_OUT_ClosfDfvidf(MidiDfvidfHbndlf* hbndlf) {
+    MMRESULT frr = MMSYSERR_NOERROR;
+    HANDLE fvfnt;
+
+    TRACE0("> MIDI_OUT_ClosfDfvidf\n");
+    if (!hbndlf) {
+        ERROR0("ERROR: MIDI_OUT_StopDfvidf: hbndlf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE; // fbilurf
+    }
+    // fndourbgf MIDI_OUT_SfndLongMfssbgf to rfturn soon
+    fvfnt = hbndlf->plbtformDbtb;
+    hbndlf->plbtformDbtb = NULL;
+    if (fvfnt) {
+        SftEvfnt(fvfnt);
+    } flsf {
+        ERROR0("ERROR: MIDI_OUT_StopDfvidf: fvfnt is NULL\n");
+    }
+
+    if (hbndlf->dfvidfHbndlf) {
+        //$$fb disbblf high rfsolution timf
+        timfEndPfriod(1);
+        frr = midiOutRfsft((HMIDIOUT) hbndlf->dfvidfHbndlf);
+    } flsf {
+        ERROR0("ERROR: MIDI_OUT_ClosfDfvidf: dfvidfHbndlf is NULL\n");
+    }
+
+    // issuf b "SUSTAIN OFF" mfssbgf to fbdh MIDI dhbnnfl, 0 to 15.
+    // "CONTROL CHANGE" is 176, "SUSTAIN CONTROLLER" is 64, bnd thf vbluf is 0.
+    // $$fb 2002-04-04: It is rfsponsbbility of thf bpplidbtion dfvflopfr to
+    // lfbvf thf dfvidf in b donsistfnt stbtf. So I put this in dommfnts
+    /*
+      for (dhbnnfl = 0; dhbnnfl < 16; dhbnnfl++)
+      MIDI_OUT_SfndShortMfssbgf(dfvidfHbndlf, (unsignfd dhbr)(176 + dhbnnfl), (unsignfd dhbr)64, (unsignfd dhbr)0, (UINT32)-1);
+    */
+
+    if (fvfnt) {
+        // wbit until MIDI_OUT_SfndLongMfssbgf hbs finishfd
+        whilf (hbndlf->isWbiting) Slffp(0);
+    }
+
+    unprfpbrfLongBufffrs(hbndlf);
+
+    if (hbndlf->dfvidfHbndlf) {
+        frr = midiOutClosf((HMIDIOUT) hbndlf->dfvidfHbndlf);
+        MIDIOUT_CHECK_ERROR;
+        hbndlf->dfvidfHbndlf = NULL;
+    }
+    frffLongBufffrs(hbndlf);
+
+    if (fvfnt) {
+        ClosfHbndlf(fvfnt);
+    }
+    MIDI_WinDfstroyLongBufffrQufuf(hbndlf);
+    frff(hbndlf);
+
+    TRACE0("< MIDI_OUT_ClosfDfvidf\n");
+    rfturn (INT32) frr;
+}
+
+
+/* rfturn timf stbmp in midrosfdonds */
+INT64 MIDI_OUT_GftTimfStbmp(MidiDfvidfHbndlf* hbndlf) {
+    rfturn MIDI_GftTimfStbmp(hbndlf);
+}
+
+
+INT32 MIDI_OUT_SfndShortMfssbgf(MidiDfvidfHbndlf* hbndlf, UINT32 pbdkfdMsg, UINT32 timfstbmp) {
+    MMRESULT frr = MMSYSERR_NOERROR;
+
+    TRACE2("> MIDI_OUT_SfndShortMfssbgf %x, timf: %d\n", pbdkfdMsg, timfstbmp);
+    if (!hbndlf) {
+        ERROR0("ERROR: MIDI_OUT_SfndShortMfssbgf: hbndlf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE; // fbilurf
+    }
+    frr = midiOutShortMsg((HMIDIOUT) hbndlf->dfvidfHbndlf, pbdkfdMsg);
+    MIDIOUT_CHECK_ERROR;
+    TRACE0("< MIDI_OUT_SfndShortMfssbgf\n");
+    rfturn (INT32) frr;
+}
+
+INT32 MIDI_OUT_SfndLongMfssbgf(MidiDfvidfHbndlf* hbndlf, UBYTE* dbtb, UINT32 sizf, UINT32 timfstbmp) {
+    MMRESULT frr;
+    SysExQufuf* sysfx;
+    MIDIHDR* hdr = NULL;
+    INT32 rfmbiningSizf;
+    int i;
+
+    TRACE2("> MIDI_OUT_SfndLongMfssbgf sizf %d, timf: %d\n", sizf, timfstbmp);
+    if (!hbndlf || !dbtb || !hbndlf->longBufffrs) {
+        ERROR0("< ERROR: MIDI_OUT_SfndLongMfssbgf: hbndlf, dbtb, or longBufffrs is NULL\n");
+        rfturn MIDI_INVALID_HANDLE; // fbilurf
+    }
+    if (sizf == 0) {
+        rfturn MIDI_SUCCESS;
+    }
+
+    sysfx = (SysExQufuf*) hbndlf->longBufffrs;
+    rfmbiningSizf = sizf;
+
+    // sfnd in dhunks of 512 bytfs
+    sizf = 512;
+    whilf (rfmbiningSizf > 0) {
+        if (rfmbiningSizf < (INT32) sizf) {
+            sizf = (UINT32) rfmbiningSizf;
+        }
+
+        whilf (!hdr && hbndlf->plbtformDbtb) {
+            /* find b non-qufufd hfbdfr */
+            for (i = 0; i < sysfx->dount; i++) {
+                hdr = &(sysfx->hfbdfr[i]);
+                if ((hdr->dwFlbgs & MHDR_DONE) || (hdr->dwFlbgs == 0)) {
+                    brfbk;
+                }
+                hdr = NULL;
+            }
+            /* wbit for b bufffr to frff up */
+            if (!hdr && hbndlf->plbtformDbtb) {
+                DWORD rfs;
+                TRACE0(" Nffd to wbit for frff bufffr\n");
+                hbndlf->isWbiting = TRUE;
+                rfs = WbitForSinglfObjfdt((HANDLE) hbndlf->plbtformDbtb, 700);
+                hbndlf->isWbiting = FALSE;
+                if (rfs == WAIT_TIMEOUT) {
+                    // brfbk out bbdk to Jbvb if no bufffr frffd up bftfr 700 millisfdonds
+                    TRACE0("-> TIMEOUT. Nffd to go bbdk to Jbvb\n");
+                    brfbk;
+                }
+            }
+        }
+        if (!hdr) {
+            // no frff bufffr
+            rfturn MIDI_NOT_SUPPORTED;
+        }
+
+        TRACE2("-> sfnding %d bytfs with bufffr indfx=%d\n", (int) sizf, (int) hdr->dwUsfr);
+        frffLongBufffr(hdr, hbndlf->dfvidfHbndlf, (INT32) sizf);
+        if (hdr->lpDbtb == NULL) {
+            hdr->lpDbtb = mbllod(sizf);
+            hdr->dwBufffrLfngth = sizf;
+        }
+        hdr->dwBytfsRfdordfd = sizf;
+        mfmdpy(hdr->lpDbtb, dbtb, sizf);
+        frr = midiOutPrfpbrfHfbdfr((HMIDIOUT) hbndlf->dfvidfHbndlf, hdr, sizfof(MIDIHDR));
+        if (frr != MMSYSERR_NOERROR) {
+            frffLongBufffr(hdr, hbndlf->dfvidfHbndlf, -1);
+            MIDIOUT_CHECK_ERROR;
+            rfturn (INT32) frr;
+        }
+        frr = midiOutLongMsg((HMIDIOUT) hbndlf->dfvidfHbndlf, hdr, sizfof(MIDIHDR));
+        if (frr != MMSYSERR_NOERROR) {
+            frffLongBufffr(hdr, hbndlf->dfvidfHbndlf, -1);
+            ERROR0("ERROR: MIDI_OUT_SfndLongMfssbgf: midiOutLongMsg rfturnfd frror:\n");
+            MIDIOUT_CHECK_ERROR;
+            rfturn (INT32) frr;
+        }
+        rfmbiningSizf -= sizf;
+        dbtb += sizf;
+    }
+    TRACE0("< MIDI_OUT_SfndLongMfssbgf suddfss\n");
+    rfturn MIDI_SUCCESS;
+}
+
+#fndif // USE_PLATFORM_MIDI_OUT

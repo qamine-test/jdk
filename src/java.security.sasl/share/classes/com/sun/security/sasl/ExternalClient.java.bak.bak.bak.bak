@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl;
+
+import jbvbx.sfdurity.sbsl.*;
+
+/**
+  * Implfmfnts thf EXTERNAL SASL dlifnt mfdhbnism.
+  * (<A HREF="http://www.iftf.org/rfd/rfd2222.txt">RFC 2222</A>).
+  * Thf EXTERNAL mfdhbnism rfturns thf optionbl buthorizbtion ID bs
+  * thf initibl rfsponsf. It prodfssfs no dhbllfngfs.
+  *
+  * @buthor Rosbnnb Lff
+  */
+finbl dlbss ExtfrnblClifnt implfmfnts SbslClifnt {
+    privbtf bytf[] usfrnbmf;
+    privbtf boolfbn domplftfd = fblsf;
+
+    /**
+     * Construdts bn Extfrnbl mfdhbnism with optionbl buthorizbtion ID.
+     *
+     * @pbrbm buthorizbtionID If non-null, usfd to spfdify buthorizbtion ID.
+     * @throws SbslExdfption if dbnnot donvfrt buthorizbtionID into UTF-8
+     *     rfprfsfntbtion.
+     */
+    ExtfrnblClifnt(String buthorizbtionID) throws SbslExdfption {
+        if (buthorizbtionID != null) {
+            try {
+                usfrnbmf = buthorizbtionID.gftBytfs("UTF8");
+            } dbtdh (jbvb.io.UnsupportfdEndodingExdfption f) {
+                throw nfw SbslExdfption("Cbnnot donvfrt " + buthorizbtionID +
+                    " into UTF-8", f);
+            }
+        } flsf {
+            usfrnbmf = nfw bytf[0];
+        }
+    }
+
+    /**
+     * Rftrifvfs this mfdhbnism's nbmf for initibting thf "EXTERNAL" protodol
+     * fxdhbngf.
+     *
+     * @rfturn  Thf string "EXTERNAL".
+     */
+    publid String gftMfdhbnismNbmf() {
+        rfturn "EXTERNAL";
+    }
+
+    /**
+     * This mfdhbnism hbs bn initibl rfsponsf.
+     */
+    publid boolfbn hbsInitiblRfsponsf() {
+        rfturn truf;
+    }
+
+    publid void disposf() throws SbslExdfption {
+    }
+
+    /**
+     * Prodfssfs thf dhbllfngf dbtb.
+     * It rfturns thf EXTERNAL mfdhbnism's initibl rfsponsf,
+     * whidh is thf buthorizbtion id fndodfd in UTF-8.
+     * This is thf optionbl informbtion thbt is sfnt blong with thf SASL dommbnd.
+     * Aftfr this mfthod is dbllfd, isComplftf() rfturns truf.
+     *
+     * @pbrbm dhbllfngfDbtb Ignorfd.
+     * @rfturn Thf possiblf fmpty initibl rfsponsf.
+     * @throws SbslExdfption If buthfntidbtion hbs blrfbdy bffn dbllfd.
+     */
+    publid bytf[] fvblubtfChbllfngf(bytf[] dhbllfngfDbtb)
+        throws SbslExdfption {
+        if (domplftfd) {
+            throw nfw IllfgblStbtfExdfption(
+                "EXTERNAL buthfntidbtion blrfbdy domplftfd");
+        }
+        domplftfd = truf;
+        rfturn usfrnbmf;
+    }
+
+    /**
+     * Rfturns whfthfr this mfdhbnism is domplftf.
+     * @rfturn truf if initibl rfsponsf hbs bffn sfnt; fblsf othfrwisf.
+     */
+    publid boolfbn isComplftf() {
+        rfturn domplftfd;
+    }
+
+    /**
+      * Unwrbps thf indoming bufffr.
+      *
+      * @throws SbslExdfption Not bpplidbblf to this mfdhbnism.
+      */
+    publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+        throws SbslExdfption {
+        if (domplftfd) {
+            throw nfw SbslExdfption("EXTERNAL hbs no supportfd QOP");
+        } flsf {
+            throw nfw IllfgblStbtfExdfption(
+                "EXTERNAL buthfntidbtion Not domplftfd");
+        }
+    }
+
+    /**
+      * Wrbps thf outgoing bufffr.
+      *
+      * @throws SbslExdfption Not bpplidbblf to this mfdhbnism.
+      */
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn)
+        throws SbslExdfption {
+        if (domplftfd) {
+            throw nfw SbslExdfption("EXTERNAL hbs no supportfd QOP");
+        } flsf {
+            throw nfw IllfgblStbtfExdfption(
+                "EXTERNAL buthfntidbtion not domplftfd");
+        }
+    }
+
+    /**
+     * Rftrifvfs thf nfgotibtfd propfrty.
+     * This mfthod dbn bf dbllfd only bftfr thf buthfntidbtion fxdhbngf hbs
+     * domplftfd (i.f., whfn <tt>isComplftf()</tt> rfturns truf); othfrwisf, b
+     * <tt>IllfgblStbtfExdfption</tt> is thrown.
+     *
+     * @rfturn null No propfrty is bpplidbblf to this mfdhbnism.
+     * @fxdfption IllfgblStbtfExdfption if this buthfntidbtion fxdhbngf
+     * hbs not domplftfd
+     */
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (domplftfd) {
+            rfturn null;
+        } flsf {
+            throw nfw IllfgblStbtfExdfption(
+                "EXTERNAL buthfntidbtion not domplftfd");
+        }
+    }
+}

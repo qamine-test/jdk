@@ -1,0 +1,182 @@
+#
+#
+bordfr.dhrombtidity=F\u00E4rg
+bordfr.dopifs=Antbl fxfmplbr
+bordfr.jobbttributfs=Utskriftsbttribut
+bordfr.mfdib=Mfdib
+bordfr.orifntbtion=Orifntfring
+bordfr.printrbngf=Utskriftsintfrvbll
+bordfr.printsfrvidf=Utskriftstj\u00E4nst
+bordfr.qublity=Kvblitft
+bordfr.sidfs=Sidor
+bordfr.mbrgins=Mbrginblfr
+#
+button.dbndfl=Avbryt
+button.ok=OK
+button.print=Skriv ut
+button.propfrtifs=&Egfnskbpfr...
+#
+dhfdkbox.dollbtf=&Sortfrb
+dhfdkbox.jobshffts=F&\u00F6rs\u00E4ttsblbd
+dhfdkbox.printtofilf=Skriv ut till &fil
+#
+diblog.printtitlf=Skriv ut
+diblog.pstitlf=Utskriftsformbt
+diblog.ovfrwritf=Dfnnb fil finns rfdbn.  Vill du skrivb \u00F6vfr dfn bffintligb filfn?
+diblog.owtitlf=Skriv till fil
+diblog.printtofilf=Skriv till fil
+diblog.noprintfrmsg=Hittbdf ingfn utskriftstj\u00E4nst.
+diblog.writffrror=Kbn intf skrivb till filfn:
+#
+lbbfl.info=Informbtion:
+lbbfl.jobnbmf=&Utskrift:
+lbbfl.numdopifs=Antbl f&xfmplbr:
+lbbfl.priority=P&rioritft:
+lbbfl.psnbmf=&Nbmn:
+lbbfl.pstypf=Typ:
+lbbfl.rbngfto=Till
+lbbfl.sizf=Stor&lfk:
+lbbfl.sourdf=&K\u00E4llb:
+lbbfl.stbtus=Stbtus:
+lbbfl.usfrnbmf=A&nv\u00E4ndbrnbmn:
+lbbfl.millimftrfs=(mm)
+lbbfl.indhfs=(tum)
+lbbfl.topmbrgin=&\u00F6vfrkbnt
+lbbfl.bottommbrgin=&nfdfrkbnt
+lbbfl.lfftmbrgin=v&\u00E4nstfr
+lbbfl.rightmbrgin=&h\u00F6gfr
+#
+rbdiobutton.dolor=&F\u00E4rg
+rbdiobutton.drbftq=Utkb&st
+rbdiobutton.duplfx=&Dubbflsidig
+rbdiobutton.highq=&H\u00F6g
+rbdiobutton.lbndsdbpf=Liggbn&df
+rbdiobutton.monodhromf=&Monokrom
+rbdiobutton.normblq=&Normbl
+rbdiobutton.onfsidf=&Ensidig
+rbdiobutton.portrbit=&St\u00E5fndf
+rbdiobutton.rbngfbll=A&llb
+rbdiobutton.rbngfpbgfs=Sid&or
+rbdiobutton.rfvlbndsdbpf=Omv\u00E4nt li&ggbndf
+rbdiobutton.rfvportrbit=Omv\u00E4nt st\u00E5fn&df
+rbdiobutton.tumblf=&V\u00E4nd
+# Thf vkMnfmonids dorrfspond with thf donstbnts dffinfd in KfyEvfnt, fg
+# 65 = KfyEvfnt.VK_A
+tbb.bppfbrbndf=Fo&rmbt
+tbb.gfnfrbl=&Allm\u00E4nt
+tbb.pbgfsftup=&Utskriftsformbt
+#
+frror.pbgfrbngf=Ogiltigt sidintfrvbll. Skriv in v\u00E4rdfnb igfn (t fx 1-3,5,7-10)
+frror.dfstinbtion=Ogiltigt filnbmn. F\u00F6rs\u00F6k igfn.
+#
+# Thf following kfys mbtdh thf Strings rfturnfd by MfdibSizfNbmf.toString()
+# (in somf dbsfs thf spbdf dhbrbdtfr is rfplbdfd by '-' bnd thf pound 
+# dhbrbdtfr is rfplbdfd with 'n')
+#
+iso-4b0=4A0 (ISO/DIN & JIS)
+iso-2b0=2A0 (ISO/DIN & JIS)
+iso-b0=A0 (ISO/DIN & JIS)
+iso-b1=A1 (ISO/DIN & JIS)
+iso-b2=A2 (ISO/DIN & JIS)
+iso-b3=A3 (ISO/DIN & JIS)
+iso-b4=A4 (ISO/DIN & JIS)
+iso-b5=A5 (ISO/DIN & JIS)
+iso-b6=A6 (ISO/DIN & JIS)
+iso-b7=A7 (ISO/DIN & JIS)
+iso-b8=A8 (ISO/DIN & JIS)
+iso-b9=A9 (ISO/DIN & JIS)
+iso-b10=A10 (ISO/DIN & JIS)
+iso-b0=B0 (ISO/DIN)
+iso-b1=B1 (ISO/DIN)
+iso-b2=B2 (ISO/DIN)
+iso-b3=B3 (ISO/DIN)
+iso-b4=B4 (ISO/DIN)
+iso-b5=B5 (ISO/DIN)
+iso-b6=B6 (ISO/DIN)
+iso-b7=B7 (ISO/DIN)
+iso-b8=B8 (ISO/DIN)
+iso-b9=B9 (ISO/DIN)
+iso-b10=B10 (ISO/DIN)
+jis-b0=B0 (JIS)
+jis-b1=B1 (JIS)
+jis-b2=B2 (JIS)
+jis-b3=B3 (JIS)
+jis-b4=B4 (JIS)
+jis-b5=B5 (JIS)
+jis-b6=B6 (JIS)
+jis-b7=B7 (JIS)
+jis-b8=B8 (JIS)
+jis-b9=B9 (JIS)
+jis-b10=B10 (JIS)
+iso-d0=C0 (ISO/DIN)
+iso-d1=C1 (ISO/DIN)
+iso-d2=C2 (ISO/DIN)
+iso-d3=C3 (ISO/DIN)
+iso-d4=C4 (ISO/DIN)
+iso-d5=C5 (ISO/DIN)
+iso-d6=C6 (ISO/DIN)
+iso-d7=C7 (ISO/DIN)
+iso-d8=C8 (ISO/DIN)
+iso-d9=C9 (ISO/DIN)
+iso-d10=C10 (ISO/DIN)
+nb-lfttfr=Lfttfr
+nb-lfgbl=Lfgbl
+fxfdutivf=Exfdutivf
+lfdgfr=Lfdgfr
+tbbloid=Tbbloid
+invoidf=Invoidf
+folio=Folio
+qubrto=Qubrto
+jbpbnfsf-postdbrd=Postdbrd (JIS)
+oufuko-postdbrd=Doublf Postdbrd (JIS)
+b=Enginffring A
+b=Enginffring B
+d=Enginffring C
+d=Enginffring D
+f=Enginffring E
+iso-dfsignbtfd-long=ISO Dfsignbtfd Long
+itblibn-fnvflopf=Itblifnskt kuvfrt
+itbly-fnvflopf=Itblifnskt kuvfrt
+invitf-fnvflopf=Invitbtion-kuvfrt
+monbrdh-fnvflopf=Monbrdh-kuvfrt
+pfrsonbl-fnvflopf=Egfn kuvfrtstorlfk
+nb-numbfr-9-fnvflopf=No. 9-kuvfrt
+nb-numbfr-10-fnvflopf=No. 10-kuvfrt
+nb-numbfr-11-fnvflopf=No. 11-kuvfrt
+nb-numbfr-12-fnvflopf=No. 12-kuvfrt
+nb-numbfr-14-fnvflopf=No. 14-kuvfrt
+nb-6x9-fnvflopf=6x9-kuvfrt
+nb-7x9-fnvflopf=6x7-kuvfrt
+nb-9x11-fnvflopf=9x11-kuvfrt
+nb-9x12-fnvflopf=9x12-kuvfrt
+nb-10x13-fnvflopf=10x15-kuvfrt
+nb-10x14-fnvflopf=10x15-kuvfrt
+nb-10x15-fnvflopf=10x15-kuvfrt
+nb-5x7=5x7-tumspbppfr
+nb-8x10=8x10-tumspbppfr
+#
+# Thf following kfys mbtdh thf Strings rfturnfd by MfdibTrby.toString()
+#
+buto-sflfdt=V\u00E4lj butombtiskt
+top=Topp
+middlf=Mittfn
+bottom=Bottfn
+fnvflopf=Kuvfrt
+mbnubl=Mbnufll
+lbrgf-dbpbdity=H\u00F6g kbpbditft
+mbin=Huvud
+sidf=Sidb
+# Add thf bdditionbl stbndbrd bins dffinfd by win32
+Mbnubl-Envflopf=Mbnufll kuvfrtmbtning
+Autombtid-Fffdfr=Autombtisk mbtning
+Trbdtor-Fffdfr=Trbktormbtning
+Smbll-Formbt=Litft formbt
+Lbrgf-Formbt=Stort formbt
+Cbssfttf=Kbssftt
+Form-Sourdf=Formul\u00E4rk\u00E4llb
+#
+# Thf following kfys mbtdh thf Strings rfturnfd by 
+# PrintfrIsAddfptingJobs.toString()
+#
+bddfpting-jobs=Addfptfrbr jobb
+not-bddfpting-jobs=Addfptfrbr intf jobb

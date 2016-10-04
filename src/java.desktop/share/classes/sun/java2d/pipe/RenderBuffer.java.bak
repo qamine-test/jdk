@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import sun.misc.Unsafe;
+import sun.misd.Unsbff;
 
 
 /**
- * The RenderBuffer class is a simplified, high-performance, Unsafe wrapper
- * used for buffering rendering operations in a single-threaded rendering
- * environment.  It's functionality is similar to the ByteBuffer and related
- * NIO classes.  However, the methods in this class perform little to no
- * alignment or bounds checks for performance reasons.  Therefore, it is
- * the caller's responsibility to ensure that all put() calls are properly
- * aligned and within bounds:
- *   - int and float values must be aligned on 4-byte boundaries
- *   - long and double values must be aligned on 8-byte boundaries
+ * Tif RfndfrBufffr dlbss is b simplififd, iigi-pfrformbndf, Unsbff wrbppfr
+ * usfd for bufffring rfndfring opfrbtions in b singlf-tirfbdfd rfndfring
+ * fnvironmfnt.  It's fundtionblity is similbr to tif BytfBufffr bnd rflbtfd
+ * NIO dlbssfs.  Howfvfr, tif mftiods in tiis dlbss pfrform littlf to no
+ * blignmfnt or bounds difdks for pfrformbndf rfbsons.  Tifrfforf, it is
+ * tif dbllfr's rfsponsibility to fnsurf tibt bll put() dblls brf propfrly
+ * blignfd bnd witiin bounds:
+ *   - int bnd flobt vblufs must bf blignfd on 4-bytf boundbrifs
+ *   - long bnd doublf vblufs must bf blignfd on 8-bytf boundbrifs
  *
- * This class only includes the bare minimum of methods to support
- * single-threaded rendering.  For example, there is no put(double[]) method
- * because we currently have no need for such a method in the STR classes.
+ * Tiis dlbss only indludfs tif bbrf minimum of mftiods to support
+ * singlf-tirfbdfd rfndfring.  For fxbmplf, tifrf is no put(doublf[]) mftiod
+ * bfdbusf wf durrfntly ibvf no nffd for sudi b mftiod in tif STR dlbssfs.
  */
-public class RenderBuffer {
+publid dlbss RfndfrBufffr {
 
     /**
-     * These constants represent the size of various data types (in bytes).
+     * Tifsf donstbnts rfprfsfnt tif sizf of vbrious dbtb typfs (in bytfs).
      */
-    protected static final long SIZEOF_BYTE   = 1L;
-    protected static final long SIZEOF_SHORT  = 2L;
-    protected static final long SIZEOF_INT    = 4L;
-    protected static final long SIZEOF_FLOAT  = 4L;
-    protected static final long SIZEOF_LONG   = 8L;
-    protected static final long SIZEOF_DOUBLE = 8L;
+    protfdtfd stbtid finbl long SIZEOF_BYTE   = 1L;
+    protfdtfd stbtid finbl long SIZEOF_SHORT  = 2L;
+    protfdtfd stbtid finbl long SIZEOF_INT    = 4L;
+    protfdtfd stbtid finbl long SIZEOF_FLOAT  = 4L;
+    protfdtfd stbtid finbl long SIZEOF_LONG   = 8L;
+    protfdtfd stbtid finbl long SIZEOF_DOUBLE = 8L;
 
     /**
-     * Represents the number of elements at which we have empirically
-     * determined that the average cost of a JNI call exceeds the expense
-     * of an element by element copy.  In other words, if the number of
-     * elements in an array to be copied exceeds this value, then we should
-     * use the copyFromArray() method to complete the bulk put operation.
-     * (This value can be adjusted if the cost of JNI downcalls is reduced
-     * in a future release.)
+     * Rfprfsfnts tif numbfr of flfmfnts bt wiidi wf ibvf fmpiridblly
+     * dftfrminfd tibt tif bvfrbgf dost of b JNI dbll fxdffds tif fxpfnsf
+     * of bn flfmfnt by flfmfnt dopy.  In otifr words, if tif numbfr of
+     * flfmfnts in bn brrby to bf dopifd fxdffds tiis vbluf, tifn wf siould
+     * usf tif dopyFromArrby() mftiod to domplftf tif bulk put opfrbtion.
+     * (Tiis vbluf dbn bf bdjustfd if tif dost of JNI downdblls is rfdudfd
+     * in b futurf rflfbsf.)
      */
-    private static final int COPY_FROM_ARRAY_THRESHOLD = 6;
+    privbtf stbtid finbl int COPY_FROM_ARRAY_THRESHOLD = 6;
 
-    protected final Unsafe unsafe;
-    protected final long baseAddress;
-    protected final long endAddress;
-    protected long curAddress;
-    protected final int capacity;
+    protfdtfd finbl Unsbff unsbff;
+    protfdtfd finbl long bbsfAddrfss;
+    protfdtfd finbl long fndAddrfss;
+    protfdtfd long durAddrfss;
+    protfdtfd finbl int dbpbdity;
 
-    protected RenderBuffer(int numBytes) {
-        unsafe = Unsafe.getUnsafe();
-        curAddress = baseAddress = unsafe.allocateMemory(numBytes);
-        endAddress = baseAddress + numBytes;
-        capacity = numBytes;
-    }
-
-    /**
-     * Allocates a fresh buffer using the machine endianness.
-     */
-    public static RenderBuffer allocate(int numBytes) {
-        return new RenderBuffer(numBytes);
+    protfdtfd RfndfrBufffr(int numBytfs) {
+        unsbff = Unsbff.gftUnsbff();
+        durAddrfss = bbsfAddrfss = unsbff.bllodbtfMfmory(numBytfs);
+        fndAddrfss = bbsfAddrfss + numBytfs;
+        dbpbdity = numBytfs;
     }
 
     /**
-     * Returns the base address of the underlying memory buffer.
+     * Allodbtfs b frfsi bufffr using tif mbdiinf fndibnnfss.
      */
-    public final long getAddress() {
-        return baseAddress;
+    publid stbtid RfndfrBufffr bllodbtf(int numBytfs) {
+        rfturn nfw RfndfrBufffr(numBytfs);
     }
 
     /**
-     * The behavior (and names) of the following methods are nearly
-     * identical to their counterparts in the various NIO Buffer classes.
+     * Rfturns tif bbsf bddrfss of tif undfrlying mfmory bufffr.
      */
-
-    public final int capacity() {
-        return capacity;
-    }
-
-    public final int remaining() {
-        return (int)(endAddress - curAddress);
-    }
-
-    public final int position() {
-        return (int)(curAddress - baseAddress);
-    }
-
-    public final void position(long numBytes) {
-        curAddress = baseAddress + numBytes;
-    }
-
-    public final void clear() {
-        curAddress = baseAddress;
-    }
-
-    public final RenderBuffer skip(long numBytes) {
-        curAddress += numBytes;
-        return this;
+    publid finbl long gftAddrfss() {
+        rfturn bbsfAddrfss;
     }
 
     /**
-     * putByte() methods...
+     * Tif bfibvior (bnd nbmfs) of tif following mftiods brf nfbrly
+     * idfntidbl to tifir dountfrpbrts in tif vbrious NIO Bufffr dlbssfs.
      */
 
-    public final RenderBuffer putByte(byte x) {
-        unsafe.putByte(curAddress, x);
-        curAddress += SIZEOF_BYTE;
-        return this;
+    publid finbl int dbpbdity() {
+        rfturn dbpbdity;
     }
 
-    public RenderBuffer put(byte[] x) {
-        return put(x, 0, x.length);
+    publid finbl int rfmbining() {
+        rfturn (int)(fndAddrfss - durAddrfss);
     }
 
-    public RenderBuffer put(byte[] x, int offset, int length) {
-        if (length > COPY_FROM_ARRAY_THRESHOLD) {
-            long offsetInBytes = offset * SIZEOF_BYTE + Unsafe.ARRAY_BYTE_BASE_OFFSET;
-            long lengthInBytes = length * SIZEOF_BYTE;
-            unsafe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
-            position(position() + lengthInBytes);
-        } else {
-            int end = offset + length;
-            for (int i = offset; i < end; i++) {
-                putByte(x[i]);
+    publid finbl int position() {
+        rfturn (int)(durAddrfss - bbsfAddrfss);
+    }
+
+    publid finbl void position(long numBytfs) {
+        durAddrfss = bbsfAddrfss + numBytfs;
+    }
+
+    publid finbl void dlfbr() {
+        durAddrfss = bbsfAddrfss;
+    }
+
+    publid finbl RfndfrBufffr skip(long numBytfs) {
+        durAddrfss += numBytfs;
+        rfturn tiis;
+    }
+
+    /**
+     * putBytf() mftiods...
+     */
+
+    publid finbl RfndfrBufffr putBytf(bytf x) {
+        unsbff.putBytf(durAddrfss, x);
+        durAddrfss += SIZEOF_BYTE;
+        rfturn tiis;
+    }
+
+    publid RfndfrBufffr put(bytf[] x) {
+        rfturn put(x, 0, x.lfngti);
+    }
+
+    publid RfndfrBufffr put(bytf[] x, int offsft, int lfngti) {
+        if (lfngti > COPY_FROM_ARRAY_THRESHOLD) {
+            long offsftInBytfs = offsft * SIZEOF_BYTE + Unsbff.ARRAY_BYTE_BASE_OFFSET;
+            long lfngtiInBytfs = lfngti * SIZEOF_BYTE;
+            unsbff.dopyMfmory(x, offsftInBytfs, null, durAddrfss, lfngtiInBytfs);
+            position(position() + lfngtiInBytfs);
+        } flsf {
+            int fnd = offsft + lfngti;
+            for (int i = offsft; i < fnd; i++) {
+                putBytf(x[i]);
             }
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * putShort() methods...
+     * putSiort() mftiods...
      */
 
-    public final RenderBuffer putShort(short x) {
-        // assert (position() % SIZEOF_SHORT == 0);
-        unsafe.putShort(curAddress, x);
-        curAddress += SIZEOF_SHORT;
-        return this;
+    publid finbl RfndfrBufffr putSiort(siort x) {
+        // bssfrt (position() % SIZEOF_SHORT == 0);
+        unsbff.putSiort(durAddrfss, x);
+        durAddrfss += SIZEOF_SHORT;
+        rfturn tiis;
     }
 
-    public RenderBuffer put(short[] x) {
-        return put(x, 0, x.length);
+    publid RfndfrBufffr put(siort[] x) {
+        rfturn put(x, 0, x.lfngti);
     }
 
-    public RenderBuffer put(short[] x, int offset, int length) {
-        // assert (position() % SIZEOF_SHORT == 0);
-        if (length > COPY_FROM_ARRAY_THRESHOLD) {
-            long offsetInBytes = offset * SIZEOF_SHORT + Unsafe.ARRAY_SHORT_BASE_OFFSET;
-            long lengthInBytes = length * SIZEOF_SHORT;
-            unsafe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
-            position(position() + lengthInBytes);
-        } else {
-            int end = offset + length;
-            for (int i = offset; i < end; i++) {
-                putShort(x[i]);
+    publid RfndfrBufffr put(siort[] x, int offsft, int lfngti) {
+        // bssfrt (position() % SIZEOF_SHORT == 0);
+        if (lfngti > COPY_FROM_ARRAY_THRESHOLD) {
+            long offsftInBytfs = offsft * SIZEOF_SHORT + Unsbff.ARRAY_SHORT_BASE_OFFSET;
+            long lfngtiInBytfs = lfngti * SIZEOF_SHORT;
+            unsbff.dopyMfmory(x, offsftInBytfs, null, durAddrfss, lfngtiInBytfs);
+            position(position() + lfngtiInBytfs);
+        } flsf {
+            int fnd = offsft + lfngti;
+            for (int i = offsft; i < fnd; i++) {
+                putSiort(x[i]);
             }
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * putInt() methods...
+     * putInt() mftiods...
      */
 
-    public final RenderBuffer putInt(int pos, int x) {
-        // assert (baseAddress + pos % SIZEOF_INT == 0);
-        unsafe.putInt(baseAddress + pos, x);
-        return this;
+    publid finbl RfndfrBufffr putInt(int pos, int x) {
+        // bssfrt (bbsfAddrfss + pos % SIZEOF_INT == 0);
+        unsbff.putInt(bbsfAddrfss + pos, x);
+        rfturn tiis;
     }
 
-    public final RenderBuffer putInt(int x) {
-        // assert (position() % SIZEOF_INT == 0);
-        unsafe.putInt(curAddress, x);
-        curAddress += SIZEOF_INT;
-        return this;
+    publid finbl RfndfrBufffr putInt(int x) {
+        // bssfrt (position() % SIZEOF_INT == 0);
+        unsbff.putInt(durAddrfss, x);
+        durAddrfss += SIZEOF_INT;
+        rfturn tiis;
     }
 
-    public RenderBuffer put(int[] x) {
-        return put(x, 0, x.length);
+    publid RfndfrBufffr put(int[] x) {
+        rfturn put(x, 0, x.lfngti);
     }
 
-    public RenderBuffer put(int[] x, int offset, int length) {
-        // assert (position() % SIZEOF_INT == 0);
-        if (length > COPY_FROM_ARRAY_THRESHOLD) {
-            long offsetInBytes = offset * SIZEOF_INT + Unsafe.ARRAY_INT_BASE_OFFSET;
-            long lengthInBytes = length * SIZEOF_INT;
-            unsafe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
-            position(position() + lengthInBytes);
-        } else {
-            int end = offset + length;
-            for (int i = offset; i < end; i++) {
+    publid RfndfrBufffr put(int[] x, int offsft, int lfngti) {
+        // bssfrt (position() % SIZEOF_INT == 0);
+        if (lfngti > COPY_FROM_ARRAY_THRESHOLD) {
+            long offsftInBytfs = offsft * SIZEOF_INT + Unsbff.ARRAY_INT_BASE_OFFSET;
+            long lfngtiInBytfs = lfngti * SIZEOF_INT;
+            unsbff.dopyMfmory(x, offsftInBytfs, null, durAddrfss, lfngtiInBytfs);
+            position(position() + lfngtiInBytfs);
+        } flsf {
+            int fnd = offsft + lfngti;
+            for (int i = offsft; i < fnd; i++) {
                 putInt(x[i]);
             }
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * putFloat() methods...
+     * putFlobt() mftiods...
      */
 
-    public final RenderBuffer putFloat(float x) {
-        // assert (position() % SIZEOF_FLOAT == 0);
-        unsafe.putFloat(curAddress, x);
-        curAddress += SIZEOF_FLOAT;
-        return this;
+    publid finbl RfndfrBufffr putFlobt(flobt x) {
+        // bssfrt (position() % SIZEOF_FLOAT == 0);
+        unsbff.putFlobt(durAddrfss, x);
+        durAddrfss += SIZEOF_FLOAT;
+        rfturn tiis;
     }
 
-    public RenderBuffer put(float[] x) {
-        return put(x, 0, x.length);
+    publid RfndfrBufffr put(flobt[] x) {
+        rfturn put(x, 0, x.lfngti);
     }
 
-    public RenderBuffer put(float[] x, int offset, int length) {
-        // assert (position() % SIZEOF_FLOAT == 0);
-        if (length > COPY_FROM_ARRAY_THRESHOLD) {
-            long offsetInBytes = offset * SIZEOF_FLOAT + Unsafe.ARRAY_FLOAT_BASE_OFFSET;
-            long lengthInBytes = length * SIZEOF_FLOAT;
-            unsafe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
-            position(position() + lengthInBytes);
-        } else {
-            int end = offset + length;
-            for (int i = offset; i < end; i++) {
-                putFloat(x[i]);
+    publid RfndfrBufffr put(flobt[] x, int offsft, int lfngti) {
+        // bssfrt (position() % SIZEOF_FLOAT == 0);
+        if (lfngti > COPY_FROM_ARRAY_THRESHOLD) {
+            long offsftInBytfs = offsft * SIZEOF_FLOAT + Unsbff.ARRAY_FLOAT_BASE_OFFSET;
+            long lfngtiInBytfs = lfngti * SIZEOF_FLOAT;
+            unsbff.dopyMfmory(x, offsftInBytfs, null, durAddrfss, lfngtiInBytfs);
+            position(position() + lfngtiInBytfs);
+        } flsf {
+            int fnd = offsft + lfngti;
+            for (int i = offsft; i < fnd; i++) {
+                putFlobt(x[i]);
             }
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * putLong() methods...
+     * putLong() mftiods...
      */
 
-    public final RenderBuffer putLong(long x) {
-        // assert (position() % SIZEOF_LONG == 0);
-        unsafe.putLong(curAddress, x);
-        curAddress += SIZEOF_LONG;
-        return this;
+    publid finbl RfndfrBufffr putLong(long x) {
+        // bssfrt (position() % SIZEOF_LONG == 0);
+        unsbff.putLong(durAddrfss, x);
+        durAddrfss += SIZEOF_LONG;
+        rfturn tiis;
     }
 
-    public RenderBuffer put(long[] x) {
-        return put(x, 0, x.length);
+    publid RfndfrBufffr put(long[] x) {
+        rfturn put(x, 0, x.lfngti);
     }
 
-    public RenderBuffer put(long[] x, int offset, int length) {
-        // assert (position() % SIZEOF_LONG == 0);
-        if (length > COPY_FROM_ARRAY_THRESHOLD) {
-            long offsetInBytes = offset * SIZEOF_LONG + Unsafe.ARRAY_LONG_BASE_OFFSET;
-            long lengthInBytes = length * SIZEOF_LONG;
-            unsafe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
-            position(position() + lengthInBytes);
-        } else {
-            int end = offset + length;
-            for (int i = offset; i < end; i++) {
+    publid RfndfrBufffr put(long[] x, int offsft, int lfngti) {
+        // bssfrt (position() % SIZEOF_LONG == 0);
+        if (lfngti > COPY_FROM_ARRAY_THRESHOLD) {
+            long offsftInBytfs = offsft * SIZEOF_LONG + Unsbff.ARRAY_LONG_BASE_OFFSET;
+            long lfngtiInBytfs = lfngti * SIZEOF_LONG;
+            unsbff.dopyMfmory(x, offsftInBytfs, null, durAddrfss, lfngtiInBytfs);
+            position(position() + lfngtiInBytfs);
+        } flsf {
+            int fnd = offsft + lfngti;
+            for (int i = offsft; i < fnd; i++) {
                 putLong(x[i]);
             }
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * putDouble() method(s)...
+     * putDoublf() mftiod(s)...
      */
 
-    public final RenderBuffer putDouble(double x) {
-        // assert (position() % SIZEOF_DOUBLE == 0);
-        unsafe.putDouble(curAddress, x);
-        curAddress += SIZEOF_DOUBLE;
-        return this;
+    publid finbl RfndfrBufffr putDoublf(doublf x) {
+        // bssfrt (position() % SIZEOF_DOUBLE == 0);
+        unsbff.putDoublf(durAddrfss, x);
+        durAddrfss += SIZEOF_DOUBLE;
+        rfturn tiis;
     }
 }

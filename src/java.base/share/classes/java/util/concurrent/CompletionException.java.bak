@@ -1,90 +1,90 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;
 
 /**
- * Exception thrown when an error or other exception is encountered
- * in the course of completing a result or task.
+ * Exdfption tirown wifn bn frror or otifr fxdfption is fndountfrfd
+ * in tif doursf of domplfting b rfsult or tbsk.
  *
- * @since 1.8
- * @author Doug Lea
+ * @sindf 1.8
+ * @butior Doug Lfb
  */
-public class CompletionException extends RuntimeException {
-    private static final long serialVersionUID = 7830266012832686185L;
+publid dlbss ComplftionExdfption fxtfnds RuntimfExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7830266012832686185L;
 
     /**
-     * Constructs a {@code CompletionException} with no detail message.
-     * The cause is not initialized, and may subsequently be
-     * initialized by a call to {@link #initCause(Throwable) initCause}.
+     * Construdts b {@dodf ComplftionExdfption} witi no dftbil mfssbgf.
+     * Tif dbusf is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to {@link #initCbusf(Tirowbblf) initCbusf}.
      */
-    protected CompletionException() { }
+    protfdtfd ComplftionExdfption() { }
 
     /**
-     * Constructs a {@code CompletionException} with the specified detail
-     * message. The cause is not initialized, and may subsequently be
-     * initialized by a call to {@link #initCause(Throwable) initCause}.
+     * Construdts b {@dodf ComplftionExdfption} witi tif spfdififd dftbil
+     * mfssbgf. Tif dbusf is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to {@link #initCbusf(Tirowbblf) initCbusf}.
      *
-     * @param message the detail message
+     * @pbrbm mfssbgf tif dftbil mfssbgf
      */
-    protected CompletionException(String message) {
-        super(message);
+    protfdtfd ComplftionExdfption(String mfssbgf) {
+        supfr(mfssbgf);
     }
 
     /**
-     * Constructs a {@code CompletionException} with the specified detail
-     * message and cause.
+     * Construdts b {@dodf ComplftionExdfption} witi tif spfdififd dftbil
+     * mfssbgf bnd dbusf.
      *
-     * @param  message the detail message
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method)
+     * @pbrbm  mfssbgf tif dftbil mfssbgf
+     * @pbrbm  dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *         {@link #gftCbusf()} mftiod)
      */
-    public CompletionException(String message, Throwable cause) {
-        super(message, cause);
+    publid ComplftionExdfption(String mfssbgf, Tirowbblf dbusf) {
+        supfr(mfssbgf, dbusf);
     }
 
     /**
-     * Constructs a {@code CompletionException} with the specified cause.
-     * The detail message is set to {@code (cause == null ? null :
-     * cause.toString())} (which typically contains the class and
-     * detail message of {@code cause}).
+     * Construdts b {@dodf ComplftionExdfption} witi tif spfdififd dbusf.
+     * Tif dftbil mfssbgf is sft to {@dodf (dbusf == null ? null :
+     * dbusf.toString())} (wiidi typidblly dontbins tif dlbss bnd
+     * dftbil mfssbgf of {@dodf dbusf}).
      *
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method)
+     * @pbrbm  dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *         {@link #gftCbusf()} mftiod)
      */
-    public CompletionException(Throwable cause) {
-        super(cause);
+    publid ComplftionExdfption(Tirowbblf dbusf) {
+        supfr(dbusf);
     }
 }

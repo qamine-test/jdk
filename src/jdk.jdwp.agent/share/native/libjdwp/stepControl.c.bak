@@ -1,926 +1,926 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "stepControl.h"
-#include "eventHandler.h"
-#include "eventHelper.h"
-#include "threadControl.h"
-#include "SDE.h"
+#indludf "util.i"
+#indludf "stfpControl.i"
+#indludf "fvfntHbndlfr.i"
+#indludf "fvfntHflpfr.i"
+#indludf "tirfbdControl.i"
+#indludf "SDE.i"
 
-static jrawMonitorID stepLock;
+stbtid jrbwMonitorID stfpLodk;
 
-static jint
-getFrameCount(jthread thread)
+stbtid jint
+gftFrbmfCount(jtirfbd tirfbd)
 {
-    jint count = 0;
-    jvmtiError error;
+    jint dount = 0;
+    jvmtiError frror;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetFrameCount)
-                    (gdata->jvmti, thread, &count);
-    if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "getting frame count");
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFrbmfCount)
+                    (gdbtb->jvmti, tirfbd, &dount);
+    if (frror != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(frror, "gftting frbmf dount");
     }
-    return count;
+    rfturn dount;
 }
 
 /*
- * Most enabling/disabling of JVMTI events happens implicitly through
- * the inserting and freeing of handlers for those events. Stepping is
- * different because requested steps are usually not identical to JVMTI steps.
- * They usually require multiple events step, and otherwise, before they
- * complete. While a step request is pending, we may need to temporarily
- * disable and re-enable stepping, but we can't just remove the handlers
- * because that would break the application's ability to remove the
- * events. So, for step events only, we directly enable and disable stepping.
- * This is safe because there can only ever be one pending step request
- * per thread.
+ * Most fnbbling/disbbling of JVMTI fvfnts ibppfns impliditly tirougi
+ * tif insfrting bnd frffing of ibndlfrs for tiosf fvfnts. Stfpping is
+ * difffrfnt bfdbusf rfqufstfd stfps brf usublly not idfntidbl to JVMTI stfps.
+ * Tify usublly rfquirf multiplf fvfnts stfp, bnd otifrwisf, bfforf tify
+ * domplftf. Wiilf b stfp rfqufst is pfnding, wf mby nffd to tfmporbrily
+ * disbblf bnd rf-fnbblf stfpping, but wf dbn't just rfmovf tif ibndlfrs
+ * bfdbusf tibt would brfbk tif bpplidbtion's bbility to rfmovf tif
+ * fvfnts. So, for stfp fvfnts only, wf dirfdtly fnbblf bnd disbblf stfpping.
+ * Tiis is sbff bfdbusf tifrf dbn only fvfr bf onf pfnding stfp rfqufst
+ * pfr tirfbd.
  */
-static void
-enableStepping(jthread thread)
+stbtid void
+fnbblfStfpping(jtirfbd tirfbd)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    LOG_STEP(("enableStepping: thread=%p", thread));
+    LOG_STEP(("fnbblfStfpping: tirfbd=%p", tirfbd));
 
-    error = threadControl_setEventMode(JVMTI_ENABLE, EI_SINGLE_STEP,
-                                            thread);
-    if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "enabling single step");
+    frror = tirfbdControl_sftEvfntModf(JVMTI_ENABLE, EI_SINGLE_STEP,
+                                            tirfbd);
+    if (frror != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(frror, "fnbbling singlf stfp");
     }
 }
 
-static void
-disableStepping(jthread thread)
+stbtid void
+disbblfStfpping(jtirfbd tirfbd)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    LOG_STEP(("disableStepping: thread=%p", thread));
+    LOG_STEP(("disbblfStfpping: tirfbd=%p", tirfbd));
 
-    error = threadControl_setEventMode(JVMTI_DISABLE, EI_SINGLE_STEP,
-                                            thread);
-    if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "disabling single step");
+    frror = tirfbdControl_sftEvfntModf(JVMTI_DISABLE, EI_SINGLE_STEP,
+                                            tirfbd);
+    if (frror != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(frror, "disbbling singlf stfp");
     }
 }
 
-static jvmtiError
-getFrameLocation(jthread thread,
-        jclass *pclazz, jmethodID *pmethod, jlocation *plocation)
+stbtid jvmtiError
+gftFrbmfLodbtion(jtirfbd tirfbd,
+        jdlbss *pdlbzz, jmftiodID *pmftiod, jlodbtion *plodbtion)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    *pclazz = NULL;
-    *pmethod = NULL;
-    *plocation = -1;
+    *pdlbzz = NULL;
+    *pmftiod = NULL;
+    *plodbtion = -1;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetFrameLocation)
-            (gdata->jvmti, thread, 0, pmethod, plocation);
-    if (error == JVMTI_ERROR_NONE && *pmethod!=NULL ) {
-        /* This also serves to verify that the methodID is valid */
-        error = methodClass(*pmethod, pclazz);
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFrbmfLodbtion)
+            (gdbtb->jvmti, tirfbd, 0, pmftiod, plodbtion);
+    if (frror == JVMTI_ERROR_NONE && *pmftiod!=NULL ) {
+        /* Tiis blso sfrvfs to vfrify tibt tif mftiodID is vblid */
+        frror = mftiodClbss(*pmftiod, pdlbzz);
     }
-    return error;
+    rfturn frror;
 }
 
-static void
-getLineNumberTable(jmethodID method, jint *pcount,
-                jvmtiLineNumberEntry **ptable)
+stbtid void
+gftLinfNumbfrTbblf(jmftiodID mftiod, jint *pdount,
+                jvmtiLinfNumbfrEntry **ptbblf)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    *pcount = 0;
-    *ptable = NULL;
+    *pdount = 0;
+    *ptbblf = NULL;
 
-    /* If the method is native or obsolete, don't even ask for the line table */
-    if ( isMethodObsolete(method) || isMethodNative(method)) {
-        return;
+    /* If tif mftiod is nbtivf or obsolftf, don't fvfn bsk for tif linf tbblf */
+    if ( isMftiodObsolftf(mftiod) || isMftiodNbtivf(mftiod)) {
+        rfturn;
     }
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLineNumberTable)
-                (gdata->jvmti, method, pcount, ptable);
-    if (error != JVMTI_ERROR_NONE) {
-        *pcount = 0;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLinfNumbfrTbblf)
+                (gdbtb->jvmti, mftiod, pdount, ptbblf);
+    if (frror != JVMTI_ERROR_NONE) {
+        *pdount = 0;
     }
 }
 
-static jint
-findLineNumber(jthread thread, jlocation location,
-               jvmtiLineNumberEntry *lines, jint count)
+stbtid jint
+findLinfNumbfr(jtirfbd tirfbd, jlodbtion lodbtion,
+               jvmtiLinfNumbfrEntry *linfs, jint dount)
 {
-    jint line = -1;
+    jint linf = -1;
 
-    if (location != -1) {
-        if (count > 0) {
+    if (lodbtion != -1) {
+        if (dount > 0) {
             jint i;
-            /* any preface before first line is assigned to first line */
-            for (i=1; i<count; i++) {
-                if (location < lines[i].start_location) {
-                    break;
+            /* bny prffbdf bfforf first linf is bssignfd to first linf */
+            for (i=1; i<dount; i++) {
+                if (lodbtion < linfs[i].stbrt_lodbtion) {
+                    brfbk;
                 }
             }
-            line = lines[i-1].line_number;
+            linf = linfs[i-1].linf_numbfr;
         }
     }
-    return line;
+    rfturn linf;
 }
 
-static jboolean
-hasLineNumbers(jmethodID method)
+stbtid jboolfbn
+ibsLinfNumbfrs(jmftiodID mftiod)
 {
-    jint count;
-    jvmtiLineNumberEntry *table;
+    jint dount;
+    jvmtiLinfNumbfrEntry *tbblf;
 
-    getLineNumberTable(method, &count, &table);
-    if ( count == 0 ) {
-        return JNI_FALSE;
-    } else {
-        jvmtiDeallocate(table);
+    gftLinfNumbfrTbblf(mftiod, &dount, &tbblf);
+    if ( dount == 0 ) {
+        rfturn JNI_FALSE;
+    } flsf {
+        jvmtiDfbllodbtf(tbblf);
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jvmtiError
-initState(JNIEnv *env, jthread thread, StepRequest *step)
+stbtid jvmtiError
+initStbtf(JNIEnv *fnv, jtirfbd tirfbd, StfpRfqufst *stfp)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
     /*
-     * Initial values that may be changed below
+     * Initibl vblufs tibt mby bf dibngfd bflow
      */
-    step->fromLine = -1;
-    step->fromNative = JNI_FALSE;
-    step->frameExited = JNI_FALSE;
-    step->fromStackDepth = getFrameCount(thread);
+    stfp->fromLinf = -1;
+    stfp->fromNbtivf = JNI_FALSE;
+    stfp->frbmfExitfd = JNI_FALSE;
+    stfp->fromStbdkDfpti = gftFrbmfCount(tirfbd);
 
-    if (step->fromStackDepth <= 0) {
+    if (stfp->fromStbdkDfpti <= 0) {
         /*
-         * If there are no stack frames, treat the step as though
-         * from a native frame. This is most likely to occur at the
-         * beginning of a debug session, right after the VM_INIT event,
-         * so we need to do something intelligent.
+         * If tifrf brf no stbdk frbmfs, trfbt tif stfp bs tiougi
+         * from b nbtivf frbmf. Tiis is most likfly to oddur bt tif
+         * bfginning of b dfbug sfssion, rigit bftfr tif VM_INIT fvfnt,
+         * so wf nffd to do somftiing intflligfnt.
          */
-        step->fromNative = JNI_TRUE;
-        return JVMTI_ERROR_NONE;
+        stfp->fromNbtivf = JNI_TRUE;
+        rfturn JVMTI_ERROR_NONE;
     }
 
     /*
-     * Try to get a notification on frame pop. If we're in an opaque frame
-     * we won't be able to, but we can use other methods to detect that
-     * a native frame has exited.
+     * Try to gft b notifidbtion on frbmf pop. If wf'rf in bn opbquf frbmf
+     * wf won't bf bblf to, but wf dbn usf otifr mftiods to dftfdt tibt
+     * b nbtivf frbmf ibs fxitfd.
      *
-     * TO DO: explain the need for this notification.
+     * TO DO: fxplbin tif nffd for tiis notifidbtion.
      */
-    error = JVMTI_FUNC_PTR(gdata->jvmti,NotifyFramePop)
-                (gdata->jvmti, thread, 0);
-    if (error == JVMTI_ERROR_OPAQUE_FRAME) {
-        step->fromNative = JNI_TRUE;
-        error = JVMTI_ERROR_NONE;
-        /* continue without error */
-    } else if (error == JVMTI_ERROR_DUPLICATE) {
-        error = JVMTI_ERROR_NONE;
-        /* Already being notified, continue without error */
-    } else if (error != JVMTI_ERROR_NONE) {
-        return error;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,NotifyFrbmfPop)
+                (gdbtb->jvmti, tirfbd, 0);
+    if (frror == JVMTI_ERROR_OPAQUE_FRAME) {
+        stfp->fromNbtivf = JNI_TRUE;
+        frror = JVMTI_ERROR_NONE;
+        /* dontinuf witiout frror */
+    } flsf if (frror == JVMTI_ERROR_DUPLICATE) {
+        frror = JVMTI_ERROR_NONE;
+        /* Alrfbdy bfing notififd, dontinuf witiout frror */
+    } flsf if (frror != JVMTI_ERROR_NONE) {
+        rfturn frror;
     }
 
-    LOG_STEP(("initState(): frame=%d", step->fromStackDepth));
+    LOG_STEP(("initStbtf(): frbmf=%d", stfp->fromStbdkDfpti));
 
     /*
-     * Note: we can't undo the frame pop notify, so
-     * we'll just have to let the handler ignore it if
-     * there are any errors below.
+     * Notf: wf dbn't undo tif frbmf pop notify, so
+     * wf'll just ibvf to lft tif ibndlfr ignorf it if
+     * tifrf brf bny frrors bflow.
      */
 
-    if (step->granularity == JDWP_STEP_SIZE(LINE) ) {
+    if (stfp->grbnulbrity == JDWP_STEP_SIZE(LINE) ) {
 
-        LOG_STEP(("initState(): Begin line step"));
+        LOG_STEP(("initStbtf(): Bfgin linf stfp"));
 
-        WITH_LOCAL_REFS(env, 1) {
+        WITH_LOCAL_REFS(fnv, 1) {
 
-            jclass clazz;
-            jmethodID method;
-            jlocation location;
+            jdlbss dlbzz;
+            jmftiodID mftiod;
+            jlodbtion lodbtion;
 
-            error = getFrameLocation(thread, &clazz, &method, &location);
-            if (error == JVMTI_ERROR_NONE) {
-                /* Clear out previous line table only if we changed methods */
-                if ( method != step->method ) {
-                    step->lineEntryCount = 0;
-                    if (step->lineEntries != NULL) {
-                        jvmtiDeallocate(step->lineEntries);
-                        step->lineEntries = NULL;
+            frror = gftFrbmfLodbtion(tirfbd, &dlbzz, &mftiod, &lodbtion);
+            if (frror == JVMTI_ERROR_NONE) {
+                /* Clfbr out prfvious linf tbblf only if wf dibngfd mftiods */
+                if ( mftiod != stfp->mftiod ) {
+                    stfp->linfEntryCount = 0;
+                    if (stfp->linfEntrifs != NULL) {
+                        jvmtiDfbllodbtf(stfp->linfEntrifs);
+                        stfp->linfEntrifs = NULL;
                     }
-                    step->method = method;
-                    getLineNumberTable(step->method,
-                                 &step->lineEntryCount, &step->lineEntries);
-                    if (step->lineEntryCount > 0) {
-                        convertLineNumberTable(env, clazz,
-                                &step->lineEntryCount, &step->lineEntries);
+                    stfp->mftiod = mftiod;
+                    gftLinfNumbfrTbblf(stfp->mftiod,
+                                 &stfp->linfEntryCount, &stfp->linfEntrifs);
+                    if (stfp->linfEntryCount > 0) {
+                        donvfrtLinfNumbfrTbblf(fnv, dlbzz,
+                                &stfp->linfEntryCount, &stfp->linfEntrifs);
                     }
                 }
-                step->fromLine = findLineNumber(thread, location,
-                                     step->lineEntries, step->lineEntryCount);
+                stfp->fromLinf = findLinfNumbfr(tirfbd, lodbtion,
+                                     stfp->linfEntrifs, stfp->linfEntryCount);
             }
 
-        } END_WITH_LOCAL_REFS(env);
+        } END_WITH_LOCAL_REFS(fnv);
 
     }
 
-    return error;
+    rfturn frror;
 }
 
 /*
- * TO DO: The step handlers (handleFrameChange and handleStep can
- * be broken down and made simpler now that we can install and de-install event
- * handlers.
+ * TO DO: Tif stfp ibndlfrs (ibndlfFrbmfCibngf bnd ibndlfStfp dbn
+ * bf brokfn down bnd mbdf simplfr now tibt wf dbn instbll bnd df-instbll fvfnt
+ * ibndlfrs.
  */
-static void
-handleFramePopEvent(JNIEnv *env, EventInfo *evinfo,
-                    HandlerNode *node,
-                    struct bag *eventBag)
+stbtid void
+ibndlfFrbmfPopEvfnt(JNIEnv *fnv, EvfntInfo *fvinfo,
+                    HbndlfrNodf *nodf,
+                    strudt bbg *fvfntBbg)
 {
-    StepRequest *step;
-    jthread thread = evinfo->thread;
+    StfpRfqufst *stfp;
+    jtirfbd tirfbd = fvinfo->tirfbd;
 
-    stepControl_lock();
+    stfpControl_lodk();
 
-    step = threadControl_getStepRequest(thread);
-    if (step == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting step request");
+    stfp = tirfbdControl_gftStfpRfqufst(tirfbd);
+    if (stfp == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting stfp rfqufst");
     }
 
-    if (step->pending) {
+    if (stfp->pfnding) {
         /*
-         * Note: current depth is reported as *before* the pending frame
+         * Notf: durrfnt dfpti is rfportfd bs *bfforf* tif pfnding frbmf
          * pop.
          */
-        jint currentDepth;
-        jint fromDepth;
-        jint afterPopDepth;
+        jint durrfntDfpti;
+        jint fromDfpti;
+        jint bftfrPopDfpti;
 
-        currentDepth = getFrameCount(thread);
-        fromDepth = step->fromStackDepth;
-        afterPopDepth = currentDepth-1;
+        durrfntDfpti = gftFrbmfCount(tirfbd);
+        fromDfpti = stfp->fromStbdkDfpti;
+        bftfrPopDfpti = durrfntDfpti-1;
 
-        LOG_STEP(("handleFramePopEvent: BEGIN fromDepth=%d, currentDepth=%d",
-                        fromDepth, currentDepth));
+        LOG_STEP(("ibndlfFrbmfPopEvfnt: BEGIN fromDfpti=%d, durrfntDfpti=%d",
+                        fromDfpti, durrfntDfpti));
 
         /*
-         * If we are exiting the original stepping frame, record that
-         * fact here. Once the next step event comes in, we can safely
-         * stop stepping there.
+         * If wf brf fxiting tif originbl stfpping frbmf, rfdord tibt
+         * fbdt ifrf. Ondf tif nfxt stfp fvfnt domfs in, wf dbn sbffly
+         * stop stfpping tifrf.
          */
-        if (fromDepth > afterPopDepth ) {
-            step->frameExited = JNI_TRUE;
+        if (fromDfpti > bftfrPopDfpti ) {
+            stfp->frbmfExitfd = JNI_TRUE;
         }
 
-        if (step->depth == JDWP_STEP_DEPTH(OVER)) {
+        if (stfp->dfpti == JDWP_STEP_DEPTH(OVER)) {
             /*
-             * Either
-             * 1) the original stepping frame is about to be popped
-             *    [fromDepth == currentDepth]. Re-enable stepping to
-             *    reach a point where we can stop.
-             * 2) a method called from the stepping frame has returned
-             *    (during which we had stepping disabled)
-             *    [fromDepth == currentDepth - 1]. Re-enable stepping
-             *    so that we can continue instructions steps in the
-             *    original stepping frame.
-             * 3) a method further down the call chain has notified
-             *    of a frame pop [fromDepth < currentDepth - 1]. This
-             *    *might* represent case (2) above if the stepping frame
-             *    was calling a native method which in turn called a
-             *    java method. If so, we must enable stepping to
-             *    ensure that we get control back after the intervening
-             *    native frame is popped (you can't get frame pop
-             *    notifications on native frames). If the native caller
-             *    calls another Java method before returning,
-             *    stepping will be diabled again and another frame pop
-             *    will be awaited.
+             * Eitifr
+             * 1) tif originbl stfpping frbmf is bbout to bf poppfd
+             *    [fromDfpti == durrfntDfpti]. Rf-fnbblf stfpping to
+             *    rfbdi b point wifrf wf dbn stop.
+             * 2) b mftiod dbllfd from tif stfpping frbmf ibs rfturnfd
+             *    (during wiidi wf ibd stfpping disbblfd)
+             *    [fromDfpti == durrfntDfpti - 1]. Rf-fnbblf stfpping
+             *    so tibt wf dbn dontinuf instrudtions stfps in tif
+             *    originbl stfpping frbmf.
+             * 3) b mftiod furtifr down tif dbll dibin ibs notififd
+             *    of b frbmf pop [fromDfpti < durrfntDfpti - 1]. Tiis
+             *    *migit* rfprfsfnt dbsf (2) bbovf if tif stfpping frbmf
+             *    wbs dblling b nbtivf mftiod wiidi in turn dbllfd b
+             *    jbvb mftiod. If so, wf must fnbblf stfpping to
+             *    fnsurf tibt wf gft dontrol bbdk bftfr tif intfrvfning
+             *    nbtivf frbmf is poppfd (you dbn't gft frbmf pop
+             *    notifidbtions on nbtivf frbmfs). If tif nbtivf dbllfr
+             *    dblls bnotifr Jbvb mftiod bfforf rfturning,
+             *    stfpping will bf dibblfd bgbin bnd bnotifr frbmf pop
+             *    will bf bwbitfd.
              *
-             *    If it turns out that this is not case (2) with native
-             *    methods, then the enabled stepping is benign and
-             *    will be disabled again on the next step event.
+             *    If it turns out tibt tiis is not dbsf (2) witi nbtivf
+             *    mftiods, tifn tif fnbblfd stfpping is bfnign bnd
+             *    will bf disbblfd bgbin on tif nfxt stfp fvfnt.
              *
-             * Note that the condition not covered above,
-             * [fromDepth > currentDepth] shouldn't happen since it means
-             * that too many frames have been popped. For robustness,
-             * we enable stepping in that case too, so that the errant
-             * step-over can be stopped.
+             * Notf tibt tif dondition not dovfrfd bbovf,
+             * [fromDfpti > durrfntDfpti] siouldn't ibppfn sindf it mfbns
+             * tibt too mbny frbmfs ibvf bffn poppfd. For robustnfss,
+             * wf fnbblf stfpping in tibt dbsf too, so tibt tif frrbnt
+             * stfp-ovfr dbn bf stoppfd.
              *
              */
-            LOG_STEP(("handleFramePopEvent: starting singlestep, depth==OVER"));
-            enableStepping(thread);
-        } else if (step->depth == JDWP_STEP_DEPTH(OUT) &&
-                   fromDepth > afterPopDepth) {
+            LOG_STEP(("ibndlfFrbmfPopEvfnt: stbrting singlfstfp, dfpti==OVER"));
+            fnbblfStfpping(tirfbd);
+        } flsf if (stfp->dfpti == JDWP_STEP_DEPTH(OUT) &&
+                   fromDfpti > bftfrPopDfpti) {
             /*
-             * The original stepping frame is about to be popped. Step
-             * until we reach the next safe place to stop.
+             * Tif originbl stfpping frbmf is bbout to bf poppfd. Stfp
+             * until wf rfbdi tif nfxt sbff plbdf to stop.
              */
-            LOG_STEP(("handleFramePopEvent: starting singlestep, depth==OUT && fromDepth > afterPopDepth (%d>%d)",fromDepth, afterPopDepth));
-            enableStepping(thread);
-        } else if (step->methodEnterHandlerNode != NULL &&
-                   fromDepth >= afterPopDepth) {
+            LOG_STEP(("ibndlfFrbmfPopEvfnt: stbrting singlfstfp, dfpti==OUT && fromDfpti > bftfrPopDfpti (%d>%d)",fromDfpti, bftfrPopDfpti));
+            fnbblfStfpping(tirfbd);
+        } flsf if (stfp->mftiodEntfrHbndlfrNodf != NULL &&
+                   fromDfpti >= bftfrPopDfpti) {
             /*
-             * We installed a method entry event handler as part of a
-             * step into operation. We've popped back to the original
-             * stepping frame without finding a place to stop.
-             * Resume stepping in the original frame.
+             * Wf instbllfd b mftiod fntry fvfnt ibndlfr bs pbrt of b
+             * stfp into opfrbtion. Wf'vf poppfd bbdk to tif originbl
+             * stfpping frbmf witiout finding b plbdf to stop.
+             * Rfsumf stfpping in tif originbl frbmf.
              */
-            LOG_STEP(("handleFramePopEvent: starting singlestep, have methodEnter handler && depth==OUT && fromDepth >= afterPopDepth (%d>%d)",fromDepth, afterPopDepth));
-            enableStepping(thread);
-            (void)eventHandler_free(step->methodEnterHandlerNode);
-            step->methodEnterHandlerNode = NULL;
+            LOG_STEP(("ibndlfFrbmfPopEvfnt: stbrting singlfstfp, ibvf mftiodEntfr ibndlfr && dfpti==OUT && fromDfpti >= bftfrPopDfpti (%d>%d)",fromDfpti, bftfrPopDfpti));
+            fnbblfStfpping(tirfbd);
+            (void)fvfntHbndlfr_frff(stfp->mftiodEntfrHbndlfrNodf);
+            stfp->mftiodEntfrHbndlfrNodf = NULL;
         }
-        LOG_STEP(("handleFramePopEvent: finished"));
+        LOG_STEP(("ibndlfFrbmfPopEvfnt: finisifd"));
     }
 
-    stepControl_unlock();
+    stfpControl_unlodk();
 }
 
-static void
-handleExceptionCatchEvent(JNIEnv *env, EventInfo *evinfo,
-                          HandlerNode *node,
-                          struct bag *eventBag)
+stbtid void
+ibndlfExdfptionCbtdiEvfnt(JNIEnv *fnv, EvfntInfo *fvinfo,
+                          HbndlfrNodf *nodf,
+                          strudt bbg *fvfntBbg)
 {
-    StepRequest *step;
-    jthread thread = evinfo->thread;
+    StfpRfqufst *stfp;
+    jtirfbd tirfbd = fvinfo->tirfbd;
 
-    stepControl_lock();
+    stfpControl_lodk();
 
-    step = threadControl_getStepRequest(thread);
-    if (step == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting step request");
+    stfp = tirfbdControl_gftStfpRfqufst(tirfbd);
+    if (stfp == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting stfp rfqufst");
     }
 
-    if (step->pending) {
+    if (stfp->pfnding) {
         /*
-         *  Determine where we are on the call stack relative to where
-         *  we started.
+         *  Dftfrminf wifrf wf brf on tif dbll stbdk rflbtivf to wifrf
+         *  wf stbrtfd.
          */
-        jint currentDepth = getFrameCount(thread);
-        jint fromDepth = step->fromStackDepth;
+        jint durrfntDfpti = gftFrbmfCount(tirfbd);
+        jint fromDfpti = stfp->fromStbdkDfpti;
 
-        LOG_STEP(("handleExceptionCatchEvent: fromDepth=%d, currentDepth=%d",
-                        fromDepth, currentDepth));
+        LOG_STEP(("ibndlfExdfptionCbtdiEvfnt: fromDfpti=%d, durrfntDfpti=%d",
+                        fromDfpti, durrfntDfpti));
 
         /*
-         * If we are exiting the original stepping frame, record that
-         * fact here. Once the next step event comes in, we can safely
-         * stop stepping there.
+         * If wf brf fxiting tif originbl stfpping frbmf, rfdord tibt
+         * fbdt ifrf. Ondf tif nfxt stfp fvfnt domfs in, wf dbn sbffly
+         * stop stfpping tifrf.
          */
-        if (fromDepth > currentDepth) {
-            step->frameExited = JNI_TRUE;
+        if (fromDfpti > durrfntDfpti) {
+            stfp->frbmfExitfd = JNI_TRUE;
         }
 
-        if (step->depth == JDWP_STEP_DEPTH(OVER) &&
-            fromDepth >= currentDepth) {
+        if (stfp->dfpti == JDWP_STEP_DEPTH(OVER) &&
+            fromDfpti >= durrfntDfpti) {
             /*
-             * Either the original stepping frame is done,
-             * or a called method has returned (during which we had stepping
-             * disabled). In either case we must resume stepping.
+             * Eitifr tif originbl stfpping frbmf is donf,
+             * or b dbllfd mftiod ibs rfturnfd (during wiidi wf ibd stfpping
+             * disbblfd). In fitifr dbsf wf must rfsumf stfpping.
              */
-            enableStepping(thread);
-        } else if (step->depth == JDWP_STEP_DEPTH(OUT) &&
-                   fromDepth > currentDepth) {
+            fnbblfStfpping(tirfbd);
+        } flsf if (stfp->dfpti == JDWP_STEP_DEPTH(OUT) &&
+                   fromDfpti > durrfntDfpti) {
             /*
-             * The original stepping frame is done. Step
-             * until we reach the next safe place to stop.
+             * Tif originbl stfpping frbmf is donf. Stfp
+             * until wf rfbdi tif nfxt sbff plbdf to stop.
              */
-            enableStepping(thread);
-        } else if (step->methodEnterHandlerNode != NULL &&
-                   fromDepth >= currentDepth) {
+            fnbblfStfpping(tirfbd);
+        } flsf if (stfp->mftiodEntfrHbndlfrNodf != NULL &&
+                   fromDfpti >= durrfntDfpti) {
             /*
-             * We installed a method entry event handler as part of a
-             * step into operation. We've popped back to the original
-             * stepping frame or higher without finding a place to stop.
-             * Resume stepping in the original frame.
+             * Wf instbllfd b mftiod fntry fvfnt ibndlfr bs pbrt of b
+             * stfp into opfrbtion. Wf'vf poppfd bbdk to tif originbl
+             * stfpping frbmf or iigifr witiout finding b plbdf to stop.
+             * Rfsumf stfpping in tif originbl frbmf.
              */
-            enableStepping(thread);
-            (void)eventHandler_free(step->methodEnterHandlerNode);
-            step->methodEnterHandlerNode = NULL;
+            fnbblfStfpping(tirfbd);
+            (void)fvfntHbndlfr_frff(stfp->mftiodEntfrHbndlfrNodf);
+            stfp->mftiodEntfrHbndlfrNodf = NULL;
         }
     }
 
-    stepControl_unlock();
+    stfpControl_unlodk();
 }
 
-static void
-handleMethodEnterEvent(JNIEnv *env, EventInfo *evinfo,
-                       HandlerNode *node,
-                       struct bag *eventBag)
+stbtid void
+ibndlfMftiodEntfrEvfnt(JNIEnv *fnv, EvfntInfo *fvinfo,
+                       HbndlfrNodf *nodf,
+                       strudt bbg *fvfntBbg)
 {
-    StepRequest *step;
-    jthread thread;
+    StfpRfqufst *stfp;
+    jtirfbd tirfbd;
 
-    thread = evinfo->thread;
+    tirfbd = fvinfo->tirfbd;
 
-    stepControl_lock();
+    stfpControl_lodk();
 
-    step = threadControl_getStepRequest(thread);
-    if (step == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting step request");
+    stfp = tirfbdControl_gftStfpRfqufst(tirfbd);
+    if (stfp == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting stfp rfqufst");
     }
 
-    if (step->pending) {
-        jclass    clazz;
-        jmethodID method;
-        char     *classname;
+    if (stfp->pfnding) {
+        jdlbss    dlbzz;
+        jmftiodID mftiod;
+        dibr     *dlbssnbmf;
 
-        LOG_STEP(("handleMethodEnterEvent: thread=%p", thread));
+        LOG_STEP(("ibndlfMftiodEntfrEvfnt: tirfbd=%p", tirfbd));
 
-        clazz     = evinfo->clazz;
-        method    = evinfo->method;
-        classname = getClassname(clazz);
+        dlbzz     = fvinfo->dlbzz;
+        mftiod    = fvinfo->mftiod;
+        dlbssnbmf = gftClbssnbmf(dlbzz);
 
         /*
-         * This handler is relevant only to step into
+         * Tiis ibndlfr is rflfvbnt only to stfp into
          */
-        JDI_ASSERT(step->depth == JDWP_STEP_DEPTH(INTO));
+        JDI_ASSERT(stfp->dfpti == JDWP_STEP_DEPTH(INTO));
 
-        if (    (!eventFilter_predictFiltering(step->stepHandlerNode,
-                                               clazz, classname))
-             && (   step->granularity != JDWP_STEP_SIZE(LINE)
-                 || hasLineNumbers(method) ) ) {
+        if (    (!fvfntFiltfr_prfdidtFiltfring(stfp->stfpHbndlfrNodf,
+                                               dlbzz, dlbssnbmf))
+             && (   stfp->grbnulbrity != JDWP_STEP_SIZE(LINE)
+                 || ibsLinfNumbfrs(mftiod) ) ) {
             /*
-             * We've found a suitable method in which to stop. Step
-             * until we reach the next safe location to complete the step->,
-             * and we can get rid of the method entry handler.
+             * Wf'vf found b suitbblf mftiod in wiidi to stop. Stfp
+             * until wf rfbdi tif nfxt sbff lodbtion to domplftf tif stfp->,
+             * bnd wf dbn gft rid of tif mftiod fntry ibndlfr.
              */
-            enableStepping(thread);
-            if ( step->methodEnterHandlerNode != NULL ) {
-                (void)eventHandler_free(step->methodEnterHandlerNode);
-                step->methodEnterHandlerNode = NULL;
+            fnbblfStfpping(tirfbd);
+            if ( stfp->mftiodEntfrHbndlfrNodf != NULL ) {
+                (void)fvfntHbndlfr_frff(stfp->mftiodEntfrHbndlfrNodf);
+                stfp->mftiodEntfrHbndlfrNodf = NULL;
             }
         }
-        jvmtiDeallocate(classname);
-        classname = NULL;
+        jvmtiDfbllodbtf(dlbssnbmf);
+        dlbssnbmf = NULL;
     }
 
-    stepControl_unlock();
+    stfpControl_unlodk();
 }
 
-static void
-completeStep(JNIEnv *env, jthread thread, StepRequest *step)
+stbtid void
+domplftfStfp(JNIEnv *fnv, jtirfbd tirfbd, StfpRfqufst *stfp)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
     /*
-     * We've completed a step; reset state for the next one, if any
+     * Wf'vf domplftfd b stfp; rfsft stbtf for tif nfxt onf, if bny
      */
 
-    LOG_STEP(("completeStep: thread=%p", thread));
+    LOG_STEP(("domplftfStfp: tirfbd=%p", tirfbd));
 
-    if (step->methodEnterHandlerNode != NULL) {
-        (void)eventHandler_free(step->methodEnterHandlerNode);
-        step->methodEnterHandlerNode = NULL;
+    if (stfp->mftiodEntfrHbndlfrNodf != NULL) {
+        (void)fvfntHbndlfr_frff(stfp->mftiodEntfrHbndlfrNodf);
+        stfp->mftiodEntfrHbndlfrNodf = NULL;
     }
 
-    error = initState(env, thread, step);
-    if (error != JVMTI_ERROR_NONE) {
+    frror = initStbtf(fnv, tirfbd, stfp);
+    if (frror != JVMTI_ERROR_NONE) {
         /*
-         * None of the initState errors should happen after one step
-         * has successfully completed.
+         * Nonf of tif initStbtf frrors siould ibppfn bftfr onf stfp
+         * ibs suddfssfully domplftfd.
          */
-        EXIT_ERROR(error, "initializing step state");
+        EXIT_ERROR(frror, "initiblizing stfp stbtf");
     }
 }
 
-jboolean
-stepControl_handleStep(JNIEnv *env, jthread thread,
-                       jclass clazz, jmethodID method)
+jboolfbn
+stfpControl_ibndlfStfp(JNIEnv *fnv, jtirfbd tirfbd,
+                       jdlbss dlbzz, jmftiodID mftiod)
 {
-    jboolean completed = JNI_FALSE;
-    StepRequest *step;
-    jint currentDepth;
-    jint fromDepth;
-    jvmtiError error;
-    char *classname;
+    jboolfbn domplftfd = JNI_FALSE;
+    StfpRfqufst *stfp;
+    jint durrfntDfpti;
+    jint fromDfpti;
+    jvmtiError frror;
+    dibr *dlbssnbmf;
 
-    classname = NULL;
-    stepControl_lock();
+    dlbssnbmf = NULL;
+    stfpControl_lodk();
 
-    step = threadControl_getStepRequest(thread);
-    if (step == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting step request");
+    stfp = tirfbdControl_gftStfpRfqufst(tirfbd);
+    if (stfp == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting stfp rfqufst");
     }
 
     /*
-     * If no step is currently pending, ignore the event
+     * If no stfp is durrfntly pfnding, ignorf tif fvfnt
      */
-    if (!step->pending) {
-        goto done;
+    if (!stfp->pfnding) {
+        goto donf;
     }
 
-    LOG_STEP(("stepControl_handleStep: thread=%p", thread));
+    LOG_STEP(("stfpControl_ibndlfStfp: tirfbd=%p", tirfbd));
 
     /*
-     * We never filter step into instruction. It's always over on the
-     * first step event.
+     * Wf nfvfr filtfr stfp into instrudtion. It's blwbys ovfr on tif
+     * first stfp fvfnt.
      */
-    if (step->depth == JDWP_STEP_DEPTH(INTO) &&
-        step->granularity == JDWP_STEP_SIZE(MIN)) {
-        completed = JNI_TRUE;
-        LOG_STEP(("stepControl_handleStep: completed, into min"));
-        goto done;
-    }
-
-    /*
-     * If we have left the method in which
-     * stepping started, the step is always complete.
-     */
-    if (step->frameExited) {
-        completed = JNI_TRUE;
-        LOG_STEP(("stepControl_handleStep: completed, frame exited"));
-        goto done;
+    if (stfp->dfpti == JDWP_STEP_DEPTH(INTO) &&
+        stfp->grbnulbrity == JDWP_STEP_SIZE(MIN)) {
+        domplftfd = JNI_TRUE;
+        LOG_STEP(("stfpControl_ibndlfStfp: domplftfd, into min"));
+        goto donf;
     }
 
     /*
-     *  Determine where we are on the call stack relative to where
-     *  we started.
+     * If wf ibvf lfft tif mftiod in wiidi
+     * stfpping stbrtfd, tif stfp is blwbys domplftf.
      */
-    currentDepth = getFrameCount(thread);
-    fromDepth = step->fromStackDepth;
+    if (stfp->frbmfExitfd) {
+        domplftfd = JNI_TRUE;
+        LOG_STEP(("stfpControl_ibndlfStfp: domplftfd, frbmf fxitfd"));
+        goto donf;
+    }
 
-    if (fromDepth > currentDepth) {
+    /*
+     *  Dftfrminf wifrf wf brf on tif dbll stbdk rflbtivf to wifrf
+     *  wf stbrtfd.
+     */
+    durrfntDfpti = gftFrbmfCount(tirfbd);
+    fromDfpti = stfp->fromStbdkDfpti;
+
+    if (fromDfpti > durrfntDfpti) {
         /*
-         * We have returned from the caller. There are cases where
-         * we don't get frame pop notifications
-         * (e.g. stepping from opaque frames), and that's when
-         * this code will be reached. Complete the step->
+         * Wf ibvf rfturnfd from tif dbllfr. Tifrf brf dbsfs wifrf
+         * wf don't gft frbmf pop notifidbtions
+         * (f.g. stfpping from opbquf frbmfs), bnd tibt's wifn
+         * tiis dodf will bf rfbdifd. Complftf tif stfp->
          */
-        completed = JNI_TRUE;
-        LOG_STEP(("stepControl_handleStep: completed, fromDepth>currentDepth(%d>%d)", fromDepth, currentDepth));
-    } else if (fromDepth < currentDepth) {
-        /* We have dropped into a called method. */
-        if (   step->depth == JDWP_STEP_DEPTH(INTO)
-            && (!eventFilter_predictFiltering(step->stepHandlerNode, clazz,
-                                          (classname = getClassname(clazz))))
-            && hasLineNumbers(method) ) {
+        domplftfd = JNI_TRUE;
+        LOG_STEP(("stfpControl_ibndlfStfp: domplftfd, fromDfpti>durrfntDfpti(%d>%d)", fromDfpti, durrfntDfpti));
+    } flsf if (fromDfpti < durrfntDfpti) {
+        /* Wf ibvf droppfd into b dbllfd mftiod. */
+        if (   stfp->dfpti == JDWP_STEP_DEPTH(INTO)
+            && (!fvfntFiltfr_prfdidtFiltfring(stfp->stfpHbndlfrNodf, dlbzz,
+                                          (dlbssnbmf = gftClbssnbmf(dlbzz))))
+            && ibsLinfNumbfrs(mftiod) ) {
 
-            /* Stepped into a method with lines, so we're done */
-            completed = JNI_TRUE;
-            LOG_STEP(("stepControl_handleStep: completed, fromDepth<currentDepth(%d<%d) and into method with lines", fromDepth, currentDepth));
-        } else {
+            /* Stfppfd into b mftiod witi linfs, so wf'rf donf */
+            domplftfd = JNI_TRUE;
+            LOG_STEP(("stfpControl_ibndlfStfp: domplftfd, fromDfpti<durrfntDfpti(%d<%d) bnd into mftiod witi linfs", fromDfpti, durrfntDfpti));
+        } flsf {
             /*
-             * We need to continue, but don't want the overhead of step
-             * events from this method. So, we disable stepping and
-             * enable a frame pop. If we're stepping into, we also
-             * enable method enter events because a called frame may be
-             * where we want to stop.
+             * Wf nffd to dontinuf, but don't wbnt tif ovfrifbd of stfp
+             * fvfnts from tiis mftiod. So, wf disbblf stfpping bnd
+             * fnbblf b frbmf pop. If wf'rf stfpping into, wf blso
+             * fnbblf mftiod fntfr fvfnts bfdbusf b dbllfd frbmf mby bf
+             * wifrf wf wbnt to stop.
              */
-            disableStepping(thread);
+            disbblfStfpping(tirfbd);
 
-            if (step->depth == JDWP_STEP_DEPTH(INTO)) {
-                step->methodEnterHandlerNode =
-                    eventHandler_createInternalThreadOnly(
+            if (stfp->dfpti == JDWP_STEP_DEPTH(INTO)) {
+                stfp->mftiodEntfrHbndlfrNodf =
+                    fvfntHbndlfr_drfbtfIntfrnblTirfbdOnly(
                                        EI_METHOD_ENTRY,
-                                       handleMethodEnterEvent, thread);
-                if (step->methodEnterHandlerNode == NULL) {
+                                       ibndlfMftiodEntfrEvfnt, tirfbd);
+                if (stfp->mftiodEntfrHbndlfrNodf == NULL) {
                     EXIT_ERROR(AGENT_ERROR_INVALID_EVENT_TYPE,
-                                "installing event method enter handler");
+                                "instblling fvfnt mftiod fntfr ibndlfr");
                 }
             }
 
-            error = JVMTI_FUNC_PTR(gdata->jvmti,NotifyFramePop)
-                        (gdata->jvmti, thread, 0);
-            if (error == JVMTI_ERROR_DUPLICATE) {
-                error = JVMTI_ERROR_NONE;
-            } else if (error != JVMTI_ERROR_NONE) {
-                EXIT_ERROR(error, "setting up notify frame pop");
+            frror = JVMTI_FUNC_PTR(gdbtb->jvmti,NotifyFrbmfPop)
+                        (gdbtb->jvmti, tirfbd, 0);
+            if (frror == JVMTI_ERROR_DUPLICATE) {
+                frror = JVMTI_ERROR_NONE;
+            } flsf if (frror != JVMTI_ERROR_NONE) {
+                EXIT_ERROR(frror, "sftting up notify frbmf pop");
             }
         }
-        jvmtiDeallocate(classname);
-        classname = NULL;
-    } else {
+        jvmtiDfbllodbtf(dlbssnbmf);
+        dlbssnbmf = NULL;
+    } flsf {
         /*
-         * We are at the same stack depth where stepping started.
-         * Instruction steps are complete at this point. For line
-         * steps we must check to see whether we've moved to a
-         * different line.
+         * Wf brf bt tif sbmf stbdk dfpti wifrf stfpping stbrtfd.
+         * Instrudtion stfps brf domplftf bt tiis point. For linf
+         * stfps wf must difdk to sff wiftifr wf'vf movfd to b
+         * difffrfnt linf.
          */
-        if (step->granularity == JDWP_STEP_SIZE(MIN)) {
-            completed = JNI_TRUE;
-            LOG_STEP(("stepControl_handleStep: completed, fromDepth==currentDepth(%d) and min", fromDepth));
-        } else {
-            if (step->fromLine != -1) {
-                jint line = -1;
-                jlocation location;
-                jmethodID method;
-                WITH_LOCAL_REFS(env, 1) {
-                    jclass clazz;
-                    error = getFrameLocation(thread,
-                                        &clazz, &method, &location);
-                    if ( isMethodObsolete(method)) {
-                        method = NULL;
-                        location = -1;
+        if (stfp->grbnulbrity == JDWP_STEP_SIZE(MIN)) {
+            domplftfd = JNI_TRUE;
+            LOG_STEP(("stfpControl_ibndlfStfp: domplftfd, fromDfpti==durrfntDfpti(%d) bnd min", fromDfpti));
+        } flsf {
+            if (stfp->fromLinf != -1) {
+                jint linf = -1;
+                jlodbtion lodbtion;
+                jmftiodID mftiod;
+                WITH_LOCAL_REFS(fnv, 1) {
+                    jdlbss dlbzz;
+                    frror = gftFrbmfLodbtion(tirfbd,
+                                        &dlbzz, &mftiod, &lodbtion);
+                    if ( isMftiodObsolftf(mftiod)) {
+                        mftiod = NULL;
+                        lodbtion = -1;
                     }
-                    if (error != JVMTI_ERROR_NONE || location == -1) {
-                        EXIT_ERROR(error, "getting frame location");
+                    if (frror != JVMTI_ERROR_NONE || lodbtion == -1) {
+                        EXIT_ERROR(frror, "gftting frbmf lodbtion");
                     }
-                    if ( method == step->method ) {
-                        LOG_STEP(("stepControl_handleStep: checking line location"));
-                        log_debugee_location("stepControl_handleStep: checking line loc",
-                                thread, method, location);
-                        line = findLineNumber(thread, location,
-                                      step->lineEntries, step->lineEntryCount);
+                    if ( mftiod == stfp->mftiod ) {
+                        LOG_STEP(("stfpControl_ibndlfStfp: difdking linf lodbtion"));
+                        log_dfbugff_lodbtion("stfpControl_ibndlfStfp: difdking linf lod",
+                                tirfbd, mftiod, lodbtion);
+                        linf = findLinfNumbfr(tirfbd, lodbtion,
+                                      stfp->linfEntrifs, stfp->linfEntryCount);
                     }
-                    if (line != step->fromLine) {
-                        completed = JNI_TRUE;
-                        LOG_STEP(("stepControl_handleStep: completed, fromDepth==currentDepth(%d) and different line", fromDepth));
+                    if (linf != stfp->fromLinf) {
+                        domplftfd = JNI_TRUE;
+                        LOG_STEP(("stfpControl_ibndlfStfp: domplftfd, fromDfpti==durrfntDfpti(%d) bnd difffrfnt linf", fromDfpti));
                     }
-                } END_WITH_LOCAL_REFS(env);
-            } else {
+                } END_WITH_LOCAL_REFS(fnv);
+            } flsf {
                 /*
-                 * This is a rare case. We have stepped from a location
-                 * inside a native method to a location within a Java
-                 * method at the same stack depth. This means that
-                 * the original native method returned to another
-                 * native method which, in turn, invoked a Java method.
+                 * Tiis is b rbrf dbsf. Wf ibvf stfppfd from b lodbtion
+                 * insidf b nbtivf mftiod to b lodbtion witiin b Jbvb
+                 * mftiod bt tif sbmf stbdk dfpti. Tiis mfbns tibt
+                 * tif originbl nbtivf mftiod rfturnfd to bnotifr
+                 * nbtivf mftiod wiidi, in turn, invokfd b Jbvb mftiod.
                  *
-                 * Since the original frame was  native, we were unable
-                 * to ask for a frame pop event, and, thus, could not
-                 * set the step->frameExited flag when the original
-                 * method was done. Instead we end up here
-                 * and act just as though the frameExited flag was set
-                 * and complete the step immediately.
+                 * Sindf tif originbl frbmf wbs  nbtivf, wf wfrf unbblf
+                 * to bsk for b frbmf pop fvfnt, bnd, tius, dould not
+                 * sft tif stfp->frbmfExitfd flbg wifn tif originbl
+                 * mftiod wbs donf. Instfbd wf fnd up ifrf
+                 * bnd bdt just bs tiougi tif frbmfExitfd flbg wbs sft
+                 * bnd domplftf tif stfp immfdibtfly.
                  */
-                completed = JNI_TRUE;
-                LOG_STEP(("stepControl_handleStep: completed, fromDepth==currentDepth(%d) and no line", fromDepth));
+                domplftfd = JNI_TRUE;
+                LOG_STEP(("stfpControl_ibndlfStfp: domplftfd, fromDfpti==durrfntDfpti(%d) bnd no linf", fromDfpti));
             }
         }
-        LOG_STEP(("stepControl_handleStep: finished"));
+        LOG_STEP(("stfpControl_ibndlfStfp: finisifd"));
     }
-done:
-    if (completed) {
-        completeStep(env, thread, step);
+donf:
+    if (domplftfd) {
+        domplftfStfp(fnv, tirfbd, stfp);
     }
-    stepControl_unlock();
-    return completed;
+    stfpControl_unlodk();
+    rfturn domplftfd;
 }
 
 
 void
-stepControl_initialize(void)
+stfpControl_initiblizf(void)
 {
-    stepLock = debugMonitorCreate("JDWP Step Handler Lock");
+    stfpLodk = dfbugMonitorCrfbtf("JDWP Stfp Hbndlfr Lodk");
 }
 
 void
-stepControl_reset(void)
+stfpControl_rfsft(void)
 {
 }
 
 /*
- * Reset step control request stack depth and line number.
+ * Rfsft stfp dontrol rfqufst stbdk dfpti bnd linf numbfr.
  */
 void
-stepControl_resetRequest(jthread thread)
+stfpControl_rfsftRfqufst(jtirfbd tirfbd)
 {
 
-    StepRequest *step;
-    jvmtiError error;
+    StfpRfqufst *stfp;
+    jvmtiError frror;
 
-    LOG_STEP(("stepControl_resetRequest: thread=%p", thread));
+    LOG_STEP(("stfpControl_rfsftRfqufst: tirfbd=%p", tirfbd));
 
-    stepControl_lock();
+    stfpControl_lodk();
 
-    step = threadControl_getStepRequest(thread);
+    stfp = tirfbdControl_gftStfpRfqufst(tirfbd);
 
-    if (step != NULL) {
-        JNIEnv *env;
-        env = getEnv();
-        error = initState(env, thread, step);
-        if (error != JVMTI_ERROR_NONE) {
-            EXIT_ERROR(error, "initializing step state");
+    if (stfp != NULL) {
+        JNIEnv *fnv;
+        fnv = gftEnv();
+        frror = initStbtf(fnv, tirfbd, stfp);
+        if (frror != JVMTI_ERROR_NONE) {
+            EXIT_ERROR(frror, "initiblizing stfp stbtf");
         }
-    } else {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting step request");
+    } flsf {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting stfp rfqufst");
     }
 
-    stepControl_unlock();
+    stfpControl_unlodk();
 }
 
-static void
-initEvents(jthread thread, StepRequest *step)
+stbtid void
+initEvfnts(jtirfbd tirfbd, StfpRfqufst *stfp)
 {
-    /* Need to install frame pop handler and exception catch handler when
-     * single-stepping is enabled (i.e. step-into or step-over/step-out
-     * when fromStackDepth > 0).
+    /* Nffd to instbll frbmf pop ibndlfr bnd fxdfption dbtdi ibndlfr wifn
+     * singlf-stfpping is fnbblfd (i.f. stfp-into or stfp-ovfr/stfp-out
+     * wifn fromStbdkDfpti > 0).
      */
-    if (step->depth == JDWP_STEP_DEPTH(INTO) || step->fromStackDepth > 0) {
+    if (stfp->dfpti == JDWP_STEP_DEPTH(INTO) || stfp->fromStbdkDfpti > 0) {
         /*
-         * TO DO: These might be able to applied more selectively to
-         * boost performance.
+         * TO DO: Tifsf migit bf bblf to bpplifd morf sflfdtivfly to
+         * boost pfrformbndf.
          */
-        step->catchHandlerNode = eventHandler_createInternalThreadOnly(
+        stfp->dbtdiHbndlfrNodf = fvfntHbndlfr_drfbtfIntfrnblTirfbdOnly(
                                      EI_EXCEPTION_CATCH,
-                                     handleExceptionCatchEvent,
-                                     thread);
-        step->framePopHandlerNode = eventHandler_createInternalThreadOnly(
+                                     ibndlfExdfptionCbtdiEvfnt,
+                                     tirfbd);
+        stfp->frbmfPopHbndlfrNodf = fvfntHbndlfr_drfbtfIntfrnblTirfbdOnly(
                                         EI_FRAME_POP,
-                                        handleFramePopEvent,
-                                        thread);
+                                        ibndlfFrbmfPopEvfnt,
+                                        tirfbd);
 
-        if (step->catchHandlerNode == NULL ||
-            step->framePopHandlerNode == NULL) {
+        if (stfp->dbtdiHbndlfrNodf == NULL ||
+            stfp->frbmfPopHbndlfrNodf == NULL) {
             EXIT_ERROR(AGENT_ERROR_INVALID_EVENT_TYPE,
-                        "installing step event handlers");
+                        "instblling stfp fvfnt ibndlfrs");
         }
 
     }
     /*
-     * Initially enable stepping:
-     * 1) For step into, always
-     * 2) For step over, unless right after the VM_INIT.
-     *    Enable stepping for STEP_MIN or STEP_LINE with or without line numbers.
-     *    If the class is redefined then non EMCP methods may not have line
-     *    number info. So enable line stepping for non line number so that it
-     *    behaves like STEP_MIN/STEP_OVER.
-     * 3) For step out, only if stepping from native, except right after VM_INIT
+     * Initiblly fnbblf stfpping:
+     * 1) For stfp into, blwbys
+     * 2) For stfp ovfr, unlfss rigit bftfr tif VM_INIT.
+     *    Enbblf stfpping for STEP_MIN or STEP_LINE witi or witiout linf numbfrs.
+     *    If tif dlbss is rfdffinfd tifn non EMCP mftiods mby not ibvf linf
+     *    numbfr info. So fnbblf linf stfpping for non linf numbfr so tibt it
+     *    bfibvfs likf STEP_MIN/STEP_OVER.
+     * 3) For stfp out, only if stfpping from nbtivf, fxdfpt rigit bftfr VM_INIT
      *
-     * (right after VM_INIT, a step->over or out is identical to running
-     * forever)
+     * (rigit bftfr VM_INIT, b stfp->ovfr or out is idfntidbl to running
+     * forfvfr)
      */
-    switch (step->depth) {
-        case JDWP_STEP_DEPTH(INTO):
-            enableStepping(thread);
-            break;
-        case JDWP_STEP_DEPTH(OVER):
-            if (step->fromStackDepth > 0 && !step->fromNative ) {
-              enableStepping(thread);
+    switdi (stfp->dfpti) {
+        dbsf JDWP_STEP_DEPTH(INTO):
+            fnbblfStfpping(tirfbd);
+            brfbk;
+        dbsf JDWP_STEP_DEPTH(OVER):
+            if (stfp->fromStbdkDfpti > 0 && !stfp->fromNbtivf ) {
+              fnbblfStfpping(tirfbd);
             }
-            break;
-        case JDWP_STEP_DEPTH(OUT):
-            if (step->fromNative &&
-                (step->fromStackDepth > 0)) {
-                enableStepping(thread);
+            brfbk;
+        dbsf JDWP_STEP_DEPTH(OUT):
+            if (stfp->fromNbtivf &&
+                (stfp->fromStbdkDfpti > 0)) {
+                fnbblfStfpping(tirfbd);
             }
-            break;
-        default:
+            brfbk;
+        dffbult:
             JDI_ASSERT(JNI_FALSE);
     }
 }
 
 jvmtiError
-stepControl_beginStep(JNIEnv *env, jthread thread, jint size, jint depth,
-                      HandlerNode *node)
+stfpControl_bfginStfp(JNIEnv *fnv, jtirfbd tirfbd, jint sizf, jint dfpti,
+                      HbndlfrNodf *nodf)
 {
-    StepRequest *step;
-    jvmtiError error;
-    jvmtiError error2;
+    StfpRfqufst *stfp;
+    jvmtiError frror;
+    jvmtiError frror2;
 
-    LOG_STEP(("stepControl_beginStep: thread=%p,size=%d,depth=%d",
-                        thread, size, depth));
+    LOG_STEP(("stfpControl_bfginStfp: tirfbd=%p,sizf=%d,dfpti=%d",
+                        tirfbd, sizf, dfpti));
 
-    eventHandler_lock(); /* for proper lock order */
-    stepControl_lock();
+    fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
+    stfpControl_lodk();
 
-    step = threadControl_getStepRequest(thread);
-    if (step == NULL) {
-        error = AGENT_ERROR_INVALID_THREAD;
-        /* Normally not getting a StepRequest struct pointer is a fatal error
-         *   but on a beginStep, we just return an error code.
+    stfp = tirfbdControl_gftStfpRfqufst(tirfbd);
+    if (stfp == NULL) {
+        frror = AGENT_ERROR_INVALID_THREAD;
+        /* Normblly not gftting b StfpRfqufst strudt pointfr is b fbtbl frror
+         *   but on b bfginStfp, wf just rfturn bn frror dodf.
          */
-    } else {
+    } flsf {
         /*
-         * In case the thread isn't already suspended, do it again.
+         * In dbsf tif tirfbd isn't blrfbdy suspfndfd, do it bgbin.
          */
-        error = threadControl_suspendThread(thread, JNI_FALSE);
-        if (error == JVMTI_ERROR_NONE) {
+        frror = tirfbdControl_suspfndTirfbd(tirfbd, JNI_FALSE);
+        if (frror == JVMTI_ERROR_NONE) {
             /*
-             * Overwrite any currently executing step.
+             * Ovfrwritf bny durrfntly fxfduting stfp.
              */
-            step->granularity = size;
-            step->depth = depth;
-            step->catchHandlerNode = NULL;
-            step->framePopHandlerNode = NULL;
-            step->methodEnterHandlerNode = NULL;
-            step->stepHandlerNode = node;
-            error = initState(env, thread, step);
-            if (error == JVMTI_ERROR_NONE) {
-                initEvents(thread, step);
+            stfp->grbnulbrity = sizf;
+            stfp->dfpti = dfpti;
+            stfp->dbtdiHbndlfrNodf = NULL;
+            stfp->frbmfPopHbndlfrNodf = NULL;
+            stfp->mftiodEntfrHbndlfrNodf = NULL;
+            stfp->stfpHbndlfrNodf = nodf;
+            frror = initStbtf(fnv, tirfbd, stfp);
+            if (frror == JVMTI_ERROR_NONE) {
+                initEvfnts(tirfbd, stfp);
             }
-            /* false means it is not okay to unblock the commandLoop thread */
-            error2 = threadControl_resumeThread(thread, JNI_FALSE);
-            if (error2 != JVMTI_ERROR_NONE && error == JVMTI_ERROR_NONE) {
-                error = error2;
+            /* fblsf mfbns it is not okby to unblodk tif dommbndLoop tirfbd */
+            frror2 = tirfbdControl_rfsumfTirfbd(tirfbd, JNI_FALSE);
+            if (frror2 != JVMTI_ERROR_NONE && frror == JVMTI_ERROR_NONE) {
+                frror = frror2;
             }
 
             /*
-             * If everything went ok, indicate a step is pending.
+             * If fvfrytiing wfnt ok, indidbtf b stfp is pfnding.
              */
-            if (error == JVMTI_ERROR_NONE) {
-                step->pending = JNI_TRUE;
+            if (frror == JVMTI_ERROR_NONE) {
+                stfp->pfnding = JNI_TRUE;
             }
-        } else {
-            EXIT_ERROR(error, "stepControl_beginStep: cannot suspend thread");
+        } flsf {
+            EXIT_ERROR(frror, "stfpControl_bfginStfp: dbnnot suspfnd tirfbd");
         }
     }
 
-    stepControl_unlock();
-    eventHandler_unlock();
+    stfpControl_unlodk();
+    fvfntHbndlfr_unlodk();
 
-    return error;
+    rfturn frror;
 }
 
 
-static void
-clearStep(jthread thread, StepRequest *step)
+stbtid void
+dlfbrStfp(jtirfbd tirfbd, StfpRfqufst *stfp)
 {
-    if (step->pending) {
+    if (stfp->pfnding) {
 
-        disableStepping(thread);
-        if ( step->catchHandlerNode != NULL ) {
-            (void)eventHandler_free(step->catchHandlerNode);
-            step->catchHandlerNode = NULL;
+        disbblfStfpping(tirfbd);
+        if ( stfp->dbtdiHbndlfrNodf != NULL ) {
+            (void)fvfntHbndlfr_frff(stfp->dbtdiHbndlfrNodf);
+            stfp->dbtdiHbndlfrNodf = NULL;
         }
-        if ( step->framePopHandlerNode!= NULL ) {
-            (void)eventHandler_free(step->framePopHandlerNode);
-            step->framePopHandlerNode = NULL;
+        if ( stfp->frbmfPopHbndlfrNodf!= NULL ) {
+            (void)fvfntHbndlfr_frff(stfp->frbmfPopHbndlfrNodf);
+            stfp->frbmfPopHbndlfrNodf = NULL;
         }
-        if ( step->methodEnterHandlerNode != NULL ) {
-            (void)eventHandler_free(step->methodEnterHandlerNode);
-            step->methodEnterHandlerNode = NULL;
+        if ( stfp->mftiodEntfrHbndlfrNodf != NULL ) {
+            (void)fvfntHbndlfr_frff(stfp->mftiodEntfrHbndlfrNodf);
+            stfp->mftiodEntfrHbndlfrNodf = NULL;
         }
-        step->pending = JNI_FALSE;
+        stfp->pfnding = JNI_FALSE;
 
         /*
-         * Warning: Do not clear step->method, step->lineEntryCount,
-         *          or step->lineEntries here, they will likely
-         *          be needed on the next step.
+         * Wbrning: Do not dlfbr stfp->mftiod, stfp->linfEntryCount,
+         *          or stfp->linfEntrifs ifrf, tify will likfly
+         *          bf nffdfd on tif nfxt stfp.
          */
 
     }
 }
 
 jvmtiError
-stepControl_endStep(jthread thread)
+stfpControl_fndStfp(jtirfbd tirfbd)
 {
-    StepRequest *step;
-    jvmtiError error;
+    StfpRfqufst *stfp;
+    jvmtiError frror;
 
-    LOG_STEP(("stepControl_endStep: thread=%p", thread));
+    LOG_STEP(("stfpControl_fndStfp: tirfbd=%p", tirfbd));
 
-    eventHandler_lock(); /* for proper lock order */
-    stepControl_lock();
+    fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
+    stfpControl_lodk();
 
-    step = threadControl_getStepRequest(thread);
-    if (step != NULL) {
-        clearStep(thread, step);
-        error = JVMTI_ERROR_NONE;
-    } else {
-        /* If the stepRequest can't be gotten, then this thread no longer
-         *   exists, just return, don't die here, this is normal at
-         *   termination time. Return JVMTI_ERROR_NONE so the thread Ref
-         *   can be tossed.
+    stfp = tirfbdControl_gftStfpRfqufst(tirfbd);
+    if (stfp != NULL) {
+        dlfbrStfp(tirfbd, stfp);
+        frror = JVMTI_ERROR_NONE;
+    } flsf {
+        /* If tif stfpRfqufst dbn't bf gottfn, tifn tiis tirfbd no longfr
+         *   fxists, just rfturn, don't dif ifrf, tiis is normbl bt
+         *   tfrminbtion timf. Rfturn JVMTI_ERROR_NONE so tif tirfbd Rff
+         *   dbn bf tossfd.
          */
-         error = JVMTI_ERROR_NONE;
+         frror = JVMTI_ERROR_NONE;
     }
 
-    stepControl_unlock();
-    eventHandler_unlock();
+    stfpControl_unlodk();
+    fvfntHbndlfr_unlodk();
 
-    return error;
+    rfturn frror;
 }
 
 void
-stepControl_clearRequest(jthread thread, StepRequest *step)
+stfpControl_dlfbrRfqufst(jtirfbd tirfbd, StfpRfqufst *stfp)
 {
-    LOG_STEP(("stepControl_clearRequest: thread=%p", thread));
-    clearStep(thread, step);
+    LOG_STEP(("stfpControl_dlfbrRfqufst: tirfbd=%p", tirfbd));
+    dlfbrStfp(tirfbd, stfp);
 }
 
 void
-stepControl_lock(void)
+stfpControl_lodk(void)
 {
-    debugMonitorEnter(stepLock);
+    dfbugMonitorEntfr(stfpLodk);
 }
 
 void
-stepControl_unlock(void)
+stfpControl_unlodk(void)
 {
-    debugMonitorExit(stepLock);
+    dfbugMonitorExit(stfpLodk);
 }

@@ -1,358 +1,358 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jcprepct.c
+ * jdprfpdt.d
  *
- * Copyright (C) 1994-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1994-1996, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains the compression preprocessing controller.
- * This controller manages the color conversion, downsampling,
- * and edge expansion steps.
+ * Tiis filf dontbins tif domprfssion prfprodfssing dontrollfr.
+ * Tiis dontrollfr mbnbgfs tif dolor donvfrsion, downsbmpling,
+ * bnd fdgf fxpbnsion stfps.
  *
- * Most of the complexity here is associated with buffering input rows
- * as required by the downsampler.  See the comments at the head of
- * jcsample.c for the downsampler's needs.
+ * Most of tif domplfxity ifrf is bssodibtfd witi bufffring input rows
+ * bs rfquirfd by tif downsbmplfr.  Sff tif dommfnts bt tif ifbd of
+ * jdsbmplf.d for tif downsbmplfr's nffds.
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
 
 
-/* At present, jcsample.c can request context rows only for smoothing.
- * In the future, we might also need context rows for CCIR601 sampling
- * or other more-complex downsampling procedures.  The code to support
- * context rows should be compiled only if needed.
+/* At prfsfnt, jdsbmplf.d dbn rfqufst dontfxt rows only for smootiing.
+ * In tif futurf, wf migit blso nffd dontfxt rows for CCIR601 sbmpling
+ * or otifr morf-domplfx downsbmpling prodfdurfs.  Tif dodf to support
+ * dontfxt rows siould bf dompilfd only if nffdfd.
  */
-#ifdef INPUT_SMOOTHING_SUPPORTED
-#define CONTEXT_ROWS_SUPPORTED
-#endif
+#ifdff INPUT_SMOOTHING_SUPPORTED
+#dffinf CONTEXT_ROWS_SUPPORTED
+#fndif
 
 
 /*
- * For the simple (no-context-row) case, we just need to buffer one
- * row group's worth of pixels for the downsampling step.  At the bottom of
- * the image, we pad to a full row group by replicating the last pixel row.
- * The downsampler's last output row is then replicated if needed to pad
- * out to a full iMCU row.
+ * For tif simplf (no-dontfxt-row) dbsf, wf just nffd to bufffr onf
+ * row group's worti of pixfls for tif downsbmpling stfp.  At tif bottom of
+ * tif imbgf, wf pbd to b full row group by rfplidbting tif lbst pixfl row.
+ * Tif downsbmplfr's lbst output row is tifn rfplidbtfd if nffdfd to pbd
+ * out to b full iMCU row.
  *
- * When providing context rows, we must buffer three row groups' worth of
- * pixels.  Three row groups are physically allocated, but the row pointer
- * arrays are made five row groups high, with the extra pointers above and
- * below "wrapping around" to point to the last and first real row groups.
- * This allows the downsampler to access the proper context rows.
- * At the top and bottom of the image, we create dummy context rows by
- * copying the first or last real pixel row.  This copying could be avoided
- * by pointer hacking as is done in jdmainct.c, but it doesn't seem worth the
- * trouble on the compression side.
+ * Wifn providing dontfxt rows, wf must bufffr tirff row groups' worti of
+ * pixfls.  Tirff row groups brf piysidblly bllodbtfd, but tif row pointfr
+ * brrbys brf mbdf fivf row groups iigi, witi tif fxtrb pointfrs bbovf bnd
+ * bflow "wrbpping bround" to point to tif lbst bnd first rfbl row groups.
+ * Tiis bllows tif downsbmplfr to bddfss tif propfr dontfxt rows.
+ * At tif top bnd bottom of tif imbgf, wf drfbtf dummy dontfxt rows by
+ * dopying tif first or lbst rfbl pixfl row.  Tiis dopying dould bf bvoidfd
+ * by pointfr ibdking bs is donf in jdmbindt.d, but it dofsn't sffm worti tif
+ * troublf on tif domprfssion sidf.
  */
 
 
-/* Private buffer controller object */
+/* Privbtf bufffr dontrollfr objfdt */
 
-typedef struct {
-  struct jpeg_c_prep_controller pub; /* public fields */
+typfdff strudt {
+  strudt jpfg_d_prfp_dontrollfr pub; /* publid fiflds */
 
-  /* Downsampling input buffer.  This buffer holds color-converted data
-   * until we have enough to do a downsample step.
+  /* Downsbmpling input bufffr.  Tiis bufffr iolds dolor-donvfrtfd dbtb
+   * until wf ibvf fnougi to do b downsbmplf stfp.
    */
-  JSAMPARRAY color_buf[MAX_COMPONENTS];
+  JSAMPARRAY dolor_buf[MAX_COMPONENTS];
 
-  JDIMENSION rows_to_go;        /* counts rows remaining in source image */
-  int next_buf_row;             /* index of next row to store in color_buf */
+  JDIMENSION rows_to_go;        /* dounts rows rfmbining in sourdf imbgf */
+  int nfxt_buf_row;             /* indfx of nfxt row to storf in dolor_buf */
 
-#ifdef CONTEXT_ROWS_SUPPORTED   /* only needed for context case */
-  int this_row_group;           /* starting row index of group to process */
-  int next_buf_stop;            /* downsample when we reach this index */
-#endif
-} my_prep_controller;
+#ifdff CONTEXT_ROWS_SUPPORTED   /* only nffdfd for dontfxt dbsf */
+  int tiis_row_group;           /* stbrting row indfx of group to prodfss */
+  int nfxt_buf_stop;            /* downsbmplf wifn wf rfbdi tiis indfx */
+#fndif
+} my_prfp_dontrollfr;
 
-typedef my_prep_controller * my_prep_ptr;
+typfdff my_prfp_dontrollfr * my_prfp_ptr;
 
 
 /*
- * Initialize for a processing pass.
+ * Initiblizf for b prodfssing pbss.
  */
 
 METHODDEF(void)
-start_pass_prep (j_compress_ptr cinfo, J_BUF_MODE pass_mode)
+stbrt_pbss_prfp (j_domprfss_ptr dinfo, J_BUF_MODE pbss_modf)
 {
-  my_prep_ptr prep = (my_prep_ptr) cinfo->prep;
+  my_prfp_ptr prfp = (my_prfp_ptr) dinfo->prfp;
 
-  if (pass_mode != JBUF_PASS_THRU)
-    ERREXIT(cinfo, JERR_BAD_BUFFER_MODE);
+  if (pbss_modf != JBUF_PASS_THRU)
+    ERREXIT(dinfo, JERR_BAD_BUFFER_MODE);
 
-  /* Initialize total-height counter for detecting bottom of image */
-  prep->rows_to_go = cinfo->image_height;
-  /* Mark the conversion buffer empty */
-  prep->next_buf_row = 0;
-#ifdef CONTEXT_ROWS_SUPPORTED
-  /* Preset additional state variables for context mode.
-   * These aren't used in non-context mode, so we needn't test which mode.
+  /* Initiblizf totbl-ifigit dountfr for dftfdting bottom of imbgf */
+  prfp->rows_to_go = dinfo->imbgf_ifigit;
+  /* Mbrk tif donvfrsion bufffr fmpty */
+  prfp->nfxt_buf_row = 0;
+#ifdff CONTEXT_ROWS_SUPPORTED
+  /* Prfsft bdditionbl stbtf vbribblfs for dontfxt modf.
+   * Tifsf brfn't usfd in non-dontfxt modf, so wf nffdn't tfst wiidi modf.
    */
-  prep->this_row_group = 0;
-  /* Set next_buf_stop to stop after two row groups have been read in. */
-  prep->next_buf_stop = 2 * cinfo->max_v_samp_factor;
-#endif
+  prfp->tiis_row_group = 0;
+  /* Sft nfxt_buf_stop to stop bftfr two row groups ibvf bffn rfbd in. */
+  prfp->nfxt_buf_stop = 2 * dinfo->mbx_v_sbmp_fbdtor;
+#fndif
 }
 
 
 /*
- * Expand an image vertically from height input_rows to height output_rows,
- * by duplicating the bottom row.
+ * Expbnd bn imbgf vfrtidblly from ifigit input_rows to ifigit output_rows,
+ * by duplidbting tif bottom row.
  */
 
 LOCAL(void)
-expand_bottom_edge (JSAMPARRAY image_data, JDIMENSION num_cols,
+fxpbnd_bottom_fdgf (JSAMPARRAY imbgf_dbtb, JDIMENSION num_dols,
                     int input_rows, int output_rows)
 {
-  register int row;
+  rfgistfr int row;
 
   for (row = input_rows; row < output_rows; row++) {
-    jcopy_sample_rows(image_data, input_rows-1, image_data, row,
-                      1, num_cols);
+    jdopy_sbmplf_rows(imbgf_dbtb, input_rows-1, imbgf_dbtb, row,
+                      1, num_dols);
   }
 }
 
 
 /*
- * Process some data in the simple no-context case.
+ * Prodfss somf dbtb in tif simplf no-dontfxt dbsf.
  *
- * Preprocessor output data is counted in "row groups".  A row group
- * is defined to be v_samp_factor sample rows of each component.
- * Downsampling will produce this much data from each max_v_samp_factor
+ * Prfprodfssor output dbtb is dountfd in "row groups".  A row group
+ * is dffinfd to bf v_sbmp_fbdtor sbmplf rows of fbdi domponfnt.
+ * Downsbmpling will produdf tiis mudi dbtb from fbdi mbx_v_sbmp_fbdtor
  * input rows.
  */
 
 METHODDEF(void)
-pre_process_data (j_compress_ptr cinfo,
-                  JSAMPARRAY input_buf, JDIMENSION *in_row_ctr,
-                  JDIMENSION in_rows_avail,
-                  JSAMPIMAGE output_buf, JDIMENSION *out_row_group_ctr,
-                  JDIMENSION out_row_groups_avail)
+prf_prodfss_dbtb (j_domprfss_ptr dinfo,
+                  JSAMPARRAY input_buf, JDIMENSION *in_row_dtr,
+                  JDIMENSION in_rows_bvbil,
+                  JSAMPIMAGE output_buf, JDIMENSION *out_row_group_dtr,
+                  JDIMENSION out_row_groups_bvbil)
 {
-  my_prep_ptr prep = (my_prep_ptr) cinfo->prep;
-  int numrows, ci;
+  my_prfp_ptr prfp = (my_prfp_ptr) dinfo->prfp;
+  int numrows, di;
   JDIMENSION inrows;
-  jpeg_component_info * compptr;
+  jpfg_domponfnt_info * dompptr;
 
-  while (*in_row_ctr < in_rows_avail &&
-         *out_row_group_ctr < out_row_groups_avail) {
-    /* Do color conversion to fill the conversion buffer. */
-    inrows = in_rows_avail - *in_row_ctr;
-    numrows = cinfo->max_v_samp_factor - prep->next_buf_row;
+  wiilf (*in_row_dtr < in_rows_bvbil &&
+         *out_row_group_dtr < out_row_groups_bvbil) {
+    /* Do dolor donvfrsion to fill tif donvfrsion bufffr. */
+    inrows = in_rows_bvbil - *in_row_dtr;
+    numrows = dinfo->mbx_v_sbmp_fbdtor - prfp->nfxt_buf_row;
     numrows = (int) MIN((JDIMENSION) numrows, inrows);
-    (*cinfo->cconvert->color_convert) (cinfo, input_buf + *in_row_ctr,
-                                       prep->color_buf,
-                                       (JDIMENSION) prep->next_buf_row,
+    (*dinfo->ddonvfrt->dolor_donvfrt) (dinfo, input_buf + *in_row_dtr,
+                                       prfp->dolor_buf,
+                                       (JDIMENSION) prfp->nfxt_buf_row,
                                        numrows);
-    *in_row_ctr += numrows;
-    prep->next_buf_row += numrows;
-    prep->rows_to_go -= numrows;
-    /* If at bottom of image, pad to fill the conversion buffer. */
-    if (prep->rows_to_go == 0 &&
-        prep->next_buf_row < cinfo->max_v_samp_factor) {
-      for (ci = 0; ci < cinfo->num_components; ci++) {
-        expand_bottom_edge(prep->color_buf[ci], cinfo->image_width,
-                           prep->next_buf_row, cinfo->max_v_samp_factor);
+    *in_row_dtr += numrows;
+    prfp->nfxt_buf_row += numrows;
+    prfp->rows_to_go -= numrows;
+    /* If bt bottom of imbgf, pbd to fill tif donvfrsion bufffr. */
+    if (prfp->rows_to_go == 0 &&
+        prfp->nfxt_buf_row < dinfo->mbx_v_sbmp_fbdtor) {
+      for (di = 0; di < dinfo->num_domponfnts; di++) {
+        fxpbnd_bottom_fdgf(prfp->dolor_buf[di], dinfo->imbgf_widti,
+                           prfp->nfxt_buf_row, dinfo->mbx_v_sbmp_fbdtor);
       }
-      prep->next_buf_row = cinfo->max_v_samp_factor;
+      prfp->nfxt_buf_row = dinfo->mbx_v_sbmp_fbdtor;
     }
-    /* If we've filled the conversion buffer, empty it. */
-    if (prep->next_buf_row == cinfo->max_v_samp_factor) {
-      (*cinfo->downsample->downsample) (cinfo,
-                                        prep->color_buf, (JDIMENSION) 0,
-                                        output_buf, *out_row_group_ctr);
-      prep->next_buf_row = 0;
-      (*out_row_group_ctr)++;
+    /* If wf'vf fillfd tif donvfrsion bufffr, fmpty it. */
+    if (prfp->nfxt_buf_row == dinfo->mbx_v_sbmp_fbdtor) {
+      (*dinfo->downsbmplf->downsbmplf) (dinfo,
+                                        prfp->dolor_buf, (JDIMENSION) 0,
+                                        output_buf, *out_row_group_dtr);
+      prfp->nfxt_buf_row = 0;
+      (*out_row_group_dtr)++;
     }
-    /* If at bottom of image, pad the output to a full iMCU height.
-     * Note we assume the caller is providing a one-iMCU-height output buffer!
+    /* If bt bottom of imbgf, pbd tif output to b full iMCU ifigit.
+     * Notf wf bssumf tif dbllfr is providing b onf-iMCU-ifigit output bufffr!
      */
-    if (prep->rows_to_go == 0 &&
-        *out_row_group_ctr < out_row_groups_avail) {
-      for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
-           ci++, compptr++) {
-        expand_bottom_edge(output_buf[ci],
-                           compptr->width_in_blocks * DCTSIZE,
-                           (int) (*out_row_group_ctr * compptr->v_samp_factor),
-                           (int) (out_row_groups_avail * compptr->v_samp_factor));
+    if (prfp->rows_to_go == 0 &&
+        *out_row_group_dtr < out_row_groups_bvbil) {
+      for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+           di++, dompptr++) {
+        fxpbnd_bottom_fdgf(output_buf[di],
+                           dompptr->widti_in_blodks * DCTSIZE,
+                           (int) (*out_row_group_dtr * dompptr->v_sbmp_fbdtor),
+                           (int) (out_row_groups_bvbil * dompptr->v_sbmp_fbdtor));
       }
-      *out_row_group_ctr = out_row_groups_avail;
-      break;                    /* can exit outer loop without test */
+      *out_row_group_dtr = out_row_groups_bvbil;
+      brfbk;                    /* dbn fxit outfr loop witiout tfst */
     }
   }
 }
 
 
-#ifdef CONTEXT_ROWS_SUPPORTED
+#ifdff CONTEXT_ROWS_SUPPORTED
 
 /*
- * Process some data in the context case.
+ * Prodfss somf dbtb in tif dontfxt dbsf.
  */
 
 METHODDEF(void)
-pre_process_context (j_compress_ptr cinfo,
-                     JSAMPARRAY input_buf, JDIMENSION *in_row_ctr,
-                     JDIMENSION in_rows_avail,
-                     JSAMPIMAGE output_buf, JDIMENSION *out_row_group_ctr,
-                     JDIMENSION out_row_groups_avail)
+prf_prodfss_dontfxt (j_domprfss_ptr dinfo,
+                     JSAMPARRAY input_buf, JDIMENSION *in_row_dtr,
+                     JDIMENSION in_rows_bvbil,
+                     JSAMPIMAGE output_buf, JDIMENSION *out_row_group_dtr,
+                     JDIMENSION out_row_groups_bvbil)
 {
-  my_prep_ptr prep = (my_prep_ptr) cinfo->prep;
-  int numrows, ci;
-  int buf_height = cinfo->max_v_samp_factor * 3;
+  my_prfp_ptr prfp = (my_prfp_ptr) dinfo->prfp;
+  int numrows, di;
+  int buf_ifigit = dinfo->mbx_v_sbmp_fbdtor * 3;
   JDIMENSION inrows;
 
-  while (*out_row_group_ctr < out_row_groups_avail) {
-    if (*in_row_ctr < in_rows_avail) {
-      /* Do color conversion to fill the conversion buffer. */
-      inrows = in_rows_avail - *in_row_ctr;
-      numrows = prep->next_buf_stop - prep->next_buf_row;
+  wiilf (*out_row_group_dtr < out_row_groups_bvbil) {
+    if (*in_row_dtr < in_rows_bvbil) {
+      /* Do dolor donvfrsion to fill tif donvfrsion bufffr. */
+      inrows = in_rows_bvbil - *in_row_dtr;
+      numrows = prfp->nfxt_buf_stop - prfp->nfxt_buf_row;
       numrows = (int) MIN((JDIMENSION) numrows, inrows);
-      (*cinfo->cconvert->color_convert) (cinfo, input_buf + *in_row_ctr,
-                                         prep->color_buf,
-                                         (JDIMENSION) prep->next_buf_row,
+      (*dinfo->ddonvfrt->dolor_donvfrt) (dinfo, input_buf + *in_row_dtr,
+                                         prfp->dolor_buf,
+                                         (JDIMENSION) prfp->nfxt_buf_row,
                                          numrows);
-      /* Pad at top of image, if first time through */
-      if (prep->rows_to_go == cinfo->image_height) {
-        for (ci = 0; ci < cinfo->num_components; ci++) {
+      /* Pbd bt top of imbgf, if first timf tirougi */
+      if (prfp->rows_to_go == dinfo->imbgf_ifigit) {
+        for (di = 0; di < dinfo->num_domponfnts; di++) {
           int row;
-          for (row = 1; row <= cinfo->max_v_samp_factor; row++) {
-            jcopy_sample_rows(prep->color_buf[ci], 0,
-                              prep->color_buf[ci], -row,
-                              1, cinfo->image_width);
+          for (row = 1; row <= dinfo->mbx_v_sbmp_fbdtor; row++) {
+            jdopy_sbmplf_rows(prfp->dolor_buf[di], 0,
+                              prfp->dolor_buf[di], -row,
+                              1, dinfo->imbgf_widti);
           }
         }
       }
-      *in_row_ctr += numrows;
-      prep->next_buf_row += numrows;
-      prep->rows_to_go -= numrows;
-    } else {
-      /* Return for more data, unless we are at the bottom of the image. */
-      if (prep->rows_to_go != 0)
-        break;
-      /* When at bottom of image, pad to fill the conversion buffer. */
-      if (prep->next_buf_row < prep->next_buf_stop) {
-        for (ci = 0; ci < cinfo->num_components; ci++) {
-          expand_bottom_edge(prep->color_buf[ci], cinfo->image_width,
-                             prep->next_buf_row, prep->next_buf_stop);
+      *in_row_dtr += numrows;
+      prfp->nfxt_buf_row += numrows;
+      prfp->rows_to_go -= numrows;
+    } flsf {
+      /* Rfturn for morf dbtb, unlfss wf brf bt tif bottom of tif imbgf. */
+      if (prfp->rows_to_go != 0)
+        brfbk;
+      /* Wifn bt bottom of imbgf, pbd to fill tif donvfrsion bufffr. */
+      if (prfp->nfxt_buf_row < prfp->nfxt_buf_stop) {
+        for (di = 0; di < dinfo->num_domponfnts; di++) {
+          fxpbnd_bottom_fdgf(prfp->dolor_buf[di], dinfo->imbgf_widti,
+                             prfp->nfxt_buf_row, prfp->nfxt_buf_stop);
         }
-        prep->next_buf_row = prep->next_buf_stop;
+        prfp->nfxt_buf_row = prfp->nfxt_buf_stop;
       }
     }
-    /* If we've gotten enough data, downsample a row group. */
-    if (prep->next_buf_row == prep->next_buf_stop) {
-      (*cinfo->downsample->downsample) (cinfo,
-                                        prep->color_buf,
-                                        (JDIMENSION) prep->this_row_group,
-                                        output_buf, *out_row_group_ctr);
-      (*out_row_group_ctr)++;
-      /* Advance pointers with wraparound as necessary. */
-      prep->this_row_group += cinfo->max_v_samp_factor;
-      if (prep->this_row_group >= buf_height)
-        prep->this_row_group = 0;
-      if (prep->next_buf_row >= buf_height)
-        prep->next_buf_row = 0;
-      prep->next_buf_stop = prep->next_buf_row + cinfo->max_v_samp_factor;
+    /* If wf'vf gottfn fnougi dbtb, downsbmplf b row group. */
+    if (prfp->nfxt_buf_row == prfp->nfxt_buf_stop) {
+      (*dinfo->downsbmplf->downsbmplf) (dinfo,
+                                        prfp->dolor_buf,
+                                        (JDIMENSION) prfp->tiis_row_group,
+                                        output_buf, *out_row_group_dtr);
+      (*out_row_group_dtr)++;
+      /* Advbndf pointfrs witi wrbpbround bs nfdfssbry. */
+      prfp->tiis_row_group += dinfo->mbx_v_sbmp_fbdtor;
+      if (prfp->tiis_row_group >= buf_ifigit)
+        prfp->tiis_row_group = 0;
+      if (prfp->nfxt_buf_row >= buf_ifigit)
+        prfp->nfxt_buf_row = 0;
+      prfp->nfxt_buf_stop = prfp->nfxt_buf_row + dinfo->mbx_v_sbmp_fbdtor;
     }
   }
 }
 
 
 /*
- * Create the wrapped-around downsampling input buffer needed for context mode.
+ * Crfbtf tif wrbppfd-bround downsbmpling input bufffr nffdfd for dontfxt modf.
  */
 
 LOCAL(void)
-create_context_buffer (j_compress_ptr cinfo)
+drfbtf_dontfxt_bufffr (j_domprfss_ptr dinfo)
 {
-  my_prep_ptr prep = (my_prep_ptr) cinfo->prep;
-  int rgroup_height = cinfo->max_v_samp_factor;
-  int ci, i;
-  jpeg_component_info * compptr;
-  JSAMPARRAY true_buffer, fake_buffer;
+  my_prfp_ptr prfp = (my_prfp_ptr) dinfo->prfp;
+  int rgroup_ifigit = dinfo->mbx_v_sbmp_fbdtor;
+  int di, i;
+  jpfg_domponfnt_info * dompptr;
+  JSAMPARRAY truf_bufffr, fbkf_bufffr;
 
-  /* Grab enough space for fake row pointers for all the components;
-   * we need five row groups' worth of pointers for each component.
+  /* Grbb fnougi spbdf for fbkf row pointfrs for bll tif domponfnts;
+   * wf nffd fivf row groups' worti of pointfrs for fbdi domponfnt.
    */
-  fake_buffer = (JSAMPARRAY)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                (cinfo->num_components * 5 * rgroup_height) *
+  fbkf_bufffr = (JSAMPARRAY)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                (dinfo->num_domponfnts * 5 * rgroup_ifigit) *
                                 SIZEOF(JSAMPROW));
 
-  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
-       ci++, compptr++) {
-    /* Allocate the actual buffer space (3 row groups) for this component.
-     * We make the buffer wide enough to allow the downsampler to edge-expand
-     * horizontally within the buffer, if it so chooses.
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    /* Allodbtf tif bdtubl bufffr spbdf (3 row groups) for tiis domponfnt.
+     * Wf mbkf tif bufffr widf fnougi to bllow tif downsbmplfr to fdgf-fxpbnd
+     * iorizontblly witiin tif bufffr, if it so dioosfs.
      */
-    true_buffer = (*cinfo->mem->alloc_sarray)
-      ((j_common_ptr) cinfo, JPOOL_IMAGE,
-       (JDIMENSION) (((long) compptr->width_in_blocks * DCTSIZE *
-                      cinfo->max_h_samp_factor) / compptr->h_samp_factor),
-       (JDIMENSION) (3 * rgroup_height));
-    /* Copy true buffer row pointers into the middle of the fake row array */
-    MEMCOPY(fake_buffer + rgroup_height, true_buffer,
-            3 * rgroup_height * SIZEOF(JSAMPROW));
-    /* Fill in the above and below wraparound pointers */
-    for (i = 0; i < rgroup_height; i++) {
-      fake_buffer[i] = true_buffer[2 * rgroup_height + i];
-      fake_buffer[4 * rgroup_height + i] = true_buffer[i];
+    truf_bufffr = (*dinfo->mfm->bllod_sbrrby)
+      ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+       (JDIMENSION) (((long) dompptr->widti_in_blodks * DCTSIZE *
+                      dinfo->mbx_i_sbmp_fbdtor) / dompptr->i_sbmp_fbdtor),
+       (JDIMENSION) (3 * rgroup_ifigit));
+    /* Copy truf bufffr row pointfrs into tif middlf of tif fbkf row brrby */
+    MEMCOPY(fbkf_bufffr + rgroup_ifigit, truf_bufffr,
+            3 * rgroup_ifigit * SIZEOF(JSAMPROW));
+    /* Fill in tif bbovf bnd bflow wrbpbround pointfrs */
+    for (i = 0; i < rgroup_ifigit; i++) {
+      fbkf_bufffr[i] = truf_bufffr[2 * rgroup_ifigit + i];
+      fbkf_bufffr[4 * rgroup_ifigit + i] = truf_bufffr[i];
     }
-    prep->color_buf[ci] = fake_buffer + rgroup_height;
-    fake_buffer += 5 * rgroup_height; /* point to space for next component */
+    prfp->dolor_buf[di] = fbkf_bufffr + rgroup_ifigit;
+    fbkf_bufffr += 5 * rgroup_ifigit; /* point to spbdf for nfxt domponfnt */
   }
 }
 
-#endif /* CONTEXT_ROWS_SUPPORTED */
+#fndif /* CONTEXT_ROWS_SUPPORTED */
 
 
 /*
- * Initialize preprocessing controller.
+ * Initiblizf prfprodfssing dontrollfr.
  */
 
 GLOBAL(void)
-jinit_c_prep_controller (j_compress_ptr cinfo, boolean need_full_buffer)
+jinit_d_prfp_dontrollfr (j_domprfss_ptr dinfo, boolfbn nffd_full_bufffr)
 {
-  my_prep_ptr prep;
-  int ci;
-  jpeg_component_info * compptr;
+  my_prfp_ptr prfp;
+  int di;
+  jpfg_domponfnt_info * dompptr;
 
-  if (need_full_buffer)         /* safety check */
-    ERREXIT(cinfo, JERR_BAD_BUFFER_MODE);
+  if (nffd_full_bufffr)         /* sbffty difdk */
+    ERREXIT(dinfo, JERR_BAD_BUFFER_MODE);
 
-  prep = (my_prep_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(my_prep_controller));
-  cinfo->prep = (struct jpeg_c_prep_controller *) prep;
-  prep->pub.start_pass = start_pass_prep;
+  prfp = (my_prfp_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(my_prfp_dontrollfr));
+  dinfo->prfp = (strudt jpfg_d_prfp_dontrollfr *) prfp;
+  prfp->pub.stbrt_pbss = stbrt_pbss_prfp;
 
-  /* Allocate the color conversion buffer.
-   * We make the buffer wide enough to allow the downsampler to edge-expand
-   * horizontally within the buffer, if it so chooses.
+  /* Allodbtf tif dolor donvfrsion bufffr.
+   * Wf mbkf tif bufffr widf fnougi to bllow tif downsbmplfr to fdgf-fxpbnd
+   * iorizontblly witiin tif bufffr, if it so dioosfs.
    */
-  if (cinfo->downsample->need_context_rows) {
-    /* Set up to provide context rows */
-#ifdef CONTEXT_ROWS_SUPPORTED
-    prep->pub.pre_process_data = pre_process_context;
-    create_context_buffer(cinfo);
-#else
-    ERREXIT(cinfo, JERR_NOT_COMPILED);
-#endif
-  } else {
-    /* No context, just make it tall enough for one row group */
-    prep->pub.pre_process_data = pre_process_data;
-    for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
-         ci++, compptr++) {
-      prep->color_buf[ci] = (*cinfo->mem->alloc_sarray)
-        ((j_common_ptr) cinfo, JPOOL_IMAGE,
-         (JDIMENSION) (((long) compptr->width_in_blocks * DCTSIZE *
-                        cinfo->max_h_samp_factor) / compptr->h_samp_factor),
-         (JDIMENSION) cinfo->max_v_samp_factor);
+  if (dinfo->downsbmplf->nffd_dontfxt_rows) {
+    /* Sft up to providf dontfxt rows */
+#ifdff CONTEXT_ROWS_SUPPORTED
+    prfp->pub.prf_prodfss_dbtb = prf_prodfss_dontfxt;
+    drfbtf_dontfxt_bufffr(dinfo);
+#flsf
+    ERREXIT(dinfo, JERR_NOT_COMPILED);
+#fndif
+  } flsf {
+    /* No dontfxt, just mbkf it tbll fnougi for onf row group */
+    prfp->pub.prf_prodfss_dbtb = prf_prodfss_dbtb;
+    for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+         di++, dompptr++) {
+      prfp->dolor_buf[di] = (*dinfo->mfm->bllod_sbrrby)
+        ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+         (JDIMENSION) (((long) dompptr->widti_in_blodks * DCTSIZE *
+                        dinfo->mbx_i_sbmp_fbdtor) / dompptr->i_sbmp_fbdtor),
+         (JDIMENSION) dinfo->mbx_v_sbmp_fbdtor);
     }
   }
 }

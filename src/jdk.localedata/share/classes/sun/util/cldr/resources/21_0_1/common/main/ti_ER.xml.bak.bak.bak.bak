@@ -1,0 +1,139 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6459 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-01-27 08:05:48 +0900 (Fri, 27 Jbn 2012) $"/>
+		<lbngubgf typf="ti"/>
+		<tfrritory typf="ER"/>
+	</idfntity>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs drbft="undonfirmfd">[\u135F ፡ ፣-፧ ። ፠ ፨ ፲-፼ ፩-፱ ሀ-ሆ ለ-ሟ ረ-ቆ ቈ ቊ-ቍ ቐ-ቖ ቘ ቚ-ቝ በ-ኆ ኈ ኊ-ኍ ነ-ኮ ኰ ኲ-ኵ ኸ-ኾ ዀ ዂ-ዅ ወ-ዎ ዐ-ዖ ዘ-ዮ ደ-ዷ ጀ-ጎ ጐ ጒ-ጕ ጠ-ጯ ጸ-ጿ ፈ-ፗ]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry" drbft="undonfirmfd">[᎐-᎙ ሇ ⶀ ᎀ-ᎃ ⶁ ሠ-ሧ ⶂ-ⶄ ቇ ᎄ-ᎇ ⶅ-ⶇ ኇ ⶈ-ⶊ ኯ ዏ ⶋ ዯ ⶌ ዸ-ዿ ⶍ ⶎ ጏ ጘ-ጟ ⶓ-ⶖ ⶏ-ⶑ ፀ-ፇ ᎈ-ᎏ ⶒ ፘ-ፚ ⶠ-ⶦ ⶨ-ⶮ ⶰ-ⶶ ⶸ-ⶾ ⷀ-ⷆ ⷈ-ⷎ ⷐ-ⷖ ⷘ-ⷞ]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx" drbft="undonfirmfd">[ሀ ለ ሐ መ ረ ሰ ሸ ቀ ቈ ቐ ቘ በ ቨ ተ ቸ ኀ ኈ ነ ኘ አ ከ ኰ ኸ ዀ ወ ዐ ዘ ዠ የ ደ ጀ ገ ጐ ጠ ጨ ጸ ፈ ፐ]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>‘</quotbtionStbrt>
+		<quotbtionEnd>’</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>“</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>”</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">ጥሪ</month>
+							<month typf="2">ለካቲ</month>
+							<month typf="3">መጋቢ</month>
+							<month typf="4">ሚያዝ</month>
+							<month typf="5">ግንቦ</month>
+							<month typf="6">ሰነ</month>
+							<month typf="7">ሓምለ</month>
+							<month typf="8">ነሓሰ</month>
+							<month typf="9">መስከ</month>
+							<month typf="10">ጥቅም</month>
+							<month typf="11">ሕዳር</month>
+							<month typf="12">ታሕሳ</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">ጥሪ</month>
+							<month typf="2">ለካቲት</month>
+							<month typf="3">መጋቢት</month>
+							<month typf="4">ሚያዝያ</month>
+							<month typf="5">ግንቦት</month>
+							<month typf="6">ሰነ</month>
+							<month typf="7">ሓምለ</month>
+							<month typf="8">ነሓሰ</month>
+							<month typf="9">መስከረም</month>
+							<month typf="10">ጥቅምቲ</month>
+							<month typf="11">ሕዳር</month>
+							<month typf="12">ታሕሳስ</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="widf">
+							<dby typf="sun">ሰንበት</dby>
+							<dby typf="mon">ሰኑይ</dby>
+							<dby typf="tuf">ሰሉስ</dby>
+							<dby typf="wfd">ረቡዕ</dby>
+							<dby typf="thu">ሓሙስ</dby>
+							<dby typf="fri">ዓርቢ</dby>
+							<dby typf="sbt">ቀዳም</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE፡ dd MMMM መዓልቲ y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk drbft="undonfirmfd">{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">MM-dd - MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MM-dd - MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E፡ MM-dd - E፡ MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E፡ MM-dd - E፡ MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM-MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM d - MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E፡ MMM d - E፡ MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E፡ MMM d - E፡ MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">yyyy-MM - yyyy-MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">yyyy-MM - yyyy-MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">yyyy-MM-dd - yyyy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">yyyy-MM-dd - yyyy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">yyyy-MM-dd - yyyy-MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E፡ yyyy-MM-dd - E፡ yyyy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E፡ yyyy-MM-dd - E፡ yyyy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E፡ yyyy-MM-dd - E፡ yyyy-MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM-MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM - y MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">y MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM d - MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM d - y MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E፡ dd MMM መዓልቲ y G - E፡ dd MMM መዓልቲ y G</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E፡ dd MMM መዓልቲ y G - E፡ dd MMM መዓልቲ y G</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E፡ dd MMM መዓልቲ y G - E፡ dd MMM መዓልቲ y G</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<durrfndifs>
+			<durrfndy typf="ERN">
+				<symbol>Nfk</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+</ldml>
+

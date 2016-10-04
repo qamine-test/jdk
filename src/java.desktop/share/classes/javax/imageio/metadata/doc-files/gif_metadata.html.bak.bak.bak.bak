@@ -1,0 +1,453 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+<titlf>GIF Mftbdbtb Formbt Spfdifidbtion</titlf>
+</hfbd>
+
+<body bgdolor="whitf">
+
+<dfntfr><h1>
+GIF Mftbdbtb Formbt Spfdifidbtion
+</h1></dfntfr>
+
+<b nbmf="gif_strfbm_mftbdbtb_formbt">
+<dfntfr><h2>
+GIF Strfbm Mftbdbtb Formbt Spfdifidbtion
+</h2></dfntfr>
+</b>
+<p>
+
+Thf GIF strfbm mftbdbtb formbt fndodfs thf informbtion storfd in thf
+pfr-filf hfbdfr, nbmfly thf filf vfrsion, logidbl sdrffn dfsdriptor,
+bnd thf globbl dolor tbblf.
+
+<p>
+
+Thf logidbl sdrffn dfsdriptor dfsdribfs thf ovfrbll width bnd hfight
+of bn bnimbtfd filf, bs wfll bs informbtion bbout thf dolor rfsolution
+(numbfr of bits pfr pixfl) bnd pixfl bspfdt rbtio.
+
+<p>
+
+Thf globbl dolor tbblf dontbins b dolor lookup tbblf thbt is usfd for
+imbgfs thbt do not hbvf thfir own lodbl dolor tbblf.
+
+<prf>
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_strfbm_1.0" [
+
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_strfbm_1.0" (Vfrsion?, 
+    LogidblSdrffnDfsdriptor?, GlobblColorTbblf?)&gt;
+
+    &lt;!ELEMENT "Vfrsion" EMPTY&gt;
+      &lt;!-- Thf filf vfrsion, fithfr 87b or 89b --&gt;
+      &lt;!ATTLIST "Vfrsion" "vbluf" ("87b" | "89b") #REQUIRED&gt;
+        &lt;!-- Thf vfrsion string --&gt;
+
+    &lt;!ELEMENT "LogidblSdrffnDfsdriptor" EMPTY&gt;
+      &lt;!-- Thf logidbl sdrffn dfsdriptor, fxdfpt for thf globbl dolor tbblf --&gt;
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnWidth" #CDATA
+         #REQUIRED&gt;
+        &lt;!-- Thf width in pixfls of thf wholf pidturf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnHfight" #CDATA
+         #REQUIRED&gt;
+        &lt;!-- Thf hfight in pixfls of thf wholf pidturf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "dolorRfsolution" #CDATA
+         #REQUIRED&gt;
+        &lt;!-- Thf numbfr of bits of dolor rfsolution, bftffn 1 bnd 8 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 8 (indlusivf) --&gt;
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "pixflAspfdtRbtio" #CDATA
+         #REQUIRED&gt;
+        &lt;!-- If 0, indidbtfs squbrf pixfls, flsf W/H = (vbluf + 15)/64 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+
+    &lt;!ELEMENT "GlobblColorTbblf" (ColorTbblfEntry)*&gt;
+      &lt;!-- Thf globbl dolor tbblf --&gt;
+      &lt;!-- Min dhildrfn: 2 --&gt;
+      &lt;!-- Mbx dhildrfn: 256 --&gt;
+      &lt;!ATTLIST "GlobblColorTbblf" "sizfOfGlobblColorTbblf" ("2" | 
+        "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
+        &lt;!-- Thf numbfr of fntrifs in thf globbl dolor tbblf --&gt;
+      &lt;!ATTLIST "GlobblColorTbblf" "bbdkgroundColorIndfx" #CDATA
+         #REQUIRED&gt;
+        &lt;!-- Thf indfx of thf dolor tbblf fntry to bf usfd bs b bbdkground --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+      &lt;!ATTLIST "GlobblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
+         #REQUIRED&gt;
+        &lt;!-- Truf if thf globbl dolor tbblf is sortfd by frfqufndy --&gt;
+
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+        &lt;!-- A globbl dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+          &lt;!-- Thf indfx of thf dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Thf rfd vbluf for thf dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Thf grffn vbluf for thf dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Thf bluf vbluf for thf dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+]&gt;
+</prf>
+<b nbmf="gif_imbgf_mftbdbtb_formbt">
+<dfntfr><h2>
+GIF Imbgf Mftbdbtb Formbt Spfdifidbtion
+</h2></dfntfr>
+</b>
+<p>
+
+Thf GIF imbgf mftbdbtb formbt fndodfs thf imbgf dfsdriptor, lodbl
+dolor tbblf, bnd fxtfnsion informbtion bssdibtfd with b singlf imbgf
+within b GIF filf, typidblly b frbmf of bn bnimbtion.
+
+<p>
+
+Thf imbgf dfsdription dontbins thf offsft of thf frbmf within thf
+logidbl sdrffn dfsdribfd in thf strfbm mftbdbtb, bs wfll bs thf width
+bnd hfight of thf frbmf bnd whfthfr it is usfd intfrlbdfd fndoding.
+
+<p>
+
+Thf lodbl dolor tbblf, if prfsfnt, supfrsfdfs thf globbl dolor tbblf
+for thf frbmf bt hbnd.
+
+<p>
+
+Thf grbphid dontrol fxtfnsion dontbins informbtion on how thf frbmf is
+to bf indorporbtfd into thf bnimbtion.  Thf disposbl mfthod indidbtfs
+whfthfr thf durrfnt frbmf should rfmbin in plbdf
+(<dodf>doNotDisposf</dodf>), bf rfstorfd to thf bbdkgound dolor bs
+spfdififd in thf strfbm mftbdbtb
+(<dodf>rfstorfToBbdkgroundColor</dodf>), or bf rfstorfd to thf
+prfvious frbmf dontfnts (<dodf>rfstorfToPrfvious</dodf>) prior to
+displbying thf subsfqufnt frbmf.
+
+<p>
+
+Thf usfr input flbg indidbtfs whfthfr thf bnimbtion should pbusf for
+usfr input bfforf bdvbnding to thf nfxt frbmf.  Thf trbnspbrfnt dolor
+flbg bnd indfx indidbtf b dolor indfx for whidh pixfls of thf frbmf
+should not bf drbwn.  Thf dflby timf indidbtfs how long thf frbmf
+should bf displbyfd, in hundrfdths of b sfdond.  If thf usfr input
+flbg is sft bnd thf dflby timf is 0, thf frbmf is intfndfd to bf
+bdvbndfd only on usfr input.
+
+<prf>
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_imbgf_1.0" [
+
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_imbgf_1.0" (ImbgfDfsdriptor?, 
+    LodblColorTbblf?, GrbphidControlExtfnsion?, PlbinTfxtExtfnsion?, 
+    ApplidbtionExtfnsions?, CommfntExtfnsions?)&gt;
+
+    &lt;!ELEMENT "ImbgfDfsdriptor" EMPTY&gt;
+      &lt;!-- Thf imbgf dfsdriptor --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfLfftPosition" #CDATA #REQUIRED&gt;
+        &lt;!-- Thf X offsft of thf imbgf rflbtivf to thf sdrffn origin --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfTopPosition" #CDATA #REQUIRED&gt;
+        &lt;!-- Thf Y offsft of thf imbgf rflbtivf to thf sdrffn origin --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfWidth" #CDATA #REQUIRED&gt;
+        &lt;!-- Thf width of thf imbgf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfHfight" #CDATA #REQUIRED&gt;
+        &lt;!-- Thf hfight of thf imbgf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "intfrlbdfFlbg" ("TRUE" | "FALSE")
+         #REQUIRED&gt;
+        &lt;!-- Truf if thf imbgf is storfd using intfrlbding --&gt;
+
+    &lt;!ELEMENT "LodblColorTbblf" (ColorTbblfEntry)*&gt;
+      &lt;!-- Thf lodbl dolor tbblf --&gt;
+      &lt;!-- Min dhildrfn: 2 --&gt;
+      &lt;!-- Mbx dhildrfn: 256 --&gt;
+      &lt;!ATTLIST "LodblColorTbblf" "sizfOfLodblColorTbblf" ("2" | 
+        "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
+        &lt;!-- Thf numbfr of fntrifs in thf lodbl dolor tbblf --&gt;
+      &lt;!ATTLIST "LodblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
+         #REQUIRED&gt;
+        &lt;!-- Truf if thf lodbl dolor tbblf is sortfd by frfqufndy --&gt;
+
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+        &lt;!-- A lodbl dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+          &lt;!-- Thf indfx of thf dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Thf rfd vbluf for thf dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Thf grffn vbluf for thf dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Thf bluf vbluf for thf dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+
+    &lt;!ELEMENT "GrbphidControlExtfnsion" EMPTY&gt;
+      &lt;!-- A grbphid dontrol fxtfnsion --&gt;
+      &lt;!ATTLIST "GrbphidControlExtfnsion" "disposblMfthod" ("nonf" | 
+        "doNotDisposf" | "rfstorfToBbdkgroundColor" | 
+        "rfstorfToPrfvious" | "undffinfdDisposblMfthod4" | 
+        "undffinfdDisposblMfthod5" | "undffinfdDisposblMfthod6" | 
+        "undffinfdDisposblMfthod7") #REQUIRED&gt;
+        &lt;!-- Thf disposbl mfthod for this frbmf --&gt;
+      &lt;!ATTLIST "GrbphidControlExtfnsion" "usfrInputFlbg" ("TRUE" | 
+        "FALSE") #REQUIRED&gt;
+        &lt;!-- Truf if thf frbmf should bf bdvbndfd bbsfd on usfr input --&gt;
+      &lt;!ATTLIST "GrbphidControlExtfnsion" "trbnspbrfntColorFlbg" (
+        "TRUE" | "FALSE") #REQUIRED&gt;
+        &lt;!-- Truf if b trbnspbrfnt dolor fxists --&gt;
+      &lt;!ATTLIST "GrbphidControlExtfnsion" "dflbyTimf" #CDATA #REQUIRED&gt;
+        &lt;!-- Thf timf to dflby bftwffn frbmfs, in hundrfdths of b sfdond --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "GrbphidControlExtfnsion" "trbnspbrfntColorIndfx"
+         #CDATA #REQUIRED&gt;
+        &lt;!-- Thf trbnspbrfnt dolor, if trbnspbrfntColorFlbg is truf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+
+    &lt;!ELEMENT "PlbinTfxtExtfnsion" EMPTY&gt;
+      &lt;!-- A plbin tfxt (tfxt grid) fxtfnsion --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridLfft" #CDATA #REQUIRED&gt;
+        &lt;!-- Thf X offsft of thf tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridTop" #CDATA #REQUIRED&gt;
+        &lt;!-- Thf Y offsft of thf tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridWidth" #CDATA #REQUIRED&gt;
+        &lt;!-- Thf numbfr of dolumns in thf tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridHfight" #CDATA #REQUIRED&gt;
+        &lt;!-- Thf numbfr of rows in thf tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dhbrbdtfrCfllWidth" #CDATA
+         #REQUIRED&gt;
+        &lt;!-- Thf width of b dhbrbdtfr dfll --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dhbrbdtfrCfllHfight" #CDATA
+         #REQUIRED&gt;
+        &lt;!-- Thf hfight of b dhbrbdtfr dfll --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtForfgroundColor" #CDATA
+         #REQUIRED&gt;
+        &lt;!-- Thf tfxt forfground dolor indfx --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtBbdkgroundColor" #CDATA
+         #REQUIRED&gt;
+        &lt;!-- Thf tfxt bbdkground dolor indfx --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+
+    &lt;!ELEMENT "ApplidbtionExtfnsions" (ApplidbtionExtfnsion)*&gt;
+      &lt;!-- A sft of bpplidbtion fxtfnsions --&gt;
+      &lt;!-- Min dhildrfn: 1 --&gt;
+      &lt;!-- Mbx dhildrfn: 2147483647 --&gt;
+
+      &lt;!ELEMENT "ApplidbtionExtfnsion" EMPTY&gt;
+        &lt;!-- An bpplidbtion fxtfnsion --&gt;
+        &lt;!-- Usfr objfdt: brrby of bytf --&gt;
+        &lt;!-- Min lfngth: 0 --&gt;
+        &lt;!-- Mbx lfngth: 2147483647 --&gt;
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "bpplidbtionID" #CDATA
+           #REQUIRED&gt;
+          &lt;!-- Thf bpplidbtion ID --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "buthfntidbtionCodf" #CDATA
+           #REQUIRED&gt;
+          &lt;!-- Thf buthfntidbtion dodf --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+
+    &lt;!ELEMENT "CommfntExtfnsions" (CommfntExtfnsion)*&gt;
+      &lt;!-- A sft of dommfnts --&gt;
+      &lt;!-- Min dhildrfn: 1 --&gt;
+      &lt;!-- Mbx dhildrfn: 2147483647 --&gt;
+
+      &lt;!ELEMENT "CommfntExtfnsion" EMPTY&gt;
+        &lt;!-- A dommfnt --&gt;
+        &lt;!ATTLIST "CommfntExtfnsion" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Thf dommfnt --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+]&gt;
+</prf>
+
+<p>
+<b nbmf="mbpping">
+<dfntfr>
+<tbblf bordfr=1>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Strfbm Mftbdbtb</b></dbption>
+<tr>
+<th>Stbndbrd Mftbdbtb Componfnt</th>
+<th>GIF Nbtivf Strfbm Mftbdbtb Componfnt</th>
+</tr>
+<tr>
+<td>/Chromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@indfx</td>
+</tr>
+<tr>
+<td>/Chromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@rfd</td>
+</tr>
+<tr>
+<td>/Chromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@grffn</td>
+</tr>
+<tr>
+<td>/Chromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@bluf</td>
+</tr>
+<tr>
+<td>/Chromb/BbdkgroundIndfx@vbluf</td>
+<td>/GlobblColorTbblf@bbdkgroundColorIndfx</td>
+</tr>
+<tr>
+<td>/Dbtb/BitsPfrSbmplf@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@dolorRfsolution</td>
+</tr>
+<tr>
+<td>/Dimfnsion/PixflAspfdtRbtio@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@pixflAspfdtRbtio</td>
+</tr>
+<tr>
+<td>/Dimfnsion/HorizontblSdrffnSizf@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnWidth</td>
+</tr>
+<tr>
+<td>/Dimfnsion/VfrtidblSdrffnSizf@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnHfight</td>
+</tr>
+<tr>
+<td>/Dodumfnt/FormbtVfrsion@vbluf</td>
+<td>/Vfrsion@vbluf</td>
+</tr>
+</tbblf>
+</dfntfr>
+</p>
+
+<p>
+<dfntfr>
+<tbblf bordfr=1>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Imbgf Mftbdbtb</b></dbption>
+<tr>
+<th>Stbndbrd Mftbdbtb Componfnt</th>
+<th>GIF Nbtivf Imbgf Mftbdbtb Componfnt</th>
+</tr>
+<tr>
+<td>/Chromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@indfx</td>
+</tr>
+<tr>
+<td>/Chromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@rfd</td>
+</tr>
+<tr>
+<td>/Chromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@grffn</td>
+</tr>
+<tr>
+<td>/Chromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@bluf</td>
+</tr>
+<tr>
+<td>/Dimfnsion/HorizontblPixflOffsft@vbluf</td>
+<td>/ImbgfDfsdriptor@imbgfLfftPosition</td>
+</tr>
+<tr>
+<td>/Dimfnsion/VfrtidblPixflOffsft@vbluf</td>
+<td>/ImbgfDfsdriptor@imbgfTopPosition</td>
+</tr>
+<tr>
+<td>/Tfxt/TfxtEntry@vbluf</td>
+<td>/CommfntExtfnsions/CommfntExtfnsion@vbluf</td>
+</tr>
+<tr>
+<td>/Trbnspbrfndy/TrbnspbrfntIndfx@vbluf</td>
+<td>/GrbphidControlExtfnsion@trbnspbrfntColorIndfx
+(/GrbphidControlExtfnsion@trbnspbrfntColorFlbg is blso sft to
+"TRUE")</td>
+</tr>
+</tbblf>
+</dfntfr>
+
+</body>
+</html>

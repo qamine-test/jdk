@@ -1,539 +1,539 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicHTML;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.bbsid.BbsidHTML;
+import jbvbx.swing.tfxt.Vifw;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
-import apple.laf.JRSUIConstants.*;
+import bpplf.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaIcon.InvertableIcon;
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import dom.bpplf.lbf.AqubIdon.InvfrtbblfIdon;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
 
 /**
- * AquaMenuPainter, implements paintMenuItem to avoid code duplication
+ * AqubMfnuPbintfr, implfmfnts pbintMfnuItfm to bvoid dodf duplidbtion
  *
- * BasicMenuItemUI didn't factor out the various parts of the Menu, and
- * we subclass it and its subclasses BasicMenuUI
- * Our classes need an implementation of paintMenuItem
- * that allows them to paint their own backgrounds
+ * BbsidMfnuItfmUI didn't fbdtor out tif vbrious pbrts of tif Mfnu, bnd
+ * wf subdlbss it bnd its subdlbssfs BbsidMfnuUI
+ * Our dlbssfs nffd bn implfmfntbtion of pbintMfnuItfm
+ * tibt bllows tifm to pbint tifir own bbdkgrounds
  */
 
-public class AquaMenuPainter {
-    // Glyph statics:
-    // ASCII character codes
-    static final byte
-        kShiftGlyph = 0x05,
-        kOptionGlyph = 0x07,
-        kControlGlyph = 0x06,
-        kPencilGlyph = 0x0F,
-        kCommandMark = 0x11;
+publid dlbss AqubMfnuPbintfr {
+    // Glypi stbtids:
+    // ASCII dibrbdtfr dodfs
+    stbtid finbl bytf
+        kSiiftGlypi = 0x05,
+        kOptionGlypi = 0x07,
+        kControlGlypi = 0x06,
+        kPfndilGlypi = 0x0F,
+        kCommbndMbrk = 0x11;
 
-    // Unicode character codes
-    static final char
-        kUBlackDiamond = 0x25C6,
-        kUCheckMark = 0x2713,
-        kUControlGlyph = 0x2303,
-        kUOptionGlyph = 0x2325,
-        kUEnterGlyph = 0x2324,
-        kUCommandGlyph = 0x2318,
-        kULeftDeleteGlyph = 0x232B,
-        kURightDeleteGlyph = 0x2326,
-        kUShiftGlyph = 0x21E7,
-        kUCapsLockGlyph = 0x21EA;
+    // Unidodf dibrbdtfr dodfs
+    stbtid finbl dibr
+        kUBlbdkDibmond = 0x25C6,
+        kUCifdkMbrk = 0x2713,
+        kUControlGlypi = 0x2303,
+        kUOptionGlypi = 0x2325,
+        kUEntfrGlypi = 0x2324,
+        kUCommbndGlypi = 0x2318,
+        kULfftDflftfGlypi = 0x232B,
+        kURigitDflftfGlypi = 0x2326,
+        kUSiiftGlypi = 0x21E7,
+        kUCbpsLodkGlypi = 0x21EA;
 
-    static final int ALT_GRAPH_MASK = 1 << 5; // New to Java2
-    static final int sUnsupportedModifiersMask = ~(InputEvent.CTRL_MASK | InputEvent.ALT_MASK | InputEvent.SHIFT_MASK | InputEvent.META_MASK | ALT_GRAPH_MASK);
+    stbtid finbl int ALT_GRAPH_MASK = 1 << 5; // Nfw to Jbvb2
+    stbtid finbl int sUnsupportfdModififrsMbsk = ~(InputEvfnt.CTRL_MASK | InputEvfnt.ALT_MASK | InputEvfnt.SHIFT_MASK | InputEvfnt.META_MASK | ALT_GRAPH_MASK);
 
-    interface Client {
-        public void paintBackground(Graphics g, JComponent c, int menuWidth, int menuHeight);
+    intfrfbdf Clifnt {
+        publid void pbintBbdkground(Grbpiids g, JComponfnt d, int mfnuWidti, int mfnuHfigit);
     }
 
-    // Return a string with the proper modifier glyphs
-    static String getKeyModifiersText(final int modifiers, final boolean isLeftToRight) {
-        return getKeyModifiersUnicode(modifiers, isLeftToRight);
+    // Rfturn b string witi tif propfr modififr glypis
+    stbtid String gftKfyModififrsTfxt(finbl int modififrs, finbl boolfbn isLfftToRigit) {
+        rfturn gftKfyModififrsUnidodf(modififrs, isLfftToRigit);
     }
 
-    // Return a string with the proper modifier glyphs
-    private static String getKeyModifiersUnicode(final int modifiers, final boolean isLeftToRight) {
-        final StringBuilder buf = new StringBuilder(2);
-        // Order (from StandardMenuDef.c): control, option(alt), shift, cmd
-        // reverse for right-to-left
-        //$ check for substitute key glyphs for localization
-        if (isLeftToRight) {
-            if ((modifiers & InputEvent.CTRL_MASK) != 0) {
-                buf.append(kUControlGlyph);
+    // Rfturn b string witi tif propfr modififr glypis
+    privbtf stbtid String gftKfyModififrsUnidodf(finbl int modififrs, finbl boolfbn isLfftToRigit) {
+        finbl StringBuildfr buf = nfw StringBuildfr(2);
+        // Ordfr (from StbndbrdMfnuDff.d): dontrol, option(blt), siift, dmd
+        // rfvfrsf for rigit-to-lfft
+        //$ difdk for substitutf kfy glypis for lodblizbtion
+        if (isLfftToRigit) {
+            if ((modififrs & InputEvfnt.CTRL_MASK) != 0) {
+                buf.bppfnd(kUControlGlypi);
             }
-            if ((modifiers & (InputEvent.ALT_MASK | ALT_GRAPH_MASK)) != 0) {
-                buf.append(kUOptionGlyph);
+            if ((modififrs & (InputEvfnt.ALT_MASK | ALT_GRAPH_MASK)) != 0) {
+                buf.bppfnd(kUOptionGlypi);
             }
-            if ((modifiers & InputEvent.SHIFT_MASK) != 0) {
-                buf.append(kUShiftGlyph);
+            if ((modififrs & InputEvfnt.SHIFT_MASK) != 0) {
+                buf.bppfnd(kUSiiftGlypi);
             }
-            if ((modifiers & InputEvent.META_MASK) != 0) {
-                buf.append(kUCommandGlyph);
+            if ((modififrs & InputEvfnt.META_MASK) != 0) {
+                buf.bppfnd(kUCommbndGlypi);
             }
-        } else {
-            if ((modifiers & InputEvent.META_MASK) != 0) {
-                buf.append(kUCommandGlyph);
+        } flsf {
+            if ((modififrs & InputEvfnt.META_MASK) != 0) {
+                buf.bppfnd(kUCommbndGlypi);
             }
-            if ((modifiers & InputEvent.SHIFT_MASK) != 0) {
-                buf.append(kUShiftGlyph);
+            if ((modififrs & InputEvfnt.SHIFT_MASK) != 0) {
+                buf.bppfnd(kUSiiftGlypi);
             }
-            if ((modifiers & (InputEvent.ALT_MASK | ALT_GRAPH_MASK)) != 0) {
-                buf.append(kUOptionGlyph);
+            if ((modififrs & (InputEvfnt.ALT_MASK | ALT_GRAPH_MASK)) != 0) {
+                buf.bppfnd(kUOptionGlypi);
             }
-            if ((modifiers & InputEvent.CTRL_MASK) != 0) {
-                buf.append(kUControlGlyph);
+            if ((modififrs & InputEvfnt.CTRL_MASK) != 0) {
+                buf.bppfnd(kUControlGlypi);
             }
         }
-        return buf.toString();
+        rfturn buf.toString();
     }
 
-    static final RecyclableSingleton<AquaMenuPainter> sPainter = new RecyclableSingletonFromDefaultConstructor<AquaMenuPainter>(AquaMenuPainter.class);
-    static AquaMenuPainter instance() {
-        return sPainter.get();
+    stbtid finbl RfdydlbblfSinglfton<AqubMfnuPbintfr> sPbintfr = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubMfnuPbintfr>(AqubMfnuPbintfr.dlbss);
+    stbtid AqubMfnuPbintfr instbndf() {
+        rfturn sPbintfr.gft();
     }
 
-    static final int defaultMenuItemGap = 2;
-    static final int kAcceleratorArrowSpace = 16; // Accel space doesn't overlap arrow space, even though items can't have both
+    stbtid finbl int dffbultMfnuItfmGbp = 2;
+    stbtid finbl int kAddflfrbtorArrowSpbdf = 16; // Addfl spbdf dofsn't ovfrlbp brrow spbdf, fvfn tiougi itfms dbn't ibvf boti
 
-    static class RecyclableBorder extends RecyclableSingleton<Border> {
-        final String borderName;
-        RecyclableBorder(final String borderName) { this.borderName = borderName; }
-        protected Border getInstance() { return UIManager.getBorder(borderName); }
+    stbtid dlbss RfdydlbblfBordfr fxtfnds RfdydlbblfSinglfton<Bordfr> {
+        finbl String bordfrNbmf;
+        RfdydlbblfBordfr(finbl String bordfrNbmf) { tiis.bordfrNbmf = bordfrNbmf; }
+        protfdtfd Bordfr gftInstbndf() { rfturn UIMbnbgfr.gftBordfr(bordfrNbmf); }
     }
 
-    protected final RecyclableBorder menuBarPainter = new RecyclableBorder("MenuBar.backgroundPainter");
-    protected final RecyclableBorder selectedMenuBarItemPainter = new RecyclableBorder("MenuBar.selectedBackgroundPainter");
-    protected final RecyclableBorder selectedMenuItemPainter = new RecyclableBorder("MenuItem.selectedBackgroundPainter");
+    protfdtfd finbl RfdydlbblfBordfr mfnuBbrPbintfr = nfw RfdydlbblfBordfr("MfnuBbr.bbdkgroundPbintfr");
+    protfdtfd finbl RfdydlbblfBordfr sflfdtfdMfnuBbrItfmPbintfr = nfw RfdydlbblfBordfr("MfnuBbr.sflfdtfdBbdkgroundPbintfr");
+    protfdtfd finbl RfdydlbblfBordfr sflfdtfdMfnuItfmPbintfr = nfw RfdydlbblfBordfr("MfnuItfm.sflfdtfdBbdkgroundPbintfr");
 
-    public void paintMenuBarBackground(final Graphics g, final int width, final int height, final JComponent c) {
-        g.setColor(c == null ? Color.white : c.getBackground());
-        g.fillRect(0, 0, width, height);
-        menuBarPainter.get().paintBorder(null, g, 0, 0, width, height);
+    publid void pbintMfnuBbrBbdkground(finbl Grbpiids g, finbl int widti, finbl int ifigit, finbl JComponfnt d) {
+        g.sftColor(d == null ? Color.wiitf : d.gftBbdkground());
+        g.fillRfdt(0, 0, widti, ifigit);
+        mfnuBbrPbintfr.gft().pbintBordfr(null, g, 0, 0, widti, ifigit);
     }
 
-    public void paintSelectedMenuTitleBackground(final Graphics g, final int width, final int height) {
-        selectedMenuBarItemPainter.get().paintBorder(null, g, -1, 0, width + 2, height);
+    publid void pbintSflfdtfdMfnuTitlfBbdkground(finbl Grbpiids g, finbl int widti, finbl int ifigit) {
+        sflfdtfdMfnuBbrItfmPbintfr.gft().pbintBordfr(null, g, -1, 0, widti + 2, ifigit);
     }
 
-    public void paintSelectedMenuItemBackground(final Graphics g, final int width, final int height) {
-        selectedMenuItemPainter.get().paintBorder(null, g, 0, 0, width, height);
+    publid void pbintSflfdtfdMfnuItfmBbdkground(finbl Grbpiids g, finbl int widti, finbl int ifigit) {
+        sflfdtfdMfnuItfmPbintfr.gft().pbintBordfr(null, g, 0, 0, widti, ifigit);
     }
 
-    protected void paintMenuItem(final Client client, final Graphics g, final JComponent c, final Icon checkIcon, final Icon arrowIcon, final Color background, final Color foreground, final Color disabledForeground, final Color selectionForeground, final int defaultTextIconGap, final Font acceleratorFont) {
-        final JMenuItem b = (JMenuItem)c;
-        final ButtonModel model = b.getModel();
+    protfdtfd void pbintMfnuItfm(finbl Clifnt dlifnt, finbl Grbpiids g, finbl JComponfnt d, finbl Idon difdkIdon, finbl Idon brrowIdon, finbl Color bbdkground, finbl Color forfground, finbl Color disbblfdForfground, finbl Color sflfdtionForfground, finbl int dffbultTfxtIdonGbp, finbl Font bddflfrbtorFont) {
+        finbl JMfnuItfm b = (JMfnuItfm)d;
+        finbl ButtonModfl modfl = b.gftModfl();
 
-//        Dimension size = b.getSize();
-        final int menuWidth = b.getWidth();
-        final int menuHeight = b.getHeight();
-        final Insets i = c.getInsets();
+//        Dimfnsion sizf = b.gftSizf();
+        finbl int mfnuWidti = b.gftWidti();
+        finbl int mfnuHfigit = b.gftHfigit();
+        finbl Insfts i = d.gftInsfts();
 
-        Rectangle viewRect = new Rectangle(0, 0, menuWidth, menuHeight);
+        Rfdtbnglf vifwRfdt = nfw Rfdtbnglf(0, 0, mfnuWidti, mfnuHfigit);
 
-        viewRect.x += i.left;
-        viewRect.y += i.top;
-        viewRect.width -= (i.right + viewRect.x);
-        viewRect.height -= (i.bottom + viewRect.y);
+        vifwRfdt.x += i.lfft;
+        vifwRfdt.y += i.top;
+        vifwRfdt.widti -= (i.rigit + vifwRfdt.x);
+        vifwRfdt.ifigit -= (i.bottom + vifwRfdt.y);
 
-        final Font holdf = g.getFont();
-        final Color holdc = g.getColor();
-        final Font f = c.getFont();
-        g.setFont(f);
-        final FontMetrics fm = g.getFontMetrics(f);
+        finbl Font ioldf = g.gftFont();
+        finbl Color ioldd = g.gftColor();
+        finbl Font f = d.gftFont();
+        g.sftFont(f);
+        finbl FontMftrids fm = g.gftFontMftrids(f);
 
-        final FontMetrics fmAccel = g.getFontMetrics(acceleratorFont);
+        finbl FontMftrids fmAddfl = g.gftFontMftrids(bddflfrbtorFont);
 
-        // Paint background (doesn't touch the Graphics object's color)
-        if (c.isOpaque()) {
-            client.paintBackground(g, c, menuWidth, menuHeight);
+        // Pbint bbdkground (dofsn't toudi tif Grbpiids objfdt's dolor)
+        if (d.isOpbquf()) {
+            dlifnt.pbintBbdkground(g, d, mfnuWidti, mfnuHfigit);
         }
 
-        // get Accelerator text
-        final KeyStroke accelerator = b.getAccelerator();
-        String modifiersString = "", keyString = "";
-        final boolean leftToRight = AquaUtils.isLeftToRight(c);
-        if (accelerator != null) {
-            final int modifiers = accelerator.getModifiers();
-            if (modifiers > 0) {
-                modifiersString = getKeyModifiersText(modifiers, leftToRight);
+        // gft Addflfrbtor tfxt
+        finbl KfyStrokf bddflfrbtor = b.gftAddflfrbtor();
+        String modififrsString = "", kfyString = "";
+        finbl boolfbn lfftToRigit = AqubUtils.isLfftToRigit(d);
+        if (bddflfrbtor != null) {
+            finbl int modififrs = bddflfrbtor.gftModififrs();
+            if (modififrs > 0) {
+                modififrsString = gftKfyModififrsTfxt(modififrs, lfftToRigit);
             }
-            final int keyCode = accelerator.getKeyCode();
-            if (keyCode != 0) {
-                keyString = KeyEvent.getKeyText(keyCode);
-            } else {
-                keyString += accelerator.getKeyChar();
-            }
-        }
-
-        Rectangle iconRect = new Rectangle();
-        Rectangle textRect = new Rectangle();
-        Rectangle acceleratorRect = new Rectangle();
-        Rectangle checkIconRect = new Rectangle();
-        Rectangle arrowIconRect = new Rectangle();
-
-        // layout the text and icon
-        final String text = layoutMenuItem(b, fm, b.getText(), fmAccel, keyString, modifiersString, b.getIcon(), checkIcon, arrowIcon, b.getVerticalAlignment(), b.getHorizontalAlignment(), b.getVerticalTextPosition(), b.getHorizontalTextPosition(), viewRect, iconRect, textRect, acceleratorRect, checkIconRect, arrowIconRect, b.getText() == null ? 0 : defaultTextIconGap, defaultTextIconGap);
-
-        // if this is in a AquaScreenMenuBar that's attached to a DialogPeer
-        // the native menu will be disabled, though the awt Menu won't know about it
-        // so the JPopupMenu will not have visibility set and the items should draw disabled
-        // If it's not on a JPopupMenu then it should just use the model's enable state
-        final Container parent = b.getParent();
-        final boolean parentIsMenuBar = parent instanceof JMenuBar;
-
-        Container ancestor = parent;
-        while (ancestor != null && !(ancestor instanceof JPopupMenu)) ancestor = ancestor.getParent();
-
-        boolean isEnabled = model.isEnabled() && (ancestor == null || ancestor.isVisible());
-
-        // Set the accel/normal text color
-        boolean isSelected = false;
-        if (!isEnabled) {
-            // *** paint the text disabled
-            g.setColor(disabledForeground);
-        } else {
-            // *** paint the text normally
-            if (model.isArmed() || (c instanceof JMenu && model.isSelected())) {
-                g.setColor(selectionForeground);
-                isSelected = true;
-            } else {
-                g.setColor(parentIsMenuBar ? parent.getForeground() : b.getForeground()); // Which is either MenuItem.foreground or the user's choice
+            finbl int kfyCodf = bddflfrbtor.gftKfyCodf();
+            if (kfyCodf != 0) {
+                kfyString = KfyEvfnt.gftKfyTfxt(kfyCodf);
+            } flsf {
+                kfyString += bddflfrbtor.gftKfyCibr();
             }
         }
 
-        // We want to paint the icon after the text color is set since some icon painting depends on the correct
-        // graphics color being set
-        // See <rdar://problem/3792383> Menu icons missing in Java2D's Lines.Joins demo
-        // Paint the Icon
-        if (b.getIcon() != null) {
-            paintIcon(g, b, iconRect, isEnabled);
+        Rfdtbnglf idonRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf tfxtRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf bddflfrbtorRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf difdkIdonRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf brrowIdonRfdt = nfw Rfdtbnglf();
+
+        // lbyout tif tfxt bnd idon
+        finbl String tfxt = lbyoutMfnuItfm(b, fm, b.gftTfxt(), fmAddfl, kfyString, modififrsString, b.gftIdon(), difdkIdon, brrowIdon, b.gftVfrtidblAlignmfnt(), b.gftHorizontblAlignmfnt(), b.gftVfrtidblTfxtPosition(), b.gftHorizontblTfxtPosition(), vifwRfdt, idonRfdt, tfxtRfdt, bddflfrbtorRfdt, difdkIdonRfdt, brrowIdonRfdt, b.gftTfxt() == null ? 0 : dffbultTfxtIdonGbp, dffbultTfxtIdonGbp);
+
+        // if tiis is in b AqubSdrffnMfnuBbr tibt's bttbdifd to b DiblogPffr
+        // tif nbtivf mfnu will bf disbblfd, tiougi tif bwt Mfnu won't know bbout it
+        // so tif JPopupMfnu will not ibvf visibility sft bnd tif itfms siould drbw disbblfd
+        // If it's not on b JPopupMfnu tifn it siould just usf tif modfl's fnbblf stbtf
+        finbl Contbinfr pbrfnt = b.gftPbrfnt();
+        finbl boolfbn pbrfntIsMfnuBbr = pbrfnt instbndfof JMfnuBbr;
+
+        Contbinfr bndfstor = pbrfnt;
+        wiilf (bndfstor != null && !(bndfstor instbndfof JPopupMfnu)) bndfstor = bndfstor.gftPbrfnt();
+
+        boolfbn isEnbblfd = modfl.isEnbblfd() && (bndfstor == null || bndfstor.isVisiblf());
+
+        // Sft tif bddfl/normbl tfxt dolor
+        boolfbn isSflfdtfd = fblsf;
+        if (!isEnbblfd) {
+            // *** pbint tif tfxt disbblfd
+            g.sftColor(disbblfdForfground);
+        } flsf {
+            // *** pbint tif tfxt normblly
+            if (modfl.isArmfd() || (d instbndfof JMfnu && modfl.isSflfdtfd())) {
+                g.sftColor(sflfdtionForfground);
+                isSflfdtfd = truf;
+            } flsf {
+                g.sftColor(pbrfntIsMfnuBbr ? pbrfnt.gftForfground() : b.gftForfground()); // Wiidi is fitifr MfnuItfm.forfground or tif usfr's dioidf
+            }
         }
 
-        // Paint the Check using the current text color
-        if (checkIcon != null) {
-            paintCheck(g, b, checkIcon, checkIconRect);
+        // Wf wbnt to pbint tif idon bftfr tif tfxt dolor is sft sindf somf idon pbinting dfpfnds on tif dorrfdt
+        // grbpiids dolor bfing sft
+        // Sff <rdbr://problfm/3792383> Mfnu idons missing in Jbvb2D's Linfs.Joins dfmo
+        // Pbint tif Idon
+        if (b.gftIdon() != null) {
+            pbintIdon(g, b, idonRfdt, isEnbblfd);
         }
 
-        // Draw the accelerator first in case the HTML renderer changes the color
-        if (keyString != null && !keyString.equals("")) {
-            final int yAccel = acceleratorRect.y + fm.getAscent();
-            if (modifiersString.equals("")) {
-                // just draw the keyString
-                SwingUtilities2.drawString(c, g, keyString, acceleratorRect.x, yAccel);
-            } else {
-                final int modifiers = accelerator.getModifiers();
-                int underlinedChar = 0;
-                if ((modifiers & ALT_GRAPH_MASK) > 0) underlinedChar = kUOptionGlyph; // This is a Java2 thing, we won't be getting kOptionGlyph
-                // The keyStrings should all line up, so always adjust the width by the same amount
-                // (if they're multi-char, they won't line up but at least they won't be cut off)
-                final int emWidth = Math.max(fm.charWidth('M'), SwingUtilities.computeStringWidth(fm, keyString));
+        // Pbint tif Cifdk using tif durrfnt tfxt dolor
+        if (difdkIdon != null) {
+            pbintCifdk(g, b, difdkIdon, difdkIdonRfdt);
+        }
 
-                if (leftToRight) {
-                    g.setFont(acceleratorFont);
-                    drawString(g, c, modifiersString, underlinedChar, acceleratorRect.x, yAccel, isEnabled, isSelected);
-                    g.setFont(f);
-                    SwingUtilities2.drawString(c, g, keyString, acceleratorRect.x + acceleratorRect.width - emWidth, yAccel);
-                } else {
-                    final int xAccel = acceleratorRect.x + emWidth;
-                    g.setFont(acceleratorFont);
-                    drawString(g, c, modifiersString, underlinedChar, xAccel, yAccel, isEnabled, isSelected);
-                    g.setFont(f);
-                    SwingUtilities2.drawString(c, g, keyString, xAccel - fm.stringWidth(keyString), yAccel);
+        // Drbw tif bddflfrbtor first in dbsf tif HTML rfndfrfr dibngfs tif dolor
+        if (kfyString != null && !kfyString.fqubls("")) {
+            finbl int yAddfl = bddflfrbtorRfdt.y + fm.gftAsdfnt();
+            if (modififrsString.fqubls("")) {
+                // just drbw tif kfyString
+                SwingUtilitifs2.drbwString(d, g, kfyString, bddflfrbtorRfdt.x, yAddfl);
+            } flsf {
+                finbl int modififrs = bddflfrbtor.gftModififrs();
+                int undfrlinfdCibr = 0;
+                if ((modififrs & ALT_GRAPH_MASK) > 0) undfrlinfdCibr = kUOptionGlypi; // Tiis is b Jbvb2 tiing, wf won't bf gftting kOptionGlypi
+                // Tif kfyStrings siould bll linf up, so blwbys bdjust tif widti by tif sbmf bmount
+                // (if tify'rf multi-dibr, tify won't linf up but bt lfbst tify won't bf dut off)
+                finbl int fmWidti = Mbti.mbx(fm.dibrWidti('M'), SwingUtilitifs.domputfStringWidti(fm, kfyString));
+
+                if (lfftToRigit) {
+                    g.sftFont(bddflfrbtorFont);
+                    drbwString(g, d, modififrsString, undfrlinfdCibr, bddflfrbtorRfdt.x, yAddfl, isEnbblfd, isSflfdtfd);
+                    g.sftFont(f);
+                    SwingUtilitifs2.drbwString(d, g, kfyString, bddflfrbtorRfdt.x + bddflfrbtorRfdt.widti - fmWidti, yAddfl);
+                } flsf {
+                    finbl int xAddfl = bddflfrbtorRfdt.x + fmWidti;
+                    g.sftFont(bddflfrbtorFont);
+                    drbwString(g, d, modififrsString, undfrlinfdCibr, xAddfl, yAddfl, isEnbblfd, isSflfdtfd);
+                    g.sftFont(f);
+                    SwingUtilitifs2.drbwString(d, g, kfyString, xAddfl - fm.stringWidti(kfyString), yAddfl);
                 }
             }
         }
 
-        // Draw the Text
-        if (text != null && !text.equals("")) {
-            final View v = (View)c.getClientProperty(BasicHTML.propertyKey);
+        // Drbw tif Tfxt
+        if (tfxt != null && !tfxt.fqubls("")) {
+            finbl Vifw v = (Vifw)d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
             if (v != null) {
-                v.paint(g, textRect);
-            } else {
-                final int mnemonic = (AquaMnemonicHandler.isMnemonicHidden() ? -1 : model.getMnemonic());
-                drawString(g, c, text, mnemonic, textRect.x, textRect.y + fm.getAscent(), isEnabled, isSelected);
+                v.pbint(g, tfxtRfdt);
+            } flsf {
+                finbl int mnfmonid = (AqubMnfmonidHbndlfr.isMnfmonidHiddfn() ? -1 : modfl.gftMnfmonid());
+                drbwString(g, d, tfxt, mnfmonid, tfxtRfdt.x, tfxtRfdt.y + fm.gftAsdfnt(), isEnbblfd, isSflfdtfd);
             }
         }
 
-        // Paint the Arrow
-        if (arrowIcon != null) {
-            paintArrow(g, b, model, arrowIcon, arrowIconRect);
+        // Pbint tif Arrow
+        if (brrowIdon != null) {
+            pbintArrow(g, b, modfl, brrowIdon, brrowIdonRfdt);
         }
 
-        g.setColor(holdc);
-        g.setFont(holdf);
+        g.sftColor(ioldd);
+        g.sftFont(ioldf);
     }
 
-    // All this had to be copied from BasicMenuItemUI, just to get the right keyModifiersText fn
-    // and a few Mac tweaks
-    protected Dimension getPreferredMenuItemSize(final JComponent c, final Icon checkIcon, final Icon arrowIcon, final int defaultTextIconGap, final Font acceleratorFont) {
-        final JMenuItem b = (JMenuItem)c;
-        final Icon icon = b.getIcon();
-        final String text = b.getText();
-        final KeyStroke accelerator = b.getAccelerator();
-        String keyString = "", modifiersString = "";
+    // All tiis ibd to bf dopifd from BbsidMfnuItfmUI, just to gft tif rigit kfyModififrsTfxt fn
+    // bnd b ffw Mbd twfbks
+    protfdtfd Dimfnsion gftPrfffrrfdMfnuItfmSizf(finbl JComponfnt d, finbl Idon difdkIdon, finbl Idon brrowIdon, finbl int dffbultTfxtIdonGbp, finbl Font bddflfrbtorFont) {
+        finbl JMfnuItfm b = (JMfnuItfm)d;
+        finbl Idon idon = b.gftIdon();
+        finbl String tfxt = b.gftTfxt();
+        finbl KfyStrokf bddflfrbtor = b.gftAddflfrbtor();
+        String kfyString = "", modififrsString = "";
 
-        if (accelerator != null) {
-            final int modifiers = accelerator.getModifiers();
-            if (modifiers > 0) {
-                modifiersString = getKeyModifiersText(modifiers, true); // doesn't matter, this is just for metrics
+        if (bddflfrbtor != null) {
+            finbl int modififrs = bddflfrbtor.gftModififrs();
+            if (modififrs > 0) {
+                modififrsString = gftKfyModififrsTfxt(modififrs, truf); // dofsn't mbttfr, tiis is just for mftrids
             }
-            final int keyCode = accelerator.getKeyCode();
-            if (keyCode != 0) {
-                keyString = KeyEvent.getKeyText(keyCode);
-            } else {
-                keyString += accelerator.getKeyChar();
+            finbl int kfyCodf = bddflfrbtor.gftKfyCodf();
+            if (kfyCodf != 0) {
+                kfyString = KfyEvfnt.gftKfyTfxt(kfyCodf);
+            } flsf {
+                kfyString += bddflfrbtor.gftKfyCibr();
             }
         }
 
-        final Font font = b.getFont();
-        final FontMetrics fm = b.getFontMetrics(font);
-        final FontMetrics fmAccel = b.getFontMetrics(acceleratorFont);
+        finbl Font font = b.gftFont();
+        finbl FontMftrids fm = b.gftFontMftrids(font);
+        finbl FontMftrids fmAddfl = b.gftFontMftrids(bddflfrbtorFont);
 
-        Rectangle iconRect = new Rectangle();
-        Rectangle textRect = new Rectangle();
-        Rectangle acceleratorRect = new Rectangle();
-        Rectangle checkIconRect = new Rectangle();
-        Rectangle arrowIconRect = new Rectangle();
-        Rectangle viewRect = new Rectangle(Short.MAX_VALUE, Short.MAX_VALUE);
+        Rfdtbnglf idonRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf tfxtRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf bddflfrbtorRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf difdkIdonRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf brrowIdonRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf vifwRfdt = nfw Rfdtbnglf(Siort.MAX_VALUE, Siort.MAX_VALUE);
 
-        layoutMenuItem(b, fm, text, fmAccel, keyString, modifiersString, icon, checkIcon, arrowIcon, b.getVerticalAlignment(), b.getHorizontalAlignment(), b.getVerticalTextPosition(), b.getHorizontalTextPosition(), viewRect, iconRect, textRect, acceleratorRect, checkIconRect, arrowIconRect, text == null ? 0 : defaultTextIconGap, defaultTextIconGap);
-        // find the union of the icon and text rects
-        Rectangle r = new Rectangle();
-        r.setBounds(textRect);
-        r = SwingUtilities.computeUnion(iconRect.x, iconRect.y, iconRect.width, iconRect.height, r);
-        //   r = iconRect.union(textRect);
+        lbyoutMfnuItfm(b, fm, tfxt, fmAddfl, kfyString, modififrsString, idon, difdkIdon, brrowIdon, b.gftVfrtidblAlignmfnt(), b.gftHorizontblAlignmfnt(), b.gftVfrtidblTfxtPosition(), b.gftHorizontblTfxtPosition(), vifwRfdt, idonRfdt, tfxtRfdt, bddflfrbtorRfdt, difdkIdonRfdt, brrowIdonRfdt, tfxt == null ? 0 : dffbultTfxtIdonGbp, dffbultTfxtIdonGbp);
+        // find tif union of tif idon bnd tfxt rfdts
+        Rfdtbnglf r = nfw Rfdtbnglf();
+        r.sftBounds(tfxtRfdt);
+        r = SwingUtilitifs.domputfUnion(idonRfdt.x, idonRfdt.y, idonRfdt.widti, idonRfdt.ifigit, r);
+        //   r = idonRfdt.union(tfxtRfdt);
 
-        // Add in the accelerator
-        boolean acceleratorTextIsEmpty = (keyString == null) || keyString.equals("");
+        // Add in tif bddflfrbtor
+        boolfbn bddflfrbtorTfxtIsEmpty = (kfyString == null) || kfyString.fqubls("");
 
-        if (!acceleratorTextIsEmpty) {
-            r.width += acceleratorRect.width;
+        if (!bddflfrbtorTfxtIsEmpty) {
+            r.widti += bddflfrbtorRfdt.widti;
         }
 
-        if (!isTopLevelMenu(b)) {
-            // Add in the checkIcon
-            r.width += checkIconRect.width;
-            r.width += defaultTextIconGap;
+        if (!isTopLfvflMfnu(b)) {
+            // Add in tif difdkIdon
+            r.widti += difdkIdonRfdt.widti;
+            r.widti += dffbultTfxtIdonGbp;
 
-            // Add in the arrowIcon space
-            r.width += defaultTextIconGap;
-            r.width += arrowIconRect.width;
+            // Add in tif brrowIdon spbdf
+            r.widti += dffbultTfxtIdonGbp;
+            r.widti += brrowIdonRfdt.widti;
         }
 
-        final Insets insets = b.getInsets();
-        if (insets != null) {
-            r.width += insets.left + insets.right;
-            r.height += insets.top + insets.bottom;
+        finbl Insfts insfts = b.gftInsfts();
+        if (insfts != null) {
+            r.widti += insfts.lfft + insfts.rigit;
+            r.ifigit += insfts.top + insfts.bottom;
         }
 
-        // Tweak for Mac
-        r.width += 4 + defaultTextIconGap;
-        r.height = Math.max(r.height, 18);
+        // Twfbk for Mbd
+        r.widti += 4 + dffbultTfxtIdonGbp;
+        r.ifigit = Mbti.mbx(r.ifigit, 18);
 
-        return r.getSize();
+        rfturn r.gftSizf();
     }
 
-    protected void paintCheck(final Graphics g, final JMenuItem item, Icon checkIcon, Rectangle checkIconRect) {
-        if (isTopLevelMenu(item) || !item.isSelected()) return;
+    protfdtfd void pbintCifdk(finbl Grbpiids g, finbl JMfnuItfm itfm, Idon difdkIdon, Rfdtbnglf difdkIdonRfdt) {
+        if (isTopLfvflMfnu(itfm) || !itfm.isSflfdtfd()) rfturn;
 
-        if (item.isArmed() && checkIcon instanceof InvertableIcon) {
-            ((InvertableIcon)checkIcon).getInvertedIcon().paintIcon(item, g, checkIconRect.x, checkIconRect.y);
-        } else {
-            checkIcon.paintIcon(item, g, checkIconRect.x, checkIconRect.y);
+        if (itfm.isArmfd() && difdkIdon instbndfof InvfrtbblfIdon) {
+            ((InvfrtbblfIdon)difdkIdon).gftInvfrtfdIdon().pbintIdon(itfm, g, difdkIdonRfdt.x, difdkIdonRfdt.y);
+        } flsf {
+            difdkIdon.pbintIdon(itfm, g, difdkIdonRfdt.x, difdkIdonRfdt.y);
         }
     }
 
-    protected void paintIcon(final Graphics g, final JMenuItem c, final Rectangle localIconRect, boolean isEnabled) {
-        final ButtonModel model = c.getModel();
-        Icon icon;
-        if (!isEnabled) {
-            icon = c.getDisabledIcon();
-        } else if (model.isPressed() && model.isArmed()) {
-            icon = c.getPressedIcon();
-            if (icon == null) {
-                // Use default icon
-                icon = c.getIcon();
+    protfdtfd void pbintIdon(finbl Grbpiids g, finbl JMfnuItfm d, finbl Rfdtbnglf lodblIdonRfdt, boolfbn isEnbblfd) {
+        finbl ButtonModfl modfl = d.gftModfl();
+        Idon idon;
+        if (!isEnbblfd) {
+            idon = d.gftDisbblfdIdon();
+        } flsf if (modfl.isPrfssfd() && modfl.isArmfd()) {
+            idon = d.gftPrfssfdIdon();
+            if (idon == null) {
+                // Usf dffbult idon
+                idon = d.gftIdon();
             }
-        } else {
-            icon = c.getIcon();
+        } flsf {
+            idon = d.gftIdon();
         }
 
-        if (icon != null) icon.paintIcon(c, g, localIconRect.x, localIconRect.y);
+        if (idon != null) idon.pbintIdon(d, g, lodblIdonRfdt.x, lodblIdonRfdt.y);
     }
 
-    protected void paintArrow(Graphics g, JMenuItem c, ButtonModel model, Icon arrowIcon, Rectangle arrowIconRect) {
-        if (isTopLevelMenu(c)) return;
+    protfdtfd void pbintArrow(Grbpiids g, JMfnuItfm d, ButtonModfl modfl, Idon brrowIdon, Rfdtbnglf brrowIdonRfdt) {
+        if (isTopLfvflMfnu(d)) rfturn;
 
-        if (c instanceof JMenu && (model.isArmed() || model.isSelected()) && arrowIcon instanceof InvertableIcon) {
-            ((InvertableIcon)arrowIcon).getInvertedIcon().paintIcon(c, g, arrowIconRect.x, arrowIconRect.y);
-        } else {
-            arrowIcon.paintIcon(c, g, arrowIconRect.x, arrowIconRect.y);
+        if (d instbndfof JMfnu && (modfl.isArmfd() || modfl.isSflfdtfd()) && brrowIdon instbndfof InvfrtbblfIdon) {
+            ((InvfrtbblfIdon)brrowIdon).gftInvfrtfdIdon().pbintIdon(d, g, brrowIdonRfdt.x, brrowIdonRfdt.y);
+        } flsf {
+            brrowIdon.pbintIdon(d, g, brrowIdonRfdt.x, brrowIdonRfdt.y);
         }
     }
 
-    /** Draw a string with the graphics g at location (x,y) just like g.drawString() would.
-     *  The first occurrence of underlineChar in text will be underlined. The matching is
-     *  not case sensitive.
+    /** Drbw b string witi tif grbpiids g bt lodbtion (x,y) just likf g.drbwString() would.
+     *  Tif first oddurrfndf of undfrlinfCibr in tfxt will bf undfrlinfd. Tif mbtdiing is
+     *  not dbsf sfnsitivf.
      */
-    public void drawString(final Graphics g, final JComponent c, final String text, final int underlinedChar, final int x, final int y, final boolean isEnabled, final boolean isSelected) {
-        char lc, uc;
-        int index = -1, lci, uci;
+    publid void drbwString(finbl Grbpiids g, finbl JComponfnt d, finbl String tfxt, finbl int undfrlinfdCibr, finbl int x, finbl int y, finbl boolfbn isEnbblfd, finbl boolfbn isSflfdtfd) {
+        dibr ld, ud;
+        int indfx = -1, ldi, udi;
 
-        if (underlinedChar != '\0') {
-            uc = Character.toUpperCase((char)underlinedChar);
-            lc = Character.toLowerCase((char)underlinedChar);
+        if (undfrlinfdCibr != '\0') {
+            ud = Cibrbdtfr.toUppfrCbsf((dibr)undfrlinfdCibr);
+            ld = Cibrbdtfr.toLowfrCbsf((dibr)undfrlinfdCibr);
 
-            uci = text.indexOf(uc);
-            lci = text.indexOf(lc);
+            udi = tfxt.indfxOf(ud);
+            ldi = tfxt.indfxOf(ld);
 
-            if (uci == -1) index = lci;
-            else if (lci == -1) index = uci;
-            else index = (lci < uci) ? lci : uci;
+            if (udi == -1) indfx = ldi;
+            flsf if (ldi == -1) indfx = udi;
+            flsf indfx = (ldi < udi) ? ldi : udi;
         }
 
-        SwingUtilities2.drawStringUnderlineCharAt(c, g, text, index, x, y);
+        SwingUtilitifs2.drbwStringUndfrlinfCibrAt(d, g, tfxt, indfx, x, y);
     }
 
     /*
-     * Returns false if the component is a JMenu and it is a top
-     * level menu (on the menubar).
+     * Rfturns fblsf if tif domponfnt is b JMfnu bnd it is b top
+     * lfvfl mfnu (on tif mfnubbr).
      */
-    private static boolean isTopLevelMenu(final JMenuItem menuItem) {
-        return (menuItem instanceof JMenu) && (((JMenu)menuItem).isTopLevelMenu());
+    privbtf stbtid boolfbn isTopLfvflMfnu(finbl JMfnuItfm mfnuItfm) {
+        rfturn (mfnuItfm instbndfof JMfnu) && (((JMfnu)mfnuItfm).isTopLfvflMfnu());
     }
 
-    private String layoutMenuItem(final JMenuItem menuItem, final FontMetrics fm, final String text, final FontMetrics fmAccel, String keyString, final String modifiersString, final Icon icon, final Icon checkIcon, final Icon arrowIcon, final int verticalAlignment, final int horizontalAlignment, final int verticalTextPosition, final int horizontalTextPosition, final Rectangle viewR, final Rectangle iconR, final Rectangle textR, final Rectangle acceleratorR, final Rectangle checkIconR, final Rectangle arrowIconR, final int textIconGap, final int menuItemGap) {
-        // Force it to do "LEFT", then flip the rects if we're right-to-left
-        SwingUtilities.layoutCompoundLabel(menuItem, fm, text, icon, verticalAlignment, SwingConstants.LEFT, verticalTextPosition, horizontalTextPosition, viewR, iconR, textR, textIconGap);
+    privbtf String lbyoutMfnuItfm(finbl JMfnuItfm mfnuItfm, finbl FontMftrids fm, finbl String tfxt, finbl FontMftrids fmAddfl, String kfyString, finbl String modififrsString, finbl Idon idon, finbl Idon difdkIdon, finbl Idon brrowIdon, finbl int vfrtidblAlignmfnt, finbl int iorizontblAlignmfnt, finbl int vfrtidblTfxtPosition, finbl int iorizontblTfxtPosition, finbl Rfdtbnglf vifwR, finbl Rfdtbnglf idonR, finbl Rfdtbnglf tfxtR, finbl Rfdtbnglf bddflfrbtorR, finbl Rfdtbnglf difdkIdonR, finbl Rfdtbnglf brrowIdonR, finbl int tfxtIdonGbp, finbl int mfnuItfmGbp) {
+        // Fordf it to do "LEFT", tifn flip tif rfdts if wf'rf rigit-to-lfft
+        SwingUtilitifs.lbyoutCompoundLbbfl(mfnuItfm, fm, tfxt, idon, vfrtidblAlignmfnt, SwingConstbnts.LEFT, vfrtidblTfxtPosition, iorizontblTfxtPosition, vifwR, idonR, tfxtR, tfxtIdonGbp);
 
-        final boolean acceleratorTextIsEmpty = (keyString == null) || keyString.equals("");
+        finbl boolfbn bddflfrbtorTfxtIsEmpty = (kfyString == null) || kfyString.fqubls("");
 
-        if (acceleratorTextIsEmpty) {
-            acceleratorR.width = acceleratorR.height = 0;
-            keyString = "";
-        } else {
-            // Accel space doesn't overlap arrow space, even though items can't have both
-            acceleratorR.width = SwingUtilities.computeStringWidth(fmAccel, modifiersString);
-            // The keyStrings should all line up, so always adjust the width by the same amount
-            // (if they're multi-char, they won't line up but at least they won't be cut off)
-            acceleratorR.width += Math.max(fm.charWidth('M'), SwingUtilities.computeStringWidth(fm, keyString));
-            acceleratorR.height = fmAccel.getHeight();
+        if (bddflfrbtorTfxtIsEmpty) {
+            bddflfrbtorR.widti = bddflfrbtorR.ifigit = 0;
+            kfyString = "";
+        } flsf {
+            // Addfl spbdf dofsn't ovfrlbp brrow spbdf, fvfn tiougi itfms dbn't ibvf boti
+            bddflfrbtorR.widti = SwingUtilitifs.domputfStringWidti(fmAddfl, modififrsString);
+            // Tif kfyStrings siould bll linf up, so blwbys bdjust tif widti by tif sbmf bmount
+            // (if tify'rf multi-dibr, tify won't linf up but bt lfbst tify won't bf dut off)
+            bddflfrbtorR.widti += Mbti.mbx(fm.dibrWidti('M'), SwingUtilitifs.domputfStringWidti(fm, kfyString));
+            bddflfrbtorR.ifigit = fmAddfl.gftHfigit();
         }
 
-        /* Initialize the checkIcon bounds rectangle checkIconR.
+        /* Initiblizf tif difdkIdon bounds rfdtbnglf difdkIdonR.
          */
 
-        final boolean isTopLevelMenu = isTopLevelMenu(menuItem);
-        if (!isTopLevelMenu) {
-            if (checkIcon != null) {
-                checkIconR.width = checkIcon.getIconWidth();
-                checkIconR.height = checkIcon.getIconHeight();
-            } else {
-                checkIconR.width = checkIconR.height = 16;
+        finbl boolfbn isTopLfvflMfnu = isTopLfvflMfnu(mfnuItfm);
+        if (!isTopLfvflMfnu) {
+            if (difdkIdon != null) {
+                difdkIdonR.widti = difdkIdon.gftIdonWidti();
+                difdkIdonR.ifigit = difdkIdon.gftIdonHfigit();
+            } flsf {
+                difdkIdonR.widti = difdkIdonR.ifigit = 16;
             }
 
-            /* Initialize the arrowIcon bounds rectangle arrowIconR.
+            /* Initiblizf tif brrowIdon bounds rfdtbnglf brrowIdonR.
              */
 
-            if (arrowIcon != null) {
-                arrowIconR.width = arrowIcon.getIconWidth();
-                arrowIconR.height = arrowIcon.getIconHeight();
-            } else {
-                arrowIconR.width = arrowIconR.height = 16;
+            if (brrowIdon != null) {
+                brrowIdonR.widti = brrowIdon.gftIdonWidti();
+                brrowIdonR.ifigit = brrowIdon.gftIdonHfigit();
+            } flsf {
+                brrowIdonR.widti = brrowIdonR.ifigit = 16;
             }
 
-            textR.x += 12;
-            iconR.x += 12;
+            tfxtR.x += 12;
+            idonR.x += 12;
         }
 
-        final Rectangle labelR = iconR.union(textR);
+        finbl Rfdtbnglf lbbflR = idonR.union(tfxtR);
 
-        // Position the Accelerator text rect
-        // Menu shortcut text *ought* to have the letters left-justified - look at a menu with an "M" in it
-        acceleratorR.x += (viewR.width - arrowIconR.width - acceleratorR.width);
-        acceleratorR.y = viewR.y + (viewR.height / 2) - (acceleratorR.height / 2);
+        // Position tif Addflfrbtor tfxt rfdt
+        // Mfnu siortdut tfxt *ougit* to ibvf tif lfttfrs lfft-justififd - look bt b mfnu witi bn "M" in it
+        bddflfrbtorR.x += (vifwR.widti - brrowIdonR.widti - bddflfrbtorR.widti);
+        bddflfrbtorR.y = vifwR.y + (vifwR.ifigit / 2) - (bddflfrbtorR.ifigit / 2);
 
-        if (!isTopLevelMenu) {
-            //    if ( GetSysDirection() < 0 ) hierRect.right = hierRect.left + w + 4;
-            //    else hierRect.left = hierRect.right - w - 4;
-            arrowIconR.x = (viewR.width - arrowIconR.width) + 1;
-            arrowIconR.y = viewR.y + (labelR.height / 2) - (arrowIconR.height / 2) + 1;
+        if (!isTopLfvflMfnu) {
+            //    if ( GftSysDirfdtion() < 0 ) iifrRfdt.rigit = iifrRfdt.lfft + w + 4;
+            //    flsf iifrRfdt.lfft = iifrRfdt.rigit - w - 4;
+            brrowIdonR.x = (vifwR.widti - brrowIdonR.widti) + 1;
+            brrowIdonR.y = vifwR.y + (lbbflR.ifigit / 2) - (brrowIdonR.ifigit / 2) + 1;
 
-            checkIconR.y = viewR.y + (labelR.height / 2) - (checkIconR.height / 2);
-            checkIconR.x = 5;
+            difdkIdonR.y = vifwR.y + (lbbflR.ifigit / 2) - (difdkIdonR.ifigit / 2);
+            difdkIdonR.x = 5;
 
-            textR.width += 8;
+            tfxtR.widti += 8;
         }
 
-        /*System.out.println("Layout: " +horizontalAlignment+ " v=" +viewR+"  c="+checkIconR+" i="+
-         iconR+" t="+textR+" acc="+acceleratorR+" a="+arrowIconR);*/
+        /*Systfm.out.println("Lbyout: " +iorizontblAlignmfnt+ " v=" +vifwR+"  d="+difdkIdonR+" i="+
+         idonR+" t="+tfxtR+" bdd="+bddflfrbtorR+" b="+brrowIdonR);*/
 
-        if (!AquaUtils.isLeftToRight(menuItem)) {
-            // Flip the rectangles so that instead of [check][icon][text][accel/arrow] it's [accel/arrow][text][icon][check]
-            final int w = viewR.width;
-            checkIconR.x = w - (checkIconR.x + checkIconR.width);
-            iconR.x = w - (iconR.x + iconR.width);
-            textR.x = w - (textR.x + textR.width);
-            acceleratorR.x = w - (acceleratorR.x + acceleratorR.width);
-            arrowIconR.x = w - (arrowIconR.x + arrowIconR.width);
+        if (!AqubUtils.isLfftToRigit(mfnuItfm)) {
+            // Flip tif rfdtbnglfs so tibt instfbd of [difdk][idon][tfxt][bddfl/brrow] it's [bddfl/brrow][tfxt][idon][difdk]
+            finbl int w = vifwR.widti;
+            difdkIdonR.x = w - (difdkIdonR.x + difdkIdonR.widti);
+            idonR.x = w - (idonR.x + idonR.widti);
+            tfxtR.x = w - (tfxtR.x + tfxtR.widti);
+            bddflfrbtorR.x = w - (bddflfrbtorR.x + bddflfrbtorR.widti);
+            brrowIdonR.x = w - (brrowIdonR.x + brrowIdonR.widti);
         }
-        textR.x += menuItemGap;
-        iconR.x += menuItemGap;
+        tfxtR.x += mfnuItfmGbp;
+        idonR.x += mfnuItfmGbp;
 
-        return text;
+        rfturn tfxt;
     }
 
-    public static Border getMenuBarPainter() {
-        final AquaBorder border = new AquaBorder.Default();
-        border.painter.state.set(Widget.MENU_BAR);
-        return border;
+    publid stbtid Bordfr gftMfnuBbrPbintfr() {
+        finbl AqubBordfr bordfr = nfw AqubBordfr.Dffbult();
+        bordfr.pbintfr.stbtf.sft(Widgft.MENU_BAR);
+        rfturn bordfr;
     }
 
-    public static Border getSelectedMenuBarItemPainter() {
-        final AquaBorder border = new AquaBorder.Default();
-        border.painter.state.set(Widget.MENU_TITLE);
-        border.painter.state.set(State.PRESSED);
-        return border;
+    publid stbtid Bordfr gftSflfdtfdMfnuBbrItfmPbintfr() {
+        finbl AqubBordfr bordfr = nfw AqubBordfr.Dffbult();
+        bordfr.pbintfr.stbtf.sft(Widgft.MENU_TITLE);
+        bordfr.pbintfr.stbtf.sft(Stbtf.PRESSED);
+        rfturn bordfr;
     }
 
-    public static Border getSelectedMenuItemPainter() {
-        final AquaBorder border = new AquaBorder.Default();
-        border.painter.state.set(Widget.MENU_ITEM);
-        border.painter.state.set(State.PRESSED);
-        return border;
+    publid stbtid Bordfr gftSflfdtfdMfnuItfmPbintfr() {
+        finbl AqubBordfr bordfr = nfw AqubBordfr.Dffbult();
+        bordfr.pbintfr.stbtf.sft(Widgft.MENU_ITEM);
+        bordfr.pbintfr.stbtf.sft(Stbtf.PRESSED);
+        rfturn bordfr;
     }
 }

@@ -1,539 +1,539 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.ProcessBuilder.Redirect;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.lbng.ProdfssBuildfr.Rfdirfdt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.rfgfx.Mbtdifr;
+import jbvb.util.rfgfx.Pbttfrn;
 
-/* This class is for the exclusive use of ProcessBuilder.start() to
- * create new processes.
+/* Tiis dlbss is for tif fxdlusivf usf of ProdfssBuildfr.stbrt() to
+ * drfbtf nfw prodfssfs.
  *
- * @author Martin Buchholz
- * @since   1.5
+ * @butior Mbrtin Budiiolz
+ * @sindf   1.5
  */
 
-final class ProcessImpl extends Process {
-    private static final sun.misc.JavaIOFileDescriptorAccess fdAccess
-        = sun.misc.SharedSecrets.getJavaIOFileDescriptorAccess();
+finbl dlbss ProdfssImpl fxtfnds Prodfss {
+    privbtf stbtid finbl sun.misd.JbvbIOFilfDfsdriptorAddfss fdAddfss
+        = sun.misd.SibrfdSfdrfts.gftJbvbIOFilfDfsdriptorAddfss();
 
     /**
-     * Open a file for writing. If {@code append} is {@code true} then the file
-     * is opened for atomic append directly and a FileOutputStream constructed
-     * with the resulting handle. This is because a FileOutputStream created
-     * to append to a file does not open the file in a manner that guarantees
-     * that writes by the child process will be atomic.
+     * Opfn b filf for writing. If {@dodf bppfnd} is {@dodf truf} tifn tif filf
+     * is opfnfd for btomid bppfnd dirfdtly bnd b FilfOutputStrfbm donstrudtfd
+     * witi tif rfsulting ibndlf. Tiis is bfdbusf b FilfOutputStrfbm drfbtfd
+     * to bppfnd to b filf dofs not opfn tif filf in b mbnnfr tibt gubrbntffs
+     * tibt writfs by tif diild prodfss will bf btomid.
      */
-    private static FileOutputStream newFileOutputStream(File f, boolean append)
-        throws IOException
+    privbtf stbtid FilfOutputStrfbm nfwFilfOutputStrfbm(Filf f, boolfbn bppfnd)
+        tirows IOExdfption
     {
-        if (append) {
-            String path = f.getPath();
-            SecurityManager sm = System.getSecurityManager();
+        if (bppfnd) {
+            String pbti = f.gftPbti();
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null)
-                sm.checkWrite(path);
-            long handle = openForAtomicAppend(path);
-            final FileDescriptor fd = new FileDescriptor();
-            fdAccess.setHandle(fd, handle);
-            return AccessController.doPrivileged(
-                new PrivilegedAction<FileOutputStream>() {
-                    public FileOutputStream run() {
-                        return new FileOutputStream(fd);
+                sm.difdkWritf(pbti);
+            long ibndlf = opfnForAtomidAppfnd(pbti);
+            finbl FilfDfsdriptor fd = nfw FilfDfsdriptor();
+            fdAddfss.sftHbndlf(fd, ibndlf);
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<FilfOutputStrfbm>() {
+                    publid FilfOutputStrfbm run() {
+                        rfturn nfw FilfOutputStrfbm(fd);
                     }
                 }
             );
-        } else {
-            return new FileOutputStream(f);
+        } flsf {
+            rfturn nfw FilfOutputStrfbm(f);
         }
     }
 
-    // System-dependent portion of ProcessBuilder.start()
-    static Process start(String cmdarray[],
-                         java.util.Map<String,String> environment,
+    // Systfm-dfpfndfnt portion of ProdfssBuildfr.stbrt()
+    stbtid Prodfss stbrt(String dmdbrrby[],
+                         jbvb.util.Mbp<String,String> fnvironmfnt,
                          String dir,
-                         ProcessBuilder.Redirect[] redirects,
-                         boolean redirectErrorStream)
-        throws IOException
+                         ProdfssBuildfr.Rfdirfdt[] rfdirfdts,
+                         boolfbn rfdirfdtErrorStrfbm)
+        tirows IOExdfption
     {
-        String envblock = ProcessEnvironment.toEnvironmentBlock(environment);
+        String fnvblodk = ProdfssEnvironmfnt.toEnvironmfntBlodk(fnvironmfnt);
 
-        FileInputStream  f0 = null;
-        FileOutputStream f1 = null;
-        FileOutputStream f2 = null;
+        FilfInputStrfbm  f0 = null;
+        FilfOutputStrfbm f1 = null;
+        FilfOutputStrfbm f2 = null;
 
         try {
-            long[] stdHandles;
-            if (redirects == null) {
-                stdHandles = new long[] { -1L, -1L, -1L };
-            } else {
-                stdHandles = new long[3];
+            long[] stdHbndlfs;
+            if (rfdirfdts == null) {
+                stdHbndlfs = nfw long[] { -1L, -1L, -1L };
+            } flsf {
+                stdHbndlfs = nfw long[3];
 
-                if (redirects[0] == Redirect.PIPE)
-                    stdHandles[0] = -1L;
-                else if (redirects[0] == Redirect.INHERIT)
-                    stdHandles[0] = fdAccess.getHandle(FileDescriptor.in);
-                else {
-                    f0 = new FileInputStream(redirects[0].file());
-                    stdHandles[0] = fdAccess.getHandle(f0.getFD());
+                if (rfdirfdts[0] == Rfdirfdt.PIPE)
+                    stdHbndlfs[0] = -1L;
+                flsf if (rfdirfdts[0] == Rfdirfdt.INHERIT)
+                    stdHbndlfs[0] = fdAddfss.gftHbndlf(FilfDfsdriptor.in);
+                flsf {
+                    f0 = nfw FilfInputStrfbm(rfdirfdts[0].filf());
+                    stdHbndlfs[0] = fdAddfss.gftHbndlf(f0.gftFD());
                 }
 
-                if (redirects[1] == Redirect.PIPE)
-                    stdHandles[1] = -1L;
-                else if (redirects[1] == Redirect.INHERIT)
-                    stdHandles[1] = fdAccess.getHandle(FileDescriptor.out);
-                else {
-                    f1 = newFileOutputStream(redirects[1].file(),
-                                             redirects[1].append());
-                    stdHandles[1] = fdAccess.getHandle(f1.getFD());
+                if (rfdirfdts[1] == Rfdirfdt.PIPE)
+                    stdHbndlfs[1] = -1L;
+                flsf if (rfdirfdts[1] == Rfdirfdt.INHERIT)
+                    stdHbndlfs[1] = fdAddfss.gftHbndlf(FilfDfsdriptor.out);
+                flsf {
+                    f1 = nfwFilfOutputStrfbm(rfdirfdts[1].filf(),
+                                             rfdirfdts[1].bppfnd());
+                    stdHbndlfs[1] = fdAddfss.gftHbndlf(f1.gftFD());
                 }
 
-                if (redirects[2] == Redirect.PIPE)
-                    stdHandles[2] = -1L;
-                else if (redirects[2] == Redirect.INHERIT)
-                    stdHandles[2] = fdAccess.getHandle(FileDescriptor.err);
-                else {
-                    f2 = newFileOutputStream(redirects[2].file(),
-                                             redirects[2].append());
-                    stdHandles[2] = fdAccess.getHandle(f2.getFD());
+                if (rfdirfdts[2] == Rfdirfdt.PIPE)
+                    stdHbndlfs[2] = -1L;
+                flsf if (rfdirfdts[2] == Rfdirfdt.INHERIT)
+                    stdHbndlfs[2] = fdAddfss.gftHbndlf(FilfDfsdriptor.frr);
+                flsf {
+                    f2 = nfwFilfOutputStrfbm(rfdirfdts[2].filf(),
+                                             rfdirfdts[2].bppfnd());
+                    stdHbndlfs[2] = fdAddfss.gftHbndlf(f2.gftFD());
                 }
             }
 
-            return new ProcessImpl(cmdarray, envblock, dir,
-                                   stdHandles, redirectErrorStream);
-        } finally {
-            // In theory, close() can throw IOException
-            // (although it is rather unlikely to happen here)
-            try { if (f0 != null) f0.close(); }
-            finally {
-                try { if (f1 != null) f1.close(); }
-                finally { if (f2 != null) f2.close(); }
+            rfturn nfw ProdfssImpl(dmdbrrby, fnvblodk, dir,
+                                   stdHbndlfs, rfdirfdtErrorStrfbm);
+        } finblly {
+            // In tifory, dlosf() dbn tirow IOExdfption
+            // (bltiougi it is rbtifr unlikfly to ibppfn ifrf)
+            try { if (f0 != null) f0.dlosf(); }
+            finblly {
+                try { if (f1 != null) f1.dlosf(); }
+                finblly { if (f2 != null) f2.dlosf(); }
             }
         }
 
     }
 
-    private static class LazyPattern {
-        // Escape-support version:
+    privbtf stbtid dlbss LbzyPbttfrn {
+        // Esdbpf-support vfrsion:
         //    "(\")((?:\\\\\\1|.)+?)\\1|([^\\s\"]+)";
-        private static final Pattern PATTERN =
-            Pattern.compile("[^\\s\"]+|\"[^\"]*\"");
+        privbtf stbtid finbl Pbttfrn PATTERN =
+            Pbttfrn.dompilf("[^\\s\"]+|\"[^\"]*\"");
     };
 
-    /* Parses the command string parameter into the executable name and
-     * program arguments.
+    /* Pbrsfs tif dommbnd string pbrbmftfr into tif fxfdutbblf nbmf bnd
+     * progrbm brgumfnts.
      *
-     * The command string is broken into tokens. The token separator is a space
-     * or quota character. The space inside quotation is not a token separator.
-     * There are no escape sequences.
+     * Tif dommbnd string is brokfn into tokfns. Tif tokfn sfpbrbtor is b spbdf
+     * or quotb dibrbdtfr. Tif spbdf insidf quotbtion is not b tokfn sfpbrbtor.
+     * Tifrf brf no fsdbpf sfqufndfs.
      */
-    private static String[] getTokensFromCommand(String command) {
-        ArrayList<String> matchList = new ArrayList<>(8);
-        Matcher regexMatcher = LazyPattern.PATTERN.matcher(command);
-        while (regexMatcher.find())
-            matchList.add(regexMatcher.group());
-        return matchList.toArray(new String[matchList.size()]);
+    privbtf stbtid String[] gftTokfnsFromCommbnd(String dommbnd) {
+        ArrbyList<String> mbtdiList = nfw ArrbyList<>(8);
+        Mbtdifr rfgfxMbtdifr = LbzyPbttfrn.PATTERN.mbtdifr(dommbnd);
+        wiilf (rfgfxMbtdifr.find())
+            mbtdiList.bdd(rfgfxMbtdifr.group());
+        rfturn mbtdiList.toArrby(nfw String[mbtdiList.sizf()]);
     }
 
-    private static final int VERIFICATION_CMD_BAT = 0;
-    private static final int VERIFICATION_WIN32 = 1;
-    private static final int VERIFICATION_LEGACY = 2;
-    private static final char ESCAPE_VERIFICATION[][] = {
-        // We guarantee the only command file execution for implicit [cmd.exe] run.
-        //    http://technet.microsoft.com/en-us/library/bb490954.aspx
+    privbtf stbtid finbl int VERIFICATION_CMD_BAT = 0;
+    privbtf stbtid finbl int VERIFICATION_WIN32 = 1;
+    privbtf stbtid finbl int VERIFICATION_LEGACY = 2;
+    privbtf stbtid finbl dibr ESCAPE_VERIFICATION[][] = {
+        // Wf gubrbntff tif only dommbnd filf fxfdution for implidit [dmd.fxf] run.
+        //    ittp://tfdinft.midrosoft.dom/fn-us/librbry/bb490954.bspx
         {' ', '\t', '<', '>', '&', '|', '^'},
 
         {' ', '\t', '<', '>'},
         {' ', '\t'}
     };
 
-    private static String createCommandLine(int verificationType,
-                                     final String executablePath,
-                                     final String cmd[])
+    privbtf stbtid String drfbtfCommbndLinf(int vfrifidbtionTypf,
+                                     finbl String fxfdutbblfPbti,
+                                     finbl String dmd[])
     {
-        StringBuilder cmdbuf = new StringBuilder(80);
+        StringBuildfr dmdbuf = nfw StringBuildfr(80);
 
-        cmdbuf.append(executablePath);
+        dmdbuf.bppfnd(fxfdutbblfPbti);
 
-        for (int i = 1; i < cmd.length; ++i) {
-            cmdbuf.append(' ');
-            String s = cmd[i];
-            if (needsEscaping(verificationType, s)) {
-                cmdbuf.append('"').append(s);
+        for (int i = 1; i < dmd.lfngti; ++i) {
+            dmdbuf.bppfnd(' ');
+            String s = dmd[i];
+            if (nffdsEsdbping(vfrifidbtionTypf, s)) {
+                dmdbuf.bppfnd('"').bppfnd(s);
 
-                // The code protects the [java.exe] and console command line
-                // parser, that interprets the [\"] combination as an escape
-                // sequence for the ["] char.
-                //     http://msdn.microsoft.com/en-us/library/17w5ykft.aspx
+                // Tif dodf protfdts tif [jbvb.fxf] bnd donsolf dommbnd linf
+                // pbrsfr, tibt intfrprfts tif [\"] dombinbtion bs bn fsdbpf
+                // sfqufndf for tif ["] dibr.
+                //     ittp://msdn.midrosoft.dom/fn-us/librbry/17w5ykft.bspx
                 //
-                // If the argument is an FS path, doubling of the tail [\]
-                // char is not a problem for non-console applications.
+                // If tif brgumfnt is bn FS pbti, doubling of tif tbil [\]
+                // dibr is not b problfm for non-donsolf bpplidbtions.
                 //
-                // The [\"] sequence is not an escape sequence for the [cmd.exe]
-                // command line parser. The case of the [""] tail escape
-                // sequence could not be realized due to the argument validation
-                // procedure.
-                if ((verificationType != VERIFICATION_CMD_BAT) && s.endsWith("\\")) {
-                    cmdbuf.append('\\');
+                // Tif [\"] sfqufndf is not bn fsdbpf sfqufndf for tif [dmd.fxf]
+                // dommbnd linf pbrsfr. Tif dbsf of tif [""] tbil fsdbpf
+                // sfqufndf dould not bf rfblizfd duf to tif brgumfnt vblidbtion
+                // prodfdurf.
+                if ((vfrifidbtionTypf != VERIFICATION_CMD_BAT) && s.fndsWiti("\\")) {
+                    dmdbuf.bppfnd('\\');
                 }
-                cmdbuf.append('"');
-            } else {
-                cmdbuf.append(s);
+                dmdbuf.bppfnd('"');
+            } flsf {
+                dmdbuf.bppfnd(s);
             }
         }
-        return cmdbuf.toString();
+        rfturn dmdbuf.toString();
     }
 
-    private static boolean isQuoted(boolean noQuotesInside, String arg,
-            String errorMessage) {
-        int lastPos = arg.length() - 1;
-        if (lastPos >=1 && arg.charAt(0) == '"' && arg.charAt(lastPos) == '"') {
-            // The argument has already been quoted.
-            if (noQuotesInside) {
-                if (arg.indexOf('"', 1) != lastPos) {
-                    // There is ["] inside.
-                    throw new IllegalArgumentException(errorMessage);
+    privbtf stbtid boolfbn isQuotfd(boolfbn noQuotfsInsidf, String brg,
+            String frrorMfssbgf) {
+        int lbstPos = brg.lfngti() - 1;
+        if (lbstPos >=1 && brg.dibrAt(0) == '"' && brg.dibrAt(lbstPos) == '"') {
+            // Tif brgumfnt ibs blrfbdy bffn quotfd.
+            if (noQuotfsInsidf) {
+                if (brg.indfxOf('"', 1) != lbstPos) {
+                    // Tifrf is ["] insidf.
+                    tirow nfw IllfgblArgumfntExdfption(frrorMfssbgf);
                 }
             }
-            return true;
+            rfturn truf;
         }
-        if (noQuotesInside) {
-            if (arg.indexOf('"') >= 0) {
-                // There is ["] inside.
-                throw new IllegalArgumentException(errorMessage);
+        if (noQuotfsInsidf) {
+            if (brg.indfxOf('"') >= 0) {
+                // Tifrf is ["] insidf.
+                tirow nfw IllfgblArgumfntExdfption(frrorMfssbgf);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static boolean needsEscaping(int verificationType, String arg) {
-        // Switch off MS heuristic for internal ["].
-        // Please, use the explicit [cmd.exe] call
-        // if you need the internal ["].
-        //    Example: "cmd.exe", "/C", "Extended_MS_Syntax"
+    privbtf stbtid boolfbn nffdsEsdbping(int vfrifidbtionTypf, String brg) {
+        // Switdi off MS ifuristid for intfrnbl ["].
+        // Plfbsf, usf tif fxplidit [dmd.fxf] dbll
+        // if you nffd tif intfrnbl ["].
+        //    Exbmplf: "dmd.fxf", "/C", "Extfndfd_MS_Syntbx"
 
-        // For [.exe] or [.com] file the unpaired/internal ["]
-        // in the argument is not a problem.
-        boolean argIsQuoted = isQuoted(
-            (verificationType == VERIFICATION_CMD_BAT),
-            arg, "Argument has embedded quote, use the explicit CMD.EXE call.");
+        // For [.fxf] or [.dom] filf tif unpbirfd/intfrnbl ["]
+        // in tif brgumfnt is not b problfm.
+        boolfbn brgIsQuotfd = isQuotfd(
+            (vfrifidbtionTypf == VERIFICATION_CMD_BAT),
+            brg, "Argumfnt ibs fmbfddfd quotf, usf tif fxplidit CMD.EXE dbll.");
 
-        if (!argIsQuoted) {
-            char testEscape[] = ESCAPE_VERIFICATION[verificationType];
-            for (int i = 0; i < testEscape.length; ++i) {
-                if (arg.indexOf(testEscape[i]) >= 0) {
-                    return true;
+        if (!brgIsQuotfd) {
+            dibr tfstEsdbpf[] = ESCAPE_VERIFICATION[vfrifidbtionTypf];
+            for (int i = 0; i < tfstEsdbpf.lfngti; ++i) {
+                if (brg.indfxOf(tfstEsdbpf[i]) >= 0) {
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static String getExecutablePath(String path)
-        throws IOException
+    privbtf stbtid String gftExfdutbblfPbti(String pbti)
+        tirows IOExdfption
     {
-        boolean pathIsQuoted = isQuoted(true, path,
-                "Executable name has embedded quote, split the arguments");
+        boolfbn pbtiIsQuotfd = isQuotfd(truf, pbti,
+                "Exfdutbblf nbmf ibs fmbfddfd quotf, split tif brgumfnts");
 
-        // Win32 CreateProcess requires path to be normalized
-        File fileToRun = new File(pathIsQuoted
-            ? path.substring(1, path.length() - 1)
-            : path);
+        // Win32 CrfbtfProdfss rfquirfs pbti to bf normblizfd
+        Filf filfToRun = nfw Filf(pbtiIsQuotfd
+            ? pbti.substring(1, pbti.lfngti() - 1)
+            : pbti);
 
-        // From the [CreateProcess] function documentation:
+        // From tif [CrfbtfProdfss] fundtion dodumfntbtion:
         //
-        // "If the file name does not contain an extension, .exe is appended.
-        // Therefore, if the file name extension is .com, this parameter
-        // must include the .com extension. If the file name ends in
-        // a period (.) with no extension, or if the file name contains a path,
-        // .exe is not appended."
+        // "If tif filf nbmf dofs not dontbin bn fxtfnsion, .fxf is bppfndfd.
+        // Tifrfforf, if tif filf nbmf fxtfnsion is .dom, tiis pbrbmftfr
+        // must indludf tif .dom fxtfnsion. If tif filf nbmf fnds in
+        // b pfriod (.) witi no fxtfnsion, or if tif filf nbmf dontbins b pbti,
+        // .fxf is not bppfndfd."
         //
-        // "If the file name !does not contain a directory path!,
-        // the system searches for the executable file in the following
-        // sequence:..."
+        // "If tif filf nbmf !dofs not dontbin b dirfdtory pbti!,
+        // tif systfm sfbrdifs for tif fxfdutbblf filf in tif following
+        // sfqufndf:..."
         //
-        // In practice ANY non-existent path is extended by [.exe] extension
-        // in the [CreateProcess] funcion with the only exception:
-        // the path ends by (.)
+        // In prbdtidf ANY non-fxistfnt pbti is fxtfndfd by [.fxf] fxtfnsion
+        // in tif [CrfbtfProdfss] fundion witi tif only fxdfption:
+        // tif pbti fnds by (.)
 
-        return fileToRun.getPath();
+        rfturn filfToRun.gftPbti();
     }
 
 
-    private boolean isShellFile(String executablePath) {
-        String upPath = executablePath.toUpperCase();
-        return (upPath.endsWith(".CMD") || upPath.endsWith(".BAT"));
+    privbtf boolfbn isSifllFilf(String fxfdutbblfPbti) {
+        String upPbti = fxfdutbblfPbti.toUppfrCbsf();
+        rfturn (upPbti.fndsWiti(".CMD") || upPbti.fndsWiti(".BAT"));
     }
 
-    private String quoteString(String arg) {
-        StringBuilder argbuf = new StringBuilder(arg.length() + 2);
-        return argbuf.append('"').append(arg).append('"').toString();
+    privbtf String quotfString(String brg) {
+        StringBuildfr brgbuf = nfw StringBuildfr(brg.lfngti() + 2);
+        rfturn brgbuf.bppfnd('"').bppfnd(brg).bppfnd('"').toString();
     }
 
 
-    private long handle = 0;
-    private OutputStream stdin_stream;
-    private InputStream stdout_stream;
-    private InputStream stderr_stream;
+    privbtf long ibndlf = 0;
+    privbtf OutputStrfbm stdin_strfbm;
+    privbtf InputStrfbm stdout_strfbm;
+    privbtf InputStrfbm stdfrr_strfbm;
 
-    private ProcessImpl(String cmd[],
-                        final String envblock,
-                        final String path,
-                        final long[] stdHandles,
-                        final boolean redirectErrorStream)
-        throws IOException
+    privbtf ProdfssImpl(String dmd[],
+                        finbl String fnvblodk,
+                        finbl String pbti,
+                        finbl long[] stdHbndlfs,
+                        finbl boolfbn rfdirfdtErrorStrfbm)
+        tirows IOExdfption
     {
-        String cmdstr;
-        SecurityManager security = System.getSecurityManager();
-        boolean allowAmbiguousCommands = false;
-        if (security == null) {
-            allowAmbiguousCommands = true;
-            String value = System.getProperty("jdk.lang.Process.allowAmbiguousCommands");
-            if (value != null)
-                allowAmbiguousCommands = !"false".equalsIgnoreCase(value);
+        String dmdstr;
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        boolfbn bllowAmbiguousCommbnds = fblsf;
+        if (sfdurity == null) {
+            bllowAmbiguousCommbnds = truf;
+            String vbluf = Systfm.gftPropfrty("jdk.lbng.Prodfss.bllowAmbiguousCommbnds");
+            if (vbluf != null)
+                bllowAmbiguousCommbnds = !"fblsf".fqublsIgnorfCbsf(vbluf);
         }
-        if (allowAmbiguousCommands) {
-            // Legacy mode.
+        if (bllowAmbiguousCommbnds) {
+            // Lfgbdy modf.
 
-            // Normalize path if possible.
-            String executablePath = new File(cmd[0]).getPath();
+            // Normblizf pbti if possiblf.
+            String fxfdutbblfPbti = nfw Filf(dmd[0]).gftPbti();
 
-            // No worry about internal, unpaired ["], and redirection/piping.
-            if (needsEscaping(VERIFICATION_LEGACY, executablePath) )
-                executablePath = quoteString(executablePath);
+            // No worry bbout intfrnbl, unpbirfd ["], bnd rfdirfdtion/piping.
+            if (nffdsEsdbping(VERIFICATION_LEGACY, fxfdutbblfPbti) )
+                fxfdutbblfPbti = quotfString(fxfdutbblfPbti);
 
-            cmdstr = createCommandLine(
-                //legacy mode doesn't worry about extended verification
+            dmdstr = drfbtfCommbndLinf(
+                //lfgbdy modf dofsn't worry bbout fxtfndfd vfrifidbtion
                 VERIFICATION_LEGACY,
-                executablePath,
-                cmd);
-        } else {
-            String executablePath;
+                fxfdutbblfPbti,
+                dmd);
+        } flsf {
+            String fxfdutbblfPbti;
             try {
-                executablePath = getExecutablePath(cmd[0]);
-            } catch (IllegalArgumentException e) {
-                // Workaround for the calls like
-                // Runtime.getRuntime().exec("\"C:\\Program Files\\foo\" bar")
+                fxfdutbblfPbti = gftExfdutbblfPbti(dmd[0]);
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                // Workbround for tif dblls likf
+                // Runtimf.gftRuntimf().fxfd("\"C:\\Progrbm Filfs\\foo\" bbr")
 
-                // No chance to avoid CMD/BAT injection, except to do the work
-                // right from the beginning. Otherwise we have too many corner
-                // cases from
-                //    Runtime.getRuntime().exec(String[] cmd [, ...])
-                // calls with internal ["] and escape sequences.
+                // No dibndf to bvoid CMD/BAT injfdtion, fxdfpt to do tif work
+                // rigit from tif bfginning. Otifrwisf wf ibvf too mbny dornfr
+                // dbsfs from
+                //    Runtimf.gftRuntimf().fxfd(String[] dmd [, ...])
+                // dblls witi intfrnbl ["] bnd fsdbpf sfqufndfs.
 
-                // Restore original command line.
-                StringBuilder join = new StringBuilder();
-                // terminal space in command line is ok
-                for (String s : cmd)
-                    join.append(s).append(' ');
+                // Rfstorf originbl dommbnd linf.
+                StringBuildfr join = nfw StringBuildfr();
+                // tfrminbl spbdf in dommbnd linf is ok
+                for (String s : dmd)
+                    join.bppfnd(s).bppfnd(' ');
 
-                // Parse the command line again.
-                cmd = getTokensFromCommand(join.toString());
-                executablePath = getExecutablePath(cmd[0]);
+                // Pbrsf tif dommbnd linf bgbin.
+                dmd = gftTokfnsFromCommbnd(join.toString());
+                fxfdutbblfPbti = gftExfdutbblfPbti(dmd[0]);
 
-                // Check new executable name once more
-                if (security != null)
-                    security.checkExec(executablePath);
+                // Cifdk nfw fxfdutbblf nbmf ondf morf
+                if (sfdurity != null)
+                    sfdurity.difdkExfd(fxfdutbblfPbti);
             }
 
-            // Quotation protects from interpretation of the [path] argument as
-            // start of longer path with spaces. Quotation has no influence to
-            // [.exe] extension heuristic.
-            cmdstr = createCommandLine(
-                    // We need the extended verification procedure for CMD files.
-                    isShellFile(executablePath)
+            // Quotbtion protfdts from intfrprftbtion of tif [pbti] brgumfnt bs
+            // stbrt of longfr pbti witi spbdfs. Quotbtion ibs no influfndf to
+            // [.fxf] fxtfnsion ifuristid.
+            dmdstr = drfbtfCommbndLinf(
+                    // Wf nffd tif fxtfndfd vfrifidbtion prodfdurf for CMD filfs.
+                    isSifllFilf(fxfdutbblfPbti)
                         ? VERIFICATION_CMD_BAT
                         : VERIFICATION_WIN32,
-                    quoteString(executablePath),
-                    cmd);
+                    quotfString(fxfdutbblfPbti),
+                    dmd);
         }
 
-        handle = create(cmdstr, envblock, path,
-                        stdHandles, redirectErrorStream);
+        ibndlf = drfbtf(dmdstr, fnvblodk, pbti,
+                        stdHbndlfs, rfdirfdtErrorStrfbm);
 
-        java.security.AccessController.doPrivileged(
-        new java.security.PrivilegedAction<Void>() {
-        public Void run() {
-            if (stdHandles[0] == -1L)
-                stdin_stream = ProcessBuilder.NullOutputStream.INSTANCE;
-            else {
-                FileDescriptor stdin_fd = new FileDescriptor();
-                fdAccess.setHandle(stdin_fd, stdHandles[0]);
-                stdin_stream = new BufferedOutputStream(
-                    new FileOutputStream(stdin_fd));
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+        nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+        publid Void run() {
+            if (stdHbndlfs[0] == -1L)
+                stdin_strfbm = ProdfssBuildfr.NullOutputStrfbm.INSTANCE;
+            flsf {
+                FilfDfsdriptor stdin_fd = nfw FilfDfsdriptor();
+                fdAddfss.sftHbndlf(stdin_fd, stdHbndlfs[0]);
+                stdin_strfbm = nfw BufffrfdOutputStrfbm(
+                    nfw FilfOutputStrfbm(stdin_fd));
             }
 
-            if (stdHandles[1] == -1L)
-                stdout_stream = ProcessBuilder.NullInputStream.INSTANCE;
-            else {
-                FileDescriptor stdout_fd = new FileDescriptor();
-                fdAccess.setHandle(stdout_fd, stdHandles[1]);
-                stdout_stream = new BufferedInputStream(
-                    new FileInputStream(stdout_fd));
+            if (stdHbndlfs[1] == -1L)
+                stdout_strfbm = ProdfssBuildfr.NullInputStrfbm.INSTANCE;
+            flsf {
+                FilfDfsdriptor stdout_fd = nfw FilfDfsdriptor();
+                fdAddfss.sftHbndlf(stdout_fd, stdHbndlfs[1]);
+                stdout_strfbm = nfw BufffrfdInputStrfbm(
+                    nfw FilfInputStrfbm(stdout_fd));
             }
 
-            if (stdHandles[2] == -1L)
-                stderr_stream = ProcessBuilder.NullInputStream.INSTANCE;
-            else {
-                FileDescriptor stderr_fd = new FileDescriptor();
-                fdAccess.setHandle(stderr_fd, stdHandles[2]);
-                stderr_stream = new FileInputStream(stderr_fd);
+            if (stdHbndlfs[2] == -1L)
+                stdfrr_strfbm = ProdfssBuildfr.NullInputStrfbm.INSTANCE;
+            flsf {
+                FilfDfsdriptor stdfrr_fd = nfw FilfDfsdriptor();
+                fdAddfss.sftHbndlf(stdfrr_fd, stdHbndlfs[2]);
+                stdfrr_strfbm = nfw FilfInputStrfbm(stdfrr_fd);
             }
 
-            return null; }});
+            rfturn null; }});
     }
 
-    public OutputStream getOutputStream() {
-        return stdin_stream;
+    publid OutputStrfbm gftOutputStrfbm() {
+        rfturn stdin_strfbm;
     }
 
-    public InputStream getInputStream() {
-        return stdout_stream;
+    publid InputStrfbm gftInputStrfbm() {
+        rfturn stdout_strfbm;
     }
 
-    public InputStream getErrorStream() {
-        return stderr_stream;
+    publid InputStrfbm gftErrorStrfbm() {
+        rfturn stdfrr_strfbm;
     }
 
-    protected void finalize() {
-        closeHandle(handle);
+    protfdtfd void finblizf() {
+        dlosfHbndlf(ibndlf);
     }
 
-    private static final int STILL_ACTIVE = getStillActive();
-    private static native int getStillActive();
+    privbtf stbtid finbl int STILL_ACTIVE = gftStillAdtivf();
+    privbtf stbtid nbtivf int gftStillAdtivf();
 
-    public int exitValue() {
-        int exitCode = getExitCodeProcess(handle);
-        if (exitCode == STILL_ACTIVE)
-            throw new IllegalThreadStateException("process has not exited");
-        return exitCode;
+    publid int fxitVbluf() {
+        int fxitCodf = gftExitCodfProdfss(ibndlf);
+        if (fxitCodf == STILL_ACTIVE)
+            tirow nfw IllfgblTirfbdStbtfExdfption("prodfss ibs not fxitfd");
+        rfturn fxitCodf;
     }
-    private static native int getExitCodeProcess(long handle);
+    privbtf stbtid nbtivf int gftExitCodfProdfss(long ibndlf);
 
-    public int waitFor() throws InterruptedException {
-        waitForInterruptibly(handle);
-        if (Thread.interrupted())
-            throw new InterruptedException();
-        return exitValue();
+    publid int wbitFor() tirows IntfrruptfdExdfption {
+        wbitForIntfrruptibly(ibndlf);
+        if (Tirfbd.intfrruptfd())
+            tirow nfw IntfrruptfdExdfption();
+        rfturn fxitVbluf();
     }
 
-    private static native void waitForInterruptibly(long handle);
+    privbtf stbtid nbtivf void wbitForIntfrruptibly(long ibndlf);
 
-    @Override
-    public boolean waitFor(long timeout, TimeUnit unit)
-        throws InterruptedException
+    @Ovfrridf
+    publid boolfbn wbitFor(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption
     {
-        if (getExitCodeProcess(handle) != STILL_ACTIVE) return true;
-        if (timeout <= 0) return false;
+        if (gftExitCodfProdfss(ibndlf) != STILL_ACTIVE) rfturn truf;
+        if (timfout <= 0) rfturn fblsf;
 
-        long msTimeout = unit.toMillis(timeout);
+        long msTimfout = unit.toMillis(timfout);
 
-        waitForTimeoutInterruptibly(handle, msTimeout);
-        if (Thread.interrupted())
-            throw new InterruptedException();
-        return (getExitCodeProcess(handle) != STILL_ACTIVE);
+        wbitForTimfoutIntfrruptibly(ibndlf, msTimfout);
+        if (Tirfbd.intfrruptfd())
+            tirow nfw IntfrruptfdExdfption();
+        rfturn (gftExitCodfProdfss(ibndlf) != STILL_ACTIVE);
     }
 
-    private static native void waitForTimeoutInterruptibly(
-        long handle, long timeout);
+    privbtf stbtid nbtivf void wbitForTimfoutIntfrruptibly(
+        long ibndlf, long timfout);
 
-    public void destroy() { terminateProcess(handle); }
+    publid void dfstroy() { tfrminbtfProdfss(ibndlf); }
 
-    @Override
-    public Process destroyForcibly() {
-        destroy();
-        return this;
+    @Ovfrridf
+    publid Prodfss dfstroyFordibly() {
+        dfstroy();
+        rfturn tiis;
     }
 
-    private static native void terminateProcess(long handle);
+    privbtf stbtid nbtivf void tfrminbtfProdfss(long ibndlf);
 
-    @Override
-    public long getPid() {
-        int pid = getProcessId0(handle);
-        return pid;
+    @Ovfrridf
+    publid long gftPid() {
+        int pid = gftProdfssId0(ibndlf);
+        rfturn pid;
     }
 
-    private static native int getProcessId0(long handle);
+    privbtf stbtid nbtivf int gftProdfssId0(long ibndlf);
 
-    @Override
-    public boolean isAlive() {
-        return isProcessAlive(handle);
+    @Ovfrridf
+    publid boolfbn isAlivf() {
+        rfturn isProdfssAlivf(ibndlf);
     }
 
-    private static native boolean isProcessAlive(long handle);
+    privbtf stbtid nbtivf boolfbn isProdfssAlivf(long ibndlf);
 
     /**
-     * Create a process using the win32 function CreateProcess.
-     * The method is synchronized due to MS kb315939 problem.
-     * All native handles should restore the inherit flag at the end of call.
+     * Crfbtf b prodfss using tif win32 fundtion CrfbtfProdfss.
+     * Tif mftiod is syndironizfd duf to MS kb315939 problfm.
+     * All nbtivf ibndlfs siould rfstorf tif inifrit flbg bt tif fnd of dbll.
      *
-     * @param cmdstr the Windows command line
-     * @param envblock NUL-separated, double-NUL-terminated list of
-     *        environment strings in VAR=VALUE form
-     * @param dir the working directory of the process, or null if
-     *        inheriting the current directory from the parent process
-     * @param stdHandles array of windows HANDLEs.  Indexes 0, 1, and
-     *        2 correspond to standard input, standard output and
-     *        standard error, respectively.  On input, a value of -1
-     *        means to create a pipe to connect child and parent
-     *        processes.  On output, a value which is not -1 is the
-     *        parent pipe handle corresponding to the pipe which has
-     *        been created.  An element of this array is -1 on input
-     *        if and only if it is <em>not</em> -1 on output.
-     * @param redirectErrorStream redirectErrorStream attribute
-     * @return the native subprocess HANDLE returned by CreateProcess
+     * @pbrbm dmdstr tif Windows dommbnd linf
+     * @pbrbm fnvblodk NUL-sfpbrbtfd, doublf-NUL-tfrminbtfd list of
+     *        fnvironmfnt strings in VAR=VALUE form
+     * @pbrbm dir tif working dirfdtory of tif prodfss, or null if
+     *        inifriting tif durrfnt dirfdtory from tif pbrfnt prodfss
+     * @pbrbm stdHbndlfs brrby of windows HANDLEs.  Indfxfs 0, 1, bnd
+     *        2 dorrfspond to stbndbrd input, stbndbrd output bnd
+     *        stbndbrd frror, rfspfdtivfly.  On input, b vbluf of -1
+     *        mfbns to drfbtf b pipf to donnfdt diild bnd pbrfnt
+     *        prodfssfs.  On output, b vbluf wiidi is not -1 is tif
+     *        pbrfnt pipf ibndlf dorrfsponding to tif pipf wiidi ibs
+     *        bffn drfbtfd.  An flfmfnt of tiis brrby is -1 on input
+     *        if bnd only if it is <fm>not</fm> -1 on output.
+     * @pbrbm rfdirfdtErrorStrfbm rfdirfdtErrorStrfbm bttributf
+     * @rfturn tif nbtivf subprodfss HANDLE rfturnfd by CrfbtfProdfss
      */
-    private static synchronized native long create(String cmdstr,
-                                      String envblock,
+    privbtf stbtid syndironizfd nbtivf long drfbtf(String dmdstr,
+                                      String fnvblodk,
                                       String dir,
-                                      long[] stdHandles,
-                                      boolean redirectErrorStream)
-        throws IOException;
+                                      long[] stdHbndlfs,
+                                      boolfbn rfdirfdtErrorStrfbm)
+        tirows IOExdfption;
 
     /**
-     * Opens a file for atomic append. The file is created if it doesn't
-     * already exist.
+     * Opfns b filf for btomid bppfnd. Tif filf is drfbtfd if it dofsn't
+     * blrfbdy fxist.
      *
-     * @param file the file to open or create
-     * @return the native HANDLE
+     * @pbrbm filf tif filf to opfn or drfbtf
+     * @rfturn tif nbtivf HANDLE
      */
-    private static native long openForAtomicAppend(String path)
-        throws IOException;
+    privbtf stbtid nbtivf long opfnForAtomidAppfnd(String pbti)
+        tirows IOExdfption;
 
-    private static native boolean closeHandle(long handle);
+    privbtf stbtid nbtivf boolfbn dlosfHbndlf(long ibndlf);
 }

@@ -1,824 +1,824 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
 
-import sun.swing.DefaultLookup;
-import sun.swing.UIAction;
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.LightweightPeer;
-import java.beans.*;
-import java.util.*;
-import javax.swing.plaf.SplitPaneUI;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
-import sun.swing.SwingUtilities2;
+import sun.swing.DffbultLookup;
+import sun.swing.UIAdtion;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.pffr.LigitwfigitPffr;
+import jbvb.bfbns.*;
+import jbvb.util.*;
+import jbvbx.swing.plbf.SplitPbnfUI;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.UIRfsourdf;
+import sun.swing.SwingUtilitifs2;
 
 
 /**
- * A Basic L&amp;F implementation of the SplitPaneUI.
+ * A Bbsid L&bmp;F implfmfntbtion of tif SplitPbnfUI.
  *
- * @author Scott Violet
- * @author Steve Wilson
- * @author Ralph Kar
+ * @butior Sdott Violft
+ * @butior Stfvf Wilson
+ * @butior Rblpi Kbr
  */
-public class BasicSplitPaneUI extends SplitPaneUI
+publid dlbss BbsidSplitPbnfUI fxtfnds SplitPbnfUI
 {
     /**
-     * The divider used for non-continuous layout is added to the split pane
-     * with this object.
+     * Tif dividfr usfd for non-dontinuous lbyout is bddfd to tif split pbnf
+     * witi tiis objfdt.
      */
-    protected static final String NON_CONTINUOUS_DIVIDER =
-        "nonContinuousDivider";
+    protfdtfd stbtid finbl String NON_CONTINUOUS_DIVIDER =
+        "nonContinuousDividfr";
 
 
     /**
-     * How far (relative) the divider does move when it is moved around by
-     * the cursor keys on the keyboard.
+     * How fbr (rflbtivf) tif dividfr dofs movf wifn it is movfd bround by
+     * tif dursor kfys on tif kfybobrd.
      */
-    protected static int KEYBOARD_DIVIDER_MOVE_OFFSET = 3;
+    protfdtfd stbtid int KEYBOARD_DIVIDER_MOVE_OFFSET = 3;
 
 
     /**
-     * JSplitPane instance this instance is providing
-     * the look and feel for.
+     * JSplitPbnf instbndf tiis instbndf is providing
+     * tif look bnd fffl for.
      */
-    protected JSplitPane splitPane;
+    protfdtfd JSplitPbnf splitPbnf;
 
 
     /**
-     * LayoutManager that is created and placed into the split pane.
+     * LbyoutMbnbgfr tibt is drfbtfd bnd plbdfd into tif split pbnf.
      */
-    protected BasicHorizontalLayoutManager layoutManager;
+    protfdtfd BbsidHorizontblLbyoutMbnbgfr lbyoutMbnbgfr;
 
 
     /**
-     * Instance of the divider for this JSplitPane.
+     * Instbndf of tif dividfr for tiis JSplitPbnf.
      */
-    protected BasicSplitPaneDivider divider;
+    protfdtfd BbsidSplitPbnfDividfr dividfr;
 
 
     /**
-     * Instance of the PropertyChangeListener for this JSplitPane.
+     * Instbndf of tif PropfrtyCibngfListfnfr for tiis JSplitPbnf.
      */
-    protected PropertyChangeListener propertyChangeListener;
+    protfdtfd PropfrtyCibngfListfnfr propfrtyCibngfListfnfr;
 
 
     /**
-     * Instance of the FocusListener for this JSplitPane.
+     * Instbndf of tif FodusListfnfr for tiis JSplitPbnf.
      */
-    protected FocusListener focusListener;
+    protfdtfd FodusListfnfr fodusListfnfr;
 
-    private Handler handler;
+    privbtf Hbndlfr ibndlfr;
 
 
     /**
-     * Keys to use for forward focus traversal when the JComponent is
-     * managing focus.
+     * Kfys to usf for forwbrd fodus trbvfrsbl wifn tif JComponfnt is
+     * mbnbging fodus.
      */
-    private Set<KeyStroke> managingFocusForwardTraversalKeys;
+    privbtf Sft<KfyStrokf> mbnbgingFodusForwbrdTrbvfrsblKfys;
 
     /**
-     * Keys to use for backward focus traversal when the JComponent is
-     * managing focus.
+     * Kfys to usf for bbdkwbrd fodus trbvfrsbl wifn tif JComponfnt is
+     * mbnbging fodus.
      */
-    private Set<KeyStroke> managingFocusBackwardTraversalKeys;
-
-
-    /**
-     * The size of the divider while the dragging session is valid.
-     */
-    protected int dividerSize;
+    privbtf Sft<KfyStrokf> mbnbgingFodusBbdkwbrdTrbvfrsblKfys;
 
 
     /**
-     * Instance for the shadow of the divider when non continuous layout
-     * is being used.
+     * Tif sizf of tif dividfr wiilf tif drbgging sfssion is vblid.
      */
-    protected Component nonContinuousLayoutDivider;
+    protfdtfd int dividfrSizf;
 
 
     /**
-     * Set to true in startDragging if any of the children
-     * (not including the nonContinuousLayoutDivider) are heavy weights.
+     * Instbndf for tif sibdow of tif dividfr wifn non dontinuous lbyout
+     * is bfing usfd.
      */
-    protected boolean draggingHW;
+    protfdtfd Componfnt nonContinuousLbyoutDividfr;
 
 
     /**
-     * Location of the divider when the dragging session began.
+     * Sft to truf in stbrtDrbgging if bny of tif diildrfn
+     * (not indluding tif nonContinuousLbyoutDividfr) brf ifbvy wfigits.
      */
-    protected int beginDragDividerLocation;
+    protfdtfd boolfbn drbggingHW;
 
 
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * Lodbtion of tif dividfr wifn tif drbgging sfssion bfgbn.
+     */
+    protfdtfd int bfginDrbgDividfrLodbtion;
+
+
+    /**
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected KeyStroke upKey;
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf upKfy;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected KeyStroke downKey;
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf downKfy;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected KeyStroke leftKey;
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf lfftKfy;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected KeyStroke rightKey;
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf rigitKfy;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected KeyStroke homeKey;
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf iomfKfy;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected KeyStroke endKey;
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf fndKfy;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected KeyStroke dividerResizeToggleKey;
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf dividfrRfsizfTogglfKfy;
 
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected ActionListener keyboardUpLeftListener;
+    @Dfprfdbtfd
+    protfdtfd AdtionListfnfr kfybobrdUpLfftListfnfr;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected ActionListener keyboardDownRightListener;
+    @Dfprfdbtfd
+    protfdtfd AdtionListfnfr kfybobrdDownRigitListfnfr;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected ActionListener keyboardHomeListener;
+    @Dfprfdbtfd
+    protfdtfd AdtionListfnfr kfybobrdHomfListfnfr;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected ActionListener keyboardEndListener;
+    @Dfprfdbtfd
+    protfdtfd AdtionListfnfr kfybobrdEndListfnfr;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected ActionListener keyboardResizeToggleListener;
+    @Dfprfdbtfd
+    protfdtfd AdtionListfnfr kfybobrdRfsizfTogglfListfnfr;
 
 
-    // Private data of the instance
-    private int         orientation;
-    private int         lastDragLocation;
-    private boolean     continuousLayout;
-    private boolean     dividerKeyboardResize;
-    private boolean     dividerLocationIsSet;  // needed for tracking
-                                               // the first occurrence of
-                                               // setDividerLocation()
-    private Color dividerDraggingColor;
-    private boolean rememberPaneSizes;
+    // Privbtf dbtb of tif instbndf
+    privbtf int         orifntbtion;
+    privbtf int         lbstDrbgLodbtion;
+    privbtf boolfbn     dontinuousLbyout;
+    privbtf boolfbn     dividfrKfybobrdRfsizf;
+    privbtf boolfbn     dividfrLodbtionIsSft;  // nffdfd for trbdking
+                                               // tif first oddurrfndf of
+                                               // sftDividfrLodbtion()
+    privbtf Color dividfrDrbggingColor;
+    privbtf boolfbn rfmfmbfrPbnfSizfs;
 
-    // Indicates whether the one of splitpane sides is expanded
-    private boolean keepHidden = false;
+    // Indidbtfs wiftifr tif onf of splitpbnf sidfs is fxpbndfd
+    privbtf boolfbn kffpHiddfn = fblsf;
 
-    /** Indicates that we have painted once. */
-    // This is used by the LayoutManager to determine when it should use
-    // the divider location provided by the JSplitPane. This is used as there
-    // is no way to determine when the layout process has completed.
-    boolean             painted;
-    /** If true, setDividerLocation does nothing. */
-    boolean             ignoreDividerLocationChange;
+    /** Indidbtfs tibt wf ibvf pbintfd ondf. */
+    // Tiis is usfd by tif LbyoutMbnbgfr to dftfrminf wifn it siould usf
+    // tif dividfr lodbtion providfd by tif JSplitPbnf. Tiis is usfd bs tifrf
+    // is no wby to dftfrminf wifn tif lbyout prodfss ibs domplftfd.
+    boolfbn             pbintfd;
+    /** If truf, sftDividfrLodbtion dofs notiing. */
+    boolfbn             ignorfDividfrLodbtionCibngf;
 
 
     /**
-     * Creates a new instance of {@code BasicSplitPaneUI}.
+     * Crfbtfs b nfw instbndf of {@dodf BbsidSplitPbnfUI}.
      *
-     * @param x a component
-     * @return a new instance of {@code BasicSplitPaneUI}
+     * @pbrbm x b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidSplitPbnfUI}
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new BasicSplitPaneUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw BbsidSplitPbnfUI();
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.NEGATIVE_INCREMENT));
-        map.put(new Actions(Actions.POSITIVE_INCREMENT));
-        map.put(new Actions(Actions.SELECT_MIN));
-        map.put(new Actions(Actions.SELECT_MAX));
-        map.put(new Actions(Actions.START_RESIZE));
-        map.put(new Actions(Actions.TOGGLE_FOCUS));
-        map.put(new Actions(Actions.FOCUS_OUT_FORWARD));
-        map.put(new Actions(Actions.FOCUS_OUT_BACKWARD));
-    }
-
-
-
-    /**
-     * Installs the UI.
-     */
-    public void installUI(JComponent c) {
-        splitPane = (JSplitPane) c;
-        dividerLocationIsSet = false;
-        dividerKeyboardResize = false;
-        keepHidden = false;
-        installDefaults();
-        installListeners();
-        installKeyboardActions();
-        setLastDragLocation(-1);
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put(nfw Adtions(Adtions.NEGATIVE_INCREMENT));
+        mbp.put(nfw Adtions(Adtions.POSITIVE_INCREMENT));
+        mbp.put(nfw Adtions(Adtions.SELECT_MIN));
+        mbp.put(nfw Adtions(Adtions.SELECT_MAX));
+        mbp.put(nfw Adtions(Adtions.START_RESIZE));
+        mbp.put(nfw Adtions(Adtions.TOGGLE_FOCUS));
+        mbp.put(nfw Adtions(Adtions.FOCUS_OUT_FORWARD));
+        mbp.put(nfw Adtions(Adtions.FOCUS_OUT_BACKWARD));
     }
 
 
+
     /**
-     * Installs the UI defaults.
+     * Instblls tif UI.
      */
-    protected void installDefaults(){
-        LookAndFeel.installBorder(splitPane, "SplitPane.border");
-        LookAndFeel.installColors(splitPane, "SplitPane.background",
-                                  "SplitPane.foreground");
-        LookAndFeel.installProperty(splitPane, "opaque", Boolean.TRUE);
-
-        if (divider == null) divider = createDefaultDivider();
-        divider.setBasicSplitPaneUI(this);
-
-        Border    b = divider.getBorder();
-
-        if (b == null || !(b instanceof UIResource)) {
-            divider.setBorder(UIManager.getBorder("SplitPaneDivider.border"));
-        }
-
-        dividerDraggingColor = UIManager.getColor("SplitPaneDivider.draggingColor");
-
-        setOrientation(splitPane.getOrientation());
-
-        // note: don't rename this temp variable to dividerSize
-        // since it will conflict with "this.dividerSize" field
-        Integer temp = (Integer)UIManager.get("SplitPane.dividerSize");
-        LookAndFeel.installProperty(splitPane, "dividerSize", temp == null? 10: temp);
-
-        divider.setDividerSize(splitPane.getDividerSize());
-        dividerSize = divider.getDividerSize();
-        splitPane.add(divider, JSplitPane.DIVIDER);
-
-        setContinuousLayout(splitPane.isContinuousLayout());
-
-        resetLayoutManager();
-
-        /* Install the nonContinuousLayoutDivider here to avoid having to
-        add/remove everything later. */
-        if(nonContinuousLayoutDivider == null) {
-            setNonContinuousLayoutDivider(
-                                createDefaultNonContinuousLayoutDivider(),
-                                true);
-        } else {
-            setNonContinuousLayoutDivider(nonContinuousLayoutDivider, true);
-        }
-
-        // focus forward traversal key
-        if (managingFocusForwardTraversalKeys==null) {
-            managingFocusForwardTraversalKeys = new HashSet<KeyStroke>();
-            managingFocusForwardTraversalKeys.add(
-                KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
-        }
-        splitPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-                                        managingFocusForwardTraversalKeys);
-        // focus backward traversal key
-        if (managingFocusBackwardTraversalKeys==null) {
-            managingFocusBackwardTraversalKeys = new HashSet<KeyStroke>();
-            managingFocusBackwardTraversalKeys.add(
-                KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.SHIFT_MASK));
-        }
-        splitPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-                                        managingFocusBackwardTraversalKeys);
+    publid void instbllUI(JComponfnt d) {
+        splitPbnf = (JSplitPbnf) d;
+        dividfrLodbtionIsSft = fblsf;
+        dividfrKfybobrdRfsizf = fblsf;
+        kffpHiddfn = fblsf;
+        instbllDffbults();
+        instbllListfnfrs();
+        instbllKfybobrdAdtions();
+        sftLbstDrbgLodbtion(-1);
     }
 
 
     /**
-     * Installs the event listeners for the UI.
+     * Instblls tif UI dffbults.
      */
-    protected void installListeners() {
-        if ((propertyChangeListener = createPropertyChangeListener()) !=
+    protfdtfd void instbllDffbults(){
+        LookAndFffl.instbllBordfr(splitPbnf, "SplitPbnf.bordfr");
+        LookAndFffl.instbllColors(splitPbnf, "SplitPbnf.bbdkground",
+                                  "SplitPbnf.forfground");
+        LookAndFffl.instbllPropfrty(splitPbnf, "opbquf", Boolfbn.TRUE);
+
+        if (dividfr == null) dividfr = drfbtfDffbultDividfr();
+        dividfr.sftBbsidSplitPbnfUI(tiis);
+
+        Bordfr    b = dividfr.gftBordfr();
+
+        if (b == null || !(b instbndfof UIRfsourdf)) {
+            dividfr.sftBordfr(UIMbnbgfr.gftBordfr("SplitPbnfDividfr.bordfr"));
+        }
+
+        dividfrDrbggingColor = UIMbnbgfr.gftColor("SplitPbnfDividfr.drbggingColor");
+
+        sftOrifntbtion(splitPbnf.gftOrifntbtion());
+
+        // notf: don't rfnbmf tiis tfmp vbribblf to dividfrSizf
+        // sindf it will donflidt witi "tiis.dividfrSizf" fifld
+        Intfgfr tfmp = (Intfgfr)UIMbnbgfr.gft("SplitPbnf.dividfrSizf");
+        LookAndFffl.instbllPropfrty(splitPbnf, "dividfrSizf", tfmp == null? 10: tfmp);
+
+        dividfr.sftDividfrSizf(splitPbnf.gftDividfrSizf());
+        dividfrSizf = dividfr.gftDividfrSizf();
+        splitPbnf.bdd(dividfr, JSplitPbnf.DIVIDER);
+
+        sftContinuousLbyout(splitPbnf.isContinuousLbyout());
+
+        rfsftLbyoutMbnbgfr();
+
+        /* Instbll tif nonContinuousLbyoutDividfr ifrf to bvoid ibving to
+        bdd/rfmovf fvfrytiing lbtfr. */
+        if(nonContinuousLbyoutDividfr == null) {
+            sftNonContinuousLbyoutDividfr(
+                                drfbtfDffbultNonContinuousLbyoutDividfr(),
+                                truf);
+        } flsf {
+            sftNonContinuousLbyoutDividfr(nonContinuousLbyoutDividfr, truf);
+        }
+
+        // fodus forwbrd trbvfrsbl kfy
+        if (mbnbgingFodusForwbrdTrbvfrsblKfys==null) {
+            mbnbgingFodusForwbrdTrbvfrsblKfys = nfw HbsiSft<KfyStrokf>();
+            mbnbgingFodusForwbrdTrbvfrsblKfys.bdd(
+                KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_TAB, 0));
+        }
+        splitPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS,
+                                        mbnbgingFodusForwbrdTrbvfrsblKfys);
+        // fodus bbdkwbrd trbvfrsbl kfy
+        if (mbnbgingFodusBbdkwbrdTrbvfrsblKfys==null) {
+            mbnbgingFodusBbdkwbrdTrbvfrsblKfys = nfw HbsiSft<KfyStrokf>();
+            mbnbgingFodusBbdkwbrdTrbvfrsblKfys.bdd(
+                KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_TAB, InputEvfnt.SHIFT_MASK));
+        }
+        splitPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS,
+                                        mbnbgingFodusBbdkwbrdTrbvfrsblKfys);
+    }
+
+
+    /**
+     * Instblls tif fvfnt listfnfrs for tif UI.
+     */
+    protfdtfd void instbllListfnfrs() {
+        if ((propfrtyCibngfListfnfr = drfbtfPropfrtyCibngfListfnfr()) !=
             null) {
-            splitPane.addPropertyChangeListener(propertyChangeListener);
+            splitPbnf.bddPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
         }
 
-        if ((focusListener = createFocusListener()) != null) {
-            splitPane.addFocusListener(focusListener);
+        if ((fodusListfnfr = drfbtfFodusListfnfr()) != null) {
+            splitPbnf.bddFodusListfnfr(fodusListfnfr);
         }
     }
 
 
     /**
-     * Installs the keyboard actions for the UI.
+     * Instblls tif kfybobrd bdtions for tif UI.
      */
-    protected void installKeyboardActions() {
-        InputMap km = getInputMap(JComponent.
+    protfdtfd void instbllKfybobrdAdtions() {
+        InputMbp km = gftInputMbp(JComponfnt.
                                   WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        SwingUtilities.replaceUIInputMap(splitPane, JComponent.
+        SwingUtilitifs.rfplbdfUIInputMbp(splitPbnf, JComponfnt.
                                        WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
                                        km);
-        LazyActionMap.installLazyActionMap(splitPane, BasicSplitPaneUI.class,
-                                           "SplitPane.actionMap");
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(splitPbnf, BbsidSplitPbnfUI.dlbss,
+                                           "SplitPbnf.bdtionMbp");
     }
 
-    InputMap getInputMap(int condition) {
-        if (condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
-            return (InputMap)DefaultLookup.get(splitPane, this,
-                                               "SplitPane.ancestorInputMap");
+    InputMbp gftInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
+            rfturn (InputMbp)DffbultLookup.gft(splitPbnf, tiis,
+                                               "SplitPbnf.bndfstorInputMbp");
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Uninstalls the UI.
+     * Uninstblls tif UI.
      */
-    public void uninstallUI(JComponent c) {
-        uninstallKeyboardActions();
-        uninstallListeners();
-        uninstallDefaults();
-        dividerLocationIsSet = false;
-        dividerKeyboardResize = false;
-        splitPane = null;
-    }
-
-
-    /**
-     * Uninstalls the UI defaults.
-     */
-    protected void uninstallDefaults() {
-        if(splitPane.getLayout() == layoutManager) {
-            splitPane.setLayout(null);
-        }
-
-        if(nonContinuousLayoutDivider != null) {
-            splitPane.remove(nonContinuousLayoutDivider);
-        }
-
-        LookAndFeel.uninstallBorder(splitPane);
-
-        Border    b = divider.getBorder();
-
-        if (b instanceof UIResource) {
-            divider.setBorder(null);
-        }
-
-        splitPane.remove(divider);
-        divider.setBasicSplitPaneUI(null);
-        layoutManager = null;
-        divider = null;
-        nonContinuousLayoutDivider = null;
-
-        setNonContinuousLayoutDivider(null);
-
-        // sets the focus forward and backward traversal keys to null
-        // to restore the defaults
-        splitPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
-        splitPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
+    publid void uninstbllUI(JComponfnt d) {
+        uninstbllKfybobrdAdtions();
+        uninstbllListfnfrs();
+        uninstbllDffbults();
+        dividfrLodbtionIsSft = fblsf;
+        dividfrKfybobrdRfsizf = fblsf;
+        splitPbnf = null;
     }
 
 
     /**
-     * Uninstalls the event listeners for the UI.
+     * Uninstblls tif UI dffbults.
      */
-    protected void uninstallListeners() {
-        if (propertyChangeListener != null) {
-            splitPane.removePropertyChangeListener(propertyChangeListener);
-            propertyChangeListener = null;
-        }
-        if (focusListener != null) {
-            splitPane.removeFocusListener(focusListener);
-            focusListener = null;
+    protfdtfd void uninstbllDffbults() {
+        if(splitPbnf.gftLbyout() == lbyoutMbnbgfr) {
+            splitPbnf.sftLbyout(null);
         }
 
-        keyboardUpLeftListener = null;
-        keyboardDownRightListener = null;
-        keyboardHomeListener = null;
-        keyboardEndListener = null;
-        keyboardResizeToggleListener = null;
-        handler = null;
+        if(nonContinuousLbyoutDividfr != null) {
+            splitPbnf.rfmovf(nonContinuousLbyoutDividfr);
+        }
+
+        LookAndFffl.uninstbllBordfr(splitPbnf);
+
+        Bordfr    b = dividfr.gftBordfr();
+
+        if (b instbndfof UIRfsourdf) {
+            dividfr.sftBordfr(null);
+        }
+
+        splitPbnf.rfmovf(dividfr);
+        dividfr.sftBbsidSplitPbnfUI(null);
+        lbyoutMbnbgfr = null;
+        dividfr = null;
+        nonContinuousLbyoutDividfr = null;
+
+        sftNonContinuousLbyoutDividfr(null);
+
+        // sfts tif fodus forwbrd bnd bbdkwbrd trbvfrsbl kfys to null
+        // to rfstorf tif dffbults
+        splitPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS, null);
+        splitPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS, null);
     }
 
 
     /**
-     * Uninstalls the keyboard actions for the UI.
+     * Uninstblls tif fvfnt listfnfrs for tif UI.
      */
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIActionMap(splitPane, null);
-        SwingUtilities.replaceUIInputMap(splitPane, JComponent.
+    protfdtfd void uninstbllListfnfrs() {
+        if (propfrtyCibngfListfnfr != null) {
+            splitPbnf.rfmovfPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+            propfrtyCibngfListfnfr = null;
+        }
+        if (fodusListfnfr != null) {
+            splitPbnf.rfmovfFodusListfnfr(fodusListfnfr);
+            fodusListfnfr = null;
+        }
+
+        kfybobrdUpLfftListfnfr = null;
+        kfybobrdDownRigitListfnfr = null;
+        kfybobrdHomfListfnfr = null;
+        kfybobrdEndListfnfr = null;
+        kfybobrdRfsizfTogglfListfnfr = null;
+        ibndlfr = null;
+    }
+
+
+    /**
+     * Uninstblls tif kfybobrd bdtions for tif UI.
+     */
+    protfdtfd void uninstbllKfybobrdAdtions() {
+        SwingUtilitifs.rfplbdfUIAdtionMbp(splitPbnf, null);
+        SwingUtilitifs.rfplbdfUIInputMbp(splitPbnf, JComponfnt.
                                       WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
                                       null);
     }
 
 
     /**
-     * Creates a {@code PropertyChangeListener} for the {@code JSplitPane} UI.
+     * Crfbtfs b {@dodf PropfrtyCibngfListfnfr} for tif {@dodf JSplitPbnf} UI.
      *
-     * @return an instance of {@code PropertyChangeListener}
+     * @rfturn bn instbndf of {@dodf PropfrtyCibngfListfnfr}
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn gftHbndlfr();
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
         }
-        return handler;
+        rfturn ibndlfr;
     }
 
 
     /**
-     * Creates a {@code FocusListener} for the {@code JSplitPane} UI.
+     * Crfbtfs b {@dodf FodusListfnfr} for tif {@dodf JSplitPbnf} UI.
      *
-     * @return an instance of {@code FocusListener}
+     * @rfturn bn instbndf of {@dodf FodusListfnfr}
      */
-    protected FocusListener createFocusListener() {
-        return getHandler();
+    protfdtfd FodusListfnfr drfbtfFodusListfnfr() {
+        rfturn gftHbndlfr();
     }
 
 
     /**
-     * As of Java 2 platform v1.3 this method is no longer used.
-     * Subclassers previously using this method should instead create
-     * an {@code Action} wrapping the {@code ActionListener}, and register
-     * that {@code Action} by overriding {@code installKeyboardActions}
-     * and placing the {@code Action} in the {@code SplitPane's ActionMap}.
-     * Please refer to the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis mftiod is no longfr usfd.
+     * Subdlbssfrs prfviously using tiis mftiod siould instfbd drfbtf
+     * bn {@dodf Adtion} wrbpping tif {@dodf AdtionListfnfr}, bnd rfgistfr
+     * tibt {@dodf Adtion} by ovfrriding {@dodf instbllKfybobrdAdtions}
+     * bnd plbding tif {@dodf Adtion} in tif {@dodf SplitPbnf's AdtionMbp}.
+     * Plfbsf rfffr to tif kfy bindings spfdifidbtion for furtifr dftbils.
      * <p>
-     * Creates an {@code ActionListener} for the {@code JSplitPane} UI that
-     * listens for specific key presses.
+     * Crfbtfs bn {@dodf AdtionListfnfr} for tif {@dodf JSplitPbnf} UI tibt
+     * listfns for spfdifid kfy prfssfs.
      *
-     * @return an instance of {@code ActionListener}
-     * @deprecated As of Java 2 platform v1.3.
+     * @rfturn bn instbndf of {@dodf AdtionListfnfr}
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected ActionListener createKeyboardUpLeftListener() {
-        return new KeyboardUpLeftHandler();
+    @Dfprfdbtfd
+    protfdtfd AdtionListfnfr drfbtfKfybobrdUpLfftListfnfr() {
+        rfturn nfw KfybobrdUpLfftHbndlfr();
     }
 
 
     /**
-     * As of Java 2 platform v1.3 this method is no longer used.
-     * Subclassers previously using this method should instead create
-     * an {@code Action} wrapping the {@code ActionListener}, and register
-     * that {@code Action} by overriding {@code installKeyboardActions}
-     * and placing the {@code Action} in the {@code SplitPane's ActionMap}.
-     * Please refer to the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis mftiod is no longfr usfd.
+     * Subdlbssfrs prfviously using tiis mftiod siould instfbd drfbtf
+     * bn {@dodf Adtion} wrbpping tif {@dodf AdtionListfnfr}, bnd rfgistfr
+     * tibt {@dodf Adtion} by ovfrriding {@dodf instbllKfybobrdAdtions}
+     * bnd plbding tif {@dodf Adtion} in tif {@dodf SplitPbnf's AdtionMbp}.
+     * Plfbsf rfffr to tif kfy bindings spfdifidbtion for furtifr dftbils.
      * <p>
-     * Creates an {@code ActionListener} for the {@code JSplitPane} UI that
-     * listens for specific key presses.
+     * Crfbtfs bn {@dodf AdtionListfnfr} for tif {@dodf JSplitPbnf} UI tibt
+     * listfns for spfdifid kfy prfssfs.
      *
-     * @return an instance of {@code ActionListener}
-     * @deprecated As of Java 2 platform v1.3.
+     * @rfturn bn instbndf of {@dodf AdtionListfnfr}
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected ActionListener createKeyboardDownRightListener() {
-        return new KeyboardDownRightHandler();
+    @Dfprfdbtfd
+    protfdtfd AdtionListfnfr drfbtfKfybobrdDownRigitListfnfr() {
+        rfturn nfw KfybobrdDownRigitHbndlfr();
     }
 
 
     /**
-     * As of Java 2 platform v1.3 this method is no longer used.
-     * Subclassers previously using this method should instead create
-     * an {@code Action} wrapping the {@code ActionListener}, and register
-     * that {@code Action} by overriding {@code installKeyboardActions}
-     * and placing the {@code Action} in the {@code SplitPane's ActionMap}.
-     * Please refer to the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis mftiod is no longfr usfd.
+     * Subdlbssfrs prfviously using tiis mftiod siould instfbd drfbtf
+     * bn {@dodf Adtion} wrbpping tif {@dodf AdtionListfnfr}, bnd rfgistfr
+     * tibt {@dodf Adtion} by ovfrriding {@dodf instbllKfybobrdAdtions}
+     * bnd plbding tif {@dodf Adtion} in tif {@dodf SplitPbnf's AdtionMbp}.
+     * Plfbsf rfffr to tif kfy bindings spfdifidbtion for furtifr dftbils.
      * <p>
-     * Creates an {@code ActionListener} for the {@code JSplitPane} UI that
-     * listens for specific key presses.
+     * Crfbtfs bn {@dodf AdtionListfnfr} for tif {@dodf JSplitPbnf} UI tibt
+     * listfns for spfdifid kfy prfssfs.
      *
-     * @return an instance of {@code ActionListener}
-     * @deprecated As of Java 2 platform v1.3.
+     * @rfturn bn instbndf of {@dodf AdtionListfnfr}
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected ActionListener createKeyboardHomeListener() {
-        return new KeyboardHomeHandler();
+    @Dfprfdbtfd
+    protfdtfd AdtionListfnfr drfbtfKfybobrdHomfListfnfr() {
+        rfturn nfw KfybobrdHomfHbndlfr();
     }
 
 
     /**
-     * As of Java 2 platform v1.3 this method is no longer used.
-     * Subclassers previously using this method should instead create
-     * an {@code Action} wrapping the {@code ActionListener}, and register
-     * that {@code Action} by overriding {@code installKeyboardActions}
-     * and placing the {@code Action} in the {@code SplitPane's ActionMap}.
-     * Please refer to the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis mftiod is no longfr usfd.
+     * Subdlbssfrs prfviously using tiis mftiod siould instfbd drfbtf
+     * bn {@dodf Adtion} wrbpping tif {@dodf AdtionListfnfr}, bnd rfgistfr
+     * tibt {@dodf Adtion} by ovfrriding {@dodf instbllKfybobrdAdtions}
+     * bnd plbding tif {@dodf Adtion} in tif {@dodf SplitPbnf's AdtionMbp}.
+     * Plfbsf rfffr to tif kfy bindings spfdifidbtion for furtifr dftbils.
      * <p>
-     * Creates an {@code ActionListener} for the {@code JSplitPane} UI that
-     * listens for specific key presses.
+     * Crfbtfs bn {@dodf AdtionListfnfr} for tif {@dodf JSplitPbnf} UI tibt
+     * listfns for spfdifid kfy prfssfs.
      *
-     * @return an instance of {@code ActionListener}
-     * @deprecated As of Java 2 platform v1.3.
+     * @rfturn bn instbndf of {@dodf AdtionListfnfr}
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected ActionListener createKeyboardEndListener() {
-        return new KeyboardEndHandler();
+    @Dfprfdbtfd
+    protfdtfd AdtionListfnfr drfbtfKfybobrdEndListfnfr() {
+        rfturn nfw KfybobrdEndHbndlfr();
     }
 
 
     /**
-     * As of Java 2 platform v1.3 this method is no longer used.
-     * Subclassers previously using this method should instead create
-     * an {@code Action} wrapping the {@code ActionListener}, and register
-     * that {@code Action} by overriding {@code installKeyboardActions}
-     * and placing the {@code Action} in the {@code SplitPane's ActionMap}.
-     * Please refer to the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis mftiod is no longfr usfd.
+     * Subdlbssfrs prfviously using tiis mftiod siould instfbd drfbtf
+     * bn {@dodf Adtion} wrbpping tif {@dodf AdtionListfnfr}, bnd rfgistfr
+     * tibt {@dodf Adtion} by ovfrriding {@dodf instbllKfybobrdAdtions}
+     * bnd plbding tif {@dodf Adtion} in tif {@dodf SplitPbnf's AdtionMbp}.
+     * Plfbsf rfffr to tif kfy bindings spfdifidbtion for furtifr dftbils.
      * <p>
-     * Creates an {@code ActionListener} for the {@code JSplitPane} UI that
-     * listens for specific key presses.
+     * Crfbtfs bn {@dodf AdtionListfnfr} for tif {@dodf JSplitPbnf} UI tibt
+     * listfns for spfdifid kfy prfssfs.
      *
-     * @return an instance of {@code ActionListener}
-     * @deprecated As of Java 2 platform v1.3.
+     * @rfturn bn instbndf of {@dodf AdtionListfnfr}
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected ActionListener createKeyboardResizeToggleListener() {
-        return new KeyboardResizeToggleHandler();
+    @Dfprfdbtfd
+    protfdtfd AdtionListfnfr drfbtfKfybobrdRfsizfTogglfListfnfr() {
+        rfturn nfw KfybobrdRfsizfTogglfHbndlfr();
     }
 
 
     /**
-     * Returns the orientation for the {@code JSplitPane}.
+     * Rfturns tif orifntbtion for tif {@dodf JSplitPbnf}.
      *
-     * @return the orientation
+     * @rfturn tif orifntbtion
      */
-    public int getOrientation() {
-        return orientation;
+    publid int gftOrifntbtion() {
+        rfturn orifntbtion;
     }
 
 
     /**
-     * Set the orientation for the {@code JSplitPane}.
+     * Sft tif orifntbtion for tif {@dodf JSplitPbnf}.
      *
-     * @param orientation the orientation
+     * @pbrbm orifntbtion tif orifntbtion
      */
-    public void setOrientation(int orientation) {
-        this.orientation = orientation;
+    publid void sftOrifntbtion(int orifntbtion) {
+        tiis.orifntbtion = orifntbtion;
     }
 
 
     /**
-     * Determines whether the {@code JSplitPane} is set to use a continuous layout.
+     * Dftfrminfs wiftifr tif {@dodf JSplitPbnf} is sft to usf b dontinuous lbyout.
      *
-     * @return {@code true} if a continuous layout is set
+     * @rfturn {@dodf truf} if b dontinuous lbyout is sft
      */
-    public boolean isContinuousLayout() {
-        return continuousLayout;
+    publid boolfbn isContinuousLbyout() {
+        rfturn dontinuousLbyout;
     }
 
 
     /**
-     * Turn continuous layout on/off.
+     * Turn dontinuous lbyout on/off.
      *
-     * @param b if {@code true} the continuous layout turns on
+     * @pbrbm b if {@dodf truf} tif dontinuous lbyout turns on
      */
-    public void setContinuousLayout(boolean b) {
-        continuousLayout = b;
+    publid void sftContinuousLbyout(boolfbn b) {
+        dontinuousLbyout = b;
     }
 
 
     /**
-     * Returns the last drag location of the {@code JSplitPane}.
+     * Rfturns tif lbst drbg lodbtion of tif {@dodf JSplitPbnf}.
      *
-     * @return the last drag location
+     * @rfturn tif lbst drbg lodbtion
      */
-    public int getLastDragLocation() {
-        return lastDragLocation;
+    publid int gftLbstDrbgLodbtion() {
+        rfturn lbstDrbgLodbtion;
     }
 
 
     /**
-     * Set the last drag location of the {@code JSplitPane}.
+     * Sft tif lbst drbg lodbtion of tif {@dodf JSplitPbnf}.
      *
-     * @param l the drag location
+     * @pbrbm l tif drbg lodbtion
      */
-    public void setLastDragLocation(int l) {
-        lastDragLocation = l;
+    publid void sftLbstDrbgLodbtion(int l) {
+        lbstDrbgLodbtion = l;
     }
 
     /**
-     * @return increment via keyboard methods.
+     * @rfturn indrfmfnt vib kfybobrd mftiods.
      */
-    int getKeyboardMoveIncrement() {
-        return 3;
+    int gftKfybobrdMovfIndrfmfnt() {
+        rfturn 3;
     }
 
     /**
-     * Implementation of the PropertyChangeListener
-     * that the JSplitPane UI uses.
+     * Implfmfntbtion of tif PropfrtyCibngfListfnfr
+     * tibt tif JSplitPbnf UI usfs.
      * <p>
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicSplitPaneUI.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of BbsidSplitPbnfUI.
      */
-    public class PropertyHandler implements PropertyChangeListener
+    publid dlbss PropfrtyHbndlfr implfmfnts PropfrtyCibngfListfnfr
     {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
 
         /**
-         * Messaged from the <code>JSplitPane</code> the receiver is
-         * contained in.  May potentially reset the layout manager and cause a
-         * <code>validate</code> to be sent.
+         * Mfssbgfd from tif <dodf>JSplitPbnf</dodf> tif rfdfivfr is
+         * dontbinfd in.  Mby potfntiblly rfsft tif lbyout mbnbgfr bnd dbusf b
+         * <dodf>vblidbtf</dodf> to bf sfnt.
          */
-        public void propertyChange(PropertyChangeEvent e) {
-            getHandler().propertyChange(e);
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            gftHbndlfr().propfrtyCibngf(f);
         }
     }
 
 
     /**
-     * Implementation of the FocusListener that the JSplitPane UI uses.
+     * Implfmfntbtion of tif FodusListfnfr tibt tif JSplitPbnf UI usfs.
      * <p>
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicSplitPaneUI.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of BbsidSplitPbnfUI.
      */
-    public class FocusHandler extends FocusAdapter
+    publid dlbss FodusHbndlfr fxtfnds FodusAdbptfr
     {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void focusGained(FocusEvent ev) {
-            getHandler().focusGained(ev);
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
+        publid void fodusGbinfd(FodusEvfnt fv) {
+            gftHbndlfr().fodusGbinfd(fv);
         }
 
-        public void focusLost(FocusEvent ev) {
-            getHandler().focusLost(ev);
+        publid void fodusLost(FodusEvfnt fv) {
+            gftHbndlfr().fodusLost(fv);
         }
     }
 
 
     /**
-     * Implementation of an ActionListener that the JSplitPane UI uses for
-     * handling specific key presses.
+     * Implfmfntbtion of bn AdtionListfnfr tibt tif JSplitPbnf UI usfs for
+     * ibndling spfdifid kfy prfssfs.
      * <p>
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicSplitPaneUI.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of BbsidSplitPbnfUI.
      */
-    public class KeyboardUpLeftHandler implements ActionListener
+    publid dlbss KfybobrdUpLfftHbndlfr implfmfnts AdtionListfnfr
     {
-        public void actionPerformed(ActionEvent ev) {
-            if (dividerKeyboardResize) {
-                splitPane.setDividerLocation(Math.max(0,getDividerLocation
-                                  (splitPane) - getKeyboardMoveIncrement()));
+        publid void bdtionPfrformfd(AdtionEvfnt fv) {
+            if (dividfrKfybobrdRfsizf) {
+                splitPbnf.sftDividfrLodbtion(Mbti.mbx(0,gftDividfrLodbtion
+                                  (splitPbnf) - gftKfybobrdMovfIndrfmfnt()));
             }
         }
     }
 
     /**
-     * Implementation of an ActionListener that the JSplitPane UI uses for
-     * handling specific key presses.
+     * Implfmfntbtion of bn AdtionListfnfr tibt tif JSplitPbnf UI usfs for
+     * ibndling spfdifid kfy prfssfs.
      * <p>
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicSplitPaneUI.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of BbsidSplitPbnfUI.
      */
-    public class KeyboardDownRightHandler implements ActionListener
+    publid dlbss KfybobrdDownRigitHbndlfr implfmfnts AdtionListfnfr
     {
-        public void actionPerformed(ActionEvent ev) {
-            if (dividerKeyboardResize) {
-                splitPane.setDividerLocation(getDividerLocation(splitPane) +
-                                             getKeyboardMoveIncrement());
-            }
-        }
-    }
-
-
-    /**
-     * Implementation of an ActionListener that the JSplitPane UI uses for
-     * handling specific key presses.
-     * <p>
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicSplitPaneUI.
-     */
-    public class KeyboardHomeHandler implements ActionListener
-    {
-        public void actionPerformed(ActionEvent ev) {
-            if (dividerKeyboardResize) {
-                splitPane.setDividerLocation(0);
+        publid void bdtionPfrformfd(AdtionEvfnt fv) {
+            if (dividfrKfybobrdRfsizf) {
+                splitPbnf.sftDividfrLodbtion(gftDividfrLodbtion(splitPbnf) +
+                                             gftKfybobrdMovfIndrfmfnt());
             }
         }
     }
 
 
     /**
-     * Implementation of an ActionListener that the JSplitPane UI uses for
-     * handling specific key presses.
+     * Implfmfntbtion of bn AdtionListfnfr tibt tif JSplitPbnf UI usfs for
+     * ibndling spfdifid kfy prfssfs.
      * <p>
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicSplitPaneUI.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of BbsidSplitPbnfUI.
      */
-    public class KeyboardEndHandler implements ActionListener
+    publid dlbss KfybobrdHomfHbndlfr implfmfnts AdtionListfnfr
     {
-        public void actionPerformed(ActionEvent ev) {
-            if (dividerKeyboardResize) {
-                Insets   insets = splitPane.getInsets();
-                int      bottomI = (insets != null) ? insets.bottom : 0;
-                int      rightI = (insets != null) ? insets.right : 0;
+        publid void bdtionPfrformfd(AdtionEvfnt fv) {
+            if (dividfrKfybobrdRfsizf) {
+                splitPbnf.sftDividfrLodbtion(0);
+            }
+        }
+    }
 
-                if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                    splitPane.setDividerLocation(splitPane.getHeight() -
+
+    /**
+     * Implfmfntbtion of bn AdtionListfnfr tibt tif JSplitPbnf UI usfs for
+     * ibndling spfdifid kfy prfssfs.
+     * <p>
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of BbsidSplitPbnfUI.
+     */
+    publid dlbss KfybobrdEndHbndlfr implfmfnts AdtionListfnfr
+    {
+        publid void bdtionPfrformfd(AdtionEvfnt fv) {
+            if (dividfrKfybobrdRfsizf) {
+                Insfts   insfts = splitPbnf.gftInsfts();
+                int      bottomI = (insfts != null) ? insfts.bottom : 0;
+                int      rigitI = (insfts != null) ? insfts.rigit : 0;
+
+                if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                    splitPbnf.sftDividfrLodbtion(splitPbnf.gftHfigit() -
                                        bottomI);
                 }
-                else {
-                    splitPane.setDividerLocation(splitPane.getWidth() -
-                                                 rightI);
+                flsf {
+                    splitPbnf.sftDividfrLodbtion(splitPbnf.gftWidti() -
+                                                 rigitI);
                 }
             }
         }
@@ -826,49 +826,49 @@ public class BasicSplitPaneUI extends SplitPaneUI
 
 
     /**
-     * Implementation of an ActionListener that the JSplitPane UI uses for
-     * handling specific key presses.
+     * Implfmfntbtion of bn AdtionListfnfr tibt tif JSplitPbnf UI usfs for
+     * ibndling spfdifid kfy prfssfs.
      * <p>
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicSplitPaneUI.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of BbsidSplitPbnfUI.
      */
-    public class KeyboardResizeToggleHandler implements ActionListener
+    publid dlbss KfybobrdRfsizfTogglfHbndlfr implfmfnts AdtionListfnfr
     {
-        public void actionPerformed(ActionEvent ev) {
-            if (!dividerKeyboardResize) {
-                splitPane.requestFocus();
+        publid void bdtionPfrformfd(AdtionEvfnt fv) {
+            if (!dividfrKfybobrdRfsizf) {
+                splitPbnf.rfqufstFodus();
             }
         }
     }
 
     /**
-     * Returns the divider between the top Components.
+     * Rfturns tif dividfr bftwffn tif top Componfnts.
      *
-     * @return the divider between the top Components
+     * @rfturn tif dividfr bftwffn tif top Componfnts
      */
-    public BasicSplitPaneDivider getDivider() {
-        return divider;
+    publid BbsidSplitPbnfDividfr gftDividfr() {
+        rfturn dividfr;
     }
 
 
     /**
-     * Returns the default non continuous layout divider, which is an
-     * instance of {@code Canvas} that fills in the background with dark gray.
+     * Rfturns tif dffbult non dontinuous lbyout dividfr, wiidi is bn
+     * instbndf of {@dodf Cbnvbs} tibt fills in tif bbdkground witi dbrk grby.
      *
-     * @return the default non continuous layout divider
+     * @rfturn tif dffbult non dontinuous lbyout dividfr
      */
-    @SuppressWarnings("serial") // anonymous class
-    protected Component createDefaultNonContinuousLayoutDivider() {
-        return new Canvas() {
-            public void paint(Graphics g) {
-                if(!isContinuousLayout() && getLastDragLocation() != -1) {
-                    Dimension      size = splitPane.getSize();
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd Componfnt drfbtfDffbultNonContinuousLbyoutDividfr() {
+        rfturn nfw Cbnvbs() {
+            publid void pbint(Grbpiids g) {
+                if(!isContinuousLbyout() && gftLbstDrbgLodbtion() != -1) {
+                    Dimfnsion      sizf = splitPbnf.gftSizf();
 
-                    g.setColor(dividerDraggingColor);
-                    if(orientation == JSplitPane.HORIZONTAL_SPLIT) {
-                        g.fillRect(0, 0, dividerSize - 1, size.height - 1);
-                    } else {
-                        g.fillRect(0, 0, size.width - 1, dividerSize - 1);
+                    g.sftColor(dividfrDrbggingColor);
+                    if(orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+                        g.fillRfdt(0, 0, dividfrSizf - 1, sizf.ifigit - 1);
+                    } flsf {
+                        g.fillRfdt(0, 0, sizf.widti - 1, dividfrSizf - 1);
                     }
                 }
             }
@@ -877,58 +877,58 @@ public class BasicSplitPaneUI extends SplitPaneUI
 
 
     /**
-     * Sets the divider to use when the {@code JSplitPane} is configured to
-     * not continuously layout. This divider will only be used during a
-     * dragging session. It is recommended that the passed in component
-     * be a heavy weight.
+     * Sfts tif dividfr to usf wifn tif {@dodf JSplitPbnf} is donfigurfd to
+     * not dontinuously lbyout. Tiis dividfr will only bf usfd during b
+     * drbgging sfssion. It is rfdommfndfd tibt tif pbssfd in domponfnt
+     * bf b ifbvy wfigit.
      *
-     * @param newDivider the new divider
+     * @pbrbm nfwDividfr tif nfw dividfr
      */
-    protected void setNonContinuousLayoutDivider(Component newDivider) {
-        setNonContinuousLayoutDivider(newDivider, true);
+    protfdtfd void sftNonContinuousLbyoutDividfr(Componfnt nfwDividfr) {
+        sftNonContinuousLbyoutDividfr(nfwDividfr, truf);
     }
 
 
     /**
-     * Sets the divider to use.
+     * Sfts tif dividfr to usf.
      *
-     * @param newDivider the new divider
-     * @param rememberSizes if {@code true} the pane size is remembered
+     * @pbrbm nfwDividfr tif nfw dividfr
+     * @pbrbm rfmfmbfrSizfs if {@dodf truf} tif pbnf sizf is rfmfmbfrfd
      */
-    protected void setNonContinuousLayoutDivider(Component newDivider,
-        boolean rememberSizes) {
-        rememberPaneSizes = rememberSizes;
-        if(nonContinuousLayoutDivider != null && splitPane != null) {
-            splitPane.remove(nonContinuousLayoutDivider);
+    protfdtfd void sftNonContinuousLbyoutDividfr(Componfnt nfwDividfr,
+        boolfbn rfmfmbfrSizfs) {
+        rfmfmbfrPbnfSizfs = rfmfmbfrSizfs;
+        if(nonContinuousLbyoutDividfr != null && splitPbnf != null) {
+            splitPbnf.rfmovf(nonContinuousLbyoutDividfr);
         }
-        nonContinuousLayoutDivider = newDivider;
+        nonContinuousLbyoutDividfr = nfwDividfr;
     }
 
-    private void addHeavyweightDivider() {
-        if(nonContinuousLayoutDivider != null && splitPane != null) {
+    privbtf void bddHfbvywfigitDividfr() {
+        if(nonContinuousLbyoutDividfr != null && splitPbnf != null) {
 
-            /* Needs to remove all the components and re-add them! YECK! */
-            // This is all done so that the nonContinuousLayoutDivider will
-            // be drawn on top of the other components, without this, one
-            // of the heavyweights will draw over the divider!
-            Component             leftC = splitPane.getLeftComponent();
-            Component             rightC = splitPane.getRightComponent();
-            int                   lastLocation = splitPane.
-                                              getDividerLocation();
+            /* Nffds to rfmovf bll tif domponfnts bnd rf-bdd tifm! YECK! */
+            // Tiis is bll donf so tibt tif nonContinuousLbyoutDividfr will
+            // bf drbwn on top of tif otifr domponfnts, witiout tiis, onf
+            // of tif ifbvywfigits will drbw ovfr tif dividfr!
+            Componfnt             lfftC = splitPbnf.gftLfftComponfnt();
+            Componfnt             rigitC = splitPbnf.gftRigitComponfnt();
+            int                   lbstLodbtion = splitPbnf.
+                                              gftDividfrLodbtion();
 
-            if(leftC != null)
-                splitPane.setLeftComponent(null);
-            if(rightC != null)
-                splitPane.setRightComponent(null);
-            splitPane.remove(divider);
-            splitPane.add(nonContinuousLayoutDivider, BasicSplitPaneUI.
+            if(lfftC != null)
+                splitPbnf.sftLfftComponfnt(null);
+            if(rigitC != null)
+                splitPbnf.sftRigitComponfnt(null);
+            splitPbnf.rfmovf(dividfr);
+            splitPbnf.bdd(nonContinuousLbyoutDividfr, BbsidSplitPbnfUI.
                           NON_CONTINUOUS_DIVIDER,
-                          splitPane.getComponentCount());
-            splitPane.setLeftComponent(leftC);
-            splitPane.setRightComponent(rightC);
-            splitPane.add(divider, JSplitPane.DIVIDER);
-            if(rememberPaneSizes) {
-                splitPane.setDividerLocation(lastLocation);
+                          splitPbnf.gftComponfntCount());
+            splitPbnf.sftLfftComponfnt(lfftC);
+            splitPbnf.sftRigitComponfnt(rigitC);
+            splitPbnf.bdd(dividfr, JSplitPbnf.DIVIDER);
+            if(rfmfmbfrPbnfSizfs) {
+                splitPbnf.sftDividfrLodbtion(lbstLodbtion);
             }
         }
 
@@ -936,335 +936,335 @@ public class BasicSplitPaneUI extends SplitPaneUI
 
 
     /**
-     * Returns the divider to use when the {@code JSplitPane} is configured to
-     * not continuously layout. This divider will only be used during a
-     * dragging session.
+     * Rfturns tif dividfr to usf wifn tif {@dodf JSplitPbnf} is donfigurfd to
+     * not dontinuously lbyout. Tiis dividfr will only bf usfd during b
+     * drbgging sfssion.
      *
-     * @return the divider
+     * @rfturn tif dividfr
      */
-    public Component getNonContinuousLayoutDivider() {
-        return nonContinuousLayoutDivider;
+    publid Componfnt gftNonContinuousLbyoutDividfr() {
+        rfturn nonContinuousLbyoutDividfr;
     }
 
 
     /**
-     * Returns the {@code JSplitPane} this instance is currently contained
+     * Rfturns tif {@dodf JSplitPbnf} tiis instbndf is durrfntly dontbinfd
      * in.
      *
-     * @return the instance of {@code JSplitPane}
+     * @rfturn tif instbndf of {@dodf JSplitPbnf}
      */
-    public JSplitPane getSplitPane() {
-        return splitPane;
+    publid JSplitPbnf gftSplitPbnf() {
+        rfturn splitPbnf;
     }
 
 
     /**
-     * Creates the default divider.
+     * Crfbtfs tif dffbult dividfr.
      *
-     * @return the default divider
+     * @rfturn tif dffbult dividfr
      */
-    public BasicSplitPaneDivider createDefaultDivider() {
-        return new BasicSplitPaneDivider(this);
+    publid BbsidSplitPbnfDividfr drfbtfDffbultDividfr() {
+        rfturn nfw BbsidSplitPbnfDividfr(tiis);
     }
 
 
     /**
-     * Messaged to reset the preferred sizes.
+     * Mfssbgfd to rfsft tif prfffrrfd sizfs.
      */
-    public void resetToPreferredSizes(JSplitPane jc) {
-        if(splitPane != null) {
-            layoutManager.resetToPreferredSizes();
-            splitPane.revalidate();
-            splitPane.repaint();
+    publid void rfsftToPrfffrrfdSizfs(JSplitPbnf jd) {
+        if(splitPbnf != null) {
+            lbyoutMbnbgfr.rfsftToPrfffrrfdSizfs();
+            splitPbnf.rfvblidbtf();
+            splitPbnf.rfpbint();
         }
     }
 
 
     /**
-     * Sets the location of the divider to location.
+     * Sfts tif lodbtion of tif dividfr to lodbtion.
      */
-    public void setDividerLocation(JSplitPane jc, int location) {
-        if (!ignoreDividerLocationChange) {
-            dividerLocationIsSet = true;
-            splitPane.revalidate();
-            splitPane.repaint();
+    publid void sftDividfrLodbtion(JSplitPbnf jd, int lodbtion) {
+        if (!ignorfDividfrLodbtionCibngf) {
+            dividfrLodbtionIsSft = truf;
+            splitPbnf.rfvblidbtf();
+            splitPbnf.rfpbint();
 
-            if (keepHidden) {
-                Insets insets = splitPane.getInsets();
-                int orientation = splitPane.getOrientation();
-                if ((orientation == JSplitPane.VERTICAL_SPLIT &&
-                     location != insets.top &&
-                     location != splitPane.getHeight()-divider.getHeight()-insets.top) ||
-                    (orientation == JSplitPane.HORIZONTAL_SPLIT &&
-                     location != insets.left &&
-                     location != splitPane.getWidth()-divider.getWidth()-insets.left)) {
-                    setKeepHidden(false);
+            if (kffpHiddfn) {
+                Insfts insfts = splitPbnf.gftInsfts();
+                int orifntbtion = splitPbnf.gftOrifntbtion();
+                if ((orifntbtion == JSplitPbnf.VERTICAL_SPLIT &&
+                     lodbtion != insfts.top &&
+                     lodbtion != splitPbnf.gftHfigit()-dividfr.gftHfigit()-insfts.top) ||
+                    (orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT &&
+                     lodbtion != insfts.lfft &&
+                     lodbtion != splitPbnf.gftWidti()-dividfr.gftWidti()-insfts.lfft)) {
+                    sftKffpHiddfn(fblsf);
                 }
             }
         }
-        else {
-            ignoreDividerLocationChange = false;
+        flsf {
+            ignorfDividfrLodbtionCibngf = fblsf;
         }
     }
 
 
     /**
-     * Returns the location of the divider, which may differ from what
-     * the splitpane thinks the location of the divider is.
+     * Rfturns tif lodbtion of tif dividfr, wiidi mby difffr from wibt
+     * tif splitpbnf tiinks tif lodbtion of tif dividfr is.
      */
-    public int getDividerLocation(JSplitPane jc) {
-        if(orientation == JSplitPane.HORIZONTAL_SPLIT)
-            return divider.getLocation().x;
-        return divider.getLocation().y;
+    publid int gftDividfrLodbtion(JSplitPbnf jd) {
+        if(orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT)
+            rfturn dividfr.gftLodbtion().x;
+        rfturn dividfr.gftLodbtion().y;
     }
 
 
     /**
-     * Gets the minimum location of the divider.
+     * Gfts tif minimum lodbtion of tif dividfr.
      */
-    public int getMinimumDividerLocation(JSplitPane jc) {
-        int       minLoc = 0;
-        Component leftC = splitPane.getLeftComponent();
+    publid int gftMinimumDividfrLodbtion(JSplitPbnf jd) {
+        int       minLod = 0;
+        Componfnt lfftC = splitPbnf.gftLfftComponfnt();
 
-        if ((leftC != null) && (leftC.isVisible())) {
-            Insets    insets = splitPane.getInsets();
-            Dimension minSize = leftC.getMinimumSize();
-            if(orientation == JSplitPane.HORIZONTAL_SPLIT) {
-                minLoc = minSize.width;
-            } else {
-                minLoc = minSize.height;
+        if ((lfftC != null) && (lfftC.isVisiblf())) {
+            Insfts    insfts = splitPbnf.gftInsfts();
+            Dimfnsion minSizf = lfftC.gftMinimumSizf();
+            if(orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+                minLod = minSizf.widti;
+            } flsf {
+                minLod = minSizf.ifigit;
             }
-            if(insets != null) {
-                if(orientation == JSplitPane.HORIZONTAL_SPLIT) {
-                    minLoc += insets.left;
-                } else {
-                    minLoc += insets.top;
+            if(insfts != null) {
+                if(orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+                    minLod += insfts.lfft;
+                } flsf {
+                    minLod += insfts.top;
                 }
             }
         }
-        return minLoc;
+        rfturn minLod;
     }
 
 
     /**
-     * Gets the maximum location of the divider.
+     * Gfts tif mbximum lodbtion of tif dividfr.
      */
-    public int getMaximumDividerLocation(JSplitPane jc) {
-        Dimension splitPaneSize = splitPane.getSize();
-        int       maxLoc = 0;
-        Component rightC = splitPane.getRightComponent();
+    publid int gftMbximumDividfrLodbtion(JSplitPbnf jd) {
+        Dimfnsion splitPbnfSizf = splitPbnf.gftSizf();
+        int       mbxLod = 0;
+        Componfnt rigitC = splitPbnf.gftRigitComponfnt();
 
-        if (rightC != null) {
-            Insets    insets = splitPane.getInsets();
-            Dimension minSize = new Dimension(0, 0);
-            if (rightC.isVisible()) {
-                minSize = rightC.getMinimumSize();
+        if (rigitC != null) {
+            Insfts    insfts = splitPbnf.gftInsfts();
+            Dimfnsion minSizf = nfw Dimfnsion(0, 0);
+            if (rigitC.isVisiblf()) {
+                minSizf = rigitC.gftMinimumSizf();
             }
-            if(orientation == JSplitPane.HORIZONTAL_SPLIT) {
-                maxLoc = splitPaneSize.width - minSize.width;
-            } else {
-                maxLoc = splitPaneSize.height - minSize.height;
+            if(orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+                mbxLod = splitPbnfSizf.widti - minSizf.widti;
+            } flsf {
+                mbxLod = splitPbnfSizf.ifigit - minSizf.ifigit;
             }
-            maxLoc -= dividerSize;
-            if(insets != null) {
-                if(orientation == JSplitPane.HORIZONTAL_SPLIT) {
-                    maxLoc -= insets.right;
-                } else {
-                    maxLoc -= insets.top;
+            mbxLod -= dividfrSizf;
+            if(insfts != null) {
+                if(orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+                    mbxLod -= insfts.rigit;
+                } flsf {
+                    mbxLod -= insfts.top;
                 }
             }
         }
-        return Math.max(getMinimumDividerLocation(splitPane), maxLoc);
+        rfturn Mbti.mbx(gftMinimumDividfrLodbtion(splitPbnf), mbxLod);
     }
 
 
     /**
-     * Called when the specified split pane has finished painting
-     * its children.
+     * Cbllfd wifn tif spfdififd split pbnf ibs finisifd pbinting
+     * its diildrfn.
      */
-    public void finishedPaintingChildren(JSplitPane sp, Graphics g) {
-        if(sp == splitPane && getLastDragLocation() != -1 &&
-           !isContinuousLayout() && !draggingHW) {
-            Dimension      size = splitPane.getSize();
+    publid void finisifdPbintingCiildrfn(JSplitPbnf sp, Grbpiids g) {
+        if(sp == splitPbnf && gftLbstDrbgLodbtion() != -1 &&
+           !isContinuousLbyout() && !drbggingHW) {
+            Dimfnsion      sizf = splitPbnf.gftSizf();
 
-            g.setColor(dividerDraggingColor);
-            if(orientation == JSplitPane.HORIZONTAL_SPLIT) {
-                g.fillRect(getLastDragLocation(), 0, dividerSize - 1,
-                           size.height - 1);
-            } else {
-                g.fillRect(0, lastDragLocation, size.width - 1,
-                           dividerSize - 1);
+            g.sftColor(dividfrDrbggingColor);
+            if(orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+                g.fillRfdt(gftLbstDrbgLodbtion(), 0, dividfrSizf - 1,
+                           sizf.ifigit - 1);
+            } flsf {
+                g.fillRfdt(0, lbstDrbgLodbtion, sizf.widti - 1,
+                           dividfrSizf - 1);
             }
         }
     }
 
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void paint(Graphics g, JComponent jc) {
-        if (!painted && splitPane.getDividerLocation()<0) {
-            ignoreDividerLocationChange = true;
-            splitPane.setDividerLocation(getDividerLocation(splitPane));
+    publid void pbint(Grbpiids g, JComponfnt jd) {
+        if (!pbintfd && splitPbnf.gftDividfrLodbtion()<0) {
+            ignorfDividfrLodbtionCibngf = truf;
+            splitPbnf.sftDividfrLodbtion(gftDividfrLodbtion(splitPbnf));
         }
-        painted = true;
+        pbintfd = truf;
     }
 
 
     /**
-     * Returns the preferred size for the passed in component,
-     * This is passed off to the current layout manager.
+     * Rfturns tif prfffrrfd sizf for tif pbssfd in domponfnt,
+     * Tiis is pbssfd off to tif durrfnt lbyout mbnbgfr.
      */
-    public Dimension getPreferredSize(JComponent jc) {
-        if(splitPane != null)
-            return layoutManager.preferredLayoutSize(splitPane);
-        return new Dimension(0, 0);
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt jd) {
+        if(splitPbnf != null)
+            rfturn lbyoutMbnbgfr.prfffrrfdLbyoutSizf(splitPbnf);
+        rfturn nfw Dimfnsion(0, 0);
     }
 
 
     /**
-     * Returns the minimum size for the passed in component,
-     * This is passed off to the current layout manager.
+     * Rfturns tif minimum sizf for tif pbssfd in domponfnt,
+     * Tiis is pbssfd off to tif durrfnt lbyout mbnbgfr.
      */
-    public Dimension getMinimumSize(JComponent jc) {
-        if(splitPane != null)
-            return layoutManager.minimumLayoutSize(splitPane);
-        return new Dimension(0, 0);
+    publid Dimfnsion gftMinimumSizf(JComponfnt jd) {
+        if(splitPbnf != null)
+            rfturn lbyoutMbnbgfr.minimumLbyoutSizf(splitPbnf);
+        rfturn nfw Dimfnsion(0, 0);
     }
 
 
     /**
-     * Returns the maximum size for the passed in component,
-     * This is passed off to the current layout manager.
+     * Rfturns tif mbximum sizf for tif pbssfd in domponfnt,
+     * Tiis is pbssfd off to tif durrfnt lbyout mbnbgfr.
      */
-    public Dimension getMaximumSize(JComponent jc) {
-        if(splitPane != null)
-            return layoutManager.maximumLayoutSize(splitPane);
-        return new Dimension(0, 0);
+    publid Dimfnsion gftMbximumSizf(JComponfnt jd) {
+        if(splitPbnf != null)
+            rfturn lbyoutMbnbgfr.mbximumLbyoutSizf(splitPbnf);
+        rfturn nfw Dimfnsion(0, 0);
     }
 
 
     /**
-     * Returns the insets. The insets are returned from the border insets
-     * of the current border.
+     * Rfturns tif insfts. Tif insfts brf rfturnfd from tif bordfr insfts
+     * of tif durrfnt bordfr.
      *
-     * @param jc a component
-     * @return the insets
+     * @pbrbm jd b domponfnt
+     * @rfturn tif insfts
      */
-    public Insets getInsets(JComponent jc) {
-        return null;
+    publid Insfts gftInsfts(JComponfnt jd) {
+        rfturn null;
     }
 
 
     /**
-     * Resets the layout manager based on orientation and messages it
-     * with invalidateLayout to pull in appropriate Components.
+     * Rfsfts tif lbyout mbnbgfr bbsfd on orifntbtion bnd mfssbgfs it
+     * witi invblidbtfLbyout to pull in bppropribtf Componfnts.
      */
-    protected void resetLayoutManager() {
-        if(orientation == JSplitPane.HORIZONTAL_SPLIT) {
-            layoutManager = new BasicHorizontalLayoutManager(0);
-        } else {
-            layoutManager = new BasicHorizontalLayoutManager(1);
+    protfdtfd void rfsftLbyoutMbnbgfr() {
+        if(orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+            lbyoutMbnbgfr = nfw BbsidHorizontblLbyoutMbnbgfr(0);
+        } flsf {
+            lbyoutMbnbgfr = nfw BbsidHorizontblLbyoutMbnbgfr(1);
         }
-        splitPane.setLayout(layoutManager);
-        layoutManager.updateComponents();
-        splitPane.revalidate();
-        splitPane.repaint();
+        splitPbnf.sftLbyout(lbyoutMbnbgfr);
+        lbyoutMbnbgfr.updbtfComponfnts();
+        splitPbnf.rfvblidbtf();
+        splitPbnf.rfpbint();
     }
 
     /**
-     * Set the value to indicate if one of the splitpane sides is expanded.
+     * Sft tif vbluf to indidbtf if onf of tif splitpbnf sidfs is fxpbndfd.
      */
-    void setKeepHidden(boolean keepHidden) {
-        this.keepHidden = keepHidden;
+    void sftKffpHiddfn(boolfbn kffpHiddfn) {
+        tiis.kffpHiddfn = kffpHiddfn;
     }
 
     /**
-     * The value returned indicates if one of the splitpane sides is expanded.
-     * @return true if one of the splitpane sides is expanded, false otherwise.
+     * Tif vbluf rfturnfd indidbtfs if onf of tif splitpbnf sidfs is fxpbndfd.
+     * @rfturn truf if onf of tif splitpbnf sidfs is fxpbndfd, fblsf otifrwisf.
      */
-    private boolean getKeepHidden() {
-        return keepHidden;
+    privbtf boolfbn gftKffpHiddfn() {
+        rfturn kffpHiddfn;
     }
 
     /**
-     * Should be messaged before the dragging session starts, resets
-     * lastDragLocation and dividerSize.
+     * Siould bf mfssbgfd bfforf tif drbgging sfssion stbrts, rfsfts
+     * lbstDrbgLodbtion bnd dividfrSizf.
      */
-    protected void startDragging() {
-        Component       leftC = splitPane.getLeftComponent();
-        Component       rightC = splitPane.getRightComponent();
-        ComponentPeer   cPeer;
+    protfdtfd void stbrtDrbgging() {
+        Componfnt       lfftC = splitPbnf.gftLfftComponfnt();
+        Componfnt       rigitC = splitPbnf.gftRigitComponfnt();
+        ComponfntPffr   dPffr;
 
-        beginDragDividerLocation = getDividerLocation(splitPane);
-        draggingHW = false;
-        if(leftC != null && (cPeer = leftC.getPeer()) != null &&
-           !(cPeer instanceof LightweightPeer)) {
-            draggingHW = true;
-        } else if(rightC != null && (cPeer = rightC.getPeer()) != null
-                  && !(cPeer instanceof LightweightPeer)) {
-            draggingHW = true;
+        bfginDrbgDividfrLodbtion = gftDividfrLodbtion(splitPbnf);
+        drbggingHW = fblsf;
+        if(lfftC != null && (dPffr = lfftC.gftPffr()) != null &&
+           !(dPffr instbndfof LigitwfigitPffr)) {
+            drbggingHW = truf;
+        } flsf if(rigitC != null && (dPffr = rigitC.gftPffr()) != null
+                  && !(dPffr instbndfof LigitwfigitPffr)) {
+            drbggingHW = truf;
         }
-        if(orientation == JSplitPane.HORIZONTAL_SPLIT) {
-            setLastDragLocation(divider.getBounds().x);
-            dividerSize = divider.getSize().width;
-            if(!isContinuousLayout() && draggingHW) {
-                nonContinuousLayoutDivider.setBounds
-                        (getLastDragLocation(), 0, dividerSize,
-                         splitPane.getHeight());
-                      addHeavyweightDivider();
+        if(orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+            sftLbstDrbgLodbtion(dividfr.gftBounds().x);
+            dividfrSizf = dividfr.gftSizf().widti;
+            if(!isContinuousLbyout() && drbggingHW) {
+                nonContinuousLbyoutDividfr.sftBounds
+                        (gftLbstDrbgLodbtion(), 0, dividfrSizf,
+                         splitPbnf.gftHfigit());
+                      bddHfbvywfigitDividfr();
             }
-        } else {
-            setLastDragLocation(divider.getBounds().y);
-            dividerSize = divider.getSize().height;
-            if(!isContinuousLayout() && draggingHW) {
-                nonContinuousLayoutDivider.setBounds
-                        (0, getLastDragLocation(), splitPane.getWidth(),
-                         dividerSize);
-                      addHeavyweightDivider();
+        } flsf {
+            sftLbstDrbgLodbtion(dividfr.gftBounds().y);
+            dividfrSizf = dividfr.gftSizf().ifigit;
+            if(!isContinuousLbyout() && drbggingHW) {
+                nonContinuousLbyoutDividfr.sftBounds
+                        (0, gftLbstDrbgLodbtion(), splitPbnf.gftWidti(),
+                         dividfrSizf);
+                      bddHfbvywfigitDividfr();
             }
         }
     }
 
 
     /**
-     * Messaged during a dragging session to move the divider to the
-     * passed in {@code location}. If {@code continuousLayout} is {@code true}
-     * the location is reset and the splitPane validated.
+     * Mfssbgfd during b drbgging sfssion to movf tif dividfr to tif
+     * pbssfd in {@dodf lodbtion}. If {@dodf dontinuousLbyout} is {@dodf truf}
+     * tif lodbtion is rfsft bnd tif splitPbnf vblidbtfd.
      *
-     * @param location the location of divider
+     * @pbrbm lodbtion tif lodbtion of dividfr
      */
-    protected void dragDividerTo(int location) {
-        if(getLastDragLocation() != location) {
-            if(isContinuousLayout()) {
-                splitPane.setDividerLocation(location);
-                setLastDragLocation(location);
-            } else {
-                int lastLoc = getLastDragLocation();
+    protfdtfd void drbgDividfrTo(int lodbtion) {
+        if(gftLbstDrbgLodbtion() != lodbtion) {
+            if(isContinuousLbyout()) {
+                splitPbnf.sftDividfrLodbtion(lodbtion);
+                sftLbstDrbgLodbtion(lodbtion);
+            } flsf {
+                int lbstLod = gftLbstDrbgLodbtion();
 
-                setLastDragLocation(location);
-                if(orientation == JSplitPane.HORIZONTAL_SPLIT) {
-                    if(draggingHW) {
-                        nonContinuousLayoutDivider.setLocation(
-                            getLastDragLocation(), 0);
-                    } else {
-                        int   splitHeight = splitPane.getHeight();
-                        splitPane.repaint(lastLoc, 0, dividerSize,
-                                          splitHeight);
-                        splitPane.repaint(location, 0, dividerSize,
-                                          splitHeight);
+                sftLbstDrbgLodbtion(lodbtion);
+                if(orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+                    if(drbggingHW) {
+                        nonContinuousLbyoutDividfr.sftLodbtion(
+                            gftLbstDrbgLodbtion(), 0);
+                    } flsf {
+                        int   splitHfigit = splitPbnf.gftHfigit();
+                        splitPbnf.rfpbint(lbstLod, 0, dividfrSizf,
+                                          splitHfigit);
+                        splitPbnf.rfpbint(lodbtion, 0, dividfrSizf,
+                                          splitHfigit);
                     }
-                } else {
-                    if(draggingHW) {
-                        nonContinuousLayoutDivider.setLocation(0,
-                            getLastDragLocation());
-                    } else {
-                        int    splitWidth = splitPane.getWidth();
+                } flsf {
+                    if(drbggingHW) {
+                        nonContinuousLbyoutDividfr.sftLodbtion(0,
+                            gftLbstDrbgLodbtion());
+                    } flsf {
+                        int    splitWidti = splitPbnf.gftWidti();
 
-                        splitPane.repaint(0, lastLoc, splitWidth,
-                                          dividerSize);
-                        splitPane.repaint(0, location, splitWidth,
-                                          dividerSize);
+                        splitPbnf.rfpbint(0, lbstLod, splitWidti,
+                                          dividfrSizf);
+                        splitPbnf.rfpbint(0, lodbtion, splitWidti,
+                                          dividfrSizf);
                     }
                 }
             }
@@ -1273,181 +1273,181 @@ public class BasicSplitPaneUI extends SplitPaneUI
 
 
     /**
-     * Messaged to finish the dragging session. If not continuous display
-     * the dividers {@code location} will be reset.
+     * Mfssbgfd to finisi tif drbgging sfssion. If not dontinuous displby
+     * tif dividfrs {@dodf lodbtion} will bf rfsft.
      *
-     * @param location the location of divider
+     * @pbrbm lodbtion tif lodbtion of dividfr
      */
-    protected void finishDraggingTo(int location) {
-        dragDividerTo(location);
-        setLastDragLocation(-1);
-        if(!isContinuousLayout()) {
-            Component   leftC = splitPane.getLeftComponent();
-            Rectangle   leftBounds = leftC.getBounds();
+    protfdtfd void finisiDrbggingTo(int lodbtion) {
+        drbgDividfrTo(lodbtion);
+        sftLbstDrbgLodbtion(-1);
+        if(!isContinuousLbyout()) {
+            Componfnt   lfftC = splitPbnf.gftLfftComponfnt();
+            Rfdtbnglf   lfftBounds = lfftC.gftBounds();
 
-            if (draggingHW) {
-                if(orientation == JSplitPane.HORIZONTAL_SPLIT) {
-                    nonContinuousLayoutDivider.setLocation(-dividerSize, 0);
+            if (drbggingHW) {
+                if(orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+                    nonContinuousLbyoutDividfr.sftLodbtion(-dividfrSizf, 0);
                 }
-                else {
-                    nonContinuousLayoutDivider.setLocation(0, -dividerSize);
+                flsf {
+                    nonContinuousLbyoutDividfr.sftLodbtion(0, -dividfrSizf);
                 }
-                splitPane.remove(nonContinuousLayoutDivider);
+                splitPbnf.rfmovf(nonContinuousLbyoutDividfr);
             }
-            splitPane.setDividerLocation(location);
+            splitPbnf.sftDividfrLodbtion(lodbtion);
         }
     }
 
 
     /**
-     * As of Java 2 platform v1.3 this method is no longer used. Instead
-     * you should set the border on the divider.
+     * As of Jbvb 2 plbtform v1.3 tiis mftiod is no longfr usfd. Instfbd
+     * you siould sft tif bordfr on tif dividfr.
      * <p>
-     * Returns the width of one side of the divider border.
+     * Rfturns tif widti of onf sidf of tif dividfr bordfr.
      *
-     * @return the width of one side of the divider border
-     * @deprecated As of Java 2 platform v1.3, instead set the border on the
-     * divider.
+     * @rfturn tif widti of onf sidf of tif dividfr bordfr
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3, instfbd sft tif bordfr on tif
+     * dividfr.
      */
-    @Deprecated
-    protected int getDividerBorderSize() {
-        return 1;
+    @Dfprfdbtfd
+    protfdtfd int gftDividfrBordfrSizf() {
+        rfturn 1;
     }
 
 
     /**
-     * LayoutManager for JSplitPanes that have an orientation of
+     * LbyoutMbnbgfr for JSplitPbnfs tibt ibvf bn orifntbtion of
      * HORIZONTAL_SPLIT.
      */
-    public class BasicHorizontalLayoutManager implements LayoutManager2
+    publid dlbss BbsidHorizontblLbyoutMbnbgfr implfmfnts LbyoutMbnbgfr2
     {
-        /* left, right, divider. (in this exact order) */
+        /* lfft, rigit, dividfr. (in tiis fxbdt ordfr) */
         /**
-         * The size of components.
+         * Tif sizf of domponfnts.
          */
-        protected int[]         sizes;
+        protfdtfd int[]         sizfs;
         /**
-         * The components.
+         * Tif domponfnts.
          */
-        protected Component[]   components;
-        /** Size of the splitpane the last time laid out. */
-        private int             lastSplitPaneSize;
-        /** True if resetToPreferredSizes has been invoked. */
-        private boolean         doReset;
-        /** Axis, 0 for horizontal, or 1 for veritcal. */
-        private int             axis;
+        protfdtfd Componfnt[]   domponfnts;
+        /** Sizf of tif splitpbnf tif lbst timf lbid out. */
+        privbtf int             lbstSplitPbnfSizf;
+        /** Truf if rfsftToPrfffrrfdSizfs ibs bffn invokfd. */
+        privbtf boolfbn         doRfsft;
+        /** Axis, 0 for iorizontbl, or 1 for vfritdbl. */
+        privbtf int             bxis;
 
 
-        BasicHorizontalLayoutManager() {
-            this(0);
+        BbsidHorizontblLbyoutMbnbgfr() {
+            tiis(0);
         }
 
-        BasicHorizontalLayoutManager(int axis) {
-            this.axis = axis;
-            components = new Component[3];
-            components[0] = components[1] = components[2] = null;
-            sizes = new int[3];
+        BbsidHorizontblLbyoutMbnbgfr(int bxis) {
+            tiis.bxis = bxis;
+            domponfnts = nfw Componfnt[3];
+            domponfnts[0] = domponfnts[1] = domponfnts[2] = null;
+            sizfs = nfw int[3];
         }
 
         //
-        // LayoutManager
+        // LbyoutMbnbgfr
         //
 
         /**
-         * Does the actual layout.
+         * Dofs tif bdtubl lbyout.
          */
-        public void layoutContainer(Container container) {
-            Dimension   containerSize = container.getSize();
+        publid void lbyoutContbinfr(Contbinfr dontbinfr) {
+            Dimfnsion   dontbinfrSizf = dontbinfr.gftSizf();
 
-            // If the splitpane has a zero size then no op out of here.
-            // If we execute this function now, we're going to cause ourselves
-            // much grief.
-            if (containerSize.height <= 0 || containerSize.width <= 0 ) {
-                lastSplitPaneSize = 0;
-                return;
+            // If tif splitpbnf ibs b zfro sizf tifn no op out of ifrf.
+            // If wf fxfdutf tiis fundtion now, wf'rf going to dbusf oursflvfs
+            // mudi griff.
+            if (dontbinfrSizf.ifigit <= 0 || dontbinfrSizf.widti <= 0 ) {
+                lbstSplitPbnfSizf = 0;
+                rfturn;
             }
 
-            int         spDividerLocation = splitPane.getDividerLocation();
-            Insets      insets = splitPane.getInsets();
-            int         availableSize = getAvailableSize(containerSize,
-                                                         insets);
-            int         newSize = getSizeForPrimaryAxis(containerSize);
-            int         beginLocation = getDividerLocation(splitPane);
-            int         dOffset = getSizeForPrimaryAxis(insets, true);
-            Dimension   dSize = (components[2] == null) ? null :
-                                 components[2].getPreferredSize();
+            int         spDividfrLodbtion = splitPbnf.gftDividfrLodbtion();
+            Insfts      insfts = splitPbnf.gftInsfts();
+            int         bvbilbblfSizf = gftAvbilbblfSizf(dontbinfrSizf,
+                                                         insfts);
+            int         nfwSizf = gftSizfForPrimbryAxis(dontbinfrSizf);
+            int         bfginLodbtion = gftDividfrLodbtion(splitPbnf);
+            int         dOffsft = gftSizfForPrimbryAxis(insfts, truf);
+            Dimfnsion   dSizf = (domponfnts[2] == null) ? null :
+                                 domponfnts[2].gftPrfffrrfdSizf();
 
-            if ((doReset && !dividerLocationIsSet) || spDividerLocation < 0) {
-                resetToPreferredSizes(availableSize);
+            if ((doRfsft && !dividfrLodbtionIsSft) || spDividfrLodbtion < 0) {
+                rfsftToPrfffrrfdSizfs(bvbilbblfSizf);
             }
-            else if (lastSplitPaneSize <= 0 ||
-                     availableSize == lastSplitPaneSize || !painted ||
-                     (dSize != null &&
-                      getSizeForPrimaryAxis(dSize) != sizes[2])) {
-                if (dSize != null) {
-                    sizes[2] = getSizeForPrimaryAxis(dSize);
+            flsf if (lbstSplitPbnfSizf <= 0 ||
+                     bvbilbblfSizf == lbstSplitPbnfSizf || !pbintfd ||
+                     (dSizf != null &&
+                      gftSizfForPrimbryAxis(dSizf) != sizfs[2])) {
+                if (dSizf != null) {
+                    sizfs[2] = gftSizfForPrimbryAxis(dSizf);
                 }
-                else {
-                    sizes[2] = 0;
+                flsf {
+                    sizfs[2] = 0;
                 }
-                setDividerLocation(spDividerLocation - dOffset, availableSize);
-                dividerLocationIsSet = false;
+                sftDividfrLodbtion(spDividfrLodbtion - dOffsft, bvbilbblfSizf);
+                dividfrLodbtionIsSft = fblsf;
             }
-            else if (availableSize != lastSplitPaneSize) {
-                distributeSpace(availableSize - lastSplitPaneSize,
-                                getKeepHidden());
+            flsf if (bvbilbblfSizf != lbstSplitPbnfSizf) {
+                distributfSpbdf(bvbilbblfSizf - lbstSplitPbnfSizf,
+                                gftKffpHiddfn());
             }
-            doReset = false;
-            dividerLocationIsSet = false;
-            lastSplitPaneSize = availableSize;
+            doRfsft = fblsf;
+            dividfrLodbtionIsSft = fblsf;
+            lbstSplitPbnfSizf = bvbilbblfSizf;
 
-            // Reset the bounds of each component
-            int nextLocation = getInitialLocation(insets);
-            int counter = 0;
+            // Rfsft tif bounds of fbdi domponfnt
+            int nfxtLodbtion = gftInitiblLodbtion(insfts);
+            int dountfr = 0;
 
-            while (counter < 3) {
-                if (components[counter] != null &&
-                    components[counter].isVisible()) {
-                    setComponentToSize(components[counter], sizes[counter],
-                                       nextLocation, insets, containerSize);
-                    nextLocation += sizes[counter];
+            wiilf (dountfr < 3) {
+                if (domponfnts[dountfr] != null &&
+                    domponfnts[dountfr].isVisiblf()) {
+                    sftComponfntToSizf(domponfnts[dountfr], sizfs[dountfr],
+                                       nfxtLodbtion, insfts, dontbinfrSizf);
+                    nfxtLodbtion += sizfs[dountfr];
                 }
-                switch (counter) {
-                case 0:
-                    counter = 2;
-                    break;
-                case 2:
-                    counter = 1;
-                    break;
-                case 1:
-                    counter = 3;
-                    break;
+                switdi (dountfr) {
+                dbsf 0:
+                    dountfr = 2;
+                    brfbk;
+                dbsf 2:
+                    dountfr = 1;
+                    brfbk;
+                dbsf 1:
+                    dountfr = 3;
+                    brfbk;
                 }
             }
-            if (painted) {
-                // This is tricky, there is never a good time for us
-                // to push the value to the splitpane, painted appears to
-                // the best time to do it. What is really needed is
-                // notification that layout has completed.
-                int      newLocation = getDividerLocation(splitPane);
+            if (pbintfd) {
+                // Tiis is tridky, tifrf is nfvfr b good timf for us
+                // to pusi tif vbluf to tif splitpbnf, pbintfd bppfbrs to
+                // tif bfst timf to do it. Wibt is rfblly nffdfd is
+                // notifidbtion tibt lbyout ibs domplftfd.
+                int      nfwLodbtion = gftDividfrLodbtion(splitPbnf);
 
-                if (newLocation != (spDividerLocation - dOffset)) {
-                    int  lastLocation = splitPane.getLastDividerLocation();
+                if (nfwLodbtion != (spDividfrLodbtion - dOffsft)) {
+                    int  lbstLodbtion = splitPbnf.gftLbstDividfrLodbtion();
 
-                    ignoreDividerLocationChange = true;
+                    ignorfDividfrLodbtionCibngf = truf;
                     try {
-                        splitPane.setDividerLocation(newLocation);
-                        // This is not always needed, but is rather tricky
-                        // to determine when... The case this is needed for
-                        // is if the user sets the divider location to some
-                        // bogus value, say 0, and the actual value is 1, the
-                        // call to setDividerLocation(1) will preserve the
-                        // old value of 0, when we really want the divider
-                        // location value  before the call. This is needed for
-                        // the one touch buttons.
-                        splitPane.setLastDividerLocation(lastLocation);
-                    } finally {
-                        ignoreDividerLocationChange = false;
+                        splitPbnf.sftDividfrLodbtion(nfwLodbtion);
+                        // Tiis is not blwbys nffdfd, but is rbtifr tridky
+                        // to dftfrminf wifn... Tif dbsf tiis is nffdfd for
+                        // is if tif usfr sfts tif dividfr lodbtion to somf
+                        // bogus vbluf, sby 0, bnd tif bdtubl vbluf is 1, tif
+                        // dbll to sftDividfrLodbtion(1) will prfsfrvf tif
+                        // old vbluf of 0, wifn wf rfblly wbnt tif dividfr
+                        // lodbtion vbluf  bfforf tif dbll. Tiis is nffdfd for
+                        // tif onf toudi buttons.
+                        splitPbnf.sftLbstDividfrLodbtion(lbstLodbtion);
+                    } finblly {
+                        ignorfDividfrLodbtionCibngf = fblsf;
                     }
                 }
             }
@@ -1455,877 +1455,877 @@ public class BasicSplitPaneUI extends SplitPaneUI
 
 
         /**
-         * Adds the component at place.  Place must be one of
-         * JSplitPane.LEFT, RIGHT, TOP, BOTTOM, or null (for the
-         * divider).
+         * Adds tif domponfnt bt plbdf.  Plbdf must bf onf of
+         * JSplitPbnf.LEFT, RIGHT, TOP, BOTTOM, or null (for tif
+         * dividfr).
          */
-        public void addLayoutComponent(String place, Component component) {
-            boolean isValid = true;
+        publid void bddLbyoutComponfnt(String plbdf, Componfnt domponfnt) {
+            boolfbn isVblid = truf;
 
-            if(place != null) {
-                if(place.equals(JSplitPane.DIVIDER)) {
-                    /* Divider. */
-                    components[2] = component;
-                    sizes[2] = getSizeForPrimaryAxis(component.
-                                                     getPreferredSize());
-                } else if(place.equals(JSplitPane.LEFT) ||
-                          place.equals(JSplitPane.TOP)) {
-                    components[0] = component;
-                    sizes[0] = 0;
-                } else if(place.equals(JSplitPane.RIGHT) ||
-                          place.equals(JSplitPane.BOTTOM)) {
-                    components[1] = component;
-                    sizes[1] = 0;
-                } else if(!place.equals(
-                                    BasicSplitPaneUI.NON_CONTINUOUS_DIVIDER))
-                    isValid = false;
-            } else {
-                isValid = false;
+            if(plbdf != null) {
+                if(plbdf.fqubls(JSplitPbnf.DIVIDER)) {
+                    /* Dividfr. */
+                    domponfnts[2] = domponfnt;
+                    sizfs[2] = gftSizfForPrimbryAxis(domponfnt.
+                                                     gftPrfffrrfdSizf());
+                } flsf if(plbdf.fqubls(JSplitPbnf.LEFT) ||
+                          plbdf.fqubls(JSplitPbnf.TOP)) {
+                    domponfnts[0] = domponfnt;
+                    sizfs[0] = 0;
+                } flsf if(plbdf.fqubls(JSplitPbnf.RIGHT) ||
+                          plbdf.fqubls(JSplitPbnf.BOTTOM)) {
+                    domponfnts[1] = domponfnt;
+                    sizfs[1] = 0;
+                } flsf if(!plbdf.fqubls(
+                                    BbsidSplitPbnfUI.NON_CONTINUOUS_DIVIDER))
+                    isVblid = fblsf;
+            } flsf {
+                isVblid = fblsf;
             }
-            if(!isValid)
-                throw new IllegalArgumentException("cannot add to layout: " +
-                    "unknown constraint: " +
-                    place);
-            doReset = true;
+            if(!isVblid)
+                tirow nfw IllfgblArgumfntExdfption("dbnnot bdd to lbyout: " +
+                    "unknown donstrbint: " +
+                    plbdf);
+            doRfsft = truf;
         }
 
 
         /**
-         * Returns the minimum size needed to contain the children.
-         * The width is the sum of all the children's min widths and
-         * the height is the largest of the children's minimum heights.
+         * Rfturns tif minimum sizf nffdfd to dontbin tif diildrfn.
+         * Tif widti is tif sum of bll tif diildrfn's min widtis bnd
+         * tif ifigit is tif lbrgfst of tif diildrfn's minimum ifigits.
          */
-        public Dimension minimumLayoutSize(Container container) {
-            int         minPrimary = 0;
-            int         minSecondary = 0;
-            Insets      insets = splitPane.getInsets();
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr dontbinfr) {
+            int         minPrimbry = 0;
+            int         minSfdondbry = 0;
+            Insfts      insfts = splitPbnf.gftInsfts();
 
-            for (int counter=0; counter<3; counter++) {
-                if(components[counter] != null) {
-                    Dimension   minSize = components[counter].getMinimumSize();
-                    int         secSize = getSizeForSecondaryAxis(minSize);
+            for (int dountfr=0; dountfr<3; dountfr++) {
+                if(domponfnts[dountfr] != null) {
+                    Dimfnsion   minSizf = domponfnts[dountfr].gftMinimumSizf();
+                    int         sfdSizf = gftSizfForSfdondbryAxis(minSizf);
 
-                    minPrimary += getSizeForPrimaryAxis(minSize);
-                    if(secSize > minSecondary)
-                        minSecondary = secSize;
+                    minPrimbry += gftSizfForPrimbryAxis(minSizf);
+                    if(sfdSizf > minSfdondbry)
+                        minSfdondbry = sfdSizf;
                 }
             }
-            if(insets != null) {
-                minPrimary += getSizeForPrimaryAxis(insets, true) +
-                              getSizeForPrimaryAxis(insets, false);
-                minSecondary += getSizeForSecondaryAxis(insets, true) +
-                              getSizeForSecondaryAxis(insets, false);
+            if(insfts != null) {
+                minPrimbry += gftSizfForPrimbryAxis(insfts, truf) +
+                              gftSizfForPrimbryAxis(insfts, fblsf);
+                minSfdondbry += gftSizfForSfdondbryAxis(insfts, truf) +
+                              gftSizfForSfdondbryAxis(insfts, fblsf);
             }
-            if (axis == 0) {
-                return new Dimension(minPrimary, minSecondary);
+            if (bxis == 0) {
+                rfturn nfw Dimfnsion(minPrimbry, minSfdondbry);
             }
-            return new Dimension(minSecondary, minPrimary);
+            rfturn nfw Dimfnsion(minSfdondbry, minPrimbry);
         }
 
 
         /**
-         * Returns the preferred size needed to contain the children.
-         * The width is the sum of all the preferred widths of the children and
-         * the height is the largest preferred height of the children.
+         * Rfturns tif prfffrrfd sizf nffdfd to dontbin tif diildrfn.
+         * Tif widti is tif sum of bll tif prfffrrfd widtis of tif diildrfn bnd
+         * tif ifigit is tif lbrgfst prfffrrfd ifigit of tif diildrfn.
          */
-        public Dimension preferredLayoutSize(Container container) {
-            int         prePrimary = 0;
-            int         preSecondary = 0;
-            Insets      insets = splitPane.getInsets();
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr dontbinfr) {
+            int         prfPrimbry = 0;
+            int         prfSfdondbry = 0;
+            Insfts      insfts = splitPbnf.gftInsfts();
 
-            for(int counter = 0; counter < 3; counter++) {
-                if(components[counter] != null) {
-                    Dimension   preSize = components[counter].
-                                          getPreferredSize();
-                    int         secSize = getSizeForSecondaryAxis(preSize);
+            for(int dountfr = 0; dountfr < 3; dountfr++) {
+                if(domponfnts[dountfr] != null) {
+                    Dimfnsion   prfSizf = domponfnts[dountfr].
+                                          gftPrfffrrfdSizf();
+                    int         sfdSizf = gftSizfForSfdondbryAxis(prfSizf);
 
-                    prePrimary += getSizeForPrimaryAxis(preSize);
-                    if(secSize > preSecondary)
-                        preSecondary = secSize;
+                    prfPrimbry += gftSizfForPrimbryAxis(prfSizf);
+                    if(sfdSizf > prfSfdondbry)
+                        prfSfdondbry = sfdSizf;
                 }
             }
-            if(insets != null) {
-                prePrimary += getSizeForPrimaryAxis(insets, true) +
-                              getSizeForPrimaryAxis(insets, false);
-                preSecondary += getSizeForSecondaryAxis(insets, true) +
-                              getSizeForSecondaryAxis(insets, false);
+            if(insfts != null) {
+                prfPrimbry += gftSizfForPrimbryAxis(insfts, truf) +
+                              gftSizfForPrimbryAxis(insfts, fblsf);
+                prfSfdondbry += gftSizfForSfdondbryAxis(insfts, truf) +
+                              gftSizfForSfdondbryAxis(insfts, fblsf);
             }
-            if (axis == 0) {
-                return new Dimension(prePrimary, preSecondary);
+            if (bxis == 0) {
+                rfturn nfw Dimfnsion(prfPrimbry, prfSfdondbry);
             }
-            return new Dimension(preSecondary, prePrimary);
+            rfturn nfw Dimfnsion(prfSfdondbry, prfPrimbry);
         }
 
 
         /**
-         * Removes the specified component from our knowledge.
+         * Rfmovfs tif spfdififd domponfnt from our knowlfdgf.
          */
-        public void removeLayoutComponent(Component component) {
-            for(int counter = 0; counter < 3; counter++) {
-                if(components[counter] == component) {
-                    components[counter] = null;
-                    sizes[counter] = 0;
-                    doReset = true;
+        publid void rfmovfLbyoutComponfnt(Componfnt domponfnt) {
+            for(int dountfr = 0; dountfr < 3; dountfr++) {
+                if(domponfnts[dountfr] == domponfnt) {
+                    domponfnts[dountfr] = null;
+                    sizfs[dountfr] = 0;
+                    doRfsft = truf;
                 }
             }
         }
 
 
         //
-        // LayoutManager2
+        // LbyoutMbnbgfr2
         //
 
 
         /**
-         * Adds the specified component to the layout, using the specified
-         * constraint object.
-         * @param comp the component to be added
-         * @param constraints  where/how the component is added to the layout.
+         * Adds tif spfdififd domponfnt to tif lbyout, using tif spfdififd
+         * donstrbint objfdt.
+         * @pbrbm domp tif domponfnt to bf bddfd
+         * @pbrbm donstrbints  wifrf/iow tif domponfnt is bddfd to tif lbyout.
          */
-        public void addLayoutComponent(Component comp, Object constraints) {
-            if ((constraints == null) || (constraints instanceof String)) {
-                addLayoutComponent((String)constraints, comp);
-            } else {
-                throw new IllegalArgumentException("cannot add to layout: " +
-                                                   "constraint must be a " +
+        publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+            if ((donstrbints == null) || (donstrbints instbndfof String)) {
+                bddLbyoutComponfnt((String)donstrbints, domp);
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("dbnnot bdd to lbyout: " +
+                                                   "donstrbint must bf b " +
                                                    "string (or null)");
             }
         }
 
 
         /**
-         * Returns the alignment along the x axis.  This specifies how
-         * the component would like to be aligned relative to other
-         * components.  The value should be a number between 0 and 1
-         * where 0 represents alignment along the origin, 1 is aligned
-         * the furthest away from the origin, 0.5 is centered, etc.
+         * Rfturns tif blignmfnt blong tif x bxis.  Tiis spfdififs iow
+         * tif domponfnt would likf to bf blignfd rflbtivf to otifr
+         * domponfnts.  Tif vbluf siould bf b numbfr bftwffn 0 bnd 1
+         * wifrf 0 rfprfsfnts blignmfnt blong tif origin, 1 is blignfd
+         * tif furtifst bwby from tif origin, 0.5 is dfntfrfd, ftd.
          */
-        public float getLayoutAlignmentX(Container target) {
-            return 0.0f;
+        publid flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+            rfturn 0.0f;
         }
 
 
         /**
-         * Returns the alignment along the y axis.  This specifies how
-         * the component would like to be aligned relative to other
-         * components.  The value should be a number between 0 and 1
-         * where 0 represents alignment along the origin, 1 is aligned
-         * the furthest away from the origin, 0.5 is centered, etc.
+         * Rfturns tif blignmfnt blong tif y bxis.  Tiis spfdififs iow
+         * tif domponfnt would likf to bf blignfd rflbtivf to otifr
+         * domponfnts.  Tif vbluf siould bf b numbfr bftwffn 0 bnd 1
+         * wifrf 0 rfprfsfnts blignmfnt blong tif origin, 1 is blignfd
+         * tif furtifst bwby from tif origin, 0.5 is dfntfrfd, ftd.
          */
-        public float getLayoutAlignmentY(Container target) {
-            return 0.0f;
+        publid flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+            rfturn 0.0f;
         }
 
 
         /**
-         * Does nothing. If the developer really wants to change the
-         * size of one of the views JSplitPane.resetToPreferredSizes should
-         * be messaged.
+         * Dofs notiing. If tif dfvflopfr rfblly wbnts to dibngf tif
+         * sizf of onf of tif vifws JSplitPbnf.rfsftToPrfffrrfdSizfs siould
+         * bf mfssbgfd.
          */
-        public void invalidateLayout(Container c) {
+        publid void invblidbtfLbyout(Contbinfr d) {
         }
 
 
         /**
-         * Returns the maximum layout size, which is Integer.MAX_VALUE
-         * in both directions.
+         * Rfturns tif mbximum lbyout sizf, wiidi is Intfgfr.MAX_VALUE
+         * in boti dirfdtions.
          */
-        public Dimension maximumLayoutSize(Container target) {
-            return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+            rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
         }
 
 
         //
-        // New methods.
+        // Nfw mftiods.
         //
 
         /**
-         * Marks the receiver so that the next time this instance is
-         * laid out it'll ask for the preferred sizes.
+         * Mbrks tif rfdfivfr so tibt tif nfxt timf tiis instbndf is
+         * lbid out it'll bsk for tif prfffrrfd sizfs.
          */
-        public void resetToPreferredSizes() {
-            doReset = true;
+        publid void rfsftToPrfffrrfdSizfs() {
+            doRfsft = truf;
         }
 
         /**
-         * Resets the size of the Component at the passed in location.
+         * Rfsfts tif sizf of tif Componfnt bt tif pbssfd in lodbtion.
          *
-         * @param index the index of a component
+         * @pbrbm indfx tif indfx of b domponfnt
          */
-        protected void resetSizeAt(int index) {
-            sizes[index] = 0;
-            doReset = true;
-        }
-
-
-        /**
-         * Sets the sizes to {@code newSizes}.
-         *
-         * @param newSizes the new sizes
-         */
-        protected void setSizes(int[] newSizes) {
-            System.arraycopy(newSizes, 0, sizes, 0, 3);
+        protfdtfd void rfsftSizfAt(int indfx) {
+            sizfs[indfx] = 0;
+            doRfsft = truf;
         }
 
 
         /**
-         * Returns the sizes of the components.
+         * Sfts tif sizfs to {@dodf nfwSizfs}.
          *
-         * @return the sizes of the components
+         * @pbrbm nfwSizfs tif nfw sizfs
          */
-        protected int[] getSizes() {
-            int[]         retSizes = new int[3];
-
-            System.arraycopy(sizes, 0, retSizes, 0, 3);
-            return retSizes;
+        protfdtfd void sftSizfs(int[] nfwSizfs) {
+            Systfm.brrbydopy(nfwSizfs, 0, sizfs, 0, 3);
         }
 
 
         /**
-         * Returns the width of the passed in Components preferred size.
+         * Rfturns tif sizfs of tif domponfnts.
          *
-         * @param c a component
-         * @return the preferred width of the component
+         * @rfturn tif sizfs of tif domponfnts
          */
-        protected int getPreferredSizeOfComponent(Component c) {
-            return getSizeForPrimaryAxis(c.getPreferredSize());
+        protfdtfd int[] gftSizfs() {
+            int[]         rftSizfs = nfw int[3];
+
+            Systfm.brrbydopy(sizfs, 0, rftSizfs, 0, 3);
+            rfturn rftSizfs;
         }
 
 
         /**
-         * Returns the width of the passed in Components minimum size.
+         * Rfturns tif widti of tif pbssfd in Componfnts prfffrrfd sizf.
          *
-         * @param c a component
-         * @return the minimum width of the component
+         * @pbrbm d b domponfnt
+         * @rfturn tif prfffrrfd widti of tif domponfnt
          */
-        int getMinimumSizeOfComponent(Component c) {
-            return getSizeForPrimaryAxis(c.getMinimumSize());
+        protfdtfd int gftPrfffrrfdSizfOfComponfnt(Componfnt d) {
+            rfturn gftSizfForPrimbryAxis(d.gftPrfffrrfdSizf());
         }
 
 
         /**
-         * Returns the width of the passed in component.
+         * Rfturns tif widti of tif pbssfd in Componfnts minimum sizf.
          *
-         * @param c a component
-         * @return the width of the component
+         * @pbrbm d b domponfnt
+         * @rfturn tif minimum widti of tif domponfnt
          */
-        protected int getSizeOfComponent(Component c) {
-            return getSizeForPrimaryAxis(c.getSize());
+        int gftMinimumSizfOfComponfnt(Componfnt d) {
+            rfturn gftSizfForPrimbryAxis(d.gftMinimumSizf());
         }
 
 
         /**
-         * Returns the available width based on the container size and
-         * {@code Insets}.
+         * Rfturns tif widti of tif pbssfd in domponfnt.
          *
-         * @param containerSize a container size
-         * @param insets an insets
-         * @return the available width
+         * @pbrbm d b domponfnt
+         * @rfturn tif widti of tif domponfnt
          */
-        protected int getAvailableSize(Dimension containerSize,
-                                       Insets insets) {
-            if(insets == null)
-                return getSizeForPrimaryAxis(containerSize);
-            return (getSizeForPrimaryAxis(containerSize) -
-                    (getSizeForPrimaryAxis(insets, true) +
-                     getSizeForPrimaryAxis(insets, false)));
+        protfdtfd int gftSizfOfComponfnt(Componfnt d) {
+            rfturn gftSizfForPrimbryAxis(d.gftSizf());
         }
 
 
         /**
-         * Returns the left inset, unless the {@code Insets} are null in which case
-         * 0 is returned.
+         * Rfturns tif bvbilbblf widti bbsfd on tif dontbinfr sizf bnd
+         * {@dodf Insfts}.
          *
-         * @param insets the insets
-         * @return the left inset
+         * @pbrbm dontbinfrSizf b dontbinfr sizf
+         * @pbrbm insfts bn insfts
+         * @rfturn tif bvbilbblf widti
          */
-        protected int getInitialLocation(Insets insets) {
-            if(insets != null)
-                return getSizeForPrimaryAxis(insets, true);
-            return 0;
+        protfdtfd int gftAvbilbblfSizf(Dimfnsion dontbinfrSizf,
+                                       Insfts insfts) {
+            if(insfts == null)
+                rfturn gftSizfForPrimbryAxis(dontbinfrSizf);
+            rfturn (gftSizfForPrimbryAxis(dontbinfrSizf) -
+                    (gftSizfForPrimbryAxis(insfts, truf) +
+                     gftSizfForPrimbryAxis(insfts, fblsf)));
         }
 
 
         /**
-         * Sets the width of the component {@code c} to be {@code size}, placing its
-         * x location at {@code location}, y to the {@code insets.top} and height
-         * to the {@code containerSize.height} less the top and bottom insets.
+         * Rfturns tif lfft insft, unlfss tif {@dodf Insfts} brf null in wiidi dbsf
+         * 0 is rfturnfd.
          *
-         * @param c a component
-         * @param size a new width
-         * @param location a new X coordinate
-         * @param insets an insets
-         * @param containerSize a container size
+         * @pbrbm insfts tif insfts
+         * @rfturn tif lfft insft
          */
-        protected void setComponentToSize(Component c, int size,
-                                          int location, Insets insets,
-                                          Dimension containerSize) {
-            if(insets != null) {
-                if (axis == 0) {
-                    c.setBounds(location, insets.top, size,
-                                containerSize.height -
-                                (insets.top + insets.bottom));
+        protfdtfd int gftInitiblLodbtion(Insfts insfts) {
+            if(insfts != null)
+                rfturn gftSizfForPrimbryAxis(insfts, truf);
+            rfturn 0;
+        }
+
+
+        /**
+         * Sfts tif widti of tif domponfnt {@dodf d} to bf {@dodf sizf}, plbding its
+         * x lodbtion bt {@dodf lodbtion}, y to tif {@dodf insfts.top} bnd ifigit
+         * to tif {@dodf dontbinfrSizf.ifigit} lfss tif top bnd bottom insfts.
+         *
+         * @pbrbm d b domponfnt
+         * @pbrbm sizf b nfw widti
+         * @pbrbm lodbtion b nfw X doordinbtf
+         * @pbrbm insfts bn insfts
+         * @pbrbm dontbinfrSizf b dontbinfr sizf
+         */
+        protfdtfd void sftComponfntToSizf(Componfnt d, int sizf,
+                                          int lodbtion, Insfts insfts,
+                                          Dimfnsion dontbinfrSizf) {
+            if(insfts != null) {
+                if (bxis == 0) {
+                    d.sftBounds(lodbtion, insfts.top, sizf,
+                                dontbinfrSizf.ifigit -
+                                (insfts.top + insfts.bottom));
                 }
-                else {
-                    c.setBounds(insets.left, location, containerSize.width -
-                                (insets.left + insets.right), size);
-                }
-            }
-            else {
-                if (axis == 0) {
-                    c.setBounds(location, 0, size, containerSize.height);
-                }
-                else {
-                    c.setBounds(0, location, containerSize.width, size);
+                flsf {
+                    d.sftBounds(insfts.lfft, lodbtion, dontbinfrSizf.widti -
+                                (insfts.lfft + insfts.rigit), sizf);
                 }
             }
-        }
-
-        /**
-         * If the axis == 0, the width is returned, otherwise the height.
-         */
-        int getSizeForPrimaryAxis(Dimension size) {
-            if (axis == 0) {
-                return size.width;
+            flsf {
+                if (bxis == 0) {
+                    d.sftBounds(lodbtion, 0, sizf, dontbinfrSizf.ifigit);
+                }
+                flsf {
+                    d.sftBounds(0, lodbtion, dontbinfrSizf.widti, sizf);
+                }
             }
-            return size.height;
         }
 
         /**
-         * If the axis == 0, the width is returned, otherwise the height.
+         * If tif bxis == 0, tif widti is rfturnfd, otifrwisf tif ifigit.
          */
-        int getSizeForSecondaryAxis(Dimension size) {
-            if (axis == 0) {
-                return size.height;
+        int gftSizfForPrimbryAxis(Dimfnsion sizf) {
+            if (bxis == 0) {
+                rfturn sizf.widti;
             }
-            return size.width;
+            rfturn sizf.ifigit;
         }
 
         /**
-         * Returns a particular value of the inset identified by the
-         * axis and <code>isTop</code><p>
-         *   axis isTop
-         *    0    true    - left
-         *    0    false   - right
-         *    1    true    - top
-         *    1    false   - bottom
+         * If tif bxis == 0, tif widti is rfturnfd, otifrwisf tif ifigit.
          */
-        int getSizeForPrimaryAxis(Insets insets, boolean isTop) {
-            if (axis == 0) {
+        int gftSizfForSfdondbryAxis(Dimfnsion sizf) {
+            if (bxis == 0) {
+                rfturn sizf.ifigit;
+            }
+            rfturn sizf.widti;
+        }
+
+        /**
+         * Rfturns b pbrtidulbr vbluf of tif insft idfntififd by tif
+         * bxis bnd <dodf>isTop</dodf><p>
+         *   bxis isTop
+         *    0    truf    - lfft
+         *    0    fblsf   - rigit
+         *    1    truf    - top
+         *    1    fblsf   - bottom
+         */
+        int gftSizfForPrimbryAxis(Insfts insfts, boolfbn isTop) {
+            if (bxis == 0) {
                 if (isTop) {
-                    return insets.left;
+                    rfturn insfts.lfft;
                 }
-                return insets.right;
+                rfturn insfts.rigit;
             }
             if (isTop) {
-                return insets.top;
+                rfturn insfts.top;
             }
-            return insets.bottom;
+            rfturn insfts.bottom;
         }
 
         /**
-         * Returns a particular value of the inset identified by the
-         * axis and <code>isTop</code><p>
-         *   axis isTop
-         *    0    true    - left
-         *    0    false   - right
-         *    1    true    - top
-         *    1    false   - bottom
+         * Rfturns b pbrtidulbr vbluf of tif insft idfntififd by tif
+         * bxis bnd <dodf>isTop</dodf><p>
+         *   bxis isTop
+         *    0    truf    - lfft
+         *    0    fblsf   - rigit
+         *    1    truf    - top
+         *    1    fblsf   - bottom
          */
-        int getSizeForSecondaryAxis(Insets insets, boolean isTop) {
-            if (axis == 0) {
+        int gftSizfForSfdondbryAxis(Insfts insfts, boolfbn isTop) {
+            if (bxis == 0) {
                 if (isTop) {
-                    return insets.top;
+                    rfturn insfts.top;
                 }
-                return insets.bottom;
+                rfturn insfts.bottom;
             }
             if (isTop) {
-                return insets.left;
+                rfturn insfts.lfft;
             }
-            return insets.right;
+            rfturn insfts.rigit;
         }
 
         /**
-         * Determines the components. This should be called whenever
-         * a new instance of this is installed into an existing
-         * SplitPane.
+         * Dftfrminfs tif domponfnts. Tiis siould bf dbllfd wifnfvfr
+         * b nfw instbndf of tiis is instbllfd into bn fxisting
+         * SplitPbnf.
          */
-        protected void updateComponents() {
-            Component comp;
+        protfdtfd void updbtfComponfnts() {
+            Componfnt domp;
 
-            comp = splitPane.getLeftComponent();
-            if(components[0] != comp) {
-                components[0] = comp;
-                if(comp == null) {
-                    sizes[0] = 0;
-                } else {
-                    sizes[0] = -1;
+            domp = splitPbnf.gftLfftComponfnt();
+            if(domponfnts[0] != domp) {
+                domponfnts[0] = domp;
+                if(domp == null) {
+                    sizfs[0] = 0;
+                } flsf {
+                    sizfs[0] = -1;
                 }
             }
 
-            comp = splitPane.getRightComponent();
-            if(components[1] != comp) {
-                components[1] = comp;
-                if(comp == null) {
-                    sizes[1] = 0;
-                } else {
-                    sizes[1] = -1;
+            domp = splitPbnf.gftRigitComponfnt();
+            if(domponfnts[1] != domp) {
+                domponfnts[1] = domp;
+                if(domp == null) {
+                    sizfs[1] = 0;
+                } flsf {
+                    sizfs[1] = -1;
                 }
             }
 
-            /* Find the divider. */
-            Component[] children = splitPane.getComponents();
-            Component   oldDivider = components[2];
+            /* Find tif dividfr. */
+            Componfnt[] diildrfn = splitPbnf.gftComponfnts();
+            Componfnt   oldDividfr = domponfnts[2];
 
-            components[2] = null;
-            for(int counter = children.length - 1; counter >= 0; counter--) {
-                if(children[counter] != components[0] &&
-                   children[counter] != components[1] &&
-                   children[counter] != nonContinuousLayoutDivider) {
-                    if(oldDivider != children[counter]) {
-                        components[2] = children[counter];
-                    } else {
-                        components[2] = oldDivider;
+            domponfnts[2] = null;
+            for(int dountfr = diildrfn.lfngti - 1; dountfr >= 0; dountfr--) {
+                if(diildrfn[dountfr] != domponfnts[0] &&
+                   diildrfn[dountfr] != domponfnts[1] &&
+                   diildrfn[dountfr] != nonContinuousLbyoutDividfr) {
+                    if(oldDividfr != diildrfn[dountfr]) {
+                        domponfnts[2] = diildrfn[dountfr];
+                    } flsf {
+                        domponfnts[2] = oldDividfr;
                     }
-                    break;
+                    brfbk;
                 }
             }
-            if(components[2] == null) {
-                sizes[2] = 0;
+            if(domponfnts[2] == null) {
+                sizfs[2] = 0;
             }
-            else {
-                sizes[2] = getSizeForPrimaryAxis(components[2].getPreferredSize());
+            flsf {
+                sizfs[2] = gftSizfForPrimbryAxis(domponfnts[2].gftPrfffrrfdSizf());
             }
         }
 
         /**
-         * Resets the size of the first component to <code>leftSize</code>,
-         * and the right component to the remainder of the space.
+         * Rfsfts tif sizf of tif first domponfnt to <dodf>lfftSizf</dodf>,
+         * bnd tif rigit domponfnt to tif rfmbindfr of tif spbdf.
          */
-        void setDividerLocation(int leftSize, int availableSize) {
-            boolean          lValid = (components[0] != null &&
-                                       components[0].isVisible());
-            boolean          rValid = (components[1] != null &&
-                                       components[1].isVisible());
-            boolean          dValid = (components[2] != null &&
-                                       components[2].isVisible());
-            int              max = availableSize;
+        void sftDividfrLodbtion(int lfftSizf, int bvbilbblfSizf) {
+            boolfbn          lVblid = (domponfnts[0] != null &&
+                                       domponfnts[0].isVisiblf());
+            boolfbn          rVblid = (domponfnts[1] != null &&
+                                       domponfnts[1].isVisiblf());
+            boolfbn          dVblid = (domponfnts[2] != null &&
+                                       domponfnts[2].isVisiblf());
+            int              mbx = bvbilbblfSizf;
 
-            if (dValid) {
-                max -= sizes[2];
+            if (dVblid) {
+                mbx -= sizfs[2];
             }
-            leftSize = Math.max(0, Math.min(leftSize, max));
-            if (lValid) {
-                if (rValid) {
-                    sizes[0] = leftSize;
-                    sizes[1] = max - leftSize;
+            lfftSizf = Mbti.mbx(0, Mbti.min(lfftSizf, mbx));
+            if (lVblid) {
+                if (rVblid) {
+                    sizfs[0] = lfftSizf;
+                    sizfs[1] = mbx - lfftSizf;
                 }
-                else {
-                    sizes[0] = max;
-                    sizes[1] = 0;
+                flsf {
+                    sizfs[0] = mbx;
+                    sizfs[1] = 0;
                 }
             }
-            else if (rValid) {
-                sizes[1] = max;
-                sizes[0] = 0;
+            flsf if (rVblid) {
+                sizfs[1] = mbx;
+                sizfs[0] = 0;
             }
         }
 
         /**
-         * Returns an array of the minimum sizes of the components.
+         * Rfturns bn brrby of tif minimum sizfs of tif domponfnts.
          */
-        int[] getPreferredSizes() {
-            int[]         retValue = new int[3];
+        int[] gftPrfffrrfdSizfs() {
+            int[]         rftVbluf = nfw int[3];
 
-            for (int counter = 0; counter < 3; counter++) {
-                if (components[counter] != null &&
-                    components[counter].isVisible()) {
-                    retValue[counter] = getPreferredSizeOfComponent
-                                        (components[counter]);
+            for (int dountfr = 0; dountfr < 3; dountfr++) {
+                if (domponfnts[dountfr] != null &&
+                    domponfnts[dountfr].isVisiblf()) {
+                    rftVbluf[dountfr] = gftPrfffrrfdSizfOfComponfnt
+                                        (domponfnts[dountfr]);
                 }
-                else {
-                    retValue[counter] = -1;
+                flsf {
+                    rftVbluf[dountfr] = -1;
                 }
             }
-            return retValue;
+            rfturn rftVbluf;
         }
 
         /**
-         * Returns an array of the minimum sizes of the components.
+         * Rfturns bn brrby of tif minimum sizfs of tif domponfnts.
          */
-        int[] getMinimumSizes() {
-            int[]         retValue = new int[3];
+        int[] gftMinimumSizfs() {
+            int[]         rftVbluf = nfw int[3];
 
-            for (int counter = 0; counter < 2; counter++) {
-                if (components[counter] != null &&
-                    components[counter].isVisible()) {
-                    retValue[counter] = getMinimumSizeOfComponent
-                                        (components[counter]);
+            for (int dountfr = 0; dountfr < 2; dountfr++) {
+                if (domponfnts[dountfr] != null &&
+                    domponfnts[dountfr].isVisiblf()) {
+                    rftVbluf[dountfr] = gftMinimumSizfOfComponfnt
+                                        (domponfnts[dountfr]);
                 }
-                else {
-                    retValue[counter] = -1;
+                flsf {
+                    rftVbluf[dountfr] = -1;
                 }
             }
-            retValue[2] = (components[2] != null) ?
-                getMinimumSizeOfComponent(components[2]) : -1;
-            return retValue;
+            rftVbluf[2] = (domponfnts[2] != null) ?
+                gftMinimumSizfOfComponfnt(domponfnts[2]) : -1;
+            rfturn rftVbluf;
         }
 
         /**
-         * Resets the components to their preferred sizes.
+         * Rfsfts tif domponfnts to tifir prfffrrfd sizfs.
          */
-        void resetToPreferredSizes(int availableSize) {
-            // Set the sizes to the preferred sizes (if fits), otherwise
-            // set to min sizes and distribute any extra space.
-            int[]       testSizes = getPreferredSizes();
-            int         totalSize = 0;
+        void rfsftToPrfffrrfdSizfs(int bvbilbblfSizf) {
+            // Sft tif sizfs to tif prfffrrfd sizfs (if fits), otifrwisf
+            // sft to min sizfs bnd distributf bny fxtrb spbdf.
+            int[]       tfstSizfs = gftPrfffrrfdSizfs();
+            int         totblSizf = 0;
 
-            for (int counter = 0; counter < 3; counter++) {
-                if (testSizes[counter] != -1) {
-                    totalSize += testSizes[counter];
+            for (int dountfr = 0; dountfr < 3; dountfr++) {
+                if (tfstSizfs[dountfr] != -1) {
+                    totblSizf += tfstSizfs[dountfr];
                 }
             }
-            if (totalSize > availableSize) {
-                testSizes = getMinimumSizes();
+            if (totblSizf > bvbilbblfSizf) {
+                tfstSizfs = gftMinimumSizfs();
 
-                totalSize = 0;
-                for (int counter = 0; counter < 3; counter++) {
-                    if (testSizes[counter] != -1) {
-                        totalSize += testSizes[counter];
+                totblSizf = 0;
+                for (int dountfr = 0; dountfr < 3; dountfr++) {
+                    if (tfstSizfs[dountfr] != -1) {
+                        totblSizf += tfstSizfs[dountfr];
                     }
                 }
             }
-            setSizes(testSizes);
-            distributeSpace(availableSize - totalSize, false);
+            sftSizfs(tfstSizfs);
+            distributfSpbdf(bvbilbblfSizf - totblSizf, fblsf);
         }
 
         /**
-         * Distributes <code>space</code> between the two components
-         * (divider won't get any extra space) based on the weighting. This
-         * attempts to honor the min size of the components.
+         * Distributfs <dodf>spbdf</dodf> bftwffn tif two domponfnts
+         * (dividfr won't gft bny fxtrb spbdf) bbsfd on tif wfigiting. Tiis
+         * bttfmpts to ionor tif min sizf of tif domponfnts.
          *
-         * @param keepHidden if true and one of the components is 0x0
-         *                   it gets none of the extra space
+         * @pbrbm kffpHiddfn if truf bnd onf of tif domponfnts is 0x0
+         *                   it gfts nonf of tif fxtrb spbdf
          */
-        void distributeSpace(int space, boolean keepHidden) {
-            boolean          lValid = (components[0] != null &&
-                                       components[0].isVisible());
-            boolean          rValid = (components[1] != null &&
-                                       components[1].isVisible());
+        void distributfSpbdf(int spbdf, boolfbn kffpHiddfn) {
+            boolfbn          lVblid = (domponfnts[0] != null &&
+                                       domponfnts[0].isVisiblf());
+            boolfbn          rVblid = (domponfnts[1] != null &&
+                                       domponfnts[1].isVisiblf());
 
-            if (keepHidden) {
-                if (lValid && getSizeForPrimaryAxis(
-                                 components[0].getSize()) == 0) {
-                    lValid = false;
-                    if (rValid && getSizeForPrimaryAxis(
-                                     components[1].getSize()) == 0) {
-                        // Both aren't valid, force them both to be valid
-                        lValid = true;
+            if (kffpHiddfn) {
+                if (lVblid && gftSizfForPrimbryAxis(
+                                 domponfnts[0].gftSizf()) == 0) {
+                    lVblid = fblsf;
+                    if (rVblid && gftSizfForPrimbryAxis(
+                                     domponfnts[1].gftSizf()) == 0) {
+                        // Boti brfn't vblid, fordf tifm boti to bf vblid
+                        lVblid = truf;
                     }
                 }
-                else if (rValid && getSizeForPrimaryAxis(
-                                   components[1].getSize()) == 0) {
-                    rValid = false;
+                flsf if (rVblid && gftSizfForPrimbryAxis(
+                                   domponfnts[1].gftSizf()) == 0) {
+                    rVblid = fblsf;
                 }
             }
-            if (lValid && rValid) {
-                double        weight = splitPane.getResizeWeight();
-                int           lExtra = (int)(weight * (double)space);
-                int           rExtra = (space - lExtra);
+            if (lVblid && rVblid) {
+                doublf        wfigit = splitPbnf.gftRfsizfWfigit();
+                int           lExtrb = (int)(wfigit * (doublf)spbdf);
+                int           rExtrb = (spbdf - lExtrb);
 
-                sizes[0] += lExtra;
-                sizes[1] += rExtra;
+                sizfs[0] += lExtrb;
+                sizfs[1] += rExtrb;
 
-                int           lMin = getMinimumSizeOfComponent(components[0]);
-                int           rMin = getMinimumSizeOfComponent(components[1]);
-                boolean       lMinValid = (sizes[0] >= lMin);
-                boolean       rMinValid = (sizes[1] >= rMin);
+                int           lMin = gftMinimumSizfOfComponfnt(domponfnts[0]);
+                int           rMin = gftMinimumSizfOfComponfnt(domponfnts[1]);
+                boolfbn       lMinVblid = (sizfs[0] >= lMin);
+                boolfbn       rMinVblid = (sizfs[1] >= rMin);
 
-                if (!lMinValid && !rMinValid) {
-                    if (sizes[0] < 0) {
-                        sizes[1] += sizes[0];
-                        sizes[0] = 0;
+                if (!lMinVblid && !rMinVblid) {
+                    if (sizfs[0] < 0) {
+                        sizfs[1] += sizfs[0];
+                        sizfs[0] = 0;
                     }
-                    else if (sizes[1] < 0) {
-                        sizes[0] += sizes[1];
-                        sizes[1] = 0;
+                    flsf if (sizfs[1] < 0) {
+                        sizfs[0] += sizfs[1];
+                        sizfs[1] = 0;
                     }
                 }
-                else if (!lMinValid) {
-                    if (sizes[1] - (lMin - sizes[0]) < rMin) {
-                        // both below min, just make sure > 0
-                        if (sizes[0] < 0) {
-                            sizes[1] += sizes[0];
-                            sizes[0] = 0;
+                flsf if (!lMinVblid) {
+                    if (sizfs[1] - (lMin - sizfs[0]) < rMin) {
+                        // boti bflow min, just mbkf surf > 0
+                        if (sizfs[0] < 0) {
+                            sizfs[1] += sizfs[0];
+                            sizfs[0] = 0;
                         }
                     }
-                    else {
-                        sizes[1] -= (lMin - sizes[0]);
-                        sizes[0] = lMin;
+                    flsf {
+                        sizfs[1] -= (lMin - sizfs[0]);
+                        sizfs[0] = lMin;
                     }
                 }
-                else if (!rMinValid) {
-                    if (sizes[0] - (rMin - sizes[1]) < lMin) {
-                        // both below min, just make sure > 0
-                        if (sizes[1] < 0) {
-                            sizes[0] += sizes[1];
-                            sizes[1] = 0;
+                flsf if (!rMinVblid) {
+                    if (sizfs[0] - (rMin - sizfs[1]) < lMin) {
+                        // boti bflow min, just mbkf surf > 0
+                        if (sizfs[1] < 0) {
+                            sizfs[0] += sizfs[1];
+                            sizfs[1] = 0;
                         }
                     }
-                    else {
-                        sizes[0] -= (rMin - sizes[1]);
-                        sizes[1] = rMin;
+                    flsf {
+                        sizfs[0] -= (rMin - sizfs[1]);
+                        sizfs[1] = rMin;
                     }
                 }
-                if (sizes[0] < 0) {
-                    sizes[0] = 0;
+                if (sizfs[0] < 0) {
+                    sizfs[0] = 0;
                 }
-                if (sizes[1] < 0) {
-                    sizes[1] = 0;
+                if (sizfs[1] < 0) {
+                    sizfs[1] = 0;
                 }
             }
-            else if (lValid) {
-                sizes[0] = Math.max(0, sizes[0] + space);
+            flsf if (lVblid) {
+                sizfs[0] = Mbti.mbx(0, sizfs[0] + spbdf);
             }
-            else if (rValid) {
-                sizes[1] = Math.max(0, sizes[1] + space);
+            flsf if (rVblid) {
+                sizfs[1] = Mbti.mbx(0, sizfs[1] + spbdf);
             }
         }
     }
 
 
     /**
-     * LayoutManager used for JSplitPanes with an orientation of
+     * LbyoutMbnbgfr usfd for JSplitPbnfs witi bn orifntbtion of
      * VERTICAL_SPLIT.
      *
      */
-    public class BasicVerticalLayoutManager extends
-            BasicHorizontalLayoutManager
+    publid dlbss BbsidVfrtidblLbyoutMbnbgfr fxtfnds
+            BbsidHorizontblLbyoutMbnbgfr
     {
         /**
-         * Constructs a new instance of {@code BasicVerticalLayoutManager}.
+         * Construdts b nfw instbndf of {@dodf BbsidVfrtidblLbyoutMbnbgfr}.
          */
-        public BasicVerticalLayoutManager() {
-            super(1);
+        publid BbsidVfrtidblLbyoutMbnbgfr() {
+            supfr(1);
         }
     }
 
 
-    private class Handler implements FocusListener, PropertyChangeListener {
+    privbtf dlbss Hbndlfr implfmfnts FodusListfnfr, PropfrtyCibngfListfnfr {
         //
-        // PropertyChangeListener
+        // PropfrtyCibngfListfnfr
         //
         /**
-         * Messaged from the <code>JSplitPane</code> the receiver is
-         * contained in.  May potentially reset the layout manager and cause a
-         * <code>validate</code> to be sent.
+         * Mfssbgfd from tif <dodf>JSplitPbnf</dodf> tif rfdfivfr is
+         * dontbinfd in.  Mby potfntiblly rfsft tif lbyout mbnbgfr bnd dbusf b
+         * <dodf>vblidbtf</dodf> to bf sfnt.
          */
-        public void propertyChange(PropertyChangeEvent e) {
-            if(e.getSource() == splitPane) {
-                String changeName = e.getPropertyName();
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            if(f.gftSourdf() == splitPbnf) {
+                String dibngfNbmf = f.gftPropfrtyNbmf();
 
-                if(changeName == JSplitPane.ORIENTATION_PROPERTY) {
-                    orientation = splitPane.getOrientation();
-                    resetLayoutManager();
-                } else if(changeName == JSplitPane.CONTINUOUS_LAYOUT_PROPERTY){
-                    setContinuousLayout(splitPane.isContinuousLayout());
-                    if(!isContinuousLayout()) {
-                        if(nonContinuousLayoutDivider == null) {
-                            setNonContinuousLayoutDivider(
-                                createDefaultNonContinuousLayoutDivider(),
-                                true);
-                        } else if(nonContinuousLayoutDivider.getParent() ==
+                if(dibngfNbmf == JSplitPbnf.ORIENTATION_PROPERTY) {
+                    orifntbtion = splitPbnf.gftOrifntbtion();
+                    rfsftLbyoutMbnbgfr();
+                } flsf if(dibngfNbmf == JSplitPbnf.CONTINUOUS_LAYOUT_PROPERTY){
+                    sftContinuousLbyout(splitPbnf.isContinuousLbyout());
+                    if(!isContinuousLbyout()) {
+                        if(nonContinuousLbyoutDividfr == null) {
+                            sftNonContinuousLbyoutDividfr(
+                                drfbtfDffbultNonContinuousLbyoutDividfr(),
+                                truf);
+                        } flsf if(nonContinuousLbyoutDividfr.gftPbrfnt() ==
                                   null) {
-                            setNonContinuousLayoutDivider(
-                                nonContinuousLayoutDivider,
-                                true);
+                            sftNonContinuousLbyoutDividfr(
+                                nonContinuousLbyoutDividfr,
+                                truf);
                         }
                     }
-                } else if(changeName == JSplitPane.DIVIDER_SIZE_PROPERTY){
-                    divider.setDividerSize(splitPane.getDividerSize());
-                    dividerSize = divider.getDividerSize();
-                    splitPane.revalidate();
-                    splitPane.repaint();
+                } flsf if(dibngfNbmf == JSplitPbnf.DIVIDER_SIZE_PROPERTY){
+                    dividfr.sftDividfrSizf(splitPbnf.gftDividfrSizf());
+                    dividfrSizf = dividfr.gftDividfrSizf();
+                    splitPbnf.rfvblidbtf();
+                    splitPbnf.rfpbint();
                 }
             }
         }
 
         //
-        // FocusListener
+        // FodusListfnfr
         //
-        public void focusGained(FocusEvent ev) {
-            dividerKeyboardResize = true;
-            splitPane.repaint();
+        publid void fodusGbinfd(FodusEvfnt fv) {
+            dividfrKfybobrdRfsizf = truf;
+            splitPbnf.rfpbint();
         }
 
-        public void focusLost(FocusEvent ev) {
-            dividerKeyboardResize = false;
-            splitPane.repaint();
+        publid void fodusLost(FodusEvfnt fv) {
+            dividfrKfybobrdRfsizf = fblsf;
+            splitPbnf.rfpbint();
         }
     }
 
 
-    private static class Actions extends UIAction {
-        private static final String NEGATIVE_INCREMENT = "negativeIncrement";
-        private static final String POSITIVE_INCREMENT = "positiveIncrement";
-        private static final String SELECT_MIN = "selectMin";
-        private static final String SELECT_MAX = "selectMax";
-        private static final String START_RESIZE = "startResize";
-        private static final String TOGGLE_FOCUS = "toggleFocus";
-        private static final String FOCUS_OUT_FORWARD = "focusOutForward";
-        private static final String FOCUS_OUT_BACKWARD = "focusOutBackward";
+    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+        privbtf stbtid finbl String NEGATIVE_INCREMENT = "nfgbtivfIndrfmfnt";
+        privbtf stbtid finbl String POSITIVE_INCREMENT = "positivfIndrfmfnt";
+        privbtf stbtid finbl String SELECT_MIN = "sflfdtMin";
+        privbtf stbtid finbl String SELECT_MAX = "sflfdtMbx";
+        privbtf stbtid finbl String START_RESIZE = "stbrtRfsizf";
+        privbtf stbtid finbl String TOGGLE_FOCUS = "togglfFodus";
+        privbtf stbtid finbl String FOCUS_OUT_FORWARD = "fodusOutForwbrd";
+        privbtf stbtid finbl String FOCUS_OUT_BACKWARD = "fodusOutBbdkwbrd";
 
-        Actions(String key) {
-            super(key);
+        Adtions(String kfy) {
+            supfr(kfy);
         }
 
-        public void actionPerformed(ActionEvent ev) {
-            JSplitPane splitPane = (JSplitPane)ev.getSource();
-            BasicSplitPaneUI ui = (BasicSplitPaneUI)BasicLookAndFeel.
-                      getUIOfType(splitPane.getUI(), BasicSplitPaneUI.class);
+        publid void bdtionPfrformfd(AdtionEvfnt fv) {
+            JSplitPbnf splitPbnf = (JSplitPbnf)fv.gftSourdf();
+            BbsidSplitPbnfUI ui = (BbsidSplitPbnfUI)BbsidLookAndFffl.
+                      gftUIOfTypf(splitPbnf.gftUI(), BbsidSplitPbnfUI.dlbss);
 
             if (ui == null) {
-                return;
+                rfturn;
             }
-            String key = getName();
-            if (key == NEGATIVE_INCREMENT) {
-                if (ui.dividerKeyboardResize) {
-                    splitPane.setDividerLocation(Math.max(
-                              0, ui.getDividerLocation
-                              (splitPane) - ui.getKeyboardMoveIncrement()));
+            String kfy = gftNbmf();
+            if (kfy == NEGATIVE_INCREMENT) {
+                if (ui.dividfrKfybobrdRfsizf) {
+                    splitPbnf.sftDividfrLodbtion(Mbti.mbx(
+                              0, ui.gftDividfrLodbtion
+                              (splitPbnf) - ui.gftKfybobrdMovfIndrfmfnt()));
                 }
             }
-            else if (key == POSITIVE_INCREMENT) {
-                if (ui.dividerKeyboardResize) {
-                    splitPane.setDividerLocation(
-                        ui.getDividerLocation(splitPane) +
-                        ui.getKeyboardMoveIncrement());
+            flsf if (kfy == POSITIVE_INCREMENT) {
+                if (ui.dividfrKfybobrdRfsizf) {
+                    splitPbnf.sftDividfrLodbtion(
+                        ui.gftDividfrLodbtion(splitPbnf) +
+                        ui.gftKfybobrdMovfIndrfmfnt());
                 }
             }
-            else if (key == SELECT_MIN) {
-                if (ui.dividerKeyboardResize) {
-                    splitPane.setDividerLocation(0);
+            flsf if (kfy == SELECT_MIN) {
+                if (ui.dividfrKfybobrdRfsizf) {
+                    splitPbnf.sftDividfrLodbtion(0);
                 }
             }
-            else if (key == SELECT_MAX) {
-                if (ui.dividerKeyboardResize) {
-                    Insets   insets = splitPane.getInsets();
-                    int      bottomI = (insets != null) ? insets.bottom : 0;
-                    int      rightI = (insets != null) ? insets.right : 0;
+            flsf if (kfy == SELECT_MAX) {
+                if (ui.dividfrKfybobrdRfsizf) {
+                    Insfts   insfts = splitPbnf.gftInsfts();
+                    int      bottomI = (insfts != null) ? insfts.bottom : 0;
+                    int      rigitI = (insfts != null) ? insfts.rigit : 0;
 
-                    if (ui.orientation == JSplitPane.VERTICAL_SPLIT) {
-                        splitPane.setDividerLocation(splitPane.getHeight() -
+                    if (ui.orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                        splitPbnf.sftDividfrLodbtion(splitPbnf.gftHfigit() -
                                                      bottomI);
                     }
-                    else {
-                        splitPane.setDividerLocation(splitPane.getWidth() -
-                                                     rightI);
+                    flsf {
+                        splitPbnf.sftDividfrLodbtion(splitPbnf.gftWidti() -
+                                                     rigitI);
                     }
                 }
             }
-            else if (key == START_RESIZE) {
-                if (!ui.dividerKeyboardResize) {
-                    splitPane.requestFocus();
-                } else {
-                    JSplitPane parentSplitPane =
-                        (JSplitPane)SwingUtilities.getAncestorOfClass(
-                                         JSplitPane.class, splitPane);
-                    if (parentSplitPane!=null) {
-                        parentSplitPane.requestFocus();
+            flsf if (kfy == START_RESIZE) {
+                if (!ui.dividfrKfybobrdRfsizf) {
+                    splitPbnf.rfqufstFodus();
+                } flsf {
+                    JSplitPbnf pbrfntSplitPbnf =
+                        (JSplitPbnf)SwingUtilitifs.gftAndfstorOfClbss(
+                                         JSplitPbnf.dlbss, splitPbnf);
+                    if (pbrfntSplitPbnf!=null) {
+                        pbrfntSplitPbnf.rfqufstFodus();
                     }
                 }
             }
-            else if (key == TOGGLE_FOCUS) {
-                toggleFocus(splitPane);
+            flsf if (kfy == TOGGLE_FOCUS) {
+                togglfFodus(splitPbnf);
             }
-            else if (key == FOCUS_OUT_FORWARD) {
-                moveFocus(splitPane, 1);
+            flsf if (kfy == FOCUS_OUT_FORWARD) {
+                movfFodus(splitPbnf, 1);
             }
-            else if (key == FOCUS_OUT_BACKWARD) {
-                moveFocus(splitPane, -1);
+            flsf if (kfy == FOCUS_OUT_BACKWARD) {
+                movfFodus(splitPbnf, -1);
             }
         }
 
-        private void moveFocus(JSplitPane splitPane, int direction) {
-            Container rootAncestor = splitPane.getFocusCycleRootAncestor();
-            FocusTraversalPolicy policy = rootAncestor.getFocusTraversalPolicy();
-            Component focusOn = (direction > 0) ?
-                policy.getComponentAfter(rootAncestor, splitPane) :
-                policy.getComponentBefore(rootAncestor, splitPane);
-            HashSet<Component> focusFrom = new HashSet<Component>();
-            if (splitPane.isAncestorOf(focusOn)) {
+        privbtf void movfFodus(JSplitPbnf splitPbnf, int dirfdtion) {
+            Contbinfr rootAndfstor = splitPbnf.gftFodusCydlfRootAndfstor();
+            FodusTrbvfrsblPolidy polidy = rootAndfstor.gftFodusTrbvfrsblPolidy();
+            Componfnt fodusOn = (dirfdtion > 0) ?
+                polidy.gftComponfntAftfr(rootAndfstor, splitPbnf) :
+                polidy.gftComponfntBfforf(rootAndfstor, splitPbnf);
+            HbsiSft<Componfnt> fodusFrom = nfw HbsiSft<Componfnt>();
+            if (splitPbnf.isAndfstorOf(fodusOn)) {
                 do {
-                    focusFrom.add(focusOn);
-                    rootAncestor = focusOn.getFocusCycleRootAncestor();
-                    policy = rootAncestor.getFocusTraversalPolicy();
-                    focusOn = (direction > 0) ?
-                        policy.getComponentAfter(rootAncestor, focusOn) :
-                        policy.getComponentBefore(rootAncestor, focusOn);
-                } while (splitPane.isAncestorOf(focusOn) &&
-                         !focusFrom.contains(focusOn));
+                    fodusFrom.bdd(fodusOn);
+                    rootAndfstor = fodusOn.gftFodusCydlfRootAndfstor();
+                    polidy = rootAndfstor.gftFodusTrbvfrsblPolidy();
+                    fodusOn = (dirfdtion > 0) ?
+                        polidy.gftComponfntAftfr(rootAndfstor, fodusOn) :
+                        polidy.gftComponfntBfforf(rootAndfstor, fodusOn);
+                } wiilf (splitPbnf.isAndfstorOf(fodusOn) &&
+                         !fodusFrom.dontbins(fodusOn));
             }
-            if ( focusOn!=null && !splitPane.isAncestorOf(focusOn) ) {
-                focusOn.requestFocus();
-            }
-        }
-
-        private void toggleFocus(JSplitPane splitPane) {
-            Component left = splitPane.getLeftComponent();
-            Component right = splitPane.getRightComponent();
-
-            KeyboardFocusManager manager =
-                KeyboardFocusManager.getCurrentKeyboardFocusManager();
-            Component focus = manager.getFocusOwner();
-            Component focusOn = getNextSide(splitPane, focus);
-            if (focusOn != null) {
-                // don't change the focus if the new focused component belongs
-                // to the same splitpane and the same side
-                if ( focus!=null &&
-                     ( (SwingUtilities.isDescendingFrom(focus, left) &&
-                        SwingUtilities.isDescendingFrom(focusOn, left)) ||
-                       (SwingUtilities.isDescendingFrom(focus, right) &&
-                        SwingUtilities.isDescendingFrom(focusOn, right)) ) ) {
-                    return;
-                }
-                SwingUtilities2.compositeRequestFocus(focusOn);
+            if ( fodusOn!=null && !splitPbnf.isAndfstorOf(fodusOn) ) {
+                fodusOn.rfqufstFodus();
             }
         }
 
-        private Component getNextSide(JSplitPane splitPane, Component focus) {
-            Component left = splitPane.getLeftComponent();
-            Component right = splitPane.getRightComponent();
-            Component next;
-            if (focus!=null && SwingUtilities.isDescendingFrom(focus, left) &&
-                right!=null) {
-                next = getFirstAvailableComponent(right);
-                if (next != null) {
-                    return next;
+        privbtf void togglfFodus(JSplitPbnf splitPbnf) {
+            Componfnt lfft = splitPbnf.gftLfftComponfnt();
+            Componfnt rigit = splitPbnf.gftRigitComponfnt();
+
+            KfybobrdFodusMbnbgfr mbnbgfr =
+                KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr();
+            Componfnt fodus = mbnbgfr.gftFodusOwnfr();
+            Componfnt fodusOn = gftNfxtSidf(splitPbnf, fodus);
+            if (fodusOn != null) {
+                // don't dibngf tif fodus if tif nfw fodusfd domponfnt bflongs
+                // to tif sbmf splitpbnf bnd tif sbmf sidf
+                if ( fodus!=null &&
+                     ( (SwingUtilitifs.isDfsdfndingFrom(fodus, lfft) &&
+                        SwingUtilitifs.isDfsdfndingFrom(fodusOn, lfft)) ||
+                       (SwingUtilitifs.isDfsdfndingFrom(fodus, rigit) &&
+                        SwingUtilitifs.isDfsdfndingFrom(fodusOn, rigit)) ) ) {
+                    rfturn;
                 }
+                SwingUtilitifs2.dompositfRfqufstFodus(fodusOn);
             }
-            JSplitPane parentSplitPane = (JSplitPane)SwingUtilities.getAncestorOfClass(JSplitPane.class, splitPane);
-            if (parentSplitPane!=null) {
-                // focus next side of the parent split pane
-                next = getNextSide(parentSplitPane, focus);
-            } else {
-                next = getFirstAvailableComponent(left);
-                if (next == null) {
-                    next = getFirstAvailableComponent(right);
-                }
-            }
-            return next;
         }
 
-        private Component getFirstAvailableComponent(Component c) {
-            if (c!=null && c instanceof JSplitPane) {
-                JSplitPane sp = (JSplitPane)c;
-                Component left = getFirstAvailableComponent(sp.getLeftComponent());
-                if (left != null) {
-                    c = left;
-                } else {
-                    c = getFirstAvailableComponent(sp.getRightComponent());
+        privbtf Componfnt gftNfxtSidf(JSplitPbnf splitPbnf, Componfnt fodus) {
+            Componfnt lfft = splitPbnf.gftLfftComponfnt();
+            Componfnt rigit = splitPbnf.gftRigitComponfnt();
+            Componfnt nfxt;
+            if (fodus!=null && SwingUtilitifs.isDfsdfndingFrom(fodus, lfft) &&
+                rigit!=null) {
+                nfxt = gftFirstAvbilbblfComponfnt(rigit);
+                if (nfxt != null) {
+                    rfturn nfxt;
                 }
             }
-            return c;
+            JSplitPbnf pbrfntSplitPbnf = (JSplitPbnf)SwingUtilitifs.gftAndfstorOfClbss(JSplitPbnf.dlbss, splitPbnf);
+            if (pbrfntSplitPbnf!=null) {
+                // fodus nfxt sidf of tif pbrfnt split pbnf
+                nfxt = gftNfxtSidf(pbrfntSplitPbnf, fodus);
+            } flsf {
+                nfxt = gftFirstAvbilbblfComponfnt(lfft);
+                if (nfxt == null) {
+                    nfxt = gftFirstAvbilbblfComponfnt(rigit);
+                }
+            }
+            rfturn nfxt;
+        }
+
+        privbtf Componfnt gftFirstAvbilbblfComponfnt(Componfnt d) {
+            if (d!=null && d instbndfof JSplitPbnf) {
+                JSplitPbnf sp = (JSplitPbnf)d;
+                Componfnt lfft = gftFirstAvbilbblfComponfnt(sp.gftLfftComponfnt());
+                if (lfft != null) {
+                    d = lfft;
+                } flsf {
+                    d = gftFirstAvbilbblfComponfnt(sp.gftRigitComponfnt());
+                }
+            }
+            rfturn d;
         }
     }
 }

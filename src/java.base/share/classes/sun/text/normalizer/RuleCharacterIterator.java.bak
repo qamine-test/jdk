@@ -1,366 +1,366 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
+ * (C) Copyrigit IBM Corp. 1996-2005 - All Rigits Rfsfrvfd                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
 /*
  **********************************************************************
- * Author: Alan Liu
- * Created: September 23 2003
- * Since: ICU 2.8
+ * Autior: Albn Liu
+ * Crfbtfd: Sfptfmbfr 23 2003
+ * Sindf: ICU 2.8
  **********************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
-import java.text.ParsePosition;
+import jbvb.tfxt.PbrsfPosition;
 
 /**
- * An iterator that returns 32-bit code points.  This class is deliberately
- * <em>not</em> related to any of the JDK or ICU4J character iterator classes
- * in order to minimize complexity.
- * @author Alan Liu
- * @since ICU 2.8
+ * An itfrbtor tibt rfturns 32-bit dodf points.  Tiis dlbss is dflibfrbtfly
+ * <fm>not</fm> rflbtfd to bny of tif JDK or ICU4J dibrbdtfr itfrbtor dlbssfs
+ * in ordfr to minimizf domplfxity.
+ * @butior Albn Liu
+ * @sindf ICU 2.8
  */
-public class RuleCharacterIterator {
+publid dlbss RulfCibrbdtfrItfrbtor {
 
-    // TODO: Ideas for later.  (Do not implement if not needed, lest the
-    // code coverage numbers go down due to unused methods.)
-    // 1. Add a copy constructor, equals() method, clone() method.
-    // 2. Rather than return DONE, throw an exception if the end
-    // is reached -- this is an alternate usage model, probably not useful.
-    // 3. Return isEscaped from next().  If this happens,
-    // don't keep an isEscaped member variable.
+    // TODO: Idfbs for lbtfr.  (Do not implfmfnt if not nffdfd, lfst tif
+    // dodf dovfrbgf numbfrs go down duf to unusfd mftiods.)
+    // 1. Add b dopy donstrudtor, fqubls() mftiod, dlonf() mftiod.
+    // 2. Rbtifr tibn rfturn DONE, tirow bn fxdfption if tif fnd
+    // is rfbdifd -- tiis is bn bltfrnbtf usbgf modfl, probbbly not usfful.
+    // 3. Rfturn isEsdbpfd from nfxt().  If tiis ibppfns,
+    // don't kffp bn isEsdbpfd mfmbfr vbribblf.
 
     /**
-     * Text being iterated.
+     * Tfxt bfing itfrbtfd.
      */
-    private String text;
+    privbtf String tfxt;
 
     /**
-     * Position of iterator.
+     * Position of itfrbtor.
      */
-    private ParsePosition pos;
+    privbtf PbrsfPosition pos;
 
     /**
-     * Symbol table used to parse and dereference variables.  May be null.
+     * Symbol tbblf usfd to pbrsf bnd dfrfffrfndf vbribblfs.  Mby bf null.
      */
-    private SymbolTable sym;
+    privbtf SymbolTbblf sym;
 
     /**
-     * Current variable expansion, or null if none.
+     * Currfnt vbribblf fxpbnsion, or null if nonf.
      */
-    private char[] buf;
+    privbtf dibr[] buf;
 
     /**
-     * Position within buf[].  Meaningless if buf == null.
+     * Position witiin buf[].  Mfbninglfss if buf == null.
      */
-    private int bufPos;
+    privbtf int bufPos;
 
     /**
-     * Flag indicating whether the last character was parsed from an escape.
+     * Flbg indidbting wiftifr tif lbst dibrbdtfr wbs pbrsfd from bn fsdbpf.
      */
-    private boolean isEscaped;
+    privbtf boolfbn isEsdbpfd;
 
     /**
-     * Value returned when there are no more characters to iterate.
+     * Vbluf rfturnfd wifn tifrf brf no morf dibrbdtfrs to itfrbtf.
      */
-    public static final int DONE = -1;
+    publid stbtid finbl int DONE = -1;
 
     /**
-     * Bitmask option to enable parsing of variable names.  If (options &
-     * PARSE_VARIABLES) != 0, then an embedded variable will be expanded to
-     * its value.  Variables are parsed using the SymbolTable API.
+     * Bitmbsk option to fnbblf pbrsing of vbribblf nbmfs.  If (options &
+     * PARSE_VARIABLES) != 0, tifn bn fmbfddfd vbribblf will bf fxpbndfd to
+     * its vbluf.  Vbribblfs brf pbrsfd using tif SymbolTbblf API.
      */
-    public static final int PARSE_VARIABLES = 1;
+    publid stbtid finbl int PARSE_VARIABLES = 1;
 
     /**
-     * Bitmask option to enable parsing of escape sequences.  If (options &
-     * PARSE_ESCAPES) != 0, then an embedded escape sequence will be expanded
-     * to its value.  Escapes are parsed using Utility.unescapeAt().
+     * Bitmbsk option to fnbblf pbrsing of fsdbpf sfqufndfs.  If (options &
+     * PARSE_ESCAPES) != 0, tifn bn fmbfddfd fsdbpf sfqufndf will bf fxpbndfd
+     * to its vbluf.  Esdbpfs brf pbrsfd using Utility.unfsdbpfAt().
      */
-    public static final int PARSE_ESCAPES   = 2;
+    publid stbtid finbl int PARSE_ESCAPES   = 2;
 
     /**
-     * Bitmask option to enable skipping of whitespace.  If (options &
-     * SKIP_WHITESPACE) != 0, then whitespace characters will be silently
-     * skipped, as if they were not present in the input.  Whitespace
-     * characters are defined by UCharacterProperty.isRuleWhiteSpace().
+     * Bitmbsk option to fnbblf skipping of wiitfspbdf.  If (options &
+     * SKIP_WHITESPACE) != 0, tifn wiitfspbdf dibrbdtfrs will bf silfntly
+     * skippfd, bs if tify wfrf not prfsfnt in tif input.  Wiitfspbdf
+     * dibrbdtfrs brf dffinfd by UCibrbdtfrPropfrty.isRulfWiitfSpbdf().
      */
-    public static final int SKIP_WHITESPACE = 4;
+    publid stbtid finbl int SKIP_WHITESPACE = 4;
 
     /**
-     * Constructs an iterator over the given text, starting at the given
+     * Construdts bn itfrbtor ovfr tif givfn tfxt, stbrting bt tif givfn
      * position.
-     * @param text the text to be iterated
-     * @param sym the symbol table, or null if there is none.  If sym is null,
-     * then variables will not be deferenced, even if the PARSE_VARIABLES
-     * option is set.
-     * @param pos upon input, the index of the next character to return.  If a
-     * variable has been dereferenced, then pos will <em>not</em> increment as
-     * characters of the variable value are iterated.
+     * @pbrbm tfxt tif tfxt to bf itfrbtfd
+     * @pbrbm sym tif symbol tbblf, or null if tifrf is nonf.  If sym is null,
+     * tifn vbribblfs will not bf dfffrfndfd, fvfn if tif PARSE_VARIABLES
+     * option is sft.
+     * @pbrbm pos upon input, tif indfx of tif nfxt dibrbdtfr to rfturn.  If b
+     * vbribblf ibs bffn dfrfffrfndfd, tifn pos will <fm>not</fm> indrfmfnt bs
+     * dibrbdtfrs of tif vbribblf vbluf brf itfrbtfd.
      */
-    public RuleCharacterIterator(String text, SymbolTable sym,
-                                 ParsePosition pos) {
-        if (text == null || pos.getIndex() > text.length()) {
-            throw new IllegalArgumentException();
+    publid RulfCibrbdtfrItfrbtor(String tfxt, SymbolTbblf sym,
+                                 PbrsfPosition pos) {
+        if (tfxt == null || pos.gftIndfx() > tfxt.lfngti()) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        this.text = text;
-        this.sym = sym;
-        this.pos = pos;
+        tiis.tfxt = tfxt;
+        tiis.sym = sym;
+        tiis.pos = pos;
         buf = null;
     }
 
     /**
-     * Returns true if this iterator has no more characters to return.
+     * Rfturns truf if tiis itfrbtor ibs no morf dibrbdtfrs to rfturn.
      */
-    public boolean atEnd() {
-        return buf == null && pos.getIndex() == text.length();
+    publid boolfbn btEnd() {
+        rfturn buf == null && pos.gftIndfx() == tfxt.lfngti();
     }
 
     /**
-     * Returns the next character using the given options, or DONE if there
-     * are no more characters, and advance the position to the next
-     * character.
-     * @param options one or more of the following options, bitwise-OR-ed
-     * together: PARSE_VARIABLES, PARSE_ESCAPES, SKIP_WHITESPACE.
-     * @return the current 32-bit code point, or DONE
+     * Rfturns tif nfxt dibrbdtfr using tif givfn options, or DONE if tifrf
+     * brf no morf dibrbdtfrs, bnd bdvbndf tif position to tif nfxt
+     * dibrbdtfr.
+     * @pbrbm options onf or morf of tif following options, bitwisf-OR-fd
+     * togftifr: PARSE_VARIABLES, PARSE_ESCAPES, SKIP_WHITESPACE.
+     * @rfturn tif durrfnt 32-bit dodf point, or DONE
      */
-    public int next(int options) {
-        int c = DONE;
-        isEscaped = false;
+    publid int nfxt(int options) {
+        int d = DONE;
+        isEsdbpfd = fblsf;
 
         for (;;) {
-            c = _current();
-            _advance(UTF16.getCharCount(c));
+            d = _durrfnt();
+            _bdvbndf(UTF16.gftCibrCount(d));
 
-            if (c == SymbolTable.SYMBOL_REF && buf == null &&
+            if (d == SymbolTbblf.SYMBOL_REF && buf == null &&
                 (options & PARSE_VARIABLES) != 0 && sym != null) {
-                String name = sym.parseReference(text, pos, text.length());
-                // If name == null there was an isolated SYMBOL_REF;
-                // return it.  Caller must be prepared for this.
-                if (name == null) {
-                    break;
+                String nbmf = sym.pbrsfRfffrfndf(tfxt, pos, tfxt.lfngti());
+                // If nbmf == null tifrf wbs bn isolbtfd SYMBOL_REF;
+                // rfturn it.  Cbllfr must bf prfpbrfd for tiis.
+                if (nbmf == null) {
+                    brfbk;
                 }
                 bufPos = 0;
-                buf = sym.lookup(name);
+                buf = sym.lookup(nbmf);
                 if (buf == null) {
-                    throw new IllegalArgumentException(
-                                "Undefined variable: " + name);
+                    tirow nfw IllfgblArgumfntExdfption(
+                                "Undffinfd vbribblf: " + nbmf);
                 }
-                // Handle empty variable value
-                if (buf.length == 0) {
+                // Hbndlf fmpty vbribblf vbluf
+                if (buf.lfngti == 0) {
                     buf = null;
                 }
-                continue;
+                dontinuf;
             }
 
             if ((options & SKIP_WHITESPACE) != 0 &&
-                UCharacterProperty.isRuleWhiteSpace(c)) {
-                continue;
+                UCibrbdtfrPropfrty.isRulfWiitfSpbdf(d)) {
+                dontinuf;
             }
 
-            if (c == '\\' && (options & PARSE_ESCAPES) != 0) {
-                int offset[] = new int[] { 0 };
-                c = Utility.unescapeAt(lookahead(), offset);
-                jumpahead(offset[0]);
-                isEscaped = true;
-                if (c < 0) {
-                    throw new IllegalArgumentException("Invalid escape");
+            if (d == '\\' && (options & PARSE_ESCAPES) != 0) {
+                int offsft[] = nfw int[] { 0 };
+                d = Utility.unfsdbpfAt(lookbifbd(), offsft);
+                jumpbifbd(offsft[0]);
+                isEsdbpfd = truf;
+                if (d < 0) {
+                    tirow nfw IllfgblArgumfntExdfption("Invblid fsdbpf");
                 }
             }
 
-            break;
+            brfbk;
         }
 
-        return c;
+        rfturn d;
     }
 
     /**
-     * Returns true if the last character returned by next() was
-     * escaped.  This will only be the case if the option passed in to
-     * next() included PARSE_ESCAPED and the next character was an
-     * escape sequence.
+     * Rfturns truf if tif lbst dibrbdtfr rfturnfd by nfxt() wbs
+     * fsdbpfd.  Tiis will only bf tif dbsf if tif option pbssfd in to
+     * nfxt() indludfd PARSE_ESCAPED bnd tif nfxt dibrbdtfr wbs bn
+     * fsdbpf sfqufndf.
      */
-    public boolean isEscaped() {
-        return isEscaped;
+    publid boolfbn isEsdbpfd() {
+        rfturn isEsdbpfd;
     }
 
     /**
-     * Returns true if this iterator is currently within a variable expansion.
+     * Rfturns truf if tiis itfrbtor is durrfntly witiin b vbribblf fxpbnsion.
      */
-    public boolean inVariable() {
-        return buf != null;
+    publid boolfbn inVbribblf() {
+        rfturn buf != null;
     }
 
     /**
-     * Returns an object which, when later passed to setPos(), will
-     * restore this iterator's position.  Usage idiom:
+     * Rfturns bn objfdt wiidi, wifn lbtfr pbssfd to sftPos(), will
+     * rfstorf tiis itfrbtor's position.  Usbgf idiom:
      *
-     * RuleCharacterIterator iterator = ...;
-     * Object pos = iterator.getPos(null); // allocate position object
+     * RulfCibrbdtfrItfrbtor itfrbtor = ...;
+     * Objfdt pos = itfrbtor.gftPos(null); // bllodbtf position objfdt
      * for (;;) {
-     *   pos = iterator.getPos(pos); // reuse position object
-     *   int c = iterator.next(...);
+     *   pos = itfrbtor.gftPos(pos); // rfusf position objfdt
+     *   int d = itfrbtor.nfxt(...);
      *   ...
      * }
-     * iterator.setPos(pos);
+     * itfrbtor.sftPos(pos);
      *
-     * @param p a position object previously returned by getPos(),
-     * or null.  If not null, it will be updated and returned.  If
-     * null, a new position object will be allocated and returned.
-     * @return a position object which may be passed to setPos(),
-     * either `p,' or if `p' == null, a newly-allocated object
+     * @pbrbm p b position objfdt prfviously rfturnfd by gftPos(),
+     * or null.  If not null, it will bf updbtfd bnd rfturnfd.  If
+     * null, b nfw position objfdt will bf bllodbtfd bnd rfturnfd.
+     * @rfturn b position objfdt wiidi mby bf pbssfd to sftPos(),
+     * fitifr `p,' or if `p' == null, b nfwly-bllodbtfd objfdt
      */
-    public Object getPos(Object p) {
+    publid Objfdt gftPos(Objfdt p) {
         if (p == null) {
-            return new Object[] {buf, new int[] {pos.getIndex(), bufPos}};
+            rfturn nfw Objfdt[] {buf, nfw int[] {pos.gftIndfx(), bufPos}};
         }
-        Object[] a = (Object[]) p;
-        a[0] = buf;
-        int[] v = (int[]) a[1];
-        v[0] = pos.getIndex();
+        Objfdt[] b = (Objfdt[]) p;
+        b[0] = buf;
+        int[] v = (int[]) b[1];
+        v[0] = pos.gftIndfx();
         v[1] = bufPos;
-        return p;
+        rfturn p;
     }
 
     /**
-     * Restores this iterator to the position it had when getPos()
-     * returned the given object.
-     * @param p a position object previously returned by getPos()
+     * Rfstorfs tiis itfrbtor to tif position it ibd wifn gftPos()
+     * rfturnfd tif givfn objfdt.
+     * @pbrbm p b position objfdt prfviously rfturnfd by gftPos()
      */
-    public void setPos(Object p) {
-        Object[] a = (Object[]) p;
-        buf = (char[]) a[0];
-        int[] v = (int[]) a[1];
-        pos.setIndex(v[0]);
+    publid void sftPos(Objfdt p) {
+        Objfdt[] b = (Objfdt[]) p;
+        buf = (dibr[]) b[0];
+        int[] v = (int[]) b[1];
+        pos.sftIndfx(v[0]);
         bufPos = v[1];
     }
 
     /**
-     * Skips ahead past any ignored characters, as indicated by the given
-     * options.  This is useful in conjunction with the lookahead() method.
+     * Skips bifbd pbst bny ignorfd dibrbdtfrs, bs indidbtfd by tif givfn
+     * options.  Tiis is usfful in donjundtion witi tif lookbifbd() mftiod.
      *
-     * Currently, this only has an effect for SKIP_WHITESPACE.
-     * @param options one or more of the following options, bitwise-OR-ed
-     * together: PARSE_VARIABLES, PARSE_ESCAPES, SKIP_WHITESPACE.
+     * Currfntly, tiis only ibs bn ffffdt for SKIP_WHITESPACE.
+     * @pbrbm options onf or morf of tif following options, bitwisf-OR-fd
+     * togftifr: PARSE_VARIABLES, PARSE_ESCAPES, SKIP_WHITESPACE.
      */
-    public void skipIgnored(int options) {
+    publid void skipIgnorfd(int options) {
         if ((options & SKIP_WHITESPACE) != 0) {
             for (;;) {
-                int a = _current();
-                if (!UCharacterProperty.isRuleWhiteSpace(a)) break;
-                _advance(UTF16.getCharCount(a));
+                int b = _durrfnt();
+                if (!UCibrbdtfrPropfrty.isRulfWiitfSpbdf(b)) brfbk;
+                _bdvbndf(UTF16.gftCibrCount(b));
             }
         }
     }
 
     /**
-     * Returns a string containing the remainder of the characters to be
-     * returned by this iterator, without any option processing.  If the
-     * iterator is currently within a variable expansion, this will only
-     * extend to the end of the variable expansion.  This method is provided
-     * so that iterators may interoperate with string-based APIs.  The typical
-     * sequence of calls is to call skipIgnored(), then call lookahead(), then
-     * parse the string returned by lookahead(), then call jumpahead() to
-     * resynchronize the iterator.
-     * @return a string containing the characters to be returned by future
-     * calls to next()
+     * Rfturns b string dontbining tif rfmbindfr of tif dibrbdtfrs to bf
+     * rfturnfd by tiis itfrbtor, witiout bny option prodfssing.  If tif
+     * itfrbtor is durrfntly witiin b vbribblf fxpbnsion, tiis will only
+     * fxtfnd to tif fnd of tif vbribblf fxpbnsion.  Tiis mftiod is providfd
+     * so tibt itfrbtors mby intfropfrbtf witi string-bbsfd APIs.  Tif typidbl
+     * sfqufndf of dblls is to dbll skipIgnorfd(), tifn dbll lookbifbd(), tifn
+     * pbrsf tif string rfturnfd by lookbifbd(), tifn dbll jumpbifbd() to
+     * rfsyndironizf tif itfrbtor.
+     * @rfturn b string dontbining tif dibrbdtfrs to bf rfturnfd by futurf
+     * dblls to nfxt()
      */
-    public String lookahead() {
+    publid String lookbifbd() {
         if (buf != null) {
-            return new String(buf, bufPos, buf.length - bufPos);
-        } else {
-            return text.substring(pos.getIndex());
+            rfturn nfw String(buf, bufPos, buf.lfngti - bufPos);
+        } flsf {
+            rfturn tfxt.substring(pos.gftIndfx());
         }
     }
 
     /**
-     * Advances the position by the given number of 16-bit code units.
-     * This is useful in conjunction with the lookahead() method.
-     * @param count the number of 16-bit code units to jump over
+     * Advbndfs tif position by tif givfn numbfr of 16-bit dodf units.
+     * Tiis is usfful in donjundtion witi tif lookbifbd() mftiod.
+     * @pbrbm dount tif numbfr of 16-bit dodf units to jump ovfr
      */
-    public void jumpahead(int count) {
-        if (count < 0) {
-            throw new IllegalArgumentException();
+    publid void jumpbifbd(int dount) {
+        if (dount < 0) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
         if (buf != null) {
-            bufPos += count;
-            if (bufPos > buf.length) {
-                throw new IllegalArgumentException();
+            bufPos += dount;
+            if (bufPos > buf.lfngti) {
+                tirow nfw IllfgblArgumfntExdfption();
             }
-            if (bufPos == buf.length) {
+            if (bufPos == buf.lfngti) {
                 buf = null;
             }
-        } else {
-            int i = pos.getIndex() + count;
-            pos.setIndex(i);
-            if (i > text.length()) {
-                throw new IllegalArgumentException();
+        } flsf {
+            int i = pos.gftIndfx() + dount;
+            pos.sftIndfx(i);
+            if (i > tfxt.lfngti()) {
+                tirow nfw IllfgblArgumfntExdfption();
             }
         }
     }
 
     /**
-     * Returns the current 32-bit code point without parsing escapes, parsing
-     * variables, or skipping whitespace.
-     * @return the current 32-bit code point
+     * Rfturns tif durrfnt 32-bit dodf point witiout pbrsing fsdbpfs, pbrsing
+     * vbribblfs, or skipping wiitfspbdf.
+     * @rfturn tif durrfnt 32-bit dodf point
      */
-    private int _current() {
+    privbtf int _durrfnt() {
         if (buf != null) {
-            return UTF16.charAt(buf, 0, buf.length, bufPos);
-        } else {
-            int i = pos.getIndex();
-            return (i < text.length()) ? UTF16.charAt(text, i) : DONE;
+            rfturn UTF16.dibrAt(buf, 0, buf.lfngti, bufPos);
+        } flsf {
+            int i = pos.gftIndfx();
+            rfturn (i < tfxt.lfngti()) ? UTF16.dibrAt(tfxt, i) : DONE;
         }
     }
 
     /**
-     * Advances the position by the given amount.
-     * @param count the number of 16-bit code units to advance past
+     * Advbndfs tif position by tif givfn bmount.
+     * @pbrbm dount tif numbfr of 16-bit dodf units to bdvbndf pbst
      */
-    private void _advance(int count) {
+    privbtf void _bdvbndf(int dount) {
         if (buf != null) {
-            bufPos += count;
-            if (bufPos == buf.length) {
+            bufPos += dount;
+            if (bufPos == buf.lfngti) {
                 buf = null;
             }
-        } else {
-            pos.setIndex(pos.getIndex() + count);
-            if (pos.getIndex() > text.length()) {
-                pos.setIndex(text.length());
+        } flsf {
+            pos.sftIndfx(pos.gftIndfx() + dount);
+            if (pos.gftIndfx() > tfxt.lfngti()) {
+                pos.sftIndfx(tfxt.lfngti());
             }
         }
     }

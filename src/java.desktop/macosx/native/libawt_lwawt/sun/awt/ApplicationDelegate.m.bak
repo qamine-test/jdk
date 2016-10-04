@@ -1,777 +1,777 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "ApplicationDelegate.h"
+#import "ApplidbtionDflfgbtf.i"
 
-#import "com_apple_eawt_Application.h"
-#import "com_apple_eawt__AppDockIconHandler.h"
-#import "com_apple_eawt__AppEventHandler.h"
-#import "com_apple_eawt__AppMenuBarHandler.h"
-#import "com_apple_eawt__AppMenuBarHandler.h"
-#import "com_apple_eawt__AppMiscHandlers.h"
+#import "dom_bpplf_fbwt_Applidbtion.i"
+#import "dom_bpplf_fbwt__AppDodkIdonHbndlfr.i"
+#import "dom_bpplf_fbwt__AppEvfntHbndlfr.i"
+#import "dom_bpplf_fbwt__AppMfnuBbrHbndlfr.i"
+#import "dom_bpplf_fbwt__AppMfnuBbrHbndlfr.i"
+#import "dom_bpplf_fbwt__AppMisdHbndlfrs.i"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
 
-#import "CPopupMenu.h"
-#import "ThreadUtilities.h"
-#import "NSApplicationAWT.h"
+#import "CPopupMfnu.i"
+#import "TirfbdUtilitifs.i"
+#import "NSApplidbtionAWT.i"
 
 
-#pragma mark App Menu helpers
+#prbgmb mbrk App Mfnu iflpfrs
 
-// The following is a AWT convention?
-#define PREFERENCES_TAG  42
+// Tif following is b AWT donvfntion?
+#dffinf PREFERENCES_TAG  42
 
-static void addMenuItem(NSMenuItem* menuItem, NSInteger index) {
+stbtid void bddMfnuItfm(NSMfnuItfm* mfnuItfm, NSIntfgfr indfx) {
 AWT_ASSERT_APPKIT_THREAD;
 
-    NSMenu *menuBar = [[NSApplication sharedApplication] mainMenu];
-    NSMenu *appMenu = [[menuBar itemAtIndex:0] submenu];
+    NSMfnu *mfnuBbr = [[NSApplidbtion sibrfdApplidbtion] mbinMfnu];
+    NSMfnu *bppMfnu = [[mfnuBbr itfmAtIndfx:0] submfnu];
 
-    [appMenu insertItem:menuItem atIndex:index];
-    [appMenu insertItem:[NSMenuItem separatorItem] atIndex:index + 1]; // Add the following separator
+    [bppMfnu insfrtItfm:mfnuItfm btIndfx:indfx];
+    [bppMfnu insfrtItfm:[NSMfnuItfm sfpbrbtorItfm] btIndfx:indfx + 1]; // Add tif following sfpbrbtor
 }
 
-static void removeMenuItem(NSMenuItem* menuItem) {
+stbtid void rfmovfMfnuItfm(NSMfnuItfm* mfnuItfm) {
 AWT_ASSERT_APPKIT_THREAD;
 
-    NSMenu *menuBar = [[NSApplication sharedApplication] mainMenu];
-    NSMenu *appMenu = [[menuBar itemAtIndex:0] submenu];
+    NSMfnu *mfnuBbr = [[NSApplidbtion sibrfdApplidbtion] mbinMfnu];
+    NSMfnu *bppMfnu = [[mfnuBbr itfmAtIndfx:0] submfnu];
 
-    NSInteger index = [appMenu indexOfItem:menuItem];
-    if (index < 0) return; // something went wrong
+    NSIntfgfr indfx = [bppMfnu indfxOfItfm:mfnuItfm];
+    if (indfx < 0) rfturn; // somftiing wfnt wrong
 
-    [appMenu removeItemAtIndex:index + 1]; // Get the following separator
-    [appMenu removeItem:menuItem];
+    [bppMfnu rfmovfItfmAtIndfx:indfx + 1]; // Gft tif following sfpbrbtor
+    [bppMfnu rfmovfItfm:mfnuItfm];
 }
 
-@interface NSBundle (EAWTOverrides)
-- (BOOL)_hasEAWTOverride:(NSString *)key;
-@end
+@intfrfbdf NSBundlf (EAWTOvfrridfs)
+- (BOOL)_ibsEAWTOvfrridf:(NSString *)kfy;
+@fnd
 
 
-@implementation NSBundle (EAWTOverrides)
+@implfmfntbtion NSBundlf (EAWTOvfrridfs)
 
-- (BOOL)_hasEAWTOverride:(NSString *)key {
-    return [[[[self objectForInfoDictionaryKey:@"Java"] objectForKey:@"EAWTOverride"] objectForKey:key] boolValue];
+- (BOOL)_ibsEAWTOvfrridf:(NSString *)kfy {
+    rfturn [[[[sflf objfdtForInfoDidtionbryKfy:@"Jbvb"] objfdtForKfy:@"EAWTOvfrridf"] objfdtForKfy:kfy] boolVbluf];
 }
 
-@end
+@fnd
 
 
-// used by JavaRuntimeSupport.framework's [JRSAppKitAWT awtAppDelegate]
-// to expose our app delegate to the SWT or other apps that have knoledge
-// of Java's AWT and want to install their own app delegate that will delegate
-// to the AWT for some operations
+// usfd by JbvbRuntimfSupport.frbmfwork's [JRSAppKitAWT bwtAppDflfgbtf]
+// to fxposf our bpp dflfgbtf to tif SWT or otifr bpps tibt ibvf knolfdgf
+// of Jbvb's AWT bnd wbnt to instbll tifir own bpp dflfgbtf tibt will dflfgbtf
+// to tif AWT for somf opfrbtions
 
-@interface JavaAWTAppDelegateLoader : NSObject { }
-@end
+@intfrfbdf JbvbAWTAppDflfgbtfLobdfr : NSObjfdt { }
+@fnd
 
-@implementation JavaAWTAppDelegateLoader
-+ (ApplicationDelegate *) awtAppDelegate {
-    return [ApplicationDelegate sharedDelegate];
+@implfmfntbtion JbvbAWTAppDflfgbtfLobdfr
++ (ApplidbtionDflfgbtf *) bwtAppDflfgbtf {
+    rfturn [ApplidbtionDflfgbtf sibrfdDflfgbtf];
 }
-@end
+@fnd
 
 
-@implementation ApplicationDelegate
+@implfmfntbtion ApplidbtionDflfgbtf
 
-@synthesize fPreferencesMenu;
-@synthesize fAboutMenu;
+@syntifsizf fPrfffrfndfsMfnu;
+@syntifsizf fAboutMfnu;
 
-@synthesize fDockMenu;
-@synthesize fDefaultMenuBar;
+@syntifsizf fDodkMfnu;
+@syntifsizf fDffbultMfnuBbr;
 
 
-+ (ApplicationDelegate *)sharedDelegate {
-    static ApplicationDelegate *sApplicationDelegate = nil;
-    static BOOL checked = NO;
++ (ApplidbtionDflfgbtf *)sibrfdDflfgbtf {
+    stbtid ApplidbtionDflfgbtf *sApplidbtionDflfgbtf = nil;
+    stbtid BOOL difdkfd = NO;
 
-    if (sApplicationDelegate != nil) return sApplicationDelegate;
-    if (checked) return nil;
+    if (sApplidbtionDflfgbtf != nil) rfturn sApplidbtionDflfgbtf;
+    if (difdkfd) rfturn nil;
 
 AWT_ASSERT_APPKIT_THREAD;
 
-    // don't install the EAWT delegate if another kind of NSApplication is installed, like say, Safari
-    BOOL shouldInstall = NO;
+    // don't instbll tif EAWT dflfgbtf if bnotifr kind of NSApplidbtion is instbllfd, likf sby, Sbfbri
+    BOOL siouldInstbll = NO;
     if (NSApp != nil) {
-        if ([NSApp isMemberOfClass:[NSApplication class]]) shouldInstall = YES;
-        if ([NSApp isKindOfClass:[NSApplicationAWT class]]) shouldInstall = YES;
+        if ([NSApp isMfmbfrOfClbss:[NSApplidbtion dlbss]]) siouldInstbll = YES;
+        if ([NSApp isKindOfClbss:[NSApplidbtionAWT dlbss]]) siouldInstbll = YES;
     }
-    checked = YES;
-    if (!shouldInstall) return nil;
+    difdkfd = YES;
+    if (!siouldInstbll) rfturn nil;
 
-    sApplicationDelegate = [[ApplicationDelegate alloc] init];
-    return sApplicationDelegate;
+    sApplidbtionDflfgbtf = [[ApplidbtionDflfgbtf bllod] init];
+    rfturn sApplidbtionDflfgbtf;
 }
 
-- (void)_updatePreferencesMenu:(BOOL)prefsAvailable enabled:(BOOL)prefsEnabled {
+- (void)_updbtfPrfffrfndfsMfnu:(BOOL)prffsAvbilbblf fnbblfd:(BOOL)prffsEnbblfd {
 AWT_ASSERT_APPKIT_THREAD;
 
-    if (prefsAvailable) {
-        // Make sure Prefs is around
-        if ([self.fPreferencesMenu menu] == nil) {
-            // Position of Prefs depends upon About availability.
-            NSInteger index = ([self.fAboutMenu menu] != nil) ? 2 : 0;
+    if (prffsAvbilbblf) {
+        // Mbkf surf Prffs is bround
+        if ([sflf.fPrfffrfndfsMfnu mfnu] == nil) {
+            // Position of Prffs dfpfnds upon About bvbilbbility.
+            NSIntfgfr indfx = ([sflf.fAboutMfnu mfnu] != nil) ? 2 : 0;
 
-            addMenuItem(self.fPreferencesMenu, index);
+            bddMfnuItfm(sflf.fPrfffrfndfsMfnu, indfx);
         }
 
-        if (prefsEnabled) {
-            [self.fPreferencesMenu setEnabled:YES];
-            [self.fPreferencesMenu setTarget:self];
-            [self.fPreferencesMenu setAction:@selector(_preferencesMenuHandler)];
-        } else {
-            [self.fPreferencesMenu setEnabled:NO];
-            [self.fPreferencesMenu setTarget:nil];
-            [self.fPreferencesMenu setAction:nil];
+        if (prffsEnbblfd) {
+            [sflf.fPrfffrfndfsMfnu sftEnbblfd:YES];
+            [sflf.fPrfffrfndfsMfnu sftTbrgft:sflf];
+            [sflf.fPrfffrfndfsMfnu sftAdtion:@sflfdtor(_prfffrfndfsMfnuHbndlfr)];
+        } flsf {
+            [sflf.fPrfffrfndfsMfnu sftEnbblfd:NO];
+            [sflf.fPrfffrfndfsMfnu sftTbrgft:nil];
+            [sflf.fPrfffrfndfsMfnu sftAdtion:nil];
         }
-    } else {
-        if ([self.fPreferencesMenu menu] == nil) return;
+    } flsf {
+        if ([sflf.fPrfffrfndfsMfnu mfnu] == nil) rfturn;
 
-        // Remove the preferences item
-        removeMenuItem(self.fPreferencesMenu);
+        // Rfmovf tif prfffrfndfs itfm
+        rfmovfMfnuItfm(sflf.fPrfffrfndfsMfnu);
     }
 }
 
-- (void)_updateAboutMenu:(BOOL)aboutAvailable enabled:(BOOL)aboutEnabled {
+- (void)_updbtfAboutMfnu:(BOOL)bboutAvbilbblf fnbblfd:(BOOL)bboutEnbblfd {
 AWT_ASSERT_APPKIT_THREAD;
 
-    if (aboutAvailable) {
-        // Make sure About is around
-        if ([self.fAboutMenu menu] == nil) {
-            addMenuItem(self.fAboutMenu, 0);
+    if (bboutAvbilbblf) {
+        // Mbkf surf About is bround
+        if ([sflf.fAboutMfnu mfnu] == nil) {
+            bddMfnuItfm(sflf.fAboutMfnu, 0);
         }
 
-        if (aboutEnabled) {
-            [self.fAboutMenu setEnabled:YES];
-            [self.fAboutMenu setTarget:self];
-            [self.fAboutMenu setAction:@selector(_aboutMenuHandler)];
-        } else {
-            [self.fAboutMenu setEnabled:NO];
-            [self.fAboutMenu setTarget:nil];
-            [self.fAboutMenu setAction:nil];
+        if (bboutEnbblfd) {
+            [sflf.fAboutMfnu sftEnbblfd:YES];
+            [sflf.fAboutMfnu sftTbrgft:sflf];
+            [sflf.fAboutMfnu sftAdtion:@sflfdtor(_bboutMfnuHbndlfr)];
+        } flsf {
+            [sflf.fAboutMfnu sftEnbblfd:NO];
+            [sflf.fAboutMfnu sftTbrgft:nil];
+            [sflf.fAboutMfnu sftAdtion:nil];
         }
-    } else {
-        if ([self.fAboutMenu menu] == nil) return;
+    } flsf {
+        if ([sflf.fAboutMfnu mfnu] == nil) rfturn;
 
-        // Remove About item.
-        removeMenuItem(self.fAboutMenu);
+        // Rfmovf About itfm.
+        rfmovfMfnuItfm(sflf.fAboutMfnu);
     }
 }
 
 - (id) init {
 AWT_ASSERT_APPKIT_THREAD;
 
-    self = [super init];
-    if (!self) return self;
+    sflf = [supfr init];
+    if (!sflf) rfturn sflf;
 
-    // Prep for about and preferences menu
-    BOOL usingDefaultNib = YES;
-    if ([NSApp isKindOfClass:[NSApplicationAWT class]]) {
-        usingDefaultNib = [NSApp usingDefaultNib];
+    // Prfp for bbout bnd prfffrfndfs mfnu
+    BOOL usingDffbultNib = YES;
+    if ([NSApp isKindOfClbss:[NSApplidbtionAWT dlbss]]) {
+        usingDffbultNib = [NSApp usingDffbultNib];
     }
-    if (!usingDefaultNib) return self;
+    if (!usingDffbultNib) rfturn sflf;
 
-    NSMenu *menuBar = [[NSApplication sharedApplication] mainMenu];
-    NSMenu *appMenu = [[menuBar itemAtIndex:0] submenu];
+    NSMfnu *mfnuBbr = [[NSApplidbtion sibrfdApplidbtion] mbinMfnu];
+    NSMfnu *bppMfnu = [[mfnuBbr itfmAtIndfx:0] submfnu];
 
-    self.fPreferencesMenu = (NSMenuItem*)[appMenu itemWithTag:PREFERENCES_TAG];
-    self.fAboutMenu = (NSMenuItem*)[appMenu itemAtIndex:0];
+    sflf.fPrfffrfndfsMfnu = (NSMfnuItfm*)[bppMfnu itfmWitiTbg:PREFERENCES_TAG];
+    sflf.fAboutMfnu = (NSMfnuItfm*)[bppMfnu itfmAtIndfx:0];
 
-    // If the java application has a bundle with an Info.plist file with
-    //  a CFBundleDocumentTypes entry, then it is set up to handle Open Doc
-    //  and Print Doc commands for these files. Therefore java AWT will
-    //  cache Open Doc and Print Doc events that are sent prior to a
-    //  listener being installed by the client java application.
-    NSBundle *bundle = [NSBundle mainBundle];
-    fHandlesDocumentTypes = [bundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"] != nil || [bundle _hasEAWTOverride:@"DocumentHandler"];
-    fHandlesURLTypes = [bundle objectForInfoDictionaryKey:@"CFBundleURLTypes"] != nil || [bundle _hasEAWTOverride:@"URLHandler"];
-    if (fHandlesURLTypes) {
-        [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
-                                                           andSelector:@selector(_handleOpenURLEvent:withReplyEvent:)
-                                                         forEventClass:kInternetEventClass
-                                                            andEventID:kAEGetURL];
-    }
-
-    // By HIG, Preferences are not available unless there is a handler. By default in Mac OS X,
-    //  there is not a handler, but it is in the nib file for convenience.
-    removeMenuItem(self.fPreferencesMenu);
-
-    [self _updateAboutMenu:YES enabled:YES];
-
-    // Now that the AppKit objects are known and set up, initialize the model data
-    BOOL aboutAvailable = ([self.fAboutMenu menu] != nil);
-    BOOL aboutEnabled = (aboutAvailable && [self.fAboutMenu isEnabled] && ([self.fAboutMenu target] != nil));
-
-    BOOL prefsAvailable = ([self.fPreferencesMenu menu] != nil);
-    BOOL prefsEnabled = (prefsAvailable && [self.fPreferencesMenu isEnabled] && ([self.fPreferencesMenu target] != nil));
-
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_CLASS_CACHE(sjc_AppMenuBarHandler, "com/apple/eawt/_AppMenuBarHandler");
-    static JNF_STATIC_MEMBER_CACHE(sjm_initMenuStates, sjc_AppMenuBarHandler, "initMenuStates", "(ZZZZ)V");
-    JNFCallStaticVoidMethod(env, sjm_initMenuStates, aboutAvailable, aboutEnabled, prefsAvailable, prefsEnabled);
-
-    // register for the finish launching and system power off notifications by default
-    NSNotificationCenter *ctr = [NSNotificationCenter defaultCenter];
-    Class clz = [ApplicationDelegate class];
-    [ctr addObserver:clz selector:@selector(_willFinishLaunching) name:NSApplicationWillFinishLaunchingNotification object:nil];
-    [ctr addObserver:clz selector:@selector(_systemWillPowerOff) name:NSWorkspaceWillPowerOffNotification object:nil];
-    [ctr addObserver:clz selector:@selector(_appDidActivate) name:NSApplicationDidBecomeActiveNotification object:nil];
-    [ctr addObserver:clz selector:@selector(_appDidDeactivate) name:NSApplicationDidResignActiveNotification object:nil];
-    [ctr addObserver:clz selector:@selector(_appDidHide) name:NSApplicationDidHideNotification object:nil];
-    [ctr addObserver:clz selector:@selector(_appDidUnhide) name:NSApplicationDidUnhideNotification object:nil];
-
-    return self;
-}
-
-- (void)dealloc {
-    self.fPreferencesMenu = nil;
-    self.fAboutMenu = nil;
-    self.fDockMenu = nil;
-    self.fDefaultMenuBar = nil;
-
-    [super dealloc];
-}
-
-#pragma mark Callbacks from AppKit
-
-static JNF_CLASS_CACHE(sjc_AppEventHandler, "com/apple/eawt/_AppEventHandler");
-
-- (void)_handleOpenURLEvent:(NSAppleEventDescriptor *)openURLEvent withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
-AWT_ASSERT_APPKIT_THREAD;
-    if (!fHandlesURLTypes) return;
-
-    NSString *url = [[openURLEvent paramDescriptorForKeyword:keyDirectObject] stringValue];
-
-    //fprintf(stderr,"jm_handleOpenURL\n");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jstring jURL = JNFNSToJavaString(env, url);
-    static JNF_STATIC_MEMBER_CACHE(jm_handleOpenURI, sjc_AppEventHandler, "handleOpenURI", "(Ljava/lang/String;)V");
-    JNFCallStaticVoidMethod(env, jm_handleOpenURI, jURL); // AWT_THREADING Safe (event)
-    (*env)->DeleteLocalRef(env, jURL);
-
-    [replyEvent insertDescriptor:[NSAppleEventDescriptor nullDescriptor] atIndex:0];
-}
-
-// Helper for both open file and print file methods
-// Creates a Java list of files from a native list of files
-- (jobject)_createFilePathArrayFrom:(NSArray *)filenames withEnv:(JNIEnv *)env {
-    static JNF_CLASS_CACHE(sjc_ArrayList, "java/util/ArrayList");
-    static JNF_CTOR_CACHE(jm_ArrayList_ctor, sjc_ArrayList, "(I)V");
-    static JNF_MEMBER_CACHE(jm_ArrayList_add, sjc_ArrayList, "add", "(Ljava/lang/Object;)Z");
-
-    jobject jFileNamesArray = JNFNewObject(env, jm_ArrayList_ctor, (jint)[filenames count]); // AWT_THREADING Safe (known object)
-    for (NSString *filename in filenames) {
-        jstring jFileName = JNFNormalizedJavaStringForPath(env, filename);
-        JNFCallVoidMethod(env, jFileNamesArray, jm_ArrayList_add, jFileName);
+    // If tif jbvb bpplidbtion ibs b bundlf witi bn Info.plist filf witi
+    //  b CFBundlfDodumfntTypfs fntry, tifn it is sft up to ibndlf Opfn Dod
+    //  bnd Print Dod dommbnds for tifsf filfs. Tifrfforf jbvb AWT will
+    //  dbdif Opfn Dod bnd Print Dod fvfnts tibt brf sfnt prior to b
+    //  listfnfr bfing instbllfd by tif dlifnt jbvb bpplidbtion.
+    NSBundlf *bundlf = [NSBundlf mbinBundlf];
+    fHbndlfsDodumfntTypfs = [bundlf objfdtForInfoDidtionbryKfy:@"CFBundlfDodumfntTypfs"] != nil || [bundlf _ibsEAWTOvfrridf:@"DodumfntHbndlfr"];
+    fHbndlfsURLTypfs = [bundlf objfdtForInfoDidtionbryKfy:@"CFBundlfURLTypfs"] != nil || [bundlf _ibsEAWTOvfrridf:@"URLHbndlfr"];
+    if (fHbndlfsURLTypfs) {
+        [[NSApplfEvfntMbnbgfr sibrfdApplfEvfntMbnbgfr] sftEvfntHbndlfr:sflf
+                                                           bndSflfdtor:@sflfdtor(_ibndlfOpfnURLEvfnt:witiRfplyEvfnt:)
+                                                         forEvfntClbss:kIntfrnftEvfntClbss
+                                                            bndEvfntID:kAEGftURL];
     }
 
-    return jFileNamesArray;
+    // By HIG, Prfffrfndfs brf not bvbilbblf unlfss tifrf is b ibndlfr. By dffbult in Mbd OS X,
+    //  tifrf is not b ibndlfr, but it is in tif nib filf for donvfnifndf.
+    rfmovfMfnuItfm(sflf.fPrfffrfndfsMfnu);
+
+    [sflf _updbtfAboutMfnu:YES fnbblfd:YES];
+
+    // Now tibt tif AppKit objfdts brf known bnd sft up, initiblizf tif modfl dbtb
+    BOOL bboutAvbilbblf = ([sflf.fAboutMfnu mfnu] != nil);
+    BOOL bboutEnbblfd = (bboutAvbilbblf && [sflf.fAboutMfnu isEnbblfd] && ([sflf.fAboutMfnu tbrgft] != nil));
+
+    BOOL prffsAvbilbblf = ([sflf.fPrfffrfndfsMfnu mfnu] != nil);
+    BOOL prffsEnbblfd = (prffsAvbilbblf && [sflf.fPrfffrfndfsMfnu isEnbblfd] && ([sflf.fPrfffrfndfsMfnu tbrgft] != nil));
+
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    stbtid JNF_CLASS_CACHE(sjd_AppMfnuBbrHbndlfr, "dom/bpplf/fbwt/_AppMfnuBbrHbndlfr");
+    stbtid JNF_STATIC_MEMBER_CACHE(sjm_initMfnuStbtfs, sjd_AppMfnuBbrHbndlfr, "initMfnuStbtfs", "(ZZZZ)V");
+    JNFCbllStbtidVoidMftiod(fnv, sjm_initMfnuStbtfs, bboutAvbilbblf, bboutEnbblfd, prffsAvbilbblf, prffsEnbblfd);
+
+    // rfgistfr for tif finisi lbundiing bnd systfm powfr off notifidbtions by dffbult
+    NSNotifidbtionCfntfr *dtr = [NSNotifidbtionCfntfr dffbultCfntfr];
+    Clbss dlz = [ApplidbtionDflfgbtf dlbss];
+    [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_willFinisiLbundiing) nbmf:NSApplidbtionWillFinisiLbundiingNotifidbtion objfdt:nil];
+    [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_systfmWillPowfrOff) nbmf:NSWorkspbdfWillPowfrOffNotifidbtion objfdt:nil];
+    [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_bppDidAdtivbtf) nbmf:NSApplidbtionDidBfdomfAdtivfNotifidbtion objfdt:nil];
+    [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_bppDidDfbdtivbtf) nbmf:NSApplidbtionDidRfsignAdtivfNotifidbtion objfdt:nil];
+    [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_bppDidHidf) nbmf:NSApplidbtionDidHidfNotifidbtion objfdt:nil];
+    [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_bppDidUniidf) nbmf:NSApplidbtionDidUniidfNotifidbtion objfdt:nil];
+
+    rfturn sflf;
 }
 
-// Open file handler
-- (void)application:(NSApplication *)theApplication openFiles:(NSArray *)fileNames {
+- (void)dfbllod {
+    sflf.fPrfffrfndfsMfnu = nil;
+    sflf.fAboutMfnu = nil;
+    sflf.fDodkMfnu = nil;
+    sflf.fDffbultMfnuBbr = nil;
+
+    [supfr dfbllod];
+}
+
+#prbgmb mbrk Cbllbbdks from AppKit
+
+stbtid JNF_CLASS_CACHE(sjd_AppEvfntHbndlfr, "dom/bpplf/fbwt/_AppEvfntHbndlfr");
+
+- (void)_ibndlfOpfnURLEvfnt:(NSApplfEvfntDfsdriptor *)opfnURLEvfnt witiRfplyEvfnt:(NSApplfEvfntDfsdriptor *)rfplyEvfnt {
 AWT_ASSERT_APPKIT_THREAD;
-    if (!fHandlesDocumentTypes) {
-        [theApplication replyToOpenOrPrint:NSApplicationDelegateReplyCancel];
-        return;
+    if (!fHbndlfsURLTypfs) rfturn;
+
+    NSString *url = [[opfnURLEvfnt pbrbmDfsdriptorForKfyword:kfyDirfdtObjfdt] stringVbluf];
+
+    //fprintf(stdfrr,"jm_ibndlfOpfnURL\n");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    jstring jURL = JNFNSToJbvbString(fnv, url);
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_ibndlfOpfnURI, sjd_AppEvfntHbndlfr, "ibndlfOpfnURI", "(Ljbvb/lbng/String;)V");
+    JNFCbllStbtidVoidMftiod(fnv, jm_ibndlfOpfnURI, jURL); // AWT_THREADING Sbff (fvfnt)
+    (*fnv)->DflftfLodblRff(fnv, jURL);
+
+    [rfplyEvfnt insfrtDfsdriptor:[NSApplfEvfntDfsdriptor nullDfsdriptor] btIndfx:0];
+}
+
+// Hflpfr for boti opfn filf bnd print filf mftiods
+// Crfbtfs b Jbvb list of filfs from b nbtivf list of filfs
+- (jobjfdt)_drfbtfFilfPbtiArrbyFrom:(NSArrby *)filfnbmfs witiEnv:(JNIEnv *)fnv {
+    stbtid JNF_CLASS_CACHE(sjd_ArrbyList, "jbvb/util/ArrbyList");
+    stbtid JNF_CTOR_CACHE(jm_ArrbyList_dtor, sjd_ArrbyList, "(I)V");
+    stbtid JNF_MEMBER_CACHE(jm_ArrbyList_bdd, sjd_ArrbyList, "bdd", "(Ljbvb/lbng/Objfdt;)Z");
+
+    jobjfdt jFilfNbmfsArrby = JNFNfwObjfdt(fnv, jm_ArrbyList_dtor, (jint)[filfnbmfs dount]); // AWT_THREADING Sbff (known objfdt)
+    for (NSString *filfnbmf in filfnbmfs) {
+        jstring jFilfNbmf = JNFNormblizfdJbvbStringForPbti(fnv, filfnbmf);
+        JNFCbllVoidMftiod(fnv, jFilfNbmfsArrby, jm_ArrbyList_bdd, jFilfNbmf);
     }
 
-    //fprintf(stderr,"jm_handleOpenFile\n");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-
-    // if these files were opened from a Spotlight query, try to get the search text from the current AppleEvent
-    NSAppleEventDescriptor *currentEvent = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
-    NSString *searchString = [[currentEvent paramDescriptorForKeyword:keyAESearchText] stringValue];
-    jstring jSearchString = JNFNSToJavaString(env, searchString);
-
-    // convert the file names array
-    jobject jFileNamesArray = [self _createFilePathArrayFrom:fileNames withEnv:env];
-
-    static JNF_STATIC_MEMBER_CACHE(jm_handleOpenFiles, sjc_AppEventHandler, "handleOpenFiles", "(Ljava/util/List;Ljava/lang/String;)V");
-    JNFCallStaticVoidMethod(env, jm_handleOpenFiles, jFileNamesArray, jSearchString);
-    (*env)->DeleteLocalRef(env, jFileNamesArray);
-    (*env)->DeleteLocalRef(env, jSearchString);
-
-    [theApplication replyToOpenOrPrint:NSApplicationDelegateReplySuccess];
+    rfturn jFilfNbmfsArrby;
 }
 
-// Print handler
-- (NSApplicationPrintReply)application:(NSApplication *)application printFiles:(NSArray *)fileNames withSettings:(NSDictionary *)printSettings showPrintPanels:(BOOL)showPrintPanels {
+// Opfn filf ibndlfr
+- (void)bpplidbtion:(NSApplidbtion *)tifApplidbtion opfnFilfs:(NSArrby *)filfNbmfs {
 AWT_ASSERT_APPKIT_THREAD;
-    if (!fHandlesDocumentTypes) return NSPrintingCancelled;
-
-    //fprintf(stderr,"jm_handlePrintFile\n");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jobject jFileNamesArray = [self _createFilePathArrayFrom:fileNames withEnv:env];
-    static JNF_STATIC_MEMBER_CACHE(jm_handlePrintFile, sjc_AppEventHandler, "handlePrintFiles", "(Ljava/util/List;)V");
-    JNFCallStaticVoidMethod(env, jm_handlePrintFile, jFileNamesArray); // AWT_THREADING Safe (event)
-    (*env)->DeleteLocalRef(env, jFileNamesArray);
-
-    return NSPrintingSuccess;
-}
-
-// Open app handler, registered in -init
-+ (void)_notifyJava:(jint)notificationType {
-AWT_ASSERT_APPKIT_THREAD;
-
-    //fprintf(stderr,"jm_handleOpenApplication\n");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_handleNativeNotification, sjc_AppEventHandler, "handleNativeNotification", "(I)V");
-    JNFCallStaticVoidMethod(env, jm_handleNativeNotification, notificationType); // AWT_THREADING Safe (event)
-}
-
-// About menu handler
-- (void)_aboutMenuHandler {
-    [ApplicationDelegate _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_ABOUT];
-}
-
-// Preferences handler
-- (void)_preferencesMenuHandler {
-    [ApplicationDelegate _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_PREFS];
-}
-
-// Open app handler, registered in -init
-+ (void)_willFinishLaunching {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_OPEN_APP];
-}
-
-// ReOpen app handler
-- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
-    [ApplicationDelegate _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_REOPEN_APP];
-    return YES;
-}
-
-// Quit handler
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)app {
-    [ApplicationDelegate _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_QUIT];
-    return NSTerminateLater;
-}
-
-+ (void)_systemWillPowerOff {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_SHUTDOWN];
-}
-
-+ (void)_appDidActivate {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_ACTIVE_APP_GAINED];
-}
-
-+ (void)_appDidDeactivate {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_ACTIVE_APP_LOST];
-}
-
-+ (void)_appDidHide {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_APP_HIDDEN];
-}
-
-+ (void)_appDidUnhide {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_APP_SHOWN];
-}
-
-+ (void)_sessionDidActivate {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_USER_SESSION_ACTIVE];
-}
-
-+ (void)_sessionDidDeactivate {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_USER_SESSION_INACTIVE];
-}
-
-+ (void)_screenDidSleep {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_SCREEN_SLEEP];
-}
-
-+ (void)_screenDidWake {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_SCREEN_WAKE];
-}
-
-+ (void)_systemDidSleep {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_SYSTEM_SLEEP];
-}
-
-+ (void)_systemDidWake {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_SYSTEM_WAKE];
-}
-
-+ (void)_registerForNotification:(NSNumber *)notificationTypeNum {
-    NSNotificationCenter *ctr = [[NSWorkspace sharedWorkspace] notificationCenter];
-    Class clz = [ApplicationDelegate class];
-
-    jint notificationType = [notificationTypeNum intValue];
-    switch (notificationType) {
-        case com_apple_eawt__AppEventHandler_REGISTER_USER_SESSION:
-            [ctr addObserver:clz selector:@selector(_sessionDidActivate) name:NSWorkspaceSessionDidBecomeActiveNotification object:nil];
-            [ctr addObserver:clz selector:@selector(_sessionDidDeactivate) name:NSWorkspaceSessionDidResignActiveNotification object:nil];
-            break;
-        case com_apple_eawt__AppEventHandler_REGISTER_SCREEN_SLEEP:
-            [ctr addObserver:clz selector:@selector(_screenDidSleep) name:NSWorkspaceScreensDidSleepNotification object:nil];
-            [ctr addObserver:clz selector:@selector(_screenDidWake) name:NSWorkspaceScreensDidWakeNotification object:nil];
-            break;
-        case com_apple_eawt__AppEventHandler_REGISTER_SYSTEM_SLEEP:
-            [ctr addObserver:clz selector:@selector(_systemDidSleep) name:NSWorkspaceWillSleepNotification object:nil];
-            [ctr addObserver:clz selector:@selector(_systemDidWake) name:NSWorkspaceDidWakeNotification object:nil];
-            break;
-        default:
-            NSLog(@"EAWT attempting to register for unknown notification: %d", (int)notificationType);
-            break;
+    if (!fHbndlfsDodumfntTypfs) {
+        [tifApplidbtion rfplyToOpfnOrPrint:NSApplidbtionDflfgbtfRfplyCbndfl];
+        rfturn;
     }
+
+    //fprintf(stdfrr,"jm_ibndlfOpfnFilf\n");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+
+    // if tifsf filfs wfrf opfnfd from b Spotligit qufry, try to gft tif sfbrdi tfxt from tif durrfnt ApplfEvfnt
+    NSApplfEvfntDfsdriptor *durrfntEvfnt = [[NSApplfEvfntMbnbgfr sibrfdApplfEvfntMbnbgfr] durrfntApplfEvfnt];
+    NSString *sfbrdiString = [[durrfntEvfnt pbrbmDfsdriptorForKfyword:kfyAESfbrdiTfxt] stringVbluf];
+    jstring jSfbrdiString = JNFNSToJbvbString(fnv, sfbrdiString);
+
+    // donvfrt tif filf nbmfs brrby
+    jobjfdt jFilfNbmfsArrby = [sflf _drfbtfFilfPbtiArrbyFrom:filfNbmfs witiEnv:fnv];
+
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_ibndlfOpfnFilfs, sjd_AppEvfntHbndlfr, "ibndlfOpfnFilfs", "(Ljbvb/util/List;Ljbvb/lbng/String;)V");
+    JNFCbllStbtidVoidMftiod(fnv, jm_ibndlfOpfnFilfs, jFilfNbmfsArrby, jSfbrdiString);
+    (*fnv)->DflftfLodblRff(fnv, jFilfNbmfsArrby);
+    (*fnv)->DflftfLodblRff(fnv, jSfbrdiString);
+
+    [tifApplidbtion rfplyToOpfnOrPrint:NSApplidbtionDflfgbtfRfplySuddfss];
 }
 
-// Retrieves the menu to be attached to the Dock icon (AppKit callback)
-- (NSMenu *)applicationDockMenu:(NSApplication *)sender {
+// Print ibndlfr
+- (NSApplidbtionPrintRfply)bpplidbtion:(NSApplidbtion *)bpplidbtion printFilfs:(NSArrby *)filfNbmfs witiSfttings:(NSDidtionbry *)printSfttings siowPrintPbnfls:(BOOL)siowPrintPbnfls {
 AWT_ASSERT_APPKIT_THREAD;
-    return self.fDockMenu;
+    if (!fHbndlfsDodumfntTypfs) rfturn NSPrintingCbndfllfd;
+
+    //fprintf(stdfrr,"jm_ibndlfPrintFilf\n");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    jobjfdt jFilfNbmfsArrby = [sflf _drfbtfFilfPbtiArrbyFrom:filfNbmfs witiEnv:fnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_ibndlfPrintFilf, sjd_AppEvfntHbndlfr, "ibndlfPrintFilfs", "(Ljbvb/util/List;)V");
+    JNFCbllStbtidVoidMftiod(fnv, jm_ibndlfPrintFilf, jFilfNbmfsArrby); // AWT_THREADING Sbff (fvfnt)
+    (*fnv)->DflftfLodblRff(fnv, jFilfNbmfsArrby);
+
+    rfturn NSPrintingSuddfss;
 }
 
-- (CMenuBar *)defaultMenuBar {
-    return [[self.fDefaultMenuBar retain] autorelease];
-}
-
-
-#pragma mark Helpers called on the main thread from Java
-
-// Sets a new NSImageView on the Dock tile
-+ (void)_setDockIconImage:(NSImage *)image {
+// Opfn bpp ibndlfr, rfgistfrfd in -init
++ (void)_notifyJbvb:(jint)notifidbtionTypf {
 AWT_ASSERT_APPKIT_THREAD;
 
-    NSDockTile *dockTile = [NSApp dockTile];
-    if (image == nil) {
-        [dockTile setContentView:nil];
-        return;
-    }
-
-    // setup an image view for the dock tile
-    NSRect frame = NSMakeRect(0, 0, dockTile.size.width, dockTile.size.height);
-    NSImageView *dockImageView = [[NSImageView alloc] initWithFrame: frame];
-    [dockImageView setImageScaling:NSImageScaleProportionallyUpOrDown];
-    [dockImageView setImage:image];
-
-    // add it to the NSDockTile
-    [dockTile setContentView: dockImageView];
-    [dockTile display];
-
-    [dockImageView release];
+    //fprintf(stdfrr,"jm_ibndlfOpfnApplidbtion\n");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_ibndlfNbtivfNotifidbtion, sjd_AppEvfntHbndlfr, "ibndlfNbtivfNotifidbtion", "(I)V");
+    JNFCbllStbtidVoidMftiod(fnv, jm_ibndlfNbtivfNotifidbtion, notifidbtionTypf); // AWT_THREADING Sbff (fvfnt)
 }
 
-// Obtains the image of the Dock icon, either manually set, a drawn copy, or the default NSApplicationIcon
-+ (NSImage *)_dockIconImage {
+// About mfnu ibndlfr
+- (void)_bboutMfnuHbndlfr {
+    [ApplidbtionDflfgbtf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_ABOUT];
+}
+
+// Prfffrfndfs ibndlfr
+- (void)_prfffrfndfsMfnuHbndlfr {
+    [ApplidbtionDflfgbtf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_PREFS];
+}
+
+// Opfn bpp ibndlfr, rfgistfrfd in -init
++ (void)_willFinisiLbundiing {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_OPEN_APP];
+}
+
+// RfOpfn bpp ibndlfr
+- (BOOL)bpplidbtionSiouldHbndlfRfopfn:(NSApplidbtion *)tifApplidbtion ibsVisiblfWindows:(BOOL)flbg {
+    [ApplidbtionDflfgbtf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_REOPEN_APP];
+    rfturn YES;
+}
+
+// Quit ibndlfr
+- (NSApplidbtionTfrminbtfRfply)bpplidbtionSiouldTfrminbtf:(NSApplidbtion *)bpp {
+    [ApplidbtionDflfgbtf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_QUIT];
+    rfturn NSTfrminbtfLbtfr;
+}
+
++ (void)_systfmWillPowfrOff {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_SHUTDOWN];
+}
+
++ (void)_bppDidAdtivbtf {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_ACTIVE_APP_GAINED];
+}
+
++ (void)_bppDidDfbdtivbtf {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_ACTIVE_APP_LOST];
+}
+
++ (void)_bppDidHidf {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_APP_HIDDEN];
+}
+
++ (void)_bppDidUniidf {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_APP_SHOWN];
+}
+
++ (void)_sfssionDidAdtivbtf {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_USER_SESSION_ACTIVE];
+}
+
++ (void)_sfssionDidDfbdtivbtf {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_USER_SESSION_INACTIVE];
+}
+
++ (void)_sdrffnDidSlffp {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_SCREEN_SLEEP];
+}
+
++ (void)_sdrffnDidWbkf {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_SCREEN_WAKE];
+}
+
++ (void)_systfmDidSlffp {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_SYSTEM_SLEEP];
+}
+
++ (void)_systfmDidWbkf {
+    [sflf _notifyJbvb:dom_bpplf_fbwt__AppEvfntHbndlfr_NOTIFY_SYSTEM_WAKE];
+}
+
++ (void)_rfgistfrForNotifidbtion:(NSNumbfr *)notifidbtionTypfNum {
+    NSNotifidbtionCfntfr *dtr = [[NSWorkspbdf sibrfdWorkspbdf] notifidbtionCfntfr];
+    Clbss dlz = [ApplidbtionDflfgbtf dlbss];
+
+    jint notifidbtionTypf = [notifidbtionTypfNum intVbluf];
+    switdi (notifidbtionTypf) {
+        dbsf dom_bpplf_fbwt__AppEvfntHbndlfr_REGISTER_USER_SESSION:
+            [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_sfssionDidAdtivbtf) nbmf:NSWorkspbdfSfssionDidBfdomfAdtivfNotifidbtion objfdt:nil];
+            [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_sfssionDidDfbdtivbtf) nbmf:NSWorkspbdfSfssionDidRfsignAdtivfNotifidbtion objfdt:nil];
+            brfbk;
+        dbsf dom_bpplf_fbwt__AppEvfntHbndlfr_REGISTER_SCREEN_SLEEP:
+            [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_sdrffnDidSlffp) nbmf:NSWorkspbdfSdrffnsDidSlffpNotifidbtion objfdt:nil];
+            [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_sdrffnDidWbkf) nbmf:NSWorkspbdfSdrffnsDidWbkfNotifidbtion objfdt:nil];
+            brfbk;
+        dbsf dom_bpplf_fbwt__AppEvfntHbndlfr_REGISTER_SYSTEM_SLEEP:
+            [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_systfmDidSlffp) nbmf:NSWorkspbdfWillSlffpNotifidbtion objfdt:nil];
+            [dtr bddObsfrvfr:dlz sflfdtor:@sflfdtor(_systfmDidWbkf) nbmf:NSWorkspbdfDidWbkfNotifidbtion objfdt:nil];
+            brfbk;
+        dffbult:
+            NSLog(@"EAWT bttfmpting to rfgistfr for unknown notifidbtion: %d", (int)notifidbtionTypf);
+            brfbk;
+    }
+}
+
+// Rftrifvfs tif mfnu to bf bttbdifd to tif Dodk idon (AppKit dbllbbdk)
+- (NSMfnu *)bpplidbtionDodkMfnu:(NSApplidbtion *)sfndfr {
+AWT_ASSERT_APPKIT_THREAD;
+    rfturn sflf.fDodkMfnu;
+}
+
+- (CMfnuBbr *)dffbultMfnuBbr {
+    rfturn [[sflf.fDffbultMfnuBbr rftbin] butorflfbsf];
+}
+
+
+#prbgmb mbrk Hflpfrs dbllfd on tif mbin tirfbd from Jbvb
+
+// Sfts b nfw NSImbgfVifw on tif Dodk tilf
++ (void)_sftDodkIdonImbgf:(NSImbgf *)imbgf {
 AWT_ASSERT_APPKIT_THREAD;
 
-    NSDockTile *dockTile = [NSApp dockTile];
-    NSView *view = [dockTile contentView];
-
-    if ([view isKindOfClass:[NSImageView class]]) {
-        NSImage *img = [((NSImageView *)view) image];
-        if (img) return img;
+    NSDodkTilf *dodkTilf = [NSApp dodkTilf];
+    if (imbgf == nil) {
+        [dodkTilf sftContfntVifw:nil];
+        rfturn;
     }
 
-    if (view == nil) {
-        return [NSImage imageNamed:@"NSApplicationIcon"];
+    // sftup bn imbgf vifw for tif dodk tilf
+    NSRfdt frbmf = NSMbkfRfdt(0, 0, dodkTilf.sizf.widti, dodkTilf.sizf.ifigit);
+    NSImbgfVifw *dodkImbgfVifw = [[NSImbgfVifw bllod] initWitiFrbmf: frbmf];
+    [dodkImbgfVifw sftImbgfSdbling:NSImbgfSdblfProportionbllyUpOrDown];
+    [dodkImbgfVifw sftImbgf:imbgf];
+
+    // bdd it to tif NSDodkTilf
+    [dodkTilf sftContfntVifw: dodkImbgfVifw];
+    [dodkTilf displby];
+
+    [dodkImbgfVifw rflfbsf];
+}
+
+// Obtbins tif imbgf of tif Dodk idon, fitifr mbnublly sft, b drbwn dopy, or tif dffbult NSApplidbtionIdon
++ (NSImbgf *)_dodkIdonImbgf {
+AWT_ASSERT_APPKIT_THREAD;
+
+    NSDodkTilf *dodkTilf = [NSApp dodkTilf];
+    NSVifw *vifw = [dodkTilf dontfntVifw];
+
+    if ([vifw isKindOfClbss:[NSImbgfVifw dlbss]]) {
+        NSImbgf *img = [((NSImbgfVifw *)vifw) imbgf];
+        if (img) rfturn img;
     }
 
-    NSRect frame = [view frame];
-    NSImage *image = [[NSImage alloc] initWithSize:frame.size];
-    [image lockFocus];
-    [view drawRect:frame];
-    [image unlockFocus];
-    [image autorelease];
-    return image;
+    if (vifw == nil) {
+        rfturn [NSImbgf imbgfNbmfd:@"NSApplidbtionIdon"];
+    }
+
+    NSRfdt frbmf = [vifw frbmf];
+    NSImbgf *imbgf = [[NSImbgf bllod] initWitiSizf:frbmf.sizf];
+    [imbgf lodkFodus];
+    [vifw drbwRfdt:frbmf];
+    [imbgf unlodkFodus];
+    [imbgf butorflfbsf];
+    rfturn imbgf;
 }
 
-@end
+@fnd
 
 
-#pragma mark Native JNI calls
+#prbgmb mbrk Nbtivf JNI dblls
 
 /*
- * Class:     com_apple_eawt_Application
- * Method:    nativeInitializeApplicationDelegate
- * Signature: ()V
+ * Clbss:     dom_bpplf_fbwt_Applidbtion
+ * Mftiod:    nbtivfInitiblizfApplidbtionDflfgbtf
+ * Signbturf: ()V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt_Application_nativeInitializeApplicationDelegate
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt_Applidbtion_nbtivfInitiblizfApplidbtionDflfgbtf
+(JNIEnv *fnv, jdlbss dlz)
 {
-JNF_COCOA_ENTER(env);
-    // Force initialization to happen on AppKit thread!
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [ApplicationDelegate sharedDelegate];
+JNF_COCOA_ENTER(fnv);
+    // Fordf initiblizbtion to ibppfn on AppKit tirfbd!
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
+        [ApplidbtionDflfgbtf sibrfdDflfgbtf];
     }];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     com_apple_eawt__AppEventHandler
- * Method:    nativeOpenCocoaAboutWindow
- * Signature: ()V
+ * Clbss:     dom_bpplf_fbwt__AppEvfntHbndlfr
+ * Mftiod:    nbtivfOpfnCodobAboutWindow
+ * Signbturf: ()V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppEventHandler_nativeOpenCocoaAboutWindow
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppEvfntHbndlfr_nbtivfOpfnCodobAboutWindow
+(JNIEnv *fnv, jdlbss dlz)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [NSApp orderFrontStandardAboutPanel:nil];
-    }];
-
-JNF_COCOA_EXIT(env);
-}
-
-/*
- * Class:     com_apple_eawt__AppEventHandler
- * Method:    nativeReplyToAppShouldTerminate
- * Signature: (Z)V
- */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppEventHandler_nativeReplyToAppShouldTerminate
-(JNIEnv *env, jclass clz, jboolean doTerminate)
-{
-JNF_COCOA_ENTER(env);
-
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [NSApp replyToApplicationShouldTerminate:doTerminate];
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
+        [NSApp ordfrFrontStbndbrdAboutPbnfl:nil];
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     com_apple_eawt__AppEventHandler
- * Method:    nativeRegisterForNotification
- * Signature: (I)V
+ * Clbss:     dom_bpplf_fbwt__AppEvfntHbndlfr
+ * Mftiod:    nbtivfRfplyToAppSiouldTfrminbtf
+ * Signbturf: (Z)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppEventHandler_nativeRegisterForNotification
-(JNIEnv *env, jclass clz, jint notificationType)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppEvfntHbndlfr_nbtivfRfplyToAppSiouldTfrminbtf
+(JNIEnv *fnv, jdlbss dlz, jboolfbn doTfrminbtf)
 {
-JNF_COCOA_ENTER(env);
-    [ThreadUtilities performOnMainThread:@selector(_registerForNotification:)
-                                      on:[ApplicationDelegate class]
-                              withObject:[NSNumber numberWithInt:notificationType]
-                           waitUntilDone:NO]; // AWT_THREADING Safe (non-blocking)
-JNF_COCOA_EXIT(env);
-}
+JNF_COCOA_ENTER(fnv);
 
-/*
- * Class:     com_apple_eawt__AppDockIconHandler
- * Method:    nativeSetDockMenu
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppDockIconHandler_nativeSetDockMenu
-(JNIEnv *env, jclass clz, jlong nsMenuPtr)
-{
-JNF_COCOA_ENTER(env);
-
-    NSMenu *menu = (NSMenu *)jlong_to_ptr(nsMenuPtr);
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        [ApplicationDelegate sharedDelegate].fDockMenu = menu;
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
+        [NSApp rfplyToApplidbtionSiouldTfrminbtf:doTfrminbtf];
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     com_apple_eawt__AppDockIconHandler
- * Method:    nativeSetDockIconImage
- * Signature: (J)V
+ * Clbss:     dom_bpplf_fbwt__AppEvfntHbndlfr
+ * Mftiod:    nbtivfRfgistfrForNotifidbtion
+ * Signbturf: (I)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppDockIconHandler_nativeSetDockIconImage
-(JNIEnv *env, jclass clz, jlong nsImagePtr)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppEvfntHbndlfr_nbtivfRfgistfrForNotifidbtion
+(JNIEnv *fnv, jdlbss dlz, jint notifidbtionTypf)
 {
-JNF_COCOA_ENTER(env);
-
-    NSImage *_image = (NSImage *)jlong_to_ptr(nsImagePtr);
-    [ThreadUtilities performOnMainThread:@selector(_setDockIconImage:)
-                                      on:[ApplicationDelegate class]
-                              withObject:_image
-                           waitUntilDone:NO];
-
-JNF_COCOA_EXIT(env);
+JNF_COCOA_ENTER(fnv);
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(_rfgistfrForNotifidbtion:)
+                                      on:[ApplidbtionDflfgbtf dlbss]
+                              witiObjfdt:[NSNumbfr numbfrWitiInt:notifidbtionTypf]
+                           wbitUntilDonf:NO]; // AWT_THREADING Sbff (non-blodking)
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     com_apple_eawt__AppDockIconHandler
- * Method:    nativeGetDockIconImage
- * Signature: ()J
+ * Clbss:     dom_bpplf_fbwt__AppDodkIdonHbndlfr
+ * Mftiod:    nbtivfSftDodkMfnu
+ * Signbturf: (J)V
  */
-JNIEXPORT jlong JNICALL Java_com_apple_eawt__1AppDockIconHandler_nativeGetDockIconImage
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppDodkIdonHbndlfr_nbtivfSftDodkMfnu
+(JNIEnv *fnv, jdlbss dlz, jlong nsMfnuPtr)
 {
-    __block NSImage *image = nil;
+JNF_COCOA_ENTER(fnv);
 
-JNF_COCOA_ENTER(env);
-
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        image = [[ApplicationDelegate _dockIconImage] retain];
+    NSMfnu *mfnu = (NSMfnu *)jlong_to_ptr(nsMfnuPtr);
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+        [ApplidbtionDflfgbtf sibrfdDflfgbtf].fDodkMfnu = mfnu;
     }];
 
-JNF_COCOA_EXIT(env);
-
-    return ptr_to_jlong(image);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     com_apple_eawt__AppDockIconHandler
- * Method:    nativeSetDockIconBadge
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     dom_bpplf_fbwt__AppDodkIdonHbndlfr
+ * Mftiod:    nbtivfSftDodkIdonImbgf
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppDockIconHandler_nativeSetDockIconBadge
-(JNIEnv *env, jclass clz, jstring badge)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppDodkIdonHbndlfr_nbtivfSftDodkIdonImbgf
+(JNIEnv *fnv, jdlbss dlz, jlong nsImbgfPtr)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    NSString *badgeString = JNFJavaToNSString(env, badge);
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        NSDockTile *dockTile = [NSApp dockTile];
-        [dockTile setBadgeLabel:badgeString];
-        [dockTile display];
+    NSImbgf *_imbgf = (NSImbgf *)jlong_to_ptr(nsImbgfPtr);
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(_sftDodkIdonImbgf:)
+                                      on:[ApplidbtionDflfgbtf dlbss]
+                              witiObjfdt:_imbgf
+                           wbitUntilDonf:NO];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     dom_bpplf_fbwt__AppDodkIdonHbndlfr
+ * Mftiod:    nbtivfGftDodkIdonImbgf
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL Jbvb_dom_bpplf_fbwt__1AppDodkIdonHbndlfr_nbtivfGftDodkIdonImbgf
+(JNIEnv *fnv, jdlbss dlz)
+{
+    __blodk NSImbgf *imbgf = nil;
+
+JNF_COCOA_ENTER(fnv);
+
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+        imbgf = [[ApplidbtionDflfgbtf _dodkIdonImbgf] rftbin];
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
+
+    rfturn ptr_to_jlong(imbgf);
 }
 
 /*
- * Class:     com_apple_eawt__AppMiscHandlers
- * Method:    nativeRequestActivation
- * Signature: (Z)V
+ * Clbss:     dom_bpplf_fbwt__AppDodkIdonHbndlfr
+ * Mftiod:    nbtivfSftDodkIdonBbdgf
+ * Signbturf: (Ljbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMiscHandlers_nativeRequestActivation
-(JNIEnv *env, jclass clz, jboolean allWindows)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppDodkIdonHbndlfr_nbtivfSftDodkIdonBbdgf
+(JNIEnv *fnv, jdlbss dlz, jstring bbdgf)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        NSApplicationActivationOptions options = allWindows ? NSApplicationActivateAllWindows : 0;
-        options |= NSApplicationActivateIgnoringOtherApps; // without this, nothing happens!
-        [[NSRunningApplication currentApplication] activateWithOptions:options];
+    NSString *bbdgfString = JNFJbvbToNSString(fnv, bbdgf);
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
+        NSDodkTilf *dodkTilf = [NSApp dodkTilf];
+        [dodkTilf sftBbdgfLbbfl:bbdgfString];
+        [dodkTilf displby];
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     com_apple_eawt__AppMiscHandlers
- * Method:    nativeRequestUserAttention
- * Signature: (Z)V
+ * Clbss:     dom_bpplf_fbwt__AppMisdHbndlfrs
+ * Mftiod:    nbtivfRfqufstAdtivbtion
+ * Signbturf: (Z)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMiscHandlers_nativeRequestUserAttention
-(JNIEnv *env, jclass clz, jboolean critical)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppMisdHbndlfrs_nbtivfRfqufstAdtivbtion
+(JNIEnv *fnv, jdlbss dlz, jboolfbn bllWindows)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [NSApp requestUserAttention:critical ? NSCriticalRequest : NSInformationalRequest];
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
+        NSApplidbtionAdtivbtionOptions options = bllWindows ? NSApplidbtionAdtivbtfAllWindows : 0;
+        options |= NSApplidbtionAdtivbtfIgnoringOtifrApps; // witiout tiis, notiing ibppfns!
+        [[NSRunningApplidbtion durrfntApplidbtion] bdtivbtfWitiOptions:options];
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     com_apple_eawt__AppMiscHandlers
- * Method:    nativeOpenHelpViewer
- * Signature: ()V
+ * Clbss:     dom_bpplf_fbwt__AppMisdHbndlfrs
+ * Mftiod:    nbtivfRfqufstUsfrAttfntion
+ * Signbturf: (Z)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMiscHandlers_nativeOpenHelpViewer
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppMisdHbndlfrs_nbtivfRfqufstUsfrAttfntion
+(JNIEnv *fnv, jdlbss dlz, jboolfbn dritidbl)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    [ThreadUtilities performOnMainThread:@selector(showHelp:)
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
+        [NSApp rfqufstUsfrAttfntion:dritidbl ? NSCritidblRfqufst : NSInformbtionblRfqufst];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     dom_bpplf_fbwt__AppMisdHbndlfrs
+ * Mftiod:    nbtivfOpfnHflpVifwfr
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppMisdHbndlfrs_nbtivfOpfnHflpVifwfr
+(JNIEnv *fnv, jdlbss dlz)
+{
+JNF_COCOA_ENTER(fnv);
+
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(siowHflp:)
                                       on:NSApp
-                              withObject:nil
-                           waitUntilDone:NO];
+                              witiObjfdt:nil
+                           wbitUntilDonf:NO];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     com_apple_eawt__AppMiscHandlers
- * Method:    nativeEnableSuddenTermination
- * Signature: ()V
+ * Clbss:     dom_bpplf_fbwt__AppMisdHbndlfrs
+ * Mftiod:    nbtivfEnbblfSuddfnTfrminbtion
+ * Signbturf: ()V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMiscHandlers_nativeEnableSuddenTermination
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppMisdHbndlfrs_nbtivfEnbblfSuddfnTfrminbtion
+(JNIEnv *fnv, jdlbss dlz)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    [[NSProcessInfo processInfo] enableSuddenTermination]; // Foundation thread-safe
+    [[NSProdfssInfo prodfssInfo] fnbblfSuddfnTfrminbtion]; // Foundbtion tirfbd-sbff
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     com_apple_eawt__AppMiscHandlers
- * Method:    nativeDisableSuddenTermination
- * Signature: ()V
+ * Clbss:     dom_bpplf_fbwt__AppMisdHbndlfrs
+ * Mftiod:    nbtivfDisbblfSuddfnTfrminbtion
+ * Signbturf: ()V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMiscHandlers_nativeDisableSuddenTermination
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppMisdHbndlfrs_nbtivfDisbblfSuddfnTfrminbtion
+(JNIEnv *fnv, jdlbss dlz)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    [[NSProcessInfo processInfo] disableSuddenTermination]; // Foundation thread-safe
+    [[NSProdfssInfo prodfssInfo] disbblfSuddfnTfrminbtion]; // Foundbtion tirfbd-sbff
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     com_apple_eawt__AppMenuBarHandler
- * Method:    nativeSetMenuState
- * Signature: (IZZ)V
+ * Clbss:     dom_bpplf_fbwt__AppMfnuBbrHbndlfr
+ * Mftiod:    nbtivfSftMfnuStbtf
+ * Signbturf: (IZZ)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMenuBarHandler_nativeSetMenuState
-(JNIEnv *env, jclass clz, jint menuID, jboolean visible, jboolean enabled)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppMfnuBbrHbndlfr_nbtivfSftMfnuStbtf
+(JNIEnv *fnv, jdlbss dlz, jint mfnuID, jboolfbn visiblf, jboolfbn fnbblfd)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        ApplicationDelegate *delegate = [ApplicationDelegate sharedDelegate];
-        switch (menuID) {
-            case com_apple_eawt__AppMenuBarHandler_MENU_ABOUT:
-                [delegate _updateAboutMenu:visible enabled:enabled];
-                break;
-            case com_apple_eawt__AppMenuBarHandler_MENU_PREFS:
-                [delegate _updatePreferencesMenu:visible enabled:enabled];
-                break;
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
+        ApplidbtionDflfgbtf *dflfgbtf = [ApplidbtionDflfgbtf sibrfdDflfgbtf];
+        switdi (mfnuID) {
+            dbsf dom_bpplf_fbwt__AppMfnuBbrHbndlfr_MENU_ABOUT:
+                [dflfgbtf _updbtfAboutMfnu:visiblf fnbblfd:fnbblfd];
+                brfbk;
+            dbsf dom_bpplf_fbwt__AppMfnuBbrHbndlfr_MENU_PREFS:
+                [dflfgbtf _updbtfPrfffrfndfsMfnu:visiblf fnbblfd:fnbblfd];
+                brfbk;
         }
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     com_apple_eawt__AppMenuBarHandler
- * Method:    nativeSetDefaultMenuBar
- * Signature: (J)V
+ * Clbss:     dom_bpplf_fbwt__AppMfnuBbrHbndlfr
+ * Mftiod:    nbtivfSftDffbultMfnuBbr
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMenuBarHandler_nativeSetDefaultMenuBar
-(JNIEnv *env, jclass clz, jlong cMenuBarPtr)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_fbwt__1AppMfnuBbrHbndlfr_nbtivfSftDffbultMfnuBbr
+(JNIEnv *fnv, jdlbss dlz, jlong dMfnuBbrPtr)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    CMenuBar *menu = (CMenuBar *)jlong_to_ptr(cMenuBarPtr);
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [ApplicationDelegate sharedDelegate].fDefaultMenuBar = menu;
+    CMfnuBbr *mfnu = (CMfnuBbr *)jlong_to_ptr(dMfnuBbrPtr);
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
+        [ApplidbtionDflfgbtf sibrfdDflfgbtf].fDffbultMfnuBbr = mfnu;
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }

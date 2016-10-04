@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.monitor.event;
+pbdkbgf sun.jvmstbt.monitor.fvfnt;
 
-import java.util.List;
-import sun.jvmstat.monitor.MonitoredVm;
-import sun.jvmstat.monitor.Monitor;
+import jbvb.util.List;
+import sun.jvmstbt.monitor.MonitorfdVm;
+import sun.jvmstbt.monitor.Monitor;
 
 /**
- * Provides a description of a change in status of the instrumentation
- * exported by the MonitoredVm.
+ * Providfs b dfsdription of b dibngf in stbtus of tif instrumfntbtion
+ * fxportfd by tif MonitorfdVm.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-@SuppressWarnings("serial") // JDK implementation class
-public class MonitorStatusChangeEvent extends VmEvent {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss MonitorStbtusCibngfEvfnt fxtfnds VmEvfnt {
 
     /**
-     * List of instrumentation objects inserted since the last event.
-     * Elements of this list will always be of type Monitor.
+     * List of instrumfntbtion objfdts insfrtfd sindf tif lbst fvfnt.
+     * Elfmfnts of tiis list will blwbys bf of typf Monitor.
      */
-    protected List<Monitor> inserted;
+    protfdtfd List<Monitor> insfrtfd;
 
     /**
-     * List of instrumentation objects removed since the last event.
-     * Elements of this list will always be of type Monitor.
+     * List of instrumfntbtion objfdts rfmovfd sindf tif lbst fvfnt.
+     * Elfmfnts of tiis list will blwbys bf of typf Monitor.
      */
-    protected List<Monitor> removed;
+    protfdtfd List<Monitor> rfmovfd;
 
     /**
-     * Construct a new MonitorStatusChangeEvent.
+     * Construdt b nfw MonitorStbtusCibngfEvfnt.
      *
-     * @param vm the MonitoredVm source of the event.
-     * @param inserted the list of instrumentation objects inserted since
-     *                 the last event.
-     * @param removed the list of instrumentation objects removed since
-     *                the last event.
+     * @pbrbm vm tif MonitorfdVm sourdf of tif fvfnt.
+     * @pbrbm insfrtfd tif list of instrumfntbtion objfdts insfrtfd sindf
+     *                 tif lbst fvfnt.
+     * @pbrbm rfmovfd tif list of instrumfntbtion objfdts rfmovfd sindf
+     *                tif lbst fvfnt.
      */
-    public MonitorStatusChangeEvent(MonitoredVm vm, List<Monitor> inserted,
-                                    List<Monitor> removed) {
-        super(vm);
-        this.inserted = inserted;
-        this.removed = removed;
+    publid MonitorStbtusCibngfEvfnt(MonitorfdVm vm, List<Monitor> insfrtfd,
+                                    List<Monitor> rfmovfd) {
+        supfr(vm);
+        tiis.insfrtfd = insfrtfd;
+        tiis.rfmovfd = rfmovfd;
     }
 
     /**
-     * Return the list of instrumentation objects that were inserted
-     * since the last event notification.
+     * Rfturn tif list of instrumfntbtion objfdts tibt wfrf insfrtfd
+     * sindf tif lbst fvfnt notifidbtion.
      *
-     * @return List - a List of Monitor objects that were inserted into the
-     *                instrumentation exported by the MonitoredHost. If no
-     *                new instrumentation was inserted, an emply List is
-     *                returned.
+     * @rfturn List - b List of Monitor objfdts tibt wfrf insfrtfd into tif
+     *                instrumfntbtion fxportfd by tif MonitorfdHost. If no
+     *                nfw instrumfntbtion wbs insfrtfd, bn fmply List is
+     *                rfturnfd.
      */
-    public List<Monitor> getInserted() {
-        return inserted;
+    publid List<Monitor> gftInsfrtfd() {
+        rfturn insfrtfd;
     }
 
     /**
-     * Return the set of instrumentation objects that were removed
-     * since the last event notification.
+     * Rfturn tif sft of instrumfntbtion objfdts tibt wfrf rfmovfd
+     * sindf tif lbst fvfnt notifidbtion.
      *
-     * @return List - a List of Monitor objects that were removed from the
-     *                instrumentation exported by the MonitoredHost. If no
-     *                instrumentation was removed, an emply List is returned.
+     * @rfturn List - b List of Monitor objfdts tibt wfrf rfmovfd from tif
+     *                instrumfntbtion fxportfd by tif MonitorfdHost. If no
+     *                instrumfntbtion wbs rfmovfd, bn fmply List is rfturnfd.
      */
-    public List<Monitor> getRemoved() {
-        return removed;
+    publid List<Monitor> gftRfmovfd() {
+        rfturn rfmovfd;
     }
 }

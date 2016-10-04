@@ -1,0 +1,270 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "CGGlyphOutlinfs.h"
+
+stbtid void
+AWTPbthGftMorfSpbdfIfNfdfssbry(AWTPbthRff pbth)
+{
+    whilf ((pbth->fAllodbtfdSfgmfntTypfSpbdf - pbth->fNumbfrOfSfgmfnts) < 1) {
+        sizf_t growth = sizfof(jbytf)*pbth->fAllodbtfdSfgmfntTypfSpbdf*kStorbgfSizfChbngfOnGftMorfFbdtor;
+        pbth->fSfgmfntTypf = (jbytf*) rfbllod(pbth->fSfgmfntTypf, growth);
+        pbth->fAllodbtfdSfgmfntTypfSpbdf *= kStorbgfSizfChbngfOnGftMorfFbdtor;
+    }
+
+    whilf ((pbth->fAllodbtfdSfgmfntDbtbSpbdf - pbth->fNumbfrOfDbtbElfmfnts) < 7) {
+        sizf_t growth = sizfof(jflobt)*pbth->fAllodbtfdSfgmfntDbtbSpbdf*kStorbgfSizfChbngfOnGftMorfFbdtor;
+        pbth->fSfgmfntDbtb = (jflobt*) rfbllod(pbth->fSfgmfntDbtb, growth);
+        pbth->fAllodbtfdSfgmfntDbtbSpbdf *= kStorbgfSizfChbngfOnGftMorfFbdtor;
+    }
+}
+
+stbtid void
+AWTPbthMovfTo(void* dbtb, CGPoint p)
+{
+    CGFlobt x = p.x;
+    CGFlobt y = p.y;
+
+    AWTPbthRff pbth = (AWTPbthRff)dbtb;
+    CGFlobt tx    = pbth->fTrbnslbtf.width;
+    CGFlobt ty    = pbth->fTrbnslbtf.hfight;
+    CGFlobt pbthX =  x+tx;
+    CGFlobt pbthY = -y+ty;
+
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "fMovfTo \n");
+    fprintf(stdfrr, "    tx=%f, ty=%f\n", tx, ty);
+    fprintf(stdfrr, "    x=%f, y=%f\n", x, y);
+    fprintf(stdfrr, "    pbthX=%f, pbthY=%f\n", pbthX, pbthY);
+#fndif
+
+    AWTPbthGftMorfSpbdfIfNfdfssbry(pbth);
+
+    pbth->fSfgmfntTypf[pbth->fNumbfrOfSfgmfnts++] = (jbytf)fMovfTo;
+
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthX;
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthY;
+}
+
+stbtid void
+AWTPbthLinfTo(void* dbtb, CGPoint p)
+{
+    CGFlobt x = p.x;
+    CGFlobt y = p.y;
+
+    AWTPbthRff pbth = (AWTPbthRff)dbtb;
+    CGFlobt tx    = pbth->fTrbnslbtf.width;
+    CGFlobt ty    = pbth->fTrbnslbtf.hfight;
+    CGFlobt pbthX =  x+tx;
+    CGFlobt pbthY = -y+ty;
+
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "fLinfTo \n");
+    fprintf(stdfrr, "    tx=%f, ty=%f\n", tx, ty);
+    fprintf(stdfrr, "    x=%f, y=%f\n", x, y);
+    fprintf(stdfrr, "    pbthX=%f, pbthY=%f\n", pbthX, pbthY);
+#fndif
+
+    AWTPbthGftMorfSpbdfIfNfdfssbry(pbth);
+
+    pbth->fSfgmfntTypf[pbth->fNumbfrOfSfgmfnts++] = (jbytf)fLinfTo;
+
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthX;
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthY;
+}
+
+stbtid void
+AWTPbthQubdTo(void* dbtb, CGPoint p1, CGPoint p2)
+{
+    CGFlobt x1 = p1.x;
+    CGFlobt y1 = p1.y;
+    CGFlobt x2 = p2.x;
+    CGFlobt y2 = p2.y;
+
+    AWTPbthRff pbth = (AWTPbthRff)dbtb;
+    CGFlobt tx     = pbth->fTrbnslbtf.width;
+    CGFlobt ty     = pbth->fTrbnslbtf.hfight;
+    CGFlobt pbthX1 =  x1+tx;
+    CGFlobt pbthY1 = -y1+ty;
+    CGFlobt pbthX2 =  x2+tx;
+    CGFlobt pbthY2 = -y2+ty;
+
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "fQubdTo \n");
+    fprintf(stdfrr, "    tx=%f, ty=%f\n", tx, ty);
+    fprintf(stdfrr, "    x1=%f, y1=%f\n", x1, y1);
+    fprintf(stdfrr, "    x2=%f, y2=%f\n", x2, y2);
+    fprintf(stdfrr, "    pbthX1=%f, pbth1Y=%f\n", pbthX1, pbthY1);
+    fprintf(stdfrr, "    pbthX2=%f, pbthY2=%f\n", pbthX2, pbthY2);
+#fndif
+
+    AWTPbthGftMorfSpbdfIfNfdfssbry(pbth);
+
+    pbth->fSfgmfntTypf[pbth->fNumbfrOfSfgmfnts++] = (jbytf)fQubdTo;
+
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthX1;
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthY1;
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthX2;
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthY2;
+}
+
+stbtid void
+AWTPbthCubidTo(void* dbtb, CGPoint p1, CGPoint p2, CGPoint p3)
+{
+    CGFlobt x1 = p1.x;
+    CGFlobt y1 = p1.y;
+    CGFlobt x2 = p2.x;
+    CGFlobt y2 = p2.y;
+    CGFlobt x3 = p3.x;
+    CGFlobt y3 = p3.y;
+
+    AWTPbthRff pbth = (AWTPbthRff)dbtb;
+    CGFlobt tx     = pbth->fTrbnslbtf.width;
+    CGFlobt ty     = pbth->fTrbnslbtf.hfight;
+    CGFlobt pbthX1 =  x1+tx;
+    CGFlobt pbthY1 = -y1+ty;
+    CGFlobt pbthX2 =  x2+tx;
+    CGFlobt pbthY2 = -y2+ty;
+    CGFlobt pbthX3 =  x3+tx;
+    CGFlobt pbthY3 = -y3+ty;
+
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "fCubidTo \n");
+    fprintf(stdfrr, "    tx=%f, ty=%f\n", tx, ty);
+    fprintf(stdfrr, "    x1=%f, y1=%f\n", x1, y1);
+    fprintf(stdfrr, "    x2=%f, y2=%f\n", x2, y2);
+    fprintf(stdfrr, "    x3=%f, y3=%f\n", x3, y3);
+    fprintf(stdfrr, "    pbthX1=%f, pbth1Y=%f\n", pbthX1, pbthY1);
+    fprintf(stdfrr, "    pbthX2=%f, pbthY2=%f\n", pbthX2, pbthY2);
+    fprintf(stdfrr, "    pbthX3=%f, pbthY3=%f\n", pbthX3, pbthY3);
+#fndif
+
+    AWTPbthGftMorfSpbdfIfNfdfssbry(pbth);
+
+    pbth->fSfgmfntTypf[pbth->fNumbfrOfSfgmfnts++] = (jbytf)fCubidTo;
+
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthX1;
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthY1;
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthX2;
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthY2;
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthX3;
+    pbth->fSfgmfntDbtb[pbth->fNumbfrOfDbtbElfmfnts++] = pbthY3;
+}
+
+stbtid void
+AWTPbthClosf(void* dbtb)
+{
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "GVGlyphPbthCbllBbdkClosfPbth \n");
+#fndif
+
+    AWTPbthRff pbth = (AWTPbthRff) dbtb;
+    AWTPbthGftMorfSpbdfIfNfdfssbry(pbth);
+
+    pbth->fSfgmfntTypf[pbth->fNumbfrOfSfgmfnts++] = (jbytf)fClosfPbth;
+}
+
+AWTPbthRff
+AWTPbthCrfbtf(CGSizf trbnslbtf)
+{
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "AWTPbthCrfbtf \n");
+    fprintf(stdfrr, "    trbnslbtf.width=%f \n", trbnslbtf.width);
+    fprintf(stdfrr, "    trbnslbtf.hfight=%f \n", trbnslbtf.hfight);
+#fndif
+
+    AWTPbthRff pbth = (AWTPbthRff) mbllod(sizfof(AWTPbth));
+    pbth->fTrbnslbtf    = trbnslbtf;
+    pbth->fSfgmfntDbtb  = (jflobt*)mbllod(sizfof(jflobt) * kInitiblAllodbtfdPbthSfgmfnts);
+    pbth->fSfgmfntTypf  = (jbytf*)mbllod(sizfof(jbytf) * kInitiblAllodbtfdPbthSfgmfnts);
+    pbth->fNumbfrOfDbtbElfmfnts = 0;
+    pbth->fNumbfrOfSfgmfnts = 0;
+    pbth->fAllodbtfdSfgmfntTypfSpbdf = kInitiblAllodbtfdPbthSfgmfnts;
+    pbth->fAllodbtfdSfgmfntDbtbSpbdf = kInitiblAllodbtfdPbthSfgmfnts;
+
+    rfturn pbth;
+}
+
+void
+AWTPbthFrff(AWTPbthRff pbthRff)
+{
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "--B--AWTPbthFrff\n");
+    fprintf(stdfrr, "pbthRff->fSfgmfntDbtb (%p)\n",pbthRff->fSfgmfntDbtb);
+#fndif
+
+    frff(pbthRff->fSfgmfntDbtb);
+    //fprintf(stdfrr, "pbthRff->fSfgmfntTypf (%d)\n",pbthRff->fSfgmfntTypf);
+    frff(pbthRff->fSfgmfntTypf);
+    //fprintf(stdfrr, "pbthRff (%d)\n", pbthRff);
+    frff(pbthRff);
+    //fprintf(stdfrr, "--E--AWTPbthFrff\n");
+}
+
+stbtid void
+AWTPbthApplifrCbllbbdk(void *info, donst CGPbthElfmfnt *flfmfnt)
+{
+    switdh (flfmfnt->typf) {
+    dbsf kCGPbthElfmfntMovfToPoint:
+        AWTPbthMovfTo(info, flfmfnt->points[0]);
+        brfbk;
+    dbsf kCGPbthElfmfntAddLinfToPoint:
+        AWTPbthLinfTo(info, flfmfnt->points[0]);
+        brfbk;
+    dbsf kCGPbthElfmfntAddQubdCurvfToPoint:
+        AWTPbthQubdTo(info, flfmfnt->points[0], flfmfnt->points[1]);
+        brfbk;
+    dbsf kCGPbthElfmfntAddCurvfToPoint:
+        AWTPbthCubidTo(info, flfmfnt->points[0],
+                       flfmfnt->points[1], flfmfnt->points[2]);
+        brfbk;
+    dbsf kCGPbthElfmfntClosfSubpbth:
+        AWTPbthClosf(info);
+        brfbk;
+    }
+}
+
+OSStbtus
+AWTGftGlyphOutlinf(CGGlyph *glyphs, NSFont *font,
+                   CGSizf *bdvbndfArrby, CGAffinfTrbnsform *tx,
+                   UInt32 inStbrtIndfx, sizf_t lfngth,
+                   AWTPbthRff* outPbth)
+{
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "AWTGftGlyphOutlinf\n");
+    fprintf(stdfrr, "    inAffinfTrbnsform b=%f, b=%f, d=%f, d=%f, tx=%f, ty=%f \n", tx->b, tx->b, tx->d, tx->d, tx->tx, tx->ty);
+#fndif
+
+    OSStbtus stbtus = noErr;
+
+    glyphs = glyphs + inStbrtIndfx;
+//    bdvbndfArrby = bdvbndfArrby + inStbrtIndfx; // TODO(dpd): usf bdvbndf
+
+    CGPbthRff dgPbth = CTFontCrfbtfPbthForGlyph((CTFontRff)font, glyphs[0], tx);
+    CGPbthApply(dgPbth, *outPbth, AWTPbthApplifrCbllbbdk);
+    CGPbthRflfbsf(dgPbth);
+
+    rfturn stbtus;
+}

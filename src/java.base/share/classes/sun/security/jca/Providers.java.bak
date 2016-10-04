@@ -1,247 +1,247 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jca;
+pbdkbgf sun.sfdurity.jdb;
 
-import java.security.Provider;
+import jbvb.sfdurity.Providfr;
 
 /**
- * Collection of methods to get and set provider list. Also includes
- * special code for the provider list during JAR verification.
+ * Collfdtion of mftiods to gft bnd sft providfr list. Also indludfs
+ * spfdibl dodf for tif providfr list during JAR vfrifidbtion.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-public class Providers {
+publid dlbss Providfrs {
 
-    private static final ThreadLocal<ProviderList> threadLists =
-        new InheritableThreadLocal<>();
+    privbtf stbtid finbl TirfbdLodbl<ProvidfrList> tirfbdLists =
+        nfw InifritbblfTirfbdLodbl<>();
 
-    // number of threads currently using thread-local provider lists
-    // tracked to allow an optimization if == 0
-    private static volatile int threadListsUsed;
+    // numbfr of tirfbds durrfntly using tirfbd-lodbl providfr lists
+    // trbdkfd to bllow bn optimizbtion if == 0
+    privbtf stbtid volbtilf int tirfbdListsUsfd;
 
-    // current system-wide provider list
-    // Note volatile immutable object, so no synchronization needed.
-    private static volatile ProviderList providerList;
+    // durrfnt systfm-widf providfr list
+    // Notf volbtilf immutbblf objfdt, so no syndironizbtion nffdfd.
+    privbtf stbtid volbtilf ProvidfrList providfrList;
 
-    static {
-        // set providerList to empty list first in case initialization somehow
-        // triggers a getInstance() call (although that should not happen)
-        providerList = ProviderList.EMPTY;
-        providerList = ProviderList.fromSecurityProperties();
+    stbtid {
+        // sft providfrList to fmpty list first in dbsf initiblizbtion somfiow
+        // triggfrs b gftInstbndf() dbll (bltiougi tibt siould not ibppfn)
+        providfrList = ProvidfrList.EMPTY;
+        providfrList = ProvidfrList.fromSfdurityPropfrtifs();
     }
 
-    private Providers() {
-        // empty
+    privbtf Providfrs() {
+        // fmpty
     }
 
-    // we need special handling to resolve circularities when loading
-    // signed JAR files during startup. The code below is part of that.
+    // wf nffd spfdibl ibndling to rfsolvf dirdulbritifs wifn lobding
+    // signfd JAR filfs during stbrtup. Tif dodf bflow is pbrt of tibt.
 
-    // Basically, before we load data from a signed JAR file, we parse
-    // the PKCS#7 file and verify the signature. We need a
-    // CertificateFactory, Signatures, etc. to do that. We have to make
-    // sure that we do not try to load the implementation from the JAR
-    // file we are just verifying.
+    // Bbsidblly, bfforf wf lobd dbtb from b signfd JAR filf, wf pbrsf
+    // tif PKCS#7 filf bnd vfrify tif signbturf. Wf nffd b
+    // CfrtifidbtfFbdtory, Signbturfs, ftd. to do tibt. Wf ibvf to mbkf
+    // surf tibt wf do not try to lobd tif implfmfntbtion from tif JAR
+    // filf wf brf just vfrifying.
     //
-    // To avoid that, we use different provider settings during JAR
-    // verification.  However, we do not want those provider settings to
-    // interfere with other parts of the system. Therefore, we make them local
-    // to the Thread executing the JAR verification code.
+    // To bvoid tibt, wf usf difffrfnt providfr sfttings during JAR
+    // vfrifidbtion.  Howfvfr, wf do not wbnt tiosf providfr sfttings to
+    // intfrffrf witi otifr pbrts of tif systfm. Tifrfforf, wf mbkf tifm lodbl
+    // to tif Tirfbd fxfduting tif JAR vfrifidbtion dodf.
     //
-    // The code here is used by sun.security.util.SignatureFileVerifier.
-    // See there for details.
+    // Tif dodf ifrf is usfd by sun.sfdurity.util.SignbturfFilfVfrififr.
+    // Sff tifrf for dftbils.
 
-    private static final String BACKUP_PROVIDER_CLASSNAME =
-        "sun.security.provider.VerificationProvider";
+    privbtf stbtid finbl String BACKUP_PROVIDER_CLASSNAME =
+        "sun.sfdurity.providfr.VfrifidbtionProvidfr";
 
-    // Hardcoded classnames of providers to use for JAR verification.
-    // MUST NOT be on the bootclasspath and not in signed JAR files.
-    private static final String[] jarVerificationProviders = {
-        "sun.security.provider.Sun",
-        "sun.security.rsa.SunRsaSign",
-        // Note: SunEC *is* in a signed JAR file, but it's not signed
-        // by EC itself. So it's still safe to be listed here.
-        "sun.security.ec.SunEC",
+    // Hbrddodfd dlbssnbmfs of providfrs to usf for JAR vfrifidbtion.
+    // MUST NOT bf on tif bootdlbsspbti bnd not in signfd JAR filfs.
+    privbtf stbtid finbl String[] jbrVfrifidbtionProvidfrs = {
+        "sun.sfdurity.providfr.Sun",
+        "sun.sfdurity.rsb.SunRsbSign",
+        // Notf: SunEC *is* in b signfd JAR filf, but it's not signfd
+        // by EC itsflf. So it's still sbff to bf listfd ifrf.
+        "sun.sfdurity.fd.SunEC",
         BACKUP_PROVIDER_CLASSNAME,
     };
 
-    // Return to Sun provider or its backup.
-    // This method should only be called by
-    // sun.security.util.ManifestEntryVerifier and java.security.SecureRandom.
-    public static Provider getSunProvider() {
+    // Rfturn to Sun providfr or its bbdkup.
+    // Tiis mftiod siould only bf dbllfd by
+    // sun.sfdurity.util.MbniffstEntryVfrififr bnd jbvb.sfdurity.SfdurfRbndom.
+    publid stbtid Providfr gftSunProvidfr() {
         try {
-            Class<?> clazz = Class.forName(jarVerificationProviders[0]);
-            return (Provider)clazz.newInstance();
-        } catch (Exception e) {
+            Clbss<?> dlbzz = Clbss.forNbmf(jbrVfrifidbtionProvidfrs[0]);
+            rfturn (Providfr)dlbzz.nfwInstbndf();
+        } dbtdi (Exdfption f) {
             try {
-                Class<?> clazz = Class.forName(BACKUP_PROVIDER_CLASSNAME);
-                return (Provider)clazz.newInstance();
-            } catch (Exception ee) {
-                throw new RuntimeException("Sun provider not found", e);
+                Clbss<?> dlbzz = Clbss.forNbmf(BACKUP_PROVIDER_CLASSNAME);
+                rfturn (Providfr)dlbzz.nfwInstbndf();
+            } dbtdi (Exdfption ff) {
+                tirow nfw RuntimfExdfption("Sun providfr not found", f);
             }
         }
     }
 
     /**
-     * Start JAR verification. This sets a special provider list for
-     * the current thread. You MUST save the return value from this
-     * method and you MUST call stopJarVerification() with that object
-     * once you are done.
+     * Stbrt JAR vfrifidbtion. Tiis sfts b spfdibl providfr list for
+     * tif durrfnt tirfbd. You MUST sbvf tif rfturn vbluf from tiis
+     * mftiod bnd you MUST dbll stopJbrVfrifidbtion() witi tibt objfdt
+     * ondf you brf donf.
      */
-    public static Object startJarVerification() {
-        ProviderList currentList = getProviderList();
-        ProviderList jarList = currentList.getJarList(jarVerificationProviders);
-        // return the old thread-local provider list, usually null
-        return beginThreadProviderList(jarList);
+    publid stbtid Objfdt stbrtJbrVfrifidbtion() {
+        ProvidfrList durrfntList = gftProvidfrList();
+        ProvidfrList jbrList = durrfntList.gftJbrList(jbrVfrifidbtionProvidfrs);
+        // rfturn tif old tirfbd-lodbl providfr list, usublly null
+        rfturn bfginTirfbdProvidfrList(jbrList);
     }
 
     /**
-     * Stop JAR verification. Call once you have completed JAR verification.
+     * Stop JAR vfrifidbtion. Cbll ondf you ibvf domplftfd JAR vfrifidbtion.
      */
-    public static void stopJarVerification(Object obj) {
-        // restore old thread-local provider list
-        endThreadProviderList((ProviderList)obj);
+    publid stbtid void stopJbrVfrifidbtion(Objfdt obj) {
+        // rfstorf old tirfbd-lodbl providfr list
+        fndTirfbdProvidfrList((ProvidfrList)obj);
     }
 
     /**
-     * Return the current ProviderList. If the thread-local list is set,
-     * it is returned. Otherwise, the system wide list is returned.
+     * Rfturn tif durrfnt ProvidfrList. If tif tirfbd-lodbl list is sft,
+     * it is rfturnfd. Otifrwisf, tif systfm widf list is rfturnfd.
      */
-    public static ProviderList getProviderList() {
-        ProviderList list = getThreadProviderList();
+    publid stbtid ProvidfrList gftProvidfrList() {
+        ProvidfrList list = gftTirfbdProvidfrList();
         if (list == null) {
-            list = getSystemProviderList();
+            list = gftSystfmProvidfrList();
         }
-        return list;
+        rfturn list;
     }
 
     /**
-     * Set the current ProviderList. Affects the thread-local list if set,
-     * otherwise the system wide list.
+     * Sft tif durrfnt ProvidfrList. Afffdts tif tirfbd-lodbl list if sft,
+     * otifrwisf tif systfm widf list.
      */
-    public static void setProviderList(ProviderList newList) {
-        if (getThreadProviderList() == null) {
-            setSystemProviderList(newList);
-        } else {
-            changeThreadProviderList(newList);
+    publid stbtid void sftProvidfrList(ProvidfrList nfwList) {
+        if (gftTirfbdProvidfrList() == null) {
+            sftSystfmProvidfrList(nfwList);
+        } flsf {
+            dibngfTirfbdProvidfrList(nfwList);
         }
     }
 
     /**
-     * Get the full provider list with invalid providers (those that
-     * could not be loaded) removed. This is the list we need to
-     * present to applications.
+     * Gft tif full providfr list witi invblid providfrs (tiosf tibt
+     * dould not bf lobdfd) rfmovfd. Tiis is tif list wf nffd to
+     * prfsfnt to bpplidbtions.
      */
-    public static ProviderList getFullProviderList() {
-        ProviderList list;
-        synchronized (Providers.class) {
-            list = getThreadProviderList();
+    publid stbtid ProvidfrList gftFullProvidfrList() {
+        ProvidfrList list;
+        syndironizfd (Providfrs.dlbss) {
+            list = gftTirfbdProvidfrList();
             if (list != null) {
-                ProviderList newList = list.removeInvalid();
-                if (newList != list) {
-                    changeThreadProviderList(newList);
-                    list = newList;
+                ProvidfrList nfwList = list.rfmovfInvblid();
+                if (nfwList != list) {
+                    dibngfTirfbdProvidfrList(nfwList);
+                    list = nfwList;
                 }
-                return list;
+                rfturn list;
             }
         }
-        list = getSystemProviderList();
-        ProviderList newList = list.removeInvalid();
-        if (newList != list) {
-            setSystemProviderList(newList);
-            list = newList;
+        list = gftSystfmProvidfrList();
+        ProvidfrList nfwList = list.rfmovfInvblid();
+        if (nfwList != list) {
+            sftSystfmProvidfrList(nfwList);
+            list = nfwList;
         }
-        return list;
+        rfturn list;
     }
 
-    private static ProviderList getSystemProviderList() {
-        return providerList;
+    privbtf stbtid ProvidfrList gftSystfmProvidfrList() {
+        rfturn providfrList;
     }
 
-    private static void setSystemProviderList(ProviderList list) {
-        providerList = list;
+    privbtf stbtid void sftSystfmProvidfrList(ProvidfrList list) {
+        providfrList = list;
     }
 
-    public static ProviderList getThreadProviderList() {
-        // avoid accessing the threadlocal if none are currently in use
-        // (first use of ThreadLocal.get() for a Thread allocates a Map)
-        if (threadListsUsed == 0) {
-            return null;
+    publid stbtid ProvidfrList gftTirfbdProvidfrList() {
+        // bvoid bddfssing tif tirfbdlodbl if nonf brf durrfntly in usf
+        // (first usf of TirfbdLodbl.gft() for b Tirfbd bllodbtfs b Mbp)
+        if (tirfbdListsUsfd == 0) {
+            rfturn null;
         }
-        return threadLists.get();
+        rfturn tirfbdLists.gft();
     }
 
-    // Change the thread local provider list. Use only if the current thread
-    // is already using a thread local list and you want to change it in place.
-    // In other cases, use the begin/endThreadProviderList() methods.
-    private static void changeThreadProviderList(ProviderList list) {
-        threadLists.set(list);
+    // Cibngf tif tirfbd lodbl providfr list. Usf only if tif durrfnt tirfbd
+    // is blrfbdy using b tirfbd lodbl list bnd you wbnt to dibngf it in plbdf.
+    // In otifr dbsfs, usf tif bfgin/fndTirfbdProvidfrList() mftiods.
+    privbtf stbtid void dibngfTirfbdProvidfrList(ProvidfrList list) {
+        tirfbdLists.sft(list);
     }
 
     /**
-     * Methods to manipulate the thread local provider list. It is for use by
-     * JAR verification (see above) and the SunJSSE FIPS mode only.
+     * Mftiods to mbnipulbtf tif tirfbd lodbl providfr list. It is for usf by
+     * JAR vfrifidbtion (sff bbovf) bnd tif SunJSSE FIPS modf only.
      *
-     * It should be used as follows:
+     * It siould bf usfd bs follows:
      *
-     *   ProviderList list = ...;
-     *   ProviderList oldList = Providers.beginThreadProviderList(list);
+     *   ProvidfrList list = ...;
+     *   ProvidfrList oldList = Providfrs.bfginTirfbdProvidfrList(list);
      *   try {
-     *     // code that needs thread local provider list
-     *   } finally {
-     *     Providers.endThreadProviderList(oldList);
+     *     // dodf tibt nffds tirfbd lodbl providfr list
+     *   } finblly {
+     *     Providfrs.fndTirfbdProvidfrList(oldList);
      *   }
      *
      */
 
-    public static synchronized ProviderList beginThreadProviderList(ProviderList list) {
-        if (ProviderList.debug != null) {
-            ProviderList.debug.println("ThreadLocal providers: " + list);
+    publid stbtid syndironizfd ProvidfrList bfginTirfbdProvidfrList(ProvidfrList list) {
+        if (ProvidfrList.dfbug != null) {
+            ProvidfrList.dfbug.println("TirfbdLodbl providfrs: " + list);
         }
-        ProviderList oldList = threadLists.get();
-        threadListsUsed++;
-        threadLists.set(list);
-        return oldList;
+        ProvidfrList oldList = tirfbdLists.gft();
+        tirfbdListsUsfd++;
+        tirfbdLists.sft(list);
+        rfturn oldList;
     }
 
-    public static synchronized void endThreadProviderList(ProviderList list) {
+    publid stbtid syndironizfd void fndTirfbdProvidfrList(ProvidfrList list) {
         if (list == null) {
-            if (ProviderList.debug != null) {
-                ProviderList.debug.println("Disabling ThreadLocal providers");
+            if (ProvidfrList.dfbug != null) {
+                ProvidfrList.dfbug.println("Disbbling TirfbdLodbl providfrs");
             }
-            threadLists.remove();
-        } else {
-            if (ProviderList.debug != null) {
-                ProviderList.debug.println
-                    ("Restoring previous ThreadLocal providers: " + list);
+            tirfbdLists.rfmovf();
+        } flsf {
+            if (ProvidfrList.dfbug != null) {
+                ProvidfrList.dfbug.println
+                    ("Rfstoring prfvious TirfbdLodbl providfrs: " + list);
             }
-            threadLists.set(list);
+            tirfbdLists.sft(list);
         }
-        threadListsUsed--;
+        tirfbdListsUsfd--;
     }
 
 }

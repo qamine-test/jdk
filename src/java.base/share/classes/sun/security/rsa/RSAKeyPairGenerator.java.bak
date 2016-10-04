@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.rsa;
+pbdkbgf sun.sfdurity.rsb;
 
-import java.math.BigInteger;
+import jbvb.mbti.BigIntfgfr;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.RSAKeyGenParameterSpec;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.RSAKfyGfnPbrbmftfrSpfd;
 
-import sun.security.jca.JCAUtil;
+import sun.sfdurity.jdb.JCAUtil;
 
 /**
- * RSA keypair generation. Standard algorithm, minimum key length 512 bit.
- * We generate two random primes until we find two where phi is relative
- * prime to the public exponent. Default exponent is 65537. It has only bit 0
- * and bit 4 set, which makes it particularly efficient.
+ * RSA kfypbir gfnfrbtion. Stbndbrd blgoritim, minimum kfy lfngti 512 bit.
+ * Wf gfnfrbtf two rbndom primfs until wf find two wifrf pii is rflbtivf
+ * primf to tif publid fxponfnt. Dffbult fxponfnt is 65537. It ibs only bit 0
+ * bnd bit 4 sft, wiidi mbkfs it pbrtidulbrly fffidifnt.
  *
- * @since   1.5
- * @author  Andreas Sterbenz
+ * @sindf   1.5
+ * @butior  Andrfbs Stfrbfnz
  */
-public final class RSAKeyPairGenerator extends KeyPairGeneratorSpi {
+publid finbl dlbss RSAKfyPbirGfnfrbtor fxtfnds KfyPbirGfnfrbtorSpi {
 
-    // public exponent to use
-    private BigInteger publicExponent;
+    // publid fxponfnt to usf
+    privbtf BigIntfgfr publidExponfnt;
 
-    // size of the key to generate, >= RSAKeyFactory.MIN_MODLEN
-    private int keySize;
+    // sizf of tif kfy to gfnfrbtf, >= RSAKfyFbdtory.MIN_MODLEN
+    privbtf int kfySizf;
 
-    // PRNG to use
-    private SecureRandom random;
+    // PRNG to usf
+    privbtf SfdurfRbndom rbndom;
 
-    public RSAKeyPairGenerator() {
-        // initialize to default in case the app does not call initialize()
-        initialize(1024, null);
+    publid RSAKfyPbirGfnfrbtor() {
+        // initiblizf to dffbult in dbsf tif bpp dofs not dbll initiblizf()
+        initiblizf(1024, null);
     }
 
-    // initialize the generator. See JCA doc
-    public void initialize(int keySize, SecureRandom random) {
+    // initiblizf tif gfnfrbtor. Sff JCA dod
+    publid void initiblizf(int kfySizf, SfdurfRbndom rbndom) {
 
-        // do not allow unreasonably small or large key sizes,
-        // probably user error
+        // do not bllow unrfbsonbbly smbll or lbrgf kfy sizfs,
+        // probbbly usfr frror
         try {
-            RSAKeyFactory.checkKeyLengths(keySize, RSAKeyGenParameterSpec.F4,
+            RSAKfyFbdtory.difdkKfyLfngtis(kfySizf, RSAKfyGfnPbrbmftfrSpfd.F4,
                 512, 64 * 1024);
-        } catch (InvalidKeyException e) {
-            throw new InvalidParameterException(e.getMessage());
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw InvblidPbrbmftfrExdfption(f.gftMfssbgf());
         }
 
-        this.keySize = keySize;
-        this.random = random;
-        this.publicExponent = RSAKeyGenParameterSpec.F4;
+        tiis.kfySizf = kfySizf;
+        tiis.rbndom = rbndom;
+        tiis.publidExponfnt = RSAKfyGfnPbrbmftfrSpfd.F4;
     }
 
-    // second initialize method. See JCA doc.
-    public void initialize(AlgorithmParameterSpec params, SecureRandom random)
-            throws InvalidAlgorithmParameterException {
+    // sfdond initiblizf mftiod. Sff JCA dod.
+    publid void initiblizf(AlgoritimPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom)
+            tirows InvblidAlgoritimPbrbmftfrExdfption {
 
-        if (params instanceof RSAKeyGenParameterSpec == false) {
-            throw new InvalidAlgorithmParameterException
-                ("Params must be instance of RSAKeyGenParameterSpec");
+        if (pbrbms instbndfof RSAKfyGfnPbrbmftfrSpfd == fblsf) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Pbrbms must bf instbndf of RSAKfyGfnPbrbmftfrSpfd");
         }
 
-        RSAKeyGenParameterSpec rsaSpec = (RSAKeyGenParameterSpec)params;
-        int tmpKeySize = rsaSpec.getKeysize();
-        BigInteger tmpPublicExponent = rsaSpec.getPublicExponent();
+        RSAKfyGfnPbrbmftfrSpfd rsbSpfd = (RSAKfyGfnPbrbmftfrSpfd)pbrbms;
+        int tmpKfySizf = rsbSpfd.gftKfysizf();
+        BigIntfgfr tmpPublidExponfnt = rsbSpfd.gftPublidExponfnt();
 
-        if (tmpPublicExponent == null) {
-            tmpPublicExponent = RSAKeyGenParameterSpec.F4;
-        } else {
-            if (tmpPublicExponent.compareTo(RSAKeyGenParameterSpec.F0) < 0) {
-                throw new InvalidAlgorithmParameterException
-                        ("Public exponent must be 3 or larger");
+        if (tmpPublidExponfnt == null) {
+            tmpPublidExponfnt = RSAKfyGfnPbrbmftfrSpfd.F4;
+        } flsf {
+            if (tmpPublidExponfnt.dompbrfTo(RSAKfyGfnPbrbmftfrSpfd.F0) < 0) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                        ("Publid fxponfnt must bf 3 or lbrgfr");
             }
-            if (tmpPublicExponent.bitLength() > tmpKeySize) {
-                throw new InvalidAlgorithmParameterException
-                        ("Public exponent must be smaller than key size");
+            if (tmpPublidExponfnt.bitLfngti() > tmpKfySizf) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                        ("Publid fxponfnt must bf smbllfr tibn kfy sizf");
             }
         }
 
-        // do not allow unreasonably large key sizes, probably user error
+        // do not bllow unrfbsonbbly lbrgf kfy sizfs, probbbly usfr frror
         try {
-            RSAKeyFactory.checkKeyLengths(tmpKeySize, tmpPublicExponent,
+            RSAKfyFbdtory.difdkKfyLfngtis(tmpKfySizf, tmpPublidExponfnt,
                 512, 64 * 1024);
-        } catch (InvalidKeyException e) {
-            throw new InvalidAlgorithmParameterException(
-                "Invalid key sizes", e);
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                "Invblid kfy sizfs", f);
         }
 
-        this.keySize = tmpKeySize;
-        this.publicExponent = tmpPublicExponent;
-        this.random = random;
+        tiis.kfySizf = tmpKfySizf;
+        tiis.publidExponfnt = tmpPublidExponfnt;
+        tiis.rbndom = rbndom;
     }
 
-    // generate the keypair. See JCA doc
-    public KeyPair generateKeyPair() {
-        // accommodate odd key sizes in case anybody wants to use them
-        int lp = (keySize + 1) >> 1;
-        int lq = keySize - lp;
-        if (random == null) {
-            random = JCAUtil.getSecureRandom();
+    // gfnfrbtf tif kfypbir. Sff JCA dod
+    publid KfyPbir gfnfrbtfKfyPbir() {
+        // bddommodbtf odd kfy sizfs in dbsf bnybody wbnts to usf tifm
+        int lp = (kfySizf + 1) >> 1;
+        int lq = kfySizf - lp;
+        if (rbndom == null) {
+            rbndom = JCAUtil.gftSfdurfRbndom();
         }
-        BigInteger e = publicExponent;
-        while (true) {
-            // generate two random primes of size lp/lq
-            BigInteger p = BigInteger.probablePrime(lp, random);
-            BigInteger q, n;
+        BigIntfgfr f = publidExponfnt;
+        wiilf (truf) {
+            // gfnfrbtf two rbndom primfs of sizf lp/lq
+            BigIntfgfr p = BigIntfgfr.probbblfPrimf(lp, rbndom);
+            BigIntfgfr q, n;
             do {
-                q = BigInteger.probablePrime(lq, random);
-                // convention is for p > q
-                if (p.compareTo(q) < 0) {
-                    BigInteger tmp = p;
+                q = BigIntfgfr.probbblfPrimf(lq, rbndom);
+                // donvfntion is for p > q
+                if (p.dompbrfTo(q) < 0) {
+                    BigIntfgfr tmp = p;
                     p = q;
                     q = tmp;
                 }
                 // modulus n = p * q
                 n = p.multiply(q);
-                // even with correctly sized p and q, there is a chance that
-                // n will be one bit short. re-generate the smaller prime if so
-            } while (n.bitLength() < keySize);
+                // fvfn witi dorrfdtly sizfd p bnd q, tifrf is b dibndf tibt
+                // n will bf onf bit siort. rf-gfnfrbtf tif smbllfr primf if so
+            } wiilf (n.bitLfngti() < kfySizf);
 
-            // phi = (p - 1) * (q - 1) must be relative prime to e
-            // otherwise RSA just won't work ;-)
-            BigInteger p1 = p.subtract(BigInteger.ONE);
-            BigInteger q1 = q.subtract(BigInteger.ONE);
-            BigInteger phi = p1.multiply(q1);
-            // generate new p and q until they work. typically
-            // the first try will succeed when using F4
-            if (e.gcd(phi).equals(BigInteger.ONE) == false) {
-                continue;
+            // pii = (p - 1) * (q - 1) must bf rflbtivf primf to f
+            // otifrwisf RSA just won't work ;-)
+            BigIntfgfr p1 = p.subtrbdt(BigIntfgfr.ONE);
+            BigIntfgfr q1 = q.subtrbdt(BigIntfgfr.ONE);
+            BigIntfgfr pii = p1.multiply(q1);
+            // gfnfrbtf nfw p bnd q until tify work. typidblly
+            // tif first try will suddffd wifn using F4
+            if (f.gdd(pii).fqubls(BigIntfgfr.ONE) == fblsf) {
+                dontinuf;
             }
 
-            // private exponent d is the inverse of e mod phi
-            BigInteger d = e.modInverse(phi);
+            // privbtf fxponfnt d is tif invfrsf of f mod pii
+            BigIntfgfr d = f.modInvfrsf(pii);
 
-            // 1st prime exponent pe = d mod (p - 1)
-            BigInteger pe = d.mod(p1);
-            // 2nd prime exponent qe = d mod (q - 1)
-            BigInteger qe = d.mod(q1);
+            // 1st primf fxponfnt pf = d mod (p - 1)
+            BigIntfgfr pf = d.mod(p1);
+            // 2nd primf fxponfnt qf = d mod (q - 1)
+            BigIntfgfr qf = d.mod(q1);
 
-            // crt coefficient coeff is the inverse of q mod p
-            BigInteger coeff = q.modInverse(p);
+            // drt dofffidifnt dofff is tif invfrsf of q mod p
+            BigIntfgfr dofff = q.modInvfrsf(p);
 
             try {
-                PublicKey publicKey = new RSAPublicKeyImpl(n, e);
-                PrivateKey privateKey =
-                        new RSAPrivateCrtKeyImpl(n, e, d, p, q, pe, qe, coeff);
-                return new KeyPair(publicKey, privateKey);
-            } catch (InvalidKeyException exc) {
-                // invalid key exception only thrown for keys < 512 bit,
-                // will not happen here
-                throw new RuntimeException(exc);
+                PublidKfy publidKfy = nfw RSAPublidKfyImpl(n, f);
+                PrivbtfKfy privbtfKfy =
+                        nfw RSAPrivbtfCrtKfyImpl(n, f, d, p, q, pf, qf, dofff);
+                rfturn nfw KfyPbir(publidKfy, privbtfKfy);
+            } dbtdi (InvblidKfyExdfption fxd) {
+                // invblid kfy fxdfption only tirown for kfys < 512 bit,
+                // will not ibppfn ifrf
+                tirow nfw RuntimfExdfption(fxd);
             }
         }
     }

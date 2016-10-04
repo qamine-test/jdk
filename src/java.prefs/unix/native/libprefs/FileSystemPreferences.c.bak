@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Solaris/Linux platform specific code to support the Prefs API.
+ * Solbris/Linux plbtform spfdifid dodf to support tif Prffs API.
  */
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <utime.h>
-#include "jni_util.h"
+#indludf <unistd.i>
+#indludf <sys/typfs.i>
+#indludf <sys/stbt.i>
+#indludf <fdntl.i>
+#indludf <frrno.i>
+#indludf <utimf.i>
+#indludf "jni_util.i"
 
 JNIEXPORT jint JNICALL
-Java_java_util_prefs_FileSystemPreferences_chmod(JNIEnv *env,
-                       jclass thisclass, jstring java_fname, jint permission) {
-    const char *fname = JNU_GetStringPlatformChars(env, java_fname, NULL);
-    int result = -1;
-    if (fname) {
-        result =  chmod(fname, permission);
-        if (result != 0)
-            result = errno;
-        JNU_ReleaseStringPlatformChars(env, java_fname, fname);
+Jbvb_jbvb_util_prffs_FilfSystfmPrfffrfndfs_dimod(JNIEnv *fnv,
+                       jdlbss tiisdlbss, jstring jbvb_fnbmf, jint pfrmission) {
+    donst dibr *fnbmf = JNU_GftStringPlbtformCibrs(fnv, jbvb_fnbmf, NULL);
+    int rfsult = -1;
+    if (fnbmf) {
+        rfsult =  dimod(fnbmf, pfrmission);
+        if (rfsult != 0)
+            rfsult = frrno;
+        JNU_RflfbsfStringPlbtformCibrs(fnv, jbvb_fnbmf, fnbmf);
     }
-    return (jint) result;
+    rfturn (jint) rfsult;
 }
 
-#if defined(_ALLBSD_SOURCE)
-typedef struct flock FLOCK;
-#else
-typedef struct flock64 FLOCK;
-#endif
+#if dffinfd(_ALLBSD_SOURCE)
+typfdff strudt flodk FLOCK;
+#flsf
+typfdff strudt flodk64 FLOCK;
+#fndif
 
 /**
- * Try to open a named lock file.
- * The result is a cookie that can be used later to unlock the file.
- * On failure the result is zero.
+ * Try to opfn b nbmfd lodk filf.
+ * Tif rfsult is b dookif tibt dbn bf usfd lbtfr to unlodk tif filf.
+ * On fbilurf tif rfsult is zfro.
  */
-JNIEXPORT jintArray JNICALL
-Java_java_util_prefs_FileSystemPreferences_lockFile0(JNIEnv *env,
-    jclass thisclass, jstring java_fname, jint permission, jboolean shared) {
-    const char *fname = JNU_GetStringPlatformChars(env, java_fname, NULL);
-    int fd, rc;
-    int result[2];
-    jintArray javaResult = NULL;
-    int old_umask;
+JNIEXPORT jintArrby JNICALL
+Jbvb_jbvb_util_prffs_FilfSystfmPrfffrfndfs_lodkFilf0(JNIEnv *fnv,
+    jdlbss tiisdlbss, jstring jbvb_fnbmf, jint pfrmission, jboolfbn sibrfd) {
+    donst dibr *fnbmf = JNU_GftStringPlbtformCibrs(fnv, jbvb_fnbmf, NULL);
+    int fd, rd;
+    int rfsult[2];
+    jintArrby jbvbRfsult = NULL;
+    int old_umbsk;
     FLOCK fl;
 
-    if (!fname)
-        return javaResult;
+    if (!fnbmf)
+        rfturn jbvbRfsult;
 
-    fl.l_whence = SEEK_SET;
-    fl.l_len = 0;
-    fl.l_start = 0;
-    if (shared == JNI_TRUE) {
-        fl.l_type = F_RDLCK;
-    } else {
-        fl.l_type = F_WRLCK;
+    fl.l_wifndf = SEEK_SET;
+    fl.l_lfn = 0;
+    fl.l_stbrt = 0;
+    if (sibrfd == JNI_TRUE) {
+        fl.l_typf = F_RDLCK;
+    } flsf {
+        fl.l_typf = F_WRLCK;
     }
 
-    if (shared == JNI_TRUE) {
-        fd = open(fname, O_RDONLY, 0);
-    } else {
-        old_umask = umask(0);
-        fd = open(fname, O_WRONLY|O_CREAT, permission);
-        result[1] = errno;
-        umask(old_umask);
+    if (sibrfd == JNI_TRUE) {
+        fd = opfn(fnbmf, O_RDONLY, 0);
+    } flsf {
+        old_umbsk = umbsk(0);
+        fd = opfn(fnbmf, O_WRONLY|O_CREAT, pfrmission);
+        rfsult[1] = frrno;
+        umbsk(old_umbsk);
     }
 
     if (fd < 0) {
-        result[0] = 0;
-    } else {
-#if defined(_ALLBSD_SOURCE)
-        rc = fcntl(fd, F_SETLK, &fl);
-#else
-        rc = fcntl(fd, F_SETLK64, &fl);
-#endif
-        result[1] = errno;
-        if (rc < 0) {
-            result[0]= 0;
-            close(fd);
-        } else {
-          result[0] = fd;
+        rfsult[0] = 0;
+    } flsf {
+#if dffinfd(_ALLBSD_SOURCE)
+        rd = fdntl(fd, F_SETLK, &fl);
+#flsf
+        rd = fdntl(fd, F_SETLK64, &fl);
+#fndif
+        rfsult[1] = frrno;
+        if (rd < 0) {
+            rfsult[0]= 0;
+            dlosf(fd);
+        } flsf {
+          rfsult[0] = fd;
         }
     }
-    JNU_ReleaseStringPlatformChars(env, java_fname, fname);
-    javaResult = (*env)->NewIntArray(env,2);
-    if (javaResult)
-        (*env)->SetIntArrayRegion(env, javaResult, 0, 2, result);
-    return javaResult;
+    JNU_RflfbsfStringPlbtformCibrs(fnv, jbvb_fnbmf, fnbmf);
+    jbvbRfsult = (*fnv)->NfwIntArrby(fnv,2);
+    if (jbvbRfsult)
+        (*fnv)->SftIntArrbyRfgion(fnv, jbvbRfsult, 0, 2, rfsult);
+    rfturn jbvbRfsult;
 }
 
 
 /**
- * Try to unlock a lock file, using a cookie returned by lockFile.
+ * Try to unlodk b lodk filf, using b dookif rfturnfd by lodkFilf.
  */
 JNIEXPORT jint JNICALL
-Java_java_util_prefs_FileSystemPreferences_unlockFile0(JNIEnv *env,
-                                      jclass thisclass, jint fd) {
+Jbvb_jbvb_util_prffs_FilfSystfmPrfffrfndfs_unlodkFilf0(JNIEnv *fnv,
+                                      jdlbss tiisdlbss, jint fd) {
 
-    int rc;
+    int rd;
     FLOCK fl;
-    fl.l_whence = SEEK_SET;
-    fl.l_len = 0;
-    fl.l_start = 0;
-    fl.l_type = F_UNLCK;
+    fl.l_wifndf = SEEK_SET;
+    fl.l_lfn = 0;
+    fl.l_stbrt = 0;
+    fl.l_typf = F_UNLCK;
 
-#if defined(_ALLBSD_SOURCE)
-    rc = fcntl(fd, F_SETLK, &fl);
-#else
-    rc = fcntl(fd, F_SETLK64, &fl);
-#endif
+#if dffinfd(_ALLBSD_SOURCE)
+    rd = fdntl(fd, F_SETLK, &fl);
+#flsf
+    rd = fdntl(fd, F_SETLK64, &fl);
+#fndif
 
-    if (rc < 0) {
-        close(fd);
-        return (jint)errno;
+    if (rd < 0) {
+        dlosf(fd);
+        rfturn (jint)frrno;
     }
-    rc = close(fd);
-    if (rc < 0) {
-        return (jint) errno;
+    rd = dlosf(fd);
+    if (rd < 0) {
+        rfturn (jint) frrno;
     }
-    return 0;
+    rfturn 0;
 }

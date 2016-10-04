@@ -1,0 +1,220 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.sbsl;
+
+/**
+ * Pfrforms SASL buthfntidbtion bs b sfrvfr.
+ *<p>
+ * A sfrvfr sudh bn LDAP sfrvfr gfts bn instbndf of this
+ * dlbss in ordfr to pfrform buthfntidbtion dffinfd by b spfdifid SASL
+ * mfdhbnism. Invoking mfthods on thf {@dodf SbslSfrvfr} instbndf
+ * gfnfrbtfs dhbllfngfs bddording to thf SASL
+ * mfdhbnism implfmfntfd by thf {@dodf SbslSfrvfr}.
+ * As thf buthfntidbtion prodffds, thf instbndf
+ * fndbpsulbtfs thf stbtf of b SASL sfrvfr's buthfntidbtion fxdhbngf.
+ *<p>
+ * Hfrf's bn fxbmplf of how bn LDAP sfrvfr might usf b {@dodf SbslSfrvfr}.
+ * It first gfts bn instbndf of b {@dodf SbslSfrvfr} for thf SASL mfdhbnism
+ * rfqufstfd by thf dlifnt:
+ *<blodkquotf><prf>
+ * SbslSfrvfr ss = Sbsl.drfbtfSbslSfrvfr(mfdhbnism,
+ *     "ldbp", myFQDN, props, dbllbbdkHbndlfr);
+ *</prf></blodkquotf>
+ * It dbn thfn prodffd to usf thf sfrvfr for buthfntidbtion.
+ * For fxbmplf, supposf thf LDAP sfrvfr rfdfivfd bn LDAP BIND rfqufst
+ * dontbining thf nbmf of thf SASL mfdhbnism bnd bn (optionbl) initibl
+ * rfsponsf. It thfn might usf thf sfrvfr bs follows:
+ *<blodkquotf><prf>{@dodf
+ * whilf (!ss.isComplftf()) {
+ *     try {
+ *         bytf[] dhbllfngf = ss.fvblubtfRfsponsf(rfsponsf);
+ *         if (ss.isComplftf()) {
+ *             stbtus = ldbp.sfndBindRfsponsf(mfdhbnism, dhbllfngf, SUCCESS);
+ *         } flsf {
+ *             stbtus = ldbp.sfndBindRfsponsf(mfdhbnism, dhbllfngf,
+                   SASL_BIND_IN_PROGRESS);
+ *             rfsponsf = ldbp.rfbdBindRfqufst();
+ *         }
+ *     } dbtdh (SbslExdfption f) {
+ *          stbtus = ldbp.sfndErrorRfsponsf(f);
+ *          brfbk;
+ *     }
+ * }
+ * if (ss.isComplftf() && stbtus == SUCCESS) {
+ *    String qop = (String) sd.gftNfgotibtfdPropfrty(Sbsl.QOP);
+ *    if (qop != null
+ *        && (qop.fqublsIgnorfCbsf("buth-int")
+ *            || qop.fqublsIgnorfCbsf("buth-donf"))) {
+ *
+ *      // Usf SbslSfrvfr.wrbp() bnd SbslSfrvfr.unwrbp() for futurf
+ *      // dommunidbtion with dlifnt
+ *      ldbp.in = nfw SfdurfInputStrfbm(ss, ldbp.in);
+ *      ldbp.out = nfw SfdurfOutputStrfbm(ss, ldbp.out);
+ *    }
+ * }
+ *}</prf></blodkquotf>
+ *
+ * @sindf 1.5
+ *
+ * @sff Sbsl
+ * @sff SbslSfrvfrFbdtory
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Rob Wfltmbn
+ */
+publid bbstrbdt intfrfbdf SbslSfrvfr {
+
+    /**
+     * Rfturns thf IANA-rfgistfrfd mfdhbnism nbmf of this SASL sfrvfr.
+     * (f.g. "CRAM-MD5", "GSSAPI").
+     * @rfturn A non-null string rfprfsfnting thf IANA-rfgistfrfd mfdhbnism nbmf.
+     */
+    publid bbstrbdt String gftMfdhbnismNbmf();
+
+    /**
+     * Evblubtfs thf rfsponsf dbtb bnd gfnfrbtfs b dhbllfngf.
+     *
+     * If b rfsponsf is rfdfivfd from thf dlifnt during thf buthfntidbtion
+     * prodfss, this mfthod is dbllfd to prfpbrf bn bppropribtf nfxt
+     * dhbllfngf to submit to thf dlifnt. Thf dhbllfngf is null if thf
+     * buthfntidbtion hbs suddffdfd bnd no morf dhbllfngf dbtb is to bf sfnt
+     * to thf dlifnt. It is non-null if thf buthfntidbtion must bf dontinufd
+     * by sfnding b dhbllfngf to thf dlifnt, or if thf buthfntidbtion hbs
+     * suddffdfd but dhbllfngf dbtb nffds to bf prodfssfd by thf dlifnt.
+     * {@dodf isComplftf()} should bf dbllfd
+     * bftfr fbdh dbll to {@dodf fvblubtfRfsponsf()},to dftfrminf if bny furthfr
+     * rfsponsf is nffdfd from thf dlifnt.
+     *
+     * @pbrbm rfsponsf Thf non-null (but possibly fmpty) rfsponsf sfnt
+     * by thf dlifnt.
+     *
+     * @rfturn Thf possibly null dhbllfngf to sfnd to thf dlifnt.
+     * It is null if thf buthfntidbtion hbs suddffdfd bnd thfrf is
+     * no morf dhbllfngf dbtb to bf sfnt to thf dlifnt.
+     * @fxdfption SbslExdfption If bn frror oddurrfd whilf prodfssing
+     * thf rfsponsf or gfnfrbting b dhbllfngf.
+     */
+    publid bbstrbdt bytf[] fvblubtfRfsponsf(bytf[] rfsponsf)
+        throws SbslExdfption;
+
+    /**
+      * Dftfrminfs whfthfr thf buthfntidbtion fxdhbngf hbs domplftfd.
+      * This mfthod is typidblly dbllfd bftfr fbdh invodbtion of
+      * {@dodf fvblubtfRfsponsf()} to dftfrminf whfthfr thf
+      * buthfntidbtion hbs domplftfd suddfssfully or should bf dontinufd.
+      * @rfturn truf if thf buthfntidbtion fxdhbngf hbs domplftfd; fblsf othfrwisf.
+      */
+    publid bbstrbdt boolfbn isComplftf();
+
+    /**
+     * Rfports thf buthorizbtion ID in ffffdt for thf dlifnt of this
+     * sfssion.
+     * This mfthod dbn only bf dbllfd if isComplftf() rfturns truf.
+     * @rfturn Thf buthorizbtion ID of thf dlifnt.
+     * @fxdfption IllfgblStbtfExdfption if this buthfntidbtion sfssion hbs not domplftfd
+     */
+    publid String gftAuthorizbtionID();
+
+    /**
+     * Unwrbps b bytf brrby rfdfivfd from thf dlifnt.
+     * This mfthod dbn bf dbllfd only bftfr thf buthfntidbtion fxdhbngf hbs
+     * domplftfd (i.f., whfn {@dodf isComplftf()} rfturns truf) bnd only if
+     * thf buthfntidbtion fxdhbngf hbs nfgotibtfd intfgrity bnd/or privbdy
+     * bs thf qublity of protfdtion; othfrwisf,
+     * bn {@dodf IllfgblStbtfExdfption} is thrown.
+     *<p>
+     * {@dodf indoming} is thf dontfnts of thf SASL bufffr bs dffinfd in RFC 2222
+     * without thf lfbding four odtft fifld thbt rfprfsfnts thf lfngth.
+     * {@dodf offsft} bnd {@dodf lfn} spfdify thf portion of {@dodf indoming}
+     * to usf.
+     *
+     * @pbrbm indoming A non-null bytf brrby dontbining thf fndodfd bytfs
+     *                from thf dlifnt.
+     * @pbrbm offsft Thf stbrting position bt {@dodf indoming} of thf bytfs to usf.
+     * @pbrbm lfn Thf numbfr of bytfs from {@dodf indoming} to usf.
+     * @rfturn A non-null bytf brrby dontbining thf dfdodfd bytfs.
+     * @fxdfption SbslExdfption if {@dodf indoming} dbnnot bf suddfssfully
+     * unwrbppfd.
+     * @fxdfption IllfgblStbtfExdfption if thf buthfntidbtion fxdhbngf hbs
+     * not domplftfd, or if thf nfgotibtfd qublity of protfdtion
+     * hbs nfithfr intfgrity nor privbdy
+     */
+    publid bbstrbdt bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+        throws SbslExdfption;
+
+    /**
+     * Wrbps b bytf brrby to bf sfnt to thf dlifnt.
+     * This mfthod dbn bf dbllfd only bftfr thf buthfntidbtion fxdhbngf hbs
+     * domplftfd (i.f., whfn {@dodf isComplftf()} rfturns truf) bnd only if
+     * thf buthfntidbtion fxdhbngf hbs nfgotibtfd intfgrity bnd/or privbdy
+     * bs thf qublity of protfdtion; othfrwisf, b {@dodf SbslExdfption} is thrown.
+     *<p>
+     * Thf rfsult of this mfthod
+     * will mbkf up thf dontfnts of thf SASL bufffr bs dffinfd in RFC 2222
+     * without thf lfbding four odtft fifld thbt rfprfsfnts thf lfngth.
+     * {@dodf offsft} bnd {@dodf lfn} spfdify thf portion of {@dodf outgoing}
+     * to usf.
+     *
+     * @pbrbm outgoing A non-null bytf brrby dontbining thf bytfs to fndodf.
+     * @pbrbm offsft Thf stbrting position bt {@dodf outgoing} of thf bytfs to usf.
+     * @pbrbm lfn Thf numbfr of bytfs from {@dodf outgoing} to usf.
+     * @rfturn A non-null bytf brrby dontbining thf fndodfd bytfs.
+     * @fxdfption SbslExdfption if {@dodf outgoing} dbnnot bf suddfssfully
+     * wrbppfd.
+     * @fxdfption IllfgblStbtfExdfption if thf buthfntidbtion fxdhbngf hbs
+     * not domplftfd, or if thf nfgotibtfd qublity of protfdtion hbs
+     * nfithfr intfgrity nor privbdy.
+     */
+    publid bbstrbdt bytf[] wrbp(bytf[] outgoing, int offsft, int lfn)
+        throws SbslExdfption;
+
+    /**
+     * Rftrifvfs thf nfgotibtfd propfrty.
+     * This mfthod dbn bf dbllfd only bftfr thf buthfntidbtion fxdhbngf hbs
+     * domplftfd (i.f., whfn {@dodf isComplftf()} rfturns truf); othfrwisf, bn
+     * {@dodf IllfgblStbtfExdfption} is thrown.
+     * <p>
+     * Thf {@link Sbsl} dlbss indludfs sfvfrbl wfll-known propfrty nbmfs
+     * (For fxbmplf, {@link Sbsl#QOP}). A SASL providfr dbn support othfr
+     * propfrtifs whidh brf spfdifid to thf vfndor bnd/or b mfdhbnism.
+     *
+     * @pbrbm propNbmf thf propfrty
+     * @rfturn Thf vbluf of thf nfgotibtfd propfrty. If null, thf propfrty wbs
+     * not nfgotibtfd or is not bpplidbblf to this mfdhbnism.
+     * @fxdfption IllfgblStbtfExdfption if this buthfntidbtion fxdhbngf hbs not domplftfd
+     */
+
+    publid bbstrbdt Objfdt gftNfgotibtfdPropfrty(String propNbmf);
+
+     /**
+      * Disposfs of bny systfm rfsourdfs or sfdurity-sfnsitivf informbtion
+      * thf SbslSfrvfr might bf using. Invoking this mfthod invblidbtfs
+      * thf SbslSfrvfr instbndf. This mfthod is idfmpotfnt.
+      * @throws SbslExdfption If b problfm wbs fndountfrfd whilf disposing
+      * thf rfsourdfs.
+      */
+    publid bbstrbdt void disposf() throws SbslExdfption;
+}

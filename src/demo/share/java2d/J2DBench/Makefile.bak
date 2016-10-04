@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+# modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+# brf mft:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+#     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,83 +29,83 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-SOURCEPATH=src
+SOURCEPATH=srd
 CLASSES=build
 DIST=dist
-RESOURCES=resources
+RESOURCES=rfsourdfs
 
 J2DBENCH_CLASSES = \
-	$(CLASSES)/j2dbench/J2DBench.class \
-	$(CLASSES)/j2dbench/Destinations.class \
-	$(CLASSES)/j2dbench/Group.class \
-	$(CLASSES)/j2dbench/Result.class \
-	$(CLASSES)/j2dbench/Modifier.class \
-	$(CLASSES)/j2dbench/Node.class \
-	$(CLASSES)/j2dbench/Option.class \
-	$(CLASSES)/j2dbench/ResultSet.class \
-	$(CLASSES)/j2dbench/TestEnvironment.class \
-	$(CLASSES)/j2dbench/Test.class \
-	$(CLASSES)/j2dbench/ui/EnableButton.class \
-	$(CLASSES)/j2dbench/ui/CompactLayout.class \
-	$(CLASSES)/j2dbench/tests/ImageTests.class \
-	$(CLASSES)/j2dbench/tests/RenderTests.class \
-	$(CLASSES)/j2dbench/tests/PixelTests.class \
-	$(CLASSES)/j2dbench/tests/MiscTests.class \
-	$(CLASSES)/j2dbench/tests/iio/IIOTests.class \
-	$(CLASSES)/j2dbench/tests/iio/InputTests.class \
-	$(CLASSES)/j2dbench/tests/iio/InputImageTests.class \
-	$(CLASSES)/j2dbench/tests/iio/InputStreamTests.class \
-	$(CLASSES)/j2dbench/tests/iio/OutputTests.class \
-	$(CLASSES)/j2dbench/tests/iio/OutputImageTests.class \
-	$(CLASSES)/j2dbench/tests/iio/OutputStreamTests.class \
-	$(CLASSES)/j2dbench/tests/text/TextConstructionTests.class \
-	$(CLASSES)/j2dbench/tests/text/TextMeasureTests.class \
-	$(CLASSES)/j2dbench/tests/text/TextRenderTests.class \
-	$(CLASSES)/j2dbench/tests/text/TextTests.class \
-	$(CLASSES)/j2dbench/tests/GraphicsTests.class
+	$(CLASSES)/j2dbfndi/J2DBfndi.dlbss \
+	$(CLASSES)/j2dbfndi/Dfstinbtions.dlbss \
+	$(CLASSES)/j2dbfndi/Group.dlbss \
+	$(CLASSES)/j2dbfndi/Rfsult.dlbss \
+	$(CLASSES)/j2dbfndi/Modififr.dlbss \
+	$(CLASSES)/j2dbfndi/Nodf.dlbss \
+	$(CLASSES)/j2dbfndi/Option.dlbss \
+	$(CLASSES)/j2dbfndi/RfsultSft.dlbss \
+	$(CLASSES)/j2dbfndi/TfstEnvironmfnt.dlbss \
+	$(CLASSES)/j2dbfndi/Tfst.dlbss \
+	$(CLASSES)/j2dbfndi/ui/EnbblfButton.dlbss \
+	$(CLASSES)/j2dbfndi/ui/CompbdtLbyout.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/ImbgfTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/RfndfrTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/PixflTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/MisdTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/iio/IIOTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/iio/InputTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/iio/InputImbgfTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/iio/InputStrfbmTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/iio/OutputTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/iio/OutputImbgfTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/iio/OutputStrfbmTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/tfxt/TfxtConstrudtionTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/tfxt/TfxtMfbsurfTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/tfxt/TfxtRfndfrTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/tfxt/TfxtTfsts.dlbss \
+	$(CLASSES)/j2dbfndi/tfsts/GrbpiidsTfsts.dlbss
 
 J2DANALYZER_CLASSES = \
-	$(CLASSES)/j2dbench/report/IIOComparator.class \
-	$(CLASSES)/j2dbench/report/HTMLSeriesReporter.class \
-	$(CLASSES)/j2dbench/report/J2DAnalyzer.class \
-	$(CLASSES)/j2dbench/report/XMLHTMLReporter.class
+	$(CLASSES)/j2dbfndi/rfport/IIOCompbrbtor.dlbss \
+	$(CLASSES)/j2dbfndi/rfport/HTMLSfrifsRfportfr.dlbss \
+	$(CLASSES)/j2dbfndi/rfport/J2DAnblyzfr.dlbss \
+	$(CLASSES)/j2dbfndi/rfport/XMLHTMLRfportfr.dlbss
 
 J2DBENCH_RESOURCES = \
-	$(CLASSES)/j2dbench/tests/iio/images \
-	$(CLASSES)/j2dbench/tests/text/textdata
+	$(CLASSES)/j2dbfndi/tfsts/iio/imbgfs \
+	$(CLASSES)/j2dbfndi/tfsts/tfxt/tfxtdbtb
 
-SCM_DIRs = .hg .svn CVS RCS SCCS Codemgr_wsdata deleted_files
+SCM_DIRs = .ig .svn CVS RCS SCCS Codfmgr_wsdbtb dflftfd_filfs
 
-all: mkdirs J2DBench.jar J2DAnalyzer.jar
+bll: mkdirs J2DBfndi.jbr J2DAnblyzfr.jbr
 
-run: mkdirs J2DBench.jar
-	java -jar J2DBench.jar
+run: mkdirs J2DBfndi.jbr
+	jbvb -jbr J2DBfndi.jbr
 
-analyze: mkdirs J2DAnalyzer.jar
-	java -jar J2DAnalyzer.jar
+bnblyzf: mkdirs J2DAnblyzfr.jbr
+	jbvb -jbr J2DAnblyzfr.jbr
 
-J2DBench.jar: \
+J2DBfndi.jbr: \
 	$(J2DBENCH_CLASSES) $(J2DBENCH_RESOURCES) \
-	$(CLASSES)/j2dbench.manifest
-	jar cvmf $(CLASSES)/j2dbench.manifest $(DIST)/J2DBench.jar -C $(CLASSES) j2dbench
+	$(CLASSES)/j2dbfndi.mbniffst
+	jbr dvmf $(CLASSES)/j2dbfndi.mbniffst $(DIST)/J2DBfndi.jbr -C $(CLASSES) j2dbfndi
 
-J2DAnalyzer.jar: $(J2DANALYZER_CLASSES) $(CLASSES)/j2danalyzer.manifest
-	jar cvmf $(CLASSES)/j2danalyzer.manifest \
-		$(DIST)/J2DAnalyzer.jar -C $(CLASSES) j2dbench/report
+J2DAnblyzfr.jbr: $(J2DANALYZER_CLASSES) $(CLASSES)/j2dbnblyzfr.mbniffst
+	jbr dvmf $(CLASSES)/j2dbnblyzfr.mbniffst \
+		$(DIST)/J2DAnblyzfr.jbr -C $(CLASSES) j2dbfndi/rfport
 
-$(CLASSES)/j2dbench/tests/iio/images: $(RESOURCES)/images
-	cp -r $< $@
-	cd $@ && rm -rf $(SCM_DIRs)
+$(CLASSES)/j2dbfndi/tfsts/iio/imbgfs: $(RESOURCES)/imbgfs
+	dp -r $< $@
+	dd $@ && rm -rf $(SCM_DIRs)
 
-$(CLASSES)/j2dbench/tests/text/textdata: $(RESOURCES)/textdata
-	cp -r $< $@
-	cd $@ && rm -rf $(SCM_DIRs)
+$(CLASSES)/j2dbfndi/tfsts/tfxt/tfxtdbtb: $(RESOURCES)/tfxtdbtb
+	dp -r $< $@
+	dd $@ && rm -rf $(SCM_DIRs)
 
-$(CLASSES)/j2dbench.manifest:
-	echo "Main-Class: j2dbench.J2DBench" > $@
+$(CLASSES)/j2dbfndi.mbniffst:
+	fdio "Mbin-Clbss: j2dbfndi.J2DBfndi" > $@
 
-$(CLASSES)/j2danalyzer.manifest:
-	echo "Main-Class: j2dbench.report.J2DAnalyzer" > $@
+$(CLASSES)/j2dbnblyzfr.mbniffst:
+	fdio "Mbin-Clbss: j2dbfndi.rfport.J2DAnblyzfr" > $@
 
 $(DIST):
 	mkdir $(DIST)
@@ -114,9 +114,9 @@ $(CLASSES):
 
 mkdirs: $(DIST) $(CLASSES)
 
-$(CLASSES)/j2dbench/%.class: $(SOURCEPATH)/j2dbench/%.java
-	javac -source 1.2 -target 1.2 -d $(CLASSES) -sourcepath $(SOURCEPATH) $<
+$(CLASSES)/j2dbfndi/%.dlbss: $(SOURCEPATH)/j2dbfndi/%.jbvb
+	jbvbd -sourdf 1.2 -tbrgft 1.2 -d $(CLASSES) -sourdfpbti $(SOURCEPATH) $<
 
-clean:
+dlfbn:
 	rm -rf $(CLASSES)
 	rm -rf $(DIST)

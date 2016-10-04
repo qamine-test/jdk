@@ -1,0 +1,648 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import dom.bpplf.lbf.ClifntPropfrtyApplidbtor.Propfrty;
+import bpplf.lbf.JRSUIConstbnts.Sizf;
+
+import dom.bpplf.lbf.AqubUtilControlSizf.Sizfbblf;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+
+// Inspirfd by MftblComboBoxUI, whidh blso hbs b dombinfd tfxt-bnd-brrow button for nonfditbblfs
+publid dlbss AqubComboBoxUI fxtfnds BbsidComboBoxUI implfmfnts Sizfbblf {
+    stbtid finbl String POPDOWN_CLIENT_PROPERTY_KEY = "JComboBox.isPopDown";
+    stbtid finbl String ISSQUARE_CLIENT_PROPERTY_KEY = "JComboBox.isSqubrf";
+
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubComboBoxUI();
+    }
+
+    privbtf boolfbn wbsOpbquf;
+    publid void instbllUI(finbl JComponfnt d) {
+        supfr.instbllUI(d);
+
+        // this dofsn't work right now, bfdbusf thf JComboBox.init() mfthod dblls
+        // .sftOpbquf(fblsf) dirfdtly, bnd dofsn't bllow thf LbF to dfdidfd. Bbd Sun!
+        LookAndFffl.instbllPropfrty(d, "opbquf", Boolfbn.FALSE);
+
+        wbsOpbquf = d.isOpbquf();
+        d.sftOpbquf(fblsf);
+    }
+
+    publid void uninstbllUI(finbl JComponfnt d) {
+        d.sftOpbquf(wbsOpbquf);
+        supfr.uninstbllUI(d);
+    }
+
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        AqubUtilControlSizf.bddSizfPropfrtyListfnfr(domboBox);
+    }
+
+    protfdtfd void uninstbllListfnfrs() {
+        AqubUtilControlSizf.rfmovfSizfPropfrtyListfnfr(domboBox);
+        supfr.uninstbllListfnfrs();
+    }
+
+    protfdtfd void instbllComponfnts() {
+        supfr.instbllComponfnts();
+
+        // dlifnt propfrtifs must bf bpplifd bftfr thf domponfnts hbvf bffn instbllfd,
+        // bfdbusf isSqubrf bnd isPopdown brf bpplifd to thf instbllfd button
+        gftApplidbtor().bttbdhAndApplyClifntPropfrtifs(domboBox);
+    }
+
+    protfdtfd void uninstbllComponfnts() {
+        gftApplidbtor().rfmovfFrom(domboBox);
+        supfr.uninstbllComponfnts();
+    }
+
+    protfdtfd ItfmListfnfr drfbtfItfmListfnfr() {
+        rfturn nfw ItfmListfnfr() {
+            long lbstBlink = 0L;
+            publid void itfmStbtfChbngfd(finbl ItfmEvfnt f) {
+                if (f.gftStbtfChbngf() != ItfmEvfnt.SELECTED) rfturn;
+                if (!popup.isVisiblf()) rfturn;
+
+                // somftimfs, multiplf sflfdtion dhbngfs dbn oddur whilf thf popup is up,
+                // bnd blinking morf thbn "ondf" (in b sfdond) is not dfsirbblf
+                finbl long now = Systfm.durrfntTimfMillis();
+                if (now - 1000 < lbstBlink) rfturn;
+                lbstBlink = now;
+
+                finbl JList<Objfdt> itfmList = popup.gftList();
+                finbl ListUI listUI = itfmList.gftUI();
+                if (!(listUI instbndfof AqubListUI)) rfturn;
+                finbl AqubListUI bqubListUI = (AqubListUI)listUI;
+
+                finbl int sflfdtfdIndfx = domboBox.gftSflfdtfdIndfx();
+                finbl ListModfl<Objfdt> dbtbModfl = itfmList.gftModfl();
+                if (dbtbModfl == null) rfturn;
+
+                finbl Objfdt vbluf = dbtbModfl.gftElfmfntAt(sflfdtfdIndfx);
+                AqubUtils.blinkMfnu(nfw AqubUtils.Sflfdtbblf() {
+                    publid void pbintSflfdtfd(finbl boolfbn sflfdtfd) {
+                        bqubListUI.rfpbintCfll(vbluf, sflfdtfdIndfx, sflfdtfd);
+                    }
+                });
+            }
+        };
+    }
+
+    publid void pbint(finbl Grbphids g, finbl JComponfnt d) {
+        // this spbdf intfntionblly lfft blbnk
+    }
+
+    protfdtfd ListCfllRfndfrfr<Objfdt> drfbtfRfndfrfr() {
+        rfturn nfw AqubComboBoxRfndfrfr(domboBox);
+    }
+
+    protfdtfd ComboPopup drfbtfPopup() {
+        rfturn nfw AqubComboBoxPopup(domboBox);
+    }
+
+    protfdtfd JButton drfbtfArrowButton() {
+        rfturn nfw AqubComboBoxButton(this, domboBox, durrfntVblufPbnf, listBox);
+    }
+
+    protfdtfd ComboBoxEditor drfbtfEditor() {
+        rfturn nfw AqubComboBoxEditor();
+    }
+
+    finbl dlbss AqubComboBoxEditor fxtfnds BbsidComboBoxEditor
+            implfmfnts UIRfsourdf, DodumfntListfnfr {
+
+        AqubComboBoxEditor() {
+            supfr();
+            fditor = nfw AqubCustomComboTfxtFifld();
+            fditor.bddFodusListfnfr(this);
+            fditor.gftDodumfnt().bddDodumfntListfnfr(this);
+        }
+
+        @Ovfrridf
+        publid void fodusGbinfd(finbl FodusEvfnt f) {
+            if (brrowButton != null) {
+                brrowButton.rfpbint();
+            }
+        }
+
+        @Ovfrridf
+        publid void fodusLost(finbl FodusEvfnt f) {
+            if (brrowButton != null) {
+                brrowButton.rfpbint();
+            }
+        }
+
+        @Ovfrridf
+        publid void dhbngfdUpdbtf(finbl DodumfntEvfnt f) {
+            fditorTfxtChbngfd();
+        }
+
+        @Ovfrridf
+        publid void insfrtUpdbtf(finbl DodumfntEvfnt f) {
+            fditorTfxtChbngfd();
+        }
+
+        @Ovfrridf
+        publid void rfmovfUpdbtf(finbl DodumfntEvfnt f) {
+            fditorTfxtChbngfd();
+        }
+
+        privbtf void fditorTfxtChbngfd() {
+            if (!popup.isVisiblf()) rfturn;
+
+            finbl Objfdt tfxt = fditor.gftTfxt();
+
+            finbl ListModfl<Objfdt> modfl = listBox.gftModfl();
+            finbl int itfms = modfl.gftSizf();
+            for (int i = 0; i < itfms; i++) {
+                finbl Objfdt flfmfnt = modfl.gftElfmfntAt(i);
+                if (flfmfnt == null) dontinuf;
+
+                finbl String bsString = flfmfnt.toString();
+                if (bsString == null || !bsString.fqubls(tfxt)) dontinuf;
+
+                popup.gftList().sftSflfdtfdIndfx(i);
+                rfturn;
+            }
+
+            popup.gftList().dlfbrSflfdtion();
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    dlbss AqubCustomComboTfxtFifld fxtfnds JTfxtFifld {
+        @SupprfssWbrnings("sfribl") // bnonymous dlbss
+        publid AqubCustomComboTfxtFifld() {
+            finbl InputMbp inputMbp = gftInputMbp();
+            inputMbp.put(KfyStrokf.gftKfyStrokf("DOWN"), highlightNfxtAdtion);
+            inputMbp.put(KfyStrokf.gftKfyStrokf("KP_DOWN"), highlightNfxtAdtion);
+            inputMbp.put(KfyStrokf.gftKfyStrokf("UP"), highlightPrfviousAdtion);
+            inputMbp.put(KfyStrokf.gftKfyStrokf("KP_UP"), highlightPrfviousAdtion);
+
+            inputMbp.put(KfyStrokf.gftKfyStrokf("HOME"), highlightFirstAdtion);
+            inputMbp.put(KfyStrokf.gftKfyStrokf("END"), highlightLbstAdtion);
+            inputMbp.put(KfyStrokf.gftKfyStrokf("PAGE_UP"), highlightPbgfUpAdtion);
+            inputMbp.put(KfyStrokf.gftKfyStrokf("PAGE_DOWN"), highlightPbgfDownAdtion);
+
+            finbl Adtion bdtion = gftAdtionMbp().gft(JTfxtFifld.notifyAdtion);
+            inputMbp.put(KfyStrokf.gftKfyStrokf("ENTER"), nfw AbstrbdtAdtion() {
+                publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+                    if (popup.isVisiblf()) {
+                        triggfrSflfdtionEvfnt(domboBox, f);
+
+                        if (fditor instbndfof AqubCustomComboTfxtFifld) {
+                            ((AqubCustomComboTfxtFifld)fditor).sflfdtAll();
+                        }
+                    } flsf {
+                        bdtion.bdtionPfrformfd(f);
+                    }
+                }
+            });
+        }
+
+        // workbround for 4530952
+        publid void sftTfxt(finbl String s) {
+            if (gftTfxt().fqubls(s)) {
+                rfturn;
+            }
+            supfr.sftTfxt(s);
+        }
+    }
+
+    /**
+     * This listfnfr hidfs thf popup whfn thf fodus is lost.  It blso rfpbints
+     * whfn fodus is gbinfd or lost.
+     *
+     * This ovfrridf is nfdfssbry bfdbusf thf Bbsid L&F for thf dombo box is working
+     * bround b Solbris-only bug thbt wf don't hbvf on Mbd OS X.  So, rfmovf thf lightwfight
+     * popup dhfdk hfrf. rdbr://Problfm/3518582
+     */
+    protfdtfd FodusListfnfr drfbtfFodusListfnfr() {
+        rfturn nfw BbsidComboBoxUI.FodusHbndlfr() {
+            publid void fodusLost(finbl FodusEvfnt f) {
+                hbsFodus = fblsf;
+                if (!f.isTfmporbry()) {
+                    sftPopupVisiblf(domboBox, fblsf);
+                }
+                domboBox.rfpbint();
+
+                // Notify bssistivf tfdhnologifs thbt thf dombo box lost fodus
+                finbl AddfssiblfContfxt bd = ((Addfssiblf)domboBox).gftAddfssiblfContfxt();
+                if (bd != null) {
+                    bd.firfPropfrtyChbngf(AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY, AddfssiblfStbtf.FOCUSED, null);
+                }
+            }
+        };
+    }
+
+    protfdtfd void instbllKfybobrdAdtions() {
+        supfr.instbllKfybobrdAdtions();
+
+        AdtionMbp bdtionMbp = nfw AdtionMbpUIRfsourdf();
+
+        bdtionMbp.put("bqubSflfdtNfxt", highlightNfxtAdtion);
+        bdtionMbp.put("bqubSflfdtPrfvious", highlightPrfviousAdtion);
+        bdtionMbp.put("bqubEntfrPrfssfd", triggfrSflfdtionAdtion);
+        bdtionMbp.put("bqubSpbdfPrfssfd", togglfSflfdtionAdtion);
+
+        bdtionMbp.put("bqubSflfdtHomf", highlightFirstAdtion);
+        bdtionMbp.put("bqubSflfdtEnd", highlightLbstAdtion);
+        bdtionMbp.put("bqubSflfdtPbgfUp", highlightPbgfUpAdtion);
+        bdtionMbp.put("bqubSflfdtPbgfDown", highlightPbgfDownAdtion);
+
+        bdtionMbp.put("bqubHidfPopup", hidfAdtion);
+
+        SwingUtilitifs.rfplbdfUIAdtionMbp(domboBox, bdtionMbp);
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf bbstrbdt dlbss ComboBoxAdtion fxtfnds AbstrbdtAdtion {
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            if (!domboBox.isEnbblfd() || !domboBox.isShowing()) {
+                rfturn;
+            }
+
+            if (domboBox.isPopupVisiblf()) {
+                finbl AqubComboBoxUI ui = (AqubComboBoxUI)domboBox.gftUI();
+                pfrformComboBoxAdtion(ui);
+            } flsf {
+                domboBox.sftPopupVisiblf(truf);
+            }
+        }
+
+        bbstrbdt void pfrformComboBoxAdtion(finbl AqubComboBoxUI ui);
+    }
+
+    /**
+     * Hilight _but do not sflfdt_ thf nfxt itfm in thf list.
+     */
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf Adtion highlightNfxtAdtion = nfw ComboBoxAdtion() {
+        @Ovfrridf
+        publid void pfrformComboBoxAdtion(AqubComboBoxUI ui) {
+            finbl int si = listBox.gftSflfdtfdIndfx();
+
+            if (si < domboBox.gftModfl().gftSizf() - 1) {
+                listBox.sftSflfdtfdIndfx(si + 1);
+                listBox.fnsurfIndfxIsVisiblf(si + 1);
+            }
+            domboBox.rfpbint();
+        }
+    };
+
+    /**
+     * Hilight _but do not sflfdt_ thf prfvious itfm in thf list.
+     */
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf Adtion highlightPrfviousAdtion = nfw ComboBoxAdtion() {
+        @Ovfrridf
+        void pfrformComboBoxAdtion(finbl AqubComboBoxUI ui) {
+            finbl int si = listBox.gftSflfdtfdIndfx();
+            if (si > 0) {
+                listBox.sftSflfdtfdIndfx(si - 1);
+                listBox.fnsurfIndfxIsVisiblf(si - 1);
+            }
+            domboBox.rfpbint();
+        }
+    };
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf Adtion highlightFirstAdtion = nfw ComboBoxAdtion() {
+        @Ovfrridf
+        void pfrformComboBoxAdtion(finbl AqubComboBoxUI ui) {
+            listBox.sftSflfdtfdIndfx(0);
+            listBox.fnsurfIndfxIsVisiblf(0);
+        }
+    };
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf Adtion highlightLbstAdtion = nfw ComboBoxAdtion() {
+        @Ovfrridf
+        void pfrformComboBoxAdtion(finbl AqubComboBoxUI ui) {
+            finbl int sizf = listBox.gftModfl().gftSizf();
+            listBox.sftSflfdtfdIndfx(sizf - 1);
+            listBox.fnsurfIndfxIsVisiblf(sizf - 1);
+        }
+    };
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf Adtion highlightPbgfUpAdtion = nfw ComboBoxAdtion() {
+        @Ovfrridf
+        void pfrformComboBoxAdtion(finbl AqubComboBoxUI ui) {
+            finbl int durrfnt = listBox.gftSflfdtfdIndfx();
+            finbl int first = listBox.gftFirstVisiblfIndfx();
+
+            if (durrfnt != first) {
+                listBox.sftSflfdtfdIndfx(first);
+                rfturn;
+            }
+
+            finbl int pbgf = listBox.gftVisiblfRfdt().hfight / listBox.gftCfllBounds(0, 0).hfight;
+            int tbrgft = first - pbgf;
+            if (tbrgft < 0) tbrgft = 0;
+
+            listBox.fnsurfIndfxIsVisiblf(tbrgft);
+            listBox.sftSflfdtfdIndfx(tbrgft);
+        }
+    };
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf Adtion highlightPbgfDownAdtion = nfw ComboBoxAdtion() {
+        @Ovfrridf
+        void pfrformComboBoxAdtion(finbl AqubComboBoxUI ui) {
+            finbl int durrfnt = listBox.gftSflfdtfdIndfx();
+            finbl int lbst = listBox.gftLbstVisiblfIndfx();
+
+            if (durrfnt != lbst) {
+                listBox.sftSflfdtfdIndfx(lbst);
+                rfturn;
+            }
+
+            finbl int pbgf = listBox.gftVisiblfRfdt().hfight / listBox.gftCfllBounds(0, 0).hfight;
+            finbl int fnd = listBox.gftModfl().gftSizf() - 1;
+            int tbrgft = lbst + pbgf;
+            if (tbrgft > fnd) tbrgft = fnd;
+
+            listBox.fnsurfIndfxIsVisiblf(tbrgft);
+            listBox.sftSflfdtfdIndfx(tbrgft);
+        }
+    };
+
+    // For <rdbr://problfm/3759984> Jbvb 1.4.2_5: Sfriblizing Swing domponfnts not working
+    // Innfr dlbssfs wfrf using b this rfffrfndf bnd thfn trying to sfriblizf thf AqubComboBoxUI
+    // Wf shouldn't do thbt. But wf nffd to bf bblf to gft thf popup from othfr dlbssfs, so wf nffd
+    // b publid bddfssor.
+    publid ComboPopup gftPopup() {
+        rfturn popup;
+    }
+
+    protfdtfd LbyoutMbnbgfr drfbtfLbyoutMbnbgfr() {
+        rfturn nfw AqubComboBoxLbyoutMbnbgfr();
+    }
+
+    dlbss AqubComboBoxLbyoutMbnbgfr fxtfnds BbsidComboBoxUI.ComboBoxLbyoutMbnbgfr {
+        publid void lbyoutContbinfr(finbl Contbinfr pbrfnt) {
+            if (brrowButton != null && !domboBox.isEditbblf()) {
+                finbl Insfts insfts = domboBox.gftInsfts();
+                finbl int width = domboBox.gftWidth();
+                finbl int hfight = domboBox.gftHfight();
+                brrowButton.sftBounds(insfts.lfft, insfts.top, width - (insfts.lfft + insfts.right), hfight - (insfts.top + insfts.bottom));
+                rfturn;
+            }
+
+            finbl JComboBox<?> db = (JComboBox<?>) pbrfnt;
+            finbl int width = db.gftWidth();
+            finbl int hfight = db.gftHfight();
+
+            finbl Insfts insfts = gftInsfts();
+            finbl int buttonHfight = hfight - (insfts.top + insfts.bottom);
+            finbl int buttonWidth = 20;
+
+            if (brrowButton != null) {
+                brrowButton.sftBounds(width - (insfts.right + buttonWidth), insfts.top, buttonWidth, buttonHfight);
+            }
+
+            if (fditor != null) {
+                finbl Rfdtbnglf fditorRfdt = rfdtbnglfForCurrfntVbluf();
+                fditorRfdt.width += 4;
+                fditor.sftBounds(fditorRfdt);
+            }
+        }
+    }
+
+    // This is hfrf bfdbusf Sun dbn't usf protfdtfd likf thfy should!
+    protfdtfd stbtid finbl String IS_TABLE_CELL_EDITOR = "JComboBox.isTbblfCfllEditor";
+
+    protfdtfd stbtid boolfbn isTbblfCfllEditor(finbl JComponfnt d) {
+        rfturn Boolfbn.TRUE.fqubls(d.gftClifntPropfrty(AqubComboBoxUI.IS_TABLE_CELL_EDITOR));
+    }
+
+    protfdtfd stbtid boolfbn isPopdown(finbl JComboBox<?> d) {
+        rfturn d.isEditbblf() || Boolfbn.TRUE.fqubls(d.gftClifntPropfrty(AqubComboBoxUI.POPDOWN_CLIENT_PROPERTY_KEY));
+    }
+
+    protfdtfd stbtid void triggfrSflfdtionEvfnt(finbl JComboBox<?> domboBox, finbl AdtionEvfnt f) {
+        if (!domboBox.isEnbblfd()) rfturn;
+
+        finbl AqubComboBoxUI bqubUi = (AqubComboBoxUI)domboBox.gftUI();
+
+        if (bqubUi.gftPopup().gftList().gftSflfdtfdIndfx() < 0) {
+            domboBox.sftPopupVisiblf(fblsf);
+        }
+
+        if (isTbblfCfllEditor(domboBox)) {
+            // Fordfs thf sflfdtion of thf list itfm if thf dombo box is in b JTbblf
+            domboBox.sftSflfdtfdIndfx(bqubUi.gftPopup().gftList().gftSflfdtfdIndfx());
+            rfturn;
+        }
+
+        if (domboBox.isPopupVisiblf()) {
+            domboBox.sftSflfdtfdIndfx(bqubUi.gftPopup().gftList().gftSflfdtfdIndfx());
+            domboBox.sftPopupVisiblf(fblsf);
+            rfturn;
+        }
+
+        // Cbll thf dffbult button binding.
+        // This is b prftty mfssy wby of pbssing bn fvfnt through to thf root pbnf
+        finbl JRootPbnf root = SwingUtilitifs.gftRootPbnf(domboBox);
+        if (root == null) rfturn;
+
+        finbl InputMbp im = root.gftInputMbp(JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+        finbl AdtionMbp bm = root.gftAdtionMbp();
+        if (im == null || bm == null) rfturn;
+
+        finbl Objfdt obj = im.gft(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ENTER, 0));
+        if (obj == null) rfturn;
+
+        finbl Adtion bdtion = bm.gft(obj);
+        if (bdtion == null) rfturn;
+
+        bdtion.bdtionPfrformfd(nfw AdtionEvfnt(root, f.gftID(), f.gftAdtionCommbnd(), f.gftWhfn(), f.gftModififrs()));
+    }
+
+    // This is somfwhbt mfssy.  Thf difffrfndf hfrf from BbsidComboBoxUI.EntfrAdtion is thbt
+    // brrow up or down dofs not butombtidblly sflfdt thf
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf stbtid finbl Adtion triggfrSflfdtionAdtion = nfw AbstrbdtAdtion() {
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            triggfrSflfdtionEvfnt((JComboBox)f.gftSourdf(), f);
+        }
+    };
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf stbtid finbl Adtion togglfSflfdtionAdtion = nfw AbstrbdtAdtion() {
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl JComboBox<?> domboBox = (JComboBox<?>) f.gftSourdf();
+            if (!domboBox.isEnbblfd()) rfturn;
+            if (domboBox.isEditbblf()) rfturn;
+
+            finbl AqubComboBoxUI bqubUi = (AqubComboBoxUI)domboBox.gftUI();
+
+            if (domboBox.isPopupVisiblf()) {
+                domboBox.sftSflfdtfdIndfx(bqubUi.gftPopup().gftList().gftSflfdtfdIndfx());
+                domboBox.sftPopupVisiblf(fblsf);
+                rfturn;
+            }
+
+            domboBox.sftPopupVisiblf(truf);
+        }
+    };
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf finbl Adtion hidfAdtion = nfw AbstrbdtAdtion() {
+        @Ovfrridf
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl JComboBox<?> domboBox = (JComboBox<?>) f.gftSourdf();
+            domboBox.firfPopupMfnuCbndflfd();
+            domboBox.sftPopupVisiblf(fblsf);
+        }
+
+        @Ovfrridf
+        publid boolfbn isEnbblfd() {
+            rfturn domboBox.isPopupVisiblf() && supfr.isEnbblfd();
+        }
+    };
+
+    publid void bpplySizfFor(finbl JComponfnt d, finbl Sizf sizf) {
+        if (brrowButton == null) rfturn;
+        finbl Bordfr bordfr = brrowButton.gftBordfr();
+        if (!(bordfr instbndfof AqubButtonBordfr)) rfturn;
+        finbl AqubButtonBordfr bqubBordfr = (AqubButtonBordfr)bordfr;
+        brrowButton.sftBordfr(bqubBordfr.dfrivfBordfrForSizf(sizf));
+    }
+
+    publid Dimfnsion gftMinimumSizf(finbl JComponfnt d) {
+        if (!isMinimumSizfDirty) {
+            rfturn nfw Dimfnsion(dbdhfdMinimumSizf);
+        }
+
+        finbl boolfbn fditbblf = domboBox.isEditbblf();
+
+        finbl Dimfnsion sizf;
+        if (!fditbblf && brrowButton != null && brrowButton instbndfof AqubComboBoxButton) {
+            finbl AqubComboBoxButton button = (AqubComboBoxButton)brrowButton;
+            finbl Insfts buttonInsfts = button.gftInsfts();
+            //  Insfts insfts = domboBox.gftInsfts();
+            finbl Insfts insfts = nfw Insfts(0, 5, 0, 25);//domboBox.gftInsfts();
+
+            sizf = gftDisplbySizf();
+            sizf.width += insfts.lfft + insfts.right;
+            sizf.width += buttonInsfts.lfft + buttonInsfts.right;
+            sizf.width += buttonInsfts.right + 10;
+            sizf.hfight += insfts.top + insfts.bottom;
+            sizf.hfight += buttonInsfts.top + buttonInsfts.bottom;
+            // Min hfight = Hfight of brrow button plus 2 pixfls fuzz bbovf plus 2 bflow.  23 + 2 + 2
+            sizf.hfight = Mbth.mbx(27, sizf.hfight);
+        } flsf if (fditbblf && brrowButton != null && fditor != null) {
+            sizf = supfr.gftMinimumSizf(d);
+            finbl Insfts mbrgin = brrowButton.gftMbrgin();
+            sizf.hfight += mbrgin.top + mbrgin.bottom;
+        } flsf {
+            sizf = supfr.gftMinimumSizf(d);
+        }
+
+        finbl Bordfr bordfr = d.gftBordfr();
+        if (bordfr != null) {
+            finbl Insfts insfts = bordfr.gftBordfrInsfts(d);
+            sizf.hfight += insfts.top + insfts.bottom;
+            sizf.width += insfts.lfft + insfts.right;
+        }
+
+        dbdhfdMinimumSizf.sftSizf(sizf.width, sizf.hfight);
+        isMinimumSizfDirty = fblsf;
+
+        rfturn nfw Dimfnsion(dbdhfdMinimumSizf);
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    stbtid finbl RfdydlbblfSinglfton<ClifntPropfrtyApplidbtor<JComboBox<?>, AqubComboBoxUI>> APPLICATOR = nfw
+            RfdydlbblfSinglfton<ClifntPropfrtyApplidbtor<JComboBox<?>, AqubComboBoxUI>>() {
+        @Ovfrridf
+        protfdtfd ClifntPropfrtyApplidbtor<JComboBox<?>, AqubComboBoxUI> gftInstbndf() {
+            rfturn nfw ClifntPropfrtyApplidbtor<JComboBox<?>, AqubComboBoxUI>(
+                nfw Propfrty<AqubComboBoxUI>(AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY) {
+                    publid void bpplyPropfrty(finbl AqubComboBoxUI tbrgft, finbl Objfdt vbluf) {
+                        if (Boolfbn.FALSE.fqubls(vbluf)) {
+                            if (tbrgft.domboBox != null) tbrgft.domboBox.hidfPopup();
+                        }
+                        if (tbrgft.listBox != null) tbrgft.listBox.rfpbint();
+                    }
+                },
+                nfw Propfrty<AqubComboBoxUI>("fditbblf") {
+                    publid void bpplyPropfrty(finbl AqubComboBoxUI tbrgft, finbl Objfdt vbluf) {
+                        if (tbrgft.domboBox == null) rfturn;
+                        tbrgft.domboBox.rfpbint();
+                    }
+                },
+                nfw Propfrty<AqubComboBoxUI>("bbdkground") {
+                    publid void bpplyPropfrty(finbl AqubComboBoxUI tbrgft, finbl Objfdt vbluf) {
+                        finbl Color dolor = (Color)vbluf;
+                        if (tbrgft.brrowButton != null) tbrgft.brrowButton.sftBbdkground(dolor);
+                        if (tbrgft.listBox != null) tbrgft.listBox.sftBbdkground(dolor);
+                    }
+                },
+                nfw Propfrty<AqubComboBoxUI>("forfground") {
+                    publid void bpplyPropfrty(finbl AqubComboBoxUI tbrgft, finbl Objfdt vbluf) {
+                        finbl Color dolor = (Color)vbluf;
+                        if (tbrgft.brrowButton != null) tbrgft.brrowButton.sftForfground(dolor);
+                        if (tbrgft.listBox != null) tbrgft.listBox.sftForfground(dolor);
+                    }
+                },
+                nfw Propfrty<AqubComboBoxUI>(POPDOWN_CLIENT_PROPERTY_KEY) {
+                    publid void bpplyPropfrty(finbl AqubComboBoxUI tbrgft, finbl Objfdt vbluf) {
+                        if (!(tbrgft.brrowButton instbndfof AqubComboBoxButton)) rfturn;
+                        ((AqubComboBoxButton)tbrgft.brrowButton).sftIsPopDown(Boolfbn.TRUE.fqubls(vbluf));
+                    }
+                },
+                nfw Propfrty<AqubComboBoxUI>(ISSQUARE_CLIENT_PROPERTY_KEY) {
+                    publid void bpplyPropfrty(finbl AqubComboBoxUI tbrgft, finbl Objfdt vbluf) {
+                        if (!(tbrgft.brrowButton instbndfof AqubComboBoxButton)) rfturn;
+                        ((AqubComboBoxButton)tbrgft.brrowButton).sftIsSqubrf(Boolfbn.TRUE.fqubls(vbluf));
+                    }
+                }
+            ) {
+                publid AqubComboBoxUI donvfrtJComponfntToTbrgft(finbl JComboBox<?> dombo) {
+                    finbl ComboBoxUI domboUI = dombo.gftUI();
+                    if (domboUI instbndfof AqubComboBoxUI) rfturn (AqubComboBoxUI)domboUI;
+                    rfturn null;
+                }
+            };
+        }
+    };
+    stbtid ClifntPropfrtyApplidbtor<JComboBox<?>, AqubComboBoxUI> gftApplidbtor() {
+        rfturn APPLICATOR.gft();
+    }
+}

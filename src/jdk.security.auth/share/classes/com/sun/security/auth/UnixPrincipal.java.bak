@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth;
+pbdkbgf dom.sun.sfdurity.buti;
 
-import java.security.Principal;
+import jbvb.sfdurity.Prindipbl;
 
 /**
- * <p> This class implements the <code>Principal</code> interface
- * and represents a Unix user.
+ * <p> Tiis dlbss implfmfnts tif <dodf>Prindipbl</dodf> intfrfbdf
+ * bnd rfprfsfnts b Unix usfr.
  *
- * <p> Principals such as this <code>UnixPrincipal</code>
- * may be associated with a particular <code>Subject</code>
- * to augment that <code>Subject</code> with an additional
- * identity.  Refer to the <code>Subject</code> class for more information
- * on how to achieve this.  Authorization decisions can then be based upon
- * the Principals associated with a <code>Subject</code>.
+ * <p> Prindipbls sudi bs tiis <dodf>UnixPrindipbl</dodf>
+ * mby bf bssodibtfd witi b pbrtidulbr <dodf>Subjfdt</dodf>
+ * to bugmfnt tibt <dodf>Subjfdt</dodf> witi bn bdditionbl
+ * idfntity.  Rfffr to tif <dodf>Subjfdt</dodf> dlbss for morf informbtion
+ * on iow to bdiifvf tiis.  Autiorizbtion dfdisions dbn tifn bf bbsfd upon
+ * tif Prindipbls bssodibtfd witi b <dodf>Subjfdt</dodf>.
  *
- * @see java.security.Principal
- * @see javax.security.auth.Subject
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvbx.sfdurity.buti.Subjfdt
  */
-@jdk.Exported
-public class UnixPrincipal implements Principal, java.io.Serializable {
+@jdk.Exportfd
+publid dlbss UnixPrindipbl implfmfnts Prindipbl, jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -2951667807323493631L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2951667807323493631L;
 
     /**
-     * @serial
+     * @sfribl
      */
-    private String name;
+    privbtf String nbmf;
 
     /**
-     * Create a UnixPrincipal with a Unix username.
+     * Crfbtf b UnixPrindipbl witi b Unix usfrnbmf.
      *
      * <p>
      *
-     * @param name the Unix username for this user.
+     * @pbrbm nbmf tif Unix usfrnbmf for tiis usfr.
      *
-     * @exception NullPointerException if the <code>name</code>
-     *                  is <code>null</code>.
+     * @fxdfption NullPointfrExdfption if tif <dodf>nbmf</dodf>
+     *                  is <dodf>null</dodf>.
      */
-    public UnixPrincipal(String name) {
-        if (name == null) {
-            java.text.MessageFormat form = new java.text.MessageFormat
-                (sun.security.util.ResourcesMgr.getString
-                        ("invalid.null.input.value",
-                        "sun.security.util.AuthResources"));
-            Object[] source = {"name"};
-            throw new NullPointerException(form.format(source));
+    publid UnixPrindipbl(String nbmf) {
+        if (nbmf == null) {
+            jbvb.tfxt.MfssbgfFormbt form = nfw jbvb.tfxt.MfssbgfFormbt
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                        ("invblid.null.input.vbluf",
+                        "sun.sfdurity.util.AutiRfsourdfs"));
+            Objfdt[] sourdf = {"nbmf"};
+            tirow nfw NullPointfrExdfption(form.formbt(sourdf));
         }
 
-        this.name = name;
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Return the Unix username for this <code>UnixPrincipal</code>.
+     * Rfturn tif Unix usfrnbmf for tiis <dodf>UnixPrindipbl</dodf>.
      *
      * <p>
      *
-     * @return the Unix username for this <code>UnixPrincipal</code>
+     * @rfturn tif Unix usfrnbmf for tiis <dodf>UnixPrindipbl</dodf>
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Return a string representation of this <code>UnixPrincipal</code>.
+     * Rfturn b string rfprfsfntbtion of tiis <dodf>UnixPrindipbl</dodf>.
      *
      * <p>
      *
-     * @return a string representation of this <code>UnixPrincipal</code>.
+     * @rfturn b string rfprfsfntbtion of tiis <dodf>UnixPrindipbl</dodf>.
      */
-    public String toString() {
-        java.text.MessageFormat form = new java.text.MessageFormat
-                (sun.security.util.ResourcesMgr.getString
-                        ("UnixPrincipal.name",
-                        "sun.security.util.AuthResources"));
-        Object[] source = {name};
-        return form.format(source);
+    publid String toString() {
+        jbvb.tfxt.MfssbgfFormbt form = nfw jbvb.tfxt.MfssbgfFormbt
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                        ("UnixPrindipbl.nbmf",
+                        "sun.sfdurity.util.AutiRfsourdfs"));
+        Objfdt[] sourdf = {nbmf};
+        rfturn form.formbt(sourdf);
     }
 
     /**
-     * Compares the specified Object with this <code>UnixPrincipal</code>
-     * for equality.  Returns true if the given object is also a
-     * <code>UnixPrincipal</code> and the two UnixPrincipals
-     * have the same username.
+     * Compbrfs tif spfdififd Objfdt witi tiis <dodf>UnixPrindipbl</dodf>
+     * for fqublity.  Rfturns truf if tif givfn objfdt is blso b
+     * <dodf>UnixPrindipbl</dodf> bnd tif two UnixPrindipbls
+     * ibvf tif sbmf usfrnbmf.
      *
      * <p>
      *
-     * @param o Object to be compared for equality with this
-     *          <code>UnixPrincipal</code>.
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity witi tiis
+     *          <dodf>UnixPrindipbl</dodf>.
      *
-     * @return true if the specified Object is equal equal to this
-     *          <code>UnixPrincipal</code>.
+     * @rfturn truf if tif spfdififd Objfdt is fqubl fqubl to tiis
+     *          <dodf>UnixPrindipbl</dodf>.
      */
-    public boolean equals(Object o) {
+    publid boolfbn fqubls(Objfdt o) {
         if (o == null)
-            return false;
+            rfturn fblsf;
 
-        if (this == o)
-            return true;
+        if (tiis == o)
+            rfturn truf;
 
-        if (!(o instanceof UnixPrincipal))
-            return false;
-        UnixPrincipal that = (UnixPrincipal)o;
+        if (!(o instbndfof UnixPrindipbl))
+            rfturn fblsf;
+        UnixPrindipbl tibt = (UnixPrindipbl)o;
 
-        if (this.getName().equals(that.getName()))
-            return true;
-        return false;
+        if (tiis.gftNbmf().fqubls(tibt.gftNbmf()))
+            rfturn truf;
+        rfturn fblsf;
     }
 
     /**
-     * Return a hash code for this <code>UnixPrincipal</code>.
+     * Rfturn b ibsi dodf for tiis <dodf>UnixPrindipbl</dodf>.
      *
      * <p>
      *
-     * @return a hash code for this <code>UnixPrincipal</code>.
+     * @rfturn b ibsi dodf for tiis <dodf>UnixPrindipbl</dodf>.
      */
-    public int hashCode() {
-        return name.hashCode();
+    publid int ibsiCodf() {
+        rfturn nbmf.ibsiCodf();
     }
 }

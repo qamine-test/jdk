@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
 /**
- * This class represents a proxy setting, typically a type (http, socks) and
- * a socket address.
- * A {@code Proxy} is an immutable object.
+ * Tiis dlbss rfprfsfnts b proxy sftting, typidblly b typf (ittp, sodks) bnd
+ * b sodkft bddrfss.
+ * A {@dodf Proxy} is bn immutbblf objfdt.
  *
- * @see     java.net.ProxySelector
- * @author Yingxian Wang
- * @author Jean-Christophe Collet
- * @since   1.5
+ * @sff     jbvb.nft.ProxySflfdtor
+ * @butior Yingxibn Wbng
+ * @butior Jfbn-Ciristopif Collft
+ * @sindf   1.5
  */
-public class Proxy {
+publid dlbss Proxy {
 
     /**
-     * Represents the proxy type.
+     * Rfprfsfnts tif proxy typf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public enum Type {
+    publid fnum Typf {
         /**
-         * Represents a direct connection, or the absence of a proxy.
+         * Rfprfsfnts b dirfdt donnfdtion, or tif bbsfndf of b proxy.
          */
         DIRECT,
         /**
-         * Represents proxy for high level protocols such as HTTP or FTP.
+         * Rfprfsfnts proxy for iigi lfvfl protodols sudi bs HTTP or FTP.
          */
         HTTP,
         /**
-         * Represents a SOCKS (V4 or V5) proxy.
+         * Rfprfsfnts b SOCKS (V4 or V5) proxy.
          */
         SOCKS
     };
 
-    private Type type;
-    private SocketAddress sa;
+    privbtf Typf typf;
+    privbtf SodkftAddrfss sb;
 
     /**
-     * A proxy setting that represents a {@code DIRECT} connection,
-     * basically telling the protocol handler not to use any proxying.
-     * Used, for instance, to create sockets bypassing any other global
-     * proxy settings (like SOCKS):
+     * A proxy sftting tibt rfprfsfnts b {@dodf DIRECT} donnfdtion,
+     * bbsidblly tflling tif protodol ibndlfr not to usf bny proxying.
+     * Usfd, for instbndf, to drfbtf sodkfts bypbssing bny otifr globbl
+     * proxy sfttings (likf SOCKS):
      * <P>
-     * {@code Socket s = new Socket(Proxy.NO_PROXY);}
+     * {@dodf Sodkft s = nfw Sodkft(Proxy.NO_PROXY);}
      *
      */
-    public final static Proxy NO_PROXY = new Proxy();
+    publid finbl stbtid Proxy NO_PROXY = nfw Proxy();
 
-    // Creates the proxy that represents a {@code DIRECT} connection.
-    private Proxy() {
-        type = Type.DIRECT;
-        sa = null;
+    // Crfbtfs tif proxy tibt rfprfsfnts b {@dodf DIRECT} donnfdtion.
+    privbtf Proxy() {
+        typf = Typf.DIRECT;
+        sb = null;
     }
 
     /**
-     * Creates an entry representing a PROXY connection.
-     * Certain combinations are illegal. For instance, for types Http, and
-     * Socks, a SocketAddress <b>must</b> be provided.
+     * Crfbtfs bn fntry rfprfsfnting b PROXY donnfdtion.
+     * Cfrtbin dombinbtions brf illfgbl. For instbndf, for typfs Http, bnd
+     * Sodks, b SodkftAddrfss <b>must</b> bf providfd.
      * <P>
-     * Use the {@code Proxy.NO_PROXY} constant
-     * for representing a direct connection.
+     * Usf tif {@dodf Proxy.NO_PROXY} donstbnt
+     * for rfprfsfnting b dirfdt donnfdtion.
      *
-     * @param type the {@code Type} of the proxy
-     * @param sa the {@code SocketAddress} for that proxy
-     * @throws IllegalArgumentException when the type and the address are
-     * incompatible
+     * @pbrbm typf tif {@dodf Typf} of tif proxy
+     * @pbrbm sb tif {@dodf SodkftAddrfss} for tibt proxy
+     * @tirows IllfgblArgumfntExdfption wifn tif typf bnd tif bddrfss brf
+     * indompbtiblf
      */
-    public Proxy(Type type, SocketAddress sa) {
-        if ((type == Type.DIRECT) || !(sa instanceof InetSocketAddress))
-            throw new IllegalArgumentException("type " + type + " is not compatible with address " + sa);
-        this.type = type;
-        this.sa = sa;
+    publid Proxy(Typf typf, SodkftAddrfss sb) {
+        if ((typf == Typf.DIRECT) || !(sb instbndfof InftSodkftAddrfss))
+            tirow nfw IllfgblArgumfntExdfption("typf " + typf + " is not dompbtiblf witi bddrfss " + sb);
+        tiis.typf = typf;
+        tiis.sb = sb;
     }
 
     /**
-     * Returns the proxy type.
+     * Rfturns tif proxy typf.
      *
-     * @return a Type representing the proxy type
+     * @rfturn b Typf rfprfsfnting tif proxy typf
      */
-    public Type type() {
-        return type;
+    publid Typf typf() {
+        rfturn typf;
     }
 
     /**
-     * Returns the socket address of the proxy, or
-     * {@code null} if its a direct connection.
+     * Rfturns tif sodkft bddrfss of tif proxy, or
+     * {@dodf null} if its b dirfdt donnfdtion.
      *
-     * @return a {@code SocketAddress} representing the socket end
-     *         point of the proxy
+     * @rfturn b {@dodf SodkftAddrfss} rfprfsfnting tif sodkft fnd
+     *         point of tif proxy
      */
-    public SocketAddress address() {
-        return sa;
+    publid SodkftAddrfss bddrfss() {
+        rfturn sb;
     }
 
     /**
-     * Constructs a string representation of this Proxy.
-     * This String is constructed by calling toString() on its type
-     * and concatenating " @ " and the toString() result from its address
-     * if its type is not {@code DIRECT}.
+     * Construdts b string rfprfsfntbtion of tiis Proxy.
+     * Tiis String is donstrudtfd by dblling toString() on its typf
+     * bnd dondbtfnbting " @ " bnd tif toString() rfsult from its bddrfss
+     * if its typf is not {@dodf DIRECT}.
      *
-     * @return  a string representation of this object.
+     * @rfturn  b string rfprfsfntbtion of tiis objfdt.
      */
-    public String toString() {
-        if (type() == Type.DIRECT)
-            return "DIRECT";
-        return type() + " @ " + address();
+    publid String toString() {
+        if (typf() == Typf.DIRECT)
+            rfturn "DIRECT";
+        rfturn typf() + " @ " + bddrfss();
     }
 
         /**
-     * Compares this object against the specified object.
-     * The result is {@code true} if and only if the argument is
-     * not {@code null} and it represents the same proxy as
-     * this object.
+     * Compbrfs tiis objfdt bgbinst tif spfdififd objfdt.
+     * Tif rfsult is {@dodf truf} if bnd only if tif brgumfnt is
+     * not {@dodf null} bnd it rfprfsfnts tif sbmf proxy bs
+     * tiis objfdt.
      * <p>
-     * Two instances of {@code Proxy} represent the same
-     * address if both the SocketAddresses and type are equal.
+     * Two instbndfs of {@dodf Proxy} rfprfsfnt tif sbmf
+     * bddrfss if boti tif SodkftAddrfssfs bnd typf brf fqubl.
      *
-     * @param   obj   the object to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see java.net.InetSocketAddress#equals(java.lang.Object)
+     * @pbrbm   obj   tif objfdt to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if tif objfdts brf tif sbmf;
+     *          {@dodf fblsf} otifrwisf.
+     * @sff jbvb.nft.InftSodkftAddrfss#fqubls(jbvb.lbng.Objfdt)
      */
-    public final boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Proxy))
-            return false;
+    publid finbl boolfbn fqubls(Objfdt obj) {
+        if (obj == null || !(obj instbndfof Proxy))
+            rfturn fblsf;
         Proxy p = (Proxy) obj;
-        if (p.type() == type()) {
-            if (address() == null) {
-                return (p.address() == null);
-            } else
-                return address().equals(p.address());
+        if (p.typf() == typf()) {
+            if (bddrfss() == null) {
+                rfturn (p.bddrfss() == null);
+            } flsf
+                rfturn bddrfss().fqubls(p.bddrfss());
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hashcode for this Proxy.
+     * Rfturns b ibsidodf for tiis Proxy.
      *
-     * @return  a hash code value for this Proxy.
+     * @rfturn  b ibsi dodf vbluf for tiis Proxy.
      */
-    public final int hashCode() {
-        if (address() == null)
-            return type().hashCode();
-        return type().hashCode() + address().hashCode();
+    publid finbl int ibsiCodf() {
+        if (bddrfss() == null)
+            rfturn typf().ibsiCodf();
+        rfturn typf().ibsiCodf() + bddrfss().ibsiCodf();
     }
 }

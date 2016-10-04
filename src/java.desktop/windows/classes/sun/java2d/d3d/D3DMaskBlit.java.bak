@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.d3d;
+pbdkbgf sun.jbvb2d.d3d;
 
-import java.awt.Composite;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.loops.GraphicsPrimitiveMgr;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.pipe.Region;
-import sun.java2d.pipe.BufferedMaskBlit;
-import static sun.java2d.loops.CompositeType.*;
-import static sun.java2d.loops.SurfaceType.*;
+import jbvb.bwt.Compositf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.GrbpiidsPrimitivf;
+import sun.jbvb2d.loops.GrbpiidsPrimitivfMgr;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.pipf.Rfgion;
+import sun.jbvb2d.pipf.BufffrfdMbskBlit;
+import stbtid sun.jbvb2d.loops.CompositfTypf.*;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.*;
 
-class D3DMaskBlit extends BufferedMaskBlit {
+dlbss D3DMbskBlit fxtfnds BufffrfdMbskBlit {
 
-    static void register() {
-        GraphicsPrimitive[] primitives = {
-            new D3DMaskBlit(IntArgb,    SrcOver),
-            new D3DMaskBlit(IntArgbPre, SrcOver),
-            new D3DMaskBlit(IntRgb,     SrcOver),
-            new D3DMaskBlit(IntRgb,     SrcNoEa),
-            new D3DMaskBlit(IntBgr,     SrcOver),
-            new D3DMaskBlit(IntBgr,     SrcNoEa),
+    stbtid void rfgistfr() {
+        GrbpiidsPrimitivf[] primitivfs = {
+            nfw D3DMbskBlit(IntArgb,    SrdOvfr),
+            nfw D3DMbskBlit(IntArgbPrf, SrdOvfr),
+            nfw D3DMbskBlit(IntRgb,     SrdOvfr),
+            nfw D3DMbskBlit(IntRgb,     SrdNoEb),
+            nfw D3DMbskBlit(IntBgr,     SrdOvfr),
+            nfw D3DMbskBlit(IntBgr,     SrdNoEb),
         };
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbpiidsPrimitivfMgr.rfgistfr(primitivfs);
     }
 
-    private D3DMaskBlit(SurfaceType srcType,
-                        CompositeType compType)
+    privbtf D3DMbskBlit(SurfbdfTypf srdTypf,
+                        CompositfTypf dompTypf)
     {
-        super(D3DRenderQueue.getInstance(),
-              srcType, compType, D3DSurfaceData.D3DSurface);
+        supfr(D3DRfndfrQufuf.gftInstbndf(),
+              srdTypf, dompTypf, D3DSurfbdfDbtb.D3DSurfbdf);
     }
 
-    @Override
-    protected void validateContext(SurfaceData dstData,
-                                   Composite comp, Region clip)
+    @Ovfrridf
+    protfdtfd void vblidbtfContfxt(SurfbdfDbtb dstDbtb,
+                                   Compositf domp, Rfgion dlip)
     {
-        D3DSurfaceData d3dDst = (D3DSurfaceData)dstData;
-        D3DContext.validateContext(d3dDst, d3dDst,
-                                   clip, comp, null, null, null,
-                                   D3DContext.NO_CONTEXT_FLAGS);
+        D3DSurfbdfDbtb d3dDst = (D3DSurfbdfDbtb)dstDbtb;
+        D3DContfxt.vblidbtfContfxt(d3dDst, d3dDst,
+                                   dlip, domp, null, null, null,
+                                   D3DContfxt.NO_CONTEXT_FLAGS);
     }
 }

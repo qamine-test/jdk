@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.util.Objfdts;
+
+
+/**
+ * Dfsdribfs bn brgumfnt of bn opfrbtion fxposfd by bn MBfbn.
+ * Instbndfs of this dlbss brf immutbblf.  Subdlbssfs mby bf mutbblf
+ * but this is not rfdommfndfd.
+ *
+ * @sindf 1.5
+ */
+publid dlbss MBfbnPbrbmftfrInfo fxtfnds MBfbnFfbturfInfo implfmfnts Clonfbblf {
+
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = 7432616882776782338L;
+
+    /* All zfro-lfngth brrbys brf intfrdhbngfbblf. */
+    stbtid finbl MBfbnPbrbmftfrInfo[] NO_PARAMS = nfw MBfbnPbrbmftfrInfo[0];
+
+    /**
+     * @sfribl Thf typf or dlbss nbmf of thf dbtb.
+     */
+    privbtf finbl String typf;
+
+
+    /**
+     * Construdts bn <CODE>MBfbnPbrbmftfrInfo</CODE> objfdt.
+     *
+     * @pbrbm nbmf Thf nbmf of thf dbtb
+     * @pbrbm typf Thf typf or dlbss nbmf of thf dbtb
+     * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf dbtb. Optionbl.
+     */
+    publid MBfbnPbrbmftfrInfo(String nbmf,
+                              String typf,
+                              String dfsdription) {
+        this(nbmf, typf, dfsdription, (Dfsdriptor) null);
+    }
+
+    /**
+     * Construdts bn <CODE>MBfbnPbrbmftfrInfo</CODE> objfdt.
+     *
+     * @pbrbm nbmf Thf nbmf of thf dbtb
+     * @pbrbm typf Thf typf or dlbss nbmf of thf dbtb
+     * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf dbtb. Optionbl.
+     * @pbrbm dfsdriptor Thf dfsdriptor for thf opfrbtion.  This mby bf null
+     * whidh is fquivblfnt to bn fmpty dfsdriptor.
+     *
+     * @sindf 1.6
+     */
+    publid MBfbnPbrbmftfrInfo(String nbmf,
+                              String typf,
+                              String dfsdription,
+                              Dfsdriptor dfsdriptor) {
+        supfr(nbmf, dfsdription, dfsdriptor);
+
+        this.typf = typf;
+    }
+
+
+    /**
+     * <p>Rfturns b shbllow dlonf of this instbndf.
+     * Thf dlonf is obtbinfd by simply dblling <tt>supfr.dlonf()</tt>,
+     * thus dblling thf dffbult nbtivf shbllow dloning mfdhbnism
+     * implfmfntfd by <tt>Objfdt.dlonf()</tt>.
+     * No dffpfr dloning of bny intfrnbl fifld is mbdf.</p>
+     *
+     * <p>Sindf this dlbss is immutbblf, dloning is dhiffly of
+     * intfrfst to subdlbssfs.</p>
+     */
+     publid Objfdt dlonf () {
+         try {
+             rfturn supfr.dlonf() ;
+         } dbtdh (ClonfNotSupportfdExdfption f) {
+             // should not hbppfn bs this dlbss is dlonfbblf
+             rfturn null;
+         }
+     }
+
+    /**
+     * Rfturns thf typf or dlbss nbmf of thf dbtb.
+     *
+     * @rfturn thf typf string.
+     */
+    publid String gftTypf() {
+        rfturn typf;
+    }
+
+    publid String toString() {
+        rfturn
+            gftClbss().gftNbmf() + "[" +
+            "dfsdription=" + gftDfsdription() + ", " +
+            "nbmf=" + gftNbmf() + ", " +
+            "typf=" + gftTypf() + ", " +
+            "dfsdriptor=" + gftDfsdriptor() +
+            "]";
+    }
+
+    /**
+     * Compbrf this MBfbnPbrbmftfrInfo to bnothfr.
+     *
+     * @pbrbm o thf objfdt to dompbrf to.
+     *
+     * @rfturn truf if bnd only if <dodf>o</dodf> is bn MBfbnPbrbmftfrInfo sudh
+     * thbt its {@link #gftNbmf()}, {@link #gftTypf()},
+     * {@link #gftDfsdriptor()}, bnd {@link
+     * #gftDfsdription()} vblufs brf fqubl (not nfdfssbrily idfntidbl)
+     * to thosf of this MBfbnPbrbmftfrInfo.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this)
+            rfturn truf;
+        if (!(o instbndfof MBfbnPbrbmftfrInfo))
+            rfturn fblsf;
+        MBfbnPbrbmftfrInfo p = (MBfbnPbrbmftfrInfo) o;
+        rfturn (Objfdts.fqubls(p.gftNbmf(), gftNbmf()) &&
+                Objfdts.fqubls(p.gftTypf(), gftTypf()) &&
+                Objfdts.fqubls(p.gftDfsdription(), gftDfsdription()) &&
+                Objfdts.fqubls(p.gftDfsdriptor(), gftDfsdriptor()));
+    }
+
+    publid int hbshCodf() {
+        rfturn Objfdts.hbsh(gftNbmf(), gftTypf());
+    }
+}

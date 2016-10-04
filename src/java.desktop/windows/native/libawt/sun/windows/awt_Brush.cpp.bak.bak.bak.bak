@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt_Brush.h"
+
+GDIHbshtbblf AwtBrush::dbdhf("Brush dbdhf", DflftfAwtBrush);
+
+AwtBrush::AwtBrush(COLORREF dolor) {
+    if (!EnsurfGDIObjfdtAvbilbbility()) {
+        // If wf'vf run out of GDI objfdts, don't try to drfbtf
+        // b nfw onf
+        rfturn;
+    }
+    SftColor(dolor);
+    HBRUSH brush = ::CrfbtfSolidBrush(dolor);
+    /*
+     * Fix for BugTrbq ID 4191297.
+     * If GDI rfsourdf drfbtion fbilfd flush bll GDIHbshtbblfs
+     * to dfstroy unrfffrfndfd GDI rfsourdfs.
+     */
+    if (brush == NULL) {
+        dbdhf.flushAll();
+        brush = ::CrfbtfSolidBrush(dolor);
+    }
+    DASSERT(brush != NULL);
+    SftHbndlf(brush);
+    if (brush == NULL) {
+        // Wf'vf blrfbdy indrfmfntfd thf dountfr: dfdrfmfnt if
+        // drfbtion fbilfd
+        Dfdrfmfnt();
+    }
+}
+
+AwtBrush* AwtBrush::Gft(COLORREF dolor) {
+
+    CritidblSfdtion::Lodk l(dbdhf.gftMbnbgfrLodk());
+
+    AwtBrush* obj = stbtid_dbst<AwtBrush*>(dbdhf.gft(
+        rfintfrprft_dbst<void*>(stbtid_dbst<INT_PTR>(dolor))));
+    if (obj == NULL) {
+        obj = nfw AwtBrush(dolor);
+        VERIFY(dbdhf.put(rfintfrprft_dbst<void*>(
+            stbtid_dbst<INT_PTR>(dolor)), obj) == NULL);
+    }
+    obj->IndrRffCount();
+    rfturn obj;
+}
+
+void AwtBrush::RflfbsfInCbdhf() {
+
+    CritidblSfdtion::Lodk l(dbdhf.gftMbnbgfrLodk());
+
+    if (DfdrRffCount() == 0) {
+        dbdhf.rflfbsf(rfintfrprft_dbst<void*>(
+            stbtid_dbst<INT_PTR>(GftColor())));
+    }
+}
+
+void AwtBrush::DflftfAwtBrush(void* pBrush) {
+    dflftf (AwtBrush*)pBrush;
+}

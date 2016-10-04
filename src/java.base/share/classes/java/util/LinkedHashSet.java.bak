@@ -1,195 +1,195 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * <p>Hash table and linked list implementation of the <tt>Set</tt> interface,
- * with predictable iteration order.  This implementation differs from
- * <tt>HashSet</tt> in that it maintains a doubly-linked list running through
- * all of its entries.  This linked list defines the iteration ordering,
- * which is the order in which elements were inserted into the set
- * (<i>insertion-order</i>).  Note that insertion order is <i>not</i> affected
- * if an element is <i>re-inserted</i> into the set.  (An element <tt>e</tt>
- * is reinserted into a set <tt>s</tt> if <tt>s.add(e)</tt> is invoked when
- * <tt>s.contains(e)</tt> would return <tt>true</tt> immediately prior to
- * the invocation.)
+ * <p>Hbsi tbblf bnd linkfd list implfmfntbtion of tif <tt>Sft</tt> intfrfbdf,
+ * witi prfdidtbblf itfrbtion ordfr.  Tiis implfmfntbtion difffrs from
+ * <tt>HbsiSft</tt> in tibt it mbintbins b doubly-linkfd list running tirougi
+ * bll of its fntrifs.  Tiis linkfd list dffinfs tif itfrbtion ordfring,
+ * wiidi is tif ordfr in wiidi flfmfnts wfrf insfrtfd into tif sft
+ * (<i>insfrtion-ordfr</i>).  Notf tibt insfrtion ordfr is <i>not</i> bfffdtfd
+ * if bn flfmfnt is <i>rf-insfrtfd</i> into tif sft.  (An flfmfnt <tt>f</tt>
+ * is rfinsfrtfd into b sft <tt>s</tt> if <tt>s.bdd(f)</tt> is invokfd wifn
+ * <tt>s.dontbins(f)</tt> would rfturn <tt>truf</tt> immfdibtfly prior to
+ * tif invodbtion.)
  *
- * <p>This implementation spares its clients from the unspecified, generally
- * chaotic ordering provided by {@link HashSet}, without incurring the
- * increased cost associated with {@link TreeSet}.  It can be used to
- * produce a copy of a set that has the same order as the original, regardless
- * of the original set's implementation:
- * <pre>
- *     void foo(Set s) {
- *         Set copy = new LinkedHashSet(s);
+ * <p>Tiis implfmfntbtion spbrfs its dlifnts from tif unspfdififd, gfnfrblly
+ * dibotid ordfring providfd by {@link HbsiSft}, witiout indurring tif
+ * indrfbsfd dost bssodibtfd witi {@link TrffSft}.  It dbn bf usfd to
+ * produdf b dopy of b sft tibt ibs tif sbmf ordfr bs tif originbl, rfgbrdlfss
+ * of tif originbl sft's implfmfntbtion:
+ * <prf>
+ *     void foo(Sft s) {
+ *         Sft dopy = nfw LinkfdHbsiSft(s);
  *         ...
  *     }
- * </pre>
- * This technique is particularly useful if a module takes a set on input,
- * copies it, and later returns results whose order is determined by that of
- * the copy.  (Clients generally appreciate having things returned in the same
- * order they were presented.)
+ * </prf>
+ * Tiis tfdiniquf is pbrtidulbrly usfful if b modulf tbkfs b sft on input,
+ * dopifs it, bnd lbtfr rfturns rfsults wiosf ordfr is dftfrminfd by tibt of
+ * tif dopy.  (Clifnts gfnfrblly bpprfdibtf ibving tiings rfturnfd in tif sbmf
+ * ordfr tify wfrf prfsfntfd.)
  *
- * <p>This class provides all of the optional <tt>Set</tt> operations, and
- * permits null elements.  Like <tt>HashSet</tt>, it provides constant-time
- * performance for the basic operations (<tt>add</tt>, <tt>contains</tt> and
- * <tt>remove</tt>), assuming the hash function disperses elements
- * properly among the buckets.  Performance is likely to be just slightly
- * below that of <tt>HashSet</tt>, due to the added expense of maintaining the
- * linked list, with one exception: Iteration over a <tt>LinkedHashSet</tt>
- * requires time proportional to the <i>size</i> of the set, regardless of
- * its capacity.  Iteration over a <tt>HashSet</tt> is likely to be more
- * expensive, requiring time proportional to its <i>capacity</i>.
+ * <p>Tiis dlbss providfs bll of tif optionbl <tt>Sft</tt> opfrbtions, bnd
+ * pfrmits null flfmfnts.  Likf <tt>HbsiSft</tt>, it providfs donstbnt-timf
+ * pfrformbndf for tif bbsid opfrbtions (<tt>bdd</tt>, <tt>dontbins</tt> bnd
+ * <tt>rfmovf</tt>), bssuming tif ibsi fundtion dispfrsfs flfmfnts
+ * propfrly bmong tif budkfts.  Pfrformbndf is likfly to bf just sligitly
+ * bflow tibt of <tt>HbsiSft</tt>, duf to tif bddfd fxpfnsf of mbintbining tif
+ * linkfd list, witi onf fxdfption: Itfrbtion ovfr b <tt>LinkfdHbsiSft</tt>
+ * rfquirfs timf proportionbl to tif <i>sizf</i> of tif sft, rfgbrdlfss of
+ * its dbpbdity.  Itfrbtion ovfr b <tt>HbsiSft</tt> is likfly to bf morf
+ * fxpfnsivf, rfquiring timf proportionbl to its <i>dbpbdity</i>.
  *
- * <p>A linked hash set has two parameters that affect its performance:
- * <i>initial capacity</i> and <i>load factor</i>.  They are defined precisely
- * as for <tt>HashSet</tt>.  Note, however, that the penalty for choosing an
- * excessively high value for initial capacity is less severe for this class
- * than for <tt>HashSet</tt>, as iteration times for this class are unaffected
- * by capacity.
+ * <p>A linkfd ibsi sft ibs two pbrbmftfrs tibt bfffdt its pfrformbndf:
+ * <i>initibl dbpbdity</i> bnd <i>lobd fbdtor</i>.  Tify brf dffinfd prfdisfly
+ * bs for <tt>HbsiSft</tt>.  Notf, iowfvfr, tibt tif pfnblty for dioosing bn
+ * fxdfssivfly iigi vbluf for initibl dbpbdity is lfss sfvfrf for tiis dlbss
+ * tibn for <tt>HbsiSft</tt>, bs itfrbtion timfs for tiis dlbss brf unbfffdtfd
+ * by dbpbdity.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access a linked hash set concurrently, and at least
- * one of the threads modifies the set, it <em>must</em> be synchronized
- * externally.  This is typically accomplished by synchronizing on some
- * object that naturally encapsulates the set.
+ * <p><strong>Notf tibt tiis implfmfntbtion is not syndironizfd.</strong>
+ * If multiplf tirfbds bddfss b linkfd ibsi sft dondurrfntly, bnd bt lfbst
+ * onf of tif tirfbds modififs tif sft, it <fm>must</fm> bf syndironizfd
+ * fxtfrnblly.  Tiis is typidblly bddomplisifd by syndironizing on somf
+ * objfdt tibt nbturblly fndbpsulbtfs tif sft.
  *
- * If no such object exists, the set should be "wrapped" using the
- * {@link Collections#synchronizedSet Collections.synchronizedSet}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access to the set: <pre>
- *   Set s = Collections.synchronizedSet(new LinkedHashSet(...));</pre>
+ * If no sudi objfdt fxists, tif sft siould bf "wrbppfd" using tif
+ * {@link Collfdtions#syndironizfdSft Collfdtions.syndironizfdSft}
+ * mftiod.  Tiis is bfst donf bt drfbtion timf, to prfvfnt bddidfntbl
+ * unsyndironizfd bddfss to tif sft: <prf>
+ *   Sft s = Collfdtions.syndironizfdSft(nfw LinkfdHbsiSft(...));</prf>
  *
- * <p>The iterators returned by this class's <tt>iterator</tt> method are
- * <em>fail-fast</em>: if the set is modified at any time after the iterator
- * is created, in any way except through the iterator's own <tt>remove</tt>
- * method, the iterator will throw a {@link ConcurrentModificationException}.
- * Thus, in the face of concurrent modification, the iterator fails quickly
- * and cleanly, rather than risking arbitrary, non-deterministic behavior at
- * an undetermined time in the future.
+ * <p>Tif itfrbtors rfturnfd by tiis dlbss's <tt>itfrbtor</tt> mftiod brf
+ * <fm>fbil-fbst</fm>: if tif sft is modififd bt bny timf bftfr tif itfrbtor
+ * is drfbtfd, in bny wby fxdfpt tirougi tif itfrbtor's own <tt>rfmovf</tt>
+ * mftiod, tif itfrbtor will tirow b {@link CondurrfntModifidbtionExdfption}.
+ * Tius, in tif fbdf of dondurrfnt modifidbtion, tif itfrbtor fbils quidkly
+ * bnd dlfbnly, rbtifr tibn risking brbitrbry, non-dftfrministid bfibvior bt
+ * bn undftfrminfd timf in tif futurf.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw <tt>ConcurrentModificationException</tt> on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness:   <i>the fail-fast behavior of iterators
- * should be used only to detect bugs.</i>
+ * <p>Notf tibt tif fbil-fbst bfibvior of bn itfrbtor dbnnot bf gubrbntffd
+ * bs it is, gfnfrblly spfbking, impossiblf to mbkf bny ibrd gubrbntffs in tif
+ * prfsfndf of unsyndironizfd dondurrfnt modifidbtion.  Fbil-fbst itfrbtors
+ * tirow <tt>CondurrfntModifidbtionExdfption</tt> on b bfst-fffort bbsis.
+ * Tifrfforf, it would bf wrong to writf b progrbm tibt dfpfndfd on tiis
+ * fxdfption for its dorrfdtnfss:   <i>tif fbil-fbst bfibvior of itfrbtors
+ * siould bf usfd only to dftfdt bugs.</i>
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @param <E> the type of elements maintained by this set
+ * @pbrbm <E> tif typf of flfmfnts mbintbinfd by tiis sft
  *
- * @author  Josh Bloch
- * @see     Object#hashCode()
- * @see     Collection
- * @see     Set
- * @see     HashSet
- * @see     TreeSet
- * @see     Hashtable
- * @since   1.4
+ * @butior  Josi Blodi
+ * @sff     Objfdt#ibsiCodf()
+ * @sff     Collfdtion
+ * @sff     Sft
+ * @sff     HbsiSft
+ * @sff     TrffSft
+ * @sff     Hbsitbblf
+ * @sindf   1.4
  */
 
-public class LinkedHashSet<E>
-    extends HashSet<E>
-    implements Set<E>, Cloneable, java.io.Serializable {
+publid dlbss LinkfdHbsiSft<E>
+    fxtfnds HbsiSft<E>
+    implfmfnts Sft<E>, Clonfbblf, jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -2851667679971038690L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2851667679971038690L;
 
     /**
-     * Constructs a new, empty linked hash set with the specified initial
-     * capacity and load factor.
+     * Construdts b nfw, fmpty linkfd ibsi sft witi tif spfdififd initibl
+     * dbpbdity bnd lobd fbdtor.
      *
-     * @param      initialCapacity the initial capacity of the linked hash set
-     * @param      loadFactor      the load factor of the linked hash set
-     * @throws     IllegalArgumentException  if the initial capacity is less
-     *               than zero, or if the load factor is nonpositive
+     * @pbrbm      initiblCbpbdity tif initibl dbpbdity of tif linkfd ibsi sft
+     * @pbrbm      lobdFbdtor      tif lobd fbdtor of tif linkfd ibsi sft
+     * @tirows     IllfgblArgumfntExdfption  if tif initibl dbpbdity is lfss
+     *               tibn zfro, or if tif lobd fbdtor is nonpositivf
      */
-    public LinkedHashSet(int initialCapacity, float loadFactor) {
-        super(initialCapacity, loadFactor, true);
+    publid LinkfdHbsiSft(int initiblCbpbdity, flobt lobdFbdtor) {
+        supfr(initiblCbpbdity, lobdFbdtor, truf);
     }
 
     /**
-     * Constructs a new, empty linked hash set with the specified initial
-     * capacity and the default load factor (0.75).
+     * Construdts b nfw, fmpty linkfd ibsi sft witi tif spfdififd initibl
+     * dbpbdity bnd tif dffbult lobd fbdtor (0.75).
      *
-     * @param   initialCapacity   the initial capacity of the LinkedHashSet
-     * @throws  IllegalArgumentException if the initial capacity is less
-     *              than zero
+     * @pbrbm   initiblCbpbdity   tif initibl dbpbdity of tif LinkfdHbsiSft
+     * @tirows  IllfgblArgumfntExdfption if tif initibl dbpbdity is lfss
+     *              tibn zfro
      */
-    public LinkedHashSet(int initialCapacity) {
-        super(initialCapacity, .75f, true);
+    publid LinkfdHbsiSft(int initiblCbpbdity) {
+        supfr(initiblCbpbdity, .75f, truf);
     }
 
     /**
-     * Constructs a new, empty linked hash set with the default initial
-     * capacity (16) and load factor (0.75).
+     * Construdts b nfw, fmpty linkfd ibsi sft witi tif dffbult initibl
+     * dbpbdity (16) bnd lobd fbdtor (0.75).
      */
-    public LinkedHashSet() {
-        super(16, .75f, true);
+    publid LinkfdHbsiSft() {
+        supfr(16, .75f, truf);
     }
 
     /**
-     * Constructs a new linked hash set with the same elements as the
-     * specified collection.  The linked hash set is created with an initial
-     * capacity sufficient to hold the elements in the specified collection
-     * and the default load factor (0.75).
+     * Construdts b nfw linkfd ibsi sft witi tif sbmf flfmfnts bs tif
+     * spfdififd dollfdtion.  Tif linkfd ibsi sft is drfbtfd witi bn initibl
+     * dbpbdity suffidifnt to iold tif flfmfnts in tif spfdififd dollfdtion
+     * bnd tif dffbult lobd fbdtor (0.75).
      *
-     * @param c  the collection whose elements are to be placed into
-     *           this set
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm d  tif dollfdtion wiosf flfmfnts brf to bf plbdfd into
+     *           tiis sft
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public LinkedHashSet(Collection<? extends E> c) {
-        super(Math.max(2*c.size(), 11), .75f, true);
-        addAll(c);
+    publid LinkfdHbsiSft(Collfdtion<? fxtfnds E> d) {
+        supfr(Mbti.mbx(2*d.sizf(), 11), .75f, truf);
+        bddAll(d);
     }
 
     /**
-     * Creates a <em><a href="Spliterator.html#binding">late-binding</a></em>
-     * and <em>fail-fast</em> {@code Spliterator} over the elements in this set.
+     * Crfbtfs b <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>
+     * bnd <fm>fbil-fbst</fm> {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis sft.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED},
-     * {@link Spliterator#DISTINCT}, and {@code ORDERED}.  Implementations
-     * should document the reporting of additional characteristic values.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#SIZED},
+     * {@link Splitfrbtor#DISTINCT}, bnd {@dodf ORDERED}.  Implfmfntbtions
+     * siould dodumfnt tif rfporting of bdditionbl dibrbdtfristid vblufs.
      *
-     * @implNote
-     * The implementation creates a
-     * <em><a href="Spliterator.html#binding">late-binding</a></em> spliterator
-     * from the set's {@code Iterator}.  The spliterator inherits the
-     * <em>fail-fast</em> properties of the set's iterator.
-     * The created {@code Spliterator} additionally reports
-     * {@link Spliterator#SUBSIZED}.
+     * @implNotf
+     * Tif implfmfntbtion drfbtfs b
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm> splitfrbtor
+     * from tif sft's {@dodf Itfrbtor}.  Tif splitfrbtor inifrits tif
+     * <fm>fbil-fbst</fm> propfrtifs of tif sft's itfrbtor.
+     * Tif drfbtfd {@dodf Splitfrbtor} bdditionblly rfports
+     * {@link Splitfrbtor#SUBSIZED}.
      *
-     * @return a {@code Spliterator} over the elements in this set
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis sft
+     * @sindf 1.8
      */
-    @Override
-    public Spliterator<E> spliterator() {
-        return Spliterators.spliterator(this, Spliterator.DISTINCT | Spliterator.ORDERED);
+    @Ovfrridf
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn Splitfrbtors.splitfrbtor(tiis, Splitfrbtor.DISTINCT | Splitfrbtor.ORDERED);
     }
 }

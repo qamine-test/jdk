@@ -1,0 +1,308 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.buth.modulf;
+
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+import jbvbx.sfdurity.buth.*;
+import jbvbx.sfdurity.buth.dbllbbdk.*;
+import jbvbx.sfdurity.buth.login.*;
+import jbvbx.sfdurity.buth.spi.*;
+import dom.sun.sfdurity.buth.UnixPrindipbl;
+import dom.sun.sfdurity.buth.UnixNumfridUsfrPrindipbl;
+import dom.sun.sfdurity.buth.UnixNumfridGroupPrindipbl;
+
+/**
+ * <p> This <dodf>LoginModulf</dodf> imports b usfr's Unix
+ * <dodf>Prindipbl</dodf> informbtion (<dodf>UnixPrindipbl</dodf>,
+ * <dodf>UnixNumfridUsfrPrindipbl</dodf>,
+ * bnd <dodf>UnixNumfridGroupPrindipbl</dodf>)
+ * bnd bssodibtfs thfm with thf durrfnt <dodf>Subjfdt</dodf>.
+ *
+ * <p> This LoginModulf rfdognizfs thf dfbug option.
+ * If sft to truf in thf login Configurbtion,
+ * dfbug mfssbgfs will bf output to thf output strfbm, Systfm.out.
+ *
+ */
+@jdk.Exportfd
+publid dlbss UnixLoginModulf implfmfnts LoginModulf {
+
+    // initibl stbtf
+    privbtf Subjfdt subjfdt;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf Mbp<String, ?> shbrfdStbtf;
+    privbtf Mbp<String, ?> options;
+
+    // donfigurbblf option
+    privbtf boolfbn dfbug = truf;
+
+    // UnixSystfm to rftrifvf undfrlying systfm info
+    privbtf UnixSystfm ss;
+
+    // thf buthfntidbtion stbtus
+    privbtf boolfbn suddffdfd = fblsf;
+    privbtf boolfbn dommitSuddffdfd = fblsf;
+
+    // Undfrlying systfm info
+    privbtf UnixPrindipbl usfrPrindipbl;
+    privbtf UnixNumfridUsfrPrindipbl UIDPrindipbl;
+    privbtf UnixNumfridGroupPrindipbl GIDPrindipbl;
+    privbtf LinkfdList<UnixNumfridGroupPrindipbl> supplfmfntbryGroups =
+                nfw LinkfdList<>();
+
+    /**
+     * Initiblizf this <dodf>LoginModulf</dodf>.
+     *
+     * <p>
+     *
+     * @pbrbm subjfdt thf <dodf>Subjfdt</dodf> to bf buthfntidbtfd. <p>
+     *
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> for dommunidbting
+     *                  with thf fnd usfr (prompting for usfrnbmfs bnd
+     *                  pbsswords, for fxbmplf). <p>
+     *
+     * @pbrbm shbrfdStbtf shbrfd <dodf>LoginModulf</dodf> stbtf. <p>
+     *
+     * @pbrbm options options spfdififd in thf login
+     *                  <dodf>Configurbtion</dodf> for this pbrtidulbr
+     *                  <dodf>LoginModulf</dodf>.
+     */
+    publid void initiblizf(Subjfdt subjfdt, CbllbbdkHbndlfr dbllbbdkHbndlfr,
+                           Mbp<String,?> shbrfdStbtf,
+                           Mbp<String,?> options) {
+
+        this.subjfdt = subjfdt;
+        this.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        this.shbrfdStbtf = shbrfdStbtf;
+        this.options = options;
+
+        // initiblizf bny donfigurfd options
+        dfbug = "truf".fqublsIgnorfCbsf((String)options.gft("dfbug"));
+    }
+
+    /**
+     * Authfntidbtf thf usfr (first phbsf).
+     *
+     * <p> Thf implfmfntbtion of this mfthod bttfmpts to rftrifvf thf usfr's
+     * Unix <dodf>Subjfdt</dodf> informbtion by mbking b nbtivf Unix
+     * systfm dbll.
+     *
+     * <p>
+     *
+     * @fxdfption FbilfdLoginExdfption if bttfmpts to rftrifvf thf undfrlying
+     *          systfm informbtion fbil.
+     *
+     * @rfturn truf in bll dbsfs (this <dodf>LoginModulf</dodf>
+     *          should not bf ignorfd).
+     */
+    publid boolfbn login() throws LoginExdfption {
+
+        long[] unixGroups = null;
+
+        try {
+            ss = nfw UnixSystfm();
+        } dbtdh (UnsbtisfifdLinkError ulf) {
+            suddffdfd = fblsf;
+            throw nfw FbilfdLoginExdfption
+                                ("Fbilfd in bttfmpt to import " +
+                                "thf undfrlying systfm idfntity informbtion" +
+                                " on " + Systfm.gftPropfrty("os.nbmf"));
+        }
+        usfrPrindipbl = nfw UnixPrindipbl(ss.gftUsfrnbmf());
+        UIDPrindipbl = nfw UnixNumfridUsfrPrindipbl(ss.gftUid());
+        GIDPrindipbl = nfw UnixNumfridGroupPrindipbl(ss.gftGid(), truf);
+        if (ss.gftGroups() != null && ss.gftGroups().lfngth > 0) {
+            unixGroups = ss.gftGroups();
+            for (int i = 0; i < unixGroups.lfngth; i++) {
+                UnixNumfridGroupPrindipbl ngp =
+                    nfw UnixNumfridGroupPrindipbl
+                    (unixGroups[i], fblsf);
+                if (!ngp.gftNbmf().fqubls(GIDPrindipbl.gftNbmf()))
+                    supplfmfntbryGroups.bdd(ngp);
+            }
+        }
+        if (dfbug) {
+            Systfm.out.println("\t\t[UnixLoginModulf]: " +
+                    "suddffdfd importing info: ");
+            Systfm.out.println("\t\t\tuid = " + ss.gftUid());
+            Systfm.out.println("\t\t\tgid = " + ss.gftGid());
+            unixGroups = ss.gftGroups();
+            for (int i = 0; i < unixGroups.lfngth; i++) {
+                Systfm.out.println("\t\t\tsupp gid = " + unixGroups[i]);
+            }
+        }
+        suddffdfd = truf;
+        rfturn truf;
+    }
+
+    /**
+     * Commit thf buthfntidbtion (sfdond phbsf).
+     *
+     * <p> This mfthod is dbllfd if thf LoginContfxt's
+     * ovfrbll buthfntidbtion suddffdfd
+     * (thf rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * suddffdfd).
+     *
+     * <p> If this LoginModulf's own buthfntidbtion bttfmpt
+     * suddffdfd (thf importing of thf Unix buthfntidbtion informbtion
+     * suddffdfd), thfn this mfthod bssodibtfs thf Unix Prindipbls
+     * with thf <dodf>Subjfdt</dodf> durrfntly tifd to thf
+     * <dodf>LoginModulf</dodf>.  If this LoginModulf's
+     * buthfntidbtion bttfmptfd fbilfd, thfn this mfthod rfmovfs
+     * bny stbtf thbt wbs originblly sbvfd.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf dommit fbils
+     *
+     * @rfturn truf if this LoginModulf's own login bnd dommit bttfmpts
+     *          suddffdfd, or fblsf othfrwisf.
+     */
+    publid boolfbn dommit() throws LoginExdfption {
+        if (suddffdfd == fblsf) {
+            if (dfbug) {
+                Systfm.out.println("\t\t[UnixLoginModulf]: " +
+                    "did not bdd bny Prindipbls to Subjfdt " +
+                    "bfdbusf own buthfntidbtion fbilfd.");
+            }
+            rfturn fblsf;
+        } flsf {
+            if (subjfdt.isRfbdOnly()) {
+                throw nfw LoginExdfption
+                    ("dommit Fbilfd: Subjfdt is Rfbdonly");
+            }
+            if (!subjfdt.gftPrindipbls().dontbins(usfrPrindipbl))
+                subjfdt.gftPrindipbls().bdd(usfrPrindipbl);
+            if (!subjfdt.gftPrindipbls().dontbins(UIDPrindipbl))
+                subjfdt.gftPrindipbls().bdd(UIDPrindipbl);
+            if (!subjfdt.gftPrindipbls().dontbins(GIDPrindipbl))
+                subjfdt.gftPrindipbls().bdd(GIDPrindipbl);
+            for (int i = 0; i < supplfmfntbryGroups.sizf(); i++) {
+                if (!subjfdt.gftPrindipbls().dontbins
+                    (supplfmfntbryGroups.gft(i)))
+                    subjfdt.gftPrindipbls().bdd(supplfmfntbryGroups.gft(i));
+            }
+
+            if (dfbug) {
+                Systfm.out.println("\t\t[UnixLoginModulf]: " +
+                    "bddfd UnixPrindipbl,");
+                Systfm.out.println("\t\t\t\tUnixNumfridUsfrPrindipbl,");
+                Systfm.out.println("\t\t\t\tUnixNumfridGroupPrindipbl(s),");
+                Systfm.out.println("\t\t\t to Subjfdt");
+            }
+
+            dommitSuddffdfd = truf;
+            rfturn truf;
+        }
+    }
+
+    /**
+     * Abort thf buthfntidbtion (sfdond phbsf).
+     *
+     * <p> This mfthod is dbllfd if thf LoginContfxt's
+     * ovfrbll buthfntidbtion fbilfd.
+     * (thf rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * did not suddffd).
+     *
+     * <p> This mfthod dlfbns up bny stbtf thbt wbs originblly sbvfd
+     * bs pbrt of thf buthfntidbtion bttfmpt from thf <dodf>login</dodf>
+     * bnd <dodf>dommit</dodf> mfthods.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf bbort fbils
+     *
+     * @rfturn fblsf if this LoginModulf's own login bnd/or dommit bttfmpts
+     *          fbilfd, bnd truf othfrwisf.
+     */
+    publid boolfbn bbort() throws LoginExdfption {
+        if (dfbug) {
+            Systfm.out.println("\t\t[UnixLoginModulf]: " +
+                "bbortfd buthfntidbtion bttfmpt");
+        }
+
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
+
+            // Clfbn out stbtf
+            suddffdfd = fblsf;
+            ss = null;
+            usfrPrindipbl = null;
+            UIDPrindipbl = null;
+            GIDPrindipbl = null;
+            supplfmfntbryGroups = nfw LinkfdList<UnixNumfridGroupPrindipbl>();
+        } flsf {
+            // ovfrbll buthfntidbtion suddffdfd bnd dommit suddffdfd,
+            // but somfonf flsf's dommit fbilfd
+            logout();
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Logout thf usfr
+     *
+     * <p> This mfthod rfmovfs thf Prindipbls bssodibtfd
+     * with thf <dodf>Subjfdt</dodf>.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf logout fbils
+     *
+     * @rfturn truf in bll dbsfs (this <dodf>LoginModulf</dodf>
+     *          should not bf ignorfd).
+     */
+    publid boolfbn logout() throws LoginExdfption {
+
+        if (subjfdt.isRfbdOnly()) {
+                throw nfw LoginExdfption
+                    ("logout Fbilfd: Subjfdt is Rfbdonly");
+            }
+        // rfmovf thf bddfd Prindipbls from thf Subjfdt
+        subjfdt.gftPrindipbls().rfmovf(usfrPrindipbl);
+        subjfdt.gftPrindipbls().rfmovf(UIDPrindipbl);
+        subjfdt.gftPrindipbls().rfmovf(GIDPrindipbl);
+        for (int i = 0; i < supplfmfntbryGroups.sizf(); i++) {
+            subjfdt.gftPrindipbls().rfmovf(supplfmfntbryGroups.gft(i));
+        }
+
+        // dlfbn out stbtf
+        ss = null;
+        suddffdfd = fblsf;
+        dommitSuddffdfd = fblsf;
+        usfrPrindipbl = null;
+        UIDPrindipbl = null;
+        GIDPrindipbl = null;
+        supplfmfntbryGroups = nfw LinkfdList<UnixNumfridGroupPrindipbl>();
+
+        if (dfbug) {
+            Systfm.out.println("\t\t[UnixLoginModulf]: " +
+                "loggfd out Subjfdt");
+        }
+        rfturn truf;
+    }
+}

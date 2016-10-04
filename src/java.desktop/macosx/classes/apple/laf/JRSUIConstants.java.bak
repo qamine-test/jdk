@@ -1,844 +1,844 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package apple.laf;
+pbdkbgf bpplf.lbf;
 
-import java.lang.reflect.Field;
-import java.nio.ByteBuffer;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.nio.BytfBufffr;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
-public final class JRSUIConstants {
+publid finbl dlbss JRSUIConstbnts {
 
     /**
-     * There is no way to get width of focus border, so it is hardcoded here.
-     * All components, which can be focused should take care about it.
+     * Tifrf is no wby to gft widti of fodus bordfr, so it is ibrddodfd ifrf.
+     * All domponfnts, wiidi dbn bf fodusfd siould tbkf dbrf bbout it.
      */
-    public static final int FOCUS_SIZE = 4;
+    publid stbtid finbl int FOCUS_SIZE = 4;
 
-    private static native long getPtrForConstant(final int constant);
+    privbtf stbtid nbtivf long gftPtrForConstbnt(finbl int donstbnt);
 
-    static class Key {
-        @Native protected static final int _value = 20;
-        public static final Key VALUE = new Key(_value);
+    stbtid dlbss Kfy {
+        @Nbtivf protfdtfd stbtid finbl int _vbluf = 20;
+        publid stbtid finbl Kfy VALUE = nfw Kfy(_vbluf);
 
-        @Native protected static final int _thumbProportion = 24;
-        public static final Key THUMB_PROPORTION = new Key(_thumbProportion);
+        @Nbtivf protfdtfd stbtid finbl int _tiumbProportion = 24;
+        publid stbtid finbl Kfy THUMB_PROPORTION = nfw Kfy(_tiumbProportion);
 
-        @Native protected static final int _thumbStart = 25;
-        public static final Key THUMB_START = new Key(_thumbStart);
+        @Nbtivf protfdtfd stbtid finbl int _tiumbStbrt = 25;
+        publid stbtid finbl Kfy THUMB_START = nfw Kfy(_tiumbStbrt);
 
-        @Native protected static final int _windowTitleBarHeight = 28;
-        public static final Key WINDOW_TITLE_BAR_HEIGHT = new Key(_windowTitleBarHeight);
+        @Nbtivf protfdtfd stbtid finbl int _windowTitlfBbrHfigit = 28;
+        publid stbtid finbl Kfy WINDOW_TITLE_BAR_HEIGHT = nfw Kfy(_windowTitlfBbrHfigit);
 
-        @Native protected static final int _animationFrame = 23;
-        public static final Key ANIMATION_FRAME = new Key(_animationFrame);
+        @Nbtivf protfdtfd stbtid finbl int _bnimbtionFrbmf = 23;
+        publid stbtid finbl Kfy ANIMATION_FRAME = nfw Kfy(_bnimbtionFrbmf);
 
-        final int constant;
-        private long ptr;
+        finbl int donstbnt;
+        privbtf long ptr;
 
-        private Key(final int constant) {
-            this.constant = constant;
+        privbtf Kfy(finbl int donstbnt) {
+            tiis.donstbnt = donstbnt;
         }
 
-        long getConstantPtr() {
-            if (ptr != 0) return ptr;
-            ptr = getPtrForConstant(constant);
-            if (ptr != 0) return ptr;
-            throw new RuntimeException("Constant not implemented in native: " + this);
+        long gftConstbntPtr() {
+            if (ptr != 0) rfturn ptr;
+            ptr = gftPtrForConstbnt(donstbnt);
+            if (ptr != 0) rfturn ptr;
+            tirow nfw RuntimfExdfption("Constbnt not implfmfntfd in nbtivf: " + tiis);
         }
 
-        public String toString() {
-            return getConstantName(this) + (ptr == 0 ? "(unlinked)" : "");
-        }
-    }
-
-    static class DoubleValue {
-        @Native protected static final byte TYPE_CODE = 1;
-
-        final double doubleValue;
-
-        DoubleValue(final double doubleValue) {
-            this.doubleValue = doubleValue;
-        }
-
-        public byte getTypeCode() {
-            return TYPE_CODE;
-        }
-
-        public void putValueInBuffer(final ByteBuffer buffer) {
-            buffer.putDouble(doubleValue);
-        }
-
-        public boolean equals(final Object obj) {
-            return (obj instanceof DoubleValue) && (((DoubleValue)obj).doubleValue == doubleValue);
-        }
-
-        public int hashCode() {
-            final long bits = Double.doubleToLongBits(doubleValue);
-            return (int)(bits ^ (bits >>> 32));
-        }
-
-        public String toString() {
-            return Double.toString(doubleValue);
+        publid String toString() {
+            rfturn gftConstbntNbmf(tiis) + (ptr == 0 ? "(unlinkfd)" : "");
         }
     }
 
+    stbtid dlbss DoublfVbluf {
+        @Nbtivf protfdtfd stbtid finbl bytf TYPE_CODE = 1;
 
-    static class PropertyEncoding {
-        final long mask;
-        final byte shift;
+        finbl doublf doublfVbluf;
 
-        PropertyEncoding(final long mask, final byte shift) {
-            this.mask = mask;
-            this.shift = shift;
+        DoublfVbluf(finbl doublf doublfVbluf) {
+            tiis.doublfVbluf = doublfVbluf;
+        }
+
+        publid bytf gftTypfCodf() {
+            rfturn TYPE_CODE;
+        }
+
+        publid void putVblufInBufffr(finbl BytfBufffr bufffr) {
+            bufffr.putDoublf(doublfVbluf);
+        }
+
+        publid boolfbn fqubls(finbl Objfdt obj) {
+            rfturn (obj instbndfof DoublfVbluf) && (((DoublfVbluf)obj).doublfVbluf == doublfVbluf);
+        }
+
+        publid int ibsiCodf() {
+            finbl long bits = Doublf.doublfToLongBits(doublfVbluf);
+            rfturn (int)(bits ^ (bits >>> 32));
+        }
+
+        publid String toString() {
+            rfturn Doublf.toString(doublfVbluf);
         }
     }
 
-    static class Property {
-        final PropertyEncoding encoding;
-        final long value;
-        final byte ordinal;
 
-        Property(final PropertyEncoding encoding, final byte ordinal) {
-            this.encoding = encoding;
-            this.value = ((long)ordinal) << encoding.shift;
-            this.ordinal = ordinal;
+    stbtid dlbss PropfrtyEndoding {
+        finbl long mbsk;
+        finbl bytf siift;
+
+        PropfrtyEndoding(finbl long mbsk, finbl bytf siift) {
+            tiis.mbsk = mbsk;
+            tiis.siift = siift;
+        }
+    }
+
+    stbtid dlbss Propfrty {
+        finbl PropfrtyEndoding fndoding;
+        finbl long vbluf;
+        finbl bytf ordinbl;
+
+        Propfrty(finbl PropfrtyEndoding fndoding, finbl bytf ordinbl) {
+            tiis.fndoding = fndoding;
+            tiis.vbluf = ((long)ordinbl) << fndoding.siift;
+            tiis.ordinbl = ordinbl;
         }
 
         /**
-         * Applies this property value to the provided state
-         * @param encodedState the incoming JRSUI encoded state
-         * @return the composite of the provided JRSUI encoded state and this value
+         * Applifs tiis propfrty vbluf to tif providfd stbtf
+         * @pbrbm fndodfdStbtf tif indoming JRSUI fndodfd stbtf
+         * @rfturn tif dompositf of tif providfd JRSUI fndodfd stbtf bnd tiis vbluf
          */
-        public long apply(final long encodedState) {
-            return (encodedState & ~encoding.mask) | value;
+        publid long bpply(finbl long fndodfdStbtf) {
+            rfturn (fndodfdStbtf & ~fndoding.mbsk) | vbluf;
         }
 
-        public String toString() {
-            return getConstantName(this);
-        }
-    }
-
-    public static class Size extends Property {
-        @Native private static final byte SHIFT = 0;
-        @Native private static final byte SIZE = 3;
-        @Native private static final long MASK = (long)0x7 << SHIFT;
-        private static final PropertyEncoding size = new PropertyEncoding(MASK, SHIFT);
-
-        Size(final byte value) {
-            super(size, value);
-        }
-
-        @Native private static final byte _mini = 1;
-        public static final Size MINI = new Size(_mini);
-        @Native private static final byte _small = 2;
-        public static final Size SMALL = new Size(_small);
-        @Native private static final byte _regular = 3;
-        public static final Size REGULAR = new Size(_regular);
-        @Native private static final byte _large = 4;
-        public static final Size LARGE = new Size(_large);
-    }
-
-    public static class State extends Property {
-        @Native private static final byte SHIFT = Size.SHIFT + Size.SIZE;
-        @Native private static final byte SIZE = 4;
-        @Native private static final long MASK = (long)0xF << SHIFT;
-        private static final PropertyEncoding state = new PropertyEncoding(MASK, SHIFT);
-
-        State(final byte value) {
-            super(state, value);
-        }
-
-        @Native private static final byte _active = 1;
-        public static final State ACTIVE = new State(_active);
-        @Native private static final byte _inactive = 2;
-        public static final State INACTIVE = new State(_inactive);
-        @Native private static final byte _disabled = 3;
-        public static final State DISABLED = new State(_disabled);
-        @Native private static final byte _pressed = 4;
-        public static final State PRESSED = new State(_pressed);
-        @Native private static final byte _pulsed = 5;
-        public static final State PULSED = new State(_pulsed);
-        @Native private static final byte _rollover = 6;
-        public static final State ROLLOVER = new State(_rollover);
-        @Native private static final byte _drag = 7;
-        public static final State DRAG = new State(_drag);
-    }
-
-    public static class Direction extends Property {
-        @Native private static final byte SHIFT = State.SHIFT + State.SIZE;
-        @Native private static final byte SIZE = 4;
-        @Native private static final long MASK = (long)0xF << SHIFT;
-        private static final PropertyEncoding direction = new PropertyEncoding(MASK, SHIFT);
-
-        Direction(final byte value) {
-            super(direction, value);
-        }
-
-        @Native private static final byte _none = 1;
-        public static final Direction NONE = new Direction(_none);
-        @Native private static final byte _up = 2;
-        public static final Direction UP = new Direction(_up);
-        @Native private static final byte _down = 3;
-        public static final Direction DOWN = new Direction(_down);
-        @Native private static final byte _left = 4;
-        public static final Direction LEFT = new Direction(_left);
-        @Native private static final byte _right = 5;
-        public static final Direction RIGHT = new Direction(_right);
-        @Native private static final byte _north = 6;
-        public static final Direction NORTH = new Direction(_north);
-        @Native private static final byte _south = 7;
-        public static final Direction SOUTH = new Direction(_south);
-        @Native private static final byte _east = 8;
-        public static final Direction EAST = new Direction(_east);
-        @Native private static final byte _west = 9;
-        public static final Direction WEST = new Direction(_west);
-    }
-
-    public static class Orientation extends Property {
-        @Native private static final byte SHIFT = Direction.SHIFT + Direction.SIZE;
-        @Native private static final byte SIZE = 2;
-        @Native private static final long MASK = (long)0x3 << SHIFT;
-        private static final PropertyEncoding orientation = new PropertyEncoding(MASK, SHIFT);
-
-        Orientation(final byte value) {
-            super(orientation, value);
-        }
-
-        @Native private static final byte _horizontal = 1;
-        public static final Orientation HORIZONTAL = new Orientation(_horizontal);
-        @Native private static final byte _vertical = 2;
-        public static final Orientation VERTICAL = new Orientation(_vertical);
-    }
-
-    public static class AlignmentVertical extends Property {
-        @Native private static final byte SHIFT = Orientation.SHIFT + Orientation.SIZE;
-        @Native private static final byte SIZE = 2;
-        @Native private static final long MASK = (long)0x3 << SHIFT;
-        private static final PropertyEncoding alignmentVertical = new PropertyEncoding(MASK, SHIFT);
-
-        AlignmentVertical(final byte value){
-            super(alignmentVertical, value);
-        }
-
-        @Native private static final byte _top = 1;
-        public static final AlignmentVertical TOP = new AlignmentVertical(_top);
-        @Native private static final byte _center = 2;
-        public static final AlignmentVertical CENTER = new AlignmentVertical(_center);
-        @Native private static final byte _bottom = 3;
-        public static final AlignmentVertical BOTTOM = new AlignmentVertical(_bottom);
-    }
-
-    public static class AlignmentHorizontal extends Property {
-        @Native private static final byte SHIFT = AlignmentVertical.SHIFT + AlignmentVertical.SIZE;
-        @Native private static final byte SIZE = 2;
-        @Native private static final long MASK = (long)0x3 << SHIFT;
-        private static final PropertyEncoding alignmentHorizontal = new PropertyEncoding(MASK, SHIFT);
-
-        AlignmentHorizontal(final byte value){
-            super(alignmentHorizontal, value);
-        }
-
-        @Native private static final byte _left = 1;
-        public static final AlignmentHorizontal LEFT = new AlignmentHorizontal(_left);
-        @Native private static final byte _center =  2;
-        public static final AlignmentHorizontal CENTER = new AlignmentHorizontal(_center);
-        @Native private static final byte _right = 3;
-        public static final AlignmentHorizontal RIGHT = new AlignmentHorizontal(_right);
-    }
-
-    public static class SegmentPosition extends Property {
-        @Native private static final byte SHIFT = AlignmentHorizontal.SHIFT + AlignmentHorizontal.SIZE;
-        @Native private static final byte SIZE = 3;
-        @Native private static final long MASK = (long)0x7 << SHIFT;
-        private static final PropertyEncoding segmentPosition = new PropertyEncoding(MASK, SHIFT);
-
-        SegmentPosition(final byte value) {
-            super(segmentPosition, value);
-        }
-
-        @Native private static final byte _first = 1;
-        public static final SegmentPosition FIRST = new SegmentPosition(_first);
-        @Native private static final byte _middle = 2;
-        public static final SegmentPosition MIDDLE = new SegmentPosition(_middle);
-        @Native private static final byte _last = 3;
-        public static final SegmentPosition LAST = new SegmentPosition(_last);
-        @Native private static final byte _only = 4;
-        public static final SegmentPosition ONLY = new SegmentPosition(_only);
-    }
-
-    public static class ScrollBarPart extends Property {
-        @Native private static final byte SHIFT = SegmentPosition.SHIFT + SegmentPosition.SIZE;
-        @Native private static final byte SIZE = 4;
-        @Native private static final long MASK = (long)0xF << SHIFT;
-        private static final PropertyEncoding scrollBarPart = new PropertyEncoding(MASK, SHIFT);
-
-        ScrollBarPart(final byte value) {
-            super(scrollBarPart, value);
-        }
-
-        @Native private static final byte _none = 1;
-        public static final ScrollBarPart NONE = new ScrollBarPart(_none);
-        @Native private static final byte _thumb = 2;
-        public static final ScrollBarPart THUMB = new ScrollBarPart(_thumb);
-        @Native private static final byte _arrowMin = 3;
-        public static final ScrollBarPart ARROW_MIN = new ScrollBarPart(_arrowMin);
-        @Native private static final byte _arrowMax = 4;
-        public static final ScrollBarPart ARROW_MAX = new ScrollBarPart(_arrowMax);
-        @Native private static final byte _arrowMaxInside = 5;
-        public static final ScrollBarPart ARROW_MAX_INSIDE = new ScrollBarPart(_arrowMaxInside);
-        @Native private static final byte _arrowMinInside = 6;
-        public static final ScrollBarPart ARROW_MIN_INSIDE = new ScrollBarPart(_arrowMinInside);
-        @Native private static final byte _trackMin = 7;
-        public static final ScrollBarPart TRACK_MIN = new ScrollBarPart(_trackMin);
-        @Native private static final byte _trackMax = 8;
-        public static final ScrollBarPart TRACK_MAX = new ScrollBarPart(_trackMax);
-    }
-
-    public static class Variant extends Property {
-        @Native private static final byte SHIFT = ScrollBarPart.SHIFT + ScrollBarPart.SIZE;
-        @Native private static final byte SIZE = 4;
-        @Native private static final long MASK = (long)0xF << SHIFT;
-        private static final PropertyEncoding variant = new PropertyEncoding(MASK, SHIFT);
-
-        Variant(final byte value) {
-            super(variant, value);
-        }
-
-        @Native private static final byte _menuGlyph = 1;
-        public static final Variant MENU_GLYPH = new Variant(_menuGlyph);
-        @Native private static final byte _menuPopup = Variant._menuGlyph + 1;
-        public static final Variant MENU_POPUP = new Variant(_menuPopup);
-        @Native private static final byte _menuPulldown = Variant._menuPopup + 1;
-        public static final Variant MENU_PULLDOWN = new Variant(_menuPulldown);
-        @Native private static final byte _menuHierarchical = Variant._menuPulldown + 1;
-        public static final Variant MENU_HIERARCHICAL = new Variant(_menuHierarchical);
-
-        @Native private static final byte _gradientListBackgroundEven = Variant._menuHierarchical + 1;
-        public static final Variant GRADIENT_LIST_BACKGROUND_EVEN = new Variant(_gradientListBackgroundEven);
-        @Native private static final byte _gradientListBackgroundOdd = Variant._gradientListBackgroundEven + 1;
-        public static final Variant GRADIENT_LIST_BACKGROUND_ODD = new Variant(_gradientListBackgroundOdd);
-        @Native private static final byte _gradientSideBar = Variant._gradientListBackgroundOdd + 1;
-        public static final Variant GRADIENT_SIDE_BAR = new Variant(_gradientSideBar);
-        @Native private static final byte _gradientSideBarSelection = Variant._gradientSideBar + 1;
-        public static final Variant GRADIENT_SIDE_BAR_SELECTION = new Variant(_gradientSideBarSelection);
-        @Native private static final byte _gradientSideBarFocusedSelection = Variant._gradientSideBarSelection + 1;
-        public static final Variant GRADIENT_SIDE_BAR_FOCUSED_SELECTION = new Variant(_gradientSideBarFocusedSelection);
-    }
-
-    public static class WindowType extends Property {
-        @Native private static final byte SHIFT = Variant.SHIFT + Variant.SIZE;
-        @Native private static final byte SIZE = 2;
-        @Native private static final long MASK = (long)0x3 << SHIFT;
-        private static final PropertyEncoding windowType = new PropertyEncoding(MASK, SHIFT);
-
-        WindowType(final byte value){
-            super(windowType, value);
-        }
-
-        @Native private static final byte _document = 1;
-        public static final WindowType DOCUMENT = new WindowType(_document);
-        @Native private static final byte _utility = 2;
-        public static final WindowType UTILITY = new WindowType(_utility);
-        @Native private static final byte _titlelessUtility = 3;
-        public static final WindowType TITLELESS_UTILITY = new WindowType(_titlelessUtility);
-    }
-
-    public static class Focused extends Property {
-        @Native private static final byte SHIFT = WindowType.SHIFT + WindowType.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
-
-        Focused(final byte value) {
-            super(focused, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final Focused NO = new Focused(_no);
-        @Native private static final byte _yes = 1;
-        public static final Focused YES = new Focused(_yes);
-    }
-
-    public static class IndicatorOnly extends Property {
-        @Native private static final byte SHIFT = Focused.SHIFT + Focused.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding indicatorOnly = new PropertyEncoding(MASK, SHIFT);
-
-        IndicatorOnly(final byte value) {
-            super(indicatorOnly, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final IndicatorOnly NO = new IndicatorOnly(_no);
-        @Native private static final byte _yes = 1;
-        public static final IndicatorOnly YES = new IndicatorOnly(_yes);
-    }
-
-    public static class NoIndicator extends Property {
-        @Native private static final byte SHIFT = IndicatorOnly.SHIFT + IndicatorOnly.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding noIndicator = new PropertyEncoding(MASK, SHIFT);
-
-        NoIndicator(final byte value) {
-            super(noIndicator, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final NoIndicator NO = new NoIndicator(_no);
-        @Native private static final byte _yes = 1;
-        public static final NoIndicator YES = new NoIndicator(_yes);
-    }
-
-    public static class ArrowsOnly extends Property {
-        @Native private static final byte SHIFT = NoIndicator.SHIFT + NoIndicator.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
-
-        ArrowsOnly(final byte value) {
-            super(focused, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final ArrowsOnly NO = new ArrowsOnly(_no);
-        @Native private static final byte _yes = 1;
-        public static final ArrowsOnly YES = new ArrowsOnly(_yes);
-    }
-
-    public static class FrameOnly extends Property {
-        @Native private static final byte SHIFT = ArrowsOnly.SHIFT + ArrowsOnly.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
-
-        FrameOnly(final byte value) {
-            super(focused, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final FrameOnly NO = new FrameOnly(_no);
-        @Native private static final byte _yes = 1;
-        public static final FrameOnly YES = new FrameOnly(_yes);
-    }
-
-    public static class SegmentTrailingSeparator extends Property {
-        @Native private static final byte SHIFT = FrameOnly.SHIFT + FrameOnly.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
-
-        SegmentTrailingSeparator(final byte value) {
-            super(focused, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final SegmentTrailingSeparator NO = new SegmentTrailingSeparator(_no);
-        @Native private static final byte _yes = 1;
-        public static final SegmentTrailingSeparator YES = new SegmentTrailingSeparator(_yes);
-    }
-
-    public static class SegmentLeadingSeparator extends Property {
-        @Native private static final byte SHIFT = SegmentTrailingSeparator.SHIFT + SegmentTrailingSeparator.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding leadingSeparator = new PropertyEncoding(MASK, SHIFT);
-
-        SegmentLeadingSeparator(final byte value) {
-            super(leadingSeparator, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final SegmentLeadingSeparator NO = new SegmentLeadingSeparator(_no);
-        @Native private static final byte _yes = 1;
-        public static final SegmentLeadingSeparator YES = new SegmentLeadingSeparator(_yes);
-    }
-
-    public static class NothingToScroll extends Property {
-        @Native private static final byte SHIFT = SegmentLeadingSeparator.SHIFT + SegmentLeadingSeparator.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
-
-        NothingToScroll(final byte value) {
-            super(focused, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final NothingToScroll NO = new NothingToScroll(_no);
-        @Native private static final byte _yes = 1;
-        public static final NothingToScroll YES = new NothingToScroll(_yes);
-    }
-
-    public static class WindowTitleBarSeparator extends Property {
-        @Native private static final byte SHIFT = NothingToScroll.SHIFT + NothingToScroll.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
-
-        WindowTitleBarSeparator(final byte value) {
-            super(focused, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final WindowTitleBarSeparator NO = new WindowTitleBarSeparator(_no);
-        @Native private static final byte _yes = 1;
-        public static final WindowTitleBarSeparator YES = new WindowTitleBarSeparator(_yes);
-    }
-
-    public static class WindowClipCorners extends Property {
-        @Native private static final byte SHIFT = WindowTitleBarSeparator.SHIFT + WindowTitleBarSeparator.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
-
-        WindowClipCorners(final byte value) {
-            super(focused, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final WindowClipCorners NO = new WindowClipCorners(_no);
-        @Native private static final byte _yes = 1;
-        public static final WindowClipCorners YES = new WindowClipCorners(_yes);
-    }
-
-    public static class ShowArrows extends Property {
-        @Native private static final byte SHIFT = WindowClipCorners.SHIFT + WindowClipCorners.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding showArrows = new PropertyEncoding(MASK, SHIFT);
-
-        ShowArrows(final byte value) {
-            super(showArrows, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final ShowArrows NO = new ShowArrows(_no);
-        @Native private static final byte _yes = 1;
-        public static final ShowArrows YES = new ShowArrows(_yes);
-    }
-
-    public static class BooleanValue extends Property {
-        @Native private static final byte SHIFT = ShowArrows.SHIFT + ShowArrows.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding booleanValue = new PropertyEncoding(MASK, SHIFT);
-
-        BooleanValue(final byte value) {
-            super(booleanValue, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final BooleanValue NO = new BooleanValue(_no);
-        @Native private static final byte _yes = 1;
-        public static final BooleanValue YES = new BooleanValue(_yes);
-    }
-
-    public static class Animating extends Property {
-        @Native private static final byte SHIFT = BooleanValue.SHIFT + BooleanValue.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding animating = new PropertyEncoding(MASK, SHIFT);
-
-        Animating(final byte value) {
-            super(animating, value);
-        }
-
-        @Native private static final byte _no = 0;
-        public static final Animating NO = new Animating(_no);
-        @Native private static final byte _yes = 1;
-        public static final Animating YES = new Animating(_yes);
-    }
-
-    public static class Widget extends Property {
-        @Native private static final byte SHIFT = Animating.SHIFT + Animating.SIZE;
-        @Native private static final byte SIZE = 7;
-        @Native private static final long MASK = (long)0x7F << SHIFT;
-        private static final PropertyEncoding widget = new PropertyEncoding(MASK, SHIFT);
-
-        Widget(final byte constant) {
-            super(widget, constant);
-        }
-
-        @Native private static final byte _background = 1;
-        public static final Widget BACKGROUND = new Widget(_background);
-
-        @Native private static final byte _buttonBevel = _background + 1;
-        public static final Widget BUTTON_BEVEL = new Widget(_buttonBevel);
-        @Native private static final byte _buttonBevelInset = _buttonBevel + 1;
-        public static final Widget BUTTON_BEVEL_INSET = new Widget(_buttonBevelInset);
-        @Native private static final byte _buttonBevelRound = _buttonBevelInset + 1;
-        public static final Widget BUTTON_BEVEL_ROUND = new Widget(_buttonBevelRound);
-
-        @Native private static final byte _buttonCheckBox = _buttonBevelRound + 1;
-        public static final Widget BUTTON_CHECK_BOX = new Widget(_buttonCheckBox);
-
-        @Native private static final byte _buttonComboBox = _buttonCheckBox + 1;
-        public static final Widget BUTTON_COMBO_BOX = new Widget(_buttonComboBox);
-        @Native private static final byte _buttonComboBoxInset = _buttonComboBox + 1;
-        public static final Widget BUTTON_COMBO_BOX_INSET = new Widget(_buttonComboBoxInset); // not hooked up in JRSUIConstants.m
-
-        @Native private static final byte _buttonDisclosure = _buttonComboBoxInset + 1;
-        public static final Widget BUTTON_DISCLOSURE = new Widget(_buttonDisclosure);
-
-        @Native private static final byte _buttonListHeader = _buttonDisclosure + 1;
-        public static final Widget BUTTON_LIST_HEADER = new Widget(_buttonListHeader);
-
-        @Native private static final byte _buttonLittleArrows = _buttonListHeader + 1;
-        public static final Widget BUTTON_LITTLE_ARROWS = new Widget(_buttonLittleArrows);
-
-        @Native private static final byte _buttonPopDown = _buttonLittleArrows + 1;
-        public static final Widget BUTTON_POP_DOWN = new Widget(_buttonPopDown);
-        @Native private static final byte _buttonPopDownInset = _buttonPopDown + 1;
-        public static final Widget BUTTON_POP_DOWN_INSET = new Widget(_buttonPopDownInset);
-        @Native private static final byte _buttonPopDownSquare = _buttonPopDownInset + 1;
-        public static final Widget BUTTON_POP_DOWN_SQUARE = new Widget(_buttonPopDownSquare);
-
-        @Native private static final byte _buttonPopUp = _buttonPopDownSquare + 1;
-        public static final Widget BUTTON_POP_UP = new Widget(_buttonPopUp);
-        @Native private static final byte _buttonPopUpInset = _buttonPopUp + 1;
-        public static final Widget BUTTON_POP_UP_INSET = new Widget(_buttonPopUpInset);
-        @Native private static final byte _buttonPopUpSquare = _buttonPopUpInset + 1;
-        public static final Widget BUTTON_POP_UP_SQUARE = new Widget(_buttonPopUpSquare);
-
-        @Native private static final byte _buttonPush = _buttonPopUpSquare + 1;
-        public static final Widget BUTTON_PUSH = new Widget(_buttonPush);
-        @Native private static final byte _buttonPushScope = _buttonPush + 1;
-        public static final Widget BUTTON_PUSH_SCOPE = new Widget(_buttonPushScope);
-        @Native private static final byte _buttonPushScope2 = _buttonPushScope + 1;
-        public static final Widget BUTTON_PUSH_SCOPE2 = new Widget(_buttonPushScope2);
-        @Native private static final byte _buttonPushTextured = _buttonPushScope2 + 1;
-        public static final Widget BUTTON_PUSH_TEXTURED = new Widget(_buttonPushTextured);
-        @Native private static final byte _buttonPushInset = _buttonPushTextured + 1;
-        public static final Widget BUTTON_PUSH_INSET = new Widget(_buttonPushInset);
-        @Native private static final byte _buttonPushInset2 = _buttonPushInset + 1;
-        public static final Widget BUTTON_PUSH_INSET2 = new Widget(_buttonPushInset2);
-
-        @Native private static final byte _buttonRadio = _buttonPushInset2 + 1;
-        public static final Widget BUTTON_RADIO = new Widget(_buttonRadio);
-
-        @Native private static final byte _buttonRound = _buttonRadio + 1;
-        public static final Widget BUTTON_ROUND = new Widget(_buttonRound);
-        @Native private static final byte _buttonRoundHelp = _buttonRound + 1;
-        public static final Widget BUTTON_ROUND_HELP = new Widget(_buttonRoundHelp);
-        @Native private static final byte _buttonRoundInset = _buttonRoundHelp + 1;
-        public static final Widget BUTTON_ROUND_INSET = new Widget(_buttonRoundInset);
-        @Native private static final byte _buttonRoundInset2 =_buttonRoundInset + 1;
-        public static final Widget BUTTON_ROUND_INSET2 = new Widget(_buttonRoundInset2);
-
-        @Native private static final byte _buttonSearchFieldCancel = _buttonRoundInset2 + 1;
-        public static final Widget BUTTON_SEARCH_FIELD_CANCEL = new Widget(_buttonSearchFieldCancel);
-        @Native private static final byte _buttonSearchFieldFind = _buttonSearchFieldCancel + 1;
-        public static final Widget BUTTON_SEARCH_FIELD_FIND = new Widget(_buttonSearchFieldFind);
-
-        @Native private static final byte _buttonSegmented = _buttonSearchFieldFind + 1;
-        public static final Widget BUTTON_SEGMENTED = new Widget(_buttonSegmented);
-        @Native private static final byte _buttonSegmentedInset = _buttonSegmented + 1;
-        public static final Widget BUTTON_SEGMENTED_INSET = new Widget(_buttonSegmentedInset);
-        @Native private static final byte _buttonSegmentedInset2 = _buttonSegmentedInset + 1;
-        public static final Widget BUTTON_SEGMENTED_INSET2 = new Widget(_buttonSegmentedInset2);
-        @Native private static final byte _buttonSegmentedSCurve = _buttonSegmentedInset2 + 1;
-        public static final Widget BUTTON_SEGMENTED_SCURVE = new Widget(_buttonSegmentedSCurve);
-        @Native private static final byte _buttonSegmentedTextured = _buttonSegmentedSCurve + 1;
-        public static final Widget BUTTON_SEGMENTED_TEXTURED = new Widget(_buttonSegmentedTextured);
-        @Native private static final byte _buttonSegmentedToolbar = _buttonSegmentedTextured + 1;
-        public static final Widget BUTTON_SEGMENTED_TOOLBAR = new Widget(_buttonSegmentedToolbar);
-
-        @Native private static final byte _dial = _buttonSegmentedToolbar + 1;
-        public static final Widget DIAL = new Widget(_dial);
-
-        @Native private static final byte _disclosureTriangle = _dial + 1;
-        public static final Widget DISCLOSURE_TRIANGLE = new Widget(_disclosureTriangle);
-
-        @Native private static final byte _dividerGrabber = _disclosureTriangle + 1;
-        public static final Widget DIVIDER_GRABBER = new Widget(_dividerGrabber);
-        @Native private static final byte _dividerSeparatorBar = _dividerGrabber + 1;
-        public static final Widget DIVIDER_SEPARATOR_BAR = new Widget(_dividerSeparatorBar);
-        @Native private static final byte _dividerSplitter = _dividerSeparatorBar + 1;
-        public static final Widget DIVIDER_SPLITTER = new Widget(_dividerSplitter);
-
-        @Native private static final byte _focus = _dividerSplitter + 1;
-        public static final Widget FOCUS = new Widget(_focus);
-
-        @Native private static final byte _frameGroupBox = _focus + 1;
-        public static final Widget FRAME_GROUP_BOX = new Widget(_frameGroupBox);
-        @Native private static final byte _frameGroupBoxSecondary = _frameGroupBox + 1;
-        public static final Widget FRAME_GROUP_BOX_SECONDARY = new Widget(_frameGroupBoxSecondary);
-
-        @Native private static final byte _frameListBox = _frameGroupBoxSecondary + 1;
-        public static final Widget FRAME_LIST_BOX = new Widget(_frameListBox);
-
-        @Native private static final byte _framePlacard = _frameListBox + 1;
-        public static final Widget FRAME_PLACARD = new Widget(_framePlacard);
-
-        @Native private static final byte _frameTextField = _framePlacard + 1;
-        public static final Widget FRAME_TEXT_FIELD = new Widget(_frameTextField);
-        @Native private static final byte _frameTextFieldRound = _frameTextField + 1;
-        public static final Widget FRAME_TEXT_FIELD_ROUND = new Widget(_frameTextFieldRound);
-
-        @Native private static final byte _frameWell = _frameTextFieldRound + 1;
-        public static final Widget FRAME_WELL = new Widget(_frameWell);
-
-        @Native private static final byte _growBox = _frameWell + 1;
-        public static final Widget GROW_BOX = new Widget(_growBox);
-        @Native private static final byte _growBoxTextured = _growBox + 1;
-        public static final Widget GROW_BOX_TEXTURED = new Widget(_growBoxTextured);
-
-        @Native private static final byte _gradient = _growBoxTextured + 1;
-        public static final Widget GRADIENT = new Widget(_gradient);
-
-        @Native private static final byte _menu = _gradient + 1;
-        public static final Widget MENU = new Widget(_menu);
-        @Native private static final byte _menuItem = _menu + 1;
-        public static final Widget MENU_ITEM = new Widget(_menuItem);
-        @Native private static final byte _menuBar = _menuItem + 1;
-        public static final Widget MENU_BAR = new Widget(_menuBar);
-        @Native private static final byte _menuTitle = _menuBar + 1;
-        public static final Widget MENU_TITLE = new Widget(_menuTitle);
-
-        @Native private static final byte _progressBar = _menuTitle + 1;
-        public static final Widget PROGRESS_BAR = new Widget(_progressBar);
-        @Native private static final byte _progressIndeterminateBar = _progressBar + 1;
-        public static final Widget PROGRESS_INDETERMINATE_BAR = new Widget(_progressIndeterminateBar);
-        @Native private static final byte _progressRelevance = _progressIndeterminateBar + 1;
-        public static final Widget PROGRESS_RELEVANCE = new Widget(_progressRelevance);
-        @Native private static final byte _progressSpinner = _progressRelevance + 1;
-        public static final Widget PROGRESS_SPINNER = new Widget(_progressSpinner);
-
-        @Native private static final byte _scrollBar = _progressSpinner + 1;
-        public static final Widget SCROLL_BAR = new Widget(_scrollBar);
-
-        @Native private static final byte _scrollColumnSizer = _scrollBar + 1;
-        public static final Widget SCROLL_COLUMN_SIZER = new Widget(_scrollColumnSizer);
-
-        @Native private static final byte _slider = _scrollColumnSizer + 1;
-        public static final Widget SLIDER = new Widget(_slider);
-        @Native private static final byte _sliderThumb = _slider + 1;
-        public static final Widget SLIDER_THUMB = new Widget(_sliderThumb);
-
-        @Native private static final byte _synchronization = _sliderThumb + 1;
-        public static final Widget SYNCHRONIZATION = new Widget(_synchronization);
-
-        @Native private static final byte _tab = _synchronization + 1;
-        public static final Widget TAB = new Widget(_tab);
-
-        @Native private static final byte _titleBarCloseBox = _tab + 1;
-        public static final Widget TITLE_BAR_CLOSE_BOX = new Widget(_titleBarCloseBox);
-        @Native private static final byte _titleBarCollapseBox = _titleBarCloseBox + 1;
-        public static final Widget TITLE_BAR_COLLAPSE_BOX = new Widget(_titleBarCollapseBox);
-        @Native private static final byte _titleBarZoomBox = _titleBarCollapseBox + 1;
-        public static final Widget TITLE_BAR_ZOOM_BOX = new Widget(_titleBarZoomBox);
-
-        @Native private static final byte _titleBarToolbarButton = _titleBarZoomBox + 1;
-        public static final Widget TITLE_BAR_TOOLBAR_BUTTON = new Widget(_titleBarToolbarButton);
-
-        @Native private static final byte _toolbarItemWell = _titleBarToolbarButton + 1;
-        public static final Widget TOOLBAR_ITEM_WELL = new Widget(_toolbarItemWell);
-
-        @Native private static final byte _windowFrame = _toolbarItemWell + 1;
-        public static final Widget WINDOW_FRAME = new Widget(_windowFrame);
-    }
-
-    public static class Hit {
-        @Native private static final int _unknown = -1;
-        public static final Hit UNKNOWN = new Hit(_unknown);
-        @Native private static final int _none = 0;
-        public static final Hit NONE = new Hit(_none);
-        @Native private static final int _hit = 1;
-        public static final Hit HIT = new Hit(_hit);
-
-        final int hit;
-        Hit(final int hit) { this.hit = hit; }
-
-        public boolean isHit() {
-            return hit > 0;
-        }
-
-        public String toString() {
-            return getConstantName(this);
+        publid String toString() {
+            rfturn gftConstbntNbmf(tiis);
         }
     }
 
-    public static class ScrollBarHit extends Hit {
-        @Native private static final int _thumb = 2;
-        public static final ScrollBarHit THUMB = new ScrollBarHit(_thumb);
+    publid stbtid dlbss Sizf fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = 0;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 3;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x7 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding sizf = nfw PropfrtyEndoding(MASK, SHIFT);
 
-        @Native private static final int _trackMin = 3;
-        public static final ScrollBarHit TRACK_MIN = new ScrollBarHit(_trackMin);
-        @Native private static final int _trackMax = 4;
-        public static final ScrollBarHit TRACK_MAX = new ScrollBarHit(_trackMax);
-
-        @Native private static final int _arrowMin = 5;
-        public static final ScrollBarHit ARROW_MIN = new ScrollBarHit(_arrowMin);
-        @Native private static final int _arrowMax = 6;
-        public static final ScrollBarHit ARROW_MAX = new ScrollBarHit(_arrowMax);
-        @Native private static final int _arrowMaxInside = 7;
-        public static final ScrollBarHit ARROW_MAX_INSIDE = new ScrollBarHit(_arrowMaxInside);
-        @Native private static final int _arrowMinInside = 8;
-        public static final ScrollBarHit ARROW_MIN_INSIDE = new ScrollBarHit(_arrowMinInside);
-
-        ScrollBarHit(final int hit) { super(hit); }
-    }
-
-    static Hit getHit(final int hit) {
-        switch (hit) {
-            case Hit._none:
-                return Hit.NONE;
-            case Hit._hit:
-                return Hit.HIT;
-
-            case ScrollBarHit._thumb:
-                return ScrollBarHit.THUMB;
-            case ScrollBarHit._trackMin:
-                return ScrollBarHit.TRACK_MIN;
-            case ScrollBarHit._trackMax:
-                return ScrollBarHit.TRACK_MAX;
-            case ScrollBarHit._arrowMin:
-                return ScrollBarHit.ARROW_MIN;
-            case ScrollBarHit._arrowMax:
-                return ScrollBarHit.ARROW_MAX;
-            case ScrollBarHit._arrowMaxInside:
-                return ScrollBarHit.ARROW_MAX_INSIDE;
-            case ScrollBarHit._arrowMinInside:
-                return ScrollBarHit.ARROW_MIN_INSIDE;
+        Sizf(finbl bytf vbluf) {
+            supfr(sizf, vbluf);
         }
-        return Hit.UNKNOWN;
+
+        @Nbtivf privbtf stbtid finbl bytf _mini = 1;
+        publid stbtid finbl Sizf MINI = nfw Sizf(_mini);
+        @Nbtivf privbtf stbtid finbl bytf _smbll = 2;
+        publid stbtid finbl Sizf SMALL = nfw Sizf(_smbll);
+        @Nbtivf privbtf stbtid finbl bytf _rfgulbr = 3;
+        publid stbtid finbl Sizf REGULAR = nfw Sizf(_rfgulbr);
+        @Nbtivf privbtf stbtid finbl bytf _lbrgf = 4;
+        publid stbtid finbl Sizf LARGE = nfw Sizf(_lbrgf);
     }
 
-    static String getConstantName(final Object object) {
-        final Class<? extends Object> clazz = object.getClass();
+    publid stbtid dlbss Stbtf fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = Sizf.SHIFT + Sizf.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 4;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0xF << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding stbtf = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        Stbtf(finbl bytf vbluf) {
+            supfr(stbtf, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _bdtivf = 1;
+        publid stbtid finbl Stbtf ACTIVE = nfw Stbtf(_bdtivf);
+        @Nbtivf privbtf stbtid finbl bytf _inbdtivf = 2;
+        publid stbtid finbl Stbtf INACTIVE = nfw Stbtf(_inbdtivf);
+        @Nbtivf privbtf stbtid finbl bytf _disbblfd = 3;
+        publid stbtid finbl Stbtf DISABLED = nfw Stbtf(_disbblfd);
+        @Nbtivf privbtf stbtid finbl bytf _prfssfd = 4;
+        publid stbtid finbl Stbtf PRESSED = nfw Stbtf(_prfssfd);
+        @Nbtivf privbtf stbtid finbl bytf _pulsfd = 5;
+        publid stbtid finbl Stbtf PULSED = nfw Stbtf(_pulsfd);
+        @Nbtivf privbtf stbtid finbl bytf _rollovfr = 6;
+        publid stbtid finbl Stbtf ROLLOVER = nfw Stbtf(_rollovfr);
+        @Nbtivf privbtf stbtid finbl bytf _drbg = 7;
+        publid stbtid finbl Stbtf DRAG = nfw Stbtf(_drbg);
+    }
+
+    publid stbtid dlbss Dirfdtion fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = Stbtf.SHIFT + Stbtf.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 4;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0xF << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding dirfdtion = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        Dirfdtion(finbl bytf vbluf) {
+            supfr(dirfdtion, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _nonf = 1;
+        publid stbtid finbl Dirfdtion NONE = nfw Dirfdtion(_nonf);
+        @Nbtivf privbtf stbtid finbl bytf _up = 2;
+        publid stbtid finbl Dirfdtion UP = nfw Dirfdtion(_up);
+        @Nbtivf privbtf stbtid finbl bytf _down = 3;
+        publid stbtid finbl Dirfdtion DOWN = nfw Dirfdtion(_down);
+        @Nbtivf privbtf stbtid finbl bytf _lfft = 4;
+        publid stbtid finbl Dirfdtion LEFT = nfw Dirfdtion(_lfft);
+        @Nbtivf privbtf stbtid finbl bytf _rigit = 5;
+        publid stbtid finbl Dirfdtion RIGHT = nfw Dirfdtion(_rigit);
+        @Nbtivf privbtf stbtid finbl bytf _norti = 6;
+        publid stbtid finbl Dirfdtion NORTH = nfw Dirfdtion(_norti);
+        @Nbtivf privbtf stbtid finbl bytf _souti = 7;
+        publid stbtid finbl Dirfdtion SOUTH = nfw Dirfdtion(_souti);
+        @Nbtivf privbtf stbtid finbl bytf _fbst = 8;
+        publid stbtid finbl Dirfdtion EAST = nfw Dirfdtion(_fbst);
+        @Nbtivf privbtf stbtid finbl bytf _wfst = 9;
+        publid stbtid finbl Dirfdtion WEST = nfw Dirfdtion(_wfst);
+    }
+
+    publid stbtid dlbss Orifntbtion fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = Dirfdtion.SHIFT + Dirfdtion.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 2;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x3 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding orifntbtion = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        Orifntbtion(finbl bytf vbluf) {
+            supfr(orifntbtion, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _iorizontbl = 1;
+        publid stbtid finbl Orifntbtion HORIZONTAL = nfw Orifntbtion(_iorizontbl);
+        @Nbtivf privbtf stbtid finbl bytf _vfrtidbl = 2;
+        publid stbtid finbl Orifntbtion VERTICAL = nfw Orifntbtion(_vfrtidbl);
+    }
+
+    publid stbtid dlbss AlignmfntVfrtidbl fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = Orifntbtion.SHIFT + Orifntbtion.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 2;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x3 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding blignmfntVfrtidbl = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        AlignmfntVfrtidbl(finbl bytf vbluf){
+            supfr(blignmfntVfrtidbl, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _top = 1;
+        publid stbtid finbl AlignmfntVfrtidbl TOP = nfw AlignmfntVfrtidbl(_top);
+        @Nbtivf privbtf stbtid finbl bytf _dfntfr = 2;
+        publid stbtid finbl AlignmfntVfrtidbl CENTER = nfw AlignmfntVfrtidbl(_dfntfr);
+        @Nbtivf privbtf stbtid finbl bytf _bottom = 3;
+        publid stbtid finbl AlignmfntVfrtidbl BOTTOM = nfw AlignmfntVfrtidbl(_bottom);
+    }
+
+    publid stbtid dlbss AlignmfntHorizontbl fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = AlignmfntVfrtidbl.SHIFT + AlignmfntVfrtidbl.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 2;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x3 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding blignmfntHorizontbl = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        AlignmfntHorizontbl(finbl bytf vbluf){
+            supfr(blignmfntHorizontbl, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _lfft = 1;
+        publid stbtid finbl AlignmfntHorizontbl LEFT = nfw AlignmfntHorizontbl(_lfft);
+        @Nbtivf privbtf stbtid finbl bytf _dfntfr =  2;
+        publid stbtid finbl AlignmfntHorizontbl CENTER = nfw AlignmfntHorizontbl(_dfntfr);
+        @Nbtivf privbtf stbtid finbl bytf _rigit = 3;
+        publid stbtid finbl AlignmfntHorizontbl RIGHT = nfw AlignmfntHorizontbl(_rigit);
+    }
+
+    publid stbtid dlbss SfgmfntPosition fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = AlignmfntHorizontbl.SHIFT + AlignmfntHorizontbl.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 3;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x7 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding sfgmfntPosition = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        SfgmfntPosition(finbl bytf vbluf) {
+            supfr(sfgmfntPosition, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _first = 1;
+        publid stbtid finbl SfgmfntPosition FIRST = nfw SfgmfntPosition(_first);
+        @Nbtivf privbtf stbtid finbl bytf _middlf = 2;
+        publid stbtid finbl SfgmfntPosition MIDDLE = nfw SfgmfntPosition(_middlf);
+        @Nbtivf privbtf stbtid finbl bytf _lbst = 3;
+        publid stbtid finbl SfgmfntPosition LAST = nfw SfgmfntPosition(_lbst);
+        @Nbtivf privbtf stbtid finbl bytf _only = 4;
+        publid stbtid finbl SfgmfntPosition ONLY = nfw SfgmfntPosition(_only);
+    }
+
+    publid stbtid dlbss SdrollBbrPbrt fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = SfgmfntPosition.SHIFT + SfgmfntPosition.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 4;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0xF << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding sdrollBbrPbrt = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        SdrollBbrPbrt(finbl bytf vbluf) {
+            supfr(sdrollBbrPbrt, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _nonf = 1;
+        publid stbtid finbl SdrollBbrPbrt NONE = nfw SdrollBbrPbrt(_nonf);
+        @Nbtivf privbtf stbtid finbl bytf _tiumb = 2;
+        publid stbtid finbl SdrollBbrPbrt THUMB = nfw SdrollBbrPbrt(_tiumb);
+        @Nbtivf privbtf stbtid finbl bytf _brrowMin = 3;
+        publid stbtid finbl SdrollBbrPbrt ARROW_MIN = nfw SdrollBbrPbrt(_brrowMin);
+        @Nbtivf privbtf stbtid finbl bytf _brrowMbx = 4;
+        publid stbtid finbl SdrollBbrPbrt ARROW_MAX = nfw SdrollBbrPbrt(_brrowMbx);
+        @Nbtivf privbtf stbtid finbl bytf _brrowMbxInsidf = 5;
+        publid stbtid finbl SdrollBbrPbrt ARROW_MAX_INSIDE = nfw SdrollBbrPbrt(_brrowMbxInsidf);
+        @Nbtivf privbtf stbtid finbl bytf _brrowMinInsidf = 6;
+        publid stbtid finbl SdrollBbrPbrt ARROW_MIN_INSIDE = nfw SdrollBbrPbrt(_brrowMinInsidf);
+        @Nbtivf privbtf stbtid finbl bytf _trbdkMin = 7;
+        publid stbtid finbl SdrollBbrPbrt TRACK_MIN = nfw SdrollBbrPbrt(_trbdkMin);
+        @Nbtivf privbtf stbtid finbl bytf _trbdkMbx = 8;
+        publid stbtid finbl SdrollBbrPbrt TRACK_MAX = nfw SdrollBbrPbrt(_trbdkMbx);
+    }
+
+    publid stbtid dlbss Vbribnt fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = SdrollBbrPbrt.SHIFT + SdrollBbrPbrt.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 4;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0xF << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding vbribnt = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        Vbribnt(finbl bytf vbluf) {
+            supfr(vbribnt, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _mfnuGlypi = 1;
+        publid stbtid finbl Vbribnt MENU_GLYPH = nfw Vbribnt(_mfnuGlypi);
+        @Nbtivf privbtf stbtid finbl bytf _mfnuPopup = Vbribnt._mfnuGlypi + 1;
+        publid stbtid finbl Vbribnt MENU_POPUP = nfw Vbribnt(_mfnuPopup);
+        @Nbtivf privbtf stbtid finbl bytf _mfnuPulldown = Vbribnt._mfnuPopup + 1;
+        publid stbtid finbl Vbribnt MENU_PULLDOWN = nfw Vbribnt(_mfnuPulldown);
+        @Nbtivf privbtf stbtid finbl bytf _mfnuHifrbrdiidbl = Vbribnt._mfnuPulldown + 1;
+        publid stbtid finbl Vbribnt MENU_HIERARCHICAL = nfw Vbribnt(_mfnuHifrbrdiidbl);
+
+        @Nbtivf privbtf stbtid finbl bytf _grbdifntListBbdkgroundEvfn = Vbribnt._mfnuHifrbrdiidbl + 1;
+        publid stbtid finbl Vbribnt GRADIENT_LIST_BACKGROUND_EVEN = nfw Vbribnt(_grbdifntListBbdkgroundEvfn);
+        @Nbtivf privbtf stbtid finbl bytf _grbdifntListBbdkgroundOdd = Vbribnt._grbdifntListBbdkgroundEvfn + 1;
+        publid stbtid finbl Vbribnt GRADIENT_LIST_BACKGROUND_ODD = nfw Vbribnt(_grbdifntListBbdkgroundOdd);
+        @Nbtivf privbtf stbtid finbl bytf _grbdifntSidfBbr = Vbribnt._grbdifntListBbdkgroundOdd + 1;
+        publid stbtid finbl Vbribnt GRADIENT_SIDE_BAR = nfw Vbribnt(_grbdifntSidfBbr);
+        @Nbtivf privbtf stbtid finbl bytf _grbdifntSidfBbrSflfdtion = Vbribnt._grbdifntSidfBbr + 1;
+        publid stbtid finbl Vbribnt GRADIENT_SIDE_BAR_SELECTION = nfw Vbribnt(_grbdifntSidfBbrSflfdtion);
+        @Nbtivf privbtf stbtid finbl bytf _grbdifntSidfBbrFodusfdSflfdtion = Vbribnt._grbdifntSidfBbrSflfdtion + 1;
+        publid stbtid finbl Vbribnt GRADIENT_SIDE_BAR_FOCUSED_SELECTION = nfw Vbribnt(_grbdifntSidfBbrFodusfdSflfdtion);
+    }
+
+    publid stbtid dlbss WindowTypf fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = Vbribnt.SHIFT + Vbribnt.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 2;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x3 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding windowTypf = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        WindowTypf(finbl bytf vbluf){
+            supfr(windowTypf, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _dodumfnt = 1;
+        publid stbtid finbl WindowTypf DOCUMENT = nfw WindowTypf(_dodumfnt);
+        @Nbtivf privbtf stbtid finbl bytf _utility = 2;
+        publid stbtid finbl WindowTypf UTILITY = nfw WindowTypf(_utility);
+        @Nbtivf privbtf stbtid finbl bytf _titlflfssUtility = 3;
+        publid stbtid finbl WindowTypf TITLELESS_UTILITY = nfw WindowTypf(_titlflfssUtility);
+    }
+
+    publid stbtid dlbss Fodusfd fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = WindowTypf.SHIFT + WindowTypf.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding fodusfd = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        Fodusfd(finbl bytf vbluf) {
+            supfr(fodusfd, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl Fodusfd NO = nfw Fodusfd(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl Fodusfd YES = nfw Fodusfd(_yfs);
+    }
+
+    publid stbtid dlbss IndidbtorOnly fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = Fodusfd.SHIFT + Fodusfd.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding indidbtorOnly = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        IndidbtorOnly(finbl bytf vbluf) {
+            supfr(indidbtorOnly, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl IndidbtorOnly NO = nfw IndidbtorOnly(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl IndidbtorOnly YES = nfw IndidbtorOnly(_yfs);
+    }
+
+    publid stbtid dlbss NoIndidbtor fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = IndidbtorOnly.SHIFT + IndidbtorOnly.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding noIndidbtor = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        NoIndidbtor(finbl bytf vbluf) {
+            supfr(noIndidbtor, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl NoIndidbtor NO = nfw NoIndidbtor(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl NoIndidbtor YES = nfw NoIndidbtor(_yfs);
+    }
+
+    publid stbtid dlbss ArrowsOnly fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = NoIndidbtor.SHIFT + NoIndidbtor.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding fodusfd = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        ArrowsOnly(finbl bytf vbluf) {
+            supfr(fodusfd, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl ArrowsOnly NO = nfw ArrowsOnly(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl ArrowsOnly YES = nfw ArrowsOnly(_yfs);
+    }
+
+    publid stbtid dlbss FrbmfOnly fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = ArrowsOnly.SHIFT + ArrowsOnly.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding fodusfd = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        FrbmfOnly(finbl bytf vbluf) {
+            supfr(fodusfd, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl FrbmfOnly NO = nfw FrbmfOnly(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl FrbmfOnly YES = nfw FrbmfOnly(_yfs);
+    }
+
+    publid stbtid dlbss SfgmfntTrbilingSfpbrbtor fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = FrbmfOnly.SHIFT + FrbmfOnly.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding fodusfd = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        SfgmfntTrbilingSfpbrbtor(finbl bytf vbluf) {
+            supfr(fodusfd, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl SfgmfntTrbilingSfpbrbtor NO = nfw SfgmfntTrbilingSfpbrbtor(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl SfgmfntTrbilingSfpbrbtor YES = nfw SfgmfntTrbilingSfpbrbtor(_yfs);
+    }
+
+    publid stbtid dlbss SfgmfntLfbdingSfpbrbtor fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = SfgmfntTrbilingSfpbrbtor.SHIFT + SfgmfntTrbilingSfpbrbtor.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding lfbdingSfpbrbtor = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        SfgmfntLfbdingSfpbrbtor(finbl bytf vbluf) {
+            supfr(lfbdingSfpbrbtor, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl SfgmfntLfbdingSfpbrbtor NO = nfw SfgmfntLfbdingSfpbrbtor(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl SfgmfntLfbdingSfpbrbtor YES = nfw SfgmfntLfbdingSfpbrbtor(_yfs);
+    }
+
+    publid stbtid dlbss NotiingToSdroll fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = SfgmfntLfbdingSfpbrbtor.SHIFT + SfgmfntLfbdingSfpbrbtor.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding fodusfd = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        NotiingToSdroll(finbl bytf vbluf) {
+            supfr(fodusfd, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl NotiingToSdroll NO = nfw NotiingToSdroll(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl NotiingToSdroll YES = nfw NotiingToSdroll(_yfs);
+    }
+
+    publid stbtid dlbss WindowTitlfBbrSfpbrbtor fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = NotiingToSdroll.SHIFT + NotiingToSdroll.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding fodusfd = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        WindowTitlfBbrSfpbrbtor(finbl bytf vbluf) {
+            supfr(fodusfd, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl WindowTitlfBbrSfpbrbtor NO = nfw WindowTitlfBbrSfpbrbtor(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl WindowTitlfBbrSfpbrbtor YES = nfw WindowTitlfBbrSfpbrbtor(_yfs);
+    }
+
+    publid stbtid dlbss WindowClipCornfrs fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = WindowTitlfBbrSfpbrbtor.SHIFT + WindowTitlfBbrSfpbrbtor.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding fodusfd = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        WindowClipCornfrs(finbl bytf vbluf) {
+            supfr(fodusfd, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl WindowClipCornfrs NO = nfw WindowClipCornfrs(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl WindowClipCornfrs YES = nfw WindowClipCornfrs(_yfs);
+    }
+
+    publid stbtid dlbss SiowArrows fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = WindowClipCornfrs.SHIFT + WindowClipCornfrs.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding siowArrows = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        SiowArrows(finbl bytf vbluf) {
+            supfr(siowArrows, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl SiowArrows NO = nfw SiowArrows(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl SiowArrows YES = nfw SiowArrows(_yfs);
+    }
+
+    publid stbtid dlbss BoolfbnVbluf fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = SiowArrows.SHIFT + SiowArrows.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding boolfbnVbluf = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        BoolfbnVbluf(finbl bytf vbluf) {
+            supfr(boolfbnVbluf, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl BoolfbnVbluf NO = nfw BoolfbnVbluf(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl BoolfbnVbluf YES = nfw BoolfbnVbluf(_yfs);
+    }
+
+    publid stbtid dlbss Animbting fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = BoolfbnVbluf.SHIFT + BoolfbnVbluf.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 1;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x1 << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding bnimbting = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        Animbting(finbl bytf vbluf) {
+            supfr(bnimbting, vbluf);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _no = 0;
+        publid stbtid finbl Animbting NO = nfw Animbting(_no);
+        @Nbtivf privbtf stbtid finbl bytf _yfs = 1;
+        publid stbtid finbl Animbting YES = nfw Animbting(_yfs);
+    }
+
+    publid stbtid dlbss Widgft fxtfnds Propfrty {
+        @Nbtivf privbtf stbtid finbl bytf SHIFT = Animbting.SHIFT + Animbting.SIZE;
+        @Nbtivf privbtf stbtid finbl bytf SIZE = 7;
+        @Nbtivf privbtf stbtid finbl long MASK = (long)0x7F << SHIFT;
+        privbtf stbtid finbl PropfrtyEndoding widgft = nfw PropfrtyEndoding(MASK, SHIFT);
+
+        Widgft(finbl bytf donstbnt) {
+            supfr(widgft, donstbnt);
+        }
+
+        @Nbtivf privbtf stbtid finbl bytf _bbdkground = 1;
+        publid stbtid finbl Widgft BACKGROUND = nfw Widgft(_bbdkground);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonBfvfl = _bbdkground + 1;
+        publid stbtid finbl Widgft BUTTON_BEVEL = nfw Widgft(_buttonBfvfl);
+        @Nbtivf privbtf stbtid finbl bytf _buttonBfvflInsft = _buttonBfvfl + 1;
+        publid stbtid finbl Widgft BUTTON_BEVEL_INSET = nfw Widgft(_buttonBfvflInsft);
+        @Nbtivf privbtf stbtid finbl bytf _buttonBfvflRound = _buttonBfvflInsft + 1;
+        publid stbtid finbl Widgft BUTTON_BEVEL_ROUND = nfw Widgft(_buttonBfvflRound);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonCifdkBox = _buttonBfvflRound + 1;
+        publid stbtid finbl Widgft BUTTON_CHECK_BOX = nfw Widgft(_buttonCifdkBox);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonComboBox = _buttonCifdkBox + 1;
+        publid stbtid finbl Widgft BUTTON_COMBO_BOX = nfw Widgft(_buttonComboBox);
+        @Nbtivf privbtf stbtid finbl bytf _buttonComboBoxInsft = _buttonComboBox + 1;
+        publid stbtid finbl Widgft BUTTON_COMBO_BOX_INSET = nfw Widgft(_buttonComboBoxInsft); // not iookfd up in JRSUIConstbnts.m
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonDisdlosurf = _buttonComboBoxInsft + 1;
+        publid stbtid finbl Widgft BUTTON_DISCLOSURE = nfw Widgft(_buttonDisdlosurf);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonListHfbdfr = _buttonDisdlosurf + 1;
+        publid stbtid finbl Widgft BUTTON_LIST_HEADER = nfw Widgft(_buttonListHfbdfr);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonLittlfArrows = _buttonListHfbdfr + 1;
+        publid stbtid finbl Widgft BUTTON_LITTLE_ARROWS = nfw Widgft(_buttonLittlfArrows);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonPopDown = _buttonLittlfArrows + 1;
+        publid stbtid finbl Widgft BUTTON_POP_DOWN = nfw Widgft(_buttonPopDown);
+        @Nbtivf privbtf stbtid finbl bytf _buttonPopDownInsft = _buttonPopDown + 1;
+        publid stbtid finbl Widgft BUTTON_POP_DOWN_INSET = nfw Widgft(_buttonPopDownInsft);
+        @Nbtivf privbtf stbtid finbl bytf _buttonPopDownSqubrf = _buttonPopDownInsft + 1;
+        publid stbtid finbl Widgft BUTTON_POP_DOWN_SQUARE = nfw Widgft(_buttonPopDownSqubrf);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonPopUp = _buttonPopDownSqubrf + 1;
+        publid stbtid finbl Widgft BUTTON_POP_UP = nfw Widgft(_buttonPopUp);
+        @Nbtivf privbtf stbtid finbl bytf _buttonPopUpInsft = _buttonPopUp + 1;
+        publid stbtid finbl Widgft BUTTON_POP_UP_INSET = nfw Widgft(_buttonPopUpInsft);
+        @Nbtivf privbtf stbtid finbl bytf _buttonPopUpSqubrf = _buttonPopUpInsft + 1;
+        publid stbtid finbl Widgft BUTTON_POP_UP_SQUARE = nfw Widgft(_buttonPopUpSqubrf);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonPusi = _buttonPopUpSqubrf + 1;
+        publid stbtid finbl Widgft BUTTON_PUSH = nfw Widgft(_buttonPusi);
+        @Nbtivf privbtf stbtid finbl bytf _buttonPusiSdopf = _buttonPusi + 1;
+        publid stbtid finbl Widgft BUTTON_PUSH_SCOPE = nfw Widgft(_buttonPusiSdopf);
+        @Nbtivf privbtf stbtid finbl bytf _buttonPusiSdopf2 = _buttonPusiSdopf + 1;
+        publid stbtid finbl Widgft BUTTON_PUSH_SCOPE2 = nfw Widgft(_buttonPusiSdopf2);
+        @Nbtivf privbtf stbtid finbl bytf _buttonPusiTfxturfd = _buttonPusiSdopf2 + 1;
+        publid stbtid finbl Widgft BUTTON_PUSH_TEXTURED = nfw Widgft(_buttonPusiTfxturfd);
+        @Nbtivf privbtf stbtid finbl bytf _buttonPusiInsft = _buttonPusiTfxturfd + 1;
+        publid stbtid finbl Widgft BUTTON_PUSH_INSET = nfw Widgft(_buttonPusiInsft);
+        @Nbtivf privbtf stbtid finbl bytf _buttonPusiInsft2 = _buttonPusiInsft + 1;
+        publid stbtid finbl Widgft BUTTON_PUSH_INSET2 = nfw Widgft(_buttonPusiInsft2);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonRbdio = _buttonPusiInsft2 + 1;
+        publid stbtid finbl Widgft BUTTON_RADIO = nfw Widgft(_buttonRbdio);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonRound = _buttonRbdio + 1;
+        publid stbtid finbl Widgft BUTTON_ROUND = nfw Widgft(_buttonRound);
+        @Nbtivf privbtf stbtid finbl bytf _buttonRoundHflp = _buttonRound + 1;
+        publid stbtid finbl Widgft BUTTON_ROUND_HELP = nfw Widgft(_buttonRoundHflp);
+        @Nbtivf privbtf stbtid finbl bytf _buttonRoundInsft = _buttonRoundHflp + 1;
+        publid stbtid finbl Widgft BUTTON_ROUND_INSET = nfw Widgft(_buttonRoundInsft);
+        @Nbtivf privbtf stbtid finbl bytf _buttonRoundInsft2 =_buttonRoundInsft + 1;
+        publid stbtid finbl Widgft BUTTON_ROUND_INSET2 = nfw Widgft(_buttonRoundInsft2);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonSfbrdiFifldCbndfl = _buttonRoundInsft2 + 1;
+        publid stbtid finbl Widgft BUTTON_SEARCH_FIELD_CANCEL = nfw Widgft(_buttonSfbrdiFifldCbndfl);
+        @Nbtivf privbtf stbtid finbl bytf _buttonSfbrdiFifldFind = _buttonSfbrdiFifldCbndfl + 1;
+        publid stbtid finbl Widgft BUTTON_SEARCH_FIELD_FIND = nfw Widgft(_buttonSfbrdiFifldFind);
+
+        @Nbtivf privbtf stbtid finbl bytf _buttonSfgmfntfd = _buttonSfbrdiFifldFind + 1;
+        publid stbtid finbl Widgft BUTTON_SEGMENTED = nfw Widgft(_buttonSfgmfntfd);
+        @Nbtivf privbtf stbtid finbl bytf _buttonSfgmfntfdInsft = _buttonSfgmfntfd + 1;
+        publid stbtid finbl Widgft BUTTON_SEGMENTED_INSET = nfw Widgft(_buttonSfgmfntfdInsft);
+        @Nbtivf privbtf stbtid finbl bytf _buttonSfgmfntfdInsft2 = _buttonSfgmfntfdInsft + 1;
+        publid stbtid finbl Widgft BUTTON_SEGMENTED_INSET2 = nfw Widgft(_buttonSfgmfntfdInsft2);
+        @Nbtivf privbtf stbtid finbl bytf _buttonSfgmfntfdSCurvf = _buttonSfgmfntfdInsft2 + 1;
+        publid stbtid finbl Widgft BUTTON_SEGMENTED_SCURVE = nfw Widgft(_buttonSfgmfntfdSCurvf);
+        @Nbtivf privbtf stbtid finbl bytf _buttonSfgmfntfdTfxturfd = _buttonSfgmfntfdSCurvf + 1;
+        publid stbtid finbl Widgft BUTTON_SEGMENTED_TEXTURED = nfw Widgft(_buttonSfgmfntfdTfxturfd);
+        @Nbtivf privbtf stbtid finbl bytf _buttonSfgmfntfdToolbbr = _buttonSfgmfntfdTfxturfd + 1;
+        publid stbtid finbl Widgft BUTTON_SEGMENTED_TOOLBAR = nfw Widgft(_buttonSfgmfntfdToolbbr);
+
+        @Nbtivf privbtf stbtid finbl bytf _dibl = _buttonSfgmfntfdToolbbr + 1;
+        publid stbtid finbl Widgft DIAL = nfw Widgft(_dibl);
+
+        @Nbtivf privbtf stbtid finbl bytf _disdlosurfTribnglf = _dibl + 1;
+        publid stbtid finbl Widgft DISCLOSURE_TRIANGLE = nfw Widgft(_disdlosurfTribnglf);
+
+        @Nbtivf privbtf stbtid finbl bytf _dividfrGrbbbfr = _disdlosurfTribnglf + 1;
+        publid stbtid finbl Widgft DIVIDER_GRABBER = nfw Widgft(_dividfrGrbbbfr);
+        @Nbtivf privbtf stbtid finbl bytf _dividfrSfpbrbtorBbr = _dividfrGrbbbfr + 1;
+        publid stbtid finbl Widgft DIVIDER_SEPARATOR_BAR = nfw Widgft(_dividfrSfpbrbtorBbr);
+        @Nbtivf privbtf stbtid finbl bytf _dividfrSplittfr = _dividfrSfpbrbtorBbr + 1;
+        publid stbtid finbl Widgft DIVIDER_SPLITTER = nfw Widgft(_dividfrSplittfr);
+
+        @Nbtivf privbtf stbtid finbl bytf _fodus = _dividfrSplittfr + 1;
+        publid stbtid finbl Widgft FOCUS = nfw Widgft(_fodus);
+
+        @Nbtivf privbtf stbtid finbl bytf _frbmfGroupBox = _fodus + 1;
+        publid stbtid finbl Widgft FRAME_GROUP_BOX = nfw Widgft(_frbmfGroupBox);
+        @Nbtivf privbtf stbtid finbl bytf _frbmfGroupBoxSfdondbry = _frbmfGroupBox + 1;
+        publid stbtid finbl Widgft FRAME_GROUP_BOX_SECONDARY = nfw Widgft(_frbmfGroupBoxSfdondbry);
+
+        @Nbtivf privbtf stbtid finbl bytf _frbmfListBox = _frbmfGroupBoxSfdondbry + 1;
+        publid stbtid finbl Widgft FRAME_LIST_BOX = nfw Widgft(_frbmfListBox);
+
+        @Nbtivf privbtf stbtid finbl bytf _frbmfPlbdbrd = _frbmfListBox + 1;
+        publid stbtid finbl Widgft FRAME_PLACARD = nfw Widgft(_frbmfPlbdbrd);
+
+        @Nbtivf privbtf stbtid finbl bytf _frbmfTfxtFifld = _frbmfPlbdbrd + 1;
+        publid stbtid finbl Widgft FRAME_TEXT_FIELD = nfw Widgft(_frbmfTfxtFifld);
+        @Nbtivf privbtf stbtid finbl bytf _frbmfTfxtFifldRound = _frbmfTfxtFifld + 1;
+        publid stbtid finbl Widgft FRAME_TEXT_FIELD_ROUND = nfw Widgft(_frbmfTfxtFifldRound);
+
+        @Nbtivf privbtf stbtid finbl bytf _frbmfWfll = _frbmfTfxtFifldRound + 1;
+        publid stbtid finbl Widgft FRAME_WELL = nfw Widgft(_frbmfWfll);
+
+        @Nbtivf privbtf stbtid finbl bytf _growBox = _frbmfWfll + 1;
+        publid stbtid finbl Widgft GROW_BOX = nfw Widgft(_growBox);
+        @Nbtivf privbtf stbtid finbl bytf _growBoxTfxturfd = _growBox + 1;
+        publid stbtid finbl Widgft GROW_BOX_TEXTURED = nfw Widgft(_growBoxTfxturfd);
+
+        @Nbtivf privbtf stbtid finbl bytf _grbdifnt = _growBoxTfxturfd + 1;
+        publid stbtid finbl Widgft GRADIENT = nfw Widgft(_grbdifnt);
+
+        @Nbtivf privbtf stbtid finbl bytf _mfnu = _grbdifnt + 1;
+        publid stbtid finbl Widgft MENU = nfw Widgft(_mfnu);
+        @Nbtivf privbtf stbtid finbl bytf _mfnuItfm = _mfnu + 1;
+        publid stbtid finbl Widgft MENU_ITEM = nfw Widgft(_mfnuItfm);
+        @Nbtivf privbtf stbtid finbl bytf _mfnuBbr = _mfnuItfm + 1;
+        publid stbtid finbl Widgft MENU_BAR = nfw Widgft(_mfnuBbr);
+        @Nbtivf privbtf stbtid finbl bytf _mfnuTitlf = _mfnuBbr + 1;
+        publid stbtid finbl Widgft MENU_TITLE = nfw Widgft(_mfnuTitlf);
+
+        @Nbtivf privbtf stbtid finbl bytf _progrfssBbr = _mfnuTitlf + 1;
+        publid stbtid finbl Widgft PROGRESS_BAR = nfw Widgft(_progrfssBbr);
+        @Nbtivf privbtf stbtid finbl bytf _progrfssIndftfrminbtfBbr = _progrfssBbr + 1;
+        publid stbtid finbl Widgft PROGRESS_INDETERMINATE_BAR = nfw Widgft(_progrfssIndftfrminbtfBbr);
+        @Nbtivf privbtf stbtid finbl bytf _progrfssRflfvbndf = _progrfssIndftfrminbtfBbr + 1;
+        publid stbtid finbl Widgft PROGRESS_RELEVANCE = nfw Widgft(_progrfssRflfvbndf);
+        @Nbtivf privbtf stbtid finbl bytf _progrfssSpinnfr = _progrfssRflfvbndf + 1;
+        publid stbtid finbl Widgft PROGRESS_SPINNER = nfw Widgft(_progrfssSpinnfr);
+
+        @Nbtivf privbtf stbtid finbl bytf _sdrollBbr = _progrfssSpinnfr + 1;
+        publid stbtid finbl Widgft SCROLL_BAR = nfw Widgft(_sdrollBbr);
+
+        @Nbtivf privbtf stbtid finbl bytf _sdrollColumnSizfr = _sdrollBbr + 1;
+        publid stbtid finbl Widgft SCROLL_COLUMN_SIZER = nfw Widgft(_sdrollColumnSizfr);
+
+        @Nbtivf privbtf stbtid finbl bytf _slidfr = _sdrollColumnSizfr + 1;
+        publid stbtid finbl Widgft SLIDER = nfw Widgft(_slidfr);
+        @Nbtivf privbtf stbtid finbl bytf _slidfrTiumb = _slidfr + 1;
+        publid stbtid finbl Widgft SLIDER_THUMB = nfw Widgft(_slidfrTiumb);
+
+        @Nbtivf privbtf stbtid finbl bytf _syndironizbtion = _slidfrTiumb + 1;
+        publid stbtid finbl Widgft SYNCHRONIZATION = nfw Widgft(_syndironizbtion);
+
+        @Nbtivf privbtf stbtid finbl bytf _tbb = _syndironizbtion + 1;
+        publid stbtid finbl Widgft TAB = nfw Widgft(_tbb);
+
+        @Nbtivf privbtf stbtid finbl bytf _titlfBbrClosfBox = _tbb + 1;
+        publid stbtid finbl Widgft TITLE_BAR_CLOSE_BOX = nfw Widgft(_titlfBbrClosfBox);
+        @Nbtivf privbtf stbtid finbl bytf _titlfBbrCollbpsfBox = _titlfBbrClosfBox + 1;
+        publid stbtid finbl Widgft TITLE_BAR_COLLAPSE_BOX = nfw Widgft(_titlfBbrCollbpsfBox);
+        @Nbtivf privbtf stbtid finbl bytf _titlfBbrZoomBox = _titlfBbrCollbpsfBox + 1;
+        publid stbtid finbl Widgft TITLE_BAR_ZOOM_BOX = nfw Widgft(_titlfBbrZoomBox);
+
+        @Nbtivf privbtf stbtid finbl bytf _titlfBbrToolbbrButton = _titlfBbrZoomBox + 1;
+        publid stbtid finbl Widgft TITLE_BAR_TOOLBAR_BUTTON = nfw Widgft(_titlfBbrToolbbrButton);
+
+        @Nbtivf privbtf stbtid finbl bytf _toolbbrItfmWfll = _titlfBbrToolbbrButton + 1;
+        publid stbtid finbl Widgft TOOLBAR_ITEM_WELL = nfw Widgft(_toolbbrItfmWfll);
+
+        @Nbtivf privbtf stbtid finbl bytf _windowFrbmf = _toolbbrItfmWfll + 1;
+        publid stbtid finbl Widgft WINDOW_FRAME = nfw Widgft(_windowFrbmf);
+    }
+
+    publid stbtid dlbss Hit {
+        @Nbtivf privbtf stbtid finbl int _unknown = -1;
+        publid stbtid finbl Hit UNKNOWN = nfw Hit(_unknown);
+        @Nbtivf privbtf stbtid finbl int _nonf = 0;
+        publid stbtid finbl Hit NONE = nfw Hit(_nonf);
+        @Nbtivf privbtf stbtid finbl int _iit = 1;
+        publid stbtid finbl Hit HIT = nfw Hit(_iit);
+
+        finbl int iit;
+        Hit(finbl int iit) { tiis.iit = iit; }
+
+        publid boolfbn isHit() {
+            rfturn iit > 0;
+        }
+
+        publid String toString() {
+            rfturn gftConstbntNbmf(tiis);
+        }
+    }
+
+    publid stbtid dlbss SdrollBbrHit fxtfnds Hit {
+        @Nbtivf privbtf stbtid finbl int _tiumb = 2;
+        publid stbtid finbl SdrollBbrHit THUMB = nfw SdrollBbrHit(_tiumb);
+
+        @Nbtivf privbtf stbtid finbl int _trbdkMin = 3;
+        publid stbtid finbl SdrollBbrHit TRACK_MIN = nfw SdrollBbrHit(_trbdkMin);
+        @Nbtivf privbtf stbtid finbl int _trbdkMbx = 4;
+        publid stbtid finbl SdrollBbrHit TRACK_MAX = nfw SdrollBbrHit(_trbdkMbx);
+
+        @Nbtivf privbtf stbtid finbl int _brrowMin = 5;
+        publid stbtid finbl SdrollBbrHit ARROW_MIN = nfw SdrollBbrHit(_brrowMin);
+        @Nbtivf privbtf stbtid finbl int _brrowMbx = 6;
+        publid stbtid finbl SdrollBbrHit ARROW_MAX = nfw SdrollBbrHit(_brrowMbx);
+        @Nbtivf privbtf stbtid finbl int _brrowMbxInsidf = 7;
+        publid stbtid finbl SdrollBbrHit ARROW_MAX_INSIDE = nfw SdrollBbrHit(_brrowMbxInsidf);
+        @Nbtivf privbtf stbtid finbl int _brrowMinInsidf = 8;
+        publid stbtid finbl SdrollBbrHit ARROW_MIN_INSIDE = nfw SdrollBbrHit(_brrowMinInsidf);
+
+        SdrollBbrHit(finbl int iit) { supfr(iit); }
+    }
+
+    stbtid Hit gftHit(finbl int iit) {
+        switdi (iit) {
+            dbsf Hit._nonf:
+                rfturn Hit.NONE;
+            dbsf Hit._iit:
+                rfturn Hit.HIT;
+
+            dbsf SdrollBbrHit._tiumb:
+                rfturn SdrollBbrHit.THUMB;
+            dbsf SdrollBbrHit._trbdkMin:
+                rfturn SdrollBbrHit.TRACK_MIN;
+            dbsf SdrollBbrHit._trbdkMbx:
+                rfturn SdrollBbrHit.TRACK_MAX;
+            dbsf SdrollBbrHit._brrowMin:
+                rfturn SdrollBbrHit.ARROW_MIN;
+            dbsf SdrollBbrHit._brrowMbx:
+                rfturn SdrollBbrHit.ARROW_MAX;
+            dbsf SdrollBbrHit._brrowMbxInsidf:
+                rfturn SdrollBbrHit.ARROW_MAX_INSIDE;
+            dbsf SdrollBbrHit._brrowMinInsidf:
+                rfturn SdrollBbrHit.ARROW_MIN_INSIDE;
+        }
+        rfturn Hit.UNKNOWN;
+    }
+
+    stbtid String gftConstbntNbmf(finbl Objfdt objfdt) {
+        finbl Clbss<? fxtfnds Objfdt> dlbzz = objfdt.gftClbss();
         try {
-            for (final Field field : clazz.getFields()) {
-                if (field.get(null) == object) {
-                    return field.getName();
+            for (finbl Fifld fifld : dlbzz.gftFiflds()) {
+                if (fifld.gft(null) == objfdt) {
+                    rfturn fifld.gftNbmf();
                 }
             }
-        } catch (final Exception e) {}
-        return clazz.getSimpleName();
+        } dbtdi (finbl Exdfption f) {}
+        rfturn dlbzz.gftSimplfNbmf();
     }
 }

@@ -1,0 +1,1470 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rowsft.intfrnbl;
+
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+import dom.sun.rowsft.*;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvbx.sql.rowsft.*;
+import jbvbx.sql.rowsft.sfribl.SQLInputImpl;
+import jbvbx.sql.rowsft.sfribl.SfriblArrby;
+import jbvbx.sql.rowsft.sfribl.SfriblBlob;
+import jbvbx.sql.rowsft.sfribl.SfriblClob;
+import jbvbx.sql.rowsft.sfribl.SfriblStrudt;
+import jbvbx.sql.rowsft.spi.*;
+
+
+/**
+ * Thf fbdility dbllfd on intfrnblly by thf <dodf>RIOptimistidProvidfr</dodf> implfmfntbtion to
+ * propbgbtf dhbngfs bbdk to thf dbtb sourdf from whidh thf rowsft got its dbtb.
+ * <P>
+ * A <dodf>CbdhfdRowSftWritfr</dodf> objfdt, dbllfd b writfr, hbs thf publid
+ * mfthod <dodf>writfDbtb</dodf> for writing modififd dbtb to thf undfrlying dbtb sourdf.
+ * This mfthod is invokfd by thf rowsft intfrnblly bnd is nfvfr invokfd dirfdtly by bn bpplidbtion.
+ * A writfr blso hbs publid mfthods for sftting bnd gftting
+ * thf <dodf>CbdhfdRowSftRfbdfr</dodf> objfdt, dbllfd b rfbdfr, thbt is bssodibtfd
+ * with thf writfr. Thf rfmbindfr of thf mfthods in this dlbss brf privbtf bnd
+ * brf invokfd intfrnblly, fithfr dirfdtly or indirfdtly, by thf mfthod
+ * <dodf>writfDbtb</dodf>.
+ * <P>
+ * Typidblly thf <dodf>SyndFbdtory</dodf> mbnbgfs thf <dodf>RowSftRfbdfr</dodf> bnd
+ * thf <dodf>RowSftWritfr</dodf> implfmfntbtions using <dodf>SyndProvidfr</dodf> objfdts.
+ * Stbndbrd JDBC RowSft implfmfntbtions providf bn objfdt instbndf of this
+ * writfr by invoking thf <dodf>SyndProvidfr.gftRowSftWritfr()</dodf> mfthod.
+ *
+ * @vfrsion 0.2
+ * @buthor Jonbthbn Brudf
+ * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtory
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption
+ */
+publid dlbss CbdhfdRowSftWritfr implfmfnts TrbnsbdtionblWritfr, Sfriblizbblf {
+
+/**
+ * Thf <dodf>Connfdtion</dodf> objfdt thbt this writfr will usf to mbkf b
+ * donnfdtion to thf dbtb sourdf to whidh it will writf dbtb.
+ *
+ */
+    privbtf trbnsifnt Connfdtion don;
+
+/**
+ * Thf SQL <dodf>SELECT</dodf> dommbnd thbt this writfr will dbll
+ * intfrnblly. Thf mfthod <dodf>initSQLStbtfmfnts</dodf> builds this
+ * dommbnd by supplying thf words "SELECT" bnd "FROM," bnd using
+ * mftbdbtb to gft thf tbblf nbmf bnd dolumn nbmfs .
+ *
+ * @sfribl
+ */
+    privbtf String sflfdtCmd;
+
+/**
+ * Thf SQL <dodf>UPDATE</dodf> dommbnd thbt this writfr will dbll
+ * intfrnblly to writf dbtb to thf rowsft's undfrlying dbtb sourdf.
+ * Thf mfthod <dodf>initSQLStbtfmfnts</dodf> builds this <dodf>String</dodf>
+ * objfdt.
+ *
+ * @sfribl
+ */
+    privbtf String updbtfCmd;
+
+/**
+ * Thf SQL <dodf>WHERE</dodf> dlbusf thf writfr will usf for updbtf
+ * stbtfmfnts in thf <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+ * it sfnds to thf undfrlying dbtb sourdf.
+ *
+ * @sfribl
+ */
+    privbtf String updbtfWhfrf;
+
+/**
+ * Thf SQL <dodf>DELETE</dodf> dommbnd thbt this writfr will dbll
+ * intfrnblly to dflftf b row in thf rowsft's undfrlying dbtb sourdf.
+ *
+ * @sfribl
+ */
+    privbtf String dflftfCmd;
+
+/**
+ * Thf SQL <dodf>WHERE</dodf> dlbusf thf writfr will usf for dflftf
+ * stbtfmfnts in thf <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+ * it sfnds to thf undfrlying dbtb sourdf.
+ *
+ * @sfribl
+ */
+    privbtf String dflftfWhfrf;
+
+/**
+ * Thf SQL <dodf>INSERT INTO</dodf> dommbnd thbt this writfr will intfrnblly usf
+ * to insfrt dbtb into thf rowsft's undfrlying dbtb sourdf.  Thf mfthod
+ * <dodf>initSQLStbtfmfnts</dodf> builds this dommbnd with b qufstion
+ * mbrk pbrbmftfr plbdfholdfr for fbdh dolumn in thf rowsft.
+ *
+ * @sfribl
+ */
+    privbtf String insfrtCmd;
+
+/**
+ * An brrby dontbining thf dolumn numbfrs of thf dolumns thbt brf
+ * nffdfd to uniqufly idfntify b row in thf <dodf>CbdhfdRowSft</dodf> objfdt
+ * for whidh this <dodf>CbdhfdRowSftWritfr</dodf> objfdt is thf writfr.
+ *
+ * @sfribl
+ */
+    privbtf int[] kfyCols;
+
+/**
+ * An brrby of thf pbrbmftfrs thbt should bf usfd to sft thf pbrbmftfr
+ * plbdfholdfrs in b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt thbt this
+ * writfr will fxfdutf.
+ *
+ * @sfribl
+ */
+    privbtf Objfdt[] pbrbms;
+
+/**
+ * Thf <dodf>CbdhfdRowSftRfbdfr</dodf> objfdt thbt hbs bffn
+ * sft bs thf rfbdfr for thf <dodf>CbdhfdRowSft</dodf> objfdt
+ * for whidh this <dodf>CbdhfdRowSftWritfr</dodf> objfdt is thf writfr.
+ *
+ * @sfribl
+ */
+    privbtf CbdhfdRowSftRfbdfr rfbdfr;
+
+/**
+ * Thf <dodf>RfsultSftMftbDbtb</dodf> objfdt thbt dontbins informbtion
+ * bbout thf dolumns in thf <dodf>CbdhfdRowSft</dodf> objfdt
+ * for whidh this <dodf>CbdhfdRowSftWritfr</dodf> objfdt is thf writfr.
+ *
+ * @sfribl
+ */
+    privbtf RfsultSftMftbDbtb dbllfrMd;
+
+/**
+ * Thf numbfr of dolumns in thf <dodf>CbdhfdRowSft</dodf> objfdt
+ * for whidh this <dodf>CbdhfdRowSftWritfr</dodf> objfdt is thf writfr.
+ *
+ * @sfribl
+ */
+    privbtf int dbllfrColumnCount;
+
+/**
+ * This <dodf>CbdhfdRowSft<dodf> will hold thf donflidting vblufs
+ *  rftrifvfd from thf db bnd hold it.
+ */
+    privbtf CbdhfdRowSftImpl drsRfsolvf;
+
+/**
+ * This <dodf>ArrbyList<dodf> will hold thf vblufs of SyndRfsolvfr.*
+ */
+    privbtf ArrbyList<Intfgfr> stbtus;
+
+/**
+ * This will dhfdk whfthfr thf sbmf fifld vbluf hbs dhbngfd both
+ * in dbtbbbsf bnd CbdhfdRowSft.
+ */
+    privbtf int iChbngfdVblsInDbAndCRS;
+
+/**
+ * This will hold thf numbfr of dols for whidh thf vblufs hbvf
+ * dhbngfd only in dbtbbbsf.
+ */
+    privbtf int iChbngfdVblsinDbOnly ;
+
+    privbtf JdbdRowSftRfsourdfBundlf rfsBundlf;
+
+    publid CbdhfdRowSftWritfr() {
+       try {
+               rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+       } dbtdh(IOExdfption iof) {
+               throw nfw RuntimfExdfption(iof);
+       }
+    }
+
+/**
+ * Propbgbtfs dhbngfs in thf givfn <dodf>RowSft</dodf> objfdt
+ * bbdk to its undfrlying dbtb sourdf bnd rfturns <dodf>truf</dodf>
+ * if suddfssful. Thf writfr will dhfdk to sff if
+ * thf dbtb in thf prf-modififd rowsft (thf originbl vblufs) difffr
+ * from thf dbtb in thf undfrlying dbtb sourdf.  If dbtb in thf dbtb
+ * sourdf hbs bffn modififd by somfonf flsf, thfrf is b donflidt,
+ * bnd in thbt dbsf, thf writfr will not writf to thf dbtb sourdf.
+ * In othfr words, thf writfr usfs bn optimistid dondurrfndy blgorithm:
+ * It dhfdks for donflidts bfforf mbking dhbngfs rbthfr thbn rfstridting
+ * bddfss for dondurrfnt usfrs.
+ * <P>
+ * This mfthod is dbllfd by thf rowsft intfrnblly whfn
+ * thf bpplidbtion invokfs thf mfthod <dodf>bddfptChbngfs</dodf>.
+ * Thf <dodf>writfDbtb</dodf> mfthod in turn dblls privbtf mfthods thbt
+ * it dffinfs intfrnblly.
+ * Thf following is b gfnfrbl summbry of whbt thf mfthod
+ * <dodf>writfDbtb</dodf> dofs, mudh of whidh is bddomplishfd
+ * through dblls to its own intfrnbl mfthods.
+ * <OL>
+ * <LI>Crfbtfs b <dodf>CbdhfdRowSft</dodf> objfdt from thf givfn
+ *     <dodf>RowSft</dodf> objfdt
+ * <LI>Mbkfs b donnfdtion with thf dbtb sourdf
+ *   <UL>
+ *      <LI>Disbblfs butodommit modf if it is not blrfbdy disbblfd
+ *      <LI>Sfts thf trbnsbdtion isolbtion lfvfl to thbt of thf rowsft
+ *   </UL>
+ * <LI>Chfdks to sff if thf rfbdfr hbs rfbd nfw dbtb sindf thf writfr
+ *     wbs lbst dbllfd bnd, if so, dblls thf mfthod
+ *    <dodf>initSQLStbtfmfnts</dodf> to initiblizf nfw SQL stbtfmfnts
+ *   <UL>
+ *       <LI>Builds nfw <dodf>SELECT</dodf>, <dodf>UPDATE</dodf>,
+ *           <dodf>INSERT</dodf>, bnd <dodf>DELETE</dodf> stbtfmfnts
+ *       <LI>Usfs thf <dodf>CbdhfdRowSft</dodf> objfdt's mftbdbtb to
+ *           dftfrminf thf tbblf nbmf, dolumn nbmfs, bnd thf dolumns
+ *           thbt mbkf up thf primbry kfy
+ *   </UL>
+ * <LI>Whfn thfrf is no donflidt, propbgbtfs dhbngfs mbdf to thf
+ *     <dodf>CbdhfdRowSft</dodf> objfdt bbdk to its undfrlying dbtb sourdf
+ *   <UL>
+ *      <LI>Itfrbtfs through fbdh row of thf <dodf>CbdhfdRowSft</dodf> objfdt
+ *          to dftfrminf whfthfr it hbs bffn updbtfd, insfrtfd, or dflftfd
+ *      <LI>If thf dorrfsponding row in thf dbtb sourdf hbs not bffn dhbngfd
+ *          sindf thf rowsft lbst rfbd its
+ *          vblufs, thf writfr will usf thf bppropribtf dommbnd to updbtf,
+ *          insfrt, or dflftf thf row
+ *      <LI>If bny dbtb in thf dbtb sourdf dofs not mbtdh thf originbl vblufs
+ *          for thf <dodf>CbdhfdRowSft</dodf> objfdt, thf writfr will roll
+ *          bbdk bny dhbngfs it hbs mbdf to thf row in thf dbtb sourdf.
+ *   </UL>
+ * </OL>
+ *
+ * @rfturn <dodf>truf</dodf> if dhbngfs to thf rowsft wfrf suddfssfully
+ *         writtfn to thf rowsft's undfrlying dbtb sourdf;
+ *         <dodf>fblsf</dodf> othfrwisf
+ */
+    publid boolfbn writfDbtb(RowSftIntfrnbl dbllfr) throws SQLExdfption {
+        long donflidts = 0;
+        boolfbn showDfl = fblsf;
+        PrfpbrfdStbtfmfnt pstmtIns = null;
+        iChbngfdVblsInDbAndCRS = 0;
+        iChbngfdVblsinDbOnly = 0;
+
+        // Wf bssumf dbllfr is b CbdhfdRowSft
+        CbdhfdRowSftImpl drs = (CbdhfdRowSftImpl)dbllfr;
+        // drsRfsolvf = nfw CbdhfdRowSftImpl();
+        this.drsRfsolvf = nfw CbdhfdRowSftImpl();;
+
+        // Thf rfbdfr is rfgistfrfd with thf writfr bt dfsign timf.
+        // This is not rfquirfd, in gfnfrbl.  Thf rfbdfr hbs logid
+        // to gft b JDBC donnfdtion, so dbll it.
+
+        don = rfbdfr.donnfdt(dbllfr);
+
+
+        if (don == null) {
+            throw nfw SQLExdfption(rfsBundlf.hbndlfGftObjfdt("drswritfr.donnfdt").toString());
+        }
+
+        /*
+         // Fix 6200646.
+         // Don't dhbngf thf donnfdtion or trbnsbdtion propfrtifs. This will fbil in b
+         // J2EE dontbinfr.
+        if (don.gftAutoCommit() == truf)  {
+            don.sftAutoCommit(fblsf);
+        }
+
+        don.sftTrbnsbdtionIsolbtion(drs.gftTrbnsbdtionIsolbtion());
+        */
+
+        initSQLStbtfmfnts(drs);
+        int iColCount;
+
+        RowSftMftbDbtbImpl rsmdWritf = (RowSftMftbDbtbImpl)drs.gftMftbDbtb();
+        RowSftMftbDbtbImpl rsmdRfsolv = nfw RowSftMftbDbtbImpl();
+
+        iColCount = rsmdWritf.gftColumnCount();
+        int sz= drs.sizf()+1;
+        stbtus = nfw ArrbyList<>(sz);
+
+        stbtus.bdd(0,null);
+        rsmdRfsolv.sftColumnCount(iColCount);
+
+        for(int i =1; i <= iColCount; i++) {
+            rsmdRfsolv.sftColumnTypf(i, rsmdWritf.gftColumnTypf(i));
+            rsmdRfsolv.sftColumnNbmf(i, rsmdWritf.gftColumnNbmf(i));
+            rsmdRfsolv.sftNullbblf(i, RfsultSftMftbDbtb.dolumnNullbblfUnknown);
+        }
+        this.drsRfsolvf.sftMftbDbtb(rsmdRfsolv);
+
+        // movfd outsidf thf insfrt innfr loop
+        //pstmtIns = don.prfpbrfStbtfmfnt(insfrtCmd);
+
+        if (dbllfrColumnCount < 1) {
+            // No dbtb, so rfturn suddfss.
+            if (rfbdfr.gftClosfConnfdtion() == truf)
+                    don.dlosf();
+            rfturn truf;
+        }
+        // Wf nffd to sff rows mbrkfd for dflftion.
+        showDfl = drs.gftShowDflftfd();
+        drs.sftShowDflftfd(truf);
+
+        // Look bt bll thf rows.
+        drs.bfforfFirst();
+
+        int rows =1;
+        whilf (drs.nfxt()) {
+            if (drs.rowDflftfd()) {
+                // Thf row hbs bffn dflftfd.
+                if (dflftfOriginblRow(drs, this.drsRfsolvf)) {
+                       stbtus.bdd(rows, SyndRfsolvfr.DELETE_ROW_CONFLICT);
+                       donflidts++;
+                } flsf {
+                      // dflftf hbppfnfd without bny oddurrfndf of donflidts
+                      // so updbtf stbtus bddordingly
+                       stbtus.bdd(rows, SyndRfsolvfr.NO_ROW_CONFLICT);
+                }
+
+           } flsf if (drs.rowInsfrtfd()) {
+                // Thf row hbs bffn insfrtfd.
+
+                pstmtIns = don.prfpbrfStbtfmfnt(insfrtCmd);
+                if (insfrtNfwRow(drs, pstmtIns, this.drsRfsolvf)) {
+                          stbtus.bdd(rows, SyndRfsolvfr.INSERT_ROW_CONFLICT);
+                          donflidts++;
+                } flsf {
+                      // insfrt hbppfnfd without bny oddurrfndf of donflidts
+                      // so updbtf stbtus bddordingly
+                       stbtus.bdd(rows, SyndRfsolvfr.NO_ROW_CONFLICT);
+                }
+            } flsf  if (drs.rowUpdbtfd()) {
+                  // Thf row hbs bffn updbtfd.
+                       if (updbtfOriginblRow(drs)) {
+                             stbtus.bdd(rows, SyndRfsolvfr.UPDATE_ROW_CONFLICT);
+                             donflidts++;
+               } flsf {
+                      // updbtf hbppfnfd without bny oddurrfndf of donflidts
+                      // so updbtf stbtus bddordingly
+                      stbtus.bdd(rows, SyndRfsolvfr.NO_ROW_CONFLICT);
+               }
+
+            } flsf {
+               /** Thf row is nfithfr of insfrtfd, updbtfd or dflftfd.
+                *  So sft nulls in thf this.drsRfsolvf for this row,
+                *  bs nothing is to bf donf for sudh rows.
+                *  Also notf thbt if sudh b row hbs bffn dhbngfd in dbtbbbsf
+                *  bnd wf hbvf not dhbngfd(insfrtfd, updbtfd or dflftfd)
+                *  thbt is finf.
+                **/
+                int idolCount = drs.gftMftbDbtb().gftColumnCount();
+                stbtus.bdd(rows, SyndRfsolvfr.NO_ROW_CONFLICT);
+
+                this.drsRfsolvf.movfToInsfrtRow();
+                for(int dols=0;dols<iColCount;dols++) {
+                   this.drsRfsolvf.updbtfNull(dols+1);
+                } //fnd for
+
+                this.drsRfsolvf.insfrtRow();
+                this.drsRfsolvf.movfToCurrfntRow();
+
+                } //fnd if
+         rows++;
+      } //fnd whilf
+
+        // dlosf thf insfrt stbtfmfnt
+        if(pstmtIns!=null)
+        pstmtIns.dlosf();
+        // rfsft
+        drs.sftShowDflftfd(showDfl);
+
+        drs.bfforfFirst();
+        this.drsRfsolvf.bfforfFirst();
+
+    if(donflidts != 0) {
+        SyndProvidfrExdfption spf = nfw SyndProvidfrExdfption(donflidts + " " +
+                rfsBundlf.hbndlfGftObjfdt("drswritfr.donflidtsno").toString());
+        //SyndRfsolvfr syndRfs = spf.gftSyndRfsolvfr();
+
+         SyndRfsolvfrImpl syndRfsImpl = (SyndRfsolvfrImpl) spf.gftSyndRfsolvfr();
+
+         syndRfsImpl.sftCbdhfdRowSft(drs);
+         syndRfsImpl.sftCbdhfdRowSftRfsolvfr(this.drsRfsolvf);
+
+         syndRfsImpl.sftStbtus(stbtus);
+         syndRfsImpl.sftCbdhfdRowSftWritfr(this);
+
+        throw spf;
+    } flsf {
+         rfturn truf;
+    }
+       /*
+       if (donflidt == truf) {
+            don.rollbbdk();
+            rfturn fblsf;
+        } flsf {
+            don.dommit();
+                if (rfbdfr.gftClosfConnfdtion() == truf) {
+                       don.dlosf();
+                }
+            rfturn truf;
+        }
+        */
+
+  } //fnd writfDbtb
+
+/**
+ * Updbtfs thf givfn <dodf>CbdhfdRowSft</dodf> objfdt's undfrlying dbtb
+ * sourdf so thbt updbtfs to thf rowsft brf rfflfdtfd in thf originbl
+ * dbtb sourdf, bnd rfturns <dodf>fblsf</dodf> if thf updbtf wbs suddfssful.
+ * A rfturn vbluf of <dodf>truf</dodf> indidbtfs thbt thfrf is b donflidt,
+ * mfbning thbt b vbluf updbtfd in thf rowsft hbs blrfbdy bffn dhbngfd by
+ * somfonf flsf in thf undfrlying dbtb sourdf.  A donflidt dbn blso fxist
+ * if, for fxbmplf, morf thbn onf row in thf dbtb sourdf would bf bfffdtfd
+ * by thf updbtf or if no rows would bf bfffdtfd.  In bny dbsf, if thfrf is
+ * b donflidt, this mfthod dofs not updbtf thf undfrlying dbtb sourdf.
+ * <P>
+ * This mfthod is dbllfd intfrnblly by thf mfthod <dodf>writfDbtb</dodf>
+ * if b row in thf <dodf>CbdhfdRowSft</dodf> objfdt for whidh this
+ * <dodf>CbdhfdRowSftWritfr</dodf> objfdt is thf writfr hbs bffn updbtfd.
+ *
+ * @rfturn <dodf>fblsf</dodf> if thf updbtf to thf undfrlying dbtb sourdf is
+ *         suddfssful; <dodf>truf</dodf> othfrwisf
+ * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+ */
+    privbtf boolfbn updbtfOriginblRow(CbdhfdRowSft drs)
+        throws SQLExdfption {
+        PrfpbrfdStbtfmfnt pstmt;
+        int i = 0;
+        int idx = 0;
+
+        // Sflfdt thf row from thf dbtbbbsf.
+        RfsultSft origVbls = drs.gftOriginblRow();
+        origVbls.nfxt();
+
+        try {
+            updbtfWhfrf = buildWhfrfClbusf(updbtfWhfrf, origVbls);
+
+
+             /**
+              *  Thf following blodk of dodf is for dhfdking b pbrtidulbr typf of
+              *  qufry whfrf in thfrf is b whfrf dlbusf. Without this blodk, if b
+              *  SQL stbtfmfnt is built thf "whfrf" dlbusf will bppfbr twidf hfndf
+              *  thf DB frrors out bnd b SQLExdfption is thrown. This dodf blso
+              *  donsidfrs thbt thf whfrf dlbusf is in thf right plbdf bs thf
+              *  CbdhfdRowSft objfdt would blrfbdy hbvf bffn populbtfd with this
+              *  qufry bfforf doming to this point.
+              **/
+
+
+            String tfmpsflfdtCmd = sflfdtCmd.toLowfrCbsf();
+
+            int idxWhfrf = tfmpsflfdtCmd.indfxOf("whfrf");
+
+            if(idxWhfrf != -1)
+            {
+               String tfmpSflfdt = sflfdtCmd.substring(0,idxWhfrf);
+               sflfdtCmd = tfmpSflfdt;
+            }
+
+            pstmt = don.prfpbrfStbtfmfnt(sflfdtCmd + updbtfWhfrf,
+                        RfsultSft.TYPE_SCROLL_SENSITIVE, RfsultSft.CONCUR_READ_ONLY);
+
+            for (i = 0; i < kfyCols.lfngth; i++) {
+                if (pbrbms[i] != null) {
+                    pstmt.sftObjfdt(++idx, pbrbms[i]);
+                } flsf {
+                    dontinuf;
+                }
+            }
+
+            try {
+                pstmt.sftMbxRows(drs.gftMbxRows());
+                pstmt.sftMbxFifldSizf(drs.gftMbxFifldSizf());
+                pstmt.sftEsdbpfProdfssing(drs.gftEsdbpfProdfssing());
+                pstmt.sftQufryTimfout(drs.gftQufryTimfout());
+            } dbtdh (Exdfption fx) {
+                // Oldfr drivfr don't support thfsf opfrbtions.
+            }
+
+            RfsultSft rs = null;
+            rs = pstmt.fxfdutfQufry();
+            RfsultSftMftbDbtb rsmd = rs.gftMftbDbtb();
+
+            if (rs.nfxt()) {
+                if (rs.nfxt()) {
+                   /** Morf thbn onf row donflidt.
+                    *  If rs hbs only onf row wf brf bblf to
+                    *  uniqufly idfntify thf row whfrf updbtf
+                    *  hbvf to hbppfn flsf if morf thbn onf
+                    *  row implifs wf dbnnot uniqufly idfntify thf row
+                    *  whfrf wf hbvf to do updbtfs.
+                    *  drs.sftKfyColumns nffds to bf sft to
+                    *  domf out of this situbtion.
+                    */
+
+                   rfturn truf;
+                }
+
+                // don't dlosf thf rs
+                // wf rfquirf thf rfdord in rs to bf usfd.
+                // rs.dlosf();
+                // pstmt.dlosf();
+                rs.first();
+
+                // how mbny fiflds nffd to bf updbtfd
+                int dolsNotChbngfd = 0;
+                Vfdtor<Intfgfr> dols = nfw Vfdtor<>();
+                String updbtfExfd = updbtfCmd;
+                Objfdt orig;
+                Objfdt durr;
+                Objfdt rsvbl;
+                boolfbn boolNull = truf;
+                Objfdt objVbl = null;
+
+                // Thfrf's only onf row bnd thf dursor
+                // nffds to bf on thbt row.
+
+                boolfbn first = truf;
+                boolfbn flbg = truf;
+
+          this.drsRfsolvf.movfToInsfrtRow();
+
+          for (i = 1; i <= dbllfrColumnCount; i++) {
+                orig = origVbls.gftObjfdt(i);
+                durr = drs.gftObjfdt(i);
+                rsvbl = rs.gftObjfdt(i);
+                /*
+                 * thf following blodk drfbtfs fquivblfnt objfdts
+                 * thbt would hbvf bffn drfbtfd if this rs is populbtfd
+                 * into b CbdhfdRowSft so thbt dompbrison of thf dolumn vblufs
+                 * from thf RfsultSft bnd CbdhfdRowSft brf possiblf
+                 */
+                Mbp<String, Clbss<?>> mbp = (drs.gftTypfMbp() == null)?don.gftTypfMbp():drs.gftTypfMbp();
+                if (rsvbl instbndfof Strudt) {
+
+                    Strudt s = (Strudt)rsvbl;
+
+                    // look up thf dlbss in thf mbp
+                    Clbss<?> d = null;
+                    d = mbp.gft(s.gftSQLTypfNbmf());
+                    if (d != null) {
+                        // drfbtf nfw instbndf of thf dlbss
+                        SQLDbtb obj = null;
+                        try {
+                            obj = (SQLDbtb)RfflfdtUtil.nfwInstbndf(d);
+                        } dbtdh (Exdfption fx) {
+                            throw nfw SQLExdfption("Unbblf to Instbntibtf: ", fx);
+                        }
+                        // gft thf bttributfs from thf strudt
+                        Objfdt bttribs[] = s.gftAttributfs(mbp);
+                        // drfbtf thf SQLInput "strfbm"
+                        SQLInputImpl sqlInput = nfw SQLInputImpl(bttribs, mbp);
+                        // rfbd thf vblufs...
+                        obj.rfbdSQL(sqlInput, s.gftSQLTypfNbmf());
+                        rsvbl = obj;
+                    }
+                } flsf if (rsvbl instbndfof SQLDbtb) {
+                    rsvbl = nfw SfriblStrudt((SQLDbtb)rsvbl, mbp);
+                } flsf if (rsvbl instbndfof Blob) {
+                    rsvbl = nfw SfriblBlob((Blob)rsvbl);
+                } flsf if (rsvbl instbndfof Clob) {
+                    rsvbl = nfw SfriblClob((Clob)rsvbl);
+                } flsf if (rsvbl instbndfof jbvb.sql.Arrby) {
+                    rsvbl = nfw SfriblArrby((jbvb.sql.Arrby)rsvbl, mbp);
+                }
+
+                // rfsft boolNull if it hbd bffn sft
+                boolNull = truf;
+
+                /** This bddtionbl dhfdking hbs bffn bddfd whfn thf durrfnt vbluf
+                 *  in thf DB is null, but thf DB hbd b difffrfnt vbluf whfn thf
+                 *  dbtb wbs bdtbully fftdhfd into thf CbdhfdRowSft.
+                 **/
+
+                if(rsvbl == null && orig != null) {
+                   // vbluf in db hbs dhbngfd
+                    // don't prodffd with syndhronizbtion
+                    // gft thf vbluf in db bnd pbss it to thf rfsolvfr.
+
+                    iChbngfdVblsinDbOnly++;
+                   // Sft thf boolNull to fblsf,
+                   // in ordfr to sft thf bdtubl vbluf;
+                     boolNull = fblsf;
+                     objVbl = rsvbl;
+                }
+
+                /** Adding thf dhfdking for rsvbl to bf "not" null or flsf
+                 *  it would through b NullPointfrExdfption whfn thf vblufs
+                 *  brf dompbrfd.
+                 **/
+
+                flsf if(rsvbl != null && (!rsvbl.fqubls(orig)))
+                {
+                    // vbluf in db hbs dhbngfd
+                    // don't prodffd with syndhronizbtion
+                    // gft thf vbluf in db bnd pbss it to thf rfsolvfr.
+
+                    iChbngfdVblsinDbOnly++;
+                   // Sft thf boolNull to fblsf,
+                   // in ordfr to sft thf bdtubl vbluf;
+                     boolNull = fblsf;
+                     objVbl = rsvbl;
+                } flsf if (  (orig == null || durr == null) ) {
+
+                        /** Adding thf bdditonbl dondition of dhfdking for "flbg"
+                         *  boolfbn vbribblf, whidh would othfrwisf rfsult in
+                         *  building b invblid qufry, bs thf dommb would not bf
+                         *  bddfd to thf qufry string.
+                         **/
+
+                        if (first == fblsf || flbg == fblsf) {
+                          updbtfExfd += ", ";
+                         }
+                        updbtfExfd += drs.gftMftbDbtb().gftColumnNbmf(i);
+                        dols.bdd(i);
+                        updbtfExfd += " = ? ";
+                        first = fblsf;
+
+                /** Adding thf fxtrb dondition for orig to bf "not" null bs thf
+                 *  dondition for orig to bf null is tbkf prior to this, if this
+                 *  is not bddfd it will rfsult in b NullPointfrExdfption whfn
+                 *  thf vblufs brf dompbrfd.
+                 **/
+
+                }  flsf if (orig.fqubls(durr)) {
+                       dolsNotChbngfd++;
+                     //nothing to updbtf in this dbsf sindf vblufs brf fqubl
+
+                /** Adding thf fxtrb dondition for orig to bf "not" null bs thf
+                 *  dondition for orig to bf null is tbkf prior to this, if this
+                 *  is not bddfd it will rfsult in b NullPointfrExdfption whfn
+                 *  thf vblufs brf dompbrfd.
+                 **/
+
+                } flsf if(orig.fqubls(durr) == fblsf) {
+                      // Whfn vblufs from db bnd vblufs in CbdhfdRowSft brf not fqubl,
+                      // if db vbluf is sbmf bs bfforf updbtion for fbdh dol in
+                      // thf row bfforf fftdhing into CbdhfdRowSft,
+                      // only thfn wf go bhfbd with updbtion, flsf wf
+                      // throw SyndProvidfrExdfption.
+
+                      // if vbluf hbs dhbngfd in db bftfr fftdhing from db
+                      // for somf dols of thf row bnd bt thf sbmf timf, somf othfr dols
+                      // hbvf dhbngfd in CbdhfdRowSft, no syndhronizbtion hbppfns
+
+                      // Syndhronizbtion hbppfns only whfn dbtb whfn fftdhing is
+                      // sbmf or bt most hbs dhbngfd in dbdhfdrowsft
+
+                      // dhfdk orig vbluf with whbt is thfrf in drs for b dolumn
+                      // bfforf updbtion in drs.
+
+                         if(drs.dolumnUpdbtfd(i)) {
+                             if(rsvbl.fqubls(orig)) {
+                               // At this point wf brf surf thbt
+                               // thf vbluf updbtfd in drs wbs from
+                               // whbt is in db now bnd hbs not dhbngfd
+                                 if (flbg == fblsf || first == fblsf) {
+                                    updbtfExfd += ", ";
+                                 }
+                                updbtfExfd += drs.gftMftbDbtb().gftColumnNbmf(i);
+                                dols.bdd(i);
+                                updbtfExfd += " = ? ";
+                                flbg = fblsf;
+                             } flsf {
+                               // Hfrf thf vbluf hbs dhbngfd in thf db bftfr
+                               // dbtb wbs fftdhfd
+                               // Plus storf this row from CbdhfdRowSft bnd kffp it
+                               // in b nfw CbdhfdRowSft
+                               boolNull= fblsf;
+                               objVbl = rsvbl;
+                               iChbngfdVblsInDbAndCRS++;
+                             }
+                         }
+                  }
+
+                    if(!boolNull) {
+                        this.drsRfsolvf.updbtfObjfdt(i,objVbl);
+                                 } flsf {
+                                      this.drsRfsolvf.updbtfNull(i);
+                                 }
+                } //fnd for
+
+                rs.dlosf();
+                pstmt.dlosf();
+
+               this.drsRfsolvf.insfrtRow();
+                   this.drsRfsolvf.movfToCurrfntRow();
+
+                /**
+                 * if nothing hbs dhbngfd rfturn now - this dbn hbppfn
+                 * if dolumn is updbtfd to thf sbmf vbluf.
+                 * if dolsNotChbngfd == dbllfrColumnCount implifs wf brf updbting
+                 * thf dbtbbbsf with ALL COLUMNS HAVING SAME VALUES,
+                 * so skip going to dbtbbbsf, flsf do bs usubl.
+                 **/
+                if ( (first == fblsf && dols.sizf() == 0)  ||
+                     dolsNotChbngfd == dbllfrColumnCount ) {
+                    rfturn fblsf;
+                }
+
+                if(iChbngfdVblsInDbAndCRS != 0 || iChbngfdVblsinDbOnly != 0) {
+                   rfturn truf;
+                }
+
+
+                updbtfExfd += updbtfWhfrf;
+
+                pstmt = don.prfpbrfStbtfmfnt(updbtfExfd);
+
+                // Commfnts nffdfd hfrf
+                for (i = 0; i < dols.sizf(); i++) {
+                    Objfdt obj = drs.gftObjfdt(dols.gft(i));
+                    if (obj != null)
+                        pstmt.sftObjfdt(i + 1, obj);
+                    flsf
+                        pstmt.sftNull(i + 1,drs.gftMftbDbtb().gftColumnTypf(i + 1));
+                }
+                idx = i;
+
+                // Commfnts nffdfd hfrf
+                for (i = 0; i < kfyCols.lfngth; i++) {
+                    if (pbrbms[i] != null) {
+                        pstmt.sftObjfdt(++idx, pbrbms[i]);
+                    } flsf {
+                        dontinuf;
+                    }
+                }
+
+                i = pstmt.fxfdutfUpdbtf();
+
+               /**
+                * i should bf fqubl to 1(row dount), bfdbusf wf updbtf
+                * onf row(rfturnfd bs row dount) bt b timf, if bll gofs wfll.
+                * if 1 != 1, this implifs wf hbvf not bffn bblf to
+                * do updbtions propfrly i.f thfrf is b donflidt in dbtbbbsf
+                * vfrsus whbt is in CbdhfdRowSft for this pbrtidulbr row.
+                **/
+
+                 rfturn fblsf;
+
+            } flsf {
+                /**
+                 * Cursor will bf hfrf, if thf RfsultSft mby not rfturn fvfn b singlf row
+                 * i.f. wf dbn't find thf row whfrf to updbtf bfdbusf it hbs bffn dflftfd
+                 * ftd. from thf db.
+                 * Prfsfnt thf wholf row bs null to usfr, to fordf null to bf synd'fd
+                 * bnd hfndf nothing to bf syndfd.
+                 *
+                 * NOTE:
+                 * ------
+                 * In thf dbtbbbsf if b dolumn thbt is mbppfd to jbvb.sql.Typfs.REAL storfs
+                 * b Doublf vbluf bnd is dompbrfd with vbluf got from RfsultSft.gftFlobt()
+                 * no row is rftrifvfd bnd will throw b SyndProvidfrExdfption. For dftbils
+                 * sff bug Id 5053830
+                 **/
+                rfturn truf;
+            }
+        } dbtdh (SQLExdfption fx) {
+            fx.printStbdkTrbdf();
+            // if fxfdutfUpdbtf fbils it will domf hfrf,
+            // updbtf drsRfsolvf with null rows
+            this.drsRfsolvf.movfToInsfrtRow();
+
+            for(i = 1; i <= dbllfrColumnCount; i++) {
+               this.drsRfsolvf.updbtfNull(i);
+            }
+
+            this.drsRfsolvf.insfrtRow();
+            this.drsRfsolvf.movfToCurrfntRow();
+
+            rfturn truf;
+        }
+    }
+
+   /**
+    * Insfrts b row thbt hbs bffn insfrtfd into thf givfn
+    * <dodf>CbdhfdRowSft</dodf> objfdt into thf dbtb sourdf from whidh
+    * thf rowsft is dfrivfd, rfturning <dodf>fblsf</dodf> if thf insfrtion
+    * wbs suddfssful.
+    *
+    * @pbrbm drs thf <dodf>CbdhfdRowSft</dodf> objfdt thbt hbs hbd b row insfrtfd
+    *            bnd to whosf undfrlying dbtb sourdf thf row will bf insfrtfd
+    * @pbrbm pstmt thf <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt thbt will bf usfd
+    *              to fxfdutf thf insfrtion
+    * @rfturn <dodf>fblsf</dodf> to indidbtf thbt thf insfrtion wbs suddfssful;
+    *         <dodf>truf</dodf> othfrwisf
+    * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+    */
+   privbtf boolfbn insfrtNfwRow(CbdhfdRowSft drs,
+       PrfpbrfdStbtfmfnt pstmt, CbdhfdRowSftImpl drsRfs) throws SQLExdfption {
+
+       boolfbn rfturnVbl = fblsf;
+
+       try (PrfpbrfdStbtfmfnt pstmtSfl = don.prfpbrfStbtfmfnt(sflfdtCmd,
+                       RfsultSft.TYPE_SCROLL_SENSITIVE,
+                       RfsultSft.CONCUR_READ_ONLY);
+            RfsultSft rs = pstmtSfl.fxfdutfQufry();
+            RfsultSft rs2 = don.gftMftbDbtb().gftPrimbryKfys(null, null,
+                       drs.gftTbblfNbmf())
+       ) {
+
+           RfsultSftMftbDbtb rsmd = drs.gftMftbDbtb();
+           int idolCount = rsmd.gftColumnCount();
+           String[] primbryKfys = nfw String[idolCount];
+           int k = 0;
+           whilf (rs2.nfxt()) {
+               primbryKfys[k] = rs2.gftString("COLUMN_NAME");
+               k++;
+           }
+
+           if (rs.nfxt()) {
+               for (String pkNbmf : primbryKfys) {
+                   if (!isPKNbmfVblid(pkNbmf, rsmd)) {
+
+                       /* Wf dbmf hfrf bs onf of thf thf primbry kfys
+                        * of thf tbblf is not prfsfnt in thf dbdhfd
+                        * rowsft objfdt, it should bf bn butoindrfmfnt dolumn
+                        * bnd not indludfd whilf drfbting CbdhfdRowSft
+                        * Objfdt, prodffd to dhfdk for othfr primbry kfys
+                        */
+                       dontinuf;
+                   }
+
+                   Objfdt drsPK = drs.gftObjfdt(pkNbmf);
+                   if (drsPK == null) {
+                       /*
+                        * It is possiblf thbt thf PK is null on somf dbtbbbsfs
+                        * bnd will bf fillfd in bt insfrt timf (MySQL for fxbmplf)
+                        */
+                       brfbk;
+                   }
+
+                   String rsPK = rs.gftObjfdt(pkNbmf).toString();
+                   if (drsPK.toString().fqubls(rsPK)) {
+                       rfturnVbl = truf;
+                       this.drsRfsolvf.movfToInsfrtRow();
+                       for (int i = 1; i <= idolCount; i++) {
+                           String dolnbmf = (rs.gftMftbDbtb()).gftColumnNbmf(i);
+                           if (dolnbmf.fqubls(pkNbmf))
+                               this.drsRfsolvf.updbtfObjfdt(i,rsPK);
+                           flsf
+                               this.drsRfsolvf.updbtfNull(i);
+                       }
+                       this.drsRfsolvf.insfrtRow();
+                       this.drsRfsolvf.movfToCurrfntRow();
+                   }
+               }
+           }
+
+           if (rfturnVbl) {
+               rfturn rfturnVbl;
+           }
+
+           try {
+               for (int i = 1; i <= idolCount; i++) {
+                   Objfdt obj = drs.gftObjfdt(i);
+                   if (obj != null) {
+                       pstmt.sftObjfdt(i, obj);
+                   } flsf {
+                       pstmt.sftNull(i,drs.gftMftbDbtb().gftColumnTypf(i));
+                   }
+               }
+
+               pstmt.fxfdutfUpdbtf();
+               rfturn fblsf;
+
+           } dbtdh (SQLExdfption fx) {
+               /*
+                * Cursor will domf hfrf if fxfdutfUpdbtf fbils.
+                * Thfrf dbn bf mbny rfbsons why thf insfrtion fbilfd,
+                * onf dbn bf violbtion of primbry kfy.
+                * Hfndf wf dbnnot fxbdtly idfntify why thf insfrtion fbilfd,
+                * prfsfnt thf durrfnt row bs b null row to thf dbllfr.
+                */
+               this.drsRfsolvf.movfToInsfrtRow();
+
+               for (int i = 1; i <= idolCount; i++) {
+                   this.drsRfsolvf.updbtfNull(i);
+               }
+
+               this.drsRfsolvf.insfrtRow();
+               this.drsRfsolvf.movfToCurrfntRow();
+
+               rfturn truf;
+           }
+       }
+   }
+
+/**
+ * Dflftfs thf row in thf undfrlying dbtb sourdf thbt dorrfsponds to
+ * b row thbt hbs bffn dflftfd in thf givfn <dodf> CbdhfdRowSft</dodf> objfdt
+ * bnd rfturns <dodf>fblsf</dodf> if thf dflftion wbs suddfssful.
+ * <P>
+ * This mfthod is dbllfd intfrnblly by this writfr's <dodf>writfDbtb</dodf>
+ * mfthod whfn b row in thf rowsft hbs bffn dflftfd. Thf vblufs in thf
+ * dflftfd row brf thf sbmf bs thosf thbt brf storfd in thf originbl row
+ * of thf givfn <dodf>CbdhfdRowSft</dodf> objfdt.  If thf vblufs in thf
+ * originbl row difffr from thf row in thf undfrlying dbtb sourdf, thf row
+ * in thf dbtb sourdf is not dflftfd, bnd <dodf>dflftfOriginblRow</dodf>
+ * rfturns <dodf>truf</dodf> to indidbtf thbt thfrf wbs b donflidt.
+ *
+ *
+ * @rfturn <dodf>fblsf</dodf> if thf dflftion wbs suddfssful, whidh mfbns thbt
+ *         thfrf wbs no donflidt; <dodf>truf</dodf> othfrwisf
+ * @throws SQLExdfption if thfrf wbs b dbtbbbsf bddfss frror
+ */
+    privbtf boolfbn dflftfOriginblRow(CbdhfdRowSft drs, CbdhfdRowSftImpl drsRfs) throws SQLExdfption {
+        PrfpbrfdStbtfmfnt pstmt;
+        int i;
+        int idx = 0;
+        String strSflfdt;
+    // Sflfdt thf row from thf dbtbbbsf.
+        RfsultSft origVbls = drs.gftOriginblRow();
+        origVbls.nfxt();
+
+        dflftfWhfrf = buildWhfrfClbusf(dflftfWhfrf, origVbls);
+        pstmt = don.prfpbrfStbtfmfnt(sflfdtCmd + dflftfWhfrf,
+                RfsultSft.TYPE_SCROLL_SENSITIVE, RfsultSft.CONCUR_READ_ONLY);
+
+        for (i = 0; i < kfyCols.lfngth; i++) {
+            if (pbrbms[i] != null) {
+                pstmt.sftObjfdt(++idx, pbrbms[i]);
+            } flsf {
+                dontinuf;
+            }
+        }
+
+        try {
+            pstmt.sftMbxRows(drs.gftMbxRows());
+            pstmt.sftMbxFifldSizf(drs.gftMbxFifldSizf());
+            pstmt.sftEsdbpfProdfssing(drs.gftEsdbpfProdfssing());
+            pstmt.sftQufryTimfout(drs.gftQufryTimfout());
+        } dbtdh (Exdfption fx) {
+            /*
+             * Oldfr drivfr don't support thfsf opfrbtions...
+             */
+            ;
+        }
+
+        RfsultSft rs = pstmt.fxfdutfQufry();
+
+        if (rs.nfxt() == truf) {
+            if (rs.nfxt()) {
+                // morf thbn onf row
+                rfturn truf;
+            }
+            rs.first();
+
+            // Now dhfdk bll thf vblufs in rs to bf sbmf in
+            // db blso bfforf bdtublly going bhfbd with dflfting
+            boolfbn boolChbngfd = fblsf;
+
+            drsRfs.movfToInsfrtRow();
+
+            for (i = 1; i <= drs.gftMftbDbtb().gftColumnCount(); i++) {
+
+                Objfdt originbl = origVbls.gftObjfdt(i);
+                Objfdt dhbngfd = rs.gftObjfdt(i);
+
+                if(originbl != null && dhbngfd != null ) {
+                  if(! (originbl.toString()).fqubls(dhbngfd.toString()) ) {
+                      boolChbngfd = truf;
+                      drsRfs.updbtfObjfdt(i,origVbls.gftObjfdt(i));
+                  }
+                } flsf {
+                   drsRfs.updbtfNull(i);
+               }
+            }
+
+           drsRfs.insfrtRow();
+           drsRfs.movfToCurrfntRow();
+
+           if(boolChbngfd) {
+               // do not dflftf bs vblufs in db hbvf dhbngfd
+               // dflftion will not hbppfn for this row from db
+                   // fxit now rfturning truf. i.f. donflidt
+               rfturn truf;
+            } flsf {
+                // dflftf thf row.
+                // Go bhfbd with dflfting,
+                // don't do bnything hfrf
+            }
+
+            String dmd = dflftfCmd + dflftfWhfrf;
+            pstmt = don.prfpbrfStbtfmfnt(dmd);
+
+            idx = 0;
+            for (i = 0; i < kfyCols.lfngth; i++) {
+                if (pbrbms[i] != null) {
+                    pstmt.sftObjfdt(++idx, pbrbms[i]);
+                } flsf {
+                    dontinuf;
+                }
+            }
+
+            if (pstmt.fxfdutfUpdbtf() != 1) {
+                rfturn truf;
+            }
+            pstmt.dlosf();
+        } flsf {
+            // didn't find thf row
+            rfturn truf;
+        }
+
+        // no donflidt
+        rfturn fblsf;
+    }
+
+    /**
+     * Sfts thf rfbdfr for this writfr to thf givfn rfbdfr.
+     *
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    publid void sftRfbdfr(CbdhfdRowSftRfbdfr rfbdfr) throws SQLExdfption {
+        this.rfbdfr = rfbdfr;
+    }
+
+    /**
+     * Gfts thf rfbdfr for this writfr.
+     *
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    publid CbdhfdRowSftRfbdfr gftRfbdfr() throws SQLExdfption {
+        rfturn rfbdfr;
+    }
+
+    /**
+     * Composfs b <dodf>SELECT</dodf>, <dodf>UPDATE</dodf>, <dodf>INSERT</dodf>,
+     * bnd <dodf>DELETE</dodf> stbtfmfnt thbt dbn bf usfd by this writfr to
+     * writf dbtb to thf dbtb sourdf bbdking thf givfn <dodf>CbdhfdRowSft</dodf>
+     * objfdt.
+     *
+     * @ pbrbm dbllfr b <dodf>CbdhfdRowSft</dodf> objfdt for whidh this
+     *                <dodf>CbdhfdRowSftWritfr</dodf> objfdt is thf writfr
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    privbtf void initSQLStbtfmfnts(CbdhfdRowSft dbllfr) throws SQLExdfption {
+
+        int i;
+
+        dbllfrMd = dbllfr.gftMftbDbtb();
+        dbllfrColumnCount = dbllfrMd.gftColumnCount();
+        if (dbllfrColumnCount < 1)
+            // No dbtb, so rfturn.
+            rfturn;
+
+        /*
+         * If thf RowSft hbs b Tbblf nbmf wf should usf it.
+         * This is rfblly b hbdk to gft round thf fbdt thbt
+         * b lot of thf jdbd drivfrs dbn't providf thf tbb.
+         */
+        String tbblf = dbllfr.gftTbblfNbmf();
+        if (tbblf == null) {
+            /*
+             * bttfmpt to build b tbblf nbmf using thf info
+             * thbt thf drivfr gbvf us for thf first dolumn
+             * in thf sourdf rfsult sft.
+             */
+            tbblf = dbllfrMd.gftTbblfNbmf(1);
+            if (tbblf == null || tbblf.lfngth() == 0) {
+                throw nfw SQLExdfption(rfsBundlf.hbndlfGftObjfdt("drswritfr.tnbmf").toString());
+            }
+        }
+        String dbtblog = dbllfrMd.gftCbtblogNbmf(1);
+            String sdhfmb = dbllfrMd.gftSdhfmbNbmf(1);
+        DbtbbbsfMftbDbtb dbmd = don.gftMftbDbtb();
+
+        /*
+         * Composf b SELECT stbtfmfnt.  Thfrf brf thrff pbrts.
+         */
+
+        // Projfdt List
+        sflfdtCmd = "SELECT ";
+        for (i=1; i <= dbllfrColumnCount; i++) {
+            sflfdtCmd += dbllfrMd.gftColumnNbmf(i);
+            if ( i <  dbllfrMd.gftColumnCount() )
+                sflfdtCmd += ", ";
+            flsf
+                sflfdtCmd += " ";
+        }
+
+        // FROM dlbusf.
+        sflfdtCmd += "FROM " + buildTbblfNbmf(dbmd, dbtblog, sdhfmb, tbblf);
+
+        /*
+         * Composf bn UPDATE stbtfmfnt.
+         */
+        updbtfCmd = "UPDATE " + buildTbblfNbmf(dbmd, dbtblog, sdhfmb, tbblf);
+
+
+        /**
+         *  Thf following blodk of dodf is for dhfdking b pbrtidulbr typf of
+         *  qufry whfrf in thfrf is b whfrf dlbusf. Without this blodk, if b
+         *  SQL stbtfmfnt is built thf "whfrf" dlbusf will bppfbr twidf hfndf
+         *  thf DB frrors out bnd b SQLExdfption is thrown. This dodf blso
+         *  donsidfrs thbt thf whfrf dlbusf is in thf right plbdf bs thf
+         *  CbdhfdRowSft objfdt would blrfbdy hbvf bffn populbtfd with this
+         *  qufry bfforf doming to this point.
+         **/
+
+        String tfmpupdCmd = updbtfCmd.toLowfrCbsf();
+
+        int idxupWhfrf = tfmpupdCmd.indfxOf("whfrf");
+
+        if(idxupWhfrf != -1)
+        {
+           updbtfCmd = updbtfCmd.substring(0,idxupWhfrf);
+        }
+        updbtfCmd += "SET ";
+
+        /*
+         * Composf bn INSERT stbtfmfnt.
+         */
+        insfrtCmd = "INSERT INTO " + buildTbblfNbmf(dbmd, dbtblog, sdhfmb, tbblf);
+        // Column list
+        insfrtCmd += "(";
+        for (i=1; i <= dbllfrColumnCount; i++) {
+            insfrtCmd += dbllfrMd.gftColumnNbmf(i);
+            if ( i <  dbllfrMd.gftColumnCount() )
+                insfrtCmd += ", ";
+            flsf
+                insfrtCmd += ") VALUES (";
+        }
+        for (i=1; i <= dbllfrColumnCount; i++) {
+            insfrtCmd += "?";
+            if (i < dbllfrColumnCount)
+                insfrtCmd += ", ";
+            flsf
+                insfrtCmd += ")";
+        }
+
+        /*
+         * Composf b DELETE stbtfmfnt.
+         */
+        dflftfCmd = "DELETE FROM " + buildTbblfNbmf(dbmd, dbtblog, sdhfmb, tbblf);
+
+        /*
+         * sft thf kfy dfsriptors thbt will bf
+         * nffdfd to donstrudt whfrf dlbusfs.
+         */
+        buildKfyDfsd(dbllfr);
+    }
+
+    /**
+     * Rfturns b fully qublififd tbblf nbmf built from thf givfn dbtblog bnd
+     * tbblf nbmfs. Thf givfn mftbdbtb objfdt is usfd to gft thf propfr ordfr
+     * bnd sfpbrbtor.
+     *
+     * @pbrbm dbmd b <dodf>DbtbbbsfMftbDbtb</dodf> objfdt thbt dontbins mftbdbtb
+     *          bbout this writfr's <dodf>CbdhfdRowSft</dodf> objfdt
+     * @pbrbm dbtblog b <dodf>String</dodf> objfdt with thf rowsft's dbtblog
+     *          nbmf
+     * @pbrbm tbblf b <dodf>String</dodf> objfdt with thf nbmf of thf tbblf from
+     *          whidh this writfr's rowsft wbs dfrivfd
+     * @rfturn b <dodf>String</dodf> objfdt with thf fully qublififd nbmf of thf
+     *          tbblf from whidh this writfr's rowsft wbs dfrivfd
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    privbtf String buildTbblfNbmf(DbtbbbsfMftbDbtb dbmd,
+        String dbtblog, String sdhfmb, String tbblf) throws SQLExdfption {
+
+       // trim bll thf lfbding bnd trbiling whitfspbdfs,
+       // whitf spbdfs dbn nfvfr bf dbtblog, sdhfmb or b tbblf nbmf.
+
+        String dmd = "";
+
+        dbtblog = dbtblog.trim();
+        sdhfmb = sdhfmb.trim();
+        tbblf = tbblf.trim();
+
+        if (dbmd.isCbtblogAtStbrt() == truf) {
+            if (dbtblog != null && dbtblog.lfngth() > 0) {
+                dmd += dbtblog + dbmd.gftCbtblogSfpbrbtor();
+            }
+            if (sdhfmb != null && sdhfmb.lfngth() > 0) {
+                dmd += sdhfmb + ".";
+            }
+            dmd += tbblf;
+        } flsf {
+            if (sdhfmb != null && sdhfmb.lfngth() > 0) {
+                dmd += sdhfmb + ".";
+            }
+            dmd += tbblf;
+            if (dbtblog != null && dbtblog.lfngth() > 0) {
+                dmd += dbmd.gftCbtblogSfpbrbtor() + dbtblog;
+            }
+        }
+        dmd += " ";
+        rfturn dmd;
+    }
+
+    /**
+     * Assigns to thf givfn <dodf>CbdhfdRowSft</dodf> objfdt's
+     * <dodf>pbrbms</dodf>
+     * fifld bn brrby whosf lfngth fqubls thf numbfr of dolumns nffdfd
+     * to uniqufly idfntify b row in thf rowsft. Thf brrby is givfn
+     * vblufs by thf mfthod <dodf>buildWhfrfClbusf</dodf>.
+     * <P>
+     * If thf <dodf>CbdhfdRowSft</dodf> objfdt's <dodf>kfyCols</dodf>
+     * fifld hbs lfngth <dodf>0</dodf> or is <dodf>null</dodf>, thf brrby
+     * is sft with thf dolumn numbfr of fvfry dolumn in thf rowsft.
+     * Othfrwisf, thf brrby in thf fifld <dodf>kfyCols</dodf> is sft with only
+     * thf dolumn numbfrs of thf dolumns thbt brf rfquirfd to form b uniquf
+     * idfntififr for b row.
+     *
+     * @pbrbm drs thf <dodf>CbdhfdRowSft</dodf> objfdt for whidh this
+     *     <dodf>CbdhfdRowSftWritfr</dodf> objfdt is thf writfr
+     *
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    privbtf void buildKfyDfsd(CbdhfdRowSft drs) throws SQLExdfption {
+
+        kfyCols = drs.gftKfyColumns();
+        RfsultSftMftbDbtb rfsultsftmd = drs.gftMftbDbtb();
+        if (kfyCols == null || kfyCols.lfngth == 0) {
+            ArrbyList<Intfgfr> listKfys = nfw ArrbyList<Intfgfr>();
+
+            for (int i = 0; i < dbllfrColumnCount; i++ ) {
+                if(rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.CLOB &&
+                        rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.STRUCT &&
+                        rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.SQLXML &&
+                        rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.BLOB &&
+                        rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.ARRAY &&
+                        rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.OTHER )
+                    listKfys.bdd(i+1);
+            }
+            kfyCols = nfw int[listKfys.sizf()];
+            for (int i = 0; i < listKfys.sizf(); i++ )
+                kfyCols[i] = listKfys.gft(i);
+        }
+        pbrbms = nfw Objfdt[kfyCols.lfngth];
+    }
+
+    /**
+         * Construdts bn SQL <dodf>WHERE</dodf> dlbusf using thf givfn
+         * string bs b stbrting point. Thf rfsulting dlbusf will dontbin
+         * b dolumn nbmf bnd " = ?" for fbdh kfy dolumn, thbt is, fbdh dolumn
+         * thbt is nffdfd to form b uniquf idfntififr for b row in thf rowsft.
+         * This <dodf>WHERE</dodf> dlbusf dbn bf bddfd to
+         * b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt thbt updbtfs, insfrts, or
+         * dflftfs b row.
+         * <P>
+         * This mfthod usfs thf givfn rfsult sft to bddfss vblufs in thf
+         * <dodf>CbdhfdRowSft</dodf> objfdt thbt dbllfd this writfr.  Thfsf
+         * vblufs brf usfd to build thf brrby of pbrbmftfrs thbt will sfrvf bs
+         * rfplbdfmfnts for thf "?" pbrbmftfr plbdfholdfrs in thf
+         * <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt thbt is sfnt to thf
+         * <dodf>CbdhfdRowSft</dodf> objfdt's undfrlying dbtb sourdf.
+         *
+         * @pbrbm whfrfClbusf b <dodf>String</dodf> objfdt thbt is bn fmpty
+         *                    string ("")
+         * @pbrbm rs b <dodf>RfsultSft</dodf> objfdt thbt dbn bf usfd
+         *           to bddfss thf <dodf>CbdhfdRowSft</dodf> objfdt's dbtb
+         * @rfturn b <dodf>WHERE</dodf> dlbusf of thf form "<dodf>WHERE</dodf>
+         *         dolumnNbmf = ? AND dolumnNbmf = ? AND dolumnNbmf = ? ..."
+         * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+         */
+    privbtf String buildWhfrfClbusf(String whfrfClbusf,
+                                    RfsultSft rs) throws SQLExdfption {
+        whfrfClbusf = "WHERE ";
+
+        for (int i = 0; i < kfyCols.lfngth; i++) {
+            if (i > 0) {
+                    whfrfClbusf += "AND ";
+            }
+            whfrfClbusf += dbllfrMd.gftColumnNbmf(kfyCols[i]);
+            pbrbms[i] = rs.gftObjfdt(kfyCols[i]);
+            if (rs.wbsNull() == truf) {
+                whfrfClbusf += " IS NULL ";
+            } flsf {
+                whfrfClbusf += " = ? ";
+            }
+        }
+        rfturn whfrfClbusf;
+    }
+
+    void updbtfRfsolvfdConflidtToDB(CbdhfdRowSft drs, Connfdtion don) throws SQLExdfption {
+          //String updbtfExf = ;
+          PrfpbrfdStbtfmfnt pStmt  ;
+          String strWhfrf = "WHERE " ;
+          String strExfd =" ";
+          String strUpdbtf = "UPDATE ";
+          int idolCount = drs.gftMftbDbtb().gftColumnCount();
+          int kfyColumns[] = drs.gftKfyColumns();
+          Objfdt pbrbm[];
+          String strSft="";
+
+        strWhfrf = buildWhfrfClbusf(strWhfrf, drs);
+
+        if (kfyColumns == null || kfyColumns.lfngth == 0) {
+            kfyColumns = nfw int[idolCount];
+            for (int i = 0; i < kfyColumns.lfngth; ) {
+                kfyColumns[i] = ++i;
+            }
+          }
+          pbrbm = nfw Objfdt[kfyColumns.lfngth];
+
+         strUpdbtf = "UPDATE " + buildTbblfNbmf(don.gftMftbDbtb(),
+                            drs.gftMftbDbtb().gftCbtblogNbmf(1),
+                           drs.gftMftbDbtb().gftSdhfmbNbmf(1),
+                           drs.gftTbblfNbmf());
+
+         // dhbngfd or updbtfd vblufs will bfdomf pbrt of
+         // sft dlbusf hfrf
+         strUpdbtf += "SET ";
+
+        boolfbn first = truf;
+
+        for (int i=1; i<=idolCount;i++) {
+           if (drs.dolumnUpdbtfd(i)) {
+                  if (first == fblsf) {
+                    strSft += ", ";
+                  }
+                 strSft += drs.gftMftbDbtb().gftColumnNbmf(i);
+                 strSft += " = ? ";
+                 first = fblsf;
+         } //fnd if
+      } //fnd for
+
+         // kfydols will bfdomf pbrt of whfrf dlbusf
+         strUpdbtf += strSft;
+         strWhfrf = "WHERE ";
+
+        for (int i = 0; i < kfyColumns.lfngth; i++) {
+            if (i > 0) {
+                    strWhfrf += "AND ";
+            }
+            strWhfrf += drs.gftMftbDbtb().gftColumnNbmf(kfyColumns[i]);
+            pbrbm[i] = drs.gftObjfdt(kfyColumns[i]);
+            if (drs.wbsNull() == truf) {
+                strWhfrf += " IS NULL ";
+            } flsf {
+                strWhfrf += " = ? ";
+            }
+        }
+          strUpdbtf += strWhfrf;
+
+        pStmt = don.prfpbrfStbtfmfnt(strUpdbtf);
+
+        int idx =0;
+          for (int i = 0; i < idolCount; i++) {
+             if(drs.dolumnUpdbtfd(i+1)) {
+              Objfdt obj = drs.gftObjfdt(i+1);
+              if (obj != null) {
+                  pStmt.sftObjfdt(++idx, obj);
+              } flsf {
+                  pStmt.sftNull(i + 1,drs.gftMftbDbtb().gftColumnTypf(i + 1));
+             } //fnd if ..flsf
+           } //fnd if drs.dolumn...
+        } //fnd for
+
+          // Sft thf kfy dols for bftfr WHERE =? dlbusf
+          for (int i = 0; i < kfyColumns.lfngth; i++) {
+              if (pbrbm[i] != null) {
+                  pStmt.sftObjfdt(++idx, pbrbm[i]);
+              }
+          }
+
+        int id = pStmt.fxfdutfUpdbtf();
+      }
+
+
+    /**
+     *
+     */
+    publid void dommit() throws SQLExdfption {
+        don.dommit();
+        if (rfbdfr.gftClosfConnfdtion() == truf) {
+            don.dlosf();
+        }
+    }
+
+     publid void dommit(CbdhfdRowSftImpl drs, boolfbn updbtfRowsft) throws SQLExdfption {
+        don.dommit();
+        if(updbtfRowsft) {
+          if(drs.gftCommbnd() != null)
+            drs.fxfdutf(don);
+        }
+
+        if (rfbdfr.gftClosfConnfdtion() == truf) {
+            don.dlosf();
+        }
+    }
+
+    /**
+     *
+     */
+    publid void rollbbdk() throws SQLExdfption {
+        don.rollbbdk();
+        if (rfbdfr.gftClosfConnfdtion() == truf) {
+            don.dlosf();
+        }
+    }
+
+    /**
+     *
+     */
+    publid void rollbbdk(Sbvfpoint s) throws SQLExdfption {
+        don.rollbbdk(s);
+        if (rfbdfr.gftClosfConnfdtion() == truf) {
+            don.dlosf();
+        }
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion hbppfns hfrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of  Rfs Bundlf hbppfns hfrf .
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdh(IOExdfption iof) {
+            throw nfw RuntimfExdfption(iof);
+        }
+
+    }
+
+    stbtid finbl long sfriblVfrsionUID =-8506030970299413976L;
+
+    /**
+     * Vblidbtf whfthfr thf Primbry Kfy is known to thf CbdhfdRowSft.  If it is
+     * not, it is bn buto-gfnfrbtfd kfy
+     * @pbrbm pk - Primbry Kfy to vblidbtf
+     * @pbrbm rsmd - RfsultSftMftbdbtb for thf RowSft
+     * @rfturn truf if found, fblsf othfrwisf (buto gfnfrbtfd kfy)
+     */
+    privbtf boolfbn isPKNbmfVblid(String pk, RfsultSftMftbDbtb rsmd) throws SQLExdfption {
+        boolfbn isVblid = fblsf;
+        int dols = rsmd.gftColumnCount();
+        for(int i = 1; i<= dols; i++) {
+            String dolNbmf = rsmd.gftColumnClbssNbmf(i);
+            if(dolNbmf.fqublsIgnorfCbsf(pk)) {
+                isVblid = truf;
+                brfbk;
+            }
+        }
+
+        rfturn isVblid;
+    }
+}

@@ -1,576 +1,576 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.toolkit.ctx;
+pbdkbgf dom.sun.jndi.toolkit.dtx;
 
-import java.util.Hashtable;
+import jbvb.util.Hbsitbblf;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.DirectoryManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.DirfdtoryMbnbgfr;
 
 /*
- * Inherit from AtomicContext so that subclasses of PartialCompositeDirContext
- * can get the ns methods defined in subclasses of PartialCompositeContext.
+ * Inifrit from AtomidContfxt so tibt subdlbssfs of PbrtiblCompositfDirContfxt
+ * dbn gft tif ns mftiods dffinfd in subdlbssfs of PbrtiblCompositfContfxt.
  *
- * Direct subclasses of DirContext should provide implementations for
- * the p_ abstract DirContext methods and override the p_ Context methods
- * (not abstract anymore because they are overridden by ComponentContext
- * (the superclass of AtomicContext)).
+ * Dirfdt subdlbssfs of DirContfxt siould providf implfmfntbtions for
+ * tif p_ bbstrbdt DirContfxt mftiods bnd ovfrridf tif p_ Contfxt mftiods
+ * (not bbstrbdt bnymorf bfdbusf tify brf ovfrriddfn by ComponfntContfxt
+ * (tif supfrdlbss of AtomidContfxt)).
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
 
-public abstract class PartialCompositeDirContext
-        extends AtomicContext implements DirContext {
+publid bbstrbdt dlbss PbrtiblCompositfDirContfxt
+        fxtfnds AtomidContfxt implfmfnts DirContfxt {
 
-    protected PartialCompositeDirContext() {
-        _contextType = _PARTIAL;
+    protfdtfd PbrtiblCompositfDirContfxt() {
+        _dontfxtTypf = _PARTIAL;
     }
 
-// ------ Abstract methods whose implementation come from subclasses
+// ------ Abstrbdt mftiods wiosf implfmfntbtion domf from subdlbssfs
 
-     /* Equivalent to DirContext methods */
-     protected abstract Attributes p_getAttributes(Name name, String[] attrIds,
-                                                     Continuation cont)
-         throws NamingException;
+     /* Equivblfnt to DirContfxt mftiods */
+     protfdtfd bbstrbdt Attributfs p_gftAttributfs(Nbmf nbmf, String[] bttrIds,
+                                                     Continubtion dont)
+         tirows NbmingExdfption;
 
-     protected abstract void p_modifyAttributes(Name name, int mod_op,
-                                                Attributes attrs,
-                                                Continuation cont)
-         throws NamingException;
+     protfdtfd bbstrbdt void p_modifyAttributfs(Nbmf nbmf, int mod_op,
+                                                Attributfs bttrs,
+                                                Continubtion dont)
+         tirows NbmingExdfption;
 
-     protected abstract void p_modifyAttributes(Name name,
-                                                ModificationItem[] mods,
-                                                Continuation cont)
-         throws NamingException;
+     protfdtfd bbstrbdt void p_modifyAttributfs(Nbmf nbmf,
+                                                ModifidbtionItfm[] mods,
+                                                Continubtion dont)
+         tirows NbmingExdfption;
 
-     protected abstract void p_bind(Name name, Object obj,
-                                    Attributes attrs,
-                                    Continuation cont)
-         throws NamingException;
+     protfdtfd bbstrbdt void p_bind(Nbmf nbmf, Objfdt obj,
+                                    Attributfs bttrs,
+                                    Continubtion dont)
+         tirows NbmingExdfption;
 
-     protected abstract void p_rebind(Name name, Object obj,
-                                      Attributes attrs,
-                                      Continuation cont)
-         throws NamingException;
+     protfdtfd bbstrbdt void p_rfbind(Nbmf nbmf, Objfdt obj,
+                                      Attributfs bttrs,
+                                      Continubtion dont)
+         tirows NbmingExdfption;
 
-     protected abstract DirContext p_createSubcontext(Name name,
-                                                     Attributes attrs,
-                                                     Continuation cont)
-         throws NamingException;
+     protfdtfd bbstrbdt DirContfxt p_drfbtfSubdontfxt(Nbmf nbmf,
+                                                     Attributfs bttrs,
+                                                     Continubtion dont)
+         tirows NbmingExdfption;
 
-     protected abstract NamingEnumeration<SearchResult> p_search(
-                            Name name,
-                            Attributes matchingAttributes,
-                            String[] attributesToReturn,
-                            Continuation cont)
-         throws NamingException;
+     protfdtfd bbstrbdt NbmingEnumfrbtion<SfbrdiRfsult> p_sfbrdi(
+                            Nbmf nbmf,
+                            Attributfs mbtdiingAttributfs,
+                            String[] bttributfsToRfturn,
+                            Continubtion dont)
+         tirows NbmingExdfption;
 
-     protected abstract NamingEnumeration<SearchResult> p_search(
-                            Name name,
-                            String filter,
-                            SearchControls cons,
-                            Continuation cont)
-         throws NamingException;
+     protfdtfd bbstrbdt NbmingEnumfrbtion<SfbrdiRfsult> p_sfbrdi(
+                            Nbmf nbmf,
+                            String filtfr,
+                            SfbrdiControls dons,
+                            Continubtion dont)
+         tirows NbmingExdfption;
 
-     protected abstract NamingEnumeration<SearchResult> p_search(
-                            Name name,
-                            String filterExpr,
-                            Object[] filterArgs,
-                            SearchControls cons,
-                            Continuation cont)
-         throws NamingException;
+     protfdtfd bbstrbdt NbmingEnumfrbtion<SfbrdiRfsult> p_sfbrdi(
+                            Nbmf nbmf,
+                            String filtfrExpr,
+                            Objfdt[] filtfrArgs,
+                            SfbrdiControls dons,
+                            Continubtion dont)
+         tirows NbmingExdfption;
 
-     protected abstract DirContext p_getSchema(Name name, Continuation cont)
-         throws NamingException;
+     protfdtfd bbstrbdt DirContfxt p_gftSdifmb(Nbmf nbmf, Continubtion dont)
+         tirows NbmingExdfption;
 
-     protected abstract DirContext p_getSchemaClassDefinition(Name name,
-                                                             Continuation cont)
-         throws NamingException;
+     protfdtfd bbstrbdt DirContfxt p_gftSdifmbClbssDffinition(Nbmf nbmf,
+                                                             Continubtion dont)
+         tirows NbmingExdfption;
 
-// ------ implementation for DirContext methods using
-// ------ corresponding p_ methods
+// ------ implfmfntbtion for DirContfxt mftiods using
+// ------ dorrfsponding p_ mftiods
 
-    public Attributes getAttributes(String name)
-            throws NamingException {
-        return getAttributes(name, null);
+    publid Attributfs gftAttributfs(String nbmf)
+            tirows NbmingExdfption {
+        rfturn gftAttributfs(nbmf, null);
     }
 
-    public Attributes getAttributes(Name name)
-            throws NamingException {
-        return getAttributes(name, null);
+    publid Attributfs gftAttributfs(Nbmf nbmf)
+            tirows NbmingExdfption {
+        rfturn gftAttributfs(nbmf, null);
     }
 
-    public Attributes getAttributes(String name, String[] attrIds)
-            throws NamingException {
-        return getAttributes(new CompositeName(name), attrIds);
+    publid Attributfs gftAttributfs(String nbmf, String[] bttrIds)
+            tirows NbmingExdfption {
+        rfturn gftAttributfs(nfw CompositfNbmf(nbmf), bttrIds);
     }
 
-    public Attributes getAttributes(Name name, String[] attrIds)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Attributes answer;
-        Name nm = name;
+    publid Attributfs gftAttributfs(Nbmf nbmf, String[] bttrIds)
+            tirows NbmingExdfption {
+        PbrtiblCompositfDirContfxt dtx = tiis;
+        Hbsitbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        Attributfs bnswfr;
+        Nbmf nm = nbmf;
 
         try {
-            answer = ctx.p_getAttributes(nm, attrIds, cont);
-            while (cont.isContinue()) {
-                nm = cont.getRemainingName();
-                ctx = getPCDirContext(cont);
-                answer = ctx.p_getAttributes(nm, attrIds, cont);
+            bnswfr = dtx.p_gftAttributfs(nm, bttrIds, dont);
+            wiilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCDirContfxt(dont);
+                bnswfr = dtx.p_gftAttributfs(nm, bttrIds, dont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.getAttributes(e.getRemainingName(), attrIds);
+        } dbtdi (CbnnotProdffdExdfption f) {
+            DirContfxt ddtx = DirfdtoryMbnbgfr.gftContinubtionDirContfxt(f);
+            bnswfr = ddtx.gftAttributfs(f.gftRfmbiningNbmf(), bttrIds);
         }
-        return answer;
+        rfturn bnswfr;
     }
 
-    public void modifyAttributes(String name, int mod_op, Attributes attrs)
-            throws NamingException {
-        modifyAttributes(new CompositeName(name), mod_op, attrs);
+    publid void modifyAttributfs(String nbmf, int mod_op, Attributfs bttrs)
+            tirows NbmingExdfption {
+        modifyAttributfs(nfw CompositfNbmf(nbmf), mod_op, bttrs);
     }
 
-    public void modifyAttributes(Name name, int mod_op, Attributes attrs)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Name nm = name;
+    publid void modifyAttributfs(Nbmf nbmf, int mod_op, Attributfs bttrs)
+            tirows NbmingExdfption {
+        PbrtiblCompositfDirContfxt dtx = tiis;
+        Hbsitbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        Nbmf nm = nbmf;
 
         try {
-            ctx.p_modifyAttributes(nm, mod_op, attrs, cont);
-            while (cont.isContinue()) {
-                nm = cont.getRemainingName();
-                ctx = getPCDirContext(cont);
-                ctx.p_modifyAttributes(nm, mod_op, attrs, cont);
+            dtx.p_modifyAttributfs(nm, mod_op, bttrs, dont);
+            wiilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCDirContfxt(dont);
+                dtx.p_modifyAttributfs(nm, mod_op, bttrs, dont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            cctx.modifyAttributes(e.getRemainingName(), mod_op, attrs);
-        }
-    }
-
-    public void modifyAttributes(String name, ModificationItem[] mods)
-            throws NamingException {
-        modifyAttributes(new CompositeName(name), mods);
-    }
-
-    public void modifyAttributes(Name name, ModificationItem[] mods)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Name nm = name;
-
-        try {
-            ctx.p_modifyAttributes(nm, mods, cont);
-            while (cont.isContinue()) {
-                nm = cont.getRemainingName();
-                ctx = getPCDirContext(cont);
-                ctx.p_modifyAttributes(nm, mods, cont);
-            }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            cctx.modifyAttributes(e.getRemainingName(), mods);
+        } dbtdi (CbnnotProdffdExdfption f) {
+            DirContfxt ddtx = DirfdtoryMbnbgfr.gftContinubtionDirContfxt(f);
+            ddtx.modifyAttributfs(f.gftRfmbiningNbmf(), mod_op, bttrs);
         }
     }
 
-    public void bind(String name, Object obj, Attributes attrs)
-            throws NamingException {
-        bind(new CompositeName(name), obj, attrs);
+    publid void modifyAttributfs(String nbmf, ModifidbtionItfm[] mods)
+            tirows NbmingExdfption {
+        modifyAttributfs(nfw CompositfNbmf(nbmf), mods);
     }
 
-    public void bind(Name name, Object obj, Attributes attrs)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Name nm = name;
+    publid void modifyAttributfs(Nbmf nbmf, ModifidbtionItfm[] mods)
+            tirows NbmingExdfption {
+        PbrtiblCompositfDirContfxt dtx = tiis;
+        Hbsitbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        Nbmf nm = nbmf;
 
         try {
-            ctx.p_bind(nm, obj, attrs, cont);
-            while (cont.isContinue()) {
-                nm = cont.getRemainingName();
-                ctx = getPCDirContext(cont);
-                ctx.p_bind(nm, obj, attrs, cont);
+            dtx.p_modifyAttributfs(nm, mods, dont);
+            wiilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCDirContfxt(dont);
+                dtx.p_modifyAttributfs(nm, mods, dont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            cctx.bind(e.getRemainingName(), obj, attrs);
+        } dbtdi (CbnnotProdffdExdfption f) {
+            DirContfxt ddtx = DirfdtoryMbnbgfr.gftContinubtionDirContfxt(f);
+            ddtx.modifyAttributfs(f.gftRfmbiningNbmf(), mods);
         }
     }
 
-    public void rebind(String name, Object obj, Attributes attrs)
-            throws NamingException {
-        rebind(new CompositeName(name), obj, attrs);
+    publid void bind(String nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption {
+        bind(nfw CompositfNbmf(nbmf), obj, bttrs);
     }
 
-    public void rebind(Name name, Object obj, Attributes attrs)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Name nm = name;
+    publid void bind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption {
+        PbrtiblCompositfDirContfxt dtx = tiis;
+        Hbsitbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        Nbmf nm = nbmf;
 
         try {
-            ctx.p_rebind(nm, obj, attrs, cont);
-            while (cont.isContinue()) {
-                nm = cont.getRemainingName();
-                ctx = getPCDirContext(cont);
-                ctx.p_rebind(nm, obj, attrs, cont);
+            dtx.p_bind(nm, obj, bttrs, dont);
+            wiilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCDirContfxt(dont);
+                dtx.p_bind(nm, obj, bttrs, dont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            cctx.rebind(e.getRemainingName(), obj, attrs);
+        } dbtdi (CbnnotProdffdExdfption f) {
+            DirContfxt ddtx = DirfdtoryMbnbgfr.gftContinubtionDirContfxt(f);
+            ddtx.bind(f.gftRfmbiningNbmf(), obj, bttrs);
         }
     }
 
-    public DirContext createSubcontext(String name, Attributes attrs)
-            throws NamingException {
-        return createSubcontext(new CompositeName(name), attrs);
+    publid void rfbind(String nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption {
+        rfbind(nfw CompositfNbmf(nbmf), obj, bttrs);
     }
 
-    public DirContext createSubcontext(Name name, Attributes attrs)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        DirContext answer;
-        Name nm = name;
+    publid void rfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption {
+        PbrtiblCompositfDirContfxt dtx = tiis;
+        Hbsitbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        Nbmf nm = nbmf;
 
         try {
-            answer = ctx.p_createSubcontext(nm, attrs, cont);
-            while (cont.isContinue()) {
-                nm = cont.getRemainingName();
-                ctx = getPCDirContext(cont);
-                answer = ctx.p_createSubcontext(nm, attrs, cont);
+            dtx.p_rfbind(nm, obj, bttrs, dont);
+            wiilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCDirContfxt(dont);
+                dtx.p_rfbind(nm, obj, bttrs, dont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.createSubcontext(e.getRemainingName(), attrs);
+        } dbtdi (CbnnotProdffdExdfption f) {
+            DirContfxt ddtx = DirfdtoryMbnbgfr.gftContinubtionDirContfxt(f);
+            ddtx.rfbind(f.gftRfmbiningNbmf(), obj, bttrs);
         }
-        return answer;
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name, Attributes matchingAttributes)
-        throws NamingException
+    publid DirContfxt drfbtfSubdontfxt(String nbmf, Attributfs bttrs)
+            tirows NbmingExdfption {
+        rfturn drfbtfSubdontfxt(nfw CompositfNbmf(nbmf), bttrs);
+    }
+
+    publid DirContfxt drfbtfSubdontfxt(Nbmf nbmf, Attributfs bttrs)
+            tirows NbmingExdfption {
+        PbrtiblCompositfDirContfxt dtx = tiis;
+        Hbsitbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        DirContfxt bnswfr;
+        Nbmf nm = nbmf;
+
+        try {
+            bnswfr = dtx.p_drfbtfSubdontfxt(nm, bttrs, dont);
+            wiilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCDirContfxt(dont);
+                bnswfr = dtx.p_drfbtfSubdontfxt(nm, bttrs, dont);
+            }
+        } dbtdi (CbnnotProdffdExdfption f) {
+            DirContfxt ddtx = DirfdtoryMbnbgfr.gftContinubtionDirContfxt(f);
+            bnswfr = ddtx.drfbtfSubdontfxt(f.gftRfmbiningNbmf(), bttrs);
+        }
+        rfturn bnswfr;
+    }
+
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(String nbmf, Attributfs mbtdiingAttributfs)
+        tirows NbmingExdfption
     {
-        return search(name, matchingAttributes, null);
+        rfturn sfbrdi(nbmf, mbtdiingAttributfs, null);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name, Attributes matchingAttributes)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(Nbmf nbmf, Attributfs mbtdiingAttributfs)
+        tirows NbmingExdfption
     {
-        return search(name, matchingAttributes, null);
+        rfturn sfbrdi(nbmf, mbtdiingAttributfs, null);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name,
-               Attributes matchingAttributes,
-               String[] attributesToReturn)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(String nbmf,
+               Attributfs mbtdiingAttributfs,
+               String[] bttributfsToRfturn)
+        tirows NbmingExdfption
     {
-        return search(new CompositeName(name),
-                      matchingAttributes, attributesToReturn);
+        rfturn sfbrdi(nfw CompositfNbmf(nbmf),
+                      mbtdiingAttributfs, bttributfsToRfturn);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name,
-               Attributes matchingAttributes,
-               String[] attributesToReturn)
-        throws NamingException
-    {
-
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        NamingEnumeration<SearchResult> answer;
-        Name nm = name;
-
-        try {
-            answer = ctx.p_search(nm, matchingAttributes,
-                                  attributesToReturn, cont);
-            while (cont.isContinue()) {
-                nm = cont.getRemainingName();
-                ctx = getPCDirContext(cont);
-                answer = ctx.p_search(nm, matchingAttributes,
-                                      attributesToReturn, cont);
-            }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.search(e.getRemainingName(), matchingAttributes,
-                                 attributesToReturn);
-        }
-        return answer;
-    }
-
-    public NamingEnumeration<SearchResult>
-        search(String name,
-               String filter,
-               SearchControls cons)
-        throws NamingException
-    {
-        return search(new CompositeName(name), filter, cons);
-    }
-
-    public NamingEnumeration<SearchResult>
-        search(Name name,
-               String filter,
-               SearchControls cons)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(Nbmf nbmf,
+               Attributfs mbtdiingAttributfs,
+               String[] bttributfsToRfturn)
+        tirows NbmingExdfption
     {
 
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        NamingEnumeration<SearchResult> answer;
-        Name nm = name;
+        PbrtiblCompositfDirContfxt dtx = tiis;
+        Hbsitbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        NbmingEnumfrbtion<SfbrdiRfsult> bnswfr;
+        Nbmf nm = nbmf;
 
         try {
-            answer = ctx.p_search(nm, filter, cons, cont);
-            while (cont.isContinue()) {
-                nm = cont.getRemainingName();
-                ctx = getPCDirContext(cont);
-                answer = ctx.p_search(nm, filter, cons, cont);
+            bnswfr = dtx.p_sfbrdi(nm, mbtdiingAttributfs,
+                                  bttributfsToRfturn, dont);
+            wiilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCDirContfxt(dont);
+                bnswfr = dtx.p_sfbrdi(nm, mbtdiingAttributfs,
+                                      bttributfsToRfturn, dont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.search(e.getRemainingName(), filter, cons);
+        } dbtdi (CbnnotProdffdExdfption f) {
+            DirContfxt ddtx = DirfdtoryMbnbgfr.gftContinubtionDirContfxt(f);
+            bnswfr = ddtx.sfbrdi(f.gftRfmbiningNbmf(), mbtdiingAttributfs,
+                                 bttributfsToRfturn);
         }
-        return answer;
+        rfturn bnswfr;
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name,
-               String filterExpr,
-               Object[] filterArgs,
-               SearchControls cons)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(String nbmf,
+               String filtfr,
+               SfbrdiControls dons)
+        tirows NbmingExdfption
     {
-        return search(new CompositeName(name), filterExpr, filterArgs, cons);
+        rfturn sfbrdi(nfw CompositfNbmf(nbmf), filtfr, dons);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name,
-               String filterExpr,
-               Object[] filterArgs,
-               SearchControls cons)
-        throws NamingException
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(Nbmf nbmf,
+               String filtfr,
+               SfbrdiControls dons)
+        tirows NbmingExdfption
     {
 
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        NamingEnumeration<SearchResult> answer;
-        Name nm = name;
+        PbrtiblCompositfDirContfxt dtx = tiis;
+        Hbsitbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        NbmingEnumfrbtion<SfbrdiRfsult> bnswfr;
+        Nbmf nm = nbmf;
 
         try {
-            answer = ctx.p_search(nm, filterExpr, filterArgs, cons, cont);
-            while (cont.isContinue()) {
-                nm = cont.getRemainingName();
-                ctx = getPCDirContext(cont);
-                answer = ctx.p_search(nm, filterExpr, filterArgs, cons, cont);
+            bnswfr = dtx.p_sfbrdi(nm, filtfr, dons, dont);
+            wiilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCDirContfxt(dont);
+                bnswfr = dtx.p_sfbrdi(nm, filtfr, dons, dont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.search(e.getRemainingName(), filterExpr, filterArgs,
-                                 cons);
+        } dbtdi (CbnnotProdffdExdfption f) {
+            DirContfxt ddtx = DirfdtoryMbnbgfr.gftContinubtionDirContfxt(f);
+            bnswfr = ddtx.sfbrdi(f.gftRfmbiningNbmf(), filtfr, dons);
         }
-        return answer;
+        rfturn bnswfr;
     }
 
-    public DirContext getSchema(String name) throws NamingException {
-        return getSchema(new CompositeName(name));
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(String nbmf,
+               String filtfrExpr,
+               Objfdt[] filtfrArgs,
+               SfbrdiControls dons)
+        tirows NbmingExdfption
+    {
+        rfturn sfbrdi(nfw CompositfNbmf(nbmf), filtfrExpr, filtfrArgs, dons);
     }
 
-    public DirContext getSchema(Name name) throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        DirContext answer;
-        Name nm = name;
+    publid NbmingEnumfrbtion<SfbrdiRfsult>
+        sfbrdi(Nbmf nbmf,
+               String filtfrExpr,
+               Objfdt[] filtfrArgs,
+               SfbrdiControls dons)
+        tirows NbmingExdfption
+    {
+
+        PbrtiblCompositfDirContfxt dtx = tiis;
+        Hbsitbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        NbmingEnumfrbtion<SfbrdiRfsult> bnswfr;
+        Nbmf nm = nbmf;
 
         try {
-            answer = ctx.p_getSchema(nm, cont);
-            while (cont.isContinue()) {
-                nm = cont.getRemainingName();
-                ctx = getPCDirContext(cont);
-                answer = ctx.p_getSchema(nm, cont);
+            bnswfr = dtx.p_sfbrdi(nm, filtfrExpr, filtfrArgs, dons, dont);
+            wiilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCDirContfxt(dont);
+                bnswfr = dtx.p_sfbrdi(nm, filtfrExpr, filtfrArgs, dons, dont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.getSchema(e.getRemainingName());
+        } dbtdi (CbnnotProdffdExdfption f) {
+            DirContfxt ddtx = DirfdtoryMbnbgfr.gftContinubtionDirContfxt(f);
+            bnswfr = ddtx.sfbrdi(f.gftRfmbiningNbmf(), filtfrExpr, filtfrArgs,
+                                 dons);
         }
-        return answer;
+        rfturn bnswfr;
     }
 
-    public DirContext getSchemaClassDefinition(String name)
-            throws NamingException {
-        return getSchemaClassDefinition(new CompositeName(name));
+    publid DirContfxt gftSdifmb(String nbmf) tirows NbmingExdfption {
+        rfturn gftSdifmb(nfw CompositfNbmf(nbmf));
     }
 
-    public DirContext getSchemaClassDefinition(Name name)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        DirContext answer;
-        Name nm = name;
+    publid DirContfxt gftSdifmb(Nbmf nbmf) tirows NbmingExdfption {
+        PbrtiblCompositfDirContfxt dtx = tiis;
+        Hbsitbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        DirContfxt bnswfr;
+        Nbmf nm = nbmf;
 
         try {
-            answer = ctx.p_getSchemaClassDefinition(nm, cont);
-            while (cont.isContinue()) {
-                nm = cont.getRemainingName();
-                ctx = getPCDirContext(cont);
-                answer = ctx.p_getSchemaClassDefinition(nm, cont);
+            bnswfr = dtx.p_gftSdifmb(nm, dont);
+            wiilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCDirContfxt(dont);
+                bnswfr = dtx.p_gftSdifmb(nm, dont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.getSchemaClassDefinition(e.getRemainingName());
+        } dbtdi (CbnnotProdffdExdfption f) {
+            DirContfxt ddtx = DirfdtoryMbnbgfr.gftContinubtionDirContfxt(f);
+            bnswfr = ddtx.gftSdifmb(f.gftRfmbiningNbmf());
         }
-        return answer;
+        rfturn bnswfr;
     }
 
-// ------ internal method used by PartialCompositeDirContext
+    publid DirContfxt gftSdifmbClbssDffinition(String nbmf)
+            tirows NbmingExdfption {
+        rfturn gftSdifmbClbssDffinition(nfw CompositfNbmf(nbmf));
+    }
+
+    publid DirContfxt gftSdifmbClbssDffinition(Nbmf nbmf)
+            tirows NbmingExdfption {
+        PbrtiblCompositfDirContfxt dtx = tiis;
+        Hbsitbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        DirContfxt bnswfr;
+        Nbmf nm = nbmf;
+
+        try {
+            bnswfr = dtx.p_gftSdifmbClbssDffinition(nm, dont);
+            wiilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCDirContfxt(dont);
+                bnswfr = dtx.p_gftSdifmbClbssDffinition(nm, dont);
+            }
+        } dbtdi (CbnnotProdffdExdfption f) {
+            DirContfxt ddtx = DirfdtoryMbnbgfr.gftContinubtionDirContfxt(f);
+            bnswfr = ddtx.gftSdifmbClbssDffinition(f.gftRfmbiningNbmf());
+        }
+        rfturn bnswfr;
+    }
+
+// ------ intfrnbl mftiod usfd by PbrtiblCompositfDirContfxt
 
     /**
-     * Retrieves a PartialCompositeDirContext for the resolved object in
-     * cont.  Throws CannotProceedException if not successful.
+     * Rftrifvfs b PbrtiblCompositfDirContfxt for tif rfsolvfd objfdt in
+     * dont.  Tirows CbnnotProdffdExdfption if not suddfssful.
      */
-    protected static PartialCompositeDirContext getPCDirContext(Continuation cont)
-            throws NamingException {
+    protfdtfd stbtid PbrtiblCompositfDirContfxt gftPCDirContfxt(Continubtion dont)
+            tirows NbmingExdfption {
 
-        PartialCompositeContext pctx =
-            PartialCompositeContext.getPCContext(cont);
+        PbrtiblCompositfContfxt pdtx =
+            PbrtiblCompositfContfxt.gftPCContfxt(dont);
 
-        if (!(pctx instanceof PartialCompositeDirContext)) {
-            throw cont.fillInException(
-                    new NotContextException(
-                            "Resolved object is not a DirContext."));
+        if (!(pdtx instbndfof PbrtiblCompositfDirContfxt)) {
+            tirow dont.fillInExdfption(
+                    nfw NotContfxtExdfption(
+                            "Rfsolvfd objfdt is not b DirContfxt."));
         }
 
-        return (PartialCompositeDirContext)pctx;
+        rfturn (PbrtiblCompositfDirContfxt)pdtx;
     }
 
 
-//------ Compensation for inheriting from AtomicContext
+//------ Compfnsbtion for inifriting from AtomidContfxt
 
     /*
-     * Dummy implementations defined here so that direct subclasses
-     * of PartialCompositeDirContext or ComponentDirContext do not
-     * have to provide dummy implementations for these.
-     * Override these for subclasses of AtomicDirContext.
+     * Dummy implfmfntbtions dffinfd ifrf so tibt dirfdt subdlbssfs
+     * of PbrtiblCompositfDirContfxt or ComponfntDirContfxt do not
+     * ibvf to providf dummy implfmfntbtions for tifsf.
+     * Ovfrridf tifsf for subdlbssfs of AtomidDirContfxt.
      */
 
-    protected StringHeadTail c_parseComponent(String inputName,
-        Continuation cont) throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd StringHfbdTbil d_pbrsfComponfnt(String inputNbmf,
+        Continubtion dont) tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 
-    protected Object a_lookup(String name, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd Objfdt b_lookup(String nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 
-    protected Object a_lookupLink(String name, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd Objfdt b_lookupLink(String nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 
-    protected NamingEnumeration<NameClassPair> a_list(
-        Continuation cont) throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd NbmingEnumfrbtion<NbmfClbssPbir> b_list(
+        Continubtion dont) tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 
-    protected NamingEnumeration<Binding> a_listBindings(
-        Continuation cont) throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd NbmingEnumfrbtion<Binding> b_listBindings(
+        Continubtion dont) tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 
-    protected void a_bind(String name, Object obj, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd void b_bind(String nbmf, Objfdt obj, Continubtion dont)
+        tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 
-    protected void a_rebind(String name, Object obj, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd void b_rfbind(String nbmf, Objfdt obj, Continubtion dont)
+        tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 
-    protected void a_unbind(String name, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd void b_unbind(String nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 
-    protected void a_destroySubcontext(String name, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd void b_dfstroySubdontfxt(String nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 
-    protected Context a_createSubcontext(String name, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd Contfxt b_drfbtfSubdontfxt(String nbmf, Continubtion dont)
+        tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 
-    protected void a_rename(String oldname, Name newname,
-        Continuation cont) throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd void b_rfnbmf(String oldnbmf, Nbmf nfwnbmf,
+        Continubtion dont) tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 
-    protected NameParser a_getNameParser(Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
-            throw cont.fillInException(e);
+    protfdtfd NbmfPbrsfr b_gftNbmfPbrsfr(Continubtion dont)
+        tirows NbmingExdfption {
+            OpfrbtionNotSupportfdExdfption f = nfw
+                OpfrbtionNotSupportfdExdfption();
+            tirow dont.fillInExdfption(f);
         }
 }

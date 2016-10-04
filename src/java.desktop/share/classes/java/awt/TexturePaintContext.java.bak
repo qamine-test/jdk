@@ -1,825 +1,825 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.lang.ref.WeakReference;
-import sun.awt.image.SunWritableRaster;
-import sun.awt.image.IntegerInterleavedRaster;
-import sun.awt.image.ByteInterleavedRaster;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import sun.bwt.imbgf.SunWritbblfRbstfr;
+import sun.bwt.imbgf.IntfgfrIntfrlfbvfdRbstfr;
+import sun.bwt.imbgf.BytfIntfrlfbvfdRbstfr;
 
-abstract class TexturePaintContext implements PaintContext {
-    public static ColorModel xrgbmodel =
-        new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-    public static ColorModel argbmodel = ColorModel.getRGBdefault();
+bbstrbdt dlbss TfxturfPbintContfxt implfmfnts PbintContfxt {
+    publid stbtid ColorModfl xrgbmodfl =
+        nfw DirfdtColorModfl(24, 0xff0000, 0xff00, 0xff);
+    publid stbtid ColorModfl brgbmodfl = ColorModfl.gftRGBdffbult();
 
-    ColorModel colorModel;
-    int bWidth;
-    int bHeight;
-    int maxWidth;
+    ColorModfl dolorModfl;
+    int bWidti;
+    int bHfigit;
+    int mbxWidti;
 
-    WritableRaster outRas;
+    WritbblfRbstfr outRbs;
 
-    double xOrg;
-    double yOrg;
-    double incXAcross;
-    double incYAcross;
-    double incXDown;
-    double incYDown;
+    doublf xOrg;
+    doublf yOrg;
+    doublf indXAdross;
+    doublf indYAdross;
+    doublf indXDown;
+    doublf indYDown;
 
-    int colincx;
-    int colincy;
-    int colincxerr;
-    int colincyerr;
-    int rowincx;
-    int rowincy;
-    int rowincxerr;
-    int rowincyerr;
+    int dolindx;
+    int dolindy;
+    int dolindxfrr;
+    int dolindyfrr;
+    int rowindx;
+    int rowindy;
+    int rowindxfrr;
+    int rowindyfrr;
 
-    public static PaintContext getContext(BufferedImage bufImg,
-                                          AffineTransform xform,
-                                          RenderingHints hints,
-                                          Rectangle devBounds) {
-        WritableRaster raster = bufImg.getRaster();
-        ColorModel cm = bufImg.getColorModel();
-        int maxw = devBounds.width;
-        Object val = hints.get(RenderingHints.KEY_INTERPOLATION);
-        boolean filter =
-            (val == null
-             ? (hints.get(RenderingHints.KEY_RENDERING) == RenderingHints.VALUE_RENDER_QUALITY)
-             : (val != RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR));
-        if (raster instanceof IntegerInterleavedRaster &&
-            (!filter || isFilterableDCM(cm)))
+    publid stbtid PbintContfxt gftContfxt(BufffrfdImbgf bufImg,
+                                          AffinfTrbnsform xform,
+                                          RfndfringHints iints,
+                                          Rfdtbnglf dfvBounds) {
+        WritbblfRbstfr rbstfr = bufImg.gftRbstfr();
+        ColorModfl dm = bufImg.gftColorModfl();
+        int mbxw = dfvBounds.widti;
+        Objfdt vbl = iints.gft(RfndfringHints.KEY_INTERPOLATION);
+        boolfbn filtfr =
+            (vbl == null
+             ? (iints.gft(RfndfringHints.KEY_RENDERING) == RfndfringHints.VALUE_RENDER_QUALITY)
+             : (vbl != RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR));
+        if (rbstfr instbndfof IntfgfrIntfrlfbvfdRbstfr &&
+            (!filtfr || isFiltfrbblfDCM(dm)))
         {
-            IntegerInterleavedRaster iir = (IntegerInterleavedRaster) raster;
-            if (iir.getNumDataElements() == 1 && iir.getPixelStride() == 1) {
-                return new Int(iir, cm, xform, maxw, filter);
+            IntfgfrIntfrlfbvfdRbstfr iir = (IntfgfrIntfrlfbvfdRbstfr) rbstfr;
+            if (iir.gftNumDbtbElfmfnts() == 1 && iir.gftPixflStridf() == 1) {
+                rfturn nfw Int(iir, dm, xform, mbxw, filtfr);
             }
-        } else if (raster instanceof ByteInterleavedRaster) {
-            ByteInterleavedRaster bir = (ByteInterleavedRaster) raster;
-            if (bir.getNumDataElements() == 1 && bir.getPixelStride() == 1) {
-                if (filter) {
-                    if (isFilterableICM(cm)) {
-                        return new ByteFilter(bir, cm, xform, maxw);
+        } flsf if (rbstfr instbndfof BytfIntfrlfbvfdRbstfr) {
+            BytfIntfrlfbvfdRbstfr bir = (BytfIntfrlfbvfdRbstfr) rbstfr;
+            if (bir.gftNumDbtbElfmfnts() == 1 && bir.gftPixflStridf() == 1) {
+                if (filtfr) {
+                    if (isFiltfrbblfICM(dm)) {
+                        rfturn nfw BytfFiltfr(bir, dm, xform, mbxw);
                     }
-                } else {
-                    return new Byte(bir, cm, xform, maxw);
+                } flsf {
+                    rfturn nfw Bytf(bir, dm, xform, mbxw);
                 }
             }
         }
-        return new Any(raster, cm, xform, maxw, filter);
+        rfturn nfw Any(rbstfr, dm, xform, mbxw, filtfr);
     }
 
-    public static boolean isFilterableICM(ColorModel cm) {
-        if (cm instanceof IndexColorModel) {
-            IndexColorModel icm = (IndexColorModel) cm;
-            if (icm.getMapSize() <= 256) {
-                return true;
+    publid stbtid boolfbn isFiltfrbblfICM(ColorModfl dm) {
+        if (dm instbndfof IndfxColorModfl) {
+            IndfxColorModfl idm = (IndfxColorModfl) dm;
+            if (idm.gftMbpSizf() <= 256) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public static boolean isFilterableDCM(ColorModel cm) {
-        if (cm instanceof DirectColorModel) {
-            DirectColorModel dcm = (DirectColorModel) cm;
-            return (isMaskOK(dcm.getAlphaMask(), true) &&
-                    isMaskOK(dcm.getRedMask(), false) &&
-                    isMaskOK(dcm.getGreenMask(), false) &&
-                    isMaskOK(dcm.getBlueMask(), false));
+    publid stbtid boolfbn isFiltfrbblfDCM(ColorModfl dm) {
+        if (dm instbndfof DirfdtColorModfl) {
+            DirfdtColorModfl ddm = (DirfdtColorModfl) dm;
+            rfturn (isMbskOK(ddm.gftAlpibMbsk(), truf) &&
+                    isMbskOK(ddm.gftRfdMbsk(), fblsf) &&
+                    isMbskOK(ddm.gftGrffnMbsk(), fblsf) &&
+                    isMbskOK(ddm.gftBlufMbsk(), fblsf));
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public static boolean isMaskOK(int mask, boolean canbezero) {
-        if (canbezero && mask == 0) {
-            return true;
+    publid stbtid boolfbn isMbskOK(int mbsk, boolfbn dbnbfzfro) {
+        if (dbnbfzfro && mbsk == 0) {
+            rfturn truf;
         }
-        return (mask == 0xff ||
-                mask == 0xff00 ||
-                mask == 0xff0000 ||
-                mask == 0xff000000);
+        rfturn (mbsk == 0xff ||
+                mbsk == 0xff00 ||
+                mbsk == 0xff0000 ||
+                mbsk == 0xff000000);
     }
 
-    public static ColorModel getInternedColorModel(ColorModel cm) {
-        if (xrgbmodel == cm || xrgbmodel.equals(cm)) {
-            return xrgbmodel;
+    publid stbtid ColorModfl gftIntfrnfdColorModfl(ColorModfl dm) {
+        if (xrgbmodfl == dm || xrgbmodfl.fqubls(dm)) {
+            rfturn xrgbmodfl;
         }
-        if (argbmodel == cm || argbmodel.equals(cm)) {
-            return argbmodel;
+        if (brgbmodfl == dm || brgbmodfl.fqubls(dm)) {
+            rfturn brgbmodfl;
         }
-        return cm;
+        rfturn dm;
     }
 
-    TexturePaintContext(ColorModel cm, AffineTransform xform,
-                        int bWidth, int bHeight, int maxw) {
-        this.colorModel = getInternedColorModel(cm);
-        this.bWidth = bWidth;
-        this.bHeight = bHeight;
-        this.maxWidth = maxw;
+    TfxturfPbintContfxt(ColorModfl dm, AffinfTrbnsform xform,
+                        int bWidti, int bHfigit, int mbxw) {
+        tiis.dolorModfl = gftIntfrnfdColorModfl(dm);
+        tiis.bWidti = bWidti;
+        tiis.bHfigit = bHfigit;
+        tiis.mbxWidti = mbxw;
 
         try {
-            xform = xform.createInverse();
-        } catch (NoninvertibleTransformException e) {
-            xform.setToScale(0, 0);
+            xform = xform.drfbtfInvfrsf();
+        } dbtdi (NoninvfrtiblfTrbnsformExdfption f) {
+            xform.sftToSdblf(0, 0);
         }
-        this.incXAcross = mod(xform.getScaleX(), bWidth);
-        this.incYAcross = mod(xform.getShearY(), bHeight);
-        this.incXDown = mod(xform.getShearX(), bWidth);
-        this.incYDown = mod(xform.getScaleY(), bHeight);
-        this.xOrg = xform.getTranslateX();
-        this.yOrg = xform.getTranslateY();
-        this.colincx = (int) incXAcross;
-        this.colincy = (int) incYAcross;
-        this.colincxerr = fractAsInt(incXAcross);
-        this.colincyerr = fractAsInt(incYAcross);
-        this.rowincx = (int) incXDown;
-        this.rowincy = (int) incYDown;
-        this.rowincxerr = fractAsInt(incXDown);
-        this.rowincyerr = fractAsInt(incYDown);
+        tiis.indXAdross = mod(xform.gftSdblfX(), bWidti);
+        tiis.indYAdross = mod(xform.gftSifbrY(), bHfigit);
+        tiis.indXDown = mod(xform.gftSifbrX(), bWidti);
+        tiis.indYDown = mod(xform.gftSdblfY(), bHfigit);
+        tiis.xOrg = xform.gftTrbnslbtfX();
+        tiis.yOrg = xform.gftTrbnslbtfY();
+        tiis.dolindx = (int) indXAdross;
+        tiis.dolindy = (int) indYAdross;
+        tiis.dolindxfrr = frbdtAsInt(indXAdross);
+        tiis.dolindyfrr = frbdtAsInt(indYAdross);
+        tiis.rowindx = (int) indXDown;
+        tiis.rowindy = (int) indYDown;
+        tiis.rowindxfrr = frbdtAsInt(indXDown);
+        tiis.rowindyfrr = frbdtAsInt(indYDown);
 
     }
 
-    static int fractAsInt(double d) {
-        return (int) ((d % 1.0) * Integer.MAX_VALUE);
+    stbtid int frbdtAsInt(doublf d) {
+        rfturn (int) ((d % 1.0) * Intfgfr.MAX_VALUE);
     }
 
-    static double mod(double num, double den) {
-        num = num % den;
+    stbtid doublf mod(doublf num, doublf dfn) {
+        num = num % dfn;
         if (num < 0) {
-            num += den;
-            if (num >= den) {
-                // For very small negative numerators, the answer might
-                // be such a tiny bit less than den that the difference
-                // is smaller than the mantissa of a double allows and
-                // the result would then be rounded to den.  If that is
-                // the case then we map that number to 0 as the nearest
-                // modulus representation.
+            num += dfn;
+            if (num >= dfn) {
+                // For vfry smbll nfgbtivf numfrbtors, tif bnswfr migit
+                // bf sudi b tiny bit lfss tibn dfn tibt tif difffrfndf
+                // is smbllfr tibn tif mbntissb of b doublf bllows bnd
+                // tif rfsult would tifn bf roundfd to dfn.  If tibt is
+                // tif dbsf tifn wf mbp tibt numbfr to 0 bs tif nfbrfst
+                // modulus rfprfsfntbtion.
                 num = 0;
             }
         }
-        return num;
+        rfturn num;
     }
 
     /**
-     * Release the resources allocated for the operation.
+     * Rflfbsf tif rfsourdfs bllodbtfd for tif opfrbtion.
      */
-    public void dispose() {
-        dropRaster(colorModel, outRas);
+    publid void disposf() {
+        dropRbstfr(dolorModfl, outRbs);
     }
 
     /**
-     * Return the ColorModel of the output.
+     * Rfturn tif ColorModfl of tif output.
      */
-    public ColorModel getColorModel() {
-        return colorModel;
+    publid ColorModfl gftColorModfl() {
+        rfturn dolorModfl;
     }
 
     /**
-     * Return a Raster containing the colors generated for the graphics
-     * operation.
-     * @param x,y,w,h The area in device space for which colors are
-     * generated.
+     * Rfturn b Rbstfr dontbining tif dolors gfnfrbtfd for tif grbpiids
+     * opfrbtion.
+     * @pbrbm x,y,w,i Tif brfb in dfvidf spbdf for wiidi dolors brf
+     * gfnfrbtfd.
      */
-    public Raster getRaster(int x, int y, int w, int h) {
-        if (outRas == null ||
-            outRas.getWidth() < w ||
-            outRas.getHeight() < h)
+    publid Rbstfr gftRbstfr(int x, int y, int w, int i) {
+        if (outRbs == null ||
+            outRbs.gftWidti() < w ||
+            outRbs.gftHfigit() < i)
         {
-            // If h==1, we will probably get lots of "scanline" rects
-            outRas = makeRaster((h == 1 ? Math.max(w, maxWidth) : w), h);
+            // If i==1, wf will probbbly gft lots of "sdbnlinf" rfdts
+            outRbs = mbkfRbstfr((i == 1 ? Mbti.mbx(w, mbxWidti) : w), i);
         }
-        double X = mod(xOrg + x * incXAcross + y * incXDown, bWidth);
-        double Y = mod(yOrg + x * incYAcross + y * incYDown, bHeight);
+        doublf X = mod(xOrg + x * indXAdross + y * indXDown, bWidti);
+        doublf Y = mod(yOrg + x * indYAdross + y * indYDown, bHfigit);
 
-        setRaster((int) X, (int) Y, fractAsInt(X), fractAsInt(Y),
-                  w, h, bWidth, bHeight,
-                  colincx, colincxerr,
-                  colincy, colincyerr,
-                  rowincx, rowincxerr,
-                  rowincy, rowincyerr);
+        sftRbstfr((int) X, (int) Y, frbdtAsInt(X), frbdtAsInt(Y),
+                  w, i, bWidti, bHfigit,
+                  dolindx, dolindxfrr,
+                  dolindy, dolindyfrr,
+                  rowindx, rowindxfrr,
+                  rowindy, rowindyfrr);
 
-        SunWritableRaster.markDirty(outRas);
+        SunWritbblfRbstfr.mbrkDirty(outRbs);
 
-        return outRas;
+        rfturn outRbs;
     }
 
-    private static WeakReference<Raster> xrgbRasRef;
-    private static WeakReference<Raster> argbRasRef;
+    privbtf stbtid WfbkRfffrfndf<Rbstfr> xrgbRbsRff;
+    privbtf stbtid WfbkRfffrfndf<Rbstfr> brgbRbsRff;
 
-    synchronized static WritableRaster makeRaster(ColorModel cm,
-                                                  Raster srcRas,
-                                                  int w, int h)
+    syndironizfd stbtid WritbblfRbstfr mbkfRbstfr(ColorModfl dm,
+                                                  Rbstfr srdRbs,
+                                                  int w, int i)
     {
-        if (xrgbmodel == cm) {
-            if (xrgbRasRef != null) {
-                WritableRaster wr = (WritableRaster) xrgbRasRef.get();
-                if (wr != null && wr.getWidth() >= w && wr.getHeight() >= h) {
-                    xrgbRasRef = null;
-                    return wr;
+        if (xrgbmodfl == dm) {
+            if (xrgbRbsRff != null) {
+                WritbblfRbstfr wr = (WritbblfRbstfr) xrgbRbsRff.gft();
+                if (wr != null && wr.gftWidti() >= w && wr.gftHfigit() >= i) {
+                    xrgbRbsRff = null;
+                    rfturn wr;
                 }
             }
-            // If we are going to cache this Raster, make it non-tiny
-            if (w <= 32 && h <= 32) {
-                w = h = 32;
+            // If wf brf going to dbdif tiis Rbstfr, mbkf it non-tiny
+            if (w <= 32 && i <= 32) {
+                w = i = 32;
             }
-        } else if (argbmodel == cm) {
-            if (argbRasRef != null) {
-                WritableRaster wr = (WritableRaster) argbRasRef.get();
-                if (wr != null && wr.getWidth() >= w && wr.getHeight() >= h) {
-                    argbRasRef = null;
-                    return wr;
+        } flsf if (brgbmodfl == dm) {
+            if (brgbRbsRff != null) {
+                WritbblfRbstfr wr = (WritbblfRbstfr) brgbRbsRff.gft();
+                if (wr != null && wr.gftWidti() >= w && wr.gftHfigit() >= i) {
+                    brgbRbsRff = null;
+                    rfturn wr;
                 }
             }
-            // If we are going to cache this Raster, make it non-tiny
-            if (w <= 32 && h <= 32) {
-                w = h = 32;
+            // If wf brf going to dbdif tiis Rbstfr, mbkf it non-tiny
+            if (w <= 32 && i <= 32) {
+                w = i = 32;
             }
         }
-        if (srcRas != null) {
-            return srcRas.createCompatibleWritableRaster(w, h);
-        } else {
-            return cm.createCompatibleWritableRaster(w, h);
+        if (srdRbs != null) {
+            rfturn srdRbs.drfbtfCompbtiblfWritbblfRbstfr(w, i);
+        } flsf {
+            rfturn dm.drfbtfCompbtiblfWritbblfRbstfr(w, i);
         }
     }
 
-    synchronized static void dropRaster(ColorModel cm, Raster outRas) {
-        if (outRas == null) {
-            return;
+    syndironizfd stbtid void dropRbstfr(ColorModfl dm, Rbstfr outRbs) {
+        if (outRbs == null) {
+            rfturn;
         }
-        if (xrgbmodel == cm) {
-            xrgbRasRef = new WeakReference<>(outRas);
-        } else if (argbmodel == cm) {
-            argbRasRef = new WeakReference<>(outRas);
+        if (xrgbmodfl == dm) {
+            xrgbRbsRff = nfw WfbkRfffrfndf<>(outRbs);
+        } flsf if (brgbmodfl == dm) {
+            brgbRbsRff = nfw WfbkRfffrfndf<>(outRbs);
         }
     }
 
-    private static WeakReference<Raster> byteRasRef;
+    privbtf stbtid WfbkRfffrfndf<Rbstfr> bytfRbsRff;
 
-    synchronized static WritableRaster makeByteRaster(Raster srcRas,
-                                                      int w, int h)
+    syndironizfd stbtid WritbblfRbstfr mbkfBytfRbstfr(Rbstfr srdRbs,
+                                                      int w, int i)
     {
-        if (byteRasRef != null) {
-            WritableRaster wr = (WritableRaster) byteRasRef.get();
-            if (wr != null && wr.getWidth() >= w && wr.getHeight() >= h) {
-                byteRasRef = null;
-                return wr;
+        if (bytfRbsRff != null) {
+            WritbblfRbstfr wr = (WritbblfRbstfr) bytfRbsRff.gft();
+            if (wr != null && wr.gftWidti() >= w && wr.gftHfigit() >= i) {
+                bytfRbsRff = null;
+                rfturn wr;
             }
         }
-        // If we are going to cache this Raster, make it non-tiny
-        if (w <= 32 && h <= 32) {
-            w = h = 32;
+        // If wf brf going to dbdif tiis Rbstfr, mbkf it non-tiny
+        if (w <= 32 && i <= 32) {
+            w = i = 32;
         }
-        return srcRas.createCompatibleWritableRaster(w, h);
+        rfturn srdRbs.drfbtfCompbtiblfWritbblfRbstfr(w, i);
     }
 
-    synchronized static void dropByteRaster(Raster outRas) {
-        if (outRas == null) {
-            return;
+    syndironizfd stbtid void dropBytfRbstfr(Rbstfr outRbs) {
+        if (outRbs == null) {
+            rfturn;
         }
-        byteRasRef = new WeakReference<>(outRas);
+        bytfRbsRff = nfw WfbkRfffrfndf<>(outRbs);
     }
 
-    public abstract WritableRaster makeRaster(int w, int h);
-    public abstract void setRaster(int x, int y, int xerr, int yerr,
-                                   int w, int h, int bWidth, int bHeight,
-                                   int colincx, int colincxerr,
-                                   int colincy, int colincyerr,
-                                   int rowincx, int rowincxerr,
-                                   int rowincy, int rowincyerr);
+    publid bbstrbdt WritbblfRbstfr mbkfRbstfr(int w, int i);
+    publid bbstrbdt void sftRbstfr(int x, int y, int xfrr, int yfrr,
+                                   int w, int i, int bWidti, int bHfigit,
+                                   int dolindx, int dolindxfrr,
+                                   int dolindy, int dolindyfrr,
+                                   int rowindx, int rowindxfrr,
+                                   int rowindy, int rowindyfrr);
 
     /*
-     * Blends the four ARGB values in the rgbs array using the factors
-     * described by xmul and ymul in the following ratio:
+     * Blfnds tif four ARGB vblufs in tif rgbs brrby using tif fbdtors
+     * dfsdribfd by xmul bnd ymul in tif following rbtio:
      *
      *     rgbs[0] * (1-xmul) * (1-ymul) +
      *     rgbs[1] * (  xmul) * (1-ymul) +
      *     rgbs[2] * (1-xmul) * (  ymul) +
      *     rgbs[3] * (  xmul) * (  ymul)
      *
-     * xmul and ymul are integer values in the half-open range [0, 2^31)
-     * where 0 == 0.0 and 2^31 == 1.0.
+     * xmul bnd ymul brf intfgfr vblufs in tif iblf-opfn rbngf [0, 2^31)
+     * wifrf 0 == 0.0 bnd 2^31 == 1.0.
      *
-     * Note that since the range is half-open, the values are always
-     * logically less than 1.0.  This makes sense because while choosing
-     * pixels to blend, when the error values reach 1.0 we move to the
-     * next pixel and reset them to 0.0.
+     * Notf tibt sindf tif rbngf is iblf-opfn, tif vblufs brf blwbys
+     * logidblly lfss tibn 1.0.  Tiis mbkfs sfnsf bfdbusf wiilf dioosing
+     * pixfls to blfnd, wifn tif frror vblufs rfbdi 1.0 wf movf to tif
+     * nfxt pixfl bnd rfsft tifm to 0.0.
      */
-    public static int blend(int rgbs[], int xmul, int ymul) {
-        // xmul/ymul are 31 bits wide, (0 => 2^31-1)
-        // shift them to 12 bits wide, (0 => 2^12-1)
+    publid stbtid int blfnd(int rgbs[], int xmul, int ymul) {
+        // xmul/ymul brf 31 bits widf, (0 => 2^31-1)
+        // siift tifm to 12 bits widf, (0 => 2^12-1)
         xmul = (xmul >>> 19);
         ymul = (ymul >>> 19);
-        int accumA, accumR, accumG, accumB;
-        accumA = accumR = accumG = accumB = 0;
+        int bddumA, bddumR, bddumG, bddumB;
+        bddumA = bddumR = bddumG = bddumB = 0;
         for (int i = 0; i < 4; i++) {
             int rgb = rgbs[i];
-            // The complement of the [xy]mul values (1-[xy]mul) can result
-            // in new values in the range (1 => 2^12).  Thus for any given
-            // loop iteration, the values could be anywhere in (0 => 2^12).
+            // Tif domplfmfnt of tif [xy]mul vblufs (1-[xy]mul) dbn rfsult
+            // in nfw vblufs in tif rbngf (1 => 2^12).  Tius for bny givfn
+            // loop itfrbtion, tif vblufs dould bf bnywifrf in (0 => 2^12).
             xmul = (1<<12) - xmul;
             if ((i & 1) == 0) {
                 ymul = (1<<12) - ymul;
             }
-            // xmul and ymul are each 12 bits (0 => 2^12)
-            // factor is thus 24 bits (0 => 2^24)
-            int factor = xmul * ymul;
-            if (factor != 0) {
-                // accum variables will accumulate 32 bits
-                // bytes extracted from rgb fit in 8 bits (0 => 255)
-                // byte * factor thus fits in 32 bits (0 => 255 * 2^24)
-                accumA += (((rgb >>> 24)       ) * factor);
-                accumR += (((rgb >>> 16) & 0xff) * factor);
-                accumG += (((rgb >>>  8) & 0xff) * factor);
-                accumB += (((rgb       ) & 0xff) * factor);
+            // xmul bnd ymul brf fbdi 12 bits (0 => 2^12)
+            // fbdtor is tius 24 bits (0 => 2^24)
+            int fbdtor = xmul * ymul;
+            if (fbdtor != 0) {
+                // bddum vbribblfs will bddumulbtf 32 bits
+                // bytfs fxtrbdtfd from rgb fit in 8 bits (0 => 255)
+                // bytf * fbdtor tius fits in 32 bits (0 => 255 * 2^24)
+                bddumA += (((rgb >>> 24)       ) * fbdtor);
+                bddumR += (((rgb >>> 16) & 0xff) * fbdtor);
+                bddumG += (((rgb >>>  8) & 0xff) * fbdtor);
+                bddumB += (((rgb       ) & 0xff) * fbdtor);
             }
         }
-        return ((((accumA + (1<<23)) >>> 24) << 24) |
-                (((accumR + (1<<23)) >>> 24) << 16) |
-                (((accumG + (1<<23)) >>> 24) <<  8) |
-                (((accumB + (1<<23)) >>> 24)      ));
+        rfturn ((((bddumA + (1<<23)) >>> 24) << 24) |
+                (((bddumR + (1<<23)) >>> 24) << 16) |
+                (((bddumG + (1<<23)) >>> 24) <<  8) |
+                (((bddumB + (1<<23)) >>> 24)      ));
     }
 
-    static class Int extends TexturePaintContext {
-        IntegerInterleavedRaster srcRas;
-        int inData[];
+    stbtid dlbss Int fxtfnds TfxturfPbintContfxt {
+        IntfgfrIntfrlfbvfdRbstfr srdRbs;
+        int inDbtb[];
         int inOff;
-        int inSpan;
-        int outData[];
+        int inSpbn;
+        int outDbtb[];
         int outOff;
-        int outSpan;
-        boolean filter;
+        int outSpbn;
+        boolfbn filtfr;
 
-        public Int(IntegerInterleavedRaster srcRas, ColorModel cm,
-                   AffineTransform xform, int maxw, boolean filter)
+        publid Int(IntfgfrIntfrlfbvfdRbstfr srdRbs, ColorModfl dm,
+                   AffinfTrbnsform xform, int mbxw, boolfbn filtfr)
         {
-            super(cm, xform, srcRas.getWidth(), srcRas.getHeight(), maxw);
-            this.srcRas = srcRas;
-            this.inData = srcRas.getDataStorage();
-            this.inSpan = srcRas.getScanlineStride();
-            this.inOff = srcRas.getDataOffset(0);
-            this.filter = filter;
+            supfr(dm, xform, srdRbs.gftWidti(), srdRbs.gftHfigit(), mbxw);
+            tiis.srdRbs = srdRbs;
+            tiis.inDbtb = srdRbs.gftDbtbStorbgf();
+            tiis.inSpbn = srdRbs.gftSdbnlinfStridf();
+            tiis.inOff = srdRbs.gftDbtbOffsft(0);
+            tiis.filtfr = filtfr;
         }
 
-        public WritableRaster makeRaster(int w, int h) {
-            WritableRaster ras = makeRaster(colorModel, srcRas, w, h);
-            IntegerInterleavedRaster iiRas = (IntegerInterleavedRaster) ras;
-            outData = iiRas.getDataStorage();
-            outSpan = iiRas.getScanlineStride();
-            outOff = iiRas.getDataOffset(0);
-            return ras;
+        publid WritbblfRbstfr mbkfRbstfr(int w, int i) {
+            WritbblfRbstfr rbs = mbkfRbstfr(dolorModfl, srdRbs, w, i);
+            IntfgfrIntfrlfbvfdRbstfr iiRbs = (IntfgfrIntfrlfbvfdRbstfr) rbs;
+            outDbtb = iiRbs.gftDbtbStorbgf();
+            outSpbn = iiRbs.gftSdbnlinfStridf();
+            outOff = iiRbs.gftDbtbOffsft(0);
+            rfturn rbs;
         }
 
-        public void setRaster(int x, int y, int xerr, int yerr,
-                              int w, int h, int bWidth, int bHeight,
-                              int colincx, int colincxerr,
-                              int colincy, int colincyerr,
-                              int rowincx, int rowincxerr,
-                              int rowincy, int rowincyerr) {
-            int[] inData = this.inData;
-            int[] outData = this.outData;
+        publid void sftRbstfr(int x, int y, int xfrr, int yfrr,
+                              int w, int i, int bWidti, int bHfigit,
+                              int dolindx, int dolindxfrr,
+                              int dolindy, int dolindyfrr,
+                              int rowindx, int rowindxfrr,
+                              int rowindy, int rowindyfrr) {
+            int[] inDbtb = tiis.inDbtb;
+            int[] outDbtb = tiis.outDbtb;
             int out = outOff;
-            int inSpan = this.inSpan;
-            int inOff = this.inOff;
-            int outSpan = this.outSpan;
-            boolean filter = this.filter;
-            boolean normalx = (colincx == 1 && colincxerr == 0 &&
-                               colincy == 0 && colincyerr == 0) && !filter;
+            int inSpbn = tiis.inSpbn;
+            int inOff = tiis.inOff;
+            int outSpbn = tiis.outSpbn;
+            boolfbn filtfr = tiis.filtfr;
+            boolfbn normblx = (dolindx == 1 && dolindxfrr == 0 &&
+                               dolindy == 0 && dolindyfrr == 0) && !filtfr;
             int rowx = x;
             int rowy = y;
-            int rowxerr = xerr;
-            int rowyerr = yerr;
-            if (normalx) {
-                outSpan -= w;
+            int rowxfrr = xfrr;
+            int rowyfrr = yfrr;
+            if (normblx) {
+                outSpbn -= w;
             }
-            int rgbs[] = filter ? new int[4] : null;
-            for (int j = 0; j < h; j++) {
-                if (normalx) {
-                    int in = inOff + rowy * inSpan + bWidth;
-                    x = bWidth - rowx;
+            int rgbs[] = filtfr ? nfw int[4] : null;
+            for (int j = 0; j < i; j++) {
+                if (normblx) {
+                    int in = inOff + rowy * inSpbn + bWidti;
+                    x = bWidti - rowx;
                     out += w;
-                    if (bWidth >= 32) {
+                    if (bWidti >= 32) {
                         int i = w;
-                        while (i > 0) {
-                            int copyw = (i < x) ? i : x;
-                            System.arraycopy(inData, in - x,
-                                             outData, out - i,
-                                             copyw);
-                            i -= copyw;
-                            if ((x -= copyw) == 0) {
-                                x = bWidth;
+                        wiilf (i > 0) {
+                            int dopyw = (i < x) ? i : x;
+                            Systfm.brrbydopy(inDbtb, in - x,
+                                             outDbtb, out - i,
+                                             dopyw);
+                            i -= dopyw;
+                            if ((x -= dopyw) == 0) {
+                                x = bWidti;
                             }
                         }
-                    } else {
+                    } flsf {
                         for (int i = w; i > 0; i--) {
-                            outData[out - i] = inData[in - x];
+                            outDbtb[out - i] = inDbtb[in - x];
                             if (--x == 0) {
-                                x = bWidth;
+                                x = bWidti;
                             }
                         }
                     }
-                } else {
+                } flsf {
                     x = rowx;
                     y = rowy;
-                    xerr = rowxerr;
-                    yerr = rowyerr;
+                    xfrr = rowxfrr;
+                    yfrr = rowyfrr;
                     for (int i = 0; i < w; i++) {
-                        if (filter) {
-                            int nextx, nexty;
-                            if ((nextx = x + 1) >= bWidth) {
-                                nextx = 0;
+                        if (filtfr) {
+                            int nfxtx, nfxty;
+                            if ((nfxtx = x + 1) >= bWidti) {
+                                nfxtx = 0;
                             }
-                            if ((nexty = y + 1) >= bHeight) {
-                                nexty = 0;
+                            if ((nfxty = y + 1) >= bHfigit) {
+                                nfxty = 0;
                             }
-                            rgbs[0] = inData[inOff + y * inSpan + x];
-                            rgbs[1] = inData[inOff + y * inSpan + nextx];
-                            rgbs[2] = inData[inOff + nexty * inSpan + x];
-                            rgbs[3] = inData[inOff + nexty * inSpan + nextx];
-                            outData[out + i] =
-                                TexturePaintContext.blend(rgbs, xerr, yerr);
-                        } else {
-                            outData[out + i] = inData[inOff + y * inSpan + x];
+                            rgbs[0] = inDbtb[inOff + y * inSpbn + x];
+                            rgbs[1] = inDbtb[inOff + y * inSpbn + nfxtx];
+                            rgbs[2] = inDbtb[inOff + nfxty * inSpbn + x];
+                            rgbs[3] = inDbtb[inOff + nfxty * inSpbn + nfxtx];
+                            outDbtb[out + i] =
+                                TfxturfPbintContfxt.blfnd(rgbs, xfrr, yfrr);
+                        } flsf {
+                            outDbtb[out + i] = inDbtb[inOff + y * inSpbn + x];
                         }
-                        if ((xerr += colincxerr) < 0) {
-                            xerr &= Integer.MAX_VALUE;
+                        if ((xfrr += dolindxfrr) < 0) {
+                            xfrr &= Intfgfr.MAX_VALUE;
                             x++;
                         }
-                        if ((x += colincx) >= bWidth) {
-                            x -= bWidth;
+                        if ((x += dolindx) >= bWidti) {
+                            x -= bWidti;
                         }
-                        if ((yerr += colincyerr) < 0) {
-                            yerr &= Integer.MAX_VALUE;
+                        if ((yfrr += dolindyfrr) < 0) {
+                            yfrr &= Intfgfr.MAX_VALUE;
                             y++;
                         }
-                        if ((y += colincy) >= bHeight) {
-                            y -= bHeight;
+                        if ((y += dolindy) >= bHfigit) {
+                            y -= bHfigit;
                         }
                     }
                 }
-                if ((rowxerr += rowincxerr) < 0) {
-                    rowxerr &= Integer.MAX_VALUE;
+                if ((rowxfrr += rowindxfrr) < 0) {
+                    rowxfrr &= Intfgfr.MAX_VALUE;
                     rowx++;
                 }
-                if ((rowx += rowincx) >= bWidth) {
-                    rowx -= bWidth;
+                if ((rowx += rowindx) >= bWidti) {
+                    rowx -= bWidti;
                 }
-                if ((rowyerr += rowincyerr) < 0) {
-                    rowyerr &= Integer.MAX_VALUE;
+                if ((rowyfrr += rowindyfrr) < 0) {
+                    rowyfrr &= Intfgfr.MAX_VALUE;
                     rowy++;
                 }
-                if ((rowy += rowincy) >= bHeight) {
-                    rowy -= bHeight;
+                if ((rowy += rowindy) >= bHfigit) {
+                    rowy -= bHfigit;
                 }
-                out += outSpan;
+                out += outSpbn;
             }
         }
     }
 
-    static class Byte extends TexturePaintContext {
-        ByteInterleavedRaster srcRas;
-        byte inData[];
+    stbtid dlbss Bytf fxtfnds TfxturfPbintContfxt {
+        BytfIntfrlfbvfdRbstfr srdRbs;
+        bytf inDbtb[];
         int inOff;
-        int inSpan;
-        byte outData[];
+        int inSpbn;
+        bytf outDbtb[];
         int outOff;
-        int outSpan;
+        int outSpbn;
 
-        public Byte(ByteInterleavedRaster srcRas, ColorModel cm,
-                    AffineTransform xform, int maxw)
+        publid Bytf(BytfIntfrlfbvfdRbstfr srdRbs, ColorModfl dm,
+                    AffinfTrbnsform xform, int mbxw)
         {
-            super(cm, xform, srcRas.getWidth(), srcRas.getHeight(), maxw);
-            this.srcRas = srcRas;
-            this.inData = srcRas.getDataStorage();
-            this.inSpan = srcRas.getScanlineStride();
-            this.inOff = srcRas.getDataOffset(0);
+            supfr(dm, xform, srdRbs.gftWidti(), srdRbs.gftHfigit(), mbxw);
+            tiis.srdRbs = srdRbs;
+            tiis.inDbtb = srdRbs.gftDbtbStorbgf();
+            tiis.inSpbn = srdRbs.gftSdbnlinfStridf();
+            tiis.inOff = srdRbs.gftDbtbOffsft(0);
         }
 
-        public WritableRaster makeRaster(int w, int h) {
-            WritableRaster ras = makeByteRaster(srcRas, w, h);
-            ByteInterleavedRaster biRas = (ByteInterleavedRaster) ras;
-            outData = biRas.getDataStorage();
-            outSpan = biRas.getScanlineStride();
-            outOff = biRas.getDataOffset(0);
-            return ras;
+        publid WritbblfRbstfr mbkfRbstfr(int w, int i) {
+            WritbblfRbstfr rbs = mbkfBytfRbstfr(srdRbs, w, i);
+            BytfIntfrlfbvfdRbstfr biRbs = (BytfIntfrlfbvfdRbstfr) rbs;
+            outDbtb = biRbs.gftDbtbStorbgf();
+            outSpbn = biRbs.gftSdbnlinfStridf();
+            outOff = biRbs.gftDbtbOffsft(0);
+            rfturn rbs;
         }
 
-        public void dispose() {
-            dropByteRaster(outRas);
+        publid void disposf() {
+            dropBytfRbstfr(outRbs);
         }
 
-        public void setRaster(int x, int y, int xerr, int yerr,
-                              int w, int h, int bWidth, int bHeight,
-                              int colincx, int colincxerr,
-                              int colincy, int colincyerr,
-                              int rowincx, int rowincxerr,
-                              int rowincy, int rowincyerr) {
-            byte[] inData = this.inData;
-            byte[] outData = this.outData;
+        publid void sftRbstfr(int x, int y, int xfrr, int yfrr,
+                              int w, int i, int bWidti, int bHfigit,
+                              int dolindx, int dolindxfrr,
+                              int dolindy, int dolindyfrr,
+                              int rowindx, int rowindxfrr,
+                              int rowindy, int rowindyfrr) {
+            bytf[] inDbtb = tiis.inDbtb;
+            bytf[] outDbtb = tiis.outDbtb;
             int out = outOff;
-            int inSpan = this.inSpan;
-            int inOff = this.inOff;
-            int outSpan = this.outSpan;
-            boolean normalx = (colincx == 1 && colincxerr == 0 &&
-                               colincy == 0 && colincyerr == 0);
+            int inSpbn = tiis.inSpbn;
+            int inOff = tiis.inOff;
+            int outSpbn = tiis.outSpbn;
+            boolfbn normblx = (dolindx == 1 && dolindxfrr == 0 &&
+                               dolindy == 0 && dolindyfrr == 0);
             int rowx = x;
             int rowy = y;
-            int rowxerr = xerr;
-            int rowyerr = yerr;
-            if (normalx) {
-                outSpan -= w;
+            int rowxfrr = xfrr;
+            int rowyfrr = yfrr;
+            if (normblx) {
+                outSpbn -= w;
             }
-            for (int j = 0; j < h; j++) {
-                if (normalx) {
-                    int in = inOff + rowy * inSpan + bWidth;
-                    x = bWidth - rowx;
+            for (int j = 0; j < i; j++) {
+                if (normblx) {
+                    int in = inOff + rowy * inSpbn + bWidti;
+                    x = bWidti - rowx;
                     out += w;
-                    if (bWidth >= 32) {
+                    if (bWidti >= 32) {
                         int i = w;
-                        while (i > 0) {
-                            int copyw = (i < x) ? i : x;
-                            System.arraycopy(inData, in - x,
-                                             outData, out - i,
-                                             copyw);
-                            i -= copyw;
-                            if ((x -= copyw) == 0) {
-                                x = bWidth;
+                        wiilf (i > 0) {
+                            int dopyw = (i < x) ? i : x;
+                            Systfm.brrbydopy(inDbtb, in - x,
+                                             outDbtb, out - i,
+                                             dopyw);
+                            i -= dopyw;
+                            if ((x -= dopyw) == 0) {
+                                x = bWidti;
                             }
                         }
-                    } else {
+                    } flsf {
                         for (int i = w; i > 0; i--) {
-                            outData[out - i] = inData[in - x];
+                            outDbtb[out - i] = inDbtb[in - x];
                             if (--x == 0) {
-                                x = bWidth;
+                                x = bWidti;
                             }
                         }
                     }
-                } else {
+                } flsf {
                     x = rowx;
                     y = rowy;
-                    xerr = rowxerr;
-                    yerr = rowyerr;
+                    xfrr = rowxfrr;
+                    yfrr = rowyfrr;
                     for (int i = 0; i < w; i++) {
-                        outData[out + i] = inData[inOff + y * inSpan + x];
-                        if ((xerr += colincxerr) < 0) {
-                            xerr &= Integer.MAX_VALUE;
+                        outDbtb[out + i] = inDbtb[inOff + y * inSpbn + x];
+                        if ((xfrr += dolindxfrr) < 0) {
+                            xfrr &= Intfgfr.MAX_VALUE;
                             x++;
                         }
-                        if ((x += colincx) >= bWidth) {
-                            x -= bWidth;
+                        if ((x += dolindx) >= bWidti) {
+                            x -= bWidti;
                         }
-                        if ((yerr += colincyerr) < 0) {
-                            yerr &= Integer.MAX_VALUE;
+                        if ((yfrr += dolindyfrr) < 0) {
+                            yfrr &= Intfgfr.MAX_VALUE;
                             y++;
                         }
-                        if ((y += colincy) >= bHeight) {
-                            y -= bHeight;
+                        if ((y += dolindy) >= bHfigit) {
+                            y -= bHfigit;
                         }
                     }
                 }
-                if ((rowxerr += rowincxerr) < 0) {
-                    rowxerr &= Integer.MAX_VALUE;
+                if ((rowxfrr += rowindxfrr) < 0) {
+                    rowxfrr &= Intfgfr.MAX_VALUE;
                     rowx++;
                 }
-                if ((rowx += rowincx) >= bWidth) {
-                    rowx -= bWidth;
+                if ((rowx += rowindx) >= bWidti) {
+                    rowx -= bWidti;
                 }
-                if ((rowyerr += rowincyerr) < 0) {
-                    rowyerr &= Integer.MAX_VALUE;
+                if ((rowyfrr += rowindyfrr) < 0) {
+                    rowyfrr &= Intfgfr.MAX_VALUE;
                     rowy++;
                 }
-                if ((rowy += rowincy) >= bHeight) {
-                    rowy -= bHeight;
+                if ((rowy += rowindy) >= bHfigit) {
+                    rowy -= bHfigit;
                 }
-                out += outSpan;
+                out += outSpbn;
             }
         }
     }
 
-    static class ByteFilter extends TexturePaintContext {
-        ByteInterleavedRaster srcRas;
-        int inPalette[];
-        byte inData[];
+    stbtid dlbss BytfFiltfr fxtfnds TfxturfPbintContfxt {
+        BytfIntfrlfbvfdRbstfr srdRbs;
+        int inPblfttf[];
+        bytf inDbtb[];
         int inOff;
-        int inSpan;
-        int outData[];
+        int inSpbn;
+        int outDbtb[];
         int outOff;
-        int outSpan;
+        int outSpbn;
 
-        public ByteFilter(ByteInterleavedRaster srcRas, ColorModel cm,
-                          AffineTransform xform, int maxw)
+        publid BytfFiltfr(BytfIntfrlfbvfdRbstfr srdRbs, ColorModfl dm,
+                          AffinfTrbnsform xform, int mbxw)
         {
-            super((cm.getTransparency() == Transparency.OPAQUE
-                   ? xrgbmodel : argbmodel),
-                  xform, srcRas.getWidth(), srcRas.getHeight(), maxw);
-            this.inPalette = new int[256];
-            ((IndexColorModel) cm).getRGBs(this.inPalette);
-            this.srcRas = srcRas;
-            this.inData = srcRas.getDataStorage();
-            this.inSpan = srcRas.getScanlineStride();
-            this.inOff = srcRas.getDataOffset(0);
+            supfr((dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE
+                   ? xrgbmodfl : brgbmodfl),
+                  xform, srdRbs.gftWidti(), srdRbs.gftHfigit(), mbxw);
+            tiis.inPblfttf = nfw int[256];
+            ((IndfxColorModfl) dm).gftRGBs(tiis.inPblfttf);
+            tiis.srdRbs = srdRbs;
+            tiis.inDbtb = srdRbs.gftDbtbStorbgf();
+            tiis.inSpbn = srdRbs.gftSdbnlinfStridf();
+            tiis.inOff = srdRbs.gftDbtbOffsft(0);
         }
 
-        public WritableRaster makeRaster(int w, int h) {
-            // Note that we do not pass srcRas to makeRaster since it
-            // is a Byte Raster and this colorModel needs an Int Raster
-            WritableRaster ras = makeRaster(colorModel, null, w, h);
-            IntegerInterleavedRaster iiRas = (IntegerInterleavedRaster) ras;
-            outData = iiRas.getDataStorage();
-            outSpan = iiRas.getScanlineStride();
-            outOff = iiRas.getDataOffset(0);
-            return ras;
+        publid WritbblfRbstfr mbkfRbstfr(int w, int i) {
+            // Notf tibt wf do not pbss srdRbs to mbkfRbstfr sindf it
+            // is b Bytf Rbstfr bnd tiis dolorModfl nffds bn Int Rbstfr
+            WritbblfRbstfr rbs = mbkfRbstfr(dolorModfl, null, w, i);
+            IntfgfrIntfrlfbvfdRbstfr iiRbs = (IntfgfrIntfrlfbvfdRbstfr) rbs;
+            outDbtb = iiRbs.gftDbtbStorbgf();
+            outSpbn = iiRbs.gftSdbnlinfStridf();
+            outOff = iiRbs.gftDbtbOffsft(0);
+            rfturn rbs;
         }
 
-        public void setRaster(int x, int y, int xerr, int yerr,
-                              int w, int h, int bWidth, int bHeight,
-                              int colincx, int colincxerr,
-                              int colincy, int colincyerr,
-                              int rowincx, int rowincxerr,
-                              int rowincy, int rowincyerr) {
-            byte[] inData = this.inData;
-            int[] outData = this.outData;
+        publid void sftRbstfr(int x, int y, int xfrr, int yfrr,
+                              int w, int i, int bWidti, int bHfigit,
+                              int dolindx, int dolindxfrr,
+                              int dolindy, int dolindyfrr,
+                              int rowindx, int rowindxfrr,
+                              int rowindy, int rowindyfrr) {
+            bytf[] inDbtb = tiis.inDbtb;
+            int[] outDbtb = tiis.outDbtb;
             int out = outOff;
-            int inSpan = this.inSpan;
-            int inOff = this.inOff;
-            int outSpan = this.outSpan;
+            int inSpbn = tiis.inSpbn;
+            int inOff = tiis.inOff;
+            int outSpbn = tiis.outSpbn;
             int rowx = x;
             int rowy = y;
-            int rowxerr = xerr;
-            int rowyerr = yerr;
-            int rgbs[] = new int[4];
-            for (int j = 0; j < h; j++) {
+            int rowxfrr = xfrr;
+            int rowyfrr = yfrr;
+            int rgbs[] = nfw int[4];
+            for (int j = 0; j < i; j++) {
                 x = rowx;
                 y = rowy;
-                xerr = rowxerr;
-                yerr = rowyerr;
+                xfrr = rowxfrr;
+                yfrr = rowyfrr;
                 for (int i = 0; i < w; i++) {
-                    int nextx, nexty;
-                    if ((nextx = x + 1) >= bWidth) {
-                        nextx = 0;
+                    int nfxtx, nfxty;
+                    if ((nfxtx = x + 1) >= bWidti) {
+                        nfxtx = 0;
                     }
-                    if ((nexty = y + 1) >= bHeight) {
-                        nexty = 0;
+                    if ((nfxty = y + 1) >= bHfigit) {
+                        nfxty = 0;
                     }
-                    rgbs[0] = inPalette[0xff & inData[inOff + x +
-                                                      inSpan * y]];
-                    rgbs[1] = inPalette[0xff & inData[inOff + nextx +
-                                                      inSpan * y]];
-                    rgbs[2] = inPalette[0xff & inData[inOff + x +
-                                                      inSpan * nexty]];
-                    rgbs[3] = inPalette[0xff & inData[inOff + nextx +
-                                                      inSpan * nexty]];
-                    outData[out + i] =
-                        TexturePaintContext.blend(rgbs, xerr, yerr);
-                    if ((xerr += colincxerr) < 0) {
-                        xerr &= Integer.MAX_VALUE;
+                    rgbs[0] = inPblfttf[0xff & inDbtb[inOff + x +
+                                                      inSpbn * y]];
+                    rgbs[1] = inPblfttf[0xff & inDbtb[inOff + nfxtx +
+                                                      inSpbn * y]];
+                    rgbs[2] = inPblfttf[0xff & inDbtb[inOff + x +
+                                                      inSpbn * nfxty]];
+                    rgbs[3] = inPblfttf[0xff & inDbtb[inOff + nfxtx +
+                                                      inSpbn * nfxty]];
+                    outDbtb[out + i] =
+                        TfxturfPbintContfxt.blfnd(rgbs, xfrr, yfrr);
+                    if ((xfrr += dolindxfrr) < 0) {
+                        xfrr &= Intfgfr.MAX_VALUE;
                         x++;
                     }
-                    if ((x += colincx) >= bWidth) {
-                        x -= bWidth;
+                    if ((x += dolindx) >= bWidti) {
+                        x -= bWidti;
                     }
-                    if ((yerr += colincyerr) < 0) {
-                        yerr &= Integer.MAX_VALUE;
+                    if ((yfrr += dolindyfrr) < 0) {
+                        yfrr &= Intfgfr.MAX_VALUE;
                         y++;
                     }
-                    if ((y += colincy) >= bHeight) {
-                        y -= bHeight;
+                    if ((y += dolindy) >= bHfigit) {
+                        y -= bHfigit;
                     }
                 }
-                if ((rowxerr += rowincxerr) < 0) {
-                    rowxerr &= Integer.MAX_VALUE;
+                if ((rowxfrr += rowindxfrr) < 0) {
+                    rowxfrr &= Intfgfr.MAX_VALUE;
                     rowx++;
                 }
-                if ((rowx += rowincx) >= bWidth) {
-                    rowx -= bWidth;
+                if ((rowx += rowindx) >= bWidti) {
+                    rowx -= bWidti;
                 }
-                if ((rowyerr += rowincyerr) < 0) {
-                    rowyerr &= Integer.MAX_VALUE;
+                if ((rowyfrr += rowindyfrr) < 0) {
+                    rowyfrr &= Intfgfr.MAX_VALUE;
                     rowy++;
                 }
-                if ((rowy += rowincy) >= bHeight) {
-                    rowy -= bHeight;
+                if ((rowy += rowindy) >= bHfigit) {
+                    rowy -= bHfigit;
                 }
-                out += outSpan;
+                out += outSpbn;
             }
         }
     }
 
-    static class Any extends TexturePaintContext {
-        WritableRaster srcRas;
-        boolean filter;
+    stbtid dlbss Any fxtfnds TfxturfPbintContfxt {
+        WritbblfRbstfr srdRbs;
+        boolfbn filtfr;
 
-        public Any(WritableRaster srcRas, ColorModel cm,
-                   AffineTransform xform, int maxw, boolean filter)
+        publid Any(WritbblfRbstfr srdRbs, ColorModfl dm,
+                   AffinfTrbnsform xform, int mbxw, boolfbn filtfr)
         {
-            super(cm, xform, srcRas.getWidth(), srcRas.getHeight(), maxw);
-            this.srcRas = srcRas;
-            this.filter = filter;
+            supfr(dm, xform, srdRbs.gftWidti(), srdRbs.gftHfigit(), mbxw);
+            tiis.srdRbs = srdRbs;
+            tiis.filtfr = filtfr;
         }
 
-        public WritableRaster makeRaster(int w, int h) {
-            return makeRaster(colorModel, srcRas, w, h);
+        publid WritbblfRbstfr mbkfRbstfr(int w, int i) {
+            rfturn mbkfRbstfr(dolorModfl, srdRbs, w, i);
         }
 
-        public void setRaster(int x, int y, int xerr, int yerr,
-                              int w, int h, int bWidth, int bHeight,
-                              int colincx, int colincxerr,
-                              int colincy, int colincyerr,
-                              int rowincx, int rowincxerr,
-                              int rowincy, int rowincyerr) {
-            Object data = null;
+        publid void sftRbstfr(int x, int y, int xfrr, int yfrr,
+                              int w, int i, int bWidti, int bHfigit,
+                              int dolindx, int dolindxfrr,
+                              int dolindy, int dolindyfrr,
+                              int rowindx, int rowindxfrr,
+                              int rowindy, int rowindyfrr) {
+            Objfdt dbtb = null;
             int rowx = x;
             int rowy = y;
-            int rowxerr = xerr;
-            int rowyerr = yerr;
-            WritableRaster srcRas = this.srcRas;
-            WritableRaster outRas = this.outRas;
-            int rgbs[] = filter ? new int[4] : null;
-            for (int j = 0; j < h; j++) {
+            int rowxfrr = xfrr;
+            int rowyfrr = yfrr;
+            WritbblfRbstfr srdRbs = tiis.srdRbs;
+            WritbblfRbstfr outRbs = tiis.outRbs;
+            int rgbs[] = filtfr ? nfw int[4] : null;
+            for (int j = 0; j < i; j++) {
                 x = rowx;
                 y = rowy;
-                xerr = rowxerr;
-                yerr = rowyerr;
+                xfrr = rowxfrr;
+                yfrr = rowyfrr;
                 for (int i = 0; i < w; i++) {
-                    data = srcRas.getDataElements(x, y, data);
-                    if (filter) {
-                        int nextx, nexty;
-                        if ((nextx = x + 1) >= bWidth) {
-                            nextx = 0;
+                    dbtb = srdRbs.gftDbtbElfmfnts(x, y, dbtb);
+                    if (filtfr) {
+                        int nfxtx, nfxty;
+                        if ((nfxtx = x + 1) >= bWidti) {
+                            nfxtx = 0;
                         }
-                        if ((nexty = y + 1) >= bHeight) {
-                            nexty = 0;
+                        if ((nfxty = y + 1) >= bHfigit) {
+                            nfxty = 0;
                         }
-                        rgbs[0] = colorModel.getRGB(data);
-                        data = srcRas.getDataElements(nextx, y, data);
-                        rgbs[1] = colorModel.getRGB(data);
-                        data = srcRas.getDataElements(x, nexty, data);
-                        rgbs[2] = colorModel.getRGB(data);
-                        data = srcRas.getDataElements(nextx, nexty, data);
-                        rgbs[3] = colorModel.getRGB(data);
+                        rgbs[0] = dolorModfl.gftRGB(dbtb);
+                        dbtb = srdRbs.gftDbtbElfmfnts(nfxtx, y, dbtb);
+                        rgbs[1] = dolorModfl.gftRGB(dbtb);
+                        dbtb = srdRbs.gftDbtbElfmfnts(x, nfxty, dbtb);
+                        rgbs[2] = dolorModfl.gftRGB(dbtb);
+                        dbtb = srdRbs.gftDbtbElfmfnts(nfxtx, nfxty, dbtb);
+                        rgbs[3] = dolorModfl.gftRGB(dbtb);
                         int rgb =
-                            TexturePaintContext.blend(rgbs, xerr, yerr);
-                        data = colorModel.getDataElements(rgb, data);
+                            TfxturfPbintContfxt.blfnd(rgbs, xfrr, yfrr);
+                        dbtb = dolorModfl.gftDbtbElfmfnts(rgb, dbtb);
                     }
-                    outRas.setDataElements(i, j, data);
-                    if ((xerr += colincxerr) < 0) {
-                        xerr &= Integer.MAX_VALUE;
+                    outRbs.sftDbtbElfmfnts(i, j, dbtb);
+                    if ((xfrr += dolindxfrr) < 0) {
+                        xfrr &= Intfgfr.MAX_VALUE;
                         x++;
                     }
-                    if ((x += colincx) >= bWidth) {
-                        x -= bWidth;
+                    if ((x += dolindx) >= bWidti) {
+                        x -= bWidti;
                     }
-                    if ((yerr += colincyerr) < 0) {
-                        yerr &= Integer.MAX_VALUE;
+                    if ((yfrr += dolindyfrr) < 0) {
+                        yfrr &= Intfgfr.MAX_VALUE;
                         y++;
                     }
-                    if ((y += colincy) >= bHeight) {
-                        y -= bHeight;
+                    if ((y += dolindy) >= bHfigit) {
+                        y -= bHfigit;
                     }
                 }
-                if ((rowxerr += rowincxerr) < 0) {
-                    rowxerr &= Integer.MAX_VALUE;
+                if ((rowxfrr += rowindxfrr) < 0) {
+                    rowxfrr &= Intfgfr.MAX_VALUE;
                     rowx++;
                 }
-                if ((rowx += rowincx) >= bWidth) {
-                    rowx -= bWidth;
+                if ((rowx += rowindx) >= bWidti) {
+                    rowx -= bWidti;
                 }
-                if ((rowyerr += rowincyerr) < 0) {
-                    rowyerr &= Integer.MAX_VALUE;
+                if ((rowyfrr += rowindyfrr) < 0) {
+                    rowyfrr &= Intfgfr.MAX_VALUE;
                     rowy++;
                 }
-                if ((rowy += rowincy) >= bHeight) {
-                    rowy -= bHeight;
+                if ((rowy += rowindy) >= bHfigit) {
+                    rowy -= bHfigit;
                 }
             }
         }

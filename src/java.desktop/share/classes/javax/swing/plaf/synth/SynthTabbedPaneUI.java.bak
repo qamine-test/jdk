@@ -1,917 +1,917 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.tfxt.Vifw;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import sun.swing.SwingUtilities2;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import sun.swing.SwingUtilitifs2;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JTabbedPane}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JTbbbfdPbnf}.
  *
- * <p>Looks up the {@code selectedTabPadInsets} property from the Style,
- * which represents additional insets for the selected tab.
+ * <p>Looks up tif {@dodf sflfdtfdTbbPbdInsfts} propfrty from tif Stylf,
+ * wiidi rfprfsfnts bdditionbl insfts for tif sflfdtfd tbb.
  *
- * @author Scott Violet
- * @since 1.7
+ * @butior Sdott Violft
+ * @sindf 1.7
  */
-public class SynthTabbedPaneUI extends BasicTabbedPaneUI
-                               implements PropertyChangeListener, SynthUI {
+publid dlbss SyntiTbbbfdPbnfUI fxtfnds BbsidTbbbfdPbnfUI
+                               implfmfnts PropfrtyCibngfListfnfr, SyntiUI {
 
     /**
-     * <p>If non-zero, tabOverlap indicates the amount that the tab bounds
-     * should be altered such that they would overlap with a tab on either the
-     * leading or trailing end of a run (ie: in TOP, this would be on the left
-     * or right).</p>
+     * <p>If non-zfro, tbbOvfrlbp indidbtfs tif bmount tibt tif tbb bounds
+     * siould bf bltfrfd sudi tibt tify would ovfrlbp witi b tbb on fitifr tif
+     * lfbding or trbiling fnd of b run (if: in TOP, tiis would bf on tif lfft
+     * or rigit).</p>
 
-     * <p>A positive overlap indicates that tabs should overlap right/down,
-     * while a negative overlap indicates tha tabs should overlap left/up.</p>
+     * <p>A positivf ovfrlbp indidbtfs tibt tbbs siould ovfrlbp rigit/down,
+     * wiilf b nfgbtivf ovfrlbp indidbtfs tib tbbs siould ovfrlbp lfft/up.</p>
      *
-     * <p>When tabOverlap is specified, it both changes the x position and width
-     * of the tab if in TOP or BOTTOM placement, and changes the y position and
-     * height if in LEFT or RIGHT placement.</p>
+     * <p>Wifn tbbOvfrlbp is spfdififd, it boti dibngfs tif x position bnd widti
+     * of tif tbb if in TOP or BOTTOM plbdfmfnt, bnd dibngfs tif y position bnd
+     * ifigit if in LEFT or RIGHT plbdfmfnt.</p>
      *
-     * <p>This is done for the following reason. Consider a run of 10 tabs.
-     * There are 9 gaps between these tabs. If you specified a tabOverlap of
-     * "-1", then each of the tabs "x" values will be shifted left. This leaves
-     * 9 pixels of space to the right of the right-most tab unpainted. So, each
-     * tab's width is also extended by 1 pixel to make up the difference.</p>
+     * <p>Tiis is donf for tif following rfbson. Considfr b run of 10 tbbs.
+     * Tifrf brf 9 gbps bftwffn tifsf tbbs. If you spfdififd b tbbOvfrlbp of
+     * "-1", tifn fbdi of tif tbbs "x" vblufs will bf siiftfd lfft. Tiis lfbvfs
+     * 9 pixfls of spbdf to tif rigit of tif rigit-most tbb unpbintfd. So, fbdi
+     * tbb's widti is blso fxtfndfd by 1 pixfl to mbkf up tif difffrfndf.</p>
      *
-     * <p>This property respects the RTL component orientation.</p>
+     * <p>Tiis propfrty rfspfdts tif RTL domponfnt orifntbtion.</p>
      */
-    private int tabOverlap = 0;
+    privbtf int tbbOvfrlbp = 0;
 
     /**
-     * When a tabbed pane has multiple rows of tabs, this indicates whether
-     * the tabs in the upper row(s) should extend to the base of the tab area,
-     * or whether they should remain at their normal tab height. This does not
-     * affect the bounds of the tabs, only the bounds of area painted by the
-     * tabs. The text position does not change. The result is that the bottom
-     * border of the upper row of tabs becomes fully obscured by the lower tabs,
-     * resulting in a cleaner look.
+     * Wifn b tbbbfd pbnf ibs multiplf rows of tbbs, tiis indidbtfs wiftifr
+     * tif tbbs in tif uppfr row(s) siould fxtfnd to tif bbsf of tif tbb brfb,
+     * or wiftifr tify siould rfmbin bt tifir normbl tbb ifigit. Tiis dofs not
+     * bfffdt tif bounds of tif tbbs, only tif bounds of brfb pbintfd by tif
+     * tbbs. Tif tfxt position dofs not dibngf. Tif rfsult is tibt tif bottom
+     * bordfr of tif uppfr row of tbbs bfdomfs fully obsdurfd by tif lowfr tbbs,
+     * rfsulting in b dlfbnfr look.
      */
-    private boolean extendTabsToBase = false;
+    privbtf boolfbn fxtfndTbbsToBbsf = fblsf;
 
-    private SynthContext tabAreaContext;
-    private SynthContext tabContext;
-    private SynthContext tabContentContext;
+    privbtf SyntiContfxt tbbArfbContfxt;
+    privbtf SyntiContfxt tbbContfxt;
+    privbtf SyntiContfxt tbbContfntContfxt;
 
-    private SynthStyle style;
-    private SynthStyle tabStyle;
-    private SynthStyle tabAreaStyle;
-    private SynthStyle tabContentStyle;
+    privbtf SyntiStylf stylf;
+    privbtf SyntiStylf tbbStylf;
+    privbtf SyntiStylf tbbArfbStylf;
+    privbtf SyntiStylf tbbContfntStylf;
 
-    private Rectangle textRect = new Rectangle();
-    private Rectangle iconRect = new Rectangle();
+    privbtf Rfdtbnglf tfxtRfdt = nfw Rfdtbnglf();
+    privbtf Rfdtbnglf idonRfdt = nfw Rfdtbnglf();
 
-    private Rectangle tabAreaBounds = new Rectangle();
+    privbtf Rfdtbnglf tbbArfbBounds = nfw Rfdtbnglf();
 
-    //added for the Nimbus look and feel, where the tab area is painted differently depending on the
-    //state for the selected tab
-    private boolean tabAreaStatesMatchSelectedTab = false;
-    //added for the Nimbus LAF to ensure that the labels don't move whether the tab is selected or not
-    private boolean nudgeSelectedLabel = true;
+    //bddfd for tif Nimbus look bnd fffl, wifrf tif tbb brfb is pbintfd difffrfntly dfpfnding on tif
+    //stbtf for tif sflfdtfd tbb
+    privbtf boolfbn tbbArfbStbtfsMbtdiSflfdtfdTbb = fblsf;
+    //bddfd for tif Nimbus LAF to fnsurf tibt tif lbbfls don't movf wiftifr tif tbb is sflfdtfd or not
+    privbtf boolfbn nudgfSflfdtfdLbbfl = truf;
 
-    private boolean selectedTabIsPressed = false;
+    privbtf boolfbn sflfdtfdTbbIsPrfssfd = fblsf;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crfbtfs b nfw UI objfdt for tif givfn domponfnt.
      *
-     * @param c component to create UI object for
-     * @return the UI object
+     * @pbrbm d domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthTabbedPaneUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw SyntiTbbbfdPbnfUI();
     }
 
-     private boolean scrollableTabLayoutEnabled() {
-        return (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT);
+     privbtf boolfbn sdrollbblfTbbLbyoutEnbblfd() {
+        rfturn (tbbPbnf.gftTbbLbyoutPolidy() == JTbbbfdPbnf.SCROLL_TAB_LAYOUT);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installDefaults() {
-        updateStyle(tabPane);
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        updbtfStylf(tbbPbnf);
     }
 
-    private void updateStyle(JTabbedPane c) {
-        SynthContext context = getContext(c, ENABLED);
-        SynthStyle oldStyle = style;
-        style = SynthLookAndFeel.updateStyle(context, this);
-        // Add properties other than JComponent colors, Borders and
-        // opacity settings here:
-        if (style != oldStyle) {
-            tabRunOverlay =
-                style.getInt(context, "TabbedPane.tabRunOverlay", 0);
-            tabOverlap = style.getInt(context, "TabbedPane.tabOverlap", 0);
-            extendTabsToBase = style.getBoolean(context,
-                    "TabbedPane.extendTabsToBase", false);
-            textIconGap = style.getInt(context, "TabbedPane.textIconGap", 0);
-            selectedTabPadInsets = (Insets)style.get(context,
-                "TabbedPane.selectedTabPadInsets");
-            if (selectedTabPadInsets == null) {
-                selectedTabPadInsets = new Insets(0, 0, 0, 0);
+    privbtf void updbtfStylf(JTbbbfdPbnf d) {
+        SyntiContfxt dontfxt = gftContfxt(d, ENABLED);
+        SyntiStylf oldStylf = stylf;
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        // Add propfrtifs otifr tibn JComponfnt dolors, Bordfrs bnd
+        // opbdity sfttings ifrf:
+        if (stylf != oldStylf) {
+            tbbRunOvfrlby =
+                stylf.gftInt(dontfxt, "TbbbfdPbnf.tbbRunOvfrlby", 0);
+            tbbOvfrlbp = stylf.gftInt(dontfxt, "TbbbfdPbnf.tbbOvfrlbp", 0);
+            fxtfndTbbsToBbsf = stylf.gftBoolfbn(dontfxt,
+                    "TbbbfdPbnf.fxtfndTbbsToBbsf", fblsf);
+            tfxtIdonGbp = stylf.gftInt(dontfxt, "TbbbfdPbnf.tfxtIdonGbp", 0);
+            sflfdtfdTbbPbdInsfts = (Insfts)stylf.gft(dontfxt,
+                "TbbbfdPbnf.sflfdtfdTbbPbdInsfts");
+            if (sflfdtfdTbbPbdInsfts == null) {
+                sflfdtfdTbbPbdInsfts = nfw Insfts(0, 0, 0, 0);
             }
-            tabAreaStatesMatchSelectedTab = style.getBoolean(context,
-                    "TabbedPane.tabAreaStatesMatchSelectedTab", false);
-            nudgeSelectedLabel = style.getBoolean(context,
-                    "TabbedPane.nudgeSelectedLabel", true);
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+            tbbArfbStbtfsMbtdiSflfdtfdTbb = stylf.gftBoolfbn(dontfxt,
+                    "TbbbfdPbnf.tbbArfbStbtfsMbtdiSflfdtfdTbb", fblsf);
+            nudgfSflfdtfdLbbfl = stylf.gftBoolfbn(dontfxt,
+                    "TbbbfdPbnf.nudgfSflfdtfdLbbfl", truf);
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
             }
         }
-        context.dispose();
+        dontfxt.disposf();
 
-        if (tabContext != null) {
-            tabContext.dispose();
+        if (tbbContfxt != null) {
+            tbbContfxt.disposf();
         }
-        tabContext = getContext(c, Region.TABBED_PANE_TAB, ENABLED);
-        this.tabStyle = SynthLookAndFeel.updateStyle(tabContext, this);
-        tabInsets = tabStyle.getInsets(tabContext, null);
+        tbbContfxt = gftContfxt(d, Rfgion.TABBED_PANE_TAB, ENABLED);
+        tiis.tbbStylf = SyntiLookAndFffl.updbtfStylf(tbbContfxt, tiis);
+        tbbInsfts = tbbStylf.gftInsfts(tbbContfxt, null);
 
 
-        if (tabAreaContext != null) {
-            tabAreaContext.dispose();
+        if (tbbArfbContfxt != null) {
+            tbbArfbContfxt.disposf();
         }
-        tabAreaContext = getContext(c, Region.TABBED_PANE_TAB_AREA, ENABLED);
-        this.tabAreaStyle = SynthLookAndFeel.updateStyle(tabAreaContext, this);
-        tabAreaInsets = tabAreaStyle.getInsets(tabAreaContext, null);
+        tbbArfbContfxt = gftContfxt(d, Rfgion.TABBED_PANE_TAB_AREA, ENABLED);
+        tiis.tbbArfbStylf = SyntiLookAndFffl.updbtfStylf(tbbArfbContfxt, tiis);
+        tbbArfbInsfts = tbbArfbStylf.gftInsfts(tbbArfbContfxt, null);
 
 
-        if (tabContentContext != null) {
-            tabContentContext.dispose();
+        if (tbbContfntContfxt != null) {
+            tbbContfntContfxt.disposf();
         }
-        tabContentContext = getContext(c, Region.TABBED_PANE_CONTENT, ENABLED);
-        this.tabContentStyle = SynthLookAndFeel.updateStyle(tabContentContext,
-                                                            this);
-        contentBorderInsets =
-            tabContentStyle.getInsets(tabContentContext, null);
+        tbbContfntContfxt = gftContfxt(d, Rfgion.TABBED_PANE_CONTENT, ENABLED);
+        tiis.tbbContfntStylf = SyntiLookAndFffl.updbtfStylf(tbbContfntContfxt,
+                                                            tiis);
+        dontfntBordfrInsfts =
+            tbbContfntStylf.gftInsfts(tbbContfntContfxt, null);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installListeners() {
-        super.installListeners();
-        tabPane.addPropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        tbbPbnf.bddPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        tabPane.removePropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        tbbPbnf.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(tabPane, ENABLED);
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SyntiContfxt dontfxt = gftContfxt(tbbPbnf, ENABLED);
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
 
-        tabStyle.uninstallDefaults(tabContext);
-        tabContext.dispose();
-        tabContext = null;
-        tabStyle = null;
+        tbbStylf.uninstbllDffbults(tbbContfxt);
+        tbbContfxt.disposf();
+        tbbContfxt = null;
+        tbbStylf = null;
 
-        tabAreaStyle.uninstallDefaults(tabAreaContext);
-        tabAreaContext.dispose();
-        tabAreaContext = null;
-        tabAreaStyle = null;
+        tbbArfbStylf.uninstbllDffbults(tbbArfbContfxt);
+        tbbArfbContfxt.disposf();
+        tbbArfbContfxt = null;
+        tbbArfbStylf = null;
 
-        tabContentStyle.uninstallDefaults(tabContentContext);
-        tabContentContext.dispose();
-        tabContentContext = null;
-        tabContentStyle = null;
+        tbbContfntStylf.uninstbllDffbults(tbbContfntContfxt);
+        tbbContfntContfxt.disposf();
+        tbbContfntContfxt = null;
+        tbbContfntStylf = null;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SyntiLookAndFffl.gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
-    private SynthContext getContext(JComponent c, Region subregion, int state){
-        SynthStyle style = null;
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, Rfgion subrfgion, int stbtf){
+        SyntiStylf stylf = null;
 
-        if (subregion == Region.TABBED_PANE_TAB) {
-            style = tabStyle;
+        if (subrfgion == Rfgion.TABBED_PANE_TAB) {
+            stylf = tbbStylf;
         }
-        else if (subregion == Region.TABBED_PANE_TAB_AREA) {
-            style = tabAreaStyle;
+        flsf if (subrfgion == Rfgion.TABBED_PANE_TAB_AREA) {
+            stylf = tbbArfbStylf;
         }
-        else if (subregion == Region.TABBED_PANE_CONTENT) {
-            style = tabContentStyle;
+        flsf if (subrfgion == Rfgion.TABBED_PANE_CONTENT) {
+            stylf = tbbContfntStylf;
         }
-        return SynthContext.getContext(c, subregion, style, state);
+        rfturn SyntiContfxt.gftContfxt(d, subrfgion, stylf, stbtf);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected JButton createScrollButton(int direction) {
-        // added for Nimbus LAF so that it can use the basic arrow buttons
-        // UIManager is queried directly here because this is called before
-        // updateStyle is called so the style can not be queried directly
-        if (UIManager.getBoolean("TabbedPane.useBasicArrows")) {
-            JButton btn = super.createScrollButton(direction);
-            btn.setBorder(BorderFactory.createEmptyBorder());
-            return btn;
+    @Ovfrridf
+    protfdtfd JButton drfbtfSdrollButton(int dirfdtion) {
+        // bddfd for Nimbus LAF so tibt it dbn usf tif bbsid brrow buttons
+        // UIMbnbgfr is qufrifd dirfdtly ifrf bfdbusf tiis is dbllfd bfforf
+        // updbtfStylf is dbllfd so tif stylf dbn not bf qufrifd dirfdtly
+        if (UIMbnbgfr.gftBoolfbn("TbbbfdPbnf.usfBbsidArrows")) {
+            JButton btn = supfr.drfbtfSdrollButton(dirfdtion);
+            btn.sftBordfr(BordfrFbdtory.drfbtfEmptyBordfr());
+            rfturn btn;
         }
-        return new SynthScrollableTabButton(direction);
+        rfturn nfw SyntiSdrollbblfTbbButton(dirfdtion);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle(tabPane);
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(f)) {
+            updbtfStylf(tbbPbnf);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * Overridden to keep track of whether the selected tab is also pressed.
+     * Ovfrriddfn to kffp trbdk of wiftifr tif sflfdtfd tbb is blso prfssfd.
      */
-    @Override
-    protected MouseListener createMouseListener() {
-        final MouseListener delegate = super.createMouseListener();
-        final MouseMotionListener delegate2 = (MouseMotionListener)delegate;
-        return new MouseListener() {
-            public void mouseClicked(MouseEvent e) { delegate.mouseClicked(e); }
-            public void mouseEntered(MouseEvent e) { delegate.mouseEntered(e); }
-            public void mouseExited(MouseEvent e) { delegate.mouseExited(e); }
+    @Ovfrridf
+    protfdtfd MousfListfnfr drfbtfMousfListfnfr() {
+        finbl MousfListfnfr dflfgbtf = supfr.drfbtfMousfListfnfr();
+        finbl MousfMotionListfnfr dflfgbtf2 = (MousfMotionListfnfr)dflfgbtf;
+        rfturn nfw MousfListfnfr() {
+            publid void mousfClidkfd(MousfEvfnt f) { dflfgbtf.mousfClidkfd(f); }
+            publid void mousfEntfrfd(MousfEvfnt f) { dflfgbtf.mousfEntfrfd(f); }
+            publid void mousfExitfd(MousfEvfnt f) { dflfgbtf.mousfExitfd(f); }
 
-            public void mousePressed(MouseEvent e) {
-                if (!tabPane.isEnabled()) {
-                    return;
+            publid void mousfPrfssfd(MousfEvfnt f) {
+                if (!tbbPbnf.isEnbblfd()) {
+                    rfturn;
                 }
 
-                int tabIndex = tabForCoordinate(tabPane, e.getX(), e.getY());
-                if (tabIndex >= 0 && tabPane.isEnabledAt(tabIndex)) {
-                    if (tabIndex == tabPane.getSelectedIndex()) {
-                        // Clicking on selected tab
-                        selectedTabIsPressed = true;
-                        //TODO need to just repaint the tab area!
-                        tabPane.repaint();
+                int tbbIndfx = tbbForCoordinbtf(tbbPbnf, f.gftX(), f.gftY());
+                if (tbbIndfx >= 0 && tbbPbnf.isEnbblfdAt(tbbIndfx)) {
+                    if (tbbIndfx == tbbPbnf.gftSflfdtfdIndfx()) {
+                        // Clidking on sflfdtfd tbb
+                        sflfdtfdTbbIsPrfssfd = truf;
+                        //TODO nffd to just rfpbint tif tbb brfb!
+                        tbbPbnf.rfpbint();
                     }
                 }
 
-                //forward the event (this will set the selected index, or none at all
-                delegate.mousePressed(e);
+                //forwbrd tif fvfnt (tiis will sft tif sflfdtfd indfx, or nonf bt bll
+                dflfgbtf.mousfPrfssfd(f);
             }
 
-            public void mouseReleased(MouseEvent e) {
-                if (selectedTabIsPressed) {
-                    selectedTabIsPressed = false;
-                    //TODO need to just repaint the tab area!
-                    tabPane.repaint();
+            publid void mousfRflfbsfd(MousfEvfnt f) {
+                if (sflfdtfdTbbIsPrfssfd) {
+                    sflfdtfdTbbIsPrfssfd = fblsf;
+                    //TODO nffd to just rfpbint tif tbb brfb!
+                    tbbPbnf.rfpbint();
                 }
-                //forward the event
-                delegate.mouseReleased(e);
+                //forwbrd tif fvfnt
+                dflfgbtf.mousfRflfbsfd(f);
 
-                //hack: The super method *should* be setting the mouse-over property correctly
-                //here, but it doesn't. That is, when the mouse is released, whatever tab is below the
-                //released mouse should be in rollover state. But, if you select a tab and don't
-                //move the mouse, this doesn't happen. Hence, forwarding the event.
-                delegate2.mouseMoved(e);
+                //ibdk: Tif supfr mftiod *siould* bf sftting tif mousf-ovfr propfrty dorrfdtly
+                //ifrf, but it dofsn't. Tibt is, wifn tif mousf is rflfbsfd, wibtfvfr tbb is bflow tif
+                //rflfbsfd mousf siould bf in rollovfr stbtf. But, if you sflfdt b tbb bnd don't
+                //movf tif mousf, tiis dofsn't ibppfn. Hfndf, forwbrding tif fvfnt.
+                dflfgbtf2.mousfMovfd(f);
             }
         };
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected int getTabLabelShiftX(int tabPlacement, int tabIndex, boolean isSelected) {
-        if (nudgeSelectedLabel) {
-            return super.getTabLabelShiftX(tabPlacement, tabIndex, isSelected);
-        } else {
-            return 0;
+    @Ovfrridf
+    protfdtfd int gftTbbLbbflSiiftX(int tbbPlbdfmfnt, int tbbIndfx, boolfbn isSflfdtfd) {
+        if (nudgfSflfdtfdLbbfl) {
+            rfturn supfr.gftTbbLbbflSiiftX(tbbPlbdfmfnt, tbbIndfx, isSflfdtfd);
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected int getTabLabelShiftY(int tabPlacement, int tabIndex, boolean isSelected) {
-        if (nudgeSelectedLabel) {
-            return super.getTabLabelShiftY(tabPlacement, tabIndex, isSelected);
-        } else {
-            return 0;
+    @Ovfrridf
+    protfdtfd int gftTbbLbbflSiiftY(int tbbPlbdfmfnt, int tbbIndfx, boolfbn isSflfdtfd) {
+        if (nudgfSflfdtfdLbbfl) {
+            rfturn supfr.gftTbbLbbflSiiftY(tbbPlbdfmfnt, tbbIndfx, isSflfdtfd);
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintTabbedPaneBackground(context,
-                          g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
-        context.dispose();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintTbbbfdPbnfBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected int getBaseline(int tab) {
-        if (tabPane.getTabComponentAt(tab) != null ||
-                getTextViewForTab(tab) != null) {
-            return super.getBaseline(tab);
+    @Ovfrridf
+    protfdtfd int gftBbsflinf(int tbb) {
+        if (tbbPbnf.gftTbbComponfntAt(tbb) != null ||
+                gftTfxtVifwForTbb(tbb) != null) {
+            rfturn supfr.gftBbsflinf(tbb);
         }
-        String title = tabPane.getTitleAt(tab);
-        Font font = tabContext.getStyle().getFont(tabContext);
-        FontMetrics metrics = getFontMetrics(font);
-        Icon icon = getIconForTab(tab);
-        textRect.setBounds(0, 0, 0, 0);
-        iconRect.setBounds(0, 0, 0, 0);
-        calcRect.setBounds(0, 0, Short.MAX_VALUE, maxTabHeight);
-        tabContext.getStyle().getGraphicsUtils(tabContext).layoutText(
-                tabContext, metrics, title, icon, SwingUtilities.CENTER,
-                SwingUtilities.CENTER, SwingUtilities.LEADING,
-                SwingUtilities.CENTER, calcRect,
-                iconRect, textRect, textIconGap);
-        return textRect.y + metrics.getAscent() + getBaselineOffset();
+        String titlf = tbbPbnf.gftTitlfAt(tbb);
+        Font font = tbbContfxt.gftStylf().gftFont(tbbContfxt);
+        FontMftrids mftrids = gftFontMftrids(font);
+        Idon idon = gftIdonForTbb(tbb);
+        tfxtRfdt.sftBounds(0, 0, 0, 0);
+        idonRfdt.sftBounds(0, 0, 0, 0);
+        dbldRfdt.sftBounds(0, 0, Siort.MAX_VALUE, mbxTbbHfigit);
+        tbbContfxt.gftStylf().gftGrbpiidsUtils(tbbContfxt).lbyoutTfxt(
+                tbbContfxt, mftrids, titlf, idon, SwingUtilitifs.CENTER,
+                SwingUtilitifs.CENTER, SwingUtilitifs.LEADING,
+                SwingUtilitifs.CENTER, dbldRfdt,
+                idonRfdt, tfxtRfdt, tfxtIdonGbp);
+        rfturn tfxtRfdt.y + mftrids.gftAsdfnt() + gftBbsflinfOffsft();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintTabbedPaneBorder(context, g, x, y, w, h);
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintTbbbfdPbnfBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        paint(context, g);
-        context.dispose();
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints tif spfdififd domponfnt.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        int selectedIndex = tabPane.getSelectedIndex();
-        int tabPlacement = tabPane.getTabPlacement();
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
+        int sflfdtfdIndfx = tbbPbnf.gftSflfdtfdIndfx();
+        int tbbPlbdfmfnt = tbbPbnf.gftTbbPlbdfmfnt();
 
-        ensureCurrentLayout();
+        fnsurfCurrfntLbyout();
 
-        // Paint tab area
-        // If scrollable tabs are enabled, the tab area will be
-        // painted by the scrollable tab panel instead.
+        // Pbint tbb brfb
+        // If sdrollbblf tbbs brf fnbblfd, tif tbb brfb will bf
+        // pbintfd by tif sdrollbblf tbb pbnfl instfbd.
         //
-        if (!scrollableTabLayoutEnabled()) { // WRAP_TAB_LAYOUT
-            Insets insets = tabPane.getInsets();
-            int x = insets.left;
-            int y = insets.top;
-            int width = tabPane.getWidth() - insets.left - insets.right;
-            int height = tabPane.getHeight() - insets.top - insets.bottom;
-            int size;
-            switch(tabPlacement) {
-            case LEFT:
-                width = calculateTabAreaWidth(tabPlacement, runCount,
-                                              maxTabWidth);
-                break;
-            case RIGHT:
-                size = calculateTabAreaWidth(tabPlacement, runCount,
-                                             maxTabWidth);
-                x = x + width - size;
-                width = size;
-                break;
-            case BOTTOM:
-                size = calculateTabAreaHeight(tabPlacement, runCount,
-                                              maxTabHeight);
-                y = y + height - size;
-                height = size;
-                break;
-            case TOP:
-            default:
-                height = calculateTabAreaHeight(tabPlacement, runCount,
-                                                maxTabHeight);
+        if (!sdrollbblfTbbLbyoutEnbblfd()) { // WRAP_TAB_LAYOUT
+            Insfts insfts = tbbPbnf.gftInsfts();
+            int x = insfts.lfft;
+            int y = insfts.top;
+            int widti = tbbPbnf.gftWidti() - insfts.lfft - insfts.rigit;
+            int ifigit = tbbPbnf.gftHfigit() - insfts.top - insfts.bottom;
+            int sizf;
+            switdi(tbbPlbdfmfnt) {
+            dbsf LEFT:
+                widti = dbldulbtfTbbArfbWidti(tbbPlbdfmfnt, runCount,
+                                              mbxTbbWidti);
+                brfbk;
+            dbsf RIGHT:
+                sizf = dbldulbtfTbbArfbWidti(tbbPlbdfmfnt, runCount,
+                                             mbxTbbWidti);
+                x = x + widti - sizf;
+                widti = sizf;
+                brfbk;
+            dbsf BOTTOM:
+                sizf = dbldulbtfTbbArfbHfigit(tbbPlbdfmfnt, runCount,
+                                              mbxTbbHfigit);
+                y = y + ifigit - sizf;
+                ifigit = sizf;
+                brfbk;
+            dbsf TOP:
+            dffbult:
+                ifigit = dbldulbtfTbbArfbHfigit(tbbPlbdfmfnt, runCount,
+                                                mbxTbbHfigit);
             }
 
-            tabAreaBounds.setBounds(x, y, width, height);
+            tbbArfbBounds.sftBounds(x, y, widti, ifigit);
 
-            if (g.getClipBounds().intersects(tabAreaBounds)) {
-                paintTabArea(tabAreaContext, g, tabPlacement,
-                         selectedIndex, tabAreaBounds);
+            if (g.gftClipBounds().intfrsfdts(tbbArfbBounds)) {
+                pbintTbbArfb(tbbArfbContfxt, g, tbbPlbdfmfnt,
+                         sflfdtfdIndfx, tbbArfbBounds);
             }
         }
 
-        // Paint content border
-        paintContentBorder(tabContentContext, g, tabPlacement, selectedIndex);
+        // Pbint dontfnt bordfr
+        pbintContfntBordfr(tbbContfntContfxt, g, tbbPlbdfmfnt, sflfdtfdIndfx);
     }
 
-    protected void paintTabArea(Graphics g, int tabPlacement,
-                                int selectedIndex) {
-        // This can be invoked from ScrollabeTabPanel
-        Insets insets = tabPane.getInsets();
-        int x = insets.left;
-        int y = insets.top;
-        int width = tabPane.getWidth() - insets.left - insets.right;
-        int height = tabPane.getHeight() - insets.top - insets.bottom;
+    protfdtfd void pbintTbbArfb(Grbpiids g, int tbbPlbdfmfnt,
+                                int sflfdtfdIndfx) {
+        // Tiis dbn bf invokfd from SdrollbbfTbbPbnfl
+        Insfts insfts = tbbPbnf.gftInsfts();
+        int x = insfts.lfft;
+        int y = insfts.top;
+        int widti = tbbPbnf.gftWidti() - insfts.lfft - insfts.rigit;
+        int ifigit = tbbPbnf.gftHfigit() - insfts.top - insfts.bottom;
 
-        paintTabArea(tabAreaContext, g, tabPlacement, selectedIndex,
-                     new Rectangle(x, y, width, height));
+        pbintTbbArfb(tbbArfbContfxt, g, tbbPlbdfmfnt, sflfdtfdIndfx,
+                     nfw Rfdtbnglf(x, y, widti, ifigit));
     }
 
-    private void paintTabArea(SynthContext ss, Graphics g,
-                                int tabPlacement, int selectedIndex,
-                                Rectangle tabAreaBounds) {
-        Rectangle clipRect = g.getClipBounds();
+    privbtf void pbintTbbArfb(SyntiContfxt ss, Grbpiids g,
+                                int tbbPlbdfmfnt, int sflfdtfdIndfx,
+                                Rfdtbnglf tbbArfbBounds) {
+        Rfdtbnglf dlipRfdt = g.gftClipBounds();
 
-        //if the tab area's states should match that of the selected tab, then
-        //first update the selected tab's states, then set the state
-        //for the tab area to match
-        //otherwise, restore the tab area's state to ENABLED (which is the
-        //only supported state otherwise).
-        if (tabAreaStatesMatchSelectedTab && selectedIndex >= 0) {
-            updateTabContext(selectedIndex, true, selectedTabIsPressed,
-                              (getRolloverTab() == selectedIndex),
-                              (getFocusIndex() == selectedIndex));
-            ss.setComponentState(tabContext.getComponentState());
-        } else {
-            ss.setComponentState(SynthConstants.ENABLED);
+        //if tif tbb brfb's stbtfs siould mbtdi tibt of tif sflfdtfd tbb, tifn
+        //first updbtf tif sflfdtfd tbb's stbtfs, tifn sft tif stbtf
+        //for tif tbb brfb to mbtdi
+        //otifrwisf, rfstorf tif tbb brfb's stbtf to ENABLED (wiidi is tif
+        //only supportfd stbtf otifrwisf).
+        if (tbbArfbStbtfsMbtdiSflfdtfdTbb && sflfdtfdIndfx >= 0) {
+            updbtfTbbContfxt(sflfdtfdIndfx, truf, sflfdtfdTbbIsPrfssfd,
+                              (gftRollovfrTbb() == sflfdtfdIndfx),
+                              (gftFodusIndfx() == sflfdtfdIndfx));
+            ss.sftComponfntStbtf(tbbContfxt.gftComponfntStbtf());
+        } flsf {
+            ss.sftComponfntStbtf(SyntiConstbnts.ENABLED);
         }
 
-        // Paint the tab area.
-        SynthLookAndFeel.updateSubregion(ss, g, tabAreaBounds);
-        ss.getPainter().paintTabbedPaneTabAreaBackground(ss, g,
-             tabAreaBounds.x, tabAreaBounds.y, tabAreaBounds.width,
-             tabAreaBounds.height, tabPlacement);
-        ss.getPainter().paintTabbedPaneTabAreaBorder(ss, g, tabAreaBounds.x,
-             tabAreaBounds.y, tabAreaBounds.width, tabAreaBounds.height,
-             tabPlacement);
+        // Pbint tif tbb brfb.
+        SyntiLookAndFffl.updbtfSubrfgion(ss, g, tbbArfbBounds);
+        ss.gftPbintfr().pbintTbbbfdPbnfTbbArfbBbdkground(ss, g,
+             tbbArfbBounds.x, tbbArfbBounds.y, tbbArfbBounds.widti,
+             tbbArfbBounds.ifigit, tbbPlbdfmfnt);
+        ss.gftPbintfr().pbintTbbbfdPbnfTbbArfbBordfr(ss, g, tbbArfbBounds.x,
+             tbbArfbBounds.y, tbbArfbBounds.widti, tbbArfbBounds.ifigit,
+             tbbPlbdfmfnt);
 
-        int tabCount = tabPane.getTabCount();
+        int tbbCount = tbbPbnf.gftTbbCount();
 
-        iconRect.setBounds(0, 0, 0, 0);
-        textRect.setBounds(0, 0, 0, 0);
+        idonRfdt.sftBounds(0, 0, 0, 0);
+        tfxtRfdt.sftBounds(0, 0, 0, 0);
 
-        // Paint tabRuns of tabs from back to front
+        // Pbint tbbRuns of tbbs from bbdk to front
         for (int i = runCount - 1; i >= 0; i--) {
-            int start = tabRuns[i];
-            int next = tabRuns[(i == runCount - 1)? 0 : i + 1];
-            int end = (next != 0? next - 1: tabCount - 1);
-            for (int j = start; j <= end; j++) {
-                if (rects[j].intersects(clipRect) && selectedIndex != j) {
-                    paintTab(tabContext, g, tabPlacement, rects, j, iconRect,
-                             textRect);
+            int stbrt = tbbRuns[i];
+            int nfxt = tbbRuns[(i == runCount - 1)? 0 : i + 1];
+            int fnd = (nfxt != 0? nfxt - 1: tbbCount - 1);
+            for (int j = stbrt; j <= fnd; j++) {
+                if (rfdts[j].intfrsfdts(dlipRfdt) && sflfdtfdIndfx != j) {
+                    pbintTbb(tbbContfxt, g, tbbPlbdfmfnt, rfdts, j, idonRfdt,
+                             tfxtRfdt);
                 }
             }
         }
 
-        if (selectedIndex >= 0) {
-            if (rects[selectedIndex].intersects(clipRect)) {
-                paintTab(tabContext, g, tabPlacement, rects, selectedIndex,
-                         iconRect, textRect);
+        if (sflfdtfdIndfx >= 0) {
+            if (rfdts[sflfdtfdIndfx].intfrsfdts(dlipRfdt)) {
+                pbintTbb(tbbContfxt, g, tbbPlbdfmfnt, rfdts, sflfdtfdIndfx,
+                         idonRfdt, tfxtRfdt);
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void setRolloverTab(int index) {
-        int oldRolloverTab = getRolloverTab();
-        super.setRolloverTab(index);
+    @Ovfrridf
+    protfdtfd void sftRollovfrTbb(int indfx) {
+        int oldRollovfrTbb = gftRollovfrTbb();
+        supfr.sftRollovfrTbb(indfx);
 
-        Rectangle r = null;
+        Rfdtbnglf r = null;
 
-        if (oldRolloverTab != index && tabAreaStatesMatchSelectedTab) {
-            //TODO need to just repaint the tab area!
-            tabPane.repaint();
-        } else {
-            if ((oldRolloverTab >= 0) && (oldRolloverTab < tabPane.getTabCount())) {
-                r = getTabBounds(tabPane, oldRolloverTab);
+        if (oldRollovfrTbb != indfx && tbbArfbStbtfsMbtdiSflfdtfdTbb) {
+            //TODO nffd to just rfpbint tif tbb brfb!
+            tbbPbnf.rfpbint();
+        } flsf {
+            if ((oldRollovfrTbb >= 0) && (oldRollovfrTbb < tbbPbnf.gftTbbCount())) {
+                r = gftTbbBounds(tbbPbnf, oldRollovfrTbb);
                 if (r != null) {
-                    tabPane.repaint(r);
+                    tbbPbnf.rfpbint(r);
                 }
             }
 
-            if (index >= 0) {
-                r = getTabBounds(tabPane, index);
+            if (indfx >= 0) {
+                r = gftTbbBounds(tbbPbnf, indfx);
                 if (r != null) {
-                    tabPane.repaint(r);
+                    tbbPbnf.rfpbint(r);
                 }
             }
         }
     }
 
-    private void paintTab(SynthContext ss, Graphics g,
-                            int tabPlacement, Rectangle[] rects, int tabIndex,
-                            Rectangle iconRect, Rectangle textRect) {
-        Rectangle tabRect = rects[tabIndex];
-        int selectedIndex = tabPane.getSelectedIndex();
-        boolean isSelected = selectedIndex == tabIndex;
-        updateTabContext(tabIndex, isSelected, isSelected && selectedTabIsPressed,
-                            (getRolloverTab() == tabIndex),
-                            (getFocusIndex() == tabIndex));
+    privbtf void pbintTbb(SyntiContfxt ss, Grbpiids g,
+                            int tbbPlbdfmfnt, Rfdtbnglf[] rfdts, int tbbIndfx,
+                            Rfdtbnglf idonRfdt, Rfdtbnglf tfxtRfdt) {
+        Rfdtbnglf tbbRfdt = rfdts[tbbIndfx];
+        int sflfdtfdIndfx = tbbPbnf.gftSflfdtfdIndfx();
+        boolfbn isSflfdtfd = sflfdtfdIndfx == tbbIndfx;
+        updbtfTbbContfxt(tbbIndfx, isSflfdtfd, isSflfdtfd && sflfdtfdTbbIsPrfssfd,
+                            (gftRollovfrTbb() == tbbIndfx),
+                            (gftFodusIndfx() == tbbIndfx));
 
-        SynthLookAndFeel.updateSubregion(ss, g, tabRect);
-        int x = tabRect.x;
-        int y = tabRect.y;
-        int height = tabRect.height;
-        int width = tabRect.width;
-        int placement = tabPane.getTabPlacement();
-        if (extendTabsToBase && runCount > 1) {
-            //paint this tab such that its edge closest to the base is equal to
-            //edge of the selected tab closest to the base. In terms of the TOP
-            //tab placement, this will cause the bottom of each tab to be
-            //painted even with the bottom of the selected tab. This is because
-            //in each tab placement (TOP, LEFT, BOTTOM, RIGHT) the selected tab
-            //is closest to the base.
-            if (selectedIndex >= 0) {
-                Rectangle r = rects[selectedIndex];
-                switch (placement) {
-                    case TOP:
-                        int bottomY = r.y + r.height;
-                        height = bottomY - tabRect.y;
-                        break;
-                    case LEFT:
-                        int rightX = r.x + r.width;
-                        width = rightX - tabRect.x;
-                        break;
-                    case BOTTOM:
+        SyntiLookAndFffl.updbtfSubrfgion(ss, g, tbbRfdt);
+        int x = tbbRfdt.x;
+        int y = tbbRfdt.y;
+        int ifigit = tbbRfdt.ifigit;
+        int widti = tbbRfdt.widti;
+        int plbdfmfnt = tbbPbnf.gftTbbPlbdfmfnt();
+        if (fxtfndTbbsToBbsf && runCount > 1) {
+            //pbint tiis tbb sudi tibt its fdgf dlosfst to tif bbsf is fqubl to
+            //fdgf of tif sflfdtfd tbb dlosfst to tif bbsf. In tfrms of tif TOP
+            //tbb plbdfmfnt, tiis will dbusf tif bottom of fbdi tbb to bf
+            //pbintfd fvfn witi tif bottom of tif sflfdtfd tbb. Tiis is bfdbusf
+            //in fbdi tbb plbdfmfnt (TOP, LEFT, BOTTOM, RIGHT) tif sflfdtfd tbb
+            //is dlosfst to tif bbsf.
+            if (sflfdtfdIndfx >= 0) {
+                Rfdtbnglf r = rfdts[sflfdtfdIndfx];
+                switdi (plbdfmfnt) {
+                    dbsf TOP:
+                        int bottomY = r.y + r.ifigit;
+                        ifigit = bottomY - tbbRfdt.y;
+                        brfbk;
+                    dbsf LEFT:
+                        int rigitX = r.x + r.widti;
+                        widti = rigitX - tbbRfdt.x;
+                        brfbk;
+                    dbsf BOTTOM:
                         int topY = r.y;
-                        height = (tabRect.y + tabRect.height) - topY;
+                        ifigit = (tbbRfdt.y + tbbRfdt.ifigit) - topY;
                         y = topY;
-                        break;
-                    case RIGHT:
-                        int leftX = r.x;
-                        width = (tabRect.x + tabRect.width) - leftX;
-                        x = leftX;
-                        break;
+                        brfbk;
+                    dbsf RIGHT:
+                        int lfftX = r.x;
+                        widti = (tbbRfdt.x + tbbRfdt.widti) - lfftX;
+                        x = lfftX;
+                        brfbk;
                 }
             }
         }
-        tabContext.getPainter().paintTabbedPaneTabBackground(tabContext, g,
-                x, y, width, height, tabIndex, placement);
-        tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g,
-                x, y, width, height, tabIndex, placement);
+        tbbContfxt.gftPbintfr().pbintTbbbfdPbnfTbbBbdkground(tbbContfxt, g,
+                x, y, widti, ifigit, tbbIndfx, plbdfmfnt);
+        tbbContfxt.gftPbintfr().pbintTbbbfdPbnfTbbBordfr(tbbContfxt, g,
+                x, y, widti, ifigit, tbbIndfx, plbdfmfnt);
 
-        if (tabPane.getTabComponentAt(tabIndex) == null) {
-            String title = tabPane.getTitleAt(tabIndex);
-            Font font = ss.getStyle().getFont(ss);
-            FontMetrics metrics = SwingUtilities2.getFontMetrics(tabPane, g, font);
-            Icon icon = getIconForTab(tabIndex);
+        if (tbbPbnf.gftTbbComponfntAt(tbbIndfx) == null) {
+            String titlf = tbbPbnf.gftTitlfAt(tbbIndfx);
+            Font font = ss.gftStylf().gftFont(ss);
+            FontMftrids mftrids = SwingUtilitifs2.gftFontMftrids(tbbPbnf, g, font);
+            Idon idon = gftIdonForTbb(tbbIndfx);
 
-            layoutLabel(ss, tabPlacement, metrics, tabIndex, title, icon,
-                    tabRect, iconRect, textRect, isSelected);
+            lbyoutLbbfl(ss, tbbPlbdfmfnt, mftrids, tbbIndfx, titlf, idon,
+                    tbbRfdt, idonRfdt, tfxtRfdt, isSflfdtfd);
 
-            paintText(ss, g, tabPlacement, font, metrics,
-                    tabIndex, title, textRect, isSelected);
+            pbintTfxt(ss, g, tbbPlbdfmfnt, font, mftrids,
+                    tbbIndfx, titlf, tfxtRfdt, isSflfdtfd);
 
-            paintIcon(g, tabPlacement, tabIndex, icon, iconRect, isSelected);
+            pbintIdon(g, tbbPlbdfmfnt, tbbIndfx, idon, idonRfdt, isSflfdtfd);
         }
     }
 
-    private void layoutLabel(SynthContext ss, int tabPlacement,
-                               FontMetrics metrics, int tabIndex,
-                               String title, Icon icon,
-                               Rectangle tabRect, Rectangle iconRect,
-                               Rectangle textRect, boolean isSelected ) {
-        View v = getTextViewForTab(tabIndex);
+    privbtf void lbyoutLbbfl(SyntiContfxt ss, int tbbPlbdfmfnt,
+                               FontMftrids mftrids, int tbbIndfx,
+                               String titlf, Idon idon,
+                               Rfdtbnglf tbbRfdt, Rfdtbnglf idonRfdt,
+                               Rfdtbnglf tfxtRfdt, boolfbn isSflfdtfd ) {
+        Vifw v = gftTfxtVifwForTbb(tbbIndfx);
         if (v != null) {
-            tabPane.putClientProperty("html", v);
+            tbbPbnf.putClifntPropfrty("itml", v);
         }
 
-        textRect.x = textRect.y = iconRect.x = iconRect.y = 0;
+        tfxtRfdt.x = tfxtRfdt.y = idonRfdt.x = idonRfdt.y = 0;
 
-        ss.getStyle().getGraphicsUtils(ss).layoutText(ss, metrics, title,
-                         icon, SwingUtilities.CENTER, SwingUtilities.CENTER,
-                         SwingUtilities.LEADING, SwingUtilities.CENTER,
-                         tabRect, iconRect, textRect, textIconGap);
+        ss.gftStylf().gftGrbpiidsUtils(ss).lbyoutTfxt(ss, mftrids, titlf,
+                         idon, SwingUtilitifs.CENTER, SwingUtilitifs.CENTER,
+                         SwingUtilitifs.LEADING, SwingUtilitifs.CENTER,
+                         tbbRfdt, idonRfdt, tfxtRfdt, tfxtIdonGbp);
 
-        tabPane.putClientProperty("html", null);
+        tbbPbnf.putClifntPropfrty("itml", null);
 
-        int xNudge = getTabLabelShiftX(tabPlacement, tabIndex, isSelected);
-        int yNudge = getTabLabelShiftY(tabPlacement, tabIndex, isSelected);
-        iconRect.x += xNudge;
-        iconRect.y += yNudge;
-        textRect.x += xNudge;
-        textRect.y += yNudge;
+        int xNudgf = gftTbbLbbflSiiftX(tbbPlbdfmfnt, tbbIndfx, isSflfdtfd);
+        int yNudgf = gftTbbLbbflSiiftY(tbbPlbdfmfnt, tbbIndfx, isSflfdtfd);
+        idonRfdt.x += xNudgf;
+        idonRfdt.y += yNudgf;
+        tfxtRfdt.x += xNudgf;
+        tfxtRfdt.y += yNudgf;
     }
 
-    private void paintText(SynthContext ss,
-                             Graphics g, int tabPlacement,
-                             Font font, FontMetrics metrics, int tabIndex,
-                             String title, Rectangle textRect,
-                             boolean isSelected) {
-        g.setFont(font);
+    privbtf void pbintTfxt(SyntiContfxt ss,
+                             Grbpiids g, int tbbPlbdfmfnt,
+                             Font font, FontMftrids mftrids, int tbbIndfx,
+                             String titlf, Rfdtbnglf tfxtRfdt,
+                             boolfbn isSflfdtfd) {
+        g.sftFont(font);
 
-        View v = getTextViewForTab(tabIndex);
+        Vifw v = gftTfxtVifwForTbb(tbbIndfx);
         if (v != null) {
-            // html
-            v.paint(g, textRect);
-        } else {
-            // plain text
-            int mnemIndex = tabPane.getDisplayedMnemonicIndexAt(tabIndex);
+            // itml
+            v.pbint(g, tfxtRfdt);
+        } flsf {
+            // plbin tfxt
+            int mnfmIndfx = tbbPbnf.gftDisplbyfdMnfmonidIndfxAt(tbbIndfx);
 
-            g.setColor(ss.getStyle().getColor(ss, ColorType.TEXT_FOREGROUND));
-            ss.getStyle().getGraphicsUtils(ss).paintText(ss, g, title,
-                                  textRect, mnemIndex);
+            g.sftColor(ss.gftStylf().gftColor(ss, ColorTypf.TEXT_FOREGROUND));
+            ss.gftStylf().gftGrbpiidsUtils(ss).pbintTfxt(ss, g, titlf,
+                                  tfxtRfdt, mnfmIndfx);
         }
     }
 
 
-    private void paintContentBorder(SynthContext ss, Graphics g,
-                                      int tabPlacement, int selectedIndex) {
-        int width = tabPane.getWidth();
-        int height = tabPane.getHeight();
-        Insets insets = tabPane.getInsets();
+    privbtf void pbintContfntBordfr(SyntiContfxt ss, Grbpiids g,
+                                      int tbbPlbdfmfnt, int sflfdtfdIndfx) {
+        int widti = tbbPbnf.gftWidti();
+        int ifigit = tbbPbnf.gftHfigit();
+        Insfts insfts = tbbPbnf.gftInsfts();
 
-        int x = insets.left;
-        int y = insets.top;
-        int w = width - insets.right - insets.left;
-        int h = height - insets.top - insets.bottom;
+        int x = insfts.lfft;
+        int y = insfts.top;
+        int w = widti - insfts.rigit - insfts.lfft;
+        int i = ifigit - insfts.top - insfts.bottom;
 
-        switch(tabPlacement) {
-          case LEFT:
-              x += calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-              w -= (x - insets.left);
-              break;
-          case RIGHT:
-              w -= calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-              break;
-          case BOTTOM:
-              h -= calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
-              break;
-          case TOP:
-          default:
-              y += calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
-              h -= (y - insets.top);
+        switdi(tbbPlbdfmfnt) {
+          dbsf LEFT:
+              x += dbldulbtfTbbArfbWidti(tbbPlbdfmfnt, runCount, mbxTbbWidti);
+              w -= (x - insfts.lfft);
+              brfbk;
+          dbsf RIGHT:
+              w -= dbldulbtfTbbArfbWidti(tbbPlbdfmfnt, runCount, mbxTbbWidti);
+              brfbk;
+          dbsf BOTTOM:
+              i -= dbldulbtfTbbArfbHfigit(tbbPlbdfmfnt, runCount, mbxTbbHfigit);
+              brfbk;
+          dbsf TOP:
+          dffbult:
+              y += dbldulbtfTbbArfbHfigit(tbbPlbdfmfnt, runCount, mbxTbbHfigit);
+              i -= (y - insfts.top);
         }
-        SynthLookAndFeel.updateSubregion(ss, g, new Rectangle(x, y, w, h));
-        ss.getPainter().paintTabbedPaneContentBackground(ss, g, x, y,
-                                                           w, h);
-        ss.getPainter().paintTabbedPaneContentBorder(ss, g, x, y, w, h);
+        SyntiLookAndFffl.updbtfSubrfgion(ss, g, nfw Rfdtbnglf(x, y, w, i));
+        ss.gftPbintfr().pbintTbbbfdPbnfContfntBbdkground(ss, g, x, y,
+                                                           w, i);
+        ss.gftPbintfr().pbintTbbbfdPbnfContfntBordfr(ss, g, x, y, w, i);
     }
 
-    private void ensureCurrentLayout() {
-        if (!tabPane.isValid()) {
-            tabPane.validate();
+    privbtf void fnsurfCurrfntLbyout() {
+        if (!tbbPbnf.isVblid()) {
+            tbbPbnf.vblidbtf();
         }
-        /* If tabPane doesn't have a peer yet, the validate() call will
-         * silently fail.  We handle that by forcing a layout if tabPane
-         * is still invalid.  See bug 4237677.
+        /* If tbbPbnf dofsn't ibvf b pffr yft, tif vblidbtf() dbll will
+         * silfntly fbil.  Wf ibndlf tibt by fording b lbyout if tbbPbnf
+         * is still invblid.  Sff bug 4237677.
          */
-        if (!tabPane.isValid()) {
-            TabbedPaneLayout layout = (TabbedPaneLayout)tabPane.getLayout();
-            layout.calculateLayoutInfo();
+        if (!tbbPbnf.isVblid()) {
+            TbbbfdPbnfLbyout lbyout = (TbbbfdPbnfLbyout)tbbPbnf.gftLbyout();
+            lbyout.dbldulbtfLbyoutInfo();
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected int calculateMaxTabHeight(int tabPlacement) {
-        FontMetrics metrics = getFontMetrics(tabContext.getStyle().getFont(
-                                             tabContext));
-        int tabCount = tabPane.getTabCount();
-        int result = 0;
-        int fontHeight = metrics.getHeight();
-        for(int i = 0; i < tabCount; i++) {
-            result = Math.max(calculateTabHeight(tabPlacement, i, fontHeight), result);
+    @Ovfrridf
+    protfdtfd int dbldulbtfMbxTbbHfigit(int tbbPlbdfmfnt) {
+        FontMftrids mftrids = gftFontMftrids(tbbContfxt.gftStylf().gftFont(
+                                             tbbContfxt));
+        int tbbCount = tbbPbnf.gftTbbCount();
+        int rfsult = 0;
+        int fontHfigit = mftrids.gftHfigit();
+        for(int i = 0; i < tbbCount; i++) {
+            rfsult = Mbti.mbx(dbldulbtfTbbHfigit(tbbPlbdfmfnt, i, fontHfigit), rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected int calculateTabWidth(int tabPlacement, int tabIndex,
-                                    FontMetrics metrics) {
-        Icon icon = getIconForTab(tabIndex);
-        Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
-        int width = tabInsets.left + tabInsets.right;
-        Component tabComponent = tabPane.getTabComponentAt(tabIndex);
-        if (tabComponent != null) {
-            width += tabComponent.getPreferredSize().width;
-        } else {
-            if (icon != null) {
-                width += icon.getIconWidth() + textIconGap;
+    @Ovfrridf
+    protfdtfd int dbldulbtfTbbWidti(int tbbPlbdfmfnt, int tbbIndfx,
+                                    FontMftrids mftrids) {
+        Idon idon = gftIdonForTbb(tbbIndfx);
+        Insfts tbbInsfts = gftTbbInsfts(tbbPlbdfmfnt, tbbIndfx);
+        int widti = tbbInsfts.lfft + tbbInsfts.rigit;
+        Componfnt tbbComponfnt = tbbPbnf.gftTbbComponfntAt(tbbIndfx);
+        if (tbbComponfnt != null) {
+            widti += tbbComponfnt.gftPrfffrrfdSizf().widti;
+        } flsf {
+            if (idon != null) {
+                widti += idon.gftIdonWidti() + tfxtIdonGbp;
             }
-            View v = getTextViewForTab(tabIndex);
+            Vifw v = gftTfxtVifwForTbb(tbbIndfx);
             if (v != null) {
-                // html
-                width += (int) v.getPreferredSpan(View.X_AXIS);
-            } else {
-                // plain text
-                String title = tabPane.getTitleAt(tabIndex);
-                width += tabContext.getStyle().getGraphicsUtils(tabContext).
-                        computeStringWidth(tabContext, metrics.getFont(),
-                                metrics, title);
+                // itml
+                widti += (int) v.gftPrfffrrfdSpbn(Vifw.X_AXIS);
+            } flsf {
+                // plbin tfxt
+                String titlf = tbbPbnf.gftTitlfAt(tbbIndfx);
+                widti += tbbContfxt.gftStylf().gftGrbpiidsUtils(tbbContfxt).
+                        domputfStringWidti(tbbContfxt, mftrids.gftFont(),
+                                mftrids, titlf);
             }
         }
-        return width;
+        rfturn widti;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected int calculateMaxTabWidth(int tabPlacement) {
-        FontMetrics metrics = getFontMetrics(tabContext.getStyle().getFont(
-                                     tabContext));
-        int tabCount = tabPane.getTabCount();
-        int result = 0;
-        for(int i = 0; i < tabCount; i++) {
-            result = Math.max(calculateTabWidth(tabPlacement, i, metrics),
-                              result);
+    @Ovfrridf
+    protfdtfd int dbldulbtfMbxTbbWidti(int tbbPlbdfmfnt) {
+        FontMftrids mftrids = gftFontMftrids(tbbContfxt.gftStylf().gftFont(
+                                     tbbContfxt));
+        int tbbCount = tbbPbnf.gftTbbCount();
+        int rfsult = 0;
+        for(int i = 0; i < tbbCount; i++) {
+            rfsult = Mbti.mbx(dbldulbtfTbbWidti(tbbPlbdfmfnt, i, mftrids),
+                              rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected Insets getTabInsets(int tabPlacement, int tabIndex) {
-        updateTabContext(tabIndex, false, false, false,
-                          (getFocusIndex() == tabIndex));
-        return tabInsets;
+    @Ovfrridf
+    protfdtfd Insfts gftTbbInsfts(int tbbPlbdfmfnt, int tbbIndfx) {
+        updbtfTbbContfxt(tbbIndfx, fblsf, fblsf, fblsf,
+                          (gftFodusIndfx() == tbbIndfx));
+        rfturn tbbInsfts;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected FontMetrics getFontMetrics() {
-        return getFontMetrics(tabContext.getStyle().getFont(tabContext));
+    @Ovfrridf
+    protfdtfd FontMftrids gftFontMftrids() {
+        rfturn gftFontMftrids(tbbContfxt.gftStylf().gftFont(tbbContfxt));
     }
 
-    private FontMetrics getFontMetrics(Font font) {
-        return tabPane.getFontMetrics(font);
+    privbtf FontMftrids gftFontMftrids(Font font) {
+        rfturn tbbPbnf.gftFontMftrids(font);
     }
 
-    private void updateTabContext(int index, boolean selected,
-                                  boolean isMouseDown, boolean isMouseOver, boolean hasFocus) {
-        int state = 0;
-        if (!tabPane.isEnabled() || !tabPane.isEnabledAt(index)) {
-            state |= SynthConstants.DISABLED;
-            if (selected) {
-                state |= SynthConstants.SELECTED;
+    privbtf void updbtfTbbContfxt(int indfx, boolfbn sflfdtfd,
+                                  boolfbn isMousfDown, boolfbn isMousfOvfr, boolfbn ibsFodus) {
+        int stbtf = 0;
+        if (!tbbPbnf.isEnbblfd() || !tbbPbnf.isEnbblfdAt(indfx)) {
+            stbtf |= SyntiConstbnts.DISABLED;
+            if (sflfdtfd) {
+                stbtf |= SyntiConstbnts.SELECTED;
             }
         }
-        else if (selected) {
-            state |= (SynthConstants.ENABLED | SynthConstants.SELECTED);
-            if (isMouseOver && UIManager.getBoolean("TabbedPane.isTabRollover")) {
-                state |= SynthConstants.MOUSE_OVER;
+        flsf if (sflfdtfd) {
+            stbtf |= (SyntiConstbnts.ENABLED | SyntiConstbnts.SELECTED);
+            if (isMousfOvfr && UIMbnbgfr.gftBoolfbn("TbbbfdPbnf.isTbbRollovfr")) {
+                stbtf |= SyntiConstbnts.MOUSE_OVER;
             }
         }
-        else if (isMouseOver) {
-            state |= (SynthConstants.ENABLED | SynthConstants.MOUSE_OVER);
+        flsf if (isMousfOvfr) {
+            stbtf |= (SyntiConstbnts.ENABLED | SyntiConstbnts.MOUSE_OVER);
         }
-        else {
-            state = SynthLookAndFeel.getComponentState(tabPane);
-            state &= ~SynthConstants.FOCUSED; // don't use tabbedpane focus state
+        flsf {
+            stbtf = SyntiLookAndFffl.gftComponfntStbtf(tbbPbnf);
+            stbtf &= ~SyntiConstbnts.FOCUSED; // don't usf tbbbfdpbnf fodus stbtf
         }
-        if (hasFocus && tabPane.hasFocus()) {
-            state |= SynthConstants.FOCUSED; // individual tab has focus
+        if (ibsFodus && tbbPbnf.ibsFodus()) {
+            stbtf |= SyntiConstbnts.FOCUSED; // individubl tbb ibs fodus
         }
-        if (isMouseDown) {
-            state |= SynthConstants.PRESSED;
+        if (isMousfDown) {
+            stbtf |= SyntiConstbnts.PRESSED;
         }
 
-        tabContext.setComponentState(state);
+        tbbContfxt.sftComponfntStbtf(stbtf);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * Overridden to create a TabbedPaneLayout subclass which takes into
-     * account tabOverlap.
+     * Ovfrriddfn to drfbtf b TbbbfdPbnfLbyout subdlbss wiidi tbkfs into
+     * bddount tbbOvfrlbp.
      */
-    @Override
-    protected LayoutManager createLayoutManager() {
-        if (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT) {
-            return super.createLayoutManager();
-        } else { /* WRAP_TAB_LAYOUT */
-            return new TabbedPaneLayout() {
-                @Override
-                public void calculateLayoutInfo() {
-                    super.calculateLayoutInfo();
-                    //shift all the tabs, if necessary
-                    if (tabOverlap != 0) {
-                        int tabCount = tabPane.getTabCount();
-                        //left-to-right/right-to-left only affects layout
-                        //when placement is TOP or BOTTOM
-                        boolean ltr = tabPane.getComponentOrientation().isLeftToRight();
+    @Ovfrridf
+    protfdtfd LbyoutMbnbgfr drfbtfLbyoutMbnbgfr() {
+        if (tbbPbnf.gftTbbLbyoutPolidy() == JTbbbfdPbnf.SCROLL_TAB_LAYOUT) {
+            rfturn supfr.drfbtfLbyoutMbnbgfr();
+        } flsf { /* WRAP_TAB_LAYOUT */
+            rfturn nfw TbbbfdPbnfLbyout() {
+                @Ovfrridf
+                publid void dbldulbtfLbyoutInfo() {
+                    supfr.dbldulbtfLbyoutInfo();
+                    //siift bll tif tbbs, if nfdfssbry
+                    if (tbbOvfrlbp != 0) {
+                        int tbbCount = tbbPbnf.gftTbbCount();
+                        //lfft-to-rigit/rigit-to-lfft only bfffdts lbyout
+                        //wifn plbdfmfnt is TOP or BOTTOM
+                        boolfbn ltr = tbbPbnf.gftComponfntOrifntbtion().isLfftToRigit();
                         for (int i = runCount - 1; i >= 0; i--) {
-                            int start = tabRuns[i];
-                            int next = tabRuns[(i == runCount - 1)? 0 : i + 1];
-                            int end = (next != 0? next - 1: tabCount - 1);
-                            for (int j = start+1; j <= end; j++) {
-                                // xshift and yshift represent the amount &
-                                // direction to shift the tab in their
-                                // respective axis.
-                                int xshift = 0;
-                                int yshift = 0;
-                                // configure xshift and y shift based on tab
-                                // position and ltr/rtl
-                                switch (tabPane.getTabPlacement()) {
-                                    case JTabbedPane.TOP:
-                                    case JTabbedPane.BOTTOM:
-                                        xshift = ltr ? tabOverlap : -tabOverlap;
-                                        break;
-                                    case JTabbedPane.LEFT:
-                                    case JTabbedPane.RIGHT:
-                                        yshift = tabOverlap;
-                                        break;
-                                    default: //do nothing
+                            int stbrt = tbbRuns[i];
+                            int nfxt = tbbRuns[(i == runCount - 1)? 0 : i + 1];
+                            int fnd = (nfxt != 0? nfxt - 1: tbbCount - 1);
+                            for (int j = stbrt+1; j <= fnd; j++) {
+                                // xsiift bnd ysiift rfprfsfnt tif bmount &
+                                // dirfdtion to siift tif tbb in tifir
+                                // rfspfdtivf bxis.
+                                int xsiift = 0;
+                                int ysiift = 0;
+                                // donfigurf xsiift bnd y siift bbsfd on tbb
+                                // position bnd ltr/rtl
+                                switdi (tbbPbnf.gftTbbPlbdfmfnt()) {
+                                    dbsf JTbbbfdPbnf.TOP:
+                                    dbsf JTbbbfdPbnf.BOTTOM:
+                                        xsiift = ltr ? tbbOvfrlbp : -tbbOvfrlbp;
+                                        brfbk;
+                                    dbsf JTbbbfdPbnf.LEFT:
+                                    dbsf JTbbbfdPbnf.RIGHT:
+                                        ysiift = tbbOvfrlbp;
+                                        brfbk;
+                                    dffbult: //do notiing
                                 }
-                                rects[j].x += xshift;
-                                rects[j].y += yshift;
-                                rects[j].width += Math.abs(xshift);
-                                rects[j].height += Math.abs(yshift);
+                                rfdts[j].x += xsiift;
+                                rfdts[j].y += ysiift;
+                                rfdts[j].widti += Mbti.bbs(xsiift);
+                                rfdts[j].ifigit += Mbti.bbs(ysiift);
                             }
                         }
                     }
@@ -920,12 +920,12 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class SynthScrollableTabButton extends SynthArrowButton implements
-            UIResource {
-        public SynthScrollableTabButton(int direction) {
-            super(direction);
-            setName("TabbedPane.button");
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss SyntiSdrollbblfTbbButton fxtfnds SyntiArrowButton implfmfnts
+            UIRfsourdf {
+        publid SyntiSdrollbblfTbbButton(int dirfdtion) {
+            supfr(dirfdtion);
+            sftNbmf("TbbbfdPbnf.button");
         }
     }
 }

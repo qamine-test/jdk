@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import sun.security.util.ObjectIdentifier;
+import sun.sfdurity.util.ObjfdtIdfntififr;
 
 /**
- * This immutable class is used when randomly generating a key pair and the
- * consumer only specifies the length of the key and therefore a curve for that
- * key size must be picked from a the list of supported curves using this spec.
+ * Tiis immutbblf dlbss is usfd wifn rbndomly gfnfrbting b kfy pbir bnd tif
+ * donsumfr only spfdififs tif lfngti of tif kfy bnd tifrfforf b durvf for tibt
+ * kfy sizf must bf pidkfd from b tif list of supportfd durvfs using tiis spfd.
  *
- * @see AlgorithmParameterSpec
- * @see ECGenParameterSpec
+ * @sff AlgoritimPbrbmftfrSpfd
+ * @sff ECGfnPbrbmftfrSpfd
  */
-public class ECKeySizeParameterSpec implements AlgorithmParameterSpec {
+publid dlbss ECKfySizfPbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
 
-    private int keySize;
+    privbtf int kfySizf;
 
     /**
-     * Creates a parameter specification for EC curve
-     * generation using a standard (or predefined) key size
-     * <code>keySize</code> in order to generate the corresponding
-     * (precomputed) elliptic curve.
+     * Crfbtfs b pbrbmftfr spfdifidbtion for EC durvf
+     * gfnfrbtion using b stbndbrd (or prfdffinfd) kfy sizf
+     * <dodf>kfySizf</dodf> in ordfr to gfnfrbtf tif dorrfsponding
+     * (prfdomputfd) flliptid durvf.
      * <p>
-     * Note, if the curve of the specified length is not supported,
-     * <code>AlgorithmParameters.init</code> will throw an exception.
+     * Notf, if tif durvf of tif spfdififd lfngti is not supportfd,
+     * <dodf>AlgoritimPbrbmftfrs.init</dodf> will tirow bn fxdfption.
      *
-     * @param keySize the key size of the curve to lookup
+     * @pbrbm kfySizf tif kfy sizf of tif durvf to lookup
      */
-    public ECKeySizeParameterSpec(int keySize) {
-        this.keySize = keySize;
+    publid ECKfySizfPbrbmftfrSpfd(int kfySizf) {
+        tiis.kfySizf = kfySizf;
     }
 
     /**
-     * Returns the key size of this spec.
+     * Rfturns tif kfy sizf of tiis spfd.
      *
-     * @return the standard or predefined key size.
+     * @rfturn tif stbndbrd or prfdffinfd kfy sizf.
      */
-    public int getKeySize() {
-        return keySize;
+    publid int gftKfySizf() {
+        rfturn kfySizf;
     }
 }

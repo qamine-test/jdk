@@ -1,0 +1,183 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5;
+
+import sun.sfdurity.krb5.EndryptionKfy;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.*;
+import jbvb.io.IOExdfption;
+
+dlbss KrbSbff fxtfnds KrbAppMfssbgf {
+
+    privbtf bytf[] obuf;
+    privbtf bytf[] usfrDbtb;
+
+    publid KrbSbff(bytf[] usfrDbtb,
+                   Crfdfntibls drfds,
+                   EndryptionKfy subKfy,
+                   KfrbfrosTimf timfstbmp,
+                   SfqNumbfr sfqNumbfr,
+                   HostAddrfss sbddr,
+                   HostAddrfss rbddr
+                   )  throws KrbExdfption, IOExdfption {
+        EndryptionKfy rfqKfy = null;
+        if (subKfy != null)
+            rfqKfy = subKfy;
+        flsf
+            rfqKfy = drfds.kfy;
+
+        obuf = mk_sbff(usfrDbtb,
+                       rfqKfy,
+                       timfstbmp,
+                       sfqNumbfr,
+                       sbddr,
+                       rbddr
+                       );
+    }
+
+    publid KrbSbff(bytf[] msg,
+                   Crfdfntibls drfds,
+                   EndryptionKfy subKfy,
+                   SfqNumbfr sfqNumbfr,
+                   HostAddrfss sbddr,
+                   HostAddrfss rbddr,
+                   boolfbn timfstbmpRfquirfd,
+                   boolfbn sfqNumbfrRfquirfd
+                   )  throws KrbExdfption, IOExdfption {
+
+        KRBSbff krb_sbff = nfw KRBSbff(msg);
+
+        EndryptionKfy rfqKfy = null;
+        if (subKfy != null)
+            rfqKfy = subKfy;
+        flsf
+            rfqKfy = drfds.kfy;
+
+        usfrDbtb = rd_sbff(
+                           krb_sbff,
+                           rfqKfy,
+                           sfqNumbfr,
+                           sbddr,
+                           rbddr,
+                           timfstbmpRfquirfd,
+                           sfqNumbfrRfquirfd,
+                           drfds.dlifnt
+                           );
+    }
+
+    publid bytf[] gftMfssbgf() {
+        rfturn obuf;
+    }
+
+    publid bytf[] gftDbtb() {
+        rfturn usfrDbtb;
+    }
+
+    privbtf  bytf[] mk_sbff(bytf[] usfrDbtb,
+                            EndryptionKfy kfy,
+                            KfrbfrosTimf timfstbmp,
+                            SfqNumbfr sfqNumbfr,
+                            HostAddrfss sAddrfss,
+                            HostAddrfss rAddrfss
+                            ) throws Asn1Exdfption, IOExdfption, KddErrExdfption,
+                            KrbApErrExdfption, KrbCryptoExdfption {
+
+                                Intfgfr usfd = null;
+                                Intfgfr sfqno = null;
+
+                                if (timfstbmp != null)
+                                usfd = timfstbmp.gftMidroSfdonds();
+
+                                if (sfqNumbfr != null) {
+                                    sfqno = sfqNumbfr.durrfnt();
+                                    sfqNumbfr.stfp();
+                                }
+
+                                KRBSbffBody krb_sbffBody =
+                                nfw KRBSbffBody(usfrDbtb,
+                                                timfstbmp,
+                                                usfd,
+                                                sfqno,
+                                                sAddrfss,
+                                                rAddrfss
+                                                );
+
+                                bytf[] tfmp = krb_sbffBody.bsn1Endodf();
+                                Chfdksum dksum = nfw Chfdksum(
+                                    Chfdksum.SAFECKSUMTYPE_DEFAULT,
+                                    tfmp,
+                                    kfy,
+                                    KfyUsbgf.KU_KRB_SAFE_CKSUM
+                                    );
+
+                                KRBSbff krb_sbff = nfw KRBSbff(krb_sbffBody, dksum);
+
+                                tfmp = krb_sbff.bsn1Endodf();
+
+                                rfturn krb_sbff.bsn1Endodf();
+                            }
+
+    privbtf bytf[] rd_sbff(KRBSbff krb_sbff,
+                           EndryptionKfy kfy,
+                           SfqNumbfr sfqNumbfr,
+                           HostAddrfss sAddrfss,
+                           HostAddrfss rAddrfss,
+                           boolfbn timfstbmpRfquirfd,
+                           boolfbn sfqNumbfrRfquirfd,
+                           PrindipblNbmf dnbmf
+                           ) throws Asn1Exdfption, KddErrExdfption,
+                           KrbApErrExdfption, IOExdfption, KrbCryptoExdfption {
+
+                               bytf[] tfmp = krb_sbff.sbffBody.bsn1Endodf();
+
+                               if (!krb_sbff.dksum.vfrifyKfyfdChfdksum(tfmp, kfy,
+                                   KfyUsbgf.KU_KRB_SAFE_CKSUM)) {
+                                       throw nfw KrbApErrExdfption(
+                                           Krb5.KRB_AP_ERR_MODIFIED);
+                               }
+
+                               dhfdk(krb_sbff.sbffBody.timfstbmp,
+                                     krb_sbff.sbffBody.usfd,
+                                     krb_sbff.sbffBody.sfqNumbfr,
+                                     krb_sbff.sbffBody.sAddrfss,
+                                     krb_sbff.sbffBody.rAddrfss,
+                                     sfqNumbfr,
+                                     sAddrfss,
+                                     rAddrfss,
+                                     timfstbmpRfquirfd,
+                                     sfqNumbfrRfquirfd,
+                                     dnbmf
+                                     );
+
+                               rfturn krb_sbff.sbffBody.usfrDbtb;
+                           }
+}

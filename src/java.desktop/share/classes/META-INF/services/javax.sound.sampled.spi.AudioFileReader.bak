@@ -1,6 +1,6 @@
-# Providers for audio file reading
-com.sun.media.sound.AuFileReader
-com.sun.media.sound.AiffFileReader
-com.sun.media.sound.WaveFileReader
-com.sun.media.sound.WaveFloatFileReader
-com.sun.media.sound.SoftMidiAudioFileReader
+# Providfrs for budio filf rfbding
+dom.sun.mfdib.sound.AuFilfRfbdfr
+dom.sun.mfdib.sound.AiffFilfRfbdfr
+dom.sun.mfdib.sound.WbvfFilfRfbdfr
+dom.sun.mfdib.sound.WbvfFlobtFilfRfbdfr
+dom.sun.mfdib.sound.SoftMidiAudioFilfRfbdfr

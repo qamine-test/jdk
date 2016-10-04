@@ -1,0 +1,777 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Componfnt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Hbshtbblf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Rfdtbnglf;
+import sun.bwt.SunToolkit;
+
+import jbvbx.bddfssibility.*;
+
+/**
+ * <dodf>JLbyfrfdPbnf</dodf> bdds dfpth to b JFC/Swing dontbinfr,
+ * bllowing domponfnts to ovfrlbp fbdh othfr whfn nffdfd.
+ * An <dodf>Intfgfr</dodf> objfdt spfdififs fbdh domponfnt's dfpth in thf
+ * dontbinfr, whfrf highfr-numbfrfd domponfnts sit &quot;on top&quot; of othfr
+ * domponfnts.
+ * For tbsk-orifntfd dodumfntbtion bnd fxbmplfs of using lbyfrfd pbnfs sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/lbyfrfdpbnf.html">How to Usf b Lbyfrfd Pbnf</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ *
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
+ * <TR>
+ *   <TD ALIGN="CENTER">
+ *     <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="dod-filfs/JLbyfrfdPbnf-1.gif"
+ *     blt="Thf following tfxt dfsdribfs this imbgf."
+ *     WIDTH="269" HEIGHT="264" STYLE="FLOAT:BOTTOM; BORDER=0">
+ *   </TD>
+ * </TR>
+ * </TABLE>
+ * For donvfnifndf, <dodf>JLbyfrfdPbnf</dodf> dividfs thf dfpth-rbngf
+ * into sfvfrbl difffrfnt lbyfrs. Putting b domponfnt into onf of thosf
+ * lbyfrs mbkfs it fbsy to fnsurf thbt domponfnts ovfrlbp propfrly,
+ * without hbving to worry bbout spfdifying numbfrs for spfdifid dfpths:
+ * <DL>
+ *    <DT>DEFAULT_LAYER</DT>
+ *         <DD>Thf stbndbrd lbyfr, whfrf most domponfnts go. This thf bottommost
+ *         lbyfr.
+ *    <DT>PALETTE_LAYER</DT>
+ *         <DD>Thf pblfttf lbyfr sits ovfr thf dffbult lbyfr. Usfful for flobting
+ *         toolbbrs bnd pblfttfs, so thfy dbn bf positionfd bbovf othfr domponfnts.
+ *    <DT>MODAL_LAYER</DT>
+ *         <DD>Thf lbyfr usfd for modbl diblogs. Thfy will bppfbr on top of bny
+ *         toolbbrs, pblfttfs, or stbndbrd domponfnts in thf dontbinfr.
+ *    <DT>POPUP_LAYER</DT>
+ *         <DD>Thf popup lbyfr displbys bbovf diblogs. Thbt wby, thf popup windows
+ *         bssodibtfd with dombo boxfs, tooltips, bnd othfr hflp tfxt will bppfbr
+ *         bbovf thf domponfnt, pblfttf, or diblog thbt gfnfrbtfd thfm.
+ *    <DT>DRAG_LAYER</DT>
+ *         <DD>Whfn drbgging b domponfnt, rfbssigning it to thf drbg lbyfr fnsurfs
+ *         thbt it is positionfd ovfr fvfry othfr domponfnt in thf dontbinfr. Whfn
+ *         finishfd drbgging, it dbn bf rfbssignfd to its normbl lbyfr.
+ * </DL>
+ * Thf <dodf>JLbyfrfdPbnf</dodf> mfthods <dodf>movfToFront(Componfnt)</dodf>,
+ * <dodf>movfToBbdk(Componfnt)</dodf> bnd <dodf>sftPosition</dodf> dbn bf usfd
+ * to rfposition b domponfnt within its lbyfr. Thf <dodf>sftLbyfr</dodf> mfthod
+ * dbn blso bf usfd to dhbngf thf domponfnt's durrfnt lbyfr.
+ *
+ * <h2>Dftbils</h2>
+ * <dodf>JLbyfrfdPbnf</dodf> mbnbgfs its list of dhildrfn likf
+ * <dodf>Contbinfr</dodf>, but bllows for thf dffinition of b sfvfrbl
+ * lbyfrs within itsflf. Childrfn in thf sbmf lbyfr brf mbnbgfd fxbdtly
+ * likf thf normbl <dodf>Contbinfr</dodf> objfdt,
+ * with thf bddfd ffbturf thbt whfn dhildrfn domponfnts ovfrlbp, dhildrfn
+ * in highfr lbyfrs displby bbovf thf dhildrfn in lowfr lbyfrs.
+ * <p>
+ * Ebdh lbyfr is b distindt intfgfr numbfr. Thf lbyfr bttributf dbn bf sft
+ * on b <dodf>Componfnt</dodf> by pbssing bn <dodf>Intfgfr</dodf>
+ * objfdt during thf bdd dbll.<br> For fxbmplf:
+ * <PRE>
+ *     lbyfrfdPbnf.bdd(dhild, JLbyfrfdPbnf.DEFAULT_LAYER);
+ * or
+ *     lbyfrfdPbnf.bdd(dhild, nfw Intfgfr(10));
+ * </PRE>
+ * Thf lbyfr bttributf dbn blso bf sft on b Componfnt by dblling<PRE>
+ *     lbyfrfdPbnfPbrfnt.sftLbyfr(dhild, 10)</PRE>
+ * on thf <dodf>JLbyfrfdPbnf</dodf> thbt is thf pbrfnt of domponfnt. Thf lbyfr
+ * should bf sft <i>bfforf</i> bdding thf dhild to thf pbrfnt.
+ * <p>
+ * Highfr numbfr lbyfrs displby bbovf lowfr numbfr lbyfrs. So, using
+ * numbfrs for thf lbyfrs bnd lfttfrs for individubl domponfnts, b
+ * rfprfsfntbtivf list ordfr would look likf this:<PRE>
+ *       5b, 5b, 5d, 2b, 2b, 2d, 1b </PRE>
+ * whfrf thf lfftmost domponfnts brf dlosfst to thf top of thf displby.
+ * <p>
+ * A domponfnt dbn bf movfd to thf top or bottom position within its
+ * lbyfr by dblling <dodf>movfToFront</dodf> or <dodf>movfToBbdk</dodf>.
+ * <p>
+ * Thf position of b domponfnt within b lbyfr dbn blso bf spfdififd dirfdtly.
+ * Vblid positions rbngf from 0 up to onf lfss thbn thf numbfr of
+ * domponfnts in thbt lbyfr. A vbluf of -1 indidbtfs thf bottommost
+ * position. A vbluf of 0 indidbtfs thf topmost position. Unlikf lbyfr
+ * numbfrs, highfr position vblufs brf <i>lowfr</i> in thf displby.
+ * <blodkquotf>
+ * <b>Notf:</b> This sfqufndf (dffinfd by jbvb.bwt.Contbinfr) is thf rfvfrsf
+ * of thf lbyfr numbfring sfqufndf. Usublly though, you will usf <dodf>movfToFront</dodf>,
+ * <dodf>movfToBbdk</dodf>, bnd <dodf>sftLbyfr</dodf>.
+ * </blodkquotf>
+ * Hfrf brf somf fxbmplfs using thf mfthod bdd(Componfnt, lbyfr, position):
+ * Cblling bdd(5x, 5, -1) rfsults in:<PRE>
+ *       5b, 5b, 5d, 5x, 2b, 2b, 2d, 1b </PRE>
+ *
+ * Cblling bdd(5z, 5, 2) rfsults in:<PRE>
+ *       5b, 5b, 5z, 5d, 5x, 2b, 2b, 2d, 1b </PRE>
+ *
+ * Cblling bdd(3b, 3, 7) rfsults in:<PRE>
+ *       5b, 5b, 5z, 5d, 5x, 3b, 2b, 2b, 2d, 1b </PRE>
+ *
+ * Using normbl pbint/fvfnt mfdhbnids rfsults in 1b bppfbring bt thf bottom
+ * bnd 5b bfing bbovf bll othfr domponfnts.
+ * <p>
+ * <b>Notf:</b> thbt thfsf lbyfrs brf simply b logidbl donstrudt bnd LbyoutMbnbgfrs
+ * will bfffdt bll dhild domponfnts of this dontbinfr without rfgbrd for
+ * lbyfr sfttings.
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Dbvid Klobb
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss JLbyfrfdPbnf fxtfnds JComponfnt implfmfnts Addfssiblf {
+    /// Wbtdh thf vblufs in gftObjfdtForLbyfr()
+    /** Convfnifndf objfdt dffining thf Dffbult lbyfr. Equivblfnt to nfw Intfgfr(0).*/
+    publid finbl stbtid Intfgfr DEFAULT_LAYER = 0;
+    /** Convfnifndf objfdt dffining thf Pblfttf lbyfr. Equivblfnt to nfw Intfgfr(100).*/
+    publid finbl stbtid Intfgfr PALETTE_LAYER = 100;
+    /** Convfnifndf objfdt dffining thf Modbl lbyfr. Equivblfnt to nfw Intfgfr(200).*/
+    publid finbl stbtid Intfgfr MODAL_LAYER = 200;
+    /** Convfnifndf objfdt dffining thf Popup lbyfr. Equivblfnt to nfw Intfgfr(300).*/
+    publid finbl stbtid Intfgfr POPUP_LAYER = 300;
+    /** Convfnifndf objfdt dffining thf Drbg lbyfr. Equivblfnt to nfw Intfgfr(400).*/
+    publid finbl stbtid Intfgfr DRAG_LAYER = 400;
+    /** Convfnifndf objfdt dffining thf Frbmf Contfnt lbyfr.
+      * This lbyfr is normblly only usf to position thf dontfntPbnf bnd mfnuBbr
+      * domponfnts of JFrbmf.
+      * Equivblfnt to nfw Intfgfr(-30000).
+      * @sff JFrbmf
+      */
+    publid finbl stbtid Intfgfr FRAME_CONTENT_LAYER = nfw Intfgfr(-30000);
+
+    /** Bound propfrty */
+    publid finbl stbtid String LAYER_PROPERTY = "lbyfrfdContbinfrLbyfr";
+    // Hbshtbblf to storf lbyfr vblufs for non-JComponfnt domponfnts
+    privbtf Hbshtbblf<Componfnt,Intfgfr> domponfntToLbyfr;
+    privbtf boolfbn optimizfdDrbwingPossiblf = truf;
+
+
+//////////////////////////////////////////////////////////////////////////////
+//// Contbinfr Ovfrridf mfthods
+//////////////////////////////////////////////////////////////////////////////
+    /** Crfbtf b nfw JLbyfrfdPbnf */
+    publid JLbyfrfdPbnf() {
+        sftLbyout(null);
+    }
+
+    privbtf void vblidbtfOptimizfdDrbwing() {
+        boolfbn lbyfrfdComponfntFound = fblsf;
+        syndhronizfd(gftTrffLodk()) {
+            Intfgfr lbyfr;
+
+            for (Componfnt d : gftComponfnts()) {
+                lbyfr = null;
+
+                if(SunToolkit.isInstbndfOf(d, "jbvbx.swing.JIntfrnblFrbmf") ||
+                       (d instbndfof JComponfnt &&
+                        (lbyfr = (Intfgfr)((JComponfnt)d).
+                                     gftClifntPropfrty(LAYER_PROPERTY)) != null))
+                {
+                    if(lbyfr != null && lbyfr.fqubls(FRAME_CONTENT_LAYER))
+                        dontinuf;
+                    lbyfrfdComponfntFound = truf;
+                    brfbk;
+                }
+            }
+        }
+
+        if(lbyfrfdComponfntFound)
+            optimizfdDrbwingPossiblf = fblsf;
+        flsf
+            optimizfdDrbwingPossiblf = truf;
+    }
+
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx) {
+        int lbyfr;
+        int pos;
+
+        if(donstrbints instbndfof Intfgfr) {
+            lbyfr = ((Intfgfr)donstrbints).intVbluf();
+            sftLbyfr(domp, lbyfr);
+        } flsf
+            lbyfr = gftLbyfr(domp);
+
+        pos = insfrtIndfxForLbyfr(lbyfr, indfx);
+        supfr.bddImpl(domp, donstrbints, pos);
+        domp.vblidbtf();
+        domp.rfpbint();
+        vblidbtfOptimizfdDrbwing();
+    }
+
+    /**
+     * Rfmovf thf indfxfd domponfnt from this pbnf.
+     * This is thf bbsolutf indfx, ignoring lbyfrs.
+     *
+     * @pbrbm indfx  bn int spfdifying thf domponfnt to rfmovf
+     * @sff #gftIndfxOf
+     */
+    publid void rfmovf(int indfx) {
+        Componfnt d = gftComponfnt(indfx);
+        supfr.rfmovf(indfx);
+        if (d != null && !(d instbndfof JComponfnt)) {
+            gftComponfntToLbyfr().rfmovf(d);
+        }
+        vblidbtfOptimizfdDrbwing();
+    }
+
+    /**
+     * Rfmovfs bll thf domponfnts from this dontbinfr.
+     *
+     * @sindf 1.5
+     */
+    publid void rfmovfAll() {
+        Componfnt[] dhildrfn = gftComponfnts();
+        Hbshtbblf<Componfnt, Intfgfr> dToL = gftComponfntToLbyfr();
+        for (int dountfr = dhildrfn.lfngth - 1; dountfr >= 0; dountfr--) {
+            Componfnt d = dhildrfn[dountfr];
+            if (d != null && !(d instbndfof JComponfnt)) {
+                dToL.rfmovf(d);
+            }
+        }
+        supfr.rfmovfAll();
+    }
+
+    /**
+     * Rfturns fblsf if domponfnts in thf pbnf dbn ovfrlbp, whidh mbkfs
+     * optimizfd drbwing impossiblf. Othfrwisf, rfturns truf.
+     *
+     * @rfturn fblsf if domponfnts dbn ovfrlbp, flsf truf
+     * @sff JComponfnt#isOptimizfdDrbwingEnbblfd
+     */
+    publid boolfbn isOptimizfdDrbwingEnbblfd() {
+        rfturn optimizfdDrbwingPossiblf;
+    }
+
+
+//////////////////////////////////////////////////////////////////////////////
+//// Nfw mfthods for mbnbging lbyfrs
+//////////////////////////////////////////////////////////////////////////////
+    /** Sfts thf lbyfr propfrty on b JComponfnt. This mfthod dofs not dbusf
+      * bny sidf ffffdts likf sftLbyfr() (pbinting, bdd/rfmovf, ftd).
+      * Normblly you should usf thf instbndf mfthod sftLbyfr(), in ordfr to
+      * gft thf dfsirfd sidf-ffffdts (likf rfpbinting).
+      *
+      * @pbrbm d      thf JComponfnt to movf
+      * @pbrbm lbyfr  bn int spfdifying thf lbyfr to movf it to
+      * @sff #sftLbyfr
+      */
+    publid stbtid void putLbyfr(JComponfnt d, int lbyfr) {
+        /// MAKE SURE THIS AND sftLbyfr(Componfnt d, int lbyfr, int position)  brf SYNCED
+        d.putClifntPropfrty(LAYER_PROPERTY, lbyfr);
+    }
+
+    /** Gfts thf lbyfr propfrty for b JComponfnt, it
+      * dofs not dbusf bny sidf ffffdts likf sftLbyfr(). (pbinting, bdd/rfmovf, ftd)
+      * Normblly you should usf thf instbndf mfthod gftLbyfr().
+      *
+      * @pbrbm d  thf JComponfnt to dhfdk
+      * @rfturn   bn int spfdifying thf domponfnt's lbyfr
+      */
+    publid stbtid int gftLbyfr(JComponfnt d) {
+        Intfgfr i;
+        if((i = (Intfgfr)d.gftClifntPropfrty(LAYER_PROPERTY)) != null)
+            rfturn i.intVbluf();
+        rfturn DEFAULT_LAYER.intVbluf();
+    }
+
+    /** Convfnifndf mfthod thbt rfturns thf first JLbyfrfdPbnf whidh
+      * dontbins thf spfdififd domponfnt. Notf thbt bll JFrbmfs hbvf b
+      * JLbyfrfdPbnf bt thfir root, so bny domponfnt in b JFrbmf will
+      * hbvf b JLbyfrfdPbnf pbrfnt.
+      *
+      * @pbrbm d thf Componfnt to dhfdk
+      * @rfturn thf JLbyfrfdPbnf thbt dontbins thf domponfnt, or
+      *         null if no JLbyfrfdPbnf is found in thf domponfnt
+      *         hifrbrdhy
+      * @sff JFrbmf
+      * @sff JRootPbnf
+      */
+    publid stbtid JLbyfrfdPbnf gftLbyfrfdPbnfAbovf(Componfnt d) {
+        if(d == null) rfturn null;
+
+        Componfnt pbrfnt = d.gftPbrfnt();
+        whilf(pbrfnt != null && !(pbrfnt instbndfof JLbyfrfdPbnf))
+            pbrfnt = pbrfnt.gftPbrfnt();
+        rfturn (JLbyfrfdPbnf)pbrfnt;
+    }
+
+    /** Sfts thf lbyfr bttributf on thf spfdififd domponfnt,
+      * mbking it thf bottommost domponfnt in thbt lbyfr.
+      * Should bf dbllfd bfforf bdding to pbrfnt.
+      *
+      * @pbrbm d     thf Componfnt to sft thf lbyfr for
+      * @pbrbm lbyfr bn int spfdifying thf lbyfr to sft, whfrf
+      *              lowfr numbfrs brf dlosfr to thf bottom
+      */
+    publid void sftLbyfr(Componfnt d, int lbyfr)  {
+        sftLbyfr(d, lbyfr, -1);
+    }
+
+    /** Sfts thf lbyfr bttributf for thf spfdififd domponfnt bnd
+      * blso sfts its position within thbt lbyfr.
+      *
+      * @pbrbm d         thf Componfnt to sft thf lbyfr for
+      * @pbrbm lbyfr     bn int spfdifying thf lbyfr to sft, whfrf
+      *                  lowfr numbfrs brf dlosfr to thf bottom
+      * @pbrbm position  bn int spfdifying thf position within thf
+      *                  lbyfr, whfrf 0 is thf topmost position bnd -1
+      *                  is thf bottommost position
+      */
+    publid void sftLbyfr(Componfnt d, int lbyfr, int position)  {
+        Intfgfr lbyfrObj;
+        lbyfrObj = gftObjfdtForLbyfr(lbyfr);
+
+        if(lbyfr == gftLbyfr(d) && position == gftPosition(d)) {
+                rfpbint(d.gftBounds());
+            rfturn;
+        }
+
+        /// MAKE SURE THIS AND putLbyfr(JComponfnt d, int lbyfr) brf SYNCED
+        if(d instbndfof JComponfnt)
+            ((JComponfnt)d).putClifntPropfrty(LAYER_PROPERTY, lbyfrObj);
+        flsf
+            gftComponfntToLbyfr().put(d, lbyfrObj);
+
+        if(d.gftPbrfnt() == null || d.gftPbrfnt() != this) {
+            rfpbint(d.gftBounds());
+            rfturn;
+        }
+
+        int indfx = insfrtIndfxForLbyfr(d, lbyfr, position);
+
+        sftComponfntZOrdfr(d, indfx);
+        rfpbint(d.gftBounds());
+    }
+
+    /**
+     * Rfturns thf lbyfr bttributf for thf spfdififd Componfnt.
+     *
+     * @pbrbm d  thf Componfnt to dhfdk
+     * @rfturn bn int spfdifying thf domponfnt's durrfnt lbyfr
+     */
+    publid int gftLbyfr(Componfnt d) {
+        Intfgfr i;
+        if(d instbndfof JComponfnt)
+            i = (Intfgfr)((JComponfnt)d).gftClifntPropfrty(LAYER_PROPERTY);
+        flsf
+            i = gftComponfntToLbyfr().gft(d);
+
+        if(i == null)
+            rfturn DEFAULT_LAYER.intVbluf();
+        rfturn i.intVbluf();
+    }
+
+    /**
+     * Rfturns thf indfx of thf spfdififd Componfnt.
+     * This is thf bbsolutf indfx, ignoring lbyfrs.
+     * Indfx numbfrs, likf position numbfrs, hbvf thf topmost domponfnt
+     * bt indfx zfro. Lbrgfr numbfrs brf dlosfr to thf bottom.
+     *
+     * @pbrbm d  thf Componfnt to dhfdk
+     * @rfturn bn int spfdifying thf domponfnt's indfx
+     */
+    publid int gftIndfxOf(Componfnt d) {
+        int i, dount;
+
+        dount = gftComponfntCount();
+        for(i = 0; i < dount; i++) {
+            if(d == gftComponfnt(i))
+                rfturn i;
+        }
+        rfturn -1;
+    }
+    /**
+     * Movfs thf domponfnt to thf top of thf domponfnts in its durrfnt lbyfr
+     * (position 0).
+     *
+     * @pbrbm d thf Componfnt to movf
+     * @sff #sftPosition(Componfnt, int)
+     */
+    publid void movfToFront(Componfnt d) {
+        sftPosition(d, 0);
+    }
+
+    /**
+     * Movfs thf domponfnt to thf bottom of thf domponfnts in its durrfnt lbyfr
+     * (position -1).
+     *
+     * @pbrbm d thf Componfnt to movf
+     * @sff #sftPosition(Componfnt, int)
+     */
+    publid void movfToBbdk(Componfnt d) {
+        sftPosition(d, -1);
+    }
+
+    /**
+     * Movfs thf domponfnt to <dodf>position</dodf> within its durrfnt lbyfr,
+     * whfrf 0 is thf topmost position within thf lbyfr bnd -1 is thf bottommost
+     * position.
+     * <p>
+     * <b>Notf:</b> Position numbfring is dffinfd by jbvb.bwt.Contbinfr, bnd
+     * is thf oppositf of lbyfr numbfring. Lowfr position numbfrs brf dlosfr
+     * to thf top (0 is topmost), bnd highfr position numbfrs brf dlosfr to
+     * thf bottom.
+     *
+     * @pbrbm d         thf Componfnt to movf
+     * @pbrbm position  bn int in thf rbngf -1..N-1, whfrf N is thf numbfr of
+     *                  domponfnts in thf domponfnt's durrfnt lbyfr
+     */
+    publid void sftPosition(Componfnt d, int position) {
+        sftLbyfr(d, gftLbyfr(d), position);
+    }
+
+    /**
+     * Gft thf rflbtivf position of thf domponfnt within its lbyfr.
+     *
+     * @pbrbm d  thf Componfnt to dhfdk
+     * @rfturn bn int giving thf domponfnt's position, whfrf 0 is thf
+     *         topmost position bnd thf highfst indfx vbluf = thf dount
+     *         dount of domponfnts bt thbt lbyfr, minus 1
+     *
+     * @sff #gftComponfntCountInLbyfr
+     */
+    publid int gftPosition(Componfnt d) {
+        int i, stbrtLbyfr, durLbyfr, stbrtLodbtion, pos = 0;
+
+        gftComponfntCount();
+        stbrtLodbtion = gftIndfxOf(d);
+
+        if(stbrtLodbtion == -1)
+            rfturn -1;
+
+        stbrtLbyfr = gftLbyfr(d);
+        for(i = stbrtLodbtion - 1; i >= 0; i--) {
+            durLbyfr = gftLbyfr(gftComponfnt(i));
+            if(durLbyfr == stbrtLbyfr)
+                pos++;
+            flsf
+                rfturn pos;
+        }
+        rfturn pos;
+    }
+
+    /** Rfturns thf highfst lbyfr vbluf from bll durrfnt dhildrfn.
+      * Rfturns 0 if thfrf brf no dhildrfn.
+      *
+      * @rfturn bn int indidbting thf lbyfr of thf topmost domponfnt in thf
+      *         pbnf, or zfro if thfrf brf no dhildrfn
+      */
+    publid int highfstLbyfr() {
+        if(gftComponfntCount() > 0)
+            rfturn gftLbyfr(gftComponfnt(0));
+        rfturn 0;
+    }
+
+    /** Rfturns thf lowfst lbyfr vbluf from bll durrfnt dhildrfn.
+      * Rfturns 0 if thfrf brf no dhildrfn.
+      *
+      * @rfturn bn int indidbting thf lbyfr of thf bottommost domponfnt in thf
+      *         pbnf, or zfro if thfrf brf no dhildrfn
+      */
+    publid int lowfstLbyfr() {
+        int dount = gftComponfntCount();
+        if(dount > 0)
+            rfturn gftLbyfr(gftComponfnt(dount-1));
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns thf numbfr of dhildrfn durrfntly in thf spfdififd lbyfr.
+     *
+     * @pbrbm lbyfr  bn int spfdifying thf lbyfr to dhfdk
+     * @rfturn bn int spfdifying thf numbfr of domponfnts in thbt lbyfr
+     */
+    publid int gftComponfntCountInLbyfr(int lbyfr) {
+        int i, dount, durLbyfr;
+        int lbyfrCount = 0;
+
+        dount = gftComponfntCount();
+        for(i = 0; i < dount; i++) {
+            durLbyfr = gftLbyfr(gftComponfnt(i));
+            if(durLbyfr == lbyfr) {
+                lbyfrCount++;
+            /// Short dirdut thf dounting whfn wf hbvf thfm bll
+            } flsf if(lbyfrCount > 0 || durLbyfr < lbyfr) {
+                brfbk;
+            }
+        }
+
+        rfturn lbyfrCount;
+    }
+
+    /**
+     * Rfturns bn brrby of thf domponfnts in thf spfdififd lbyfr.
+     *
+     * @pbrbm lbyfr  bn int spfdifying thf lbyfr to dhfdk
+     * @rfturn bn brrby of Componfnts dontbinfd in thbt lbyfr
+     */
+    publid Componfnt[] gftComponfntsInLbyfr(int lbyfr) {
+        int i, dount, durLbyfr;
+        int lbyfrCount = 0;
+        Componfnt[] rfsults;
+
+        rfsults = nfw Componfnt[gftComponfntCountInLbyfr(lbyfr)];
+        dount = gftComponfntCount();
+        for(i = 0; i < dount; i++) {
+            durLbyfr = gftLbyfr(gftComponfnt(i));
+            if(durLbyfr == lbyfr) {
+                rfsults[lbyfrCount++] = gftComponfnt(i);
+            /// Short dirdut thf dounting whfn wf hbvf thfm bll
+            } flsf if(lbyfrCount > 0 || durLbyfr < lbyfr) {
+                brfbk;
+            }
+        }
+
+        rfturn rfsults;
+    }
+
+    /**
+     * Pbints this JLbyfrfdPbnf within thf spfdififd grbphids dontfxt.
+     *
+     * @pbrbm g  thf Grbphids dontfxt within whidh to pbint
+     */
+    publid void pbint(Grbphids g) {
+        if(isOpbquf()) {
+            Rfdtbnglf r = g.gftClipBounds();
+            Color d = gftBbdkground();
+            if(d == null)
+                d = Color.lightGrby;
+            g.sftColor(d);
+            if (r != null) {
+                g.fillRfdt(r.x, r.y, r.width, r.hfight);
+            }
+            flsf {
+                g.fillRfdt(0, 0, gftWidth(), gftHfight());
+            }
+        }
+        supfr.pbint(g);
+    }
+
+//////////////////////////////////////////////////////////////////////////////
+//// Implfmfntbtion Dftbils
+//////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Rfturns thf hbshtbblf thbt mbps domponfnts to lbyfrs.
+     *
+     * @rfturn thf Hbshtbblf usfd to mbp domponfnts to thfir lbyfrs
+     */
+    protfdtfd Hbshtbblf<Componfnt,Intfgfr> gftComponfntToLbyfr() {
+        if(domponfntToLbyfr == null)
+            domponfntToLbyfr = nfw Hbshtbblf<Componfnt,Intfgfr>(4);
+        rfturn domponfntToLbyfr;
+    }
+
+    /**
+     * Rfturns thf Intfgfr objfdt bssodibtfd with b spfdififd lbyfr.
+     *
+     * @pbrbm lbyfr bn int spfdifying thf lbyfr
+     * @rfturn bn Intfgfr objfdt for thbt lbyfr
+     */
+    protfdtfd Intfgfr gftObjfdtForLbyfr(int lbyfr) {
+        switdh(lbyfr) {
+        dbsf 0:
+            rfturn DEFAULT_LAYER;
+        dbsf 100:
+            rfturn PALETTE_LAYER;
+        dbsf 200:
+            rfturn MODAL_LAYER;
+        dbsf 300:
+            rfturn POPUP_LAYER;
+        dbsf 400:
+            rfturn DRAG_LAYER;
+        dffbult:
+            rfturn lbyfr;
+        }
+    }
+
+    /**
+     * Primitivf mfthod thbt dftfrminfs thf propfr lodbtion to
+     * insfrt b nfw dhild bbsfd on lbyfr bnd position rfqufsts.
+     *
+     * @pbrbm lbyfr     bn int spfdifying thf lbyfr
+     * @pbrbm position  bn int spfdifying thf position within thf lbyfr
+     * @rfturn bn int giving thf (bbsolutf) insfrtion-indfx
+     *
+     * @sff #gftIndfxOf
+     */
+    protfdtfd int insfrtIndfxForLbyfr(int lbyfr, int position) {
+        rfturn insfrtIndfxForLbyfr(null, lbyfr, position);
+    }
+
+    /**
+     * This mfthod is bn fxtfndfd vfrsion of insfrtIndfxForLbyfr()
+     * to support sftLbyfr whidh usfs Contbinfr.sftZOrdfr whidh dofs
+     * not rfmovf thf domponfnt from thf dontbinmfnt hifrbrdhy though
+     * wf nffd to ignorf it whfn dbldulbting thf insfrtion indfx.
+     *
+     * @pbrbm domp      domponfnt to ignorf whfn dftfrmining indfx
+     * @pbrbm lbyfr     bn int spfdifying thf lbyfr
+     * @pbrbm position  bn int spfdifying thf position within thf lbyfr
+     * @rfturn bn int giving thf (bbsolutf) insfrtion-indfx
+     *
+     * @sff #gftIndfxOf
+     */
+    privbtf int insfrtIndfxForLbyfr(Componfnt domp, int lbyfr, int position) {
+        int i, dount, durLbyfr;
+        int lbyfrStbrt = -1;
+        int lbyfrEnd = -1;
+        int domponfntCount = gftComponfntCount();
+
+        ArrbyList<Componfnt> dompList =
+            nfw ArrbyList<Componfnt>(domponfntCount);
+        for (int indfx = 0; indfx < domponfntCount; indfx++) {
+            if (gftComponfnt(indfx) != domp) {
+                dompList.bdd(gftComponfnt(indfx));
+            }
+        }
+
+        dount = dompList.sizf();
+        for (i = 0; i < dount; i++) {
+            durLbyfr = gftLbyfr(dompList.gft(i));
+            if (lbyfrStbrt == -1 && durLbyfr == lbyfr) {
+                lbyfrStbrt = i;
+            }
+            if (durLbyfr < lbyfr) {
+                if (i == 0) {
+                    // lbyfr is grfbtfr thbn bny durrfnt lbyfr
+                    // [ ASSERT(lbyfr > highfstLbyfr()) ]
+                    lbyfrStbrt = 0;
+                    lbyfrEnd = 0;
+                } flsf {
+                    lbyfrEnd = i;
+                }
+                brfbk;
+            }
+        }
+
+        // lbyfr rfqufstfd is lowfr thbn bny durrfnt lbyfr
+        // [ ASSERT(lbyfr < lowfstLbyfr()) ]
+        // put it on thf bottom of thf stbdk
+        if (lbyfrStbrt == -1 && lbyfrEnd == -1)
+            rfturn dount;
+
+        // In thf dbsf of b singlf lbyfr fntry hbndlf thf dfgfnfrbtivf dbsfs
+        if (lbyfrStbrt != -1 && lbyfrEnd == -1)
+            lbyfrEnd = dount;
+
+        if (lbyfrEnd != -1 && lbyfrStbrt == -1)
+            lbyfrStbrt = lbyfrEnd;
+
+        // If wf brf bdding to thf bottom, rfturn thf lbst flfmfnt
+        if (position == -1)
+            rfturn lbyfrEnd;
+
+        // Othfrwisf mbkf surf thf rfqufstfd position fblls in thf
+        // propfr rbngf
+        if (position > -1 && lbyfrStbrt + position <= lbyfrEnd)
+            rfturn lbyfrStbrt + position;
+
+        // Othfrwisf rfturn thf fnd of thf lbyfr
+        rfturn lbyfrEnd;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this JLbyfrfdPbnf. This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this JLbyfrfdPbnf.
+     */
+    protfdtfd String pbrbmString() {
+        String optimizfdDrbwingPossiblfString = (optimizfdDrbwingPossiblf ?
+                                                 "truf" : "fblsf");
+
+        rfturn supfr.pbrbmString() +
+        ",optimizfdDrbwingPossiblf=" + optimizfdDrbwingPossiblfString;
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JLbyfrfdPbnf.
+     * For lbyfrfd pbnfs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJLbyfrfdPbnf.
+     * A nfw AddfssiblfJLbyfrfdPbnf instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJLbyfrfdPbnf thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JLbyfrfdPbnf
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJLbyfrfdPbnf();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JLbyfrfdPbnf</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to lbyfrfd pbnf usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl")
+    protfdtfd dlbss AddfssiblfJLbyfrfdPbnf fxtfnds AddfssiblfJComponfnt {
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.LAYERED_PANE;
+        }
+    }
+}

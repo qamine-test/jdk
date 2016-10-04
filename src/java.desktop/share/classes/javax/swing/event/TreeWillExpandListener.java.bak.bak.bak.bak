@@ -1,0 +1,59 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.util.EvfntListfnfr;
+import jbvbx.swing.trff.ExpbndVftoExdfption;
+
+/**
+  * Thf listfnfr thbt's notififd whfn b trff fxpbnds or dollbpsfs
+  * b nodf.
+  * For furthfr informbtion bnd fxbmplfs sff
+  * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/trffwillfxpbndlistfnfr.html">How to Writf b Trff-Will-Expbnd Listfnfr</b>,
+  * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+  *
+  * @buthor Sdott Violft
+  */
+
+publid intfrfbdf TrffWillExpbndListfnfr fxtfnds EvfntListfnfr {
+    /**
+     * Invokfd whfnfvfr b nodf in thf trff is bbout to bf fxpbndfd.
+     *
+     * @pbrbm fvfnt b {@dodf TrffExpbnsionEvfnt} dontbining b {@dodf TrffPbth}
+     *              objfdt for thf nodf
+     * @throws ExpbndVftoExdfption to signify fxpbnsion hbs bffn dbndflfd
+     */
+    publid void trffWillExpbnd(TrffExpbnsionEvfnt fvfnt) throws ExpbndVftoExdfption;
+
+    /**
+     * Invokfd whfnfvfr b nodf in thf trff is bbout to bf dollbpsfd.
+     *
+     * @pbrbm fvfnt b {@dodf TrffExpbnsionEvfnt} dontbining b {@dodf TrffPbth}
+     *              objfdt for thf nodf
+     * @throws ExpbndVftoExdfption to signify dollbpsf hbs bffn dbndflfd
+     */
+    publid void trffWillCollbpsf(TrffExpbnsionEvfnt fvfnt) throws ExpbndVftoExdfption;
+}

@@ -1,266 +1,266 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.net.httpserver;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.net.*;
-import javax.net.ssl.*;
-import java.util.*;
-import sun.net.www.MessageHeader;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nft.*;
+import jbvbx.nft.ssl.*;
+import jbvb.util.*;
+import sun.nft.www.MfssbgfHfbdfr;
 
 /**
- * This class encapsulates a HTTP request received and a
- * response to be generated in one exchange. It provides methods
- * for examining the request from the client, and for building and
- * sending the response.
+ * Tiis dlbss fndbpsulbtfs b HTTP rfqufst rfdfivfd bnd b
+ * rfsponsf to bf gfnfrbtfd in onf fxdibngf. It providfs mftiods
+ * for fxbmining tif rfqufst from tif dlifnt, bnd for building bnd
+ * sfnding tif rfsponsf.
  * <p>
- * The typical life-cycle of a HttpExchange is shown in the sequence
- * below.
- * <ol><li>{@link #getRequestMethod()} to determine the command
- * <li>{@link #getRequestHeaders()} to examine the request headers (if needed)
- * <li>{@link #getRequestBody()} returns a {@link java.io.InputStream} for reading the request body.
- *     After reading the request body, the stream is close.
- * <li>{@link #getResponseHeaders()} to set any response headers, except content-length
- * <li>{@link #sendResponseHeaders(int,long)} to send the response headers. Must be called before
- * next step.
- * <li>{@link #getResponseBody()} to get a {@link java.io.OutputStream} to send the response body.
- *      When the response body has been written, the stream must be closed to terminate the exchange.
+ * Tif typidbl liff-dydlf of b HttpExdibngf is siown in tif sfqufndf
+ * bflow.
+ * <ol><li>{@link #gftRfqufstMftiod()} to dftfrminf tif dommbnd
+ * <li>{@link #gftRfqufstHfbdfrs()} to fxbminf tif rfqufst ifbdfrs (if nffdfd)
+ * <li>{@link #gftRfqufstBody()} rfturns b {@link jbvb.io.InputStrfbm} for rfbding tif rfqufst body.
+ *     Aftfr rfbding tif rfqufst body, tif strfbm is dlosf.
+ * <li>{@link #gftRfsponsfHfbdfrs()} to sft bny rfsponsf ifbdfrs, fxdfpt dontfnt-lfngti
+ * <li>{@link #sfndRfsponsfHfbdfrs(int,long)} to sfnd tif rfsponsf ifbdfrs. Must bf dbllfd bfforf
+ * nfxt stfp.
+ * <li>{@link #gftRfsponsfBody()} to gft b {@link jbvb.io.OutputStrfbm} to sfnd tif rfsponsf body.
+ *      Wifn tif rfsponsf body ibs bffn writtfn, tif strfbm must bf dlosfd to tfrminbtf tif fxdibngf.
  * </ol>
- * <b>Terminating exchanges</b>
+ * <b>Tfrminbting fxdibngfs</b>
  * <br>
- * Exchanges are terminated when both the request InputStream and response OutputStream are closed.
- * Closing the OutputStream, implicitly closes the InputStream (if it is not already closed).
- * However, it is recommended
- * to consume all the data from the InputStream before closing it.
- * The convenience method {@link #close()} does all of these tasks.
- * Closing an exchange without consuming all of the request body is not an error
- * but may make the underlying TCP connection unusable for following exchanges.
- * The effect of failing to terminate an exchange is undefined, but will typically
- * result in resources failing to be freed/reused.
- * @since 1.6
+ * Exdibngfs brf tfrminbtfd wifn boti tif rfqufst InputStrfbm bnd rfsponsf OutputStrfbm brf dlosfd.
+ * Closing tif OutputStrfbm, impliditly dlosfs tif InputStrfbm (if it is not blrfbdy dlosfd).
+ * Howfvfr, it is rfdommfndfd
+ * to donsumf bll tif dbtb from tif InputStrfbm bfforf dlosing it.
+ * Tif donvfnifndf mftiod {@link #dlosf()} dofs bll of tifsf tbsks.
+ * Closing bn fxdibngf witiout donsuming bll of tif rfqufst body is not bn frror
+ * but mby mbkf tif undfrlying TCP donnfdtion unusbblf for following fxdibngfs.
+ * Tif ffffdt of fbiling to tfrminbtf bn fxdibngf is undffinfd, but will typidblly
+ * rfsult in rfsourdfs fbiling to bf frffd/rfusfd.
+ * @sindf 1.6
  */
 
-@jdk.Exported
-public abstract class HttpExchange {
+@jdk.Exportfd
+publid bbstrbdt dlbss HttpExdibngf {
 
-    protected HttpExchange () {
+    protfdtfd HttpExdibngf () {
     }
 
     /**
-     * Returns an immutable Map containing the HTTP headers that were
-     * included with this request. The keys in this Map will be the header
-     * names, while the values will be a List of Strings containing each value
-     * that was included (either for a header that was listed several times,
-     * or one that accepts a comma-delimited list of values on a single line).
-     * In either of these cases, the values for the header name will be
-     * presented in the order that they were included in the request.
+     * Rfturns bn immutbblf Mbp dontbining tif HTTP ifbdfrs tibt wfrf
+     * indludfd witi tiis rfqufst. Tif kfys in tiis Mbp will bf tif ifbdfr
+     * nbmfs, wiilf tif vblufs will bf b List of Strings dontbining fbdi vbluf
+     * tibt wbs indludfd (fitifr for b ifbdfr tibt wbs listfd sfvfrbl timfs,
+     * or onf tibt bddfpts b dommb-dflimitfd list of vblufs on b singlf linf).
+     * In fitifr of tifsf dbsfs, tif vblufs for tif ifbdfr nbmf will bf
+     * prfsfntfd in tif ordfr tibt tify wfrf indludfd in tif rfqufst.
      * <p>
-     * The keys in Map are case-insensitive.
-     * @return a read-only Map which can be used to access request headers
+     * Tif kfys in Mbp brf dbsf-insfnsitivf.
+     * @rfturn b rfbd-only Mbp wiidi dbn bf usfd to bddfss rfqufst ifbdfrs
      */
-    public abstract Headers getRequestHeaders () ;
+    publid bbstrbdt Hfbdfrs gftRfqufstHfbdfrs () ;
 
     /**
-     * Returns a mutable Map into which the HTTP response headers can be stored
-     * and which will be transmitted as part of this response. The keys in the
-     * Map will be the header names, while the values must be a List of Strings
-     * containing each value that should be included multiple times
-     * (in the order that they should be included).
+     * Rfturns b mutbblf Mbp into wiidi tif HTTP rfsponsf ifbdfrs dbn bf storfd
+     * bnd wiidi will bf trbnsmittfd bs pbrt of tiis rfsponsf. Tif kfys in tif
+     * Mbp will bf tif ifbdfr nbmfs, wiilf tif vblufs must bf b List of Strings
+     * dontbining fbdi vbluf tibt siould bf indludfd multiplf timfs
+     * (in tif ordfr tibt tify siould bf indludfd).
      * <p>
-     * The keys in Map are case-insensitive.
-     * @return a writable Map which can be used to set response headers.
+     * Tif kfys in Mbp brf dbsf-insfnsitivf.
+     * @rfturn b writbblf Mbp wiidi dbn bf usfd to sft rfsponsf ifbdfrs.
      */
-    public abstract Headers getResponseHeaders () ;
+    publid bbstrbdt Hfbdfrs gftRfsponsfHfbdfrs () ;
 
     /**
-     * Get the request URI
+     * Gft tif rfqufst URI
      *
-     * @return the request URI
+     * @rfturn tif rfqufst URI
      */
-    public abstract URI getRequestURI () ;
+    publid bbstrbdt URI gftRfqufstURI () ;
 
     /**
-     * Get the request method
-     * @return the request method
+     * Gft tif rfqufst mftiod
+     * @rfturn tif rfqufst mftiod
      */
-    public abstract String getRequestMethod ();
+    publid bbstrbdt String gftRfqufstMftiod ();
 
     /**
-     * Get the HttpContext for this exchange
-     * @return the HttpContext
+     * Gft tif HttpContfxt for tiis fxdibngf
+     * @rfturn tif HttpContfxt
      */
-    public abstract HttpContext getHttpContext ();
+    publid bbstrbdt HttpContfxt gftHttpContfxt ();
 
     /**
-     * Ends this exchange by doing the following in sequence:<p><ol>
-     * <li>close the request InputStream, if not already closed<p></li>
-     * <li>close the response OutputStream, if not already closed. </li>
+     * Ends tiis fxdibngf by doing tif following in sfqufndf:<p><ol>
+     * <li>dlosf tif rfqufst InputStrfbm, if not blrfbdy dlosfd<p></li>
+     * <li>dlosf tif rfsponsf OutputStrfbm, if not blrfbdy dlosfd. </li>
      * </ol>
      */
-    public abstract void close () ;
+    publid bbstrbdt void dlosf () ;
 
     /**
-     * returns a stream from which the request body can be read.
-     * Multiple calls to this method will return the same stream.
-     * It is recommended that applications should consume (read) all of the
-     * data from this stream before closing it. If a stream is closed
-     * before all data has been read, then the close() call will
-     * read and discard remaining data (up to an implementation specific
-     * number of bytes).
-     * @return the stream from which the request body can be read.
+     * rfturns b strfbm from wiidi tif rfqufst body dbn bf rfbd.
+     * Multiplf dblls to tiis mftiod will rfturn tif sbmf strfbm.
+     * It is rfdommfndfd tibt bpplidbtions siould donsumf (rfbd) bll of tif
+     * dbtb from tiis strfbm bfforf dlosing it. If b strfbm is dlosfd
+     * bfforf bll dbtb ibs bffn rfbd, tifn tif dlosf() dbll will
+     * rfbd bnd disdbrd rfmbining dbtb (up to bn implfmfntbtion spfdifid
+     * numbfr of bytfs).
+     * @rfturn tif strfbm from wiidi tif rfqufst body dbn bf rfbd.
      */
-    public abstract InputStream getRequestBody () ;
+    publid bbstrbdt InputStrfbm gftRfqufstBody () ;
 
     /**
-     * returns a stream to which the response body must be
-     * written. {@link #sendResponseHeaders(int,long)}) must be called prior to calling
-     * this method. Multiple calls to this method (for the same exchange)
-     * will return the same stream. In order to correctly terminate
-     * each exchange, the output stream must be closed, even if no
-     * response body is being sent.
+     * rfturns b strfbm to wiidi tif rfsponsf body must bf
+     * writtfn. {@link #sfndRfsponsfHfbdfrs(int,long)}) must bf dbllfd prior to dblling
+     * tiis mftiod. Multiplf dblls to tiis mftiod (for tif sbmf fxdibngf)
+     * will rfturn tif sbmf strfbm. In ordfr to dorrfdtly tfrminbtf
+     * fbdi fxdibngf, tif output strfbm must bf dlosfd, fvfn if no
+     * rfsponsf body is bfing sfnt.
      * <p>
-     * Closing this stream implicitly
-     * closes the InputStream returned from {@link #getRequestBody()}
-     * (if it is not already closed).
+     * Closing tiis strfbm impliditly
+     * dlosfs tif InputStrfbm rfturnfd from {@link #gftRfqufstBody()}
+     * (if it is not blrfbdy dlosfd).
      * <P>
-     * If the call to sendResponseHeaders() specified a fixed response
-     * body length, then the exact number of bytes specified in that
-     * call must be written to this stream. If too many bytes are written,
-     * then write() will throw an IOException. If too few bytes are written
-     * then the stream close() will throw an IOException. In both cases,
-     * the exchange is aborted and the underlying TCP connection closed.
-     * @return the stream to which the response body is written
+     * If tif dbll to sfndRfsponsfHfbdfrs() spfdififd b fixfd rfsponsf
+     * body lfngti, tifn tif fxbdt numbfr of bytfs spfdififd in tibt
+     * dbll must bf writtfn to tiis strfbm. If too mbny bytfs brf writtfn,
+     * tifn writf() will tirow bn IOExdfption. If too ffw bytfs brf writtfn
+     * tifn tif strfbm dlosf() will tirow bn IOExdfption. In boti dbsfs,
+     * tif fxdibngf is bbortfd bnd tif undfrlying TCP donnfdtion dlosfd.
+     * @rfturn tif strfbm to wiidi tif rfsponsf body is writtfn
      */
-    public abstract OutputStream getResponseBody () ;
+    publid bbstrbdt OutputStrfbm gftRfsponsfBody () ;
 
 
     /**
-     * Starts sending the response back to the client using the current set of response headers
-     * and the numeric response code as specified in this method. The response body length is also specified
-     * as follows. If the response length parameter is greater than zero, this specifies an exact
-     * number of bytes to send and the application must send that exact amount of data.
-     * If the response length parameter is <code>zero</code>, then chunked transfer encoding is
-     * used and an arbitrary amount of data may be sent. The application terminates the
-     * response body by closing the OutputStream. If response length has the value <code>-1</code>
-     * then no response body is being sent.
+     * Stbrts sfnding tif rfsponsf bbdk to tif dlifnt using tif durrfnt sft of rfsponsf ifbdfrs
+     * bnd tif numfrid rfsponsf dodf bs spfdififd in tiis mftiod. Tif rfsponsf body lfngti is blso spfdififd
+     * bs follows. If tif rfsponsf lfngti pbrbmftfr is grfbtfr tibn zfro, tiis spfdififs bn fxbdt
+     * numbfr of bytfs to sfnd bnd tif bpplidbtion must sfnd tibt fxbdt bmount of dbtb.
+     * If tif rfsponsf lfngti pbrbmftfr is <dodf>zfro</dodf>, tifn diunkfd trbnsffr fndoding is
+     * usfd bnd bn brbitrbry bmount of dbtb mby bf sfnt. Tif bpplidbtion tfrminbtfs tif
+     * rfsponsf body by dlosing tif OutputStrfbm. If rfsponsf lfngti ibs tif vbluf <dodf>-1</dodf>
+     * tifn no rfsponsf body is bfing sfnt.
      * <p>
-     * If the content-length response header has not already been set then
-     * this is set to the appropriate value depending on the response length parameter.
+     * If tif dontfnt-lfngti rfsponsf ifbdfr ibs not blrfbdy bffn sft tifn
+     * tiis is sft to tif bppropribtf vbluf dfpfnding on tif rfsponsf lfngti pbrbmftfr.
      * <p>
-     * This method must be called prior to calling {@link #getResponseBody()}.
-     * @param rCode the response code to send
-     * @param responseLength if > 0, specifies a fixed response body length
-     *        and that exact number of bytes must be written
-     *        to the stream acquired from getResponseBody(), or else
-     *        if equal to 0, then chunked encoding is used,
-     *        and an arbitrary number of bytes may be written.
-     *        if <= -1, then no response body length is specified and
-     *        no response body may be written.
-     * @see HttpExchange#getResponseBody()
+     * Tiis mftiod must bf dbllfd prior to dblling {@link #gftRfsponsfBody()}.
+     * @pbrbm rCodf tif rfsponsf dodf to sfnd
+     * @pbrbm rfsponsfLfngti if > 0, spfdififs b fixfd rfsponsf body lfngti
+     *        bnd tibt fxbdt numbfr of bytfs must bf writtfn
+     *        to tif strfbm bdquirfd from gftRfsponsfBody(), or flsf
+     *        if fqubl to 0, tifn diunkfd fndoding is usfd,
+     *        bnd bn brbitrbry numbfr of bytfs mby bf writtfn.
+     *        if <= -1, tifn no rfsponsf body lfngti is spfdififd bnd
+     *        no rfsponsf body mby bf writtfn.
+     * @sff HttpExdibngf#gftRfsponsfBody()
      */
-    public abstract void sendResponseHeaders (int rCode, long responseLength) throws IOException ;
+    publid bbstrbdt void sfndRfsponsfHfbdfrs (int rCodf, long rfsponsfLfngti) tirows IOExdfption ;
 
     /**
-     * Returns the address of the remote entity invoking this request
-     * @return the InetSocketAddress of the caller
+     * Rfturns tif bddrfss of tif rfmotf fntity invoking tiis rfqufst
+     * @rfturn tif InftSodkftAddrfss of tif dbllfr
      */
-    public abstract InetSocketAddress getRemoteAddress ();
+    publid bbstrbdt InftSodkftAddrfss gftRfmotfAddrfss ();
 
     /**
-     * Returns the response code, if it has already been set
-     * @return the response code, if available. <code>-1</code> if not available yet.
+     * Rfturns tif rfsponsf dodf, if it ibs blrfbdy bffn sft
+     * @rfturn tif rfsponsf dodf, if bvbilbblf. <dodf>-1</dodf> if not bvbilbblf yft.
      */
-    public abstract int getResponseCode ();
+    publid bbstrbdt int gftRfsponsfCodf ();
 
     /**
-     * Returns the local address on which the request was received
-     * @return the InetSocketAddress of the local interface
+     * Rfturns tif lodbl bddrfss on wiidi tif rfqufst wbs rfdfivfd
+     * @rfturn tif InftSodkftAddrfss of tif lodbl intfrfbdf
      */
-    public abstract InetSocketAddress getLocalAddress ();
+    publid bbstrbdt InftSodkftAddrfss gftLodblAddrfss ();
 
     /**
-     * Returns the protocol string from the request in the form
-     * <i>protocol/majorVersion.minorVersion</i>. For example,
+     * Rfturns tif protodol string from tif rfqufst in tif form
+     * <i>protodol/mbjorVfrsion.minorVfrsion</i>. For fxbmplf,
      * "HTTP/1.1"
-     * @return the protocol string from the request
+     * @rfturn tif protodol string from tif rfqufst
      */
-    public abstract String getProtocol ();
+    publid bbstrbdt String gftProtodol ();
 
     /**
-     * Filter modules may store arbitrary objects with HttpExchange
-     * instances as an out-of-band communication mechanism. Other Filters
-     * or the exchange handler may then access these objects.
+     * Filtfr modulfs mby storf brbitrbry objfdts witi HttpExdibngf
+     * instbndfs bs bn out-of-bbnd dommunidbtion mfdibnism. Otifr Filtfrs
+     * or tif fxdibngf ibndlfr mby tifn bddfss tifsf objfdts.
      * <p>
-     * Each Filter class will document the attributes which they make
-     * available.
-     * @param name the name of the attribute to retrieve
-     * @return the attribute object, or null if it does not exist
-     * @throws NullPointerException if name is <code>null</code>
+     * Ebdi Filtfr dlbss will dodumfnt tif bttributfs wiidi tify mbkf
+     * bvbilbblf.
+     * @pbrbm nbmf tif nbmf of tif bttributf to rftrifvf
+     * @rfturn tif bttributf objfdt, or null if it dofs not fxist
+     * @tirows NullPointfrExdfption if nbmf is <dodf>null</dodf>
      */
-    public abstract Object getAttribute (String name) ;
+    publid bbstrbdt Objfdt gftAttributf (String nbmf) ;
 
     /**
-     * Filter modules may store arbitrary objects with HttpExchange
-     * instances as an out-of-band communication mechanism. Other Filters
-     * or the exchange handler may then access these objects.
+     * Filtfr modulfs mby storf brbitrbry objfdts witi HttpExdibngf
+     * instbndfs bs bn out-of-bbnd dommunidbtion mfdibnism. Otifr Filtfrs
+     * or tif fxdibngf ibndlfr mby tifn bddfss tifsf objfdts.
      * <p>
-     * Each Filter class will document the attributes which they make
-     * available.
-     * @param name the name to associate with the attribute value
-     * @param value the object to store as the attribute value. <code>null</code>
-     * value is permitted.
-     * @throws NullPointerException if name is <code>null</code>
+     * Ebdi Filtfr dlbss will dodumfnt tif bttributfs wiidi tify mbkf
+     * bvbilbblf.
+     * @pbrbm nbmf tif nbmf to bssodibtf witi tif bttributf vbluf
+     * @pbrbm vbluf tif objfdt to storf bs tif bttributf vbluf. <dodf>null</dodf>
+     * vbluf is pfrmittfd.
+     * @tirows NullPointfrExdfption if nbmf is <dodf>null</dodf>
      */
-    public abstract void setAttribute (String name, Object value) ;
+    publid bbstrbdt void sftAttributf (String nbmf, Objfdt vbluf) ;
 
     /**
-     * Used by Filters to wrap either (or both) of this exchange's InputStream
-     * and OutputStream, with the given filtered streams so
-     * that subsequent calls to {@link #getRequestBody()} will
-     * return the given {@link java.io.InputStream}, and calls to
-     * {@link #getResponseBody()} will return the given
-     * {@link java.io.OutputStream}. The streams provided to this
-     * call must wrap the original streams, and may be (but are not
-     * required to be) sub-classes of {@link java.io.FilterInputStream}
-     * and {@link java.io.FilterOutputStream}.
-     * @param i the filtered input stream to set as this object's inputstream,
-     *          or <code>null</code> if no change.
-     * @param o the filtered output stream to set as this object's outputstream,
-     *          or <code>null</code> if no change.
+     * Usfd by Filtfrs to wrbp fitifr (or boti) of tiis fxdibngf's InputStrfbm
+     * bnd OutputStrfbm, witi tif givfn filtfrfd strfbms so
+     * tibt subsfqufnt dblls to {@link #gftRfqufstBody()} will
+     * rfturn tif givfn {@link jbvb.io.InputStrfbm}, bnd dblls to
+     * {@link #gftRfsponsfBody()} will rfturn tif givfn
+     * {@link jbvb.io.OutputStrfbm}. Tif strfbms providfd to tiis
+     * dbll must wrbp tif originbl strfbms, bnd mby bf (but brf not
+     * rfquirfd to bf) sub-dlbssfs of {@link jbvb.io.FiltfrInputStrfbm}
+     * bnd {@link jbvb.io.FiltfrOutputStrfbm}.
+     * @pbrbm i tif filtfrfd input strfbm to sft bs tiis objfdt's inputstrfbm,
+     *          or <dodf>null</dodf> if no dibngf.
+     * @pbrbm o tif filtfrfd output strfbm to sft bs tiis objfdt's outputstrfbm,
+     *          or <dodf>null</dodf> if no dibngf.
      */
-    public abstract void setStreams (InputStream i, OutputStream o);
+    publid bbstrbdt void sftStrfbms (InputStrfbm i, OutputStrfbm o);
 
 
     /**
-     * If an authenticator is set on the HttpContext that owns this exchange,
-     * then this method will return the {@link HttpPrincipal} that represents
-     * the authenticated user for this HttpExchange.
-     * @return the HttpPrincipal, or <code>null</code> if no authenticator is set.
+     * If bn butifntidbtor is sft on tif HttpContfxt tibt owns tiis fxdibngf,
+     * tifn tiis mftiod will rfturn tif {@link HttpPrindipbl} tibt rfprfsfnts
+     * tif butifntidbtfd usfr for tiis HttpExdibngf.
+     * @rfturn tif HttpPrindipbl, or <dodf>null</dodf> if no butifntidbtor is sft.
      */
-    public abstract HttpPrincipal getPrincipal ();
+    publid bbstrbdt HttpPrindipbl gftPrindipbl ();
 }

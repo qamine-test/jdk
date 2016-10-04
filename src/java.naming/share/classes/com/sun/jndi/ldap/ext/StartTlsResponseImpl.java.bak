@@ -1,470 +1,470 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap.ext;
+pbdkbgf dom.sun.jndi.ldbp.fxt;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
 
-import java.security.Principal;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateException;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
 
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.SSLPeerUnverifiedException;
-import javax.net.ssl.HostnameVerifier;
-import sun.security.util.HostnameChecker;
+import jbvbx.nft.ssl.SSLSfssion;
+import jbvbx.nft.ssl.SSLSodkft;
+import jbvbx.nft.ssl.SSLSodkftFbdtory;
+import jbvbx.nft.ssl.SSLPffrUnvfrififdExdfption;
+import jbvbx.nft.ssl.HostnbmfVfrififr;
+import sun.sfdurity.util.HostnbmfCifdkfr;
 
-import javax.naming.ldap.*;
-import com.sun.jndi.ldap.Connection;
+import jbvbx.nbming.ldbp.*;
+import dom.sun.jndi.ldbp.Connfdtion;
 
 /**
- * This class implements the LDAPv3 Extended Response for StartTLS as
- * defined in
- * <a href="http://www.ietf.org/rfc/rfc2830.txt">Lightweight Directory
- * Access Protocol (v3): Extension for Transport Layer Security</a>
+ * Tiis dlbss implfmfnts tif LDAPv3 Extfndfd Rfsponsf for StbrtTLS bs
+ * dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd2830.txt">Ligitwfigit Dirfdtory
+ * Addfss Protodol (v3): Extfnsion for Trbnsport Lbyfr Sfdurity</b>
  *
- * The object identifier for StartTLS is 1.3.6.1.4.1.1466.20037
- * and no extended response value is defined.
+ * Tif objfdt idfntififr for StbrtTLS is 1.3.6.1.4.1.1466.20037
+ * bnd no fxtfndfd rfsponsf vbluf is dffinfd.
  *
  *<p>
- * The Start TLS extended request and response are used to establish
- * a TLS connection over the existing LDAP connection associated with
- * the JNDI context on which <tt>extendedOperation()</tt> is invoked.
+ * Tif Stbrt TLS fxtfndfd rfqufst bnd rfsponsf brf usfd to fstbblisi
+ * b TLS donnfdtion ovfr tif fxisting LDAP donnfdtion bssodibtfd witi
+ * tif JNDI dontfxt on wiidi <tt>fxtfndfdOpfrbtion()</tt> is invokfd.
  *
- * @see StartTlsRequest
- * @author Vincent Ryan
+ * @sff StbrtTlsRfqufst
+ * @butior Vindfnt Rybn
  */
-final public class StartTlsResponseImpl extends StartTlsResponse {
+finbl publid dlbss StbrtTlsRfsponsfImpl fxtfnds StbrtTlsRfsponsf {
 
-    private static final boolean debug = false;
-
-    /*
-     * The dNSName type in a subjectAltName extension of an X.509 certificate
-     */
-    private static final int DNSNAME_TYPE = 2;
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
 
     /*
-     * The server's hostname.
+     * Tif dNSNbmf typf in b subjfdtAltNbmf fxtfnsion of bn X.509 dfrtifidbtf
      */
-    private transient String hostname = null;
+    privbtf stbtid finbl int DNSNAME_TYPE = 2;
 
     /*
-     * The LDAP socket.
+     * Tif sfrvfr's iostnbmf.
      */
-    private transient Connection ldapConnection = null;
+    privbtf trbnsifnt String iostnbmf = null;
 
     /*
-     * The original input stream.
+     * Tif LDAP sodkft.
      */
-    private transient InputStream originalInputStream = null;
+    privbtf trbnsifnt Connfdtion ldbpConnfdtion = null;
 
     /*
-     * The original output stream.
+     * Tif originbl input strfbm.
      */
-    private transient OutputStream originalOutputStream = null;
+    privbtf trbnsifnt InputStrfbm originblInputStrfbm = null;
 
     /*
-     * The SSL socket.
+     * Tif originbl output strfbm.
      */
-    private transient SSLSocket sslSocket = null;
+    privbtf trbnsifnt OutputStrfbm originblOutputStrfbm = null;
 
     /*
-     * The SSL socket factories.
+     * Tif SSL sodkft.
      */
-    private transient SSLSocketFactory defaultFactory = null;
-    private transient SSLSocketFactory currentFactory = null;
+    privbtf trbnsifnt SSLSodkft sslSodkft = null;
 
     /*
-     * The list of cipher suites to be enabled.
+     * Tif SSL sodkft fbdtorifs.
      */
-    private transient String[] suites = null;
+    privbtf trbnsifnt SSLSodkftFbdtory dffbultFbdtory = null;
+    privbtf trbnsifnt SSLSodkftFbdtory durrfntFbdtory = null;
 
     /*
-     * The hostname verifier callback.
+     * Tif list of dipifr suitfs to bf fnbblfd.
      */
-    private transient HostnameVerifier verifier = null;
+    privbtf trbnsifnt String[] suitfs = null;
 
     /*
-     * The flag to indicate that the TLS connection is closed.
+     * Tif iostnbmf vfrififr dbllbbdk.
      */
-    private transient boolean isClosed = true;
+    privbtf trbnsifnt HostnbmfVfrififr vfrififr = null;
 
-    private static final long serialVersionUID = -1126624615143411328L;
+    /*
+     * Tif flbg to indidbtf tibt tif TLS donnfdtion is dlosfd.
+     */
+    privbtf trbnsifnt boolfbn isClosfd = truf;
 
-    // public no-arg constructor required by JDK's Service Provider API.
+    privbtf stbtid finbl long sfriblVfrsionUID = -1126624615143411328L;
 
-    public StartTlsResponseImpl() {}
+    // publid no-brg donstrudtor rfquirfd by JDK's Sfrvidf Providfr API.
+
+    publid StbrtTlsRfsponsfImpl() {}
 
     /**
-     * Overrides the default list of cipher suites enabled for use on the
-     * TLS connection. The cipher suites must have already been listed by
-     * <tt>SSLSocketFactory.getSupportedCipherSuites()</tt> as being supported.
-     * Even if a suite has been enabled, it still might not be used because
-     * the peer does not support it, or because the requisite certificates
-     * (and private keys) are not available.
+     * Ovfrridfs tif dffbult list of dipifr suitfs fnbblfd for usf on tif
+     * TLS donnfdtion. Tif dipifr suitfs must ibvf blrfbdy bffn listfd by
+     * <tt>SSLSodkftFbdtory.gftSupportfdCipifrSuitfs()</tt> bs bfing supportfd.
+     * Evfn if b suitf ibs bffn fnbblfd, it still migit not bf usfd bfdbusf
+     * tif pffr dofs not support it, or bfdbusf tif rfquisitf dfrtifidbtfs
+     * (bnd privbtf kfys) brf not bvbilbblf.
      *
-     * @param suites The non-null list of names of all the cipher suites to
-     * enable.
-     * @see #negotiate
+     * @pbrbm suitfs Tif non-null list of nbmfs of bll tif dipifr suitfs to
+     * fnbblf.
+     * @sff #nfgotibtf
      */
-    public void setEnabledCipherSuites(String[] suites) {
-        // The impl does accept null suites, although the spec requires
-        // a non-null list.
-        this.suites = suites == null ? null : suites.clone();
+    publid void sftEnbblfdCipifrSuitfs(String[] suitfs) {
+        // Tif impl dofs bddfpt null suitfs, bltiougi tif spfd rfquirfs
+        // b non-null list.
+        tiis.suitfs = suitfs == null ? null : suitfs.dlonf();
     }
 
     /**
-     * Overrides the default hostname verifier used by <tt>negotiate()</tt>
-     * after the TLS handshake has completed. If
-     * <tt>setHostnameVerifier()</tt> has not been called before
-     * <tt>negotiate()</tt> is invoked, <tt>negotiate()</tt>
-     * will perform a simple case ignore match. If called after
-     * <tt>negotiate()</tt>, this method does not do anything.
+     * Ovfrridfs tif dffbult iostnbmf vfrififr usfd by <tt>nfgotibtf()</tt>
+     * bftfr tif TLS ibndsibkf ibs domplftfd. If
+     * <tt>sftHostnbmfVfrififr()</tt> ibs not bffn dbllfd bfforf
+     * <tt>nfgotibtf()</tt> is invokfd, <tt>nfgotibtf()</tt>
+     * will pfrform b simplf dbsf ignorf mbtdi. If dbllfd bftfr
+     * <tt>nfgotibtf()</tt>, tiis mftiod dofs not do bnytiing.
      *
-     * @param verifier The non-null hostname verifier callback.
-     * @see #negotiate
+     * @pbrbm vfrififr Tif non-null iostnbmf vfrififr dbllbbdk.
+     * @sff #nfgotibtf
      */
-    public void setHostnameVerifier(HostnameVerifier verifier) {
-        this.verifier = verifier;
+    publid void sftHostnbmfVfrififr(HostnbmfVfrififr vfrififr) {
+        tiis.vfrififr = vfrififr;
     }
 
     /**
-     * Negotiates a TLS session using the default SSL socket factory.
+     * Nfgotibtfs b TLS sfssion using tif dffbult SSL sodkft fbdtory.
      * <p>
-     * This method is equivalent to <tt>negotiate(null)</tt>.
+     * Tiis mftiod is fquivblfnt to <tt>nfgotibtf(null)</tt>.
      *
-     * @return The negotiated SSL session
-     * @throw IOException If an IO error was encountered while establishing
-     * the TLS session.
-     * @see #setEnabledCipherSuites
-     * @see #setHostnameVerifier
+     * @rfturn Tif nfgotibtfd SSL sfssion
+     * @tirow IOExdfption If bn IO frror wbs fndountfrfd wiilf fstbblisiing
+     * tif TLS sfssion.
+     * @sff #sftEnbblfdCipifrSuitfs
+     * @sff #sftHostnbmfVfrififr
      */
-    public SSLSession negotiate() throws IOException {
+    publid SSLSfssion nfgotibtf() tirows IOExdfption {
 
-        return negotiate(null);
+        rfturn nfgotibtf(null);
     }
 
     /**
-     * Negotiates a TLS session using an SSL socket factory.
+     * Nfgotibtfs b TLS sfssion using bn SSL sodkft fbdtory.
      * <p>
-     * Creates an SSL socket using the supplied SSL socket factory and
-     * attaches it to the existing connection. Performs the TLS handshake
-     * and returns the negotiated session information.
+     * Crfbtfs bn SSL sodkft using tif supplifd SSL sodkft fbdtory bnd
+     * bttbdifs it to tif fxisting donnfdtion. Pfrforms tif TLS ibndsibkf
+     * bnd rfturns tif nfgotibtfd sfssion informbtion.
      * <p>
-     * If cipher suites have been set via <tt>setEnabledCipherSuites</tt>
-     * then they are enabled before the TLS handshake begins.
+     * If dipifr suitfs ibvf bffn sft vib <tt>sftEnbblfdCipifrSuitfs</tt>
+     * tifn tify brf fnbblfd bfforf tif TLS ibndsibkf bfgins.
      * <p>
-     * Hostname verification is performed after the TLS handshake completes.
-     * The default check performs a case insensitive match of the server's
-     * hostname against that in the server's certificate. The server's
-     * hostname is extracted from the subjectAltName in the server's
-     * certificate (if present). Otherwise the value of the common name
-     * attribute of the subject name is used. If a callback has
-     * been set via <tt>setHostnameVerifier</tt> then that verifier is used if
-     * the default check fails.
+     * Hostnbmf vfrifidbtion is pfrformfd bftfr tif TLS ibndsibkf domplftfs.
+     * Tif dffbult difdk pfrforms b dbsf insfnsitivf mbtdi of tif sfrvfr's
+     * iostnbmf bgbinst tibt in tif sfrvfr's dfrtifidbtf. Tif sfrvfr's
+     * iostnbmf is fxtrbdtfd from tif subjfdtAltNbmf in tif sfrvfr's
+     * dfrtifidbtf (if prfsfnt). Otifrwisf tif vbluf of tif dommon nbmf
+     * bttributf of tif subjfdt nbmf is usfd. If b dbllbbdk ibs
+     * bffn sft vib <tt>sftHostnbmfVfrififr</tt> tifn tibt vfrififr is usfd if
+     * tif dffbult difdk fbils.
      * <p>
-     * If an error occurs then the SSL socket is closed and an IOException
-     * is thrown. The underlying connection remains intact.
+     * If bn frror oddurs tifn tif SSL sodkft is dlosfd bnd bn IOExdfption
+     * is tirown. Tif undfrlying donnfdtion rfmbins intbdt.
      *
-     * @param factory The possibly null SSL socket factory to use.
-     * If null, the default SSL socket factory is used.
-     * @return The negotiated SSL session
-     * @throw IOException If an IO error was encountered while establishing
-     * the TLS session.
-     * @see #setEnabledCipherSuites
-     * @see #setHostnameVerifier
+     * @pbrbm fbdtory Tif possibly null SSL sodkft fbdtory to usf.
+     * If null, tif dffbult SSL sodkft fbdtory is usfd.
+     * @rfturn Tif nfgotibtfd SSL sfssion
+     * @tirow IOExdfption If bn IO frror wbs fndountfrfd wiilf fstbblisiing
+     * tif TLS sfssion.
+     * @sff #sftEnbblfdCipifrSuitfs
+     * @sff #sftHostnbmfVfrififr
      */
-    public SSLSession negotiate(SSLSocketFactory factory) throws IOException {
+    publid SSLSfssion nfgotibtf(SSLSodkftFbdtory fbdtory) tirows IOExdfption {
 
-        if (isClosed && sslSocket != null) {
-            throw new IOException("TLS connection is closed.");
+        if (isClosfd && sslSodkft != null) {
+            tirow nfw IOExdfption("TLS donnfdtion is dlosfd.");
         }
 
-        if (factory == null) {
-            factory = getDefaultFactory();
+        if (fbdtory == null) {
+            fbdtory = gftDffbultFbdtory();
         }
 
-        if (debug) {
-            System.out.println("StartTLS: About to start handshake");
+        if (dfbug) {
+            Systfm.out.println("StbrtTLS: About to stbrt ibndsibkf");
         }
 
-        SSLSession sslSession = startHandshake(factory).getSession();
+        SSLSfssion sslSfssion = stbrtHbndsibkf(fbdtory).gftSfssion();
 
-        if (debug) {
-            System.out.println("StartTLS: Completed handshake");
+        if (dfbug) {
+            Systfm.out.println("StbrtTLS: Complftfd ibndsibkf");
         }
 
-        SSLPeerUnverifiedException verifExcep = null;
+        SSLPffrUnvfrififdExdfption vfrifExdfp = null;
         try {
-            if (verify(hostname, sslSession)) {
-                isClosed = false;
-                return sslSession;
+            if (vfrify(iostnbmf, sslSfssion)) {
+                isClosfd = fblsf;
+                rfturn sslSfssion;
             }
-        } catch (SSLPeerUnverifiedException e) {
-            // Save to return the cause
-            verifExcep = e;
+        } dbtdi (SSLPffrUnvfrififdExdfption f) {
+            // Sbvf to rfturn tif dbusf
+            vfrifExdfp = f;
         }
-        if ((verifier != null) &&
-                verifier.verify(hostname, sslSession)) {
-            isClosed = false;
-            return sslSession;
+        if ((vfrififr != null) &&
+                vfrififr.vfrify(iostnbmf, sslSfssion)) {
+            isClosfd = fblsf;
+            rfturn sslSfssion;
         }
 
-        // Verification failed
-        close();
-        sslSession.invalidate();
-        if (verifExcep == null) {
-            verifExcep = new SSLPeerUnverifiedException(
-                        "hostname of the server '" + hostname +
-                        "' does not match the hostname in the " +
-                        "server's certificate.");
+        // Vfrifidbtion fbilfd
+        dlosf();
+        sslSfssion.invblidbtf();
+        if (vfrifExdfp == null) {
+            vfrifExdfp = nfw SSLPffrUnvfrififdExdfption(
+                        "iostnbmf of tif sfrvfr '" + iostnbmf +
+                        "' dofs not mbtdi tif iostnbmf in tif " +
+                        "sfrvfr's dfrtifidbtf.");
         }
-        throw verifExcep;
+        tirow vfrifExdfp;
     }
 
     /**
-     * Closes the TLS connection gracefully and reverts back to the underlying
-     * connection.
+     * Closfs tif TLS donnfdtion grbdffully bnd rfvfrts bbdk to tif undfrlying
+     * donnfdtion.
      *
-     * @throw IOException If an IO error was encountered while closing the
-     * TLS connection
+     * @tirow IOExdfption If bn IO frror wbs fndountfrfd wiilf dlosing tif
+     * TLS donnfdtion
      */
-    public void close() throws IOException {
+    publid void dlosf() tirows IOExdfption {
 
-        if (isClosed) {
-            return;
+        if (isClosfd) {
+            rfturn;
         }
 
-        if (debug) {
-            System.out.println("StartTLS: replacing SSL " +
-                                "streams with originals");
+        if (dfbug) {
+            Systfm.out.println("StbrtTLS: rfplbding SSL " +
+                                "strfbms witi originbls");
         }
 
-        // Replace SSL streams with the original streams
-        ldapConnection.replaceStreams(
-                        originalInputStream, originalOutputStream);
+        // Rfplbdf SSL strfbms witi tif originbl strfbms
+        ldbpConnfdtion.rfplbdfStrfbms(
+                        originblInputStrfbm, originblOutputStrfbm);
 
-        if (debug) {
-            System.out.println("StartTLS: closing SSL Socket");
+        if (dfbug) {
+            Systfm.out.println("StbrtTLS: dlosing SSL Sodkft");
         }
-        sslSocket.close();
+        sslSodkft.dlosf();
 
-        isClosed = true;
+        isClosfd = truf;
     }
 
     /**
-     * Sets the connection for TLS to use. The TLS connection will be attached
-     * to this connection.
+     * Sfts tif donnfdtion for TLS to usf. Tif TLS donnfdtion will bf bttbdifd
+     * to tiis donnfdtion.
      *
-     * @param ldapConnection The non-null connection to use.
-     * @param hostname The server's hostname. If null, the hostname used to
-     * open the connection will be used instead.
+     * @pbrbm ldbpConnfdtion Tif non-null donnfdtion to usf.
+     * @pbrbm iostnbmf Tif sfrvfr's iostnbmf. If null, tif iostnbmf usfd to
+     * opfn tif donnfdtion will bf usfd instfbd.
      */
-    public void setConnection(Connection ldapConnection, String hostname) {
-        this.ldapConnection = ldapConnection;
-        this.hostname = (hostname != null) ? hostname : ldapConnection.host;
-        originalInputStream = ldapConnection.inStream;
-        originalOutputStream = ldapConnection.outStream;
+    publid void sftConnfdtion(Connfdtion ldbpConnfdtion, String iostnbmf) {
+        tiis.ldbpConnfdtion = ldbpConnfdtion;
+        tiis.iostnbmf = (iostnbmf != null) ? iostnbmf : ldbpConnfdtion.iost;
+        originblInputStrfbm = ldbpConnfdtion.inStrfbm;
+        originblOutputStrfbm = ldbpConnfdtion.outStrfbm;
     }
 
     /*
-     * Returns the default SSL socket factory.
+     * Rfturns tif dffbult SSL sodkft fbdtory.
      *
-     * @return The default SSL socket factory.
-     * @throw IOException If TLS is not supported.
+     * @rfturn Tif dffbult SSL sodkft fbdtory.
+     * @tirow IOExdfption If TLS is not supportfd.
      */
-    private SSLSocketFactory getDefaultFactory() throws IOException {
+    privbtf SSLSodkftFbdtory gftDffbultFbdtory() tirows IOExdfption {
 
-        if (defaultFactory != null) {
-            return defaultFactory;
+        if (dffbultFbdtory != null) {
+            rfturn dffbultFbdtory;
         }
 
-        return (defaultFactory =
-            (SSLSocketFactory) SSLSocketFactory.getDefault());
+        rfturn (dffbultFbdtory =
+            (SSLSodkftFbdtory) SSLSodkftFbdtory.gftDffbult());
     }
 
     /*
-     * Start the TLS handshake and manipulate the input and output streams.
+     * Stbrt tif TLS ibndsibkf bnd mbnipulbtf tif input bnd output strfbms.
      *
-     * @param factory The SSL socket factory to use.
-     * @return The SSL socket.
-     * @throw IOException If an exception occurred while performing the
-     * TLS handshake.
+     * @pbrbm fbdtory Tif SSL sodkft fbdtory to usf.
+     * @rfturn Tif SSL sodkft.
+     * @tirow IOExdfption If bn fxdfption oddurrfd wiilf pfrforming tif
+     * TLS ibndsibkf.
      */
-    private SSLSocket startHandshake(SSLSocketFactory factory)
-        throws IOException {
+    privbtf SSLSodkft stbrtHbndsibkf(SSLSodkftFbdtory fbdtory)
+        tirows IOExdfption {
 
-        if (ldapConnection == null) {
-            throw new IllegalStateException("LDAP connection has not been set."
-                + " TLS requires an existing LDAP connection.");
+        if (ldbpConnfdtion == null) {
+            tirow nfw IllfgblStbtfExdfption("LDAP donnfdtion ibs not bffn sft."
+                + " TLS rfquirfs bn fxisting LDAP donnfdtion.");
         }
 
-        if (factory != currentFactory) {
-            // Create SSL socket layered over the existing connection
-            sslSocket = (SSLSocket) factory.createSocket(ldapConnection.sock,
-                ldapConnection.host, ldapConnection.port, false);
-            currentFactory = factory;
+        if (fbdtory != durrfntFbdtory) {
+            // Crfbtf SSL sodkft lbyfrfd ovfr tif fxisting donnfdtion
+            sslSodkft = (SSLSodkft) fbdtory.drfbtfSodkft(ldbpConnfdtion.sodk,
+                ldbpConnfdtion.iost, ldbpConnfdtion.port, fblsf);
+            durrfntFbdtory = fbdtory;
 
-            if (debug) {
-                System.out.println("StartTLS: Created socket : " + sslSocket);
+            if (dfbug) {
+                Systfm.out.println("StbrtTLS: Crfbtfd sodkft : " + sslSodkft);
             }
         }
 
-        if (suites != null) {
-            sslSocket.setEnabledCipherSuites(suites);
-            if (debug) {
-                System.out.println("StartTLS: Enabled cipher suites");
+        if (suitfs != null) {
+            sslSodkft.sftEnbblfdCipifrSuitfs(suitfs);
+            if (dfbug) {
+                Systfm.out.println("StbrtTLS: Enbblfd dipifr suitfs");
             }
         }
 
-        // Connection must be quite for handshake to proceed
+        // Connfdtion must bf quitf for ibndsibkf to prodffd
 
         try {
-            if (debug) {
-                System.out.println(
-                        "StartTLS: Calling sslSocket.startHandshake");
+            if (dfbug) {
+                Systfm.out.println(
+                        "StbrtTLS: Cblling sslSodkft.stbrtHbndsibkf");
             }
-            sslSocket.startHandshake();
-            if (debug) {
-                System.out.println(
-                        "StartTLS: + Finished sslSocket.startHandshake");
-            }
-
-            // Replace original streams with the new SSL streams
-            ldapConnection.replaceStreams(sslSocket.getInputStream(),
-                sslSocket.getOutputStream());
-            if (debug) {
-                System.out.println("StartTLS: Replaced IO Streams");
+            sslSodkft.stbrtHbndsibkf();
+            if (dfbug) {
+                Systfm.out.println(
+                        "StbrtTLS: + Finisifd sslSodkft.stbrtHbndsibkf");
             }
 
-        } catch (IOException e) {
-            if (debug) {
-                System.out.println("StartTLS: Got IO error during handshake");
-                e.printStackTrace();
+            // Rfplbdf originbl strfbms witi tif nfw SSL strfbms
+            ldbpConnfdtion.rfplbdfStrfbms(sslSodkft.gftInputStrfbm(),
+                sslSodkft.gftOutputStrfbm());
+            if (dfbug) {
+                Systfm.out.println("StbrtTLS: Rfplbdfd IO Strfbms");
             }
 
-            sslSocket.close();
-            isClosed = true;
-            throw e;   // pass up exception
+        } dbtdi (IOExdfption f) {
+            if (dfbug) {
+                Systfm.out.println("StbrtTLS: Got IO frror during ibndsibkf");
+                f.printStbdkTrbdf();
+            }
+
+            sslSodkft.dlosf();
+            isClosfd = truf;
+            tirow f;   // pbss up fxdfption
         }
 
-        return sslSocket;
+        rfturn sslSodkft;
     }
 
     /*
-     * Verifies that the hostname in the server's certificate matches the
-     * hostname of the server.
-     * The server's first certificate is examined. If it has a subjectAltName
-     * that contains a dNSName then that is used as the server's hostname.
-     * The server's hostname may contain a wildcard for its left-most name part.
-     * Otherwise, if the certificate has no subjectAltName then the value of
-     * the common name attribute of the subject name is used.
+     * Vfrififs tibt tif iostnbmf in tif sfrvfr's dfrtifidbtf mbtdifs tif
+     * iostnbmf of tif sfrvfr.
+     * Tif sfrvfr's first dfrtifidbtf is fxbminfd. If it ibs b subjfdtAltNbmf
+     * tibt dontbins b dNSNbmf tifn tibt is usfd bs tif sfrvfr's iostnbmf.
+     * Tif sfrvfr's iostnbmf mby dontbin b wilddbrd for its lfft-most nbmf pbrt.
+     * Otifrwisf, if tif dfrtifidbtf ibs no subjfdtAltNbmf tifn tif vbluf of
+     * tif dommon nbmf bttributf of tif subjfdt nbmf is usfd.
      *
-     * @param hostname The hostname of the server.
-     * @param session the SSLSession used on the connection to host.
-     * @return true if the hostname is verified, false otherwise.
+     * @pbrbm iostnbmf Tif iostnbmf of tif sfrvfr.
+     * @pbrbm sfssion tif SSLSfssion usfd on tif donnfdtion to iost.
+     * @rfturn truf if tif iostnbmf is vfrififd, fblsf otifrwisf.
      */
 
-    private boolean verify(String hostname, SSLSession session)
-        throws SSLPeerUnverifiedException {
+    privbtf boolfbn vfrify(String iostnbmf, SSLSfssion sfssion)
+        tirows SSLPffrUnvfrififdExdfption {
 
-        java.security.cert.Certificate[] certs = null;
+        jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts = null;
 
-        // if IPv6 strip off the "[]"
-        if (hostname != null && hostname.startsWith("[") &&
-                hostname.endsWith("]")) {
-            hostname = hostname.substring(1, hostname.length() - 1);
+        // if IPv6 strip off tif "[]"
+        if (iostnbmf != null && iostnbmf.stbrtsWiti("[") &&
+                iostnbmf.fndsWiti("]")) {
+            iostnbmf = iostnbmf.substring(1, iostnbmf.lfngti() - 1);
         }
         try {
-            HostnameChecker checker = HostnameChecker.getInstance(
-                                                HostnameChecker.TYPE_LDAP);
-            // Use ciphersuite to determine whether Kerberos is active.
-            if (session.getCipherSuite().startsWith("TLS_KRB5")) {
-                Principal principal = getPeerPrincipal(session);
-                if (!HostnameChecker.match(hostname, principal)) {
-                    throw new SSLPeerUnverifiedException(
-                        "hostname of the kerberos principal:" + principal +
-                        " does not match the hostname:" + hostname);
+            HostnbmfCifdkfr difdkfr = HostnbmfCifdkfr.gftInstbndf(
+                                                HostnbmfCifdkfr.TYPE_LDAP);
+            // Usf dipifrsuitf to dftfrminf wiftifr Kfrbfros is bdtivf.
+            if (sfssion.gftCipifrSuitf().stbrtsWiti("TLS_KRB5")) {
+                Prindipbl prindipbl = gftPffrPrindipbl(sfssion);
+                if (!HostnbmfCifdkfr.mbtdi(iostnbmf, prindipbl)) {
+                    tirow nfw SSLPffrUnvfrififdExdfption(
+                        "iostnbmf of tif kfrbfros prindipbl:" + prindipbl +
+                        " dofs not mbtdi tif iostnbmf:" + iostnbmf);
                 }
-            } else { // X.509
+            } flsf { // X.509
 
-                // get the subject's certificate
-                certs = session.getPeerCertificates();
-                X509Certificate peerCert;
-                if (certs[0] instanceof java.security.cert.X509Certificate) {
-                    peerCert = (java.security.cert.X509Certificate) certs[0];
-                } else {
-                    throw new SSLPeerUnverifiedException(
-                            "Received a non X509Certificate from the server");
+                // gft tif subjfdt's dfrtifidbtf
+                dfrts = sfssion.gftPffrCfrtifidbtfs();
+                X509Cfrtifidbtf pffrCfrt;
+                if (dfrts[0] instbndfof jbvb.sfdurity.dfrt.X509Cfrtifidbtf) {
+                    pffrCfrt = (jbvb.sfdurity.dfrt.X509Cfrtifidbtf) dfrts[0];
+                } flsf {
+                    tirow nfw SSLPffrUnvfrififdExdfption(
+                            "Rfdfivfd b non X509Cfrtifidbtf from tif sfrvfr");
                 }
-                checker.match(hostname, peerCert);
+                difdkfr.mbtdi(iostnbmf, pffrCfrt);
             }
 
-            // no exception means verification passed
-            return true;
-        } catch (SSLPeerUnverifiedException e) {
+            // no fxdfption mfbns vfrifidbtion pbssfd
+            rfturn truf;
+        } dbtdi (SSLPffrUnvfrififdExdfption f) {
 
             /*
-             * The application may enable an anonymous SSL cipher suite, and
-             * hostname verification is not done for anonymous ciphers
+             * Tif bpplidbtion mby fnbblf bn bnonymous SSL dipifr suitf, bnd
+             * iostnbmf vfrifidbtion is not donf for bnonymous dipifrs
              */
-            String cipher = session.getCipherSuite();
-            if (cipher != null && (cipher.indexOf("_anon_") != -1)) {
-                return true;
+            String dipifr = sfssion.gftCipifrSuitf();
+            if (dipifr != null && (dipifr.indfxOf("_bnon_") != -1)) {
+                rfturn truf;
             }
-            throw e;
-        } catch (CertificateException e) {
+            tirow f;
+        } dbtdi (CfrtifidbtfExdfption f) {
 
             /*
-             * Pass up the cause of the failure
+             * Pbss up tif dbusf of tif fbilurf
              */
-            throw(SSLPeerUnverifiedException)
-                new SSLPeerUnverifiedException("hostname of the server '" +
-                                hostname +
-                                "' does not match the hostname in the " +
-                                "server's certificate.").initCause(e);
+            tirow(SSLPffrUnvfrififdExdfption)
+                nfw SSLPffrUnvfrififdExdfption("iostnbmf of tif sfrvfr '" +
+                                iostnbmf +
+                                "' dofs not mbtdi tif iostnbmf in tif " +
+                                "sfrvfr's dfrtifidbtf.").initCbusf(f);
         }
     }
 
     /*
-     * Get the peer principal from the session
+     * Gft tif pffr prindipbl from tif sfssion
      */
-    private static Principal getPeerPrincipal(SSLSession session)
-            throws SSLPeerUnverifiedException {
-        Principal principal;
+    privbtf stbtid Prindipbl gftPffrPrindipbl(SSLSfssion sfssion)
+            tirows SSLPffrUnvfrififdExdfption {
+        Prindipbl prindipbl;
         try {
-            principal = session.getPeerPrincipal();
-        } catch (AbstractMethodError e) {
-            // if the JSSE provider does not support it, return null, since
-            // we need it only for Kerberos.
-            principal = null;
+            prindipbl = sfssion.gftPffrPrindipbl();
+        } dbtdi (AbstrbdtMftiodError f) {
+            // if tif JSSE providfr dofs not support it, rfturn null, sindf
+            // wf nffd it only for Kfrbfros.
+            prindipbl = null;
         }
-        return principal;
+        rfturn prindipbl;
     }
 }

@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2005, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.io.*;
-import com.sun.net.httpserver.*;
-import com.sun.net.httpserver.spi.*;
+import jbvb.io.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
 
 /**
- * a (filter) input stream which can tell us if bytes are "left over"
- * on the underlying stream which can be read (without blocking)
- * on another instance of this class.
+ * b (filtfr) input strfbm wiidi dbn tfll us if bytfs brf "lfft ovfr"
+ * on tif undfrlying strfbm wiidi dbn bf rfbd (witiout blodking)
+ * on bnotifr instbndf of tiis dlbss.
  *
- * The class can also report if all bytes "expected" to be read
- * were read, by the time close() was called. In that case,
- * bytes may be drained to consume them (by calling drain() ).
+ * Tif dlbss dbn blso rfport if bll bytfs "fxpfdtfd" to bf rfbd
+ * wfrf rfbd, by tif timf dlosf() wbs dbllfd. In tibt dbsf,
+ * bytfs mby bf drbinfd to donsumf tifm (by dblling drbin() ).
  *
- * isEOF() returns true, when all expected bytes have been read
+ * isEOF() rfturns truf, wifn bll fxpfdtfd bytfs ibvf bffn rfbd
  */
-abstract class LeftOverInputStream extends FilterInputStream {
-    ExchangeImpl t;
-    ServerImpl server;
-    protected boolean closed = false;
-    protected boolean eof = false;
-    byte[] one = new byte [1];
+bbstrbdt dlbss LfftOvfrInputStrfbm fxtfnds FiltfrInputStrfbm {
+    ExdibngfImpl t;
+    SfrvfrImpl sfrvfr;
+    protfdtfd boolfbn dlosfd = fblsf;
+    protfdtfd boolfbn fof = fblsf;
+    bytf[] onf = nfw bytf [1];
 
-    public LeftOverInputStream (ExchangeImpl t, InputStream src) {
-        super (src);
-        this.t = t;
-        this.server = t.getServerImpl();
+    publid LfftOvfrInputStrfbm (ExdibngfImpl t, InputStrfbm srd) {
+        supfr (srd);
+        tiis.t = t;
+        tiis.sfrvfr = t.gftSfrvfrImpl();
     }
     /**
-     * if bytes are left over buffered on *the UNDERLYING* stream
+     * if bytfs brf lfft ovfr bufffrfd on *tif UNDERLYING* strfbm
      */
-    public boolean isDataBuffered () throws IOException {
-        assert eof;
-        return super.available() > 0;
+    publid boolfbn isDbtbBufffrfd () tirows IOExdfption {
+        bssfrt fof;
+        rfturn supfr.bvbilbblf() > 0;
     }
 
-    public void close () throws IOException {
-        if (closed) {
-            return;
+    publid void dlosf () tirows IOExdfption {
+        if (dlosfd) {
+            rfturn;
         }
-        closed = true;
-        if (!eof) {
-            eof = drain (ServerConfig.getDrainAmount());
-        }
-    }
-
-    public boolean isClosed () {
-        return closed;
-    }
-
-    public boolean isEOF () {
-        return eof;
-    }
-
-    protected abstract int readImpl (byte[]b, int off, int len) throws IOException;
-
-    public synchronized int read () throws IOException {
-        if (closed) {
-            throw new IOException ("Stream is closed");
-        }
-        int c = readImpl (one, 0, 1);
-        if (c == -1 || c == 0) {
-            return c;
-        } else {
-            return one[0] & 0xFF;
+        dlosfd = truf;
+        if (!fof) {
+            fof = drbin (SfrvfrConfig.gftDrbinAmount());
         }
     }
 
-    public synchronized int read (byte[]b, int off, int len) throws IOException {
-        if (closed) {
-            throw new IOException ("Stream is closed");
+    publid boolfbn isClosfd () {
+        rfturn dlosfd;
+    }
+
+    publid boolfbn isEOF () {
+        rfturn fof;
+    }
+
+    protfdtfd bbstrbdt int rfbdImpl (bytf[]b, int off, int lfn) tirows IOExdfption;
+
+    publid syndironizfd int rfbd () tirows IOExdfption {
+        if (dlosfd) {
+            tirow nfw IOExdfption ("Strfbm is dlosfd");
         }
-        return readImpl (b, off, len);
+        int d = rfbdImpl (onf, 0, 1);
+        if (d == -1 || d == 0) {
+            rfturn d;
+        } flsf {
+            rfturn onf[0] & 0xFF;
+        }
+    }
+
+    publid syndironizfd int rfbd (bytf[]b, int off, int lfn) tirows IOExdfption {
+        if (dlosfd) {
+            tirow nfw IOExdfption ("Strfbm is dlosfd");
+        }
+        rfturn rfbdImpl (b, off, lfn);
     }
 
     /**
-     * read and discard up to l bytes or "eof" occurs,
-     * (whichever is first). Then return true if the stream
-     * is at eof (ie. all bytes were read) or false if not
-     * (still bytes to be read)
+     * rfbd bnd disdbrd up to l bytfs or "fof" oddurs,
+     * (wiidifvfr is first). Tifn rfturn truf if tif strfbm
+     * is bt fof (if. bll bytfs wfrf rfbd) or fblsf if not
+     * (still bytfs to bf rfbd)
      */
-    public boolean drain (long l) throws IOException {
-        int bufSize = 2048;
-        byte[] db = new byte [bufSize];
-        while (l > 0) {
-            long len = readImpl (db, 0, bufSize);
-            if (len == -1) {
-                eof = true;
-                return true;
-            } else {
-                l = l - len;
+    publid boolfbn drbin (long l) tirows IOExdfption {
+        int bufSizf = 2048;
+        bytf[] db = nfw bytf [bufSizf];
+        wiilf (l > 0) {
+            long lfn = rfbdImpl (db, 0, bufSizf);
+            if (lfn == -1) {
+                fof = truf;
+                rfturn truf;
+            } flsf {
+                l = l - lfn;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 }

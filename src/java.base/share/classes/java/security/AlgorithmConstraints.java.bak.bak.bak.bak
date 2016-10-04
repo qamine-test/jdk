@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.util.Sft;
+
+/**
+ * This intfrfbdf spfdififs donstrbints for dryptogrbphid blgorithms,
+ * kfys (kfy sizfs), bnd othfr blgorithm pbrbmftfrs.
+ * <p>
+ * {@dodf AlgorithmConstrbints} objfdts brf immutbblf.  An implfmfntbtion
+ * of this intfrfbdf should not providf mfthods thbt dbn dhbngf thf stbtf
+ * of bn instbndf ondf it hbs bffn drfbtfd.
+ * <p>
+ * Notf thbt {@dodf AlgorithmConstrbints} dbn bf usfd to rfprfsfnt thf
+ * rfstridtions dfsdribfd by thf sfdurity propfrtifs
+ * {@dodf jdk.dfrtpbth.disbblfdAlgorithms} bnd
+ * {@dodf jdk.tls.disbblfdAlgorithms}, or dould bf usfd by b
+ * dondrftf {@dodf PKIXCfrtPbthChfdkfr} to dhfdk whfthfr b spfdififd
+ * dfrtifidbtf in thf dfrtifidbtion pbth dontbins thf rfquirfd blgorithm
+ * donstrbints.
+ *
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#gftAlgorithmConstrbints
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#sftAlgorithmConstrbints(AlgorithmConstrbints)
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf AlgorithmConstrbints {
+
+    /**
+     * Dftfrminfs whfthfr bn blgorithm is grbntfd pfrmission for thf
+     * spfdififd dryptogrbphid primitivfs.
+     *
+     * @pbrbm primitivfs b sft of dryptogrbphid primitivfs
+     * @pbrbm blgorithm thf blgorithm nbmf
+     * @pbrbm pbrbmftfrs thf blgorithm pbrbmftfrs, or null if no bdditionbl
+     *     pbrbmftfrs
+     *
+     * @rfturn truf if thf blgorithm is pfrmittfd bnd dbn bf usfd for bll
+     *     of thf spfdififd dryptogrbphid primitivfs
+     *
+     * @throws IllfgblArgumfntExdfption if primitivfs or blgorithm is null
+     *     or fmpty
+     */
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+            String blgorithm, AlgorithmPbrbmftfrs pbrbmftfrs);
+
+    /**
+     * Dftfrminfs whfthfr b kfy is grbntfd pfrmission for thf spfdififd
+     * dryptogrbphid primitivfs.
+     * <p>
+     * This mfthod is usublly usfd to dhfdk kfy sizf bnd kfy usbgf.
+     *
+     * @pbrbm primitivfs b sft of dryptogrbphid primitivfs
+     * @pbrbm kfy thf kfy
+     *
+     * @rfturn truf if thf kfy dbn bf usfd for bll of thf spfdififd
+     *     dryptogrbphid primitivfs
+     *
+     * @throws IllfgblArgumfntExdfption if primitivfs is null or fmpty,
+     *     or thf kfy is null
+     */
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy);
+
+    /**
+     * Dftfrminfs whfthfr bn blgorithm bnd thf dorrfsponding kfy brf grbntfd
+     * pfrmission for thf spfdififd dryptogrbphid primitivfs.
+     *
+     * @pbrbm primitivfs b sft of dryptogrbphid primitivfs
+     * @pbrbm blgorithm thf blgorithm nbmf
+     * @pbrbm kfy thf kfy
+     * @pbrbm pbrbmftfrs thf blgorithm pbrbmftfrs, or null if no bdditionbl
+     *     pbrbmftfrs
+     *
+     * @rfturn truf if thf kfy bnd thf blgorithm dbn bf usfd for bll of thf
+     *     spfdififd dryptogrbphid primitivfs
+     *
+     * @throws IllfgblArgumfntExdfption if primitivfs or blgorithm is null
+     *     or fmpty, or thf kfy is null
+     */
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+                String blgorithm, Kfy kfy, AlgorithmPbrbmftfrs pbrbmftfrs);
+
+}

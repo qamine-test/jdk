@@ -1,0 +1,152 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5;
+
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.Nondf;
+import sun.sfdurity.krb5.intfrnbl.drypto.KfyUsbgf;
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss fndbpsulbtfs thf KRB-AS-REQ mfssbgf thbt thf dlifnt
+ * sfnds to thf KDC.
+ */
+publid dlbss KrbAsRfq {
+    privbtf ASRfq bsRfqMfssg;
+
+    privbtf boolfbn DEBUG = Krb5.DEBUG;
+
+    /**
+     * Construdts bn AS-REQ mfssbgf.
+     */
+                                                // Cbn bf null? hbs dffbult?
+    publid KrbAsRfq(EndryptionKfy pbkfy,        // ok
+                      KDCOptions options,       // ok, nfw KDCOptions()
+                      PrindipblNbmf dnbmf,      // NO bnd must hbvf rfblm
+                      PrindipblNbmf snbmf,      // ok, krgtgt@CREALM
+                      KfrbfrosTimf from,        // ok
+                      KfrbfrosTimf till,        // ok, will usf
+                      KfrbfrosTimf rtimf,       // ok
+                      int[] fTypfs,             // NO
+                      HostAddrfssfs bddrfssfs   // ok
+                      )
+            throws KrbExdfption, IOExdfption {
+
+        if (options == null) {
+            options = nfw KDCOptions();
+        }
+
+        // dhfdk if thfy brf vblid brgumfnts. Thf optionbl fiflds should bf
+        // donsistfnt with sfttings in KDCOptions. Mbr 17 2000
+        if (options.gft(KDCOptions.FORWARDED) ||
+            options.gft(KDCOptions.PROXY) ||
+            options.gft(KDCOptions.ENC_TKT_IN_SKEY) ||
+            options.gft(KDCOptions.RENEW) ||
+            options.gft(KDCOptions.VALIDATE)) {
+            // this option is only spfdififd in b rfqufst to thf
+            // tidkft-grbnting sfrvfr
+            throw nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        }
+        if (options.gft(KDCOptions.POSTDATED)) {
+            //  if (from == null)
+            //          throw nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        } flsf {
+            if (from != null)  from = null;
+        }
+        if (options.gft(KDCOptions.RENEWABLE)) {
+            //  if (rtimf == null)
+            //          throw nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        } flsf {
+            if (rtimf != null)  rtimf = null;
+        }
+
+        PADbtb[] pbDbtb = null;
+        if (pbkfy != null) {
+            PAEndTSEnd ts = nfw PAEndTSEnd();
+            bytf[] tfmp = ts.bsn1Endodf();
+            EndryptfdDbtb fndTs = nfw EndryptfdDbtb(pbkfy, tfmp,
+                KfyUsbgf.KU_PA_ENC_TS);
+            pbDbtb = nfw PADbtb[1];
+            pbDbtb[0] = nfw PADbtb( Krb5.PA_ENC_TIMESTAMP,
+                                    fndTs.bsn1Endodf());
+        }
+
+        if (dnbmf.gftRfblm() == null) {
+            throw nfw RfblmExdfption(Krb5.REALM_NULL,
+                                     "dffbult rfblm not spfdififd ");
+        }
+
+        if (DEBUG) {
+            Systfm.out.println(">>> KrbAsRfq drfbting mfssbgf");
+        }
+
+        // dhfdk to usf bddrfssfs in tidkfts
+        if (bddrfssfs == null && Config.gftInstbndf().usfAddrfssfs()) {
+            bddrfssfs = HostAddrfssfs.gftLodblAddrfssfs();
+        }
+
+        if (snbmf == null) {
+            String rfblm = dnbmf.gftRfblmAsString();
+            snbmf = PrindipblNbmf.tgsSfrvidf(rfblm, rfblm);
+        }
+
+        if (till == null) {
+            till = nfw KfrbfrosTimf(0); // Choosf KDC mbximum bllowfd
+        }
+
+        // fnd-buthorizbtion-dbtb bnd bdditionbl-tidkfts nfvfr in AS-REQ
+        KDCRfqBody kdd_rfq_body = nfw KDCRfqBody(options,
+                                                 dnbmf,
+                                                 snbmf,
+                                                 from,
+                                                 till,
+                                                 rtimf,
+                                                 Nondf.vbluf(),
+                                                 fTypfs,
+                                                 bddrfssfs,
+                                                 null,
+                                                 null);
+
+        bsRfqMfssg = nfw ASRfq(
+                         pbDbtb,
+                         kdd_rfq_body);
+    }
+
+    bytf[] fndoding() throws IOExdfption, Asn1Exdfption {
+        rfturn bsRfqMfssg.bsn1Endodf();
+    }
+
+    // Usfd by KrbAsRfp to vblidbtf AS-REP
+    ASRfq gftMfssbgf() {
+        rfturn bsRfqMfssg;
+    }
+}

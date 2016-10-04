@@ -1,0 +1,304 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.nio.sdtp;
+
+import jbvb.nft.SodkftAddrfss;
+
+/**
+ * Thf {@dodf MfssbgfInfo} dlbss providfs bdditionbl bndillbry informbtion bbout
+ * mfssbgfs.
+ *
+ * <P> Rfdfivfd SCTP mfssbgfs, rfturnfd by
+ * {@link SdtpChbnnfl#rfdfivf SdtpChbnnfl.rfdfivf} bnd {@link
+ * SdtpMultiChbnnfl#rfdfivf SdtpMultiChbnnfl.rfdfivf},
+ * rfturn b {@dodf MfssbgfInfo} instbndf thbt dbn bf qufrifd to dftfrminf
+ * bndillbry informbtion bbout thf rfdfivfd mfssbgf. Mfssbgfs bfing sfnt should
+ * usf onf of thf {@link #drfbtfOutgoing(jbvb.nft.SodkftAddrfss,int)
+ * drfbtfOutgoing} mfthods to providf bndillbry dbtb for thf mfssbgf bfing
+ * sfnt, bnd mby usf thf bppropribtf sfttfr mfthods to ovfrridf thf dffbult
+ * vblufs providfd for {@link #isUnordfrfd() unordfrfd}, {@link #timfToLivf()
+ * timfToLivf}, {@link #isComplftf() domplftf} bnd {@link #pbylobdProtodolID()
+ * pbylobdProtodolID}, bfforf sfnding thf mfssbgf.
+ *
+ * <P> For out going mfssbgfs thf {@dodf timfToLivf} pbrbmftfr is b timf pfriod
+ * thbt thf sfnding sidf SCTP stbdk mby fxpirf thf mfssbgf if it hbs not bffn
+ * sfnt. This timf pfriod is bn indidbtion to thf stbdk thbt thf mfssbgf is no
+ * longfr rfquirfd to bf sfnt bftfr thf timf pfriod fxpirfs. It is not b hbrd
+ * timfout bnd mby bf influfndfd by whfthfr thf bssodibtion supports thf pbrtibl
+ * rflibbility fxtfnsion, <b hrff=http://www.iftf.org/rfd/rfd3758.txt>RFC 3758
+ * </b>.
+ *
+ * <P> {@dodf MfssbgfInfo} instbndfs brf not sbff for usf by multiplf dondurrfnt
+ * thrfbds. If b MfssbgfInfo is to bf usfd by morf thbn onf thrfbd thfn bddfss
+ * to thf MfssbgfInfo should bf dontrollfd by bppropribtf syndhronizbtion.
+ *
+ * @sindf 1.7
+ */
+@jdk.Exportfd
+publid bbstrbdt dlbss MfssbgfInfo {
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    protfdtfd MfssbgfInfo() {}
+
+    /**
+     * Crfbtfs b {@dodf MfssbgfInfo} instbndf suitbblf for usf whfn
+     * sfnding b mfssbgf.
+     *
+     * <P> Thf rfturnfd instbndf will hbvf its {@link #isUnordfrfd() unordfrfd}
+     * vbluf sft to {@dodf fblsf}, its {@link #timfToLivf() timfToLivf} vbluf
+     * sft to {@dodf 0}, its {@link #isComplftf() domplftf} vbluf sft
+     * to {@dodf truf}, bnd its {@link #pbylobdProtodolID() pbylobdProtodolID}
+     * vbluf sft to {@dodf 0}. Thfsf vblufs, if rfquirfd, dbn bf sft through
+     * thf bppropribtf sfttfr mfthod bfforf sfnding thf mfssbgf.
+     *
+     * @pbrbm  bddrfss
+     *         For b donnfdtfd {@dodf SdtpChbnnfl} thf bddrfss is thf
+     *         prfffrrfd pffr bddrfss of thf bssodibtion to sfnd thf mfssbgf
+     *         to, or {@dodf null} to usf thf pffr primbry bddrfss. For bn
+     *         {@dodf SdtpMultiChbnnfl} thf bddrfss is usfd to dftfrminf
+     *         thf bssodibtion, or if no bssodibtion fxists with b pffr of thbt
+     *         bddrfss thfn onf is sftup.
+     *
+     * @pbrbm  strfbmNumbfr
+     *         Thf strfbm numbfr thbt thf mfssbgf will bf sfnt on
+     *
+     * @rfturn  Thf outgoing mfssbgf info
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf strfbmNumbfr is nfgbtivf or grfbtfr thbn {@dodf 65536}
+     */
+    publid stbtid MfssbgfInfo drfbtfOutgoing(SodkftAddrfss bddrfss,
+                                             int strfbmNumbfr) {
+        if (strfbmNumbfr < 0 || strfbmNumbfr > 65536)
+            throw nfw IllfgblArgumfntExdfption("Invblid strfbm numbfr");
+
+        rfturn nfw sun.nio.dh.sdtp.MfssbgfInfoImpl(null, bddrfss, strfbmNumbfr);
+    }
+    /**
+     * Crfbtfs b {@dodf MfssbgfInfo} instbndf suitbblf for usf whfn
+     * sfnding b mfssbgf to b givfn bssodibtion. Typidblly usfd for
+     * {@dodf SdtpMultiChbnnfl} whfn bn bssodibtion hbs blrfbdy bffn sftup.
+     *
+     * <P> Thf rfturnfd instbndf will hbvf its {@link #isUnordfrfd() unordfrfd}
+     * vbluf sft to {@dodf fblsf}, its {@link #timfToLivf() timfToLivf} vbluf
+     * sft to {@dodf 0}, its {@link #isComplftf() domplftf} vbluf sft
+     * to {@dodf truf}, bnd its {@link #pbylobdProtodolID() pbylobdProtodolID}
+     * vbluf sft to {@dodf 0}. Thfsf vblufs, if rfquirfd, dbn bf sft through
+     * thf bppropribtf sfttfr mfthod bfforf sfnding thf mfssbgf.
+     *
+     * @pbrbm  bssodibtion
+     *         Thf bssodibtion to sfnd thf mfssbgf on
+     *
+     * @pbrbm  bddrfss
+     *         Thf prfffrrfd pffr bddrfss of thf bssodibtion to sfnd thf mfssbgf
+     *         to, or {@dodf null} to usf thf pffr primbry bddrfss
+     *
+     * @pbrbm  strfbmNumbfr
+     *         Thf strfbm numbfr thbt thf mfssbgf will bf sfnt on.
+     *
+     * @rfturn  Thf outgoing mfssbgf info
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If {@dodf bssodibtion} is {@dodf null}, or thf strfbmNumbfr is
+     *          nfgbtivf or grfbtfr thbn {@dodf 65536}
+     */
+    publid stbtid MfssbgfInfo drfbtfOutgoing(Assodibtion bssodibtion,
+                                             SodkftAddrfss bddrfss,
+                                             int strfbmNumbfr) {
+        if (bssodibtion == null)
+            throw nfw IllfgblArgumfntExdfption("bssodibtion dbnnot bf null");
+
+        if (strfbmNumbfr < 0 || strfbmNumbfr > 65536)
+            throw nfw IllfgblArgumfntExdfption("Invblid strfbm numbfr");
+
+        rfturn nfw sun.nio.dh.sdtp.MfssbgfInfoImpl(bssodibtion,
+                                                   bddrfss, strfbmNumbfr);
+    }
+
+    /**
+     * Rfturns thf sourdf sodkft bddrfss if thf mfssbgf hbs bffn rfdfivfd,
+     * othfrwisf thf prfffrrfd dfstinbtion of thf mfssbgf to bf sfnt.
+     *
+     * @rfturn  Thf sodkft bddrfss, or {@dodf null} if this instbndf is to bf
+     *          usfd for sfnding b mfssbgf bnd hbs bffn donstrudfd without
+     *          spfdifying b prfffrrfd dfstinbtion bddrfss
+     *
+     */
+    publid bbstrbdt SodkftAddrfss bddrfss();
+
+    /**
+     * Rfturns thf bssodibtion thbt thf mfssbgf wbs rfdfivfd on, if thf mfssbgf
+     * hbs bffn rfdfivfd, othfrwisf thf bssodibtion thbt thf mfssbgf is to bf
+     * sfnt on.
+     *
+     * @rfturn Thf bssodibtion, or {@dodf null} if this instbndf is to bf
+     *         usfd for sfnding b mfssbgf bnd hbs bffn donstrudfd using thf
+     *         thf {@link #drfbtfOutgoing(SodkftAddrfss,int)
+     *         drfbtfOutgoing(SodkftAddrfss,int)} stbtid fbdtory mfthod
+     */
+    publid bbstrbdt Assodibtion bssodibtion();
+
+    /**
+     * Rfturns thf numbfr of bytfs rfbd for thf rfdfivfd mfssbgf.
+     *
+     * <P> This mfthod is only bppidbblf for rfdfivfd mfssbgfs, it hbs no
+     * mfbning for mfssbgfs bfing sfnt.
+     *
+     * @rfturn  Thf numbfr of bytfs rfbd, {@dodf -1} if thf dhbnnfl is bn {@link
+     *          SdtpChbnnfl} thbt hbs rfbdhfd fnd-of-strfbm, othfrwisf
+     *          {@dodf 0}
+     */
+    publid bbstrbdt int bytfs();
+
+    /**
+     * Tflls whfthfr or not thf mfssbgf is domplftf.
+     *
+     * <P> For rfdfivfd mfssbgfs {@dodf truf} indidbtfs thbt thf mfssbgf wbs
+     * domplftfly rfdfivfd. For mfssbgfs bfing sfnt {@dodf truf} indidbtfs thbt
+     * thf mfssbgf is domplftf, {@dodf fblsf} indidbtfs thbt thf mfssbgf is not
+     * domplftf. How thf sfnd dhbnnfl intfrprfts this vbluf dfpfnds on thf vbluf
+     * of its {@link SdtpStbndbrdSodkftOptions#SCTP_EXPLICIT_COMPLETE
+     * SCTP_EXPLICIT_COMPLETE} sodkft option.
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, thf mfssbgf is domplftf
+     */
+    publid bbstrbdt boolfbn isComplftf();
+
+    /**
+     * Sfts whfthfr or not thf mfssbgf is domplftf.
+     *
+     * <P> For mfssbgfs bfing sfnt {@dodf truf} indidbtfs thbt
+     * thf mfssbgf is domplftf, {@dodf fblsf} indidbtfs thbt thf mfssbgf is not
+     * domplftf. How thf sfnd dhbnnfl intfrprfts this vbluf dfpfnds on thf vbluf
+     * of its {@link SdtpStbndbrdSodkftOptions#SCTP_EXPLICIT_COMPLETE
+     * SCTP_EXPLICIT_COMPLETE} sodkft option.
+     *
+     * @pbrbm  domplftf
+     *         {@dodf truf} if, bnd only if, thf mfssbgf is domplftf
+     *
+     * @rfturn  This MfssbgfInfo
+     *
+     * @sff  MfssbgfInfo#isComplftf()
+     */
+    publid bbstrbdt MfssbgfInfo domplftf(boolfbn domplftf);
+
+    /**
+     * Tflls whfthfr or not thf mfssbgf is unordfrfd. For rfdfivfd mfssbgfs
+     * {@dodf truf} indidbtfs thbt thf mfssbgf wbs sfnt non-ordfrfd. For
+     * mfssbgfs bfing sfnt {@dodf truf} rfqufsts thf un-ordfrfd dflivfry of thf
+     * mfssbgf, {@dodf fblsf} indidbtfs thbt thf mfssbgf is ordfrfd.
+     *
+     * @rfturn  {@dodf truf} if thf mfssbgf is unordfrfd, othfrwisf
+     *          {@dodf fblsf}
+     */
+    publid bbstrbdt boolfbn isUnordfrfd();
+
+    /**
+     * Sfts whfthfr or not thf mfssbgf is unordfrfd.
+     *
+     * @pbrbm  unordfrfd
+     *         {@dodf truf} rfqufsts thf un-ordfrfd dflivfry of thf mfssbgf,
+     *         {@dodf fblsf} indidbtfs thbt thf mfssbgf is ordfrfd.
+     *
+     * @rfturn  This MfssbgfInfo
+     *
+     * @sff  MfssbgfInfo#isUnordfrfd()
+     */
+    publid bbstrbdt MfssbgfInfo unordfrfd(boolfbn unordfrfd);
+
+    /**
+     * Rfturns thf pbylobd protodol Idfntififr.
+     *
+     * <P> A vbluf indidbting thf typf of pbylobd protodol dbtb bfing
+     * trbnsmittfd/rfdfivfd. This vbluf is pbssfd bs opbquf dbtb by SCTP.
+     * {@dodf 0} indidbtfs bn unspfdififd pbylobd protodol idfntififr.
+     *
+     * @rfturn  Thf Pbylobd Protodol Idfntififr
+     */
+    publid bbstrbdt int pbylobdProtodolID();
+
+    /**
+     * Sfts thf pbylobd protodol Idfntififr.
+     *
+     * <P> A vbluf indidbting thf typf of pbylobd protodol dbtb bfing
+     * trbnsmittfd. This vbluf is pbssfd bs opbquf dbtb by SCTP.
+     *
+     * @pbrbm  ppid
+     *         Thf Pbylobd Protodol Idfntififr, or {@dodf 0} indidbtf bn
+     *         unspfdififd pbylobd protodol idfntififr.
+     *
+     * @rfturn  This MfssbgfInfo
+     *
+     * @sff  MfssbgfInfo#pbylobdProtodolID()
+     */
+    publid bbstrbdt MfssbgfInfo pbylobdProtodolID(int ppid);
+
+    /**
+     * Rfturns thf strfbm numbfr thbt thf mfssbgf wbs rfdfivfd on, if thf
+     * mfssbgf hbs bffn rfdfivfd, othfrwisf thf strfbm numbfr thbt thf mfssbgf
+     * is to bf sfnt on.
+     *
+     * @rfturn  Thf strfbm numbfr
+     */
+    publid bbstrbdt int strfbmNumbfr();
+
+    /**
+     * Sfts thf strfbm numbfr thbt thf mfssbgf is to bf sfnt on.
+     *
+     * @pbrbm  strfbmNumbfr
+     *         Thf strfbm numbfr
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf strfbmNumbfr is nfgbtivf or grfbtfr thbn {@dodf 65536}
+     *
+     * @rfturn  This MfssbgfInfo
+     */
+    publid bbstrbdt MfssbgfInfo strfbmNumbfr(int strfbmNumbfr);
+
+    /**
+     * Thf timf pfriod thbt thf sfnding sidf mby fxpirf thf mfssbgf if it hbs
+     * not bffn sfnt, or {@dodf 0} to indidbtf thbt no timfout should oddur. This
+     * vbluf is only bpplidbblf for mfssbgfs bfing sfnt, it hbs no mfbning for
+     * rfdfivfd mfssbgfs.
+     *
+     * @rfturn  Thf timf pfriod in millisfdonds, or {@dodf 0}
+     */
+    publid bbstrbdt long timfToLivf();
+
+    /**
+     * Sfts thf timf pfriod thbt thf sfnding sidf mby fxpirf thf mfssbgf if it
+     * hbs not bffn sfnt.
+     *
+     * @pbrbm  millis
+     *         Thf timf pfriod in millisfdonds, or {@dodf 0} to indidbtf thbt no
+     *         timfout should oddur
+     *
+     * @rfturn  This MfssbgfInfo
+     *
+     * @sff MfssbgfInfo#timfToLivf()
+     */
+    publid bbstrbdt MfssbgfInfo timfToLivf(long millis);
+}

@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+/**
+ * A {@dodf ConstbntCbllSitf} is b {@link CbllSitf} whosf tbrgft is pfrmbnfnt, bnd dbn nfvfr bf dhbngfd.
+ * An {@dodf invokfdynbmid} instrudtion linkfd to b {@dodf ConstbntCbllSitf} is pfrmbnfntly
+ * bound to thf dbll sitf's tbrgft.
+ * @buthor John Rosf, JSR 292 EG
+ */
+publid dlbss ConstbntCbllSitf fxtfnds CbllSitf {
+    privbtf finbl boolfbn isFrozfn;
+
+    /**
+     * Crfbtfs b dbll sitf with b pfrmbnfnt tbrgft.
+     * @pbrbm tbrgft thf tbrgft to bf pfrmbnfntly bssodibtfd with this dbll sitf
+     * @throws NullPointfrExdfption if thf proposfd tbrgft is null
+     */
+    publid ConstbntCbllSitf(MfthodHbndlf tbrgft) {
+        supfr(tbrgft);
+        isFrozfn = truf;
+    }
+
+    /**
+     * Crfbtfs b dbll sitf with b pfrmbnfnt tbrgft, possibly bound to thf dbll sitf itsflf.
+     * <p>
+     * During donstrudtion of thf dbll sitf, thf {@dodf drfbtfTbrgftHook} is invokfd to
+     * produdf thf bdtubl tbrgft, bs if by b dbll of thf form
+     * {@dodf (MfthodHbndlf) drfbtfTbrgftHook.invokf(this)}.
+     * <p>
+     * Notf thbt usfr dodf dbnnot pfrform sudh bn bdtion dirfdtly in b subdlbss donstrudtor,
+     * sindf thf tbrgft must bf fixfd bfforf thf {@dodf ConstbntCbllSitf} donstrudtor rfturns.
+     * <p>
+     * Thf hook is sbid to bind thf dbll sitf to b tbrgft mfthod hbndlf,
+     * bnd b typidbl bdtion would bf {@dodf somfTbrgft.bindTo(this)}.
+     * Howfvfr, thf hook is frff to tbkf bny bdtion whbtfvfr,
+     * indluding ignoring thf dbll sitf bnd rfturning b donstbnt tbrgft.
+     * <p>
+     * Thf rfsult rfturnfd by thf hook must bf b mfthod hbndlf of fxbdtly
+     * thf sbmf typf bs thf dbll sitf.
+     * <p>
+     * Whilf thf hook is bfing dbllfd, thf nfw {@dodf ConstbntCbllSitf}
+     * objfdt is in b pbrtiblly donstrudtfd stbtf.
+     * In this stbtf,
+     * b dbll to {@dodf gftTbrgft}, or bny othfr bttfmpt to usf thf tbrgft,
+     * will rfsult in bn {@dodf IllfgblStbtfExdfption}.
+     * It is lfgbl bt bll timfs to obtbin thf dbll sitf's typf using thf {@dodf typf} mfthod.
+     *
+     * @pbrbm tbrgftTypf thf typf of thf mfthod hbndlf to bf pfrmbnfntly bssodibtfd with this dbll sitf
+     * @pbrbm drfbtfTbrgftHook b mfthod hbndlf to invokf (on thf dbll sitf) to produdf thf dbll sitf's tbrgft
+     * @throws WrongMfthodTypfExdfption if thf hook dbnnot bf invokfd on thf rfquirfd brgumfnts,
+     *         or if thf tbrgft rfturnfd by thf hook is not of thf givfn {@dodf tbrgftTypf}
+     * @throws NullPointfrExdfption if thf hook rfturns b null vbluf
+     * @throws ClbssCbstExdfption if thf hook rfturns somfthing othfr thbn b {@dodf MfthodHbndlf}
+     * @throws Throwbblf bnything flsf thrown by thf hook fundtion
+     */
+    protfdtfd ConstbntCbllSitf(MfthodTypf tbrgftTypf, MfthodHbndlf drfbtfTbrgftHook) throws Throwbblf {
+        supfr(tbrgftTypf, drfbtfTbrgftHook);
+        isFrozfn = truf;
+    }
+
+    /**
+     * Rfturns thf tbrgft mfthod of thf dbll sitf, whidh bfhbvfs
+     * likf b {@dodf finbl} fifld of thf {@dodf ConstbntCbllSitf}.
+     * Thbt is, thf tbrgft is blwbys thf originbl vbluf pbssfd
+     * to thf donstrudtor dbll whidh drfbtfd this instbndf.
+     *
+     * @rfturn thf immutbblf linkbgf stbtf of this dbll sitf, b donstbnt mfthod hbndlf
+     * @throws IllfgblStbtfExdfption if thf {@dodf ConstbntCbllSitf} donstrudtor hbs not domplftfd
+     */
+    @Ovfrridf publid finbl MfthodHbndlf gftTbrgft() {
+        if (!isFrozfn)  throw nfw IllfgblStbtfExdfption();
+        rfturn tbrgft;
+    }
+
+    /**
+     * Alwbys throws bn {@link UnsupportfdOpfrbtionExdfption}.
+     * This kind of dbll sitf dbnnot dhbngf its tbrgft.
+     * @pbrbm ignorf b nfw tbrgft proposfd for thf dbll sitf, whidh is ignorfd
+     * @throws UnsupportfdOpfrbtionExdfption bfdbusf this kind of dbll sitf dbnnot dhbngf its tbrgft
+     */
+    @Ovfrridf publid finbl void sftTbrgft(MfthodHbndlf ignorf) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Rfturns this dbll sitf's pfrmbnfnt tbrgft.
+     * Sindf thbt tbrgft will nfvfr dhbngf, this is b dorrfdt implfmfntbtion
+     * of {@link CbllSitf#dynbmidInvokfr CbllSitf.dynbmidInvokfr}.
+     * @rfturn thf immutbblf linkbgf stbtf of this dbll sitf, b donstbnt mfthod hbndlf
+     * @throws IllfgblStbtfExdfption if thf {@dodf ConstbntCbllSitf} donstrudtor hbs not domplftfd
+     */
+    @Ovfrridf
+    publid finbl MfthodHbndlf dynbmidInvokfr() {
+        rfturn gftTbrgft();
+    }
+}

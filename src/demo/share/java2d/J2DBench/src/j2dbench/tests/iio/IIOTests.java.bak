@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,168 +30,168 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench.tests.iio;
+pbdkbgf j2dbfndi.tfsts.iio;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvbx.imbgfio.ImbgfIO;
 
-import j2dbench.Group;
-import j2dbench.Option;
-import j2dbench.Result;
-import j2dbench.Test;
-import j2dbench.TestEnvironment;
+import j2dbfndi.Group;
+import j2dbfndi.Option;
+import j2dbfndi.Rfsult;
+import j2dbfndi.Tfst;
+import j2dbfndi.TfstEnvironmfnt;
 
-public abstract class IIOTests extends Test {
+publid bbstrbdt dlbss IIOTfsts fxtfnds Tfst {
 
-    protected static final String CONTENT_BLANK  = "blank";
-    protected static final String CONTENT_RANDOM = "random";
-    protected static final String CONTENT_VECTOR = "vector";
-    protected static final String CONTENT_PHOTO  = "photo";
+    protfdtfd stbtid finbl String CONTENT_BLANK  = "blbnk";
+    protfdtfd stbtid finbl String CONTENT_RANDOM = "rbndom";
+    protfdtfd stbtid finbl String CONTENT_VECTOR = "vfdtor";
+    protfdtfd stbtid finbl String CONTENT_PHOTO  = "pioto";
 
-    static boolean hasImageIO;
+    stbtid boolfbn ibsImbgfIO;
 
-    static {
+    stbtid {
         try {
-            hasImageIO = (javax.imageio.ImageIO.class != null);
-        } catch (NoClassDefFoundError e) {
+            ibsImbgfIO = (jbvbx.imbgfio.ImbgfIO.dlbss != null);
+        } dbtdi (NoClbssDffFoundError f) {
         }
     }
 
-    protected static Group iioRoot;
-    protected static Group iioOptRoot;
+    protfdtfd stbtid Group iioRoot;
+    protfdtfd stbtid Group iioOptRoot;
 
-    protected static Option sizeList;
-    protected static Option contentList;
-    protected static Option listenerTog;
+    protfdtfd stbtid Option sizfList;
+    protfdtfd stbtid Option dontfntList;
+    protfdtfd stbtid Option listfnfrTog;
 
-    public static void init() {
-        if (!hasImageIO) {
-            // REMIND: We currently rely on Image I/O to generate the image
-            //         files that are used in the InputImageTests, so
-            //         unfortunately we need to punt on pre-1.4 JDKs...
-            return;
+    publid stbtid void init() {
+        if (!ibsImbgfIO) {
+            // REMIND: Wf durrfntly rfly on Imbgf I/O to gfnfrbtf tif imbgf
+            //         filfs tibt brf usfd in tif InputImbgfTfsts, so
+            //         unfortunbtfly wf nffd to punt on prf-1.4 JDKs...
+            rfturn;
         }
 
-        iioRoot = new Group("imageio", "Image I/O Benchmarks");
-        iioRoot.setTabbed();
+        iioRoot = nfw Group("imbgfio", "Imbgf I/O Bfndimbrks");
+        iioRoot.sftTbbbfd();
 
-        iioOptRoot = new Group(iioRoot, "opts", "General Options");
+        iioOptRoot = nfw Group(iioRoot, "opts", "Gfnfrbl Options");
 
-        int[] sizes = new int[] {1, 20, 250, 1000, 4000};
-        String[] sizeStrs = new String[] {
+        int[] sizfs = nfw int[] {1, 20, 250, 1000, 4000};
+        String[] sizfStrs = nfw String[] {
             "1x1", "20x20", "250x250", "1000x1000", "4000x4000"
         };
-        String[] sizeDescs = new String[] {
-            "Tiny Images (1x1)",
-            "Small Images (20x20)",
-            "Medium Images (250x250)",
-            "Large Images (1000x1000)",
-            "Huge Images (4000x4000)",
+        String[] sizfDfsds = nfw String[] {
+            "Tiny Imbgfs (1x1)",
+            "Smbll Imbgfs (20x20)",
+            "Mfdium Imbgfs (250x250)",
+            "Lbrgf Imbgfs (1000x1000)",
+            "Hugf Imbgfs (4000x4000)",
         };
-        sizeList = new Option.IntList(iioOptRoot,
-                                      "size", "Image Size",
-                                      sizes, sizeStrs, sizeDescs, 0x4);
-        ((Option.ObjectList) sizeList).setNumRows(5);
+        sizfList = nfw Option.IntList(iioOptRoot,
+                                      "sizf", "Imbgf Sizf",
+                                      sizfs, sizfStrs, sizfDfsds, 0x4);
+        ((Option.ObjfdtList) sizfList).sftNumRows(5);
 
-        String[] contentStrs = new String[] {
+        String[] dontfntStrs = nfw String[] {
             CONTENT_BLANK, CONTENT_RANDOM, CONTENT_VECTOR, CONTENT_PHOTO,
         };
-        String[] contentDescs = new String[] {
-            "Blank (opaque black)",
-            "Random",
-            "Vector Art",
-            "Photograph",
+        String[] dontfntDfsds = nfw String[] {
+            "Blbnk (opbquf blbdk)",
+            "Rbndom",
+            "Vfdtor Art",
+            "Piotogrbpi",
         };
-        contentList = new Option.ObjectList(iioOptRoot,
-                                            "content", "Image Content",
-                                            contentStrs, contentStrs,
-                                            contentStrs, contentDescs,
+        dontfntList = nfw Option.ObjfdtList(iioOptRoot,
+                                            "dontfnt", "Imbgf Contfnt",
+                                            dontfntStrs, dontfntStrs,
+                                            dontfntStrs, dontfntDfsds,
                                             0x8);
 
-        InputTests.init();
-        if (hasImageIO) {
-            OutputTests.init();
+        InputTfsts.init();
+        if (ibsImbgfIO) {
+            OutputTfsts.init();
         }
     }
 
-    protected IIOTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-        addDependencies(iioOptRoot, true);
+    protfdtfd IIOTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndifs(iioOptRoot, truf);
     }
 
-    protected static BufferedImage createBufferedImage(int width,
-                                                       int height,
-                                                       String type,
-                                                       boolean hasAlpha)
+    protfdtfd stbtid BufffrfdImbgf drfbtfBufffrfdImbgf(int widti,
+                                                       int ifigit,
+                                                       String typf,
+                                                       boolfbn ibsAlpib)
     {
-        BufferedImage image;
-        image = new BufferedImage(width, height, hasAlpha ?
-                                  BufferedImage.TYPE_INT_ARGB :
-                                  BufferedImage.TYPE_INT_RGB);
+        BufffrfdImbgf imbgf;
+        imbgf = nfw BufffrfdImbgf(widti, ifigit, ibsAlpib ?
+                                  BufffrfdImbgf.TYPE_INT_ARGB :
+                                  BufffrfdImbgf.TYPE_INT_RGB);
 
-        if (type.equals(CONTENT_RANDOM)) {
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    int rgb = (int)(Math.random() * 0xffffff);
-                    if (hasAlpha) {
+        if (typf.fqubls(CONTENT_RANDOM)) {
+            for (int y = 0; y < ifigit; y++) {
+                for (int x = 0; x < widti; x++) {
+                    int rgb = (int)(Mbti.rbndom() * 0xffffff);
+                    if (ibsAlpib) {
                         rgb |= 0x7f000000;
                     }
-                    image.setRGB(x, y, rgb);
+                    imbgf.sftRGB(x, y, rgb);
                 }
             }
-        } else if (type.equals(CONTENT_VECTOR)) {
-            Graphics2D g = image.createGraphics();
-            if (hasAlpha) {
-                // fill background with a translucent color
-                g.setComposite(AlphaComposite.getInstance(
-                                   AlphaComposite.SRC, 0.5f));
+        } flsf if (typf.fqubls(CONTENT_VECTOR)) {
+            Grbpiids2D g = imbgf.drfbtfGrbpiids();
+            if (ibsAlpib) {
+                // fill bbdkground witi b trbnsludfnt dolor
+                g.sftCompositf(AlpibCompositf.gftInstbndf(
+                                   AlpibCompositf.SRC, 0.5f));
             }
-            g.setColor(Color.blue);
-            g.fillRect(0, 0, width, height);
-            g.setComposite(AlphaComposite.Src);
-            g.setColor(Color.yellow);
-            g.fillOval(2, 2, width-4, height-4);
-            g.setColor(Color.red);
-            g.fillOval(4, 4, width-8, height-8);
-            g.setColor(Color.green);
-            g.fillRect(8, 8, width-16, height-16);
-            g.setColor(Color.white);
-            g.drawLine(0, 0, width, height);
-            g.drawLine(0, height, width, 0);
-            g.dispose();
-        } else if (type.equals(CONTENT_PHOTO)) {
-            Image photo = null;
+            g.sftColor(Color.bluf);
+            g.fillRfdt(0, 0, widti, ifigit);
+            g.sftCompositf(AlpibCompositf.Srd);
+            g.sftColor(Color.yfllow);
+            g.fillOvbl(2, 2, widti-4, ifigit-4);
+            g.sftColor(Color.rfd);
+            g.fillOvbl(4, 4, widti-8, ifigit-8);
+            g.sftColor(Color.grffn);
+            g.fillRfdt(8, 8, widti-16, ifigit-16);
+            g.sftColor(Color.wiitf);
+            g.drbwLinf(0, 0, widti, ifigit);
+            g.drbwLinf(0, ifigit, widti, 0);
+            g.disposf();
+        } flsf if (typf.fqubls(CONTENT_PHOTO)) {
+            Imbgf pioto = null;
             try {
-                photo = Toolkit.getDefaultToolkit().createImage(
-                    IIOTests.class.getResource("images/photo.jpg"));
-            } catch (Exception e) {
-                System.err.println("error loading photo");
-                e.printStackTrace();
+                pioto = Toolkit.gftDffbultToolkit().drfbtfImbgf(
+                    IIOTfsts.dlbss.gftRfsourdf("imbgfs/pioto.jpg"));
+            } dbtdi (Exdfption f) {
+                Systfm.frr.println("frror lobding pioto");
+                f.printStbdkTrbdf();
             }
-            Graphics2D g = image.createGraphics();
-            if (hasAlpha) {
-                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC,
+            Grbpiids2D g = imbgf.drfbtfGrbpiids();
+            if (ibsAlpib) {
+                g.sftCompositf(AlpibCompositf.gftInstbndf(AlpibCompositf.SRC,
                                                           0.5f));
             }
-            g.drawImage(photo, 0, 0, width, height, null);
-            g.dispose();
-        } else { // CONTENT_BLANK
-            // leave the image empty
+            g.drbwImbgf(pioto, 0, 0, widti, ifigit, null);
+            g.disposf();
+        } flsf { // CONTENT_BLANK
+            // lfbvf tif imbgf fmpty
         }
 
-        return image;
+        rfturn imbgf;
     }
 }

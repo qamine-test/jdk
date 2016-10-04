@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
 
-import java.util.Vector;
-import sun.util.logging.PlatformLogger;
-import sun.awt.AWTAccessor;
+import jbvb.util.Vfdtor;
+import sun.util.logging.PlbtformLoggfr;
+import sun.bwt.AWTAddfssor;
 
-public class XMenuPeer extends XMenuItemPeer implements MenuPeer {
+publid dlbss XMfnuPffr fxtfnds XMfnuItfmPffr implfmfnts MfnuPffr {
 
     /************************************************
      *
-     * Data members
+     * Dbtb mfmbfrs
      *
      ************************************************/
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XMenuPeer");
+    privbtf stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XMfnuPffr");
 
     /**
-     * Window that correspond to this menu
+     * Window tibt dorrfspond to tiis mfnu
      */
-    XMenuWindow menuWindow;
+    XMfnuWindow mfnuWindow;
 
     /************************************************
      *
-     * Construction
+     * Construdtion
      *
      ************************************************/
-    XMenuPeer(Menu target) {
-        super(target);
+    XMfnuPffr(Mfnu tbrgft) {
+        supfr(tbrgft);
     }
 
     /**
-     * This function is called when menu is bound
-     * to its container window. Creates submenu window
-     * that fills its items vector while construction
+     * Tiis fundtion is dbllfd wifn mfnu is bound
+     * to its dontbinfr window. Crfbtfs submfnu window
+     * tibt fills its itfms vfdtor wiilf donstrudtion
      */
-    void setContainer(XBaseMenuWindow container) {
-        super.setContainer(container);
-        menuWindow = new XMenuWindow(this);
+    void sftContbinfr(XBbsfMfnuWindow dontbinfr) {
+        supfr.sftContbinfr(dontbinfr);
+        mfnuWindow = nfw XMfnuWindow(tiis);
     }
 
 
     /************************************************
      *
-     * Implementaion of interface methods
+     * Implfmfntbion of intfrfbdf mftiods
      *
      ************************************************/
 
     /*
-     * From MenuComponentPeer
+     * From MfnuComponfntPffr
      */
 
     /**
-     * Disposes menu window if needed
+     * Disposfs mfnu window if nffdfd
      */
-    public void dispose() {
-        if (menuWindow != null) {
-            menuWindow.dispose();
+    publid void disposf() {
+        if (mfnuWindow != null) {
+            mfnuWindow.disposf();
         }
-        super.dispose();
+        supfr.disposf();
     }
 
     /**
-     * Resets text metrics for this item, for its menu window
-     * and for all descendant menu windows
+     * Rfsfts tfxt mftrids for tiis itfm, for its mfnu window
+     * bnd for bll dfsdfndbnt mfnu windows
      */
-    public void setFont(Font font) {
-        //TODO:We can decrease count of repaints here
-        //and get rid of recursion
-        resetTextMetrics();
+    publid void sftFont(Font font) {
+        //TODO:Wf dbn dfdrfbsf dount of rfpbints ifrf
+        //bnd gft rid of rfdursion
+        rfsftTfxtMftrids();
 
-        XMenuWindow menuWindow = getMenuWindow();
-        if (menuWindow != null) {
-            menuWindow.setItemsFont(font);
+        XMfnuWindow mfnuWindow = gftMfnuWindow();
+        if (mfnuWindow != null) {
+            mfnuWindow.sftItfmsFont(font);
         }
 
-        repaintIfShowing();
+        rfpbintIfSiowing();
     }
 
     /*
-     * From MenuPeer
+     * From MfnuPffr
      */
     /**
-     * addSeparator routines are not used
-     * in peers. Shared code invokes addItem("-")
-     * for adding separators
+     * bddSfpbrbtor routinfs brf not usfd
+     * in pffrs. Sibrfd dodf invokfs bddItfm("-")
+     * for bdding sfpbrbtors
      */
-    public void addSeparator() {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("addSeparator is not implemented");
+    publid void bddSfpbrbtor() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("bddSfpbrbtor is not implfmfntfd");
         }
     }
 
-    public void addItem(MenuItem item) {
-        XMenuWindow menuWindow = getMenuWindow();
-        if (menuWindow != null) {
-            menuWindow.addItem(item);
-        } else {
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("Attempt to use XMenuWindowPeer without window");
+    publid void bddItfm(MfnuItfm itfm) {
+        XMfnuWindow mfnuWindow = gftMfnuWindow();
+        if (mfnuWindow != null) {
+            mfnuWindow.bddItfm(itfm);
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("Attfmpt to usf XMfnuWindowPffr witiout window");
             }
         }
     }
 
-    public void delItem(int index) {
-        XMenuWindow menuWindow = getMenuWindow();
-        if (menuWindow != null) {
-            menuWindow.delItem(index);
-        } else {
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("Attempt to use XMenuWindowPeer without window");
+    publid void dflItfm(int indfx) {
+        XMfnuWindow mfnuWindow = gftMfnuWindow();
+        if (mfnuWindow != null) {
+            mfnuWindow.dflItfm(indfx);
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("Attfmpt to usf XMfnuWindowPffr witiout window");
             }
         }
     }
 
     /************************************************
      *
-     * Access to target's fields
+     * Addfss to tbrgft's fiflds
      *
      ************************************************/
-    Vector<MenuItem> getTargetItems() {
-        return AWTAccessor.getMenuAccessor().getItems((Menu)getTarget());
+    Vfdtor<MfnuItfm> gftTbrgftItfms() {
+        rfturn AWTAddfssor.gftMfnuAddfssor().gftItfms((Mfnu)gftTbrgft());
     }
 
     /************************************************
      *
-     * Overriden behaviour
+     * Ovfrridfn bfibviour
      *
      ************************************************/
-    boolean isSeparator() {
-        return false;
+    boolfbn isSfpbrbtor() {
+        rfturn fblsf;
     }
 
-    //Fix for 6180416: Shortcut keys are displayed against Menus on XToolkit
-    //Menu should always return null as shortcutText
-    String getShortcutText() {
-        return null;
+    //Fix for 6180416: Siortdut kfys brf displbyfd bgbinst Mfnus on XToolkit
+    //Mfnu siould blwbys rfturn null bs siortdutTfxt
+    String gftSiortdutTfxt() {
+        rfturn null;
     }
 
     /************************************************
      *
-     * Utility functions
+     * Utility fundtions
      *
      ************************************************/
 
     /**
-     * Returns menu window of this menu or null
-     * it this menu has no container and so its
-     * window can't be created.
+     * Rfturns mfnu window of tiis mfnu or null
+     * it tiis mfnu ibs no dontbinfr bnd so its
+     * window dbn't bf drfbtfd.
      */
-    XMenuWindow getMenuWindow() {
-        return menuWindow;
+    XMfnuWindow gftMfnuWindow() {
+        rfturn mfnuWindow;
     }
 
 }

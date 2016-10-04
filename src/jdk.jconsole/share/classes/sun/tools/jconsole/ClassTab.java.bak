@@ -1,248 +1,248 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.lang.management.*;
-import java.lang.reflect.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.lbng.mbnbgfmfnt.*;
+import jbvb.lbng.rfflfdt.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-
-
-import java.util.concurrent.*;
-
-import static sun.tools.jconsole.Formatter.*;
-import static sun.tools.jconsole.Utilities.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
 
 
-@SuppressWarnings("serial")
-class ClassTab extends Tab implements ActionListener {
-    PlotterPanel loadedClassesMeter;
-    TimeComboBox timeComboBox;
-    private JCheckBox verboseCheckBox;
-    private HTMLPane details;
-    private ClassOverviewPanel overviewPanel;
-    private boolean plotterListening = false;
+import jbvb.util.dondurrfnt.*;
 
-    private static final String loadedPlotterKey        = "loaded";
-    private static final String totalLoadedPlotterKey   = "totalLoaded";
-    private static final Color  loadedPlotterColor      = Plotter.defaultColor;
-    private static final Color  totalLoadedPlotterColor = Color.red;
+import stbtid sun.tools.jdonsolf.Formbttfr.*;
+import stbtid sun.tools.jdonsolf.Utilitifs.*;
+
+
+@SupprfssWbrnings("sfribl")
+dlbss ClbssTbb fxtfnds Tbb implfmfnts AdtionListfnfr {
+    PlottfrPbnfl lobdfdClbssfsMftfr;
+    TimfComboBox timfComboBox;
+    privbtf JCifdkBox vfrbosfCifdkBox;
+    privbtf HTMLPbnf dftbils;
+    privbtf ClbssOvfrvifwPbnfl ovfrvifwPbnfl;
+    privbtf boolfbn plottfrListfning = fblsf;
+
+    privbtf stbtid finbl String lobdfdPlottfrKfy        = "lobdfd";
+    privbtf stbtid finbl String totblLobdfdPlottfrKfy   = "totblLobdfd";
+    privbtf stbtid finbl Color  lobdfdPlottfrColor      = Plottfr.dffbultColor;
+    privbtf stbtid finbl Color  totblLobdfdPlottfrColor = Color.rfd;
 
     /*
-      Hierarchy of panels and layouts for this tab:
+      Hifrbrdiy of pbnfls bnd lbyouts for tiis tbb:
 
-        ClassTab (BorderLayout)
+        ClbssTbb (BordfrLbyout)
 
-            North:  topPanel (BorderLayout)
+            Norti:  topPbnfl (BordfrLbyout)
 
-                        Center: controlPanel (FlowLayout)
-                                    timeComboBox
+                        Cfntfr: dontrolPbnfl (FlowLbyout)
+                                    timfComboBox
 
-                        East:   topRightPanel (FlowLayout)
-                                    verboseCheckBox
+                        Ebst:   topRigitPbnfl (FlowLbyout)
+                                    vfrbosfCifdkBox
 
-            Center: plotterPanel (BorderLayout)
+            Cfntfr: plottfrPbnfl (BordfrLbyout)
 
-                        Center: plotter
+                        Cfntfr: plottfr
 
-            South:  bottomPanel (BorderLayout)
+            Souti:  bottomPbnfl (BordfrLbyout)
 
-                        Center: details
+                        Cfntfr: dftbils
     */
 
-    public static String getTabName() {
-        return Messages.CLASSES;
+    publid stbtid String gftTbbNbmf() {
+        rfturn Mfssbgfs.CLASSES;
     }
 
-    public ClassTab(VMPanel vmPanel) {
-        super(vmPanel, getTabName());
+    publid ClbssTbb(VMPbnfl vmPbnfl) {
+        supfr(vmPbnfl, gftTbbNbmf());
 
-        setLayout(new BorderLayout(0, 0));
-        setBorder(new EmptyBorder(4, 4, 3, 4));
+        sftLbyout(nfw BordfrLbyout(0, 0));
+        sftBordfr(nfw EmptyBordfr(4, 4, 3, 4));
 
-        JPanel topPanel     = new JPanel(new BorderLayout());
-        JPanel plotterPanel = new JPanel(new BorderLayout());
-        JPanel bottomPanel  = new JPanel(new BorderLayout());
+        JPbnfl topPbnfl     = nfw JPbnfl(nfw BordfrLbyout());
+        JPbnfl plottfrPbnfl = nfw JPbnfl(nfw BordfrLbyout());
+        JPbnfl bottomPbnfl  = nfw JPbnfl(nfw BordfrLbyout());
 
-        add(topPanel,     BorderLayout.NORTH);
-        add(plotterPanel, BorderLayout.CENTER);
-        add(bottomPanel,  BorderLayout.SOUTH);
+        bdd(topPbnfl,     BordfrLbyout.NORTH);
+        bdd(plottfrPbnfl, BordfrLbyout.CENTER);
+        bdd(bottomPbnfl,  BordfrLbyout.SOUTH);
 
-        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
-        topPanel.add(controlPanel, BorderLayout.CENTER);
+        JPbnfl dontrolPbnfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.CENTER, 20, 5));
+        topPbnfl.bdd(dontrolPbnfl, BordfrLbyout.CENTER);
 
-        verboseCheckBox = new JCheckBox(Messages.VERBOSE_OUTPUT);
-        verboseCheckBox.addActionListener(this);
-        verboseCheckBox.setToolTipText(Messages.VERBOSE_OUTPUT_TOOLTIP);
-        JPanel topRightPanel = new JPanel();
-        topRightPanel.setBorder(new EmptyBorder(0, 65-8, 0, 70));
-        topRightPanel.add(verboseCheckBox);
-        topPanel.add(topRightPanel, BorderLayout.AFTER_LINE_ENDS);
+        vfrbosfCifdkBox = nfw JCifdkBox(Mfssbgfs.VERBOSE_OUTPUT);
+        vfrbosfCifdkBox.bddAdtionListfnfr(tiis);
+        vfrbosfCifdkBox.sftToolTipTfxt(Mfssbgfs.VERBOSE_OUTPUT_TOOLTIP);
+        JPbnfl topRigitPbnfl = nfw JPbnfl();
+        topRigitPbnfl.sftBordfr(nfw EmptyBordfr(0, 65-8, 0, 70));
+        topRigitPbnfl.bdd(vfrbosfCifdkBox);
+        topPbnfl.bdd(topRigitPbnfl, BordfrLbyout.AFTER_LINE_ENDS);
 
-        loadedClassesMeter = new PlotterPanel(Messages.NUMBER_OF_LOADED_CLASSES,
-                                              Plotter.Unit.NONE, false);
-        loadedClassesMeter.plotter.createSequence(loadedPlotterKey,
-                                                  Messages.LOADED,
-                                                  loadedPlotterColor,
-                                                  true);
-        loadedClassesMeter.plotter.createSequence(totalLoadedPlotterKey,
-                                                  Messages.TOTAL_LOADED,
-                                                  totalLoadedPlotterColor,
-                                                  true);
-        setAccessibleName(loadedClassesMeter.plotter,
-                          Messages.CLASS_TAB_LOADED_CLASSES_PLOTTER_ACCESSIBLE_NAME);
-        plotterPanel.add(loadedClassesMeter);
+        lobdfdClbssfsMftfr = nfw PlottfrPbnfl(Mfssbgfs.NUMBER_OF_LOADED_CLASSES,
+                                              Plottfr.Unit.NONE, fblsf);
+        lobdfdClbssfsMftfr.plottfr.drfbtfSfqufndf(lobdfdPlottfrKfy,
+                                                  Mfssbgfs.LOADED,
+                                                  lobdfdPlottfrColor,
+                                                  truf);
+        lobdfdClbssfsMftfr.plottfr.drfbtfSfqufndf(totblLobdfdPlottfrKfy,
+                                                  Mfssbgfs.TOTAL_LOADED,
+                                                  totblLobdfdPlottfrColor,
+                                                  truf);
+        sftAddfssiblfNbmf(lobdfdClbssfsMftfr.plottfr,
+                          Mfssbgfs.CLASS_TAB_LOADED_CLASSES_PLOTTER_ACCESSIBLE_NAME);
+        plottfrPbnfl.bdd(lobdfdClbssfsMftfr);
 
-        timeComboBox = new TimeComboBox(loadedClassesMeter.plotter);
-        controlPanel.add(new LabeledComponent(Messages.TIME_RANGE_COLON,
-                                              Resources.getMnemonicInt(Messages.TIME_RANGE_COLON),
-                                              timeComboBox));
+        timfComboBox = nfw TimfComboBox(lobdfdClbssfsMftfr.plottfr);
+        dontrolPbnfl.bdd(nfw LbbflfdComponfnt(Mfssbgfs.TIME_RANGE_COLON,
+                                              Rfsourdfs.gftMnfmonidInt(Mfssbgfs.TIME_RANGE_COLON),
+                                              timfComboBox));
 
-        LabeledComponent.layout(plotterPanel);
+        LbbflfdComponfnt.lbyout(plottfrPbnfl);
 
-        bottomPanel.setBorder(new CompoundBorder(new TitledBorder(Messages.DETAILS),
-                                                 new EmptyBorder(10, 10, 10, 10)));
+        bottomPbnfl.sftBordfr(nfw CompoundBordfr(nfw TitlfdBordfr(Mfssbgfs.DETAILS),
+                                                 nfw EmptyBordfr(10, 10, 10, 10)));
 
-        details = new HTMLPane();
-        setAccessibleName(details, Messages.DETAILS);
-        JScrollPane scrollPane = new JScrollPane(details);
-        scrollPane.setPreferredSize(new Dimension(0, 150));
-        bottomPanel.add(scrollPane, BorderLayout.SOUTH);
+        dftbils = nfw HTMLPbnf();
+        sftAddfssiblfNbmf(dftbils, Mfssbgfs.DETAILS);
+        JSdrollPbnf sdrollPbnf = nfw JSdrollPbnf(dftbils);
+        sdrollPbnf.sftPrfffrrfdSizf(nfw Dimfnsion(0, 150));
+        bottomPbnfl.bdd(sdrollPbnf, BordfrLbyout.SOUTH);
 
     }
 
-    public void actionPerformed(ActionEvent ev) {
-        final boolean b = verboseCheckBox.isSelected();
-        workerAdd(new Runnable() {
-            public void run() {
-                ProxyClient proxyClient = vmPanel.getProxyClient();
+    publid void bdtionPfrformfd(AdtionEvfnt fv) {
+        finbl boolfbn b = vfrbosfCifdkBox.isSflfdtfd();
+        workfrAdd(nfw Runnbblf() {
+            publid void run() {
+                ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
                 try {
-                    proxyClient.getClassLoadingMXBean().setVerbose(b);
-                } catch (UndeclaredThrowableException e) {
-                    proxyClient.markAsDead();
-                } catch (IOException ex) {
-                    // Ignore
+                    proxyClifnt.gftClbssLobdingMXBfbn().sftVfrbosf(b);
+                } dbtdi (UndfdlbrfdTirowbblfExdfption f) {
+                    proxyClifnt.mbrkAsDfbd();
+                } dbtdi (IOExdfption fx) {
+                    // Ignorf
                 }
             }
         });
     }
 
 
-    public SwingWorker<?, ?> newSwingWorker() {
-        final ProxyClient proxyClient = vmPanel.getProxyClient();
+    publid SwingWorkfr<?, ?> nfwSwingWorkfr() {
+        finbl ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
 
-        if (!plotterListening) {
-            proxyClient.addWeakPropertyChangeListener(loadedClassesMeter.plotter);
-            plotterListening = true;
+        if (!plottfrListfning) {
+            proxyClifnt.bddWfbkPropfrtyCibngfListfnfr(lobdfdClbssfsMftfr.plottfr);
+            plottfrListfning = truf;
         }
 
-        return new SwingWorker<Boolean, Object>() {
-            private long clCount, cuCount, ctCount;
-            private boolean isVerbose;
-            private String detailsStr;
-            private long timeStamp;
+        rfturn nfw SwingWorkfr<Boolfbn, Objfdt>() {
+            privbtf long dlCount, duCount, dtCount;
+            privbtf boolfbn isVfrbosf;
+            privbtf String dftbilsStr;
+            privbtf long timfStbmp;
 
-            public Boolean doInBackground() {
+            publid Boolfbn doInBbdkground() {
                 try {
-                    ClassLoadingMXBean classLoadingMBean = proxyClient.getClassLoadingMXBean();
+                    ClbssLobdingMXBfbn dlbssLobdingMBfbn = proxyClifnt.gftClbssLobdingMXBfbn();
 
-                    clCount = classLoadingMBean.getLoadedClassCount();
-                    cuCount = classLoadingMBean.getUnloadedClassCount();
-                    ctCount = classLoadingMBean.getTotalLoadedClassCount();
-                    isVerbose = classLoadingMBean.isVerbose();
-                    detailsStr = formatDetails();
-                    timeStamp = System.currentTimeMillis();
+                    dlCount = dlbssLobdingMBfbn.gftLobdfdClbssCount();
+                    duCount = dlbssLobdingMBfbn.gftUnlobdfdClbssCount();
+                    dtCount = dlbssLobdingMBfbn.gftTotblLobdfdClbssCount();
+                    isVfrbosf = dlbssLobdingMBfbn.isVfrbosf();
+                    dftbilsStr = formbtDftbils();
+                    timfStbmp = Systfm.durrfntTimfMillis();
 
-                    return true;
-                } catch (UndeclaredThrowableException e) {
-                    proxyClient.markAsDead();
-                    return false;
-                } catch (IOException e) {
-                    return false;
+                    rfturn truf;
+                } dbtdi (UndfdlbrfdTirowbblfExdfption f) {
+                    proxyClifnt.mbrkAsDfbd();
+                    rfturn fblsf;
+                } dbtdi (IOExdfption f) {
+                    rfturn fblsf;
                 }
             }
 
-            protected void done() {
+            protfdtfd void donf() {
                 try {
-                    if (get()) {
-                        loadedClassesMeter.plotter.addValues(timeStamp, clCount, ctCount);
+                    if (gft()) {
+                        lobdfdClbssfsMftfr.plottfr.bddVblufs(timfStbmp, dlCount, dtCount);
 
-                        if (overviewPanel != null) {
-                            overviewPanel.updateClassInfo(ctCount, clCount);
-                            overviewPanel.getPlotter().addValues(timeStamp, clCount);
+                        if (ovfrvifwPbnfl != null) {
+                            ovfrvifwPbnfl.updbtfClbssInfo(dtCount, dlCount);
+                            ovfrvifwPbnfl.gftPlottfr().bddVblufs(timfStbmp, dlCount);
                         }
 
-                        loadedClassesMeter.setValueLabel(clCount + "");
-                        verboseCheckBox.setSelected(isVerbose);
-                        details.setText(detailsStr);
+                        lobdfdClbssfsMftfr.sftVblufLbbfl(dlCount + "");
+                        vfrbosfCifdkBox.sftSflfdtfd(isVfrbosf);
+                        dftbils.sftTfxt(dftbilsStr);
                     }
-                } catch (InterruptedException ex) {
-                } catch (ExecutionException ex) {
-                    if (JConsole.isDebug()) {
-                        ex.printStackTrace();
+                } dbtdi (IntfrruptfdExdfption fx) {
+                } dbtdi (ExfdutionExdfption fx) {
+                    if (JConsolf.isDfbug()) {
+                        fx.printStbdkTrbdf();
                     }
                 }
             }
 
-            private String formatDetails() {
-                String text = "<table cellspacing=0 cellpadding=0>";
+            privbtf String formbtDftbils() {
+                String tfxt = "<tbblf dfllspbding=0 dfllpbdding=0>";
 
-                long time = System.currentTimeMillis();
-                String timeStamp = formatDateTime(time);
-                text += newRow(Messages.TIME, timeStamp);
-                text += newRow(Messages.CURRENT_CLASSES_LOADED, justify(clCount, 5));
-                text += newRow(Messages.TOTAL_CLASSES_LOADED,   justify(ctCount, 5));
-                text += newRow(Messages.TOTAL_CLASSES_UNLOADED, justify(cuCount, 5));
+                long timf = Systfm.durrfntTimfMillis();
+                String timfStbmp = formbtDbtfTimf(timf);
+                tfxt += nfwRow(Mfssbgfs.TIME, timfStbmp);
+                tfxt += nfwRow(Mfssbgfs.CURRENT_CLASSES_LOADED, justify(dlCount, 5));
+                tfxt += nfwRow(Mfssbgfs.TOTAL_CLASSES_LOADED,   justify(dtCount, 5));
+                tfxt += nfwRow(Mfssbgfs.TOTAL_CLASSES_UNLOADED, justify(duCount, 5));
 
-                return text;
+                rfturn tfxt;
             }
         };
     }
 
 
-    OverviewPanel[] getOverviewPanels() {
-        if (overviewPanel == null) {
-            overviewPanel = new ClassOverviewPanel();
+    OvfrvifwPbnfl[] gftOvfrvifwPbnfls() {
+        if (ovfrvifwPbnfl == null) {
+            ovfrvifwPbnfl = nfw ClbssOvfrvifwPbnfl();
         }
-        return new OverviewPanel[] { overviewPanel };
+        rfturn nfw OvfrvifwPbnfl[] { ovfrvifwPbnfl };
     }
 
-    private static class ClassOverviewPanel extends OverviewPanel {
-        ClassOverviewPanel() {
-            super(Messages.CLASSES, loadedPlotterKey, Messages.LOADED, null);
+    privbtf stbtid dlbss ClbssOvfrvifwPbnfl fxtfnds OvfrvifwPbnfl {
+        ClbssOvfrvifwPbnfl() {
+            supfr(Mfssbgfs.CLASSES, lobdfdPlottfrKfy, Mfssbgfs.LOADED, null);
         }
 
-        private void updateClassInfo(long total, long loaded) {
-            long unloaded = (total - loaded);
-            getInfoLabel().setText(Resources.format(Messages.CLASS_TAB_INFO_LABEL_FORMAT,
-                                   loaded, unloaded, total));
+        privbtf void updbtfClbssInfo(long totbl, long lobdfd) {
+            long unlobdfd = (totbl - lobdfd);
+            gftInfoLbbfl().sftTfxt(Rfsourdfs.formbt(Mfssbgfs.CLASS_TAB_INFO_LABEL_FORMAT,
+                                   lobdfd, unlobdfd, totbl));
         }
     }
 }

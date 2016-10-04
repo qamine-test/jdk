@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-#include <string.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <jni.h>
-#include "SharedMemory.h"
-#include "com_sun_tools_jdi_SharedMemoryConnection.h"
-#include "jdwpTransport.h"
-#include "shmemBase.h"
-#include "sys.h"
+#indludf <string.i>
+#indludf <stdlib.i>
+#indludf <stddff.i>
+#indludf <jni.i>
+#indludf "SibrfdMfmory.i"
+#indludf "dom_sun_tools_jdi_SibrfdMfmoryConnfdtion.i"
+#indludf "jdwpTrbnsport.i"
+#indludf "simfmBbsf.i"
+#indludf "sys.i"
 
 /*
- * JNI interface to the shared memory transport. These JNI methods
- * call the base shared memory support to do the real work.
+ * JNI intfrfbdf to tif sibrfd mfmory trbnsport. Tifsf JNI mftiods
+ * dbll tif bbsf sibrfd mfmory support to do tif rfbl work.
  *
- * That is, this is the front-ends interface to our shared memory
- * communication code.
+ * Tibt is, tiis is tif front-fnds intfrfbdf to our sibrfd mfmory
+ * dommunidbtion dodf.
  */
 
 /*
- * Cached architecture
+ * Cbdifd brdiitfdturf
  */
-static int byte_ordering_known;
-static int is_big_endian;
+stbtid int bytf_ordfring_known;
+stbtid int is_big_fndibn;
 
 
 /*
- * Returns 1 if big endian architecture
+ * Rfturns 1 if big fndibn brdiitfdturf
  */
-static int isBigEndian() {
-    if (!byte_ordering_known) {
-        unsigned int i = 0xff000000;
-        if (((char *)(&i))[0] != 0) {
-            is_big_endian = 1;
-        } else {
-            is_big_endian = 0;
+stbtid int isBigEndibn() {
+    if (!bytf_ordfring_known) {
+        unsignfd int i = 0xff000000;
+        if (((dibr *)(&i))[0] != 0) {
+            is_big_fndibn = 1;
+        } flsf {
+            is_big_fndibn = 0;
         }
-        byte_ordering_known = 1;
+        bytf_ordfring_known = 1;
     }
-    return is_big_endian;
+    rfturn is_big_fndibn;
 }
 
 /*
- * Convert to big endian
+ * Convfrt to big fndibn
  */
-static jint intToBigInt(jint i) {
-    unsigned int b[4];
-    if (isBigEndian()) {
-        return i;
+stbtid jint intToBigInt(jint i) {
+    unsignfd int b[4];
+    if (isBigEndibn()) {
+        rfturn i;
     }
     b[0] = (i >> 24) & 0xff;
     b[1] = (i >> 16) & 0xff;
@@ -77,251 +77,251 @@ static jint intToBigInt(jint i) {
     b[3] = i & 0xff;
 
     /*
-     * It doesn't matter that jint is signed as we are or'ing
-     * and hence end up with the correct bits.
+     * It dofsn't mbttfr tibt jint is signfd bs wf brf or'ing
+     * bnd ifndf fnd up witi tif dorrfdt bits.
      */
-    return (b[3] << 24) | (b[2] << 16) | (b[1] << 8) | b[0];
+    rfturn (b[3] << 24) | (b[2] << 16) | (b[1] << 8) | b[0];
 }
 
 /*
- * Convert unsigned short to big endian
+ * Convfrt unsignfd siort to big fndibn
  */
-static unsigned short shortToBigShort(unsigned short s) {
-    unsigned int b[2];
-    if (isBigEndian()) {
-        return s;
+stbtid unsignfd siort siortToBigSiort(unsignfd siort s) {
+    unsignfd int b[2];
+    if (isBigEndibn()) {
+        rfturn s;
     }
     b[0] = (s >> 8) & 0xff;
     b[1] = s & 0xff;
-    return (b[1] << 8) + b[0];
+    rfturn (b[1] << 8) + b[0];
 }
 
 /*
- * Create a byte[] from a packet struct. All data in the byte array
- * is JDWP packet suitable for wire transmission. That is, all fields,
- * and data are in big-endian format as required by the JDWP
- * specification.
+ * Crfbtf b bytf[] from b pbdkft strudt. All dbtb in tif bytf brrby
+ * is JDWP pbdkft suitbblf for wirf trbnsmission. Tibt is, bll fiflds,
+ * bnd dbtb brf in big-fndibn formbt bs rfquirfd by tif JDWP
+ * spfdifidbtion.
  */
-static jbyteArray
-packetToByteArray(JNIEnv *env, jdwpPacket *str)
+stbtid jbytfArrby
+pbdkftToBytfArrby(JNIEnv *fnv, jdwpPbdkft *str)
 {
-    jbyteArray array;
-    jsize data_length;
-    jint total_length;
+    jbytfArrby brrby;
+    jsizf dbtb_lfngti;
+    jint totbl_lfngti;
     jint tmpInt;
 
-    total_length = str->type.cmd.len;
-    data_length = total_length - 11;
+    totbl_lfngti = str->typf.dmd.lfn;
+    dbtb_lfngti = totbl_lfngti - 11;
 
-    /* total packet length is header + data */
-    array = (*env)->NewByteArray(env, total_length);
-    if ((*env)->ExceptionOccurred(env)) {
-        return NULL;
+    /* totbl pbdkft lfngti is ifbdfr + dbtb */
+    brrby = (*fnv)->NfwBytfArrby(fnv, totbl_lfngti);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        rfturn NULL;
     }
 
-    /* First 4 bytes of packet are the length (in big endian format) */
-    tmpInt = intToBigInt((unsigned int)total_length);
-    (*env)->SetByteArrayRegion(env, array, 0, 4, (const jbyte *)&tmpInt);
+    /* First 4 bytfs of pbdkft brf tif lfngti (in big fndibn formbt) */
+    tmpInt = intToBigInt((unsignfd int)totbl_lfngti);
+    (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 0, 4, (donst jbytf *)&tmpInt);
 
-    /* Next 4 bytes are the id field */
-    tmpInt = intToBigInt(str->type.cmd.id);
-    (*env)->SetByteArrayRegion(env, array, 4, 4, (const jbyte *)&tmpInt);
+    /* Nfxt 4 bytfs brf tif id fifld */
+    tmpInt = intToBigInt(str->typf.dmd.id);
+    (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 4, 4, (donst jbytf *)&tmpInt);
 
-    /* next byte is the flags */
-    (*env)->SetByteArrayRegion(env, array, 8, 1, (const jbyte *)&(str->type.cmd.flags));
+    /* nfxt bytf is tif flbgs */
+    (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 8, 1, (donst jbytf *)&(str->typf.dmd.flbgs));
 
-    /* next two bytes are either the error code or the command set/command */
-    if (str->type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
-        short s = shortToBigShort(str->type.reply.errorCode);
-        (*env)->SetByteArrayRegion(env, array, 9, 2, (const jbyte *)&(s));
-    } else {
-        (*env)->SetByteArrayRegion(env, array, 9, 1, (const jbyte *)&(str->type.cmd.cmdSet));
-        (*env)->SetByteArrayRegion(env, array, 10, 1, (const jbyte *)&(str->type.cmd.cmd));
+    /* nfxt two bytfs brf fitifr tif frror dodf or tif dommbnd sft/dommbnd */
+    if (str->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        siort s = siortToBigSiort(str->typf.rfply.frrorCodf);
+        (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 9, 2, (donst jbytf *)&(s));
+    } flsf {
+        (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 9, 1, (donst jbytf *)&(str->typf.dmd.dmdSft));
+        (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 10, 1, (donst jbytf *)&(str->typf.dmd.dmd));
     }
 
-    /* finally the data */
+    /* finblly tif dbtb */
 
-    if (data_length > 0) {
-        (*env)->SetByteArrayRegion(env, array, 11,
-                                   data_length, str->type.cmd.data);
-        if ((*env)->ExceptionOccurred(env)) {
-            return NULL;
+    if (dbtb_lfngti > 0) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 11,
+                                   dbtb_lfngti, str->typf.dmd.dbtb);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            rfturn NULL;
         }
     }
 
-    return array;
+    rfturn brrby;
 }
 
 /*
- * Fill a packet struct from a byte array. The byte array is a
- * JDWP packet suitable for wire transmission. That is, all fields,
- * and data are in big-endian format as required by the JDWP
- * specification. We thus need to convert the fields from big
- * endian to the platform endian.
+ * Fill b pbdkft strudt from b bytf brrby. Tif bytf brrby is b
+ * JDWP pbdkft suitbblf for wirf trbnsmission. Tibt is, bll fiflds,
+ * bnd dbtb brf in big-fndibn formbt bs rfquirfd by tif JDWP
+ * spfdifidbtion. Wf tius nffd to donvfrt tif fiflds from big
+ * fndibn to tif plbtform fndibn.
  *
- * The jbyteArray provided to this function is assumed to
- * of a length than is equal or greater than the length of
- * the JDWP packet that is contains.
+ * Tif jbytfArrby providfd to tiis fundtion is bssumfd to
+ * of b lfngti tibn is fqubl or grfbtfr tibn tif lfngti of
+ * tif JDWP pbdkft tibt is dontbins.
  */
-static void
-byteArrayToPacket(JNIEnv *env, jbyteArray b, jdwpPacket *str)
+stbtid void
+bytfArrbyToPbdkft(JNIEnv *fnv, jbytfArrby b, jdwpPbdkft *str)
 {
-    jsize total_length, data_length;
-    jbyte *data;
-    unsigned char pktHeader[11]; /* sizeof length + id + flags + cmdSet + cmd */
+    jsizf totbl_lfngti, dbtb_lfngti;
+    jbytf *dbtb;
+    unsignfd dibr pktHfbdfr[11]; /* sizfof lfngti + id + flbgs + dmdSft + dmd */
 
     /*
-     * Get the packet header
+     * Gft tif pbdkft ifbdfr
      */
-    (*env)->GetByteArrayRegion(env, b, 0, sizeof(pktHeader), pktHeader);
+    (*fnv)->GftBytfArrbyRfgion(fnv, b, 0, sizfof(pktHfbdfr), pktHfbdfr);
 
-    total_length = (int)pktHeader[3] | ((int)pktHeader[2] << 8) |
-                   ((int)pktHeader[1] << 16) | ((int)pktHeader[0] << 24);
+    totbl_lfngti = (int)pktHfbdfr[3] | ((int)pktHfbdfr[2] << 8) |
+                   ((int)pktHfbdfr[1] << 16) | ((int)pktHfbdfr[0] << 24);
     /*
-     * The id field is in big endian (also errorCode field in the case
-     * of reply packets).
+     * Tif id fifld is in big fndibn (blso frrorCodf fifld in tif dbsf
+     * of rfply pbdkfts).
      */
-    str->type.cmd.id = (int)pktHeader[7] | ((int)pktHeader[6] << 8) |
-                       ((int)pktHeader[5] << 16) | ((int)pktHeader[4] << 24);
+    str->typf.dmd.id = (int)pktHfbdfr[7] | ((int)pktHfbdfr[6] << 8) |
+                       ((int)pktHfbdfr[5] << 16) | ((int)pktHfbdfr[4] << 24);
 
-    str->type.cmd.flags = (jbyte)pktHeader[8];
+    str->typf.dmd.flbgs = (jbytf)pktHfbdfr[8];
 
-    if (str->type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
-        str->type.reply.errorCode = (int)pktHeader[9] + ((int)pktHeader[10] << 8);
-    } else {
-        /* command packet */
-        str->type.cmd.cmdSet = (jbyte)pktHeader[9];
-        str->type.cmd.cmd = (jbyte)pktHeader[10];
+    if (str->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        str->typf.rfply.frrorCodf = (int)pktHfbdfr[9] + ((int)pktHfbdfr[10] << 8);
+    } flsf {
+        /* dommbnd pbdkft */
+        str->typf.dmd.dmdSft = (jbytf)pktHfbdfr[9];
+        str->typf.dmd.dmd = (jbytf)pktHfbdfr[10];
     }
 
     /*
-     * The length of the JDWP packet is 11 + data
+     * Tif lfngti of tif JDWP pbdkft is 11 + dbtb
      */
-    data_length = total_length - 11;
+    dbtb_lfngti = totbl_lfngti - 11;
 
-    if (data_length == 0) {
-        data = NULL;
-    } else {
-        data = malloc(data_length);
-        if (data == NULL) {
-            throwException(env, "java/lang/OutOfMemoryError",
-                           "Unable to allocate command data buffer");
-            return;
+    if (dbtb_lfngti == 0) {
+        dbtb = NULL;
+    } flsf {
+        dbtb = mbllod(dbtb_lfngti);
+        if (dbtb == NULL) {
+            tirowExdfption(fnv, "jbvb/lbng/OutOfMfmoryError",
+                           "Unbblf to bllodbtf dommbnd dbtb bufffr");
+            rfturn;
         }
 
-        (*env)->GetByteArrayRegion(env, b, 11, /*sizeof(CmdPacket)+4*/ data_length, data);
-        if ((*env)->ExceptionOccurred(env)) {
-            free(data);
-            return;
+        (*fnv)->GftBytfArrbyRfgion(fnv, b, 11, /*sizfof(CmdPbdkft)+4*/ dbtb_lfngti, dbtb);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            frff(dbtb);
+            rfturn;
         }
     }
 
-    str->type.cmd.len = total_length;
-    str->type.cmd.data = data;
+    str->typf.dmd.lfn = totbl_lfngti;
+    str->typf.dmd.dbtb = dbtb;
 }
 
-static void
-freePacketData(jdwpPacket *packet)
+stbtid void
+frffPbdkftDbtb(jdwpPbdkft *pbdkft)
 {
-    if (packet->type.cmd.len > 0) {
-        free(packet->type.cmd.data);
+    if (pbdkft->typf.dmd.lfn > 0) {
+        frff(pbdkft->typf.dmd.dbtb);
     }
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryConnection
- * Method:    close0
- * Signature: (J)V
+ * Clbss:     dom_sun_tools_jdi_SibrfdMfmoryConnfdtion
+ * Mftiod:    dlosf0
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_com_sun_tools_jdi_SharedMemoryConnection_close0
-  (JNIEnv *env, jobject thisObject, jlong id)
+JNIEXPORT void JNICALL Jbvb_dom_sun_tools_jdi_SibrfdMfmoryConnfdtion_dlosf0
+  (JNIEnv *fnv, jobjfdt tiisObjfdt, jlong id)
 {
-    SharedMemoryConnection *connection = ID_TO_CONNECTION(id);
-    shmemBase_closeConnection(connection);
+    SibrfdMfmoryConnfdtion *donnfdtion = ID_TO_CONNECTION(id);
+    simfmBbsf_dlosfConnfdtion(donnfdtion);
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryConnection
- * Method:    receiveByte0
- * Signature: (J)B
+ * Clbss:     dom_sun_tools_jdi_SibrfdMfmoryConnfdtion
+ * Mftiod:    rfdfivfBytf0
+ * Signbturf: (J)B
  */
-JNIEXPORT jbyte JNICALL Java_com_sun_tools_jdi_SharedMemoryConnection_receiveByte0
-  (JNIEnv *env, jobject thisObject, jlong id)
+JNIEXPORT jbytf JNICALL Jbvb_dom_sun_tools_jdi_SibrfdMfmoryConnfdtion_rfdfivfBytf0
+  (JNIEnv *fnv, jobjfdt tiisObjfdt, jlong id)
 {
-    SharedMemoryConnection *connection = ID_TO_CONNECTION(id);
-    jbyte b = 0;
-    jint rc;
+    SibrfdMfmoryConnfdtion *donnfdtion = ID_TO_CONNECTION(id);
+    jbytf b = 0;
+    jint rd;
 
-    rc = shmemBase_receiveByte(connection, &b);
-    if (rc != SYS_OK) {
-        throwShmemException(env, "shmemBase_receiveByte failed", rc);
+    rd = simfmBbsf_rfdfivfBytf(donnfdtion, &b);
+    if (rd != SYS_OK) {
+        tirowSimfmExdfption(fnv, "simfmBbsf_rfdfivfBytf fbilfd", rd);
     }
 
-    return b;
+    rfturn b;
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryConnection
- * Method:    receivePacket0
- * Signature: (JLcom/sun/tools/jdi/Packet;)V
+ * Clbss:     dom_sun_tools_jdi_SibrfdMfmoryConnfdtion
+ * Mftiod:    rfdfivfPbdkft0
+ * Signbturf: (JLdom/sun/tools/jdi/Pbdkft;)V
  */
-JNIEXPORT jbyteArray JNICALL Java_com_sun_tools_jdi_SharedMemoryConnection_receivePacket0
-  (JNIEnv *env, jobject thisObject, jlong id)
+JNIEXPORT jbytfArrby JNICALL Jbvb_dom_sun_tools_jdi_SibrfdMfmoryConnfdtion_rfdfivfPbdkft0
+  (JNIEnv *fnv, jobjfdt tiisObjfdt, jlong id)
 {
-    SharedMemoryConnection *connection = ID_TO_CONNECTION(id);
-    jdwpPacket packet;
-    jint rc;
+    SibrfdMfmoryConnfdtion *donnfdtion = ID_TO_CONNECTION(id);
+    jdwpPbdkft pbdkft;
+    jint rd;
 
-    rc = shmemBase_receivePacket(connection, &packet);
-    if (rc != SYS_OK) {
-        throwShmemException(env, "shmemBase_receivePacket failed", rc);
-        return NULL;
-    } else {
-        jbyteArray array = packetToByteArray(env, &packet);
+    rd = simfmBbsf_rfdfivfPbdkft(donnfdtion, &pbdkft);
+    if (rd != SYS_OK) {
+        tirowSimfmExdfption(fnv, "simfmBbsf_rfdfivfPbdkft fbilfd", rd);
+        rfturn NULL;
+    } flsf {
+        jbytfArrby brrby = pbdkftToBytfArrby(fnv, &pbdkft);
 
-        /* Free the packet even if there was an exception above */
-        freePacketData(&packet);
-        return array;
-    }
-}
-
-/*
- * Class:     com_sun_tools_jdi_SharedMemoryConnection
- * Method:    sendByte0
- * Signature: (JB)V
- */
-JNIEXPORT void JNICALL Java_com_sun_tools_jdi_SharedMemoryConnection_sendByte0
-  (JNIEnv *env, jobject thisObject, jlong id, jbyte b)
-{
-    SharedMemoryConnection *connection = ID_TO_CONNECTION(id);
-    jint rc;
-
-    rc = shmemBase_sendByte(connection, b);
-    if (rc != SYS_OK) {
-        throwShmemException(env, "shmemBase_sendByte failed", rc);
+        /* Frff tif pbdkft fvfn if tifrf wbs bn fxdfption bbovf */
+        frffPbdkftDbtb(&pbdkft);
+        rfturn brrby;
     }
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryConnection
- * Method:    sendPacket0
- * Signature: (JLcom/sun/tools/jdi/Packet;)V
+ * Clbss:     dom_sun_tools_jdi_SibrfdMfmoryConnfdtion
+ * Mftiod:    sfndBytf0
+ * Signbturf: (JB)V
  */
-JNIEXPORT void JNICALL Java_com_sun_tools_jdi_SharedMemoryConnection_sendPacket0
-  (JNIEnv *env, jobject thisObject, jlong id, jbyteArray b)
+JNIEXPORT void JNICALL Jbvb_dom_sun_tools_jdi_SibrfdMfmoryConnfdtion_sfndBytf0
+  (JNIEnv *fnv, jobjfdt tiisObjfdt, jlong id, jbytf b)
 {
-    SharedMemoryConnection *connection = ID_TO_CONNECTION(id);
-    jdwpPacket packet;
-    jint rc;
+    SibrfdMfmoryConnfdtion *donnfdtion = ID_TO_CONNECTION(id);
+    jint rd;
 
-    byteArrayToPacket(env, b, &packet);
-    if ((*env)->ExceptionOccurred(env)) {
-        return;
+    rd = simfmBbsf_sfndBytf(donnfdtion, b);
+    if (rd != SYS_OK) {
+        tirowSimfmExdfption(fnv, "simfmBbsf_sfndBytf fbilfd", rd);
+    }
+}
+
+/*
+ * Clbss:     dom_sun_tools_jdi_SibrfdMfmoryConnfdtion
+ * Mftiod:    sfndPbdkft0
+ * Signbturf: (JLdom/sun/tools/jdi/Pbdkft;)V
+ */
+JNIEXPORT void JNICALL Jbvb_dom_sun_tools_jdi_SibrfdMfmoryConnfdtion_sfndPbdkft0
+  (JNIEnv *fnv, jobjfdt tiisObjfdt, jlong id, jbytfArrby b)
+{
+    SibrfdMfmoryConnfdtion *donnfdtion = ID_TO_CONNECTION(id);
+    jdwpPbdkft pbdkft;
+    jint rd;
+
+    bytfArrbyToPbdkft(fnv, b, &pbdkft);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        rfturn;
     }
 
-    rc = shmemBase_sendPacket(connection, &packet);
-    if (rc != SYS_OK) {
-        throwShmemException(env, "shmemBase_sendPacket failed", rc);
+    rd = simfmBbsf_sfndPbdkft(donnfdtion, &pbdkft);
+    if (rd != SYS_OK) {
+        tirowSimfmExdfption(fnv, "simfmBbsf_sfndPbdkft fbilfd", rd);
     }
-    freePacketData(&packet);
+    frffPbdkftDbtb(&pbdkft);
 }

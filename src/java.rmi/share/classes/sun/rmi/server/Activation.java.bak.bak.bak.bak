@@ -1,0 +1,2551 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.sfrvfr;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.Prodfss;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.SodkftExdfption;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.dhbnnfls.Chbnnfl;
+import jbvb.nio.dhbnnfls.SfrvfrSodkftChbnnfl;
+import jbvb.rmi.AddfssExdfption;
+import jbvb.rmi.AlrfbdyBoundExdfption;
+import jbvb.rmi.ConnfdtExdfption;
+import jbvb.rmi.ConnfdtIOExdfption;
+import jbvb.rmi.MbrshbllfdObjfdt;
+import jbvb.rmi.NoSudhObjfdtExdfption;
+import jbvb.rmi.NotBoundExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.bdtivbtion.AdtivbtionDfsd;
+import jbvb.rmi.bdtivbtion.AdtivbtionExdfption;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroupDfsd;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroup;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroupID;
+import jbvb.rmi.bdtivbtion.AdtivbtionID;
+import jbvb.rmi.bdtivbtion.AdtivbtionInstbntibtor;
+import jbvb.rmi.bdtivbtion.AdtivbtionMonitor;
+import jbvb.rmi.bdtivbtion.AdtivbtionSystfm;
+import jbvb.rmi.bdtivbtion.Adtivbtor;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+import jbvb.rmi.rfgistry.Rfgistry;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.RMIClbssLobdfr;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RfmotfObjfdt;
+import jbvb.rmi.sfrvfr.RfmotfSfrvfr;
+import jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt;
+import jbvb.sfdurity.AddfssControlExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AllPfrmission;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.Pfrmissions;
+import jbvb.sfdurity.Polidy;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.Propfrtifs;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import sun.rmi.log.LogHbndlfr;
+import sun.rmi.log.RflibblfLog;
+import sun.rmi.rfgistry.RfgistryImpl;
+import sun.rmi.runtimf.NfwThrfbdAdtion;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff;
+import sun.rmi.trbnsport.LivfRff;
+import sun.sfdurity.providfr.PolidyFilf;
+import dom.sun.rmi.rmid.ExfdPfrmission;
+import dom.sun.rmi.rmid.ExfdOptionPfrmission;
+
+/**
+ * Thf Adtivbtor fbdilitbtfs rfmotf objfdt bdtivbtion. A "fbulting"
+ * rfmotf rfffrfndf dblls thf bdtivbtor's <dodf>bdtivbtf</dodf> mfthod
+ * to obtbin b "livf" rfffrfndf to b bdtivbtbblf rfmotf objfdt. Upon
+ * rfdfiving b rfqufst for bdtivbtion, thf bdtivbtor looks up thf
+ * bdtivbtion dfsdriptor for thf bdtivbtion idfntififr, id, dftfrminfs
+ * thf group in whidh thf objfdt should bf bdtivbtfd bnd invokfs thf
+ * bdtivbtf mfthod on thf objfdt's bdtivbtion group (dfsdribfd by thf
+ * rfmotf intfrfbdf <dodf>AdtivbtionInstbntibtor</dodf>). Thf
+ * bdtivbtor initibtfs thf fxfdution of bdtivbtion groups bs
+ * nfdfssbry. For fxbmplf, if bn bdtivbtion group for b spfdifid group
+ * idfntififr is not blrfbdy fxfduting, thf bdtivbtor will spbwn b
+ * dhild prodfss for thf bdtivbtion group. <p>
+ *
+ * Thf bdtivbtor is rfsponsiblf for monitoring bnd dftfdting whfn
+ * bdtivbtion groups fbil so thbt it dbn rfmovf stblf rfmotf rfffrfndfs
+ * from its intfrnbl tbblfs. <p>
+ *
+ * @buthor      Ann Wollrbth
+ * @sindf       1.2
+ */
+publid dlbss Adtivbtion implfmfnts Sfriblizbblf {
+
+    /** indidbtf dompbtibility with JDK 1.2 vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 2921265612698155191L;
+    privbtf stbtid finbl bytf MAJOR_VERSION = 1;
+    privbtf stbtid finbl bytf MINOR_VERSION = 0;
+
+    /** fxfd polidy objfdt */
+    privbtf stbtid Objfdt fxfdPolidy;
+    privbtf stbtid Mfthod fxfdPolidyMfthod;
+    privbtf stbtid boolfbn dfbugExfd;
+
+    /** mbps bdtivbtion id to its rfspfdtivf group id */
+    privbtf Mbp<AdtivbtionID,AdtivbtionGroupID> idTbblf =
+        nfw CondurrfntHbshMbp<>();
+    /** mbps group id to its GroupEntry groups */
+    privbtf Mbp<AdtivbtionGroupID,GroupEntry> groupTbblf =
+        nfw CondurrfntHbshMbp<>();
+
+    privbtf bytf mbjorVfrsion = MAJOR_VERSION;
+    privbtf bytf minorVfrsion = MINOR_VERSION;
+
+    /** numbfr of simultbnfous group fxfd's */
+    privbtf trbnsifnt int groupSfmbphorf;
+    /** dountfr for numbfring groups */
+    privbtf trbnsifnt int groupCountfr;
+    /** rflibblf log to hold dfsdriptor tbblf */
+    privbtf trbnsifnt RflibblfLog log;
+    /** numbfr of updbtfs sindf lbst snbpshot */
+    privbtf trbnsifnt int numUpdbtfs;
+
+    /** thf jbvb dommbnd */
+    // bddfssfd by GroupEntry
+    privbtf trbnsifnt String[] dommbnd;
+    /** timfout on wbit for dhild prodfss to bf drfbtfd or dfstroyfd */
+    privbtf stbtid finbl long groupTimfout =
+        gftInt("sun.rmi.bdtivbtion.groupTimfout", 60000);
+    /** tbkf snbpshot bftfr this mbny updbtfs */
+    privbtf stbtid finbl int snbpshotIntfrvbl =
+        gftInt("sun.rmi.bdtivbtion.snbpshotIntfrvbl", 200);
+    /** timfout on wbit for dhild prodfss to bf drfbtfd */
+    privbtf stbtid finbl long fxfdTimfout =
+        gftInt("sun.rmi.bdtivbtion.fxfdTimfout", 30000);
+
+    privbtf stbtid finbl Objfdt initLodk = nfw Objfdt();
+    privbtf stbtid boolfbn initDonf = fblsf;
+
+    // this should bf b *privbtf* mfthod sindf it is privilfgfd
+    privbtf stbtid int gftInt(String nbmf, int dff) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<Intfgfr>) () -> Intfgfr.gftIntfgfr(nbmf, dff));
+    }
+
+    privbtf trbnsifnt Adtivbtor bdtivbtor;
+    privbtf trbnsifnt Adtivbtor bdtivbtorStub;
+    privbtf trbnsifnt AdtivbtionSystfm systfm;
+    privbtf trbnsifnt AdtivbtionSystfm systfmStub;
+    privbtf trbnsifnt AdtivbtionMonitor monitor;
+    privbtf trbnsifnt Rfgistry rfgistry;
+    privbtf trbnsifnt volbtilf boolfbn shuttingDown = fblsf;
+    privbtf trbnsifnt volbtilf Objfdt stbrtupLodk;
+    privbtf trbnsifnt Thrfbd shutdownHook;
+
+    privbtf stbtid RfsourdfBundlf rfsourdfs = null;
+
+    /**
+     * Crfbtf bn uninitiblizfd instbndf of Adtivbtion thbt dbn bf
+     * populbtfd with log dbtb.  This is only dbllfd whfn thf initibl
+     * snbpshot is tbkfn during thf first indbrnbtion of rmid.
+     */
+    privbtf Adtivbtion() {}
+
+    /**
+     * Rfdovfr bdtivbtion stbtf from thf rflibblf log bnd initiblizf
+     * bdtivbtion sfrvidfs.
+     */
+    privbtf stbtid void stbrtAdtivbtion(int port,
+                                        RMISfrvfrSodkftFbdtory ssf,
+                                        String logNbmf,
+                                        String[] dhildArgs)
+        throws Exdfption
+    {
+        RflibblfLog log = nfw RflibblfLog(logNbmf, nfw AdtLogHbndlfr());
+        Adtivbtion stbtf = (Adtivbtion) log.rfdovfr();
+        stbtf.init(port, ssf, log, dhildArgs);
+    }
+
+    /**
+     * Initiblizf thf Adtivbtion instbntibtion; stbrt bdtivbtion
+     * sfrvidfs.
+     */
+    privbtf void init(int port,
+                      RMISfrvfrSodkftFbdtory ssf,
+                      RflibblfLog log,
+                      String[] dhildArgs)
+        throws Exdfption
+    {
+        // initiblizf
+        this.log = log;
+        numUpdbtfs = 0;
+        shutdownHook =  nfw ShutdownHook();
+        groupSfmbphorf = gftInt("sun.rmi.bdtivbtion.groupThrottlf", 3);
+        groupCountfr = 0;
+        Runtimf.gftRuntimf().bddShutdownHook(shutdownHook);
+
+        // Usf brrby sizf of 0, sindf thf vbluf from dblling sizf()
+        // mby bf out of dbtf by thf timf toArrby() is dbllfd.
+        AdtivbtionGroupID[] gids =
+            groupTbblf.kfySft().toArrby(nfw AdtivbtionGroupID[0]);
+
+        syndhronizfd (stbrtupLodk = nfw Objfdt()) {
+            // bll thf rfmotf mfthods briffly syndhronizf on stbrtupLodk
+            // (vib dhfdkShutdown) to mbkf surf thfy don't hbppfn in thf
+            // middlf of this blodk.  This blodk must not dbusf bny sudh
+            // indoming rfmotf dblls to hbppfn, or dfbdlodk would rfsult!
+            bdtivbtor = nfw AdtivbtorImpl(port, ssf);
+            bdtivbtorStub = (Adtivbtor) RfmotfObjfdt.toStub(bdtivbtor);
+            systfm = nfw AdtivbtionSystfmImpl(port, ssf);
+            systfmStub = (AdtivbtionSystfm) RfmotfObjfdt.toStub(systfm);
+            monitor = nfw AdtivbtionMonitorImpl(port, ssf);
+            initCommbnd(dhildArgs);
+            rfgistry = nfw SystfmRfgistryImpl(port, null, ssf, systfmStub);
+
+            if (ssf != null) {
+                syndhronizfd (initLodk) {
+                    initDonf = truf;
+                    initLodk.notifyAll();
+                }
+            }
+        }
+        stbrtupLodk = null;
+
+        // rfstbrt sfrvidfs
+        for (int i = gids.lfngth; --i >= 0; ) {
+            try {
+                gftGroupEntry(gids[i]).rfstbrtSfrvidfs();
+            } dbtdh (UnknownGroupExdfption f) {
+                Systfm.frr.println(
+                    gftTfxtRfsourdf("rmid.rfstbrt.group.wbrning"));
+                f.printStbdkTrbdf();
+            }
+        }
+    }
+
+    /**
+     * Prfvious vfrsions usfd HbshMbp instfbd of CondurrfntHbshMbp.
+     * Rfplbdf bny HbshMbps found during dfsfriblizbtion with
+     * CondurrfntHbshMbps.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        ois.dffbultRfbdObjfdt();
+        if (! (groupTbblf instbndfof CondurrfntHbshMbp)) {
+            groupTbblf = nfw CondurrfntHbshMbp<>(groupTbblf);
+        }
+        if (! (idTbblf instbndfof CondurrfntHbshMbp)) {
+            idTbblf = nfw CondurrfntHbshMbp<>(idTbblf);
+        }
+    }
+
+    privbtf stbtid dlbss SystfmRfgistryImpl fxtfnds RfgistryImpl {
+
+        privbtf stbtid finbl String NAME = AdtivbtionSystfm.dlbss.gftNbmf();
+        privbtf stbtid finbl long sfriblVfrsionUID = 4877330021609408794L;
+        privbtf AdtivbtionSystfm systfmStub = null;
+
+        SystfmRfgistryImpl(int port,
+                           RMIClifntSodkftFbdtory dsf,
+                           RMISfrvfrSodkftFbdtory ssf,
+                           AdtivbtionSystfm systfmStub)
+            throws RfmotfExdfption
+        {
+            supfr(port, dsf, ssf);
+            bssfrt systfmStub != null;
+            syndhronizfd (this) {
+                this.systfmStub = systfmStub;
+                notifyAll();
+            }
+        }
+
+        /**
+         * Wbits for systfmStub to bf initiblizfd bnd rfturns its
+         * initiblizfd vbluf. Any rfmotf dbll thbt usfs systfmStub must
+         * dbll this mfthod to gft it instfbd of using dirfdt fifld
+         * bddfss. This is nfdfssbry bfdbusf thf supfr() dbll in thf
+         * donstrudtor fxports this objfdt bfforf systfmStub is initiblizfd
+         * (sff JDK-8023541), bllowing rfmotf dblls to domf in during this
+         * timf. Wf dbn't usf dhfdkShutdown() likf othfr nfstfd dlbssfs
+         * bfdbusf this is b stbtid dlbss.
+         */
+        privbtf syndhronizfd AdtivbtionSystfm gftSystfmStub() {
+            boolfbn intfrruptfd = fblsf;
+
+            whilf (systfmStub == null) {
+                try {
+                    wbit();
+                } dbtdh (IntfrruptfdExdfption if) {
+                    intfrruptfd = truf;
+                }
+            }
+
+            if (intfrruptfd) {
+                Thrfbd.durrfntThrfbd().intfrrupt();
+            }
+
+            rfturn systfmStub;
+        }
+
+        /**
+         * Rfturns thf bdtivbtion systfm stub if thf spfdififd nbmf
+         * mbtdhfs thf bdtivbtion systfm's dlbss nbmf, othfrwisf
+         * rfturns thf rfsult of invoking supfr.lookup with thf spfdififd
+         * nbmf.
+         */
+        publid Rfmotf lookup(String nbmf)
+            throws RfmotfExdfption, NotBoundExdfption
+        {
+            if (nbmf.fqubls(NAME)) {
+                rfturn gftSystfmStub();
+            } flsf {
+                rfturn supfr.lookup(nbmf);
+            }
+        }
+
+        publid String[] list() throws RfmotfExdfption {
+            String[] list1 = supfr.list();
+            int lfngth = list1.lfngth;
+            String[] list2 = nfw String[lfngth + 1];
+            if (lfngth > 0) {
+                Systfm.brrbydopy(list1, 0, list2, 0, lfngth);
+            }
+            list2[lfngth] = NAME;
+            rfturn list2;
+        }
+
+        publid void bind(String nbmf, Rfmotf obj)
+            throws RfmotfExdfption, AlrfbdyBoundExdfption, AddfssExdfption
+        {
+            if (nbmf.fqubls(NAME)) {
+                throw nfw AddfssExdfption(
+                    "binding AdtivbtionSystfm is disbllowfd");
+            } flsf {
+                supfr.bind(nbmf, obj);
+            }
+        }
+
+        publid void unbind(String nbmf)
+            throws RfmotfExdfption, NotBoundExdfption, AddfssExdfption
+        {
+            if (nbmf.fqubls(NAME)) {
+                throw nfw AddfssExdfption(
+                    "unbinding AdtivbtionSystfm is disbllowfd");
+            } flsf {
+                supfr.unbind(nbmf);
+            }
+        }
+
+
+        publid void rfbind(String nbmf, Rfmotf obj)
+            throws RfmotfExdfption, AddfssExdfption
+        {
+            if (nbmf.fqubls(NAME)) {
+                throw nfw AddfssExdfption(
+                    "binding AdtivbtionSystfm is disbllowfd");
+            } flsf {
+                supfr.rfbind(nbmf, obj);
+            }
+        }
+    }
+
+
+    dlbss AdtivbtorImpl fxtfnds RfmotfSfrvfr implfmfnts Adtivbtor {
+        // Bfdbusf AdtivbtorImpl hbs b fixfd ObjID, it dbn bf
+        // dbllfd by dlifnts holding stblf rfmotf rfffrfndfs.  Ebdh of
+        // its rfmotf mfthods, thfn, must dhfdk stbrtupLodk (dblling
+        // dhfdkShutdown() is fbsifst).
+
+        privbtf stbtid finbl long sfriblVfrsionUID = -3654244726254566136L;
+
+        /**
+         * Construdt b nfw Adtivbtor on b spfdififd port.
+         */
+        AdtivbtorImpl(int port, RMISfrvfrSodkftFbdtory ssf)
+            throws RfmotfExdfption
+        {
+            /* Sfrvfr rff must bf drfbtfd bnd bssignfd bfforf rfmotf objfdt
+             * 'this' dbn bf fxportfd.
+             */
+            LivfRff lrff =
+                nfw LivfRff(nfw ObjID(ObjID.ACTIVATOR_ID), port, null, ssf);
+            UnidbstSfrvfrRff urff = nfw UnidbstSfrvfrRff(lrff);
+            rff = urff;
+            urff.fxportObjfdt(this, null, fblsf);
+        }
+
+        publid MbrshbllfdObjfdt<? fxtfnds Rfmotf> bdtivbtf(AdtivbtionID id,
+                                                           boolfbn fordf)
+            throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
+        {
+            dhfdkShutdown();
+            rfturn gftGroupEntry(id).bdtivbtf(id, fordf);
+        }
+    }
+
+    dlbss AdtivbtionMonitorImpl fxtfnds UnidbstRfmotfObjfdt
+        implfmfnts AdtivbtionMonitor
+    {
+        privbtf stbtid finbl long sfriblVfrsionUID = -6214940464757948867L;
+
+        AdtivbtionMonitorImpl(int port, RMISfrvfrSodkftFbdtory ssf)
+            throws RfmotfExdfption
+        {
+            supfr(port, null, ssf);
+        }
+
+        publid void inbdtivfObjfdt(AdtivbtionID id)
+            throws UnknownObjfdtExdfption, RfmotfExdfption
+        {
+            try {
+                dhfdkShutdown();
+            } dbtdh (AdtivbtionExdfption f) {
+                rfturn;
+            }
+            RfgistryImpl.dhfdkAddfss("Adtivbtor.inbdtivfObjfdt");
+            gftGroupEntry(id).inbdtivfObjfdt(id);
+        }
+
+        publid void bdtivfObjfdt(AdtivbtionID id,
+                                 MbrshbllfdObjfdt<? fxtfnds Rfmotf> mobj)
+            throws UnknownObjfdtExdfption, RfmotfExdfption
+        {
+            try {
+                dhfdkShutdown();
+            } dbtdh (AdtivbtionExdfption f) {
+                rfturn;
+            }
+            RfgistryImpl.dhfdkAddfss("AdtivbtionSystfm.bdtivfObjfdt");
+            gftGroupEntry(id).bdtivfObjfdt(id, mobj);
+        }
+
+        publid void inbdtivfGroup(AdtivbtionGroupID id,
+                                  long indbrnbtion)
+            throws UnknownGroupExdfption, RfmotfExdfption
+        {
+            try {
+                dhfdkShutdown();
+            } dbtdh (AdtivbtionExdfption f) {
+                rfturn;
+            }
+            RfgistryImpl.dhfdkAddfss("AdtivbtionMonitor.inbdtivfGroup");
+            gftGroupEntry(id).inbdtivfGroup(indbrnbtion, fblsf);
+        }
+    }
+
+
+    dlbss AdtivbtionSystfmImpl
+        fxtfnds RfmotfSfrvfr
+        implfmfnts AdtivbtionSystfm
+    {
+        privbtf stbtid finbl long sfriblVfrsionUID = 9100152600327688967L;
+
+        // Bfdbusf AdtivbtionSystfmImpl hbs b fixfd ObjID, it dbn bf
+        // dbllfd by dlifnts holding stblf rfmotf rfffrfndfs.  Ebdh of
+        // its rfmotf mfthods, thfn, must dhfdk stbrtupLodk (dblling
+        // dhfdkShutdown() is fbsifst).
+        AdtivbtionSystfmImpl(int port, RMISfrvfrSodkftFbdtory ssf)
+            throws RfmotfExdfption
+        {
+            /* Sfrvfr rff must bf drfbtfd bnd bssignfd bfforf rfmotf objfdt
+             * 'this' dbn bf fxportfd.
+             */
+            LivfRff lrff = nfw LivfRff(nfw ObjID(4), port, null, ssf);
+            UnidbstSfrvfrRff urff = nfw UnidbstSfrvfrRff(lrff);
+            rff = urff;
+            urff.fxportObjfdt(this, null);
+        }
+
+        publid AdtivbtionID rfgistfrObjfdt(AdtivbtionDfsd dfsd)
+            throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption
+        {
+            dhfdkShutdown();
+            RfgistryImpl.dhfdkAddfss("AdtivbtionSystfm.rfgistfrObjfdt");
+
+            AdtivbtionGroupID groupID = dfsd.gftGroupID();
+            AdtivbtionID id = nfw AdtivbtionID(bdtivbtorStub);
+            gftGroupEntry(groupID).rfgistfrObjfdt(id, dfsd, truf);
+            rfturn id;
+        }
+
+        publid void unrfgistfrObjfdt(AdtivbtionID id)
+            throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
+        {
+            dhfdkShutdown();
+            RfgistryImpl.dhfdkAddfss("AdtivbtionSystfm.unrfgistfrObjfdt");
+            gftGroupEntry(id).unrfgistfrObjfdt(id, truf);
+        }
+
+        publid AdtivbtionGroupID rfgistfrGroup(AdtivbtionGroupDfsd dfsd)
+            throws AdtivbtionExdfption, RfmotfExdfption
+        {
+            dhfdkShutdown();
+            RfgistryImpl.dhfdkAddfss("AdtivbtionSystfm.rfgistfrGroup");
+            dhfdkArgs(dfsd, null);
+
+            AdtivbtionGroupID id = nfw AdtivbtionGroupID(systfmStub);
+            GroupEntry fntry = nfw GroupEntry(id, dfsd);
+            // tbblf insfrtion must tbkf plbdf bfforf log updbtf
+            groupTbblf.put(id, fntry);
+            bddLogRfdord(nfw LogRfgistfrGroup(id, dfsd));
+            rfturn id;
+        }
+
+        publid AdtivbtionMonitor bdtivfGroup(AdtivbtionGroupID id,
+                                             AdtivbtionInstbntibtor group,
+                                             long indbrnbtion)
+            throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption
+        {
+            dhfdkShutdown();
+            RfgistryImpl.dhfdkAddfss("AdtivbtionSystfm.bdtivfGroup");
+
+            gftGroupEntry(id).bdtivfGroup(group, indbrnbtion);
+            rfturn monitor;
+        }
+
+        publid void unrfgistfrGroup(AdtivbtionGroupID id)
+            throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption
+        {
+            dhfdkShutdown();
+            RfgistryImpl.dhfdkAddfss("AdtivbtionSystfm.unrfgistfrGroup");
+
+            // rfmovf fntry bfforf unrfgistfr so stbtf is updbtfd bfforf
+            // loggfd
+            rfmovfGroupEntry(id).unrfgistfrGroup(truf);
+        }
+
+        publid AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
+                                                AdtivbtionDfsd dfsd)
+            throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
+        {
+            dhfdkShutdown();
+            RfgistryImpl.dhfdkAddfss("AdtivbtionSystfm.sftAdtivbtionDfsd");
+
+            if (!gftGroupID(id).fqubls(dfsd.gftGroupID())) {
+                throw nfw AdtivbtionExdfption(
+                    "AdtivbtionDfsd dontbins wrong group");
+            }
+            rfturn gftGroupEntry(id).sftAdtivbtionDfsd(id, dfsd, truf);
+        }
+
+        publid AdtivbtionGroupDfsd sftAdtivbtionGroupDfsd(AdtivbtionGroupID id,
+                                                          AdtivbtionGroupDfsd dfsd)
+            throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption
+        {
+            dhfdkShutdown();
+            RfgistryImpl.dhfdkAddfss(
+                "AdtivbtionSystfm.sftAdtivbtionGroupDfsd");
+
+            dhfdkArgs(dfsd, null);
+            rfturn gftGroupEntry(id).sftAdtivbtionGroupDfsd(id, dfsd, truf);
+        }
+
+        publid AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
+            throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
+        {
+            dhfdkShutdown();
+            RfgistryImpl.dhfdkAddfss("AdtivbtionSystfm.gftAdtivbtionDfsd");
+
+            rfturn gftGroupEntry(id).gftAdtivbtionDfsd(id);
+        }
+
+        publid AdtivbtionGroupDfsd gftAdtivbtionGroupDfsd(AdtivbtionGroupID id)
+            throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption
+        {
+            dhfdkShutdown();
+            RfgistryImpl.dhfdkAddfss
+                ("AdtivbtionSystfm.gftAdtivbtionGroupDfsd");
+
+            rfturn gftGroupEntry(id).dfsd;
+        }
+
+        /**
+         * Shutdown thf bdtivbtion systfm. Dfstroys bll groups spbwnfd by
+         * thf bdtivbtion dbfmon bnd fxits thf bdtivbtion dbfmon.
+         */
+        publid void shutdown() throws AddfssExdfption {
+            RfgistryImpl.dhfdkAddfss("AdtivbtionSystfm.shutdown");
+
+            Objfdt lodk = stbrtupLodk;
+            if (lodk != null) {
+                syndhronizfd (lodk) {
+                    // nothing
+                }
+            }
+
+            syndhronizfd (Adtivbtion.this) {
+                if (!shuttingDown) {
+                    shuttingDown = truf;
+                    (nfw Shutdown()).stbrt();
+                }
+            }
+        }
+    }
+
+    privbtf void dhfdkShutdown() throws AdtivbtionExdfption {
+        // if thf stbrtup dritidbl sfdtion is running, wbit until it
+        // domplftfs/fbils bfforf dontinuing with thf rfmotf dbll.
+        Objfdt lodk = stbrtupLodk;
+        if (lodk != null) {
+            syndhronizfd (lodk) {
+                // nothing
+            }
+        }
+
+        if (shuttingDown == truf) {
+            throw nfw AdtivbtionExdfption(
+                "bdtivbtion systfm shutting down");
+        }
+    }
+
+    privbtf stbtid void unfxport(Rfmotf obj) {
+        for (;;) {
+            try {
+                if (UnidbstRfmotfObjfdt.unfxportObjfdt(obj, fblsf) == truf) {
+                    brfbk;
+                } flsf {
+                    Thrfbd.slffp(100);
+                }
+            } dbtdh (Exdfption f) {
+                dontinuf;
+            }
+        }
+    }
+
+    /**
+     * Thrfbd to shutdown rmid.
+     */
+    privbtf dlbss Shutdown fxtfnds Thrfbd {
+        Shutdown() {
+            supfr("rmid Shutdown");
+        }
+
+        publid void run() {
+            try {
+                /*
+                 * Unfxport bdtivbtion systfm sfrvidfs
+                 */
+                unfxport(bdtivbtor);
+                unfxport(systfm);
+
+                // dfstroy bll dhild prodfssfs (groups)
+                for (GroupEntry groupEntry : groupTbblf.vblufs()) {
+                    groupEntry.shutdown();
+                }
+
+                Runtimf.gftRuntimf().rfmovfShutdownHook(shutdownHook);
+
+                /*
+                 * Unfxport monitor sbffly sindf bll prodfssfs brf dfstroyfd.
+                 */
+                unfxport(monitor);
+
+                /*
+                 * Closf log filf, fix for 4243264: rmid shutdown thrfbd
+                 * intfrffrfs with rfmotf dblls in progrfss.  Mbkf surf
+                 * thf log filf is only dlosfd whfn it is impossiblf for
+                 * its dlosurf to intfrffrf with bny pfnding rfmotf dblls.
+                 * Wf dlosf thf log whfn bll objfdts in thf rmid VM brf
+                 * unfxportfd.
+                 */
+                try {
+                    syndhronizfd (log) {
+                        log.dlosf();
+                    }
+                } dbtdh (IOExdfption f) {
+                }
+
+            } finblly {
+                /*
+                 * Now fxit... A Systfm.fxit should only bf donf if
+                 * thf RMI bdtivbtion systfm dbfmon wbs stbrtfd up
+                 * by thf mbin mfthod bflow (in whidh should blwbys
+                 * bf thf dbsf sindf thf Adtivbtion donstrudtor is privbtf).
+                 */
+                Systfm.frr.println(gftTfxtRfsourdf("rmid.dbfmon.shutdown"));
+                Systfm.fxit(0);
+            }
+        }
+    }
+
+    /** Thrfbd to dfstroy dhildrfn in thf fvfnt of bbnormbl tfrminbtion. */
+    privbtf dlbss ShutdownHook fxtfnds Thrfbd {
+        ShutdownHook() {
+            supfr("rmid ShutdownHook");
+        }
+
+        publid void run() {
+            syndhronizfd (Adtivbtion.this) {
+                shuttingDown = truf;
+            }
+
+            // dfstroy bll dhild prodfssfs (groups) quidkly
+            for (GroupEntry groupEntry : groupTbblf.vblufs()) {
+                groupEntry.shutdownFbst();
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf groupID for b givfn id of bn objfdt in thf group.
+     * Throws UnknownObjfdtExdfption if thf objfdt is not rfgistfrfd.
+     */
+    privbtf AdtivbtionGroupID gftGroupID(AdtivbtionID id)
+        throws UnknownObjfdtExdfption
+    {
+        AdtivbtionGroupID groupID = idTbblf.gft(id);
+        if (groupID != null) {
+            rfturn groupID;
+        }
+        throw nfw UnknownObjfdtExdfption("unknown objfdt: " + id);
+    }
+
+    /**
+     * Rfturns thf group fntry for thf group id, optionblly rfmoving it.
+     * Throws UnknownGroupExdfption if thf group is not rfgistfrfd.
+     */
+    privbtf GroupEntry gftGroupEntry(AdtivbtionGroupID id, boolfbn rm)
+        throws UnknownGroupExdfption
+    {
+        if (id.gftClbss() == AdtivbtionGroupID.dlbss) {
+            GroupEntry fntry;
+            if (rm) {
+                fntry = groupTbblf.rfmovf(id);
+            } flsf {
+                fntry = groupTbblf.gft(id);
+            }
+            if (fntry != null && !fntry.rfmovfd) {
+                rfturn fntry;
+            }
+        }
+        throw nfw UnknownGroupExdfption("group unknown");
+    }
+
+    /**
+     * Rfturns thf group fntry for thf group id. Throws
+     * UnknownGroupExdfption if thf group is not rfgistfrfd.
+     */
+    privbtf GroupEntry gftGroupEntry(AdtivbtionGroupID id)
+        throws UnknownGroupExdfption
+    {
+        rfturn gftGroupEntry(id, fblsf);
+    }
+
+    /**
+     * Rfmovfs bnd rfturns thf group fntry for thf group id. Throws
+     * UnknownGroupExdfption if thf group is not rfgistfrfd.
+     */
+    privbtf GroupEntry rfmovfGroupEntry(AdtivbtionGroupID id)
+        throws UnknownGroupExdfption
+    {
+        rfturn gftGroupEntry(id, truf);
+    }
+
+    /**
+     * Rfturns thf group fntry for thf objfdt's id. Throws
+     * UnknownObjfdtExdfption if thf objfdt is not rfgistfrfd or thf
+     * objfdt's group is not rfgistfrfd.
+     */
+    privbtf GroupEntry gftGroupEntry(AdtivbtionID id)
+        throws UnknownObjfdtExdfption
+    {
+        AdtivbtionGroupID gid = gftGroupID(id);
+        GroupEntry fntry = groupTbblf.gft(gid);
+        if (fntry != null && !fntry.rfmovfd) {
+            rfturn fntry;
+        }
+        throw nfw UnknownObjfdtExdfption("objfdt's group rfmovfd");
+    }
+
+    /**
+     * Contbinfr for group informbtion: group's dfsdriptor, group's
+     * instbntibtor, flbg to indidbtf pfnding group drfbtion, bnd
+     * tbblf of thf objfdts thbt brf bdtivbtfd in thf group.
+     *
+     * WARNING: GroupEntry objfdts should not bf writtfn into log filf
+     * updbtfs.  GroupEntrys brf innfr dlbssfs of Adtivbtion bnd thfy
+     * dbn not bf sfriblizfd indfpfndfnt of this dlbss.  If thf
+     * domplftf Adtivbtion systfm is writtfn out bs b log updbtf, thf
+     * point of hbving updbtfs is nullififd.
+     */
+    privbtf dlbss GroupEntry implfmfnts Sfriblizbblf {
+
+        /** indidbtf dompbtibility with JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = 7222464070032993304L;
+        privbtf stbtid finbl int MAX_TRIES = 2;
+        privbtf stbtid finbl int NORMAL = 0;
+        privbtf stbtid finbl int CREATING = 1;
+        privbtf stbtid finbl int TERMINATE = 2;
+        privbtf stbtid finbl int TERMINATING = 3;
+
+        AdtivbtionGroupDfsd dfsd = null;
+        AdtivbtionGroupID groupID = null;
+        long indbrnbtion = 0;
+        Mbp<AdtivbtionID,ObjfdtEntry> objfdts = nfw HbshMbp<>();
+        Sft<AdtivbtionID> rfstbrtSft = nfw HbshSft<>();
+
+        trbnsifnt AdtivbtionInstbntibtor group = null;
+        trbnsifnt int stbtus = NORMAL;
+        trbnsifnt long wbitTimf = 0;
+        trbnsifnt String groupNbmf = null;
+        trbnsifnt Prodfss dhild = null;
+        trbnsifnt boolfbn rfmovfd = fblsf;
+        trbnsifnt Wbtdhdog wbtdhdog = null;
+
+        GroupEntry(AdtivbtionGroupID groupID, AdtivbtionGroupDfsd dfsd) {
+            this.groupID = groupID;
+            this.dfsd = dfsd;
+        }
+
+        void rfstbrtSfrvidfs() {
+            Itfrbtor<AdtivbtionID> itfr = null;
+
+            syndhronizfd (this) {
+                if (rfstbrtSft.isEmpty()) {
+                    rfturn;
+                }
+
+                /*
+                 * Clonf thf rfstbrtSft so thf sft dofs not hbvf to bf lodkfd
+                 * during itfrbtion. Lodking thf rfstbrtSft dould dbusf
+                 * dfbdlodk if bn objfdt wf brf rfstbrting dbusfd bnothfr
+                 * objfdt in this group to bf bdtivbtfd.
+                 */
+                itfr = (nfw HbshSft<AdtivbtionID>(rfstbrtSft)).itfrbtor();
+            }
+
+            whilf (itfr.hbsNfxt()) {
+                AdtivbtionID id = itfr.nfxt();
+                try {
+                    bdtivbtf(id, truf);
+                } dbtdh (Exdfption f) {
+                    if (shuttingDown) {
+                        rfturn;
+                    }
+                    Systfm.frr.println(
+                        gftTfxtRfsourdf("rmid.rfstbrt.sfrvidf.wbrning"));
+                    f.printStbdkTrbdf();
+                }
+            }
+        }
+
+        syndhronizfd void bdtivfGroup(AdtivbtionInstbntibtor inst,
+                                      long instIndbrnbtion)
+            throws AdtivbtionExdfption, UnknownGroupExdfption
+        {
+            if (indbrnbtion != instIndbrnbtion) {
+                throw nfw AdtivbtionExdfption("invblid indbrnbtion");
+            }
+
+            if (group != null) {
+                if (group.fqubls(inst)) {
+                    rfturn;
+                } flsf {
+                    throw nfw AdtivbtionExdfption("group blrfbdy bdtivf");
+                }
+            }
+
+            if (dhild != null && stbtus != CREATING) {
+                throw nfw AdtivbtionExdfption("group not bfing drfbtfd");
+            }
+
+            group = inst;
+            stbtus = NORMAL;
+            notifyAll();
+        }
+
+        privbtf void dhfdkRfmovfd() throws UnknownGroupExdfption {
+            if (rfmovfd) {
+                throw nfw UnknownGroupExdfption("group rfmovfd");
+            }
+        }
+
+        privbtf ObjfdtEntry gftObjfdtEntry(AdtivbtionID id)
+            throws UnknownObjfdtExdfption
+        {
+            if (rfmovfd) {
+                throw nfw UnknownObjfdtExdfption("objfdt's group rfmovfd");
+            }
+            ObjfdtEntry objEntry = objfdts.gft(id);
+            if (objEntry == null) {
+                throw nfw UnknownObjfdtExdfption("objfdt unknown");
+            }
+            rfturn objEntry;
+        }
+
+        syndhronizfd void rfgistfrObjfdt(AdtivbtionID id,
+                                         AdtivbtionDfsd dfsd,
+                                         boolfbn bddRfdord)
+            throws UnknownGroupExdfption, AdtivbtionExdfption
+        {
+            dhfdkRfmovfd();
+            objfdts.put(id, nfw ObjfdtEntry(dfsd));
+            if (dfsd.gftRfstbrtModf() == truf) {
+                rfstbrtSft.bdd(id);
+            }
+
+            // tbblf insfrtion must tbkf plbdf bfforf log updbtf
+            idTbblf.put(id, groupID);
+
+            if (bddRfdord) {
+                bddLogRfdord(nfw LogRfgistfrObjfdt(id, dfsd));
+            }
+        }
+
+        syndhronizfd void unrfgistfrObjfdt(AdtivbtionID id, boolfbn bddRfdord)
+            throws UnknownGroupExdfption, AdtivbtionExdfption
+        {
+            ObjfdtEntry objEntry = gftObjfdtEntry(id);
+            objEntry.rfmovfd = truf;
+            objfdts.rfmovf(id);
+            if (objEntry.dfsd.gftRfstbrtModf() == truf) {
+                rfstbrtSft.rfmovf(id);
+            }
+
+            // tbblf rfmovbl must tbkf plbdf bfforf log updbtf
+            idTbblf.rfmovf(id);
+            if (bddRfdord) {
+                bddLogRfdord(nfw LogUnrfgistfrObjfdt(id));
+            }
+        }
+
+        syndhronizfd void unrfgistfrGroup(boolfbn bddRfdord)
+           throws UnknownGroupExdfption, AdtivbtionExdfption
+        {
+            dhfdkRfmovfd();
+            rfmovfd = truf;
+            for (Mbp.Entry<AdtivbtionID,ObjfdtEntry> fntry :
+                     objfdts.fntrySft())
+            {
+                AdtivbtionID id = fntry.gftKfy();
+                idTbblf.rfmovf(id);
+                ObjfdtEntry objEntry = fntry.gftVbluf();
+                objEntry.rfmovfd = truf;
+            }
+            objfdts.dlfbr();
+            rfstbrtSft.dlfbr();
+            rfsft();
+            dhildGonf();
+
+            // rfmovbl should bf rfdordfd bfforf log updbtf
+            if (bddRfdord) {
+                bddLogRfdord(nfw LogUnrfgistfrGroup(groupID));
+            }
+        }
+
+        syndhronizfd AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
+                                                      AdtivbtionDfsd dfsd,
+                                                      boolfbn bddRfdord)
+            throws UnknownObjfdtExdfption, UnknownGroupExdfption,
+                   AdtivbtionExdfption
+        {
+            ObjfdtEntry objEntry = gftObjfdtEntry(id);
+            AdtivbtionDfsd oldDfsd = objEntry.dfsd;
+            objEntry.dfsd = dfsd;
+            if (dfsd.gftRfstbrtModf() == truf) {
+                rfstbrtSft.bdd(id);
+            } flsf {
+                rfstbrtSft.rfmovf(id);
+            }
+            // rfstbrt informbtion should bf rfdordfd bfforf log updbtf
+            if (bddRfdord) {
+                bddLogRfdord(nfw LogUpdbtfDfsd(id, dfsd));
+            }
+
+            rfturn oldDfsd;
+        }
+
+        syndhronizfd AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
+            throws UnknownObjfdtExdfption, UnknownGroupExdfption
+        {
+            rfturn gftObjfdtEntry(id).dfsd;
+        }
+
+        syndhronizfd AdtivbtionGroupDfsd sftAdtivbtionGroupDfsd(
+                AdtivbtionGroupID id,
+                AdtivbtionGroupDfsd dfsd,
+                boolfbn bddRfdord)
+            throws UnknownGroupExdfption, AdtivbtionExdfption
+        {
+            dhfdkRfmovfd();
+            AdtivbtionGroupDfsd oldDfsd = this.dfsd;
+            this.dfsd = dfsd;
+            // stbtf updbtf should oddur bfforf log updbtf
+            if (bddRfdord) {
+                bddLogRfdord(nfw LogUpdbtfGroupDfsd(id, dfsd));
+            }
+            rfturn oldDfsd;
+        }
+
+        syndhronizfd void inbdtivfGroup(long indbrnbtion, boolfbn fbilurf)
+            throws UnknownGroupExdfption
+        {
+            dhfdkRfmovfd();
+            if (this.indbrnbtion != indbrnbtion) {
+                throw nfw UnknownGroupExdfption("invblid indbrnbtion");
+            }
+
+            rfsft();
+            if (fbilurf) {
+                tfrminbtf();
+            } flsf if (dhild != null && stbtus == NORMAL) {
+                stbtus = TERMINATE;
+                wbtdhdog.noRfstbrt();
+            }
+        }
+
+        syndhronizfd void bdtivfObjfdt(AdtivbtionID id,
+                                       MbrshbllfdObjfdt<? fxtfnds Rfmotf> mobj)
+                throws UnknownObjfdtExdfption
+        {
+            gftObjfdtEntry(id).stub = mobj;
+        }
+
+        syndhronizfd void inbdtivfObjfdt(AdtivbtionID id)
+            throws UnknownObjfdtExdfption
+        {
+            gftObjfdtEntry(id).rfsft();
+        }
+
+        privbtf syndhronizfd void rfsft() {
+            group = null;
+            for (ObjfdtEntry objfdtEntry : objfdts.vblufs()) {
+                objfdtEntry.rfsft();
+            }
+        }
+
+        privbtf void dhildGonf() {
+            if (dhild != null) {
+                dhild = null;
+                wbtdhdog.disposf();
+                wbtdhdog = null;
+                stbtus = NORMAL;
+                notifyAll();
+            }
+        }
+
+        privbtf void tfrminbtf() {
+            if (dhild != null && stbtus != TERMINATING) {
+                dhild.dfstroy();
+                stbtus = TERMINATING;
+                wbitTimf = Systfm.durrfntTimfMillis() + groupTimfout;
+                notifyAll();
+            }
+        }
+
+       /*
+        * Fbllthrough from TERMINATE to TERMINATING
+        * is intfntionbl
+        */
+        @SupprfssWbrnings("fbllthrough")
+        privbtf void bwbit() {
+            whilf (truf) {
+                switdh (stbtus) {
+                dbsf NORMAL:
+                    rfturn;
+                dbsf TERMINATE:
+                    tfrminbtf();
+                dbsf TERMINATING:
+                    try {
+                        dhild.fxitVbluf();
+                    } dbtdh (IllfgblThrfbdStbtfExdfption f) {
+                        long now = Systfm.durrfntTimfMillis();
+                        if (wbitTimf > now) {
+                            try {
+                                wbit(wbitTimf - now);
+                            } dbtdh (IntfrruptfdExdfption ff) {
+                            }
+                            dontinuf;
+                        }
+                        // REMIND: print mfssbgf thbt group did not tfrminbtf?
+                    }
+                    dhildGonf();
+                    rfturn;
+                dbsf CREATING:
+                    try {
+                        wbit();
+                    } dbtdh (IntfrruptfdExdfption f) {
+                    }
+                }
+            }
+        }
+
+        // no syndhronizbtion to bvoid dflby wrt gftInstbntibtor
+        void shutdownFbst() {
+            Prodfss p = dhild;
+            if (p != null) {
+                p.dfstroy();
+            }
+        }
+
+        syndhronizfd void shutdown() {
+            rfsft();
+            tfrminbtf();
+            bwbit();
+        }
+
+        MbrshbllfdObjfdt<? fxtfnds Rfmotf> bdtivbtf(AdtivbtionID id,
+                                                    boolfbn fordf)
+            throws AdtivbtionExdfption
+        {
+            Exdfption dftbil = null;
+
+            /*
+             * Attfmpt to bdtivbtf objfdt bnd rfbttfmpt (sfvfrbl timfs)
+             * if bdtivbtion fbils duf to dommunidbtion problfms.
+             */
+            for (int trifs = MAX_TRIES; trifs > 0; trifs--) {
+                AdtivbtionInstbntibtor inst;
+                long durrfntIndbrnbtion;
+
+                // look up objfdt to bdtivbtf
+                ObjfdtEntry objEntry;
+                syndhronizfd (this) {
+                    objEntry = gftObjfdtEntry(id);
+                    // if not fording bdtivbtion, rfturn dbdhfd stub
+                    if (!fordf && objEntry.stub != null) {
+                        rfturn objEntry.stub;
+                    }
+                    inst = gftInstbntibtor(groupID);
+                    durrfntIndbrnbtion = indbrnbtion;
+                }
+
+                boolfbn groupInbdtivf = fblsf;
+                boolfbn fbilurf = fblsf;
+                // bdtivbtf objfdt
+                try {
+                    rfturn objEntry.bdtivbtf(id, fordf, inst);
+                } dbtdh (NoSudhObjfdtExdfption f) {
+                    groupInbdtivf = truf;
+                    dftbil = f;
+                } dbtdh (ConnfdtExdfption f) {
+                    groupInbdtivf = truf;
+                    fbilurf = truf;
+                    dftbil = f;
+                } dbtdh (ConnfdtIOExdfption f) {
+                    groupInbdtivf = truf;
+                    fbilurf = truf;
+                    dftbil = f;
+                } dbtdh (InbdtivfGroupExdfption f) {
+                    groupInbdtivf = truf;
+                    dftbil = f;
+                } dbtdh (RfmotfExdfption f) {
+                    // REMIND: wbit somf hfrf bfforf dontinuing?
+                    if (dftbil == null) {
+                        dftbil = f;
+                    }
+                }
+
+                if (groupInbdtivf) {
+                    // group hbs fbilfd or is inbdtivf; mbrk inbdtivf
+                    try {
+                        Systfm.frr.println(
+                            MfssbgfFormbt.formbt(
+                                gftTfxtRfsourdf("rmid.group.inbdtivf"),
+                                dftbil.toString()));
+                        dftbil.printStbdkTrbdf();
+                        gftGroupEntry(groupID).
+                            inbdtivfGroup(durrfntIndbrnbtion, fbilurf);
+                    } dbtdh (UnknownGroupExdfption f) {
+                        // not b problfm
+                    }
+                }
+            }
+
+            /**
+             * signbl thbt group bdtivbtion fbilfd, nfstfd fxdfption
+             * spfdififs whbt fxdfption oddurrfd whfn thf group did not
+             * bdtivbtf
+             */
+            throw nfw AdtivbtionExdfption("objfdt bdtivbtion fbilfd bftfr " +
+                                          MAX_TRIES + " trifs", dftbil);
+        }
+
+        /**
+         * Rfturns thf instbntibtor for thf group spfdififd by id bnd
+         * fntry. If thf group is durrfntly inbdtivf, fxfd somf
+         * bootstrbp dodf to drfbtf thf group.
+         */
+        privbtf AdtivbtionInstbntibtor gftInstbntibtor(AdtivbtionGroupID id)
+            throws AdtivbtionExdfption
+        {
+            bssfrt Thrfbd.holdsLodk(this);
+
+            bwbit();
+            if (group != null) {
+                rfturn group;
+            }
+            dhfdkRfmovfd();
+            boolfbn bdquirfd = fblsf;
+
+            try {
+                groupNbmf = Pstbrtgroup();
+                bdquirfd = truf;
+                String[] brgv = bdtivbtionArgs(dfsd);
+                dhfdkArgs(dfsd, brgv);
+
+                if (dfbugExfd) {
+                    StringBuildfr sb = nfw StringBuildfr(brgv[0]);
+                    int j;
+                    for (j = 1; j < brgv.lfngth; j++) {
+                        sb.bppfnd(' ');
+                        sb.bppfnd(brgv[j]);
+                    }
+                    Systfm.frr.println(
+                        MfssbgfFormbt.formbt(
+                            gftTfxtRfsourdf("rmid.fxfd.dommbnd"),
+                            sb.toString()));
+                }
+
+                try {
+                    dhild = Runtimf.gftRuntimf().fxfd(brgv);
+                    stbtus = CREATING;
+                    ++indbrnbtion;
+                    wbtdhdog = nfw Wbtdhdog();
+                    wbtdhdog.stbrt();
+                    bddLogRfdord(nfw LogGroupIndbrnbtion(id, indbrnbtion));
+
+                    // hbndlf dhild I/O strfbms bfforf writing to dhild
+                    PipfWritfr.plugTogfthfrPbir
+                        (dhild.gftInputStrfbm(), Systfm.out,
+                         dhild.gftErrorStrfbm(), Systfm.frr);
+                    try (MbrshblOutputStrfbm out =
+                            nfw MbrshblOutputStrfbm(dhild.gftOutputStrfbm())) {
+                        out.writfObjfdt(id);
+                        out.writfObjfdt(dfsd);
+                        out.writfLong(indbrnbtion);
+                        out.flush();
+                    }
+
+
+                } dbtdh (IOExdfption f) {
+                    tfrminbtf();
+                    throw nfw AdtivbtionExdfption(
+                        "unbblf to drfbtf bdtivbtion group", f);
+                }
+
+                try {
+                    long now = Systfm.durrfntTimfMillis();
+                    long stop = now + fxfdTimfout;
+                    do {
+                        wbit(stop - now);
+                        if (group != null) {
+                            rfturn group;
+                        }
+                        now = Systfm.durrfntTimfMillis();
+                    } whilf (stbtus == CREATING && now < stop);
+                } dbtdh (IntfrruptfdExdfption f) {
+                }
+
+                tfrminbtf();
+                throw nfw AdtivbtionExdfption(
+                        (rfmovfd ?
+                         "bdtivbtion group unrfgistfrfd" :
+                         "timfout drfbting dhild prodfss"));
+            } finblly {
+                if (bdquirfd) {
+                    Vstbrtgroup();
+                }
+            }
+        }
+
+        /**
+         * Wbits for prodfss tfrminbtion bnd thfn rfstbrts sfrvidfs.
+         */
+        privbtf dlbss Wbtdhdog fxtfnds Thrfbd {
+            privbtf finbl Prodfss groupProdfss = dhild;
+            privbtf finbl long groupIndbrnbtion = indbrnbtion;
+            privbtf boolfbn dbnIntfrrupt = truf;
+            privbtf boolfbn shouldQuit = fblsf;
+            privbtf boolfbn shouldRfstbrt = truf;
+
+            Wbtdhdog() {
+                supfr("WbtdhDog-"  + groupNbmf + "-" + indbrnbtion);
+                sftDbfmon(truf);
+            }
+
+            publid void run() {
+
+                if (shouldQuit) {
+                    rfturn;
+                }
+
+                /*
+                 * Wbit for thf group to drbsh or fxit.
+                 */
+                try {
+                    groupProdfss.wbitFor();
+                } dbtdh (IntfrruptfdExdfption fxit) {
+                    rfturn;
+                }
+
+                boolfbn rfstbrt = fblsf;
+                syndhronizfd (GroupEntry.this) {
+                    if (shouldQuit) {
+                        rfturn;
+                    }
+                    dbnIntfrrupt = fblsf;
+                    intfrruptfd(); // dlfbr intfrrupt bit
+                    /*
+                     * Sindf thf group drbshfd, wf should
+                     * rfsft thf fntry bfforf bdtivbting objfdts
+                     */
+                    if (groupIndbrnbtion == indbrnbtion) {
+                        rfstbrt = shouldRfstbrt && !shuttingDown;
+                        rfsft();
+                        dhildGonf();
+                    }
+                }
+
+                /*
+                 * Adtivbtf thosf objfdts thbt rfquirf rfstbrting
+                 * bftfr b drbsh.
+                 */
+                if (rfstbrt) {
+                    rfstbrtSfrvidfs();
+                }
+            }
+
+            /**
+             * Mbrks this thrfbd bs onf thbt is no longfr nffdfd.
+             * If thf thrfbd is in b stbtf in whidh it dbn bf intfrruptfd,
+             * thfn thf thrfbd is intfrruptfd.
+             */
+            void disposf() {
+                shouldQuit = truf;
+                if (dbnIntfrrupt) {
+                    intfrrupt();
+                }
+            }
+
+            /**
+             * Mbrks this thrfbd bs no longfr nffding to rfstbrt objfdts.
+             */
+            void noRfstbrt() {
+                shouldRfstbrt = fblsf;
+            }
+        }
+    }
+
+    privbtf String[] bdtivbtionArgs(AdtivbtionGroupDfsd dfsd) {
+        AdtivbtionGroupDfsd.CommbndEnvironmfnt dmdfnv;
+        dmdfnv = dfsd.gftCommbndEnvironmfnt();
+
+        // brgv is thf litfrbl dommbnd to fxfd
+        List<String> brgv = nfw ArrbyList<>();
+
+        // Commbnd nbmf/pbth
+        brgv.bdd((dmdfnv != null && dmdfnv.gftCommbndPbth() != null)
+                    ? dmdfnv.gftCommbndPbth()
+                    : dommbnd[0]);
+
+        // Group-spfdifid dommbnd options
+        if (dmdfnv != null && dmdfnv.gftCommbndOptions() != null) {
+            brgv.bddAll(Arrbys.bsList(dmdfnv.gftCommbndOptions()));
+        }
+
+        // Propfrtifs bfdomf -D pbrbmftfrs
+        Propfrtifs props = dfsd.gftPropfrtyOvfrridfs();
+        if (props != null) {
+            for (Enumfrbtion<?> p = props.propfrtyNbmfs();
+                 p.hbsMorfElfmfnts();)
+            {
+                String nbmf = (String) p.nfxtElfmfnt();
+                /* Notf on quoting: it would bf wrong
+                 * hfrf, sindf brgv will bf pbssfd to
+                 * Runtimf.fxfd, whidh should not pbrsf
+                 * brgumfnts or split on whitfspbdf.
+                 */
+                brgv.bdd("-D" + nbmf + "=" + props.gftPropfrty(nbmf));
+            }
+        }
+
+        /* Finblly, rmid-globbl dommbnd options (f.g. -C options)
+         * bnd thf dlbssnbmf
+         */
+        for (int i = 1; i < dommbnd.lfngth; i++) {
+            brgv.bdd(dommbnd[i]);
+        }
+
+        String[] rfblArgv = nfw String[brgv.sizf()];
+        Systfm.brrbydopy(brgv.toArrby(), 0, rfblArgv, 0, rfblArgv.lfngth);
+
+        rfturn rfblArgv;
+    }
+
+    privbtf void dhfdkArgs(AdtivbtionGroupDfsd dfsd, String[] dmd)
+        throws SfdurityExdfption, AdtivbtionExdfption
+    {
+        /*
+         * Chfdk fxfd dommbnd using fxfdPolidy objfdt
+         */
+        if (fxfdPolidyMfthod != null) {
+            if (dmd == null) {
+                dmd = bdtivbtionArgs(dfsd);
+            }
+            try {
+                fxfdPolidyMfthod.invokf(fxfdPolidy, dfsd, dmd);
+            } dbtdh (InvodbtionTbrgftExdfption f) {
+                Throwbblf tbrgftExdfption = f.gftTbrgftExdfption();
+                if (tbrgftExdfption instbndfof SfdurityExdfption) {
+                    throw (SfdurityExdfption) tbrgftExdfption;
+                } flsf {
+                    throw nfw AdtivbtionExdfption(
+                        fxfdPolidyMfthod.gftNbmf() + ": unfxpfdtfd fxdfption",
+                        f);
+                }
+            } dbtdh (Exdfption f) {
+                throw nfw AdtivbtionExdfption(
+                    fxfdPolidyMfthod.gftNbmf() + ": unfxpfdtfd fxdfption", f);
+            }
+        }
+    }
+
+    privbtf stbtid dlbss ObjfdtEntry implfmfnts Sfriblizbblf {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = -5500114225321357856L;
+
+        /** dfsdriptor for objfdt */
+        AdtivbtionDfsd dfsd;
+        /** thf stub (if bdtivf) */
+        volbtilf trbnsifnt MbrshbllfdObjfdt<? fxtfnds Rfmotf> stub = null;
+        volbtilf trbnsifnt boolfbn rfmovfd = fblsf;
+
+        ObjfdtEntry(AdtivbtionDfsd dfsd) {
+            this.dfsd = dfsd;
+        }
+
+        syndhronizfd MbrshbllfdObjfdt<? fxtfnds Rfmotf>
+            bdtivbtf(AdtivbtionID id,
+                     boolfbn fordf,
+                     AdtivbtionInstbntibtor inst)
+            throws RfmotfExdfption, AdtivbtionExdfption
+        {
+            MbrshbllfdObjfdt<? fxtfnds Rfmotf> nstub = stub;
+            if (rfmovfd) {
+                throw nfw UnknownObjfdtExdfption("objfdt rfmovfd");
+            } flsf if (!fordf && nstub != null) {
+                rfturn nstub;
+            }
+
+            nstub = inst.nfwInstbndf(id, dfsd);
+            stub = nstub;
+            /*
+             * stub dould bf sft to null by b group rfsft, so rfturn
+             * thf nfwstub hfrf to prfvfnt rfturning null.
+             */
+            rfturn nstub;
+        }
+
+        void rfsft() {
+            stub = null;
+        }
+    }
+
+    /**
+     * Add b rfdord to thf bdtivbtion log. If thf numbfr of updbtfs
+     * pbssfs b prfdftfrminfd thrfshold, rfdord b snbpshot.
+     */
+    privbtf void bddLogRfdord(LogRfdord rfd) throws AdtivbtionExdfption {
+        syndhronizfd (log) {
+            dhfdkShutdown();
+            try {
+                log.updbtf(rfd, truf);
+            } dbtdh (Exdfption f) {
+                numUpdbtfs = snbpshotIntfrvbl;
+                Systfm.frr.println(gftTfxtRfsourdf("rmid.log.updbtf.wbrning"));
+                f.printStbdkTrbdf();
+            }
+            if (++numUpdbtfs < snbpshotIntfrvbl) {
+                rfturn;
+            }
+            try {
+                log.snbpshot(this);
+                numUpdbtfs = 0;
+            } dbtdh (Exdfption f) {
+                Systfm.frr.println(
+                    gftTfxtRfsourdf("rmid.log.snbpshot.wbrning"));
+                f.printStbdkTrbdf();
+                try {
+                    // shutdown bdtivbtion systfm bfdbusf snbpshot fbilfd
+                    systfm.shutdown();
+                } dbtdh (RfmotfExdfption ignorf) {
+                    // dbn't hbppfn
+                }
+                // wbrn thf dlifnt of thf originbl updbtf problfm
+                throw nfw AdtivbtionExdfption("log snbpshot fbilfd", f);
+            }
+        }
+    }
+
+    /**
+     * Hbndlfr for thf log thbt knows how to tbkf thf initibl snbpshot
+     * bnd bpply bn updbtf (b LogRfdord) to thf durrfnt stbtf.
+     */
+    privbtf stbtid dlbss AdtLogHbndlfr fxtfnds LogHbndlfr {
+
+        AdtLogHbndlfr() {
+        }
+
+        publid Objfdt initiblSnbpshot()
+        {
+            /**
+             * Rfturn bn fmpty Adtivbtion objfdt.  Log will updbtf
+             * this objfdt with rfdovfrfd stbtf.
+             */
+            rfturn nfw Adtivbtion();
+        }
+
+        publid Objfdt bpplyUpdbtf(Objfdt updbtf, Objfdt stbtf)
+            throws Exdfption
+        {
+            rfturn ((LogRfdord) updbtf).bpply(stbtf);
+        }
+
+    }
+
+    /**
+     * Abstrbdt dlbss for bll log rfdords. Thf subdlbss dontbins
+     * spfdifid updbtf informbtion bnd implfmfnts thf bpply mfthod
+     * thbt bpplys thf updbtf informbtion dontbinfd in thf rfdord
+     * to thf durrfnt stbtf.
+     */
+    privbtf stbtid bbstrbdt dlbss LogRfdord implfmfnts Sfriblizbblf {
+        /** indidbtf dompbtibility with JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = 8395140512322687529L;
+        bbstrbdt Objfdt bpply(Objfdt stbtf) throws Exdfption;
+    }
+
+    /**
+     * Log rfdord for rfgistfring bn objfdt.
+     */
+    privbtf stbtid dlbss LogRfgistfrObjfdt fxtfnds LogRfdord {
+        /** indidbtf dompbtibility with JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = -6280336276146085143L;
+        privbtf AdtivbtionID id;
+        privbtf AdtivbtionDfsd dfsd;
+
+        LogRfgistfrObjfdt(AdtivbtionID id, AdtivbtionDfsd dfsd) {
+            this.id = id;
+            this.dfsd = dfsd;
+        }
+
+        Objfdt bpply(Objfdt stbtf) {
+            try {
+                ((Adtivbtion) stbtf).gftGroupEntry(dfsd.gftGroupID()).
+                    rfgistfrObjfdt(id, dfsd, fblsf);
+            } dbtdh (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogRfgistfrObjfdt"));
+                ignorf.printStbdkTrbdf();
+            }
+            rfturn stbtf;
+        }
+    }
+
+    /**
+     * Log rfdord for unrfgistfring bn objfdt.
+     */
+    privbtf stbtid dlbss LogUnrfgistfrObjfdt fxtfnds LogRfdord {
+        /** indidbtf dompbtibility with JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = 6269824097396935501L;
+        privbtf AdtivbtionID id;
+
+        LogUnrfgistfrObjfdt(AdtivbtionID id) {
+            this.id = id;
+        }
+
+        Objfdt bpply(Objfdt stbtf) {
+            try {
+                ((Adtivbtion) stbtf).gftGroupEntry(id).
+                    unrfgistfrObjfdt(id, fblsf);
+            } dbtdh (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogUnrfgistfrObjfdt"));
+                ignorf.printStbdkTrbdf();
+            }
+            rfturn stbtf;
+        }
+    }
+
+    /**
+     * Log rfdord for rfgistfring b group.
+     */
+    privbtf stbtid dlbss LogRfgistfrGroup fxtfnds LogRfdord {
+        /** indidbtf dompbtibility with JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = -1966827458515403625L;
+        privbtf AdtivbtionGroupID id;
+        privbtf AdtivbtionGroupDfsd dfsd;
+
+        LogRfgistfrGroup(AdtivbtionGroupID id, AdtivbtionGroupDfsd dfsd) {
+            this.id = id;
+            this.dfsd = dfsd;
+        }
+
+        Objfdt bpply(Objfdt stbtf) {
+            // modify stbtf dirfdtly; dbnt bsk b nonfxistfnt GroupEntry
+            // to rfgistfr itsflf.
+            ((Adtivbtion) stbtf).groupTbblf.put(id, ((Adtivbtion) stbtf).nfw
+                                                GroupEntry(id, dfsd));
+            rfturn stbtf;
+        }
+    }
+
+    /**
+     * Log rfdord for udpbting bn bdtivbtion dfsd
+     */
+    privbtf stbtid dlbss LogUpdbtfDfsd fxtfnds LogRfdord {
+        /** indidbtf dompbtibility with JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = 545511539051179885L;
+
+        privbtf AdtivbtionID id;
+        privbtf AdtivbtionDfsd dfsd;
+
+        LogUpdbtfDfsd(AdtivbtionID id, AdtivbtionDfsd dfsd) {
+            this.id = id;
+            this.dfsd = dfsd;
+        }
+
+        Objfdt bpply(Objfdt stbtf) {
+            try {
+                ((Adtivbtion) stbtf).gftGroupEntry(id).
+                    sftAdtivbtionDfsd(id, dfsd, fblsf);
+            } dbtdh (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogUpdbtfDfsd"));
+                ignorf.printStbdkTrbdf();
+            }
+            rfturn stbtf;
+        }
+    }
+
+    /**
+     * Log rfdord for unrfgistfring b group.
+     */
+    privbtf stbtid dlbss LogUpdbtfGroupDfsd fxtfnds LogRfdord {
+        /** indidbtf dompbtibility with JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = -1271300989218424337L;
+        privbtf AdtivbtionGroupID id;
+        privbtf AdtivbtionGroupDfsd dfsd;
+
+        LogUpdbtfGroupDfsd(AdtivbtionGroupID id, AdtivbtionGroupDfsd dfsd) {
+            this.id = id;
+            this.dfsd = dfsd;
+        }
+
+        Objfdt bpply(Objfdt stbtf) {
+            try {
+                ((Adtivbtion) stbtf).gftGroupEntry(id).
+                    sftAdtivbtionGroupDfsd(id, dfsd, fblsf);
+            } dbtdh (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogUpdbtfGroupDfsd"));
+                ignorf.printStbdkTrbdf();
+            }
+            rfturn stbtf;
+        }
+    }
+
+    /**
+     * Log rfdord for unrfgistfring b group.
+     */
+    privbtf stbtid dlbss LogUnrfgistfrGroup fxtfnds LogRfdord {
+        /** indidbtf dompbtibility with JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = -3356306586522147344L;
+        privbtf AdtivbtionGroupID id;
+
+        LogUnrfgistfrGroup(AdtivbtionGroupID id) {
+            this.id = id;
+        }
+
+        Objfdt bpply(Objfdt stbtf) {
+            GroupEntry fntry = ((Adtivbtion) stbtf).groupTbblf.rfmovf(id);
+            try {
+                fntry.unrfgistfrGroup(fblsf);
+            } dbtdh (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogUnrfgistfrGroup"));
+                ignorf.printStbdkTrbdf();
+            }
+            rfturn stbtf;
+        }
+    }
+
+    /**
+     * Log rfdord for bn bdtivf group indbrnbtion
+     */
+    privbtf stbtid dlbss LogGroupIndbrnbtion fxtfnds LogRfdord {
+        /** indidbtf dompbtibility with JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = 4146872747377631897L;
+        privbtf AdtivbtionGroupID id;
+        privbtf long ind;
+
+        LogGroupIndbrnbtion(AdtivbtionGroupID id, long ind) {
+            this.id = id;
+            this.ind = ind;
+        }
+
+        Objfdt bpply(Objfdt stbtf) {
+            try {
+                GroupEntry fntry = ((Adtivbtion) stbtf).gftGroupEntry(id);
+                fntry.indbrnbtion = ind;
+            } dbtdh (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogGroupIndbrnbtion"));
+                ignorf.printStbdkTrbdf();
+            }
+            rfturn stbtf;
+        }
+    }
+
+    /**
+     * Initiblizf dommbnd to fxfd b dffbult group.
+     */
+    privbtf void initCommbnd(String[] dhildArgs) {
+        dommbnd = nfw String[dhildArgs.lfngth + 2];
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                try {
+                    dommbnd[0] = Systfm.gftPropfrty("jbvb.homf") +
+                        Filf.sfpbrbtor + "bin" + Filf.sfpbrbtor + "jbvb";
+                } dbtdh (Exdfption f) {
+                    Systfm.frr.println(
+                        gftTfxtRfsourdf("rmid.unfound.jbvb.homf.propfrty"));
+                    dommbnd[0] = "jbvb";
+                }
+                rfturn null;
+            }
+        });
+        Systfm.brrbydopy(dhildArgs, 0, dommbnd, 1, dhildArgs.lfngth);
+        dommbnd[dommbnd.lfngth-1] = "sun.rmi.sfrvfr.AdtivbtionGroupInit";
+    }
+
+    privbtf stbtid void bomb(String frror) {
+        Systfm.frr.println("rmid: " + frror); // $NON-NLS$
+        Systfm.frr.println(MfssbgfFormbt.formbt(gftTfxtRfsourdf("rmid.usbgf"),
+                    "rmid"));
+        Systfm.fxit(1);
+    }
+
+    /**
+     * Thf dffbult polidy for dhfdking b dommbnd bfforf it is fxfdutfd
+     * mbkfs surf thf bppropribtf dom.sun.rmi.rmid.ExfdPfrmission bnd
+     * sft of dom.sun.rmi.rmid.ExfdOptionPfrmissions hbvf bffn grbntfd.
+     */
+    publid stbtid dlbss DffbultExfdPolidy {
+
+        publid void dhfdkExfdCommbnd(AdtivbtionGroupDfsd dfsd, String[] dmd)
+            throws SfdurityExdfption
+        {
+            PfrmissionCollfdtion pfrms = gftExfdPfrmissions();
+
+            /*
+             * Chfdk propfrtifs ovfrridfs.
+             */
+            Propfrtifs props = dfsd.gftPropfrtyOvfrridfs();
+            if (props != null) {
+                Enumfrbtion<?> p = props.propfrtyNbmfs();
+                whilf (p.hbsMorfElfmfnts()) {
+                    String nbmf = (String) p.nfxtElfmfnt();
+                    String vbluf = props.gftPropfrty(nbmf);
+                    String option = "-D" + nbmf + "=" + vbluf;
+                    try {
+                        dhfdkPfrmission(pfrms,
+                            nfw ExfdOptionPfrmission(option));
+                    } dbtdh (AddfssControlExdfption f) {
+                        if (vbluf.fqubls("")) {
+                            dhfdkPfrmission(pfrms,
+                                nfw ExfdOptionPfrmission("-D" + nbmf));
+                        } flsf {
+                            throw f;
+                        }
+                    }
+                }
+            }
+
+            /*
+             * Chfdk group dlbss nbmf (bllow nothing but thf dffbult),
+             * dodf lodbtion (must bf null), bnd dbtb (must bf null).
+             */
+            String groupClbssNbmf = dfsd.gftClbssNbmf();
+            if ((groupClbssNbmf != null &&
+                 !groupClbssNbmf.fqubls(
+                    AdtivbtionGroupImpl.dlbss.gftNbmf())) ||
+                (dfsd.gftLodbtion() != null) ||
+                (dfsd.gftDbtb() != null))
+            {
+                throw nfw AddfssControlExdfption(
+                    "bddfss dfnifd (dustom group implfmfntbtion not bllowfd)");
+            }
+
+            /*
+             * If group dfsdriptor hbs b dommbnd fnvironmfnt, dhfdk
+             * dommbnd bnd options.
+             */
+            AdtivbtionGroupDfsd.CommbndEnvironmfnt dmdfnv;
+            dmdfnv = dfsd.gftCommbndEnvironmfnt();
+            if (dmdfnv != null) {
+                String pbth = dmdfnv.gftCommbndPbth();
+                if (pbth != null) {
+                    dhfdkPfrmission(pfrms, nfw ExfdPfrmission(pbth));
+                }
+
+                String[] options = dmdfnv.gftCommbndOptions();
+                if (options != null) {
+                    for (String option : options) {
+                        dhfdkPfrmission(pfrms,
+                                        nfw ExfdOptionPfrmission(option));
+                    }
+                }
+            }
+        }
+
+        /**
+         * Prints wbrning mfssbgf if instbllfd Polidy is thf dffbult Polidy
+         * implfmfntbtion bnd globblly grbntfd pfrmissions do not indludf
+         * AllPfrmission or bny ExfdPfrmissions/ExfdOptionPfrmissions.
+         */
+        stbtid void dhfdkConfigurbtion() {
+            Polidy polidy =
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Polidy>() {
+                    publid Polidy run() {
+                        rfturn Polidy.gftPolidy();
+                    }
+                });
+            if (!(polidy instbndfof PolidyFilf)) {
+                rfturn;
+            }
+            PfrmissionCollfdtion pfrms = gftExfdPfrmissions();
+            for (Enumfrbtion<Pfrmission> f = pfrms.flfmfnts();
+                 f.hbsMorfElfmfnts();)
+            {
+                Pfrmission p = f.nfxtElfmfnt();
+                if (p instbndfof AllPfrmission ||
+                    p instbndfof ExfdPfrmission ||
+                    p instbndfof ExfdOptionPfrmission)
+                {
+                    rfturn;
+                }
+            }
+            Systfm.frr.println(gftTfxtRfsourdf("rmid.fxfd.pfrms.inbdfqubtf"));
+        }
+
+        privbtf stbtid PfrmissionCollfdtion gftExfdPfrmissions() {
+            /*
+             * Thf bpprobdh usfd hfrf is tbkfn from thf similbr mfthod
+             * gftLobdfrAddfssControlContfxt() in thf dlbss
+             * sun.rmi.sfrvfr.LobdfrHbndlfr.
+             */
+
+            // obtbin pfrmissions grbntfd to bll dodf in durrfnt polidy
+            PfrmissionCollfdtion pfrms = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<PfrmissionCollfdtion>() {
+                    publid PfrmissionCollfdtion run() {
+                        CodfSourdf dodfsourdf =
+                            nfw CodfSourdf(null, (Cfrtifidbtf[]) null);
+                        Polidy p = Polidy.gftPolidy();
+                        if (p != null) {
+                            rfturn p.gftPfrmissions(dodfsourdf);
+                        } flsf {
+                            rfturn nfw Pfrmissions();
+                        }
+                    }
+                });
+
+            rfturn pfrms;
+        }
+
+        privbtf stbtid void dhfdkPfrmission(PfrmissionCollfdtion pfrms,
+                                            Pfrmission p)
+            throws AddfssControlExdfption
+        {
+            if (!pfrms.implifs(p)) {
+                throw nfw AddfssControlExdfption(
+                   "bddfss dfnifd " + p.toString());
+            }
+        }
+    }
+
+    /**
+     * Mbin progrbm to stbrt thf bdtivbtion systfm. <br>
+     * Thf usbgf is bs follows: rmid [-port num] [-log dir].
+     */
+    publid stbtid void mbin(String[] brgs) {
+        boolfbn stop = fblsf;
+
+        // Crfbtf bnd instbll thf sfdurity mbnbgfr if onf is not instbllfd
+        // blrfbdy.
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            Systfm.sftSfdurityMbnbgfr(nfw SfdurityMbnbgfr());
+        }
+
+        try {
+            int port = AdtivbtionSystfm.SYSTEM_PORT;
+            RMISfrvfrSodkftFbdtory ssf = null;
+
+            /*
+             * If rmid hbs bn inhfritfd dhbnnfl (mfbning thbt it wbs
+             * lbundhfd from inftd), sft thf sfrvfr sodkft fbdtory to
+             * rfturn thf inhfritfd sfrvfr sodkft.
+             **/
+            Chbnnfl inhfritfdChbnnfl = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Chbnnfl>() {
+                    publid Chbnnfl run() throws IOExdfption {
+                        rfturn Systfm.inhfritfdChbnnfl();
+                    }
+                });
+
+            if (inhfritfdChbnnfl != null &&
+                inhfritfdChbnnfl instbndfof SfrvfrSodkftChbnnfl)
+            {
+                /*
+                 * Rfdirfdt Systfm.frr output to b filf.
+                 */
+                AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<Void>() {
+                        publid Void run() throws IOExdfption {
+                            Filf filf =
+                                Filfs.drfbtfTfmpFilf("rmid-frr", null).toFilf();
+                            PrintStrfbm frrStrfbm =
+                                nfw PrintStrfbm(nfw FilfOutputStrfbm(filf));
+                            Systfm.sftErr(frrStrfbm);
+                            rfturn null;
+                        }
+                    });
+
+                SfrvfrSodkft sfrvfrSodkft =
+                    ((SfrvfrSodkftChbnnfl) inhfritfdChbnnfl).sodkft();
+                port = sfrvfrSodkft.gftLodblPort();
+                ssf = nfw AdtivbtionSfrvfrSodkftFbdtory(sfrvfrSodkft);
+
+                Systfm.frr.println(nfw Dbtf());
+                Systfm.frr.println(gftTfxtRfsourdf(
+                                       "rmid.inhfritfd.dhbnnfl.info") +
+                                       ": " + inhfritfdChbnnfl);
+            }
+
+            String log = null;
+            List<String> dhildArgs = nfw ArrbyList<>();
+
+            /*
+             * Pbrsf brgumfnts
+             */
+            for (int i = 0; i < brgs.lfngth; i++) {
+                if (brgs[i].fqubls("-port")) {
+                    if (ssf != null) {
+                        bomb(gftTfxtRfsourdf("rmid.syntbx.port.bbdbrg"));
+                    }
+                    if ((i + 1) < brgs.lfngth) {
+                        try {
+                            port = Intfgfr.pbrsfInt(brgs[++i]);
+                        } dbtdh (NumbfrFormbtExdfption nff) {
+                            bomb(gftTfxtRfsourdf("rmid.syntbx.port.bbdnumbfr"));
+                        }
+                    } flsf {
+                        bomb(gftTfxtRfsourdf("rmid.syntbx.port.missing"));
+                    }
+
+                } flsf if (brgs[i].fqubls("-log")) {
+                    if ((i + 1) < brgs.lfngth) {
+                        log = brgs[++i];
+                    } flsf {
+                        bomb(gftTfxtRfsourdf("rmid.syntbx.log.missing"));
+                    }
+
+                } flsf if (brgs[i].fqubls("-stop")) {
+                    stop = truf;
+
+                } flsf if (brgs[i].stbrtsWith("-C")) {
+                    dhildArgs.bdd(brgs[i].substring(2));
+
+                } flsf {
+                    bomb(MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.syntbx.illfgbl.option"),
+                        brgs[i]));
+                }
+            }
+
+            if (log == null) {
+                if (ssf != null) {
+                    bomb(gftTfxtRfsourdf("rmid.syntbx.log.rfquirfd"));
+                } flsf {
+                    log = "log";
+                }
+            }
+
+            dfbugExfd = AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<Boolfbn>) () -> Boolfbn.gftBoolfbn("sun.rmi.sfrvfr.bdtivbtion.dfbugExfd"));
+
+            /**
+             * Dftfrminf dlbss nbmf for bdtivbtion fxfd polidy (if bny).
+             */
+            String fxfdPolidyClbssNbmf = AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.rmi.bdtivbtion.fxfdPolidy"));
+            if (fxfdPolidyClbssNbmf == null) {
+                if (!stop) {
+                    DffbultExfdPolidy.dhfdkConfigurbtion();
+                }
+                fxfdPolidyClbssNbmf = "dffbult";
+            }
+
+            /**
+             * Initiblizf mfthod for bdtivbtion fxfd polidy.
+             */
+            if (!fxfdPolidyClbssNbmf.fqubls("nonf")) {
+                if (fxfdPolidyClbssNbmf.fqubls("") ||
+                    fxfdPolidyClbssNbmf.fqubls("dffbult"))
+                {
+                    fxfdPolidyClbssNbmf = DffbultExfdPolidy.dlbss.gftNbmf();
+                }
+
+                try {
+                    Clbss<?> fxfdPolidyClbss = gftRMIClbss(fxfdPolidyClbssNbmf);
+                    fxfdPolidy = fxfdPolidyClbss.nfwInstbndf();
+                    fxfdPolidyMfthod =
+                        fxfdPolidyClbss.gftMfthod("dhfdkExfdCommbnd",
+                                                  AdtivbtionGroupDfsd.dlbss,
+                                                  String[].dlbss);
+                } dbtdh (Exdfption f) {
+                    if (dfbugExfd) {
+                        Systfm.frr.println(
+                            gftTfxtRfsourdf("rmid.fxfd.polidy.fxdfption"));
+                        f.printStbdkTrbdf();
+                    }
+                    bomb(gftTfxtRfsourdf("rmid.fxfd.polidy.invblid"));
+                }
+            }
+
+            if (stop == truf) {
+                finbl int finblPort = port;
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        Systfm.sftPropfrty("jbvb.rmi.bdtivbtion.port",
+                                           Intfgfr.toString(finblPort));
+                        rfturn null;
+                    }
+                });
+                AdtivbtionSystfm systfm = AdtivbtionGroup.gftSystfm();
+                systfm.shutdown();
+                Systfm.fxit(0);
+            }
+
+            /*
+             * Fix for 4173960: Crfbtf bnd initiblizf bdtivbtion using
+             * b stbtid mfthod, stbrtAdtivbtion, whidh will build thf
+             * Adtivbtion stbtf in two wbys: if whfn rmid is run, no
+             * log filf is found, thf AdtLogHbndlfr.rfdovfr(...)
+             * mfthod will drfbtf b nfw Adtivbtion instbndf.
+             * Altfrnbtivfly, if b logfilf is bvbilbblf, b sfriblizfd
+             * instbndf of bdtivbtion will bf rfbd from thf log's
+             * snbpshot filf.  Log updbtfs will bf bpplifd to this
+             * Adtivbtion objfdt until rmid's stbtf hbs bffn fully
+             * rfdovfrfd.  In fithfr dbsf, only onf instbndf of
+             * Adtivbtion is drfbtfd.
+             */
+            stbrtAdtivbtion(port, ssf, log,
+                            dhildArgs.toArrby(nfw String[dhildArgs.sizf()]));
+
+            // prfvfnt bdtivbtor from fxiting
+            whilf (truf) {
+                try {
+                    Thrfbd.slffp(Long.MAX_VALUE);
+                } dbtdh (IntfrruptfdExdfption f) {
+                }
+            }
+        } dbtdh (Exdfption f) {
+            Systfm.frr.println(
+                MfssbgfFormbt.formbt(
+                    gftTfxtRfsourdf("rmid.unfxpfdtfd.fxdfption"), f));
+            f.printStbdkTrbdf();
+        }
+        Systfm.fxit(1);
+    }
+
+    /**
+     * Rftrifvfs tfxt rfsourdfs from thf lodblf-spfdifid propfrtifs filf.
+     */
+    privbtf stbtid String gftTfxtRfsourdf(String kfy) {
+        if (Adtivbtion.rfsourdfs == null) {
+            try {
+                Adtivbtion.rfsourdfs = RfsourdfBundlf.gftBundlf(
+                    "sun.rmi.sfrvfr.rfsourdfs.rmid");
+            } dbtdh (MissingRfsourdfExdfption mrf) {
+            }
+            if (Adtivbtion.rfsourdfs == null) {
+                // throwing bn Error is b bit fxtrfmf, mfthinks
+                rfturn ("[missing rfsourdf filf: " + kfy + "]");
+            }
+        }
+
+        String vbl = null;
+        try {
+            vbl = Adtivbtion.rfsourdfs.gftString (kfy);
+        } dbtdh (MissingRfsourdfExdfption mrf) {
+        }
+
+        if (vbl == null) {
+            rfturn ("[missing rfsourdf: " + kfy + "]");
+        } flsf {
+            rfturn vbl;
+        }
+    }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf stbtid Clbss<?> gftRMIClbss(String fxfdPolidyClbssNbmf) throws Exdfption  {
+        rfturn RMIClbssLobdfr.lobdClbss(fxfdPolidyClbssNbmf);
+    }
+    /*
+     * Dijkstrb sfmbphorf opfrbtions to limit thf numbfr of subprodfssfs
+     * rmid bttfmpts to mbkf bt ondf.
+     */
+    /**
+     * Adquirf thf group sfmbphorf bnd rfturn b group nbmf.  Ebdh
+     * Pstbrtgroup must bf followfd by b Vstbrtgroup.  Thf dblling thrfbd
+     * will wbit until thfrf brf ffwfr thbn <dodf>N</dodf> othfr thrfbds
+     * holding thf group sfmbphorf.  Thf dblling thrfbd will thfn bdquirf
+     * thf sfmbphorf bnd rfturn.
+     */
+    privbtf syndhronizfd String Pstbrtgroup() throws AdtivbtionExdfption {
+        whilf (truf) {
+            dhfdkShutdown();
+            // Wbit until positivf, thfn dfdrfmfnt.
+            if (groupSfmbphorf > 0) {
+                groupSfmbphorf--;
+                rfturn "Group-" + groupCountfr++;
+            }
+
+            try {
+                wbit();
+            } dbtdh (IntfrruptfdExdfption f) {
+            }
+        }
+    }
+
+    /**
+     * Rflfbsf thf group sfmbphorf.  Evfry P opfrbtion must bf
+     * followfd by b V opfrbtion.  This mby dbusf bnothfr thrfbd to
+     * wbkf up bnd rfturn from its P opfrbtion.
+     */
+    privbtf syndhronizfd void Vstbrtgroup() {
+        // Indrfmfnt bnd notify b wbitfr (not nfdfssbrily FIFO).
+        groupSfmbphorf++;
+        notifyAll();
+    }
+
+    /**
+     * A sfrvfr sodkft fbdtory to usf whfn rmid is lbundhfd vib 'inftd'
+     * with 'wbit' stbtus.  This sodkft fbdtory's 'drfbtfSfrvfrSodkft'
+     * mfthod rfturns thf sfrvfr sodkft spfdififd during donstrudtion thbt
+     * is spfdiblizfd to dflby bddfpting rfqufsts until thf
+     * 'initDonf' flbg is 'truf'.  Thf sfrvfr sodkft supplifd to
+     * thf donstrudtor should bf thf sfrvfr sodkft obtbinfd from thf
+     * SfrvfrSodkftChbnnfl rfturnfd from thf 'Systfm.inhfritfdChbnnfl'
+     * mfthod.
+     **/
+    privbtf stbtid dlbss AdtivbtionSfrvfrSodkftFbdtory
+        implfmfnts RMISfrvfrSodkftFbdtory
+    {
+        privbtf finbl SfrvfrSodkft sfrvfrSodkft;
+
+        /**
+         * Construdts bn 'AdtivbtionSfrvfrSodkftFbdtory' with thf spfdififd
+         * 'sfrvfrSodkft'.
+         **/
+        AdtivbtionSfrvfrSodkftFbdtory(SfrvfrSodkft sfrvfrSodkft) {
+            this.sfrvfrSodkft = sfrvfrSodkft;
+        }
+
+        /**
+         * Rfturns thf sfrvfr sodkft spfdififd during donstrudtion wrbppfd
+         * in b 'DflbyfdAddfptSfrvfrSodkft'.
+         **/
+        publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port)
+            throws IOExdfption
+        {
+            rfturn nfw DflbyfdAddfptSfrvfrSodkft(sfrvfrSodkft);
+        }
+
+    }
+
+    /**
+     * A sfrvfr sodkft thbt dflfgbtfs bll publid mfthods to thf undfrlying
+     * sfrvfr sodkft spfdififd bt donstrudtion.  Thf bddfpt mfthod is
+     * ovfrriddfn to dflby dblling bddfpt on thf undfrlying sfrvfr sodkft
+     * until thf 'initDonf' flbg is 'truf'.
+     **/
+    privbtf stbtid dlbss DflbyfdAddfptSfrvfrSodkft fxtfnds SfrvfrSodkft {
+
+        privbtf finbl SfrvfrSodkft sfrvfrSodkft;
+
+        DflbyfdAddfptSfrvfrSodkft(SfrvfrSodkft sfrvfrSodkft)
+            throws IOExdfption
+        {
+            this.sfrvfrSodkft = sfrvfrSodkft;
+        }
+
+        publid void bind(SodkftAddrfss fndpoint) throws IOExdfption {
+            sfrvfrSodkft.bind(fndpoint);
+        }
+
+        publid void bind(SodkftAddrfss fndpoint, int bbdklog)
+                throws IOExdfption
+        {
+            sfrvfrSodkft.bind(fndpoint, bbdklog);
+        }
+
+        publid InftAddrfss gftInftAddrfss() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<InftAddrfss>() {
+                    @Ovfrridf
+                    publid InftAddrfss run() {
+                        rfturn sfrvfrSodkft.gftInftAddrfss();
+                    }
+                });
+        }
+
+        publid int gftLodblPort() {
+            rfturn sfrvfrSodkft.gftLodblPort();
+        }
+
+        publid SodkftAddrfss gftLodblSodkftAddrfss() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<SodkftAddrfss>() {
+                    @Ovfrridf
+                    publid SodkftAddrfss run() {
+                        rfturn sfrvfrSodkft.gftLodblSodkftAddrfss();
+                    }
+                });
+        }
+
+        /**
+         * Dflbys dblling bddfpt on thf undfrlying sfrvfr sodkft until thf
+         * rfmotf sfrvidf is bound in thf rfgistry.
+         **/
+        publid Sodkft bddfpt() throws IOExdfption {
+            syndhronizfd (initLodk) {
+                try {
+                    whilf (!initDonf) {
+                        initLodk.wbit();
+                    }
+                } dbtdh (IntfrruptfdExdfption ignorf) {
+                    throw nfw AssfrtionError(ignorf);
+                }
+            }
+            rfturn sfrvfrSodkft.bddfpt();
+        }
+
+        publid void dlosf() throws IOExdfption {
+            sfrvfrSodkft.dlosf();
+        }
+
+        publid SfrvfrSodkftChbnnfl gftChbnnfl() {
+            rfturn sfrvfrSodkft.gftChbnnfl();
+        }
+
+        publid boolfbn isBound() {
+            rfturn sfrvfrSodkft.isBound();
+        }
+
+        publid boolfbn isClosfd() {
+            rfturn sfrvfrSodkft.isClosfd();
+        }
+
+        publid void sftSoTimfout(int timfout)
+            throws SodkftExdfption
+        {
+            sfrvfrSodkft.sftSoTimfout(timfout);
+        }
+
+        publid int gftSoTimfout() throws IOExdfption {
+            rfturn sfrvfrSodkft.gftSoTimfout();
+        }
+
+        publid void sftRfusfAddrfss(boolfbn on) throws SodkftExdfption {
+            sfrvfrSodkft.sftRfusfAddrfss(on);
+        }
+
+        publid boolfbn gftRfusfAddrfss() throws SodkftExdfption {
+            rfturn sfrvfrSodkft.gftRfusfAddrfss();
+        }
+
+        publid String toString() {
+            rfturn sfrvfrSodkft.toString();
+        }
+
+        publid void sftRfdfivfBufffrSizf(int sizf)
+            throws SodkftExdfption
+        {
+            sfrvfrSodkft.sftRfdfivfBufffrSizf(sizf);
+        }
+
+        publid int gftRfdfivfBufffrSizf()
+            throws SodkftExdfption
+        {
+            rfturn sfrvfrSodkft.gftRfdfivfBufffrSizf();
+        }
+    }
+}
+
+/**
+ * PipfWritfr plugs togfthfr two pbirs of input bnd output strfbms by
+ * providing rfbdfrs for input strfbms bnd writing through to
+ * bppropribtf output strfbms.  Both output strfbms brf bnnotbtfd on b
+ * pfr-linf bbsis.
+ *
+ * @buthor Lbird Dornin, mudh dodf borrowfd from Pftfr Jonfs, Kfn
+ *         Arnold bnd Ann Wollrbth.
+ */
+dlbss PipfWritfr implfmfnts Runnbblf {
+
+    /** strfbm usfd for bufffring linfs */
+    privbtf BytfArrbyOutputStrfbm bufOut;
+
+    /** dount sindf lbst sfpbrbtor */
+    privbtf int dLbst;
+
+    /** durrfnt dhunk of input bfing dompbrfd to linfSfpbrbtor.*/
+    privbtf bytf[] durrSfp;
+
+    privbtf PrintWritfr out;
+    privbtf InputStrfbm in;
+
+    privbtf String pipfString;
+    privbtf String fxfdString;
+
+    privbtf stbtid String linfSfpbrbtor;
+    privbtf stbtid int linfSfpbrbtorLfngth;
+
+    privbtf stbtid int numExfds = 0;
+
+    stbtid {
+        linfSfpbrbtor = AddfssControllfr.doPrivilfgfd(
+           (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("linf.sfpbrbtor"));
+        linfSfpbrbtorLfngth = linfSfpbrbtor.lfngth();
+    }
+
+    /**
+     * Crfbtf b nfw PipfWritfr objfdt. All mfthods of PipfWritfr,
+     * fxdfpt plugTogfthfrPbir, brf only bddfsiblf to PipfWritfr
+     * itsflf.  Syndhronizbtion is unnfdfssbry on fundtions thbt will
+     * only bf usfd intfrnblly in PipfWritfr.
+     *
+     * @pbrbm in input strfbm from whidh pipf input flows
+     * @pbrbm out output strfbm to whidh log mfssbgfs will bf sfnt
+     * @pbrbm dfst String whidh tbgs output strfbm bs 'out' or 'frr'
+     * @pbrbm nExfds numbfr of fxfdfd prodfssfs, Adtivbtion groups.
+     */
+    privbtf PipfWritfr
+        (InputStrfbm in, OutputStrfbm out, String tbg, int nExfds) {
+
+        this.in = in;
+        this.out = nfw PrintWritfr(out);
+
+        bufOut = nfw BytfArrbyOutputStrfbm();
+        durrSfp = nfw bytf[linfSfpbrbtorLfngth];
+
+        /* sft uniquf pipf/pbir bnnotbtions */
+        fxfdString = ":ExfdGroup-" +
+            Intfgfr.toString(nExfds) + ':' + tbg + ':';
+    }
+
+    /**
+     * Crfbtf b thrfbd to listfn bnd rfbd from input strfbm, in.  bufffr
+     * thf dbtb thbt is rfbd until b mbrkfr whidh fqubls linfSfpbrbtor
+     * is rfbd.  Ondf sudh b string hbs bffn disdovfrfd; writf out bn
+     * bnnotbtion string followfd by thf bufffrfd dbtb bnd b linf
+     * sfpbrbtor.
+     */
+    publid void run() {
+        bytf[] buf = nfw bytf[256];
+        int dount;
+
+        try {
+            /* rfbd bytfs till thfrf brf no morf. */
+            whilf ((dount = in.rfbd(buf)) != -1) {
+                writf(buf, 0, dount);
+            }
+
+            /*  flush intfrnbl bufffr... mby not hbvf fndfd on b linf
+             *  sfpbrbtor, wf blso nffd b lbst bnnotbtion if
+             *  somfthing wbs lfft.
+             */
+            String lbstInBufffr = bufOut.toString();
+            bufOut.rfsft();
+            if (lbstInBufffr.lfngth() > 0) {
+                out.println (drfbtfAnnotbtion() + lbstInBufffr);
+                out.flush();                    // bdd b linf sfpbrbtor
+                                                // to mbkf output nidfr
+            }
+
+        } dbtdh (IOExdfption f) {
+        }
+    }
+
+    /**
+     * Writf b subbrrby of bytfs.  Pbss fbdh through writf bytf mfthod.
+     */
+    privbtf void writf(bytf b[], int off, int lfn) throws IOExdfption {
+
+        if (lfn < 0) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(lfn);
+        }
+        for (int i = 0; i < lfn; ++ i) {
+            writf(b[off + i]);
+        }
+    }
+
+    /**
+     * Writf b bytf of dbtb to thf strfbm.  If wf hbvf not mbtdhfd b
+     * linf sfpbrbtor string, thfn thf bytf is bppfndfd to thf intfrnbl
+     * bufffr.  If wf hbvf mbtdhfd b linf sfpbrbtor, thfn thf durrfntly
+     * bufffrfd linf is sfnt to thf output writfr with b prfpfndfd
+     * bnnotbtion string.
+     */
+    privbtf void writf(bytf b) throws IOExdfption {
+        int i = 0;
+
+        /* shift durrfnt to thf lfft */
+        for (i = 1 ; i < (durrSfp.lfngth); i ++) {
+            durrSfp[i-1] = durrSfp[i];
+        }
+        durrSfp[i-1] = b;
+        bufOut.writf(b);
+
+        /* fnough dhbrbdtfrs for b sfpbrbtor? */
+        if ( (dLbst >= (linfSfpbrbtorLfngth - 1)) &&
+             (linfSfpbrbtor.fqubls(nfw String(durrSfp))) ) {
+
+            dLbst = 0;
+
+            /* writf prffix through to undfrlying bytf strfbm */
+            out.print(drfbtfAnnotbtion() + bufOut.toString());
+            out.flush();
+            bufOut.rfsft();
+
+            if (out.dhfdkError()) {
+                throw nfw IOExdfption
+                    ("PipfWritfr: IO Exdfption whfn"+
+                     " writing to output strfbm.");
+            }
+
+        } flsf {
+            dLbst++;
+        }
+    }
+
+    /**
+     * Crfbtf bn bnnotbtion string to bf printfd out bftfr
+     * b nfw linf bnd fnd of strfbm.
+     */
+    privbtf String drfbtfAnnotbtion() {
+
+        /* donstrudt prffix for log mfssbgfs:
+         * dbtf/timf stbmp...
+         */
+        rfturn ((nfw Dbtf()).toString()  +
+                 /* ... print pbir # ... */
+                 (fxfdString));
+    }
+
+    /**
+     * Allow plugging togfthfr two pipfs bt b timf, to bssodibtf
+     * output from bn fxfdfd prodfss.  This is thf only publidly
+     * bddfssiblf mfthod of this objfdt; this hflps fnsurf thbt
+     * syndhronizbtion will not bf bn issuf in thf bnnotbtion
+     * prodfss.
+     *
+     * @pbrbm in input strfbm from whidh pipf input domfs
+     * @pbrbm out output strfbm to whidh log mfssbgfs will bf sfnt
+     * @pbrbm in1 input strfbm from whidh pipf input domfs
+     * @pbrbm out1 output strfbm to whidh log mfssbgfs will bf sfnt
+     */
+    stbtid void plugTogfthfrPbir(InputStrfbm in,
+                                 OutputStrfbm out,
+                                 InputStrfbm in1,
+                                 OutputStrfbm out1) {
+        Thrfbd inThrfbd = null;
+        Thrfbd outThrfbd = null;
+
+        int nExfds = gftNumExfd();
+
+        /* stbrt RMI thrfbds to rfbd output from dhild prodfss */
+        inThrfbd = AddfssControllfr.doPrivilfgfd(
+            nfw NfwThrfbdAdtion(nfw PipfWritfr(in, out, "out", nExfds),
+                                "out", truf));
+        outThrfbd = AddfssControllfr.doPrivilfgfd(
+            nfw NfwThrfbdAdtion(nfw PipfWritfr(in1, out1, "frr", nExfds),
+                                "frr", truf));
+        inThrfbd.stbrt();
+        outThrfbd.stbrt();
+    }
+
+    privbtf stbtid syndhronizfd int gftNumExfd() {
+        rfturn numExfds++;
+    }
+}

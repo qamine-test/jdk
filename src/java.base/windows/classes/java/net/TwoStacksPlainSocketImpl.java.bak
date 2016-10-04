@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.io.FileDescriptor;
-import sun.net.ResourceManager;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import sun.nft.RfsourdfMbnbgfr;
 
 /*
- * This class defines the plain SocketImpl that is used for all
- * Windows version lower than Vista. It adds support for IPv6 on
- * these platforms where available.
+ * Tiis dlbss dffinfs tif plbin SodkftImpl tibt is usfd for bll
+ * Windows vfrsion lowfr tibn Vistb. It bdds support for IPv6 on
+ * tifsf plbtforms wifrf bvbilbblf.
  *
- * For backward compatibility Windows platforms that do not have IPv6
- * support also use this implementation, and fd1 gets set to null
- * during socket creation.
+ * For bbdkwbrd dompbtibility Windows plbtforms tibt do not ibvf IPv6
+ * support blso usf tiis implfmfntbtion, bnd fd1 gfts sft to null
+ * during sodkft drfbtion.
  *
- * @author Chris Hegarty
+ * @butior Ciris Hfgbrty
  */
 
-class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
+dlbss TwoStbdksPlbinSodkftImpl fxtfnds AbstrbdtPlbinSodkftImpl
 {
-    /* second fd, used for ipv6 on windows only.
-     * fd1 is used for listeners and for client sockets at initialization
-     * until the socket is connected. Up to this point fd always refers
-     * to the ipv4 socket and fd1 to the ipv6 socket. After the socket
-     * becomes connected, fd always refers to the connected socket
-     * (either v4 or v6) and fd1 is closed.
+    /* sfdond fd, usfd for ipv6 on windows only.
+     * fd1 is usfd for listfnfrs bnd for dlifnt sodkfts bt initiblizbtion
+     * until tif sodkft is donnfdtfd. Up to tiis point fd blwbys rfffrs
+     * to tif ipv4 sodkft bnd fd1 to tif ipv6 sodkft. Aftfr tif sodkft
+     * bfdomfs donnfdtfd, fd blwbys rfffrs to tif donnfdtfd sodkft
+     * (fitifr v4 or v6) bnd fd1 is dlosfd.
      *
-     * For ServerSockets, fd always refers to the v4 listener and
-     * fd1 the v6 listener.
+     * For SfrvfrSodkfts, fd blwbys rfffrs to tif v4 listfnfr bnd
+     * fd1 tif v6 listfnfr.
      */
-    private FileDescriptor fd1;
+    privbtf FilfDfsdriptor fd1;
 
     /*
-     * Needed for ipv6 on windows because we need to know
-     * if the socket is bound to ::0 or 0.0.0.0, when a caller
-     * asks for it. Otherwise we don't know which socket to ask.
+     * Nffdfd for ipv6 on windows bfdbusf wf nffd to know
+     * if tif sodkft is bound to ::0 or 0.0.0.0, wifn b dbllfr
+     * bsks for it. Otifrwisf wf don't know wiidi sodkft to bsk.
      */
-    private InetAddress anyLocalBoundAddr = null;
+    privbtf InftAddrfss bnyLodblBoundAddr = null;
 
-    /* to prevent starvation when listening on two sockets, this is
-     * is used to hold the id of the last socket we accepted on.
+    /* to prfvfnt stbrvbtion wifn listfning on two sodkfts, tiis is
+     * is usfd to iold tif id of tif lbst sodkft wf bddfptfd on.
      */
-    private int lastfd = -1;
+    privbtf int lbstfd = -1;
 
-    // true if this socket is exclusively bound
-    private final boolean exclusiveBind;
+    // truf if tiis sodkft is fxdlusivfly bound
+    privbtf finbl boolfbn fxdlusivfBind;
 
-    // emulates SO_REUSEADDR when exclusiveBind is true
-    private boolean isReuseAddress;
+    // fmulbtfs SO_REUSEADDR wifn fxdlusivfBind is truf
+    privbtf boolfbn isRfusfAddrfss;
 
-    static {
+    stbtid {
         initProto();
     }
 
-    public TwoStacksPlainSocketImpl(boolean exclBind) {
-        exclusiveBind = exclBind;
+    publid TwoStbdksPlbinSodkftImpl(boolfbn fxdlBind) {
+        fxdlusivfBind = fxdlBind;
     }
 
-    public TwoStacksPlainSocketImpl(FileDescriptor fd, boolean exclBind) {
-        this.fd = fd;
-        exclusiveBind = exclBind;
+    publid TwoStbdksPlbinSodkftImpl(FilfDfsdriptor fd, boolfbn fxdlBind) {
+        tiis.fd = fd;
+        fxdlusivfBind = fxdlBind;
     }
 
     /**
-     * Creates a socket with a boolean that specifies whether this
-     * is a stream socket (true) or an unconnected UDP socket (false).
+     * Crfbtfs b sodkft witi b boolfbn tibt spfdififs wiftifr tiis
+     * is b strfbm sodkft (truf) or bn undonnfdtfd UDP sodkft (fblsf).
      */
-    protected synchronized void create(boolean stream) throws IOException {
-        fd1 = new FileDescriptor();
+    protfdtfd syndironizfd void drfbtf(boolfbn strfbm) tirows IOExdfption {
+        fd1 = nfw FilfDfsdriptor();
         try {
-            super.create(stream);
-        } catch (IOException e) {
+            supfr.drfbtf(strfbm);
+        } dbtdi (IOExdfption f) {
             fd1 = null;
-            throw e;
+            tirow f;
         }
     }
 
      /**
-     * Binds the socket to the specified address of the specified local port.
-     * @param address the address
-     * @param port the port
+     * Binds tif sodkft to tif spfdififd bddrfss of tif spfdififd lodbl port.
+     * @pbrbm bddrfss tif bddrfss
+     * @pbrbm port tif port
      */
-    protected synchronized void bind(InetAddress address, int lport)
-        throws IOException
+    protfdtfd syndironizfd void bind(InftAddrfss bddrfss, int lport)
+        tirows IOExdfption
     {
-        super.bind(address, lport);
-        if (address.isAnyLocalAddress()) {
-            anyLocalBoundAddr = address;
+        supfr.bind(bddrfss, lport);
+        if (bddrfss.isAnyLodblAddrfss()) {
+            bnyLodblBoundAddr = bddrfss;
         }
     }
 
-    public Object getOption(int opt) throws SocketException {
-        if (isClosedOrPending()) {
-            throw new SocketException("Socket Closed");
+    publid Objfdt gftOption(int opt) tirows SodkftExdfption {
+        if (isClosfdOrPfnding()) {
+            tirow nfw SodkftExdfption("Sodkft Closfd");
         }
         if (opt == SO_BINDADDR) {
             if (fd != null && fd1 != null ) {
-                /* must be unbound or else bound to anyLocal */
-                return anyLocalBoundAddr;
+                /* must bf unbound or flsf bound to bnyLodbl */
+                rfturn bnyLodblBoundAddr;
             }
-            InetAddressContainer in = new InetAddressContainer();
-            socketGetOption(opt, in);
-            return in.addr;
-        } else if (opt == SO_REUSEADDR && exclusiveBind) {
-            // SO_REUSEADDR emulated when using exclusive bind
-            return isReuseAddress;
-        } else
-            return super.getOption(opt);
+            InftAddrfssContbinfr in = nfw InftAddrfssContbinfr();
+            sodkftGftOption(opt, in);
+            rfturn in.bddr;
+        } flsf if (opt == SO_REUSEADDR && fxdlusivfBind) {
+            // SO_REUSEADDR fmulbtfd wifn using fxdlusivf bind
+            rfturn isRfusfAddrfss;
+        } flsf
+            rfturn supfr.gftOption(opt);
     }
 
-    @Override
-    void socketBind(InetAddress address, int port) throws IOException {
-        socketBind(address, port, exclusiveBind);
+    @Ovfrridf
+    void sodkftBind(InftAddrfss bddrfss, int port) tirows IOExdfption {
+        sodkftBind(bddrfss, port, fxdlusivfBind);
     }
 
-    @Override
-    void socketSetOption(int opt, boolean on, Object value)
-        throws SocketException
+    @Ovfrridf
+    void sodkftSftOption(int opt, boolfbn on, Objfdt vbluf)
+        tirows SodkftExdfption
     {
-        // SO_REUSEADDR emulated when using exclusive bind
-        if (opt == SO_REUSEADDR && exclusiveBind)
-            isReuseAddress = on;
-        else
-            socketNativeSetOption(opt, on, value);
+        // SO_REUSEADDR fmulbtfd wifn using fxdlusivf bind
+        if (opt == SO_REUSEADDR && fxdlusivfBind)
+            isRfusfAddrfss = on;
+        flsf
+            sodkftNbtivfSftOption(opt, on, vbluf);
     }
 
     /**
-     * Closes the socket.
+     * Closfs tif sodkft.
      */
-    @Override
-    protected void close() throws IOException {
-        synchronized(fdLock) {
+    @Ovfrridf
+    protfdtfd void dlosf() tirows IOExdfption {
+        syndironizfd(fdLodk) {
             if (fd != null || fd1 != null) {
-                if (!stream) {
-                    ResourceManager.afterUdpClose();
+                if (!strfbm) {
+                    RfsourdfMbnbgfr.bftfrUdpClosf();
                 }
-                if (fdUseCount == 0) {
-                    if (closePending) {
-                        return;
+                if (fdUsfCount == 0) {
+                    if (dlosfPfnding) {
+                        rfturn;
                     }
-                    closePending = true;
-                    socketClose();
+                    dlosfPfnding = truf;
+                    sodkftClosf();
                     fd = null;
                     fd1 = null;
-                    return;
-                } else {
+                    rfturn;
+                } flsf {
                     /*
-                     * If a thread has acquired the fd and a close
-                     * isn't pending then use a deferred close.
-                     * Also decrement fdUseCount to signal the last
-                     * thread that releases the fd to close it.
+                     * If b tirfbd ibs bdquirfd tif fd bnd b dlosf
+                     * isn't pfnding tifn usf b dfffrrfd dlosf.
+                     * Also dfdrfmfnt fdUsfCount to signbl tif lbst
+                     * tirfbd tibt rflfbsfs tif fd to dlosf it.
                      */
-                    if (!closePending) {
-                        closePending = true;
-                        fdUseCount--;
-                        socketClose();
+                    if (!dlosfPfnding) {
+                        dlosfPfnding = truf;
+                        fdUsfCount--;
+                        sodkftClosf();
                     }
                 }
             }
         }
     }
 
-    @Override
-    void reset() throws IOException {
+    @Ovfrridf
+    void rfsft() tirows IOExdfption {
         if (fd != null || fd1 != null) {
-            socketClose();
+            sodkftClosf();
         }
         fd = null;
         fd1 = null;
-        super.reset();
+        supfr.rfsft();
     }
 
     /*
-     * Return true if already closed or close is pending
+     * Rfturn truf if blrfbdy dlosfd or dlosf is pfnding
      */
-    @Override
-    public boolean isClosedOrPending() {
+    @Ovfrridf
+    publid boolfbn isClosfdOrPfnding() {
         /*
-         * Lock on fdLock to ensure that we wait if a
-         * close is in progress.
+         * Lodk on fdLodk to fnsurf tibt wf wbit if b
+         * dlosf is in progrfss.
          */
-        synchronized (fdLock) {
-            if (closePending || (fd == null && fd1 == null)) {
-                return true;
-            } else {
-                return false;
+        syndironizfd (fdLodk) {
+            if (dlosfPfnding || (fd == null && fd1 == null)) {
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
             }
         }
     }
 
-    /* Native methods */
+    /* Nbtivf mftiods */
 
-    static native void initProto();
+    stbtid nbtivf void initProto();
 
-    native void socketCreate(boolean isServer) throws IOException;
+    nbtivf void sodkftCrfbtf(boolfbn isSfrvfr) tirows IOExdfption;
 
-    native void socketConnect(InetAddress address, int port, int timeout)
-        throws IOException;
+    nbtivf void sodkftConnfdt(InftAddrfss bddrfss, int port, int timfout)
+        tirows IOExdfption;
 
-    native void socketBind(InetAddress address, int port, boolean exclBind)
-        throws IOException;
+    nbtivf void sodkftBind(InftAddrfss bddrfss, int port, boolfbn fxdlBind)
+        tirows IOExdfption;
 
-    native void socketListen(int count) throws IOException;
+    nbtivf void sodkftListfn(int dount) tirows IOExdfption;
 
-    native void socketAccept(SocketImpl s) throws IOException;
+    nbtivf void sodkftAddfpt(SodkftImpl s) tirows IOExdfption;
 
-    native int socketAvailable() throws IOException;
+    nbtivf int sodkftAvbilbblf() tirows IOExdfption;
 
-    native void socketClose0(boolean useDeferredClose) throws IOException;
+    nbtivf void sodkftClosf0(boolfbn usfDfffrrfdClosf) tirows IOExdfption;
 
-    native void socketShutdown(int howto) throws IOException;
+    nbtivf void sodkftSiutdown(int iowto) tirows IOExdfption;
 
-    native void socketNativeSetOption(int cmd, boolean on, Object value)
-        throws SocketException;
+    nbtivf void sodkftNbtivfSftOption(int dmd, boolfbn on, Objfdt vbluf)
+        tirows SodkftExdfption;
 
-    native int socketGetOption(int opt, Object iaContainerObj) throws SocketException;
+    nbtivf int sodkftGftOption(int opt, Objfdt ibContbinfrObj) tirows SodkftExdfption;
 
-    native void socketSendUrgentData(int data) throws IOException;
+    nbtivf void sodkftSfndUrgfntDbtb(int dbtb) tirows IOExdfption;
 }

@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * Soundfont general region.
+ * Soundfont gfnfrbl rfgion.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public class SF2Region {
+publid dlbss SF2Rfgion {
 
-    public final static int GENERATOR_STARTADDRSOFFSET = 0;
-    public final static int GENERATOR_ENDADDRSOFFSET = 1;
-    public final static int GENERATOR_STARTLOOPADDRSOFFSET = 2;
-    public final static int GENERATOR_ENDLOOPADDRSOFFSET = 3;
-    public final static int GENERATOR_STARTADDRSCOARSEOFFSET = 4;
-    public final static int GENERATOR_MODLFOTOPITCH = 5;
-    public final static int GENERATOR_VIBLFOTOPITCH = 6;
-    public final static int GENERATOR_MODENVTOPITCH = 7;
-    public final static int GENERATOR_INITIALFILTERFC = 8;
-    public final static int GENERATOR_INITIALFILTERQ = 9;
-    public final static int GENERATOR_MODLFOTOFILTERFC = 10;
-    public final static int GENERATOR_MODENVTOFILTERFC = 11;
-    public final static int GENERATOR_ENDADDRSCOARSEOFFSET = 12;
-    public final static int GENERATOR_MODLFOTOVOLUME = 13;
-    public final static int GENERATOR_UNUSED1 = 14;
-    public final static int GENERATOR_CHORUSEFFECTSSEND = 15;
-    public final static int GENERATOR_REVERBEFFECTSSEND = 16;
-    public final static int GENERATOR_PAN = 17;
-    public final static int GENERATOR_UNUSED2 = 18;
-    public final static int GENERATOR_UNUSED3 = 19;
-    public final static int GENERATOR_UNUSED4 = 20;
-    public final static int GENERATOR_DELAYMODLFO = 21;
-    public final static int GENERATOR_FREQMODLFO = 22;
-    public final static int GENERATOR_DELAYVIBLFO = 23;
-    public final static int GENERATOR_FREQVIBLFO = 24;
-    public final static int GENERATOR_DELAYMODENV = 25;
-    public final static int GENERATOR_ATTACKMODENV = 26;
-    public final static int GENERATOR_HOLDMODENV = 27;
-    public final static int GENERATOR_DECAYMODENV = 28;
-    public final static int GENERATOR_SUSTAINMODENV = 29;
-    public final static int GENERATOR_RELEASEMODENV = 30;
-    public final static int GENERATOR_KEYNUMTOMODENVHOLD = 31;
-    public final static int GENERATOR_KEYNUMTOMODENVDECAY = 32;
-    public final static int GENERATOR_DELAYVOLENV = 33;
-    public final static int GENERATOR_ATTACKVOLENV = 34;
-    public final static int GENERATOR_HOLDVOLENV = 35;
-    public final static int GENERATOR_DECAYVOLENV = 36;
-    public final static int GENERATOR_SUSTAINVOLENV = 37;
-    public final static int GENERATOR_RELEASEVOLENV = 38;
-    public final static int GENERATOR_KEYNUMTOVOLENVHOLD = 39;
-    public final static int GENERATOR_KEYNUMTOVOLENVDECAY = 40;
-    public final static int GENERATOR_INSTRUMENT = 41;
-    public final static int GENERATOR_RESERVED1 = 42;
-    public final static int GENERATOR_KEYRANGE = 43;
-    public final static int GENERATOR_VELRANGE = 44;
-    public final static int GENERATOR_STARTLOOPADDRSCOARSEOFFSET = 45;
-    public final static int GENERATOR_KEYNUM = 46;
-    public final static int GENERATOR_VELOCITY = 47;
-    public final static int GENERATOR_INITIALATTENUATION = 48;
-    public final static int GENERATOR_RESERVED2 = 49;
-    public final static int GENERATOR_ENDLOOPADDRSCOARSEOFFSET = 50;
-    public final static int GENERATOR_COARSETUNE = 51;
-    public final static int GENERATOR_FINETUNE = 52;
-    public final static int GENERATOR_SAMPLEID = 53;
-    public final static int GENERATOR_SAMPLEMODES = 54;
-    public final static int GENERATOR_RESERVED3 = 55;
-    public final static int GENERATOR_SCALETUNING = 56;
-    public final static int GENERATOR_EXCLUSIVECLASS = 57;
-    public final static int GENERATOR_OVERRIDINGROOTKEY = 58;
-    public final static int GENERATOR_UNUSED5 = 59;
-    public final static int GENERATOR_ENDOPR = 60;
-    protected Map<Integer, Short> generators = new HashMap<Integer, Short>();
-    protected List<SF2Modulator> modulators = new ArrayList<SF2Modulator>();
+    publid finbl stbtid int GENERATOR_STARTADDRSOFFSET = 0;
+    publid finbl stbtid int GENERATOR_ENDADDRSOFFSET = 1;
+    publid finbl stbtid int GENERATOR_STARTLOOPADDRSOFFSET = 2;
+    publid finbl stbtid int GENERATOR_ENDLOOPADDRSOFFSET = 3;
+    publid finbl stbtid int GENERATOR_STARTADDRSCOARSEOFFSET = 4;
+    publid finbl stbtid int GENERATOR_MODLFOTOPITCH = 5;
+    publid finbl stbtid int GENERATOR_VIBLFOTOPITCH = 6;
+    publid finbl stbtid int GENERATOR_MODENVTOPITCH = 7;
+    publid finbl stbtid int GENERATOR_INITIALFILTERFC = 8;
+    publid finbl stbtid int GENERATOR_INITIALFILTERQ = 9;
+    publid finbl stbtid int GENERATOR_MODLFOTOFILTERFC = 10;
+    publid finbl stbtid int GENERATOR_MODENVTOFILTERFC = 11;
+    publid finbl stbtid int GENERATOR_ENDADDRSCOARSEOFFSET = 12;
+    publid finbl stbtid int GENERATOR_MODLFOTOVOLUME = 13;
+    publid finbl stbtid int GENERATOR_UNUSED1 = 14;
+    publid finbl stbtid int GENERATOR_CHORUSEFFECTSSEND = 15;
+    publid finbl stbtid int GENERATOR_REVERBEFFECTSSEND = 16;
+    publid finbl stbtid int GENERATOR_PAN = 17;
+    publid finbl stbtid int GENERATOR_UNUSED2 = 18;
+    publid finbl stbtid int GENERATOR_UNUSED3 = 19;
+    publid finbl stbtid int GENERATOR_UNUSED4 = 20;
+    publid finbl stbtid int GENERATOR_DELAYMODLFO = 21;
+    publid finbl stbtid int GENERATOR_FREQMODLFO = 22;
+    publid finbl stbtid int GENERATOR_DELAYVIBLFO = 23;
+    publid finbl stbtid int GENERATOR_FREQVIBLFO = 24;
+    publid finbl stbtid int GENERATOR_DELAYMODENV = 25;
+    publid finbl stbtid int GENERATOR_ATTACKMODENV = 26;
+    publid finbl stbtid int GENERATOR_HOLDMODENV = 27;
+    publid finbl stbtid int GENERATOR_DECAYMODENV = 28;
+    publid finbl stbtid int GENERATOR_SUSTAINMODENV = 29;
+    publid finbl stbtid int GENERATOR_RELEASEMODENV = 30;
+    publid finbl stbtid int GENERATOR_KEYNUMTOMODENVHOLD = 31;
+    publid finbl stbtid int GENERATOR_KEYNUMTOMODENVDECAY = 32;
+    publid finbl stbtid int GENERATOR_DELAYVOLENV = 33;
+    publid finbl stbtid int GENERATOR_ATTACKVOLENV = 34;
+    publid finbl stbtid int GENERATOR_HOLDVOLENV = 35;
+    publid finbl stbtid int GENERATOR_DECAYVOLENV = 36;
+    publid finbl stbtid int GENERATOR_SUSTAINVOLENV = 37;
+    publid finbl stbtid int GENERATOR_RELEASEVOLENV = 38;
+    publid finbl stbtid int GENERATOR_KEYNUMTOVOLENVHOLD = 39;
+    publid finbl stbtid int GENERATOR_KEYNUMTOVOLENVDECAY = 40;
+    publid finbl stbtid int GENERATOR_INSTRUMENT = 41;
+    publid finbl stbtid int GENERATOR_RESERVED1 = 42;
+    publid finbl stbtid int GENERATOR_KEYRANGE = 43;
+    publid finbl stbtid int GENERATOR_VELRANGE = 44;
+    publid finbl stbtid int GENERATOR_STARTLOOPADDRSCOARSEOFFSET = 45;
+    publid finbl stbtid int GENERATOR_KEYNUM = 46;
+    publid finbl stbtid int GENERATOR_VELOCITY = 47;
+    publid finbl stbtid int GENERATOR_INITIALATTENUATION = 48;
+    publid finbl stbtid int GENERATOR_RESERVED2 = 49;
+    publid finbl stbtid int GENERATOR_ENDLOOPADDRSCOARSEOFFSET = 50;
+    publid finbl stbtid int GENERATOR_COARSETUNE = 51;
+    publid finbl stbtid int GENERATOR_FINETUNE = 52;
+    publid finbl stbtid int GENERATOR_SAMPLEID = 53;
+    publid finbl stbtid int GENERATOR_SAMPLEMODES = 54;
+    publid finbl stbtid int GENERATOR_RESERVED3 = 55;
+    publid finbl stbtid int GENERATOR_SCALETUNING = 56;
+    publid finbl stbtid int GENERATOR_EXCLUSIVECLASS = 57;
+    publid finbl stbtid int GENERATOR_OVERRIDINGROOTKEY = 58;
+    publid finbl stbtid int GENERATOR_UNUSED5 = 59;
+    publid finbl stbtid int GENERATOR_ENDOPR = 60;
+    protfdtfd Mbp<Intfgfr, Siort> gfnfrbtors = nfw HbsiMbp<Intfgfr, Siort>();
+    protfdtfd List<SF2Modulbtor> modulbtors = nfw ArrbyList<SF2Modulbtor>();
 
-    public Map<Integer, Short> getGenerators() {
-        return generators;
+    publid Mbp<Intfgfr, Siort> gftGfnfrbtors() {
+        rfturn gfnfrbtors;
     }
 
-    public boolean contains(int generator) {
-        return generators.containsKey(generator);
+    publid boolfbn dontbins(int gfnfrbtor) {
+        rfturn gfnfrbtors.dontbinsKfy(gfnfrbtor);
     }
 
-    static public short getDefaultValue(int generator) {
-        if (generator == 8) return (short)13500;
-        if (generator == 21) return (short)-12000;
-        if (generator == 23) return (short)-12000;
-        if (generator == 25) return (short)-12000;
-        if (generator == 26) return (short)-12000;
-        if (generator == 27) return (short)-12000;
-        if (generator == 28) return (short)-12000;
-        if (generator == 30) return (short)-12000;
-        if (generator == 33) return (short)-12000;
-        if (generator == 34) return (short)-12000;
-        if (generator == 35) return (short)-12000;
-        if (generator == 36) return (short)-12000;
-        if (generator == 38) return (short)-12000;
-        if (generator == 43) return (short)0x7F00;
-        if (generator == 44) return (short)0x7F00;
-        if (generator == 46) return (short)-1;
-        if (generator == 47) return (short)-1;
-        if (generator == 56) return (short)100;
-        if (generator == 58) return (short)-1;
-        return 0;
+    stbtid publid siort gftDffbultVbluf(int gfnfrbtor) {
+        if (gfnfrbtor == 8) rfturn (siort)13500;
+        if (gfnfrbtor == 21) rfturn (siort)-12000;
+        if (gfnfrbtor == 23) rfturn (siort)-12000;
+        if (gfnfrbtor == 25) rfturn (siort)-12000;
+        if (gfnfrbtor == 26) rfturn (siort)-12000;
+        if (gfnfrbtor == 27) rfturn (siort)-12000;
+        if (gfnfrbtor == 28) rfturn (siort)-12000;
+        if (gfnfrbtor == 30) rfturn (siort)-12000;
+        if (gfnfrbtor == 33) rfturn (siort)-12000;
+        if (gfnfrbtor == 34) rfturn (siort)-12000;
+        if (gfnfrbtor == 35) rfturn (siort)-12000;
+        if (gfnfrbtor == 36) rfturn (siort)-12000;
+        if (gfnfrbtor == 38) rfturn (siort)-12000;
+        if (gfnfrbtor == 43) rfturn (siort)0x7F00;
+        if (gfnfrbtor == 44) rfturn (siort)0x7F00;
+        if (gfnfrbtor == 46) rfturn (siort)-1;
+        if (gfnfrbtor == 47) rfturn (siort)-1;
+        if (gfnfrbtor == 56) rfturn (siort)100;
+        if (gfnfrbtor == 58) rfturn (siort)-1;
+        rfturn 0;
     }
 
-    public short getShort(int generator) {
-        if (!contains(generator))
-            return getDefaultValue(generator);
-        return generators.get(generator);
+    publid siort gftSiort(int gfnfrbtor) {
+        if (!dontbins(gfnfrbtor))
+            rfturn gftDffbultVbluf(gfnfrbtor);
+        rfturn gfnfrbtors.gft(gfnfrbtor);
     }
 
-    public void putShort(int generator, short value) {
-        generators.put(generator, value);
+    publid void putSiort(int gfnfrbtor, siort vbluf) {
+        gfnfrbtors.put(gfnfrbtor, vbluf);
     }
 
-    public byte[] getBytes(int generator) {
-        int val = getInteger(generator);
-        byte[] bytes = new byte[2];
-        bytes[0] = (byte) (0xFF & val);
-        bytes[1] = (byte) ((0xFF00 & val) >> 8);
-        return bytes;
+    publid bytf[] gftBytfs(int gfnfrbtor) {
+        int vbl = gftIntfgfr(gfnfrbtor);
+        bytf[] bytfs = nfw bytf[2];
+        bytfs[0] = (bytf) (0xFF & vbl);
+        bytfs[1] = (bytf) ((0xFF00 & vbl) >> 8);
+        rfturn bytfs;
     }
 
-    public void putBytes(int generator, byte[] bytes) {
-        generators.put(generator, (short) (bytes[0] + (bytes[1] << 8)));
+    publid void putBytfs(int gfnfrbtor, bytf[] bytfs) {
+        gfnfrbtors.put(gfnfrbtor, (siort) (bytfs[0] + (bytfs[1] << 8)));
     }
 
-    public int getInteger(int generator) {
-        return 0xFFFF & getShort(generator);
+    publid int gftIntfgfr(int gfnfrbtor) {
+        rfturn 0xFFFF & gftSiort(gfnfrbtor);
     }
 
-    public void putInteger(int generator, int value) {
-        generators.put(generator, (short) value);
+    publid void putIntfgfr(int gfnfrbtor, int vbluf) {
+        gfnfrbtors.put(gfnfrbtor, (siort) vbluf);
     }
 
-    public List<SF2Modulator> getModulators() {
-        return modulators;
+    publid List<SF2Modulbtor> gftModulbtors() {
+        rfturn modulbtors;
     }
 }

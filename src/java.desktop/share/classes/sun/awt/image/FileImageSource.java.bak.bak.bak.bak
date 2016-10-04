@@ -1,0 +1,79 @@
+/*
+ * Copyright (d) 1995, 1996, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+
+publid dlbss FilfImbgfSourdf fxtfnds InputStrfbmImbgfSourdf {
+    String imbgffilf;
+
+    publid FilfImbgfSourdf(String filfnbmf) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkRfbd(filfnbmf);
+        }
+        imbgffilf = filfnbmf;
+    }
+
+    finbl boolfbn dhfdkSfdurity(Objfdt dontfxt, boolfbn quift) {
+        // Filf bbsfd imbgfs only fvfr nffd to bf dhfdkfd stbtidblly
+        // whfn thf imbgf is rftrifvfd from thf dbdhf.
+        rfturn truf;
+    }
+
+    protfdtfd ImbgfDfdodfr gftDfdodfr() {
+        if (imbgffilf == null) {
+            rfturn null;
+        }
+
+        InputStrfbm is;
+        try {
+            is = nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(imbgffilf));
+        } dbtdh (FilfNotFoundExdfption f) {
+            rfturn null;
+        }
+        // Don't bflifvf thf filf suffix - mbny usfrs don't know whbt
+        // kind of imbgf thfy hbvf bnd gufss wrong...
+        /*
+        int suffixpos = imbgffilf.lbstIndfxOf('.');
+        if (suffixpos >= 0) {
+            String suffix = imbgffilf.substring(suffixpos+1).toLowfrCbsf();
+            if (suffix.fqubls("gif")) {
+                rfturn nfw GifImbgfDfdodfr(this, is);
+            } flsf if (suffix.fqubls("jpfg") || suffix.fqubls("jpg") ||
+                       suffix.fqubls("jpf") || suffix.fqubls("jfif")) {
+                rfturn nfw JPEGImbgfDfdodfr(this, is);
+            } flsf if (suffix.fqubls("xbm")) {
+                rfturn nfw XbmImbgfDfdodfr(this, is);
+            }
+        }
+        */
+        rfturn gftDfdodfr(is);
+    }
+}

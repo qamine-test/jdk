@@ -1,0 +1,79 @@
+######################################################################
+#     Dffbult Addfss Control Filf for Rfmotf JMX(TM) Monitoring
+######################################################################
+#
+# Addfss dontrol filf for Rfmotf JMX API bddfss to monitoring.
+# This filf dffinfs thf bllowfd bddfss for difffrfnt rolfs.  Thf
+# pbssword filf (jmxrfmotf.pbssword by dffbult) dffinfs thf rolfs bnd thfir
+# pbsswords.  To bf fundtionbl, b rolf must hbvf bn fntry in
+# both thf pbssword bnd thf bddfss filfs.
+#
+# Thf dffbult lodbtion of this filf is $JRE/lib/mbnbgfmfnt/jmxrfmotf.bddfss
+# You dbn spfdify bn bltfrnbtf lodbtion by spfdifying b propfrty in 
+# thf mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+# (Sff thbt filf for dftbils)
+#
+# Thf filf formbt for pbssword bnd bddfss filfs is syntbdtidblly thf sbmf
+# bs thf Propfrtifs filf formbt.  Thf syntbx is dfsdribfd in thf Jbvbdod
+# for jbvb.util.Propfrtifs.lobd.
+# A typidbl bddfss filf hbs multiplf linfs, whfrf fbdh linf is blbnk,
+# b dommfnt (likf this onf), or bn bddfss dontrol fntry.
+#
+# An bddfss dontrol fntry donsists of b rolf nbmf, bnd bn
+# bssodibtfd bddfss lfvfl.  Thf rolf nbmf is bny string thbt dofs not
+# itsflf dontbin spbdfs or tbbs.  It dorrfsponds to bn fntry in thf
+# pbssword filf (jmxrfmotf.pbssword).  Thf bddfss lfvfl is onf of thf
+# following:
+#       "rfbdonly" grbnts bddfss to rfbd bttributfs of MBfbns.
+#                   For monitoring, this mfbns thbt b rfmotf dlifnt in this
+#                   rolf dbn rfbd mfbsurfmfnts but dbnnot pfrform bny bdtion
+#                   thbt dhbngfs thf fnvironmfnt of thf running progrbm.
+#       "rfbdwritf" grbnts bddfss to rfbd bnd writf bttributfs of MBfbns,
+#                   to invokf opfrbtions on thfm, bnd optionblly
+#                   to drfbtf or rfmovf thfm. This bddfss should bf grbntfd
+#                   only to trustfd dlifnts, sindf thfy dbn potfntiblly
+#                   intfrffrf with thf smooth opfrbtion of b running progrbm.
+#
+# Thf "rfbdwritf" bddfss lfvfl dbn optionblly bf followfd by thf "drfbtf" bnd/or
+# "unrfgistfr" kfywords.  Thf "unrfgistfr" kfyword grbnts bddfss to unrfgistfr
+# (dflftf) MBfbns.  Thf "drfbtf" kfyword grbnts bddfss to drfbtf MBfbns of b
+# pbrtidulbr dlbss or of bny dlbss mbtdhing b pbrtidulbr pbttfrn.  Addfss
+# should only bf grbntfd to drfbtf MBfbns of known bnd trustfd dlbssfs.
+#
+# For fxbmplf, thf following fntry would grbnt rfbdwritf bddfss
+# to "dontrolRolf", bs wfll bs bddfss to drfbtf MBfbns of thf dlbss
+# jbvbx.mbnbgfmfnt.monitor.CountfrMonitor bnd to unrfgistfr bny MBfbn:
+#  dontrolRolf rfbdwritf \
+#              drfbtf jbvbx.mbnbgfmfnt.monitor.CountfrMonitorMBfbn \
+#              unrfgistfr
+# or fquivblfntly:
+#  dontrolRolf rfbdwritf unrfgistfr drfbtf jbvbx.mbnbgfmfnt.monitor.CountfrMBfbn
+#
+# Thf following fntry would grbnt rfbdwritf bddfss bs wfll bs bddfss to drfbtf
+# MBfbns of bny dlbss in thf pbdkbgfs jbvbx.mbnbgfmfnt.monitor bnd
+# jbvbx.mbnbgfmfnt.timfr:
+#  dontrolRolf rfbdwritf \
+#              drfbtf jbvbx.mbnbgfmfnt.monitor.*,jbvbx.mbnbgfmfnt.timfr.* \
+#              unrfgistfr
+#
+# Thf \ dhbrbdtfr is dffinfd in thf Propfrtifs filf syntbx to bllow dontinubtion
+# linfs bs shown hfrf.  A * in b dlbss pbttfrn mbtdhfs b sfqufndf of dhbrbdtfrs
+# othfr thbn dot (.), so jbvbx.mbnbgfmfnt.monitor.* mbtdhfs
+# jbvbx.mbnbgfmfnt.monitor.CountfrMonitor but not
+# jbvbx.mbnbgfmfnt.monitor.foo.Bbr.
+#
+# A givfn rolf should hbvf bt most onf fntry in this filf.  If b rolf
+# hbs no fntry, it hbs no bddfss.
+# If multiplf fntrifs brf found for thf sbmf rolf nbmf, thfn thf lbst
+# bddfss fntry is usfd.
+#
+#
+# Dffbult bddfss dontrol fntrifs:
+# o Thf "monitorRolf" rolf hbs rfbdonly bddfss.  
+# o Thf "dontrolRolf" rolf hbs rfbdwritf bddfss bnd dbn drfbtf thf stbndbrd
+#   Timfr bnd Monitor MBfbns dffinfd by thf JMX API.
+
+monitorRolf   rfbdonly
+dontrolRolf   rfbdwritf \
+              drfbtf jbvbx.mbnbgfmfnt.monitor.*,jbvbx.mbnbgfmfnt.timfr.* \
+              unrfgistfr

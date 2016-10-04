@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.ScrollPane;
-import java.awt.Insets;
-import java.awt.Adjustable;
-import java.awt.event.MouseWheelEvent;
+import jbvb.bwt.SdrollPbnf;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Adjustbblf;
+import jbvb.bwt.fvfnt.MousfWifflEvfnt;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
 /*
- * ScrollPaneWheelScroller is a helper class for implmenenting mouse wheel
- * scrolling on a java.awt.ScrollPane.  It contains only static methods.
- * No objects of this class may be instantiated, thus it is declared abstract.
+ * SdrollPbnfWifflSdrollfr is b iflpfr dlbss for implmfnfnting mousf wiffl
+ * sdrolling on b jbvb.bwt.SdrollPbnf.  It dontbins only stbtid mftiods.
+ * No objfdts of tiis dlbss mby bf instbntibtfd, tius it is dfdlbrfd bbstrbdt.
  */
-public abstract class ScrollPaneWheelScroller {
+publid bbstrbdt dlbss SdrollPbnfWifflSdrollfr {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.ScrollPaneWheelScroller");
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.SdrollPbnfWifflSdrollfr");
 
-    private ScrollPaneWheelScroller() {}
+    privbtf SdrollPbnfWifflSdrollfr() {}
 
     /*
-     * Called from ScrollPane.processMouseWheelEvent()
+     * Cbllfd from SdrollPbnf.prodfssMousfWifflEvfnt()
      */
-    public static void handleWheelScrolling(ScrollPane sp, MouseWheelEvent e) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("x = " + e.getX() + ", y = " + e.getY() + ", src is " + e.getSource());
+    publid stbtid void ibndlfWifflSdrolling(SdrollPbnf sp, MousfWifflEvfnt f) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("x = " + f.gftX() + ", y = " + f.gftY() + ", srd is " + f.gftSourdf());
         }
-        int increment = 0;
+        int indrfmfnt = 0;
 
-        if (sp != null && e.getScrollAmount() != 0) {
-            Adjustable adj = getAdjustableToScroll(sp);
-            if (adj != null) {
-                increment = getIncrementFromAdjustable(adj, e);
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    log.finer("increment from adjustable(" + adj.getClass() + ") : " + increment);
+        if (sp != null && f.gftSdrollAmount() != 0) {
+            Adjustbblf bdj = gftAdjustbblfToSdroll(sp);
+            if (bdj != null) {
+                indrfmfnt = gftIndrfmfntFromAdjustbblf(bdj, f);
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    log.finfr("indrfmfnt from bdjustbblf(" + bdj.gftClbss() + ") : " + indrfmfnt);
                 }
-                scrollAdjustable(adj, increment);
+                sdrollAdjustbblf(bdj, indrfmfnt);
             }
         }
     }
 
     /*
-     * Given a ScrollPane, determine which Scrollbar should be scrolled by the
-     * mouse wheel, if any.
+     * Givfn b SdrollPbnf, dftfrminf wiidi Sdrollbbr siould bf sdrollfd by tif
+     * mousf wiffl, if bny.
      */
-    public static Adjustable getAdjustableToScroll(ScrollPane sp) {
-        int policy = sp.getScrollbarDisplayPolicy();
+    publid stbtid Adjustbblf gftAdjustbblfToSdroll(SdrollPbnf sp) {
+        int polidy = sp.gftSdrollbbrDisplbyPolidy();
 
-        // if policy is display always or never, use vert
-        if (policy == ScrollPane.SCROLLBARS_ALWAYS ||
-            policy == ScrollPane.SCROLLBARS_NEVER) {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("using vertical scrolling due to scrollbar policy");
+        // if polidy is displby blwbys or nfvfr, usf vfrt
+        if (polidy == SdrollPbnf.SCROLLBARS_ALWAYS ||
+            polidy == SdrollPbnf.SCROLLBARS_NEVER) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("using vfrtidbl sdrolling duf to sdrollbbr polidy");
             }
-            return sp.getVAdjustable();
+            rfturn sp.gftVAdjustbblf();
 
         }
-        else {
+        flsf {
 
-            Insets ins = sp.getInsets();
-            int vertScrollWidth = sp.getVScrollbarWidth();
+            Insfts ins = sp.gftInsfts();
+            int vfrtSdrollWidti = sp.gftVSdrollbbrWidti();
 
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("insets: l = " + ins.left + ", r = " + ins.right +
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("insfts: l = " + ins.lfft + ", r = " + ins.rigit +
                  ", t = " + ins.top + ", b = " + ins.bottom);
-                log.finer("vertScrollWidth = " + vertScrollWidth);
+                log.finfr("vfrtSdrollWidti = " + vfrtSdrollWidti);
             }
 
-            // Check if scrollbar is showing by examining insets of the
-            // ScrollPane
-            if (ins.right >= vertScrollWidth) {
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    log.finer("using vertical scrolling because scrollbar is present");
+            // Cifdk if sdrollbbr is siowing by fxbmining insfts of tif
+            // SdrollPbnf
+            if (ins.rigit >= vfrtSdrollWidti) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    log.finfr("using vfrtidbl sdrolling bfdbusf sdrollbbr is prfsfnt");
                 }
-                return sp.getVAdjustable();
+                rfturn sp.gftVAdjustbblf();
             }
-            else {
-                int horizScrollHeight = sp.getHScrollbarHeight();
-                if (ins.bottom >= horizScrollHeight) {
-                    if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                        log.finer("using horiz scrolling because scrollbar is present");
+            flsf {
+                int iorizSdrollHfigit = sp.gftHSdrollbbrHfigit();
+                if (ins.bottom >= iorizSdrollHfigit) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        log.finfr("using ioriz sdrolling bfdbusf sdrollbbr is prfsfnt");
                     }
-                    return sp.getHAdjustable();
+                    rfturn sp.gftHAdjustbblf();
                 }
-                else {
-                    if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                        log.finer("using NO scrollbar becsause neither is present");
+                flsf {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        log.finfr("using NO sdrollbbr bfdsbusf nfitifr is prfsfnt");
                     }
-                    return null;
+                    rfturn null;
                 }
             }
         }
     }
 
     /*
-     * Given the info in a MouseWheelEvent and an Adjustable to scroll, return
-     * the amount by which the Adjustable should be adjusted.  This value may
-     * be positive or negative.
+     * Givfn tif info in b MousfWifflEvfnt bnd bn Adjustbblf to sdroll, rfturn
+     * tif bmount by wiidi tif Adjustbblf siould bf bdjustfd.  Tiis vbluf mby
+     * bf positivf or nfgbtivf.
      */
-    public static int getIncrementFromAdjustable(Adjustable adj,
-                                                 MouseWheelEvent e) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            if (adj == null) {
-                log.fine("Assertion (adj != null) failed");
+    publid stbtid int gftIndrfmfntFromAdjustbblf(Adjustbblf bdj,
+                                                 MousfWifflEvfnt f) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            if (bdj == null) {
+                log.finf("Assfrtion (bdj != null) fbilfd");
             }
         }
 
-        int increment = 0;
+        int indrfmfnt = 0;
 
-        if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
-            increment = e.getUnitsToScroll() * adj.getUnitIncrement();
+        if (f.gftSdrollTypf() == MousfWifflEvfnt.WHEEL_UNIT_SCROLL) {
+            indrfmfnt = f.gftUnitsToSdroll() * bdj.gftUnitIndrfmfnt();
         }
-        else if (e.getScrollType() == MouseWheelEvent.WHEEL_BLOCK_SCROLL) {
-            increment = adj.getBlockIncrement() * e.getWheelRotation();
+        flsf if (f.gftSdrollTypf() == MousfWifflEvfnt.WHEEL_BLOCK_SCROLL) {
+            indrfmfnt = bdj.gftBlodkIndrfmfnt() * f.gftWifflRotbtion();
         }
-        return increment;
+        rfturn indrfmfnt;
     }
 
     /*
-     * Scroll the given Adjustable by the given amount.  Checks the Adjustable's
-     * bounds and sets the new value to the Adjustable.
+     * Sdroll tif givfn Adjustbblf by tif givfn bmount.  Cifdks tif Adjustbblf's
+     * bounds bnd sfts tif nfw vbluf to tif Adjustbblf.
      */
-    public static void scrollAdjustable(Adjustable adj, int amount) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            if (adj == null) {
-                log.fine("Assertion (adj != null) failed");
+    publid stbtid void sdrollAdjustbblf(Adjustbblf bdj, int bmount) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            if (bdj == null) {
+                log.finf("Assfrtion (bdj != null) fbilfd");
             }
-            if (amount == 0) {
-                log.fine("Assertion (amount != 0) failed");
+            if (bmount == 0) {
+                log.finf("Assfrtion (bmount != 0) fbilfd");
             }
         }
 
-        int current = adj.getValue();
-        int upperLimit = adj.getMaximum() - adj.getVisibleAmount();
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("doScrolling by " + amount);
+        int durrfnt = bdj.gftVbluf();
+        int uppfrLimit = bdj.gftMbximum() - bdj.gftVisiblfAmount();
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("doSdrolling by " + bmount);
         }
 
-        if (amount > 0 && current < upperLimit) { // still some room to scroll
+        if (bmount > 0 && durrfnt < uppfrLimit) { // still somf room to sdroll
                                                   // down
-            if (current + amount < upperLimit) {
-                adj.setValue(current + amount);
-                return;
+            if (durrfnt + bmount < uppfrLimit) {
+                bdj.sftVbluf(durrfnt + bmount);
+                rfturn;
             }
-            else {
-                adj.setValue(upperLimit);
-                return;
+            flsf {
+                bdj.sftVbluf(uppfrLimit);
+                rfturn;
             }
         }
-        else if (amount < 0 && current > adj.getMinimum()) { // still some room
-                                                             // to scroll up
-            if (current + amount > adj.getMinimum()) {
-                adj.setValue(current + amount);
-                return;
+        flsf if (bmount < 0 && durrfnt > bdj.gftMinimum()) { // still somf room
+                                                             // to sdroll up
+            if (durrfnt + bmount > bdj.gftMinimum()) {
+                bdj.sftVbluf(durrfnt + bmount);
+                rfturn;
             }
-            else {
-                adj.setValue(adj.getMinimum());
-                return;
+            flsf {
+                bdj.sftVbluf(bdj.gftMinimum());
+                rfturn;
             }
         }
     }

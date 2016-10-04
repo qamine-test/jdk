@@ -1,443 +1,443 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt.h"
-#include <imm.h>
-#include "awt_Component.h"
-#include "awt_InputTextInfor.h"
+#indludf "bwt.i"
+#indludf <imm.i>
+#indludf "bwt_Componfnt.i"
+#indludf "bwt_InputTfxtInfor.i"
 
-#define WCHAR_SZ sizeof(WCHAR)
-#define DWORD_SZ sizeof(DWORD)
+#dffinf WCHAR_SZ sizfof(WCHAR)
+#dffinf DWORD_SZ sizfof(DWORD)
 
-// The start and end index of the result and composition in GCS_INDEX array.
-#define START_RESULTSTR 0
-#define END_RESULTSTR 3
-#define START_COMPSTR 4
-#define END_COMPSTR 8
+// Tif stbrt bnd fnd indfx of tif rfsult bnd domposition in GCS_INDEX brrby.
+#dffinf START_RESULTSTR 0
+#dffinf END_RESULTSTR 3
+#dffinf START_COMPSTR 4
+#dffinf END_COMPSTR 8
 
-// The GCS_INDEX array is partitioned into 2 parts, one is result string related and the
-// other is composing string related.
-const DWORD AwtInputTextInfor::GCS_INDEX[9]= {GCS_RESULTSTR, GCS_RESULTREADSTR, GCS_RESULTCLAUSE,
+// Tif GCS_INDEX brrby is pbrtitionfd into 2 pbrts, onf is rfsult string rflbtfd bnd tif
+// otifr is domposing string rflbtfd.
+donst DWORD AwtInputTfxtInfor::GCS_INDEX[9]= {GCS_RESULTSTR, GCS_RESULTREADSTR, GCS_RESULTCLAUSE,
                                               GCS_RESULTREADCLAUSE, GCS_COMPSTR, GCS_COMPREADSTR,
                                               GCS_COMPCLAUSE, GCS_COMPREADCLAUSE,GCS_COMPATTR};
-/* Default constructor */
-AwtInputTextInfor::AwtInputTextInfor() :
-    m_flags(0), m_cursorPosW(0), m_jtext(NULL), m_pResultTextInfor(NULL), \
-    m_cStrW(0), m_cReadStrW(0), m_cClauseW(0), m_cReadClauseW(0), m_cAttrW(0), \
-    m_lpStrW(NULL), m_lpReadStrW(NULL), m_lpClauseW(NULL), m_lpReadClauseW(NULL), m_lpAttrW(NULL)
+/* Dffbult donstrudtor */
+AwtInputTfxtInfor::AwtInputTfxtInfor() :
+    m_flbgs(0), m_dursorPosW(0), m_jtfxt(NULL), m_pRfsultTfxtInfor(NULL), \
+    m_dStrW(0), m_dRfbdStrW(0), m_dClbusfW(0), m_dRfbdClbusfW(0), m_dAttrW(0), \
+    m_lpStrW(NULL), m_lpRfbdStrW(NULL), m_lpClbusfW(NULL), m_lpRfbdClbusfW(NULL), m_lpAttrW(NULL)
 {}
 
 
-/* Retrieve the context data from the current IMC.
-   Params:
-   HIMC hIMC - the input method context, must NOT be NULL
-   LPARAMS flags - message param to WM_IME_COMPOSITION.
-   Returns 0 if success.
+/* Rftrifvf tif dontfxt dbtb from tif durrfnt IMC.
+   Pbrbms:
+   HIMC iIMC - tif input mftiod dontfxt, must NOT bf NULL
+   LPARAMS flbgs - mfssbgf pbrbm to WM_IME_COMPOSITION.
+   Rfturns 0 if suddfss.
 */
 int
-AwtInputTextInfor::GetContextData(HIMC hIMC, const LPARAM flags) {
+AwtInputTfxtInfor::GftContfxtDbtb(HIMC iIMC, donst LPARAM flbgs) {
 
-    DASSERT(hIMC != 0);
+    DASSERT(iIMC != 0);
 
-    m_flags = flags;
-    // Based on different flags received, we use different GCS_XXX from the
-    // GCS_INDEX array.
-    int startIndex = 0, endIndex = 0;
+    m_flbgs = flbgs;
+    // Bbsfd on difffrfnt flbgs rfdfivfd, wf usf difffrfnt GCS_XXX from tif
+    // GCS_INDEX brrby.
+    int stbrtIndfx = 0, fndIndfx = 0;
 
-    if (flags & GCS_COMPSTR) {
-        startIndex = START_COMPSTR;
-        endIndex = END_COMPSTR;
-        /* For some window input method such as Chinese QuanPing, when the user
-         * commits some text, the IMM sends WM_IME_COMPOSITION with GCS_COMPSTR/GCS_RESULTSTR.
-         * So we have to extract the result string from IMC. For most of other cases,
-         * m_pResultTextInfor is NULL and this is why we choose to have a pointer as its member
-         * rather than having a list of the result string information.
+    if (flbgs & GCS_COMPSTR) {
+        stbrtIndfx = START_COMPSTR;
+        fndIndfx = END_COMPSTR;
+        /* For somf window input mftiod sudi bs Ciinfsf QubnPing, wifn tif usfr
+         * dommits somf tfxt, tif IMM sfnds WM_IME_COMPOSITION witi GCS_COMPSTR/GCS_RESULTSTR.
+         * So wf ibvf to fxtrbdt tif rfsult string from IMC. For most of otifr dbsfs,
+         * m_pRfsultTfxtInfor is NULL bnd tiis is wiy wf dioosf to ibvf b pointfr bs its mfmbfr
+         * rbtifr tibn ibving b list of tif rfsult string informbtion.
          */
-        if (flags & GCS_RESULTSTR) {
-            m_pResultTextInfor = new AwtInputTextInfor;
-            m_pResultTextInfor->GetContextData(hIMC, GCS_RESULTSTR);
+        if (flbgs & GCS_RESULTSTR) {
+            m_pRfsultTfxtInfor = nfw AwtInputTfxtInfor;
+            m_pRfsultTfxtInfor->GftContfxtDbtb(iIMC, GCS_RESULTSTR);
         }
-    } else if (flags & GCS_RESULTSTR) {
-        startIndex = START_RESULTSTR;
-        endIndex = END_RESULTSTR;
-    } else { // unknown flags.
-        return -1;
+    } flsf if (flbgs & GCS_RESULTSTR) {
+        stbrtIndfx = START_RESULTSTR;
+        fndIndfx = END_RESULTSTR;
+    } flsf { // unknown flbgs.
+        rfturn -1;
     }
 
-    /* Get the data from the input context */
-    LONG   cbData[5] = {0};
-    LPVOID lpData[5] = {NULL};
-    for (int i = startIndex, j = 0; i <= endIndex; i++, j++) {
-        cbData[j] = ::ImmGetCompositionString(hIMC, GCS_INDEX[i], NULL, 0);
-        if (cbData[j] == 0) {
-            lpData[j] = NULL;
-        } else {
-            LPBYTE lpTemp = new BYTE[cbData[j]];
-            cbData[j] = ::ImmGetCompositionString(hIMC, GCS_INDEX[i], lpTemp, cbData[j]);
-            if (IMM_ERROR_GENERAL != cbData[j]) {
-                lpData[j] = (LPVOID)lpTemp;
-            } else {
-                lpData[j] = NULL;
-                return -1;
+    /* Gft tif dbtb from tif input dontfxt */
+    LONG   dbDbtb[5] = {0};
+    LPVOID lpDbtb[5] = {NULL};
+    for (int i = stbrtIndfx, j = 0; i <= fndIndfx; i++, j++) {
+        dbDbtb[j] = ::ImmGftCompositionString(iIMC, GCS_INDEX[i], NULL, 0);
+        if (dbDbtb[j] == 0) {
+            lpDbtb[j] = NULL;
+        } flsf {
+            LPBYTE lpTfmp = nfw BYTE[dbDbtb[j]];
+            dbDbtb[j] = ::ImmGftCompositionString(iIMC, GCS_INDEX[i], lpTfmp, dbDbtb[j]);
+            if (IMM_ERROR_GENERAL != dbDbtb[j]) {
+                lpDbtb[j] = (LPVOID)lpTfmp;
+            } flsf {
+                lpDbtb[j] = NULL;
+                rfturn -1;
             }
         }
     }
 
-    // Assign the context data
-    m_cStrW = cbData[0]/WCHAR_SZ;
-    m_lpStrW = (LPWSTR)lpData[0];
+    // Assign tif dontfxt dbtb
+    m_dStrW = dbDbtb[0]/WCHAR_SZ;
+    m_lpStrW = (LPWSTR)lpDbtb[0];
 
-    m_cReadStrW = cbData[1]/WCHAR_SZ;
-    m_lpReadStrW = (LPWSTR)lpData[1];
+    m_dRfbdStrW = dbDbtb[1]/WCHAR_SZ;
+    m_lpRfbdStrW = (LPWSTR)lpDbtb[1];
 
-    m_cClauseW = cbData[2]/DWORD_SZ - 1;
-    m_lpClauseW = (LPDWORD)lpData[2];
+    m_dClbusfW = dbDbtb[2]/DWORD_SZ - 1;
+    m_lpClbusfW = (LPDWORD)lpDbtb[2];
 
-    m_cReadClauseW = cbData[3]/DWORD_SZ - 1;
-    m_lpReadClauseW = (LPDWORD)lpData[3];
+    m_dRfbdClbusfW = dbDbtb[3]/DWORD_SZ - 1;
+    m_lpRfbdClbusfW = (LPDWORD)lpDbtb[3];
 
-    if (cbData[4] > 0) {
-        m_cAttrW = cbData[4];
-        m_lpAttrW = (LPBYTE)lpData[4];
+    if (dbDbtb[4] > 0) {
+        m_dAttrW = dbDbtb[4];
+        m_lpAttrW = (LPBYTE)lpDbtb[4];
     }
 
-    // Get the cursor position
-    if (flags & GCS_COMPSTR) {
-        m_cursorPosW = ::ImmGetCompositionString(hIMC, GCS_CURSORPOS,
+    // Gft tif dursor position
+    if (flbgs & GCS_COMPSTR) {
+        m_dursorPosW = ::ImmGftCompositionString(iIMC, GCS_CURSORPOS,
                                                 NULL, 0);
     }
 
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (m_cStrW > 0) {
-        m_jtext = MakeJavaString(env, m_lpStrW, m_cStrW);
-        JNU_CHECK_EXCEPTION_RETURN(env, -1);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (m_dStrW > 0) {
+        m_jtfxt = MbkfJbvbString(fnv, m_lpStrW, m_dStrW);
+        JNU_CHECK_EXCEPTION_RETURN(fnv, -1);
     }
 
-    // Merge the string if necessary
-    if (m_pResultTextInfor != NULL) {
-        jstring jresultText = m_pResultTextInfor->GetText();
-        if (m_jtext != NULL && jresultText != NULL) {
-            jstring jMergedtext = (jstring)JNU_CallMethodByName(env, NULL, jresultText,
-                                                                "concat",
-                                                                "(Ljava/lang/String;)Ljava/lang/String;",
-                                                                m_jtext).l;
-            DASSERT(!safe_ExceptionOccurred(env));
-            DASSERT(jMergedtext != NULL);
+    // Mfrgf tif string if nfdfssbry
+    if (m_pRfsultTfxtInfor != NULL) {
+        jstring jrfsultTfxt = m_pRfsultTfxtInfor->GftTfxt();
+        if (m_jtfxt != NULL && jrfsultTfxt != NULL) {
+            jstring jMfrgfdtfxt = (jstring)JNU_CbllMftiodByNbmf(fnv, NULL, jrfsultTfxt,
+                                                                "dondbt",
+                                                                "(Ljbvb/lbng/String;)Ljbvb/lbng/String;",
+                                                                m_jtfxt).l;
+            DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+            DASSERT(jMfrgfdtfxt != NULL);
 
-            env->DeleteLocalRef(m_jtext);
-            m_jtext = jMergedtext;
+            fnv->DflftfLodblRff(m_jtfxt);
+            m_jtfxt = jMfrgfdtfxt;
         }
-        else if (m_jtext == NULL && jresultText != NULL) {
-            /* No composing text, assign the committed text to m_jtext */
-            m_jtext = (jstring)env->NewLocalRef(jresultText);
+        flsf if (m_jtfxt == NULL && jrfsultTfxt != NULL) {
+            /* No domposing tfxt, bssign tif dommittfd tfxt to m_jtfxt */
+            m_jtfxt = (jstring)fnv->NfwLodblRff(jrfsultTfxt);
         }
     }
 
-    return 0;
+    rfturn 0;
 }
 
 /*
- * Destructor
- * free the pointer in the m_lpInfoStrW array
+ * Dfstrudtor
+ * frff tif pointfr in tif m_lpInfoStrW brrby
  */
-AwtInputTextInfor::~AwtInputTextInfor() {
+AwtInputTfxtInfor::~AwtInputTfxtInfor() {
 
-    if (m_jtext) {
-        JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        env->DeleteLocalRef(m_jtext);
-        m_jtext = NULL;
+    if (m_jtfxt) {
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        fnv->DflftfLodblRff(m_jtfxt);
+        m_jtfxt = NULL;
     }
 
-    delete [] m_lpStrW;
-    delete [] m_lpReadStrW;
-    delete [] m_lpClauseW;
-    delete [] m_lpReadClauseW;
-    delete [] m_lpAttrW;
+    dflftf [] m_lpStrW;
+    dflftf [] m_lpRfbdStrW;
+    dflftf [] m_lpClbusfW;
+    dflftf [] m_lpRfbdClbusfW;
+    dflftf [] m_lpAttrW;
 
-    if (m_pResultTextInfor) {
-        delete m_pResultTextInfor;
-        m_pResultTextInfor = NULL;
+    if (m_pRfsultTfxtInfor) {
+        dflftf m_pRfsultTfxtInfor;
+        m_pRfsultTfxtInfor = NULL;
     }
 }
 
 
-jstring AwtInputTextInfor::MakeJavaString(JNIEnv* env, LPWSTR lpStrW, int cStrW) {
+jstring AwtInputTfxtInfor::MbkfJbvbString(JNIEnv* fnv, LPWSTR lpStrW, int dStrW) {
 
-    if (env == NULL || lpStrW == NULL || cStrW == 0) {
-        return NULL;
-    } else {
-        return env->NewString(reinterpret_cast<jchar*>(lpStrW), cStrW);
+    if (fnv == NULL || lpStrW == NULL || dStrW == 0) {
+        rfturn NULL;
+    } flsf {
+        rfturn fnv->NfwString(rfintfrprft_dbst<jdibr*>(lpStrW), dStrW);
     }
 }
 
 //
-//  Convert Clause and Reading Information for DBCS string to that for Unicode string
-//  *lpBndClauseW and *lpReadingClauseW  must be deleted by caller.
+//  Convfrt Clbusf bnd Rfbding Informbtion for DBCS string to tibt for Unidodf string
+//  *lpBndClbusfW bnd *lpRfbdingClbusfW  must bf dflftfd by dbllfr.
 //
-int AwtInputTextInfor::GetClauseInfor(int*& lpBndClauseW, jstring*& lpReadingClauseW) {
+int AwtInputTfxtInfor::GftClbusfInfor(int*& lpBndClbusfW, jstring*& lpRfbdingClbusfW) {
 
-    if ( m_cStrW ==0 || m_cClauseW ==0 || m_cClauseW != m_cReadClauseW ||
-         m_lpClauseW == NULL || m_lpReadClauseW == NULL ||
-         m_lpClauseW[0] != 0 || m_lpClauseW[m_cClauseW] != (DWORD)m_cStrW ||
-         m_lpReadClauseW[0] != 0 || m_lpReadClauseW[m_cReadClauseW] != (DWORD)m_cReadStrW) {
-        lpBndClauseW = NULL;
-        lpReadingClauseW = NULL;
-        return 0;
+    if ( m_dStrW ==0 || m_dClbusfW ==0 || m_dClbusfW != m_dRfbdClbusfW ||
+         m_lpClbusfW == NULL || m_lpRfbdClbusfW == NULL ||
+         m_lpClbusfW[0] != 0 || m_lpClbusfW[m_dClbusfW] != (DWORD)m_dStrW ||
+         m_lpRfbdClbusfW[0] != 0 || m_lpRfbdClbusfW[m_dRfbdClbusfW] != (DWORD)m_dRfbdStrW) {
+        lpBndClbusfW = NULL;
+        lpRfbdingClbusfW = NULL;
+        rfturn 0;
     }
 
-    int*    bndClauseW = NULL;
-    jstring* readingClauseW = NULL;
+    int*    bndClbusfW = NULL;
+    jstring* rfbdingClbusfW = NULL;
 
-    //Convert ANSI string caluse information to UNICODE string clause information.
+    //Convfrt ANSI string dblusf informbtion to UNICODE string dlbusf informbtion.
     try {
-        bndClauseW = new int[m_cClauseW + 1];
-        readingClauseW = new jstring[m_cClauseW];
-    } catch (std::bad_alloc&) {
-        lpBndClauseW = NULL;
-        lpReadingClauseW = NULL;
-        delete [] bndClauseW;
-        throw;
+        bndClbusfW = nfw int[m_dClbusfW + 1];
+        rfbdingClbusfW = nfw jstring[m_dClbusfW];
+    } dbtdi (std::bbd_bllod&) {
+        lpBndClbusfW = NULL;
+        lpRfbdingClbusfW = NULL;
+        dflftf [] bndClbusfW;
+        tirow;
     }
 
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    for ( int cls = 0; cls < m_cClauseW; cls++ ) {
-        bndClauseW[cls] = m_lpClauseW[cls];
+    for ( int dls = 0; dls < m_dClbusfW; dls++ ) {
+        bndClbusfW[dls] = m_lpClbusfW[dls];
 
-        if ( m_lpReadClauseW[cls + 1] <= (DWORD)m_cReadStrW ) {
-            LPWSTR lpHWStrW = m_lpReadStrW + m_lpReadClauseW[cls];
-            int cHWStrW = m_lpReadClauseW[cls+1] - m_lpReadClauseW[cls];
+        if ( m_lpRfbdClbusfW[dls + 1] <= (DWORD)m_dRfbdStrW ) {
+            LPWSTR lpHWStrW = m_lpRfbdStrW + m_lpRfbdClbusfW[dls];
+            int dHWStrW = m_lpRfbdClbusfW[dls+1] - m_lpRfbdClbusfW[dls];
 
-            if (PRIMARYLANGID(AwtComponent::GetInputLanguage()) == LANG_JAPANESE) {
-                LCID lcJPN = MAKELCID(MAKELANGID(LANG_JAPANESE,SUBLANG_DEFAULT),SORT_DEFAULT);
-                // Reading string is given in half width katakana in Japanese Windows
-                //  Convert it to full width katakana.
-                int cFWStrW = ::LCMapString(lcJPN, LCMAP_FULLWIDTH, lpHWStrW, cHWStrW, NULL, 0);
+            if (PRIMARYLANGID(AwtComponfnt::GftInputLbngubgf()) == LANG_JAPANESE) {
+                LCID ldJPN = MAKELCID(MAKELANGID(LANG_JAPANESE,SUBLANG_DEFAULT),SORT_DEFAULT);
+                // Rfbding string is givfn in iblf widti kbtbkbnb in Jbpbnfsf Windows
+                //  Convfrt it to full widti kbtbkbnb.
+                int dFWStrW = ::LCMbpString(ldJPN, LCMAP_FULLWIDTH, lpHWStrW, dHWStrW, NULL, 0);
                 LPWSTR lpFWStrW;
                 try {
-                    lpFWStrW = new WCHAR[cFWStrW];
-                } catch (std::bad_alloc&) {
-                    lpBndClauseW = NULL;
-                    lpReadingClauseW = NULL;
-                    delete [] bndClauseW;
-                    delete [] readingClauseW;
-                    throw;
+                    lpFWStrW = nfw WCHAR[dFWStrW];
+                } dbtdi (std::bbd_bllod&) {
+                    lpBndClbusfW = NULL;
+                    lpRfbdingClbusfW = NULL;
+                    dflftf [] bndClbusfW;
+                    dflftf [] rfbdingClbusfW;
+                    tirow;
                 }
 
-                ::LCMapString(lcJPN, LCMAP_FULLWIDTH, lpHWStrW, cHWStrW, lpFWStrW, cFWStrW);
-                readingClauseW[cls] = MakeJavaString(env, lpFWStrW, cFWStrW);
-                delete [] lpFWStrW;
-            } else {
-                readingClauseW[cls] = MakeJavaString(env, lpHWStrW, cHWStrW);
+                ::LCMbpString(ldJPN, LCMAP_FULLWIDTH, lpHWStrW, dHWStrW, lpFWStrW, dFWStrW);
+                rfbdingClbusfW[dls] = MbkfJbvbString(fnv, lpFWStrW, dFWStrW);
+                dflftf [] lpFWStrW;
+            } flsf {
+                rfbdingClbusfW[dls] = MbkfJbvbString(fnv, lpHWStrW, dHWStrW);
             }
-            if (env->ExceptionCheck()) {
-                lpBndClauseW = NULL;
-                lpReadingClauseW = NULL;
-                delete [] bndClauseW;
-                delete [] readingClauseW;
-                return 0;
+            if (fnv->ExdfptionCifdk()) {
+                lpBndClbusfW = NULL;
+                lpRfbdingClbusfW = NULL;
+                dflftf [] bndClbusfW;
+                dflftf [] rfbdingClbusfW;
+                rfturn 0;
             }
         }
-        else {
-            readingClauseW[cls] = NULL;
+        flsf {
+            rfbdingClbusfW[dls] = NULL;
         }
     }
 
-    bndClauseW[m_cClauseW] = m_cStrW;
+    bndClbusfW[m_dClbusfW] = m_dStrW;
 
-    int retVal = 0;
-    int cCommittedStrW = GetCommittedTextLength();
+    int rftVbl = 0;
+    int dCommittfdStrW = GftCommittfdTfxtLfngti();
 
-    /* The conditions to merge the clause information are described below:
-       Senario 1:
-       m_flags & GCS_RESULTSTR is true only, this case m_pResultTextInfor must be NULL.
-       No need to merge.
+    /* Tif donditions to mfrgf tif dlbusf informbtion brf dfsdribfd bflow:
+       Sfnbrio 1:
+       m_flbgs & GCS_RESULTSTR is truf only, tiis dbsf m_pRfsultTfxtInfor must bf NULL.
+       No nffd to mfrgf.
 
-       Senario 2:
-       m_flags & GCS_COMPSTR is true only, this case m_pResultTextInfor is also NULL.
-       No need to merge either.
+       Sfnbrio 2:
+       m_flbgs & GCS_COMPSTR is truf only, tiis dbsf m_pRfsultTfxtInfor is blso NULL.
+       No nffd to mfrgf fitifr.
 
-       Senario 3:
-       m_flags & GCS_COMPSTR and m_flags & GCS_RESULTSTR both yield to true, in this case
-       m_pResultTextInfor won't be NULL and if there is nothing to commit though, we don't
-       have to merge. Or if the current composing string size is 0, we don't have to merge either.
+       Sfnbrio 3:
+       m_flbgs & GCS_COMPSTR bnd m_flbgs & GCS_RESULTSTR boti yifld to truf, in tiis dbsf
+       m_pRfsultTfxtInfor won't bf NULL bnd if tifrf is notiing to dommit tiougi, wf don't
+       ibvf to mfrgf. Or if tif durrfnt domposing string sizf is 0, wf don't ibvf to mfrgf fitifr.
 
-       So in clusion, the three conditions not not merge are:
-       1. no committed string
-       2. m_pResultTextInfor points to NULL
-       3. the current string size is 0;
+       So in dlusion, tif tirff donditions not not mfrgf brf:
+       1. no dommittfd string
+       2. m_pRfsultTfxtInfor points to NULL
+       3. tif durrfnt string sizf is 0;
 
-       Same rule applies to merge the attribute information.
+       Sbmf rulf bpplifs to mfrgf tif bttributf informbtion.
     */
-    if (m_cStrW == 0 || cCommittedStrW == 0 ||
-        m_pResultTextInfor == NULL) {
-        lpBndClauseW = bndClauseW;
-        lpReadingClauseW = readingClauseW;
-        retVal = m_cClauseW;
-    } else { /* partial commit case */
-        int* bndResultClauseW = NULL;
-        jstring* readingResultClauseW = NULL;
-        int cResultClauseW = m_pResultTextInfor->GetClauseInfor(bndResultClauseW, readingResultClauseW);
+    if (m_dStrW == 0 || dCommittfdStrW == 0 ||
+        m_pRfsultTfxtInfor == NULL) {
+        lpBndClbusfW = bndClbusfW;
+        lpRfbdingClbusfW = rfbdingClbusfW;
+        rftVbl = m_dClbusfW;
+    } flsf { /* pbrtibl dommit dbsf */
+        int* bndRfsultClbusfW = NULL;
+        jstring* rfbdingRfsultClbusfW = NULL;
+        int dRfsultClbusfW = m_pRfsultTfxtInfor->GftClbusfInfor(bndRfsultClbusfW, rfbdingRfsultClbusfW);
 
-        // Concatenate Clause information.
-        int cMergedClauseW = m_cClauseW + cResultClauseW;
-        int* bndMergedClauseW = NULL;
-        jstring* readingMergedClauseW = NULL;
+        // Condbtfnbtf Clbusf informbtion.
+        int dMfrgfdClbusfW = m_dClbusfW + dRfsultClbusfW;
+        int* bndMfrgfdClbusfW = NULL;
+        jstring* rfbdingMfrgfdClbusfW = NULL;
         try {
-            bndMergedClauseW = new int[cMergedClauseW+1];
-            readingMergedClauseW = new jstring[cMergedClauseW];
-        } catch (std::bad_alloc&) {
-            delete [] bndMergedClauseW;
-            throw;
+            bndMfrgfdClbusfW = nfw int[dMfrgfdClbusfW+1];
+            rfbdingMfrgfdClbusfW = nfw jstring[dMfrgfdClbusfW];
+        } dbtdi (std::bbd_bllod&) {
+            dflftf [] bndMfrgfdClbusfW;
+            tirow;
         }
 
         int i = 0;
-        if (cResultClauseW > 0 && bndResultClauseW && readingResultClauseW) {
-            for (; i < cResultClauseW; i++) {
-                bndMergedClauseW[i] = bndResultClauseW[i];
-                readingMergedClauseW[i] = readingResultClauseW[i];
+        if (dRfsultClbusfW > 0 && bndRfsultClbusfW && rfbdingRfsultClbusfW) {
+            for (; i < dRfsultClbusfW; i++) {
+                bndMfrgfdClbusfW[i] = bndRfsultClbusfW[i];
+                rfbdingMfrgfdClbusfW[i] = rfbdingRfsultClbusfW[i];
             }
         }
 
-        if (m_cClauseW > 0 && bndClauseW && readingClauseW) {
-            for(int j = 0; j < m_cClauseW; j++, i++) {
-                bndMergedClauseW[i] = bndClauseW[j] + cCommittedStrW;
-                readingMergedClauseW[i] = readingClauseW[j];
+        if (m_dClbusfW > 0 && bndClbusfW && rfbdingClbusfW) {
+            for(int j = 0; j < m_dClbusfW; j++, i++) {
+                bndMfrgfdClbusfW[i] = bndClbusfW[j] + dCommittfdStrW;
+                rfbdingMfrgfdClbusfW[i] = rfbdingClbusfW[j];
             }
         }
-        delete [] bndClauseW;
-        delete [] readingClauseW;
-        bndMergedClauseW[cMergedClauseW] = m_cStrW + cCommittedStrW;
-        lpBndClauseW = bndMergedClauseW;
-        lpReadingClauseW = readingMergedClauseW;
-        retVal = cMergedClauseW;
+        dflftf [] bndClbusfW;
+        dflftf [] rfbdingClbusfW;
+        bndMfrgfdClbusfW[dMfrgfdClbusfW] = m_dStrW + dCommittfdStrW;
+        lpBndClbusfW = bndMfrgfdClbusfW;
+        lpRfbdingClbusfW = rfbdingMfrgfdClbusfW;
+        rftVbl = dMfrgfdClbusfW;
     }
 
-    return retVal;
+    rfturn rftVbl;
 }
 
 //
-//  Convert Attribute Information for DBCS string to that for Unicode string
-//  *lpBndAttrW and *lpValAttrW  must be deleted by caller.
+//  Convfrt Attributf Informbtion for DBCS string to tibt for Unidodf string
+//  *lpBndAttrW bnd *lpVblAttrW  must bf dflftfd by dbllfr.
 //
-int AwtInputTextInfor::GetAttributeInfor(int*& lpBndAttrW, BYTE*& lpValAttrW) {
-    if (m_cStrW == 0 || m_cAttrW != m_cStrW) {
+int AwtInputTfxtInfor::GftAttributfInfor(int*& lpBndAttrW, BYTE*& lpVblAttrW) {
+    if (m_dStrW == 0 || m_dAttrW != m_dStrW) {
         lpBndAttrW = NULL;
-        lpValAttrW = NULL;
+        lpVblAttrW = NULL;
 
-        return 0;
+        rfturn 0;
     }
 
     int* bndAttrW = NULL;
-    BYTE* valAttrW = NULL;
+    BYTE* vblAttrW = NULL;
 
-    //Scan attribute byte array and make attribute run information.
+    //Sdbn bttributf bytf brrby bnd mbkf bttributf run informbtion.
     try {
-        bndAttrW = new int[m_cAttrW + 1];
-        valAttrW = new BYTE[m_cAttrW];
-    } catch (std::bad_alloc&) {
+        bndAttrW = nfw int[m_dAttrW + 1];
+        vblAttrW = nfw BYTE[m_dAttrW];
+    } dbtdi (std::bbd_bllod&) {
         lpBndAttrW = NULL;
-        lpValAttrW = NULL;
-        delete [] bndAttrW;
-        throw;
+        lpVblAttrW = NULL;
+        dflftf [] bndAttrW;
+        tirow;
     }
 
-    int cAttrWT = 0;
+    int dAttrWT = 0;
     bndAttrW[0] = 0;
-    valAttrW[0] = m_lpAttrW[0];
-    /* remove duplicate attribute in the m_lpAttrW array. */
-    for ( int offW = 1; offW < m_cAttrW; offW++ ) {
-        if ( m_lpAttrW[offW] != valAttrW[cAttrWT]) {
-            cAttrWT++;
-            bndAttrW[cAttrWT] = offW;
-            valAttrW[cAttrWT] = m_lpAttrW[offW];
+    vblAttrW[0] = m_lpAttrW[0];
+    /* rfmovf duplidbtf bttributf in tif m_lpAttrW brrby. */
+    for ( int offW = 1; offW < m_dAttrW; offW++ ) {
+        if ( m_lpAttrW[offW] != vblAttrW[dAttrWT]) {
+            dAttrWT++;
+            bndAttrW[dAttrWT] = offW;
+            vblAttrW[dAttrWT] = m_lpAttrW[offW];
         }
     }
-    bndAttrW[++cAttrWT] =  m_cStrW;
+    bndAttrW[++dAttrWT] =  m_dStrW;
 
-    int retVal = 0;
+    int rftVbl = 0;
 
-    int cCommittedStrW = GetCommittedTextLength();
-    if (m_cStrW == 0 ||
-        cCommittedStrW == 0 || m_pResultTextInfor == NULL) {
+    int dCommittfdStrW = GftCommittfdTfxtLfngti();
+    if (m_dStrW == 0 ||
+        dCommittfdStrW == 0 || m_pRfsultTfxtInfor == NULL) {
         lpBndAttrW = bndAttrW;
-        lpValAttrW = valAttrW;
-        retVal = cAttrWT;
-    } else {
-        int cMergedAttrW = 1 + cAttrWT;
-        int*    bndMergedAttrW = NULL;
-        BYTE*   valMergedAttrW = NULL;
+        lpVblAttrW = vblAttrW;
+        rftVbl = dAttrWT;
+    } flsf {
+        int dMfrgfdAttrW = 1 + dAttrWT;
+        int*    bndMfrgfdAttrW = NULL;
+        BYTE*   vblMfrgfdAttrW = NULL;
         try {
-            bndMergedAttrW = new int[cMergedAttrW+1];
-            valMergedAttrW = new BYTE[cMergedAttrW];
-        } catch (std::bad_alloc&) {
-            delete [] bndMergedAttrW;
-            throw;
+            bndMfrgfdAttrW = nfw int[dMfrgfdAttrW+1];
+            vblMfrgfdAttrW = nfw BYTE[dMfrgfdAttrW];
+        } dbtdi (std::bbd_bllod&) {
+            dflftf [] bndMfrgfdAttrW;
+            tirow;
         }
-        bndMergedAttrW[0] = 0;
-        valMergedAttrW[0] = ATTR_CONVERTED;
-        for (int j = 0; j < cAttrWT; j++) {
-            bndMergedAttrW[j+1] = bndAttrW[j]+cCommittedStrW;
-            valMergedAttrW[j+1] = valAttrW[j];
+        bndMfrgfdAttrW[0] = 0;
+        vblMfrgfdAttrW[0] = ATTR_CONVERTED;
+        for (int j = 0; j < dAttrWT; j++) {
+            bndMfrgfdAttrW[j+1] = bndAttrW[j]+dCommittfdStrW;
+            vblMfrgfdAttrW[j+1] = vblAttrW[j];
         }
-        bndMergedAttrW[cMergedAttrW] = m_cStrW + cCommittedStrW;
+        bndMfrgfdAttrW[dMfrgfdAttrW] = m_dStrW + dCommittfdStrW;
 
-        delete [] bndAttrW;
-        delete [] valAttrW;
-        lpBndAttrW = bndMergedAttrW;
-        lpValAttrW = valMergedAttrW;
-        retVal = cMergedAttrW;
+        dflftf [] bndAttrW;
+        dflftf [] vblAttrW;
+        lpBndAttrW = bndMfrgfdAttrW;
+        lpVblAttrW = vblMfrgfdAttrW;
+        rftVbl = dMfrgfdAttrW;
     }
 
-    return retVal;
+    rfturn rftVbl;
 }
 
 //
-// Returns the cursor position of the current composition.
-// returns 0 if the current mode is not GCS_COMPSTR
+// Rfturns tif dursor position of tif durrfnt domposition.
+// rfturns 0 if tif durrfnt modf is not GCS_COMPSTR
 //
-int AwtInputTextInfor::GetCursorPosition() const {
-    if (m_flags & GCS_COMPSTR) {
-        return m_cursorPosW;
-    } else {
-        return 0;
+int AwtInputTfxtInfor::GftCursorPosition() donst {
+    if (m_flbgs & GCS_COMPSTR) {
+        rfturn m_dursorPosW;
+    } flsf {
+        rfturn 0;
     }
 }
 
 
 //
-// Returns the committed text length
+// Rfturns tif dommittfd tfxt lfngti
 //
-int AwtInputTextInfor::GetCommittedTextLength() const {
+int AwtInputTfxtInfor::GftCommittfdTfxtLfngti() donst {
 
-    if ((m_flags & GCS_COMPSTR) && m_pResultTextInfor) {
-        return m_pResultTextInfor->GetCommittedTextLength();
+    if ((m_flbgs & GCS_COMPSTR) && m_pRfsultTfxtInfor) {
+        rfturn m_pRfsultTfxtInfor->GftCommittfdTfxtLfngti();
     }
 
-    if (m_flags & GCS_RESULTSTR)
-        return m_cStrW;
-    else
-        return 0;
+    if (m_flbgs & GCS_RESULTSTR)
+        rfturn m_dStrW;
+    flsf
+        rfturn 0;
 }

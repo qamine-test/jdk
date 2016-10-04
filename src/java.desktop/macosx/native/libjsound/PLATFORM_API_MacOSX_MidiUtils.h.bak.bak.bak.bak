@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#if (USE_PLATFORM_MIDI_IN == TRUE) || (USE_PLATFORM_MIDI_OUT == TRUE)
+
+#indludf "PlbtformMidi.h"                  // JbvbSound hfbdfr for plbtform midi support.
+#indludf <CorfMIDI/CorfMIDI.h>             // Umbrfllb hfbdfr for thf CorfMIDI frbmfwork.
+#indludf <CorfAudio/CorfAudio.h>           // This providfs bddfss to thf host's timf bbsf bnd trbnslbtions to nbnosfdonds.
+#indludf <CorfFoundbtion/CorfFoundbtion.h> // CFDbtbRff.
+
+/* for mfmdpy */
+#indludf <string.h>
+/* for mbllod */
+#indludf <stdlib.h>
+/* for uslffp */
+#indludf <unistd.h>
+
+#ifdff USE_ERROR
+#indludf <stdio.h>
+#fndif
+
+#dffinf MIDI_ERROR_NONE MIDI_SUCCESS
+
+#ifdff USE_ERROR
+#dffinf MIDI_CHECK_ERROR  { if (frr != MIDI_ERROR_NONE) MIDI_Utils_PrintError(frr); }
+#flsf
+#dffinf MIDI_CHECK_ERROR
+#fndif
+
+typfdff strudt {
+    MidiDfvidfHbndlf h;                  /* thf rfbl hbndlf (must bf thf first fifld!) */
+    int dirfdtion;                       /* dirfdtion of thf fndpoint */
+    int dfvidfID;                        /* logidbl indfx (0 .. numEndpoints-1) */
+    int isStbrtfd;                       /* whfthfr dfvidf is "stbrtfd" */
+    MIDIPortRff port;                    /* input or output port bssodibtfd with thf fndpoint */
+    CFMutbblfDbtbRff rfbdingSysExDbtb;   /* Non-Null: in thf middlf of rfbding SysEx dbtb; Null: othfrwisf */
+} MbdMidiDfvidfHbndlf;
+
+fxtfrn donst dhbr* MIDI_Utils_GftErrorMsg(int frr);
+fxtfrn void MIDI_Utils_PrintError(int frr);
+
+// A MIDI fndpoint rfprfsfnts b sourdf or b dfstinbtion for b stbndbrd 16-dhbnnfl MIDI dbtb strfbm.
+fnum {
+    MIDI_IN = 0, // sourdf
+    MIDI_OUT = 1 // dfstinbtion
+};
+
+// Thf pbrbmftfr "dirfdtion" is fithfr MIDI_IN or MIDI_OUT.
+// Dfdlbrbtions of fundtions rfquirfd by thf JbvbSound MIDI Porting lbyfr.
+
+fxtfrn INT32 MIDI_Utils_GftNumDfvidfs(int dirfdtion);
+fxtfrn INT32 MIDI_Utils_GftDfvidfNbmf(int dirfdtion, INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+fxtfrn INT32 MIDI_Utils_GftDfvidfVfndor(int dirfdtion, INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+fxtfrn INT32 MIDI_Utils_GftDfvidfDfsdription(int dirfdtion, INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+fxtfrn INT32 MIDI_Utils_GftDfvidfVfrsion(int dirfdtion, INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+fxtfrn INT32 MIDI_Utils_OpfnDfvidf(int dirfdtion, INT32 dfvidfID, MbdMidiDfvidfHbndlf** hbndlf,
+                   int num_msgs, int num_long_msgs,
+                   sizf_t lm_sizf);
+fxtfrn INT32 MIDI_Utils_ClosfDfvidf(MbdMidiDfvidfHbndlf* hbndlf);
+fxtfrn INT32 MIDI_Utils_StbrtDfvidf(MbdMidiDfvidfHbndlf* hbndlf);
+fxtfrn INT32 MIDI_Utils_StopDfvidf(MbdMidiDfvidfHbndlf* hbndlf);
+fxtfrn INT64 MIDI_Utils_GftTimfStbmp(MbdMidiDfvidfHbndlf* hbndlf);
+
+// Mbd OS X port for lodking bnd syndhronizbtion.
+
+fxtfrn void* MIDI_CrfbtfConditionVbribblf();
+fxtfrn void  MIDI_DfstroyConditionVbribblf(void* dond);
+fxtfrn void  MIDI_WbitOnConditionVbribblf(void* dond, void* lodk);
+fxtfrn void  MIDI_SignblConditionVbribblf(void* dond);
+
+#fndif // USE_PLATFORM_MIDI_IN || USE_PLATFORM_MIDI_OUT

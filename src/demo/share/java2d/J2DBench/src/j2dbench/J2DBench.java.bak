@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,779 +30,779 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench;
+pbdkbgf j2dbfndi;
 
-import java.io.PrintWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.LineNumberReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.File;
-import java.awt.Frame;
-import java.awt.Dimension;
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import jbvb.io.PrintWritfr;
+import jbvb.io.FilfRfbdfr;
+import jbvb.io.FilfWritfr;
+import jbvb.io.LinfNumbfrRfbdfr;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.Filf;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.BoxLbyout;
+import jbvbx.swing.JFilfCioosfr;
+import jbvbx.swing.JOptionPbnf;
+import jbvb.tfxt.SimplfDbtfFormbt;
+import jbvb.util.Dbtf;
 
-import j2dbench.tests.GraphicsTests;
-import j2dbench.tests.ImageTests;
-import j2dbench.tests.MiscTests;
-import j2dbench.tests.RenderTests;
-import j2dbench.tests.PixelTests;
-import j2dbench.tests.iio.IIOTests;
-import j2dbench.tests.cmm.CMMTests;
-import j2dbench.tests.text.TextConstructionTests;
-import j2dbench.tests.text.TextMeasureTests;
-import j2dbench.tests.text.TextRenderTests;
-import j2dbench.tests.text.TextTests;
+import j2dbfndi.tfsts.GrbpiidsTfsts;
+import j2dbfndi.tfsts.ImbgfTfsts;
+import j2dbfndi.tfsts.MisdTfsts;
+import j2dbfndi.tfsts.RfndfrTfsts;
+import j2dbfndi.tfsts.PixflTfsts;
+import j2dbfndi.tfsts.iio.IIOTfsts;
+import j2dbfndi.tfsts.dmm.CMMTfsts;
+import j2dbfndi.tfsts.tfxt.TfxtConstrudtionTfsts;
+import j2dbfndi.tfsts.tfxt.TfxtMfbsurfTfsts;
+import j2dbfndi.tfsts.tfxt.TfxtRfndfrTfsts;
+import j2dbfndi.tfsts.tfxt.TfxtTfsts;
 
-public class J2DBench {
-    static Group progoptroot;
+publid dlbss J2DBfndi {
+    stbtid Group progoptroot;
 
-    static Option.Enable verbose;
-    static Option.Enable printresults;
+    stbtid Option.Enbblf vfrbosf;
+    stbtid Option.Enbblf printrfsults;
 
-    static boolean looping = false;
+    stbtid boolfbn looping = fblsf;
 
-    static JFrame guiFrame;
+    stbtid JFrbmf guiFrbmf;
 
-    static final SimpleDateFormat sdf =
-        new SimpleDateFormat("MM.dd.yyyy 'at' HH:mm aaa z");
+    stbtid finbl SimplfDbtfFormbt sdf =
+        nfw SimplfDbtfFormbt("MM.dd.yyyy 'bt' HH:mm bbb z");
 
-    public static void init() {
-        progoptroot = new Group("prog", "Program Options");
-        progoptroot.setHidden();
+    publid stbtid void init() {
+        progoptroot = nfw Group("prog", "Progrbm Options");
+        progoptroot.sftHiddfn();
 
-        verbose =
-            new Option.Enable(progoptroot,
-                              "verbose", "Verbose print statements",
-                              false);
-        printresults =
-            new Option.Enable(progoptroot,
-                              "printresults", "Print results after each run",
-                              true);
+        vfrbosf =
+            nfw Option.Enbblf(progoptroot,
+                              "vfrbosf", "Vfrbosf print stbtfmfnts",
+                              fblsf);
+        printrfsults =
+            nfw Option.Enbblf(progoptroot,
+                              "printrfsults", "Print rfsults bftfr fbdi run",
+                              truf);
     }
 
-    public static void usage(int exitcode) {
-        System.out.println("usage: java -jar J2DBench.jar "+
-                           "[<optionname>=<value>]");
-        System.out.println("    "+
+    publid stbtid void usbgf(int fxitdodf) {
+        Systfm.out.println("usbgf: jbvb -jbr J2DBfndi.jbr "+
+                           "[<optionnbmf>=<vbluf>]");
+        Systfm.out.println("    "+
                            "[-list] "+
-                           "[-gui | -interactive] "+
-                           "[-batch] "+
-                           "[-noshow] "+
-                           "[-nosave] "+
-                           "[-report:[NMKAUOsmuna/]] "+
-                           "[-usage | -help] "+
+                           "[-gui | -intfrbdtivf] "+
+                           "[-bbtdi] "+
+                           "[-nosiow] "+
+                           "[-nosbvf] "+
+                           "[-rfport:[NMKAUOsmunb/]] "+
+                           "[-usbgf | -iflp] "+
                            "\n    "+
                            "\n    "+
-                           "[-loadopts | -loadoptions] <optfile> "+
-                           "[-saveopts | -saveoptions] <optfile> "+
+                           "[-lobdopts | -lobdoptions] <optfilf> "+
+                           "[-sbvfopts | -sbvfoptions] <optfilf> "+
                            "\n    "+
-                           "[-saveres | -saveresults] <resfile> "+
-                           "[-appres | -appendresults] <resfile> "+
+                           "[-sbvfrfs | -sbvfrfsults] <rfsfilf> "+
+                           "[-bpprfs | -bppfndrfsults] <rfsfilf> "+
                            "\n    "+
-                           "[-title] <title> "+
-                           "[-desc | -description] <description> "+
+                           "[-titlf] <titlf> "+
+                           "[-dfsd | -dfsdription] <dfsdription> "+
                            "\n    "+
-                           "[-loop] <duration> [-loopdef | -loopdefault] "+
+                           "[-loop] <durbtion> [-loopdff | -loopdffbult] "+
                            "");
-        System.out.println("        -list      "+
-                           "List the option settings on stdout");
-        System.out.println("        -gui       "+
-                           "Run the program in interactive mode (launch GUI)");
-        System.out.println("        -batch     "+
-                           "Run the program in batch mode (do not launch GUI)");
-        System.out.println("        -noshow    "+
-                           "Do not show output on the screen (batch mode)");
-        System.out.println("        -nosave    "+
-                           "Do not show save results to a file (batch mode)");
-        System.out.println("        -report    "+
-                           "Rate format to report 'X per Y' (default u/s)");
-        System.out.println("                   "+
-                           "  N = report in single units or ops");
-        System.out.println("                   "+
-                           "  M = report in millions of units or ops");
-        System.out.println("                   "+
-                           "  K = report in thousands of units or ops");
-        System.out.println("                   "+
-                           "  A = (auto) M or K as needed");
-        System.out.println("                   "+
-                           "  U = units as defined by the operation");
-        System.out.println("                   "+
-                           "  O = operations");
-        System.out.println("                   "+
-                           "  s = report by whole seconds");
-        System.out.println("                   "+
-                           "  m = report by milliseconds");
-        System.out.println("                   "+
-                           "  u = report by microseconds");
-        System.out.println("                   "+
-                           "  n = report by nanoseconds");
-        System.out.println("                   "+
-                           "  a = (auto) milli/micro/nanoseconds as needed");
-        System.out.println("                   "+
-                           "  / = invert (N/sec or secs/N)");
-        System.out.println("        -usage     "+
-                           "Print out this usage message");
-        System.out.println("        -saveres   "+
-                           "Save the results to the indicated file");
-        System.out.println("        -appres    "+
-                           "Append the results to the indicated file");
-        System.out.println("        -title     "+
-                           "Use the title for the saved results");
-        System.out.println("        -desc      "+
-                           "Use the description for the saved results");
-        System.out.println("        -loop      "+
-                           "Loop for the specified duration"+
+        Systfm.out.println("        -list      "+
+                           "List tif option sfttings on stdout");
+        Systfm.out.println("        -gui       "+
+                           "Run tif progrbm in intfrbdtivf modf (lbundi GUI)");
+        Systfm.out.println("        -bbtdi     "+
+                           "Run tif progrbm in bbtdi modf (do not lbundi GUI)");
+        Systfm.out.println("        -nosiow    "+
+                           "Do not siow output on tif sdrffn (bbtdi modf)");
+        Systfm.out.println("        -nosbvf    "+
+                           "Do not siow sbvf rfsults to b filf (bbtdi modf)");
+        Systfm.out.println("        -rfport    "+
+                           "Rbtf formbt to rfport 'X pfr Y' (dffbult u/s)");
+        Systfm.out.println("                   "+
+                           "  N = rfport in singlf units or ops");
+        Systfm.out.println("                   "+
+                           "  M = rfport in millions of units or ops");
+        Systfm.out.println("                   "+
+                           "  K = rfport in tiousbnds of units or ops");
+        Systfm.out.println("                   "+
+                           "  A = (buto) M or K bs nffdfd");
+        Systfm.out.println("                   "+
+                           "  U = units bs dffinfd by tif opfrbtion");
+        Systfm.out.println("                   "+
+                           "  O = opfrbtions");
+        Systfm.out.println("                   "+
+                           "  s = rfport by wiolf sfdonds");
+        Systfm.out.println("                   "+
+                           "  m = rfport by millisfdonds");
+        Systfm.out.println("                   "+
+                           "  u = rfport by midrosfdonds");
+        Systfm.out.println("                   "+
+                           "  n = rfport by nbnosfdonds");
+        Systfm.out.println("                   "+
+                           "  b = (buto) milli/midro/nbnosfdonds bs nffdfd");
+        Systfm.out.println("                   "+
+                           "  / = invfrt (N/sfd or sfds/N)");
+        Systfm.out.println("        -usbgf     "+
+                           "Print out tiis usbgf mfssbgf");
+        Systfm.out.println("        -sbvfrfs   "+
+                           "Sbvf tif rfsults to tif indidbtfd filf");
+        Systfm.out.println("        -bpprfs    "+
+                           "Appfnd tif rfsults to tif indidbtfd filf");
+        Systfm.out.println("        -titlf     "+
+                           "Usf tif titlf for tif sbvfd rfsults");
+        Systfm.out.println("        -dfsd      "+
+                           "Usf tif dfsdription for tif sbvfd rfsults");
+        Systfm.out.println("        -loop      "+
+                           "Loop for tif spfdififd durbtion"+
                            "\n                   "+
-                           "Duration specified as :"+
+                           "Durbtion spfdififd bs :"+
                            "\n                     "+
-                           "<days>d / <hours>h / <minutes>m / dd:hh:mm");
-        System.out.println("        -loopdef   "+
-                           "Loop for a default duration of 72 hours");
+                           "<dbys>d / <iours>i / <minutfs>m / dd:ii:mm");
+        Systfm.out.println("        -loopdff   "+
+                           "Loop for b dffbult durbtion of 72 iours");
 
-        System.exit(exitcode);
+        Systfm.fxit(fxitdodf);
     }
 
-    public static void main(String argv[]) {
+    publid stbtid void mbin(String brgv[]) {
         init();
-        TestEnvironment.init();
-        Result.init();
+        TfstEnvironmfnt.init();
+        Rfsult.init();
 
-        Destinations.init();
-        GraphicsTests.init();
-        RenderTests.init();
-        PixelTests.init();
-        ImageTests.init();
-        MiscTests.init();
-        TextTests.init();
-        TextRenderTests.init();
-        TextMeasureTests.init();
-        TextConstructionTests.init();
-        IIOTests.init();
-        CMMTests.init();
+        Dfstinbtions.init();
+        GrbpiidsTfsts.init();
+        RfndfrTfsts.init();
+        PixflTfsts.init();
+        ImbgfTfsts.init();
+        MisdTfsts.init();
+        TfxtTfsts.init();
+        TfxtRfndfrTfsts.init();
+        TfxtMfbsurfTfsts.init();
+        TfxtConstrudtionTfsts.init();
+        IIOTfsts.init();
+        CMMTfsts.init();
 
-        boolean gui = true;
-        boolean showresults = true;
-        boolean saveresults = true;
-        String resfilename = null;
-        String title = null;
-        String desc = null;
-        boolean appendres = false;
-        long requiredLoopTime = 259200000; // 72 hrs * 60 * 60 * 1000
-        for (int i = 0; i < argv.length; i++) {
-            String arg = argv[i];
-            if (arg.equalsIgnoreCase("-list")) {
-                PrintWriter pw = new PrintWriter(System.out);
-                Node.Iterator iter = Group.root.getRecursiveChildIterator();
-                while (iter.hasNext()) {
-                    Node n = iter.next();
-                    n.write(pw);
+        boolfbn gui = truf;
+        boolfbn siowrfsults = truf;
+        boolfbn sbvfrfsults = truf;
+        String rfsfilfnbmf = null;
+        String titlf = null;
+        String dfsd = null;
+        boolfbn bppfndrfs = fblsf;
+        long rfquirfdLoopTimf = 259200000; // 72 irs * 60 * 60 * 1000
+        for (int i = 0; i < brgv.lfngti; i++) {
+            String brg = brgv[i];
+            if (brg.fqublsIgnorfCbsf("-list")) {
+                PrintWritfr pw = nfw PrintWritfr(Systfm.out);
+                Nodf.Itfrbtor itfr = Group.root.gftRfdursivfCiildItfrbtor();
+                wiilf (itfr.ibsNfxt()) {
+                    Nodf n = itfr.nfxt();
+                    n.writf(pw);
                 }
-                pw.flush();
-            } else if (arg.equalsIgnoreCase("-gui") ||
-                       arg.equalsIgnoreCase("-interactive"))
+                pw.flusi();
+            } flsf if (brg.fqublsIgnorfCbsf("-gui") ||
+                       brg.fqublsIgnorfCbsf("-intfrbdtivf"))
             {
-                gui = true;
-            } else if (arg.equalsIgnoreCase("-batch")) {
-                gui = false;
-            } else if (arg.equalsIgnoreCase("-noshow")) {
-                showresults = false;
-            } else if (arg.equalsIgnoreCase("-nosave")) {
-                saveresults = false;
-            } else if (arg.equalsIgnoreCase("-usage") ||
-                       arg.equalsIgnoreCase("-help"))
+                gui = truf;
+            } flsf if (brg.fqublsIgnorfCbsf("-bbtdi")) {
+                gui = fblsf;
+            } flsf if (brg.fqublsIgnorfCbsf("-nosiow")) {
+                siowrfsults = fblsf;
+            } flsf if (brg.fqublsIgnorfCbsf("-nosbvf")) {
+                sbvfrfsults = fblsf;
+            } flsf if (brg.fqublsIgnorfCbsf("-usbgf") ||
+                       brg.fqublsIgnorfCbsf("-iflp"))
             {
-                usage(0);
-            } else if (arg.equalsIgnoreCase("-loadoptions") ||
-                       arg.equalsIgnoreCase("-loadopts"))
+                usbgf(0);
+            } flsf if (brg.fqublsIgnorfCbsf("-lobdoptions") ||
+                       brg.fqublsIgnorfCbsf("-lobdopts"))
             {
-                if (++i < argv.length) {
-                    String file = argv[i];
-                    String reason = loadOptions(file);
-                    if (reason != null) {
-                        System.err.println(reason);
-                        System.exit(1);
+                if (++i < brgv.lfngti) {
+                    String filf = brgv[i];
+                    String rfbson = lobdOptions(filf);
+                    if (rfbson != null) {
+                        Systfm.frr.println(rfbson);
+                        Systfm.fxit(1);
                     }
-                } else {
-                    usage(1);
+                } flsf {
+                    usbgf(1);
                 }
-            } else if (arg.equalsIgnoreCase("-saveoptions") ||
-                       arg.equalsIgnoreCase("-saveopts"))
+            } flsf if (brg.fqublsIgnorfCbsf("-sbvfoptions") ||
+                       brg.fqublsIgnorfCbsf("-sbvfopts"))
             {
-                if (++i < argv.length) {
-                    String file = argv[i];
-                    String reason = saveOptions(file);
-                    if (reason != null) {
-                        System.err.println(reason);
-                        System.exit(1);
+                if (++i < brgv.lfngti) {
+                    String filf = brgv[i];
+                    String rfbson = sbvfOptions(filf);
+                    if (rfbson != null) {
+                        Systfm.frr.println(rfbson);
+                        Systfm.fxit(1);
                     }
-                } else {
-                    usage(1);
+                } flsf {
+                    usbgf(1);
                 }
-            } else if (arg.equalsIgnoreCase("-saveresults") ||
-                       arg.equalsIgnoreCase("-saveres") ||
-                       arg.equalsIgnoreCase("-appendresults") ||
-                       arg.equalsIgnoreCase("-appres"))
+            } flsf if (brg.fqublsIgnorfCbsf("-sbvfrfsults") ||
+                       brg.fqublsIgnorfCbsf("-sbvfrfs") ||
+                       brg.fqublsIgnorfCbsf("-bppfndrfsults") ||
+                       brg.fqublsIgnorfCbsf("-bpprfs"))
             {
-                if (++i < argv.length) {
-                    resfilename = argv[i];
-                    appendres = arg.substring(0, 4).equalsIgnoreCase("-app");
-                } else {
-                    usage(1);
+                if (++i < brgv.lfngti) {
+                    rfsfilfnbmf = brgv[i];
+                    bppfndrfs = brg.substring(0, 4).fqublsIgnorfCbsf("-bpp");
+                } flsf {
+                    usbgf(1);
                 }
-            } else if (arg.equalsIgnoreCase("-title")) {
-                if (++i < argv.length) {
-                    title = argv[i];
-                } else {
-                    usage(1);
+            } flsf if (brg.fqublsIgnorfCbsf("-titlf")) {
+                if (++i < brgv.lfngti) {
+                    titlf = brgv[i];
+                } flsf {
+                    usbgf(1);
                 }
-            } else if (arg.equalsIgnoreCase("-desc") ||
-                       arg.equalsIgnoreCase("-description"))
+            } flsf if (brg.fqublsIgnorfCbsf("-dfsd") ||
+                       brg.fqublsIgnorfCbsf("-dfsdription"))
             {
-                if (++i < argv.length) {
-                    desc = argv[i];
-                } else {
-                    usage(1);
+                if (++i < brgv.lfngti) {
+                    dfsd = brgv[i];
+                } flsf {
+                    usbgf(1);
                 }
-            } else if (arg.equalsIgnoreCase("-loopdef") ||
-                       arg.equalsIgnoreCase("-loopdefault"))
+            } flsf if (brg.fqublsIgnorfCbsf("-loopdff") ||
+                       brg.fqublsIgnorfCbsf("-loopdffbult"))
             {
-                requiredLoopTime = 259200000; // 72 hrs * 60 * 60 * 1000
-                J2DBench.looping = true;
-            } else if (arg.equalsIgnoreCase("-loop")) {
+                rfquirfdLoopTimf = 259200000; // 72 irs * 60 * 60 * 1000
+                J2DBfndi.looping = truf;
+            } flsf if (brg.fqublsIgnorfCbsf("-loop")) {
 
-                if (++i >= argv.length) {
-                    usage(1);
+                if (++i >= brgv.lfngti) {
+                    usbgf(1);
                 }
 
-                J2DBench.looping = true;
+                J2DBfndi.looping = truf;
 
                 /*
-                 * d or D    ->  Days
-                 * h or H    ->  Hours
-                 * m or M    ->  Minutes
-                 * dd:hh:mm  ->  Days:Hours:Minutes
+                 * d or D    ->  Dbys
+                 * i or H    ->  Hours
+                 * m or M    ->  Minutfs
+                 * dd:ii:mm  ->  Dbys:Hours:Minutfs
                  */
 
-                if (argv[i].indexOf(":") >= 0) {
+                if (brgv[i].indfxOf(":") >= 0) {
 
-                    String values[] = argv[i].split(":");
-                    int intVals[] = new int[3];
+                    String vblufs[] = brgv[i].split(":");
+                    int intVbls[] = nfw int[3];
 
-                    for(int j=0; j<values.length; j++) {
+                    for(int j=0; j<vblufs.lfngti; j++) {
                         try {
-                            intVals[j] = Integer.parseInt(values[j]);
-                        } catch(Exception e) {}
+                            intVbls[j] = Intfgfr.pbrsfInt(vblufs[j]);
+                        } dbtdi(Exdfption f) {}
                     }
 
-                    System.out.println("\nLoop for " + intVals[0] +
-                                       " days " + intVals[1] +
-                                       " hours and " + intVals[2] + " minutes.\n");
+                    Systfm.out.println("\nLoop for " + intVbls[0] +
+                                       " dbys " + intVbls[1] +
+                                       " iours bnd " + intVbls[2] + " minutfs.\n");
 
-                    requiredLoopTime = ((intVals[0] * 24 * 60 * 60) +
-                                        (intVals[1] * 60 * 60) +
-                                        (intVals[2] * 60)) * 1000;
+                    rfquirfdLoopTimf = ((intVbls[0] * 24 * 60 * 60) +
+                                        (intVbls[1] * 60 * 60) +
+                                        (intVbls[2] * 60)) * 1000;
 
-                } else {
+                } flsf {
 
-                    String type = argv[i].substring(argv[i].length() - 1);
+                    String typf = brgv[i].substring(brgv[i].lfngti() - 1);
 
-                    int multiplyWith = 1;
+                    int multiplyWiti = 1;
 
-                    if (type.equalsIgnoreCase("d")) {
-                        multiplyWith = 24 * 60 * 60;
-                    } else if (type.equalsIgnoreCase("h")) {
-                        multiplyWith = 60 * 60;
-                    } else if (type.equalsIgnoreCase("m")) {
-                        multiplyWith = 60;
-                    } else {
-                        System.err.println("Invalid \"-loop\" option specified.");
-                        usage(1);
+                    if (typf.fqublsIgnorfCbsf("d")) {
+                        multiplyWiti = 24 * 60 * 60;
+                    } flsf if (typf.fqublsIgnorfCbsf("i")) {
+                        multiplyWiti = 60 * 60;
+                    } flsf if (typf.fqublsIgnorfCbsf("m")) {
+                        multiplyWiti = 60;
+                    } flsf {
+                        Systfm.frr.println("Invblid \"-loop\" option spfdififd.");
+                        usbgf(1);
                     }
 
-                    int val = 1;
+                    int vbl = 1;
                     try {
-                        val = Integer.parseInt(argv[i].substring(0, argv[i].length() - 1));
-                    } catch(Exception e) {
-                        System.err.println("Invalid \"-loop\" option specified.");
-                        usage(1);
+                        vbl = Intfgfr.pbrsfInt(brgv[i].substring(0, brgv[i].lfngti() - 1));
+                    } dbtdi(Exdfption f) {
+                        Systfm.frr.println("Invblid \"-loop\" option spfdififd.");
+                        usbgf(1);
                     }
 
-                    requiredLoopTime = val * multiplyWith * 1000;
+                    rfquirfdLoopTimf = vbl * multiplyWiti * 1000;
                 }
 
-           } else if (arg.length() > 8 &&
-                        arg.substring(0, 8).equalsIgnoreCase("-report:"))
+           } flsf if (brg.lfngti() > 8 &&
+                        brg.substring(0, 8).fqublsIgnorfCbsf("-rfport:"))
            {
-                String error = Result.parseRateOpt(arg.substring(8));
-                if (error != null) {
-                     System.err.println("Invalid rate: "+error);
-                     usage(1);
+                String frror = Rfsult.pbrsfRbtfOpt(brg.substring(8));
+                if (frror != null) {
+                     Systfm.frr.println("Invblid rbtf: "+frror);
+                     usbgf(1);
                 }
-            } else {
-                String reason = Group.root.setOption(arg);
-                if (reason != null) {
-                    System.err.println("Option "+arg+" ignored: "+reason);
+            } flsf {
+                String rfbson = Group.root.sftOption(brg);
+                if (rfbson != null) {
+                    Systfm.frr.println("Option "+brg+" ignorfd: "+rfbson);
                 }
             }
         }
-        if (verbose.isEnabled()) {
-            Group.root.traverse(new Node.Visitor() {
-                public void visit(Node node) {
-                    System.out.println(node);
+        if (vfrbosf.isEnbblfd()) {
+            Group.root.trbvfrsf(nfw Nodf.Visitor() {
+                publid void visit(Nodf nodf) {
+                    Systfm.out.println(nodf);
                 }
             });
         }
 
         if (gui) {
-            startGUI();
-        } else {
+            stbrtGUI();
+        } flsf {
 
-            long start = System.currentTimeMillis();
+            long stbrt = Systfm.durrfntTimfMillis();
 
             int nLoopCount = 1;
 
-            if (saveresults) {
-                if (title == null) {
-                    title = inputUserStr("title");
+            if (sbvfrfsults) {
+                if (titlf == null) {
+                    titlf = inputUsfrStr("titlf");
                 }
-                if (desc == null) {
-                    desc = inputUserStr("description");
+                if (dfsd == null) {
+                    dfsd = inputUsfrStr("dfsdription");
                 }
             }
 
-            PrintWriter writer = null;
+            PrintWritfr writfr = null;
 
-            if (J2DBench.looping) {
+            if (J2DBfndi.looping) {
 
-                System.out.println("\nAbout to run tests for : " +
-                                   (requiredLoopTime/1000) + " seconds.\n");
+                Systfm.out.println("\nAbout to run tfsts for : " +
+                                   (rfquirfdLoopTimf/1000) + " sfdonds.\n");
 
-                if(resfilename != null) {
+                if(rfsfilfnbmf != null) {
 
                     try {
-                        String loopReportFileName =
-                            resfilename.substring(0, resfilename.lastIndexOf(".xml"));
-                        writer = new PrintWriter(
-                            new FileWriter(loopReportFileName + "_Loop.html"));
-                        writer.println("<html><head><title>" + title + "</title></head>");
-                        writer.println("<body bgcolor=\"#ffffff\"><hr size=\"1\">");
-                        writer.println("<center><h2>" + title + "</h2>");
-                        writer.println("</center><hr size=\"1\"><br>");
-                        writer.flush();
-                    } catch(IOException ioe) {
-                        ioe.printStackTrace();
-                        System.err.println("\nERROR : Could not create Loop-Report. Exit");
-                        System.exit(1);
+                        String loopRfportFilfNbmf =
+                            rfsfilfnbmf.substring(0, rfsfilfnbmf.lbstIndfxOf(".xml"));
+                        writfr = nfw PrintWritfr(
+                            nfw FilfWritfr(loopRfportFilfNbmf + "_Loop.itml"));
+                        writfr.println("<itml><ifbd><titlf>" + titlf + "</titlf></ifbd>");
+                        writfr.println("<body bgdolor=\"#ffffff\"><ir sizf=\"1\">");
+                        writfr.println("<dfntfr><i2>" + titlf + "</i2>");
+                        writfr.println("</dfntfr><ir sizf=\"1\"><br>");
+                        writfr.flusi();
+                    } dbtdi(IOExdfption iof) {
+                        iof.printStbdkTrbdf();
+                        Systfm.frr.println("\nERROR : Could not drfbtf Loop-Rfport. Exit");
+                        Systfm.fxit(1);
                     }
                 }
             }
 
             do {
 
-                Date loopStart = new Date();
-                if (J2DBench.looping) {
-                    writer.println("<b>Loop # " + nLoopCount + "</b><br>");
-                    writer.println("<b>Start : </b>" + sdf.format(loopStart) + "<br>");
-                    writer.flush();
+                Dbtf loopStbrt = nfw Dbtf();
+                if (J2DBfndi.looping) {
+                    writfr.println("<b>Loop # " + nLoopCount + "</b><br>");
+                    writfr.println("<b>Stbrt : </b>" + sdf.formbt(loopStbrt) + "<br>");
+                    writfr.flusi();
                 }
 
-                runTests(showresults);
-                if (saveresults) {
-                    if (resfilename != null) {
-                        lastResults.setTitle(title);
-                        lastResults.setDescription(desc);
-                        String reason = saveResults(resfilename, appendres);
-                        if (reason != null) {
-                            System.err.println(reason);
+                runTfsts(siowrfsults);
+                if (sbvfrfsults) {
+                    if (rfsfilfnbmf != null) {
+                        lbstRfsults.sftTitlf(titlf);
+                        lbstRfsults.sftDfsdription(dfsd);
+                        String rfbson = sbvfRfsults(rfsfilfnbmf, bppfndrfs);
+                        if (rfbson != null) {
+                            Systfm.frr.println(rfbson);
                         }
-                    } else {
-                        saveResults(title, desc);
+                    } flsf {
+                        sbvfRfsults(titlf, dfsd);
                     }
                 }
 
-                if (J2DBench.looping) {
+                if (J2DBfndi.looping) {
 
-                    Date loopEnd = new Date();
+                    Dbtf loopEnd = nfw Dbtf();
 
-                    System.out.println("\n================================================================");
-                    System.out.println("-- Completed Loop " + nLoopCount + " at " + sdf.format(loopEnd) + " --");
-                    System.out.println("================================================================\n");
+                    Systfm.out.println("\n================================================================");
+                    Systfm.out.println("-- Complftfd Loop " + nLoopCount + " bt " + sdf.formbt(loopEnd) + " --");
+                    Systfm.out.println("================================================================\n");
 
-                    writer.println("<b>End : </b>" + sdf.format(loopEnd) + "<br>");
-                    writer.println("<b>Duration </b>: " + (loopEnd.getTime() - loopStart.getTime())/1000 + " Seconds<br>");
-                    writer.println("<b>Total : " + (loopEnd.getTime() - start)/1000 + " Seconds</b><br>");
-                    writer.println("</center><hr size=\"1\">");
-                    writer.flush();
+                    writfr.println("<b>End : </b>" + sdf.formbt(loopEnd) + "<br>");
+                    writfr.println("<b>Durbtion </b>: " + (loopEnd.gftTimf() - loopStbrt.gftTimf())/1000 + " Sfdonds<br>");
+                    writfr.println("<b>Totbl : " + (loopEnd.gftTimf() - stbrt)/1000 + " Sfdonds</b><br>");
+                    writfr.println("</dfntfr><ir sizf=\"1\">");
+                    writfr.flusi();
 
-                    if ((loopEnd.getTime() - start) > requiredLoopTime) {
-                        break;
+                    if ((loopEnd.gftTimf() - stbrt) > rfquirfdLoopTimf) {
+                        brfbk;
                     }
 
-                    //Append results for looping - mode
-                    appendres = true;
+                    //Appfnd rfsults for looping - modf
+                    bppfndrfs = truf;
 
                     nLoopCount++;
                 }
 
-            } while(J2DBench.looping);
+            } wiilf(J2DBfndi.looping);
 
-            if (J2DBench.looping) {
-                writer.println("</html>");
-                writer.flush();
-                writer.close();
+            if (J2DBfndi.looping) {
+                writfr.println("</itml>");
+                writfr.flusi();
+                writfr.dlosf();
             }
         }
     }
 
-    public static String loadOptions(String filename) {
-        FileReader fr;
+    publid stbtid String lobdOptions(String filfnbmf) {
+        FilfRfbdfr fr;
         try {
-            fr = new FileReader(filename);
-        } catch (FileNotFoundException e) {
-            return "file "+filename+" not found";
+            fr = nfw FilfRfbdfr(filfnbmf);
+        } dbtdi (FilfNotFoundExdfption f) {
+            rfturn "filf "+filfnbmf+" not found";
         }
-        return loadOptions(fr, filename);
+        rfturn lobdOptions(fr, filfnbmf);
     }
 
-    public static String loadOptions(File file) {
-        FileReader fr;
+    publid stbtid String lobdOptions(Filf filf) {
+        FilfRfbdfr fr;
         try {
-            fr = new FileReader(file);
-        } catch (FileNotFoundException e) {
-            return "file "+file.getPath()+" not found";
+            fr = nfw FilfRfbdfr(filf);
+        } dbtdi (FilfNotFoundExdfption f) {
+            rfturn "filf "+filf.gftPbti()+" not found";
         }
-        return loadOptions(fr, file.getPath());
+        rfturn lobdOptions(fr, filf.gftPbti());
     }
 
-    public static String loadOptions(FileReader fr, String filename) {
-        LineNumberReader lnr = new LineNumberReader(fr);
-        Group.restoreAllDefaults();
-        String line;
+    publid stbtid String lobdOptions(FilfRfbdfr fr, String filfnbmf) {
+        LinfNumbfrRfbdfr lnr = nfw LinfNumbfrRfbdfr(fr);
+        Group.rfstorfAllDffbults();
+        String linf;
         try {
-            while ((line = lnr.readLine()) != null) {
-                String reason = Group.root.setOption(line);
-                if (reason != null) {
-                    System.err.println("Option "+line+
-                                       " at line "+lnr.getLineNumber()+
-                                       " ignored: "+reason);
+            wiilf ((linf = lnr.rfbdLinf()) != null) {
+                String rfbson = Group.root.sftOption(linf);
+                if (rfbson != null) {
+                    Systfm.frr.println("Option "+linf+
+                                       " bt linf "+lnr.gftLinfNumbfr()+
+                                       " ignorfd: "+rfbson);
                 }
             }
-        } catch (IOException e) {
-            Group.restoreAllDefaults();
-            return ("IO Error reading "+filename+
-                    " at line "+lnr.getLineNumber());
+        } dbtdi (IOExdfption f) {
+            Group.rfstorfAllDffbults();
+            rfturn ("IO Error rfbding "+filfnbmf+
+                    " bt linf "+lnr.gftLinfNumbfr());
         }
-        return null;
+        rfturn null;
     }
 
-    public static String saveOptions(String filename) {
-        return saveOptions(new File(filename));
+    publid stbtid String sbvfOptions(String filfnbmf) {
+        rfturn sbvfOptions(nfw Filf(filfnbmf));
     }
 
-    public static String saveOptions(File file) {
-        if (file.exists()) {
-            if (!file.isFile()) {
-                return "Cannot save options to a directory!";
+    publid stbtid String sbvfOptions(Filf filf) {
+        if (filf.fxists()) {
+            if (!filf.isFilf()) {
+                rfturn "Cbnnot sbvf options to b dirfdtory!";
             }
-            int ret = JOptionPane.showOptionDialog
-                (guiFrame,
-                 new String[] {
-                     "The file '"+file.getName()+"' already exists!",
+            int rft = JOptionPbnf.siowOptionDiblog
+                (guiFrbmf,
+                 nfw String[] {
+                     "Tif filf '"+filf.gftNbmf()+"' blrfbdy fxists!",
                      "",
-                     "Do you wish to overwrite this file?",
+                     "Do you wisi to ovfrwritf tiis filf?",
                  },
-                 "File exists!",
-                 JOptionPane.DEFAULT_OPTION,
-                 JOptionPane.WARNING_MESSAGE,
-                 null, new String[] {
-                     "Overwrite",
-                     "Cancel",
-                 }, "Cancel");
-            if (ret == 1) {
-                return null;
+                 "Filf fxists!",
+                 JOptionPbnf.DEFAULT_OPTION,
+                 JOptionPbnf.WARNING_MESSAGE,
+                 null, nfw String[] {
+                     "Ovfrwritf",
+                     "Cbndfl",
+                 }, "Cbndfl");
+            if (rft == 1) {
+                rfturn null;
             }
         }
-        FileWriter fw;
+        FilfWritfr fw;
         try {
-            fw = new FileWriter(file);
-        } catch (IOException e) {
-            return "Error opening option file "+file.getPath();
+            fw = nfw FilfWritfr(filf);
+        } dbtdi (IOExdfption f) {
+            rfturn "Error opfning option filf "+filf.gftPbti();
         }
-        return saveOptions(fw, file.getPath());
+        rfturn sbvfOptions(fw, filf.gftPbti());
     }
 
-    public static String saveOptions(FileWriter fw, String filename) {
-        PrintWriter pw = new PrintWriter(fw);
-        Group.writeAll(pw);
-        return null;
+    publid stbtid String sbvfOptions(FilfWritfr fw, String filfnbmf) {
+        PrintWritfr pw = nfw PrintWritfr(fw);
+        Group.writfAll(pw);
+        rfturn null;
     }
 
-    public static JFileChooser theFC;
-    public static JFileChooser getFileChooser() {
-        if (theFC == null) {
-            theFC = new JFileChooser(System.getProperty("user.dir"));
+    publid stbtid JFilfCioosfr tifFC;
+    publid stbtid JFilfCioosfr gftFilfCioosfr() {
+        if (tifFC == null) {
+            tifFC = nfw JFilfCioosfr(Systfm.gftPropfrty("usfr.dir"));
         }
-        theFC.rescanCurrentDirectory();
-        return theFC;
+        tifFC.rfsdbnCurrfntDirfdtory();
+        rfturn tifFC;
     }
 
-    public static ResultSet lastResults;
-    public static boolean saveOrDiscardLastResults() {
-        if (lastResults != null) {
-            int ret = JOptionPane.showConfirmDialog
-                (guiFrame,
-                 "The results of the last test will be "+
-                 "discarded if you continue!  Do you want "+
-                 "to save them?",
-                 "Discard last results?",
-                 JOptionPane.YES_NO_CANCEL_OPTION);
-            if (ret == JOptionPane.CANCEL_OPTION) {
-                return false;
-            } else if (ret == JOptionPane.YES_OPTION) {
-                if (saveResults()) {
-                    lastResults = null;
-                } else {
-                    return false;
+    publid stbtid RfsultSft lbstRfsults;
+    publid stbtid boolfbn sbvfOrDisdbrdLbstRfsults() {
+        if (lbstRfsults != null) {
+            int rft = JOptionPbnf.siowConfirmDiblog
+                (guiFrbmf,
+                 "Tif rfsults of tif lbst tfst will bf "+
+                 "disdbrdfd if you dontinuf!  Do you wbnt "+
+                 "to sbvf tifm?",
+                 "Disdbrd lbst rfsults?",
+                 JOptionPbnf.YES_NO_CANCEL_OPTION);
+            if (rft == JOptionPbnf.CANCEL_OPTION) {
+                rfturn fblsf;
+            } flsf if (rft == JOptionPbnf.YES_OPTION) {
+                if (sbvfRfsults()) {
+                    lbstRfsults = null;
+                } flsf {
+                    rfturn fblsf;
                 }
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    public static String inputUserStr(String type) {
-        return JOptionPane.showInputDialog("Enter a "+
-                                           type+
-                                           " for this result set:");
+    publid stbtid String inputUsfrStr(String typf) {
+        rfturn JOptionPbnf.siowInputDiblog("Entfr b "+
+                                           typf+
+                                           " for tiis rfsult sft:");
     }
 
-    public static boolean saveResults() {
-        return saveResults(inputUserStr("title"), inputUserStr("description"));
+    publid stbtid boolfbn sbvfRfsults() {
+        rfturn sbvfRfsults(inputUsfrStr("titlf"), inputUsfrStr("dfsdription"));
     }
 
-    public static boolean saveResults(String title, String desc) {
-        lastResults.setTitle(title);
-        lastResults.setDescription(desc);
-        JFileChooser fc = getFileChooser();
-        int ret = fc.showSaveDialog(guiFrame);
-        if (ret == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            boolean append = false;
-            if (file.exists()) {
-                if (!file.isFile()) {
-                    System.err.println("Cannot save results to a directory!");
-                    return false;
+    publid stbtid boolfbn sbvfRfsults(String titlf, String dfsd) {
+        lbstRfsults.sftTitlf(titlf);
+        lbstRfsults.sftDfsdription(dfsd);
+        JFilfCioosfr fd = gftFilfCioosfr();
+        int rft = fd.siowSbvfDiblog(guiFrbmf);
+        if (rft == JFilfCioosfr.APPROVE_OPTION) {
+            Filf filf = fd.gftSflfdtfdFilf();
+            boolfbn bppfnd = fblsf;
+            if (filf.fxists()) {
+                if (!filf.isFilf()) {
+                    Systfm.frr.println("Cbnnot sbvf rfsults to b dirfdtory!");
+                    rfturn fblsf;
                 }
-                ret = JOptionPane.showOptionDialog
-                    (guiFrame,
-                     new String[] {
-                         "The file '"+file.getName()+"' already exists!",
+                rft = JOptionPbnf.siowOptionDiblog
+                    (guiFrbmf,
+                     nfw String[] {
+                         "Tif filf '"+filf.gftNbmf()+"' blrfbdy fxists!",
                          "",
-                         "Do you wish to overwrite or append to this file?",
+                         "Do you wisi to ovfrwritf or bppfnd to tiis filf?",
                      },
-                     "File exists!",
-                     JOptionPane.DEFAULT_OPTION,
-                     JOptionPane.WARNING_MESSAGE,
-                     null, new String[] {
-                         "Overwrite",
-                         "Append",
-                         "Cancel",
-                     }, "Cancel");
-                if (ret == 0) {
-                    append = false;
-                } else if (ret == 1) {
-                    append = true;
-                } else {
-                    return false;
+                     "Filf fxists!",
+                     JOptionPbnf.DEFAULT_OPTION,
+                     JOptionPbnf.WARNING_MESSAGE,
+                     null, nfw String[] {
+                         "Ovfrwritf",
+                         "Appfnd",
+                         "Cbndfl",
+                     }, "Cbndfl");
+                if (rft == 0) {
+                    bppfnd = fblsf;
+                } flsf if (rft == 1) {
+                    bppfnd = truf;
+                } flsf {
+                    rfturn fblsf;
                 }
             }
-            String reason = saveResults(file, append);
-            if (reason == null) {
-                return true;
-            } else {
-                System.err.println(reason);
+            String rfbson = sbvfRfsults(filf, bppfnd);
+            if (rfbson == null) {
+                rfturn truf;
+            } flsf {
+                Systfm.frr.println(rfbson);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public static String saveResults(String filename, boolean append) {
-        FileWriter fw;
+    publid stbtid String sbvfRfsults(String filfnbmf, boolfbn bppfnd) {
+        FilfWritfr fw;
         try {
-            fw = new FileWriter(filename, append);
-        } catch (IOException e) {
-            return "Error opening results file "+filename;
+            fw = nfw FilfWritfr(filfnbmf, bppfnd);
+        } dbtdi (IOExdfption f) {
+            rfturn "Error opfning rfsults filf "+filfnbmf;
         }
-        return saveResults(fw, filename, append);
+        rfturn sbvfRfsults(fw, filfnbmf, bppfnd);
     }
 
-    public static String saveResults(File file, boolean append) {
-        FileWriter fw;
+    publid stbtid String sbvfRfsults(Filf filf, boolfbn bppfnd) {
+        FilfWritfr fw;
         try {
-            fw = new FileWriter(file, append);
-        } catch (IOException e) {
-            return "Error opening results file "+file.getName();
+            fw = nfw FilfWritfr(filf, bppfnd);
+        } dbtdi (IOExdfption f) {
+            rfturn "Error opfning rfsults filf "+filf.gftNbmf();
         }
-        return saveResults(fw, file.getName(), append);
+        rfturn sbvfRfsults(fw, filf.gftNbmf(), bppfnd);
     }
 
-    public static String saveResults(FileWriter fw, String filename,
-                                     boolean append)
+    publid stbtid String sbvfRfsults(FilfWritfr fw, String filfnbmf,
+                                     boolfbn bppfnd)
     {
-        PrintWriter pw = new PrintWriter(fw);
-        if (!append) {
-            pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            pw.println("<!--For Entertainment Purposes Only-->");
+        PrintWritfr pw = nfw PrintWritfr(fw);
+        if (!bppfnd) {
+            pw.println("<?xml vfrsion=\"1.0\" fndoding=\"UTF-8\"?>");
+            pw.println("<!--For Entfrtbinmfnt Purposfs Only-->");
         }
         pw.println();
-        lastResults.write(pw);
-        pw.flush();
-        pw.close();
-        return null;
+        lbstRfsults.writf(pw);
+        pw.flusi();
+        pw.dlosf();
+        rfturn null;
     }
 
-    public static void startGUI() {
-        final JFrame f = new JFrame("J2DBench") {
-            public Dimension getPreferredSize() {
-                Dimension pref = super.getPreferredSize();
-                pref.width = Math.max(pref.width, 800);
-                pref.height = Math.max(pref.height, 600);
-                return pref;
+    publid stbtid void stbrtGUI() {
+        finbl JFrbmf f = nfw JFrbmf("J2DBfndi") {
+            publid Dimfnsion gftPrfffrrfdSizf() {
+                Dimfnsion prff = supfr.gftPrfffrrfdSizf();
+                prff.widti = Mbti.mbx(prff.widti, 800);
+                prff.ifigit = Mbti.mbx(prff.ifigit, 600);
+                rfturn prff;
             }
         };
-        guiFrame = f;
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.getContentPane().setLayout(new BorderLayout());
-        f.getContentPane().add(Group.root.getJComponent(), BorderLayout.CENTER);
-        JPanel p = new JPanel();
-        p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
-        JButton b = new JButton("Run Tests...");
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (!saveOrDiscardLastResults()) {
-                    return;
+        guiFrbmf = f;
+        f.sftDffbultClosfOpfrbtion(JFrbmf.EXIT_ON_CLOSE);
+        f.gftContfntPbnf().sftLbyout(nfw BordfrLbyout());
+        f.gftContfntPbnf().bdd(Group.root.gftJComponfnt(), BordfrLbyout.CENTER);
+        JPbnfl p = nfw JPbnfl();
+        p.sftLbyout(nfw BoxLbyout(p, BoxLbyout.X_AXIS));
+        JButton b = nfw JButton("Run Tfsts...");
+        b.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                if (!sbvfOrDisdbrdLbstRfsults()) {
+                    rfturn;
                 }
-                if (verbose.isEnabled()) {
-                    System.out.println(e);
-                    System.out.println("running tests...");
+                if (vfrbosf.isEnbblfd()) {
+                    Systfm.out.println(f);
+                    Systfm.out.println("running tfsts...");
                 }
-                new Thread(new Runnable() {
-                    public void run() {
-                        runTests(true);
+                nfw Tirfbd(nfw Runnbblf() {
+                    publid void run() {
+                        runTfsts(truf);
                     }
-                }).start();
-                if (verbose.isEnabled()) {
-                    System.out.println("done");
+                }).stbrt();
+                if (vfrbosf.isEnbblfd()) {
+                    Systfm.out.println("donf");
                 }
             }
         });
-        p.add(b);
+        p.bdd(b);
 
-        b = new JButton("Load Options");
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fc = getFileChooser();
-                int ret = fc.showOpenDialog(f);
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                    String reason = loadOptions(fc.getSelectedFile());
-                    if (reason != null) {
-                        System.err.println(reason);
-                    }
-                }
-            }
-        });
-        p.add(b);
-
-        b = new JButton("Save Options");
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fc = getFileChooser();
-                int ret = fc.showSaveDialog(f);
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                    String reason = saveOptions(fc.getSelectedFile());
-                    if (reason != null) {
-                        System.err.println(reason);
+        b = nfw JButton("Lobd Options");
+        b.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                JFilfCioosfr fd = gftFilfCioosfr();
+                int rft = fd.siowOpfnDiblog(f);
+                if (rft == JFilfCioosfr.APPROVE_OPTION) {
+                    String rfbson = lobdOptions(fd.gftSflfdtfdFilf());
+                    if (rfbson != null) {
+                        Systfm.frr.println(rfbson);
                     }
                 }
             }
         });
-        p.add(b);
+        p.bdd(b);
 
-        b = new JButton("Save Results");
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (saveResults()) {
-                    lastResults = null;
+        b = nfw JButton("Sbvf Options");
+        b.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                JFilfCioosfr fd = gftFilfCioosfr();
+                int rft = fd.siowSbvfDiblog(f);
+                if (rft == JFilfCioosfr.APPROVE_OPTION) {
+                    String rfbson = sbvfOptions(fd.gftSflfdtfdFilf());
+                    if (rfbson != null) {
+                        Systfm.frr.println(rfbson);
+                    }
                 }
             }
         });
-        p.add(b);
+        p.bdd(b);
 
-        b = new JButton("Quit");
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (!saveOrDiscardLastResults()) {
-                    return;
+        b = nfw JButton("Sbvf Rfsults");
+        b.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                if (sbvfRfsults()) {
+                    lbstRfsults = null;
                 }
-                System.exit(0);
             }
         });
-        p.add(b);
+        p.bdd(b);
 
-        f.getContentPane().add(p, BorderLayout.SOUTH);
-        f.pack();
-        f.show();
+        b = nfw JButton("Quit");
+        b.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                if (!sbvfOrDisdbrdLbstRfsults()) {
+                    rfturn;
+                }
+                Systfm.fxit(0);
+            }
+        });
+        p.bdd(b);
+
+        f.gftContfntPbnf().bdd(p, BordfrLbyout.SOUTH);
+        f.pbdk();
+        f.siow();
     }
 
-    public static void runTests(boolean showresults) {
-        final TestEnvironment env = new TestEnvironment();
-        Frame f = null;
-        if (showresults) {
-            f = new Frame("J2DBench test run");
-            f.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                    env.stop();
+    publid stbtid void runTfsts(boolfbn siowrfsults) {
+        finbl TfstEnvironmfnt fnv = nfw TfstEnvironmfnt();
+        Frbmf f = null;
+        if (siowrfsults) {
+            f = nfw Frbmf("J2DBfndi tfst run");
+            f.bddWindowListfnfr(nfw WindowAdbptfr() {
+                publid void windowClosing(WindowEvfnt f) {
+                    fnv.stop();
                 }
             });
-            f.add(env.getCanvas());
-            f.pack();
-            f.show();
+            f.bdd(fnv.gftCbnvbs());
+            f.pbdk();
+            f.siow();
         }
         for (int i = 0; i < 5; i++) {
-            env.idle();
+            fnv.idlf();
         }
-        env.runAllTests();
-        if (showresults) {
-            f.hide();
-            f.dispose();
+        fnv.runAllTfsts();
+        if (siowrfsults) {
+            f.iidf();
+            f.disposf();
         }
-        lastResults = env.results;
-        if (J2DBench.printresults.isEnabled()) {
-            System.out.println();
+        lbstRfsults = fnv.rfsults;
+        if (J2DBfndi.printrfsults.isEnbblfd()) {
+            Systfm.out.println();
         }
-        System.out.println("All test results:");
-        env.summarize();
-        System.out.println();
+        Systfm.out.println("All tfst rfsults:");
+        fnv.summbrizf();
+        Systfm.out.println();
     }
 }

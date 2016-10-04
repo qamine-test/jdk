@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.CRLReason;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.dfrt.CRLRfbson;
+import jbvb.util.Enumfrbtion;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * The reasonCode is a non-critical CRL entry extension that identifies
- * the reason for the certificate revocation.
- * @author Hemma Prafullchandra
- * @see java.security.cert.CRLReason
- * @see Extension
- * @see CertAttrSet
+ * Tif rfbsonCodf is b non-dritidbl CRL fntry fxtfnsion tibt idfntififs
+ * tif rfbson for tif dfrtifidbtf rfvodbtion.
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff jbvb.sfdurity.dfrt.CRLRfbson
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
  */
-public class CRLReasonCodeExtension extends Extension
-        implements CertAttrSet<String> {
+publid dlbss CRLRfbsonCodfExtfnsion fxtfnds Extfnsion
+        implfmfnts CfrtAttrSft<String> {
 
     /**
-     * Attribute name
+     * Attributf nbmf
      */
-    public static final String NAME = "CRLReasonCode";
-    public static final String REASON = "reason";
+    publid stbtid finbl String NAME = "CRLRfbsonCodf";
+    publid stbtid finbl String REASON = "rfbson";
 
-    private static CRLReason[] values = CRLReason.values();
+    privbtf stbtid CRLRfbson[] vblufs = CRLRfbson.vblufs();
 
-    private int reasonCode = 0;
+    privbtf int rfbsonCodf = 0;
 
-    private void encodeThis() throws IOException {
-        if (reasonCode == 0) {
-            this.extensionValue = null;
-            return;
+    privbtf void fndodfTiis() tirows IOExdfption {
+        if (rfbsonCodf == 0) {
+            tiis.fxtfnsionVbluf = null;
+            rfturn;
         }
-        DerOutputStream dos = new DerOutputStream();
-        dos.putEnumerated(reasonCode);
-        this.extensionValue = dos.toByteArray();
+        DfrOutputStrfbm dos = nfw DfrOutputStrfbm();
+        dos.putEnumfrbtfd(rfbsonCodf);
+        tiis.fxtfnsionVbluf = dos.toBytfArrby();
     }
 
     /**
-     * Create a CRLReasonCodeExtension with the passed in reason.
-     * Criticality automatically set to false.
+     * Crfbtf b CRLRfbsonCodfExtfnsion witi tif pbssfd in rfbson.
+     * Critidblity butombtidblly sft to fblsf.
      *
-     * @param reason the enumerated value for the reason code.
+     * @pbrbm rfbson tif fnumfrbtfd vbluf for tif rfbson dodf.
      */
-    public CRLReasonCodeExtension(int reason) throws IOException {
-        this(false, reason);
+    publid CRLRfbsonCodfExtfnsion(int rfbson) tirows IOExdfption {
+        tiis(fblsf, rfbson);
     }
 
     /**
-     * Create a CRLReasonCodeExtension with the passed in reason.
+     * Crfbtf b CRLRfbsonCodfExtfnsion witi tif pbssfd in rfbson.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param reason the enumerated value for the reason code.
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm rfbson tif fnumfrbtfd vbluf for tif rfbson dodf.
      */
-    public CRLReasonCodeExtension(boolean critical, int reason)
-    throws IOException {
-        this.extensionId = PKIXExtensions.ReasonCode_Id;
-        this.critical = critical;
-        this.reasonCode = reason;
-        encodeThis();
+    publid CRLRfbsonCodfExtfnsion(boolfbn dritidbl, int rfbson)
+    tirows IOExdfption {
+        tiis.fxtfnsionId = PKIXExtfnsions.RfbsonCodf_Id;
+        tiis.dritidbl = dritidbl;
+        tiis.rfbsonCodf = rfbson;
+        fndodfTiis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crfbtf tif fxtfnsion from tif pbssfd DER fndodfd vbluf of tif sbmf.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
-     * @exception IOException on error.
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of tif bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
      */
-    public CRLReasonCodeExtension(Boolean critical, Object value)
-    throws IOException {
-        this.extensionId = PKIXExtensions.ReasonCode_Id;
-        this.critical = critical.booleanValue();
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        this.reasonCode = val.getEnumerated();
+    publid CRLRfbsonCodfExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    tirows IOExdfption {
+        tiis.fxtfnsionId = PKIXExtfnsions.RfbsonCodf_Id;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
+        tiis.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(tiis.fxtfnsionVbluf);
+        tiis.rfbsonCodf = vbl.gftEnumfrbtfd();
     }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Integer)) {
-            throw new IOException("Attribute must be of type Integer.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (!(obj instbndfof Intfgfr)) {
+            tirow nfw IOExdfption("Attributf must bf of typf Intfgfr.");
         }
-        if (name.equalsIgnoreCase(REASON)) {
-            reasonCode = ((Integer)obj).intValue();
-        } else {
-            throw new IOException
-                ("Name not supported by CRLReasonCodeExtension");
+        if (nbmf.fqublsIgnorfCbsf(REASON)) {
+            rfbsonCodf = ((Intfgfr)obj).intVbluf();
+        } flsf {
+            tirow nfw IOExdfption
+                ("Nbmf not supportfd by CRLRfbsonCodfExtfnsion");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Get the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public Integer get(String name) throws IOException {
-        if (name.equalsIgnoreCase(REASON)) {
-            return reasonCode;
-        } else {
-            throw new IOException
-                ("Name not supported by CRLReasonCodeExtension");
+    publid Intfgfr gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(REASON)) {
+            rfturn rfbsonCodf;
+        } flsf {
+            tirow nfw IOExdfption
+                ("Nbmf not supportfd by CRLRfbsonCodfExtfnsion");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Dflftf tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(REASON)) {
-            reasonCode = 0;
-        } else {
-            throw new IOException
-                ("Name not supported by CRLReasonCodeExtension");
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(REASON)) {
+            rfbsonCodf = 0;
+        } flsf {
+            tirow nfw IOExdfption
+                ("Nbmf not supportfd by CRLRfbsonCodfExtfnsion");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Returns a printable representation of the Reason code.
+     * Rfturns b printbblf rfprfsfntbtion of tif Rfbson dodf.
      */
-    public String toString() {
-        return super.toString() + "    Reason Code: " + getReasonCode();
+    publid String toString() {
+        rfturn supfr.toString() + "    Rfbson Codf: " + gftRfbsonCodf();
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream  tmp = new DerOutputStream();
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm  tmp = nfw DfrOutputStrfbm();
 
-        if (this.extensionValue == null) {
-            this.extensionId = PKIXExtensions.ReasonCode_Id;
-            this.critical = false;
-            encodeThis();
+        if (tiis.fxtfnsionVbluf == null) {
+            tiis.fxtfnsionId = PKIXExtfnsions.RfbsonCodf_Id;
+            tiis.dritidbl = fblsf;
+            fndodfTiis();
         }
-        super.encode(tmp);
-        out.write(tmp.toByteArray());
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(REASON);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(REASON);
 
-        return elements.elements();
+        rfturn flfmfnts.flfmfnts();
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return NAME;
+    publid String gftNbmf() {
+        rfturn NAME;
     }
 
     /**
-     * Return the reason as a CRLReason enum.
+     * Rfturn tif rfbson bs b CRLRfbson fnum.
      */
-    public CRLReason getReasonCode() {
-        // if out-of-range, return UNSPECIFIED
-        if (reasonCode > 0 && reasonCode < values.length) {
-            return values[reasonCode];
-        } else {
-            return CRLReason.UNSPECIFIED;
+    publid CRLRfbson gftRfbsonCodf() {
+        // if out-of-rbngf, rfturn UNSPECIFIED
+        if (rfbsonCodf > 0 && rfbsonCodf < vblufs.lfngti) {
+            rfturn vblufs[rfbsonCodf];
+        } flsf {
+            rfturn CRLRfbson.UNSPECIFIED;
         }
     }
 }

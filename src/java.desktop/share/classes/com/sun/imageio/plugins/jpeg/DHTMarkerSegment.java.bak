@@ -1,257 +1,257 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
 
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.plugins.jpfg.JPEGHuffmbnTbblf;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
+import jbvb.io.IOExdfption;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.NbmfdNodfMbp;
 
 /**
- * A DHT (Define Huffman Table) marker segment.
+ * A DHT (Dffinf Huffmbn Tbblf) mbrkfr sfgmfnt.
  */
-class DHTMarkerSegment extends MarkerSegment {
-    List<Htable> tables = new ArrayList<>();
+dlbss DHTMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+    List<Htbblf> tbblfs = nfw ArrbyList<>();
 
-    DHTMarkerSegment(boolean needFour) {
-        super(JPEG.DHT);
-        tables.add(new Htable(JPEGHuffmanTable.StdDCLuminance, true, 0));
-        if (needFour) {
-            tables.add(new Htable(JPEGHuffmanTable.StdDCChrominance, true, 1));
+    DHTMbrkfrSfgmfnt(boolfbn nffdFour) {
+        supfr(JPEG.DHT);
+        tbblfs.bdd(nfw Htbblf(JPEGHuffmbnTbblf.StdDCLuminbndf, truf, 0));
+        if (nffdFour) {
+            tbblfs.bdd(nfw Htbblf(JPEGHuffmbnTbblf.StdDCCirominbndf, truf, 1));
         }
-        tables.add(new Htable(JPEGHuffmanTable.StdACLuminance, false, 0));
-        if (needFour) {
-            tables.add(new Htable(JPEGHuffmanTable.StdACChrominance, false, 1));
+        tbblfs.bdd(nfw Htbblf(JPEGHuffmbnTbblf.StdACLuminbndf, fblsf, 0));
+        if (nffdFour) {
+            tbblfs.bdd(nfw Htbblf(JPEGHuffmbnTbblf.StdACCirominbndf, fblsf, 1));
         }
     }
 
-    DHTMarkerSegment(JPEGBuffer buffer) throws IOException {
-        super(buffer);
-        int count = length;
-        while (count > 0) {
-            Htable newGuy = new Htable(buffer);
-            tables.add(newGuy);
-            count -= 1 + 16 + newGuy.values.length;
+    DHTMbrkfrSfgmfnt(JPEGBufffr bufffr) tirows IOExdfption {
+        supfr(bufffr);
+        int dount = lfngti;
+        wiilf (dount > 0) {
+            Htbblf nfwGuy = nfw Htbblf(bufffr);
+            tbblfs.bdd(nfwGuy);
+            dount -= 1 + 16 + nfwGuy.vblufs.lfngti;
         }
-        buffer.bufAvail -= length;
+        bufffr.bufAvbil -= lfngti;
     }
 
-    DHTMarkerSegment(JPEGHuffmanTable[] dcTables,
-                     JPEGHuffmanTable[] acTables) {
-        super(JPEG.DHT);
-        for (int i = 0; i < dcTables.length; i++) {
-            tables.add(new Htable(dcTables[i], true, i));
+    DHTMbrkfrSfgmfnt(JPEGHuffmbnTbblf[] ddTbblfs,
+                     JPEGHuffmbnTbblf[] bdTbblfs) {
+        supfr(JPEG.DHT);
+        for (int i = 0; i < ddTbblfs.lfngti; i++) {
+            tbblfs.bdd(nfw Htbblf(ddTbblfs[i], truf, i));
         }
-        for (int i = 0; i < acTables.length; i++) {
-            tables.add(new Htable(acTables[i], false, i));
-        }
-    }
-
-    DHTMarkerSegment(Node node) throws IIOInvalidTreeException {
-        super(JPEG.DHT);
-        NodeList children = node.getChildNodes();
-        int size = children.getLength();
-        if ((size < 1) || (size > 4)) {
-            throw new IIOInvalidTreeException("Invalid DHT node", node);
-        }
-        for (int i = 0; i < size; i++) {
-            tables.add(new Htable(children.item(i)));
+        for (int i = 0; i < bdTbblfs.lfngti; i++) {
+            tbblfs.bdd(nfw Htbblf(bdTbblfs[i], fblsf, i));
         }
     }
 
-    protected Object clone() {
-        DHTMarkerSegment newGuy = (DHTMarkerSegment) super.clone();
-        newGuy.tables = new ArrayList<>(tables.size());
-        Iterator<Htable> iter = tables.iterator();
-        while (iter.hasNext()) {
-            Htable table = iter.next();
-            newGuy.tables.add((Htable) table.clone());
+    DHTMbrkfrSfgmfnt(Nodf nodf) tirows IIOInvblidTrffExdfption {
+        supfr(JPEG.DHT);
+        NodfList diildrfn = nodf.gftCiildNodfs();
+        int sizf = diildrfn.gftLfngti();
+        if ((sizf < 1) || (sizf > 4)) {
+            tirow nfw IIOInvblidTrffExdfption("Invblid DHT nodf", nodf);
         }
-        return newGuy;
+        for (int i = 0; i < sizf; i++) {
+            tbblfs.bdd(nfw Htbblf(diildrfn.itfm(i)));
+        }
     }
 
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("dht");
-        for (int i= 0; i<tables.size(); i++) {
-            Htable table = tables.get(i);
-            node.appendChild(table.getNativeNode());
+    protfdtfd Objfdt dlonf() {
+        DHTMbrkfrSfgmfnt nfwGuy = (DHTMbrkfrSfgmfnt) supfr.dlonf();
+        nfwGuy.tbblfs = nfw ArrbyList<>(tbblfs.sizf());
+        Itfrbtor<Htbblf> itfr = tbblfs.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            Htbblf tbblf = itfr.nfxt();
+            nfwGuy.tbblfs.bdd((Htbblf) tbblf.dlonf());
         }
-        return node;
+        rfturn nfwGuy;
+    }
+
+    IIOMftbdbtbNodf gftNbtivfNodf() {
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("dit");
+        for (int i= 0; i<tbblfs.sizf(); i++) {
+            Htbblf tbblf = tbblfs.gft(i);
+            nodf.bppfndCiild(tbblf.gftNbtivfNodf());
+        }
+        rfturn nodf;
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format.
+     * Writfs tif dbtb for tiis sfgmfnt to tif strfbm in
+     * vblid JPEG formbt.
      */
-    void write(ImageOutputStream ios) throws IOException {
-        // We don't write DHT segments; the IJG library does.
+    void writf(ImbgfOutputStrfbm ios) tirows IOExdfption {
+        // Wf don't writf DHT sfgmfnts; tif IJG librbry dofs.
     }
 
     void print() {
-        printTag("DHT");
-        System.out.println("Num tables: "
-                           + Integer.toString(tables.size()));
-        for (int i= 0; i<tables.size(); i++) {
-            Htable table = tables.get(i);
-            table.print();
+        printTbg("DHT");
+        Systfm.out.println("Num tbblfs: "
+                           + Intfgfr.toString(tbblfs.sizf()));
+        for (int i= 0; i<tbblfs.sizf(); i++) {
+            Htbblf tbblf = tbblfs.gft(i);
+            tbblf.print();
         }
-        System.out.println();
+        Systfm.out.println();
 
     }
 
-    Htable getHtableFromNode(Node node) throws IIOInvalidTreeException {
-        return new Htable(node);
+    Htbblf gftHtbblfFromNodf(Nodf nodf) tirows IIOInvblidTrffExdfption {
+        rfturn nfw Htbblf(nodf);
     }
 
-    void addHtable(JPEGHuffmanTable table, boolean isDC, int id) {
-        tables.add(new Htable(table, isDC, id));
+    void bddHtbblf(JPEGHuffmbnTbblf tbblf, boolfbn isDC, int id) {
+        tbblfs.bdd(nfw Htbblf(tbblf, isDC, id));
     }
 
     /**
-     * A Huffman table within a DHT marker segment.
+     * A Huffmbn tbblf witiin b DHT mbrkfr sfgmfnt.
      */
-    class Htable implements Cloneable {
-        int tableClass;  // 0 == DC, 1 == AC
-        int tableID; // 0 - 4
-        private static final int NUM_LENGTHS = 16;
-        // # of codes of each length
-        short [] numCodes = new short[NUM_LENGTHS];
-        short [] values;
+    dlbss Htbblf implfmfnts Clonfbblf {
+        int tbblfClbss;  // 0 == DC, 1 == AC
+        int tbblfID; // 0 - 4
+        privbtf stbtid finbl int NUM_LENGTHS = 16;
+        // # of dodfs of fbdi lfngti
+        siort [] numCodfs = nfw siort[NUM_LENGTHS];
+        siort [] vblufs;
 
-        Htable(JPEGBuffer buffer) {
-            tableClass = buffer.buf[buffer.bufPtr] >>> 4;
-            tableID = buffer.buf[buffer.bufPtr++] & 0xf;
+        Htbblf(JPEGBufffr bufffr) {
+            tbblfClbss = bufffr.buf[bufffr.bufPtr] >>> 4;
+            tbblfID = bufffr.buf[bufffr.bufPtr++] & 0xf;
             for (int i = 0; i < NUM_LENGTHS; i++) {
-                numCodes[i] = (short) (buffer.buf[buffer.bufPtr++] & 0xff);
+                numCodfs[i] = (siort) (bufffr.buf[bufffr.bufPtr++] & 0xff);
             }
 
-            int numValues = 0;
+            int numVblufs = 0;
             for (int i = 0; i < NUM_LENGTHS; i++) {
-                numValues += numCodes[i];
+                numVblufs += numCodfs[i];
             }
-            values = new short[numValues];
-            for (int i = 0; i < numValues; i++) {
-                values[i] = (short) (buffer.buf[buffer.bufPtr++] & 0xff);
+            vblufs = nfw siort[numVblufs];
+            for (int i = 0; i < numVblufs; i++) {
+                vblufs[i] = (siort) (bufffr.buf[bufffr.bufPtr++] & 0xff);
             }
         }
 
-        Htable(JPEGHuffmanTable table, boolean isDC, int id) {
-            tableClass = isDC ? 0 : 1;
-            tableID = id;
-            numCodes = table.getLengths();
-            values = table.getValues();
+        Htbblf(JPEGHuffmbnTbblf tbblf, boolfbn isDC, int id) {
+            tbblfClbss = isDC ? 0 : 1;
+            tbblfID = id;
+            numCodfs = tbblf.gftLfngtis();
+            vblufs = tbblf.gftVblufs();
         }
 
-        Htable(Node node) throws IIOInvalidTreeException {
-            if (node.getNodeName().equals("dhtable")) {
-                NamedNodeMap attrs = node.getAttributes();
-                int count = attrs.getLength();
-                if (count != 2) {
-                    throw new IIOInvalidTreeException
-                        ("dhtable node must have 2 attributes", node);
+        Htbblf(Nodf nodf) tirows IIOInvblidTrffExdfption {
+            if (nodf.gftNodfNbmf().fqubls("ditbblf")) {
+                NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+                int dount = bttrs.gftLfngti();
+                if (dount != 2) {
+                    tirow nfw IIOInvblidTrffExdfption
+                        ("ditbblf nodf must ibvf 2 bttributfs", nodf);
                 }
-                tableClass = getAttributeValue(node, attrs, "class", 0, 1, true);
-                tableID = getAttributeValue(node, attrs, "htableId", 0, 3, true);
-                if (node instanceof IIOMetadataNode) {
-                    IIOMetadataNode ourNode = (IIOMetadataNode) node;
-                    JPEGHuffmanTable table =
-                        (JPEGHuffmanTable) ourNode.getUserObject();
-                    if (table == null) {
-                        throw new IIOInvalidTreeException
-                            ("dhtable node must have user object", node);
+                tbblfClbss = gftAttributfVbluf(nodf, bttrs, "dlbss", 0, 1, truf);
+                tbblfID = gftAttributfVbluf(nodf, bttrs, "itbblfId", 0, 3, truf);
+                if (nodf instbndfof IIOMftbdbtbNodf) {
+                    IIOMftbdbtbNodf ourNodf = (IIOMftbdbtbNodf) nodf;
+                    JPEGHuffmbnTbblf tbblf =
+                        (JPEGHuffmbnTbblf) ourNodf.gftUsfrObjfdt();
+                    if (tbblf == null) {
+                        tirow nfw IIOInvblidTrffExdfption
+                            ("ditbblf nodf must ibvf usfr objfdt", nodf);
                     }
-                    numCodes = table.getLengths();
-                    values = table.getValues();
-                } else {
-                    throw new IIOInvalidTreeException
-                        ("dhtable node must have user object", node);
+                    numCodfs = tbblf.gftLfngtis();
+                    vblufs = tbblf.gftVblufs();
+                } flsf {
+                    tirow nfw IIOInvblidTrffExdfption
+                        ("ditbblf nodf must ibvf usfr objfdt", nodf);
                 }
-            } else {
-                throw new IIOInvalidTreeException
-                    ("Invalid node, expected dqtable", node);
+            } flsf {
+                tirow nfw IIOInvblidTrffExdfption
+                    ("Invblid nodf, fxpfdtfd dqtbblf", nodf);
             }
 
         }
 
-        protected Object clone() {
-            Htable newGuy = null;
+        protfdtfd Objfdt dlonf() {
+            Htbblf nfwGuy = null;
             try {
-                newGuy = (Htable) super.clone();
-            } catch (CloneNotSupportedException e) {} // won't happen
-            if (numCodes != null) {
-                newGuy.numCodes = numCodes.clone();
+                nfwGuy = (Htbblf) supfr.dlonf();
+            } dbtdi (ClonfNotSupportfdExdfption f) {} // won't ibppfn
+            if (numCodfs != null) {
+                nfwGuy.numCodfs = numCodfs.dlonf();
             }
-            if (values != null) {
-                newGuy.values = values.clone();
+            if (vblufs != null) {
+                nfwGuy.vblufs = vblufs.dlonf();
             }
-            return newGuy;
+            rfturn nfwGuy;
         }
 
-        IIOMetadataNode getNativeNode() {
-            IIOMetadataNode node = new IIOMetadataNode("dhtable");
-            node.setAttribute("class", Integer.toString(tableClass));
-            node.setAttribute("htableId", Integer.toString(tableID));
+        IIOMftbdbtbNodf gftNbtivfNodf() {
+            IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("ditbblf");
+            nodf.sftAttributf("dlbss", Intfgfr.toString(tbblfClbss));
+            nodf.sftAttributf("itbblfId", Intfgfr.toString(tbblfID));
 
-            node.setUserObject(new JPEGHuffmanTable(numCodes, values));
+            nodf.sftUsfrObjfdt(nfw JPEGHuffmbnTbblf(numCodfs, vblufs));
 
-            return node;
+            rfturn nodf;
         }
 
 
         void print() {
-            System.out.println("Huffman Table");
-            System.out.println("table class: "
-                               + ((tableClass == 0) ? "DC":"AC"));
-            System.out.println("table id: " + Integer.toString(tableID));
+            Systfm.out.println("Huffmbn Tbblf");
+            Systfm.out.println("tbblf dlbss: "
+                               + ((tbblfClbss == 0) ? "DC":"AC"));
+            Systfm.out.println("tbblf id: " + Intfgfr.toString(tbblfID));
 
-            (new JPEGHuffmanTable(numCodes, values)).toString();
+            (nfw JPEGHuffmbnTbblf(numCodfs, vblufs)).toString();
             /*
-              System.out.print("Lengths:");
+              Systfm.out.print("Lfngtis:");
               for (int i=0; i<16; i++) {
-              System.out.print(" " + Integer.toString(numCodes[i]));
+              Systfm.out.print(" " + Intfgfr.toString(numCodfs[i]));
               }
-              int count = 0;
-              if (values.length > 16) {
-              System.out.println("\nFirst 16 Values:");
-              count = 16;
-              } else {
-              System.out.println("\nValues:");
-              count = values.length;
+              int dount = 0;
+              if (vblufs.lfngti > 16) {
+              Systfm.out.println("\nFirst 16 Vblufs:");
+              dount = 16;
+              } flsf {
+              Systfm.out.println("\nVblufs:");
+              dount = vblufs.lfngti;
               }
-              for (int i=0; i<count; i++) {
-              System.out.println(Integer.toString(values[i]&0xff));
+              for (int i=0; i<dount; i++) {
+              Systfm.out.println(Intfgfr.toString(vblufs[i]&0xff));
               }
             */
         }

@@ -1,0 +1,303 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+import jbvb.io.InputStrfbm;
+
+/**
+ * Thf rfprfsfntbtion (mbpping) in
+ * thf Jbvb&trbdf; progrbmming
+ * lbngubgf of bn SQL
+ * <dodf>BLOB</dodf> vbluf.  An SQL <dodf>BLOB</dodf> is b built-in typf
+ * thbt storfs b Binbry Lbrgf Objfdt bs b dolumn vbluf in b row of
+ * b dbtbbbsf tbblf. By dffbult drivfrs implfmfnt <dodf>Blob</dodf> using
+ * bn SQL <dodf>lodbtor(BLOB)</dodf>, whidh mfbns thbt b
+ * <dodf>Blob</dodf> objfdt dontbins b logidbl pointfr to thf
+ * SQL <dodf>BLOB</dodf> dbtb rbthfr thbn thf dbtb itsflf.
+ * A <dodf>Blob</dodf> objfdt is vblid for thf durbtion of thf
+ * trbnsbdtion in whidh is wbs drfbtfd.
+ *
+ * <P>Mfthods in thf intfrfbdfs {@link RfsultSft},
+ * {@link CbllbblfStbtfmfnt}, bnd {@link PrfpbrfdStbtfmfnt}, sudh bs
+ * <dodf>gftBlob</dodf> bnd <dodf>sftBlob</dodf> bllow b progrbmmfr to
+ * bddfss bn SQL <dodf>BLOB</dodf> vbluf.
+ * Thf <dodf>Blob</dodf> intfrfbdf providfs mfthods for gftting thf
+ * lfngth of bn SQL <dodf>BLOB</dodf> (Binbry Lbrgf Objfdt) vbluf,
+ * for mbtfriblizing b <dodf>BLOB</dodf> vbluf on thf dlifnt, bnd for
+ * dftfrmining thf position of b pbttfrn of bytfs within b
+ * <dodf>BLOB</dodf> vbluf. In bddition, this intfrfbdf hbs mfthods for updbting
+ * b <dodf>BLOB</dodf> vbluf.
+ * <p>
+ * All mfthods on thf <dodf>Blob</dodf> intfrfbdf must bf fully implfmfntfd if thf
+ * JDBC drivfr supports thf dbtb typf.
+ *
+ * @sindf 1.2
+ */
+
+publid intfrfbdf Blob {
+
+  /**
+   * Rfturns thf numbfr of bytfs in thf <dodf>BLOB</dodf> vbluf
+   * dfsignbtfd by this <dodf>Blob</dodf> objfdt.
+   * @rfturn lfngth of thf <dodf>BLOB</dodf> in bytfs
+   * @fxdfption SQLExdfption if thfrf is bn frror bddfssing thf
+   * lfngth of thf <dodf>BLOB</dodf>
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  long lfngth() throws SQLExdfption;
+
+  /**
+   * Rftrifvfs bll or pbrt of thf <dodf>BLOB</dodf>
+   * vbluf thbt this <dodf>Blob</dodf> objfdt rfprfsfnts, bs bn brrby of
+   * bytfs.  This <dodf>bytf</dodf> brrby dontbins up to <dodf>lfngth</dodf>
+   * donsfdutivf bytfs stbrting bt position <dodf>pos</dodf>.
+   *
+   * @pbrbm pos thf ordinbl position of thf first bytf in thf
+   *        <dodf>BLOB</dodf> vbluf to bf fxtrbdtfd; thf first bytf is bt
+   *        position 1
+   * @pbrbm lfngth thf numbfr of donsfdutivf bytfs to bf dopifd; thf vbluf
+   * for lfngth must bf 0 or grfbtfr
+   * @rfturn b bytf brrby dontbining up to <dodf>lfngth</dodf>
+   *         donsfdutivf bytfs from thf <dodf>BLOB</dodf> vbluf dfsignbtfd
+   *         by this <dodf>Blob</dodf> objfdt, stbrting with thf
+   *         bytf bt position <dodf>pos</dodf>
+   * @fxdfption SQLExdfption if thfrf is bn frror bddfssing thf
+   *            <dodf>BLOB</dodf> vbluf; if pos is lfss thbn 1 or lfngth is
+   * lfss thbn 0
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sff #sftBytfs
+   * @sindf 1.2
+   */
+  bytf[] gftBytfs(long pos, int lfngth) throws SQLExdfption;
+
+  /**
+   * Rftrifvfs thf <dodf>BLOB</dodf> vbluf dfsignbtfd by this
+   * <dodf>Blob</dodf> instbndf bs b strfbm.
+   *
+   * @rfturn b strfbm dontbining thf <dodf>BLOB</dodf> dbtb
+   * @fxdfption SQLExdfption if thfrf is bn frror bddfssing thf
+   *            <dodf>BLOB</dodf> vbluf
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sff #sftBinbryStrfbm
+   * @sindf 1.2
+   */
+  jbvb.io.InputStrfbm gftBinbryStrfbm () throws SQLExdfption;
+
+  /**
+   * Rftrifvfs thf bytf position bt whidh thf spfdififd bytf brrby
+   * <dodf>pbttfrn</dodf> bfgins within thf <dodf>BLOB</dodf>
+   * vbluf thbt this <dodf>Blob</dodf> objfdt rfprfsfnts.  Thf
+   * sfbrdh for <dodf>pbttfrn</dodf> bfgins bt position
+   * <dodf>stbrt</dodf>.
+   *
+   * @pbrbm pbttfrn thf bytf brrby for whidh to sfbrdh
+   * @pbrbm stbrt thf position bt whidh to bfgin sfbrdhing; thf
+   *        first position is 1
+   * @rfturn thf position bt whidh thf pbttfrn bppfbrs, flsf -1
+   * @fxdfption SQLExdfption if thfrf is bn frror bddfssing thf
+   * <dodf>BLOB</dodf> or if stbrt is lfss thbn 1
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  long position(bytf pbttfrn[], long stbrt) throws SQLExdfption;
+
+  /**
+   * Rftrifvfs thf bytf position in thf <dodf>BLOB</dodf> vbluf
+   * dfsignbtfd by this <dodf>Blob</dodf> objfdt bt whidh
+   * <dodf>pbttfrn</dodf> bfgins.  Thf sfbrdh bfgins bt position
+   * <dodf>stbrt</dodf>.
+   *
+   * @pbrbm pbttfrn thf <dodf>Blob</dodf> objfdt dfsignbting
+   * thf <dodf>BLOB</dodf> vbluf for whidh to sfbrdh
+   * @pbrbm stbrt thf position in thf <dodf>BLOB</dodf> vbluf
+   *        bt whidh to bfgin sfbrdhing; thf first position is 1
+   * @rfturn thf position bt whidh thf pbttfrn bfgins, flsf -1
+   * @fxdfption SQLExdfption if thfrf is bn frror bddfssing thf
+   *            <dodf>BLOB</dodf> vbluf or if stbrt is lfss thbn 1
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  long position(Blob pbttfrn, long stbrt) throws SQLExdfption;
+
+    // -------------------------- JDBC 3.0 -----------------------------------
+
+    /**
+     * Writfs thf givfn brrby of bytfs to thf <dodf>BLOB</dodf> vbluf thbt
+     * this <dodf>Blob</dodf> objfdt rfprfsfnts, stbrting bt position
+     * <dodf>pos</dodf>, bnd rfturns thf numbfr of bytfs writtfn.
+     * Thf brrby of bytfs will ovfrwritf thf fxisting bytfs
+     * in thf <dodf>Blob</dodf> objfdt stbrting bt thf position
+     * <dodf>pos</dodf>.  If thf fnd of thf <dodf>Blob</dodf> vbluf is rfbdhfd
+     * whilf writing thf brrby of bytfs, thfn thf lfngth of thf <dodf>Blob</dodf>
+     * vbluf will bf indrfbsfd to bddommodbtf thf fxtrb bytfs.
+     * <p>
+     * <b>Notf:</b> If thf vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr thfn thf lfngth+1 of thf <dodf>BLOB</dodf> vbluf thfn thf
+     * bfhbvior is undffinfd. Somf JDBC drivfrs mby throw b
+     * <dodf>SQLExdfption</dodf> whilf othfr drivfrs mby support this
+     * opfrbtion.
+     *
+     * @pbrbm pos thf position in thf <dodf>BLOB</dodf> objfdt bt whidh
+     *        to stbrt writing; thf first position is 1
+     * @pbrbm bytfs thf brrby of bytfs to bf writtfn to thf <dodf>BLOB</dodf>
+     *        vbluf thbt this <dodf>Blob</dodf> objfdt rfprfsfnts
+     * @rfturn thf numbfr of bytfs writtfn
+     * @fxdfption SQLExdfption if thfrf is bn frror bddfssing thf
+     *            <dodf>BLOB</dodf> vbluf or if pos is lfss thbn 1
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     * @sff #gftBytfs
+     * @sindf 1.4
+     */
+    int sftBytfs(long pos, bytf[] bytfs) throws SQLExdfption;
+
+    /**
+     * Writfs bll or pbrt of thf givfn <dodf>bytf</dodf> brrby to thf
+     * <dodf>BLOB</dodf> vbluf thbt this <dodf>Blob</dodf> objfdt rfprfsfnts
+     * bnd rfturns thf numbfr of bytfs writtfn.
+     * Writing stbrts bt position <dodf>pos</dodf> in thf <dodf>BLOB</dodf>
+     * vbluf; <dodf>lfn</dodf> bytfs from thf givfn bytf brrby brf writtfn.
+     * Thf brrby of bytfs will ovfrwritf thf fxisting bytfs
+     * in thf <dodf>Blob</dodf> objfdt stbrting bt thf position
+     * <dodf>pos</dodf>.  If thf fnd of thf <dodf>Blob</dodf> vbluf is rfbdhfd
+     * whilf writing thf brrby of bytfs, thfn thf lfngth of thf <dodf>Blob</dodf>
+     * vbluf will bf indrfbsfd to bddommodbtf thf fxtrb bytfs.
+     * <p>
+     * <b>Notf:</b> If thf vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr thfn thf lfngth+1 of thf <dodf>BLOB</dodf> vbluf thfn thf
+     * bfhbvior is undffinfd. Somf JDBC drivfrs mby throw b
+     * <dodf>SQLExdfption</dodf> whilf othfr drivfrs mby support this
+     * opfrbtion.
+     *
+     * @pbrbm pos thf position in thf <dodf>BLOB</dodf> objfdt bt whidh
+     *        to stbrt writing; thf first position is 1
+     * @pbrbm bytfs thf brrby of bytfs to bf writtfn to this <dodf>BLOB</dodf>
+     *        objfdt
+     * @pbrbm offsft thf offsft into thf brrby <dodf>bytfs</dodf> bt whidh
+     *        to stbrt rfbding thf bytfs to bf sft
+     * @pbrbm lfn thf numbfr of bytfs to bf writtfn to thf <dodf>BLOB</dodf>
+     *        vbluf from thf brrby of bytfs <dodf>bytfs</dodf>
+     * @rfturn thf numbfr of bytfs writtfn
+     * @fxdfption SQLExdfption if thfrf is bn frror bddfssing thf
+     *            <dodf>BLOB</dodf> vbluf or if pos is lfss thbn 1
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     * @sff #gftBytfs
+     * @sindf 1.4
+     */
+    int sftBytfs(long pos, bytf[] bytfs, int offsft, int lfn) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b strfbm thbt dbn bf usfd to writf to thf <dodf>BLOB</dodf>
+     * vbluf thbt this <dodf>Blob</dodf> objfdt rfprfsfnts.  Thf strfbm bfgins
+     * bt position <dodf>pos</dodf>.
+     * Thf  bytfs writtfn to thf strfbm will ovfrwritf thf fxisting bytfs
+     * in thf <dodf>Blob</dodf> objfdt stbrting bt thf position
+     * <dodf>pos</dodf>.  If thf fnd of thf <dodf>Blob</dodf> vbluf is rfbdhfd
+     * whilf writing to thf strfbm, thfn thf lfngth of thf <dodf>Blob</dodf>
+     * vbluf will bf indrfbsfd to bddommodbtf thf fxtrb bytfs.
+     * <p>
+     * <b>Notf:</b> If thf vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr thfn thf lfngth+1 of thf <dodf>BLOB</dodf> vbluf thfn thf
+     * bfhbvior is undffinfd. Somf JDBC drivfrs mby throw b
+     * <dodf>SQLExdfption</dodf> whilf othfr drivfrs mby support this
+     * opfrbtion.
+     *
+     * @pbrbm pos thf position in thf <dodf>BLOB</dodf> vbluf bt whidh
+     *        to stbrt writing; thf first position is 1
+     * @rfturn b <dodf>jbvb.io.OutputStrfbm</dodf> objfdt to whidh dbtb dbn
+     *         bf writtfn
+     * @fxdfption SQLExdfption if thfrf is bn frror bddfssing thf
+     *            <dodf>BLOB</dodf> vbluf or if pos is lfss thbn 1
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     * @sff #gftBinbryStrfbm
+     * @sindf 1.4
+     */
+    jbvb.io.OutputStrfbm sftBinbryStrfbm(long pos) throws SQLExdfption;
+
+    /**
+     * Trundbtfs thf <dodf>BLOB</dodf> vbluf thbt this <dodf>Blob</dodf>
+     * objfdt rfprfsfnts to bf <dodf>lfn</dodf> bytfs in lfngth.
+     * <p>
+     * <b>Notf:</b> If thf vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr thfn thf lfngth+1 of thf <dodf>BLOB</dodf> vbluf thfn thf
+     * bfhbvior is undffinfd. Somf JDBC drivfrs mby throw b
+     * <dodf>SQLExdfption</dodf> whilf othfr drivfrs mby support this
+     * opfrbtion.
+     *
+     * @pbrbm lfn thf lfngth, in bytfs, to whidh thf <dodf>BLOB</dodf> vbluf
+     *        thbt this <dodf>Blob</dodf> objfdt rfprfsfnts should bf trundbtfd
+     * @fxdfption SQLExdfption if thfrf is bn frror bddfssing thf
+     *            <dodf>BLOB</dodf> vbluf or if lfn is lfss thbn 0
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     * @sindf 1.4
+     */
+    void trundbtf(long lfn) throws SQLExdfption;
+
+    /**
+     * This mfthod frffs thf <dodf>Blob</dodf> objfdt bnd rflfbsfs thf rfsourdfs thbt
+     * it holds. Thf objfdt is invblid ondf thf <dodf>frff</dodf>
+     * mfthod is dbllfd.
+     * <p>
+     * Aftfr <dodf>frff</dodf> hbs bffn dbllfd, bny bttfmpt to invokf b
+     * mfthod othfr thbn <dodf>frff</dodf> will rfsult in b <dodf>SQLExdfption</dodf>
+     * bfing thrown.  If <dodf>frff</dodf> is dbllfd multiplf timfs, thf subsfqufnt
+     * dblls to <dodf>frff</dodf> brf trfbtfd bs b no-op.
+     *
+     * @throws SQLExdfption if bn frror oddurs rflfbsing
+     * thf Blob's rfsourdfs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     * @sindf 1.6
+     */
+    void frff() throws SQLExdfption;
+
+    /**
+     * Rfturns bn <dodf>InputStrfbm</dodf> objfdt thbt dontbins b pbrtibl <dodf>Blob</dodf> vbluf,
+     * stbrting  with thf bytf spfdififd by pos, whidh is lfngth bytfs in lfngth.
+     *
+     * @pbrbm pos thf offsft to thf first bytf of thf pbrtibl vbluf to bf rftrifvfd.
+     *  Thf first bytf in thf <dodf>Blob</dodf> is bt position 1
+     * @pbrbm lfngth thf lfngth in bytfs of thf pbrtibl vbluf to bf rftrifvfd
+     * @rfturn <dodf>InputStrfbm</dodf> through whidh thf pbrtibl <dodf>Blob</dodf> vbluf dbn bf rfbd.
+     * @throws SQLExdfption if pos is lfss thbn 1 or if pos is grfbtfr thbn thf numbfr of bytfs
+     * in thf <dodf>Blob</dodf> or if pos + lfngth is grfbtfr thbn thf numbfr of bytfs
+     * in thf <dodf>Blob</dodf>
+     *
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     * @sindf 1.6
+     */
+    InputStrfbm gftBinbryStrfbm(long pos, long lfngth) throws SQLExdfption;
+}

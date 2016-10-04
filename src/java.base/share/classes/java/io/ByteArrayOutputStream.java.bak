@@ -1,270 +1,270 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * This class implements an output stream in which the data is
- * written into a byte array. The buffer automatically grows as data
- * is written to it.
- * The data can be retrieved using <code>toByteArray()</code> and
- * <code>toString()</code>.
+ * Tiis dlbss implfmfnts bn output strfbm in wiidi tif dbtb is
+ * writtfn into b bytf brrby. Tif bufffr butombtidblly grows bs dbtb
+ * is writtfn to it.
+ * Tif dbtb dbn bf rftrifvfd using <dodf>toBytfArrby()</dodf> bnd
+ * <dodf>toString()</dodf>.
  * <p>
- * Closing a <tt>ByteArrayOutputStream</tt> has no effect. The methods in
- * this class can be called after the stream has been closed without
- * generating an <tt>IOException</tt>.
+ * Closing b <tt>BytfArrbyOutputStrfbm</tt> ibs no ffffdt. Tif mftiods in
+ * tiis dlbss dbn bf dbllfd bftfr tif strfbm ibs bffn dlosfd witiout
+ * gfnfrbting bn <tt>IOExdfption</tt>.
  *
- * @author  Arthur van Hoff
- * @since   1.0
+ * @butior  Artiur vbn Hoff
+ * @sindf   1.0
  */
 
-public class ByteArrayOutputStream extends OutputStream {
+publid dlbss BytfArrbyOutputStrfbm fxtfnds OutputStrfbm {
 
     /**
-     * The buffer where data is stored.
+     * Tif bufffr wifrf dbtb is storfd.
      */
-    protected byte buf[];
+    protfdtfd bytf buf[];
 
     /**
-     * The number of valid bytes in the buffer.
+     * Tif numbfr of vblid bytfs in tif bufffr.
      */
-    protected int count;
+    protfdtfd int dount;
 
     /**
-     * Creates a new byte array output stream. The buffer capacity is
-     * initially 32 bytes, though its size increases if necessary.
+     * Crfbtfs b nfw bytf brrby output strfbm. Tif bufffr dbpbdity is
+     * initiblly 32 bytfs, tiougi its sizf indrfbsfs if nfdfssbry.
      */
-    public ByteArrayOutputStream() {
-        this(32);
+    publid BytfArrbyOutputStrfbm() {
+        tiis(32);
     }
 
     /**
-     * Creates a new byte array output stream, with a buffer capacity of
-     * the specified size, in bytes.
+     * Crfbtfs b nfw bytf brrby output strfbm, witi b bufffr dbpbdity of
+     * tif spfdififd sizf, in bytfs.
      *
-     * @param   size   the initial size.
-     * @exception  IllegalArgumentException if size is negative.
+     * @pbrbm   sizf   tif initibl sizf.
+     * @fxdfption  IllfgblArgumfntExdfption if sizf is nfgbtivf.
      */
-    public ByteArrayOutputStream(int size) {
-        if (size < 0) {
-            throw new IllegalArgumentException("Negative initial size: "
-                                               + size);
+    publid BytfArrbyOutputStrfbm(int sizf) {
+        if (sizf < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf initibl sizf: "
+                                               + sizf);
         }
-        buf = new byte[size];
+        buf = nfw bytf[sizf];
     }
 
     /**
-     * Increases the capacity if necessary to ensure that it can hold
-     * at least the number of elements specified by the minimum
-     * capacity argument.
+     * Indrfbsfs tif dbpbdity if nfdfssbry to fnsurf tibt it dbn iold
+     * bt lfbst tif numbfr of flfmfnts spfdififd by tif minimum
+     * dbpbdity brgumfnt.
      *
-     * @param minCapacity the desired minimum capacity
-     * @throws OutOfMemoryError if {@code minCapacity < 0}.  This is
-     * interpreted as a request for the unsatisfiably large capacity
-     * {@code (long) Integer.MAX_VALUE + (minCapacity - Integer.MAX_VALUE)}.
+     * @pbrbm minCbpbdity tif dfsirfd minimum dbpbdity
+     * @tirows OutOfMfmoryError if {@dodf minCbpbdity < 0}.  Tiis is
+     * intfrprftfd bs b rfqufst for tif unsbtisfibbly lbrgf dbpbdity
+     * {@dodf (long) Intfgfr.MAX_VALUE + (minCbpbdity - Intfgfr.MAX_VALUE)}.
      */
-    private void ensureCapacity(int minCapacity) {
-        // overflow-conscious code
-        if (minCapacity - buf.length > 0)
-            grow(minCapacity);
+    privbtf void fnsurfCbpbdity(int minCbpbdity) {
+        // ovfrflow-donsdious dodf
+        if (minCbpbdity - buf.lfngti > 0)
+            grow(minCbpbdity);
     }
 
     /**
-     * Increases the capacity to ensure that it can hold at least the
-     * number of elements specified by the minimum capacity argument.
+     * Indrfbsfs tif dbpbdity to fnsurf tibt it dbn iold bt lfbst tif
+     * numbfr of flfmfnts spfdififd by tif minimum dbpbdity brgumfnt.
      *
-     * @param minCapacity the desired minimum capacity
+     * @pbrbm minCbpbdity tif dfsirfd minimum dbpbdity
      */
-    private void grow(int minCapacity) {
-        // overflow-conscious code
-        int oldCapacity = buf.length;
-        int newCapacity = oldCapacity << 1;
-        if (newCapacity - minCapacity < 0)
-            newCapacity = minCapacity;
-        if (newCapacity < 0) {
-            if (minCapacity < 0) // overflow
-                throw new OutOfMemoryError();
-            newCapacity = Integer.MAX_VALUE;
+    privbtf void grow(int minCbpbdity) {
+        // ovfrflow-donsdious dodf
+        int oldCbpbdity = buf.lfngti;
+        int nfwCbpbdity = oldCbpbdity << 1;
+        if (nfwCbpbdity - minCbpbdity < 0)
+            nfwCbpbdity = minCbpbdity;
+        if (nfwCbpbdity < 0) {
+            if (minCbpbdity < 0) // ovfrflow
+                tirow nfw OutOfMfmoryError();
+            nfwCbpbdity = Intfgfr.MAX_VALUE;
         }
-        buf = Arrays.copyOf(buf, newCapacity);
+        buf = Arrbys.dopyOf(buf, nfwCbpbdity);
     }
 
     /**
-     * Writes the specified byte to this byte array output stream.
+     * Writfs tif spfdififd bytf to tiis bytf brrby output strfbm.
      *
-     * @param   b   the byte to be written.
+     * @pbrbm   b   tif bytf to bf writtfn.
      */
-    public synchronized void write(int b) {
-        ensureCapacity(count + 1);
-        buf[count] = (byte) b;
-        count += 1;
+    publid syndironizfd void writf(int b) {
+        fnsurfCbpbdity(dount + 1);
+        buf[dount] = (bytf) b;
+        dount += 1;
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array
-     * starting at offset <code>off</code> to this byte array output stream.
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd bytf brrby
+     * stbrting bt offsft <dodf>off</dodf> to tiis bytf brrby output strfbm.
      *
-     * @param   b     the data.
-     * @param   off   the start offset in the data.
-     * @param   len   the number of bytes to write.
+     * @pbrbm   b     tif dbtb.
+     * @pbrbm   off   tif stbrt offsft in tif dbtb.
+     * @pbrbm   lfn   tif numbfr of bytfs to writf.
      */
-    public synchronized void write(byte b[], int off, int len) {
-        if ((off < 0) || (off > b.length) || (len < 0) ||
-            ((off + len) - b.length > 0)) {
-            throw new IndexOutOfBoundsException();
+    publid syndironizfd void writf(bytf b[], int off, int lfn) {
+        if ((off < 0) || (off > b.lfngti) || (lfn < 0) ||
+            ((off + lfn) - b.lfngti > 0)) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
-        ensureCapacity(count + len);
-        System.arraycopy(b, off, buf, count, len);
-        count += len;
+        fnsurfCbpbdity(dount + lfn);
+        Systfm.brrbydopy(b, off, buf, dount, lfn);
+        dount += lfn;
     }
 
     /**
-     * Writes the complete contents of this byte array output stream to
-     * the specified output stream argument, as if by calling the output
-     * stream's write method using <code>out.write(buf, 0, count)</code>.
+     * Writfs tif domplftf dontfnts of tiis bytf brrby output strfbm to
+     * tif spfdififd output strfbm brgumfnt, bs if by dblling tif output
+     * strfbm's writf mftiod using <dodf>out.writf(buf, 0, dount)</dodf>.
      *
-     * @param      out   the output stream to which to write the data.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      out   tif output strfbm to wiidi to writf tif dbtb.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public synchronized void writeTo(OutputStream out) throws IOException {
-        out.write(buf, 0, count);
+    publid syndironizfd void writfTo(OutputStrfbm out) tirows IOExdfption {
+        out.writf(buf, 0, dount);
     }
 
     /**
-     * Resets the <code>count</code> field of this byte array output
-     * stream to zero, so that all currently accumulated output in the
-     * output stream is discarded. The output stream can be used again,
-     * reusing the already allocated buffer space.
+     * Rfsfts tif <dodf>dount</dodf> fifld of tiis bytf brrby output
+     * strfbm to zfro, so tibt bll durrfntly bddumulbtfd output in tif
+     * output strfbm is disdbrdfd. Tif output strfbm dbn bf usfd bgbin,
+     * rfusing tif blrfbdy bllodbtfd bufffr spbdf.
      *
-     * @see     java.io.ByteArrayInputStream#count
+     * @sff     jbvb.io.BytfArrbyInputStrfbm#dount
      */
-    public synchronized void reset() {
-        count = 0;
+    publid syndironizfd void rfsft() {
+        dount = 0;
     }
 
     /**
-     * Creates a newly allocated byte array. Its size is the current
-     * size of this output stream and the valid contents of the buffer
-     * have been copied into it.
+     * Crfbtfs b nfwly bllodbtfd bytf brrby. Its sizf is tif durrfnt
+     * sizf of tiis output strfbm bnd tif vblid dontfnts of tif bufffr
+     * ibvf bffn dopifd into it.
      *
-     * @return  the current contents of this output stream, as a byte array.
-     * @see     java.io.ByteArrayOutputStream#size()
+     * @rfturn  tif durrfnt dontfnts of tiis output strfbm, bs b bytf brrby.
+     * @sff     jbvb.io.BytfArrbyOutputStrfbm#sizf()
      */
-    public synchronized byte toByteArray()[] {
-        return Arrays.copyOf(buf, count);
+    publid syndironizfd bytf toBytfArrby()[] {
+        rfturn Arrbys.dopyOf(buf, dount);
     }
 
     /**
-     * Returns the current size of the buffer.
+     * Rfturns tif durrfnt sizf of tif bufffr.
      *
-     * @return  the value of the <code>count</code> field, which is the number
-     *          of valid bytes in this output stream.
-     * @see     java.io.ByteArrayOutputStream#count
+     * @rfturn  tif vbluf of tif <dodf>dount</dodf> fifld, wiidi is tif numbfr
+     *          of vblid bytfs in tiis output strfbm.
+     * @sff     jbvb.io.BytfArrbyOutputStrfbm#dount
      */
-    public synchronized int size() {
-        return count;
+    publid syndironizfd int sizf() {
+        rfturn dount;
     }
 
     /**
-     * Converts the buffer's contents into a string decoding bytes using the
-     * platform's default character set. The length of the new <tt>String</tt>
-     * is a function of the character set, and hence may not be equal to the
-     * size of the buffer.
+     * Convfrts tif bufffr's dontfnts into b string dfdoding bytfs using tif
+     * plbtform's dffbult dibrbdtfr sft. Tif lfngti of tif nfw <tt>String</tt>
+     * is b fundtion of tif dibrbdtfr sft, bnd ifndf mby not bf fqubl to tif
+     * sizf of tif bufffr.
      *
-     * <p> This method always replaces malformed-input and unmappable-character
-     * sequences with the default replacement string for the platform's
-     * default character set. The {@linkplain java.nio.charset.CharsetDecoder}
-     * class should be used when more control over the decoding process is
-     * required.
+     * <p> Tiis mftiod blwbys rfplbdfs mblformfd-input bnd unmbppbblf-dibrbdtfr
+     * sfqufndfs witi tif dffbult rfplbdfmfnt string for tif plbtform's
+     * dffbult dibrbdtfr sft. Tif {@linkplbin jbvb.nio.dibrsft.CibrsftDfdodfr}
+     * dlbss siould bf usfd wifn morf dontrol ovfr tif dfdoding prodfss is
+     * rfquirfd.
      *
-     * @return String decoded from the buffer's contents.
-     * @since  1.1
+     * @rfturn String dfdodfd from tif bufffr's dontfnts.
+     * @sindf  1.1
      */
-    public synchronized String toString() {
-        return new String(buf, 0, count);
+    publid syndironizfd String toString() {
+        rfturn nfw String(buf, 0, dount);
     }
 
     /**
-     * Converts the buffer's contents into a string by decoding the bytes using
-     * the named {@link java.nio.charset.Charset charset}. The length of the new
-     * <tt>String</tt> is a function of the charset, and hence may not be equal
-     * to the length of the byte array.
+     * Convfrts tif bufffr's dontfnts into b string by dfdoding tif bytfs using
+     * tif nbmfd {@link jbvb.nio.dibrsft.Cibrsft dibrsft}. Tif lfngti of tif nfw
+     * <tt>String</tt> is b fundtion of tif dibrsft, bnd ifndf mby not bf fqubl
+     * to tif lfngti of tif bytf brrby.
      *
-     * <p> This method always replaces malformed-input and unmappable-character
-     * sequences with this charset's default replacement string. The {@link
-     * java.nio.charset.CharsetDecoder} class should be used when more control
-     * over the decoding process is required.
+     * <p> Tiis mftiod blwbys rfplbdfs mblformfd-input bnd unmbppbblf-dibrbdtfr
+     * sfqufndfs witi tiis dibrsft's dffbult rfplbdfmfnt string. Tif {@link
+     * jbvb.nio.dibrsft.CibrsftDfdodfr} dlbss siould bf usfd wifn morf dontrol
+     * ovfr tif dfdoding prodfss is rfquirfd.
      *
-     * @param      charsetName  the name of a supported
-     *             {@link java.nio.charset.Charset charset}
-     * @return     String decoded from the buffer's contents.
-     * @exception  UnsupportedEncodingException
-     *             If the named charset is not supported
-     * @since      1.1
+     * @pbrbm      dibrsftNbmf  tif nbmf of b supportfd
+     *             {@link jbvb.nio.dibrsft.Cibrsft dibrsft}
+     * @rfturn     String dfdodfd from tif bufffr's dontfnts.
+     * @fxdfption  UnsupportfdEndodingExdfption
+     *             If tif nbmfd dibrsft is not supportfd
+     * @sindf      1.1
      */
-    public synchronized String toString(String charsetName)
-        throws UnsupportedEncodingException
+    publid syndironizfd String toString(String dibrsftNbmf)
+        tirows UnsupportfdEndodingExdfption
     {
-        return new String(buf, 0, count, charsetName);
+        rfturn nfw String(buf, 0, dount, dibrsftNbmf);
     }
 
     /**
-     * Creates a newly allocated string. Its size is the current size of
-     * the output stream and the valid contents of the buffer have been
-     * copied into it. Each character <i>c</i> in the resulting string is
-     * constructed from the corresponding element <i>b</i> in the byte
-     * array such that:
-     * <blockquote><pre>
-     *     c == (char)(((hibyte &amp; 0xff) &lt;&lt; 8) | (b &amp; 0xff))
-     * </pre></blockquote>
+     * Crfbtfs b nfwly bllodbtfd string. Its sizf is tif durrfnt sizf of
+     * tif output strfbm bnd tif vblid dontfnts of tif bufffr ibvf bffn
+     * dopifd into it. Ebdi dibrbdtfr <i>d</i> in tif rfsulting string is
+     * donstrudtfd from tif dorrfsponding flfmfnt <i>b</i> in tif bytf
+     * brrby sudi tibt:
+     * <blodkquotf><prf>
+     *     d == (dibr)(((iibytf &bmp; 0xff) &lt;&lt; 8) | (b &bmp; 0xff))
+     * </prf></blodkquotf>
      *
-     * @deprecated This method does not properly convert bytes into characters.
-     * As of JDK&nbsp;1.1, the preferred way to do this is via the
-     * <code>toString(String enc)</code> method, which takes an encoding-name
-     * argument, or the <code>toString()</code> method, which uses the
-     * platform's default character encoding.
+     * @dfprfdbtfd Tiis mftiod dofs not propfrly donvfrt bytfs into dibrbdtfrs.
+     * As of JDK&nbsp;1.1, tif prfffrrfd wby to do tiis is vib tif
+     * <dodf>toString(String fnd)</dodf> mftiod, wiidi tbkfs bn fndoding-nbmf
+     * brgumfnt, or tif <dodf>toString()</dodf> mftiod, wiidi usfs tif
+     * plbtform's dffbult dibrbdtfr fndoding.
      *
-     * @param      hibyte    the high byte of each resulting Unicode character.
-     * @return     the current contents of the output stream, as a string.
-     * @see        java.io.ByteArrayOutputStream#size()
-     * @see        java.io.ByteArrayOutputStream#toString(String)
-     * @see        java.io.ByteArrayOutputStream#toString()
+     * @pbrbm      iibytf    tif iigi bytf of fbdi rfsulting Unidodf dibrbdtfr.
+     * @rfturn     tif durrfnt dontfnts of tif output strfbm, bs b string.
+     * @sff        jbvb.io.BytfArrbyOutputStrfbm#sizf()
+     * @sff        jbvb.io.BytfArrbyOutputStrfbm#toString(String)
+     * @sff        jbvb.io.BytfArrbyOutputStrfbm#toString()
      */
-    @Deprecated
-    public synchronized String toString(int hibyte) {
-        return new String(buf, hibyte, 0, count);
+    @Dfprfdbtfd
+    publid syndironizfd String toString(int iibytf) {
+        rfturn nfw String(buf, iibytf, 0, dount);
     }
 
     /**
-     * Closing a <tt>ByteArrayOutputStream</tt> has no effect. The methods in
-     * this class can be called after the stream has been closed without
-     * generating an <tt>IOException</tt>.
+     * Closing b <tt>BytfArrbyOutputStrfbm</tt> ibs no ffffdt. Tif mftiods in
+     * tiis dlbss dbn bf dbllfd bftfr tif strfbm ibs bffn dlosfd witiout
+     * gfnfrbting bn <tt>IOExdfption</tt>.
      */
-    public void close() throws IOException {
+    publid void dlosf() tirows IOExdfption {
     }
 
 }

@@ -1,729 +1,729 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package org.ietf.jgss;
+pbdkbgf org.iftf.jgss;
 
-import java.security.Provider;
+import jbvb.sfdurity.Providfr;
 
 /**
- * This class serves as a factory for other important
- * GSS-API classes and also provides information about the mechanisms that
- * are supported. It can create instances of classes
- * implementing the following three GSS-API interfaces: {@link
- * GSSName GSSName}, {@link GSSCredential GSSCredential}, and {@link
- * GSSContext GSSContext}. It also has methods to query for the list
- * of available mechanisms and the nametypes that each mechanism
+ * Tiis dlbss sfrvfs bs b fbdtory for otifr importbnt
+ * GSS-API dlbssfs bnd blso providfs informbtion bbout tif mfdibnisms tibt
+ * brf supportfd. It dbn drfbtf instbndfs of dlbssfs
+ * implfmfnting tif following tirff GSS-API intfrfbdfs: {@link
+ * GSSNbmf GSSNbmf}, {@link GSSCrfdfntibl GSSCrfdfntibl}, bnd {@link
+ * GSSContfxt GSSContfxt}. It blso ibs mftiods to qufry for tif list
+ * of bvbilbblf mfdibnisms bnd tif nbmftypfs tibt fbdi mfdibnism
  * supports.<p>
  *
- * An instance of the default <code>GSSManager</code> subclass
- * may be obtained through the static method {@link #getInstance()
- * getInstance}, but applications are free to instantiate other subclasses
- * of <code>GSSManager</code>. The default <code>GSSManager</code> instance
- * will support the Kerberos v5 GSS-API mechanism in addition to any
- * others. This mechanism is identified by the Oid "1.2.840.113554.1.2.2"
- * and is defined in RFC 1964.<p>
+ * An instbndf of tif dffbult <dodf>GSSMbnbgfr</dodf> subdlbss
+ * mby bf obtbinfd tirougi tif stbtid mftiod {@link #gftInstbndf()
+ * gftInstbndf}, but bpplidbtions brf frff to instbntibtf otifr subdlbssfs
+ * of <dodf>GSSMbnbgfr</dodf>. Tif dffbult <dodf>GSSMbnbgfr</dodf> instbndf
+ * will support tif Kfrbfros v5 GSS-API mfdibnism in bddition to bny
+ * otifrs. Tiis mfdibnism is idfntififd by tif Oid "1.2.840.113554.1.2.2"
+ * bnd is dffinfd in RFC 1964.<p>
  *
- * A subclass extending the <code>GSSManager</code> abstract class may be
- * implemented  as a modular provider based layer that utilizes some well
- * known  service provider specification. The <code>GSSManager</code> API
- * allows the application to set provider preferences on
- * such an implementation. These methods also allow the implementation to
- * throw a well-defined exception in case provider based configuration is
- * not supported. Applications that expect to be portable should be aware
- * of this and recover cleanly by catching the exception.<p>
+ * A subdlbss fxtfnding tif <dodf>GSSMbnbgfr</dodf> bbstrbdt dlbss mby bf
+ * implfmfntfd  bs b modulbr providfr bbsfd lbyfr tibt utilizfs somf wfll
+ * known  sfrvidf providfr spfdifidbtion. Tif <dodf>GSSMbnbgfr</dodf> API
+ * bllows tif bpplidbtion to sft providfr prfffrfndfs on
+ * sudi bn implfmfntbtion. Tifsf mftiods blso bllow tif implfmfntbtion to
+ * tirow b wfll-dffinfd fxdfption in dbsf providfr bbsfd donfigurbtion is
+ * not supportfd. Applidbtions tibt fxpfdt to bf portbblf siould bf bwbrf
+ * of tiis bnd rfdovfr dlfbnly by dbtdiing tif fxdfption.<p>
  *
- * It is envisioned that there will be three most common ways in which
- * providers will be used:<p>
+ * It is fnvisionfd tibt tifrf will bf tirff most dommon wbys in wiidi
+ * providfrs will bf usfd:<p>
  * <ol>
- * <li> The application does not care about what provider is used (the
- * default case).
- * <li> The application wants a particular provider to be used
- * preferentially, either for a particular mechanism or all the
- * time, irrespective of mechanism.
- * <li> The application wants to use the locally configured providers
- * as far as possible but if support is missing for one or more
- * mechanisms then it wants to fall back on its own provider.
+ * <li> Tif bpplidbtion dofs not dbrf bbout wibt providfr is usfd (tif
+ * dffbult dbsf).
+ * <li> Tif bpplidbtion wbnts b pbrtidulbr providfr to bf usfd
+ * prfffrfntiblly, fitifr for b pbrtidulbr mfdibnism or bll tif
+ * timf, irrfspfdtivf of mfdibnism.
+ * <li> Tif bpplidbtion wbnts to usf tif lodblly donfigurfd providfrs
+ * bs fbr bs possiblf but if support is missing for onf or morf
+ * mfdibnisms tifn it wbnts to fbll bbdk on its own providfr.
  *</ol><p>
  *
- * The <code>GSSManager</code> class has two methods that enable these modes of
- * usage:  {@link #addProviderAtFront(Provider, Oid) addProviderAtFront} and
- * {@link #addProviderAtEnd(Provider, Oid) addProviderAtEnd}. These methods
- * have the effect of creating an ordered list of <i>&lt;provider,
- * oid&gt;</i> pairs  where each pair indicates a preference of provider
- * for a given oid.<p>
+ * Tif <dodf>GSSMbnbgfr</dodf> dlbss ibs two mftiods tibt fnbblf tifsf modfs of
+ * usbgf:  {@link #bddProvidfrAtFront(Providfr, Oid) bddProvidfrAtFront} bnd
+ * {@link #bddProvidfrAtEnd(Providfr, Oid) bddProvidfrAtEnd}. Tifsf mftiods
+ * ibvf tif ffffdt of drfbting bn ordfrfd list of <i>&lt;providfr,
+ * oid&gt;</i> pbirs  wifrf fbdi pbir indidbtfs b prfffrfndf of providfr
+ * for b givfn oid.<p>
  *
- * It is important to note that there are certain interactions
- * between the different GSS-API objects that are created by a
- * GSSManager, where the provider that is used for a particular mechanism
- * might need to be consistent across all objects. For instance, if a
- * GSSCredential contains elements from a provider <i>p</i> for a mechanism
- * <i>m</i>, it should generally be passed in to a GSSContext that will use
- * provider <i>p</i> for the mechanism <i>m</i>. A simple rule of thumb
- * that will maximize portability is that objects created from different
- * GSSManager's should not be mixed, and if possible, a different
- * GSSManager instance should be created if the application wants to invoke
- * the <code>addProviderAtFront</code> method on a GSSManager that has
- * already created an object.<p>
+ * It is importbnt to notf tibt tifrf brf dfrtbin intfrbdtions
+ * bftwffn tif difffrfnt GSS-API objfdts tibt brf drfbtfd by b
+ * GSSMbnbgfr, wifrf tif providfr tibt is usfd for b pbrtidulbr mfdibnism
+ * migit nffd to bf donsistfnt bdross bll objfdts. For instbndf, if b
+ * GSSCrfdfntibl dontbins flfmfnts from b providfr <i>p</i> for b mfdibnism
+ * <i>m</i>, it siould gfnfrblly bf pbssfd in to b GSSContfxt tibt will usf
+ * providfr <i>p</i> for tif mfdibnism <i>m</i>. A simplf rulf of tiumb
+ * tibt will mbximizf portbbility is tibt objfdts drfbtfd from difffrfnt
+ * GSSMbnbgfr's siould not bf mixfd, bnd if possiblf, b difffrfnt
+ * GSSMbnbgfr instbndf siould bf drfbtfd if tif bpplidbtion wbnts to invokf
+ * tif <dodf>bddProvidfrAtFront</dodf> mftiod on b GSSMbnbgfr tibt ibs
+ * blrfbdy drfbtfd bn objfdt.<p>
  *
- *  Here is some sample code showing how the GSSManager might be used: <p>
- * <pre>
- *     GSSManager manager = GSSManager.getInstance();
+ *  Hfrf is somf sbmplf dodf siowing iow tif GSSMbnbgfr migit bf usfd: <p>
+ * <prf>
+ *     GSSMbnbgfr mbnbgfr = GSSMbnbgfr.gftInstbndf();
  *
- *     Oid krb5Mechanism = new Oid("1.2.840.113554.1.2.2");
- *     Oid krb5PrincipalNameType = new Oid("1.2.840.113554.1.2.2.1");
+ *     Oid krb5Mfdibnism = nfw Oid("1.2.840.113554.1.2.2");
+ *     Oid krb5PrindipblNbmfTypf = nfw Oid("1.2.840.113554.1.2.2.1");
  *
- *     // Identify who the client wishes to be
- *     GSSName userName = manager.createName("duke", GSSName.NT_USER_NAME);
+ *     // Idfntify wio tif dlifnt wisifs to bf
+ *     GSSNbmf usfrNbmf = mbnbgfr.drfbtfNbmf("dukf", GSSNbmf.NT_USER_NAME);
  *
- *     // Identify the name of the server. This uses a Kerberos specific
- *     // name format.
- *     GSSName serverName = manager.createName("nfs/foo.sun.com",
- *                                             krb5PrincipalNameType);
+ *     // Idfntify tif nbmf of tif sfrvfr. Tiis usfs b Kfrbfros spfdifid
+ *     // nbmf formbt.
+ *     GSSNbmf sfrvfrNbmf = mbnbgfr.drfbtfNbmf("nfs/foo.sun.dom",
+ *                                             krb5PrindipblNbmfTypf);
  *
- *     // Acquire credentials for the user
- *     GSSCredential userCreds = manager.createCredential(userName,
- *                                             GSSCredential.DEFAULT_LIFETIME,
- *                                             krb5Mechanism,
- *                                             GSSCredential.INITIATE_ONLY);
+ *     // Adquirf drfdfntibls for tif usfr
+ *     GSSCrfdfntibl usfrCrfds = mbnbgfr.drfbtfCrfdfntibl(usfrNbmf,
+ *                                             GSSCrfdfntibl.DEFAULT_LIFETIME,
+ *                                             krb5Mfdibnism,
+ *                                             GSSCrfdfntibl.INITIATE_ONLY);
  *
- *     // Instantiate and initialize a security context that will be
- *     // established with the server
- *     GSSContext context = manager.createContext(serverName,
- *                                                krb5Mechanism,
- *                                                userCreds,
- *                                                GSSContext.DEFAULT_LIFETIME);
- * </pre><p>
+ *     // Instbntibtf bnd initiblizf b sfdurity dontfxt tibt will bf
+ *     // fstbblisifd witi tif sfrvfr
+ *     GSSContfxt dontfxt = mbnbgfr.drfbtfContfxt(sfrvfrNbmf,
+ *                                                krb5Mfdibnism,
+ *                                                usfrCrfds,
+ *                                                GSSContfxt.DEFAULT_LIFETIME);
+ * </prf><p>
  *
- * The server side might use the following variation of this source:<p>
+ * Tif sfrvfr sidf migit usf tif following vbribtion of tiis sourdf:<p>
  *
- * <pre>
- *     // Acquire credentials for the server
- *     GSSCredential serverCreds = manager.createCredential(serverName,
- *                                             GSSCredential.DEFAULT_LIFETIME,
- *                                             krb5Mechanism,
- *                                             GSSCredential.ACCEPT_ONLY);
+ * <prf>
+ *     // Adquirf drfdfntibls for tif sfrvfr
+ *     GSSCrfdfntibl sfrvfrCrfds = mbnbgfr.drfbtfCrfdfntibl(sfrvfrNbmf,
+ *                                             GSSCrfdfntibl.DEFAULT_LIFETIME,
+ *                                             krb5Mfdibnism,
+ *                                             GSSCrfdfntibl.ACCEPT_ONLY);
  *
- *     // Instantiate and initialize a security context that will
- *     // wait for an establishment request token from the client
- *     GSSContext context = manager.createContext(serverCreds);
- * </pre>
+ *     // Instbntibtf bnd initiblizf b sfdurity dontfxt tibt will
+ *     // wbit for bn fstbblisimfnt rfqufst tokfn from tif dlifnt
+ *     GSSContfxt dontfxt = mbnbgfr.drfbtfContfxt(sfrvfrCrfds);
+ * </prf>
  *
- * @author Mayank Upadhyay
- * @see GSSName
- * @see GSSCredential
- * @see GSSContext
- * @since 1.4
+ * @butior Mbybnk Upbdiyby
+ * @sff GSSNbmf
+ * @sff GSSCrfdfntibl
+ * @sff GSSContfxt
+ * @sindf 1.4
  */
-public abstract class GSSManager {
+publid bbstrbdt dlbss GSSMbnbgfr {
 
     /**
-     * Returns the default GSSManager implementation.
+     * Rfturns tif dffbult GSSMbnbgfr implfmfntbtion.
      *
-     * @return a GSSManager implementation
+     * @rfturn b GSSMbnbgfr implfmfntbtion
      */
-    public static GSSManager getInstance() {
-        return new sun.security.jgss.GSSManagerImpl();
+    publid stbtid GSSMbnbgfr gftInstbndf() {
+        rfturn nfw sun.sfdurity.jgss.GSSMbnbgfrImpl();
     }
 
     /**
-     * Returns a list of mechanisms that are available to GSS-API callers
-     * through this GSSManager. The default GSSManager obtained from the
-     * {@link #getInstance() getInstance()} method includes the Oid
-     * "1.2.840.113554.1.2.2" in its list. This Oid identifies the Kerberos
-     * v5 GSS-API mechanism that is defined in RFC 1964.
+     * Rfturns b list of mfdibnisms tibt brf bvbilbblf to GSS-API dbllfrs
+     * tirougi tiis GSSMbnbgfr. Tif dffbult GSSMbnbgfr obtbinfd from tif
+     * {@link #gftInstbndf() gftInstbndf()} mftiod indludfs tif Oid
+     * "1.2.840.113554.1.2.2" in its list. Tiis Oid idfntififs tif Kfrbfros
+     * v5 GSS-API mfdibnism tibt is dffinfd in RFC 1964.
      *
-     * @return an array of Oid objects corresponding to the mechanisms that
-     * are available. A <code>null</code> value is returned when no
-     * mechanism are available (an example of this would be when mechanism
-     * are dynamically configured, and currently no mechanisms are
-     * installed).
+     * @rfturn bn brrby of Oid objfdts dorrfsponding to tif mfdibnisms tibt
+     * brf bvbilbblf. A <dodf>null</dodf> vbluf is rfturnfd wifn no
+     * mfdibnism brf bvbilbblf (bn fxbmplf of tiis would bf wifn mfdibnism
+     * brf dynbmidblly donfigurfd, bnd durrfntly no mfdibnisms brf
+     * instbllfd).
      */
-    public  abstract Oid[] getMechs();
+    publid  bbstrbdt Oid[] gftMfdis();
 
     /**
-     * Returns then name types supported by the indicated mechanism.<p>
+     * Rfturns tifn nbmf typfs supportfd by tif indidbtfd mfdibnism.<p>
      *
-     * The default GSSManager instance includes support for the Kerberos v5
-     * mechanism. When this mechanism ("1.2.840.113554.1.2.2") is indicated,
-     * the returned list will contain at least the following nametypes:
-     * {@link GSSName#NT_HOSTBASED_SERVICE GSSName.NT_HOSTBASED_SERVICE},
-     * {@link GSSName#NT_EXPORT_NAME GSSName.NT_EXPORT_NAME}, and the
-     * Kerberos v5 specific Oid "1.2.840.113554.1.2.2.1". The namespace for
-     * the Oid "1.2.840.113554.1.2.2.1" is defined in RFC 1964.
+     * Tif dffbult GSSMbnbgfr instbndf indludfs support for tif Kfrbfros v5
+     * mfdibnism. Wifn tiis mfdibnism ("1.2.840.113554.1.2.2") is indidbtfd,
+     * tif rfturnfd list will dontbin bt lfbst tif following nbmftypfs:
+     * {@link GSSNbmf#NT_HOSTBASED_SERVICE GSSNbmf.NT_HOSTBASED_SERVICE},
+     * {@link GSSNbmf#NT_EXPORT_NAME GSSNbmf.NT_EXPORT_NAME}, bnd tif
+     * Kfrbfros v5 spfdifid Oid "1.2.840.113554.1.2.2.1". Tif nbmfspbdf for
+     * tif Oid "1.2.840.113554.1.2.2.1" is dffinfd in RFC 1964.
      *
-     * @return an array of Oid objects corresponding to the name types that
-     * the mechanism supports.
-     * @param mech the Oid of the mechanism to query
+     * @rfturn bn brrby of Oid objfdts dorrfsponding to tif nbmf typfs tibt
+     * tif mfdibnism supports.
+     * @pbrbm mfdi tif Oid of tif mfdibnism to qufry
      *
-     * @see #getMechsForName(Oid)
+     * @sff #gftMfdisForNbmf(Oid)
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#BAD_MECH GSSException.BAD_MECH}
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH}
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract  Oid[] getNamesForMech(Oid mech)
-        throws GSSException;
+    publid bbstrbdt  Oid[] gftNbmfsForMfdi(Oid mfdi)
+        tirows GSSExdfption;
 
     /**
-     * Returns a list of mechanisms that support the indicated name type.<p>
+     * Rfturns b list of mfdibnisms tibt support tif indidbtfd nbmf typf.<p>
      *
-     * The Kerberos v5 mechanism ("1.2.840.113554.1.2.2") will always be
-     * returned in this list when the indicated nametype is one of
-     * {@link GSSName#NT_HOSTBASED_SERVICE GSSName.NT_HOSTBASED_SERVICE},
-     * {@link GSSName#NT_EXPORT_NAME GSSName.NT_EXPORT_NAME}, or
+     * Tif Kfrbfros v5 mfdibnism ("1.2.840.113554.1.2.2") will blwbys bf
+     * rfturnfd in tiis list wifn tif indidbtfd nbmftypf is onf of
+     * {@link GSSNbmf#NT_HOSTBASED_SERVICE GSSNbmf.NT_HOSTBASED_SERVICE},
+     * {@link GSSNbmf#NT_EXPORT_NAME GSSNbmf.NT_EXPORT_NAME}, or
      * "1.2.840.113554.1.2.2.1".
      *
-     * @return an array of Oid objects corresponding to the mechanisms that
-     * support the specified name type.  <code>null</code> is returned when no
-     * mechanisms are found to support the specified name type.
-     * @param nameType the Oid of the name type to look for
+     * @rfturn bn brrby of Oid objfdts dorrfsponding to tif mfdibnisms tibt
+     * support tif spfdififd nbmf typf.  <dodf>null</dodf> is rfturnfd wifn no
+     * mfdibnisms brf found to support tif spfdififd nbmf typf.
+     * @pbrbm nbmfTypf tif Oid of tif nbmf typf to look for
      *
-     * @see #getNamesForMech(Oid)
+     * @sff #gftNbmfsForMfdi(Oid)
      */
-    public abstract  Oid[] getMechsForName(Oid nameType);
+    publid bbstrbdt  Oid[] gftMfdisForNbmf(Oid nbmfTypf);
 
     /**
-     * Factory method to convert a string name from the
-     * specified namespace to a GSSName object. In general, the
-     * <code>GSSName</code> object created  will contain multiple
-     * representations of the name, one for each mechanism that is
-     * supported; two examples that are exceptions to this are when
-     * the namespace type parameter indicates NT_EXPORT_NAME or when the
-     * GSS-API implementation is not multi-mechanism. It is
-     * not recommended to use this method with a NT_EXPORT_NAME type because
-     * representing a previously exported name consisting of arbitrary bytes
-     * as a String might cause problems with character encoding schemes. In
-     * such cases it is recommended that the bytes be passed in directly to
-     * the overloaded form of this method {@link #createName(byte[],
-     * Oid) createName}.
+     * Fbdtory mftiod to donvfrt b string nbmf from tif
+     * spfdififd nbmfspbdf to b GSSNbmf objfdt. In gfnfrbl, tif
+     * <dodf>GSSNbmf</dodf> objfdt drfbtfd  will dontbin multiplf
+     * rfprfsfntbtions of tif nbmf, onf for fbdi mfdibnism tibt is
+     * supportfd; two fxbmplfs tibt brf fxdfptions to tiis brf wifn
+     * tif nbmfspbdf typf pbrbmftfr indidbtfs NT_EXPORT_NAME or wifn tif
+     * GSS-API implfmfntbtion is not multi-mfdibnism. It is
+     * not rfdommfndfd to usf tiis mftiod witi b NT_EXPORT_NAME typf bfdbusf
+     * rfprfsfnting b prfviously fxportfd nbmf donsisting of brbitrbry bytfs
+     * bs b String migit dbusf problfms witi dibrbdtfr fndoding sdifmfs. In
+     * sudi dbsfs it is rfdommfndfd tibt tif bytfs bf pbssfd in dirfdtly to
+     * tif ovfrlobdfd form of tiis mftiod {@link #drfbtfNbmf(bytf[],
+     * Oid) drfbtfNbmf}.
      *
-     * @param nameStr the string representing a printable form of the name to
-     * create.
-     * @param nameType the Oid specifying the namespace of the printable name
-     * supplied. <code>null</code> can be used to specify
-     * that a mechanism specific default printable syntax should
-     * be assumed by each mechanism that examines nameStr.
-     * It is not advisable to use the nametype NT_EXPORT_NAME with this
-     * method.
-     * @return a GSSName representing the indicated principal
+     * @pbrbm nbmfStr tif string rfprfsfnting b printbblf form of tif nbmf to
+     * drfbtf.
+     * @pbrbm nbmfTypf tif Oid spfdifying tif nbmfspbdf of tif printbblf nbmf
+     * supplifd. <dodf>null</dodf> dbn bf usfd to spfdify
+     * tibt b mfdibnism spfdifid dffbult printbblf syntbx siould
+     * bf bssumfd by fbdi mfdibnism tibt fxbminfs nbmfStr.
+     * It is not bdvisbblf to usf tif nbmftypf NT_EXPORT_NAME witi tiis
+     * mftiod.
+     * @rfturn b GSSNbmf rfprfsfnting tif indidbtfd prindipbl
      *
-     * @see GSSName
-     * @see GSSName#NT_EXPORT_NAME
+     * @sff GSSNbmf
+     * @sff GSSNbmf#NT_EXPORT_NAME
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#BAD_NAMETYPE GSSException.BAD_NAMETYPE},
-     *    {@link GSSException#BAD_NAME GSSException.BAD_NAME},
-     *    {@link GSSException#BAD_MECH GSSException.BAD_MECH},
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract GSSName createName(String nameStr, Oid nameType)
-        throws GSSException;
+    publid bbstrbdt GSSNbmf drfbtfNbmf(String nbmfStr, Oid nbmfTypf)
+        tirows GSSExdfption;
 
     /**
-     * Factory method to convert a byte array containing a
-     * name from the specified namespace to a GSSName object. In general,
-     * the <code>GSSName</code> object created  will contain multiple
-     * representations of the name, one for each mechanism that is
-     * supported; two examples that are exceptions to this are when the
-     * namespace type parameter indicates NT_EXPORT_NAME or when the
-     * GSS-API implementation is not multi-mechanism. The bytes that are
-     * passed in are interpreted by each underlying mechanism according to
-     * some encoding scheme of its choice for the given nametype.
+     * Fbdtory mftiod to donvfrt b bytf brrby dontbining b
+     * nbmf from tif spfdififd nbmfspbdf to b GSSNbmf objfdt. In gfnfrbl,
+     * tif <dodf>GSSNbmf</dodf> objfdt drfbtfd  will dontbin multiplf
+     * rfprfsfntbtions of tif nbmf, onf for fbdi mfdibnism tibt is
+     * supportfd; two fxbmplfs tibt brf fxdfptions to tiis brf wifn tif
+     * nbmfspbdf typf pbrbmftfr indidbtfs NT_EXPORT_NAME or wifn tif
+     * GSS-API implfmfntbtion is not multi-mfdibnism. Tif bytfs tibt brf
+     * pbssfd in brf intfrprftfd by fbdi undfrlying mfdibnism bddording to
+     * somf fndoding sdifmf of its dioidf for tif givfn nbmftypf.
      *
-     * @param name the byte array containing the name to create
-     * @param nameType the Oid specifying the namespace of the name supplied
-     * in the byte array. <code>null</code> can be used to specify that a
-     * mechanism specific default syntax should be assumed by each mechanism
-     * that examines the byte array.
-     * @return a GSSName representing the indicated principal
+     * @pbrbm nbmf tif bytf brrby dontbining tif nbmf to drfbtf
+     * @pbrbm nbmfTypf tif Oid spfdifying tif nbmfspbdf of tif nbmf supplifd
+     * in tif bytf brrby. <dodf>null</dodf> dbn bf usfd to spfdify tibt b
+     * mfdibnism spfdifid dffbult syntbx siould bf bssumfd by fbdi mfdibnism
+     * tibt fxbminfs tif bytf brrby.
+     * @rfturn b GSSNbmf rfprfsfnting tif indidbtfd prindipbl
      *
-     * @see GSSName
-     * @see GSSName#NT_EXPORT_NAME
+     * @sff GSSNbmf
+     * @sff GSSNbmf#NT_EXPORT_NAME
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#BAD_NAMETYPE GSSException.BAD_NAMETYPE},
-     *    {@link GSSException#BAD_NAME GSSException.BAD_NAME},
-     *    {@link GSSException#BAD_MECH GSSException.BAD_MECH},
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract GSSName createName(byte name[], Oid nameType)
-        throws GSSException;
+    publid bbstrbdt GSSNbmf drfbtfNbmf(bytf nbmf[], Oid nbmfTypf)
+        tirows GSSExdfption;
 
     /**
-     *  Factory method to convert a string name from the
-     * specified namespace to a GSSName object and canonicalize it at the
-     * same time for a mechanism. In other words, this method is
-     * a utility that does the equivalent of two steps: the {@link
-     * #createName(String, Oid) createName} and then also the {@link
-     * GSSName#canonicalize(Oid) GSSName.canonicalize}.
+     *  Fbdtory mftiod to donvfrt b string nbmf from tif
+     * spfdififd nbmfspbdf to b GSSNbmf objfdt bnd dbnonidblizf it bt tif
+     * sbmf timf for b mfdibnism. In otifr words, tiis mftiod is
+     * b utility tibt dofs tif fquivblfnt of two stfps: tif {@link
+     * #drfbtfNbmf(String, Oid) drfbtfNbmf} bnd tifn blso tif {@link
+     * GSSNbmf#dbnonidblizf(Oid) GSSNbmf.dbnonidblizf}.
      *
-     * @param nameStr the string representing a printable form of the name to
-     * create.
-     * @param nameType the Oid specifying the namespace of the printable name
-     * supplied. <code>null</code> can be used to specify
-     * that a mechanism specific default printable syntax should
-     * be assumed by each mechanism that examines nameStr.
-     * It is not advisable to use the nametype NT_EXPORT_NAME with this
-     * method.
-     * @param mech Oid specifying the mechanism for which the name should be
-     * canonicalized
-     * @return a GSSName representing the indicated principal
+     * @pbrbm nbmfStr tif string rfprfsfnting b printbblf form of tif nbmf to
+     * drfbtf.
+     * @pbrbm nbmfTypf tif Oid spfdifying tif nbmfspbdf of tif printbblf nbmf
+     * supplifd. <dodf>null</dodf> dbn bf usfd to spfdify
+     * tibt b mfdibnism spfdifid dffbult printbblf syntbx siould
+     * bf bssumfd by fbdi mfdibnism tibt fxbminfs nbmfStr.
+     * It is not bdvisbblf to usf tif nbmftypf NT_EXPORT_NAME witi tiis
+     * mftiod.
+     * @pbrbm mfdi Oid spfdifying tif mfdibnism for wiidi tif nbmf siould bf
+     * dbnonidblizfd
+     * @rfturn b GSSNbmf rfprfsfnting tif indidbtfd prindipbl
      *
-     * @see GSSName#canonicalize(Oid)
-     * @see GSSName#NT_EXPORT_NAME
+     * @sff GSSNbmf#dbnonidblizf(Oid)
+     * @sff GSSNbmf#NT_EXPORT_NAME
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#BAD_NAMETYPE GSSException.BAD_NAMETYPE},
-     *    {@link GSSException#BAD_NAME GSSException.BAD_NAME},
-     *    {@link GSSException#BAD_MECH GSSException.BAD_MECH},
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract GSSName createName(String nameStr, Oid nameType,
-                                       Oid mech) throws GSSException;
+    publid bbstrbdt GSSNbmf drfbtfNbmf(String nbmfStr, Oid nbmfTypf,
+                                       Oid mfdi) tirows GSSExdfption;
 
     /**
-     *  Factory method to convert a byte array containing a
-     * name from the specified namespace to a GSSName object and canonicalize
-     * it at the same time for a mechanism. In other words, this method is a
-     * utility that does the equivalent of two steps: the {@link
-     * #createName(byte[], Oid) createName} and then also {@link
-     * GSSName#canonicalize(Oid) GSSName.canonicalize}.
+     *  Fbdtory mftiod to donvfrt b bytf brrby dontbining b
+     * nbmf from tif spfdififd nbmfspbdf to b GSSNbmf objfdt bnd dbnonidblizf
+     * it bt tif sbmf timf for b mfdibnism. In otifr words, tiis mftiod is b
+     * utility tibt dofs tif fquivblfnt of two stfps: tif {@link
+     * #drfbtfNbmf(bytf[], Oid) drfbtfNbmf} bnd tifn blso {@link
+     * GSSNbmf#dbnonidblizf(Oid) GSSNbmf.dbnonidblizf}.
      *
-     * @param name the byte array containing the name to create
-     * @param nameType the Oid specifying the namespace of the name supplied
-     * in the byte array. <code>null</code> can be used to specify that a
-     * mechanism specific default syntax should be assumed by each mechanism
-     * that examines the byte array.
-     * @param mech Oid specifying the mechanism for which the name should be
-     * canonicalized
-     * @return a GSSName representing the indicated principal
+     * @pbrbm nbmf tif bytf brrby dontbining tif nbmf to drfbtf
+     * @pbrbm nbmfTypf tif Oid spfdifying tif nbmfspbdf of tif nbmf supplifd
+     * in tif bytf brrby. <dodf>null</dodf> dbn bf usfd to spfdify tibt b
+     * mfdibnism spfdifid dffbult syntbx siould bf bssumfd by fbdi mfdibnism
+     * tibt fxbminfs tif bytf brrby.
+     * @pbrbm mfdi Oid spfdifying tif mfdibnism for wiidi tif nbmf siould bf
+     * dbnonidblizfd
+     * @rfturn b GSSNbmf rfprfsfnting tif indidbtfd prindipbl
      *
-     * @see GSSName#canonicalize(Oid)
-     * @see GSSName#NT_EXPORT_NAME
+     * @sff GSSNbmf#dbnonidblizf(Oid)
+     * @sff GSSNbmf#NT_EXPORT_NAME
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#BAD_NAMETYPE GSSException.BAD_NAMETYPE},
-     *    {@link GSSException#BAD_NAME GSSException.BAD_NAME},
-     *    {@link GSSException#BAD_MECH GSSException.BAD_MECH},
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract GSSName createName(byte name[], Oid nameType, Oid mech)
-        throws GSSException;
+    publid bbstrbdt GSSNbmf drfbtfNbmf(bytf nbmf[], Oid nbmfTypf, Oid mfdi)
+        tirows GSSExdfption;
 
     /**
-     * Factory method for acquiring default credentials.  This will cause
-     * the GSS-API to use system specific defaults for the set of mechanisms,
-     * name, and lifetime.<p>
+     * Fbdtory mftiod for bdquiring dffbult drfdfntibls.  Tiis will dbusf
+     * tif GSS-API to usf systfm spfdifid dffbults for tif sft of mfdibnisms,
+     * nbmf, bnd lifftimf.<p>
      *
-     * GSS-API mechanism providers must impose a local access-control
-     * policy on callers to prevent unauthorized callers from acquiring
-     * credentials to which they are not entitled. The kinds of permissions
-     * needed by different mechanism providers will be documented on a
-     * per-mechanism basis. A failed permission check might cause a {@link
-     * java.lang.SecurityException SecurityException} to be thrown from
-     * this method.
+     * GSS-API mfdibnism providfrs must imposf b lodbl bddfss-dontrol
+     * polidy on dbllfrs to prfvfnt unbutiorizfd dbllfrs from bdquiring
+     * drfdfntibls to wiidi tify brf not fntitlfd. Tif kinds of pfrmissions
+     * nffdfd by difffrfnt mfdibnism providfrs will bf dodumfntfd on b
+     * pfr-mfdibnism bbsis. A fbilfd pfrmission difdk migit dbusf b {@link
+     * jbvb.lbng.SfdurityExdfption SfdurityExdfption} to bf tirown from
+     * tiis mftiod.
      *
-     * @param usage The intended usage for this credential object. The value
-     * of this parameter must be one of:
-     * {@link GSSCredential#INITIATE_AND_ACCEPT
-     * GSSCredential.INITIATE_AND_ACCEPT},
-     * {@link GSSCredential#ACCEPT_ONLY GSSCredential.ACCEPT_ONLY}, and
-     * {@link GSSCredential#INITIATE_ONLY GSSCredential.INITIATE_ONLY}.
-     * @return a GSSCredential of the requested type.
+     * @pbrbm usbgf Tif intfndfd usbgf for tiis drfdfntibl objfdt. Tif vbluf
+     * of tiis pbrbmftfr must bf onf of:
+     * {@link GSSCrfdfntibl#INITIATE_AND_ACCEPT
+     * GSSCrfdfntibl.INITIATE_AND_ACCEPT},
+     * {@link GSSCrfdfntibl#ACCEPT_ONLY GSSCrfdfntibl.ACCEPT_ONLY}, bnd
+     * {@link GSSCrfdfntibl#INITIATE_ONLY GSSCrfdfntibl.INITIATE_ONLY}.
+     * @rfturn b GSSCrfdfntibl of tif rfqufstfd typf.
      *
-     * @see GSSCredential
+     * @sff GSSCrfdfntibl
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#BAD_MECH GSSException.BAD_MECH},
-     *    {@link GSSException#BAD_NAMETYPE GSSException.BAD_NAMETYPE},
-     *    {@link GSSException#BAD_NAME GSSException.BAD_NAME},
-     *    {@link GSSException#CREDENTIALS_EXPIRED
-     *                                   GSSException.CREDENTIALS_EXPIRED},
-     *    {@link GSSException#NO_CRED GSSException.NO_CRED},
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#CREDENTIALS_EXPIRED
+     *                                   GSSExdfption.CREDENTIALS_EXPIRED},
+     *    {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract GSSCredential createCredential (int usage)
-        throws GSSException;
+    publid bbstrbdt GSSCrfdfntibl drfbtfCrfdfntibl (int usbgf)
+        tirows GSSExdfption;
 
     /**
-     * Factory method for acquiring a single mechanism credential.<p>
+     * Fbdtory mftiod for bdquiring b singlf mfdibnism drfdfntibl.<p>
      *
-     * GSS-API mechanism providers must impose a local access-control
-     * policy on callers to prevent unauthorized callers from acquiring
-     * credentials to which they are not entitled. The kinds of permissions
-     * needed by different mechanism providers will be documented on a
-     * per-mechanism basis. A failed permission check might cause a {@link
-     * java.lang.SecurityException SecurityException} to be thrown from
-     * this method. <p>
+     * GSS-API mfdibnism providfrs must imposf b lodbl bddfss-dontrol
+     * polidy on dbllfrs to prfvfnt unbutiorizfd dbllfrs from bdquiring
+     * drfdfntibls to wiidi tify brf not fntitlfd. Tif kinds of pfrmissions
+     * nffdfd by difffrfnt mfdibnism providfrs will bf dodumfntfd on b
+     * pfr-mfdibnism bbsis. A fbilfd pfrmission difdk migit dbusf b {@link
+     * jbvb.lbng.SfdurityExdfption SfdurityExdfption} to bf tirown from
+     * tiis mftiod. <p>
      *
-     * Non-default values for lifetime cannot always be honored by the
-     * underlying mechanisms, thus applications should be prepared to call
-     * {@link GSSCredential#getRemainingLifetime() getRemainingLifetime}
-     * on the returned credential.<p>
+     * Non-dffbult vblufs for lifftimf dbnnot blwbys bf ionorfd by tif
+     * undfrlying mfdibnisms, tius bpplidbtions siould bf prfpbrfd to dbll
+     * {@link GSSCrfdfntibl#gftRfmbiningLifftimf() gftRfmbiningLifftimf}
+     * on tif rfturnfd drfdfntibl.<p>
      *
-     * @param name the name of the principal for whom this credential is to be
-     * acquired.  Use <code>null</code> to specify the default principal.
-     * @param lifetime The number of seconds that credentials should remain
-     * valid.  Use {@link GSSCredential#INDEFINITE_LIFETIME
-     * GSSCredential.INDEFINITE_LIFETIME} to request that the credentials
-     * have the maximum permitted lifetime.  Use {@link
-     * GSSCredential#DEFAULT_LIFETIME GSSCredential.DEFAULT_LIFETIME} to
-     * request default credential lifetime.
-     * @param mech the Oid of the desired mechanism.  Use <code>(Oid) null
-     * </code> to request the default mechanism.
-     * @param usage The intended usage for this credential object. The value
-     * of this parameter must be one of:
-     * {@link GSSCredential#INITIATE_AND_ACCEPT
-     * GSSCredential.INITIATE_AND_ACCEPT},
-     * {@link GSSCredential#ACCEPT_ONLY GSSCredential.ACCEPT_ONLY}, and
-     * {@link GSSCredential#INITIATE_ONLY GSSCredential.INITIATE_ONLY}.
-     * @return a GSSCredential of the requested type.
+     * @pbrbm nbmf tif nbmf of tif prindipbl for wiom tiis drfdfntibl is to bf
+     * bdquirfd.  Usf <dodf>null</dodf> to spfdify tif dffbult prindipbl.
+     * @pbrbm lifftimf Tif numbfr of sfdonds tibt drfdfntibls siould rfmbin
+     * vblid.  Usf {@link GSSCrfdfntibl#INDEFINITE_LIFETIME
+     * GSSCrfdfntibl.INDEFINITE_LIFETIME} to rfqufst tibt tif drfdfntibls
+     * ibvf tif mbximum pfrmittfd lifftimf.  Usf {@link
+     * GSSCrfdfntibl#DEFAULT_LIFETIME GSSCrfdfntibl.DEFAULT_LIFETIME} to
+     * rfqufst dffbult drfdfntibl lifftimf.
+     * @pbrbm mfdi tif Oid of tif dfsirfd mfdibnism.  Usf <dodf>(Oid) null
+     * </dodf> to rfqufst tif dffbult mfdibnism.
+     * @pbrbm usbgf Tif intfndfd usbgf for tiis drfdfntibl objfdt. Tif vbluf
+     * of tiis pbrbmftfr must bf onf of:
+     * {@link GSSCrfdfntibl#INITIATE_AND_ACCEPT
+     * GSSCrfdfntibl.INITIATE_AND_ACCEPT},
+     * {@link GSSCrfdfntibl#ACCEPT_ONLY GSSCrfdfntibl.ACCEPT_ONLY}, bnd
+     * {@link GSSCrfdfntibl#INITIATE_ONLY GSSCrfdfntibl.INITIATE_ONLY}.
+     * @rfturn b GSSCrfdfntibl of tif rfqufstfd typf.
      *
-     * @see GSSCredential
+     * @sff GSSCrfdfntibl
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#BAD_MECH GSSException.BAD_MECH},
-     *    {@link GSSException#BAD_NAMETYPE GSSException.BAD_NAMETYPE},
-     *    {@link GSSException#BAD_NAME GSSException.BAD_NAME},
-     *    {@link GSSException#CREDENTIALS_EXPIRED
-     *                                   GSSException.CREDENTIALS_EXPIRED},
-     *    {@link GSSException#NO_CRED GSSException.NO_CRED},
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#CREDENTIALS_EXPIRED
+     *                                   GSSExdfption.CREDENTIALS_EXPIRED},
+     *    {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract GSSCredential createCredential (GSSName name,
-                                  int lifetime, Oid mech, int usage)
-        throws GSSException;
+    publid bbstrbdt GSSCrfdfntibl drfbtfCrfdfntibl (GSSNbmf nbmf,
+                                  int lifftimf, Oid mfdi, int usbgf)
+        tirows GSSExdfption;
 
     /**
-     * Factory method for acquiring credentials over a set of
-     * mechanisms. This method attempts to acquire credentials for
-     * each of the mechanisms specified in the array called mechs.  To
-     * determine the list of mechanisms for which the acquisition of
-     * credentials succeeded, the caller should use the {@link
-     * GSSCredential#getMechs() GSSCredential.getMechs} method.<p>
+     * Fbdtory mftiod for bdquiring drfdfntibls ovfr b sft of
+     * mfdibnisms. Tiis mftiod bttfmpts to bdquirf drfdfntibls for
+     * fbdi of tif mfdibnisms spfdififd in tif brrby dbllfd mfdis.  To
+     * dftfrminf tif list of mfdibnisms for wiidi tif bdquisition of
+     * drfdfntibls suddffdfd, tif dbllfr siould usf tif {@link
+     * GSSCrfdfntibl#gftMfdis() GSSCrfdfntibl.gftMfdis} mftiod.<p>
      *
-     * GSS-API mechanism providers must impose a local access-control
-     * policy on callers to prevent unauthorized callers from acquiring
-     * credentials to which they are not entitled. The kinds of permissions
-     * needed by different mechanism providers will be documented on a
-     * per-mechanism basis. A failed permission check might cause a {@link
-     * java.lang.SecurityException SecurityException} to be thrown from
-     * this method.<p>
+     * GSS-API mfdibnism providfrs must imposf b lodbl bddfss-dontrol
+     * polidy on dbllfrs to prfvfnt unbutiorizfd dbllfrs from bdquiring
+     * drfdfntibls to wiidi tify brf not fntitlfd. Tif kinds of pfrmissions
+     * nffdfd by difffrfnt mfdibnism providfrs will bf dodumfntfd on b
+     * pfr-mfdibnism bbsis. A fbilfd pfrmission difdk migit dbusf b {@link
+     * jbvb.lbng.SfdurityExdfption SfdurityExdfption} to bf tirown from
+     * tiis mftiod.<p>
      *
-     * Non-default values for lifetime cannot always be honored by the
-     * underlying mechanisms, thus applications should be prepared to call
-     * {@link GSSCredential#getRemainingLifetime() getRemainingLifetime}
-     * on the returned credential.<p>
+     * Non-dffbult vblufs for lifftimf dbnnot blwbys bf ionorfd by tif
+     * undfrlying mfdibnisms, tius bpplidbtions siould bf prfpbrfd to dbll
+     * {@link GSSCrfdfntibl#gftRfmbiningLifftimf() gftRfmbiningLifftimf}
+     * on tif rfturnfd drfdfntibl.<p>
      *
-     * @param name the name of the principal for whom this credential is to
-     * be acquired.  Use <code>null</code> to specify the default
-     * principal.
-     * @param lifetime The number of seconds that credentials should remain
-     * valid.  Use {@link GSSCredential#INDEFINITE_LIFETIME
-     * GSSCredential.INDEFINITE_LIFETIME} to request that the credentials
-     * have the maximum permitted lifetime.  Use {@link
-     * GSSCredential#DEFAULT_LIFETIME GSSCredential.DEFAULT_LIFETIME} to
-     * request default credential lifetime.
-     * @param mechs an array of Oid's indicating the mechanisms over which
-     * the credential is to be acquired.  Use <code>(Oid[]) null</code> for
-     * requesting a system specific default set of mechanisms.
-     * @param usage The intended usage for this credential object. The value
-     * of this parameter must be one of:
-     * {@link GSSCredential#INITIATE_AND_ACCEPT
-     * GSSCredential.INITIATE_AND_ACCEPT},
-     * {@link GSSCredential#ACCEPT_ONLY GSSCredential.ACCEPT_ONLY}, and
-     * {@link GSSCredential#INITIATE_ONLY GSSCredential.INITIATE_ONLY}.
-     * @return a GSSCredential of the requested type.
+     * @pbrbm nbmf tif nbmf of tif prindipbl for wiom tiis drfdfntibl is to
+     * bf bdquirfd.  Usf <dodf>null</dodf> to spfdify tif dffbult
+     * prindipbl.
+     * @pbrbm lifftimf Tif numbfr of sfdonds tibt drfdfntibls siould rfmbin
+     * vblid.  Usf {@link GSSCrfdfntibl#INDEFINITE_LIFETIME
+     * GSSCrfdfntibl.INDEFINITE_LIFETIME} to rfqufst tibt tif drfdfntibls
+     * ibvf tif mbximum pfrmittfd lifftimf.  Usf {@link
+     * GSSCrfdfntibl#DEFAULT_LIFETIME GSSCrfdfntibl.DEFAULT_LIFETIME} to
+     * rfqufst dffbult drfdfntibl lifftimf.
+     * @pbrbm mfdis bn brrby of Oid's indidbting tif mfdibnisms ovfr wiidi
+     * tif drfdfntibl is to bf bdquirfd.  Usf <dodf>(Oid[]) null</dodf> for
+     * rfqufsting b systfm spfdifid dffbult sft of mfdibnisms.
+     * @pbrbm usbgf Tif intfndfd usbgf for tiis drfdfntibl objfdt. Tif vbluf
+     * of tiis pbrbmftfr must bf onf of:
+     * {@link GSSCrfdfntibl#INITIATE_AND_ACCEPT
+     * GSSCrfdfntibl.INITIATE_AND_ACCEPT},
+     * {@link GSSCrfdfntibl#ACCEPT_ONLY GSSCrfdfntibl.ACCEPT_ONLY}, bnd
+     * {@link GSSCrfdfntibl#INITIATE_ONLY GSSCrfdfntibl.INITIATE_ONLY}.
+     * @rfturn b GSSCrfdfntibl of tif rfqufstfd typf.
      *
-     * @see GSSCredential
+     * @sff GSSCrfdfntibl
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#BAD_MECH GSSException.BAD_MECH},
-     *    {@link GSSException#BAD_NAMETYPE GSSException.BAD_NAMETYPE},
-     *    {@link GSSException#BAD_NAME GSSException.BAD_NAME},
-     *    {@link GSSException#CREDENTIALS_EXPIRED
-     *                                   GSSException.CREDENTIALS_EXPIRED},
-     *    {@link GSSException#NO_CRED GSSException.NO_CRED},
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#CREDENTIALS_EXPIRED
+     *                                   GSSExdfption.CREDENTIALS_EXPIRED},
+     *    {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract GSSCredential createCredential(GSSName name,
-                                      int lifetime, Oid mechs[], int usage)
-        throws GSSException;
+    publid bbstrbdt GSSCrfdfntibl drfbtfCrfdfntibl(GSSNbmf nbmf,
+                                      int lifftimf, Oid mfdis[], int usbgf)
+        tirows GSSExdfption;
 
     /**
-     * Factory method for creating a context on the initiator's
-     * side.
+     * Fbdtory mftiod for drfbting b dontfxt on tif initibtor's
+     * sidf.
      *
-     * Some mechanism providers might require that the caller be granted
-     * permission to initiate a security context. A failed permission check
-     * might cause a {@link java.lang.SecurityException SecurityException}
-     * to be thrown from this method.<p>
+     * Somf mfdibnism providfrs migit rfquirf tibt tif dbllfr bf grbntfd
+     * pfrmission to initibtf b sfdurity dontfxt. A fbilfd pfrmission difdk
+     * migit dbusf b {@link jbvb.lbng.SfdurityExdfption SfdurityExdfption}
+     * to bf tirown from tiis mftiod.<p>
      *
-     * Non-default values for lifetime cannot always be honored by the
-     * underlying mechanism, thus applications should be prepared to call
-     * {@link GSSContext#getLifetime() getLifetime} on the returned
-     * context.<p>
+     * Non-dffbult vblufs for lifftimf dbnnot blwbys bf ionorfd by tif
+     * undfrlying mfdibnism, tius bpplidbtions siould bf prfpbrfd to dbll
+     * {@link GSSContfxt#gftLifftimf() gftLifftimf} on tif rfturnfd
+     * dontfxt.<p>
      *
-     * @param peer the name of the target peer.
-     * @param mech the Oid of the desired mechanism.  Use <code>null</code>
-     * to request the default mechanism.
-     * @param myCred the credentials of the initiator.  Use
-     * <code>null</code> to act as the default initiator principal.
-     * @param lifetime the lifetime, in seconds, requested for the
-     * context. Use {@link GSSContext#INDEFINITE_LIFETIME
-     * GSSContext.INDEFINITE_LIFETIME} to request that the context have the
-     * maximum permitted lifetime. Use {@link GSSContext#DEFAULT_LIFETIME
-     * GSSContext.DEFAULT_LIFETIME} to request a default lifetime for the
-     * context.
-     * @return an unestablished GSSContext
+     * @pbrbm pffr tif nbmf of tif tbrgft pffr.
+     * @pbrbm mfdi tif Oid of tif dfsirfd mfdibnism.  Usf <dodf>null</dodf>
+     * to rfqufst tif dffbult mfdibnism.
+     * @pbrbm myCrfd tif drfdfntibls of tif initibtor.  Usf
+     * <dodf>null</dodf> to bdt bs tif dffbult initibtor prindipbl.
+     * @pbrbm lifftimf tif lifftimf, in sfdonds, rfqufstfd for tif
+     * dontfxt. Usf {@link GSSContfxt#INDEFINITE_LIFETIME
+     * GSSContfxt.INDEFINITE_LIFETIME} to rfqufst tibt tif dontfxt ibvf tif
+     * mbximum pfrmittfd lifftimf. Usf {@link GSSContfxt#DEFAULT_LIFETIME
+     * GSSContfxt.DEFAULT_LIFETIME} to rfqufst b dffbult lifftimf for tif
+     * dontfxt.
+     * @rfturn bn unfstbblisifd GSSContfxt
      *
-     * @see GSSContext
+     * @sff GSSContfxt
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#NO_CRED GSSException.NO_CRED}
-     *    {@link GSSException#CREDENTIALS_EXPIRED
-     *                      GSSException.CREDENTIALS_EXPIRED}
-     *    {@link GSSException#BAD_NAMETYPE GSSException.BAD_NAMETYPE}
-     *    {@link GSSException#BAD_MECH GSSException.BAD_MECH}
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED}
+     *    {@link GSSExdfption#CREDENTIALS_EXPIRED
+     *                      GSSExdfption.CREDENTIALS_EXPIRED}
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE}
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH}
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract GSSContext createContext(GSSName peer, Oid mech,
-                                        GSSCredential myCred, int lifetime)
-        throws GSSException;
+    publid bbstrbdt GSSContfxt drfbtfContfxt(GSSNbmf pffr, Oid mfdi,
+                                        GSSCrfdfntibl myCrfd, int lifftimf)
+        tirows GSSExdfption;
 
    /**
-    * Factory method for creating a context on the acceptor' side.  The
-    * context's properties will be determined from the input token supplied
-    * to the accept method.
+    * Fbdtory mftiod for drfbting b dontfxt on tif bddfptor' sidf.  Tif
+    * dontfxt's propfrtifs will bf dftfrminfd from tif input tokfn supplifd
+    * to tif bddfpt mftiod.
     *
-    * Some mechanism providers might require that the caller be granted
-    * permission to accept a security context. A failed permission check
-    * might cause a {@link java.lang.SecurityException SecurityException}
-    * to be thrown from this method.
+    * Somf mfdibnism providfrs migit rfquirf tibt tif dbllfr bf grbntfd
+    * pfrmission to bddfpt b sfdurity dontfxt. A fbilfd pfrmission difdk
+    * migit dbusf b {@link jbvb.lbng.SfdurityExdfption SfdurityExdfption}
+    * to bf tirown from tiis mftiod.
     *
-    * @param myCred the credentials for the acceptor.  Use
-    * <code>null</code> to act as a default acceptor principal.
-    * @return an unestablished GSSContext
+    * @pbrbm myCrfd tif drfdfntibls for tif bddfptor.  Usf
+    * <dodf>null</dodf> to bdt bs b dffbult bddfptor prindipbl.
+    * @rfturn bn unfstbblisifd GSSContfxt
     *
-    * @see GSSContext
+    * @sff GSSContfxt
     *
-    * @throws GSSException containing the following
-    * major error codes:
-    *    {@link GSSException#NO_CRED GSSException.NO_CRED}
-    *    {@link GSSException#CREDENTIALS_EXPIRED
-    *                        GSSException.CREDENTIALS_EXPIRED}
-    *    {@link GSSException#BAD_MECH GSSException.BAD_MECH}
-    *    {@link GSSException#FAILURE GSSException.FAILURE}
+    * @tirows GSSExdfption dontbining tif following
+    * mbjor frror dodfs:
+    *    {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED}
+    *    {@link GSSExdfption#CREDENTIALS_EXPIRED
+    *                        GSSExdfption.CREDENTIALS_EXPIRED}
+    *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH}
+    *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
     */
-    public abstract GSSContext createContext(GSSCredential myCred)
-        throws GSSException;
+    publid bbstrbdt GSSContfxt drfbtfContfxt(GSSCrfdfntibl myCrfd)
+        tirows GSSExdfption;
 
     /**
-     * Factory method for creating a previously exported context.  The
-     * context properties will be determined from the input token and
-     * cannot be modified through the set methods.<p>
+     * Fbdtory mftiod for drfbting b prfviously fxportfd dontfxt.  Tif
+     * dontfxt propfrtifs will bf dftfrminfd from tif input tokfn bnd
+     * dbnnot bf modififd tirougi tif sft mftiods.<p>
      *
-     * Implementations are not required to support the inter-process
-     * transfer of security contexts.  Before exporting a context, calling
-     * the {@link GSSContext#isTransferable() GSSContext.isTransferable}
-     * will indicate if the context is transferable. Calling this method in
-     * an implementation that does not support it will result in a
-     * <code>GSSException</code> with the error
-     * code {@link GSSException#UNAVAILABLE GSSException.UNAVAILABLE}.
+     * Implfmfntbtions brf not rfquirfd to support tif intfr-prodfss
+     * trbnsffr of sfdurity dontfxts.  Bfforf fxporting b dontfxt, dblling
+     * tif {@link GSSContfxt#isTrbnsffrbblf() GSSContfxt.isTrbnsffrbblf}
+     * will indidbtf if tif dontfxt is trbnsffrbblf. Cblling tiis mftiod in
+     * bn implfmfntbtion tibt dofs not support it will rfsult in b
+     * <dodf>GSSExdfption</dodf> witi tif frror
+     * dodf {@link GSSExdfption#UNAVAILABLE GSSExdfption.UNAVAILABLE}.
      *
-     * Some mechanism providers might require that the caller be granted
-     * permission to initiate or accept a security context. A failed
-     * permission check might cause a {@link java.lang.SecurityException
-     * SecurityException} to be thrown from this method.
+     * Somf mfdibnism providfrs migit rfquirf tibt tif dbllfr bf grbntfd
+     * pfrmission to initibtf or bddfpt b sfdurity dontfxt. A fbilfd
+     * pfrmission difdk migit dbusf b {@link jbvb.lbng.SfdurityExdfption
+     * SfdurityExdfption} to bf tirown from tiis mftiod.
      *
-     * @param interProcessToken the token previously emitted from the
-     * export method.
-     * @return the previously established GSSContext
+     * @pbrbm intfrProdfssTokfn tif tokfn prfviously fmittfd from tif
+     * fxport mftiod.
+     * @rfturn tif prfviously fstbblisifd GSSContfxt
      *
-     * @see GSSContext
+     * @sff GSSContfxt
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#NO_CONTEXT GSSException.NO_CONTEXT},
-     *    {@link GSSException#DEFECTIVE_TOKEN GSSException.DEFECTIVE_TOKEN},
-     *    {@link GSSException#UNAVAILABLE GSSException.UNAVAILABLE},
-     *    {@link GSSException#UNAUTHORIZED GSSException.UNAUTHORIZED},
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#NO_CONTEXT GSSExdfption.NO_CONTEXT},
+     *    {@link GSSExdfption#DEFECTIVE_TOKEN GSSExdfption.DEFECTIVE_TOKEN},
+     *    {@link GSSExdfption#UNAVAILABLE GSSExdfption.UNAVAILABLE},
+     *    {@link GSSExdfption#UNAUTHORIZED GSSExdfption.UNAUTHORIZED},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract GSSContext createContext(byte [] interProcessToken)
-        throws GSSException;
+    publid bbstrbdt GSSContfxt drfbtfContfxt(bytf [] intfrProdfssTokfn)
+        tirows GSSExdfption;
 
     /**
-     * This method is used to indicate to the GSSManager that the
-     * application would like a particular provider to be used ahead of all
-     * others when support is desired for the given mechanism. When a value
-     * of null is used instead of an <code>Oid</code> for the mechanism,
-     * the GSSManager must use the indicated provider ahead of all others
-     * no matter what the mechanism is. Only when the indicated provider
-     * does not support the needed mechanism should the GSSManager move on
-     * to a different provider.<p>
+     * Tiis mftiod is usfd to indidbtf to tif GSSMbnbgfr tibt tif
+     * bpplidbtion would likf b pbrtidulbr providfr to bf usfd bifbd of bll
+     * otifrs wifn support is dfsirfd for tif givfn mfdibnism. Wifn b vbluf
+     * of null is usfd instfbd of bn <dodf>Oid</dodf> for tif mfdibnism,
+     * tif GSSMbnbgfr must usf tif indidbtfd providfr bifbd of bll otifrs
+     * no mbttfr wibt tif mfdibnism is. Only wifn tif indidbtfd providfr
+     * dofs not support tif nffdfd mfdibnism siould tif GSSMbnbgfr movf on
+     * to b difffrfnt providfr.<p>
      *
-     * Calling this method repeatedly preserves the older settings but
-     * lowers them in preference thus forming an ordered list of provider
-     * and <code>Oid</code> pairs that grows at the top.<p>
+     * Cblling tiis mftiod rfpfbtfdly prfsfrvfs tif oldfr sfttings but
+     * lowfrs tifm in prfffrfndf tius forming bn ordfrfd list of providfr
+     * bnd <dodf>Oid</dodf> pbirs tibt grows bt tif top.<p>
      *
-     * Calling addProviderAtFront with a null <code>Oid</code> will remove
-     * all previous preferences that were set for this provider in the
-     * GSSManager instance. Calling addProviderAtFront with a non-null
-     * <code>Oid</code> will remove any previous preference that was set
-     * using this mechanism and this provider together.<p>
+     * Cblling bddProvidfrAtFront witi b null <dodf>Oid</dodf> will rfmovf
+     * bll prfvious prfffrfndfs tibt wfrf sft for tiis providfr in tif
+     * GSSMbnbgfr instbndf. Cblling bddProvidfrAtFront witi b non-null
+     * <dodf>Oid</dodf> will rfmovf bny prfvious prfffrfndf tibt wbs sft
+     * using tiis mfdibnism bnd tiis providfr togftifr.<p>
      *
-     * If the GSSManager implementation does not support an SPI with a
-     * pluggable provider architecture it should throw a GSSException with
-     * the status code GSSException.UNAVAILABLE to indicate that the
-     * operation is unavailable.<p>
+     * If tif GSSMbnbgfr implfmfntbtion dofs not support bn SPI witi b
+     * pluggbblf providfr brdiitfdturf it siould tirow b GSSExdfption witi
+     * tif stbtus dodf GSSExdfption.UNAVAILABLE to indidbtf tibt tif
+     * opfrbtion is unbvbilbblf.<p>
      *
-     * Suppose an application desired that the provider A always be checked
-     * first when any mechanism is needed, it would call:<p>
-     * <pre>
-     *         GSSManager mgr = GSSManager.getInstance();
-     *         // mgr may at this point have its own pre-configured list
-     *         // of provider preferences. The following will prepend to
-     *         // any such list:
+     * Supposf bn bpplidbtion dfsirfd tibt tif providfr A blwbys bf difdkfd
+     * first wifn bny mfdibnism is nffdfd, it would dbll:<p>
+     * <prf>
+     *         GSSMbnbgfr mgr = GSSMbnbgfr.gftInstbndf();
+     *         // mgr mby bt tiis point ibvf its own prf-donfigurfd list
+     *         // of providfr prfffrfndfs. Tif following will prfpfnd to
+     *         // bny sudi list:
      *
-     *         mgr.addProviderAtFront(A, null);
-     * </pre>
-     * Now if it also desired that the mechanism of Oid m1 always be
-     * obtained from the provider B before the previously set A was checked,
-     * it would call:<p>
-     * <pre>
-     *         mgr.addProviderAtFront(B, m1);
-     * </pre>
-     * The GSSManager would then first check with B if m1 was needed. In
-     * case B did not provide support for m1, the GSSManager would continue
-     * on to check with A.  If any mechanism m2 is needed where m2 is
-     * different from m1 then the GSSManager would skip B and check with A
-     * directly.<p>
+     *         mgr.bddProvidfrAtFront(A, null);
+     * </prf>
+     * Now if it blso dfsirfd tibt tif mfdibnism of Oid m1 blwbys bf
+     * obtbinfd from tif providfr B bfforf tif prfviously sft A wbs difdkfd,
+     * it would dbll:<p>
+     * <prf>
+     *         mgr.bddProvidfrAtFront(B, m1);
+     * </prf>
+     * Tif GSSMbnbgfr would tifn first difdk witi B if m1 wbs nffdfd. In
+     * dbsf B did not providf support for m1, tif GSSMbnbgfr would dontinuf
+     * on to difdk witi A.  If bny mfdibnism m2 is nffdfd wifrf m2 is
+     * difffrfnt from m1 tifn tif GSSMbnbgfr would skip B bnd difdk witi A
+     * dirfdtly.<p>
      *
-     * Suppose at a later time the following call is made to the same
-     * GSSManager instance:<p>
-     * <pre>
-     *         mgr.addProviderAtFront(B, null)
-     * </pre>
-     * then the previous setting with the pair (B, m1) is subsumed by this
-     * and should be removed. Effectively the list of preferences now
-     * becomes {(B, null), (A, null),
-     *         ... //followed by the pre-configured list.<p>
+     * Supposf bt b lbtfr timf tif following dbll is mbdf to tif sbmf
+     * GSSMbnbgfr instbndf:<p>
+     * <prf>
+     *         mgr.bddProvidfrAtFront(B, null)
+     * </prf>
+     * tifn tif prfvious sftting witi tif pbir (B, m1) is subsumfd by tiis
+     * bnd siould bf rfmovfd. Efffdtivfly tif list of prfffrfndfs now
+     * bfdomfs {(B, null), (A, null),
+     *         ... //followfd by tif prf-donfigurfd list.<p>
      *
-     * Please note, however, that the following call:
-     * <pre>
-     *         mgr.addProviderAtFront(A, m3)
-     * </pre>
-     * does not subsume the previous setting of (A, null) and the list will
-     * effectively become {(A, m3), (B, null), (A, null), ...}
+     * Plfbsf notf, iowfvfr, tibt tif following dbll:
+     * <prf>
+     *         mgr.bddProvidfrAtFront(A, m3)
+     * </prf>
+     * dofs not subsumf tif prfvious sftting of (A, null) bnd tif list will
+     * ffffdtivfly bfdomf {(A, m3), (B, null), (A, null), ...}
      *
-     * @param p the provider instance that should be used whenever support
-     * is needed for mech.
-     * @param mech the mechanism for which the provider is being set
+     * @pbrbm p tif providfr instbndf tibt siould bf usfd wifnfvfr support
+     * is nffdfd for mfdi.
+     * @pbrbm mfdi tif mfdibnism for wiidi tif providfr is bfing sft
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#UNAVAILABLE GSSException.UNAVAILABLE},
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#UNAVAILABLE GSSExdfption.UNAVAILABLE},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract void addProviderAtFront(Provider p, Oid mech)
-        throws GSSException;
+    publid bbstrbdt void bddProvidfrAtFront(Providfr p, Oid mfdi)
+        tirows GSSExdfption;
 
     /**
-     * This method is used to indicate to the GSSManager that the
-     * application would like a particular provider to be used if no other
-     * provider can be found that supports the given mechanism. When a value
-     * of null is used instead of an Oid for the mechanism, the GSSManager
-     * must use the indicated provider for any mechanism.<p>
+     * Tiis mftiod is usfd to indidbtf to tif GSSMbnbgfr tibt tif
+     * bpplidbtion would likf b pbrtidulbr providfr to bf usfd if no otifr
+     * providfr dbn bf found tibt supports tif givfn mfdibnism. Wifn b vbluf
+     * of null is usfd instfbd of bn Oid for tif mfdibnism, tif GSSMbnbgfr
+     * must usf tif indidbtfd providfr for bny mfdibnism.<p>
      *
-     * Calling this method repeatedly preserves the older settings but
-     * raises them above newer ones in preference thus forming an ordered
-     * list of providers and Oid pairs that grows at the bottom. Thus the
-     * older provider settings will be utilized first before this one is.<p>
+     * Cblling tiis mftiod rfpfbtfdly prfsfrvfs tif oldfr sfttings but
+     * rbisfs tifm bbovf nfwfr onfs in prfffrfndf tius forming bn ordfrfd
+     * list of providfrs bnd Oid pbirs tibt grows bt tif bottom. Tius tif
+     * oldfr providfr sfttings will bf utilizfd first bfforf tiis onf is.<p>
      *
-     * If there are any previously existing preferences that conflict with
-     * the preference being set here, then the GSSManager should ignore this
-     * request.<p>
+     * If tifrf brf bny prfviously fxisting prfffrfndfs tibt donflidt witi
+     * tif prfffrfndf bfing sft ifrf, tifn tif GSSMbnbgfr siould ignorf tiis
+     * rfqufst.<p>
      *
-     * If the GSSManager implementation does not support an SPI with a
-     * pluggable provider architecture it should throw a GSSException with
-     * the status code GSSException.UNAVAILABLE to indicate that the
-     * operation is unavailable.<p>
+     * If tif GSSMbnbgfr implfmfntbtion dofs not support bn SPI witi b
+     * pluggbblf providfr brdiitfdturf it siould tirow b GSSExdfption witi
+     * tif stbtus dodf GSSExdfption.UNAVAILABLE to indidbtf tibt tif
+     * opfrbtion is unbvbilbblf.<p>
      *
-     * Suppose an application desired that when a mechanism of Oid m1 is
-     * needed the system default providers always be checked first, and only
-     * when they do not support m1 should a provider A be checked. It would
-     * then make the call:<p>
-     * <pre>
-     *         GSSManager mgr = GSSManager.getInstance();
-     *         mgr.addProviderAtEnd(A, m1);
-     * </pre>
-     * Now, if it also desired that for all mechanisms the provider B be
-     * checked after all configured providers have been checked, it would
-     * then call:<p>
-     * <pre>
-     *         mgr.addProviderAtEnd(B, null);
-     * </pre>
-     * Effectively the list of preferences now becomes {..., (A, m1), (B,
+     * Supposf bn bpplidbtion dfsirfd tibt wifn b mfdibnism of Oid m1 is
+     * nffdfd tif systfm dffbult providfrs blwbys bf difdkfd first, bnd only
+     * wifn tify do not support m1 siould b providfr A bf difdkfd. It would
+     * tifn mbkf tif dbll:<p>
+     * <prf>
+     *         GSSMbnbgfr mgr = GSSMbnbgfr.gftInstbndf();
+     *         mgr.bddProvidfrAtEnd(A, m1);
+     * </prf>
+     * Now, if it blso dfsirfd tibt for bll mfdibnisms tif providfr B bf
+     * difdkfd bftfr bll donfigurfd providfrs ibvf bffn difdkfd, it would
+     * tifn dbll:<p>
+     * <prf>
+     *         mgr.bddProvidfrAtEnd(B, null);
+     * </prf>
+     * Efffdtivfly tif list of prfffrfndfs now bfdomfs {..., (A, m1), (B,
      * null)}.<p>
      *
-     * Suppose at a later time the following call is made to the same
-     * GSSManager instance:<p>
-     * <pre>
-     *         mgr.addProviderAtEnd(B, m2)
-     * </pre>
-     * then the previous setting with the pair (B, null) subsumes this and
-     * therefore this request should be ignored. The same would happen if a
-     * request is made for the already existing pairs of (A, m1) or (B,
+     * Supposf bt b lbtfr timf tif following dbll is mbdf to tif sbmf
+     * GSSMbnbgfr instbndf:<p>
+     * <prf>
+     *         mgr.bddProvidfrAtEnd(B, m2)
+     * </prf>
+     * tifn tif prfvious sftting witi tif pbir (B, null) subsumfs tiis bnd
+     * tifrfforf tiis rfqufst siould bf ignorfd. Tif sbmf would ibppfn if b
+     * rfqufst is mbdf for tif blrfbdy fxisting pbirs of (A, m1) or (B,
      * null).<p>
      *
-     * Please note, however, that the following call:<p>
-     * <pre>
-     *         mgr.addProviderAtEnd(A, null)
-     * </pre>
-     * is not subsumed by the previous setting of (A, m1) and the list will
-     * effectively become {..., (A, m1), (B, null), (A, null)}
+     * Plfbsf notf, iowfvfr, tibt tif following dbll:<p>
+     * <prf>
+     *         mgr.bddProvidfrAtEnd(A, null)
+     * </prf>
+     * is not subsumfd by tif prfvious sftting of (A, m1) bnd tif list will
+     * ffffdtivfly bfdomf {..., (A, m1), (B, null), (A, null)}
      *
-     * @param p the provider instance that should be used whenever support
-     * is needed for mech.
-     * @param mech the mechanism for which the provider is being set
+     * @pbrbm p tif providfr instbndf tibt siould bf usfd wifnfvfr support
+     * is nffdfd for mfdi.
+     * @pbrbm mfdi tif mfdibnism for wiidi tif providfr is bfing sft
      *
-     * @throws GSSException containing the following
-     * major error codes:
-     *    {@link GSSException#UNAVAILABLE GSSException.UNAVAILABLE},
-     *    {@link GSSException#FAILURE GSSException.FAILURE}
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#UNAVAILABLE GSSExdfption.UNAVAILABLE},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public abstract void addProviderAtEnd(Provider p, Oid mech)
-        throws GSSException;
+    publid bbstrbdt void bddProvidfrAtEnd(Providfr p, Oid mfdi)
+        tirows GSSExdfption;
 }

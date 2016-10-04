@@ -1,0 +1,1776 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Dbtf;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.nft.www.MfssbgfHfbdfr;
+
+/**
+ * Thf bbstrbdt dlbss {@dodf URLConnfdtion} is thf supfrdlbss
+ * of bll dlbssfs thbt rfprfsfnt b dommunidbtions link bftwffn thf
+ * bpplidbtion bnd b URL. Instbndfs of this dlbss dbn bf usfd both to
+ * rfbd from bnd to writf to thf rfsourdf rfffrfndfd by thf URL. In
+ * gfnfrbl, drfbting b donnfdtion to b URL is b multistfp prodfss:
+ *
+ * <dfntfr><tbblf bordfr=2 summbry="Dfsdribfs thf prodfss of drfbting b donnfdtion to b URL: opfnConnfdtion() bnd donnfdt() ovfr timf.">
+ * <tr><th>{@dodf opfnConnfdtion()}</th>
+ *     <th>{@dodf donnfdt()}</th></tr>
+ * <tr><td>Mbnipulbtf pbrbmftfrs thbt bfffdt thf donnfdtion to thf rfmotf
+ *         rfsourdf.</td>
+ *     <td>Intfrbdt with thf rfsourdf; qufry hfbdfr fiflds bnd
+ *         dontfnts.</td></tr>
+ * </tbblf>
+ * ----------------------------&gt;
+ * <br>timf</dfntfr>
+ *
+ * <ol>
+ * <li>Thf donnfdtion objfdt is drfbtfd by invoking thf
+ *     {@dodf opfnConnfdtion} mfthod on b URL.
+ * <li>Thf sftup pbrbmftfrs bnd gfnfrbl rfqufst propfrtifs brf mbnipulbtfd.
+ * <li>Thf bdtubl donnfdtion to thf rfmotf objfdt is mbdf, using thf
+ *    {@dodf donnfdt} mfthod.
+ * <li>Thf rfmotf objfdt bfdomfs bvbilbblf. Thf hfbdfr fiflds bnd thf dontfnts
+ *     of thf rfmotf objfdt dbn bf bddfssfd.
+ * </ol>
+ * <p>
+ * Thf sftup pbrbmftfrs brf modififd using thf following mfthods:
+ * <ul>
+ *   <li>{@dodf sftAllowUsfrIntfrbdtion}
+ *   <li>{@dodf sftDoInput}
+ *   <li>{@dodf sftDoOutput}
+ *   <li>{@dodf sftIfModififdSindf}
+ *   <li>{@dodf sftUsfCbdhfs}
+ * </ul>
+ * <p>
+ * bnd thf gfnfrbl rfqufst propfrtifs brf modififd using thf mfthod:
+ * <ul>
+ *   <li>{@dodf sftRfqufstPropfrty}
+ * </ul>
+ * <p>
+ * Dffbult vblufs for thf {@dodf AllowUsfrIntfrbdtion} bnd
+ * {@dodf UsfCbdhfs} pbrbmftfrs dbn bf sft using thf mfthods
+ * {@dodf sftDffbultAllowUsfrIntfrbdtion} bnd
+ * {@dodf sftDffbultUsfCbdhfs}.
+ * <p>
+ * Ebdh of thf bbovf {@dodf sft} mfthods hbs b dorrfsponding
+ * {@dodf gft} mfthod to rftrifvf thf vbluf of thf pbrbmftfr or
+ * gfnfrbl rfqufst propfrty. Thf spfdifid pbrbmftfrs bnd gfnfrbl
+ * rfqufst propfrtifs thbt brf bpplidbblf brf protodol spfdifid.
+ * <p>
+ * Thf following mfthods brf usfd to bddfss thf hfbdfr fiflds bnd
+ * thf dontfnts bftfr thf donnfdtion is mbdf to thf rfmotf objfdt:
+ * <ul>
+ *   <li>{@dodf gftContfnt}
+ *   <li>{@dodf gftHfbdfrFifld}
+ *   <li>{@dodf gftInputStrfbm}
+ *   <li>{@dodf gftOutputStrfbm}
+ * </ul>
+ * <p>
+ * Cfrtbin hfbdfr fiflds brf bddfssfd frfqufntly. Thf mfthods:
+ * <ul>
+ *   <li>{@dodf gftContfntEndoding}
+ *   <li>{@dodf gftContfntLfngth}
+ *   <li>{@dodf gftContfntTypf}
+ *   <li>{@dodf gftDbtf}
+ *   <li>{@dodf gftExpirbtion}
+ *   <li>{@dodf gftLbstModiffd}
+ * </ul>
+ * <p>
+ * providf donvfnifnt bddfss to thfsf fiflds. Thf
+ * {@dodf gftContfntTypf} mfthod is usfd by thf
+ * {@dodf gftContfnt} mfthod to dftfrminf thf typf of thf rfmotf
+ * objfdt; subdlbssfs mby find it donvfnifnt to ovfrridf thf
+ * {@dodf gftContfntTypf} mfthod.
+ * <p>
+ * In thf dommon dbsf, bll of thf prf-donnfdtion pbrbmftfrs bnd
+ * gfnfrbl rfqufst propfrtifs dbn bf ignorfd: thf prf-donnfdtion
+ * pbrbmftfrs bnd rfqufst propfrtifs dffbult to sfnsiblf vblufs. For
+ * most dlifnts of this intfrfbdf, thfrf brf only two intfrfsting
+ * mfthods: {@dodf gftInputStrfbm} bnd {@dodf gftContfnt},
+ * whidh brf mirrorfd in thf {@dodf URL} dlbss by donvfnifndf mfthods.
+ * <p>
+ * Morf informbtion on thf rfqufst propfrtifs bnd hfbdfr fiflds of
+ * bn {@dodf http} donnfdtion dbn bf found bt:
+ * <blodkquotf><prf>
+ * <b hrff="http://www.iftf.org/rfd/rfd2616.txt">http://www.iftf.org/rfd/rfd2616.txt</b>
+ * </prf></blodkquotf>
+ *
+ * Invoking thf {@dodf dlosf()} mfthods on thf {@dodf InputStrfbm} or {@dodf OutputStrfbm} of bn
+ * {@dodf URLConnfdtion} bftfr b rfqufst mby frff nftwork rfsourdfs bssodibtfd with this
+ * instbndf, unlfss pbrtidulbr protodol spfdifidbtions spfdify difffrfnt bfhbviours
+ * for it.
+ *
+ * @buthor  Jbmfs Gosling
+ * @sff     jbvb.nft.URL#opfnConnfdtion()
+ * @sff     jbvb.nft.URLConnfdtion#donnfdt()
+ * @sff     jbvb.nft.URLConnfdtion#gftContfnt()
+ * @sff     jbvb.nft.URLConnfdtion#gftContfntEndoding()
+ * @sff     jbvb.nft.URLConnfdtion#gftContfntLfngth()
+ * @sff     jbvb.nft.URLConnfdtion#gftContfntTypf()
+ * @sff     jbvb.nft.URLConnfdtion#gftDbtf()
+ * @sff     jbvb.nft.URLConnfdtion#gftExpirbtion()
+ * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(int)
+ * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
+ * @sff     jbvb.nft.URLConnfdtion#gftInputStrfbm()
+ * @sff     jbvb.nft.URLConnfdtion#gftLbstModififd()
+ * @sff     jbvb.nft.URLConnfdtion#gftOutputStrfbm()
+ * @sff     jbvb.nft.URLConnfdtion#sftAllowUsfrIntfrbdtion(boolfbn)
+ * @sff     jbvb.nft.URLConnfdtion#sftDffbultUsfCbdhfs(boolfbn)
+ * @sff     jbvb.nft.URLConnfdtion#sftDoInput(boolfbn)
+ * @sff     jbvb.nft.URLConnfdtion#sftDoOutput(boolfbn)
+ * @sff     jbvb.nft.URLConnfdtion#sftIfModififdSindf(long)
+ * @sff     jbvb.nft.URLConnfdtion#sftRfqufstPropfrty(jbvb.lbng.String, jbvb.lbng.String)
+ * @sff     jbvb.nft.URLConnfdtion#sftUsfCbdhfs(boolfbn)
+ * @sindf   1.0
+ */
+publid bbstrbdt dlbss URLConnfdtion {
+
+   /**
+     * Thf URL rfprfsfnts thf rfmotf objfdt on thf World Widf Wfb to
+     * whidh this donnfdtion is opfnfd.
+     * <p>
+     * Thf vbluf of this fifld dbn bf bddfssfd by thf
+     * {@dodf gftURL} mfthod.
+     * <p>
+     * Thf dffbult vbluf of this vbribblf is thf vbluf of thf URL
+     * brgumfnt in thf {@dodf URLConnfdtion} donstrudtor.
+     *
+     * @sff     jbvb.nft.URLConnfdtion#gftURL()
+     * @sff     jbvb.nft.URLConnfdtion#url
+     */
+    protfdtfd URL url;
+
+   /**
+     * This vbribblf is sft by thf {@dodf sftDoInput} mfthod. Its
+     * vbluf is rfturnfd by thf {@dodf gftDoInput} mfthod.
+     * <p>
+     * A URL donnfdtion dbn bf usfd for input bnd/or output. Sftting thf
+     * {@dodf doInput} flbg to {@dodf truf} indidbtfs thbt
+     * thf bpplidbtion intfnds to rfbd dbtb from thf URL donnfdtion.
+     * <p>
+     * Thf dffbult vbluf of this fifld is {@dodf truf}.
+     *
+     * @sff     jbvb.nft.URLConnfdtion#gftDoInput()
+     * @sff     jbvb.nft.URLConnfdtion#sftDoInput(boolfbn)
+     */
+    protfdtfd boolfbn doInput = truf;
+
+   /**
+     * This vbribblf is sft by thf {@dodf sftDoOutput} mfthod. Its
+     * vbluf is rfturnfd by thf {@dodf gftDoOutput} mfthod.
+     * <p>
+     * A URL donnfdtion dbn bf usfd for input bnd/or output. Sftting thf
+     * {@dodf doOutput} flbg to {@dodf truf} indidbtfs
+     * thbt thf bpplidbtion intfnds to writf dbtb to thf URL donnfdtion.
+     * <p>
+     * Thf dffbult vbluf of this fifld is {@dodf fblsf}.
+     *
+     * @sff     jbvb.nft.URLConnfdtion#gftDoOutput()
+     * @sff     jbvb.nft.URLConnfdtion#sftDoOutput(boolfbn)
+     */
+    protfdtfd boolfbn doOutput = fblsf;
+
+    privbtf stbtid boolfbn dffbultAllowUsfrIntfrbdtion = fblsf;
+
+   /**
+     * If {@dodf truf}, this {@dodf URL} is bfing fxbminfd in
+     * b dontfxt in whidh it mbkfs sfnsf to bllow usfr intfrbdtions sudh
+     * bs popping up bn buthfntidbtion diblog. If {@dodf fblsf},
+     * thfn no usfr intfrbdtion is bllowfd.
+     * <p>
+     * Thf vbluf of this fifld dbn bf sft by thf
+     * {@dodf sftAllowUsfrIntfrbdtion} mfthod.
+     * Its vbluf is rfturnfd by thf
+     * {@dodf gftAllowUsfrIntfrbdtion} mfthod.
+     * Its dffbult vbluf is thf vbluf of thf brgumfnt in thf lbst invodbtion
+     * of thf {@dodf sftDffbultAllowUsfrIntfrbdtion} mfthod.
+     *
+     * @sff     jbvb.nft.URLConnfdtion#gftAllowUsfrIntfrbdtion()
+     * @sff     jbvb.nft.URLConnfdtion#sftAllowUsfrIntfrbdtion(boolfbn)
+     * @sff     jbvb.nft.URLConnfdtion#sftDffbultAllowUsfrIntfrbdtion(boolfbn)
+     */
+    protfdtfd boolfbn bllowUsfrIntfrbdtion = dffbultAllowUsfrIntfrbdtion;
+
+    privbtf stbtid boolfbn dffbultUsfCbdhfs = truf;
+
+   /**
+     * If {@dodf truf}, thf protodol is bllowfd to usf dbdhing
+     * whfnfvfr it dbn. If {@dodf fblsf}, thf protodol must blwbys
+     * try to gft b frfsh dopy of thf objfdt.
+     * <p>
+     * This fifld is sft by thf {@dodf sftUsfCbdhfs} mfthod. Its
+     * vbluf is rfturnfd by thf {@dodf gftUsfCbdhfs} mfthod.
+     * <p>
+     * Its dffbult vbluf is thf vbluf givfn in thf lbst invodbtion of thf
+     * {@dodf sftDffbultUsfCbdhfs} mfthod.
+     *
+     * @sff     jbvb.nft.URLConnfdtion#sftUsfCbdhfs(boolfbn)
+     * @sff     jbvb.nft.URLConnfdtion#gftUsfCbdhfs()
+     * @sff     jbvb.nft.URLConnfdtion#sftDffbultUsfCbdhfs(boolfbn)
+     */
+    protfdtfd boolfbn usfCbdhfs = dffbultUsfCbdhfs;
+
+   /**
+     * Somf protodols support skipping thf fftdhing of thf objfdt unlfss
+     * thf objfdt hbs bffn modififd morf rfdfntly thbn b dfrtbin timf.
+     * <p>
+     * A nonzfro vbluf givfs b timf bs thf numbfr of millisfdonds sindf
+     * Jbnubry 1, 1970, GMT. Thf objfdt is fftdhfd only if it hbs bffn
+     * modififd morf rfdfntly thbn thbt timf.
+     * <p>
+     * This vbribblf is sft by thf {@dodf sftIfModififdSindf}
+     * mfthod. Its vbluf is rfturnfd by thf
+     * {@dodf gftIfModififdSindf} mfthod.
+     * <p>
+     * Thf dffbult vbluf of this fifld is {@dodf 0}, indidbting
+     * thbt thf fftdhing must blwbys oddur.
+     *
+     * @sff     jbvb.nft.URLConnfdtion#gftIfModififdSindf()
+     * @sff     jbvb.nft.URLConnfdtion#sftIfModififdSindf(long)
+     */
+    protfdtfd long ifModififdSindf = 0;
+
+   /**
+     * If {@dodf fblsf}, this donnfdtion objfdt hbs not drfbtfd b
+     * dommunidbtions link to thf spfdififd URL. If {@dodf truf},
+     * thf dommunidbtions link hbs bffn fstbblishfd.
+     */
+    protfdtfd boolfbn donnfdtfd = fblsf;
+
+    /**
+     * @sindf 1.5
+     */
+    privbtf int donnfdtTimfout;
+    privbtf int rfbdTimfout;
+
+    /**
+     * @sindf 1.6
+     */
+    privbtf MfssbgfHfbdfr rfqufsts;
+
+   /**
+    * @sindf   1.1
+    */
+    privbtf stbtid FilfNbmfMbp filfNbmfMbp;
+
+    /**
+     * @sindf 1.2.2
+     */
+    privbtf stbtid boolfbn filfNbmfMbpLobdfd = fblsf;
+
+    /**
+     * Lobds filfnbmf mbp (b mimftbblf) from b dbtb filf. It will
+     * first try to lobd thf usfr-spfdifid tbblf, dffinfd
+     * by &quot;dontfnt.typfs.usfr.tbblf&quot; propfrty. If thbt fbils,
+     * it trifs to lobd thf dffbult built-in tbblf.
+     *
+     * @rfturn thf FilfNbmfMbp
+     * @sindf 1.2
+     * @sff #sftFilfNbmfMbp(jbvb.nft.FilfNbmfMbp)
+     */
+    publid stbtid syndhronizfd FilfNbmfMbp gftFilfNbmfMbp() {
+        if ((filfNbmfMbp == null) && !filfNbmfMbpLobdfd) {
+            filfNbmfMbp = sun.nft.www.MimfTbblf.lobdTbblf();
+            filfNbmfMbpLobdfd = truf;
+        }
+
+        rfturn nfw FilfNbmfMbp() {
+            privbtf FilfNbmfMbp mbp = filfNbmfMbp;
+            publid String gftContfntTypfFor(String filfNbmf) {
+                rfturn mbp.gftContfntTypfFor(filfNbmf);
+            }
+        };
+    }
+
+    /**
+     * Sfts thf FilfNbmfMbp.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, this mfthod first dblls
+     * thf sfdurity mbnbgfr's {@dodf dhfdkSftFbdtory} mfthod
+     * to fnsurf thf opfrbtion is bllowfd.
+     * This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm mbp thf FilfNbmfMbp to bf sft
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkSftFbdtory} mfthod dofsn't bllow thf opfrbtion.
+     * @sff        SfdurityMbnbgfr#dhfdkSftFbdtory
+     * @sff #gftFilfNbmfMbp()
+     * @sindf 1.2
+     */
+    publid stbtid void sftFilfNbmfMbp(FilfNbmfMbp mbp) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) sm.dhfdkSftFbdtory();
+        filfNbmfMbp = mbp;
+    }
+
+    /**
+     * Opfns b dommunidbtions link to thf rfsourdf rfffrfndfd by this
+     * URL, if sudh b donnfdtion hbs not blrfbdy bffn fstbblishfd.
+     * <p>
+     * If thf {@dodf donnfdt} mfthod is dbllfd whfn thf donnfdtion
+     * hbs blrfbdy bffn opfnfd (indidbtfd by thf {@dodf donnfdtfd}
+     * fifld hbving thf vbluf {@dodf truf}), thf dbll is ignorfd.
+     * <p>
+     * URLConnfdtion objfdts go through two phbsfs: first thfy brf
+     * drfbtfd, thfn thfy brf donnfdtfd.  Aftfr bfing drfbtfd, bnd
+     * bfforf bfing donnfdtfd, vbrious options dbn bf spfdififd
+     * (f.g., doInput bnd UsfCbdhfs).  Aftfr donnfdting, it is bn
+     * frror to try to sft thfm.  Opfrbtions thbt dfpfnd on bfing
+     * donnfdtfd, likf gftContfntLfngth, will impliditly pfrform thf
+     * donnfdtion, if nfdfssbry.
+     *
+     * @throws SodkftTimfoutExdfption if thf timfout fxpirfs bfforf
+     *               thf donnfdtion dbn bf fstbblishfd
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whilf opfning thf
+     *               donnfdtion.
+     * @sff jbvb.nft.URLConnfdtion#donnfdtfd
+     * @sff #gftConnfdtTimfout()
+     * @sff #sftConnfdtTimfout(int)
+     */
+    bbstrbdt publid void donnfdt() throws IOExdfption;
+
+    /**
+     * Sfts b spfdififd timfout vbluf, in millisfdonds, to bf usfd
+     * whfn opfning b dommunidbtions link to thf rfsourdf rfffrfndfd
+     * by this URLConnfdtion.  If thf timfout fxpirfs bfforf thf
+     * donnfdtion dbn bf fstbblishfd, b
+     * jbvb.nft.SodkftTimfoutExdfption is rbisfd. A timfout of zfro is
+     * intfrprftfd bs bn infinitf timfout.
+
+     * <p> Somf non-stbndbrd implfmfntbtion of this mfthod mby ignorf
+     * thf spfdififd timfout. To sff thf donnfdt timfout sft, plfbsf
+     * dbll gftConnfdtTimfout().
+     *
+     * @pbrbm timfout bn {@dodf int} thbt spfdififs thf donnfdt
+     *               timfout vbluf in millisfdonds
+     * @throws IllfgblArgumfntExdfption if thf timfout pbrbmftfr is nfgbtivf
+     *
+     * @sff #gftConnfdtTimfout()
+     * @sff #donnfdt()
+     * @sindf 1.5
+     */
+    publid void sftConnfdtTimfout(int timfout) {
+        if (timfout < 0) {
+            throw nfw IllfgblArgumfntExdfption("timfout dbn not bf nfgbtivf");
+        }
+        donnfdtTimfout = timfout;
+    }
+
+    /**
+     * Rfturns sftting for donnfdt timfout.
+     * <p>
+     * 0 rfturn implifs thbt thf option is disbblfd
+     * (i.f., timfout of infinity).
+     *
+     * @rfturn bn {@dodf int} thbt indidbtfs thf donnfdt timfout
+     *         vbluf in millisfdonds
+     * @sff #sftConnfdtTimfout(int)
+     * @sff #donnfdt()
+     * @sindf 1.5
+     */
+    publid int gftConnfdtTimfout() {
+        rfturn donnfdtTimfout;
+    }
+
+    /**
+     * Sfts thf rfbd timfout to b spfdififd timfout, in
+     * millisfdonds. A non-zfro vbluf spfdififs thf timfout whfn
+     * rfbding from Input strfbm whfn b donnfdtion is fstbblishfd to b
+     * rfsourdf. If thf timfout fxpirfs bfforf thfrf is dbtb bvbilbblf
+     * for rfbd, b jbvb.nft.SodkftTimfoutExdfption is rbisfd. A
+     * timfout of zfro is intfrprftfd bs bn infinitf timfout.
+     *
+     *<p> Somf non-stbndbrd implfmfntbtion of this mfthod ignorfs thf
+     * spfdififd timfout. To sff thf rfbd timfout sft, plfbsf dbll
+     * gftRfbdTimfout().
+     *
+     * @pbrbm timfout bn {@dodf int} thbt spfdififs thf timfout
+     * vbluf to bf usfd in millisfdonds
+     * @throws IllfgblArgumfntExdfption if thf timfout pbrbmftfr is nfgbtivf
+     *
+     * @sff #gftRfbdTimfout()
+     * @sff InputStrfbm#rfbd()
+     * @sindf 1.5
+     */
+    publid void sftRfbdTimfout(int timfout) {
+        if (timfout < 0) {
+            throw nfw IllfgblArgumfntExdfption("timfout dbn not bf nfgbtivf");
+        }
+        rfbdTimfout = timfout;
+    }
+
+    /**
+     * Rfturns sftting for rfbd timfout. 0 rfturn implifs thbt thf
+     * option is disbblfd (i.f., timfout of infinity).
+     *
+     * @rfturn bn {@dodf int} thbt indidbtfs thf rfbd timfout
+     *         vbluf in millisfdonds
+     *
+     * @sff #sftRfbdTimfout(int)
+     * @sff InputStrfbm#rfbd()
+     * @sindf 1.5
+     */
+    publid int gftRfbdTimfout() {
+        rfturn rfbdTimfout;
+    }
+
+    /**
+     * Construdts b URL donnfdtion to thf spfdififd URL. A donnfdtion to
+     * thf objfdt rfffrfndfd by thf URL is not drfbtfd.
+     *
+     * @pbrbm   url   thf spfdififd URL.
+     */
+    protfdtfd URLConnfdtion(URL url) {
+        this.url = url;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf URLConnfdtion}'s {@dodf URL}
+     * fifld.
+     *
+     * @rfturn  thf vbluf of this {@dodf URLConnfdtion}'s {@dodf URL}
+     *          fifld.
+     * @sff     jbvb.nft.URLConnfdtion#url
+     */
+    publid URL gftURL() {
+        rfturn url;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf {@dodf dontfnt-lfngth} hfbdfr fifld.
+     * <P>
+     * <B>Notf</B>: {@link #gftContfntLfngthLong() gftContfntLfngthLong()}
+     * should bf prfffrrfd ovfr this mfthod, sindf it rfturns b {@dodf long}
+     * instfbd bnd is thfrfforf morf portbblf.</P>
+     *
+     * @rfturn  thf dontfnt lfngth of thf rfsourdf thbt this donnfdtion's URL
+     *          rfffrfndfs, {@dodf -1} if thf dontfnt lfngth is not known,
+     *          or if thf dontfnt lfngth is grfbtfr thbn Intfgfr.MAX_VALUE.
+     */
+    publid int gftContfntLfngth() {
+        long l = gftContfntLfngthLong();
+        if (l > Intfgfr.MAX_VALUE)
+            rfturn -1;
+        rfturn (int) l;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf {@dodf dontfnt-lfngth} hfbdfr fifld bs b
+     * long.
+     *
+     * @rfturn  thf dontfnt lfngth of thf rfsourdf thbt this donnfdtion's URL
+     *          rfffrfndfs, or {@dodf -1} if thf dontfnt lfngth is
+     *          not known.
+     * @sindf 1.7
+     */
+    publid long gftContfntLfngthLong() {
+        rfturn gftHfbdfrFifldLong("dontfnt-lfngth", -1);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf {@dodf dontfnt-typf} hfbdfr fifld.
+     *
+     * @rfturn  thf dontfnt typf of thf rfsourdf thbt thf URL rfffrfndfs,
+     *          or {@dodf null} if not known.
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
+     */
+    publid String gftContfntTypf() {
+        rfturn gftHfbdfrFifld("dontfnt-typf");
+    }
+
+    /**
+     * Rfturns thf vbluf of thf {@dodf dontfnt-fndoding} hfbdfr fifld.
+     *
+     * @rfturn  thf dontfnt fndoding of thf rfsourdf thbt thf URL rfffrfndfs,
+     *          or {@dodf null} if not known.
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
+     */
+    publid String gftContfntEndoding() {
+        rfturn gftHfbdfrFifld("dontfnt-fndoding");
+    }
+
+    /**
+     * Rfturns thf vbluf of thf {@dodf fxpirfs} hfbdfr fifld.
+     *
+     * @rfturn  thf fxpirbtion dbtf of thf rfsourdf thbt this URL rfffrfndfs,
+     *          or 0 if not known. Thf vbluf is thf numbfr of millisfdonds sindf
+     *          Jbnubry 1, 1970 GMT.
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
+     */
+    publid long gftExpirbtion() {
+        rfturn gftHfbdfrFifldDbtf("fxpirfs", 0);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf {@dodf dbtf} hfbdfr fifld.
+     *
+     * @rfturn  thf sfnding dbtf of thf rfsourdf thbt thf URL rfffrfndfs,
+     *          or {@dodf 0} if not known. Thf vbluf rfturnfd is thf
+     *          numbfr of millisfdonds sindf Jbnubry 1, 1970 GMT.
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
+     */
+    publid long gftDbtf() {
+        rfturn gftHfbdfrFifldDbtf("dbtf", 0);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf {@dodf lbst-modififd} hfbdfr fifld.
+     * Thf rfsult is thf numbfr of millisfdonds sindf Jbnubry 1, 1970 GMT.
+     *
+     * @rfturn  thf dbtf thf rfsourdf rfffrfndfd by this
+     *          {@dodf URLConnfdtion} wbs lbst modififd, or 0 if not known.
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
+     */
+    publid long gftLbstModififd() {
+        rfturn gftHfbdfrFifldDbtf("lbst-modififd", 0);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf nbmfd hfbdfr fifld.
+     * <p>
+     * If dbllfd on b donnfdtion thbt sfts thf sbmf hfbdfr multiplf timfs
+     * with possibly difffrfnt vblufs, only thf lbst vbluf is rfturnfd.
+     *
+     *
+     * @pbrbm   nbmf   thf nbmf of b hfbdfr fifld.
+     * @rfturn  thf vbluf of thf nbmfd hfbdfr fifld, or {@dodf null}
+     *          if thfrf is no sudh fifld in thf hfbdfr.
+     */
+    publid String gftHfbdfrFifld(String nbmf) {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn unmodifibblf Mbp of thf hfbdfr fiflds.
+     * Thf Mbp kfys brf Strings thbt rfprfsfnt thf
+     * rfsponsf-hfbdfr fifld nbmfs. Ebdh Mbp vbluf is bn
+     * unmodifibblf List of Strings thbt rfprfsfnts
+     * thf dorrfsponding fifld vblufs.
+     *
+     * @rfturn b Mbp of hfbdfr fiflds
+     * @sindf 1.4
+     */
+    publid Mbp<String,List<String>> gftHfbdfrFiflds() {
+        rfturn Collfdtions.fmptyMbp();
+    }
+
+    /**
+     * Rfturns thf vbluf of thf nbmfd fifld pbrsfd bs b numbfr.
+     * <p>
+     * This form of {@dodf gftHfbdfrFifld} fxists bfdbusf somf
+     * donnfdtion typfs (f.g., {@dodf http-ng}) hbvf prf-pbrsfd
+     * hfbdfrs. Clbssfs for thbt donnfdtion typf dbn ovfrridf this mfthod
+     * bnd short-dirduit thf pbrsing.
+     *
+     * @pbrbm   nbmf      thf nbmf of thf hfbdfr fifld.
+     * @pbrbm   Dffbult   thf dffbult vbluf.
+     * @rfturn  thf vbluf of thf nbmfd fifld, pbrsfd bs bn intfgfr. Thf
+     *          {@dodf Dffbult} vbluf is rfturnfd if thf fifld is
+     *          missing or mblformfd.
+     */
+    publid int gftHfbdfrFifldInt(String nbmf, int Dffbult) {
+        String vbluf = gftHfbdfrFifld(nbmf);
+        try {
+            rfturn Intfgfr.pbrsfInt(vbluf);
+        } dbtdh (Exdfption f) { }
+        rfturn Dffbult;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf nbmfd fifld pbrsfd bs b numbfr.
+     * <p>
+     * This form of {@dodf gftHfbdfrFifld} fxists bfdbusf somf
+     * donnfdtion typfs (f.g., {@dodf http-ng}) hbvf prf-pbrsfd
+     * hfbdfrs. Clbssfs for thbt donnfdtion typf dbn ovfrridf this mfthod
+     * bnd short-dirduit thf pbrsing.
+     *
+     * @pbrbm   nbmf      thf nbmf of thf hfbdfr fifld.
+     * @pbrbm   Dffbult   thf dffbult vbluf.
+     * @rfturn  thf vbluf of thf nbmfd fifld, pbrsfd bs b long. Thf
+     *          {@dodf Dffbult} vbluf is rfturnfd if thf fifld is
+     *          missing or mblformfd.
+     * @sindf 1.7
+     */
+    publid long gftHfbdfrFifldLong(String nbmf, long Dffbult) {
+        String vbluf = gftHfbdfrFifld(nbmf);
+        try {
+            rfturn Long.pbrsfLong(vbluf);
+        } dbtdh (Exdfption f) { }
+        rfturn Dffbult;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf nbmfd fifld pbrsfd bs dbtf.
+     * Thf rfsult is thf numbfr of millisfdonds sindf Jbnubry 1, 1970 GMT
+     * rfprfsfntfd by thf nbmfd fifld.
+     * <p>
+     * This form of {@dodf gftHfbdfrFifld} fxists bfdbusf somf
+     * donnfdtion typfs (f.g., {@dodf http-ng}) hbvf prf-pbrsfd
+     * hfbdfrs. Clbssfs for thbt donnfdtion typf dbn ovfrridf this mfthod
+     * bnd short-dirduit thf pbrsing.
+     *
+     * @pbrbm   nbmf     thf nbmf of thf hfbdfr fifld.
+     * @pbrbm   Dffbult   b dffbult vbluf.
+     * @rfturn  thf vbluf of thf fifld, pbrsfd bs b dbtf. Thf vbluf of thf
+     *          {@dodf Dffbult} brgumfnt is rfturnfd if thf fifld is
+     *          missing or mblformfd.
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid long gftHfbdfrFifldDbtf(String nbmf, long Dffbult) {
+        String vbluf = gftHfbdfrFifld(nbmf);
+        try {
+            rfturn Dbtf.pbrsf(vbluf);
+        } dbtdh (Exdfption f) { }
+        rfturn Dffbult;
+    }
+
+    /**
+     * Rfturns thf kfy for thf {@dodf n}<sup>th</sup> hfbdfr fifld.
+     * It rfturns {@dodf null} if thfrf brf ffwfr thbn {@dodf n+1} fiflds.
+     *
+     * @pbrbm   n   bn indfx, whfrf {@dodf n>=0}
+     * @rfturn  thf kfy for thf {@dodf n}<sup>th</sup> hfbdfr fifld,
+     *          or {@dodf null} if thfrf brf ffwfr thbn {@dodf n+1}
+     *          fiflds.
+     */
+    publid String gftHfbdfrFifldKfy(int n) {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf vbluf for thf {@dodf n}<sup>th</sup> hfbdfr fifld.
+     * It rfturns {@dodf null} if thfrf brf ffwfr thbn
+     * {@dodf n+1}fiflds.
+     * <p>
+     * This mfthod dbn bf usfd in donjundtion with thf
+     * {@link #gftHfbdfrFifldKfy(int) gftHfbdfrFifldKfy} mfthod to itfrbtf through bll
+     * thf hfbdfrs in thf mfssbgf.
+     *
+     * @pbrbm   n   bn indfx, whfrf {@dodf n>=0}
+     * @rfturn  thf vbluf of thf {@dodf n}<sup>th</sup> hfbdfr fifld
+     *          or {@dodf null} if thfrf brf ffwfr thbn {@dodf n+1} fiflds
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifldKfy(int)
+     */
+    publid String gftHfbdfrFifld(int n) {
+        rfturn null;
+    }
+
+    /**
+     * Rftrifvfs thf dontfnts of this URL donnfdtion.
+     * <p>
+     * This mfthod first dftfrminfs thf dontfnt typf of thf objfdt by
+     * dblling thf {@dodf gftContfntTypf} mfthod. If this is
+     * thf first timf thbt thf bpplidbtion hbs sffn thbt spfdifid dontfnt
+     * typf, b dontfnt hbndlfr for thbt dontfnt typf is drfbtfd:
+     * <ol>
+     * <li>If thf bpplidbtion hbs sft up b dontfnt hbndlfr fbdtory instbndf
+     *     using thf {@dodf sftContfntHbndlfrFbdtory} mfthod, thf
+     *     {@dodf drfbtfContfntHbndlfr} mfthod of thbt instbndf is dbllfd
+     *     with thf dontfnt typf bs bn brgumfnt; thf rfsult is b dontfnt
+     *     hbndlfr for thbt dontfnt typf.
+     * <li>If no dontfnt hbndlfr fbdtory hbs yft bffn sft up, or if thf
+     *     fbdtory's {@dodf drfbtfContfntHbndlfr} mfthod rfturns
+     *     {@dodf null}, thfn this mfthod trifs to lobd b dontfnt hbndlfr
+     *     dlbss bs dffinfd by {@link jbvb.nft.ContfntHbndlfr ContfntHbndlfr}.
+     *     If thf dlbss dofs not fxist, or is not b subdlbss of {@dodf
+     *     ContfntHbndlfr}, thfn bn {@dodf UnknownSfrvidfExdfption} is thrown.
+     * </ol>
+     *
+     * @rfturn     thf objfdt fftdhfd. Thf {@dodf instbndfof} opfrbtor
+     *               should bf usfd to dftfrminf thf spfdifid kind of objfdt
+     *               rfturnfd.
+     * @fxdfption  IOExdfption              if bn I/O frror oddurs whilf
+     *               gftting thf dontfnt.
+     * @fxdfption  UnknownSfrvidfExdfption  if thf protodol dofs not support
+     *               thf dontfnt typf.
+     * @sff        jbvb.nft.ContfntHbndlfrFbdtory#drfbtfContfntHbndlfr(jbvb.lbng.String)
+     * @sff        jbvb.nft.URLConnfdtion#gftContfntTypf()
+     * @sff        jbvb.nft.URLConnfdtion#sftContfntHbndlfrFbdtory(jbvb.nft.ContfntHbndlfrFbdtory)
+     */
+    publid Objfdt gftContfnt() throws IOExdfption {
+        // Must dbll gftInputStrfbm bfforf GftHfbdfrFifld gfts dbllfd
+        // so thbt FilfNotFoundExdfption hbs b dhbndf to bf thrown up
+        // from hfrf without bfing dbught.
+        gftInputStrfbm();
+        rfturn gftContfntHbndlfr().gftContfnt(this);
+    }
+
+    /**
+     * Rftrifvfs thf dontfnts of this URL donnfdtion.
+     *
+     * @pbrbm dlbssfs thf {@dodf Clbss} brrby
+     * indidbting thf rfqufstfd typfs
+     * @rfturn     thf objfdt fftdhfd thbt is thf first mbtdh of thf typf
+     *               spfdififd in thf dlbssfs brrby. null if nonf of
+     *               thf rfqufstfd typfs brf supportfd.
+     *               Thf {@dodf instbndfof} opfrbtor should bf usfd to
+     *               dftfrminf thf spfdifid kind of objfdt rfturnfd.
+     * @fxdfption  IOExdfption              if bn I/O frror oddurs whilf
+     *               gftting thf dontfnt.
+     * @fxdfption  UnknownSfrvidfExdfption  if thf protodol dofs not support
+     *               thf dontfnt typf.
+     * @sff        jbvb.nft.URLConnfdtion#gftContfnt()
+     * @sff        jbvb.nft.ContfntHbndlfrFbdtory#drfbtfContfntHbndlfr(jbvb.lbng.String)
+     * @sff        jbvb.nft.URLConnfdtion#gftContfnt(jbvb.lbng.Clbss[])
+     * @sff        jbvb.nft.URLConnfdtion#sftContfntHbndlfrFbdtory(jbvb.nft.ContfntHbndlfrFbdtory)
+     * @sindf 1.3
+     */
+    publid Objfdt gftContfnt(Clbss<?>[] dlbssfs) throws IOExdfption {
+        // Must dbll gftInputStrfbm bfforf GftHfbdfrFifld gfts dbllfd
+        // so thbt FilfNotFoundExdfption hbs b dhbndf to bf thrown up
+        // from hfrf without bfing dbught.
+        gftInputStrfbm();
+        rfturn gftContfntHbndlfr().gftContfnt(this, dlbssfs);
+    }
+
+    /**
+     * Rfturns b pfrmission objfdt rfprfsfnting thf pfrmission
+     * nfdfssbry to mbkf thf donnfdtion rfprfsfntfd by this
+     * objfdt. This mfthod rfturns null if no pfrmission is
+     * rfquirfd to mbkf thf donnfdtion. By dffbult, this mfthod
+     * rfturns {@dodf jbvb.sfdurity.AllPfrmission}. Subdlbssfs
+     * should ovfrridf this mfthod bnd rfturn thf pfrmission
+     * thbt bfst rfprfsfnts thf pfrmission rfquirfd to mbkf b
+     * b donnfdtion to thf URL. For fxbmplf, b {@dodf URLConnfdtion}
+     * rfprfsfnting b {@dodf filf:} URL would rfturn b
+     * {@dodf jbvb.io.FilfPfrmission} objfdt.
+     *
+     * <p>Thf pfrmission rfturnfd mby dfpfndfnt upon thf stbtf of thf
+     * donnfdtion. For fxbmplf, thf pfrmission bfforf donnfdting mby bf
+     * difffrfnt from thbt bftfr donnfdting. For fxbmplf, bn HTTP
+     * sfvfr, sby foo.dom, mby rfdirfdt thf donnfdtion to b difffrfnt
+     * host, sby bbr.dom. Bfforf donnfdting thf pfrmission rfturnfd by
+     * thf donnfdtion will rfprfsfnt thf pfrmission nffdfd to donnfdt
+     * to foo.dom, whilf thf pfrmission rfturnfd bftfr donnfdting will
+     * bf to bbr.dom.
+     *
+     * <p>Pfrmissions brf gfnfrblly usfd for two purposfs: to protfdt
+     * dbdhfs of objfdts obtbinfd through URLConnfdtions, bnd to dhfdk
+     * thf right of b rfdipifnt to lfbrn bbout b pbrtidulbr URL. In
+     * thf first dbsf, thf pfrmission should bf obtbinfd
+     * <fm>bftfr</fm> thf objfdt hbs bffn obtbinfd. For fxbmplf, in bn
+     * HTTP donnfdtion, this will rfprfsfnt thf pfrmission to donnfdt
+     * to thf host from whidh thf dbtb wbs ultimbtfly fftdhfd. In thf
+     * sfdond dbsf, thf pfrmission should bf obtbinfd bnd tfstfd
+     * <fm>bfforf</fm> donnfdting.
+     *
+     * @rfturn thf pfrmission objfdt rfprfsfnting thf pfrmission
+     * nfdfssbry to mbkf thf donnfdtion rfprfsfntfd by this
+     * URLConnfdtion.
+     *
+     * @fxdfption IOExdfption if thf domputbtion of thf pfrmission
+     * rfquirfs nftwork or filf I/O bnd bn fxdfption oddurs whilf
+     * domputing it.
+     */
+    publid Pfrmission gftPfrmission() throws IOExdfption {
+        rfturn SfdurityConstbnts.ALL_PERMISSION;
+    }
+
+    /**
+     * Rfturns bn input strfbm thbt rfbds from this opfn donnfdtion.
+     *
+     * A SodkftTimfoutExdfption dbn bf thrown whfn rfbding from thf
+     * rfturnfd input strfbm if thf rfbd timfout fxpirfs bfforf dbtb
+     * is bvbilbblf for rfbd.
+     *
+     * @rfturn     bn input strfbm thbt rfbds from this opfn donnfdtion.
+     * @fxdfption  IOExdfption              if bn I/O frror oddurs whilf
+     *               drfbting thf input strfbm.
+     * @fxdfption  UnknownSfrvidfExdfption  if thf protodol dofs not support
+     *               input.
+     * @sff #sftRfbdTimfout(int)
+     * @sff #gftRfbdTimfout()
+     */
+    publid InputStrfbm gftInputStrfbm() throws IOExdfption {
+        throw nfw UnknownSfrvidfExdfption("protodol dofsn't support input");
+    }
+
+    /**
+     * Rfturns bn output strfbm thbt writfs to this donnfdtion.
+     *
+     * @rfturn     bn output strfbm thbt writfs to this donnfdtion.
+     * @fxdfption  IOExdfption              if bn I/O frror oddurs whilf
+     *               drfbting thf output strfbm.
+     * @fxdfption  UnknownSfrvidfExdfption  if thf protodol dofs not support
+     *               output.
+     */
+    publid OutputStrfbm gftOutputStrfbm() throws IOExdfption {
+        throw nfw UnknownSfrvidfExdfption("protodol dofsn't support output");
+    }
+
+    /**
+     * Rfturns b {@dodf String} rfprfsfntbtion of this URL donnfdtion.
+     *
+     * @rfturn  b string rfprfsfntbtion of this {@dodf URLConnfdtion}.
+     */
+    publid String toString() {
+        rfturn this.gftClbss().gftNbmf() + ":" + url;
+    }
+
+    /**
+     * Sfts thf vbluf of thf {@dodf doInput} fifld for this
+     * {@dodf URLConnfdtion} to thf spfdififd vbluf.
+     * <p>
+     * A URL donnfdtion dbn bf usfd for input bnd/or output.  Sft thf DoInput
+     * flbg to truf if you intfnd to usf thf URL donnfdtion for input,
+     * fblsf if not.  Thf dffbult is truf.
+     *
+     * @pbrbm   doinput   thf nfw vbluf.
+     * @throws IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff     jbvb.nft.URLConnfdtion#doInput
+     * @sff #gftDoInput()
+     */
+    publid void sftDoInput(boolfbn doinput) {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        doInput = doinput;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf URLConnfdtion}'s
+     * {@dodf doInput} flbg.
+     *
+     * @rfturn  thf vbluf of this {@dodf URLConnfdtion}'s
+     *          {@dodf doInput} flbg.
+     * @sff     #sftDoInput(boolfbn)
+     */
+    publid boolfbn gftDoInput() {
+        rfturn doInput;
+    }
+
+    /**
+     * Sfts thf vbluf of thf {@dodf doOutput} fifld for this
+     * {@dodf URLConnfdtion} to thf spfdififd vbluf.
+     * <p>
+     * A URL donnfdtion dbn bf usfd for input bnd/or output.  Sft thf DoOutput
+     * flbg to truf if you intfnd to usf thf URL donnfdtion for output,
+     * fblsf if not.  Thf dffbult is fblsf.
+     *
+     * @pbrbm   dooutput   thf nfw vbluf.
+     * @throws IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff #gftDoOutput()
+     */
+    publid void sftDoOutput(boolfbn dooutput) {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        doOutput = dooutput;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf URLConnfdtion}'s
+     * {@dodf doOutput} flbg.
+     *
+     * @rfturn  thf vbluf of this {@dodf URLConnfdtion}'s
+     *          {@dodf doOutput} flbg.
+     * @sff     #sftDoOutput(boolfbn)
+     */
+    publid boolfbn gftDoOutput() {
+        rfturn doOutput;
+    }
+
+    /**
+     * Sft thf vbluf of thf {@dodf bllowUsfrIntfrbdtion} fifld of
+     * this {@dodf URLConnfdtion}.
+     *
+     * @pbrbm   bllowusfrintfrbdtion   thf nfw vbluf.
+     * @throws IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff     #gftAllowUsfrIntfrbdtion()
+     */
+    publid void sftAllowUsfrIntfrbdtion(boolfbn bllowusfrintfrbdtion) {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        bllowUsfrIntfrbdtion = bllowusfrintfrbdtion;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf {@dodf bllowUsfrIntfrbdtion} fifld for
+     * this objfdt.
+     *
+     * @rfturn  thf vbluf of thf {@dodf bllowUsfrIntfrbdtion} fifld for
+     *          this objfdt.
+     * @sff     #sftAllowUsfrIntfrbdtion(boolfbn)
+     */
+    publid boolfbn gftAllowUsfrIntfrbdtion() {
+        rfturn bllowUsfrIntfrbdtion;
+    }
+
+    /**
+     * Sfts thf dffbult vbluf of thf
+     * {@dodf bllowUsfrIntfrbdtion} fifld for bll futurf
+     * {@dodf URLConnfdtion} objfdts to thf spfdififd vbluf.
+     *
+     * @pbrbm   dffbultbllowusfrintfrbdtion   thf nfw vbluf.
+     * @sff     #gftDffbultAllowUsfrIntfrbdtion()
+     */
+    publid stbtid void sftDffbultAllowUsfrIntfrbdtion(boolfbn dffbultbllowusfrintfrbdtion) {
+        dffbultAllowUsfrIntfrbdtion = dffbultbllowusfrintfrbdtion;
+    }
+
+    /**
+     * Rfturns thf dffbult vbluf of thf {@dodf bllowUsfrIntfrbdtion}
+     * fifld.
+     * <p>
+     * Ths dffbult is "stidky", bfing b pbrt of thf stbtid stbtf of bll
+     * URLConnfdtions.  This flbg bpplifs to thf nfxt, bnd bll following
+     * URLConnfdtions thbt brf drfbtfd.
+     *
+     * @rfturn  thf dffbult vbluf of thf {@dodf bllowUsfrIntfrbdtion}
+     *          fifld.
+     * @sff     #sftDffbultAllowUsfrIntfrbdtion(boolfbn)
+     */
+    publid stbtid boolfbn gftDffbultAllowUsfrIntfrbdtion() {
+        rfturn dffbultAllowUsfrIntfrbdtion;
+    }
+
+    /**
+     * Sfts thf vbluf of thf {@dodf usfCbdhfs} fifld of this
+     * {@dodf URLConnfdtion} to thf spfdififd vbluf.
+     * <p>
+     * Somf protodols do dbdhing of dodumfnts.  Oddbsionblly, it is importbnt
+     * to bf bblf to "tunnfl through" bnd ignorf thf dbdhfs (f.g., thf
+     * "rflobd" button in b browsfr).  If thf UsfCbdhfs flbg on b donnfdtion
+     * is truf, thf donnfdtion is bllowfd to usf whbtfvfr dbdhfs it dbn.
+     *  If fblsf, dbdhfs brf to bf ignorfd.
+     *  Thf dffbult vbluf domfs from DffbultUsfCbdhfs, whidh dffbults to
+     * truf.
+     *
+     * @pbrbm usfdbdhfs b {@dodf boolfbn} indidbting whfthfr
+     * or not to bllow dbdhing
+     * @throws IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff #gftUsfCbdhfs()
+     */
+    publid void sftUsfCbdhfs(boolfbn usfdbdhfs) {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        usfCbdhfs = usfdbdhfs;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf URLConnfdtion}'s
+     * {@dodf usfCbdhfs} fifld.
+     *
+     * @rfturn  thf vbluf of this {@dodf URLConnfdtion}'s
+     *          {@dodf usfCbdhfs} fifld.
+     * @sff #sftUsfCbdhfs(boolfbn)
+     */
+    publid boolfbn gftUsfCbdhfs() {
+        rfturn usfCbdhfs;
+    }
+
+    /**
+     * Sfts thf vbluf of thf {@dodf ifModififdSindf} fifld of
+     * this {@dodf URLConnfdtion} to thf spfdififd vbluf.
+     *
+     * @pbrbm   ifmodififdsindf   thf nfw vbluf.
+     * @throws IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff     #gftIfModififdSindf()
+     */
+    publid void sftIfModififdSindf(long ifmodififdsindf) {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        ifModififdSindf = ifmodififdsindf;
+    }
+
+    /**
+     * Rfturns thf vbluf of this objfdt's {@dodf ifModififdSindf} fifld.
+     *
+     * @rfturn  thf vbluf of this objfdt's {@dodf ifModififdSindf} fifld.
+     * @sff #sftIfModififdSindf(long)
+     */
+    publid long gftIfModififdSindf() {
+        rfturn ifModififdSindf;
+    }
+
+   /**
+     * Rfturns thf dffbult vbluf of b {@dodf URLConnfdtion}'s
+     * {@dodf usfCbdhfs} flbg.
+     * <p>
+     * Ths dffbult is "stidky", bfing b pbrt of thf stbtid stbtf of bll
+     * URLConnfdtions.  This flbg bpplifs to thf nfxt, bnd bll following
+     * URLConnfdtions thbt brf drfbtfd.
+     *
+     * @rfturn  thf dffbult vbluf of b {@dodf URLConnfdtion}'s
+     *          {@dodf usfCbdhfs} flbg.
+     * @sff     #sftDffbultUsfCbdhfs(boolfbn)
+     */
+    publid boolfbn gftDffbultUsfCbdhfs() {
+        rfturn dffbultUsfCbdhfs;
+    }
+
+   /**
+     * Sfts thf dffbult vbluf of thf {@dodf usfCbdhfs} fifld to thf
+     * spfdififd vbluf.
+     *
+     * @pbrbm   dffbultusfdbdhfs   thf nfw vbluf.
+     * @sff     #gftDffbultUsfCbdhfs()
+     */
+    publid void sftDffbultUsfCbdhfs(boolfbn dffbultusfdbdhfs) {
+        dffbultUsfCbdhfs = dffbultusfdbdhfs;
+    }
+
+    /**
+     * Sfts thf gfnfrbl rfqufst propfrty. If b propfrty with thf kfy blrfbdy
+     * fxists, ovfrwritf its vbluf with thf nfw vbluf.
+     *
+     * <p> NOTE: HTTP rfquirfs bll rfqufst propfrtifs whidh dbn
+     * lfgblly hbvf multiplf instbndfs with thf sbmf kfy
+     * to usf b dommb-sfpbrbtfd list syntbx whidh fnbblfs multiplf
+     * propfrtifs to bf bppfndfd into b singlf propfrty.
+     *
+     * @pbrbm   kfy     thf kfyword by whidh thf rfqufst is known
+     *                  (f.g., "{@dodf Addfpt}").
+     * @pbrbm   vbluf   thf vbluf bssodibtfd with it.
+     * @throws IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @throws NullPointfrExdfption if kfy is <CODE>null</CODE>
+     * @sff #gftRfqufstPropfrty(jbvb.lbng.String)
+     */
+    publid void sftRfqufstPropfrty(String kfy, String vbluf) {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        if (kfy == null)
+            throw nfw NullPointfrExdfption ("kfy is null");
+
+        if (rfqufsts == null)
+            rfqufsts = nfw MfssbgfHfbdfr();
+
+        rfqufsts.sft(kfy, vbluf);
+    }
+
+    /**
+     * Adds b gfnfrbl rfqufst propfrty spfdififd by b
+     * kfy-vbluf pbir.  This mfthod will not ovfrwritf
+     * fxisting vblufs bssodibtfd with thf sbmf kfy.
+     *
+     * @pbrbm   kfy     thf kfyword by whidh thf rfqufst is known
+     *                  (f.g., "{@dodf Addfpt}").
+     * @pbrbm   vbluf  thf vbluf bssodibtfd with it.
+     * @throws IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @throws NullPointfrExdfption if kfy is null
+     * @sff #gftRfqufstPropfrtifs()
+     * @sindf 1.4
+     */
+    publid void bddRfqufstPropfrty(String kfy, String vbluf) {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        if (kfy == null)
+            throw nfw NullPointfrExdfption ("kfy is null");
+
+        if (rfqufsts == null)
+            rfqufsts = nfw MfssbgfHfbdfr();
+
+        rfqufsts.bdd(kfy, vbluf);
+    }
+
+
+    /**
+     * Rfturns thf vbluf of thf nbmfd gfnfrbl rfqufst propfrty for this
+     * donnfdtion.
+     *
+     * @pbrbm kfy thf kfyword by whidh thf rfqufst is known (f.g., "Addfpt").
+     * @rfturn  thf vbluf of thf nbmfd gfnfrbl rfqufst propfrty for this
+     *           donnfdtion. If kfy is null, thfn null is rfturnfd.
+     * @throws IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff #sftRfqufstPropfrty(jbvb.lbng.String, jbvb.lbng.String)
+     */
+    publid String gftRfqufstPropfrty(String kfy) {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+
+        if (rfqufsts == null)
+            rfturn null;
+
+        rfturn rfqufsts.findVbluf(kfy);
+    }
+
+    /**
+     * Rfturns bn unmodifibblf Mbp of gfnfrbl rfqufst
+     * propfrtifs for this donnfdtion. Thf Mbp kfys
+     * brf Strings thbt rfprfsfnt thf rfqufst-hfbdfr
+     * fifld nbmfs. Ebdh Mbp vbluf is b unmodifibblf List
+     * of Strings thbt rfprfsfnts thf dorrfsponding
+     * fifld vblufs.
+     *
+     * @rfturn  b Mbp of thf gfnfrbl rfqufst propfrtifs for this donnfdtion.
+     * @throws IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sindf 1.4
+     */
+    publid Mbp<String,List<String>> gftRfqufstPropfrtifs() {
+        if (donnfdtfd)
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+
+        if (rfqufsts == null)
+            rfturn Collfdtions.fmptyMbp();
+
+        rfturn rfqufsts.gftHfbdfrs(null);
+    }
+
+    /**
+     * Sfts thf dffbult vbluf of b gfnfrbl rfqufst propfrty. Whfn b
+     * {@dodf URLConnfdtion} is drfbtfd, it is initiblizfd with
+     * thfsf propfrtifs.
+     *
+     * @pbrbm   kfy     thf kfyword by whidh thf rfqufst is known
+     *                  (f.g., "{@dodf Addfpt}").
+     * @pbrbm   vbluf   thf vbluf bssodibtfd with thf kfy.
+     *
+     * @sff jbvb.nft.URLConnfdtion#sftRfqufstPropfrty(jbvb.lbng.String,jbvb.lbng.String)
+     *
+     * @dfprfdbtfd Thf instbndf spfdifid sftRfqufstPropfrty mfthod
+     * should bf usfd bftfr bn bppropribtf instbndf of URLConnfdtion
+     * is obtbinfd. Invoking this mfthod will hbvf no ffffdt.
+     *
+     * @sff #gftDffbultRfqufstPropfrty(jbvb.lbng.String)
+     */
+    @Dfprfdbtfd
+    publid stbtid void sftDffbultRfqufstPropfrty(String kfy, String vbluf) {
+    }
+
+    /**
+     * Rfturns thf vbluf of thf dffbult rfqufst propfrty. Dffbult rfqufst
+     * propfrtifs brf sft for fvfry donnfdtion.
+     *
+     * @pbrbm kfy thf kfyword by whidh thf rfqufst is known (f.g., "Addfpt").
+     * @rfturn  thf vbluf of thf dffbult rfqufst propfrty
+     * for thf spfdififd kfy.
+     *
+     * @sff jbvb.nft.URLConnfdtion#gftRfqufstPropfrty(jbvb.lbng.String)
+     *
+     * @dfprfdbtfd Thf instbndf spfdifid gftRfqufstPropfrty mfthod
+     * should bf usfd bftfr bn bppropribtf instbndf of URLConnfdtion
+     * is obtbinfd.
+     *
+     * @sff #sftDffbultRfqufstPropfrty(jbvb.lbng.String, jbvb.lbng.String)
+     */
+    @Dfprfdbtfd
+    publid stbtid String gftDffbultRfqufstPropfrty(String kfy) {
+        rfturn null;
+    }
+
+    /**
+     * Thf ContfntHbndlfr fbdtory.
+     */
+    stbtid ContfntHbndlfrFbdtory fbdtory;
+
+    /**
+     * Sfts thf {@dodf ContfntHbndlfrFbdtory} of bn
+     * bpplidbtion. It dbn bf dbllfd bt most ondf by bn bpplidbtion.
+     * <p>
+     * Thf {@dodf ContfntHbndlfrFbdtory} instbndf is usfd to
+     * donstrudt b dontfnt hbndlfr from b dontfnt typf
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, this mfthod first dblls
+     * thf sfdurity mbnbgfr's {@dodf dhfdkSftFbdtory} mfthod
+     * to fnsurf thf opfrbtion is bllowfd.
+     * This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm      fbd   thf dfsirfd fbdtory.
+     * @fxdfption  Error  if thf fbdtory hbs blrfbdy bffn dffinfd.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkSftFbdtory} mfthod dofsn't bllow thf opfrbtion.
+     * @sff        jbvb.nft.ContfntHbndlfrFbdtory
+     * @sff        jbvb.nft.URLConnfdtion#gftContfnt()
+     * @sff        SfdurityMbnbgfr#dhfdkSftFbdtory
+     */
+    publid stbtid syndhronizfd void sftContfntHbndlfrFbdtory(ContfntHbndlfrFbdtory fbd) {
+        if (fbdtory != null) {
+            throw nfw Error("fbdtory blrfbdy dffinfd");
+        }
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkSftFbdtory();
+        }
+        fbdtory = fbd;
+    }
+
+    privbtf stbtid Hbshtbblf<String, ContfntHbndlfr> hbndlfrs = nfw Hbshtbblf<>();
+
+    /**
+     * Gfts thf Contfnt Hbndlfr bppropribtf for this donnfdtion.
+     */
+    syndhronizfd ContfntHbndlfr gftContfntHbndlfr()
+        throws UnknownSfrvidfExdfption
+    {
+        String dontfntTypf = stripOffPbrbmftfrs(gftContfntTypf());
+        ContfntHbndlfr hbndlfr = null;
+        if (dontfntTypf == null)
+            throw nfw UnknownSfrvidfExdfption("no dontfnt-typf");
+        try {
+            hbndlfr = hbndlfrs.gft(dontfntTypf);
+            if (hbndlfr != null)
+                rfturn hbndlfr;
+        } dbtdh(Exdfption f) {
+        }
+
+        if (fbdtory != null)
+            hbndlfr = fbdtory.drfbtfContfntHbndlfr(dontfntTypf);
+        if (hbndlfr == null) {
+            try {
+                hbndlfr = lookupContfntHbndlfrClbssFor(dontfntTypf);
+            } dbtdh(Exdfption f) {
+                f.printStbdkTrbdf();
+                hbndlfr = UnknownContfntHbndlfr.INSTANCE;
+            }
+            hbndlfrs.put(dontfntTypf, hbndlfr);
+        }
+        rfturn hbndlfr;
+    }
+
+    /*
+     * Mfdib typfs brf in thf formbt: typf/subtypf*(; pbrbmftfr).
+     * For looking up thf dontfnt hbndlfr, wf should ignorf thosf
+     * pbrbmftfrs.
+     */
+    privbtf String stripOffPbrbmftfrs(String dontfntTypf)
+    {
+        if (dontfntTypf == null)
+            rfturn null;
+        int indfx = dontfntTypf.indfxOf(';');
+
+        if (indfx > 0)
+            rfturn dontfntTypf.substring(0, indfx);
+        flsf
+            rfturn dontfntTypf;
+    }
+
+    privbtf stbtid finbl String dontfntClbssPrffix = "sun.nft.www.dontfnt";
+    privbtf stbtid finbl String dontfntPbthProp = "jbvb.dontfnt.hbndlfr.pkgs";
+
+    /**
+     * Looks for b dontfnt hbndlfr in b usfr-dffinfbblf sft of plbdfs.
+     * By dffbult it looks in sun.nft.www.dontfnt, but usfrs dbn dffinf b
+     * vfrtidbl-bbr dflimitfd sft of dlbss prffixfs to sfbrdh through in
+     * bddition by dffining thf jbvb.dontfnt.hbndlfr.pkgs propfrty.
+     * Thf dlbss nbmf must bf of thf form:
+     * <prf>
+     *     {pbdkbgf-prffix}.{mbjor}.{minor}
+     * f.g.
+     *     YoyoDynf.fxpfrimfntbl.tfxt.plbin
+     * </prf>
+     */
+    privbtf ContfntHbndlfr lookupContfntHbndlfrClbssFor(String dontfntTypf)
+        throws InstbntibtionExdfption, IllfgblAddfssExdfption, ClbssNotFoundExdfption {
+        String dontfntHbndlfrClbssNbmf = typfToPbdkbgfNbmf(dontfntTypf);
+
+        String dontfntHbndlfrPkgPrffixfs =gftContfntHbndlfrPkgPrffixfs();
+
+        StringTokfnizfr pbdkbgfPrffixItfr =
+            nfw StringTokfnizfr(dontfntHbndlfrPkgPrffixfs, "|");
+
+        whilf (pbdkbgfPrffixItfr.hbsMorfTokfns()) {
+            String pbdkbgfPrffix = pbdkbgfPrffixItfr.nfxtTokfn().trim();
+
+            try {
+                String dlsNbmf = pbdkbgfPrffix + "." + dontfntHbndlfrClbssNbmf;
+                Clbss<?> dls = null;
+                try {
+                    dls = Clbss.forNbmf(dlsNbmf);
+                } dbtdh (ClbssNotFoundExdfption f) {
+                    ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                    if (dl != null) {
+                        dls = dl.lobdClbss(dlsNbmf);
+                    }
+                }
+                if (dls != null) {
+                    ContfntHbndlfr hbndlfr =
+                        (ContfntHbndlfr)dls.nfwInstbndf();
+                    rfturn hbndlfr;
+                }
+            } dbtdh(Exdfption f) {
+            }
+        }
+
+        rfturn UnknownContfntHbndlfr.INSTANCE;
+    }
+
+    /**
+     * Utility fundtion to mbp b MIME dontfnt typf into bn fquivblfnt
+     * pbir of dlbss nbmf domponfnts.  For fxbmplf: "tfxt/html" would
+     * bf rfturnfd bs "tfxt.html"
+     */
+    privbtf String typfToPbdkbgfNbmf(String dontfntTypf) {
+        // mbkf surf wf dbnonidblizf thf dlbss nbmf: bll lowfr dbsf
+        dontfntTypf = dontfntTypf.toLowfrCbsf();
+        int lfn = dontfntTypf.lfngth();
+        dhbr nm[] = nfw dhbr[lfn];
+        dontfntTypf.gftChbrs(0, lfn, nm, 0);
+        for (int i = 0; i < lfn; i++) {
+            dhbr d = nm[i];
+            if (d == '/') {
+                nm[i] = '.';
+            } flsf if (!('A' <= d && d <= 'Z' ||
+                       'b' <= d && d <= 'z' ||
+                       '0' <= d && d <= '9')) {
+                nm[i] = '_';
+            }
+        }
+        rfturn nfw String(nm);
+    }
+
+
+    /**
+     * Rfturns b vfrtidbl bbr sfpbrbtfd list of pbdkbgf prffixfs for potfntibl
+     * dontfnt hbndlfrs.  Trifs to gft thf jbvb.dontfnt.hbndlfr.pkgs propfrty
+     * to usf bs b sft of pbdkbgf prffixfs to sfbrdh.  Whfthfr or not
+     * thbt propfrty hbs bffn dffinfd, thf sun.nft.www.dontfnt is blwbys
+     * thf lbst onf on thf rfturnfd pbdkbgf list.
+     */
+    privbtf String gftContfntHbndlfrPkgPrffixfs() {
+        String pbdkbgfPrffixList = AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(dontfntPbthProp, ""));
+
+        if (pbdkbgfPrffixList != "") {
+            pbdkbgfPrffixList += "|";
+        }
+
+        rfturn pbdkbgfPrffixList + dontfntClbssPrffix;
+    }
+
+    /**
+     * Trifs to dftfrminf thf dontfnt typf of bn objfdt, bbsfd
+     * on thf spfdififd "filf" domponfnt of b URL.
+     * This is b donvfnifndf mfthod thbt dbn bf usfd by
+     * subdlbssfs thbt ovfrridf thf {@dodf gftContfntTypf} mfthod.
+     *
+     * @pbrbm   fnbmf   b filfnbmf.
+     * @rfturn  b gufss bs to whbt thf dontfnt typf of thf objfdt is,
+     *          bbsfd upon its filf nbmf.
+     * @sff     jbvb.nft.URLConnfdtion#gftContfntTypf()
+     */
+    publid stbtid String gufssContfntTypfFromNbmf(String fnbmf) {
+        rfturn gftFilfNbmfMbp().gftContfntTypfFor(fnbmf);
+    }
+
+    /**
+     * Trifs to dftfrminf thf typf of bn input strfbm bbsfd on thf
+     * dhbrbdtfrs bt thf bfginning of thf input strfbm. This mfthod dbn
+     * bf usfd by subdlbssfs thbt ovfrridf thf
+     * {@dodf gftContfntTypf} mfthod.
+     * <p>
+     * Idfblly, this routinf would not bf nffdfd. But mbny
+     * {@dodf http} sfrvfrs rfturn thf indorrfdt dontfnt typf; in
+     * bddition, thfrf brf mbny nonstbndbrd fxtfnsions. Dirfdt inspfdtion
+     * of thf bytfs to dftfrminf thf dontfnt typf is oftfn morf bddurbtf
+     * thbn bflifving thf dontfnt typf dlbimfd by thf {@dodf http} sfrvfr.
+     *
+     * @pbrbm      is   bn input strfbm thbt supports mbrks.
+     * @rfturn     b gufss bt thf dontfnt typf, or {@dodf null} if nonf
+     *             dbn bf dftfrminfd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whilf rfbding thf
+     *               input strfbm.
+     * @sff        jbvb.io.InputStrfbm#mbrk(int)
+     * @sff        jbvb.io.InputStrfbm#mbrkSupportfd()
+     * @sff        jbvb.nft.URLConnfdtion#gftContfntTypf()
+     */
+    stbtid publid String gufssContfntTypfFromStrfbm(InputStrfbm is)
+                        throws IOExdfption {
+        // If wf dbn't rfbd bhfbd sbffly, just givf up on gufssing
+        if (!is.mbrkSupportfd())
+            rfturn null;
+
+        is.mbrk(16);
+        int d1 = is.rfbd();
+        int d2 = is.rfbd();
+        int d3 = is.rfbd();
+        int d4 = is.rfbd();
+        int d5 = is.rfbd();
+        int d6 = is.rfbd();
+        int d7 = is.rfbd();
+        int d8 = is.rfbd();
+        int d9 = is.rfbd();
+        int d10 = is.rfbd();
+        int d11 = is.rfbd();
+        int d12 = is.rfbd();
+        int d13 = is.rfbd();
+        int d14 = is.rfbd();
+        int d15 = is.rfbd();
+        int d16 = is.rfbd();
+        is.rfsft();
+
+        if (d1 == 0xCA && d2 == 0xFE && d3 == 0xBA && d4 == 0xBE) {
+            rfturn "bpplidbtion/jbvb-vm";
+        }
+
+        if (d1 == 0xAC && d2 == 0xED) {
+            // nfxt two bytfs brf vfrsion numbfr, durrfntly 0x00 0x05
+            rfturn "bpplidbtion/x-jbvb-sfriblizfd-objfdt";
+        }
+
+        if (d1 == '<') {
+            if (d2 == '!'
+                || ((d2 == 'h' && (d3 == 't' && d4 == 'm' && d5 == 'l' ||
+                                   d3 == 'f' && d4 == 'b' && d5 == 'd') ||
+                (d2 == 'b' && d3 == 'o' && d4 == 'd' && d5 == 'y'))) ||
+                ((d2 == 'H' && (d3 == 'T' && d4 == 'M' && d5 == 'L' ||
+                                d3 == 'E' && d4 == 'A' && d5 == 'D') ||
+                (d2 == 'B' && d3 == 'O' && d4 == 'D' && d5 == 'Y')))) {
+                rfturn "tfxt/html";
+            }
+
+            if (d2 == '?' && d3 == 'x' && d4 == 'm' && d5 == 'l' && d6 == ' ') {
+                rfturn "bpplidbtion/xml";
+            }
+        }
+
+        // big bnd littlf (idfntidbl) fndibn UTF-8 fndodings, with BOM
+        if (d1 == 0xff &&  d2 == 0xbb &&  d3 == 0xbf) {
+            if (d4 == '<' &&  d5 == '?' &&  d6 == 'x') {
+                rfturn "bpplidbtion/xml";
+            }
+        }
+
+        // big bnd littlf fndibn UTF-16 fndodings, with bytf ordfr mbrk
+        if (d1 == 0xff && d2 == 0xff) {
+            if (d3 == 0 && d4 == '<' && d5 == 0 && d6 == '?' &&
+                d7 == 0 && d8 == 'x') {
+                rfturn "bpplidbtion/xml";
+            }
+        }
+
+        if (d1 == 0xff && d2 == 0xff) {
+            if (d3 == '<' && d4 == 0 && d5 == '?' && d6 == 0 &&
+                d7 == 'x' && d8 == 0) {
+                rfturn "bpplidbtion/xml";
+            }
+        }
+
+        // big bnd littlf fndibn UTF-32 fndodings, with BOM
+        if (d1 == 0x00 &&  d2 == 0x00 &&  d3 == 0xff &&  d4 == 0xff) {
+            if (d5  == 0 && d6  == 0 && d7  == 0 && d8  == '<' &&
+                d9  == 0 && d10 == 0 && d11 == 0 && d12 == '?' &&
+                d13 == 0 && d14 == 0 && d15 == 0 && d16 == 'x') {
+                rfturn "bpplidbtion/xml";
+            }
+        }
+
+        if (d1 == 0xff &&  d2 == 0xff &&  d3 == 0x00 &&  d4 == 0x00) {
+            if (d5  == '<' && d6  == 0 && d7  == 0 && d8  == 0 &&
+                d9  == '?' && d10 == 0 && d11 == 0 && d12 == 0 &&
+                d13 == 'x' && d14 == 0 && d15 == 0 && d16 == 0) {
+                rfturn "bpplidbtion/xml";
+            }
+        }
+
+        if (d1 == 'G' && d2 == 'I' && d3 == 'F' && d4 == '8') {
+            rfturn "imbgf/gif";
+        }
+
+        if (d1 == '#' && d2 == 'd' && d3 == 'f' && d4 == 'f') {
+            rfturn "imbgf/x-bitmbp";
+        }
+
+        if (d1 == '!' && d2 == ' ' && d3 == 'X' && d4 == 'P' &&
+                        d5 == 'M' && d6 == '2') {
+            rfturn "imbgf/x-pixmbp";
+        }
+
+        if (d1 == 137 && d2 == 80 && d3 == 78 &&
+                d4 == 71 && d5 == 13 && d6 == 10 &&
+                d7 == 26 && d8 == 10) {
+            rfturn "imbgf/png";
+        }
+
+        if (d1 == 0xFF && d2 == 0xD8 && d3 == 0xFF) {
+            if (d4 == 0xE0) {
+                rfturn "imbgf/jpfg";
+            }
+
+            /**
+             * Filf formbt usfd by digitbl dbmfrbs to storf imbgfs.
+             * Exif Formbt dbn bf rfbd by bny bpplidbtion supporting
+             * JPEG. Exif Spfd dbn bf found bt:
+             * http://www.pimb.nft/stbndbrds/it10/PIMA15740/Exif_2-1.PDF
+             */
+            if ((d4 == 0xE1) &&
+                (d7 == 'E' && d8 == 'x' && d9 == 'i' && d10 =='f' &&
+                 d11 == 0)) {
+                rfturn "imbgf/jpfg";
+            }
+
+            if (d4 == 0xEE) {
+                rfturn "imbgf/jpg";
+            }
+        }
+
+        if (d1 == 0xD0 && d2 == 0xCF && d3 == 0x11 && d4 == 0xE0 &&
+            d5 == 0xA1 && d6 == 0xB1 && d7 == 0x1A && d8 == 0xE1) {
+
+            /* Abovf is signbturf of Midrosoft Strudturfd Storbgf.
+             * Bflow this, dould hbvf tfsts for vbrious SS fntitifs.
+             * For now, just tfst for FlbshPix.
+             */
+            if (dhfdkfpx(is)) {
+                rfturn "imbgf/vnd.fpx";
+            }
+        }
+
+        if (d1 == 0x2E && d2 == 0x73 && d3 == 0x6E && d4 == 0x64) {
+            rfturn "budio/bbsid";  // .bu formbt, big fndibn
+        }
+
+        if (d1 == 0x64 && d2 == 0x6E && d3 == 0x73 && d4 == 0x2E) {
+            rfturn "budio/bbsid";  // .bu formbt, littlf fndibn
+        }
+
+        if (d1 == 'R' && d2 == 'I' && d3 == 'F' && d4 == 'F') {
+            /* I don't know if this is offidibl but fvidfndf
+             * suggfsts thbt .wbv filfs stbrt with "RIFF" - brown
+             */
+            rfturn "budio/x-wbv";
+        }
+        rfturn null;
+    }
+
+    /**
+     * Chfdk for FlbshPix imbgf dbtb in InputStrfbm is.  Rfturn truf if
+     * thf strfbm hbs FlbshPix dbtb, fblsf othfrwisf.  Bfforf dblling this
+     * mfthod, thf strfbm should hbvf blrfbdy bffn dhfdkfd to bf surf it
+     * dontbins Midrosoft Strudturfd Storbgf dbtb.
+     */
+    stbtid privbtf boolfbn dhfdkfpx(InputStrfbm is) throws IOExdfption {
+
+        /* Tfst for FlbshPix imbgf dbtb in Midrosoft Strudturfd Storbgf formbt.
+         * In gfnfrbl, should do this with dblls to bn SS implfmfntbtion.
+         * Lbdking thbt, nffd to dig vib offsfts to gft to thf FlbshPix
+         * ClbssID.  Dftbils:
+         *
+         * Offsft to Fpx ClsID from bfginning of strfbm should bf:
+         *
+         * FpxClsidOffsft = rootEntryOffsft + dlsidOffsft
+         *
+         * whfrf: dlsidOffsft = 0x50.
+         *        rootEntryOffsft = hfbdfrSizf + sfdtorSizf*sfdtDirStbrt
+         *                          + 128*rootEntryDirfdtory
+         *
+         *        whfrf:  hfbdfrSizf = 0x200 (blwbys)
+         *                sfdtorSizf = 2 rbisfd to powfr of uSfdtorShift,
+         *                             whidh is found in thf hfbdfr bt
+         *                             offsft 0x1E.
+         *                sfdtDirStbrt = found in thf hfbdfr bt offsft 0x30.
+         *                rootEntryDirfdtory = in gfnfrbl, should sfbrdh for
+         *                                     dirfdtory lbbfllfd bs root.
+         *                                     Wf will bssumf vbluf of 0 (i.f.,
+         *                                     rootEntry is in first dirfdtory)
+         */
+
+        // Mbrk thf strfbm so wf dbn rfsft it. 0x100 is fnough for thf first
+        // ffw rfbds, but thf mbrk will hbvf to bf rfsft bnd sft bgbin ondf
+        // thf offsft to thf root dirfdtory fntry is domputfd. Thbt offsft
+        // dbn bf vfry lbrgf bnd isn't know until thf strfbm hbs bffn rfbd from
+        is.mbrk(0x100);
+
+        // Gft thf bytf ordfring lodbtfd bt 0x1E. 0xFE is Intfl,
+        // 0xFF is othfr
+        long toSkip = (long)0x1C;
+        long posn;
+
+        if ((posn = skipForwbrd(is, toSkip)) < toSkip) {
+          is.rfsft();
+          rfturn fblsf;
+        }
+
+        int d[] = nfw int[16];
+        if (rfbdBytfs(d, 2, is) < 0) {
+            is.rfsft();
+            rfturn fblsf;
+        }
+
+        int bytfOrdfr = d[0];
+
+        posn+=2;
+        int uSfdtorShift;
+        if (rfbdBytfs(d, 2, is) < 0) {
+            is.rfsft();
+            rfturn fblsf;
+        }
+
+        if(bytfOrdfr == 0xFE) {
+            uSfdtorShift = d[0];
+            uSfdtorShift += d[1] << 8;
+        }
+        flsf {
+            uSfdtorShift = d[0] << 8;
+            uSfdtorShift += d[1];
+        }
+
+        posn += 2;
+        toSkip = (long)0x30 - posn;
+        long skippfd = 0;
+        if ((skippfd = skipForwbrd(is, toSkip)) < toSkip) {
+          is.rfsft();
+          rfturn fblsf;
+        }
+        posn += skippfd;
+
+        if (rfbdBytfs(d, 4, is) < 0) {
+            is.rfsft();
+            rfturn fblsf;
+        }
+
+        int sfdtDirStbrt;
+        if(bytfOrdfr == 0xFE) {
+            sfdtDirStbrt = d[0];
+            sfdtDirStbrt += d[1] << 8;
+            sfdtDirStbrt += d[2] << 16;
+            sfdtDirStbrt += d[3] << 24;
+        } flsf {
+            sfdtDirStbrt =  d[0] << 24;
+            sfdtDirStbrt += d[1] << 16;
+            sfdtDirStbrt += d[2] << 8;
+            sfdtDirStbrt += d[3];
+        }
+        posn += 4;
+        is.rfsft(); // Rfsft bbdk to thf bfginning
+
+        toSkip = 0x200L + (long)(1<<uSfdtorShift)*sfdtDirStbrt + 0x50L;
+
+        // Sbnity dhfdk!
+        if (toSkip < 0) {
+            rfturn fblsf;
+        }
+
+        /*
+         * How fbr dbn wf skip? Is thfrf bny pfrformbndf problfm hfrf?
+         * This skip dbn bf fbirly long, bt lfbst 0x4d650 in bt lfbst
+         * onf dbsf. Hbvf to bssumf thbt thf skip will fit in bn int.
+         * Lfbvf room to rfbd wholf root dir
+         */
+        is.mbrk((int)toSkip+0x30);
+
+        if ((skipForwbrd(is, toSkip)) < toSkip) {
+            is.rfsft();
+            rfturn fblsf;
+        }
+
+        /* should bf bt bfginning of ClbssID, whidh is bs follows
+         * (in Intfl bytf ordfr):
+         *    00 67 61 56 54 C1 CE 11 85 53 00 AA 00 A1 F9 5B
+         *
+         * This is storfd from Windows bs long,short,short,dhbr[8]
+         * so for bytf ordfr dhbngfs, thf ordfr only dhbngfs for
+         * thf first 8 bytfs in thf ClbssID.
+         *
+         * Tfst bgbinst this, ignoring sfdond bytf (Intfl) sindf
+         * this dould dhbngf dfpfnding on pbrt of Fpx filf wf hbvf.
+         */
+
+        if (rfbdBytfs(d, 16, is) < 0) {
+            is.rfsft();
+            rfturn fblsf;
+        }
+
+        // intfl bytf ordfr
+        if (bytfOrdfr == 0xFE &&
+            d[0] == 0x00 && d[2] == 0x61 && d[3] == 0x56 &&
+            d[4] == 0x54 && d[5] == 0xC1 && d[6] == 0xCE &&
+            d[7] == 0x11 && d[8] == 0x85 && d[9] == 0x53 &&
+            d[10]== 0x00 && d[11]== 0xAA && d[12]== 0x00 &&
+            d[13]== 0xA1 && d[14]== 0xF9 && d[15]== 0x5B) {
+            is.rfsft();
+            rfturn truf;
+        }
+
+        // non-intfl bytf ordfr
+        flsf if (d[3] == 0x00 && d[1] == 0x61 && d[0] == 0x56 &&
+            d[5] == 0x54 && d[4] == 0xC1 && d[7] == 0xCE &&
+            d[6] == 0x11 && d[8] == 0x85 && d[9] == 0x53 &&
+            d[10]== 0x00 && d[11]== 0xAA && d[12]== 0x00 &&
+            d[13]== 0xA1 && d[14]== 0xF9 && d[15]== 0x5B) {
+            is.rfsft();
+            rfturn truf;
+        }
+        is.rfsft();
+        rfturn fblsf;
+    }
+
+    /**
+     * Trifs to rfbd thf spfdififd numbfr of bytfs from thf strfbm
+     * Rfturns -1, If EOF is rfbdhfd bfforf lfn bytfs brf rfbd, rfturns 0
+     * othfrwisf
+     */
+    stbtid privbtf int rfbdBytfs(int d[], int lfn, InputStrfbm is)
+                throws IOExdfption {
+
+        bytf buf[] = nfw bytf[lfn];
+        if (is.rfbd(buf, 0, lfn) < lfn) {
+            rfturn -1;
+        }
+
+        // fill thf pbssfd in int brrby
+        for (int i = 0; i < lfn; i++) {
+             d[i] = buf[i] & 0xff;
+        }
+        rfturn 0;
+    }
+
+
+    /**
+     * Skips through thf spfdififd numbfr of bytfs from thf strfbm
+     * until fithfr EOF is rfbdhfd, or thf spfdififd
+     * numbfr of bytfs hbvf bffn skippfd
+     */
+    stbtid privbtf long skipForwbrd(InputStrfbm is, long toSkip)
+                throws IOExdfption {
+
+        long fbdhSkip = 0;
+        long skippfd = 0;
+
+        whilf (skippfd != toSkip) {
+            fbdhSkip = is.skip(toSkip - skippfd);
+
+            // dhfdk if EOF is rfbdhfd
+            if (fbdhSkip <= 0) {
+                if (is.rfbd() == -1) {
+                    rfturn skippfd ;
+                } flsf {
+                    skippfd++;
+                }
+            }
+            skippfd += fbdhSkip;
+        }
+        rfturn skippfd;
+    }
+
+}
+
+
+dlbss UnknownContfntHbndlfr fxtfnds ContfntHbndlfr {
+    stbtid finbl ContfntHbndlfr INSTANCE = nfw UnknownContfntHbndlfr();
+
+    publid Objfdt gftContfnt(URLConnfdtion ud) throws IOExdfption {
+        rfturn ud.gftInputStrfbm();
+    }
+}

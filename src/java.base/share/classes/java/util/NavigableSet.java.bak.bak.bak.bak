@@ -1,0 +1,319 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb bnd Josh Blodh with bssistbndf from mfmbfrs of JCP
+ * JSR-166 Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * A {@link SortfdSft} fxtfndfd with nbvigbtion mfthods rfporting
+ * dlosfst mbtdhfs for givfn sfbrdh tbrgfts. Mfthods {@dodf lowfr},
+ * {@dodf floor}, {@dodf dfiling}, bnd {@dodf highfr} rfturn flfmfnts
+ * rfspfdtivfly lfss thbn, lfss thbn or fqubl, grfbtfr thbn or fqubl,
+ * bnd grfbtfr thbn b givfn flfmfnt, rfturning {@dodf null} if thfrf
+ * is no sudh flfmfnt.  A {@dodf NbvigbblfSft} mby bf bddfssfd bnd
+ * trbvfrsfd in fithfr bsdfnding or dfsdfnding ordfr.  Thf {@dodf
+ * dfsdfndingSft} mfthod rfturns b vifw of thf sft with thf sfnsfs of
+ * bll rflbtionbl bnd dirfdtionbl mfthods invfrtfd. Thf pfrformbndf of
+ * bsdfnding opfrbtions bnd vifws is likfly to bf fbstfr thbn thbt of
+ * dfsdfnding onfs.  This intfrfbdf bdditionblly dffinfs mfthods
+ * {@dodf pollFirst} bnd {@dodf pollLbst} thbt rfturn bnd rfmovf thf
+ * lowfst bnd highfst flfmfnt, if onf fxists, flsf rfturning {@dodf
+ * null}.  Mfthods {@dodf subSft}, {@dodf hfbdSft},
+ * bnd {@dodf tbilSft} difffr from thf likf-nbmfd {@dodf
+ * SortfdSft} mfthods in bddfpting bdditionbl brgumfnts dfsdribing
+ * whfthfr lowfr bnd uppfr bounds brf indlusivf vfrsus fxdlusivf.
+ * Subsfts of bny {@dodf NbvigbblfSft} must implfmfnt thf {@dodf
+ * NbvigbblfSft} intfrfbdf.
+ *
+ * <p> Thf rfturn vblufs of nbvigbtion mfthods mby bf bmbiguous in
+ * implfmfntbtions thbt pfrmit {@dodf null} flfmfnts. Howfvfr, fvfn
+ * in this dbsf thf rfsult dbn bf disbmbigubtfd by dhfdking
+ * {@dodf dontbins(null)}. To bvoid sudh issufs, implfmfntbtions of
+ * this intfrfbdf brf fndourbgfd to <fm>not</fm> pfrmit insfrtion of
+ * {@dodf null} flfmfnts. (Notf thbt sortfd sfts of {@link
+ * Compbrbblf} flfmfnts intrinsidblly do not pfrmit {@dodf null}.)
+ *
+ * <p>Mfthods
+ * {@link #subSft(Objfdt, Objfdt) subSft(E, E)},
+ * {@link #hfbdSft(Objfdt) hfbdSft(E)}, bnd
+ * {@link #tbilSft(Objfdt) tbilSft(E)}
+ * brf spfdififd to rfturn {@dodf SortfdSft} to bllow fxisting
+ * implfmfntbtions of {@dodf SortfdSft} to bf dompbtibly rftrofittfd to
+ * implfmfnt {@dodf NbvigbblfSft}, but fxtfnsions bnd implfmfntbtions
+ * of this intfrfbdf brf fndourbgfd to ovfrridf thfsf mfthods to rfturn
+ * {@dodf NbvigbblfSft}.
+ *
+ * <p>This intfrfbdf is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @buthor Doug Lfb
+ * @buthor Josh Blodh
+ * @pbrbm <E> thf typf of flfmfnts mbintbinfd by this sft
+ * @sindf 1.6
+ */
+publid intfrfbdf NbvigbblfSft<E> fxtfnds SortfdSft<E> {
+    /**
+     * Rfturns thf grfbtfst flfmfnt in this sft stridtly lfss thbn thf
+     * givfn flfmfnt, or {@dodf null} if thfrf is no sudh flfmfnt.
+     *
+     * @pbrbm f thf vbluf to mbtdh
+     * @rfturn thf grfbtfst flfmfnt lfss thbn {@dodf f},
+     *         or {@dodf null} if thfrf is no sudh flfmfnt
+     * @throws ClbssCbstExdfption if thf spfdififd flfmfnt dbnnot bf
+     *         dompbrfd with thf flfmfnts durrfntly in thf sft
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null
+     *         bnd this sft dofs not pfrmit null flfmfnts
+     */
+    E lowfr(E f);
+
+    /**
+     * Rfturns thf grfbtfst flfmfnt in this sft lfss thbn or fqubl to
+     * thf givfn flfmfnt, or {@dodf null} if thfrf is no sudh flfmfnt.
+     *
+     * @pbrbm f thf vbluf to mbtdh
+     * @rfturn thf grfbtfst flfmfnt lfss thbn or fqubl to {@dodf f},
+     *         or {@dodf null} if thfrf is no sudh flfmfnt
+     * @throws ClbssCbstExdfption if thf spfdififd flfmfnt dbnnot bf
+     *         dompbrfd with thf flfmfnts durrfntly in thf sft
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null
+     *         bnd this sft dofs not pfrmit null flfmfnts
+     */
+    E floor(E f);
+
+    /**
+     * Rfturns thf lfbst flfmfnt in this sft grfbtfr thbn or fqubl to
+     * thf givfn flfmfnt, or {@dodf null} if thfrf is no sudh flfmfnt.
+     *
+     * @pbrbm f thf vbluf to mbtdh
+     * @rfturn thf lfbst flfmfnt grfbtfr thbn or fqubl to {@dodf f},
+     *         or {@dodf null} if thfrf is no sudh flfmfnt
+     * @throws ClbssCbstExdfption if thf spfdififd flfmfnt dbnnot bf
+     *         dompbrfd with thf flfmfnts durrfntly in thf sft
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null
+     *         bnd this sft dofs not pfrmit null flfmfnts
+     */
+    E dfiling(E f);
+
+    /**
+     * Rfturns thf lfbst flfmfnt in this sft stridtly grfbtfr thbn thf
+     * givfn flfmfnt, or {@dodf null} if thfrf is no sudh flfmfnt.
+     *
+     * @pbrbm f thf vbluf to mbtdh
+     * @rfturn thf lfbst flfmfnt grfbtfr thbn {@dodf f},
+     *         or {@dodf null} if thfrf is no sudh flfmfnt
+     * @throws ClbssCbstExdfption if thf spfdififd flfmfnt dbnnot bf
+     *         dompbrfd with thf flfmfnts durrfntly in thf sft
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null
+     *         bnd this sft dofs not pfrmit null flfmfnts
+     */
+    E highfr(E f);
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf first (lowfst) flfmfnt,
+     * or rfturns {@dodf null} if this sft is fmpty.
+     *
+     * @rfturn thf first flfmfnt, or {@dodf null} if this sft is fmpty
+     */
+    E pollFirst();
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf lbst (highfst) flfmfnt,
+     * or rfturns {@dodf null} if this sft is fmpty.
+     *
+     * @rfturn thf lbst flfmfnt, or {@dodf null} if this sft is fmpty
+     */
+    E pollLbst();
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf flfmfnts in this sft, in bsdfnding ordfr.
+     *
+     * @rfturn bn itfrbtor ovfr thf flfmfnts in this sft, in bsdfnding ordfr
+     */
+    Itfrbtor<E> itfrbtor();
+
+    /**
+     * Rfturns b rfvfrsf ordfr vifw of thf flfmfnts dontbinfd in this sft.
+     * Thf dfsdfnding sft is bbdkfd by this sft, so dhbngfs to thf sft brf
+     * rfflfdtfd in thf dfsdfnding sft, bnd vidf-vfrsb.  If fithfr sft is
+     * modififd whilf bn itfrbtion ovfr fithfr sft is in progrfss (fxdfpt
+     * through thf itfrbtor's own {@dodf rfmovf} opfrbtion), thf rfsults of
+     * thf itfrbtion brf undffinfd.
+     *
+     * <p>Thf rfturnfd sft hbs bn ordfring fquivblfnt to
+     * <tt>{@link Collfdtions#rfvfrsfOrdfr(Compbrbtor) Collfdtions.rfvfrsfOrdfr}(dompbrbtor())</tt>.
+     * Thf fxprfssion {@dodf s.dfsdfndingSft().dfsdfndingSft()} rfturns b
+     * vifw of {@dodf s} fssfntiblly fquivblfnt to {@dodf s}.
+     *
+     * @rfturn b rfvfrsf ordfr vifw of this sft
+     */
+    NbvigbblfSft<E> dfsdfndingSft();
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf flfmfnts in this sft, in dfsdfnding ordfr.
+     * Equivblfnt in ffffdt to {@dodf dfsdfndingSft().itfrbtor()}.
+     *
+     * @rfturn bn itfrbtor ovfr thf flfmfnts in this sft, in dfsdfnding ordfr
+     */
+    Itfrbtor<E> dfsdfndingItfrbtor();
+
+    /**
+     * Rfturns b vifw of thf portion of this sft whosf flfmfnts rbngf from
+     * {@dodf fromElfmfnt} to {@dodf toElfmfnt}.  If {@dodf fromElfmfnt} bnd
+     * {@dodf toElfmfnt} brf fqubl, thf rfturnfd sft is fmpty unlfss {@dodf
+     * fromIndlusivf} bnd {@dodf toIndlusivf} brf both truf.  Thf rfturnfd sft
+     * is bbdkfd by this sft, so dhbngfs in thf rfturnfd sft brf rfflfdtfd in
+     * this sft, bnd vidf-vfrsb.  Thf rfturnfd sft supports bll optionbl sft
+     * opfrbtions thbt this sft supports.
+     *
+     * <p>Thf rfturnfd sft will throw bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
+     *
+     * @pbrbm fromElfmfnt low fndpoint of thf rfturnfd sft
+     * @pbrbm fromIndlusivf {@dodf truf} if thf low fndpoint
+     *        is to bf indludfd in thf rfturnfd vifw
+     * @pbrbm toElfmfnt high fndpoint of thf rfturnfd sft
+     * @pbrbm toIndlusivf {@dodf truf} if thf high fndpoint
+     *        is to bf indludfd in thf rfturnfd vifw
+     * @rfturn b vifw of thf portion of this sft whosf flfmfnts rbngf from
+     *         {@dodf fromElfmfnt}, indlusivf, to {@dodf toElfmfnt}, fxdlusivf
+     * @throws ClbssCbstExdfption if {@dodf fromElfmfnt} bnd
+     *         {@dodf toElfmfnt} dbnnot bf dompbrfd to onf bnothfr using this
+     *         sft's dompbrbtor (or, if thf sft hbs no dompbrbtor, using
+     *         nbturbl ordfring).  Implfmfntbtions mby, but brf not rfquirfd
+     *         to, throw this fxdfption if {@dodf fromElfmfnt} or
+     *         {@dodf toElfmfnt} dbnnot bf dompbrfd to flfmfnts durrfntly in
+     *         thf sft.
+     * @throws NullPointfrExdfption if {@dodf fromElfmfnt} or
+     *         {@dodf toElfmfnt} is null bnd this sft dofs
+     *         not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if {@dodf fromElfmfnt} is
+     *         grfbtfr thbn {@dodf toElfmfnt}; or if this sft itsflf
+     *         hbs b rfstridtfd rbngf, bnd {@dodf fromElfmfnt} or
+     *         {@dodf toElfmfnt} lifs outsidf thf bounds of thf rbngf.
+     */
+    NbvigbblfSft<E> subSft(E fromElfmfnt, boolfbn fromIndlusivf,
+                           E toElfmfnt,   boolfbn toIndlusivf);
+
+    /**
+     * Rfturns b vifw of thf portion of this sft whosf flfmfnts brf lfss thbn
+     * (or fqubl to, if {@dodf indlusivf} is truf) {@dodf toElfmfnt}.  Thf
+     * rfturnfd sft is bbdkfd by this sft, so dhbngfs in thf rfturnfd sft brf
+     * rfflfdtfd in this sft, bnd vidf-vfrsb.  Thf rfturnfd sft supports bll
+     * optionbl sft opfrbtions thbt this sft supports.
+     *
+     * <p>Thf rfturnfd sft will throw bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
+     *
+     * @pbrbm toElfmfnt high fndpoint of thf rfturnfd sft
+     * @pbrbm indlusivf {@dodf truf} if thf high fndpoint
+     *        is to bf indludfd in thf rfturnfd vifw
+     * @rfturn b vifw of thf portion of this sft whosf flfmfnts brf lfss thbn
+     *         (or fqubl to, if {@dodf indlusivf} is truf) {@dodf toElfmfnt}
+     * @throws ClbssCbstExdfption if {@dodf toElfmfnt} is not dompbtiblf
+     *         with this sft's dompbrbtor (or, if thf sft hbs no dompbrbtor,
+     *         if {@dodf toElfmfnt} dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, throw this
+     *         fxdfption if {@dodf toElfmfnt} dbnnot bf dompbrfd to flfmfnts
+     *         durrfntly in thf sft.
+     * @throws NullPointfrExdfption if {@dodf toElfmfnt} is null bnd
+     *         this sft dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if this sft itsflf hbs b
+     *         rfstridtfd rbngf, bnd {@dodf toElfmfnt} lifs outsidf thf
+     *         bounds of thf rbngf
+     */
+    NbvigbblfSft<E> hfbdSft(E toElfmfnt, boolfbn indlusivf);
+
+    /**
+     * Rfturns b vifw of thf portion of this sft whosf flfmfnts brf grfbtfr
+     * thbn (or fqubl to, if {@dodf indlusivf} is truf) {@dodf fromElfmfnt}.
+     * Thf rfturnfd sft is bbdkfd by this sft, so dhbngfs in thf rfturnfd sft
+     * brf rfflfdtfd in this sft, bnd vidf-vfrsb.  Thf rfturnfd sft supports
+     * bll optionbl sft opfrbtions thbt this sft supports.
+     *
+     * <p>Thf rfturnfd sft will throw bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt bn flfmfnt outsidf its rbngf.
+     *
+     * @pbrbm fromElfmfnt low fndpoint of thf rfturnfd sft
+     * @pbrbm indlusivf {@dodf truf} if thf low fndpoint
+     *        is to bf indludfd in thf rfturnfd vifw
+     * @rfturn b vifw of thf portion of this sft whosf flfmfnts brf grfbtfr
+     *         thbn or fqubl to {@dodf fromElfmfnt}
+     * @throws ClbssCbstExdfption if {@dodf fromElfmfnt} is not dompbtiblf
+     *         with this sft's dompbrbtor (or, if thf sft hbs no dompbrbtor,
+     *         if {@dodf fromElfmfnt} dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, throw this
+     *         fxdfption if {@dodf fromElfmfnt} dbnnot bf dompbrfd to flfmfnts
+     *         durrfntly in thf sft.
+     * @throws NullPointfrExdfption if {@dodf fromElfmfnt} is null
+     *         bnd this sft dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if this sft itsflf hbs b
+     *         rfstridtfd rbngf, bnd {@dodf fromElfmfnt} lifs outsidf thf
+     *         bounds of thf rbngf
+     */
+    NbvigbblfSft<E> tbilSft(E fromElfmfnt, boolfbn indlusivf);
+
+    /**
+     * {@inhfritDod}
+     *
+     * <p>Equivblfnt to {@dodf subSft(fromElfmfnt, truf, toElfmfnt, fblsf)}.
+     *
+     * @throws ClbssCbstExdfption       {@inhfritDod}
+     * @throws NullPointfrExdfption     {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    SortfdSft<E> subSft(E fromElfmfnt, E toElfmfnt);
+
+    /**
+     * {@inhfritDod}
+     *
+     * <p>Equivblfnt to {@dodf hfbdSft(toElfmfnt, fblsf)}.
+     *
+     * @throws ClbssCbstExdfption       {@inhfritDod}
+     * @throws NullPointfrExdfption     {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    SortfdSft<E> hfbdSft(E toElfmfnt);
+
+    /**
+     * {@inhfritDod}
+     *
+     * <p>Equivblfnt to {@dodf tbilSft(fromElfmfnt, truf)}.
+     *
+     * @throws ClbssCbstExdfption       {@inhfritDod}
+     * @throws NullPointfrExdfption     {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    SortfdSft<E> tbilSft(E fromElfmfnt);
+}

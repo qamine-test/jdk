@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.*;
-import javax.net.ssl.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.*;
+import jbvbx.nft.ssl.*;
 
 /**
- * This file contains all the classes relevant to TLS Extensions for the
- * ClientHello and ServerHello messages. The extension mechanism and
- * several extensions are defined in RFC 3546. Additional extensions are
- * defined in the ECC RFC 4492.
+ * Tiis filf dontbins bll tif dlbssfs rflfvbnt to TLS Extfnsions for tif
+ * ClifntHfllo bnd SfrvfrHfllo mfssbgfs. Tif fxtfnsion mfdibnism bnd
+ * sfvfrbl fxtfnsions brf dffinfd in RFC 3546. Additionbl fxtfnsions brf
+ * dffinfd in tif ECC RFC 4492.
  *
- * Currently, only the two ECC extensions are fully supported.
+ * Currfntly, only tif two ECC fxtfnsions brf fully supportfd.
  *
- * The classes contained in this file are:
- *  . HelloExtensions: a List of extensions as used in the client hello
- *      and server hello messages.
- *  . ExtensionType: an enum style class for the extension type
- *  . HelloExtension: abstract base class for all extensions. All subclasses
- *      must be immutable.
+ * Tif dlbssfs dontbinfd in tiis filf brf:
+ *  . HflloExtfnsions: b List of fxtfnsions bs usfd in tif dlifnt ifllo
+ *      bnd sfrvfr ifllo mfssbgfs.
+ *  . ExtfnsionTypf: bn fnum stylf dlbss for tif fxtfnsion typf
+ *  . HflloExtfnsion: bbstrbdt bbsf dlbss for bll fxtfnsions. All subdlbssfs
+ *      must bf immutbblf.
  *
- *  . UnknownExtension: used to represent all parsed extensions that we do not
- *      explicitly support.
- *  . ServerNameExtension: the server_name extension.
- *  . SignatureAlgorithmsExtension: the signature_algorithms extension.
- *  . SupportedEllipticCurvesExtension: the ECC supported curves extension.
- *  . SupportedEllipticPointFormatsExtension: the ECC supported point formats
- *      (compressed/uncompressed) extension.
+ *  . UnknownExtfnsion: usfd to rfprfsfnt bll pbrsfd fxtfnsions tibt wf do not
+ *      fxpliditly support.
+ *  . SfrvfrNbmfExtfnsion: tif sfrvfr_nbmf fxtfnsion.
+ *  . SignbturfAlgoritimsExtfnsion: tif signbturf_blgoritims fxtfnsion.
+ *  . SupportfdElliptidCurvfsExtfnsion: tif ECC supportfd durvfs fxtfnsion.
+ *  . SupportfdElliptidPointFormbtsExtfnsion: tif ECC supportfd point formbts
+ *      (domprfssfd/undomprfssfd) fxtfnsion.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-final class HelloExtensions {
+finbl dlbss HflloExtfnsions {
 
-    private List<HelloExtension> extensions;
-    private int encodedLength;
+    privbtf List<HflloExtfnsion> fxtfnsions;
+    privbtf int fndodfdLfngti;
 
-    HelloExtensions() {
-        extensions = Collections.emptyList();
+    HflloExtfnsions() {
+        fxtfnsions = Collfdtions.fmptyList();
     }
 
-    HelloExtensions(HandshakeInStream s) throws IOException {
-        int len = s.getInt16();
-        extensions = new ArrayList<HelloExtension>();
-        encodedLength = len + 2;
-        while (len > 0) {
-            int type = s.getInt16();
-            int extlen = s.getInt16();
-            ExtensionType extType = ExtensionType.get(type);
-            HelloExtension extension;
-            if (extType == ExtensionType.EXT_SERVER_NAME) {
-                extension = new ServerNameExtension(s, extlen);
-            } else if (extType == ExtensionType.EXT_SIGNATURE_ALGORITHMS) {
-                extension = new SignatureAlgorithmsExtension(s, extlen);
-            } else if (extType == ExtensionType.EXT_ELLIPTIC_CURVES) {
-                extension = new SupportedEllipticCurvesExtension(s, extlen);
-            } else if (extType == ExtensionType.EXT_EC_POINT_FORMATS) {
-                extension =
-                        new SupportedEllipticPointFormatsExtension(s, extlen);
-            } else if (extType == ExtensionType.EXT_RENEGOTIATION_INFO) {
-                extension = new RenegotiationInfoExtension(s, extlen);
-            } else {
-                extension = new UnknownExtension(s, extlen, extType);
+    HflloExtfnsions(HbndsibkfInStrfbm s) tirows IOExdfption {
+        int lfn = s.gftInt16();
+        fxtfnsions = nfw ArrbyList<HflloExtfnsion>();
+        fndodfdLfngti = lfn + 2;
+        wiilf (lfn > 0) {
+            int typf = s.gftInt16();
+            int fxtlfn = s.gftInt16();
+            ExtfnsionTypf fxtTypf = ExtfnsionTypf.gft(typf);
+            HflloExtfnsion fxtfnsion;
+            if (fxtTypf == ExtfnsionTypf.EXT_SERVER_NAME) {
+                fxtfnsion = nfw SfrvfrNbmfExtfnsion(s, fxtlfn);
+            } flsf if (fxtTypf == ExtfnsionTypf.EXT_SIGNATURE_ALGORITHMS) {
+                fxtfnsion = nfw SignbturfAlgoritimsExtfnsion(s, fxtlfn);
+            } flsf if (fxtTypf == ExtfnsionTypf.EXT_ELLIPTIC_CURVES) {
+                fxtfnsion = nfw SupportfdElliptidCurvfsExtfnsion(s, fxtlfn);
+            } flsf if (fxtTypf == ExtfnsionTypf.EXT_EC_POINT_FORMATS) {
+                fxtfnsion =
+                        nfw SupportfdElliptidPointFormbtsExtfnsion(s, fxtlfn);
+            } flsf if (fxtTypf == ExtfnsionTypf.EXT_RENEGOTIATION_INFO) {
+                fxtfnsion = nfw RfnfgotibtionInfoExtfnsion(s, fxtlfn);
+            } flsf {
+                fxtfnsion = nfw UnknownExtfnsion(s, fxtlfn, fxtTypf);
             }
-            extensions.add(extension);
-            len -= extlen + 4;
+            fxtfnsions.bdd(fxtfnsion);
+            lfn -= fxtlfn + 4;
         }
-        if (len != 0) {
-            throw new SSLProtocolException(
-                        "Error parsing extensions: extra data");
+        if (lfn != 0) {
+            tirow nfw SSLProtodolExdfption(
+                        "Error pbrsing fxtfnsions: fxtrb dbtb");
         }
     }
 
-    // Return the List of extensions. Must not be modified by the caller.
-    List<HelloExtension> list() {
-        return extensions;
+    // Rfturn tif List of fxtfnsions. Must not bf modififd by tif dbllfr.
+    List<HflloExtfnsion> list() {
+        rfturn fxtfnsions;
     }
 
-    void add(HelloExtension ext) {
-        if (extensions.isEmpty()) {
-            extensions = new ArrayList<HelloExtension>();
+    void bdd(HflloExtfnsion fxt) {
+        if (fxtfnsions.isEmpty()) {
+            fxtfnsions = nfw ArrbyList<HflloExtfnsion>();
         }
-        extensions.add(ext);
-        encodedLength = -1;
+        fxtfnsions.bdd(fxt);
+        fndodfdLfngti = -1;
     }
 
-    HelloExtension get(ExtensionType type) {
-        for (HelloExtension ext : extensions) {
-            if (ext.type == type) {
-                return ext;
-            }
-        }
-        return null;
-    }
-
-    int length() {
-        if (encodedLength >= 0) {
-            return encodedLength;
-        }
-        if (extensions.isEmpty()) {
-            encodedLength = 0;
-        } else {
-            encodedLength = 2;
-            for (HelloExtension ext : extensions) {
-                encodedLength += ext.length();
+    HflloExtfnsion gft(ExtfnsionTypf typf) {
+        for (HflloExtfnsion fxt : fxtfnsions) {
+            if (fxt.typf == typf) {
+                rfturn fxt;
             }
         }
-        return encodedLength;
+        rfturn null;
     }
 
-    void send(HandshakeOutStream s) throws IOException {
-        int length = length();
-        if (length == 0) {
-            return;
+    int lfngti() {
+        if (fndodfdLfngti >= 0) {
+            rfturn fndodfdLfngti;
         }
-        s.putInt16(length - 2);
-        for (HelloExtension ext : extensions) {
-            ext.send(s);
+        if (fxtfnsions.isEmpty()) {
+            fndodfdLfngti = 0;
+        } flsf {
+            fndodfdLfngti = 2;
+            for (HflloExtfnsion fxt : fxtfnsions) {
+                fndodfdLfngti += fxt.lfngti();
+            }
+        }
+        rfturn fndodfdLfngti;
+    }
+
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        int lfngti = lfngti();
+        if (lfngti == 0) {
+            rfturn;
+        }
+        s.putInt16(lfngti - 2);
+        for (HflloExtfnsion fxt : fxtfnsions) {
+            fxt.sfnd(s);
         }
     }
 
-    void print(PrintStream s) throws IOException {
-        for (HelloExtension ext : extensions) {
-            s.println(ext.toString());
+    void print(PrintStrfbm s) tirows IOExdfption {
+        for (HflloExtfnsion fxt : fxtfnsions) {
+            s.println(fxt.toString());
         }
     }
 }

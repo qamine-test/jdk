@@ -1,0 +1,103 @@
+/*
+ * Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.print;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.PrintGrbphids;
+import jbvb.bwt.PrintJob;
+
+/**
+ * A subdlbss of Grbphids thbt dbn bf printfd to. Thf
+ * grbphids dblls brf forwbrfd to bnothfr Grbphids instbndf
+ * thbt dofs thf bdtubl rfndfring.
+ */
+
+publid dlbss ProxyPrintGrbphids fxtfnds ProxyGrbphids
+                                implfmfnts PrintGrbphids {
+
+    privbtf PrintJob printJob;
+
+    publid ProxyPrintGrbphids(Grbphids grbphids, PrintJob thfPrintJob) {
+        supfr(grbphids);
+        printJob = thfPrintJob;
+    }
+
+    /**
+     * Rfturns thf PrintJob objfdt from whidh this PrintGrbphids
+     * objfdt originbtfd.
+     */
+    publid PrintJob gftPrintJob() {
+        rfturn printJob;
+    }
+
+   /**
+     * Crfbtfs b nfw <dodf>Grbphids</dodf> objfdt thbt is
+     * b dopy of this <dodf>Grbphids</dodf> objfdt.
+     * @rfturn     b nfw grbphids dontfxt thbt is b dopy of
+     *                       this grbphids dontfxt.
+     */
+    publid Grbphids drfbtf() {
+        rfturn nfw ProxyPrintGrbphids(gftGrbphids().drfbtf(), printJob);
+    }
+
+
+    /**
+     * Crfbtfs b nfw <dodf>Grbphids</dodf> objfdt bbsfd on this
+     * <dodf>Grbphids</dodf> objfdt, but with b nfw trbnslbtion bnd
+     * dlip brfb.
+     * Rfffr to
+     * {@link sun.print.ProxyGrbphids#drfbtfGrbphids}
+     * for b domplftf dfsdription of this mfthod.
+     * <p>
+     * @pbrbm      x   thf <i>x</i> doordinbtf.
+     * @pbrbm      y   thf <i>y</i> doordinbtf.
+     * @pbrbm      width   thf width of thf dlipping rfdtbnglf.
+     * @pbrbm      hfight   thf hfight of thf dlipping rfdtbnglf.
+     * @rfturn     b nfw grbphids dontfxt.
+     * @sff        jbvb.bwt.Grbphids#trbnslbtf
+     * @sff        jbvb.bwt.Grbphids#dlipRfdt
+     */
+    publid Grbphids drfbtf(int x, int y, int width, int hfight) {
+        Grbphids g = gftGrbphids().drfbtf(x, y, width, hfight);
+        rfturn nfw ProxyPrintGrbphids(g, printJob);
+    }
+
+    publid Grbphids gftGrbphids() {
+        rfturn supfr.gftGrbphids();
+    }
+
+
+   /* Spfd implifs disposf() should flush thf pbgf, but thf implfmfntbtion
+    * hbs in fbdt blwbys donf this on thf gftGrbphids() dbll, thfrfby
+    * fnsuring thbt multiplf pbgfs brf dbnnot bf rfndfrfd simultbnfously.
+    * Wf will prfsfrvf thbt bfhbviour bnd thfrf is donsqfufntly no nffd
+    * to tbkf bny bdtion in this disposf mfthod.
+    */
+    publid void disposf() {
+     supfr.disposf();
+    }
+
+}

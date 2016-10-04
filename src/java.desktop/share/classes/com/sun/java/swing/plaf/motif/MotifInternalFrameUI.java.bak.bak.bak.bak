@@ -1,0 +1,225 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+
+import jbvb.util.EvfntListfnfr;
+
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+
+
+/**
+ * A Motif L&F implfmfntbtion of IntfrnblFrbmf.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Tom Bbll
+ */
+publid dlbss MotifIntfrnblFrbmfUI fxtfnds BbsidIntfrnblFrbmfUI {
+
+    Color dolor;
+    Color highlight;
+    Color shbdow;
+    MotifIntfrnblFrbmfTitlfPbnf titlfPbnf;
+
+    /**
+     * As of Jbvb 2 plbtform v1.3 this prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by thf LookAndFffl, plfbsf rfffr to
+     * thf kfy bindings spfdifidbtion for furthfr dftbils.
+     *
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
+     */
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf dlosfMfnuKfy;
+
+
+/////////////////////////////////////////////////////////////////////////////
+// ComponfntUI Intfrfbdf Implfmfntbtion mfthods
+/////////////////////////////////////////////////////////////////////////////
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt w)    {
+        rfturn nfw MotifIntfrnblFrbmfUI((JIntfrnblFrbmf)w);
+    }
+
+    publid MotifIntfrnblFrbmfUI(JIntfrnblFrbmf w)   {
+        supfr(w);
+    }
+
+    publid void instbllUI(JComponfnt d)   {
+        supfr.instbllUI(d);
+        sftColors((JIntfrnblFrbmf)d);
+    }
+
+    protfdtfd void instbllDffbults() {
+        Bordfr frbmfBordfr = frbmf.gftBordfr();
+        frbmf.sftLbyout(intfrnblFrbmfLbyout = drfbtfLbyoutMbnbgfr());
+        if (frbmfBordfr == null || frbmfBordfr instbndfof UIRfsourdf) {
+            frbmf.sftBordfr(nfw MotifBordfrs.IntfrnblFrbmfBordfr(frbmf));
+        }
+    }
+
+
+    protfdtfd void instbllKfybobrdAdtions(){
+      supfr.instbllKfybobrdAdtions();
+      // Wf rfplbdf thf
+      // wf usf JPopup in our TitlfPbnf so nffd fsdbpf support
+      dlosfMfnuKfy = KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0);
+    }
+
+
+    protfdtfd void uninstbllDffbults() {
+        LookAndFffl.uninstbllBordfr(frbmf);
+        frbmf.sftLbyout(null);
+        intfrnblFrbmfLbyout = null;
+    }
+
+    privbtf JIntfrnblFrbmf gftFrbmf(){
+      rfturn frbmf;
+    }
+
+    publid JComponfnt drfbtfNorthPbnf(JIntfrnblFrbmf w) {
+        titlfPbnf = nfw MotifIntfrnblFrbmfTitlfPbnf(w);
+        rfturn titlfPbnf;
+    }
+
+    publid Dimfnsion gftMbximumSizf(JComponfnt x) {
+        rfturn Toolkit.gftDffbultToolkit().gftSdrffnSizf();
+    }
+
+    protfdtfd void uninstbllKfybobrdAdtions(){
+      supfr.uninstbllKfybobrdAdtions();
+      if (isKfyBindingRfgistfrfd()){
+        JIntfrnblFrbmf.JDfsktopIdon di = frbmf.gftDfsktopIdon();
+        SwingUtilitifs.rfplbdfUIAdtionMbp(di, null);
+        SwingUtilitifs.rfplbdfUIInputMbp(di, JComponfnt.WHEN_IN_FOCUSED_WINDOW,
+                                         null);
+      }
+    }
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd void sftupMfnuOpfnKfy(){
+        supfr.sftupMfnuOpfnKfy();
+        AdtionMbp mbp = SwingUtilitifs.gftUIAdtionMbp(frbmf);
+        if (mbp != null) {
+            // BbsidIntfrnblFrbmfUI drfbtfs bn bdtion with thf sbmf nbmf, wf ovfrridf
+            // it bs MotifIntfrnblFrbmfTitlfPbnf hbs b titlfPbnf ivbr thbt shbdows thf
+            // titlfPbnf ivbr in BbsidIntfrnblFrbmfUI, mbking supfrs bdtion throw
+            // bn NPE for us.
+            mbp.put("showSystfmMfnu", nfw AbstrbdtAdtion(){
+                publid void bdtionPfrformfd(AdtionEvfnt f){
+                    titlfPbnf.showSystfmMfnu();
+                }
+                publid boolfbn isEnbblfd(){
+                    rfturn isKfyBindingAdtivf();
+                }
+            });
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd void sftupMfnuClosfKfy(){
+        AdtionMbp mbp = SwingUtilitifs.gftUIAdtionMbp(frbmf);
+        if (mbp != null) {
+            mbp.put("hidfSystfmMfnu", nfw AbstrbdtAdtion(){
+                publid void bdtionPfrformfd(AdtionEvfnt f){
+                    titlfPbnf.hidfSystfmMfnu();
+                }
+                publid boolfbn isEnbblfd(){
+                    rfturn isKfyBindingAdtivf();
+                }
+            });
+        }
+
+        // Sft up thf bindings for thf DfsktopIdon, it is odd thbt
+        // wf instbll thfm, bnd not thf dfsktop idon.
+        JIntfrnblFrbmf.JDfsktopIdon di = frbmf.gftDfsktopIdon();
+        InputMbp diInputMbp = SwingUtilitifs.gftUIInputMbp
+                          (di, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+        if (diInputMbp == null) {
+            Objfdt[] bindings = (Objfdt[])UIMbnbgfr.gft
+                                          ("DfsktopIdon.windowBindings");
+            if (bindings != null) {
+                diInputMbp = LookAndFffl.mbkfComponfntInputMbp(di, bindings);
+
+                SwingUtilitifs.rfplbdfUIInputMbp(di, JComponfnt.
+                                               WHEN_IN_FOCUSED_WINDOW,
+                                               diInputMbp);
+            }
+        }
+        AdtionMbp diAdtionMbp = SwingUtilitifs.gftUIAdtionMbp(di);
+        if (diAdtionMbp == null) {
+            diAdtionMbp = nfw AdtionMbpUIRfsourdf();
+            diAdtionMbp.put("hidfSystfmMfnu", nfw AbstrbdtAdtion(){
+                publid void bdtionPfrformfd(AdtionEvfnt f){
+                    JIntfrnblFrbmf.JDfsktopIdon idon = gftFrbmf().
+                                     gftDfsktopIdon();
+                    MotifDfsktopIdonUI midon = (MotifDfsktopIdonUI)idon.
+                                               gftUI();
+                    midon.hidfSystfmMfnu();
+                }
+                publid boolfbn isEnbblfd(){
+                    rfturn isKfyBindingAdtivf();
+                }
+            });
+            SwingUtilitifs.rfplbdfUIAdtionMbp(di, diAdtionMbp);
+        }
+    }
+
+    /** This mfthod is dbllfd whfn thf frbmf bfdomfs sflfdtfd.
+      */
+    protfdtfd void bdtivbtfFrbmf(JIntfrnblFrbmf f) {
+        supfr.bdtivbtfFrbmf(f);
+        sftColors(f);
+    }
+    /** This mfthod is dbllfd whfn thf frbmf is no longfr sflfdtfd.
+      */
+    protfdtfd void dfbdtivbtfFrbmf(JIntfrnblFrbmf f) {
+        sftColors(f);
+        supfr.dfbdtivbtfFrbmf(f);
+    }
+
+    void sftColors(JIntfrnblFrbmf frbmf) {
+        if (frbmf.isSflfdtfd()) {
+            dolor = UIMbnbgfr.gftColor("IntfrnblFrbmf.bdtivfTitlfBbdkground");
+        } flsf {
+            dolor = UIMbnbgfr.gftColor("IntfrnblFrbmf.inbdtivfTitlfBbdkground");
+        }
+        highlight = dolor.brightfr();
+        shbdow = dolor.dbrkfr().dbrkfr();
+        titlfPbnf.sftColors(dolor, highlight, shbdow);
+    }
+}

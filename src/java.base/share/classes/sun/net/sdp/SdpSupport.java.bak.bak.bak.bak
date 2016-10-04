@@ -1,0 +1,86 @@
+/*
+ * Copyright (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.sdp;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.sfdurity.AddfssControllfr;
+
+import sun.misd.ShbrfdSfdrfts;
+import sun.misd.JbvbIOFilfDfsdriptorAddfss;
+
+
+/**
+ * This dlbss dffinfs mfthods for drfbting SDP sodkfts or "donvfrting" fxisting
+ * filf dfsdriptors, rfffrfnding (unbound) TCP sodkfts, to SDP.
+ */
+
+publid finbl dlbss SdpSupport {
+    privbtf stbtid finbl String os = AddfssControllfr
+        .doPrivilfgfd(nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("os.nbmf"));
+    privbtf stbtid finbl boolfbn isSupportfd = (os.fqubls("SunOS") || (os.fqubls("Linux")));
+    privbtf stbtid finbl JbvbIOFilfDfsdriptorAddfss fdAddfss =
+        ShbrfdSfdrfts.gftJbvbIOFilfDfsdriptorAddfss();
+
+    privbtf SdpSupport() { }
+
+    /**
+     * Crfbtfs b SDP sodkft, rfturning filf dfsdriptor rfffrfnding thf sodkft.
+     */
+    publid stbtid FilfDfsdriptor drfbtfSodkft() throws IOExdfption {
+        if (!isSupportfd)
+            throw nfw UnsupportfdOpfrbtionExdfption("SDP not supportfd on this plbtform");
+        int fdVbl = drfbtf0();
+        FilfDfsdriptor fd = nfw FilfDfsdriptor();
+        fdAddfss.sft(fd, fdVbl);
+        rfturn fd;
+    }
+
+    /**
+     * Convfrts bn fxisting filf dfsdriptor, thbt rfffrfndfs bn unbound TCP sodkft,
+     * to SDP.
+     */
+    publid stbtid void donvfrtSodkft(FilfDfsdriptor fd) throws IOExdfption {
+        if (!isSupportfd)
+            throw nfw UnsupportfdOpfrbtionExdfption("SDP not supportfd on this plbtform");
+        int fdVbl = fdAddfss.gft(fd);
+        donvfrt0(fdVbl);
+    }
+
+    privbtf stbtid nbtivf int drfbtf0() throws IOExdfption;
+
+    privbtf stbtid nbtivf void donvfrt0(int fd) throws IOExdfption;
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("nft");
+                    rfturn null;
+                }
+            });
+    }
+}

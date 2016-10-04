@@ -1,0 +1,342 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import jbvb.bwt.AWTError;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsDfvidf;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.Sft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.TrffMbp;
+import jbvb.util.Vfdtor;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import sun.bwt.AppContfxt;
+import sun.bwt.DisplbyChbngfdListfnfr;
+import sun.bwt.FontConfigurbtion;
+import sun.bwt.SunDisplbyChbngfr;
+import sun.font.CompositfFontDfsdriptor;
+import sun.font.Font2D;
+import sun.font.FontMbnbgfr;
+import sun.font.FontMbnbgfrFbdtory;
+import sun.font.FontMbnbgfrForSGE;
+import sun.font.NbtivfFont;
+
+/**
+ * This is bn implfmfntbtion of b GrbphidsEnvironmfnt objfdt for thf
+ * dffbult lodbl GrbphidsEnvironmfnt.
+ *
+ * @sff GrbphidsDfvidf
+ * @sff GrbphidsConfigurbtion
+ */
+publid bbstrbdt dlbss SunGrbphidsEnvironmfnt fxtfnds GrbphidsEnvironmfnt
+    implfmfnts DisplbyChbngfdListfnfr {
+
+    publid stbtid boolfbn isOpfnSolbris;
+    privbtf stbtid Font dffbultFont;
+
+    publid SunGrbphidsEnvironmfnt() {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                    String vfrsion = Systfm.gftPropfrty("os.vfrsion", "0.0");
+                    try {
+                        flobt vfr = Flobt.pbrsfFlobt(vfrsion);
+                        if (vfr > 5.10f) {
+                            Filf f = nfw Filf("/ftd/rflfbsf");
+                            FilfInputStrfbm fis = nfw FilfInputStrfbm(f);
+                            InputStrfbmRfbdfr isr
+                                = nfw InputStrfbmRfbdfr(fis, "ISO-8859-1");
+                            BufffrfdRfbdfr br = nfw BufffrfdRfbdfr(isr);
+                            String linf = br.rfbdLinf();
+                            if (linf.indfxOf("OpfnSolbris") >= 0) {
+                                isOpfnSolbris = truf;
+                            } flsf {
+                                /* Wf brf using isOpfnSolbris bs mfbning
+                                 * wf know thf Solbris dommfrdibl fonts brfn't
+                                 * prfsfnt. "Solbris Nfxt" (03/10) did not
+                                 * indludf thfsf fvfn though its wbs not
+                                 * OpfnSolbris. Nffd to rfvisit how this is
+                                 * hbndlfd but for now bs in 6ux, wf'll usf
+                                 * thf tfst for b stbndbrd font rfsourdf bs
+                                 * bfing bn indidbtor bs to whfthfr wf nffd
+                                 * to trfbt this bs OpfnSolbris from b font
+                                 * donfig pfrspfdtivf.
+                                 */
+                                String dourifrNfw =
+                                    "/usr/opfnwin/lib/X11/fonts/TrufTypf/CourifrNfw.ttf";
+                                Filf dourifrFilf = nfw Filf(dourifrNfw);
+                                isOpfnSolbris = !dourifrFilf.fxists();
+                            }
+                            fis.dlosf();
+                        }
+                    } dbtdh (Exdfption f) {
+                    }
+
+                /* Estbblish thf dffbult font to bf usfd by SG2D ftd */
+                dffbultFont = nfw Font(Font.DIALOG, Font.PLAIN, 12);
+
+                rfturn null;
+            }
+        });
+    }
+
+    protfdtfd GrbphidsDfvidf[] sdrffns;
+
+    /**
+     * Rfturns bn brrby of bll of thf sdrffn dfvidfs.
+     */
+    publid syndhronizfd GrbphidsDfvidf[] gftSdrffnDfvidfs() {
+        GrbphidsDfvidf[] rft = sdrffns;
+        if (rft == null) {
+            int num = gftNumSdrffns();
+            rft = nfw GrbphidsDfvidf[num];
+            for (int i = 0; i < num; i++) {
+                rft[i] = mbkfSdrffnDfvidf(i);
+            }
+            sdrffns = rft;
+        }
+        rfturn rft;
+    }
+
+    /**
+     * Rfturns thf numbfr of sdrffn dfvidfs of this grbphids fnvironmfnt.
+     *
+     * @rfturn thf numbfr of sdrffn dfvidfs of this grbphids fnvironmfnt
+     */
+    protfdtfd bbstrbdt int gftNumSdrffns();
+
+    /**
+     * Crfbtf bnd rfturn thf sdrffn dfvidf with thf spfdififd numbfr. Thf
+     * dfvidf with numbfr <dodf>0</dodf> will bf thf dffbult dfvidf (rfturnfd
+     * by {@link #gftDffbultSdrffnDfvidf()}.
+     *
+     * @pbrbm sdrffnnum thf numbfr of thf sdrffn to drfbtf
+     *
+     * @rfturn thf drfbtfd sdrffn dfvidf
+     */
+    protfdtfd bbstrbdt GrbphidsDfvidf mbkfSdrffnDfvidf(int sdrffnnum);
+
+    /**
+     * Rfturns thf dffbult sdrffn grbphids dfvidf.
+     */
+    publid GrbphidsDfvidf gftDffbultSdrffnDfvidf() {
+        GrbphidsDfvidf[] sdrffns = gftSdrffnDfvidfs();
+        if (sdrffns.lfngth == 0) {
+            throw nfw AWTError("no sdrffn dfvidfs");
+        }
+        rfturn sdrffns[0];
+    }
+
+    /**
+     * Rfturns b Grbphids2D objfdt for rfndfring into thf
+     * givfn BufffrfdImbgf.
+     * @throws NullPointfrExdfption if BufffrfdImbgf brgumfnt is null
+     */
+    publid Grbphids2D drfbtfGrbphids(BufffrfdImbgf img) {
+        if (img == null) {
+            throw nfw NullPointfrExdfption("BufffrfdImbgf dbnnot bf null");
+        }
+        SurfbdfDbtb sd = SurfbdfDbtb.gftPrimbrySurfbdfDbtb(img);
+        rfturn nfw SunGrbphids2D(sd, Color.whitf, Color.blbdk, dffbultFont);
+    }
+
+    publid stbtid FontMbnbgfrForSGE gftFontMbnbgfrForSGE() {
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        rfturn (FontMbnbgfrForSGE) fm;
+    }
+
+    /* Modififs thf bfhbviour of b subsfqufnt dbll to prfffrLodblfFonts()
+     * to usf Mindho instfbd of Gothid for dibloginput in JA lodblfs
+     * on windows. Not nffdfd on othfr plbtforms.
+     *
+     * DO NOT MOVE OR RENAME OR OTHERWISE ALTER THIS METHOD.
+     * ITS USED BY SOME NON-JRE INTERNAL CODE.
+     */
+    publid stbtid void usfAltfrnbtfFontforJALodblfs() {
+        gftFontMbnbgfrForSGE().usfAltfrnbtfFontforJALodblfs();
+    }
+
+     /**
+     * Rfturns bll fonts bvbilbblf in this fnvironmfnt.
+     */
+    publid Font[] gftAllFonts() {
+        FontMbnbgfrForSGE fm = gftFontMbnbgfrForSGE();
+        Font[] instbllfdFonts = fm.gftAllInstbllfdFonts();
+        Font[] drfbtfd = fm.gftCrfbtfdFonts();
+        if (drfbtfd == null || drfbtfd.lfngth == 0) {
+            rfturn instbllfdFonts;
+        } flsf {
+            int nfwlfn = instbllfdFonts.lfngth + drfbtfd.lfngth;
+            Font [] fonts = jbvb.util.Arrbys.dopyOf(instbllfdFonts, nfwlfn);
+            Systfm.brrbydopy(drfbtfd, 0, fonts,
+                             instbllfdFonts.lfngth, drfbtfd.lfngth);
+            rfturn fonts;
+        }
+    }
+
+    publid String[] gftAvbilbblfFontFbmilyNbmfs(Lodblf rfqufstfdLodblf) {
+        FontMbnbgfrForSGE fm = gftFontMbnbgfrForSGE();
+        String[] instbllfd = fm.gftInstbllfdFontFbmilyNbmfs(rfqufstfdLodblf);
+        /* Usf b nfw TrffMbp bs usfd in gftInstbllfdFontFbmilyNbmfs
+         * bnd insfrt bll thf kfys in lowfr dbsf, so thbt thf sort ordfr
+         * is thf sbmf bs thf instbllfd fbmilifs. This prfsfrvfs historidbl
+         * bfhbviour bnd insfrts nfw fbmilifs in thf right plbdf.
+         * It would hbvf bffn mbrginblly morf fffidifnt to dirfdtly obtbin
+         * thf trff mbp bnd just insfrt nfw fntrifs, but not so mudh bs
+         * to justify thf fxtrb intfrnbl intfrfbdf.
+         */
+        TrffMbp<String, String> mbp = fm.gftCrfbtfdFontFbmilyNbmfs();
+        if (mbp == null || mbp.sizf() == 0) {
+            rfturn instbllfd;
+        } flsf {
+            for (int i=0; i<instbllfd.lfngth; i++) {
+                mbp.put(instbllfd[i].toLowfrCbsf(rfqufstfdLodblf),
+                        instbllfd[i]);
+            }
+            String[] rftvbl =  nfw String[mbp.sizf()];
+            Objfdt [] kfyNbmfs = mbp.kfySft().toArrby();
+            for (int i=0; i < kfyNbmfs.lfngth; i++) {
+                rftvbl[i] = mbp.gft(kfyNbmfs[i]);
+            }
+            rfturn rftvbl;
+        }
+    }
+
+    publid String[] gftAvbilbblfFontFbmilyNbmfs() {
+        rfturn gftAvbilbblfFontFbmilyNbmfs(Lodblf.gftDffbult());
+    }
+
+    /**
+     * Rfturn thf bounds of b GrbphidsDfvidf, lfss its sdrffn insfts.
+     * Sff blso jbvb.bwt.GrbphidsEnvironmfnt.gftUsbblfBounds();
+     */
+    publid stbtid Rfdtbnglf gftUsbblfBounds(GrbphidsDfvidf gd) {
+        GrbphidsConfigurbtion gd = gd.gftDffbultConfigurbtion();
+        Insfts insfts = Toolkit.gftDffbultToolkit().gftSdrffnInsfts(gd);
+        Rfdtbnglf usbblfBounds = gd.gftBounds();
+
+        usbblfBounds.x += insfts.lfft;
+        usbblfBounds.y += insfts.top;
+        usbblfBounds.width -= (insfts.lfft + insfts.right);
+        usbblfBounds.hfight -= (insfts.top + insfts.bottom);
+
+        rfturn usbblfBounds;
+    }
+
+    /**
+     * From thf DisplbyChbngfdListfnfr intfrfbdf; dbllfd
+     * whfn thf displby modf hbs bffn dhbngfd.
+     */
+    publid void displbyChbngfd() {
+        // notify sdrffns in dfvidf brrby to do displby updbtf stuff
+        for (GrbphidsDfvidf gd : gftSdrffnDfvidfs()) {
+            if (gd instbndfof DisplbyChbngfdListfnfr) {
+                ((DisplbyChbngfdListfnfr) gd).displbyChbngfd();
+            }
+        }
+
+        // notify SunDisplbyChbngfr list (f.g. VolbtilfSurfbdfMbnbgfrs bnd
+        // SurfbdfDbtbProxifs) bbout thf displby dhbngf fvfnt
+        displbyChbngfr.notifyListfnfrs();
+    }
+
+    /**
+     * Pbrt of thf DisplbyChbngfdListfnfr intfrfbdf:
+     * propbgbtf this fvfnt to listfnfrs
+     */
+    publid void pblfttfChbngfd() {
+        displbyChbngfr.notifyPblfttfChbngfd();
+    }
+
+    /**
+     * Rfturns truf whfn thf displby is lodbl, fblsf for rfmotf displbys.
+     *
+     * @rfturn truf whfn thf displby is lodbl, fblsf for rfmotf displbys
+     */
+    publid bbstrbdt boolfbn isDisplbyLodbl();
+
+    /*
+     * ----DISPLAY CHANGE SUPPORT----
+     */
+
+    protfdtfd SunDisplbyChbngfr displbyChbngfr = nfw SunDisplbyChbngfr();
+
+    /**
+     * Add b DisplbyChbngfListfnfr to bf notififd whfn thf displby sfttings
+     * brf dhbngfd.
+     */
+    publid void bddDisplbyChbngfdListfnfr(DisplbyChbngfdListfnfr dlifnt) {
+        displbyChbngfr.bdd(dlifnt);
+    }
+
+    /**
+     * Rfmovf b DisplbyChbngfListfnfr from Win32GrbphidsEnvironmfnt
+     */
+    publid void rfmovfDisplbyChbngfdListfnfr(DisplbyChbngfdListfnfr dlifnt) {
+        displbyChbngfr.rfmovf(dlifnt);
+    }
+
+    /*
+     * ----END DISPLAY CHANGE SUPPORT----
+     */
+
+    /**
+     * Rfturns truf if FlipBufffrStrbtfgy with COPIED bufffr dontfnts
+     * is prfffrrfd for this pffr's GrbphidsConfigurbtion ovfr
+     * BlitBufffrStrbtfgy, fblsf othfrwisf.
+     *
+     * Thf rfbson FlipBS dould bf prfffrrfd is thbt in somf donfigurbtions
+     * bn bddflfrbtfd dopy to thf sdrffn is supportfd (likf Dirfdt3D 9)
+     *
+     * @rfturn truf if flip strbtfgy should bf usfd, fblsf othfrwisf
+     */
+    publid boolfbn isFlipStrbtfgyPrfffrrfd(ComponfntPffr pffr) {
+        rfturn fblsf;
+    }
+}

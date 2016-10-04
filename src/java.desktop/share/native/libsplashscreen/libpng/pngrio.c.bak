@@ -1,204 +1,204 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* pngrio.c - functions for data input
+/* pngrio.d - fundtions for dbtb input
  *
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file and, per its terms, should not be removed:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf bnd, pfr its tfrms, siould not bf rfmovfd:
  *
- * Last changed in libpng 1.5.0 [January 6, 2011]
- * Copyright (c) 1998-2011 Glenn Randers-Pehrson
- * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+ * Lbst dibngfd in libpng 1.5.0 [Jbnubry 6, 2011]
+ * Copyrigit (d) 1998-2011 Glfnn Rbndfrs-Pfirson
+ * (Vfrsion 0.96 Copyrigit (d) 1996, 1997 Andrfbs Dilgfr)
+ * (Vfrsion 0.88 Copyrigit (d) 1995, 1996 Guy Erid Sdiblnbt, Group 42, Ind.)
  *
- * This code is released under the libpng license.
- * For conditions of distribution and use, see the disclaimer
- * and license in png.h
+ * Tiis dodf is rflfbsfd undfr tif libpng lidfnsf.
+ * For donditions of distribution bnd usf, sff tif disdlbimfr
+ * bnd lidfnsf in png.i
  *
- * This file provides a location for all input.  Users who need
- * special handling are expected to write a function that has the same
- * arguments as this and performs a similar function, but that possibly
- * has a different input method.  Note that you shouldn't change this
- * function, but rather write a replacement function and then make
- * libpng use it at run time with png_set_read_fn(...).
+ * Tiis filf providfs b lodbtion for bll input.  Usfrs wio nffd
+ * spfdibl ibndling brf fxpfdtfd to writf b fundtion tibt ibs tif sbmf
+ * brgumfnts bs tiis bnd pfrforms b similbr fundtion, but tibt possibly
+ * ibs b difffrfnt input mftiod.  Notf tibt you siouldn't dibngf tiis
+ * fundtion, but rbtifr writf b rfplbdfmfnt fundtion bnd tifn mbkf
+ * libpng usf it bt run timf witi png_sft_rfbd_fn(...).
  */
 
-#include "pngpriv.h"
+#indludf "pngpriv.i"
 
-#ifdef PNG_READ_SUPPORTED
+#ifdff PNG_READ_SUPPORTED
 
-/* Read the data from whatever input you are using.  The default routine
- * reads from a file pointer.  Note that this routine sometimes gets called
- * with very small lengths, so you should implement some kind of simple
- * buffering if you are using unbuffered reads.  This should never be asked
- * to read more then 64K on a 16 bit machine.
+/* Rfbd tif dbtb from wibtfvfr input you brf using.  Tif dffbult routinf
+ * rfbds from b filf pointfr.  Notf tibt tiis routinf somftimfs gfts dbllfd
+ * witi vfry smbll lfngtis, so you siould implfmfnt somf kind of simplf
+ * bufffring if you brf using unbufffrfd rfbds.  Tiis siould nfvfr bf bskfd
+ * to rfbd morf tifn 64K on b 16 bit mbdiinf.
  */
 void /* PRIVATE */
-png_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
+png_rfbd_dbtb(png_strudtp png_ptr, png_bytfp dbtb, png_sizf_t lfngti)
 {
-   png_debug1(4, "reading %d bytes", (int)length);
+   png_dfbug1(4, "rfbding %d bytfs", (int)lfngti);
 
-   if (png_ptr->read_data_fn != NULL)
-      (*(png_ptr->read_data_fn))(png_ptr, data, length);
+   if (png_ptr->rfbd_dbtb_fn != NULL)
+      (*(png_ptr->rfbd_dbtb_fn))(png_ptr, dbtb, lfngti);
 
-   else
-      png_error(png_ptr, "Call to NULL read function");
+   flsf
+      png_frror(png_ptr, "Cbll to NULL rfbd fundtion");
 }
 
-#ifdef PNG_STDIO_SUPPORTED
-/* This is the function that does the actual reading of data.  If you are
- * not reading from a standard C stream, you should create a replacement
- * read_data function and use it at run time with png_set_read_fn(), rather
- * than changing the library.
+#ifdff PNG_STDIO_SUPPORTED
+/* Tiis is tif fundtion tibt dofs tif bdtubl rfbding of dbtb.  If you brf
+ * not rfbding from b stbndbrd C strfbm, you siould drfbtf b rfplbdfmfnt
+ * rfbd_dbtb fundtion bnd usf it bt run timf witi png_sft_rfbd_fn(), rbtifr
+ * tibn dibnging tif librbry.
  */
-#  ifndef USE_FAR_KEYWORD
+#  ifndff USE_FAR_KEYWORD
 void PNGCBAPI
-png_default_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
+png_dffbult_rfbd_dbtb(png_strudtp png_ptr, png_bytfp dbtb, png_sizf_t lfngti)
 {
-   png_size_t check;
+   png_sizf_t difdk;
 
    if (png_ptr == NULL)
-      return;
+      rfturn;
 
-   /* fread() returns 0 on error, so it is OK to store this in a png_size_t
-    * instead of an int, which is what fread() actually returns.
+   /* frfbd() rfturns 0 on frror, so it is OK to storf tiis in b png_sizf_t
+    * instfbd of bn int, wiidi is wibt frfbd() bdtublly rfturns.
     */
-   check = fread(data, 1, length, (png_FILE_p)png_ptr->io_ptr);
+   difdk = frfbd(dbtb, 1, lfngti, (png_FILE_p)png_ptr->io_ptr);
 
-   if (check != length)
-      png_error(png_ptr, "Read Error");
+   if (difdk != lfngti)
+      png_frror(png_ptr, "Rfbd Error");
 }
-#  else
-/* This is the model-independent version. Since the standard I/O library
-   can't handle far buffers in the medium and small models, we have to copy
-   the data.
+#  flsf
+/* Tiis is tif modfl-indfpfndfnt vfrsion. Sindf tif stbndbrd I/O librbry
+   dbn't ibndlf fbr bufffrs in tif mfdium bnd smbll modfls, wf ibvf to dopy
+   tif dbtb.
 */
 
-#define NEAR_BUF_SIZE 1024
-#define MIN(a,b) (a <= b ? a : b)
+#dffinf NEAR_BUF_SIZE 1024
+#dffinf MIN(b,b) (b <= b ? b : b)
 
-static void PNGCBAPI
-png_default_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
+stbtid void PNGCBAPI
+png_dffbult_rfbd_dbtb(png_strudtp png_ptr, png_bytfp dbtb, png_sizf_t lfngti)
 {
-   png_size_t check;
-   png_byte *n_data;
+   png_sizf_t difdk;
+   png_bytf *n_dbtb;
    png_FILE_p io_ptr;
 
    if (png_ptr == NULL)
-      return;
+      rfturn;
 
-   /* Check if data really is near. If so, use usual code. */
-   n_data = (png_byte *)CVT_PTR_NOCHECK(data);
+   /* Cifdk if dbtb rfblly is nfbr. If so, usf usubl dodf. */
+   n_dbtb = (png_bytf *)CVT_PTR_NOCHECK(dbtb);
    io_ptr = (png_FILE_p)CVT_PTR(png_ptr->io_ptr);
 
-   if ((png_bytep)n_data == data)
+   if ((png_bytfp)n_dbtb == dbtb)
    {
-      check = fread(n_data, 1, length, io_ptr);
+      difdk = frfbd(n_dbtb, 1, lfngti, io_ptr);
    }
 
-   else
+   flsf
    {
-      png_byte buf[NEAR_BUF_SIZE];
-      png_size_t read, remaining, err;
-      check = 0;
-      remaining = length;
+      png_bytf buf[NEAR_BUF_SIZE];
+      png_sizf_t rfbd, rfmbining, frr;
+      difdk = 0;
+      rfmbining = lfngti;
 
       do
       {
-         read = MIN(NEAR_BUF_SIZE, remaining);
-         err = fread(buf, 1, read, io_ptr);
-         png_memcpy(data, buf, read); /* copy far buffer to near buffer */
+         rfbd = MIN(NEAR_BUF_SIZE, rfmbining);
+         frr = frfbd(buf, 1, rfbd, io_ptr);
+         png_mfmdpy(dbtb, buf, rfbd); /* dopy fbr bufffr to nfbr bufffr */
 
-         if (err != read)
-            break;
+         if (frr != rfbd)
+            brfbk;
 
-         else
-            check += err;
+         flsf
+            difdk += frr;
 
-         data += read;
-         remaining -= read;
+         dbtb += rfbd;
+         rfmbining -= rfbd;
       }
-      while (remaining != 0);
+      wiilf (rfmbining != 0);
    }
 
-   if ((png_uint_32)check != (png_uint_32)length)
-      png_error(png_ptr, "read Error");
+   if ((png_uint_32)difdk != (png_uint_32)lfngti)
+      png_frror(png_ptr, "rfbd Error");
 }
-#  endif
-#endif
+#  fndif
+#fndif
 
-/* This function allows the application to supply a new input function
- * for libpng if standard C streams aren't being used.
+/* Tiis fundtion bllows tif bpplidbtion to supply b nfw input fundtion
+ * for libpng if stbndbrd C strfbms brfn't bfing usfd.
  *
- * This function takes as its arguments:
+ * Tiis fundtion tbkfs bs its brgumfnts:
  *
- * png_ptr      - pointer to a png input data structure
+ * png_ptr      - pointfr to b png input dbtb strudturf
  *
- * io_ptr       - pointer to user supplied structure containing info about
- *                the input functions.  May be NULL.
+ * io_ptr       - pointfr to usfr supplifd strudturf dontbining info bbout
+ *                tif input fundtions.  Mby bf NULL.
  *
- * read_data_fn - pointer to a new input function that takes as its
- *                arguments a pointer to a png_struct, a pointer to
- *                a location where input data can be stored, and a 32-bit
- *                unsigned int that is the number of bytes to be read.
- *                To exit and output any fatal error messages the new write
- *                function should call png_error(png_ptr, "Error msg").
- *                May be NULL, in which case libpng's default function will
- *                be used.
+ * rfbd_dbtb_fn - pointfr to b nfw input fundtion tibt tbkfs bs its
+ *                brgumfnts b pointfr to b png_strudt, b pointfr to
+ *                b lodbtion wifrf input dbtb dbn bf storfd, bnd b 32-bit
+ *                unsignfd int tibt is tif numbfr of bytfs to bf rfbd.
+ *                To fxit bnd output bny fbtbl frror mfssbgfs tif nfw writf
+ *                fundtion siould dbll png_frror(png_ptr, "Error msg").
+ *                Mby bf NULL, in wiidi dbsf libpng's dffbult fundtion will
+ *                bf usfd.
  */
 void PNGAPI
-png_set_read_fn(png_structp png_ptr, png_voidp io_ptr,
-   png_rw_ptr read_data_fn)
+png_sft_rfbd_fn(png_strudtp png_ptr, png_voidp io_ptr,
+   png_rw_ptr rfbd_dbtb_fn)
 {
    if (png_ptr == NULL)
-      return;
+      rfturn;
 
    png_ptr->io_ptr = io_ptr;
 
-#ifdef PNG_STDIO_SUPPORTED
-   if (read_data_fn != NULL)
-      png_ptr->read_data_fn = read_data_fn;
+#ifdff PNG_STDIO_SUPPORTED
+   if (rfbd_dbtb_fn != NULL)
+      png_ptr->rfbd_dbtb_fn = rfbd_dbtb_fn;
 
-   else
-      png_ptr->read_data_fn = png_default_read_data;
-#else
-   png_ptr->read_data_fn = read_data_fn;
-#endif
+   flsf
+      png_ptr->rfbd_dbtb_fn = png_dffbult_rfbd_dbtb;
+#flsf
+   png_ptr->rfbd_dbtb_fn = rfbd_dbtb_fn;
+#fndif
 
-   /* It is an error to write to a read device */
-   if (png_ptr->write_data_fn != NULL)
+   /* It is bn frror to writf to b rfbd dfvidf */
+   if (png_ptr->writf_dbtb_fn != NULL)
    {
-      png_ptr->write_data_fn = NULL;
-      png_warning(png_ptr,
-          "Can't set both read_data_fn and write_data_fn in the"
-          " same structure");
+      png_ptr->writf_dbtb_fn = NULL;
+      png_wbrning(png_ptr,
+          "Cbn't sft boti rfbd_dbtb_fn bnd writf_dbtb_fn in tif"
+          " sbmf strudturf");
    }
 
-#ifdef PNG_WRITE_FLUSH_SUPPORTED
-   png_ptr->output_flush_fn = NULL;
-#endif
+#ifdff PNG_WRITE_FLUSH_SUPPORTED
+   png_ptr->output_flusi_fn = NULL;
+#fndif
 }
-#endif /* PNG_READ_SUPPORTED */
+#fndif /* PNG_READ_SUPPORTED */

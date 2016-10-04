@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
 /**
- * An object that can be used to get information about the types
- * and properties for each parameter marker in a
- * <code>PreparedStatement</code> object. For some queries and driver
- * implementations, the data that would be returned by a <code>ParameterMetaData</code>
- * object may not be available until the <code>PreparedStatement</code> has
- * been executed.
+ * An objfdt tibt dbn bf usfd to gft informbtion bbout tif typfs
+ * bnd propfrtifs for fbdi pbrbmftfr mbrkfr in b
+ * <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt. For somf qufrifs bnd drivfr
+ * implfmfntbtions, tif dbtb tibt would bf rfturnfd by b <dodf>PbrbmftfrMftbDbtb</dodf>
+ * objfdt mby not bf bvbilbblf until tif <dodf>PrfpbrfdStbtfmfnt</dodf> ibs
+ * bffn fxfdutfd.
  *<p>
- *Some driver implementations may not be able to provide information about the
- *types and properties for each parameter marker in a <code>CallableStatement</code>
- *object.
+ *Somf drivfr implfmfntbtions mby not bf bblf to providf informbtion bbout tif
+ *typfs bnd propfrtifs for fbdi pbrbmftfr mbrkfr in b <dodf>CbllbblfStbtfmfnt</dodf>
+ *objfdt.
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public interface ParameterMetaData extends Wrapper {
+publid intfrfbdf PbrbmftfrMftbDbtb fxtfnds Wrbppfr {
 
     /**
-     * Retrieves the number of parameters in the <code>PreparedStatement</code>
-     * object for which this <code>ParameterMetaData</code> object contains
-     * information.
+     * Rftrifvfs tif numbfr of pbrbmftfrs in tif <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt for wiidi tiis <dodf>PbrbmftfrMftbDbtb</dodf> objfdt dontbins
+     * informbtion.
      *
-     * @return the number of parameters
-     * @exception SQLException if a database access error occurs
-     * @since 1.4
+     * @rfturn tif numbfr of pbrbmftfrs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
      */
-    int getParameterCount() throws SQLException;
+    int gftPbrbmftfrCount() tirows SQLExdfption;
 
     /**
-     * Retrieves whether null values are allowed in the designated parameter.
+     * Rftrifvfs wiftifr null vblufs brf bllowfd in tif dfsignbtfd pbrbmftfr.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return the nullability status of the given parameter; one of
-     *        <code>ParameterMetaData.parameterNoNulls</code>,
-     *        <code>ParameterMetaData.parameterNullable</code>, or
-     *        <code>ParameterMetaData.parameterNullableUnknown</code>
-     * @exception SQLException if a database access error occurs
-     * @since 1.4
+     * @pbrbm pbrbm tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @rfturn tif nullbbility stbtus of tif givfn pbrbmftfr; onf of
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrNoNulls</dodf>,
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrNullbblf</dodf>, or
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrNullbblfUnknown</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
      */
-    int isNullable(int param) throws SQLException;
+    int isNullbblf(int pbrbm) tirows SQLExdfption;
 
     /**
-     * The constant indicating that a
-     * parameter will not allow <code>NULL</code> values.
+     * Tif donstbnt indidbting tibt b
+     * pbrbmftfr will not bllow <dodf>NULL</dodf> vblufs.
      */
-    int parameterNoNulls = 0;
+    int pbrbmftfrNoNulls = 0;
 
     /**
-     * The constant indicating that a
-     * parameter will allow <code>NULL</code> values.
+     * Tif donstbnt indidbting tibt b
+     * pbrbmftfr will bllow <dodf>NULL</dodf> vblufs.
      */
-    int parameterNullable = 1;
+    int pbrbmftfrNullbblf = 1;
 
     /**
-     * The constant indicating that the
-     * nullability of a parameter is unknown.
+     * Tif donstbnt indidbting tibt tif
+     * nullbbility of b pbrbmftfr is unknown.
      */
-    int parameterNullableUnknown = 2;
+    int pbrbmftfrNullbblfUnknown = 2;
 
     /**
-     * Retrieves whether values for the designated parameter can be signed numbers.
+     * Rftrifvfs wiftifr vblufs for tif dfsignbtfd pbrbmftfr dbn bf signfd numbfrs.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
-     * @since 1.4
+     * @pbrbm pbrbm tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
      */
-    boolean isSigned(int param) throws SQLException;
+    boolfbn isSignfd(int pbrbm) tirows SQLExdfption;
 
     /**
-     * Retrieves the designated parameter's specified column size.
+     * Rftrifvfs tif dfsignbtfd pbrbmftfr's spfdififd dolumn sizf.
      *
-     * <P>The returned value represents the maximum column size for the given parameter.
-     * For numeric data, this is the maximum precision.  For character data, this is the length in characters.
-     * For datetime datatypes, this is the length in characters of the String representation (assuming the
-     * maximum allowed precision of the fractional seconds component). For binary data, this is the length in bytes.  For the ROWID datatype,
-     * this is the length in bytes. 0 is returned for data types where the
-     * column size is not applicable.
+     * <P>Tif rfturnfd vbluf rfprfsfnts tif mbximum dolumn sizf for tif givfn pbrbmftfr.
+     * For numfrid dbtb, tiis is tif mbximum prfdision.  For dibrbdtfr dbtb, tiis is tif lfngti in dibrbdtfrs.
+     * For dbtftimf dbtbtypfs, tiis is tif lfngti in dibrbdtfrs of tif String rfprfsfntbtion (bssuming tif
+     * mbximum bllowfd prfdision of tif frbdtionbl sfdonds domponfnt). For binbry dbtb, tiis is tif lfngti in bytfs.  For tif ROWID dbtbtypf,
+     * tiis is tif lfngti in bytfs. 0 is rfturnfd for dbtb typfs wifrf tif
+     * dolumn sizf is not bpplidbblf.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return precision
-     * @exception SQLException if a database access error occurs
-     * @since 1.4
+     * @pbrbm pbrbm tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @rfturn prfdision
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
      */
-    int getPrecision(int param) throws SQLException;
+    int gftPrfdision(int pbrbm) tirows SQLExdfption;
 
     /**
-     * Retrieves the designated parameter's number of digits to right of the decimal point.
-     * 0 is returned for data types where the scale is not applicable.
+     * Rftrifvfs tif dfsignbtfd pbrbmftfr's numbfr of digits to rigit of tif dfdimbl point.
+     * 0 is rfturnfd for dbtb typfs wifrf tif sdblf is not bpplidbblf.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return scale
-     * @exception SQLException if a database access error occurs
-     * @since 1.4
+     * @pbrbm pbrbm tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @rfturn sdblf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
      */
-    int getScale(int param) throws SQLException;
+    int gftSdblf(int pbrbm) tirows SQLExdfption;
 
     /**
-     * Retrieves the designated parameter's SQL type.
+     * Rftrifvfs tif dfsignbtfd pbrbmftfr's SQL typf.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return SQL type from <code>java.sql.Types</code>
-     * @exception SQLException if a database access error occurs
-     * @since 1.4
-     * @see Types
+     * @pbrbm pbrbm tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @rfturn SQL typf from <dodf>jbvb.sql.Typfs</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     * @sff Typfs
      */
-    int getParameterType(int param) throws SQLException;
+    int gftPbrbmftfrTypf(int pbrbm) tirows SQLExdfption;
 
     /**
-     * Retrieves the designated parameter's database-specific type name.
+     * Rftrifvfs tif dfsignbtfd pbrbmftfr's dbtbbbsf-spfdifid typf nbmf.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return type the name used by the database. If the parameter type is
-     * a user-defined type, then a fully-qualified type name is returned.
-     * @exception SQLException if a database access error occurs
-     * @since 1.4
+     * @pbrbm pbrbm tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @rfturn typf tif nbmf usfd by tif dbtbbbsf. If tif pbrbmftfr typf is
+     * b usfr-dffinfd typf, tifn b fully-qublififd typf nbmf is rfturnfd.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
      */
-    String getParameterTypeName(int param) throws SQLException;
+    String gftPbrbmftfrTypfNbmf(int pbrbm) tirows SQLExdfption;
 
 
     /**
-     * Retrieves the fully-qualified name of the Java class whose instances
-     * should be passed to the method <code>PreparedStatement.setObject</code>.
+     * Rftrifvfs tif fully-qublififd nbmf of tif Jbvb dlbss wiosf instbndfs
+     * siould bf pbssfd to tif mftiod <dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf>.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return the fully-qualified name of the class in the Java programming
-     *         language that would be used by the method
-     *         <code>PreparedStatement.setObject</code> to set the value
-     *         in the specified parameter. This is the class name used
-     *         for custom mapping.
-     * @exception SQLException if a database access error occurs
-     * @since 1.4
+     * @pbrbm pbrbm tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @rfturn tif fully-qublififd nbmf of tif dlbss in tif Jbvb progrbmming
+     *         lbngubgf tibt would bf usfd by tif mftiod
+     *         <dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf> to sft tif vbluf
+     *         in tif spfdififd pbrbmftfr. Tiis is tif dlbss nbmf usfd
+     *         for dustom mbpping.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
      */
-    String getParameterClassName(int param) throws SQLException;
+    String gftPbrbmftfrClbssNbmf(int pbrbm) tirows SQLExdfption;
 
     /**
-     * The constant indicating that the mode of the parameter is unknown.
+     * Tif donstbnt indidbting tibt tif modf of tif pbrbmftfr is unknown.
      */
-    int parameterModeUnknown = 0;
+    int pbrbmftfrModfUnknown = 0;
 
     /**
-     * The constant indicating that the parameter's mode is IN.
+     * Tif donstbnt indidbting tibt tif pbrbmftfr's modf is IN.
      */
-    int parameterModeIn = 1;
+    int pbrbmftfrModfIn = 1;
 
     /**
-     * The constant indicating that the parameter's mode is INOUT.
+     * Tif donstbnt indidbting tibt tif pbrbmftfr's modf is INOUT.
      */
-    int parameterModeInOut = 2;
+    int pbrbmftfrModfInOut = 2;
 
     /**
-     * The constant indicating that the parameter's mode is  OUT.
+     * Tif donstbnt indidbting tibt tif pbrbmftfr's modf is  OUT.
      */
-    int parameterModeOut = 4;
+    int pbrbmftfrModfOut = 4;
 
     /**
-     * Retrieves the designated parameter's mode.
+     * Rftrifvfs tif dfsignbtfd pbrbmftfr's modf.
      *
-     * @param param the first parameter is 1, the second is 2, ...
-     * @return mode of the parameter; one of
-     *        <code>ParameterMetaData.parameterModeIn</code>,
-     *        <code>ParameterMetaData.parameterModeOut</code>, or
-     *        <code>ParameterMetaData.parameterModeInOut</code>
-     *        <code>ParameterMetaData.parameterModeUnknown</code>.
-     * @exception SQLException if a database access error occurs
-     * @since 1.4
+     * @pbrbm pbrbm tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @rfturn modf of tif pbrbmftfr; onf of
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrModfIn</dodf>,
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrModfOut</dodf>, or
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrModfInOut</dodf>
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrModfUnknown</dodf>.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
      */
-    int getParameterMode(int param) throws SQLException;
+    int gftPbrbmftfrModf(int pbrbm) tirows SQLExdfption;
 }

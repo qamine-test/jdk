@@ -1,0 +1,133 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.lodks;
+
+/**
+ * A {@dodf RfbdWritfLodk} mbintbins b pbir of bssodibtfd {@link
+ * Lodk lodks}, onf for rfbd-only opfrbtions bnd onf for writing.
+ * Thf {@link #rfbdLodk rfbd lodk} mby bf hfld simultbnfously by
+ * multiplf rfbdfr thrfbds, so long bs thfrf brf no writfrs.  Thf
+ * {@link #writfLodk writf lodk} is fxdlusivf.
+ *
+ * <p>All {@dodf RfbdWritfLodk} implfmfntbtions must gubrbntff thbt
+ * thf mfmory syndhronizbtion ffffdts of {@dodf writfLodk} opfrbtions
+ * (bs spfdififd in thf {@link Lodk} intfrfbdf) blso hold with rfspfdt
+ * to thf bssodibtfd {@dodf rfbdLodk}. Thbt is, b thrfbd suddfssfully
+ * bdquiring thf rfbd lodk will sff bll updbtfs mbdf upon prfvious
+ * rflfbsf of thf writf lodk.
+ *
+ * <p>A rfbd-writf lodk bllows for b grfbtfr lfvfl of dondurrfndy in
+ * bddfssing shbrfd dbtb thbn thbt pfrmittfd by b mutubl fxdlusion lodk.
+ * It fxploits thf fbdt thbt whilf only b singlf thrfbd bt b timf (b
+ * <fm>writfr</fm> thrfbd) dbn modify thf shbrfd dbtb, in mbny dbsfs bny
+ * numbfr of thrfbds dbn dondurrfntly rfbd thf dbtb (hfndf <fm>rfbdfr</fm>
+ * thrfbds).
+ * In thfory, thf indrfbsf in dondurrfndy pfrmittfd by thf usf of b rfbd-writf
+ * lodk will lfbd to pfrformbndf improvfmfnts ovfr thf usf of b mutubl
+ * fxdlusion lodk. In prbdtidf this indrfbsf in dondurrfndy will only bf fully
+ * rfblizfd on b multi-prodfssor, bnd thfn only if thf bddfss pbttfrns for
+ * thf shbrfd dbtb brf suitbblf.
+ *
+ * <p>Whfthfr or not b rfbd-writf lodk will improvf pfrformbndf ovfr thf usf
+ * of b mutubl fxdlusion lodk dfpfnds on thf frfqufndy thbt thf dbtb is
+ * rfbd dompbrfd to bfing modififd, thf durbtion of thf rfbd bnd writf
+ * opfrbtions, bnd thf dontfntion for thf dbtb - thbt is, thf numbfr of
+ * thrfbds thbt will try to rfbd or writf thf dbtb bt thf sbmf timf.
+ * For fxbmplf, b dollfdtion thbt is initiblly populbtfd with dbtb bnd
+ * thfrfbftfr infrfqufntly modififd, whilf bfing frfqufntly sfbrdhfd
+ * (sudh bs b dirfdtory of somf kind) is bn idfbl dbndidbtf for thf usf of
+ * b rfbd-writf lodk. Howfvfr, if updbtfs bfdomf frfqufnt thfn thf dbtb
+ * spfnds most of its timf bfing fxdlusivfly lodkfd bnd thfrf is littlf, if bny
+ * indrfbsf in dondurrfndy. Furthfr, if thf rfbd opfrbtions brf too short
+ * thf ovfrhfbd of thf rfbd-writf lodk implfmfntbtion (whidh is inhfrfntly
+ * morf domplfx thbn b mutubl fxdlusion lodk) dbn dominbtf thf fxfdution
+ * dost, pbrtidulbrly bs mbny rfbd-writf lodk implfmfntbtions still sfriblizf
+ * bll thrfbds through b smbll sfdtion of dodf. Ultimbtfly, only profiling
+ * bnd mfbsurfmfnt will fstbblish whfthfr thf usf of b rfbd-writf lodk is
+ * suitbblf for your bpplidbtion.
+ *
+ *
+ * <p>Although thf bbsid opfrbtion of b rfbd-writf lodk is strbight-forwbrd,
+ * thfrf brf mbny polidy dfdisions thbt bn implfmfntbtion must mbkf, whidh
+ * mby bfffdt thf ffffdtivfnfss of thf rfbd-writf lodk in b givfn bpplidbtion.
+ * Exbmplfs of thfsf polidifs indludf:
+ * <ul>
+ * <li>Dftfrmining whfthfr to grbnt thf rfbd lodk or thf writf lodk, whfn
+ * both rfbdfrs bnd writfrs brf wbiting, bt thf timf thbt b writfr rflfbsfs
+ * thf writf lodk. Writfr prfffrfndf is dommon, bs writfs brf fxpfdtfd to bf
+ * short bnd infrfqufnt. Rfbdfr prfffrfndf is lfss dommon bs it dbn lfbd to
+ * lfngthy dflbys for b writf if thf rfbdfrs brf frfqufnt bnd long-livfd bs
+ * fxpfdtfd. Fbir, or &quot;in-ordfr&quot; implfmfntbtions brf blso possiblf.
+ *
+ * <li>Dftfrmining whfthfr rfbdfrs thbt rfqufst thf rfbd lodk whilf b
+ * rfbdfr is bdtivf bnd b writfr is wbiting, brf grbntfd thf rfbd lodk.
+ * Prfffrfndf to thf rfbdfr dbn dflby thf writfr indffinitfly, whilf
+ * prfffrfndf to thf writfr dbn rfdudf thf potfntibl for dondurrfndy.
+ *
+ * <li>Dftfrmining whfthfr thf lodks brf rffntrbnt: dbn b thrfbd with thf
+ * writf lodk rfbdquirf it? Cbn it bdquirf b rfbd lodk whilf holding thf
+ * writf lodk? Is thf rfbd lodk itsflf rffntrbnt?
+ *
+ * <li>Cbn thf writf lodk bf downgrbdfd to b rfbd lodk without bllowing
+ * bn intfrvfning writfr? Cbn b rfbd lodk bf upgrbdfd to b writf lodk,
+ * in prfffrfndf to othfr wbiting rfbdfrs or writfrs?
+ *
+ * </ul>
+ * You should donsidfr bll of thfsf things whfn fvblubting thf suitbbility
+ * of b givfn implfmfntbtion for your bpplidbtion.
+ *
+ * @sff RffntrbntRfbdWritfLodk
+ * @sff Lodk
+ * @sff RffntrbntLodk
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ */
+publid intfrfbdf RfbdWritfLodk {
+    /**
+     * Rfturns thf lodk usfd for rfbding.
+     *
+     * @rfturn thf lodk usfd for rfbding
+     */
+    Lodk rfbdLodk();
+
+    /**
+     * Rfturns thf lodk usfd for writing.
+     *
+     * @rfturn thf lodk usfd for writing
+     */
+    Lodk writfLodk();
+}

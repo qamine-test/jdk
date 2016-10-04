@@ -1,0 +1,1351 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.prffs.BbdkingStorfExdfption;
+import jbvb.util.prffs.Prfffrfndfs;
+
+import jbvbx.sound.midi.Instrumfnt;
+import jbvbx.sound.midi.MidiChbnnfl;
+import jbvbx.sound.midi.MidiDfvidf;
+import jbvbx.sound.midi.MidiSystfm;
+import jbvbx.sound.midi.MidiUnbvbilbblfExdfption;
+import jbvbx.sound.midi.Pbtdh;
+import jbvbx.sound.midi.Rfdfivfr;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.Trbnsmittfr;
+import jbvbx.sound.midi.VoidfStbtus;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.LinfUnbvbilbblfExdfption;
+import jbvbx.sound.sbmplfd.SourdfDbtbLinf;
+
+/**
+ * Thf softwbrf synthfsizfr dlbss.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss SoftSynthfsizfr implfmfnts AudioSynthfsizfr,
+        RfffrfndfCountingDfvidf {
+
+    protfdtfd stbtid finbl dlbss WfbkAudioStrfbm fxtfnds InputStrfbm
+    {
+        privbtf volbtilf AudioInputStrfbm strfbm;
+        publid SoftAudioPushfr pushfr = null;
+        publid AudioInputStrfbm jittfr_strfbm = null;
+        publid SourdfDbtbLinf sourdfDbtbLinf = null;
+        publid volbtilf long silfnt_sbmplfs = 0;
+        privbtf int frbmfsizf = 0;
+        privbtf WfbkRfffrfndf<AudioInputStrfbm> wfbk_strfbm_link;
+        privbtf AudioFlobtConvfrtfr donvfrtfr;
+        privbtf flobt[] silfntbufffr = null;
+        privbtf int sbmplfsizf;
+
+        publid void sftInputStrfbm(AudioInputStrfbm strfbm)
+        {
+            this.strfbm = strfbm;
+        }
+
+        publid int bvbilbblf() throws IOExdfption {
+            AudioInputStrfbm lodbl_strfbm = strfbm;
+            if(lodbl_strfbm != null)
+                rfturn lodbl_strfbm.bvbilbblf();
+            rfturn 0;
+        }
+
+        publid int rfbd() throws IOExdfption {
+             bytf[] b = nfw bytf[1];
+             if (rfbd(b) == -1)
+                  rfturn -1;
+             rfturn b[0] & 0xFF;
+        }
+
+        publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+             AudioInputStrfbm lodbl_strfbm = strfbm;
+             if(lodbl_strfbm != null)
+                 rfturn lodbl_strfbm.rfbd(b, off, lfn);
+             flsf
+             {
+                 int flfn = lfn / sbmplfsizf;
+                 if(silfntbufffr == null || silfntbufffr.lfngth < flfn)
+                     silfntbufffr = nfw flobt[flfn];
+                 donvfrtfr.toBytfArrby(silfntbufffr, flfn, b, off);
+
+                 silfnt_sbmplfs += (long)((lfn / frbmfsizf));
+
+                 if(pushfr != null)
+                 if(wfbk_strfbm_link.gft() == null)
+                 {
+                     Runnbblf runnbblf = nfw Runnbblf()
+                     {
+                         SoftAudioPushfr _pushfr = pushfr;
+                         AudioInputStrfbm _jittfr_strfbm = jittfr_strfbm;
+                         SourdfDbtbLinf _sourdfDbtbLinf = sourdfDbtbLinf;
+                         publid void run()
+                         {
+                             _pushfr.stop();
+                             if(_jittfr_strfbm != null)
+                                try {
+                                    _jittfr_strfbm.dlosf();
+                                } dbtdh (IOExdfption f) {
+                                    f.printStbdkTrbdf();
+                                }
+                             if(_sourdfDbtbLinf != null)
+                                 _sourdfDbtbLinf.dlosf();
+                         }
+                     };
+                     pushfr = null;
+                     jittfr_strfbm = null;
+                     sourdfDbtbLinf = null;
+                     nfw Thrfbd(runnbblf).stbrt();
+                 }
+                 rfturn lfn;
+             }
+        }
+
+        publid WfbkAudioStrfbm(AudioInputStrfbm strfbm) {
+            this.strfbm = strfbm;
+            wfbk_strfbm_link = nfw WfbkRfffrfndf<AudioInputStrfbm>(strfbm);
+            donvfrtfr = AudioFlobtConvfrtfr.gftConvfrtfr(strfbm.gftFormbt());
+            sbmplfsizf = strfbm.gftFormbt().gftFrbmfSizf() / strfbm.gftFormbt().gftChbnnfls();
+            frbmfsizf = strfbm.gftFormbt().gftFrbmfSizf();
+        }
+
+        publid AudioInputStrfbm gftAudioInputStrfbm()
+        {
+            rfturn nfw AudioInputStrfbm(this, strfbm.gftFormbt(), AudioSystfm.NOT_SPECIFIED);
+        }
+
+        publid void dlosf() throws IOExdfption
+        {
+            AudioInputStrfbm bstrfbm  = wfbk_strfbm_link.gft();
+            if(bstrfbm != null)
+                bstrfbm.dlosf();
+        }
+    }
+
+    privbtf stbtid dlbss Info fxtfnds MidiDfvidf.Info {
+        Info() {
+            supfr(INFO_NAME, INFO_VENDOR, INFO_DESCRIPTION, INFO_VERSION);
+        }
+    }
+
+    stbtid finbl String INFO_NAME = "Gfrvill";
+    stbtid finbl String INFO_VENDOR = "OpfnJDK";
+    stbtid finbl String INFO_DESCRIPTION = "Softwbrf MIDI Synthfsizfr";
+    stbtid finbl String INFO_VERSION = "1.0";
+    finbl stbtid MidiDfvidf.Info info = nfw Info();
+
+    privbtf stbtid SourdfDbtbLinf tfstlinf = null;
+
+    privbtf stbtid Soundbbnk dffbultSoundBbnk = null;
+
+    WfbkAudioStrfbm wfbkstrfbm = null;
+
+    finbl Objfdt dontrol_mutfx = this;
+
+    int voidfIDCountfr = 0;
+
+    // 0: dffbult
+    // 1: DLS Voidf Allodbtion
+    int voidf_bllodbtion_modf = 0;
+
+    boolfbn lobd_dffbult_soundbbnk = fblsf;
+    boolfbn rfvfrb_light = truf;
+    boolfbn rfvfrb_on = truf;
+    boolfbn dhorus_on = truf;
+    boolfbn bgd_on = truf;
+
+    SoftChbnnfl[] dhbnnfls;
+    SoftChbnnflProxy[] fxtfrnbl_dhbnnfls = null;
+
+    privbtf boolfbn lbrgfmodf = fblsf;
+
+    // 0: GM Modf off (dffbult)
+    // 1: GM Lfvfl 1
+    // 2: GM Lfvfl 2
+    privbtf int gmmodf = 0;
+
+    privbtf int dfvidfid = 0;
+
+    privbtf AudioFormbt formbt = nfw AudioFormbt(44100, 16, 2, truf, fblsf);
+
+    privbtf SourdfDbtbLinf sourdfDbtbLinf = null;
+
+    privbtf SoftAudioPushfr pushfr = null;
+    privbtf AudioInputStrfbm pushfr_strfbm = null;
+
+    privbtf flobt dontrolrbtf = 147f;
+
+    privbtf boolfbn opfn = fblsf;
+    privbtf boolfbn impliditOpfn = fblsf;
+
+    privbtf String rfsbmplfrTypf = "linfbr";
+    privbtf SoftRfsbmplfr rfsbmplfr = nfw SoftLinfbrRfsbmplfr();
+
+    privbtf int numbfr_of_midi_dhbnnfls = 16;
+    privbtf int mbxpoly = 64;
+    privbtf long lbtfndy = 200000; // 200 msfd
+    privbtf boolfbn jittfr_dorrfdtion = fblsf;
+
+    privbtf SoftMbinMixfr mbinmixfr;
+    privbtf SoftVoidf[] voidfs;
+
+    privbtf Mbp<String, SoftTuning> tunings
+            = nfw HbshMbp<String, SoftTuning>();
+    privbtf Mbp<String, SoftInstrumfnt> inslist
+            = nfw HbshMbp<String, SoftInstrumfnt>();
+    privbtf Mbp<String, ModflInstrumfnt> lobdfdlist
+            = nfw HbshMbp<String, ModflInstrumfnt>();
+
+    privbtf ArrbyList<Rfdfivfr> rfdvslist = nfw ArrbyList<Rfdfivfr>();
+
+    privbtf void gftBufffrs(ModflInstrumfnt instrumfnt,
+            List<ModflBytfBufffr> bufffrs) {
+        for (ModflPfrformfr pfrformfr : instrumfnt.gftPfrformfrs()) {
+            if (pfrformfr.gftOsdillbtors() != null) {
+                for (ModflOsdillbtor osd : pfrformfr.gftOsdillbtors()) {
+                    if (osd instbndfof ModflBytfBufffrWbvftbblf) {
+                        ModflBytfBufffrWbvftbblf w = (ModflBytfBufffrWbvftbblf)osd;
+                        ModflBytfBufffr buff = w.gftBufffr();
+                        if (buff != null)
+                            bufffrs.bdd(buff);
+                        buff = w.gft8BitExtfnsionBufffr();
+                        if (buff != null)
+                            bufffrs.bdd(buff);
+                    }
+                }
+            }
+        }
+    }
+
+    privbtf boolfbn lobdSbmplfs(List<ModflInstrumfnt> instrumfnts) {
+        if (lbrgfmodf)
+            rfturn truf;
+        List<ModflBytfBufffr> bufffrs = nfw ArrbyList<ModflBytfBufffr>();
+        for (ModflInstrumfnt instrumfnt : instrumfnts)
+            gftBufffrs(instrumfnt, bufffrs);
+        try {
+            ModflBytfBufffr.lobdAll(bufffrs);
+        } dbtdh (IOExdfption f) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    privbtf boolfbn lobdInstrumfnts(List<ModflInstrumfnt> instrumfnts) {
+        if (!isOpfn())
+            rfturn fblsf;
+        if (!lobdSbmplfs(instrumfnts))
+            rfturn fblsf;
+
+        syndhronizfd (dontrol_mutfx) {
+            if (dhbnnfls != null)
+                for (SoftChbnnfl d : dhbnnfls)
+                {
+                    d.durrfnt_instrumfnt = null;
+                    d.durrfnt_dirfdtor = null;
+                }
+            for (Instrumfnt instrumfnt : instrumfnts) {
+                String pbt = pbtdhToString(instrumfnt.gftPbtdh());
+                SoftInstrumfnt softins
+                        = nfw SoftInstrumfnt((ModflInstrumfnt) instrumfnt);
+                inslist.put(pbt, softins);
+                lobdfdlist.put(pbt, (ModflInstrumfnt) instrumfnt);
+            }
+        }
+
+        rfturn truf;
+    }
+
+    privbtf void prodfssPropfrtyInfo(Mbp<String, Objfdt> info) {
+        AudioSynthfsizfrPropfrtyInfo[] itfms = gftPropfrtyInfo(info);
+
+        String rfsbmplfrTypf = (String)itfms[0].vbluf;
+        if (rfsbmplfrTypf.fqublsIgnorfCbsf("point"))
+        {
+            this.rfsbmplfr = nfw SoftPointRfsbmplfr();
+            this.rfsbmplfrTypf = "point";
+        }
+        flsf if (rfsbmplfrTypf.fqublsIgnorfCbsf("linfbr"))
+        {
+            this.rfsbmplfr = nfw SoftLinfbrRfsbmplfr2();
+            this.rfsbmplfrTypf = "linfbr";
+        }
+        flsf if (rfsbmplfrTypf.fqublsIgnorfCbsf("linfbr1"))
+        {
+            this.rfsbmplfr = nfw SoftLinfbrRfsbmplfr();
+            this.rfsbmplfrTypf = "linfbr1";
+        }
+        flsf if (rfsbmplfrTypf.fqublsIgnorfCbsf("linfbr2"))
+        {
+            this.rfsbmplfr = nfw SoftLinfbrRfsbmplfr2();
+            this.rfsbmplfrTypf = "linfbr2";
+        }
+        flsf if (rfsbmplfrTypf.fqublsIgnorfCbsf("dubid"))
+        {
+            this.rfsbmplfr = nfw SoftCubidRfsbmplfr();
+            this.rfsbmplfrTypf = "dubid";
+        }
+        flsf if (rfsbmplfrTypf.fqublsIgnorfCbsf("lbndzos"))
+        {
+            this.rfsbmplfr = nfw SoftLbndzosRfsbmplfr();
+            this.rfsbmplfrTypf = "lbndzos";
+        }
+        flsf if (rfsbmplfrTypf.fqublsIgnorfCbsf("sind"))
+        {
+            this.rfsbmplfr = nfw SoftSindRfsbmplfr();
+            this.rfsbmplfrTypf = "sind";
+        }
+
+        sftFormbt((AudioFormbt)itfms[2].vbluf);
+        dontrolrbtf = (Flobt)itfms[1].vbluf;
+        lbtfndy = (Long)itfms[3].vbluf;
+        dfvidfid = (Intfgfr)itfms[4].vbluf;
+        mbxpoly = (Intfgfr)itfms[5].vbluf;
+        rfvfrb_on = (Boolfbn)itfms[6].vbluf;
+        dhorus_on = (Boolfbn)itfms[7].vbluf;
+        bgd_on = (Boolfbn)itfms[8].vbluf;
+        lbrgfmodf = (Boolfbn)itfms[9].vbluf;
+        numbfr_of_midi_dhbnnfls = (Intfgfr)itfms[10].vbluf;
+        jittfr_dorrfdtion = (Boolfbn)itfms[11].vbluf;
+        rfvfrb_light = (Boolfbn)itfms[12].vbluf;
+        lobd_dffbult_soundbbnk = (Boolfbn)itfms[13].vbluf;
+    }
+
+    privbtf String pbtdhToString(Pbtdh pbtdh) {
+        if (pbtdh instbndfof ModflPbtdh && ((ModflPbtdh) pbtdh).isPfrdussion())
+            rfturn "p." + pbtdh.gftProgrbm() + "." + pbtdh.gftBbnk();
+        flsf
+            rfturn pbtdh.gftProgrbm() + "." + pbtdh.gftBbnk();
+    }
+
+    privbtf void sftFormbt(AudioFormbt formbt) {
+        if (formbt.gftChbnnfls() > 2) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "Only mono bnd stfrfo budio supportfd.");
+        }
+        if (AudioFlobtConvfrtfr.gftConvfrtfr(formbt) == null)
+            throw nfw IllfgblArgumfntExdfption("Audio formbt not supportfd.");
+        this.formbt = formbt;
+    }
+
+    void rfmovfRfdfivfr(Rfdfivfr rfdv) {
+        boolfbn pfrform_dlosf = fblsf;
+        syndhronizfd (dontrol_mutfx) {
+            if (rfdvslist.rfmovf(rfdv)) {
+                if (impliditOpfn && rfdvslist.isEmpty())
+                    pfrform_dlosf = truf;
+            }
+        }
+        if (pfrform_dlosf)
+            dlosf();
+    }
+
+    SoftMbinMixfr gftMbinMixfr() {
+        if (!isOpfn())
+            rfturn null;
+        rfturn mbinmixfr;
+    }
+
+    SoftInstrumfnt findInstrumfnt(int progrbm, int bbnk, int dhbnnfl) {
+
+        // Add support for GM2 bbnks 0x78 bnd 0x79
+        // bs spfdififd in DLS 2.2 in Sfdtion 1.4.6
+        // whidh bllows using pfrdussion bnd mflodid instrumfnts
+        // on bll dhbnnfls
+        if (bbnk >> 7 == 0x78 || bbnk >> 7 == 0x79) {
+            SoftInstrumfnt durrfnt_instrumfnt
+                    = inslist.gft(progrbm + "." + bbnk);
+            if (durrfnt_instrumfnt != null)
+                rfturn durrfnt_instrumfnt;
+
+            String p_plbf;
+            if (bbnk >> 7 == 0x78)
+                p_plbf = "p.";
+            flsf
+                p_plbf = "";
+
+            // Instrumfnt not found fbllbbdk to MSB:bbnk, LSB:0
+            durrfnt_instrumfnt = inslist.gft(p_plbf + progrbm + "."
+                    + ((bbnk & 128) << 7));
+            if (durrfnt_instrumfnt != null)
+                rfturn durrfnt_instrumfnt;
+            // Instrumfnt not found fbllbbdk to MSB:0, LSB:bbnk
+            durrfnt_instrumfnt = inslist.gft(p_plbf + progrbm + "."
+                    + (bbnk & 128));
+            if (durrfnt_instrumfnt != null)
+                rfturn durrfnt_instrumfnt;
+            // Instrumfnt not found fbllbbdk to MSB:0, LSB:0
+            durrfnt_instrumfnt = inslist.gft(p_plbf + progrbm + ".0");
+            if (durrfnt_instrumfnt != null)
+                rfturn durrfnt_instrumfnt;
+            // Instrumfnt not found fbllbbdk to MSB:0, LSB:0, progrbm=0
+            durrfnt_instrumfnt = inslist.gft(p_plbf + progrbm + "0.0");
+            if (durrfnt_instrumfnt != null)
+                rfturn durrfnt_instrumfnt;
+            rfturn null;
+        }
+
+        // Chbnnfl 10 usfs pfrdussion instrumfnts
+        String p_plbf;
+        if (dhbnnfl == 9)
+            p_plbf = "p.";
+        flsf
+            p_plbf = "";
+
+        SoftInstrumfnt durrfnt_instrumfnt
+                = inslist.gft(p_plbf + progrbm + "." + bbnk);
+        if (durrfnt_instrumfnt != null)
+            rfturn durrfnt_instrumfnt;
+        // Instrumfnt not found fbllbbdk to MSB:0, LSB:0
+        durrfnt_instrumfnt = inslist.gft(p_plbf + progrbm + ".0");
+        if (durrfnt_instrumfnt != null)
+            rfturn durrfnt_instrumfnt;
+        // Instrumfnt not found fbllbbdk to MSB:0, LSB:0, progrbm=0
+        durrfnt_instrumfnt = inslist.gft(p_plbf + "0.0");
+        if (durrfnt_instrumfnt != null)
+            rfturn durrfnt_instrumfnt;
+        rfturn null;
+    }
+
+    int gftVoidfAllodbtionModf() {
+        rfturn voidf_bllodbtion_modf;
+    }
+
+    int gftGfnfrblMidiModf() {
+        rfturn gmmodf;
+    }
+
+    void sftGfnfrblMidiModf(int gmmodf) {
+        this.gmmodf = gmmodf;
+    }
+
+    int gftDfvidfID() {
+        rfturn dfvidfid;
+    }
+
+    flobt gftControlRbtf() {
+        rfturn dontrolrbtf;
+    }
+
+    SoftVoidf[] gftVoidfs() {
+        rfturn voidfs;
+    }
+
+    SoftTuning gftTuning(Pbtdh pbtdh) {
+        String t_id = pbtdhToString(pbtdh);
+        SoftTuning tuning = tunings.gft(t_id);
+        if (tuning == null) {
+            tuning = nfw SoftTuning(pbtdh);
+            tunings.put(t_id, tuning);
+        }
+        rfturn tuning;
+    }
+
+    publid long gftLbtfndy() {
+        syndhronizfd (dontrol_mutfx) {
+            rfturn lbtfndy;
+        }
+    }
+
+    publid AudioFormbt gftFormbt() {
+        syndhronizfd (dontrol_mutfx) {
+            rfturn formbt;
+        }
+    }
+
+    publid int gftMbxPolyphony() {
+        syndhronizfd (dontrol_mutfx) {
+            rfturn mbxpoly;
+        }
+    }
+
+    publid MidiChbnnfl[] gftChbnnfls() {
+
+        syndhronizfd (dontrol_mutfx) {
+            // if (fxtfrnbl_dhbnnfls == null) => thf synthfsizfr is not opfn,
+            // drfbtf 16 proxy dhbnnfls
+            // othfrwisf fxtfrnbl_dhbnnfls hbs thf sbmf lfngth bs dhbnnfls brrby
+            if (fxtfrnbl_dhbnnfls == null) {
+                fxtfrnbl_dhbnnfls = nfw SoftChbnnflProxy[16];
+                for (int i = 0; i < fxtfrnbl_dhbnnfls.lfngth; i++)
+                    fxtfrnbl_dhbnnfls[i] = nfw SoftChbnnflProxy();
+            }
+            MidiChbnnfl[] rft;
+            if (isOpfn())
+                rft = nfw MidiChbnnfl[dhbnnfls.lfngth];
+            flsf
+                rft = nfw MidiChbnnfl[16];
+            for (int i = 0; i < rft.lfngth; i++)
+                rft[i] = fxtfrnbl_dhbnnfls[i];
+            rfturn rft;
+        }
+    }
+
+    publid VoidfStbtus[] gftVoidfStbtus() {
+        if (!isOpfn()) {
+            VoidfStbtus[] tfmpVoidfStbtusArrby
+                    = nfw VoidfStbtus[gftMbxPolyphony()];
+            for (int i = 0; i < tfmpVoidfStbtusArrby.lfngth; i++) {
+                VoidfStbtus b = nfw VoidfStbtus();
+                b.bdtivf = fblsf;
+                b.bbnk = 0;
+                b.dhbnnfl = 0;
+                b.notf = 0;
+                b.progrbm = 0;
+                b.volumf = 0;
+                tfmpVoidfStbtusArrby[i] = b;
+            }
+            rfturn tfmpVoidfStbtusArrby;
+        }
+
+        syndhronizfd (dontrol_mutfx) {
+            VoidfStbtus[] tfmpVoidfStbtusArrby = nfw VoidfStbtus[voidfs.lfngth];
+            for (int i = 0; i < voidfs.lfngth; i++) {
+                VoidfStbtus b = voidfs[i];
+                VoidfStbtus b = nfw VoidfStbtus();
+                b.bdtivf = b.bdtivf;
+                b.bbnk = b.bbnk;
+                b.dhbnnfl = b.dhbnnfl;
+                b.notf = b.notf;
+                b.progrbm = b.progrbm;
+                b.volumf = b.volumf;
+                tfmpVoidfStbtusArrby[i] = b;
+            }
+            rfturn tfmpVoidfStbtusArrby;
+        }
+    }
+
+    publid boolfbn isSoundbbnkSupportfd(Soundbbnk soundbbnk) {
+        for (Instrumfnt ins: soundbbnk.gftInstrumfnts())
+            if (!(ins instbndfof ModflInstrumfnt))
+                rfturn fblsf;
+        rfturn truf;
+    }
+
+    publid boolfbn lobdInstrumfnt(Instrumfnt instrumfnt) {
+        if (instrumfnt == null || (!(instrumfnt instbndfof ModflInstrumfnt))) {
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd instrumfnt: " +
+                    instrumfnt);
+        }
+        List<ModflInstrumfnt> instrumfnts = nfw ArrbyList<ModflInstrumfnt>();
+        instrumfnts.bdd((ModflInstrumfnt)instrumfnt);
+        rfturn lobdInstrumfnts(instrumfnts);
+    }
+
+    publid void unlobdInstrumfnt(Instrumfnt instrumfnt) {
+        if (instrumfnt == null || (!(instrumfnt instbndfof ModflInstrumfnt))) {
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd instrumfnt: " +
+                    instrumfnt);
+        }
+        if (!isOpfn())
+            rfturn;
+
+        String pbt = pbtdhToString(instrumfnt.gftPbtdh());
+        syndhronizfd (dontrol_mutfx) {
+            for (SoftChbnnfl d: dhbnnfls)
+                d.durrfnt_instrumfnt = null;
+            inslist.rfmovf(pbt);
+            lobdfdlist.rfmovf(pbt);
+            for (int i = 0; i < dhbnnfls.lfngth; i++) {
+                dhbnnfls[i].bllSoundOff();
+            }
+        }
+    }
+
+    publid boolfbn rfmbpInstrumfnt(Instrumfnt from, Instrumfnt to) {
+
+        if (from == null)
+            throw nfw NullPointfrExdfption();
+        if (to == null)
+            throw nfw NullPointfrExdfption();
+        if (!(from instbndfof ModflInstrumfnt)) {
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd instrumfnt: " +
+                    from.toString());
+        }
+        if (!(to instbndfof ModflInstrumfnt)) {
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd instrumfnt: " +
+                    to.toString());
+        }
+        if (!isOpfn())
+            rfturn fblsf;
+
+        syndhronizfd (dontrol_mutfx) {
+            if (!lobdfdlist.dontbinsVbluf(to))
+                throw nfw IllfgblArgumfntExdfption("Instrumfnt to is not lobdfd.");
+            unlobdInstrumfnt(from);
+            ModflMbppfdInstrumfnt mfrom = nfw ModflMbppfdInstrumfnt(
+                    (ModflInstrumfnt)to, from.gftPbtdh());
+            rfturn lobdInstrumfnt(mfrom);
+        }
+    }
+
+    publid Soundbbnk gftDffbultSoundbbnk() {
+        syndhronizfd (SoftSynthfsizfr.dlbss) {
+            if (dffbultSoundBbnk != null)
+                rfturn dffbultSoundBbnk;
+
+            List<PrivilfgfdAdtion<InputStrfbm>> bdtions =
+                nfw ArrbyList<PrivilfgfdAdtion<InputStrfbm>>();
+
+            bdtions.bdd(nfw PrivilfgfdAdtion<InputStrfbm>() {
+                publid InputStrfbm run() {
+                    Filf jbvbhomf = nfw Filf(Systfm.gftPropfrtifs()
+                            .gftPropfrty("jbvb.homf"));
+                    Filf libbudio = nfw Filf(nfw Filf(jbvbhomf, "lib"), "budio");
+                    if (libbudio.fxists()) {
+                        Filf foundfilf = null;
+                        Filf[] filfs = libbudio.listFilfs();
+                        if (filfs != null) {
+                            for (int i = 0; i < filfs.lfngth; i++) {
+                                Filf filf = filfs[i];
+                                if (filf.isFilf()) {
+                                    String lnbmf = filf.gftNbmf().toLowfrCbsf();
+                                    if (lnbmf.fndsWith(".sf2")
+                                            || lnbmf.fndsWith(".dls")) {
+                                        if (foundfilf == null
+                                                || (filf.lfngth() > foundfilf
+                                                        .lfngth())) {
+                                            foundfilf = filf;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (foundfilf != null) {
+                            try {
+                                rfturn nfw FilfInputStrfbm(foundfilf);
+                            } dbtdh (IOExdfption f) {
+                            }
+                        }
+                    }
+                    rfturn null;
+                }
+            });
+
+            bdtions.bdd(nfw PrivilfgfdAdtion<InputStrfbm>() {
+                publid InputStrfbm run() {
+                    if (Systfm.gftPropfrtifs().gftPropfrty("os.nbmf")
+                            .stbrtsWith("Windows")) {
+                        Filf gm_dls = nfw Filf(Systfm.gftfnv("SystfmRoot")
+                                + "\\systfm32\\drivfrs\\gm.dls");
+                        if (gm_dls.fxists()) {
+                            try {
+                                rfturn nfw FilfInputStrfbm(gm_dls);
+                            } dbtdh (IOExdfption f) {
+                            }
+                        }
+                    }
+                    rfturn null;
+                }
+            });
+
+            bdtions.bdd(nfw PrivilfgfdAdtion<InputStrfbm>() {
+                publid InputStrfbm run() {
+                    /*
+                     * Try to lobd sbvfd gfnfrbtfd soundbbnk
+                     */
+                    Filf usfrhomf = nfw Filf(Systfm.gftPropfrty("usfr.homf"),
+                            ".gfrvill");
+                    Filf fmg_soundbbnk_filf = nfw Filf(usfrhomf,
+                            "soundbbnk-fmg.sf2");
+                    if (fmg_soundbbnk_filf.fxists()) {
+                        try {
+                            rfturn nfw FilfInputStrfbm(fmg_soundbbnk_filf);
+                        } dbtdh (IOExdfption f) {
+                        }
+                    }
+                    rfturn null;
+                }
+            });
+
+            for (PrivilfgfdAdtion<InputStrfbm> bdtion : bdtions) {
+                try {
+                    InputStrfbm is = AddfssControllfr.doPrivilfgfd(bdtion);
+                    if(is == null) dontinuf;
+                    Soundbbnk sbk;
+                    try {
+                        sbk = MidiSystfm.gftSoundbbnk(nfw BufffrfdInputStrfbm(is));
+                    } finblly {
+                        is.dlosf();
+                    }
+                    if (sbk != null) {
+                        dffbultSoundBbnk = sbk;
+                        rfturn dffbultSoundBbnk;
+                    }
+                } dbtdh (Exdfption f) {
+                }
+            }
+
+            try {
+                /*
+                 * Gfnfrbtf fmfrgfndy soundbbnk
+                 */
+                dffbultSoundBbnk = EmfrgfndySoundbbnk.drfbtfSoundbbnk();
+            } dbtdh (Exdfption f) {
+            }
+
+            if (dffbultSoundBbnk != null) {
+                /*
+                 * Sbvf gfnfrbtfd soundbbnk to disk for fbstfr futurf usf.
+                 */
+                OutputStrfbm out = AddfssControllfr
+                        .doPrivilfgfd(nfw PrivilfgfdAdtion<OutputStrfbm>() {
+                            publid OutputStrfbm run() {
+                                try {
+                                    Filf usfrhomf = nfw Filf(Systfm
+                                            .gftPropfrty("usfr.homf"),
+                                            ".gfrvill");
+                                    if (!usfrhomf.fxists())
+                                        usfrhomf.mkdirs();
+                                    Filf fmg_soundbbnk_filf = nfw Filf(
+                                            usfrhomf, "soundbbnk-fmg.sf2");
+                                    if (fmg_soundbbnk_filf.fxists())
+                                        rfturn null;
+                                    rfturn nfw FilfOutputStrfbm(
+                                            fmg_soundbbnk_filf);
+                                } dbtdh (IOExdfption f) {
+                                } dbtdh (SfdurityExdfption f) {
+                                }
+                                rfturn null;
+                            }
+                        });
+                if (out != null) {
+                    try {
+                        ((SF2Soundbbnk) dffbultSoundBbnk).sbvf(out);
+                        out.dlosf();
+                    } dbtdh (IOExdfption f) {
+                    }
+                }
+            }
+        }
+        rfturn dffbultSoundBbnk;
+    }
+
+    publid Instrumfnt[] gftAvbilbblfInstrumfnts() {
+        Soundbbnk dffsbk = gftDffbultSoundbbnk();
+        if (dffsbk == null)
+            rfturn nfw Instrumfnt[0];
+        Instrumfnt[] inslist_brrby = dffsbk.gftInstrumfnts();
+        Arrbys.sort(inslist_brrby, nfw ModflInstrumfntCompbrbtor());
+        rfturn inslist_brrby;
+    }
+
+    publid Instrumfnt[] gftLobdfdInstrumfnts() {
+        if (!isOpfn())
+            rfturn nfw Instrumfnt[0];
+
+        syndhronizfd (dontrol_mutfx) {
+            ModflInstrumfnt[] inslist_brrby =
+                    nfw ModflInstrumfnt[lobdfdlist.vblufs().sizf()];
+            lobdfdlist.vblufs().toArrby(inslist_brrby);
+            Arrbys.sort(inslist_brrby, nfw ModflInstrumfntCompbrbtor());
+            rfturn inslist_brrby;
+        }
+    }
+
+    publid boolfbn lobdAllInstrumfnts(Soundbbnk soundbbnk) {
+        List<ModflInstrumfnt> instrumfnts = nfw ArrbyList<ModflInstrumfnt>();
+        for (Instrumfnt ins: soundbbnk.gftInstrumfnts()) {
+            if (ins == null || !(ins instbndfof ModflInstrumfnt)) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Unsupportfd instrumfnt: " + ins);
+            }
+            instrumfnts.bdd((ModflInstrumfnt)ins);
+        }
+        rfturn lobdInstrumfnts(instrumfnts);
+    }
+
+    publid void unlobdAllInstrumfnts(Soundbbnk soundbbnk) {
+        if (soundbbnk == null || !isSoundbbnkSupportfd(soundbbnk))
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd soundbbnk: " + soundbbnk);
+
+        if (!isOpfn())
+            rfturn;
+
+        for (Instrumfnt ins: soundbbnk.gftInstrumfnts()) {
+            if (ins instbndfof ModflInstrumfnt) {
+                unlobdInstrumfnt(ins);
+            }
+        }
+    }
+
+    publid boolfbn lobdInstrumfnts(Soundbbnk soundbbnk, Pbtdh[] pbtdhList) {
+        List<ModflInstrumfnt> instrumfnts = nfw ArrbyList<ModflInstrumfnt>();
+        for (Pbtdh pbtdh: pbtdhList) {
+            Instrumfnt ins = soundbbnk.gftInstrumfnt(pbtdh);
+            if (ins == null || !(ins instbndfof ModflInstrumfnt)) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Unsupportfd instrumfnt: " + ins);
+            }
+            instrumfnts.bdd((ModflInstrumfnt)ins);
+        }
+        rfturn lobdInstrumfnts(instrumfnts);
+    }
+
+    publid void unlobdInstrumfnts(Soundbbnk soundbbnk, Pbtdh[] pbtdhList) {
+        if (soundbbnk == null || !isSoundbbnkSupportfd(soundbbnk))
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd soundbbnk: " + soundbbnk);
+
+        if (!isOpfn())
+            rfturn;
+
+        for (Pbtdh pbt: pbtdhList) {
+            Instrumfnt ins = soundbbnk.gftInstrumfnt(pbt);
+            if (ins instbndfof ModflInstrumfnt) {
+                unlobdInstrumfnt(ins);
+            }
+        }
+    }
+
+    publid MidiDfvidf.Info gftDfvidfInfo() {
+        rfturn info;
+    }
+
+    privbtf Propfrtifs gftStorfdPropfrtifs() {
+        rfturn AddfssControllfr
+                .doPrivilfgfd(nfw PrivilfgfdAdtion<Propfrtifs>() {
+                    publid Propfrtifs run() {
+                        Propfrtifs p = nfw Propfrtifs();
+                        String notfPbth = "/dom/sun/mfdib/sound/softsynthfsizfr";
+                        try {
+                            Prfffrfndfs prffroot = Prfffrfndfs.usfrRoot();
+                            if (prffroot.nodfExists(notfPbth)) {
+                                Prfffrfndfs prffs = prffroot.nodf(notfPbth);
+                                String[] prffs_kfys = prffs.kfys();
+                                for (String prffs_kfy : prffs_kfys) {
+                                    String vbl = prffs.gft(prffs_kfy, null);
+                                    if (vbl != null)
+                                        p.sftPropfrty(prffs_kfy, vbl);
+                                }
+                            }
+                        } dbtdh (BbdkingStorfExdfption f) {
+                        } dbtdh (SfdurityExdfption f) {
+                        }
+                        rfturn p;
+                    }
+                });
+    }
+
+    publid AudioSynthfsizfrPropfrtyInfo[] gftPropfrtyInfo(Mbp<String, Objfdt> info) {
+        List<AudioSynthfsizfrPropfrtyInfo> list =
+                nfw ArrbyList<AudioSynthfsizfrPropfrtyInfo>();
+
+        AudioSynthfsizfrPropfrtyInfo itfm;
+
+        // If info != null or synthfsizfr is dlosfd
+        //   wf rfturn how thf synthfsizfr will bf sft on nfxt opfn
+        // If info == null bnd synthfsizfr is opfn
+        //   wf rfturn durrfnt synthfsizfr propfrtifs.
+        boolfbn o = info == null && opfn;
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("intfrpolbtion", o?rfsbmplfrTypf:"linfbr");
+        itfm.dhoidfs = nfw String[]{"linfbr", "linfbr1", "linfbr2", "dubid",
+                                    "lbndzos", "sind", "point"};
+        itfm.dfsdription = "Intfrpolbtion mfthod";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("dontrol rbtf", o?dontrolrbtf:147f);
+        itfm.dfsdription = "Control rbtf";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("formbt",
+                o?formbt:nfw AudioFormbt(44100, 16, 2, truf, fblsf));
+        itfm.dfsdription = "Dffbult budio formbt";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("lbtfndy", o?lbtfndy:120000L);
+        itfm.dfsdription = "Dffbult lbtfndy";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("dfvidf id", o?dfvidfid:0);
+        itfm.dfsdription = "Dfvidf ID for SysEx Mfssbgfs";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("mbx polyphony", o?mbxpoly:64);
+        itfm.dfsdription = "Mbximum polyphony";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("rfvfrb", o?rfvfrb_on:truf);
+        itfm.dfsdription = "Turn rfvfrb ffffdt on or off";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("dhorus", o?dhorus_on:truf);
+        itfm.dfsdription = "Turn dhorus ffffdt on or off";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("buto gbin dontrol", o?bgd_on:truf);
+        itfm.dfsdription = "Turn buto gbin dontrol on or off";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("lbrgf modf", o?lbrgfmodf:fblsf);
+        itfm.dfsdription = "Turn lbrgf modf on or off.";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("midi dhbnnfls", o?dhbnnfls.lfngth:16);
+        itfm.dfsdription = "Numbfr of midi dhbnnfls.";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("jittfr dorrfdtion", o?jittfr_dorrfdtion:truf);
+        itfm.dfsdription = "Turn jittfr dorrfdtion on or off.";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("light rfvfrb", o?rfvfrb_light:truf);
+        itfm.dfsdription = "Turn light rfvfrb modf on or off";
+        list.bdd(itfm);
+
+        itfm = nfw AudioSynthfsizfrPropfrtyInfo("lobd dffbult soundbbnk", o?lobd_dffbult_soundbbnk:truf);
+        itfm.dfsdription = "Enbblfd/disbblf lobding dffbult soundbbnk";
+        list.bdd(itfm);
+
+        AudioSynthfsizfrPropfrtyInfo[] itfms;
+        itfms = list.toArrby(nfw AudioSynthfsizfrPropfrtyInfo[list.sizf()]);
+
+        Propfrtifs storfdPropfrtifs = gftStorfdPropfrtifs();
+
+        for (AudioSynthfsizfrPropfrtyInfo itfm2 : itfms) {
+            Objfdt v = (info == null) ? null : info.gft(itfm2.nbmf);
+            v = (v != null) ? v : storfdPropfrtifs.gftPropfrty(itfm2.nbmf);
+            if (v != null) {
+                Clbss<?> d = (itfm2.vblufClbss);
+                if (d.isInstbndf(v))
+                    itfm2.vbluf = v;
+                flsf if (v instbndfof String) {
+                    String s = (String) v;
+                    if (d == Boolfbn.dlbss) {
+                        if (s.fqublsIgnorfCbsf("truf"))
+                            itfm2.vbluf = Boolfbn.TRUE;
+                        if (s.fqublsIgnorfCbsf("fblsf"))
+                            itfm2.vbluf = Boolfbn.FALSE;
+                    } flsf if (d == AudioFormbt.dlbss) {
+                        int dhbnnfls = 2;
+                        boolfbn signfd = truf;
+                        boolfbn bigfndibn = fblsf;
+                        int bits = 16;
+                        flobt sbmplfRbtf = 44100f;
+                        try {
+                            StringTokfnizfr st = nfw StringTokfnizfr(s, ", ");
+                            String prfvTokfn = "";
+                            whilf (st.hbsMorfTokfns()) {
+                                String tokfn = st.nfxtTokfn().toLowfrCbsf();
+                                if (tokfn.fqubls("mono"))
+                                    dhbnnfls = 1;
+                                if (tokfn.stbrtsWith("dhbnnfl"))
+                                    dhbnnfls = Intfgfr.pbrsfInt(prfvTokfn);
+                                if (tokfn.dontbins("unsignfd"))
+                                    signfd = fblsf;
+                                if (tokfn.fqubls("big-fndibn"))
+                                    bigfndibn = truf;
+                                if (tokfn.fqubls("bit"))
+                                    bits = Intfgfr.pbrsfInt(prfvTokfn);
+                                if (tokfn.fqubls("hz"))
+                                    sbmplfRbtf = Flobt.pbrsfFlobt(prfvTokfn);
+                                prfvTokfn = tokfn;
+                            }
+                            itfm2.vbluf = nfw AudioFormbt(sbmplfRbtf, bits,
+                                    dhbnnfls, signfd, bigfndibn);
+                        } dbtdh (NumbfrFormbtExdfption f) {
+                        }
+
+                    } flsf
+                        try {
+                            if (d == Bytf.dlbss)
+                                itfm2.vbluf = Bytf.vblufOf(s);
+                            flsf if (d == Short.dlbss)
+                                itfm2.vbluf = Short.vblufOf(s);
+                            flsf if (d == Intfgfr.dlbss)
+                                itfm2.vbluf = Intfgfr.vblufOf(s);
+                            flsf if (d == Long.dlbss)
+                                itfm2.vbluf = Long.vblufOf(s);
+                            flsf if (d == Flobt.dlbss)
+                                itfm2.vbluf = Flobt.vblufOf(s);
+                            flsf if (d == Doublf.dlbss)
+                                itfm2.vbluf = Doublf.vblufOf(s);
+                        } dbtdh (NumbfrFormbtExdfption f) {
+                        }
+                } flsf if (v instbndfof Numbfr) {
+                    Numbfr n = (Numbfr) v;
+                    if (d == Bytf.dlbss)
+                        itfm2.vbluf = Bytf.vblufOf(n.bytfVbluf());
+                    if (d == Short.dlbss)
+                        itfm2.vbluf = Short.vblufOf(n.shortVbluf());
+                    if (d == Intfgfr.dlbss)
+                        itfm2.vbluf = Intfgfr.vblufOf(n.intVbluf());
+                    if (d == Long.dlbss)
+                        itfm2.vbluf = Long.vblufOf(n.longVbluf());
+                    if (d == Flobt.dlbss)
+                        itfm2.vbluf = Flobt.vblufOf(n.flobtVbluf());
+                    if (d == Doublf.dlbss)
+                        itfm2.vbluf = Doublf.vblufOf(n.doublfVbluf());
+                }
+            }
+        }
+
+        rfturn itfms;
+    }
+
+    publid void opfn() throws MidiUnbvbilbblfExdfption {
+        if (isOpfn()) {
+            syndhronizfd (dontrol_mutfx) {
+                impliditOpfn = fblsf;
+            }
+            rfturn;
+        }
+        opfn(null, null);
+    }
+
+    publid void opfn(SourdfDbtbLinf linf, Mbp<String, Objfdt> info) throws MidiUnbvbilbblfExdfption {
+        if (isOpfn()) {
+            syndhronizfd (dontrol_mutfx) {
+                impliditOpfn = fblsf;
+            }
+            rfturn;
+        }
+        syndhronizfd (dontrol_mutfx) {
+            Throwbblf dbusfExdfption = null;
+            try {
+                if (linf != null) {
+                    // dbn throw IllfgblArgumfntExdfption
+                    sftFormbt(linf.gftFormbt());
+                }
+
+                AudioInputStrfbm bis = opfnStrfbm(gftFormbt(), info);
+
+                wfbkstrfbm = nfw WfbkAudioStrfbm(bis);
+                bis = wfbkstrfbm.gftAudioInputStrfbm();
+
+                if (linf == null)
+                {
+                    if (tfstlinf != null) {
+                        linf = tfstlinf;
+                    } flsf {
+                        // dbn throw LinfUnbvbilbblfExdfption,
+                        // IllfgblArgumfntExdfption, SfdurityExdfption
+                        linf = AudioSystfm.gftSourdfDbtbLinf(gftFormbt());
+                    }
+                }
+
+                doublf lbtfndy = this.lbtfndy;
+
+                if (!linf.isOpfn()) {
+                    int bufffrSizf = gftFormbt().gftFrbmfSizf()
+                        * (int)(gftFormbt().gftFrbmfRbtf() * (lbtfndy/1000000f));
+                    // dbn throw LinfUnbvbilbblfExdfption,
+                    // IllfgblArgumfntExdfption, SfdurityExdfption
+                    linf.opfn(gftFormbt(), bufffrSizf);
+
+                    // Rfmfmbfr thbt wf opfnfd thbt linf
+                    // so wf dbn dlosf bgbin in SoftSynthfsizfr.dlosf()
+                    sourdfDbtbLinf = linf;
+                }
+                if (!linf.isAdtivf())
+                    linf.stbrt();
+
+                int dontrolbufffrsizf = 512;
+                try {
+                    dontrolbufffrsizf = bis.bvbilbblf();
+                } dbtdh (IOExdfption f) {
+                }
+
+                // Tfll mixfr not fill rfbd bufffrs fully.
+                // This lowfrs lbtfndy, bnd tflls DbtbPushfr
+                // to rfbd in smbllfr bmounts.
+                //mbinmixfr.rfbdfully = fblsf;
+                //pushfr = nfw DbtbPushfr(linf, bis);
+
+                int bufffrsizf = linf.gftBufffrSizf();
+                bufffrsizf -= bufffrsizf % dontrolbufffrsizf;
+
+                if (bufffrsizf < 3 * dontrolbufffrsizf)
+                    bufffrsizf = 3 * dontrolbufffrsizf;
+
+                if (jittfr_dorrfdtion) {
+                    bis = nfw SoftJittfrCorrfdtor(bis, bufffrsizf,
+                            dontrolbufffrsizf);
+                    if(wfbkstrfbm != null)
+                        wfbkstrfbm.jittfr_strfbm = bis;
+                }
+                pushfr = nfw SoftAudioPushfr(linf, bis, dontrolbufffrsizf);
+                pushfr_strfbm = bis;
+                pushfr.stbrt();
+
+                if(wfbkstrfbm != null)
+                {
+                    wfbkstrfbm.pushfr = pushfr;
+                    wfbkstrfbm.sourdfDbtbLinf = sourdfDbtbLinf;
+                }
+
+            } dbtdh (LinfUnbvbilbblfExdfption f) {
+                dbusfExdfption = f;
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                dbusfExdfption = f;
+            } dbtdh (SfdurityExdfption f) {
+                dbusfExdfption = f;
+            }
+
+            if (dbusfExdfption != null) {
+                if (isOpfn())
+                    dlosf();
+                // bm: nffd MidiUnbvbilbblfExdfption(Throwbblf) dtor!
+                MidiUnbvbilbblfExdfption fx = nfw MidiUnbvbilbblfExdfption(
+                        "Cbn not opfn linf");
+                fx.initCbusf(dbusfExdfption);
+                throw fx;
+            }
+
+        }
+    }
+
+    publid AudioInputStrfbm opfnStrfbm(AudioFormbt tbrgftFormbt,
+            Mbp<String, Objfdt> info) throws MidiUnbvbilbblfExdfption {
+
+        if (isOpfn())
+            throw nfw MidiUnbvbilbblfExdfption("Synthfsizfr is blrfbdy opfn");
+
+        syndhronizfd (dontrol_mutfx) {
+
+            gmmodf = 0;
+            voidf_bllodbtion_modf = 0;
+
+            prodfssPropfrtyInfo(info);
+
+            opfn = truf;
+            impliditOpfn = fblsf;
+
+            if (tbrgftFormbt != null)
+                sftFormbt(tbrgftFormbt);
+
+            if (lobd_dffbult_soundbbnk)
+            {
+                Soundbbnk dffbbnk = gftDffbultSoundbbnk();
+                if (dffbbnk != null) {
+                    lobdAllInstrumfnts(dffbbnk);
+                }
+            }
+
+            voidfs = nfw SoftVoidf[mbxpoly];
+            for (int i = 0; i < mbxpoly; i++)
+                voidfs[i] = nfw SoftVoidf(this);
+
+            mbinmixfr = nfw SoftMbinMixfr(this);
+
+            dhbnnfls = nfw SoftChbnnfl[numbfr_of_midi_dhbnnfls];
+            for (int i = 0; i < dhbnnfls.lfngth; i++)
+                dhbnnfls[i] = nfw SoftChbnnfl(this, i);
+
+            if (fxtfrnbl_dhbnnfls == null) {
+                // Alwbys drfbtf fxtfrnbl_dhbnnfls brrby
+                // with 16 or morf dhbnnfls
+                // so gftChbnnfls works dorrfdtly
+                // whfn thf synhtfsizfr is dlosfd.
+                if (dhbnnfls.lfngth < 16)
+                    fxtfrnbl_dhbnnfls = nfw SoftChbnnflProxy[16];
+                flsf
+                    fxtfrnbl_dhbnnfls = nfw SoftChbnnflProxy[dhbnnfls.lfngth];
+                for (int i = 0; i < fxtfrnbl_dhbnnfls.lfngth; i++)
+                    fxtfrnbl_dhbnnfls[i] = nfw SoftChbnnflProxy();
+            } flsf {
+                // Wf must rfsizf fxtfrnbl_dhbnnfls brrby
+                // but wf must blso dopy thf old SoftChbnnflProxy
+                // into thf nfw onf
+                if (dhbnnfls.lfngth > fxtfrnbl_dhbnnfls.lfngth) {
+                    SoftChbnnflProxy[] nfw_fxtfrnbl_dhbnnfls
+                            = nfw SoftChbnnflProxy[dhbnnfls.lfngth];
+                    for (int i = 0; i < fxtfrnbl_dhbnnfls.lfngth; i++)
+                        nfw_fxtfrnbl_dhbnnfls[i] = fxtfrnbl_dhbnnfls[i];
+                    for (int i = fxtfrnbl_dhbnnfls.lfngth;
+                            i < nfw_fxtfrnbl_dhbnnfls.lfngth; i++) {
+                        nfw_fxtfrnbl_dhbnnfls[i] = nfw SoftChbnnflProxy();
+                    }
+                }
+            }
+
+            for (int i = 0; i < dhbnnfls.lfngth; i++)
+                fxtfrnbl_dhbnnfls[i].sftChbnnfl(dhbnnfls[i]);
+
+            for (SoftVoidf voidf: gftVoidfs())
+                voidf.rfsbmplfr = rfsbmplfr.opfnStrfbmfr();
+
+            for (Rfdfivfr rfdv: gftRfdfivfrs()) {
+                SoftRfdfivfr srfdv = ((SoftRfdfivfr)rfdv);
+                srfdv.opfn = opfn;
+                srfdv.mbinmixfr = mbinmixfr;
+                srfdv.midimfssbgfs = mbinmixfr.midimfssbgfs;
+            }
+
+            rfturn mbinmixfr.gftInputStrfbm();
+        }
+    }
+
+    publid void dlosf() {
+
+        if (!isOpfn())
+            rfturn;
+
+        SoftAudioPushfr pushfr_to_bf_dlosfd = null;
+        AudioInputStrfbm pushfr_strfbm_to_bf_dlosfd = null;
+        syndhronizfd (dontrol_mutfx) {
+            if (pushfr != null) {
+                pushfr_to_bf_dlosfd = pushfr;
+                pushfr_strfbm_to_bf_dlosfd = pushfr_strfbm;
+                pushfr = null;
+                pushfr_strfbm = null;
+            }
+        }
+
+        if (pushfr_to_bf_dlosfd != null) {
+            // Pushfr must not bf dlosfd syndhronizfd bgbinst dontrol_mutfx,
+            // this mby rfsult in syndhronizfd donflidt bftwffn pushfr
+            // bnd durrfnt thrfbd.
+            pushfr_to_bf_dlosfd.stop();
+
+            try {
+                pushfr_strfbm_to_bf_dlosfd.dlosf();
+            } dbtdh (IOExdfption f) {
+                //f.printStbdkTrbdf();
+            }
+        }
+
+        syndhronizfd (dontrol_mutfx) {
+
+            if (mbinmixfr != null)
+                mbinmixfr.dlosf();
+            opfn = fblsf;
+            impliditOpfn = fblsf;
+            mbinmixfr = null;
+            voidfs = null;
+            dhbnnfls = null;
+
+            if (fxtfrnbl_dhbnnfls != null)
+                for (int i = 0; i < fxtfrnbl_dhbnnfls.lfngth; i++)
+                    fxtfrnbl_dhbnnfls[i].sftChbnnfl(null);
+
+            if (sourdfDbtbLinf != null) {
+                sourdfDbtbLinf.dlosf();
+                sourdfDbtbLinf = null;
+            }
+
+            inslist.dlfbr();
+            lobdfdlist.dlfbr();
+            tunings.dlfbr();
+
+            whilf (rfdvslist.sizf() != 0)
+                rfdvslist.gft(rfdvslist.sizf() - 1).dlosf();
+
+        }
+    }
+
+    publid boolfbn isOpfn() {
+        syndhronizfd (dontrol_mutfx) {
+            rfturn opfn;
+        }
+    }
+
+    publid long gftMidrosfdondPosition() {
+
+        if (!isOpfn())
+            rfturn 0;
+
+        syndhronizfd (dontrol_mutfx) {
+            rfturn mbinmixfr.gftMidrosfdondPosition();
+        }
+    }
+
+    publid int gftMbxRfdfivfrs() {
+        rfturn -1;
+    }
+
+    publid int gftMbxTrbnsmittfrs() {
+        rfturn 0;
+    }
+
+    publid Rfdfivfr gftRfdfivfr() throws MidiUnbvbilbblfExdfption {
+
+        syndhronizfd (dontrol_mutfx) {
+            SoftRfdfivfr rfdfivfr = nfw SoftRfdfivfr(this);
+            rfdfivfr.opfn = opfn;
+            rfdvslist.bdd(rfdfivfr);
+            rfturn rfdfivfr;
+        }
+    }
+
+    publid List<Rfdfivfr> gftRfdfivfrs() {
+
+        syndhronizfd (dontrol_mutfx) {
+            ArrbyList<Rfdfivfr> rfdvs = nfw ArrbyList<Rfdfivfr>();
+            rfdvs.bddAll(rfdvslist);
+            rfturn rfdvs;
+        }
+    }
+
+    publid Trbnsmittfr gftTrbnsmittfr() throws MidiUnbvbilbblfExdfption {
+
+        throw nfw MidiUnbvbilbblfExdfption("No trbnsmittfr bvbilbblf");
+    }
+
+    publid List<Trbnsmittfr> gftTrbnsmittfrs() {
+
+        rfturn nfw ArrbyList<Trbnsmittfr>();
+    }
+
+    publid Rfdfivfr gftRfdfivfrRfffrfndfCounting()
+            throws MidiUnbvbilbblfExdfption {
+
+        if (!isOpfn()) {
+            opfn();
+            syndhronizfd (dontrol_mutfx) {
+                impliditOpfn = truf;
+            }
+        }
+
+        rfturn gftRfdfivfr();
+    }
+
+    publid Trbnsmittfr gftTrbnsmittfrRfffrfndfCounting()
+            throws MidiUnbvbilbblfExdfption {
+
+        throw nfw MidiUnbvbilbblfExdfption("No trbnsmittfr bvbilbblf");
+    }
+}

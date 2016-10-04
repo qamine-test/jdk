@@ -1,0 +1,219 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * Thf {@dodf Clip} intfrfbdf rfprfsfnts b spfdibl kind of dbtb linf whosf budio
+ * dbtb dbn bf lobdfd prior to plbybbdk, instfbd of bfing strfbmfd in rfbl timf.
+ * <p>
+ * Bfdbusf thf dbtb is prf-lobdfd bnd hbs b known lfngth, you dbn sft b dlip to
+ * stbrt plbying bt bny position in its budio dbtb. You dbn blso drfbtf b loop,
+ * so thbt whfn thf dlip is plbyfd it will dydlf rfpfbtfdly. Loops brf spfdififd
+ * with b stbrting bnd fnding sbmplf frbmf, blong with thf numbfr of timfs thbt
+ * thf loop should bf plbyfd.
+ * <p>
+ * Clips mby bf obtbinfd from b {@link Mixfr} thbt supports linfs of this typf.
+ * Dbtb is lobdfd into b dlip whfn it is opfnfd.
+ * <p>
+ * Plbybbdk of bn budio dlip mby bf stbrtfd bnd stoppfd using thf
+ * {@link #stbrt stbrt} bnd {@link #stop stop} mfthods. Thfsf mfthods do not
+ * rfsft thf mfdib position; {@dodf stbrt} dbusfs plbybbdk to dontinuf from thf
+ * position whfrf plbybbdk wbs lbst stoppfd. To rfstbrt plbybbdk from thf
+ * bfginning of thf dlip's budio dbtb, simply follow thf invodbtion of
+ * {@dodf stop} with {@dodf sftFrbmfPosition(0)}, whidh rfwinds thf mfdib to thf
+ * bfginning of thf dlip.
+ *
+ * @buthor Kbrb Kytlf
+ * @sindf 1.3
+ */
+publid intfrfbdf Clip fxtfnds DbtbLinf {
+
+    /**
+     * A vbluf indidbting thbt looping should dontinuf indffinitfly rbthfr thbn
+     * domplftf bftfr b spfdifid numbfr of loops.
+     *
+     * @sff #loop
+     */
+    int LOOP_CONTINUOUSLY = -1;
+
+    /**
+     * Opfns thf dlip, mfbning thbt it should bdquirf bny rfquirfd systfm
+     * rfsourdfs bnd bfdomf opfrbtionbl. Thf dlip is opfnfd with thf formbt bnd
+     * budio dbtb indidbtfd. If this opfrbtion suddffds, thf linf is mbrkfd bs
+     * opfn bnd bn {@link LinfEvfnt.Typf#OPEN OPEN} fvfnt is dispbtdhfd to thf
+     * linf's listfnfrs.
+     * <p>
+     * Invoking this mfthod on b linf whidh is blrfbdy opfn is illfgbl bnd mby
+     * rfsult in bn {@dodf IllfgblStbtfExdfption}.
+     * <p>
+     * Notf thbt somf linfs, ondf dlosfd, dbnnot bf rfopfnfd. Attfmpts to rfopfn
+     * sudh b linf will blwbys rfsult in b {@dodf LinfUnbvbilbblfExdfption}.
+     *
+     * @pbrbm  formbt thf formbt of thf supplifd budio dbtb
+     * @pbrbm  dbtb b bytf brrby dontbining budio dbtb to lobd into thf dlip
+     * @pbrbm  offsft thf point bt whidh to stbrt dopying, fxprfssfd in
+     *         <fm>bytfs</fm> from thf bfginning of thf brrby
+     * @pbrbm  bufffrSizf thf numbfr of <fm>bytfs</fm> of dbtb to lobd into thf
+     *         dlip from thf brrby
+     * @throws LinfUnbvbilbblfExdfption if thf linf dbnnot bf opfnfd duf to
+     *         rfsourdf rfstridtions
+     * @throws IllfgblArgumfntExdfption if thf bufffr sizf dofs not rfprfsfnt bn
+     *         intfgrbl numbfr of sbmplf frbmfs, or if {@dodf formbt} is not
+     *         fully spfdififd or invblid
+     * @throws IllfgblStbtfExdfption if thf linf is blrfbdy opfn
+     * @throws SfdurityExdfption if thf linf dbnnot bf opfnfd duf to sfdurity
+     *         rfstridtions
+     * @sff #dlosf
+     * @sff #isOpfn
+     * @sff LinfListfnfr
+     */
+    void opfn(AudioFormbt formbt, bytf[] dbtb, int offsft, int bufffrSizf)
+            throws LinfUnbvbilbblfExdfption;
+
+    /**
+     * Opfns thf dlip with thf formbt bnd budio dbtb prfsfnt in thf providfd
+     * budio input strfbm. Opfning b dlip mfbns thbt it should bdquirf bny
+     * rfquirfd systfm rfsourdfs bnd bfdomf opfrbtionbl. If this opfrbtion input
+     * strfbm. If this opfrbtion suddffds, thf linf is mbrkfd opfn bnd bn
+     * {@link LinfEvfnt.Typf#OPEN OPEN} fvfnt is dispbtdhfd to thf linf's
+     * listfnfrs.
+     * <p>
+     * Invoking this mfthod on b linf whidh is blrfbdy opfn is illfgbl bnd mby
+     * rfsult in bn {@dodf IllfgblStbtfExdfption}.
+     * <p>
+     * Notf thbt somf linfs, ondf dlosfd, dbnnot bf rfopfnfd. Attfmpts to rfopfn
+     * sudh b linf will blwbys rfsult in b {@dodf LinfUnbvbilbblfExdfption}.
+     *
+     * @pbrbm  strfbm bn budio input strfbm from whidh budio dbtb will bf rfbd
+     *         into thf dlip
+     * @throws LinfUnbvbilbblfExdfption if thf linf dbnnot bf opfnfd duf to
+     *         rfsourdf rfstridtions
+     * @throws IOExdfption if bn I/O fxdfption oddurs during rfbding of thf
+     *         strfbm
+     * @throws IllfgblArgumfntExdfption if thf strfbm's budio formbt is not
+     *         fully spfdififd or invblid
+     * @throws IllfgblStbtfExdfption if thf linf is blrfbdy opfn
+     * @throws SfdurityExdfption if thf linf dbnnot bf opfnfd duf to sfdurity
+     *         rfstridtions
+     * @sff #dlosf
+     * @sff #isOpfn
+     * @sff LinfListfnfr
+     */
+    void opfn(AudioInputStrfbm strfbm)
+            throws LinfUnbvbilbblfExdfption, IOExdfption;
+
+    /**
+     * Obtbins thf mfdib lfngth in sbmplf frbmfs.
+     *
+     * @rfturn thf mfdib lfngth, fxprfssfd in sbmplf frbmfs, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED} if thf linf is not opfn
+     * @sff AudioSystfm#NOT_SPECIFIED
+     */
+    int gftFrbmfLfngth();
+
+    /**
+     * Obtbins thf mfdib durbtion in midrosfdonds.
+     *
+     * @rfturn thf mfdib durbtion, fxprfssfd in midrosfdonds, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED} if thf linf is not opfn
+     * @sff AudioSystfm#NOT_SPECIFIED
+     */
+    long gftMidrosfdondLfngth();
+
+    /**
+     * Sfts thf mfdib position in sbmplf frbmfs. Thf position is zfro-bbsfd; thf
+     * first frbmf is frbmf numbfr zfro. Whfn thf dlip bfgins plbying thf nfxt
+     * timf, it will stbrt by plbying thf frbmf bt this position.
+     * <p>
+     * To obtbin thf durrfnt position in sbmplf frbmfs, usf thf
+     * {@link DbtbLinf#gftFrbmfPosition gftFrbmfPosition} mfthod of
+     * {@dodf DbtbLinf}.
+     *
+     * @pbrbm  frbmfs thf dfsirfd nfw mfdib position, fxprfssfd in sbmplf frbmfs
+     */
+    void sftFrbmfPosition(int frbmfs);
+
+    /**
+     * Sfts thf mfdib position in midrosfdonds. Whfn thf dlip bfgins plbying thf
+     * nfxt timf, it will stbrt bt this position. Thf lfvfl of prfdision is not
+     * gubrbntffd. For fxbmplf, bn implfmfntbtion might dbldulbtf thf
+     * midrosfdond position from thf durrfnt frbmf position bnd thf budio sbmplf
+     * frbmf rbtf. Thf prfdision in midrosfdonds would thfn bf limitfd to thf
+     * numbfr of midrosfdonds pfr sbmplf frbmf.
+     * <p>
+     * To obtbin thf durrfnt position in midrosfdonds, usf thf
+     * {@link DbtbLinf#gftMidrosfdondPosition gftMidrosfdondPosition} mfthod of
+     * {@dodf DbtbLinf}.
+     *
+     * @pbrbm  midrosfdonds thf dfsirfd nfw mfdib position, fxprfssfd in
+     *         midrosfdonds
+     */
+    void sftMidrosfdondPosition(long midrosfdonds);
+
+    /**
+     * Sfts thf first bnd lbst sbmplf frbmfs thbt will bf plbyfd in thf loop.
+     * Thf fnding point must bf grfbtfr thbn or fqubl to thf stbrting point, bnd
+     * both must fbll within thf thf sizf of thf lobdfd mfdib. A vbluf of 0 for
+     * thf stbrting point mfbns thf bfginning of thf lobdfd mfdib. Similbrly, b
+     * vbluf of -1 for thf fnding point indidbtfs thf lbst frbmf of thf mfdib.
+     *
+     * @pbrbm  stbrt thf loop's stbrting position, in sbmplf frbmfs (zfro-bbsfd)
+     * @pbrbm  fnd thf loop's fnding position, in sbmplf frbmfs (zfro-bbsfd),
+     *         or -1 to indidbtf thf finbl frbmf
+     * @throws IllfgblArgumfntExdfption if thf rfqufstfd loop points dbnnot bf
+     *         sft, usublly bfdbusf onf or both fblls outsidf thf mfdib's
+     *         durbtion or bfdbusf thf fnding point is bfforf thf stbrting point
+     */
+    void sftLoopPoints(int stbrt, int fnd);
+
+    /**
+     * Stbrts looping plbybbdk from thf durrfnt position. Plbybbdk will dontinuf
+     * to thf loop's fnd point, thfn loop bbdk to thf loop stbrt point
+     * {@dodf dount} timfs, bnd finblly dontinuf plbybbdk to thf fnd of thf
+     * dlip.
+     * <p>
+     * If thf durrfnt position whfn this mfthod is invokfd is grfbtfr thbn thf
+     * loop fnd point, plbybbdk simply dontinufs to thf fnd of thf dlip without
+     * looping.
+     * <p>
+     * A {@dodf dount} vbluf of 0 indidbtfs thbt bny durrfnt looping should
+     * dfbsf bnd plbybbdk should dontinuf to thf fnd of thf dlip. Thf bfhbvior
+     * is undffinfd whfn this mfthod is invokfd with bny othfr vbluf during b
+     * loop opfrbtion.
+     * <p>
+     * If plbybbdk is stoppfd during looping, thf durrfnt loop stbtus is
+     * dlfbrfd; thf bfhbvior of subsfqufnt loop bnd stbrt rfqufsts is not
+     * bfffdtfd by bn intfrruptfd loop opfrbtion.
+     *
+     * @pbrbm  dount thf numbfr of timfs plbybbdk should loop bbdk from thf
+     *         loop's fnd position to thf loop's stbrt position, or
+     *         {@link #LOOP_CONTINUOUSLY} to indidbtf thbt looping should
+     *         dontinuf until intfrruptfd
+     */
+    void loop(int dount);
+}

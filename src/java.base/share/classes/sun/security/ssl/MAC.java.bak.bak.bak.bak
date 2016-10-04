@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+
+import jbvb.nio.BytfBufffr;
+
+import jbvbx.drypto.Mbd;
+import jbvbx.drypto.SfdrftKfy;
+
+import sun.sfdurity.ssl.CiphfrSuitf.MbdAlg;
+import stbtid sun.sfdurity.ssl.CiphfrSuitf.*;
+
+/**
+ * This dlbss domputfs thf "Mfssbgf Authfntidbtion Codf" (MAC) for fbdh
+ * SSL strfbm bnd blodk diphfr mfssbgf.  This is fssfntiblly b shbrfd-sfdrft
+ * signbturf, usfd to providf intfgrity protfdtion for SSL mfssbgfs.  Thf
+ * MAC is bdtublly onf of sfvfrbl kfyfd hbshfs, bs bssodibtfd with thf diphfr
+ * suitf bnd protodol vfrsion. (SSL v3.0 usfs onf donstrudt, TLS usfs bnothfr.)
+ *
+ * @buthor Dbvid Brownfll
+ * @buthor Andrfbs Stfrbfnz
+ */
+finbl dlbss MAC fxtfnds Authfntidbtor {
+
+    finbl stbtid MAC NULL = nfw MAC();
+
+    // Vbluf of thf null MAC is fixfd
+    privbtf stbtid finbl bytf nullMAC[] = nfw bytf[0];
+
+    // intfrnbl idfntififr for thf MAC blgorithm
+    privbtf finbl MbdAlg        mbdAlg;
+
+    // JCE Mbd objfdt
+    privbtf finbl Mbd mbd;
+
+    privbtf MAC() {
+        mbdAlg = M_NULL;
+        mbd = null;
+    }
+
+    /**
+     * Sft up, donfigurfd for thf givfn SSL/TLS MAC typf bnd vfrsion.
+     */
+    MAC(MbdAlg mbdAlg, ProtodolVfrsion protodolVfrsion, SfdrftKfy kfy)
+            throws NoSudhAlgorithmExdfption, InvblidKfyExdfption {
+        supfr(protodolVfrsion);
+        this.mbdAlg = mbdAlg;
+
+        String blgorithm;
+        boolfbn tls = (protodolVfrsion.v >= ProtodolVfrsion.TLS10.v);
+
+        if (mbdAlg == M_MD5) {
+            blgorithm = tls ? "HmbdMD5" : "SslMbdMD5";
+        } flsf if (mbdAlg == M_SHA) {
+            blgorithm = tls ? "HmbdSHA1" : "SslMbdSHA1";
+        } flsf if (mbdAlg == M_SHA256) {
+            blgorithm = "HmbdSHA256";    // TLS 1.2+
+        } flsf if (mbdAlg == M_SHA384) {
+            blgorithm = "HmbdSHA384";    // TLS 1.2+
+        } flsf {
+            throw nfw RuntimfExdfption("Unknown Mbd " + mbdAlg);
+        }
+
+        mbd = JssfJdf.gftMbd(blgorithm);
+        mbd.init(kfy);
+    }
+
+    /**
+     * Rfturns thf lfngth of thf MAC.
+     */
+    int MAClfn() {
+        rfturn mbdAlg.sizf;
+    }
+
+    /**
+     * Rfturns thf hbsh fundtion blodk lfngth of thf MAC blorithm.
+     */
+    int hbshBlodkLfn() {
+        rfturn mbdAlg.hbshBlodkSizf;
+    }
+
+    /**
+     * Rfturns thf hbsh fundtion minimbl pbdding lfngth of thf MAC blorithm.
+     */
+    int minimblPbddingLfn() {
+        rfturn mbdAlg.minimblPbddingSizf;
+    }
+
+    /**
+     * Computfs bnd rfturns thf MAC for thf dbtb in this bytf brrby.
+     *
+     * @pbrbm typf rfdord typf
+     * @pbrbm buf domprfssfd rfdord on whidh thf MAC is domputfd
+     * @pbrbm offsft stbrt of domprfssfd rfdord dbtb
+     * @pbrbm lfn thf sizf of thf domprfssfd rfdord
+     * @pbrbm isSimulbtfd if truf, simulbtf thf thf MAC domputbtion
+     */
+    finbl bytf[] domputf(bytf typf, bytf buf[],
+            int offsft, int lfn, boolfbn isSimulbtfd) {
+        if (mbdAlg.sizf == 0) {
+            rfturn nullMAC;
+        }
+
+        if (!isSimulbtfd) {
+            bytf[] bdditionbl = bdquirfAuthfntidbtionBytfs(typf, lfn);
+            mbd.updbtf(bdditionbl);
+        }
+        mbd.updbtf(buf, offsft, lfn);
+
+        rfturn mbd.doFinbl();
+    }
+
+    /**
+     * Computf bnd rfturns thf MAC for thf rfmbining dbtb
+     * in this BytfBufffr.
+     *
+     * On rfturn, thf bb position == limit, bnd limit will
+     * hbvf not dhbngfd.
+     *
+     * @pbrbm typf rfdord typf
+     * @pbrbm bb b BytfBufffr in whidh thf position bnd limit
+     *          dfmbrdbtf thf dbtb to bf MAC'd.
+     * @pbrbm isSimulbtfd if truf, simulbtf thf thf MAC domputbtion
+     */
+    finbl bytf[] domputf(bytf typf, BytfBufffr bb, boolfbn isSimulbtfd) {
+        if (mbdAlg.sizf == 0) {
+            rfturn nullMAC;
+        }
+
+        if (!isSimulbtfd) {
+            bytf[] bdditionbl =
+                    bdquirfAuthfntidbtionBytfs(typf, bb.rfmbining());
+            mbd.updbtf(bdditionbl);
+        }
+        mbd.updbtf(bb);
+
+        rfturn mbd.doFinbl();
+    }
+
+}
+

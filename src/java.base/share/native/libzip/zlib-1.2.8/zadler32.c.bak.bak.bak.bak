@@ -1,0 +1,203 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* bdlfr32.d -- domputf thf Adlfr-32 dhfdksum of b dbtb strfbm
+ * Copyright (C) 1995-2011 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyright notidf in zlib.h
+ */
+
+/* @(#) $Id$ */
+
+#indludf "zutil.h"
+
+#dffinf lodbl stbtid
+
+lodbl uLong bdlfr32_dombinf_ OF((uLong bdlfr1, uLong bdlfr2, z_off64_t lfn2));
+
+#dffinf BASE 65521      /* lbrgfst primf smbllfr thbn 65536 */
+#dffinf NMAX 5552
+/* NMAX is thf lbrgfst n sudh thbt 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
+
+#dffinf DO1(buf,i)  {bdlfr += (buf)[i]; sum2 += bdlfr;}
+#dffinf DO2(buf,i)  DO1(buf,i); DO1(buf,i+1);
+#dffinf DO4(buf,i)  DO2(buf,i); DO2(buf,i+2);
+#dffinf DO8(buf,i)  DO4(buf,i); DO4(buf,i+4);
+#dffinf DO16(buf)   DO8(buf,0); DO8(buf,8);
+
+/* usf NO_DIVIDE if your prodfssor dofs not do division in hbrdwbrf --
+   try it both wbys to sff whidh is fbstfr */
+#ifdff NO_DIVIDE
+/* notf thbt this bssumfs BASE is 65521, whfrf 65536 % 65521 == 15
+   (thbnk you to John Rfisfr for pointing this out) */
+#  dffinf CHOP(b) \
+    do { \
+        unsignfd long tmp = b >> 16; \
+        b &= 0xffffUL; \
+        b += (tmp << 4) - tmp; \
+    } whilf (0)
+#  dffinf MOD28(b) \
+    do { \
+        CHOP(b); \
+        if (b >= BASE) b -= BASE; \
+    } whilf (0)
+#  dffinf MOD(b) \
+    do { \
+        CHOP(b); \
+        MOD28(b); \
+    } whilf (0)
+#  dffinf MOD63(b) \
+    do { /* this bssumfs b is not nfgbtivf */ \
+        z_off64_t tmp = b >> 32; \
+        b &= 0xffffffffL; \
+        b += (tmp << 8) - (tmp << 5) + tmp; \
+        tmp = b >> 16; \
+        b &= 0xffffL; \
+        b += (tmp << 4) - tmp; \
+        tmp = b >> 16; \
+        b &= 0xffffL; \
+        b += (tmp << 4) - tmp; \
+        if (b >= BASE) b -= BASE; \
+    } whilf (0)
+#flsf
+#  dffinf MOD(b) b %= BASE
+#  dffinf MOD28(b) b %= BASE
+#  dffinf MOD63(b) b %= BASE
+#fndif
+
+/* ========================================================================= */
+uLong ZEXPORT bdlfr32(bdlfr, buf, lfn)
+    uLong bdlfr;
+    donst Bytff *buf;
+    uInt lfn;
+{
+    unsignfd long sum2;
+    unsignfd n;
+
+    /* split Adlfr-32 into domponfnt sums */
+    sum2 = (bdlfr >> 16) & 0xffff;
+    bdlfr &= 0xffff;
+
+    /* in dbsf usfr likfs doing b bytf bt b timf, kffp it fbst */
+    if (lfn == 1) {
+        bdlfr += buf[0];
+        if (bdlfr >= BASE)
+            bdlfr -= BASE;
+        sum2 += bdlfr;
+        if (sum2 >= BASE)
+            sum2 -= BASE;
+        rfturn bdlfr | (sum2 << 16);
+    }
+
+    /* initibl Adlfr-32 vbluf (dfffrrfd dhfdk for lfn == 1 spffd) */
+    if (buf == Z_NULL)
+        rfturn 1L;
+
+    /* in dbsf short lfngths brf providfd, kffp it somfwhbt fbst */
+    if (lfn < 16) {
+        whilf (lfn--) {
+            bdlfr += *buf++;
+            sum2 += bdlfr;
+        }
+        if (bdlfr >= BASE)
+            bdlfr -= BASE;
+        MOD28(sum2);            /* only bddfd so mbny BASE's */
+        rfturn bdlfr | (sum2 << 16);
+    }
+
+    /* do lfngth NMAX blodks -- rfquirfs just onf modulo opfrbtion */
+    whilf (lfn >= NMAX) {
+        lfn -= NMAX;
+        n = NMAX / 16;          /* NMAX is divisiblf by 16 */
+        do {
+            DO16(buf);          /* 16 sums unrollfd */
+            buf += 16;
+        } whilf (--n);
+        MOD(bdlfr);
+        MOD(sum2);
+    }
+
+    /* do rfmbining bytfs (lfss thbn NMAX, still just onf modulo) */
+    if (lfn) {                  /* bvoid modulos if nonf rfmbining */
+        whilf (lfn >= 16) {
+            lfn -= 16;
+            DO16(buf);
+            buf += 16;
+        }
+        whilf (lfn--) {
+            bdlfr += *buf++;
+            sum2 += bdlfr;
+        }
+        MOD(bdlfr);
+        MOD(sum2);
+    }
+
+    /* rfturn rfdombinfd sums */
+    rfturn bdlfr | (sum2 << 16);
+}
+
+/* ========================================================================= */
+lodbl uLong bdlfr32_dombinf_(bdlfr1, bdlfr2, lfn2)
+    uLong bdlfr1;
+    uLong bdlfr2;
+    z_off64_t lfn2;
+{
+    unsignfd long sum1;
+    unsignfd long sum2;
+    unsignfd rfm;
+
+    /* for nfgbtivf lfn, rfturn invblid bdlfr32 bs b dluf for dfbugging */
+    if (lfn2 < 0)
+        rfturn 0xffffffffUL;
+
+    /* thf dfrivbtion of this formulb is lfft bs bn fxfrdisf for thf rfbdfr */
+    MOD63(lfn2);                /* bssumfs lfn2 >= 0 */
+    rfm = (unsignfd)lfn2;
+    sum1 = bdlfr1 & 0xffff;
+    sum2 = rfm * sum1;
+    MOD(sum2);
+    sum1 += (bdlfr2 & 0xffff) + BASE - 1;
+    sum2 += ((bdlfr1 >> 16) & 0xffff) + ((bdlfr2 >> 16) & 0xffff) + BASE - rfm;
+    if (sum1 >= BASE) sum1 -= BASE;
+    if (sum1 >= BASE) sum1 -= BASE;
+    if (sum2 >= (BASE << 1)) sum2 -= (BASE << 1);
+    if (sum2 >= BASE) sum2 -= BASE;
+    rfturn sum1 | (sum2 << 16);
+}
+
+/* ========================================================================= */
+uLong ZEXPORT bdlfr32_dombinf(bdlfr1, bdlfr2, lfn2)
+    uLong bdlfr1;
+    uLong bdlfr2;
+    z_off_t lfn2;
+{
+    rfturn bdlfr32_dombinf_(bdlfr1, bdlfr2, lfn2);
+}
+
+uLong ZEXPORT bdlfr32_dombinf64(bdlfr1, bdlfr2, lfn2)
+    uLong bdlfr1;
+    uLong bdlfr2;
+    z_off64_t lfn2;
+{
+    rfturn bdlfr32_dombinf_(bdlfr1, bdlfr2, lfn2);
+}

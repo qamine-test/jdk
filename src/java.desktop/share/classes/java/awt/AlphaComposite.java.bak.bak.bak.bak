@@ -1,0 +1,803 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import sun.jbvb2d.SunCompositfContfxt;
+
+/**
+ * Thf <dodf>AlphbCompositf</dodf> dlbss implfmfnts bbsid blphb
+ * dompositing rulfs for dombining sourdf bnd dfstinbtion dolors
+ * to bdhifvf blfnding bnd trbnspbrfndy ffffdts with grbphids bnd
+ * imbgfs.
+ * Thf spfdifid rulfs implfmfntfd by this dlbss brf thf bbsid sft
+ * of 12 rulfs dfsdribfd in
+ * T. Portfr bnd T. Duff, "Compositing Digitbl Imbgfs", SIGGRAPH 84,
+ * 253-259.
+ * Thf rfst of this dodumfntbtion bssumfs somf fbmilibrity with thf
+ * dffinitions bnd dondfpts outlinfd in thbt pbpfr.
+ *
+ * <p>
+ * This dlbss fxtfnds thf stbndbrd fqubtions dffinfd by Portfr bnd
+ * Duff to indludf onf bdditionbl fbdtor.
+ * An instbndf of thf <dodf>AlphbCompositf</dodf> dlbss dbn dontbin
+ * bn blphb vbluf thbt is usfd to modify thf opbdity or dovfrbgf of
+ * fvfry sourdf pixfl bfforf it is usfd in thf blfnding fqubtions.
+ *
+ * <p>
+ * It is importbnt to notf thbt thf fqubtions dffinfd by thf Portfr
+ * bnd Duff pbpfr brf bll dffinfd to opfrbtf on dolor domponfnts
+ * thbt brf prfmultiplifd by thfir dorrfsponding blphb domponfnts.
+ * Sindf thf <dodf>ColorModfl</dodf> bnd <dodf>Rbstfr</dodf> dlbssfs
+ * bllow thf storbgf of pixfl dbtb in fithfr prfmultiplifd or
+ * non-prfmultiplifd form, bll input dbtb must bf normblizfd into
+ * prfmultiplifd form bfforf bpplying thf fqubtions bnd bll rfsults
+ * might nffd to bf bdjustfd bbdk to thf form rfquirfd by thf dfstinbtion
+ * bfforf thf pixfl vblufs brf storfd.
+ *
+ * <p>
+ * Also notf thbt this dlbss dffinfs only thf fqubtions
+ * for dombining dolor bnd blphb vblufs in b purfly mbthfmbtidbl
+ * sfnsf. Thf bddurbtf bpplidbtion of its fqubtions dfpfnds
+ * on thf wby thf dbtb is rftrifvfd from its sourdfs bnd storfd
+ * in its dfstinbtions.
+ * Sff <b hrff="#dbvfbts">Implfmfntbtion Cbvfbts</b>
+ * for furthfr informbtion.
+ *
+ * <p>
+ * Thf following fbdtors brf usfd in thf dfsdription of thf blfnding
+ * fqubtion in thf Portfr bnd Duff pbpfr:
+ *
+ * <blodkquotf>
+ * <tbblf summbry="lbyout">
+ * <tr><th blign=lfft>Fbdtor&nbsp;&nbsp;<th blign=lfft>Dffinition
+ * <tr><td><fm>A<sub>s</sub></fm><td>thf blphb domponfnt of thf sourdf pixfl
+ * <tr><td><fm>C<sub>s</sub></fm><td>b dolor domponfnt of thf sourdf pixfl in prfmultiplifd form
+ * <tr><td><fm>A<sub>d</sub></fm><td>thf blphb domponfnt of thf dfstinbtion pixfl
+ * <tr><td><fm>C<sub>d</sub></fm><td>b dolor domponfnt of thf dfstinbtion pixfl in prfmultiplifd form
+ * <tr><td><fm>F<sub>s</sub></fm><td>thf frbdtion of thf sourdf pixfl thbt dontributfs to thf output
+ * <tr><td><fm>F<sub>d</sub></fm><td>thf frbdtion of thf dfstinbtion pixfl thbt dontributfs
+ * to thf output
+ * <tr><td><fm>A<sub>r</sub></fm><td>thf blphb domponfnt of thf rfsult
+ * <tr><td><fm>C<sub>r</sub></fm><td>b dolor domponfnt of thf rfsult in prfmultiplifd form
+ * </tbblf>
+ * </blodkquotf>
+ *
+ * <p>
+ * Using thfsf fbdtors, Portfr bnd Duff dffinf 12 wbys of dhoosing
+ * thf blfnding fbdtors <fm>F<sub>s</sub></fm> bnd <fm>F<sub>d</sub></fm> to
+ * produdf fbdh of 12 dfsirbblf visubl ffffdts.
+ * Thf fqubtions for dftfrmining <fm>F<sub>s</sub></fm> bnd <fm>F<sub>d</sub></fm>
+ * brf givfn in thf dfsdriptions of thf 12 stbtid fiflds
+ * thbt spfdify visubl ffffdts.
+ * For fxbmplf,
+ * thf dfsdription for
+ * <b hrff="#SRC_OVER"><dodf>SRC_OVER</dodf></b>
+ * spfdififs thbt <fm>F<sub>s</sub></fm> = 1 bnd <fm>F<sub>d</sub></fm> = (1-<fm>A<sub>s</sub></fm>).
+ * Ondf b sft of fqubtions for dftfrmining thf blfnding fbdtors is
+ * known thfy dbn thfn bf bpplifd to fbdh pixfl to produdf b rfsult
+ * using thf following sft of fqubtions:
+ *
+ * <prf>
+ *      <fm>F<sub>s</sub></fm> = <fm>f</fm>(<fm>A<sub>d</sub></fm>)
+ *      <fm>F<sub>d</sub></fm> = <fm>f</fm>(<fm>A<sub>s</sub></fm>)
+ *      <fm>A<sub>r</sub></fm> = <fm>A<sub>s</sub></fm>*<fm>F<sub>s</sub></fm> + <fm>A<sub>d</sub></fm>*<fm>F<sub>d</sub></fm>
+ *      <fm>C<sub>r</sub></fm> = <fm>C<sub>s</sub></fm>*<fm>F<sub>s</sub></fm> + <fm>C<sub>d</sub></fm>*<fm>F<sub>d</sub></fm></prf>
+ *
+ * <p>
+ * Thf following fbdtors will bf usfd to disduss our fxtfnsions to
+ * thf blfnding fqubtion in thf Portfr bnd Duff pbpfr:
+ *
+ * <blodkquotf>
+ * <tbblf summbry="lbyout">
+ * <tr><th blign=lfft>Fbdtor&nbsp;&nbsp;<th blign=lfft>Dffinition
+ * <tr><td><fm>C<sub>sr</sub></fm> <td>onf of thf rbw dolor domponfnts of thf sourdf pixfl
+ * <tr><td><fm>C<sub>dr</sub></fm> <td>onf of thf rbw dolor domponfnts of thf dfstinbtion pixfl
+ * <tr><td><fm>A<sub>bd</sub></fm>  <td>thf "fxtrb" blphb domponfnt from thf AlphbCompositf instbndf
+ * <tr><td><fm>A<sub>sr</sub></fm> <td>thf rbw blphb domponfnt of thf sourdf pixfl
+ * <tr><td><fm>A<sub>dr</sub></fm><td>thf rbw blphb domponfnt of thf dfstinbtion pixfl
+ * <tr><td><fm>A<sub>df</sub></fm> <td>thf finbl blphb domponfnt storfd in thf dfstinbtion
+ * <tr><td><fm>C<sub>df</sub></fm> <td>thf finbl rbw dolor domponfnt storfd in thf dfstinbtion
+ * </tbblf>
+ *</blodkquotf>
+ *
+ * <h3>Prfpbring Inputs</h3>
+ *
+ * <p>
+ * Thf <dodf>AlphbCompositf</dodf> dlbss dffinfs bn bdditionbl blphb
+ * vbluf thbt is bpplifd to thf sourdf blphb.
+ * This vbluf is bpplifd bs if bn implidit SRC_IN rulf wfrf first
+ * bpplifd to thf sourdf pixfl bgbinst b pixfl with thf indidbtfd
+ * blphb by multiplying both thf rbw sourdf blphb bnd thf rbw
+ * sourdf dolors by thf blphb in thf <dodf>AlphbCompositf</dodf>.
+ * This lfbds to thf following fqubtion for produding thf blphb
+ * usfd in thf Portfr bnd Duff blfnding fqubtion:
+ *
+ * <prf>
+ *      <fm>A<sub>s</sub></fm> = <fm>A<sub>sr</sub></fm> * <fm>A<sub>bd</sub></fm> </prf>
+ *
+ * All of thf rbw sourdf dolor domponfnts nffd to bf multiplifd
+ * by thf blphb in thf <dodf>AlphbCompositf</dodf> instbndf.
+ * Additionblly, if thf sourdf wbs not in prfmultiplifd form
+ * thfn thf dolor domponfnts blso nffd to bf multiplifd by thf
+ * sourdf blphb.
+ * Thus, thf fqubtion for produding thf sourdf dolor domponfnts
+ * for thf Portfr bnd Duff fqubtion dfpfnds on whfthfr thf sourdf
+ * pixfls brf prfmultiplifd or not:
+ *
+ * <prf>
+ *      <fm>C<sub>s</sub></fm> = <fm>C<sub>sr</sub></fm> * <fm>A<sub>sr</sub></fm> * <fm>A<sub>bd</sub></fm>     (if sourdf is not prfmultiplifd)
+ *      <fm>C<sub>s</sub></fm> = <fm>C<sub>sr</sub></fm> * <fm>A<sub>bd</sub></fm>           (if sourdf is prfmultiplifd) </prf>
+ *
+ * No bdjustmfnt nffds to bf mbdf to thf dfstinbtion blphb:
+ *
+ * <prf>
+ *      <fm>A<sub>d</sub></fm> = <fm>A<sub>dr</sub></fm> </prf>
+ *
+ * <p>
+ * Thf dfstinbtion dolor domponfnts nffd to bf bdjustfd only if
+ * thfy brf not in prfmultiplifd form:
+ *
+ * <prf>
+ *      <fm>C<sub>d</sub></fm> = <fm>C<sub>dr</sub></fm> * <fm>A<sub>d</sub></fm>    (if dfstinbtion is not prfmultiplifd)
+ *      <fm>C<sub>d</sub></fm> = <fm>C<sub>dr</sub></fm>         (if dfstinbtion is prfmultiplifd) </prf>
+ *
+ * <h3>Applying thf Blfnding Equbtion</h3>
+ *
+ * <p>
+ * Thf bdjustfd <fm>A<sub>s</sub></fm>, <fm>A<sub>d</sub></fm>,
+ * <fm>C<sub>s</sub></fm>, bnd <fm>C<sub>d</sub></fm> brf usfd in thf stbndbrd
+ * Portfr bnd Duff fqubtions to dbldulbtf thf blfnding fbdtors
+ * <fm>F<sub>s</sub></fm> bnd <fm>F<sub>d</sub></fm> bnd thfn thf rfsulting
+ * prfmultiplifd domponfnts <fm>A<sub>r</sub></fm> bnd <fm>C<sub>r</sub></fm>.
+ *
+ * <h3>Prfpbring Rfsults</h3>
+ *
+ * <p>
+ * Thf rfsults only nffd to bf bdjustfd if thfy brf to bf storfd
+ * bbdk into b dfstinbtion bufffr thbt holds dbtb thbt is not
+ * prfmultiplifd, using thf following fqubtions:
+ *
+ * <prf>
+ *      <fm>A<sub>df</sub></fm> = <fm>A<sub>r</sub></fm>
+ *      <fm>C<sub>df</sub></fm> = <fm>C<sub>r</sub></fm>                 (if dfst is prfmultiplifd)
+ *      <fm>C<sub>df</sub></fm> = <fm>C<sub>r</sub></fm> / <fm>A<sub>r</sub></fm>            (if dfst is not prfmultiplifd) </prf>
+ *
+ * Notf thbt sindf thf division is undffinfd if thf rfsulting blphb
+ * is zfro, thf division in thbt dbsf is omittfd to bvoid thf "dividf
+ * by zfro" bnd thf dolor domponfnts brf lfft bs
+ * bll zfros.
+ *
+ * <h3>Pfrformbndf Considfrbtions</h3>
+ *
+ * <p>
+ * For pfrformbndf rfbsons, it is prfffrbblf thbt
+ * <dodf>Rbstfr</dodf> objfdts pbssfd to thf <dodf>domposf</dodf>
+ * mfthod of b {@link CompositfContfxt} objfdt drfbtfd by thf
+ * <dodf>AlphbCompositf</dodf> dlbss hbvf prfmultiplifd dbtb.
+ * If fithfr thf sourdf <dodf>Rbstfr</dodf>
+ * or thf dfstinbtion <dodf>Rbstfr</dodf>
+ * is not prfmultiplifd, howfvfr,
+ * bppropribtf donvfrsions brf pfrformfd bfforf bnd bftfr thf dompositing
+ * opfrbtion.
+ *
+ * <h3><b nbmf="dbvfbts">Implfmfntbtion Cbvfbts</b></h3>
+ *
+ * <ul>
+ * <li>
+ * Mbny sourdfs, sudh bs somf of thf opbquf imbgf typfs listfd
+ * in thf <dodf>BufffrfdImbgf</dodf> dlbss, do not storf blphb vblufs
+ * for thfir pixfls.  Sudh sourdfs supply bn blphb of 1.0 for
+ * bll of thfir pixfls.
+ *
+ * <li>
+ * Mbny dfstinbtions blso hbvf no plbdf to storf thf blphb vblufs
+ * thbt rfsult from thf blfnding dbldulbtions pfrformfd by this dlbss.
+ * Sudh dfstinbtions thus impliditly disdbrd thf rfsulting
+ * blphb vblufs thbt this dlbss produdfs.
+ * It is rfdommfndfd thbt sudh dfstinbtions should trfbt thfir storfd
+ * dolor vblufs bs non-prfmultiplifd bnd dividf thf rfsulting dolor
+ * vblufs by thf rfsulting blphb vbluf bfforf storing thf dolor
+ * vblufs bnd disdbrding thf blphb vbluf.
+ *
+ * <li>
+ * Thf bddurbdy of thf rfsults dfpfnds on thf mbnnfr in whidh pixfls
+ * brf storfd in thf dfstinbtion.
+ * An imbgf formbt thbt providfs bt lfbst 8 bits of storbgf pfr dolor
+ * bnd blphb domponfnt is bt lfbst bdfqubtf for usf bs b dfstinbtion
+ * for b sfqufndf of b ffw to b dozfn dompositing opfrbtions.
+ * An imbgf formbt with ffwfr thbn 8 bits of storbgf pfr domponfnt
+ * is of limitfd usf for just onf or two dompositing opfrbtions
+ * bfforf thf rounding frrors dominbtf thf rfsults.
+ * An imbgf formbt
+ * thbt dofs not sfpbrbtfly storf
+ * dolor domponfnts is not b
+ * good dbndidbtf for bny typf of trbnsludfnt blfnding.
+ * For fxbmplf, <dodf>BufffrfdImbgf.TYPE_BYTE_INDEXED</dodf>
+ * should not bf usfd bs b dfstinbtion for b blfnding opfrbtion
+ * bfdbusf fvfry opfrbtion
+ * dbn introdudf lbrgf frrors, duf to
+ * thf nffd to dhoosf b pixfl from b limitfd pblfttf to mbtdh thf
+ * rfsults of thf blfnding fqubtions.
+ *
+ * <li>
+ * Nfbrly bll formbts storf pixfls bs disdrftf intfgfrs rbthfr thbn
+ * thf flobting point vblufs usfd in thf rfffrfndf fqubtions bbovf.
+ * Thf implfmfntbtion dbn fithfr sdblf thf intfgfr pixfl
+ * vblufs into flobting point vblufs in thf rbngf 0.0 to 1.0 or
+ * usf slightly modififd vfrsions of thf fqubtions
+ * thbt opfrbtf fntirfly in thf intfgfr dombin bnd yft produdf
+ * bnblogous rfsults to thf rfffrfndf fqubtions.
+ *
+ * <p>
+ * Typidblly thf intfgfr vblufs brf rflbtfd to thf flobting point
+ * vblufs in sudh b wby thbt thf intfgfr 0 is fqubtfd
+ * to thf flobting point vbluf 0.0 bnd thf intfgfr
+ * 2^<fm>n</fm>-1 (whfrf <fm>n</fm> is thf numbfr of bits
+ * in thf rfprfsfntbtion) is fqubtfd to 1.0.
+ * For 8-bit rfprfsfntbtions, this mfbns thbt 0x00
+ * rfprfsfnts 0.0 bnd 0xff rfprfsfnts
+ * 1.0.
+ *
+ * <li>
+ * Thf intfrnbl implfmfntbtion dbn bpproximbtf somf of thf fqubtions
+ * bnd it dbn blso fliminbtf somf stfps to bvoid unnfdfssbry opfrbtions.
+ * For fxbmplf, donsidfr b disdrftf intfgfr imbgf with non-prfmultiplifd
+ * blphb vblufs thbt usfs 8 bits pfr domponfnt for storbgf.
+ * Thf storfd vblufs for b
+ * nfbrly trbnspbrfnt dbrkfnfd rfd might bf:
+ *
+ * <prf>
+ *    (A, R, G, B) = (0x01, 0xb0, 0x00, 0x00)</prf>
+ *
+ * <p>
+ * If intfgfr mbth wfrf bfing usfd bnd this vbluf wfrf bfing
+ * dompositfd in
+ * <b hrff="#SRC"><dodf>SRC</dodf></b>
+ * modf with no fxtrb blphb, thfn thf mbth would
+ * indidbtf thbt thf rfsults wfrf (in intfgfr formbt):
+ *
+ * <prf>
+ *    (A, R, G, B) = (0x01, 0x01, 0x00, 0x00)</prf>
+ *
+ * <p>
+ * Notf thbt thf intfrmfdibtf vblufs, whidh brf blwbys in prfmultiplifd
+ * form, would only bllow thf intfgfr rfd domponfnt to bf fithfr 0x00
+ * or 0x01.  Whfn wf try to storf this rfsult bbdk into b dfstinbtion
+ * thbt is not prfmultiplifd, dividing out thf blphb will givf us
+ * vfry ffw dhoidfs for thf non-prfmultiplifd rfd vbluf.
+ * In this dbsf bn implfmfntbtion thbt pfrforms thf mbth in intfgfr
+ * spbdf without shortduts is likfly to fnd up with thf finbl pixfl
+ * vblufs of:
+ *
+ * <prf>
+ *    (A, R, G, B) = (0x01, 0xff, 0x00, 0x00)</prf>
+ *
+ * <p>
+ * (Notf thbt 0x01 dividfd by 0x01 givfs you 1.0, whidh is fquivblfnt
+ * to thf vbluf 0xff in bn 8-bit storbgf formbt.)
+ *
+ * <p>
+ * Altfrnbtfly, bn implfmfntbtion thbt usfs flobting point mbth
+ * might produdf morf bddurbtf rfsults bnd fnd up rfturning to thf
+ * originbl pixfl vbluf with littlf, if bny, roundoff frror.
+ * Or, bn implfmfntbtion using intfgfr mbth might dfdidf thbt sindf
+ * thf fqubtions boil down to b virtubl NOP on thf dolor vblufs
+ * if pfrformfd in b flobting point spbdf, it dbn trbnsffr thf
+ * pixfl untoudhfd to thf dfstinbtion bnd bvoid bll thf mbth fntirfly.
+ *
+ * <p>
+ * Thfsf implfmfntbtions bll bttfmpt to honor thf
+ * sbmf fqubtions, but usf difffrfnt trbdfoffs of intfgfr bnd
+ * flobting point mbth bnd rfdudfd or full fqubtions.
+ * To bddount for sudh difffrfndfs, it is probbbly bfst to
+ * fxpfdt only thbt thf prfmultiplifd form of thf rfsults to
+ * mbtdh bftwffn implfmfntbtions bnd imbgf formbts.  In this
+ * dbsf both bnswfrs, fxprfssfd in prfmultiplifd form would
+ * fqubtf to:
+ *
+ * <prf>
+ *    (A, R, G, B) = (0x01, 0x01, 0x00, 0x00)</prf>
+ *
+ * <p>
+ * bnd thus thfy would bll mbtdh.
+ *
+ * <li>
+ * Bfdbusf of thf tfdhniquf of simplifying thf fqubtions for
+ * dbldulbtion fffidifndy, somf implfmfntbtions might pfrform
+ * difffrfntly whfn fndountfring rfsult blphb vblufs of 0.0
+ * on b non-prfmultiplifd dfstinbtion.
+ * Notf thbt thf simplifidbtion of rfmoving thf dividf by blphb
+ * in thf dbsf of thf SRC rulf is tfdhnidblly not vblid if thf
+ * dfnominbtor (blphb) is 0.
+ * But, sindf thf rfsults should only bf fxpfdtfd to bf bddurbtf
+ * whfn vifwfd in prfmultiplifd form, b rfsulting blphb of 0
+ * fssfntiblly rfndfrs thf rfsulting dolor domponfnts irrflfvbnt
+ * bnd so fxbdt bfhbvior in this dbsf should not bf fxpfdtfd.
+ * </ul>
+ * @sff Compositf
+ * @sff CompositfContfxt
+ */
+
+publid finbl dlbss AlphbCompositf implfmfnts Compositf {
+    /**
+     * Both thf dolor bnd thf blphb of thf dfstinbtion brf dlfbrfd
+     * (Portfr-Duff Clfbr rulf).
+     * Nfithfr thf sourdf nor thf dfstinbtion is usfd bs input.
+     *<p>
+     * <fm>F<sub>s</sub></fm> = 0 bnd <fm>F<sub>d</sub></fm> = 0, thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = 0
+     *  <fm>C<sub>r</sub></fm> = 0
+     *</prf>
+     */
+    @Nbtivf publid stbtid finbl int     CLEAR           = 1;
+
+    /**
+     * Thf sourdf is dopifd to thf dfstinbtion
+     * (Portfr-Duff Sourdf rulf).
+     * Thf dfstinbtion is not usfd bs input.
+     *<p>
+     * <fm>F<sub>s</sub></fm> = 1 bnd <fm>F<sub>d</sub></fm> = 0, thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = <fm>A<sub>s</sub></fm>
+     *  <fm>C<sub>r</sub></fm> = <fm>C<sub>s</sub></fm>
+     *</prf>
+     */
+    @Nbtivf publid stbtid finbl int     SRC             = 2;
+
+    /**
+     * Thf dfstinbtion is lfft untoudhfd
+     * (Portfr-Duff Dfstinbtion rulf).
+     *<p>
+     * <fm>F<sub>s</sub></fm> = 0 bnd <fm>F<sub>d</sub></fm> = 1, thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = <fm>A<sub>d</sub></fm>
+     *  <fm>C<sub>r</sub></fm> = <fm>C<sub>d</sub></fm>
+     *</prf>
+     * @sindf 1.4
+     */
+    @Nbtivf publid stbtid finbl int     DST             = 9;
+    // Notf thbt DST wbs bddfd in 1.4 so it is numbfrfd out of ordfr...
+
+    /**
+     * Thf sourdf is dompositfd ovfr thf dfstinbtion
+     * (Portfr-Duff Sourdf Ovfr Dfstinbtion rulf).
+     *<p>
+     * <fm>F<sub>s</sub></fm> = 1 bnd <fm>F<sub>d</sub></fm> = (1-<fm>A<sub>s</sub></fm>), thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = <fm>A<sub>s</sub></fm> + <fm>A<sub>d</sub></fm>*(1-<fm>A<sub>s</sub></fm>)
+     *  <fm>C<sub>r</sub></fm> = <fm>C<sub>s</sub></fm> + <fm>C<sub>d</sub></fm>*(1-<fm>A<sub>s</sub></fm>)
+     *</prf>
+     */
+    @Nbtivf publid stbtid finbl int     SRC_OVER        = 3;
+
+    /**
+     * Thf dfstinbtion is dompositfd ovfr thf sourdf bnd
+     * thf rfsult rfplbdfs thf dfstinbtion
+     * (Portfr-Duff Dfstinbtion Ovfr Sourdf rulf).
+     *<p>
+     * <fm>F<sub>s</sub></fm> = (1-<fm>A<sub>d</sub></fm>) bnd <fm>F<sub>d</sub></fm> = 1, thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = <fm>A<sub>s</sub></fm>*(1-<fm>A<sub>d</sub></fm>) + <fm>A<sub>d</sub></fm>
+     *  <fm>C<sub>r</sub></fm> = <fm>C<sub>s</sub></fm>*(1-<fm>A<sub>d</sub></fm>) + <fm>C<sub>d</sub></fm>
+     *</prf>
+     */
+    @Nbtivf publid stbtid finbl int     DST_OVER        = 4;
+
+    /**
+     * Thf pbrt of thf sourdf lying insidf of thf dfstinbtion rfplbdfs
+     * thf dfstinbtion
+     * (Portfr-Duff Sourdf In Dfstinbtion rulf).
+     *<p>
+     * <fm>F<sub>s</sub></fm> = <fm>A<sub>d</sub></fm> bnd <fm>F<sub>d</sub></fm> = 0, thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = <fm>A<sub>s</sub></fm>*<fm>A<sub>d</sub></fm>
+     *  <fm>C<sub>r</sub></fm> = <fm>C<sub>s</sub></fm>*<fm>A<sub>d</sub></fm>
+     *</prf>
+     */
+    @Nbtivf publid stbtid finbl int     SRC_IN          = 5;
+
+    /**
+     * Thf pbrt of thf dfstinbtion lying insidf of thf sourdf
+     * rfplbdfs thf dfstinbtion
+     * (Portfr-Duff Dfstinbtion In Sourdf rulf).
+     *<p>
+     * <fm>F<sub>s</sub></fm> = 0 bnd <fm>F<sub>d</sub></fm> = <fm>A<sub>s</sub></fm>, thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = <fm>A<sub>d</sub></fm>*<fm>A<sub>s</sub></fm>
+     *  <fm>C<sub>r</sub></fm> = <fm>C<sub>d</sub></fm>*<fm>A<sub>s</sub></fm>
+     *</prf>
+     */
+    @Nbtivf publid stbtid finbl int     DST_IN          = 6;
+
+    /**
+     * Thf pbrt of thf sourdf lying outsidf of thf dfstinbtion
+     * rfplbdfs thf dfstinbtion
+     * (Portfr-Duff Sourdf Hfld Out By Dfstinbtion rulf).
+     *<p>
+     * <fm>F<sub>s</sub></fm> = (1-<fm>A<sub>d</sub></fm>) bnd <fm>F<sub>d</sub></fm> = 0, thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = <fm>A<sub>s</sub></fm>*(1-<fm>A<sub>d</sub></fm>)
+     *  <fm>C<sub>r</sub></fm> = <fm>C<sub>s</sub></fm>*(1-<fm>A<sub>d</sub></fm>)
+     *</prf>
+     */
+    @Nbtivf publid stbtid finbl int     SRC_OUT         = 7;
+
+    /**
+     * Thf pbrt of thf dfstinbtion lying outsidf of thf sourdf
+     * rfplbdfs thf dfstinbtion
+     * (Portfr-Duff Dfstinbtion Hfld Out By Sourdf rulf).
+     *<p>
+     * <fm>F<sub>s</sub></fm> = 0 bnd <fm>F<sub>d</sub></fm> = (1-<fm>A<sub>s</sub></fm>), thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = <fm>A<sub>d</sub></fm>*(1-<fm>A<sub>s</sub></fm>)
+     *  <fm>C<sub>r</sub></fm> = <fm>C<sub>d</sub></fm>*(1-<fm>A<sub>s</sub></fm>)
+     *</prf>
+     */
+    @Nbtivf publid stbtid finbl int     DST_OUT         = 8;
+
+    // Rulf 9 is DST whidh is dffinfd bbovf whfrf it fits into thf
+    // list logidblly, rbthfr thbn numfridblly
+    //
+    // publid stbtid finbl int  DST             = 9;
+
+    /**
+     * Thf pbrt of thf sourdf lying insidf of thf dfstinbtion
+     * is dompositfd onto thf dfstinbtion
+     * (Portfr-Duff Sourdf Atop Dfstinbtion rulf).
+     *<p>
+     * <fm>F<sub>s</sub></fm> = <fm>A<sub>d</sub></fm> bnd <fm>F<sub>d</sub></fm> = (1-<fm>A<sub>s</sub></fm>), thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = <fm>A<sub>s</sub></fm>*<fm>A<sub>d</sub></fm> + <fm>A<sub>d</sub></fm>*(1-<fm>A<sub>s</sub></fm>) = <fm>A<sub>d</sub></fm>
+     *  <fm>C<sub>r</sub></fm> = <fm>C<sub>s</sub></fm>*<fm>A<sub>d</sub></fm> + <fm>C<sub>d</sub></fm>*(1-<fm>A<sub>s</sub></fm>)
+     *</prf>
+     * @sindf 1.4
+     */
+    @Nbtivf publid stbtid finbl int     SRC_ATOP        = 10;
+
+    /**
+     * Thf pbrt of thf dfstinbtion lying insidf of thf sourdf
+     * is dompositfd ovfr thf sourdf bnd rfplbdfs thf dfstinbtion
+     * (Portfr-Duff Dfstinbtion Atop Sourdf rulf).
+     *<p>
+     * <fm>F<sub>s</sub></fm> = (1-<fm>A<sub>d</sub></fm>) bnd <fm>F<sub>d</sub></fm> = <fm>A<sub>s</sub></fm>, thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = <fm>A<sub>s</sub></fm>*(1-<fm>A<sub>d</sub></fm>) + <fm>A<sub>d</sub></fm>*<fm>A<sub>s</sub></fm> = <fm>A<sub>s</sub></fm>
+     *  <fm>C<sub>r</sub></fm> = <fm>C<sub>s</sub></fm>*(1-<fm>A<sub>d</sub></fm>) + <fm>C<sub>d</sub></fm>*<fm>A<sub>s</sub></fm>
+     *</prf>
+     * @sindf 1.4
+     */
+    @Nbtivf publid stbtid finbl int     DST_ATOP        = 11;
+
+    /**
+     * Thf pbrt of thf sourdf thbt lifs outsidf of thf dfstinbtion
+     * is dombinfd with thf pbrt of thf dfstinbtion thbt lifs outsidf
+     * of thf sourdf
+     * (Portfr-Duff Sourdf Xor Dfstinbtion rulf).
+     *<p>
+     * <fm>F<sub>s</sub></fm> = (1-<fm>A<sub>d</sub></fm>) bnd <fm>F<sub>d</sub></fm> = (1-<fm>A<sub>s</sub></fm>), thus:
+     *<prf>
+     *  <fm>A<sub>r</sub></fm> = <fm>A<sub>s</sub></fm>*(1-<fm>A<sub>d</sub></fm>) + <fm>A<sub>d</sub></fm>*(1-<fm>A<sub>s</sub></fm>)
+     *  <fm>C<sub>r</sub></fm> = <fm>C<sub>s</sub></fm>*(1-<fm>A<sub>d</sub></fm>) + <fm>C<sub>d</sub></fm>*(1-<fm>A<sub>s</sub></fm>)
+     *</prf>
+     * @sindf 1.4
+     */
+    @Nbtivf publid stbtid finbl int     XOR             = 12;
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf CLEAR rulf
+     * with bn blphb of 1.0f.
+     * @sff #CLEAR
+     */
+    publid stbtid finbl AlphbCompositf Clfbr    = nfw AlphbCompositf(CLEAR);
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf SRC rulf
+     * with bn blphb of 1.0f.
+     * @sff #SRC
+     */
+    publid stbtid finbl AlphbCompositf Srd      = nfw AlphbCompositf(SRC);
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf DST rulf
+     * with bn blphb of 1.0f.
+     * @sff #DST
+     * @sindf 1.4
+     */
+    publid stbtid finbl AlphbCompositf Dst      = nfw AlphbCompositf(DST);
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf SRC_OVER rulf
+     * with bn blphb of 1.0f.
+     * @sff #SRC_OVER
+     */
+    publid stbtid finbl AlphbCompositf SrdOvfr  = nfw AlphbCompositf(SRC_OVER);
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf DST_OVER rulf
+     * with bn blphb of 1.0f.
+     * @sff #DST_OVER
+     */
+    publid stbtid finbl AlphbCompositf DstOvfr  = nfw AlphbCompositf(DST_OVER);
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf SRC_IN rulf
+     * with bn blphb of 1.0f.
+     * @sff #SRC_IN
+     */
+    publid stbtid finbl AlphbCompositf SrdIn    = nfw AlphbCompositf(SRC_IN);
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf DST_IN rulf
+     * with bn blphb of 1.0f.
+     * @sff #DST_IN
+     */
+    publid stbtid finbl AlphbCompositf DstIn    = nfw AlphbCompositf(DST_IN);
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf SRC_OUT rulf
+     * with bn blphb of 1.0f.
+     * @sff #SRC_OUT
+     */
+    publid stbtid finbl AlphbCompositf SrdOut   = nfw AlphbCompositf(SRC_OUT);
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf DST_OUT rulf
+     * with bn blphb of 1.0f.
+     * @sff #DST_OUT
+     */
+    publid stbtid finbl AlphbCompositf DstOut   = nfw AlphbCompositf(DST_OUT);
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf SRC_ATOP rulf
+     * with bn blphb of 1.0f.
+     * @sff #SRC_ATOP
+     * @sindf 1.4
+     */
+    publid stbtid finbl AlphbCompositf SrdAtop  = nfw AlphbCompositf(SRC_ATOP);
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf DST_ATOP rulf
+     * with bn blphb of 1.0f.
+     * @sff #DST_ATOP
+     * @sindf 1.4
+     */
+    publid stbtid finbl AlphbCompositf DstAtop  = nfw AlphbCompositf(DST_ATOP);
+
+    /**
+     * <dodf>AlphbCompositf</dodf> objfdt thbt implfmfnts thf opbquf XOR rulf
+     * with bn blphb of 1.0f.
+     * @sff #XOR
+     * @sindf 1.4
+     */
+    publid stbtid finbl AlphbCompositf Xor      = nfw AlphbCompositf(XOR);
+
+    @Nbtivf privbtf stbtid finbl int MIN_RULE = CLEAR;
+    @Nbtivf privbtf stbtid finbl int MAX_RULE = XOR;
+
+    flobt fxtrbAlphb;
+    int rulf;
+
+    privbtf AlphbCompositf(int rulf) {
+        this(rulf, 1.0f);
+    }
+
+    privbtf AlphbCompositf(int rulf, flobt blphb) {
+        if (rulf < MIN_RULE || rulf > MAX_RULE) {
+            throw nfw IllfgblArgumfntExdfption("unknown dompositf rulf");
+        }
+        if (blphb >= 0.0f && blphb <= 1.0f) {
+            this.rulf = rulf;
+            this.fxtrbAlphb = blphb;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("blphb vbluf out of rbngf");
+        }
+    }
+
+    /**
+     * Crfbtfs bn <dodf>AlphbCompositf</dodf> objfdt with thf spfdififd rulf.
+     *
+     * @pbrbm rulf thf dompositing rulf
+     * @rfturn thf {@dodf AlphbCompositf} objfdt drfbtfd
+     * @throws IllfgblArgumfntExdfption if <dodf>rulf</dodf> is not onf of
+     *         thf following:  {@link #CLEAR}, {@link #SRC}, {@link #DST},
+     *         {@link #SRC_OVER}, {@link #DST_OVER}, {@link #SRC_IN},
+     *         {@link #DST_IN}, {@link #SRC_OUT}, {@link #DST_OUT},
+     *         {@link #SRC_ATOP}, {@link #DST_ATOP}, or {@link #XOR}
+     */
+    publid stbtid AlphbCompositf gftInstbndf(int rulf) {
+        switdh (rulf) {
+        dbsf CLEAR:
+            rfturn Clfbr;
+        dbsf SRC:
+            rfturn Srd;
+        dbsf DST:
+            rfturn Dst;
+        dbsf SRC_OVER:
+            rfturn SrdOvfr;
+        dbsf DST_OVER:
+            rfturn DstOvfr;
+        dbsf SRC_IN:
+            rfturn SrdIn;
+        dbsf DST_IN:
+            rfturn DstIn;
+        dbsf SRC_OUT:
+            rfturn SrdOut;
+        dbsf DST_OUT:
+            rfturn DstOut;
+        dbsf SRC_ATOP:
+            rfturn SrdAtop;
+        dbsf DST_ATOP:
+            rfturn DstAtop;
+        dbsf XOR:
+            rfturn Xor;
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("unknown dompositf rulf");
+        }
+    }
+
+    /**
+     * Crfbtfs bn <dodf>AlphbCompositf</dodf> objfdt with thf spfdififd rulf bnd
+     * thf donstbnt blphb to multiply with thf blphb of thf sourdf.
+     * Thf sourdf is multiplifd with thf spfdififd blphb bfforf bfing dompositfd
+     * with thf dfstinbtion.
+     *
+     * @pbrbm rulf thf dompositing rulf
+     * @pbrbm blphb thf donstbnt blphb to bf multiplifd with thf blphb of
+     * thf sourdf. <dodf>blphb</dodf> must bf b flobting point numbfr in thf
+     * indlusivf rbngf [0.0,&nbsp;1.0].
+     * @rfturn thf {@dodf AlphbCompositf} objfdt drfbtfd
+     * @throws IllfgblArgumfntExdfption if
+     *         <dodf>blphb</dodf> is lfss thbn 0.0 or grfbtfr thbn 1.0, or if
+     *         <dodf>rulf</dodf> is not onf of
+     *         thf following:  {@link #CLEAR}, {@link #SRC}, {@link #DST},
+     *         {@link #SRC_OVER}, {@link #DST_OVER}, {@link #SRC_IN},
+     *         {@link #DST_IN}, {@link #SRC_OUT}, {@link #DST_OUT},
+     *         {@link #SRC_ATOP}, {@link #DST_ATOP}, or {@link #XOR}
+     */
+    publid stbtid AlphbCompositf gftInstbndf(int rulf, flobt blphb) {
+        if (blphb == 1.0f) {
+            rfturn gftInstbndf(rulf);
+        }
+        rfturn nfw AlphbCompositf(rulf, blphb);
+    }
+
+    /**
+     * Crfbtfs b dontfxt for thf dompositing opfrbtion.
+     * Thf dontfxt dontbins stbtf thbt is usfd in pfrforming
+     * thf dompositing opfrbtion.
+     * @pbrbm srdColorModfl  thf {@link ColorModfl} of thf sourdf
+     * @pbrbm dstColorModfl  thf <dodf>ColorModfl</dodf> of thf dfstinbtion
+     * @rfturn thf <dodf>CompositfContfxt</dodf> objfdt to bf usfd to pfrform
+     * dompositing opfrbtions.
+     */
+    publid CompositfContfxt drfbtfContfxt(ColorModfl srdColorModfl,
+                                          ColorModfl dstColorModfl,
+                                          RfndfringHints hints) {
+        rfturn nfw SunCompositfContfxt(this, srdColorModfl, dstColorModfl);
+    }
+
+    /**
+     * Rfturns thf blphb vbluf of this <dodf>AlphbCompositf</dodf>.  If this
+     * <dodf>AlphbCompositf</dodf> dofs not hbvf bn blphb vbluf, 1.0 is rfturnfd.
+     * @rfturn thf blphb vbluf of this <dodf>AlphbCompositf</dodf>.
+     */
+    publid flobt gftAlphb() {
+        rfturn fxtrbAlphb;
+    }
+
+    /**
+     * Rfturns thf dompositing rulf of this <dodf>AlphbCompositf</dodf>.
+     * @rfturn thf dompositing rulf of this <dodf>AlphbCompositf</dodf>.
+     */
+    publid int gftRulf() {
+        rfturn rulf;
+    }
+
+    /**
+     * Rfturns b similbr <dodf>AlphbCompositf</dodf> objfdt thbt usfs
+     * thf spfdififd dompositing rulf.
+     * If this objfdt blrfbdy usfs thf spfdififd dompositing rulf,
+     * this objfdt is rfturnfd.
+     * @rfturn bn <dodf>AlphbCompositf</dodf> objfdt dfrivfd from
+     * this objfdt thbt usfs thf spfdififd dompositing rulf.
+     * @pbrbm rulf thf dompositing rulf
+     * @throws IllfgblArgumfntExdfption if
+     *         <dodf>rulf</dodf> is not onf of
+     *         thf following:  {@link #CLEAR}, {@link #SRC}, {@link #DST},
+     *         {@link #SRC_OVER}, {@link #DST_OVER}, {@link #SRC_IN},
+     *         {@link #DST_IN}, {@link #SRC_OUT}, {@link #DST_OUT},
+     *         {@link #SRC_ATOP}, {@link #DST_ATOP}, or {@link #XOR}
+     * @sindf 1.6
+     */
+    publid AlphbCompositf dfrivf(int rulf) {
+        rfturn (this.rulf == rulf)
+            ? this
+            : gftInstbndf(rulf, this.fxtrbAlphb);
+    }
+
+    /**
+     * Rfturns b similbr <dodf>AlphbCompositf</dodf> objfdt thbt usfs
+     * thf spfdififd blphb vbluf.
+     * If this objfdt blrfbdy hbs thf spfdififd blphb vbluf,
+     * this objfdt is rfturnfd.
+     * @rfturn bn <dodf>AlphbCompositf</dodf> objfdt dfrivfd from
+     * this objfdt thbt usfs thf spfdififd blphb vbluf.
+     * @pbrbm blphb thf donstbnt blphb to bf multiplifd with thf blphb of
+     * thf sourdf. <dodf>blphb</dodf> must bf b flobting point numbfr in thf
+     * indlusivf rbngf [0.0,&nbsp;1.0].
+     * @throws IllfgblArgumfntExdfption if
+     *         <dodf>blphb</dodf> is lfss thbn 0.0 or grfbtfr thbn 1.0
+     * @sindf 1.6
+     */
+    publid AlphbCompositf dfrivf(flobt blphb) {
+        rfturn (this.fxtrbAlphb == blphb)
+            ? this
+            : gftInstbndf(this.rulf, blphb);
+    }
+
+    /**
+     * Rfturns thf hbshdodf for this dompositf.
+     * @rfturn      b hbsh dodf for this dompositf.
+     */
+    publid int hbshCodf() {
+        rfturn (Flobt.flobtToIntBits(fxtrbAlphb) * 31 + rulf);
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf spfdififd objfdt is fqubl to this
+     * <dodf>AlphbCompositf</dodf>.
+     * <p>
+     * Thf rfsult is <dodf>truf</dodf> if bnd only if
+     * thf brgumfnt is not <dodf>null</dodf> bnd is bn
+     * <dodf>AlphbCompositf</dodf> objfdt thbt hbs thf sbmf
+     * dompositing rulf bnd blphb vbluf bs this objfdt.
+     *
+     * @pbrbm obj thf <dodf>Objfdt</dodf> to tfst for fqublity
+     * @rfturn <dodf>truf</dodf> if <dodf>obj</dodf> fqubls this
+     * <dodf>AlphbCompositf</dodf>; <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof AlphbCompositf)) {
+            rfturn fblsf;
+        }
+
+        AlphbCompositf bd = (AlphbCompositf) obj;
+
+        if (rulf != bd.rulf) {
+            rfturn fblsf;
+        }
+
+        if (fxtrbAlphb != bd.fxtrbAlphb) {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+}

@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * Signals that an end of file or end of stream has been reached
- * unexpectedly during input.
+ * Signbls tibt bn fnd of filf or fnd of strfbm ibs bffn rfbdifd
+ * unfxpfdtfdly during input.
  * <p>
- * This exception is mainly used by data input streams to signal end of
- * stream. Note that many other input operations return a special value on
- * end of stream rather than throwing an exception.
+ * Tiis fxdfption is mbinly usfd by dbtb input strfbms to signbl fnd of
+ * strfbm. Notf tibt mbny otifr input opfrbtions rfturn b spfdibl vbluf on
+ * fnd of strfbm rbtifr tibn tirowing bn fxdfption.
  *
- * @author  Frank Yellin
- * @see     java.io.DataInputStream
- * @see     java.io.IOException
- * @since   1.0
+ * @butior  Frbnk Yfllin
+ * @sff     jbvb.io.DbtbInputStrfbm
+ * @sff     jbvb.io.IOExdfption
+ * @sindf   1.0
  */
-public
-class EOFException extends IOException {
-    private static final long serialVersionUID = 6433858223774886977L;
+publid
+dlbss EOFExdfption fxtfnds IOExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 6433858223774886977L;
 
     /**
-     * Constructs an <code>EOFException</code> with <code>null</code>
-     * as its error detail message.
+     * Construdts bn <dodf>EOFExdfption</dodf> witi <dodf>null</dodf>
+     * bs its frror dftbil mfssbgf.
      */
-    public EOFException() {
-        super();
+    publid EOFExdfption() {
+        supfr();
     }
 
     /**
-     * Constructs an <code>EOFException</code> with the specified detail
-     * message. The string <code>s</code> may later be retrieved by the
-     * <code>{@link java.lang.Throwable#getMessage}</code> method of class
-     * <code>java.lang.Throwable</code>.
+     * Construdts bn <dodf>EOFExdfption</dodf> witi tif spfdififd dftbil
+     * mfssbgf. Tif string <dodf>s</dodf> mby lbtfr bf rftrifvfd by tif
+     * <dodf>{@link jbvb.lbng.Tirowbblf#gftMfssbgf}</dodf> mftiod of dlbss
+     * <dodf>jbvb.lbng.Tirowbblf</dodf>.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   tif dftbil mfssbgf.
      */
-    public EOFException(String s) {
-        super(s);
+    publid EOFExdfption(String s) {
+        supfr(s);
     }
 }

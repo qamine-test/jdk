@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.util;
+pbdkbgf sun.mbnbgfmfnt.snmp.util;
 
-import com.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
-import java.util.Comparator;
-import java.util.Arrays;
-import java.util.TreeMap;
-import java.util.List;
-import java.util.Iterator;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import jbvb.util.TrffMbp;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
 
-import java.lang.ref.WeakReference;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
 /**
- * This class is used to cache table data.
+ * Tiis dlbss is usfd to dbdif tbblf dbtb.
  **/
-public class SnmpCachedData implements SnmpTableHandler {
+publid dlbss SnmpCbdifdDbtb implfmfnts SnmpTbblfHbndlfr {
 
     /**
-     * Compares two SnmpOid.
+     * Compbrfs two SnmpOid.
      **/
-    public static final Comparator<SnmpOid> oidComparator =
-        new Comparator<SnmpOid>() {
-            public int compare(SnmpOid o1, SnmpOid o2) {
-                return o1.compareTo(o2);
+    publid stbtid finbl Compbrbtor<SnmpOid> oidCompbrbtor =
+        nfw Compbrbtor<SnmpOid>() {
+            publid int dompbrf(SnmpOid o1, SnmpOid o2) {
+                rfturn o1.dompbrfTo(o2);
             }
-            public boolean equals(Object o1, Object o2) {
-                if (o1 == o2) return true;
-                else return o1.equals(o2);
+            publid boolfbn fqubls(Objfdt o1, Objfdt o2) {
+                if (o1 == o2) rfturn truf;
+                flsf rfturn o1.fqubls(o2);
             }
         };
 
     /**
-     * Constructs a new instance of SnmpCachedData. Instances are
-     * immutable.
-     * @param lastUpdated Time stamp as returned by
-     *        {@link System#currentTimeMillis System.currentTimeMillis()}
-     * @param indexes The table entry indexes, sorted in ascending order.
-     * @param datas   The table datas, sorted according to the
-     *                order in <code>indexes</code>: <code>datas[i]</code>
-     *                is the data that corresponds to
-     *                <code>indexes[i]</code>
+     * Construdts b nfw instbndf of SnmpCbdifdDbtb. Instbndfs brf
+     * immutbblf.
+     * @pbrbm lbstUpdbtfd Timf stbmp bs rfturnfd by
+     *        {@link Systfm#durrfntTimfMillis Systfm.durrfntTimfMillis()}
+     * @pbrbm indfxfs Tif tbblf fntry indfxfs, sortfd in bsdfnding ordfr.
+     * @pbrbm dbtbs   Tif tbblf dbtbs, sortfd bddording to tif
+     *                ordfr in <dodf>indfxfs</dodf>: <dodf>dbtbs[i]</dodf>
+     *                is tif dbtb tibt dorrfsponds to
+     *                <dodf>indfxfs[i]</dodf>
      **/
-    public SnmpCachedData(long lastUpdated, SnmpOid indexes[],
-                          Object  datas[]) {
-        this.lastUpdated = lastUpdated;
-        this.indexes     = indexes;
-        this.datas       = datas;
+    publid SnmpCbdifdDbtb(long lbstUpdbtfd, SnmpOid indfxfs[],
+                          Objfdt  dbtbs[]) {
+        tiis.lbstUpdbtfd = lbstUpdbtfd;
+        tiis.indfxfs     = indfxfs;
+        tiis.dbtbs       = dbtbs;
     }
 
     /**
-     * Constructs a new instance of SnmpCachedData. Instances are
-     * immutable.
-     * @param lastUpdated Time stamp as returned by
-     *        {@link System#currentTimeMillis System.currentTimeMillis()}
-     * @param indexMap The table indexed table data, sorted in ascending
-     *                 order by {@link #oidComparator}. The keys must be
-     *                 instances of {@link SnmpOid}.
+     * Construdts b nfw instbndf of SnmpCbdifdDbtb. Instbndfs brf
+     * immutbblf.
+     * @pbrbm lbstUpdbtfd Timf stbmp bs rfturnfd by
+     *        {@link Systfm#durrfntTimfMillis Systfm.durrfntTimfMillis()}
+     * @pbrbm indfxMbp Tif tbblf indfxfd tbblf dbtb, sortfd in bsdfnding
+     *                 ordfr by {@link #oidCompbrbtor}. Tif kfys must bf
+     *                 instbndfs of {@link SnmpOid}.
      **/
-    public SnmpCachedData(long lastUpdated, TreeMap<SnmpOid, Object> indexMap) {
-        this(lastUpdated, indexMap, true);
+    publid SnmpCbdifdDbtb(long lbstUpdbtfd, TrffMbp<SnmpOid, Objfdt> indfxMbp) {
+        tiis(lbstUpdbtfd, indfxMbp, truf);
     }
     /**
-     * Constructs a new instance of SnmpCachedData. Instances are
-     * immutable.
-     * @param lastUpdated Time stamp as returned by
-     *        {@link System#currentTimeMillis System.currentTimeMillis()}
-     * @param indexMap The table indexed table data, sorted in ascending
-     *                 order by {@link #oidComparator}. The keys must be
-     *                 instances of {@link SnmpOid}.
+     * Construdts b nfw instbndf of SnmpCbdifdDbtb. Instbndfs brf
+     * immutbblf.
+     * @pbrbm lbstUpdbtfd Timf stbmp bs rfturnfd by
+     *        {@link Systfm#durrfntTimfMillis Systfm.durrfntTimfMillis()}
+     * @pbrbm indfxMbp Tif tbblf indfxfd tbblf dbtb, sortfd in bsdfnding
+     *                 ordfr by {@link #oidCompbrbtor}. Tif kfys must bf
+     *                 instbndfs of {@link SnmpOid}.
      **/
-    public SnmpCachedData(long lastUpdated, TreeMap<SnmpOid, Object> indexMap,
-                          boolean b) {
+    publid SnmpCbdifdDbtb(long lbstUpdbtfd, TrffMbp<SnmpOid, Objfdt> indfxMbp,
+                          boolfbn b) {
 
-        final int size = indexMap.size();
-        this.lastUpdated = lastUpdated;
-        this.indexes     = new SnmpOid[size];
-        this.datas       = new Object[size];
+        finbl int sizf = indfxMbp.sizf();
+        tiis.lbstUpdbtfd = lbstUpdbtfd;
+        tiis.indfxfs     = nfw SnmpOid[sizf];
+        tiis.dbtbs       = nfw Objfdt[sizf];
 
         if(b) {
-            indexMap.keySet().toArray(this.indexes);
-            indexMap.values().toArray(this.datas);
-        } else
-            indexMap.values().toArray(this.datas);
+            indfxMbp.kfySft().toArrby(tiis.indfxfs);
+            indfxMbp.vblufs().toArrby(tiis.dbtbs);
+        } flsf
+            indfxMbp.vblufs().toArrby(tiis.dbtbs);
     }
 
     /**
-     * Time stamp as returned by
-     * {@link System#currentTimeMillis System.currentTimeMillis()}
+     * Timf stbmp bs rfturnfd by
+     * {@link Systfm#durrfntTimfMillis Systfm.durrfntTimfMillis()}
      **/
-    public final long    lastUpdated;
+    publid finbl long    lbstUpdbtfd;
 
     /**
-     * The table entry indexes, sorted in ascending order.
+     * Tif tbblf fntry indfxfs, sortfd in bsdfnding ordfr.
      **/
-    public final SnmpOid indexes[];
+    publid finbl SnmpOid indfxfs[];
 
     /**
-     * The table datas, sorted according to the
-     * order in <code>indexes</code>: <code>datas[i]</code>
-     * is the data that corresponds to <code>indexes[i]</code>
+     * Tif tbblf dbtbs, sortfd bddording to tif
+     * ordfr in <dodf>indfxfs</dodf>: <dodf>dbtbs[i]</dodf>
+     * is tif dbtb tibt dorrfsponds to <dodf>indfxfs[i]</dodf>
      **/
-    public final Object  datas[];
+    publid finbl Objfdt  dbtbs[];
 
     /**
-     * The position of the given <var>index</var>, as returned by
-     * <code>java.util.Arrays.binarySearch()</code>
+     * Tif position of tif givfn <vbr>indfx</vbr>, bs rfturnfd by
+     * <dodf>jbvb.util.Arrbys.binbrySfbrdi()</dodf>
      **/
-    public final int find(SnmpOid index) {
-        return Arrays.binarySearch(indexes,index,oidComparator);
+    publid finbl int find(SnmpOid indfx) {
+        rfturn Arrbys.binbrySfbrdi(indfxfs,indfx,oidCompbrbtor);
     }
 
-    // SnmpTableHandler.getData()
-    public  Object getData(SnmpOid index) {
-        final int pos = find(index);
-        if ((pos < 0)||(pos >= datas.length)) return null;
-        return datas[pos];
+    // SnmpTbblfHbndlfr.gftDbtb()
+    publid  Objfdt gftDbtb(SnmpOid indfx) {
+        finbl int pos = find(indfx);
+        if ((pos < 0)||(pos >= dbtbs.lfngti)) rfturn null;
+        rfturn dbtbs[pos];
     }
 
-    // SnmpTableHandler.getNext()
-    public  SnmpOid getNext(SnmpOid index) {
-        if (index == null) {
-            if (indexes.length>0) return indexes[0];
-            else return null;
+    // SnmpTbblfHbndlfr.gftNfxt()
+    publid  SnmpOid gftNfxt(SnmpOid indfx) {
+        if (indfx == null) {
+            if (indfxfs.lfngti>0) rfturn indfxfs[0];
+            flsf rfturn null;
         }
-        final int pos = find(index);
+        finbl int pos = find(indfx);
         if (pos > -1) {
-            if (pos < (indexes.length -1) ) return indexes[pos+1];
-            else return null;
+            if (pos < (indfxfs.lfngti -1) ) rfturn indfxfs[pos+1];
+            flsf rfturn null;
         }
-        final int insertion = -pos -1;
-        if ((insertion > -1) && (insertion < indexes.length))
-            return indexes[insertion];
-        else return null;
+        finbl int insfrtion = -pos -1;
+        if ((insfrtion > -1) && (insfrtion < indfxfs.lfngti))
+            rfturn indfxfs[insfrtion];
+        flsf rfturn null;
     }
 
-    // SnmpTableHandler.contains()
-    public  boolean contains(SnmpOid index) {
-        final int pos = find(index);
-        return ((pos > -1)&&(pos < indexes.length));
+    // SnmpTbblfHbndlfr.dontbins()
+    publid  boolfbn dontbins(SnmpOid indfx) {
+        finbl int pos = find(indfx);
+        rfturn ((pos > -1)&&(pos < indfxfs.lfngti));
     }
 
 }

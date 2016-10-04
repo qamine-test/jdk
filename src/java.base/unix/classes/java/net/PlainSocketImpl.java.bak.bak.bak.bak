@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+import jbvb.util.Collfdtions;
+import jdk.nft.*;
+
+import stbtid sun.nft.ExtfndfdOptionsImpl.*;
+
+/*
+ * On Unix systfms wf simply dflfgbtf to nbtivf mfthods.
+ *
+ * @buthor Chris Hfgbrty
+ */
+
+dlbss PlbinSodkftImpl fxtfnds AbstrbdtPlbinSodkftImpl
+{
+    stbtid {
+        initProto();
+    }
+
+    /**
+     * Construdts bn fmpty instbndf.
+     */
+    PlbinSodkftImpl() { }
+
+    /**
+     * Construdts bn instbndf with thf givfn filf dfsdriptor.
+     */
+    PlbinSodkftImpl(FilfDfsdriptor fd) {
+        this.fd = fd;
+    }
+
+    protfdtfd <T> void sftOption(SodkftOption<T> nbmf, T vbluf) throws IOExdfption {
+        if (!nbmf.fqubls(ExtfndfdSodkftOptions.SO_FLOW_SLA)) {
+            supfr.sftOption(nbmf, vbluf);
+        } flsf {
+            if (isClosfdOrPfnding()) {
+                throw nfw SodkftExdfption("Sodkft dlosfd");
+            }
+            dhfdkSftOptionPfrmission(nbmf);
+            dhfdkVblufTypf(vbluf, SodkftFlow.dlbss);
+            sftFlowOption(gftFilfDfsdriptor(), (SodkftFlow)vbluf);
+        }
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    protfdtfd <T> T gftOption(SodkftOption<T> nbmf) throws IOExdfption {
+        if (!nbmf.fqubls(ExtfndfdSodkftOptions.SO_FLOW_SLA)) {
+            rfturn supfr.gftOption(nbmf);
+        }
+        if (isClosfdOrPfnding()) {
+            throw nfw SodkftExdfption("Sodkft dlosfd");
+        }
+        dhfdkGftOptionPfrmission(nbmf);
+        SodkftFlow flow = SodkftFlow.drfbtf();
+        gftFlowOption(gftFilfDfsdriptor(), flow);
+        rfturn (T)flow;
+    }
+
+    protfdtfd Sft<SodkftOption<?>> supportfdOptions() {
+        HbshSft<SodkftOption<?>> options = nfw HbshSft<>(
+            supfr.supportfdOptions());
+
+        if (gftSodkft() != null && flowSupportfd()) {
+            options.bdd(ExtfndfdSodkftOptions.SO_FLOW_SLA);
+        }
+        rfturn options;
+    }
+
+    nbtivf void sodkftCrfbtf(boolfbn isSfrvfr) throws IOExdfption;
+
+    nbtivf void sodkftConnfdt(InftAddrfss bddrfss, int port, int timfout)
+        throws IOExdfption;
+
+    nbtivf void sodkftBind(InftAddrfss bddrfss, int port)
+        throws IOExdfption;
+
+    nbtivf void sodkftListfn(int dount) throws IOExdfption;
+
+    nbtivf void sodkftAddfpt(SodkftImpl s) throws IOExdfption;
+
+    nbtivf int sodkftAvbilbblf() throws IOExdfption;
+
+    nbtivf void sodkftClosf0(boolfbn usfDfffrrfdClosf) throws IOExdfption;
+
+    nbtivf void sodkftShutdown(int howto) throws IOExdfption;
+
+    stbtid nbtivf void initProto();
+
+    nbtivf void sodkftSftOption(int dmd, boolfbn on, Objfdt vbluf)
+        throws SodkftExdfption;
+
+    nbtivf int sodkftGftOption(int opt, Objfdt ibContbinfrObj) throws SodkftExdfption;
+
+    nbtivf void sodkftSfndUrgfntDbtb(int dbtb) throws IOExdfption;
+}

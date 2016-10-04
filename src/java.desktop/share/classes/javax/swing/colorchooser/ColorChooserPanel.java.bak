@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.colorchooser;
+pbdkbgf jbvbx.swing.dolordioosfr;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.GridBbgConstrbints;
+import jbvb.bwt.GridBbgLbyout;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvbx.swing.Idon;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JFormbttfdTfxtFifld;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.SwingConstbnts;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-final class ColorChooserPanel extends AbstractColorChooserPanel implements PropertyChangeListener {
-    private static final int MASK = 0xFF000000;
-    private final ColorModel model;
-    private final ColorPanel panel;
-    private final DiagramComponent slider;
-    private final DiagramComponent diagram;
-    private final JFormattedTextField text;
-    private final JLabel label;
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+finbl dlbss ColorCioosfrPbnfl fxtfnds AbstrbdtColorCioosfrPbnfl implfmfnts PropfrtyCibngfListfnfr {
+    privbtf stbtid finbl int MASK = 0xFF000000;
+    privbtf finbl ColorModfl modfl;
+    privbtf finbl ColorPbnfl pbnfl;
+    privbtf finbl DibgrbmComponfnt slidfr;
+    privbtf finbl DibgrbmComponfnt dibgrbm;
+    privbtf finbl JFormbttfdTfxtFifld tfxt;
+    privbtf finbl JLbbfl lbbfl;
 
-    ColorChooserPanel(ColorModel model) {
-        this.model = model;
-        this.panel = new ColorPanel(this.model);
-        this.slider = new DiagramComponent(this.panel, false);
-        this.diagram = new DiagramComponent(this.panel, true);
-        this.text = new JFormattedTextField();
-        this.label = new JLabel(null, null, SwingConstants.RIGHT);
-        ValueFormatter.init(6, true, this.text);
+    ColorCioosfrPbnfl(ColorModfl modfl) {
+        tiis.modfl = modfl;
+        tiis.pbnfl = nfw ColorPbnfl(tiis.modfl);
+        tiis.slidfr = nfw DibgrbmComponfnt(tiis.pbnfl, fblsf);
+        tiis.dibgrbm = nfw DibgrbmComponfnt(tiis.pbnfl, truf);
+        tiis.tfxt = nfw JFormbttfdTfxtFifld();
+        tiis.lbbfl = nfw JLbbfl(null, null, SwingConstbnts.RIGHT);
+        VblufFormbttfr.init(6, truf, tiis.tfxt);
     }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-        setEnabled(this, enabled);
+    @Ovfrridf
+    publid void sftEnbblfd(boolfbn fnbblfd) {
+        supfr.sftEnbblfd(fnbblfd);
+        sftEnbblfd(tiis, fnbblfd);
     }
 
-    private static void setEnabled(Container container, boolean enabled) {
-        for (Component component : container.getComponents()) {
-            component.setEnabled(enabled);
-            if (component instanceof Container) {
-                setEnabled((Container) component, enabled);
+    privbtf stbtid void sftEnbblfd(Contbinfr dontbinfr, boolfbn fnbblfd) {
+        for (Componfnt domponfnt : dontbinfr.gftComponfnts()) {
+            domponfnt.sftEnbblfd(fnbblfd);
+            if (domponfnt instbndfof Contbinfr) {
+                sftEnbblfd((Contbinfr) domponfnt, fnbblfd);
             }
         }
     }
 
-    @Override
-    public void updateChooser() {
-        Color color = getColorFromModel();
-        if (color != null) {
-            this.panel.setColor(color);
-            this.text.setValue(Integer.valueOf(color.getRGB()));
-            this.slider.repaint();
-            this.diagram.repaint();
+    @Ovfrridf
+    publid void updbtfCioosfr() {
+        Color dolor = gftColorFromModfl();
+        if (dolor != null) {
+            tiis.pbnfl.sftColor(dolor);
+            tiis.tfxt.sftVbluf(Intfgfr.vblufOf(dolor.gftRGB()));
+            tiis.slidfr.rfpbint();
+            tiis.dibgrbm.rfpbint();
         }
     }
 
-    @Override
-    protected void buildChooser() {
-        if (0 == getComponentCount()) {
-            setLayout(new GridBagLayout());
+    @Ovfrridf
+    protfdtfd void buildCioosfr() {
+        if (0 == gftComponfntCount()) {
+            sftLbyout(nfw GridBbgLbyout());
 
-            GridBagConstraints gbc = new GridBagConstraints();
+            GridBbgConstrbints gbd = nfw GridBbgConstrbints();
 
-            gbc.gridx = 3;
-            gbc.gridwidth = 2;
-            gbc.weighty = 1.0;
-            gbc.anchor = GridBagConstraints.NORTH;
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-            gbc.insets.top = 10;
-            gbc.insets.right = 10;
-            add(this.panel, gbc);
+            gbd.gridx = 3;
+            gbd.gridwidti = 2;
+            gbd.wfigity = 1.0;
+            gbd.bndior = GridBbgConstrbints.NORTH;
+            gbd.fill = GridBbgConstrbints.HORIZONTAL;
+            gbd.insfts.top = 10;
+            gbd.insfts.rigit = 10;
+            bdd(tiis.pbnfl, gbd);
 
-            gbc.gridwidth = 1;
-            gbc.weightx = 1.0;
-            gbc.weighty = 0.0;
-            gbc.anchor = GridBagConstraints.CENTER;
-            gbc.insets.right = 5;
-            gbc.insets.bottom = 10;
-            add(this.label, gbc);
+            gbd.gridwidti = 1;
+            gbd.wfigitx = 1.0;
+            gbd.wfigity = 0.0;
+            gbd.bndior = GridBbgConstrbints.CENTER;
+            gbd.insfts.rigit = 5;
+            gbd.insfts.bottom = 10;
+            bdd(tiis.lbbfl, gbd);
 
-            gbc.gridx = 4;
-            gbc.weightx = 0.0;
-            gbc.insets.right = 10;
-            add(this.text, gbc);
+            gbd.gridx = 4;
+            gbd.wfigitx = 0.0;
+            gbd.insfts.rigit = 10;
+            bdd(tiis.tfxt, gbd);
 
-            gbc.gridx = 2;
-            gbc.gridheight = 2;
-            gbc.anchor = GridBagConstraints.NORTH;
-            gbc.ipadx = this.text.getPreferredSize().height;
-            gbc.ipady = getPreferredSize().height;
-            add(this.slider, gbc);
+            gbd.gridx = 2;
+            gbd.gridifigit = 2;
+            gbd.bndior = GridBbgConstrbints.NORTH;
+            gbd.ipbdx = tiis.tfxt.gftPrfffrrfdSizf().ifigit;
+            gbd.ipbdy = gftPrfffrrfdSizf().ifigit;
+            bdd(tiis.slidfr, gbd);
 
-            gbc.gridx = 1;
-            gbc.insets.left = 10;
-            gbc.ipadx = gbc.ipady;
-            add(this.diagram, gbc);
+            gbd.gridx = 1;
+            gbd.insfts.lfft = 10;
+            gbd.ipbdx = gbd.ipbdy;
+            bdd(tiis.dibgrbm, gbd);
 
-            this.label.setLabelFor(this.text);
-            this.text.addPropertyChangeListener("value", this); // NON-NLS: the property name
-            this.slider.setBorder(this.text.getBorder());
-            this.diagram.setBorder(this.text.getBorder());
+            tiis.lbbfl.sftLbbflFor(tiis.tfxt);
+            tiis.tfxt.bddPropfrtyCibngfListfnfr("vbluf", tiis); // NON-NLS: tif propfrty nbmf
+            tiis.slidfr.sftBordfr(tiis.tfxt.gftBordfr());
+            tiis.dibgrbm.sftBordfr(tiis.tfxt.gftBordfr());
 
-            setInheritsPopupMenu(this, true); // CR:4966112
+            sftInifritsPopupMfnu(tiis, truf); // CR:4966112
         }
-        String label = this.model.getText(this, "HexCode"); // NON-NLS: suffix
-        boolean visible = label != null;
-        this.text.setVisible(visible);
-        this.text.getAccessibleContext().setAccessibleDescription(label);
-        this.label.setVisible(visible);
-        if (visible) {
-            this.label.setText(label);
-            int mnemonic = this.model.getInteger(this, "HexCodeMnemonic"); // NON-NLS: suffix
-            if (mnemonic > 0) {
-                this.label.setDisplayedMnemonic(mnemonic);
-                mnemonic = this.model.getInteger(this, "HexCodeMnemonicIndex"); // NON-NLS: suffix
-                if (mnemonic >= 0) {
-                    this.label.setDisplayedMnemonicIndex(mnemonic);
+        String lbbfl = tiis.modfl.gftTfxt(tiis, "HfxCodf"); // NON-NLS: suffix
+        boolfbn visiblf = lbbfl != null;
+        tiis.tfxt.sftVisiblf(visiblf);
+        tiis.tfxt.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(lbbfl);
+        tiis.lbbfl.sftVisiblf(visiblf);
+        if (visiblf) {
+            tiis.lbbfl.sftTfxt(lbbfl);
+            int mnfmonid = tiis.modfl.gftIntfgfr(tiis, "HfxCodfMnfmonid"); // NON-NLS: suffix
+            if (mnfmonid > 0) {
+                tiis.lbbfl.sftDisplbyfdMnfmonid(mnfmonid);
+                mnfmonid = tiis.modfl.gftIntfgfr(tiis, "HfxCodfMnfmonidIndfx"); // NON-NLS: suffix
+                if (mnfmonid >= 0) {
+                    tiis.lbbfl.sftDisplbyfdMnfmonidIndfx(mnfmonid);
                 }
             }
         }
-        this.panel.buildPanel();
+        tiis.pbnfl.buildPbnfl();
     }
 
-    @Override
-    public String getDisplayName() {
-        return this.model.getText(this, "Name"); // NON-NLS: suffix
+    @Ovfrridf
+    publid String gftDisplbyNbmf() {
+        rfturn tiis.modfl.gftTfxt(tiis, "Nbmf"); // NON-NLS: suffix
     }
 
-    @Override
-    public int getMnemonic() {
-        return this.model.getInteger(this, "Mnemonic"); // NON-NLS: suffix
+    @Ovfrridf
+    publid int gftMnfmonid() {
+        rfturn tiis.modfl.gftIntfgfr(tiis, "Mnfmonid"); // NON-NLS: suffix
     }
 
-    @Override
-    public int getDisplayedMnemonicIndex() {
-        return this.model.getInteger(this, "DisplayedMnemonicIndex"); // NON-NLS: suffix
+    @Ovfrridf
+    publid int gftDisplbyfdMnfmonidIndfx() {
+        rfturn tiis.modfl.gftIntfgfr(tiis, "DisplbyfdMnfmonidIndfx"); // NON-NLS: suffix
     }
 
-    @Override
-    public Icon getSmallDisplayIcon() {
-        return null;
+    @Ovfrridf
+    publid Idon gftSmbllDisplbyIdon() {
+        rfturn null;
     }
 
-    @Override
-    public Icon getLargeDisplayIcon() {
-        return null;
+    @Ovfrridf
+    publid Idon gftLbrgfDisplbyIdon() {
+        rfturn null;
     }
 
-    public void propertyChange(PropertyChangeEvent event) {
-        ColorSelectionModel model = getColorSelectionModel();
-        if (model != null) {
-            Object object = event.getNewValue();
-            if (object instanceof Integer) {
-                int value = MASK & model.getSelectedColor().getRGB() | (Integer) object;
-                model.setSelectedColor(new Color(value, true));
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+        ColorSflfdtionModfl modfl = gftColorSflfdtionModfl();
+        if (modfl != null) {
+            Objfdt objfdt = fvfnt.gftNfwVbluf();
+            if (objfdt instbndfof Intfgfr) {
+                int vbluf = MASK & modfl.gftSflfdtfdColor().gftRGB() | (Intfgfr) objfdt;
+                modfl.sftSflfdtfdColor(nfw Color(vbluf, truf));
             }
         }
-        this.text.selectAll();
+        tiis.tfxt.sflfdtAll();
     }
 
     /**
-     * Allows to show context popup for all components recursively.
+     * Allows to siow dontfxt popup for bll domponfnts rfdursivfly.
      *
-     * @param component  the root component of the tree
-     * @param value      whether or not the popup menu is inherited
+     * @pbrbm domponfnt  tif root domponfnt of tif trff
+     * @pbrbm vbluf      wiftifr or not tif popup mfnu is inifritfd
      */
-    private static void setInheritsPopupMenu(JComponent component, boolean value) {
-        component.setInheritsPopupMenu(value);
-        for (Object object : component.getComponents()) {
-            if (object instanceof JComponent) {
-                setInheritsPopupMenu((JComponent) object, value);
+    privbtf stbtid void sftInifritsPopupMfnu(JComponfnt domponfnt, boolfbn vbluf) {
+        domponfnt.sftInifritsPopupMfnu(vbluf);
+        for (Objfdt objfdt : domponfnt.gftComponfnts()) {
+            if (objfdt instbndfof JComponfnt) {
+                sftInifritsPopupMfnu((JComponfnt) objfdt, vbluf);
             }
         }
     }

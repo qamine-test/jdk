@@ -1,414 +1,414 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.locks;
-import sun.misc.Unsafe;
+pbdkbgf jbvb.util.dondurrfnt.lodks;
+import sun.misd.Unsbff;
 
 /**
- * Basic thread blocking primitives for creating locks and other
- * synchronization classes.
+ * Bbsid tirfbd blodking primitivfs for drfbting lodks bnd otifr
+ * syndironizbtion dlbssfs.
  *
- * <p>This class associates, with each thread that uses it, a permit
- * (in the sense of the {@link java.util.concurrent.Semaphore
- * Semaphore} class). A call to {@code park} will return immediately
- * if the permit is available, consuming it in the process; otherwise
- * it <em>may</em> block.  A call to {@code unpark} makes the permit
- * available, if it was not already available. (Unlike with Semaphores
- * though, permits do not accumulate. There is at most one.)
+ * <p>Tiis dlbss bssodibtfs, witi fbdi tirfbd tibt usfs it, b pfrmit
+ * (in tif sfnsf of tif {@link jbvb.util.dondurrfnt.Sfmbpiorf
+ * Sfmbpiorf} dlbss). A dbll to {@dodf pbrk} will rfturn immfdibtfly
+ * if tif pfrmit is bvbilbblf, donsuming it in tif prodfss; otifrwisf
+ * it <fm>mby</fm> blodk.  A dbll to {@dodf unpbrk} mbkfs tif pfrmit
+ * bvbilbblf, if it wbs not blrfbdy bvbilbblf. (Unlikf witi Sfmbpiorfs
+ * tiougi, pfrmits do not bddumulbtf. Tifrf is bt most onf.)
  *
- * <p>Methods {@code park} and {@code unpark} provide efficient
- * means of blocking and unblocking threads that do not encounter the
- * problems that cause the deprecated methods {@code Thread.suspend}
- * and {@code Thread.resume} to be unusable for such purposes: Races
- * between one thread invoking {@code park} and another thread trying
- * to {@code unpark} it will preserve liveness, due to the
- * permit. Additionally, {@code park} will return if the caller's
- * thread was interrupted, and timeout versions are supported. The
- * {@code park} method may also return at any other time, for "no
- * reason", so in general must be invoked within a loop that rechecks
- * conditions upon return. In this sense {@code park} serves as an
- * optimization of a "busy wait" that does not waste as much time
- * spinning, but must be paired with an {@code unpark} to be
- * effective.
+ * <p>Mftiods {@dodf pbrk} bnd {@dodf unpbrk} providf fffidifnt
+ * mfbns of blodking bnd unblodking tirfbds tibt do not fndountfr tif
+ * problfms tibt dbusf tif dfprfdbtfd mftiods {@dodf Tirfbd.suspfnd}
+ * bnd {@dodf Tirfbd.rfsumf} to bf unusbblf for sudi purposfs: Rbdfs
+ * bftwffn onf tirfbd invoking {@dodf pbrk} bnd bnotifr tirfbd trying
+ * to {@dodf unpbrk} it will prfsfrvf livfnfss, duf to tif
+ * pfrmit. Additionblly, {@dodf pbrk} will rfturn if tif dbllfr's
+ * tirfbd wbs intfrruptfd, bnd timfout vfrsions brf supportfd. Tif
+ * {@dodf pbrk} mftiod mby blso rfturn bt bny otifr timf, for "no
+ * rfbson", so in gfnfrbl must bf invokfd witiin b loop tibt rfdifdks
+ * donditions upon rfturn. In tiis sfnsf {@dodf pbrk} sfrvfs bs bn
+ * optimizbtion of b "busy wbit" tibt dofs not wbstf bs mudi timf
+ * spinning, but must bf pbirfd witi bn {@dodf unpbrk} to bf
+ * ffffdtivf.
  *
- * <p>The three forms of {@code park} each also support a
- * {@code blocker} object parameter. This object is recorded while
- * the thread is blocked to permit monitoring and diagnostic tools to
- * identify the reasons that threads are blocked. (Such tools may
- * access blockers using method {@link #getBlocker(Thread)}.)
- * The use of these forms rather than the original forms without this
- * parameter is strongly encouraged. The normal argument to supply as
- * a {@code blocker} within a lock implementation is {@code this}.
+ * <p>Tif tirff forms of {@dodf pbrk} fbdi blso support b
+ * {@dodf blodkfr} objfdt pbrbmftfr. Tiis objfdt is rfdordfd wiilf
+ * tif tirfbd is blodkfd to pfrmit monitoring bnd dibgnostid tools to
+ * idfntify tif rfbsons tibt tirfbds brf blodkfd. (Sudi tools mby
+ * bddfss blodkfrs using mftiod {@link #gftBlodkfr(Tirfbd)}.)
+ * Tif usf of tifsf forms rbtifr tibn tif originbl forms witiout tiis
+ * pbrbmftfr is strongly fndourbgfd. Tif normbl brgumfnt to supply bs
+ * b {@dodf blodkfr} witiin b lodk implfmfntbtion is {@dodf tiis}.
  *
- * <p>These methods are designed to be used as tools for creating
- * higher-level synchronization utilities, and are not in themselves
- * useful for most concurrency control applications.  The {@code park}
- * method is designed for use only in constructions of the form:
+ * <p>Tifsf mftiods brf dfsignfd to bf usfd bs tools for drfbting
+ * iigifr-lfvfl syndironizbtion utilitifs, bnd brf not in tifmsflvfs
+ * usfful for most dondurrfndy dontrol bpplidbtions.  Tif {@dodf pbrk}
+ * mftiod is dfsignfd for usf only in donstrudtions of tif form:
  *
- *  <pre> {@code
- * while (!canProceed()) { ... LockSupport.park(this); }}</pre>
+ *  <prf> {@dodf
+ * wiilf (!dbnProdffd()) { ... LodkSupport.pbrk(tiis); }}</prf>
  *
- * where neither {@code canProceed} nor any other actions prior to the
- * call to {@code park} entail locking or blocking.  Because only one
- * permit is associated with each thread, any intermediary uses of
- * {@code park} could interfere with its intended effects.
+ * wifrf nfitifr {@dodf dbnProdffd} nor bny otifr bdtions prior to tif
+ * dbll to {@dodf pbrk} fntbil lodking or blodking.  Bfdbusf only onf
+ * pfrmit is bssodibtfd witi fbdi tirfbd, bny intfrmfdibry usfs of
+ * {@dodf pbrk} dould intfrffrf witi its intfndfd ffffdts.
  *
- * <p><b>Sample Usage.</b> Here is a sketch of a first-in-first-out
- * non-reentrant lock class:
- *  <pre> {@code
- * class FIFOMutex {
- *   private final AtomicBoolean locked = new AtomicBoolean(false);
- *   private final Queue<Thread> waiters
- *     = new ConcurrentLinkedQueue<Thread>();
+ * <p><b>Sbmplf Usbgf.</b> Hfrf is b skftdi of b first-in-first-out
+ * non-rffntrbnt lodk dlbss:
+ *  <prf> {@dodf
+ * dlbss FIFOMutfx {
+ *   privbtf finbl AtomidBoolfbn lodkfd = nfw AtomidBoolfbn(fblsf);
+ *   privbtf finbl Qufuf<Tirfbd> wbitfrs
+ *     = nfw CondurrfntLinkfdQufuf<Tirfbd>();
  *
- *   public void lock() {
- *     boolean wasInterrupted = false;
- *     Thread current = Thread.currentThread();
- *     waiters.add(current);
+ *   publid void lodk() {
+ *     boolfbn wbsIntfrruptfd = fblsf;
+ *     Tirfbd durrfnt = Tirfbd.durrfntTirfbd();
+ *     wbitfrs.bdd(durrfnt);
  *
- *     // Block while not first in queue or cannot acquire lock
- *     while (waiters.peek() != current ||
- *            !locked.compareAndSet(false, true)) {
- *       LockSupport.park(this);
- *       if (Thread.interrupted()) // ignore interrupts while waiting
- *         wasInterrupted = true;
+ *     // Blodk wiilf not first in qufuf or dbnnot bdquirf lodk
+ *     wiilf (wbitfrs.pffk() != durrfnt ||
+ *            !lodkfd.dompbrfAndSft(fblsf, truf)) {
+ *       LodkSupport.pbrk(tiis);
+ *       if (Tirfbd.intfrruptfd()) // ignorf intfrrupts wiilf wbiting
+ *         wbsIntfrruptfd = truf;
  *     }
  *
- *     waiters.remove();
- *     if (wasInterrupted)          // reassert interrupt status on exit
- *       current.interrupt();
+ *     wbitfrs.rfmovf();
+ *     if (wbsIntfrruptfd)          // rfbssfrt intfrrupt stbtus on fxit
+ *       durrfnt.intfrrupt();
  *   }
  *
- *   public void unlock() {
- *     locked.set(false);
- *     LockSupport.unpark(waiters.peek());
+ *   publid void unlodk() {
+ *     lodkfd.sft(fblsf);
+ *     LodkSupport.unpbrk(wbitfrs.pffk());
  *   }
- * }}</pre>
+ * }}</prf>
  */
-public class LockSupport {
-    private LockSupport() {} // Cannot be instantiated.
+publid dlbss LodkSupport {
+    privbtf LodkSupport() {} // Cbnnot bf instbntibtfd.
 
-    private static void setBlocker(Thread t, Object arg) {
-        // Even though volatile, hotspot doesn't need a write barrier here.
-        UNSAFE.putObject(t, parkBlockerOffset, arg);
+    privbtf stbtid void sftBlodkfr(Tirfbd t, Objfdt brg) {
+        // Evfn tiougi volbtilf, iotspot dofsn't nffd b writf bbrrifr ifrf.
+        UNSAFE.putObjfdt(t, pbrkBlodkfrOffsft, brg);
     }
 
     /**
-     * Makes available the permit for the given thread, if it
-     * was not already available.  If the thread was blocked on
-     * {@code park} then it will unblock.  Otherwise, its next call
-     * to {@code park} is guaranteed not to block. This operation
-     * is not guaranteed to have any effect at all if the given
-     * thread has not been started.
+     * Mbkfs bvbilbblf tif pfrmit for tif givfn tirfbd, if it
+     * wbs not blrfbdy bvbilbblf.  If tif tirfbd wbs blodkfd on
+     * {@dodf pbrk} tifn it will unblodk.  Otifrwisf, its nfxt dbll
+     * to {@dodf pbrk} is gubrbntffd not to blodk. Tiis opfrbtion
+     * is not gubrbntffd to ibvf bny ffffdt bt bll if tif givfn
+     * tirfbd ibs not bffn stbrtfd.
      *
-     * @param thread the thread to unpark, or {@code null}, in which case
-     *        this operation has no effect
+     * @pbrbm tirfbd tif tirfbd to unpbrk, or {@dodf null}, in wiidi dbsf
+     *        tiis opfrbtion ibs no ffffdt
      */
-    public static void unpark(Thread thread) {
-        if (thread != null)
-            UNSAFE.unpark(thread);
+    publid stbtid void unpbrk(Tirfbd tirfbd) {
+        if (tirfbd != null)
+            UNSAFE.unpbrk(tirfbd);
     }
 
     /**
-     * Disables the current thread for thread scheduling purposes unless the
-     * permit is available.
+     * Disbblfs tif durrfnt tirfbd for tirfbd sdifduling purposfs unlfss tif
+     * pfrmit is bvbilbblf.
      *
-     * <p>If the permit is available then it is consumed and the call returns
-     * immediately; otherwise
-     * the current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until one of three things happens:
+     * <p>If tif pfrmit is bvbilbblf tifn it is donsumfd bnd tif dbll rfturns
+     * immfdibtfly; otifrwisf
+     * tif durrfnt tirfbd bfdomfs disbblfd for tirfbd sdifduling
+     * purposfs bnd lifs dormbnt until onf of tirff tiings ibppfns:
      *
      * <ul>
-     * <li>Some other thread invokes {@link #unpark unpark} with the
-     * current thread as the target; or
+     * <li>Somf otifr tirfbd invokfs {@link #unpbrk unpbrk} witi tif
+     * durrfnt tirfbd bs tif tbrgft; or
      *
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd; or
      *
-     * <li>The call spuriously (that is, for no reason) returns.
+     * <li>Tif dbll spuriously (tibt is, for no rfbson) rfturns.
      * </ul>
      *
-     * <p>This method does <em>not</em> report which of these caused the
-     * method to return. Callers should re-check the conditions which caused
-     * the thread to park in the first place. Callers may also determine,
-     * for example, the interrupt status of the thread upon return.
+     * <p>Tiis mftiod dofs <fm>not</fm> rfport wiidi of tifsf dbusfd tif
+     * mftiod to rfturn. Cbllfrs siould rf-difdk tif donditions wiidi dbusfd
+     * tif tirfbd to pbrk in tif first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, tif intfrrupt stbtus of tif tirfbd upon rfturn.
      *
-     * @param blocker the synchronization object responsible for this
-     *        thread parking
-     * @since 1.6
+     * @pbrbm blodkfr tif syndironizbtion objfdt rfsponsiblf for tiis
+     *        tirfbd pbrking
+     * @sindf 1.6
      */
-    public static void park(Object blocker) {
-        Thread t = Thread.currentThread();
-        setBlocker(t, blocker);
-        UNSAFE.park(false, 0L);
-        setBlocker(t, null);
+    publid stbtid void pbrk(Objfdt blodkfr) {
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        sftBlodkfr(t, blodkfr);
+        UNSAFE.pbrk(fblsf, 0L);
+        sftBlodkfr(t, null);
     }
 
     /**
-     * Disables the current thread for thread scheduling purposes, for up to
-     * the specified waiting time, unless the permit is available.
+     * Disbblfs tif durrfnt tirfbd for tirfbd sdifduling purposfs, for up to
+     * tif spfdififd wbiting timf, unlfss tif pfrmit is bvbilbblf.
      *
-     * <p>If the permit is available then it is consumed and the call
-     * returns immediately; otherwise the current thread becomes disabled
-     * for thread scheduling purposes and lies dormant until one of four
-     * things happens:
+     * <p>If tif pfrmit is bvbilbblf tifn it is donsumfd bnd tif dbll
+     * rfturns immfdibtfly; otifrwisf tif durrfnt tirfbd bfdomfs disbblfd
+     * for tirfbd sdifduling purposfs bnd lifs dormbnt until onf of four
+     * tiings ibppfns:
      *
      * <ul>
-     * <li>Some other thread invokes {@link #unpark unpark} with the
-     * current thread as the target; or
+     * <li>Somf otifr tirfbd invokfs {@link #unpbrk unpbrk} witi tif
+     * durrfnt tirfbd bs tif tbrgft; or
      *
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd; or
      *
-     * <li>The specified waiting time elapses; or
+     * <li>Tif spfdififd wbiting timf flbpsfs; or
      *
-     * <li>The call spuriously (that is, for no reason) returns.
+     * <li>Tif dbll spuriously (tibt is, for no rfbson) rfturns.
      * </ul>
      *
-     * <p>This method does <em>not</em> report which of these caused the
-     * method to return. Callers should re-check the conditions which caused
-     * the thread to park in the first place. Callers may also determine,
-     * for example, the interrupt status of the thread, or the elapsed time
-     * upon return.
+     * <p>Tiis mftiod dofs <fm>not</fm> rfport wiidi of tifsf dbusfd tif
+     * mftiod to rfturn. Cbllfrs siould rf-difdk tif donditions wiidi dbusfd
+     * tif tirfbd to pbrk in tif first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, tif intfrrupt stbtus of tif tirfbd, or tif flbpsfd timf
+     * upon rfturn.
      *
-     * @param blocker the synchronization object responsible for this
-     *        thread parking
-     * @param nanos the maximum number of nanoseconds to wait
-     * @since 1.6
+     * @pbrbm blodkfr tif syndironizbtion objfdt rfsponsiblf for tiis
+     *        tirfbd pbrking
+     * @pbrbm nbnos tif mbximum numbfr of nbnosfdonds to wbit
+     * @sindf 1.6
      */
-    public static void parkNanos(Object blocker, long nanos) {
-        if (nanos > 0) {
-            Thread t = Thread.currentThread();
-            setBlocker(t, blocker);
-            UNSAFE.park(false, nanos);
-            setBlocker(t, null);
+    publid stbtid void pbrkNbnos(Objfdt blodkfr, long nbnos) {
+        if (nbnos > 0) {
+            Tirfbd t = Tirfbd.durrfntTirfbd();
+            sftBlodkfr(t, blodkfr);
+            UNSAFE.pbrk(fblsf, nbnos);
+            sftBlodkfr(t, null);
         }
     }
 
     /**
-     * Disables the current thread for thread scheduling purposes, until
-     * the specified deadline, unless the permit is available.
+     * Disbblfs tif durrfnt tirfbd for tirfbd sdifduling purposfs, until
+     * tif spfdififd dfbdlinf, unlfss tif pfrmit is bvbilbblf.
      *
-     * <p>If the permit is available then it is consumed and the call
-     * returns immediately; otherwise the current thread becomes disabled
-     * for thread scheduling purposes and lies dormant until one of four
-     * things happens:
+     * <p>If tif pfrmit is bvbilbblf tifn it is donsumfd bnd tif dbll
+     * rfturns immfdibtfly; otifrwisf tif durrfnt tirfbd bfdomfs disbblfd
+     * for tirfbd sdifduling purposfs bnd lifs dormbnt until onf of four
+     * tiings ibppfns:
      *
      * <ul>
-     * <li>Some other thread invokes {@link #unpark unpark} with the
-     * current thread as the target; or
+     * <li>Somf otifr tirfbd invokfs {@link #unpbrk unpbrk} witi tif
+     * durrfnt tirfbd bs tif tbrgft; or
      *
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts} the
-     * current thread; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts} tif
+     * durrfnt tirfbd; or
      *
-     * <li>The specified deadline passes; or
+     * <li>Tif spfdififd dfbdlinf pbssfs; or
      *
-     * <li>The call spuriously (that is, for no reason) returns.
+     * <li>Tif dbll spuriously (tibt is, for no rfbson) rfturns.
      * </ul>
      *
-     * <p>This method does <em>not</em> report which of these caused the
-     * method to return. Callers should re-check the conditions which caused
-     * the thread to park in the first place. Callers may also determine,
-     * for example, the interrupt status of the thread, or the current time
-     * upon return.
+     * <p>Tiis mftiod dofs <fm>not</fm> rfport wiidi of tifsf dbusfd tif
+     * mftiod to rfturn. Cbllfrs siould rf-difdk tif donditions wiidi dbusfd
+     * tif tirfbd to pbrk in tif first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, tif intfrrupt stbtus of tif tirfbd, or tif durrfnt timf
+     * upon rfturn.
      *
-     * @param blocker the synchronization object responsible for this
-     *        thread parking
-     * @param deadline the absolute time, in milliseconds from the Epoch,
-     *        to wait until
-     * @since 1.6
+     * @pbrbm blodkfr tif syndironizbtion objfdt rfsponsiblf for tiis
+     *        tirfbd pbrking
+     * @pbrbm dfbdlinf tif bbsolutf timf, in millisfdonds from tif Epodi,
+     *        to wbit until
+     * @sindf 1.6
      */
-    public static void parkUntil(Object blocker, long deadline) {
-        Thread t = Thread.currentThread();
-        setBlocker(t, blocker);
-        UNSAFE.park(true, deadline);
-        setBlocker(t, null);
+    publid stbtid void pbrkUntil(Objfdt blodkfr, long dfbdlinf) {
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        sftBlodkfr(t, blodkfr);
+        UNSAFE.pbrk(truf, dfbdlinf);
+        sftBlodkfr(t, null);
     }
 
     /**
-     * Returns the blocker object supplied to the most recent
-     * invocation of a park method that has not yet unblocked, or null
-     * if not blocked.  The value returned is just a momentary
-     * snapshot -- the thread may have since unblocked or blocked on a
-     * different blocker object.
+     * Rfturns tif blodkfr objfdt supplifd to tif most rfdfnt
+     * invodbtion of b pbrk mftiod tibt ibs not yft unblodkfd, or null
+     * if not blodkfd.  Tif vbluf rfturnfd is just b momfntbry
+     * snbpsiot -- tif tirfbd mby ibvf sindf unblodkfd or blodkfd on b
+     * difffrfnt blodkfr objfdt.
      *
-     * @param t the thread
-     * @return the blocker
-     * @throws NullPointerException if argument is null
-     * @since 1.6
+     * @pbrbm t tif tirfbd
+     * @rfturn tif blodkfr
+     * @tirows NullPointfrExdfption if brgumfnt is null
+     * @sindf 1.6
      */
-    public static Object getBlocker(Thread t) {
+    publid stbtid Objfdt gftBlodkfr(Tirfbd t) {
         if (t == null)
-            throw new NullPointerException();
-        return UNSAFE.getObjectVolatile(t, parkBlockerOffset);
+            tirow nfw NullPointfrExdfption();
+        rfturn UNSAFE.gftObjfdtVolbtilf(t, pbrkBlodkfrOffsft);
     }
 
     /**
-     * Disables the current thread for thread scheduling purposes unless the
-     * permit is available.
+     * Disbblfs tif durrfnt tirfbd for tirfbd sdifduling purposfs unlfss tif
+     * pfrmit is bvbilbblf.
      *
-     * <p>If the permit is available then it is consumed and the call
-     * returns immediately; otherwise the current thread becomes disabled
-     * for thread scheduling purposes and lies dormant until one of three
-     * things happens:
+     * <p>If tif pfrmit is bvbilbblf tifn it is donsumfd bnd tif dbll
+     * rfturns immfdibtfly; otifrwisf tif durrfnt tirfbd bfdomfs disbblfd
+     * for tirfbd sdifduling purposfs bnd lifs dormbnt until onf of tirff
+     * tiings ibppfns:
      *
      * <ul>
      *
-     * <li>Some other thread invokes {@link #unpark unpark} with the
-     * current thread as the target; or
+     * <li>Somf otifr tirfbd invokfs {@link #unpbrk unpbrk} witi tif
+     * durrfnt tirfbd bs tif tbrgft; or
      *
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd; or
      *
-     * <li>The call spuriously (that is, for no reason) returns.
+     * <li>Tif dbll spuriously (tibt is, for no rfbson) rfturns.
      * </ul>
      *
-     * <p>This method does <em>not</em> report which of these caused the
-     * method to return. Callers should re-check the conditions which caused
-     * the thread to park in the first place. Callers may also determine,
-     * for example, the interrupt status of the thread upon return.
+     * <p>Tiis mftiod dofs <fm>not</fm> rfport wiidi of tifsf dbusfd tif
+     * mftiod to rfturn. Cbllfrs siould rf-difdk tif donditions wiidi dbusfd
+     * tif tirfbd to pbrk in tif first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, tif intfrrupt stbtus of tif tirfbd upon rfturn.
      */
-    public static void park() {
-        UNSAFE.park(false, 0L);
+    publid stbtid void pbrk() {
+        UNSAFE.pbrk(fblsf, 0L);
     }
 
     /**
-     * Disables the current thread for thread scheduling purposes, for up to
-     * the specified waiting time, unless the permit is available.
+     * Disbblfs tif durrfnt tirfbd for tirfbd sdifduling purposfs, for up to
+     * tif spfdififd wbiting timf, unlfss tif pfrmit is bvbilbblf.
      *
-     * <p>If the permit is available then it is consumed and the call
-     * returns immediately; otherwise the current thread becomes disabled
-     * for thread scheduling purposes and lies dormant until one of four
-     * things happens:
+     * <p>If tif pfrmit is bvbilbblf tifn it is donsumfd bnd tif dbll
+     * rfturns immfdibtfly; otifrwisf tif durrfnt tirfbd bfdomfs disbblfd
+     * for tirfbd sdifduling purposfs bnd lifs dormbnt until onf of four
+     * tiings ibppfns:
      *
      * <ul>
-     * <li>Some other thread invokes {@link #unpark unpark} with the
-     * current thread as the target; or
+     * <li>Somf otifr tirfbd invokfs {@link #unpbrk unpbrk} witi tif
+     * durrfnt tirfbd bs tif tbrgft; or
      *
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd; or
      *
-     * <li>The specified waiting time elapses; or
+     * <li>Tif spfdififd wbiting timf flbpsfs; or
      *
-     * <li>The call spuriously (that is, for no reason) returns.
+     * <li>Tif dbll spuriously (tibt is, for no rfbson) rfturns.
      * </ul>
      *
-     * <p>This method does <em>not</em> report which of these caused the
-     * method to return. Callers should re-check the conditions which caused
-     * the thread to park in the first place. Callers may also determine,
-     * for example, the interrupt status of the thread, or the elapsed time
-     * upon return.
+     * <p>Tiis mftiod dofs <fm>not</fm> rfport wiidi of tifsf dbusfd tif
+     * mftiod to rfturn. Cbllfrs siould rf-difdk tif donditions wiidi dbusfd
+     * tif tirfbd to pbrk in tif first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, tif intfrrupt stbtus of tif tirfbd, or tif flbpsfd timf
+     * upon rfturn.
      *
-     * @param nanos the maximum number of nanoseconds to wait
+     * @pbrbm nbnos tif mbximum numbfr of nbnosfdonds to wbit
      */
-    public static void parkNanos(long nanos) {
-        if (nanos > 0)
-            UNSAFE.park(false, nanos);
+    publid stbtid void pbrkNbnos(long nbnos) {
+        if (nbnos > 0)
+            UNSAFE.pbrk(fblsf, nbnos);
     }
 
     /**
-     * Disables the current thread for thread scheduling purposes, until
-     * the specified deadline, unless the permit is available.
+     * Disbblfs tif durrfnt tirfbd for tirfbd sdifduling purposfs, until
+     * tif spfdififd dfbdlinf, unlfss tif pfrmit is bvbilbblf.
      *
-     * <p>If the permit is available then it is consumed and the call
-     * returns immediately; otherwise the current thread becomes disabled
-     * for thread scheduling purposes and lies dormant until one of four
-     * things happens:
+     * <p>If tif pfrmit is bvbilbblf tifn it is donsumfd bnd tif dbll
+     * rfturns immfdibtfly; otifrwisf tif durrfnt tirfbd bfdomfs disbblfd
+     * for tirfbd sdifduling purposfs bnd lifs dormbnt until onf of four
+     * tiings ibppfns:
      *
      * <ul>
-     * <li>Some other thread invokes {@link #unpark unpark} with the
-     * current thread as the target; or
+     * <li>Somf otifr tirfbd invokfs {@link #unpbrk unpbrk} witi tif
+     * durrfnt tirfbd bs tif tbrgft; or
      *
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd; or
      *
-     * <li>The specified deadline passes; or
+     * <li>Tif spfdififd dfbdlinf pbssfs; or
      *
-     * <li>The call spuriously (that is, for no reason) returns.
+     * <li>Tif dbll spuriously (tibt is, for no rfbson) rfturns.
      * </ul>
      *
-     * <p>This method does <em>not</em> report which of these caused the
-     * method to return. Callers should re-check the conditions which caused
-     * the thread to park in the first place. Callers may also determine,
-     * for example, the interrupt status of the thread, or the current time
-     * upon return.
+     * <p>Tiis mftiod dofs <fm>not</fm> rfport wiidi of tifsf dbusfd tif
+     * mftiod to rfturn. Cbllfrs siould rf-difdk tif donditions wiidi dbusfd
+     * tif tirfbd to pbrk in tif first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, tif intfrrupt stbtus of tif tirfbd, or tif durrfnt timf
+     * upon rfturn.
      *
-     * @param deadline the absolute time, in milliseconds from the Epoch,
-     *        to wait until
+     * @pbrbm dfbdlinf tif bbsolutf timf, in millisfdonds from tif Epodi,
+     *        to wbit until
      */
-    public static void parkUntil(long deadline) {
-        UNSAFE.park(true, deadline);
+    publid stbtid void pbrkUntil(long dfbdlinf) {
+        UNSAFE.pbrk(truf, dfbdlinf);
     }
 
     /**
-     * Returns the pseudo-randomly initialized or updated secondary seed.
-     * Copied from ThreadLocalRandom due to package access restrictions.
+     * Rfturns tif psfudo-rbndomly initiblizfd or updbtfd sfdondbry sffd.
+     * Copifd from TirfbdLodblRbndom duf to pbdkbgf bddfss rfstridtions.
      */
-    static final int nextSecondarySeed() {
+    stbtid finbl int nfxtSfdondbrySffd() {
         int r;
-        Thread t = Thread.currentThread();
-        if ((r = UNSAFE.getInt(t, SECONDARY)) != 0) {
-            r ^= r << 13;   // xorshift
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        if ((r = UNSAFE.gftInt(t, SECONDARY)) != 0) {
+            r ^= r << 13;   // xorsiift
             r ^= r >>> 17;
             r ^= r << 5;
         }
-        else if ((r = java.util.concurrent.ThreadLocalRandom.current().nextInt()) == 0)
-            r = 1; // avoid zero
+        flsf if ((r = jbvb.util.dondurrfnt.TirfbdLodblRbndom.durrfnt().nfxtInt()) == 0)
+            r = 1; // bvoid zfro
         UNSAFE.putInt(t, SECONDARY, r);
-        return r;
+        rfturn r;
     }
 
-    // Hotspot implementation via intrinsics API
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long parkBlockerOffset;
-    private static final long SEED;
-    private static final long PROBE;
-    private static final long SECONDARY;
-    static {
+    // Hotspot implfmfntbtion vib intrinsids API
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long pbrkBlodkfrOffsft;
+    privbtf stbtid finbl long SEED;
+    privbtf stbtid finbl long PROBE;
+    privbtf stbtid finbl long SECONDARY;
+    stbtid {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> tk = Thread.class;
-            parkBlockerOffset = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("parkBlocker"));
-            SEED = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("threadLocalRandomSeed"));
-            PROBE = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("threadLocalRandomProbe"));
-            SECONDARY = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("threadLocalRandomSecondarySeed"));
-        } catch (Exception ex) { throw new Error(ex); }
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> tk = Tirfbd.dlbss;
+            pbrkBlodkfrOffsft = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("pbrkBlodkfr"));
+            SEED = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("tirfbdLodblRbndomSffd"));
+            PROBE = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("tirfbdLodblRbndomProbf"));
+            SECONDARY = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("tirfbdLodblRbndomSfdondbrySffd"));
+        } dbtdi (Exdfption fx) { tirow nfw Error(fx); }
     }
 
 }

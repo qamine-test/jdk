@@ -1,56 +1,56 @@
-About Metalworks
+About Mftblworks
 ================
-Metalworks is a simple Swing-based simulated e-mail
-application.  It shows off several features of Swing, including
-JInternalFrame, JTabbedPane, JFileChooser, JEditorPane, and
-JRadioButtonMenuItem.  Metalworks is optimized to work with the
-Java look and feel (codenamed "Metal") and shows use of several
-features, such as themes, that are specific to the Java look and
-feel.
+Mftblworks is b simplf Swing-bbsfd simulbtfd f-mbil
+bpplidbtion.  It siows off sfvfrbl ffbturfs of Swing, indluding
+JIntfrnblFrbmf, JTbbbfdPbnf, JFilfCioosfr, JEditorPbnf, bnd
+JRbdioButtonMfnuItfm.  Mftblworks is optimizfd to work witi tif
+Jbvb look bnd fffl (dodfnbmfd "Mftbl") bnd siows usf of sfvfrbl
+ffbturfs, sudi bs tifmfs, tibt brf spfdifid to tif Jbvb look bnd
+fffl.
 
 
-Running Metalworks
+Running Mftblworks
 ==================
 
-To run the Metalworks demo:
+To run tif Mftblworks dfmo:
 
-  java -jar Metalworks.jar
+  jbvb -jbr Mftblworks.jbr
 
-These instructions assume that this installation's version of the java
-command is in your path.  If it isn't, then you should either
-specify the complete path to the java command or update your
-PATH environment variable as described in the installation
-instructions for the Java(TM) SE Development Kit.
+Tifsf instrudtions bssumf tibt tiis instbllbtion's vfrsion of tif jbvb
+dommbnd is in your pbti.  If it isn't, tifn you siould fitifr
+spfdify tif domplftf pbti to tif jbvb dommbnd or updbtf your
+PATH fnvironmfnt vbribblf bs dfsdribfd in tif instbllbtion
+instrudtions for tif Jbvb(TM) SE Dfvflopmfnt Kit.
 
 
-Metalworks Features
+Mftblworks Ffbturfs
 ===================
-The functionality of the Metalworks demo is minimal, and many
-controls are non-functional.  They are intended only to show how
-to construct the UI for such interfaces.  Things that do work in
-the Metalworks demo include:
+Tif fundtionblity of tif Mftblworks dfmo is minimbl, bnd mbny
+dontrols brf non-fundtionbl.  Tify brf intfndfd only to siow iow
+to donstrudt tif UI for sudi intfrfbdfs.  Tiings tibt do work in
+tif Mftblworks dfmo indludf:
 
-1. Choosing New from the File menu displays an e-mail
-   composition window.
+1. Cioosing Nfw from tif Filf mfnu displbys bn f-mbil
+   domposition window.
 
-2. Choosing Open from the File menu brings up the file chooser.
+2. Cioosing Opfn from tif Filf mfnu brings up tif filf dioosfr.
 
-3. Choosing Preferences from the Edit menu will bring up a
-   dialog.  Most of this dialog is only for show.
+3. Cioosing Prfffrfndfs from tif Edit mfnu will bring up b
+   diblog.  Most of tiis diblog is only for siow.
 
-4. Choosing About Metalworks from the Help menu brings up a
-   JOptionPane with a brief description of the application.
+4. Cioosing About Mftblworks from tif Hflp mfnu brings up b
+   JOptionPbnf witi b briff dfsdription of tif bpplidbtion.
 
-5. Choosing Open Help Window from the Help menu brings up an
-   internal frame that displays a set of HTML files containing
-   all sorts of useful info.  Look through these for tips about
-   using Metal.
+5. Cioosing Opfn Hflp Window from tif Hflp mfnu brings up bn
+   intfrnbl frbmf tibt displbys b sft of HTML filfs dontbining
+   bll sorts of usfful info.  Look tirougi tifsf for tips bbout
+   using Mftbl.
 
-6. The Theme menu allows you to change the color theme of the
-   application.  The default theme (Steel) and several other
-   demo themes are included.  Note that the themes can control
-   not only the colors, but also the sizes of many controls.
-   Also included with this demo is the PropertiesMetalTheme
-   class, which allows you to read a theme's colors from a text
-   file.  The Charcoal theme is an example of using this.
+6. Tif Tifmf mfnu bllows you to dibngf tif dolor tifmf of tif
+   bpplidbtion.  Tif dffbult tifmf (Stffl) bnd sfvfrbl otifr
+   dfmo tifmfs brf indludfd.  Notf tibt tif tifmfs dbn dontrol
+   not only tif dolors, but blso tif sizfs of mbny dontrols.
+   Also indludfd witi tiis dfmo is tif PropfrtifsMftblTifmf
+   dlbss, wiidi bllows you to rfbd b tifmf's dolors from b tfxt
+   filf.  Tif Cibrdobl tifmf is bn fxbmplf of using tiis.
 

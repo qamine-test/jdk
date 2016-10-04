@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth.kerberos;
+pbdkbgf jbvbx.sfdurity.buti.kfrbfros;
 
-import java.util.Arrays;
-import java.util.Objects;
-import javax.crypto.SecretKey;
-import javax.security.auth.DestroyFailedException;
+import jbvb.util.Arrbys;
+import jbvb.util.Objfdts;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.sfdurity.buti.DfstroyFbilfdExdfption;
 
 /**
- * This class encapsulates an EncryptionKey used in Kerberos.<p>
+ * Tiis dlbss fndbpsulbtfs bn EndryptionKfy usfd in Kfrbfros.<p>
  *
- * An EncryptionKey is defined in Section 4.2.9 of the Kerberos Protocol
- * Specification (<a href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</a>) as:
- * <pre>
- *     EncryptionKey   ::= SEQUENCE {
- *             keytype         [0] Int32 -- actually encryption type --,
- *             keyvalue        [1] OCTET STRING
+ * An EndryptionKfy is dffinfd in Sfdtion 4.2.9 of tif Kfrbfros Protodol
+ * Spfdifidbtion (<b irff=ittp://www.iftf.org/rfd/rfd4120.txt>RFC 4120</b>) bs:
+ * <prf>
+ *     EndryptionKfy   ::= SEQUENCE {
+ *             kfytypf         [0] Int32 -- bdtublly fndryption typf --,
+ *             kfyvbluf        [1] OCTET STRING
  *     }
- * </pre>
- * The key material of an {@code EncryptionKey} is defined as the value
- * of the {@code keyValue} above.<p>
+ * </prf>
+ * Tif kfy mbtfribl of bn {@dodf EndryptionKfy} is dffinfd bs tif vbluf
+ * of tif {@dodf kfyVbluf} bbovf.<p>
  *
- * @since 1.9
+ * @sindf 1.9
  */
-public final class EncryptionKey implements SecretKey {
+publid finbl dlbss EndryptionKfy implfmfnts SfdrftKfy {
 
-    private static final long serialVersionUID = 9L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 9L;
 
    /**
-    * {@code KeyImpl} is serialized by writing out the ASN.1 encoded bytes
-    * of the encryption key.
+    * {@dodf KfyImpl} is sfriblizfd by writing out tif ASN.1 fndodfd bytfs
+    * of tif fndryption kfy.
     *
-    * @serial
+    * @sfribl
     */
-    final private KeyImpl key;
+    finbl privbtf KfyImpl kfy;
 
-    private transient boolean destroyed = false;
+    privbtf trbnsifnt boolfbn dfstroyfd = fblsf;
 
     /**
-     * Constructs a {@code EncryptionKey} from the given bytes and
-     * the key type.
+     * Construdts b {@dodf EndryptionKfy} from tif givfn bytfs bnd
+     * tif kfy typf.
      * <p>
-     * The contents of the byte array are copied; subsequent modification of
-     * the byte array does not affect the newly created key.
+     * Tif dontfnts of tif bytf brrby brf dopifd; subsfqufnt modifidbtion of
+     * tif bytf brrby dofs not bfffdt tif nfwly drfbtfd kfy.
      *
-     * @param keyBytes the key material for the key
-     * @param keyType the key type for the key as defined by the
-     *                Kerberos protocol specification.
-     * @throws NullPointerException if keyBytes is null
+     * @pbrbm kfyBytfs tif kfy mbtfribl for tif kfy
+     * @pbrbm kfyTypf tif kfy typf for tif kfy bs dffinfd by tif
+     *                Kfrbfros protodol spfdifidbtion.
+     * @tirows NullPointfrExdfption if kfyBytfs is null
      */
-    public EncryptionKey(byte[] keyBytes, int keyType) {
-        key = new KeyImpl(Objects.requireNonNull(keyBytes), keyType);
+    publid EndryptionKfy(bytf[] kfyBytfs, int kfyTypf) {
+        kfy = nfw KfyImpl(Objfdts.rfquirfNonNull(kfyBytfs), kfyTypf);
     }
 
     /**
-     * Returns the key type for this key.
+     * Rfturns tif kfy typf for tiis kfy.
      *
-     * @return the key type.
-     * @throws IllegalStateException if the key is destroyed
+     * @rfturn tif kfy typf.
+     * @tirows IllfgblStbtfExdfption if tif kfy is dfstroyfd
      */
-    public int getKeyType() {
-        // KeyImpl already checked if destroyed
-        return key.getKeyType();
+    publid int gftKfyTypf() {
+        // KfyImpl blrfbdy difdkfd if dfstroyfd
+        rfturn kfy.gftKfyTypf();
     }
 
     /*
-     * Methods from java.security.Key
+     * Mftiods from jbvb.sfdurity.Kfy
      */
 
     /**
-     * Returns the standard algorithm name for this key. The algorithm names
-     * are the encryption type string defined on the IANA
-     * <a href="https://www.iana.org/assignments/kerberos-parameters/kerberos-parameters.xhtml#kerberos-parameters-1">Kerberos Encryption Type Numbers</a>
-     * page.
+     * Rfturns tif stbndbrd blgoritim nbmf for tiis kfy. Tif blgoritim nbmfs
+     * brf tif fndryption typf string dffinfd on tif IANA
+     * <b irff="ittps://www.ibnb.org/bssignmfnts/kfrbfros-pbrbmftfrs/kfrbfros-pbrbmftfrs.xitml#kfrbfros-pbrbmftfrs-1">Kfrbfros Endryption Typf Numbfrs</b>
+     * pbgf.
      * <p>
-     * This method can return the following value not defined on the IANA page:
+     * Tiis mftiod dbn rfturn tif following vbluf not dffinfd on tif IANA pbgf:
      * <ol>
-     *     <li>none: for etype equal to 0</li>
-     *     <li>unknown: for etype greater than 0 but unsupported by
-     *         the implementation</li>
-     *     <li>private: for etype smaller than 0</li>
+     *     <li>nonf: for ftypf fqubl to 0</li>
+     *     <li>unknown: for ftypf grfbtfr tibn 0 but unsupportfd by
+     *         tif implfmfntbtion</li>
+     *     <li>privbtf: for ftypf smbllfr tibn 0</li>
      * </ol>
      *
-     * @return the name of the algorithm associated with this key.
-     * @throws IllegalStateException if the key is destroyed
+     * @rfturn tif nbmf of tif blgoritim bssodibtfd witi tiis kfy.
+     * @tirows IllfgblStbtfExdfption if tif kfy is dfstroyfd
      */
-    @Override
-    public String getAlgorithm() {
-        // KeyImpl already checked if destroyed
-        return key.getAlgorithm();
+    @Ovfrridf
+    publid String gftAlgoritim() {
+        // KfyImpl blrfbdy difdkfd if dfstroyfd
+        rfturn kfy.gftAlgoritim();
     }
 
     /**
-     * Returns the name of the encoding format for this key.
+     * Rfturns tif nbmf of tif fndoding formbt for tiis kfy.
      *
-     * @return the String "RAW"
-     * @throws IllegalStateException if the key is destroyed
+     * @rfturn tif String "RAW"
+     * @tirows IllfgblStbtfExdfption if tif kfy is dfstroyfd
      */
-    @Override
-    public String getFormat() {
-        // KeyImpl already checked if destroyed
-        return key.getFormat();
+    @Ovfrridf
+    publid String gftFormbt() {
+        // KfyImpl blrfbdy difdkfd if dfstroyfd
+        rfturn kfy.gftFormbt();
     }
 
     /**
-     * Returns the key material of this key.
+     * Rfturns tif kfy mbtfribl of tiis kfy.
      *
-     * @return a newly allocated byte array that contains the key material
-     * @throws IllegalStateException if the key is destroyed
+     * @rfturn b nfwly bllodbtfd bytf brrby tibt dontbins tif kfy mbtfribl
+     * @tirows IllfgblStbtfExdfption if tif kfy is dfstroyfd
      */
-    @Override
-    public byte[] getEncoded() {
-        // KeyImpl already checked if destroyed
-        return key.getEncoded();
+    @Ovfrridf
+    publid bytf[] gftEndodfd() {
+        // KfyImpl blrfbdy difdkfd if dfstroyfd
+        rfturn kfy.gftEndodfd();
     }
 
     /**
-     * Destroys this key by clearing out the key material of this key.
+     * Dfstroys tiis kfy by dlfbring out tif kfy mbtfribl of tiis kfy.
      *
-     * @throws DestroyFailedException if some error occurs while destorying
-     * this key.
+     * @tirows DfstroyFbilfdExdfption if somf frror oddurs wiilf dfstorying
+     * tiis kfy.
      */
-    @Override
-    public void destroy() throws DestroyFailedException {
-        if (!destroyed) {
-            key.destroy();
-            destroyed = true;
+    @Ovfrridf
+    publid void dfstroy() tirows DfstroyFbilfdExdfption {
+        if (!dfstroyfd) {
+            kfy.dfstroy();
+            dfstroyfd = truf;
         }
     }
 
 
-    @Override
-    public boolean isDestroyed() {
-        return destroyed;
+    @Ovfrridf
+    publid boolfbn isDfstroyfd() {
+        rfturn dfstroyfd;
     }
 
-    @Override
-    public String toString() {
-        if (destroyed) {
-            return "Destroyed EncryptionKey";
+    @Ovfrridf
+    publid String toString() {
+        if (dfstroyfd) {
+            rfturn "Dfstroyfd EndryptionKfy";
         }
-        return "key "  + key.toString();
+        rfturn "kfy "  + kfy.toString();
     }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
-        if (isDestroyed()) {
-            return result;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;
+        if (isDfstroyfd()) {
+            rfturn rfsult;
         }
-        result = 37 * result + Arrays.hashCode(getEncoded());
-        return 37 * result + getKeyType();
+        rfsult = 37 * rfsult + Arrbys.ibsiCodf(gftEndodfd());
+        rfturn 37 * rfsult + gftKfyTypf();
     }
 
     /**
-     * Compares the specified Object with this key for equality.
-     * Returns true if the given object is also a
-     * {@code EncryptionKey} and the two
-     * {@code EncryptionKey} instances are equivalent.
+     * Compbrfs tif spfdififd Objfdt witi tiis kfy for fqublity.
+     * Rfturns truf if tif givfn objfdt is blso b
+     * {@dodf EndryptionKfy} bnd tif two
+     * {@dodf EndryptionKfy} instbndfs brf fquivblfnt.
      *
-     * @param other the Object to compare to
-     * @return true if the specified object is equal to this EncryptionKey,
-     * false otherwise. NOTE: Returns false if either of the EncryptionKey
-     * objects has been destroyed.
+     * @pbrbm otifr tif Objfdt to dompbrf to
+     * @rfturn truf if tif spfdififd objfdt is fqubl to tiis EndryptionKfy,
+     * fblsf otifrwisf. NOTE: Rfturns fblsf if fitifr of tif EndryptionKfy
+     * objfdts ibs bffn dfstroyfd.
      */
-    @Override
-    public boolean equals(Object other) {
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt otifr) {
 
-        if (other == this)
-            return true;
+        if (otifr == tiis)
+            rfturn truf;
 
-        if (! (other instanceof EncryptionKey)) {
-            return false;
+        if (! (otifr instbndfof EndryptionKfy)) {
+            rfturn fblsf;
         }
 
-        EncryptionKey otherKey = ((EncryptionKey) other);
-        if (isDestroyed() || otherKey.isDestroyed()) {
-            return false;
+        EndryptionKfy otifrKfy = ((EndryptionKfy) otifr);
+        if (isDfstroyfd() || otifrKfy.isDfstroyfd()) {
+            rfturn fblsf;
         }
 
-        return getKeyType() == otherKey.getKeyType()
-                && Arrays.equals(getEncoded(), otherKey.getEncoded());
+        rfturn gftKfyTypf() == otifrKfy.gftKfyTypf()
+                && Arrbys.fqubls(gftEndodfd(), otifrKfy.gftEndodfd());
     }
 }

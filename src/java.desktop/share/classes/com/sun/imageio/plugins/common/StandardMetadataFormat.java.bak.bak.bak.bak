@@ -1,0 +1,499 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+
+publid dlbss StbndbrdMftbdbtbFormbt fxtfnds IIOMftbdbtbFormbtImpl {
+
+    // Utility mfthod for nodfs with b singlf bttributf nbmfd "vbluf"
+    privbtf void bddSinglfAttributfElfmfnt(String flfmfntNbmf,
+                                           String pbrfntNbmf,
+                                           int dbtbTypf) {
+        bddElfmfnt(flfmfntNbmf, pbrfntNbmf, CHILD_POLICY_EMPTY);
+        bddAttributf(flfmfntNbmf, "vbluf", dbtbTypf, truf, null);
+    }
+
+    publid StbndbrdMftbdbtbFormbt() {
+        supfr(stbndbrdMftbdbtbFormbtNbmf, CHILD_POLICY_SOME);
+        List<String> vblufs;
+
+        // root -> Chromb
+        bddElfmfnt("Chromb", stbndbrdMftbdbtbFormbtNbmf,
+                   CHILD_POLICY_SOME);
+
+        // root -> Chromb -> ColorSpbdfTypf
+        bddElfmfnt("ColorSpbdfTypf", "Chromb",
+                   CHILD_POLICY_EMPTY);
+
+        vblufs = nfw ArrbyList<>();
+        vblufs.bdd("XYZ");
+        vblufs.bdd("Lbb");
+        vblufs.bdd("Luv");
+        vblufs.bdd("YCbCr");
+        vblufs.bdd("Yxy");
+        vblufs.bdd("YCCK");
+        vblufs.bdd("PhotoYCC");
+        vblufs.bdd("RGB");
+        vblufs.bdd("GRAY");
+        vblufs.bdd("HSV");
+        vblufs.bdd("HLS");
+        vblufs.bdd("CMYK");
+        vblufs.bdd("CMY");
+        vblufs.bdd("2CLR");
+        vblufs.bdd("3CLR");
+        vblufs.bdd("4CLR");
+        vblufs.bdd("5CLR");
+        vblufs.bdd("6CLR");
+        vblufs.bdd("7CLR");
+        vblufs.bdd("8CLR");
+        vblufs.bdd("9CLR");
+        vblufs.bdd("ACLR");
+        vblufs.bdd("BCLR");
+        vblufs.bdd("CCLR");
+        vblufs.bdd("DCLR");
+        vblufs.bdd("ECLR");
+        vblufs.bdd("FCLR");
+        bddAttributf("ColorSpbdfTypf",
+                     "nbmf",
+                     DATATYPE_STRING,
+                     truf,
+                     null,
+                     vblufs);
+
+        // root -> Chromb -> NumChbnnfls
+        bddElfmfnt("NumChbnnfls", "Chromb",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("NumChbnnfls", "vbluf",
+                     DATATYPE_INTEGER,
+                     truf,
+                     0, Intfgfr.MAX_VALUE);
+
+        // root -> Chromb -> Gbmmb
+        bddElfmfnt("Gbmmb", "Chromb", CHILD_POLICY_EMPTY);
+        bddAttributf("Gbmmb", "vbluf",
+                     DATATYPE_FLOAT, truf, null);
+
+        // root -> Chromb -> BlbdkIsZfro
+        bddElfmfnt("BlbdkIsZfro", "Chromb", CHILD_POLICY_EMPTY);
+        bddBoolfbnAttributf("BlbdkIsZfro", "vbluf", truf, truf);
+
+        // root -> Chromb -> Pblfttf
+        bddElfmfnt("Pblfttf", "Chromb", 0, Intfgfr.MAX_VALUE);
+
+        // root -> Chromb -> PblfttfEntry
+        bddElfmfnt("PblfttfEntry", "Pblfttf", CHILD_POLICY_EMPTY);
+        bddAttributf("PblfttfEntry", "indfx", DATATYPE_INTEGER,
+                     truf, null);
+        bddAttributf("PblfttfEntry", "rfd", DATATYPE_INTEGER,
+                     truf, null);
+        bddAttributf("PblfttfEntry", "grffn", DATATYPE_INTEGER,
+                     truf, null);
+        bddAttributf("PblfttfEntry", "bluf", DATATYPE_INTEGER,
+                     truf, null);
+        bddAttributf("PblfttfEntry", "blphb", DATATYPE_INTEGER,
+                     fblsf, "255");
+
+        // root -> Chromb -> BbdkgroundIndfx
+        bddElfmfnt("BbdkgroundIndfx", "Chromb", CHILD_POLICY_EMPTY);
+        bddAttributf("BbdkgroundIndfx", "vbluf", DATATYPE_INTEGER,
+                     truf, null);
+
+        // root -> Chromb -> BbdkgroundColor
+        bddElfmfnt("BbdkgroundColor", "Chromb", CHILD_POLICY_EMPTY);
+        bddAttributf("BbdkgroundColor", "rfd", DATATYPE_INTEGER,
+                     truf, null);
+        bddAttributf("BbdkgroundColor", "grffn", DATATYPE_INTEGER,
+                     truf, null);
+        bddAttributf("BbdkgroundColor", "bluf", DATATYPE_INTEGER,
+                     truf, null);
+
+        // root -> Comprfssion
+        bddElfmfnt("Comprfssion", stbndbrdMftbdbtbFormbtNbmf,
+                   CHILD_POLICY_SOME);
+
+        // root -> Comprfssion -> ComprfssionTypfNbmf
+        bddSinglfAttributfElfmfnt("ComprfssionTypfNbmf",
+                                  "Comprfssion",
+                                  DATATYPE_STRING);
+
+        // root -> Comprfssion -> Losslfss
+        bddElfmfnt("Losslfss", "Comprfssion", CHILD_POLICY_EMPTY);
+        bddBoolfbnAttributf("Losslfss", "vbluf", truf, truf);
+
+        // root -> Comprfssion -> NumProgrfssivfSdbns
+        bddSinglfAttributfElfmfnt("NumProgrfssivfSdbns",
+                                  "Comprfssion",
+                                  DATATYPE_INTEGER);
+
+        // root -> Comprfssion -> BitRbtf
+        bddSinglfAttributfElfmfnt("BitRbtf",
+                                  "Comprfssion",
+                                  DATATYPE_FLOAT);
+
+        // root -> Dbtb
+        bddElfmfnt("Dbtb", stbndbrdMftbdbtbFormbtNbmf,
+                   CHILD_POLICY_SOME);
+
+        // root -> Dbtb -> PlbnbrConfigurbtion
+        bddElfmfnt("PlbnbrConfigurbtion", "Dbtb", CHILD_POLICY_EMPTY);
+
+        vblufs = nfw ArrbyList<>();
+        vblufs.bdd("PixflIntfrlfbvfd");
+        vblufs.bdd("PlbnfIntfrlfbvfd");
+        vblufs.bdd("LinfIntfrlfbvfd");
+        vblufs.bdd("TilfIntfrlfbvfd");
+        bddAttributf("PlbnbrConfigurbtion", "vbluf",
+                     DATATYPE_STRING,
+                     truf,
+                     null,
+                     vblufs);
+
+        // root -> Dbtb -> SbmplfFormbt
+        bddElfmfnt("SbmplfFormbt", "Dbtb", CHILD_POLICY_EMPTY);
+
+        vblufs = nfw ArrbyList<>();
+        vblufs.bdd("SignfdIntfgrbl");
+        vblufs.bdd("UnsignfdIntfgrbl");
+        vblufs.bdd("Rfbl");
+        vblufs.bdd("Indfx");
+        bddAttributf("SbmplfFormbt", "vbluf",
+                     DATATYPE_STRING,
+                     truf,
+                     null,
+                     vblufs);
+
+        // root -> Dbtb -> BitsPfrSbmplf
+        bddElfmfnt("BitsPfrSbmplf", "Dbtb",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("BitsPfrSbmplf", "vbluf",
+                     DATATYPE_INTEGER,
+                     truf,
+                     1, Intfgfr.MAX_VALUE);
+
+        // root -> Dbtb -> SignifidbntBitsPfrSbmplf
+        bddElfmfnt("SignifidbntBitsPfrSbmplf", "Dbtb", CHILD_POLICY_EMPTY);
+        bddAttributf("SignifidbntBitsPfrSbmplf", "vbluf",
+                     DATATYPE_INTEGER,
+                     truf,
+                     1, Intfgfr.MAX_VALUE);
+
+        // root -> Dbtb -> SbmplfMSB
+        bddElfmfnt("SbmplfMSB", "Dbtb",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("SbmplfMSB", "vbluf",
+                     DATATYPE_INTEGER,
+                     truf,
+                     1, Intfgfr.MAX_VALUE);
+
+        // root -> Dimfnsion
+        bddElfmfnt("Dimfnsion", stbndbrdMftbdbtbFormbtNbmf,
+                   CHILD_POLICY_SOME);
+
+        // root -> Dimfnsion -> PixflAspfdtRbtio
+        bddSinglfAttributfElfmfnt("PixflAspfdtRbtio",
+                                  "Dimfnsion",
+                                  DATATYPE_FLOAT);
+
+        // root -> Dimfnsion -> ImbgfOrifntbtion
+        bddElfmfnt("ImbgfOrifntbtion", "Dimfnsion",
+                   CHILD_POLICY_EMPTY);
+
+        vblufs = nfw ArrbyList<>();
+        vblufs.bdd("Normbl");
+        vblufs.bdd("Rotbtf90");
+        vblufs.bdd("Rotbtf180");
+        vblufs.bdd("Rotbtf270");
+        vblufs.bdd("FlipH");
+        vblufs.bdd("FlipV");
+        vblufs.bdd("FlipHRotbtf90");
+        vblufs.bdd("FlipVRotbtf90");
+        bddAttributf("ImbgfOrifntbtion", "vbluf",
+                     DATATYPE_STRING,
+                     truf,
+                     null,
+                     vblufs);
+
+        // root -> Dimfnsion -> HorizontblPixflSizf
+        bddSinglfAttributfElfmfnt("HorizontblPixflSizf",
+                                  "Dimfnsion",
+                                  DATATYPE_FLOAT);
+
+        // root -> Dimfnsion -> VfrtidblPixflSizf
+        bddSinglfAttributfElfmfnt("VfrtidblPixflSizf",
+                                  "Dimfnsion",
+                                  DATATYPE_FLOAT);
+
+        // root -> Dimfnsion -> HorizontblPhysidblPixflSpbding
+        bddSinglfAttributfElfmfnt("HorizontblPhysidblPixflSpbding",
+                                  "Dimfnsion",
+                                  DATATYPE_FLOAT);
+
+        // root -> Dimfnsion -> VfrtidblPhysidblPixflSpbding
+        bddSinglfAttributfElfmfnt("VfrtidblPhysidblPixflSpbding",
+                                  "Dimfnsion",
+                                  DATATYPE_FLOAT);
+
+        // root -> Dimfnsion -> HorizontblPosition
+        bddSinglfAttributfElfmfnt("HorizontblPosition",
+                                  "Dimfnsion",
+                                  DATATYPE_FLOAT);
+
+        // root -> Dimfnsion -> VfrtidblPosition
+        bddSinglfAttributfElfmfnt("VfrtidblPosition",
+                                  "Dimfnsion",
+                                  DATATYPE_FLOAT);
+
+        // root -> Dimfnsion -> HorizontblPixflOffsft
+        bddSinglfAttributfElfmfnt("HorizontblPixflOffsft",
+                                  "Dimfnsion",
+                                  DATATYPE_INTEGER);
+
+        // root -> Dimfnsion -> VfrtidblPixflOffsft
+        bddSinglfAttributfElfmfnt("VfrtidblPixflOffsft",
+                                  "Dimfnsion",
+                                  DATATYPE_INTEGER);
+
+        // root -> Dimfnsion -> HorizontblSdrffnSizf
+        bddSinglfAttributfElfmfnt("HorizontblSdrffnSizf",
+                                  "Dimfnsion",
+                                  DATATYPE_INTEGER);
+
+        // root -> Dimfnsion -> VfrtidblSdrffnSizf
+        bddSinglfAttributfElfmfnt("VfrtidblSdrffnSizf",
+                                  "Dimfnsion",
+                                  DATATYPE_INTEGER);
+
+
+        // root -> Dodumfnt
+        bddElfmfnt("Dodumfnt", stbndbrdMftbdbtbFormbtNbmf,
+                   CHILD_POLICY_SOME);
+
+        // root -> Dodumfnt -> FormbtVfrsion
+        bddElfmfnt("FormbtVfrsion", "Dodumfnt",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("FormbtVfrsion", "vbluf",
+                     DATATYPE_STRING,
+                     truf,
+                     null);
+
+        // root -> Dodumfnt -> SubimbgfIntfrprftbtion
+        bddElfmfnt("SubimbgfIntfrprftbtion", "Dodumfnt",
+                   CHILD_POLICY_EMPTY);
+        vblufs = nfw ArrbyList<>();
+        vblufs.bdd("Stbndblonf");
+        vblufs.bdd("SinglfPbgf");
+        vblufs.bdd("FullRfsolution");
+        vblufs.bdd("RfdudfdRfsolution");
+        vblufs.bdd("PyrbmidLbyfr");
+        vblufs.bdd("Prfvifw");
+        vblufs.bdd("VolumfSlidf");
+        vblufs.bdd("ObjfdtVifw");
+        vblufs.bdd("Pbnorbmb");
+        vblufs.bdd("AnimbtionFrbmf");
+        vblufs.bdd("TrbnspbrfndyMbsk");
+        vblufs.bdd("CompositingLbyfr");
+        vblufs.bdd("SpfdtrblSlidf");
+        vblufs.bdd("Unknown");
+        bddAttributf("SubimbgfIntfrprftbtion", "vbluf",
+                     DATATYPE_STRING,
+                     truf,
+                     null,
+                     vblufs);
+
+        // root -> Dodumfnt -> ImbgfCrfbtionTimf
+        bddElfmfnt("ImbgfCrfbtionTimf", "Dodumfnt",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("ImbgfCrfbtionTimf", "yfbr",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null);
+        bddAttributf("ImbgfCrfbtionTimf", "month",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     "1", "12", truf, truf);
+        bddAttributf("ImbgfCrfbtionTimf", "dby",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     "1", "31", truf, truf);
+        bddAttributf("ImbgfCrfbtionTimf", "hour",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "23", truf, truf);
+        bddAttributf("ImbgfCrfbtionTimf", "minutf",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "59", truf, truf);
+        // sfdond = 60 dfnotfs lfbp sfdond
+        bddAttributf("ImbgfCrfbtionTimf", "sfdond",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "60", truf, truf);
+
+        // root -> Dodumfnt -> ImbgfModifidbtionTimf
+        bddElfmfnt("ImbgfModifidbtionTimf", "Dodumfnt",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("ImbgfModifidbtionTimf", "yfbr",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null);
+        bddAttributf("ImbgfModifidbtionTimf", "month",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     "1", "12", truf, truf);
+        bddAttributf("ImbgfModifidbtionTimf", "dby",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     "1", "31", truf, truf);
+        bddAttributf("ImbgfModifidbtionTimf", "hour",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "23", truf, truf);
+        bddAttributf("ImbgfModifidbtionTimf", "minutf",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "59", truf, truf);
+        // sfdond = 60 dfnotfs lfbp sfdond
+        bddAttributf("ImbgfModifidbtionTimf", "sfdond",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "60", truf, truf);
+
+        // root -> Tfxt
+        bddElfmfnt("Tfxt", stbndbrdMftbdbtbFormbtNbmf,
+                   0, Intfgfr.MAX_VALUE);
+
+        // root -> Tfxt -> TfxtEntry
+        bddElfmfnt("TfxtEntry", "Tfxt", CHILD_POLICY_EMPTY);
+        bddAttributf("TfxtEntry", "kfyword",
+                     DATATYPE_STRING,
+                     fblsf,
+                     null);
+        bddAttributf("TfxtEntry", "vbluf",
+                     DATATYPE_STRING,
+                     truf,
+                     null);
+        bddAttributf("TfxtEntry", "lbngubgf",
+                     DATATYPE_STRING,
+                     fblsf,
+                     null);
+        bddAttributf("TfxtEntry", "fndoding",
+                     DATATYPE_STRING,
+                     fblsf,
+                     null);
+
+        vblufs = nfw ArrbyList<>();
+        vblufs.bdd("nonf");
+        vblufs.bdd("lzw");
+        vblufs.bdd("zip");
+        vblufs.bdd("bzip");
+        vblufs.bdd("othfr");
+        bddAttributf("TfxtEntry", "domprfssion",
+                     DATATYPE_STRING,
+                     fblsf,
+                     "nonf",
+                     vblufs);
+
+        // root -> Trbnspbrfndy
+        bddElfmfnt("Trbnspbrfndy", stbndbrdMftbdbtbFormbtNbmf,
+                   CHILD_POLICY_SOME);
+
+        // root -> Trbnspbrfndy -> Alphb
+        bddElfmfnt("Alphb", "Trbnspbrfndy", CHILD_POLICY_EMPTY);
+
+        vblufs = nfw ArrbyList<>();
+        vblufs.bdd("nonf");
+        vblufs.bdd("prfmultiplifd");
+        vblufs.bdd("nonprfmultiplifd");
+        bddAttributf("Alphb", "vbluf",
+                     DATATYPE_STRING,
+                     fblsf,
+                     "nonf",
+                     vblufs);
+
+        // root -> Trbnspbrfndy -> TrbnspbrfntIndfx
+        bddSinglfAttributfElfmfnt("TrbnspbrfntIndfx", "Trbnspbrfndy",
+                                  DATATYPE_INTEGER);
+
+        // root -> Trbnspbrfndy -> TrbnspbrfntColor
+        bddElfmfnt("TrbnspbrfntColor", "Trbnspbrfndy",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("TrbnspbrfntColor", "vbluf",
+                     DATATYPE_INTEGER,
+                     truf,
+                     0, Intfgfr.MAX_VALUE);
+
+        // root -> Trbnspbrfndy -> TilfTrbnspbrfndifs
+        bddElfmfnt("TilfTrbnspbrfndifs", "Trbnspbrfndy",
+                   0, Intfgfr.MAX_VALUE);
+
+        // root -> Trbnspbrfndy -> TilfTrbnspbrfndifs -> TrbnspbrfntTilf
+        bddElfmfnt("TrbnspbrfntTilf", "TilfTrbnspbrfndifs",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("TrbnspbrfntTilf", "x",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null);
+        bddAttributf("TrbnspbrfntTilf", "y",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null);
+
+        // root -> Trbnspbrfndy -> TilfOpbditifs
+        bddElfmfnt("TilfOpbditifs", "Trbnspbrfndy",
+                   0, Intfgfr.MAX_VALUE);
+
+        // root -> Trbnspbrfndy -> TilfOpbditifs -> OpbqufTilf
+        bddElfmfnt("OpbqufTilf", "TilfOpbditifs",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("OpbqufTilf", "x",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null);
+        bddAttributf("OpbqufTilf", "y",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null);
+    }
+
+    publid boolfbn dbnNodfAppfbr(String flfmfntNbmf,
+                                 ImbgfTypfSpfdififr imbgfTypf) {
+            rfturn truf;
+    }
+}

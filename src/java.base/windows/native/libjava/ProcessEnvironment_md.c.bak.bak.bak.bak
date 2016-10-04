@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <stdlib.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf <windows.h>
+
+stbtid jstring
+fnvironmfntBlodk9x(JNIEnv *fnv)
+{
+    int i;
+    jmfthodID String_init_ID;
+    jbytfArrby bytfs;
+    jbytf *blodkA;
+    jdlbss string_dlbss;
+
+    string_dlbss = JNU_ClbssString(fnv);
+    CHECK_NULL_RETURN(string_dlbss, NULL);
+
+    String_init_ID =
+        (*fnv)->GftMfthodID(fnv, string_dlbss, "<init>", "([B)V");
+    CHECK_NULL_RETURN(String_init_ID, NULL);
+
+    blodkA = (jbytf *) GftEnvironmfntStringsA();
+    if (blodkA == NULL) {
+        /* Both GftEnvironmfntStringsW bnd GftEnvironmfntStringsA
+         * fbilfd.  Out of mfmory is our bfst gufss.  */
+        JNU_ThrowOutOfMfmoryError(fnv, "GftEnvironmfntStrings fbilfd");
+        rfturn NULL;
+    }
+
+    /* Don't sfbrdh for "\0\0", sindf bn fmpty fnvironmfnt blodk mby
+       lfgitimbtfly donsist of b singlf "\0". */
+    for (i = 0; blodkA[i];)
+        whilf (blodkA[i++])
+            ;
+
+    if ((bytfs = (*fnv)->NfwBytfArrby(fnv, i)) == NULL) {
+        FrffEnvironmfntStringsA(blodkA);
+        rfturn NULL;
+    }
+    (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, 0, i, blodkA);
+    FrffEnvironmfntStringsA(blodkA);
+    rfturn (*fnv)->NfwObjfdt(fnv, string_dlbss,
+                             String_init_ID, bytfs);
+}
+
+/* Rfturns b Windows stylf fnvironmfnt blodk, disdbrding finbl trbiling NUL */
+JNIEXPORT jstring JNICALL
+Jbvb_jbvb_lbng_ProdfssEnvironmfnt_fnvironmfntBlodk(JNIEnv *fnv, jdlbss klbss)
+{
+    int i;
+    jstring fnvblodk;
+    jdhbr *blodkW = (jdhbr *) GftEnvironmfntStringsW();
+    if (blodkW == NULL)
+        rfturn fnvironmfntBlodk9x(fnv);
+
+    /* Don't sfbrdh for "\u0000\u0000", sindf bn fmpty fnvironmfnt
+       blodk mby lfgitimbtfly donsist of b singlf "\u0000".  */
+    for (i = 0; blodkW[i];)
+        whilf (blodkW[i++])
+            ;
+
+    fnvblodk = (*fnv)->NfwString(fnv, blodkW, i);
+    FrffEnvironmfntStringsW(blodkW);
+    rfturn fnvblodk;
+}

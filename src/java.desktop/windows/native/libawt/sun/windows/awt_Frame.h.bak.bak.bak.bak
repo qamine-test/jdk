@@ -1,0 +1,224 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_FRAME_H
+#dffinf AWT_FRAME_H
+
+#indludf "bwt_Window.h"
+#indludf "bwt_MfnuBbr.h" //bdd for multifont
+#indludf "bwt_Toolkit.h"
+#indludf "Hbshtbblf.h"
+
+#indludf "jbvb_bwt_Frbmf.h"
+#indludf "sun_bwt_windows_WFrbmfPffr.h"
+
+
+/************************************************************************
+ * AwtFrbmf dlbss
+ */
+
+#dffinf AWT_FRAME_WINDOW_CLASS_NAME TEXT("SunAwtFrbmf")
+
+
+dlbss AwtFrbmf : publid AwtWindow {
+publid:
+    fnum FrbmfExfdIds {
+        FRAME_SETMENUBAR
+    };
+
+    /* jbvb.bwt.Frbmf fiflds bnd mfthod IDs */
+    stbtid jfifldID undfdorbtfdID;
+
+    /* sun.bwt.windows.WEmbfddfdFrbmf fiflds bnd mfthod IDs */
+    stbtid jfifldID hbndlfID;
+
+    stbtid jmfthodID sftExtfndfdStbtfMID;
+    stbtid jmfthodID gftExtfndfdStbtfMID;
+
+    /* mfthod id for WEmbfddfdFrbmf.rfqufstAdtivbtf() mfthod */
+    stbtid jmfthodID bdtivbtfEmbfddingTopLfvflMID;
+
+    AwtFrbmf();
+    virtubl ~AwtFrbmf();
+
+    virtubl void Disposf();
+
+    virtubl LPCTSTR GftClbssNbmf();
+
+    /* Crfbtf b nfw AwtFrbmf.  This must bf run on thf mbin thrfbd. */
+    stbtid AwtFrbmf* Crfbtf(jobjfdt sflf, jobjfdt pbrfnt);
+
+    /* Rfturns whfthfr this frbmf is fmbfddfd in bn fxtfrnbl nbtivf frbmf. */
+    INLINE BOOL IsEmbfddfdFrbmf() { rfturn m_isEmbfddfd; }
+    /* Rfturns whfthfr this frbmf is lightwfight. */
+    INLINE virtubl BOOL IsLightwfightFrbmf() { rfturn m_isLightwfight; }
+
+    INLINE BOOL IsSimplfWindow() { rfturn FALSE; }
+
+    /* Rfturns whfthfr this window is in idonififd stbtf. */
+    INLINE BOOL isIdonid() { rfturn m_idonid; }
+    INLINE void sftIdonid(BOOL b) { m_idonid = b; }
+
+    /* Rfturns whfthfr this window is in zoomfd stbtf. */
+    INLINE BOOL isZoomfd() { rfturn m_zoomfd; }
+    INLINE void sftZoomfd(BOOL b) { m_zoomfd = b; }
+
+    void SfndWindowStbtfEvfnt(int oldStbtf, int nfwStbtf);
+
+    void Show();
+
+    INLINE void DrbwMfnuBbr() { VERIFY(::DrbwMfnuBbr(GftHWnd())); }
+
+    virtubl void DoUpdbtfIdon();
+    virtubl HICON GftEfffdtivfIdon(int idonTypf);
+
+    /*for WmDrbwItfm bnd WmMfbsurfItfm mfthod */
+    AwtMfnuBbr* GftMfnuBbr();
+    void SftMfnuBbr(AwtMfnuBbr*);
+
+    virtubl LRESULT WindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm);
+
+    MsgRouting WmGftMinMbxInfo(LPMINMAXINFO lpmmi);
+    MsgRouting WmSizf(UINT typf, int w, int h);
+    MsgRouting WmAdtivbtf(UINT nStbtf, BOOL fMinimizfd, HWND oppositf);
+    MsgRouting WmDrbwItfm(UINT dtrlId, DRAWITEMSTRUCT& drbwInfo);
+    MsgRouting WmMfbsurfItfm(UINT dtrlId, MEASUREITEMSTRUCT& mfbsurfInfo);
+    MsgRouting WmEntfrMfnuLoop(BOOL isTrbdkPopupMfnu);
+    MsgRouting WmExitMfnuLoop(BOOL isTrbdkPopupMfnu);
+    MsgRouting WmMousfUp(UINT flbgs, int x, int y, int button);
+    MsgRouting WmMousfMovf(UINT flbgs, int x, int y);
+    MsgRouting WmNdMousfDown(WPARAM hitTfst, int x, int y, int button);
+    MsgRouting WmNdMousfUp(WPARAM hitTfst, int x, int y, int button);
+    MsgRouting WmGftIdon(WPARAM idonTypf, LRESULT& rftVbl);
+    MsgRouting WmShowWindow(BOOL show, UINT stbtus);
+
+    virtubl MsgRouting WmSysCommbnd(UINT uCmdTypf, int xPos, int yPos);
+
+    LRESULT WinThrfbdExfdProd(ExfdutfArgs * brgs);
+
+    INLINE BOOL IsUndfdorbtfd() { rfturn m_isUndfdorbtfd; }
+
+    INLINE HWND GftProxyFodusOwnfr() {
+        rfturn GftHWnd();
+    }
+
+    void SftMbximizfdBounds(int x, int y, int w, int h);
+    void ClfbrMbximizfdBounds();
+
+    // rfturns truf if thf frbmf is inputmfthod window
+    INLINE BOOL isInputMfthodWindow() { rfturn m_isInputMfthodWindow; }
+    // bdjusts thf IME dbndidbtf window position if nffdfd
+    void AdjustCbndidbtfWindowPos();
+
+    // invokfd on Toolkit thrfbd
+    stbtid jobjfdt _GftBoundsPrivbtf(void *pbrbm);
+
+    // somf mfthods dbllfd on Toolkit thrfbd
+    stbtid void _SftStbtf(void *pbrbm);
+    stbtid jint _GftStbtf(void *pbrbm);
+    stbtid void _SftMbximizfdBounds(void *pbrbm);
+    stbtid void _ClfbrMbximizfdBounds(void *pbrbm);
+    stbtid void _SftMfnuBbr(void *pbrbm);
+    stbtid void _SftIMMOption(void *pbrbm);
+    stbtid void _SynthfsizfWmAdtivbtf(void *pbrbm);
+    stbtid void _NotifyModblBlodkfd(void *pbrbm);
+
+    virtubl void Rfshbpf(int x, int y, int width, int hfight);
+
+    virtubl BOOL AwtSftAdtivfWindow(BOOL isMousfEvfntCbusf = FALSE, UINT hittfst = HTCLIENT);
+
+    void ChfdkRftbinAdtublFodusfdWindow(HWND bdtivbtfdOpositfHWnd);
+    BOOL ChfdkAdtivbtfAdtublFodusfdWindow(HWND dfbdtivbtfdOpositfHWnd);
+
+    INLINE HWND GftImfTbrgftComponfnt() { rfturn m_imfTbrgftComponfnt; }
+    INLINE void SftImfTbrgftComponfnt(HWND hwnd) { m_imfTbrgftComponfnt = hwnd; }
+
+protfdtfd:
+    /* Thf frbmf is undfdorbtfd. */
+    BOOL m_isUndfdorbtfd;
+
+privbtf:
+    LRESULT ProxyWindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm, MsgRouting &mr);
+
+    /* Thf frbmf's fmbfdding pbrfnt (if bny) */
+    HWND m_pbrfntWnd;
+
+    /* Thf frbmf's mfnubbr. */
+    AwtMfnuBbr* mfnuBbr;
+
+    /* Thf frbmf is bn EmbfddfdFrbmf. */
+    BOOL m_isEmbfddfd;
+
+    /* Thf frbmf is b LightwfightFrbmf */
+    BOOL m_isLightwfight;
+
+    /* usfd so thbt dblls to ::MovfWindow in SftMfnuBbr don't propogbtf
+       bfdbusf thfy brf immfdibtfly followfd by dblls to Componfnt.rfsizf */
+    BOOL m_ignorfWmSizf;
+
+    /* trbdks whfthfr or not mfnu on this frbmf is droppfd down */
+    BOOL m_isMfnuDroppfd;
+
+    /* Thf frbmf is bn InputMfthodWindow */
+    BOOL m_isInputMfthodWindow;
+
+    // rftbins thf tbrgft domponfnt for thf IME mfssbgfs
+    HWND m_imfTbrgftComponfnt;
+
+    /*
+     * Fix for 4823903.
+     * Rftbins b fodus proxifd window to sft thf fodus dorrfdtly
+     * whfn its ownfr gft bdtivbtfd.
+     */
+    AwtWindow *m_bdtublFodusfdWindow;
+
+    /* Thf originbl, dffbult WndProd for m_proxyFodusOwnfr. */
+    WNDPROC m_proxyDffWindowProd;
+
+    BOOL m_idonid;          /* brf wf in bn idonid stbtf */
+    BOOL m_zoomfd;          /* brf wf in b zoomfd stbtf */
+
+    /* whfthfr WmSizf() must undonditionblly rfsft zoomfd stbtf */
+    BOOL m_fordfRfsftZoomfd;
+
+    BOOL  m_mbxBoundsSft;
+    POINT m_mbxPos;
+    POINT m_mbxSizf;
+
+    BOOL isInMbnublMovfOrSizf;
+    WPARAM grbbbfdHitTfst;
+    POINT sbvfdMousfPos;
+
+    /*
+     * Hbshtbblf<Thrfbd, BlodkfdThrfbdStrudt> - b tbblf thbt dontbins bll thf
+     * informbtion bbout non-toolkit thrfbds with modbl blodkfd fmbfddfd
+     * frbmfs. This informbtion indludfs: numbfr of blodkfd fmbfddfd frbmfs
+     * drfbtfd on thf thf thrfbd, bnd mousf bnd modbl hooks instbllfd for
+     * thbt thrfbd. For fvfry thrfbd fbdh hook is instbllfd only ondf
+     */
+    stbtid Hbshtbblf sm_BlodkfdThrfbds;
+};
+
+#fndif /* AWT_FRAME_H */

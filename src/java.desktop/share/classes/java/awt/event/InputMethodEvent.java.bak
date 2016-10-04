@@ -1,442 +1,442 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
-import sun.awt.AWTAccessor;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
 
-import java.awt.AWTEvent;
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.font.TextHitInfo;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.text.AttributedCharacterIterator;
-import java.text.CharacterIterator;
-import java.lang.annotation.Native;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.font.TfxtHitInfo;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
 /**
- * Input method events contain information about text that is being
- * composed using an input method. Whenever the text changes, the
- * input method sends an event. If the text component that's currently
- * using the input method is an active client, the event is dispatched
- * to that component. Otherwise, it is dispatched to a separate
- * composition window.
+ * Input mftiod fvfnts dontbin informbtion bbout tfxt tibt is bfing
+ * domposfd using bn input mftiod. Wifnfvfr tif tfxt dibngfs, tif
+ * input mftiod sfnds bn fvfnt. If tif tfxt domponfnt tibt's durrfntly
+ * using tif input mftiod is bn bdtivf dlifnt, tif fvfnt is dispbtdifd
+ * to tibt domponfnt. Otifrwisf, it is dispbtdifd to b sfpbrbtf
+ * domposition window.
  *
  * <p>
- * The text included with the input method event consists of two parts:
- * committed text and composed text. Either part may be empty. The two
- * parts together replace any uncommitted composed text sent in previous events,
- * or the currently selected committed text.
- * Committed text should be integrated into the text component's persistent
- * data, it will not be sent again. Composed text may be sent repeatedly,
- * with changes to reflect the user's editing operations. Committed text
- * always precedes composed text.
+ * Tif tfxt indludfd witi tif input mftiod fvfnt donsists of two pbrts:
+ * dommittfd tfxt bnd domposfd tfxt. Eitifr pbrt mby bf fmpty. Tif two
+ * pbrts togftifr rfplbdf bny undommittfd domposfd tfxt sfnt in prfvious fvfnts,
+ * or tif durrfntly sflfdtfd dommittfd tfxt.
+ * Committfd tfxt siould bf intfgrbtfd into tif tfxt domponfnt's pfrsistfnt
+ * dbtb, it will not bf sfnt bgbin. Composfd tfxt mby bf sfnt rfpfbtfdly,
+ * witi dibngfs to rfflfdt tif usfr's fditing opfrbtions. Committfd tfxt
+ * blwbys prfdfdfs domposfd tfxt.
  *
- * @author JavaSoft Asia/Pacific
- * @since 1.2
+ * @butior JbvbSoft Asib/Pbdifid
+ * @sindf 1.2
  */
-public class InputMethodEvent extends AWTEvent {
+publid dlbss InputMftiodEvfnt fxtfnds AWTEvfnt {
 
     /**
-     * Serial Version ID.
+     * Sfribl Vfrsion ID.
      */
-    private static final long serialVersionUID = 4727190874778922661L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4727190874778922661L;
 
     /**
-     * Marks the first integer id for the range of input method event ids.
+     * Mbrks tif first intfgfr id for tif rbngf of input mftiod fvfnt ids.
      */
-    @Native public static final int INPUT_METHOD_FIRST = 1100;
+    @Nbtivf publid stbtid finbl int INPUT_METHOD_FIRST = 1100;
 
     /**
-     * The event type indicating changed input method text. This event is
-     * generated by input methods while processing input.
+     * Tif fvfnt typf indidbting dibngfd input mftiod tfxt. Tiis fvfnt is
+     * gfnfrbtfd by input mftiods wiilf prodfssing input.
      */
-    @Native public static final int INPUT_METHOD_TEXT_CHANGED = INPUT_METHOD_FIRST;
+    @Nbtivf publid stbtid finbl int INPUT_METHOD_TEXT_CHANGED = INPUT_METHOD_FIRST;
 
     /**
-     * The event type indicating a changed insertion point in input method text.
-     * This event is
-     * generated by input methods while processing input if only the caret changed.
+     * Tif fvfnt typf indidbting b dibngfd insfrtion point in input mftiod tfxt.
+     * Tiis fvfnt is
+     * gfnfrbtfd by input mftiods wiilf prodfssing input if only tif dbrft dibngfd.
      */
-    @Native public static final int CARET_POSITION_CHANGED = INPUT_METHOD_FIRST + 1;
+    @Nbtivf publid stbtid finbl int CARET_POSITION_CHANGED = INPUT_METHOD_FIRST + 1;
 
     /**
-     * Marks the last integer id for the range of input method event ids.
+     * Mbrks tif lbst intfgfr id for tif rbngf of input mftiod fvfnt ids.
      */
-    @Native public static final int INPUT_METHOD_LAST = INPUT_METHOD_FIRST + 1;
+    @Nbtivf publid stbtid finbl int INPUT_METHOD_LAST = INPUT_METHOD_FIRST + 1;
 
     /**
-     * The time stamp that indicates when the event was created.
+     * Tif timf stbmp tibt indidbtfs wifn tif fvfnt wbs drfbtfd.
      *
-     * @serial
-     * @see #getWhen
-     * @since 1.4
+     * @sfribl
+     * @sff #gftWifn
+     * @sindf 1.4
      */
-    long when;
+    long wifn;
 
-    // Text object
-    private transient AttributedCharacterIterator text;
-    private transient int committedCharacterCount;
-    private transient TextHitInfo caret;
-    private transient TextHitInfo visiblePosition;
+    // Tfxt objfdt
+    privbtf trbnsifnt AttributfdCibrbdtfrItfrbtor tfxt;
+    privbtf trbnsifnt int dommittfdCibrbdtfrCount;
+    privbtf trbnsifnt TfxtHitInfo dbrft;
+    privbtf trbnsifnt TfxtHitInfo visiblfPosition;
 
     /**
-     * Constructs an <code>InputMethodEvent</code> with the specified
-     * source component, type, time, text, caret, and visiblePosition.
+     * Construdts bn <dodf>InputMftiodEvfnt</dodf> witi tif spfdififd
+     * sourdf domponfnt, typf, timf, tfxt, dbrft, bnd visiblfPosition.
      * <p>
-     * The offsets of caret and visiblePosition are relative to the current
-     * composed text; that is, the composed text within <code>text</code>
-     * if this is an <code>INPUT_METHOD_TEXT_CHANGED</code> event,
-     * the composed text within the <code>text</code> of the
-     * preceding <code>INPUT_METHOD_TEXT_CHANGED</code> event otherwise.
-     * <p>Note that passing in an invalid <code>id</code> results in
-     * unspecified behavior. This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
-     * is <code>null</code>.
+     * Tif offsfts of dbrft bnd visiblfPosition brf rflbtivf to tif durrfnt
+     * domposfd tfxt; tibt is, tif domposfd tfxt witiin <dodf>tfxt</dodf>
+     * if tiis is bn <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> fvfnt,
+     * tif domposfd tfxt witiin tif <dodf>tfxt</dodf> of tif
+     * prfdfding <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> fvfnt otifrwisf.
+     * <p>Notf tibt pbssing in bn invblid <dodf>id</dodf> rfsults in
+     * unspfdififd bfibvior. Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
      *
-     * @param source the object where the event originated
-     * @param id the event type
-     * @param when a long integer that specifies the time the event occurred
-     * @param text the combined committed and composed text,
-     *      committed text first; must be <code>null</code>
-     *      when the event type is <code>CARET_POSITION_CHANGED</code>;
-     *      may be <code>null</code> for
-     *      <code>INPUT_METHOD_TEXT_CHANGED</code> if there's no
-     *      committed or composed text
-     * @param committedCharacterCount the number of committed
-     *      characters in the text
-     * @param caret the caret (a.k.a. insertion point);
-     *      <code>null</code> if there's no caret within current
-     *      composed text
-     * @param visiblePosition the position that's most important
-     *      to be visible; <code>null</code> if there's no
-     *      recommendation for a visible position within current
-     *      composed text
-     * @throws IllegalArgumentException if <code>id</code> is not
-     *      in the range
-     *      <code>INPUT_METHOD_FIRST</code>..<code>INPUT_METHOD_LAST</code>;
-     *      or if id is <code>CARET_POSITION_CHANGED</code> and
-     *      <code>text</code> is not <code>null</code>;
-     *      or if <code>committedCharacterCount</code> is not in the range
-     *      <code>0</code>..<code>(text.getEndIndex() - text.getBeginIndex())</code>
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm sourdf tif objfdt wifrf tif fvfnt originbtfd
+     * @pbrbm id tif fvfnt typf
+     * @pbrbm wifn b long intfgfr tibt spfdififs tif timf tif fvfnt oddurrfd
+     * @pbrbm tfxt tif dombinfd dommittfd bnd domposfd tfxt,
+     *      dommittfd tfxt first; must bf <dodf>null</dodf>
+     *      wifn tif fvfnt typf is <dodf>CARET_POSITION_CHANGED</dodf>;
+     *      mby bf <dodf>null</dodf> for
+     *      <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> if tifrf's no
+     *      dommittfd or domposfd tfxt
+     * @pbrbm dommittfdCibrbdtfrCount tif numbfr of dommittfd
+     *      dibrbdtfrs in tif tfxt
+     * @pbrbm dbrft tif dbrft (b.k.b. insfrtion point);
+     *      <dodf>null</dodf> if tifrf's no dbrft witiin durrfnt
+     *      domposfd tfxt
+     * @pbrbm visiblfPosition tif position tibt's most importbnt
+     *      to bf visiblf; <dodf>null</dodf> if tifrf's no
+     *      rfdommfndbtion for b visiblf position witiin durrfnt
+     *      domposfd tfxt
+     * @tirows IllfgblArgumfntExdfption if <dodf>id</dodf> is not
+     *      in tif rbngf
+     *      <dodf>INPUT_METHOD_FIRST</dodf>..<dodf>INPUT_METHOD_LAST</dodf>;
+     *      or if id is <dodf>CARET_POSITION_CHANGED</dodf> bnd
+     *      <dodf>tfxt</dodf> is not <dodf>null</dodf>;
+     *      or if <dodf>dommittfdCibrbdtfrCount</dodf> is not in tif rbngf
+     *      <dodf>0</dodf>..<dodf>(tfxt.gftEndIndfx() - tfxt.gftBfginIndfx())</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public InputMethodEvent(Component source, int id, long when,
-            AttributedCharacterIterator text, int committedCharacterCount,
-            TextHitInfo caret, TextHitInfo visiblePosition) {
-        super(source, id);
+    publid InputMftiodEvfnt(Componfnt sourdf, int id, long wifn,
+            AttributfdCibrbdtfrItfrbtor tfxt, int dommittfdCibrbdtfrCount,
+            TfxtHitInfo dbrft, TfxtHitInfo visiblfPosition) {
+        supfr(sourdf, id);
         if (id < INPUT_METHOD_FIRST || id > INPUT_METHOD_LAST) {
-            throw new IllegalArgumentException("id outside of valid range");
+            tirow nfw IllfgblArgumfntExdfption("id outsidf of vblid rbngf");
         }
 
-        if (id == CARET_POSITION_CHANGED && text != null) {
-            throw new IllegalArgumentException("text must be null for CARET_POSITION_CHANGED");
+        if (id == CARET_POSITION_CHANGED && tfxt != null) {
+            tirow nfw IllfgblArgumfntExdfption("tfxt must bf null for CARET_POSITION_CHANGED");
         }
 
-        this.when = when;
-        this.text = text;
-        int textLength = 0;
-        if (text != null) {
-            textLength = text.getEndIndex() - text.getBeginIndex();
+        tiis.wifn = wifn;
+        tiis.tfxt = tfxt;
+        int tfxtLfngti = 0;
+        if (tfxt != null) {
+            tfxtLfngti = tfxt.gftEndIndfx() - tfxt.gftBfginIndfx();
         }
 
-        if (committedCharacterCount < 0 || committedCharacterCount > textLength) {
-            throw new IllegalArgumentException("committedCharacterCount outside of valid range");
+        if (dommittfdCibrbdtfrCount < 0 || dommittfdCibrbdtfrCount > tfxtLfngti) {
+            tirow nfw IllfgblArgumfntExdfption("dommittfdCibrbdtfrCount outsidf of vblid rbngf");
         }
-        this.committedCharacterCount = committedCharacterCount;
+        tiis.dommittfdCibrbdtfrCount = dommittfdCibrbdtfrCount;
 
-        this.caret = caret;
-        this.visiblePosition = visiblePosition;
+        tiis.dbrft = dbrft;
+        tiis.visiblfPosition = visiblfPosition;
    }
 
     /**
-     * Constructs an <code>InputMethodEvent</code> with the specified
-     * source component, type, text, caret, and visiblePosition.
+     * Construdts bn <dodf>InputMftiodEvfnt</dodf> witi tif spfdififd
+     * sourdf domponfnt, typf, tfxt, dbrft, bnd visiblfPosition.
      * <p>
-     * The offsets of caret and visiblePosition are relative to the current
-     * composed text; that is, the composed text within <code>text</code>
-     * if this is an <code>INPUT_METHOD_TEXT_CHANGED</code> event,
-     * the composed text within the <code>text</code> of the
-     * preceding <code>INPUT_METHOD_TEXT_CHANGED</code> event otherwise.
-     * The time stamp for this event is initialized by invoking
-     * {@link java.awt.EventQueue#getMostRecentEventTime()}.
-     * <p>Note that passing in an invalid <code>id</code> results in
-     * unspecified behavior. This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
-     * is <code>null</code>.
+     * Tif offsfts of dbrft bnd visiblfPosition brf rflbtivf to tif durrfnt
+     * domposfd tfxt; tibt is, tif domposfd tfxt witiin <dodf>tfxt</dodf>
+     * if tiis is bn <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> fvfnt,
+     * tif domposfd tfxt witiin tif <dodf>tfxt</dodf> of tif
+     * prfdfding <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> fvfnt otifrwisf.
+     * Tif timf stbmp for tiis fvfnt is initiblizfd by invoking
+     * {@link jbvb.bwt.EvfntQufuf#gftMostRfdfntEvfntTimf()}.
+     * <p>Notf tibt pbssing in bn invblid <dodf>id</dodf> rfsults in
+     * unspfdififd bfibvior. Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
      *
-     * @param source the object where the event originated
-     * @param id the event type
-     * @param text the combined committed and composed text,
-     *      committed text first; must be <code>null</code>
-     *      when the event type is <code>CARET_POSITION_CHANGED</code>;
-     *      may be <code>null</code> for
-     *      <code>INPUT_METHOD_TEXT_CHANGED</code> if there's no
-     *      committed or composed text
-     * @param committedCharacterCount the number of committed
-     *      characters in the text
-     * @param caret the caret (a.k.a. insertion point);
-     *      <code>null</code> if there's no caret within current
-     *      composed text
-     * @param visiblePosition the position that's most important
-     *      to be visible; <code>null</code> if there's no
-     *      recommendation for a visible position within current
-     *      composed text
-     * @throws IllegalArgumentException if <code>id</code> is not
-     *      in the range
-     *      <code>INPUT_METHOD_FIRST</code>..<code>INPUT_METHOD_LAST</code>;
-     *      or if id is <code>CARET_POSITION_CHANGED</code> and
-     *      <code>text</code> is not <code>null</code>;
-     *      or if <code>committedCharacterCount</code> is not in the range
-     *      <code>0</code>..<code>(text.getEndIndex() - text.getBeginIndex())</code>
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm sourdf tif objfdt wifrf tif fvfnt originbtfd
+     * @pbrbm id tif fvfnt typf
+     * @pbrbm tfxt tif dombinfd dommittfd bnd domposfd tfxt,
+     *      dommittfd tfxt first; must bf <dodf>null</dodf>
+     *      wifn tif fvfnt typf is <dodf>CARET_POSITION_CHANGED</dodf>;
+     *      mby bf <dodf>null</dodf> for
+     *      <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> if tifrf's no
+     *      dommittfd or domposfd tfxt
+     * @pbrbm dommittfdCibrbdtfrCount tif numbfr of dommittfd
+     *      dibrbdtfrs in tif tfxt
+     * @pbrbm dbrft tif dbrft (b.k.b. insfrtion point);
+     *      <dodf>null</dodf> if tifrf's no dbrft witiin durrfnt
+     *      domposfd tfxt
+     * @pbrbm visiblfPosition tif position tibt's most importbnt
+     *      to bf visiblf; <dodf>null</dodf> if tifrf's no
+     *      rfdommfndbtion for b visiblf position witiin durrfnt
+     *      domposfd tfxt
+     * @tirows IllfgblArgumfntExdfption if <dodf>id</dodf> is not
+     *      in tif rbngf
+     *      <dodf>INPUT_METHOD_FIRST</dodf>..<dodf>INPUT_METHOD_LAST</dodf>;
+     *      or if id is <dodf>CARET_POSITION_CHANGED</dodf> bnd
+     *      <dodf>tfxt</dodf> is not <dodf>null</dodf>;
+     *      or if <dodf>dommittfdCibrbdtfrCount</dodf> is not in tif rbngf
+     *      <dodf>0</dodf>..<dodf>(tfxt.gftEndIndfx() - tfxt.gftBfginIndfx())</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
      */
-    public InputMethodEvent(Component source, int id,
-            AttributedCharacterIterator text, int committedCharacterCount,
-            TextHitInfo caret, TextHitInfo visiblePosition) {
-        this(source, id,
-                getMostRecentEventTimeForSource(source),
-                text, committedCharacterCount,
-                caret, visiblePosition);
+    publid InputMftiodEvfnt(Componfnt sourdf, int id,
+            AttributfdCibrbdtfrItfrbtor tfxt, int dommittfdCibrbdtfrCount,
+            TfxtHitInfo dbrft, TfxtHitInfo visiblfPosition) {
+        tiis(sourdf, id,
+                gftMostRfdfntEvfntTimfForSourdf(sourdf),
+                tfxt, dommittfdCibrbdtfrCount,
+                dbrft, visiblfPosition);
     }
 
     /**
-     * Constructs an <code>InputMethodEvent</code> with the
-     * specified source component, type, caret, and visiblePosition.
-     * The text is set to <code>null</code>,
-     * <code>committedCharacterCount</code> to 0.
+     * Construdts bn <dodf>InputMftiodEvfnt</dodf> witi tif
+     * spfdififd sourdf domponfnt, typf, dbrft, bnd visiblfPosition.
+     * Tif tfxt is sft to <dodf>null</dodf>,
+     * <dodf>dommittfdCibrbdtfrCount</dodf> to 0.
      * <p>
-     * The offsets of <code>caret</code> and <code>visiblePosition</code>
-     * are relative to the current composed text; that is,
-     * the composed text within the <code>text</code> of the
-     * preceding <code>INPUT_METHOD_TEXT_CHANGED</code> event if the
-     * event being constructed as a <code>CARET_POSITION_CHANGED</code> event.
-     * For an <code>INPUT_METHOD_TEXT_CHANGED</code> event without text,
-     * <code>caret</code> and <code>visiblePosition</code> must be
-     * <code>null</code>.
-     * The time stamp for this event is initialized by invoking
-     * {@link java.awt.EventQueue#getMostRecentEventTime()}.
-     * <p>Note that passing in an invalid <code>id</code> results in
-     * unspecified behavior. This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
-     * is <code>null</code>.
+     * Tif offsfts of <dodf>dbrft</dodf> bnd <dodf>visiblfPosition</dodf>
+     * brf rflbtivf to tif durrfnt domposfd tfxt; tibt is,
+     * tif domposfd tfxt witiin tif <dodf>tfxt</dodf> of tif
+     * prfdfding <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> fvfnt if tif
+     * fvfnt bfing donstrudtfd bs b <dodf>CARET_POSITION_CHANGED</dodf> fvfnt.
+     * For bn <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> fvfnt witiout tfxt,
+     * <dodf>dbrft</dodf> bnd <dodf>visiblfPosition</dodf> must bf
+     * <dodf>null</dodf>.
+     * Tif timf stbmp for tiis fvfnt is initiblizfd by invoking
+     * {@link jbvb.bwt.EvfntQufuf#gftMostRfdfntEvfntTimf()}.
+     * <p>Notf tibt pbssing in bn invblid <dodf>id</dodf> rfsults in
+     * unspfdififd bfibvior. Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
      *
-     * @param source the object where the event originated
-     * @param id the event type
-     * @param caret the caret (a.k.a. insertion point);
-     *      <code>null</code> if there's no caret within current
-     *      composed text
-     * @param visiblePosition the position that's most important
-     *      to be visible; <code>null</code> if there's no
-     *      recommendation for a visible position within current
-     *      composed text
-     * @throws IllegalArgumentException if <code>id</code> is not
-     *      in the range
-     *      <code>INPUT_METHOD_FIRST</code>..<code>INPUT_METHOD_LAST</code>
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm sourdf tif objfdt wifrf tif fvfnt originbtfd
+     * @pbrbm id tif fvfnt typf
+     * @pbrbm dbrft tif dbrft (b.k.b. insfrtion point);
+     *      <dodf>null</dodf> if tifrf's no dbrft witiin durrfnt
+     *      domposfd tfxt
+     * @pbrbm visiblfPosition tif position tibt's most importbnt
+     *      to bf visiblf; <dodf>null</dodf> if tifrf's no
+     *      rfdommfndbtion for b visiblf position witiin durrfnt
+     *      domposfd tfxt
+     * @tirows IllfgblArgumfntExdfption if <dodf>id</dodf> is not
+     *      in tif rbngf
+     *      <dodf>INPUT_METHOD_FIRST</dodf>..<dodf>INPUT_METHOD_LAST</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
      */
-    public InputMethodEvent(Component source, int id, TextHitInfo caret,
-            TextHitInfo visiblePosition) {
-        this(source, id,
-                getMostRecentEventTimeForSource(source),
-                null, 0, caret, visiblePosition);
+    publid InputMftiodEvfnt(Componfnt sourdf, int id, TfxtHitInfo dbrft,
+            TfxtHitInfo visiblfPosition) {
+        tiis(sourdf, id,
+                gftMostRfdfntEvfntTimfForSourdf(sourdf),
+                null, 0, dbrft, visiblfPosition);
     }
 
     /**
-     * Gets the combined committed and composed text.
-     * Characters from index 0 to index <code>getCommittedCharacterCount() - 1</code> are committed
-     * text, the remaining characters are composed text.
+     * Gfts tif dombinfd dommittfd bnd domposfd tfxt.
+     * Cibrbdtfrs from indfx 0 to indfx <dodf>gftCommittfdCibrbdtfrCount() - 1</dodf> brf dommittfd
+     * tfxt, tif rfmbining dibrbdtfrs brf domposfd tfxt.
      *
-     * @return the text.
-     * Always null for CARET_POSITION_CHANGED;
-     * may be null for INPUT_METHOD_TEXT_CHANGED if there's no composed or committed text.
+     * @rfturn tif tfxt.
+     * Alwbys null for CARET_POSITION_CHANGED;
+     * mby bf null for INPUT_METHOD_TEXT_CHANGED if tifrf's no domposfd or dommittfd tfxt.
      */
-    public AttributedCharacterIterator getText() {
-        return text;
+    publid AttributfdCibrbdtfrItfrbtor gftTfxt() {
+        rfturn tfxt;
     }
 
     /**
-     * Gets the number of committed characters in the text.
-     * @return the number of committed characters in the text
+     * Gfts tif numbfr of dommittfd dibrbdtfrs in tif tfxt.
+     * @rfturn tif numbfr of dommittfd dibrbdtfrs in tif tfxt
      */
-    public int getCommittedCharacterCount() {
-        return committedCharacterCount;
+    publid int gftCommittfdCibrbdtfrCount() {
+        rfturn dommittfdCibrbdtfrCount;
     }
 
     /**
-     * Gets the caret.
+     * Gfts tif dbrft.
      * <p>
-     * The offset of the caret is relative to the current
-     * composed text; that is, the composed text within getText()
-     * if this is an <code>INPUT_METHOD_TEXT_CHANGED</code> event,
-     * the composed text within getText() of the
-     * preceding <code>INPUT_METHOD_TEXT_CHANGED</code> event otherwise.
+     * Tif offsft of tif dbrft is rflbtivf to tif durrfnt
+     * domposfd tfxt; tibt is, tif domposfd tfxt witiin gftTfxt()
+     * if tiis is bn <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> fvfnt,
+     * tif domposfd tfxt witiin gftTfxt() of tif
+     * prfdfding <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> fvfnt otifrwisf.
      *
-     * @return the caret (a.k.a. insertion point).
-     * Null if there's no caret within current composed text.
+     * @rfturn tif dbrft (b.k.b. insfrtion point).
+     * Null if tifrf's no dbrft witiin durrfnt domposfd tfxt.
      */
-    public TextHitInfo getCaret() {
-        return caret;
+    publid TfxtHitInfo gftCbrft() {
+        rfturn dbrft;
     }
 
     /**
-     * Gets the position that's most important to be visible.
+     * Gfts tif position tibt's most importbnt to bf visiblf.
      * <p>
-     * The offset of the visible position is relative to the current
-     * composed text; that is, the composed text within getText()
-     * if this is an <code>INPUT_METHOD_TEXT_CHANGED</code> event,
-     * the composed text within getText() of the
-     * preceding <code>INPUT_METHOD_TEXT_CHANGED</code> event otherwise.
+     * Tif offsft of tif visiblf position is rflbtivf to tif durrfnt
+     * domposfd tfxt; tibt is, tif domposfd tfxt witiin gftTfxt()
+     * if tiis is bn <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> fvfnt,
+     * tif domposfd tfxt witiin gftTfxt() of tif
+     * prfdfding <dodf>INPUT_METHOD_TEXT_CHANGED</dodf> fvfnt otifrwisf.
      *
-     * @return the position that's most important to be visible.
-     * Null if there's no recommendation for a visible position within current composed text.
+     * @rfturn tif position tibt's most importbnt to bf visiblf.
+     * Null if tifrf's no rfdommfndbtion for b visiblf position witiin durrfnt domposfd tfxt.
      */
-    public TextHitInfo getVisiblePosition() {
-        return visiblePosition;
+    publid TfxtHitInfo gftVisiblfPosition() {
+        rfturn visiblfPosition;
     }
 
     /**
-     * Consumes this event so that it will not be processed
-     * in the default manner by the source which originated it.
+     * Consumfs tiis fvfnt so tibt it will not bf prodfssfd
+     * in tif dffbult mbnnfr by tif sourdf wiidi originbtfd it.
      */
-    public void consume() {
-        consumed = true;
+    publid void donsumf() {
+        donsumfd = truf;
     }
 
     /**
-     * Returns whether or not this event has been consumed.
-     * @see #consume
+     * Rfturns wiftifr or not tiis fvfnt ibs bffn donsumfd.
+     * @sff #donsumf
      */
-    public boolean isConsumed() {
-        return consumed;
+    publid boolfbn isConsumfd() {
+        rfturn donsumfd;
     }
 
     /**
-     * Returns the time stamp of when this event occurred.
+     * Rfturns tif timf stbmp of wifn tiis fvfnt oddurrfd.
      *
-     * @return this event's timestamp
-     * @since 1.4
+     * @rfturn tiis fvfnt's timfstbmp
+     * @sindf 1.4
      */
-    public long getWhen() {
-      return when;
+    publid long gftWifn() {
+      rfturn wifn;
     }
 
     /**
-     * Returns a parameter string identifying this event.
-     * This method is useful for event-logging and for debugging.
-     * It contains the event ID in text form, the characters of the
-     * committed and composed text
-     * separated by "+", the number of committed characters,
-     * the caret, and the visible position.
+     * Rfturns b pbrbmftfr string idfntifying tiis fvfnt.
+     * Tiis mftiod is usfful for fvfnt-logging bnd for dfbugging.
+     * It dontbins tif fvfnt ID in tfxt form, tif dibrbdtfrs of tif
+     * dommittfd bnd domposfd tfxt
+     * sfpbrbtfd by "+", tif numbfr of dommittfd dibrbdtfrs,
+     * tif dbrft, bnd tif visiblf position.
      *
-     * @return a string identifying the event and its attributes
+     * @rfturn b string idfntifying tif fvfnt bnd its bttributfs
      */
-    public String paramString() {
-        String typeStr;
-        switch(id) {
-          case INPUT_METHOD_TEXT_CHANGED:
-              typeStr = "INPUT_METHOD_TEXT_CHANGED";
-              break;
-          case CARET_POSITION_CHANGED:
-              typeStr = "CARET_POSITION_CHANGED";
-              break;
-          default:
-              typeStr = "unknown type";
+    publid String pbrbmString() {
+        String typfStr;
+        switdi(id) {
+          dbsf INPUT_METHOD_TEXT_CHANGED:
+              typfStr = "INPUT_METHOD_TEXT_CHANGED";
+              brfbk;
+          dbsf CARET_POSITION_CHANGED:
+              typfStr = "CARET_POSITION_CHANGED";
+              brfbk;
+          dffbult:
+              typfStr = "unknown typf";
         }
 
-        String textString;
-        if (text == null) {
-            textString = "no text";
-        } else {
-            StringBuilder textBuffer = new StringBuilder("\"");
-            int committedCharacterCount = this.committedCharacterCount;
-            char c = text.first();
-            while (committedCharacterCount-- > 0) {
-                textBuffer.append(c);
-                c = text.next();
+        String tfxtString;
+        if (tfxt == null) {
+            tfxtString = "no tfxt";
+        } flsf {
+            StringBuildfr tfxtBufffr = nfw StringBuildfr("\"");
+            int dommittfdCibrbdtfrCount = tiis.dommittfdCibrbdtfrCount;
+            dibr d = tfxt.first();
+            wiilf (dommittfdCibrbdtfrCount-- > 0) {
+                tfxtBufffr.bppfnd(d);
+                d = tfxt.nfxt();
             }
-            textBuffer.append("\" + \"");
-            while (c != CharacterIterator.DONE) {
-                textBuffer.append(c);
-                c = text.next();
+            tfxtBufffr.bppfnd("\" + \"");
+            wiilf (d != CibrbdtfrItfrbtor.DONE) {
+                tfxtBufffr.bppfnd(d);
+                d = tfxt.nfxt();
             }
-            textBuffer.append("\"");
-            textString = textBuffer.toString();
+            tfxtBufffr.bppfnd("\"");
+            tfxtString = tfxtBufffr.toString();
         }
 
-        String countString = committedCharacterCount + " characters committed";
+        String dountString = dommittfdCibrbdtfrCount + " dibrbdtfrs dommittfd";
 
-        String caretString;
-        if (caret == null) {
-            caretString = "no caret";
-        } else {
-            caretString = "caret: " + caret.toString();
+        String dbrftString;
+        if (dbrft == null) {
+            dbrftString = "no dbrft";
+        } flsf {
+            dbrftString = "dbrft: " + dbrft.toString();
         }
 
-        String visiblePositionString;
-        if (visiblePosition == null) {
-            visiblePositionString = "no visible position";
-        } else {
-            visiblePositionString = "visible position: " + visiblePosition.toString();
+        String visiblfPositionString;
+        if (visiblfPosition == null) {
+            visiblfPositionString = "no visiblf position";
+        } flsf {
+            visiblfPositionString = "visiblf position: " + visiblfPosition.toString();
         }
 
-        return typeStr + ", " + textString + ", " + countString + ", " + caretString + ", " + visiblePositionString;
+        rfturn typfStr + ", " + tfxtString + ", " + dountString + ", " + dbrftString + ", " + visiblfPositionString;
     }
 
     /**
-     * Initializes the <code>when</code> field if it is not present in the
-     * object input stream. In that case, the field will be initialized by
-     * invoking {@link java.awt.EventQueue#getMostRecentEventTime()}.
+     * Initiblizfs tif <dodf>wifn</dodf> fifld if it is not prfsfnt in tif
+     * objfdt input strfbm. In tibt dbsf, tif fifld will bf initiblizfd by
+     * invoking {@link jbvb.bwt.EvfntQufuf#gftMostRfdfntEvfntTimf()}.
      */
-    private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
-        s.defaultReadObject();
-        if (when == 0) {
-            when = getMostRecentEventTimeForSource(this.source);
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows ClbssNotFoundExdfption, IOExdfption {
+        s.dffbultRfbdObjfdt();
+        if (wifn == 0) {
+            wifn = gftMostRfdfntEvfntTimfForSourdf(tiis.sourdf);
         }
     }
 
     /**
-     * Get the most recent event time in the {@code EventQueue} which the {@code source}
-     * belongs to.
+     * Gft tif most rfdfnt fvfnt timf in tif {@dodf EvfntQufuf} wiidi tif {@dodf sourdf}
+     * bflongs to.
      *
-     * @param source the source of the event
-     * @exception  IllegalArgumentException  if source is null.
-     * @return most recent event time in the {@code EventQueue}
+     * @pbrbm sourdf tif sourdf of tif fvfnt
+     * @fxdfption  IllfgblArgumfntExdfption  if sourdf is null.
+     * @rfturn most rfdfnt fvfnt timf in tif {@dodf EvfntQufuf}
      */
-    private static long getMostRecentEventTimeForSource(Object source) {
-        if (source == null) {
-            // throw the IllegalArgumentException to conform to EventObject spec
-            throw new IllegalArgumentException("null source");
+    privbtf stbtid long gftMostRfdfntEvfntTimfForSourdf(Objfdt sourdf) {
+        if (sourdf == null) {
+            // tirow tif IllfgblArgumfntExdfption to donform to EvfntObjfdt spfd
+            tirow nfw IllfgblArgumfntExdfption("null sourdf");
         }
-        AppContext appContext = SunToolkit.targetToAppContext(source);
-        EventQueue eventQueue = SunToolkit.getSystemEventQueueImplPP(appContext);
-        return AWTAccessor.getEventQueueAccessor().getMostRecentEventTime(eventQueue);
+        AppContfxt bppContfxt = SunToolkit.tbrgftToAppContfxt(sourdf);
+        EvfntQufuf fvfntQufuf = SunToolkit.gftSystfmEvfntQufufImplPP(bppContfxt);
+        rfturn AWTAddfssor.gftEvfntQufufAddfssor().gftMostRfdfntEvfntTimf(fvfntQufuf);
     }
 }

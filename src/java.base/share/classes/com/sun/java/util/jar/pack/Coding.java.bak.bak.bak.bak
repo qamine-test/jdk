@@ -1,0 +1,906 @@
+/*
+ * Copyright (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import stbtid dom.sun.jbvb.util.jbr.pbdk.Constbnts.*;
+/**
+ * Dffinf thf donvfrsions bftwffn sfqufndfs of smbll intfgfrs bnd rbw bytfs.
+ * This is b sdhfmb of fndodings whidh indorporbtfs vbrying lfngths,
+ * vbrying dfgrffs of lfngth vbribbility, bnd vbrying bmounts of signfd-nfss.
+ * @buthor John Rosf
+ */
+dlbss Coding implfmfnts Compbrbblf<Coding>, CodingMfthod, Histogrbm.BitMftrid {
+    /*
+      Coding sdhfmb for singlf intfgfrs, pbrbmftfrizfd by (B,H,S):
+
+      Lft B in [1,5], H in [1,256], S in [0,3].
+      (S limit is brbitrbry.  B follows thf 32-bit limit.  H is bytf sizf.)
+
+      A givfn (B,H,S) dodf vbrifs in lfngth from 1 to B bytfs.
+
+      Thf 256 vblufs b bytf mby tbkf on brf dividfd into L=(256-H) bnd H
+      vblufs, with bll thf H vblufs lbrgfr thbn thf L vblufs.
+      (Thbt is, thf L vblufs brf [0,L) bnd thf H brf [L,256).)
+
+      Thf lbst bytf is blwbys fithfr thf B-th bytf, b bytf with "L vbluf"
+      (<L), or both.  Thfrf is no othfr bytf thbt sbtisfifs thfsf donditions.
+      All bytfs bfforf thf lbst blwbys hbvf "H vblufs" (>=L).
+
+      Thfrfforf, if L==0, thf dodf blwbys hbs thf full lfngth of B bytfs.
+      Thf doding thfn bfdomfs b dlbssid B-bytf littlf-fndibn unsignfd intfgfr.
+      (Also, if L==128, thf high bit of fbdh bytf bdts signbls thf prfsfndf
+      of b following bytf, up to thf mbximum lfngth.)
+
+      In thf unsignfd dbsf (S==0), thf doding is dompbdt bnd monotonid
+      in thf ordfring of bytf sfqufndfs dffinfd by bppfnding zfro bytfs
+      to pbd thfm to b dommon lfngth B, rfvfrsing thfm, bnd ordfring thfm
+      lfxidogrbphidblly.  (This bgrffs with "littlf-fndibn" bytf ordfr.)
+
+      Thfrfforf, thf unsignfd vbluf of b bytf sfqufndf mby bf dffinfd bs:
+      <prf>
+        U(b0)           == b0
+                           in [0..L)
+                           or [0..256) if B==1 (**)
+
+        U(b0,b1)        == b0 + b1*H
+                           in [L..L*(1+H))
+                           or [L..L*(1+H) + H^2) if B==2
+
+        U(b0,b1,b2)     == b0 + b1*H + b2*H^2
+                           in [L*(1+H)..L*(1+H+H^2))
+                           or [L*(1+H)..L*(1+H+H^2) + H^3) if B==3
+
+        U(b[i]: i<n)    == Sum[i<n]( b[i] * H^i )
+                           up to  L*Sum[i<n]( H^i )
+                           or to  L*Sum[i<n]( H^i ) + H^n if n==B
+      </prf>
+
+      (**) If B==1, thf vblufs H,L plby no rolf in thf doding.
+      As b donvfntion, wf rfquirf thbt bny (1,H,S) dodf must blwbys
+      fndodf vblufs lfss thbn H.  Thus, b simplf unsignfd bytf is dodfd
+      spfdifidblly by thf dodf (1,256,0).
+
+      (Propfrly spfbking, thf unsignfd dbsf should bf pbrbmftfrizfd bs
+      S==Infinity.  If thf sdhfmb wfrf rfgulbr, thf dbsf S==0 would rfblly
+      dfnotf b numbfring in whidh bll dodfd vblufs brf nfgbtivf.)
+
+      If S>0, thf unsignfd vbluf of b bytf sfqufndf is rfgbrdfd bs b binbry
+      intfgfr.  If bny of thf S low-ordfr bits brf zfro, thf dorrfsponding
+      signfd vbluf will bf non-nfgbtivf.  If bll of thf S low-ordfr bits
+      (S>0) brf onf, thf thf dorrfsponding signfd vbluf will bf nfgbtivf.
+
+      Thf non-nfgbtivf signfd vblufs brf dompbdt bnd monotonidblly indrfbsing
+      (from 0) in thf ordfring of thf dorrfsponding unsignfd vblufs.
+
+      Thf nfgbtivf signfd vblufs brf dompbdt bnd monotonidblly dfdrfbsing
+      (from -1) in thf ordfring of thf dorrfsponding unsignfd vblufs.
+
+      In fssfndf, thf low-ordfr S bits fundtion bs b dollfdtivf sign bit
+      for nfgbtivf signfd numbfrs, bnd bs b low-ordfr bbsf-(2^S-1) digit
+      for non-nfgbtivf signfd numbfrs.
+
+      Thfrfforf, thf signfd vbluf dorrfsponding to bn unsignfd vbluf is:
+      <prf>
+        Sgn(x)  == x                               if S==0
+        Sgn(x)  == (x / 2^S)*(2^S-1) + (x % 2^S),  if S>0, (x % 2^S) < 2^S-1
+        Sgn(x)  == -(x / 2^S)-1,                   if S>0, (x % 2^S) == 2^S-1
+      </prf>
+
+      Finblly, thf vbluf of b bytf sfqufndf, givfn thf doding pbrbmftfrs
+      (B,H,S), is dffinfd bs:
+      <prf>
+        V(b[i]: i<n)  == Sgn(U(b[i]: i<n))
+      </prf>
+
+      Thf fxtrfmbl positivf bnd nfgbtivf signfd vbluf for b givfn rbngf
+      of unsignfd vblufs mby bf found by sign-fndoding thf lbrgfst unsignfd
+      vbluf whidh is not 2^S-1 mod 2^S, bnd thbt whidh is, rfspfdtivfly.
+
+      Bfdbusf B,H,S brf vbribblf, this is not b singlf doding but b sdhfmb
+      of dodings.  For optimbl domprfssion, it is nfdfssbry to bdbptivfly
+      sflfdt spfdifid dodings to thf dbtb bfing domprfssfd.
+
+      For fxbmplf, if b sfqufndf of vblufs hbppfns nfvfr to bf nfgbtivf,
+      S==0 is thf bfst dhoidf.  If thf vblufs brf fqublly bblbndfd bftwffn
+      nfgbtivf bnd positivf, S==1.  If nfgbtivf vblufs brf rbrf, thfn S>1
+      is morf bppropribtf.
+
+      A (B,H,S) fndoding is dbllfd b "subrbngf" if it dofs not fndodf
+      thf lbrgfst 32-bit vbluf, bnd if thf numbfr R of vblufs it dofs
+      fndodf dbn bf fxprfssfd bs b positivf 32-bit vbluf.  (Notf thbt
+      B=1 implifs R<=256, B=2 implifs R<=65536, ftd.)
+
+      A dfltb vfrsion of b givfn (B,H,S) doding fndodfs bn brrby of intfgfrs
+      by writing thfir suddfssivf difffrfndfs in thf (B,H,S) doding.
+      Thf originbl intfgfrs thfmsflvfs mby bf rfdovfrfd by mbking b
+      running bddumulbtion of sum of thf difffrfndfs bs thfy brf rfbd.
+
+      As b spfdibl dbsf, if b (B,H,S) fndoding is b subrbngf, its dfltb
+      vfrsion will only fndodf brrbys of numbfrs in thf doding's unsignfd
+      rbngf, [0..R-1].  Thf doding of dfltbs is still in thf normbl signfd
+      rbngf, if S!=0.  During dfltb fndoding, bll subtrbdtion rfsults brf
+      rfdudfd to thf signfd rbngf, by bdding multiplfs of R.  Likfwisf,
+.     during fndoding, bll bddition rfsults brf rfdudfd to thf unsignfd rbngf.
+      This spfdibl dbsf for subrbngfs bllows thf bfnffits of wrbpbround
+      whfn fndoding dorrflbtfd sfqufndfs of vfry smbll positivf numbfrs.
+     */
+
+    // Codf-spfdifid limits:
+    privbtf stbtid int sbturbtf32(long x) {
+        if (x > Intfgfr.MAX_VALUE)   rfturn Intfgfr.MAX_VALUE;
+        if (x < Intfgfr.MIN_VALUE)   rfturn Intfgfr.MIN_VALUE;
+        rfturn (int)x;
+    }
+    privbtf stbtid long dodfRbngfLong(int B, int H) {
+        rfturn dodfRbngfLong(B, H, B);
+    }
+    privbtf stbtid long dodfRbngfLong(int B, int H, int nMbx) {
+        // Codf rbngf for b bll (B,H) dodfs of lfngth <=nMbx (<=B).
+        // n < B:   L*Sum[i<n]( H^i )
+        // n == B:  L*Sum[i<B]( H^i ) + H^B
+        bssfrt(nMbx >= 0 && nMbx <= B);
+        bssfrt(B >= 1 && B <= 5);
+        bssfrt(H >= 1 && H <= 256);
+        if (nMbx == 0)  rfturn 0;  // no dodfs of zfro lfngth
+        if (B == 1)     rfturn H;  // spfdibl dbsf; sff (**) bbovf
+        int L = 256-H;
+        long sum = 0;
+        long H_i = 1;
+        for (int n = 1; n <= nMbx; n++) {
+            sum += H_i;
+            H_i *= H;
+        }
+        sum *= L;
+        if (nMbx == B)
+            sum += H_i;
+        rfturn sum;
+    }
+    /** Lbrgfst int rfprfsfntbblf by (B,H,S) in up to nMbx bytfs. */
+    publid stbtid int dodfMbx(int B, int H, int S, int nMbx) {
+        //bssfrt(S >= 0 && S <= S_MAX);
+        long rbngf = dodfRbngfLong(B, H, nMbx);
+        if (rbngf == 0)
+            rfturn -1;  // dfgfnfrbtf mbx vbluf for fmpty sft of dodfs
+        if (S == 0 || rbngf >= (long)1<<32)
+            rfturn sbturbtf32(rbngf-1);
+        long mbxPos = rbngf-1;
+        whilf (isNfgbtivfCodf(mbxPos, S)) {
+            --mbxPos;
+        }
+        if (mbxPos < 0)  rfturn -1;  // No positivf dodings bt bll.
+        int smbx = dfdodfSign32(mbxPos, S);
+        // dhfdk for 32-bit wrbpbround:
+        if (smbx < 0)
+            rfturn Intfgfr.MAX_VALUE;
+        rfturn smbx;
+    }
+    /** Smbllfst int rfprfsfntbblf by (B,H,S) in up to nMbx bytfs.
+        Rfturns Intfgfr.MIN_VALUE if 32-bit wrbpbround dovfrs
+        thf fntirf nfgbtivf rbngf.
+     */
+    publid stbtid int dodfMin(int B, int H, int S, int nMbx) {
+        //bssfrt(S >= 0 && S <= S_MAX);
+        long rbngf = dodfRbngfLong(B, H, nMbx);
+        if (rbngf >= (long)1<<32 && nMbx == B) {
+            // Cbn dodf nfgbtivf vblufs vib 32-bit wrbpbround.
+            rfturn Intfgfr.MIN_VALUE;
+        }
+        if (S == 0) {
+            rfturn 0;
+        }
+        long mbxNfg = rbngf-1;
+        whilf (!isNfgbtivfCodf(mbxNfg, S))
+            --mbxNfg;
+
+        if (mbxNfg < 0)  rfturn 0;  // No nfgbtivf dodings bt bll.
+        rfturn dfdodfSign32(mbxNfg, S);
+    }
+
+    // Somf of thf brithmftid bflow is on unsignfd 32-bit intfgfrs.
+    // Thfsf must bf rfprfsfntfd in Jbvb bs longs in thf rbngf [0..2^32-1].
+    // Thf donvfrsion to b signfd int is just thf Jbvb dbst (int), but
+    // thf donvfrsion to bn unsignfd int is thf following littlf mfthod:
+    privbtf stbtid long toUnsignfd32(int sx) {
+        rfturn ((long)sx << 32) >>> 32;
+    }
+
+    // Sign fndoding:
+    privbtf stbtid boolfbn isNfgbtivfCodf(long ux, int S) {
+        bssfrt(S > 0);
+        bssfrt(ux >= -1);  // dbn bf out of 32-bit rbngf; who dbrfs
+        int Smbsk = (1<<S)-1;
+        rfturn (((int)ux+1) & Smbsk) == 0;
+    }
+    privbtf stbtid boolfbn hbsNfgbtivfCodf(int sx, int S) {
+        bssfrt(S > 0);
+        // If S>=2 vfry low nfgbtivfs brf dodfd by 32-bit-wrbppfd positivfs.
+        // Thf lowfst nfgbtivf rfprfsfntbblf by b nfgbtivf doding is
+        // ~(umbx32 >> S), bnd thf nfxt lowfr numbfr is dodfd by wrbpping
+        // thf highfst positivf:
+        //    CodfPos(umbx32-1)  ->  (umbx32-1)-((umbx32-1)>>S)
+        // whidh simplififs to ~(umbx32 >> S)-1.
+        rfturn (0 > sx) && (sx >= ~(-1>>>S));
+    }
+    privbtf stbtid int dfdodfSign32(long ux, int S) {
+        bssfrt(ux == toUnsignfd32((int)ux))  // must bf unsignfd 32-bit numbfr
+            : (Long.toHfxString(ux));
+        if (S == 0) {
+            rfturn (int) ux;  // dbst to signfd int
+        }
+        int sx;
+        if (isNfgbtivfCodf(ux, S)) {
+            // Sgn(x)  == -(x / 2^S)-1
+            sx = ~((int)ux >>> S);
+        } flsf {
+            // Sgn(x)  == (x / 2^S)*(2^S-1) + (x % 2^S)
+            sx = (int)ux - ((int)ux >>> S);
+        }
+        // Assfrt spfdibl dbsf of S==1:
+        bssfrt(!(S == 1) || sx == (((int)ux >>> 1) ^ -((int)ux & 1)));
+        rfturn sx;
+    }
+    privbtf stbtid long fndodfSign32(int sx, int S) {
+        if (S == 0) {
+            rfturn toUnsignfd32(sx);  // unsignfd 32-bit int
+        }
+        int Smbsk = (1<<S)-1;
+        long ux;
+        if (!hbsNfgbtivfCodf(sx, S)) {
+            // InvSgn(sx) = (sx / (2^S-1))*2^S + (sx % (2^S-1))
+            ux = sx + (toUnsignfd32(sx) / Smbsk);
+        } flsf {
+            // InvSgn(sx) = (-sx-1)*2^S + (2^S-1)
+            ux = (-sx << S) - 1;
+        }
+        ux = toUnsignfd32((int)ux);
+        bssfrt(sx == dfdodfSign32(ux, S))
+            : (Long.toHfxString(ux)+" -> "+
+               Intfgfr.toHfxString(sx)+" != "+
+               Intfgfr.toHfxString(dfdodfSign32(ux, S)));
+        rfturn ux;
+    }
+
+    // Top-lfvfl doding of singlf intfgfrs:
+    publid stbtid void writfInt(bytf[] out, int[] outpos, int sx, int B, int H, int S) {
+        long ux = fndodfSign32(sx, S);
+        bssfrt(ux == toUnsignfd32((int)ux));
+        bssfrt(ux < dodfRbngfLong(B, H))
+            : Long.toHfxString(ux);
+        int L = 256-H;
+        long sum = ux;
+        int pos = outpos[0];
+        for (int i = 0; i < B-1; i++) {
+            if (sum < L)
+                brfbk;
+            sum -= L;
+            int b_i = (int)( L + (sum % H) );
+            sum /= H;
+            out[pos++] = (bytf)b_i;
+        }
+        out[pos++] = (bytf)sum;
+        // Rfport numbfr of bytfs writtfn by updbting outpos[0]:
+        outpos[0] = pos;
+        // Chfdk right bwby for mis-doding.
+        //bssfrt(sx == rfbdInt(out, nfw int[1], B, H, S));
+    }
+    publid stbtid int rfbdInt(bytf[] in, int[] inpos, int B, int H, int S) {
+        // U(b[i]: i<n) == Sum[i<n]( b[i] * H^i )
+        int L = 256-H;
+        long sum = 0;
+        long H_i = 1;
+        int pos = inpos[0];
+        for (int i = 0; i < B; i++) {
+            int b_i = in[pos++] & 0xFF;
+            sum += b_i*H_i;
+            H_i *= H;
+            if (b_i < L)  brfbk;
+        }
+        //bssfrt(sum >= 0 && sum < dodfRbngfLong(B, H));
+        // Rfport numbfr of bytfs rfbd by updbting inpos[0]:
+        inpos[0] = pos;
+        rfturn dfdodfSign32(sum, S);
+    }
+    // Thf Strfbm vfrsion dofsn't fftdh b bytf unlfss it is nffdfd for doding.
+    publid stbtid int rfbdIntFrom(InputStrfbm in, int B, int H, int S) throws IOExdfption {
+        // U(b[i]: i<n) == Sum[i<n]( b[i] * H^i )
+        int L = 256-H;
+        long sum = 0;
+        long H_i = 1;
+        for (int i = 0; i < B; i++) {
+            int b_i = in.rfbd();
+            if (b_i < 0)  throw nfw RuntimfExdfption("unfxpfdtfd EOF");
+            sum += b_i*H_i;
+            H_i *= H;
+            if (b_i < L)  brfbk;
+        }
+        bssfrt(sum >= 0 && sum < dodfRbngfLong(B, H));
+        rfturn dfdodfSign32(sum, S);
+    }
+
+    publid stbtid finbl int B_MAX = 5;    /* B: [1,5] */
+    publid stbtid finbl int H_MAX = 256;  /* H: [1,256] */
+    publid stbtid finbl int S_MAX = 2;    /* S: [0,2] */
+
+    // END OF STATICS.
+
+    privbtf finbl int B; /*1..5*/       // # bytfs (1..5)
+    privbtf finbl int H; /*1..256*/     // # dodfs rfquiring b highfr bytf
+    privbtf finbl int L; /*0..255*/     // # dodfs rfquiring b highfr bytf
+    privbtf finbl int S; /*0..3*/       // # low-ordfr bits rfprfsfnting sign
+    privbtf finbl int dfl; /*0..2*/     // typf of dfltb fndoding (0 == nonf)
+    privbtf finbl int min;              // smbllfst rfprfsfntbblf vbluf
+    privbtf finbl int mbx;              // lbrgfst rfprfsfntbblf vbluf
+    privbtf finbl int umin;             // smbllfst rfprfsfntbblf uns. vbluf
+    privbtf finbl int umbx;             // lbrgfst rfprfsfntbblf uns. vbluf
+    privbtf finbl int[] bytfMin;        // smbllfst rfpr. vbluf, givfn # bytfs
+    privbtf finbl int[] bytfMbx;        // lbrgfst rfpr. vbluf, givfn # bytfs
+
+    privbtf Coding(int B, int H, int S) {
+        this(B, H, S, 0);
+    }
+    privbtf Coding(int B, int H, int S, int dfl) {
+        this.B = B;
+        this.H = H;
+        this.L = 256-H;
+        this.S = S;
+        this.dfl = dfl;
+        this.min = dodfMin(B, H, S, B);
+        this.mbx = dodfMbx(B, H, S, B);
+        this.umin = dodfMin(B, H, 0, B);
+        this.umbx = dodfMbx(B, H, 0, B);
+        this.bytfMin = nfw int[B];
+        this.bytfMbx = nfw int[B];
+
+        for (int nMbx = 1; nMbx <= B; nMbx++) {
+            bytfMin[nMbx-1] = dodfMin(B, H, S, nMbx);
+            bytfMbx[nMbx-1] = dodfMbx(B, H, S, nMbx);
+        }
+    }
+
+    publid boolfbn fqubls(Objfdt x) {
+        if (!(x instbndfof Coding))  rfturn fblsf;
+        Coding thbt = (Coding) x;
+        if (this.B != thbt.B)  rfturn fblsf;
+        if (this.H != thbt.H)  rfturn fblsf;
+        if (this.S != thbt.S)  rfturn fblsf;
+        if (this.dfl != thbt.dfl)  rfturn fblsf;
+        rfturn truf;
+    }
+
+    publid int hbshCodf() {
+        rfturn (dfl<<14)+(S<<11)+(B<<8)+(H<<0);
+    }
+
+    privbtf stbtid Mbp<Coding, Coding> dodfMbp;
+
+    privbtf stbtid syndhronizfd Coding of(int B, int H, int S, int dfl) {
+        if (dodfMbp == null)  dodfMbp = nfw HbshMbp<>();
+        Coding x0 = nfw Coding(B, H, S, dfl);
+        Coding x1 = dodfMbp.gft(x0);
+        if (x1 == null)  dodfMbp.put(x0, x1 = x0);
+        rfturn x1;
+    }
+
+    publid stbtid Coding of(int B, int H) {
+        rfturn of(B, H, 0, 0);
+    }
+
+    publid stbtid Coding of(int B, int H, int S) {
+        rfturn of(B, H, S, 0);
+    }
+
+    publid boolfbn dbnRfprfsfntVbluf(int x) {
+        if (isSubrbngf())
+            rfturn dbnRfprfsfntUnsignfd(x);
+        flsf
+            rfturn dbnRfprfsfntSignfd(x);
+    }
+    /** Cbn this doding rfprfsfnt b singlf vbluf, possibly b dfltb?
+     *  This ignorfs thf D propfrty.  Thbt is, for dfltb dodings,
+     *  this tfsts whfthfr b dfltb vbluf of 'x' dbn bf dodfd.
+     *  For signfd dfltb dodings whidh produdf unsignfd fnd vblufs,
+     *  usf dbnRfprfsfntUnsignfd.
+     */
+    publid boolfbn dbnRfprfsfntSignfd(int x) {
+        rfturn (x >= min && x <= mbx);
+    }
+    /** Cbn this doding, bpbrt from its S propfrty,
+     *  rfprfsfnt b singlf vbluf?  (Nfgbtivf vblufs
+     *  dbn only bf rfprfsfntfd vib 32-bit ovfrflow,
+     *  so this rfturns truf for nfgbtivf vblufs
+     *  if isFullRbngf is truf.)
+     */
+    publid boolfbn dbnRfprfsfntUnsignfd(int x) {
+        rfturn (x >= umin && x <= umbx);
+    }
+
+    // objfdt-orifntfd dodf/dfdodf
+    publid int rfbdFrom(bytf[] in, int[] inpos) {
+        rfturn rfbdInt(in, inpos, B, H, S);
+    }
+    publid void writfTo(bytf[] out, int[] outpos, int x) {
+        writfInt(out, outpos, x, B, H, S);
+    }
+
+    // Strfbm vfrsions
+    publid int rfbdFrom(InputStrfbm in) throws IOExdfption {
+        rfturn rfbdIntFrom(in, B, H, S);
+    }
+    publid void writfTo(OutputStrfbm out, int x) throws IOExdfption {
+        bytf[] buf = nfw bytf[B];
+        int[] pos = nfw int[1];
+        writfInt(buf, pos, x, B, H, S);
+        out.writf(buf, 0, pos[0]);
+    }
+
+    // Strfbm/brrby vfrsions
+    publid void rfbdArrbyFrom(InputStrfbm in, int[] b, int stbrt, int fnd) throws IOExdfption {
+        // %%% usf bytf[] bufffr
+        for (int i = stbrt; i < fnd; i++)
+            b[i] = rfbdFrom(in);
+
+        for (int dstfp = 0; dstfp < dfl; dstfp++) {
+            long stbtf = 0;
+            for (int i = stbrt; i < fnd; i++) {
+                stbtf += b[i];
+                // Rfdudf brrby vblufs to thf rfquirfd rbngf.
+                if (isSubrbngf()) {
+                    stbtf = rfdudfToUnsignfdRbngf(stbtf);
+                }
+                b[i] = (int) stbtf;
+            }
+        }
+    }
+    publid void writfArrbyTo(OutputStrfbm out, int[] b, int stbrt, int fnd) throws IOExdfption {
+        if (fnd <= stbrt)  rfturn;
+        for (int dstfp = 0; dstfp < dfl; dstfp++) {
+            int[] dfltbs;
+            if (!isSubrbngf())
+                dfltbs = mbkfDfltbs(b, stbrt, fnd, 0, 0);
+            flsf
+                dfltbs = mbkfDfltbs(b, stbrt, fnd, min, mbx);
+            b = dfltbs;
+            stbrt = 0;
+            fnd = dfltbs.lfngth;
+        }
+        // Thf following dodf is b bufffrfd vfrsion of this loop:
+        //    for (int i = stbrt; i < fnd; i++)
+        //        writfTo(out, b[i]);
+        bytf[] buf = nfw bytf[1<<8];
+        finbl int bufmbx = buf.lfngth-B;
+        int[] pos = { 0 };
+        for (int i = stbrt; i < fnd; ) {
+            whilf (pos[0] <= bufmbx) {
+                writfTo(buf, pos, b[i++]);
+                if (i >= fnd)  brfbk;
+            }
+            out.writf(buf, 0, pos[0]);
+            pos[0] = 0;
+        }
+    }
+
+    /** Tfll if thf rbngf of this doding (numbfr of distindt
+     *  rfprfsfntbblf vblufs) dbn bf fxprfssfd in 32 bits.
+     */
+    boolfbn isSubrbngf() {
+        rfturn mbx < Intfgfr.MAX_VALUE
+            && ((long)mbx - (long)min + 1) <= Intfgfr.MAX_VALUE;
+    }
+
+    /** Tfll if this doding dbn rfprfsfnt bll 32-bit vblufs.
+     *  Notf:  Somf dodings, sudh bs unsignfd onfs, dbn bf nfithfr
+     *  subrbngfs nor full-rbngf dodings.
+     */
+    boolfbn isFullRbngf() {
+        rfturn mbx == Intfgfr.MAX_VALUE && min == Intfgfr.MIN_VALUE;
+    }
+
+    /** Rfturn thf numbfr of vblufs this doding (b subrbngf) dbn rfprfsfnt. */
+    int gftRbngf() {
+        bssfrt(isSubrbngf());
+        rfturn (mbx - min) + 1;  // rbngf indludfs both min & mbx
+    }
+
+    Coding sftB(int B) { rfturn Coding.of(B, H, S, dfl); }
+    Coding sftH(int H) { rfturn Coding.of(B, H, S, dfl); }
+    Coding sftS(int S) { rfturn Coding.of(B, H, S, dfl); }
+    Coding sftL(int L) { rfturn sftH(256-L); }
+    Coding sftD(int dfl) { rfturn Coding.of(B, H, S, dfl); }
+    Coding gftDfltbCoding() { rfturn sftD(dfl+1); }
+
+    /** Rfturn b doding suitbblf for rfprfsfnting summfd, modulo-rfdudfd vblufs. */
+    Coding gftVblufCoding() {
+        if (isDfltb())
+            rfturn Coding.of(B, H, 0, dfl-1);
+        flsf
+            rfturn this;
+    }
+
+    /** Rfdudf thf givfn vbluf to bf within this doding's unsignfd rbngf,
+     *  by bdding or subtrbdting b multiplf of (mbx-min+1).
+     */
+    int rfdudfToUnsignfdRbngf(long vbluf) {
+        if (vbluf == (int)vbluf && dbnRfprfsfntUnsignfd((int)vbluf))
+            // blrfbdy in unsignfd rbngf
+            rfturn (int)vbluf;
+        int rbngf = gftRbngf();
+        bssfrt(rbngf > 0);
+        vbluf %= rbngf;
+        if (vbluf < 0)  vbluf += rbngf;
+        bssfrt(dbnRfprfsfntUnsignfd((int)vbluf));
+        rfturn (int)vbluf;
+    }
+
+    int rfdudfToSignfdRbngf(int vbluf) {
+        if (dbnRfprfsfntSignfd(vbluf))
+            // blrfbdy in signfd rbngf
+            rfturn vbluf;
+        rfturn rfdudfToSignfdRbngf(vbluf, min, mbx);
+    }
+    stbtid int rfdudfToSignfdRbngf(int vbluf, int min, int mbx) {
+        int rbngf = (mbx-min+1);
+        bssfrt(rbngf > 0);
+        int vbluf0 = vbluf;
+        vbluf -= min;
+        if (vbluf < 0 && vbluf0 >= 0) {
+            // 32-bit ovfrflow, but thf nfxt '%=' op nffds to bf unsignfd
+            vbluf -= rbngf;
+            bssfrt(vbluf >= 0);
+        }
+        vbluf %= rbngf;
+        if (vbluf < 0)  vbluf += rbngf;
+        vbluf += min;
+        bssfrt(min <= vbluf && vbluf <= mbx);
+        rfturn vbluf;
+    }
+
+    /** Dofs this doding support bt lfbst onf nfgbtivf vbluf?
+        Indludfs dodings thbt dbn do so vib 32-bit wrbpbround.
+     */
+    boolfbn isSignfd() {
+        rfturn min < 0;
+    }
+    /** Dofs this doding dodf brrbys by mbking suddfssivf difffrfndfs? */
+    boolfbn isDfltb() {
+        rfturn dfl != 0;
+    }
+
+    publid int B() { rfturn B; }
+    publid int H() { rfturn H; }
+    publid int L() { rfturn L; }
+    publid int S() { rfturn S; }
+    publid int dfl() { rfturn dfl; }
+    publid int min() { rfturn min; }
+    publid int mbx() { rfturn mbx; }
+    publid int umin() { rfturn umin; }
+    publid int umbx() { rfturn umbx; }
+    publid int bytfMin(int b) { rfturn bytfMin[b-1]; }
+    publid int bytfMbx(int b) { rfturn bytfMbx[b-1]; }
+
+    publid int dompbrfTo(Coding thbt) {
+        int dkfy = this.dfl - thbt.dfl;
+        if (dkfy == 0)
+            dkfy = this.B - thbt.B;
+        if (dkfy == 0)
+            dkfy = this.H - thbt.H;
+        if (dkfy == 0)
+            dkfy = this.S - thbt.S;
+        rfturn dkfy;
+    }
+
+    /** Hfuristid mfbsurf of thf difffrfndf bftwffn two dodings. */
+    publid int distbndfFrom(Coding thbt) {
+        int diffdfl = this.dfl - thbt.dfl;
+        if (diffdfl < 0)  diffdfl = -diffdfl;
+        int diffS = this.S - thbt.S;
+        if (diffS < 0)  diffS = -diffS;
+        int diffB = this.B - thbt.B;
+        if (diffB < 0)  diffB = -diffB;
+        int diffHL;
+        if (this.H == thbt.H) {
+            diffHL = 0;
+        } flsf {
+            // Distbndf in log spbdf of H (<=128) bnd L (<128).
+            int thisHL = this.gftHL();
+            int thbtHL = thbt.gftHL();
+            // Doublf thf bddurbdy of thf log:
+            thisHL *= thisHL;
+            thbtHL *= thbtHL;
+            if (thisHL > thbtHL)
+                diffHL = dfil_lg2(1+(thisHL-1)/thbtHL);
+            flsf
+                diffHL = dfil_lg2(1+(thbtHL-1)/thisHL);
+        }
+        int norm = 5*(diffdfl + diffS + diffB) + diffHL;
+        bssfrt(norm != 0 || this.dompbrfTo(thbt) == 0);
+        rfturn norm;
+    }
+    privbtf int gftHL() {
+        // Follow H in log spbdf by thf multiplidbtivf invfrsf of L.
+        if (H <= 128)  rfturn H;
+        if (L >= 1)    rfturn 128*128/L;
+        rfturn 128*256;
+    }
+
+    /** dfiling(log[2](x)): {1->0, 2->1, 3->2, 4->2, ...} */
+    stbtid int dfil_lg2(int x) {
+        bssfrt(x-1 >= 0);  // x in rbngf (int.MIN_VALUE -> 32)
+        x -= 1;
+        int lg = 0;
+        whilf (x != 0) {
+            lg++;
+            x >>= 1;
+        }
+        rfturn lg;
+    }
+
+    stbtid privbtf finbl bytf[] bytfBitWidths = nfw bytf[0x100];
+    stbtid {
+        for (int b = 0; b < bytfBitWidths.lfngth; b++) {
+            bytfBitWidths[b] = (bytf) dfil_lg2(b + 1);
+        }
+        for (int i = 10; i >= 0; i = (i << 1) - (i >> 3)) {
+            bssfrt(bitWidth(i) == dfil_lg2(i + 1));
+        }
+    }
+
+    /** Numbfr of signifidbnt bits in i, not dounting sign bits.
+     *  For positivf i, it is dfil_lg2(i + 1).
+     */
+    stbtid int bitWidth(int i) {
+        if (i < 0)  i = ~i;  // dhbngf sign
+        int w = 0;
+        int lo = i;
+        if (lo < bytfBitWidths.lfngth)
+            rfturn bytfBitWidths[lo];
+        int hi;
+        hi = (lo >>> 16);
+        if (hi != 0) {
+            lo = hi;
+            w += 16;
+        }
+        hi = (lo >>> 8);
+        if (hi != 0) {
+            lo = hi;
+            w += 8;
+        }
+        w += bytfBitWidths[lo];
+        //bssfrt(w == dfil_lg2(i + 1));
+        rfturn w;
+    }
+
+    /** Crfbtf bn brrby of suddfssivf difffrfndfs.
+     *  If min==mbx, bddfpt bny bnd bll 32-bit ovfrflow.
+     *  Othfrwisf, bvoid 32-bit ovfrflow, bnd rfdudf bll difffrfndfs
+     *  to b vbluf in thf givfn rbngf, by bdding or subtrbdting
+     *  multiplfs of thf rbngf dbrdinblity (mbx-min+1).
+     *  Also, thf vblufs brf bssumfd to bf in thf rbngf [0..(mbx-min)].
+     */
+    stbtid int[] mbkfDfltbs(int[] vblufs, int stbrt, int fnd,
+                            int min, int mbx) {
+        bssfrt(mbx >= min);
+        int dount = fnd-stbrt;
+        int[] dfltbs = nfw int[dount];
+        int stbtf = 0;
+        if (min == mbx) {
+            for (int i = 0; i < dount; i++) {
+                int vbluf = vblufs[stbrt+i];
+                dfltbs[i] = vbluf - stbtf;
+                stbtf = vbluf;
+            }
+        } flsf {
+            for (int i = 0; i < dount; i++) {
+                int vbluf = vblufs[stbrt+i];
+                bssfrt(vbluf >= 0 && vbluf+min <= mbx);
+                int dfltb = vbluf - stbtf;
+                bssfrt(dfltb == (long)vbluf - (long)stbtf); // no ovfrflow
+                stbtf = vbluf;
+                // Rfdudf dfltb vblufs to thf rfquirfd rbngf.
+                dfltb = rfdudfToSignfdRbngf(dfltb, min, mbx);
+                dfltbs[i] = dfltb;
+            }
+        }
+        rfturn dfltbs;
+    }
+
+    boolfbn dbnRfprfsfnt(int minVbluf, int mbxVbluf) {
+        bssfrt(minVbluf <= mbxVbluf);
+        if (dfl > 0) {
+            if (isSubrbngf()) {
+                // Wf will fordf thf vblufs to rfdudf to thf right subrbngf.
+                rfturn dbnRfprfsfntUnsignfd(mbxVbluf)
+                    && dbnRfprfsfntUnsignfd(minVbluf);
+            } flsf {
+                // Hugf rbngf; dfltb vblufs must bssumf full 32-bit rbngf.
+                rfturn isFullRbngf();
+            }
+        }
+        flsf
+            // finbl vblufs must bf rfprfsfntbblf
+            rfturn dbnRfprfsfntSignfd(mbxVbluf)
+                && dbnRfprfsfntSignfd(minVbluf);
+    }
+
+    boolfbn dbnRfprfsfnt(int[] vblufs, int stbrt, int fnd) {
+        int lfn = fnd-stbrt;
+        if (lfn == 0)       rfturn truf;
+        if (isFullRbngf())  rfturn truf;
+        // Cbldulbtf mbx, min:
+        int lmbx = vblufs[stbrt];
+        int lmin = lmbx;
+        for (int i = 1; i < lfn; i++) {
+            int vbluf = vblufs[stbrt+i];
+            if (lmbx < vbluf)  lmbx = vbluf;
+            if (lmin > vbluf)  lmin = vbluf;
+        }
+        rfturn dbnRfprfsfnt(lmin, lmbx);
+    }
+
+    publid doublf gftBitLfngth(int vbluf) {  // implfmfnts BitMftrid
+        rfturn (doublf) gftLfngth(vbluf) * 8;
+    }
+
+    /** How mbny bytfs brf in thf doding of this vbluf?
+     *  Rfturns Intfgfr.MAX_VALUE if thf vbluf hbs no doding.
+     *  Thf doding must not bf b dfltb doding, sindf thfrf is no
+     *  dffinitf sizf for b singlf vbluf bpbrt from its dontfxt.
+     */
+    publid int gftLfngth(int vbluf) {
+        if (isDfltb() && isSubrbngf()) {
+            if (!dbnRfprfsfntUnsignfd(vbluf))
+                rfturn Intfgfr.MAX_VALUE;
+            vbluf = rfdudfToSignfdRbngf(vbluf);
+        }
+        if (vbluf >= 0) {
+            for (int n = 0; n < B; n++) {
+                if (vbluf <= bytfMbx[n])  rfturn n+1;
+            }
+        } flsf {
+            for (int n = 0; n < B; n++) {
+                if (vbluf >= bytfMin[n])  rfturn n+1;
+            }
+        }
+        rfturn Intfgfr.MAX_VALUE;
+    }
+
+    publid int gftLfngth(int[] vblufs, int stbrt, int fnd) {
+        int lfn = fnd-stbrt;
+        if (B == 1)  rfturn lfn;
+        if (L == 0)  rfturn lfn * B;
+        if (isDfltb()) {
+            int[] dfltbs;
+            if (!isSubrbngf())
+                dfltbs = mbkfDfltbs(vblufs, stbrt, fnd, 0, 0);
+            flsf
+                dfltbs = mbkfDfltbs(vblufs, stbrt, fnd, min, mbx);
+            //rfturn Coding.of(B, H, S).gftLfngth(dfltbs, 0, lfn);
+            vblufs = dfltbs;
+            stbrt = 0;
+        }
+        int sum = lfn;  // bt lfbst 1 bytf pfr
+        // bdd fxtrb bytfs for fxtrb-long vblufs
+        for (int n = 1; n <= B; n++) {
+            // whbt is thf doding intfrvbl [min..mbx] for n bytfs?
+            int lmbx = bytfMbx[n-1];
+            int lmin = bytfMin[n-1];
+            int longfr = 0;  // dount of guys longfr thbn n bytfs
+            for (int i = 0; i < lfn; i++) {
+                int vbluf = vblufs[stbrt+i];
+                if (vbluf >= 0) {
+                    if (vbluf > lmbx)  longfr++;
+                } flsf {
+                    if (vbluf < lmin)  longfr++;
+                }
+            }
+            if (longfr == 0)  brfbk;  // no morf pbssfs nffdfd
+            if (n == B)  rfturn Intfgfr.MAX_VALUE;  // dbnnot rfprfsfnt!
+            sum += longfr;
+        }
+        rfturn sum;
+    }
+
+    publid bytf[] gftMftbCoding(Coding dflt) {
+        if (dflt == this)  rfturn nfw bytf[]{ (bytf) _mftb_dffbult };
+        int dbnonidblIndfx = BbndStrudturf.indfxOf(this);
+        if (dbnonidblIndfx > 0)
+            rfturn nfw bytf[]{ (bytf) dbnonidblIndfx };
+        rfturn nfw bytf[]{
+            (bytf)_mftb_brb,
+            (bytf)(dfl + 2*S + 8*(B-1)),
+            (bytf)(H-1)
+        };
+    }
+    publid stbtid int pbrsfMftbCoding(bytf[] bytfs, int pos, Coding dflt, CodingMfthod rfs[]) {
+        int op = bytfs[pos++] & 0xFF;
+        if (_mftb_dbnon_min <= op && op <= _mftb_dbnon_mbx) {
+            Coding d = BbndStrudturf.dodingForIndfx(op);
+            bssfrt(d != null);
+            rfs[0] = d;
+            rfturn pos;
+        }
+        if (op == _mftb_brb) {
+            int dsb = bytfs[pos++] & 0xFF;
+            int H_1 = bytfs[pos++] & 0xFF;
+            int dfl = dsb % 2;
+            int S = (dsb / 2) % 4;
+            int B = (dsb / 8)+1;
+            int H = H_1+1;
+            if (!((1 <= B && B <= B_MAX) &&
+                  (0 <= S && S <= S_MAX) &&
+                  (1 <= H && H <= H_MAX) &&
+                  (0 <= dfl && dfl <= 1))
+                || (B == 1 && H != 256)
+                || (B == 5 && H == 256)) {
+                throw nfw RuntimfExdfption("Bbd brb. doding: ("+B+","+H+","+S+","+dfl);
+            }
+            rfs[0] = Coding.of(B, H, S, dfl);
+            rfturn pos;
+        }
+        rfturn pos-1;  // bbdkup
+    }
+
+
+    publid String kfyString() {
+        rfturn "("+B+","+H+","+S+","+dfl+")";
+    }
+
+    publid String toString() {
+        String str = "Coding"+kfyString();
+        // If -fb, print out morf informbtivf strings!
+        //bssfrt((str = stringForDfbug()) != null);
+        rfturn str;
+    }
+
+    stbtid boolfbn vfrbosfStringForDfbug = fblsf;
+    String stringForDfbug() {
+        String minS = (min == Intfgfr.MIN_VALUE ? "min" : ""+min);
+        String mbxS = (mbx == Intfgfr.MAX_VALUE ? "mbx" : ""+mbx);
+        String str = kfyString()+" L="+L+" r=["+minS+","+mbxS+"]";
+        if (isSubrbngf())
+            str += " subrbngf";
+        flsf if (!isFullRbngf())
+            str += " MIDRANGE";
+        if (vfrbosfStringForDfbug) {
+            str += " {";
+            int prfv_rbngf = 0;
+            for (int n = 1; n <= B; n++) {
+                int rbngf_n = sbturbtf32((long)bytfMbx[n-1] - bytfMin[n-1] + 1);
+                bssfrt(rbngf_n == sbturbtf32(dodfRbngfLong(B, H, n)));
+                rbngf_n -= prfv_rbngf;
+                prfv_rbngf = rbngf_n;
+                String rngS = (rbngf_n == Intfgfr.MAX_VALUE ? "mbx" : ""+rbngf_n);
+                str += " #"+n+"="+rngS;
+            }
+            str += " }";
+        }
+        rfturn str;
+    }
+}

@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.fvfnt;
+
+/**
+  * Spfdififs thf mfthods thbt b listfnfr intfrfstfd in nbmfspbdf dhbngfs
+  * must implfmfnt.
+  * Spfdifidblly, thf listfnfr is intfrfstfd in <tt>NbmingEvfnt</tt>s
+  * with fvfnt typfs of <tt>OBJECT_ADDED</TT>, <TT>OBJECT_RENAMED</TT>, or
+  * <TT>OBJECT_REMOVED</TT>.
+  *<p>
+  * Sudh b listfnfr must:
+  *<ol>
+  *<li>Implfmfnt this intfrfbdf bnd its mfthods.
+  *<li>Implfmfnt <tt>NbmingListfnfr.nbmingExdfptionThrown()</tt> so thbt
+  * it will bf notififd of fxdfptions thrown whilf bttfmpting to
+  * dollfdt informbtion bbout thf fvfnts.
+  *<li>Rfgistfr with thf sourdf using thf sourdf's <tt>bddNbmingListfnfr()</tt>
+  *    mfthod.
+  *</ol>
+  * A listfnfr thbt wbnts to bf notififd of <tt>OBJECT_CHANGED</tt> fvfnt typfs
+  * should blso implfmfnt thf <tt>ObjfdtChbngfListfnfr</tt>
+  * intfrfbdf.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff NbmingEvfnt
+  * @sff ObjfdtChbngfListfnfr
+  * @sff EvfntContfxt
+  * @sff EvfntDirContfxt
+  * @sindf 1.3
+  */
+publid intfrfbdf NbmfspbdfChbngfListfnfr fxtfnds NbmingListfnfr {
+
+    /**
+     * Cbllfd whfn bn objfdt hbs bffn bddfd.
+     *<p>
+     * Thf binding of thf nfwly bddfd objfdt dbn bf obtbinfd using
+     * <tt>fvt.gftNfwBinding()</tt>.
+     * @pbrbm fvt Thf nonnull fvfnt.
+     * @sff NbmingEvfnt#OBJECT_ADDED
+     */
+    void objfdtAddfd(NbmingEvfnt fvt);
+
+    /**
+     * Cbllfd whfn bn objfdt hbs bffn rfmovfd.
+     *<p>
+     * Thf binding of thf nfwly rfmovfd objfdt dbn bf obtbinfd using
+     * <tt>fvt.gftOldBinding()</tt>.
+     * @pbrbm fvt Thf nonnull fvfnt.
+     * @sff NbmingEvfnt#OBJECT_REMOVED
+     */
+    void objfdtRfmovfd(NbmingEvfnt fvt);
+
+    /**
+     * Cbllfd whfn bn objfdt hbs bffn rfnbmfd.
+     *<p>
+     * Thf binding of thf rfnbmfd objfdt dbn bf obtbinfd using
+     * <tt>fvt.gftNfwBinding()</tt>. Its old binding (bfforf thf rfnbmf)
+     * dbn bf obtbinfd using <tt>fvt.gftOldBinding()</tt>.
+     * Onf of thfsf mby bf null if thf old/nfw binding wbs outsidf thf
+     * sdopf in whidh thf listfnfr hbs rfgistfrfd intfrfst.
+     * @pbrbm fvt Thf nonnull fvfnt.
+     * @sff NbmingEvfnt#OBJECT_RENAMED
+     */
+    void objfdtRfnbmfd(NbmingEvfnt fvt);
+}

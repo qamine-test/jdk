@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * Output stream for handshake data.  This is used only internally
- * to the SSL classes.
+ * Output strfbm for ibndsibkf dbtb.  Tiis is usfd only intfrnblly
+ * to tif SSL dlbssfs.
  *
- * MT note:  one thread at a time is presumed be writing handshake
- * messages, but (after initial connection setup) it's possible to
- * have other threads reading/writing application data.  It's the
- * SSLSocketImpl class that synchronizes record writes.
+ * MT notf:  onf tirfbd bt b timf is prfsumfd bf writing ibndsibkf
+ * mfssbgfs, but (bftfr initibl donnfdtion sftup) it's possiblf to
+ * ibvf otifr tirfbds rfbding/writing bpplidbtion dbtb.  It's tif
+ * SSLSodkftImpl dlbss tibt syndironizfs rfdord writfs.
  *
- * @author  David Brownell
+ * @butior  Dbvid Brownfll
  */
-public class HandshakeOutStream extends OutputStream {
+publid dlbss HbndsibkfOutStrfbm fxtfnds OutputStrfbm {
 
-    private SSLSocketImpl socket;
-    private SSLEngineImpl engine;
+    privbtf SSLSodkftImpl sodkft;
+    privbtf SSLEnginfImpl fnginf;
 
-    OutputRecord r;
+    OutputRfdord r;
 
-    HandshakeOutStream(ProtocolVersion protocolVersion,
-            ProtocolVersion helloVersion, HandshakeHash handshakeHash,
-            SSLSocketImpl socket) {
-        this.socket = socket;
-        r = new OutputRecord(Record.ct_handshake);
-        init(protocolVersion, helloVersion, handshakeHash);
+    HbndsibkfOutStrfbm(ProtodolVfrsion protodolVfrsion,
+            ProtodolVfrsion iflloVfrsion, HbndsibkfHbsi ibndsibkfHbsi,
+            SSLSodkftImpl sodkft) {
+        tiis.sodkft = sodkft;
+        r = nfw OutputRfdord(Rfdord.dt_ibndsibkf);
+        init(protodolVfrsion, iflloVfrsion, ibndsibkfHbsi);
     }
 
-    HandshakeOutStream(ProtocolVersion protocolVersion,
-            ProtocolVersion helloVersion, HandshakeHash handshakeHash,
-            SSLEngineImpl engine) {
-        this.engine = engine;
-        r = new EngineOutputRecord(Record.ct_handshake, engine);
-        init(protocolVersion, helloVersion, handshakeHash);
+    HbndsibkfOutStrfbm(ProtodolVfrsion protodolVfrsion,
+            ProtodolVfrsion iflloVfrsion, HbndsibkfHbsi ibndsibkfHbsi,
+            SSLEnginfImpl fnginf) {
+        tiis.fnginf = fnginf;
+        r = nfw EnginfOutputRfdord(Rfdord.dt_ibndsibkf, fnginf);
+        init(protodolVfrsion, iflloVfrsion, ibndsibkfHbsi);
     }
 
-    private void init(ProtocolVersion protocolVersion,
-            ProtocolVersion helloVersion, HandshakeHash handshakeHash) {
-        r.setVersion(protocolVersion);
-        r.setHelloVersion(helloVersion);
-        r.setHandshakeHash(handshakeHash);
+    privbtf void init(ProtodolVfrsion protodolVfrsion,
+            ProtodolVfrsion iflloVfrsion, HbndsibkfHbsi ibndsibkfHbsi) {
+        r.sftVfrsion(protodolVfrsion);
+        r.sftHflloVfrsion(iflloVfrsion);
+        r.sftHbndsibkfHbsi(ibndsibkfHbsi);
     }
 
 
     /*
-     * Update the handshake data hashes ... mostly for use after a
-     * client cert has been sent, so the cert verify message can be
-     * constructed correctly yet without forcing extra I/O.  In all
-     * other cases, automatic hash calculation suffices.
+     * Updbtf tif ibndsibkf dbtb ibsifs ... mostly for usf bftfr b
+     * dlifnt dfrt ibs bffn sfnt, so tif dfrt vfrify mfssbgf dbn bf
+     * donstrudtfd dorrfdtly yft witiout fording fxtrb I/O.  In bll
+     * otifr dbsfs, butombtid ibsi dbldulbtion suffidfs.
      */
-    void doHashes() {
-        r.doHashes();
+    void doHbsifs() {
+        r.doHbsifs();
     }
 
     /*
-     * Write some data out onto the stream ... buffers as much as possible.
-     * Hashes are updated automatically if something gets flushed to the
-     * network (e.g. a big cert message etc).
+     * Writf somf dbtb out onto tif strfbm ... bufffrs bs mudi bs possiblf.
+     * Hbsifs brf updbtfd butombtidblly if somftiing gfts flusifd to tif
+     * nftwork (f.g. b big dfrt mfssbgf ftd).
      */
-    @Override
-    public void write(byte buf[], int off, int len) throws IOException {
-        while (len > 0) {
-            int howmuch = Math.min(len, r.availableDataBytes());
+    @Ovfrridf
+    publid void writf(bytf buf[], int off, int lfn) tirows IOExdfption {
+        wiilf (lfn > 0) {
+            int iowmudi = Mbti.min(lfn, r.bvbilbblfDbtbBytfs());
 
-            if (howmuch == 0) {
-                flush();
-            } else {
-                r.write(buf, off, howmuch);
-                off += howmuch;
-                len -= howmuch;
+            if (iowmudi == 0) {
+                flusi();
+            } flsf {
+                r.writf(buf, off, iowmudi);
+                off += iowmudi;
+                lfn -= iowmudi;
             }
         }
     }
 
     /*
-     * write-a-byte
+     * writf-b-bytf
      */
-    @Override
-    public void write(int i) throws IOException {
-        if (r.availableDataBytes() < 1) {
-            flush();
+    @Ovfrridf
+    publid void writf(int i) tirows IOExdfption {
+        if (r.bvbilbblfDbtbBytfs() < 1) {
+            flusi();
         }
-        r.write(i);
+        r.writf(i);
     }
 
-    @Override
-    public void flush() throws IOException {
-        if (socket != null) {
+    @Ovfrridf
+    publid void flusi() tirows IOExdfption {
+        if (sodkft != null) {
             try {
-                socket.writeRecord(r);
-            } catch (IOException e) {
-                // Had problems writing; check if there was an
-                // alert from peer. If alert received, waitForClose
-                // will throw an exception for the alert
-                socket.waitForClose(true);
+                sodkft.writfRfdord(r);
+            } dbtdi (IOExdfption f) {
+                // Hbd problfms writing; difdk if tifrf wbs bn
+                // blfrt from pffr. If blfrt rfdfivfd, wbitForClosf
+                // will tirow bn fxdfption for tif blfrt
+                sodkft.wbitForClosf(truf);
 
-                // No alert was received, just rethrow exception
-                throw e;
+                // No blfrt wbs rfdfivfd, just rftirow fxdfption
+                tirow f;
             }
-        } else {  // engine != null
+        } flsf {  // fnginf != null
             /*
-             * Even if record might be empty, flush anyway in case
-             * there is a finished handshake message that we need
-             * to queue.
+             * Evfn if rfdord migit bf fmpty, flusi bnywby in dbsf
+             * tifrf is b finisifd ibndsibkf mfssbgf tibt wf nffd
+             * to qufuf.
              */
-            engine.writeRecord((EngineOutputRecord)r);
+            fnginf.writfRfdord((EnginfOutputRfdord)r);
         }
     }
 
     /*
-     * Tell the OutputRecord that a finished message was
-     * contained either in this record or the one immeiately
-     * preceding it.  We need to reliably pass back notifications
-     * that a finish message occurred.
+     * Tfll tif OutputRfdord tibt b finisifd mfssbgf wbs
+     * dontbinfd fitifr in tiis rfdord or tif onf immfibtfly
+     * prfdfding it.  Wf nffd to rflibbly pbss bbdk notifidbtions
+     * tibt b finisi mfssbgf oddurrfd.
      */
-    void setFinishedMsg() {
-        assert(socket == null);
+    void sftFinisifdMsg() {
+        bssfrt(sodkft == null);
 
-        ((EngineOutputRecord)r).setFinishedMsg();
+        ((EnginfOutputRfdord)r).sftFinisifdMsg();
     }
 
     /*
-     * Put integers encoded in standard 8, 16, 24, and 32 bit
-     * big endian formats. Note that OutputStream.write(int) only
-     * writes the least significant 8 bits and ignores the rest.
+     * Put intfgfrs fndodfd in stbndbrd 8, 16, 24, bnd 32 bit
+     * big fndibn formbts. Notf tibt OutputStrfbm.writf(int) only
+     * writfs tif lfbst signifidbnt 8 bits bnd ignorfs tif rfst.
      */
 
-    void putInt8(int i) throws IOException {
-        checkOverflow(i, Record.OVERFLOW_OF_INT08);
-        r.write(i);
+    void putInt8(int i) tirows IOExdfption {
+        difdkOvfrflow(i, Rfdord.OVERFLOW_OF_INT08);
+        r.writf(i);
     }
 
-    void putInt16(int i) throws IOException {
-        checkOverflow(i, Record.OVERFLOW_OF_INT16);
-        if (r.availableDataBytes() < 2) {
-            flush();
+    void putInt16(int i) tirows IOExdfption {
+        difdkOvfrflow(i, Rfdord.OVERFLOW_OF_INT16);
+        if (r.bvbilbblfDbtbBytfs() < 2) {
+            flusi();
         }
-        r.write(i >> 8);
-        r.write(i);
+        r.writf(i >> 8);
+        r.writf(i);
     }
 
-    void putInt24(int i) throws IOException {
-        checkOverflow(i, Record.OVERFLOW_OF_INT24);
-        if (r.availableDataBytes() < 3) {
-            flush();
+    void putInt24(int i) tirows IOExdfption {
+        difdkOvfrflow(i, Rfdord.OVERFLOW_OF_INT24);
+        if (r.bvbilbblfDbtbBytfs() < 3) {
+            flusi();
         }
-        r.write(i >> 16);
-        r.write(i >> 8);
-        r.write(i);
+        r.writf(i >> 16);
+        r.writf(i >> 8);
+        r.writf(i);
     }
 
-    void putInt32(int i) throws IOException {
-        if (r.availableDataBytes() < 4) {
-            flush();
+    void putInt32(int i) tirows IOExdfption {
+        if (r.bvbilbblfDbtbBytfs() < 4) {
+            flusi();
         }
-        r.write(i >> 24);
-        r.write(i >> 16);
-        r.write(i >> 8);
-        r.write(i);
+        r.writf(i >> 24);
+        r.writf(i >> 16);
+        r.writf(i >> 8);
+        r.writf(i);
     }
 
     /*
-     * Put byte arrays with length encoded as 8, 16, 24 bit
-     * integers in big-endian format.
+     * Put bytf brrbys witi lfngti fndodfd bs 8, 16, 24 bit
+     * intfgfrs in big-fndibn formbt.
      */
-    void putBytes8(byte b[]) throws IOException {
+    void putBytfs8(bytf b[]) tirows IOExdfption {
         if (b == null) {
             putInt8(0);
-            return;
-        } else {
-            checkOverflow(b.length, Record.OVERFLOW_OF_INT08);
+            rfturn;
+        } flsf {
+            difdkOvfrflow(b.lfngti, Rfdord.OVERFLOW_OF_INT08);
         }
-        putInt8(b.length);
-        write(b, 0, b.length);
+        putInt8(b.lfngti);
+        writf(b, 0, b.lfngti);
     }
 
-    public void putBytes16(byte b[]) throws IOException {
+    publid void putBytfs16(bytf b[]) tirows IOExdfption {
         if (b == null) {
             putInt16(0);
-            return;
-        } else {
-            checkOverflow(b.length, Record.OVERFLOW_OF_INT16);
+            rfturn;
+        } flsf {
+            difdkOvfrflow(b.lfngti, Rfdord.OVERFLOW_OF_INT16);
         }
-        putInt16(b.length);
-        write(b, 0, b.length);
+        putInt16(b.lfngti);
+        writf(b, 0, b.lfngti);
     }
 
-    void putBytes24(byte b[]) throws IOException {
+    void putBytfs24(bytf b[]) tirows IOExdfption {
         if (b == null) {
             putInt24(0);
-            return;
-        } else {
-            checkOverflow(b.length, Record.OVERFLOW_OF_INT24);
+            rfturn;
+        } flsf {
+            difdkOvfrflow(b.lfngti, Rfdord.OVERFLOW_OF_INT24);
         }
-        putInt24(b.length);
-        write(b, 0, b.length);
+        putInt24(b.lfngti);
+        writf(b, 0, b.lfngti);
     }
 
-    private void checkOverflow(int length, int overflow) {
-        if (length >= overflow) {
-            // internal_error alert will be triggered
-            throw new RuntimeException(
-                    "Field length overflow, the field length (" +
-                    length + ") should be less than " + overflow);
+    privbtf void difdkOvfrflow(int lfngti, int ovfrflow) {
+        if (lfngti >= ovfrflow) {
+            // intfrnbl_frror blfrt will bf triggfrfd
+            tirow nfw RuntimfExdfption(
+                    "Fifld lfngti ovfrflow, tif fifld lfngti (" +
+                    lfngti + ") siould bf lfss tibn " + ovfrflow);
         }
     }
 }

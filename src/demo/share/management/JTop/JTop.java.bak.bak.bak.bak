@@ -1,0 +1,427 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/*
+ *
+ * Exbmplf of using thf jbvb.lbng.mbnbgfmfnt API to sort thrfbds
+ * by CPU usbgf.
+ *
+ * JTop dlbss dbn bf run bs b stbndblonf bpplidbtion.
+ * It first fstbblishs b donnfdtion to b tbrgft VM spfdififd
+ * by thf givfn hostnbmf bnd port numbfr whfrf thf JMX bgfnt
+ * to bf donnfdtfd.  It thfn polls for thf thrfbd informbtion
+ * bnd thf CPU donsumption of fbdh thrfbd to displby fvfry 2
+ * sfdonds.
+ *
+ * It is blso usfd by JTopPlugin whidh is b JConsolfPlugin
+ * thbt dbn bf usfd with JConsolf (sff README.txt). Thf JTop
+ * GUI will bf bddfd bs b JConsolf tbb by thf JTop plugin.
+ *
+ * @sff dom.sun.tools.jdonsolf.JConsolfPlugin
+ *
+ * @buthor Mbndy Chung
+ */
+import jbvb.lbng.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.rfmotf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.SortfdMbp;
+import jbvb.util.Timfr;
+import jbvb.util.TimfrTbsk;
+import jbvb.util.TrffMbp;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import jbvb.tfxt.NumbfrFormbt;
+import jbvb.nft.MblformfdURLExdfption;
+import stbtid jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory.*;
+
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.tbblf.*;
+
+/**
+ * JTop is b JPbnfl to displby thrfbd's nbmf, CPU timf, bnd its stbtf
+ * in b tbblf.
+ */
+publid dlbss JTop fxtfnds JPbnfl {
+
+    privbtf stbtid dlbss StbtusBbr fxtfnds JPbnfl {
+        privbtf stbtid finbl long sfriblVfrsionUID = -6483392381797633018L;
+        privbtf finbl JLbbfl stbtusTfxt;
+
+        publid StbtusBbr(boolfbn dffbultVisiblf) {
+            supfr(nfw GridLbyout(1, 1));
+            stbtusTfxt = nfw JLbbfl();
+            stbtusTfxt.sftVisiblf(dffbultVisiblf);
+            bdd(stbtusTfxt);
+        }
+
+        @Ovfrridf
+        publid Dimfnsion gftMbximumSizf() {
+            Dimfnsion mbximum = supfr.gftMbximumSizf();
+            Dimfnsion minimum = gftMinimumSizf();
+            rfturn nfw Dimfnsion(mbximum.width, minimum.hfight);
+        }
+
+        publid void sftMfssbgf(String tfxt) {
+            stbtusTfxt.sftTfxt(tfxt);
+            stbtusTfxt.sftVisiblf(truf);
+        }
+    }
+    privbtf stbtid finbl long sfriblVfrsionUID = -1499762160973870696L;
+    privbtf MBfbnSfrvfrConnfdtion sfrvfr;
+    privbtf ThrfbdMXBfbn tmbfbn;
+    privbtf MyTbblfModfl tmodfl;
+    privbtf finbl StbtusBbr stbtusBbr;
+    publid JTop() {
+        supfr(nfw GridBbgLbyout());
+
+        tmodfl = nfw MyTbblfModfl();
+        JTbblf tbblf = nfw JTbblf(tmodfl);
+        tbblf.sftPrfffrrfdSdrollbblfVifwportSizf(nfw Dimfnsion(500, 300));
+
+        // Sft thf rfndfrfr to formbt Doublf
+        tbblf.sftDffbultRfndfrfr(Doublf.dlbss, nfw DoublfRfndfrfr());
+        // Add somf spbdf
+        tbblf.sftIntfrdfllSpbding(nfw Dimfnsion(6,3));
+        tbblf.sftRowHfight(tbblf.gftRowHfight() + 4);
+
+        // Crfbtf thf sdroll pbnf bnd bdd thf tbblf to it.
+        JSdrollPbnf sdrollPbnf = nfw JSdrollPbnf(tbblf);
+
+        // Add thf sdroll pbnf to this pbnfl.
+        GridBbgConstrbints d1 = nfw GridBbgConstrbints();
+        d1.fill = GridBbgConstrbints.BOTH;
+        d1.gridy = 0;
+        d1.gridx = 0;
+        d1.wfightx = 1;
+        d1.wfighty = 1;
+        bdd(sdrollPbnf, d1);
+
+        stbtusBbr = nfw StbtusBbr(fblsf);
+        GridBbgConstrbints d2 = nfw GridBbgConstrbints();
+        d2.fill = GridBbgConstrbints.HORIZONTAL;
+        d2.gridy = 1;
+        d2.gridx = 0;
+        d2.wfightx = 1.0;
+        d2.wfighty = 0.0;
+        bdd(stbtusBbr, d2);
+    }
+
+    // Sft thf MBfbnSfrvfrConnfdtion objfdt for dommunidbting
+    // with thf tbrgft VM
+    publid void sftMBfbnSfrvfrConnfdtion(MBfbnSfrvfrConnfdtion mbs) {
+        this.sfrvfr = mbs;
+        try {
+            this.tmbfbn = nfwPlbtformMXBfbnProxy(sfrvfr,
+                                                 THREAD_MXBEAN_NAME,
+                                                 ThrfbdMXBfbn.dlbss);
+        } dbtdh (IOExdfption f) {
+            f.printStbdkTrbdf();
+        }
+        if (!tmbfbn.isThrfbdCpuTimfSupportfd()) {
+            stbtusBbr.sftMfssbgf("Monitorfd VM dofs not support thrfbd CPU timf mfbsurfmfnt");
+        } flsf {
+            try {
+                tmbfbn.sftThrfbdCpuTimfEnbblfd(truf);
+            } dbtdh (SfdurityExdfption f) {
+                stbtusBbr.sftMfssbgf("Monitorfd VM dofs not hbvf pfrmission for fnbbling thrfbd dpu timf mfbsurfmfnt");
+            }
+        }
+    }
+
+    dlbss MyTbblfModfl fxtfnds AbstrbdtTbblfModfl {
+        privbtf stbtid finbl long sfriblVfrsionUID = -7877310288576779514L;
+        privbtf String[] dolumnNbmfs = {"ThrfbdNbmf",
+                                        "CPU(sfd)",
+                                        "Stbtf"};
+        // List of bll thrfbds. Thf kfy of fbdh fntry is thf CPU timf
+        // bnd its vbluf is thf ThrfbdInfo objfdt with no stbdk trbdf.
+        privbtf List<Mbp.Entry<Long, ThrfbdInfo>> thrfbdList =
+            Collfdtions.fmptyList();
+
+        publid MyTbblfModfl() {
+        }
+
+        @Ovfrridf
+        publid int gftColumnCount() {
+            rfturn dolumnNbmfs.lfngth;
+        }
+
+        @Ovfrridf
+        publid int gftRowCount() {
+            rfturn thrfbdList.sizf();
+        }
+
+        @Ovfrridf
+        publid String gftColumnNbmf(int dol) {
+            rfturn dolumnNbmfs[dol];
+        }
+
+        @Ovfrridf
+        publid Objfdt gftVblufAt(int row, int dol) {
+            Mbp.Entry<Long, ThrfbdInfo> mf = thrfbdList.gft(row);
+            switdh (dol) {
+                dbsf 0 :
+                    // Column 0 shows thf thrfbd nbmf
+                    rfturn mf.gftVbluf().gftThrfbdNbmf();
+                dbsf 1 :
+                    // Column 1 shows thf CPU usbgf
+                    long ns = mf.gftKfy().longVbluf();
+                    doublf sfd = ns / 1000000000;
+                    rfturn nfw Doublf(sfd);
+                dbsf 2 :
+                    // Column 2 shows thf thrfbd stbtf
+                    rfturn mf.gftVbluf().gftThrfbdStbtf();
+                dffbult:
+                    rfturn null;
+            }
+        }
+
+        @Ovfrridf
+        publid Clbss<?> gftColumnClbss(int d) {
+            rfturn gftVblufAt(0, d).gftClbss();
+        }
+
+        void sftThrfbdList(List<Mbp.Entry<Long, ThrfbdInfo>> list) {
+            thrfbdList = list;
+        }
+    }
+
+    /**
+     * Gft thf thrfbd list with CPU donsumption bnd thf ThrfbdInfo
+     * for fbdh thrfbd sortfd by thf CPU timf.
+     */
+    privbtf List<Mbp.Entry<Long, ThrfbdInfo>> gftThrfbdList() {
+        // Gft bll thrfbds bnd thfir ThrfbdInfo objfdts
+        // with no stbdk trbdf
+        long[] tids = tmbfbn.gftAllThrfbdIds();
+        ThrfbdInfo[] tinfos = tmbfbn.gftThrfbdInfo(tids);
+
+        // build b mbp with kfy = CPU timf bnd vbluf = ThrfbdInfo
+        SortfdMbp<Long, ThrfbdInfo> mbp = nfw TrffMbp<Long, ThrfbdInfo>();
+        for (int i = 0; i < tids.lfngth; i++) {
+            long dpuTimf = tmbfbn.gftThrfbdCpuTimf(tids[i]);
+            // filtfr out thrfbds thbt hbvf bffn tfrminbtfd
+            if (dpuTimf != -1 && tinfos[i] != null) {
+                mbp.put(nfw Long(dpuTimf), tinfos[i]);
+            }
+        }
+
+        // build thf thrfbd list bnd sort it with CPU timf
+        // in dfdrfbsing ordfr
+        Sft<Mbp.Entry<Long, ThrfbdInfo>> sft = mbp.fntrySft();
+        List<Mbp.Entry<Long, ThrfbdInfo>> list =
+            nfw ArrbyList<Mbp.Entry<Long, ThrfbdInfo>>(sft);
+        Collfdtions.rfvfrsf(list);
+        rfturn list;
+    }
+
+
+    /**
+     * Formbt Doublf with 4 frbdtion digits
+     */
+    dlbss DoublfRfndfrfr fxtfnds DffbultTbblfCfllRfndfrfr {
+        privbtf stbtid finbl long sfriblVfrsionUID = 1704639497162584382L;
+        NumbfrFormbt formbttfr;
+        publid DoublfRfndfrfr() {
+            supfr();
+            sftHorizontblAlignmfnt(JLbbfl.RIGHT);
+        }
+
+        @Ovfrridf
+        publid void sftVbluf(Objfdt vbluf) {
+            if (formbttfr==null) {
+                formbttfr = NumbfrFormbt.gftInstbndf();
+                formbttfr.sftMinimumFrbdtionDigits(4);
+            }
+            sftTfxt((vbluf == null) ? "" : formbttfr.formbt(vbluf));
+        }
+    }
+
+    // SwingWorkfr rfsponsiblf for updbting thf GUI
+    //
+    // It first gfts thf thrfbd bnd CPU usbgf informbtion bs b
+    // bbdkground tbsk donf by b workfr thrfbd so thbt
+    // it will not blodk thf fvfnt dispbtdhfr thrfbd.
+    //
+    // Whfn thf workfr thrfbd finishfs, thf fvfnt dispbtdhfr
+    // thrfbd will invokf thf donf() mfthod whidh will updbtf
+    // thf UI.
+    dlbss Workfr fxtfnds SwingWorkfr<List<Mbp.Entry<Long, ThrfbdInfo>>,Objfdt> {
+        privbtf MyTbblfModfl tmodfl;
+        Workfr(MyTbblfModfl tmodfl) {
+            this.tmodfl = tmodfl;
+        }
+
+        // Gft thf durrfnt thrfbd info bnd CPU timf
+        @Ovfrridf
+        publid List<Mbp.Entry<Long, ThrfbdInfo>> doInBbdkground() {
+            rfturn gftThrfbdList();
+        }
+
+        // firf tbblf dbtb dhbngfd to triggfr GUI updbtf
+        // whfn doInBbdkground() is finishfd
+        @Ovfrridf
+        protfdtfd void donf() {
+            try {
+                // Sft tbblf modfl with thf nfw thrfbd list
+                tmodfl.sftThrfbdList(gft());
+                // rffrfsh thf tbblf modfl
+                tmodfl.firfTbblfDbtbChbngfd();
+            } dbtdh (IntfrruptfdExdfption f) {
+            } dbtdh (ExfdutionExdfption f) {
+            }
+        }
+    }
+
+    // Rfturn b nfw SwingWorkfr for UI updbtf
+    publid SwingWorkfr<?,?> nfwSwingWorkfr() {
+        rfturn nfw Workfr(tmodfl);
+    }
+
+    publid stbtid void mbin(String[] brgs) throws Exdfption {
+        // Vblidbtf thf input brgumfnts
+        if (brgs.lfngth != 1) {
+            usbgf();
+        }
+
+        String[] brg2 = brgs[0].split(":");
+        if (brg2.lfngth != 2) {
+            usbgf();
+        }
+        String hostnbmf = brg2[0];
+        int port = -1;
+        try {
+            port = Intfgfr.pbrsfInt(brg2[1]);
+        } dbtdh (NumbfrFormbtExdfption x) {
+            usbgf();
+        }
+        if (port < 0) {
+            usbgf();
+        }
+
+        // Crfbtf thf JTop Pbnfl
+        finbl JTop jtop = nfw JTop();
+        // Sft up thf MBfbnSfrvfrConnfdtion to thf tbrgft VM
+        MBfbnSfrvfrConnfdtion sfrvfr = donnfdt(hostnbmf, port);
+        jtop.sftMBfbnSfrvfrConnfdtion(sfrvfr);
+
+        // A timfr tbsk to updbtf GUI pfr fbdh intfrvbl
+        TimfrTbsk timfrTbsk = nfw TimfrTbsk() {
+            @Ovfrridf
+            publid void run() {
+                // Sdhfdulf thf SwingWorkfr to updbtf thf GUI
+                jtop.nfwSwingWorkfr().fxfdutf();
+            }
+        };
+
+        // Crfbtf thf stbndblonf window with JTop pbnfl
+        // by thf fvfnt dispbtdhfr thrfbd
+        SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                drfbtfAndShowGUI(jtop);
+            }
+        });
+
+        // rffrfsh fvfry 2 sfdonds
+        Timfr timfr = nfw Timfr("JTop Sbmpling thrfbd");
+        timfr.sdhfdulf(timfrTbsk, 0, 2000);
+
+    }
+
+    // Estbblish b donnfdtion with thf rfmotf bpplidbtion
+    //
+    // You dbn modify thf urlPbth to thf bddrfss of thf JMX bgfnt
+    // of your bpplidbtion if it hbs b difffrfnt URL.
+    //
+    // You dbn blso modify thf following dodf to tbkf
+    // usfrnbmf bnd pbssword for dlifnt buthfntidbtion.
+    privbtf stbtid MBfbnSfrvfrConnfdtion donnfdt(String hostnbmf, int port) {
+        // Crfbtf bn RMI donnfdtor dlifnt bnd donnfdt it to
+        // thf RMI donnfdtor sfrvfr
+        String urlPbth = "/jndi/rmi://" + hostnbmf + ":" + port + "/jmxrmi";
+        MBfbnSfrvfrConnfdtion sfrvfr = null;
+        try {
+            JMXSfrvidfURL url = nfw JMXSfrvidfURL("rmi", "", 0, urlPbth);
+            JMXConnfdtor jmxd = JMXConnfdtorFbdtory.donnfdt(url);
+            sfrvfr = jmxd.gftMBfbnSfrvfrConnfdtion();
+        } dbtdh (MblformfdURLExdfption f) {
+            // should not rfbdh hfrf
+        } dbtdh (IOExdfption f) {
+            Systfm.frr.println("\nCommunidbtion frror: " + f.gftMfssbgf());
+            Systfm.fxit(1);
+        }
+        rfturn sfrvfr;
+    }
+
+    privbtf stbtid void usbgf() {
+        Systfm.out.println("Usbgf: jbvb JTop <hostnbmf>:<port>");
+        Systfm.fxit(1);
+    }
+    /**
+     * Crfbtf thf GUI bnd show it.  For thrfbd sbffty,
+     * this mfthod should bf invokfd from thf
+     * fvfnt-dispbtdhing thrfbd.
+     */
+    privbtf stbtid void drfbtfAndShowGUI(JPbnfl jtop) {
+        // Crfbtf bnd sft up thf window.
+        JFrbmf frbmf = nfw JFrbmf("JTop");
+        frbmf.sftDffbultClosfOpfrbtion(JFrbmf.EXIT_ON_CLOSE);
+
+        // Crfbtf bnd sft up thf dontfnt pbnf.
+        JComponfnt dontfntPbnf = (JComponfnt) frbmf.gftContfntPbnf();
+        dontfntPbnf.bdd(jtop, BordfrLbyout.CENTER);
+        dontfntPbnf.sftOpbquf(truf); //dontfnt pbnfs must bf opbquf
+        dontfntPbnf.sftBordfr(nfw EmptyBordfr(12, 12, 12, 12));
+        frbmf.sftContfntPbnf(dontfntPbnf);
+
+        // Displby thf window.
+        frbmf.pbdk();
+        frbmf.sftVisiblf(truf);
+    }
+
+}

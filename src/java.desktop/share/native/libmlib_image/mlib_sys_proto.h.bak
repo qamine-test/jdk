@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-#ifndef __ORIG_MLIB_SYS_PROTO_H
-#define __ORIG_MLIB_SYS_PROTO_H
+#ifndff __ORIG_MLIB_SYS_PROTO_H
+#dffinf __ORIG_MLIB_SYS_PROTO_H
 
-#if defined ( __MEDIALIB_OLD_NAMES_ADDED )
-#include <../include/mlib_sys_proto.h>
-#endif /* defined ( __MEDIALIB_OLD_NAMES_ADDED ) */
+#if dffinfd ( __MEDIALIB_OLD_NAMES_ADDED )
+#indludf <../indludf/mlib_sys_proto.i>
+#fndif /* dffinfd ( __MEDIALIB_OLD_NAMES_ADDED ) */
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif /* __dplusplus */
 
-#if defined ( _MSC_VER )
-#if ! defined ( __MEDIALIB_OLD_NAMES )
-#define __MEDIALIB_OLD_NAMES
-#endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-#endif /* defined ( _MSC_VER ) */
+#if dffinfd ( _MSC_VER )
+#if ! dffinfd ( __MEDIALIB_OLD_NAMES )
+#dffinf __MEDIALIB_OLD_NAMES
+#fndif /* ! dffinfd ( __MEDIALIB_OLD_NAMES ) */
+#fndif /* dffinfd ( _MSC_VER ) */
 
 
-#if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_malloc mlib_malloc
-#endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-void * __mlib_malloc(mlib_u32 size);
+#if dffinfd ( __MEDIALIB_OLD_NAMES )
+#dffinf __mlib_mbllod mlib_mbllod
+#fndif /* ! dffinfd ( __MEDIALIB_OLD_NAMES ) */
+void * __mlib_mbllod(mlib_u32 sizf);
 
-#if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_realloc mlib_realloc
-#endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-void * __mlib_realloc(void *ptr,
-                      mlib_u32 size);
+#if dffinfd ( __MEDIALIB_OLD_NAMES )
+#dffinf __mlib_rfbllod mlib_rfbllod
+#fndif /* ! dffinfd ( __MEDIALIB_OLD_NAMES ) */
+void * __mlib_rfbllod(void *ptr,
+                      mlib_u32 sizf);
 
-#if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_free mlib_free
-#endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-void  __mlib_free(void *ptr);
+#if dffinfd ( __MEDIALIB_OLD_NAMES )
+#dffinf __mlib_frff mlib_frff
+#fndif /* ! dffinfd ( __MEDIALIB_OLD_NAMES ) */
+void  __mlib_frff(void *ptr);
 
-#if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_memset mlib_memset
-#endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-void * __mlib_memset(void *s,
-                     mlib_s32 c,
+#if dffinfd ( __MEDIALIB_OLD_NAMES )
+#dffinf __mlib_mfmsft mlib_mfmsft
+#fndif /* ! dffinfd ( __MEDIALIB_OLD_NAMES ) */
+void * __mlib_mfmsft(void *s,
+                     mlib_s32 d,
                      mlib_u32 n);
 
-#if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_memcpy mlib_memcpy
-#endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-void * __mlib_memcpy(void *s1,
+#if dffinfd ( __MEDIALIB_OLD_NAMES )
+#dffinf __mlib_mfmdpy mlib_mfmdpy
+#fndif /* ! dffinfd ( __MEDIALIB_OLD_NAMES ) */
+void * __mlib_mfmdpy(void *s1,
                      void *s2,
                      mlib_u32 n);
 
-#if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_memmove mlib_memmove
-#endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-void * __mlib_memmove(void *s1,
+#if dffinfd ( __MEDIALIB_OLD_NAMES )
+#dffinf __mlib_mfmmovf mlib_mfmmovf
+#fndif /* ! dffinfd ( __MEDIALIB_OLD_NAMES ) */
+void * __mlib_mfmmovf(void *s1,
                       void *s2,
                       mlib_u32 n);
 
 
-#if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_version mlib_version
-#endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-char * __mlib_version();
+#if dffinfd ( __MEDIALIB_OLD_NAMES )
+#dffinf __mlib_vfrsion mlib_vfrsion
+#fndif /* ! dffinfd ( __MEDIALIB_OLD_NAMES ) */
+dibr * __mlib_vfrsion();
 
-#ifdef __cplusplus
+#ifdff __dplusplus
 }
-#endif /* __cplusplus */
-#endif /* __ORIG_MLIB_SYS_PROTO_H */
+#fndif /* __dplusplus */
+#fndif /* __ORIG_MLIB_SYS_PROTO_H */

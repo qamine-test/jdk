@@ -1,803 +1,803 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth.kerberos;
+pbdkbgf jbvbx.sfdurity.buti.kfrbfros;
 
-import java.io.*;
-import java.util.Date;
-import java.util.Arrays;
-import java.net.InetAddress;
-import javax.crypto.SecretKey;
-import javax.security.auth.Refreshable;
-import javax.security.auth.Destroyable;
-import javax.security.auth.RefreshFailedException;
-import javax.security.auth.DestroyFailedException;
-import sun.misc.HexDumpEncoder;
+import jbvb.io.*;
+import jbvb.util.Dbtf;
+import jbvb.util.Arrbys;
+import jbvb.nft.InftAddrfss;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.sfdurity.buti.Rffrfsibblf;
+import jbvbx.sfdurity.buti.Dfstroybblf;
+import jbvbx.sfdurity.buti.RffrfsiFbilfdExdfption;
+import jbvbx.sfdurity.buti.DfstroyFbilfdExdfption;
+import sun.misd.HfxDumpEndodfr;
 
 /**
- * This class encapsulates a Kerberos ticket and associated
- * information as viewed from the client's point of view. It captures all
- * information that the Key Distribution Center (KDC) sends to the client
- * in the reply message KDC-REP defined in the Kerberos Protocol
- * Specification (<a href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</a>).
+ * Tiis dlbss fndbpsulbtfs b Kfrbfros tidkft bnd bssodibtfd
+ * informbtion bs vifwfd from tif dlifnt's point of vifw. It dbpturfs bll
+ * informbtion tibt tif Kfy Distribution Cfntfr (KDC) sfnds to tif dlifnt
+ * in tif rfply mfssbgf KDC-REP dffinfd in tif Kfrbfros Protodol
+ * Spfdifidbtion (<b irff=ittp://www.iftf.org/rfd/rfd4120.txt>RFC 4120</b>).
  * <p>
- * All Kerberos JAAS login modules that authenticate a user to a KDC should
- * use this class. Where available, the login module might even read this
- * information from a ticket cache in the operating system instead of
- * directly communicating with the KDC. During the commit phase of the JAAS
- * authentication process, the JAAS login module should instantiate this
- * class and store the instance in the private credential set of a
- * {@link javax.security.auth.Subject Subject}.<p>
+ * All Kfrbfros JAAS login modulfs tibt butifntidbtf b usfr to b KDC siould
+ * usf tiis dlbss. Wifrf bvbilbblf, tif login modulf migit fvfn rfbd tiis
+ * informbtion from b tidkft dbdif in tif opfrbting systfm instfbd of
+ * dirfdtly dommunidbting witi tif KDC. During tif dommit pibsf of tif JAAS
+ * butifntidbtion prodfss, tif JAAS login modulf siould instbntibtf tiis
+ * dlbss bnd storf tif instbndf in tif privbtf drfdfntibl sft of b
+ * {@link jbvbx.sfdurity.buti.Subjfdt Subjfdt}.<p>
  *
- * It might be necessary for the application to be granted a
- * {@link javax.security.auth.PrivateCredentialPermission
- * PrivateCredentialPermission} if it needs to access a KerberosTicket
- * instance from a Subject. This permission is not needed when the
- * application depends on the default JGSS Kerberos mechanism to access the
- * KerberosTicket. In that case, however, the application will need an
- * appropriate
- * {@link javax.security.auth.kerberos.ServicePermission ServicePermission}.
+ * It migit bf nfdfssbry for tif bpplidbtion to bf grbntfd b
+ * {@link jbvbx.sfdurity.buti.PrivbtfCrfdfntiblPfrmission
+ * PrivbtfCrfdfntiblPfrmission} if it nffds to bddfss b KfrbfrosTidkft
+ * instbndf from b Subjfdt. Tiis pfrmission is not nffdfd wifn tif
+ * bpplidbtion dfpfnds on tif dffbult JGSS Kfrbfros mfdibnism to bddfss tif
+ * KfrbfrosTidkft. In tibt dbsf, iowfvfr, tif bpplidbtion will nffd bn
+ * bppropribtf
+ * {@link jbvbx.sfdurity.buti.kfrbfros.SfrvidfPfrmission SfrvidfPfrmission}.
  * <p>
- * Note that this class is applicable to both ticket granting tickets and
- * other regular service tickets. A ticket granting ticket is just a
- * special case of a more generalized service ticket.
+ * Notf tibt tiis dlbss is bpplidbblf to boti tidkft grbnting tidkfts bnd
+ * otifr rfgulbr sfrvidf tidkfts. A tidkft grbnting tidkft is just b
+ * spfdibl dbsf of b morf gfnfrblizfd sfrvidf tidkft.
  *
- * @see javax.security.auth.Subject
- * @see javax.security.auth.PrivateCredentialPermission
- * @see javax.security.auth.login.LoginContext
- * @see org.ietf.jgss.GSSCredential
- * @see org.ietf.jgss.GSSManager
+ * @sff jbvbx.sfdurity.buti.Subjfdt
+ * @sff jbvbx.sfdurity.buti.PrivbtfCrfdfntiblPfrmission
+ * @sff jbvbx.sfdurity.buti.login.LoginContfxt
+ * @sff org.iftf.jgss.GSSCrfdfntibl
+ * @sff org.iftf.jgss.GSSMbnbgfr
  *
- * @author Mayank Upadhyay
- * @since 1.4
+ * @butior Mbybnk Upbdiyby
+ * @sindf 1.4
  */
-public class KerberosTicket implements Destroyable, Refreshable,
-         java.io.Serializable {
+publid dlbss KfrbfrosTidkft implfmfnts Dfstroybblf, Rffrfsibblf,
+         jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = 7395334370157380539L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7395334370157380539L;
 
-    // XXX Make these flag indices public
-    private static final int FORWARDABLE_TICKET_FLAG = 1;
-    private static final int FORWARDED_TICKET_FLAG   = 2;
-    private static final int PROXIABLE_TICKET_FLAG   = 3;
-    private static final int PROXY_TICKET_FLAG       = 4;
-    private static final int POSTDATED_TICKET_FLAG   = 6;
-    private static final int RENEWABLE_TICKET_FLAG   = 8;
-    private static final int INITIAL_TICKET_FLAG     = 9;
+    // XXX Mbkf tifsf flbg indidfs publid
+    privbtf stbtid finbl int FORWARDABLE_TICKET_FLAG = 1;
+    privbtf stbtid finbl int FORWARDED_TICKET_FLAG   = 2;
+    privbtf stbtid finbl int PROXIABLE_TICKET_FLAG   = 3;
+    privbtf stbtid finbl int PROXY_TICKET_FLAG       = 4;
+    privbtf stbtid finbl int POSTDATED_TICKET_FLAG   = 6;
+    privbtf stbtid finbl int RENEWABLE_TICKET_FLAG   = 8;
+    privbtf stbtid finbl int INITIAL_TICKET_FLAG     = 9;
 
-    private static final int NUM_FLAGS = 32;
+    privbtf stbtid finbl int NUM_FLAGS = 32;
 
     /**
      *
-     * ASN.1 DER Encoding of the Ticket as defined in the
-     * Kerberos Protocol Specification RFC4120.
+     * ASN.1 DER Endoding of tif Tidkft bs dffinfd in tif
+     * Kfrbfros Protodol Spfdifidbtion RFC4120.
      *
-     * @serial
+     * @sfribl
      */
 
-    private byte[] asn1Encoding;
+    privbtf bytf[] bsn1Endoding;
 
     /**
-     *{@code KeyImpl} is serialized by writing out the ASN1 Encoded bytes
-     * of the encryption key. The ASN1 encoding is defined in RFC4120 and as
+     *{@dodf KfyImpl} is sfriblizfd by writing out tif ASN1 Endodfd bytfs
+     * of tif fndryption kfy. Tif ASN1 fndoding is dffinfd in RFC4120 bnd bs
      * follows:
-     * <pre>
-     * EncryptionKey   ::= SEQUENCE {
-     *          keytype    [0] Int32 -- actually encryption type --,
-     *          keyvalue   [1] OCTET STRING
+     * <prf>
+     * EndryptionKfy   ::= SEQUENCE {
+     *          kfytypf    [0] Int32 -- bdtublly fndryption typf --,
+     *          kfyvbluf   [1] OCTET STRING
      * }
-     * </pre>
+     * </prf>
      *
-     * @serial
+     * @sfribl
      */
 
-    private KeyImpl sessionKey;
+    privbtf KfyImpl sfssionKfy;
 
     /**
      *
-     * Ticket Flags as defined in the Kerberos Protocol Specification RFC4120.
+     * Tidkft Flbgs bs dffinfd in tif Kfrbfros Protodol Spfdifidbtion RFC4120.
      *
-     * @serial
+     * @sfribl
      */
 
-    private boolean[] flags;
+    privbtf boolfbn[] flbgs;
 
     /**
      *
-     * Time of initial authentication
+     * Timf of initibl butifntidbtion
      *
-     * @serial
+     * @sfribl
      */
 
-    private Date authTime;
+    privbtf Dbtf butiTimf;
 
     /**
      *
-     * Time after which the ticket is valid.
-     * @serial
+     * Timf bftfr wiidi tif tidkft is vblid.
+     * @sfribl
      */
-    private Date startTime;
+    privbtf Dbtf stbrtTimf;
 
     /**
      *
-     * Time after which the ticket will not be honored. (its expiration time).
+     * Timf bftfr wiidi tif tidkft will not bf ionorfd. (its fxpirbtion timf).
      *
-     * @serial
+     * @sfribl
      */
 
-    private Date endTime;
+    privbtf Dbtf fndTimf;
 
     /**
      *
-     * For renewable Tickets it indicates the maximum endtime that may be
-     * included in a renewal. It can be thought of as the absolute expiration
-     * time for the ticket, including all renewals. This field may be null
-     * for tickets that are not renewable.
+     * For rfnfwbblf Tidkfts it indidbtfs tif mbximum fndtimf tibt mby bf
+     * indludfd in b rfnfwbl. It dbn bf tiougit of bs tif bbsolutf fxpirbtion
+     * timf for tif tidkft, indluding bll rfnfwbls. Tiis fifld mby bf null
+     * for tidkfts tibt brf not rfnfwbblf.
      *
-     * @serial
+     * @sfribl
      */
 
-    private Date renewTill;
+    privbtf Dbtf rfnfwTill;
 
     /**
      *
-     * Client that owns the service ticket
+     * Clifnt tibt owns tif sfrvidf tidkft
      *
-     * @serial
+     * @sfribl
      */
 
-    private KerberosPrincipal client;
+    privbtf KfrbfrosPrindipbl dlifnt;
 
     /**
      *
-     * The service for which the ticket was issued.
+     * Tif sfrvidf for wiidi tif tidkft wbs issufd.
      *
-     * @serial
+     * @sfribl
      */
 
-    private KerberosPrincipal server;
+    privbtf KfrbfrosPrindipbl sfrvfr;
 
     /**
      *
-     * The addresses from where the ticket may be used by the client.
-     * This field may be null when the ticket is usable from any address.
+     * Tif bddrfssfs from wifrf tif tidkft mby bf usfd by tif dlifnt.
+     * Tiis fifld mby bf null wifn tif tidkft is usbblf from bny bddrfss.
      *
-     * @serial
+     * @sfribl
      */
 
 
-    private InetAddress[] clientAddresses;
+    privbtf InftAddrfss[] dlifntAddrfssfs;
 
-    private transient boolean destroyed = false;
+    privbtf trbnsifnt boolfbn dfstroyfd = fblsf;
 
     /**
-     * Constructs a KerberosTicket using credentials information that a
-     * client either receives from a KDC or reads from a cache.
+     * Construdts b KfrbfrosTidkft using drfdfntibls informbtion tibt b
+     * dlifnt fitifr rfdfivfs from b KDC or rfbds from b dbdif.
      *
-     * @param asn1Encoding the ASN.1 encoding of the ticket as defined by
-     * the Kerberos protocol specification.
-     * @param client the client that owns this service
-     * ticket
-     * @param server the service that this ticket is for
-     * @param sessionKey the raw bytes for the session key that must be
-     * used to encrypt the authenticator that will be sent to the server
-     * @param keyType the key type for the session key as defined by the
-     * Kerberos protocol specification.
-     * @param flags the ticket flags. Each element in this array indicates
-     * the value for the corresponding bit in the ASN.1 BitString that
-     * represents the ticket flags. If the number of elements in this array
-     * is less than the number of flags used by the Kerberos protocol,
-     * then the missing flags will be filled in with false.
-     * @param authTime the time of initial authentication for the client
-     * @param startTime the time after which the ticket will be valid. This
-     * may be null in which case the value of authTime is treated as the
-     * startTime.
-     * @param endTime the time after which the ticket will no longer be
-     * valid
-     * @param renewTill an absolute expiration time for the ticket,
-     * including all renewal that might be possible. This field may be null
-     * for tickets that are not renewable.
-     * @param clientAddresses the addresses from where the ticket may be
-     * used by the client. This field may be null when the ticket is usable
-     * from any address.
+     * @pbrbm bsn1Endoding tif ASN.1 fndoding of tif tidkft bs dffinfd by
+     * tif Kfrbfros protodol spfdifidbtion.
+     * @pbrbm dlifnt tif dlifnt tibt owns tiis sfrvidf
+     * tidkft
+     * @pbrbm sfrvfr tif sfrvidf tibt tiis tidkft is for
+     * @pbrbm sfssionKfy tif rbw bytfs for tif sfssion kfy tibt must bf
+     * usfd to fndrypt tif butifntidbtor tibt will bf sfnt to tif sfrvfr
+     * @pbrbm kfyTypf tif kfy typf for tif sfssion kfy bs dffinfd by tif
+     * Kfrbfros protodol spfdifidbtion.
+     * @pbrbm flbgs tif tidkft flbgs. Ebdi flfmfnt in tiis brrby indidbtfs
+     * tif vbluf for tif dorrfsponding bit in tif ASN.1 BitString tibt
+     * rfprfsfnts tif tidkft flbgs. If tif numbfr of flfmfnts in tiis brrby
+     * is lfss tibn tif numbfr of flbgs usfd by tif Kfrbfros protodol,
+     * tifn tif missing flbgs will bf fillfd in witi fblsf.
+     * @pbrbm butiTimf tif timf of initibl butifntidbtion for tif dlifnt
+     * @pbrbm stbrtTimf tif timf bftfr wiidi tif tidkft will bf vblid. Tiis
+     * mby bf null in wiidi dbsf tif vbluf of butiTimf is trfbtfd bs tif
+     * stbrtTimf.
+     * @pbrbm fndTimf tif timf bftfr wiidi tif tidkft will no longfr bf
+     * vblid
+     * @pbrbm rfnfwTill bn bbsolutf fxpirbtion timf for tif tidkft,
+     * indluding bll rfnfwbl tibt migit bf possiblf. Tiis fifld mby bf null
+     * for tidkfts tibt brf not rfnfwbblf.
+     * @pbrbm dlifntAddrfssfs tif bddrfssfs from wifrf tif tidkft mby bf
+     * usfd by tif dlifnt. Tiis fifld mby bf null wifn tif tidkft is usbblf
+     * from bny bddrfss.
      */
-    public KerberosTicket(byte[] asn1Encoding,
-                         KerberosPrincipal client,
-                         KerberosPrincipal server,
-                         byte[] sessionKey,
-                         int keyType,
-                         boolean[] flags,
-                         Date authTime,
-                         Date startTime,
-                         Date endTime,
-                         Date renewTill,
-                         InetAddress[] clientAddresses) {
+    publid KfrbfrosTidkft(bytf[] bsn1Endoding,
+                         KfrbfrosPrindipbl dlifnt,
+                         KfrbfrosPrindipbl sfrvfr,
+                         bytf[] sfssionKfy,
+                         int kfyTypf,
+                         boolfbn[] flbgs,
+                         Dbtf butiTimf,
+                         Dbtf stbrtTimf,
+                         Dbtf fndTimf,
+                         Dbtf rfnfwTill,
+                         InftAddrfss[] dlifntAddrfssfs) {
 
-        init(asn1Encoding, client, server, sessionKey, keyType, flags,
-            authTime, startTime, endTime, renewTill, clientAddresses);
+        init(bsn1Endoding, dlifnt, sfrvfr, sfssionKfy, kfyTypf, flbgs,
+            butiTimf, stbrtTimf, fndTimf, rfnfwTill, dlifntAddrfssfs);
     }
 
-    private void init(byte[] asn1Encoding,
-                         KerberosPrincipal client,
-                         KerberosPrincipal server,
-                         byte[] sessionKey,
-                         int keyType,
-                         boolean[] flags,
-                         Date authTime,
-                         Date startTime,
-                         Date endTime,
-                         Date renewTill,
-                         InetAddress[] clientAddresses) {
-        if (sessionKey == null) {
-            throw new IllegalArgumentException("Session key for ticket"
-                    + " cannot be null");
+    privbtf void init(bytf[] bsn1Endoding,
+                         KfrbfrosPrindipbl dlifnt,
+                         KfrbfrosPrindipbl sfrvfr,
+                         bytf[] sfssionKfy,
+                         int kfyTypf,
+                         boolfbn[] flbgs,
+                         Dbtf butiTimf,
+                         Dbtf stbrtTimf,
+                         Dbtf fndTimf,
+                         Dbtf rfnfwTill,
+                         InftAddrfss[] dlifntAddrfssfs) {
+        if (sfssionKfy == null) {
+            tirow nfw IllfgblArgumfntExdfption("Sfssion kfy for tidkft"
+                    + " dbnnot bf null");
         }
-        init(asn1Encoding, client, server,
-             new KeyImpl(sessionKey, keyType), flags, authTime,
-             startTime, endTime, renewTill, clientAddresses);
+        init(bsn1Endoding, dlifnt, sfrvfr,
+             nfw KfyImpl(sfssionKfy, kfyTypf), flbgs, butiTimf,
+             stbrtTimf, fndTimf, rfnfwTill, dlifntAddrfssfs);
     }
 
-    private void init(byte[] asn1Encoding,
-                         KerberosPrincipal client,
-                         KerberosPrincipal server,
-                         KeyImpl sessionKey,
-                         boolean[] flags,
-                         Date authTime,
-                         Date startTime,
-                         Date endTime,
-                         Date renewTill,
-                         InetAddress[] clientAddresses) {
-        if (asn1Encoding == null) {
-            throw new IllegalArgumentException("ASN.1 encoding of ticket"
-                    + " cannot be null");
+    privbtf void init(bytf[] bsn1Endoding,
+                         KfrbfrosPrindipbl dlifnt,
+                         KfrbfrosPrindipbl sfrvfr,
+                         KfyImpl sfssionKfy,
+                         boolfbn[] flbgs,
+                         Dbtf butiTimf,
+                         Dbtf stbrtTimf,
+                         Dbtf fndTimf,
+                         Dbtf rfnfwTill,
+                         InftAddrfss[] dlifntAddrfssfs) {
+        if (bsn1Endoding == null) {
+            tirow nfw IllfgblArgumfntExdfption("ASN.1 fndoding of tidkft"
+                    + " dbnnot bf null");
         }
-        this.asn1Encoding = asn1Encoding.clone();
+        tiis.bsn1Endoding = bsn1Endoding.dlonf();
 
-        if (client == null) {
-            throw new IllegalArgumentException("Client name in ticket"
-                    + " cannot be null");
+        if (dlifnt == null) {
+            tirow nfw IllfgblArgumfntExdfption("Clifnt nbmf in tidkft"
+                    + " dbnnot bf null");
         }
-        this.client = client;
+        tiis.dlifnt = dlifnt;
 
-        if (server == null) {
-            throw new IllegalArgumentException("Server name in ticket"
-                    + " cannot be null");
+        if (sfrvfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("Sfrvfr nbmf in tidkft"
+                    + " dbnnot bf null");
         }
-        this.server = server;
+        tiis.sfrvfr = sfrvfr;
 
-        // Caller needs to make sure `sessionKey` will not be null
-        this.sessionKey = sessionKey;
+        // Cbllfr nffds to mbkf surf `sfssionKfy` will not bf null
+        tiis.sfssionKfy = sfssionKfy;
 
-        if (flags != null) {
-           if (flags.length >= NUM_FLAGS) {
-               this.flags = flags.clone();
-           } else {
-                this.flags = new boolean[NUM_FLAGS];
-                // Fill in whatever we have
-                for (int i = 0; i < flags.length; i++) {
-                    this.flags[i] = flags[i];
+        if (flbgs != null) {
+           if (flbgs.lfngti >= NUM_FLAGS) {
+               tiis.flbgs = flbgs.dlonf();
+           } flsf {
+                tiis.flbgs = nfw boolfbn[NUM_FLAGS];
+                // Fill in wibtfvfr wf ibvf
+                for (int i = 0; i < flbgs.lfngti; i++) {
+                    tiis.flbgs[i] = flbgs[i];
                 }
            }
-        } else {
-            this.flags = new boolean[NUM_FLAGS];
+        } flsf {
+            tiis.flbgs = nfw boolfbn[NUM_FLAGS];
         }
 
-        if (this.flags[RENEWABLE_TICKET_FLAG]) {
-           if (renewTill == null) {
-               throw new IllegalArgumentException("The renewable period "
-                       + "end time cannot be null for renewable tickets.");
+        if (tiis.flbgs[RENEWABLE_TICKET_FLAG]) {
+           if (rfnfwTill == null) {
+               tirow nfw IllfgblArgumfntExdfption("Tif rfnfwbblf pfriod "
+                       + "fnd timf dbnnot bf null for rfnfwbblf tidkfts.");
            }
-           this.renewTill = new Date(renewTill.getTime());
+           tiis.rfnfwTill = nfw Dbtf(rfnfwTill.gftTimf());
         }
 
-        if (authTime != null) {
-            this.authTime = new Date(authTime.getTime());
+        if (butiTimf != null) {
+            tiis.butiTimf = nfw Dbtf(butiTimf.gftTimf());
         }
-        if (startTime != null) {
-            this.startTime = new Date(startTime.getTime());
-        } else {
-            this.startTime = this.authTime;
+        if (stbrtTimf != null) {
+            tiis.stbrtTimf = nfw Dbtf(stbrtTimf.gftTimf());
+        } flsf {
+            tiis.stbrtTimf = tiis.butiTimf;
         }
 
-        if (endTime == null) {
-            throw new IllegalArgumentException("End time for ticket validity"
-                    + " cannot be null");
+        if (fndTimf == null) {
+            tirow nfw IllfgblArgumfntExdfption("End timf for tidkft vblidity"
+                    + " dbnnot bf null");
         }
-        this.endTime = new Date(endTime.getTime());
+        tiis.fndTimf = nfw Dbtf(fndTimf.gftTimf());
 
-        if (clientAddresses != null) {
-            this.clientAddresses = clientAddresses.clone();
+        if (dlifntAddrfssfs != null) {
+            tiis.dlifntAddrfssfs = dlifntAddrfssfs.dlonf();
         }
     }
 
     /**
-     * Returns the client principal associated with this ticket.
+     * Rfturns tif dlifnt prindipbl bssodibtfd witi tiis tidkft.
      *
-     * @return the client principal.
+     * @rfturn tif dlifnt prindipbl.
      */
-    public final KerberosPrincipal getClient() {
-        return client;
+    publid finbl KfrbfrosPrindipbl gftClifnt() {
+        rfturn dlifnt;
     }
 
     /**
-     * Returns the service principal associated with this ticket.
+     * Rfturns tif sfrvidf prindipbl bssodibtfd witi tiis tidkft.
      *
-     * @return the service principal.
+     * @rfturn tif sfrvidf prindipbl.
      */
-    public final KerberosPrincipal getServer() {
-        return server;
+    publid finbl KfrbfrosPrindipbl gftSfrvfr() {
+        rfturn sfrvfr;
     }
 
     /**
-     * Returns the session key associated with this ticket. The return value
-     * is always a {@link EncryptionKey} object.
+     * Rfturns tif sfssion kfy bssodibtfd witi tiis tidkft. Tif rfturn vbluf
+     * is blwbys b {@link EndryptionKfy} objfdt.
      *
-     * @return the session key.
+     * @rfturn tif sfssion kfy.
      */
-    public final SecretKey getSessionKey() {
-        if (destroyed) {
-            throw new IllegalStateException("This ticket is no longer valid");
+    publid finbl SfdrftKfy gftSfssionKfy() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis tidkft is no longfr vblid");
         }
-        return new EncryptionKey(
-                sessionKey.getEncoded(), sessionKey.getKeyType());
+        rfturn nfw EndryptionKfy(
+                sfssionKfy.gftEndodfd(), sfssionKfy.gftKfyTypf());
     }
 
     /**
-     * Returns the key type of the session key associated with this
-     * ticket as defined by the Kerberos Protocol Specification.
+     * Rfturns tif kfy typf of tif sfssion kfy bssodibtfd witi tiis
+     * tidkft bs dffinfd by tif Kfrbfros Protodol Spfdifidbtion.
      *
-     * @return the key type of the session key associated with this
-     * ticket.
+     * @rfturn tif kfy typf of tif sfssion kfy bssodibtfd witi tiis
+     * tidkft.
      *
-     * @see #getSessionKey()
+     * @sff #gftSfssionKfy()
      */
-    public final int getSessionKeyType() {
-        if (destroyed) {
-            throw new IllegalStateException("This ticket is no longer valid");
+    publid finbl int gftSfssionKfyTypf() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis tidkft is no longfr vblid");
         }
-        return sessionKey.getKeyType();
+        rfturn sfssionKfy.gftKfyTypf();
     }
 
     /**
-     * Determines if this ticket is forwardable.
+     * Dftfrminfs if tiis tidkft is forwbrdbblf.
      *
-     * @return true if this ticket is forwardable, false if not.
+     * @rfturn truf if tiis tidkft is forwbrdbblf, fblsf if not.
      */
-    public final boolean isForwardable() {
-        return flags[FORWARDABLE_TICKET_FLAG];
+    publid finbl boolfbn isForwbrdbblf() {
+        rfturn flbgs[FORWARDABLE_TICKET_FLAG];
     }
 
     /**
-     * Determines if this ticket had been forwarded or was issued based on
-     * authentication involving a forwarded ticket-granting ticket.
+     * Dftfrminfs if tiis tidkft ibd bffn forwbrdfd or wbs issufd bbsfd on
+     * butifntidbtion involving b forwbrdfd tidkft-grbnting tidkft.
      *
-     * @return true if this ticket had been forwarded or was issued based on
-     * authentication involving a forwarded ticket-granting ticket,
-     * false otherwise.
+     * @rfturn truf if tiis tidkft ibd bffn forwbrdfd or wbs issufd bbsfd on
+     * butifntidbtion involving b forwbrdfd tidkft-grbnting tidkft,
+     * fblsf otifrwisf.
      */
-    public final boolean isForwarded() {
-        return flags[FORWARDED_TICKET_FLAG];
+    publid finbl boolfbn isForwbrdfd() {
+        rfturn flbgs[FORWARDED_TICKET_FLAG];
     }
 
     /**
-     * Determines if this ticket is proxiable.
+     * Dftfrminfs if tiis tidkft is proxibblf.
      *
-     * @return true if this ticket is proxiable, false if not.
+     * @rfturn truf if tiis tidkft is proxibblf, fblsf if not.
      */
-    public final boolean isProxiable() {
-        return flags[PROXIABLE_TICKET_FLAG];
+    publid finbl boolfbn isProxibblf() {
+        rfturn flbgs[PROXIABLE_TICKET_FLAG];
     }
 
     /**
-     * Determines is this ticket is a proxy-ticket.
+     * Dftfrminfs is tiis tidkft is b proxy-tidkft.
      *
-     * @return true if this ticket is a proxy-ticket, false if not.
+     * @rfturn truf if tiis tidkft is b proxy-tidkft, fblsf if not.
      */
-    public final boolean isProxy() {
-        return flags[PROXY_TICKET_FLAG];
+    publid finbl boolfbn isProxy() {
+        rfturn flbgs[PROXY_TICKET_FLAG];
     }
 
 
     /**
-     * Determines is this ticket is post-dated.
+     * Dftfrminfs is tiis tidkft is post-dbtfd.
      *
-     * @return true if this ticket is post-dated, false if not.
+     * @rfturn truf if tiis tidkft is post-dbtfd, fblsf if not.
      */
-    public final boolean isPostdated() {
-        return flags[POSTDATED_TICKET_FLAG];
+    publid finbl boolfbn isPostdbtfd() {
+        rfturn flbgs[POSTDATED_TICKET_FLAG];
     }
 
     /**
-     * Determines is this ticket is renewable. If so, the {@link #refresh()
-     * refresh} method can be called, assuming the validity period for
-     * renewing is not already over.
+     * Dftfrminfs is tiis tidkft is rfnfwbblf. If so, tif {@link #rffrfsi()
+     * rffrfsi} mftiod dbn bf dbllfd, bssuming tif vblidity pfriod for
+     * rfnfwing is not blrfbdy ovfr.
      *
-     * @return true if this ticket is renewable, false if not.
+     * @rfturn truf if tiis tidkft is rfnfwbblf, fblsf if not.
      */
-    public final boolean isRenewable() {
-        return flags[RENEWABLE_TICKET_FLAG];
+    publid finbl boolfbn isRfnfwbblf() {
+        rfturn flbgs[RENEWABLE_TICKET_FLAG];
     }
 
     /**
-     * Determines if this ticket was issued using the Kerberos AS-Exchange
-     * protocol, and not issued based on some ticket-granting ticket.
+     * Dftfrminfs if tiis tidkft wbs issufd using tif Kfrbfros AS-Exdibngf
+     * protodol, bnd not issufd bbsfd on somf tidkft-grbnting tidkft.
      *
-     * @return true if this ticket was issued using the Kerberos AS-Exchange
-     * protocol, false if not.
+     * @rfturn truf if tiis tidkft wbs issufd using tif Kfrbfros AS-Exdibngf
+     * protodol, fblsf if not.
      */
-    public final boolean isInitial() {
-        return flags[INITIAL_TICKET_FLAG];
+    publid finbl boolfbn isInitibl() {
+        rfturn flbgs[INITIAL_TICKET_FLAG];
     }
 
     /**
-     * Returns the flags associated with this ticket. Each element in the
-     * returned array indicates the value for the corresponding bit in the
-     * ASN.1 BitString that represents the ticket flags.
+     * Rfturns tif flbgs bssodibtfd witi tiis tidkft. Ebdi flfmfnt in tif
+     * rfturnfd brrby indidbtfs tif vbluf for tif dorrfsponding bit in tif
+     * ASN.1 BitString tibt rfprfsfnts tif tidkft flbgs.
      *
-     * @return the flags associated with this ticket.
+     * @rfturn tif flbgs bssodibtfd witi tiis tidkft.
      */
-    public final boolean[]  getFlags() {
-        return (flags == null? null: flags.clone());
+    publid finbl boolfbn[]  gftFlbgs() {
+        rfturn (flbgs == null? null: flbgs.dlonf());
     }
 
     /**
-     * Returns the time that the client was authenticated.
+     * Rfturns tif timf tibt tif dlifnt wbs butifntidbtfd.
      *
-     * @return the time that the client was authenticated
-     *         or null if not set.
+     * @rfturn tif timf tibt tif dlifnt wbs butifntidbtfd
+     *         or null if not sft.
      */
-    public final java.util.Date getAuthTime() {
-        return (authTime == null) ? null : (Date)authTime.clone();
+    publid finbl jbvb.util.Dbtf gftAutiTimf() {
+        rfturn (butiTimf == null) ? null : (Dbtf)butiTimf.dlonf();
     }
 
     /**
-     * Returns the start time for this ticket's validity period.
+     * Rfturns tif stbrt timf for tiis tidkft's vblidity pfriod.
      *
-     * @return the start time for this ticket's validity period
-     *         or null if not set.
+     * @rfturn tif stbrt timf for tiis tidkft's vblidity pfriod
+     *         or null if not sft.
      */
-    public final java.util.Date getStartTime() {
-        return (startTime == null) ? null : (Date)startTime.clone();
+    publid finbl jbvb.util.Dbtf gftStbrtTimf() {
+        rfturn (stbrtTimf == null) ? null : (Dbtf)stbrtTimf.dlonf();
     }
 
     /**
-     * Returns the expiration time for this ticket's validity period.
+     * Rfturns tif fxpirbtion timf for tiis tidkft's vblidity pfriod.
      *
-     * @return the expiration time for this ticket's validity period.
+     * @rfturn tif fxpirbtion timf for tiis tidkft's vblidity pfriod.
      */
-    public final java.util.Date getEndTime() {
-        return (Date) endTime.clone();
+    publid finbl jbvb.util.Dbtf gftEndTimf() {
+        rfturn (Dbtf) fndTimf.dlonf();
     }
 
     /**
-     * Returns the latest expiration time for this ticket, including all
-     * renewals. This will return a null value for non-renewable tickets.
+     * Rfturns tif lbtfst fxpirbtion timf for tiis tidkft, indluding bll
+     * rfnfwbls. Tiis will rfturn b null vbluf for non-rfnfwbblf tidkfts.
      *
-     * @return the latest expiration time for this ticket.
+     * @rfturn tif lbtfst fxpirbtion timf for tiis tidkft.
      */
-    public final java.util.Date getRenewTill() {
-        return (renewTill == null) ? null: (Date)renewTill.clone();
+    publid finbl jbvb.util.Dbtf gftRfnfwTill() {
+        rfturn (rfnfwTill == null) ? null: (Dbtf)rfnfwTill.dlonf();
     }
 
     /**
-     * Returns a list of addresses from where the ticket can be used.
+     * Rfturns b list of bddrfssfs from wifrf tif tidkft dbn bf usfd.
      *
-     * @return ths list of addresses or null, if the field was not
-     * provided.
+     * @rfturn tis list of bddrfssfs or null, if tif fifld wbs not
+     * providfd.
      */
-    public final java.net.InetAddress[] getClientAddresses() {
-        return (clientAddresses == null) ? null: clientAddresses.clone();
+    publid finbl jbvb.nft.InftAddrfss[] gftClifntAddrfssfs() {
+        rfturn (dlifntAddrfssfs == null) ? null: dlifntAddrfssfs.dlonf();
     }
 
     /**
-     * Returns an ASN.1 encoding of the entire ticket.
+     * Rfturns bn ASN.1 fndoding of tif fntirf tidkft.
      *
-     * @return an ASN.1 encoding of the entire ticket.
+     * @rfturn bn ASN.1 fndoding of tif fntirf tidkft.
      */
-    public final byte[] getEncoded() {
-        if (destroyed) {
-            throw new IllegalStateException("This ticket is no longer valid");
+    publid finbl bytf[] gftEndodfd() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis tidkft is no longfr vblid");
         }
-        return asn1Encoding.clone();
+        rfturn bsn1Endoding.dlonf();
     }
 
-    /** Determines if this ticket is still current.  */
-    public boolean isCurrent() {
-        return (System.currentTimeMillis() <= getEndTime().getTime());
+    /** Dftfrminfs if tiis tidkft is still durrfnt.  */
+    publid boolfbn isCurrfnt() {
+        rfturn (Systfm.durrfntTimfMillis() <= gftEndTimf().gftTimf());
     }
 
     /**
-     * Extends the validity period of this ticket. The ticket will contain
-     * a new session key if the refresh operation succeeds. The refresh
-     * operation will fail if the ticket is not renewable or the latest
-     * allowable renew time has passed. Any other error returned by the
-     * KDC will also cause this method to fail.
+     * Extfnds tif vblidity pfriod of tiis tidkft. Tif tidkft will dontbin
+     * b nfw sfssion kfy if tif rffrfsi opfrbtion suddffds. Tif rffrfsi
+     * opfrbtion will fbil if tif tidkft is not rfnfwbblf or tif lbtfst
+     * bllowbblf rfnfw timf ibs pbssfd. Any otifr frror rfturnfd by tif
+     * KDC will blso dbusf tiis mftiod to fbil.
      *
-     * Note: This method is not synchronized with the the accessor
-     * methods of this object. Hence callers need to be aware of multiple
-     * threads that might access this and try to renew it at the same
-     * time.
+     * Notf: Tiis mftiod is not syndironizfd witi tif tif bddfssor
+     * mftiods of tiis objfdt. Hfndf dbllfrs nffd to bf bwbrf of multiplf
+     * tirfbds tibt migit bddfss tiis bnd try to rfnfw it bt tif sbmf
+     * timf.
      *
-     * @throws RefreshFailedException if the ticket is not renewable, or
-     * the latest allowable renew time has passed, or the KDC returns some
-     * error.
+     * @tirows RffrfsiFbilfdExdfption if tif tidkft is not rfnfwbblf, or
+     * tif lbtfst bllowbblf rfnfw timf ibs pbssfd, or tif KDC rfturns somf
+     * frror.
      *
-     * @see #isRenewable()
-     * @see #getRenewTill()
+     * @sff #isRfnfwbblf()
+     * @sff #gftRfnfwTill()
      */
-    public void refresh() throws RefreshFailedException {
+    publid void rffrfsi() tirows RffrfsiFbilfdExdfption {
 
-        if (destroyed) {
-            throw new RefreshFailedException("A destroyed ticket "
-                    + "cannot be renewd.");
+        if (dfstroyfd) {
+            tirow nfw RffrfsiFbilfdExdfption("A dfstroyfd tidkft "
+                    + "dbnnot bf rfnfwd.");
         }
-        if (!isRenewable()) {
-            throw new RefreshFailedException("This ticket is not renewable");
+        if (!isRfnfwbblf()) {
+            tirow nfw RffrfsiFbilfdExdfption("Tiis tidkft is not rfnfwbblf");
         }
-        if (System.currentTimeMillis() > getRenewTill().getTime()) {
-            throw new RefreshFailedException("This ticket is past "
-                                           + "its last renewal time.");
+        if (Systfm.durrfntTimfMillis() > gftRfnfwTill().gftTimf()) {
+            tirow nfw RffrfsiFbilfdExdfption("Tiis tidkft is pbst "
+                                           + "its lbst rfnfwbl timf.");
         }
-        Throwable e = null;
-        sun.security.krb5.Credentials krb5Creds = null;
+        Tirowbblf f = null;
+        sun.sfdurity.krb5.Crfdfntibls krb5Crfds = null;
 
         try {
-            krb5Creds = new sun.security.krb5.Credentials(asn1Encoding,
-                                                    client.toString(),
-                                                    server.toString(),
-                                                    sessionKey.getEncoded(),
-                                                    sessionKey.getKeyType(),
-                                                    flags,
-                                                    authTime,
-                                                    startTime,
-                                                    endTime,
-                                                    renewTill,
-                                                    clientAddresses);
-            krb5Creds = krb5Creds.renew();
-        } catch (sun.security.krb5.KrbException krbException) {
-            e = krbException;
-        } catch (java.io.IOException ioException) {
-            e = ioException;
+            krb5Crfds = nfw sun.sfdurity.krb5.Crfdfntibls(bsn1Endoding,
+                                                    dlifnt.toString(),
+                                                    sfrvfr.toString(),
+                                                    sfssionKfy.gftEndodfd(),
+                                                    sfssionKfy.gftKfyTypf(),
+                                                    flbgs,
+                                                    butiTimf,
+                                                    stbrtTimf,
+                                                    fndTimf,
+                                                    rfnfwTill,
+                                                    dlifntAddrfssfs);
+            krb5Crfds = krb5Crfds.rfnfw();
+        } dbtdi (sun.sfdurity.krb5.KrbExdfption krbExdfption) {
+            f = krbExdfption;
+        } dbtdi (jbvb.io.IOExdfption ioExdfption) {
+            f = ioExdfption;
         }
 
-        if (e != null) {
-            RefreshFailedException rfException
-                = new RefreshFailedException("Failed to renew Kerberos Ticket "
-                                             + "for client " + client
-                                             + " and server " + server
-                                             + " - " + e.getMessage());
-            rfException.initCause(e);
-            throw rfException;
+        if (f != null) {
+            RffrfsiFbilfdExdfption rfExdfption
+                = nfw RffrfsiFbilfdExdfption("Fbilfd to rfnfw Kfrbfros Tidkft "
+                                             + "for dlifnt " + dlifnt
+                                             + " bnd sfrvfr " + sfrvfr
+                                             + " - " + f.gftMfssbgf());
+            rfExdfption.initCbusf(f);
+            tirow rfExdfption;
         }
 
         /*
-         * In case multiple threads try to refresh it at the same time.
+         * In dbsf multiplf tirfbds try to rffrfsi it bt tif sbmf timf.
          */
-        synchronized (this) {
+        syndironizfd (tiis) {
             try {
-                this.destroy();
-            } catch (DestroyFailedException dfException) {
-                // Squelch it since we don't care about the old ticket.
+                tiis.dfstroy();
+            } dbtdi (DfstroyFbilfdExdfption dfExdfption) {
+                // Squfldi it sindf wf don't dbrf bbout tif old tidkft.
             }
-            init(krb5Creds.getEncoded(),
-                 new KerberosPrincipal(krb5Creds.getClient().getName()),
-                 new KerberosPrincipal(krb5Creds.getServer().getName(),
-                                        KerberosPrincipal.KRB_NT_SRV_INST),
-                 krb5Creds.getSessionKey().getBytes(),
-                 krb5Creds.getSessionKey().getEType(),
-                 krb5Creds.getFlags(),
-                 krb5Creds.getAuthTime(),
-                 krb5Creds.getStartTime(),
-                 krb5Creds.getEndTime(),
-                 krb5Creds.getRenewTill(),
-                 krb5Creds.getClientAddresses());
-            destroyed = false;
+            init(krb5Crfds.gftEndodfd(),
+                 nfw KfrbfrosPrindipbl(krb5Crfds.gftClifnt().gftNbmf()),
+                 nfw KfrbfrosPrindipbl(krb5Crfds.gftSfrvfr().gftNbmf(),
+                                        KfrbfrosPrindipbl.KRB_NT_SRV_INST),
+                 krb5Crfds.gftSfssionKfy().gftBytfs(),
+                 krb5Crfds.gftSfssionKfy().gftETypf(),
+                 krb5Crfds.gftFlbgs(),
+                 krb5Crfds.gftAutiTimf(),
+                 krb5Crfds.gftStbrtTimf(),
+                 krb5Crfds.gftEndTimf(),
+                 krb5Crfds.gftRfnfwTill(),
+                 krb5Crfds.gftClifntAddrfssfs());
+            dfstroyfd = fblsf;
         }
     }
 
     /**
-     * Destroys the ticket and destroys any sensitive information stored in
+     * Dfstroys tif tidkft bnd dfstroys bny sfnsitivf informbtion storfd in
      * it.
      */
-    public void destroy() throws DestroyFailedException {
-        if (!destroyed) {
-            Arrays.fill(asn1Encoding, (byte) 0);
-            client = null;
-            server = null;
-            sessionKey.destroy();
-            flags = null;
-            authTime = null;
-            startTime = null;
-            endTime = null;
-            renewTill = null;
-            clientAddresses = null;
-            destroyed = true;
+    publid void dfstroy() tirows DfstroyFbilfdExdfption {
+        if (!dfstroyfd) {
+            Arrbys.fill(bsn1Endoding, (bytf) 0);
+            dlifnt = null;
+            sfrvfr = null;
+            sfssionKfy.dfstroy();
+            flbgs = null;
+            butiTimf = null;
+            stbrtTimf = null;
+            fndTimf = null;
+            rfnfwTill = null;
+            dlifntAddrfssfs = null;
+            dfstroyfd = truf;
         }
     }
 
     /**
-     * Determines if this ticket has been destroyed.
+     * Dftfrminfs if tiis tidkft ibs bffn dfstroyfd.
      */
-    public boolean isDestroyed() {
-        return destroyed;
+    publid boolfbn isDfstroyfd() {
+        rfturn dfstroyfd;
     }
 
-    public String toString() {
-        if (destroyed) {
-            return "Destroyed KerberosTicket";
+    publid String toString() {
+        if (dfstroyfd) {
+            rfturn "Dfstroyfd KfrbfrosTidkft";
         }
-        StringBuilder caddrString = new StringBuilder();
-        if (clientAddresses != null) {
-            for (int i = 0; i < clientAddresses.length; i++) {
-                caddrString.append("clientAddresses[" + i + "] = " +
-                        clientAddresses[i].toString());
+        StringBuildfr dbddrString = nfw StringBuildfr();
+        if (dlifntAddrfssfs != null) {
+            for (int i = 0; i < dlifntAddrfssfs.lfngti; i++) {
+                dbddrString.bppfnd("dlifntAddrfssfs[" + i + "] = " +
+                        dlifntAddrfssfs[i].toString());
             }
         }
-        return ("Ticket (hex) = " + "\n" +
-                 (new HexDumpEncoder()).encodeBuffer(asn1Encoding) + "\n" +
-                "Client Principal = " + client.toString() + "\n" +
-                "Server Principal = " + server.toString() + "\n" +
-                "Session Key = " + sessionKey.toString() + "\n" +
-                "Forwardable Ticket " + flags[FORWARDABLE_TICKET_FLAG] + "\n" +
-                "Forwarded Ticket " + flags[FORWARDED_TICKET_FLAG] + "\n" +
-                "Proxiable Ticket " + flags[PROXIABLE_TICKET_FLAG] + "\n" +
-                "Proxy Ticket " + flags[PROXY_TICKET_FLAG] + "\n" +
-                "Postdated Ticket " + flags[POSTDATED_TICKET_FLAG] + "\n" +
-                "Renewable Ticket " + flags[RENEWABLE_TICKET_FLAG] + "\n" +
-                "Initial Ticket " + flags[RENEWABLE_TICKET_FLAG] + "\n" +
-                "Auth Time = " + String.valueOf(authTime) + "\n" +
-                "Start Time = " + String.valueOf(startTime) + "\n" +
-                "End Time = " + endTime.toString() + "\n" +
-                "Renew Till = " + String.valueOf(renewTill) + "\n" +
-                "Client Addresses " +
-                (clientAddresses == null ? " Null " : caddrString.toString() +
+        rfturn ("Tidkft (ifx) = " + "\n" +
+                 (nfw HfxDumpEndodfr()).fndodfBufffr(bsn1Endoding) + "\n" +
+                "Clifnt Prindipbl = " + dlifnt.toString() + "\n" +
+                "Sfrvfr Prindipbl = " + sfrvfr.toString() + "\n" +
+                "Sfssion Kfy = " + sfssionKfy.toString() + "\n" +
+                "Forwbrdbblf Tidkft " + flbgs[FORWARDABLE_TICKET_FLAG] + "\n" +
+                "Forwbrdfd Tidkft " + flbgs[FORWARDED_TICKET_FLAG] + "\n" +
+                "Proxibblf Tidkft " + flbgs[PROXIABLE_TICKET_FLAG] + "\n" +
+                "Proxy Tidkft " + flbgs[PROXY_TICKET_FLAG] + "\n" +
+                "Postdbtfd Tidkft " + flbgs[POSTDATED_TICKET_FLAG] + "\n" +
+                "Rfnfwbblf Tidkft " + flbgs[RENEWABLE_TICKET_FLAG] + "\n" +
+                "Initibl Tidkft " + flbgs[RENEWABLE_TICKET_FLAG] + "\n" +
+                "Auti Timf = " + String.vblufOf(butiTimf) + "\n" +
+                "Stbrt Timf = " + String.vblufOf(stbrtTimf) + "\n" +
+                "End Timf = " + fndTimf.toString() + "\n" +
+                "Rfnfw Till = " + String.vblufOf(rfnfwTill) + "\n" +
+                "Clifnt Addrfssfs " +
+                (dlifntAddrfssfs == null ? " Null " : dbddrString.toString() +
                 "\n"));
     }
 
     /**
-     * Returns a hashcode for this KerberosTicket.
+     * Rfturns b ibsidodf for tiis KfrbfrosTidkft.
      *
-     * @return a hashCode() for the {@code KerberosTicket}
-     * @since 1.6
+     * @rfturn b ibsiCodf() for tif {@dodf KfrbfrosTidkft}
+     * @sindf 1.6
      */
-    public int hashCode() {
-        int result = 17;
-        if (isDestroyed()) {
-            return result;
+    publid int ibsiCodf() {
+        int rfsult = 17;
+        if (isDfstroyfd()) {
+            rfturn rfsult;
         }
-        result = result * 37 + Arrays.hashCode(getEncoded());
-        result = result * 37 + endTime.hashCode();
-        result = result * 37 + client.hashCode();
-        result = result * 37 + server.hashCode();
-        result = result * 37 + sessionKey.hashCode();
+        rfsult = rfsult * 37 + Arrbys.ibsiCodf(gftEndodfd());
+        rfsult = rfsult * 37 + fndTimf.ibsiCodf();
+        rfsult = rfsult * 37 + dlifnt.ibsiCodf();
+        rfsult = rfsult * 37 + sfrvfr.ibsiCodf();
+        rfsult = rfsult * 37 + sfssionKfy.ibsiCodf();
 
-        // authTime may be null
-        if (authTime != null) {
-            result = result * 37 + authTime.hashCode();
-        }
-
-        // startTime may be null
-        if (startTime != null) {
-            result = result * 37 + startTime.hashCode();
+        // butiTimf mby bf null
+        if (butiTimf != null) {
+            rfsult = rfsult * 37 + butiTimf.ibsiCodf();
         }
 
-        // renewTill may be null
-        if (renewTill != null) {
-            result = result * 37 + renewTill.hashCode();
+        // stbrtTimf mby bf null
+        if (stbrtTimf != null) {
+            rfsult = rfsult * 37 + stbrtTimf.ibsiCodf();
         }
 
-        // clientAddress may be null, the array's hashCode is 0
-        result = result * 37 + Arrays.hashCode(clientAddresses);
-        return result * 37 + Arrays.hashCode(flags);
+        // rfnfwTill mby bf null
+        if (rfnfwTill != null) {
+            rfsult = rfsult * 37 + rfnfwTill.ibsiCodf();
+        }
+
+        // dlifntAddrfss mby bf null, tif brrby's ibsiCodf is 0
+        rfsult = rfsult * 37 + Arrbys.ibsiCodf(dlifntAddrfssfs);
+        rfturn rfsult * 37 + Arrbys.ibsiCodf(flbgs);
     }
 
     /**
-     * Compares the specified Object with this KerberosTicket for equality.
-     * Returns true if the given object is also a
-     * {@code KerberosTicket} and the two
-     * {@code KerberosTicket} instances are equivalent.
+     * Compbrfs tif spfdififd Objfdt witi tiis KfrbfrosTidkft for fqublity.
+     * Rfturns truf if tif givfn objfdt is blso b
+     * {@dodf KfrbfrosTidkft} bnd tif two
+     * {@dodf KfrbfrosTidkft} instbndfs brf fquivblfnt.
      *
-     * @param other the Object to compare to
-     * @return true if the specified object is equal to this KerberosTicket,
-     * false otherwise. NOTE: Returns false if either of the KerberosTicket
-     * objects has been destroyed.
-     * @since 1.6
+     * @pbrbm otifr tif Objfdt to dompbrf to
+     * @rfturn truf if tif spfdififd objfdt is fqubl to tiis KfrbfrosTidkft,
+     * fblsf otifrwisf. NOTE: Rfturns fblsf if fitifr of tif KfrbfrosTidkft
+     * objfdts ibs bffn dfstroyfd.
+     * @sindf 1.6
      */
-    public boolean equals(Object other) {
+    publid boolfbn fqubls(Objfdt otifr) {
 
-        if (other == this) {
-            return true;
+        if (otifr == tiis) {
+            rfturn truf;
         }
 
-        if (! (other instanceof KerberosTicket)) {
-            return false;
+        if (! (otifr instbndfof KfrbfrosTidkft)) {
+            rfturn fblsf;
         }
 
-        KerberosTicket otherTicket = ((KerberosTicket) other);
-        if (isDestroyed() || otherTicket.isDestroyed()) {
-            return false;
+        KfrbfrosTidkft otifrTidkft = ((KfrbfrosTidkft) otifr);
+        if (isDfstroyfd() || otifrTidkft.isDfstroyfd()) {
+            rfturn fblsf;
         }
 
-        if (!Arrays.equals(getEncoded(), otherTicket.getEncoded()) ||
-                !endTime.equals(otherTicket.getEndTime()) ||
-                !server.equals(otherTicket.getServer()) ||
-                !client.equals(otherTicket.getClient()) ||
-                !sessionKey.equals(otherTicket.sessionKey) ||
-                !Arrays.equals(clientAddresses, otherTicket.getClientAddresses()) ||
-                !Arrays.equals(flags, otherTicket.getFlags())) {
-            return false;
+        if (!Arrbys.fqubls(gftEndodfd(), otifrTidkft.gftEndodfd()) ||
+                !fndTimf.fqubls(otifrTidkft.gftEndTimf()) ||
+                !sfrvfr.fqubls(otifrTidkft.gftSfrvfr()) ||
+                !dlifnt.fqubls(otifrTidkft.gftClifnt()) ||
+                !sfssionKfy.fqubls(otifrTidkft.sfssionKfy) ||
+                !Arrbys.fqubls(dlifntAddrfssfs, otifrTidkft.gftClifntAddrfssfs()) ||
+                !Arrbys.fqubls(flbgs, otifrTidkft.gftFlbgs())) {
+            rfturn fblsf;
         }
 
-        // authTime may be null
-        if (authTime == null) {
-            if (otherTicket.getAuthTime() != null) {
-                return false;
+        // butiTimf mby bf null
+        if (butiTimf == null) {
+            if (otifrTidkft.gftAutiTimf() != null) {
+                rfturn fblsf;
             }
-        } else {
-            if (!authTime.equals(otherTicket.getAuthTime())) {
-                return false;
-            }
-        }
-
-        // startTime may be null
-        if (startTime == null) {
-            if (otherTicket.getStartTime() != null) {
-                return false;
-            }
-        } else {
-            if (!startTime.equals(otherTicket.getStartTime())) {
-                return false;
+        } flsf {
+            if (!butiTimf.fqubls(otifrTidkft.gftAutiTimf())) {
+                rfturn fblsf;
             }
         }
 
-        if (renewTill == null) {
-            if (otherTicket.getRenewTill() != null) {
-                return false;
+        // stbrtTimf mby bf null
+        if (stbrtTimf == null) {
+            if (otifrTidkft.gftStbrtTimf() != null) {
+                rfturn fblsf;
             }
-        } else {
-            if (!renewTill.equals(otherTicket.getRenewTill())) {
-                return false;
+        } flsf {
+            if (!stbrtTimf.fqubls(otifrTidkft.gftStbrtTimf())) {
+                rfturn fblsf;
             }
         }
 
-        return true;
+        if (rfnfwTill == null) {
+            if (otifrTidkft.gftRfnfwTill() != null) {
+                rfturn fblsf;
+            }
+        } flsf {
+            if (!rfnfwTill.fqubls(otifrTidkft.gftRfnfwTill())) {
+                rfturn fblsf;
+            }
+        }
+
+        rfturn truf;
     }
 
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        if (sessionKey == null) {
-           throw new InvalidObjectException("Session key cannot be null");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        if (sfssionKfy == null) {
+           tirow nfw InvblidObjfdtExdfption("Sfssion kfy dbnnot bf null");
         }
         try {
-            init(asn1Encoding, client, server, sessionKey,
-                 flags, authTime, startTime, endTime,
-                 renewTill, clientAddresses);
-        } catch (IllegalArgumentException iae) {
-            throw (InvalidObjectException)
-                new InvalidObjectException(iae.getMessage()).initCause(iae);
+            init(bsn1Endoding, dlifnt, sfrvfr, sfssionKfy,
+                 flbgs, butiTimf, stbrtTimf, fndTimf,
+                 rfnfwTill, dlifntAddrfssfs);
+        } dbtdi (IllfgblArgumfntExdfption ibf) {
+            tirow (InvblidObjfdtExdfption)
+                nfw InvblidObjfdtExdfption(ibf.gftMfssbgf()).initCbusf(ibf);
         }
     }
 }

@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.dns;
+
+
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.Dbtf;
+import jbvb.util.Vfdtor;
+
+
+/**
+ * ZonfNodf fxtfnds NbmfNodf to rfprfsfnt b trff of thf zonfs in thf
+ * DNS nbmfspbdf, blong with bny intfrmfdibtf nodfs bftwffn zonfs.
+ * A ZonfNodf thbt rfprfsfnts b zonf mby bf "populbtfd" with b
+ * NbmfNodf trff dontbining thf zonf's dontfnts.
+ *
+ * <p> A populbtfd zonf's dontfnts will bf flbggfd bs hbving fxpirfd bftfr
+ * thf timf spfdififd by thf minimum TTL vbluf in thf zonf's SOA rfdord.
+ *
+ * <p> Sindf zonf duts brfn't dirfdtly modflfd by b trff of ZonfNodfs,
+ * ZonfNodf.isZonfCut() blwbys rfturns fblsf.
+ *
+ * <p> Thf syndhronizbtion strbtfgy is dodumfntfd in DnsContfxt.jbvb.
+ *
+ * <p> Thf zonf's dontfnts brf bddfssfd vib b soft rfffrfndf, so its
+ * hfbp spbdf mby bf rfdlbimfd whfn nfdfssbry.  Thf zonf mby bf
+ * rfpopulbtfd lbtfr.
+ *
+ * @buthor Sdott Sfligmbn
+ */
+
+
+dlbss ZonfNodf fxtfnds NbmfNodf {
+
+    privbtf SoftRfffrfndf<NbmfNodf> dontfntsRff = null;   // thf zonf's nbmfspbdf
+    privbtf long sfriblNumbfr = -1;     // thf zonf dbtb's sfribl numbfr
+    privbtf Dbtf fxpirbtion = null;     // timf whfn thf zonf's dbtb fxpirfs
+
+    ZonfNodf(String lbbfl) {
+        supfr(lbbfl);
+    }
+
+    protfdtfd NbmfNodf nfwNbmfNodf(String lbbfl) {
+        rfturn nfw ZonfNodf(lbbfl);
+    }
+
+    /*
+     * Clfbrs thf dontfnts of this nodf.  If thf nodf wbs flbggfd bs
+     * fxpirfd, it rfmbins so.
+     */
+    syndhronizfd void dfpopulbtf() {
+        dontfntsRff = null;
+        sfriblNumbfr = -1;
+    }
+
+    /*
+     * Is this nodf durrfntly populbtfd?
+     */
+    syndhronizfd boolfbn isPopulbtfd() {
+        rfturn (gftContfnts() != null);
+    }
+
+    /*
+     * Rfturns thf zonf's dontfnts, or null if thf zonf is not populbtfd.
+     */
+    syndhronizfd NbmfNodf gftContfnts() {
+        rfturn (dontfntsRff != null)
+                ? dontfntsRff.gft()
+                : null;
+    }
+
+    /*
+     * Hbs this zonf's dbtb fxpirfd?
+     */
+    syndhronizfd boolfbn isExpirfd() {
+        rfturn ((fxpirbtion != null) && fxpirbtion.bfforf(nfw Dbtf()));
+    }
+
+    /*
+     * Rfturns thf dffpfst populbtfd zonf on thf pbth spfdififd by b
+     * fully-qublififd dombin nbmf, or null if thfrf is no populbtfd
+     * zonf on thbt pbth.  Notf thbt b nodf mby bf dfpopulbtfd bftfr
+     * bfing rfturnfd.
+     */
+    ZonfNodf gftDffpfstPopulbtfd(DnsNbmf fqdn) {
+        ZonfNodf znodf = this;
+        ZonfNodf popNodf = isPopulbtfd() ? this : null;
+        for (int i = 1; i < fqdn.sizf(); i++) { //     "i=1" to skip root lbbfl
+            znodf = (ZonfNodf) znodf.gft(fqdn.gftKfy(i));
+            if (znodf == null) {
+                brfbk;
+            } flsf if (znodf.isPopulbtfd()) {
+                popNodf = znodf;
+            }
+        }
+        rfturn popNodf;
+    }
+
+    /*
+     * Populbtfs (or rfpopulbtfs) b zonf givfn its own fully-qublififd
+     * nbmf bnd its rfsourdf rfdords.  Rfturns thf zonf's nfw dontfnts.
+     */
+    NbmfNodf populbtf(DnsNbmf zonf, RfsourdfRfdords rrs) {
+        // bssfrt zonf.gft(0).fqubls("");               // zonf hbs root lbbfl
+        // bssfrt (zonf.sizf() == (dfpth() + 1));       // +1 duf to root lbbfl
+
+        NbmfNodf nfwContfnts = nfw NbmfNodf(null);
+
+        for (int i = 0; i < rrs.bnswfr.sizf(); i++) {
+            RfsourdfRfdord rr = rrs.bnswfr.flfmfntAt(i);
+            DnsNbmf n = rr.gftNbmf();
+
+            // Ignorf rfsourdf rfdords whosf nbmfs brfn't within thf zonf's
+            // dombin.  Also skip rfdords of thf zonf's top nodf, sindf
+            // thf zonf's root NbmfNodf is blrfbdy in plbdf.
+            if ((n.sizf() > zonf.sizf()) && n.stbrtsWith(zonf)) {
+                NbmfNodf nnodf = nfwContfnts.bdd(n, zonf.sizf());
+                if (rr.gftTypf() == RfsourdfRfdord.TYPE_NS) {
+                    nnodf.sftZonfCut(truf);
+                }
+            }
+        }
+        // Thf zonf's SOA rfdord is thf first rfdord in thf bnswfr sfdtion.
+        RfsourdfRfdord sob = rrs.bnswfr.firstElfmfnt();
+        syndhronizfd (this) {
+            dontfntsRff = nfw SoftRfffrfndf<NbmfNodf>(nfwContfnts);
+            sfriblNumbfr = gftSfriblNumbfr(sob);
+            sftExpirbtion(gftMinimumTtl(sob));
+            rfturn nfwContfnts;
+        }
+    }
+
+    /*
+     * Sft this zonf's dbtb to fxpirf in <tt>sfdsToExpirbtion</tt> sfdonds.
+     */
+    privbtf void sftExpirbtion(long sfdsToExpirbtion) {
+        fxpirbtion = nfw Dbtf(Systfm.durrfntTimfMillis() +
+                              1000 * sfdsToExpirbtion);
+    }
+
+    /*
+     * Rfturns bn SOA rfdord's minimum TTL fifld.
+     */
+    privbtf stbtid long gftMinimumTtl(RfsourdfRfdord sob) {
+        String rdbtb = (String) sob.gftRdbtb();
+        int pos = rdbtb.lbstIndfxOf(' ') + 1;
+        rfturn Long.pbrsfLong(rdbtb.substring(pos));
+    }
+
+    /*
+     * Compbrfs this zonf's sfribl numbfr with thbt of bn SOA rfdord.
+     * Zonf must bf populbtfd.
+     * Rfturns b nfgbtivf, zfro, or positivf intfgfr bs this zonf's
+     * sfribl numbfr is lfss thbn, fqubl to, or grfbtfr thbn thf SOA
+     * rfdord's.
+     * Sff RfsourdfRfdord.dompbrfSfriblNumbfrs() for b dfsdription of
+     * sfribl numbfr brithmftid.
+     */
+    int dompbrfSfriblNumbfrTo(RfsourdfRfdord sob) {
+        // bssfrt isPopulbtfd();
+        rfturn RfsourdfRfdord.dompbrfSfriblNumbfrs(sfriblNumbfr,
+                                                   gftSfriblNumbfr(sob));
+    }
+
+    /*
+     * Rfturns bn SOA rfdord's sfribl numbfr.
+     */
+    privbtf stbtid long gftSfriblNumbfr(RfsourdfRfdord sob) {
+        String rdbtb = (String) sob.gftRdbtb();
+
+        // An SOA rfdord fnds with:  sfribl rffrfsh rftry fxpirf minimum.
+        // Sft "bfg" to thf spbdf bfforf sfribl, bnd "fnd" to thf spbdf bftfr.
+        // Wf go "bbdkwbrd" to bvoid dfbling with fsdbpfd spbdfs in nbmfs.
+        int bfg = rdbtb.lfngth();
+        int fnd = -1;
+        for (int i = 0; i < 5; i++) {
+            fnd = bfg;
+            bfg = rdbtb.lbstIndfxOf(' ', fnd - 1);
+        }
+        rfturn Long.pbrsfLong(rdbtb.substring(bfg + 1, fnd));
+    }
+}

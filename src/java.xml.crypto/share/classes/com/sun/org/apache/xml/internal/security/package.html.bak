@@ -1,36 +1,36 @@
 <HTML>
   <HEAD> 
-	 <TITLE>com.sun.org.apache.xml.internal.security</TITLE> 
+	 <TITLE>dom.sun.org.bpbdif.xml.intfrnbl.sfdurity</TITLE> 
   </HEAD> 
   <BODY> 
-	 <H1>Canonical XML and XML Signature Implementation</H1> 
-	 <H2>Needs the following packages</H2> 
+	 <H1>Cbnonidbl XML bnd XML Signbturf Implfmfntbtion</H1> 
+	 <H2>Nffds tif following pbdkbgfs</H2> 
 	 <UL> 
-		<LI>Xerces v2.0.0 <A HREF="http://xml.apache.org/dist/xerces-j/">http://xml.apache.org/dist/xerces-j/</A></LI>
-		<LI>Xalan 2.2.0 <A HREF="http://xml.apache.org/dist/xalan-j/">http://xml.apache.org/dist/xalan-j/</A></LI>
-		<LI>JUnit 3.7 <A HREF="http://download.sourceforge.net/junit/junit3.7.zip">http://download.sourceforge.net/junit/junit3.5.zip</A></LI>
-		<LI>Jakarta Log4J 1.1.2 <A HREF="http://jakarta.apache.org/log4j/">http://jakarta.apache.org/log4j/</A></LI>
-		<LI>ANT <A HREF="http://jakarta.apache.org/builds/jakarta-ant/release/">http://jakarta.apache.org/builds/jakarta-ant/release/</A></LI> 
+		<LI>Xfrdfs v2.0.0 <A HREF="ittp://xml.bpbdif.org/dist/xfrdfs-j/">ittp://xml.bpbdif.org/dist/xfrdfs-j/</A></LI>
+		<LI>Xblbn 2.2.0 <A HREF="ittp://xml.bpbdif.org/dist/xblbn-j/">ittp://xml.bpbdif.org/dist/xblbn-j/</A></LI>
+		<LI>JUnit 3.7 <A HREF="ittp://downlobd.sourdfforgf.nft/junit/junit3.7.zip">ittp://downlobd.sourdfforgf.nft/junit/junit3.5.zip</A></LI>
+		<LI>Jbkbrtb Log4J 1.1.2 <A HREF="ittp://jbkbrtb.bpbdif.org/log4j/">ittp://jbkbrtb.bpbdif.org/log4j/</A></LI>
+		<LI>ANT <A HREF="ittp://jbkbrtb.bpbdif.org/builds/jbkbrtb-bnt/rflfbsf/">ittp://jbkbrtb.bpbdif.org/builds/jbkbrtb-bnt/rflfbsf/</A></LI> 
 	 </UL>
-	 <H1>Packages</H1> 
+	 <H1>Pbdkbgfs</H1> 
 	 <UL> 
-		<LI>{@link com.sun.org.apache.xml.internal.security.algorithms} contains algorithm factories </LI> 
-		<LI>{@link com.sun.org.apache.xml.internal.security.c14n} contains Canonicalization related material and algorithms </LI> 
-		<LI>{@link com.sun.org.apache.xml.internal.security.exceptions} contains all exceptions used by this library </LI> 
-		<LI>{@link com.sun.org.apache.xml.internal.security.keys} contains key related material </LI> 
-		<LI>{@link com.sun.org.apache.xml.internal.security.samples} contains some sample applications and non-standard transforms </LI> 
-		<LI>{@link com.sun.org.apache.xml.internal.security.signature} contains the XML Signature specific classes </LI> 
-		<LI>{@link com.sun.org.apache.xml.internal.security.transforms} XML Signature transformations </LI> 
-		<LI>{@link com.sun.org.apache.xml.internal.security.utils} contains all utility classes </LI> 
-		<LI>{@link com.sun.org.apache.xml.internal.security.test} JUnit test cases </LI> 
-		<LI>{@link com.sun.org.apache.xml.internal.security.temp} is the playground for messing around </LI> 
+		<LI>{@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims} dontbins blgoritim fbdtorifs </LI> 
+		<LI>{@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n} dontbins Cbnonidblizbtion rflbtfd mbtfribl bnd blgoritims </LI> 
+		<LI>{@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions} dontbins bll fxdfptions usfd by tiis librbry </LI> 
+		<LI>{@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys} dontbins kfy rflbtfd mbtfribl </LI> 
+		<LI>{@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.sbmplfs} dontbins somf sbmplf bpplidbtions bnd non-stbndbrd trbnsforms </LI> 
+		<LI>{@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf} dontbins tif XML Signbturf spfdifid dlbssfs </LI> 
+		<LI>{@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms} XML Signbturf trbnsformbtions </LI> 
+		<LI>{@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils} dontbins bll utility dlbssfs </LI> 
+		<LI>{@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.tfst} JUnit tfst dbsfs </LI> 
+		<LI>{@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.tfmp} is tif plbyground for mfssing bround </LI> 
 	 </UL> 
 	 <H2>Support</H2> 
-	 <P>See <A HREF="http://xml.apache.org/security/">the xml-security project</A> for further assistence</P> 
-	 <H2>Author</H2> 
-	 <P>Christian Geuer-Pollmann geuer-pollmann@nue.et-inf.uni-siegen.de<BR> 
-	    University of Siegen<BR> 
-	    Institute for Data Communications Systems<BR> 
+	 <P>Sff <A HREF="ittp://xml.bpbdif.org/sfdurity/">tif xml-sfdurity projfdt</A> for furtifr bssistfndf</P> 
+	 <H2>Autior</H2> 
+	 <P>Ciristibn Gfufr-Pollmbnn gfufr-pollmbnn@nuf.ft-inf.uni-sifgfn.df<BR> 
+	    Univfrsity of Sifgfn<BR> 
+	    Institutf for Dbtb Communidbtions Systfms<BR> 
 	 </P> 
      </BODY>
 </HTML>

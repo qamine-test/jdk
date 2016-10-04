@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
 /**
- * Type safe enum for an SSL/TLS protocol version. Instances are obtained
- * using the static factory methods or by referencing the static members
- * in this class. Member variables are final and can be accessed without
- * accessor methods.
+ * Typf sbff fnum for bn SSL/TLS protodol vfrsion. Instbndfs brf obtbinfd
+ * using tif stbtid fbdtory mftiods or by rfffrfnding tif stbtid mfmbfrs
+ * in tiis dlbss. Mfmbfr vbribblfs brf finbl bnd dbn bf bddfssfd witiout
+ * bddfssor mftiods.
  *
- * There is only ever one instance per supported protocol version, this
- * means == can be used for comparision instead of equals() if desired.
+ * Tifrf is only fvfr onf instbndf pfr supportfd protodol vfrsion, tiis
+ * mfbns == dbn bf usfd for dompbrision instfbd of fqubls() if dfsirfd.
  *
- * Checks for a particular version number should generally take this form:
+ * Cifdks for b pbrtidulbr vfrsion numbfr siould gfnfrblly tbkf tiis form:
  *
- * if (protocolVersion.v >= ProtocolVersion.TLS10) {
- *   // TLS 1.0 code goes here
- * } else {
- *   // SSL 3.0 code here
+ * if (protodolVfrsion.v >= ProtodolVfrsion.TLS10) {
+ *   // TLS 1.0 dodf gofs ifrf
+ * } flsf {
+ *   // SSL 3.0 dodf ifrf
  * }
  *
- * @author  Andreas Sterbenz
- * @since   1.4.1
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.4.1
  */
-public final class ProtocolVersion implements Comparable<ProtocolVersion> {
+publid finbl dlbss ProtodolVfrsion implfmfnts Compbrbblf<ProtodolVfrsion> {
 
-    // The limit of maximum protocol version
-    final static int LIMIT_MAX_VALUE = 0xFFFF;
+    // Tif limit of mbximum protodol vfrsion
+    finbl stbtid int LIMIT_MAX_VALUE = 0xFFFF;
 
-    // The limit of minimum protocol version
-    final static int LIMIT_MIN_VALUE = 0x0000;
+    // Tif limit of minimum protodol vfrsion
+    finbl stbtid int LIMIT_MIN_VALUE = 0x0000;
 
-    // Dummy protocol version value for invalid SSLSession
-    final static ProtocolVersion NONE = new ProtocolVersion(-1, "NONE");
+    // Dummy protodol vfrsion vbluf for invblid SSLSfssion
+    finbl stbtid ProtodolVfrsion NONE = nfw ProtodolVfrsion(-1, "NONE");
 
-    // If enabled, send/ accept SSLv2 hello messages
-    final static ProtocolVersion SSL20Hello = new ProtocolVersion(0x0002,
-                                                                "SSLv2Hello");
+    // If fnbblfd, sfnd/ bddfpt SSLv2 ifllo mfssbgfs
+    finbl stbtid ProtodolVfrsion SSL20Hfllo = nfw ProtodolVfrsion(0x0002,
+                                                                "SSLv2Hfllo");
 
     // SSL 3.0
-    final static ProtocolVersion SSL30 = new ProtocolVersion(0x0300, "SSLv3");
+    finbl stbtid ProtodolVfrsion SSL30 = nfw ProtodolVfrsion(0x0300, "SSLv3");
 
     // TLS 1.0
-    final static ProtocolVersion TLS10 = new ProtocolVersion(0x0301, "TLSv1");
+    finbl stbtid ProtodolVfrsion TLS10 = nfw ProtodolVfrsion(0x0301, "TLSv1");
 
     // TLS 1.1
-    final static ProtocolVersion TLS11 = new ProtocolVersion(0x0302, "TLSv1.1");
+    finbl stbtid ProtodolVfrsion TLS11 = nfw ProtodolVfrsion(0x0302, "TLSv1.1");
 
     // TLS 1.2
-    final static ProtocolVersion TLS12 = new ProtocolVersion(0x0303, "TLSv1.2");
+    finbl stbtid ProtodolVfrsion TLS12 = nfw ProtodolVfrsion(0x0303, "TLSv1.2");
 
-    private static final boolean FIPS = SunJSSE.isFIPS();
+    privbtf stbtid finbl boolfbn FIPS = SunJSSE.isFIPS();
 
-    // minimum version we implement (SSL 3.0)
-    final static ProtocolVersion MIN = FIPS ? TLS10 : SSL30;
+    // minimum vfrsion wf implfmfnt (SSL 3.0)
+    finbl stbtid ProtodolVfrsion MIN = FIPS ? TLS10 : SSL30;
 
-    // maximum version we implement (TLS 1.2)
-    final static ProtocolVersion MAX = TLS12;
+    // mbximum vfrsion wf implfmfnt (TLS 1.2)
+    finbl stbtid ProtodolVfrsion MAX = TLS12;
 
-    // ProtocolVersion to use by default (TLS 1.2)
-    final static ProtocolVersion DEFAULT = TLS12;
+    // ProtodolVfrsion to usf by dffbult (TLS 1.2)
+    finbl stbtid ProtodolVfrsion DEFAULT = TLS12;
 
-    // Default version for hello messages (SSLv2Hello)
-    final static ProtocolVersion DEFAULT_HELLO = FIPS ? TLS10 : SSL30;
+    // Dffbult vfrsion for ifllo mfssbgfs (SSLv2Hfllo)
+    finbl stbtid ProtodolVfrsion DEFAULT_HELLO = FIPS ? TLS10 : SSL30;
 
-    // version in 16 bit MSB format as it appears in records and
-    // messages, i.e. 0x0301 for TLS 1.0
-    public final int v;
+    // vfrsion in 16 bit MSB formbt bs it bppfbrs in rfdords bnd
+    // mfssbgfs, i.f. 0x0301 for TLS 1.0
+    publid finbl int v;
 
-    // major and minor version
-    public final byte major, minor;
+    // mbjor bnd minor vfrsion
+    publid finbl bytf mbjor, minor;
 
-    // name used in JSSE (e.g. TLSv1 for TLS 1.0)
-    final String name;
+    // nbmf usfd in JSSE (f.g. TLSv1 for TLS 1.0)
+    finbl String nbmf;
 
-    // private
-    private ProtocolVersion(int v, String name) {
-        this.v = v;
-        this.name = name;
-        major = (byte)(v >>> 8);
-        minor = (byte)(v & 0xFF);
+    // privbtf
+    privbtf ProtodolVfrsion(int v, String nbmf) {
+        tiis.v = v;
+        tiis.nbmf = nbmf;
+        mbjor = (bytf)(v >>> 8);
+        minor = (bytf)(v & 0xFF);
     }
 
-    // private
-    private static ProtocolVersion valueOf(int v) {
+    // privbtf
+    privbtf stbtid ProtodolVfrsion vblufOf(int v) {
         if (v == SSL30.v) {
-            return SSL30;
-        } else if (v == TLS10.v) {
-            return TLS10;
-        } else if (v == TLS11.v) {
-            return TLS11;
-        } else if (v == TLS12.v) {
-            return TLS12;
-        } else if (v == SSL20Hello.v) {
-            return SSL20Hello;
-        } else {
-            int major = (v >>> 8) & 0xFF;
+            rfturn SSL30;
+        } flsf if (v == TLS10.v) {
+            rfturn TLS10;
+        } flsf if (v == TLS11.v) {
+            rfturn TLS11;
+        } flsf if (v == TLS12.v) {
+            rfturn TLS12;
+        } flsf if (v == SSL20Hfllo.v) {
+            rfturn SSL20Hfllo;
+        } flsf {
+            int mbjor = (v >>> 8) & 0xFF;
             int minor = v & 0xFF;
-            return new ProtocolVersion(v, "Unknown-" + major + "." + minor);
+            rfturn nfw ProtodolVfrsion(v, "Unknown-" + mbjor + "." + minor);
         }
     }
 
     /**
-     * Return a ProtocolVersion with the specified major and minor version
-     * numbers. Never throws exceptions.
+     * Rfturn b ProtodolVfrsion witi tif spfdififd mbjor bnd minor vfrsion
+     * numbfrs. Nfvfr tirows fxdfptions.
      */
-    public static ProtocolVersion valueOf(int major, int minor) {
-        return valueOf(((major & 0xFF) << 8) | (minor & 0xFF));
+    publid stbtid ProtodolVfrsion vblufOf(int mbjor, int minor) {
+        rfturn vblufOf(((mbjor & 0xFF) << 8) | (minor & 0xFF));
     }
 
     /**
-     * Return a ProtocolVersion for the given name.
+     * Rfturn b ProtodolVfrsion for tif givfn nbmf.
      *
-     * @exception IllegalArgumentException if name is null or does not
-     * identify a supported protocol
+     * @fxdfption IllfgblArgumfntExdfption if nbmf is null or dofs not
+     * idfntify b supportfd protodol
      */
-    static ProtocolVersion valueOf(String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("Protocol cannot be null");
+    stbtid ProtodolVfrsion vblufOf(String nbmf) {
+        if (nbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Protodol dbnnot bf null");
         }
 
-        if (FIPS && (name.equals(SSL30.name) || name.equals(SSL20Hello.name))) {
-            throw new IllegalArgumentException
-                ("Only TLS 1.0 or later allowed in FIPS mode");
+        if (FIPS && (nbmf.fqubls(SSL30.nbmf) || nbmf.fqubls(SSL20Hfllo.nbmf))) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("Only TLS 1.0 or lbtfr bllowfd in FIPS modf");
         }
 
-        if (name.equals(SSL30.name)) {
-            return SSL30;
-        } else if (name.equals(TLS10.name)) {
-            return TLS10;
-        } else if (name.equals(TLS11.name)) {
-            return TLS11;
-        } else if (name.equals(TLS12.name)) {
-            return TLS12;
-        } else if (name.equals(SSL20Hello.name)) {
-            return SSL20Hello;
-        } else {
-            throw new IllegalArgumentException(name);
+        if (nbmf.fqubls(SSL30.nbmf)) {
+            rfturn SSL30;
+        } flsf if (nbmf.fqubls(TLS10.nbmf)) {
+            rfturn TLS10;
+        } flsf if (nbmf.fqubls(TLS11.nbmf)) {
+            rfturn TLS11;
+        } flsf if (nbmf.fqubls(TLS12.nbmf)) {
+            rfturn TLS12;
+        } flsf if (nbmf.fqubls(SSL20Hfllo.nbmf)) {
+            rfturn SSL20Hfllo;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption(nbmf);
         }
     }
 
-    @Override
-    public String toString() {
-        return name;
+    @Ovfrridf
+    publid String toString() {
+        rfturn nbmf;
     }
 
     /**
-     * Compares this object with the specified object for order.
+     * Compbrfs tiis objfdt witi tif spfdififd objfdt for ordfr.
      */
-    @Override
-    public int compareTo(ProtocolVersion protocolVersion) {
-        return this.v - protocolVersion.v;
+    @Ovfrridf
+    publid int dompbrfTo(ProtodolVfrsion protodolVfrsion) {
+        rfturn tiis.v - protodolVfrsion.v;
     }
 }

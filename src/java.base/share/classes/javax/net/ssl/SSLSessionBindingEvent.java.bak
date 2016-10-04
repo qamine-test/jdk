@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.util.EventObject;
+import jbvb.util.EvfntObjfdt;
 
 
 /**
- * This event is propagated to a SSLSessionBindingListener.
- * When a listener object is bound or unbound to an SSLSession by
- * {@link SSLSession#putValue(String, Object)}
- * or {@link SSLSession#removeValue(String)}, objects which
- * implement the SSLSessionBindingListener will be receive an
- * event of this type.  The event's <code>name</code> field is the
- * key in which the listener is being bound or unbound.
+ * Tiis fvfnt is propbgbtfd to b SSLSfssionBindingListfnfr.
+ * Wifn b listfnfr objfdt is bound or unbound to bn SSLSfssion by
+ * {@link SSLSfssion#putVbluf(String, Objfdt)}
+ * or {@link SSLSfssion#rfmovfVbluf(String)}, objfdts wiidi
+ * implfmfnt tif SSLSfssionBindingListfnfr will bf rfdfivf bn
+ * fvfnt of tiis typf.  Tif fvfnt's <dodf>nbmf</dodf> fifld is tif
+ * kfy in wiidi tif listfnfr is bfing bound or unbound.
  *
- * @see SSLSession
- * @see SSLSessionBindingListener
+ * @sff SSLSfssion
+ * @sff SSLSfssionBindingListfnfr
  *
- * @since 1.4
- * @author Nathan Abramson
- * @author David Brownell
+ * @sindf 1.4
+ * @butior Nbtibn Abrbmson
+ * @butior Dbvid Brownfll
  */
-public
-class SSLSessionBindingEvent
-extends EventObject
+publid
+dlbss SSLSfssionBindingEvfnt
+fxtfnds EvfntObjfdt
 {
-    private static final long serialVersionUID = 3989172637106345L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3989172637106345L;
 
     /**
-     * @serial The name to which the object is being bound or unbound
+     * @sfribl Tif nbmf to wiidi tif objfdt is bfing bound or unbound
      */
-    private String name;
+    privbtf String nbmf;
 
     /**
-     * Constructs a new SSLSessionBindingEvent.
+     * Construdts b nfw SSLSfssionBindingEvfnt.
      *
-     * @param session the SSLSession acting as the source of the event
-     * @param name the name to which the object is being bound or unbound
-     * @exception  IllegalArgumentException  if <code>session</code> is null.
+     * @pbrbm sfssion tif SSLSfssion bdting bs tif sourdf of tif fvfnt
+     * @pbrbm nbmf tif nbmf to wiidi tif objfdt is bfing bound or unbound
+     * @fxdfption  IllfgblArgumfntExdfption  if <dodf>sfssion</dodf> is null.
      */
-    public SSLSessionBindingEvent(SSLSession session, String name)
+    publid SSLSfssionBindingEvfnt(SSLSfssion sfssion, String nbmf)
     {
-        super(session);
-        this.name = name;
+        supfr(sfssion);
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Returns the name to which the object is being bound, or the name
-     * from which the object is being unbound.
+     * Rfturns tif nbmf to wiidi tif objfdt is bfing bound, or tif nbmf
+     * from wiidi tif objfdt is bfing unbound.
      *
-     * @return the name to which the object is being bound or unbound
+     * @rfturn tif nbmf to wiidi tif objfdt is bfing bound or unbound
      */
-    public String getName()
+    publid String gftNbmf()
     {
-        return name;
+        rfturn nbmf;
     }
 
     /**
-     * Returns the SSLSession into which the listener is being bound or
-     * from which the listener is being unbound.
+     * Rfturns tif SSLSfssion into wiidi tif listfnfr is bfing bound or
+     * from wiidi tif listfnfr is bfing unbound.
      *
-     * @return the <code>SSLSession</code>
+     * @rfturn tif <dodf>SSLSfssion</dodf>
      */
-    public SSLSession getSession()
+    publid SSLSfssion gftSfssion()
     {
-        return (SSLSession) getSource();
+        rfturn (SSLSfssion) gftSourdf();
     }
 }

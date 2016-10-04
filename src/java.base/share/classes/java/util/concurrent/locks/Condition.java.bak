@@ -1,487 +1,487 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.locks;
-import java.util.concurrent.TimeUnit;
-import java.util.Date;
+pbdkbgf jbvb.util.dondurrfnt.lodks;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.Dbtf;
 
 /**
- * {@code Condition} factors out the {@code Object} monitor
- * methods ({@link Object#wait() wait}, {@link Object#notify notify}
- * and {@link Object#notifyAll notifyAll}) into distinct objects to
- * give the effect of having multiple wait-sets per object, by
- * combining them with the use of arbitrary {@link Lock} implementations.
- * Where a {@code Lock} replaces the use of {@code synchronized} methods
- * and statements, a {@code Condition} replaces the use of the Object
- * monitor methods.
+ * {@dodf Condition} fbdtors out tif {@dodf Objfdt} monitor
+ * mftiods ({@link Objfdt#wbit() wbit}, {@link Objfdt#notify notify}
+ * bnd {@link Objfdt#notifyAll notifyAll}) into distindt objfdts to
+ * givf tif ffffdt of ibving multiplf wbit-sfts pfr objfdt, by
+ * dombining tifm witi tif usf of brbitrbry {@link Lodk} implfmfntbtions.
+ * Wifrf b {@dodf Lodk} rfplbdfs tif usf of {@dodf syndironizfd} mftiods
+ * bnd stbtfmfnts, b {@dodf Condition} rfplbdfs tif usf of tif Objfdt
+ * monitor mftiods.
  *
- * <p>Conditions (also known as <em>condition queues</em> or
- * <em>condition variables</em>) provide a means for one thread to
- * suspend execution (to &quot;wait&quot;) until notified by another
- * thread that some state condition may now be true.  Because access
- * to this shared state information occurs in different threads, it
- * must be protected, so a lock of some form is associated with the
- * condition. The key property that waiting for a condition provides
- * is that it <em>atomically</em> releases the associated lock and
- * suspends the current thread, just like {@code Object.wait}.
+ * <p>Conditions (blso known bs <fm>dondition qufufs</fm> or
+ * <fm>dondition vbribblfs</fm>) providf b mfbns for onf tirfbd to
+ * suspfnd fxfdution (to &quot;wbit&quot;) until notififd by bnotifr
+ * tirfbd tibt somf stbtf dondition mby now bf truf.  Bfdbusf bddfss
+ * to tiis sibrfd stbtf informbtion oddurs in difffrfnt tirfbds, it
+ * must bf protfdtfd, so b lodk of somf form is bssodibtfd witi tif
+ * dondition. Tif kfy propfrty tibt wbiting for b dondition providfs
+ * is tibt it <fm>btomidblly</fm> rflfbsfs tif bssodibtfd lodk bnd
+ * suspfnds tif durrfnt tirfbd, just likf {@dodf Objfdt.wbit}.
  *
- * <p>A {@code Condition} instance is intrinsically bound to a lock.
- * To obtain a {@code Condition} instance for a particular {@link Lock}
- * instance use its {@link Lock#newCondition newCondition()} method.
+ * <p>A {@dodf Condition} instbndf is intrinsidblly bound to b lodk.
+ * To obtbin b {@dodf Condition} instbndf for b pbrtidulbr {@link Lodk}
+ * instbndf usf its {@link Lodk#nfwCondition nfwCondition()} mftiod.
  *
- * <p>As an example, suppose we have a bounded buffer which supports
- * {@code put} and {@code take} methods.  If a
- * {@code take} is attempted on an empty buffer, then the thread will block
- * until an item becomes available; if a {@code put} is attempted on a
- * full buffer, then the thread will block until a space becomes available.
- * We would like to keep waiting {@code put} threads and {@code take}
- * threads in separate wait-sets so that we can use the optimization of
- * only notifying a single thread at a time when items or spaces become
- * available in the buffer. This can be achieved using two
- * {@link Condition} instances.
- * <pre>
- * class BoundedBuffer {
- *   <b>final Lock lock = new ReentrantLock();</b>
- *   final Condition notFull  = <b>lock.newCondition(); </b>
- *   final Condition notEmpty = <b>lock.newCondition(); </b>
+ * <p>As bn fxbmplf, supposf wf ibvf b boundfd bufffr wiidi supports
+ * {@dodf put} bnd {@dodf tbkf} mftiods.  If b
+ * {@dodf tbkf} is bttfmptfd on bn fmpty bufffr, tifn tif tirfbd will blodk
+ * until bn itfm bfdomfs bvbilbblf; if b {@dodf put} is bttfmptfd on b
+ * full bufffr, tifn tif tirfbd will blodk until b spbdf bfdomfs bvbilbblf.
+ * Wf would likf to kffp wbiting {@dodf put} tirfbds bnd {@dodf tbkf}
+ * tirfbds in sfpbrbtf wbit-sfts so tibt wf dbn usf tif optimizbtion of
+ * only notifying b singlf tirfbd bt b timf wifn itfms or spbdfs bfdomf
+ * bvbilbblf in tif bufffr. Tiis dbn bf bdiifvfd using two
+ * {@link Condition} instbndfs.
+ * <prf>
+ * dlbss BoundfdBufffr {
+ *   <b>finbl Lodk lodk = nfw RffntrbntLodk();</b>
+ *   finbl Condition notFull  = <b>lodk.nfwCondition(); </b>
+ *   finbl Condition notEmpty = <b>lodk.nfwCondition(); </b>
  *
- *   final Object[] items = new Object[100];
- *   int putptr, takeptr, count;
+ *   finbl Objfdt[] itfms = nfw Objfdt[100];
+ *   int putptr, tbkfptr, dount;
  *
- *   public void put(Object x) throws InterruptedException {
- *     <b>lock.lock();
+ *   publid void put(Objfdt x) tirows IntfrruptfdExdfption {
+ *     <b>lodk.lodk();
  *     try {</b>
- *       while (count == items.length)
- *         <b>notFull.await();</b>
- *       items[putptr] = x;
- *       if (++putptr == items.length) putptr = 0;
- *       ++count;
- *       <b>notEmpty.signal();</b>
- *     <b>} finally {
- *       lock.unlock();
+ *       wiilf (dount == itfms.lfngti)
+ *         <b>notFull.bwbit();</b>
+ *       itfms[putptr] = x;
+ *       if (++putptr == itfms.lfngti) putptr = 0;
+ *       ++dount;
+ *       <b>notEmpty.signbl();</b>
+ *     <b>} finblly {
+ *       lodk.unlodk();
  *     }</b>
  *   }
  *
- *   public Object take() throws InterruptedException {
- *     <b>lock.lock();
+ *   publid Objfdt tbkf() tirows IntfrruptfdExdfption {
+ *     <b>lodk.lodk();
  *     try {</b>
- *       while (count == 0)
- *         <b>notEmpty.await();</b>
- *       Object x = items[takeptr];
- *       if (++takeptr == items.length) takeptr = 0;
- *       --count;
- *       <b>notFull.signal();</b>
- *       return x;
- *     <b>} finally {
- *       lock.unlock();
+ *       wiilf (dount == 0)
+ *         <b>notEmpty.bwbit();</b>
+ *       Objfdt x = itfms[tbkfptr];
+ *       if (++tbkfptr == itfms.lfngti) tbkfptr = 0;
+ *       --dount;
+ *       <b>notFull.signbl();</b>
+ *       rfturn x;
+ *     <b>} finblly {
+ *       lodk.unlodk();
  *     }</b>
  *   }
  * }
- * </pre>
+ * </prf>
  *
- * (The {@link java.util.concurrent.ArrayBlockingQueue} class provides
- * this functionality, so there is no reason to implement this
- * sample usage class.)
+ * (Tif {@link jbvb.util.dondurrfnt.ArrbyBlodkingQufuf} dlbss providfs
+ * tiis fundtionblity, so tifrf is no rfbson to implfmfnt tiis
+ * sbmplf usbgf dlbss.)
  *
- * <p>A {@code Condition} implementation can provide behavior and semantics
- * that is
- * different from that of the {@code Object} monitor methods, such as
- * guaranteed ordering for notifications, or not requiring a lock to be held
- * when performing notifications.
- * If an implementation provides such specialized semantics then the
- * implementation must document those semantics.
+ * <p>A {@dodf Condition} implfmfntbtion dbn providf bfibvior bnd sfmbntids
+ * tibt is
+ * difffrfnt from tibt of tif {@dodf Objfdt} monitor mftiods, sudi bs
+ * gubrbntffd ordfring for notifidbtions, or not rfquiring b lodk to bf ifld
+ * wifn pfrforming notifidbtions.
+ * If bn implfmfntbtion providfs sudi spfdiblizfd sfmbntids tifn tif
+ * implfmfntbtion must dodumfnt tiosf sfmbntids.
  *
- * <p>Note that {@code Condition} instances are just normal objects and can
- * themselves be used as the target in a {@code synchronized} statement,
- * and can have their own monitor {@link Object#wait wait} and
- * {@link Object#notify notification} methods invoked.
- * Acquiring the monitor lock of a {@code Condition} instance, or using its
- * monitor methods, has no specified relationship with acquiring the
- * {@link Lock} associated with that {@code Condition} or the use of its
- * {@linkplain #await waiting} and {@linkplain #signal signalling} methods.
- * It is recommended that to avoid confusion you never use {@code Condition}
- * instances in this way, except perhaps within their own implementation.
+ * <p>Notf tibt {@dodf Condition} instbndfs brf just normbl objfdts bnd dbn
+ * tifmsflvfs bf usfd bs tif tbrgft in b {@dodf syndironizfd} stbtfmfnt,
+ * bnd dbn ibvf tifir own monitor {@link Objfdt#wbit wbit} bnd
+ * {@link Objfdt#notify notifidbtion} mftiods invokfd.
+ * Adquiring tif monitor lodk of b {@dodf Condition} instbndf, or using its
+ * monitor mftiods, ibs no spfdififd rflbtionsiip witi bdquiring tif
+ * {@link Lodk} bssodibtfd witi tibt {@dodf Condition} or tif usf of its
+ * {@linkplbin #bwbit wbiting} bnd {@linkplbin #signbl signblling} mftiods.
+ * It is rfdommfndfd tibt to bvoid donfusion you nfvfr usf {@dodf Condition}
+ * instbndfs in tiis wby, fxdfpt pfribps witiin tifir own implfmfntbtion.
  *
- * <p>Except where noted, passing a {@code null} value for any parameter
- * will result in a {@link NullPointerException} being thrown.
+ * <p>Exdfpt wifrf notfd, pbssing b {@dodf null} vbluf for bny pbrbmftfr
+ * will rfsult in b {@link NullPointfrExdfption} bfing tirown.
  *
- * <h3>Implementation Considerations</h3>
+ * <i3>Implfmfntbtion Considfrbtions</i3>
  *
- * <p>When waiting upon a {@code Condition}, a &quot;<em>spurious
- * wakeup</em>&quot; is permitted to occur, in
- * general, as a concession to the underlying platform semantics.
- * This has little practical impact on most application programs as a
- * {@code Condition} should always be waited upon in a loop, testing
- * the state predicate that is being waited for.  An implementation is
- * free to remove the possibility of spurious wakeups but it is
- * recommended that applications programmers always assume that they can
- * occur and so always wait in a loop.
+ * <p>Wifn wbiting upon b {@dodf Condition}, b &quot;<fm>spurious
+ * wbkfup</fm>&quot; is pfrmittfd to oddur, in
+ * gfnfrbl, bs b dondfssion to tif undfrlying plbtform sfmbntids.
+ * Tiis ibs littlf prbdtidbl impbdt on most bpplidbtion progrbms bs b
+ * {@dodf Condition} siould blwbys bf wbitfd upon in b loop, tfsting
+ * tif stbtf prfdidbtf tibt is bfing wbitfd for.  An implfmfntbtion is
+ * frff to rfmovf tif possibility of spurious wbkfups but it is
+ * rfdommfndfd tibt bpplidbtions progrbmmfrs blwbys bssumf tibt tify dbn
+ * oddur bnd so blwbys wbit in b loop.
  *
- * <p>The three forms of condition waiting
- * (interruptible, non-interruptible, and timed) may differ in their ease of
- * implementation on some platforms and in their performance characteristics.
- * In particular, it may be difficult to provide these features and maintain
- * specific semantics such as ordering guarantees.
- * Further, the ability to interrupt the actual suspension of the thread may
- * not always be feasible to implement on all platforms.
+ * <p>Tif tirff forms of dondition wbiting
+ * (intfrruptiblf, non-intfrruptiblf, bnd timfd) mby difffr in tifir fbsf of
+ * implfmfntbtion on somf plbtforms bnd in tifir pfrformbndf dibrbdtfristids.
+ * In pbrtidulbr, it mby bf diffidult to providf tifsf ffbturfs bnd mbintbin
+ * spfdifid sfmbntids sudi bs ordfring gubrbntffs.
+ * Furtifr, tif bbility to intfrrupt tif bdtubl suspfnsion of tif tirfbd mby
+ * not blwbys bf ffbsiblf to implfmfnt on bll plbtforms.
  *
- * <p>Consequently, an implementation is not required to define exactly the
- * same guarantees or semantics for all three forms of waiting, nor is it
- * required to support interruption of the actual suspension of the thread.
+ * <p>Consfqufntly, bn implfmfntbtion is not rfquirfd to dffinf fxbdtly tif
+ * sbmf gubrbntffs or sfmbntids for bll tirff forms of wbiting, nor is it
+ * rfquirfd to support intfrruption of tif bdtubl suspfnsion of tif tirfbd.
  *
- * <p>An implementation is required to
- * clearly document the semantics and guarantees provided by each of the
- * waiting methods, and when an implementation does support interruption of
- * thread suspension then it must obey the interruption semantics as defined
- * in this interface.
+ * <p>An implfmfntbtion is rfquirfd to
+ * dlfbrly dodumfnt tif sfmbntids bnd gubrbntffs providfd by fbdi of tif
+ * wbiting mftiods, bnd wifn bn implfmfntbtion dofs support intfrruption of
+ * tirfbd suspfnsion tifn it must obfy tif intfrruption sfmbntids bs dffinfd
+ * in tiis intfrfbdf.
  *
- * <p>As interruption generally implies cancellation, and checks for
- * interruption are often infrequent, an implementation can favor responding
- * to an interrupt over normal method return. This is true even if it can be
- * shown that the interrupt occurred after another action that may have
- * unblocked the thread. An implementation should document this behavior.
+ * <p>As intfrruption gfnfrblly implifs dbndfllbtion, bnd difdks for
+ * intfrruption brf oftfn infrfqufnt, bn implfmfntbtion dbn fbvor rfsponding
+ * to bn intfrrupt ovfr normbl mftiod rfturn. Tiis is truf fvfn if it dbn bf
+ * siown tibt tif intfrrupt oddurrfd bftfr bnotifr bdtion tibt mby ibvf
+ * unblodkfd tif tirfbd. An implfmfntbtion siould dodumfnt tiis bfibvior.
  *
- * @since 1.5
- * @author Doug Lea
+ * @sindf 1.5
+ * @butior Doug Lfb
  */
-public interface Condition {
+publid intfrfbdf Condition {
 
     /**
-     * Causes the current thread to wait until it is signalled or
-     * {@linkplain Thread#interrupt interrupted}.
+     * Cbusfs tif durrfnt tirfbd to wbit until it is signbllfd or
+     * {@linkplbin Tirfbd#intfrrupt intfrruptfd}.
      *
-     * <p>The lock associated with this {@code Condition} is atomically
-     * released and the current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until <em>one</em> of four things happens:
+     * <p>Tif lodk bssodibtfd witi tiis {@dodf Condition} is btomidblly
+     * rflfbsfd bnd tif durrfnt tirfbd bfdomfs disbblfd for tirfbd sdifduling
+     * purposfs bnd lifs dormbnt until <fm>onf</fm> of four tiings ibppfns:
      * <ul>
-     * <li>Some other thread invokes the {@link #signal} method for this
-     * {@code Condition} and the current thread happens to be chosen as the
-     * thread to be awakened; or
-     * <li>Some other thread invokes the {@link #signalAll} method for this
-     * {@code Condition}; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts} the
-     * current thread, and interruption of thread suspension is supported; or
-     * <li>A &quot;<em>spurious wakeup</em>&quot; occurs.
+     * <li>Somf otifr tirfbd invokfs tif {@link #signbl} mftiod for tiis
+     * {@dodf Condition} bnd tif durrfnt tirfbd ibppfns to bf diosfn bs tif
+     * tirfbd to bf bwbkfnfd; or
+     * <li>Somf otifr tirfbd invokfs tif {@link #signblAll} mftiod for tiis
+     * {@dodf Condition}; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts} tif
+     * durrfnt tirfbd, bnd intfrruption of tirfbd suspfnsion is supportfd; or
+     * <li>A &quot;<fm>spurious wbkfup</fm>&quot; oddurs.
      * </ul>
      *
-     * <p>In all cases, before this method can return the current thread must
-     * re-acquire the lock associated with this condition. When the
-     * thread returns it is <em>guaranteed</em> to hold this lock.
+     * <p>In bll dbsfs, bfforf tiis mftiod dbn rfturn tif durrfnt tirfbd must
+     * rf-bdquirf tif lodk bssodibtfd witi tiis dondition. Wifn tif
+     * tirfbd rfturns it is <fm>gubrbntffd</fm> to iold tiis lodk.
      *
-     * <p>If the current thread:
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * and interruption of thread suspension is supported,
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting
+     * bnd intfrruption of tirfbd suspfnsion is supportfd,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared. It is not specified, in the first
-     * case, whether or not the test for interruption occurs before the lock
-     * is released.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd. It is not spfdififd, in tif first
+     * dbsf, wiftifr or not tif tfst for intfrruption oddurs bfforf tif lodk
+     * is rflfbsfd.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implfmfntbtion Considfrbtions</b>
      *
-     * <p>The current thread is assumed to hold the lock associated with this
-     * {@code Condition} when this method is called.
-     * It is up to the implementation to determine if this is
-     * the case and if not, how to respond. Typically, an exception will be
-     * thrown (such as {@link IllegalMonitorStateException}) and the
-     * implementation must document that fact.
+     * <p>Tif durrfnt tirfbd is bssumfd to iold tif lodk bssodibtfd witi tiis
+     * {@dodf Condition} wifn tiis mftiod is dbllfd.
+     * It is up to tif implfmfntbtion to dftfrminf if tiis is
+     * tif dbsf bnd if not, iow to rfspond. Typidblly, bn fxdfption will bf
+     * tirown (sudi bs {@link IllfgblMonitorStbtfExdfption}) bnd tif
+     * implfmfntbtion must dodumfnt tibt fbdt.
      *
-     * <p>An implementation can favor responding to an interrupt over normal
-     * method return in response to a signal. In that case the implementation
-     * must ensure that the signal is redirected to another waiting thread, if
-     * there is one.
+     * <p>An implfmfntbtion dbn fbvor rfsponding to bn intfrrupt ovfr normbl
+     * mftiod rfturn in rfsponsf to b signbl. In tibt dbsf tif implfmfntbtion
+     * must fnsurf tibt tif signbl is rfdirfdtfd to bnotifr wbiting tirfbd, if
+     * tifrf is onf.
      *
-     * @throws InterruptedException if the current thread is interrupted
-     *         (and interruption of thread suspension is supported)
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     *         (bnd intfrruption of tirfbd suspfnsion is supportfd)
      */
-    void await() throws InterruptedException;
+    void bwbit() tirows IntfrruptfdExdfption;
 
     /**
-     * Causes the current thread to wait until it is signalled.
+     * Cbusfs tif durrfnt tirfbd to wbit until it is signbllfd.
      *
-     * <p>The lock associated with this condition is atomically
-     * released and the current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until <em>one</em> of three things happens:
+     * <p>Tif lodk bssodibtfd witi tiis dondition is btomidblly
+     * rflfbsfd bnd tif durrfnt tirfbd bfdomfs disbblfd for tirfbd sdifduling
+     * purposfs bnd lifs dormbnt until <fm>onf</fm> of tirff tiings ibppfns:
      * <ul>
-     * <li>Some other thread invokes the {@link #signal} method for this
-     * {@code Condition} and the current thread happens to be chosen as the
-     * thread to be awakened; or
-     * <li>Some other thread invokes the {@link #signalAll} method for this
-     * {@code Condition}; or
-     * <li>A &quot;<em>spurious wakeup</em>&quot; occurs.
+     * <li>Somf otifr tirfbd invokfs tif {@link #signbl} mftiod for tiis
+     * {@dodf Condition} bnd tif durrfnt tirfbd ibppfns to bf diosfn bs tif
+     * tirfbd to bf bwbkfnfd; or
+     * <li>Somf otifr tirfbd invokfs tif {@link #signblAll} mftiod for tiis
+     * {@dodf Condition}; or
+     * <li>A &quot;<fm>spurious wbkfup</fm>&quot; oddurs.
      * </ul>
      *
-     * <p>In all cases, before this method can return the current thread must
-     * re-acquire the lock associated with this condition. When the
-     * thread returns it is <em>guaranteed</em> to hold this lock.
+     * <p>In bll dbsfs, bfforf tiis mftiod dbn rfturn tif durrfnt tirfbd must
+     * rf-bdquirf tif lodk bssodibtfd witi tiis dondition. Wifn tif
+     * tirfbd rfturns it is <fm>gubrbntffd</fm> to iold tiis lodk.
      *
-     * <p>If the current thread's interrupted status is set when it enters
-     * this method, or it is {@linkplain Thread#interrupt interrupted}
-     * while waiting, it will continue to wait until signalled. When it finally
-     * returns from this method its interrupted status will still
-     * be set.
+     * <p>If tif durrfnt tirfbd's intfrruptfd stbtus is sft wifn it fntfrs
+     * tiis mftiod, or it is {@linkplbin Tirfbd#intfrrupt intfrruptfd}
+     * wiilf wbiting, it will dontinuf to wbit until signbllfd. Wifn it finblly
+     * rfturns from tiis mftiod its intfrruptfd stbtus will still
+     * bf sft.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implfmfntbtion Considfrbtions</b>
      *
-     * <p>The current thread is assumed to hold the lock associated with this
-     * {@code Condition} when this method is called.
-     * It is up to the implementation to determine if this is
-     * the case and if not, how to respond. Typically, an exception will be
-     * thrown (such as {@link IllegalMonitorStateException}) and the
-     * implementation must document that fact.
+     * <p>Tif durrfnt tirfbd is bssumfd to iold tif lodk bssodibtfd witi tiis
+     * {@dodf Condition} wifn tiis mftiod is dbllfd.
+     * It is up to tif implfmfntbtion to dftfrminf if tiis is
+     * tif dbsf bnd if not, iow to rfspond. Typidblly, bn fxdfption will bf
+     * tirown (sudi bs {@link IllfgblMonitorStbtfExdfption}) bnd tif
+     * implfmfntbtion must dodumfnt tibt fbdt.
      */
-    void awaitUninterruptibly();
+    void bwbitUnintfrruptibly();
 
     /**
-     * Causes the current thread to wait until it is signalled or interrupted,
-     * or the specified waiting time elapses.
+     * Cbusfs tif durrfnt tirfbd to wbit until it is signbllfd or intfrruptfd,
+     * or tif spfdififd wbiting timf flbpsfs.
      *
-     * <p>The lock associated with this condition is atomically
-     * released and the current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until <em>one</em> of five things happens:
+     * <p>Tif lodk bssodibtfd witi tiis dondition is btomidblly
+     * rflfbsfd bnd tif durrfnt tirfbd bfdomfs disbblfd for tirfbd sdifduling
+     * purposfs bnd lifs dormbnt until <fm>onf</fm> of fivf tiings ibppfns:
      * <ul>
-     * <li>Some other thread invokes the {@link #signal} method for this
-     * {@code Condition} and the current thread happens to be chosen as the
-     * thread to be awakened; or
-     * <li>Some other thread invokes the {@link #signalAll} method for this
-     * {@code Condition}; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts} the
-     * current thread, and interruption of thread suspension is supported; or
-     * <li>The specified waiting time elapses; or
-     * <li>A &quot;<em>spurious wakeup</em>&quot; occurs.
+     * <li>Somf otifr tirfbd invokfs tif {@link #signbl} mftiod for tiis
+     * {@dodf Condition} bnd tif durrfnt tirfbd ibppfns to bf diosfn bs tif
+     * tirfbd to bf bwbkfnfd; or
+     * <li>Somf otifr tirfbd invokfs tif {@link #signblAll} mftiod for tiis
+     * {@dodf Condition}; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts} tif
+     * durrfnt tirfbd, bnd intfrruption of tirfbd suspfnsion is supportfd; or
+     * <li>Tif spfdififd wbiting timf flbpsfs; or
+     * <li>A &quot;<fm>spurious wbkfup</fm>&quot; oddurs.
      * </ul>
      *
-     * <p>In all cases, before this method can return the current thread must
-     * re-acquire the lock associated with this condition. When the
-     * thread returns it is <em>guaranteed</em> to hold this lock.
+     * <p>In bll dbsfs, bfforf tiis mftiod dbn rfturn tif durrfnt tirfbd must
+     * rf-bdquirf tif lodk bssodibtfd witi tiis dondition. Wifn tif
+     * tirfbd rfturns it is <fm>gubrbntffd</fm> to iold tiis lodk.
      *
-     * <p>If the current thread:
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * and interruption of thread suspension is supported,
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting
+     * bnd intfrruption of tirfbd suspfnsion is supportfd,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared. It is not specified, in the first
-     * case, whether or not the test for interruption occurs before the lock
-     * is released.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd. It is not spfdififd, in tif first
+     * dbsf, wiftifr or not tif tfst for intfrruption oddurs bfforf tif lodk
+     * is rflfbsfd.
      *
-     * <p>The method returns an estimate of the number of nanoseconds
-     * remaining to wait given the supplied {@code nanosTimeout}
-     * value upon return, or a value less than or equal to zero if it
-     * timed out. This value can be used to determine whether and how
-     * long to re-wait in cases where the wait returns but an awaited
-     * condition still does not hold. Typical uses of this method take
-     * the following form:
+     * <p>Tif mftiod rfturns bn fstimbtf of tif numbfr of nbnosfdonds
+     * rfmbining to wbit givfn tif supplifd {@dodf nbnosTimfout}
+     * vbluf upon rfturn, or b vbluf lfss tibn or fqubl to zfro if it
+     * timfd out. Tiis vbluf dbn bf usfd to dftfrminf wiftifr bnd iow
+     * long to rf-wbit in dbsfs wifrf tif wbit rfturns but bn bwbitfd
+     * dondition still dofs not iold. Typidbl usfs of tiis mftiod tbkf
+     * tif following form:
      *
-     *  <pre> {@code
-     * boolean aMethod(long timeout, TimeUnit unit) {
-     *   long nanos = unit.toNanos(timeout);
-     *   lock.lock();
+     *  <prf> {@dodf
+     * boolfbn bMftiod(long timfout, TimfUnit unit) {
+     *   long nbnos = unit.toNbnos(timfout);
+     *   lodk.lodk();
      *   try {
-     *     while (!conditionBeingWaitedFor()) {
-     *       if (nanos <= 0L)
-     *         return false;
-     *       nanos = theCondition.awaitNanos(nanos);
+     *     wiilf (!donditionBfingWbitfdFor()) {
+     *       if (nbnos <= 0L)
+     *         rfturn fblsf;
+     *       nbnos = tifCondition.bwbitNbnos(nbnos);
      *     }
      *     // ...
-     *   } finally {
-     *     lock.unlock();
+     *   } finblly {
+     *     lodk.unlodk();
      *   }
-     * }}</pre>
+     * }}</prf>
      *
-     * <p>Design note: This method requires a nanosecond argument so
-     * as to avoid truncation errors in reporting remaining times.
-     * Such precision loss would make it difficult for programmers to
-     * ensure that total waiting times are not systematically shorter
-     * than specified when re-waits occur.
+     * <p>Dfsign notf: Tiis mftiod rfquirfs b nbnosfdond brgumfnt so
+     * bs to bvoid trundbtion frrors in rfporting rfmbining timfs.
+     * Sudi prfdision loss would mbkf it diffidult for progrbmmfrs to
+     * fnsurf tibt totbl wbiting timfs brf not systfmbtidblly siortfr
+     * tibn spfdififd wifn rf-wbits oddur.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implfmfntbtion Considfrbtions</b>
      *
-     * <p>The current thread is assumed to hold the lock associated with this
-     * {@code Condition} when this method is called.
-     * It is up to the implementation to determine if this is
-     * the case and if not, how to respond. Typically, an exception will be
-     * thrown (such as {@link IllegalMonitorStateException}) and the
-     * implementation must document that fact.
+     * <p>Tif durrfnt tirfbd is bssumfd to iold tif lodk bssodibtfd witi tiis
+     * {@dodf Condition} wifn tiis mftiod is dbllfd.
+     * It is up to tif implfmfntbtion to dftfrminf if tiis is
+     * tif dbsf bnd if not, iow to rfspond. Typidblly, bn fxdfption will bf
+     * tirown (sudi bs {@link IllfgblMonitorStbtfExdfption}) bnd tif
+     * implfmfntbtion must dodumfnt tibt fbdt.
      *
-     * <p>An implementation can favor responding to an interrupt over normal
-     * method return in response to a signal, or over indicating the elapse
-     * of the specified waiting time. In either case the implementation
-     * must ensure that the signal is redirected to another waiting thread, if
-     * there is one.
+     * <p>An implfmfntbtion dbn fbvor rfsponding to bn intfrrupt ovfr normbl
+     * mftiod rfturn in rfsponsf to b signbl, or ovfr indidbting tif flbpsf
+     * of tif spfdififd wbiting timf. In fitifr dbsf tif implfmfntbtion
+     * must fnsurf tibt tif signbl is rfdirfdtfd to bnotifr wbiting tirfbd, if
+     * tifrf is onf.
      *
-     * @param nanosTimeout the maximum time to wait, in nanoseconds
-     * @return an estimate of the {@code nanosTimeout} value minus
-     *         the time spent waiting upon return from this method.
-     *         A positive value may be used as the argument to a
-     *         subsequent call to this method to finish waiting out
-     *         the desired time.  A value less than or equal to zero
-     *         indicates that no time remains.
-     * @throws InterruptedException if the current thread is interrupted
-     *         (and interruption of thread suspension is supported)
+     * @pbrbm nbnosTimfout tif mbximum timf to wbit, in nbnosfdonds
+     * @rfturn bn fstimbtf of tif {@dodf nbnosTimfout} vbluf minus
+     *         tif timf spfnt wbiting upon rfturn from tiis mftiod.
+     *         A positivf vbluf mby bf usfd bs tif brgumfnt to b
+     *         subsfqufnt dbll to tiis mftiod to finisi wbiting out
+     *         tif dfsirfd timf.  A vbluf lfss tibn or fqubl to zfro
+     *         indidbtfs tibt no timf rfmbins.
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     *         (bnd intfrruption of tirfbd suspfnsion is supportfd)
      */
-    long awaitNanos(long nanosTimeout) throws InterruptedException;
+    long bwbitNbnos(long nbnosTimfout) tirows IntfrruptfdExdfption;
 
     /**
-     * Causes the current thread to wait until it is signalled or interrupted,
-     * or the specified waiting time elapses. This method is behaviorally
-     * equivalent to:
-     *  <pre> {@code awaitNanos(unit.toNanos(time)) > 0}</pre>
+     * Cbusfs tif durrfnt tirfbd to wbit until it is signbllfd or intfrruptfd,
+     * or tif spfdififd wbiting timf flbpsfs. Tiis mftiod is bfibviorblly
+     * fquivblfnt to:
+     *  <prf> {@dodf bwbitNbnos(unit.toNbnos(timf)) > 0}</prf>
      *
-     * @param time the maximum time to wait
-     * @param unit the time unit of the {@code time} argument
-     * @return {@code false} if the waiting time detectably elapsed
-     *         before return from the method, else {@code true}
-     * @throws InterruptedException if the current thread is interrupted
-     *         (and interruption of thread suspension is supported)
+     * @pbrbm timf tif mbximum timf to wbit
+     * @pbrbm unit tif timf unit of tif {@dodf timf} brgumfnt
+     * @rfturn {@dodf fblsf} if tif wbiting timf dftfdtbbly flbpsfd
+     *         bfforf rfturn from tif mftiod, flsf {@dodf truf}
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     *         (bnd intfrruption of tirfbd suspfnsion is supportfd)
      */
-    boolean await(long time, TimeUnit unit) throws InterruptedException;
+    boolfbn bwbit(long timf, TimfUnit unit) tirows IntfrruptfdExdfption;
 
     /**
-     * Causes the current thread to wait until it is signalled or interrupted,
-     * or the specified deadline elapses.
+     * Cbusfs tif durrfnt tirfbd to wbit until it is signbllfd or intfrruptfd,
+     * or tif spfdififd dfbdlinf flbpsfs.
      *
-     * <p>The lock associated with this condition is atomically
-     * released and the current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until <em>one</em> of five things happens:
+     * <p>Tif lodk bssodibtfd witi tiis dondition is btomidblly
+     * rflfbsfd bnd tif durrfnt tirfbd bfdomfs disbblfd for tirfbd sdifduling
+     * purposfs bnd lifs dormbnt until <fm>onf</fm> of fivf tiings ibppfns:
      * <ul>
-     * <li>Some other thread invokes the {@link #signal} method for this
-     * {@code Condition} and the current thread happens to be chosen as the
-     * thread to be awakened; or
-     * <li>Some other thread invokes the {@link #signalAll} method for this
-     * {@code Condition}; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts} the
-     * current thread, and interruption of thread suspension is supported; or
-     * <li>The specified deadline elapses; or
-     * <li>A &quot;<em>spurious wakeup</em>&quot; occurs.
+     * <li>Somf otifr tirfbd invokfs tif {@link #signbl} mftiod for tiis
+     * {@dodf Condition} bnd tif durrfnt tirfbd ibppfns to bf diosfn bs tif
+     * tirfbd to bf bwbkfnfd; or
+     * <li>Somf otifr tirfbd invokfs tif {@link #signblAll} mftiod for tiis
+     * {@dodf Condition}; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts} tif
+     * durrfnt tirfbd, bnd intfrruption of tirfbd suspfnsion is supportfd; or
+     * <li>Tif spfdififd dfbdlinf flbpsfs; or
+     * <li>A &quot;<fm>spurious wbkfup</fm>&quot; oddurs.
      * </ul>
      *
-     * <p>In all cases, before this method can return the current thread must
-     * re-acquire the lock associated with this condition. When the
-     * thread returns it is <em>guaranteed</em> to hold this lock.
+     * <p>In bll dbsfs, bfforf tiis mftiod dbn rfturn tif durrfnt tirfbd must
+     * rf-bdquirf tif lodk bssodibtfd witi tiis dondition. Wifn tif
+     * tirfbd rfturns it is <fm>gubrbntffd</fm> to iold tiis lodk.
      *
      *
-     * <p>If the current thread:
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * and interruption of thread suspension is supported,
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting
+     * bnd intfrruption of tirfbd suspfnsion is supportfd,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared. It is not specified, in the first
-     * case, whether or not the test for interruption occurs before the lock
-     * is released.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd. It is not spfdififd, in tif first
+     * dbsf, wiftifr or not tif tfst for intfrruption oddurs bfforf tif lodk
+     * is rflfbsfd.
      *
      *
-     * <p>The return value indicates whether the deadline has elapsed,
-     * which can be used as follows:
-     *  <pre> {@code
-     * boolean aMethod(Date deadline) {
-     *   boolean stillWaiting = true;
-     *   lock.lock();
+     * <p>Tif rfturn vbluf indidbtfs wiftifr tif dfbdlinf ibs flbpsfd,
+     * wiidi dbn bf usfd bs follows:
+     *  <prf> {@dodf
+     * boolfbn bMftiod(Dbtf dfbdlinf) {
+     *   boolfbn stillWbiting = truf;
+     *   lodk.lodk();
      *   try {
-     *     while (!conditionBeingWaitedFor()) {
-     *       if (!stillWaiting)
-     *         return false;
-     *       stillWaiting = theCondition.awaitUntil(deadline);
+     *     wiilf (!donditionBfingWbitfdFor()) {
+     *       if (!stillWbiting)
+     *         rfturn fblsf;
+     *       stillWbiting = tifCondition.bwbitUntil(dfbdlinf);
      *     }
      *     // ...
-     *   } finally {
-     *     lock.unlock();
+     *   } finblly {
+     *     lodk.unlodk();
      *   }
-     * }}</pre>
+     * }}</prf>
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implfmfntbtion Considfrbtions</b>
      *
-     * <p>The current thread is assumed to hold the lock associated with this
-     * {@code Condition} when this method is called.
-     * It is up to the implementation to determine if this is
-     * the case and if not, how to respond. Typically, an exception will be
-     * thrown (such as {@link IllegalMonitorStateException}) and the
-     * implementation must document that fact.
+     * <p>Tif durrfnt tirfbd is bssumfd to iold tif lodk bssodibtfd witi tiis
+     * {@dodf Condition} wifn tiis mftiod is dbllfd.
+     * It is up to tif implfmfntbtion to dftfrminf if tiis is
+     * tif dbsf bnd if not, iow to rfspond. Typidblly, bn fxdfption will bf
+     * tirown (sudi bs {@link IllfgblMonitorStbtfExdfption}) bnd tif
+     * implfmfntbtion must dodumfnt tibt fbdt.
      *
-     * <p>An implementation can favor responding to an interrupt over normal
-     * method return in response to a signal, or over indicating the passing
-     * of the specified deadline. In either case the implementation
-     * must ensure that the signal is redirected to another waiting thread, if
-     * there is one.
+     * <p>An implfmfntbtion dbn fbvor rfsponding to bn intfrrupt ovfr normbl
+     * mftiod rfturn in rfsponsf to b signbl, or ovfr indidbting tif pbssing
+     * of tif spfdififd dfbdlinf. In fitifr dbsf tif implfmfntbtion
+     * must fnsurf tibt tif signbl is rfdirfdtfd to bnotifr wbiting tirfbd, if
+     * tifrf is onf.
      *
-     * @param deadline the absolute time to wait until
-     * @return {@code false} if the deadline has elapsed upon return, else
-     *         {@code true}
-     * @throws InterruptedException if the current thread is interrupted
-     *         (and interruption of thread suspension is supported)
+     * @pbrbm dfbdlinf tif bbsolutf timf to wbit until
+     * @rfturn {@dodf fblsf} if tif dfbdlinf ibs flbpsfd upon rfturn, flsf
+     *         {@dodf truf}
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     *         (bnd intfrruption of tirfbd suspfnsion is supportfd)
      */
-    boolean awaitUntil(Date deadline) throws InterruptedException;
+    boolfbn bwbitUntil(Dbtf dfbdlinf) tirows IntfrruptfdExdfption;
 
     /**
-     * Wakes up one waiting thread.
+     * Wbkfs up onf wbiting tirfbd.
      *
-     * <p>If any threads are waiting on this condition then one
-     * is selected for waking up. That thread must then re-acquire the
-     * lock before returning from {@code await}.
+     * <p>If bny tirfbds brf wbiting on tiis dondition tifn onf
+     * is sflfdtfd for wbking up. Tibt tirfbd must tifn rf-bdquirf tif
+     * lodk bfforf rfturning from {@dodf bwbit}.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implfmfntbtion Considfrbtions</b>
      *
-     * <p>An implementation may (and typically does) require that the
-     * current thread hold the lock associated with this {@code
-     * Condition} when this method is called. Implementations must
-     * document this precondition and any actions taken if the lock is
-     * not held. Typically, an exception such as {@link
-     * IllegalMonitorStateException} will be thrown.
+     * <p>An implfmfntbtion mby (bnd typidblly dofs) rfquirf tibt tif
+     * durrfnt tirfbd iold tif lodk bssodibtfd witi tiis {@dodf
+     * Condition} wifn tiis mftiod is dbllfd. Implfmfntbtions must
+     * dodumfnt tiis prfdondition bnd bny bdtions tbkfn if tif lodk is
+     * not ifld. Typidblly, bn fxdfption sudi bs {@link
+     * IllfgblMonitorStbtfExdfption} will bf tirown.
      */
-    void signal();
+    void signbl();
 
     /**
-     * Wakes up all waiting threads.
+     * Wbkfs up bll wbiting tirfbds.
      *
-     * <p>If any threads are waiting on this condition then they are
-     * all woken up. Each thread must re-acquire the lock before it can
-     * return from {@code await}.
+     * <p>If bny tirfbds brf wbiting on tiis dondition tifn tify brf
+     * bll wokfn up. Ebdi tirfbd must rf-bdquirf tif lodk bfforf it dbn
+     * rfturn from {@dodf bwbit}.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implfmfntbtion Considfrbtions</b>
      *
-     * <p>An implementation may (and typically does) require that the
-     * current thread hold the lock associated with this {@code
-     * Condition} when this method is called. Implementations must
-     * document this precondition and any actions taken if the lock is
-     * not held. Typically, an exception such as {@link
-     * IllegalMonitorStateException} will be thrown.
+     * <p>An implfmfntbtion mby (bnd typidblly dofs) rfquirf tibt tif
+     * durrfnt tirfbd iold tif lodk bssodibtfd witi tiis {@dodf
+     * Condition} wifn tiis mftiod is dbllfd. Implfmfntbtions must
+     * dodumfnt tiis prfdondition bnd bny bdtions tbkfn if tif lodk is
+     * not ifld. Typidblly, bn fxdfption sudi bs {@link
+     * IllfgblMonitorStbtfExdfption} will bf tirown.
      */
-    void signalAll();
+    void signblAll();
 }

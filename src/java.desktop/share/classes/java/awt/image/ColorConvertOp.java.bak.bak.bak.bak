@@ -1,0 +1,1115 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd    ***
+ *** Stbtfs Codf.  All rights rfsfrvfd.                             ***
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************/
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.Point;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.dolor.*;
+import sun.jbvb2d.dmm.ColorTrbnsform;
+import sun.jbvb2d.dmm.CMSMbnbgfr;
+import sun.jbvb2d.dmm.ProfilfDfffrrblMgr;
+import sun.jbvb2d.dmm.PCMM;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.RfndfringHints;
+
+/**
+ * This dlbss pfrforms b pixfl-by-pixfl dolor donvfrsion of thf dbtb in
+ * thf sourdf imbgf.  Thf rfsulting dolor vblufs brf sdblfd to thf prfdision
+ * of thf dfstinbtion imbgf.  Color donvfrsion dbn bf spfdififd
+ * vib bn brrby of ColorSpbdf objfdts or bn brrby of ICC_Profilf objfdts.
+ * <p>
+ * If thf sourdf is b BufffrfdImbgf with prfmultiplifd blphb, thf
+ * dolor domponfnts brf dividfd by thf blphb domponfnt bfforf dolor donvfrsion.
+ * If thf dfstinbtion is b BufffrfdImbgf with prfmultiplifd blphb, thf
+ * dolor domponfnts brf multiplifd by thf blphb domponfnt bftfr donvfrsion.
+ * Rbstfrs brf trfbtfd bs hbving no blphb dhbnnfl, i.f. bll bbnds brf
+ * dolor bbnds.
+ * <p>
+ * If b RfndfringHints objfdt is spfdififd in thf donstrudtor, thf
+ * dolor rfndfring hint bnd thf dithfring hint mby bf usfd to dontrol
+ * dolor donvfrsion.
+ * <p>
+ * Notf thbt Sourdf bnd Dfstinbtion mby bf thf sbmf objfdt.
+ * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
+ */
+publid dlbss ColorConvfrtOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
+    ICC_Profilf[]    profilfList;
+    ColorSpbdf[]     CSList;
+    ColorTrbnsform    thisTrbnsform, thisRbstfrTrbnsform;
+    ICC_Profilf      thisSrdProfilf, thisDfstProfilf;
+    RfndfringHints   hints;
+    boolfbn          gotProfilfs;
+    flobt[]          srdMinVbls, srdMbxVbls, dstMinVbls, dstMbxVbls;
+
+    /* thf dlbss initiblizfr */
+    stbtid {
+        if (ProfilfDfffrrblMgr.dfffrring) {
+            ProfilfDfffrrblMgr.bdtivbtfProfilfs();
+        }
+    }
+
+    /**
+     * Construdts b nfw ColorConvfrtOp whidh will donvfrt
+     * from b sourdf dolor spbdf to b dfstinbtion dolor spbdf.
+     * Thf RfndfringHints brgumfnt mby bf null.
+     * This Op dbn bf usfd only with BufffrfdImbgfs, bnd will donvfrt
+     * dirfdtly from thf ColorSpbdf of thf sourdf imbgf to thbt of thf
+     * dfstinbtion.  Thf dfstinbtion brgumfnt of thf filtfr mfthod
+     * dbnnot bf spfdififd bs null.
+     * @pbrbm hints thf <dodf>RfndfringHints</dodf> objfdt usfd to dontrol
+     *        thf dolor donvfrsion, or <dodf>null</dodf>
+     */
+    publid ColorConvfrtOp (RfndfringHints hints)
+    {
+        profilfList = nfw ICC_Profilf [0];    /* 0 lfngth list */
+        this.hints  = hints;
+    }
+
+    /**
+     * Construdts b nfw ColorConvfrtOp from b ColorSpbdf objfdt.
+     * Thf RfndfringHints brgumfnt mby bf null.  This
+     * Op dbn bf usfd only with BufffrfdImbgfs, bnd is primbrily usfful
+     * whfn thf {@link #filtfr(BufffrfdImbgf, BufffrfdImbgf) filtfr}
+     * mfthod is invokfd with b dfstinbtion brgumfnt of null.
+     * In thbt dbsf, thf ColorSpbdf dffinfs thf dfstinbtion dolor spbdf
+     * for thf dfstinbtion drfbtfd by thf filtfr mfthod.  Othfrwisf, thf
+     * ColorSpbdf dffinfs bn intfrmfdibtf spbdf to whidh thf sourdf is
+     * donvfrtfd bfforf bfing donvfrtfd to thf dfstinbtion spbdf.
+     * @pbrbm dspbdf dffinfs thf dfstinbtion <dodf>ColorSpbdf</dodf> or bn
+     *        intfrmfdibtf <dodf>ColorSpbdf</dodf>
+     * @pbrbm hints thf <dodf>RfndfringHints</dodf> objfdt usfd to dontrol
+     *        thf dolor donvfrsion, or <dodf>null</dodf>
+     * @throws NullPointfrExdfption if dspbdf is null
+     */
+    publid ColorConvfrtOp (ColorSpbdf dspbdf, RfndfringHints hints)
+    {
+        if (dspbdf == null) {
+            throw nfw NullPointfrExdfption("ColorSpbdf dbnnot bf null");
+        }
+        if (dspbdf instbndfof ICC_ColorSpbdf) {
+            profilfList = nfw ICC_Profilf [1];    /* 1 profilf in thf list */
+
+            profilfList [0] = ((ICC_ColorSpbdf) dspbdf).gftProfilf();
+        }
+        flsf {
+            CSList = nfw ColorSpbdf[1]; /* non-ICC dbsf: 1 ColorSpbdf in list */
+            CSList[0] = dspbdf;
+        }
+        this.hints  = hints;
+    }
+
+
+    /**
+     * Construdts b nfw ColorConvfrtOp from two ColorSpbdf objfdts.
+     * Thf RfndfringHints brgumfnt mby bf null.
+     * This Op is primbrily usfful for dblling thf filtfr mfthod on
+     * Rbstfrs, in whidh dbsf thf two ColorSpbdfs dffinf thf opfrbtion
+     * to bf pfrformfd on thf Rbstfrs.  In thbt dbsf, thf numbfr of bbnds
+     * in thf sourdf Rbstfr must mbtdh thf numbfr of domponfnts in
+     * srdCspbdf, bnd thf numbfr of bbnds in thf dfstinbtion Rbstfr
+     * must mbtdh thf numbfr of domponfnts in dstCspbdf.  For BufffrfdImbgfs,
+     * thf two ColorSpbdfs dffinf intfrmfdibtf spbdfs through whidh thf
+     * sourdf is donvfrtfd bfforf bfing donvfrtfd to thf dfstinbtion spbdf.
+     * @pbrbm srdCspbdf thf sourdf <dodf>ColorSpbdf</dodf>
+     * @pbrbm dstCspbdf thf dfstinbtion <dodf>ColorSpbdf</dodf>
+     * @pbrbm hints thf <dodf>RfndfringHints</dodf> objfdt usfd to dontrol
+     *        thf dolor donvfrsion, or <dodf>null</dodf>
+     * @throws NullPointfrExdfption if fithfr srdCspbdf or dstCspbdf is null
+     */
+    publid ColorConvfrtOp(ColorSpbdf srdCspbdf, ColorSpbdf dstCspbdf,
+                           RfndfringHints hints)
+    {
+        if ((srdCspbdf == null) || (dstCspbdf == null)) {
+            throw nfw NullPointfrExdfption("ColorSpbdfs dbnnot bf null");
+        }
+        if ((srdCspbdf instbndfof ICC_ColorSpbdf) &&
+            (dstCspbdf instbndfof ICC_ColorSpbdf)) {
+            profilfList = nfw ICC_Profilf [2];    /* 2 profilfs in thf list */
+
+            profilfList [0] = ((ICC_ColorSpbdf) srdCspbdf).gftProfilf();
+            profilfList [1] = ((ICC_ColorSpbdf) dstCspbdf).gftProfilf();
+
+            gftMinMbxVblsFromColorSpbdfs(srdCspbdf, dstCspbdf);
+        } flsf {
+            /* non-ICC dbsf: 2 ColorSpbdfs in list */
+            CSList = nfw ColorSpbdf[2];
+            CSList[0] = srdCspbdf;
+            CSList[1] = dstCspbdf;
+        }
+        this.hints  = hints;
+    }
+
+
+     /**
+     * Construdts b nfw ColorConvfrtOp from bn brrby of ICC_Profilfs.
+     * Thf RfndfringHints brgumfnt mby bf null.
+     * Thf sfqufndf of profilfs mby indludf profilfs thbt rfprfsfnt dolor
+     * spbdfs, profilfs thbt rfprfsfnt ffffdts, ftd.  If thf wholf sfqufndf
+     * dofs not rfprfsfnt b wfll-dffinfd dolor donvfrsion, bn fxdfption is
+     * thrown.
+     * <p>For BufffrfdImbgfs, if thf ColorSpbdf
+     * of thf sourdf BufffrfdImbgf dofs not mbtdh thf rfquirfmfnts of thf
+     * first profilf in thf brrby,
+     * thf first donvfrsion is to bn bppropribtf ColorSpbdf.
+     * If thf rfquirfmfnts of thf lbst profilf in thf brrby brf not mft
+     * by thf ColorSpbdf of thf dfstinbtion BufffrfdImbgf,
+     * thf lbst donvfrsion is to thf dfstinbtion's ColorSpbdf.
+     * <p>For Rbstfrs, thf numbfr of bbnds in thf sourdf Rbstfr must mbtdh
+     * thf rfquirfmfnts of thf first profilf in thf brrby, bnd thf
+     * numbfr of bbnds in thf dfstinbtion Rbstfr must mbtdh thf rfquirfmfnts
+     * of thf lbst profilf in thf brrby.  Thf brrby must hbvf bt lfbst two
+     * flfmfnts or dblling thf filtfr mfthod for Rbstfrs will throw bn
+     * IllfgblArgumfntExdfption.
+     * @pbrbm profilfs thf brrby of <dodf>ICC_Profilf</dodf> objfdts
+     * @pbrbm hints thf <dodf>RfndfringHints</dodf> objfdt usfd to dontrol
+     *        thf dolor donvfrsion, or <dodf>null</dodf>
+     * @fxdfption IllfgblArgumfntExdfption whfn thf profilf sfqufndf dofs not
+     *             spfdify b wfll-dffinfd dolor donvfrsion
+     * @fxdfption NullPointfrExdfption if profilfs is null
+     */
+    publid ColorConvfrtOp (ICC_Profilf[] profilfs, RfndfringHints hints)
+    {
+        if (profilfs == null) {
+            throw nfw NullPointfrExdfption("Profilfs dbnnot bf null");
+        }
+        gotProfilfs = truf;
+        profilfList = nfw ICC_Profilf[profilfs.lfngth];
+        for (int i1 = 0; i1 < profilfs.lfngth; i1++) {
+            profilfList[i1] = profilfs[i1];
+        }
+        this.hints  = hints;
+    }
+
+
+    /**
+     * Rfturns thf brrby of ICC_Profilfs usfd to donstrudt this ColorConvfrtOp.
+     * Rfturns null if thf ColorConvfrtOp wbs not donstrudtfd from sudh bn
+     * brrby.
+     * @rfturn thf brrby of <dodf>ICC_Profilf</dodf> objfdts of this
+     *         <dodf>ColorConvfrtOp</dodf>, or <dodf>null</dodf> if this
+     *         <dodf>ColorConvfrtOp</dodf> wbs not donstrudtfd with bn
+     *         brrby of <dodf>ICC_Profilf</dodf> objfdts.
+     */
+    publid finbl ICC_Profilf[] gftICC_Profilfs() {
+        if (gotProfilfs) {
+            ICC_Profilf[] profilfs = nfw ICC_Profilf[profilfList.lfngth];
+            for (int i1 = 0; i1 < profilfList.lfngth; i1++) {
+                profilfs[i1] = profilfList[i1];
+            }
+            rfturn profilfs;
+        }
+        rfturn null;
+    }
+
+    /**
+     * ColorConvfrts thf sourdf BufffrfdImbgf.
+     * If thf dfstinbtion imbgf is null,
+     * b BufffrfdImbgf will bf drfbtfd with bn bppropribtf ColorModfl.
+     * @pbrbm srd thf sourdf <dodf>BufffrfdImbgf</dodf> to bf donvfrtfd
+     * @pbrbm dfst thf dfstinbtion <dodf>BufffrfdImbgf</dodf>,
+     *        or <dodf>null</dodf>
+     * @rfturn <dodf>dfst</dodf> dolor donvfrtfd from <dodf>srd</dodf>
+     *         or b nfw, donvfrtfd <dodf>BufffrfdImbgf</dodf>
+     *         if <dodf>dfst</dodf> is <dodf>null</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if dfst is null bnd this op wbs
+     *             donstrudtfd using thf donstrudtor whidh tbkfs only b
+     *             RfndfringHints brgumfnt, sindf thf opfrbtion is ill dffinfd.
+     */
+    publid finbl BufffrfdImbgf filtfr(BufffrfdImbgf srd, BufffrfdImbgf dfst) {
+        ColorSpbdf srdColorSpbdf, dfstColorSpbdf;
+        BufffrfdImbgf sbvdfst = null;
+
+        if (srd.gftColorModfl() instbndfof IndfxColorModfl) {
+            IndfxColorModfl idm = (IndfxColorModfl) srd.gftColorModfl();
+            srd = idm.donvfrtToIntDisdrftf(srd.gftRbstfr(), truf);
+        }
+        srdColorSpbdf = srd.gftColorModfl().gftColorSpbdf();
+        if (dfst != null) {
+            if (dfst.gftColorModfl() instbndfof IndfxColorModfl) {
+                sbvdfst = dfst;
+                dfst = null;
+                dfstColorSpbdf = null;
+            } flsf {
+                dfstColorSpbdf = dfst.gftColorModfl().gftColorSpbdf();
+            }
+        } flsf {
+            dfstColorSpbdf = null;
+        }
+
+        if ((CSList != null) ||
+            (!(srdColorSpbdf instbndfof ICC_ColorSpbdf)) ||
+            ((dfst != null) &&
+             (!(dfstColorSpbdf instbndfof ICC_ColorSpbdf)))) {
+            /* non-ICC dbsf */
+            dfst = nonICCBIFiltfr(srd, srdColorSpbdf, dfst, dfstColorSpbdf);
+        } flsf {
+            dfst = ICCBIFiltfr(srd, srdColorSpbdf, dfst, dfstColorSpbdf);
+        }
+
+        if (sbvdfst != null) {
+            Grbphids2D big = sbvdfst.drfbtfGrbphids();
+            try {
+                big.drbwImbgf(dfst, 0, 0, null);
+            } finblly {
+                big.disposf();
+            }
+            rfturn sbvdfst;
+        } flsf {
+            rfturn dfst;
+        }
+    }
+
+    privbtf finbl BufffrfdImbgf ICCBIFiltfr(BufffrfdImbgf srd,
+                                            ColorSpbdf srdColorSpbdf,
+                                            BufffrfdImbgf dfst,
+                                            ColorSpbdf dfstColorSpbdf) {
+    int              nProfilfs = profilfList.lfngth;
+    ICC_Profilf      srdProfilf = null, dfstProfilf = null;
+
+        srdProfilf = ((ICC_ColorSpbdf) srdColorSpbdf).gftProfilf();
+
+        if (dfst == null) {        /* lbst profilf in thf list dffinfs
+                                      thf output dolor spbdf */
+            if (nProfilfs == 0) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Dfstinbtion ColorSpbdf is undffinfd");
+            }
+            dfstProfilf = profilfList [nProfilfs - 1];
+            dfst = drfbtfCompbtiblfDfstImbgf(srd, null);
+        }
+        flsf {
+            if (srd.gftHfight() != dfst.gftHfight() ||
+                srd.gftWidth() != dfst.gftWidth()) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Width or hfight of BufffrfdImbgfs do not mbtdh");
+            }
+            dfstProfilf = ((ICC_ColorSpbdf) dfstColorSpbdf).gftProfilf();
+        }
+
+        /* Chfdking if bll profilfs in thf trbnsform sfqufndf brf thf sbmf.
+         * If so, pfrforming just dopying thf dbtb.
+         */
+        if (srdProfilf == dfstProfilf) {
+            boolfbn noTrbns = truf;
+            for (int i = 0; i < nProfilfs; i++) {
+                if (srdProfilf != profilfList[i]) {
+                    noTrbns = fblsf;
+                    brfbk;
+                }
+            }
+            if (noTrbns) {
+                Grbphids2D g = dfst.drfbtfGrbphids();
+                try {
+                    g.drbwImbgf(srd, 0, 0, null);
+                } finblly {
+                    g.disposf();
+                }
+
+                rfturn dfst;
+            }
+        }
+
+        /* mbkf b nfw trbnsform if nffdfd */
+        if ((thisTrbnsform == null) || (thisSrdProfilf != srdProfilf) ||
+            (thisDfstProfilf != dfstProfilf) ) {
+            updbtfBITrbnsform(srdProfilf, dfstProfilf);
+        }
+
+        /* dolor donvfrt thf imbgf */
+        thisTrbnsform.dolorConvfrt(srd, dfst);
+
+        rfturn dfst;
+    }
+
+    privbtf void updbtfBITrbnsform(ICC_Profilf srdProfilf,
+                                   ICC_Profilf dfstProfilf) {
+        ICC_Profilf[]    thfProfilfs;
+        int              i1, nProfilfs, nTrbnsforms, whidhTrbns, rfndfrStbtf;
+        ColorTrbnsform[]  thfTrbnsforms;
+        boolfbn          usfSrd = fblsf, usfDfst = fblsf;
+
+        nProfilfs = profilfList.lfngth;
+        nTrbnsforms = nProfilfs;
+        if ((nProfilfs == 0) || (srdProfilf != profilfList[0])) {
+            nTrbnsforms += 1;
+            usfSrd = truf;
+        }
+        if ((nProfilfs == 0) || (dfstProfilf != profilfList[nProfilfs - 1]) ||
+            (nTrbnsforms < 2)) {
+            nTrbnsforms += 1;
+            usfDfst = truf;
+        }
+
+        /* mbkf thf profilf list */
+        thfProfilfs = nfw ICC_Profilf[nTrbnsforms]; /* thf list of profilfs
+                                                       for this Op */
+
+        int idx = 0;
+        if (usfSrd) {
+            /* insfrt sourdf bs first profilf */
+            thfProfilfs[idx++] = srdProfilf;
+        }
+
+        for (i1 = 0; i1 < nProfilfs; i1++) {
+                                   /* insfrt profilfs dffinfd in this Op */
+            thfProfilfs[idx++] = profilfList [i1];
+        }
+
+        if (usfDfst) {
+            /* insfrt dfst bs lbst profilf */
+            thfProfilfs[idx] = dfstProfilf;
+        }
+
+        /* mbkf thf trbnsform list */
+        thfTrbnsforms = nfw ColorTrbnsform [nTrbnsforms];
+
+        /* initiblizf trbnsform gft loop */
+        if (thfProfilfs[0].gftProfilfClbss() == ICC_Profilf.CLASS_OUTPUT) {
+                                        /* if first profilf is b printfr
+                                           rfndfr bs dolorimftrid */
+            rfndfrStbtf = ICC_Profilf.idRflbtivfColorimftrid;
+        }
+        flsf {
+            rfndfrStbtf = ICC_Profilf.idPfrdfptubl; /* rfndfr bny othfr
+                                                       dlbss pfrdfptublly */
+        }
+
+        whidhTrbns = ColorTrbnsform.In;
+
+        PCMM mdl = CMSMbnbgfr.gftModulf();
+
+        /* gft thf trbnsforms from fbdh profilf */
+        for (i1 = 0; i1 < nTrbnsforms; i1++) {
+            if (i1 == nTrbnsforms -1) {         /* lbst profilf? */
+                whidhTrbns = ColorTrbnsform.Out; /* gft output trbnsform */
+            }
+            flsf {      /* dhfdk for bbstrbdt profilf */
+                if ((whidhTrbns == ColorTrbnsform.Simulbtion) &&
+                    (thfProfilfs[i1].gftProfilfClbss () ==
+                     ICC_Profilf.CLASS_ABSTRACT)) {
+                rfndfrStbtf = ICC_Profilf.idPfrdfptubl;
+                    whidhTrbns = ColorTrbnsform.In;
+                }
+            }
+
+            thfTrbnsforms[i1] = mdl.drfbtfTrbnsform (
+                thfProfilfs[i1], rfndfrStbtf, whidhTrbns);
+
+            /* gft this profilf's rfndfring intfnt to sflfdt trbnsform
+               from nfxt profilf */
+            rfndfrStbtf = gftRfndfringIntfnt(thfProfilfs[i1]);
+
+            /* "middlf" profilfs usf simulbtion trbnsform */
+            whidhTrbns = ColorTrbnsform.Simulbtion;
+        }
+
+        /* mbkf thf nft trbnsform */
+        thisTrbnsform = mdl.drfbtfTrbnsform(thfTrbnsforms);
+
+        /* updbtf dorrfsponding sourdf bnd dfst profilfs */
+        thisSrdProfilf = srdProfilf;
+        thisDfstProfilf = dfstProfilf;
+    }
+
+    /**
+     * ColorConvfrts thf imbgf dbtb in thf sourdf Rbstfr.
+     * If thf dfstinbtion Rbstfr is null, b nfw Rbstfr will bf drfbtfd.
+     * Thf numbfr of bbnds in thf sourdf bnd dfstinbtion Rbstfrs must
+     * mfft thf rfquirfmfnts fxplbinfd bbovf.  Thf donstrudtor usfd to
+     * drfbtf this ColorConvfrtOp must hbvf providfd fnough informbtion
+     * to dffinf both sourdf bnd dfstinbtion dolor spbdfs.  Sff bbovf.
+     * Othfrwisf, bn fxdfption is thrown.
+     * @pbrbm srd thf sourdf <dodf>Rbstfr</dodf> to bf donvfrtfd
+     * @pbrbm dfst thf dfstinbtion <dodf>WritbblfRbstfr</dodf>,
+     *        or <dodf>null</dodf>
+     * @rfturn <dodf>dfst</dodf> dolor donvfrtfd from <dodf>srd</dodf>
+     *         or b nfw, donvfrtfd <dodf>WritbblfRbstfr</dodf>
+     *         if <dodf>dfst</dodf> is <dodf>null</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if thf numbfr of sourdf or
+     *             dfstinbtion bbnds is indorrfdt, thf sourdf or dfstinbtion
+     *             dolor spbdfs brf undffinfd, or this op wbs donstrudtfd
+     *             with onf of thf donstrudtors thbt bpplifs only to
+     *             opfrbtions on BufffrfdImbgfs.
+     */
+    publid finbl WritbblfRbstfr filtfr (Rbstfr srd, WritbblfRbstfr dfst)  {
+
+        if (CSList != null) {
+            /* non-ICC dbsf */
+            rfturn nonICCRbstfrFiltfr(srd, dfst);
+        }
+        int nProfilfs = profilfList.lfngth;
+        if (nProfilfs < 2) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Sourdf or Dfstinbtion ColorSpbdf is undffinfd");
+        }
+        if (srd.gftNumBbnds() != profilfList[0].gftNumComponfnts()) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Numbfrs of sourdf Rbstfr bbnds bnd sourdf dolor spbdf " +
+                "domponfnts do not mbtdh");
+        }
+        if (dfst == null) {
+            dfst = drfbtfCompbtiblfDfstRbstfr(srd);
+        }
+        flsf {
+            if (srd.gftHfight() != dfst.gftHfight() ||
+                srd.gftWidth() != dfst.gftWidth()) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Width or hfight of Rbstfrs do not mbtdh");
+            }
+            if (dfst.gftNumBbnds() !=
+                profilfList[nProfilfs-1].gftNumComponfnts()) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Numbfrs of dfstinbtion Rbstfr bbnds bnd dfstinbtion " +
+                    "dolor spbdf domponfnts do not mbtdh");
+            }
+        }
+
+        /* mbkf b nfw trbnsform if nffdfd */
+        if (thisRbstfrTrbnsform == null) {
+            int              i1, whidhTrbns, rfndfrStbtf;
+            ColorTrbnsform[]  thfTrbnsforms;
+
+            /* mbkf thf trbnsform list */
+            thfTrbnsforms = nfw ColorTrbnsform [nProfilfs];
+
+            /* initiblizf trbnsform gft loop */
+            if (profilfList[0].gftProfilfClbss() == ICC_Profilf.CLASS_OUTPUT) {
+                                            /* if first profilf is b printfr
+                                               rfndfr bs dolorimftrid */
+                rfndfrStbtf = ICC_Profilf.idRflbtivfColorimftrid;
+            }
+            flsf {
+                rfndfrStbtf = ICC_Profilf.idPfrdfptubl; /* rfndfr bny othfr
+                                                           dlbss pfrdfptublly */
+            }
+
+            whidhTrbns = ColorTrbnsform.In;
+
+            PCMM mdl = CMSMbnbgfr.gftModulf();
+
+            /* gft thf trbnsforms from fbdh profilf */
+            for (i1 = 0; i1 < nProfilfs; i1++) {
+                if (i1 == nProfilfs -1) {         /* lbst profilf? */
+                    whidhTrbns = ColorTrbnsform.Out; /* gft output trbnsform */
+                }
+                flsf {  /* dhfdk for bbstrbdt profilf */
+                    if ((whidhTrbns == ColorTrbnsform.Simulbtion) &&
+                        (profilfList[i1].gftProfilfClbss () ==
+                         ICC_Profilf.CLASS_ABSTRACT)) {
+                        rfndfrStbtf = ICC_Profilf.idPfrdfptubl;
+                        whidhTrbns = ColorTrbnsform.In;
+                    }
+                }
+
+                thfTrbnsforms[i1] = mdl.drfbtfTrbnsform (
+                    profilfList[i1], rfndfrStbtf, whidhTrbns);
+
+                /* gft this profilf's rfndfring intfnt to sflfdt trbnsform
+                   from nfxt profilf */
+                rfndfrStbtf = gftRfndfringIntfnt(profilfList[i1]);
+
+                /* "middlf" profilfs usf simulbtion trbnsform */
+                whidhTrbns = ColorTrbnsform.Simulbtion;
+            }
+
+            /* mbkf thf nft trbnsform */
+            thisRbstfrTrbnsform = mdl.drfbtfTrbnsform(thfTrbnsforms);
+        }
+
+        int srdTrbnsffrTypf = srd.gftTrbnsffrTypf();
+        int dstTrbnsffrTypf = dfst.gftTrbnsffrTypf();
+        if ((srdTrbnsffrTypf == DbtbBufffr.TYPE_FLOAT) ||
+            (srdTrbnsffrTypf == DbtbBufffr.TYPE_DOUBLE) ||
+            (dstTrbnsffrTypf == DbtbBufffr.TYPE_FLOAT) ||
+            (dstTrbnsffrTypf == DbtbBufffr.TYPE_DOUBLE)) {
+            if (srdMinVbls == null) {
+                gftMinMbxVblsFromProfilfs(profilfList[0],
+                                          profilfList[nProfilfs-1]);
+            }
+            /* dolor donvfrt thf rbstfr */
+            thisRbstfrTrbnsform.dolorConvfrt(srd, dfst,
+                                             srdMinVbls, srdMbxVbls,
+                                             dstMinVbls, dstMbxVbls);
+        } flsf {
+            /* dolor donvfrt thf rbstfr */
+            thisRbstfrTrbnsform.dolorConvfrt(srd, dfst);
+        }
+
+
+        rfturn dfst;
+    }
+
+    /**
+     * Rfturns thf bounding box of thf dfstinbtion, givfn this sourdf.
+     * Notf thbt this will bf thf sbmf bs thf thf bounding box of thf
+     * sourdf.
+     * @pbrbm srd thf sourdf <dodf>BufffrfdImbgf</dodf>
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> thbt is thf bounding box
+     *         of thf dfstinbtion, givfn thf spfdififd <dodf>srd</dodf>
+     */
+    publid finbl Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd) {
+        rfturn gftBounds2D(srd.gftRbstfr());
+    }
+
+    /**
+     * Rfturns thf bounding box of thf dfstinbtion, givfn this sourdf.
+     * Notf thbt this will bf thf sbmf bs thf thf bounding box of thf
+     * sourdf.
+     * @pbrbm srd thf sourdf <dodf>Rbstfr</dodf>
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> thbt is thf bounding box
+     *         of thf dfstinbtion, givfn thf spfdififd <dodf>srd</dodf>
+     */
+    publid finbl Rfdtbnglf2D gftBounds2D (Rbstfr srd) {
+        /*        rfturn nfw Rfdtbnglf (srd.gftXOffsft(),
+                              srd.gftYOffsft(),
+                              srd.gftWidth(), srd.gftHfight()); */
+        rfturn srd.gftBounds();
+    }
+
+    /**
+     * Crfbtfs b zfrofd dfstinbtion imbgf with thf dorrfdt sizf bnd numbfr of
+     * bbnds, givfn this sourdf.
+     * @pbrbm srd       Sourdf imbgf for thf filtfr opfrbtion.
+     * @pbrbm dfstCM    ColorModfl of thf dfstinbtion.  If null, bn
+     *                  bppropribtf ColorModfl will bf usfd.
+     * @rfturn b <dodf>BufffrfdImbgf</dodf> with thf dorrfdt sizf bnd
+     * numbfr of bbnds from thf spfdififd <dodf>srd</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>dfstCM</dodf> is
+     *         <dodf>null</dodf> bnd this <dodf>ColorConvfrtOp</dodf> wbs
+     *         drfbtfd without bny <dodf>ICC_Profilf</dodf> or
+     *         <dodf>ColorSpbdf</dodf> dffinfd for thf dfstinbtion
+     */
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+                                                    ColorModfl dfstCM) {
+        ColorSpbdf ds = null;;
+        if (dfstCM == null) {
+            if (CSList == null) {
+                /* ICC dbsf */
+                int nProfilfs = profilfList.lfngth;
+                if (nProfilfs == 0) {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "Dfstinbtion ColorSpbdf is undffinfd");
+                }
+                ICC_Profilf dfstProfilf = profilfList[nProfilfs - 1];
+                ds = nfw ICC_ColorSpbdf(dfstProfilf);
+            } flsf {
+                /* non-ICC dbsf */
+                int nSpbdfs = CSList.lfngth;
+                ds = CSList[nSpbdfs - 1];
+            }
+        }
+        rfturn drfbtfCompbtiblfDfstImbgf(srd, dfstCM, ds);
+    }
+
+    privbtf BufffrfdImbgf drfbtfCompbtiblfDfstImbgf(BufffrfdImbgf srd,
+                                                    ColorModfl dfstCM,
+                                                    ColorSpbdf dfstCS) {
+        BufffrfdImbgf imbgf;
+        if (dfstCM == null) {
+            ColorModfl srdCM = srd.gftColorModfl();
+            int nbbnds = dfstCS.gftNumComponfnts();
+            boolfbn hbsAlphb = srdCM.hbsAlphb();
+            if (hbsAlphb) {
+               nbbnds += 1;
+            }
+            int[] nbits = nfw int[nbbnds];
+            for (int i = 0; i < nbbnds; i++) {
+                nbits[i] = 8;
+            }
+            dfstCM = nfw ComponfntColorModfl(dfstCS, nbits, hbsAlphb,
+                                             srdCM.isAlphbPrfmultiplifd(),
+                                             srdCM.gftTrbnspbrfndy(),
+                                             DbtbBufffr.TYPE_BYTE);
+        }
+        int w = srd.gftWidth();
+        int h = srd.gftHfight();
+        imbgf = nfw BufffrfdImbgf(dfstCM,
+                                  dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w, h),
+                                  dfstCM.isAlphbPrfmultiplifd(), null);
+        rfturn imbgf;
+    }
+
+
+    /**
+     * Crfbtfs b zfrofd dfstinbtion Rbstfr with thf dorrfdt sizf bnd numbfr of
+     * bbnds, givfn this sourdf.
+     * @pbrbm srd thf spfdififd <dodf>Rbstfr</dodf>
+     * @rfturn b <dodf>WritbblfRbstfr</dodf> with thf dorrfdt sizf bnd numbfr
+     *         of bbnds from thf spfdififd <dodf>srd</dodf>
+     * @throws IllfgblArgumfntExdfption if this <dodf>ColorConvfrtOp</dodf>
+     *         wbs drfbtfd without suffidifnt informbtion to dffinf thf
+     *         <dodf>dst</dodf> bnd <dodf>srd</dodf> dolor spbdfs
+     */
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr (Rbstfr srd) {
+        int ndomponfnts;
+
+        if (CSList != null) {
+            /* non-ICC dbsf */
+            if (CSList.lfngth != 2) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Dfstinbtion ColorSpbdf is undffinfd");
+            }
+            ndomponfnts = CSList[1].gftNumComponfnts();
+        } flsf {
+            /* ICC dbsf */
+            int nProfilfs = profilfList.lfngth;
+            if (nProfilfs < 2) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Dfstinbtion ColorSpbdf is undffinfd");
+            }
+            ndomponfnts = profilfList[nProfilfs-1].gftNumComponfnts();
+        }
+
+        WritbblfRbstfr dfst =
+            Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                  srd.gftWidth(),
+                                  srd.gftHfight(),
+                                  ndomponfnts,
+                                  nfw Point(srd.gftMinX(), srd.gftMinY()));
+        rfturn dfst;
+    }
+
+    /**
+     * Rfturns thf lodbtion of thf dfstinbtion point givfn b
+     * point in thf sourdf.  If <dodf>dstPt</dodf> is non-null,
+     * it will bf usfd to hold thf rfturn vbluf.  Notf thbt
+     * for this dlbss, thf dfstinbtion point will bf thf sbmf
+     * bs thf sourdf point.
+     * @pbrbm srdPt thf spfdififd sourdf <dodf>Point2D</dodf>
+     * @pbrbm dstPt thf dfstinbtion <dodf>Point2D</dodf>
+     * @rfturn <dodf>dstPt</dodf> bftfr sftting its lodbtion to bf
+     *         thf sbmf bs <dodf>srdPt</dodf>
+     */
+    publid finbl Point2D gftPoint2D (Point2D srdPt, Point2D dstPt) {
+        if (dstPt == null) {
+            dstPt = nfw Point2D.Flobt();
+        }
+        dstPt.sftLodbtion(srdPt.gftX(), srdPt.gftY());
+
+        rfturn dstPt;
+    }
+
+
+    /**
+     * Rfturns thf RfndfringIntfnt from thf spfdififd ICC Profilf.
+     */
+    privbtf int gftRfndfringIntfnt (ICC_Profilf profilf) {
+        bytf[] hfbdfr = profilf.gftDbtb(ICC_Profilf.idSigHfbd);
+        int indfx = ICC_Profilf.idHdrRfndfringIntfnt;
+
+        /* Addording to ICC spfd, only thf lfbst-signifidbnt 16 bits shbll bf
+         * usfd to fndodf thf rfndfring intfnt. Thf most signifidbnt 16 bits
+         * shbll bf sft to zfro. Thus, wf brf ignoring two most signifidbnt
+         * bytfs hfrf.
+         *
+         *  Sff http://www.dolor.org/ICC1v42_2006-05.pdf, sfdtion 7.2.15.
+         */
+        rfturn ((hfbdfr[indfx+2] & 0xff) <<  8) |
+                (hfbdfr[indfx+3] & 0xff);
+    }
+
+    /**
+     * Rfturns thf rfndfring hints usfd by this op.
+     * @rfturn thf <dodf>RfndfringHints</dodf> objfdt of this
+     *         <dodf>ColorConvfrtOp</dodf>
+     */
+    publid finbl RfndfringHints gftRfndfringHints() {
+        rfturn hints;
+    }
+
+    privbtf finbl BufffrfdImbgf nonICCBIFiltfr(BufffrfdImbgf srd,
+                                               ColorSpbdf srdColorSpbdf,
+                                               BufffrfdImbgf dst,
+                                               ColorSpbdf dstColorSpbdf) {
+
+        int w = srd.gftWidth();
+        int h = srd.gftHfight();
+        ICC_ColorSpbdf difspbdf =
+            (ICC_ColorSpbdf) ColorSpbdf.gftInstbndf(ColorSpbdf.CS_CIEXYZ);
+        if (dst == null) {
+            dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dstColorSpbdf = dst.gftColorModfl().gftColorSpbdf();
+        } flsf {
+            if ((h != dst.gftHfight()) || (w != dst.gftWidth())) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Width or hfight of BufffrfdImbgfs do not mbtdh");
+            }
+        }
+        Rbstfr srdRbs = srd.gftRbstfr();
+        WritbblfRbstfr dstRbs = dst.gftRbstfr();
+        ColorModfl srdCM = srd.gftColorModfl();
+        ColorModfl dstCM = dst.gftColorModfl();
+        int srdNumComp = srdCM.gftNumColorComponfnts();
+        int dstNumComp = dstCM.gftNumColorComponfnts();
+        boolfbn dstHbsAlphb = dstCM.hbsAlphb();
+        boolfbn nffdSrdAlphb = srdCM.hbsAlphb() && dstHbsAlphb;
+        ColorSpbdf[] list;
+        if ((CSList == null) && (profilfList.lfngth != 0)) {
+            /* possiblf non-ICC srd, somf profilfs, possiblf non-ICC dst */
+            boolfbn nonICCSrd, nonICCDst;
+            ICC_Profilf srdProfilf, dstProfilf;
+            if (!(srdColorSpbdf instbndfof ICC_ColorSpbdf)) {
+                nonICCSrd = truf;
+                srdProfilf = difspbdf.gftProfilf();
+            } flsf {
+                nonICCSrd = fblsf;
+                srdProfilf = ((ICC_ColorSpbdf) srdColorSpbdf).gftProfilf();
+            }
+            if (!(dstColorSpbdf instbndfof ICC_ColorSpbdf)) {
+                nonICCDst = truf;
+                dstProfilf = difspbdf.gftProfilf();
+            } flsf {
+                nonICCDst = fblsf;
+                dstProfilf = ((ICC_ColorSpbdf) dstColorSpbdf).gftProfilf();
+            }
+            /* mbkf b nfw trbnsform if nffdfd */
+            if ((thisTrbnsform == null) || (thisSrdProfilf != srdProfilf) ||
+                (thisDfstProfilf != dstProfilf) ) {
+                updbtfBITrbnsform(srdProfilf, dstProfilf);
+            }
+            // prodfss pfr sdbnlinf
+            flobt mbxNum = 65535.0f; // usf 16-bit prfdision in CMM
+            ColorSpbdf ds;
+            int iddSrdNumComp;
+            if (nonICCSrd) {
+                ds = difspbdf;
+                iddSrdNumComp = 3;
+            } flsf {
+                ds = srdColorSpbdf;
+                iddSrdNumComp = srdNumComp;
+            }
+            flobt[] srdMinVbl = nfw flobt[iddSrdNumComp];
+            flobt[] srdInvDiffMinMbx = nfw flobt[iddSrdNumComp];
+            for (int i = 0; i < srdNumComp; i++) {
+                srdMinVbl[i] = ds.gftMinVbluf(i);
+                srdInvDiffMinMbx[i] = mbxNum / (ds.gftMbxVbluf(i) - srdMinVbl[i]);
+            }
+            int iddDstNumComp;
+            if (nonICCDst) {
+                ds = difspbdf;
+                iddDstNumComp = 3;
+            } flsf {
+                ds = dstColorSpbdf;
+                iddDstNumComp = dstNumComp;
+            }
+            flobt[] dstMinVbl = nfw flobt[iddDstNumComp];
+            flobt[] dstDiffMinMbx = nfw flobt[iddDstNumComp];
+            for (int i = 0; i < dstNumComp; i++) {
+                dstMinVbl[i] = ds.gftMinVbluf(i);
+                dstDiffMinMbx[i] = (ds.gftMbxVbluf(i) - dstMinVbl[i]) / mbxNum;
+            }
+            flobt[] dstColor;
+            if (dstHbsAlphb) {
+                int sizf = ((dstNumComp + 1) > 3) ? (dstNumComp + 1) : 3;
+                dstColor = nfw flobt[sizf];
+            } flsf {
+                int sizf = (dstNumComp  > 3) ? dstNumComp : 3;
+                dstColor = nfw flobt[sizf];
+            }
+            short[] srdLinf = nfw short[w * iddSrdNumComp];
+            short[] dstLinf = nfw short[w * iddDstNumComp];
+            Objfdt pixfl;
+            flobt[] dolor;
+            flobt[] blphb = null;
+            if (nffdSrdAlphb) {
+                blphb = nfw flobt[w];
+            }
+            int idx;
+            // prodfss fbdh sdbnlinf
+            for (int y = 0; y < h; y++) {
+                // donvfrt srd sdbnlinf
+                pixfl = null;
+                dolor = null;
+                idx = 0;
+                for (int x = 0; x < w; x++) {
+                    pixfl = srdRbs.gftDbtbElfmfnts(x, y, pixfl);
+                    dolor = srdCM.gftNormblizfdComponfnts(pixfl, dolor, 0);
+                    if (nffdSrdAlphb) {
+                        blphb[x] = dolor[srdNumComp];
+                    }
+                    if (nonICCSrd) {
+                        dolor = srdColorSpbdf.toCIEXYZ(dolor);
+                    }
+                    for (int i = 0; i < iddSrdNumComp; i++) {
+                        srdLinf[idx++] = (short)
+                            ((dolor[i] - srdMinVbl[i]) * srdInvDiffMinMbx[i] +
+                             0.5f);
+                    }
+                }
+                // dolor donvfrt srdLinf to dstLinf
+                thisTrbnsform.dolorConvfrt(srdLinf, dstLinf);
+                // donvfrt dst sdbnlinf
+                pixfl = null;
+                idx = 0;
+                for (int x = 0; x < w; x++) {
+                    for (int i = 0; i < iddDstNumComp; i++) {
+                        dstColor[i] = ((flobt) (dstLinf[idx++] & 0xffff)) *
+                                      dstDiffMinMbx[i] + dstMinVbl[i];
+                    }
+                    if (nonICCDst) {
+                        dolor = srdColorSpbdf.fromCIEXYZ(dstColor);
+                        for (int i = 0; i < dstNumComp; i++) {
+                            dstColor[i] = dolor[i];
+                        }
+                    }
+                    if (nffdSrdAlphb) {
+                        dstColor[dstNumComp] = blphb[x];
+                    } flsf if (dstHbsAlphb) {
+                        dstColor[dstNumComp] = 1.0f;
+                    }
+                    pixfl = dstCM.gftDbtbElfmfnts(dstColor, 0, pixfl);
+                    dstRbs.sftDbtbElfmfnts(x, y, pixfl);
+                }
+            }
+        } flsf {
+            /* possiblf non-ICC srd, possiblf CSList, possiblf non-ICC dst */
+            // prodfss pfr pixfl
+            int numCS;
+            if (CSList == null) {
+                numCS = 0;
+            } flsf {
+                numCS = CSList.lfngth;
+            }
+            flobt[] dstColor;
+            if (dstHbsAlphb) {
+                dstColor = nfw flobt[dstNumComp + 1];
+            } flsf {
+                dstColor = nfw flobt[dstNumComp];
+            }
+            Objfdt spixfl = null;
+            Objfdt dpixfl = null;
+            flobt[] dolor = null;
+            flobt[] tmpColor;
+            // prodfss fbdh pixfl
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    spixfl = srdRbs.gftDbtbElfmfnts(x, y, spixfl);
+                    dolor = srdCM.gftNormblizfdComponfnts(spixfl, dolor, 0);
+                    tmpColor = srdColorSpbdf.toCIEXYZ(dolor);
+                    for (int i = 0; i < numCS; i++) {
+                        tmpColor = CSList[i].fromCIEXYZ(tmpColor);
+                        tmpColor = CSList[i].toCIEXYZ(tmpColor);
+                    }
+                    tmpColor = dstColorSpbdf.fromCIEXYZ(tmpColor);
+                    for (int i = 0; i < dstNumComp; i++) {
+                        dstColor[i] = tmpColor[i];
+                    }
+                    if (nffdSrdAlphb) {
+                        dstColor[dstNumComp] = dolor[srdNumComp];
+                    } flsf if (dstHbsAlphb) {
+                        dstColor[dstNumComp] = 1.0f;
+                    }
+                    dpixfl = dstCM.gftDbtbElfmfnts(dstColor, 0, dpixfl);
+                    dstRbs.sftDbtbElfmfnts(x, y, dpixfl);
+
+                }
+            }
+        }
+
+        rfturn dst;
+    }
+
+    /* dolor donvfrt b Rbstfr - hbndlfs bytf, ushort, int, short, flobt,
+       or doublf trbnsffrTypfs */
+    privbtf finbl WritbblfRbstfr nonICCRbstfrFiltfr(Rbstfr srd,
+                                                    WritbblfRbstfr dst)  {
+
+        if (CSList.lfngth != 2) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Dfstinbtion ColorSpbdf is undffinfd");
+        }
+        if (srd.gftNumBbnds() != CSList[0].gftNumComponfnts()) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Numbfrs of sourdf Rbstfr bbnds bnd sourdf dolor spbdf " +
+                "domponfnts do not mbtdh");
+        }
+        if (dst == null) {
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
+        } flsf {
+            if (srd.gftHfight() != dst.gftHfight() ||
+                srd.gftWidth() != dst.gftWidth()) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Width or hfight of Rbstfrs do not mbtdh");
+            }
+            if (dst.gftNumBbnds() != CSList[1].gftNumComponfnts()) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Numbfrs of dfstinbtion Rbstfr bbnds bnd dfstinbtion " +
+                    "dolor spbdf domponfnts do not mbtdh");
+            }
+        }
+
+        if (srdMinVbls == null) {
+            gftMinMbxVblsFromColorSpbdfs(CSList[0], CSList[1]);
+        }
+
+        SbmplfModfl srdSM = srd.gftSbmplfModfl();
+        SbmplfModfl dstSM = dst.gftSbmplfModfl();
+        boolfbn srdIsFlobt, dstIsFlobt;
+        int srdTrbnsffrTypf = srd.gftTrbnsffrTypf();
+        int dstTrbnsffrTypf = dst.gftTrbnsffrTypf();
+        if ((srdTrbnsffrTypf == DbtbBufffr.TYPE_FLOAT) ||
+            (srdTrbnsffrTypf == DbtbBufffr.TYPE_DOUBLE)) {
+            srdIsFlobt = truf;
+        } flsf {
+            srdIsFlobt = fblsf;
+        }
+        if ((dstTrbnsffrTypf == DbtbBufffr.TYPE_FLOAT) ||
+            (dstTrbnsffrTypf == DbtbBufffr.TYPE_DOUBLE)) {
+            dstIsFlobt = truf;
+        } flsf {
+            dstIsFlobt = fblsf;
+        }
+        int w = srd.gftWidth();
+        int h = srd.gftHfight();
+        int srdNumBbnds = srd.gftNumBbnds();
+        int dstNumBbnds = dst.gftNumBbnds();
+        flobt[] srdSdblfFbdtor = null;
+        flobt[] dstSdblfFbdtor = null;
+        if (!srdIsFlobt) {
+            srdSdblfFbdtor = nfw flobt[srdNumBbnds];
+            for (int i = 0; i < srdNumBbnds; i++) {
+                if (srdTrbnsffrTypf == DbtbBufffr.TYPE_SHORT) {
+                    srdSdblfFbdtor[i] = (srdMbxVbls[i] - srdMinVbls[i]) /
+                                        32767.0f;
+                } flsf {
+                    srdSdblfFbdtor[i] = (srdMbxVbls[i] - srdMinVbls[i]) /
+                        ((flobt) ((1 << srdSM.gftSbmplfSizf(i)) - 1));
+                }
+            }
+        }
+        if (!dstIsFlobt) {
+            dstSdblfFbdtor = nfw flobt[dstNumBbnds];
+            for (int i = 0; i < dstNumBbnds; i++) {
+                if (dstTrbnsffrTypf == DbtbBufffr.TYPE_SHORT) {
+                    dstSdblfFbdtor[i] = 32767.0f /
+                                        (dstMbxVbls[i] - dstMinVbls[i]);
+                } flsf {
+                    dstSdblfFbdtor[i] =
+                        ((flobt) ((1 << dstSM.gftSbmplfSizf(i)) - 1)) /
+                        (dstMbxVbls[i] - dstMinVbls[i]);
+                }
+            }
+        }
+        int ys = srd.gftMinY();
+        int yd = dst.gftMinY();
+        int xs, xd;
+        flobt sbmplf;
+        flobt[] dolor = nfw flobt[srdNumBbnds];
+        flobt[] tmpColor;
+        ColorSpbdf srdColorSpbdf = CSList[0];
+        ColorSpbdf dstColorSpbdf = CSList[1];
+        // prodfss fbdh pixfl
+        for (int y = 0; y < h; y++, ys++, yd++) {
+            // gft srd sdbnlinf
+            xs = srd.gftMinX();
+            xd = dst.gftMinX();
+            for (int x = 0; x < w; x++, xs++, xd++) {
+                for (int i = 0; i < srdNumBbnds; i++) {
+                    sbmplf = srd.gftSbmplfFlobt(xs, ys, i);
+                    if (!srdIsFlobt) {
+                        sbmplf = sbmplf * srdSdblfFbdtor[i] + srdMinVbls[i];
+                    }
+                    dolor[i] = sbmplf;
+                }
+                tmpColor = srdColorSpbdf.toCIEXYZ(dolor);
+                tmpColor = dstColorSpbdf.fromCIEXYZ(tmpColor);
+                for (int i = 0; i < dstNumBbnds; i++) {
+                    sbmplf = tmpColor[i];
+                    if (!dstIsFlobt) {
+                        sbmplf = (sbmplf - dstMinVbls[i]) * dstSdblfFbdtor[i];
+                    }
+                    dst.sftSbmplf(xd, yd, i, sbmplf);
+                }
+            }
+        }
+        rfturn dst;
+    }
+
+    privbtf void gftMinMbxVblsFromProfilfs(ICC_Profilf srdProfilf,
+                                           ICC_Profilf dstProfilf) {
+        int typf = srdProfilf.gftColorSpbdfTypf();
+        int nd = srdProfilf.gftNumComponfnts();
+        srdMinVbls = nfw flobt[nd];
+        srdMbxVbls = nfw flobt[nd];
+        sftMinMbx(typf, nd, srdMinVbls, srdMbxVbls);
+        typf = dstProfilf.gftColorSpbdfTypf();
+        nd = dstProfilf.gftNumComponfnts();
+        dstMinVbls = nfw flobt[nd];
+        dstMbxVbls = nfw flobt[nd];
+        sftMinMbx(typf, nd, dstMinVbls, dstMbxVbls);
+    }
+
+    privbtf void sftMinMbx(int typf, int nd, flobt[] minVbls, flobt[] mbxVbls) {
+        if (typf == ColorSpbdf.TYPE_Lbb) {
+            minVbls[0] = 0.0f;    // L
+            mbxVbls[0] = 100.0f;
+            minVbls[1] = -128.0f; // b
+            mbxVbls[1] = 127.0f;
+            minVbls[2] = -128.0f; // b
+            mbxVbls[2] = 127.0f;
+        } flsf if (typf == ColorSpbdf.TYPE_XYZ) {
+            minVbls[0] = minVbls[1] = minVbls[2] = 0.0f; // X, Y, Z
+            mbxVbls[0] = mbxVbls[1] = mbxVbls[2] = 1.0f + (32767.0f/ 32768.0f);
+        } flsf {
+            for (int i = 0; i < nd; i++) {
+                minVbls[i] = 0.0f;
+                mbxVbls[i] = 1.0f;
+            }
+        }
+    }
+
+    privbtf void gftMinMbxVblsFromColorSpbdfs(ColorSpbdf srdCspbdf,
+                                              ColorSpbdf dstCspbdf) {
+        int nd = srdCspbdf.gftNumComponfnts();
+        srdMinVbls = nfw flobt[nd];
+        srdMbxVbls = nfw flobt[nd];
+        for (int i = 0; i < nd; i++) {
+            srdMinVbls[i] = srdCspbdf.gftMinVbluf(i);
+            srdMbxVbls[i] = srdCspbdf.gftMbxVbluf(i);
+        }
+        nd = dstCspbdf.gftNumComponfnts();
+        dstMinVbls = nfw flobt[nd];
+        dstMbxVbls = nfw flobt[nd];
+        for (int i = 0; i < nd; i++) {
+            dstMinVbls[i] = dstCspbdf.gftMinVbluf(i);
+            dstMbxVbls[i] = dstCspbdf.gftMbxVbluf(i);
+        }
+    }
+
+}

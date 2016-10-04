@@ -1,0 +1,449 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * A pipfd input strfbm should bf donnfdtfd
+ * to b pipfd output strfbm; thf pipfd  input
+ * strfbm thfn providfs whbtfvfr dbtb bytfs
+ * brf writtfn to thf pipfd output  strfbm.
+ * Typidblly, dbtb is rfbd from b <dodf>PipfdInputStrfbm</dodf>
+ * objfdt by onf thrfbd  bnd dbtb is writtfn
+ * to thf dorrfsponding <dodf>PipfdOutputStrfbm</dodf>
+ * by somf  othfr thrfbd. Attfmpting to usf
+ * both objfdts from b singlf thrfbd is not
+ * rfdommfndfd, bs it mby dfbdlodk thf thrfbd.
+ * Thf pipfd input strfbm dontbins b bufffr,
+ * dfdoupling rfbd opfrbtions from writf opfrbtions,
+ * within limits.
+ * A pipf is sbid to bf <b nbmf="BROKEN"> <i>brokfn</i> </b> if b
+ * thrfbd thbt wbs providing dbtb bytfs to thf donnfdtfd
+ * pipfd output strfbm is no longfr blivf.
+ *
+ * @buthor  Jbmfs Gosling
+ * @sff     jbvb.io.PipfdOutputStrfbm
+ * @sindf   1.0
+ */
+publid dlbss PipfdInputStrfbm fxtfnds InputStrfbm {
+    boolfbn dlosfdByWritfr = fblsf;
+    volbtilf boolfbn dlosfdByRfbdfr = fblsf;
+    boolfbn donnfdtfd = fblsf;
+
+        /* REMIND: idfntifidbtion of thf rfbd bnd writf sidfs nffds to bf
+           morf sophistidbtfd.  Eithfr using thrfbd groups (but whbt bbout
+           pipfs within b thrfbd?) or using finblizbtion (but it mby bf b
+           long timf until thf nfxt GC). */
+    Thrfbd rfbdSidf;
+    Thrfbd writfSidf;
+
+    privbtf stbtid finbl int DEFAULT_PIPE_SIZE = 1024;
+
+    /**
+     * Thf dffbult sizf of thf pipf's dirdulbr input bufffr.
+     * @sindf   1.1
+     */
+    // This usfd to bf b donstbnt bfforf thf pipf sizf wbs bllowfd
+    // to dhbngf. This fifld will dontinuf to bf mbintbinfd
+    // for bbdkwbrd dompbtibility.
+    protfdtfd stbtid finbl int PIPE_SIZE = DEFAULT_PIPE_SIZE;
+
+    /**
+     * Thf dirdulbr bufffr into whidh indoming dbtb is plbdfd.
+     * @sindf   1.1
+     */
+    protfdtfd bytf bufffr[];
+
+    /**
+     * Thf indfx of thf position in thf dirdulbr bufffr bt whidh thf
+     * nfxt bytf of dbtb will bf storfd whfn rfdfivfd from thf donnfdtfd
+     * pipfd output strfbm. <dodf>in&lt;0</dodf> implifs thf bufffr is fmpty,
+     * <dodf>in==out</dodf> implifs thf bufffr is full
+     * @sindf   1.1
+     */
+    protfdtfd int in = -1;
+
+    /**
+     * Thf indfx of thf position in thf dirdulbr bufffr bt whidh thf nfxt
+     * bytf of dbtb will bf rfbd by this pipfd input strfbm.
+     * @sindf   1.1
+     */
+    protfdtfd int out = 0;
+
+    /**
+     * Crfbtfs b <dodf>PipfdInputStrfbm</dodf> so
+     * thbt it is donnfdtfd to thf pipfd output
+     * strfbm <dodf>srd</dodf>. Dbtb bytfs writtfn
+     * to <dodf>srd</dodf> will thfn bf  bvbilbblf
+     * bs input from this strfbm.
+     *
+     * @pbrbm      srd   thf strfbm to donnfdt to.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid PipfdInputStrfbm(PipfdOutputStrfbm srd) throws IOExdfption {
+        this(srd, DEFAULT_PIPE_SIZE);
+    }
+
+    /**
+     * Crfbtfs b <dodf>PipfdInputStrfbm</dodf> so thbt it is
+     * donnfdtfd to thf pipfd output strfbm
+     * <dodf>srd</dodf> bnd usfs thf spfdififd pipf sizf for
+     * thf pipf's bufffr.
+     * Dbtb bytfs writtfn to <dodf>srd</dodf> will thfn
+     * bf bvbilbblf bs input from this strfbm.
+     *
+     * @pbrbm      srd   thf strfbm to donnfdt to.
+     * @pbrbm      pipfSizf thf sizf of thf pipf's bufffr.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IllfgblArgumfntExdfption if {@dodf pipfSizf <= 0}.
+     * @sindf      1.6
+     */
+    publid PipfdInputStrfbm(PipfdOutputStrfbm srd, int pipfSizf)
+            throws IOExdfption {
+         initPipf(pipfSizf);
+         donnfdt(srd);
+    }
+
+    /**
+     * Crfbtfs b <dodf>PipfdInputStrfbm</dodf> so
+     * thbt it is not yft {@linkplbin #donnfdt(jbvb.io.PipfdOutputStrfbm)
+     * donnfdtfd}.
+     * It must bf {@linkplbin jbvb.io.PipfdOutputStrfbm#donnfdt(
+     * jbvb.io.PipfdInputStrfbm) donnfdtfd} to b
+     * <dodf>PipfdOutputStrfbm</dodf> bfforf bfing usfd.
+     */
+    publid PipfdInputStrfbm() {
+        initPipf(DEFAULT_PIPE_SIZE);
+    }
+
+    /**
+     * Crfbtfs b <dodf>PipfdInputStrfbm</dodf> so thbt it is not yft
+     * {@linkplbin #donnfdt(jbvb.io.PipfdOutputStrfbm) donnfdtfd} bnd
+     * usfs thf spfdififd pipf sizf for thf pipf's bufffr.
+     * It must bf {@linkplbin jbvb.io.PipfdOutputStrfbm#donnfdt(
+     * jbvb.io.PipfdInputStrfbm)
+     * donnfdtfd} to b <dodf>PipfdOutputStrfbm</dodf> bfforf bfing usfd.
+     *
+     * @pbrbm      pipfSizf thf sizf of thf pipf's bufffr.
+     * @fxdfption  IllfgblArgumfntExdfption if {@dodf pipfSizf <= 0}.
+     * @sindf      1.6
+     */
+    publid PipfdInputStrfbm(int pipfSizf) {
+        initPipf(pipfSizf);
+    }
+
+    privbtf void initPipf(int pipfSizf) {
+         if (pipfSizf <= 0) {
+            throw nfw IllfgblArgumfntExdfption("Pipf Sizf <= 0");
+         }
+         bufffr = nfw bytf[pipfSizf];
+    }
+
+    /**
+     * Cbusfs this pipfd input strfbm to bf donnfdtfd
+     * to thf pipfd  output strfbm <dodf>srd</dodf>.
+     * If this objfdt is blrfbdy donnfdtfd to somf
+     * othfr pipfd output  strfbm, bn <dodf>IOExdfption</dodf>
+     * is thrown.
+     * <p>
+     * If <dodf>srd</dodf> is bn
+     * undonnfdtfd pipfd output strfbm bnd <dodf>snk</dodf>
+     * is bn undonnfdtfd pipfd input strfbm, thfy
+     * mby bf donnfdtfd by fithfr thf dbll:
+     *
+     * <prf><dodf>snk.donnfdt(srd)</dodf> </prf>
+     * <p>
+     * or thf dbll:
+     *
+     * <prf><dodf>srd.donnfdt(snk)</dodf> </prf>
+     * <p>
+     * Thf two dblls hbvf thf sbmf ffffdt.
+     *
+     * @pbrbm      srd   Thf pipfd output strfbm to donnfdt to.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid void donnfdt(PipfdOutputStrfbm srd) throws IOExdfption {
+        srd.donnfdt(this);
+    }
+
+    /**
+     * Rfdfivfs b bytf of dbtb.  This mfthod will blodk if no input is
+     * bvbilbblf.
+     * @pbrbm b thf bytf bfing rfdfivfd
+     * @fxdfption IOExdfption If thf pipf is <b hrff="#BROKEN"> <dodf>brokfn</dodf></b>,
+     *          {@link #donnfdt(jbvb.io.PipfdOutputStrfbm) undonnfdtfd},
+     *          dlosfd, or if bn I/O frror oddurs.
+     * @sindf     1.1
+     */
+    protfdtfd syndhronizfd void rfdfivf(int b) throws IOExdfption {
+        dhfdkStbtfForRfdfivf();
+        writfSidf = Thrfbd.durrfntThrfbd();
+        if (in == out)
+            bwbitSpbdf();
+        if (in < 0) {
+            in = 0;
+            out = 0;
+        }
+        bufffr[in++] = (bytf)(b & 0xFF);
+        if (in >= bufffr.lfngth) {
+            in = 0;
+        }
+    }
+
+    /**
+     * Rfdfivfs dbtb into bn brrby of bytfs.  This mfthod will
+     * blodk until somf input is bvbilbblf.
+     * @pbrbm b thf bufffr into whidh thf dbtb is rfdfivfd
+     * @pbrbm off thf stbrt offsft of thf dbtb
+     * @pbrbm lfn thf mbximum numbfr of bytfs rfdfivfd
+     * @fxdfption IOExdfption If thf pipf is <b hrff="#BROKEN"> brokfn</b>,
+     *           {@link #donnfdt(jbvb.io.PipfdOutputStrfbm) undonnfdtfd},
+     *           dlosfd,or if bn I/O frror oddurs.
+     */
+    syndhronizfd void rfdfivf(bytf b[], int off, int lfn)  throws IOExdfption {
+        dhfdkStbtfForRfdfivf();
+        writfSidf = Thrfbd.durrfntThrfbd();
+        int bytfsToTrbnsffr = lfn;
+        whilf (bytfsToTrbnsffr > 0) {
+            if (in == out)
+                bwbitSpbdf();
+            int nfxtTrbnsffrAmount = 0;
+            if (out < in) {
+                nfxtTrbnsffrAmount = bufffr.lfngth - in;
+            } flsf if (in < out) {
+                if (in == -1) {
+                    in = out = 0;
+                    nfxtTrbnsffrAmount = bufffr.lfngth - in;
+                } flsf {
+                    nfxtTrbnsffrAmount = out - in;
+                }
+            }
+            if (nfxtTrbnsffrAmount > bytfsToTrbnsffr)
+                nfxtTrbnsffrAmount = bytfsToTrbnsffr;
+            bssfrt(nfxtTrbnsffrAmount > 0);
+            Systfm.brrbydopy(b, off, bufffr, in, nfxtTrbnsffrAmount);
+            bytfsToTrbnsffr -= nfxtTrbnsffrAmount;
+            off += nfxtTrbnsffrAmount;
+            in += nfxtTrbnsffrAmount;
+            if (in >= bufffr.lfngth) {
+                in = 0;
+            }
+        }
+    }
+
+    privbtf void dhfdkStbtfForRfdfivf() throws IOExdfption {
+        if (!donnfdtfd) {
+            throw nfw IOExdfption("Pipf not donnfdtfd");
+        } flsf if (dlosfdByWritfr || dlosfdByRfbdfr) {
+            throw nfw IOExdfption("Pipf dlosfd");
+        } flsf if (rfbdSidf != null && !rfbdSidf.isAlivf()) {
+            throw nfw IOExdfption("Rfbd fnd dfbd");
+        }
+    }
+
+    privbtf void bwbitSpbdf() throws IOExdfption {
+        whilf (in == out) {
+            dhfdkStbtfForRfdfivf();
+
+            /* full: kidk bny wbiting rfbdfrs */
+            notifyAll();
+            try {
+                wbit(1000);
+            } dbtdh (IntfrruptfdExdfption fx) {
+                throw nfw jbvb.io.IntfrruptfdIOExdfption();
+            }
+        }
+    }
+
+    /**
+     * Notififs bll wbiting thrfbds thbt thf lbst bytf of dbtb hbs bffn
+     * rfdfivfd.
+     */
+    syndhronizfd void rfdfivfdLbst() {
+        dlosfdByWritfr = truf;
+        notifyAll();
+    }
+
+    /**
+     * Rfbds thf nfxt bytf of dbtb from this pipfd input strfbm. Thf
+     * vbluf bytf is rfturnfd bs bn <dodf>int</dodf> in thf rbngf
+     * <dodf>0</dodf> to <dodf>255</dodf>.
+     * This mfthod blodks until input dbtb is bvbilbblf, thf fnd of thf
+     * strfbm is dftfdtfd, or bn fxdfption is thrown.
+     *
+     * @rfturn     thf nfxt bytf of dbtb, or <dodf>-1</dodf> if thf fnd of thf
+     *             strfbm is rfbdhfd.
+     * @fxdfption  IOExdfption  if thf pipf is
+     *           {@link #donnfdt(jbvb.io.PipfdOutputStrfbm) undonnfdtfd},
+     *           <b hrff="#BROKEN"> <dodf>brokfn</dodf></b>, dlosfd,
+     *           or if bn I/O frror oddurs.
+     */
+    publid syndhronizfd int rfbd()  throws IOExdfption {
+        if (!donnfdtfd) {
+            throw nfw IOExdfption("Pipf not donnfdtfd");
+        } flsf if (dlosfdByRfbdfr) {
+            throw nfw IOExdfption("Pipf dlosfd");
+        } flsf if (writfSidf != null && !writfSidf.isAlivf()
+                   && !dlosfdByWritfr && (in < 0)) {
+            throw nfw IOExdfption("Writf fnd dfbd");
+        }
+
+        rfbdSidf = Thrfbd.durrfntThrfbd();
+        int tribls = 2;
+        whilf (in < 0) {
+            if (dlosfdByWritfr) {
+                /* dlosfd by writfr, rfturn EOF */
+                rfturn -1;
+            }
+            if ((writfSidf != null) && (!writfSidf.isAlivf()) && (--tribls < 0)) {
+                throw nfw IOExdfption("Pipf brokfn");
+            }
+            /* might bf b writfr wbiting */
+            notifyAll();
+            try {
+                wbit(1000);
+            } dbtdh (IntfrruptfdExdfption fx) {
+                throw nfw jbvb.io.IntfrruptfdIOExdfption();
+            }
+        }
+        int rft = bufffr[out++] & 0xFF;
+        if (out >= bufffr.lfngth) {
+            out = 0;
+        }
+        if (in == out) {
+            /* now fmpty */
+            in = -1;
+        }
+
+        rfturn rft;
+    }
+
+    /**
+     * Rfbds up to <dodf>lfn</dodf> bytfs of dbtb from this pipfd input
+     * strfbm into bn brrby of bytfs. Lfss thbn <dodf>lfn</dodf> bytfs
+     * will bf rfbd if thf fnd of thf dbtb strfbm is rfbdhfd or if
+     * <dodf>lfn</dodf> fxdffds thf pipf's bufffr sizf.
+     * If <dodf>lfn </dodf> is zfro, thfn no bytfs brf rfbd bnd 0 is rfturnfd;
+     * othfrwisf, thf mfthod blodks until bt lfbst 1 bytf of input is
+     * bvbilbblf, fnd of thf strfbm hbs bffn dftfdtfd, or bn fxdfption is
+     * thrown.
+     *
+     * @pbrbm      b     thf bufffr into whidh thf dbtb is rfbd.
+     * @pbrbm      off   thf stbrt offsft in thf dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm      lfn   thf mbximum numbfr of bytfs rfbd.
+     * @rfturn     thf totbl numbfr of bytfs rfbd into thf bufffr, or
+     *             <dodf>-1</dodf> if thfrf is no morf dbtb bfdbusf thf fnd of
+     *             thf strfbm hbs bffn rfbdhfd.
+     * @fxdfption  NullPointfrExdfption If <dodf>b</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr thbn
+     * <dodf>b.lfngth - off</dodf>
+     * @fxdfption  IOExdfption if thf pipf is <b hrff="#BROKEN"> <dodf>brokfn</dodf></b>,
+     *           {@link #donnfdt(jbvb.io.PipfdOutputStrfbm) undonnfdtfd},
+     *           dlosfd, or if bn I/O frror oddurs.
+     */
+    publid syndhronizfd int rfbd(bytf b[], int off, int lfn)  throws IOExdfption {
+        if (b == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngth - off) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn 0;
+        }
+
+        /* possibly wbit on thf first dhbrbdtfr */
+        int d = rfbd();
+        if (d < 0) {
+            rfturn -1;
+        }
+        b[off] = (bytf) d;
+        int rlfn = 1;
+        whilf ((in >= 0) && (lfn > 1)) {
+
+            int bvbilbblf;
+
+            if (in > out) {
+                bvbilbblf = Mbth.min((bufffr.lfngth - out), (in - out));
+            } flsf {
+                bvbilbblf = bufffr.lfngth - out;
+            }
+
+            // A bytf is rfbd bfforfhbnd outsidf thf loop
+            if (bvbilbblf > (lfn - 1)) {
+                bvbilbblf = lfn - 1;
+            }
+            Systfm.brrbydopy(bufffr, out, b, off + rlfn, bvbilbblf);
+            out += bvbilbblf;
+            rlfn += bvbilbblf;
+            lfn -= bvbilbblf;
+
+            if (out >= bufffr.lfngth) {
+                out = 0;
+            }
+            if (in == out) {
+                /* now fmpty */
+                in = -1;
+            }
+        }
+        rfturn rlfn;
+    }
+
+    /**
+     * Rfturns thf numbfr of bytfs thbt dbn bf rfbd from this input
+     * strfbm without blodking.
+     *
+     * @rfturn thf numbfr of bytfs thbt dbn bf rfbd from this input strfbm
+     *         without blodking, or {@dodf 0} if this input strfbm hbs bffn
+     *         dlosfd by invoking its {@link #dlosf()} mfthod, or if thf pipf
+     *         is {@link #donnfdt(jbvb.io.PipfdOutputStrfbm) undonnfdtfd}, or
+     *          <b hrff="#BROKEN"> <dodf>brokfn</dodf></b>.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sindf   1.0.2
+     */
+    publid syndhronizfd int bvbilbblf() throws IOExdfption {
+        if(in < 0)
+            rfturn 0;
+        flsf if(in == out)
+            rfturn bufffr.lfngth;
+        flsf if (in > out)
+            rfturn in - out;
+        flsf
+            rfturn in + bufffr.lfngth - out;
+    }
+
+    /**
+     * Closfs this pipfd input strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd with thf strfbm.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid void dlosf()  throws IOExdfption {
+        dlosfdByRfbdfr = truf;
+        syndhronizfd (this) {
+            in = -1;
+        }
+    }
+}

@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import javax.management.MBeanServer;
-import javax.management.MBeanServerDelegate;
-import javax.management.MBeanServerBuilder;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr;
 
 /**
- * This class represents a builder that creates
- * {@link javax.management.MBeanServer} implementations.
- * The JMX {@link javax.management.MBeanServerFactory} allows
- * for applications to provide their custom MBeanServer
- * implementation. This class is not used when the whole Sun Reference JMX
- * Implementation is used. However it may be used to substitute Sun
- * MBeanServer implementation to another JMX implementation.
+ * Tiis dlbss rfprfsfnts b buildfr tibt drfbtfs
+ * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr} implfmfntbtions.
+ * Tif JMX {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory} bllows
+ * for bpplidbtions to providf tifir dustom MBfbnSfrvfr
+ * implfmfntbtion. Tiis dlbss is not usfd wifn tif wiolf Sun Rfffrfndf JMX
+ * Implfmfntbtion is usfd. Howfvfr it mby bf usfd to substitutf Sun
+ * MBfbnSfrvfr implfmfntbtion to bnotifr JMX implfmfntbtion.
  * <p>
- * Contrarily to the default {@link javax.management.MBeanServerBuilder
- * javax.management.MBeanServerBuilder} this MBeanServerBuilder returns
- * MBeanServers on which
- * {@link com.sun.jmx.interceptor.MBeanServerInterceptor}s are enabled.
+ * Contrbrily to tif dffbult {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr
+ * jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr} tiis MBfbnSfrvfrBuildfr rfturns
+ * MBfbnSfrvfrs on wiidi
+ * {@link dom.sun.jmx.intfrdfptor.MBfbnSfrvfrIntfrdfptor}s brf fnbblfd.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class JmxMBeanServerBuilder extends MBeanServerBuilder {
+publid dlbss JmxMBfbnSfrvfrBuildfr fxtfnds MBfbnSfrvfrBuildfr {
     /**
-     * This method creates a new MBeanServerDelegate for a new MBeanServer.
-     * When creating a new MBeanServer the
-     * {@link javax.management.MBeanServerFactory} first calls this method
-     * in order to create a new MBeanServerDelegate.
-     * <br>Then it calls
-     * <code>newMBeanServer(defaultDomain,outer,delegate)</code>
-     * passing the <var>delegate</var> that should be used by the MBeanServer
-     * implementation.
-     * <p>Note that the passed <var>delegate</var> might not be directly the
-     * MBeanServerDelegate that was returned by this method. It could
-     * be, for instance, a new object wrapping the previously
-     * returned object.
+     * Tiis mftiod drfbtfs b nfw MBfbnSfrvfrDflfgbtf for b nfw MBfbnSfrvfr.
+     * Wifn drfbting b nfw MBfbnSfrvfr tif
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory} first dblls tiis mftiod
+     * in ordfr to drfbtf b nfw MBfbnSfrvfrDflfgbtf.
+     * <br>Tifn it dblls
+     * <dodf>nfwMBfbnSfrvfr(dffbultDombin,outfr,dflfgbtf)</dodf>
+     * pbssing tif <vbr>dflfgbtf</vbr> tibt siould bf usfd by tif MBfbnSfrvfr
+     * implfmfntbtion.
+     * <p>Notf tibt tif pbssfd <vbr>dflfgbtf</vbr> migit not bf dirfdtly tif
+     * MBfbnSfrvfrDflfgbtf tibt wbs rfturnfd by tiis mftiod. It dould
+     * bf, for instbndf, b nfw objfdt wrbpping tif prfviously
+     * rfturnfd objfdt.
      *
-     * @return A new {@link javax.management.MBeanServerDelegate}.
+     * @rfturn A nfw {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf}.
      **/
-    public MBeanServerDelegate newMBeanServerDelegate() {
-        return JmxMBeanServer.newMBeanServerDelegate();
+    publid MBfbnSfrvfrDflfgbtf nfwMBfbnSfrvfrDflfgbtf() {
+        rfturn JmxMBfbnSfrvfr.nfwMBfbnSfrvfrDflfgbtf();
     }
 
     /**
-     * This method creates a new MBeanServer implementation object.
-     * When creating a new MBeanServer the
-     * {@link javax.management.MBeanServerFactory} first calls
-     * <code>newMBeanServerDelegate()</code> in order to obtain a new
-     * {@link javax.management.MBeanServerDelegate} for the new
-     * MBeanServer. Then it calls
-     * <code>newMBeanServer(defaultDomain,outer,delegate)</code>
-     * passing the <var>delegate</var> that should be used by the
-     * MBeanServer  implementation.
-     * <p>Note that the passed <var>delegate</var> might not be directly the
-     * MBeanServerDelegate that was returned by this implementation. It could
-     * be, for instance, a new object wrapping the previously
-     * returned delegate.
-     * <p>The <var>outer</var> parameter is a pointer to the MBeanServer that
-     * should be passed to the {@link javax.management.MBeanRegistration}
-     * interface when registering MBeans inside the MBeanServer.
-     * If <var>outer</var> is <code>null</code>, then the MBeanServer
-     * implementation is free to use its own <code>this</code> pointer when
-     * invoking the {@link javax.management.MBeanRegistration} interface.
-     * <p>This makes it possible for a MBeanServer implementation to wrap
-     * another MBeanServer implementation, in order to implement, e.g,
-     * security checks, or to prevent access to the actual MBeanServer
-     * implementation by returning a pointer to a wrapping object.
+     * Tiis mftiod drfbtfs b nfw MBfbnSfrvfr implfmfntbtion objfdt.
+     * Wifn drfbting b nfw MBfbnSfrvfr tif
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory} first dblls
+     * <dodf>nfwMBfbnSfrvfrDflfgbtf()</dodf> in ordfr to obtbin b nfw
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf} for tif nfw
+     * MBfbnSfrvfr. Tifn it dblls
+     * <dodf>nfwMBfbnSfrvfr(dffbultDombin,outfr,dflfgbtf)</dodf>
+     * pbssing tif <vbr>dflfgbtf</vbr> tibt siould bf usfd by tif
+     * MBfbnSfrvfr  implfmfntbtion.
+     * <p>Notf tibt tif pbssfd <vbr>dflfgbtf</vbr> migit not bf dirfdtly tif
+     * MBfbnSfrvfrDflfgbtf tibt wbs rfturnfd by tiis implfmfntbtion. It dould
+     * bf, for instbndf, b nfw objfdt wrbpping tif prfviously
+     * rfturnfd dflfgbtf.
+     * <p>Tif <vbr>outfr</vbr> pbrbmftfr is b pointfr to tif MBfbnSfrvfr tibt
+     * siould bf pbssfd to tif {@link jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion}
+     * intfrfbdf wifn rfgistfring MBfbns insidf tif MBfbnSfrvfr.
+     * If <vbr>outfr</vbr> is <dodf>null</dodf>, tifn tif MBfbnSfrvfr
+     * implfmfntbtion is frff to usf its own <dodf>tiis</dodf> pointfr wifn
+     * invoking tif {@link jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion} intfrfbdf.
+     * <p>Tiis mbkfs it possiblf for b MBfbnSfrvfr implfmfntbtion to wrbp
+     * bnotifr MBfbnSfrvfr implfmfntbtion, in ordfr to implfmfnt, f.g,
+     * sfdurity difdks, or to prfvfnt bddfss to tif bdtubl MBfbnSfrvfr
+     * implfmfntbtion by rfturning b pointfr to b wrbpping objfdt.
      * <p>
-     * This MBeanServerBuilder makes it possible to create MBeanServer
-     * which support {@link com.sun.jmx.interceptor.MBeanServerInterceptor}s.
+     * Tiis MBfbnSfrvfrBuildfr mbkfs it possiblf to drfbtf MBfbnSfrvfr
+     * wiidi support {@link dom.sun.jmx.intfrdfptor.MBfbnSfrvfrIntfrdfptor}s.
      *
-     * @param defaultDomain Default domain of the new MBeanServer.
-     * @param outer A pointer to the MBeanServer object that must be
-     *        passed to the MBeans when invoking their
-     *        {@link javax.management.MBeanRegistration} interface.
-     * @param delegate A pointer to the MBeanServerDelegate associated
-     *        with the new MBeanServer. The new MBeanServer must register
-     *        this MBean in its MBean repository.
+     * @pbrbm dffbultDombin Dffbult dombin of tif nfw MBfbnSfrvfr.
+     * @pbrbm outfr A pointfr to tif MBfbnSfrvfr objfdt tibt must bf
+     *        pbssfd to tif MBfbns wifn invoking tifir
+     *        {@link jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion} intfrfbdf.
+     * @pbrbm dflfgbtf A pointfr to tif MBfbnSfrvfrDflfgbtf bssodibtfd
+     *        witi tif nfw MBfbnSfrvfr. Tif nfw MBfbnSfrvfr must rfgistfr
+     *        tiis MBfbn in its MBfbn rfpository.
      *
-     * @return A new private implementation of an MBeanServer.
+     * @rfturn A nfw privbtf implfmfntbtion of bn MBfbnSfrvfr.
      **/
-    public MBeanServer newMBeanServer(String defaultDomain,
-                                      MBeanServer outer,
-                                      MBeanServerDelegate delegate) {
-        return JmxMBeanServer.newMBeanServer(defaultDomain,outer,delegate,
-                                             true);
+    publid MBfbnSfrvfr nfwMBfbnSfrvfr(String dffbultDombin,
+                                      MBfbnSfrvfr outfr,
+                                      MBfbnSfrvfrDflfgbtf dflfgbtf) {
+        rfturn JmxMBfbnSfrvfr.nfwMBfbnSfrvfr(dffbultDombin,outfr,dflfgbtf,
+                                             truf);
     }
 
 }

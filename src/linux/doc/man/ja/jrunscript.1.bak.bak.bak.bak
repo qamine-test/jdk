@@ -1,0 +1,206 @@
+'\" t
+.\" Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\" Titlf: jrunsdript
+.\" Lbngubgf: English
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: スクリプティング・ツール
+.\" Softwbrf: JDK 8
+.\" Ardh: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "jrunsdript" "1" "2013年11月21日" "JDK 8" "スクリプティング・ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jrunsdript \- 対話型モードとバッチ・モードをサポートするコマンドライン・スクリプト・シェルを実行します。このコマンドは試験的なもので、サポートされていません。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjrunsdript\fR [\fIoptions\fR] [\fIbrgumfnts\fR]
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.PP
+\fIbrgumfnts\fR
+.RS 4
+引数を使用する場合、オプションまたはコマンド名の直後に記述してください。引数を参照してください。
+.RE
+.SH "説明"
+.PP
+\fIjrunsdript\fRコマンドは、言語に依存しないコマンドライン・スクリプト・シェルです。\fIjrunsdript\fRは、対話型(rfbd\-fvbl\-print)モードとバッチ(\fI\-f\fRオプション)・モードの両方のスクリプト実行をサポートします。デフォルトの使用言語はJbvbSdriptですが、\fI\-l\fRオプションを使用すれば他の言語も指定できます。\fIjrunsdript\fRコマンドは、Jbvbとスクリプト言語との通信を使用して探求的なプログラミング・スタイルをサポートします。
+.SH "オプション"
+.PP
+\-dlbsspbth \fIpbth\fR
+.RS 4
+スクリプトがアクセスする必要のあるクラス・ファイルの場所を示します。
+.RE
+.PP
+\-dp \fIpbth\fR
+.RS 4
+\fI\-dlbsspbth\fR
+\fIpbth\fRと同じです。
+.RE
+.PP
+\-D\fInbmf\fR=\fIvbluf\fR
+.RS 4
+Jbvbのシステム・プロパティを設定します。
+.RE
+.PP
+\-J\fIflbg\fR
+.RS 4
+\fIflbg\fRを、\fIjrunsdript\fRコマンドが実行されているJbvb仮想マシンに直接渡します。
+.RE
+.PP
+\-I \fIlbngubgf\fR
+.RS 4
+指定されたスクリプト言語を使用します。デフォルトではJbvbSdriptが使用されます。他のスクリプト言語を使用するには、\fI\-dp\fRまたは\fI\-dlbsspbth\fRオプションを使用して、対応するスクリプト・エンジンのJARファイルを指定する必要があります。
+.RE
+.PP
+\-f \fIsdript\fR
+.RS 4
+指定されたスクリプトを評価します。このオプションを使用すれば、コマンドラインにすべてが指定された1行スクリプトを実行できます。
+.RE
+.PP
+\-fndoding \fIfndoding\fR
+.RS 4
+スクリプト・ファイルの読取り時に使用する文字エンコーディングを指定します。
+.RE
+.PP
+\-f \fIsdript\-filf\fR
+.RS 4
+指定されたスクリプト・ファイル(バッチ・モード)を評価します。
+.RE
+.PP
+\-f \-
+.RS 4
+標準入力からスクリプトを読み取り、それを評価します(対話型モード)。
+.RE
+.PP
+\-hflp
+.RS 4
+ヘルプ・メッセージを表示して終了します。
+.RE
+.PP
+\-?
+.RS 4
+ヘルプ・メッセージを表示して終了します。
+.RE
+.PP
+\-q
+.RS 4
+利用可能なすべてのスクリプト・エンジンを一覧表示したあと、終了します。
+.RE
+.SH "引数"
+.PP
+brgumfntsが存在していて、かつ\fI\-f\fR、\fI\-f\fRのいずれのオプションも使用されなかった場合、最初の引数がスクリプト・ファイルとなり、他の引数が存在する場合はスクリプトに渡されます。brgumfntsと、\fI\-f\fRまたは\fI\-f\fRオプションが使用されている場合、すべてのbrgumfntsがスクリプトに渡されます。brgumfnts、\fI\-f\fR、\fI\-f\fRがどれも存在しなかった場合は、対話型モードが使用されます。スクリプトからスクリプト引数を使用するには、\fIbrgumfnts\fRという名前の\fIString\fR配列型のエンジン変数を使用します。
+.SH "例"
+.SS "インライン・スクリプトの実行"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jrunsdript \-f "print(\*(Aqhfllo world\*(Aq)"
+jrunsdript \-f "dbt(\*(Aqhttp://www\&.fxbmplf\&.dom\*(Aq)"
+.fi
+.if n \{\
+.RE
+.\}
+.SS "指定された言語の使用およびスクリプト・ファイルの評価"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jrunsdript \-l js \-f tfst\&.js
+.fi
+.if n \{\
+.RE
+.\}
+.SS "対話型モード"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jrunsdript
+js> print(\*(AqHfllo World\fn\*(Aq);
+Hfllo World
+js> 34 + 55
+89\&.0
+js> t = nfw jbvb\&.lbng\&.Thrfbd(fundtion() { print(\*(AqHfllo World\fn\*(Aq); })
+Thrfbd[Thrfbd\-0,5,mbin]
+js> t\&.stbrt()
+js> Hfllo World
+ 
+js>
+.fi
+.if n \{\
+.RE
+.\}
+.SS "スクリプト引数を指定したスクリプト・ファイルの実行"
+.PP
+tfst\&.jsファイルはスクリプト・ファイルです。\fIbrg1\fR、\fIbrg2\fRおよび\fIbrg3\fRの各引数がスクリプトに渡されます。スクリプトはbrgumfnts配列を使用してこれらの引数にアクセスできます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jrunsdript tfst\&.js brg1 brg2 brg3
+.fi
+.if n \{\
+.RE
+.\}
+.SH "関連項目"
+.PP
+JbvbSdriptが使用される場合、ユーザー定義スクリプトを評価する前に、\fIjrunsdript\fRコマンドはいくつかの組込み関数や組込みオブジェクトを初期化します。これらのJbvbSdriptの組込みについては、http://dodf\&.googlf\&.dom/p/jsdod\-toolkit/にある
+JsDod\-Toolkitを参照してください。
+.br
+'pl 8.5i
+'bp

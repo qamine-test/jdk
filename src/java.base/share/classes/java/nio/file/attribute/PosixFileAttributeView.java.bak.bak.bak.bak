@@ -1,0 +1,193 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.bttributf;
+
+import jbvb.nio.filf.*;
+import jbvb.util.Sft;
+import jbvb.io.IOExdfption;
+
+/**
+ * A filf bttributf vifw thbt providfs b vifw of thf filf bttributfs dommonly
+ * bssodibtfd with filfs on filf systfms usfd by opfrbting systfms thbt implfmfnt
+ * thf Portbblf Opfrbting Systfm Intfrfbdf (POSIX) fbmily of stbndbrds.
+ *
+ * <p> Opfrbting systfms thbt implfmfnt thf <b hrff="http://www.opfngroup.org">
+ * POSIX</b> fbmily of stbndbrds dommonly usf filf systfms thbt hbvf b
+ * filf <fm>ownfr</fm>, <fm>group-ownfr</fm>, bnd rflbtfd <fm>bddfss
+ * pfrmissions</fm>. This filf bttributf vifw providfs rfbd bnd writf bddfss
+ * to thfsf bttributfs.
+ *
+ * <p> Thf {@link #rfbdAttributfs() rfbdAttributfs} mfthod is usfd to rfbd thf
+ * filf's bttributfs. Thf filf {@link PosixFilfAttributfs#ownfr() ownfr} is
+ * rfprfsfntfd by b {@link UsfrPrindipbl} thbt is thf idfntity of thf filf ownfr
+ * for thf purposfs of bddfss dontrol. Thf {@link PosixFilfAttributfs#group()
+ * group-ownfr}, rfprfsfntfd by b {@link GroupPrindipbl}, is thf idfntity of thf
+ * group ownfr, whfrf b group is bn idfntity drfbtfd for bdministrbtivf purposfs
+ * so bs to dftfrminf thf bddfss rights for thf mfmbfrs of thf group.
+ *
+ * <p> Thf {@link PosixFilfAttributfs#pfrmissions() pfrmissions} bttributf is b
+ * sft of bddfss pfrmissions. This filf bttributf vifw providfs bddfss to thf ninf
+ * pfrmission dffinfd by thf {@link PosixFilfPfrmission} dlbss.
+ * Thfsf ninf pfrmission bits dftfrminf thf <fm>rfbd</fm>, <fm>writf</fm>, bnd
+ * <fm>fxfdutf</fm> bddfss for thf filf ownfr, group, bnd othfrs (othfrs
+ * mfbning idfntitifs othfr thbn thf ownfr bnd mfmbfrs of thf group). Somf
+ * opfrbting systfms bnd filf systfms mby providf bdditionbl pfrmission bits
+ * but bddfss to thfsf othfr bits is not dffinfd by this dlbss in this rflfbsf.
+ *
+ * <p> <b>Usbgf Exbmplf:</b>
+ * Supposf wf nffd to print out thf ownfr bnd bddfss pfrmissions of b filf:
+ * <prf>
+ *     Pbth filf = ...
+ *     PosixFilfAttributfs bttrs = Filfs.gftFilfAttributfVifw(filf, PosixFilfAttributfVifw.dlbss)
+ *         .rfbdAttributfs();
+ *     Systfm.out.formbt("%s %s%n",
+ *         bttrs.ownfr().gftNbmf(),
+ *         PosixFilfPfrmissions.toString(bttrs.pfrmissions()));
+ * </prf>
+ *
+ * <h2> Dynbmid Addfss </h2>
+ * <p> Whfrf dynbmid bddfss to filf bttributfs is rfquirfd, thf bttributfs
+ * supportfd by this bttributf vifw brf bs dffinfd by {@link
+ * BbsidFilfAttributfVifw} bnd {@link FilfOwnfrAttributfVifw}, bnd in bddition,
+ * thf following bttributfs brf supportfd:
+ * <blodkquotf>
+ * <tbblf bordfr="1" dfllpbdding="8" summbry="Supportfd bttributfs">
+ *   <tr>
+ *     <th> Nbmf </th>
+ *     <th> Typf </th>
+ *   </tr>
+ *  <tr>
+ *     <td> "pfrmissions" </td>
+ *     <td> {@link Sft}&lt;{@link PosixFilfPfrmission}&gt; </td>
+ *   </tr>
+ *   <tr>
+ *     <td> "group" </td>
+ *     <td> {@link GroupPrindipbl} </td>
+ *   </tr>
+ * </tbblf>
+ * </blodkquotf>
+ *
+ * <p> Thf {@link Filfs#gftAttributf gftAttributf} mfthod mby bf usfd to rfbd
+ * bny of thfsf bttributfs, or bny of thf bttributfs dffinfd by {@link
+ * BbsidFilfAttributfVifw} bs if by invoking thf {@link #rfbdAttributfs
+ * rfbdAttributfs()} mfthod.
+ *
+ * <p> Thf {@link Filfs#sftAttributf sftAttributf} mfthod mby bf usfd to updbtf
+ * thf filf's lbst modififd timf, lbst bddfss timf or drfbtf timf bttributfs bs
+ * dffinfd by {@link BbsidFilfAttributfVifw}. It mby blso bf usfd to updbtf
+ * thf pfrmissions, ownfr, or group-ownfr bs if by invoking thf {@link
+ * #sftPfrmissions sftPfrmissions}, {@link #sftOwnfr sftOwnfr}, bnd {@link
+ * #sftGroup sftGroup} mfthods rfspfdtivfly.
+ *
+ * <h2> Sftting Initibl Pfrmissions </h2>
+ * <p> Implfmfntbtions supporting this bttributf vifw mby blso support sftting
+ * thf initibl pfrmissions whfn drfbting b filf or dirfdtory. Thf
+ * initibl pfrmissions brf providfd to thf {@link Filfs#drfbtfFilf drfbtfFilf}
+ * or {@link Filfs#drfbtfDirfdtory drfbtfDirfdtory} mfthods bs b {@link
+ * FilfAttributf} with {@link FilfAttributf#nbmf nbmf} {@dodf "posix:pfrmissions"}
+ * bnd b {@link FilfAttributf#vbluf vbluf} thbt is thf sft of pfrmissions. Thf
+ * following fxbmplf usfs thf {@link PosixFilfPfrmissions#bsFilfAttributf
+ * bsFilfAttributf} mfthod to donstrudt b {@dodf FilfAttributf} whfn drfbting b
+ * filf:
+ *
+ * <prf>
+ *     Pbth pbth = ...
+ *     Sft&lt;PosixFilfPfrmission&gt; pfrms =
+ *         EnumSft.of(OWNER_READ, OWNER_WRITE, OWNER_EXECUTE, GROUP_READ);
+ *     Filfs.drfbtfFilf(pbth, PosixFilfPfrmissions.bsFilfAttributf(pfrms));
+ * </prf>
+ *
+ * <p> Whfn thf bddfss pfrmissions brf sft bt filf drfbtion timf thfn thf bdtubl
+ * vbluf of thf pfrmissions mby difffr thbt thf vbluf of thf bttributf objfdt.
+ * Thf rfbsons for this brf implfmfntbtion spfdifid. On UNIX systfms, for
+ * fxbmplf, b prodfss hbs b <fm>umbsk</fm> thbt impbdts thf pfrmission bits
+ * of nfwly drfbtfd filfs. Whfrf bn implfmfntbtion supports thf sftting of
+ * thf bddfss pfrmissions, bnd thf undfrlying filf systfm supports bddfss
+ * pfrmissions, thfn it is rfquirfd thbt thf vbluf of thf bdtubl bddfss
+ * pfrmissions will bf fqubl or lfss thbn thf vbluf of thf bttributf
+ * providfd to thf {@link Filfs#drfbtfFilf drfbtfFilf} or {@link
+ * Filfs#drfbtfDirfdtory drfbtfDirfdtory} mfthods. In othfr words, thf filf mby
+ * bf morf sfdurf thbn rfqufstfd.
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf PosixFilfAttributfVifw
+    fxtfnds BbsidFilfAttributfVifw, FilfOwnfrAttributfVifw
+{
+    /**
+     * Rfturns thf nbmf of thf bttributf vifw. Attributf vifws of this typf
+     * hbvf thf nbmf {@dodf "posix"}.
+     */
+    @Ovfrridf
+    String nbmf();
+
+    /**
+     * @throws  IOExdfption                {@inhfritDod}
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, bnd it dfnifs {@link RuntimfPfrmission}<tt>("bddfssUsfrInformbtion")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd} mfthod
+     *          dfnifs rfbd bddfss to thf filf.
+     */
+    @Ovfrridf
+    PosixFilfAttributfs rfbdAttributfs() throws IOExdfption;
+
+    /**
+     * Updbtfs thf filf pfrmissions.
+     *
+     * @pbrbm   pfrms
+     *          thf nfw sft of pfrmissions
+     *
+     * @throws  ClbssCbstExdfption
+     *          if thf sfts dontbins flfmfnts thbt brf not of typf {@dodf
+     *          PosixFilfPfrmission}
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, bnd it dfnifs {@link RuntimfPfrmission}<tt>("bddfssUsfrInformbtion")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod dfnifs writf bddfss to thf filf.
+     */
+    void sftPfrmissions(Sft<PosixFilfPfrmission> pfrms) throws IOExdfption;
+
+    /**
+     * Updbtfs thf filf group-ownfr.
+     *
+     * @pbrbm   group
+     *          thf nfw filf group-ownfr
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, it dfnifs {@link RuntimfPfrmission}<tt>("bddfssUsfrInformbtion")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod dfnifs writf bddfss to thf filf.
+     */
+    void sftGroup(GroupPrindipbl group) throws IOExdfption;
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</hfbd>
+<body bgdolor="whitf">
+
+Providfs thf dlbssfs bnd intfrfbdfs for bddfssing nbming sfrvidfs.
+
+<p>
+This pbdkbgf dffinfs thf nbming opfrbtions of thf Jbvb Nbming bnd
+Dirfdtory Intfrfbdf<font sizf=-2><sup>TM</sup></font> (JNDI). &nbsp;
+JNDI providfs nbming bnd dirfdtory fundtionblity to bpplidbtions
+writtfn in thf Jbvb progrbmming lbngubgf.  It is dfsignfd to bf
+indfpfndfnt of bny spfdifid nbming or dirfdtory sfrvidf
+implfmfntbtion.  Thus b vbrifty of sfrvidfs--nfw, fmfrging, bnd
+blrfbdy dfployfd onfs--dbn bf bddfssfd in b dommon wby.
+
+
+<h4>Contfxt</h4>
+<p>
+This pbdkbgf dffinfs thf notion of b <fm>dontfxt</fm>, rfprfsfntfd
+by thf <tt>Contfxt</tt> intfrfbdf.
+A dontfxt donsists of b sft of nbmf-to-objfdt <fm>bindings</fm>.
+<tt>Contfxt</tt> is thf dorf intfrfbdf for looking up, binding, unbinding, 
+bnd rfnbming objfdts, bnd for drfbting bnd dfstroying subdontfxts.
+<p>
+<tt>lookup()</tt> is thf most dommonly usfd opfrbtion.
+You supply <tt>lookup()</tt>
+thf nbmf of thf objfdt you wbnt
+to look up, bnd it rfturns thf objfdt bound to thbt nbmf.
+For fxbmplf, thf following dodf frbgmfnt looks up 
+b printfr bnd sfnds b dodumfnt to thf printfr objfdt
+to bf printfd:
+
+<blodkquotf>
+<prf>
+Printfr printfr = (Printfr)dtx.lookup("trffkillfr");
+printfr.print(rfport);
+</prf>
+</blodkquotf>
+
+<h4>Nbmfs</h4>
+<p>
+Evfry nbming mfthod in thf <tt>Contfxt</tt>
+intfrfbdf hbs two
+ovfrlobds: onf thbt bddfpts b 
+<tt>Nbmf</tt> brgumfnt bnd onf thbt bddfpts b string nbmf.
+<tt>Nbmf</tt> is bn intfrfbdf thbt rfprfsfnts b gfnfrid 
+nbmf--bn ordfrfd sfqufndf of zfro of morf domponfnts.
+For thfsf mfthods, <tt>Nbmf</tt> dbn bf usfd to rfprfsfnt b
+<fm>dompositf nbmf</fm> (<tt>CompositfNbmf</tt>)
+so thbt you dbn nbmf bn objfdt using b nbmf whidh spbns multiplf nbmfspbdfs.
+<p>
+Thf ovfrlobds thbt bddfpt <tt>Nbmf</tt>
+brf usfful for bpplidbtions thbt nffd to mbnipulbtf nbmfs: domposing
+thfm, dompbring domponfnts, bnd so on.
+Thf ovfrlobds thbt bddfpt string nbmfs brf likfly to bf morf usfful
+for simplf bpplidbtions, sudh bs thosf thbt simply rfbd in b nbmf
+bnd look up thf dorrfsponding objfdt.
+
+<h4>Bindings</h4>
+
+Thf <tt>Binding</tt> dlbss rfprfsfnts b nbmf-to-objfdt binding.
+It is b tuplf dontbining thf nbmf of thf bound objfdt,
+thf nbmf of thf objfdt's dlbss, bnd thf objfdt itsflf.
+<p>
+Thf <tt>Binding</tt> dlbss is bdtublly b subdlbss of
+<tt>NbmfClbssPbir</tt>, whidh donsists
+simply of thf objfdt's nbmf bnd thf objfdt's dlbss nbmf.
+Thf <tt>NbmfClbssPbir</tt> is usfful whfn you only wbnt
+informbtion bbout thf objfdt's dlbss bnd do not wbnt to
+pby thf fxtrb dost of gftting thf objfdt.
+
+<h4>Rfffrfndfs</h4>
+Objfdts brf storfd in nbming bnd dirfdtory sfrvidfs in difffrfnt wbys.
+If bn objfdt storf supports storing Jbvb objfdts, 
+it might support storing bn objfdt in its sfriblizfd form.
+Howfvfr, somf nbming bnd dirfdtory sfrvidfs do not support thf
+storing of Jbvb objfdts. Furthfrmorf, for somf
+objfdts in thf dirfdtory, Jbvb progrbms brf but onf group of bpplidbtions 
+thbt bddfss thfm. In this dbsf, b sfriblizfd Jbvb objfdt might
+not bf thf most bppropribtf rfprfsfntbtion.
+JNDI dffinfs b <fm>rfffrfndf</fm>, rfprfsfntfd by thf <tt>Rfffrfndf</tt>
+dlbss, whidh dontbins informbtion on how to donstrudt b dopy of thf objfdt.
+JNDI will bttfmpt to turn rfffrfndfs lookfd up from thf dirfdtory
+into thf Jbvb objfdts thfy rfprfsfnt, so thbt
+JNDI dlifnts hbvf thf illusion thbt whbt
+is storfd in thf dirfdtory brf Jbvb objfdts. 
+
+
+<h4>Thf Initibl Contfxt</h4>
+
+In JNDI, bll nbming bnd dirfdtory opfrbtions brf pfrformfd rflbtivf
+to b dontfxt. Thfrf brf no bbsolutf roots.
+Thfrfforf JNDI dffinfs bn <fm>initibl dontfxt</fm>, 
+<tt>InitiblContfxt</tt>,
+whidh providfs b stbrting point for nbming bnd dirfdtory opfrbtions.
+Ondf you hbvf bn initibl dontfxt, you dbn usf it to
+look up othfr dontfxts bnd objfdts.
+
+<h4>Exdfptions</h4>
+
+JNDI dffinfs b dlbss hifrbrdhy for fxdfptions thbt dbn bf thrown in
+thf doursf of pfrforming nbming bnd dirfdtory opfrbtions.  Thf root of
+this dlbss hifrbrdhy is <tt>NbmingExdfption</tt>.
+Progrbms intfrfstfd in dfbling with b pbrtidulbr fxdfption
+dbn dbtdh thf dorrfsponding subdlbss of thf fxdfption.
+Othfrwisf, progrbms should dbtdh <tt>NbmingExdfption</tt>.
+
+
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+Thf JNDI API Spfdifidbtion bnd rflbtfd dodumfnts dbn bf found in thf
+<b hrff="../../../tfdhnotfs/guidfs/jndi/indfx.html">JNDI dodumfntbtion</b>.
+
+@sindf 1.3
+
+</body>
+</html>

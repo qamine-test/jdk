@@ -1,830 +1,830 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.rmic;
+pbdkbgf sun.rmi.rmid;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.security.MessageDigest;
-import java.security.DigestOutputStream;
-import java.security.NoSuchAlgorithmException;
-import sun.tools.java.Type;
-import sun.tools.java.ClassDefinition;
-import sun.tools.java.ClassDeclaration;
-import sun.tools.java.MemberDefinition;
-import sun.tools.java.Identifier;
-import sun.tools.java.ClassNotFound;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.DigfstOutputStrfbm;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import sun.tools.jbvb.Typf;
+import sun.tools.jbvb.ClbssDffinition;
+import sun.tools.jbvb.ClbssDfdlbrbtion;
+import sun.tools.jbvb.MfmbfrDffinition;
+import sun.tools.jbvb.Idfntififr;
+import sun.tools.jbvb.ClbssNotFound;
 
 /**
- * A RemoteClass object encapsulates RMI-specific information about
- * a remote implementation class, i.e. a class that implements
- * one or more remote interfaces.
+ * A RfmotfClbss objfdt fndbpsulbtfs RMI-spfdifid informbtion bbout
+ * b rfmotf implfmfntbtion dlbss, i.f. b dlbss tibt implfmfnts
+ * onf or morf rfmotf intfrfbdfs.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
- * @author      Peter Jones
+ * @butior      Pftfr Jonfs
  */
-public class RemoteClass implements sun.rmi.rmic.RMIConstants {
+publid dlbss RfmotfClbss implfmfnts sun.rmi.rmid.RMIConstbnts {
 
     /**
-     * Create a RemoteClass object representing the remote meta-information
-     * of the given class.
+     * Crfbtf b RfmotfClbss objfdt rfprfsfnting tif rfmotf mftb-informbtion
+     * of tif givfn dlbss.
      *
-     * Returns true if successful.  If the class is not a properly formed
-     * remote implementation class or if some other error occurs, the
-     * return value will be null, and errors will have been reported to
-     * the supplied BatchEnvironment.
+     * Rfturns truf if suddfssful.  If tif dlbss is not b propfrly formfd
+     * rfmotf implfmfntbtion dlbss or if somf otifr frror oddurs, tif
+     * rfturn vbluf will bf null, bnd frrors will ibvf bffn rfportfd to
+     * tif supplifd BbtdiEnvironmfnt.
      */
-    public static RemoteClass forClass(BatchEnvironment env,
-                                       ClassDefinition implClassDef)
+    publid stbtid RfmotfClbss forClbss(BbtdiEnvironmfnt fnv,
+                                       ClbssDffinition implClbssDff)
     {
-        RemoteClass rc = new RemoteClass(env, implClassDef);
-        if (rc.initialize()) {
-            return rc;
-        } else {
-            return null;
+        RfmotfClbss rd = nfw RfmotfClbss(fnv, implClbssDff);
+        if (rd.initiblizf()) {
+            rfturn rd;
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Return the ClassDefinition for this class.
+     * Rfturn tif ClbssDffinition for tiis dlbss.
      */
-    public ClassDefinition getClassDefinition() {
-        return implClassDef;
+    publid ClbssDffinition gftClbssDffinition() {
+        rfturn implClbssDff;
     }
 
     /**
-     * Return the name of the class represented by this object.
+     * Rfturn tif nbmf of tif dlbss rfprfsfntfd by tiis objfdt.
      */
-    public Identifier getName() {
-        return implClassDef.getName();
+    publid Idfntififr gftNbmf() {
+        rfturn implClbssDff.gftNbmf();
     }
 
     /**
-     * Return an array of ClassDefinitions representing all of the remote
-     * interfaces implemented by this class.
+     * Rfturn bn brrby of ClbssDffinitions rfprfsfnting bll of tif rfmotf
+     * intfrfbdfs implfmfntfd by tiis dlbss.
      *
-     * A remote interface is any interface that extends Remote,
-     * directly or indirectly.  The remote interfaces of a class
-     * are the interfaces directly listed in either the class's
-     * "implements" clause, or the "implements" clause of any
-     * of its superclasses, that are remote interfaces.
+     * A rfmotf intfrfbdf is bny intfrfbdf tibt fxtfnds Rfmotf,
+     * dirfdtly or indirfdtly.  Tif rfmotf intfrfbdfs of b dlbss
+     * brf tif intfrfbdfs dirfdtly listfd in fitifr tif dlbss's
+     * "implfmfnts" dlbusf, or tif "implfmfnts" dlbusf of bny
+     * of its supfrdlbssfs, tibt brf rfmotf intfrfbdfs.
      *
-     * The order of the array returned is arbitrary, and some elements
-     * may be superfluous (i.e., superinterfaces of other interfaces
-     * in the array).
+     * Tif ordfr of tif brrby rfturnfd is brbitrbry, bnd somf flfmfnts
+     * mby bf supfrfluous (i.f., supfrintfrfbdfs of otifr intfrfbdfs
+     * in tif brrby).
      */
-    public ClassDefinition[] getRemoteInterfaces() {
-        return remoteInterfaces.clone();
+    publid ClbssDffinition[] gftRfmotfIntfrfbdfs() {
+        rfturn rfmotfIntfrfbdfs.dlonf();
     }
 
     /**
-     * Return an array of RemoteClass.Method objects representing all of
-     * the remote methods implemented by this class, i.e. all of the
-     * methods in the class's remote interfaces.
+     * Rfturn bn brrby of RfmotfClbss.Mftiod objfdts rfprfsfnting bll of
+     * tif rfmotf mftiods implfmfntfd by tiis dlbss, i.f. bll of tif
+     * mftiods in tif dlbss's rfmotf intfrfbdfs.
      *
-     * The methods in the array are ordered according to the comparision
-     * of the strings consisting of their method name followed by their
-     * type signature, so each method's index in the array corresponds
-     * to its "operation number" in the JDK 1.1 version of the
-     * stub/skeleton protocol.
+     * Tif mftiods in tif brrby brf ordfrfd bddording to tif dompbrision
+     * of tif strings donsisting of tifir mftiod nbmf followfd by tifir
+     * typf signbturf, so fbdi mftiod's indfx in tif brrby dorrfsponds
+     * to its "opfrbtion numbfr" in tif JDK 1.1 vfrsion of tif
+     * stub/skflfton protodol.
      */
-    public Method[] getRemoteMethods() {
-        return remoteMethods.clone();
+    publid Mftiod[] gftRfmotfMftiods() {
+        rfturn rfmotfMftiods.dlonf();
     }
 
     /**
-     * Return the "interface hash" used to match a stub/skeleton pair for
-     * this class in the JDK 1.1 version of the stub/skeleton protocol.
+     * Rfturn tif "intfrfbdf ibsi" usfd to mbtdi b stub/skflfton pbir for
+     * tiis dlbss in tif JDK 1.1 vfrsion of tif stub/skflfton protodol.
      */
-    public long getInterfaceHash() {
-        return interfaceHash;
+    publid long gftIntfrfbdfHbsi() {
+        rfturn intfrfbdfHbsi;
     }
 
     /**
-     * Return string representation of this object, consisting of
-     * the string "remote class " followed by the class name.
+     * Rfturn string rfprfsfntbtion of tiis objfdt, donsisting of
+     * tif string "rfmotf dlbss " followfd by tif dlbss nbmf.
      */
-    public String toString() {
-        return "remote class " + implClassDef.getName().toString();
+    publid String toString() {
+        rfturn "rfmotf dlbss " + implClbssDff.gftNbmf().toString();
     }
 
-    /** rmic environment for this object */
-    private BatchEnvironment env;
+    /** rmid fnvironmfnt for tiis objfdt */
+    privbtf BbtdiEnvironmfnt fnv;
 
-    /** the remote implementation class this object corresponds to */
-    private ClassDefinition implClassDef;
+    /** tif rfmotf implfmfntbtion dlbss tiis objfdt dorrfsponds to */
+    privbtf ClbssDffinition implClbssDff;
 
-    /** remote interfaces implemented by this class */
-    private ClassDefinition[] remoteInterfaces;
+    /** rfmotf intfrfbdfs implfmfntfd by tiis dlbss */
+    privbtf ClbssDffinition[] rfmotfIntfrfbdfs;
 
-    /** all the remote methods of this class */
-    private Method[] remoteMethods;
+    /** bll tif rfmotf mftiods of tiis dlbss */
+    privbtf Mftiod[] rfmotfMftiods;
 
-    /** stub/skeleton "interface hash" for this class */
-    private long interfaceHash;
+    /** stub/skflfton "intfrfbdf ibsi" for tiis dlbss */
+    privbtf long intfrfbdfHbsi;
 
-    /** cached definition for certain classes used in this environment */
-    private ClassDefinition defRemote;
-    private ClassDefinition defException;
-    private ClassDefinition defRemoteException;
+    /** dbdifd dffinition for dfrtbin dlbssfs usfd in tiis fnvironmfnt */
+    privbtf ClbssDffinition dffRfmotf;
+    privbtf ClbssDffinition dffExdfption;
+    privbtf ClbssDffinition dffRfmotfExdfption;
 
     /**
-     * Create a RemoteClass instance for the given class.  The resulting
-     * object is not yet initialized.
+     * Crfbtf b RfmotfClbss instbndf for tif givfn dlbss.  Tif rfsulting
+     * objfdt is not yft initiblizfd.
      */
-    private RemoteClass(BatchEnvironment env, ClassDefinition implClassDef) {
-        this.env = env;
-        this.implClassDef = implClassDef;
+    privbtf RfmotfClbss(BbtdiEnvironmfnt fnv, ClbssDffinition implClbssDff) {
+        tiis.fnv = fnv;
+        tiis.implClbssDff = implClbssDff;
     }
 
     /**
-     * Validate that the remote implementation class is properly formed
-     * and fill in the data structures required by the public interface.
+     * Vblidbtf tibt tif rfmotf implfmfntbtion dlbss is propfrly formfd
+     * bnd fill in tif dbtb strudturfs rfquirfd by tif publid intfrfbdf.
      */
-    private boolean initialize() {
+    privbtf boolfbn initiblizf() {
         /*
-         * Verify that the "impl" is really a class, not an interface.
+         * Vfrify tibt tif "impl" is rfblly b dlbss, not bn intfrfbdf.
          */
-        if (implClassDef.isInterface()) {
-            env.error(0, "rmic.cant.make.stubs.for.interface",
-                      implClassDef.getName());
-            return false;
+        if (implClbssDff.isIntfrfbdf()) {
+            fnv.frror(0, "rmid.dbnt.mbkf.stubs.for.intfrfbdf",
+                      implClbssDff.gftNbmf());
+            rfturn fblsf;
         }
 
         /*
-         * Initialize cached definitions for the Remote interface and
-         * the RemoteException class.
+         * Initiblizf dbdifd dffinitions for tif Rfmotf intfrfbdf bnd
+         * tif RfmotfExdfption dlbss.
          */
         try {
-            defRemote =
-                env.getClassDeclaration(idRemote).getClassDefinition(env);
-            defException =
-                env.getClassDeclaration(idJavaLangException).
-                getClassDefinition(env);
-            defRemoteException =
-                env.getClassDeclaration(idRemoteException).
-                getClassDefinition(env);
-        } catch (ClassNotFound e) {
-            env.error(0, "rmic.class.not.found", e.name);
-            return false;
+            dffRfmotf =
+                fnv.gftClbssDfdlbrbtion(idRfmotf).gftClbssDffinition(fnv);
+            dffExdfption =
+                fnv.gftClbssDfdlbrbtion(idJbvbLbngExdfption).
+                gftClbssDffinition(fnv);
+            dffRfmotfExdfption =
+                fnv.gftClbssDfdlbrbtion(idRfmotfExdfption).
+                gftClbssDffinition(fnv);
+        } dbtdi (ClbssNotFound f) {
+            fnv.frror(0, "rmid.dlbss.not.found", f.nbmf);
+            rfturn fblsf;
         }
 
         /*
-         * Here we find all of the remote interfaces of our remote
-         * implementation class.  For each class up the superclass
-         * chain, add each directly-implemented interface that
-         * somehow extends Remote to a list.
+         * Hfrf wf find bll of tif rfmotf intfrfbdfs of our rfmotf
+         * implfmfntbtion dlbss.  For fbdi dlbss up tif supfrdlbss
+         * dibin, bdd fbdi dirfdtly-implfmfntfd intfrfbdf tibt
+         * somfiow fxtfnds Rfmotf to b list.
          */
-        Vector<ClassDefinition> remotesImplemented = // list of remote interfaces found
-            new Vector<ClassDefinition>();
-        for (ClassDefinition classDef = implClassDef;
-             classDef != null;)
+        Vfdtor<ClbssDffinition> rfmotfsImplfmfntfd = // list of rfmotf intfrfbdfs found
+            nfw Vfdtor<ClbssDffinition>();
+        for (ClbssDffinition dlbssDff = implClbssDff;
+             dlbssDff != null;)
             {
                 try {
-                    ClassDeclaration[] interfaces = classDef.getInterfaces();
-                    for (int i = 0; i < interfaces.length; i++) {
-                        ClassDefinition interfaceDef =
-                            interfaces[i].getClassDefinition(env);
+                    ClbssDfdlbrbtion[] intfrfbdfs = dlbssDff.gftIntfrfbdfs();
+                    for (int i = 0; i < intfrfbdfs.lfngti; i++) {
+                        ClbssDffinition intfrfbdfDff =
+                            intfrfbdfs[i].gftClbssDffinition(fnv);
                         /*
-                         * Add interface to the list if it extends Remote and
-                         * it is not already there.
+                         * Add intfrfbdf to tif list if it fxtfnds Rfmotf bnd
+                         * it is not blrfbdy tifrf.
                          */
-                        if (!remotesImplemented.contains(interfaceDef) &&
-                            defRemote.implementedBy(env, interfaces[i]))
+                        if (!rfmotfsImplfmfntfd.dontbins(intfrfbdfDff) &&
+                            dffRfmotf.implfmfntfdBy(fnv, intfrfbdfs[i]))
                             {
-                                remotesImplemented.addElement(interfaceDef);
+                                rfmotfsImplfmfntfd.bddElfmfnt(intfrfbdfDff);
                                 /***** <DEBUG> */
-                                if (env.verbose()) {
-                                    System.out.println("[found remote interface: " +
-                                                       interfaceDef.getName() + "]");
+                                if (fnv.vfrbosf()) {
+                                    Systfm.out.println("[found rfmotf intfrfbdf: " +
+                                                       intfrfbdfDff.gftNbmf() + "]");
                                     /***** </DEBUG> */
                                 }
                             }
                     }
 
                     /*
-                     * Verify that the candidate remote implementation class
-                     * implements at least one remote interface directly.
+                     * Vfrify tibt tif dbndidbtf rfmotf implfmfntbtion dlbss
+                     * implfmfnts bt lfbst onf rfmotf intfrfbdf dirfdtly.
                      */
-                    if (classDef == implClassDef && remotesImplemented.isEmpty()) {
-                        if (defRemote.implementedBy(env,
-                                                    implClassDef.getClassDeclaration()))
+                    if (dlbssDff == implClbssDff && rfmotfsImplfmfntfd.isEmpty()) {
+                        if (dffRfmotf.implfmfntfdBy(fnv,
+                                                    implClbssDff.gftClbssDfdlbrbtion()))
                             {
                                 /*
-                                 * This error message is used if the class does
-                                 * implement a remote interface through one of
-                                 * its superclasses, but not directly.
+                                 * Tiis frror mfssbgf is usfd if tif dlbss dofs
+                                 * implfmfnt b rfmotf intfrfbdf tirougi onf of
+                                 * its supfrdlbssfs, but not dirfdtly.
                                  */
-                                env.error(0, "rmic.must.implement.remote.directly",
-                                          implClassDef.getName());
-                            } else {
+                                fnv.frror(0, "rmid.must.implfmfnt.rfmotf.dirfdtly",
+                                          implClbssDff.gftNbmf());
+                            } flsf {
                                 /*
-                                 * This error message is used if the class never
-                                 * implements a remote interface.
+                                 * Tiis frror mfssbgf is usfd if tif dlbss nfvfr
+                                 * implfmfnts b rfmotf intfrfbdf.
                                  */
-                                env.error(0, "rmic.must.implement.remote",
-                                          implClassDef.getName());
+                                fnv.frror(0, "rmid.must.implfmfnt.rfmotf",
+                                          implClbssDff.gftNbmf());
                             }
-                        return false;
+                        rfturn fblsf;
                     }
 
                     /*
-                     * Get definition for next superclass.
+                     * Gft dffinition for nfxt supfrdlbss.
                      */
-                    classDef = (classDef.getSuperClass() != null ?
-                                classDef.getSuperClass().getClassDefinition(env) :
+                    dlbssDff = (dlbssDff.gftSupfrClbss() != null ?
+                                dlbssDff.gftSupfrClbss().gftClbssDffinition(fnv) :
                                 null);
 
-                } catch (ClassNotFound e) {
-                    env.error(0, "class.not.found", e.name, classDef.getName());
-                    return false;
+                } dbtdi (ClbssNotFound f) {
+                    fnv.frror(0, "dlbss.not.found", f.nbmf, dlbssDff.gftNbmf());
+                    rfturn fblsf;
                 }
             }
 
         /*
-         * The "remotesImplemented" vector now contains all of the remote
-         * interfaces directly implemented by the remote class or by any
-         * of its superclasses.
+         * Tif "rfmotfsImplfmfntfd" vfdtor now dontbins bll of tif rfmotf
+         * intfrfbdfs dirfdtly implfmfntfd by tif rfmotf dlbss or by bny
+         * of its supfrdlbssfs.
          *
-         * At this point, we could optimize the list by removing superfluous
-         * entries, i.e. any interfaces that are implemented by some other
-         * interface in the list anyway.
+         * At tiis point, wf dould optimizf tif list by rfmoving supfrfluous
+         * fntrifs, i.f. bny intfrfbdfs tibt brf implfmfntfd by somf otifr
+         * intfrfbdf in tif list bnywby.
          *
-         * This should be correct; would it be worthwhile?
+         * Tiis siould bf dorrfdt; would it bf wortiwiilf?
          *
-         *      for (int i = 0; i < remotesImplemented.size();) {
-         *          ClassDefinition interfaceDef =
-         *              (ClassDefinition) remotesImplemented.elementAt(i);
-         *          boolean isOtherwiseImplemented = false;
-         *          for (int j = 0; j < remotesImplemented.size; j++) {
+         *      for (int i = 0; i < rfmotfsImplfmfntfd.sizf();) {
+         *          ClbssDffinition intfrfbdfDff =
+         *              (ClbssDffinition) rfmotfsImplfmfntfd.flfmfntAt(i);
+         *          boolfbn isOtifrwisfImplfmfntfd = fblsf;
+         *          for (int j = 0; j < rfmotfsImplfmfntfd.sizf; j++) {
          *              if (j != i &&
-         *                  interfaceDef.implementedBy(env, (ClassDefinition)
-         *                  remotesImplemented.elementAt(j).
-         *                      getClassDeclaration()))
+         *                  intfrfbdfDff.implfmfntfdBy(fnv, (ClbssDffinition)
+         *                  rfmotfsImplfmfntfd.flfmfntAt(j).
+         *                      gftClbssDfdlbrbtion()))
          *              {
-         *                  isOtherwiseImplemented = true;
-         *                  break;
+         *                  isOtifrwisfImplfmfntfd = truf;
+         *                  brfbk;
          *              }
          *          }
-         *          if (isOtherwiseImplemented) {
-         *              remotesImplemented.removeElementAt(i);
-         *          } else {
+         *          if (isOtifrwisfImplfmfntfd) {
+         *              rfmotfsImplfmfntfd.rfmovfElfmfntAt(i);
+         *          } flsf {
          *              ++i;
          *          }
          *      }
          */
 
         /*
-         * Now we collect the methods from all of the remote interfaces
-         * into a hashtable.
+         * Now wf dollfdt tif mftiods from bll of tif rfmotf intfrfbdfs
+         * into b ibsitbblf.
          */
-        Hashtable<String, Method> methods = new Hashtable<String, Method>();
-        boolean errors = false;
-        for (Enumeration<ClassDefinition> enumeration
-                 = remotesImplemented.elements();
-             enumeration.hasMoreElements();)
+        Hbsitbblf<String, Mftiod> mftiods = nfw Hbsitbblf<String, Mftiod>();
+        boolfbn frrors = fblsf;
+        for (Enumfrbtion<ClbssDffinition> fnumfrbtion
+                 = rfmotfsImplfmfntfd.flfmfnts();
+             fnumfrbtion.ibsMorfElfmfnts();)
             {
-                ClassDefinition interfaceDef = enumeration.nextElement();
-                if (!collectRemoteMethods(interfaceDef, methods))
-                    errors = true;
+                ClbssDffinition intfrfbdfDff = fnumfrbtion.nfxtElfmfnt();
+                if (!dollfdtRfmotfMftiods(intfrfbdfDff, mftiods))
+                    frrors = truf;
             }
-        if (errors)
-            return false;
+        if (frrors)
+            rfturn fblsf;
 
         /*
-         * Convert vector of remote interfaces to an array
-         * (order is not important for this array).
+         * Convfrt vfdtor of rfmotf intfrfbdfs to bn brrby
+         * (ordfr is not importbnt for tiis brrby).
          */
-        remoteInterfaces = new ClassDefinition[remotesImplemented.size()];
-        remotesImplemented.copyInto(remoteInterfaces);
+        rfmotfIntfrfbdfs = nfw ClbssDffinition[rfmotfsImplfmfntfd.sizf()];
+        rfmotfsImplfmfntfd.dopyInto(rfmotfIntfrfbdfs);
 
         /*
-         * Sort table of remote methods into an array.  The elements are
-         * sorted in ascending order of the string of the method's name
-         * and type signature, so that each elements index is equal to
-         * its operation number of the JDK 1.1 version of the stub/skeleton
-         * protocol.
+         * Sort tbblf of rfmotf mftiods into bn brrby.  Tif flfmfnts brf
+         * sortfd in bsdfnding ordfr of tif string of tif mftiod's nbmf
+         * bnd typf signbturf, so tibt fbdi flfmfnts indfx is fqubl to
+         * its opfrbtion numbfr of tif JDK 1.1 vfrsion of tif stub/skflfton
+         * protodol.
          */
-        String[] orderedKeys = new String[methods.size()];
-        int count = 0;
-        for (Enumeration<Method> enumeration = methods.elements();
-             enumeration.hasMoreElements();)
+        String[] ordfrfdKfys = nfw String[mftiods.sizf()];
+        int dount = 0;
+        for (Enumfrbtion<Mftiod> fnumfrbtion = mftiods.flfmfnts();
+             fnumfrbtion.ibsMorfElfmfnts();)
             {
-                Method m = enumeration.nextElement();
-                String key = m.getNameAndDescriptor();
+                Mftiod m = fnumfrbtion.nfxtElfmfnt();
+                String kfy = m.gftNbmfAndDfsdriptor();
                 int i;
-                for (i = count; i > 0; --i) {
-                    if (key.compareTo(orderedKeys[i - 1]) >= 0) {
-                        break;
+                for (i = dount; i > 0; --i) {
+                    if (kfy.dompbrfTo(ordfrfdKfys[i - 1]) >= 0) {
+                        brfbk;
                     }
-                    orderedKeys[i] = orderedKeys[i - 1];
+                    ordfrfdKfys[i] = ordfrfdKfys[i - 1];
                 }
-                orderedKeys[i] = key;
-                ++count;
+                ordfrfdKfys[i] = kfy;
+                ++dount;
             }
-        remoteMethods = new Method[methods.size()];
-        for (int i = 0; i < remoteMethods.length; i++) {
-            remoteMethods[i] = methods.get(orderedKeys[i]);
+        rfmotfMftiods = nfw Mftiod[mftiods.sizf()];
+        for (int i = 0; i < rfmotfMftiods.lfngti; i++) {
+            rfmotfMftiods[i] = mftiods.gft(ordfrfdKfys[i]);
             /***** <DEBUG> */
-            if (env.verbose()) {
-                System.out.print("[found remote method <" + i + ">: " +
-                                 remoteMethods[i].getOperationString());
-                ClassDeclaration[] exceptions =
-                    remoteMethods[i].getExceptions();
-                if (exceptions.length > 0)
-                    System.out.print(" throws ");
-                for (int j = 0; j < exceptions.length; j++) {
+            if (fnv.vfrbosf()) {
+                Systfm.out.print("[found rfmotf mftiod <" + i + ">: " +
+                                 rfmotfMftiods[i].gftOpfrbtionString());
+                ClbssDfdlbrbtion[] fxdfptions =
+                    rfmotfMftiods[i].gftExdfptions();
+                if (fxdfptions.lfngti > 0)
+                    Systfm.out.print(" tirows ");
+                for (int j = 0; j < fxdfptions.lfngti; j++) {
                     if (j > 0)
-                        System.out.print(", ");
-                    System.out.print(exceptions[j].getName());
+                        Systfm.out.print(", ");
+                    Systfm.out.print(fxdfptions[j].gftNbmf());
                 }
-                System.out.println("]");
+                Systfm.out.println("]");
             }
             /***** </DEBUG> */
         }
 
         /**
-         * Finally, pre-compute the interface hash to be used by
-         * stubs/skeletons for this remote class.
+         * Finblly, prf-domputf tif intfrfbdf ibsi to bf usfd by
+         * stubs/skflftons for tiis rfmotf dlbss.
          */
-        interfaceHash = computeInterfaceHash();
+        intfrfbdfHbsi = domputfIntfrfbdfHbsi();
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Collect and validate all methods from given interface and all of
-     * its superinterfaces as remote methods.  Remote methods are added
-     * to the supplied hashtable.  Returns true if successful,
-     * or false if an error occurred.
+     * Collfdt bnd vblidbtf bll mftiods from givfn intfrfbdf bnd bll of
+     * its supfrintfrfbdfs bs rfmotf mftiods.  Rfmotf mftiods brf bddfd
+     * to tif supplifd ibsitbblf.  Rfturns truf if suddfssful,
+     * or fblsf if bn frror oddurrfd.
      */
-    private boolean collectRemoteMethods(ClassDefinition interfaceDef,
-                                         Hashtable<String, Method> table)
+    privbtf boolfbn dollfdtRfmotfMftiods(ClbssDffinition intfrfbdfDff,
+                                         Hbsitbblf<String, Mftiod> tbblf)
     {
-        if (!interfaceDef.isInterface()) {
-            throw new Error(
-                            "expected interface, not class: " + interfaceDef.getName());
+        if (!intfrfbdfDff.isIntfrfbdf()) {
+            tirow nfw Error(
+                            "fxpfdtfd intfrfbdf, not dlbss: " + intfrfbdfDff.gftNbmf());
         }
 
         /*
-         * rmic used to enforce that a remote interface could not extend
-         * a non-remote interface, i.e. an interface that did not itself
-         * extend from Remote.  The current version of rmic does not have
-         * this restriction, so the following code is now commented out.
+         * rmid usfd to fnfordf tibt b rfmotf intfrfbdf dould not fxtfnd
+         * b non-rfmotf intfrfbdf, i.f. bn intfrfbdf tibt did not itsflf
+         * fxtfnd from Rfmotf.  Tif durrfnt vfrsion of rmid dofs not ibvf
+         * tiis rfstridtion, so tif following dodf is now dommfntfd out.
          *
-         * Verify that this interface extends Remote, since all interfaces
-         * extended by a remote interface must implement Remote.
+         * Vfrify tibt tiis intfrfbdf fxtfnds Rfmotf, sindf bll intfrfbdfs
+         * fxtfndfd by b rfmotf intfrfbdf must implfmfnt Rfmotf.
          *
          *      try {
-         *          if (!defRemote.implementedBy(env,
-         *              interfaceDef.getClassDeclaration()))
+         *          if (!dffRfmotf.implfmfntfdBy(fnv,
+         *              intfrfbdfDff.gftClbssDfdlbrbtion()))
          *          {
-         *              env.error(0, "rmic.can.mix.remote.nonremote",
-         *                  interfaceDef.getName());
-         *              return false;
+         *              fnv.frror(0, "rmid.dbn.mix.rfmotf.nonrfmotf",
+         *                  intfrfbdfDff.gftNbmf());
+         *              rfturn fblsf;
          *          }
-         *      } catch (ClassNotFound e) {
-         *          env.error(0, "class.not.found", e.name,
-         *              interfaceDef.getName());
-         *          return false;
+         *      } dbtdi (ClbssNotFound f) {
+         *          fnv.frror(0, "dlbss.not.found", f.nbmf,
+         *              intfrfbdfDff.gftNbmf());
+         *          rfturn fblsf;
          *      }
          */
 
-        boolean errors = false;
+        boolfbn frrors = fblsf;
 
         /*
-         * Search interface's members for methods.
+         * Sfbrdi intfrfbdf's mfmbfrs for mftiods.
          */
-    nextMember:
-        for (MemberDefinition member = interfaceDef.getFirstMember();
-             member != null;
-             member = member.getNextMember())
+    nfxtMfmbfr:
+        for (MfmbfrDffinition mfmbfr = intfrfbdfDff.gftFirstMfmbfr();
+             mfmbfr != null;
+             mfmbfr = mfmbfr.gftNfxtMfmbfr())
             {
-                if (member.isMethod() &&
-                    !member.isConstructor() && !member.isInitializer())
+                if (mfmbfr.isMftiod() &&
+                    !mfmbfr.isConstrudtor() && !mfmbfr.isInitiblizfr())
                     {
                         /*
-                         * Verify that each method throws RemoteException.
+                         * Vfrify tibt fbdi mftiod tirows RfmotfExdfption.
                          */
-                        ClassDeclaration[] exceptions = member.getExceptions(env);
-                        boolean hasRemoteException = false;
-                        for (int i = 0; i < exceptions.length; i++) {
+                        ClbssDfdlbrbtion[] fxdfptions = mfmbfr.gftExdfptions(fnv);
+                        boolfbn ibsRfmotfExdfption = fblsf;
+                        for (int i = 0; i < fxdfptions.lfngti; i++) {
                             /*
-                             * rmic used to enforce that a remote method had to
-                             * explicitly list RemoteException in its "throws"
-                             * clause; i.e., just throwing Exception was not
-                             * acceptable.  The current version of rmic does not
-                             * have this restriction, so the following code is
-                             * now commented out.  Instead, the method is
-                             * considered valid if RemoteException is a subclass
-                             * of any of the methods declared exceptions.
+                             * rmid usfd to fnfordf tibt b rfmotf mftiod ibd to
+                             * fxpliditly list RfmotfExdfption in its "tirows"
+                             * dlbusf; i.f., just tirowing Exdfption wbs not
+                             * bddfptbblf.  Tif durrfnt vfrsion of rmid dofs not
+                             * ibvf tiis rfstridtion, so tif following dodf is
+                             * now dommfntfd out.  Instfbd, tif mftiod is
+                             * donsidfrfd vblid if RfmotfExdfption is b subdlbss
+                             * of bny of tif mftiods dfdlbrfd fxdfptions.
                              *
-                             *  if (exceptions[i].getName().equals(
-                             *      idRemoteException))
+                             *  if (fxdfptions[i].gftNbmf().fqubls(
+                             *      idRfmotfExdfption))
                              *  {
-                             *      hasRemoteException = true;
-                             *      break;
+                             *      ibsRfmotfExdfption = truf;
+                             *      brfbk;
                              *  }
                              */
                             try {
-                                if (defRemoteException.subClassOf(
-                                                                  env, exceptions[i]))
+                                if (dffRfmotfExdfption.subClbssOf(
+                                                                  fnv, fxdfptions[i]))
                                     {
-                                        hasRemoteException = true;
-                                        break;
+                                        ibsRfmotfExdfption = truf;
+                                        brfbk;
                                     }
-                            } catch (ClassNotFound e) {
-                                env.error(0, "class.not.found", e.name,
-                                          interfaceDef.getName());
-                                continue nextMember;
+                            } dbtdi (ClbssNotFound f) {
+                                fnv.frror(0, "dlbss.not.found", f.nbmf,
+                                          intfrfbdfDff.gftNbmf());
+                                dontinuf nfxtMfmbfr;
                             }
                         }
                         /*
-                         * If this method did not throw RemoteException as required,
-                         * generate the error but continue, so that multiple such
-                         * errors can be reported.
+                         * If tiis mftiod did not tirow RfmotfExdfption bs rfquirfd,
+                         * gfnfrbtf tif frror but dontinuf, so tibt multiplf sudi
+                         * frrors dbn bf rfportfd.
                          */
-                        if (!hasRemoteException) {
-                            env.error(0, "rmic.must.throw.remoteexception",
-                                      interfaceDef.getName(), member.toString());
-                            errors = true;
-                            continue nextMember;
+                        if (!ibsRfmotfExdfption) {
+                            fnv.frror(0, "rmid.must.tirow.rfmotffxdfption",
+                                      intfrfbdfDff.gftNbmf(), mfmbfr.toString());
+                            frrors = truf;
+                            dontinuf nfxtMfmbfr;
                         }
 
                         /*
-                         * Verify that the implementation of this method throws only
-                         * java.lang.Exception or its subclasses (fix bugid 4092486).
-                         * JRMP does not support remote methods throwing
-                         * java.lang.Throwable or other subclasses.
+                         * Vfrify tibt tif implfmfntbtion of tiis mftiod tirows only
+                         * jbvb.lbng.Exdfption or its subdlbssfs (fix bugid 4092486).
+                         * JRMP dofs not support rfmotf mftiods tirowing
+                         * jbvb.lbng.Tirowbblf or otifr subdlbssfs.
                          */
                         try {
-                            MemberDefinition implMethod = implClassDef.findMethod(
-                                                                                  env, member.getName(), member.getType());
-                            if (implMethod != null) {           // should not be null
-                                exceptions = implMethod.getExceptions(env);
-                                for (int i = 0; i < exceptions.length; i++) {
-                                    if (!defException.superClassOf(
-                                                                   env, exceptions[i]))
+                            MfmbfrDffinition implMftiod = implClbssDff.findMftiod(
+                                                                                  fnv, mfmbfr.gftNbmf(), mfmbfr.gftTypf());
+                            if (implMftiod != null) {           // siould not bf null
+                                fxdfptions = implMftiod.gftExdfptions(fnv);
+                                for (int i = 0; i < fxdfptions.lfngti; i++) {
+                                    if (!dffExdfption.supfrClbssOf(
+                                                                   fnv, fxdfptions[i]))
                                         {
-                                            env.error(0, "rmic.must.only.throw.exception",
-                                                      implMethod.toString(),
-                                                      exceptions[i].getName());
-                                            errors = true;
-                                            continue nextMember;
+                                            fnv.frror(0, "rmid.must.only.tirow.fxdfption",
+                                                      implMftiod.toString(),
+                                                      fxdfptions[i].gftNbmf());
+                                            frrors = truf;
+                                            dontinuf nfxtMfmbfr;
                                         }
                                 }
                             }
-                        } catch (ClassNotFound e) {
-                            env.error(0, "class.not.found", e.name,
-                                      implClassDef.getName());
-                            continue nextMember;
+                        } dbtdi (ClbssNotFound f) {
+                            fnv.frror(0, "dlbss.not.found", f.nbmf,
+                                      implClbssDff.gftNbmf());
+                            dontinuf nfxtMfmbfr;
                         }
 
                         /*
-                         * Create RemoteClass.Method object to represent this method
-                         * found in a remote interface.
+                         * Crfbtf RfmotfClbss.Mftiod objfdt to rfprfsfnt tiis mftiod
+                         * found in b rfmotf intfrfbdf.
                          */
-                        Method newMethod = new Method(member);
+                        Mftiod nfwMftiod = nfw Mftiod(mfmbfr);
                         /*
-                         * Store remote method's representation in the table of
-                         * remote methods found, keyed by its name and parameter
-                         * signature.
+                         * Storf rfmotf mftiod's rfprfsfntbtion in tif tbblf of
+                         * rfmotf mftiods found, kfyfd by its nbmf bnd pbrbmftfr
+                         * signbturf.
                          *
-                         * If the table already contains an entry with the same
-                         * method name and parameter signature, then we must
-                         * replace the old entry with a Method object that
-                         * represents a legal combination of the old and the new
-                         * methods; specifically, the combined method must have
-                         * a throws list that contains (only) all of the checked
-                         * exceptions that can be thrown by both the old or
-                         * the new method (see bugid 4070653).
+                         * If tif tbblf blrfbdy dontbins bn fntry witi tif sbmf
+                         * mftiod nbmf bnd pbrbmftfr signbturf, tifn wf must
+                         * rfplbdf tif old fntry witi b Mftiod objfdt tibt
+                         * rfprfsfnts b lfgbl dombinbtion of tif old bnd tif nfw
+                         * mftiods; spfdifidblly, tif dombinfd mftiod must ibvf
+                         * b tirows list tibt dontbins (only) bll of tif difdkfd
+                         * fxdfptions tibt dbn bf tirown by boti tif old or
+                         * tif nfw mftiod (sff bugid 4070653).
                          */
-                        String key = newMethod.getNameAndDescriptor();
-                        Method oldMethod = table.get(key);
-                        if (oldMethod != null) {
-                            newMethod = newMethod.mergeWith(oldMethod);
-                            if (newMethod == null) {
-                                errors = true;
-                                continue nextMember;
+                        String kfy = nfwMftiod.gftNbmfAndDfsdriptor();
+                        Mftiod oldMftiod = tbblf.gft(kfy);
+                        if (oldMftiod != null) {
+                            nfwMftiod = nfwMftiod.mfrgfWiti(oldMftiod);
+                            if (nfwMftiod == null) {
+                                frrors = truf;
+                                dontinuf nfxtMfmbfr;
                             }
                         }
-                        table.put(key, newMethod);
+                        tbblf.put(kfy, nfwMftiod);
                     }
             }
 
         /*
-         * Recursively collect methods for all superinterfaces.
+         * Rfdursivfly dollfdt mftiods for bll supfrintfrfbdfs.
          */
         try {
-            ClassDeclaration[] superDefs = interfaceDef.getInterfaces();
-            for (int i = 0; i < superDefs.length; i++) {
-                ClassDefinition superDef =
-                    superDefs[i].getClassDefinition(env);
-                if (!collectRemoteMethods(superDef, table))
-                    errors = true;
+            ClbssDfdlbrbtion[] supfrDffs = intfrfbdfDff.gftIntfrfbdfs();
+            for (int i = 0; i < supfrDffs.lfngti; i++) {
+                ClbssDffinition supfrDff =
+                    supfrDffs[i].gftClbssDffinition(fnv);
+                if (!dollfdtRfmotfMftiods(supfrDff, tbblf))
+                    frrors = truf;
             }
-        } catch (ClassNotFound e) {
-            env.error(0, "class.not.found", e.name, interfaceDef.getName());
-            return false;
+        } dbtdi (ClbssNotFound f) {
+            fnv.frror(0, "dlbss.not.found", f.nbmf, intfrfbdfDff.gftNbmf());
+            rfturn fblsf;
         }
 
-        return !errors;
+        rfturn !frrors;
     }
 
     /**
-     * Compute the "interface hash" of the stub/skeleton pair for this
-     * remote implementation class.  This is the 64-bit value used to
-     * enforce compatibility between a stub and a skeleton using the
-     * JDK 1.1 version of the stub/skeleton protocol.
+     * Computf tif "intfrfbdf ibsi" of tif stub/skflfton pbir for tiis
+     * rfmotf implfmfntbtion dlbss.  Tiis is tif 64-bit vbluf usfd to
+     * fnfordf dompbtibility bftwffn b stub bnd b skflfton using tif
+     * JDK 1.1 vfrsion of tif stub/skflfton protodol.
      *
-     * It is calculated using the first 64 bits of a SHA digest.  The
-     * digest is from a stream consisting of the following data:
-     *     (int) stub version number, always 1
-     *     for each remote method, in order of operation number:
-     *         (UTF) method name
-     *         (UTF) method type signature
-     *         for each declared exception, in alphabetical name order:
-     *             (UTF) name of exception class
+     * It is dbldulbtfd using tif first 64 bits of b SHA digfst.  Tif
+     * digfst is from b strfbm donsisting of tif following dbtb:
+     *     (int) stub vfrsion numbfr, blwbys 1
+     *     for fbdi rfmotf mftiod, in ordfr of opfrbtion numbfr:
+     *         (UTF) mftiod nbmf
+     *         (UTF) mftiod typf signbturf
+     *         for fbdi dfdlbrfd fxdfption, in blpibbftidbl nbmf ordfr:
+     *             (UTF) nbmf of fxdfption dlbss
      *
      */
-    private long computeInterfaceHash() {
-        long hash = 0;
-        ByteArrayOutputStream sink = new ByteArrayOutputStream(512);
+    privbtf long domputfIntfrfbdfHbsi() {
+        long ibsi = 0;
+        BytfArrbyOutputStrfbm sink = nfw BytfArrbyOutputStrfbm(512);
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA");
-            DataOutputStream out = new DataOutputStream(
-                                                        new DigestOutputStream(sink, md));
+            MfssbgfDigfst md = MfssbgfDigfst.gftInstbndf("SHA");
+            DbtbOutputStrfbm out = nfw DbtbOutputStrfbm(
+                                                        nfw DigfstOutputStrfbm(sink, md));
 
-            out.writeInt(INTERFACE_HASH_STUB_VERSION);
-            for (int i = 0; i < remoteMethods.length; i++) {
-                MemberDefinition m = remoteMethods[i].getMemberDefinition();
-                Identifier name = m.getName();
-                Type type = m.getType();
+            out.writfInt(INTERFACE_HASH_STUB_VERSION);
+            for (int i = 0; i < rfmotfMftiods.lfngti; i++) {
+                MfmbfrDffinition m = rfmotfMftiods[i].gftMfmbfrDffinition();
+                Idfntififr nbmf = m.gftNbmf();
+                Typf typf = m.gftTypf();
 
-                out.writeUTF(name.toString());
-                // type signatures already use mangled class names
-                out.writeUTF(type.getTypeSignature());
+                out.writfUTF(nbmf.toString());
+                // typf signbturfs blrfbdy usf mbnglfd dlbss nbmfs
+                out.writfUTF(typf.gftTypfSignbturf());
 
-                ClassDeclaration exceptions[] = m.getExceptions(env);
-                sortClassDeclarations(exceptions);
-                for (int j = 0; j < exceptions.length; j++) {
-                    out.writeUTF(Names.mangleClass(
-                                                   exceptions[j].getName()).toString());
+                ClbssDfdlbrbtion fxdfptions[] = m.gftExdfptions(fnv);
+                sortClbssDfdlbrbtions(fxdfptions);
+                for (int j = 0; j < fxdfptions.lfngti; j++) {
+                    out.writfUTF(Nbmfs.mbnglfClbss(
+                                                   fxdfptions[j].gftNbmf()).toString());
                 }
             }
-            out.flush();
+            out.flusi();
 
-            // use only the first 64 bits of the digest for the hash
-            byte hashArray[] = md.digest();
-            for (int i = 0; i < Math.min(8, hashArray.length); i++) {
-                hash += ((long) (hashArray[i] & 0xFF)) << (i * 8);
+            // usf only tif first 64 bits of tif digfst for tif ibsi
+            bytf ibsiArrby[] = md.digfst();
+            for (int i = 0; i < Mbti.min(8, ibsiArrby.lfngti); i++) {
+                ibsi += ((long) (ibsiArrby[i] & 0xFF)) << (i * 8);
             }
-        } catch (IOException e) {
-            throw new Error(
-                            "unexpected exception computing intetrface hash: " + e);
-        } catch (NoSuchAlgorithmException e) {
-            throw new Error(
-                            "unexpected exception computing intetrface hash: " + e);
+        } dbtdi (IOExdfption f) {
+            tirow nfw Error(
+                            "unfxpfdtfd fxdfption domputing intftrfbdf ibsi: " + f);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            tirow nfw Error(
+                            "unfxpfdtfd fxdfption domputing intftrfbdf ibsi: " + f);
         }
 
-        return hash;
+        rfturn ibsi;
     }
 
     /**
-     * Sort array of class declarations alphabetically by their mangled
-     * fully-qualified class name.  This is used to feed a method's exceptions
-     * in a canonical order into the digest stream for the interface hash
-     * computation.
+     * Sort brrby of dlbss dfdlbrbtions blpibbftidblly by tifir mbnglfd
+     * fully-qublififd dlbss nbmf.  Tiis is usfd to fffd b mftiod's fxdfptions
+     * in b dbnonidbl ordfr into tif digfst strfbm for tif intfrfbdf ibsi
+     * domputbtion.
      */
-    private void sortClassDeclarations(ClassDeclaration[] decl) {
-        for (int i = 1; i < decl.length; i++) {
-            ClassDeclaration curr = decl[i];
-            String name = Names.mangleClass(curr.getName()).toString();
+    privbtf void sortClbssDfdlbrbtions(ClbssDfdlbrbtion[] dfdl) {
+        for (int i = 1; i < dfdl.lfngti; i++) {
+            ClbssDfdlbrbtion durr = dfdl[i];
+            String nbmf = Nbmfs.mbnglfClbss(durr.gftNbmf()).toString();
             int j;
             for (j = i; j > 0; j--) {
-                if (name.compareTo(
-                                   Names.mangleClass(decl[j - 1].getName()).toString()) >= 0)
+                if (nbmf.dompbrfTo(
+                                   Nbmfs.mbnglfClbss(dfdl[j - 1].gftNbmf()).toString()) >= 0)
                     {
-                        break;
+                        brfbk;
                     }
-                decl[j] = decl[j - 1];
+                dfdl[j] = dfdl[j - 1];
             }
-            decl[j] = curr;
+            dfdl[j] = durr;
         }
     }
 
 
     /**
-     * A RemoteClass.Method object encapsulates RMI-specific information
-     * about a particular remote method in the remote implementation class
-     * represented by the outer instance.
+     * A RfmotfClbss.Mftiod objfdt fndbpsulbtfs RMI-spfdifid informbtion
+     * bbout b pbrtidulbr rfmotf mftiod in tif rfmotf implfmfntbtion dlbss
+     * rfprfsfntfd by tif outfr instbndf.
      */
-    public class Method implements Cloneable {
+    publid dlbss Mftiod implfmfnts Clonfbblf {
 
         /**
-         * Return the definition of the actual class member corresponing
-         * to this method of a remote interface.
+         * Rfturn tif dffinition of tif bdtubl dlbss mfmbfr dorrfsponing
+         * to tiis mftiod of b rfmotf intfrfbdf.
          *
-         * REMIND: Can this method be removed?
+         * REMIND: Cbn tiis mftiod bf rfmovfd?
          */
-        public MemberDefinition getMemberDefinition() {
-            return memberDef;
+        publid MfmbfrDffinition gftMfmbfrDffinition() {
+            rfturn mfmbfrDff;
         }
 
         /**
-         * Return the name of this method.
+         * Rfturn tif nbmf of tiis mftiod.
          */
-        public Identifier getName() {
-            return memberDef.getName();
+        publid Idfntififr gftNbmf() {
+            rfturn mfmbfrDff.gftNbmf();
         }
 
         /**
-         * Return the type of this method.
+         * Rfturn tif typf of tiis mftiod.
          */
-        public Type getType() {
-            return memberDef.getType();
+        publid Typf gftTypf() {
+            rfturn mfmbfrDff.gftTypf();
         }
 
         /**
-         * Return an array of the exception classes declared to be
-         * thrown by this remote method.
+         * Rfturn bn brrby of tif fxdfption dlbssfs dfdlbrfd to bf
+         * tirown by tiis rfmotf mftiod.
          *
-         * For methods with the same name and type signature inherited
-         * from multiple remote interfaces, the array will contain
-         * the set of exceptions declared in all of the interfaces'
-         * methods that can be legally thrown in each of them.
+         * For mftiods witi tif sbmf nbmf bnd typf signbturf inifritfd
+         * from multiplf rfmotf intfrfbdfs, tif brrby will dontbin
+         * tif sft of fxdfptions dfdlbrfd in bll of tif intfrfbdfs'
+         * mftiods tibt dbn bf lfgblly tirown in fbdi of tifm.
          */
-        public ClassDeclaration[] getExceptions() {
-            return exceptions.clone();
+        publid ClbssDfdlbrbtion[] gftExdfptions() {
+            rfturn fxdfptions.dlonf();
         }
 
         /**
-         * Return the "method hash" used to identify this remote method
-         * in the JDK 1.2 version of the stub protocol.
+         * Rfturn tif "mftiod ibsi" usfd to idfntify tiis rfmotf mftiod
+         * in tif JDK 1.2 vfrsion of tif stub protodol.
          */
-        public long getMethodHash() {
-            return methodHash;
+        publid long gftMftiodHbsi() {
+            rfturn mftiodHbsi;
         }
 
         /**
-         * Return the string representation of this method.
+         * Rfturn tif string rfprfsfntbtion of tiis mftiod.
          */
-        public String toString() {
-            return memberDef.toString();
+        publid String toString() {
+            rfturn mfmbfrDff.toString();
         }
 
         /**
-         * Return the string representation of this method appropriate
-         * for the construction of a java.rmi.server.Operation object.
+         * Rfturn tif string rfprfsfntbtion of tiis mftiod bppropribtf
+         * for tif donstrudtion of b jbvb.rmi.sfrvfr.Opfrbtion objfdt.
          */
-        public String getOperationString() {
-            return memberDef.toString();
+        publid String gftOpfrbtionString() {
+            rfturn mfmbfrDff.toString();
         }
 
         /**
-         * Return a string consisting of this method's name followed by
-         * its method descriptor, using the Java VM's notation for
-         * method descriptors (see section 4.3.3 of The Java Virtual
-         * Machine Specification).
+         * Rfturn b string donsisting of tiis mftiod's nbmf followfd by
+         * its mftiod dfsdriptor, using tif Jbvb VM's notbtion for
+         * mftiod dfsdriptors (sff sfdtion 4.3.3 of Tif Jbvb Virtubl
+         * Mbdiinf Spfdifidbtion).
          */
-        public String getNameAndDescriptor() {
-            return memberDef.getName().toString() +
-                memberDef.getType().getTypeSignature();
+        publid String gftNbmfAndDfsdriptor() {
+            rfturn mfmbfrDff.gftNbmf().toString() +
+                mfmbfrDff.gftTypf().gftTypfSignbturf();
         }
 
         /**
-         * Member definition for this method, from one of the remote
-         * interfaces that this method was found in.
+         * Mfmbfr dffinition for tiis mftiod, from onf of tif rfmotf
+         * intfrfbdfs tibt tiis mftiod wbs found in.
          *
-         * Note that this member definition may be only one of several
-         * member defintions that correspond to this remote method object,
-         * if several of this class's remote interfaces contain methods
-         * with the same name and type signature.  Therefore, this member
-         * definition may declare more exceptions thrown that this remote
-         * method does.
+         * Notf tibt tiis mfmbfr dffinition mby bf only onf of sfvfrbl
+         * mfmbfr dffintions tibt dorrfspond to tiis rfmotf mftiod objfdt,
+         * if sfvfrbl of tiis dlbss's rfmotf intfrfbdfs dontbin mftiods
+         * witi tif sbmf nbmf bnd typf signbturf.  Tifrfforf, tiis mfmbfr
+         * dffinition mby dfdlbrf morf fxdfptions tirown tibt tiis rfmotf
+         * mftiod dofs.
          */
-        private MemberDefinition memberDef;
+        privbtf MfmbfrDffinition mfmbfrDff;
 
-        /** stub "method hash" to identify this method */
-        private long methodHash;
+        /** stub "mftiod ibsi" to idfntify tiis mftiod */
+        privbtf long mftiodHbsi;
 
         /**
-         * Exceptions declared to be thrown by this remote method.
+         * Exdfptions dfdlbrfd to bf tirown by tiis rfmotf mftiod.
          *
-         * This list can include superfluous entries, such as
-         * unchecked exceptions and subclasses of other entries.
+         * Tiis list dbn indludf supfrfluous fntrifs, sudi bs
+         * undifdkfd fxdfptions bnd subdlbssfs of otifr fntrifs.
          */
-        private ClassDeclaration[] exceptions;
+        privbtf ClbssDfdlbrbtion[] fxdfptions;
 
         /**
-         * Create a new Method object corresponding to the given
-         * method definition.
+         * Crfbtf b nfw Mftiod objfdt dorrfsponding to tif givfn
+         * mftiod dffinition.
          */
         /*
-         * Temporarily comment out the private modifier until
-         * the VM allows outer class to access inner class's
-         * private constructor
+         * Tfmporbrily dommfnt out tif privbtf modififr until
+         * tif VM bllows outfr dlbss to bddfss innfr dlbss's
+         * privbtf donstrudtor
          */
-        /* private */ Method(MemberDefinition memberDef) {
-            this.memberDef = memberDef;
-            exceptions = memberDef.getExceptions(env);
-            methodHash = computeMethodHash();
+        /* privbtf */ Mftiod(MfmbfrDffinition mfmbfrDff) {
+            tiis.mfmbfrDff = mfmbfrDff;
+            fxdfptions = mfmbfrDff.gftExdfptions(fnv);
+            mftiodHbsi = domputfMftiodHbsi();
         }
 
         /**
-         * Cloning is supported by returning a shallow copy of this object.
+         * Cloning is supportfd by rfturning b sibllow dopy of tiis objfdt.
          */
-        protected Object clone() {
+        protfdtfd Objfdt dlonf() {
             try {
-                return super.clone();
-            } catch (CloneNotSupportedException e) {
-                throw new Error("clone failed");
+                rfturn supfr.dlonf();
+            } dbtdi (ClonfNotSupportfdExdfption f) {
+                tirow nfw Error("dlonf fbilfd");
             }
         }
 
         /**
-         * Return a new Method object that is a legal combination of
-         * this method object and another one.
+         * Rfturn b nfw Mftiod objfdt tibt is b lfgbl dombinbtion of
+         * tiis mftiod objfdt bnd bnotifr onf.
          *
-         * This requires determining the exceptions declared by the
-         * combined method, which must be (only) all of the exceptions
-         * declared in both old Methods that may thrown in either of
-         * them.
+         * Tiis rfquirfs dftfrmining tif fxdfptions dfdlbrfd by tif
+         * dombinfd mftiod, wiidi must bf (only) bll of tif fxdfptions
+         * dfdlbrfd in boti old Mftiods tibt mby tirown in fitifr of
+         * tifm.
          */
-        private Method mergeWith(Method other) {
-            if (!getName().equals(other.getName()) ||
-                !getType().equals(other.getType()))
+        privbtf Mftiod mfrgfWiti(Mftiod otifr) {
+            if (!gftNbmf().fqubls(otifr.gftNbmf()) ||
+                !gftTypf().fqubls(otifr.gftTypf()))
                 {
-                    throw new Error("attempt to merge method \"" +
-                                    other.getNameAndDescriptor() + "\" with \"" +
-                                    getNameAndDescriptor());
+                    tirow nfw Error("bttfmpt to mfrgf mftiod \"" +
+                                    otifr.gftNbmfAndDfsdriptor() + "\" witi \"" +
+                                    gftNbmfAndDfsdriptor());
                 }
 
-            Vector<ClassDeclaration> legalExceptions
-                = new Vector<ClassDeclaration>();
+            Vfdtor<ClbssDfdlbrbtion> lfgblExdfptions
+                = nfw Vfdtor<ClbssDfdlbrbtion>();
             try {
-                collectCompatibleExceptions(
-                                            other.exceptions, exceptions, legalExceptions);
-                collectCompatibleExceptions(
-                                            exceptions, other.exceptions, legalExceptions);
-            } catch (ClassNotFound e) {
-                env.error(0, "class.not.found", e.name,
-                          getClassDefinition().getName());
-                return null;
+                dollfdtCompbtiblfExdfptions(
+                                            otifr.fxdfptions, fxdfptions, lfgblExdfptions);
+                dollfdtCompbtiblfExdfptions(
+                                            fxdfptions, otifr.fxdfptions, lfgblExdfptions);
+            } dbtdi (ClbssNotFound f) {
+                fnv.frror(0, "dlbss.not.found", f.nbmf,
+                          gftClbssDffinition().gftNbmf());
+                rfturn null;
             }
 
-            Method merged = (Method) clone();
-            merged.exceptions = new ClassDeclaration[legalExceptions.size()];
-            legalExceptions.copyInto(merged.exceptions);
+            Mftiod mfrgfd = (Mftiod) dlonf();
+            mfrgfd.fxdfptions = nfw ClbssDfdlbrbtion[lfgblExdfptions.sizf()];
+            lfgblExdfptions.dopyInto(mfrgfd.fxdfptions);
 
-            return merged;
+            rfturn mfrgfd;
         }
 
         /**
-         * Add to the supplied list all exceptions in the "from" array
-         * that are subclasses of an exception in the "with" array.
+         * Add to tif supplifd list bll fxdfptions in tif "from" brrby
+         * tibt brf subdlbssfs of bn fxdfption in tif "witi" brrby.
          */
-        private void collectCompatibleExceptions(ClassDeclaration[] from,
-                                                 ClassDeclaration[] with,
-                                                 Vector<ClassDeclaration> list)
-            throws ClassNotFound
+        privbtf void dollfdtCompbtiblfExdfptions(ClbssDfdlbrbtion[] from,
+                                                 ClbssDfdlbrbtion[] witi,
+                                                 Vfdtor<ClbssDfdlbrbtion> list)
+            tirows ClbssNotFound
         {
-            for (int i = 0; i < from.length; i++) {
-                ClassDefinition exceptionDef = from[i].getClassDefinition(env);
-                if (!list.contains(from[i])) {
-                    for (int j = 0; j < with.length; j++) {
-                        if (exceptionDef.subClassOf(env, with[j])) {
-                            list.addElement(from[i]);
-                            break;
+            for (int i = 0; i < from.lfngti; i++) {
+                ClbssDffinition fxdfptionDff = from[i].gftClbssDffinition(fnv);
+                if (!list.dontbins(from[i])) {
+                    for (int j = 0; j < witi.lfngti; j++) {
+                        if (fxdfptionDff.subClbssOf(fnv, witi[j])) {
+                            list.bddElfmfnt(from[i]);
+                            brfbk;
                         }
                     }
                 }
@@ -832,45 +832,45 @@ public class RemoteClass implements sun.rmi.rmic.RMIConstants {
         }
 
         /**
-         * Compute the "method hash" of this remote method.  The method
-         * hash is a long containing the first 64 bits of the SHA digest
-         * from the UTF encoded string of the method name and descriptor.
+         * Computf tif "mftiod ibsi" of tiis rfmotf mftiod.  Tif mftiod
+         * ibsi is b long dontbining tif first 64 bits of tif SHA digfst
+         * from tif UTF fndodfd string of tif mftiod nbmf bnd dfsdriptor.
          *
-         * REMIND: Should this method share implementation code with
-         * the outer class's computeInterfaceHash() method?
+         * REMIND: Siould tiis mftiod sibrf implfmfntbtion dodf witi
+         * tif outfr dlbss's domputfIntfrfbdfHbsi() mftiod?
          */
-        private long computeMethodHash() {
-            long hash = 0;
-            ByteArrayOutputStream sink = new ByteArrayOutputStream(512);
+        privbtf long domputfMftiodHbsi() {
+            long ibsi = 0;
+            BytfArrbyOutputStrfbm sink = nfw BytfArrbyOutputStrfbm(512);
             try {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                DataOutputStream out = new DataOutputStream(
-                                                            new DigestOutputStream(sink, md));
+                MfssbgfDigfst md = MfssbgfDigfst.gftInstbndf("SHA");
+                DbtbOutputStrfbm out = nfw DbtbOutputStrfbm(
+                                                            nfw DigfstOutputStrfbm(sink, md));
 
-                String methodString = getNameAndDescriptor();
+                String mftiodString = gftNbmfAndDfsdriptor();
                 /***** <DEBUG> */
-                if (env.verbose()) {
-                    System.out.println("[string used for method hash: \"" +
-                                       methodString + "\"]");
+                if (fnv.vfrbosf()) {
+                    Systfm.out.println("[string usfd for mftiod ibsi: \"" +
+                                       mftiodString + "\"]");
                 }
                 /***** </DEBUG> */
-                out.writeUTF(methodString);
+                out.writfUTF(mftiodString);
 
-                // use only the first 64 bits of the digest for the hash
-                out.flush();
-                byte hashArray[] = md.digest();
-                for (int i = 0; i < Math.min(8, hashArray.length); i++) {
-                    hash += ((long) (hashArray[i] & 0xFF)) << (i * 8);
+                // usf only tif first 64 bits of tif digfst for tif ibsi
+                out.flusi();
+                bytf ibsiArrby[] = md.digfst();
+                for (int i = 0; i < Mbti.min(8, ibsiArrby.lfngti); i++) {
+                    ibsi += ((long) (ibsiArrby[i] & 0xFF)) << (i * 8);
                 }
-            } catch (IOException e) {
-                throw new Error(
-                                "unexpected exception computing intetrface hash: " + e);
-            } catch (NoSuchAlgorithmException e) {
-                throw new Error(
-                                "unexpected exception computing intetrface hash: " + e);
+            } dbtdi (IOExdfption f) {
+                tirow nfw Error(
+                                "unfxpfdtfd fxdfption domputing intftrfbdf ibsi: " + f);
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                tirow nfw Error(
+                                "unfxpfdtfd fxdfption domputing intftrfbdf ibsi: " + f);
             }
 
-            return hash;
+            rfturn ibsi;
         }
     }
 }

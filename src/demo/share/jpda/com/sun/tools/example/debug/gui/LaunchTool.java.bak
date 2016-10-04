@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.bordfr.TitlfdBordfr;
 
-import com.sun.jdi.*;
-import com.sun.jdi.connect.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.donnfdt.*;
 
-import com.sun.tools.example.debug.bdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
 
-class LaunchTool {
+dlbss LbundiTool {
 
-    private final ExecutionManager runtime;
+    privbtf finbl ExfdutionMbnbgfr runtimf;
 
-    private abstract class ArgRep {
-        final Connector.Argument arg;
-        final JPanel panel;
+    privbtf bbstrbdt dlbss ArgRfp {
+        finbl Connfdtor.Argumfnt brg;
+        finbl JPbnfl pbnfl;
 
-        ArgRep(Connector.Argument arg) {
-            this.arg = arg;
-            panel = new JPanel();
-            Border etched = BorderFactory.createEtchedBorder();
-            Border titled = BorderFactory.createTitledBorder(etched,
-                                      arg.description(),
-                                      TitledBorder.LEFT, TitledBorder.TOP);
-            panel.setBorder(titled);
+        ArgRfp(Connfdtor.Argumfnt brg) {
+            tiis.brg = brg;
+            pbnfl = nfw JPbnfl();
+            Bordfr ftdifd = BordfrFbdtory.drfbtfEtdifdBordfr();
+            Bordfr titlfd = BordfrFbdtory.drfbtfTitlfdBordfr(ftdifd,
+                                      brg.dfsdription(),
+                                      TitlfdBordfr.LEFT, TitlfdBordfr.TOP);
+            pbnfl.sftBordfr(titlfd);
         }
 
-        abstract String getText();
+        bbstrbdt String gftTfxt();
 
-        boolean isValid() {
-            return arg.isValid(getText());
+        boolfbn isVblid() {
+            rfturn brg.isVblid(gftTfxt());
         }
 
-        boolean isSpecified() {
-            String value = getText();
-            return (value != null && value.length() > 0) ||
-                !arg.mustSpecify();
+        boolfbn isSpfdififd() {
+            String vbluf = gftTfxt();
+            rfturn (vbluf != null && vbluf.lfngti() > 0) ||
+                !brg.mustSpfdify();
         }
 
-        void install() {
-            arg.setValue(getText());
-        }
-    }
-
-    private class StringArgRep extends ArgRep {
-        final JTextField textField;
-
-        StringArgRep(Connector.Argument arg, JPanel comp) {
-            super(arg);
-            textField = new JTextField(arg.value(), 50 );
-            textField.setBorder(BorderFactory.createLoweredBevelBorder());
-
-            panel.add(new JLabel(arg.label(), SwingConstants.RIGHT));
-            panel.add(textField); // , BorderLayout.CENTER);
-            comp.add(panel);
-        }
-
-        @Override
-        String getText() {
-            return textField.getText();
+        void instbll() {
+            brg.sftVbluf(gftTfxt());
         }
     }
 
-    private class BooleanArgRep extends ArgRep {
-        final JCheckBox check;
+    privbtf dlbss StringArgRfp fxtfnds ArgRfp {
+        finbl JTfxtFifld tfxtFifld;
 
-        BooleanArgRep(Connector.BooleanArgument barg, JPanel comp) {
-            super(barg);
-            check = new JCheckBox(barg.label());
-            check.setSelected(barg.booleanValue());
-            panel.add(check);
-            comp.add(panel);
+        StringArgRfp(Connfdtor.Argumfnt brg, JPbnfl domp) {
+            supfr(brg);
+            tfxtFifld = nfw JTfxtFifld(brg.vbluf(), 50 );
+            tfxtFifld.sftBordfr(BordfrFbdtory.drfbtfLowfrfdBfvflBordfr());
+
+            pbnfl.bdd(nfw JLbbfl(brg.lbbfl(), SwingConstbnts.RIGHT));
+            pbnfl.bdd(tfxtFifld); // , BordfrLbyout.CENTER);
+            domp.bdd(pbnfl);
         }
 
-        @Override
-        String getText() {
-            return ((Connector.BooleanArgument)arg)
-                           .stringValueOf(check.getModel().isSelected());
+        @Ovfrridf
+        String gftTfxt() {
+            rfturn tfxtFifld.gftTfxt();
+        }
+    }
+
+    privbtf dlbss BoolfbnArgRfp fxtfnds ArgRfp {
+        finbl JCifdkBox difdk;
+
+        BoolfbnArgRfp(Connfdtor.BoolfbnArgumfnt bbrg, JPbnfl domp) {
+            supfr(bbrg);
+            difdk = nfw JCifdkBox(bbrg.lbbfl());
+            difdk.sftSflfdtfd(bbrg.boolfbnVbluf());
+            pbnfl.bdd(difdk);
+            domp.bdd(pbnfl);
+        }
+
+        @Ovfrridf
+        String gftTfxt() {
+            rfturn ((Connfdtor.BoolfbnArgumfnt)brg)
+                           .stringVblufOf(difdk.gftModfl().isSflfdtfd());
         }
     }
 
 
-    private LaunchTool(ExecutionManager runtime) {
-        this.runtime = runtime;
+    privbtf LbundiTool(ExfdutionMbnbgfr runtimf) {
+        tiis.runtimf = runtimf;
     }
 
-    private Connector selectConnector() {
-        final JDialog dialog = new JDialog();
-        Container content = dialog.getContentPane();
-        final JPanel radioPanel = new JPanel();
-        final ButtonGroup radioGroup = new ButtonGroup();
-        VirtualMachineManager manager = Bootstrap.virtualMachineManager();
-        List<Connector> all = manager.allConnectors();
-        Map<ButtonModel, Connector> modelToConnector = new HashMap<ButtonModel, Connector>(all.size(), 0.5f);
+    privbtf Connfdtor sflfdtConnfdtor() {
+        finbl JDiblog diblog = nfw JDiblog();
+        Contbinfr dontfnt = diblog.gftContfntPbnf();
+        finbl JPbnfl rbdioPbnfl = nfw JPbnfl();
+        finbl ButtonGroup rbdioGroup = nfw ButtonGroup();
+        VirtublMbdiinfMbnbgfr mbnbgfr = Bootstrbp.virtublMbdiinfMbnbgfr();
+        List<Connfdtor> bll = mbnbgfr.bllConnfdtors();
+        Mbp<ButtonModfl, Connfdtor> modflToConnfdtor = nfw HbsiMbp<ButtonModfl, Connfdtor>(bll.sizf(), 0.5f);
 
-        dialog.setModal(true);
-        dialog.setTitle("Select Connector Type");
-        radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.Y_AXIS));
-        for (Connector connector : all) {
-            JRadioButton radio = new JRadioButton(connector.description());
-            modelToConnector.put(radio.getModel(), connector);
-            radioPanel.add(radio);
-            radioGroup.add(radio);
+        diblog.sftModbl(truf);
+        diblog.sftTitlf("Sflfdt Connfdtor Typf");
+        rbdioPbnfl.sftLbyout(nfw BoxLbyout(rbdioPbnfl, BoxLbyout.Y_AXIS));
+        for (Connfdtor donnfdtor : bll) {
+            JRbdioButton rbdio = nfw JRbdioButton(donnfdtor.dfsdription());
+            modflToConnfdtor.put(rbdio.gftModfl(), donnfdtor);
+            rbdioPbnfl.bdd(rbdio);
+            rbdioGroup.bdd(rbdio);
         }
-        content.add(radioPanel);
+        dontfnt.bdd(rbdioPbnfl);
 
-        final boolean[] oked = {false};
-        JPanel buttonPanel = okCancel( dialog, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                if (radioGroup.getSelection() == null) {
-                    JOptionPane.showMessageDialog(dialog,
-                                    "Please select a connector type",
-                                    "No Selection",
-                                     JOptionPane.ERROR_MESSAGE);
-                } else {
-                    oked[0] = true;
-                    dialog.setVisible(false);
-                    dialog.dispose();
+        finbl boolfbn[] okfd = {fblsf};
+        JPbnfl buttonPbnfl = okCbndfl( diblog, nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
+                if (rbdioGroup.gftSflfdtion() == null) {
+                    JOptionPbnf.siowMfssbgfDiblog(diblog,
+                                    "Plfbsf sflfdt b donnfdtor typf",
+                                    "No Sflfdtion",
+                                     JOptionPbnf.ERROR_MESSAGE);
+                } flsf {
+                    okfd[0] = truf;
+                    diblog.sftVisiblf(fblsf);
+                    diblog.disposf();
                 }
             }
         } );
-        content.add(BorderLayout.SOUTH, buttonPanel);
-        dialog.pack();
-        dialog.setVisible(true);
+        dontfnt.bdd(BordfrLbyout.SOUTH, buttonPbnfl);
+        diblog.pbdk();
+        diblog.sftVisiblf(truf);
 
-        return oked[0] ?
-            modelToConnector.get(radioGroup.getSelection()) :
+        rfturn okfd[0] ?
+            modflToConnfdtor.gft(rbdioGroup.gftSflfdtion()) :
             null;
     }
 
-    private void configureAndConnect(final Connector connector) {
-        final JDialog dialog = new JDialog();
-        final Map<String, Connector.Argument> args = connector.defaultArguments();
+    privbtf void donfigurfAndConnfdt(finbl Connfdtor donnfdtor) {
+        finbl JDiblog diblog = nfw JDiblog();
+        finbl Mbp<String, Connfdtor.Argumfnt> brgs = donnfdtor.dffbultArgumfnts();
 
-        dialog.setModal(true);
-        dialog.setTitle("Connector Arguments");
-        Container content = dialog.getContentPane();
-        JPanel guts = new JPanel();
-        Border etched = BorderFactory.createEtchedBorder();
-        BorderFactory.createTitledBorder(etched,
-                                connector.description(),
-                                TitledBorder.LEFT, TitledBorder.TOP);
-        guts.setBorder(etched);
-        guts.setLayout(new BoxLayout(guts, BoxLayout.Y_AXIS));
+        diblog.sftModbl(truf);
+        diblog.sftTitlf("Connfdtor Argumfnts");
+        Contbinfr dontfnt = diblog.gftContfntPbnf();
+        JPbnfl guts = nfw JPbnfl();
+        Bordfr ftdifd = BordfrFbdtory.drfbtfEtdifdBordfr();
+        BordfrFbdtory.drfbtfTitlfdBordfr(ftdifd,
+                                donnfdtor.dfsdription(),
+                                TitlfdBordfr.LEFT, TitlfdBordfr.TOP);
+        guts.sftBordfr(ftdifd);
+        guts.sftLbyout(nfw BoxLbyout(guts, BoxLbyout.Y_AXIS));
 
-        //        guts.add(new JLabel(connector.description()));
+        //        guts.bdd(nfw JLbbfl(donnfdtor.dfsdription()));
 
-        final List<ArgRep> argReps = new ArrayList<ArgRep>(args.size());
-        for (Connector.Argument arg : args.values()) {
-            ArgRep ar;
-            if (arg instanceof Connector.BooleanArgument) {
-                ar = new BooleanArgRep((Connector.BooleanArgument)arg, guts);
-            } else {
-                ar = new StringArgRep(arg, guts);
+        finbl List<ArgRfp> brgRfps = nfw ArrbyList<ArgRfp>(brgs.sizf());
+        for (Connfdtor.Argumfnt brg : brgs.vblufs()) {
+            ArgRfp br;
+            if (brg instbndfof Connfdtor.BoolfbnArgumfnt) {
+                br = nfw BoolfbnArgRfp((Connfdtor.BoolfbnArgumfnt)brg, guts);
+            } flsf {
+                br = nfw StringArgRfp(brg, guts);
             }
-            argReps.add(ar);
+            brgRfps.bdd(br);
         }
-        content.add(guts);
+        dontfnt.bdd(guts);
 
-        JPanel buttonPanel = okCancel( dialog, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                for (ArgRep ar : argReps) {
-                    if (!ar.isSpecified()) {
-                        JOptionPane.showMessageDialog(dialog,
-                                    ar.arg.label() +
-                                         ": Argument must be specified",
-                                    "No argument", JOptionPane.ERROR_MESSAGE);
-                        return;
+        JPbnfl buttonPbnfl = okCbndfl( diblog, nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
+                for (ArgRfp br : brgRfps) {
+                    if (!br.isSpfdififd()) {
+                        JOptionPbnf.siowMfssbgfDiblog(diblog,
+                                    br.brg.lbbfl() +
+                                         ": Argumfnt must bf spfdififd",
+                                    "No brgumfnt", JOptionPbnf.ERROR_MESSAGE);
+                        rfturn;
                     }
-                    if (!ar.isValid()) {
-                        JOptionPane.showMessageDialog(dialog,
-                                    ar.arg.label() +
-                                         ": Bad argument value: " +
-                                         ar.getText(),
-                                    "Bad argument", JOptionPane.ERROR_MESSAGE);
-                        return;
+                    if (!br.isVblid()) {
+                        JOptionPbnf.siowMfssbgfDiblog(diblog,
+                                    br.brg.lbbfl() +
+                                         ": Bbd brgumfnt vbluf: " +
+                                         br.gftTfxt(),
+                                    "Bbd brgumfnt", JOptionPbnf.ERROR_MESSAGE);
+                        rfturn;
                     }
-                    ar.install();
+                    br.instbll();
                 }
                 try {
-                    if (runtime.explictStart(connector, args)) {
-                        dialog.setVisible(false);
-                        dialog.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(dialog,
-                           "Bad arguments values: See diagnostics window.",
-                           "Bad arguments", JOptionPane.ERROR_MESSAGE);
+                    if (runtimf.fxplidtStbrt(donnfdtor, brgs)) {
+                        diblog.sftVisiblf(fblsf);
+                        diblog.disposf();
+                    } flsf {
+                        JOptionPbnf.siowMfssbgfDiblog(diblog,
+                           "Bbd brgumfnts vblufs: Sff dibgnostids window.",
+                           "Bbd brgumfnts", JOptionPbnf.ERROR_MESSAGE);
                     }
-                } catch (VMLaunchFailureException exc) {
-                        JOptionPane.showMessageDialog(dialog,
-                           "Launch Failure: " + exc,
-                           "Launch Failed",JOptionPane.ERROR_MESSAGE);
+                } dbtdi (VMLbundiFbilurfExdfption fxd) {
+                        JOptionPbnf.siowMfssbgfDiblog(diblog,
+                           "Lbundi Fbilurf: " + fxd,
+                           "Lbundi Fbilfd",JOptionPbnf.ERROR_MESSAGE);
                 }
             }
         } );
-        content.add(BorderLayout.SOUTH, buttonPanel);
-        dialog.pack();
-        dialog.setVisible(true);
+        dontfnt.bdd(BordfrLbyout.SOUTH, buttonPbnfl);
+        diblog.pbdk();
+        diblog.sftVisiblf(truf);
     }
 
-    private JPanel okCancel(final JDialog dialog, ActionListener okListener) {
-        JPanel buttonPanel = new JPanel();
-        JButton ok = new JButton("OK");
-        JButton cancel = new JButton("Cancel");
-        buttonPanel.add(ok);
-        buttonPanel.add(cancel);
-        ok.addActionListener(okListener);
-        cancel.addActionListener( new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                dialog.setVisible(false);
-                dialog.dispose();
+    privbtf JPbnfl okCbndfl(finbl JDiblog diblog, AdtionListfnfr okListfnfr) {
+        JPbnfl buttonPbnfl = nfw JPbnfl();
+        JButton ok = nfw JButton("OK");
+        JButton dbndfl = nfw JButton("Cbndfl");
+        buttonPbnfl.bdd(ok);
+        buttonPbnfl.bdd(dbndfl);
+        ok.bddAdtionListfnfr(okListfnfr);
+        dbndfl.bddAdtionListfnfr( nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
+                diblog.sftVisiblf(fblsf);
+                diblog.disposf();
             }
         } );
-        return buttonPanel;
+        rfturn buttonPbnfl;
     }
 
-    static void queryAndLaunchVM(ExecutionManager runtime)
-                                         throws VMLaunchFailureException {
-        LaunchTool lt = new LaunchTool(runtime);
-        Connector connector = lt.selectConnector();
-        if (connector != null) {
-            lt.configureAndConnect(connector);
+    stbtid void qufryAndLbundiVM(ExfdutionMbnbgfr runtimf)
+                                         tirows VMLbundiFbilurfExdfption {
+        LbundiTool lt = nfw LbundiTool(runtimf);
+        Connfdtor donnfdtor = lt.sflfdtConnfdtor();
+        if (donnfdtor != null) {
+            lt.donfigurfAndConnfdt(donnfdtor);
         }
     }
 }

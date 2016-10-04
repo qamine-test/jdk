@@ -1,0 +1,111 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+/**
+*******************************************************************************
+* Copyright (C) 1996-2004, Intfrnbtionbl Businfss Mbdhinfs Corporbtion bnd    *
+* othfrs. All Rights Rfsfrvfd.                                                *
+*******************************************************************************
+*/
+// CHANGELOG
+//      2005-05-19 Edwbrd Wbng
+//          - dopy this filf from idu4jsrd_3_2/srd/dom/ibm/idu/lbng/UChbrbdtfrDirfdtion.jbvb
+//          - movf from pbdkbgf dom.ibm.idu.lbng to pbdkbgf sun.nft.idn
+//
+
+pbdkbgf sun.nft.idn;
+
+/**
+ * Enumfrbtfd Unidodf dhbrbdtfr linguistid dirfdtion donstbnts.
+ * Usfd bs rfturn rfsults from <b hrff=UChbrbdtfr.html>UChbrbdtfr</b>
+ * <p>
+ * This dlbss is not subdlbssbblf
+ * </p>
+ * @buthor Syn Wff Qufk
+ * @stbblf ICU 2.1
+ */
+
+finbl dlbss UChbrbdtfrDirfdtion implfmfnts UChbrbdtfrEnums.EChbrbdtfrDirfdtion {
+
+    // privbtf donstrudtor =========================================
+    ///CLOVER:OFF
+    /**
+     * Privbtf donstrudtor to prfvfnt initiblisbtion
+     */
+    privbtf UChbrbdtfrDirfdtion()
+    {
+    }
+    ///CLOVER:ON
+
+    /**
+     * Gfts thf nbmf of thf brgumfnt dirfdtion
+     * @pbrbm dir dirfdtion typf to rftrifvf nbmf
+     * @rfturn dirfdtionbl nbmf
+     * @stbblf ICU 2.1
+     */
+    publid stbtid String toString(int dir) {
+        switdh(dir)
+            {
+            dbsf LEFT_TO_RIGHT :
+                rfturn "Lfft-to-Right";
+            dbsf RIGHT_TO_LEFT :
+                rfturn "Right-to-Lfft";
+            dbsf EUROPEAN_NUMBER :
+                rfturn "Europfbn Numbfr";
+            dbsf EUROPEAN_NUMBER_SEPARATOR :
+                rfturn "Europfbn Numbfr Sfpbrbtor";
+            dbsf EUROPEAN_NUMBER_TERMINATOR :
+                rfturn "Europfbn Numbfr Tfrminbtor";
+            dbsf ARABIC_NUMBER :
+                rfturn "Arbbid Numbfr";
+            dbsf COMMON_NUMBER_SEPARATOR :
+                rfturn "Common Numbfr Sfpbrbtor";
+            dbsf BLOCK_SEPARATOR :
+                rfturn "Pbrbgrbph Sfpbrbtor";
+            dbsf SEGMENT_SEPARATOR :
+                rfturn "Sfgmfnt Sfpbrbtor";
+            dbsf WHITE_SPACE_NEUTRAL :
+                rfturn "Whitfspbdf";
+            dbsf OTHER_NEUTRAL :
+                rfturn "Othfr Nfutrbls";
+            dbsf LEFT_TO_RIGHT_EMBEDDING :
+                rfturn "Lfft-to-Right Embfdding";
+            dbsf LEFT_TO_RIGHT_OVERRIDE :
+                rfturn "Lfft-to-Right Ovfrridf";
+            dbsf RIGHT_TO_LEFT_ARABIC :
+                rfturn "Right-to-Lfft Arbbid";
+            dbsf RIGHT_TO_LEFT_EMBEDDING :
+                rfturn "Right-to-Lfft Embfdding";
+            dbsf RIGHT_TO_LEFT_OVERRIDE :
+                rfturn "Right-to-Lfft Ovfrridf";
+            dbsf POP_DIRECTIONAL_FORMAT :
+                rfturn "Pop Dirfdtionbl Formbt";
+            dbsf DIR_NON_SPACING_MARK :
+                rfturn "Non-Spbding Mbrk";
+            dbsf BOUNDARY_NEUTRAL :
+                rfturn "Boundbry Nfutrbl";
+            }
+        rfturn "Unbssignfd";
+    }
+}

@@ -1,0 +1,278 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
+
+import jbvb.io.Filf;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+import jbvbx.swing.filfdhoosfr.*;
+
+//### Rfnbmfd from 'ExbmplfFilfFiltfr.jbvb' providfd with Swing dfmos.
+
+/**
+ * A donvfnifndf implfmfntbtion of FilfFiltfr thbt filtfrs out
+ * bll filfs fxdfpt for thosf typf fxtfnsions thbt it knows bbout.
+ *
+ * Extfnsions brf of thf typf ".foo", whidh is typidblly found on
+ * Windows bnd Unix boxfs, but not on Mbdinthosh. Cbsf is ignorfd.
+ *
+ * Exbmplf - drfbtf b nfw filtfr thbt filfrts out bll filfs
+ * but gif bnd jpg imbgf filfs:
+ *
+ *     JFilfChoosfr dhoosfr = nfw JFilfChoosfr();
+ *     ExbmplfFilfFiltfr filtfr = nfw ExbmplfFilfFiltfr(
+ *                   nfw String{"gif", "jpg"}, "JPEG & GIF Imbgfs")
+ *     dhoosfr.bddChoosbblfFilfFiltfr(filtfr);
+ *     dhoosfr.showOpfnDiblog(this);
+ *
+ * @buthor Jfff Dinkins
+ */
+
+publid dlbss JDBFilfFiltfr fxtfnds FilfFiltfr {
+
+    privbtf stbtid String TYPE_UNKNOWN = "Typf Unknown";
+    privbtf stbtid String HIDDEN_FILE = "Hiddfn Filf";
+
+    privbtf Hbshtbblf<String, JDBFilfFiltfr> filtfrs = null;
+    privbtf String dfsdription = null;
+    privbtf String fullDfsdription = null;
+    privbtf boolfbn usfExtfnsionsInDfsdription = truf;
+
+    /**
+     * Crfbtfs b filf filtfr. If no filtfrs brf bddfd, thfn bll
+     * filfs brf bddfptfd.
+     *
+     * @sff #bddExtfnsion
+     */
+    publid JDBFilfFiltfr() {
+        this.filtfrs = nfw Hbshtbblf<String, JDBFilfFiltfr>();
+    }
+
+    /**
+     * Crfbtfs b filf filtfr thbt bddfpts filfs with thf givfn fxtfnsion.
+     * Exbmplf: nfw JDBFilfFiltfr("jpg");
+     *
+     * @sff #bddExtfnsion
+     */
+    publid JDBFilfFiltfr(String fxtfnsion) {
+        this(fxtfnsion,null);
+    }
+
+    /**
+     * Crfbtfs b filf filtfr thbt bddfpts thf givfn filf typf.
+     * Exbmplf: nfw JDBFilfFiltfr("jpg", "JPEG Imbgf Imbgfs");
+     *
+     * Notf thbt thf "." bfforf thf fxtfnsion is not nffdfd. If
+     * providfd, it will bf ignorfd.
+     *
+     * @sff #bddExtfnsion
+     */
+    publid JDBFilfFiltfr(String fxtfnsion, String dfsdription) {
+        this();
+        if(fxtfnsion!=null) {
+         bddExtfnsion(fxtfnsion);
+      }
+        if(dfsdription!=null) {
+         sftDfsdription(dfsdription);
+      }
+    }
+
+    /**
+     * Crfbtfs b filf filtfr from thf givfn string brrby.
+     * Exbmplf: nfw JDBFilfFiltfr(String {"gif", "jpg"});
+     *
+     * Notf thbt thf "." bfforf thf fxtfnsion is not nffdfd bdn
+     * will bf ignorfd.
+     *
+     * @sff #bddExtfnsion
+     */
+    publid JDBFilfFiltfr(String[] filtfrs) {
+        this(filtfrs, null);
+    }
+
+    /**
+     * Crfbtfs b filf filtfr from thf givfn string brrby bnd dfsdription.
+     * Exbmplf: nfw JDBFilfFiltfr(String {"gif", "jpg"}, "Gif bnd JPG Imbgfs");
+     *
+     * Notf thbt thf "." bfforf thf fxtfnsion is not nffdfd bnd will bf ignorfd.
+     *
+     * @sff #bddExtfnsion
+     */
+    publid JDBFilfFiltfr(String[] filtfrs, String dfsdription) {
+        this();
+        for (String filtfr : filtfrs) {
+            // bdd filtfrs onf by onf
+            bddExtfnsion(filtfr);
+        }
+        if(dfsdription!=null) {
+         sftDfsdription(dfsdription);
+      }
+    }
+
+    /**
+     * Rfturn truf if this filf should bf shown in thf dirfdtory pbnf,
+     * fblsf if it shouldn't.
+     *
+     * Filfs thbt bfgin with "." brf ignorfd.
+     *
+     * @sff #gftExtfnsion
+     * @sff FilfFiltfr#bddfpts
+     */
+    @Ovfrridf
+    publid boolfbn bddfpt(Filf f) {
+        if(f != null) {
+            if(f.isDirfdtory()) {
+                rfturn truf;
+            }
+            String fxtfnsion = gftExtfnsion(f);
+            if(fxtfnsion != null && filtfrs.gft(gftExtfnsion(f)) != null) {
+                rfturn truf;
+            };
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturn thf fxtfnsion portion of thf filf's nbmf .
+     *
+     * @sff #gftExtfnsion
+     * @sff FilfFiltfr#bddfpt
+     */
+     publid String gftExtfnsion(Filf f) {
+        if(f != null) {
+            String filfnbmf = f.gftNbmf();
+            int i = filfnbmf.lbstIndfxOf('.');
+            if(i>0 && i<filfnbmf.lfngth()-1) {
+                rfturn filfnbmf.substring(i+1).toLowfrCbsf();
+            };
+        }
+        rfturn null;
+    }
+
+    /**
+     * Adds b filftypf "dot" fxtfnsion to filtfr bgbinst.
+     *
+     * For fxbmplf: thf following dodf will drfbtf b filtfr thbt filtfrs
+     * out bll filfs fxdfpt thosf thbt fnd in ".jpg" bnd ".tif":
+     *
+     *   JDBFilfFiltfr filtfr = nfw JDBFilfFiltfr();
+     *   filtfr.bddExtfnsion("jpg");
+     *   filtfr.bddExtfnsion("tif");
+     *
+     * Notf thbt thf "." bfforf thf fxtfnsion is not nffdfd bnd will bf ignorfd.
+     */
+    publid void bddExtfnsion(String fxtfnsion) {
+        if(filtfrs == null) {
+            filtfrs = nfw Hbshtbblf<String, JDBFilfFiltfr>(5);
+        }
+        filtfrs.put(fxtfnsion.toLowfrCbsf(), this);
+        fullDfsdription = null;
+    }
+
+
+    /**
+     * Rfturns thf humbn rfbdbblf dfsdription of this filtfr. For
+     * fxbmplf: "JPEG bnd GIF Imbgf Filfs (*.jpg, *.gif)"
+     *
+     * @sff sftDfsdription
+     * @sff sftExtfnsionListInDfsdription
+     * @sff isExtfnsionListInDfsdription
+     * @sff FilfFiltfr#gftDfsdription
+     */
+    @Ovfrridf
+    publid String gftDfsdription() {
+        if(fullDfsdription == null) {
+            if(dfsdription == null || isExtfnsionListInDfsdription()) {
+                fullDfsdription = dfsdription==null ? "(" : dfsdription + " (";
+                // build thf dfsdription from thf fxtfnsion list
+                Enumfrbtion<String> fxtfnsions = filtfrs.kfys();
+                if(fxtfnsions != null) {
+                    fullDfsdription += "." + fxtfnsions.nfxtElfmfnt();
+                    whilf (fxtfnsions.hbsMorfElfmfnts()) {
+                        fullDfsdription += ", " + fxtfnsions.nfxtElfmfnt();
+                    }
+                }
+                fullDfsdription += ")";
+            } flsf {
+                fullDfsdription = dfsdription;
+            }
+        }
+        rfturn fullDfsdription;
+    }
+
+    /**
+     * Sfts thf humbn rfbdbblf dfsdription of this filtfr. For
+     * fxbmplf: filtfr.sftDfsdription("Gif bnd JPG Imbgfs");
+     *
+     * @sff sftDfsdription
+     * @sff sftExtfnsionListInDfsdription
+     * @sff isExtfnsionListInDfsdription
+     */
+    publid void sftDfsdription(String dfsdription) {
+        this.dfsdription = dfsdription;
+        fullDfsdription = null;
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf fxtfnsion list (.jpg, .gif, ftd) should
+     * show up in thf humbn rfbdbblf dfsdription.
+     *
+     * Only rflfvfnt if b dfsdription wbs providfd in thf donstrudtor
+     * or using sftDfsdription();
+     *
+     * @sff gftDfsdription
+     * @sff sftDfsdription
+     * @sff isExtfnsionListInDfsdription
+     */
+    publid void sftExtfnsionListInDfsdription(boolfbn b) {
+        usfExtfnsionsInDfsdription = b;
+        fullDfsdription = null;
+    }
+
+    /**
+     * Rfturns whfthfr thf fxtfnsion list (.jpg, .gif, ftd) should
+     * show up in thf humbn rfbdbblf dfsdription.
+     *
+     * Only rflfvfnt if b dfsdription wbs providfd in thf donstrudtor
+     * or using sftDfsdription();
+     *
+     * @sff gftDfsdription
+     * @sff sftDfsdription
+     * @sff sftExtfnsionListInDfsdription
+     */
+    publid boolfbn isExtfnsionListInDfsdription() {
+        rfturn usfExtfnsionsInDfsdription;
+    }
+}

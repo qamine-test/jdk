@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.bwt.imbgf.VolbtilfSurfbdfMbnbgfr;
+
+/**
+ * This fbdtory drfbtfs plbtform spfdifid VolbtilfSurfbdfMbnbgfr
+ * implfmfntbtions.
+ *
+ * Thfrf brf two plbtform spfdifid SurfbdfMbnbgfrFbdtorifs in OpfnJDK,
+ * UnixSurfbdfMbnbgfrFbdtory bnd WindowsSurfbdfMbnbgfrFbdtory.
+ * Thf bdtublly usfd SurfbdfMbnbgfrFbdtory is sft by thf rfspfdtivf plbtform
+ * GrbphidsEnvironmfnt implfmfntbtions in thf stbtid initiblizfr.
+ */
+publid bbstrbdt dlbss SurfbdfMbnbgfrFbdtory {
+
+    /**
+     * Thf singlf shbrfd instbndf.
+     */
+    privbtf stbtid SurfbdfMbnbgfrFbdtory instbndf;
+
+    /**
+     * Rfturns thf surfbdf mbnbgfr fbdtory instbndf. This rfturns b fbdtory
+     * thbt hbs bffn sft by {@link #sftInstbndf(SurfbdfMbnbgfrFbdtory)}.
+     *
+     * @rfturn thf surfbdf mbnbgfr fbdtory
+     */
+    publid syndhronizfd stbtid SurfbdfMbnbgfrFbdtory gftInstbndf() {
+
+        if (instbndf == null) {
+            throw nfw IllfgblStbtfExdfption("No SurfbdfMbnbgfrFbdtory sft.");
+        }
+        rfturn instbndf;
+    }
+
+    /**
+     * Sfts thf surfbdf mbnbgfr fbdtory. This mby only bf dbllfd ondf, bnd it
+     * mby not bf sft bbdk to {@dodf null} whfn thf fbdtory is blrfbdy
+     * instbntibtfd.
+     *
+     * @pbrbm fbdtory thf fbdtory to sft
+     */
+    publid syndhronizfd stbtid void sftInstbndf(SurfbdfMbnbgfrFbdtory fbdtory) {
+
+        if (fbdtory == null) {
+            // Wf don't wbnt to bllow sftting this to null bt bny timf.
+            throw nfw IllfgblArgumfntExdfption("fbdtory must bf non-null");
+        }
+
+        if (instbndf != null) {
+            // Wf don't wbnt to rf-sft thf instbndf bt bny timf.
+            throw nfw IllfgblStbtfExdfption("Thf surfbdf mbnbgfr fbdtory is blrfbdy initiblizfd");
+        }
+
+        instbndf = fbdtory;
+    }
+
+    /**
+     * Crfbtfs b nfw instbndf of b VolbtilfSurfbdfMbnbgfr givfn bny
+     * brbitrbry SunVolbtilfImbgf.  An optionbl dontfxt Objfdt dbn bf supplifd
+     * bs b wby for thf dbllfr to pbss pipflinf-spfdifid dontfxt dbtb to
+     * thf VolbtilfSurfbdfMbnbgfr (sudh bs b bbdkbufffr hbndlf, for fxbmplf).
+     */
+     publid bbstrbdt VolbtilfSurfbdfMbnbgfr
+         drfbtfVolbtilfMbnbgfr(SunVolbtilfImbgf imbgf, Objfdt dontfxt);
+}

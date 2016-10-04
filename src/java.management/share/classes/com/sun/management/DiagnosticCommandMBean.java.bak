@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.management;
+pbdkbgf dom.sun.mbnbgfmfnt;
 
-import java.lang.management.PlatformManagedObject;
-import javax.management.DynamicMBean;
+import jbvb.lbng.mbnbgfmfnt.PlbtformMbnbgfdObjfdt;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
 
 /**
- * Management interface for the diagnostic commands for the HotSpot Virtual Machine.
+ * Mbnbgfmfnt intfrfbdf for tif dibgnostid dommbnds for tif HotSpot Virtubl Mbdiinf.
  *
- * <p>The {code DiagnosticCommandMBean} is registered to the
- * {@linkplain java.lang.management.ManagementFactory#getPlatformMBeanServer
- * platform MBeanServer} as are other platform MBeans.
+ * <p>Tif {dodf DibgnostidCommbndMBfbn} is rfgistfrfd to tif
+ * {@linkplbin jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform MBfbnSfrvfr} bs brf otifr plbtform MBfbns.
  *
- * <p>The {@link javax.management.ObjectName ObjectName} for uniquely identifying
- * the diagnostic MBean within an MBeanServer is:
- * <blockquote>
- *    {@code com.sun.management:type=DiagnosticCommand}
- * </blockquote>
+ * <p>Tif {@link jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf} for uniqufly idfntifying
+ * tif dibgnostid MBfbn witiin bn MBfbnSfrvfr is:
+ * <blodkquotf>
+ *    {@dodf dom.sun.mbnbgfmfnt:typf=DibgnostidCommbnd}
+ * </blodkquotf>
  *
- * <p>This MBean is a {@link javax.management.DynamicMBean DynamicMBean}
- * and also a {@link javax.management.NotificationEmitter}.
- * The {@code DiagnosticCommandMBean} is generated at runtime and is subject to
- * modifications during the lifetime of the Java virtual machine.
+ * <p>Tiis MBfbn is b {@link jbvbx.mbnbgfmfnt.DynbmidMBfbn DynbmidMBfbn}
+ * bnd blso b {@link jbvbx.mbnbgfmfnt.NotifidbtionEmittfr}.
+ * Tif {@dodf DibgnostidCommbndMBfbn} is gfnfrbtfd bt runtimf bnd is subjfdt to
+ * modifidbtions during tif lifftimf of tif Jbvb virtubl mbdiinf.
  *
- * A <em>diagnostic command</em> is represented as an operation of
- * the {@code DiagnosticCommandMBean} interface. Each diagnostic command has:
+ * A <fm>dibgnostid dommbnd</fm> is rfprfsfntfd bs bn opfrbtion of
+ * tif {@dodf DibgnostidCommbndMBfbn} intfrfbdf. Ebdi dibgnostid dommbnd ibs:
  * <ul>
- * <li>the diagnostic command name which is the name being referenced in
- *     the HotSpot Virtual Machine</li>
- * <li>the MBean operation name which is the
- *     {@linkplain javax.management.MBeanOperationInfo#getName() name}
- *     generated for the diagnostic command operation invocation.
- *     The MBean operation name is implementation dependent</li>
+ * <li>tif dibgnostid dommbnd nbmf wiidi is tif nbmf bfing rfffrfndfd in
+ *     tif HotSpot Virtubl Mbdiinf</li>
+ * <li>tif MBfbn opfrbtion nbmf wiidi is tif
+ *     {@linkplbin jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftNbmf() nbmf}
+ *     gfnfrbtfd for tif dibgnostid dommbnd opfrbtion invodbtion.
+ *     Tif MBfbn opfrbtion nbmf is implfmfntbtion dfpfndfnt</li>
  * </ul>
  *
- * The recommended way to transform a diagnostic command name into a MBean
- * operation name is as follows:
+ * Tif rfdommfndfd wby to trbnsform b dibgnostid dommbnd nbmf into b MBfbn
+ * opfrbtion nbmf is bs follows:
  * <ul>
- * <li>All characters from the first one to the first dot are set to be
- *      lower-case characters</li>
- * <li>Every dot or underline character is removed and the following
- *   character is set to be an upper-case character</li>
- * <li>All other characters are copied without modification</li>
+ * <li>All dibrbdtfrs from tif first onf to tif first dot brf sft to bf
+ *      lowfr-dbsf dibrbdtfrs</li>
+ * <li>Evfry dot or undfrlinf dibrbdtfr is rfmovfd bnd tif following
+ *   dibrbdtfr is sft to bf bn uppfr-dbsf dibrbdtfr</li>
+ * <li>All otifr dibrbdtfrs brf dopifd witiout modifidbtion</li>
  * </ul>
  *
- * <p>The diagnostic command name is always provided with the meta-data on the
- * operation in a field named {@code dcmd.name} (see below).
+ * <p>Tif dibgnostid dommbnd nbmf is blwbys providfd witi tif mftb-dbtb on tif
+ * opfrbtion in b fifld nbmfd {@dodf ddmd.nbmf} (sff bflow).
  *
- * <p>A diagnostic command may or may not support options or arguments.
- * All the operations return {@code String} and either take
- * no parameter for operations that do not support any option or argument,
- * or take a {@code String[]} parameter for operations that support at least
- * one option or argument.
- * Each option or argument must be stored in a single String.
- * Options or arguments split across several String instances are not supported.
+ * <p>A dibgnostid dommbnd mby or mby not support options or brgumfnts.
+ * All tif opfrbtions rfturn {@dodf String} bnd fitifr tbkf
+ * no pbrbmftfr for opfrbtions tibt do not support bny option or brgumfnt,
+ * or tbkf b {@dodf String[]} pbrbmftfr for opfrbtions tibt support bt lfbst
+ * onf option or brgumfnt.
+ * Ebdi option or brgumfnt must bf storfd in b singlf String.
+ * Options or brgumfnts split bdross sfvfrbl String instbndfs brf not supportfd.
  *
- * <p>The distinction between options and arguments: options are identified by
- * the option name while arguments are identified by their position in the
- * command line. Options and arguments are processed in the order of the array
- * passed to the invocation method.
+ * <p>Tif distindtion bftwffn options bnd brgumfnts: options brf idfntififd by
+ * tif option nbmf wiilf brgumfnts brf idfntififd by tifir position in tif
+ * dommbnd linf. Options bnd brgumfnts brf prodfssfd in tif ordfr of tif brrby
+ * pbssfd to tif invodbtion mftiod.
  *
- * <p>Like any operation of a dynamic MBean, each of these operations is
- * described by {@link javax.management.MBeanOperationInfo MBeanOperationInfo}
- * instance. Here's the values returned by this object:
+ * <p>Likf bny opfrbtion of b dynbmid MBfbn, fbdi of tifsf opfrbtions is
+ * dfsdribfd by {@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo MBfbnOpfrbtionInfo}
+ * instbndf. Hfrf's tif vblufs rfturnfd by tiis objfdt:
  * <ul>
- *  <li>{@link javax.management.MBeanOperationInfo#getName() getName()}
- *      returns the operation name generated from the diagnostic command name</li>
- *  <li>{@link javax.management.MBeanOperationInfo#getDescription() getDescription()}
- *      returns the diagnostic command description
- *      (the same as the one return in the 'help' command)</li>
- *  <li>{@link javax.management.MBeanOperationInfo#getImpact() getImpact()}
- *      returns <code>ACTION_INFO</code></li>
- *  <li>{@link javax.management.MBeanOperationInfo#getReturnType() getReturnType()}
- *      returns {@code java.lang.String}</li>
- *  <li>{@link javax.management.MBeanOperationInfo#getDescriptor() getDescriptor()}
- *      returns a Descriptor instance (see below)</li>
+ *  <li>{@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftNbmf() gftNbmf()}
+ *      rfturns tif opfrbtion nbmf gfnfrbtfd from tif dibgnostid dommbnd nbmf</li>
+ *  <li>{@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftDfsdription() gftDfsdription()}
+ *      rfturns tif dibgnostid dommbnd dfsdription
+ *      (tif sbmf bs tif onf rfturn in tif 'iflp' dommbnd)</li>
+ *  <li>{@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftImpbdt() gftImpbdt()}
+ *      rfturns <dodf>ACTION_INFO</dodf></li>
+ *  <li>{@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftRfturnTypf() gftRfturnTypf()}
+ *      rfturns {@dodf jbvb.lbng.String}</li>
+ *  <li>{@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#gftDfsdriptor() gftDfsdriptor()}
+ *      rfturns b Dfsdriptor instbndf (sff bflow)</li>
  * </ul>
  *
- * <p>The {@link javax.management.Descriptor Descriptor}
- * is a collection of fields containing additional
- * meta-data for a JMX element. A field is a name and an associated value.
- * The additional meta-data provided for an operation associated with a
- * diagnostic command are described in the table below:
+ * <p>Tif {@link jbvbx.mbnbgfmfnt.Dfsdriptor Dfsdriptor}
+ * is b dollfdtion of fiflds dontbining bdditionbl
+ * mftb-dbtb for b JMX flfmfnt. A fifld is b nbmf bnd bn bssodibtfd vbluf.
+ * Tif bdditionbl mftb-dbtb providfd for bn opfrbtion bssodibtfd witi b
+ * dibgnostid dommbnd brf dfsdribfd in tif tbblf bflow:
  * <p>
  *
- * <table border="1" cellpadding="5">
+ * <tbblf bordfr="1" dfllpbdding="5">
  *   <tr>
- *     <th>Name</th><th>Type</th><th>Description</th>
+ *     <ti>Nbmf</ti><ti>Typf</ti><ti>Dfsdription</ti>
  *   </tr>
  *   <tr>
- *     <td>dcmd.name</td><td>String</td>
- *     <td>The original diagnostic command name (not the operation name)</td>
+ *     <td>ddmd.nbmf</td><td>String</td>
+ *     <td>Tif originbl dibgnostid dommbnd nbmf (not tif opfrbtion nbmf)</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.description</td><td>String</td>
- *     <td>The diagnostic command description</td>
+ *     <td>ddmd.dfsdription</td><td>String</td>
+ *     <td>Tif dibgnostid dommbnd dfsdription</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.help</td><td>String</td>
- *     <td>The full help message for this diagnostic command (same output as
- *          the one produced by the 'help' command)</td>
+ *     <td>ddmd.iflp</td><td>String</td>
+ *     <td>Tif full iflp mfssbgf for tiis dibgnostid dommbnd (sbmf output bs
+ *          tif onf produdfd by tif 'iflp' dommbnd)</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.vmImpact</td><td>String</td>
- *     <td>The impact of the diagnostic command,
- *      this value is the same as the one printed in the 'impact'
- *      section of the help message of the diagnostic command, and it
- *      is different from the getImpact() of the MBeanOperationInfo</td>
+ *     <td>ddmd.vmImpbdt</td><td>String</td>
+ *     <td>Tif impbdt of tif dibgnostid dommbnd,
+ *      tiis vbluf is tif sbmf bs tif onf printfd in tif 'impbdt'
+ *      sfdtion of tif iflp mfssbgf of tif dibgnostid dommbnd, bnd it
+ *      is difffrfnt from tif gftImpbdt() of tif MBfbnOpfrbtionInfo</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.enabled</td><td>boolean</td>
- *     <td>True if the diagnostic command is enabled, false otherwise</td>
+ *     <td>ddmd.fnbblfd</td><td>boolfbn</td>
+ *     <td>Truf if tif dibgnostid dommbnd is fnbblfd, fblsf otifrwisf</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.permissionClass</td><td>String</td>
- *     <td>Some diagnostic command might require a specific permission to be
- *          executed, in addition to the MBeanPermission to invoke their
- *          associated MBean operation. This field returns the fully qualified
- *          name of the permission class or null if no permission is required
+ *     <td>ddmd.pfrmissionClbss</td><td>String</td>
+ *     <td>Somf dibgnostid dommbnd migit rfquirf b spfdifid pfrmission to bf
+ *          fxfdutfd, in bddition to tif MBfbnPfrmission to invokf tifir
+ *          bssodibtfd MBfbn opfrbtion. Tiis fifld rfturns tif fully qublififd
+ *          nbmf of tif pfrmission dlbss or null if no pfrmission is rfquirfd
  *   </td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.permissionName</td><td>String</td>
- *     <td>The fist argument of the permission required to execute this
- *          diagnostic command or null if no permission is required</td>
+ *     <td>ddmd.pfrmissionNbmf</td><td>String</td>
+ *     <td>Tif fist brgumfnt of tif pfrmission rfquirfd to fxfdutf tiis
+ *          dibgnostid dommbnd or null if no pfrmission is rfquirfd</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.permissionAction</td><td>String</td>
- *     <td>The second argument of the permission required to execute this
- *          diagnostic command or null if the permission constructor has only
- *          one argument (like the ManagementPermission) or if no permission
- *          is required</td>
+ *     <td>ddmd.pfrmissionAdtion</td><td>String</td>
+ *     <td>Tif sfdond brgumfnt of tif pfrmission rfquirfd to fxfdutf tiis
+ *          dibgnostid dommbnd or null if tif pfrmission donstrudtor ibs only
+ *          onf brgumfnt (likf tif MbnbgfmfntPfrmission) or if no pfrmission
+ *          is rfquirfd</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arguments</td><td>Descriptor</td>
- *     <td>A Descriptor instance containing the descriptions of options and
- *          arguments supported by the diagnostic command (see below)</td>
+ *     <td>ddmd.brgumfnts</td><td>Dfsdriptor</td>
+ *     <td>A Dfsdriptor instbndf dontbining tif dfsdriptions of options bnd
+ *          brgumfnts supportfd by tif dibgnostid dommbnd (sff bflow)</td>
  *   </tr>
- * </table>
+ * </tbblf>
  * <p>
  *
- * <p>The description of parameters (options or arguments) of a diagnostic
- * command is provided within a Descriptor instance. In this Descriptor,
- * each field name is a parameter name, and each field value is itself
- * a Descriptor instance. The fields provided in this second Descriptor
- * instance are described in the table below:
+ * <p>Tif dfsdription of pbrbmftfrs (options or brgumfnts) of b dibgnostid
+ * dommbnd is providfd witiin b Dfsdriptor instbndf. In tiis Dfsdriptor,
+ * fbdi fifld nbmf is b pbrbmftfr nbmf, bnd fbdi fifld vbluf is itsflf
+ * b Dfsdriptor instbndf. Tif fiflds providfd in tiis sfdond Dfsdriptor
+ * instbndf brf dfsdribfd in tif tbblf bflow:
  *
- * <table border="1" cellpadding="5">
+ * <tbblf bordfr="1" dfllpbdding="5">
  *   <tr>
- *     <th>Name</th><th>Type</th><th>Description</th>
+ *     <ti>Nbmf</ti><ti>Typf</ti><ti>Dfsdription</ti>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.name</td><td>String</td>
- *     <td>The name of the parameter</td>
+ *     <td>ddmd.brg.nbmf</td><td>String</td>
+ *     <td>Tif nbmf of tif pbrbmftfr</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.type</td><td>String</td>
- *     <td>The type of the parameter. The returned String is the name of a type
- *          recognized by the diagnostic command parser. These types are not
- *          Java types and are implementation dependent.
+ *     <td>ddmd.brg.typf</td><td>String</td>
+ *     <td>Tif typf of tif pbrbmftfr. Tif rfturnfd String is tif nbmf of b typf
+ *          rfdognizfd by tif dibgnostid dommbnd pbrsfr. Tifsf typfs brf not
+ *          Jbvb typfs bnd brf implfmfntbtion dfpfndfnt.
  *          </td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.description</td><td>String</td>
- *     <td>The parameter description</td>
+ *     <td>ddmd.brg.dfsdription</td><td>String</td>
+ *     <td>Tif pbrbmftfr dfsdription</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.isMandatory</td><td>boolean</td>
- *     <td>True if the parameter is mandatory, false otherwise</td>
+ *     <td>ddmd.brg.isMbndbtory</td><td>boolfbn</td>
+ *     <td>Truf if tif pbrbmftfr is mbndbtory, fblsf otifrwisf</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.isOption</td><td>boolean</td>
- *     <td>True if the parameter is an option, false if it is an argument</td>
+ *     <td>ddmd.brg.isOption</td><td>boolfbn</td>
+ *     <td>Truf if tif pbrbmftfr is bn option, fblsf if it is bn brgumfnt</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.isMultiple</td><td>boolean</td>
- *     <td>True if the parameter can be specified several times, false
- *          otherwise</td>
+ *     <td>ddmd.brg.isMultiplf</td><td>boolfbn</td>
+ *     <td>Truf if tif pbrbmftfr dbn bf spfdififd sfvfrbl timfs, fblsf
+ *          otifrwisf</td>
  *   </tr>
- * </table>
+ * </tbblf>
  *
- * <p>When the set of diagnostic commands currently supported by the Java
- * Virtual Machine is modified, the {@code DiagnosticCommandMBean} emits
- * a {@link javax.management.Notification} with a
- * {@linkplain javax.management.Notification#getType() type} of
- * <a href="{@docRoot}/../../../../api/javax/management/MBeanInfo.html#info-changed">
- * {@code "jmx.mbean.info.changed"}</a> and a
- * {@linkplain javax.management.Notification#getUserData() userData} that
- * is the new {@code MBeanInfo}.
+ * <p>Wifn tif sft of dibgnostid dommbnds durrfntly supportfd by tif Jbvb
+ * Virtubl Mbdiinf is modififd, tif {@dodf DibgnostidCommbndMBfbn} fmits
+ * b {@link jbvbx.mbnbgfmfnt.Notifidbtion} witi b
+ * {@linkplbin jbvbx.mbnbgfmfnt.Notifidbtion#gftTypf() typf} of
+ * <b irff="{@dodRoot}/../../../../bpi/jbvbx/mbnbgfmfnt/MBfbnInfo.itml#info-dibngfd">
+ * {@dodf "jmx.mbfbn.info.dibngfd"}</b> bnd b
+ * {@linkplbin jbvbx.mbnbgfmfnt.Notifidbtion#gftUsfrDbtb() usfrDbtb} tibt
+ * is tif nfw {@dodf MBfbnInfo}.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public interface DiagnosticCommandMBean extends DynamicMBean
+publid intfrfbdf DibgnostidCommbndMBfbn fxtfnds DynbmidMBfbn
 {
 
 }

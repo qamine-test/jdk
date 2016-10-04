@@ -1,1621 +1,1621 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.awt.*;
-import java.util.*;
-import java.io.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.io.*;
 
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
-import javax.swing.event.ChangeEvent;
-import java.lang.ref.WeakReference;
-import java.util.WeakHashMap;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.fvfnt.CibngfListfnfr;
+import jbvbx.swing.fvfnt.EvfntListfnfrList;
+import jbvbx.swing.fvfnt.CibngfEvfnt;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.WfbkHbsiMbp;
 
-import sun.font.FontUtilities;
+import sun.font.FontUtilitifs;
 
 /**
- * A pool of styles and their associated resources.  This class determines
- * the lifetime of a group of resources by being a container that holds
- * caches for various resources such as font and color that get reused
- * by the various style definitions.  This can be shared by multiple
- * documents if desired to maximize the sharing of related resources.
+ * A pool of stylfs bnd tifir bssodibtfd rfsourdfs.  Tiis dlbss dftfrminfs
+ * tif lifftimf of b group of rfsourdfs by bfing b dontbinfr tibt iolds
+ * dbdifs for vbrious rfsourdfs sudi bs font bnd dolor tibt gft rfusfd
+ * by tif vbrious stylf dffinitions.  Tiis dbn bf sibrfd by multiplf
+ * dodumfnts if dfsirfd to mbximizf tif sibring of rflbtfd rfsourdfs.
  * <p>
- * This class also provides efficient support for small sets of attributes
- * and compresses them by sharing across uses and taking advantage of
- * their immutable nature.  Since many styles are replicated, the potential
- * for sharing is significant, and copies can be extremely cheap.
- * Larger sets reduce the possibility of sharing, and therefore revert
- * automatically to a less space-efficient implementation.
+ * Tiis dlbss blso providfs fffidifnt support for smbll sfts of bttributfs
+ * bnd domprfssfs tifm by sibring bdross usfs bnd tbking bdvbntbgf of
+ * tifir immutbblf nbturf.  Sindf mbny stylfs brf rfplidbtfd, tif potfntibl
+ * for sibring is signifidbnt, bnd dopifs dbn bf fxtrfmfly difbp.
+ * Lbrgfr sfts rfdudf tif possibility of sibring, bnd tifrfforf rfvfrt
+ * butombtidblly to b lfss spbdf-fffidifnt implfmfntbtion.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class StyleContext implements Serializable, AbstractDocument.AttributeContext {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss StylfContfxt implfmfnts Sfriblizbblf, AbstrbdtDodumfnt.AttributfContfxt {
 
     /**
-     * Returns default AttributeContext shared by all documents that
-     * don't bother to define/supply their own context.
+     * Rfturns dffbult AttributfContfxt sibrfd by bll dodumfnts tibt
+     * don't botifr to dffinf/supply tifir own dontfxt.
      *
-     * @return the context
+     * @rfturn tif dontfxt
      */
-    public static final StyleContext getDefaultStyleContext() {
-        if (defaultContext == null) {
-            defaultContext = new StyleContext();
+    publid stbtid finbl StylfContfxt gftDffbultStylfContfxt() {
+        if (dffbultContfxt == null) {
+            dffbultContfxt = nfw StylfContfxt();
         }
-        return defaultContext;
+        rfturn dffbultContfxt;
     }
 
-    private static StyleContext defaultContext;
+    privbtf stbtid StylfContfxt dffbultContfxt;
 
     /**
-     * Creates a new StyleContext object.
+     * Crfbtfs b nfw StylfContfxt objfdt.
      */
-    public StyleContext() {
-        styles = new NamedStyle(null);
-        addStyle(DEFAULT_STYLE, null);
+    publid StylfContfxt() {
+        stylfs = nfw NbmfdStylf(null);
+        bddStylf(DEFAULT_STYLE, null);
     }
 
     /**
-     * Adds a new style into the style hierarchy.  Style attributes
-     * resolve from bottom up so an attribute specified in a child
-     * will override an attribute specified in the parent.
+     * Adds b nfw stylf into tif stylf iifrbrdiy.  Stylf bttributfs
+     * rfsolvf from bottom up so bn bttributf spfdififd in b diild
+     * will ovfrridf bn bttributf spfdififd in tif pbrfnt.
      *
-     * @param nm   the name of the style (must be unique within the
-     *   collection of named styles in the document).  The name may
-     *   be null if the style is unnamed, but the caller is responsible
-     *   for managing the reference returned as an unnamed style can't
-     *   be fetched by name.  An unnamed style may be useful for things
-     *   like character attribute overrides such as found in a style
+     * @pbrbm nm   tif nbmf of tif stylf (must bf uniquf witiin tif
+     *   dollfdtion of nbmfd stylfs in tif dodumfnt).  Tif nbmf mby
+     *   bf null if tif stylf is unnbmfd, but tif dbllfr is rfsponsiblf
+     *   for mbnbging tif rfffrfndf rfturnfd bs bn unnbmfd stylf dbn't
+     *   bf fftdifd by nbmf.  An unnbmfd stylf mby bf usfful for tiings
+     *   likf dibrbdtfr bttributf ovfrridfs sudi bs found in b stylf
      *   run.
-     * @param parent the parent style.  This may be null if unspecified
-     *   attributes need not be resolved in some other style.
-     * @return the created style
+     * @pbrbm pbrfnt tif pbrfnt stylf.  Tiis mby bf null if unspfdififd
+     *   bttributfs nffd not bf rfsolvfd in somf otifr stylf.
+     * @rfturn tif drfbtfd stylf
      */
-    public Style addStyle(String nm, Style parent) {
-        Style style = new NamedStyle(nm, parent);
+    publid Stylf bddStylf(String nm, Stylf pbrfnt) {
+        Stylf stylf = nfw NbmfdStylf(nm, pbrfnt);
         if (nm != null) {
-            // add a named style, a class of attributes
-            styles.addAttribute(nm, style);
+            // bdd b nbmfd stylf, b dlbss of bttributfs
+            stylfs.bddAttributf(nm, stylf);
         }
-        return style;
+        rfturn stylf;
     }
 
     /**
-     * Removes a named style previously added to the document.
+     * Rfmovfs b nbmfd stylf prfviously bddfd to tif dodumfnt.
      *
-     * @param nm  the name of the style to remove
+     * @pbrbm nm  tif nbmf of tif stylf to rfmovf
      */
-    public void removeStyle(String nm) {
-        styles.removeAttribute(nm);
+    publid void rfmovfStylf(String nm) {
+        stylfs.rfmovfAttributf(nm);
     }
 
     /**
-     * Fetches a named style previously added to the document
+     * Fftdifs b nbmfd stylf prfviously bddfd to tif dodumfnt
      *
-     * @param nm  the name of the style
-     * @return the style
+     * @pbrbm nm  tif nbmf of tif stylf
+     * @rfturn tif stylf
      */
-    public Style getStyle(String nm) {
-        return (Style) styles.getAttribute(nm);
+    publid Stylf gftStylf(String nm) {
+        rfturn (Stylf) stylfs.gftAttributf(nm);
     }
 
     /**
-     * Fetches the names of the styles defined.
+     * Fftdifs tif nbmfs of tif stylfs dffinfd.
      *
-     * @return the list of names as an enumeration
+     * @rfturn tif list of nbmfs bs bn fnumfrbtion
      */
-    public Enumeration<?> getStyleNames() {
-        return styles.getAttributeNames();
+    publid Enumfrbtion<?> gftStylfNbmfs() {
+        rfturn stylfs.gftAttributfNbmfs();
     }
 
     /**
-     * Adds a listener to track when styles are added
-     * or removed.
+     * Adds b listfnfr to trbdk wifn stylfs brf bddfd
+     * or rfmovfd.
      *
-     * @param l the change listener
+     * @pbrbm l tif dibngf listfnfr
      */
-    public void addChangeListener(ChangeListener l) {
-        styles.addChangeListener(l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l) {
+        stylfs.bddCibngfListfnfr(l);
     }
 
     /**
-     * Removes a listener that was tracking styles being
-     * added or removed.
+     * Rfmovfs b listfnfr tibt wbs trbdking stylfs bfing
+     * bddfd or rfmovfd.
      *
-     * @param l the change listener
+     * @pbrbm l tif dibngf listfnfr
      */
-    public void removeChangeListener(ChangeListener l) {
-        styles.removeChangeListener(l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l) {
+        stylfs.rfmovfCibngfListfnfr(l);
     }
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this StyleContext with addChangeListener().
+     * Rfturns bn brrby of bll tif <dodf>CibngfListfnfr</dodf>s bddfd
+     * to tiis StylfContfxt witi bddCibngfListfnfr().
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>CibngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return ((NamedStyle)styles).getChangeListeners();
+    publid CibngfListfnfr[] gftCibngfListfnfrs() {
+        rfturn ((NbmfdStylf)stylfs).gftCibngfListfnfrs();
     }
 
     /**
-     * Gets the font from an attribute set.  This is
-     * implemented to try and fetch a cached font
-     * for the given AttributeSet, and if that fails
-     * the font features are resolved and the
-     * font is fetched from the low-level font cache.
+     * Gfts tif font from bn bttributf sft.  Tiis is
+     * implfmfntfd to try bnd fftdi b dbdifd font
+     * for tif givfn AttributfSft, bnd if tibt fbils
+     * tif font ffbturfs brf rfsolvfd bnd tif
+     * font is fftdifd from tif low-lfvfl font dbdif.
      *
-     * @param attr the attribute set
-     * @return the font
+     * @pbrbm bttr tif bttributf sft
+     * @rfturn tif font
      */
-    public Font getFont(AttributeSet attr) {
-        // PENDING(prinz) add cache behavior
-        int style = Font.PLAIN;
-        if (StyleConstants.isBold(attr)) {
-            style |= Font.BOLD;
+    publid Font gftFont(AttributfSft bttr) {
+        // PENDING(prinz) bdd dbdif bfibvior
+        int stylf = Font.PLAIN;
+        if (StylfConstbnts.isBold(bttr)) {
+            stylf |= Font.BOLD;
         }
-        if (StyleConstants.isItalic(attr)) {
-            style |= Font.ITALIC;
+        if (StylfConstbnts.isItblid(bttr)) {
+            stylf |= Font.ITALIC;
         }
-        String family = StyleConstants.getFontFamily(attr);
-        int size = StyleConstants.getFontSize(attr);
+        String fbmily = StylfConstbnts.gftFontFbmily(bttr);
+        int sizf = StylfConstbnts.gftFontSizf(bttr);
 
         /**
-         * if either superscript or subscript is
-         * is set, we need to reduce the font size
+         * if fitifr supfrsdript or subsdript is
+         * is sft, wf nffd to rfdudf tif font sizf
          * by 2.
          */
-        if (StyleConstants.isSuperscript(attr) ||
-            StyleConstants.isSubscript(attr)) {
-            size -= 2;
+        if (StylfConstbnts.isSupfrsdript(bttr) ||
+            StylfConstbnts.isSubsdript(bttr)) {
+            sizf -= 2;
         }
 
-        return getFont(family, style, size);
+        rfturn gftFont(fbmily, stylf, sizf);
     }
 
     /**
-     * Takes a set of attributes and turn it into a foreground color
-     * specification.  This might be used to specify things
-     * like brighter, more hue, etc.  By default it simply returns
-     * the value specified by the StyleConstants.Foreground attribute.
+     * Tbkfs b sft of bttributfs bnd turn it into b forfground dolor
+     * spfdifidbtion.  Tiis migit bf usfd to spfdify tiings
+     * likf brigitfr, morf iuf, ftd.  By dffbult it simply rfturns
+     * tif vbluf spfdififd by tif StylfConstbnts.Forfground bttributf.
      *
-     * @param attr the set of attributes
-     * @return the color
+     * @pbrbm bttr tif sft of bttributfs
+     * @rfturn tif dolor
      */
-    public Color getForeground(AttributeSet attr) {
-        return StyleConstants.getForeground(attr);
+    publid Color gftForfground(AttributfSft bttr) {
+        rfturn StylfConstbnts.gftForfground(bttr);
     }
 
     /**
-     * Takes a set of attributes and turn it into a background color
-     * specification.  This might be used to specify things
-     * like brighter, more hue, etc.  By default it simply returns
-     * the value specified by the StyleConstants.Background attribute.
+     * Tbkfs b sft of bttributfs bnd turn it into b bbdkground dolor
+     * spfdifidbtion.  Tiis migit bf usfd to spfdify tiings
+     * likf brigitfr, morf iuf, ftd.  By dffbult it simply rfturns
+     * tif vbluf spfdififd by tif StylfConstbnts.Bbdkground bttributf.
      *
-     * @param attr the set of attributes
-     * @return the color
+     * @pbrbm bttr tif sft of bttributfs
+     * @rfturn tif dolor
      */
-    public Color getBackground(AttributeSet attr) {
-        return StyleConstants.getBackground(attr);
+    publid Color gftBbdkground(AttributfSft bttr) {
+        rfturn StylfConstbnts.gftBbdkground(bttr);
     }
 
     /**
-     * Gets a new font.  This returns a Font from a cache
-     * if a cached font exists.  If not, a Font is added to
-     * the cache.  This is basically a low-level cache for
-     * 1.1 font features.
+     * Gfts b nfw font.  Tiis rfturns b Font from b dbdif
+     * if b dbdifd font fxists.  If not, b Font is bddfd to
+     * tif dbdif.  Tiis is bbsidblly b low-lfvfl dbdif for
+     * 1.1 font ffbturfs.
      *
-     * @param family the font family (such as "Monospaced")
-     * @param style the style of the font (such as Font.PLAIN)
-     * @param size the point size &gt;= 1
-     * @return the new font
+     * @pbrbm fbmily tif font fbmily (sudi bs "Monospbdfd")
+     * @pbrbm stylf tif stylf of tif font (sudi bs Font.PLAIN)
+     * @pbrbm sizf tif point sizf &gt;= 1
+     * @rfturn tif nfw font
      */
-    public Font getFont(String family, int style, int size) {
-        fontSearch.setValue(family, style, size);
-        Font f = fontTable.get(fontSearch);
+    publid Font gftFont(String fbmily, int stylf, int sizf) {
+        fontSfbrdi.sftVbluf(fbmily, stylf, sizf);
+        Font f = fontTbblf.gft(fontSfbrdi);
         if (f == null) {
-            // haven't seen this one yet.
-            Style defaultStyle =
-                getStyle(StyleContext.DEFAULT_STYLE);
-            if (defaultStyle != null) {
-                final String FONT_ATTRIBUTE_KEY = "FONT_ATTRIBUTE_KEY";
-                Font defaultFont =
-                    (Font) defaultStyle.getAttribute(FONT_ATTRIBUTE_KEY);
-                if (defaultFont != null
-                      && defaultFont.getFamily().equalsIgnoreCase(family)) {
-                    f = defaultFont.deriveFont(style, size);
+            // ibvfn't sffn tiis onf yft.
+            Stylf dffbultStylf =
+                gftStylf(StylfContfxt.DEFAULT_STYLE);
+            if (dffbultStylf != null) {
+                finbl String FONT_ATTRIBUTE_KEY = "FONT_ATTRIBUTE_KEY";
+                Font dffbultFont =
+                    (Font) dffbultStylf.gftAttributf(FONT_ATTRIBUTE_KEY);
+                if (dffbultFont != null
+                      && dffbultFont.gftFbmily().fqublsIgnorfCbsf(fbmily)) {
+                    f = dffbultFont.dfrivfFont(stylf, sizf);
                 }
             }
             if (f == null) {
-                f = new Font(family, style, size);
+                f = nfw Font(fbmily, stylf, sizf);
             }
-            if (! FontUtilities.fontSupportsDefaultEncoding(f)) {
-                f = FontUtilities.getCompositeFontUIResource(f);
+            if (! FontUtilitifs.fontSupportsDffbultEndoding(f)) {
+                f = FontUtilitifs.gftCompositfFontUIRfsourdf(f);
             }
-            FontKey key = new FontKey(family, style, size);
-            fontTable.put(key, f);
+            FontKfy kfy = nfw FontKfy(fbmily, stylf, sizf);
+            fontTbblf.put(kfy, f);
         }
-        return f;
+        rfturn f;
     }
 
     /**
-     * Returns font metrics for a font.
+     * Rfturns font mftrids for b font.
      *
-     * @param f the font
-     * @return the metrics
+     * @pbrbm f tif font
+     * @rfturn tif mftrids
      */
-    public FontMetrics getFontMetrics(Font f) {
-        // The Toolkit implementations cache, so we just forward
-        // to the default toolkit.
-        return Toolkit.getDefaultToolkit().getFontMetrics(f);
+    publid FontMftrids gftFontMftrids(Font f) {
+        // Tif Toolkit implfmfntbtions dbdif, so wf just forwbrd
+        // to tif dffbult toolkit.
+        rfturn Toolkit.gftDffbultToolkit().gftFontMftrids(f);
     }
 
-    // --- AttributeContext methods --------------------
+    // --- AttributfContfxt mftiods --------------------
 
     /**
-     * Adds an attribute to the given set, and returns
-     * the new representative set.
+     * Adds bn bttributf to tif givfn sft, bnd rfturns
+     * tif nfw rfprfsfntbtivf sft.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * Tiis mftiod is tirfbd sbff, bltiougi most Swing mftiods
+     * brf not. Plfbsf sff
+     * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+     * in Swing</A> for morf informbtion.
      *
-     * @param old the old attribute set
-     * @param name the non-null attribute name
-     * @param value the attribute value
-     * @return the updated attribute set
-     * @see MutableAttributeSet#addAttribute
+     * @pbrbm old tif old bttributf sft
+     * @pbrbm nbmf tif non-null bttributf nbmf
+     * @pbrbm vbluf tif bttributf vbluf
+     * @rfturn tif updbtfd bttributf sft
+     * @sff MutbblfAttributfSft#bddAttributf
      */
-    public synchronized AttributeSet addAttribute(AttributeSet old, Object name, Object value) {
-        if ((old.getAttributeCount() + 1) <= getCompressionThreshold()) {
-            // build a search key and find/create an immutable and unique
-            // set.
-            search.removeAttributes(search);
-            search.addAttributes(old);
-            search.addAttribute(name, value);
-            reclaim(old);
-            return getImmutableUniqueSet();
+    publid syndironizfd AttributfSft bddAttributf(AttributfSft old, Objfdt nbmf, Objfdt vbluf) {
+        if ((old.gftAttributfCount() + 1) <= gftComprfssionTirfsiold()) {
+            // build b sfbrdi kfy bnd find/drfbtf bn immutbblf bnd uniquf
+            // sft.
+            sfbrdi.rfmovfAttributfs(sfbrdi);
+            sfbrdi.bddAttributfs(old);
+            sfbrdi.bddAttributf(nbmf, vbluf);
+            rfdlbim(old);
+            rfturn gftImmutbblfUniqufSft();
         }
-        MutableAttributeSet ma = getMutableAttributeSet(old);
-        ma.addAttribute(name, value);
-        return ma;
+        MutbblfAttributfSft mb = gftMutbblfAttributfSft(old);
+        mb.bddAttributf(nbmf, vbluf);
+        rfturn mb;
     }
 
     /**
-     * Adds a set of attributes to the element.
+     * Adds b sft of bttributfs to tif flfmfnt.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * Tiis mftiod is tirfbd sbff, bltiougi most Swing mftiods
+     * brf not. Plfbsf sff
+     * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+     * in Swing</A> for morf informbtion.
      *
-     * @param old the old attribute set
-     * @param attr the attributes to add
-     * @return the updated attribute set
-     * @see MutableAttributeSet#addAttribute
+     * @pbrbm old tif old bttributf sft
+     * @pbrbm bttr tif bttributfs to bdd
+     * @rfturn tif updbtfd bttributf sft
+     * @sff MutbblfAttributfSft#bddAttributf
      */
-    public synchronized AttributeSet addAttributes(AttributeSet old, AttributeSet attr) {
-        if ((old.getAttributeCount() + attr.getAttributeCount()) <= getCompressionThreshold()) {
-            // build a search key and find/create an immutable and unique
-            // set.
-            search.removeAttributes(search);
-            search.addAttributes(old);
-            search.addAttributes(attr);
-            reclaim(old);
-            return getImmutableUniqueSet();
+    publid syndironizfd AttributfSft bddAttributfs(AttributfSft old, AttributfSft bttr) {
+        if ((old.gftAttributfCount() + bttr.gftAttributfCount()) <= gftComprfssionTirfsiold()) {
+            // build b sfbrdi kfy bnd find/drfbtf bn immutbblf bnd uniquf
+            // sft.
+            sfbrdi.rfmovfAttributfs(sfbrdi);
+            sfbrdi.bddAttributfs(old);
+            sfbrdi.bddAttributfs(bttr);
+            rfdlbim(old);
+            rfturn gftImmutbblfUniqufSft();
         }
-        MutableAttributeSet ma = getMutableAttributeSet(old);
-        ma.addAttributes(attr);
-        return ma;
+        MutbblfAttributfSft mb = gftMutbblfAttributfSft(old);
+        mb.bddAttributfs(bttr);
+        rfturn mb;
     }
 
     /**
-     * Removes an attribute from the set.
+     * Rfmovfs bn bttributf from tif sft.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * Tiis mftiod is tirfbd sbff, bltiougi most Swing mftiods
+     * brf not. Plfbsf sff
+     * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+     * in Swing</A> for morf informbtion.
      *
-     * @param old the old set of attributes
-     * @param name the non-null attribute name
-     * @return the updated attribute set
-     * @see MutableAttributeSet#removeAttribute
+     * @pbrbm old tif old sft of bttributfs
+     * @pbrbm nbmf tif non-null bttributf nbmf
+     * @rfturn tif updbtfd bttributf sft
+     * @sff MutbblfAttributfSft#rfmovfAttributf
      */
-    public synchronized AttributeSet removeAttribute(AttributeSet old, Object name) {
-        if ((old.getAttributeCount() - 1) <= getCompressionThreshold()) {
-            // build a search key and find/create an immutable and unique
-            // set.
-            search.removeAttributes(search);
-            search.addAttributes(old);
-            search.removeAttribute(name);
-            reclaim(old);
-            return getImmutableUniqueSet();
+    publid syndironizfd AttributfSft rfmovfAttributf(AttributfSft old, Objfdt nbmf) {
+        if ((old.gftAttributfCount() - 1) <= gftComprfssionTirfsiold()) {
+            // build b sfbrdi kfy bnd find/drfbtf bn immutbblf bnd uniquf
+            // sft.
+            sfbrdi.rfmovfAttributfs(sfbrdi);
+            sfbrdi.bddAttributfs(old);
+            sfbrdi.rfmovfAttributf(nbmf);
+            rfdlbim(old);
+            rfturn gftImmutbblfUniqufSft();
         }
-        MutableAttributeSet ma = getMutableAttributeSet(old);
-        ma.removeAttribute(name);
-        return ma;
+        MutbblfAttributfSft mb = gftMutbblfAttributfSft(old);
+        mb.rfmovfAttributf(nbmf);
+        rfturn mb;
     }
 
     /**
-     * Removes a set of attributes for the element.
+     * Rfmovfs b sft of bttributfs for tif flfmfnt.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * Tiis mftiod is tirfbd sbff, bltiougi most Swing mftiods
+     * brf not. Plfbsf sff
+     * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+     * in Swing</A> for morf informbtion.
      *
-     * @param old the old attribute set
-     * @param names the attribute names
-     * @return the updated attribute set
-     * @see MutableAttributeSet#removeAttributes
+     * @pbrbm old tif old bttributf sft
+     * @pbrbm nbmfs tif bttributf nbmfs
+     * @rfturn tif updbtfd bttributf sft
+     * @sff MutbblfAttributfSft#rfmovfAttributfs
      */
-    public synchronized AttributeSet removeAttributes(AttributeSet old, Enumeration<?> names) {
-        if (old.getAttributeCount() <= getCompressionThreshold()) {
-            // build a search key and find/create an immutable and unique
-            // set.
-            search.removeAttributes(search);
-            search.addAttributes(old);
-            search.removeAttributes(names);
-            reclaim(old);
-            return getImmutableUniqueSet();
+    publid syndironizfd AttributfSft rfmovfAttributfs(AttributfSft old, Enumfrbtion<?> nbmfs) {
+        if (old.gftAttributfCount() <= gftComprfssionTirfsiold()) {
+            // build b sfbrdi kfy bnd find/drfbtf bn immutbblf bnd uniquf
+            // sft.
+            sfbrdi.rfmovfAttributfs(sfbrdi);
+            sfbrdi.bddAttributfs(old);
+            sfbrdi.rfmovfAttributfs(nbmfs);
+            rfdlbim(old);
+            rfturn gftImmutbblfUniqufSft();
         }
-        MutableAttributeSet ma = getMutableAttributeSet(old);
-        ma.removeAttributes(names);
-        return ma;
+        MutbblfAttributfSft mb = gftMutbblfAttributfSft(old);
+        mb.rfmovfAttributfs(nbmfs);
+        rfturn mb;
     }
 
     /**
-     * Removes a set of attributes for the element.
+     * Rfmovfs b sft of bttributfs for tif flfmfnt.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * Tiis mftiod is tirfbd sbff, bltiougi most Swing mftiods
+     * brf not. Plfbsf sff
+     * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+     * in Swing</A> for morf informbtion.
      *
-     * @param old the old attribute set
-     * @param attrs the attributes
-     * @return the updated attribute set
-     * @see MutableAttributeSet#removeAttributes
+     * @pbrbm old tif old bttributf sft
+     * @pbrbm bttrs tif bttributfs
+     * @rfturn tif updbtfd bttributf sft
+     * @sff MutbblfAttributfSft#rfmovfAttributfs
      */
-    public synchronized AttributeSet removeAttributes(AttributeSet old, AttributeSet attrs) {
-        if (old.getAttributeCount() <= getCompressionThreshold()) {
-            // build a search key and find/create an immutable and unique
-            // set.
-            search.removeAttributes(search);
-            search.addAttributes(old);
-            search.removeAttributes(attrs);
-            reclaim(old);
-            return getImmutableUniqueSet();
+    publid syndironizfd AttributfSft rfmovfAttributfs(AttributfSft old, AttributfSft bttrs) {
+        if (old.gftAttributfCount() <= gftComprfssionTirfsiold()) {
+            // build b sfbrdi kfy bnd find/drfbtf bn immutbblf bnd uniquf
+            // sft.
+            sfbrdi.rfmovfAttributfs(sfbrdi);
+            sfbrdi.bddAttributfs(old);
+            sfbrdi.rfmovfAttributfs(bttrs);
+            rfdlbim(old);
+            rfturn gftImmutbblfUniqufSft();
         }
-        MutableAttributeSet ma = getMutableAttributeSet(old);
-        ma.removeAttributes(attrs);
-        return ma;
+        MutbblfAttributfSft mb = gftMutbblfAttributfSft(old);
+        mb.rfmovfAttributfs(bttrs);
+        rfturn mb;
     }
 
     /**
-     * Fetches an empty AttributeSet.
+     * Fftdifs bn fmpty AttributfSft.
      *
-     * @return the set
+     * @rfturn tif sft
      */
-    public AttributeSet getEmptySet() {
-        return SimpleAttributeSet.EMPTY;
+    publid AttributfSft gftEmptySft() {
+        rfturn SimplfAttributfSft.EMPTY;
     }
 
     /**
-     * Returns a set no longer needed by the MutableAttributeSet implementation.
-     * This is useful for operation under 1.1 where there are no weak
-     * references.  This would typically be called by the finalize method
-     * of the MutableAttributeSet implementation.
+     * Rfturns b sft no longfr nffdfd by tif MutbblfAttributfSft implfmfntbtion.
+     * Tiis is usfful for opfrbtion undfr 1.1 wifrf tifrf brf no wfbk
+     * rfffrfndfs.  Tiis would typidblly bf dbllfd by tif finblizf mftiod
+     * of tif MutbblfAttributfSft implfmfntbtion.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * Tiis mftiod is tirfbd sbff, bltiougi most Swing mftiods
+     * brf not. Plfbsf sff
+     * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+     * in Swing</A> for morf informbtion.
      *
-     * @param a the set to reclaim
+     * @pbrbm b tif sft to rfdlbim
      */
-    public void reclaim(AttributeSet a) {
-        if (SwingUtilities.isEventDispatchThread()) {
-            attributesPool.size(); // force WeakHashMap to expunge stale entries
+    publid void rfdlbim(AttributfSft b) {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+            bttributfsPool.sizf(); // fordf WfbkHbsiMbp to fxpungf stblf fntrifs
         }
-        // if current thread is not event dispatching thread
-        // do not bother with expunging stale entries.
+        // if durrfnt tirfbd is not fvfnt dispbtdiing tirfbd
+        // do not botifr witi fxpunging stblf fntrifs.
     }
 
-    // --- local methods -----------------------------------------------
+    // --- lodbl mftiods -----------------------------------------------
 
     /**
-     * Returns the maximum number of key/value pairs to try and
-     * compress into unique/immutable sets.  Any sets above this
-     * limit will use hashtables and be a MutableAttributeSet.
+     * Rfturns tif mbximum numbfr of kfy/vbluf pbirs to try bnd
+     * domprfss into uniquf/immutbblf sfts.  Any sfts bbovf tiis
+     * limit will usf ibsitbblfs bnd bf b MutbblfAttributfSft.
      *
-     * @return the threshold
+     * @rfturn tif tirfsiold
      */
-    protected int getCompressionThreshold() {
-        return THRESHOLD;
+    protfdtfd int gftComprfssionTirfsiold() {
+        rfturn THRESHOLD;
     }
 
     /**
-     * Create a compact set of attributes that might be shared.
-     * This is a hook for subclasses that want to alter the
-     * behavior of SmallAttributeSet.  This can be reimplemented
-     * to return an AttributeSet that provides some sort of
-     * attribute conversion.
+     * Crfbtf b dompbdt sft of bttributfs tibt migit bf sibrfd.
+     * Tiis is b iook for subdlbssfs tibt wbnt to bltfr tif
+     * bfibvior of SmbllAttributfSft.  Tiis dbn bf rfimplfmfntfd
+     * to rfturn bn AttributfSft tibt providfs somf sort of
+     * bttributf donvfrsion.
      *
-     * @param a The set of attributes to be represented in the
-     *  the compact form.
+     * @pbrbm b Tif sft of bttributfs to bf rfprfsfntfd in tif
+     *  tif dompbdt form.
      */
-    protected SmallAttributeSet createSmallAttributeSet(AttributeSet a) {
-        return new SmallAttributeSet(a);
+    protfdtfd SmbllAttributfSft drfbtfSmbllAttributfSft(AttributfSft b) {
+        rfturn nfw SmbllAttributfSft(b);
     }
 
     /**
-     * Create a large set of attributes that should trade off
-     * space for time.  This set will not be shared.  This is
-     * a hook for subclasses that want to alter the behavior
-     * of the larger attribute storage format (which is
-     * SimpleAttributeSet by default).   This can be reimplemented
-     * to return a MutableAttributeSet that provides some sort of
-     * attribute conversion.
+     * Crfbtf b lbrgf sft of bttributfs tibt siould trbdf off
+     * spbdf for timf.  Tiis sft will not bf sibrfd.  Tiis is
+     * b iook for subdlbssfs tibt wbnt to bltfr tif bfibvior
+     * of tif lbrgfr bttributf storbgf formbt (wiidi is
+     * SimplfAttributfSft by dffbult).   Tiis dbn bf rfimplfmfntfd
+     * to rfturn b MutbblfAttributfSft tibt providfs somf sort of
+     * bttributf donvfrsion.
      *
-     * @param a The set of attributes to be represented in the
-     *  the larger form.
+     * @pbrbm b Tif sft of bttributfs to bf rfprfsfntfd in tif
+     *  tif lbrgfr form.
      */
-    protected MutableAttributeSet createLargeAttributeSet(AttributeSet a) {
-        return new SimpleAttributeSet(a);
+    protfdtfd MutbblfAttributfSft drfbtfLbrgfAttributfSft(AttributfSft b) {
+        rfturn nfw SimplfAttributfSft(b);
     }
 
     /**
-     * Clean the unused immutable sets out of the hashtable.
+     * Clfbn tif unusfd immutbblf sfts out of tif ibsitbblf.
      */
-    synchronized void removeUnusedSets() {
-        attributesPool.size(); // force WeakHashMap to expunge stale entries
+    syndironizfd void rfmovfUnusfdSfts() {
+        bttributfsPool.sizf(); // fordf WfbkHbsiMbp to fxpungf stblf fntrifs
     }
 
     /**
-     * Search for an existing attribute set using the current search
-     * parameters.  If a matching set is found, return it.  If a match
-     * is not found, we create a new set and add it to the pool.
+     * Sfbrdi for bn fxisting bttributf sft using tif durrfnt sfbrdi
+     * pbrbmftfrs.  If b mbtdiing sft is found, rfturn it.  If b mbtdi
+     * is not found, wf drfbtf b nfw sft bnd bdd it to tif pool.
      */
-    AttributeSet getImmutableUniqueSet() {
-        // PENDING(prinz) should consider finding a alternative to
-        // generating extra garbage on search key.
-        SmallAttributeSet key = createSmallAttributeSet(search);
-        WeakReference<SmallAttributeSet> reference = attributesPool.get(key);
-        SmallAttributeSet a;
-        if (reference == null || (a = reference.get()) == null) {
-            a = key;
-            attributesPool.put(a, new WeakReference<SmallAttributeSet>(a));
+    AttributfSft gftImmutbblfUniqufSft() {
+        // PENDING(prinz) siould donsidfr finding b bltfrnbtivf to
+        // gfnfrbting fxtrb gbrbbgf on sfbrdi kfy.
+        SmbllAttributfSft kfy = drfbtfSmbllAttributfSft(sfbrdi);
+        WfbkRfffrfndf<SmbllAttributfSft> rfffrfndf = bttributfsPool.gft(kfy);
+        SmbllAttributfSft b;
+        if (rfffrfndf == null || (b = rfffrfndf.gft()) == null) {
+            b = kfy;
+            bttributfsPool.put(b, nfw WfbkRfffrfndf<SmbllAttributfSft>(b));
         }
-        return a;
+        rfturn b;
     }
 
     /**
-     * Creates a mutable attribute set to hand out because the current
-     * needs are too big to try and use a shared version.
+     * Crfbtfs b mutbblf bttributf sft to ibnd out bfdbusf tif durrfnt
+     * nffds brf too big to try bnd usf b sibrfd vfrsion.
      */
-    MutableAttributeSet getMutableAttributeSet(AttributeSet a) {
-        if (a instanceof MutableAttributeSet &&
-            a != SimpleAttributeSet.EMPTY) {
-            return (MutableAttributeSet) a;
+    MutbblfAttributfSft gftMutbblfAttributfSft(AttributfSft b) {
+        if (b instbndfof MutbblfAttributfSft &&
+            b != SimplfAttributfSft.EMPTY) {
+            rfturn (MutbblfAttributfSft) b;
         }
-        return createLargeAttributeSet(a);
+        rfturn drfbtfLbrgfAttributfSft(b);
     }
 
     /**
-     * Converts a StyleContext to a String.
+     * Convfrts b StylfContfxt to b String.
      *
-     * @return the string
+     * @rfturn tif string
      */
-    public String toString() {
-        removeUnusedSets();
+    publid String toString() {
+        rfmovfUnusfdSfts();
         String s = "";
-        for (SmallAttributeSet set : attributesPool.keySet()) {
-            s = s + set + "\n";
+        for (SmbllAttributfSft sft : bttributfsPool.kfySft()) {
+            s = s + sft + "\n";
         }
-        return s;
+        rfturn s;
     }
 
-    // --- serialization ---------------------------------------------
+    // --- sfriblizbtion ---------------------------------------------
 
     /**
-     * Context-specific handling of writing out attributes
+     * Contfxt-spfdifid ibndling of writing out bttributfs
      */
-    public void writeAttributes(ObjectOutputStream out,
-                                  AttributeSet a) throws IOException {
-        writeAttributeSet(out, a);
+    publid void writfAttributfs(ObjfdtOutputStrfbm out,
+                                  AttributfSft b) tirows IOExdfption {
+        writfAttributfSft(out, b);
     }
 
     /**
-     * Context-specific handling of reading in attributes
+     * Contfxt-spfdifid ibndling of rfbding in bttributfs
      */
-    public void readAttributes(ObjectInputStream in,
-                               MutableAttributeSet a) throws ClassNotFoundException, IOException {
-        readAttributeSet(in, a);
+    publid void rfbdAttributfs(ObjfdtInputStrfbm in,
+                               MutbblfAttributfSft b) tirows ClbssNotFoundExdfption, IOExdfption {
+        rfbdAttributfSft(in, b);
     }
 
     /**
-     * Writes a set of attributes to the given object stream
-     * for the purpose of serialization.  This will take
-     * special care to deal with static attribute keys that
-     * have been registered wit the
-     * <code>registerStaticAttributeKey</code> method.
-     * Any attribute key not registered as a static key
-     * will be serialized directly.  All values are expected
-     * to be serializable.
+     * Writfs b sft of bttributfs to tif givfn objfdt strfbm
+     * for tif purposf of sfriblizbtion.  Tiis will tbkf
+     * spfdibl dbrf to dfbl witi stbtid bttributf kfys tibt
+     * ibvf bffn rfgistfrfd wit tif
+     * <dodf>rfgistfrStbtidAttributfKfy</dodf> mftiod.
+     * Any bttributf kfy not rfgistfrfd bs b stbtid kfy
+     * will bf sfriblizfd dirfdtly.  All vblufs brf fxpfdtfd
+     * to bf sfriblizbblf.
      *
-     * @param out the output stream
-     * @param a the attribute set
-     * @exception IOException on any I/O error
+     * @pbrbm out tif output strfbm
+     * @pbrbm b tif bttributf sft
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    public static void writeAttributeSet(ObjectOutputStream out,
-                                         AttributeSet a) throws IOException {
-        int n = a.getAttributeCount();
-        out.writeInt(n);
-        Enumeration<?> keys = a.getAttributeNames();
-        while (keys.hasMoreElements()) {
-            Object key = keys.nextElement();
-            if (key instanceof Serializable) {
-                out.writeObject(key);
-            } else {
-                Object ioFmt = freezeKeyMap.get(key);
+    publid stbtid void writfAttributfSft(ObjfdtOutputStrfbm out,
+                                         AttributfSft b) tirows IOExdfption {
+        int n = b.gftAttributfCount();
+        out.writfInt(n);
+        Enumfrbtion<?> kfys = b.gftAttributfNbmfs();
+        wiilf (kfys.ibsMorfElfmfnts()) {
+            Objfdt kfy = kfys.nfxtElfmfnt();
+            if (kfy instbndfof Sfriblizbblf) {
+                out.writfObjfdt(kfy);
+            } flsf {
+                Objfdt ioFmt = frffzfKfyMbp.gft(kfy);
                 if (ioFmt == null) {
-                    throw new NotSerializableException(key.getClass().
-                                 getName() + " is not serializable as a key in an AttributeSet");
+                    tirow nfw NotSfriblizbblfExdfption(kfy.gftClbss().
+                                 gftNbmf() + " is not sfriblizbblf bs b kfy in bn AttributfSft");
                 }
-                out.writeObject(ioFmt);
+                out.writfObjfdt(ioFmt);
             }
-            Object value = a.getAttribute(key);
-            Object ioFmt = freezeKeyMap.get(value);
-            if (value instanceof Serializable) {
-                out.writeObject((ioFmt != null) ? ioFmt : value);
-            } else {
+            Objfdt vbluf = b.gftAttributf(kfy);
+            Objfdt ioFmt = frffzfKfyMbp.gft(vbluf);
+            if (vbluf instbndfof Sfriblizbblf) {
+                out.writfObjfdt((ioFmt != null) ? ioFmt : vbluf);
+            } flsf {
                 if (ioFmt == null) {
-                    throw new NotSerializableException(value.getClass().
-                                 getName() + " is not serializable as a value in an AttributeSet");
+                    tirow nfw NotSfriblizbblfExdfption(vbluf.gftClbss().
+                                 gftNbmf() + " is not sfriblizbblf bs b vbluf in bn AttributfSft");
                 }
-                out.writeObject(ioFmt);
+                out.writfObjfdt(ioFmt);
             }
         }
     }
 
     /**
-     * Reads a set of attributes from the given object input
-     * stream that have been previously written out with
-     * <code>writeAttributeSet</code>.  This will try to restore
-     * keys that were static objects to the static objects in
-     * the current virtual machine considering only those keys
-     * that have been registered with the
-     * <code>registerStaticAttributeKey</code> method.
-     * The attributes retrieved from the stream will be placed
-     * into the given mutable set.
+     * Rfbds b sft of bttributfs from tif givfn objfdt input
+     * strfbm tibt ibvf bffn prfviously writtfn out witi
+     * <dodf>writfAttributfSft</dodf>.  Tiis will try to rfstorf
+     * kfys tibt wfrf stbtid objfdts to tif stbtid objfdts in
+     * tif durrfnt virtubl mbdiinf donsidfring only tiosf kfys
+     * tibt ibvf bffn rfgistfrfd witi tif
+     * <dodf>rfgistfrStbtidAttributfKfy</dodf> mftiod.
+     * Tif bttributfs rftrifvfd from tif strfbm will bf plbdfd
+     * into tif givfn mutbblf sft.
      *
-     * @param in the object stream to read the attribute data from.
-     * @param a  the attribute set to place the attribute
-     *   definitions in.
-     * @exception ClassNotFoundException passed upward if encountered
-     *  when reading the object stream.
-     * @exception IOException passed upward if encountered when
-     *  reading the object stream.
+     * @pbrbm in tif objfdt strfbm to rfbd tif bttributf dbtb from.
+     * @pbrbm b  tif bttributf sft to plbdf tif bttributf
+     *   dffinitions in.
+     * @fxdfption ClbssNotFoundExdfption pbssfd upwbrd if fndountfrfd
+     *  wifn rfbding tif objfdt strfbm.
+     * @fxdfption IOExdfption pbssfd upwbrd if fndountfrfd wifn
+     *  rfbding tif objfdt strfbm.
      */
-    public static void readAttributeSet(ObjectInputStream in,
-        MutableAttributeSet a) throws ClassNotFoundException, IOException {
+    publid stbtid void rfbdAttributfSft(ObjfdtInputStrfbm in,
+        MutbblfAttributfSft b) tirows ClbssNotFoundExdfption, IOExdfption {
 
-        int n = in.readInt();
+        int n = in.rfbdInt();
         for (int i = 0; i < n; i++) {
-            Object key = in.readObject();
-            Object value = in.readObject();
-            if (thawKeyMap != null) {
-                Object staticKey = thawKeyMap.get(key);
-                if (staticKey != null) {
-                    key = staticKey;
+            Objfdt kfy = in.rfbdObjfdt();
+            Objfdt vbluf = in.rfbdObjfdt();
+            if (tibwKfyMbp != null) {
+                Objfdt stbtidKfy = tibwKfyMbp.gft(kfy);
+                if (stbtidKfy != null) {
+                    kfy = stbtidKfy;
                 }
-                Object staticValue = thawKeyMap.get(value);
-                if (staticValue != null) {
-                    value = staticValue;
+                Objfdt stbtidVbluf = tibwKfyMbp.gft(vbluf);
+                if (stbtidVbluf != null) {
+                    vbluf = stbtidVbluf;
                 }
             }
-            a.addAttribute(key, value);
+            b.bddAttributf(kfy, vbluf);
         }
     }
 
     /**
-     * Registers an object as a static object that is being
-     * used as a key in attribute sets.  This allows the key
-     * to be treated specially for serialization.
+     * Rfgistfrs bn objfdt bs b stbtid objfdt tibt is bfing
+     * usfd bs b kfy in bttributf sfts.  Tiis bllows tif kfy
+     * to bf trfbtfd spfdiblly for sfriblizbtion.
      * <p>
-     * For operation under a 1.1 virtual machine, this
-     * uses the value returned by <code>toString</code>
-     * concatenated to the classname.  The value returned
-     * by toString should not have the class reference
-     * in it (ie it should be reimplemented from the
-     * definition in Object) in order to be the same when
-     * recomputed later.
+     * For opfrbtion undfr b 1.1 virtubl mbdiinf, tiis
+     * usfs tif vbluf rfturnfd by <dodf>toString</dodf>
+     * dondbtfnbtfd to tif dlbssnbmf.  Tif vbluf rfturnfd
+     * by toString siould not ibvf tif dlbss rfffrfndf
+     * in it (if it siould bf rfimplfmfntfd from tif
+     * dffinition in Objfdt) in ordfr to bf tif sbmf wifn
+     * rfdomputfd lbtfr.
      *
-     * @param key the non-null object key
+     * @pbrbm kfy tif non-null objfdt kfy
      */
-    public static void registerStaticAttributeKey(Object key) {
-        String ioFmt = key.getClass().getName() + "." + key.toString();
-        if (freezeKeyMap == null) {
-            freezeKeyMap = new Hashtable<Object, String>();
-            thawKeyMap = new Hashtable<String, Object>();
+    publid stbtid void rfgistfrStbtidAttributfKfy(Objfdt kfy) {
+        String ioFmt = kfy.gftClbss().gftNbmf() + "." + kfy.toString();
+        if (frffzfKfyMbp == null) {
+            frffzfKfyMbp = nfw Hbsitbblf<Objfdt, String>();
+            tibwKfyMbp = nfw Hbsitbblf<String, Objfdt>();
         }
-        freezeKeyMap.put(key, ioFmt);
-        thawKeyMap.put(ioFmt, key);
+        frffzfKfyMbp.put(kfy, ioFmt);
+        tibwKfyMbp.put(ioFmt, kfy);
     }
 
     /**
-     * Returns the object previously registered with
-     * <code>registerStaticAttributeKey</code>.
+     * Rfturns tif objfdt prfviously rfgistfrfd witi
+     * <dodf>rfgistfrStbtidAttributfKfy</dodf>.
      */
-    public static Object getStaticAttribute(Object key) {
-        if (thawKeyMap == null || key == null) {
-            return null;
+    publid stbtid Objfdt gftStbtidAttributf(Objfdt kfy) {
+        if (tibwKfyMbp == null || kfy == null) {
+            rfturn null;
         }
-        return thawKeyMap.get(key);
+        rfturn tibwKfyMbp.gft(kfy);
     }
 
     /**
-     * Returns the String that <code>key</code> will be registered with
-     * @see #getStaticAttribute
-     * @see #registerStaticAttributeKey
+     * Rfturns tif String tibt <dodf>kfy</dodf> will bf rfgistfrfd witi
+     * @sff #gftStbtidAttributf
+     * @sff #rfgistfrStbtidAttributfKfy
      */
-    public static Object getStaticAttributeKey(Object key) {
-        return key.getClass().getName() + "." + key.toString();
+    publid stbtid Objfdt gftStbtidAttributfKfy(Objfdt kfy) {
+        rfturn kfy.gftClbss().gftNbmf() + "." + kfy.toString();
     }
 
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws IOException
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows IOExdfption
     {
-        // clean out unused sets before saving
-        removeUnusedSets();
+        // dlfbn out unusfd sfts bfforf sbving
+        rfmovfUnusfdSfts();
 
-        s.defaultWriteObject();
+        s.dffbultWritfObjfdt();
     }
 
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows ClbssNotFoundExdfption, IOExdfption
     {
-        fontSearch = new FontKey(null, 0, 0);
-        fontTable = new Hashtable<FontKey, Font>();
-        search = new SimpleAttributeSet();
-        attributesPool = Collections.
-                synchronizedMap(new WeakHashMap<SmallAttributeSet, WeakReference<SmallAttributeSet>>());
-        s.defaultReadObject();
+        fontSfbrdi = nfw FontKfy(null, 0, 0);
+        fontTbblf = nfw Hbsitbblf<FontKfy, Font>();
+        sfbrdi = nfw SimplfAttributfSft();
+        bttributfsPool = Collfdtions.
+                syndironizfdMbp(nfw WfbkHbsiMbp<SmbllAttributfSft, WfbkRfffrfndf<SmbllAttributfSft>>());
+        s.dffbultRfbdObjfdt();
     }
 
-    // --- variables ---------------------------------------------------
+    // --- vbribblfs ---------------------------------------------------
 
     /**
-     * The name given to the default logical style attached
-     * to paragraphs.
+     * Tif nbmf givfn to tif dffbult logidbl stylf bttbdifd
+     * to pbrbgrbpis.
      */
-    public static final String DEFAULT_STYLE = "default";
+    publid stbtid finbl String DEFAULT_STYLE = "dffbult";
 
-    private static Hashtable<Object, String> freezeKeyMap;
-    private static Hashtable<String, Object> thawKeyMap;
+    privbtf stbtid Hbsitbblf<Objfdt, String> frffzfKfyMbp;
+    privbtf stbtid Hbsitbblf<String, Objfdt> tibwKfyMbp;
 
-    private Style styles;
-    private transient FontKey fontSearch = new FontKey(null, 0, 0);
-    private transient Hashtable<FontKey, Font> fontTable = new Hashtable<FontKey, Font>();
+    privbtf Stylf stylfs;
+    privbtf trbnsifnt FontKfy fontSfbrdi = nfw FontKfy(null, 0, 0);
+    privbtf trbnsifnt Hbsitbblf<FontKfy, Font> fontTbblf = nfw Hbsitbblf<FontKfy, Font>();
 
-    private transient Map<SmallAttributeSet, WeakReference<SmallAttributeSet>> attributesPool = Collections.
-            synchronizedMap(new WeakHashMap<SmallAttributeSet, WeakReference<SmallAttributeSet>>());
-    private transient MutableAttributeSet search = new SimpleAttributeSet();
+    privbtf trbnsifnt Mbp<SmbllAttributfSft, WfbkRfffrfndf<SmbllAttributfSft>> bttributfsPool = Collfdtions.
+            syndironizfdMbp(nfw WfbkHbsiMbp<SmbllAttributfSft, WfbkRfffrfndf<SmbllAttributfSft>>());
+    privbtf trbnsifnt MutbblfAttributfSft sfbrdi = nfw SimplfAttributfSft();
 
     /**
-     * Number of immutable sets that are not currently
-     * being used.  This helps indicate when the sets need
-     * to be cleaned out of the hashtable they are stored
+     * Numbfr of immutbblf sfts tibt brf not durrfntly
+     * bfing usfd.  Tiis iflps indidbtf wifn tif sfts nffd
+     * to bf dlfbnfd out of tif ibsitbblf tify brf storfd
      * in.
      */
-    private int unusedSets;
+    privbtf int unusfdSfts;
 
     /**
-     * The threshold for no longer sharing the set of attributes
-     * in an immutable table.
+     * Tif tirfsiold for no longfr sibring tif sft of bttributfs
+     * in bn immutbblf tbblf.
      */
-    static final int THRESHOLD = 9;
+    stbtid finbl int THRESHOLD = 9;
 
     /**
-     * This class holds a small number of attributes in an array.
-     * The storage format is key, value, key, value, etc.  The size
-     * of the set is the length of the array divided by two.  By
-     * default, this is the class that will be used to store attributes
-     * when held in the compact sharable form.
+     * Tiis dlbss iolds b smbll numbfr of bttributfs in bn brrby.
+     * Tif storbgf formbt is kfy, vbluf, kfy, vbluf, ftd.  Tif sizf
+     * of tif sft is tif lfngti of tif brrby dividfd by two.  By
+     * dffbult, tiis is tif dlbss tibt will bf usfd to storf bttributfs
+     * wifn ifld in tif dompbdt sibrbblf form.
      */
-    public class SmallAttributeSet implements AttributeSet {
+    publid dlbss SmbllAttributfSft implfmfnts AttributfSft {
 
-        public SmallAttributeSet(Object[] attributes) {
-            this.attributes = attributes;
-            updateResolveParent();
+        publid SmbllAttributfSft(Objfdt[] bttributfs) {
+            tiis.bttributfs = bttributfs;
+            updbtfRfsolvfPbrfnt();
         }
 
-        public SmallAttributeSet(AttributeSet attrs) {
-            int n = attrs.getAttributeCount();
-            Object[] tbl = new Object[2 * n];
-            Enumeration<?> names = attrs.getAttributeNames();
+        publid SmbllAttributfSft(AttributfSft bttrs) {
+            int n = bttrs.gftAttributfCount();
+            Objfdt[] tbl = nfw Objfdt[2 * n];
+            Enumfrbtion<?> nbmfs = bttrs.gftAttributfNbmfs();
             int i = 0;
-            while (names.hasMoreElements()) {
-                tbl[i] = names.nextElement();
-                tbl[i+1] = attrs.getAttribute(tbl[i]);
+            wiilf (nbmfs.ibsMorfElfmfnts()) {
+                tbl[i] = nbmfs.nfxtElfmfnt();
+                tbl[i+1] = bttrs.gftAttributf(tbl[i]);
                 i += 2;
             }
-            attributes = tbl;
-            updateResolveParent();
+            bttributfs = tbl;
+            updbtfRfsolvfPbrfnt();
         }
 
-        private void updateResolveParent() {
-            resolveParent = null;
-            Object[] tbl = attributes;
-            for (int i = 0; i < tbl.length; i += 2) {
-                if (tbl[i] == StyleConstants.ResolveAttribute) {
-                    resolveParent = (AttributeSet)tbl[i + 1];
-                    break;
+        privbtf void updbtfRfsolvfPbrfnt() {
+            rfsolvfPbrfnt = null;
+            Objfdt[] tbl = bttributfs;
+            for (int i = 0; i < tbl.lfngti; i += 2) {
+                if (tbl[i] == StylfConstbnts.RfsolvfAttributf) {
+                    rfsolvfPbrfnt = (AttributfSft)tbl[i + 1];
+                    brfbk;
                 }
             }
         }
 
-        Object getLocalAttribute(Object nm) {
-            if (nm == StyleConstants.ResolveAttribute) {
-                return resolveParent;
+        Objfdt gftLodblAttributf(Objfdt nm) {
+            if (nm == StylfConstbnts.RfsolvfAttributf) {
+                rfturn rfsolvfPbrfnt;
             }
-            Object[] tbl = attributes;
-            for (int i = 0; i < tbl.length; i += 2) {
-                if (nm.equals(tbl[i])) {
-                    return tbl[i+1];
+            Objfdt[] tbl = bttributfs;
+            for (int i = 0; i < tbl.lfngti; i += 2) {
+                if (nm.fqubls(tbl[i])) {
+                    rfturn tbl[i+1];
                 }
             }
-            return null;
+            rfturn null;
         }
 
-        // --- Object methods -------------------------
+        // --- Objfdt mftiods -------------------------
 
         /**
-         * Returns a string showing the key/value pairs
+         * Rfturns b string siowing tif kfy/vbluf pbirs
          */
-        public String toString() {
+        publid String toString() {
             String s = "{";
-            Object[] tbl = attributes;
-            for (int i = 0; i < tbl.length; i += 2) {
-                if (tbl[i+1] instanceof AttributeSet) {
-                    // don't recurse
-                    s = s + tbl[i] + "=" + "AttributeSet" + ",";
-                } else {
+            Objfdt[] tbl = bttributfs;
+            for (int i = 0; i < tbl.lfngti; i += 2) {
+                if (tbl[i+1] instbndfof AttributfSft) {
+                    // don't rfdursf
+                    s = s + tbl[i] + "=" + "AttributfSft" + ",";
+                } flsf {
                     s = s + tbl[i] + "=" + tbl[i+1] + ",";
                 }
             }
             s = s + "}";
-            return s;
+            rfturn s;
         }
 
         /**
-         * Returns a hashcode for this set of attributes.
-         * @return     a hashcode value for this set of attributes.
+         * Rfturns b ibsidodf for tiis sft of bttributfs.
+         * @rfturn     b ibsidodf vbluf for tiis sft of bttributfs.
          */
-        public int hashCode() {
-            int code = 0;
-            Object[] tbl = attributes;
-            for (int i = 1; i < tbl.length; i += 2) {
-                code ^= tbl[i].hashCode();
+        publid int ibsiCodf() {
+            int dodf = 0;
+            Objfdt[] tbl = bttributfs;
+            for (int i = 1; i < tbl.lfngti; i += 2) {
+                dodf ^= tbl[i].ibsiCodf();
             }
-            return code;
+            rfturn dodf;
         }
 
         /**
-         * Compares this object to the specified object.
-         * The result is <code>true</code> if the object is an equivalent
-         * set of attributes.
-         * @param     obj   the object to compare with.
-         * @return    <code>true</code> if the objects are equal;
-         *            <code>false</code> otherwise.
+         * Compbrfs tiis objfdt to tif spfdififd objfdt.
+         * Tif rfsult is <dodf>truf</dodf> if tif objfdt is bn fquivblfnt
+         * sft of bttributfs.
+         * @pbrbm     obj   tif objfdt to dompbrf witi.
+         * @rfturn    <dodf>truf</dodf> if tif objfdts brf fqubl;
+         *            <dodf>fblsf</dodf> otifrwisf.
          */
-        public boolean equals(Object obj) {
-            if (obj instanceof AttributeSet) {
-                AttributeSet attrs = (AttributeSet) obj;
-                return ((getAttributeCount() == attrs.getAttributeCount()) &&
-                        containsAttributes(attrs));
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof AttributfSft) {
+                AttributfSft bttrs = (AttributfSft) obj;
+                rfturn ((gftAttributfCount() == bttrs.gftAttributfCount()) &&
+                        dontbinsAttributfs(bttrs));
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Clones a set of attributes.  Since the set is immutable, a
-         * clone is basically the same set.
+         * Clonfs b sft of bttributfs.  Sindf tif sft is immutbblf, b
+         * dlonf is bbsidblly tif sbmf sft.
          *
-         * @return the set of attributes
+         * @rfturn tif sft of bttributfs
          */
-        public Object clone() {
-            return this;
+        publid Objfdt dlonf() {
+            rfturn tiis;
         }
 
-        //  --- AttributeSet methods ----------------------------
+        //  --- AttributfSft mftiods ----------------------------
 
         /**
-         * Gets the number of attributes that are defined.
+         * Gfts tif numbfr of bttributfs tibt brf dffinfd.
          *
-         * @return the number of attributes
-         * @see AttributeSet#getAttributeCount
+         * @rfturn tif numbfr of bttributfs
+         * @sff AttributfSft#gftAttributfCount
          */
-        public int getAttributeCount() {
-            return attributes.length / 2;
+        publid int gftAttributfCount() {
+            rfturn bttributfs.lfngti / 2;
         }
 
         /**
-         * Checks whether a given attribute is defined.
+         * Cifdks wiftifr b givfn bttributf is dffinfd.
          *
-         * @param key the attribute key
-         * @return true if the attribute is defined
-         * @see AttributeSet#isDefined
+         * @pbrbm kfy tif bttributf kfy
+         * @rfturn truf if tif bttributf is dffinfd
+         * @sff AttributfSft#isDffinfd
          */
-        public boolean isDefined(Object key) {
-            Object[] a = attributes;
-            int n = a.length;
+        publid boolfbn isDffinfd(Objfdt kfy) {
+            Objfdt[] b = bttributfs;
+            int n = b.lfngti;
             for (int i = 0; i < n; i += 2) {
-                if (key.equals(a[i])) {
-                    return true;
+                if (kfy.fqubls(b[i])) {
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Checks whether two attribute sets are equal.
+         * Cifdks wiftifr two bttributf sfts brf fqubl.
          *
-         * @param attr the attribute set to check against
-         * @return true if the same
-         * @see AttributeSet#isEqual
+         * @pbrbm bttr tif bttributf sft to difdk bgbinst
+         * @rfturn truf if tif sbmf
+         * @sff AttributfSft#isEqubl
          */
-        public boolean isEqual(AttributeSet attr) {
-            if (attr instanceof SmallAttributeSet) {
-                return attr == this;
+        publid boolfbn isEqubl(AttributfSft bttr) {
+            if (bttr instbndfof SmbllAttributfSft) {
+                rfturn bttr == tiis;
             }
-            return ((getAttributeCount() == attr.getAttributeCount()) &&
-                    containsAttributes(attr));
+            rfturn ((gftAttributfCount() == bttr.gftAttributfCount()) &&
+                    dontbinsAttributfs(bttr));
         }
 
         /**
-         * Copies a set of attributes.
+         * Copifs b sft of bttributfs.
          *
-         * @return the copy
-         * @see AttributeSet#copyAttributes
+         * @rfturn tif dopy
+         * @sff AttributfSft#dopyAttributfs
          */
-        public AttributeSet copyAttributes() {
-            return this;
+        publid AttributfSft dopyAttributfs() {
+            rfturn tiis;
         }
 
         /**
-         * Gets the value of an attribute.
+         * Gfts tif vbluf of bn bttributf.
          *
-         * @param key the attribute name
-         * @return the attribute value
-         * @see AttributeSet#getAttribute
+         * @pbrbm kfy tif bttributf nbmf
+         * @rfturn tif bttributf vbluf
+         * @sff AttributfSft#gftAttributf
          */
-        public Object getAttribute(Object key) {
-            Object value = getLocalAttribute(key);
-            if (value == null) {
-                AttributeSet parent = getResolveParent();
-                if (parent != null)
-                    value = parent.getAttribute(key);
+        publid Objfdt gftAttributf(Objfdt kfy) {
+            Objfdt vbluf = gftLodblAttributf(kfy);
+            if (vbluf == null) {
+                AttributfSft pbrfnt = gftRfsolvfPbrfnt();
+                if (pbrfnt != null)
+                    vbluf = pbrfnt.gftAttributf(kfy);
             }
-            return value;
+            rfturn vbluf;
         }
 
         /**
-         * Gets the names of all attributes.
+         * Gfts tif nbmfs of bll bttributfs.
          *
-         * @return the attribute names
-         * @see AttributeSet#getAttributeNames
+         * @rfturn tif bttributf nbmfs
+         * @sff AttributfSft#gftAttributfNbmfs
          */
-        public Enumeration<?> getAttributeNames() {
-            return new KeyEnumeration(attributes);
+        publid Enumfrbtion<?> gftAttributfNbmfs() {
+            rfturn nfw KfyEnumfrbtion(bttributfs);
         }
 
         /**
-         * Checks whether a given attribute name/value is defined.
+         * Cifdks wiftifr b givfn bttributf nbmf/vbluf is dffinfd.
          *
-         * @param name the attribute name
-         * @param value the attribute value
-         * @return true if the name/value is defined
-         * @see AttributeSet#containsAttribute
+         * @pbrbm nbmf tif bttributf nbmf
+         * @pbrbm vbluf tif bttributf vbluf
+         * @rfturn truf if tif nbmf/vbluf is dffinfd
+         * @sff AttributfSft#dontbinsAttributf
          */
-        public boolean containsAttribute(Object name, Object value) {
-            return value.equals(getAttribute(name));
+        publid boolfbn dontbinsAttributf(Objfdt nbmf, Objfdt vbluf) {
+            rfturn vbluf.fqubls(gftAttributf(nbmf));
         }
 
         /**
-         * Checks whether the attribute set contains all of
-         * the given attributes.
+         * Cifdks wiftifr tif bttributf sft dontbins bll of
+         * tif givfn bttributfs.
          *
-         * @param attrs the attributes to check
-         * @return true if the element contains all the attributes
-         * @see AttributeSet#containsAttributes
+         * @pbrbm bttrs tif bttributfs to difdk
+         * @rfturn truf if tif flfmfnt dontbins bll tif bttributfs
+         * @sff AttributfSft#dontbinsAttributfs
          */
-        public boolean containsAttributes(AttributeSet attrs) {
-            boolean result = true;
+        publid boolfbn dontbinsAttributfs(AttributfSft bttrs) {
+            boolfbn rfsult = truf;
 
-            Enumeration<?> names = attrs.getAttributeNames();
-            while (result && names.hasMoreElements()) {
-                Object name = names.nextElement();
-                result = attrs.getAttribute(name).equals(getAttribute(name));
+            Enumfrbtion<?> nbmfs = bttrs.gftAttributfNbmfs();
+            wiilf (rfsult && nbmfs.ibsMorfElfmfnts()) {
+                Objfdt nbmf = nbmfs.nfxtElfmfnt();
+                rfsult = bttrs.gftAttributf(nbmf).fqubls(gftAttributf(nbmf));
             }
 
-            return result;
+            rfturn rfsult;
         }
 
         /**
-         * If not overriden, the resolving parent defaults to
-         * the parent element.
+         * If not ovfrridfn, tif rfsolving pbrfnt dffbults to
+         * tif pbrfnt flfmfnt.
          *
-         * @return the attributes from the parent
-         * @see AttributeSet#getResolveParent
+         * @rfturn tif bttributfs from tif pbrfnt
+         * @sff AttributfSft#gftRfsolvfPbrfnt
          */
-        public AttributeSet getResolveParent() {
-            return resolveParent;
+        publid AttributfSft gftRfsolvfPbrfnt() {
+            rfturn rfsolvfPbrfnt;
         }
 
-        // --- variables -----------------------------------------
+        // --- vbribblfs -----------------------------------------
 
-        Object[] attributes;
-        // This is also stored in attributes
-        AttributeSet resolveParent;
+        Objfdt[] bttributfs;
+        // Tiis is blso storfd in bttributfs
+        AttributfSft rfsolvfPbrfnt;
     }
 
     /**
-     * An enumeration of the keys in a SmallAttributeSet.
+     * An fnumfrbtion of tif kfys in b SmbllAttributfSft.
      */
-    class KeyEnumeration implements Enumeration<Object> {
+    dlbss KfyEnumfrbtion implfmfnts Enumfrbtion<Objfdt> {
 
-        KeyEnumeration(Object[] attr) {
-            this.attr = attr;
+        KfyEnumfrbtion(Objfdt[] bttr) {
+            tiis.bttr = bttr;
             i = 0;
         }
 
         /**
-         * Tests if this enumeration contains more elements.
+         * Tfsts if tiis fnumfrbtion dontbins morf flfmfnts.
          *
-         * @return  <code>true</code> if this enumeration contains more elements;
-         *          <code>false</code> otherwise.
-         * @since   1.0
+         * @rfturn  <dodf>truf</dodf> if tiis fnumfrbtion dontbins morf flfmfnts;
+         *          <dodf>fblsf</dodf> otifrwisf.
+         * @sindf   1.0
          */
-        public boolean hasMoreElements() {
-            return i < attr.length;
+        publid boolfbn ibsMorfElfmfnts() {
+            rfturn i < bttr.lfngti;
         }
 
         /**
-         * Returns the next element of this enumeration.
+         * Rfturns tif nfxt flfmfnt of tiis fnumfrbtion.
          *
-         * @return     the next element of this enumeration.
-         * @exception  NoSuchElementException  if no more elements exist.
-         * @since      1.0
+         * @rfturn     tif nfxt flfmfnt of tiis fnumfrbtion.
+         * @fxdfption  NoSudiElfmfntExdfption  if no morf flfmfnts fxist.
+         * @sindf      1.0
          */
-        public Object nextElement() {
-            if (i < attr.length) {
-                Object o = attr[i];
+        publid Objfdt nfxtElfmfnt() {
+            if (i < bttr.lfngti) {
+                Objfdt o = bttr[i];
                 i += 2;
-                return o;
+                rfturn o;
             }
-            throw new NoSuchElementException();
+            tirow nfw NoSudiElfmfntExdfption();
         }
 
-        Object[] attr;
+        Objfdt[] bttr;
         int i;
     }
 
     /**
-     * Sorts the key strings so that they can be very quickly compared
-     * in the attribute set searches.
+     * Sorts tif kfy strings so tibt tify dbn bf vfry quidkly dompbrfd
+     * in tif bttributf sft sfbrdifs.
      */
-    class KeyBuilder {
+    dlbss KfyBuildfr {
 
-        public void initialize(AttributeSet a) {
-            if (a instanceof SmallAttributeSet) {
-                initialize(((SmallAttributeSet)a).attributes);
-            } else {
-                keys.removeAllElements();
-                data.removeAllElements();
-                Enumeration<?> names = a.getAttributeNames();
-                while (names.hasMoreElements()) {
-                    Object name = names.nextElement();
-                    addAttribute(name, a.getAttribute(name));
+        publid void initiblizf(AttributfSft b) {
+            if (b instbndfof SmbllAttributfSft) {
+                initiblizf(((SmbllAttributfSft)b).bttributfs);
+            } flsf {
+                kfys.rfmovfAllElfmfnts();
+                dbtb.rfmovfAllElfmfnts();
+                Enumfrbtion<?> nbmfs = b.gftAttributfNbmfs();
+                wiilf (nbmfs.ibsMorfElfmfnts()) {
+                    Objfdt nbmf = nbmfs.nfxtElfmfnt();
+                    bddAttributf(nbmf, b.gftAttributf(nbmf));
                 }
             }
         }
 
         /**
-         * Initialize with a set of already sorted
-         * keys (data from an existing SmallAttributeSet).
+         * Initiblizf witi b sft of blrfbdy sortfd
+         * kfys (dbtb from bn fxisting SmbllAttributfSft).
          */
-        private void initialize(Object[] sorted) {
-            keys.removeAllElements();
-            data.removeAllElements();
-            int n = sorted.length;
+        privbtf void initiblizf(Objfdt[] sortfd) {
+            kfys.rfmovfAllElfmfnts();
+            dbtb.rfmovfAllElfmfnts();
+            int n = sortfd.lfngti;
             for (int i = 0; i < n; i += 2) {
-                keys.addElement(sorted[i]);
-                data.addElement(sorted[i+1]);
+                kfys.bddElfmfnt(sortfd[i]);
+                dbtb.bddElfmfnt(sortfd[i+1]);
             }
         }
 
         /**
-         * Creates a table of sorted key/value entries
-         * suitable for creation of an instance of
-         * SmallAttributeSet.
+         * Crfbtfs b tbblf of sortfd kfy/vbluf fntrifs
+         * suitbblf for drfbtion of bn instbndf of
+         * SmbllAttributfSft.
          */
-        public Object[] createTable() {
-            int n = keys.size();
-            Object[] tbl = new Object[2 * n];
+        publid Objfdt[] drfbtfTbblf() {
+            int n = kfys.sizf();
+            Objfdt[] tbl = nfw Objfdt[2 * n];
             for (int i = 0; i < n; i ++) {
                 int offs = 2 * i;
-                tbl[offs] = keys.elementAt(i);
-                tbl[offs + 1] = data.elementAt(i);
+                tbl[offs] = kfys.flfmfntAt(i);
+                tbl[offs + 1] = dbtb.flfmfntAt(i);
             }
-            return tbl;
+            rfturn tbl;
         }
 
         /**
-         * The number of key/value pairs contained
-         * in the current key being forged.
+         * Tif numbfr of kfy/vbluf pbirs dontbinfd
+         * in tif durrfnt kfy bfing forgfd.
          */
-        int getCount() {
-            return keys.size();
+        int gftCount() {
+            rfturn kfys.sizf();
         }
 
         /**
-         * Adds a key/value to the set.
+         * Adds b kfy/vbluf to tif sft.
          */
-        public void addAttribute(Object key, Object value) {
-            keys.addElement(key);
-            data.addElement(value);
+        publid void bddAttributf(Objfdt kfy, Objfdt vbluf) {
+            kfys.bddElfmfnt(kfy);
+            dbtb.bddElfmfnt(vbluf);
         }
 
         /**
-         * Adds a set of key/value pairs to the set.
+         * Adds b sft of kfy/vbluf pbirs to tif sft.
          */
-        public void addAttributes(AttributeSet attr) {
-            if (attr instanceof SmallAttributeSet) {
-                // avoid searching the keys, they are already interned.
-                Object[] tbl = ((SmallAttributeSet)attr).attributes;
-                int n = tbl.length;
+        publid void bddAttributfs(AttributfSft bttr) {
+            if (bttr instbndfof SmbllAttributfSft) {
+                // bvoid sfbrdiing tif kfys, tify brf blrfbdy intfrnfd.
+                Objfdt[] tbl = ((SmbllAttributfSft)bttr).bttributfs;
+                int n = tbl.lfngti;
                 for (int i = 0; i < n; i += 2) {
-                    addAttribute(tbl[i], tbl[i+1]);
+                    bddAttributf(tbl[i], tbl[i+1]);
                 }
-            } else {
-                Enumeration<?> names = attr.getAttributeNames();
-                while (names.hasMoreElements()) {
-                    Object name = names.nextElement();
-                    addAttribute(name, attr.getAttribute(name));
+            } flsf {
+                Enumfrbtion<?> nbmfs = bttr.gftAttributfNbmfs();
+                wiilf (nbmfs.ibsMorfElfmfnts()) {
+                    Objfdt nbmf = nbmfs.nfxtElfmfnt();
+                    bddAttributf(nbmf, bttr.gftAttributf(nbmf));
                 }
             }
         }
 
         /**
-         * Removes the given name from the set.
+         * Rfmovfs tif givfn nbmf from tif sft.
          */
-        public void removeAttribute(Object key) {
-            int n = keys.size();
+        publid void rfmovfAttributf(Objfdt kfy) {
+            int n = kfys.sizf();
             for (int i = 0; i < n; i++) {
-                if (keys.elementAt(i).equals(key)) {
-                    keys.removeElementAt(i);
-                    data.removeElementAt(i);
-                    return;
+                if (kfys.flfmfntAt(i).fqubls(kfy)) {
+                    kfys.rfmovfElfmfntAt(i);
+                    dbtb.rfmovfElfmfntAt(i);
+                    rfturn;
                 }
             }
         }
 
         /**
-         * Removes the set of keys from the set.
+         * Rfmovfs tif sft of kfys from tif sft.
          */
-        public void removeAttributes(Enumeration<?> names) {
-            while (names.hasMoreElements()) {
-                Object name = names.nextElement();
-                removeAttribute(name);
+        publid void rfmovfAttributfs(Enumfrbtion<?> nbmfs) {
+            wiilf (nbmfs.ibsMorfElfmfnts()) {
+                Objfdt nbmf = nbmfs.nfxtElfmfnt();
+                rfmovfAttributf(nbmf);
             }
         }
 
         /**
-         * Removes the set of matching attributes from the set.
+         * Rfmovfs tif sft of mbtdiing bttributfs from tif sft.
          */
-        public void removeAttributes(AttributeSet attr) {
-            Enumeration<?> names = attr.getAttributeNames();
-            while (names.hasMoreElements()) {
-                Object name = names.nextElement();
-                Object value = attr.getAttribute(name);
-                removeSearchAttribute(name, value);
+        publid void rfmovfAttributfs(AttributfSft bttr) {
+            Enumfrbtion<?> nbmfs = bttr.gftAttributfNbmfs();
+            wiilf (nbmfs.ibsMorfElfmfnts()) {
+                Objfdt nbmf = nbmfs.nfxtElfmfnt();
+                Objfdt vbluf = bttr.gftAttributf(nbmf);
+                rfmovfSfbrdiAttributf(nbmf, vbluf);
             }
         }
 
-        private void removeSearchAttribute(Object ikey, Object value) {
-            int n = keys.size();
+        privbtf void rfmovfSfbrdiAttributf(Objfdt ikfy, Objfdt vbluf) {
+            int n = kfys.sizf();
             for (int i = 0; i < n; i++) {
-                if (keys.elementAt(i).equals(ikey)) {
-                    if (data.elementAt(i).equals(value)) {
-                        keys.removeElementAt(i);
-                        data.removeElementAt(i);
+                if (kfys.flfmfntAt(i).fqubls(ikfy)) {
+                    if (dbtb.flfmfntAt(i).fqubls(vbluf)) {
+                        kfys.rfmovfElfmfntAt(i);
+                        dbtb.rfmovfElfmfntAt(i);
                     }
-                    return;
+                    rfturn;
                 }
             }
         }
 
-        private Vector<Object> keys = new Vector<Object>();
-        private Vector<Object> data = new Vector<Object>();
+        privbtf Vfdtor<Objfdt> kfys = nfw Vfdtor<Objfdt>();
+        privbtf Vfdtor<Objfdt> dbtb = nfw Vfdtor<Objfdt>();
     }
 
     /**
-     * key for a font table
+     * kfy for b font tbblf
      */
-    static class FontKey {
+    stbtid dlbss FontKfy {
 
-        private String family;
-        private int style;
-        private int size;
-
-        /**
-         * Constructs a font key.
-         */
-        public FontKey(String family, int style, int size) {
-            setValue(family, style, size);
-        }
-
-        public void setValue(String family, int style, int size) {
-            this.family = (family != null) ? family.intern() : null;
-            this.style = style;
-            this.size = size;
-        }
+        privbtf String fbmily;
+        privbtf int stylf;
+        privbtf int sizf;
 
         /**
-         * Returns a hashcode for this font.
-         * @return     a hashcode value for this font.
+         * Construdts b font kfy.
          */
-        public int hashCode() {
-            int fhash = (family != null) ? family.hashCode() : 0;
-            return fhash ^ style ^ size;
+        publid FontKfy(String fbmily, int stylf, int sizf) {
+            sftVbluf(fbmily, stylf, sizf);
+        }
+
+        publid void sftVbluf(String fbmily, int stylf, int sizf) {
+            tiis.fbmily = (fbmily != null) ? fbmily.intfrn() : null;
+            tiis.stylf = stylf;
+            tiis.sizf = sizf;
         }
 
         /**
-         * Compares this object to the specified object.
-         * The result is <code>true</code> if and only if the argument is not
-         * <code>null</code> and is a <code>Font</code> object with the same
-         * name, style, and point size as this font.
-         * @param     obj   the object to compare this font with.
-         * @return    <code>true</code> if the objects are equal;
-         *            <code>false</code> otherwise.
+         * Rfturns b ibsidodf for tiis font.
+         * @rfturn     b ibsidodf vbluf for tiis font.
          */
-        public boolean equals(Object obj) {
-            if (obj instanceof FontKey) {
-                FontKey font = (FontKey)obj;
-                return (size == font.size) && (style == font.style) && (family == font.family);
+        publid int ibsiCodf() {
+            int fibsi = (fbmily != null) ? fbmily.ibsiCodf() : 0;
+            rfturn fibsi ^ stylf ^ sizf;
+        }
+
+        /**
+         * Compbrfs tiis objfdt to tif spfdififd objfdt.
+         * Tif rfsult is <dodf>truf</dodf> if bnd only if tif brgumfnt is not
+         * <dodf>null</dodf> bnd is b <dodf>Font</dodf> objfdt witi tif sbmf
+         * nbmf, stylf, bnd point sizf bs tiis font.
+         * @pbrbm     obj   tif objfdt to dompbrf tiis font witi.
+         * @rfturn    <dodf>truf</dodf> if tif objfdts brf fqubl;
+         *            <dodf>fblsf</dodf> otifrwisf.
+         */
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof FontKfy) {
+                FontKfy font = (FontKfy)obj;
+                rfturn (sizf == font.sizf) && (stylf == font.stylf) && (fbmily == font.fbmily);
             }
-            return false;
+            rfturn fblsf;
         }
 
     }
 
     /**
-     * A collection of attributes, typically used to represent
-     * character and paragraph styles.  This is an implementation
-     * of MutableAttributeSet that can be observed if desired.
-     * These styles will take advantage of immutability while
-     * the sets are small enough, and may be substantially more
-     * efficient than something like SimpleAttributeSet.
+     * A dollfdtion of bttributfs, typidblly usfd to rfprfsfnt
+     * dibrbdtfr bnd pbrbgrbpi stylfs.  Tiis is bn implfmfntbtion
+     * of MutbblfAttributfSft tibt dbn bf obsfrvfd if dfsirfd.
+     * Tifsf stylfs will tbkf bdvbntbgf of immutbbility wiilf
+     * tif sfts brf smbll fnougi, bnd mby bf substbntiblly morf
+     * fffidifnt tibn somftiing likf SimplfAttributfSft.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public class NamedStyle implements Style, Serializable {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid dlbss NbmfdStylf implfmfnts Stylf, Sfriblizbblf {
 
         /**
-         * Creates a new named style.
+         * Crfbtfs b nfw nbmfd stylf.
          *
-         * @param name the style name, null for unnamed
-         * @param parent the parent style, null if none
-         * @since 1.4
+         * @pbrbm nbmf tif stylf nbmf, null for unnbmfd
+         * @pbrbm pbrfnt tif pbrfnt stylf, null if nonf
+         * @sindf 1.4
          */
-        public NamedStyle(String name, Style parent) {
-            attributes = getEmptySet();
-            if (name != null) {
-                setName(name);
+        publid NbmfdStylf(String nbmf, Stylf pbrfnt) {
+            bttributfs = gftEmptySft();
+            if (nbmf != null) {
+                sftNbmf(nbmf);
             }
-            if (parent != null) {
-                setResolveParent(parent);
-            }
-        }
-
-        /**
-         * Creates a new named style.
-         *
-         * @param parent the parent style, null if none
-         * @since 1.4
-         */
-        public NamedStyle(Style parent) {
-            this(null, parent);
-        }
-
-        /**
-         * Creates a new named style, with a null name and parent.
-         */
-        public NamedStyle() {
-            attributes = getEmptySet();
-        }
-
-        /**
-         * Converts the style to a string.
-         *
-         * @return the string
-         */
-        public String toString() {
-            return "NamedStyle:" + getName() + " " + attributes;
-        }
-
-        /**
-         * Fetches the name of the style.   A style is not required to be named,
-         * so null is returned if there is no name associated with the style.
-         *
-         * @return the name
-         */
-        public String getName() {
-            if (isDefined(StyleConstants.NameAttribute)) {
-                return getAttribute(StyleConstants.NameAttribute).toString();
-            }
-            return null;
-        }
-
-        /**
-         * Changes the name of the style.  Does nothing with a null name.
-         *
-         * @param name the new name
-         */
-        public void setName(String name) {
-            if (name != null) {
-                this.addAttribute(StyleConstants.NameAttribute, name);
+            if (pbrfnt != null) {
+                sftRfsolvfPbrfnt(pbrfnt);
             }
         }
 
         /**
-         * Adds a change listener.
+         * Crfbtfs b nfw nbmfd stylf.
          *
-         * @param l the change listener
+         * @pbrbm pbrfnt tif pbrfnt stylf, null if nonf
+         * @sindf 1.4
          */
-        public void addChangeListener(ChangeListener l) {
-            listenerList.add(ChangeListener.class, l);
+        publid NbmfdStylf(Stylf pbrfnt) {
+            tiis(null, pbrfnt);
         }
 
         /**
-         * Removes a change listener.
-         *
-         * @param l the change listener
+         * Crfbtfs b nfw nbmfd stylf, witi b null nbmf bnd pbrfnt.
          */
-        public void removeChangeListener(ChangeListener l) {
-            listenerList.remove(ChangeListener.class, l);
+        publid NbmfdStylf() {
+            bttributfs = gftEmptySft();
+        }
+
+        /**
+         * Convfrts tif stylf to b string.
+         *
+         * @rfturn tif string
+         */
+        publid String toString() {
+            rfturn "NbmfdStylf:" + gftNbmf() + " " + bttributfs;
+        }
+
+        /**
+         * Fftdifs tif nbmf of tif stylf.   A stylf is not rfquirfd to bf nbmfd,
+         * so null is rfturnfd if tifrf is no nbmf bssodibtfd witi tif stylf.
+         *
+         * @rfturn tif nbmf
+         */
+        publid String gftNbmf() {
+            if (isDffinfd(StylfConstbnts.NbmfAttributf)) {
+                rfturn gftAttributf(StylfConstbnts.NbmfAttributf).toString();
+            }
+            rfturn null;
+        }
+
+        /**
+         * Cibngfs tif nbmf of tif stylf.  Dofs notiing witi b null nbmf.
+         *
+         * @pbrbm nbmf tif nfw nbmf
+         */
+        publid void sftNbmf(String nbmf) {
+            if (nbmf != null) {
+                tiis.bddAttributf(StylfConstbnts.NbmfAttributf, nbmf);
+            }
+        }
+
+        /**
+         * Adds b dibngf listfnfr.
+         *
+         * @pbrbm l tif dibngf listfnfr
+         */
+        publid void bddCibngfListfnfr(CibngfListfnfr l) {
+            listfnfrList.bdd(CibngfListfnfr.dlbss, l);
+        }
+
+        /**
+         * Rfmovfs b dibngf listfnfr.
+         *
+         * @pbrbm l tif dibngf listfnfr
+         */
+        publid void rfmovfCibngfListfnfr(CibngfListfnfr l) {
+            listfnfrList.rfmovf(CibngfListfnfr.dlbss, l);
         }
 
 
         /**
-         * Returns an array of all the <code>ChangeListener</code>s added
-         * to this NamedStyle with addChangeListener().
+         * Rfturns bn brrby of bll tif <dodf>CibngfListfnfr</dodf>s bddfd
+         * to tiis NbmfdStylf witi bddCibngfListfnfr().
          *
-         * @return all of the <code>ChangeListener</code>s added or an empty
-         *         array if no listeners have been added
-         * @since 1.4
+         * @rfturn bll of tif <dodf>CibngfListfnfr</dodf>s bddfd or bn fmpty
+         *         brrby if no listfnfrs ibvf bffn bddfd
+         * @sindf 1.4
          */
-        public ChangeListener[] getChangeListeners() {
-            return listenerList.getListeners(ChangeListener.class);
+        publid CibngfListfnfr[] gftCibngfListfnfrs() {
+            rfturn listfnfrList.gftListfnfrs(CibngfListfnfr.dlbss);
         }
 
 
         /**
-         * Notifies all listeners that have registered interest for
-         * notification on this event type.  The event instance
-         * is lazily created using the parameters passed into
-         * the fire method.
+         * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+         * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+         * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+         * tif firf mftiod.
          *
-         * @see EventListenerList
+         * @sff EvfntListfnfrList
          */
-        protected void fireStateChanged() {
-            // Guaranteed to return a non-null array
-            Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
-            for (int i = listeners.length-2; i>=0; i-=2) {
-                if (listeners[i]==ChangeListener.class) {
-                    // Lazily create the event:
-                    if (changeEvent == null)
-                        changeEvent = new ChangeEvent(this);
-                    ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+        protfdtfd void firfStbtfCibngfd() {
+            // Gubrbntffd to rfturn b non-null brrby
+            Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+            // Prodfss tif listfnfrs lbst to first, notifying
+            // tiosf tibt brf intfrfstfd in tiis fvfnt
+            for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+                if (listfnfrs[i]==CibngfListfnfr.dlbss) {
+                    // Lbzily drfbtf tif fvfnt:
+                    if (dibngfEvfnt == null)
+                        dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                    ((CibngfListfnfr)listfnfrs[i+1]).stbtfCibngfd(dibngfEvfnt);
                 }
             }
         }
 
         /**
-         * Return an array of all the listeners of the given type that
-         * were added to this model.
+         * Rfturn bn brrby of bll tif listfnfrs of tif givfn typf tibt
+         * wfrf bddfd to tiis modfl.
          *
-         * @return all of the objects receiving <em>listenerType</em> notifications
-         *          from this model
+         * @rfturn bll of tif objfdts rfdfiving <fm>listfnfrTypf</fm> notifidbtions
+         *          from tiis modfl
          *
-         * @since 1.3
+         * @sindf 1.3
          */
-        public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-            return listenerList.getListeners(listenerType);
+        publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+            rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
         }
 
-        // --- AttributeSet ----------------------------
-        // delegated to the immutable field "attributes"
+        // --- AttributfSft ----------------------------
+        // dflfgbtfd to tif immutbblf fifld "bttributfs"
 
         /**
-         * Gets the number of attributes that are defined.
+         * Gfts tif numbfr of bttributfs tibt brf dffinfd.
          *
-         * @return the number of attributes &gt;= 0
-         * @see AttributeSet#getAttributeCount
+         * @rfturn tif numbfr of bttributfs &gt;= 0
+         * @sff AttributfSft#gftAttributfCount
          */
-        public int getAttributeCount() {
-            return attributes.getAttributeCount();
-        }
-
-        /**
-         * Checks whether a given attribute is defined.
-         *
-         * @param attrName the non-null attribute name
-         * @return true if the attribute is defined
-         * @see AttributeSet#isDefined
-         */
-        public boolean isDefined(Object attrName) {
-            return attributes.isDefined(attrName);
+        publid int gftAttributfCount() {
+            rfturn bttributfs.gftAttributfCount();
         }
 
         /**
-         * Checks whether two attribute sets are equal.
+         * Cifdks wiftifr b givfn bttributf is dffinfd.
          *
-         * @param attr the attribute set to check against
-         * @return true if the same
-         * @see AttributeSet#isEqual
+         * @pbrbm bttrNbmf tif non-null bttributf nbmf
+         * @rfturn truf if tif bttributf is dffinfd
+         * @sff AttributfSft#isDffinfd
          */
-        public boolean isEqual(AttributeSet attr) {
-            return attributes.isEqual(attr);
+        publid boolfbn isDffinfd(Objfdt bttrNbmf) {
+            rfturn bttributfs.isDffinfd(bttrNbmf);
         }
 
         /**
-         * Copies a set of attributes.
+         * Cifdks wiftifr two bttributf sfts brf fqubl.
          *
-         * @return the copy
-         * @see AttributeSet#copyAttributes
+         * @pbrbm bttr tif bttributf sft to difdk bgbinst
+         * @rfturn truf if tif sbmf
+         * @sff AttributfSft#isEqubl
          */
-        public AttributeSet copyAttributes() {
-            NamedStyle a = new NamedStyle();
-            a.attributes = attributes.copyAttributes();
-            return a;
+        publid boolfbn isEqubl(AttributfSft bttr) {
+            rfturn bttributfs.isEqubl(bttr);
         }
 
         /**
-         * Gets the value of an attribute.
+         * Copifs b sft of bttributfs.
          *
-         * @param attrName the non-null attribute name
-         * @return the attribute value
-         * @see AttributeSet#getAttribute
+         * @rfturn tif dopy
+         * @sff AttributfSft#dopyAttributfs
          */
-        public Object getAttribute(Object attrName) {
-            return attributes.getAttribute(attrName);
+        publid AttributfSft dopyAttributfs() {
+            NbmfdStylf b = nfw NbmfdStylf();
+            b.bttributfs = bttributfs.dopyAttributfs();
+            rfturn b;
         }
 
         /**
-         * Gets the names of all attributes.
+         * Gfts tif vbluf of bn bttributf.
          *
-         * @return the attribute names as an enumeration
-         * @see AttributeSet#getAttributeNames
+         * @pbrbm bttrNbmf tif non-null bttributf nbmf
+         * @rfturn tif bttributf vbluf
+         * @sff AttributfSft#gftAttributf
          */
-        public Enumeration<?> getAttributeNames() {
-            return attributes.getAttributeNames();
+        publid Objfdt gftAttributf(Objfdt bttrNbmf) {
+            rfturn bttributfs.gftAttributf(bttrNbmf);
         }
 
         /**
-         * Checks whether a given attribute name/value is defined.
+         * Gfts tif nbmfs of bll bttributfs.
          *
-         * @param name the non-null attribute name
-         * @param value the attribute value
-         * @return true if the name/value is defined
-         * @see AttributeSet#containsAttribute
+         * @rfturn tif bttributf nbmfs bs bn fnumfrbtion
+         * @sff AttributfSft#gftAttributfNbmfs
          */
-        public boolean containsAttribute(Object name, Object value) {
-            return attributes.containsAttribute(name, value);
+        publid Enumfrbtion<?> gftAttributfNbmfs() {
+            rfturn bttributfs.gftAttributfNbmfs();
+        }
+
+        /**
+         * Cifdks wiftifr b givfn bttributf nbmf/vbluf is dffinfd.
+         *
+         * @pbrbm nbmf tif non-null bttributf nbmf
+         * @pbrbm vbluf tif bttributf vbluf
+         * @rfturn truf if tif nbmf/vbluf is dffinfd
+         * @sff AttributfSft#dontbinsAttributf
+         */
+        publid boolfbn dontbinsAttributf(Objfdt nbmf, Objfdt vbluf) {
+            rfturn bttributfs.dontbinsAttributf(nbmf, vbluf);
         }
 
 
         /**
-         * Checks whether the element contains all the attributes.
+         * Cifdks wiftifr tif flfmfnt dontbins bll tif bttributfs.
          *
-         * @param attrs the attributes to check
-         * @return true if the element contains all the attributes
-         * @see AttributeSet#containsAttributes
+         * @pbrbm bttrs tif bttributfs to difdk
+         * @rfturn truf if tif flfmfnt dontbins bll tif bttributfs
+         * @sff AttributfSft#dontbinsAttributfs
          */
-        public boolean containsAttributes(AttributeSet attrs) {
-            return attributes.containsAttributes(attrs);
+        publid boolfbn dontbinsAttributfs(AttributfSft bttrs) {
+            rfturn bttributfs.dontbinsAttributfs(bttrs);
         }
 
         /**
-         * Gets attributes from the parent.
-         * If not overriden, the resolving parent defaults to
-         * the parent element.
+         * Gfts bttributfs from tif pbrfnt.
+         * If not ovfrridfn, tif rfsolving pbrfnt dffbults to
+         * tif pbrfnt flfmfnt.
          *
-         * @return the attributes from the parent
-         * @see AttributeSet#getResolveParent
+         * @rfturn tif bttributfs from tif pbrfnt
+         * @sff AttributfSft#gftRfsolvfPbrfnt
          */
-        public AttributeSet getResolveParent() {
-            return attributes.getResolveParent();
+        publid AttributfSft gftRfsolvfPbrfnt() {
+            rfturn bttributfs.gftRfsolvfPbrfnt();
         }
 
-        // --- MutableAttributeSet ----------------------------------
-        // should fetch a new immutable record for the field
-        // "attributes".
+        // --- MutbblfAttributfSft ----------------------------------
+        // siould fftdi b nfw immutbblf rfdord for tif fifld
+        // "bttributfs".
 
         /**
-         * Adds an attribute.
+         * Adds bn bttributf.
          *
-         * @param name the non-null attribute name
-         * @param value the attribute value
-         * @see MutableAttributeSet#addAttribute
+         * @pbrbm nbmf tif non-null bttributf nbmf
+         * @pbrbm vbluf tif bttributf vbluf
+         * @sff MutbblfAttributfSft#bddAttributf
          */
-        public void addAttribute(Object name, Object value) {
-            StyleContext context = StyleContext.this;
-            attributes = context.addAttribute(attributes, name, value);
-            fireStateChanged();
-        }
-
-        /**
-         * Adds a set of attributes to the element.
-         *
-         * @param attr the attributes to add
-         * @see MutableAttributeSet#addAttribute
-         */
-        public void addAttributes(AttributeSet attr) {
-            StyleContext context = StyleContext.this;
-            attributes = context.addAttributes(attributes, attr);
-            fireStateChanged();
+        publid void bddAttributf(Objfdt nbmf, Objfdt vbluf) {
+            StylfContfxt dontfxt = StylfContfxt.tiis;
+            bttributfs = dontfxt.bddAttributf(bttributfs, nbmf, vbluf);
+            firfStbtfCibngfd();
         }
 
         /**
-         * Removes an attribute from the set.
+         * Adds b sft of bttributfs to tif flfmfnt.
          *
-         * @param name the non-null attribute name
-         * @see MutableAttributeSet#removeAttribute
+         * @pbrbm bttr tif bttributfs to bdd
+         * @sff MutbblfAttributfSft#bddAttributf
          */
-        public void removeAttribute(Object name) {
-            StyleContext context = StyleContext.this;
-            attributes = context.removeAttribute(attributes, name);
-            fireStateChanged();
+        publid void bddAttributfs(AttributfSft bttr) {
+            StylfContfxt dontfxt = StylfContfxt.tiis;
+            bttributfs = dontfxt.bddAttributfs(bttributfs, bttr);
+            firfStbtfCibngfd();
         }
 
         /**
-         * Removes a set of attributes for the element.
+         * Rfmovfs bn bttributf from tif sft.
          *
-         * @param names the attribute names
-         * @see MutableAttributeSet#removeAttributes
+         * @pbrbm nbmf tif non-null bttributf nbmf
+         * @sff MutbblfAttributfSft#rfmovfAttributf
          */
-        public void removeAttributes(Enumeration<?> names) {
-            StyleContext context = StyleContext.this;
-            attributes = context.removeAttributes(attributes, names);
-            fireStateChanged();
+        publid void rfmovfAttributf(Objfdt nbmf) {
+            StylfContfxt dontfxt = StylfContfxt.tiis;
+            bttributfs = dontfxt.rfmovfAttributf(bttributfs, nbmf);
+            firfStbtfCibngfd();
         }
 
         /**
-         * Removes a set of attributes for the element.
+         * Rfmovfs b sft of bttributfs for tif flfmfnt.
          *
-         * @param attrs the attributes
-         * @see MutableAttributeSet#removeAttributes
+         * @pbrbm nbmfs tif bttributf nbmfs
+         * @sff MutbblfAttributfSft#rfmovfAttributfs
          */
-        public void removeAttributes(AttributeSet attrs) {
-            StyleContext context = StyleContext.this;
-            if (attrs == this) {
-                attributes = context.getEmptySet();
-            } else {
-                attributes = context.removeAttributes(attributes, attrs);
+        publid void rfmovfAttributfs(Enumfrbtion<?> nbmfs) {
+            StylfContfxt dontfxt = StylfContfxt.tiis;
+            bttributfs = dontfxt.rfmovfAttributfs(bttributfs, nbmfs);
+            firfStbtfCibngfd();
+        }
+
+        /**
+         * Rfmovfs b sft of bttributfs for tif flfmfnt.
+         *
+         * @pbrbm bttrs tif bttributfs
+         * @sff MutbblfAttributfSft#rfmovfAttributfs
+         */
+        publid void rfmovfAttributfs(AttributfSft bttrs) {
+            StylfContfxt dontfxt = StylfContfxt.tiis;
+            if (bttrs == tiis) {
+                bttributfs = dontfxt.gftEmptySft();
+            } flsf {
+                bttributfs = dontfxt.rfmovfAttributfs(bttributfs, bttrs);
             }
-            fireStateChanged();
+            firfStbtfCibngfd();
         }
 
         /**
-         * Sets the resolving parent.
+         * Sfts tif rfsolving pbrfnt.
          *
-         * @param parent the parent, null if none
-         * @see MutableAttributeSet#setResolveParent
+         * @pbrbm pbrfnt tif pbrfnt, null if nonf
+         * @sff MutbblfAttributfSft#sftRfsolvfPbrfnt
          */
-        public void setResolveParent(AttributeSet parent) {
-            if (parent != null) {
-                addAttribute(StyleConstants.ResolveAttribute, parent);
-            } else {
-                removeAttribute(StyleConstants.ResolveAttribute);
+        publid void sftRfsolvfPbrfnt(AttributfSft pbrfnt) {
+            if (pbrfnt != null) {
+                bddAttributf(StylfConstbnts.RfsolvfAttributf, pbrfnt);
+            } flsf {
+                rfmovfAttributf(StylfConstbnts.RfsolvfAttributf);
             }
         }
 
-        // --- serialization ---------------------------------------------
+        // --- sfriblizbtion ---------------------------------------------
 
-        private void writeObject(ObjectOutputStream s) throws IOException {
-            s.defaultWriteObject();
-            writeAttributeSet(s, attributes);
+        privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+            s.dffbultWritfObjfdt();
+            writfAttributfSft(s, bttributfs);
         }
 
-        private void readObject(ObjectInputStream s)
-            throws ClassNotFoundException, IOException
+        privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows ClbssNotFoundExdfption, IOExdfption
         {
-            s.defaultReadObject();
-            attributes = SimpleAttributeSet.EMPTY;
-            readAttributeSet(s, this);
+            s.dffbultRfbdObjfdt();
+            bttributfs = SimplfAttributfSft.EMPTY;
+            rfbdAttributfSft(s, tiis);
         }
 
-        // --- member variables -----------------------------------------------
+        // --- mfmbfr vbribblfs -----------------------------------------------
 
         /**
-         * The change listeners for the model.
+         * Tif dibngf listfnfrs for tif modfl.
          */
-        protected EventListenerList listenerList = new EventListenerList();
+        protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
 
         /**
-         * Only one ChangeEvent is needed per model instance since the
-         * event's only (read-only) state is the source property.  The source
-         * of events generated here is always "this".
+         * Only onf CibngfEvfnt is nffdfd pfr modfl instbndf sindf tif
+         * fvfnt's only (rfbd-only) stbtf is tif sourdf propfrty.  Tif sourdf
+         * of fvfnts gfnfrbtfd ifrf is blwbys "tiis".
          */
-        protected transient ChangeEvent changeEvent = null;
+        protfdtfd trbnsifnt CibngfEvfnt dibngfEvfnt = null;
 
         /**
-         * Inner AttributeSet implementation, which may be an
-         * immutable unique set being shared.
+         * Innfr AttributfSft implfmfntbtion, wiidi mby bf bn
+         * immutbblf uniquf sft bfing sibrfd.
          */
-        private transient AttributeSet attributes;
+        privbtf trbnsifnt AttributfSft bttributfs;
 
     }
 
-    static {
-        // initialize the static key registry with the StyleConstants keys
+    stbtid {
+        // initiblizf tif stbtid kfy rfgistry witi tif StylfConstbnts kfys
         try {
-            int n = StyleConstants.keys.length;
+            int n = StylfConstbnts.kfys.lfngti;
             for (int i = 0; i < n; i++) {
-                StyleContext.registerStaticAttributeKey(StyleConstants.keys[i]);
+                StylfContfxt.rfgistfrStbtidAttributfKfy(StylfConstbnts.kfys[i]);
             }
-        } catch (Throwable e) {
-            e.printStackTrace();
+        } dbtdi (Tirowbblf f) {
+            f.printStbdkTrbdf();
         }
     }
 

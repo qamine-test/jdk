@@ -1,0 +1,188 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.KfyFbdtory;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.spfd.PKCS8EndodfdKfySpfd;
+import jbvb.sfdurity.spfd.X509EndodfdKfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.Ciphfr;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+
+/**
+ * This dlbss is b hflpfr dlbss whidh donstrudt kfy objfdts
+ * from fndodfd kfys.
+ *
+ * @buthor Shbron Liu
+ *
+ */
+
+finbl dlbss ConstrudtKfys {
+    /**
+     * Construdt b publid kfy from its fndoding.
+     *
+     * @pbrbm fndodfdKfy thf fndoding of b publid kfy.
+     *
+     * @pbrbm fndodfdKfyAlgorithm thf blgorithm thf fndodfdKfy is for.
+     *
+     * @rfturn b publid kfy donstrudtfd from thf fndodfdKfy.
+     */
+    privbtf stbtid finbl PublidKfy donstrudtPublidKfy(bytf[] fndodfdKfy,
+                                              String fndodfdKfyAlgorithm)
+        throws InvblidKfyExdfption, NoSudhAlgorithmExdfption
+    {
+        PublidKfy kfy = null;
+
+        try {
+            KfyFbdtory kfyFbdtory =
+                KfyFbdtory.gftInstbndf(fndodfdKfyAlgorithm,
+                    SunJCE.gftInstbndf());
+            X509EndodfdKfySpfd kfySpfd = nfw X509EndodfdKfySpfd(fndodfdKfy);
+            kfy = kfyFbdtory.gfnfrbtfPublid(kfySpfd);
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            // Try to sff whfthfr thfrf is bnothfr
+            // providfr whidh supports this blgorithm
+            try {
+                KfyFbdtory kfyFbdtory =
+                    KfyFbdtory.gftInstbndf(fndodfdKfyAlgorithm);
+                X509EndodfdKfySpfd kfySpfd =
+                    nfw X509EndodfdKfySpfd(fndodfdKfy);
+                kfy = kfyFbdtory.gfnfrbtfPublid(kfySpfd);
+            } dbtdh (NoSudhAlgorithmExdfption nsbf2) {
+                throw nfw NoSudhAlgorithmExdfption("No instbllfd providfrs " +
+                                                   "dbn drfbtf kfys for thf " +
+                                                   fndodfdKfyAlgorithm +
+                                                   "blgorithm");
+            } dbtdh (InvblidKfySpfdExdfption iksf2) {
+                InvblidKfyExdfption ikf =
+                    nfw InvblidKfyExdfption("Cbnnot donstrudt publid kfy");
+                ikf.initCbusf(iksf2);
+                throw ikf;
+            }
+        } dbtdh (InvblidKfySpfdExdfption iksf) {
+            InvblidKfyExdfption ikf =
+                nfw InvblidKfyExdfption("Cbnnot donstrudt publid kfy");
+            ikf.initCbusf(iksf);
+            throw ikf;
+        }
+
+        rfturn kfy;
+    }
+
+    /**
+     * Construdt b privbtf kfy from its fndoding.
+     *
+     * @pbrbm fndodfdKfy thf fndoding of b privbtf kfy.
+     *
+     * @pbrbm fndodfdKfyAlgorithm thf blgorithm thf wrbppfd kfy is for.
+     *
+     * @rfturn b privbtf kfy donstrudtfd from thf fndodfdKfy.
+     */
+    privbtf stbtid finbl PrivbtfKfy donstrudtPrivbtfKfy(bytf[] fndodfdKfy,
+                                                String fndodfdKfyAlgorithm)
+        throws InvblidKfyExdfption, NoSudhAlgorithmExdfption
+    {
+        PrivbtfKfy kfy = null;
+
+        try {
+            KfyFbdtory kfyFbdtory =
+                KfyFbdtory.gftInstbndf(fndodfdKfyAlgorithm,
+                    SunJCE.gftInstbndf());
+            PKCS8EndodfdKfySpfd kfySpfd = nfw PKCS8EndodfdKfySpfd(fndodfdKfy);
+            rfturn kfyFbdtory.gfnfrbtfPrivbtf(kfySpfd);
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            // Try to sff whfthfr thfrf is bnothfr
+            // providfr whidh supports this blgorithm
+            try {
+                KfyFbdtory kfyFbdtory =
+                    KfyFbdtory.gftInstbndf(fndodfdKfyAlgorithm);
+                PKCS8EndodfdKfySpfd kfySpfd =
+                    nfw PKCS8EndodfdKfySpfd(fndodfdKfy);
+                kfy = kfyFbdtory.gfnfrbtfPrivbtf(kfySpfd);
+            } dbtdh (NoSudhAlgorithmExdfption nsbf2) {
+                throw nfw NoSudhAlgorithmExdfption("No instbllfd providfrs " +
+                                                   "dbn drfbtf kfys for thf " +
+                                                   fndodfdKfyAlgorithm +
+                                                   "blgorithm");
+            } dbtdh (InvblidKfySpfdExdfption iksf2) {
+                InvblidKfyExdfption ikf =
+                    nfw InvblidKfyExdfption("Cbnnot donstrudt privbtf kfy");
+                ikf.initCbusf(iksf2);
+                throw ikf;
+            }
+        } dbtdh (InvblidKfySpfdExdfption iksf) {
+            InvblidKfyExdfption ikf =
+                nfw InvblidKfyExdfption("Cbnnot donstrudt privbtf kfy");
+            ikf.initCbusf(iksf);
+            throw ikf;
+        }
+
+        rfturn kfy;
+    }
+
+    /**
+     * Construdt b sfdrft kfy from its fndoding.
+     *
+     * @pbrbm fndodfdKfy thf fndoding of b sfdrft kfy.
+     *
+     * @pbrbm fndodfdKfyAlgorithm thf blgorithm thf sfdrft kfy is for.
+     *
+     * @rfturn b sfdrft kfy donstrudtfd from thf fndodfdKfy.
+     */
+    privbtf stbtid finbl SfdrftKfy donstrudtSfdrftKfy(bytf[] fndodfdKfy,
+                                              String fndodfdKfyAlgorithm)
+    {
+        rfturn (nfw SfdrftKfySpfd(fndodfdKfy, fndodfdKfyAlgorithm));
+    }
+
+    stbtid finbl Kfy donstrudtKfy(bytf[] fndoding, String kfyAlgorithm,
+                                  int kfyTypf)
+        throws InvblidKfyExdfption, NoSudhAlgorithmExdfption {
+        Kfy rfsult = null;
+        switdh (kfyTypf) {
+        dbsf Ciphfr.SECRET_KEY:
+            rfsult = ConstrudtKfys.donstrudtSfdrftKfy(fndoding,
+                                                      kfyAlgorithm);
+            brfbk;
+        dbsf Ciphfr.PRIVATE_KEY:
+            rfsult = ConstrudtKfys.donstrudtPrivbtfKfy(fndoding,
+                                                       kfyAlgorithm);
+            brfbk;
+        dbsf Ciphfr.PUBLIC_KEY:
+            rfsult = ConstrudtKfys.donstrudtPublidKfy(fndoding,
+                                                      kfyAlgorithm);
+            brfbk;
+        }
+        rfturn rfsult;
+    }
+}

@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
 
 /**
- * This class implements encoding and decoding of Elliptic Curve parameters
- * as specified in RFC 3279.
+ * Tiis dlbss implfmfnts fndoding bnd dfdoding of Elliptid Curvf pbrbmftfrs
+ * bs spfdififd in RFC 3279.
  *
- * However, only named curves are currently supported.
+ * Howfvfr, only nbmfd durvfs brf durrfntly supportfd.
  *
- * ASN.1 from RFC 3279 follows. Note that X9.62 (2005) has added some additional
+ * ASN.1 from RFC 3279 follows. Notf tibt X9.62 (2005) ibs bddfd somf bdditionbl
  * options.
  *
- * <pre>
- *    EcpkParameters ::= CHOICE {
- *      ecParameters  ECParameters,
- *      namedCurve    OBJECT IDENTIFIER,
- *      implicitlyCA  NULL }
+ * <prf>
+ *    EdpkPbrbmftfrs ::= CHOICE {
+ *      fdPbrbmftfrs  ECPbrbmftfrs,
+ *      nbmfdCurvf    OBJECT IDENTIFIER,
+ *      impliditlyCA  NULL }
  *
- *    ECParameters ::= SEQUENCE {
- *       version   ECPVer,          -- version is always 1
- *       fieldID   FieldID,         -- identifies the finite field over
- *                                  -- which the curve is defined
- *       curve     Curve,           -- coefficients a and b of the
- *                                  -- elliptic curve
- *       base      ECPoint,         -- specifies the base point P
- *                                  -- on the elliptic curve
- *       order     INTEGER,         -- the order n of the base point
- *       cofactor  INTEGER OPTIONAL -- The integer h = #E(Fq)/n
+ *    ECPbrbmftfrs ::= SEQUENCE {
+ *       vfrsion   ECPVfr,          -- vfrsion is blwbys 1
+ *       fifldID   FifldID,         -- idfntififs tif finitf fifld ovfr
+ *                                  -- wiidi tif durvf is dffinfd
+ *       durvf     Curvf,           -- dofffidifnts b bnd b of tif
+ *                                  -- flliptid durvf
+ *       bbsf      ECPoint,         -- spfdififs tif bbsf point P
+ *                                  -- on tif flliptid durvf
+ *       ordfr     INTEGER,         -- tif ordfr n of tif bbsf point
+ *       dofbdtor  INTEGER OPTIONAL -- Tif intfgfr i = #E(Fq)/n
  *       }
  *
- *    ECPVer ::= INTEGER {ecpVer1(1)}
+ *    ECPVfr ::= INTEGER {fdpVfr1(1)}
  *
- *    Curve ::= SEQUENCE {
- *       a         FieldElement,
- *       b         FieldElement,
- *       seed      BIT STRING OPTIONAL }
+ *    Curvf ::= SEQUENCE {
+ *       b         FifldElfmfnt,
+ *       b         FifldElfmfnt,
+ *       sffd      BIT STRING OPTIONAL }
  *
- *    FieldElement ::= OCTET STRING
+ *    FifldElfmfnt ::= OCTET STRING
  *
  *    ECPoint ::= OCTET STRING
- * </pre>
+ * </prf>
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-public final class ECParameters extends AlgorithmParametersSpi {
+publid finbl dlbss ECPbrbmftfrs fxtfnds AlgoritimPbrbmftfrsSpi {
 
-    // used by ECPublicKeyImpl and ECPrivateKeyImpl
-    public static AlgorithmParameters getAlgorithmParameters(ECParameterSpec spec)
-            throws InvalidKeyException {
+    // usfd by ECPublidKfyImpl bnd ECPrivbtfKfyImpl
+    publid stbtid AlgoritimPbrbmftfrs gftAlgoritimPbrbmftfrs(ECPbrbmftfrSpfd spfd)
+            tirows InvblidKfyExdfption {
         try {
-            AlgorithmParameters params =
-                AlgorithmParameters.getInstance("EC", "SunEC");
-            params.init(spec);
-            return params;
-        } catch (GeneralSecurityException e) {
-            throw new InvalidKeyException("EC parameters error", e);
+            AlgoritimPbrbmftfrs pbrbms =
+                AlgoritimPbrbmftfrs.gftInstbndf("EC", "SunEC");
+            pbrbms.init(spfd);
+            rfturn pbrbms;
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw InvblidKfyExdfption("EC pbrbmftfrs frror", f);
         }
     }
 
     /*
-     * The parameters these AlgorithmParameters object represents.
-     * Currently, it is always an instance of NamedCurve.
+     * Tif pbrbmftfrs tifsf AlgoritimPbrbmftfrs objfdt rfprfsfnts.
+     * Currfntly, it is blwbys bn instbndf of NbmfdCurvf.
      */
-    private NamedCurve namedCurve;
+    privbtf NbmfdCurvf nbmfdCurvf;
 
-    // A public constructor is required by AlgorithmParameters class.
-    public ECParameters() {
-        // empty
+    // A publid donstrudtor is rfquirfd by AlgoritimPbrbmftfrs dlbss.
+    publid ECPbrbmftfrs() {
+        // fmpty
     }
 
-    // AlgorithmParameterSpi methods
+    // AlgoritimPbrbmftfrSpi mftiods
 
-    protected void engineInit(AlgorithmParameterSpec paramSpec)
-            throws InvalidParameterSpecException {
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbmSpfd)
+            tirows InvblidPbrbmftfrSpfdExdfption {
 
-        if (paramSpec == null) {
-            throw new InvalidParameterSpecException
-                ("paramSpec must not be null");
+        if (pbrbmSpfd == null) {
+            tirow nfw InvblidPbrbmftfrSpfdExdfption
+                ("pbrbmSpfd must not bf null");
         }
 
-        if (paramSpec instanceof NamedCurve) {
-            namedCurve = (NamedCurve)paramSpec;
-            return;
+        if (pbrbmSpfd instbndfof NbmfdCurvf) {
+            nbmfdCurvf = (NbmfdCurvf)pbrbmSpfd;
+            rfturn;
         }
 
-        if (paramSpec instanceof ECParameterSpec) {
-            namedCurve = CurveDB.lookup((ECParameterSpec)paramSpec);
-        } else if (paramSpec instanceof ECGenParameterSpec) {
-            String name = ((ECGenParameterSpec)paramSpec).getName();
-            namedCurve = CurveDB.lookup(name);
-        } else if (paramSpec instanceof ECKeySizeParameterSpec) {
-            int keySize = ((ECKeySizeParameterSpec)paramSpec).getKeySize();
-            namedCurve = CurveDB.lookup(keySize);
-        } else {
-            throw new InvalidParameterSpecException
-                ("Only ECParameterSpec and ECGenParameterSpec supported");
+        if (pbrbmSpfd instbndfof ECPbrbmftfrSpfd) {
+            nbmfdCurvf = CurvfDB.lookup((ECPbrbmftfrSpfd)pbrbmSpfd);
+        } flsf if (pbrbmSpfd instbndfof ECGfnPbrbmftfrSpfd) {
+            String nbmf = ((ECGfnPbrbmftfrSpfd)pbrbmSpfd).gftNbmf();
+            nbmfdCurvf = CurvfDB.lookup(nbmf);
+        } flsf if (pbrbmSpfd instbndfof ECKfySizfPbrbmftfrSpfd) {
+            int kfySizf = ((ECKfySizfPbrbmftfrSpfd)pbrbmSpfd).gftKfySizf();
+            nbmfdCurvf = CurvfDB.lookup(kfySizf);
+        } flsf {
+            tirow nfw InvblidPbrbmftfrSpfdExdfption
+                ("Only ECPbrbmftfrSpfd bnd ECGfnPbrbmftfrSpfd supportfd");
         }
 
-        if (namedCurve == null) {
-            throw new InvalidParameterSpecException(
-                "Not a supported curve: " + paramSpec);
+        if (nbmfdCurvf == null) {
+            tirow nfw InvblidPbrbmftfrSpfdExdfption(
+                "Not b supportfd durvf: " + pbrbmSpfd);
         }
     }
 
-    protected void engineInit(byte[] params) throws IOException {
-        DerValue encodedParams = new DerValue(params);
-        if (encodedParams.tag == DerValue.tag_ObjectId) {
-            ObjectIdentifier oid = encodedParams.getOID();
-            NamedCurve spec = CurveDB.lookup(oid.toString());
-            if (spec == null) {
-                throw new IOException("Unknown named curve: " + oid);
+    protfdtfd void fnginfInit(bytf[] pbrbms) tirows IOExdfption {
+        DfrVbluf fndodfdPbrbms = nfw DfrVbluf(pbrbms);
+        if (fndodfdPbrbms.tbg == DfrVbluf.tbg_ObjfdtId) {
+            ObjfdtIdfntififr oid = fndodfdPbrbms.gftOID();
+            NbmfdCurvf spfd = CurvfDB.lookup(oid.toString());
+            if (spfd == null) {
+                tirow nfw IOExdfption("Unknown nbmfd durvf: " + oid);
             }
 
-            namedCurve = spec;
-            return;
+            nbmfdCurvf = spfd;
+            rfturn;
         }
 
-        throw new IOException("Only named ECParameters supported");
+        tirow nfw IOExdfption("Only nbmfd ECPbrbmftfrs supportfd");
 
-        // The code below is incomplete.
-        // It is left as a starting point for a complete parsing implementation.
+        // Tif dodf bflow is indomplftf.
+        // It is lfft bs b stbrting point for b domplftf pbrsing implfmfntbtion.
 
 /*
-        if (encodedParams.tag != DerValue.tag_Sequence) {
-            throw new IOException("Unsupported EC parameters, tag: " +
-                encodedParams.tag);
+        if (fndodfdPbrbms.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Unsupportfd EC pbrbmftfrs, tbg: " +
+                fndodfdPbrbms.tbg);
         }
 
-        encodedParams.data.reset();
+        fndodfdPbrbms.dbtb.rfsft();
 
-        DerInputStream in = encodedParams.data;
+        DfrInputStrfbm in = fndodfdPbrbms.dbtb;
 
-        int version = in.getInteger();
-        if (version != 1) {
-            throw new IOException("Unsupported EC parameters version: " +
-               version);
+        int vfrsion = in.gftIntfgfr();
+        if (vfrsion != 1) {
+            tirow nfw IOExdfption("Unsupportfd EC pbrbmftfrs vfrsion: " +
+               vfrsion);
         }
-        ECField field = parseField(in);
-        EllipticCurve curve = parseCurve(in, field);
-        ECPoint point = parsePoint(in, curve);
+        ECFifld fifld = pbrsfFifld(in);
+        ElliptidCurvf durvf = pbrsfCurvf(in, fifld);
+        ECPoint point = pbrsfPoint(in, durvf);
 
-        BigInteger order = in.getBigInteger();
-        int cofactor = 0;
+        BigIntfgfr ordfr = in.gftBigIntfgfr();
+        int dofbdtor = 0;
 
-        if (in.available() != 0) {
-            cofactor = in.getInteger();
-        }
-
-        // XXX HashAlgorithm optional
-
-        if (encodedParams.data.available() != 0) {
-            throw new IOException("encoded params have " +
-                                  encodedParams.data.available() +
-                                  " extra bytes");
+        if (in.bvbilbblf() != 0) {
+            dofbdtor = in.gftIntfgfr();
         }
 
-        return new ECParameterSpec(curve, point, order, cofactor);
+        // XXX HbsiAlgoritim optionbl
+
+        if (fndodfdPbrbms.dbtb.bvbilbblf() != 0) {
+            tirow nfw IOExdfption("fndodfd pbrbms ibvf " +
+                                  fndodfdPbrbms.dbtb.bvbilbblf() +
+                                  " fxtrb bytfs");
+        }
+
+        rfturn nfw ECPbrbmftfrSpfd(durvf, point, ordfr, dofbdtor);
 */
     }
 
-    protected void engineInit(byte[] params, String decodingMethod)
-            throws IOException {
-        engineInit(params);
+    protfdtfd void fnginfInit(bytf[] pbrbms, String dfdodingMftiod)
+            tirows IOExdfption {
+        fnginfInit(pbrbms);
     }
 
-    protected <T extends AlgorithmParameterSpec> T
-            engineGetParameterSpec(Class<T> spec)
-            throws InvalidParameterSpecException {
+    protfdtfd <T fxtfnds AlgoritimPbrbmftfrSpfd> T
+            fnginfGftPbrbmftfrSpfd(Clbss<T> spfd)
+            tirows InvblidPbrbmftfrSpfdExdfption {
 
-        if (spec.isAssignableFrom(ECParameterSpec.class)) {
-            return spec.cast(namedCurve);
+        if (spfd.isAssignbblfFrom(ECPbrbmftfrSpfd.dlbss)) {
+            rfturn spfd.dbst(nbmfdCurvf);
         }
 
-        if (spec.isAssignableFrom(ECGenParameterSpec.class)) {
-            // Ensure the name is the Object ID
-            String name = namedCurve.getObjectId();
-            return spec.cast(new ECGenParameterSpec(name));
+        if (spfd.isAssignbblfFrom(ECGfnPbrbmftfrSpfd.dlbss)) {
+            // Ensurf tif nbmf is tif Objfdt ID
+            String nbmf = nbmfdCurvf.gftObjfdtId();
+            rfturn spfd.dbst(nfw ECGfnPbrbmftfrSpfd(nbmf));
         }
 
-        if (spec.isAssignableFrom(ECKeySizeParameterSpec.class)) {
-            int keySize = namedCurve.getCurve().getField().getFieldSize();
-            return spec.cast(new ECKeySizeParameterSpec(keySize));
+        if (spfd.isAssignbblfFrom(ECKfySizfPbrbmftfrSpfd.dlbss)) {
+            int kfySizf = nbmfdCurvf.gftCurvf().gftFifld().gftFifldSizf();
+            rfturn spfd.dbst(nfw ECKfySizfPbrbmftfrSpfd(kfySizf));
         }
 
-        throw new InvalidParameterSpecException(
-            "Only ECParameterSpec and ECGenParameterSpec supported");
+        tirow nfw InvblidPbrbmftfrSpfdExdfption(
+            "Only ECPbrbmftfrSpfd bnd ECGfnPbrbmftfrSpfd supportfd");
     }
 
-    protected byte[] engineGetEncoded() throws IOException {
-        return namedCurve.getEncoded();
+    protfdtfd bytf[] fnginfGftEndodfd() tirows IOExdfption {
+        rfturn nbmfdCurvf.gftEndodfd();
     }
 
-    protected byte[] engineGetEncoded(String encodingMethod)
-            throws IOException {
-        return engineGetEncoded();
+    protfdtfd bytf[] fnginfGftEndodfd(String fndodingMftiod)
+            tirows IOExdfption {
+        rfturn fnginfGftEndodfd();
     }
 
-    protected String engineToString() {
-        if (namedCurve == null) {
-            return "Not initialized";
+    protfdtfd String fnginfToString() {
+        if (nbmfdCurvf == null) {
+            rfturn "Not initiblizfd";
         }
 
-        return namedCurve.toString();
+        rfturn nbmfdCurvf.toString();
     }
 }
 

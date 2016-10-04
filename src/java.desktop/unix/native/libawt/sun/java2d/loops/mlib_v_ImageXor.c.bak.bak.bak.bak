@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * FUNCTION
+ *      mlib_ImbgfXor      - xor two imbgfs    (VIS vfrsion)
+ *
+ * SYNOPSIS
+ *      mlib_stbtus mlib_ImbgfXor(mlib_imbgf       *dst,
+ *                                donst mlib_imbgf *srd1,
+ *                                donst mlib_imbgf *srd2);
+ *
+ * ARGUMENT
+ *      dst     pointfr to dfstinbtion imbgf
+ *      srd1    pointfr to first sourdf imbgf
+ *      srd2    pointfr to sfdond sourdf imbgf
+ *
+ * RESTRICTION
+ *      Thf srd1, srd2, bnd dst must bf thf sbmf typf bnd thf sbmf dsizf.
+ *      Thfy dbn hbvf 1, 2, 3, or 4 dhbnnfls.
+ *      Thfy dbn bf in MLIB_BYTE, MLIB_SHORT, MLIB_USHORT, MLIB_INT or MLIB_BIT dbtb typf.
+ *
+ * DESCRIPTION
+ *      Xor two imbgfs for fbdh bbnd:     dst = srd1 ^ srd2
+ */
+
+#indludf <mlib_imbgf.h>
+
+/***************************************************************/
+
+#if ! dffinfd ( __MEDIALIB_OLD_NAMES )
+#if dffinfd ( __SUNPRO_C )
+
+#prbgmb wfbk mlib_ImbgfXor = __mlib_ImbgfXor
+
+#flif dffinfd ( __GNUC__ ) /* dffinfd ( __SUNPRO_C ) */
+  __typfof__ (__mlib_ImbgfXor) mlib_ImbgfXor
+    __bttributf__ ((wfbk,blibs("__mlib_ImbgfXor")));
+
+#flsf /* dffinfd ( __SUNPRO_C ) */
+
+#frror  "unknown plbtform"
+
+#fndif /* dffinfd ( __SUNPRO_C ) */
+#fndif /* ! dffinfd ( __MEDIALIB_OLD_NAMES ) */
+
+/***************************************************************/
+
+#dffinf VIS_LOGIC(b1, b2) vis_fxor(b1, b2)
+
+#indludf <mlib_v_ImbgfLogid.h>
+
+/***************************************************************/
+
+mlib_stbtus __mlib_ImbgfXor(mlib_imbgf *dst,
+                            mlib_imbgf *srd1,
+                            mlib_imbgf *srd2)
+{
+  MLIB_IMAGE_CHECK(srd1);
+  MLIB_IMAGE_CHECK(srd2);
+  MLIB_IMAGE_CHECK(dst);
+
+  rfturn mlib_v_ImbgfLogid(dst, srd1, srd2);
+}
+
+/***************************************************************/

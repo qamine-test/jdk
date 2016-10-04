@@ -1,593 +1,593 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.event.ActionEvent;
-import java.util.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.UIDefaults.LazyValue;
-import javax.swing.text.*;
-import javax.swing.text.DefaultEditorKit.DefaultKeyTypedAction;
+import jbvbx.swing.*;
+import jbvbx.swing.UIDffbults.LbzyVbluf;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.tfxt.DffbultEditorKit.DffbultKfyTypfdAdtion;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
 
-public class AquaKeyBindings {
-    static final RecyclableSingleton<AquaKeyBindings> instance = new RecyclableSingletonFromDefaultConstructor<AquaKeyBindings>(AquaKeyBindings.class);
-    static AquaKeyBindings instance() {
-        return instance.get();
+publid dlbss AqubKfyBindings {
+    stbtid finbl RfdydlbblfSinglfton<AqubKfyBindings> instbndf = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubKfyBindings>(AqubKfyBindings.dlbss);
+    stbtid AqubKfyBindings instbndf() {
+        rfturn instbndf.gft();
     }
 
-    final DefaultKeyTypedAction defaultKeyTypedAction = new DefaultKeyTypedAction();
-    void setDefaultAction(final String keymapName) {
-        final javax.swing.text.Keymap map = JTextComponent.getKeymap(keymapName);
-        map.setDefaultAction(defaultKeyTypedAction);
+    finbl DffbultKfyTypfdAdtion dffbultKfyTypfdAdtion = nfw DffbultKfyTypfdAdtion();
+    void sftDffbultAdtion(finbl String kfymbpNbmf) {
+        finbl jbvbx.swing.tfxt.Kfymbp mbp = JTfxtComponfnt.gftKfymbp(kfymbpNbmf);
+        mbp.sftDffbultAdtion(dffbultKfyTypfdAdtion);
     }
 
-    static final String upMultilineAction = "aqua-move-up";
-    static final String downMultilineAction = "aqua-move-down";
-    static final String pageUpMultiline = "aqua-page-up";
-    static final String pageDownMultiline = "aqua-page-down";
+    stbtid finbl String upMultilinfAdtion = "bqub-movf-up";
+    stbtid finbl String downMultilinfAdtion = "bqub-movf-down";
+    stbtid finbl String pbgfUpMultilinf = "bqub-pbgf-up";
+    stbtid finbl String pbgfDownMultilinf = "bqub-pbgf-down";
 
-    final String[] commonTextEditorBindings = {
-        "ENTER", JTextField.notifyAction,
-        "COPY", DefaultEditorKit.copyAction,
-        "CUT", DefaultEditorKit.cutAction,
-        "PASTE", DefaultEditorKit.pasteAction,
-        "meta A", DefaultEditorKit.selectAllAction,
-        "meta C", DefaultEditorKit.copyAction,
-        "meta V", DefaultEditorKit.pasteAction,
-        "meta X", DefaultEditorKit.cutAction,
-        "meta BACK_SLASH", "unselect",
+    finbl String[] dommonTfxtEditorBindings = {
+        "ENTER", JTfxtFifld.notifyAdtion,
+        "COPY", DffbultEditorKit.dopyAdtion,
+        "CUT", DffbultEditorKit.dutAdtion,
+        "PASTE", DffbultEditorKit.pbstfAdtion,
+        "mftb A", DffbultEditorKit.sflfdtAllAdtion,
+        "mftb C", DffbultEditorKit.dopyAdtion,
+        "mftb V", DffbultEditorKit.pbstfAdtion,
+        "mftb X", DffbultEditorKit.dutAdtion,
+        "mftb BACK_SLASH", "unsflfdt",
 
-        "DELETE", DefaultEditorKit.deleteNextCharAction,
-        "alt DELETE", "delete-next-word",
-        "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-        "alt BACK_SPACE", "delete-previous-word",
+        "DELETE", DffbultEditorKit.dflftfNfxtCibrAdtion,
+        "blt DELETE", "dflftf-nfxt-word",
+        "BACK_SPACE", DffbultEditorKit.dflftfPrfvCibrAdtion,
+        "blt BACK_SPACE", "dflftf-prfvious-word",
 
-        "LEFT", DefaultEditorKit.backwardAction,
-        "KP_LEFT", DefaultEditorKit.backwardAction,
-        "RIGHT", DefaultEditorKit.forwardAction,
-        "KP_RIGHT", DefaultEditorKit.forwardAction,
-        "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-        "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-        "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-        "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-        "meta LEFT", DefaultEditorKit.beginLineAction,
-        "meta KP_LEFT", DefaultEditorKit.beginLineAction,
-        "meta RIGHT", DefaultEditorKit.endLineAction,
-        "meta KP_RIGHT", DefaultEditorKit.endLineAction,
-        "shift meta LEFT", DefaultEditorKit.selectionBeginLineAction,
-        "shift meta KP_LEFT", DefaultEditorKit.selectionBeginLineAction,
-        "shift meta RIGHT", DefaultEditorKit.selectionEndLineAction,
-        "shift meta KP_RIGHT", DefaultEditorKit.selectionEndLineAction,
-        "alt LEFT", DefaultEditorKit.previousWordAction,
-        "alt KP_LEFT", DefaultEditorKit.previousWordAction,
-        "alt RIGHT", DefaultEditorKit.nextWordAction,
-        "alt KP_RIGHT", DefaultEditorKit.nextWordAction,
-        "shift alt LEFT", DefaultEditorKit.selectionPreviousWordAction,
-        "shift alt KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-        "shift alt RIGHT", DefaultEditorKit.selectionNextWordAction,
-        "shift alt KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
+        "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+        "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+        "RIGHT", DffbultEditorKit.forwbrdAdtion,
+        "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+        "siift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+        "siift KP_LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+        "siift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+        "siift KP_RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+        "mftb LEFT", DffbultEditorKit.bfginLinfAdtion,
+        "mftb KP_LEFT", DffbultEditorKit.bfginLinfAdtion,
+        "mftb RIGHT", DffbultEditorKit.fndLinfAdtion,
+        "mftb KP_RIGHT", DffbultEditorKit.fndLinfAdtion,
+        "siift mftb LEFT", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+        "siift mftb KP_LEFT", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+        "siift mftb RIGHT", DffbultEditorKit.sflfdtionEndLinfAdtion,
+        "siift mftb KP_RIGHT", DffbultEditorKit.sflfdtionEndLinfAdtion,
+        "blt LEFT", DffbultEditorKit.prfviousWordAdtion,
+        "blt KP_LEFT", DffbultEditorKit.prfviousWordAdtion,
+        "blt RIGHT", DffbultEditorKit.nfxtWordAdtion,
+        "blt KP_RIGHT", DffbultEditorKit.nfxtWordAdtion,
+        "siift blt LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+        "siift blt KP_LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+        "siift blt RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+        "siift blt KP_RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
 
-        "control A", DefaultEditorKit.beginLineAction,
-        "control B", DefaultEditorKit.backwardAction,
-        "control D", DefaultEditorKit.deleteNextCharAction,
-        "control E", DefaultEditorKit.endLineAction,
-        "control F", DefaultEditorKit.forwardAction,
-        "control H", DefaultEditorKit.deletePrevCharAction,
-        "control W", "delete-previous-word",
-        "control shift O", "toggle-componentOrientation",
+        "dontrol A", DffbultEditorKit.bfginLinfAdtion,
+        "dontrol B", DffbultEditorKit.bbdkwbrdAdtion,
+        "dontrol D", DffbultEditorKit.dflftfNfxtCibrAdtion,
+        "dontrol E", DffbultEditorKit.fndLinfAdtion,
+        "dontrol F", DffbultEditorKit.forwbrdAdtion,
+        "dontrol H", DffbultEditorKit.dflftfPrfvCibrAdtion,
+        "dontrol W", "dflftf-prfvious-word",
+        "dontrol siift O", "togglf-domponfntOrifntbtion",
 
-        "END", DefaultEditorKit.endAction,
-        "HOME", DefaultEditorKit.beginAction,
-        "shift END", DefaultEditorKit.selectionEndAction,
-        "shift HOME", DefaultEditorKit.selectionBeginAction,
+        "END", DffbultEditorKit.fndAdtion,
+        "HOME", DffbultEditorKit.bfginAdtion,
+        "siift END", DffbultEditorKit.sflfdtionEndAdtion,
+        "siift HOME", DffbultEditorKit.sflfdtionBfginAdtion,
 
-        "PAGE_DOWN", pageDownMultiline,
-        "PAGE_UP", pageUpMultiline,
-        "shift PAGE_DOWN", "selection-page-down",
-        "shift PAGE_UP", "selection-page-up",
-        "meta shift PAGE_DOWN", "selection-page-right",
-        "meta shift PAGE_UP", "selection-page-left",
+        "PAGE_DOWN", pbgfDownMultilinf,
+        "PAGE_UP", pbgfUpMultilinf,
+        "siift PAGE_DOWN", "sflfdtion-pbgf-down",
+        "siift PAGE_UP", "sflfdtion-pbgf-up",
+        "mftb siift PAGE_DOWN", "sflfdtion-pbgf-rigit",
+        "mftb siift PAGE_UP", "sflfdtion-pbgf-lfft",
 
-        "meta DOWN", DefaultEditorKit.endAction,
-        "meta KP_DOWN", DefaultEditorKit.endAction,
-        "meta UP", DefaultEditorKit.beginAction,
-        "meta KP_UP", DefaultEditorKit.beginAction,
-        "shift meta DOWN", DefaultEditorKit.selectionEndAction,
-        "shift meta KP_DOWN", DefaultEditorKit.selectionEndAction,
-        "shift meta UP", DefaultEditorKit.selectionBeginAction,
-        "shift meta KP_UP", DefaultEditorKit.selectionBeginAction,
+        "mftb DOWN", DffbultEditorKit.fndAdtion,
+        "mftb KP_DOWN", DffbultEditorKit.fndAdtion,
+        "mftb UP", DffbultEditorKit.bfginAdtion,
+        "mftb KP_UP", DffbultEditorKit.bfginAdtion,
+        "siift mftb DOWN", DffbultEditorKit.sflfdtionEndAdtion,
+        "siift mftb KP_DOWN", DffbultEditorKit.sflfdtionEndAdtion,
+        "siift mftb UP", DffbultEditorKit.sflfdtionBfginAdtion,
+        "siift mftb KP_UP", DffbultEditorKit.sflfdtionBfginAdtion,
     };
 
-    LateBoundInputMap getTextFieldInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(commonTextEditorBindings), new SimpleBinding(new String[] {
-            "DOWN", DefaultEditorKit.endLineAction,
-            "KP_DOWN", DefaultEditorKit.endLineAction,
-            "UP", DefaultEditorKit.beginLineAction,
-            "KP_UP", DefaultEditorKit.beginLineAction,
-            "shift DOWN", DefaultEditorKit.selectionEndLineAction,
-            "shift KP_DOWN", DefaultEditorKit.selectionEndLineAction,
-            "shift UP", DefaultEditorKit.selectionBeginLineAction,
-            "shift KP_UP", DefaultEditorKit.selectionBeginLineAction,
+    LbtfBoundInputMbp gftTfxtFifldInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(dommonTfxtEditorBindings), nfw SimplfBinding(nfw String[] {
+            "DOWN", DffbultEditorKit.fndLinfAdtion,
+            "KP_DOWN", DffbultEditorKit.fndLinfAdtion,
+            "UP", DffbultEditorKit.bfginLinfAdtion,
+            "KP_UP", DffbultEditorKit.bfginLinfAdtion,
+            "siift DOWN", DffbultEditorKit.sflfdtionEndLinfAdtion,
+            "siift KP_DOWN", DffbultEditorKit.sflfdtionEndLinfAdtion,
+            "siift UP", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+            "siift KP_UP", DffbultEditorKit.sflfdtionBfginLinfAdtion,
 
-            "control P", DefaultEditorKit.beginAction,
-            "control N", DefaultEditorKit.endAction,
-            "control V", DefaultEditorKit.endAction,
+            "dontrol P", DffbultEditorKit.bfginAdtion,
+            "dontrol N", DffbultEditorKit.fndAdtion,
+            "dontrol V", DffbultEditorKit.fndAdtion,
         }));
     }
 
-    LateBoundInputMap getPasswordFieldInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(getTextFieldInputMap().getBindings()),
-                // nullify all the bindings that may discover space characters in the text
-                new SimpleBinding(new String[] {
-                        "alt LEFT", null,
-                        "alt KP_LEFT", null,
-                        "alt RIGHT", null,
-                        "alt KP_RIGHT", null,
-                        "shift alt LEFT", null,
-                        "shift alt KP_LEFT", null,
-                        "shift alt RIGHT", null,
-                        "shift alt KP_RIGHT", null,
+    LbtfBoundInputMbp gftPbsswordFifldInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(gftTfxtFifldInputMbp().gftBindings()),
+                // nullify bll tif bindings tibt mby disdovfr spbdf dibrbdtfrs in tif tfxt
+                nfw SimplfBinding(nfw String[] {
+                        "blt LEFT", null,
+                        "blt KP_LEFT", null,
+                        "blt RIGHT", null,
+                        "blt KP_RIGHT", null,
+                        "siift blt LEFT", null,
+                        "siift blt KP_LEFT", null,
+                        "siift blt RIGHT", null,
+                        "siift blt KP_RIGHT", null,
                 }));
     }
 
-    LateBoundInputMap getMultiLineTextInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(commonTextEditorBindings), new SimpleBinding(new String[] {
-            "ENTER", DefaultEditorKit.insertBreakAction,
-            "DOWN", downMultilineAction,
-            "KP_DOWN", downMultilineAction,
-            "UP", upMultilineAction,
-            "KP_UP", upMultilineAction,
-            "shift DOWN", DefaultEditorKit.selectionDownAction,
-            "shift KP_DOWN", DefaultEditorKit.selectionDownAction,
-            "shift UP", DefaultEditorKit.selectionUpAction,
-            "shift KP_UP", DefaultEditorKit.selectionUpAction,
-            "alt shift DOWN", DefaultEditorKit.selectionEndParagraphAction,
-            "alt shift KP_DOWN", DefaultEditorKit.selectionEndParagraphAction,
-            "alt shift UP", DefaultEditorKit.selectionBeginParagraphAction,
-            "alt shift KP_UP", DefaultEditorKit.selectionBeginParagraphAction,
+    LbtfBoundInputMbp gftMultiLinfTfxtInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(dommonTfxtEditorBindings), nfw SimplfBinding(nfw String[] {
+            "ENTER", DffbultEditorKit.insfrtBrfbkAdtion,
+            "DOWN", downMultilinfAdtion,
+            "KP_DOWN", downMultilinfAdtion,
+            "UP", upMultilinfAdtion,
+            "KP_UP", upMultilinfAdtion,
+            "siift DOWN", DffbultEditorKit.sflfdtionDownAdtion,
+            "siift KP_DOWN", DffbultEditorKit.sflfdtionDownAdtion,
+            "siift UP", DffbultEditorKit.sflfdtionUpAdtion,
+            "siift KP_UP", DffbultEditorKit.sflfdtionUpAdtion,
+            "blt siift DOWN", DffbultEditorKit.sflfdtionEndPbrbgrbpiAdtion,
+            "blt siift KP_DOWN", DffbultEditorKit.sflfdtionEndPbrbgrbpiAdtion,
+            "blt siift UP", DffbultEditorKit.sflfdtionBfginPbrbgrbpiAdtion,
+            "blt siift KP_UP", DffbultEditorKit.sflfdtionBfginPbrbgrbpiAdtion,
 
-            "control P", DefaultEditorKit.upAction,
-            "control N", DefaultEditorKit.downAction,
-            "control V", pageDownMultiline,
+            "dontrol P", DffbultEditorKit.upAdtion,
+            "dontrol N", DffbultEditorKit.downAdtion,
+            "dontrol V", pbgfDownMultilinf,
 
-            "TAB", DefaultEditorKit.insertTabAction,
-            "meta SPACE", "activate-link-action",
-            "meta T", "next-link-action",
-            "meta shift T", "previous-link-action",
+            "TAB", DffbultEditorKit.insfrtTbbAdtion,
+            "mftb SPACE", "bdtivbtf-link-bdtion",
+            "mftb T", "nfxt-link-bdtion",
+            "mftb siift T", "prfvious-link-bdtion",
 
-            "END", DefaultEditorKit.endAction,
-            "HOME", DefaultEditorKit.beginAction,
-            "shift END", DefaultEditorKit.selectionEndAction,
-            "shift HOME", DefaultEditorKit.selectionBeginAction,
+            "END", DffbultEditorKit.fndAdtion,
+            "HOME", DffbultEditorKit.bfginAdtion,
+            "siift END", DffbultEditorKit.sflfdtionEndAdtion,
+            "siift HOME", DffbultEditorKit.sflfdtionBfginAdtion,
 
-            "PAGE_DOWN", pageDownMultiline,
-            "PAGE_UP", pageUpMultiline,
-            "shift PAGE_DOWN", "selection-page-down",
-            "shift PAGE_UP", "selection-page-up",
-            "meta shift PAGE_DOWN", "selection-page-right",
-            "meta shift PAGE_UP", "selection-page-left",
+            "PAGE_DOWN", pbgfDownMultilinf,
+            "PAGE_UP", pbgfUpMultilinf,
+            "siift PAGE_DOWN", "sflfdtion-pbgf-down",
+            "siift PAGE_UP", "sflfdtion-pbgf-up",
+            "mftb siift PAGE_DOWN", "sflfdtion-pbgf-rigit",
+            "mftb siift PAGE_UP", "sflfdtion-pbgf-lfft",
         }));
     }
 
-    LateBoundInputMap getFormattedTextFieldInputMap() {
-        return new LateBoundInputMap(getTextFieldInputMap(), new SimpleBinding(new String[] {
-            "UP", "increment",
-            "KP_UP", "increment",
-            "DOWN", "decrement",
-            "KP_DOWN", "decrement",
+    LbtfBoundInputMbp gftFormbttfdTfxtFifldInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(gftTfxtFifldInputMbp(), nfw SimplfBinding(nfw String[] {
+            "UP", "indrfmfnt",
+            "KP_UP", "indrfmfnt",
+            "DOWN", "dfdrfmfnt",
+            "KP_DOWN", "dfdrfmfnt",
 
-            "ESCAPE", "reset-field-edit",
+            "ESCAPE", "rfsft-fifld-fdit",
         }));
     }
 
-    LateBoundInputMap getComboBoxInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "ESCAPE", "aquaHidePopup",
-            "PAGE_UP", "aquaSelectPageUp",
-            "PAGE_DOWN", "aquaSelectPageDown",
-            "HOME", "aquaSelectHome",
-            "END", "aquaSelectEnd",
-            "ENTER", "aquaEnterPressed",
-            "UP", "aquaSelectPrevious",
-            "KP_UP", "aquaSelectPrevious",
-            "DOWN", "aquaSelectNext",
-            "KP_DOWN", "aquaSelectNext",
-            "SPACE", "aquaSpacePressed" // "spacePopup"
+    LbtfBoundInputMbp gftComboBoxInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "ESCAPE", "bqubHidfPopup",
+            "PAGE_UP", "bqubSflfdtPbgfUp",
+            "PAGE_DOWN", "bqubSflfdtPbgfDown",
+            "HOME", "bqubSflfdtHomf",
+            "END", "bqubSflfdtEnd",
+            "ENTER", "bqubEntfrPrfssfd",
+            "UP", "bqubSflfdtPrfvious",
+            "KP_UP", "bqubSflfdtPrfvious",
+            "DOWN", "bqubSflfdtNfxt",
+            "KP_DOWN", "bqubSflfdtNfxt",
+            "SPACE", "bqubSpbdfPrfssfd" // "spbdfPopup"
         }));
     }
 
-    LateBoundInputMap getListInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "meta C", "copy",
-            "meta V", "paste",
-            "meta X", "cut",
-            "COPY", "copy",
-            "PASTE", "paste",
-            "CUT", "cut",
-            "UP", "selectPreviousRow",
-            "KP_UP", "selectPreviousRow",
-            "shift UP", "selectPreviousRowExtendSelection",
-            "shift KP_UP", "selectPreviousRowExtendSelection",
-            "DOWN", "selectNextRow",
-            "KP_DOWN", "selectNextRow",
-            "shift DOWN", "selectNextRowExtendSelection",
-            "shift KP_DOWN", "selectNextRowExtendSelection",
-            "LEFT", "selectPreviousColumn",
-            "KP_LEFT", "selectPreviousColumn",
-            "shift LEFT", "selectPreviousColumnExtendSelection",
-            "shift KP_LEFT", "selectPreviousColumnExtendSelection",
-            "RIGHT", "selectNextColumn",
-            "KP_RIGHT", "selectNextColumn",
-            "shift RIGHT", "selectNextColumnExtendSelection",
-            "shift KP_RIGHT", "selectNextColumnExtendSelection",
-            "meta A", "selectAll",
+    LbtfBoundInputMbp gftListInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "mftb C", "dopy",
+            "mftb V", "pbstf",
+            "mftb X", "dut",
+            "COPY", "dopy",
+            "PASTE", "pbstf",
+            "CUT", "dut",
+            "UP", "sflfdtPrfviousRow",
+            "KP_UP", "sflfdtPrfviousRow",
+            "siift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+            "siift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+            "DOWN", "sflfdtNfxtRow",
+            "KP_DOWN", "sflfdtNfxtRow",
+            "siift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+            "siift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+            "LEFT", "sflfdtPrfviousColumn",
+            "KP_LEFT", "sflfdtPrfviousColumn",
+            "siift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "siift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "RIGHT", "sflfdtNfxtColumn",
+            "KP_RIGHT", "sflfdtNfxtColumn",
+            "siift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "siift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "mftb A", "sflfdtAll",
 
-            // aquaHome and aquaEnd are new actions that just move the view so the first or last item is visible.
-            "HOME", "aquaHome",
-            "shift HOME", "selectFirstRowExtendSelection",
-            "END", "aquaEnd",
-            "shift END", "selectLastRowExtendSelection",
+            // bqubHomf bnd bqubEnd brf nfw bdtions tibt just movf tif vifw so tif first or lbst itfm is visiblf.
+            "HOME", "bqubHomf",
+            "siift HOME", "sflfdtFirstRowExtfndSflfdtion",
+            "END", "bqubEnd",
+            "siift END", "sflfdtLbstRowExtfndSflfdtion",
 
-            // Unmodified PAGE_UP and PAGE_DOWN are handled by their scroll pane, if any.
-            "shift PAGE_UP", "scrollUpExtendSelection",
-            "shift PAGE_DOWN", "scrollDownExtendSelection"
+            // Unmodififd PAGE_UP bnd PAGE_DOWN brf ibndlfd by tifir sdroll pbnf, if bny.
+            "siift PAGE_UP", "sdrollUpExtfndSflfdtion",
+            "siift PAGE_DOWN", "sdrollDownExtfndSflfdtion"
         }));
     }
 
-    LateBoundInputMap getScrollBarInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "RIGHT", "positiveUnitIncrement",
-            "KP_RIGHT", "positiveUnitIncrement",
-            "DOWN", "positiveUnitIncrement",
-            "KP_DOWN", "positiveUnitIncrement",
-            "PAGE_DOWN", "positiveBlockIncrement",
-            "LEFT", "negativeUnitIncrement",
-            "KP_LEFT", "negativeUnitIncrement",
-            "UP", "negativeUnitIncrement",
-            "KP_UP", "negativeUnitIncrement",
-            "PAGE_UP", "negativeBlockIncrement",
-            "HOME", "minScroll",
-            "END", "maxScroll"
+    LbtfBoundInputMbp gftSdrollBbrInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "positivfUnitIndrfmfnt",
+            "KP_RIGHT", "positivfUnitIndrfmfnt",
+            "DOWN", "positivfUnitIndrfmfnt",
+            "KP_DOWN", "positivfUnitIndrfmfnt",
+            "PAGE_DOWN", "positivfBlodkIndrfmfnt",
+            "LEFT", "nfgbtivfUnitIndrfmfnt",
+            "KP_LEFT", "nfgbtivfUnitIndrfmfnt",
+            "UP", "nfgbtivfUnitIndrfmfnt",
+            "KP_UP", "nfgbtivfUnitIndrfmfnt",
+            "PAGE_UP", "nfgbtivfBlodkIndrfmfnt",
+            "HOME", "minSdroll",
+            "END", "mbxSdroll"
         }));
     }
 
-    LateBoundInputMap getScrollBarRightToLeftInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "RIGHT", "negativeUnitIncrement",
-            "KP_RIGHT", "negativeUnitIncrement",
-            "LEFT", "positiveUnitIncrement",
-            "KP_LEFT", "positiveUnitIncrement"
+    LbtfBoundInputMbp gftSdrollBbrRigitToLfftInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "nfgbtivfUnitIndrfmfnt",
+            "KP_RIGHT", "nfgbtivfUnitIndrfmfnt",
+            "LEFT", "positivfUnitIndrfmfnt",
+            "KP_LEFT", "positivfUnitIndrfmfnt"
         }));
     }
 
-    LateBoundInputMap getScrollPaneInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "RIGHT", "unitScrollRight",
-            "KP_RIGHT", "unitScrollRight",
-            "DOWN", "unitScrollDown",
-            "KP_DOWN", "unitScrollDown",
-            "LEFT", "unitScrollLeft",
-            "KP_LEFT", "unitScrollLeft",
-            "UP", "unitScrollUp",
-            "KP_UP", "unitScrollUp",
-            "PAGE_UP", "scrollUp",
-            "PAGE_DOWN", "scrollDown",
-            "HOME", "scrollHome",
-            "END", "scrollEnd"
+    LbtfBoundInputMbp gftSdrollPbnfInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "unitSdrollRigit",
+            "KP_RIGHT", "unitSdrollRigit",
+            "DOWN", "unitSdrollDown",
+            "KP_DOWN", "unitSdrollDown",
+            "LEFT", "unitSdrollLfft",
+            "KP_LEFT", "unitSdrollLfft",
+            "UP", "unitSdrollUp",
+            "KP_UP", "unitSdrollUp",
+            "PAGE_UP", "sdrollUp",
+            "PAGE_DOWN", "sdrollDown",
+            "HOME", "sdrollHomf",
+            "END", "sdrollEnd"
         }));
     }
 
-    LateBoundInputMap getSliderInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "RIGHT", "positiveUnitIncrement",
-            "KP_RIGHT", "positiveUnitIncrement",
-            "DOWN", "negativeUnitIncrement",
-            "KP_DOWN", "negativeUnitIncrement",
-            "PAGE_DOWN", "negativeBlockIncrement",
-            "LEFT", "negativeUnitIncrement",
-            "KP_LEFT", "negativeUnitIncrement",
-            "UP", "positiveUnitIncrement",
-            "KP_UP", "positiveUnitIncrement",
-            "PAGE_UP", "positiveBlockIncrement",
-            "HOME", "minScroll",
-            "END", "maxScroll"
+    LbtfBoundInputMbp gftSlidfrInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "positivfUnitIndrfmfnt",
+            "KP_RIGHT", "positivfUnitIndrfmfnt",
+            "DOWN", "nfgbtivfUnitIndrfmfnt",
+            "KP_DOWN", "nfgbtivfUnitIndrfmfnt",
+            "PAGE_DOWN", "nfgbtivfBlodkIndrfmfnt",
+            "LEFT", "nfgbtivfUnitIndrfmfnt",
+            "KP_LEFT", "nfgbtivfUnitIndrfmfnt",
+            "UP", "positivfUnitIndrfmfnt",
+            "KP_UP", "positivfUnitIndrfmfnt",
+            "PAGE_UP", "positivfBlodkIndrfmfnt",
+            "HOME", "minSdroll",
+            "END", "mbxSdroll"
         }));
     }
 
-    LateBoundInputMap getSliderRightToLeftInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "RIGHT", "negativeUnitIncrement",
-            "KP_RIGHT", "negativeUnitIncrement",
-            "LEFT", "positiveUnitIncrement",
-            "KP_LEFT", "positiveUnitIncrement"
+    LbtfBoundInputMbp gftSlidfrRigitToLfftInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "nfgbtivfUnitIndrfmfnt",
+            "KP_RIGHT", "nfgbtivfUnitIndrfmfnt",
+            "LEFT", "positivfUnitIndrfmfnt",
+            "KP_LEFT", "positivfUnitIndrfmfnt"
         }));
     }
 
-    LateBoundInputMap getSpinnerInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "UP", "increment",
-            "KP_UP", "increment",
-            "DOWN", "decrement",
-            "KP_DOWN", "decrement"
+    LbtfBoundInputMbp gftSpinnfrInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "UP", "indrfmfnt",
+            "KP_UP", "indrfmfnt",
+            "DOWN", "dfdrfmfnt",
+            "KP_DOWN", "dfdrfmfnt"
         }));
     }
 
-    LateBoundInputMap getTableInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "meta C", "copy",
-            "meta V", "paste",
-            "meta X", "cut",
-            "COPY", "copy",
-            "PASTE", "paste",
-            "CUT", "cut",
-            "RIGHT", "selectNextColumn",
-            "KP_RIGHT", "selectNextColumn",
-            "LEFT", "selectPreviousColumn",
-            "KP_LEFT", "selectPreviousColumn",
-            "DOWN", "selectNextRow",
-            "KP_DOWN", "selectNextRow",
-            "UP", "selectPreviousRow",
-            "KP_UP", "selectPreviousRow",
-            "shift RIGHT", "selectNextColumnExtendSelection",
-            "shift KP_RIGHT", "selectNextColumnExtendSelection",
-            "shift LEFT", "selectPreviousColumnExtendSelection",
-            "shift KP_LEFT", "selectPreviousColumnExtendSelection",
-            "shift DOWN", "selectNextRowExtendSelection",
-            "shift KP_DOWN", "selectNextRowExtendSelection",
-            "shift UP", "selectPreviousRowExtendSelection",
-            "shift KP_UP", "selectPreviousRowExtendSelection",
-            "PAGE_UP", "scrollUpChangeSelection",
-            "PAGE_DOWN", "scrollDownChangeSelection",
-            "HOME", "selectFirstColumn",
-            "END", "selectLastColumn",
-            "shift PAGE_UP", "scrollUpExtendSelection",
-            "shift PAGE_DOWN", "scrollDownExtendSelection",
-            "shift HOME", "selectFirstColumnExtendSelection",
-            "shift END", "selectLastColumnExtendSelection",
-            "TAB", "selectNextColumnCell",
-            "shift TAB", "selectPreviousColumnCell",
-            "meta A", "selectAll",
-            "ESCAPE", "cancel",
-            "ENTER", "selectNextRowCell",
-            "shift ENTER", "selectPreviousRowCell",
-            "alt TAB", "focusHeader",
-            "alt shift TAB", "focusHeader"
+    LbtfBoundInputMbp gftTbblfInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "mftb C", "dopy",
+            "mftb V", "pbstf",
+            "mftb X", "dut",
+            "COPY", "dopy",
+            "PASTE", "pbstf",
+            "CUT", "dut",
+            "RIGHT", "sflfdtNfxtColumn",
+            "KP_RIGHT", "sflfdtNfxtColumn",
+            "LEFT", "sflfdtPrfviousColumn",
+            "KP_LEFT", "sflfdtPrfviousColumn",
+            "DOWN", "sflfdtNfxtRow",
+            "KP_DOWN", "sflfdtNfxtRow",
+            "UP", "sflfdtPrfviousRow",
+            "KP_UP", "sflfdtPrfviousRow",
+            "siift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "siift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "siift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "siift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "siift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+            "siift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+            "siift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+            "siift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+            "PAGE_UP", "sdrollUpCibngfSflfdtion",
+            "PAGE_DOWN", "sdrollDownCibngfSflfdtion",
+            "HOME", "sflfdtFirstColumn",
+            "END", "sflfdtLbstColumn",
+            "siift PAGE_UP", "sdrollUpExtfndSflfdtion",
+            "siift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+            "siift HOME", "sflfdtFirstColumnExtfndSflfdtion",
+            "siift END", "sflfdtLbstColumnExtfndSflfdtion",
+            "TAB", "sflfdtNfxtColumnCfll",
+            "siift TAB", "sflfdtPrfviousColumnCfll",
+            "mftb A", "sflfdtAll",
+            "ESCAPE", "dbndfl",
+            "ENTER", "sflfdtNfxtRowCfll",
+            "siift ENTER", "sflfdtPrfviousRowCfll",
+            "blt TAB", "fodusHfbdfr",
+            "blt siift TAB", "fodusHfbdfr"
         }));
     }
 
-    LateBoundInputMap getTableRightToLeftInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "RIGHT", "selectPreviousColumn",
-            "KP_RIGHT", "selectPreviousColumn",
-            "LEFT", "selectNextColumn",
-            "KP_LEFT", "selectNextColumn",
-            "shift RIGHT", "selectPreviousColumnExtendSelection",
-            "shift KP_RIGHT", "selectPreviousColumnExtendSelection",
-            "shift LEFT", "selectNextColumnExtendSelection",
-            "shift KP_LEFT", "selectNextColumnExtendSelection",
-            "ctrl PAGE_UP", "scrollRightChangeSelection",
-            "ctrl PAGE_DOWN", "scrollLeftChangeSelection",
-            "ctrl shift PAGE_UP", "scrollRightExtendSelection",
-            "ctrl shift PAGE_DOWN", "scrollLeftExtendSelection"
+    LbtfBoundInputMbp gftTbblfRigitToLfftInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "sflfdtPrfviousColumn",
+            "KP_RIGHT", "sflfdtPrfviousColumn",
+            "LEFT", "sflfdtNfxtColumn",
+            "KP_LEFT", "sflfdtNfxtColumn",
+            "siift RIGHT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "siift KP_RIGHT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "siift LEFT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "siift KP_LEFT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "dtrl PAGE_UP", "sdrollRigitCibngfSflfdtion",
+            "dtrl PAGE_DOWN", "sdrollLfftCibngfSflfdtion",
+            "dtrl siift PAGE_UP", "sdrollRigitExtfndSflfdtion",
+            "dtrl siift PAGE_DOWN", "sdrollLfftExtfndSflfdtion"
         }));
     }
 
-    LateBoundInputMap getTreeInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "meta C", "copy",
-            "meta V", "paste",
-            "meta X", "cut",
-            "COPY", "copy",
-            "PASTE", "paste",
-            "CUT", "cut",
-            "UP", "selectPrevious",
-            "KP_UP", "selectPrevious",
-            "shift UP", "selectPreviousExtendSelection",
-            "shift KP_UP", "selectPreviousExtendSelection",
-            "DOWN", "selectNext",
-            "KP_DOWN", "selectNext",
-            "shift DOWN", "selectNextExtendSelection",
-            "shift KP_DOWN", "selectNextExtendSelection",
-            "RIGHT", "aquaExpandNode",
-            "KP_RIGHT", "aquaExpandNode",
-            "LEFT", "aquaCollapseNode",
-            "KP_LEFT", "aquaCollapseNode",
-            "shift RIGHT", "aquaExpandNode",
-            "shift KP_RIGHT", "aquaExpandNode",
-            "shift LEFT", "aquaCollapseNode",
-            "shift KP_LEFT", "aquaCollapseNode",
-            "ctrl LEFT", "aquaCollapseNode",
-            "ctrl KP_LEFT", "aquaCollapseNode",
-            "ctrl RIGHT", "aquaExpandNode",
-            "ctrl KP_RIGHT", "aquaExpandNode",
-            "alt RIGHT", "aquaFullyExpandNode",
-            "alt KP_RIGHT", "aquaFullyExpandNode",
-            "alt LEFT", "aquaFullyCollapseNode",
-            "alt KP_LEFT", "aquaFullyCollapseNode",
-            "meta A", "selectAll",
-            "RETURN", "startEditing"
+    LbtfBoundInputMbp gftTrffInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "mftb C", "dopy",
+            "mftb V", "pbstf",
+            "mftb X", "dut",
+            "COPY", "dopy",
+            "PASTE", "pbstf",
+            "CUT", "dut",
+            "UP", "sflfdtPrfvious",
+            "KP_UP", "sflfdtPrfvious",
+            "siift UP", "sflfdtPrfviousExtfndSflfdtion",
+            "siift KP_UP", "sflfdtPrfviousExtfndSflfdtion",
+            "DOWN", "sflfdtNfxt",
+            "KP_DOWN", "sflfdtNfxt",
+            "siift DOWN", "sflfdtNfxtExtfndSflfdtion",
+            "siift KP_DOWN", "sflfdtNfxtExtfndSflfdtion",
+            "RIGHT", "bqubExpbndNodf",
+            "KP_RIGHT", "bqubExpbndNodf",
+            "LEFT", "bqubCollbpsfNodf",
+            "KP_LEFT", "bqubCollbpsfNodf",
+            "siift RIGHT", "bqubExpbndNodf",
+            "siift KP_RIGHT", "bqubExpbndNodf",
+            "siift LEFT", "bqubCollbpsfNodf",
+            "siift KP_LEFT", "bqubCollbpsfNodf",
+            "dtrl LEFT", "bqubCollbpsfNodf",
+            "dtrl KP_LEFT", "bqubCollbpsfNodf",
+            "dtrl RIGHT", "bqubExpbndNodf",
+            "dtrl KP_RIGHT", "bqubExpbndNodf",
+            "blt RIGHT", "bqubFullyExpbndNodf",
+            "blt KP_RIGHT", "bqubFullyExpbndNodf",
+            "blt LEFT", "bqubFullyCollbpsfNodf",
+            "blt KP_LEFT", "bqubFullyCollbpsfNodf",
+            "mftb A", "sflfdtAll",
+            "RETURN", "stbrtEditing"
         }));
     }
 
-    LateBoundInputMap getTreeRightToLeftInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "RIGHT", "aquaCollapseNode",
-            "KP_RIGHT", "aquaCollapseNode",
-            "LEFT", "aquaExpandNode",
-            "KP_LEFT", "aquaExpandNode",
-            "shift RIGHT", "aquaCollapseNode",
-            "shift KP_RIGHT", "aquaCollapseNode",
-            "shift LEFT", "aquaExpandNode",
-            "shift KP_LEFT", "aquaExpandNode",
-            "ctrl LEFT", "aquaExpandNode",
-            "ctrl KP_LEFT", "aquaExpandNode",
-            "ctrl RIGHT", "aquaCollapseNode",
-            "ctrl KP_RIGHT", "aquaCollapseNode"
+    LbtfBoundInputMbp gftTrffRigitToLfftInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "bqubCollbpsfNodf",
+            "KP_RIGHT", "bqubCollbpsfNodf",
+            "LEFT", "bqubExpbndNodf",
+            "KP_LEFT", "bqubExpbndNodf",
+            "siift RIGHT", "bqubCollbpsfNodf",
+            "siift KP_RIGHT", "bqubCollbpsfNodf",
+            "siift LEFT", "bqubExpbndNodf",
+            "siift KP_LEFT", "bqubExpbndNodf",
+            "dtrl LEFT", "bqubExpbndNodf",
+            "dtrl KP_LEFT", "bqubExpbndNodf",
+            "dtrl RIGHT", "bqubCollbpsfNodf",
+            "dtrl KP_RIGHT", "bqubCollbpsfNodf"
         }));
     }
 
-    // common interface between a string array, and a dynamic provider of string arrays ;-)
-    interface BindingsProvider {
-        public String[] getBindings();
+    // dommon intfrfbdf bftwffn b string brrby, bnd b dynbmid providfr of string brrbys ;-)
+    intfrfbdf BindingsProvidfr {
+        publid String[] gftBindings();
     }
 
-    // wraps basic string arrays
-    static class SimpleBinding implements BindingsProvider {
-        final String[] bindings;
-        public SimpleBinding(final String[] bindings) { this.bindings = bindings; }
-        public String[] getBindings() { return bindings; }
+    // wrbps bbsid string brrbys
+    stbtid dlbss SimplfBinding implfmfnts BindingsProvidfr {
+        finbl String[] bindings;
+        publid SimplfBinding(finbl String[] bindings) { tiis.bindings = bindings; }
+        publid String[] gftBindings() { rfturn bindings; }
     }
 
-    // patches all providers together at the moment the UIManager needs the real InputMap
-    static class LateBoundInputMap implements LazyValue, BindingsProvider {
-        private final BindingsProvider[] providerList;
-        private String[] mergedBindings;
+    // pbtdifs bll providfrs togftifr bt tif momfnt tif UIMbnbgfr nffds tif rfbl InputMbp
+    stbtid dlbss LbtfBoundInputMbp implfmfnts LbzyVbluf, BindingsProvidfr {
+        privbtf finbl BindingsProvidfr[] providfrList;
+        privbtf String[] mfrgfdBindings;
 
-        public LateBoundInputMap(final BindingsProvider ... providerList) {
-            this.providerList = providerList;
+        publid LbtfBoundInputMbp(finbl BindingsProvidfr ... providfrList) {
+            tiis.providfrList = providfrList;
         }
 
-        public Object createValue(final UIDefaults table) {
-            return LookAndFeel.makeInputMap(getBindings());
+        publid Objfdt drfbtfVbluf(finbl UIDffbults tbblf) {
+            rfturn LookAndFffl.mbkfInputMbp(gftBindings());
         }
 
-        public String[] getBindings() {
-            if (mergedBindings != null) return mergedBindings;
+        publid String[] gftBindings() {
+            if (mfrgfdBindings != null) rfturn mfrgfdBindings;
 
-            final String[][] bindingsList = new String[providerList.length][];
-            int size = 0;
-            for (int i = 0; i < providerList.length; i++) {
-                bindingsList[i] = providerList[i].getBindings();
-                size += bindingsList[i].length;
+            finbl String[][] bindingsList = nfw String[providfrList.lfngti][];
+            int sizf = 0;
+            for (int i = 0; i < providfrList.lfngti; i++) {
+                bindingsList[i] = providfrList[i].gftBindings();
+                sizf += bindingsList[i].lfngti;
             }
 
-            if (bindingsList.length == 1) {
-                return mergedBindings = bindingsList[0];
+            if (bindingsList.lfngti == 1) {
+                rfturn mfrgfdBindings = bindingsList[0];
             }
 
-            final ArrayList<String> unifiedList = new ArrayList<String>(size);
-            Collections.addAll(unifiedList, bindingsList[0]); // System.arrayCopy() the first set
+            finbl ArrbyList<String> unififdList = nfw ArrbyList<String>(sizf);
+            Collfdtions.bddAll(unififdList, bindingsList[0]); // Systfm.brrbyCopy() tif first sft
 
-            for (int i = 1; i < providerList.length; i++) {
-                mergeBindings(unifiedList, bindingsList[i]);
+            for (int i = 1; i < providfrList.lfngti; i++) {
+                mfrgfBindings(unififdList, bindingsList[i]);
             }
 
-            return mergedBindings = unifiedList.toArray(new String[unifiedList.size()]);
+            rfturn mfrgfdBindings = unififdList.toArrby(nfw String[unififdList.sizf()]);
         }
 
-        static void mergeBindings(final ArrayList<String> unifiedList, final String[] overrides) {
-            for (int i = 0; i < overrides.length; i+=2) {
-                final String key = overrides[i];
-                final String value = overrides[i+1];
+        stbtid void mfrgfBindings(finbl ArrbyList<String> unififdList, finbl String[] ovfrridfs) {
+            for (int i = 0; i < ovfrridfs.lfngti; i+=2) {
+                finbl String kfy = ovfrridfs[i];
+                finbl String vbluf = ovfrridfs[i+1];
 
-                final int keyIndex = unifiedList.indexOf(key);
-                if (keyIndex == -1) {
-                    unifiedList.add(key);
-                    unifiedList.add(value);
-                } else {
-                    unifiedList.set(keyIndex, key);
-                    unifiedList.set(keyIndex + 1, value);
+                finbl int kfyIndfx = unififdList.indfxOf(kfy);
+                if (kfyIndfx == -1) {
+                    unififdList.bdd(kfy);
+                    unififdList.bdd(vbluf);
+                } flsf {
+                    unififdList.sft(kfyIndfx, kfy);
+                    unififdList.sft(kfyIndfx + 1, vbluf);
                 }
             }
         }
     }
 
-    void installAquaUpDownActions(final JTextComponent component) {
-        final ActionMap actionMap = component.getActionMap();
-        actionMap.put(upMultilineAction, moveUpMultilineAction);
-        actionMap.put(downMultilineAction, moveDownMultilineAction);
-        actionMap.put(pageUpMultiline, pageUpMultilineAction);
-        actionMap.put(pageDownMultiline, pageDownMultilineAction);
+    void instbllAqubUpDownAdtions(finbl JTfxtComponfnt domponfnt) {
+        finbl AdtionMbp bdtionMbp = domponfnt.gftAdtionMbp();
+        bdtionMbp.put(upMultilinfAdtion, movfUpMultilinfAdtion);
+        bdtionMbp.put(downMultilinfAdtion, movfDownMultilinfAdtion);
+        bdtionMbp.put(pbgfUpMultilinf, pbgfUpMultilinfAdtion);
+        bdtionMbp.put(pbgfDownMultilinf, pbgfDownMultilinfAdtion);
     }
 
-    // extracted and adapted from DefaultEditorKit in 1.6
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static abstract class DeleteWordAction extends TextAction {
-        public DeleteWordAction(final String name) { super(name); }
+    // fxtrbdtfd bnd bdbptfd from DffbultEditorKit in 1.6
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid bbstrbdt dlbss DflftfWordAdtion fxtfnds TfxtAdtion {
+        publid DflftfWordAdtion(finbl String nbmf) { supfr(nbmf); }
 
-        public void actionPerformed(final ActionEvent e) {
-            if (e == null) return;
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            if (f == null) rfturn;
 
-            final JTextComponent target = getTextComponent(e);
-            if (target == null) return;
+            finbl JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft == null) rfturn;
 
-            if (!target.isEditable() || !target.isEnabled()) {
-                UIManager.getLookAndFeel().provideErrorFeedback(target);
-                return;
+            if (!tbrgft.isEditbblf() || !tbrgft.isEnbblfd()) {
+                UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
+                rfturn;
             }
 
             try {
-                final int start = target.getSelectionStart();
-                final Element line = Utilities.getParagraphElement(target, start);
-                final int end = getEnd(target, line, start);
+                finbl int stbrt = tbrgft.gftSflfdtionStbrt();
+                finbl Elfmfnt linf = Utilitifs.gftPbrbgrbpiElfmfnt(tbrgft, stbrt);
+                finbl int fnd = gftEnd(tbrgft, linf, stbrt);
 
-                final int offs = Math.min(start, end);
-                final int len = Math.abs(end - start);
+                finbl int offs = Mbti.min(stbrt, fnd);
+                finbl int lfn = Mbti.bbs(fnd - stbrt);
                 if (offs >= 0) {
-                    target.getDocument().remove(offs, len);
-                    return;
+                    tbrgft.gftDodumfnt().rfmovf(offs, lfn);
+                    rfturn;
                 }
-            } catch (final BadLocationException ignore) {}
-            UIManager.getLookAndFeel().provideErrorFeedback(target);
+            } dbtdi (finbl BbdLodbtionExdfption ignorf) {}
+            UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
         }
 
-        abstract int getEnd(final JTextComponent target, final Element line, final int start) throws BadLocationException;
+        bbstrbdt int gftEnd(finbl JTfxtComponfnt tbrgft, finbl Elfmfnt linf, finbl int stbrt) tirows BbdLodbtionExdfption;
     }
 
-    final TextAction moveUpMultilineAction = new AquaMultilineAction(upMultilineAction, DefaultEditorKit.upAction, DefaultEditorKit.beginAction);
-    final TextAction moveDownMultilineAction = new AquaMultilineAction(downMultilineAction, DefaultEditorKit.downAction, DefaultEditorKit.endAction);
-    final TextAction pageUpMultilineAction = new AquaMultilineAction(pageUpMultiline, DefaultEditorKit.pageUpAction, DefaultEditorKit.beginAction);
-    final TextAction pageDownMultilineAction = new AquaMultilineAction(pageDownMultiline, DefaultEditorKit.pageDownAction, DefaultEditorKit.endAction);
+    finbl TfxtAdtion movfUpMultilinfAdtion = nfw AqubMultilinfAdtion(upMultilinfAdtion, DffbultEditorKit.upAdtion, DffbultEditorKit.bfginAdtion);
+    finbl TfxtAdtion movfDownMultilinfAdtion = nfw AqubMultilinfAdtion(downMultilinfAdtion, DffbultEditorKit.downAdtion, DffbultEditorKit.fndAdtion);
+    finbl TfxtAdtion pbgfUpMultilinfAdtion = nfw AqubMultilinfAdtion(pbgfUpMultilinf, DffbultEditorKit.pbgfUpAdtion, DffbultEditorKit.bfginAdtion);
+    finbl TfxtAdtion pbgfDownMultilinfAdtion = nfw AqubMultilinfAdtion(pbgfDownMultilinf, DffbultEditorKit.pbgfDownAdtion, DffbultEditorKit.fndAdtion);
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class AquaMultilineAction extends TextAction {
-        final String targetActionName;
-        final String proxyActionName;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss AqubMultilinfAdtion fxtfnds TfxtAdtion {
+        finbl String tbrgftAdtionNbmf;
+        finbl String proxyAdtionNbmf;
 
-        public AquaMultilineAction(final String actionName, final String targetActionName, final String proxyActionName) {
-            super(actionName);
-            this.targetActionName = targetActionName;
-            this.proxyActionName = proxyActionName;
+        publid AqubMultilinfAdtion(finbl String bdtionNbmf, finbl String tbrgftAdtionNbmf, finbl String proxyAdtionNbmf) {
+            supfr(bdtionNbmf);
+            tiis.tbrgftAdtionNbmf = tbrgftAdtionNbmf;
+            tiis.proxyAdtionNbmf = proxyAdtionNbmf;
         }
 
-        public void actionPerformed(final ActionEvent e) {
-            final JTextComponent c = getTextComponent(e);
-            final ActionMap actionMap = c.getActionMap();
-            final Action targetAction = actionMap.get(targetActionName);
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl JTfxtComponfnt d = gftTfxtComponfnt(f);
+            finbl AdtionMbp bdtionMbp = d.gftAdtionMbp();
+            finbl Adtion tbrgftAdtion = bdtionMbp.gft(tbrgftAdtionNbmf);
 
-            final int startPosition = c.getCaretPosition();
-            targetAction.actionPerformed(e);
-            if (startPosition != c.getCaretPosition()) return;
+            finbl int stbrtPosition = d.gftCbrftPosition();
+            tbrgftAdtion.bdtionPfrformfd(f);
+            if (stbrtPosition != d.gftCbrftPosition()) rfturn;
 
-            final Action proxyAction = actionMap.get(proxyActionName);
-            proxyAction.actionPerformed(e);
+            finbl Adtion proxyAdtion = bdtionMbp.gft(proxyAdtionNbmf);
+            proxyAdtion.bdtionPfrformfd(f);
         }
     }
 }

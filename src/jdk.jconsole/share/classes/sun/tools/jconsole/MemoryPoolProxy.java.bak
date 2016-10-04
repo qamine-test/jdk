@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import javax.management.ObjectName;
-import java.lang.management.MemoryPoolMXBean;
-import java.lang.management.MemoryUsage;
-import com.sun.management.GarbageCollectorMXBean;
-import com.sun.management.GcInfo;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.Map;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn;
+import dom.sun.mbnbgfmfnt.GdInfo;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Sft;
+import jbvb.util.Mbp;
 
-import static java.lang.management.ManagementFactory.*;
+import stbtid jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory.*;
 
-public class MemoryPoolProxy {
-    private String poolName;
-    private ProxyClient client;
-    private MemoryPoolMXBean pool;
-    private Map<ObjectName,Long> gcMBeans;
-    private GcInfo lastGcInfo;
+publid dlbss MfmoryPoolProxy {
+    privbtf String poolNbmf;
+    privbtf ProxyClifnt dlifnt;
+    privbtf MfmoryPoolMXBfbn pool;
+    privbtf Mbp<ObjfdtNbmf,Long> gdMBfbns;
+    privbtf GdInfo lbstGdInfo;
 
-    public MemoryPoolProxy(ProxyClient client, ObjectName poolName) throws java.io.IOException {
-        this.client = client;
-        this.pool = client.getMXBean(poolName, MemoryPoolMXBean.class);
-        this.poolName = this.pool.getName();
-        this.gcMBeans = new HashMap<ObjectName,Long>();
-        this.lastGcInfo = null;
+    publid MfmoryPoolProxy(ProxyClifnt dlifnt, ObjfdtNbmf poolNbmf) tirows jbvb.io.IOExdfption {
+        tiis.dlifnt = dlifnt;
+        tiis.pool = dlifnt.gftMXBfbn(poolNbmf, MfmoryPoolMXBfbn.dlbss);
+        tiis.poolNbmf = tiis.pool.gftNbmf();
+        tiis.gdMBfbns = nfw HbsiMbp<ObjfdtNbmf,Long>();
+        tiis.lbstGdInfo = null;
 
-        String[] mgrNames = pool.getMemoryManagerNames();
-        for (String name : mgrNames) {
+        String[] mgrNbmfs = pool.gftMfmoryMbnbgfrNbmfs();
+        for (String nbmf : mgrNbmfs) {
             try {
-                ObjectName mbeanName = new ObjectName(GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE +
-                                                      ",name=" + name);
-                if (client.isRegistered(mbeanName)) {
-                    gcMBeans.put(mbeanName, 0L);
+                ObjfdtNbmf mbfbnNbmf = nfw ObjfdtNbmf(GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE +
+                                                      ",nbmf=" + nbmf);
+                if (dlifnt.isRfgistfrfd(mbfbnNbmf)) {
+                    gdMBfbns.put(mbfbnNbmf, 0L);
                 }
-            } catch (Exception e) {
-                assert false;
+            } dbtdi (Exdfption f) {
+                bssfrt fblsf;
             }
 
         }
     }
 
-    public boolean isCollectedMemoryPool() {
-        return (gcMBeans.size() != 0);
+    publid boolfbn isCollfdtfdMfmoryPool() {
+        rfturn (gdMBfbns.sizf() != 0);
     }
 
-    public MemoryPoolStat getStat() throws java.io.IOException {
-        long usageThreshold = (pool.isUsageThresholdSupported()
-                                  ? pool.getUsageThreshold()
+    publid MfmoryPoolStbt gftStbt() tirows jbvb.io.IOExdfption {
+        long usbgfTirfsiold = (pool.isUsbgfTirfsioldSupportfd()
+                                  ? pool.gftUsbgfTirfsiold()
                                   : -1);
-        long collectThreshold = (pool.isCollectionUsageThresholdSupported()
-                                  ? pool.getCollectionUsageThreshold()
+        long dollfdtTirfsiold = (pool.isCollfdtionUsbgfTirfsioldSupportfd()
+                                  ? pool.gftCollfdtionUsbgfTirfsiold()
                                   : -1);
-        long lastGcStartTime = 0;
-        long lastGcEndTime = 0;
-        MemoryUsage beforeGcUsage = null;
-        MemoryUsage afterGcUsage = null;
-        long gcId = 0;
-        if (lastGcInfo != null) {
-            gcId = lastGcInfo.getId();
-            lastGcStartTime = lastGcInfo.getStartTime();
-            lastGcEndTime = lastGcInfo.getEndTime();
-            beforeGcUsage = lastGcInfo.getMemoryUsageBeforeGc().get(poolName);
-            afterGcUsage = lastGcInfo.getMemoryUsageAfterGc().get(poolName);
+        long lbstGdStbrtTimf = 0;
+        long lbstGdEndTimf = 0;
+        MfmoryUsbgf bfforfGdUsbgf = null;
+        MfmoryUsbgf bftfrGdUsbgf = null;
+        long gdId = 0;
+        if (lbstGdInfo != null) {
+            gdId = lbstGdInfo.gftId();
+            lbstGdStbrtTimf = lbstGdInfo.gftStbrtTimf();
+            lbstGdEndTimf = lbstGdInfo.gftEndTimf();
+            bfforfGdUsbgf = lbstGdInfo.gftMfmoryUsbgfBfforfGd().gft(poolNbmf);
+            bftfrGdUsbgf = lbstGdInfo.gftMfmoryUsbgfAftfrGd().gft(poolNbmf);
         }
 
-        Set<Map.Entry<ObjectName,Long>> set = gcMBeans.entrySet();
-        for (Map.Entry<ObjectName,Long> e : set) {
-            GarbageCollectorMXBean gc =
-                client.getMXBean(e.getKey(),
-                                 com.sun.management.GarbageCollectorMXBean.class);
-            Long gcCount = e.getValue();
-            Long newCount = gc.getCollectionCount();
-            if (newCount > gcCount) {
-                gcMBeans.put(e.getKey(), newCount);
-                lastGcInfo = gc.getLastGcInfo();
-                if (lastGcInfo.getEndTime() > lastGcEndTime) {
-                    gcId = lastGcInfo.getId();
-                    lastGcStartTime = lastGcInfo.getStartTime();
-                    lastGcEndTime = lastGcInfo.getEndTime();
-                    beforeGcUsage = lastGcInfo.getMemoryUsageBeforeGc().get(poolName);
-                    afterGcUsage = lastGcInfo.getMemoryUsageAfterGc().get(poolName);
-                    assert(beforeGcUsage != null);
-                    assert(afterGcUsage != null);
+        Sft<Mbp.Entry<ObjfdtNbmf,Long>> sft = gdMBfbns.fntrySft();
+        for (Mbp.Entry<ObjfdtNbmf,Long> f : sft) {
+            GbrbbgfCollfdtorMXBfbn gd =
+                dlifnt.gftMXBfbn(f.gftKfy(),
+                                 dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn.dlbss);
+            Long gdCount = f.gftVbluf();
+            Long nfwCount = gd.gftCollfdtionCount();
+            if (nfwCount > gdCount) {
+                gdMBfbns.put(f.gftKfy(), nfwCount);
+                lbstGdInfo = gd.gftLbstGdInfo();
+                if (lbstGdInfo.gftEndTimf() > lbstGdEndTimf) {
+                    gdId = lbstGdInfo.gftId();
+                    lbstGdStbrtTimf = lbstGdInfo.gftStbrtTimf();
+                    lbstGdEndTimf = lbstGdInfo.gftEndTimf();
+                    bfforfGdUsbgf = lbstGdInfo.gftMfmoryUsbgfBfforfGd().gft(poolNbmf);
+                    bftfrGdUsbgf = lbstGdInfo.gftMfmoryUsbgfAftfrGd().gft(poolNbmf);
+                    bssfrt(bfforfGdUsbgf != null);
+                    bssfrt(bftfrGdUsbgf != null);
                 }
             }
         }
 
-        MemoryUsage usage = pool.getUsage();
-        return new MemoryPoolStat(poolName,
-                                  usageThreshold,
-                                  usage,
-                                  gcId,
-                                  lastGcStartTime,
-                                  lastGcEndTime,
-                                  collectThreshold,
-                                  beforeGcUsage,
-                                  afterGcUsage);
+        MfmoryUsbgf usbgf = pool.gftUsbgf();
+        rfturn nfw MfmoryPoolStbt(poolNbmf,
+                                  usbgfTirfsiold,
+                                  usbgf,
+                                  gdId,
+                                  lbstGdStbrtTimf,
+                                  lbstGdEndTimf,
+                                  dollfdtTirfsiold,
+                                  bfforfGdUsbgf,
+                                  bftfrGdUsbgf);
     }
 }

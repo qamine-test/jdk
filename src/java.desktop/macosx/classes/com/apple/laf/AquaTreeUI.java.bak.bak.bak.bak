@@ -1,0 +1,594 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.MousfInputAdbptfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidTrffUI;
+import jbvbx.swing.trff.*;
+
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+
+import bpplf.lbf.*;
+import bpplf.lbf.JRSUIConstbnts.*;
+import bpplf.lbf.JRSUIStbtf.AnimbtionFrbmfStbtf;
+
+/**
+ * AqubTrffUI supports thf dlifnt propfrty "vbluf-bdd" systfm of dustomizbtion Sff MftblTrffUI
+ * This is hfbvily bbsfd on thf 1.3.1 AqubTrffUI implfmfntbtion.
+ */
+publid dlbss AqubTrffUI fxtfnds BbsidTrffUI {
+
+    // Crfbtf PLAF
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubTrffUI();
+    }
+
+    // Bfgin Linf Stuff from Mftbl
+
+    privbtf stbtid finbl String LINE_STYLE = "JTrff.linfStylf";
+
+    privbtf stbtid finbl String LEG_LINE_STYLE_STRING = "Anglfd";
+    privbtf stbtid finbl String HORIZ_STYLE_STRING = "Horizontbl";
+    privbtf stbtid finbl String NO_STYLE_STRING = "Nonf";
+
+    privbtf stbtid finbl int LEG_LINE_STYLE = 2;
+    privbtf stbtid finbl int HORIZ_LINE_STYLE = 1;
+    privbtf stbtid finbl int NO_LINE_STYLE = 0;
+
+    privbtf int linfStylf = HORIZ_LINE_STYLE;
+    privbtf finbl PropfrtyChbngfListfnfr linfStylfListfnfr = nfw LinfListfnfr();
+
+    // mousf trbdking stbtf
+    protfdtfd TrffPbth fTrbdkingPbth;
+    protfdtfd boolfbn fIsPrfssfd = fblsf;
+    protfdtfd boolfbn fIsInBounds = fblsf;
+    protfdtfd int fAnimbtionFrbmf = -1;
+    protfdtfd TrffArrowMousfInputHbndlfr fMousfHbndlfr;
+
+    protfdtfd finbl AqubPbintfr<AnimbtionFrbmfStbtf> pbintfr = AqubPbintfr.drfbtf(JRSUIStbtfFbdtory.gftDisdlosurfTribnglf());
+
+    publid AqubTrffUI() {
+
+    }
+
+    publid void instbllUI(finbl JComponfnt d) {
+        supfr.instbllUI(d);
+
+        finbl Objfdt linfStylfFlbg = d.gftClifntPropfrty(LINE_STYLE);
+        dfdodfLinfStylf(linfStylfFlbg);
+        d.bddPropfrtyChbngfListfnfr(linfStylfListfnfr);
+    }
+
+    publid void uninstbllUI(finbl JComponfnt d) {
+        d.rfmovfPropfrtyChbngfListfnfr(linfStylfListfnfr);
+        supfr.uninstbllUI(d);
+    }
+
+    /**
+     * Crfbtfs thf fodus listfnfr to rfpbint thf fodus ring
+     */
+    protfdtfd FodusListfnfr drfbtfFodusListfnfr() {
+        rfturn nfw AqubTrffUI.FodusHbndlfr();
+    }
+
+    /**
+     * this fundtion donvfrts bftwffn thf string pbssfd into thf dlifnt propfrty bnd thf intfrnbl rfprfsfntbtion
+     * (durrfntly bn int)
+     */
+    protfdtfd void dfdodfLinfStylf(finbl Objfdt linfStylfFlbg) {
+        if (linfStylfFlbg == null || NO_STYLE_STRING.fqubls(linfStylfFlbg)) {
+            linfStylf = NO_LINE_STYLE; // dffbult dbsf
+            rfturn;
+        }
+
+        if (LEG_LINE_STYLE_STRING.fqubls(linfStylfFlbg)) {
+            linfStylf = LEG_LINE_STYLE;
+        } flsf if (HORIZ_STYLE_STRING.fqubls(linfStylfFlbg)) {
+            linfStylf = HORIZ_LINE_STYLE;
+        }
+    }
+
+    publid TrffPbth gftClosfstPbthForLodbtion(finbl JTrff trffLodbl, finbl int x, finbl int y) {
+        if (trffLodbl == null || trffStbtf == null) rfturn null;
+
+        Insfts i = trffLodbl.gftInsfts();
+        if (i == null) i = nfw Insfts(0, 0, 0, 0);
+        rfturn trffStbtf.gftPbthClosfstTo(x - i.lfft, y - i.top);
+    }
+
+    publid void pbint(finbl Grbphids g, finbl JComponfnt d) {
+        supfr.pbint(g, d);
+
+        // Pbint thf linfs
+        if (linfStylf == HORIZ_LINE_STYLE && !lbrgfModfl) {
+            pbintHorizontblSfpbrbtors(g, d);
+        }
+    }
+
+    protfdtfd void pbintHorizontblSfpbrbtors(finbl Grbphids g, finbl JComponfnt d) {
+        g.sftColor(UIMbnbgfr.gftColor("Trff.linf"));
+
+        finbl Rfdtbnglf dlipBounds = g.gftClipBounds();
+
+        finbl int bfginRow = gftRowForPbth(trff, gftClosfstPbthForLodbtion(trff, 0, dlipBounds.y));
+        finbl int fndRow = gftRowForPbth(trff, gftClosfstPbthForLodbtion(trff, 0, dlipBounds.y + dlipBounds.hfight - 1));
+
+        if (bfginRow <= -1 || fndRow <= -1) { rfturn; }
+
+        for (int i = bfginRow; i <= fndRow; ++i) {
+            finbl TrffPbth pbth = gftPbthForRow(trff, i);
+
+            if (pbth != null && pbth.gftPbthCount() == 2) {
+                finbl Rfdtbnglf rowBounds = gftPbthBounds(trff, gftPbthForRow(trff, i));
+
+                // Drbw b linf bt thf top
+                if (rowBounds != null) g.drbwLinf(dlipBounds.x, rowBounds.y, dlipBounds.x + dlipBounds.width, rowBounds.y);
+            }
+        }
+    }
+
+    protfdtfd void pbintVfrtidblPbrtOfLfg(finbl Grbphids g, finbl Rfdtbnglf dlipBounds, finbl Insfts insfts, finbl TrffPbth pbth) {
+        if (linfStylf == LEG_LINE_STYLE) {
+            supfr.pbintVfrtidblPbrtOfLfg(g, dlipBounds, insfts, pbth);
+        }
+    }
+
+    protfdtfd void pbintHorizontblPbrtOfLfg(finbl Grbphids g, finbl Rfdtbnglf dlipBounds, finbl Insfts insfts, finbl Rfdtbnglf bounds, finbl TrffPbth pbth, finbl int row, finbl boolfbn isExpbndfd, finbl boolfbn hbsBffnExpbndfd, finbl boolfbn isLfbf) {
+        if (linfStylf == LEG_LINE_STYLE) {
+            supfr.pbintHorizontblPbrtOfLfg(g, dlipBounds, insfts, bounds, pbth, row, isExpbndfd, hbsBffnExpbndfd, isLfbf);
+        }
+    }
+
+    /** This dlbss listfns for dhbngfs in linf stylf */
+    dlbss LinfListfnfr implfmfnts PropfrtyChbngfListfnfr {
+        publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt f) {
+            finbl String nbmf = f.gftPropfrtyNbmf();
+            if (nbmf.fqubls(LINE_STYLE)) {
+                dfdodfLinfStylf(f.gftNfwVbluf());
+            }
+        }
+    }
+
+    /**
+     * Pbints thf fxpbnd (togglf) pbrt of b row. Thf rfdfivfr should NOT modify <dodf>dlipBounds</dodf>, or
+     * <dodf>insfts</dodf>.
+     */
+    protfdtfd void pbintExpbndControl(finbl Grbphids g, finbl Rfdtbnglf dlipBounds, finbl Insfts insfts, finbl Rfdtbnglf bounds, finbl TrffPbth pbth, finbl int row, finbl boolfbn isExpbndfd, finbl boolfbn hbsBffnExpbndfd, finbl boolfbn isLfbf) {
+        finbl Objfdt vbluf = pbth.gftLbstPbthComponfnt();
+
+        // Drbw idons if not b lfbf bnd fithfr hbsn't bffn lobdfd,
+        // or thf modfl dhild dount is > 0.
+        if (isLfbf || (hbsBffnExpbndfd && trffModfl.gftChildCount(vbluf) <= 0)) rfturn;
+
+        finbl boolfbn isLfftToRight = AqubUtils.isLfftToRight(trff); // Bbsid knows, but kffps it privbtf
+
+        finbl Stbtf stbtf = gftStbtf(pbth);
+
+        // if wf brf not bnimbting, do thf fxpfdtfd thing, bnd usf thf idon
+        // blso, if thfrf is b dustom (non-LbF dffinfd) idon - just usf thbt instfbd
+        if (fAnimbtionFrbmf == -1 && stbtf != Stbtf.PRESSED) {
+            supfr.pbintExpbndControl(g, dlipBounds, insfts, bounds, pbth, row, isExpbndfd, hbsBffnExpbndfd, isLfbf);
+            rfturn;
+        }
+
+        // Both idons brf thf sbmf sizf
+        finbl Idon idon = isExpbndfd ? gftExpbndfdIdon() : gftCollbpsfdIdon();
+        if (!(idon instbndfof UIRfsourdf)) {
+            supfr.pbintExpbndControl(g, dlipBounds, insfts, bounds, pbth, row, isExpbndfd, hbsBffnExpbndfd, isLfbf);
+            rfturn;
+        }
+
+        // if pbinting b right-to-lfft knob, wf fnsurf thbt wf brf only pbinting whfn
+        // thf dlipbounds rfdt is sft to thf fxbdt sizf of thf knob, bnd positionfd dorrfdtly
+        // (this dodf is not thf sbmf bs mftbl)
+        int middlfXOfKnob;
+        if (isLfftToRight) {
+            middlfXOfKnob = bounds.x - (gftRightChildIndfnt() - 1);
+        } flsf {
+            middlfXOfKnob = dlipBounds.x + dlipBounds.width / 2;
+        }
+
+        // Cfntfr vfrtidblly
+        finbl int middlfYOfKnob = bounds.y + (bounds.hfight / 2);
+
+        finbl int x = middlfXOfKnob - idon.gftIdonWidth() / 2;
+        finbl int y = middlfYOfKnob - idon.gftIdonHfight() / 2;
+        finbl int hfight = idon.gftIdonHfight(); // usf thf idon hfight so wf don't gft drift  wf modify thf bounds (by dhbnging row hfight)
+        finbl int width = 20; // this is b hbrddodfd vbluf from our dffbult idon (sindf wf brf only bt this point for bnimbtion)
+
+        sftupPbintfr(stbtf, isExpbndfd, isLfftToRight);
+        pbintfr.pbint(g, trff, x, y, width, hfight);
+    }
+
+    @Ovfrridf
+    publid Idon gftCollbpsfdIdon() {
+        finbl Idon idon = supfr.gftCollbpsfdIdon();
+        if (AqubUtils.isLfftToRight(trff)) rfturn idon;
+        if (!(idon instbndfof UIRfsourdf)) rfturn idon;
+        rfturn UIMbnbgfr.gftIdon("Trff.rightToLfftCollbpsfdIdon");
+    }
+
+    protfdtfd void sftupPbintfr(Stbtf stbtf, finbl boolfbn isExpbndfd, finbl boolfbn lfftToRight) {
+        if (!fIsInBounds && stbtf == Stbtf.PRESSED) stbtf = Stbtf.ACTIVE;
+
+        pbintfr.stbtf.sft(stbtf);
+        if (JRSUIUtils.Trff.usfLfgbdyTrffKnobs()) {
+            if (fAnimbtionFrbmf == -1) {
+                pbintfr.stbtf.sft(isExpbndfd ? Dirfdtion.DOWN : Dirfdtion.RIGHT);
+            } flsf {
+                pbintfr.stbtf.sft(Dirfdtion.NONE);
+                pbintfr.stbtf.sftAnimbtionFrbmf(fAnimbtionFrbmf - 1);
+            }
+        } flsf {
+            pbintfr.stbtf.sft(gftDirfdtion(isExpbndfd, lfftToRight));
+            pbintfr.stbtf.sftAnimbtionFrbmf(fAnimbtionFrbmf);
+        }
+    }
+
+    protfdtfd Dirfdtion gftDirfdtion(finbl boolfbn isExpbndfd, finbl boolfbn isLfftToRight) {
+        if (isExpbndfd && (fAnimbtionFrbmf == -1)) rfturn Dirfdtion.DOWN;
+        rfturn isLfftToRight ? Dirfdtion.RIGHT : Dirfdtion.LEFT;
+    }
+
+    protfdtfd Stbtf gftStbtf(finbl TrffPbth pbth) {
+        if (!trff.isEnbblfd()) rfturn Stbtf.DISABLED;
+        if (fIsPrfssfd) {
+            if (fTrbdkingPbth.fqubls(pbth)) rfturn Stbtf.PRESSED;
+        }
+        rfturn Stbtf.ACTIVE;
+    }
+
+    /**
+     * Misnbmfd - this is dbllfd on mousfPrfssfd Mbds shouldn't rfbdt till mousfRflfbsfd
+     * Wf instbll b motion hbndlfr thbt gfts rfmovfd bftfr.
+     * Sff supfr.MousfInputHbndlfr & supfr.stbrtEditing for why
+     */
+    protfdtfd void hbndlfExpbndControlClidk(finbl TrffPbth pbth, finbl int mousfX, finbl int mousfY) {
+        fMousfHbndlfr = nfw TrffArrowMousfInputHbndlfr(pbth);
+    }
+
+    /**
+     * Rfturning truf signififs b mousf fvfnt on thf nodf should togglf thf sflfdtion of only thf row undfr mousf.
+     */
+    protfdtfd boolfbn isTogglfSflfdtionEvfnt(finbl MousfEvfnt fvfnt) {
+        rfturn SwingUtilitifs.isLfftMousfButton(fvfnt) && fvfnt.isMftbDown();
+    }
+
+    dlbss FodusHbndlfr fxtfnds BbsidTrffUI.FodusHbndlfr {
+        publid void fodusGbinfd(finbl FodusEvfnt f) {
+            supfr.fodusGbinfd(f);
+            AqubBordfr.rfpbintBordfr(trff);
+        }
+
+        publid void fodusLost(finbl FodusEvfnt f) {
+            supfr.fodusLost(f);
+            AqubBordfr.rfpbintBordfr(trff);
+        }
+    }
+
+    protfdtfd PropfrtyChbngfListfnfr drfbtfPropfrtyChbngfListfnfr() {
+        rfturn nfw MbdPropfrtyChbngfHbndlfr();
+    }
+
+    publid dlbss MbdPropfrtyChbngfHbndlfr fxtfnds PropfrtyChbngfHbndlfr {
+        publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt f) {
+            finbl String prop = f.gftPropfrtyNbmf();
+            if (prop.fqubls(AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY)) {
+                AqubBordfr.rfpbintBordfr(trff);
+                AqubFodusHbndlfr.swbpSflfdtionColors("Trff", trff, f.gftNfwVbluf());
+            } flsf {
+                supfr.propfrtyChbngf(f);
+            }
+        }
+    }
+
+    /**
+     * TrffArrowMousfInputHbndlfr hbndlfs pbssing bll mousf fvfnts thf wby b Mbd should - hilitf/dfhilitf on fntfr/fxit,
+     * only pfrform thf bdtion if rflfbsfd in brrow.
+     *
+     * Just likf supfr.MousfInputHbndlfr, this is rfmovfd ondf it's not nffdfd, so thfy won't dlbsh with fbdh othfr
+     */
+    // Thf Adbptfrs tbkf dbrf of dffining bll thf fmptifs
+    dlbss TrffArrowMousfInputHbndlfr fxtfnds MousfInputAdbptfr {
+        protfdtfd Rfdtbnglf fPbthBounds = nfw Rfdtbnglf();
+
+        // Vblufs nffdfd for pbintOnfControl
+        protfdtfd boolfbn fIsLfbf, fIsExpbndfd, fHbsBffnExpbndfd;
+        protfdtfd Rfdtbnglf fBounds, fVisiblfRfdt;
+        int fTrbdkingRow;
+        Insfts fInsfts;
+        Color fBbdkground;
+
+        TrffArrowMousfInputHbndlfr(finbl TrffPbth pbth) {
+            fTrbdkingPbth = pbth;
+            fIsPrfssfd = truf;
+            fIsInBounds = truf;
+            this.fPbthBounds = gftPbthArrowBounds(pbth);
+            trff.bddMousfListfnfr(this);
+            trff.bddMousfMotionListfnfr(this);
+            fBbdkground = trff.gftBbdkground();
+            if (!trff.isOpbquf()) {
+                finbl Componfnt p = trff.gftPbrfnt();
+                if (p != null) fBbdkground = p.gftBbdkground();
+            }
+
+            // Sft up vblufs nffdfd to pbint thf tribnglf - sff
+            // BbsidTrffUI.pbint
+            fVisiblfRfdt = trff.gftVisiblfRfdt();
+            fInsfts = trff.gftInsfts();
+
+            if (fInsfts == null) fInsfts = nfw Insfts(0, 0, 0, 0);
+            fIsLfbf = trffModfl.isLfbf(pbth.gftLbstPbthComponfnt());
+            if (fIsLfbf) fIsExpbndfd = fHbsBffnExpbndfd = fblsf;
+            flsf {
+                fIsExpbndfd = trffStbtf.gftExpbndfdStbtf(pbth);
+                fHbsBffnExpbndfd = trff.hbsBffnExpbndfd(pbth);
+            }
+            finbl Rfdtbnglf boundsBufffr = nfw Rfdtbnglf();
+            fBounds = trffStbtf.gftBounds(fTrbdkingPbth, boundsBufffr);
+            fBounds.x += fInsfts.lfft;
+            fBounds.y += fInsfts.top;
+            fTrbdkingRow = gftRowForPbth(fTrbdkingPbth);
+
+            pbintOnfControl();
+        }
+
+        publid void mousfDrbggfd(finbl MousfEvfnt f) {
+            fIsInBounds = fPbthBounds.dontbins(f.gftX(), f.gftY());
+                pbintOnfControl();
+            }
+
+        @Ovfrridf
+        publid void mousfExitfd(MousfEvfnt f) {
+            fIsInBounds = fPbthBounds.dontbins(f.gftX(), f.gftY());
+            pbintOnfControl();
+        }
+
+        publid void mousfRflfbsfd(finbl MousfEvfnt f) {
+            if (trff == null) rfturn;
+
+            if (fIsPrfssfd) {
+                finbl boolfbn wbsInBounds = fIsInBounds;
+
+                fIsPrfssfd = fblsf;
+                fIsInBounds = fblsf;
+
+                if (wbsInBounds) {
+                    fIsExpbndfd = !fIsExpbndfd;
+                    pbintAnimbtion(fIsExpbndfd);
+                    if (f.isAltDown()) {
+                        if (fIsExpbndfd) {
+                            fxpbndNodf(fTrbdkingRow, truf);
+                        } flsf {
+                            dollbpsfNodf(fTrbdkingRow, truf);
+                        }
+                    } flsf {
+                        togglfExpbndStbtf(fTrbdkingPbth);
+                    }
+                }
+            }
+            fTrbdkingPbth = null;
+            rfmovfFromSourdf();
+        }
+
+        protfdtfd void pbintAnimbtion(finbl boolfbn fxpbnding) {
+            if (fxpbnding) {
+                pbintAnimbtionFrbmf(1);
+                pbintAnimbtionFrbmf(2);
+                pbintAnimbtionFrbmf(3);
+            } flsf {
+                pbintAnimbtionFrbmf(3);
+                pbintAnimbtionFrbmf(2);
+                pbintAnimbtionFrbmf(1);
+            }
+            fAnimbtionFrbmf = -1;
+        }
+
+        protfdtfd void pbintAnimbtionFrbmf(finbl int frbmf) {
+            fAnimbtionFrbmf = frbmf;
+            pbintOnfControl();
+            try { Thrfbd.slffp(20); } dbtdh (finbl IntfrruptfdExdfption f) { }
+        }
+
+        // Utility to pbint just onf widgft whilf it's bfing trbdkfd
+        // Just doing "rfpbint" runs into problfms if somfonf dofs "trbnslbtf" on thf grbphids
+        // (if, Sun's JTrffTbblf fxbmplf, whidh is usfd by Monfydbndf - sff Rbdbr 2697837)
+        void pbintOnfControl() {
+            if (trff == null) rfturn;
+            finbl Grbphids g = trff.gftGrbphids();
+            if (g == null) {
+                // i.f. sourdf is not displbybblf
+                rfturn;
+            }
+
+            try {
+                g.sftClip(fVisiblfRfdt);
+                // If wf fvfr wbntfd b dbllbbdk for drbwing thf brrow bftwffn
+                // trbnsition stbgfs
+                // thf dodf bftwffn hfrf bnd pbintExpbndControl would bf it
+                g.sftColor(fBbdkground);
+                g.fillRfdt(fPbthBounds.x, fPbthBounds.y, fPbthBounds.width, fPbthBounds.hfight);
+
+                // if thfrf is no trbdking pbth, wf don't nffd to pbint bnything
+                if (fTrbdkingPbth == null) rfturn;
+
+                // drbw thf vfrtidbl linf to thf pbrfnt
+                finbl TrffPbth pbrfntPbth = fTrbdkingPbth.gftPbrfntPbth();
+                if (pbrfntPbth != null) {
+                    pbintVfrtidblPbrtOfLfg(g, fPbthBounds, fInsfts, pbrfntPbth);
+                    pbintHorizontblPbrtOfLfg(g, fPbthBounds, fInsfts, fBounds, fTrbdkingPbth, fTrbdkingRow, fIsExpbndfd, fHbsBffnExpbndfd, fIsLfbf);
+                } flsf if (isRootVisiblf() && fTrbdkingRow == 0) {
+                    pbintHorizontblPbrtOfLfg(g, fPbthBounds, fInsfts, fBounds, fTrbdkingPbth, fTrbdkingRow, fIsExpbndfd, fHbsBffnExpbndfd, fIsLfbf);
+                }
+                pbintExpbndControl(g, fPbthBounds, fInsfts, fBounds, fTrbdkingPbth, fTrbdkingRow, fIsExpbndfd, fHbsBffnExpbndfd, fIsLfbf);
+            } finblly {
+                g.disposf();
+            }
+        }
+
+        protfdtfd void rfmovfFromSourdf() {
+            trff.rfmovfMousfListfnfr(this);
+            trff.rfmovfMousfMotionListfnfr(this);
+            }
+        }
+
+    protfdtfd int gftRowForPbth(finbl TrffPbth pbth) {
+        rfturn trffStbtf.gftRowForPbth(pbth);
+    }
+
+    /**
+     * sff isLodbtionInExpbndControl for bounds dbld
+     */
+    protfdtfd Rfdtbnglf gftPbthArrowBounds(finbl TrffPbth pbth) {
+        finbl Rfdtbnglf bounds = gftPbthBounds(trff, pbth); // Givfs us thf y vblufs, but x is bdjustfd for thf dontfnts
+        finbl Insfts i = trff.gftInsfts();
+
+        if (gftExpbndfdIdon() != null) bounds.width = gftExpbndfdIdon().gftIdonWidth();
+        flsf bounds.width = 8;
+
+        int boxLfftX = (i != null) ? i.lfft : 0;
+        if (AqubUtils.isLfftToRight(trff)) {
+            boxLfftX += (((pbth.gftPbthCount() + dfpthOffsft - 2) * totblChildIndfnt) + gftLfftChildIndfnt()) - bounds.width / 2;
+        } flsf {
+            boxLfftX += trff.gftWidth() - 1 - ((pbth.gftPbthCount() - 2 + dfpthOffsft) * totblChildIndfnt) - gftLfftChildIndfnt() - bounds.width / 2;
+        }
+        bounds.x = boxLfftX;
+        rfturn bounds;
+    }
+
+    protfdtfd void instbllKfybobrdAdtions() {
+        supfr.instbllKfybobrdAdtions();
+        trff.gftAdtionMbp().put("bqubExpbndNodf", nfw KfybobrdExpbndCollbpsfAdtion(truf, fblsf));
+        trff.gftAdtionMbp().put("bqubCollbpsfNodf", nfw KfybobrdExpbndCollbpsfAdtion(fblsf, fblsf));
+        trff.gftAdtionMbp().put("bqubFullyExpbndNodf", nfw KfybobrdExpbndCollbpsfAdtion(truf, truf));
+        trff.gftAdtionMbp().put("bqubFullyCollbpsfNodf", nfw KfybobrdExpbndCollbpsfAdtion(fblsf, truf));
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    dlbss KfybobrdExpbndCollbpsfAdtion fxtfnds AbstrbdtAdtion {
+        /**
+         * Dftfrminfs dirfdtion to trbvfrsf, 1 mfbns fxpbnd, -1 mfbns dollbpsf.
+         */
+        finbl boolfbn fxpbnd;
+        finbl boolfbn rfdursivf;
+
+        /**
+         * Truf if thf sflfdtion is rfsft, fblsf mfbns only thf lfbd pbth dhbngfs.
+         */
+        publid KfybobrdExpbndCollbpsfAdtion(finbl boolfbn fxpbnd, finbl boolfbn rfdursivf) {
+            this.fxpbnd = fxpbnd;
+            this.rfdursivf = rfdursivf;
+        }
+
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            if (trff == null || 0 > gftRowCount(trff)) rfturn;
+
+            finbl TrffPbth[] sflfdtionPbths = trff.gftSflfdtionPbths();
+            if (sflfdtionPbths == null) rfturn;
+
+            for (int i = sflfdtionPbths.lfngth - 1; i >= 0; i--) {
+                finbl TrffPbth pbth = sflfdtionPbths[i];
+
+                /*
+                 * Try bnd fxpbnd thf nodf, othfrwisf go to nfxt nodf.
+                 */
+                if (fxpbnd) {
+                    fxpbndNodf(trff.gftRowForPbth(pbth), rfdursivf);
+                    dontinuf;
+                }
+                // flsf dollbpsf
+
+                // in thf spfdibl dbsf whfrf thfrf is only onf row sflfdtfd,
+                // wf wbnt to do whbt thf Codob dofs, bnd sflfdt thf pbrfnt
+                if (sflfdtionPbths.lfngth == 1 && trff.isCollbpsfd(pbth)) {
+                    finbl TrffPbth pbrfntPbth = pbth.gftPbrfntPbth();
+                    if (pbrfntPbth != null && (!(pbrfntPbth.gftPbrfntPbth() == null) || trff.isRootVisiblf())) {
+                        trff.sdrollPbthToVisiblf(pbrfntPbth);
+                        trff.sftSflfdtionPbth(pbrfntPbth);
+                    }
+                    dontinuf;
+                }
+
+                dollbpsfNodf(trff.gftRowForPbth(pbth), rfdursivf);
+            }
+        }
+
+        publid boolfbn isEnbblfd() {
+            rfturn (trff != null && trff.isEnbblfd());
+        }
+    }
+
+    void fxpbndNodf(finbl int row, finbl boolfbn rfdursivf) {
+        finbl TrffPbth pbth = gftPbthForRow(trff, row);
+        if (pbth == null) rfturn;
+
+        trff.fxpbndPbth(pbth);
+        if (!rfdursivf) rfturn;
+
+        fxpbndAllNodfs(pbth, row + 1);
+    }
+
+    void fxpbndAllNodfs(finbl TrffPbth pbrfnt, finbl int initiblRow) {
+        for (int i = initiblRow; truf; i++) {
+            finbl TrffPbth pbth = gftPbthForRow(trff, i);
+            if (!pbrfnt.isDfsdfndbnt(pbth)) rfturn;
+
+            trff.fxpbndPbth(pbth);
+        }
+    }
+
+    void dollbpsfNodf(finbl int row, finbl boolfbn rfdursivf) {
+        finbl TrffPbth pbth = gftPbthForRow(trff, row);
+        if (pbth == null) rfturn;
+
+        if (rfdursivf) {
+            dollbpsfAllNodfs(pbth, row + 1);
+        }
+
+        trff.dollbpsfPbth(pbth);
+    }
+
+    void dollbpsfAllNodfs(finbl TrffPbth pbrfnt, finbl int initiblRow) {
+        int lbstRow = -1;
+        for (int i = initiblRow; lbstRow == -1; i++) {
+            finbl TrffPbth pbth = gftPbthForRow(trff, i);
+            if (!pbrfnt.isDfsdfndbnt(pbth)) {
+                lbstRow = i - 1;
+            }
+        }
+
+        for (int i = lbstRow; i >= initiblRow; i--) {
+            finbl TrffPbth pbth = gftPbthForRow(trff, i);
+            trff.dollbpsfPbth(pbth);
+        }
+    }
+}

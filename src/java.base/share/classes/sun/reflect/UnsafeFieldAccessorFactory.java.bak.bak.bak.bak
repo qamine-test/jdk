@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt;
+
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Modififr;
+
+dlbss UnsbffFifldAddfssorFbdtory {
+    stbtid FifldAddfssor nfwFifldAddfssor(Fifld fifld, boolfbn ovfrridf) {
+        Clbss<?> typf = fifld.gftTypf();
+        boolfbn isStbtid = Modififr.isStbtid(fifld.gftModififrs());
+        boolfbn isFinbl = Modififr.isFinbl(fifld.gftModififrs());
+        boolfbn isVolbtilf = Modififr.isVolbtilf(fifld.gftModififrs());
+        boolfbn isQublififd = isFinbl || isVolbtilf;
+        boolfbn isRfbdOnly = isFinbl && (isStbtid || !ovfrridf);
+        if (isStbtid) {
+            // This dodf pbth dofs not gubrbntff thbt thf fifld's
+            // dfdlbring dlbss hbs bffn initiblizfd, but it must bf
+            // bfforf pfrforming rfflfdtivf opfrbtions.
+            UnsbffFifldAddfssorImpl.unsbff.fnsurfClbssInitiblizfd(fifld.gftDfdlbringClbss());
+
+            if (!isQublififd) {
+                if (typf == Boolfbn.TYPE) {
+                    rfturn nfw UnsbffStbtidBoolfbnFifldAddfssorImpl(fifld);
+                } flsf if (typf == Bytf.TYPE) {
+                    rfturn nfw UnsbffStbtidBytfFifldAddfssorImpl(fifld);
+                } flsf if (typf == Short.TYPE) {
+                    rfturn nfw UnsbffStbtidShortFifldAddfssorImpl(fifld);
+                } flsf if (typf == Chbrbdtfr.TYPE) {
+                    rfturn nfw UnsbffStbtidChbrbdtfrFifldAddfssorImpl(fifld);
+                } flsf if (typf == Intfgfr.TYPE) {
+                    rfturn nfw UnsbffStbtidIntfgfrFifldAddfssorImpl(fifld);
+                } flsf if (typf == Long.TYPE) {
+                    rfturn nfw UnsbffStbtidLongFifldAddfssorImpl(fifld);
+                } flsf if (typf == Flobt.TYPE) {
+                    rfturn nfw UnsbffStbtidFlobtFifldAddfssorImpl(fifld);
+                } flsf if (typf == Doublf.TYPE) {
+                    rfturn nfw UnsbffStbtidDoublfFifldAddfssorImpl(fifld);
+                } flsf {
+                    rfturn nfw UnsbffStbtidObjfdtFifldAddfssorImpl(fifld);
+                }
+            } flsf {
+                if (typf == Boolfbn.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidBoolfbnFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Bytf.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidBytfFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Short.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidShortFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Chbrbdtfr.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidChbrbdtfrFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Intfgfr.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidIntfgfrFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Long.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidLongFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Flobt.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidFlobtFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Doublf.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidDoublfFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf {
+                    rfturn nfw UnsbffQublififdStbtidObjfdtFifldAddfssorImpl(fifld, isRfbdOnly);
+                }
+            }
+        } flsf {
+            if (!isQublififd) {
+                if (typf == Boolfbn.TYPE) {
+                    rfturn nfw UnsbffBoolfbnFifldAddfssorImpl(fifld);
+                } flsf if (typf == Bytf.TYPE) {
+                    rfturn nfw UnsbffBytfFifldAddfssorImpl(fifld);
+                } flsf if (typf == Short.TYPE) {
+                    rfturn nfw UnsbffShortFifldAddfssorImpl(fifld);
+                } flsf if (typf == Chbrbdtfr.TYPE) {
+                    rfturn nfw UnsbffChbrbdtfrFifldAddfssorImpl(fifld);
+                } flsf if (typf == Intfgfr.TYPE) {
+                    rfturn nfw UnsbffIntfgfrFifldAddfssorImpl(fifld);
+                } flsf if (typf == Long.TYPE) {
+                    rfturn nfw UnsbffLongFifldAddfssorImpl(fifld);
+                } flsf if (typf == Flobt.TYPE) {
+                    rfturn nfw UnsbffFlobtFifldAddfssorImpl(fifld);
+                } flsf if (typf == Doublf.TYPE) {
+                    rfturn nfw UnsbffDoublfFifldAddfssorImpl(fifld);
+                } flsf {
+                    rfturn nfw UnsbffObjfdtFifldAddfssorImpl(fifld);
+                }
+            } flsf {
+                if (typf == Boolfbn.TYPE) {
+                    rfturn nfw UnsbffQublififdBoolfbnFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Bytf.TYPE) {
+                    rfturn nfw UnsbffQublififdBytfFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Short.TYPE) {
+                    rfturn nfw UnsbffQublififdShortFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Chbrbdtfr.TYPE) {
+                    rfturn nfw UnsbffQublififdChbrbdtfrFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Intfgfr.TYPE) {
+                    rfturn nfw UnsbffQublififdIntfgfrFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Long.TYPE) {
+                    rfturn nfw UnsbffQublififdLongFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Flobt.TYPE) {
+                    rfturn nfw UnsbffQublififdFlobtFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Doublf.TYPE) {
+                    rfturn nfw UnsbffQublififdDoublfFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf {
+                    rfturn nfw UnsbffQublififdObjfdtFifldAddfssorImpl(fifld, isRfbdOnly);
+                }
+            }
+        }
+    }
+}

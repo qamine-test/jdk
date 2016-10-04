@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,172 +30,172 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import javax.swing.JComponent;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JIntfrnblFrbmf;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.JSdrollPbnf;
+import jbvbx.swing.JTfxtArfb;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.bordfr.EmptyBordfr;
 
 
 /**
- * This is a subclass of JInternalFrame which displays documents.
+ * Tiis is b subdlbss of JIntfrnblFrbmf wiidi displbys dodumfnts.
  *
- * @author Steve Wilson
+ * @butior Stfvf Wilson
  */
-@SuppressWarnings("serial")
-public class MetalworksDocumentFrame extends JInternalFrame {
+@SupprfssWbrnings("sfribl")
+publid dlbss MftblworksDodumfntFrbmf fxtfnds JIntfrnblFrbmf {
 
-    static int openFrameCount = 0;
-    static final int offset = 30;
+    stbtid int opfnFrbmfCount = 0;
+    stbtid finbl int offsft = 30;
 
-    public MetalworksDocumentFrame() {
-        super("", true, true, true, true);
-        openFrameCount++;
-        setTitle("Untitled Message " + openFrameCount);
+    publid MftblworksDodumfntFrbmf() {
+        supfr("", truf, truf, truf, truf);
+        opfnFrbmfCount++;
+        sftTitlf("Untitlfd Mfssbgf " + opfnFrbmfCount);
 
-        JPanel top = new JPanel();
-        top.setBorder(new EmptyBorder(10, 10, 10, 10));
-        top.setLayout(new BorderLayout());
-        top.add(buildAddressPanel(), BorderLayout.NORTH);
+        JPbnfl top = nfw JPbnfl();
+        top.sftBordfr(nfw EmptyBordfr(10, 10, 10, 10));
+        top.sftLbyout(nfw BordfrLbyout());
+        top.bdd(buildAddrfssPbnfl(), BordfrLbyout.NORTH);
 
-        JTextArea content = new JTextArea(15, 30);
-        content.setBorder(new EmptyBorder(0, 5, 0, 5));
-        content.setLineWrap(true);
-
-
-
-        JScrollPane textScroller = new JScrollPane(content,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        top.add(textScroller, BorderLayout.CENTER);
+        JTfxtArfb dontfnt = nfw JTfxtArfb(15, 30);
+        dontfnt.sftBordfr(nfw EmptyBordfr(0, 5, 0, 5));
+        dontfnt.sftLinfWrbp(truf);
 
 
-        setContentPane(top);
-        pack();
-        setLocation(offset * openFrameCount, offset * openFrameCount);
 
-    }
-
-    private JPanel buildAddressPanel() {
-        JPanel p = new JPanel();
-        p.setLayout(new LabeledPairLayout());
+        JSdrollPbnf tfxtSdrollfr = nfw JSdrollPbnf(dontfnt,
+                JSdrollPbnf.VERTICAL_SCROLLBAR_ALWAYS,
+                JSdrollPbnf.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        top.bdd(tfxtSdrollfr, BordfrLbyout.CENTER);
 
 
-        JLabel toLabel = new JLabel("To: ", JLabel.RIGHT);
-        JTextField toField = new JTextField(25);
-        p.add(toLabel, "label");
-        p.add(toField, "field");
-
-
-        JLabel subLabel = new JLabel("Subj: ", JLabel.RIGHT);
-        JTextField subField = new JTextField(25);
-        p.add(subLabel, "label");
-        p.add(subField, "field");
-
-
-        JLabel ccLabel = new JLabel("cc: ", JLabel.RIGHT);
-        JTextField ccField = new JTextField(25);
-        p.add(ccLabel, "label");
-        p.add(ccField, "field");
-
-        return p;
+        sftContfntPbnf(top);
+        pbdk();
+        sftLodbtion(offsft * opfnFrbmfCount, offsft * opfnFrbmfCount);
 
     }
 
+    privbtf JPbnfl buildAddrfssPbnfl() {
+        JPbnfl p = nfw JPbnfl();
+        p.sftLbyout(nfw LbbflfdPbirLbyout());
 
-    class LabeledPairLayout implements LayoutManager {
 
-        List<Component> labels = new ArrayList<Component>();
-        List<Component> fields = new ArrayList<Component>();
-        int yGap = 2;
-        int xGap = 2;
+        JLbbfl toLbbfl = nfw JLbbfl("To: ", JLbbfl.RIGHT);
+        JTfxtFifld toFifld = nfw JTfxtFifld(25);
+        p.bdd(toLbbfl, "lbbfl");
+        p.bdd(toFifld, "fifld");
 
-        public void addLayoutComponent(String s, Component c) {
-            if (s.equals("label")) {
-                labels.add(c);
-            } else {
-                fields.add(c);
+
+        JLbbfl subLbbfl = nfw JLbbfl("Subj: ", JLbbfl.RIGHT);
+        JTfxtFifld subFifld = nfw JTfxtFifld(25);
+        p.bdd(subLbbfl, "lbbfl");
+        p.bdd(subFifld, "fifld");
+
+
+        JLbbfl ddLbbfl = nfw JLbbfl("dd: ", JLbbfl.RIGHT);
+        JTfxtFifld ddFifld = nfw JTfxtFifld(25);
+        p.bdd(ddLbbfl, "lbbfl");
+        p.bdd(ddFifld, "fifld");
+
+        rfturn p;
+
+    }
+
+
+    dlbss LbbflfdPbirLbyout implfmfnts LbyoutMbnbgfr {
+
+        List<Componfnt> lbbfls = nfw ArrbyList<Componfnt>();
+        List<Componfnt> fiflds = nfw ArrbyList<Componfnt>();
+        int yGbp = 2;
+        int xGbp = 2;
+
+        publid void bddLbyoutComponfnt(String s, Componfnt d) {
+            if (s.fqubls("lbbfl")) {
+                lbbfls.bdd(d);
+            } flsf {
+                fiflds.bdd(d);
             }
         }
 
-        public void layoutContainer(Container c) {
-            Insets insets = c.getInsets();
+        publid void lbyoutContbinfr(Contbinfr d) {
+            Insfts insfts = d.gftInsfts();
 
-            int labelWidth = 0;
-            for (Component comp : labels) {
-                labelWidth = Math.max(labelWidth, comp.getPreferredSize().width);
+            int lbbflWidti = 0;
+            for (Componfnt domp : lbbfls) {
+                lbbflWidti = Mbti.mbx(lbbflWidti, domp.gftPrfffrrfdSizf().widti);
             }
 
-            int yPos = insets.top;
+            int yPos = insfts.top;
 
-            Iterator<Component> fieldIter = fields.listIterator();
-            Iterator<Component> labelIter = labels.listIterator();
-            while (labelIter.hasNext() && fieldIter.hasNext()) {
-                JComponent label = (JComponent) labelIter.next();
-                JComponent field = (JComponent) fieldIter.next();
-                int height = Math.max(label.getPreferredSize().height, field.
-                        getPreferredSize().height);
-                label.setBounds(insets.left, yPos, labelWidth, height);
-                field.setBounds(insets.left + labelWidth + xGap,
+            Itfrbtor<Componfnt> fifldItfr = fiflds.listItfrbtor();
+            Itfrbtor<Componfnt> lbbflItfr = lbbfls.listItfrbtor();
+            wiilf (lbbflItfr.ibsNfxt() && fifldItfr.ibsNfxt()) {
+                JComponfnt lbbfl = (JComponfnt) lbbflItfr.nfxt();
+                JComponfnt fifld = (JComponfnt) fifldItfr.nfxt();
+                int ifigit = Mbti.mbx(lbbfl.gftPrfffrrfdSizf().ifigit, fifld.
+                        gftPrfffrrfdSizf().ifigit);
+                lbbfl.sftBounds(insfts.lfft, yPos, lbbflWidti, ifigit);
+                fifld.sftBounds(insfts.lfft + lbbflWidti + xGbp,
                         yPos,
-                        c.getSize().width - (labelWidth + xGap + insets.left
-                        + insets.right),
-                        height);
-                yPos += (height + yGap);
+                        d.gftSizf().widti - (lbbflWidti + xGbp + insfts.lfft
+                        + insfts.rigit),
+                        ifigit);
+                yPos += (ifigit + yGbp);
             }
 
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            Insets insets = c.getInsets();
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+            Insfts insfts = d.gftInsfts();
 
-            int labelWidth = 0;
-            for (Component comp : labels) {
-                labelWidth = Math.max(labelWidth, comp.getPreferredSize().width);
+            int lbbflWidti = 0;
+            for (Componfnt domp : lbbfls) {
+                lbbflWidti = Mbti.mbx(lbbflWidti, domp.gftPrfffrrfdSizf().widti);
             }
 
-            int yPos = insets.top;
+            int yPos = insfts.top;
 
-            Iterator<Component> labelIter = labels.listIterator();
-            Iterator<Component> fieldIter = fields.listIterator();
-            while (labelIter.hasNext() && fieldIter.hasNext()) {
-                Component label = labelIter.next();
-                Component field = fieldIter.next();
-                int height = Math.max(label.getPreferredSize().height, field.
-                        getPreferredSize().height);
-                yPos += (height + yGap);
+            Itfrbtor<Componfnt> lbbflItfr = lbbfls.listItfrbtor();
+            Itfrbtor<Componfnt> fifldItfr = fiflds.listItfrbtor();
+            wiilf (lbbflItfr.ibsNfxt() && fifldItfr.ibsNfxt()) {
+                Componfnt lbbfl = lbbflItfr.nfxt();
+                Componfnt fifld = fifldItfr.nfxt();
+                int ifigit = Mbti.mbx(lbbfl.gftPrfffrrfdSizf().ifigit, fifld.
+                        gftPrfffrrfdSizf().ifigit);
+                yPos += (ifigit + yGbp);
             }
-            return new Dimension(labelWidth * 3, yPos);
+            rfturn nfw Dimfnsion(lbbflWidti * 3, yPos);
         }
 
-        public Dimension preferredLayoutSize(Container c) {
-            Dimension d = minimumLayoutSize(c);
-            d.width *= 2;
-            return d;
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d) {
+            Dimfnsion d = minimumLbyoutSizf(d);
+            d.widti *= 2;
+            rfturn d;
         }
 
-        public void removeLayoutComponent(Component c) {
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {
         }
     }
 }

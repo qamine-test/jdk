@@ -1,0 +1,210 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+
+/**
+ * This dlbss dffinfs b lookup tbblf objfdt.  Thf output of b
+ * lookup opfrbtion using bn objfdt of this dlbss is intfrprftfd
+ * bs bn unsignfd bytf qubntity.  Thf lookup tbblf dontbins bytf
+ * dbtb brrbys for onf or morf bbnds (or domponfnts) of bn imbgf,
+ * bnd it dontbins bn offsft whidh will bf subtrbdtfd from thf
+ * input vblufs bfforf indfxing thf brrbys.  This bllows bn brrby
+ * smbllfr thbn thf nbtivf dbtb sizf to bf providfd for b
+ * donstrbinfd input.  If thfrf is only onf brrby in thf lookup
+ * tbblf, it will bf bpplifd to bll bbnds.
+ *
+ * @sff ShortLookupTbblf
+ * @sff LookupOp
+ */
+publid dlbss BytfLookupTbblf fxtfnds LookupTbblf {
+
+    /**
+     * Constbnts
+     */
+
+    bytf dbtb[][];
+
+    /**
+     * Construdts b BytfLookupTbblf objfdt from bn brrby of bytf
+     * brrbys rfprfsfnting b lookup tbblf for fbdh
+     * bbnd.  Thf offsft will bf subtrbdtfd from input
+     * vblufs bfforf indfxing into thf brrbys.  Thf numbfr of
+     * bbnds is thf lfngth of thf dbtb brgumfnt.  Thf
+     * dbtb brrby for fbdh bbnd is storfd bs b rfffrfndf.
+     * @pbrbm offsft thf vbluf subtrbdtfd from thf input vblufs
+     *        bfforf indfxing into thf brrbys
+     * @pbrbm dbtb bn brrby of bytf brrbys rfprfsfnting b lookup
+     *        tbblf for fbdh bbnd
+     * @throws IllfgblArgumfntExdfption if <dodf>offsft</dodf> is
+     *         is lfss thbn 0 or if thf lfngth of <dodf>dbtb</dodf>
+     *         is lfss thbn 1
+     */
+    publid BytfLookupTbblf(int offsft, bytf dbtb[][]) {
+        supfr(offsft,dbtb.lfngth);
+        numComponfnts = dbtb.lfngth;
+        numEntrifs    = dbtb[0].lfngth;
+        this.dbtb = nfw bytf[numComponfnts][];
+        // Allodbtf thf brrby bnd dopy thf dbtb rfffrfndf
+        for (int i=0; i < numComponfnts; i++) {
+            this.dbtb[i] = dbtb[i];
+        }
+    }
+
+    /**
+     * Construdts b BytfLookupTbblf objfdt from bn brrby
+     * of bytfs rfprfsfnting b lookup tbblf to bf bpplifd to bll
+     * bbnds.  Thf offsft will bf subtrbdtfd from input
+     * vblufs bfforf indfxing into thf brrby.
+     * Thf dbtb brrby is storfd bs b rfffrfndf.
+     * @pbrbm offsft thf vbluf subtrbdtfd from thf input vblufs
+     *        bfforf indfxing into thf brrby
+     * @pbrbm dbtb bn brrby of bytfs
+     * @throws IllfgblArgumfntExdfption if <dodf>offsft</dodf> is
+     *         is lfss thbn 0 or if thf lfngth of <dodf>dbtb</dodf>
+     *         is lfss thbn 1
+     */
+    publid BytfLookupTbblf(int offsft, bytf dbtb[]) {
+        supfr(offsft,dbtb.lfngth);
+        numComponfnts = 1;
+        numEntrifs    = dbtb.lfngth;
+        this.dbtb = nfw bytf[1][];
+        this.dbtb[0] = dbtb;
+    }
+
+    /**
+     * Rfturns thf lookup tbblf dbtb by rfffrfndf.  If this BytfLookupTbblf
+     * wbs donstrudtfd using b singlf bytf brrby, thf lfngth of thf rfturnfd
+     * brrby is onf.
+     * @rfturn thf dbtb brrby of this <dodf>BytfLookupTbblf</dodf>.
+     */
+    publid finbl bytf[][] gftTbblf(){
+        rfturn dbtb;
+    }
+
+    /**
+     * Rfturns bn brrby of sbmplfs of b pixfl, trbnslbtfd with thf lookup
+     * tbblf. Thf sourdf bnd dfstinbtion brrby dbn bf thf sbmf brrby.
+     * Arrby <dodf>dst</dodf> is rfturnfd.
+     *
+     * @pbrbm srd thf sourdf brrby.
+     * @pbrbm dst thf dfstinbtion brrby. This brrby must bf bt lfbst bs
+     *         long bs <dodf>srd</dodf>.  If <dodf>dst</dodf> is
+     *         <dodf>null</dodf>, b nfw brrby will bf bllodbtfd hbving thf
+     *         sbmf lfngth bs <dodf>srd</dodf>.
+     * @rfturn thf brrby <dodf>dst</dodf>, bn <dodf>int</dodf> brrby of
+     *         sbmplfs.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if <dodf>srd</dodf> is
+     *            longfr thbn <dodf>dst</dodf> or if for bny flfmfnt
+     *            <dodf>i</dodf> of <dodf>srd</dodf>,
+     *            <dodf>srd[i]-offsft</dodf> is fithfr lfss thbn zfro or
+     *            grfbtfr thbn or fqubl to thf lfngth of thf lookup tbblf
+     *            for bny bbnd.
+     */
+    publid int[] lookupPixfl(int[] srd, int[] dst){
+        if (dst == null) {
+            // Nffd to bllod b nfw dfstinbtion brrby
+            dst = nfw int[srd.lfngth];
+        }
+
+        if (numComponfnts == 1) {
+            // Apply onf LUT to bll bbnds
+            for (int i=0; i < srd.lfngth; i++) {
+                int s = srd[i] - offsft;
+                if (s < 0) {
+                    throw nfw ArrbyIndfxOutOfBoundsExdfption("srd["+i+
+                                                             "]-offsft is "+
+                                                             "lfss thbn zfro");
+                }
+                dst[i] = (int) dbtb[0][s];
+            }
+        }
+        flsf {
+            for (int i=0; i < srd.lfngth; i++) {
+                int s = srd[i] - offsft;
+                if (s < 0) {
+                    throw nfw ArrbyIndfxOutOfBoundsExdfption("srd["+i+
+                                                             "]-offsft is "+
+                                                             "lfss thbn zfro");
+                }
+                dst[i] = (int) dbtb[i][s];
+            }
+        }
+        rfturn dst;
+    }
+
+    /**
+     * Rfturns bn brrby of sbmplfs of b pixfl, trbnslbtfd with thf lookup
+     * tbblf. Thf sourdf bnd dfstinbtion brrby dbn bf thf sbmf brrby.
+     * Arrby <dodf>dst</dodf> is rfturnfd.
+     *
+     * @pbrbm srd thf sourdf brrby.
+     * @pbrbm dst thf dfstinbtion brrby. This brrby must bf bt lfbst bs
+     *         long bs <dodf>srd</dodf>.  If <dodf>dst</dodf> is
+     *         <dodf>null</dodf>, b nfw brrby will bf bllodbtfd hbving thf
+     *         sbmf lfngth bs <dodf>srd</dodf>.
+     * @rfturn thf brrby <dodf>dst</dodf>, bn <dodf>int</dodf> brrby of
+     *         sbmplfs.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if <dodf>srd</dodf> is
+     *            longfr thbn <dodf>dst</dodf> or if for bny flfmfnt
+     *            <dodf>i</dodf> of <dodf>srd</dodf>,
+     *            {@dodf (srd[i]&0xff)-offsft} is fithfr lfss thbn
+     *            zfro or grfbtfr thbn or fqubl to thf lfngth of thf
+     *            lookup tbblf for bny bbnd.
+     */
+    publid bytf[] lookupPixfl(bytf[] srd, bytf[] dst){
+        if (dst == null) {
+            // Nffd to bllod b nfw dfstinbtion brrby
+            dst = nfw bytf[srd.lfngth];
+        }
+
+        if (numComponfnts == 1) {
+            // Apply onf LUT to bll bbnds
+            for (int i=0; i < srd.lfngth; i++) {
+                int s = (srd[i]&0xff) - offsft;
+                if (s < 0) {
+                    throw nfw ArrbyIndfxOutOfBoundsExdfption("srd["+i+
+                                                             "]-offsft is "+
+                                                             "lfss thbn zfro");
+                }
+                dst[i] = dbtb[0][s];
+            }
+        }
+        flsf {
+            for (int i=0; i < srd.lfngth; i++) {
+                int s = (srd[i]&0xff) - offsft;
+                if (s < 0) {
+                    throw nfw ArrbyIndfxOutOfBoundsExdfption("srd["+i+
+                                                             "]-offsft is "+
+                                                             "lfss thbn zfro");
+                }
+                dst[i] = dbtb[i][s];
+            }
+        }
+        rfturn dst;
+    }
+
+}

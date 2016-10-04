@@ -1,322 +1,322 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.util.Vector;
+import jbvb.util.Vfdtor;
 
 /**
- * A plain document that maintains no character attributes.  The
- * default element structure for this document is a map of the lines in
- * the text.  The Element returned by getDefaultRootElement is
- * a map of the lines, and each child element represents a line.
- * This model does not maintain any character level attributes,
- * but each line can be tagged with an arbitrary set of attributes.
- * Line to offset, and offset to line translations can be quickly
- * performed using the default root element.  The structure information
- * of the DocumentEvent's fired by edits will indicate the line
- * structure changes.
+ * A plbin dodumfnt tibt mbintbins no dibrbdtfr bttributfs.  Tif
+ * dffbult flfmfnt strudturf for tiis dodumfnt is b mbp of tif linfs in
+ * tif tfxt.  Tif Elfmfnt rfturnfd by gftDffbultRootElfmfnt is
+ * b mbp of tif linfs, bnd fbdi diild flfmfnt rfprfsfnts b linf.
+ * Tiis modfl dofs not mbintbin bny dibrbdtfr lfvfl bttributfs,
+ * but fbdi linf dbn bf tbggfd witi bn brbitrbry sft of bttributfs.
+ * Linf to offsft, bnd offsft to linf trbnslbtions dbn bf quidkly
+ * pfrformfd using tif dffbult root flfmfnt.  Tif strudturf informbtion
+ * of tif DodumfntEvfnt's firfd by fdits will indidbtf tif linf
+ * strudturf dibngfs.
  * <p>
- * The default content storage management is performed by a
- * gapped buffer implementation (GapContent).  It supports
- * editing reasonably large documents with good efficiency when
- * the edits are contiguous or clustered, as is typical.
+ * Tif dffbult dontfnt storbgf mbnbgfmfnt is pfrformfd by b
+ * gbppfd bufffr implfmfntbtion (GbpContfnt).  It supports
+ * fditing rfbsonbbly lbrgf dodumfnts witi good fffidifndy wifn
+ * tif fdits brf dontiguous or dlustfrfd, bs is typidbl.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author  Timothy Prinzing
- * @see     Document
- * @see     AbstractDocument
+ * @butior  Timotiy Prinzing
+ * @sff     Dodumfnt
+ * @sff     AbstrbdtDodumfnt
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class PlainDocument extends AbstractDocument {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss PlbinDodumfnt fxtfnds AbstrbdtDodumfnt {
 
     /**
-     * Name of the attribute that specifies the tab
-     * size for tabs contained in the content.  The
-     * type for the value is Integer.
+     * Nbmf of tif bttributf tibt spfdififs tif tbb
+     * sizf for tbbs dontbinfd in tif dontfnt.  Tif
+     * typf for tif vbluf is Intfgfr.
      */
-    public static final String tabSizeAttribute = "tabSize";
+    publid stbtid finbl String tbbSizfAttributf = "tbbSizf";
 
     /**
-     * Name of the attribute that specifies the maximum
-     * length of a line, if there is a maximum length.
-     * The type for the value is Integer.
+     * Nbmf of tif bttributf tibt spfdififs tif mbximum
+     * lfngti of b linf, if tifrf is b mbximum lfngti.
+     * Tif typf for tif vbluf is Intfgfr.
      */
-    public static final String lineLimitAttribute = "lineLimit";
+    publid stbtid finbl String linfLimitAttributf = "linfLimit";
 
     /**
-     * Constructs a plain text document.  A default model using
-     * <code>GapContent</code> is constructed and set.
+     * Construdts b plbin tfxt dodumfnt.  A dffbult modfl using
+     * <dodf>GbpContfnt</dodf> is donstrudtfd bnd sft.
      */
-    public PlainDocument() {
-        this(new GapContent());
+    publid PlbinDodumfnt() {
+        tiis(nfw GbpContfnt());
     }
 
     /**
-     * Constructs a plain text document.  A default root element is created,
-     * and the tab size set to 8.
+     * Construdts b plbin tfxt dodumfnt.  A dffbult root flfmfnt is drfbtfd,
+     * bnd tif tbb sizf sft to 8.
      *
-     * @param c  the container for the content
+     * @pbrbm d  tif dontbinfr for tif dontfnt
      */
-    public PlainDocument(Content c) {
-        super(c);
-        putProperty(tabSizeAttribute, Integer.valueOf(8));
-        defaultRoot = createDefaultRoot();
+    publid PlbinDodumfnt(Contfnt d) {
+        supfr(d);
+        putPropfrty(tbbSizfAttributf, Intfgfr.vblufOf(8));
+        dffbultRoot = drfbtfDffbultRoot();
     }
 
     /**
-     * Inserts some content into the document.
-     * Inserting content causes a write lock to be held while the
-     * actual changes are taking place, followed by notification
-     * to the observers on the thread that grabbed the write lock.
+     * Insfrts somf dontfnt into tif dodumfnt.
+     * Insfrting dontfnt dbusfs b writf lodk to bf ifld wiilf tif
+     * bdtubl dibngfs brf tbking plbdf, followfd by notifidbtion
+     * to tif obsfrvfrs on tif tirfbd tibt grbbbfd tif writf lodk.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * Tiis mftiod is tirfbd sbff, bltiougi most Swing mftiods
+     * brf not. Plfbsf sff
+     * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+     * in Swing</A> for morf informbtion.
      *
-     * @param offs the starting offset &gt;= 0
-     * @param str the string to insert; does nothing with null/empty strings
-     * @param a the attributes for the inserted content
-     * @exception BadLocationException  the given insert position is not a valid
-     *   position within the document
-     * @see Document#insertString
+     * @pbrbm offs tif stbrting offsft &gt;= 0
+     * @pbrbm str tif string to insfrt; dofs notiing witi null/fmpty strings
+     * @pbrbm b tif bttributfs for tif insfrtfd dontfnt
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b vblid
+     *   position witiin tif dodumfnt
+     * @sff Dodumfnt#insfrtString
      */
-    public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-        // fields don't want to have multiple lines.  We may provide a field-specific
-        // model in the future in which case the filtering logic here will no longer
-        // be needed.
-        Object filterNewlines = getProperty("filterNewlines");
-        if ((filterNewlines instanceof Boolean) && filterNewlines.equals(Boolean.TRUE)) {
-            if ((str != null) && (str.indexOf('\n') >= 0)) {
-                StringBuilder filtered = new StringBuilder(str);
-                int n = filtered.length();
+    publid void insfrtString(int offs, String str, AttributfSft b) tirows BbdLodbtionExdfption {
+        // fiflds don't wbnt to ibvf multiplf linfs.  Wf mby providf b fifld-spfdifid
+        // modfl in tif futurf in wiidi dbsf tif filtfring logid ifrf will no longfr
+        // bf nffdfd.
+        Objfdt filtfrNfwlinfs = gftPropfrty("filtfrNfwlinfs");
+        if ((filtfrNfwlinfs instbndfof Boolfbn) && filtfrNfwlinfs.fqubls(Boolfbn.TRUE)) {
+            if ((str != null) && (str.indfxOf('\n') >= 0)) {
+                StringBuildfr filtfrfd = nfw StringBuildfr(str);
+                int n = filtfrfd.lfngti();
                 for (int i = 0; i < n; i++) {
-                    if (filtered.charAt(i) == '\n') {
-                        filtered.setCharAt(i, ' ');
+                    if (filtfrfd.dibrAt(i) == '\n') {
+                        filtfrfd.sftCibrAt(i, ' ');
                     }
                 }
-                str = filtered.toString();
+                str = filtfrfd.toString();
             }
         }
-        super.insertString(offs, str, a);
+        supfr.insfrtString(offs, str, b);
     }
 
     /**
-     * Gets the default root element for the document model.
+     * Gfts tif dffbult root flfmfnt for tif dodumfnt modfl.
      *
-     * @return the root
-     * @see Document#getDefaultRootElement
+     * @rfturn tif root
+     * @sff Dodumfnt#gftDffbultRootElfmfnt
      */
-    public Element getDefaultRootElement() {
-        return defaultRoot;
+    publid Elfmfnt gftDffbultRootElfmfnt() {
+        rfturn dffbultRoot;
     }
 
     /**
-     * Creates the root element to be used to represent the
-     * default document structure.
+     * Crfbtfs tif root flfmfnt to bf usfd to rfprfsfnt tif
+     * dffbult dodumfnt strudturf.
      *
-     * @return the element base
+     * @rfturn tif flfmfnt bbsf
      */
-    protected AbstractElement createDefaultRoot() {
-        BranchElement map = (BranchElement) createBranchElement(null, null);
-        Element line = createLeafElement(map, null, 0, 1);
-        Element[] lines = new Element[1];
-        lines[0] = line;
-        map.replace(0, 0, lines);
-        return map;
+    protfdtfd AbstrbdtElfmfnt drfbtfDffbultRoot() {
+        BrbndiElfmfnt mbp = (BrbndiElfmfnt) drfbtfBrbndiElfmfnt(null, null);
+        Elfmfnt linf = drfbtfLfbfElfmfnt(mbp, null, 0, 1);
+        Elfmfnt[] linfs = nfw Elfmfnt[1];
+        linfs[0] = linf;
+        mbp.rfplbdf(0, 0, linfs);
+        rfturn mbp;
     }
 
     /**
-     * Get the paragraph element containing the given position.  Since this
-     * document only models lines, it returns the line instead.
+     * Gft tif pbrbgrbpi flfmfnt dontbining tif givfn position.  Sindf tiis
+     * dodumfnt only modfls linfs, it rfturns tif linf instfbd.
      */
-    public Element getParagraphElement(int pos){
-        Element lineMap = getDefaultRootElement();
-        return lineMap.getElement( lineMap.getElementIndex( pos ) );
+    publid Elfmfnt gftPbrbgrbpiElfmfnt(int pos){
+        Elfmfnt linfMbp = gftDffbultRootElfmfnt();
+        rfturn linfMbp.gftElfmfnt( linfMbp.gftElfmfntIndfx( pos ) );
     }
 
     /**
-     * Updates document structure as a result of text insertion.  This
-     * will happen within a write lock.  Since this document simply
-     * maps out lines, we refresh the line map.
+     * Updbtfs dodumfnt strudturf bs b rfsult of tfxt insfrtion.  Tiis
+     * will ibppfn witiin b writf lodk.  Sindf tiis dodumfnt simply
+     * mbps out linfs, wf rffrfsi tif linf mbp.
      *
-     * @param chng the change event describing the dit
-     * @param attr the set of attributes for the inserted text
+     * @pbrbm ding tif dibngf fvfnt dfsdribing tif dit
+     * @pbrbm bttr tif sft of bttributfs for tif insfrtfd tfxt
      */
-    protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
-        removed.removeAllElements();
-        added.removeAllElements();
-        BranchElement lineMap = (BranchElement) getDefaultRootElement();
-        int offset = chng.getOffset();
-        int length = chng.getLength();
-        if (offset > 0) {
-          offset -= 1;
-          length += 1;
+    protfdtfd void insfrtUpdbtf(DffbultDodumfntEvfnt ding, AttributfSft bttr) {
+        rfmovfd.rfmovfAllElfmfnts();
+        bddfd.rfmovfAllElfmfnts();
+        BrbndiElfmfnt linfMbp = (BrbndiElfmfnt) gftDffbultRootElfmfnt();
+        int offsft = ding.gftOffsft();
+        int lfngti = ding.gftLfngti();
+        if (offsft > 0) {
+          offsft -= 1;
+          lfngti += 1;
         }
-        int index = lineMap.getElementIndex(offset);
-        Element rmCandidate = lineMap.getElement(index);
-        int rmOffs0 = rmCandidate.getStartOffset();
-        int rmOffs1 = rmCandidate.getEndOffset();
-        int lastOffset = rmOffs0;
+        int indfx = linfMbp.gftElfmfntIndfx(offsft);
+        Elfmfnt rmCbndidbtf = linfMbp.gftElfmfnt(indfx);
+        int rmOffs0 = rmCbndidbtf.gftStbrtOffsft();
+        int rmOffs1 = rmCbndidbtf.gftEndOffsft();
+        int lbstOffsft = rmOffs0;
         try {
             if (s == null) {
-                s = new Segment();
+                s = nfw Sfgmfnt();
             }
-            getContent().getChars(offset, length, s);
-            boolean hasBreaks = false;
-            for (int i = 0; i < length; i++) {
-                char c = s.array[s.offset + i];
-                if (c == '\n') {
-                    int breakOffset = offset + i + 1;
-                    added.addElement(createLeafElement(lineMap, null, lastOffset, breakOffset));
-                    lastOffset = breakOffset;
-                    hasBreaks = true;
+            gftContfnt().gftCibrs(offsft, lfngti, s);
+            boolfbn ibsBrfbks = fblsf;
+            for (int i = 0; i < lfngti; i++) {
+                dibr d = s.brrby[s.offsft + i];
+                if (d == '\n') {
+                    int brfbkOffsft = offsft + i + 1;
+                    bddfd.bddElfmfnt(drfbtfLfbfElfmfnt(linfMbp, null, lbstOffsft, brfbkOffsft));
+                    lbstOffsft = brfbkOffsft;
+                    ibsBrfbks = truf;
                 }
             }
-            if (hasBreaks) {
-                removed.addElement(rmCandidate);
-                if ((offset + length == rmOffs1) && (lastOffset != rmOffs1) &&
-                    ((index+1) < lineMap.getElementCount())) {
-                    Element e = lineMap.getElement(index+1);
-                    removed.addElement(e);
-                    rmOffs1 = e.getEndOffset();
+            if (ibsBrfbks) {
+                rfmovfd.bddElfmfnt(rmCbndidbtf);
+                if ((offsft + lfngti == rmOffs1) && (lbstOffsft != rmOffs1) &&
+                    ((indfx+1) < linfMbp.gftElfmfntCount())) {
+                    Elfmfnt f = linfMbp.gftElfmfnt(indfx+1);
+                    rfmovfd.bddElfmfnt(f);
+                    rmOffs1 = f.gftEndOffsft();
                 }
-                if (lastOffset < rmOffs1) {
-                    added.addElement(createLeafElement(lineMap, null, lastOffset, rmOffs1));
+                if (lbstOffsft < rmOffs1) {
+                    bddfd.bddElfmfnt(drfbtfLfbfElfmfnt(linfMbp, null, lbstOffsft, rmOffs1));
                 }
 
-                Element[] aelems = new Element[added.size()];
-                added.copyInto(aelems);
-                Element[] relems = new Element[removed.size()];
-                removed.copyInto(relems);
-                ElementEdit ee = new ElementEdit(lineMap, index, relems, aelems);
-                chng.addEdit(ee);
-                lineMap.replace(index, relems.length, aelems);
+                Elfmfnt[] bflfms = nfw Elfmfnt[bddfd.sizf()];
+                bddfd.dopyInto(bflfms);
+                Elfmfnt[] rflfms = nfw Elfmfnt[rfmovfd.sizf()];
+                rfmovfd.dopyInto(rflfms);
+                ElfmfntEdit ff = nfw ElfmfntEdit(linfMbp, indfx, rflfms, bflfms);
+                ding.bddEdit(ff);
+                linfMbp.rfplbdf(indfx, rflfms.lfngti, bflfms);
             }
-            if (Utilities.isComposedTextAttributeDefined(attr)) {
-                insertComposedTextUpdate(chng, attr);
+            if (Utilitifs.isComposfdTfxtAttributfDffinfd(bttr)) {
+                insfrtComposfdTfxtUpdbtf(ding, bttr);
             }
-        } catch (BadLocationException e) {
-            throw new Error("Internal error: " + e.toString());
+        } dbtdi (BbdLodbtionExdfption f) {
+            tirow nfw Error("Intfrnbl frror: " + f.toString());
         }
-        super.insertUpdate(chng, attr);
+        supfr.insfrtUpdbtf(ding, bttr);
     }
 
     /**
-     * Updates any document structure as a result of text removal.
-     * This will happen within a write lock. Since the structure
-     * represents a line map, this just checks to see if the
-     * removal spans lines.  If it does, the two lines outside
-     * of the removal area are joined together.
+     * Updbtfs bny dodumfnt strudturf bs b rfsult of tfxt rfmovbl.
+     * Tiis will ibppfn witiin b writf lodk. Sindf tif strudturf
+     * rfprfsfnts b linf mbp, tiis just difdks to sff if tif
+     * rfmovbl spbns linfs.  If it dofs, tif two linfs outsidf
+     * of tif rfmovbl brfb brf joinfd togftifr.
      *
-     * @param chng the change event describing the edit
+     * @pbrbm ding tif dibngf fvfnt dfsdribing tif fdit
      */
-    protected void removeUpdate(DefaultDocumentEvent chng) {
-        removed.removeAllElements();
-        BranchElement map = (BranchElement) getDefaultRootElement();
-        int offset = chng.getOffset();
-        int length = chng.getLength();
-        int line0 = map.getElementIndex(offset);
-        int line1 = map.getElementIndex(offset + length);
-        if (line0 != line1) {
-            // a line was removed
-            for (int i = line0; i <= line1; i++) {
-                removed.addElement(map.getElement(i));
+    protfdtfd void rfmovfUpdbtf(DffbultDodumfntEvfnt ding) {
+        rfmovfd.rfmovfAllElfmfnts();
+        BrbndiElfmfnt mbp = (BrbndiElfmfnt) gftDffbultRootElfmfnt();
+        int offsft = ding.gftOffsft();
+        int lfngti = ding.gftLfngti();
+        int linf0 = mbp.gftElfmfntIndfx(offsft);
+        int linf1 = mbp.gftElfmfntIndfx(offsft + lfngti);
+        if (linf0 != linf1) {
+            // b linf wbs rfmovfd
+            for (int i = linf0; i <= linf1; i++) {
+                rfmovfd.bddElfmfnt(mbp.gftElfmfnt(i));
             }
-            int p0 = map.getElement(line0).getStartOffset();
-            int p1 = map.getElement(line1).getEndOffset();
-            Element[] aelems = new Element[1];
-            aelems[0] = createLeafElement(map, null, p0, p1);
-            Element[] relems = new Element[removed.size()];
-            removed.copyInto(relems);
-            ElementEdit ee = new ElementEdit(map, line0, relems, aelems);
-            chng.addEdit(ee);
-            map.replace(line0, relems.length, aelems);
-        } else {
-            //Check for the composed text element
-            Element line = map.getElement(line0);
-            if (!line.isLeaf()) {
-                Element leaf = line.getElement(line.getElementIndex(offset));
-                if (Utilities.isComposedTextElement(leaf)) {
-                    Element[] aelem = new Element[1];
-                    aelem[0] = createLeafElement(map, null,
-                        line.getStartOffset(), line.getEndOffset());
-                    Element[] relem = new Element[1];
-                    relem[0] = line;
-                    ElementEdit ee = new ElementEdit(map, line0, relem, aelem);
-                    chng.addEdit(ee);
-                    map.replace(line0, 1, aelem);
+            int p0 = mbp.gftElfmfnt(linf0).gftStbrtOffsft();
+            int p1 = mbp.gftElfmfnt(linf1).gftEndOffsft();
+            Elfmfnt[] bflfms = nfw Elfmfnt[1];
+            bflfms[0] = drfbtfLfbfElfmfnt(mbp, null, p0, p1);
+            Elfmfnt[] rflfms = nfw Elfmfnt[rfmovfd.sizf()];
+            rfmovfd.dopyInto(rflfms);
+            ElfmfntEdit ff = nfw ElfmfntEdit(mbp, linf0, rflfms, bflfms);
+            ding.bddEdit(ff);
+            mbp.rfplbdf(linf0, rflfms.lfngti, bflfms);
+        } flsf {
+            //Cifdk for tif domposfd tfxt flfmfnt
+            Elfmfnt linf = mbp.gftElfmfnt(linf0);
+            if (!linf.isLfbf()) {
+                Elfmfnt lfbf = linf.gftElfmfnt(linf.gftElfmfntIndfx(offsft));
+                if (Utilitifs.isComposfdTfxtElfmfnt(lfbf)) {
+                    Elfmfnt[] bflfm = nfw Elfmfnt[1];
+                    bflfm[0] = drfbtfLfbfElfmfnt(mbp, null,
+                        linf.gftStbrtOffsft(), linf.gftEndOffsft());
+                    Elfmfnt[] rflfm = nfw Elfmfnt[1];
+                    rflfm[0] = linf;
+                    ElfmfntEdit ff = nfw ElfmfntEdit(mbp, linf0, rflfm, bflfm);
+                    ding.bddEdit(ff);
+                    mbp.rfplbdf(linf0, 1, bflfm);
                 }
             }
         }
-        super.removeUpdate(chng);
+        supfr.rfmovfUpdbtf(ding);
     }
 
     //
-    // Inserts the composed text of an input method. The line element
-    // where the composed text is inserted into becomes an branch element
-    // which contains leaf elements of the composed text and the text
-    // backing store.
+    // Insfrts tif domposfd tfxt of bn input mftiod. Tif linf flfmfnt
+    // wifrf tif domposfd tfxt is insfrtfd into bfdomfs bn brbndi flfmfnt
+    // wiidi dontbins lfbf flfmfnts of tif domposfd tfxt bnd tif tfxt
+    // bbdking storf.
     //
-    private void insertComposedTextUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
-        added.removeAllElements();
-        BranchElement lineMap = (BranchElement) getDefaultRootElement();
-        int offset = chng.getOffset();
-        int length = chng.getLength();
-        int index = lineMap.getElementIndex(offset);
-        Element elem = lineMap.getElement(index);
-        int elemStart = elem.getStartOffset();
-        int elemEnd = elem.getEndOffset();
-        BranchElement[] abelem = new BranchElement[1];
-        abelem[0] = (BranchElement) createBranchElement(lineMap, null);
-        Element[] relem = new Element[1];
-        relem[0] = elem;
-        if (elemStart != offset)
-            added.addElement(createLeafElement(abelem[0], null, elemStart, offset));
-        added.addElement(createLeafElement(abelem[0], attr, offset, offset+length));
-        if (elemEnd != offset+length)
-            added.addElement(createLeafElement(abelem[0], null, offset+length, elemEnd));
-        Element[] alelem = new Element[added.size()];
-        added.copyInto(alelem);
-        ElementEdit ee = new ElementEdit(lineMap, index, relem, abelem);
-        chng.addEdit(ee);
+    privbtf void insfrtComposfdTfxtUpdbtf(DffbultDodumfntEvfnt ding, AttributfSft bttr) {
+        bddfd.rfmovfAllElfmfnts();
+        BrbndiElfmfnt linfMbp = (BrbndiElfmfnt) gftDffbultRootElfmfnt();
+        int offsft = ding.gftOffsft();
+        int lfngti = ding.gftLfngti();
+        int indfx = linfMbp.gftElfmfntIndfx(offsft);
+        Elfmfnt flfm = linfMbp.gftElfmfnt(indfx);
+        int flfmStbrt = flfm.gftStbrtOffsft();
+        int flfmEnd = flfm.gftEndOffsft();
+        BrbndiElfmfnt[] bbflfm = nfw BrbndiElfmfnt[1];
+        bbflfm[0] = (BrbndiElfmfnt) drfbtfBrbndiElfmfnt(linfMbp, null);
+        Elfmfnt[] rflfm = nfw Elfmfnt[1];
+        rflfm[0] = flfm;
+        if (flfmStbrt != offsft)
+            bddfd.bddElfmfnt(drfbtfLfbfElfmfnt(bbflfm[0], null, flfmStbrt, offsft));
+        bddfd.bddElfmfnt(drfbtfLfbfElfmfnt(bbflfm[0], bttr, offsft, offsft+lfngti));
+        if (flfmEnd != offsft+lfngti)
+            bddfd.bddElfmfnt(drfbtfLfbfElfmfnt(bbflfm[0], null, offsft+lfngti, flfmEnd));
+        Elfmfnt[] blflfm = nfw Elfmfnt[bddfd.sizf()];
+        bddfd.dopyInto(blflfm);
+        ElfmfntEdit ff = nfw ElfmfntEdit(linfMbp, indfx, rflfm, bbflfm);
+        ding.bddEdit(ff);
 
-        abelem[0].replace(0, 0, alelem);
-        lineMap.replace(index, 1, abelem);
+        bbflfm[0].rfplbdf(0, 0, blflfm);
+        linfMbp.rfplbdf(indfx, 1, bbflfm);
     }
 
-    private AbstractElement defaultRoot;
-    private Vector<Element> added = new Vector<Element>();
-    private Vector<Element> removed = new Vector<Element>();
-    private transient Segment s;
+    privbtf AbstrbdtElfmfnt dffbultRoot;
+    privbtf Vfdtor<Elfmfnt> bddfd = nfw Vfdtor<Elfmfnt>();
+    privbtf Vfdtor<Elfmfnt> rfmovfd = nfw Vfdtor<Elfmfnt>();
+    privbtf trbnsifnt Sfgmfnt s;
 }

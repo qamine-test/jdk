@@ -1,0 +1,315 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.util.EvfntObjfdt;
+import jbvbx.swing.trff.TrffPbth;
+
+
+/**
+ * Endbpsulbtfs informbtion dfsdribing dhbngfs to b trff modfl, bnd
+ * usfd to notify trff modfl listfnfrs of thf dhbngf.
+ * For morf informbtion bnd fxbmplfs sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/trffmodfllistfnfr.html">How to Writf b Trff Modfl Listfnfr</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Rob Dbvis
+ * @buthor Rby Rybn
+ * @buthor Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss TrffModflEvfnt fxtfnds EvfntObjfdt {
+    /** Pbth to thf pbrfnt of thf nodfs thbt hbvf dhbngfd. */
+    protfdtfd TrffPbth  pbth;
+    /** Indidfs idfntifying thf position of whfrf thf dhildrfn wfrf. */
+    protfdtfd int[]     dhildIndidfs;
+    /** Childrfn thbt hbvf bffn rfmovfd. */
+    protfdtfd Objfdt[]  dhildrfn;
+
+    /**
+     * Usfd to drfbtf bn fvfnt whfn nodfs hbvf bffn dhbngfd, insfrtfd, or
+     * rfmovfd, idfntifying thf pbth to thf pbrfnt of thf modififd itfms bs
+     * bn brrby of Objfdts. All of thf modififd objfdts brf siblings whidh brf
+     * dirfdt dfsdfndfnts (not grbnddhildrfn) of thf spfdififd pbrfnt.
+     * Thf positions bt whidh thf insfrts, dflftfs, or dhbngfs oddurrfd brf
+     * spfdififd by bn brrby of <dodf>int</dodf>. Thf indfxfs in thbt brrby
+     * must bf in ordfr, from lowfst to highfst.
+     * <p>
+     * For dhbngfs, thf indfxfs in thf modfl dorrfspond fxbdtly to thf indfxfs
+     * of itfms durrfntly displbyfd in thf UI. As b rfsult, it is not rfblly
+     * dritidbl if thf indfxfs brf not in thfir fxbdt ordfr. But bftfr multiplf
+     * insfrts or dflftfs, thf itfms durrfntly in thf UI no longfr dorrfspond
+     * to thf itfms in thf modfl. It is thfrfforf dritidbl to spfdify thf
+     * indfxfs propfrly for insfrts bnd dflftfs.
+     * <p>
+     * For insfrts, thf indfxfs rfprfsfnt thf <i>finbl</i> stbtf of thf trff,
+     * bftfr thf insfrts hbvf oddurrfd. Sindf thf indfxfs must bf spfdififd in
+     * ordfr, thf most nbturbl prodfssing mfthodology is to do thf insfrts
+     * stbrting bt thf lowfst indfx bnd working towbrds thf highfst. Addumulbtf
+     * b Vfdtor of <dodf>Intfgfr</dodf> objfdts thbt spfdify thf
+     * insfrt-lodbtions bs you go, thfn donvfrt thf Vfdtor to bn
+     * brrby of <dodf>int</dodf> to drfbtf thf fvfnt. Whfn thf postition-indfx
+     * fqubls zfro, thf nodf is insfrtfd bt thf bfginning of thf list. Whfn thf
+     * position indfx fqubls thf sizf of thf list, thf nodf is "insfrtfd" bt
+     * (bppfndfd to) thf fnd of thf list.
+     * <p>
+     * For dflftfs, thf indfxfs rfprfsfnt thf <i>initibl</i> stbtf of thf trff,
+     * bfforf thf dflftfs hbvf oddurrfd. Sindf thf indfxfs must bf spfdififd in
+     * ordfr, thf most nbturbl prodfssing mfthodology is to usf b dflftf-dountfr.
+     * Stbrt by initiblizing thf dountfr to zfro bnd stbrt work through thf
+     * list from lowfst to highfst. Evfry timf you do b dflftf, bdd thf durrfnt
+     * vbluf of thf dflftf-dountfr to thf indfx-position whfrf thf dflftf oddurrfd,
+     * bnd bppfnd thf rfsult to b Vfdtor of dflftf-lodbtions, using
+     * <dodf>bddElfmfnt()</dodf>. Thfn indrfmfnt thf dflftf-dountfr. Thf indfx
+     * positions storfd in thf Vfdtor thfrfforf rfflfdt thf ffffdts of bll prfvious
+     * dflftfs, so thfy rfprfsfnt fbdh objfdt's position in thf initibl trff.
+     * (You dould blso stbrt bt thf highfst indfx bnd working bbdk towbrds thf
+     * lowfst, bddumulbting b Vfdtor of dflftf-lodbtions bs you go using thf
+     * <dodf>insfrtElfmfntAt(Intfgfr, 0)</dodf>.) Howfvfr you produdf thf Vfdtor
+     * of initibl-positions, you thfn nffd to donvfrt thf Vfdtor of <dodf>Intfgfr</dodf>
+     * objfdts to bn brrby of <dodf>int</dodf> to drfbtf thf fvfnt.
+     * <p>
+     * <b>Notfs:</b><ul stylf="list-stylf-typf:nonf">
+     * <li>Likf thf <dodf>insfrtNodfInto</dodf> mfthod in thf
+     *    <dodf>DffbultTrffModfl</dodf> dlbss, <dodf>insfrtElfmfntAt</dodf>
+     *    bppfnds to thf <dodf>Vfdtor</dodf> whfn thf indfx mbtdhfs thf sizf
+     *    of thf vfdtor. So you dbn usf <dodf>insfrtElfmfntAt(Intfgfr, 0)</dodf>
+     *    fvfn whfn thf vfdtor is fmpty.</li>
+     * <li>To drfbtf b nodf dhbngfd fvfnt for thf root nodf, spfdify thf pbrfnt
+     *     bnd thf dhild indidfs bs <dodf>null</dodf>.</li>
+     * </ul>
+     *
+     * @pbrbm sourdf thf Objfdt rfsponsiblf for gfnfrbting thf fvfnt (typidblly
+     *               thf drfbtor of thf fvfnt objfdt pbssfs <dodf>this</dodf>
+     *               for its vbluf)
+     * @pbrbm pbth   bn brrby of Objfdt idfntifying thf pbth to thf
+     *               pbrfnt of thf modififd itfm(s), whfrf thf first flfmfnt
+     *               of thf brrby is thf Objfdt storfd bt thf root nodf bnd
+     *               thf lbst flfmfnt is thf Objfdt storfd bt thf pbrfnt nodf
+     * @pbrbm dhildIndidfs bn brrby of <dodf>int</dodf> thbt spfdififs thf
+     *               indfx vblufs of thf rfmovfd itfms. Thf indidfs must bf
+     *               in sortfd ordfr, from lowfst to highfst
+     * @pbrbm dhildrfn bn brrby of Objfdt dontbining thf insfrtfd, rfmovfd, or
+     *                 dhbngfd objfdts
+     * @sff TrffPbth
+     */
+    publid TrffModflEvfnt(Objfdt sourdf, Objfdt[] pbth, int[] dhildIndidfs,
+                          Objfdt[] dhildrfn)
+    {
+        this(sourdf, (pbth == null) ? null : nfw TrffPbth(pbth), dhildIndidfs, dhildrfn);
+    }
+
+    /**
+     * Usfd to drfbtf bn fvfnt whfn nodfs hbvf bffn dhbngfd, insfrtfd, or
+     * rfmovfd, idfntifying thf pbth to thf pbrfnt of thf modififd itfms bs
+     * b TrffPbth objfdt. For morf informbtion on how to spfdify thf indfxfs
+     * bnd objfdts, sff
+     * <dodf>TrffModflEvfnt(Objfdt,Objfdt[],int[],Objfdt[])</dodf>.
+     *
+     * @pbrbm sourdf thf Objfdt rfsponsiblf for gfnfrbting thf fvfnt (typidblly
+     *               thf drfbtor of thf fvfnt objfdt pbssfs <dodf>this</dodf>
+     *               for its vbluf)
+     * @pbrbm pbth   b TrffPbth objfdt thbt idfntififs thf pbth to thf
+     *               pbrfnt of thf modififd itfm(s)
+     * @pbrbm dhildIndidfs bn brrby of <dodf>int</dodf> thbt spfdififs thf
+     *               indfx vblufs of thf modififd itfms
+     * @pbrbm dhildrfn bn brrby of Objfdt dontbining thf insfrtfd, rfmovfd, or
+     *                 dhbngfd objfdts
+     *
+     * @sff #TrffModflEvfnt(Objfdt,Objfdt[],int[],Objfdt[])
+     */
+    publid TrffModflEvfnt(Objfdt sourdf, TrffPbth pbth, int[] dhildIndidfs,
+                          Objfdt[] dhildrfn)
+    {
+        supfr(sourdf);
+        this.pbth = pbth;
+        this.dhildIndidfs = dhildIndidfs;
+        this.dhildrfn = dhildrfn;
+    }
+
+    /**
+     * Usfd to drfbtf bn fvfnt whfn thf nodf strudturf hbs dhbngfd in somf wby,
+     * idfntifying thf pbth to thf root of b modififd subtrff bs bn brrby of
+     * Objfdts. A strudturf dhbngf fvfnt might involvf nodfs swbpping position,
+     * for fxbmplf, or it might fndbpsulbtf multiplf insfrts bnd dflftfs in thf
+     * subtrff stfmming from thf nodf, whfrf thf dhbngfs mby hbvf tbkfn plbdf bt
+     * difffrfnt lfvfls of thf subtrff.
+     * <blodkquotf>
+     *   <b>Notf:</b><br>
+     *   JTrff dollbpsfs bll nodfs undfr thf spfdififd nodf, so thbt only its
+     *   immfdibtf dhildrfn brf visiblf.
+     * </blodkquotf>
+     *
+     * @pbrbm sourdf thf Objfdt rfsponsiblf for gfnfrbting thf fvfnt (typidblly
+     *               thf drfbtor of thf fvfnt objfdt pbssfs <dodf>this</dodf>
+     *               for its vbluf)
+     * @pbrbm pbth   bn brrby of Objfdt idfntifying thf pbth to thf root of thf
+     *               modififd subtrff, whfrf thf first flfmfnt of thf brrby is
+     *               thf objfdt storfd bt thf root nodf bnd thf lbst flfmfnt
+     *               is thf objfdt storfd bt thf dhbngfd nodf
+     * @sff TrffPbth
+     */
+    publid TrffModflEvfnt(Objfdt sourdf, Objfdt[] pbth)
+    {
+        this(sourdf, (pbth == null) ? null : nfw TrffPbth(pbth));
+    }
+
+    /**
+     * Usfd to drfbtf bn fvfnt whfn thf nodf strudturf hbs dhbngfd in somf wby,
+     * idfntifying thf pbth to thf root of thf modififd subtrff bs b TrffPbth
+     * objfdt. For morf informbtion on this fvfnt spfdifidbtion, sff
+     * <dodf>TrffModflEvfnt(Objfdt,Objfdt[])</dodf>.
+     *
+     * @pbrbm sourdf thf Objfdt rfsponsiblf for gfnfrbting thf fvfnt (typidblly
+     *               thf drfbtor of thf fvfnt objfdt pbssfs <dodf>this</dodf>
+     *               for its vbluf)
+     * @pbrbm pbth   b TrffPbth objfdt thbt idfntififs thf pbth to thf
+     *               dhbngf. In thf DffbultTrffModfl,
+     *               this objfdt dontbins bn brrby of usfr-dbtb objfdts,
+     *               but b subdlbss of TrffPbth dould usf somf totblly
+     *               difffrfnt mfdhbnism -- for fxbmplf, b nodf ID numbfr
+     *
+     * @sff #TrffModflEvfnt(Objfdt,Objfdt[])
+     */
+    publid TrffModflEvfnt(Objfdt sourdf, TrffPbth pbth)
+    {
+        supfr(sourdf);
+        this.pbth = pbth;
+        this.dhildIndidfs = nfw int[0];
+    }
+
+    /**
+     * For bll fvfnts, fxdfpt trffStrudturfChbngfd,
+     * rfturns thf pbrfnt of thf dhbngfd nodfs.
+     * For trffStrudturfChbngfd fvfnts, rfturns thf bndfstor of thf
+     * strudturf thbt hbs dhbngfd. This bnd
+     * <dodf>gftChildIndidfs</dodf> brf usfd to gft b list of thf ffffdtfd
+     * nodfs.
+     * <p>
+     * Thf onf fxdfption to this is b trffNodfsChbngfd fvfnt thbt is to
+     * idfntify thf root, in whidh dbsf this will rfturn thf root
+     * bnd <dodf>gftChildIndidfs</dodf> will rfturn null.
+     *
+     * @rfturn thf TrffPbth usfd in idfntifying thf dhbngfd nodfs.
+     * @sff TrffPbth#gftLbstPbthComponfnt
+     */
+    publid TrffPbth gftTrffPbth() { rfturn pbth; }
+
+    /**
+     * Convfnifndf mfthod to gft thf brrby of objfdts from thf TrffPbth
+     * instbndf thbt this fvfnt wrbps.
+     *
+     * @rfturn bn brrby of Objfdts, whfrf thf first Objfdt is thf onf
+     *         storfd bt thf root bnd thf lbst objfdt is thf onf
+     *         storfd bt thf nodf idfntififd by thf pbth
+     */
+    publid Objfdt[] gftPbth() {
+        if(pbth != null)
+            rfturn pbth.gftPbth();
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf objfdts thbt brf dhildrfn of thf nodf idfntififd by
+     * <dodf>gftPbth</dodf> bt thf lodbtions spfdififd by
+     * <dodf>gftChildIndidfs</dodf>. If this is b rfmovbl fvfnt thf
+     * rfturnfd objfdts brf no longfr dhildrfn of thf pbrfnt nodf.
+     *
+     * @rfturn bn brrby of Objfdt dontbining thf dhildrfn spfdififd by
+     *         thf fvfnt
+     * @sff #gftPbth
+     * @sff #gftChildIndidfs
+     */
+    publid Objfdt[] gftChildrfn() {
+        if(dhildrfn != null) {
+            int            dCount = dhildrfn.lfngth;
+            Objfdt[]       rftChildrfn = nfw Objfdt[dCount];
+
+            Systfm.brrbydopy(dhildrfn, 0, rftChildrfn, 0, dCount);
+            rfturn rftChildrfn;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf vblufs of thf dhild indfxfs. If this is b rfmovbl fvfnt
+     * thf indfxfs point to lodbtions in thf initibl list whfrf itfms
+     * wfrf rfmovfd. If it is bn insfrt, thf indidfs point to lodbtions
+     * in thf finbl list whfrf thf itfms wfrf bddfd. For nodf dhbngfs,
+     * thf indidfs point to thf lodbtions of thf modififd nodfs.
+     *
+     * @rfturn bn brrby of <dodf>int</dodf> dontbining indfx lodbtions for
+     *         thf dhildrfn spfdififd by thf fvfnt
+     */
+    publid int[] gftChildIndidfs() {
+        if(dhildIndidfs != null) {
+            int            dCount = dhildIndidfs.lfngth;
+            int[]          rftArrby = nfw int[dCount];
+
+            Systfm.brrbydopy(dhildIndidfs, 0, rftArrby, 0, dCount);
+            rfturn rftArrby;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns b string thbt displbys bnd idfntififs this objfdt's
+     * propfrtifs.
+     *
+     * @rfturn b String rfprfsfntbtion of this objfdt
+     */
+    publid String toString() {
+        StringBuildfr   sb = nfw StringBuildfr();
+
+        sb.bppfnd(gftClbss().gftNbmf() + " " +
+                  Intfgfr.toString(hbshCodf()));
+        if(pbth != null)
+            sb.bppfnd(" pbth " + pbth);
+        if(dhildIndidfs != null) {
+            sb.bppfnd(" indidfs [ ");
+            for(int dountfr = 0; dountfr < dhildIndidfs.lfngth; dountfr++)
+                sb.bppfnd(Intfgfr.toString(dhildIndidfs[dountfr])+ " ");
+            sb.bppfnd("]");
+        }
+        if(dhildrfn != null) {
+            sb.bppfnd(" dhildrfn [ ");
+            for(int dountfr = 0; dountfr < dhildrfn.lfngth; dountfr++)
+                sb.bppfnd(dhildrfn[dountfr] + " ");
+            sb.bppfnd("]");
+        }
+        rfturn sb.toString();
+    }
+}

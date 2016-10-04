@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+
+/**
+ * <p>A (Notifidbtion, Listfnfr ID) pbir.</p>
+ * <p>This dlbss is usfd to bssodibtf bn fmittfd notifidbtion
+ *    with thf listfnfr ID to whidh it is tbrgftfd.</p>
+ *
+ * @sindf 1.5
+ */
+publid dlbss TbrgftfdNotifidbtion implfmfnts Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 7676132089779300926L;
+
+// If wf rfplbdf Intfgfr with int...
+//     /**
+//      * <p>Construdts b <dodf>TbrgftfdNotifidbtion</dodf> objfdt.  Thf
+//      * objfdt dontbins b pbir (Notifidbtion, Listfnfr ID).
+//      * Thf Listfnfr ID idfntififs thf dlifnt listfnfr to whidh thbt
+//      * notifidbtion is tbrgftfd. Thf dlifnt listfnfr ID is onf
+//      * prfviously rfturnfd by thf donnfdtor sfrvfr in rfsponsf to bn
+//      * <dodf>bddNotifidbtionListfnfr</dodf> rfqufst.</p>
+//      * @pbrbm notifidbtion Notifidbtion fmittfd from thf MBfbn sfrvfr.
+//      * @pbrbm listfnfrID   Thf ID of thf listfnfr to whidh this
+//      *        notifidbtion is tbrgftfd.
+//      */
+//     publid TbrgftfdNotifidbtion(Notifidbtion notifidbtion,
+//                              int listfnfrID) {
+//      this.notif = notifidbtion;
+//      this.id = listfnfrID;
+//     }
+
+    /**
+     * <p>Construdts b <dodf>TbrgftfdNotifidbtion</dodf> objfdt.  Thf
+     * objfdt dontbins b pbir (Notifidbtion, Listfnfr ID).
+     * Thf Listfnfr ID idfntififs thf dlifnt listfnfr to whidh thbt
+     * notifidbtion is tbrgftfd. Thf dlifnt listfnfr ID is onf
+     * prfviously rfturnfd by thf donnfdtor sfrvfr in rfsponsf to bn
+     * <dodf>bddNotifidbtionListfnfr</dodf> rfqufst.</p>
+     * @pbrbm notifidbtion Notifidbtion fmittfd from thf MBfbn sfrvfr.
+     * @pbrbm listfnfrID   Thf ID of thf listfnfr to whidh this
+     *        notifidbtion is tbrgftfd.
+     * @fxdfption IllfgblArgumfntExdfption if thf <vbr>listfnfrID</vbr>
+     *        or <vbr>notifidbtion</vbr> is null.
+     */
+    publid TbrgftfdNotifidbtion(Notifidbtion notifidbtion,
+                                Intfgfr listfnfrID) {
+        vblidbtf(notifidbtion, listfnfrID);
+        // If wf rfplbdf intfgfr with int...
+        // this(notifidbtion,intVbluf(listfnfrID));
+        this.notif = notifidbtion;
+        this.id = listfnfrID;
+    }
+
+    /**
+     * <p>Thf fmittfd notifidbtion.</p>
+     *
+     * @rfturn Thf notifidbtion.
+     */
+    publid Notifidbtion gftNotifidbtion() {
+        rfturn notif;
+    }
+
+    /**
+     * <p>Thf ID of thf listfnfr to whidh thf notifidbtion is
+     *    tbrgftfd.</p>
+     *
+     * @rfturn Thf listfnfr ID.
+     */
+    publid Intfgfr gftListfnfrID() {
+        rfturn id;
+    }
+
+    /**
+     * Rfturns b tfxtubl rfprfsfntbtion of this Tbrgftfd Notifidbtion.
+     *
+     * @rfturn b String rfprfsfntbtion of this Tbrgftfd Notifidbtion.
+     **/
+    publid String toString() {
+        rfturn "{" + notif + ", " + id + "}";
+    }
+
+    /**
+     * @sfribl A notifidbtion to trbnsmit to thf othfr sidf.
+     * @sff #gftNotifidbtion()
+     **/
+    privbtf Notifidbtion notif;
+    /**
+     * @sfribl Thf ID of thf listfnfr to whidh thf notifidbtion is
+     *         tbrgftfd.
+     * @sff #gftListfnfrID()
+     **/
+    privbtf Intfgfr id;
+    //privbtf finbl int id;
+
+// Nffdfd if wf usf int instfbd of Intfgfr...
+//     privbtf stbtid int intVbluf(Intfgfr id) {
+//      if (id == null) throw nfw
+//          IllfgblArgumfntExdfption("Invblid listfnfr ID: null");
+//      rfturn id.intVbluf();
+//     }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+        ois.dffbultRfbdObjfdt();
+        try {
+            vblidbtf(this.notif, this.id);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            throw nfw InvblidObjfdtExdfption(f.gftMfssbgf());
+        }
+    }
+
+    privbtf stbtid void vblidbtf(Notifidbtion notif, Intfgfr id) throws IllfgblArgumfntExdfption {
+        if (notif == null) {
+            throw nfw IllfgblArgumfntExdfption("Invblid notifidbtion: null");
+        }
+        if (id == null) {
+            throw nfw IllfgblArgumfntExdfption("Invblid listfnfr ID: null");
+        }
+    }
+}

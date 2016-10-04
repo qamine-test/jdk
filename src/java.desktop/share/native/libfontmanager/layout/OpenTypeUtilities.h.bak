@@ -1,67 +1,67 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __OPENTYPEUTILITIES_H
-#define __OPENTYPEUTILITIES_H
+#ifndff __OPENTYPEUTILITIES_H
+#dffinf __OPENTYPEUTILITIES_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-class OpenTypeUtilities /* not : public UObject because all methods are static */ {
-public:
-    static le_int8 highBit(le_int32 value);
-    static Offset getTagOffset(LETag tag, const LEReferenceToArrayOf<TagAndOffsetRecord> &records, LEErrorCode &success);
+dlbss OpfnTypfUtilitifs /* not : publid UObjfdt bfdbusf bll mftiods brf stbtid */ {
+publid:
+    stbtid lf_int8 iigiBit(lf_int32 vbluf);
+    stbtid Offsft gftTbgOffsft(LETbg tbg, donst LERfffrfndfToArrbyOf<TbgAndOffsftRfdord> &rfdords, LEErrorCodf &suddfss);
 #if LE_ENABLE_RAW
-    static le_int32 getGlyphRangeIndex(TTGlyphID glyphID, const GlyphRangeRecord *records, le_int32 recordCount) {
-      LEErrorCode success = LE_NO_ERROR;
-      LETableReference recordRef0((const le_uint8*)records);
-      LEReferenceToArrayOf<GlyphRangeRecord> recordRef(recordRef0, success, (size_t)0, recordCount);
-      return getGlyphRangeIndex(glyphID, recordRef, success);
+    stbtid lf_int32 gftGlypiRbngfIndfx(TTGlypiID glypiID, donst GlypiRbngfRfdord *rfdords, lf_int32 rfdordCount) {
+      LEErrorCodf suddfss = LE_NO_ERROR;
+      LETbblfRfffrfndf rfdordRff0((donst lf_uint8*)rfdords);
+      LERfffrfndfToArrbyOf<GlypiRbngfRfdord> rfdordRff(rfdordRff0, suddfss, (sizf_t)0, rfdordCount);
+      rfturn gftGlypiRbngfIndfx(glypiID, rfdordRff, suddfss);
     }
-#endif
-    static le_int32 getGlyphRangeIndex(TTGlyphID glyphID, const LEReferenceToArrayOf<GlyphRangeRecord> &records, LEErrorCode &success);
-    static le_int32 search(le_uint16 value, const le_uint16 array[], le_int32 count);
-    static le_int32 search(le_uint32 value, const le_uint32 array[], le_int32 count);
-    static void sort(le_uint16 *array, le_int32 count);
+#fndif
+    stbtid lf_int32 gftGlypiRbngfIndfx(TTGlypiID glypiID, donst LERfffrfndfToArrbyOf<GlypiRbngfRfdord> &rfdords, LEErrorCodf &suddfss);
+    stbtid lf_int32 sfbrdi(lf_uint16 vbluf, donst lf_uint16 brrby[], lf_int32 dount);
+    stbtid lf_int32 sfbrdi(lf_uint32 vbluf, donst lf_uint32 brrby[], lf_int32 dount);
+    stbtid void sort(lf_uint16 *brrby, lf_int32 dount);
 
-private:
-    OpenTypeUtilities() {} // private - forbid instantiation
+privbtf:
+    OpfnTypfUtilitifs() {} // privbtf - forbid instbntibtion
 };
 
 U_NAMESPACE_END
-#endif
+#fndif

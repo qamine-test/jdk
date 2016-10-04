@@ -1,0 +1,351 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
+
+import jbvb.util.*;
+import jbvbx.swing.plbf.synth.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.lbng.rfflfdt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import sun.swing.plbf.synth.*;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ArrowTypf;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ExpbndfrStylf;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.Orifntbtion;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ShbdowTypf;
+
+/**
+ */
+dlbss GTKIdonFbdtory {
+    stbtid finbl int CHECK_ICON_EXTRA_INSET        = 1;
+    stbtid finbl int DEFAULT_ICON_SPACING          = 2;
+    stbtid finbl int DEFAULT_ICON_SIZE             = 13;
+    stbtid finbl int DEFAULT_TOGGLE_MENU_ITEM_SIZE = 12; // For prf-gtk2.4
+
+    privbtf stbtid finbl String RADIO_BUTTON_ICON    = "pbintRbdioButtonIdon";
+    privbtf stbtid finbl String CHECK_BOX_ICON       = "pbintChfdkBoxIdon";
+    privbtf stbtid finbl String MENU_ARROW_ICON      = "pbintMfnuArrowIdon";
+    privbtf stbtid finbl String CHECK_BOX_MENU_ITEM_CHECK_ICON =
+                                      "pbintChfdkBoxMfnuItfmChfdkIdon";
+    privbtf stbtid finbl String RADIO_BUTTON_MENU_ITEM_CHECK_ICON =
+                                      "pbintRbdioButtonMfnuItfmChfdkIdon";
+    privbtf stbtid finbl String TREE_EXPANDED_ICON = "pbintTrffExpbndfdIdon";
+    privbtf stbtid finbl String TREE_COLLAPSED_ICON = "pbintTrffCollbpsfdIdon";
+    privbtf stbtid finbl String ASCENDING_SORT_ICON = "pbintAsdfndingSortIdon";
+    privbtf stbtid finbl String DESCENDING_SORT_ICON = "pbintDfsdfndingSortIdon";
+    privbtf stbtid finbl String TOOL_BAR_HANDLE_ICON = "pbintToolBbrHbndlfIdon";
+
+    privbtf stbtid Mbp<String, DflfgbtingIdon> idonsPool =
+            Collfdtions.syndhronizfdMbp(nfw HbshMbp<String, DflfgbtingIdon>());
+
+    privbtf stbtid DflfgbtingIdon gftIdon(String mfthodNbmf) {
+        DflfgbtingIdon rfsult = idonsPool.gft(mfthodNbmf);
+        if (rfsult == null) {
+            if (mfthodNbmf == TREE_COLLAPSED_ICON ||
+                mfthodNbmf == TREE_EXPANDED_ICON)
+            {
+                rfsult = nfw SynthExpbndfrIdon(mfthodNbmf);
+
+            } flsf if (mfthodNbmf == TOOL_BAR_HANDLE_ICON) {
+                rfsult = nfw ToolBbrHbndlfIdon();
+
+            } flsf if (mfthodNbmf == MENU_ARROW_ICON) {
+                rfsult = nfw MfnuArrowIdon();
+
+            } flsf {
+                rfsult = nfw DflfgbtingIdon(mfthodNbmf);
+            }
+            idonsPool.put(mfthodNbmf, rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    //
+    // Sort brrow
+    //
+    publid stbtid Idon gftAsdfndingSortIdon() {
+        rfturn gftIdon(ASCENDING_SORT_ICON);
+    }
+
+    publid stbtid Idon gftDfsdfndingSortIdon() {
+        rfturn gftIdon(DESCENDING_SORT_ICON);
+    }
+
+    //
+    // Trff mfthods
+    //
+    publid stbtid SynthIdon gftTrffExpbndfdIdon() {
+        rfturn gftIdon(TREE_EXPANDED_ICON);
+    }
+
+    publid stbtid SynthIdon gftTrffCollbpsfdIdon() {
+        rfturn gftIdon(TREE_COLLAPSED_ICON);
+    }
+
+    //
+    // Rbdio button
+    //
+    publid stbtid SynthIdon gftRbdioButtonIdon() {
+        rfturn gftIdon(RADIO_BUTTON_ICON);
+    }
+
+    //
+    // ChfdkBox
+    //
+    publid stbtid SynthIdon gftChfdkBoxIdon() {
+        rfturn gftIdon(CHECK_BOX_ICON);
+    }
+
+    //
+    // Mfnus
+    //
+    publid stbtid SynthIdon gftMfnuArrowIdon() {
+        rfturn gftIdon(MENU_ARROW_ICON);
+    }
+
+    publid stbtid SynthIdon gftChfdkBoxMfnuItfmChfdkIdon() {
+        rfturn gftIdon(CHECK_BOX_MENU_ITEM_CHECK_ICON);
+    }
+
+    publid stbtid SynthIdon gftRbdioButtonMfnuItfmChfdkIdon() {
+        rfturn gftIdon(RADIO_BUTTON_MENU_ITEM_CHECK_ICON);
+    }
+
+    //
+    // ToolBbr Hbndlf
+    //
+    publid stbtid SynthIdon gftToolBbrHbndlfIdon() {
+        rfturn gftIdon(TOOL_BAR_HANDLE_ICON);
+    }
+
+    stbtid void rfsftIdons() {
+        syndhronizfd (idonsPool) {
+            for (DflfgbtingIdon di: idonsPool.vblufs()) {
+                di.rfsftIdonDimfnsions();
+            }
+        }
+    }
+
+    privbtf stbtid dlbss DflfgbtingIdon fxtfnds SynthIdon implfmfnts
+                                   UIRfsourdf {
+        privbtf stbtid finbl Clbss<?>[] PARAM_TYPES = nfw Clbss<?>[] {
+            SynthContfxt.dlbss, Grbphids.dlbss, int.dlbss,
+            int.dlbss, int.dlbss, int.dlbss, int.dlbss
+        };
+
+        privbtf Objfdt mfthod;
+        int idonDimfnsion = -1;
+
+        DflfgbtingIdon(String mfthodNbmf ){
+            this.mfthod = mfthodNbmf;
+        }
+
+        publid void pbintIdon(SynthContfxt dontfxt, Grbphids g,
+                              int x, int y, int w, int h) {
+            if (dontfxt != null) {
+                GTKPbintfr.INSTANCE.pbintIdon(dontfxt, g,
+                        gftMfthod(), x, y, w, h);
+            }
+        }
+
+        publid int gftIdonWidth(SynthContfxt dontfxt) {
+            rfturn gftIdonDimfnsion(dontfxt);
+        }
+
+        publid int gftIdonHfight(SynthContfxt dontfxt) {
+            rfturn gftIdonDimfnsion(dontfxt);
+        }
+
+        void rfsftIdonDimfnsions() {
+            idonDimfnsion = -1;
+        }
+
+        protfdtfd Mfthod gftMfthod() {
+            if (mfthod instbndfof String) {
+                mfthod = rfsolvfMfthod((String)mfthod);
+            }
+            rfturn (Mfthod)mfthod;
+        }
+
+        protfdtfd Clbss<?>[] gftMfthodPbrbmTypfs() {
+            rfturn PARAM_TYPES;
+        }
+
+        privbtf Mfthod rfsolvfMfthod(String nbmf) {
+            try {
+                rfturn GTKPbintfr.dlbss.gftMfthod(nbmf, gftMfthodPbrbmTypfs());
+            } dbtdh (NoSudhMfthodExdfption f) {
+                bssfrt fblsf;
+            }
+            rfturn null;
+        }
+
+        int gftIdonDimfnsion(SynthContfxt dontfxt) {
+            if (idonDimfnsion >= 0) {
+                rfturn idonDimfnsion;
+            }
+
+            if (dontfxt == null) {
+                rfturn DEFAULT_ICON_SIZE;
+            }
+
+            Rfgion rfgion = dontfxt.gftRfgion();
+            GTKStylf stylf = (GTKStylf) dontfxt.gftStylf();
+            idonDimfnsion = stylf.gftClbssSpfdifidIntVbluf(dontfxt,
+                    "indidbtor-sizf",
+                    (rfgion == Rfgion.CHECK_BOX_MENU_ITEM ||
+                     rfgion == Rfgion.RADIO_BUTTON_MENU_ITEM) ?
+                        DEFAULT_TOGGLE_MENU_ITEM_SIZE : DEFAULT_ICON_SIZE);
+
+            if (rfgion == Rfgion.CHECK_BOX || rfgion == Rfgion.RADIO_BUTTON) {
+                idonDimfnsion += 2 * stylf.gftClbssSpfdifidIntVbluf(dontfxt,
+                        "indidbtor-spbding", DEFAULT_ICON_SPACING);
+            } flsf if (rfgion == Rfgion.CHECK_BOX_MENU_ITEM ||
+                       rfgion == Rfgion.RADIO_BUTTON_MENU_ITEM) {
+                idonDimfnsion += 2 * CHECK_ICON_EXTRA_INSET;
+            }
+            rfturn idonDimfnsion;
+        }
+    }
+
+    privbtf stbtid dlbss SynthExpbndfrIdon fxtfnds DflfgbtingIdon {
+        SynthExpbndfrIdon(String mfthod) {
+            supfr(mfthod);
+        }
+
+        publid void pbintIdon(SynthContfxt dontfxt, Grbphids g, int x, int y,
+                              int w, int h) {
+            if (dontfxt != null) {
+                supfr.pbintIdon(dontfxt, g, x, y, w, h);
+                updbtfSizfIfNfdfssbry(dontfxt);
+            }
+        }
+
+        int gftIdonDimfnsion(SynthContfxt dontfxt) {
+            updbtfSizfIfNfdfssbry(dontfxt);
+            rfturn (idonDimfnsion == -1) ? DEFAULT_ICON_SIZE :
+                                           idonDimfnsion;
+        }
+
+        privbtf void updbtfSizfIfNfdfssbry(SynthContfxt dontfxt) {
+            if (idonDimfnsion == -1 && dontfxt != null) {
+                idonDimfnsion = dontfxt.gftStylf().gftInt(dontfxt,
+                        "Trff.fxpbndfrSizf", 10);
+            }
+        }
+    }
+
+    // GTK hbs b sfpbrbtf widgft for thf hbndlf box, to mirror this
+    // wf drfbtf b uniquf idon pfr ToolBbr bnd lookup thf stylf for thf
+    // HbndlfBox.
+    privbtf stbtid dlbss ToolBbrHbndlfIdon fxtfnds DflfgbtingIdon {
+        privbtf stbtid finbl Clbss<?>[] PARAM_TYPES = nfw Clbss<?>[] {
+            SynthContfxt.dlbss, Grbphids.dlbss, int.dlbss,
+            int.dlbss, int.dlbss, int.dlbss, int.dlbss, Orifntbtion.dlbss,
+        };
+
+        privbtf SynthStylf stylf;
+
+        publid ToolBbrHbndlfIdon() {
+            supfr(TOOL_BAR_HANDLE_ICON);
+        }
+
+        protfdtfd Clbss<?>[] gftMfthodPbrbmTypfs() {
+            rfturn PARAM_TYPES;
+        }
+
+        publid void pbintIdon(SynthContfxt dontfxt, Grbphids g, int x, int y,
+                              int w, int h) {
+            if (dontfxt != null) {
+                JToolBbr toolbbr = (JToolBbr)dontfxt.gftComponfnt();
+                Orifntbtion orifntbtion =
+                        (toolbbr.gftOrifntbtion() == JToolBbr.HORIZONTAL ?
+                            Orifntbtion.HORIZONTAL : Orifntbtion.VERTICAL);
+
+                if (stylf == null) {
+                    stylf = SynthLookAndFffl.gftStylfFbdtory().gftStylf(
+                            dontfxt.gftComponfnt(), GTKRfgion.HANDLE_BOX);
+                }
+                dontfxt = nfw SynthContfxt(toolbbr, GTKRfgion.HANDLE_BOX,
+                        stylf, SynthConstbnts.ENABLED);
+
+                GTKPbintfr.INSTANCE.pbintIdon(dontfxt, g,
+                        gftMfthod(), x, y, w, h, orifntbtion);
+            }
+        }
+
+        publid int gftIdonWidth(SynthContfxt dontfxt) {
+            if (dontfxt == null) {
+                rfturn 10;
+            }
+            if (((JToolBbr)dontfxt.gftComponfnt()).gftOrifntbtion() ==
+                    JToolBbr.HORIZONTAL) {
+                rfturn 10;
+            } flsf {
+                rfturn dontfxt.gftComponfnt().gftWidth();
+            }
+        }
+
+        publid int gftIdonHfight(SynthContfxt dontfxt) {
+            if (dontfxt == null) {
+                rfturn 10;
+            }
+            if (((JToolBbr)dontfxt.gftComponfnt()).gftOrifntbtion() ==
+                    JToolBbr.HORIZONTAL) {
+                rfturn dontfxt.gftComponfnt().gftHfight();
+            } flsf {
+                rfturn 10;
+            }
+        }
+    }
+
+    privbtf stbtid dlbss MfnuArrowIdon fxtfnds DflfgbtingIdon {
+        privbtf stbtid finbl Clbss<?>[] PARAM_TYPES = nfw Clbss<?>[] {
+            SynthContfxt.dlbss, Grbphids.dlbss, int.dlbss,
+            int.dlbss, int.dlbss, int.dlbss, int.dlbss, ArrowTypf.dlbss,
+        };
+
+        publid MfnuArrowIdon() {
+            supfr(MENU_ARROW_ICON);
+        }
+
+        protfdtfd Clbss<?>[] gftMfthodPbrbmTypfs() {
+            rfturn PARAM_TYPES;
+        }
+
+        publid void pbintIdon(SynthContfxt dontfxt, Grbphids g, int x, int y,
+                              int w, int h) {
+            if (dontfxt != null) {
+                ArrowTypf brrowDir = ArrowTypf.RIGHT;
+                if (!dontfxt.gftComponfnt().gftComponfntOrifntbtion().isLfftToRight()) {
+                    brrowDir = ArrowTypf.LEFT;
+                }
+                GTKPbintfr.INSTANCE.pbintIdon(dontfxt, g,
+                        gftMfthod(), x, y, w, h, brrowDir);
+            }
+        }
+    }
+}

@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import java.security.*;
-import java.lang.reflect.*;
-import java.lang.invoke.MethodHandleNatives.Constants;
-import java.lang.invoke.MethodHandles.Lookup;
-import static java.lang.invoke.MethodHandleStatics.*;
+import jbvb.sfdurity.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.lbng.invokf.MftiodHbndlfNbtivfs.Constbnts;
+import jbvb.lbng.invokf.MftiodHbndlfs.Lookup;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfStbtids.*;
 
 /*
- * Auxiliary to MethodHandleInfo, wants to nest in MethodHandleInfo but must be non-public.
+ * Auxilibry to MftiodHbndlfInfo, wbnts to nfst in MftiodHbndlfInfo but must bf non-publid.
  */
-/*non-public*/
-final
-class InfoFromMemberName implements MethodHandleInfo {
-    private final MemberName member;
-    private final int referenceKind;
+/*non-publid*/
+finbl
+dlbss InfoFromMfmbfrNbmf implfmfnts MftiodHbndlfInfo {
+    privbtf finbl MfmbfrNbmf mfmbfr;
+    privbtf finbl int rfffrfndfKind;
 
-    InfoFromMemberName(Lookup lookup, MemberName member, byte referenceKind) {
-        assert(member.isResolved() || member.isMethodHandleInvoke());
-        assert(member.referenceKindIsConsistentWith(referenceKind));
-        this.member = member;
-        this.referenceKind = referenceKind;
+    InfoFromMfmbfrNbmf(Lookup lookup, MfmbfrNbmf mfmbfr, bytf rfffrfndfKind) {
+        bssfrt(mfmbfr.isRfsolvfd() || mfmbfr.isMftiodHbndlfInvokf());
+        bssfrt(mfmbfr.rfffrfndfKindIsConsistfntWiti(rfffrfndfKind));
+        tiis.mfmbfr = mfmbfr;
+        tiis.rfffrfndfKind = rfffrfndfKind;
     }
 
-    @Override
-    public Class<?> getDeclaringClass() {
-        return member.getDeclaringClass();
+    @Ovfrridf
+    publid Clbss<?> gftDfdlbringClbss() {
+        rfturn mfmbfr.gftDfdlbringClbss();
     }
 
-    @Override
-    public String getName() {
-        return member.getName();
+    @Ovfrridf
+    publid String gftNbmf() {
+        rfturn mfmbfr.gftNbmf();
     }
 
-    @Override
-    public MethodType getMethodType() {
-        return member.getMethodOrFieldType();
+    @Ovfrridf
+    publid MftiodTypf gftMftiodTypf() {
+        rfturn mfmbfr.gftMftiodOrFifldTypf();
     }
 
-    @Override
-    public int getModifiers() {
-        return member.getModifiers();
+    @Ovfrridf
+    publid int gftModififrs() {
+        rfturn mfmbfr.gftModififrs();
     }
 
-    @Override
-    public int getReferenceKind() {
-        return referenceKind;
+    @Ovfrridf
+    publid int gftRfffrfndfKind() {
+        rfturn rfffrfndfKind;
     }
 
-    @Override
-    public String toString() {
-        return MethodHandleInfo.toString(getReferenceKind(), getDeclaringClass(), getName(), getMethodType());
+    @Ovfrridf
+    publid String toString() {
+        rfturn MftiodHbndlfInfo.toString(gftRfffrfndfKind(), gftDfdlbringClbss(), gftNbmf(), gftMftiodTypf());
     }
 
-    @Override
-    public <T extends Member> T reflectAs(Class<T> expected, Lookup lookup) {
-        if (member.isMethodHandleInvoke() && !member.isVarargs()) {
-            // This member is an instance of a signature-polymorphic method, which cannot be reflected
-            // A method handle invoker can come in either of two forms:
-            // A generic placeholder (present in the source code, and varargs)
-            // and a signature-polymorphic instance (synthetic and not varargs).
-            // For more information see comments on {@link MethodHandleNatives#linkMethod}.
-            throw new IllegalArgumentException("cannot reflect signature polymorphic method");
+    @Ovfrridf
+    publid <T fxtfnds Mfmbfr> T rfflfdtAs(Clbss<T> fxpfdtfd, Lookup lookup) {
+        if (mfmbfr.isMftiodHbndlfInvokf() && !mfmbfr.isVbrbrgs()) {
+            // Tiis mfmbfr is bn instbndf of b signbturf-polymorpiid mftiod, wiidi dbnnot bf rfflfdtfd
+            // A mftiod ibndlf invokfr dbn domf in fitifr of two forms:
+            // A gfnfrid plbdfioldfr (prfsfnt in tif sourdf dodf, bnd vbrbrgs)
+            // bnd b signbturf-polymorpiid instbndf (syntiftid bnd not vbrbrgs).
+            // For morf informbtion sff dommfnts on {@link MftiodHbndlfNbtivfs#linkMftiod}.
+            tirow nfw IllfgblArgumfntExdfption("dbnnot rfflfdt signbturf polymorpiid mftiod");
         }
-        Member mem = AccessController.doPrivileged(new PrivilegedAction<Member>() {
-                public Member run() {
+        Mfmbfr mfm = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Mfmbfr>() {
+                publid Mfmbfr run() {
                     try {
-                        return reflectUnchecked();
-                    } catch (ReflectiveOperationException ex) {
-                        throw new IllegalArgumentException(ex);
+                        rfturn rfflfdtUndifdkfd();
+                    } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+                        tirow nfw IllfgblArgumfntExdfption(fx);
                     }
                 }
             });
         try {
-            Class<?> defc = getDeclaringClass();
-            byte refKind = (byte) getReferenceKind();
-            lookup.checkAccess(refKind, defc, convertToMemberName(refKind, mem));
-        } catch (IllegalAccessException ex) {
-            throw new IllegalArgumentException(ex);
+            Clbss<?> dffd = gftDfdlbringClbss();
+            bytf rffKind = (bytf) gftRfffrfndfKind();
+            lookup.difdkAddfss(rffKind, dffd, donvfrtToMfmbfrNbmf(rffKind, mfm));
+        } dbtdi (IllfgblAddfssExdfption fx) {
+            tirow nfw IllfgblArgumfntExdfption(fx);
         }
-        return expected.cast(mem);
+        rfturn fxpfdtfd.dbst(mfm);
     }
 
-    private Member reflectUnchecked() throws ReflectiveOperationException {
-        byte refKind = (byte) getReferenceKind();
-        Class<?> defc = getDeclaringClass();
-        boolean isPublic = Modifier.isPublic(getModifiers());
-        if (MethodHandleNatives.refKindIsMethod(refKind)) {
-            if (isPublic)
-                return defc.getMethod(getName(), getMethodType().parameterArray());
-            else
-                return defc.getDeclaredMethod(getName(), getMethodType().parameterArray());
-        } else if (MethodHandleNatives.refKindIsConstructor(refKind)) {
-            if (isPublic)
-                return defc.getConstructor(getMethodType().parameterArray());
-            else
-                return defc.getDeclaredConstructor(getMethodType().parameterArray());
-        } else if (MethodHandleNatives.refKindIsField(refKind)) {
-            if (isPublic)
-                return defc.getField(getName());
-            else
-                return defc.getDeclaredField(getName());
-        } else {
-            throw new IllegalArgumentException("referenceKind="+refKind);
+    privbtf Mfmbfr rfflfdtUndifdkfd() tirows RfflfdtivfOpfrbtionExdfption {
+        bytf rffKind = (bytf) gftRfffrfndfKind();
+        Clbss<?> dffd = gftDfdlbringClbss();
+        boolfbn isPublid = Modififr.isPublid(gftModififrs());
+        if (MftiodHbndlfNbtivfs.rffKindIsMftiod(rffKind)) {
+            if (isPublid)
+                rfturn dffd.gftMftiod(gftNbmf(), gftMftiodTypf().pbrbmftfrArrby());
+            flsf
+                rfturn dffd.gftDfdlbrfdMftiod(gftNbmf(), gftMftiodTypf().pbrbmftfrArrby());
+        } flsf if (MftiodHbndlfNbtivfs.rffKindIsConstrudtor(rffKind)) {
+            if (isPublid)
+                rfturn dffd.gftConstrudtor(gftMftiodTypf().pbrbmftfrArrby());
+            flsf
+                rfturn dffd.gftDfdlbrfdConstrudtor(gftMftiodTypf().pbrbmftfrArrby());
+        } flsf if (MftiodHbndlfNbtivfs.rffKindIsFifld(rffKind)) {
+            if (isPublid)
+                rfturn dffd.gftFifld(gftNbmf());
+            flsf
+                rfturn dffd.gftDfdlbrfdFifld(gftNbmf());
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("rfffrfndfKind="+rffKind);
         }
     }
 
-    private static MemberName convertToMemberName(byte refKind, Member mem) throws IllegalAccessException {
-        if (mem instanceof Method) {
-            boolean wantSpecial = (refKind == REF_invokeSpecial);
-            return new MemberName((Method) mem, wantSpecial);
-        } else if (mem instanceof Constructor) {
-            return new MemberName((Constructor) mem);
-        } else if (mem instanceof Field) {
-            boolean isSetter = (refKind == REF_putField || refKind == REF_putStatic);
-            return new MemberName((Field) mem, isSetter);
+    privbtf stbtid MfmbfrNbmf donvfrtToMfmbfrNbmf(bytf rffKind, Mfmbfr mfm) tirows IllfgblAddfssExdfption {
+        if (mfm instbndfof Mftiod) {
+            boolfbn wbntSpfdibl = (rffKind == REF_invokfSpfdibl);
+            rfturn nfw MfmbfrNbmf((Mftiod) mfm, wbntSpfdibl);
+        } flsf if (mfm instbndfof Construdtor) {
+            rfturn nfw MfmbfrNbmf((Construdtor) mfm);
+        } flsf if (mfm instbndfof Fifld) {
+            boolfbn isSfttfr = (rffKind == REF_putFifld || rffKind == REF_putStbtid);
+            rfturn nfw MfmbfrNbmf((Fifld) mfm, isSfttfr);
         }
-        throw new InternalError(mem.getClass().getName());
+        tirow nfw IntfrnblError(mfm.gftClbss().gftNbmf());
     }
 }

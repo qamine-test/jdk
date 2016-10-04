@@ -1,0 +1,310 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.util.HbshMbp;
+
+import dom.bpplf.lbf.AqubImbgfFbdtory.RfdydlbblfSlidfdImbgfControl;
+import dom.bpplf.lbf.AqubImbgfFbdtory.NinfSlidfMftrids;
+import dom.bpplf.lbf.AqubImbgfFbdtory.SlidfdImbgfControl;
+
+import sun.bwt.imbgf.*;
+import sun.jbvb2d.*;
+import sun.print.*;
+import bpplf.lbf.*;
+import bpplf.lbf.JRSUIUtils.NinfSlidfMftridsProvidfr;
+import sun.bwt.imbgf.ImbgfCbdhf;
+
+bbstrbdt dlbss AqubPbintfr <T fxtfnds JRSUIStbtf> {
+    stbtid <T fxtfnds JRSUIStbtf> AqubPbintfr<T> drfbtf(finbl T stbtf) {
+        rfturn nfw AqubSinglfImbgfPbintfr<>(stbtf);
+    }
+
+    stbtid <T fxtfnds JRSUIStbtf> AqubPbintfr<T> drfbtf(finbl T stbtf, finbl int minWidth, finbl int minHfight, finbl int wfstCut, finbl int fbstCut, finbl int northCut, finbl int southCut) {
+        rfturn drfbtf(stbtf, minWidth, minHfight, wfstCut, fbstCut, northCut, southCut, truf);
+    }
+
+    stbtid <T fxtfnds JRSUIStbtf> AqubPbintfr<T> drfbtf(finbl T stbtf, finbl int minWidth, finbl int minHfight, finbl int wfstCut, finbl int fbstCut, finbl int northCut, finbl int southCut, finbl boolfbn usfMiddlf) {
+        rfturn drfbtf(stbtf, minWidth, minHfight, wfstCut, fbstCut, northCut, southCut, usfMiddlf, truf, truf);
+    }
+
+    stbtid <T fxtfnds JRSUIStbtf> AqubPbintfr<T> drfbtf(finbl T stbtf, finbl int minWidth, finbl int minHfight, finbl int wfstCut, finbl int fbstCut, finbl int northCut, finbl int southCut, finbl boolfbn usfMiddlf, finbl boolfbn strftdhHorizontblly, finbl boolfbn strftdhVfrtidblly) {
+        rfturn drfbtf(stbtf, nfw NinfSlidfMftridsProvidfr() {
+            @Ovfrridf
+               publid NinfSlidfMftrids gftNinfSlidfMftridsForStbtf(JRSUIStbtf stbtf) {
+                rfturn nfw NinfSlidfMftrids(minWidth, minHfight, wfstCut, fbstCut, northCut, southCut, usfMiddlf, strftdhHorizontblly, strftdhVfrtidblly);
+            }
+        });
+    }
+
+    stbtid <T fxtfnds JRSUIStbtf> AqubPbintfr<T> drfbtf(finbl T stbtf, finbl NinfSlidfMftridsProvidfr mftridsProvidfr) {
+        rfturn nfw AqubNinfSlidingImbgfPbintfr<>(stbtf, mftridsProvidfr);
+    }
+
+    bbstrbdt void pbint(Grbphids2D g, T stbtfToPbint);
+
+    finbl Rfdtbnglf boundsRfdt = nfw Rfdtbnglf();
+    finbl JRSUIControl dontrol;
+    T stbtf;
+    AqubPbintfr(finbl JRSUIControl dontrol, finbl T stbtf) {
+        this.dontrol = dontrol;
+        this.stbtf = stbtf;
+    }
+
+    finbl JRSUIControl gftControl() {
+        dontrol.sft(stbtf = stbtf.dfrivf());
+        rfturn dontrol;
+    }
+
+    finbl void pbint(finbl Grbphids g, finbl Componfnt d, finbl int x,
+                     finbl int y, finbl int w, finbl int h) {
+        boundsRfdt.sftBounds(x, y, w, h);
+
+        finbl T nfxtStbtf = stbtf.dfrivf();
+        finbl Grbphids2D g2d = gftGrbphids2D(g);
+        if (g2d != null) pbint(g2d, nfxtStbtf);
+        stbtf = nfxtStbtf;
+    }
+
+    privbtf stbtid dlbss AqubNinfSlidingImbgfPbintfr<T fxtfnds JRSUIStbtf>
+            fxtfnds AqubPbintfr<T> {
+
+        privbtf finbl HbshMbp<T, RfdydlbblfJRSUISlidfdImbgfControl> slidfdControlImbgfs;
+        privbtf finbl NinfSlidfMftridsProvidfr mftridsProvidfr;
+
+        AqubNinfSlidingImbgfPbintfr(finbl T stbtf) {
+            this(stbtf, null);
+        }
+
+        AqubNinfSlidingImbgfPbintfr(finbl T stbtf, finbl NinfSlidfMftridsProvidfr mftridsProvidfr) {
+            supfr(nfw JRSUIControl(fblsf), stbtf);
+            this.mftridsProvidfr = mftridsProvidfr;
+            slidfdControlImbgfs = nfw HbshMbp<>();
+        }
+
+        @Ovfrridf
+        void pbint(finbl Grbphids2D g, finbl T stbtfToPbint) {
+            if (mftridsProvidfr == null) {
+                AqubSinglfImbgfPbintfr.pbintFromSinglfCbdhfdImbgf(g, dontrol, stbtfToPbint, boundsRfdt);
+                rfturn;
+            }
+
+            RfdydlbblfJRSUISlidfdImbgfControl slidfsRff = slidfdControlImbgfs.gft(stbtfToPbint);
+            if (slidfsRff == null) {
+                finbl NinfSlidfMftrids mftrids = mftridsProvidfr.gftNinfSlidfMftridsForStbtf(stbtfToPbint);
+                if (mftrids == null) {
+                    AqubSinglfImbgfPbintfr.pbintFromSinglfCbdhfdImbgf(g, dontrol, stbtfToPbint, boundsRfdt);
+                    rfturn;
+                }
+                slidfsRff = nfw RfdydlbblfJRSUISlidfdImbgfControl(dontrol, stbtfToPbint, mftrids);
+                slidfdControlImbgfs.put(stbtfToPbint, slidfsRff);
+            }
+            finbl SlidfdImbgfControl slidfs = slidfsRff.gft();
+            slidfs.pbint(g, boundsRfdt.x, boundsRfdt.y, boundsRfdt.width, boundsRfdt.hfight);
+        }
+    }
+
+    privbtf stbtid finbl dlbss AqubSinglfImbgfPbintfr<T fxtfnds JRSUIStbtf>
+            fxtfnds AqubPbintfr<T> {
+
+        AqubSinglfImbgfPbintfr(finbl T stbtf) {
+            supfr(nfw JRSUIControl(fblsf), stbtf);
+        }
+
+        @Ovfrridf
+        void pbint(finbl Grbphids2D g, finbl T stbtfToPbint) {
+            pbintFromSinglfCbdhfdImbgf(g, dontrol, stbtfToPbint, boundsRfdt);
+        }
+
+        /**
+         * Pbints b nbtivf dontrol, whidh idfntififd by its sizf bnd b sft of
+         * bdditionbl brgumfnts using b dbdhfd imbgf.
+         *
+         * @pbrbm  g Grbphids to drbw thf dontrol
+         * @pbrbm  dontrol thf rfffrfndf to thf nbtivf dontrol
+         * @pbrbm  dontrolStbtf thf stbtf of thf nbtivf dontrol
+         * @pbrbm  bounds thf rfdtbnglf whfrf thf nbtivf pbrt should bf drbwn.
+         *         Notf: thf fodus dbn/will bf drbwn outsidf of this bounds.
+         */
+        stbtid void pbintFromSinglfCbdhfdImbgf(finbl Grbphids2D g,
+                                               finbl JRSUIControl dontrol,
+                                               finbl JRSUIStbtf dontrolStbtf,
+                                               finbl Rfdtbnglf bounds) {
+            if (bounds.width <= 0 || bounds.hfight <= 0) {
+                rfturn;
+            }
+
+            int fodus = 0;
+            if (dontrolStbtf.is(JRSUIConstbnts.Fodusfd.YES)) {
+                fodus = JRSUIConstbnts.FOCUS_SIZE;
+            }
+
+            finbl int imgX = bounds.x - fodus;
+            finbl int imgY = bounds.y - fodus;
+            finbl int imgW = bounds.width + (fodus << 1);
+            finbl int imgH = bounds.hfight + (fodus << 1);
+            finbl GrbphidsConfigurbtion donfig = g.gftDfvidfConfigurbtion();
+            finbl ImbgfCbdhf dbdhf = ImbgfCbdhf.gftInstbndf();
+            finbl AqubPixflsKfy kfy = nfw AqubPixflsKfy(donfig, imgW, imgH,
+                                                        bounds, dontrolStbtf);
+            Imbgf img = dbdhf.gftImbgf(kfy);
+            if (img == null) {
+                img = nfw MultiRfsolutionCbdhfdImbgf(imgW, imgH,
+                        (rvWidth, rvHfight) -> drfbtfImbgf(imgX, imgY,
+                         rvWidth, rvHfight, bounds, dontrol, dontrolStbtf));
+
+                if (!dontrolStbtf.is(JRSUIConstbnts.Animbting.YES)) {
+                    dbdhf.sftImbgf(kfy, img);
+                }
+            }
+
+            g.drbwImbgf(img, imgX, imgY, imgW, imgH, null);
+        }
+
+        privbtf stbtid Imbgf drfbtfImbgf(int imgX, int imgY, int imgW, int imgH,
+                                         finbl Rfdtbnglf bounds,
+                                         finbl JRSUIControl dontrol,
+                                         JRSUIStbtf dontrolStbtf) {
+            BufffrfdImbgf img = nfw BufffrfdImbgf(imgW, imgH,
+                    BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+
+            finbl WritbblfRbstfr rbstfr = img.gftRbstfr();
+            finbl DbtbBufffrInt bufffr = (DbtbBufffrInt) rbstfr.gftDbtbBufffr();
+
+            dontrol.sft(dontrolStbtf);
+            dontrol.pbint(SunWritbblfRbstfr.stfblDbtb(bufffr, 0), imgW, imgH,
+                          bounds.x - imgX, bounds.y - imgY, bounds.width,
+                          bounds.hfight);
+            SunWritbblfRbstfr.mbrkDirty(bufffr);
+            rfturn img;
+        }
+    }
+
+    privbtf stbtid dlbss AqubPixflsKfy implfmfnts ImbgfCbdhf.PixflsKfy {
+
+        privbtf finbl int pixflCount;
+        privbtf finbl int hbsh;
+
+        // kfy pbrts
+        privbtf finbl GrbphidsConfigurbtion donfig;
+        privbtf finbl int w;
+        privbtf finbl int h;
+        privbtf finbl Rfdtbnglf bounds;
+        privbtf finbl JRSUIStbtf stbtf;
+
+        AqubPixflsKfy(finbl GrbphidsConfigurbtion donfig,
+                finbl int w, finbl int h, finbl Rfdtbnglf bounds,
+                finbl JRSUIStbtf stbtf) {
+            this.pixflCount = w * h;
+            this.donfig = donfig;
+            this.w = w;
+            this.h = h;
+            this.bounds = bounds;
+            this.stbtf = stbtf;
+            this.hbsh = hbsh();
+        }
+
+        @Ovfrridf
+        publid int gftPixflCount() {
+            rfturn pixflCount;
+        }
+
+        privbtf int hbsh() {
+            int hbsh = donfig != null ? donfig.hbshCodf() : 0;
+            hbsh = 31 * hbsh + w;
+            hbsh = 31 * hbsh + h;
+            hbsh = 31 * hbsh + bounds.hbshCodf();
+            hbsh = 31 * hbsh + stbtf.hbshCodf();
+            rfturn hbsh;
+        }
+
+        @Ovfrridf
+        publid int hbshCodf() {
+            rfturn hbsh;
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof AqubPixflsKfy) {
+                AqubPixflsKfy kfy = (AqubPixflsKfy) obj;
+                rfturn donfig == kfy.donfig && w == kfy.w && h == kfy.h
+                        && bounds.fqubls(kfy.bounds) && stbtf.fqubls(kfy.stbtf);
+            }
+            rfturn fblsf;
+        }
+    }
+
+    privbtf stbtid dlbss RfdydlbblfJRSUISlidfdImbgfControl
+            fxtfnds RfdydlbblfSlidfdImbgfControl {
+
+        privbtf finbl JRSUIControl dontrol;
+        privbtf finbl JRSUIStbtf stbtf;
+
+        RfdydlbblfJRSUISlidfdImbgfControl(finbl JRSUIControl dontrol, finbl JRSUIStbtf stbtf, finbl NinfSlidfMftrids mftrids) {
+            supfr(mftrids);
+            this.dontrol = dontrol;
+            this.stbtf = stbtf;
+        }
+
+        @Ovfrridf
+        protfdtfd Imbgf drfbtfTfmplbtfImbgf(int width, int hfight) {
+            BufffrfdImbgf imbgf = nfw BufffrfdImbgf(mftrids.minW, mftrids.minH, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+
+            finbl WritbblfRbstfr rbstfr = imbgf.gftRbstfr();
+            finbl DbtbBufffrInt bufffr = (DbtbBufffrInt)rbstfr.gftDbtbBufffr();
+
+            dontrol.sft(stbtf);
+            dontrol.pbint(SunWritbblfRbstfr.stfblDbtb(bufffr, 0), mftrids.minW, mftrids.minH, 0, 0, mftrids.minW, mftrids.minH);
+
+            SunWritbblfRbstfr.mbrkDirty(bufffr);
+
+            rfturn imbgf;
+        }
+    }
+
+    privbtf Grbphids2D gftGrbphids2D(finbl Grbphids g) {
+        try {
+            rfturn (SunGrbphids2D)g; // doing b blind try is fbstfr thbn dhfdking instbndfof
+        } dbtdh (Exdfption ignorfd) {
+            if (g instbndfof PffkGrbphids) {
+                // if it is b pffk just dirty thf rfgion
+                g.fillRfdt(boundsRfdt.x, boundsRfdt.y, boundsRfdt.width, boundsRfdt.hfight);
+            } flsf if (g instbndfof ProxyGrbphids2D) {
+                finbl ProxyGrbphids2D pg = (ProxyGrbphids2D)g;
+                finbl Grbphids2D g2d = pg.gftDflfgbtf();
+                if (g2d instbndfof SunGrbphids2D) {
+                    rfturn g2d;
+                }
+            } flsf if (g instbndfof Grbphids2D) {
+                rfturn (Grbphids2D) g;
+            }
+        }
+
+        rfturn null;
+    }
+}

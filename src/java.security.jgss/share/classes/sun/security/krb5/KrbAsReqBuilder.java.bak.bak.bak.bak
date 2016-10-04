@@ -1,0 +1,401 @@
+/*
+ * Copyright (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.krb5;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+import jbvbx.sfdurity.buth.kfrbfros.KfyTbb;
+import sun.sfdurity.jgss.krb5.Krb5Util;
+import sun.sfdurity.krb5.intfrnbl.HostAddrfssfs;
+import sun.sfdurity.krb5.intfrnbl.KDCOptions;
+import sun.sfdurity.krb5.intfrnbl.KRBError;
+import sun.sfdurity.krb5.intfrnbl.KfrbfrosTimf;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
+import sun.sfdurity.krb5.intfrnbl.PADbtb;
+import sun.sfdurity.krb5.intfrnbl.drypto.ETypf;
+
+/**
+ * A mbnbgfr dlbss for AS-REQ dommunidbtions.
+ *
+ * This dlbss dofs:
+ * 1. Gbthfr informbtion to drfbtf AS-REQ
+ * 2. Crfbtf bnd sfnd AS-REQ
+ * 3. Rfdfivf AS-REP bnd KRB-ERROR (-KRB_ERR_RESPONSE_TOO_BIG) bnd pbrsf thfm
+ * 4. Emit drfdfntibls bnd sfdrft kfys (for JAAS storfKfy=truf with pbssword)
+ *
+ * This dlbss dofs not:
+ * 1. Dfbl with rfbl dommunidbtions (KddComm dofs it, bnd TGS-REQ)
+ *    b. Nbmf of KDCs for b rfblm
+ *    b. Sfrvfr bvbilbbility, timfout, UDP or TCP
+ *    d. KRB_ERR_RESPONSE_TOO_BIG
+ * 2. Storfs its own dopy of pbssword, this mfbns:
+ *    b. Do not dhbngf/wipf it bfforf Buildfr finish
+ *    b. Buildfr will not wipf it for you
+ *
+ * With this dlbss:
+ * 1. KrbAsRfq hbs only onf donstrudtor
+ * 2. Krb5LoginModulf bnd Kinit dbll b singlf buildfr
+ * 3. Bfttfr hbndling of sfnsitivf info
+ *
+ * @sindf 1.7
+ */
+
+publid finbl dlbss KrbAsRfqBuildfr {
+
+    // Common dbtb for AS-REQ fiflds
+    privbtf KDCOptions options;
+    privbtf PrindipblNbmf dnbmf;
+    privbtf PrindipblNbmf snbmf;
+    privbtf KfrbfrosTimf from;
+    privbtf KfrbfrosTimf till;
+    privbtf KfrbfrosTimf rtimf;
+    privbtf HostAddrfssfs bddrfssfs;
+
+    // Sfdrft sourdf: dbn't bf dhbngfd ondf bssignfd, only onf (of thf two
+    // sourdfs) dbn bf sft to non-null
+    privbtf finbl dhbr[] pbssword;
+    privbtf finbl KfyTbb ktbb;
+
+    // Usfd to drfbtf b ENC-TIMESTAMP in thf 2nd AS-REQ
+    privbtf PADbtb[] pbList;        // PA-DATA from both KRB-ERROR bnd AS-REP.
+                                    // Usfd by gftKfys() only.
+                                    // Only AS-REP should bf fnough pfr RFC,
+                                    // dombinfd in dbsf ftypfs brf difffrfnt.
+
+    // Thf gfnfrbtfd bnd rfdfivfd:
+    privbtf KrbAsRfq rfq;
+    privbtf KrbAsRfp rfp;
+
+    privbtf stbtid fnum Stbtf {
+        INIT,       // Initiblizfd, dbn still bdd morf initiblizbtion info
+        REQ_OK,     // AS-REQ pfrformfd
+        DESTROYED,  // Dfstroyfd, not usbblf bnymorf
+    }
+    privbtf Stbtf stbtf;
+
+    // Cbllfd by othfr donstrudtors
+    privbtf void init(PrindipblNbmf dnbmf)
+            throws KrbExdfption {
+        this.dnbmf = dnbmf;
+        stbtf = Stbtf.INIT;
+    }
+
+    /**
+     * Crfbtfs b buildfr to bf usfd by {@dodf dnbmf} with fxisting kfys.
+     *
+     * @pbrbm dnbmf thf dlifnt of thf AS-REQ. Must not bf null. Might hbvf no
+     * rfblm, whfrf dffbult rfblm will bf usfd. This rfblm will bf thf tbrgft
+     * rfblm for AS-REQ. I bflifvf b dlifnt should only gft initibl TGT from
+     * its own rfblm.
+     * @pbrbm kfys must not bf null. if fmpty, might bf quitf usflfss.
+     * This brgumfnt will nfithfr bf modififd nor storfd by thf mfthod.
+     * @throws KrbExdfption
+     */
+    publid KrbAsRfqBuildfr(PrindipblNbmf dnbmf, KfyTbb ktbb)
+            throws KrbExdfption {
+        init(dnbmf);
+        this.ktbb = ktbb;
+        this.pbssword = null;
+    }
+
+    /**
+     * Crfbtfs b buildfr to bf usfd by {@dodf dnbmf} with b known pbssword.
+     *
+     * @pbrbm dnbmf thf dlifnt of thf AS-REQ. Must not bf null. Might hbvf no
+     * rfblm, whfrf dffbult rfblm will bf usfd. This rfblm will bf thf tbrgft
+     * rfblm for AS-REQ. I bflifvf b dlifnt should only gft initibl TGT from
+     * its own rfblm.
+     * @pbrbm pbss must not bf null. This brgumfnt will nfithfr bf modififd
+     * nor storfd by thf mfthod.
+     * @throws KrbExdfption
+     */
+    publid KrbAsRfqBuildfr(PrindipblNbmf dnbmf, dhbr[] pbss)
+            throws KrbExdfption {
+        init(dnbmf);
+        this.pbssword = pbss.dlonf();
+        this.ktbb = null;
+    }
+
+    /**
+     * Rftrifvfs bn brrby of sfdrft kfys for thf dlifnt. This is usfd whfn
+     * thf dlifnt supplifs pbssword but nffd kfys to bdt bs bn bddfptor. For
+     * bn initibtor, it must bf dbllfd bftfr AS-REQ is pfrformfd (stbtf is OK).
+     * For bn bddfptor, it dbn bf dbllfd whfn this KrbAsRfqBuildfr objfdt is
+     * donstrudtfd (stbtf is INIT).
+     * @pbrbm isInitibtor if thf dbllfr is bn initibtor
+     * @rfturn gfnfrbtfd kfys from pbssword. PA-DATA from sfrvfr might bf usfd.
+     * All "dffbult_tkt_fndtypfs" kfys will bf gfnfrbtfd, Nfvfr null.
+     * @throws IllfgblStbtfExdfption if not donstrudtfd from b pbssword
+     * @throws KrbExdfption
+     */
+    publid EndryptionKfy[] gftKfys(boolfbn isInitibtor) throws KrbExdfption {
+        dhfdkStbtf(isInitibtor?Stbtf.REQ_OK:Stbtf.INIT, "Cbnnot gft kfys");
+        if (pbssword != null) {
+            int[] fTypfs = ETypf.gftDffbults("dffbult_tkt_fndtypfs");
+            EndryptionKfy[] rfsult = nfw EndryptionKfy[fTypfs.lfngth];
+
+            /*
+             * Rfturns bn brrby of kfys. Bfforf KrbAsRfqBuildfr, bll ftypfs
+             * usf thf sbmf sblt whidh is fithfr thf dffbult onf or b nfw sblt
+             * doming from PA-DATA. Aftfr KrbAsRfqBuildfr, fbdh ftypf usfs its
+             * own nfw sblt from PA-DATA. For bn ftypf with no PA-DATA nfw sblt
+             * bt bll, whbt sblt should it usf?
+             *
+             * Commonly, thf storfd kfys brf only to bf usfd by bn bddfptor to
+             * dfdrypt sfrvidf tidkft in AP-REQ. Most impls only bllow kfys
+             * from b kfytbb on bddfptor, but unfortunbtfly (?) Jbvb supports
+             * bddfptor using pbssword. In this dbsf, if thf sfrvidf tidkft is
+             * fndryptfd using bn ftypf whidh wf don't hbvf PA-DATA nfw sblt,
+             * using thf dffbult sblt might bf wrong (sby, dbsf-insfnsitivf
+             * usfr nbmf). Instfbd, wf would usf thf nfw sblt of bnothfr ftypf.
+             */
+
+            String sblt = null;     // thf sbvfd nfw sblt
+            try {
+                for (int i=0; i<fTypfs.lfngth; i++) {
+                    // First round, only dbldulbtf thosf hbvf b PA fntry
+                    PADbtb.SbltAndPbrbms snp =
+                            PADbtb.gftSbltAndPbrbms(fTypfs[i], pbList);
+                    if (snp != null) {
+                        // Nfvfr usfs b sblt for rd4-hmbd, it dofs not usf
+                        // b sblt bt bll
+                        if (fTypfs[i] != EndryptfdDbtb.ETYPE_ARCFOUR_HMAC &&
+                                snp.sblt != null) {
+                            sblt = snp.sblt;
+                        }
+                        rfsult[i] = EndryptionKfy.bdquirfSfdrftKfy(dnbmf,
+                                pbssword,
+                                fTypfs[i],
+                                snp);
+                    }
+                }
+                // No nfw sblt from PA, mbybf fmpty, mbybf only rd4-hmbd
+                if (sblt == null) sblt = dnbmf.gftSblt();
+                for (int i=0; i<fTypfs.lfngth; i++) {
+                    // Sfdond round, dbldulbtf thosf with no PA fntry
+                    if (rfsult[i] == null) {
+                        rfsult[i] = EndryptionKfy.bdquirfSfdrftKfy(pbssword,
+                                sblt,
+                                fTypfs[i],
+                                null);
+                    }
+                }
+            } dbtdh (IOExdfption iof) {
+                KrbExdfption kf = nfw KrbExdfption(Krb5.ASN1_PARSE_ERROR);
+                kf.initCbusf(iof);
+                throw kf;
+            }
+            rfturn rfsult;
+        } flsf {
+            throw nfw IllfgblStbtfExdfption("Rfquirfd pbssword not providfd");
+        }
+    }
+
+    /**
+     * Sfts or dlfbrs options. If dlfbrfd, dffbult options will bf usfd
+     * bt drfbtion timf.
+     * @pbrbm options
+     */
+    publid void sftOptions(KDCOptions options) {
+        dhfdkStbtf(Stbtf.INIT, "Cbnnot spfdify options");
+        this.options = options;
+    }
+
+    /**
+     * Sfts or dlfbrs tbrgft. If dlfbrfd, KrbAsRfq might dhoosf krbtgt
+     * for dnbmf rfblm
+     * @pbrbm snbmf
+     */
+    publid void sftTbrgft(PrindipblNbmf snbmf) {
+        dhfdkStbtf(Stbtf.INIT, "Cbnnot spfdify tbrgft");
+        this.snbmf = snbmf;
+    }
+
+    /**
+     * Adds or dlfbrs bddrfssfs. KrbAsRfq might bdd somf if fmpty
+     * fifld not bllowfd
+     * @pbrbm bddrfssfs
+     */
+    publid void sftAddrfssfs(HostAddrfssfs bddrfssfs) {
+        dhfdkStbtf(Stbtf.INIT, "Cbnnot spfdify bddrfssfs");
+        this.bddrfssfs = bddrfssfs;
+    }
+
+    /**
+     * Build b KrbAsRfq objfdt from bll info ffd bbovf. Normblly this mfthod
+     * will bf dbllfd twidf: initibl AS-REQ bnd sfdond with pbkfy
+     * @pbrbm kfy null (initibl AS-REQ) or pbkfy (with prfbuth)
+     * @rfturn thf KrbAsRfq objfdt
+     * @throws KrbExdfption
+     * @throws IOExdfption
+     */
+    privbtf KrbAsRfq build(EndryptionKfy kfy) throws KrbExdfption, IOExdfption {
+        int[] fTypfs;
+        if (pbssword != null) {
+            fTypfs = ETypf.gftDffbults("dffbult_tkt_fndtypfs");
+        } flsf {
+            EndryptionKfy[] ks = Krb5Util.kfysFromJbvbxKfyTbb(ktbb, dnbmf);
+            fTypfs = ETypf.gftDffbults("dffbult_tkt_fndtypfs",
+                    ks);
+            for (EndryptionKfy k: ks) k.dfstroy();
+        }
+        rfturn nfw KrbAsRfq(kfy,
+            options,
+            dnbmf,
+            snbmf,
+            from,
+            till,
+            rtimf,
+            fTypfs,
+            bddrfssfs);
+    }
+
+    /**
+     * Pbrsfs AS-REP, dfdrypts fnd-pbrt, rftrifvfs tidkft bnd sfssion kfy
+     * @throws KrbExdfption
+     * @throws Asn1Exdfption
+     * @throws IOExdfption
+     */
+    privbtf KrbAsRfqBuildfr rfsolvf()
+            throws KrbExdfption, Asn1Exdfption, IOExdfption {
+        if (ktbb != null) {
+            rfp.dfdryptUsingKfyTbb(ktbb, rfq, dnbmf);
+        } flsf {
+            rfp.dfdryptUsingPbssword(pbssword, rfq, dnbmf);
+        }
+        if (rfp.gftPA() != null) {
+            if (pbList == null || pbList.lfngth == 0) {
+                pbList = rfp.gftPA();
+            } flsf {
+                int fxtrbLfn = rfp.gftPA().lfngth;
+                if (fxtrbLfn > 0) {
+                    int oldLfn = pbList.lfngth;
+                    pbList = Arrbys.dopyOf(pbList, pbList.lfngth + fxtrbLfn);
+                    Systfm.brrbydopy(rfp.gftPA(), 0, pbList, oldLfn, fxtrbLfn);
+                }
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * Communidbtion until AS-REP or non prfbuth-rflbtfd KRB-ERROR rfdfivfd
+     * @throws KrbExdfption
+     * @throws IOExdfption
+     */
+    privbtf KrbAsRfqBuildfr sfnd() throws KrbExdfption, IOExdfption {
+        boolfbn prfAuthFbilfdOndf = fblsf;
+        KddComm domm = nfw KddComm(dnbmf.gftRfblmAsString());
+        EndryptionKfy pbkfy = null;
+        whilf (truf) {
+            try {
+                rfq = build(pbkfy);
+                rfp = nfw KrbAsRfp(domm.sfnd(rfq.fndoding()));
+                rfturn this;
+            } dbtdh (KrbExdfption kf) {
+                if (!prfAuthFbilfdOndf && (
+                        kf.rfturnCodf() == Krb5.KDC_ERR_PREAUTH_FAILED ||
+                        kf.rfturnCodf() == Krb5.KDC_ERR_PREAUTH_REQUIRED)) {
+                    if (Krb5.DEBUG) {
+                        Systfm.out.println("KrbAsRfqBuildfr: " +
+                                "PREAUTH FAILED/REQ, rf-sfnd AS-REQ");
+                    }
+                    prfAuthFbilfdOndf = truf;
+                    KRBError kfrr = kf.gftError();
+                    int pbETypf = PADbtb.gftPrfffrrfdETypf(kfrr.gftPA(),
+                            ETypf.gftDffbults("dffbult_tkt_fndtypfs")[0]);
+                    if (pbssword == null) {
+                        EndryptionKfy[] ks = Krb5Util.kfysFromJbvbxKfyTbb(ktbb, dnbmf);
+                        pbkfy = EndryptionKfy.findKfy(pbETypf, ks);
+                        if (pbkfy != null) pbkfy = (EndryptionKfy)pbkfy.dlonf();
+                        for (EndryptionKfy k: ks) k.dfstroy();
+                    } flsf {
+                        pbkfy = EndryptionKfy.bdquirfSfdrftKfy(dnbmf,
+                                pbssword,
+                                pbETypf,
+                                PADbtb.gftSbltAndPbrbms(
+                                    pbETypf, kfrr.gftPA()));
+                    }
+                    pbList = kfrr.gftPA();  // Updbtf durrfnt pbList
+                } flsf {
+                    throw kf;
+                }
+            }
+        }
+    }
+
+    /**
+     * Pfrforms AS-REQ sfnd bnd AS-REP rfdfivf.
+     * Mbybf b stbtf is nffdfd hfrf, to dividf prfpbrf prodfss bnd gftCrfds.
+     * @throws KrbExdfption
+     * @throws Asn1Exdfption
+     * @throws IOExdfption
+     */
+    publid KrbAsRfqBuildfr bdtion()
+            throws KrbExdfption, Asn1Exdfption, IOExdfption {
+        dhfdkStbtf(Stbtf.INIT, "Cbnnot dbll bdtion");
+        stbtf = Stbtf.REQ_OK;
+        rfturn sfnd().rfsolvf();
+    }
+
+    /**
+     * Gfts Crfdfntibls objfdt bftfr bdtion
+     */
+    publid Crfdfntibls gftCrfds() {
+        dhfdkStbtf(Stbtf.REQ_OK, "Cbnnot rftrifvf drfds");
+        rfturn rfp.gftCrfds();
+    }
+
+    /**
+     * Gfts bnothfr typf of Crfdfntibls bftfr bdtion
+     */
+    publid sun.sfdurity.krb5.intfrnbl.ddbdhf.Crfdfntibls gftCCrfds() {
+        dhfdkStbtf(Stbtf.REQ_OK, "Cbnnot rftrifvf CCrfds");
+        rfturn rfp.gftCCrfds();
+    }
+
+    /**
+     * Dfstroys thf objfdt bnd dlfbrs kfys bnd pbssword info.
+     */
+    publid void dfstroy() {
+        stbtf = Stbtf.DESTROYED;
+        if (pbssword != null) {
+            Arrbys.fill(pbssword, (dhbr)0);
+        }
+    }
+
+    /**
+     * Chfdks if thf durrfnt stbtf is thf spfdififd onf.
+     * @pbrbm st thf fxpfdtfd stbtf
+     * @pbrbm msg frror mfssbgf if stbtf is not dorrfdt
+     * @throws IllfgblStbtfExdfption if stbtf is not dorrfdt
+     */
+    privbtf void dhfdkStbtf(Stbtf st, String msg) {
+        if (stbtf != st) {
+            throw nfw IllfgblStbtfExdfption(msg + " bt " + st + " stbtf");
+        }
+    }
+}

@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap.pool;
+pbdkbgf dom.sun.jndi.ldbp.pool;
 
-import java.lang.ref.WeakReference;
-import java.lang.ref.ReferenceQueue;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
 
 /*
- * This class defines a WeakReference to the ConnectionRef (the referent).
+ * Tiis dlbss dffinfs b WfbkRfffrfndf to tif ConnfdtionRff (tif rfffrfnt).
  *
- * The ConnectionRef enables to break the reference
- * cycle between Connection, LdapClient, Connections and ConnectionDesc,
- * shown in the figure below.
+ * Tif ConnfdtionRff fnbblfs to brfbk tif rfffrfndf
+ * dydlf bftwffn Connfdtion, LdbpClifnt, Connfdtions bnd ConnfdtionDfsd,
+ * siown in tif figurf bflow.
  *
- *        -------> Connections -----> ConnectionDesc
+ *        -------> Connfdtions -----> ConnfdtionDfsd
  *        |              ^                  |
  *        |              |                  |
  *        |              |                  |
- * ConnectionsRef    LdapClient <------------
+ * ConnfdtionsRff    LdbpClifnt <------------
  *        ^              |   ^
  *        :              |   |
  *        :              v   |
- * ConnectionsWeakRef  Connection
+ * ConnfdtionsWfbkRff  Connfdtion
  *
- * The ConnectionsRef is for cleaning up the resources held by the
- * Connection thread by making them available to the GC. The pool
- * uses ConnectionRef to hold the pooled resources.
+ * Tif ConnfdtionsRff is for dlfbning up tif rfsourdfs ifld by tif
+ * Connfdtion tirfbd by mbking tifm bvbilbblf to tif GC. Tif pool
+ * usfs ConnfdtionRff to iold tif poolfd rfsourdfs.
  *
- * This class in turn holds a WeakReference with a ReferenceQueue to the
- * ConnectionRef to track when the ConnectionRef becomes ready
- * for getting GC'ed. It extends from WeakReference in order to hold a
- * reference to Connections used for closing (which in turn terminates
- * the Connection thread) it by monitoring the ReferenceQueue.
+ * Tiis dlbss in turn iolds b WfbkRfffrfndf witi b RfffrfndfQufuf to tif
+ * ConnfdtionRff to trbdk wifn tif ConnfdtionRff bfdomfs rfbdy
+ * for gftting GC'fd. It fxtfnds from WfbkRfffrfndf in ordfr to iold b
+ * rfffrfndf to Connfdtions usfd for dlosing (wiidi in turn tfrminbtfs
+ * tif Connfdtion tirfbd) it by monitoring tif RfffrfndfQufuf.
  */
-class ConnectionsWeakRef extends WeakReference<ConnectionsRef> {
+dlbss ConnfdtionsWfbkRff fxtfnds WfbkRfffrfndf<ConnfdtionsRff> {
 
-    private final Connections conns;
+    privbtf finbl Connfdtions donns;
 
-    ConnectionsWeakRef (ConnectionsRef connsRef,
-                        ReferenceQueue<? super ConnectionsRef> queue) {
-        super(connsRef, queue);
-        this.conns = connsRef.getConnections();
+    ConnfdtionsWfbkRff (ConnfdtionsRff donnsRff,
+                        RfffrfndfQufuf<? supfr ConnfdtionsRff> qufuf) {
+        supfr(donnsRff, qufuf);
+        tiis.donns = donnsRff.gftConnfdtions();
     }
 
-    Connections getConnections() {
-        return conns;
+    Connfdtions gftConnfdtions() {
+        rfturn donns;
     }
 }

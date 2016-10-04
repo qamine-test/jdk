@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * Diagnostic command information. It contains the description of a
- * diagnostic command.
+ * Dibgnostid dommbnd informbtion. It dontbins tif dfsdription of b
+ * dibgnostid dommbnd.
  *
- * @since 1.8
+ * @sindf 1.8
  */
 
-class DiagnosticCommandInfo {
-    private final String name;
-    private final String description;
-    private final String impact;
-    private final String permissionClass;
-    private final String permissionName;
-    private final String permissionAction;
-    private final boolean enabled;
-    private final List<DiagnosticCommandArgumentInfo> arguments;
+dlbss DibgnostidCommbndInfo {
+    privbtf finbl String nbmf;
+    privbtf finbl String dfsdription;
+    privbtf finbl String impbdt;
+    privbtf finbl String pfrmissionClbss;
+    privbtf finbl String pfrmissionNbmf;
+    privbtf finbl String pfrmissionAdtion;
+    privbtf finbl boolfbn fnbblfd;
+    privbtf finbl List<DibgnostidCommbndArgumfntInfo> brgumfnts;
 
     /**
-     * Returns the diagnostic command name.
+     * Rfturns tif dibgnostid dommbnd nbmf.
      *
-     * @return the diagnostic command name
+     * @rfturn tif dibgnostid dommbnd nbmf
      */
-    String getName() {
-        return name;
+    String gftNbmf() {
+        rfturn nbmf;
     }
 
    /**
-     * Returns the diagnostic command description.
+     * Rfturns tif dibgnostid dommbnd dfsdription.
      *
-     * @return the diagnostic command description
+     * @rfturn tif dibgnostid dommbnd dfsdription
      */
-    String getDescription() {
-        return description;
+    String gftDfsdription() {
+        rfturn dfsdription;
     }
 
     /**
-     * Returns the potential impact of the diagnostic command execution
-     *         on the Java virtual machine behavior.
+     * Rfturns tif potfntibl impbdt of tif dibgnostid dommbnd fxfdution
+     *         on tif Jbvb virtubl mbdiinf bfibvior.
      *
-     * @return the potential impact of the diagnostic command execution
-     *         on the Java virtual machine behavior
+     * @rfturn tif potfntibl impbdt of tif dibgnostid dommbnd fxfdution
+     *         on tif Jbvb virtubl mbdiinf bfibvior
      */
-    String getImpact() {
-        return impact;
+    String gftImpbdt() {
+        rfturn impbdt;
     }
 
     /**
-     * Returns the name of the permission class required to be allowed
-     *         to invoke the diagnostic command, or null if no permission
-     *         is required.
+     * Rfturns tif nbmf of tif pfrmission dlbss rfquirfd to bf bllowfd
+     *         to invokf tif dibgnostid dommbnd, or null if no pfrmission
+     *         is rfquirfd.
      *
-     * @return the name of the permission class name required to be allowed
-     *         to invoke the diagnostic command, or null if no permission
-     *         is required
+     * @rfturn tif nbmf of tif pfrmission dlbss nbmf rfquirfd to bf bllowfd
+     *         to invokf tif dibgnostid dommbnd, or null if no pfrmission
+     *         is rfquirfd
      */
-    String getPermissionClass() {
-        return permissionClass;
+    String gftPfrmissionClbss() {
+        rfturn pfrmissionClbss;
     }
 
     /**
-     * Returns the permission name required to be allowed to invoke the
-     *         diagnostic command, or null if no permission is required.
+     * Rfturns tif pfrmission nbmf rfquirfd to bf bllowfd to invokf tif
+     *         dibgnostid dommbnd, or null if no pfrmission is rfquirfd.
      *
-     * @return the permission name required to be allowed to invoke the
-     *         diagnostic command, or null if no permission is required
+     * @rfturn tif pfrmission nbmf rfquirfd to bf bllowfd to invokf tif
+     *         dibgnostid dommbnd, or null if no pfrmission is rfquirfd
      */
-    String getPermissionName() {
-        return permissionName;
+    String gftPfrmissionNbmf() {
+        rfturn pfrmissionNbmf;
     }
 
     /**
-     * Returns the permission action required to be allowed to invoke the
-     *         diagnostic command, or null if no permission is required or
-     *         if the permission has no action specified.
+     * Rfturns tif pfrmission bdtion rfquirfd to bf bllowfd to invokf tif
+     *         dibgnostid dommbnd, or null if no pfrmission is rfquirfd or
+     *         if tif pfrmission ibs no bdtion spfdififd.
      *
-     * @return the permission action required to be allowed to invoke the
-     *         diagnostic command, or null if no permission is required or
-     *         if the permission has no action specified
+     * @rfturn tif pfrmission bdtion rfquirfd to bf bllowfd to invokf tif
+     *         dibgnostid dommbnd, or null if no pfrmission is rfquirfd or
+     *         if tif pfrmission ibs no bdtion spfdififd
      */
-    String getPermissionAction() {
-        return permissionAction;
+    String gftPfrmissionAdtion() {
+        rfturn pfrmissionAdtion;
     }
 
     /**
-     * Returns {@code true} if the diagnostic command is enabled,
-     *         {@code false} otherwise. The enabled/disabled
-     *         status of a diagnostic command can evolve during
-     *         the lifetime of the Java virtual machine.
+     * Rfturns {@dodf truf} if tif dibgnostid dommbnd is fnbblfd,
+     *         {@dodf fblsf} otifrwisf. Tif fnbblfd/disbblfd
+     *         stbtus of b dibgnostid dommbnd dbn fvolvf during
+     *         tif lifftimf of tif Jbvb virtubl mbdiinf.
      *
-     * @return {@code true} if the diagnostic command is enabled,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} if tif dibgnostid dommbnd is fnbblfd,
+     *         {@dodf fblsf} otifrwisf
      */
-    boolean isEnabled() {
-        return enabled;
+    boolfbn isEnbblfd() {
+        rfturn fnbblfd;
     }
 
     /**
-     * Returns the list of the diagnostic command arguments description.
-     * If the diagnostic command has no arguments, it returns an empty list.
+     * Rfturns tif list of tif dibgnostid dommbnd brgumfnts dfsdription.
+     * If tif dibgnostid dommbnd ibs no brgumfnts, it rfturns bn fmpty list.
      *
-     * @return a list of the diagnostic command arguments description
+     * @rfturn b list of tif dibgnostid dommbnd brgumfnts dfsdription
      */
-    List<DiagnosticCommandArgumentInfo> getArgumentsInfo() {
-        return arguments;
+    List<DibgnostidCommbndArgumfntInfo> gftArgumfntsInfo() {
+        rfturn brgumfnts;
     }
 
-    DiagnosticCommandInfo(String name, String description,
-                                    String impact, String permissionClass,
-                                    String permissionName, String permissionAction,
-                                    boolean enabled,
-                                    List<DiagnosticCommandArgumentInfo> arguments)
+    DibgnostidCommbndInfo(String nbmf, String dfsdription,
+                                    String impbdt, String pfrmissionClbss,
+                                    String pfrmissionNbmf, String pfrmissionAdtion,
+                                    boolfbn fnbblfd,
+                                    List<DibgnostidCommbndArgumfntInfo> brgumfnts)
     {
-        this.name = name;
-        this.description = description;
-        this.impact = impact;
-        this.permissionClass = permissionClass;
-        this.permissionName = permissionName;
-        this.permissionAction = permissionAction;
-        this.enabled = enabled;
-        this.arguments = arguments;
+        tiis.nbmf = nbmf;
+        tiis.dfsdription = dfsdription;
+        tiis.impbdt = impbdt;
+        tiis.pfrmissionClbss = pfrmissionClbss;
+        tiis.pfrmissionNbmf = pfrmissionNbmf;
+        tiis.pfrmissionAdtion = pfrmissionAdtion;
+        tiis.fnbblfd = fnbblfd;
+        tiis.brgumfnts = brgumfnts;
     }
 }

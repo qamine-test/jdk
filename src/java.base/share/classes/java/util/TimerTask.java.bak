@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * A task that can be scheduled for one-time or repeated execution by a Timer.
+ * A tbsk tibt dbn bf sdifdulfd for onf-timf or rfpfbtfd fxfdution by b Timfr.
  *
- * @author  Josh Bloch
- * @see     Timer
- * @since   1.3
+ * @butior  Josi Blodi
+ * @sff     Timfr
+ * @sindf   1.3
  */
 
-public abstract class TimerTask implements Runnable {
+publid bbstrbdt dlbss TimfrTbsk implfmfnts Runnbblf {
     /**
-     * This object is used to control access to the TimerTask internals.
+     * Tiis objfdt is usfd to dontrol bddfss to tif TimfrTbsk intfrnbls.
      */
-    final Object lock = new Object();
+    finbl Objfdt lodk = nfw Objfdt();
 
     /**
-     * The state of this task, chosen from the constants below.
+     * Tif stbtf of tiis tbsk, diosfn from tif donstbnts bflow.
      */
-    int state = VIRGIN;
+    int stbtf = VIRGIN;
 
     /**
-     * This task has not yet been scheduled.
+     * Tiis tbsk ibs not yft bffn sdifdulfd.
      */
-    static final int VIRGIN = 0;
+    stbtid finbl int VIRGIN = 0;
 
     /**
-     * This task is scheduled for execution.  If it is a non-repeating task,
-     * it has not yet been executed.
+     * Tiis tbsk is sdifdulfd for fxfdution.  If it is b non-rfpfbting tbsk,
+     * it ibs not yft bffn fxfdutfd.
      */
-    static final int SCHEDULED   = 1;
+    stbtid finbl int SCHEDULED   = 1;
 
     /**
-     * This non-repeating task has already executed (or is currently
-     * executing) and has not been cancelled.
+     * Tiis non-rfpfbting tbsk ibs blrfbdy fxfdutfd (or is durrfntly
+     * fxfduting) bnd ibs not bffn dbndfllfd.
      */
-    static final int EXECUTED    = 2;
+    stbtid finbl int EXECUTED    = 2;
 
     /**
-     * This task has been cancelled (with a call to TimerTask.cancel).
+     * Tiis tbsk ibs bffn dbndfllfd (witi b dbll to TimfrTbsk.dbndfl).
      */
-    static final int CANCELLED   = 3;
+    stbtid finbl int CANCELLED   = 3;
 
     /**
-     * Next execution time for this task in the format returned by
-     * System.currentTimeMillis, assuming this task is scheduled for execution.
-     * For repeating tasks, this field is updated prior to each task execution.
+     * Nfxt fxfdution timf for tiis tbsk in tif formbt rfturnfd by
+     * Systfm.durrfntTimfMillis, bssuming tiis tbsk is sdifdulfd for fxfdution.
+     * For rfpfbting tbsks, tiis fifld is updbtfd prior to fbdi tbsk fxfdution.
      */
-    long nextExecutionTime;
+    long nfxtExfdutionTimf;
 
     /**
-     * Period in milliseconds for repeating tasks.  A positive value indicates
-     * fixed-rate execution.  A negative value indicates fixed-delay execution.
-     * A value of 0 indicates a non-repeating task.
+     * Pfriod in millisfdonds for rfpfbting tbsks.  A positivf vbluf indidbtfs
+     * fixfd-rbtf fxfdution.  A nfgbtivf vbluf indidbtfs fixfd-dflby fxfdution.
+     * A vbluf of 0 indidbtfs b non-rfpfbting tbsk.
      */
-    long period = 0;
+    long pfriod = 0;
 
     /**
-     * Creates a new timer task.
+     * Crfbtfs b nfw timfr tbsk.
      */
-    protected TimerTask() {
+    protfdtfd TimfrTbsk() {
     }
 
     /**
-     * The action to be performed by this timer task.
+     * Tif bdtion to bf pfrformfd by tiis timfr tbsk.
      */
-    public abstract void run();
+    publid bbstrbdt void run();
 
     /**
-     * Cancels this timer task.  If the task has been scheduled for one-time
-     * execution and has not yet run, or has not yet been scheduled, it will
-     * never run.  If the task has been scheduled for repeated execution, it
-     * will never run again.  (If the task is running when this call occurs,
-     * the task will run to completion, but will never run again.)
+     * Cbndfls tiis timfr tbsk.  If tif tbsk ibs bffn sdifdulfd for onf-timf
+     * fxfdution bnd ibs not yft run, or ibs not yft bffn sdifdulfd, it will
+     * nfvfr run.  If tif tbsk ibs bffn sdifdulfd for rfpfbtfd fxfdution, it
+     * will nfvfr run bgbin.  (If tif tbsk is running wifn tiis dbll oddurs,
+     * tif tbsk will run to domplftion, but will nfvfr run bgbin.)
      *
-     * <p>Note that calling this method from within the <tt>run</tt> method of
-     * a repeating timer task absolutely guarantees that the timer task will
-     * not run again.
+     * <p>Notf tibt dblling tiis mftiod from witiin tif <tt>run</tt> mftiod of
+     * b rfpfbting timfr tbsk bbsolutfly gubrbntffs tibt tif timfr tbsk will
+     * not run bgbin.
      *
-     * <p>This method may be called repeatedly; the second and subsequent
-     * calls have no effect.
+     * <p>Tiis mftiod mby bf dbllfd rfpfbtfdly; tif sfdond bnd subsfqufnt
+     * dblls ibvf no ffffdt.
      *
-     * @return true if this task is scheduled for one-time execution and has
-     *         not yet run, or this task is scheduled for repeated execution.
-     *         Returns false if the task was scheduled for one-time execution
-     *         and has already run, or if the task was never scheduled, or if
-     *         the task was already cancelled.  (Loosely speaking, this method
-     *         returns <tt>true</tt> if it prevents one or more scheduled
-     *         executions from taking place.)
+     * @rfturn truf if tiis tbsk is sdifdulfd for onf-timf fxfdution bnd ibs
+     *         not yft run, or tiis tbsk is sdifdulfd for rfpfbtfd fxfdution.
+     *         Rfturns fblsf if tif tbsk wbs sdifdulfd for onf-timf fxfdution
+     *         bnd ibs blrfbdy run, or if tif tbsk wbs nfvfr sdifdulfd, or if
+     *         tif tbsk wbs blrfbdy dbndfllfd.  (Loosfly spfbking, tiis mftiod
+     *         rfturns <tt>truf</tt> if it prfvfnts onf or morf sdifdulfd
+     *         fxfdutions from tbking plbdf.)
      */
-    public boolean cancel() {
-        synchronized(lock) {
-            boolean result = (state == SCHEDULED);
-            state = CANCELLED;
-            return result;
+    publid boolfbn dbndfl() {
+        syndironizfd(lodk) {
+            boolfbn rfsult = (stbtf == SCHEDULED);
+            stbtf = CANCELLED;
+            rfturn rfsult;
         }
     }
 
     /**
-     * Returns the <i>scheduled</i> execution time of the most recent
-     * <i>actual</i> execution of this task.  (If this method is invoked
-     * while task execution is in progress, the return value is the scheduled
-     * execution time of the ongoing task execution.)
+     * Rfturns tif <i>sdifdulfd</i> fxfdution timf of tif most rfdfnt
+     * <i>bdtubl</i> fxfdution of tiis tbsk.  (If tiis mftiod is invokfd
+     * wiilf tbsk fxfdution is in progrfss, tif rfturn vbluf is tif sdifdulfd
+     * fxfdution timf of tif ongoing tbsk fxfdution.)
      *
-     * <p>This method is typically invoked from within a task's run method, to
-     * determine whether the current execution of the task is sufficiently
-     * timely to warrant performing the scheduled activity:
-     * <pre>{@code
-     *   public void run() {
-     *       if (System.currentTimeMillis() - scheduledExecutionTime() >=
+     * <p>Tiis mftiod is typidblly invokfd from witiin b tbsk's run mftiod, to
+     * dftfrminf wiftifr tif durrfnt fxfdution of tif tbsk is suffidifntly
+     * timfly to wbrrbnt pfrforming tif sdifdulfd bdtivity:
+     * <prf>{@dodf
+     *   publid void run() {
+     *       if (Systfm.durrfntTimfMillis() - sdifdulfdExfdutionTimf() >=
      *           MAX_TARDINESS)
-     *               return;  // Too late; skip this execution.
-     *       // Perform the task
+     *               rfturn;  // Too lbtf; skip tiis fxfdution.
+     *       // Pfrform tif tbsk
      *   }
-     * }</pre>
-     * This method is typically <i>not</i> used in conjunction with
-     * <i>fixed-delay execution</i> repeating tasks, as their scheduled
-     * execution times are allowed to drift over time, and so are not terribly
-     * significant.
+     * }</prf>
+     * Tiis mftiod is typidblly <i>not</i> usfd in donjundtion witi
+     * <i>fixfd-dflby fxfdution</i> rfpfbting tbsks, bs tifir sdifdulfd
+     * fxfdution timfs brf bllowfd to drift ovfr timf, bnd so brf not tfrribly
+     * signifidbnt.
      *
-     * @return the time at which the most recent execution of this task was
-     *         scheduled to occur, in the format returned by Date.getTime().
-     *         The return value is undefined if the task has yet to commence
-     *         its first execution.
-     * @see Date#getTime()
+     * @rfturn tif timf bt wiidi tif most rfdfnt fxfdution of tiis tbsk wbs
+     *         sdifdulfd to oddur, in tif formbt rfturnfd by Dbtf.gftTimf().
+     *         Tif rfturn vbluf is undffinfd if tif tbsk ibs yft to dommfndf
+     *         its first fxfdution.
+     * @sff Dbtf#gftTimf()
      */
-    public long scheduledExecutionTime() {
-        synchronized(lock) {
-            return (period < 0 ? nextExecutionTime + period
-                               : nextExecutionTime - period);
+    publid long sdifdulfdExfdutionTimf() {
+        syndironizfd(lodk) {
+            rfturn (pfriod < 0 ? nfxtExfdutionTimf + pfriod
+                               : nfxtExfdutionTimf - pfriod);
         }
     }
 }

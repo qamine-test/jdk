@@ -1,466 +1,466 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.net.Socket;
-import javax.net.ssl.SSLSession;
+import jbvb.nft.Sodkft;
+import jbvbx.nft.ssl.SSLSfssion;
 
-import java.util.*;
-import java.security.*;
-import java.security.cert.*;
-import javax.net.ssl.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvbx.nft.ssl.*;
 
-import sun.security.validator.*;
-import sun.security.util.HostnameChecker;
+import sun.sfdurity.vblidbtor.*;
+import sun.sfdurity.util.HostnbmfCifdkfr;
 
 /**
- * This class implements the SunJSSE X.509 trust manager using the internal
- * validator API in J2SE core. The logic in this class is minimal.<p>
+ * Tiis dlbss implfmfnts tif SunJSSE X.509 trust mbnbgfr using tif intfrnbl
+ * vblidbtor API in J2SE dorf. Tif logid in tiis dlbss is minimbl.<p>
  * <p>
- * This class supports both the Simple validation algorithm from previous
- * JSSE versions and PKIX validation. Currently, it is not possible for the
- * application to specify PKIX parameters other than trust anchors. This will
- * be fixed in a future release using new APIs. When that happens, it may also
- * make sense to separate the Simple and PKIX trust managers into separate
- * classes.
+ * Tiis dlbss supports boti tif Simplf vblidbtion blgoritim from prfvious
+ * JSSE vfrsions bnd PKIX vblidbtion. Currfntly, it is not possiblf for tif
+ * bpplidbtion to spfdify PKIX pbrbmftfrs otifr tibn trust bndiors. Tiis will
+ * bf fixfd in b futurf rflfbsf using nfw APIs. Wifn tibt ibppfns, it mby blso
+ * mbkf sfnsf to sfpbrbtf tif Simplf bnd PKIX trust mbnbgfrs into sfpbrbtf
+ * dlbssfs.
  *
- * @author Andreas Sterbenz
+ * @butior Andrfbs Stfrbfnz
  */
-final class X509TrustManagerImpl extends X509ExtendedTrustManager
-        implements X509TrustManager {
+finbl dlbss X509TrustMbnbgfrImpl fxtfnds X509ExtfndfdTrustMbnbgfr
+        implfmfnts X509TrustMbnbgfr {
 
-    private final String validatorType;
+    privbtf finbl String vblidbtorTypf;
 
     /**
-     * The Set of trusted X509Certificates.
+     * Tif Sft of trustfd X509Cfrtifidbtfs.
      */
-    private final Collection<X509Certificate> trustedCerts;
+    privbtf finbl Collfdtion<X509Cfrtifidbtf> trustfdCfrts;
 
-    private final PKIXBuilderParameters pkixParams;
+    privbtf finbl PKIXBuildfrPbrbmftfrs pkixPbrbms;
 
-    // note that we need separate validator for client and server due to
-    // the different extension checks. They are initialized lazily on demand.
-    private volatile Validator clientValidator, serverValidator;
+    // notf tibt wf nffd sfpbrbtf vblidbtor for dlifnt bnd sfrvfr duf to
+    // tif difffrfnt fxtfnsion difdks. Tify brf initiblizfd lbzily on dfmbnd.
+    privbtf volbtilf Vblidbtor dlifntVblidbtor, sfrvfrVblidbtor;
 
-    private static final Debug debug = Debug.getInstance("ssl");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
 
-    X509TrustManagerImpl(String validatorType, KeyStore ks)
-            throws KeyStoreException {
-        this.validatorType = validatorType;
-        this.pkixParams = null;
+    X509TrustMbnbgfrImpl(String vblidbtorTypf, KfyStorf ks)
+            tirows KfyStorfExdfption {
+        tiis.vblidbtorTypf = vblidbtorTypf;
+        tiis.pkixPbrbms = null;
         if (ks == null) {
-            trustedCerts = Collections.<X509Certificate>emptySet();
-        } else {
-            trustedCerts = KeyStores.getTrustedCerts(ks);
+            trustfdCfrts = Collfdtions.<X509Cfrtifidbtf>fmptySft();
+        } flsf {
+            trustfdCfrts = KfyStorfs.gftTrustfdCfrts(ks);
         }
-        showTrustedCerts();
+        siowTrustfdCfrts();
     }
 
-    X509TrustManagerImpl(String validatorType, PKIXBuilderParameters params) {
-        this.validatorType = validatorType;
-        this.pkixParams = params;
-        // create server validator eagerly so that we can conveniently
-        // get the trusted certificates
-        // clients need it anyway eventually, and servers will not mind
-        // the little extra footprint
-        Validator v = getValidator(Validator.VAR_TLS_SERVER);
-        trustedCerts = v.getTrustedCertificates();
-        serverValidator = v;
-        showTrustedCerts();
+    X509TrustMbnbgfrImpl(String vblidbtorTypf, PKIXBuildfrPbrbmftfrs pbrbms) {
+        tiis.vblidbtorTypf = vblidbtorTypf;
+        tiis.pkixPbrbms = pbrbms;
+        // drfbtf sfrvfr vblidbtor fbgfrly so tibt wf dbn donvfnifntly
+        // gft tif trustfd dfrtifidbtfs
+        // dlifnts nffd it bnywby fvfntublly, bnd sfrvfrs will not mind
+        // tif littlf fxtrb footprint
+        Vblidbtor v = gftVblidbtor(Vblidbtor.VAR_TLS_SERVER);
+        trustfdCfrts = v.gftTrustfdCfrtifidbtfs();
+        sfrvfrVblidbtor = v;
+        siowTrustfdCfrts();
     }
 
-    @Override
-    public void checkClientTrusted(X509Certificate chain[], String authType)
-            throws CertificateException {
-        checkTrusted(chain, authType, (Socket)null, true);
+    @Ovfrridf
+    publid void difdkClifntTrustfd(X509Cfrtifidbtf dibin[], String butiTypf)
+            tirows CfrtifidbtfExdfption {
+        difdkTrustfd(dibin, butiTypf, (Sodkft)null, truf);
     }
 
-    @Override
-    public void checkServerTrusted(X509Certificate chain[], String authType)
-            throws CertificateException {
-        checkTrusted(chain, authType, (Socket)null, false);
+    @Ovfrridf
+    publid void difdkSfrvfrTrustfd(X509Cfrtifidbtf dibin[], String butiTypf)
+            tirows CfrtifidbtfExdfption {
+        difdkTrustfd(dibin, butiTypf, (Sodkft)null, fblsf);
     }
 
-    @Override
-    public X509Certificate[] getAcceptedIssuers() {
-        X509Certificate[] certsArray = new X509Certificate[trustedCerts.size()];
-        trustedCerts.toArray(certsArray);
-        return certsArray;
+    @Ovfrridf
+    publid X509Cfrtifidbtf[] gftAddfptfdIssufrs() {
+        X509Cfrtifidbtf[] dfrtsArrby = nfw X509Cfrtifidbtf[trustfdCfrts.sizf()];
+        trustfdCfrts.toArrby(dfrtsArrby);
+        rfturn dfrtsArrby;
     }
 
-    @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-                Socket socket) throws CertificateException {
-        checkTrusted(chain, authType, socket, true);
+    @Ovfrridf
+    publid void difdkClifntTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+                Sodkft sodkft) tirows CfrtifidbtfExdfption {
+        difdkTrustfd(dibin, butiTypf, sodkft, truf);
     }
 
-    @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            Socket socket) throws CertificateException {
-        checkTrusted(chain, authType, socket, false);
+    @Ovfrridf
+    publid void difdkSfrvfrTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+            Sodkft sodkft) tirows CfrtifidbtfExdfption {
+        difdkTrustfd(dibin, butiTypf, sodkft, fblsf);
     }
 
-    @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        checkTrusted(chain, authType, engine, true);
+    @Ovfrridf
+    publid void difdkClifntTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+            SSLEnginf fnginf) tirows CfrtifidbtfExdfption {
+        difdkTrustfd(dibin, butiTypf, fnginf, truf);
     }
 
-    @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        checkTrusted(chain, authType, engine, false);
+    @Ovfrridf
+    publid void difdkSfrvfrTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+            SSLEnginf fnginf) tirows CfrtifidbtfExdfption {
+        difdkTrustfd(dibin, butiTypf, fnginf, fblsf);
     }
 
-    private Validator checkTrustedInit(X509Certificate[] chain,
-                                        String authType, boolean isClient) {
-        if (chain == null || chain.length == 0) {
-            throw new IllegalArgumentException(
-                "null or zero-length certificate chain");
-        }
-
-        if (authType == null || authType.length() == 0) {
-            throw new IllegalArgumentException(
-                "null or zero-length authentication type");
+    privbtf Vblidbtor difdkTrustfdInit(X509Cfrtifidbtf[] dibin,
+                                        String butiTypf, boolfbn isClifnt) {
+        if (dibin == null || dibin.lfngti == 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "null or zfro-lfngti dfrtifidbtf dibin");
         }
 
-        Validator v = null;
-        if (isClient) {
-            v = clientValidator;
+        if (butiTypf == null || butiTypf.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "null or zfro-lfngti butifntidbtion typf");
+        }
+
+        Vblidbtor v = null;
+        if (isClifnt) {
+            v = dlifntVblidbtor;
             if (v == null) {
-                synchronized (this) {
-                    v = clientValidator;
+                syndironizfd (tiis) {
+                    v = dlifntVblidbtor;
                     if (v == null) {
-                        v = getValidator(Validator.VAR_TLS_CLIENT);
-                        clientValidator = v;
+                        v = gftVblidbtor(Vblidbtor.VAR_TLS_CLIENT);
+                        dlifntVblidbtor = v;
                     }
                 }
             }
-        } else {
-            // assume double checked locking with a volatile flag works
-            // (guaranteed under the new Tiger memory model)
-            v = serverValidator;
+        } flsf {
+            // bssumf doublf difdkfd lodking witi b volbtilf flbg works
+            // (gubrbntffd undfr tif nfw Tigfr mfmory modfl)
+            v = sfrvfrVblidbtor;
             if (v == null) {
-                synchronized (this) {
-                    v = serverValidator;
+                syndironizfd (tiis) {
+                    v = sfrvfrVblidbtor;
                     if (v == null) {
-                        v = getValidator(Validator.VAR_TLS_SERVER);
-                        serverValidator = v;
+                        v = gftVblidbtor(Vblidbtor.VAR_TLS_SERVER);
+                        sfrvfrVblidbtor = v;
                     }
                 }
             }
         }
 
-        return v;
+        rfturn v;
     }
 
 
-    private void checkTrusted(X509Certificate[] chain, String authType,
-                Socket socket, boolean isClient) throws CertificateException {
-        Validator v = checkTrustedInit(chain, authType, isClient);
+    privbtf void difdkTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+                Sodkft sodkft, boolfbn isClifnt) tirows CfrtifidbtfExdfption {
+        Vblidbtor v = difdkTrustfdInit(dibin, butiTypf, isClifnt);
 
-        AlgorithmConstraints constraints = null;
-        if ((socket != null) && socket.isConnected() &&
-                                        (socket instanceof SSLSocket)) {
+        AlgoritimConstrbints donstrbints = null;
+        if ((sodkft != null) && sodkft.isConnfdtfd() &&
+                                        (sodkft instbndfof SSLSodkft)) {
 
-            SSLSocket sslSocket = (SSLSocket)socket;
-            SSLSession session = sslSocket.getHandshakeSession();
-            if (session == null) {
-                throw new CertificateException("No handshake session");
+            SSLSodkft sslSodkft = (SSLSodkft)sodkft;
+            SSLSfssion sfssion = sslSodkft.gftHbndsibkfSfssion();
+            if (sfssion == null) {
+                tirow nfw CfrtifidbtfExdfption("No ibndsibkf sfssion");
             }
 
-            // check endpoint identity
-            String identityAlg = sslSocket.getSSLParameters().
-                                        getEndpointIdentificationAlgorithm();
-            if (identityAlg != null && identityAlg.length() != 0) {
-                checkIdentity(session, chain[0], identityAlg, isClient,
-                        getRequestedServerNames(socket));
+            // difdk fndpoint idfntity
+            String idfntityAlg = sslSodkft.gftSSLPbrbmftfrs().
+                                        gftEndpointIdfntifidbtionAlgoritim();
+            if (idfntityAlg != null && idfntityAlg.lfngti() != 0) {
+                difdkIdfntity(sfssion, dibin[0], idfntityAlg, isClifnt,
+                        gftRfqufstfdSfrvfrNbmfs(sodkft));
             }
 
-            // create the algorithm constraints
-            ProtocolVersion protocolVersion =
-                ProtocolVersion.valueOf(session.getProtocol());
-            if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                if (session instanceof ExtendedSSLSession) {
-                    ExtendedSSLSession extSession =
-                                    (ExtendedSSLSession)session;
-                    String[] localSupportedSignAlgs =
-                            extSession.getLocalSupportedSignatureAlgorithms();
+            // drfbtf tif blgoritim donstrbints
+            ProtodolVfrsion protodolVfrsion =
+                ProtodolVfrsion.vblufOf(sfssion.gftProtodol());
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                if (sfssion instbndfof ExtfndfdSSLSfssion) {
+                    ExtfndfdSSLSfssion fxtSfssion =
+                                    (ExtfndfdSSLSfssion)sfssion;
+                    String[] lodblSupportfdSignAlgs =
+                            fxtSfssion.gftLodblSupportfdSignbturfAlgoritims();
 
-                    constraints = new SSLAlgorithmConstraints(
-                                    sslSocket, localSupportedSignAlgs, false);
-                } else {
-                    constraints =
-                            new SSLAlgorithmConstraints(sslSocket, false);
+                    donstrbints = nfw SSLAlgoritimConstrbints(
+                                    sslSodkft, lodblSupportfdSignAlgs, fblsf);
+                } flsf {
+                    donstrbints =
+                            nfw SSLAlgoritimConstrbints(sslSodkft, fblsf);
                 }
-            } else {
-                constraints = new SSLAlgorithmConstraints(sslSocket, false);
+            } flsf {
+                donstrbints = nfw SSLAlgoritimConstrbints(sslSodkft, fblsf);
             }
         }
 
-        X509Certificate[] trustedChain = null;
-        if (isClient) {
-            trustedChain = validate(v, chain, constraints, null);
-        } else {
-            trustedChain = validate(v, chain, constraints, authType);
+        X509Cfrtifidbtf[] trustfdCibin = null;
+        if (isClifnt) {
+            trustfdCibin = vblidbtf(v, dibin, donstrbints, null);
+        } flsf {
+            trustfdCibin = vblidbtf(v, dibin, donstrbints, butiTypf);
         }
-        if (debug != null && Debug.isOn("trustmanager")) {
-            System.out.println("Found trusted certificate:");
-            System.out.println(trustedChain[trustedChain.length - 1]);
+        if (dfbug != null && Dfbug.isOn("trustmbnbgfr")) {
+            Systfm.out.println("Found trustfd dfrtifidbtf:");
+            Systfm.out.println(trustfdCibin[trustfdCibin.lfngti - 1]);
         }
     }
 
-    private void checkTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine, boolean isClient) throws CertificateException {
-        Validator v = checkTrustedInit(chain, authType, isClient);
+    privbtf void difdkTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+            SSLEnginf fnginf, boolfbn isClifnt) tirows CfrtifidbtfExdfption {
+        Vblidbtor v = difdkTrustfdInit(dibin, butiTypf, isClifnt);
 
-        AlgorithmConstraints constraints = null;
-        if (engine != null) {
-            SSLSession session = engine.getHandshakeSession();
-            if (session == null) {
-                throw new CertificateException("No handshake session");
+        AlgoritimConstrbints donstrbints = null;
+        if (fnginf != null) {
+            SSLSfssion sfssion = fnginf.gftHbndsibkfSfssion();
+            if (sfssion == null) {
+                tirow nfw CfrtifidbtfExdfption("No ibndsibkf sfssion");
             }
 
-            // check endpoint identity
-            String identityAlg = engine.getSSLParameters().
-                                        getEndpointIdentificationAlgorithm();
-            if (identityAlg != null && identityAlg.length() != 0) {
-                checkIdentity(session, chain[0], identityAlg, isClient,
-                        getRequestedServerNames(engine));
+            // difdk fndpoint idfntity
+            String idfntityAlg = fnginf.gftSSLPbrbmftfrs().
+                                        gftEndpointIdfntifidbtionAlgoritim();
+            if (idfntityAlg != null && idfntityAlg.lfngti() != 0) {
+                difdkIdfntity(sfssion, dibin[0], idfntityAlg, isClifnt,
+                        gftRfqufstfdSfrvfrNbmfs(fnginf));
             }
 
-            // create the algorithm constraints
-            ProtocolVersion protocolVersion =
-                ProtocolVersion.valueOf(session.getProtocol());
-            if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                if (session instanceof ExtendedSSLSession) {
-                    ExtendedSSLSession extSession =
-                                    (ExtendedSSLSession)session;
-                    String[] localSupportedSignAlgs =
-                            extSession.getLocalSupportedSignatureAlgorithms();
+            // drfbtf tif blgoritim donstrbints
+            ProtodolVfrsion protodolVfrsion =
+                ProtodolVfrsion.vblufOf(sfssion.gftProtodol());
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                if (sfssion instbndfof ExtfndfdSSLSfssion) {
+                    ExtfndfdSSLSfssion fxtSfssion =
+                                    (ExtfndfdSSLSfssion)sfssion;
+                    String[] lodblSupportfdSignAlgs =
+                            fxtSfssion.gftLodblSupportfdSignbturfAlgoritims();
 
-                    constraints = new SSLAlgorithmConstraints(
-                                    engine, localSupportedSignAlgs, false);
-                } else {
-                    constraints =
-                            new SSLAlgorithmConstraints(engine, false);
+                    donstrbints = nfw SSLAlgoritimConstrbints(
+                                    fnginf, lodblSupportfdSignAlgs, fblsf);
+                } flsf {
+                    donstrbints =
+                            nfw SSLAlgoritimConstrbints(fnginf, fblsf);
                 }
-            } else {
-                constraints = new SSLAlgorithmConstraints(engine, false);
+            } flsf {
+                donstrbints = nfw SSLAlgoritimConstrbints(fnginf, fblsf);
             }
         }
 
-        X509Certificate[] trustedChain = null;
-        if (isClient) {
-            trustedChain = validate(v, chain, constraints, null);
-        } else {
-            trustedChain = validate(v, chain, constraints, authType);
+        X509Cfrtifidbtf[] trustfdCibin = null;
+        if (isClifnt) {
+            trustfdCibin = vblidbtf(v, dibin, donstrbints, null);
+        } flsf {
+            trustfdCibin = vblidbtf(v, dibin, donstrbints, butiTypf);
         }
-        if (debug != null && Debug.isOn("trustmanager")) {
-            System.out.println("Found trusted certificate:");
-            System.out.println(trustedChain[trustedChain.length - 1]);
+        if (dfbug != null && Dfbug.isOn("trustmbnbgfr")) {
+            Systfm.out.println("Found trustfd dfrtifidbtf:");
+            Systfm.out.println(trustfdCibin[trustfdCibin.lfngti - 1]);
         }
     }
 
-    private void showTrustedCerts() {
-        if (debug != null && Debug.isOn("trustmanager")) {
-            for (X509Certificate cert : trustedCerts) {
-                System.out.println("adding as trusted cert:");
-                System.out.println("  Subject: "
-                                        + cert.getSubjectX500Principal());
-                System.out.println("  Issuer:  "
-                                        + cert.getIssuerX500Principal());
-                System.out.println("  Algorithm: "
-                                        + cert.getPublicKey().getAlgorithm()
-                                        + "; Serial number: 0x"
-                                        + cert.getSerialNumber().toString(16));
-                System.out.println("  Valid from "
-                                        + cert.getNotBefore() + " until "
-                                        + cert.getNotAfter());
-                System.out.println();
+    privbtf void siowTrustfdCfrts() {
+        if (dfbug != null && Dfbug.isOn("trustmbnbgfr")) {
+            for (X509Cfrtifidbtf dfrt : trustfdCfrts) {
+                Systfm.out.println("bdding bs trustfd dfrt:");
+                Systfm.out.println("  Subjfdt: "
+                                        + dfrt.gftSubjfdtX500Prindipbl());
+                Systfm.out.println("  Issufr:  "
+                                        + dfrt.gftIssufrX500Prindipbl());
+                Systfm.out.println("  Algoritim: "
+                                        + dfrt.gftPublidKfy().gftAlgoritim()
+                                        + "; Sfribl numbfr: 0x"
+                                        + dfrt.gftSfriblNumbfr().toString(16));
+                Systfm.out.println("  Vblid from "
+                                        + dfrt.gftNotBfforf() + " until "
+                                        + dfrt.gftNotAftfr());
+                Systfm.out.println();
             }
         }
     }
 
-    private Validator getValidator(String variant) {
-        Validator v;
-        if (pkixParams == null) {
-            v = Validator.getInstance(validatorType, variant, trustedCerts);
-        } else {
-            v = Validator.getInstance(validatorType, variant, pkixParams);
+    privbtf Vblidbtor gftVblidbtor(String vbribnt) {
+        Vblidbtor v;
+        if (pkixPbrbms == null) {
+            v = Vblidbtor.gftInstbndf(vblidbtorTypf, vbribnt, trustfdCfrts);
+        } flsf {
+            v = Vblidbtor.gftInstbndf(vblidbtorTypf, vbribnt, pkixPbrbms);
         }
-        return v;
+        rfturn v;
     }
 
-    private static X509Certificate[] validate(Validator v,
-            X509Certificate[] chain, AlgorithmConstraints constraints,
-            String authType) throws CertificateException {
-        Object o = JsseJce.beginFipsProvider();
+    privbtf stbtid X509Cfrtifidbtf[] vblidbtf(Vblidbtor v,
+            X509Cfrtifidbtf[] dibin, AlgoritimConstrbints donstrbints,
+            String butiTypf) tirows CfrtifidbtfExdfption {
+        Objfdt o = JssfJdf.bfginFipsProvidfr();
         try {
-            return v.validate(chain, null, constraints, authType);
-        } finally {
-            JsseJce.endFipsProvider(o);
+            rfturn v.vblidbtf(dibin, null, donstrbints, butiTypf);
+        } finblly {
+            JssfJdf.fndFipsProvidfr(o);
         }
     }
 
-    // Get string representation of HostName from a list of server names.
+    // Gft string rfprfsfntbtion of HostNbmf from b list of sfrvfr nbmfs.
     //
-    // We are only accepting host_name name type in the list.
-    private static String getHostNameInSNI(List<SNIServerName> sniNames) {
+    // Wf brf only bddfpting iost_nbmf nbmf typf in tif list.
+    privbtf stbtid String gftHostNbmfInSNI(List<SNISfrvfrNbmf> sniNbmfs) {
 
-        SNIHostName hostname = null;
-        for (SNIServerName sniName : sniNames) {
-            if (sniName.getType() != StandardConstants.SNI_HOST_NAME) {
-                continue;
+        SNIHostNbmf iostnbmf = null;
+        for (SNISfrvfrNbmf sniNbmf : sniNbmfs) {
+            if (sniNbmf.gftTypf() != StbndbrdConstbnts.SNI_HOST_NAME) {
+                dontinuf;
             }
 
-            if (sniName instanceof SNIHostName) {
-                hostname = (SNIHostName)sniName;
-            } else {
+            if (sniNbmf instbndfof SNIHostNbmf) {
+                iostnbmf = (SNIHostNbmf)sniNbmf;
+            } flsf {
                 try {
-                    hostname = new SNIHostName(sniName.getEncoded());
-                } catch (IllegalArgumentException iae) {
-                    // unlikely to happen, just in case ...
-                    if ((debug != null) && Debug.isOn("trustmanager")) {
-                        System.out.println("Illegal server name: " + sniName);
+                    iostnbmf = nfw SNIHostNbmf(sniNbmf.gftEndodfd());
+                } dbtdi (IllfgblArgumfntExdfption ibf) {
+                    // unlikfly to ibppfn, just in dbsf ...
+                    if ((dfbug != null) && Dfbug.isOn("trustmbnbgfr")) {
+                        Systfm.out.println("Illfgbl sfrvfr nbmf: " + sniNbmf);
                     }
                 }
             }
 
-            // no more than server name of the same name type
-            break;
+            // no morf tibn sfrvfr nbmf of tif sbmf nbmf typf
+            brfbk;
         }
 
-        if (hostname != null) {
-            return hostname.getAsciiName();
+        if (iostnbmf != null) {
+            rfturn iostnbmf.gftAsdiiNbmf();
         }
 
-        return null;
+        rfturn null;
     }
 
-    // Also used by X509KeyManagerImpl
-    static List<SNIServerName> getRequestedServerNames(Socket socket) {
-        if (socket != null && socket.isConnected() &&
-                                        socket instanceof SSLSocket) {
+    // Also usfd by X509KfyMbnbgfrImpl
+    stbtid List<SNISfrvfrNbmf> gftRfqufstfdSfrvfrNbmfs(Sodkft sodkft) {
+        if (sodkft != null && sodkft.isConnfdtfd() &&
+                                        sodkft instbndfof SSLSodkft) {
 
-            SSLSocket sslSocket = (SSLSocket)socket;
-            SSLSession session = sslSocket.getHandshakeSession();
+            SSLSodkft sslSodkft = (SSLSodkft)sodkft;
+            SSLSfssion sfssion = sslSodkft.gftHbndsibkfSfssion();
 
-            if (session != null && (session instanceof ExtendedSSLSession)) {
-                ExtendedSSLSession extSession = (ExtendedSSLSession)session;
-                return extSession.getRequestedServerNames();
+            if (sfssion != null && (sfssion instbndfof ExtfndfdSSLSfssion)) {
+                ExtfndfdSSLSfssion fxtSfssion = (ExtfndfdSSLSfssion)sfssion;
+                rfturn fxtSfssion.gftRfqufstfdSfrvfrNbmfs();
             }
         }
 
-        return Collections.<SNIServerName>emptyList();
+        rfturn Collfdtions.<SNISfrvfrNbmf>fmptyList();
     }
 
-    // Also used by X509KeyManagerImpl
-    static List<SNIServerName> getRequestedServerNames(SSLEngine engine) {
-        if (engine != null) {
-            SSLSession session = engine.getHandshakeSession();
+    // Also usfd by X509KfyMbnbgfrImpl
+    stbtid List<SNISfrvfrNbmf> gftRfqufstfdSfrvfrNbmfs(SSLEnginf fnginf) {
+        if (fnginf != null) {
+            SSLSfssion sfssion = fnginf.gftHbndsibkfSfssion();
 
-            if (session != null && (session instanceof ExtendedSSLSession)) {
-                ExtendedSSLSession extSession = (ExtendedSSLSession)session;
-                return extSession.getRequestedServerNames();
+            if (sfssion != null && (sfssion instbndfof ExtfndfdSSLSfssion)) {
+                ExtfndfdSSLSfssion fxtSfssion = (ExtfndfdSSLSfssion)sfssion;
+                rfturn fxtSfssion.gftRfqufstfdSfrvfrNbmfs();
             }
         }
 
-        return Collections.<SNIServerName>emptyList();
+        rfturn Collfdtions.<SNISfrvfrNbmf>fmptyList();
     }
 
     /*
-     * Per RFC 6066, if an application negotiates a server name using an
-     * application protocol and then upgrades to TLS, and if a server_name
-     * extension is sent, then the extension SHOULD contain the same name
-     * that was negotiated in the application protocol.  If the server_name
-     * is established in the TLS session handshake, the client SHOULD NOT
-     * attempt to request a different server name at the application layer.
+     * Pfr RFC 6066, if bn bpplidbtion nfgotibtfs b sfrvfr nbmf using bn
+     * bpplidbtion protodol bnd tifn upgrbdfs to TLS, bnd if b sfrvfr_nbmf
+     * fxtfnsion is sfnt, tifn tif fxtfnsion SHOULD dontbin tif sbmf nbmf
+     * tibt wbs nfgotibtfd in tif bpplidbtion protodol.  If tif sfrvfr_nbmf
+     * is fstbblisifd in tif TLS sfssion ibndsibkf, tif dlifnt SHOULD NOT
+     * bttfmpt to rfqufst b difffrfnt sfrvfr nbmf bt tif bpplidbtion lbyfr.
      *
-     * According to the above spec, we only need to check either the identity
-     * in server_name extension or the peer host of the connection.  Peer host
-     * is not always a reliable fully qualified domain name. The HostName in
-     * server_name extension is more reliable than peer host. So we prefer
-     * the identity checking aginst the server_name extension if present, and
-     * may failove to peer host checking.
+     * Addording to tif bbovf spfd, wf only nffd to difdk fitifr tif idfntity
+     * in sfrvfr_nbmf fxtfnsion or tif pffr iost of tif donnfdtion.  Pffr iost
+     * is not blwbys b rflibblf fully qublififd dombin nbmf. Tif HostNbmf in
+     * sfrvfr_nbmf fxtfnsion is morf rflibblf tibn pffr iost. So wf prfffr
+     * tif idfntity difdking bginst tif sfrvfr_nbmf fxtfnsion if prfsfnt, bnd
+     * mby fbilovf to pffr iost difdking.
      */
-    private static void checkIdentity(SSLSession session,
-            X509Certificate cert,
-            String algorithm,
-            boolean isClient,
-            List<SNIServerName> sniNames) throws CertificateException {
+    privbtf stbtid void difdkIdfntity(SSLSfssion sfssion,
+            X509Cfrtifidbtf dfrt,
+            String blgoritim,
+            boolfbn isClifnt,
+            List<SNISfrvfrNbmf> sniNbmfs) tirows CfrtifidbtfExdfption {
 
-        boolean identifiable = false;
-        String peerHost = session.getPeerHost();
-        if (isClient) {
-            String hostname = getHostNameInSNI(sniNames);
-            if (hostname != null) {
+        boolfbn idfntifibblf = fblsf;
+        String pffrHost = sfssion.gftPffrHost();
+        if (isClifnt) {
+            String iostnbmf = gftHostNbmfInSNI(sniNbmfs);
+            if (iostnbmf != null) {
                 try {
-                    checkIdentity(hostname, cert, algorithm);
-                    identifiable = true;
-                } catch (CertificateException ce) {
-                    if (hostname.equalsIgnoreCase(peerHost)) {
-                        throw ce;
+                    difdkIdfntity(iostnbmf, dfrt, blgoritim);
+                    idfntifibblf = truf;
+                } dbtdi (CfrtifidbtfExdfption df) {
+                    if (iostnbmf.fqublsIgnorfCbsf(pffrHost)) {
+                        tirow df;
                     }
 
-                    // otherwisw, failover to check peer host
+                    // otifrwisw, fbilovfr to difdk pffr iost
                 }
             }
         }
 
-        if (!identifiable) {
-            checkIdentity(peerHost, cert, algorithm);
+        if (!idfntifibblf) {
+            difdkIdfntity(pffrHost, dfrt, blgoritim);
         }
     }
 
     /*
-     * Identify the peer by its certificate and hostname.
+     * Idfntify tif pffr by its dfrtifidbtf bnd iostnbmf.
      *
-     * Lifted from sun.net.www.protocol.https.HttpsClient.
+     * Liftfd from sun.nft.www.protodol.ittps.HttpsClifnt.
      */
-    static void checkIdentity(String hostname, X509Certificate cert,
-            String algorithm) throws CertificateException {
-        if (algorithm != null && algorithm.length() != 0) {
-            // if IPv6 strip off the "[]"
-            if ((hostname != null) && hostname.startsWith("[") &&
-                    hostname.endsWith("]")) {
-                hostname = hostname.substring(1, hostname.length() - 1);
+    stbtid void difdkIdfntity(String iostnbmf, X509Cfrtifidbtf dfrt,
+            String blgoritim) tirows CfrtifidbtfExdfption {
+        if (blgoritim != null && blgoritim.lfngti() != 0) {
+            // if IPv6 strip off tif "[]"
+            if ((iostnbmf != null) && iostnbmf.stbrtsWiti("[") &&
+                    iostnbmf.fndsWiti("]")) {
+                iostnbmf = iostnbmf.substring(1, iostnbmf.lfngti() - 1);
             }
 
-            if (algorithm.equalsIgnoreCase("HTTPS")) {
-                HostnameChecker.getInstance(HostnameChecker.TYPE_TLS).match(
-                        hostname, cert);
-            } else if (algorithm.equalsIgnoreCase("LDAP") ||
-                    algorithm.equalsIgnoreCase("LDAPS")) {
-                HostnameChecker.getInstance(HostnameChecker.TYPE_LDAP).match(
-                        hostname, cert);
-            } else {
-                throw new CertificateException(
-                        "Unknown identification algorithm: " + algorithm);
+            if (blgoritim.fqublsIgnorfCbsf("HTTPS")) {
+                HostnbmfCifdkfr.gftInstbndf(HostnbmfCifdkfr.TYPE_TLS).mbtdi(
+                        iostnbmf, dfrt);
+            } flsf if (blgoritim.fqublsIgnorfCbsf("LDAP") ||
+                    blgoritim.fqublsIgnorfCbsf("LDAPS")) {
+                HostnbmfCifdkfr.gftInstbndf(HostnbmfCifdkfr.TYPE_LDAP).mbtdi(
+                        iostnbmf, dfrt);
+            } flsf {
+                tirow nfw CfrtifidbtfExdfption(
+                        "Unknown idfntifidbtion blgoritim: " + blgoritim);
             }
         }
     }

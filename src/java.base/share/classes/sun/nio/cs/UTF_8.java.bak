@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs;
+pbdkbgf sun.nio.ds;
 
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CodingErrorAction;
+import jbvb.nio.Bufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.nio.dibrsft.CodfrRfsult;
+import jbvb.nio.dibrsft.CodingErrorAdtion;
 
-/* Legal UTF-8 Byte Sequences
+/* Lfgbl UTF-8 Bytf Sfqufndfs
  *
- * #    Code Points      Bits   Bit/Byte pattern
+ * #    Codf Points      Bits   Bit/Bytf pbttfrn
  * 1                     7      0xxxxxxx
  *      U+0000..U+007F          00..7F
  *
@@ -54,693 +54,693 @@ import java.nio.charset.CodingErrorAction;
  *
  */
 
-class UTF_8 extends Unicode
+dlbss UTF_8 fxtfnds Unidodf
 {
-    public UTF_8() {
-        super("UTF-8", StandardCharsets.aliases_UTF_8);
+    publid UTF_8() {
+        supfr("UTF-8", StbndbrdCibrsfts.blibsfs_UTF_8);
     }
 
-    public String historicalName() {
-        return "UTF8";
+    publid String iistoridblNbmf() {
+        rfturn "UTF8";
     }
 
-    public CharsetDecoder newDecoder() {
-        return new Decoder(this);
+    publid CibrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(tiis);
     }
 
-    public CharsetEncoder newEncoder() {
-        return new Encoder(this);
+    publid CibrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(tiis);
     }
 
-    private static final void updatePositions(Buffer src, int sp,
-                                              Buffer dst, int dp) {
-        src.position(sp - src.arrayOffset());
-        dst.position(dp - dst.arrayOffset());
+    privbtf stbtid finbl void updbtfPositions(Bufffr srd, int sp,
+                                              Bufffr dst, int dp) {
+        srd.position(sp - srd.brrbyOffsft());
+        dst.position(dp - dst.brrbyOffsft());
     }
 
-    private static class Decoder extends CharsetDecoder
-                                 implements ArrayDecoder {
-        private Decoder(Charset cs) {
-            super(cs, 1.0f, 1.0f);
+    privbtf stbtid dlbss Dfdodfr fxtfnds CibrsftDfdodfr
+                                 implfmfnts ArrbyDfdodfr {
+        privbtf Dfdodfr(Cibrsft ds) {
+            supfr(ds, 1.0f, 1.0f);
         }
 
-        private static boolean isNotContinuation(int b) {
-            return (b & 0xc0) != 0x80;
+        privbtf stbtid boolfbn isNotContinubtion(int b) {
+            rfturn (b & 0xd0) != 0x80;
         }
 
         //  [E0]     [A0..BF] [80..BF]
         //  [E1..EF] [80..BF] [80..BF]
-        private static boolean isMalformed3(int b1, int b2, int b3) {
-            return (b1 == (byte)0xe0 && (b2 & 0xe0) == 0x80) ||
-                   (b2 & 0xc0) != 0x80 || (b3 & 0xc0) != 0x80;
+        privbtf stbtid boolfbn isMblformfd3(int b1, int b2, int b3) {
+            rfturn (b1 == (bytf)0xf0 && (b2 & 0xf0) == 0x80) ||
+                   (b2 & 0xd0) != 0x80 || (b3 & 0xd0) != 0x80;
         }
 
-        // only used when there is only one byte left in src buffer
-        private static boolean isMalformed3_2(int b1, int b2) {
-            return (b1 == (byte)0xe0 && (b2 & 0xe0) == 0x80) ||
-                   (b2 & 0xc0) != 0x80;
+        // only usfd wifn tifrf is only onf bytf lfft in srd bufffr
+        privbtf stbtid boolfbn isMblformfd3_2(int b1, int b2) {
+            rfturn (b1 == (bytf)0xf0 && (b2 & 0xf0) == 0x80) ||
+                   (b2 & 0xd0) != 0x80;
         }
 
         //  [F0]     [90..BF] [80..BF] [80..BF]
         //  [F1..F3] [80..BF] [80..BF] [80..BF]
         //  [F4]     [80..8F] [80..BF] [80..BF]
-        //  only check 80-be range here, the [0xf0,0x80...] and [0xf4,0x90-...]
-        //  will be checked by Character.isSupplementaryCodePoint(uc)
-        private static boolean isMalformed4(int b2, int b3, int b4) {
-            return (b2 & 0xc0) != 0x80 || (b3 & 0xc0) != 0x80 ||
-                   (b4 & 0xc0) != 0x80;
+        //  only difdk 80-bf rbngf ifrf, tif [0xf0,0x80...] bnd [0xf4,0x90-...]
+        //  will bf difdkfd by Cibrbdtfr.isSupplfmfntbryCodfPoint(ud)
+        privbtf stbtid boolfbn isMblformfd4(int b2, int b3, int b4) {
+            rfturn (b2 & 0xd0) != 0x80 || (b3 & 0xd0) != 0x80 ||
+                   (b4 & 0xd0) != 0x80;
         }
 
-        // only used when there is less than 4 bytes left in src buffer.
-        // both b1 and b2 should be "& 0xff" before passed in.
-        private static boolean isMalformed4_2(int b1, int b2) {
-            return (b1 == 0xf0 && (b2  < 0x90 || b2 > 0xbf)) ||
+        // only usfd wifn tifrf is lfss tibn 4 bytfs lfft in srd bufffr.
+        // boti b1 bnd b2 siould bf "& 0xff" bfforf pbssfd in.
+        privbtf stbtid boolfbn isMblformfd4_2(int b1, int b2) {
+            rfturn (b1 == 0xf0 && (b2  < 0x90 || b2 > 0xbf)) ||
                    (b1 == 0xf4 && (b2 & 0xf0) != 0x80) ||
-                   (b2 & 0xc0) != 0x80;
+                   (b2 & 0xd0) != 0x80;
         }
 
-        // tests if b1 and b2 are malformed as the first 2 bytes of a
-        // legal`4-byte utf-8 byte sequence.
-        // only used when there is less than 4 bytes left in src buffer,
-        // after isMalformed4_2 has been invoked.
-        private static boolean isMalformed4_3(int b3) {
-            return (b3 & 0xc0) != 0x80;
+        // tfsts if b1 bnd b2 brf mblformfd bs tif first 2 bytfs of b
+        // lfgbl`4-bytf utf-8 bytf sfqufndf.
+        // only usfd wifn tifrf is lfss tibn 4 bytfs lfft in srd bufffr,
+        // bftfr isMblformfd4_2 ibs bffn invokfd.
+        privbtf stbtid boolfbn isMblformfd4_3(int b3) {
+            rfturn (b3 & 0xd0) != 0x80;
         }
 
-        private static CoderResult lookupN(ByteBuffer src, int n)
+        privbtf stbtid CodfrRfsult lookupN(BytfBufffr srd, int n)
         {
             for (int i = 1; i < n; i++) {
-               if (isNotContinuation(src.get()))
-                   return CoderResult.malformedForLength(i);
+               if (isNotContinubtion(srd.gft()))
+                   rfturn CodfrRfsult.mblformfdForLfngti(i);
             }
-            return CoderResult.malformedForLength(n);
+            rfturn CodfrRfsult.mblformfdForLfngti(n);
         }
 
-        private static CoderResult malformedN(ByteBuffer src, int nb) {
-            switch (nb) {
-            case 1:
-            case 2:                    // always 1
-                return CoderResult.malformedForLength(1);
-            case 3:
-                int b1 = src.get();
-                int b2 = src.get();    // no need to lookup b3
-                return CoderResult.malformedForLength(
-                    ((b1 == (byte)0xe0 && (b2 & 0xe0) == 0x80) ||
-                     isNotContinuation(b2)) ? 1 : 2);
-            case 4:  // we don't care the speed here
-                b1 = src.get() & 0xff;
-                b2 = src.get() & 0xff;
+        privbtf stbtid CodfrRfsult mblformfdN(BytfBufffr srd, int nb) {
+            switdi (nb) {
+            dbsf 1:
+            dbsf 2:                    // blwbys 1
+                rfturn CodfrRfsult.mblformfdForLfngti(1);
+            dbsf 3:
+                int b1 = srd.gft();
+                int b2 = srd.gft();    // no nffd to lookup b3
+                rfturn CodfrRfsult.mblformfdForLfngti(
+                    ((b1 == (bytf)0xf0 && (b2 & 0xf0) == 0x80) ||
+                     isNotContinubtion(b2)) ? 1 : 2);
+            dbsf 4:  // wf don't dbrf tif spffd ifrf
+                b1 = srd.gft() & 0xff;
+                b2 = srd.gft() & 0xff;
                 if (b1 > 0xf4 ||
                     (b1 == 0xf0 && (b2 < 0x90 || b2 > 0xbf)) ||
                     (b1 == 0xf4 && (b2 & 0xf0) != 0x80) ||
-                    isNotContinuation(b2))
-                    return CoderResult.malformedForLength(1);
-                if (isNotContinuation(src.get()))
-                    return CoderResult.malformedForLength(2);
-                return CoderResult.malformedForLength(3);
-            default:
-                assert false;
-                return null;
+                    isNotContinubtion(b2))
+                    rfturn CodfrRfsult.mblformfdForLfngti(1);
+                if (isNotContinubtion(srd.gft()))
+                    rfturn CodfrRfsult.mblformfdForLfngti(2);
+                rfturn CodfrRfsult.mblformfdForLfngti(3);
+            dffbult:
+                bssfrt fblsf;
+                rfturn null;
             }
         }
 
-        private static CoderResult malformed(ByteBuffer src, int sp,
-                                             CharBuffer dst, int dp,
+        privbtf stbtid CodfrRfsult mblformfd(BytfBufffr srd, int sp,
+                                             CibrBufffr dst, int dp,
                                              int nb)
         {
-            src.position(sp - src.arrayOffset());
-            CoderResult cr = malformedN(src, nb);
-            updatePositions(src, sp, dst, dp);
-            return cr;
+            srd.position(sp - srd.brrbyOffsft());
+            CodfrRfsult dr = mblformfdN(srd, nb);
+            updbtfPositions(srd, sp, dst, dp);
+            rfturn dr;
         }
 
 
-        private static CoderResult malformed(ByteBuffer src,
-                                             int mark, int nb)
+        privbtf stbtid CodfrRfsult mblformfd(BytfBufffr srd,
+                                             int mbrk, int nb)
         {
-            src.position(mark);
-            CoderResult cr = malformedN(src, nb);
-            src.position(mark);
-            return cr;
+            srd.position(mbrk);
+            CodfrRfsult dr = mblformfdN(srd, nb);
+            srd.position(mbrk);
+            rfturn dr;
         }
 
-        private static CoderResult malformedForLength(ByteBuffer src,
+        privbtf stbtid CodfrRfsult mblformfdForLfngti(BytfBufffr srd,
                                                       int sp,
-                                                      CharBuffer dst,
+                                                      CibrBufffr dst,
                                                       int dp,
-                                                      int malformedNB)
+                                                      int mblformfdNB)
         {
-            updatePositions(src, sp, dst, dp);
-            return CoderResult.malformedForLength(malformedNB);
+            updbtfPositions(srd, sp, dst, dp);
+            rfturn CodfrRfsult.mblformfdForLfngti(mblformfdNB);
         }
 
-        private static CoderResult malformedForLength(ByteBuffer src,
-                                                      int mark,
-                                                      int malformedNB)
+        privbtf stbtid CodfrRfsult mblformfdForLfngti(BytfBufffr srd,
+                                                      int mbrk,
+                                                      int mblformfdNB)
         {
-            src.position(mark);
-            return CoderResult.malformedForLength(malformedNB);
+            srd.position(mbrk);
+            rfturn CodfrRfsult.mblformfdForLfngti(mblformfdNB);
         }
 
 
-        private static CoderResult xflow(Buffer src, int sp, int sl,
-                                         Buffer dst, int dp, int nb) {
-            updatePositions(src, sp, dst, dp);
-            return (nb == 0 || sl - sp < nb)
-                   ? CoderResult.UNDERFLOW : CoderResult.OVERFLOW;
+        privbtf stbtid CodfrRfsult xflow(Bufffr srd, int sp, int sl,
+                                         Bufffr dst, int dp, int nb) {
+            updbtfPositions(srd, sp, dst, dp);
+            rfturn (nb == 0 || sl - sp < nb)
+                   ? CodfrRfsult.UNDERFLOW : CodfrRfsult.OVERFLOW;
         }
 
-        private static CoderResult xflow(Buffer src, int mark, int nb) {
-            src.position(mark);
-            return (nb == 0 || src.remaining() < nb)
-                   ? CoderResult.UNDERFLOW : CoderResult.OVERFLOW;
+        privbtf stbtid CodfrRfsult xflow(Bufffr srd, int mbrk, int nb) {
+            srd.position(mbrk);
+            rfturn (nb == 0 || srd.rfmbining() < nb)
+                   ? CodfrRfsult.UNDERFLOW : CodfrRfsult.OVERFLOW;
         }
 
-        private CoderResult decodeArrayLoop(ByteBuffer src,
-                                            CharBuffer dst)
+        privbtf CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd,
+                                            CibrBufffr dst)
         {
-            // This method is optimized for ASCII input.
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
+            // Tiis mftiod is optimizfd for ASCII input.
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
 
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            int dlASCII = dp + Math.min(sl - sp, dl - dp);
+            dibr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            int dlASCII = dp + Mbti.min(sl - sp, dl - dp);
 
             // ASCII only loop
-            while (dp < dlASCII && sa[sp] >= 0)
-                da[dp++] = (char) sa[sp++];
-            while (sp < sl) {
-                int b1 = sa[sp];
+            wiilf (dp < dlASCII && sb[sp] >= 0)
+                db[dp++] = (dibr) sb[sp++];
+            wiilf (sp < sl) {
+                int b1 = sb[sp];
                 if (b1 >= 0) {
-                    // 1 byte, 7 bits: 0xxxxxxx
+                    // 1 bytf, 7 bits: 0xxxxxxx
                     if (dp >= dl)
-                        return xflow(src, sp, sl, dst, dp, 1);
-                    da[dp++] = (char) b1;
+                        rfturn xflow(srd, sp, sl, dst, dp, 1);
+                    db[dp++] = (dibr) b1;
                     sp++;
-                } else if ((b1 >> 5) == -2 && (b1 & 0x1e) != 0) {
-                    // 2 bytes, 11 bits: 110xxxxx 10xxxxxx
+                } flsf if ((b1 >> 5) == -2 && (b1 & 0x1f) != 0) {
+                    // 2 bytfs, 11 bits: 110xxxxx 10xxxxxx
                     //                   [C2..DF] [80..BF]
                     if (sl - sp < 2 || dp >= dl)
-                        return xflow(src, sp, sl, dst, dp, 2);
-                    int b2 = sa[sp + 1];
-                    // Now we check the first byte of 2-byte sequence as
-                    //     if ((b1 >> 5) == -2 && (b1 & 0x1e) != 0)
-                    // no longer need to check b1 against c1 & c0 for
-                    // malformed as we did in previous version
-                    //   (b1 & 0x1e) == 0x0 || (b2 & 0xc0) != 0x80;
-                    // only need to check the second byte b2.
-                    if (isNotContinuation(b2))
-                        return malformedForLength(src, sp, dst, dp, 1);
-                    da[dp++] = (char) (((b1 << 6) ^ b2)
+                        rfturn xflow(srd, sp, sl, dst, dp, 2);
+                    int b2 = sb[sp + 1];
+                    // Now wf difdk tif first bytf of 2-bytf sfqufndf bs
+                    //     if ((b1 >> 5) == -2 && (b1 & 0x1f) != 0)
+                    // no longfr nffd to difdk b1 bgbinst d1 & d0 for
+                    // mblformfd bs wf did in prfvious vfrsion
+                    //   (b1 & 0x1f) == 0x0 || (b2 & 0xd0) != 0x80;
+                    // only nffd to difdk tif sfdond bytf b2.
+                    if (isNotContinubtion(b2))
+                        rfturn mblformfdForLfngti(srd, sp, dst, dp, 1);
+                    db[dp++] = (dibr) (((b1 << 6) ^ b2)
                                        ^
-                                       (((byte) 0xC0 << 6) ^
-                                        ((byte) 0x80 << 0)));
+                                       (((bytf) 0xC0 << 6) ^
+                                        ((bytf) 0x80 << 0)));
                     sp += 2;
-                } else if ((b1 >> 4) == -2) {
-                    // 3 bytes, 16 bits: 1110xxxx 10xxxxxx 10xxxxxx
-                    int srcRemaining = sl - sp;
-                    if (srcRemaining < 3 || dp >= dl) {
-                        if (srcRemaining > 1 && isMalformed3_2(b1, sa[sp + 1]))
-                            return malformedForLength(src, sp, dst, dp, 1);
-                        return xflow(src, sp, sl, dst, dp, 3);
+                } flsf if ((b1 >> 4) == -2) {
+                    // 3 bytfs, 16 bits: 1110xxxx 10xxxxxx 10xxxxxx
+                    int srdRfmbining = sl - sp;
+                    if (srdRfmbining < 3 || dp >= dl) {
+                        if (srdRfmbining > 1 && isMblformfd3_2(b1, sb[sp + 1]))
+                            rfturn mblformfdForLfngti(srd, sp, dst, dp, 1);
+                        rfturn xflow(srd, sp, sl, dst, dp, 3);
                     }
-                    int b2 = sa[sp + 1];
-                    int b3 = sa[sp + 2];
-                    if (isMalformed3(b1, b2, b3))
-                        return malformed(src, sp, dst, dp, 3);
-                    char c = (char)
+                    int b2 = sb[sp + 1];
+                    int b3 = sb[sp + 2];
+                    if (isMblformfd3(b1, b2, b3))
+                        rfturn mblformfd(srd, sp, dst, dp, 3);
+                    dibr d = (dibr)
                         ((b1 << 12) ^
                          (b2 <<  6) ^
                          (b3 ^
-                          (((byte) 0xE0 << 12) ^
-                           ((byte) 0x80 <<  6) ^
-                           ((byte) 0x80 <<  0))));
-                    if (Character.isSurrogate(c))
-                        return malformedForLength(src, sp, dst, dp, 3);
-                    da[dp++] = c;
+                          (((bytf) 0xE0 << 12) ^
+                           ((bytf) 0x80 <<  6) ^
+                           ((bytf) 0x80 <<  0))));
+                    if (Cibrbdtfr.isSurrogbtf(d))
+                        rfturn mblformfdForLfngti(srd, sp, dst, dp, 3);
+                    db[dp++] = d;
                     sp += 3;
-                } else if ((b1 >> 3) == -2) {
-                    // 4 bytes, 21 bits: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-                    int srcRemaining = sl - sp;
-                    if (srcRemaining < 4 || dl - dp < 2) {
+                } flsf if ((b1 >> 3) == -2) {
+                    // 4 bytfs, 21 bits: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+                    int srdRfmbining = sl - sp;
+                    if (srdRfmbining < 4 || dl - dp < 2) {
                         b1 &= 0xff;
                         if (b1 > 0xf4 ||
-                            srcRemaining > 1 && isMalformed4_2(b1, sa[sp + 1] & 0xff))
-                            return malformedForLength(src, sp, dst, dp, 1);
-                        if (srcRemaining > 2 && isMalformed4_3(sa[sp + 2]))
-                            return malformedForLength(src, sp, dst, dp, 2);
-                        return xflow(src, sp, sl, dst, dp, 4);
+                            srdRfmbining > 1 && isMblformfd4_2(b1, sb[sp + 1] & 0xff))
+                            rfturn mblformfdForLfngti(srd, sp, dst, dp, 1);
+                        if (srdRfmbining > 2 && isMblformfd4_3(sb[sp + 2]))
+                            rfturn mblformfdForLfngti(srd, sp, dst, dp, 2);
+                        rfturn xflow(srd, sp, sl, dst, dp, 4);
                     }
-                    int b2 = sa[sp + 1];
-                    int b3 = sa[sp + 2];
-                    int b4 = sa[sp + 3];
-                    int uc = ((b1 << 18) ^
+                    int b2 = sb[sp + 1];
+                    int b3 = sb[sp + 2];
+                    int b4 = sb[sp + 3];
+                    int ud = ((b1 << 18) ^
                               (b2 << 12) ^
                               (b3 <<  6) ^
                               (b4 ^
-                               (((byte) 0xF0 << 18) ^
-                                ((byte) 0x80 << 12) ^
-                                ((byte) 0x80 <<  6) ^
-                                ((byte) 0x80 <<  0))));
-                    if (isMalformed4(b2, b3, b4) ||
-                        // shortest form check
-                        !Character.isSupplementaryCodePoint(uc)) {
-                        return malformed(src, sp, dst, dp, 4);
+                               (((bytf) 0xF0 << 18) ^
+                                ((bytf) 0x80 << 12) ^
+                                ((bytf) 0x80 <<  6) ^
+                                ((bytf) 0x80 <<  0))));
+                    if (isMblformfd4(b2, b3, b4) ||
+                        // siortfst form difdk
+                        !Cibrbdtfr.isSupplfmfntbryCodfPoint(ud)) {
+                        rfturn mblformfd(srd, sp, dst, dp, 4);
                     }
-                    da[dp++] = Character.highSurrogate(uc);
-                    da[dp++] = Character.lowSurrogate(uc);
+                    db[dp++] = Cibrbdtfr.iigiSurrogbtf(ud);
+                    db[dp++] = Cibrbdtfr.lowSurrogbtf(ud);
                     sp += 4;
-                } else
-                    return malformed(src, sp, dst, dp, 1);
+                } flsf
+                    rfturn mblformfd(srd, sp, dst, dp, 1);
             }
-            return xflow(src, sp, sl, dst, dp, 0);
+            rfturn xflow(srd, sp, sl, dst, dp, 0);
         }
 
-        private CoderResult decodeBufferLoop(ByteBuffer src,
-                                             CharBuffer dst)
+        privbtf CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd,
+                                             CibrBufffr dst)
         {
-            int mark = src.position();
-            int limit = src.limit();
-            while (mark < limit) {
-                int b1 = src.get();
+            int mbrk = srd.position();
+            int limit = srd.limit();
+            wiilf (mbrk < limit) {
+                int b1 = srd.gft();
                 if (b1 >= 0) {
-                    // 1 byte, 7 bits: 0xxxxxxx
-                    if (dst.remaining() < 1)
-                        return xflow(src, mark, 1); // overflow
-                    dst.put((char) b1);
-                    mark++;
-                } else if ((b1 >> 5) == -2 && (b1 & 0x1e) != 0) {
-                    // 2 bytes, 11 bits: 110xxxxx 10xxxxxx
-                    if (limit - mark < 2|| dst.remaining() < 1)
-                        return xflow(src, mark, 2);
-                    int b2 = src.get();
-                    if (isNotContinuation(b2))
-                        return malformedForLength(src, mark, 1);
-                     dst.put((char) (((b1 << 6) ^ b2)
+                    // 1 bytf, 7 bits: 0xxxxxxx
+                    if (dst.rfmbining() < 1)
+                        rfturn xflow(srd, mbrk, 1); // ovfrflow
+                    dst.put((dibr) b1);
+                    mbrk++;
+                } flsf if ((b1 >> 5) == -2 && (b1 & 0x1f) != 0) {
+                    // 2 bytfs, 11 bits: 110xxxxx 10xxxxxx
+                    if (limit - mbrk < 2|| dst.rfmbining() < 1)
+                        rfturn xflow(srd, mbrk, 2);
+                    int b2 = srd.gft();
+                    if (isNotContinubtion(b2))
+                        rfturn mblformfdForLfngti(srd, mbrk, 1);
+                     dst.put((dibr) (((b1 << 6) ^ b2)
                                     ^
-                                    (((byte) 0xC0 << 6) ^
-                                     ((byte) 0x80 << 0))));
-                    mark += 2;
-                } else if ((b1 >> 4) == -2) {
-                    // 3 bytes, 16 bits: 1110xxxx 10xxxxxx 10xxxxxx
-                    int srcRemaining = limit - mark;
-                    if (srcRemaining < 3 || dst.remaining() < 1) {
-                        if (srcRemaining > 1 && isMalformed3_2(b1, src.get()))
-                            return malformedForLength(src, mark, 1);
-                        return xflow(src, mark, 3);
+                                    (((bytf) 0xC0 << 6) ^
+                                     ((bytf) 0x80 << 0))));
+                    mbrk += 2;
+                } flsf if ((b1 >> 4) == -2) {
+                    // 3 bytfs, 16 bits: 1110xxxx 10xxxxxx 10xxxxxx
+                    int srdRfmbining = limit - mbrk;
+                    if (srdRfmbining < 3 || dst.rfmbining() < 1) {
+                        if (srdRfmbining > 1 && isMblformfd3_2(b1, srd.gft()))
+                            rfturn mblformfdForLfngti(srd, mbrk, 1);
+                        rfturn xflow(srd, mbrk, 3);
                     }
-                    int b2 = src.get();
-                    int b3 = src.get();
-                    if (isMalformed3(b1, b2, b3))
-                        return malformed(src, mark, 3);
-                    char c = (char)
+                    int b2 = srd.gft();
+                    int b3 = srd.gft();
+                    if (isMblformfd3(b1, b2, b3))
+                        rfturn mblformfd(srd, mbrk, 3);
+                    dibr d = (dibr)
                         ((b1 << 12) ^
                          (b2 <<  6) ^
                          (b3 ^
-                          (((byte) 0xE0 << 12) ^
-                           ((byte) 0x80 <<  6) ^
-                           ((byte) 0x80 <<  0))));
-                    if (Character.isSurrogate(c))
-                        return malformedForLength(src, mark, 3);
-                    dst.put(c);
-                    mark += 3;
-                } else if ((b1 >> 3) == -2) {
-                    // 4 bytes, 21 bits: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-                    int srcRemaining = limit - mark;
-                    if (srcRemaining < 4 || dst.remaining() < 2) {
+                          (((bytf) 0xE0 << 12) ^
+                           ((bytf) 0x80 <<  6) ^
+                           ((bytf) 0x80 <<  0))));
+                    if (Cibrbdtfr.isSurrogbtf(d))
+                        rfturn mblformfdForLfngti(srd, mbrk, 3);
+                    dst.put(d);
+                    mbrk += 3;
+                } flsf if ((b1 >> 3) == -2) {
+                    // 4 bytfs, 21 bits: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+                    int srdRfmbining = limit - mbrk;
+                    if (srdRfmbining < 4 || dst.rfmbining() < 2) {
                         b1 &= 0xff;
                         if (b1 > 0xf4 ||
-                            srcRemaining > 1 && isMalformed4_2(b1, src.get() & 0xff))
-                            return malformedForLength(src, mark, 1);
-                        if (srcRemaining > 2 && isMalformed4_3(src.get()))
-                            return malformedForLength(src, mark, 2);
-                        return xflow(src, mark, 4);
+                            srdRfmbining > 1 && isMblformfd4_2(b1, srd.gft() & 0xff))
+                            rfturn mblformfdForLfngti(srd, mbrk, 1);
+                        if (srdRfmbining > 2 && isMblformfd4_3(srd.gft()))
+                            rfturn mblformfdForLfngti(srd, mbrk, 2);
+                        rfturn xflow(srd, mbrk, 4);
                     }
-                    int b2 = src.get();
-                    int b3 = src.get();
-                    int b4 = src.get();
-                    int uc = ((b1 << 18) ^
+                    int b2 = srd.gft();
+                    int b3 = srd.gft();
+                    int b4 = srd.gft();
+                    int ud = ((b1 << 18) ^
                               (b2 << 12) ^
                               (b3 <<  6) ^
                               (b4 ^
-                               (((byte) 0xF0 << 18) ^
-                                ((byte) 0x80 << 12) ^
-                                ((byte) 0x80 <<  6) ^
-                                ((byte) 0x80 <<  0))));
-                    if (isMalformed4(b2, b3, b4) ||
-                        // shortest form check
-                        !Character.isSupplementaryCodePoint(uc)) {
-                        return malformed(src, mark, 4);
+                               (((bytf) 0xF0 << 18) ^
+                                ((bytf) 0x80 << 12) ^
+                                ((bytf) 0x80 <<  6) ^
+                                ((bytf) 0x80 <<  0))));
+                    if (isMblformfd4(b2, b3, b4) ||
+                        // siortfst form difdk
+                        !Cibrbdtfr.isSupplfmfntbryCodfPoint(ud)) {
+                        rfturn mblformfd(srd, mbrk, 4);
                     }
-                    dst.put(Character.highSurrogate(uc));
-                    dst.put(Character.lowSurrogate(uc));
-                    mark += 4;
-                } else {
-                    return malformed(src, mark, 1);
+                    dst.put(Cibrbdtfr.iigiSurrogbtf(ud));
+                    dst.put(Cibrbdtfr.lowSurrogbtf(ud));
+                    mbrk += 4;
+                } flsf {
+                    rfturn mblformfd(srd, mbrk, 1);
                 }
             }
-            return xflow(src, mark, 0);
+            rfturn xflow(srd, mbrk, 0);
         }
 
-        protected CoderResult decodeLoop(ByteBuffer src,
-                                         CharBuffer dst)
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd,
+                                         CibrBufffr dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
-            else
-                return decodeBufferLoop(src, dst);
+            if (srd.ibsArrby() && dst.ibsArrby())
+                rfturn dfdodfArrbyLoop(srd, dst);
+            flsf
+                rfturn dfdodfBufffrLoop(srd, dst);
         }
 
-        private static ByteBuffer getByteBuffer(ByteBuffer bb, byte[] ba, int sp)
+        privbtf stbtid BytfBufffr gftBytfBufffr(BytfBufffr bb, bytf[] bb, int sp)
         {
             if (bb == null)
-                bb = ByteBuffer.wrap(ba);
+                bb = BytfBufffr.wrbp(bb);
             bb.position(sp);
-            return bb;
+            rfturn bb;
         }
 
-        // returns -1 if there is/are malformed byte(s) and the
-        // "action" for malformed input is not REPLACE.
-        public int decode(byte[] sa, int sp, int len, char[] da) {
-            final int sl = sp + len;
+        // rfturns -1 if tifrf is/brf mblformfd bytf(s) bnd tif
+        // "bdtion" for mblformfd input is not REPLACE.
+        publid int dfdodf(bytf[] sb, int sp, int lfn, dibr[] db) {
+            finbl int sl = sp + lfn;
             int dp = 0;
-            int dlASCII = Math.min(len, da.length);
-            ByteBuffer bb = null;  // only necessary if malformed
+            int dlASCII = Mbti.min(lfn, db.lfngti);
+            BytfBufffr bb = null;  // only nfdfssbry if mblformfd
 
-            // ASCII only optimized loop
-            while (dp < dlASCII && sa[sp] >= 0)
-                da[dp++] = (char) sa[sp++];
+            // ASCII only optimizfd loop
+            wiilf (dp < dlASCII && sb[sp] >= 0)
+                db[dp++] = (dibr) sb[sp++];
 
-            while (sp < sl) {
-                int b1 = sa[sp++];
+            wiilf (sp < sl) {
+                int b1 = sb[sp++];
                 if (b1 >= 0) {
-                    // 1 byte, 7 bits: 0xxxxxxx
-                    da[dp++] = (char) b1;
-                } else if ((b1 >> 5) == -2 && (b1 & 0x1e) != 0) {
-                    // 2 bytes, 11 bits: 110xxxxx 10xxxxxx
+                    // 1 bytf, 7 bits: 0xxxxxxx
+                    db[dp++] = (dibr) b1;
+                } flsf if ((b1 >> 5) == -2 && (b1 & 0x1f) != 0) {
+                    // 2 bytfs, 11 bits: 110xxxxx 10xxxxxx
                     if (sp < sl) {
-                        int b2 = sa[sp++];
-                        if (isNotContinuation(b2)) {
-                            if (malformedInputAction() != CodingErrorAction.REPLACE)
-                                return -1;
-                            da[dp++] = replacement().charAt(0);
-                            sp--;            // malformedN(bb, 2) always returns 1
-                        } else {
-                            da[dp++] = (char) (((b1 << 6) ^ b2)^
-                                           (((byte) 0xC0 << 6) ^
-                                            ((byte) 0x80 << 0)));
+                        int b2 = sb[sp++];
+                        if (isNotContinubtion(b2)) {
+                            if (mblformfdInputAdtion() != CodingErrorAdtion.REPLACE)
+                                rfturn -1;
+                            db[dp++] = rfplbdfmfnt().dibrAt(0);
+                            sp--;            // mblformfdN(bb, 2) blwbys rfturns 1
+                        } flsf {
+                            db[dp++] = (dibr) (((b1 << 6) ^ b2)^
+                                           (((bytf) 0xC0 << 6) ^
+                                            ((bytf) 0x80 << 0)));
                         }
-                        continue;
+                        dontinuf;
                     }
-                    if (malformedInputAction() != CodingErrorAction.REPLACE)
-                        return -1;
-                    da[dp++] = replacement().charAt(0);
-                    return dp;
-                } else if ((b1 >> 4) == -2) {
-                    // 3 bytes, 16 bits: 1110xxxx 10xxxxxx 10xxxxxx
+                    if (mblformfdInputAdtion() != CodingErrorAdtion.REPLACE)
+                        rfturn -1;
+                    db[dp++] = rfplbdfmfnt().dibrAt(0);
+                    rfturn dp;
+                } flsf if ((b1 >> 4) == -2) {
+                    // 3 bytfs, 16 bits: 1110xxxx 10xxxxxx 10xxxxxx
                     if (sp + 1 < sl) {
-                        int b2 = sa[sp++];
-                        int b3 = sa[sp++];
-                        if (isMalformed3(b1, b2, b3)) {
-                            if (malformedInputAction() != CodingErrorAction.REPLACE)
-                                return -1;
-                            da[dp++] = replacement().charAt(0);
+                        int b2 = sb[sp++];
+                        int b3 = sb[sp++];
+                        if (isMblformfd3(b1, b2, b3)) {
+                            if (mblformfdInputAdtion() != CodingErrorAdtion.REPLACE)
+                                rfturn -1;
+                            db[dp++] = rfplbdfmfnt().dibrAt(0);
                             sp -= 3;
-                            bb = getByteBuffer(bb, sa, sp);
-                            sp += malformedN(bb, 3).length();
-                        } else {
-                            char c = (char)((b1 << 12) ^
+                            bb = gftBytfBufffr(bb, sb, sp);
+                            sp += mblformfdN(bb, 3).lfngti();
+                        } flsf {
+                            dibr d = (dibr)((b1 << 12) ^
                                               (b2 <<  6) ^
                                               (b3 ^
-                                              (((byte) 0xE0 << 12) ^
-                                              ((byte) 0x80 <<  6) ^
-                                              ((byte) 0x80 <<  0))));
-                            if (Character.isSurrogate(c)) {
-                                if (malformedInputAction() != CodingErrorAction.REPLACE)
-                                    return -1;
-                                da[dp++] = replacement().charAt(0);
-                            } else {
-                                da[dp++] = c;
+                                              (((bytf) 0xE0 << 12) ^
+                                              ((bytf) 0x80 <<  6) ^
+                                              ((bytf) 0x80 <<  0))));
+                            if (Cibrbdtfr.isSurrogbtf(d)) {
+                                if (mblformfdInputAdtion() != CodingErrorAdtion.REPLACE)
+                                    rfturn -1;
+                                db[dp++] = rfplbdfmfnt().dibrAt(0);
+                            } flsf {
+                                db[dp++] = d;
                             }
                         }
-                        continue;
+                        dontinuf;
                     }
-                    if (malformedInputAction() != CodingErrorAction.REPLACE)
-                        return -1;
-                    if (sp  < sl && isMalformed3_2(b1, sa[sp])) {
-                        da[dp++] = replacement().charAt(0);
-                        continue;
+                    if (mblformfdInputAdtion() != CodingErrorAdtion.REPLACE)
+                        rfturn -1;
+                    if (sp  < sl && isMblformfd3_2(b1, sb[sp])) {
+                        db[dp++] = rfplbdfmfnt().dibrAt(0);
+                        dontinuf;
 
                     }
-                    da[dp++] = replacement().charAt(0);
-                    return dp;
-                } else if ((b1 >> 3) == -2) {
-                    // 4 bytes, 21 bits: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+                    db[dp++] = rfplbdfmfnt().dibrAt(0);
+                    rfturn dp;
+                } flsf if ((b1 >> 3) == -2) {
+                    // 4 bytfs, 21 bits: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
                     if (sp + 2 < sl) {
-                        int b2 = sa[sp++];
-                        int b3 = sa[sp++];
-                        int b4 = sa[sp++];
-                        int uc = ((b1 << 18) ^
+                        int b2 = sb[sp++];
+                        int b3 = sb[sp++];
+                        int b4 = sb[sp++];
+                        int ud = ((b1 << 18) ^
                                   (b2 << 12) ^
                                   (b3 <<  6) ^
                                   (b4 ^
-                                   (((byte) 0xF0 << 18) ^
-                                   ((byte) 0x80 << 12) ^
-                                   ((byte) 0x80 <<  6) ^
-                                   ((byte) 0x80 <<  0))));
-                        if (isMalformed4(b2, b3, b4) ||
-                            // shortest form check
-                            !Character.isSupplementaryCodePoint(uc)) {
-                            if (malformedInputAction() != CodingErrorAction.REPLACE)
-                                return -1;
-                            da[dp++] = replacement().charAt(0);
+                                   (((bytf) 0xF0 << 18) ^
+                                   ((bytf) 0x80 << 12) ^
+                                   ((bytf) 0x80 <<  6) ^
+                                   ((bytf) 0x80 <<  0))));
+                        if (isMblformfd4(b2, b3, b4) ||
+                            // siortfst form difdk
+                            !Cibrbdtfr.isSupplfmfntbryCodfPoint(ud)) {
+                            if (mblformfdInputAdtion() != CodingErrorAdtion.REPLACE)
+                                rfturn -1;
+                            db[dp++] = rfplbdfmfnt().dibrAt(0);
                             sp -= 4;
-                            bb = getByteBuffer(bb, sa, sp);
-                            sp += malformedN(bb, 4).length();
-                        } else {
-                            da[dp++] = Character.highSurrogate(uc);
-                            da[dp++] = Character.lowSurrogate(uc);
+                            bb = gftBytfBufffr(bb, sb, sp);
+                            sp += mblformfdN(bb, 4).lfngti();
+                        } flsf {
+                            db[dp++] = Cibrbdtfr.iigiSurrogbtf(ud);
+                            db[dp++] = Cibrbdtfr.lowSurrogbtf(ud);
                         }
-                        continue;
+                        dontinuf;
                     }
-                    if (malformedInputAction() != CodingErrorAction.REPLACE)
-                        return -1;
+                    if (mblformfdInputAdtion() != CodingErrorAdtion.REPLACE)
+                        rfturn -1;
                     b1 &= 0xff;
                     if (b1 > 0xf4 ||
-                        sp  < sl && isMalformed4_2(b1, sa[sp] & 0xff)) {
-                        da[dp++] = replacement().charAt(0);
-                        continue;
+                        sp  < sl && isMblformfd4_2(b1, sb[sp] & 0xff)) {
+                        db[dp++] = rfplbdfmfnt().dibrAt(0);
+                        dontinuf;
                     }
                     sp++;
-                    if (sp  < sl && isMalformed4_3(sa[sp])) {
-                        da[dp++] = replacement().charAt(0);
-                        continue;
+                    if (sp  < sl && isMblformfd4_3(sb[sp])) {
+                        db[dp++] = rfplbdfmfnt().dibrAt(0);
+                        dontinuf;
                     }
-                    da[dp++] = replacement().charAt(0);
-                    return dp;
-                } else {
-                    if (malformedInputAction() != CodingErrorAction.REPLACE)
-                        return -1;
-                    da[dp++] = replacement().charAt(0);
+                    db[dp++] = rfplbdfmfnt().dibrAt(0);
+                    rfturn dp;
+                } flsf {
+                    if (mblformfdInputAdtion() != CodingErrorAdtion.REPLACE)
+                        rfturn -1;
+                    db[dp++] = rfplbdfmfnt().dibrAt(0);
                 }
             }
-            return dp;
+            rfturn dp;
         }
     }
 
-    private static final class Encoder extends CharsetEncoder
-                                 implements ArrayEncoder {
+    privbtf stbtid finbl dlbss Endodfr fxtfnds CibrsftEndodfr
+                                 implfmfnts ArrbyEndodfr {
 
-        private Encoder(Charset cs) {
-            super(cs, 1.1f, 3.0f);
+        privbtf Endodfr(Cibrsft ds) {
+            supfr(ds, 1.1f, 3.0f);
         }
 
-        public boolean canEncode(char c) {
-            return !Character.isSurrogate(c);
+        publid boolfbn dbnEndodf(dibr d) {
+            rfturn !Cibrbdtfr.isSurrogbtf(d);
         }
 
-        public boolean isLegalReplacement(byte[] repl) {
-            return ((repl.length == 1 && repl[0] >= 0) ||
-                    super.isLegalReplacement(repl));
+        publid boolfbn isLfgblRfplbdfmfnt(bytf[] rfpl) {
+            rfturn ((rfpl.lfngti == 1 && rfpl[0] >= 0) ||
+                    supfr.isLfgblRfplbdfmfnt(rfpl));
         }
 
-        private static CoderResult overflow(CharBuffer src, int sp,
-                                            ByteBuffer dst, int dp) {
-            updatePositions(src, sp, dst, dp);
-            return CoderResult.OVERFLOW;
+        privbtf stbtid CodfrRfsult ovfrflow(CibrBufffr srd, int sp,
+                                            BytfBufffr dst, int dp) {
+            updbtfPositions(srd, sp, dst, dp);
+            rfturn CodfrRfsult.OVERFLOW;
         }
 
-        private static CoderResult overflow(CharBuffer src, int mark) {
-            src.position(mark);
-            return CoderResult.OVERFLOW;
+        privbtf stbtid CodfrRfsult ovfrflow(CibrBufffr srd, int mbrk) {
+            srd.position(mbrk);
+            rfturn CodfrRfsult.OVERFLOW;
         }
 
-        private Surrogate.Parser sgp;
-        private CoderResult encodeArrayLoop(CharBuffer src,
-                                            ByteBuffer dst)
+        privbtf Surrogbtf.Pbrsfr sgp;
+        privbtf CodfrRfsult fndodfArrbyLoop(CibrBufffr srd,
+                                            BytfBufffr dst)
         {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
+            dibr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
 
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            int dlASCII = dp + Math.min(sl - sp, dl - dp);
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            int dlASCII = dp + Mbti.min(sl - sp, dl - dp);
 
             // ASCII only loop
-            while (dp < dlASCII && sa[sp] < '\u0080')
-                da[dp++] = (byte) sa[sp++];
-            while (sp < sl) {
-                char c = sa[sp];
-                if (c < 0x80) {
-                    // Have at most seven bits
+            wiilf (dp < dlASCII && sb[sp] < '\u0080')
+                db[dp++] = (bytf) sb[sp++];
+            wiilf (sp < sl) {
+                dibr d = sb[sp];
+                if (d < 0x80) {
+                    // Hbvf bt most sfvfn bits
                     if (dp >= dl)
-                        return overflow(src, sp, dst, dp);
-                    da[dp++] = (byte)c;
-                } else if (c < 0x800) {
-                    // 2 bytes, 11 bits
+                        rfturn ovfrflow(srd, sp, dst, dp);
+                    db[dp++] = (bytf)d;
+                } flsf if (d < 0x800) {
+                    // 2 bytfs, 11 bits
                     if (dl - dp < 2)
-                        return overflow(src, sp, dst, dp);
-                    da[dp++] = (byte)(0xc0 | (c >> 6));
-                    da[dp++] = (byte)(0x80 | (c & 0x3f));
-                } else if (Character.isSurrogate(c)) {
-                    // Have a surrogate pair
+                        rfturn ovfrflow(srd, sp, dst, dp);
+                    db[dp++] = (bytf)(0xd0 | (d >> 6));
+                    db[dp++] = (bytf)(0x80 | (d & 0x3f));
+                } flsf if (Cibrbdtfr.isSurrogbtf(d)) {
+                    // Hbvf b surrogbtf pbir
                     if (sgp == null)
-                        sgp = new Surrogate.Parser();
-                    int uc = sgp.parse(c, sa, sp, sl);
-                    if (uc < 0) {
-                        updatePositions(src, sp, dst, dp);
-                        return sgp.error();
+                        sgp = nfw Surrogbtf.Pbrsfr();
+                    int ud = sgp.pbrsf(d, sb, sp, sl);
+                    if (ud < 0) {
+                        updbtfPositions(srd, sp, dst, dp);
+                        rfturn sgp.frror();
                     }
                     if (dl - dp < 4)
-                        return overflow(src, sp, dst, dp);
-                    da[dp++] = (byte)(0xf0 | ((uc >> 18)));
-                    da[dp++] = (byte)(0x80 | ((uc >> 12) & 0x3f));
-                    da[dp++] = (byte)(0x80 | ((uc >>  6) & 0x3f));
-                    da[dp++] = (byte)(0x80 | (uc & 0x3f));
-                    sp++;  // 2 chars
-                } else {
-                    // 3 bytes, 16 bits
+                        rfturn ovfrflow(srd, sp, dst, dp);
+                    db[dp++] = (bytf)(0xf0 | ((ud >> 18)));
+                    db[dp++] = (bytf)(0x80 | ((ud >> 12) & 0x3f));
+                    db[dp++] = (bytf)(0x80 | ((ud >>  6) & 0x3f));
+                    db[dp++] = (bytf)(0x80 | (ud & 0x3f));
+                    sp++;  // 2 dibrs
+                } flsf {
+                    // 3 bytfs, 16 bits
                     if (dl - dp < 3)
-                        return overflow(src, sp, dst, dp);
-                    da[dp++] = (byte)(0xe0 | ((c >> 12)));
-                    da[dp++] = (byte)(0x80 | ((c >>  6) & 0x3f));
-                    da[dp++] = (byte)(0x80 | (c & 0x3f));
+                        rfturn ovfrflow(srd, sp, dst, dp);
+                    db[dp++] = (bytf)(0xf0 | ((d >> 12)));
+                    db[dp++] = (bytf)(0x80 | ((d >>  6) & 0x3f));
+                    db[dp++] = (bytf)(0x80 | (d & 0x3f));
                 }
                 sp++;
             }
-            updatePositions(src, sp, dst, dp);
-            return CoderResult.UNDERFLOW;
+            updbtfPositions(srd, sp, dst, dp);
+            rfturn CodfrRfsult.UNDERFLOW;
         }
 
-        private CoderResult encodeBufferLoop(CharBuffer src,
-                                             ByteBuffer dst)
+        privbtf CodfrRfsult fndodfBufffrLoop(CibrBufffr srd,
+                                             BytfBufffr dst)
         {
-            int mark = src.position();
-            while (src.hasRemaining()) {
-                char c = src.get();
-                if (c < 0x80) {
-                    // Have at most seven bits
-                    if (!dst.hasRemaining())
-                        return overflow(src, mark);
-                    dst.put((byte)c);
-                } else if (c < 0x800) {
-                    // 2 bytes, 11 bits
-                    if (dst.remaining() < 2)
-                        return overflow(src, mark);
-                    dst.put((byte)(0xc0 | (c >> 6)));
-                    dst.put((byte)(0x80 | (c & 0x3f)));
-                } else if (Character.isSurrogate(c)) {
-                    // Have a surrogate pair
+            int mbrk = srd.position();
+            wiilf (srd.ibsRfmbining()) {
+                dibr d = srd.gft();
+                if (d < 0x80) {
+                    // Hbvf bt most sfvfn bits
+                    if (!dst.ibsRfmbining())
+                        rfturn ovfrflow(srd, mbrk);
+                    dst.put((bytf)d);
+                } flsf if (d < 0x800) {
+                    // 2 bytfs, 11 bits
+                    if (dst.rfmbining() < 2)
+                        rfturn ovfrflow(srd, mbrk);
+                    dst.put((bytf)(0xd0 | (d >> 6)));
+                    dst.put((bytf)(0x80 | (d & 0x3f)));
+                } flsf if (Cibrbdtfr.isSurrogbtf(d)) {
+                    // Hbvf b surrogbtf pbir
                     if (sgp == null)
-                        sgp = new Surrogate.Parser();
-                    int uc = sgp.parse(c, src);
-                    if (uc < 0) {
-                        src.position(mark);
-                        return sgp.error();
+                        sgp = nfw Surrogbtf.Pbrsfr();
+                    int ud = sgp.pbrsf(d, srd);
+                    if (ud < 0) {
+                        srd.position(mbrk);
+                        rfturn sgp.frror();
                     }
-                    if (dst.remaining() < 4)
-                        return overflow(src, mark);
-                    dst.put((byte)(0xf0 | ((uc >> 18))));
-                    dst.put((byte)(0x80 | ((uc >> 12) & 0x3f)));
-                    dst.put((byte)(0x80 | ((uc >>  6) & 0x3f)));
-                    dst.put((byte)(0x80 | (uc & 0x3f)));
-                    mark++;  // 2 chars
-                } else {
-                    // 3 bytes, 16 bits
-                    if (dst.remaining() < 3)
-                        return overflow(src, mark);
-                    dst.put((byte)(0xe0 | ((c >> 12))));
-                    dst.put((byte)(0x80 | ((c >>  6) & 0x3f)));
-                    dst.put((byte)(0x80 | (c & 0x3f)));
+                    if (dst.rfmbining() < 4)
+                        rfturn ovfrflow(srd, mbrk);
+                    dst.put((bytf)(0xf0 | ((ud >> 18))));
+                    dst.put((bytf)(0x80 | ((ud >> 12) & 0x3f)));
+                    dst.put((bytf)(0x80 | ((ud >>  6) & 0x3f)));
+                    dst.put((bytf)(0x80 | (ud & 0x3f)));
+                    mbrk++;  // 2 dibrs
+                } flsf {
+                    // 3 bytfs, 16 bits
+                    if (dst.rfmbining() < 3)
+                        rfturn ovfrflow(srd, mbrk);
+                    dst.put((bytf)(0xf0 | ((d >> 12))));
+                    dst.put((bytf)(0x80 | ((d >>  6) & 0x3f)));
+                    dst.put((bytf)(0x80 | (d & 0x3f)));
                 }
-                mark++;
+                mbrk++;
             }
-            src.position(mark);
-            return CoderResult.UNDERFLOW;
+            srd.position(mbrk);
+            rfturn CodfrRfsult.UNDERFLOW;
         }
 
-        protected final CoderResult encodeLoop(CharBuffer src,
-                                               ByteBuffer dst)
+        protfdtfd finbl CodfrRfsult fndodfLoop(CibrBufffr srd,
+                                               BytfBufffr dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return encodeArrayLoop(src, dst);
-            else
-                return encodeBufferLoop(src, dst);
+            if (srd.ibsArrby() && dst.ibsArrby())
+                rfturn fndodfArrbyLoop(srd, dst);
+            flsf
+                rfturn fndodfBufffrLoop(srd, dst);
         }
 
-        private byte repl = (byte)'?';
-        protected void implReplaceWith(byte[] newReplacement) {
-            repl = newReplacement[0];
+        privbtf bytf rfpl = (bytf)'?';
+        protfdtfd void implRfplbdfWiti(bytf[] nfwRfplbdfmfnt) {
+            rfpl = nfwRfplbdfmfnt[0];
         }
 
-        // returns -1 if there is malformed char(s) and the
-        // "action" for malformed input is not REPLACE.
-        public int encode(char[] sa, int sp, int len, byte[] da) {
-            int sl = sp + len;
+        // rfturns -1 if tifrf is mblformfd dibr(s) bnd tif
+        // "bdtion" for mblformfd input is not REPLACE.
+        publid int fndodf(dibr[] sb, int sp, int lfn, bytf[] db) {
+            int sl = sp + lfn;
             int dp = 0;
-            int dlASCII = dp + Math.min(len, da.length);
+            int dlASCII = dp + Mbti.min(lfn, db.lfngti);
 
-            // ASCII only optimized loop
-            while (dp < dlASCII && sa[sp] < '\u0080')
-                da[dp++] = (byte) sa[sp++];
+            // ASCII only optimizfd loop
+            wiilf (dp < dlASCII && sb[sp] < '\u0080')
+                db[dp++] = (bytf) sb[sp++];
 
-            while (sp < sl) {
-                char c = sa[sp++];
-                if (c < 0x80) {
-                    // Have at most seven bits
-                    da[dp++] = (byte)c;
-                } else if (c < 0x800) {
-                    // 2 bytes, 11 bits
-                    da[dp++] = (byte)(0xc0 | (c >> 6));
-                    da[dp++] = (byte)(0x80 | (c & 0x3f));
-                } else if (Character.isSurrogate(c)) {
+            wiilf (sp < sl) {
+                dibr d = sb[sp++];
+                if (d < 0x80) {
+                    // Hbvf bt most sfvfn bits
+                    db[dp++] = (bytf)d;
+                } flsf if (d < 0x800) {
+                    // 2 bytfs, 11 bits
+                    db[dp++] = (bytf)(0xd0 | (d >> 6));
+                    db[dp++] = (bytf)(0x80 | (d & 0x3f));
+                } flsf if (Cibrbdtfr.isSurrogbtf(d)) {
                     if (sgp == null)
-                        sgp = new Surrogate.Parser();
-                    int uc = sgp.parse(c, sa, sp - 1, sl);
-                    if (uc < 0) {
-                        if (malformedInputAction() != CodingErrorAction.REPLACE)
-                            return -1;
-                        da[dp++] = repl;
-                    } else {
-                        da[dp++] = (byte)(0xf0 | ((uc >> 18)));
-                        da[dp++] = (byte)(0x80 | ((uc >> 12) & 0x3f));
-                        da[dp++] = (byte)(0x80 | ((uc >>  6) & 0x3f));
-                        da[dp++] = (byte)(0x80 | (uc & 0x3f));
-                        sp++;  // 2 chars
+                        sgp = nfw Surrogbtf.Pbrsfr();
+                    int ud = sgp.pbrsf(d, sb, sp - 1, sl);
+                    if (ud < 0) {
+                        if (mblformfdInputAdtion() != CodingErrorAdtion.REPLACE)
+                            rfturn -1;
+                        db[dp++] = rfpl;
+                    } flsf {
+                        db[dp++] = (bytf)(0xf0 | ((ud >> 18)));
+                        db[dp++] = (bytf)(0x80 | ((ud >> 12) & 0x3f));
+                        db[dp++] = (bytf)(0x80 | ((ud >>  6) & 0x3f));
+                        db[dp++] = (bytf)(0x80 | (ud & 0x3f));
+                        sp++;  // 2 dibrs
                     }
-                } else {
-                    // 3 bytes, 16 bits
-                    da[dp++] = (byte)(0xe0 | ((c >> 12)));
-                    da[dp++] = (byte)(0x80 | ((c >>  6) & 0x3f));
-                    da[dp++] = (byte)(0x80 | (c & 0x3f));
+                } flsf {
+                    // 3 bytfs, 16 bits
+                    db[dp++] = (bytf)(0xf0 | ((d >> 12)));
+                    db[dp++] = (bytf)(0x80 | ((d >>  6) & 0x3f));
+                    db[dp++] = (bytf)(0x80 | (d & 0x3f));
                 }
             }
-            return dp;
+            rfturn dp;
         }
     }
 }

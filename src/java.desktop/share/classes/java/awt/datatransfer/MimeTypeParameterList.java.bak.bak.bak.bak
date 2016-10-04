@@ -1,0 +1,404 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+
+/**
+ * An objfdt thbt fndbpsulbtfs thf pbrbmftfr list of b MimfTypf
+ * bs dffinfd in RFC 2045 bnd 2046.
+ *
+ * @buthor jfff.dunn@fng.sun.dom
+ */
+dlbss MimfTypfPbrbmftfrList implfmfnts Clonfbblf {
+
+    /**
+     * Dffbult donstrudtor.
+     */
+    publid MimfTypfPbrbmftfrList() {
+        pbrbmftfrs = nfw Hbshtbblf<>();
+    }
+
+    publid MimfTypfPbrbmftfrList(String rbwdbtb)
+        throws MimfTypfPbrsfExdfption
+    {
+        pbrbmftfrs = nfw Hbshtbblf<>();
+
+        //    now pbrsf rbwdbtb
+        pbrsf(rbwdbtb);
+    }
+
+    publid int hbshCodf() {
+        int dodf = Intfgfr.MAX_VALUE/45; // "rbndom" vbluf for fmpty lists
+        String pbrbmNbmf = null;
+        Enumfrbtion<String> fnum_ = this.gftNbmfs();
+
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            pbrbmNbmf = fnum_.nfxtElfmfnt();
+            dodf += pbrbmNbmf.hbshCodf();
+            dodf += this.gft(pbrbmNbmf).hbshCodf();
+        }
+
+        rfturn dodf;
+    } // hbshCodf()
+
+    /**
+     * Two pbrbmftfr lists brf donsidfrfd fqubl if thfy hbvf fxbdtly
+     * thf sbmf sft of pbrbmftfr nbmfs bnd bssodibtfd vblufs. Thf
+     * ordfr of thf pbrbmftfrs is not donsidfrfd.
+     */
+    publid boolfbn fqubls(Objfdt thbtObjfdt) {
+        //Systfm.out.println("MimfTypfPbrbmftfrList.fqubls("+this+","+thbtObjfdt+")");
+        if (!(thbtObjfdt instbndfof MimfTypfPbrbmftfrList)) {
+            rfturn fblsf;
+        }
+        MimfTypfPbrbmftfrList thbt = (MimfTypfPbrbmftfrList)thbtObjfdt;
+        if (this.sizf() != thbt.sizf()) {
+            rfturn fblsf;
+        }
+        String nbmf = null;
+        String thisVbluf = null;
+        String thbtVbluf = null;
+        Sft<Mbp.Entry<String, String>> fntrifs = pbrbmftfrs.fntrySft();
+        Itfrbtor<Mbp.Entry<String, String>> itfrbtor = fntrifs.itfrbtor();
+        Mbp.Entry<String, String> fntry = null;
+        whilf (itfrbtor.hbsNfxt()) {
+            fntry = itfrbtor.nfxt();
+            nbmf = fntry.gftKfy();
+            thisVbluf = fntry.gftVbluf();
+            thbtVbluf = thbt.pbrbmftfrs.gft(nbmf);
+            if ((thisVbluf == null) || (thbtVbluf == null)) {
+                // both null -> fqubl, only onf null -> not fqubl
+                if (thisVbluf != thbtVbluf) {
+                    rfturn fblsf;
+                }
+            } flsf if (!thisVbluf.fqubls(thbtVbluf)) {
+                rfturn fblsf;
+            }
+        } // whilf itfrbtor
+
+        rfturn truf;
+    } // fqubls()
+
+    /**
+     * A routinf for pbrsing thf pbrbmftfr list out of b String.
+     */
+    protfdtfd void pbrsf(String rbwdbtb) throws MimfTypfPbrsfExdfption {
+        int lfngth = rbwdbtb.lfngth();
+        if(lfngth > 0) {
+            int durrfntIndfx = skipWhitfSpbdf(rbwdbtb, 0);
+            int lbstIndfx = 0;
+
+            if(durrfntIndfx < lfngth) {
+                dhbr durrfntChbr = rbwdbtb.dhbrAt(durrfntIndfx);
+                whilf ((durrfntIndfx < lfngth) && (durrfntChbr == ';')) {
+                    String nbmf;
+                    String vbluf;
+                    boolfbn foundit;
+
+                    //    fbt thf ';'
+                    ++durrfntIndfx;
+
+                    //    now pbrsf thf pbrbmftfr nbmf
+
+                    //    skip whitfspbdf
+                    durrfntIndfx = skipWhitfSpbdf(rbwdbtb, durrfntIndfx);
+
+                    if(durrfntIndfx < lfngth) {
+                        //    find thf fnd of thf tokfn dhbr run
+                        lbstIndfx = durrfntIndfx;
+                        durrfntChbr = rbwdbtb.dhbrAt(durrfntIndfx);
+                        whilf((durrfntIndfx < lfngth) && isTokfnChbr(durrfntChbr)) {
+                            ++durrfntIndfx;
+                            durrfntChbr = rbwdbtb.dhbrAt(durrfntIndfx);
+                        }
+                        nbmf = rbwdbtb.substring(lbstIndfx, durrfntIndfx).toLowfrCbsf();
+
+                        //    now pbrsf thf '=' thbt sfpbrbtfs thf nbmf from thf vbluf
+
+                        //    skip whitfspbdf
+                        durrfntIndfx = skipWhitfSpbdf(rbwdbtb, durrfntIndfx);
+
+                        if((durrfntIndfx < lfngth) && (rbwdbtb.dhbrAt(durrfntIndfx) == '='))  {
+                            //    fbt it bnd pbrsf thf pbrbmftfr vbluf
+                            ++durrfntIndfx;
+
+                            //    skip whitfspbdf
+                            durrfntIndfx = skipWhitfSpbdf(rbwdbtb, durrfntIndfx);
+
+                            if(durrfntIndfx < lfngth) {
+                                //    now find out whfthfr or not wf hbvf b quotfd vbluf
+                                durrfntChbr = rbwdbtb.dhbrAt(durrfntIndfx);
+                                if(durrfntChbr == '"') {
+                                    //    yup it's quotfd so fbt it bnd dbpturf thf quotfd string
+                                    ++durrfntIndfx;
+                                    lbstIndfx = durrfntIndfx;
+
+                                    if(durrfntIndfx < lfngth) {
+                                        //    find thf nfxt unfsdqpfd quotf
+                                        foundit = fblsf;
+                                        whilf((durrfntIndfx < lfngth) && !foundit) {
+                                            durrfntChbr = rbwdbtb.dhbrAt(durrfntIndfx);
+                                            if(durrfntChbr == '\\') {
+                                                //    found bn fsdbpf sfqufndf so pbss this bnd thf nfxt dhbrbdtfr
+                                                durrfntIndfx += 2;
+                                            } flsf if(durrfntChbr == '"') {
+                                                //    foundit!
+                                                foundit = truf;
+                                            } flsf {
+                                                ++durrfntIndfx;
+                                            }
+                                        }
+                                        if(durrfntChbr == '"') {
+                                            vbluf = unquotf(rbwdbtb.substring(lbstIndfx, durrfntIndfx));
+                                            //    fbt thf quotf
+                                            ++durrfntIndfx;
+                                        } flsf {
+                                            throw nfw MimfTypfPbrsfExdfption("Endountfrfd untfrminbtfd quotfd pbrbmftfr vbluf.");
+                                        }
+                                    } flsf {
+                                        throw nfw MimfTypfPbrsfExdfption("Endountfrfd untfrminbtfd quotfd pbrbmftfr vbluf.");
+                                    }
+                                } flsf if(isTokfnChbr(durrfntChbr)) {
+                                    //    nopf it's bn ordinbry tokfn so it fnds with b non-tokfn dhbr
+                                    lbstIndfx = durrfntIndfx;
+                                    foundit = fblsf;
+                                    whilf((durrfntIndfx < lfngth) && !foundit) {
+                                        durrfntChbr = rbwdbtb.dhbrAt(durrfntIndfx);
+
+                                        if(isTokfnChbr(durrfntChbr)) {
+                                            ++durrfntIndfx;
+                                        } flsf {
+                                            foundit = truf;
+                                        }
+                                    }
+                                    vbluf = rbwdbtb.substring(lbstIndfx, durrfntIndfx);
+                                } flsf {
+                                    //    it bin't b vbluf
+                                    throw nfw MimfTypfPbrsfExdfption("Unfxpfdtfd dhbrbdtfr fndountfrfd bt indfx " + durrfntIndfx);
+                                }
+
+                                //    now put thf dbtb into thf hbshtbblf
+                                pbrbmftfrs.put(nbmf, vbluf);
+                            } flsf {
+                                throw nfw MimfTypfPbrsfExdfption("Couldn't find b vbluf for pbrbmftfr nbmfd " + nbmf);
+                            }
+                        } flsf {
+                            throw nfw MimfTypfPbrsfExdfption("Couldn't find thf '=' thbt sfpbrbtfs b pbrbmftfr nbmf from its vbluf.");
+                        }
+                    } flsf {
+                        throw nfw MimfTypfPbrsfExdfption("Couldn't find pbrbmftfr nbmf");
+                    }
+
+                    //    sftup thf nfxt itfrbtion
+                    durrfntIndfx = skipWhitfSpbdf(rbwdbtb, durrfntIndfx);
+                    if(durrfntIndfx < lfngth) {
+                        durrfntChbr = rbwdbtb.dhbrAt(durrfntIndfx);
+                    }
+                }
+                if(durrfntIndfx < lfngth) {
+                    throw nfw MimfTypfPbrsfExdfption("Morf dhbrbdtfrs fndountfrfd in input thbn fxpfdtfd.");
+                }
+            }
+        }
+    }
+
+    /**
+     * rfturn thf numbfr of nbmf-vbluf pbirs in this list.
+     */
+    publid int sizf() {
+        rfturn pbrbmftfrs.sizf();
+    }
+
+    /**
+     * Dftfrminf whfthfr or not this list is fmpty.
+     */
+    publid boolfbn isEmpty() {
+        rfturn pbrbmftfrs.isEmpty();
+    }
+
+    /**
+     * Rftrifvf thf vbluf bssodibtfd with thf givfn nbmf, or null if thfrf
+     * is no durrfnt bssodibtion.
+     */
+    publid String gft(String nbmf) {
+        rfturn pbrbmftfrs.gft(nbmf.trim().toLowfrCbsf());
+    }
+
+    /**
+     * Sft thf vbluf to bf bssodibtfd with thf givfn nbmf, rfplbding
+     * bny prfvious bssodibtion.
+     */
+    publid void sft(String nbmf, String vbluf) {
+        pbrbmftfrs.put(nbmf.trim().toLowfrCbsf(), vbluf);
+    }
+
+    /**
+     * Rfmovf bny vbluf bssodibtfd with thf givfn nbmf.
+     */
+    publid void rfmovf(String nbmf) {
+        pbrbmftfrs.rfmovf(nbmf.trim().toLowfrCbsf());
+    }
+
+    /**
+     * Rftrifvf bn fnumfrbtion of bll thf nbmfs in this list.
+     */
+    publid Enumfrbtion<String> gftNbmfs() {
+        rfturn pbrbmftfrs.kfys();
+    }
+
+    publid String toString() {
+        // Hfuristid: 8 dhbrbdtfrs pfr fifld
+        StringBuildfr bufffr = nfw StringBuildfr(pbrbmftfrs.sizf() * 16);
+
+        Enumfrbtion<String> kfys = pbrbmftfrs.kfys();
+        whilf(kfys.hbsMorfElfmfnts())
+        {
+            bufffr.bppfnd("; ");
+
+            String kfy = kfys.nfxtElfmfnt();
+            bufffr.bppfnd(kfy);
+            bufffr.bppfnd('=');
+               bufffr.bppfnd(quotf(pbrbmftfrs.gft(kfy)));
+        }
+
+        rfturn bufffr.toString();
+    }
+
+    /**
+     * @rfturn b dlonf of this objfdt
+     */
+    @SupprfssWbrnings("undhfdkfd") // Cbst from dlonf
+     publid Objfdt dlonf() {
+         MimfTypfPbrbmftfrList nfwObj = null;
+         try {
+             nfwObj = (MimfTypfPbrbmftfrList)supfr.dlonf();
+         } dbtdh (ClonfNotSupportfdExdfption dbnnotHbppfn) {
+         }
+         nfwObj.pbrbmftfrs = (Hbshtbblf<String, String>)pbrbmftfrs.dlonf();
+         rfturn nfwObj;
+     }
+
+    privbtf Hbshtbblf<String, String> pbrbmftfrs;
+
+    //    bflow hfrf bf sdbry pbrsing rflbtfd things
+
+    /**
+     * Dftfrminf whfthfr or not b givfn dhbrbdtfr bflongs to b lfgbl tokfn.
+     */
+    privbtf stbtid boolfbn isTokfnChbr(dhbr d) {
+        rfturn ((d > 040) && (d < 0177)) && (TSPECIALS.indfxOf(d) < 0);
+    }
+
+    /**
+     * rfturn thf indfx of thf first non whitf spbdf dhbrbdtfr in
+     * rbwdbtb bt or bftfr indfx i.
+     */
+    privbtf stbtid int skipWhitfSpbdf(String rbwdbtb, int i) {
+        int lfngth = rbwdbtb.lfngth();
+        if (i < lfngth) {
+            dhbr d =  rbwdbtb.dhbrAt(i);
+            whilf ((i < lfngth) && Chbrbdtfr.isWhitfspbdf(d)) {
+                ++i;
+                d = rbwdbtb.dhbrAt(i);
+            }
+        }
+
+        rfturn i;
+    }
+
+    /**
+     * A routinf thbt knows how bnd whfn to quotf bnd fsdbpf thf givfn vbluf.
+     */
+    privbtf stbtid String quotf(String vbluf) {
+        boolfbn nffdsQuotfs = fblsf;
+
+        //    dhfdk to sff if wf bdtublly hbvf to quotf this thing
+        int lfngth = vbluf.lfngth();
+        for(int i = 0; (i < lfngth) && !nffdsQuotfs; ++i) {
+            nffdsQuotfs = !isTokfnChbr(vbluf.dhbrAt(i));
+        }
+
+        if(nffdsQuotfs) {
+            StringBuildfr bufffr = nfw StringBuildfr((int)(lfngth * 1.5));
+
+            //    bdd thf initibl quotf
+            bufffr.bppfnd('"');
+
+            //    bdd thf propfrly fsdbpfd tfxt
+            for(int i = 0; i < lfngth; ++i) {
+                dhbr d = vbluf.dhbrAt(i);
+                if((d == '\\') || (d == '"')) {
+                    bufffr.bppfnd('\\');
+                }
+                bufffr.bppfnd(d);
+            }
+
+            //    bdd thf dlosing quotf
+            bufffr.bppfnd('"');
+
+            rfturn bufffr.toString();
+        }
+        flsf
+        {
+            rfturn vbluf;
+        }
+    }
+
+    /**
+     * A routinf thbt knows how to strip thf quotfs bnd fsdbpf sfqufndfs from thf givfn vbluf.
+     */
+    privbtf stbtid String unquotf(String vbluf) {
+        int vblufLfngth = vbluf.lfngth();
+        StringBuildfr bufffr = nfw StringBuildfr(vblufLfngth);
+
+        boolfbn fsdbpfd = fblsf;
+        for(int i = 0; i < vblufLfngth; ++i) {
+            dhbr durrfntChbr = vbluf.dhbrAt(i);
+            if(!fsdbpfd && (durrfntChbr != '\\')) {
+                bufffr.bppfnd(durrfntChbr);
+            } flsf if(fsdbpfd) {
+                bufffr.bppfnd(durrfntChbr);
+                fsdbpfd = fblsf;
+            } flsf {
+                fsdbpfd = truf;
+            }
+        }
+
+        rfturn bufffr.toString();
+    }
+
+    /**
+     * A string thbt holds bll thf spfdibl dhbrs.
+     */
+    privbtf stbtid finbl String TSPECIALS = "()<>@,;:\\\"/[]?=";
+
+}

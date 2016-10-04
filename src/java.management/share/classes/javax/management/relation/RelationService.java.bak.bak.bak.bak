@@ -1,0 +1,3789 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.RELATION_LOGGER;
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.dbst;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Dbtf;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.util.logging.Lfvfl;
+
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.InvblidAttributfVblufExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrNotifidbtion;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+
+/**
+ * Thf Rflbtion Sfrvidf is in dhbrgf of drfbting bnd dflfting rflbtion typfs
+ * bnd rflbtions, of hbndling thf donsistfndy bnd of providing qufry
+ * mfdhbnisms.
+ * <P>It implfmfnts thf NotifidbtionBrobddbstfr by fxtfnding
+ * NotifidbtionBrobddbstfrSupport to sfnd notifidbtions whfn b rflbtion is
+ * rfmovfd from it.
+ * <P>It implfmfnts thf NotifidbtionListfnfr intfrfbdf to bf bblf to rfdfivf
+ * notifidbtions dondfrning unrfgistrbtion of MBfbns rfffrfndfd in rflbtion
+ * rolfs bnd of rflbtion MBfbns.
+ * <P>It implfmfnts thf MBfbnRfgistrbtion intfrfbdf to bf bblf to rftrifvf
+ * its ObjfdtNbmf bnd MBfbn Sfrvfr.
+ *
+ * @sindf 1.5
+ */
+publid dlbss RflbtionSfrvidf fxtfnds NotifidbtionBrobddbstfrSupport
+    implfmfnts RflbtionSfrvidfMBfbn, MBfbnRfgistrbtion, NotifidbtionListfnfr {
+
+    //
+    // Privbtf mfmbfrs
+    //
+
+    // Mbp bssodibting:
+    //      <rflbtion id> -> <RflbtionSupport objfdt/ObjfdtNbmf>
+    // dfpfnding if thf rflbtion hbs bffn drfbtfd using drfbtfRflbtion()
+    // mfthod (so intfrnblly hbndlfd) or is bn MBfbn bddfd bs b rflbtion by thf
+    // usfr
+    privbtf Mbp<String,Objfdt> myRflId2ObjMbp = nfw HbshMbp<String,Objfdt>();
+
+    // Mbp bssodibting:
+    //      <rflbtion id> -> <rflbtion typf nbmf>
+    privbtf Mbp<String,String> myRflId2RflTypfMbp = nfw HbshMbp<String,String>();
+
+    // Mbp bssodibting:
+    //      <rflbtion MBfbn Objfdt Nbmf> -> <rflbtion id>
+    privbtf Mbp<ObjfdtNbmf,String> myRflMBfbnObjNbmf2RflIdMbp =
+        nfw HbshMbp<ObjfdtNbmf,String>();
+
+    // Mbp bssodibting:
+    //       <rflbtion typf nbmf> -> <RflbtionTypf objfdt>
+    privbtf Mbp<String,RflbtionTypf> myRflTypf2ObjMbp =
+        nfw HbshMbp<String,RflbtionTypf>();
+
+    // Mbp bssodibting:
+    //       <rflbtion typf nbmf> -> ArrbyList of <rflbtion id>
+    // to list bll thf rflbtions of b givfn typf
+    privbtf Mbp<String,List<String>> myRflTypf2RflIdsMbp =
+        nfw HbshMbp<String,List<String>>();
+
+    // Mbp bssodibting:
+    //       <ObjfdtNbmf> -> HbshMbp
+    // thf vbluf HbshMbp mbpping:
+    //       <rflbtion id> -> ArrbyList of <rolf nbmf>
+    // to trbdk whfrf b givfn MBfbn is rfffrfndfd.
+    privbtf finbl Mbp<ObjfdtNbmf,Mbp<String,List<String>>>
+        myRfffdMBfbnObjNbmf2RflIdsMbp =
+            nfw HbshMbp<ObjfdtNbmf,Mbp<String,List<String>>>();
+
+    // Flbg to indidbtf if, whfn b notifidbtion is rfdfivfd for thf
+    // unrfgistrbtion of bn MBfbn rfffrfndfd in b rflbtion, if bn immfdibtf
+    // "purgf" of thf rflbtions (look for thf rflbtions no
+    // longfr vblid) hbs to bf pfrformfd , or if thbt will bf pfrformfd only
+    // whfn thf purgfRflbtions mfthod will bf fxpliditly dbllfd.
+    // truf is immfdibtf purgf.
+    privbtf boolfbn myPurgfFlbg = truf;
+
+    // Intfrnbl dountfr to providf sfqufndf numbfrs for notifidbtions sfnt by:
+    // - thf Rflbtion Sfrvidf
+    // - b rflbtion hbndlfd by thf Rflbtion Sfrvidf
+    privbtf finbl AtomidLong btomidSfqNo = nfw AtomidLong();
+
+    // ObjfdtNbmf usfd to rfgistfr thf Rflbtion Sfrvidf in thf MBfbn Sfrvfr
+    privbtf ObjfdtNbmf myObjNbmf = null;
+
+    // MBfbn Sfrvfr whfrf thf Rflbtion Sfrvidf is rfgistfrfd
+    privbtf MBfbnSfrvfr myMBfbnSfrvfr = null;
+
+    // Filtfr rfgistfrfd in thf MBfbn Sfrvfr with thf Rflbtion Sfrvidf to bf
+    // informfd of rfffrfndfd MBfbn dfrfgistrbtions
+    privbtf MBfbnSfrvfrNotifidbtionFiltfr myUnrfgNtfFiltfr = null;
+
+    // List of unrfgistrbtion notifidbtions rfdfivfd (storbgf usfd if purgf
+    // of rflbtions whfn unrfgistfring b rfffrfndfd MBfbn is not immfdibtf but
+    // on usfr rfqufst)
+    privbtf List<MBfbnSfrvfrNotifidbtion> myUnrfgNtfList =
+        nfw ArrbyList<MBfbnSfrvfrNotifidbtion>();
+
+    //
+    // Construdtor
+    //
+
+    /**
+     * Construdtor.
+     *
+     * @pbrbm immfdibtfPurgfFlbg  flbg to indidbtf whfn b notifidbtion is
+     * rfdfivfd for thf unrfgistrbtion of bn MBfbn rfffrfndfd in b rflbtion, if
+     * bn immfdibtf "purgf" of thf rflbtions (look for thf rflbtions no
+     * longfr vblid) hbs to bf pfrformfd , or if thbt will bf pfrformfd only
+     * whfn thf purgfRflbtions mfthod will bf fxpliditly dbllfd.
+     * <P>truf is immfdibtf purgf.
+     */
+    publid RflbtionSfrvidf(boolfbn immfdibtfPurgfFlbg) {
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "RflbtionSfrvidf");
+
+        sftPurgfFlbg(immfdibtfPurgfFlbg);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "RflbtionSfrvidf");
+        rfturn;
+    }
+
+    /**
+     * Chfdks if thf Rflbtion Sfrvidf is bdtivf.
+     * Currfnt dondition is thbt thf Rflbtion Sfrvidf must bf rfgistfrfd in thf
+     * MBfbn Sfrvfr
+     *
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if it is not
+     * rfgistfrfd
+     */
+    publid void isAdtivf()
+        throws RflbtionSfrvidfNotRfgistfrfdExdfption {
+        if (myMBfbnSfrvfr == null) {
+            // MBfbn Sfrvfr not sft by prfRfgistfr(): rflbtion sfrvidf not
+            // rfgistfrfd
+            String fxdMsg =
+                "Rflbtion Sfrvidf not rfgistfrfd in thf MBfbn Sfrvfr.";
+            throw nfw RflbtionSfrvidfNotRfgistfrfdExdfption(fxdMsg);
+        }
+        rfturn;
+    }
+
+    //
+    // MBfbnRfgistrbtion intfrfbdf
+    //
+
+    // Prf-rfgistrbtion: rftrifvfs its ObjfdtNbmf bnd MBfbn Sfrvfr
+    //
+    // No fxdfption thrown.
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr,
+                                  ObjfdtNbmf nbmf)
+        throws Exdfption {
+
+        myMBfbnSfrvfr = sfrvfr;
+        myObjNbmf = nbmf;
+        rfturn nbmf;
+    }
+
+    // Post-rfgistrbtion: dofs nothing
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        rfturn;
+    }
+
+    // Prf-unrfgistrbtion: dofs nothing
+    publid void prfDfrfgistfr()
+        throws Exdfption {
+        rfturn;
+    }
+
+    // Post-unrfgistrbtion: dofs nothing
+    publid void postDfrfgistfr() {
+        rfturn;
+    }
+
+    //
+    // Addfssors
+    //
+
+    /**
+     * Rfturns thf flbg to indidbtf if whfn b notifidbtion is rfdfivfd for thf
+     * unrfgistrbtion of bn MBfbn rfffrfndfd in b rflbtion, if bn immfdibtf
+     * "purgf" of thf rflbtions (look for thf rflbtions no longfr vblid)
+     * hbs to bf pfrformfd , or if thbt will bf pfrformfd only whfn thf
+     * purgfRflbtions mfthod will bf fxpliditly dbllfd.
+     * <P>truf is immfdibtf purgf.
+     *
+     * @rfturn truf if purgfs brf butombtid.
+     *
+     * @sff #sftPurgfFlbg
+     */
+    publid boolfbn gftPurgfFlbg() {
+        rfturn myPurgfFlbg;
+    }
+
+    /**
+     * Sfts thf flbg to indidbtf if whfn b notifidbtion is rfdfivfd for thf
+     * unrfgistrbtion of bn MBfbn rfffrfndfd in b rflbtion, if bn immfdibtf
+     * "purgf" of thf rflbtions (look for thf rflbtions no longfr vblid)
+     * hbs to bf pfrformfd , or if thbt will bf pfrformfd only whfn thf
+     * purgfRflbtions mfthod will bf fxpliditly dbllfd.
+     * <P>truf is immfdibtf purgf.
+     *
+     * @pbrbm purgfFlbg  flbg
+     *
+     * @sff #gftPurgfFlbg
+     */
+    publid void sftPurgfFlbg(boolfbn purgfFlbg) {
+
+        myPurgfFlbg = purgfFlbg;
+        rfturn;
+    }
+
+    //
+    // Rflbtion typf hbndling
+    //
+
+    /**
+     * Crfbtfs b rflbtion typf (b RflbtionTypfSupport objfdt) with givfn
+     * rolf infos (providfd by thf RolfInfo objfdts), bnd bdds it in thf
+     * Rflbtion Sfrvidf.
+     *
+     * @pbrbm rflbtionTypfNbmf  nbmf of thf rflbtion typf
+     * @pbrbm rolfInfoArrby  brrby of rolf infos
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption InvblidRflbtionTypfExdfption  If:
+     * <P>- thfrf is blrfbdy b rflbtion typf with thbt nbmf
+     * <P>- thf sbmf nbmf hbs bffn usfd for two difffrfnt rolf infos
+     * <P>- no rolf info providfd
+     * <P>- onf null rolf info providfd
+     */
+    publid void drfbtfRflbtionTypf(String rflbtionTypfNbmf,
+                                   RolfInfo[] rolfInfoArrby)
+        throws IllfgblArgumfntExdfption,
+               InvblidRflbtionTypfExdfption {
+
+        if (rflbtionTypfNbmf == null || rolfInfoArrby == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "drfbtfRflbtionTypf", rflbtionTypfNbmf);
+
+        // Cbn throw bn InvblidRflbtionTypfExdfption
+        RflbtionTypf rflTypf =
+            nfw RflbtionTypfSupport(rflbtionTypfNbmf, rolfInfoArrby);
+
+        bddRflbtionTypfInt(rflTypf);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "drfbtfRflbtionTypf");
+        rfturn;
+    }
+
+    /**
+     * Adds givfn objfdt bs b rflbtion typf. Thf objfdt is fxpfdtfd to
+     * implfmfnt thf RflbtionTypf intfrfbdf.
+     *
+     * @pbrbm rflbtionTypfObj  rflbtion typf objfdt (implfmfnting thf
+     * RflbtionTypf intfrfbdf)
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr or if
+     * {@link RflbtionTypf#gftRflbtionTypfNbmf
+     * rflbtionTypfObj.gftRflbtionTypfNbmf()} rfturns null.
+     * @fxdfption InvblidRflbtionTypfExdfption  if:
+     * <P>- thf sbmf nbmf hbs bffn usfd for two difffrfnt rolfs
+     * <P>- no rolf info providfd
+     * <P>- onf null rolf info providfd
+     * <P>- thfrf is blrfbdy b rflbtion typf with thbt nbmf
+     */
+    publid void bddRflbtionTypf(RflbtionTypf rflbtionTypfObj)
+        throws IllfgblArgumfntExdfption,
+               InvblidRflbtionTypfExdfption {
+
+        if (rflbtionTypfObj == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "bddRflbtionTypf");
+
+        // Chfdks thf rolf infos
+        List<RolfInfo> rolfInfoList = rflbtionTypfObj.gftRolfInfos();
+        if (rolfInfoList == null) {
+            String fxdMsg = "No rolf info providfd.";
+            throw nfw InvblidRflbtionTypfExdfption(fxdMsg);
+        }
+
+        RolfInfo[] rolfInfoArrby = nfw RolfInfo[rolfInfoList.sizf()];
+        int i = 0;
+        for (RolfInfo durrRolfInfo : rolfInfoList) {
+            rolfInfoArrby[i] = durrRolfInfo;
+            i++;
+        }
+        // Cbn throw InvblidRflbtionTypfExdfption
+        RflbtionTypfSupport.dhfdkRolfInfos(rolfInfoArrby);
+
+        bddRflbtionTypfInt(rflbtionTypfObj);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "bddRflbtionTypf");
+        rfturn;
+     }
+
+    /**
+     * Rftrifvfs nbmfs of bll known rflbtion typfs.
+     *
+     * @rfturn ArrbyList of rflbtion typf nbmfs (Strings)
+     */
+    publid List<String> gftAllRflbtionTypfNbmfs() {
+        ArrbyList<String> rfsult;
+        syndhronizfd(myRflTypf2ObjMbp) {
+            rfsult = nfw ArrbyList<String>(myRflTypf2ObjMbp.kfySft());
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rftrifvfs list of rolf infos (RolfInfo objfdts) of b givfn rflbtion
+     * typf.
+     *
+     * @pbrbm rflbtionTypfNbmf  nbmf of rflbtion typf
+     *
+     * @rfturn ArrbyList of RolfInfo.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionTypfNotFoundExdfption  if thfrf is no rflbtion typf
+     * with thbt nbmf.
+     */
+    publid List<RolfInfo> gftRolfInfos(String rflbtionTypfNbmf)
+        throws IllfgblArgumfntExdfption,
+               RflbtionTypfNotFoundExdfption {
+
+        if (rflbtionTypfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRolfInfos", rflbtionTypfNbmf);
+
+        // Cbn throw b RflbtionTypfNotFoundExdfption
+        RflbtionTypf rflTypf = gftRflbtionTypf(rflbtionTypfNbmf);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRolfInfos");
+        rfturn rflTypf.gftRolfInfos();
+    }
+
+    /**
+     * Rftrifvfs rolf info for givfn rolf nbmf of b givfn rflbtion typf.
+     *
+     * @pbrbm rflbtionTypfNbmf  nbmf of rflbtion typf
+     * @pbrbm rolfInfoNbmf  nbmf of rolf
+     *
+     * @rfturn RolfInfo objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionTypfNotFoundExdfption  if thf rflbtion typf is not
+     * known in thf Rflbtion Sfrvidf
+     * @fxdfption RolfInfoNotFoundExdfption  if thf rolf is not pbrt of thf
+     * rflbtion typf.
+     */
+    publid RolfInfo gftRolfInfo(String rflbtionTypfNbmf,
+                                String rolfInfoNbmf)
+        throws IllfgblArgumfntExdfption,
+               RflbtionTypfNotFoundExdfption,
+               RolfInfoNotFoundExdfption {
+
+        if (rflbtionTypfNbmf == null || rolfInfoNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRolfInfo", nfw Objfdt[] {rflbtionTypfNbmf, rolfInfoNbmf});
+
+        // Cbn throw b RflbtionTypfNotFoundExdfption
+        RflbtionTypf rflTypf = gftRflbtionTypf(rflbtionTypfNbmf);
+
+        // Cbn throw b RolfInfoNotFoundExdfption
+        RolfInfo rolfInfo = rflTypf.gftRolfInfo(rolfInfoNbmf);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRolfInfo");
+        rfturn rolfInfo;
+    }
+
+    /**
+     * Rfmovfs givfn rflbtion typf from Rflbtion Sfrvidf.
+     * <P>Thf rflbtion objfdts of thbt typf will bf rfmovfd from thf
+     * Rflbtion Sfrvidf.
+     *
+     * @pbrbm rflbtionTypfNbmf  nbmf of thf rflbtion typf to bf rfmovfd
+     *
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionTypfNotFoundExdfption  If thfrf is no rflbtion typf
+     * with thbt nbmf
+     */
+    publid void rfmovfRflbtionTypf(String rflbtionTypfNbmf)
+        throws RflbtionSfrvidfNotRfgistfrfdExdfption,
+               IllfgblArgumfntExdfption,
+               RflbtionTypfNotFoundExdfption {
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        if (rflbtionTypfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "rfmovfRflbtionTypf", rflbtionTypfNbmf);
+
+        // Chfdks if thf rflbtion typf to bf rfmovfd fxists
+        // Cbn throw b RflbtionTypfNotFoundExdfption
+        RflbtionTypf rflTypf = gftRflbtionTypf(rflbtionTypfNbmf);
+
+        // Rftrifvfs thf rflbtion ids for rflbtions of thbt typf
+        List<String> rflIdList = null;
+        syndhronizfd(myRflTypf2RflIdsMbp) {
+            // Notf: tbkf b dopy of thf list bs it is b pbrt of b mbp thbt
+            //       will bf updbtfd by rfmovfRflbtion() bflow.
+            List<String> rflIdList1 =
+                myRflTypf2RflIdsMbp.gft(rflbtionTypfNbmf);
+            if (rflIdList1 != null) {
+                rflIdList = nfw ArrbyList<String>(rflIdList1);
+            }
+        }
+
+        // Rfmovfs thf rflbtion typf from bll mbps
+        syndhronizfd(myRflTypf2ObjMbp) {
+            myRflTypf2ObjMbp.rfmovf(rflbtionTypfNbmf);
+        }
+        syndhronizfd(myRflTypf2RflIdsMbp) {
+            myRflTypf2RflIdsMbp.rfmovf(rflbtionTypfNbmf);
+        }
+
+        // Rfmovfs bll rflbtions of thbt typf
+        if (rflIdList != null) {
+            for (String durrRflId : rflIdList) {
+                // Notf: will rfmovf it from myRflId2RflTypfMbp :)
+                //
+                // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption (dftfdtfd
+                // bbovf)
+                // Shbll not throw b RflbtionNotFoundExdfption
+                try {
+                    rfmovfRflbtion(durrRflId);
+                } dbtdh (RflbtionNotFoundExdfption fxd1) {
+                    throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+                }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "rfmovfRflbtionTypf");
+        rfturn;
+    }
+
+    //
+    // Rflbtion hbndling
+    //
+
+    /**
+     * Crfbtfs b simplf rflbtion (rfprfsfntfd by b RflbtionSupport objfdt) of
+     * givfn rflbtion typf, bnd bdds it in thf Rflbtion Sfrvidf.
+     * <P>Rolfs brf initiblizfd bddording to thf rolf list providfd in
+     * pbrbmftfr. Thf onfs not initiblizfd in this wby brf sft to bn fmpty
+     * ArrbyList of ObjfdtNbmfs.
+     * <P>A RflbtionNotifidbtion, with typf RELATION_BASIC_CREATION, is sfnt.
+     *
+     * @pbrbm rflbtionId  rflbtion idfntififr, to idfntify uniqufly thf rflbtion
+     * insidf thf Rflbtion Sfrvidf
+     * @pbrbm rflbtionTypfNbmf  nbmf of thf rflbtion typf (hbs to bf drfbtfd
+     * in thf Rflbtion Sfrvidf)
+     * @pbrbm rolfList  rolf list to initiblizf rolfs of thf rflbtion (dbn
+     * bf null).
+     *
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr, fxdfpt thf rolf
+     * list whidh dbn bf null if no rolf initiblizbtion
+     * @fxdfption RolfNotFoundExdfption  if b vbluf is providfd for b rolf
+     * thbt dofs not fxist in thf rflbtion typf
+     * @fxdfption InvblidRflbtionIdExdfption  if rflbtion id blrfbdy usfd
+     * @fxdfption RflbtionTypfNotFoundExdfption  if rflbtion typf not known in
+     * Rflbtion Sfrvidf
+     * @fxdfption InvblidRolfVblufExdfption if:
+     * <P>- thf sbmf rolf nbmf is usfd for two difffrfnt rolfs
+     * <P>- thf numbfr of rfffrfndfd MBfbns in givfn vbluf is lfss thbn
+     * fxpfdtfd minimum dfgrff
+     * <P>- thf numbfr of rfffrfndfd MBfbns in providfd vbluf fxdffds fxpfdtfd
+     * mbximum dfgrff
+     * <P>- onf rfffrfndfd MBfbn in thf vbluf is not bn Objfdt of thf MBfbn
+     * dlbss fxpfdtfd for thbt rolf
+     * <P>- bn MBfbn providfd for thbt rolf dofs not fxist
+     */
+    publid void drfbtfRflbtion(String rflbtionId,
+                               String rflbtionTypfNbmf,
+                               RolfList rolfList)
+        throws RflbtionSfrvidfNotRfgistfrfdExdfption,
+               IllfgblArgumfntExdfption,
+               RolfNotFoundExdfption,
+               InvblidRflbtionIdExdfption,
+               RflbtionTypfNotFoundExdfption,
+               InvblidRolfVblufExdfption {
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        if (rflbtionId == null ||
+            rflbtionTypfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "drfbtfRflbtion",
+                nfw Objfdt[] {rflbtionId, rflbtionTypfNbmf, rolfList});
+
+        // Crfbtfs RflbtionSupport objfdt
+        // Cbn throw InvblidRolfVblufExdfption
+        RflbtionSupport rflObj = nfw RflbtionSupport(rflbtionId,
+                                               myObjNbmf,
+                                               rflbtionTypfNbmf,
+                                               rolfList);
+
+        // Adds rflbtion objfdt bs b rflbtion into thf Rflbtion Sfrvidf
+        // Cbn throw RolfNotFoundExdfption, InvblidRflbtionId,
+        // RflbtionTypfNotFoundExdfption, InvblidRolfVblufExdfption
+        //
+        // Cbnnot throw MBfbnExdfption
+        bddRflbtionInt(truf,
+                       rflObj,
+                       null,
+                       rflbtionId,
+                       rflbtionTypfNbmf,
+                       rolfList);
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "drfbtfRflbtion");
+        rfturn;
+    }
+
+    /**
+     * Adds bn MBfbn drfbtfd by thf usfr (bnd rfgistfrfd by him in thf MBfbn
+     * Sfrvfr) bs b rflbtion in thf Rflbtion Sfrvidf.
+     * <P>To bf bddfd bs b rflbtion, thf MBfbn must donform to thf
+     * following:
+     * <P>- implfmfnt thf Rflbtion intfrfbdf
+     * <P>- hbvf for RflbtionSfrvidf ObjfdtNbmf thf ObjfdtNbmf of durrfnt
+     * Rflbtion Sfrvidf
+     * <P>- hbvf b rflbtion id uniquf bnd unusfd in durrfnt Rflbtion Sfrvidf
+     * <P>- hbvf for rflbtion typf b rflbtion typf drfbtfd in thf Rflbtion
+     * Sfrvidf
+     * <P>- hbvf rolfs donforming to thf rolf info providfd in thf rflbtion
+     * typf.
+     *
+     * @pbrbm rflbtionObjfdtNbmf  ObjfdtNbmf of thf rflbtion MBfbn to bf bddfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     * @fxdfption NoSudhMfthodExdfption  If thf MBfbn dofs not implfmfnt thf
+     * Rflbtion intfrfbdf
+     * @fxdfption InvblidRflbtionIdExdfption  if:
+     * <P>- no rflbtion idfntififr in MBfbn
+     * <P>- thf rflbtion idfntififr is blrfbdy usfd in thf Rflbtion Sfrvidf
+     * @fxdfption InstbndfNotFoundExdfption  if thf MBfbn for givfn ObjfdtNbmf
+     * hbs not bffn rfgistfrfd
+     * @fxdfption InvblidRflbtionSfrvidfExdfption  if:
+     * <P>- no Rflbtion Sfrvidf nbmf in MBfbn
+     * <P>- thf Rflbtion Sfrvidf nbmf in thf MBfbn is not thf onf of thf
+     * durrfnt Rflbtion Sfrvidf
+     * @fxdfption RflbtionTypfNotFoundExdfption  if:
+     * <P>- no rflbtion typf nbmf in MBfbn
+     * <P>- thf rflbtion typf nbmf in MBfbn dofs not dorrfspond to b rflbtion
+     * typf drfbtfd in thf Rflbtion Sfrvidf
+     * @fxdfption InvblidRolfVblufExdfption  if:
+     * <P>- thf numbfr of rfffrfndfd MBfbns in b rolf is lfss thbn
+     * fxpfdtfd minimum dfgrff
+     * <P>- thf numbfr of rfffrfndfd MBfbns in b rolf fxdffds fxpfdtfd
+     * mbximum dfgrff
+     * <P>- onf rfffrfndfd MBfbn in thf vbluf is not bn Objfdt of thf MBfbn
+     * dlbss fxpfdtfd for thbt rolf
+     * <P>- bn MBfbn providfd for b rolf dofs not fxist
+     * @fxdfption RolfNotFoundExdfption  if b vbluf is providfd for b rolf
+     * thbt dofs not fxist in thf rflbtion typf
+     */
+    publid void bddRflbtion(ObjfdtNbmf rflbtionObjfdtNbmf)
+        throws IllfgblArgumfntExdfption,
+               RflbtionSfrvidfNotRfgistfrfdExdfption,
+               NoSudhMfthodExdfption,
+               InvblidRflbtionIdExdfption,
+               InstbndfNotFoundExdfption,
+               InvblidRflbtionSfrvidfExdfption,
+               RflbtionTypfNotFoundExdfption,
+               RolfNotFoundExdfption,
+               InvblidRolfVblufExdfption {
+
+        if (rflbtionObjfdtNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "bddRflbtion", rflbtionObjfdtNbmf);
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        // Chfdks thbt thf rflbtion MBfbn implfmfnts thf Rflbtion intfrfbdf.
+        // It will blso dhfdk thbt thf providfd ObjfdtNbmf dorrfsponds to b
+        // rfgistfrfd MBfbn (flsf will throw bn InstbndfNotFoundExdfption)
+        if ((!(myMBfbnSfrvfr.isInstbndfOf(rflbtionObjfdtNbmf, "jbvbx.mbnbgfmfnt.rflbtion.Rflbtion")))) {
+            String fxdMsg = "This MBfbn dofs not implfmfnt thf Rflbtion intfrfbdf.";
+            throw nfw NoSudhMfthodExdfption(fxdMsg);
+        }
+        // Chfdks thfrf is b rflbtion id in thf rflbtion MBfbn (its uniqufnfss
+        // is dhfdkfd in bddRflbtionInt())
+        // Cbn throw InstbndfNotFoundExdfption (but dftfdtfd bbovf)
+        // No MBfbnExdfption bs no fxdfption rbisfd by this mfthod, bnd no
+        // RfflfdtionExdfption
+        String rflId;
+        try {
+            rflId = (String)(myMBfbnSfrvfr.gftAttributf(rflbtionObjfdtNbmf,
+                                                        "RflbtionId"));
+
+        } dbtdh (MBfbnExdfption fxd1) {
+            throw nfw RuntimfExdfption(
+                                     (fxd1.gftTbrgftExdfption()).gftMfssbgf());
+        } dbtdh (RfflfdtionExdfption fxd2) {
+            throw nfw RuntimfExdfption(fxd2.gftMfssbgf());
+        } dbtdh (AttributfNotFoundExdfption fxd3) {
+            throw nfw RuntimfExdfption(fxd3.gftMfssbgf());
+        }
+
+        if (rflId == null) {
+            String fxdMsg = "This MBfbn dofs not providf b rflbtion id.";
+            throw nfw InvblidRflbtionIdExdfption(fxdMsg);
+        }
+        // Chfdks thbt thf Rflbtion Sfrvidf whfrf thf rflbtion MBfbn is
+        // fxpfdtfd to bf bddfd is thf durrfnt onf
+        // Cbn throw InstbndfNotFoundExdfption (but dftfdtfd bbovf)
+        // No MBfbnExdfption bs no fxdfption rbisfd by this mfthod, no
+        // RfflfdtionExdfption
+        ObjfdtNbmf rflSfrvObjNbmf;
+        try {
+            rflSfrvObjNbmf = (ObjfdtNbmf)
+                (myMBfbnSfrvfr.gftAttributf(rflbtionObjfdtNbmf,
+                                            "RflbtionSfrvidfNbmf"));
+
+        } dbtdh (MBfbnExdfption fxd1) {
+            throw nfw RuntimfExdfption(
+                                     (fxd1.gftTbrgftExdfption()).gftMfssbgf());
+        } dbtdh (RfflfdtionExdfption fxd2) {
+            throw nfw RuntimfExdfption(fxd2.gftMfssbgf());
+        } dbtdh (AttributfNotFoundExdfption fxd3) {
+            throw nfw RuntimfExdfption(fxd3.gftMfssbgf());
+        }
+
+        boolfbn bbdRflSfrvFlbg = fblsf;
+        if (rflSfrvObjNbmf == null) {
+            bbdRflSfrvFlbg = truf;
+
+        } flsf if (!(rflSfrvObjNbmf.fqubls(myObjNbmf))) {
+            bbdRflSfrvFlbg = truf;
+        }
+        if (bbdRflSfrvFlbg) {
+            String fxdMsg = "Thf Rflbtion Sfrvidf rfffrfndfd in thf MBfbn is not thf durrfnt onf.";
+            throw nfw InvblidRflbtionSfrvidfExdfption(fxdMsg);
+        }
+        // Chfdks thbt b rflbtion typf hbs bffn spfdififd for thf rflbtion
+        // Cbn throw InstbndfNotFoundExdfption (but dftfdtfd bbovf)
+        // No MBfbnExdfption bs no fxdfption rbisfd by this mfthod, no
+        // RfflfdtionExdfption
+        String rflTypfNbmf;
+        try {
+            rflTypfNbmf = (String)(myMBfbnSfrvfr.gftAttributf(rflbtionObjfdtNbmf,
+                                                              "RflbtionTypfNbmf"));
+
+        } dbtdh (MBfbnExdfption fxd1) {
+            throw nfw RuntimfExdfption(
+                                     (fxd1.gftTbrgftExdfption()).gftMfssbgf());
+        }dbtdh (RfflfdtionExdfption fxd2) {
+            throw nfw RuntimfExdfption(fxd2.gftMfssbgf());
+        } dbtdh (AttributfNotFoundExdfption fxd3) {
+            throw nfw RuntimfExdfption(fxd3.gftMfssbgf());
+        }
+        if (rflTypfNbmf == null) {
+            String fxdMsg = "No rflbtion typf providfd.";
+            throw nfw RflbtionTypfNotFoundExdfption(fxdMsg);
+        }
+        // Rftrifvfs bll rolfs without donsidfring rfbd modf
+        // Cbn throw InstbndfNotFoundExdfption (but dftfdtfd bbovf)
+        // No MBfbnExdfption bs no fxdfption rbisfd by this mfthod, no
+        // RfflfdtionExdfption
+        RolfList rolfList;
+        try {
+            rolfList = (RolfList)(myMBfbnSfrvfr.invokf(rflbtionObjfdtNbmf,
+                                                       "rftrifvfAllRolfs",
+                                                       null,
+                                                       null));
+        } dbtdh (MBfbnExdfption fxd1) {
+            throw nfw RuntimfExdfption(
+                                     (fxd1.gftTbrgftExdfption()).gftMfssbgf());
+        } dbtdh (RfflfdtionExdfption fxd2) {
+            throw nfw RuntimfExdfption(fxd2.gftMfssbgf());
+        }
+
+        // Cbn throw RolfNotFoundExdfption, InvblidRflbtionIdExdfption,
+        // RflbtionTypfNotFoundExdfption, InvblidRolfVblufExdfption
+        bddRflbtionInt(fblsf,
+                       null,
+                       rflbtionObjfdtNbmf,
+                       rflId,
+                       rflTypfNbmf,
+                       rolfList);
+        // Adds rflbtion MBfbn ObjfdtNbmf in mbp
+        syndhronizfd(myRflMBfbnObjNbmf2RflIdMbp) {
+            myRflMBfbnObjNbmf2RflIdMbp.put(rflbtionObjfdtNbmf, rflId);
+        }
+
+        // Updbtfs flbg to spfdify thbt thf rflbtion is mbnbgfd by thf Rflbtion
+        // Sfrvidf
+        // This flbg bnd sfttfr brf inhfritfd from RflbtionSupport bnd not pbrts
+        // of thf Rflbtion intfrfbdf, so mby bf not supportfd.
+        try {
+            myMBfbnSfrvfr.sftAttributf(rflbtionObjfdtNbmf,
+                                       nfw Attributf(
+                                         "RflbtionSfrvidfMbnbgfmfntFlbg",
+                                         Boolfbn.TRUE));
+        } dbtdh (Exdfption fxd) {
+            // OK : Thf flbg is not supportfd.
+        }
+
+        // Updbtfs listfnfr informbtion to rfdfivfd notifidbtion for
+        // unrfgistrbtion of this MBfbn
+        List<ObjfdtNbmf> nfwRffList = nfw ArrbyList<ObjfdtNbmf>();
+        nfwRffList.bdd(rflbtionObjfdtNbmf);
+        updbtfUnrfgistrbtionListfnfr(nfwRffList, null);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "bddRflbtion");
+        rfturn;
+    }
+
+    /**
+     * If thf rflbtion is rfprfsfntfd by bn MBfbn (drfbtfd by thf usfr bnd
+     * bddfd bs b rflbtion in thf Rflbtion Sfrvidf), rfturns thf ObjfdtNbmf of
+     * thf MBfbn.
+     *
+     * @pbrbm rflbtionId  rflbtion id idfntifying thf rflbtion
+     *
+     * @rfturn ObjfdtNbmf of thf dorrfsponding rflbtion MBfbn, or null if
+     * thf rflbtion is not bn MBfbn.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption thfrf is no rflbtion bssodibtfd
+     * to thbt id
+     */
+    publid ObjfdtNbmf isRflbtionMBfbn(String rflbtionId)
+        throws IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption{
+
+        if (rflbtionId == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "isRflbtionMBfbn", rflbtionId);
+
+        // Cbn throw RflbtionNotFoundExdfption
+        Objfdt rfsult = gftRflbtion(rflbtionId);
+        if (rfsult instbndfof ObjfdtNbmf) {
+            rfturn ((ObjfdtNbmf)rfsult);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf rflbtion id bssodibtfd to thf givfn ObjfdtNbmf if thf
+     * MBfbn hbs bffn bddfd bs b rflbtion in thf Rflbtion Sfrvidf.
+     *
+     * @pbrbm objfdtNbmf  ObjfdtNbmf of supposfd rflbtion
+     *
+     * @rfturn rflbtion id (String) or null (if thf ObjfdtNbmf is not b
+     * rflbtion hbndlfd by thf Rflbtion Sfrvidf)
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     */
+    publid String isRflbtion(ObjfdtNbmf objfdtNbmf)
+        throws IllfgblArgumfntExdfption {
+
+        if (objfdtNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "isRflbtion", objfdtNbmf);
+
+        String rfsult = null;
+        syndhronizfd(myRflMBfbnObjNbmf2RflIdMbp) {
+            String rflId = myRflMBfbnObjNbmf2RflIdMbp.gft(objfdtNbmf);
+            if (rflId != null) {
+                rfsult = rflId;
+            }
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Chfdks if thfrf is b rflbtion idfntififd in Rflbtion Sfrvidf with givfn
+     * rflbtion id.
+     *
+     * @pbrbm rflbtionId  rflbtion id idfntifying thf rflbtion
+     *
+     * @rfturn boolfbn: truf if thfrf is b rflbtion, fblsf flsf
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     */
+    publid Boolfbn hbsRflbtion(String rflbtionId)
+        throws IllfgblArgumfntExdfption {
+
+        if (rflbtionId == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "hbsRflbtion", rflbtionId);
+
+        try {
+            // Cbn throw RflbtionNotFoundExdfption
+            Objfdt rfsult = gftRflbtion(rflbtionId);
+            rfturn truf;
+        } dbtdh (RflbtionNotFoundExdfption fxd) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns bll thf rflbtion ids for bll thf rflbtions hbndlfd by thf
+     * Rflbtion Sfrvidf.
+     *
+     * @rfturn ArrbyList of String
+     */
+    publid List<String> gftAllRflbtionIds() {
+        List<String> rfsult;
+        syndhronizfd(myRflId2ObjMbp) {
+            rfsult = nfw ArrbyList<String>(myRflId2ObjMbp.kfySft());
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Chfdks if givfn Rolf dbn bf rfbd in b rflbtion of thf givfn typf.
+     *
+     * @pbrbm rolfNbmf  nbmf of rolf to bf dhfdkfd
+     * @pbrbm rflbtionTypfNbmf  nbmf of thf rflbtion typf
+     *
+     * @rfturn bn Intfgfr wrbpping bn intfgfr dorrfsponding to possiblf
+     * problfms rfprfsfntfd bs donstbnts in RolfUnrfsolvfd:
+     * <P>- 0 if rolf dbn bf rfbd
+     * <P>- intfgfr dorrfsponding to RolfStbtus.NO_ROLE_WITH_NAME
+     * <P>- intfgfr dorrfsponding to RolfStbtus.ROLE_NOT_READABLE
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionTypfNotFoundExdfption  if thf rflbtion typf is not
+     * known in thf Rflbtion Sfrvidf
+     */
+    publid Intfgfr dhfdkRolfRfbding(String rolfNbmf,
+                                    String rflbtionTypfNbmf)
+        throws IllfgblArgumfntExdfption,
+               RflbtionTypfNotFoundExdfption {
+
+        if (rolfNbmf == null || rflbtionTypfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "dhfdkRolfRfbding", nfw Objfdt[] {rolfNbmf, rflbtionTypfNbmf});
+
+        Intfgfr rfsult;
+
+        // Cbn throw b RflbtionTypfNotFoundExdfption
+        RflbtionTypf rflTypf = gftRflbtionTypf(rflbtionTypfNbmf);
+
+        try {
+            // Cbn throw b RolfInfoNotFoundExdfption to bf trbnsformfd into
+            // rfturnfd vbluf RolfStbtus.NO_ROLE_WITH_NAME
+            RolfInfo rolfInfo = rflTypf.gftRolfInfo(rolfNbmf);
+
+            rfsult =  dhfdkRolfInt(1,
+                                   rolfNbmf,
+                                   null,
+                                   rolfInfo,
+                                   fblsf);
+
+        } dbtdh (RolfInfoNotFoundExdfption fxd) {
+            rfsult = Intfgfr.vblufOf(RolfStbtus.NO_ROLE_WITH_NAME);
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "dhfdkRolfRfbding");
+        rfturn rfsult;
+    }
+
+    /**
+     * Chfdks if givfn Rolf dbn bf sft in b rflbtion of givfn typf.
+     *
+     * @pbrbm rolf  rolf to bf dhfdkfd
+     * @pbrbm rflbtionTypfNbmf  nbmf of rflbtion typf
+     * @pbrbm initFlbg  flbg to spfdify thbt thf dhfdking is donf for thf
+     * initiblizbtion of b rolf, writf bddfss shbll not bf vfrififd.
+     *
+     * @rfturn bn Intfgfr wrbpping bn intfgfr dorrfsponding to possiblf
+     * problfms rfprfsfntfd bs donstbnts in RolfUnrfsolvfd:
+     * <P>- 0 if rolf dbn bf sft
+     * <P>- intfgfr dorrfsponding to RolfStbtus.NO_ROLE_WITH_NAME
+     * <P>- intfgfr for RolfStbtus.ROLE_NOT_WRITABLE
+     * <P>- intfgfr for RolfStbtus.LESS_THAN_MIN_ROLE_DEGREE
+     * <P>- intfgfr for RolfStbtus.MORE_THAN_MAX_ROLE_DEGREE
+     * <P>- intfgfr for RolfStbtus.REF_MBEAN_OF_INCORRECT_CLASS
+     * <P>- intfgfr for RolfStbtus.REF_MBEAN_NOT_REGISTERED
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionTypfNotFoundExdfption  if unknown rflbtion typf
+     */
+    publid Intfgfr dhfdkRolfWriting(Rolf rolf,
+                                    String rflbtionTypfNbmf,
+                                    Boolfbn initFlbg)
+        throws IllfgblArgumfntExdfption,
+               RflbtionTypfNotFoundExdfption {
+
+        if (rolf == null ||
+            rflbtionTypfNbmf == null ||
+            initFlbg == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "dhfdkRolfWriting",
+                nfw Objfdt[] {rolf, rflbtionTypfNbmf, initFlbg});
+
+        // Cbn throw b RflbtionTypfNotFoundExdfption
+        RflbtionTypf rflTypf = gftRflbtionTypf(rflbtionTypfNbmf);
+
+        String rolfNbmf = rolf.gftRolfNbmf();
+        List<ObjfdtNbmf> rolfVbluf = rolf.gftRolfVbluf();
+        boolfbn writfChkFlbg = truf;
+        if (initFlbg.boolfbnVbluf()) {
+            writfChkFlbg = fblsf;
+        }
+
+        RolfInfo rolfInfo;
+        try {
+            rolfInfo = rflTypf.gftRolfInfo(rolfNbmf);
+        } dbtdh (RolfInfoNotFoundExdfption fxd) {
+            RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                    "dhfdkRolfWriting");
+            rfturn Intfgfr.vblufOf(RolfStbtus.NO_ROLE_WITH_NAME);
+        }
+
+        Intfgfr rfsult = dhfdkRolfInt(2,
+                                      rolfNbmf,
+                                      rolfVbluf,
+                                      rolfInfo,
+                                      writfChkFlbg);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "dhfdkRolfWriting");
+        rfturn rfsult;
+    }
+
+    /**
+     * Sfnds b notifidbtion (RflbtionNotifidbtion) for b rflbtion drfbtion.
+     * Thf notifidbtion typf is:
+     * <P>- RflbtionNotifidbtion.RELATION_BASIC_CREATION if thf rflbtion is bn
+     * objfdt intfrnbl to thf Rflbtion Sfrvidf
+     * <P>- RflbtionNotifidbtion.RELATION_MBEAN_CREATION if thf rflbtion is b
+     * MBfbn bddfd bs b rflbtion.
+     * <P>Thf sourdf objfdt is thf Rflbtion Sfrvidf itsflf.
+     * <P>It is dbllfd in Rflbtion Sfrvidf drfbtfRflbtion() bnd
+     * bddRflbtion() mfthods.
+     *
+     * @pbrbm rflbtionId  rflbtion idfntififr of thf updbtfd rflbtion
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if thfrf is no rflbtion for givfn
+     * rflbtion id
+     */
+    publid void sfndRflbtionCrfbtionNotifidbtion(String rflbtionId)
+        throws IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption {
+
+        if (rflbtionId == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "sfndRflbtionCrfbtionNotifidbtion", rflbtionId);
+
+        // Mfssbgf
+        StringBuildfr ntfMsg = nfw StringBuildfr("Crfbtion of rflbtion ");
+        ntfMsg.bppfnd(rflbtionId);
+
+        // Cbn throw RflbtionNotFoundExdfption
+        sfndNotifidbtionInt(1,
+                            ntfMsg.toString(),
+                            rflbtionId,
+                            null,
+                            null,
+                            null,
+                            null);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "sfndRflbtionCrfbtionNotifidbtion");
+        rfturn;
+    }
+
+    /**
+     * Sfnds b notifidbtion (RflbtionNotifidbtion) for b rolf updbtf in thf
+     * givfn rflbtion. Thf notifidbtion typf is:
+     * <P>- RflbtionNotifidbtion.RELATION_BASIC_UPDATE if thf rflbtion is bn
+     * objfdt intfrnbl to thf Rflbtion Sfrvidf
+     * <P>- RflbtionNotifidbtion.RELATION_MBEAN_UPDATE if thf rflbtion is b
+     * MBfbn bddfd bs b rflbtion.
+     * <P>Thf sourdf objfdt is thf Rflbtion Sfrvidf itsflf.
+     * <P>It is dbllfd in rflbtion MBfbn sftRolf() (for givfn rolf) bnd
+     * sftRolfs() (for fbdh rolf) mfthods (implfmfntbtion providfd in
+     * RflbtionSupport dlbss).
+     * <P>It is blso dbllfd in Rflbtion Sfrvidf sftRolf() (for givfn rolf) bnd
+     * sftRolfs() (for fbdh rolf) mfthods.
+     *
+     * @pbrbm rflbtionId  rflbtion idfntififr of thf updbtfd rflbtion
+     * @pbrbm nfwRolf  nfw rolf (nbmf bnd nfw vbluf)
+     * @pbrbm oldVbluf  old rolf vbluf (List of ObjfdtNbmf objfdts)
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if thfrf is no rflbtion for givfn
+     * rflbtion id
+     */
+    publid void sfndRolfUpdbtfNotifidbtion(String rflbtionId,
+                                           Rolf nfwRolf,
+                                           List<ObjfdtNbmf> oldVbluf)
+        throws IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption {
+
+        if (rflbtionId == null ||
+            nfwRolf == null ||
+            oldVbluf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        if (!(oldVbluf instbndfof ArrbyList<?>))
+            oldVbluf = nfw ArrbyList<ObjfdtNbmf>(oldVbluf);
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "sfndRolfUpdbtfNotifidbtion",
+                nfw Objfdt[] {rflbtionId, nfwRolf, oldVbluf});
+
+        String rolfNbmf = nfwRolf.gftRolfNbmf();
+        List<ObjfdtNbmf> nfwRolfVbl = nfwRolf.gftRolfVbluf();
+
+        // Mfssbgf
+        String nfwRolfVblString = Rolf.rolfVblufToString(nfwRolfVbl);
+        String oldRolfVblString = Rolf.rolfVblufToString(oldVbluf);
+        StringBuildfr ntfMsg = nfw StringBuildfr("Vbluf of rolf ");
+        ntfMsg.bppfnd(rolfNbmf);
+        ntfMsg.bppfnd(" hbs dhbngfd\nOld vbluf:\n");
+        ntfMsg.bppfnd(oldRolfVblString);
+        ntfMsg.bppfnd("\nNfw vbluf:\n");
+        ntfMsg.bppfnd(nfwRolfVblString);
+
+        // Cbn throw b RflbtionNotFoundExdfption
+        sfndNotifidbtionInt(2,
+                            ntfMsg.toString(),
+                            rflbtionId,
+                            null,
+                            rolfNbmf,
+                            nfwRolfVbl,
+                            oldVbluf);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "sfndRolfUpdbtfNotifidbtion");
+    }
+
+    /**
+     * Sfnds b notifidbtion (RflbtionNotifidbtion) for b rflbtion rfmovbl.
+     * Thf notifidbtion typf is:
+     * <P>- RflbtionNotifidbtion.RELATION_BASIC_REMOVAL if thf rflbtion is bn
+     * objfdt intfrnbl to thf Rflbtion Sfrvidf
+     * <P>- RflbtionNotifidbtion.RELATION_MBEAN_REMOVAL if thf rflbtion is b
+     * MBfbn bddfd bs b rflbtion.
+     * <P>Thf sourdf objfdt is thf Rflbtion Sfrvidf itsflf.
+     * <P>It is dbllfd in Rflbtion Sfrvidf rfmovfRflbtion() mfthod.
+     *
+     * @pbrbm rflbtionId  rflbtion idfntififr of thf updbtfd rflbtion
+     * @pbrbm unrfgMBfbnList  List of ObjfdtNbmfs of MBfbns fxpfdtfd
+     * to bf unrfgistfrfd duf to rflbtion rfmovbl (dbn bf null)
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if thfrf is no rflbtion for givfn
+     * rflbtion id
+     */
+    publid void sfndRflbtionRfmovblNotifidbtion(String rflbtionId,
+                                                List<ObjfdtNbmf> unrfgMBfbnList)
+        throws IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption {
+
+        if (rflbtionId == null) {
+            String fxdMsg = "Invblid pbrbmftfr";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "sfndRflbtionRfmovblNotifidbtion",
+                nfw Objfdt[] {rflbtionId, unrfgMBfbnList});
+
+        // Cbn throw RflbtionNotFoundExdfption
+        sfndNotifidbtionInt(3,
+                            "Rfmovbl of rflbtion " + rflbtionId,
+                            rflbtionId,
+                            unrfgMBfbnList,
+                            null,
+                            null,
+                            null);
+
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "sfndRflbtionRfmovblNotifidbtion");
+        rfturn;
+    }
+
+    /**
+     * Hbndlfs updbtf of thf Rflbtion Sfrvidf rolf mbp for thf updbtf of givfn
+     * rolf in givfn rflbtion.
+     * <P>It is dbllfd in rflbtion MBfbn sftRolf() (for givfn rolf) bnd
+     * sftRolfs() (for fbdh rolf) mfthods (implfmfntbtion providfd in
+     * RflbtionSupport dlbss).
+     * <P>It is blso dbllfd in Rflbtion Sfrvidf sftRolf() (for givfn rolf) bnd
+     * sftRolfs() (for fbdh rolf) mfthods.
+     * <P>To bllow thf Rflbtion Sfrvidf to mbintbin thf donsistfndy (in dbsf
+     * of MBfbn unrfgistrbtion) bnd to bf bblf to pfrform qufrifs, this mfthod
+     * must bf dbllfd whfn b rolf is updbtfd.
+     *
+     * @pbrbm rflbtionId  rflbtion idfntififr of thf updbtfd rflbtion
+     * @pbrbm nfwRolf  nfw rolf (nbmf bnd nfw vbluf)
+     * @pbrbm oldVbluf  old rolf vbluf (List of ObjfdtNbmf objfdts)
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     * @fxdfption RflbtionNotFoundExdfption  if no rflbtion for givfn id.
+     */
+    publid void updbtfRolfMbp(String rflbtionId,
+                              Rolf nfwRolf,
+                              List<ObjfdtNbmf> oldVbluf)
+        throws IllfgblArgumfntExdfption,
+               RflbtionSfrvidfNotRfgistfrfdExdfption,
+               RflbtionNotFoundExdfption {
+
+        if (rflbtionId == null ||
+            nfwRolf == null ||
+            oldVbluf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "updbtfRolfMbp", nfw Objfdt[] {rflbtionId, nfwRolf, oldVbluf});
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        // Vfrififs thf rflbtion hbs bffn bddfd in thf Rflbtion Sfrvidf
+        // Cbn throw b RflbtionNotFoundExdfption
+        Objfdt rfsult = gftRflbtion(rflbtionId);
+
+        String rolfNbmf = nfwRolf.gftRolfNbmf();
+        List<ObjfdtNbmf> nfwRolfVbluf = nfwRolf.gftRolfVbluf();
+        // Notf: no nffd to tfst if oldVbluf not null bfforf dloning,
+        //       tfstfd bbovf.
+        List<ObjfdtNbmf> oldRolfVbluf =
+            nfw ArrbyList<ObjfdtNbmf>(oldVbluf);
+
+        // List of ObjfdtNbmfs of nfw rfffrfndfd MBfbns
+        List<ObjfdtNbmf> nfwRffList = nfw ArrbyList<ObjfdtNbmf>();
+
+        for (ObjfdtNbmf durrObjNbmf : nfwRolfVbluf) {
+
+            // Chfdks if this ObjfdtNbmf wbs blrfbdy prfsfnt in old vbluf
+            // Notf: usf dopy (oldRolfVbluf) instfbd of originbl
+            //       oldVbluf to spffd up, bs oldRolfVbluf is dfdrfbsfd
+            //       by rfmoving undhbngfd rfffrfndfs :)
+            int durrObjNbmfPos = oldRolfVbluf.indfxOf(durrObjNbmf);
+
+            if (durrObjNbmfPos == -1) {
+                // Nfw rfffrfndf to bn ObjfdtNbmf
+
+                // Storfs this rfffrfndf into mbp
+                // Rfturns truf if nfw rfffrfndf, fblsf if MBfbn blrfbdy
+                // rfffrfndfd
+                boolfbn isNfwFlbg = bddNfwMBfbnRfffrfndf(durrObjNbmf,
+                                                        rflbtionId,
+                                                        rolfNbmf);
+
+                if (isNfwFlbg) {
+                    // Adds it into list of nfw rfffrfndf
+                    nfwRffList.bdd(durrObjNbmf);
+                }
+
+            } flsf {
+                // MBfbn wbs blrfbdy rfffrfndfd in old vbluf
+
+                // Rfmovfs it from old vbluf (lodbl list) to ignorf it whfn
+                // looking for rfmovf MBfbn rfffrfndfs
+                oldRolfVbluf.rfmovf(durrObjNbmfPos);
+            }
+        }
+
+        // List of ObjfdtNbmfs of MBfbns no longfr rfffrfndfd
+        List<ObjfdtNbmf> obsRffList = nfw ArrbyList<ObjfdtNbmf>();
+
+        // Ebdh ObjfdtNbmf rfmbining in oldRolfVbluf is bn ObjfdtNbmf no longfr
+        // rfffrfndfd in nfw vbluf
+        for (ObjfdtNbmf durrObjNbmf : oldRolfVbluf) {
+            // Rfmovfs MBfbn rfffrfndf from mbp
+            // Rfturns truf if thf MBfbn is no longfr rfffrfndfd in bny
+            // rflbtion
+            boolfbn noLongfrRffFlbg = rfmovfMBfbnRfffrfndf(durrObjNbmf,
+                                                          rflbtionId,
+                                                          rolfNbmf,
+                                                          fblsf);
+
+            if (noLongfrRffFlbg) {
+                // Adds it into list of rfffrfndfs to bf rfmovfd
+                obsRffList.bdd(durrObjNbmf);
+            }
+        }
+
+        // To bvoid hbving onf listfnfr pfr ObjfdtNbmf of rfffrfndfd MBfbn,
+        // bnd to indrfbsf pfrformbndfs, thfrf is only onf listfnfr rfdording
+        // bll ObjfdtNbmfs of intfrfst
+        updbtfUnrfgistrbtionListfnfr(nfwRffList, obsRffList);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "updbtfRolfMbp");
+        rfturn;
+    }
+
+    /**
+     * Rfmovfs givfn rflbtion from thf Rflbtion Sfrvidf.
+     * <P>A RflbtionNotifidbtion notifidbtion is sfnt, its typf bfing:
+     * <P>- RflbtionNotifidbtion.RELATION_BASIC_REMOVAL if thf rflbtion wbs
+     * only intfrnbl to thf Rflbtion Sfrvidf
+     * <P>- RflbtionNotifidbtion.RELATION_MBEAN_REMOVAL if thf rflbtion is
+     * rfgistfrfd bs bn MBfbn.
+     * <P>For MBfbns rfffrfndfd in sudh rflbtion, nothing will bf donf,
+     *
+     * @pbrbm rflbtionId  rflbtion id of thf rflbtion to bf rfmovfd
+     *
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if no rflbtion dorrfsponding to
+     * givfn rflbtion id
+     */
+    publid void rfmovfRflbtion(String rflbtionId)
+        throws RflbtionSfrvidfNotRfgistfrfdExdfption,
+               IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption {
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        if (rflbtionId == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "rfmovfRflbtion", rflbtionId);
+
+        // Chfdks thfrf is b rflbtion with this id
+        // Cbn throw RflbtionNotFoundExdfption
+        Objfdt rfsult = gftRflbtion(rflbtionId);
+
+        // Rfmovfs it from listfnfr filtfr
+        if (rfsult instbndfof ObjfdtNbmf) {
+            List<ObjfdtNbmf> obsRffList = nfw ArrbyList<ObjfdtNbmf>();
+            obsRffList.bdd((ObjfdtNbmf)rfsult);
+            // Cbn throw b RflbtionSfrvidfNotRfgistfrfdExdfption
+            updbtfUnrfgistrbtionListfnfr(null, obsRffList);
+        }
+
+        // Sfnds b notifidbtion
+        // Notf: hbs to bf donf FIRST bs nffds thf rflbtion to bf still in thf
+        //       Rflbtion Sfrvidf
+        // No RflbtionNotFoundExdfption bs dhfdkfd bbovf
+
+        // Rfvisit [dfbro] Hbndlf CIM "Dflftf" bnd "IfDflftfd" qublififrs:
+        //   dflfting thf rflbtion dbn mfbn to dflftf rfffrfndfd MBfbns. In
+        //   thbt dbsf, MBfbns to bf unrfgistfrfd brf put in b list sfnt blong
+        //   with thf notifidbtion bflow
+
+        // Cbn throw b RflbtionNotFoundExdfption (but dftfdtfd bbovf)
+        sfndRflbtionRfmovblNotifidbtion(rflbtionId, null);
+
+        // Rfmovfs thf rflbtion from vbrious intfrnbl mbps
+
+        //  - MBfbn rfffrfndf mbp
+        // Rftrifvfs thf MBfbns rfffrfndfd in this rflbtion
+        // Notf: hfrf wf dbnnot usf rfmovfMBfbnRfffrfndf() bfdbusf it would
+        //       rfquirf to know thf MBfbns rfffrfndfd in thf rflbtion. For
+        //       thbt it would bf nfdfssbry to dbll 'gftRfffrfndfdMBfbns()'
+        //       on thf rflbtion itsflf. Ok if it is bn intfrnbl onf, but if
+        //       it is bn MBfbn, it is possiblf it is blrfbdy unrfgistfrfd, so
+        //       not bvbilbblf through thf MBfbn Sfrvfr.
+        List<ObjfdtNbmf> rffMBfbnList = nfw ArrbyList<ObjfdtNbmf>();
+        // List of MBfbns no longfr rfffrfndfd in bny rflbtion, to bf
+        // rfmovfd fom thf mbp
+        List<ObjfdtNbmf> nonRffObjNbmfList = nfw ArrbyList<ObjfdtNbmf>();
+
+        syndhronizfd(myRfffdMBfbnObjNbmf2RflIdsMbp) {
+
+            for (ObjfdtNbmf durrRffObjNbmf :
+                     myRfffdMBfbnObjNbmf2RflIdsMbp.kfySft()) {
+
+                // Rftrifvfs rflbtions whfrf thf MBfbn is rfffrfndfd
+                Mbp<String,List<String>> rflIdMbp =
+                    myRfffdMBfbnObjNbmf2RflIdsMbp.gft(durrRffObjNbmf);
+
+                if (rflIdMbp.dontbinsKfy(rflbtionId)) {
+                    rflIdMbp.rfmovf(rflbtionId);
+                    rffMBfbnList.bdd(durrRffObjNbmf);
+                }
+
+                if (rflIdMbp.isEmpty()) {
+                    // MBfbn no longfr rfffrfndfd
+                    // Notf: do not rfmovf it hfrf bfdbusf pointfd by thf
+                    //       itfrbtor!
+                    nonRffObjNbmfList.bdd(durrRffObjNbmf);
+                }
+            }
+
+            // Clfbns MBfbn rfffrfndf mbp by rfmoving MBfbns no longfr
+            // rfffrfndfd
+            for (ObjfdtNbmf durrRffObjNbmf : nonRffObjNbmfList) {
+                myRfffdMBfbnObjNbmf2RflIdsMbp.rfmovf(durrRffObjNbmf);
+            }
+        }
+
+        // - Rflbtion id to objfdt mbp
+        syndhronizfd(myRflId2ObjMbp) {
+            myRflId2ObjMbp.rfmovf(rflbtionId);
+        }
+
+        if (rfsult instbndfof ObjfdtNbmf) {
+            // - ObjfdtNbmf to rflbtion id mbp
+            syndhronizfd(myRflMBfbnObjNbmf2RflIdMbp) {
+                myRflMBfbnObjNbmf2RflIdMbp.rfmovf((ObjfdtNbmf)rfsult);
+            }
+        }
+
+        // Rflbtion id to rflbtion typf nbmf mbp
+        // First rftrifvfs thf rflbtion typf nbmf
+        String rflTypfNbmf;
+        syndhronizfd(myRflId2RflTypfMbp) {
+            rflTypfNbmf = myRflId2RflTypfMbp.gft(rflbtionId);
+            myRflId2RflTypfMbp.rfmovf(rflbtionId);
+        }
+        // - Rflbtion typf nbmf to rflbtion id mbp
+        syndhronizfd(myRflTypf2RflIdsMbp) {
+            List<String> rflIdList = myRflTypf2RflIdsMbp.gft(rflTypfNbmf);
+            if (rflIdList != null) {
+                // Cbn bf null if dbllfd from rfmovfRflbtionTypf()
+                rflIdList.rfmovf(rflbtionId);
+                if (rflIdList.isEmpty()) {
+                    // No othfr rflbtion of thbt typf
+                    myRflTypf2RflIdsMbp.rfmovf(rflTypfNbmf);
+                }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "rfmovfRflbtion");
+        rfturn;
+    }
+
+    /**
+     * Purgfs thf rflbtions.
+     *
+     * <P>Dfpfnding on thf purgfFlbg vbluf, this mfthod is fithfr dbllfd
+     * butombtidblly whfn b notifidbtion is rfdfivfd for thf unrfgistrbtion of
+     * bn MBfbn rfffrfndfd in b rflbtion (if thf flbg is sft to truf), or not
+     * (if thf flbg is sft to fblsf).
+     * <P>In thbt dbsf it is up to thf usfr to dbll it to mbintbin thf
+     * donsistfndy of thf rflbtions. To bf kfpt in mind thbt if bn MBfbn is
+     * unrfgistfrfd bnd thf purgf not donf immfdibtfly, if thf ObjfdtNbmf is
+     * rfusfd bnd bssignfd to bnothfr MBfbn rfffrfndfd in b rflbtion, dblling
+     * mbnublly this purgfRflbtions() mfthod will dbusf troublf, bs will
+     * donsidfr thf ObjfdtNbmf bs dorrfsponding to thf unrfgistfrfd MBfbn, not
+     * sffing thf nfw onf.
+     *
+     * <P>Thf bfhbvior dfpfnds on thf dbrdinblity of thf rolf whfrf thf
+     * unrfgistfrfd MBfbn is rfffrfndfd:
+     * <P>- if rfmoving onf MBfbn rfffrfndf in thf rolf mbkfs its numbfr of
+     * rfffrfndfs lfss thbn thf minimum dfgrff, thf rflbtion hbs to bf rfmovfd.
+     * <P>- if thf rfmbining numbfr of rfffrfndfs bftfr rfmoving thf MBfbn
+     * rfffrfndf is still in thf dbrdinblity rbngf, kffp thf rflbtion bnd
+     * updbtf it dblling its hbndlfMBfbnUnrfgistrbtion() dbllbbdk.
+     *
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr.
+     */
+    publid void purgfRflbtions()
+        throws RflbtionSfrvidfNotRfgistfrfdExdfption {
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "purgfRflbtions");
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        // Rfvisit [dfbro] Hbndlf thf CIM "Dflftf" bnd "IfDflftfd" qublififr:
+        //    if thf unrfgistfrfd MBfbn hbs thf "IfDflftfd" qublififr,
+        //    possiblf thbt thf rflbtion itsflf or othfr rfffrfndfd MBfbns
+        //    hbvf to bf rfmovfd (thfn b notifidbtion would hbvf to bf sfnt
+        //    to inform thbt thfy should bf unrfgistfrfd.
+
+
+        // Clonfs thf list of notifidbtions to bf bblf to still rfdfivf nfw
+        // notifidbtions whilf prodffding thosf onfs
+        List<MBfbnSfrvfrNotifidbtion> lodblUnrfgNtfList;
+        syndhronizfd(myRfffdMBfbnObjNbmf2RflIdsMbp) {
+            lodblUnrfgNtfList =
+                nfw ArrbyList<MBfbnSfrvfrNotifidbtion>(myUnrfgNtfList);
+            // Rfsfts list
+            myUnrfgNtfList = nfw ArrbyList<MBfbnSfrvfrNotifidbtion>();
+        }
+
+
+        // Updbtfs thf listfnfr filtfr to bvoid rfdfiving notifidbtions for
+        // thosf MBfbns bgbin
+        // Mbkfs blso b lodbl "myRfffdMBfbnObjNbmf2RflIdsMbp" mbp, mbpping
+        // ObjfdtNbmf -> rflId -> rolfs, to rfmovf thf MBfbn from thf globbl
+        // mbp
+        // List of rfffrfndfs to bf rfmovfd from thf listfnfr filtfr
+        List<ObjfdtNbmf> obsRffList = nfw ArrbyList<ObjfdtNbmf>();
+        // Mbp indluding ObjfdtNbmfs for unrfgistfrfd MBfbns, with
+        // rfffrfnding rflbtion ids bnd rolfs
+        Mbp<ObjfdtNbmf,Mbp<String,List<String>>> lodblMBfbn2RflIdMbp =
+            nfw HbshMbp<ObjfdtNbmf,Mbp<String,List<String>>>();
+
+        syndhronizfd(myRfffdMBfbnObjNbmf2RflIdsMbp) {
+            for (MBfbnSfrvfrNotifidbtion durrNtf : lodblUnrfgNtfList) {
+
+                ObjfdtNbmf unrfgMBfbnNbmf = durrNtf.gftMBfbnNbmf();
+
+                // Adds thf unrfgsitfrfd MBfbn in thf list of rfffrfndfs to
+                // rfmovf from thf listfnfr filtfr
+                obsRffList.bdd(unrfgMBfbnNbmf);
+
+                // Rftrifvfs thf bssodibtfd mbp of rflbtion ids bnd rolfs
+                Mbp<String,List<String>> rflIdMbp =
+                    myRfffdMBfbnObjNbmf2RflIdsMbp.gft(unrfgMBfbnNbmf);
+                lodblMBfbn2RflIdMbp.put(unrfgMBfbnNbmf, rflIdMbp);
+
+                myRfffdMBfbnObjNbmf2RflIdsMbp.rfmovf(unrfgMBfbnNbmf);
+            }
+        }
+
+        // Updbtfs thf listfnfr
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        updbtfUnrfgistrbtionListfnfr(null, obsRffList);
+
+        for (MBfbnSfrvfrNotifidbtion durrNtf : lodblUnrfgNtfList) {
+
+            ObjfdtNbmf unrfgMBfbnNbmf = durrNtf.gftMBfbnNbmf();
+
+            // Rftrifvfs thf rflbtions whfrf thf MBfbn is rfffrfndfd
+            Mbp<String,List<String>> lodblRflIdMbp =
+                    lodblMBfbn2RflIdMbp.gft(unrfgMBfbnNbmf);
+
+            // List of rflbtion ids whfrf thf unrfgistfrfd MBfbn is
+            // rfffrfndfd
+            for (Mbp.Entry<String,List<String>> durrRfl :
+                        lodblRflIdMbp.fntrySft()) {
+                finbl String durrRflId = durrRfl.gftKfy();
+                // List of rolfs of thf rflbtion whfrf thf MBfbn is
+                // rfffrfndfd
+                List<String> lodblRolfNbmfList = durrRfl.gftVbluf();
+
+                // Chfdks if thf rflbtion hbs to bf rfmovfd or not,
+                // rfgbrding fxpfdtfd minimum rolf dbrdinblity bnd durrfnt
+                // numbfr of rfffrfndfs bftfr rfmovbl of thf durrfnt onf
+                // If thf rflbtion is kfpt, dblls
+                // hbndlfMBfbnUnrfgistrbtion() dbllbbdk of thf rflbtion to
+                // updbtf it
+                //
+                // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+                //
+                // Shbll not throw RflbtionNotFoundExdfption,
+                // RolfNotFoundExdfption, MBfbnExdfption
+                try {
+                    hbndlfRfffrfndfUnrfgistrbtion(durrRflId,
+                                                  unrfgMBfbnNbmf,
+                                                  lodblRolfNbmfList);
+                } dbtdh (RflbtionNotFoundExdfption fxd1) {
+                    throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+                } dbtdh (RolfNotFoundExdfption fxd2) {
+                    throw nfw RuntimfExdfption(fxd2.gftMfssbgf());
+                }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "purgfRflbtions");
+        rfturn;
+    }
+
+    /**
+     * Rftrifvfs thf rflbtions whfrf b givfn MBfbn is rfffrfndfd.
+     * <P>This dorrfsponds to thf CIM "Rfffrfndfs" bnd "RfffrfndfNbmfs"
+     * opfrbtions.
+     *
+     * @pbrbm mbfbnNbmf  ObjfdtNbmf of MBfbn
+     * @pbrbm rflbtionTypfNbmf  dbn bf null; if spfdififd, only thf rflbtions
+     * of thbt typf will bf donsidfrfd in thf sfbrdh. Elsf bll rflbtion typfs
+     * brf donsidfrfd.
+     * @pbrbm rolfNbmf  dbn bf null; if spfdififd, only thf rflbtions
+     * whfrf thf MBfbn is rfffrfndfd in thbt rolf will bf rfturnfd. Elsf bll
+     * rolfs brf donsidfrfd.
+     *
+     * @rfturn bn HbshMbp, whfrf thf kfys brf thf rflbtion ids of thf rflbtions
+     * whfrf thf MBfbn is rfffrfndfd, bnd thf vbluf is, for fbdh kfy,
+     * bn ArrbyList of rolf nbmfs (bs bn MBfbn dbn bf rfffrfndfd in sfvfrbl
+     * rolfs in thf sbmf rflbtion).
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     */
+    publid Mbp<String,List<String>>
+        findRfffrfndingRflbtions(ObjfdtNbmf mbfbnNbmf,
+                                 String rflbtionTypfNbmf,
+                                 String rolfNbmf)
+            throws IllfgblArgumfntExdfption {
+
+        if (mbfbnNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "findRfffrfndingRflbtions",
+                nfw Objfdt[] {mbfbnNbmf, rflbtionTypfNbmf, rolfNbmf});
+
+        Mbp<String,List<String>> rfsult = nfw HbshMbp<String,List<String>>();
+
+        syndhronizfd(myRfffdMBfbnObjNbmf2RflIdsMbp) {
+
+            // Rftrifvfs thf rflbtions rfffrfnding thf MBfbn
+            Mbp<String,List<String>> rflId2RolfNbmfsMbp =
+                myRfffdMBfbnObjNbmf2RflIdsMbp.gft(mbfbnNbmf);
+
+            if (rflId2RolfNbmfsMbp != null) {
+
+                // Rflbtion Ids whfrf thf MBfbn is rfffrfndfd
+                Sft<String> bllRflIdSft = rflId2RolfNbmfsMbp.kfySft();
+
+                // List of rflbtion ids of intfrfst rfgbrding thf sflfdtfd
+                // rflbtion typf
+                List<String> rflIdList;
+                if (rflbtionTypfNbmf == null) {
+                    // Considfrs bll rflbtions
+                    rflIdList = nfw ArrbyList<String>(bllRflIdSft);
+
+                } flsf {
+
+                    rflIdList = nfw ArrbyList<String>();
+
+                    // Considfrs only thf rflbtion ids for rflbtions of givfn
+                    // typf
+                    for (String durrRflId : bllRflIdSft) {
+
+                        // Rftrifvfs its rflbtion typf
+                        String durrRflTypfNbmf;
+                        syndhronizfd(myRflId2RflTypfMbp) {
+                            durrRflTypfNbmf =
+                                myRflId2RflTypfMbp.gft(durrRflId);
+                        }
+
+                        if (durrRflTypfNbmf.fqubls(rflbtionTypfNbmf)) {
+
+                            rflIdList.bdd(durrRflId);
+
+                        }
+                    }
+                }
+
+                // Now looks bt thf rolfs whfrf thf MBfbn is fxpfdtfd to bf
+                // rfffrfndfd
+
+                for (String durrRflId : rflIdList) {
+                    // Rftrifvfs list of rolf nbmfs whfrf thf MBfbn is
+                    // rfffrfndfd
+                    List<String> durrRolfNbmfList =
+                        rflId2RolfNbmfsMbp.gft(durrRflId);
+
+                    if (rolfNbmf == null) {
+                        // All rolfs to bf donsidfrfd
+                        // Notf: no nffd to tfst if list not null bfforf
+                        //       dloning, MUST bf not null flsf bug :(
+                        rfsult.put(durrRflId,
+                                   nfw ArrbyList<String>(durrRolfNbmfList));
+
+                    }  flsf if (durrRolfNbmfList.dontbins(rolfNbmf)) {
+                        // Filtfrs only thf rflbtions whfrf thf MBfbn is
+                        // rfffrfndfd in // givfn rolf
+                        List<String> dummyList = nfw ArrbyList<String>();
+                        dummyList.bdd(rolfNbmf);
+                        rfsult.put(durrRflId, dummyList);
+                    }
+                }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "findRfffrfndingRflbtions");
+        rfturn rfsult;
+    }
+
+    /**
+     * Rftrifvfs thf MBfbns bssodibtfd to givfn onf in b rflbtion.
+     * <P>This dorrfsponds to CIM Assodibtors bnd AssodibtorNbmfs opfrbtions.
+     *
+     * @pbrbm mbfbnNbmf  ObjfdtNbmf of MBfbn
+     * @pbrbm rflbtionTypfNbmf  dbn bf null; if spfdififd, only thf rflbtions
+     * of thbt typf will bf donsidfrfd in thf sfbrdh. Elsf bll
+     * rflbtion typfs brf donsidfrfd.
+     * @pbrbm rolfNbmf  dbn bf null; if spfdififd, only thf rflbtions
+     * whfrf thf MBfbn is rfffrfndfd in thbt rolf will bf donsidfrfd. Elsf bll
+     * rolfs brf donsidfrfd.
+     *
+     * @rfturn bn HbshMbp, whfrf thf kfys brf thf ObjfdtNbmfs of thf MBfbns
+     * bssodibtfd to givfn MBfbn, bnd thf vbluf is, for fbdh kfy, bn ArrbyList
+     * of thf rflbtion ids of thf rflbtions whfrf thf kfy MBfbn is
+     * bssodibtfd to givfn onf (bs thfy dbn bf bssodibtfd in sfvfrbl difffrfnt
+     * rflbtions).
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     */
+    publid Mbp<ObjfdtNbmf,List<String>>
+        findAssodibtfdMBfbns(ObjfdtNbmf mbfbnNbmf,
+                             String rflbtionTypfNbmf,
+                             String rolfNbmf)
+            throws IllfgblArgumfntExdfption {
+
+        if (mbfbnNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "findAssodibtfdMBfbns",
+                nfw Objfdt[] {mbfbnNbmf, rflbtionTypfNbmf, rolfNbmf});
+
+        // Rftrifvfs thf mbp <rflbtion id> -> <rolf nbmfs> for thosf
+        // dritfribs
+        Mbp<String,List<String>> rflId2RolfNbmfsMbp =
+            findRfffrfndingRflbtions(mbfbnNbmf,
+                                     rflbtionTypfNbmf,
+                                     rolfNbmf);
+
+        Mbp<ObjfdtNbmf,List<String>> rfsult =
+            nfw HbshMbp<ObjfdtNbmf,List<String>>();
+
+        for (String durrRflId : rflId2RolfNbmfsMbp.kfySft()) {
+
+            // Rftrifvfs ObjfdtNbmfs of MBfbns rfffrfndfd in this rflbtion
+            //
+            // Shbll not throw b RflbtionNotFoundExdfption if indorrfdt stbtus
+            // of mbps :(
+            Mbp<ObjfdtNbmf,List<String>> objNbmf2RolfNbmfsMbp;
+            try {
+                objNbmf2RolfNbmfsMbp = gftRfffrfndfdMBfbns(durrRflId);
+            } dbtdh (RflbtionNotFoundExdfption fxd) {
+                throw nfw RuntimfExdfption(fxd.gftMfssbgf());
+            }
+
+            // For fbdh MBfbn bssodibtfd to givfn onf in b rflbtion, bdds thf
+            // bssodibtion <ObjfdtNbmf> -> <rflbtion id> into rfsult mbp
+            for (ObjfdtNbmf durrObjNbmf : objNbmf2RolfNbmfsMbp.kfySft()) {
+
+                if (!(durrObjNbmf.fqubls(mbfbnNbmf))) {
+
+                    // Sffs if this MBfbn is blrfbdy bssodibtfd to thf givfn
+                    // onf in bnothfr rflbtion
+                    List<String> durrRflIdList = rfsult.gft(durrObjNbmf);
+                    if (durrRflIdList == null) {
+
+                        durrRflIdList = nfw ArrbyList<String>();
+                        durrRflIdList.bdd(durrRflId);
+                        rfsult.put(durrObjNbmf, durrRflIdList);
+
+                    } flsf {
+                        durrRflIdList.bdd(durrRflId);
+                    }
+                }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "findAssodibtfdMBfbns");
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns thf rflbtion ids for rflbtions of thf givfn typf.
+     *
+     * @pbrbm rflbtionTypfNbmf  rflbtion typf nbmf
+     *
+     * @rfturn bn ArrbyList of rflbtion ids.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionTypfNotFoundExdfption  if thfrf is no rflbtion typf
+     * with thbt nbmf.
+     */
+    publid List<String> findRflbtionsOfTypf(String rflbtionTypfNbmf)
+        throws IllfgblArgumfntExdfption,
+               RflbtionTypfNotFoundExdfption {
+
+        if (rflbtionTypfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "findRflbtionsOfTypf");
+
+        // Cbn throw RflbtionTypfNotFoundExdfption
+        RflbtionTypf rflTypf = gftRflbtionTypf(rflbtionTypfNbmf);
+
+        List<String> rfsult;
+        syndhronizfd(myRflTypf2RflIdsMbp) {
+            List<String> rfsult1 = myRflTypf2RflIdsMbp.gft(rflbtionTypfNbmf);
+            if (rfsult1 == null)
+                rfsult = nfw ArrbyList<String>();
+            flsf
+                rfsult = nfw ArrbyList<String>(rfsult1);
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "findRflbtionsOfTypf");
+        rfturn rfsult;
+    }
+
+    /**
+     * Rftrifvfs rolf vbluf for givfn rolf nbmf in givfn rflbtion.
+     *
+     * @pbrbm rflbtionId  rflbtion id
+     * @pbrbm rolfNbmf  nbmf of rolf
+     *
+     * @rfturn thf ArrbyList of ObjfdtNbmf objfdts bfing thf rolf vbluf
+     *
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if no rflbtion with givfn id
+     * @fxdfption RolfNotFoundExdfption  if:
+     * <P>- thfrf is no rolf with givfn nbmf
+     * <P>or
+     * <P>- thf rolf is not rfbdbblf.
+     *
+     * @sff #sftRolf
+     */
+    publid List<ObjfdtNbmf> gftRolf(String rflbtionId,
+                                    String rolfNbmf)
+        throws RflbtionSfrvidfNotRfgistfrfdExdfption,
+               IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption,
+               RolfNotFoundExdfption {
+
+        if (rflbtionId == null || rolfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRolf", nfw Objfdt[] {rflbtionId, rolfNbmf});
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        // Cbn throw b RflbtionNotFoundExdfption
+        Objfdt rflObj = gftRflbtion(rflbtionId);
+
+        List<ObjfdtNbmf> rfsult;
+
+        if (rflObj instbndfof RflbtionSupport) {
+            // Intfrnbl rflbtion
+            // Cbn throw RolfNotFoundExdfption
+            rfsult = dbst(
+                ((RflbtionSupport)rflObj).gftRolfInt(rolfNbmf,
+                                                     truf,
+                                                     this,
+                                                     fblsf));
+
+        } flsf {
+            // Rflbtion MBfbn
+            Objfdt[] pbrbms = nfw Objfdt[1];
+            pbrbms[0] = rolfNbmf;
+            String[] signbturf = nfw String[1];
+            signbturf[0] = "jbvb.lbng.String";
+            // Cbn throw MBfbnExdfption wrbpping b RolfNotFoundExdfption:
+            // throw wrbppfd fxdfption
+            //
+            // Shbll not throw InstbndfNotFoundExdfption or RfflfdtionExdfption
+            try {
+                List<ObjfdtNbmf> invokfRfsult = dbst(
+                    myMBfbnSfrvfr.invokf(((ObjfdtNbmf)rflObj),
+                                         "gftRolf",
+                                         pbrbms,
+                                         signbturf));
+                if (invokfRfsult == null || invokfRfsult instbndfof ArrbyList<?>)
+                    rfsult = invokfRfsult;
+                flsf
+                    rfsult = nfw ArrbyList<ObjfdtNbmf>(invokfRfsult);
+            } dbtdh (InstbndfNotFoundExdfption fxd1) {
+                throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+            } dbtdh (RfflfdtionExdfption fxd2) {
+                throw nfw RuntimfExdfption(fxd2.gftMfssbgf());
+            } dbtdh (MBfbnExdfption fxd3) {
+                Exdfption wrbppfdExd = fxd3.gftTbrgftExdfption();
+                if (wrbppfdExd instbndfof RolfNotFoundExdfption) {
+                    throw ((RolfNotFoundExdfption)wrbppfdExd);
+                } flsf {
+                    throw nfw RuntimfExdfption(wrbppfdExd.gftMfssbgf());
+                }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(), "gftRolf");
+        rfturn rfsult;
+    }
+
+    /**
+     * Rftrifvfs vblufs of rolfs with givfn nbmfs in givfn rflbtion.
+     *
+     * @pbrbm rflbtionId  rflbtion id
+     * @pbrbm rolfNbmfArrby  brrby of nbmfs of rolfs to bf rftrifvfd
+     *
+     * @rfturn b RolfRfsult objfdt, indluding b RolfList (for rolfs
+     * suddfssfully rftrifvfd) bnd b RolfUnrfsolvfdList (for rolfs not
+     * rftrifvfd).
+     *
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if no rflbtion with givfn id
+     *
+     * @sff #sftRolfs
+     */
+    publid RolfRfsult gftRolfs(String rflbtionId,
+                               String[] rolfNbmfArrby)
+        throws RflbtionSfrvidfNotRfgistfrfdExdfption,
+               IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption {
+
+        if (rflbtionId == null || rolfNbmfArrby == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRolfs", rflbtionId);
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        // Cbn throw b RflbtionNotFoundExdfption
+        Objfdt rflObj = gftRflbtion(rflbtionId);
+
+        RolfRfsult rfsult;
+
+        if (rflObj instbndfof RflbtionSupport) {
+            // Intfrnbl rflbtion
+            rfsult = ((RflbtionSupport)rflObj).gftRolfsInt(rolfNbmfArrby,
+                                                        truf,
+                                                        this);
+        } flsf {
+            // Rflbtion MBfbn
+            Objfdt[] pbrbms = nfw Objfdt[1];
+            pbrbms[0] = rolfNbmfArrby;
+            String[] signbturf = nfw String[1];
+            try {
+                signbturf[0] = (rolfNbmfArrby.gftClbss()).gftNbmf();
+            } dbtdh (Exdfption fxd) {
+                // OK : This is bn brrby of jbvb.lbng.String
+                //      so this should nfvfr hbppfn...
+            }
+            // Shbll not throw InstbndfNotFoundExdfption, RfflfdtionExdfption
+            // or MBfbnExdfption
+            try {
+                rfsult = (RolfRfsult)
+                    (myMBfbnSfrvfr.invokf(((ObjfdtNbmf)rflObj),
+                                          "gftRolfs",
+                                          pbrbms,
+                                          signbturf));
+            } dbtdh (InstbndfNotFoundExdfption fxd1) {
+                throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+            } dbtdh (RfflfdtionExdfption fxd2) {
+                throw nfw RuntimfExdfption(fxd2.gftMfssbgf());
+            } dbtdh (MBfbnExdfption fxd3) {
+                throw nfw
+                    RuntimfExdfption((fxd3.gftTbrgftExdfption()).gftMfssbgf());
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(), "gftRolfs");
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns bll rolfs prfsfnt in thf rflbtion.
+     *
+     * @pbrbm rflbtionId  rflbtion id
+     *
+     * @rfturn b RolfRfsult objfdt, indluding b RolfList (for rolfs
+     * suddfssfully rftrifvfd) bnd b RolfUnrfsolvfdList (for rolfs not
+     * rfbdbblf).
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if no rflbtion for givfn id
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     */
+    publid RolfRfsult gftAllRolfs(String rflbtionId)
+        throws IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption,
+               RflbtionSfrvidfNotRfgistfrfdExdfption {
+
+        if (rflbtionId == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRolfs", rflbtionId);
+
+        // Cbn throw b RflbtionNotFoundExdfption
+        Objfdt rflObj = gftRflbtion(rflbtionId);
+
+        RolfRfsult rfsult;
+
+        if (rflObj instbndfof RflbtionSupport) {
+            // Intfrnbl rflbtion
+            rfsult = ((RflbtionSupport)rflObj).gftAllRolfsInt(truf, this);
+
+        } flsf {
+            // Rflbtion MBfbn
+            // Shbll not throw bny Exdfption
+            try {
+                rfsult = (RolfRfsult)
+                    (myMBfbnSfrvfr.gftAttributf(((ObjfdtNbmf)rflObj),
+                                                "AllRolfs"));
+            } dbtdh (Exdfption fxd) {
+                throw nfw RuntimfExdfption(fxd.gftMfssbgf());
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(), "gftRolfs");
+        rfturn rfsult;
+    }
+
+    /**
+     * Rftrifvfs thf numbfr of MBfbns durrfntly rfffrfndfd in thf givfn rolf.
+     *
+     * @pbrbm rflbtionId  rflbtion id
+     * @pbrbm rolfNbmf  nbmf of rolf
+     *
+     * @rfturn thf numbfr of durrfntly rfffrfndfd MBfbns in thbt rolf
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if no rflbtion with givfn id
+     * @fxdfption RolfNotFoundExdfption  if thfrf is no rolf with givfn nbmf
+     */
+    publid Intfgfr gftRolfCbrdinblity(String rflbtionId,
+                                      String rolfNbmf)
+        throws IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption,
+               RolfNotFoundExdfption {
+
+        if (rflbtionId == null || rolfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRolfCbrdinblity", nfw Objfdt[] {rflbtionId, rolfNbmf});
+
+        // Cbn throw b RflbtionNotFoundExdfption
+        Objfdt rflObj = gftRflbtion(rflbtionId);
+
+        Intfgfr rfsult;
+
+        if (rflObj instbndfof RflbtionSupport) {
+            // Intfrnbl rflbtion
+            // Cbn throw RolfNotFoundExdfption
+            rfsult = ((RflbtionSupport)rflObj).gftRolfCbrdinblity(rolfNbmf);
+
+        } flsf {
+            // Rflbtion MBfbn
+            Objfdt[] pbrbms = nfw Objfdt[1];
+            pbrbms[0] = rolfNbmf;
+            String[] signbturf = nfw String[1];
+            signbturf[0] = "jbvb.lbng.String";
+            // Cbn throw MBfbnExdfption wrbpping RolfNotFoundExdfption:
+            // throw wrbppfd fxdfption
+            //
+            // Shbll not throw InstbndfNotFoundExdfption or RfflfdtionExdfption
+            try {
+                rfsult = (Intfgfr)
+                    (myMBfbnSfrvfr.invokf(((ObjfdtNbmf)rflObj),
+                                          "gftRolfCbrdinblity",
+                                          pbrbms,
+                                          signbturf));
+            } dbtdh (InstbndfNotFoundExdfption fxd1) {
+                throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+            } dbtdh (RfflfdtionExdfption fxd2) {
+                throw nfw RuntimfExdfption(fxd2.gftMfssbgf());
+            } dbtdh (MBfbnExdfption fxd3) {
+                Exdfption wrbppfdExd = fxd3.gftTbrgftExdfption();
+                if (wrbppfdExd instbndfof RolfNotFoundExdfption) {
+                    throw ((RolfNotFoundExdfption)wrbppfdExd);
+                } flsf {
+                    throw nfw RuntimfExdfption(wrbppfdExd.gftMfssbgf());
+                }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRolfCbrdinblity");
+        rfturn rfsult;
+    }
+
+    /**
+     * Sfts thf givfn rolf in givfn rflbtion.
+     * <P>Will dhfdk thf rolf bddording to its dorrfsponding rolf dffinition
+     * providfd in rflbtion's rflbtion typf
+     * <P>Thf Rflbtion Sfrvidf will kffp trbdk of thf dhbngf to kffp thf
+     * donsistfndy of rflbtions by hbndling rfffrfndfd MBfbn dfrfgistrbtions.
+     *
+     * @pbrbm rflbtionId  rflbtion id
+     * @pbrbm rolf  rolf to bf sft (nbmf bnd nfw vbluf)
+     *
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if no rflbtion with givfn id
+     * @fxdfption RolfNotFoundExdfption  if thf rolf dofs not fxist or is not
+     * writbblf
+     * @fxdfption InvblidRolfVblufExdfption  if vbluf providfd for rolf is not
+     * vblid:
+     * <P>- thf numbfr of rfffrfndfd MBfbns in givfn vbluf is lfss thbn
+     * fxpfdtfd minimum dfgrff
+     * <P>or
+     * <P>- thf numbfr of rfffrfndfd MBfbns in providfd vbluf fxdffds fxpfdtfd
+     * mbximum dfgrff
+     * <P>or
+     * <P>- onf rfffrfndfd MBfbn in thf vbluf is not bn Objfdt of thf MBfbn
+     * dlbss fxpfdtfd for thbt rolf
+     * <P>or
+     * <P>- bn MBfbn providfd for thbt rolf dofs not fxist
+     *
+     * @sff #gftRolf
+     */
+    publid void sftRolf(String rflbtionId,
+                        Rolf rolf)
+        throws RflbtionSfrvidfNotRfgistfrfdExdfption,
+               IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption,
+               RolfNotFoundExdfption,
+               InvblidRolfVblufExdfption {
+
+        if (rflbtionId == null || rolf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "sftRolf", nfw Objfdt[] {rflbtionId, rolf});
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        // Cbn throw b RflbtionNotFoundExdfption
+        Objfdt rflObj = gftRflbtion(rflbtionId);
+
+        if (rflObj instbndfof RflbtionSupport) {
+            // Intfrnbl rflbtion
+            // Cbn throw RolfNotFoundExdfption,
+            // InvblidRolfVblufExdfption bnd
+            // RflbtionSfrvidfNotRfgistfrfdExdfption
+            //
+            // Shbll not throw RflbtionTypfNotFoundExdfption
+            // (bs rflbtion fxists in thf RS, its rflbtion typf is known)
+            try {
+                ((RflbtionSupport)rflObj).sftRolfInt(rolf,
+                                                  truf,
+                                                  this,
+                                                  fblsf);
+
+            } dbtdh (RflbtionTypfNotFoundExdfption fxd) {
+                throw nfw RuntimfExdfption(fxd.gftMfssbgf());
+            }
+
+        } flsf {
+            // Rflbtion MBfbn
+            Objfdt[] pbrbms = nfw Objfdt[1];
+            pbrbms[0] = rolf;
+            String[] signbturf = nfw String[1];
+            signbturf[0] = "jbvbx.mbnbgfmfnt.rflbtion.Rolf";
+            // Cbn throw MBfbnExdfption wrbpping RolfNotFoundExdfption,
+            // InvblidRolfVblufExdfption
+            //
+            // Shbll not MBfbnExdfption wrbpping bn MBfbnExdfption wrbpping
+            // RflbtionTypfNotFoundExdfption, or RfflfdtionExdfption, or
+            // InstbndfNotFoundExdfption
+            try {
+                myMBfbnSfrvfr.sftAttributf(((ObjfdtNbmf)rflObj),
+                                           nfw Attributf("Rolf", rolf));
+
+            } dbtdh (InstbndfNotFoundExdfption fxd1) {
+                throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+            } dbtdh (RfflfdtionExdfption fxd3) {
+                throw nfw RuntimfExdfption(fxd3.gftMfssbgf());
+            } dbtdh (MBfbnExdfption fxd2) {
+                Exdfption wrbppfdExd = fxd2.gftTbrgftExdfption();
+                if (wrbppfdExd instbndfof RolfNotFoundExdfption) {
+                    throw ((RolfNotFoundExdfption)wrbppfdExd);
+                } flsf if (wrbppfdExd instbndfof InvblidRolfVblufExdfption) {
+                    throw ((InvblidRolfVblufExdfption)wrbppfdExd);
+                } flsf {
+                    throw nfw RuntimfExdfption(wrbppfdExd.gftMfssbgf());
+
+                }
+            } dbtdh (AttributfNotFoundExdfption fxd4) {
+              throw nfw RuntimfExdfption(fxd4.gftMfssbgf());
+            } dbtdh (InvblidAttributfVblufExdfption fxd5) {
+              throw nfw RuntimfExdfption(fxd5.gftMfssbgf());
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(), "sftRolf");
+        rfturn;
+    }
+
+    /**
+     * Sfts thf givfn rolfs in givfn rflbtion.
+     * <P>Will dhfdk thf rolf bddording to its dorrfsponding rolf dffinition
+     * providfd in rflbtion's rflbtion typf
+     * <P>Thf Rflbtion Sfrvidf kffps trbdk of thf dhbngfs to kffp thf
+     * donsistfndy of rflbtions by hbndling rfffrfndfd MBfbn dfrfgistrbtions.
+     *
+     * @pbrbm rflbtionId  rflbtion id
+     * @pbrbm rolfList  list of rolfs to bf sft
+     *
+     * @rfturn b RolfRfsult objfdt, indluding b RolfList (for rolfs
+     * suddfssfully sft) bnd b RolfUnrfsolvfdList (for rolfs not
+     * sft).
+     *
+     * @fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+     * Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if no rflbtion with givfn id
+     *
+     * @sff #gftRolfs
+     */
+    publid RolfRfsult sftRolfs(String rflbtionId,
+                               RolfList rolfList)
+        throws RflbtionSfrvidfNotRfgistfrfdExdfption,
+               IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption {
+
+        if (rflbtionId == null || rolfList == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "sftRolfs", nfw Objfdt[] {rflbtionId, rolfList});
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        // Cbn throw b RflbtionNotFoundExdfption
+        Objfdt rflObj = gftRflbtion(rflbtionId);
+
+        RolfRfsult rfsult;
+
+        if (rflObj instbndfof RflbtionSupport) {
+            // Intfrnbl rflbtion
+            // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+            //
+            // Shbll not throw RflbtionTypfNotFoundExdfption (bs rflbtion is
+            // known, its rflbtion typf fxists)
+            try {
+                rfsult = ((RflbtionSupport)rflObj).sftRolfsInt(rolfList,
+                                                            truf,
+                                                            this);
+            } dbtdh (RflbtionTypfNotFoundExdfption fxd) {
+                throw nfw RuntimfExdfption(fxd.gftMfssbgf());
+            }
+
+        } flsf {
+            // Rflbtion MBfbn
+            Objfdt[] pbrbms = nfw Objfdt[1];
+            pbrbms[0] = rolfList;
+            String[] signbturf = nfw String[1];
+            signbturf[0] = "jbvbx.mbnbgfmfnt.rflbtion.RolfList";
+            // Shbll not throw InstbndfNotFoundExdfption or bn MBfbnExdfption
+            // or RfflfdtionExdfption
+            try {
+                rfsult = (RolfRfsult)
+                    (myMBfbnSfrvfr.invokf(((ObjfdtNbmf)rflObj),
+                                          "sftRolfs",
+                                          pbrbms,
+                                          signbturf));
+            } dbtdh (InstbndfNotFoundExdfption fxd1) {
+                throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+            } dbtdh (RfflfdtionExdfption fxd3) {
+                throw nfw RuntimfExdfption(fxd3.gftMfssbgf());
+            } dbtdh (MBfbnExdfption fxd2) {
+                throw nfw
+                    RuntimfExdfption((fxd2.gftTbrgftExdfption()).gftMfssbgf());
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(), "sftRolfs");
+        rfturn rfsult;
+    }
+
+    /**
+     * Rftrifvfs MBfbns rfffrfndfd in thf vbrious rolfs of thf rflbtion.
+     *
+     * @pbrbm rflbtionId  rflbtion id
+     *
+     * @rfturn b HbshMbp mbpping:
+     * <P> ObjfdtNbmf {@litfrbl ->} ArrbyList of String (rolf nbmfs)
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if no rflbtion for givfn
+     * rflbtion id
+     */
+    publid Mbp<ObjfdtNbmf,List<String>>
+        gftRfffrfndfdMBfbns(String rflbtionId)
+            throws IllfgblArgumfntExdfption,
+        RflbtionNotFoundExdfption {
+
+        if (rflbtionId == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRfffrfndfdMBfbns", rflbtionId);
+
+        // Cbn throw b RflbtionNotFoundExdfption
+        Objfdt rflObj = gftRflbtion(rflbtionId);
+
+        Mbp<ObjfdtNbmf,List<String>> rfsult;
+
+        if (rflObj instbndfof RflbtionSupport) {
+            // Intfrnbl rflbtion
+            rfsult = ((RflbtionSupport)rflObj).gftRfffrfndfdMBfbns();
+
+        } flsf {
+            // Rflbtion MBfbn
+            // No Exdfption
+            try {
+                rfsult = dbst(
+                    myMBfbnSfrvfr.gftAttributf(((ObjfdtNbmf)rflObj),
+                                               "RfffrfndfdMBfbns"));
+            } dbtdh (Exdfption fxd) {
+                throw nfw RuntimfExdfption(fxd.gftMfssbgf());
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRfffrfndfdMBfbns");
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns nbmf of bssodibtfd rflbtion typf for givfn rflbtion.
+     *
+     * @pbrbm rflbtionId  rflbtion id
+     *
+     * @rfturn thf nbmf of thf bssodibtfd rflbtion typf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RflbtionNotFoundExdfption  if no rflbtion for givfn
+     * rflbtion id
+     */
+    publid String gftRflbtionTypfNbmf(String rflbtionId)
+        throws IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption {
+
+        if (rflbtionId == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRflbtionTypfNbmf", rflbtionId);
+
+        // Cbn throw b RflbtionNotFoundExdfption
+        Objfdt rflObj = gftRflbtion(rflbtionId);
+
+        String rfsult;
+
+        if (rflObj instbndfof RflbtionSupport) {
+            // Intfrnbl rflbtion
+            rfsult = ((RflbtionSupport)rflObj).gftRflbtionTypfNbmf();
+
+        } flsf {
+            // Rflbtion MBfbn
+            // No Exdfption
+            try {
+                rfsult = (String)
+                    (myMBfbnSfrvfr.gftAttributf(((ObjfdtNbmf)rflObj),
+                                                "RflbtionTypfNbmf"));
+            } dbtdh (Exdfption fxd) {
+                throw nfw RuntimfExdfption(fxd.gftMfssbgf());
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRflbtionTypfNbmf");
+        rfturn rfsult;
+    }
+
+    //
+    // NotifidbtionListfnfr Intfrfbdf
+    //
+
+    /**
+     * Invokfd whfn b JMX notifidbtion oddurs.
+     * Currfntly hbndlfs notifidbtions for unrfgistrbtion of MBfbns, fithfr
+     * rfffrfndfd in b rflbtion rolf or bfing b rflbtion itsflf.
+     *
+     * @pbrbm notif  Thf notifidbtion.
+     * @pbrbm hbndbbdk  An opbquf objfdt whidh hflps thf listfnfr to
+     * bssodibtf informbtion rfgbrding thf MBfbn fmittfr (dbn bf null).
+     */
+    publid void hbndlfNotifidbtion(Notifidbtion notif,
+                                   Objfdt hbndbbdk) {
+
+        if (notif == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "hbndlfNotifidbtion", notif);
+
+        if (notif instbndfof MBfbnSfrvfrNotifidbtion) {
+
+            MBfbnSfrvfrNotifidbtion mbsNtf = (MBfbnSfrvfrNotifidbtion) notif;
+            String ntfTypf = notif.gftTypf();
+
+            if (ntfTypf.fqubls(
+                       MBfbnSfrvfrNotifidbtion.UNREGISTRATION_NOTIFICATION )) {
+                ObjfdtNbmf mbfbnNbmf =
+                    ((MBfbnSfrvfrNotifidbtion)notif).gftMBfbnNbmf();
+
+                // Notf: usf b flbg to blodk bddfss to
+                // myRfffdMBfbnObjNbmf2RflIdsMbp only for b quidk bddfss
+                boolfbn isRfffdMBfbnFlbg = fblsf;
+                syndhronizfd(myRfffdMBfbnObjNbmf2RflIdsMbp) {
+
+                    if (myRfffdMBfbnObjNbmf2RflIdsMbp.dontbinsKfy(mbfbnNbmf)) {
+                        // Unrfgistrbtion of b rfffrfndfd MBfbn
+                        syndhronizfd(myUnrfgNtfList) {
+                            myUnrfgNtfList.bdd(mbsNtf);
+                        }
+                        isRfffdMBfbnFlbg = truf;
+                    }
+                    if (isRfffdMBfbnFlbg && myPurgfFlbg) {
+                        // Immfdibtf purgf
+                        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+                        // but bssumf thbt will bf finf :)
+                        try {
+                            purgfRflbtions();
+                        } dbtdh (Exdfption fxd) {
+                            throw nfw RuntimfExdfption(fxd.gftMfssbgf());
+                        }
+                    }
+                }
+
+                // Notf: do both tfsts bs b rflbtion dbn bf bn MBfbn bnd bf
+                //       itsflf rfffrfndfd in bnothfr rflbtion :)
+                String rflId;
+                syndhronizfd(myRflMBfbnObjNbmf2RflIdMbp){
+                    rflId = myRflMBfbnObjNbmf2RflIdMbp.gft(mbfbnNbmf);
+                }
+                if (rflId != null) {
+                    // Unrfgistrbtion of b rflbtion MBfbn
+                    // Cbn throw RflbtionTypfNotFoundExdfption,
+                    // RflbtionSfrvidfNotRfgistfrfdExdfption
+                    //
+                    // Shbll not throw RflbtionTypfNotFoundExdfption or
+                    // InstbndfNotFoundExdfption
+                    try {
+                        rfmovfRflbtion(rflId);
+                    } dbtdh (Exdfption fxd) {
+                        throw nfw RuntimfExdfption(fxd.gftMfssbgf());
+                    }
+                }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "hbndlfNotifidbtion");
+        rfturn;
+    }
+
+    //
+    // NotifidbtionBrobddbstfr intfrfbdf
+    //
+
+    /**
+     * Rfturns b NotifidbtionInfo objfdt dontbining thf nbmf of thf Jbvb dlbss
+     * of thf notifidbtion bnd thf notifidbtion typfs sfnt.
+     */
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftNotifidbtionInfo");
+
+        String ntfClbss = "jbvbx.mbnbgfmfnt.rflbtion.RflbtionNotifidbtion";
+
+        String[] ntfTypfs = nfw String[] {
+            RflbtionNotifidbtion.RELATION_BASIC_CREATION,
+            RflbtionNotifidbtion.RELATION_MBEAN_CREATION,
+            RflbtionNotifidbtion.RELATION_BASIC_UPDATE,
+            RflbtionNotifidbtion.RELATION_MBEAN_UPDATE,
+            RflbtionNotifidbtion.RELATION_BASIC_REMOVAL,
+            RflbtionNotifidbtion.RELATION_MBEAN_REMOVAL,
+        };
+
+        String ntfDfsd = "Sfnt whfn b rflbtion is drfbtfd, updbtfd or dflftfd.";
+
+        MBfbnNotifidbtionInfo ntfInfo =
+            nfw MBfbnNotifidbtionInfo(ntfTypfs, ntfClbss, ntfDfsd);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftNotifidbtionInfo");
+        rfturn nfw MBfbnNotifidbtionInfo[] {ntfInfo};
+    }
+
+    //
+    // Misd
+    //
+
+    // Adds givfn objfdt bs b rflbtion typf.
+    //
+    // -pbrbm rflbtionTypfObj  rflbtion typf objfdt
+    //
+    // -fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+    // -fxdfption InvblidRflbtionTypfExdfption  if thfrf is blrfbdy b rflbtion
+    //  typf with thbt nbmf
+    privbtf void bddRflbtionTypfInt(RflbtionTypf rflbtionTypfObj)
+        throws IllfgblArgumfntExdfption,
+               InvblidRflbtionTypfExdfption {
+
+        if (rflbtionTypfObj == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "bddRflbtionTypfInt");
+
+        String rflTypfNbmf = rflbtionTypfObj.gftRflbtionTypfNbmf();
+
+        // Chfdks thbt thfrf is not blrfbdy b rflbtion typf with thbt nbmf
+        // fxisting in thf Rflbtion Sfrvidf
+        try {
+            // Cbn throw b RflbtionTypfNotFoundExdfption (in fbdt should ;)
+            RflbtionTypf rflTypf = gftRflbtionTypf(rflTypfNbmf);
+
+            if (rflTypf != null) {
+                String fxdMsg = "Thfrf is blrfbdy b rflbtion typf in thf Rflbtion Sfrvidf with nbmf ";
+                StringBuildfr fxdMsgStrB = nfw StringBuildfr(fxdMsg);
+                fxdMsgStrB.bppfnd(rflTypfNbmf);
+                throw nfw InvblidRflbtionTypfExdfption(fxdMsgStrB.toString());
+            }
+
+        } dbtdh (RflbtionTypfNotFoundExdfption fxd) {
+            // OK : Thf RflbtionTypf dould not bf found.
+        }
+
+        // Adds thf rflbtion typf
+        syndhronizfd(myRflTypf2ObjMbp) {
+            myRflTypf2ObjMbp.put(rflTypfNbmf, rflbtionTypfObj);
+        }
+
+        if (rflbtionTypfObj instbndfof RflbtionTypfSupport) {
+            ((RflbtionTypfSupport)rflbtionTypfObj).sftRflbtionSfrvidfFlbg(truf);
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "bddRflbtionTypfInt");
+        rfturn;
+     }
+
+    // Rftrifvfs rflbtion typf with givfn nbmf
+    //
+    // -pbrbm rflbtionTypfNbmf  fxpfdtfd nbmf of b rflbtion typf drfbtfd in thf
+    //  Rflbtion Sfrvidf
+    //
+    // -rfturn RflbtionTypf objfdt dorrfsponding to givfn nbmf
+    //
+    // -fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+    // -fxdfption RflbtionTypfNotFoundExdfption  if no rflbtion typf for thbt
+    //  nbmf drfbtfd in Rflbtion Sfrvidf
+    //
+    RflbtionTypf gftRflbtionTypf(String rflbtionTypfNbmf)
+        throws IllfgblArgumfntExdfption,
+               RflbtionTypfNotFoundExdfption {
+
+        if (rflbtionTypfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRflbtionTypf", rflbtionTypfNbmf);
+
+        // No null rflbtion typf bddfptfd, so dbn usf gft()
+        RflbtionTypf rflTypf;
+        syndhronizfd(myRflTypf2ObjMbp) {
+            rflTypf = (myRflTypf2ObjMbp.gft(rflbtionTypfNbmf));
+        }
+
+        if (rflTypf == null) {
+            String fxdMsg = "No rflbtion typf drfbtfd in thf Rflbtion Sfrvidf with thf nbmf ";
+            StringBuildfr fxdMsgStrB = nfw StringBuildfr(fxdMsg);
+            fxdMsgStrB.bppfnd(rflbtionTypfNbmf);
+            throw nfw RflbtionTypfNotFoundExdfption(fxdMsgStrB.toString());
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRflbtionTypf");
+        rfturn rflTypf;
+    }
+
+    // Rftrifvfs rflbtion dorrfsponding to givfn rflbtion id.
+    // Rfturns fithfr:
+    // - b RflbtionSupport objfdt if thf rflbtion is intfrnbl
+    // or
+    // - thf ObjfdtNbmf of thf dorrfsponding MBfbn
+    //
+    // -pbrbm rflbtionId  fxpfdtfd rflbtion id
+    //
+    // -rfturn RflbtionSupport objfdt or ObjfdtNbmf of rflbtion with givfn id
+    //
+    // -fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+    // -fxdfption RflbtionNotFoundExdfption  if no rflbtion for thbt
+    //  rflbtion id drfbtfd in Rflbtion Sfrvidf
+    //
+    Objfdt gftRflbtion(String rflbtionId)
+        throws IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption {
+
+        if (rflbtionId == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRflbtion", rflbtionId);
+
+        // No null rflbtion  bddfptfd, so dbn usf gft()
+        Objfdt rfl;
+        syndhronizfd(myRflId2ObjMbp) {
+            rfl = myRflId2ObjMbp.gft(rflbtionId);
+        }
+
+        if (rfl == null) {
+            String fxdMsg = "No rflbtion bssodibtfd to rflbtion id " + rflbtionId;
+            throw nfw RflbtionNotFoundExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "gftRflbtion");
+        rfturn rfl;
+    }
+
+    // Adds b nfw MBfbn rfffrfndf (rfffrfndf to bn ObjfdtNbmf) in thf
+    // rfffrfndfd MBfbn mbp (myRfffdMBfbnObjNbmf2RflIdsMbp).
+    //
+    // -pbrbm objfdtNbmf  ObjfdtNbmf of nfw rfffrfndfd MBfbn
+    // -pbrbm rflbtionId  rflbtion id of thf rflbtion whfrf thf MBfbn is
+    //  rfffrfndfd
+    // -pbrbm rolfNbmf  nbmf of thf rolf whfrf thf MBfbn is rfffrfndfd
+    //
+    // -rfturn boolfbn:
+    //  - truf  if thf MBfbn wbs not rfffrfndfd bfforf, so rfblly b nfw
+    //    rfffrfndf
+    //  - fblsf flsf
+    //
+    // -fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+    privbtf boolfbn bddNfwMBfbnRfffrfndf(ObjfdtNbmf objfdtNbmf,
+                                         String rflbtionId,
+                                         String rolfNbmf)
+        throws IllfgblArgumfntExdfption {
+
+        if (objfdtNbmf == null ||
+            rflbtionId == null ||
+            rolfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "bddNfwMBfbnRfffrfndf",
+                nfw Objfdt[] {objfdtNbmf, rflbtionId, rolfNbmf});
+
+        boolfbn isNfwFlbg = fblsf;
+
+        syndhronizfd(myRfffdMBfbnObjNbmf2RflIdsMbp) {
+
+            // Chfdks if thf MBfbn wbs blrfbdy rfffrfndfd
+            // No null vbluf bllowfd, usf gft() dirfdtly
+            Mbp<String,List<String>> mbfbnRffMbp =
+                myRfffdMBfbnObjNbmf2RflIdsMbp.gft(objfdtNbmf);
+
+            if (mbfbnRffMbp == null) {
+                // MBfbn not rfffrfndfd in bny rflbtion yft
+
+                isNfwFlbg = truf;
+
+                // List of rolfs whfrf thf MBfbn is rfffrfndfd in givfn
+                // rflbtion
+                List<String> rolfNbmfs = nfw ArrbyList<String>();
+                rolfNbmfs.bdd(rolfNbmf);
+
+                // Mbp of rflbtions whfrf thf MBfbn is rfffrfndfd
+                mbfbnRffMbp = nfw HbshMbp<String,List<String>>();
+                mbfbnRffMbp.put(rflbtionId, rolfNbmfs);
+
+                myRfffdMBfbnObjNbmf2RflIdsMbp.put(objfdtNbmf, mbfbnRffMbp);
+
+            } flsf {
+                // MBfbn blrfbdy rfffrfndfd in bt lfbst bnothfr rflbtion
+                // Chfdks if blrfbdy rfffrfndfd in bnothfr rolf in durrfnt
+                // rflbtion
+                List<String> rolfNbmfs = mbfbnRffMbp.gft(rflbtionId);
+
+                if (rolfNbmfs == null) {
+                    // MBfbn not rfffrfndfd in durrfnt rflbtion
+
+                    // List of rolfs whfrf thf MBfbn is rfffrfndfd in givfn
+                    // rflbtion
+                    rolfNbmfs = nfw ArrbyList<String>();
+                    rolfNbmfs.bdd(rolfNbmf);
+
+                    // Adds nfw rfffrfndf donf in durrfnt rflbtion
+                    mbfbnRffMbp.put(rflbtionId, rolfNbmfs);
+
+                } flsf {
+                    // MBfbn blrfbdy rfffrfndfd in durrfnt rflbtion in bnothfr
+                    // rolf
+                    // Adds nfw rfffrfndf donf
+                    rolfNbmfs.bdd(rolfNbmf);
+                }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "bddNfwMBfbnRfffrfndf");
+        rfturn isNfwFlbg;
+    }
+
+    // Rfmovfs bn obsolftf MBfbn rfffrfndf (rfffrfndf to bn ObjfdtNbmf) in
+    // thf rfffrfndfd MBfbn mbp (myRfffdMBfbnObjNbmf2RflIdsMbp).
+    //
+    // -pbrbm objfdtNbmf  ObjfdtNbmf of MBfbn no longfr rfffrfndfd
+    // -pbrbm rflbtionId  rflbtion id of thf rflbtion whfrf thf MBfbn wbs
+    //  rfffrfndfd
+    // -pbrbm rolfNbmf  nbmf of thf rolf whfrf thf MBfbn wbs rfffrfndfd
+    // -pbrbm bllRolfsFlbg  flbg, if truf rfmovfs rfffrfndf to MBfbn for bll
+    //  rolfs in thf rflbtion, not only for thf onf bbovf
+    //
+    // -rfturn boolfbn:
+    //  - truf  if thf MBfbn is no longfr rfffrfndf in bny rflbtion
+    //  - fblsf flsf
+    //
+    // -fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+    privbtf boolfbn rfmovfMBfbnRfffrfndf(ObjfdtNbmf objfdtNbmf,
+                                         String rflbtionId,
+                                         String rolfNbmf,
+                                         boolfbn bllRolfsFlbg)
+        throws IllfgblArgumfntExdfption {
+
+        if (objfdtNbmf == null ||
+            rflbtionId == null ||
+            rolfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "rfmovfMBfbnRfffrfndf",
+                nfw Objfdt[] {objfdtNbmf, rflbtionId, rolfNbmf, bllRolfsFlbg});
+
+        boolfbn noLongfrRffFlbg = fblsf;
+
+        syndhronizfd(myRfffdMBfbnObjNbmf2RflIdsMbp) {
+
+            // Rftrifvfs thf sft of rflbtions (dfsignfd vib thfir rflbtion ids)
+            // whfrf thf MBfbn is rfffrfndfd
+            // Notf thbt it is possiblf thbt thf MBfbn hbs blrfbdy bffn rfmovfd
+            // from thf intfrnbl mbp: this is thf dbsf whfn thf MBfbn is
+            // unrfgistfrfd, thf rolf is updbtfd, thfn wf brrivf hfrf.
+            Mbp<String,List<String>> mbfbnRffMbp =
+                (myRfffdMBfbnObjNbmf2RflIdsMbp.gft(objfdtNbmf));
+
+            if (mbfbnRffMbp == null) {
+                // Thf MBfbn is no longfr rfffrfndfd
+                RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                        "rfmovfMBfbnRfffrfndf");
+                rfturn truf;
+            }
+
+            List<String> rolfNbmfs = null;
+            if (!bllRolfsFlbg) {
+                // Now rftrifvfs thf rolfs of durrfnt rflbtion whfrf thf MBfbn
+                // wbs rfffrfndfd
+                rolfNbmfs = mbfbnRffMbp.gft(rflbtionId);
+
+                // Rfmovfs obsolftf rfffrfndf to rolf
+                int obsRffIdx = rolfNbmfs.indfxOf(rolfNbmf);
+                if (obsRffIdx != -1) {
+                    rolfNbmfs.rfmovf(obsRffIdx);
+                }
+            }
+
+            // Chfdks if thfrf is still bt lfbst onf rolf in durrfnt rflbtion
+            // whfrf thf MBfbn is rfffrfndfd
+            if (rolfNbmfs.isEmpty() || bllRolfsFlbg) {
+                // MBfbn no longfr rfffrfndfd in durrfnt rflbtion: rfmovfs
+                // fntry
+                mbfbnRffMbp.rfmovf(rflbtionId);
+            }
+
+            // Chfdks if thf MBfbn is still rfffrfndfd in bt lfbst on rflbtion
+            if (mbfbnRffMbp.isEmpty()) {
+                // MBfbn no longfr rfffrfndfd in bny rflbtion: rfmovfs fntry
+                myRfffdMBfbnObjNbmf2RflIdsMbp.rfmovf(objfdtNbmf);
+                noLongfrRffFlbg = truf;
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "rfmovfMBfbnRfffrfndf");
+        rfturn noLongfrRffFlbg;
+    }
+
+    // Updbtfs thf listfnfr rfgistfrfd to thf MBfbn Sfrvfr to bf informfd of
+    // rfffrfndfd MBfbn dfrfgistrbtions
+    //
+    // -pbrbm nfwRffList  ArrbyList of ObjfdtNbmfs for nfw rfffrfndfs donf
+    //  to MBfbns (dbn bf null)
+    // -pbrbm obsolftfRffList  ArrbyList of ObjfdtNbmfs for obsolftf rfffrfndfs
+    //  to MBfbns (dbn bf null)
+    //
+    // -fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+    //  Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr.
+    privbtf void updbtfUnrfgistrbtionListfnfr(List<ObjfdtNbmf> nfwRffList,
+                                              List<ObjfdtNbmf> obsolftfRffList)
+        throws RflbtionSfrvidfNotRfgistfrfdExdfption {
+
+        if (nfwRffList != null && obsolftfRffList != null) {
+            if (nfwRffList.isEmpty() && obsolftfRffList.isEmpty()) {
+                // Nothing to do :)
+                rfturn;
+            }
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "updbtfUnrfgistrbtionListfnfr",
+                nfw Objfdt[] {nfwRffList, obsolftfRffList});
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        if (nfwRffList != null || obsolftfRffList != null) {
+
+            boolfbn nfwListfnfrFlbg = fblsf;
+            if (myUnrfgNtfFiltfr == null) {
+                // Initiblizf it to bf bblf to syndhronisf it :)
+                myUnrfgNtfFiltfr = nfw MBfbnSfrvfrNotifidbtionFiltfr();
+                nfwListfnfrFlbg = truf;
+            }
+
+            syndhronizfd(myUnrfgNtfFiltfr) {
+
+                // Enbblfs ObjfdtNbmfs in nfwRffList
+                if (nfwRffList != null) {
+                    for (ObjfdtNbmf nfwObjNbmf : nfwRffList)
+                        myUnrfgNtfFiltfr.fnbblfObjfdtNbmf(nfwObjNbmf);
+                }
+
+                if (obsolftfRffList != null) {
+                    // Disbblfs ObjfdtNbmfs in obsolftfRffList
+                    for (ObjfdtNbmf obsObjNbmf : obsolftfRffList)
+                        myUnrfgNtfFiltfr.disbblfObjfdtNbmf(obsObjNbmf);
+                }
+
+// Undfr tfst
+                if (nfwListfnfrFlbg) {
+                    try {
+                        myMBfbnSfrvfr.bddNotifidbtionListfnfr(
+                                MBfbnSfrvfrDflfgbtf.DELEGATE_NAME,
+                                this,
+                                myUnrfgNtfFiltfr,
+                                null);
+                    } dbtdh (InstbndfNotFoundExdfption fxd) {
+                        throw nfw
+                       RflbtionSfrvidfNotRfgistfrfdExdfption(fxd.gftMfssbgf());
+                    }
+                }
+// End tfst
+
+
+//              if (!nfwListfnfrFlbg) {
+                    // Thf Rflbtion Sfrvidf wbs blrfbdy rfgistfrfd bs b
+                    // listfnfr:
+                    // rfmovfs it
+                    // Shbll not throw InstbndfNotFoundExdfption (bs thf
+                    // MBfbn Sfrvfr Dflfgbtf is fxpfdtfd to fxist) or
+                    // ListfnfrNotFoundExdfption (bs it hbs bffn dhfdkfd bbovf
+                    // thbt thf Rflbtion Sfrvidf is rfgistfrfd)
+//                  try {
+//                      myMBfbnSfrvfr.rfmovfNotifidbtionListfnfr(
+//                              MBfbnSfrvfrDflfgbtf.DELEGATE_NAME,
+//                              this);
+//                  } dbtdh (InstbndfNotFoundExdfption fxd1) {
+//                      throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+//                  } dbtdh (ListfnfrNotFoundExdfption fxd2) {
+//                      throw nfw
+//                          RflbtionSfrvidfNotRfgistfrfdExdfption(fxd2.gftMfssbgf());
+//                  }
+//              }
+
+                // Adds Rflbtion Sfrvidf with durrfnt filtfr
+                // Cbn throw InstbndfNotFoundExdfption if thf Rflbtion
+                // Sfrvidf is not rfgistfrfd, to bf trbnsformfd into
+                // RflbtionSfrvidfNotRfgistfrfdExdfption
+                //
+                // Assumf thbt thfrf will not bf bny InstbndfNotFoundExdfption
+                // for thf MBfbn Sfrvfr Dflfgbtf :)
+//              try {
+//                  myMBfbnSfrvfr.bddNotifidbtionListfnfr(
+//                              MBfbnSfrvfrDflfgbtf.DELEGATE_NAME,
+//                              this,
+//                              myUnrfgNtfFiltfr,
+//                              null);
+//              } dbtdh (InstbndfNotFoundExdfption fxd) {
+//                  throw nfw
+//                     RflbtionSfrvidfNotRfgistfrfdExdfption(fxd.gftMfssbgf());
+//              }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "updbtfUnrfgistrbtionListfnfr");
+        rfturn;
+    }
+
+    // Adds b rflbtion (bfing fithfr b RflbtionSupport objfdt or bn MBfbn
+    // rfffrfndfd using its ObjfdtNbmf) in thf Rflbtion Sfrvidf.
+    // Will sfnd b notifidbtion RflbtionNotifidbtion with typf:
+    // - RflbtionNotifidbtion.RELATION_BASIC_CREATION for intfrnbl rflbtion
+    //   drfbtion
+    // - RflbtionNotifidbtion.RELATION_MBEAN_CREATION for bn MBfbn bfing bddfd
+    //   bs b rflbtion.
+    //
+    // -pbrbm rflbtionBbsfFlbg  flbg truf if thf rflbtion is b RflbtionSupport
+    //  objfdt, fblsf if it is bn MBfbn
+    // -pbrbm rflbtionObj  RflbtionSupport objfdt (if rflbtion is intfrnbl)
+    // -pbrbm rflbtionObjNbmf  ObjfdtNbmf of thf MBfbn to bf bddfd bs b rflbtion
+    //  (only for thf rflbtion MBfbn)
+    // -pbrbm rflbtionId  rflbtion idfntififr, to uniqufly idfntify thf rflbtion
+    //  insidf thf Rflbtion Sfrvidf
+    // -pbrbm rflbtionTypfNbmf  nbmf of thf rflbtion typf (hbs to bf drfbtfd
+    //  in thf Rflbtion Sfrvidf)
+    // -pbrbm rolfList  rolf list to initiblizf rolfs of thf rflbtion
+    //  (dbn bf null)
+    //
+    // -fxdfption IllfgblArgumfntExdfption  if null pbrbmbtfr
+    // -fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+    //  Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+    // -fxdfption RolfNotFoundExdfption  if b vbluf is providfd for b rolf
+    //  thbt dofs not fxist in thf rflbtion typf
+    // -fxdfption InvblidRflbtionIdExdfption  if rflbtion id blrfbdy usfd
+    // -fxdfption RflbtionTypfNotFoundExdfption  if rflbtion typf not known in
+    //  Rflbtion Sfrvidf
+    // -fxdfption InvblidRolfVblufExdfption if:
+    //  - thf sbmf rolf nbmf is usfd for two difffrfnt rolfs
+    //  - thf numbfr of rfffrfndfd MBfbns in givfn vbluf is lfss thbn
+    //    fxpfdtfd minimum dfgrff
+    //  - thf numbfr of rfffrfndfd MBfbns in providfd vbluf fxdffds fxpfdtfd
+    //    mbximum dfgrff
+    //  - onf rfffrfndfd MBfbn in thf vbluf is not bn Objfdt of thf MBfbn
+    //    dlbss fxpfdtfd for thbt rolf
+    //  - bn MBfbn providfd for thbt rolf dofs not fxist
+    privbtf void bddRflbtionInt(boolfbn rflbtionBbsfFlbg,
+                                RflbtionSupport rflbtionObj,
+                                ObjfdtNbmf rflbtionObjNbmf,
+                                String rflbtionId,
+                                String rflbtionTypfNbmf,
+                                RolfList rolfList)
+        throws IllfgblArgumfntExdfption,
+               RflbtionSfrvidfNotRfgistfrfdExdfption,
+               RolfNotFoundExdfption,
+               InvblidRflbtionIdExdfption,
+               RflbtionTypfNotFoundExdfption,
+               InvblidRolfVblufExdfption {
+
+        if (rflbtionId == null ||
+            rflbtionTypfNbmf == null ||
+            (rflbtionBbsfFlbg &&
+             (rflbtionObj == null ||
+              rflbtionObjNbmf != null)) ||
+            (!rflbtionBbsfFlbg &&
+             (rflbtionObjNbmf == null ||
+              rflbtionObj != null))) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "bddRflbtionInt", nfw Objfdt[] {rflbtionBbsfFlbg, rflbtionObj,
+                rflbtionObjNbmf, rflbtionId, rflbtionTypfNbmf, rolfList});
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        // Chfdks if thfrf is blrfbdy b rflbtion with givfn id
+        try {
+            // Cbn throw b RflbtionNotFoundExdfption (in fbdt should :)
+            Objfdt rfl = gftRflbtion(rflbtionId);
+
+            if (rfl != null) {
+                // Thfrf is blrfbdy b rflbtion with thbt id
+                String fxdMsg = "Thfrf is blrfbdy b rflbtion with id ";
+                StringBuildfr fxdMsgStrB = nfw StringBuildfr(fxdMsg);
+                fxdMsgStrB.bppfnd(rflbtionId);
+                throw nfw InvblidRflbtionIdExdfption(fxdMsgStrB.toString());
+            }
+        } dbtdh (RflbtionNotFoundExdfption fxd) {
+            // OK : Thf Rflbtion dould not bf found.
+        }
+
+        // Rftrifvfs thf rflbtion typf
+        // Cbn throw RflbtionTypfNotFoundExdfption
+        RflbtionTypf rflTypf = gftRflbtionTypf(rflbtionTypfNbmf);
+
+        // Chfdks thbt fbdh providfd rolf donforms to its rolf info providfd in
+        // thf rflbtion typf
+        // First rftrifvfs b lodbl list of thf rolf infos of thf rflbtion typf
+        // to sff whidh rolfs hbvf not bffn initiblizfd
+        // Notf: no nffd to tfst if list not null bfforf dloning, not bllowfd
+        //       to hbvf bn fmpty rflbtion typf.
+        List<RolfInfo> rolfInfoList = nfw ArrbyList<RolfInfo>(rflTypf.gftRolfInfos());
+
+        if (rolfList != null) {
+
+            for (Rolf durrRolf : rolfList.bsList()) {
+                String durrRolfNbmf = durrRolf.gftRolfNbmf();
+                List<ObjfdtNbmf> durrRolfVbluf = durrRolf.gftRolfVbluf();
+                // Rftrifvfs dorrfsponding rolf info
+                // Cbn throw b RolfInfoNotFoundExdfption to bf donvfrtfd into b
+                // RolfNotFoundExdfption
+                RolfInfo rolfInfo;
+                try {
+                    rolfInfo = rflTypf.gftRolfInfo(durrRolfNbmf);
+                } dbtdh (RolfInfoNotFoundExdfption fxd) {
+                    throw nfw RolfNotFoundExdfption(fxd.gftMfssbgf());
+                }
+
+                // Chfdks thbt rolf donforms to rolf info,
+                Intfgfr stbtus = dhfdkRolfInt(2,
+                                              durrRolfNbmf,
+                                              durrRolfVbluf,
+                                              rolfInfo,
+                                              fblsf);
+                int pbTypf = stbtus.intVbluf();
+                if (pbTypf != 0) {
+                    // A problfm hbs oddurrfd: throws bppropribtf fxdfption
+                    // hfrf InvblidRolfVblufExdfption
+                    throwRolfProblfmExdfption(pbTypf, durrRolfNbmf);
+                }
+
+                // Rfmovfs rolf info for thbt list from list of rolf infos for
+                // rolfs to bf dffbultfd
+                int rolfInfoIdx = rolfInfoList.indfxOf(rolfInfo);
+                // Notf: no nffd to dhfdk if != -1, MUST bf thfrf :)
+                rolfInfoList.rfmovf(rolfInfoIdx);
+            }
+        }
+
+        // Initiblizfs rolfs not initiblizfd by rolfList
+        // Cbn throw InvblidRolfVblufExdfption
+        initiblizfMissingRolfs(rflbtionBbsfFlbg,
+                               rflbtionObj,
+                               rflbtionObjNbmf,
+                               rflbtionId,
+                               rflbtionTypfNbmf,
+                               rolfInfoList);
+
+        // Crfbtion of rflbtion suddfssfull!!!!
+
+        // Updbtfs intfrnbl mbps
+        // Rflbtion id to objfdt mbp
+        syndhronizfd(myRflId2ObjMbp) {
+            if (rflbtionBbsfFlbg) {
+                // Notf: do not dlonf rflbtion objfdt, drfbtfd by us :)
+                myRflId2ObjMbp.put(rflbtionId, rflbtionObj);
+            } flsf {
+                myRflId2ObjMbp.put(rflbtionId, rflbtionObjNbmf);
+            }
+        }
+
+        // Rflbtion id to rflbtion typf nbmf mbp
+        syndhronizfd(myRflId2RflTypfMbp) {
+            myRflId2RflTypfMbp.put(rflbtionId,
+                                   rflbtionTypfNbmf);
+        }
+
+        // Rflbtion typf to rflbtion id mbp
+        syndhronizfd(myRflTypf2RflIdsMbp) {
+            List<String> rflIdList =
+                myRflTypf2RflIdsMbp.gft(rflbtionTypfNbmf);
+            boolfbn firstRflFlbg = fblsf;
+            if (rflIdList == null) {
+                firstRflFlbg = truf;
+                rflIdList = nfw ArrbyList<String>();
+            }
+            rflIdList.bdd(rflbtionId);
+            if (firstRflFlbg) {
+                myRflTypf2RflIdsMbp.put(rflbtionTypfNbmf, rflIdList);
+            }
+        }
+
+        // Rfffrfndfd MBfbn to rflbtion id mbp
+        // Only rolf list pbrbmftfr usfd, bs dffbult initiblizbtion of rolfs
+        // donf butombtidblly in initiblizfMissingRolfs() sfts fbdh
+        // uninitiblizfd rolf to bn fmpty vbluf.
+        for (Rolf durrRolf : rolfList.bsList()) {
+            // Crfbtfs b dummy fmpty ArrbyList of ObjfdtNbmfs to bf thf old
+            // rolf vbluf :)
+            List<ObjfdtNbmf> dummyList = nfw ArrbyList<ObjfdtNbmf>();
+            // Will not throw b RflbtionNotFoundExdfption (bs thf RflId2Obj mbp
+            // hbs bffn updbtfd bbovf) so dbtdh it :)
+            try {
+                updbtfRolfMbp(rflbtionId, durrRolf, dummyList);
+
+            } dbtdh (RflbtionNotFoundExdfption fxd) {
+                // OK : Thf Rflbtion dould not bf found.
+            }
+        }
+
+        // Sfnds b notifidbtion for rflbtion drfbtion
+        // Will not throw RflbtionNotFoundExdfption so dbtdh it :)
+        try {
+            sfndRflbtionCrfbtionNotifidbtion(rflbtionId);
+
+        } dbtdh (RflbtionNotFoundExdfption fxd) {
+            // OK : Thf Rflbtion dould not bf found.
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "bddRflbtionInt");
+        rfturn;
+    }
+
+    // Chfdks thbt givfn rolf donforms to givfn rolf info.
+    //
+    // -pbrbm dhkTypf  typf of dhfdk:
+    //  - 1: rfbd, just dhfdk rfbd bddfss
+    //  - 2: writf, dhfdk vbluf bnd writf bddfss if writfChkFlbg
+    // -pbrbm rolfNbmf  rolf nbmf
+    // -pbrbm rolfVbluf  rolf vbluf
+    // -pbrbm rolfInfo  dorrfsponding rolf info
+    // -pbrbm writfChkFlbg  boolfbn to spfdify b durrfnt writf bddfss bnd
+    //  to dhfdk it
+    //
+    // -rfturn Intfgfr with vbluf:
+    //  - 0: ok
+    //  - RolfStbtus.NO_ROLE_WITH_NAME
+    //  - RolfStbtus.ROLE_NOT_READABLE
+    //  - RolfStbtus.ROLE_NOT_WRITABLE
+    //  - RolfStbtus.LESS_THAN_MIN_ROLE_DEGREE
+    //  - RolfStbtus.MORE_THAN_MAX_ROLE_DEGREE
+    //  - RolfStbtus.REF_MBEAN_OF_INCORRECT_CLASS
+    //  - RolfStbtus.REF_MBEAN_NOT_REGISTERED
+    //
+    // -fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+    privbtf Intfgfr dhfdkRolfInt(int dhkTypf,
+                                 String rolfNbmf,
+                                 List<ObjfdtNbmf> rolfVbluf,
+                                 RolfInfo rolfInfo,
+                                 boolfbn writfChkFlbg)
+        throws IllfgblArgumfntExdfption {
+
+        if (rolfNbmf == null ||
+            rolfInfo == null ||
+            (dhkTypf == 2 && rolfVbluf == null)) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "dhfdkRolfInt", nfw Objfdt[] {dhkTypf, rolfNbmf,
+                rolfVbluf, rolfInfo, writfChkFlbg});
+
+        // Compbrfs nbmfs
+        String fxpNbmf = rolfInfo.gftNbmf();
+        if (!(rolfNbmf.fqubls(fxpNbmf))) {
+            RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                    "dhfdkRolfInt");
+            rfturn Intfgfr.vblufOf(RolfStbtus.NO_ROLE_WITH_NAME);
+        }
+
+        // Chfdks rfbd bddfss if rfquirfd
+        if (dhkTypf == 1) {
+            boolfbn isRfbdbblf = rolfInfo.isRfbdbblf();
+            if (!isRfbdbblf) {
+                RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                        "dhfdkRolfInt");
+                rfturn Intfgfr.vblufOf(RolfStbtus.ROLE_NOT_READABLE);
+            } flsf {
+                // End of dhfdk :)
+                RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                        "dhfdkRolfInt");
+                rfturn 0;
+            }
+        }
+
+        // Chfdks writf bddfss if rfquirfd
+        if (writfChkFlbg) {
+            boolfbn isWritbblf = rolfInfo.isWritbblf();
+            if (!isWritbblf) {
+                RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                        "dhfdkRolfInt");
+                rfturn RolfStbtus.ROLE_NOT_WRITABLE;
+            }
+        }
+
+        int rffNbr = rolfVbluf.sizf();
+
+        // Chfdks minimum dbrdinblity
+        boolfbn dhkMinFlbg = rolfInfo.dhfdkMinDfgrff(rffNbr);
+        if (!dhkMinFlbg) {
+            RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                    "dhfdkRolfInt");
+            rfturn RolfStbtus.LESS_THAN_MIN_ROLE_DEGREE;
+        }
+
+        // Chfdks mbximum dbrdinblity
+        boolfbn dhkMbxFlbg = rolfInfo.dhfdkMbxDfgrff(rffNbr);
+        if (!dhkMbxFlbg) {
+            RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                    "dhfdkRolfInt");
+            rfturn RolfStbtus.MORE_THAN_MAX_ROLE_DEGREE;
+        }
+
+        // Vfrififs thbt fbdh rfffrfndfd MBfbn is rfgistfrfd in thf MBfbn
+        // Sfrvfr bnd thbt it is bn instbndf of thf dlbss spfdififd in thf
+        // rolf info, or of b subdlbss of it
+        // Notf thbt hfrf bgbin this is undfr thf bssumption thbt
+        // rfffrfndfd MBfbns, rflbtion MBfbns bnd thf Rflbtion Sfrvidf brf
+        // rfgistfrfd in thf sbmf MBfbn Sfrvfr.
+        String fxpClbssNbmf = rolfInfo.gftRffMBfbnClbssNbmf();
+
+        for (ObjfdtNbmf durrObjNbmf : rolfVbluf) {
+
+            // Chfdks it is rfgistfrfd
+            if (durrObjNbmf == null) {
+                RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                        "dhfdkRolfInt");
+                rfturn RolfStbtus.REF_MBEAN_NOT_REGISTERED;
+            }
+
+            // Chfdks if it is of thf dorrfdt dlbss
+            // Cbn throw bn InstbndfNotFoundExdfption, if MBfbn not rfgistfrfd
+            try {
+                boolfbn dlbssSts = myMBfbnSfrvfr.isInstbndfOf(durrObjNbmf,
+                                                              fxpClbssNbmf);
+                if (!dlbssSts) {
+                    RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                            "dhfdkRolfInt");
+                    rfturn RolfStbtus.REF_MBEAN_OF_INCORRECT_CLASS;
+                }
+
+            } dbtdh (InstbndfNotFoundExdfption fxd) {
+                RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                        "dhfdkRolfInt");
+                rfturn RolfStbtus.REF_MBEAN_NOT_REGISTERED;
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "dhfdkRolfInt");
+        rfturn 0;
+    }
+
+
+    // Initiblizfs rolfs bssodibtfd to givfn rolf infos to dffbult vbluf (fmpty
+    // ArrbyList of ObjfdtNbmfs) in givfn rflbtion.
+    // It will suddffd for fvfry rolf fxdfpt if thf rolf info hbs b minimum
+    // dbrdinblity grfbtfr thbn 0. In thbt dbsf, bn InvblidRolfVblufExdfption
+    // will bf rbisfd.
+    //
+    // -pbrbm rflbtionBbsfFlbg  flbg truf if thf rflbtion is b RflbtionSupport
+    //  objfdt, fblsf if it is bn MBfbn
+    // -pbrbm rflbtionObj  RflbtionSupport objfdt (if rflbtion is intfrnbl)
+    // -pbrbm rflbtionObjNbmf  ObjfdtNbmf of thf MBfbn to bf bddfd bs b rflbtion
+    //  (only for thf rflbtion MBfbn)
+    // -pbrbm rflbtionId  rflbtion id
+    // -pbrbm rflbtionTypfNbmf  nbmf of thf rflbtion typf (hbs to bf drfbtfd
+    //  in thf Rflbtion Sfrvidf)
+    // -pbrbm rolfInfoList  list of rolf infos for rolfs to bf dffbultfd
+    //
+    // -fxdfption IllfgblArgumfntExdfption  if null pbrbmbtfr
+    // -fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+    //  Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+    // -fxdfption InvblidRolfVblufExdfption  if rolf must hbvf b non-fmpty
+    //  vbluf
+
+    // Rfvisit [dfbro] Hbndlf CIM qublififrs bs REQUIRED to dftfdt rolfs whidh
+    //    should hbvf bffn initiblizfd by thf usfr
+    privbtf void initiblizfMissingRolfs(boolfbn rflbtionBbsfFlbg,
+                                        RflbtionSupport rflbtionObj,
+                                        ObjfdtNbmf rflbtionObjNbmf,
+                                        String rflbtionId,
+                                        String rflbtionTypfNbmf,
+                                        List<RolfInfo> rolfInfoList)
+        throws IllfgblArgumfntExdfption,
+               RflbtionSfrvidfNotRfgistfrfdExdfption,
+               InvblidRolfVblufExdfption {
+
+        if ((rflbtionBbsfFlbg &&
+             (rflbtionObj == null ||
+              rflbtionObjNbmf != null)) ||
+            (!rflbtionBbsfFlbg &&
+             (rflbtionObjNbmf == null ||
+              rflbtionObj != null)) ||
+            rflbtionId == null ||
+            rflbtionTypfNbmf == null ||
+            rolfInfoList == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "initiblizfMissingRolfs", nfw Objfdt[] {rflbtionBbsfFlbg,
+                rflbtionObj, rflbtionObjNbmf, rflbtionId, rflbtionTypfNbmf,
+                rolfInfoList});
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        // For fbdh rolf info (dorrfsponding to b rolf not initiblizfd by thf
+        // rolf list providfd by thf usfr), try to sft in thf rflbtion b rolf
+        // with bn fmpty list of ObjfdtNbmfs.
+        // A dhfdk is pfrformfd to vfrify thbt thf rolf dbn bf sft to bn
+        // fmpty vbluf, bddording to its minimum dbrdinblity
+        for (RolfInfo durrRolfInfo : rolfInfoList) {
+
+            String rolfNbmf = durrRolfInfo.gftNbmf();
+
+            // Crfbtfs bn fmpty vbluf
+            List<ObjfdtNbmf> fmptyVbluf = nfw ArrbyList<ObjfdtNbmf>();
+            // Crfbtfs b rolf
+            Rolf rolf = nfw Rolf(rolfNbmf, fmptyVbluf);
+
+            if (rflbtionBbsfFlbg) {
+
+                // Intfrnbl rflbtion
+                // Cbn throw InvblidRolfVblufExdfption
+                //
+                // Will not throw RolfNotFoundExdfption (rolf to bf
+                // initiblizfd), or RflbtionNotFoundExdfption, or
+                // RflbtionTypfNotFoundExdfption
+                try {
+                    rflbtionObj.sftRolfInt(rolf, truf, this, fblsf);
+
+                } dbtdh (RolfNotFoundExdfption fxd1) {
+                    throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+                } dbtdh (RflbtionNotFoundExdfption fxd2) {
+                    throw nfw RuntimfExdfption(fxd2.gftMfssbgf());
+                } dbtdh (RflbtionTypfNotFoundExdfption fxd3) {
+                    throw nfw RuntimfExdfption(fxd3.gftMfssbgf());
+                }
+
+            } flsf {
+
+                // Rflbtion is bn MBfbn
+                // Usf stbndbrd sftRolf()
+                Objfdt[] pbrbms = nfw Objfdt[1];
+                pbrbms[0] = rolf;
+                String[] signbturf = nfw String[1];
+                signbturf[0] = "jbvbx.mbnbgfmfnt.rflbtion.Rolf";
+                // Cbn throw MBfbnExdfption wrbpping
+                // InvblidRolfVblufExdfption. Rfturns thf tbrgft fxdfption to
+                // bf homogfnfous.
+                //
+                // Will not throw MBfbnExdfption (wrbpping
+                // RolfNotFoundExdfption or MBfbnExdfption) or
+                // InstbndfNotFoundExdfption, or RfflfdtionExdfption
+                //
+                // Agbin hfrf thf bssumption is thbt thf Rflbtion Sfrvidf bnd
+                // thf rflbtion MBfbns brf rfgistfrfd in thf sbmf MBfbn Sfrvfr.
+                try {
+                    myMBfbnSfrvfr.sftAttributf(rflbtionObjNbmf,
+                                               nfw Attributf("Rolf", rolf));
+
+                } dbtdh (InstbndfNotFoundExdfption fxd1) {
+                    throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+                } dbtdh (RfflfdtionExdfption fxd3) {
+                    throw nfw RuntimfExdfption(fxd3.gftMfssbgf());
+                } dbtdh (MBfbnExdfption fxd2) {
+                    Exdfption wrbppfdExd = fxd2.gftTbrgftExdfption();
+                    if (wrbppfdExd instbndfof InvblidRolfVblufExdfption) {
+                        throw ((InvblidRolfVblufExdfption)wrbppfdExd);
+                    } flsf {
+                        throw nfw RuntimfExdfption(wrbppfdExd.gftMfssbgf());
+                    }
+                } dbtdh (AttributfNotFoundExdfption fxd4) {
+                  throw nfw RuntimfExdfption(fxd4.gftMfssbgf());
+                } dbtdh (InvblidAttributfVblufExdfption fxd5) {
+                  throw nfw RuntimfExdfption(fxd5.gftMfssbgf());
+                }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "initiblizfMissingRolfs");
+        rfturn;
+    }
+
+    // Throws bn fxdfption dorrfsponding to b givfn problfm typf
+    //
+    // -pbrbm pbTypf  possiblf problfm, dffinfd in RolfUnrfsolvfd
+    // -pbrbm rolfNbmf  rolf nbmf
+    //
+    // -fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+    // -fxdfption RolfNotFoundExdfption  for problfms:
+    //  - NO_ROLE_WITH_NAME
+    //  - ROLE_NOT_READABLE
+    //  - ROLE_NOT_WRITABLE
+    // -fxdfption InvblidRolfVblufExdfption  for problfms:
+    //  - LESS_THAN_MIN_ROLE_DEGREE
+    //  - MORE_THAN_MAX_ROLE_DEGREE
+    //  - REF_MBEAN_OF_INCORRECT_CLASS
+    //  - REF_MBEAN_NOT_REGISTERED
+    stbtid void throwRolfProblfmExdfption(int pbTypf,
+                                          String rolfNbmf)
+        throws IllfgblArgumfntExdfption,
+               RolfNotFoundExdfption,
+               InvblidRolfVblufExdfption {
+
+        if (rolfNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        // Exdfption typf: 1 = RolfNotFoundExdfption
+        //                 2 = InvblidRolfVblufExdfption
+        int fxdTypf = 0;
+
+        String fxdMsgPbrt = null;
+
+        switdh (pbTypf) {
+        dbsf RolfStbtus.NO_ROLE_WITH_NAME:
+            fxdMsgPbrt = " dofs not fxist in rflbtion.";
+            fxdTypf = 1;
+            brfbk;
+        dbsf RolfStbtus.ROLE_NOT_READABLE:
+            fxdMsgPbrt = " is not rfbdbblf.";
+            fxdTypf = 1;
+            brfbk;
+        dbsf RolfStbtus.ROLE_NOT_WRITABLE:
+            fxdMsgPbrt = " is not writbblf.";
+            fxdTypf = 1;
+            brfbk;
+        dbsf RolfStbtus.LESS_THAN_MIN_ROLE_DEGREE:
+            fxdMsgPbrt = " hbs b numbfr of MBfbn rfffrfndfs lfss thbn thf fxpfdtfd minimum dfgrff.";
+            fxdTypf = 2;
+            brfbk;
+        dbsf RolfStbtus.MORE_THAN_MAX_ROLE_DEGREE:
+            fxdMsgPbrt = " hbs b numbfr of MBfbn rfffrfndfs grfbtfr thbn thf fxpfdtfd mbximum dfgrff.";
+            fxdTypf = 2;
+            brfbk;
+        dbsf RolfStbtus.REF_MBEAN_OF_INCORRECT_CLASS:
+            fxdMsgPbrt = " hbs bn MBfbn rfffrfndf to bn MBfbn not of thf fxpfdtfd dlbss of rfffrfndfs for thbt rolf.";
+            fxdTypf = 2;
+            brfbk;
+        dbsf RolfStbtus.REF_MBEAN_NOT_REGISTERED:
+            fxdMsgPbrt = " hbs b rfffrfndf to null or to bn MBfbn not rfgistfrfd.";
+            fxdTypf = 2;
+            brfbk;
+        }
+        // No dffbult bs wf must hbvf bffn in onf of thosf dbsfs
+
+        StringBuildfr fxdMsgStrB = nfw StringBuildfr(rolfNbmf);
+        fxdMsgStrB.bppfnd(fxdMsgPbrt);
+        String fxdMsg = fxdMsgStrB.toString();
+        if (fxdTypf == 1) {
+            throw nfw RolfNotFoundExdfption(fxdMsg);
+
+        } flsf if (fxdTypf == 2) {
+            throw nfw InvblidRolfVblufExdfption(fxdMsg);
+        }
+    }
+
+    // Sfnds b notifidbtion of givfn typf, with givfn pbrbmftfrs
+    //
+    // -pbrbm intNtfTypf  intfgfr to rfprfsfnt notifidbtion typf:
+    //  - 1 : drfbtf
+    //  - 2 : updbtf
+    //  - 3 : dflftf
+    // -pbrbm mfssbgf  humbn-rfbdbblf mfssbgf
+    // -pbrbm rflbtionId  rflbtion id of thf drfbtfd/updbtfd/dflftfd rflbtion
+    // -pbrbm unrfgMBfbnList  list of ObjfdtNbmfs of rfffrfndfd MBfbns
+    //  fxpfdtfd to bf unrfgistfrfd duf to rflbtion rfmovbl (only for rfmovbl,
+    //  duf to CIM qublififrs, dbn bf null)
+    // -pbrbm rolfNbmf  rolf nbmf
+    // -pbrbm rolfNfwVbluf  rolf nfw vbluf (ArrbyList of ObjfdtNbmfs)
+    // -pbrbm oldVbluf  old rolf vbluf (ArrbyList of ObjfdtNbmfs)
+    //
+    // -fxdfption IllfgblArgumfnt  if null pbrbmftfr
+    // -fxdfption RflbtionNotFoundExdfption  if no rflbtion for givfn id
+    privbtf void sfndNotifidbtionInt(int intNtfTypf,
+                                     String mfssbgf,
+                                     String rflbtionId,
+                                     List<ObjfdtNbmf> unrfgMBfbnList,
+                                     String rolfNbmf,
+                                     List<ObjfdtNbmf> rolfNfwVbluf,
+                                     List<ObjfdtNbmf> oldVbluf)
+        throws IllfgblArgumfntExdfption,
+               RflbtionNotFoundExdfption {
+
+        if (mfssbgf == null ||
+            rflbtionId == null ||
+            (intNtfTypf != 3 && unrfgMBfbnList != null) ||
+            (intNtfTypf == 2 &&
+             (rolfNbmf == null ||
+              rolfNfwVbluf == null ||
+              oldVbluf == null))) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "sfndNotifidbtionInt", nfw Objfdt[] {intNtfTypf, mfssbgf,
+                rflbtionId, unrfgMBfbnList, rolfNbmf, rolfNfwVbluf, oldVbluf});
+
+        // Rflbtion typf nbmf
+        // Notf: do not usf gftRflbtionTypfNbmf() bs if it is b rflbtion MBfbn
+        //       it is blrfbdy unrfgistfrfd.
+        String rflTypfNbmf;
+        syndhronizfd(myRflId2RflTypfMbp) {
+            rflTypfNbmf = (myRflId2RflTypfMbp.gft(rflbtionId));
+        }
+
+        // ObjfdtNbmf (for b rflbtion MBfbn)
+        // Cbn blso throw b RflbtionNotFoundExdfption, but dftfdtfd bbovf
+        ObjfdtNbmf rflObjNbmf = isRflbtionMBfbn(rflbtionId);
+
+        String ntfTypf = null;
+        if (rflObjNbmf != null) {
+            switdh (intNtfTypf) {
+            dbsf 1:
+                ntfTypf = RflbtionNotifidbtion.RELATION_MBEAN_CREATION;
+                brfbk;
+            dbsf 2:
+                ntfTypf = RflbtionNotifidbtion.RELATION_MBEAN_UPDATE;
+                brfbk;
+            dbsf 3:
+                ntfTypf = RflbtionNotifidbtion.RELATION_MBEAN_REMOVAL;
+                brfbk;
+            }
+        } flsf {
+            switdh (intNtfTypf) {
+            dbsf 1:
+                ntfTypf = RflbtionNotifidbtion.RELATION_BASIC_CREATION;
+                brfbk;
+            dbsf 2:
+                ntfTypf = RflbtionNotifidbtion.RELATION_BASIC_UPDATE;
+                brfbk;
+            dbsf 3:
+                ntfTypf = RflbtionNotifidbtion.RELATION_BASIC_REMOVAL;
+                brfbk;
+            }
+        }
+
+        // Sfqufndf numbfr
+        Long sfqNo = btomidSfqNo.indrfmfntAndGft();
+
+        // Timfstbmp
+        Dbtf durrDbtf = nfw Dbtf();
+        long timfStbmp = durrDbtf.gftTimf();
+
+        RflbtionNotifidbtion ntf = null;
+
+        if (ntfTypf.fqubls(RflbtionNotifidbtion.RELATION_BASIC_CREATION) ||
+            ntfTypf.fqubls(RflbtionNotifidbtion.RELATION_MBEAN_CREATION) ||
+            ntfTypf.fqubls(RflbtionNotifidbtion.RELATION_BASIC_REMOVAL) ||
+            ntfTypf.fqubls(RflbtionNotifidbtion.RELATION_MBEAN_REMOVAL))
+
+            // Crfbtion or rfmovbl
+            ntf = nfw RflbtionNotifidbtion(ntfTypf,
+                                           this,
+                                           sfqNo.longVbluf(),
+                                           timfStbmp,
+                                           mfssbgf,
+                                           rflbtionId,
+                                           rflTypfNbmf,
+                                           rflObjNbmf,
+                                           unrfgMBfbnList);
+
+        flsf if (ntfTypf.fqubls(RflbtionNotifidbtion.RELATION_BASIC_UPDATE)
+                 ||
+                 ntfTypf.fqubls(RflbtionNotifidbtion.RELATION_MBEAN_UPDATE))
+            {
+                // Updbtf
+                ntf = nfw RflbtionNotifidbtion(ntfTypf,
+                                               this,
+                                               sfqNo.longVbluf(),
+                                               timfStbmp,
+                                               mfssbgf,
+                                               rflbtionId,
+                                               rflTypfNbmf,
+                                               rflObjNbmf,
+                                               rolfNbmf,
+                                               rolfNfwVbluf,
+                                               oldVbluf);
+            }
+
+        sfndNotifidbtion(ntf);
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "sfndNotifidbtionInt");
+        rfturn;
+    }
+
+    // Chfdks, for thf unrfgistrbtion of bn MBfbn rfffrfndfd in thf rolfs givfn
+    // in pbrbmftfr, if thf rflbtion hbs to bf rfmovfd or not, rfgbrding
+    // fxpfdtfd minimum rolf dbrdinblity bnd durrfnt numbfr of
+    // rfffrfndfs in fbdh rolf bftfr rfmovbl of thf durrfnt onf.
+    // If thf rflbtion is kfpt, dblls hbndlfMBfbnUnrfgistrbtion() dbllbbdk of
+    // thf rflbtion to updbtf it.
+    //
+    // -pbrbm rflbtionId  rflbtion id
+    // -pbrbm objfdtNbmf  ObjfdtNbmf of thf unrfgistfrfd MBfbn
+    // -pbrbm rolfNbmfList  list of nbmfs of rolfs whfrf thf unrfgistfrfd
+    //  MBfbn is rfffrfndfd.
+    //
+    // -fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+    // -fxdfption RflbtionSfrvidfNotRfgistfrfdExdfption  if thf Rflbtion
+    //  Sfrvidf is not rfgistfrfd in thf MBfbn Sfrvfr
+    // -fxdfption RflbtionNotFoundExdfption  if unknown rflbtion id
+    // -fxdfption RolfNotFoundExdfption  if onf rolf givfn bs pbrbmftfr dofs
+    //  not fxist in thf rflbtion
+    privbtf void hbndlfRfffrfndfUnrfgistrbtion(String rflbtionId,
+                                               ObjfdtNbmf objfdtNbmf,
+                                               List<String> rolfNbmfList)
+        throws IllfgblArgumfntExdfption,
+               RflbtionSfrvidfNotRfgistfrfdExdfption,
+               RflbtionNotFoundExdfption,
+               RolfNotFoundExdfption {
+
+        if (rflbtionId == null ||
+            rolfNbmfList == null ||
+            objfdtNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        RELATION_LOGGER.fntfring(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "hbndlfRfffrfndfUnrfgistrbtion",
+                nfw Objfdt[] {rflbtionId, objfdtNbmf, rolfNbmfList});
+
+        // Cbn throw RflbtionSfrvidfNotRfgistfrfdExdfption
+        isAdtivf();
+
+        // Rftrifvfs thf rflbtion typf nbmf of thf rflbtion
+        // Cbn throw RflbtionNotFoundExdfption
+        String durrRflTypfNbmf = gftRflbtionTypfNbmf(rflbtionId);
+
+        // Rftrifvfs thf rflbtion
+        // Cbn throw RflbtionNotFoundExdfption, but blrfbdy dftfdtfd bbovf
+        Objfdt rflObj = gftRflbtion(rflbtionId);
+
+        // Flbg to spfdify if thf rflbtion hbs to bf dflftfd
+        boolfbn dflftfRflFlbg = fblsf;
+
+        for (String durrRolfNbmf : rolfNbmfList) {
+
+            if (dflftfRflFlbg) {
+                brfbk;
+            }
+
+            // Rftrifvfs numbfr of MBfbns durrfntly rfffrfndfd in rolf
+            // BEWARE! Do not usf gftRolf() bs rolf mby bf not rfbdbblf
+            //
+            // Cbn throw RflbtionNotFoundExdfption (but blrfbdy dhfdkfd),
+            // RolfNotFoundExdfption
+            int durrRolfRffNbr =
+                (gftRolfCbrdinblity(rflbtionId, durrRolfNbmf)).intVbluf();
+
+            // Rftrifvfs nfw numbfr of flfmfnt in rolf
+            int durrRolfNfwRffNbr = durrRolfRffNbr - 1;
+
+            // Rftrifvfs rolf info for thbt rolf
+            //
+            // Shbll not throw RflbtionTypfNotFoundExdfption or
+            // RolfInfoNotFoundExdfption
+            RolfInfo durrRolfInfo;
+            try {
+                durrRolfInfo = gftRolfInfo(durrRflTypfNbmf,
+                                           durrRolfNbmf);
+            } dbtdh (RflbtionTypfNotFoundExdfption fxd1) {
+                throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+            } dbtdh (RolfInfoNotFoundExdfption fxd2) {
+                throw nfw RuntimfExdfption(fxd2.gftMfssbgf());
+            }
+
+            // Chfdks with fxpfdtfd minimum numbfr of flfmfnts
+            boolfbn dhkMinFlbg = durrRolfInfo.dhfdkMinDfgrff(durrRolfNfwRffNbr);
+
+            if (!dhkMinFlbg) {
+                // Thf rflbtion hbs to bf dflftfd
+                dflftfRflFlbg = truf;
+            }
+        }
+
+        if (dflftfRflFlbg) {
+            // Rfmovfs thf rflbtion
+            rfmovfRflbtion(rflbtionId);
+
+        } flsf {
+
+            // Updbtfs fbdh rolf in thf rflbtion using
+            // hbndlfMBfbnUnrfgistrbtion() dbllbbdk
+            //
+            // BEWARE: this rolfNbmfList list MUST BE A COPY of b rolf nbmf
+            //         list for b rfffrfndfd MBfbn in b rflbtion, NOT b
+            //         rfffrfndf to bn originbl onf pbrt of thf
+            //         myRfffdMBfbnObjNbmf2RflIdsMbp!!!! Bfdbusf fbdh rolf
+            //         whidh nbmf is in thbt list will bf updbtfd (potfntiblly
+            //         using sftRolf(). So thf Rflbtion Sfrvidf will updbtf thf
+            //         myRfffdMBfbnObjNbmf2RflIdsMbp to rffflfdt thf nfw rolf
+            //         vbluf!
+            for (String durrRolfNbmf : rolfNbmfList) {
+
+                if (rflObj instbndfof RflbtionSupport) {
+                    // Intfrnbl rflbtion
+                    // Cbn throw RolfNotFoundExdfption (but blrfbdy dhfdkfd)
+                    //
+                    // Shbll not throw
+                    // RflbtionTypfNotFoundExdfption,
+                    // InvblidRolfVblufExdfption (vbluf wbs dorrfdt, rfmoving
+                    // onf rfffrfndf shbll not invblidbtf it, flsf dftfdtfd
+                    // bbovf)
+                    try {
+                        ((RflbtionSupport)rflObj).hbndlfMBfbnUnrfgistrbtionInt(
+                                                  objfdtNbmf,
+                                                  durrRolfNbmf,
+                                                  truf,
+                                                  this);
+                    } dbtdh (RflbtionTypfNotFoundExdfption fxd3) {
+                        throw nfw RuntimfExdfption(fxd3.gftMfssbgf());
+                    } dbtdh (InvblidRolfVblufExdfption fxd4) {
+                        throw nfw RuntimfExdfption(fxd4.gftMfssbgf());
+                    }
+
+                } flsf {
+                    // Rflbtion MBfbn
+                    Objfdt[] pbrbms = nfw Objfdt[2];
+                    pbrbms[0] = objfdtNbmf;
+                    pbrbms[1] = durrRolfNbmf;
+                    String[] signbturf = nfw String[2];
+                    signbturf[0] = "jbvbx.mbnbgfmfnt.ObjfdtNbmf";
+                    signbturf[1] = "jbvb.lbng.String";
+                    // Shbll not throw InstbndfNotFoundExdfption, or
+                    // MBfbnExdfption (wrbpping RolfNotFoundExdfption or
+                    // MBfbnExdfption or InvblidRolfVblufExdfption) or
+                    // RfflfdtionExdfption
+                    try {
+                        myMBfbnSfrvfr.invokf(((ObjfdtNbmf)rflObj),
+                                             "hbndlfMBfbnUnrfgistrbtion",
+                                             pbrbms,
+                                             signbturf);
+                    } dbtdh (InstbndfNotFoundExdfption fxd1) {
+                        throw nfw RuntimfExdfption(fxd1.gftMfssbgf());
+                    } dbtdh (RfflfdtionExdfption fxd3) {
+                        throw nfw RuntimfExdfption(fxd3.gftMfssbgf());
+                    } dbtdh (MBfbnExdfption fxd2) {
+                        Exdfption wrbppfdExd = fxd2.gftTbrgftExdfption();
+                        throw nfw RuntimfExdfption(wrbppfdExd.gftMfssbgf());
+                    }
+
+                }
+            }
+        }
+
+        RELATION_LOGGER.fxiting(RflbtionSfrvidf.dlbss.gftNbmf(),
+                "hbndlfRfffrfndfUnrfgistrbtion");
+        rfturn;
+    }
+}

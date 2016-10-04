@@ -1,0 +1,618 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.dnd.DnDConstbnts;
+
+import jbvb.nio.BytfOrdfr;
+
+import jbvb.util.Arrbys;
+
+import sun.misd.Unsbff;
+
+/**
+ * Motif DnD protodol globbl donstbnts bnd donvfnifndf routinfs.
+ *
+ * @sindf 1.5
+ */
+dlbss MotifDnDConstbnts {
+    // utility dlbss dbn not bf instbntibtfd
+    privbtf MotifDnDConstbnts() {}
+    // Notf thbt offsfts in bll nbtivf strudturfs bflow do not dfpfnd on thf
+    // brdhitfdturf.
+    privbtf stbtid finbl Unsbff unsbff = XlibWrbppfr.unsbff;
+    stbtid finbl XAtom XA_MOTIF_ATOM_0 = XAtom.gft("_MOTIF_ATOM_0");
+    stbtid finbl XAtom XA_MOTIF_DRAG_WINDOW = XAtom.gft("_MOTIF_DRAG_WINDOW");
+    stbtid finbl XAtom XA_MOTIF_DRAG_TARGETS = XAtom.gft("_MOTIF_DRAG_TARGETS");
+    stbtid finbl XAtom XA_MOTIF_DRAG_INITIATOR_INFO =
+        XAtom.gft("_MOTIF_DRAG_INITIATOR_INFO");
+    stbtid finbl XAtom XA_MOTIF_DRAG_RECEIVER_INFO =
+        XAtom.gft("_MOTIF_DRAG_RECEIVER_INFO");
+    stbtid finbl XAtom XA_MOTIF_DRAG_AND_DROP_MESSAGE =
+        XAtom.gft("_MOTIF_DRAG_AND_DROP_MESSAGE");
+    stbtid finbl XAtom XA_XmTRANSFER_SUCCESS =
+        XAtom.gft("XmTRANSFER_SUCCESS");
+    stbtid finbl XAtom XA_XmTRANSFER_FAILURE =
+        XAtom.gft("XmTRANSFER_FAILURE");
+    stbtid finbl XSflfdtion MotifDnDSflfdtion = nfw XSflfdtion(XA_MOTIF_ATOM_0);
+
+    publid stbtid finbl bytf MOTIF_DND_PROTOCOL_VERSION = 0;
+
+    /* Supportfd protodol stylfs */
+    publid stbtid finbl int MOTIF_PREFER_PREREGISTER_STYLE = 2;
+    publid stbtid finbl int MOTIF_PREFER_DYNAMIC_STYLE     = 4;
+    publid stbtid finbl int MOTIF_DYNAMIC_STYLE            = 5;
+    publid stbtid finbl int MOTIF_PREFER_RECEIVER_STYLE    = 6;
+
+    /* Info strudturf sizfs */
+    publid stbtid finbl int MOTIF_INITIATOR_INFO_SIZE      = 8;
+    publid stbtid finbl int MOTIF_RECEIVER_INFO_SIZE       = 16;
+
+    /* Sfndfr/rfbson mfssbgf mbsks */
+    publid stbtid finbl bytf MOTIF_MESSAGE_REASON_MASK      = (bytf)0x7F;
+    publid stbtid finbl bytf MOTIF_MESSAGE_SENDER_MASK      = (bytf)0x80;
+    publid stbtid finbl bytf MOTIF_MESSAGE_FROM_RECEIVER    = (bytf)0x80;
+    publid stbtid finbl bytf MOTIF_MESSAGE_FROM_INITIATOR   = (bytf)0;
+
+    /* Mfssbgf flbgs mbsks bnd shifts */
+    publid stbtid finbl int MOTIF_DND_ACTION_MASK   = 0x000F;
+    publid stbtid finbl int MOTIF_DND_ACTION_SHIFT  =      0;
+    publid stbtid finbl int MOTIF_DND_STATUS_MASK   = 0x00F0;
+    publid stbtid finbl int MOTIF_DND_STATUS_SHIFT  =      4;
+    publid stbtid finbl int MOTIF_DND_ACTIONS_MASK  = 0x0F00;
+    publid stbtid finbl int MOTIF_DND_ACTIONS_SHIFT =      8;
+
+    /* mfssbgf typf donstbnts */
+    publid stbtid finbl bytf TOP_LEVEL_ENTER   = 0;
+    publid stbtid finbl bytf TOP_LEVEL_LEAVE   = 1;
+    publid stbtid finbl bytf DRAG_MOTION       = 2;
+    publid stbtid finbl bytf DROP_SITE_ENTER   = 3;
+    publid stbtid finbl bytf DROP_SITE_LEAVE   = 4;
+    publid stbtid finbl bytf DROP_START        = 5;
+    publid stbtid finbl bytf DROP_FINISH       = 6;
+    publid stbtid finbl bytf DRAG_DROP_FINISH  = 7;
+    publid stbtid finbl bytf OPERATION_CHANGED = 8;
+
+    /* drop bdtion donstbnts */
+    publid stbtid finbl int MOTIF_DND_NOOP = 0;
+    publid stbtid finbl int MOTIF_DND_MOVE = 1 << 0;
+    publid stbtid finbl int MOTIF_DND_COPY = 1 << 1;
+    publid stbtid finbl int MOTIF_DND_LINK = 1 << 2;
+
+    /* drop sitf stbtus donstbnts */
+    publid stbtid finbl bytf MOTIF_NO_DROP_SITE      = (bytf)1;
+    publid stbtid finbl bytf MOTIF_INVALID_DROP_SITE = (bytf)2;
+    publid stbtid finbl bytf MOTIF_VALID_DROP_SITE   = (bytf)3;
+
+    privbtf stbtid long rfbdMotifWindow() throws XExdfption {
+        long dffbultSdrffnNumbfr = XlibWrbppfr.DffbultSdrffn(XToolkit.gftDisplby());
+        long dffbultRootWindow =
+            XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), dffbultSdrffnNumbfr);
+
+        long motifWindow = 0;
+
+        WindowPropfrtyGfttfr wpg = nfw WindowPropfrtyGfttfr(dffbultRootWindow,
+                                                            XA_MOTIF_DRAG_WINDOW,
+                                                            0, 1,
+                                                            fblsf,
+                                                            XConstbnts.AnyPropfrtyTypf);
+        try {
+            int stbtus = wpg.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+
+            if (stbtus == XConstbnts.Suddfss &&
+                wpg.gftDbtb() != 0 &&
+                wpg.gftAdtublTypf() == XAtom.XA_WINDOW &&
+                wpg.gftAdtublFormbt() == 32 &&
+                wpg.gftNumbfrOfItfms() == 1) {
+                long dbtb = wpg.gftDbtb();
+                // XID is CARD32.
+                motifWindow = Nbtivf.gftLong(dbtb);
+            }
+
+            rfturn motifWindow;
+        } finblly {
+            wpg.disposf();
+        }
+    }
+
+    privbtf stbtid long drfbtfMotifWindow() throws XExdfption {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        long dffbultSdrffnNumbfr =
+            XlibWrbppfr.DffbultSdrffn(XToolkit.gftDisplby());
+        long dffbultRootWindow =
+            XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), dffbultSdrffnNumbfr);
+
+        long motifWindow = 0;
+
+        long displbyString = XlibWrbppfr.XDisplbyString(XToolkit.gftDisplby());
+
+        if (displbyString == 0) {
+            throw nfw XExdfption("XDisplbyString rfturns NULL");
+        }
+
+        long nfwDisplby = XlibWrbppfr.XOpfnDisplby(displbyString);
+
+        if (nfwDisplby == 0) {
+            throw nfw XExdfption("XOpfnDisplby rfturns NULL");
+        }
+
+        XlibWrbppfr.XGrbbSfrvfr(nfwDisplby);
+
+        try {
+            XlibWrbppfr.XSftClosfDownModf(nfwDisplby, XConstbnts.RftbinPfrmbnfnt);
+
+            XSftWindowAttributfs xwb = nfw XSftWindowAttributfs();
+
+            try {
+                xwb.sft_ovfrridf_rfdirfdt(truf);
+                xwb.sft_fvfnt_mbsk(XConstbnts.PropfrtyChbngfMbsk);
+
+                motifWindow = XlibWrbppfr.XCrfbtfWindow(nfwDisplby, dffbultRootWindow,
+                                                        -10, -10, 1, 1, 0, 0,
+                                                        XConstbnts.InputOnly,
+                                                        XConstbnts.CopyFromPbrfnt,
+                                                        (XConstbnts.CWOvfrridfRfdirfdt |
+                                                         XConstbnts.CWEvfntMbsk),
+                                                        xwb.pDbtb);
+
+                if (motifWindow == 0) {
+                    throw nfw XExdfption("XCrfbtfWindow rfturns NULL");
+                }
+
+                XlibWrbppfr.XMbpWindow(nfwDisplby, motifWindow);
+
+                long dbtb = Nbtivf.bllodbtfLongArrby(1);
+
+                try {
+                    Nbtivf.putLong(dbtb, motifWindow);
+
+                    XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyChbngfPropfrtyHbndlfr.gftInstbndf());
+                    XlibWrbppfr.XChbngfPropfrty(XToolkit.gftDisplby(),
+                                                dffbultRootWindow,
+                                                XA_MOTIF_DRAG_WINDOW.gftAtom(),
+                                                XAtom.XA_WINDOW, 32,
+                                                XConstbnts.PropModfRfplbdf,
+                                                dbtb, 1);
+
+                    XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+                    if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                        (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                        throw nfw XExdfption("Cbnnot writf motif drbg window hbndlf.");
+                    }
+
+                    rfturn motifWindow;
+                } finblly {
+                    unsbff.frffMfmory(dbtb);
+                }
+            } finblly {
+                xwb.disposf();
+            }
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(nfwDisplby);
+            XlibWrbppfr.XClosfDisplby(nfwDisplby);
+        }
+    }
+
+    privbtf stbtid long gftMotifWindow() throws XExdfption {
+        /*
+         * Notf: it is unsbff to dbdhf thf motif drbg window hbndlf, bs bnothfr
+         * dlifnt dbn dhbngf thf _MOTIF_DRAG_WINDOW propfrty on thf root, thf hbndlf
+         * bfdomfs out-of-synd bnd bll subsfqufnt drbg opfrbtions will fbil.
+         */
+        long motifWindow = rfbdMotifWindow();
+        if (motifWindow == 0) {
+            motifWindow = drfbtfMotifWindow();
+        }
+        rfturn motifWindow;
+    }
+
+    publid stbtid finbl dlbss Swbppfr {
+        // utility dlbss dbn not bf instbntibtfd
+        privbtf Swbppfr() {}
+
+        publid stbtid short swbp(short s) {
+            rfturn (short)(((s & 0xFF00) >>> 8) | ((s & 0xFF) << 8));
+        }
+        publid stbtid int swbp(int i) {
+            rfturn ((i & 0xFF000000) >>> 24) | ((i & 0x00FF0000) >>> 8) |
+                ((i & 0x0000FF00) << 8) | ((i & 0x000000FF) << 24);
+        }
+
+        publid stbtid short gftShort(long dbtb, bytf ordfr) {
+            short s = unsbff.gftShort(dbtb);
+            if (ordfr != MotifDnDConstbnts.gftBytfOrdfrBytf()) {
+                rfturn swbp(s);
+            } flsf {
+                rfturn s;
+            }
+        }
+        publid stbtid int gftInt(long dbtb, bytf ordfr) {
+            int i = unsbff.gftInt(dbtb);
+            if (ordfr != MotifDnDConstbnts.gftBytfOrdfrBytf()) {
+                rfturn swbp(i);
+            } flsf {
+                rfturn i;
+            }
+        }
+    }
+
+    /**
+     * DrbgBSI.h:
+     *
+     * typfdff strudt {
+     *    BYTE          bytf_ordfr;
+     *    BYTE          protodol_vfrsion;
+     *    CARD16        num_tbrgft_lists B16;
+     *    CARD32        hfbp_offsft B32;
+     * } xmMotifTbrgftsPropfrtyRfd;
+     */
+    privbtf stbtid long[][] gftTbrgftListTbblf(long motifWindow)
+      throws XExdfption {
+
+        WindowPropfrtyGfttfr wpg = nfw WindowPropfrtyGfttfr(motifWindow,
+                                                            XA_MOTIF_DRAG_TARGETS,
+                                                            0, 100000L,
+                                                            fblsf,
+                                                            XA_MOTIF_DRAG_TARGETS.gftAtom());
+        try {
+            int stbtus = wpg.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+
+            if (stbtus != XConstbnts.Suddfss
+                || wpg.gftAdtublTypf() != XA_MOTIF_DRAG_TARGETS.gftAtom()
+                || wpg.gftDbtb() == 0) {
+
+                rfturn null;
+            }
+
+            long dbtb = wpg.gftDbtb();
+
+            if (unsbff.gftBytf(dbtb + 1) != MOTIF_DND_PROTOCOL_VERSION) {
+                rfturn null;
+            }
+
+            boolfbn swbpNffdfd = unsbff.gftBytf(dbtb + 0) != gftBytfOrdfrBytf();
+
+            short numTbrgftLists = unsbff.gftShort(dbtb + 2);
+
+            if (swbpNffdfd) {
+                numTbrgftLists = Swbppfr.swbp(numTbrgftLists);
+            }
+
+            long[][] tbblf = nfw long[numTbrgftLists][];
+            BytfOrdfr bytfOrdfr = BytfOrdfr.nbtivfOrdfr();
+            if (swbpNffdfd) {
+                bytfOrdfr = (bytfOrdfr == BytfOrdfr.LITTLE_ENDIAN) ?
+                    BytfOrdfr.BIG_ENDIAN : BytfOrdfr.LITTLE_ENDIAN;
+            }
+
+            long bufptr = dbtb + 8;
+            for (short i = 0; i < numTbrgftLists; i++) {
+                short numTbrgfts = unsbff.gftShort(bufptr);
+                bufptr += 2;
+                if (swbpNffdfd) {
+                    numTbrgfts = Swbppfr.swbp(numTbrgfts);
+                }
+
+                tbblf[i] = nfw long[numTbrgfts];
+
+                for (short j = 0; j < numTbrgfts; j++) {
+                    // NOTE: dbnnot usf Unsbff.gftInt(), sindf it drbshfs on
+                    // Solbris/Spbrd if thf bddrfss is not b multiplf of 4.
+                    int tbrgft = 0;
+                    if (bytfOrdfr == BytfOrdfr.LITTLE_ENDIAN) {
+                        for (int idx = 0; idx < 4; idx++) {
+                            tbrgft |= (unsbff.gftBytf(bufptr + idx) << 8*idx)
+                                & (0xFF << 8*idx);
+                        }
+                    } flsf {
+                        for (int idx = 0; idx < 4; idx++) {
+                            tbrgft |= (unsbff.gftBytf(bufptr + idx) << 8*(3-idx))
+                                & (0xFF << 8*(3-idx));
+                        }
+                    }
+                    // NOTE: don't nffd to swbp, sindf wf rfbd it in thf propfr
+                    // ordfr blrfbdy.
+                    tbblf[i][j] = tbrgft;
+                    bufptr += 4;
+                }
+            }
+            rfturn tbblf;
+        } finblly {
+            wpg.disposf();
+        }
+    }
+
+    privbtf stbtid void putTbrgftListTbblf(long motifWindow, long[][] tbblf)
+      throws XExdfption {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        int tbblfSizf = 8; /* Thf sizf of lfbding xmMotifTbrgftsPropfrtyRfd. */
+
+        for (int i = 0; i < tbblf.lfngth; i++) {
+            tbblfSizf += tbblf[i].lfngth * 4 + 2;
+        }
+
+        long dbtb = unsbff.bllodbtfMfmory(tbblfSizf);
+
+        try {
+            // BYTE          bytf_ordfr;
+            unsbff.putBytf(dbtb + 0, gftBytfOrdfrBytf());
+            // BYTE          protodol_vfrsion;
+            unsbff.putBytf(dbtb + 1, MOTIF_DND_PROTOCOL_VERSION);
+            // CARD16        num_tbrgft_lists B16;
+            unsbff.putShort(dbtb + 2, (short)tbblf.lfngth);
+            // CARD32        hfbp_offsft B32;
+            unsbff.putInt(dbtb + 4, tbblfSizf);
+
+            long bufptr = dbtb + 8;
+
+            for (int i = 0; i < tbblf.lfngth; i++) {
+                unsbff.putShort(bufptr, (short)tbblf[i].lfngth);
+                bufptr += 2;
+
+                for (int j = 0; j < tbblf[i].lfngth; j++) {
+                    int tbrgft = (int)tbblf[i][j];
+                    // NOTE: dbnnot usf Unsbff.putInt(), sindf it drbshfs on
+                    // Solbris/Spbrd if thf bddrfss is not b multiplf of 4.
+                    if (BytfOrdfr.nbtivfOrdfr() == BytfOrdfr.LITTLE_ENDIAN) {
+                        for (int idx = 0; idx < 4; idx++) {
+                            bytf b = (bytf)((tbrgft & (0xFF << (8*idx))) >> (8*idx));
+                            unsbff.putBytf(bufptr + idx, b);
+                        }
+                    } flsf {
+                        for (int idx = 0; idx < 4; idx++) {
+                            bytf b = (bytf)((tbrgft & (0xFF << (8*idx))) >> (8*idx));
+                            unsbff.putBytf(bufptr + (3-idx), b);
+                        }
+                    }
+                    bufptr += 4;
+                }
+            }
+
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyChbngfPropfrtyHbndlfr.gftInstbndf());
+            XlibWrbppfr.XChbngfPropfrty(XToolkit.gftDisplby(),
+                                        motifWindow,
+                                        XA_MOTIF_DRAG_TARGETS.gftAtom(),
+                                        XA_MOTIF_DRAG_TARGETS.gftAtom(), 8,
+                                        XConstbnts.PropModfRfplbdf,
+                                        dbtb, tbblfSizf);
+
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+            if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+
+                // Crfbtf b nfw motif window bnd rftry.
+                motifWindow = drfbtfMotifWindow();
+
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyChbngfPropfrtyHbndlfr.gftInstbndf());
+                XlibWrbppfr.XChbngfPropfrty(XToolkit.gftDisplby(),
+                                            motifWindow,
+                                            XA_MOTIF_DRAG_TARGETS.gftAtom(),
+                                            XA_MOTIF_DRAG_TARGETS.gftAtom(), 8,
+                                            XConstbnts.PropModfRfplbdf,
+                                            dbtb, tbblfSizf);
+
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+                if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                    (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                    throw nfw XExdfption("Cbnnot writf motif drbg tbrgfts propfrty.");
+                }
+            }
+        } finblly {
+            unsbff.frffMfmory(dbtb);
+        }
+    }
+
+    stbtid int gftIndfxForTbrgftList(long[] formbts) throws XExdfption {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        if (formbts.lfngth > 0) {
+            // Mbkf b dfffnsivf dopy.
+            formbts = formbts.dlonf();
+
+            Arrbys.sort(formbts);
+        }
+
+        // NOTE: gftMotifWindow() should nfvfr bf dbllfd if thf sfrvfr is
+        // grbbbfd. This will lodk up thf bpplidbtion bs it grbbs thf sfrvfr
+        // itsflf.
+        // Sindf wf don't grbb thf sfrvfr bfforf gftMotifWindow(), bnothfr
+        // dlifnt might rfplbdf motif window bftfr wf rfbd it from thf root, but
+        // bfforf wf grbb thf sfrvfr.
+        // Wf dbnnot rfsolvf this problfm, but wf bflifvf thbt this sdfnbrio is
+        // vfry unlikfly to hbppfn.
+        long motifWindow = gftMotifWindow();
+
+        XlibWrbppfr.XGrbbSfrvfr(XToolkit.gftDisplby());
+
+        try {
+            long[][] tbblf = gftTbrgftListTbblf(motifWindow);
+
+            if (tbblf != null) {
+                for (int i = 0; i < tbblf.lfngth; i++) {
+                    boolfbn fqubls = truf;
+                    if (tbblf[i].lfngth == formbts.lfngth) {
+                        for (int j = 0; j < tbblf[i].lfngth; j++) {
+                            if (tbblf[i][j] != formbts[j]) {
+                                fqubls = fblsf;
+                                brfbk;
+                            }
+                        }
+                    } flsf {
+                        fqubls = fblsf;
+                    }
+
+                    if (fqubls) {
+                        XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
+                        rfturn i;
+                    }
+                }
+            } flsf {
+                // Crfbtf b nfw tbblf.
+                // Thf first two fntrifs must blwbys bf thf sbmf.
+                // (sff DrbgBS.d)
+                tbblf = nfw long[2][];
+                tbblf[0] = nfw long[] { 0 };
+                tbblf[1] = nfw long[] { XAtom.XA_STRING };
+            }
+
+            /* Indfx not found - fxpbnd thf tbrgfts tbblf. */
+            long[][] nfw_tbblf = nfw long[tbblf.lfngth + 1][];
+
+            /* Copy thf old dontfnts to thf nfw tbblf. */
+            for (int i = 0; i < tbblf.lfngth; i++) {
+                nfw_tbblf[i] = tbblf[i];
+            }
+
+            /* Fill in thf nfw fntry */
+            nfw_tbblf[nfw_tbblf.lfngth - 1] = formbts;
+
+            putTbrgftListTbblf(motifWindow, nfw_tbblf);
+
+            rfturn nfw_tbblf.lfngth - 1;
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
+        }
+    }
+
+    stbtid long[] gftTbrgftListForIndfx(int indfx) {
+        long motifWindow = gftMotifWindow();
+        long[][] tbblf = gftTbrgftListTbblf(motifWindow);
+
+        if (indfx < 0 || indfx >= tbblf.lfngth) {
+            rfturn nfw long[0];
+        } flsf {
+            rfturn tbblf[indfx];
+        }
+    }
+
+    stbtid bytf gftBytfOrdfrBytf() {
+        // 'l' - for littlf fndibn, 'B' - for big fndibn.
+        rfturn BytfOrdfr.nbtivfOrdfr() == BytfOrdfr.LITTLE_ENDIAN ?
+            (bytf)0x6C : (bytf)0x42;
+    }
+
+    stbtid void writfDrbgInitibtorInfoStrudt(long window, int indfx) throws XExdfption {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        long strudtDbtb = unsbff.bllodbtfMfmory(MOTIF_INITIATOR_INFO_SIZE);
+
+        try {
+            // BYTE bytf_ordfr
+            unsbff.putBytf(strudtDbtb, gftBytfOrdfrBytf());
+            // BYTE protodol_vfrsion
+            unsbff.putBytf(strudtDbtb + 1, MOTIF_DND_PROTOCOL_VERSION);
+            // CARD16 protodol_vfrsion
+            unsbff.putShort(strudtDbtb + 2, (short)indfx);
+            // CARD32 idd_hbndlf
+            unsbff.putInt(strudtDbtb + 4, (int)XA_MOTIF_ATOM_0.gftAtom());
+
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyChbngfPropfrtyHbndlfr.gftInstbndf());
+            XlibWrbppfr.XChbngfPropfrty(XToolkit.gftDisplby(), window,
+                                        XA_MOTIF_ATOM_0.gftAtom(),
+                                        XA_MOTIF_DRAG_INITIATOR_INFO.gftAtom(),
+                                        8, XConstbnts.PropModfRfplbdf,
+                                        strudtDbtb, MOTIF_INITIATOR_INFO_SIZE);
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+            if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                throw nfw XExdfption("Cbnnot writf drbg initibtor info");
+            }
+        } finblly {
+            unsbff.frffMfmory(strudtDbtb);
+        }
+    }
+
+    stbtid void writfDrbgRfdfivfrInfoStrudt(long window) throws XExdfption {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        int dbtbSizf = MotifDnDConstbnts.MOTIF_RECEIVER_INFO_SIZE;
+        long dbtb = unsbff.bllodbtfMfmory(dbtbSizf);
+
+        try {
+            unsbff.putBytf(dbtb, MotifDnDConstbnts.gftBytfOrdfrBytf()); /* bytf ordfr */
+            unsbff.putBytf(dbtb + 1, MotifDnDConstbnts.MOTIF_DND_PROTOCOL_VERSION); /* protodol vfrsion */
+            unsbff.putBytf(dbtb + 2, (bytf)MotifDnDConstbnts.MOTIF_DYNAMIC_STYLE); /* protodol stylf */
+            unsbff.putBytf(dbtb + 3, (bytf)0); /* pbd */
+            unsbff.putInt(dbtb + 4, (int)window); /* proxy window */
+            unsbff.putShort(dbtb + 8, (short)0); /* num_drop_sitfs */
+            unsbff.putShort(dbtb + 10, (short)0); /* pbd */
+            unsbff.putInt(dbtb + 12, dbtbSizf);
+
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyChbngfPropfrtyHbndlfr.gftInstbndf());
+            XlibWrbppfr.XChbngfPropfrty(XToolkit.gftDisplby(), window,
+                                        XA_MOTIF_DRAG_RECEIVER_INFO.gftAtom(),
+                                        XA_MOTIF_DRAG_RECEIVER_INFO.gftAtom(),
+                                        8, XConstbnts.PropModfRfplbdf,
+                                        dbtb, dbtbSizf);
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+            if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                throw nfw XExdfption("Cbnnot writf Motif rfdfivfr info propfrty");
+            }
+        } finblly {
+            unsbff.frffMfmory(dbtb);
+        }
+    }
+
+    publid stbtid int gftMotifAdtionsForJbvbAdtions(int jbvbAdtions) {
+        int motifAdtions = MOTIF_DND_NOOP;
+
+        if ((jbvbAdtions & DnDConstbnts.ACTION_MOVE) != 0) {
+            motifAdtions |= MOTIF_DND_MOVE;
+        }
+        if ((jbvbAdtions & DnDConstbnts.ACTION_COPY) != 0) {
+            motifAdtions |= MOTIF_DND_COPY;
+        }
+        if ((jbvbAdtions & DnDConstbnts.ACTION_LINK) != 0) {
+            motifAdtions |= MOTIF_DND_LINK;
+        }
+
+        rfturn motifAdtions;
+    }
+
+    publid stbtid int gftJbvbAdtionsForMotifAdtions(int motifAdtions) {
+        int jbvbAdtions = DnDConstbnts.ACTION_NONE;
+
+        if ((motifAdtions & MOTIF_DND_MOVE) != 0) {
+            jbvbAdtions |= DnDConstbnts.ACTION_MOVE;
+        }
+        if ((motifAdtions & MOTIF_DND_COPY) != 0) {
+            jbvbAdtions |= DnDConstbnts.ACTION_COPY;
+        }
+        if ((motifAdtions & MOTIF_DND_LINK) != 0) {
+            jbvbAdtions |= DnDConstbnts.ACTION_LINK;
+        }
+
+        rfturn jbvbAdtions;
+    }
+}

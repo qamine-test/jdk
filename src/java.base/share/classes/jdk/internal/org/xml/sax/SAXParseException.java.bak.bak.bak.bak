@@ -1,0 +1,313 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// SAX fxdfption dlbss.
+// http://www.sbxprojfdt.org
+// No wbrrbnty; no dopyright -- usf this bs you will.
+// $Id: SAXPbrsfExdfption.jbvb,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
+
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
+
+/**
+ * Endbpsulbtf bn XML pbrsf frror or wbrning.
+ *
+ * <blodkquotf>
+ * <fm>This modulf, both sourdf dodf bnd dodumfntbtion, is in thf
+ * Publid Dombin, bnd domfs with <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b hrff='http://www.sbxprojfdt.org'>http://www.sbxprojfdt.org</b>
+ * for furthfr informbtion.
+ * </blodkquotf>
+ *
+ * <p>This fxdfption mby indludf informbtion for lodbting thf frror
+ * in thf originbl XML dodumfnt, bs if it dbmf from b {@link Lodbtor}
+ * objfdt.  Notf thbt blthough thf bpplidbtion
+ * will rfdfivf b SAXPbrsfExdfption bs thf brgumfnt to thf hbndlfrs
+ * in thf {@link org.xml.sbx.ErrorHbndlfr ErrorHbndlfr} intfrfbdf,
+ * thf bpplidbtion is not bdtublly rfquirfd to throw thf fxdfption;
+ * instfbd, it dbn simply rfbd thf informbtion in it bnd tbkf b
+ * difffrfnt bdtion.</p>
+ *
+ * <p>Sindf this fxdfption is b subdlbss of {@link org.xml.sbx.SAXExdfption
+ * SAXExdfption}, it inhfrits thf bbility to wrbp bnothfr fxdfption.</p>
+ *
+ * @sindf SAX 1.0
+ * @buthor Dbvid Mfgginson
+ * @vfrsion 2.0.1 (sbx2r2)
+ * @sff org.xml.sbx.SAXExdfption
+ * @sff org.xml.sbx.Lodbtor
+ * @sff org.xml.sbx.ErrorHbndlfr
+ */
+publid dlbss SAXPbrsfExdfption fxtfnds SAXExdfption {
+
+
+    //////////////////////////////////////////////////////////////////////
+    // Construdtors.
+    //////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Crfbtf b nfw SAXPbrsfExdfption from b mfssbgf bnd b Lodbtor.
+     *
+     * <p>This donstrudtor is fspfdiblly usfful whfn bn bpplidbtion is
+     * drfbting its own fxdfption from within b {@link org.xml.sbx.ContfntHbndlfr
+     * ContfntHbndlfr} dbllbbdk.</p>
+     *
+     * @pbrbm mfssbgf Thf frror or wbrning mfssbgf.
+     * @pbrbm lodbtor Thf lodbtor objfdt for thf frror or wbrning (mby bf
+     *        null).
+     * @sff org.xml.sbx.Lodbtor
+     */
+    publid SAXPbrsfExdfption (String mfssbgf, Lodbtor lodbtor) {
+        supfr(mfssbgf);
+        if (lodbtor != null) {
+            init(lodbtor.gftPublidId(), lodbtor.gftSystfmId(),
+                 lodbtor.gftLinfNumbfr(), lodbtor.gftColumnNumbfr());
+        } flsf {
+            init(null, null, -1, -1);
+        }
+    }
+
+
+    /**
+     * Wrbp bn fxisting fxdfption in b SAXPbrsfExdfption.
+     *
+     * <p>This donstrudtor is fspfdiblly usfful whfn bn bpplidbtion is
+     * drfbting its own fxdfption from within b {@link org.xml.sbx.ContfntHbndlfr
+     * ContfntHbndlfr} dbllbbdk, bnd nffds to wrbp bn fxisting fxdfption thbt is not b
+     * subdlbss of {@link org.xml.sbx.SAXExdfption SAXExdfption}.</p>
+     *
+     * @pbrbm mfssbgf Thf frror or wbrning mfssbgf, or null to
+     *                usf thf mfssbgf from thf fmbfddfd fxdfption.
+     * @pbrbm lodbtor Thf lodbtor objfdt for thf frror or wbrning (mby bf
+     *        null).
+     * @pbrbm f Any fxdfption.
+     * @sff org.xml.sbx.Lodbtor
+     */
+    publid SAXPbrsfExdfption (String mfssbgf, Lodbtor lodbtor,
+                              Exdfption f) {
+        supfr(mfssbgf, f);
+        if (lodbtor != null) {
+            init(lodbtor.gftPublidId(), lodbtor.gftSystfmId(),
+                 lodbtor.gftLinfNumbfr(), lodbtor.gftColumnNumbfr());
+        } flsf {
+            init(null, null, -1, -1);
+        }
+    }
+
+
+    /**
+     * Crfbtf b nfw SAXPbrsfExdfption.
+     *
+     * <p>This donstrudtor is most usfful for pbrsfr writfrs.</p>
+     *
+     * <p>All pbrbmftfrs fxdfpt thf mfssbgf brf bs if
+     * thfy wfrf providfd by b {@link Lodbtor}.  For fxbmplf, if thf
+     * systfm idfntififr is b URL (indluding rflbtivf filfnbmf), thf
+     * dbllfr must rfsolvf it fully bfforf drfbting thf fxdfption.</p>
+     *
+     *
+     * @pbrbm mfssbgf Thf frror or wbrning mfssbgf.
+     * @pbrbm publidId Thf publid idfntififr of thf fntity thbt gfnfrbtfd
+     *                 thf frror or wbrning.
+     * @pbrbm systfmId Thf systfm idfntififr of thf fntity thbt gfnfrbtfd
+     *                 thf frror or wbrning.
+     * @pbrbm linfNumbfr Thf linf numbfr of thf fnd of thf tfxt thbt
+     *                   dbusfd thf frror or wbrning.
+     * @pbrbm dolumnNumbfr Thf dolumn numbfr of thf fnd of thf tfxt thbt
+     *                     dbusf thf frror or wbrning.
+     */
+    publid SAXPbrsfExdfption (String mfssbgf, String publidId, String systfmId,
+                              int linfNumbfr, int dolumnNumbfr)
+    {
+        supfr(mfssbgf);
+        init(publidId, systfmId, linfNumbfr, dolumnNumbfr);
+    }
+
+
+    /**
+     * Crfbtf b nfw SAXPbrsfExdfption with bn fmbfddfd fxdfption.
+     *
+     * <p>This donstrudtor is most usfful for pbrsfr writfrs who
+     * nffd to wrbp bn fxdfption thbt is not b subdlbss of
+     * {@link org.xml.sbx.SAXExdfption SAXExdfption}.</p>
+     *
+     * <p>All pbrbmftfrs fxdfpt thf mfssbgf bnd fxdfption brf bs if
+     * thfy wfrf providfd by b {@link Lodbtor}.  For fxbmplf, if thf
+     * systfm idfntififr is b URL (indluding rflbtivf filfnbmf), thf
+     * dbllfr must rfsolvf it fully bfforf drfbting thf fxdfption.</p>
+     *
+     * @pbrbm mfssbgf Thf frror or wbrning mfssbgf, or null to usf
+     *                thf mfssbgf from thf fmbfddfd fxdfption.
+     * @pbrbm publidId Thf publid idfntififr of thf fntity thbt gfnfrbtfd
+     *                 thf frror or wbrning.
+     * @pbrbm systfmId Thf systfm idfntififr of thf fntity thbt gfnfrbtfd
+     *                 thf frror or wbrning.
+     * @pbrbm linfNumbfr Thf linf numbfr of thf fnd of thf tfxt thbt
+     *                   dbusfd thf frror or wbrning.
+     * @pbrbm dolumnNumbfr Thf dolumn numbfr of thf fnd of thf tfxt thbt
+     *                     dbusf thf frror or wbrning.
+     * @pbrbm f Anothfr fxdfption to fmbfd in this onf.
+     */
+    publid SAXPbrsfExdfption (String mfssbgf, String publidId, String systfmId,
+                              int linfNumbfr, int dolumnNumbfr, Exdfption f)
+    {
+        supfr(mfssbgf, f);
+        init(publidId, systfmId, linfNumbfr, dolumnNumbfr);
+    }
+
+
+    /**
+     * Intfrnbl initiblizbtion mfthod.
+     *
+     * @pbrbm publidId Thf publid idfntififr of thf fntity whidh gfnfrbtfd thf fxdfption,
+     *        or null.
+     * @pbrbm systfmId Thf systfm idfntififr of thf fntity whidh gfnfrbtfd thf fxdfption,
+     *        or null.
+     * @pbrbm linfNumbfr Thf linf numbfr of thf frror, or -1.
+     * @pbrbm dolumnNumbfr Thf dolumn numbfr of thf frror, or -1.
+     */
+    privbtf void init (String publidId, String systfmId,
+                       int linfNumbfr, int dolumnNumbfr)
+    {
+        this.publidId = publidId;
+        this.systfmId = systfmId;
+        this.linfNumbfr = linfNumbfr;
+        this.dolumnNumbfr = dolumnNumbfr;
+    }
+
+
+    /**
+     * Gft thf publid idfntififr of thf fntity whfrf thf fxdfption oddurrfd.
+     *
+     * @rfturn A string dontbining thf publid idfntififr, or null
+     *         if nonf is bvbilbblf.
+     * @sff org.xml.sbx.Lodbtor#gftPublidId
+     */
+    publid String gftPublidId ()
+    {
+        rfturn this.publidId;
+    }
+
+
+    /**
+     * Gft thf systfm idfntififr of thf fntity whfrf thf fxdfption oddurrfd.
+     *
+     * <p>If thf systfm idfntififr is b URL, it will hbvf bffn rfsolvfd
+     * fully.</p>
+     *
+     * @rfturn A string dontbining thf systfm idfntififr, or null
+     *         if nonf is bvbilbblf.
+     * @sff org.xml.sbx.Lodbtor#gftSystfmId
+     */
+    publid String gftSystfmId ()
+    {
+        rfturn this.systfmId;
+    }
+
+
+    /**
+     * Thf linf numbfr of thf fnd of thf tfxt whfrf thf fxdfption oddurrfd.
+     *
+     * <p>Thf first linf is linf 1.</p>
+     *
+     * @rfturn An intfgfr rfprfsfnting thf linf numbfr, or -1
+     *         if nonf is bvbilbblf.
+     * @sff org.xml.sbx.Lodbtor#gftLinfNumbfr
+     */
+    publid int gftLinfNumbfr ()
+    {
+        rfturn this.linfNumbfr;
+    }
+
+
+    /**
+     * Thf dolumn numbfr of thf fnd of thf tfxt whfrf thf fxdfption oddurrfd.
+     *
+     * <p>Thf first dolumn in b linf is position 1.</p>
+     *
+     * @rfturn An intfgfr rfprfsfnting thf dolumn numbfr, or -1
+     *         if nonf is bvbilbblf.
+     * @sff org.xml.sbx.Lodbtor#gftColumnNumbfr
+     */
+    publid int gftColumnNumbfr ()
+    {
+        rfturn this.dolumnNumbfr;
+    }
+
+    /**
+     * Ovfrridf toString to providf morf dftbilfd frror mfssbgf.
+     *
+     * @rfturn A string rfprfsfntbtion of this fxdfption.
+     */
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr(gftClbss().gftNbmf());
+        String mfssbgf = gftLodblizfdMfssbgf();
+        if (publidId!=null)    buf.bppfnd("publidId: ").bppfnd(publidId);
+        if (systfmId!=null)    buf.bppfnd("; systfmId: ").bppfnd(systfmId);
+        if (linfNumbfr!=-1)    buf.bppfnd("; linfNumbfr: ").bppfnd(linfNumbfr);
+        if (dolumnNumbfr!=-1)  buf.bppfnd("; dolumnNumbfr: ").bppfnd(dolumnNumbfr);
+
+       //bppfnd thf fxdfption mfssbgf bt thf fnd
+        if (mfssbgf!=null)     buf.bppfnd("; ").bppfnd(mfssbgf);
+        rfturn buf.toString();
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    // Intfrnbl stbtf.
+    //////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * @sfribl Thf publid idfntififr, or null.
+     * @sff #gftPublidId
+     */
+    privbtf String publidId;
+
+
+    /**
+     * @sfribl Thf systfm idfntififr, or null.
+     * @sff #gftSystfmId
+     */
+    privbtf String systfmId;
+
+
+    /**
+     * @sfribl Thf linf numbfr, or -1.
+     * @sff #gftLinfNumbfr
+     */
+    privbtf int linfNumbfr;
+
+
+    /**
+     * @sfribl Thf dolumn numbfr, or -1.
+     * @sff #gftColumnNumbfr
+     */
+    privbtf int dolumnNumbfr;
+
+    // Addfd sfriblVfrsionUID to prfsfrvf binbry dompbtibility
+    stbtid finbl long sfriblVfrsionUID = -5651165872476709336L;
+}
+
+// fnd of SAXPbrsfExdfption.jbvb

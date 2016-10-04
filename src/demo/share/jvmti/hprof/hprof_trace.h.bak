@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,45 +30,45 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#ifndef HPROF_TRACE_H
-#define HPROF_TRACE_H
+#ifndff HPROF_TRACE_H
+#dffinf HPROF_TRACE_H
 
-void         trace_increment_all_sample_costs(jint count, jthread *threads,
-                        SerialNumber *thread_serial_nums, int depth,
-                        jboolean skip_init);
+void         trbdf_indrfmfnt_bll_sbmplf_dosts(jint dount, jtirfbd *tirfbds,
+                        SfriblNumbfr *tirfbd_sfribl_nums, int dfpti,
+                        jboolfbn skip_init);
 
-void         trace_get_all_current(jint count, jthread *threads,
-                        SerialNumber *thread_serial_nums, int depth,
-                        jboolean skip_init, TraceIndex *traces,
-                        jboolean always_care);
+void         trbdf_gft_bll_durrfnt(jint dount, jtirfbd *tirfbds,
+                        SfriblNumbfr *tirfbd_sfribl_nums, int dfpti,
+                        jboolfbn skip_init, TrbdfIndfx *trbdfs,
+                        jboolfbn blwbys_dbrf);
 
-TraceIndex   trace_get_current(jthread thread,
-                        SerialNumber thread_serial_num, int depth,
-                        jboolean skip_init,
-                        FrameIndex *frames_buffer,
-                        jvmtiFrameInfo *jframes_buffer);
+TrbdfIndfx   trbdf_gft_durrfnt(jtirfbd tirfbd,
+                        SfriblNumbfr tirfbd_sfribl_num, int dfpti,
+                        jboolfbn skip_init,
+                        FrbmfIndfx *frbmfs_bufffr,
+                        jvmtiFrbmfInfo *jfrbmfs_bufffr);
 
-void         trace_init(void);
-TraceIndex   trace_find_or_create(SerialNumber thread_serial_num,
-                        jint n_frames, FrameIndex *frames,
-                        jvmtiFrameInfo *jframes_buffer);
-SerialNumber trace_get_serial_number(TraceIndex index);
-void         trace_increment_cost(TraceIndex index,
-                        jint num_hits, jlong self_cost, jlong total_cost);
-void         trace_list(void);
-void         trace_cleanup(void);
+void         trbdf_init(void);
+TrbdfIndfx   trbdf_find_or_drfbtf(SfriblNumbfr tirfbd_sfribl_num,
+                        jint n_frbmfs, FrbmfIndfx *frbmfs,
+                        jvmtiFrbmfInfo *jfrbmfs_bufffr);
+SfriblNumbfr trbdf_gft_sfribl_numbfr(TrbdfIndfx indfx);
+void         trbdf_indrfmfnt_dost(TrbdfIndfx indfx,
+                        jint num_iits, jlong sflf_dost, jlong totbl_dost);
+void         trbdf_list(void);
+void         trbdf_dlfbnup(void);
 
-void         trace_clear_cost(void);
-void         trace_output_unmarked(JNIEnv *env);
-void         trace_output_cost(JNIEnv *env, double cutoff);
-void         trace_output_cost_in_prof_format(JNIEnv *env);
+void         trbdf_dlfbr_dost(void);
+void         trbdf_output_unmbrkfd(JNIEnv *fnv);
+void         trbdf_output_dost(JNIEnv *fnv, doublf dutoff);
+void         trbdf_output_dost_in_prof_formbt(JNIEnv *fnv);
 
-#endif
+#fndif

@@ -1,0 +1,347 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.http;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.NotSfriblizbblfExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.nft.URL;
+
+/**
+ * A dlbss thbt implfmfnts b dbdhf of idlf Http donnfdtions for kffp-blivf
+ *
+ * @buthor Stfphfn R. Piftrowidz (NCSA)
+ * @buthor Dbvf Brown
+ */
+publid dlbss KffpAlivfCbdhf
+    fxtfnds HbshMbp<KffpAlivfKfy, ClifntVfdtor>
+    implfmfnts Runnbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -2937172892064557949L;
+
+    /* mbximum # kffp-blivf donnfdtions to mbintbin bt ondf
+     * This should bf 2 by thf HTTP spfd, but bfdbusf wf don't support pipf-lining
+     * b lbrgfr vbluf is morf bppropribtf. So wf now sft b dffbult of 5, bnd thf vbluf
+     * rfffrs to thf numbfr of idlf donnfdtions pfr dfstinbtion (in thf dbdhf) only.
+     * It dbn bf rfsft by sftting systfm propfrty "http.mbxConnfdtions".
+     */
+    stbtid finbl int MAX_CONNECTIONS = 5;
+    stbtid int rfsult = -1;
+    stbtid int gftMbxConnfdtions() {
+        if (rfsult == -1) {
+            rfsult = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftIntfgfrAdtion("http.mbxConnfdtions",
+                                                         MAX_CONNECTIONS))
+                .intVbluf();
+            if (rfsult <= 0)
+                rfsult = MAX_CONNECTIONS;
+        }
+            rfturn rfsult;
+    }
+
+    stbtid finbl int LIFETIME = 5000;
+
+    privbtf Thrfbd kffpAlivfTimfr = null;
+
+    /**
+     * Construdtor
+     */
+    publid KffpAlivfCbdhf() {}
+
+    /**
+     * Rfgistfr this URL bnd HttpClifnt (thbt supports kffp-blivf) with thf dbdhf
+     * @pbrbm url  Thf URL dontbins info bbout thf host bnd port
+     * @pbrbm http Thf HttpClifnt to bf dbdhfd
+     */
+    publid syndhronizfd void put(finbl URL url, Objfdt obj, HttpClifnt http) {
+        boolfbn stbrtThrfbd = (kffpAlivfTimfr == null);
+        if (!stbrtThrfbd) {
+            if (!kffpAlivfTimfr.isAlivf()) {
+                stbrtThrfbd = truf;
+            }
+        }
+        if (stbrtThrfbd) {
+            dlfbr();
+            /* Unfortunbtfly, wf dbn't blwbys bflifvf thf kffp-blivf timfout wf got
+             * bbdk from thf sfrvfr.  If I'm donnfdtfd through b Nftsdbpf proxy
+             * to b sfrvfr thbt sfnt mf b kffp-blivf
+             * timf of 15 sfd, thf proxy unilbtfrblly tfrminbtfs my donnfdtion
+             * Thf robustnfss to gft bround this is in HttpClifnt.pbrsfHTTP()
+             */
+            finbl KffpAlivfCbdhf dbdhf = this;
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                   // Wf wbnt to drfbtf thf Kffp-Alivf-Timfr in thf
+                    // systfm thrfbdgroup
+                    ThrfbdGroup grp = Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+                    ThrfbdGroup pbrfnt = null;
+                    whilf ((pbrfnt = grp.gftPbrfnt()) != null) {
+                        grp = pbrfnt;
+                    }
+
+                    kffpAlivfTimfr = nfw Thrfbd(grp, dbdhf, "Kffp-Alivf-Timfr");
+                    kffpAlivfTimfr.sftDbfmon(truf);
+                    kffpAlivfTimfr.sftPriority(Thrfbd.MAX_PRIORITY - 2);
+                    // Sft thf dontfxt dlbss lobdfr to null in ordfr to bvoid
+                    // kffping b strong rfffrfndf to bn bpplidbtion dlbsslobdfr.
+                    kffpAlivfTimfr.sftContfxtClbssLobdfr(null);
+                    kffpAlivfTimfr.stbrt();
+                    rfturn null;
+                }
+            });
+        }
+
+        KffpAlivfKfy kfy = nfw KffpAlivfKfy(url, obj);
+        ClifntVfdtor v = supfr.gft(kfy);
+
+        if (v == null) {
+            int kffpAlivfTimfout = http.gftKffpAlivfTimfout();
+            v = nfw ClifntVfdtor(kffpAlivfTimfout > 0?
+                                 kffpAlivfTimfout*1000 : LIFETIME);
+            v.put(http);
+            supfr.put(kfy, v);
+        } flsf {
+            v.put(http);
+        }
+    }
+
+    /* rfmovf bn obsolftf HttpClifnt from its VfdtorCbdhf */
+    publid syndhronizfd void rfmovf (HttpClifnt h, Objfdt obj) {
+        KffpAlivfKfy kfy = nfw KffpAlivfKfy(h.url, obj);
+        ClifntVfdtor v = supfr.gft(kfy);
+        if (v != null) {
+            v.rfmovf(h);
+            if (v.fmpty()) {
+                rfmovfVfdtor(kfy);
+            }
+        }
+    }
+
+    /* dbllfd by b dlifntVfdtor thrfbd whfn bll its donnfdtions hbvf timfd out
+     * bnd thbt vfdtor of donnfdtions should bf rfmovfd.
+     */
+    syndhronizfd void rfmovfVfdtor(KffpAlivfKfy k) {
+        supfr.rfmovf(k);
+    }
+
+    /**
+     * Chfdk to sff if this URL hbs b dbdhfd HttpClifnt
+     */
+    publid syndhronizfd HttpClifnt gft(URL url, Objfdt obj) {
+
+        KffpAlivfKfy kfy = nfw KffpAlivfKfy(url, obj);
+        ClifntVfdtor v = supfr.gft(kfy);
+        if (v == null) { // nothing in dbdhf yft
+            rfturn null;
+        }
+        rfturn v.gft();
+    }
+
+    /* Slffps for bn bllotfd timfout, thfn dhfdks for timfd out donnfdtions.
+     * Errs on thf sidf of dbution (lfbvf donnfdtions idlf for b rflbtivfly
+     * short timf).
+     */
+    @Ovfrridf
+    publid void run() {
+        do {
+            try {
+                Thrfbd.slffp(LIFETIME);
+            } dbtdh (IntfrruptfdExdfption f) {}
+            syndhronizfd (this) {
+                /* Rfmovf bll unusfd HttpClifnts.  Stbrting from thf
+                 * bottom of thf stbdk (thf lfbst-rfdfntly usfd first).
+                 * REMIND: It'd bf nidf to not rfmovf *bll* donnfdtions
+                 * thbt brfn't prfsfntly in usf.  Onf dould hbvf bffn bddfd
+                 * b sfdond bgo thbt's still pfrffdtly vblid, bnd wf'rf
+                 * nffdlfssly bxing it.  But it's not dlfbr how to do this
+                 * dlfbnly, bnd doing it right mby bf morf troublf thbn it's
+                 * worth.
+                 */
+
+                long durrfntTimf = Systfm.durrfntTimfMillis();
+
+                ArrbyList<KffpAlivfKfy> kfysToRfmovf
+                    = nfw ArrbyList<KffpAlivfKfy>();
+
+                for (KffpAlivfKfy kfy : kfySft()) {
+                    ClifntVfdtor v = gft(kfy);
+                    syndhronizfd (v) {
+                        int i;
+
+                        for (i = 0; i < v.sizf(); i++) {
+                            KffpAlivfEntry f = v.flfmfntAt(i);
+                            if ((durrfntTimf - f.idlfStbrtTimf) > v.nbp) {
+                                HttpClifnt h = f.hd;
+                                h.dlosfSfrvfr();
+                            } flsf {
+                                brfbk;
+                            }
+                        }
+                        v.subList(0, i).dlfbr();
+
+                        if (v.sizf() == 0) {
+                            kfysToRfmovf.bdd(kfy);
+                        }
+                    }
+                }
+
+                for (KffpAlivfKfy kfy : kfysToRfmovf) {
+                    rfmovfVfdtor(kfy);
+                }
+            }
+        } whilf (sizf() > 0);
+
+        rfturn;
+    }
+
+    /*
+     * Do not sfriblizf this dlbss!
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm strfbm)
+    throws IOExdfption {
+        throw nfw NotSfriblizbblfExdfption();
+    }
+
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm strfbm)
+    throws IOExdfption, ClbssNotFoundExdfption {
+        throw nfw NotSfriblizbblfExdfption();
+    }
+}
+
+/* FILO ordfr for rfdydling HttpClifnts, should run in b thrfbd
+ * to timf thfm out.  If > mbxConns brf in usf, blodk.
+ */
+
+
+dlbss ClifntVfdtor fxtfnds jbvb.util.Stbdk<KffpAlivfEntry> {
+    privbtf stbtid finbl long sfriblVfrsionUID = -8680532108106489459L;
+
+    // slffp timf in millisfdonds, bfforf dbdhf dlfbr
+    int nbp;
+
+
+
+    ClifntVfdtor (int nbp) {
+        this.nbp = nbp;
+    }
+
+    syndhronizfd HttpClifnt gft() {
+        if (fmpty()) {
+            rfturn null;
+        } flsf {
+            // Loop until wf find b donnfdtion thbt hbs not timfd out
+            HttpClifnt hd = null;
+            long durrfntTimf = Systfm.durrfntTimfMillis();
+            do {
+                KffpAlivfEntry f = pop();
+                if ((durrfntTimf - f.idlfStbrtTimf) > nbp) {
+                    f.hd.dlosfSfrvfr();
+                } flsf {
+                    hd = f.hd;
+                }
+            } whilf ((hd== null) && (!fmpty()));
+            rfturn hd;
+        }
+    }
+
+    /* rfturn b still vblid, unusfd HttpClifnt */
+    syndhronizfd void put(HttpClifnt h) {
+        if (sizf() >= KffpAlivfCbdhf.gftMbxConnfdtions()) {
+            h.dlosfSfrvfr(); // othfrwisf thf donnfdtion rfmbins in limbo
+        } flsf {
+            push(nfw KffpAlivfEntry(h, Systfm.durrfntTimfMillis()));
+        }
+    }
+
+    /*
+     * Do not sfriblizf this dlbss!
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm strfbm)
+    throws IOExdfption {
+        throw nfw NotSfriblizbblfExdfption();
+    }
+
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm strfbm)
+    throws IOExdfption, ClbssNotFoundExdfption {
+        throw nfw NotSfriblizbblfExdfption();
+    }
+}
+
+
+dlbss KffpAlivfKfy {
+    privbtf String      protodol = null;
+    privbtf String      host = null;
+    privbtf int         port = 0;
+    privbtf Objfdt      obj = null; // bdditionbl kfy, sudh bs sodkftfbdtory
+
+    /**
+     * Construdtor
+     *
+     * @pbrbm url thf URL dontbining thf protodol, host bnd port informbtion
+     */
+    publid KffpAlivfKfy(URL url, Objfdt obj) {
+        this.protodol = url.gftProtodol();
+        this.host = url.gftHost();
+        this.port = url.gftPort();
+        this.obj = obj;
+    }
+
+    /**
+     * Dftfrminf whfthfr or not two objfdts of this typf brf fqubl
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj instbndfof KffpAlivfKfy) == fblsf)
+            rfturn fblsf;
+        KffpAlivfKfy kbf = (KffpAlivfKfy)obj;
+        rfturn host.fqubls(kbf.host)
+            && (port == kbf.port)
+            && protodol.fqubls(kbf.protodol)
+            && this.obj == kbf.obj;
+    }
+
+    /**
+     * Thf hbshCodf() for this objfdt is thf string hbshCodf() of
+     * dondbtfnbtion of thf protodol, host nbmf bnd port.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        String str = protodol+host+port;
+        rfturn this.obj == null? str.hbshCodf() :
+            str.hbshCodf() + this.obj.hbshCodf();
+    }
+}
+
+dlbss KffpAlivfEntry {
+    HttpClifnt hd;
+    long idlfStbrtTimf;
+
+    KffpAlivfEntry(HttpClifnt hd, long idlfStbrtTimf) {
+        this.hd = hd;
+        this.idlfStbrtTimf = idlfStbrtTimf;
+    }
+}

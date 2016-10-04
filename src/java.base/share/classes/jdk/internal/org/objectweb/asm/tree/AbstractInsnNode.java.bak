@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,300 +56,300 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.MethodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
 
 /**
- * A node that represents a bytecode instruction. <i>An instruction can appear
- * at most once in at most one {@link InsnList} at a time</i>.
+ * A nodf tibt rfprfsfnts b bytfdodf instrudtion. <i>An instrudtion dbn bppfbr
+ * bt most ondf in bt most onf {@link InsnList} bt b timf</i>.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public abstract class AbstractInsnNode {
+publid bbstrbdt dlbss AbstrbdtInsnNodf {
 
     /**
-     * The type of {@link InsnNode} instructions.
+     * Tif typf of {@link InsnNodf} instrudtions.
      */
-    public static final int INSN = 0;
+    publid stbtid finbl int INSN = 0;
 
     /**
-     * The type of {@link IntInsnNode} instructions.
+     * Tif typf of {@link IntInsnNodf} instrudtions.
      */
-    public static final int INT_INSN = 1;
+    publid stbtid finbl int INT_INSN = 1;
 
     /**
-     * The type of {@link VarInsnNode} instructions.
+     * Tif typf of {@link VbrInsnNodf} instrudtions.
      */
-    public static final int VAR_INSN = 2;
+    publid stbtid finbl int VAR_INSN = 2;
 
     /**
-     * The type of {@link TypeInsnNode} instructions.
+     * Tif typf of {@link TypfInsnNodf} instrudtions.
      */
-    public static final int TYPE_INSN = 3;
+    publid stbtid finbl int TYPE_INSN = 3;
 
     /**
-     * The type of {@link FieldInsnNode} instructions.
+     * Tif typf of {@link FifldInsnNodf} instrudtions.
      */
-    public static final int FIELD_INSN = 4;
+    publid stbtid finbl int FIELD_INSN = 4;
 
     /**
-     * The type of {@link MethodInsnNode} instructions.
+     * Tif typf of {@link MftiodInsnNodf} instrudtions.
      */
-    public static final int METHOD_INSN = 5;
+    publid stbtid finbl int METHOD_INSN = 5;
 
     /**
-     * The type of {@link InvokeDynamicInsnNode} instructions.
+     * Tif typf of {@link InvokfDynbmidInsnNodf} instrudtions.
      */
-    public static final int INVOKE_DYNAMIC_INSN = 6;
+    publid stbtid finbl int INVOKE_DYNAMIC_INSN = 6;
 
     /**
-     * The type of {@link JumpInsnNode} instructions.
+     * Tif typf of {@link JumpInsnNodf} instrudtions.
      */
-    public static final int JUMP_INSN = 7;
+    publid stbtid finbl int JUMP_INSN = 7;
 
     /**
-     * The type of {@link LabelNode} "instructions".
+     * Tif typf of {@link LbbflNodf} "instrudtions".
      */
-    public static final int LABEL = 8;
+    publid stbtid finbl int LABEL = 8;
 
     /**
-     * The type of {@link LdcInsnNode} instructions.
+     * Tif typf of {@link LddInsnNodf} instrudtions.
      */
-    public static final int LDC_INSN = 9;
+    publid stbtid finbl int LDC_INSN = 9;
 
     /**
-     * The type of {@link IincInsnNode} instructions.
+     * Tif typf of {@link IindInsnNodf} instrudtions.
      */
-    public static final int IINC_INSN = 10;
+    publid stbtid finbl int IINC_INSN = 10;
 
     /**
-     * The type of {@link TableSwitchInsnNode} instructions.
+     * Tif typf of {@link TbblfSwitdiInsnNodf} instrudtions.
      */
-    public static final int TABLESWITCH_INSN = 11;
+    publid stbtid finbl int TABLESWITCH_INSN = 11;
 
     /**
-     * The type of {@link LookupSwitchInsnNode} instructions.
+     * Tif typf of {@link LookupSwitdiInsnNodf} instrudtions.
      */
-    public static final int LOOKUPSWITCH_INSN = 12;
+    publid stbtid finbl int LOOKUPSWITCH_INSN = 12;
 
     /**
-     * The type of {@link MultiANewArrayInsnNode} instructions.
+     * Tif typf of {@link MultiANfwArrbyInsnNodf} instrudtions.
      */
-    public static final int MULTIANEWARRAY_INSN = 13;
+    publid stbtid finbl int MULTIANEWARRAY_INSN = 13;
 
     /**
-     * The type of {@link FrameNode} "instructions".
+     * Tif typf of {@link FrbmfNodf} "instrudtions".
      */
-    public static final int FRAME = 14;
+    publid stbtid finbl int FRAME = 14;
 
     /**
-     * The type of {@link LineNumberNode} "instructions".
+     * Tif typf of {@link LinfNumbfrNodf} "instrudtions".
      */
-    public static final int LINE = 15;
+    publid stbtid finbl int LINE = 15;
 
     /**
-     * The opcode of this instruction.
+     * Tif opdodf of tiis instrudtion.
      */
-    protected int opcode;
+    protfdtfd int opdodf;
 
     /**
-     * The runtime visible type annotations of this instruction. This field is
-     * only used for real instructions (i.e. not for labels, frames, or line
-     * number nodes). This list is a list of {@link TypeAnnotationNode} objects.
-     * May be <tt>null</tt>.
+     * Tif runtimf visiblf typf bnnotbtions of tiis instrudtion. Tiis fifld is
+     * only usfd for rfbl instrudtions (i.f. not for lbbfls, frbmfs, or linf
+     * numbfr nodfs). Tiis list is b list of {@link TypfAnnotbtionNodf} objfdts.
+     * Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label visible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl visiblf
      */
-    public List<TypeAnnotationNode> visibleTypeAnnotations;
+    publid List<TypfAnnotbtionNodf> visiblfTypfAnnotbtions;
 
     /**
-     * The runtime invisible type annotations of this instruction. This field is
-     * only used for real instructions (i.e. not for labels, frames, or line
-     * number nodes). This list is a list of {@link TypeAnnotationNode} objects.
-     * May be <tt>null</tt>.
+     * Tif runtimf invisiblf typf bnnotbtions of tiis instrudtion. Tiis fifld is
+     * only usfd for rfbl instrudtions (i.f. not for lbbfls, frbmfs, or linf
+     * numbfr nodfs). Tiis list is b list of {@link TypfAnnotbtionNodf} objfdts.
+     * Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label invisible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl invisiblf
      */
-    public List<TypeAnnotationNode> invisibleTypeAnnotations;
+    publid List<TypfAnnotbtionNodf> invisiblfTypfAnnotbtions;
 
     /**
-     * Previous instruction in the list to which this instruction belongs.
+     * Prfvious instrudtion in tif list to wiidi tiis instrudtion bflongs.
      */
-    AbstractInsnNode prev;
+    AbstrbdtInsnNodf prfv;
 
     /**
-     * Next instruction in the list to which this instruction belongs.
+     * Nfxt instrudtion in tif list to wiidi tiis instrudtion bflongs.
      */
-    AbstractInsnNode next;
+    AbstrbdtInsnNodf nfxt;
 
     /**
-     * Index of this instruction in the list to which it belongs. The value of
-     * this field is correct only when {@link InsnList#cache} is not null. A
-     * value of -1 indicates that this instruction does not belong to any
+     * Indfx of tiis instrudtion in tif list to wiidi it bflongs. Tif vbluf of
+     * tiis fifld is dorrfdt only wifn {@link InsnList#dbdif} is not null. A
+     * vbluf of -1 indidbtfs tibt tiis instrudtion dofs not bflong to bny
      * {@link InsnList}.
      */
-    int index;
+    int indfx;
 
     /**
-     * Constructs a new {@link AbstractInsnNode}.
+     * Construdts b nfw {@link AbstrbdtInsnNodf}.
      *
-     * @param opcode
-     *            the opcode of the instruction to be constructed.
+     * @pbrbm opdodf
+     *            tif opdodf of tif instrudtion to bf donstrudtfd.
      */
-    protected AbstractInsnNode(final int opcode) {
-        this.opcode = opcode;
-        this.index = -1;
+    protfdtfd AbstrbdtInsnNodf(finbl int opdodf) {
+        tiis.opdodf = opdodf;
+        tiis.indfx = -1;
     }
 
     /**
-     * Returns the opcode of this instruction.
+     * Rfturns tif opdodf of tiis instrudtion.
      *
-     * @return the opcode of this instruction.
+     * @rfturn tif opdodf of tiis instrudtion.
      */
-    public int getOpcode() {
-        return opcode;
+    publid int gftOpdodf() {
+        rfturn opdodf;
     }
 
     /**
-     * Returns the type of this instruction.
+     * Rfturns tif typf of tiis instrudtion.
      *
-     * @return the type of this instruction, i.e. one the constants defined in
-     *         this class.
+     * @rfturn tif typf of tiis instrudtion, i.f. onf tif donstbnts dffinfd in
+     *         tiis dlbss.
      */
-    public abstract int getType();
+    publid bbstrbdt int gftTypf();
 
     /**
-     * Returns the previous instruction in the list to which this instruction
-     * belongs, if any.
+     * Rfturns tif prfvious instrudtion in tif list to wiidi tiis instrudtion
+     * bflongs, if bny.
      *
-     * @return the previous instruction in the list to which this instruction
-     *         belongs, if any. May be <tt>null</tt>.
+     * @rfturn tif prfvious instrudtion in tif list to wiidi tiis instrudtion
+     *         bflongs, if bny. Mby bf <tt>null</tt>.
      */
-    public AbstractInsnNode getPrevious() {
-        return prev;
+    publid AbstrbdtInsnNodf gftPrfvious() {
+        rfturn prfv;
     }
 
     /**
-     * Returns the next instruction in the list to which this instruction
-     * belongs, if any.
+     * Rfturns tif nfxt instrudtion in tif list to wiidi tiis instrudtion
+     * bflongs, if bny.
      *
-     * @return the next instruction in the list to which this instruction
-     *         belongs, if any. May be <tt>null</tt>.
+     * @rfturn tif nfxt instrudtion in tif list to wiidi tiis instrudtion
+     *         bflongs, if bny. Mby bf <tt>null</tt>.
      */
-    public AbstractInsnNode getNext() {
-        return next;
+    publid AbstrbdtInsnNodf gftNfxt() {
+        rfturn nfxt;
     }
 
     /**
-     * Makes the given code visitor visit this instruction.
+     * Mbkfs tif givfn dodf visitor visit tiis instrudtion.
      *
-     * @param cv
-     *            a code visitor.
+     * @pbrbm dv
+     *            b dodf visitor.
      */
-    public abstract void accept(final MethodVisitor cv);
+    publid bbstrbdt void bddfpt(finbl MftiodVisitor dv);
 
     /**
-     * Makes the given visitor visit the annotations of this instruction.
+     * Mbkfs tif givfn visitor visit tif bnnotbtions of tiis instrudtion.
      *
-     * @param mv
-     *            a method visitor.
+     * @pbrbm mv
+     *            b mftiod visitor.
      */
-    protected final void acceptAnnotations(final MethodVisitor mv) {
-        int n = visibleTypeAnnotations == null ? 0 : visibleTypeAnnotations
-                .size();
+    protfdtfd finbl void bddfptAnnotbtions(finbl MftiodVisitor mv) {
+        int n = visiblfTypfAnnotbtions == null ? 0 : visiblfTypfAnnotbtions
+                .sizf();
         for (int i = 0; i < n; ++i) {
-            TypeAnnotationNode an = visibleTypeAnnotations.get(i);
-            an.accept(mv.visitInsnAnnotation(an.typeRef, an.typePath, an.desc,
-                    true));
+            TypfAnnotbtionNodf bn = visiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(mv.visitInsnAnnotbtion(bn.typfRff, bn.typfPbti, bn.dfsd,
+                    truf));
         }
-        n = invisibleTypeAnnotations == null ? 0 : invisibleTypeAnnotations
-                .size();
+        n = invisiblfTypfAnnotbtions == null ? 0 : invisiblfTypfAnnotbtions
+                .sizf();
         for (int i = 0; i < n; ++i) {
-            TypeAnnotationNode an = invisibleTypeAnnotations.get(i);
-            an.accept(mv.visitInsnAnnotation(an.typeRef, an.typePath, an.desc,
-                    false));
+            TypfAnnotbtionNodf bn = invisiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(mv.visitInsnAnnotbtion(bn.typfRff, bn.typfPbti, bn.dfsd,
+                    fblsf));
         }
     }
 
     /**
-     * Returns a copy of this instruction.
+     * Rfturns b dopy of tiis instrudtion.
      *
-     * @param labels
-     *            a map from LabelNodes to cloned LabelNodes.
-     * @return a copy of this instruction. The returned instruction does not
-     *         belong to any {@link InsnList}.
+     * @pbrbm lbbfls
+     *            b mbp from LbbflNodfs to dlonfd LbbflNodfs.
+     * @rfturn b dopy of tiis instrudtion. Tif rfturnfd instrudtion dofs not
+     *         bflong to bny {@link InsnList}.
      */
-    public abstract AbstractInsnNode clone(
-            final Map<LabelNode, LabelNode> labels);
+    publid bbstrbdt AbstrbdtInsnNodf dlonf(
+            finbl Mbp<LbbflNodf, LbbflNodf> lbbfls);
 
     /**
-     * Returns the clone of the given label.
+     * Rfturns tif dlonf of tif givfn lbbfl.
      *
-     * @param label
-     *            a label.
-     * @param map
-     *            a map from LabelNodes to cloned LabelNodes.
-     * @return the clone of the given label.
+     * @pbrbm lbbfl
+     *            b lbbfl.
+     * @pbrbm mbp
+     *            b mbp from LbbflNodfs to dlonfd LbbflNodfs.
+     * @rfturn tif dlonf of tif givfn lbbfl.
      */
-    static LabelNode clone(final LabelNode label,
-            final Map<LabelNode, LabelNode> map) {
-        return map.get(label);
+    stbtid LbbflNodf dlonf(finbl LbbflNodf lbbfl,
+            finbl Mbp<LbbflNodf, LbbflNodf> mbp) {
+        rfturn mbp.gft(lbbfl);
     }
 
     /**
-     * Returns the clones of the given labels.
+     * Rfturns tif dlonfs of tif givfn lbbfls.
      *
-     * @param labels
-     *            a list of labels.
-     * @param map
-     *            a map from LabelNodes to cloned LabelNodes.
-     * @return the clones of the given labels.
+     * @pbrbm lbbfls
+     *            b list of lbbfls.
+     * @pbrbm mbp
+     *            b mbp from LbbflNodfs to dlonfd LbbflNodfs.
+     * @rfturn tif dlonfs of tif givfn lbbfls.
      */
-    static LabelNode[] clone(final List<LabelNode> labels,
-            final Map<LabelNode, LabelNode> map) {
-        LabelNode[] clones = new LabelNode[labels.size()];
-        for (int i = 0; i < clones.length; ++i) {
-            clones[i] = map.get(labels.get(i));
+    stbtid LbbflNodf[] dlonf(finbl List<LbbflNodf> lbbfls,
+            finbl Mbp<LbbflNodf, LbbflNodf> mbp) {
+        LbbflNodf[] dlonfs = nfw LbbflNodf[lbbfls.sizf()];
+        for (int i = 0; i < dlonfs.lfngti; ++i) {
+            dlonfs[i] = mbp.gft(lbbfls.gft(i));
         }
-        return clones;
+        rfturn dlonfs;
     }
 
     /**
-     * Clones the annotations of the given instruction into this instruction.
+     * Clonfs tif bnnotbtions of tif givfn instrudtion into tiis instrudtion.
      *
-     * @param insn
-     *            the source instruction.
-     * @return this instruction.
+     * @pbrbm insn
+     *            tif sourdf instrudtion.
+     * @rfturn tiis instrudtion.
      */
-    protected final AbstractInsnNode cloneAnnotations(
-            final AbstractInsnNode insn) {
-        if (insn.visibleTypeAnnotations != null) {
-            this.visibleTypeAnnotations = new ArrayList<TypeAnnotationNode>();
-            for (int i = 0; i < insn.visibleTypeAnnotations.size(); ++i) {
-                TypeAnnotationNode src = insn.visibleTypeAnnotations.get(i);
-                TypeAnnotationNode ann = new TypeAnnotationNode(src.typeRef,
-                        src.typePath, src.desc);
-                src.accept(ann);
-                this.visibleTypeAnnotations.add(ann);
+    protfdtfd finbl AbstrbdtInsnNodf dlonfAnnotbtions(
+            finbl AbstrbdtInsnNodf insn) {
+        if (insn.visiblfTypfAnnotbtions != null) {
+            tiis.visiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>();
+            for (int i = 0; i < insn.visiblfTypfAnnotbtions.sizf(); ++i) {
+                TypfAnnotbtionNodf srd = insn.visiblfTypfAnnotbtions.gft(i);
+                TypfAnnotbtionNodf bnn = nfw TypfAnnotbtionNodf(srd.typfRff,
+                        srd.typfPbti, srd.dfsd);
+                srd.bddfpt(bnn);
+                tiis.visiblfTypfAnnotbtions.bdd(bnn);
             }
         }
-        if (insn.invisibleTypeAnnotations != null) {
-            this.invisibleTypeAnnotations = new ArrayList<TypeAnnotationNode>();
-            for (int i = 0; i < insn.invisibleTypeAnnotations.size(); ++i) {
-                TypeAnnotationNode src = insn.invisibleTypeAnnotations.get(i);
-                TypeAnnotationNode ann = new TypeAnnotationNode(src.typeRef,
-                        src.typePath, src.desc);
-                src.accept(ann);
-                this.invisibleTypeAnnotations.add(ann);
+        if (insn.invisiblfTypfAnnotbtions != null) {
+            tiis.invisiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>();
+            for (int i = 0; i < insn.invisiblfTypfAnnotbtions.sizf(); ++i) {
+                TypfAnnotbtionNodf srd = insn.invisiblfTypfAnnotbtions.gft(i);
+                TypfAnnotbtionNodf bnn = nfw TypfAnnotbtionNodf(srd.typfRff,
+                        srd.typfPbti, srd.dfsd);
+                srd.bddfpt(bnn);
+                tiis.invisiblfTypfAnnotbtions.bdd(bnn);
             }
         }
-        return this;
+        rfturn tiis;
     }
 }

@@ -1,197 +1,197 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import java.awt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bwt.*;
 
 /**
- * The Metal implementation of ProgressBarUI.
+ * Tif Mftbl implfmfntbtion of ProgrfssBbrUI.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Michael C. Albers
+ * @butior Midibfl C. Albfrs
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalProgressBarUI extends BasicProgressBarUI {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblProgrfssBbrUI fxtfnds BbsidProgrfssBbrUI {
 
-    private Rectangle innards;
-    private Rectangle box;
+    privbtf Rfdtbnglf innbrds;
+    privbtf Rfdtbnglf box;
 
     /**
-     * Constructs an instance of {@code MetalProgressBarUI}.
+     * Construdts bn instbndf of {@dodf MftblProgrfssBbrUI}.
      *
-     * @param c a component
-     * @return an instance of {@code MetalProgressBarUI}
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of {@dodf MftblProgrfssBbrUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new MetalProgressBarUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw MftblProgrfssBbrUI();
     }
 
     /**
-     * Draws a bit of special highlighting on the progress bar.
-     * The core painting is deferred to the BasicProgressBar's
-     * <code>paintDeterminate</code> method.
-     * @since 1.4
+     * Drbws b bit of spfdibl iigiligiting on tif progrfss bbr.
+     * Tif dorf pbinting is dfffrrfd to tif BbsidProgrfssBbr's
+     * <dodf>pbintDftfrminbtf</dodf> mftiod.
+     * @sindf 1.4
      */
-    public void paintDeterminate(Graphics g, JComponent c) {
-        super.paintDeterminate(g,c);
+    publid void pbintDftfrminbtf(Grbpiids g, JComponfnt d) {
+        supfr.pbintDftfrminbtf(g,d);
 
-        if (!(g instanceof Graphics2D)) {
-            return;
+        if (!(g instbndfof Grbpiids2D)) {
+            rfturn;
         }
 
-        if (progressBar.isBorderPainted()) {
-            Insets b = progressBar.getInsets(); // area for border
-            int barRectWidth = progressBar.getWidth() - (b.left + b.right);
-            int barRectHeight = progressBar.getHeight() - (b.top + b.bottom);
-            int amountFull = getAmountFull(b, barRectWidth, barRectHeight);
-            boolean isLeftToRight = MetalUtils.isLeftToRight(c);
-            int startX, startY, endX, endY;
+        if (progrfssBbr.isBordfrPbintfd()) {
+            Insfts b = progrfssBbr.gftInsfts(); // brfb for bordfr
+            int bbrRfdtWidti = progrfssBbr.gftWidti() - (b.lfft + b.rigit);
+            int bbrRfdtHfigit = progrfssBbr.gftHfigit() - (b.top + b.bottom);
+            int bmountFull = gftAmountFull(b, bbrRfdtWidti, bbrRfdtHfigit);
+            boolfbn isLfftToRigit = MftblUtils.isLfftToRigit(d);
+            int stbrtX, stbrtY, fndX, fndY;
 
-            // The progress bar border is painted according to a light source.
-            // This light source is stationary and does not change when the
-            // component orientation changes.
-            startX = b.left;
-            startY = b.top;
-            endX = b.left + barRectWidth - 1;
-            endY = b.top + barRectHeight - 1;
+            // Tif progrfss bbr bordfr is pbintfd bddording to b ligit sourdf.
+            // Tiis ligit sourdf is stbtionbry bnd dofs not dibngf wifn tif
+            // domponfnt orifntbtion dibngfs.
+            stbrtX = b.lfft;
+            stbrtY = b.top;
+            fndX = b.lfft + bbrRfdtWidti - 1;
+            fndY = b.top + bbrRfdtHfigit - 1;
 
-            Graphics2D g2 = (Graphics2D)g;
-            g2.setStroke(new BasicStroke(1.f));
+            Grbpiids2D g2 = (Grbpiids2D)g;
+            g2.sftStrokf(nfw BbsidStrokf(1.f));
 
-            if (progressBar.getOrientation() == JProgressBar.HORIZONTAL) {
-                // Draw light line lengthwise across the progress bar.
-                g2.setColor(MetalLookAndFeel.getControlShadow());
-                g2.drawLine(startX, startY, endX, startY);
+            if (progrfssBbr.gftOrifntbtion() == JProgrfssBbr.HORIZONTAL) {
+                // Drbw ligit linf lfngtiwisf bdross tif progrfss bbr.
+                g2.sftColor(MftblLookAndFffl.gftControlSibdow());
+                g2.drbwLinf(stbrtX, stbrtY, fndX, stbrtY);
 
-                if (amountFull > 0) {
-                    // Draw darker lengthwise line over filled area.
-                    g2.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
+                if (bmountFull > 0) {
+                    // Drbw dbrkfr lfngtiwisf linf ovfr fillfd brfb.
+                    g2.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkSibdow());
 
-                    if (isLeftToRight) {
-                        g2.drawLine(startX, startY,
-                                startX + amountFull - 1, startY);
-                    } else {
-                        g2.drawLine(endX, startY,
-                                endX - amountFull + 1, startY);
-                        if (progressBar.getPercentComplete() != 1.f) {
-                            g2.setColor(MetalLookAndFeel.getControlShadow());
+                    if (isLfftToRigit) {
+                        g2.drbwLinf(stbrtX, stbrtY,
+                                stbrtX + bmountFull - 1, stbrtY);
+                    } flsf {
+                        g2.drbwLinf(fndX, stbrtY,
+                                fndX - bmountFull + 1, stbrtY);
+                        if (progrfssBbr.gftPfrdfntComplftf() != 1.f) {
+                            g2.sftColor(MftblLookAndFffl.gftControlSibdow());
                         }
                     }
                 }
-                // Draw a line across the width.  The color is determined by
-                // the code above.
-                g2.drawLine(startX, startY, startX, endY);
+                // Drbw b linf bdross tif widti.  Tif dolor is dftfrminfd by
+                // tif dodf bbovf.
+                g2.drbwLinf(stbrtX, stbrtY, stbrtX, fndY);
 
-            } else { // VERTICAL
-                // Draw light line lengthwise across the progress bar.
-                g2.setColor(MetalLookAndFeel.getControlShadow());
-                g2.drawLine(startX, startY, startX, endY);
+            } flsf { // VERTICAL
+                // Drbw ligit linf lfngtiwisf bdross tif progrfss bbr.
+                g2.sftColor(MftblLookAndFffl.gftControlSibdow());
+                g2.drbwLinf(stbrtX, stbrtY, stbrtX, fndY);
 
-                if (amountFull > 0) {
-                    // Draw darker lengthwise line over filled area.
-                    g2.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
-                    g2.drawLine(startX, endY,
-                            startX, endY - amountFull + 1);
+                if (bmountFull > 0) {
+                    // Drbw dbrkfr lfngtiwisf linf ovfr fillfd brfb.
+                    g2.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkSibdow());
+                    g2.drbwLinf(stbrtX, fndY,
+                            stbrtX, fndY - bmountFull + 1);
                 }
-                // Draw a line across the width.  The color is determined by
-                // the code above.
-                g2.setColor(MetalLookAndFeel.getControlShadow());
+                // Drbw b linf bdross tif widti.  Tif dolor is dftfrminfd by
+                // tif dodf bbovf.
+                g2.sftColor(MftblLookAndFffl.gftControlSibdow());
 
-                if (progressBar.getPercentComplete() == 1.f) {
-                    g2.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
+                if (progrfssBbr.gftPfrdfntComplftf() == 1.f) {
+                    g2.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkSibdow());
                 }
-                g2.drawLine(startX, startY, endX, startY);
+                g2.drbwLinf(stbrtX, stbrtY, fndX, stbrtY);
             }
         }
     }
 
     /**
-     * Draws a bit of special highlighting on the progress bar
-     * and bouncing box.
-     * The core painting is deferred to the BasicProgressBar's
-     * <code>paintIndeterminate</code> method.
-     * @since 1.4
+     * Drbws b bit of spfdibl iigiligiting on tif progrfss bbr
+     * bnd bounding box.
+     * Tif dorf pbinting is dfffrrfd to tif BbsidProgrfssBbr's
+     * <dodf>pbintIndftfrminbtf</dodf> mftiod.
+     * @sindf 1.4
      */
-    public void paintIndeterminate(Graphics g, JComponent c) {
-        super.paintIndeterminate(g, c);
+    publid void pbintIndftfrminbtf(Grbpiids g, JComponfnt d) {
+        supfr.pbintIndftfrminbtf(g, d);
 
-        if (!progressBar.isBorderPainted() || (!(g instanceof Graphics2D))) {
-            return;
+        if (!progrfssBbr.isBordfrPbintfd() || (!(g instbndfof Grbpiids2D))) {
+            rfturn;
         }
 
-        Insets b = progressBar.getInsets(); // area for border
-        int barRectWidth = progressBar.getWidth() - (b.left + b.right);
-        int barRectHeight = progressBar.getHeight() - (b.top + b.bottom);
-        int amountFull = getAmountFull(b, barRectWidth, barRectHeight);
-        boolean isLeftToRight = MetalUtils.isLeftToRight(c);
-        int startX, startY, endX, endY;
-        Rectangle box = null;
-        box = getBox(box);
+        Insfts b = progrfssBbr.gftInsfts(); // brfb for bordfr
+        int bbrRfdtWidti = progrfssBbr.gftWidti() - (b.lfft + b.rigit);
+        int bbrRfdtHfigit = progrfssBbr.gftHfigit() - (b.top + b.bottom);
+        int bmountFull = gftAmountFull(b, bbrRfdtWidti, bbrRfdtHfigit);
+        boolfbn isLfftToRigit = MftblUtils.isLfftToRigit(d);
+        int stbrtX, stbrtY, fndX, fndY;
+        Rfdtbnglf box = null;
+        box = gftBox(box);
 
-        // The progress bar border is painted according to a light source.
-        // This light source is stationary and does not change when the
-        // component orientation changes.
-        startX = b.left;
-        startY = b.top;
-        endX = b.left + barRectWidth - 1;
-        endY = b.top + barRectHeight - 1;
+        // Tif progrfss bbr bordfr is pbintfd bddording to b ligit sourdf.
+        // Tiis ligit sourdf is stbtionbry bnd dofs not dibngf wifn tif
+        // domponfnt orifntbtion dibngfs.
+        stbrtX = b.lfft;
+        stbrtY = b.top;
+        fndX = b.lfft + bbrRfdtWidti - 1;
+        fndY = b.top + bbrRfdtHfigit - 1;
 
-        Graphics2D g2 = (Graphics2D)g;
-        g2.setStroke(new BasicStroke(1.f));
+        Grbpiids2D g2 = (Grbpiids2D)g;
+        g2.sftStrokf(nfw BbsidStrokf(1.f));
 
-        if (progressBar.getOrientation() == JProgressBar.HORIZONTAL) {
-            // Draw light line lengthwise across the progress bar.
-            g2.setColor(MetalLookAndFeel.getControlShadow());
-            g2.drawLine(startX, startY, endX, startY);
-            g2.drawLine(startX, startY, startX, endY);
+        if (progrfssBbr.gftOrifntbtion() == JProgrfssBbr.HORIZONTAL) {
+            // Drbw ligit linf lfngtiwisf bdross tif progrfss bbr.
+            g2.sftColor(MftblLookAndFffl.gftControlSibdow());
+            g2.drbwLinf(stbrtX, stbrtY, fndX, stbrtY);
+            g2.drbwLinf(stbrtX, stbrtY, stbrtX, fndY);
 
-            // Draw darker lengthwise line over filled area.
-            g2.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
-            g2.drawLine(box.x, startY, box.x + box.width - 1, startY);
+            // Drbw dbrkfr lfngtiwisf linf ovfr fillfd brfb.
+            g2.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkSibdow());
+            g2.drbwLinf(box.x, stbrtY, box.x + box.widti - 1, stbrtY);
 
-        } else { // VERTICAL
-            // Draw light line lengthwise across the progress bar.
-            g2.setColor(MetalLookAndFeel.getControlShadow());
-            g2.drawLine(startX, startY, startX, endY);
-            g2.drawLine(startX, startY, endX, startY);
+        } flsf { // VERTICAL
+            // Drbw ligit linf lfngtiwisf bdross tif progrfss bbr.
+            g2.sftColor(MftblLookAndFffl.gftControlSibdow());
+            g2.drbwLinf(stbrtX, stbrtY, stbrtX, fndY);
+            g2.drbwLinf(stbrtX, stbrtY, fndX, stbrtY);
 
-            // Draw darker lengthwise line over filled area.
-            g2.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
-            g2.drawLine(startX, box.y, startX, box.y + box.height - 1);
+            // Drbw dbrkfr lfngtiwisf linf ovfr fillfd brfb.
+            g2.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkSibdow());
+            g2.drbwLinf(stbrtX, box.y, stbrtX, box.y + box.ifigit - 1);
         }
     }
 }

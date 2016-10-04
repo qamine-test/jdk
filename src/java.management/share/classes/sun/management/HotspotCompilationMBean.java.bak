@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import sun.management.counter.Counter;
+import sun.mbnbgfmfnt.dountfr.Countfr;
 
 /**
- * Hotspot internal management interface for the compilation system.
+ * Hotspot intfrnbl mbnbgfmfnt intfrfbdf for tif dompilbtion systfm.
  */
-public interface HotspotCompilationMBean {
+publid intfrfbdf HotspotCompilbtionMBfbn {
 
     /**
-     * Returns the number of compiler threads.
+     * Rfturns tif numbfr of dompilfr tirfbds.
      *
-     * @return the number of compiler threads.
+     * @rfturn tif numbfr of dompilfr tirfbds.
      */
-    public int getCompilerThreadCount();
+    publid int gftCompilfrTirfbdCount();
 
     /**
-     * Returns the statistic of all compiler threads.
+     * Rfturns tif stbtistid of bll dompilfr tirfbds.
      *
-     * @return a list of {@link CompilerThreadStat} object containing
-     * the statistic of a compiler thread.
+     * @rfturn b list of {@link CompilfrTirfbdStbt} objfdt dontbining
+     * tif stbtistid of b dompilfr tirfbd.
      *
      */
-    public java.util.List<CompilerThreadStat> getCompilerThreadStats();
+    publid jbvb.util.List<CompilfrTirfbdStbt> gftCompilfrTirfbdStbts();
 
     /**
-     * Returns the total number of compiles.
+     * Rfturns tif totbl numbfr of dompilfs.
      *
-     * @return the total number of compiles.
+     * @rfturn tif totbl numbfr of dompilfs.
      */
-    public long getTotalCompileCount();
+    publid long gftTotblCompilfCount();
 
     /**
-     * Returns the number of bailout compiles.
+     * Rfturns tif numbfr of bbilout dompilfs.
      *
-     * @return the number of bailout compiles.
+     * @rfturn tif numbfr of bbilout dompilfs.
      */
-    public long getBailoutCompileCount();
+    publid long gftBbiloutCompilfCount();
 
     /**
-     * Returns the number of invalidated compiles.
+     * Rfturns tif numbfr of invblidbtfd dompilfs.
      *
-     * @return the number of invalidated compiles.
+     * @rfturn tif numbfr of invblidbtfd dompilfs.
      */
-    public long getInvalidatedCompileCount();
+    publid long gftInvblidbtfdCompilfCount();
 
     /**
-     * Returns the method information of the last compiled method.
+     * Rfturns tif mftiod informbtion of tif lbst dompilfd mftiod.
      *
-     * @return a {@link MethodInfo} of the last compiled method.
+     * @rfturn b {@link MftiodInfo} of tif lbst dompilfd mftiod.
      */
-    public MethodInfo getLastCompile();
+    publid MftiodInfo gftLbstCompilf();
 
     /**
-     * Returns the method information of the last failed compile.
+     * Rfturns tif mftiod informbtion of tif lbst fbilfd dompilf.
      *
-     * @return a {@link MethodInfo} of the last failed compile.
+     * @rfturn b {@link MftiodInfo} of tif lbst fbilfd dompilf.
      */
-    public MethodInfo getFailedCompile();
+    publid MftiodInfo gftFbilfdCompilf();
 
     /**
-     * Returns the method information of the last invalidated compile.
+     * Rfturns tif mftiod informbtion of tif lbst invblidbtfd dompilf.
      *
-     * @return a {@link MethodInfo} of the last invalidated compile.
+     * @rfturn b {@link MftiodInfo} of tif lbst invblidbtfd dompilf.
      */
-    public MethodInfo getInvalidatedCompile();
+    publid MftiodInfo gftInvblidbtfdCompilf();
 
     /**
-     * Returns the number of bytes for the code of the
-     * compiled methods.
+     * Rfturns tif numbfr of bytfs for tif dodf of tif
+     * dompilfd mftiods.
      *
-     * @return the number of bytes for the code of the compiled methods.
+     * @rfturn tif numbfr of bytfs for tif dodf of tif dompilfd mftiods.
      */
-    public long getCompiledMethodCodeSize();
+    publid long gftCompilfdMftiodCodfSizf();
 
     /**
-     * Returns the number of bytes occupied by the compiled methods.
+     * Rfturns tif numbfr of bytfs oddupifd by tif dompilfd mftiods.
      *
-     * @return the number of bytes occupied by the compiled methods.
+     * @rfturn tif numbfr of bytfs oddupifd by tif dompilfd mftiods.
      */
-    public long getCompiledMethodSize();
+    publid long gftCompilfdMftiodSizf();
 
     /**
-     * Returns a list of internal counters maintained in the Java
-     * virtual machine for the compilation system.
+     * Rfturns b list of intfrnbl dountfrs mbintbinfd in tif Jbvb
+     * virtubl mbdiinf for tif dompilbtion systfm.
      *
-     * @return a list of internal counters maintained in the VM
-     * for the compilation system.
+     * @rfturn b list of intfrnbl dountfrs mbintbinfd in tif VM
+     * for tif dompilbtion systfm.
      */
-    public java.util.List<Counter> getInternalCompilerCounters();
+    publid jbvb.util.List<Countfr> gftIntfrnblCompilfrCountfrs();
 }

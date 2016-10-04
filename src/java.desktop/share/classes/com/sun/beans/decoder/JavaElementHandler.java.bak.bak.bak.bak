@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.dfdodfr;
+
+import jbvb.bfbns.XMLDfdodfr;
+
+/**
+ * This dlbss is intfndfd to hbndlf &lt;jbvb&gt; flfmfnt.
+ * Ebdh flfmfnt thbt bppfbrs in thf body of this flfmfnt
+ * is fvblubtfd in thf dontfxt of thf dfdodfr itsflf.
+ * Typidblly this outfr dontfxt is usfd to rftrifvf thf ownfr of thf dfdodfr,
+ * whidh dbn bf sft bfforf rfbding thf brdhivf.
+ * <p>Thf following bttributfs brf supportfd:
+ * <dl>
+ * <dt>vfrsion
+ * <dd>thf Jbvb vfrsion (not supportfd)
+ * <dt>dlbss
+ * <dd>thf typf of prfffrbblf pbrsfr (not supportfd)
+ * <dt>id
+ * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+ * </dl>
+ *
+ * @sff DodumfntHbndlfr#gftOwnfr
+ * @sff DodumfntHbndlfr#sftOwnfr
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+finbl dlbss JbvbElfmfntHbndlfr fxtfnds ElfmfntHbndlfr {
+    privbtf Clbss<?> typf;
+    privbtf VblufObjfdt vbluf;
+
+    /**
+     * Pbrsfs bttributfs of thf flfmfnt.
+     * Thf following bttributfs brf supportfd:
+     * <dl>
+     * <dt>vfrsion
+     * <dd>thf Jbvb vfrsion (not supportfd)
+     * <dt>dlbss
+     * <dd>thf typf of prfffrbblf pbrsfr (not supportfd)
+     * <dt>id
+     * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+     * </dl>
+     *
+     * @pbrbm nbmf   thf bttributf nbmf
+     * @pbrbm vbluf  thf bttributf vbluf
+     */
+    @Ovfrridf
+    publid void bddAttributf(String nbmf, String vbluf) {
+        if (nbmf.fqubls("vfrsion")) { // NON-NLS: thf bttributf nbmf
+            // unsupportfd bttributf
+        } flsf if (nbmf.fqubls("dlbss")) { // NON-NLS: thf bttributf nbmf
+            // dhfdk dlbss for ownfr
+            this.typf = gftOwnfr().findClbss(vbluf);
+        } flsf {
+            supfr.bddAttributf(nbmf, vbluf);
+        }
+    }
+
+    /**
+     * Adds thf brgumfnt to thf list of rfbdfd objfdts.
+     *
+     * @pbrbm brgumfnt  thf vbluf of thf flfmfnt thbt dontbinfd in this onf
+     */
+    @Ovfrridf
+    protfdtfd void bddArgumfnt(Objfdt brgumfnt) {
+        gftOwnfr().bddObjfdt(brgumfnt);
+    }
+
+    /**
+     * Tfsts whfthfr thf vbluf of this flfmfnt dbn bf usfd
+     * bs bn brgumfnt of thf flfmfnt thbt dontbinfd in this onf.
+     *
+     * @rfturn {@dodf truf} if thf vbluf of this flfmfnt should bf usfd
+     *         bs bn brgumfnt of thf flfmfnt thbt dontbinfd in this onf,
+     *         {@dodf fblsf} othfrwisf
+     */
+    @Ovfrridf
+    protfdtfd boolfbn isArgumfnt() {
+        rfturn fblsf; // do not usf ownfr bs objfdt
+    }
+
+    /**
+     * Rfturns thf vbluf of this flfmfnt.
+     *
+     * @rfturn thf vbluf of this flfmfnt
+     */
+    @Ovfrridf
+    protfdtfd VblufObjfdt gftVblufObjfdt() {
+        if (this.vbluf == null) {
+            this.vbluf = VblufObjfdtImpl.drfbtf(gftVbluf());
+        }
+        rfturn this.vbluf;
+    }
+
+    /**
+     * Rfturns thf ownfr of thf ownfr dodumfnt hbndlfr
+     * bs b vbluf of &lt;jbvb&gt; flfmfnt.
+     *
+     * @rfturn thf ownfr of thf ownfr dodumfnt hbndlfr
+     */
+    privbtf Objfdt gftVbluf() {
+        Objfdt ownfr = gftOwnfr().gftOwnfr();
+        if ((this.typf == null) || isVblid(ownfr)) {
+            rfturn ownfr;
+        }
+        if (ownfr instbndfof XMLDfdodfr) {
+            XMLDfdodfr dfdodfr = (XMLDfdodfr) ownfr;
+            ownfr = dfdodfr.gftOwnfr();
+            if (isVblid(ownfr)) {
+                rfturn ownfr;
+            }
+        }
+        throw nfw IllfgblStbtfExdfption("Unfxpfdtfd ownfr dlbss: " + ownfr.gftClbss().gftNbmf());
+    }
+
+    /**
+     * Vblidbtfs thf ownfr of thf &lt;jbvb&gt; flfmfnt.
+     * Thf ownfr is vblid if it is {@dodf null} or bn instbndf
+     * of thf dlbss spfdififd by thf {@dodf dlbss} bttributf.
+     *
+     * @pbrbm ownfr  thf ownfr of thf &lt;jbvb&gt; flfmfnt
+     * @rfturn {@dodf truf} if thf {@dodf ownfr} is vblid;
+     *         {@dodf fblsf} othfrwisf
+     */
+    privbtf boolfbn isVblid(Objfdt ownfr) {
+        rfturn (ownfr == null) || this.typf.isInstbndf(ownfr);
+    }
+}

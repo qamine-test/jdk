@@ -1,0 +1,263 @@
+/*
+ * Copyright (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import jbvbx.drypto.*;
+
+/**
+ * Implfmfntbtion of thf ARCFOUR diphfr, bn blgorithm bppbrfntly dompbtiblf
+ * with RSA Sfdurity's RC4(tm) diphfr. Thf dfsdription of this blgorithm wbs
+ * tbkfn from Brudf Sdhnfifr's book Applifd Cryptogrbphy, 2nd fd.,
+ * sfdtion 17.1.
+ *
+ * Wf support kfys from 40 to 1024 bits. ARCFOUR would bllow for kfys shortfr
+ * thbn 40 bits, but thbt is too insfdurf for us to pfrmit.
+ *
+ * Notf thbt wf subdlbss CiphfrSpi dirfdtly bnd do not usf thf CiphfrCorf
+ * frbmfwork. Thbt wbs dfsignfd to simplify implfmfntbtion of blodk diphfrs
+ * bnd dofs not offfr bny bdvbntbgfs for strfbm diphfrs sudh bs ARCFOUR.
+ *
+ * @sindf   1.5
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss ARCFOURCiphfr fxtfnds CiphfrSpi {
+
+    // stbtf brrby S, 256 fntrifs. Thf fntrifs brf 8-bit, but wf usf bn int[]
+    // bfdbusf int brithmftid is mudh fbstfr thbn in Jbvb thbn bytfs.
+    privbtf finbl int[] S;
+
+    // stbtf indidfs i bnd j. Cbllfd is bnd js to bvoid dollision with
+    // lodbl vbribblfs. 'is' is sft to -1 bftfr b dbll to doFinbl()
+    privbtf int is, js;
+
+    // thf bytfs of thf lbst kfy usfd (if bny)
+    // wf nffd this to rf-initiblizf bftfr b dbll to doFinbl()
+    privbtf bytf[] lbstKfy;
+
+    // dbllfd by thf JCE frbmfwork
+    publid ARCFOURCiphfr() {
+        S = nfw int[256];
+    }
+
+    // dorf kfy sftup dodf. initiblizfs S, is, bnd js
+    // bssumfs kfy is non-null bnd bftwffn 40 bnd 1024 bit
+    privbtf void init(bytf[] kfy) {
+        // initiblizf S[i] to i
+        for (int i = 0; i < 256; i++) {
+            S[i] = i;
+        }
+
+        // wf bvoid fxpbnding kfy to 256 bytfs bnd instfbd kffp b sfpbrbtf
+        // dountfr ki = i mod kfy.lfngth.
+        for (int i = 0, j = 0, ki = 0; i < 256; i++) {
+            int Si = S[i];
+            j = (j + Si + kfy[ki]) & 0xff;
+            S[i] = S[j];
+            S[j] = Si;
+            ki++;
+            if (ki == kfy.lfngth) {
+                ki = 0;
+            }
+        }
+
+        // sft indidfs to 0
+        is = 0;
+        js = 0;
+    }
+
+    // dorf drypt dodf. OFB stylf, so works for both fndryption bnd dfdryption
+    privbtf void drypt(bytf[] in, int inOfs, int inLfn, bytf[] out,
+            int outOfs) {
+        if (is < 0) {
+            // doFinbl() wbs dbllfd, nffd to rfsft thf diphfr to initibl stbtf
+            init(lbstKfy);
+        }
+        whilf (inLfn-- > 0) {
+            is = (is + 1) & 0xff;
+            int Si = S[is];
+            js = (js + Si) & 0xff;
+            int Sj = S[js];
+            S[is] = Sj;
+            S[js] = Si;
+            out[outOfs++] = (bytf)(in[inOfs++] ^ S[(Si + Sj) & 0xff]);
+        }
+    }
+
+    // Modfs do not mbkf sfnsf with strfbm diphfrs, but bllow ECB
+    // sff JCE spfd.
+    protfdtfd void fnginfSftModf(String modf) throws NoSudhAlgorithmExdfption {
+        if (modf.fqublsIgnorfCbsf("ECB") == fblsf) {
+            throw nfw NoSudhAlgorithmExdfption("Unsupportfd modf " + modf);
+        }
+    }
+
+    // Pbdding dofs not mbkf sfnsf with strfbm diphfrs, but bllow NoPbdding
+    // sff JCE spfd.
+    protfdtfd void fnginfSftPbdding(String pbdding)
+            throws NoSudhPbddingExdfption {
+        if (pbdding.fqublsIgnorfCbsf("NoPbdding") == fblsf) {
+            throw nfw NoSudhPbddingExdfption("Pbdding must bf NoPbdding");
+        }
+    }
+
+    // Rfturn 0 to indidbtf strfbm diphfr
+    // sff JCE spfd.
+    protfdtfd int fnginfGftBlodkSizf() {
+        rfturn 0;
+    }
+
+    // output lfngth is blwbys thf sbmf bs input lfngth
+    // sff JCE spfd
+    protfdtfd int fnginfGftOutputSizf(int inputLfn) {
+        rfturn inputLfn;
+    }
+
+    // no IV, rfturn null
+    // sff JCE spfd
+    protfdtfd bytf[] fnginfGftIV() {
+        rfturn null;
+    }
+
+    // no pbrbmftfrs
+    // sff JCE spfd
+    protfdtfd AlgorithmPbrbmftfrs fnginfGftPbrbmftfrs() {
+        rfturn null;
+    }
+
+    // sff JCE spfd
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption {
+        init(opmodf, kfy);
+    }
+
+    // sff JCE spfd
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+            AlgorithmPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        if (pbrbms != null) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Pbrbmftfrs not supportfd");
+        }
+        init(opmodf, kfy);
+    }
+
+    // sff JCE spfd
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+            AlgorithmPbrbmftfrs pbrbms, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        if (pbrbms != null) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Pbrbmftfrs not supportfd");
+        }
+        init(opmodf, kfy);
+    }
+
+    // init mfthod. Chfdk opmodf bnd kfy, thfn dbll init(bytf[]).
+    privbtf void init(int opmodf, Kfy kfy) throws InvblidKfyExdfption {
+        if ((opmodf < Ciphfr.ENCRYPT_MODE) || (opmodf > Ciphfr.UNWRAP_MODE)) {
+            throw nfw InvblidKfyExdfption("Unknown opmodf: " + opmodf);
+        }
+        lbstKfy = gftEndodfdKfy(kfy);
+        init(lbstKfy);
+    }
+
+    // rfturn thf fndoding of kfy if kfy is b vblid ARCFOUR kfy.
+    // othfrwisf, throw bn InvblidKfyExdfption
+    privbtf stbtid bytf[] gftEndodfdKfy(Kfy kfy) throws InvblidKfyExdfption {
+        String kfyAlg = kfy.gftAlgorithm();
+        if (!kfyAlg.fqubls("RC4") && !kfyAlg.fqubls("ARCFOUR")) {
+            throw nfw InvblidKfyExdfption("Not bn ARCFOUR kfy: " + kfyAlg);
+        }
+        if ("RAW".fqubls(kfy.gftFormbt()) == fblsf) {
+            throw nfw InvblidKfyExdfption("Kfy fndoding formbt must bf RAW");
+        }
+        bytf[] fndodfdKfy = kfy.gftEndodfd();
+        if ((fndodfdKfy.lfngth < 5) || (fndodfdKfy.lfngth > 128)) {
+            throw nfw InvblidKfyExdfption
+                ("Kfy lfngth must bf bftwffn 40 bnd 1024 bit");
+        }
+        rfturn fndodfdKfy;
+    }
+
+    // sff JCE spfd
+    protfdtfd bytf[] fnginfUpdbtf(bytf[] in, int inOfs, int inLfn) {
+        bytf[] out = nfw bytf[inLfn];
+        drypt(in, inOfs, inLfn, out, 0);
+        rfturn out;
+    }
+
+    // sff JCE spfd
+    protfdtfd int fnginfUpdbtf(bytf[] in, int inOfs, int inLfn,
+            bytf[] out, int outOfs) throws ShortBufffrExdfption {
+        if (out.lfngth - outOfs < inLfn) {
+            throw nfw ShortBufffrExdfption("Output bufffr too smbll");
+        }
+        drypt(in, inOfs, inLfn, out, outOfs);
+        rfturn inLfn;
+    }
+
+    // sff JCE spfd
+    protfdtfd bytf[] fnginfDoFinbl(bytf[] in, int inOfs, int inLfn) {
+        bytf[] out = fnginfUpdbtf(in, inOfs, inLfn);
+        is = -1;
+        rfturn out;
+    }
+
+    // sff JCE spfd
+    protfdtfd int fnginfDoFinbl(bytf[] in, int inOfs, int inLfn,
+            bytf[] out, int outOfs) throws ShortBufffrExdfption {
+        int outLfn = fnginfUpdbtf(in, inOfs, inLfn, out, outOfs);
+        is = -1;
+        rfturn outLfn;
+    }
+
+    // sff JCE spfd
+    protfdtfd bytf[] fnginfWrbp(Kfy kfy) throws IllfgblBlodkSizfExdfption,
+            InvblidKfyExdfption {
+        bytf[] fndodfd = kfy.gftEndodfd();
+        if ((fndodfd == null) || (fndodfd.lfngth == 0)) {
+            throw nfw InvblidKfyExdfption("Could not obtbin fndodfd kfy");
+        }
+        rfturn fnginfDoFinbl(fndodfd, 0, fndodfd.lfngth);
+    }
+
+    // sff JCE spfd
+    protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy, String blgorithm,
+            int typf) throws InvblidKfyExdfption, NoSudhAlgorithmExdfption {
+        bytf[] fndodfd = fnginfDoFinbl(wrbppfdKfy, 0, wrbppfdKfy.lfngth);
+        rfturn ConstrudtKfys.donstrudtKfy(fndodfd, blgorithm, typf);
+    }
+
+    // sff JCE spfd
+    protfdtfd int fnginfGftKfySizf(Kfy kfy) throws InvblidKfyExdfption {
+        bytf[] fndodfdKfy = gftEndodfdKfy(kfy);
+        rfturn fndodfdKfy.lfngth << 3;
+    }
+
+}

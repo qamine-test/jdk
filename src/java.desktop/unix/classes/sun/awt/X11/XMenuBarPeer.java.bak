@@ -1,491 +1,491 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
 
-import java.util.Vector;
-import sun.util.logging.PlatformLogger;
-import sun.awt.AWTAccessor;
+import jbvb.util.Vfdtor;
+import sun.util.logging.PlbtformLoggfr;
+import sun.bwt.AWTAddfssor;
 
-public class XMenuBarPeer extends XBaseMenuWindow implements MenuBarPeer {
+publid dlbss XMfnuBbrPffr fxtfnds XBbsfMfnuWindow implfmfnts MfnuBbrPffr {
 
     /************************************************
      *
-     * Data members
+     * Dbtb mfmbfrs
      *
      ************************************************/
 
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XMenuBarPeer");
+    privbtf stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XMfnuBbrPffr");
 
     /*
-     * Primary members
+     * Primbry mfmbfrs
      */
-    private XFramePeer framePeer;
-    private MenuBar menuBarTarget;
+    privbtf XFrbmfPffr frbmfPffr;
+    privbtf MfnuBbr mfnuBbrTbrgft;
 
     /*
-     * Index of help menu
+     * Indfx of iflp mfnu
      */
-    private XMenuPeer helpMenu = null;
+    privbtf XMfnuPffr iflpMfnu = null;
 
     /*
-     * dimension constants
+     * dimfnsion donstbnts
      */
-    private final static int BAR_SPACING_TOP = 3;
-    private final static int BAR_SPACING_BOTTOM = 3;
-    private final static int BAR_SPACING_LEFT = 3;
-    private final static int BAR_SPACING_RIGHT = 3;
-    private final static int BAR_ITEM_SPACING = 2;
-    private final static int BAR_ITEM_MARGIN_LEFT = 10;
-    private final static int BAR_ITEM_MARGIN_RIGHT = 10;
-    private final static int BAR_ITEM_MARGIN_TOP = 2;
-    private final static int BAR_ITEM_MARGIN_BOTTOM = 2;
+    privbtf finbl stbtid int BAR_SPACING_TOP = 3;
+    privbtf finbl stbtid int BAR_SPACING_BOTTOM = 3;
+    privbtf finbl stbtid int BAR_SPACING_LEFT = 3;
+    privbtf finbl stbtid int BAR_SPACING_RIGHT = 3;
+    privbtf finbl stbtid int BAR_ITEM_SPACING = 2;
+    privbtf finbl stbtid int BAR_ITEM_MARGIN_LEFT = 10;
+    privbtf finbl stbtid int BAR_ITEM_MARGIN_RIGHT = 10;
+    privbtf finbl stbtid int BAR_ITEM_MARGIN_TOP = 2;
+    privbtf finbl stbtid int BAR_ITEM_MARGIN_BOTTOM = 2;
 
     /************************************************
      *
-     * Mapping data
+     * Mbpping dbtb
      *
      ************************************************/
 
     /**
-     * XBaseMenuWindow's mappingData is extended with
-     * desired height of menu bar
+     * XBbsfMfnuWindow's mbppingDbtb is fxtfndfd witi
+     * dfsirfd ifigit of mfnu bbr
      */
-    static class MappingData extends XBaseMenuWindow.MappingData {
-        int desiredHeight;
+    stbtid dlbss MbppingDbtb fxtfnds XBbsfMfnuWindow.MbppingDbtb {
+        int dfsirfdHfigit;
 
-        MappingData(XMenuItemPeer[] items, int desiredHeight) {
-            super(items);
-            this.desiredHeight = desiredHeight;
+        MbppingDbtb(XMfnuItfmPffr[] itfms, int dfsirfdHfigit) {
+            supfr(itfms);
+            tiis.dfsirfdHfigit = dfsirfdHfigit;
         }
 
         /**
-         * Constructs MappingData without items
-         * This constructor should be used in case of errors
+         * Construdts MbppingDbtb witiout itfms
+         * Tiis donstrudtor siould bf usfd in dbsf of frrors
          */
-        MappingData() {
-            this.desiredHeight = 0;
+        MbppingDbtb() {
+            tiis.dfsirfdHfigit = 0;
         }
 
-        public int getDesiredHeight() {
-            return this.desiredHeight;
+        publid int gftDfsirfdHfigit() {
+            rfturn tiis.dfsirfdHfigit;
         }
     }
 
     /************************************************
      *
-     * Construction
+     * Construdtion
      *
      ************************************************/
-    XMenuBarPeer(MenuBar menuBarTarget) {
-        this.menuBarTarget = menuBarTarget;
+    XMfnuBbrPffr(MfnuBbr mfnuBbrTbrgft) {
+        tiis.mfnuBbrTbrgft = mfnuBbrTbrgft;
     }
 
     /************************************************
      *
-     * Implementaion of interface methods
+     * Implfmfntbion of intfrfbdf mftiods
      *
      ************************************************/
 
     /*
-     * From MenuComponentPeer
+     * From MfnuComponfntPffr
      */
-    public void setFont(Font f) {
-        resetMapping();
-        setItemsFont(f);
-        postPaintEvent();
+    publid void sftFont(Font f) {
+        rfsftMbpping();
+        sftItfmsFont(f);
+        postPbintEvfnt();
     }
 
     /*
-     * From MenuBarPeer
+     * From MfnuBbrPffr
      */
 
     /*
-     * Functions addMenu, delMenu, addHelpMenu
-     * need to have somewhat strange behaivour
-     * deduced from java.awt.MenuBar.
-     * We can not get index of particular item in
-     * MenuBar.menus array, because MenuBar firstly
-     * performs array operations and then calls peer.
-     * So we need to synchronize indicies in 'items'
-     * array with MenuBar.menus. We have to follow
-     * these rules:
-     * 1. Menus are always added to the end of array,
-     * even when helpMenu is present
-     * 2. Removal of any menu item acts as casual
-     * remove from array
-     * 3. MenuBar.setHelpMenu _firstly_ removes
-     * previous helpMenu by calling delMenu() if
-     * necessary, then it performs addMenu(),
-     * and then - addHelpMenu().
+     * Fundtions bddMfnu, dflMfnu, bddHflpMfnu
+     * nffd to ibvf somfwibt strbngf bfibivour
+     * dfdudfd from jbvb.bwt.MfnuBbr.
+     * Wf dbn not gft indfx of pbrtidulbr itfm in
+     * MfnuBbr.mfnus brrby, bfdbusf MfnuBbr firstly
+     * pfrforms brrby opfrbtions bnd tifn dblls pffr.
+     * So wf nffd to syndironizf indidifs in 'itfms'
+     * brrby witi MfnuBbr.mfnus. Wf ibvf to follow
+     * tifsf rulfs:
+     * 1. Mfnus brf blwbys bddfd to tif fnd of brrby,
+     * fvfn wifn iflpMfnu is prfsfnt
+     * 2. Rfmovbl of bny mfnu itfm bdts bs dbsubl
+     * rfmovf from brrby
+     * 3. MfnuBbr.sftHflpMfnu _firstly_ rfmovfs
+     * prfvious iflpMfnu by dblling dflMfnu() if
+     * nfdfssbry, tifn it pfrforms bddMfnu(),
+     * bnd tifn - bddHflpMfnu().
      *
-     * Note that these functions don't perform
-     * type checks and checks for nulls or duplicates
+     * Notf tibt tifsf fundtions don't pfrform
+     * typf difdks bnd difdks for nulls or duplidbtfs
      */
-    public void addMenu(Menu m) {
-        addItem(m);
-        postPaintEvent();
+    publid void bddMfnu(Mfnu m) {
+        bddItfm(m);
+        postPbintEvfnt();
     }
 
-    public void delMenu(int index) {
-        synchronized(getMenuTreeLock()) {
-            XMenuItemPeer item = getItem(index);
-            if (item != null && item == helpMenu) {
-                helpMenu = null;
+    publid void dflMfnu(int indfx) {
+        syndironizfd(gftMfnuTrffLodk()) {
+            XMfnuItfmPffr itfm = gftItfm(indfx);
+            if (itfm != null && itfm == iflpMfnu) {
+                iflpMfnu = null;
             }
-            delItem(index);
+            dflItfm(indfx);
         }
-        postPaintEvent();
+        postPbintEvfnt();
     }
 
-    public void addHelpMenu(Menu m) {
-        XMenuPeer mp = (XMenuPeer)m.getPeer();
-        synchronized(getMenuTreeLock()) {
-            helpMenu = mp;
+    publid void bddHflpMfnu(Mfnu m) {
+        XMfnuPffr mp = (XMfnuPffr)m.gftPffr();
+        syndironizfd(gftMfnuTrffLodk()) {
+            iflpMfnu = mp;
         }
-        postPaintEvent();
+        postPbintEvfnt();
     }
 
     /************************************************
      *
-     * Initialization
+     * Initiblizbtion
      *
      ************************************************/
     /**
-     * called from XFramePeer.setMenuBar
+     * dbllfd from XFrbmfPffr.sftMfnuBbr
      */
-    public void init(Frame frame) {
-        this.target = frame;
-        this.framePeer = (XFramePeer)frame.getPeer();
-        XCreateWindowParams params = getDelayedParams();
-        params.remove(DELAYED);
-        params.add(PARENT_WINDOW, framePeer.getShell());
-        params.add(TARGET, frame);
-        init(params);
+    publid void init(Frbmf frbmf) {
+        tiis.tbrgft = frbmf;
+        tiis.frbmfPffr = (XFrbmfPffr)frbmf.gftPffr();
+        XCrfbtfWindowPbrbms pbrbms = gftDflbyfdPbrbms();
+        pbrbms.rfmovf(DELAYED);
+        pbrbms.bdd(PARENT_WINDOW, frbmfPffr.gftSifll());
+        pbrbms.bdd(TARGET, frbmf);
+        init(pbrbms);
     }
 
     /**
-     * Overriden initialization
+     * Ovfrridfn initiblizbtion
      */
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
-        // Get menus from the target.
-        Vector<Menu> targetMenuVector = AWTAccessor.getMenuBarAccessor()
-                                                   .getMenus(menuBarTarget);
-        Menu targetHelpMenu = AWTAccessor.getMenuBarAccessor()
-                                         .getHelpMenu(menuBarTarget);
-        reloadItems(targetMenuVector);
-        if (targetHelpMenu != null) {
-            addHelpMenu(targetHelpMenu);
+    void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.postInit(pbrbms);
+        // Gft mfnus from tif tbrgft.
+        Vfdtor<Mfnu> tbrgftMfnuVfdtor = AWTAddfssor.gftMfnuBbrAddfssor()
+                                                   .gftMfnus(mfnuBbrTbrgft);
+        Mfnu tbrgftHflpMfnu = AWTAddfssor.gftMfnuBbrAddfssor()
+                                         .gftHflpMfnu(mfnuBbrTbrgft);
+        rflobdItfms(tbrgftMfnuVfdtor);
+        if (tbrgftHflpMfnu != null) {
+            bddHflpMfnu(tbrgftHflpMfnu);
         }
-        xSetVisible(true);
+        xSftVisiblf(truf);
         toFront();
     }
 
     /************************************************
      *
-     * Implementation of abstract methods
+     * Implfmfntbtion of bbstrbdt mftiods
      *
      ************************************************/
 
     /**
-     * Menu bar is always root window in menu window's
-     * hierarchy
+     * Mfnu bbr is blwbys root window in mfnu window's
+     * iifrbrdiy
      */
-    protected XBaseMenuWindow getParentMenuWindow() {
-        return null;
+    protfdtfd XBbsfMfnuWindow gftPbrfntMfnuWindow() {
+        rfturn null;
     }
 
     /**
-     * @see XBaseMenuWindow.map
+     * @sff XBbsfMfnuWindow.mbp
      */
-    protected MappingData map() {
-        XMenuItemPeer[] itemVector = copyItems();
-        int itemCnt = itemVector.length;
-        XMenuItemPeer helpMenu = this.helpMenu;
-        int helpMenuPos = -1;
-        //find helpMenu and move it to the end of array
-        if (helpMenu != null) {
-            //Fixed 6270847: PIT: HELP menu is not shown at the right place when normal menus added to MB are removed, XToolkit
-            for (int i = 0; i < itemCnt; i++) {
-                if (itemVector[i] == helpMenu) {
-                    helpMenuPos = i;
-                    break;
+    protfdtfd MbppingDbtb mbp() {
+        XMfnuItfmPffr[] itfmVfdtor = dopyItfms();
+        int itfmCnt = itfmVfdtor.lfngti;
+        XMfnuItfmPffr iflpMfnu = tiis.iflpMfnu;
+        int iflpMfnuPos = -1;
+        //find iflpMfnu bnd movf it to tif fnd of brrby
+        if (iflpMfnu != null) {
+            //Fixfd 6270847: PIT: HELP mfnu is not siown bt tif rigit plbdf wifn normbl mfnus bddfd to MB brf rfmovfd, XToolkit
+            for (int i = 0; i < itfmCnt; i++) {
+                if (itfmVfdtor[i] == iflpMfnu) {
+                    iflpMfnuPos = i;
+                    brfbk;
                 }
             }
-            if (helpMenuPos != -1 && helpMenuPos != itemCnt - 1) {
-                System.arraycopy(itemVector, helpMenuPos + 1, itemVector, helpMenuPos, itemCnt - 1 - helpMenuPos);
-                itemVector[itemCnt - 1] = helpMenu;
+            if (iflpMfnuPos != -1 && iflpMfnuPos != itfmCnt - 1) {
+                Systfm.brrbydopy(itfmVfdtor, iflpMfnuPos + 1, itfmVfdtor, iflpMfnuPos, itfmCnt - 1 - iflpMfnuPos);
+                itfmVfdtor[itfmCnt - 1] = iflpMfnu;
             }
         }
-        //We need maximum height before calculating item's bounds
-        int maxHeight = 0;
-        XMenuItemPeer.TextMetrics[] itemMetrics = new XMenuItemPeer.TextMetrics[itemCnt];
-        for (int i = 0; i < itemCnt; i++) {
-            itemMetrics[i] = itemVector[i].getTextMetrics();
-            Dimension dim = itemMetrics[i].getTextDimension();
+        //Wf nffd mbximum ifigit bfforf dbldulbting itfm's bounds
+        int mbxHfigit = 0;
+        XMfnuItfmPffr.TfxtMftrids[] itfmMftrids = nfw XMfnuItfmPffr.TfxtMftrids[itfmCnt];
+        for (int i = 0; i < itfmCnt; i++) {
+            itfmMftrids[i] = itfmVfdtor[i].gftTfxtMftrids();
+            Dimfnsion dim = itfmMftrids[i].gftTfxtDimfnsion();
             if (dim != null) {
-                maxHeight = Math.max(maxHeight, dim.height);
+                mbxHfigit = Mbti.mbx(mbxHfigit, dim.ifigit);
             }
         }
-        //Calculate bounds
-        int nextOffset = 0;
-        int itemHeight = BAR_ITEM_MARGIN_TOP + maxHeight + BAR_ITEM_MARGIN_BOTTOM;
-        int mappedCnt = itemCnt;
-        for (int i = 0; i < itemCnt; i++) {
-            XMenuItemPeer item = itemVector[i];
-            XMenuItemPeer.TextMetrics metrics = itemMetrics[i];
-            Dimension dim = metrics.getTextDimension();
+        //Cbldulbtf bounds
+        int nfxtOffsft = 0;
+        int itfmHfigit = BAR_ITEM_MARGIN_TOP + mbxHfigit + BAR_ITEM_MARGIN_BOTTOM;
+        int mbppfdCnt = itfmCnt;
+        for (int i = 0; i < itfmCnt; i++) {
+            XMfnuItfmPffr itfm = itfmVfdtor[i];
+            XMfnuItfmPffr.TfxtMftrids mftrids = itfmMftrids[i];
+            Dimfnsion dim = mftrids.gftTfxtDimfnsion();
             if (dim != null) {
-                int itemWidth = BAR_ITEM_MARGIN_LEFT + dim.width + BAR_ITEM_MARGIN_RIGHT;
-                //Fix for 6270757: PIT: Menus and Sub-menus are shown outside the frame, XToolkit
-                //Cut-off items that don't fit in window
-                //At least one item must remain in menu
-                if ((nextOffset + itemWidth > this.width) && (i > 0)) {
-                    mappedCnt = i;
-                    break;
+                int itfmWidti = BAR_ITEM_MARGIN_LEFT + dim.widti + BAR_ITEM_MARGIN_RIGHT;
+                //Fix for 6270757: PIT: Mfnus bnd Sub-mfnus brf siown outsidf tif frbmf, XToolkit
+                //Cut-off itfms tibt don't fit in window
+                //At lfbst onf itfm must rfmbin in mfnu
+                if ((nfxtOffsft + itfmWidti > tiis.widti) && (i > 0)) {
+                    mbppfdCnt = i;
+                    brfbk;
                 }
-                //If this item is help menu, move it to the right edge
-                if ((i == itemCnt - 1) && helpMenuPos != -1) {
-                    nextOffset = Math.max(nextOffset, this.width - itemWidth - BAR_SPACING_RIGHT);
+                //If tiis itfm is iflp mfnu, movf it to tif rigit fdgf
+                if ((i == itfmCnt - 1) && iflpMfnuPos != -1) {
+                    nfxtOffsft = Mbti.mbx(nfxtOffsft, tiis.widti - itfmWidti - BAR_SPACING_RIGHT);
                 }
-                Rectangle bounds = new Rectangle(nextOffset, BAR_SPACING_TOP, itemWidth, itemHeight);
-                //text should be centered vertically in menu item's bounds
-                int y = (maxHeight + dim.height) / 2  - metrics.getTextBaseline();
-                Point textOrigin = new Point(nextOffset + BAR_ITEM_MARGIN_LEFT, BAR_SPACING_TOP + BAR_ITEM_MARGIN_TOP + y);
-                nextOffset += itemWidth + BAR_ITEM_SPACING;
-                item.map(bounds, textOrigin);
-            } else {
-                Rectangle bounds = new Rectangle(nextOffset, BAR_SPACING_TOP, 0, 0);
-                Point textOrigin = new Point(nextOffset + BAR_ITEM_MARGIN_LEFT, BAR_SPACING_TOP + BAR_ITEM_MARGIN_TOP);
+                Rfdtbnglf bounds = nfw Rfdtbnglf(nfxtOffsft, BAR_SPACING_TOP, itfmWidti, itfmHfigit);
+                //tfxt siould bf dfntfrfd vfrtidblly in mfnu itfm's bounds
+                int y = (mbxHfigit + dim.ifigit) / 2  - mftrids.gftTfxtBbsflinf();
+                Point tfxtOrigin = nfw Point(nfxtOffsft + BAR_ITEM_MARGIN_LEFT, BAR_SPACING_TOP + BAR_ITEM_MARGIN_TOP + y);
+                nfxtOffsft += itfmWidti + BAR_ITEM_SPACING;
+                itfm.mbp(bounds, tfxtOrigin);
+            } flsf {
+                Rfdtbnglf bounds = nfw Rfdtbnglf(nfxtOffsft, BAR_SPACING_TOP, 0, 0);
+                Point tfxtOrigin = nfw Point(nfxtOffsft + BAR_ITEM_MARGIN_LEFT, BAR_SPACING_TOP + BAR_ITEM_MARGIN_TOP);
             }
         }
-        XMenuItemPeer mappedVector[] = new XMenuItemPeer[mappedCnt];
-        System.arraycopy(itemVector, 0, mappedVector, 0, mappedCnt);
-        MappingData mappingData = new MappingData(mappedVector, BAR_SPACING_TOP + itemHeight + BAR_SPACING_BOTTOM);
-        return mappingData;
+        XMfnuItfmPffr mbppfdVfdtor[] = nfw XMfnuItfmPffr[mbppfdCnt];
+        Systfm.brrbydopy(itfmVfdtor, 0, mbppfdVfdtor, 0, mbppfdCnt);
+        MbppingDbtb mbppingDbtb = nfw MbppingDbtb(mbppfdVfdtor, BAR_SPACING_TOP + itfmHfigit + BAR_SPACING_BOTTOM);
+        rfturn mbppingDbtb;
     }
 
     /**
-     * @see XBaseMenuWindow.getSubmenuBounds
+     * @sff XBbsfMfnuWindow.gftSubmfnuBounds
      */
-    protected Rectangle getSubmenuBounds(Rectangle itemBounds, Dimension windowSize) {
-        Rectangle globalBounds = toGlobal(itemBounds);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Rectangle res;
-        res = fitWindowBelow(globalBounds, windowSize, screenSize);
-        if (res != null) {
-            return res;
+    protfdtfd Rfdtbnglf gftSubmfnuBounds(Rfdtbnglf itfmBounds, Dimfnsion windowSizf) {
+        Rfdtbnglf globblBounds = toGlobbl(itfmBounds);
+        Dimfnsion sdrffnSizf = Toolkit.gftDffbultToolkit().gftSdrffnSizf();
+        Rfdtbnglf rfs;
+        rfs = fitWindowBflow(globblBounds, windowSizf, sdrffnSizf);
+        if (rfs != null) {
+            rfturn rfs;
         }
-        res = fitWindowAbove(globalBounds, windowSize, screenSize);
-        if (res != null) {
-            return res;
+        rfs = fitWindowAbovf(globblBounds, windowSizf, sdrffnSizf);
+        if (rfs != null) {
+            rfturn rfs;
         }
-        res = fitWindowRight(globalBounds, windowSize, screenSize);
-        if (res != null) {
-            return res;
+        rfs = fitWindowRigit(globblBounds, windowSizf, sdrffnSizf);
+        if (rfs != null) {
+            rfturn rfs;
         }
-        res = fitWindowLeft(globalBounds, windowSize, screenSize);
-        if (res != null) {
-            return res;
+        rfs = fitWindowLfft(globblBounds, windowSizf, sdrffnSizf);
+        if (rfs != null) {
+            rfturn rfs;
         }
-        return fitWindowToScreen(windowSize, screenSize);
+        rfturn fitWindowToSdrffn(windowSizf, sdrffnSizf);
     }
 
     /**
-     * This function is called when it's likely that
-     * size of items has changed.
-     * Invokes framePeer's updateChildrenSizes()
+     * Tiis fundtion is dbllfd wifn it's likfly tibt
+     * sizf of itfms ibs dibngfd.
+     * Invokfs frbmfPffr's updbtfCiildrfnSizfs()
      */
-    protected void updateSize() {
-        resetMapping();
-        if (framePeer != null) {
-            framePeer.reshapeMenubarPeer();
+    protfdtfd void updbtfSizf() {
+        rfsftMbpping();
+        if (frbmfPffr != null) {
+            frbmfPffr.rfsibpfMfnubbrPffr();
         }
     }
 
     /************************************************
      *
-     * Utility functions
+     * Utility fundtions
      *
      ************************************************/
 
     /**
-     * Returns desired height of menu bar
+     * Rfturns dfsirfd ifigit of mfnu bbr
      */
-    int getDesiredHeight() {
-        MappingData mappingData = (MappingData)getMappingData();
-        return mappingData.getDesiredHeight();
+    int gftDfsirfdHfigit() {
+        MbppingDbtb mbppingDbtb = (MbppingDbtb)gftMbppingDbtb();
+        rfturn mbppingDbtb.gftDfsirfdHfigit();
     }
 
     /**
-     * Returns true if framePeer is not null and is enabled
-     * Used to fix 6185057: Disabling a frame does not disable
-     * the menus on the frame, on solaris/linux
+     * Rfturns truf if frbmfPffr is not null bnd is fnbblfd
+     * Usfd to fix 6185057: Disbbling b frbmf dofs not disbblf
+     * tif mfnus on tif frbmf, on solbris/linux
      */
-    boolean isFramePeerEnabled() {
-        if (framePeer != null) {
-            return framePeer.isEnabled();
+    boolfbn isFrbmfPffrEnbblfd() {
+        if (frbmfPffr != null) {
+            rfturn frbmfPffr.isEnbblfd();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /************************************************
      *
-     * Overriden XBaseMenuWindow functions
+     * Ovfrridfn XBbsfMfnuWindow fundtions
      *
      ************************************************/
 
     /**
-     * @see XBaseMenuWindow.doDispose()
+     * @sff XBbsfMfnuWindow.doDisposf()
      */
-    protected void doDispose() {
-        super.doDispose();
-        XToolkit.targetDisposedPeer(menuBarTarget, this);
+    protfdtfd void doDisposf() {
+        supfr.doDisposf();
+        XToolkit.tbrgftDisposfdPffr(mfnuBbrTbrgft, tiis);
     }
 
     /************************************************
      *
-     * Overriden XWindow general-purpose functions
+     * Ovfrridfn XWindow gfnfrbl-purposf fundtions
      *
      ************************************************/
 
     /**
-     * For menu bars this function is called from framePeer's
-     * reshape(...) and updateChildrenSizes()
+     * For mfnu bbrs tiis fundtion is dbllfd from frbmfPffr's
+     * rfsibpf(...) bnd updbtfCiildrfnSizfs()
      */
-    public void reshape(int x, int y, int width, int height) {
-        if ((width != this.width) || (height != this.height)) {
-            resetMapping();
+    publid void rfsibpf(int x, int y, int widti, int ifigit) {
+        if ((widti != tiis.widti) || (ifigit != tiis.ifigit)) {
+            rfsftMbpping();
         }
-        super.reshape(x, y, width, height);
+        supfr.rfsibpf(x, y, widti, ifigit);
     }
 
     /**
-     * Performs ungrabbing of input
-     * @see XBaseWindow.ungrabInputImpl()
+     * Pfrforms ungrbbbing of input
+     * @sff XBbsfWindow.ungrbbInputImpl()
      */
-    void ungrabInputImpl() {
-        selectItem(null, false);
-        super.ungrabInputImpl();
-        postPaintEvent();
+    void ungrbbInputImpl() {
+        sflfdtItfm(null, fblsf);
+        supfr.ungrbbInputImpl();
+        postPbintEvfnt();
     }
 
     /************************************************
      *
-     * Overriden XWindow painting & printing
+     * Ovfrridfn XWindow pbinting & printing
      *
      ************************************************/
-    public void paintPeer(Graphics g) {
-        resetColors();
-        /* Calculate menubar dimension. */
-        int width = getWidth();
-        int height = getHeight();
+    publid void pbintPffr(Grbpiids g) {
+        rfsftColors();
+        /* Cbldulbtf mfnubbr dimfnsion. */
+        int widti = gftWidti();
+        int ifigit = gftHfigit();
 
-        flush();
-        //Fill background of rectangle
-        g.setColor(getBackgroundColor());
-        g.fillRect(1, 1, width - 2, height - 2);
+        flusi();
+        //Fill bbdkground of rfdtbnglf
+        g.sftColor(gftBbdkgroundColor());
+        g.fillRfdt(1, 1, widti - 2, ifigit - 2);
 
-        draw3DRect(g, 0, 0, width, height, true);
+        drbw3DRfdt(g, 0, 0, widti, ifigit, truf);
 
-        //Paint menus
-        MappingData mappingData = (MappingData)getMappingData();
-        XMenuItemPeer[] itemVector = mappingData.getItems();
-        XMenuItemPeer selectedItem = getSelectedItem();
-        for (int i = 0; i < itemVector.length; i++) {
-            XMenuItemPeer item = itemVector[i];
-            //paint item
-            g.setFont(item.getTargetFont());
-            Rectangle bounds = item.getBounds();
-            Point textOrigin = item.getTextOrigin();
-            if (item == selectedItem) {
-                g.setColor(getSelectedColor());
-                g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-                draw3DRect(g, bounds.x, bounds.y, bounds.width, bounds.height, false);
+        //Pbint mfnus
+        MbppingDbtb mbppingDbtb = (MbppingDbtb)gftMbppingDbtb();
+        XMfnuItfmPffr[] itfmVfdtor = mbppingDbtb.gftItfms();
+        XMfnuItfmPffr sflfdtfdItfm = gftSflfdtfdItfm();
+        for (int i = 0; i < itfmVfdtor.lfngti; i++) {
+            XMfnuItfmPffr itfm = itfmVfdtor[i];
+            //pbint itfm
+            g.sftFont(itfm.gftTbrgftFont());
+            Rfdtbnglf bounds = itfm.gftBounds();
+            Point tfxtOrigin = itfm.gftTfxtOrigin();
+            if (itfm == sflfdtfdItfm) {
+                g.sftColor(gftSflfdtfdColor());
+                g.fillRfdt(bounds.x, bounds.y, bounds.widti, bounds.ifigit);
+                drbw3DRfdt(g, bounds.x, bounds.y, bounds.widti, bounds.ifigit, fblsf);
             }
-            if (isFramePeerEnabled() && item.isTargetItemEnabled()) {
-                g.setColor(getForegroundColor());
-            } else {
-                g.setColor(getDisabledColor());
+            if (isFrbmfPffrEnbblfd() && itfm.isTbrgftItfmEnbblfd()) {
+                g.sftColor(gftForfgroundColor());
+            } flsf {
+                g.sftColor(gftDisbblfdColor());
             }
-            g.drawString(item.getTargetLabel(), textOrigin.x, textOrigin.y);
+            g.drbwString(itfm.gftTbrgftLbbfl(), tfxtOrigin.x, tfxtOrigin.y);
         }
-        flush();
+        flusi();
     }
 
-    static final int W_DIFF = (XFramePeer.CROSSHAIR_INSET + 1) * 2;
-    static final int H_DIFF = XFramePeer.BUTTON_Y + XFramePeer.BUTTON_H;
+    stbtid finbl int W_DIFF = (XFrbmfPffr.CROSSHAIR_INSET + 1) * 2;
+    stbtid finbl int H_DIFF = XFrbmfPffr.BUTTON_Y + XFrbmfPffr.BUTTON_H;
 
-    void print(Graphics g) {
-        //TODO:Implement
+    void print(Grbpiids g) {
+        //TODO:Implfmfnt
     }
 
     /************************************************
      *
-     * Overriden XBaseMenuWindow event handling
+     * Ovfrridfn XBbsfMfnuWindow fvfnt ibndling
      *
      ************************************************/
-    protected void handleEvent(AWTEvent event) {
-        // explicitly block all events except PaintEvent.PAINT for menus,
-        // that are in the modal blocked window
-        if ((framePeer != null) &&
-            (event.getID() != PaintEvent.PAINT))
+    protfdtfd void ibndlfEvfnt(AWTEvfnt fvfnt) {
+        // fxpliditly blodk bll fvfnts fxdfpt PbintEvfnt.PAINT for mfnus,
+        // tibt brf in tif modbl blodkfd window
+        if ((frbmfPffr != null) &&
+            (fvfnt.gftID() != PbintEvfnt.PAINT))
         {
-            if (framePeer.isModalBlocked()) {
-                return;
+            if (frbmfPffr.isModblBlodkfd()) {
+                rfturn;
             }
         }
-        switch(event.getID()) {
-        case MouseEvent.MOUSE_PRESSED:
-        case MouseEvent.MOUSE_RELEASED:
-        case MouseEvent.MOUSE_CLICKED:
-        case MouseEvent.MOUSE_MOVED:
-        case MouseEvent.MOUSE_ENTERED:
-        case MouseEvent.MOUSE_EXITED:
-        case MouseEvent.MOUSE_DRAGGED:
-            //Fix for 6185057: Disabling a frame does not disable
-            //the menus on the frame, on solaris/linux
-            if (isFramePeerEnabled()) {
-                doHandleJavaMouseEvent((MouseEvent)event);
+        switdi(fvfnt.gftID()) {
+        dbsf MousfEvfnt.MOUSE_PRESSED:
+        dbsf MousfEvfnt.MOUSE_RELEASED:
+        dbsf MousfEvfnt.MOUSE_CLICKED:
+        dbsf MousfEvfnt.MOUSE_MOVED:
+        dbsf MousfEvfnt.MOUSE_ENTERED:
+        dbsf MousfEvfnt.MOUSE_EXITED:
+        dbsf MousfEvfnt.MOUSE_DRAGGED:
+            //Fix for 6185057: Disbbling b frbmf dofs not disbblf
+            //tif mfnus on tif frbmf, on solbris/linux
+            if (isFrbmfPffrEnbblfd()) {
+                doHbndlfJbvbMousfEvfnt((MousfEvfnt)fvfnt);
             }
-            break;
-        case KeyEvent.KEY_PRESSED:
-        case KeyEvent.KEY_RELEASED:
-            //Fix for 6185057: Disabling a frame does not disable
-            //the menus on the frame, on solaris/linux
-            if (isFramePeerEnabled()) {
-                doHandleJavaKeyEvent((KeyEvent)event);
+            brfbk;
+        dbsf KfyEvfnt.KEY_PRESSED:
+        dbsf KfyEvfnt.KEY_RELEASED:
+            //Fix for 6185057: Disbbling b frbmf dofs not disbblf
+            //tif mfnus on tif frbmf, on solbris/linux
+            if (isFrbmfPffrEnbblfd()) {
+                doHbndlfJbvbKfyEvfnt((KfyEvfnt)fvfnt);
             }
-            break;
-        default:
-            super.handleEvent(event);
-            break;
+            brfbk;
+        dffbult:
+            supfr.ibndlfEvfnt(fvfnt);
+            brfbk;
         }
     }
 
@@ -493,42 +493,42 @@ public class XMenuBarPeer extends XBaseMenuWindow implements MenuBarPeer {
 
     /************************************************
      *
-     * Overriden XWindow keyboard processing
+     * Ovfrridfn XWindow kfybobrd prodfssing
      *
      ************************************************/
 
     /*
-     * This function is called from XWindow
-     * @see XWindow.handleF10onEDT()
+     * Tiis fundtion is dbllfd from XWindow
+     * @sff XWindow.ibndlfF10onEDT()
      */
-    void handleF10KeyPress(KeyEvent event) {
-        int keyState = event.getModifiers();
-        if (((keyState & InputEvent.ALT_MASK) != 0) ||
-            ((keyState & InputEvent.SHIFT_MASK) != 0) ||
-            ((keyState & InputEvent.CTRL_MASK) != 0)) {
-            return;
+    void ibndlfF10KfyPrfss(KfyEvfnt fvfnt) {
+        int kfyStbtf = fvfnt.gftModififrs();
+        if (((kfyStbtf & InputEvfnt.ALT_MASK) != 0) ||
+            ((kfyStbtf & InputEvfnt.SHIFT_MASK) != 0) ||
+            ((kfyStbtf & InputEvfnt.CTRL_MASK) != 0)) {
+            rfturn;
         }
-        grabInput();
-        selectItem(getFirstSelectableItem(), true);
+        grbbInput();
+        sflfdtItfm(gftFirstSflfdtbblfItfm(), truf);
     }
 
     /*
-     * In previous version keys were handled in handleKeyPress.
-     * Now we override this function do disable F10 explicit
-     * processing. All processing is done using KeyEvent.
+     * In prfvious vfrsion kfys wfrf ibndlfd in ibndlfKfyPrfss.
+     * Now wf ovfrridf tiis fundtion do disbblf F10 fxplidit
+     * prodfssing. All prodfssing is donf using KfyEvfnt.
      */
-    public void handleKeyPress(XEvent xev) {
-        XKeyEvent xkey = xev.get_xkey();
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine(xkey.toString());
+    publid void ibndlfKfyPrfss(XEvfnt xfv) {
+        XKfyEvfnt xkfy = xfv.gft_xkfy();
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf(xkfy.toString());
         }
-        if (isEventDisabled(xev)) {
-            return;
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
         }
-        final Component currentSource = getEventSource();
-        //This is the only difference from XWindow.handleKeyPress
-        //Ancestor's function can invoke handleF10KeyPress here
-        handleKeyPress(xkey);
+        finbl Componfnt durrfntSourdf = gftEvfntSourdf();
+        //Tiis is tif only difffrfndf from XWindow.ibndlfKfyPrfss
+        //Andfstor's fundtion dbn invokf ibndlfF10KfyPrfss ifrf
+        ibndlfKfyPrfss(xkfy);
     }
 
-} //class XMenuBarPeer
+} //dlbss XMfnuBbrPffr

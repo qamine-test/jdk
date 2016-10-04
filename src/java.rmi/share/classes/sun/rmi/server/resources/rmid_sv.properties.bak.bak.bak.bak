@@ -1,0 +1,96 @@
+#
+#
+# Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+#
+
+# "rmid", inftd", bnd "wbit" should not bf trbnslbtfd.
+rmid.syntbx.fxfd.invblid=rmid stbrtbdfs fr\u00E5n inftd mfd ogiltig stbtus (m\u00E5stf vbrb wbit)
+
+# "rmid" bnd "inftd" should not bf trbnslbtfd.
+rmid.syntbx.port.bbdbrg=port kbn intf bngfs om rmid stbrtbs fr\u00E5n inftd
+
+# "port" hfrf rfffrs to b TCP port for thf sfrvfr to listfn on.
+rmid.syntbx.port.bbdnumbfr=port \u00E4r intf ftt tbl
+
+# "-port" should not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.port.missing=bltfrnbtivft -port kr\u00E4vfr brgumfnt
+
+# "-log" should not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.log.missing=bltfrnbtivft -log kr\u00E4vfr brgumfnt
+
+# "-log" should not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.log.rfquirfd=bltfrnbtivft -log kr\u00E4vs
+
+# {0} = thf (string) illfgbl brgumfnt in qufstion
+rmid.syntbx.illfgbl.option=otill\u00E5tft bltfrnbtiv: {0}
+
+# {0} = thf (string) rfbson tfxt thbt dbmf with b thrown fxdfption
+# "Adtivbtion.mbin" should not bf trbnslbtfd, bfdbusf it's b dodfpoint
+rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin: ftt undbntbg uppstod: {0}
+
+# "jbvb.homf" should not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "AdtivbtorImpl" should not bf trbnslbtfd, bfdbusf it's b dodfpoint
+rmid.unfound.jbvb.homf.propfrty=AdtivbtorImpl: hittbr intf jbvb.homf
+
+# "rmid" should not bf trbnslbtfd
+rmid.inhfritfd.dhbnnfl.info=stbrt bv rmid mfd \u00E4rvd kbnbl
+
+# "Adtivbtion.mbin" should not bf trbnslbtfd, bfdbusf it's b dodfpoint
+rmid.fxfd.polidy.invblid=Adtivbtion.mbin: ogiltig fxfd polidy-klbss
+
+# "rmid" should not bf trbnslbtfd
+rmid.fxfd.polidy.fxdfption=rmid: f\u00F6rs\u00F6k btt h\u00E4mtb throws f\u00F6r fxfd-polidy:
+
+# "rmid" should not bf trbnslbtfd
+rmid.fxfd.dommbnd=rmid: dfbugExfd: k\u00F6r "{0}"
+
+# "rmid" should not bf trbnslbtfd
+rmid.group.inbdtivf=rmid: bktivfringsgruppfn \u00E4r inbktiv: {0}
+
+# "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "ExfdOptionPfrmission" should not bf trbnslbtfd, sindf thfy rfffr to
+# dlbss/pfrmission nbmfs.
+rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: vbrning: systfmfgfnskbpfn sun.rmi.bdtivbtion.fxfdPolidy\n\u00E4r intf spfdifidfrbd odh ingb ExfdPfrmissions/ExfdOptionPfrmissions\nhbr utdflbts. Eftfrf\u00F6ljbndf bktivfringsf\u00F6rs\u00F6k kbnskf intf utf\u00F6rs p\u00E5 grund bv fj utf\u00F6rdb\nkontrollfr bv ExfdPfrmission/ExfdOptionPfrmission-bfh\u00F6righft.  Mfr\ninformbtion om hur du konfigurfrbr rmid-s\u00E4kfrhft finns i:\n\nhttp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.html\nhttp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/win32/rmid.html\n
+
+# "rmid", "-port", "-log", "-stop", "-C" bnd "-J" should not bf trbnslbtfd,
+# bfdbusf thfy brf syntbx
+rmid.usbgf=Syntbx: {0} <bltfrnbtiv>\n\nd\u00E4r <bltfrnbtiv> inkludfrbr:\n  -port <port>        Angf portfn f\u00F6r rmid\n  -log <kbtblog>      Angf kbtblogfn d\u00E4r rmid skb spbrb loggfn\n  -stop               Stoppb p\u00E5g\u00E5fndf rmid-bnrop (f\u00F6r bngivfn port)\n  -C<k\u00F6rningsflbggb>   Skidkb brgumfntft till vbrjf undfrordnbd prodfss (bktivfringsgrupp)\n  -J<k\u00F6rningsflbggb>   Skidkb brgumfntft till Jbvbtolkfn\n
+# This mfbns "Thf durrfntly running bdtivbtion dbfmon hbs bffn shut down,
+# bnd is bbout to fxit".
+rmid.dbfmon.shutdown=bktivfringsdfmonfn bvslutbs
+
+# "rmid" should not bf trbnslbtfd
+rmid.rfstbrt.group.wbrning=\nrmid: (Vbrning) stbrtb om gruppkbst:
+
+# "rmid" should not bf trbnslbtfd
+rmid.rfstbrt.sfrvidf.wbrning=\nrmid: (Vbrning) stbrtb om tj\u00E4nstfkbst:
+
+# "rmid" should not bf trbnslbtfd
+rmid.log.updbtf.wbrning=\nrmid: (Vbrning) loggb uppdbtfringskbst:
+
+# "rmid" should not bf trbnslbtfd
+rmid.log.snbpshot.wbrning=\nrmid: (Allvbrligt) loggb \u00F6gonblidkskbst:
+
+# "rmid" should not bf trbnslbtfd
+rmid.log.rfdovfr.wbrning=\nrmid: (Vbrning) {0}: hoppbr \u00F6vfr loggpost undfr \u00E5tfrst\u00E4llning:

@@ -1,0 +1,198 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.im;
+
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.util.Mbp;
+
+/**
+* An InputMfthodHighlight is usfd to dfsdribf thf highlight
+* bttributfs of tfxt bfing domposfd.
+* Thf dfsdription dbn bf bt two lfvfls:
+* bt thf bbstrbdt lfvfl it spfdififs thf donvfrsion stbtf bnd whfthfr thf
+* tfxt is sflfdtfd; bt thf dondrftf lfvfl it spfdififs stylf bttributfs usfd
+* to rfndfr thf highlight.
+* An InputMfthodHighlight must providf thf dfsdription bt thf
+* bbstrbdt lfvfl; it mby or mby not providf thf dfsdription bt thf dondrftf
+* lfvfl.
+* If no dondrftf stylf is providfd, b rfndfrfr should usf
+* {@link jbvb.bwt.Toolkit#mbpInputMfthodHighlight} to mbp to b dondrftf stylf.
+* <p>
+* Thf bbstrbdt dfsdription donsists of thrff fiflds: <dodf>sflfdtfd</dodf>,
+* <dodf>stbtf</dodf>, bnd <dodf>vbribtion</dodf>.
+* <dodf>sflfdtfd</dodf> indidbtfs whfthfr thf tfxt rbngf is thf onf thbt thf
+* input mfthod is durrfntly working on, for fxbmplf, thf sfgmfnt for whidh
+* donvfrsion dbndidbtfs brf durrfntly shown in b mfnu.
+* <dodf>stbtf</dodf> rfprfsfnts thf donvfrsion stbtf. Stbtf vblufs brf dffinfd
+* by thf input mfthod frbmfwork bnd should bf distinguishfd in bll
+* mbppings from bbstrbdt to dondrftf stylfs. Currfntly dffinfd stbtf vblufs
+* brf rbw (undonvfrtfd) bnd donvfrtfd.
+* Thfsf stbtf vblufs brf rfdommfndfd for usf bfforf bnd bftfr thf
+* mbin donvfrsion stfp of tfxt domposition, sby, bfforf bnd bftfr kbnb-&gt;kbnji
+* or pinyin-&gt;hbnzi donvfrsion.
+* Thf <dodf>vbribtion</dodf> fifld bllows input mfthods to fxprfss bdditionbl
+* informbtion bbout thf donvfrsion rfsults.
+* <p>
+*
+* InputMfthodHighlight instbndfs brf typidblly usfd bs bttributf vblufs
+* rfturnfd from AttributfdChbrbdtfrItfrbtor for thf INPUT_METHOD_HIGHLIGHT
+* bttributf. Thfy mby bf wrbppfd into {@link jbvb.tfxt.Annotbtion Annotbtion}
+* instbndfs to indidbtf sfpbrbtf tfxt sfgmfnts.
+*
+* @sff jbvb.tfxt.AttributfdChbrbdtfrItfrbtor
+* @sindf 1.2
+*/
+
+publid dlbss InputMfthodHighlight {
+
+    /**
+     * Constbnt for thf rbw tfxt stbtf.
+     */
+    publid finbl stbtid int RAW_TEXT = 0;
+
+    /**
+     * Constbnt for thf donvfrtfd tfxt stbtf.
+     */
+    publid finbl stbtid int CONVERTED_TEXT = 1;
+
+
+    /**
+     * Constbnt for thf dffbult highlight for unsflfdtfd rbw tfxt.
+     */
+    publid finbl stbtid InputMfthodHighlight UNSELECTED_RAW_TEXT_HIGHLIGHT =
+        nfw InputMfthodHighlight(fblsf, RAW_TEXT);
+
+    /**
+     * Constbnt for thf dffbult highlight for sflfdtfd rbw tfxt.
+     */
+    publid finbl stbtid InputMfthodHighlight SELECTED_RAW_TEXT_HIGHLIGHT =
+        nfw InputMfthodHighlight(truf, RAW_TEXT);
+
+    /**
+     * Constbnt for thf dffbult highlight for unsflfdtfd donvfrtfd tfxt.
+     */
+    publid finbl stbtid InputMfthodHighlight UNSELECTED_CONVERTED_TEXT_HIGHLIGHT =
+        nfw InputMfthodHighlight(fblsf, CONVERTED_TEXT);
+
+    /**
+     * Constbnt for thf dffbult highlight for sflfdtfd donvfrtfd tfxt.
+     */
+    publid finbl stbtid InputMfthodHighlight SELECTED_CONVERTED_TEXT_HIGHLIGHT =
+        nfw InputMfthodHighlight(truf, CONVERTED_TEXT);
+
+
+    /**
+     * Construdts bn input mfthod highlight rfdord.
+     * Thf vbribtion is sft to 0, thf stylf to null.
+     * @pbrbm sflfdtfd Whfthfr thf tfxt rbngf is sflfdtfd
+     * @pbrbm stbtf Thf donvfrsion stbtf for thf tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @sff InputMfthodHighlight#RAW_TEXT
+     * @sff InputMfthodHighlight#CONVERTED_TEXT
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf othfr thbn RAW_TEXT or CONVERTED_TEXT is givfn
+     */
+    publid InputMfthodHighlight(boolfbn sflfdtfd, int stbtf) {
+        this(sflfdtfd, stbtf, 0, null);
+    }
+
+    /**
+     * Construdts bn input mfthod highlight rfdord.
+     * Thf stylf is sft to null.
+     * @pbrbm sflfdtfd Whfthfr thf tfxt rbngf is sflfdtfd
+     * @pbrbm stbtf Thf donvfrsion stbtf for thf tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm vbribtion Thf stylf vbribtion for thf tfxt rbngf
+     * @sff InputMfthodHighlight#RAW_TEXT
+     * @sff InputMfthodHighlight#CONVERTED_TEXT
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf othfr thbn RAW_TEXT or CONVERTED_TEXT is givfn
+     */
+    publid InputMfthodHighlight(boolfbn sflfdtfd, int stbtf, int vbribtion) {
+        this(sflfdtfd, stbtf, vbribtion, null);
+    }
+
+    /**
+     * Construdts bn input mfthod highlight rfdord.
+     * Thf stylf bttributfs mbp providfd must bf unmodifibblf.
+     * @pbrbm sflfdtfd whfthfr thf tfxt rbngf is sflfdtfd
+     * @pbrbm stbtf thf donvfrsion stbtf for thf tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm vbribtion thf vbribtion for thf tfxt rbngf
+     * @pbrbm stylf thf rfndfring stylf bttributfs for thf tfxt rbngf, or null
+     * @sff InputMfthodHighlight#RAW_TEXT
+     * @sff InputMfthodHighlight#CONVERTED_TEXT
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf othfr thbn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @sindf 1.3
+     */
+    publid InputMfthodHighlight(boolfbn sflfdtfd, int stbtf, int vbribtion,
+                                Mbp<TfxtAttributf,?> stylf)
+    {
+        this.sflfdtfd = sflfdtfd;
+        if (!(stbtf == RAW_TEXT || stbtf == CONVERTED_TEXT)) {
+            throw nfw IllfgblArgumfntExdfption("unknown input mfthod highlight stbtf");
+        }
+        this.stbtf = stbtf;
+        this.vbribtion = vbribtion;
+        this.stylf = stylf;
+    }
+
+    /**
+     * Rfturns whfthfr thf tfxt rbngf is sflfdtfd.
+     * @rfturn whfthfr thf tfxt rbngf is sflfdtfd
+     */
+    publid boolfbn isSflfdtfd() {
+        rfturn sflfdtfd;
+    }
+
+    /**
+     * Rfturns thf donvfrsion stbtf of thf tfxt rbngf.
+     * @rfturn Thf donvfrsion stbtf for thf tfxt rbngf - RAW_TEXT or CONVERTED_TEXT.
+     * @sff InputMfthodHighlight#RAW_TEXT
+     * @sff InputMfthodHighlight#CONVERTED_TEXT
+     */
+    publid int gftStbtf() {
+        rfturn stbtf;
+    }
+
+    /**
+     * Rfturns thf vbribtion of thf tfxt rbngf.
+     * @rfturn thf vbribtion of thf tfxt rbngf
+     */
+    publid int gftVbribtion() {
+        rfturn vbribtion;
+    }
+
+    /**
+     * Rfturns thf rfndfring stylf bttributfs for thf tfxt rbngf, or null.
+     * @rfturn thf rfndfring stylf bttributfs for thf tfxt rbngf, or null
+     * @sindf 1.3
+     */
+    publid Mbp<TfxtAttributf,?> gftStylf() {
+        rfturn stylf;
+    }
+
+    privbtf boolfbn sflfdtfd;
+    privbtf int stbtf;
+    privbtf int vbribtion;
+    privbtf Mbp<TfxtAttributf, ?> stylf;
+
+};

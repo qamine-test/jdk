@@ -1,0 +1,351 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+import dom.sun.bfbns.findfr.PfrsistfndfDflfgbtfFindfr;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.IdfntityHbshMbp;
+import jbvb.util.Mbp;
+
+/**
+ * An <dodf>Endodfr</dodf> is b dlbss whidh dbn bf usfd to drfbtf
+ * filfs or strfbms thbt fndodf thf stbtf of b dollfdtion of
+ * JbvbBfbns in tfrms of thfir publid APIs. Thf <dodf>Endodfr</dodf>,
+ * in donjundtion with its pfrsistfndf dflfgbtfs, is rfsponsiblf for
+ * brfbking thf objfdt grbph down into b sfrifs of <dodf>Stbtfmfnts</dodf>s
+ * bnd <dodf>Exprfssion</dodf>s whidh dbn bf usfd to drfbtf it.
+ * A subdlbss typidblly providfs b syntbx for thfsf fxprfssions
+ * using somf humbn rfbdbblf form - likf Jbvb sourdf dodf or XML.
+ *
+ * @sindf 1.4
+ *
+ * @buthor Philip Milnf
+ */
+
+publid dlbss Endodfr {
+    privbtf finbl PfrsistfndfDflfgbtfFindfr findfr = nfw PfrsistfndfDflfgbtfFindfr();
+    privbtf Mbp<Objfdt, Exprfssion> bindings = nfw IdfntityHbshMbp<>();
+    privbtf ExdfptionListfnfr fxdfptionListfnfr;
+    boolfbn fxfdutfStbtfmfnts = truf;
+    privbtf Mbp<Objfdt, Objfdt> bttributfs;
+
+    /**
+     * Writf thf spfdififd objfdt to thf output strfbm.
+     * Thf sfriblizfd form will dfnotf b sfrifs of
+     * fxprfssions, thf dombinfd ffffdt of whidh will drfbtf
+     * bn fquivblfnt objfdt whfn thf input strfbm is rfbd.
+     * By dffbult, thf objfdt is bssumfd to bf b <fm>JbvbBfbn</fm>
+     * with b nullbry donstrudtor, whosf stbtf is dffinfd by
+     * thf mbtdhing pbirs of "sfttfr" bnd "gfttfr" mfthods
+     * rfturnfd by thf Introspfdtor.
+     *
+     * @pbrbm o Thf objfdt to bf writtfn to thf strfbm.
+     *
+     * @sff XMLDfdodfr#rfbdObjfdt
+     */
+    protfdtfd void writfObjfdt(Objfdt o) {
+        if (o == this) {
+            rfturn;
+        }
+        PfrsistfndfDflfgbtf info = gftPfrsistfndfDflfgbtf(o == null ? null : o.gftClbss());
+        info.writfObjfdt(o, this);
+    }
+
+    /**
+     * Sfts thf fxdfption hbndlfr for this strfbm to <dodf>fxdfptionListfnfr</dodf>.
+     * Thf fxdfption hbndlfr is notififd whfn this strfbm dbtdhfs rfdovfrbblf
+     * fxdfptions.
+     *
+     * @pbrbm fxdfptionListfnfr Thf fxdfption hbndlfr for this strfbm;
+     *       if <dodf>null</dodf> thf dffbult fxdfption listfnfr will bf usfd.
+     *
+     * @sff #gftExdfptionListfnfr
+     */
+    publid void sftExdfptionListfnfr(ExdfptionListfnfr fxdfptionListfnfr) {
+        this.fxdfptionListfnfr = fxdfptionListfnfr;
+    }
+
+    /**
+     * Gfts thf fxdfption hbndlfr for this strfbm.
+     *
+     * @rfturn Thf fxdfption hbndlfr for this strfbm;
+     *    Will rfturn thf dffbult fxdfption listfnfr if this hbs not fxpliditly bffn sft.
+     *
+     * @sff #sftExdfptionListfnfr
+     */
+    publid ExdfptionListfnfr gftExdfptionListfnfr() {
+        rfturn (fxdfptionListfnfr != null) ? fxdfptionListfnfr : Stbtfmfnt.dffbultExdfptionListfnfr;
+    }
+
+    Objfdt gftVbluf(Exprfssion fxp) {
+        try {
+            rfturn (fxp == null) ? null : fxp.gftVbluf();
+        }
+        dbtdh (Exdfption f) {
+            gftExdfptionListfnfr().fxdfptionThrown(f);
+            throw nfw RuntimfExdfption("fbilfd to fvblubtf: " + fxp.toString());
+        }
+    }
+
+    /**
+     * Rfturns thf pfrsistfndf dflfgbtf for thf givfn typf.
+     * Thf pfrsistfndf dflfgbtf is dbldulbtfd by bpplying
+     * thf following rulfs in ordfr:
+     * <ol>
+     * <li>
+     * If b pfrsistfndf dflfgbtf is bssodibtfd with thf givfn typf
+     * by using thf {@link #sftPfrsistfndfDflfgbtf} mfthod
+     * it is rfturnfd.
+     * <li>
+     * A pfrsistfndf dflfgbtf is thfn lookfd up by thf nbmf
+     * domposfd of thf thf fully qublififd nbmf of thf givfn typf
+     * bnd thf "PfrsistfndfDflfgbtf" postfix.
+     * For fxbmplf, b pfrsistfndf dflfgbtf for thf {@dodf Bfbn} dlbss
+     * should bf nbmfd {@dodf BfbnPfrsistfndfDflfgbtf}
+     * bnd lodbtfd in thf sbmf pbdkbgf.
+     * <prf>
+     * publid dlbss Bfbn { ... }
+     * publid dlbss BfbnPfrsistfndfDflfgbtf { ... }</prf>
+     * Thf instbndf of thf {@dodf BfbnPfrsistfndfDflfgbtf} dlbss
+     * is rfturnfd for thf {@dodf Bfbn} dlbss.
+     * <li>
+     * If thf typf is {@dodf null},
+     * b shbrfd intfrnbl pfrsistfndf dflfgbtf is rfturnfd
+     * thbt fndodfs {@dodf null} vbluf.
+     * <li>
+     * If thf typf is b {@dodf fnum} dfdlbrbtion,
+     * b shbrfd intfrnbl pfrsistfndf dflfgbtf is rfturnfd
+     * thbt fndodfs donstbnts of this fnumfrbtion
+     * by thfir nbmfs.
+     * <li>
+     * If thf typf is b primitivf typf or thf dorrfsponding wrbppfr,
+     * b shbrfd intfrnbl pfrsistfndf dflfgbtf is rfturnfd
+     * thbt fndodfs vblufs of thf givfn typf.
+     * <li>
+     * If thf typf is bn brrby,
+     * b shbrfd intfrnbl pfrsistfndf dflfgbtf is rfturnfd
+     * thbt fndodfs bn brrby of thf bppropribtf typf bnd lfngth,
+     * bnd fbdh of its flfmfnts bs if thfy brf propfrtifs.
+     * <li>
+     * If thf typf is b proxy,
+     * b shbrfd intfrnbl pfrsistfndf dflfgbtf is rfturnfd
+     * thbt fndodfs b proxy instbndf by using
+     * thf {@link jbvb.lbng.rfflfdt.Proxy#nfwProxyInstbndf} mfthod.
+     * <li>
+     * If thf {@link BfbnInfo} for this typf hbs b {@link BfbnDfsdriptor}
+     * whidh dffinfd b "pfrsistfndfDflfgbtf" bttributf,
+     * thf vbluf of this nbmfd bttributf is rfturnfd.
+     * <li>
+     * In bll othfr dbsfs thf dffbult pfrsistfndf dflfgbtf is rfturnfd.
+     * Thf dffbult pfrsistfndf dflfgbtf bssumfs thf typf is b <fm>JbvbBfbn</fm>,
+     * implying thbt it hbs b dffbult donstrudtor bnd thbt its stbtf
+     * mby bf dhbrbdtfrizfd by thf mbtdhing pbirs of "sfttfr" bnd "gfttfr"
+     * mfthods rfturnfd by thf {@link Introspfdtor} dlbss.
+     * Thf dffbult donstrudtor is thf donstrudtor with thf grfbtfst numbfr
+     * of pbrbmftfrs thbt hbs thf {@link ConstrudtorPropfrtifs} bnnotbtion.
+     * If nonf of thf donstrudtors hbs thf {@dodf ConstrudtorPropfrtifs} bnnotbtion,
+     * thfn thf nullbry donstrudtor (donstrudtor with no pbrbmftfrs) will bf usfd.
+     * For fxbmplf, in thf following dodf frbgmfnt, thf nullbry donstrudtor
+     * for thf {@dodf Foo} dlbss will bf usfd,
+     * whilf thf two-pbrbmftfr donstrudtor
+     * for thf {@dodf Bbr} dlbss will bf usfd.
+     * <prf>
+     * publid dlbss Foo {
+     *     publid Foo() { ... }
+     *     publid Foo(int x) { ... }
+     * }
+     * publid dlbss Bbr {
+     *     publid Bbr() { ... }
+     *     &#64;ConstrudtorPropfrtifs({"x"})
+     *     publid Bbr(int x) { ... }
+     *     &#64;ConstrudtorPropfrtifs({"x", "y"})
+     *     publid Bbr(int x, int y) { ... }
+     * }</prf>
+     * </ol>
+     *
+     * @pbrbm typf  thf dlbss of thf objfdts
+     * @rfturn thf pfrsistfndf dflfgbtf for thf givfn typf
+     *
+     * @sff #sftPfrsistfndfDflfgbtf
+     * @sff jbvb.bfbns.Introspfdtor#gftBfbnInfo
+     * @sff jbvb.bfbns.BfbnInfo#gftBfbnDfsdriptor
+     */
+    publid PfrsistfndfDflfgbtf gftPfrsistfndfDflfgbtf(Clbss<?> typf) {
+        PfrsistfndfDflfgbtf pd = this.findfr.find(typf);
+        if (pd == null) {
+            pd = MftbDbtb.gftPfrsistfndfDflfgbtf(typf);
+            if (pd != null) {
+                this.findfr.rfgistfr(typf, pd);
+            }
+        }
+        rfturn pd;
+    }
+
+    /**
+     * Assodibtfs thf spfdififd pfrsistfndf dflfgbtf with thf givfn typf.
+     *
+     * @pbrbm typf  thf dlbss of objfdts thbt thf spfdififd pfrsistfndf dflfgbtf bpplifs to
+     * @pbrbm dflfgbtf  thf pfrsistfndf dflfgbtf for instbndfs of thf givfn typf
+     *
+     * @sff #gftPfrsistfndfDflfgbtf
+     * @sff jbvb.bfbns.Introspfdtor#gftBfbnInfo
+     * @sff jbvb.bfbns.BfbnInfo#gftBfbnDfsdriptor
+     */
+    publid void sftPfrsistfndfDflfgbtf(Clbss<?> typf, PfrsistfndfDflfgbtf dflfgbtf) {
+        this.findfr.rfgistfr(typf, dflfgbtf);
+    }
+
+    /**
+     * Rfmovfs thf fntry for this instbndf, rfturning thf old fntry.
+     *
+     * @pbrbm oldInstbndf Thf fntry thbt should bf rfmovfd.
+     * @rfturn Thf fntry thbt wbs rfmovfd.
+     *
+     * @sff #gft
+     */
+    publid Objfdt rfmovf(Objfdt oldInstbndf) {
+        Exprfssion fxp = bindings.rfmovf(oldInstbndf);
+        rfturn gftVbluf(fxp);
+    }
+
+    /**
+     * Rfturns b tfntbtivf vbluf for <dodf>oldInstbndf</dodf> in
+     * thf fnvironmfnt drfbtfd by this strfbm. A pfrsistfndf
+     * dflfgbtf dbn usf its <dodf>mutbtfsTo</dodf> mfthod to
+     * dftfrminf whfthfr this vbluf mby bf initiblizfd to
+     * form thf fquivblfnt objfdt bt thf output or whfthfr
+     * b nfw objfdt must bf instbntibtfd bfrfsh. If thf
+     * strfbm hbs not yft sffn this vbluf, null is rfturnfd.
+     *
+     * @pbrbm  oldInstbndf Thf instbndf to bf lookfd up.
+     * @rfturn Thf objfdt, null if thf objfdt hbs not bffn sffn bfforf.
+     */
+    publid Objfdt gft(Objfdt oldInstbndf) {
+        if (oldInstbndf == null || oldInstbndf == this ||
+            oldInstbndf.gftClbss() == String.dlbss) {
+            rfturn oldInstbndf;
+        }
+        Exprfssion fxp = bindings.gft(oldInstbndf);
+        rfturn gftVbluf(fxp);
+    }
+
+    privbtf Objfdt writfObjfdt1(Objfdt oldInstbndf) {
+        Objfdt o = gft(oldInstbndf);
+        if (o == null) {
+            writfObjfdt(oldInstbndf);
+            o = gft(oldInstbndf);
+        }
+        rfturn o;
+    }
+
+    privbtf Stbtfmfnt dlonfStbtfmfnt(Stbtfmfnt oldExp) {
+        Objfdt oldTbrgft = oldExp.gftTbrgft();
+        Objfdt nfwTbrgft = writfObjfdt1(oldTbrgft);
+
+        Objfdt[] oldArgs = oldExp.gftArgumfnts();
+        Objfdt[] nfwArgs = nfw Objfdt[oldArgs.lfngth];
+        for (int i = 0; i < oldArgs.lfngth; i++) {
+            nfwArgs[i] = writfObjfdt1(oldArgs[i]);
+        }
+        Stbtfmfnt nfwExp = Stbtfmfnt.dlbss.fqubls(oldExp.gftClbss())
+                ? nfw Stbtfmfnt(nfwTbrgft, oldExp.gftMfthodNbmf(), nfwArgs)
+                : nfw Exprfssion(nfwTbrgft, oldExp.gftMfthodNbmf(), nfwArgs);
+        nfwExp.lobdfr = oldExp.lobdfr;
+        rfturn nfwExp;
+    }
+
+    /**
+     * Writfs stbtfmfnt <dodf>oldStm</dodf> to thf strfbm.
+     * Thf <dodf>oldStm</dodf> should bf writtfn fntirfly
+     * in tfrms of thf dbllfrs fnvironmfnt, i.f. thf
+     * tbrgft bnd bll brgumfnts should bf pbrt of thf
+     * objfdt grbph bfing writtfn. Thfsf fxprfssions
+     * rfprfsfnt b sfrifs of "whbt hbppfnfd" fxprfssions
+     * whidh tfll thf output strfbm how to produdf bn
+     * objfdt grbph likf thf originbl.
+     * <p>
+     * Thf implfmfntbtion of this mfthod will produdf
+     * b sfdond fxprfssion to rfprfsfnt thf sbmf fxprfssion in
+     * bn fnvironmfnt thbt will fxist whfn thf strfbm is rfbd.
+     * This is bdhifvfd simply by dblling <dodf>writfObjfdt</dodf>
+     * on thf tbrgft bnd bll thf brgumfnts bnd building b nfw
+     * fxprfssion with thf rfsults.
+     *
+     * @pbrbm oldStm Thf fxprfssion to bf writtfn to thf strfbm.
+     */
+    publid void writfStbtfmfnt(Stbtfmfnt oldStm) {
+        // Systfm.out.println("writfStbtfmfnt: " + oldExp);
+        Stbtfmfnt nfwStm = dlonfStbtfmfnt(oldStm);
+        if (oldStm.gftTbrgft() != this && fxfdutfStbtfmfnts) {
+            try {
+                nfwStm.fxfdutf();
+            } dbtdh (Exdfption f) {
+                gftExdfptionListfnfr().fxdfptionThrown(nfw Exdfption("Endodfr: disdbrding stbtfmfnt "
+                                                                     + nfwStm, f));
+            }
+        }
+    }
+
+    /**
+     * Thf implfmfntbtion first dhfdks to sff if bn
+     * fxprfssion with this vbluf hbs blrfbdy bffn writtfn.
+     * If not, thf fxprfssion is dlonfd, using
+     * thf sbmf prodfdurf bs <dodf>writfStbtfmfnt</dodf>,
+     * bnd thf vbluf of this fxprfssion is rfdondilfd
+     * with thf vbluf of thf dlonfd fxprfssion
+     * by dblling <dodf>writfObjfdt</dodf>.
+     *
+     * @pbrbm oldExp Thf fxprfssion to bf writtfn to thf strfbm.
+     */
+    publid void writfExprfssion(Exprfssion oldExp) {
+        // Systfm.out.println("Endodfr::writfExprfssion: " + oldExp);
+        Objfdt oldVbluf = gftVbluf(oldExp);
+        if (gft(oldVbluf) != null) {
+            rfturn;
+        }
+        bindings.put(oldVbluf, (Exprfssion)dlonfStbtfmfnt(oldExp));
+        writfObjfdt(oldVbluf);
+    }
+
+    void dlfbr() {
+        bindings.dlfbr();
+    }
+
+    // Pbdkbgf privbtf mfthod for sftting bn bttributfs tbblf for thf fndodfr
+    void sftAttributf(Objfdt kfy, Objfdt vbluf) {
+        if (bttributfs == null) {
+            bttributfs = nfw HbshMbp<>();
+        }
+        bttributfs.put(kfy, vbluf);
+    }
+
+    Objfdt gftAttributf(Objfdt kfy) {
+        if (bttributfs == null) {
+            rfturn null;
+        }
+        rfturn bttributfs.gft(kfy);
+    }
+}

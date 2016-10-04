@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.Vector;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
 
-import javax.management.ObjectName;
-import javax.management.MBeanServer;
-import javax.management.MalformedObjectNameException;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.MBeanRegistrationException;
-import javax.management.NotCompliantMBeanException;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpEngine;
-import com.sun.jmx.snmp.SnmpUnknownModelException;
-import com.sun.jmx.snmp.internal.SnmpAccessControlModel;
-import com.sun.jmx.snmp.internal.SnmpEngineImpl;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpEnginf;
+import dom.sun.jmx.snmp.SnmpUnknownModflExdfption;
+import dom.sun.jmx.snmp.intfrnbl.SnmpAddfssControlModfl;
+import dom.sun.jmx.snmp.intfrnbl.SnmpEnginfImpl;
 
 /**
- * Oid Checker makes use of ACM to check each OID during the getnext process.
+ * Oid Cifdkfr mbkfs usf of ACM to difdk fbdi OID during tif gftnfxt prodfss.
  */
-class AcmChecker {
+dlbss AdmCifdkfr {
 
 
-    SnmpAccessControlModel model = null;
-    String principal = null;
-    int securityLevel = -1;
-    int version = -1;
-    int pduType = -1;
-    int securityModel = -1;
-    byte[] contextName = null;
-    SnmpEngineImpl engine = null;
+    SnmpAddfssControlModfl modfl = null;
+    String prindipbl = null;
+    int sfdurityLfvfl = -1;
+    int vfrsion = -1;
+    int pduTypf = -1;
+    int sfdurityModfl = -1;
+    bytf[] dontfxtNbmf = null;
+    SnmpEnginfImpl fnginf = null;
     LongList l = null;
-    AcmChecker(SnmpMibRequest req) {
-        engine = (SnmpEngineImpl) req.getEngine();
-        //We are in V3 architecture, ACM is in the picture.
-        if(engine != null) {
-            if(engine.isCheckOidActivated()) {
+    AdmCifdkfr(SnmpMibRfqufst rfq) {
+        fnginf = (SnmpEnginfImpl) rfq.gftEnginf();
+        //Wf brf in V3 brdiitfdturf, ACM is in tif pidturf.
+        if(fnginf != null) {
+            if(fnginf.isCifdkOidAdtivbtfd()) {
                 try {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                                SnmpMib.class.getName(),
-                                "AcmChecker(SnmpMibRequest)",
-                                "SNMP V3 Access Control to be done");
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                                SnmpMib.dlbss.gftNbmf(),
+                                "AdmCifdkfr(SnmpMibRfqufst)",
+                                "SNMP V3 Addfss Control to bf donf");
                     }
-                    model = (SnmpAccessControlModel)
-                        engine.getAccessControlSubSystem().
-                        getModel(SnmpDefinitions.snmpVersionThree);
-                    principal = req.getPrincipal();
-                    securityLevel = req.getSecurityLevel();
-                    pduType = req.getPdu().type;
-                    version = req.getRequestPduVersion();
-                    securityModel = req.getSecurityModel();
-                    contextName = req.getAccessContextName();
-                    l = new LongList();
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        final StringBuilder strb = new StringBuilder()
-                        .append("Will check oid for : principal : ")
-                        .append(principal)
-                        .append("; securityLevel : ").append(securityLevel)
-                        .append("; pduType : ").append(pduType)
-                        .append("; version : ").append(version)
-                        .append("; securityModel : ").append(securityModel)
-                        .append("; contextName : ").append(contextName);
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                                SnmpMib.class.getName(),
-                                "AcmChecker(SnmpMibRequest)", strb.toString());
+                    modfl = (SnmpAddfssControlModfl)
+                        fnginf.gftAddfssControlSubSystfm().
+                        gftModfl(SnmpDffinitions.snmpVfrsionTirff);
+                    prindipbl = rfq.gftPrindipbl();
+                    sfdurityLfvfl = rfq.gftSfdurityLfvfl();
+                    pduTypf = rfq.gftPdu().typf;
+                    vfrsion = rfq.gftRfqufstPduVfrsion();
+                    sfdurityModfl = rfq.gftSfdurityModfl();
+                    dontfxtNbmf = rfq.gftAddfssContfxtNbmf();
+                    l = nfw LongList();
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        finbl StringBuildfr strb = nfw StringBuildfr()
+                        .bppfnd("Will difdk oid for : prindipbl : ")
+                        .bppfnd(prindipbl)
+                        .bppfnd("; sfdurityLfvfl : ").bppfnd(sfdurityLfvfl)
+                        .bppfnd("; pduTypf : ").bppfnd(pduTypf)
+                        .bppfnd("; vfrsion : ").bppfnd(vfrsion)
+                        .bppfnd("; sfdurityModfl : ").bppfnd(sfdurityModfl)
+                        .bppfnd("; dontfxtNbmf : ").bppfnd(dontfxtNbmf);
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                                SnmpMib.dlbss.gftNbmf(),
+                                "AdmCifdkfr(SnmpMibRfqufst)", strb.toString());
                     }
 
-                }catch(SnmpUnknownModelException e) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                                SnmpMib.class.getName(),
-                                "AcmChecker(SnmpMibRequest)",
-                                "Unknown Model, no ACM check.");
+                }dbtdi(SnmpUnknownModflExdfption f) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                                SnmpMib.dlbss.gftNbmf(),
+                                "AdmCifdkfr(SnmpMibRfqufst)",
+                                "Unknown Modfl, no ACM difdk.");
                     }
                 }
             }
         }
     }
 
-    void add(int index, long arc) {
-        if(model != null)
-            l.add(index, arc);
+    void bdd(int indfx, long brd) {
+        if(modfl != null)
+            l.bdd(indfx, brd);
     }
 
-    void remove(int index) {
-        if(model != null)
-            l.remove(index);
+    void rfmovf(int indfx) {
+        if(modfl != null)
+            l.rfmovf(indfx);
     }
 
-    void add(final int at,final long[] src, final int from,
-             final int count) {
-        if(model != null)
-            l.add(at,src,from,count);
+    void bdd(finbl int bt,finbl long[] srd, finbl int from,
+             finbl int dount) {
+        if(modfl != null)
+            l.bdd(bt,srd,from,dount);
     }
 
-    void remove(final int from, final int count) {
-        if(model != null)
-            l.remove(from,count);
+    void rfmovf(finbl int from, finbl int dount) {
+        if(modfl != null)
+            l.rfmovf(from,dount);
     }
 
-    void checkCurrentOid() throws SnmpStatusException {
-        if(model != null) {
-            SnmpOid oid = new SnmpOid(l.toArray());
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMib.class.getName(),
-                        "checkCurrentOid", "Checking access for : " + oid);
+    void difdkCurrfntOid() tirows SnmpStbtusExdfption {
+        if(modfl != null) {
+            SnmpOid oid = nfw SnmpOid(l.toArrby());
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpMib.dlbss.gftNbmf(),
+                        "difdkCurrfntOid", "Cifdking bddfss for : " + oid);
             }
-            model.checkAccess(version,
-                              principal,
-                              securityLevel,
-                              pduType,
-                              securityModel,
-                              contextName,
+            modfl.difdkAddfss(vfrsion,
+                              prindipbl,
+                              sfdurityLfvfl,
+                              pduTypf,
+                              sfdurityModfl,
+                              dontfxtNbmf,
                               oid);
         }
     }

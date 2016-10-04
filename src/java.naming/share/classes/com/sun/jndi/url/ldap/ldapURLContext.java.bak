@@ -1,633 +1,633 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.url.ldap;
+pbdkbgf dom.sun.jndi.url.ldbp;
 
-import javax.naming.spi.ResolveResult;
-import javax.naming.*;
-import javax.naming.directory.*;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
-import com.sun.jndi.ldap.LdapURL;
+import jbvbx.nbming.spi.RfsolvfRfsult;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.StringTokfnizfr;
+import dom.sun.jndi.ldbp.LdbpURL;
 
 /**
- * An LDAP URL context.
+ * An LDAP URL dontfxt.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
  */
 
-final public class ldapURLContext
-        extends com.sun.jndi.toolkit.url.GenericURLDirContext {
+finbl publid dlbss ldbpURLContfxt
+        fxtfnds dom.sun.jndi.toolkit.url.GfnfridURLDirContfxt {
 
-    ldapURLContext(Hashtable<?,?> env) {
-        super(env);
+    ldbpURLContfxt(Hbsitbblf<?,?> fnv) {
+        supfr(fnv);
     }
 
     /**
-      * Resolves 'name' into a target context with remaining name.
-      * It only resolves the hostname/port number. The remaining name
-      * contains the root DN.
+      * Rfsolvfs 'nbmf' into b tbrgft dontfxt witi rfmbining nbmf.
+      * It only rfsolvfs tif iostnbmf/port numbfr. Tif rfmbining nbmf
+      * dontbins tif root DN.
       *
-      * For example, with a LDAP URL "ldap://localhost:389/o=widget,c=us",
-      * this method resolves "ldap://localhost:389/" to the root LDAP
-      * context on the server 'localhost' on port 389,
-      * and returns as the remaining name "o=widget, c=us".
+      * For fxbmplf, witi b LDAP URL "ldbp://lodbliost:389/o=widgft,d=us",
+      * tiis mftiod rfsolvfs "ldbp://lodbliost:389/" to tif root LDAP
+      * dontfxt on tif sfrvfr 'lodbliost' on port 389,
+      * bnd rfturns bs tif rfmbining nbmf "o=widgft, d=us".
       */
-    protected ResolveResult getRootURLContext(String name, Hashtable<?,?> env)
-    throws NamingException {
-        return ldapURLContextFactory.getUsingURLIgnoreRootDN(name, env);
+    protfdtfd RfsolvfRfsult gftRootURLContfxt(String nbmf, Hbsitbblf<?,?> fnv)
+    tirows NbmingExdfption {
+        rfturn ldbpURLContfxtFbdtory.gftUsingURLIgnorfRootDN(nbmf, fnv);
     }
 
     /**
-     * Return the suffix of an ldap url.
-     * prefix parameter is ignored.
+     * Rfturn tif suffix of bn ldbp url.
+     * prffix pbrbmftfr is ignorfd.
      */
-    protected Name getURLSuffix(String prefix, String url)
-        throws NamingException {
+    protfdtfd Nbmf gftURLSuffix(String prffix, String url)
+        tirows NbmingExdfption {
 
-        LdapURL ldapUrl = new LdapURL(url);
-        String dn = (ldapUrl.getDN() != null? ldapUrl.getDN() : "");
+        LdbpURL ldbpUrl = nfw LdbpURL(url);
+        String dn = (ldbpUrl.gftDN() != null? ldbpUrl.gftDN() : "");
 
-        // Represent DN as empty or single-component composite name.
-        CompositeName remaining = new CompositeName();
-        if (!"".equals(dn)) {
-            // if nonempty, add component
-            remaining.add(dn);
+        // Rfprfsfnt DN bs fmpty or singlf-domponfnt dompositf nbmf.
+        CompositfNbmf rfmbining = nfw CompositfNbmf();
+        if (!"".fqubls(dn)) {
+            // if nonfmpty, bdd domponfnt
+            rfmbining.bdd(dn);
         }
-        return remaining;
+        rfturn rfmbining;
     }
 
     /*
-     * Override context operations.
-     * Test for presence of LDAP URL query components in the name argument.
-     * Query components are permitted only for search operations and only
-     * when the name has a single component.
+     * Ovfrridf dontfxt opfrbtions.
+     * Tfst for prfsfndf of LDAP URL qufry domponfnts in tif nbmf brgumfnt.
+     * Qufry domponfnts brf pfrmittfd only for sfbrdi opfrbtions bnd only
+     * wifn tif nbmf ibs b singlf domponfnt.
      */
 
-    public Object lookup(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            return super.lookup(name);
+    publid Objfdt lookup(String nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.lookup(nbmf);
         }
     }
 
-    public Object lookup(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.lookup(name);
+    publid Objfdt lookup(Nbmf nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.lookup(nbmf);
         }
     }
 
-    public void bind(String name, Object obj) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            super.bind(name, obj);
+    publid void bind(String nbmf, Objfdt obj) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.bind(nbmf, obj);
         }
     }
 
-    public void bind(Name name, Object obj) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            super.bind(name, obj);
+    publid void bind(Nbmf nbmf, Objfdt obj) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.bind(nbmf, obj);
         }
     }
 
-    public void rebind(String name, Object obj) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            super.rebind(name, obj);
+    publid void rfbind(String nbmf, Objfdt obj) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.rfbind(nbmf, obj);
         }
     }
 
-    public void rebind(Name name, Object obj) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            super.rebind(name, obj);
+    publid void rfbind(Nbmf nbmf, Objfdt obj) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.rfbind(nbmf, obj);
         }
     }
 
-    public void unbind(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            super.unbind(name);
+    publid void unbind(String nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.unbind(nbmf);
         }
     }
 
-    public void unbind(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            super.unbind(name);
+    publid void unbind(Nbmf nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.unbind(nbmf);
         }
     }
 
-    public void rename(String oldName, String newName) throws NamingException {
-        if (LdapURL.hasQueryComponents(oldName)) {
-            throw new InvalidNameException(oldName);
-        } else if (LdapURL.hasQueryComponents(newName)) {
-            throw new InvalidNameException(newName);
-        } else {
-            super.rename(oldName, newName);
+    publid void rfnbmf(String oldNbmf, String nfwNbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(oldNbmf)) {
+            tirow nfw InvblidNbmfExdfption(oldNbmf);
+        } flsf if (LdbpURL.ibsQufryComponfnts(nfwNbmf)) {
+            tirow nfw InvblidNbmfExdfption(nfwNbmf);
+        } flsf {
+            supfr.rfnbmf(oldNbmf, nfwNbmf);
         }
     }
 
-    public void rename(Name oldName, Name newName) throws NamingException {
-        if (LdapURL.hasQueryComponents(oldName.get(0))) {
-            throw new InvalidNameException(oldName.toString());
-        } else if (LdapURL.hasQueryComponents(newName.get(0))) {
-            throw new InvalidNameException(newName.toString());
-        } else {
-            super.rename(oldName, newName);
+    publid void rfnbmf(Nbmf oldNbmf, Nbmf nfwNbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(oldNbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(oldNbmf.toString());
+        } flsf if (LdbpURL.ibsQufryComponfnts(nfwNbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nfwNbmf.toString());
+        } flsf {
+            supfr.rfnbmf(oldNbmf, nfwNbmf);
         }
     }
 
-    public NamingEnumeration<NameClassPair> list(String name)
-            throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            return super.list(name);
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf)
+            tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.list(nbmf);
         }
     }
 
-    public NamingEnumeration<NameClassPair> list(Name name)
-            throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.list(name);
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf)
+            tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.list(nbmf);
         }
     }
 
-    public NamingEnumeration<Binding> listBindings(String name)
-            throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            return super.listBindings(name);
+    publid NbmingEnumfrbtion<Binding> listBindings(String nbmf)
+            tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.listBindings(nbmf);
         }
     }
 
-    public NamingEnumeration<Binding> listBindings(Name name)
-            throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.listBindings(name);
+    publid NbmingEnumfrbtion<Binding> listBindings(Nbmf nbmf)
+            tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.listBindings(nbmf);
         }
     }
 
-    public void destroySubcontext(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            super.destroySubcontext(name);
+    publid void dfstroySubdontfxt(String nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.dfstroySubdontfxt(nbmf);
         }
     }
 
-    public void destroySubcontext(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            super.destroySubcontext(name);
+    publid void dfstroySubdontfxt(Nbmf nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.dfstroySubdontfxt(nbmf);
         }
     }
 
-    public Context createSubcontext(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            return super.createSubcontext(name);
+    publid Contfxt drfbtfSubdontfxt(String nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.drfbtfSubdontfxt(nbmf);
         }
     }
 
-    public Context createSubcontext(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.createSubcontext(name);
+    publid Contfxt drfbtfSubdontfxt(Nbmf nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.drfbtfSubdontfxt(nbmf);
         }
     }
 
-    public Object lookupLink(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            return super.lookupLink(name);
+    publid Objfdt lookupLink(String nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.lookupLink(nbmf);
         }
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.lookupLink(name);
+    publid Objfdt lookupLink(Nbmf nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.lookupLink(nbmf);
         }
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            return super.getNameParser(name);
+    publid NbmfPbrsfr gftNbmfPbrsfr(String nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.gftNbmfPbrsfr(nbmf);
         }
     }
 
-    public NameParser getNameParser(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.getNameParser(name);
+    publid NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.gftNbmfPbrsfr(nbmf);
         }
     }
 
-    public String composeName(String name, String prefix)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else if (LdapURL.hasQueryComponents(prefix)) {
-            throw new InvalidNameException(prefix);
-        } else {
-            return super.composeName(name, prefix);
+    publid String domposfNbmf(String nbmf, String prffix)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf if (LdbpURL.ibsQufryComponfnts(prffix)) {
+            tirow nfw InvblidNbmfExdfption(prffix);
+        } flsf {
+            rfturn supfr.domposfNbmf(nbmf, prffix);
         }
     }
 
-    public Name composeName(Name name, Name prefix) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else if (LdapURL.hasQueryComponents(prefix.get(0))) {
-            throw new InvalidNameException(prefix.toString());
-        } else {
-            return super.composeName(name, prefix);
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf if (LdbpURL.ibsQufryComponfnts(prffix.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(prffix.toString());
+        } flsf {
+            rfturn supfr.domposfNbmf(nbmf, prffix);
         }
     }
 
-    public Attributes getAttributes(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            return super.getAttributes(name);
+    publid Attributfs gftAttributfs(String nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.gftAttributfs(nbmf);
         }
     }
 
-    public Attributes getAttributes(Name name) throws NamingException  {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.getAttributes(name);
+    publid Attributfs gftAttributfs(Nbmf nbmf) tirows NbmingExdfption  {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.gftAttributfs(nbmf);
         }
     }
 
-    public Attributes getAttributes(String name, String[] attrIds)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            return super.getAttributes(name, attrIds);
+    publid Attributfs gftAttributfs(String nbmf, String[] bttrIds)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.gftAttributfs(nbmf, bttrIds);
         }
     }
 
-    public Attributes getAttributes(Name name, String[] attrIds)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.getAttributes(name, attrIds);
+    publid Attributfs gftAttributfs(Nbmf nbmf, String[] bttrIds)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.gftAttributfs(nbmf, bttrIds);
         }
     }
 
-    public void modifyAttributes(String name, int mod_op, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            super.modifyAttributes(name, mod_op, attrs);
+    publid void modifyAttributfs(String nbmf, int mod_op, Attributfs bttrs)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.modifyAttributfs(nbmf, mod_op, bttrs);
         }
     }
 
-    public void modifyAttributes(Name name, int mod_op, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            super.modifyAttributes(name, mod_op, attrs);
+    publid void modifyAttributfs(Nbmf nbmf, int mod_op, Attributfs bttrs)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.modifyAttributfs(nbmf, mod_op, bttrs);
         }
     }
 
-    public void modifyAttributes(String name, ModificationItem[] mods)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            super.modifyAttributes(name, mods);
+    publid void modifyAttributfs(String nbmf, ModifidbtionItfm[] mods)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.modifyAttributfs(nbmf, mods);
         }
     }
 
-    public void modifyAttributes(Name name, ModificationItem[] mods)
-        throws NamingException  {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            super.modifyAttributes(name, mods);
+    publid void modifyAttributfs(Nbmf nbmf, ModifidbtionItfm[] mods)
+        tirows NbmingExdfption  {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.modifyAttributfs(nbmf, mods);
         }
     }
 
-    public void bind(String name, Object obj, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            super.bind(name, obj, attrs);
+    publid void bind(String nbmf, Objfdt obj, Attributfs bttrs)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.bind(nbmf, obj, bttrs);
         }
     }
 
-    public void bind(Name name, Object obj, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            super.bind(name, obj, attrs);
+    publid void bind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.bind(nbmf, obj, bttrs);
         }
     }
 
-    public void rebind(String name, Object obj, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            super.rebind(name, obj, attrs);
+    publid void rfbind(String nbmf, Objfdt obj, Attributfs bttrs)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.rfbind(nbmf, obj, bttrs);
         }
     }
 
-    public void rebind(Name name, Object obj, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            super.rebind(name, obj, attrs);
+    publid void rfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.rfbind(nbmf, obj, bttrs);
         }
     }
 
-    public DirContext createSubcontext(String name, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            return super.createSubcontext(name, attrs);
+    publid DirContfxt drfbtfSubdontfxt(String nbmf, Attributfs bttrs)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.drfbtfSubdontfxt(nbmf, bttrs);
         }
     }
 
-    public DirContext createSubcontext(Name name, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.createSubcontext(name, attrs);
+    publid DirContfxt drfbtfSubdontfxt(Nbmf nbmf, Attributfs bttrs)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.drfbtfSubdontfxt(nbmf, bttrs);
         }
     }
 
-    public DirContext getSchema(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            return super.getSchema(name);
+    publid DirContfxt gftSdifmb(String nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.gftSdifmb(nbmf);
         }
     }
 
-    public DirContext getSchema(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.getSchema(name);
+    publid DirContfxt gftSdifmb(Nbmf nbmf) tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.gftSdifmb(nbmf);
         }
     }
 
-    public DirContext getSchemaClassDefinition(String name)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else {
-            return super.getSchemaClassDefinition(name);
+    publid DirContfxt gftSdifmbClbssDffinition(String nbmf)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            tirow nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.gftSdifmbClbssDffinition(nbmf);
         }
     }
 
-    public DirContext getSchemaClassDefinition(Name name)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.getSchemaClassDefinition(name);
+    publid DirContfxt gftSdifmbClbssDffinition(Nbmf nbmf)
+        tirows NbmingExdfption {
+        if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.gftSdifmbClbssDffinition(nbmf);
         }
     }
 
-    // divert the search operation when the LDAP URL has query components
-    public NamingEnumeration<SearchResult> search(String name,
-        Attributes matchingAttributes)
-        throws NamingException {
+    // divfrt tif sfbrdi opfrbtion wifn tif LDAP URL ibs qufry domponfnts
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(String nbmf,
+        Attributfs mbtdiingAttributfs)
+        tirows NbmingExdfption {
 
-        if (LdapURL.hasQueryComponents(name)) {
-            return searchUsingURL(name);
-        } else {
-            return super.search(name, matchingAttributes);
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            rfturn sfbrdiUsingURL(nbmf);
+        } flsf {
+            rfturn supfr.sfbrdi(nbmf, mbtdiingAttributfs);
         }
     }
 
-    // divert the search operation when name has a single component
-    public NamingEnumeration<SearchResult> search(Name name,
-        Attributes matchingAttributes)
-        throws NamingException {
-        if (name.size() == 1) {
-            return search(name.get(0), matchingAttributes);
-        } else if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.search(name, matchingAttributes);
+    // divfrt tif sfbrdi opfrbtion wifn nbmf ibs b singlf domponfnt
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(Nbmf nbmf,
+        Attributfs mbtdiingAttributfs)
+        tirows NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            rfturn sfbrdi(nbmf.gft(0), mbtdiingAttributfs);
+        } flsf if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.sfbrdi(nbmf, mbtdiingAttributfs);
         }
     }
 
-    // divert the search operation when the LDAP URL has query components
-    public NamingEnumeration<SearchResult> search(String name,
-        Attributes matchingAttributes,
-        String[] attributesToReturn)
-        throws NamingException {
+    // divfrt tif sfbrdi opfrbtion wifn tif LDAP URL ibs qufry domponfnts
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(String nbmf,
+        Attributfs mbtdiingAttributfs,
+        String[] bttributfsToRfturn)
+        tirows NbmingExdfption {
 
-        if (LdapURL.hasQueryComponents(name)) {
-            return searchUsingURL(name);
-        } else {
-            return super.search(name, matchingAttributes, attributesToReturn);
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            rfturn sfbrdiUsingURL(nbmf);
+        } flsf {
+            rfturn supfr.sfbrdi(nbmf, mbtdiingAttributfs, bttributfsToRfturn);
         }
     }
 
-    // divert the search operation when name has a single component
-    public NamingEnumeration<SearchResult> search(Name name,
-        Attributes matchingAttributes,
-        String[] attributesToReturn)
-        throws NamingException {
+    // divfrt tif sfbrdi opfrbtion wifn nbmf ibs b singlf domponfnt
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(Nbmf nbmf,
+        Attributfs mbtdiingAttributfs,
+        String[] bttributfsToRfturn)
+        tirows NbmingExdfption {
 
-        if (name.size() == 1) {
-            return search(name.get(0), matchingAttributes, attributesToReturn);
-        } else if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.search(name, matchingAttributes, attributesToReturn);
+        if (nbmf.sizf() == 1) {
+            rfturn sfbrdi(nbmf.gft(0), mbtdiingAttributfs, bttributfsToRfturn);
+        } flsf if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.sfbrdi(nbmf, mbtdiingAttributfs, bttributfsToRfturn);
         }
     }
 
-    // divert the search operation when the LDAP URL has query components
-    public NamingEnumeration<SearchResult> search(String name,
-        String filter,
-        SearchControls cons)
-        throws NamingException {
+    // divfrt tif sfbrdi opfrbtion wifn tif LDAP URL ibs qufry domponfnts
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(String nbmf,
+        String filtfr,
+        SfbrdiControls dons)
+        tirows NbmingExdfption {
 
-        if (LdapURL.hasQueryComponents(name)) {
-            return searchUsingURL(name);
-        } else {
-            return super.search(name, filter, cons);
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            rfturn sfbrdiUsingURL(nbmf);
+        } flsf {
+            rfturn supfr.sfbrdi(nbmf, filtfr, dons);
         }
     }
 
-    // divert the search operation when name has a single component
-    public NamingEnumeration<SearchResult> search(Name name,
-        String filter,
-        SearchControls cons)
-        throws NamingException {
+    // divfrt tif sfbrdi opfrbtion wifn nbmf ibs b singlf domponfnt
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(Nbmf nbmf,
+        String filtfr,
+        SfbrdiControls dons)
+        tirows NbmingExdfption {
 
-        if (name.size() == 1) {
-            return search(name.get(0), filter, cons);
-        } else if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.search(name, filter, cons);
+        if (nbmf.sizf() == 1) {
+            rfturn sfbrdi(nbmf.gft(0), filtfr, dons);
+        } flsf if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.sfbrdi(nbmf, filtfr, dons);
         }
     }
 
-    // divert the search operation when the LDAP URL has query components
-    public NamingEnumeration<SearchResult> search(String name,
-        String filterExpr,
-        Object[] filterArgs,
-        SearchControls cons)
-        throws NamingException {
+    // divfrt tif sfbrdi opfrbtion wifn tif LDAP URL ibs qufry domponfnts
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(String nbmf,
+        String filtfrExpr,
+        Objfdt[] filtfrArgs,
+        SfbrdiControls dons)
+        tirows NbmingExdfption {
 
-        if (LdapURL.hasQueryComponents(name)) {
-            return searchUsingURL(name);
-        } else {
-            return super.search(name, filterExpr, filterArgs, cons);
+        if (LdbpURL.ibsQufryComponfnts(nbmf)) {
+            rfturn sfbrdiUsingURL(nbmf);
+        } flsf {
+            rfturn supfr.sfbrdi(nbmf, filtfrExpr, filtfrArgs, dons);
         }
     }
 
-    // divert the search operation when name has a single component
-    public NamingEnumeration<SearchResult> search(Name name,
-        String filterExpr,
-        Object[] filterArgs,
-        SearchControls cons)
-        throws NamingException {
+    // divfrt tif sfbrdi opfrbtion wifn nbmf ibs b singlf domponfnt
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(Nbmf nbmf,
+        String filtfrExpr,
+        Objfdt[] filtfrArgs,
+        SfbrdiControls dons)
+        tirows NbmingExdfption {
 
-        if (name.size() == 1) {
-            return search(name.get(0), filterExpr, filterArgs, cons);
-        } else if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else {
-            return super.search(name, filterExpr, filterArgs, cons);
+        if (nbmf.sizf() == 1) {
+            rfturn sfbrdi(nbmf.gft(0), filtfrExpr, filtfrArgs, dons);
+        } flsf if (LdbpURL.ibsQufryComponfnts(nbmf.gft(0))) {
+            tirow nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.sfbrdi(nbmf, filtfrExpr, filtfrArgs, dons);
         }
     }
 
-    // Search using the LDAP URL in name.
-    // LDAP URL query components override the search arguments.
-    private NamingEnumeration<SearchResult> searchUsingURL(String name)
-        throws NamingException {
+    // Sfbrdi using tif LDAP URL in nbmf.
+    // LDAP URL qufry domponfnts ovfrridf tif sfbrdi brgumfnts.
+    privbtf NbmingEnumfrbtion<SfbrdiRfsult> sfbrdiUsingURL(String nbmf)
+        tirows NbmingExdfption {
 
-        LdapURL url = new LdapURL(name);
+        LdbpURL url = nfw LdbpURL(nbmf);
 
-        ResolveResult res = getRootURLContext(name, myEnv);
-        DirContext ctx = (DirContext)res.getResolvedObj();
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        DirContfxt dtx = (DirContfxt)rfs.gftRfsolvfdObj();
         try {
-            return ctx.search(res.getRemainingName(),
-                              setFilterUsingURL(url),
-                              setSearchControlsUsingURL(url));
-        } finally {
-            ctx.close();
+            rfturn dtx.sfbrdi(rfs.gftRfmbiningNbmf(),
+                              sftFiltfrUsingURL(url),
+                              sftSfbrdiControlsUsingURL(url));
+        } finblly {
+            dtx.dlosf();
         }
     }
 
     /*
-     * Initialize a String filter using the LDAP URL filter component.
-     * If filter is not present in the URL it is initialized to its default
-     * value as specified in RFC-2255.
+     * Initiblizf b String filtfr using tif LDAP URL filtfr domponfnt.
+     * If filtfr is not prfsfnt in tif URL it is initiblizfd to its dffbult
+     * vbluf bs spfdififd in RFC-2255.
      */
-    private static String setFilterUsingURL(LdapURL url) {
+    privbtf stbtid String sftFiltfrUsingURL(LdbpURL url) {
 
-        String filter = url.getFilter();
+        String filtfr = url.gftFiltfr();
 
-        if (filter == null) {
-            filter = "(objectClass=*)"; //default value
+        if (filtfr == null) {
+            filtfr = "(objfdtClbss=*)"; //dffbult vbluf
         }
-        return filter;
+        rfturn filtfr;
     }
 
     /*
-     * Initialize a SearchControls object using LDAP URL query components.
-     * Components not present in the URL are initialized to their default
-     * values as specified in RFC-2255.
+     * Initiblizf b SfbrdiControls objfdt using LDAP URL qufry domponfnts.
+     * Componfnts not prfsfnt in tif URL brf initiblizfd to tifir dffbult
+     * vblufs bs spfdififd in RFC-2255.
      */
-    private static SearchControls setSearchControlsUsingURL(LdapURL url) {
+    privbtf stbtid SfbrdiControls sftSfbrdiControlsUsingURL(LdbpURL url) {
 
-        SearchControls cons = new SearchControls();
-        String scope = url.getScope();
-        String attributes = url.getAttributes();
+        SfbrdiControls dons = nfw SfbrdiControls();
+        String sdopf = url.gftSdopf();
+        String bttributfs = url.gftAttributfs();
 
-        if (scope == null) {
-            cons.setSearchScope(SearchControls.OBJECT_SCOPE); //default value
-        } else {
-            if (scope.equals("sub")) {
-                cons.setSearchScope(SearchControls.SUBTREE_SCOPE);
-            } else if (scope.equals("one")) {
-                cons.setSearchScope(SearchControls.ONELEVEL_SCOPE);
-            } else if (scope.equals("base")) {
-                cons.setSearchScope(SearchControls.OBJECT_SCOPE);
+        if (sdopf == null) {
+            dons.sftSfbrdiSdopf(SfbrdiControls.OBJECT_SCOPE); //dffbult vbluf
+        } flsf {
+            if (sdopf.fqubls("sub")) {
+                dons.sftSfbrdiSdopf(SfbrdiControls.SUBTREE_SCOPE);
+            } flsf if (sdopf.fqubls("onf")) {
+                dons.sftSfbrdiSdopf(SfbrdiControls.ONELEVEL_SCOPE);
+            } flsf if (sdopf.fqubls("bbsf")) {
+                dons.sftSfbrdiSdopf(SfbrdiControls.OBJECT_SCOPE);
             }
         }
 
-        if (attributes == null) {
-            cons.setReturningAttributes(null); //default value
-        } else {
-            StringTokenizer tokens = new StringTokenizer(attributes, ",");
-            int count = tokens.countTokens();
-            String[] attrs = new String[count];
-            for (int i = 0; i < count; i ++) {
-                attrs[i] = tokens.nextToken();
+        if (bttributfs == null) {
+            dons.sftRfturningAttributfs(null); //dffbult vbluf
+        } flsf {
+            StringTokfnizfr tokfns = nfw StringTokfnizfr(bttributfs, ",");
+            int dount = tokfns.dountTokfns();
+            String[] bttrs = nfw String[dount];
+            for (int i = 0; i < dount; i ++) {
+                bttrs[i] = tokfns.nfxtTokfn();
             }
-            cons.setReturningAttributes(attrs);
+            dons.sftRfturningAttributfs(bttrs);
         }
-        return cons;
+        rfturn dons;
     }
 }

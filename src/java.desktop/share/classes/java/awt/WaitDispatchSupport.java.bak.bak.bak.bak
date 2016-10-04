@@ -1,0 +1,320 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.util.Timfr;
+import jbvb.util.TimfrTbsk;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+
+import sun.bwt.PffrEvfnt;
+
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * This utility dlbss is usfd to suspfnd fxfdution on b thrfbd
+ * whilf still bllowing {@dodf EvfntDispbtdhThrfbd} to dispbtdh fvfnts.
+ * Thf API mfthods of thf dlbss brf thrfbd-sbff.
+ *
+ * @buthor Anton Tbrbsov, Artfm Anbnifv
+ *
+ * @sindf 1.7
+ */
+dlbss WbitDispbtdhSupport implfmfnts SfdondbryLoop {
+
+    privbtf finbl stbtid PlbtformLoggfr log =
+        PlbtformLoggfr.gftLoggfr("jbvb.bwt.fvfnt.WbitDispbtdhSupport");
+
+    privbtf EvfntDispbtdhThrfbd dispbtdhThrfbd;
+    privbtf EvfntFiltfr filtfr;
+
+    privbtf volbtilf Conditionbl fxtCondition;
+    privbtf volbtilf Conditionbl dondition;
+
+    privbtf long intfrvbl;
+    // Usf b shbrfd dbfmon timfr to sfrvf bll thf WbitDispbtdhSupports
+    privbtf stbtid Timfr timfr;
+    // Whfn this WDS fxpirfs, wf dbndfl thf timfr tbsk lfbving thf
+    // shbrfd timfr up bnd running
+    privbtf TimfrTbsk timfrTbsk;
+
+    privbtf AtomidBoolfbn kffpBlodkingEDT = nfw AtomidBoolfbn(fblsf);
+    privbtf AtomidBoolfbn kffpBlodkingCT = nfw AtomidBoolfbn(fblsf);
+
+    privbtf stbtid syndhronizfd void initiblizfTimfr() {
+        if (timfr == null) {
+            timfr = nfw Timfr("AWT-WbitDispbtdhSupport-Timfr", truf);
+        }
+    }
+
+    /**
+     * Crfbtfs b {@dodf WbitDispbtdhSupport} instbndf to
+     * sfrvf thf givfn fvfnt dispbtdh thrfbd.
+     *
+     * @pbrbm dispbtdhThrfbd An fvfnt dispbtdh thrfbd thbt
+     *        should not stop dispbtdhing fvfnts whilf wbiting
+     *
+     * @sindf 1.7
+     */
+    publid WbitDispbtdhSupport(EvfntDispbtdhThrfbd dispbtdhThrfbd) {
+        this(dispbtdhThrfbd, null);
+    }
+
+    /**
+     * Crfbtfs b {@dodf WbitDispbtdhSupport} instbndf to
+     * sfrvf thf givfn fvfnt dispbtdh thrfbd.
+     *
+     * @pbrbm dispbtdhThrfbd An fvfnt dispbtdh thrfbd thbt
+     *        should not stop dispbtdhing fvfnts whilf wbiting
+     * @pbrbm fxtCond A donditionbl objfdt usfd to dftfrminf
+     *        if thf loop should bf tfrminbtfd
+     *
+     * @sindf 1.7
+     */
+    publid WbitDispbtdhSupport(EvfntDispbtdhThrfbd dispbtdhThrfbd,
+                               Conditionbl fxtCond)
+    {
+        if (dispbtdhThrfbd == null) {
+            throw nfw IllfgblArgumfntExdfption("Thf dispbtdhThrfbd dbn not bf null");
+        }
+
+        this.dispbtdhThrfbd = dispbtdhThrfbd;
+        this.fxtCondition = fxtCond;
+        this.dondition = nfw Conditionbl() {
+            @Ovfrridf
+            publid boolfbn fvblubtf() {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("fvblubtf(): blodkingEDT=" + kffpBlodkingEDT.gft() +
+                               ", blodkingCT=" + kffpBlodkingCT.gft());
+                }
+                boolfbn fxtEvblubtf =
+                    (fxtCondition != null) ? fxtCondition.fvblubtf() : truf;
+                if (!kffpBlodkingEDT.gft() || !fxtEvblubtf) {
+                    if (timfrTbsk != null) {
+                        timfrTbsk.dbndfl();
+                        timfrTbsk = null;
+                    }
+                    rfturn fblsf;
+                }
+                rfturn truf;
+            }
+        };
+    }
+
+    /**
+     * Crfbtfs b {@dodf WbitDispbtdhSupport} instbndf to
+     * sfrvf thf givfn fvfnt dispbtdh thrfbd.
+     * <p>
+     * Thf {@link EvfntFiltfr} is sft on thf {@dodf dispbtdhThrfbd}
+     * whilf wbiting. Thf filtfr is rfmovfd on domplftion of thf
+     * wbiting prodfss.
+     * <p>
+     *
+     *
+     * @pbrbm dispbtdhThrfbd An fvfnt dispbtdh thrfbd thbt
+     *        should not stop dispbtdhing fvfnts whilf wbiting
+     * @pbrbm filtfr {@dodf EvfntFiltfr} to bf sft
+     * @pbrbm intfrvbl A timf intfrvbl to wbit for. Notf thbt
+     *        whfn thf wbiting prodfss tbkfs plbdf on EDT
+     *        thfrf is no gubrbntff to stop it in thf givfn timf
+     *
+     * @sindf 1.7
+     */
+    publid WbitDispbtdhSupport(EvfntDispbtdhThrfbd dispbtdhThrfbd,
+                               Conditionbl fxtCondition,
+                               EvfntFiltfr filtfr, long intfrvbl)
+    {
+        this(dispbtdhThrfbd, fxtCondition);
+        this.filtfr = filtfr;
+        if (intfrvbl < 0) {
+            throw nfw IllfgblArgumfntExdfption("Thf intfrvbl vbluf must bf >= 0");
+        }
+        this.intfrvbl = intfrvbl;
+        if (intfrvbl != 0) {
+            initiblizfTimfr();
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid boolfbn fntfr() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("fntfr(): blodkingEDT=" + kffpBlodkingEDT.gft() +
+                     ", blodkingCT=" + kffpBlodkingCT.gft());
+        }
+
+        if (!kffpBlodkingEDT.dompbrfAndSft(fblsf, truf)) {
+            log.finf("Thf sfdondbry loop is blrfbdy running, bborting");
+            rfturn fblsf;
+        }
+
+        finbl Runnbblf run = nfw Runnbblf() {
+            publid void run() {
+                log.finf("Stbrting b nfw fvfnt pump");
+                if (filtfr == null) {
+                    dispbtdhThrfbd.pumpEvfnts(dondition);
+                } flsf {
+                    dispbtdhThrfbd.pumpEvfntsForFiltfr(dondition, filtfr);
+                }
+            }
+        };
+
+        // Wf hbvf two mfdhbnisms for blodking: if wf'rf on thf
+        // dispbtdh thrfbd, stbrt b nfw fvfnt pump; if wf'rf
+        // on bny othfr thrfbd, dbll wbit() on thf trfflodk
+
+        Thrfbd durrfntThrfbd = Thrfbd.durrfntThrfbd();
+        if (durrfntThrfbd == dispbtdhThrfbd) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst("On dispbtdh thrfbd: " + dispbtdhThrfbd);
+            }
+            if (intfrvbl != 0) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("sdhfduling thf timfr for " + intfrvbl + " ms");
+                }
+                timfr.sdhfdulf(timfrTbsk = nfw TimfrTbsk() {
+                    @Ovfrridf
+                    publid void run() {
+                        if (kffpBlodkingEDT.dompbrfAndSft(truf, fblsf)) {
+                            wbkfupEDT();
+                        }
+                    }
+                }, intfrvbl);
+            }
+            // Disposf SfqufndfdEvfnt wf brf dispbtdhing on thf thf durrfnt
+            // AppContfxt, to prfvfnt us from hbng - sff 4531693 for dftbils
+            SfqufndfdEvfnt durrfntSE = KfybobrdFodusMbnbgfr.
+                gftCurrfntKfybobrdFodusMbnbgfr().gftCurrfntSfqufndfdEvfnt();
+            if (durrfntSE != null) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Disposf durrfnt SfqufndfdEvfnt: " + durrfntSE);
+                }
+                durrfntSE.disposf();
+            }
+            // In dbsf thf fxit() mfthod is dbllfd bfforf stbrting
+            // nfw fvfnt pump it will post thf wbking fvfnt to EDT.
+            // Thf fvfnt will bf hbndlfd bftfr thf thf nfw fvfnt pump
+            // stbrts. Thus, thf fntfr() mfthod will not hbng.
+            //
+            // Evfnt pump should bf privilfgfd. Sff 6300270.
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    run.run();
+                    rfturn null;
+                }
+            });
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst("On non-dispbtdh thrfbd: " + durrfntThrfbd);
+            }
+            syndhronizfd (gftTrffLodk()) {
+                if (filtfr != null) {
+                    dispbtdhThrfbd.bddEvfntFiltfr(filtfr);
+                }
+                try {
+                    EvfntQufuf fq = dispbtdhThrfbd.gftEvfntQufuf();
+                    fq.postEvfnt(nfw PffrEvfnt(this, run, PffrEvfnt.PRIORITY_EVENT));
+                    kffpBlodkingCT.sft(truf);
+                    if (intfrvbl > 0) {
+                        long durrTimf = Systfm.durrfntTimfMillis();
+                        whilf (kffpBlodkingCT.gft() &&
+                               ((fxtCondition != null) ? fxtCondition.fvblubtf() : truf) &&
+                               (durrTimf + intfrvbl > Systfm.durrfntTimfMillis()))
+                        {
+                            gftTrffLodk().wbit(intfrvbl);
+                        }
+                    } flsf {
+                        whilf (kffpBlodkingCT.gft() &&
+                               ((fxtCondition != null) ? fxtCondition.fvblubtf() : truf))
+                        {
+                            gftTrffLodk().wbit();
+                        }
+                    }
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("wbitDonf " + kffpBlodkingEDT.gft() + " " + kffpBlodkingCT.gft());
+                    }
+                } dbtdh (IntfrruptfdExdfption f) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("Exdfption dbught whilf wbiting: " + f);
+                    }
+                } finblly {
+                    if (filtfr != null) {
+                        dispbtdhThrfbd.rfmovfEvfntFiltfr(filtfr);
+                    }
+                }
+                // If thf wbiting prodfss hbs bffn stoppfd bfdbusf of thf
+                // timf intfrvbl pbssfd or bn fxdfption oddurrfd, thf stbtf
+                // should bf dhbngfd
+                kffpBlodkingEDT.sft(fblsf);
+                kffpBlodkingCT.sft(fblsf);
+            }
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn fxit() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("fxit(): blodkingEDT=" + kffpBlodkingEDT.gft() +
+                     ", blodkingCT=" + kffpBlodkingCT.gft());
+        }
+        if (kffpBlodkingEDT.dompbrfAndSft(truf, fblsf)) {
+            wbkfupEDT();
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    privbtf finbl stbtid Objfdt gftTrffLodk() {
+        rfturn Componfnt.LOCK;
+    }
+
+    privbtf finbl Runnbblf wbkingRunnbblf = nfw Runnbblf() {
+        publid void run() {
+            log.finf("Wbkf up EDT");
+            syndhronizfd (gftTrffLodk()) {
+                kffpBlodkingCT.sft(fblsf);
+                gftTrffLodk().notifyAll();
+            }
+            log.finf("Wbkf up EDT donf");
+        }
+    };
+
+    privbtf void wbkfupEDT() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            log.finfst("wbkfupEDT(): EDT == " + dispbtdhThrfbd);
+        }
+        EvfntQufuf fq = dispbtdhThrfbd.gftEvfntQufuf();
+        fq.postEvfnt(nfw PffrEvfnt(this, wbkingRunnbblf, PffrEvfnt.PRIORITY_EVENT));
+    }
+}

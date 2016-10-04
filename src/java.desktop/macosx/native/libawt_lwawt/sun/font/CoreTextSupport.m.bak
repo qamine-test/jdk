@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import <AppKit/AppKit.h>
-#import "CoreTextSupport.h"
+#import <AppKit/AppKit.i>
+#import "CorfTfxtSupport.i"
 
 
 /*
- * Callback for CoreText which uses the CoreTextProviderStruct to
- * feed CT UniChars.  We only use it for one-off lines, and don't
- * attempt to fragment our strings.
+ * Cbllbbdk for CorfTfxt wiidi usfs tif CorfTfxtProvidfrStrudt to
+ * fffd CT UniCibrs.  Wf only usf it for onf-off linfs, bnd don't
+ * bttfmpt to frbgmfnt our strings.
  */
-const UniChar *
-CTS_Provider(CFIndex stringIndex, CFIndex *charCount,
-             CFDictionaryRef *attributes, void *refCon)
+donst UniCibr *
+CTS_Providfr(CFIndfx stringIndfx, CFIndfx *dibrCount,
+             CFDidtionbryRff *bttributfs, void *rffCon)
 {
-    // if we have a zero length string we can just return NULL for the string
-    // or if the index anything other than 0 we are not using core text
-    // correctly since we only have one run.
-    if (stringIndex != 0) {
-        return NULL;
+    // if wf ibvf b zfro lfngti string wf dbn just rfturn NULL for tif string
+    // or if tif indfx bnytiing otifr tibn 0 wf brf not using dorf tfxt
+    // dorrfdtly sindf wf only ibvf onf run.
+    if (stringIndfx != 0) {
+        rfturn NULL;
     }
 
-    CTS_ProviderStruct *ctps = (CTS_ProviderStruct *)refCon;
-    *charCount = ctps->length;
-    *attributes = ctps->attributes;
-    return ctps->unicodes;
+    CTS_ProvidfrStrudt *dtps = (CTS_ProvidfrStrudt *)rffCon;
+    *dibrCount = dtps->lfngti;
+    *bttributfs = dtps->bttributfs;
+    rfturn dtps->unidodfs;
 }
 
 
-#pragma mark --- Retain/Release CoreText State Dictionary ---
+#prbgmb mbrk --- Rftbin/Rflfbsf CorfTfxt Stbtf Didtionbry ---
 
 /*
- * Gets a Dictionary filled with common details we want to use for CoreText
- * when we are interacting with it from Java.
+ * Gfts b Didtionbry fillfd witi dommon dftbils wf wbnt to usf for CorfTfxt
+ * wifn wf brf intfrbdting witi it from Jbvb.
  */
-static inline CFMutableDictionaryRef
-GetCTStateDictionaryFor(const NSFont *font, BOOL useFractionalMetrics)
+stbtid inlinf CFMutbblfDidtionbryRff
+GftCTStbtfDidtionbryFor(donst NSFont *font, BOOL usfFrbdtionblMftrids)
 {
-    NSNumber *gZeroNumber = [NSNumber numberWithInt:0];
-    NSNumber *gOneNumber = [NSNumber numberWithInt:1];
+    NSNumbfr *gZfroNumbfr = [NSNumbfr numbfrWitiInt:0];
+    NSNumbfr *gOnfNumbfr = [NSNumbfr numbfrWitiInt:1];
 
-    CFMutableDictionaryRef dictRef = (CFMutableDictionaryRef)
-        [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-        font, NSFontAttributeName,
-        // TODO(cpc): following attribute is private...
-        //gOneNumber,  (id)kCTForegroundColorFromContextAttributeName,
-        // force integer hack in CoreText to help with Java integer assumptions
-        useFractionalMetrics ? gZeroNumber : gOneNumber, @"CTIntegerMetrics",
-        gZeroNumber, NSLigatureAttributeName,
-        gZeroNumber, NSKernAttributeName,
+    CFMutbblfDidtionbryRff didtRff = (CFMutbblfDidtionbryRff)
+        [[NSMutbblfDidtionbry bllod] initWitiObjfdtsAndKfys:
+        font, NSFontAttributfNbmf,
+        // TODO(dpd): following bttributf is privbtf...
+        //gOnfNumbfr,  (id)kCTForfgroundColorFromContfxtAttributfNbmf,
+        // fordf intfgfr ibdk in CorfTfxt to iflp witi Jbvb intfgfr bssumptions
+        usfFrbdtionblMftrids ? gZfroNumbfr : gOnfNumbfr, @"CTIntfgfrMftrids",
+        gZfroNumbfr, NSLigbturfAttributfNbmf,
+        gZfroNumbfr, NSKfrnAttributfNbmf,
         NULL];
-    CFRetain(dictRef); // GC
-    [(id)dictRef release];
+    CFRftbin(didtRff); // GC
+    [(id)didtRff rflfbsf];
 
-    return dictRef;
+    rfturn didtRff;
 }
 
 /*
- * Releases the CoreText Dictionary - in the future we should hold on
- * to these to improve performance.
+ * Rflfbsfs tif CorfTfxt Didtionbry - in tif futurf wf siould iold on
+ * to tifsf to improvf pfrformbndf.
  */
-static inline void
-ReleaseCTStateDictionary(CFDictionaryRef ctStateDict)
+stbtid inlinf void
+RflfbsfCTStbtfDidtionbry(CFDidtionbryRff dtStbtfDidt)
 {
-    CFRelease(ctStateDict); // GC
+    CFRflfbsf(dtStbtfDidt); // GC
 }
 
 /*
- *    Transform Unicode characters into glyphs.
+ *    Trbnsform Unidodf dibrbdtfrs into glypis.
  *
- *    Fills the "glyphsAsInts" array with the glyph codes for the current font,
- *    or the negative unicode value if we know the character can be hot-substituted.
+ *    Fills tif "glypisAsInts" brrby witi tif glypi dodfs for tif durrfnt font,
+ *    or tif nfgbtivf unidodf vbluf if wf know tif dibrbdtfr dbn bf iot-substitutfd.
  *
- *    This is the heart of "Universal Font Substitution" in Java.
+ *    Tiis is tif ifbrt of "Univfrsbl Font Substitution" in Jbvb.
  */
-void CTS_GetGlyphsAsIntsForCharacters
-(const AWTFont *font, const UniChar unicodes[], CGGlyph glyphs[], jint glyphsAsInts[], const size_t count)
+void CTS_GftGlypisAsIntsForCibrbdtfrs
+(donst AWTFont *font, donst UniCibr unidodfs[], CGGlypi glypis[], jint glypisAsInts[], donst sizf_t dount)
 {
-    CTFontGetGlyphsForCharacters((CTFontRef)font->fFont, unicodes, glyphs, count);
+    CTFontGftGlypisForCibrbdtfrs((CTFontRff)font->fFont, unidodfs, glypis, dount);
 
-    size_t i;
-    for (i = 0; i < count; i++) {
-        CGGlyph glyph = glyphs[i];
-        if (glyph > 0) {
-            glyphsAsInts[i] = glyph;
-            continue;
+    sizf_t i;
+    for (i = 0; i < dount; i++) {
+        CGGlypi glypi = glypis[i];
+        if (glypi > 0) {
+            glypisAsInts[i] = glypi;
+            dontinuf;
         }
 
-        UniChar unicode = unicodes[i];
-        const CTFontRef fallback = JRSFontCreateFallbackFontForCharacters((CTFontRef)font->fFont, &unicode, 1);
-        if (fallback) {
-            CTFontGetGlyphsForCharacters(fallback, &unicode, &glyph, 1);
-            CFRelease(fallback);
+        UniCibr unidodf = unidodfs[i];
+        donst CTFontRff fbllbbdk = JRSFontCrfbtfFbllbbdkFontForCibrbdtfrs((CTFontRff)font->fFont, &unidodf, 1);
+        if (fbllbbdk) {
+            CTFontGftGlypisForCibrbdtfrs(fbllbbdk, &unidodf, &glypi, 1);
+            CFRflfbsf(fbllbbdk);
         }
 
-        if (glyph > 0) {
-            glyphsAsInts[i] = -unicode; // set the glyph code to the negative unicode value
-        } else {
-            glyphsAsInts[i] = 0; // CoreText couldn't find a glyph for this character either
+        if (glypi > 0) {
+            glypisAsInts[i] = -unidodf; // sft tif glypi dodf to tif nfgbtivf unidodf vbluf
+        } flsf {
+            glypisAsInts[i] = 0; // CorfTfxt douldn't find b glypi for tiis dibrbdtfr fitifr
         }
     }
 }
 
 /*
- * Translates a Unicode into a CGGlyph/CTFontRef pair
- * Returns the substituted font, and places the appropriate glyph into "glyphRef"
+ * Trbnslbtfs b Unidodf into b CGGlypi/CTFontRff pbir
+ * Rfturns tif substitutfd font, bnd plbdfs tif bppropribtf glypi into "glypiRff"
  */
-CTFontRef CTS_CopyCTFallbackFontAndGlyphForUnicode
-(const AWTFont *font, const UTF16Char *charRef, CGGlyph *glyphRef, int count) {
-    CTFontRef fallback = JRSFontCreateFallbackFontForCharacters((CTFontRef)font->fFont, charRef, count);
-    if (fallback == NULL)
+CTFontRff CTS_CopyCTFbllbbdkFontAndGlypiForUnidodf
+(donst AWTFont *font, donst UTF16Cibr *dibrRff, CGGlypi *glypiRff, int dount) {
+    CTFontRff fbllbbdk = JRSFontCrfbtfFbllbbdkFontForCibrbdtfrs((CTFontRff)font->fFont, dibrRff, dount);
+    if (fbllbbdk == NULL)
     {
-        // use the original font if we somehow got duped into trying to fallback something we can't
-        fallback = (CTFontRef)font->fFont;
-        CFRetain(fallback);
+        // usf tif originbl font if wf somfiow got dupfd into trying to fbllbbdk somftiing wf dbn't
+        fbllbbdk = (CTFontRff)font->fFont;
+        CFRftbin(fbllbbdk);
     }
 
-    CTFontGetGlyphsForCharacters(fallback, charRef, glyphRef, count);
-    return fallback;
+    CTFontGftGlypisForCibrbdtfrs(fbllbbdk, dibrRff, glypiRff, dount);
+    rfturn fbllbbdk;
 }
 
 /*
- * Translates a Java glyph code int (might be a negative unicode value) into a CGGlyph/CTFontRef pair
- * Returns the substituted font, and places the appropriate glyph into "glyphRef"
+ * Trbnslbtfs b Jbvb glypi dodf int (migit bf b nfgbtivf unidodf vbluf) into b CGGlypi/CTFontRff pbir
+ * Rfturns tif substitutfd font, bnd plbdfs tif bppropribtf glypi into "glypiRff"
  */
-CTFontRef CTS_CopyCTFallbackFontAndGlyphForJavaGlyphCode
-(const AWTFont *font, const jint glyphCode, CGGlyph *glyphRef)
+CTFontRff CTS_CopyCTFbllbbdkFontAndGlypiForJbvbGlypiCodf
+(donst AWTFont *font, donst jint glypiCodf, CGGlypi *glypiRff)
 {
-    // negative glyph codes are really unicodes, which were placed there by the mapper
-    // to indicate we should use CoreText to substitute the character
-    if (glyphCode >= 0)
+    // nfgbtivf glypi dodfs brf rfblly unidodfs, wiidi wfrf plbdfd tifrf by tif mbppfr
+    // to indidbtf wf siould usf CorfTfxt to substitutf tif dibrbdtfr
+    if (glypiCodf >= 0)
     {
-        *glyphRef = glyphCode;
-        CFRetain(font->fFont);
-        return (CTFontRef)font->fFont;
+        *glypiRff = glypiCodf;
+        CFRftbin(font->fFont);
+        rfturn (CTFontRff)font->fFont;
     }
 
-    UTF16Char character = -glyphCode;
-    return CTS_CopyCTFallbackFontAndGlyphForUnicode(font, &character, glyphRef, 1);
+    UTF16Cibr dibrbdtfr = -glypiCodf;
+    rfturn CTS_CopyCTFbllbbdkFontAndGlypiForUnidodf(font, &dibrbdtfr, glypiRff, 1);
 }
 
-// Breakup a 32 bit unicode value into the component surrogate pairs
-void CTS_BreakupUnicodeIntoSurrogatePairs(int uniChar, UTF16Char charRef[]) {
-    int value = uniChar - 0x10000;
-    UTF16Char low_surrogate = (value & 0x3FF) | LO_SURROGATE_START;
-    UTF16Char high_surrogate = (((int)(value & 0xFFC00)) >> 10) | HI_SURROGATE_START;
-    charRef[0] = high_surrogate;
-    charRef[1] = low_surrogate;
+// Brfbkup b 32 bit unidodf vbluf into tif domponfnt surrogbtf pbirs
+void CTS_BrfbkupUnidodfIntoSurrogbtfPbirs(int uniCibr, UTF16Cibr dibrRff[]) {
+    int vbluf = uniCibr - 0x10000;
+    UTF16Cibr low_surrogbtf = (vbluf & 0x3FF) | LO_SURROGATE_START;
+    UTF16Cibr iigi_surrogbtf = (((int)(vbluf & 0xFFC00)) >> 10) | HI_SURROGATE_START;
+    dibrRff[0] = iigi_surrogbtf;
+    dibrRff[1] = low_surrogbtf;
 }

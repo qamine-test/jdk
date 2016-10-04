@@ -1,12 +1,12 @@
-NotSerializable=\
-	Class {0} is not Serializable.
-ClassNotFound=\
-	Class {0} not found.
-error.parsing.classpath=\
-	Error parsing classpath {0}.
-error.missing.classpath=\
-	Missing argument for -classpath option
-invalid.flag=\
-	Invalid flag {0}.
-usage=\
-	use: serialver [-classpath classpath] [classname...]
+NotSfriblizbblf=\
+	Clbss {0} is not Sfriblizbblf.
+ClbssNotFound=\
+	Clbss {0} not found.
+frror.pbrsing.dlbsspbti=\
+	Error pbrsing dlbsspbti {0}.
+frror.missing.dlbsspbti=\
+	Missing brgumfnt for -dlbsspbti option
+invblid.flbg=\
+	Invblid flbg {0}.
+usbgf=\
+	usf: sfriblvfr [-dlbsspbti dlbsspbti] [dlbssnbmf...]

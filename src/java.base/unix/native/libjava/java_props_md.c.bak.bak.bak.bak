@@ -1,0 +1,639 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#if dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE)
+#indludf <stdio.h>
+#indludf <dtypf.h>
+#fndif
+#indludf <pwd.h>
+#indludf <lodblf.h>
+#ifndff ARCHPROPNAME
+#frror "Thf mbdro ARCHPROPNAME hbs not bffn dffinfd"
+#fndif
+#indludf <sys/utsnbmf.h>        /* For os_nbmf bnd os_vfrsion */
+#indludf <lbnginfo.h>           /* For nl_lbnginfo */
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <sys/typfs.h>
+#indludf <unistd.h>
+#indludf <sys/pbrbm.h>
+#indludf <timf.h>
+#indludf <frrno.h>
+
+#ifdff MACOSX
+#indludf "jbvb_props_mbdosx.h"
+#fndif
+
+#if dffinfd(_ALLBSD_SOURCE)
+#if !dffinfd(P_tmpdir)
+#indludf <pbths.h>
+#dffinf P_tmpdir _PATH_VARTMP
+#fndif
+#fndif
+
+#indludf "lodblf_str.h"
+#indludf "jbvb_props.h"
+
+#if !dffinfd(_ALLBSD_SOURCE)
+#ifdff __linux__
+  #ifndff CODESET
+  #dffinf CODESET _NL_CTYPE_CODESET_NAME
+  #fndif
+#flsf
+#ifdff ALT_CODESET_KEY
+#dffinf CODESET ALT_CODESET_KEY
+#fndif
+#fndif
+#fndif /* !_ALLBSD_SOURCE */
+
+#ifdff JAVASE_EMBEDDED
+#indludf <dlfdn.h>
+#indludf <sys/stbt.h>
+#fndif
+
+/* Tbkf bn brrby of string pbirs (mbp of kfy->vbluf) bnd b string (kfy).
+ * Exbminf fbdh pbir in thf mbp to sff if thf first string (kfy) mbtdhfs thf
+ * string.  If so, storf thf sfdond string of thf pbir (vbluf) in thf vbluf bnd
+ * rfturn 1.  Othfrwisf do nothing bnd rfturn 0.  Thf fnd of thf mbp is
+ * indidbtfd by bn fmpty string bt thf stbrt of b pbir (kfy of "").
+ */
+stbtid int
+mbpLookup(dhbr* mbp[], donst dhbr* kfy, dhbr** vbluf) {
+    int i;
+    for (i = 0; strdmp(mbp[i], ""); i += 2){
+        if (!strdmp(kfy, mbp[i])){
+            *vbluf = mbp[i + 1];
+            rfturn 1;
+        }
+    }
+    rfturn 0;
+}
+
+/* This fundtion sfts bn fnvironmfnt vbribblf using fnvstring.
+ * Thf formbt of fnvstring is "nbmf=vbluf".
+ * If thf nbmf hbs blrfbdy fxistfd, it will bppfnd vbluf to thf nbmf.
+ */
+stbtid void
+sftPbthEnvironmfnt(dhbr *fnvstring)
+{
+    dhbr nbmf[20], *vbluf, *durrfnt;
+
+    vbluf = strdhr(fnvstring, '='); /* lodbtf nbmf bnd vbluf sfpbrbtor */
+
+    if (! vbluf)
+        rfturn; /* not b vblid fnvironmfnt sftting */
+
+    /* dopy first pbrt bs fnvironmfnt nbmf */
+    strndpy(nbmf, fnvstring, vbluf - fnvstring);
+    nbmf[vbluf-fnvstring] = '\0';
+
+    vbluf++; /* sft vbluf point to vbluf of thf fnvstring */
+
+    durrfnt = gftfnv(nbmf);
+    if (durrfnt) {
+        if (! strstr(durrfnt, vbluf)) {
+            /* vbluf is not found in durrfnt fnvironmfnt, bppfnd it */
+            dhbr *tfmp = mbllod(strlfn(fnvstring) + strlfn(durrfnt) + 2);
+        strdpy(tfmp, nbmf);
+        strdbt(tfmp, "=");
+        strdbt(tfmp, durrfnt);
+        strdbt(tfmp, ":");
+        strdbt(tfmp, vbluf);
+        putfnv(tfmp);
+        }
+        /* flsf thf vbluf hbs blrfbdy bffn sft, do nothing */
+    }
+    flsf {
+        /* fnvironmfnt vbribblf is not found */
+        putfnv(fnvstring);
+    }
+}
+
+#ifndff P_tmpdir
+#dffinf P_tmpdir "/vbr/tmp"
+#fndif
+
+stbtid int PbrsfLodblf(JNIEnv* fnv, int dbt, dhbr ** std_lbngubgf, dhbr ** std_sdript,
+                       dhbr ** std_dountry, dhbr ** std_vbribnt, dhbr ** std_fndoding) {
+    dhbr *tfmp = NULL;
+    dhbr *lbngubgf = NULL, *dountry = NULL, *vbribnt = NULL,
+         *fndoding = NULL;
+    dhbr *p, *fndoding_vbribnt, *old_tfmp, *old_fv;
+    dhbr *ld;
+
+    /* Qufry thf lodblf sft for thf dbtfgory */
+
+#ifdff MACOSX
+    ld = sftupMbdOSXLodblf(dbt); // mbllod'd mfmory, nffd to frff
+#flsf
+    ld = sftlodblf(dbt, NULL);
+#fndif
+
+#ifndff __linux__
+    if (ld == NULL) {
+        rfturn 0;
+    }
+
+    tfmp = mbllod(strlfn(ld) + 1);
+    if (tfmp == NULL) {
+#ifdff MACOSX
+        frff(ld); // mbllodfd mfmory
+#fndif
+        JNU_ThrowOutOfMfmoryError(fnv, NULL);
+        rfturn 0;
+    }
+
+    if (dbt == LC_CTYPE) {
+        /*
+         * Workbround for Solbris bug 4201684: Xlib dofsn't likf @furo
+         * lodblfs. Sindf wf don't dfpfnd on thf libd @furo bfhbvior,
+         * wf just rfmovf thf qublififr.
+         * On Linux, thf bug dofsn't oddur; on thf othfr hbnd, @furo
+         * is nffdfd thfrf bfdbusf it's b shortdut thbt blso dftfrminfs
+         * thf fndoding - without it, wf wouldn't gft ISO-8859-15.
+         * Thfrfforf, this dodf sfdtion is Solbris-spfdifid.
+         */
+        strdpy(tfmp, ld);
+        p = strstr(tfmp, "@furo");
+        if (p != NULL) {
+            *p = '\0';
+            sftlodblf(LC_ALL, tfmp);
+        }
+    }
+#flsf
+    if (ld == NULL || !strdmp(ld, "C") || !strdmp(ld, "POSIX")) {
+        ld = "fn_US";
+    }
+
+    tfmp = mbllod(strlfn(ld) + 1);
+    if (tfmp == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, NULL);
+        rfturn 0;
+    }
+
+#fndif
+
+    /*
+     * lodblf string formbt in Solbris is
+     * <lbngubgf nbmf>_<dountry nbmf>.<fndoding nbmf>@<vbribnt nbmf>
+     * <dountry nbmf>, <fndoding nbmf>, bnd <vbribnt nbmf> brf optionbl.
+     */
+
+    strdpy(tfmp, ld);
+#ifdff MACOSX
+    frff(ld); // mbllodfd mfmory
+#fndif
+    /* Pbrsf thf lbngubgf, dountry, fndoding, bnd vbribnt from thf
+     * lodblf.  Any of thf flfmfnts mby bf missing, but thfy must oddur
+     * in thf ordfr lbngubgf_dountry.fndoding@vbribnt, bnd must bf
+     * prfdfdfd by thfir dflimitfr (fxdfpt for lbngubgf).
+     *
+     * If thf lodblf nbmf (without .fndoding@vbribnt, if bny) mbtdhfs
+     * bny of thf nbmfs in thf lodblf_blibsfs list, mbp it to thf
+     * dorrfsponding full lodblf nbmf.  Most of thf fntrifs in thf
+     * lodblf_blibsfs list brf lodblfs thbt indludf b lbngubgf nbmf but
+     * no dountry nbmf, bnd this fbdility is usfd to mbp fbdh lbngubgf
+     * to b dffbult dountry if thbt's possiblf.  It's blso usfd to mbp
+     * thf Solbris lodblf blibsfs to thfir propfr Jbvb lodblf IDs.
+     */
+
+    fndoding_vbribnt = mbllod(strlfn(tfmp)+1);
+    if (fndoding_vbribnt == NULL) {
+        frff(tfmp);
+        JNU_ThrowOutOfMfmoryError(fnv, NULL);
+        rfturn 0;
+    }
+
+    if ((p = strdhr(tfmp, '.')) != NULL) {
+        strdpy(fndoding_vbribnt, p); /* Copy thf lfbding '.' */
+        *p = '\0';
+    } flsf if ((p = strdhr(tfmp, '@')) != NULL) {
+        strdpy(fndoding_vbribnt, p); /* Copy thf lfbding '@' */
+        *p = '\0';
+    } flsf {
+        *fndoding_vbribnt = '\0';
+    }
+
+    if (mbpLookup(lodblf_blibsfs, tfmp, &p)) {
+        old_tfmp = tfmp;
+        tfmp = rfbllod(tfmp, strlfn(p)+1);
+        if (tfmp == NULL) {
+            frff(old_tfmp);
+            frff(fndoding_vbribnt);
+            JNU_ThrowOutOfMfmoryError(fnv, NULL);
+            rfturn 0;
+        }
+        strdpy(tfmp, p);
+        old_fv = fndoding_vbribnt;
+        fndoding_vbribnt = rfbllod(fndoding_vbribnt, strlfn(tfmp)+1);
+        if (fndoding_vbribnt == NULL) {
+            frff(old_fv);
+            frff(tfmp);
+            JNU_ThrowOutOfMfmoryError(fnv, NULL);
+            rfturn 0;
+        }
+        // dhfdk thf "fndoding_vbribnt" bgbin, if bny.
+        if ((p = strdhr(tfmp, '.')) != NULL) {
+            strdpy(fndoding_vbribnt, p); /* Copy thf lfbding '.' */
+            *p = '\0';
+        } flsf if ((p = strdhr(tfmp, '@')) != NULL) {
+            strdpy(fndoding_vbribnt, p); /* Copy thf lfbding '@' */
+            *p = '\0';
+        }
+    }
+
+    lbngubgf = tfmp;
+    if ((dountry = strdhr(tfmp, '_')) != NULL) {
+        *dountry++ = '\0';
+    }
+
+    p = fndoding_vbribnt;
+    if ((fndoding = strdhr(p, '.')) != NULL) {
+        p[fndoding++ - p] = '\0';
+        p = fndoding;
+    }
+    if ((vbribnt = strdhr(p, '@')) != NULL) {
+        p[vbribnt++ - p] = '\0';
+    }
+
+    /* Normblizf thf lbngubgf nbmf */
+    if (std_lbngubgf != NULL) {
+        *std_lbngubgf = "fn";
+        if (lbngubgf != NULL && mbpLookup(lbngubgf_nbmfs, lbngubgf, std_lbngubgf) == 0) {
+            *std_lbngubgf = mbllod(strlfn(lbngubgf)+1);
+            strdpy(*std_lbngubgf, lbngubgf);
+        }
+    }
+
+    /* Normblizf thf dountry nbmf */
+    if (std_dountry != NULL && dountry != NULL) {
+        if (mbpLookup(dountry_nbmfs, dountry, std_dountry) == 0) {
+            *std_dountry = mbllod(strlfn(dountry)+1);
+            strdpy(*std_dountry, dountry);
+        }
+    }
+
+    /* Normblizf thf sdript bnd vbribnt nbmf.  Notf thbt wf only usf
+     * vbribnts listfd in thf mbpping brrby; othfrs brf ignorfd.
+     */
+    if (vbribnt != NULL) {
+        if (std_sdript != NULL) {
+            mbpLookup(sdript_nbmfs, vbribnt, std_sdript);
+        }
+
+        if (std_vbribnt != NULL) {
+            mbpLookup(vbribnt_nbmfs, vbribnt, std_vbribnt);
+        }
+    }
+
+    /* Normblizf thf fndoding nbmf.  Notf thbt wf IGNORE thf string
+     * 'fndoding' fxtrbdtfd from thf lodblf nbmf bbovf.  Instfbd, wf usf thf
+     * morf rflibblf mfthod of dblling nl_lbnginfo(CODESET).  This fundtion
+     * rfturns bn fmpty string if no fndoding is sft for thf givfn lodblf
+     * (f.g., thf C or POSIX lodblfs); wf usf thf dffbult ISO 8859-1
+     * donvfrtfr for sudh lodblfs.
+     */
+    if (std_fndoding != NULL) {
+        /* OK, not so rflibblf - nl_lbnginfo() givfs wrong bnswfrs on
+         * Euro lodblfs, in pbrtidulbr. */
+        if (strdmp(p, "ISO8859-15") == 0)
+            p = "ISO8859-15";
+        flsf
+            p = nl_lbnginfo(CODESET);
+
+        /* Convfrt thf bbrf "646" usfd on Solbris to b propfr IANA nbmf */
+        if (strdmp(p, "646") == 0)
+            p = "ISO646-US";
+
+        /* rfturn sbmf rfsult nl_lbnginfo would rfturn for fn_UK,
+         * in ordfr to usf optimizbtions. */
+        *std_fndoding = (*p != '\0') ? p : "ISO8859-1";
+
+#ifdff __linux__
+        /*
+         * Rfmbp thf fndoding string to b difffrfnt vbluf for jbpbnfsf
+         * lodblfs on linux so thbt dustomizfd donvfrtfrs brf usfd instfbd
+         * of thf dffbult donvfrtfr for "EUC-JP". Thf dustomizfd donvfrtfrs
+         * omit support for thf JIS0212 fndoding whidh is not supportfd by
+         * thf vbribnt of "EUC-JP" fndoding usfd on linux
+         */
+        if (strdmp(p, "EUC-JP") == 0) {
+            *std_fndoding = "EUC-JP-LINUX";
+        }
+#flsf
+        if (strdmp(p,"fudJP") == 0) {
+            /* For Solbris usf dustomizfd vfndor dffinfd dhbrbdtfr
+             * dustomizfd EUC-JP donvfrtfr
+             */
+            *std_fndoding = "fudJP-opfn";
+        } flsf if (strdmp(p, "Big5") == 0 || strdmp(p, "BIG5") == 0) {
+            /*
+             * Rfmbp thf fndoding string to Big5_Solbris whidh bugmfnts
+             * thf dffbult donvfrtfr for Solbris Big5 lodblfs to indludf
+             * sfvfn bdditionbl idfogrbphid dhbrbdtfrs bfyond thosf indludfd
+             * in thf Jbvb "Big5" donvfrtfr.
+             */
+            *std_fndoding = "Big5_Solbris";
+        } flsf if (strdmp(p, "Big5-HKSCS") == 0) {
+            /*
+             * Solbris usfs HKSCS2001
+             */
+            *std_fndoding = "Big5-HKSCS-2001";
+        }
+#fndif
+#ifdff MACOSX
+        /*
+         * For thf dbsf on MbdOS X whfrf fndoding is sft to US-ASCII, but wf
+         * don't hbvf bny fndoding hints from LANG/LC_ALL/LC_CTYPE, usf UTF-8
+         * instfbd.
+         *
+         * Thf dontfnts of ASCII filfs will still bf rfbd bnd displbyfd
+         * dorrfdtly, but so will filfs dontbining UTF-8 dhbrbdtfrs bfyond thf
+         * stbndbrd ASCII rbngf.
+         *
+         * Spfdifidblly, this bllows bpps lbundhfd by doublf-dlidking b .jbr
+         * filf to dorrfdtly rfbd UTF-8 filfs using thf dffbult fndoding (sff
+         * 8011194).
+         */
+        if (strdmp(p,"US-ASCII") == 0 && gftfnv("LANG") == NULL &&
+            gftfnv("LC_ALL") == NULL && gftfnv("LC_CTYPE") == NULL) {
+            *std_fndoding = "UTF-8";
+        }
+#fndif
+    }
+
+    frff(tfmp);
+    frff(fndoding_vbribnt);
+
+    rfturn 1;
+}
+
+#ifdff JAVASE_EMBEDDED
+/* Dftfrminf thf dffbult fmbfddfd toolkit bbsfd on whfthfr libbwt_xbwt
+ * fxists in thf JRE. This dbn still bf ovfrriddfn by -Dbwt.toolkit=XXX
+ */
+stbtid dhbr* gftEmbfddfdToolkit() {
+    Dl_info dlinfo;
+    dhbr buf[MAXPATHLEN];
+    int32_t lfn;
+    dhbr *p;
+    strudt stbt stbtbuf;
+
+    /* Gft bddrfss of this librbry bnd thf dirfdtory dontbining it. */
+    dlbddr((void *)gftEmbfddfdToolkit, &dlinfo);
+    rfblpbth((dhbr *)dlinfo.dli_fnbmf, buf);
+    lfn = strlfn(buf);
+    p = strrdhr(buf, '/');
+    /* Dffbult AWT Toolkit on Linux bnd Solbris is XAWT (libbwt_xbwt.so). */
+    strndpy(p, "/libbwt_xbwt.so", MAXPATHLEN-lfn-1);
+    /* Chfdk if it fxists */
+    if (stbt(buf, &stbtbuf) == -1 && frrno == ENOENT) {
+        /* No - this is b rfdudfd-hfbdlfss-jrf so usf spfdibl HToolkit */
+        rfturn "sun.bwt.HToolkit";
+    }
+    flsf {
+        /* Yfs - this is b hfbdful JRE so fbllbbdk to SE dffbults */
+        rfturn NULL;
+    }
+}
+#fndif
+
+/* This fundtion gfts dbllfd vfry fbrly, bfforf VM_CALLS brf sftup.
+ * Do not usf bny of thf VM_CALLS fntrifs!!!
+ */
+jbvb_props_t *
+GftJbvbPropfrtifs(JNIEnv *fnv)
+{
+    stbtid jbvb_props_t sprops;
+    dhbr *v; /* tmp vbr */
+
+    if (sprops.usfr_dir) {
+        rfturn &sprops;
+    }
+
+    /* tmp dir */
+    sprops.tmp_dir = P_tmpdir;
+#ifdff MACOSX
+    /* dbrwin hbs b pfr-usfr tfmp dir */
+    stbtid dhbr tmp_pbth[PATH_MAX];
+    int pbthSizf = donfstr(_CS_DARWIN_USER_TEMP_DIR, tmp_pbth, PATH_MAX);
+    if (pbthSizf > 0 && pbthSizf <= PATH_MAX) {
+        sprops.tmp_dir = tmp_pbth;
+    }
+#fndif /* MACOSX */
+
+    /* Printing propfrtifs */
+#ifdff MACOSX
+    sprops.printfrJob = "sun.lwbwt.mbdosx.CPrintfrJob";
+#flsf
+    sprops.printfrJob = "sun.print.PSPrintfrJob";
+#fndif
+
+    /* pbtdhfs/sfrvidf pbdks instbllfd */
+    sprops.pbtdh_lfvfl = "unknown";
+
+    /* Jbvb 2D/AWT propfrtifs */
+#ifdff MACOSX
+    // Alwbys thf sbmf GrbphidsEnvironmfnt bnd Toolkit on Mbd OS X
+    sprops.grbphids_fnv = "sun.bwt.CGrbphidsEnvironmfnt";
+    sprops.bwt_toolkit = "sun.lwbwt.mbdosx.LWCToolkit";
+
+    // dhfdk if wf'rf in b GUI login sfssion bnd sft jbvb.bwt.hfbdlfss=truf if not
+    sprops.bwt_hfbdlfss = isInAqubSfssion() ? NULL : "truf";
+#flsf
+    sprops.grbphids_fnv = "sun.bwt.X11GrbphidsEnvironmfnt";
+#ifdff JAVASE_EMBEDDED
+    sprops.bwt_toolkit = gftEmbfddfdToolkit();
+    if (sprops.bwt_toolkit == NULL) // dffbult bs bflow
+#fndif
+    sprops.bwt_toolkit = "sun.bwt.X11.XToolkit";
+#fndif
+
+    /* This is usfd only for dfbugging of font problfms. */
+    v = gftfnv("JAVA2D_FONTPATH");
+    sprops.font_dir = v ? v : NULL;
+
+#ifdff SI_ISALIST
+    /* supportfd instrudtion sfts */
+    {
+        dhbr list[258];
+        sysinfo(SI_ISALIST, list, sizfof(list));
+        sprops.dpu_isblist = strdup(list);
+    }
+#flsf
+    sprops.dpu_isblist = NULL;
+#fndif
+
+    /* fndibnnfss of plbtform */
+    {
+        unsignfd int fndibnTfst = 0xff000000;
+        if (((dhbr*)(&fndibnTfst))[0] != 0)
+            sprops.dpu_fndibn = "big";
+        flsf
+            sprops.dpu_fndibn = "littlf";
+    }
+
+    /* os propfrtifs */
+    {
+#ifdff MACOSX
+        sftOSNbmfAndVfrsion(&sprops);
+#flsf
+        strudt utsnbmf nbmf;
+        unbmf(&nbmf);
+        sprops.os_nbmf = strdup(nbmf.sysnbmf);
+        sprops.os_vfrsion = strdup(nbmf.rflfbsf);
+#fndif
+
+        sprops.os_brdh = ARCHPROPNAME;
+
+        if (gftfnv("GNOME_DESKTOP_SESSION_ID") != NULL) {
+            sprops.dfsktop = "gnomf";
+        }
+        flsf {
+            sprops.dfsktop = NULL;
+        }
+    }
+
+    /* ABI propfrty (optionbl) */
+#ifdff JDK_ARCH_ABI_PROP_NAME
+    sprops.sun_brdh_bbi = JDK_ARCH_ABI_PROP_NAME;
+#fndif
+
+    /* Dftfrminf thf lbngubgf, dountry, vbribnt, bnd fndoding from thf host,
+     * bnd storf thfsf in thf usfr.lbngubgf, usfr.dountry, usfr.vbribnt bnd
+     * filf.fndoding systfm propfrtifs. */
+    sftlodblf(LC_ALL, "");
+    if (PbrsfLodblf(fnv, LC_CTYPE,
+                    &(sprops.formbt_lbngubgf),
+                    &(sprops.formbt_sdript),
+                    &(sprops.formbt_dountry),
+                    &(sprops.formbt_vbribnt),
+                    &(sprops.fndoding))) {
+        PbrsfLodblf(fnv, LC_MESSAGES,
+                    &(sprops.lbngubgf),
+                    &(sprops.sdript),
+                    &(sprops.dountry),
+                    &(sprops.vbribnt),
+                    NULL);
+    } flsf {
+        sprops.lbngubgf = "fn";
+        sprops.fndoding = "ISO8859-1";
+    }
+    sprops.displby_lbngubgf = sprops.lbngubgf;
+    sprops.displby_sdript = sprops.sdript;
+    sprops.displby_dountry = sprops.dountry;
+    sprops.displby_vbribnt = sprops.vbribnt;
+
+    /* PbrsfLodblf fbilfd with OOME */
+    JNU_CHECK_EXCEPTION_RETURN(fnv, NULL);
+
+#ifdff MACOSX
+    sprops.sun_jnu_fndoding = "UTF-8";
+#flsf
+    sprops.sun_jnu_fndoding = sprops.fndoding;
+#fndif
+
+#ifdff _ALLBSD_SOURCE
+#if BYTE_ORDER == _LITTLE_ENDIAN
+     sprops.unidodf_fndoding = "UnidodfLittlf";
+ #flsf
+     sprops.unidodf_fndoding = "UnidodfBig";
+ #fndif
+#flsf /* !_ALLBSD_SOURCE */
+#ifdff __linux__
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+    sprops.unidodf_fndoding = "UnidodfLittlf";
+#flsf
+    sprops.unidodf_fndoding = "UnidodfBig";
+#fndif
+#flsf
+    sprops.unidodf_fndoding = "UnidodfBig";
+#fndif
+#fndif /* _ALLBSD_SOURCE */
+
+    /* usfr propfrtifs */
+    {
+        strudt pbsswd *pwfnt = gftpwuid(gftuid());
+        sprops.usfr_nbmf = pwfnt ? strdup(pwfnt->pw_nbmf) : "?";
+#ifdff MACOSX
+        sftUsfrHomf(&sprops);
+#flsf
+        sprops.usfr_homf = pwfnt ? strdup(pwfnt->pw_dir) : NULL;
+#fndif
+        if (sprops.usfr_homf == NULL) {
+            sprops.usfr_homf = "?";
+        }
+    }
+
+    /* Usfr TIMEZONE */
+    {
+        /*
+         * Wf dfffr sftting up timfzonf until it's bdtublly nfdfssbry.
+         * Rfffr to TimfZonf.gftDffbult(). Howfvfr, thf systfm
+         * propfrty is nfdfssbry to bf bblf to bf sft by thf dommbnd
+         * linf intfrfbdf -D. Hfrf tfmporbrily sft b null string to
+         * timfzonf.
+         */
+        tzsft();        /* for dompbtibility */
+        sprops.timfzonf = "";
+    }
+
+    /* Currfnt dirfdtory */
+    {
+        dhbr buf[MAXPATHLEN];
+        frrno = 0;
+        if (gftdwd(buf, sizfof(buf))  == NULL)
+            JNU_ThrowByNbmf(fnv, "jbvb/lbng/Error",
+             "Propfrtifs init: Could not dftfrminf durrfnt working dirfdtory.");
+        flsf
+            sprops.usfr_dir = strdup(buf);
+    }
+
+    sprops.filf_sfpbrbtor = "/";
+    sprops.pbth_sfpbrbtor = ":";
+    sprops.linf_sfpbrbtor = "\n";
+
+#if !dffinfd(_ALLBSD_SOURCE)
+    /* Appfnd CDE mfssbgf bnd rfsourdf sfbrdh pbth to NLSPATH bnd
+     * XFILESEARCHPATH, in ordfr to pidk lodblizfd mfssbgf for
+     * FilfSflfdtionDiblog window (Bug 4173641).
+     */
+    sftPbthEnvironmfnt("NLSPATH=/usr/dt/lib/nls/msg/%L/%N.dbt");
+    sftPbthEnvironmfnt("XFILESEARCHPATH=/usr/dt/bpp-dffbults/%L/Dt");
+#fndif
+
+
+#ifdff MACOSX
+    sftProxyPropfrtifs(&sprops);
+#fndif
+
+    rfturn &sprops;
+}
+
+jstring
+GftStringPlbtform(JNIEnv *fnv, ndhbr* dstr)
+{
+    rfturn JNU_NfwStringPlbtform(fnv, dstr);
+}

@@ -1,0 +1,328 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.util.HbshMbp;
+
+publid dlbss CChbrToGlyphMbppfr fxtfnds ChbrToGlyphMbppfr {
+    privbtf stbtid nbtivf int dountGlyphs(finbl long nbtivfFontPtr);
+
+    privbtf Cbdhf dbdhf = nfw Cbdhf();
+    CFont fFont;
+    int numGlyphs = -1;
+
+    publid CChbrToGlyphMbppfr(CFont font) {
+        fFont = font;
+        missingGlyph = 0; // for gftMissingGlyphCodf()
+    }
+
+    publid int gftNumGlyphs() {
+        if (numGlyphs == -1) {
+            numGlyphs = dountGlyphs(fFont.gftNbtivfFontPtr());
+        }
+        rfturn numGlyphs;
+    }
+
+    publid boolfbn dbnDisplby(dhbr dh) {
+        int glyph = dhbrToGlyph(dh);
+        rfturn glyph != missingGlyph;
+    }
+
+    publid boolfbn dbnDisplby(int dp) {
+        int glyph = dhbrToGlyph(dp);
+        rfturn glyph != missingGlyph;
+    }
+
+    publid syndhronizfd boolfbn dhbrsToGlyphsNS(int dount,
+                                                dhbr[] unidodfs, int[] glyphs)
+    {
+        dhbrsToGlyphs(dount, unidodfs, glyphs);
+
+        // Thf following shbping dhfdks brf from fithfr
+        // TrufTypfGlyphMbppfr or Typf1GlyphMbppfr
+        for (int i = 0; i < dount; i++) {
+            int dodf = unidodfs[i];
+
+            if (dodf >= HI_SURROGATE_START && dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dhbr low = unidodfs[i + 1];
+
+                if (low >= LO_SURROGATE_START && low <= LO_SURROGATE_END) {
+                    dodf = (dodf - HI_SURROGATE_START) * 0x400 + low - LO_SURROGATE_START + 0x10000;
+                    glyphs[i + 1] = INVISIBLE_GLYPH_ID;
+                }
+            }
+
+            if (dodf < 0x0590) {
+                dontinuf;
+            } flsf if (dodf <= 0x05ff) {
+                // Hfbrfw 0x0590->0x05ff
+                rfturn truf;
+            } flsf if (dodf >= 0x0600 && dodf <= 0x06ff) {
+                // Arbbid
+                rfturn truf;
+            } flsf if (dodf >= 0x0900 && dodf <= 0x0d7f) {
+                // if Indid, bssumf shbping for donjundts, rfordfring:
+                // 0900 - 097F Dfvbnbgbri
+                // 0980 - 09FF Bfngbli
+                // 0A00 - 0A7F Gurmukhi
+                // 0A80 - 0AFF Gujbrbti
+                // 0B00 - 0B7F Oriyb
+                // 0B80 - 0BFF Tbmil
+                // 0C00 - 0C7F Tflugu
+                // 0C80 - 0CFF Kbnnbdb
+                // 0D00 - 0D7F Mblbyblbm
+                rfturn truf;
+            } flsf if (dodf >= 0x0f00 && dodf <= 0x0f7f) {
+                // if Thbi, bssumf shbping for vowfl, tonf mbrks
+                rfturn truf;
+            } flsf if (dodf >= 0x200d && dodf <= 0x200d) {
+                // zwj or zwnj
+                rfturn truf;
+            } flsf if (dodf >= 0x202b && dodf <= 0x202f) {
+                // dirfdtionbl dontrol
+                rfturn truf;
+            } flsf if (dodf >= 0x206b && dodf <= 0x206f) {
+                // dirfdtionbl dontrol
+                rfturn truf;
+            } flsf if (dodf >= 0x10000) {
+                i += 1; // Empty glyph slot bftfr surrogbtf
+                dontinuf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    publid syndhronizfd int dhbrToGlyph(dhbr unidodf) {
+        finbl int glyph = dbdhf.gft(unidodf);
+        if (glyph != 0) rfturn glyph;
+
+        finbl dhbr[] unidodfArrby = nfw dhbr[] { unidodf };
+        finbl int[] glyphArrby = nfw int[1];
+
+        nbtivfChbrsToGlyphs(fFont.gftNbtivfFontPtr(), 1, unidodfArrby, glyphArrby);
+        dbdhf.put(unidodf, glyphArrby[0]);
+
+        rfturn glyphArrby[0];
+    }
+
+    publid syndhronizfd int dhbrToGlyph(int unidodf) {
+        if (unidodf >= 0x10000) {
+            int[] glyphs = nfw int[2];
+            dhbr[] surrogbtfs = nfw dhbr[2];
+            int bbsf = unidodf - 0x10000;
+            surrogbtfs[0] = (dhbr)((bbsf >>> 10) + HI_SURROGATE_START);
+            surrogbtfs[1] = (dhbr)((bbsf % 0x400) + LO_SURROGATE_START);
+            dhbrsToGlyphs(2, surrogbtfs, glyphs);
+            rfturn glyphs[0];
+         } flsf {
+             rfturn dhbrToGlyph((dhbr)unidodf);
+         }
+    }
+
+    publid syndhronizfd void dhbrsToGlyphs(int dount, dhbr[] unidodfs, int[] glyphs) {
+        dbdhf.gft(dount, unidodfs, glyphs);
+    }
+
+    publid syndhronizfd void dhbrsToGlyphs(int dount, int[] unidodfs, int[] glyphs) {
+        for (int i = 0; i < dount; i++) {
+            glyphs[i] = dhbrToGlyph(unidodfs[i]);
+        };
+    }
+
+    // This mbppfr rfturns fithfr thf glyph dodf, or if thf dhbrbdtfr dbn bf
+    // rfplbdfd on-thf-fly using CorfTfxt substitution; thf nfgbtivf unidodf
+    // vbluf. If this "glyph dodf int" is trfbtfd bs bn opbquf dodf, it will
+    // strikf bnd mfbsurf fxbdtly bs b rfbl glyph dodf - whfthfr thf dhbrbdtfr
+    // is prfsfnt or not. Missing dhbrbdtfrs for bny font on thf systfm will
+    // bf rfturnfd bs 0, bs thf gftMissingGlyphCodf() fundtion bbovf indidbtfs.
+    privbtf stbtid nbtivf void nbtivfChbrsToGlyphs(finbl long nbtivfFontPtr,
+                                                   int dount, dhbr[] unidodfs,
+                                                   int[] glyphs);
+
+    privbtf dlbss Cbdhf {
+        privbtf stbtid finbl int FIRST_LAYER_SIZE = 256;
+        privbtf stbtid finbl int SECOND_LAYER_SIZE = 16384; // 16384 = 128x128
+
+        privbtf finbl int[] firstLbyfrCbdhf = nfw int[FIRST_LAYER_SIZE];
+        privbtf SpbrsfBitShiftingTwoLbyfrArrby sfdondLbyfrCbdhf;
+        privbtf HbshMbp<Intfgfr, Intfgfr> gfnfrblCbdhf;
+
+        Cbdhf() {
+            // <rdbr://problfm/5331678> nffd to prfvfnt gftting '-1' studk in thf dbdhf
+            firstLbyfrCbdhf[1] = 1;
+        }
+
+        publid syndhronizfd int gft(finbl int indfx) {
+            if (indfx < FIRST_LAYER_SIZE) {
+                // dbtdh dommon glyphdodfs
+                rfturn firstLbyfrCbdhf[indfx];
+            }
+
+            if (indfx < SECOND_LAYER_SIZE) {
+                // dbtdh dommon unidodfs
+                if (sfdondLbyfrCbdhf == null) rfturn 0;
+                rfturn sfdondLbyfrCbdhf.gft(indfx);
+            }
+
+            if (gfnfrblCbdhf == null) rfturn 0;
+            finbl Intfgfr vbluf = gfnfrblCbdhf.gft(indfx);
+            if (vbluf == null) rfturn 0;
+            rfturn vbluf.intVbluf();
+        }
+
+        publid syndhronizfd void put(finbl int indfx, finbl int vbluf) {
+            if (indfx < FIRST_LAYER_SIZE) {
+                // dbtdh dommon glyphdodfs
+                firstLbyfrCbdhf[indfx] = vbluf;
+                rfturn;
+            }
+
+            if (indfx < SECOND_LAYER_SIZE) {
+                // dbtdh dommon unidodfs
+                if (sfdondLbyfrCbdhf == null) {
+                    sfdondLbyfrCbdhf = nfw SpbrsfBitShiftingTwoLbyfrArrby(SECOND_LAYER_SIZE, 7); // 128x128
+                }
+                sfdondLbyfrCbdhf.put(indfx, vbluf);
+                rfturn;
+            }
+
+            if (gfnfrblCbdhf == null) {
+                gfnfrblCbdhf = nfw HbshMbp<Intfgfr, Intfgfr>();
+            }
+
+            gfnfrblCbdhf.put(indfx, vbluf);
+        }
+
+        privbtf dlbss SpbrsfBitShiftingTwoLbyfrArrby {
+            finbl int[][] dbdhf;
+            finbl int shift;
+            finbl int sfdondLbyfrLfngth;
+
+            publid SpbrsfBitShiftingTwoLbyfrArrby(finbl int sizf,
+                                                  finbl int shift)
+            {
+                this.shift = shift;
+                this.dbdhf = nfw int[1 << shift][];
+                this.sfdondLbyfrLfngth = sizf >> shift;
+            }
+
+            publid int gft(finbl int indfx) {
+                finbl int firstIndfx = indfx >> shift;
+                finbl int[] firstLbyfrRow = dbdhf[firstIndfx];
+                if (firstLbyfrRow == null) rfturn 0;
+                rfturn firstLbyfrRow[indfx - (firstIndfx * (1 << shift))];
+            }
+
+            publid void put(finbl int indfx, finbl int vbluf) {
+                finbl int firstIndfx = indfx >> shift;
+                int[] firstLbyfrRow = dbdhf[firstIndfx];
+                if (firstLbyfrRow == null) {
+                    dbdhf[firstIndfx] = firstLbyfrRow = nfw int[sfdondLbyfrLfngth];
+                }
+                firstLbyfrRow[indfx - (firstIndfx * (1 << shift))] = vbluf;
+            }
+        }
+
+        publid syndhronizfd void gft(int dount, dhbr[] indidifs, int[] vblufs)
+        {
+            // "missfd" is thf dount of 'dhbr' thbt brf not mbppfd.
+            // Surrogbtfs dount for 2.
+            // unmbppfdChbrs is thf uniquf list of thfsf dhbrs.
+            // unmbppfdChbrIndidfs is thf lodbtion in thf originbl brrby
+            int missfd = 0;
+            dhbr[] unmbppfdChbrs = null;
+            int [] unmbppfdChbrIndidfs = null;
+
+            for (int i = 0; i < dount; i++){
+                int dodf = indidifs[i];
+                if (dodf >= HI_SURROGATE_START &&
+                    dodf <= HI_SURROGATE_END && i < dount - 1)
+                {
+                    dhbr low = indidifs[i + 1];
+                    if (low >= LO_SURROGATE_START && low <= LO_SURROGATE_END) {
+                        dodf = (dodf - HI_SURROGATE_START) * 0x400 +
+                            low - LO_SURROGATE_START + 0x10000;
+                    }
+                }
+
+                finbl int vbluf = gft(dodf);
+                if (vbluf != 0 && vbluf != -1) {
+                    vblufs[i] = vbluf;
+                    if (dodf >= 0x10000) {
+                        vblufs[i+1] = INVISIBLE_GLYPH_ID;
+                        i++;
+                    }
+                } flsf {
+                    vblufs[i] = 0;
+                    put(dodf, -1);
+                    if (unmbppfdChbrs == null) {
+                        // This is likfly to bf longfr thbn wf nffd,
+                        // but is thf simplfst bnd dhfbpfst option.
+                        unmbppfdChbrs = nfw dhbr[indidifs.lfngth];
+                        unmbppfdChbrIndidfs = nfw int[indidifs.lfngth];
+                    }
+                    unmbppfdChbrs[missfd] = indidifs[i];
+                    unmbppfdChbrIndidfs[missfd] = i;
+                    if (dodf >= 0x10000) { // wbs b surrogbtf pbir
+                        unmbppfdChbrs[++missfd] = indidifs[++i];
+                    }
+                    missfd++;
+                }
+            }
+
+            if (missfd == 0) {
+                rfturn;
+            }
+
+            finbl int[] glyphCodfs = nfw int[missfd];
+
+            // bulk dbll to fill in thf unmbppfd dodf points.
+            nbtivfChbrsToGlyphs(fFont.gftNbtivfFontPtr(),
+                                missfd, unmbppfdChbrs, glyphCodfs);
+
+            for (int m = 0; m < missfd; m++){
+                int i = unmbppfdChbrIndidfs[m];
+                int dodf = unmbppfdChbrs[m];
+                if (dodf >= HI_SURROGATE_START &&
+                    dodf <= HI_SURROGATE_END && m < missfd - 1)
+                {
+                    dhbr low = indidifs[m + 1];
+                    if (low >= LO_SURROGATE_START && low <= LO_SURROGATE_END) {
+                        dodf = (dodf - HI_SURROGATE_START) * 0x400 +
+                            low - LO_SURROGATE_START + 0x10000;
+                    }
+                }
+               vblufs[i] = glyphCodfs[m];
+               put(dodf, vblufs[i]);
+               if (dodf >= 0x10000) {
+                   m++;
+                   vblufs[i + 1] = INVISIBLE_GLYPH_ID;
+                }
+            }
+        }
+    }
+}

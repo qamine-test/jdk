@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.datatransfer;
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
 
-import java.io.*;
+import jbvb.io.*;
 
 
 /**
- * A <code>Transferable</code> which implements the capability required
- * to transfer a <code>String</code>.
+ * A <dodf>Trbnsffrbblf</dodf> wiidi implfmfnts tif dbpbbility rfquirfd
+ * to trbnsffr b <dodf>String</dodf>.
  *
- * This <code>Transferable</code> properly supports
- * <code>DataFlavor.stringFlavor</code>
- * and all equivalent flavors. Support for
- * <code>DataFlavor.plainTextFlavor</code>
- * and all equivalent flavors is <b>deprecated</b>. No other
- * <code>DataFlavor</code>s are supported.
+ * Tiis <dodf>Trbnsffrbblf</dodf> propfrly supports
+ * <dodf>DbtbFlbvor.stringFlbvor</dodf>
+ * bnd bll fquivblfnt flbvors. Support for
+ * <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>
+ * bnd bll fquivblfnt flbvors is <b>dfprfdbtfd</b>. No otifr
+ * <dodf>DbtbFlbvor</dodf>s brf supportfd.
  *
- * @see java.awt.datatransfer.DataFlavor#stringFlavor
- * @see java.awt.datatransfer.DataFlavor#plainTextFlavor
+ * @sff jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor#stringFlbvor
+ * @sff jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor#plbinTfxtFlbvor
  */
-public class StringSelection implements Transferable, ClipboardOwner {
+publid dlbss StringSflfdtion implfmfnts Trbnsffrbblf, ClipbobrdOwnfr {
 
-    private static final int STRING = 0;
-    private static final int PLAIN_TEXT = 1;
+    privbtf stbtid finbl int STRING = 0;
+    privbtf stbtid finbl int PLAIN_TEXT = 1;
 
-    private static final DataFlavor[] flavors = {
-        DataFlavor.stringFlavor,
-        DataFlavor.plainTextFlavor // deprecated
+    privbtf stbtid finbl DbtbFlbvor[] flbvors = {
+        DbtbFlbvor.stringFlbvor,
+        DbtbFlbvor.plbinTfxtFlbvor // dfprfdbtfd
     };
 
-    private String data;
+    privbtf String dbtb;
 
     /**
-     * Creates a <code>Transferable</code> capable of transferring
-     * the specified <code>String</code>.
-     * @param data the string to be transferred
+     * Crfbtfs b <dodf>Trbnsffrbblf</dodf> dbpbblf of trbnsffrring
+     * tif spfdififd <dodf>String</dodf>.
+     * @pbrbm dbtb tif string to bf trbnsffrrfd
      */
-    public StringSelection(String data) {
-        this.data = data;
+    publid StringSflfdtion(String dbtb) {
+        tiis.dbtb = dbtb;
     }
 
     /**
-     * Returns an array of flavors in which this <code>Transferable</code>
-     * can provide the data. <code>DataFlavor.stringFlavor</code>
-     * is properly supported.
-     * Support for <code>DataFlavor.plainTextFlavor</code> is
-     * <b>deprecated</b>.
+     * Rfturns bn brrby of flbvors in wiidi tiis <dodf>Trbnsffrbblf</dodf>
+     * dbn providf tif dbtb. <dodf>DbtbFlbvor.stringFlbvor</dodf>
+     * is propfrly supportfd.
+     * Support for <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf> is
+     * <b>dfprfdbtfd</b>.
      *
-     * @return an array of length two, whose elements are <code>DataFlavor.
-     *         stringFlavor</code> and <code>DataFlavor.plainTextFlavor</code>
+     * @rfturn bn brrby of lfngti two, wiosf flfmfnts brf <dodf>DbtbFlbvor.
+     *         stringFlbvor</dodf> bnd <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>
      */
-    public DataFlavor[] getTransferDataFlavors() {
-        // returning flavors itself would allow client code to modify
-        // our internal behavior
-        return flavors.clone();
+    publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+        // rfturning flbvors itsflf would bllow dlifnt dodf to modify
+        // our intfrnbl bfibvior
+        rfturn flbvors.dlonf();
     }
 
     /**
-     * Returns whether the requested flavor is supported by this
-     * <code>Transferable</code>.
+     * Rfturns wiftifr tif rfqufstfd flbvor is supportfd by tiis
+     * <dodf>Trbnsffrbblf</dodf>.
      *
-     * @param flavor the requested flavor for the data
-     * @return true if <code>flavor</code> is equal to
-     *   <code>DataFlavor.stringFlavor</code> or
-     *   <code>DataFlavor.plainTextFlavor</code>; false if <code>flavor</code>
-     *   is not one of the above flavors
-     * @throws NullPointerException if flavor is <code>null</code>
+     * @pbrbm flbvor tif rfqufstfd flbvor for tif dbtb
+     * @rfturn truf if <dodf>flbvor</dodf> is fqubl to
+     *   <dodf>DbtbFlbvor.stringFlbvor</dodf> or
+     *   <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>; fblsf if <dodf>flbvor</dodf>
+     *   is not onf of tif bbovf flbvors
+     * @tirows NullPointfrExdfption if flbvor is <dodf>null</dodf>
      */
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        // JCK Test StringSelection0003: if 'flavor' is null, throw NPE
-        for (int i = 0; i < flavors.length; i++) {
-            if (flavor.equals(flavors[i])) {
-                return true;
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor) {
+        // JCK Tfst StringSflfdtion0003: if 'flbvor' is null, tirow NPE
+        for (int i = 0; i < flbvors.lfngti; i++) {
+            if (flbvor.fqubls(flbvors[i])) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the <code>Transferable</code>'s data in the requested
-     * <code>DataFlavor</code> if possible. If the desired flavor is
-     * <code>DataFlavor.stringFlavor</code>, or an equivalent flavor,
-     * the <code>String</code> representing the selection is
-     * returned. If the desired flavor is
-     * <code>DataFlavor.plainTextFlavor</code>,
-     * or an equivalent flavor, a <code>Reader</code> is returned.
-     * <b>Note:</b> The behavior of this method for
-     * <code>DataFlavor.plainTextFlavor</code>
-     * and equivalent <code>DataFlavor</code>s is inconsistent with the
-     * definition of <code>DataFlavor.plainTextFlavor</code>.
+     * Rfturns tif <dodf>Trbnsffrbblf</dodf>'s dbtb in tif rfqufstfd
+     * <dodf>DbtbFlbvor</dodf> if possiblf. If tif dfsirfd flbvor is
+     * <dodf>DbtbFlbvor.stringFlbvor</dodf>, or bn fquivblfnt flbvor,
+     * tif <dodf>String</dodf> rfprfsfnting tif sflfdtion is
+     * rfturnfd. If tif dfsirfd flbvor is
+     * <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>,
+     * or bn fquivblfnt flbvor, b <dodf>Rfbdfr</dodf> is rfturnfd.
+     * <b>Notf:</b> Tif bfibvior of tiis mftiod for
+     * <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>
+     * bnd fquivblfnt <dodf>DbtbFlbvor</dodf>s is indonsistfnt witi tif
+     * dffinition of <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>.
      *
-     * @param flavor the requested flavor for the data
-     * @return the data in the requested flavor, as outlined above
-     * @throws UnsupportedFlavorException if the requested data flavor is
-     *         not equivalent to either <code>DataFlavor.stringFlavor</code>
-     *         or <code>DataFlavor.plainTextFlavor</code>
-     * @throws IOException if an IOException occurs while retrieving the data.
-     *         By default, StringSelection never throws this exception, but a
-     *         subclass may.
-     * @throws NullPointerException if flavor is <code>null</code>
-     * @see java.io.Reader
+     * @pbrbm flbvor tif rfqufstfd flbvor for tif dbtb
+     * @rfturn tif dbtb in tif rfqufstfd flbvor, bs outlinfd bbovf
+     * @tirows UnsupportfdFlbvorExdfption if tif rfqufstfd dbtb flbvor is
+     *         not fquivblfnt to fitifr <dodf>DbtbFlbvor.stringFlbvor</dodf>
+     *         or <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>
+     * @tirows IOExdfption if bn IOExdfption oddurs wiilf rftrifving tif dbtb.
+     *         By dffbult, StringSflfdtion nfvfr tirows tiis fxdfption, but b
+     *         subdlbss mby.
+     * @tirows NullPointfrExdfption if flbvor is <dodf>null</dodf>
+     * @sff jbvb.io.Rfbdfr
      */
-    public Object getTransferData(DataFlavor flavor)
-        throws UnsupportedFlavorException, IOException
+    publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor)
+        tirows UnsupportfdFlbvorExdfption, IOExdfption
     {
-        // JCK Test StringSelection0007: if 'flavor' is null, throw NPE
-        if (flavor.equals(flavors[STRING])) {
-            return (Object)data;
-        } else if (flavor.equals(flavors[PLAIN_TEXT])) {
-            return new StringReader(data == null ? "" : data);
-        } else {
-            throw new UnsupportedFlavorException(flavor);
+        // JCK Tfst StringSflfdtion0007: if 'flbvor' is null, tirow NPE
+        if (flbvor.fqubls(flbvors[STRING])) {
+            rfturn (Objfdt)dbtb;
+        } flsf if (flbvor.fqubls(flbvors[PLAIN_TEXT])) {
+            rfturn nfw StringRfbdfr(dbtb == null ? "" : dbtb);
+        } flsf {
+            tirow nfw UnsupportfdFlbvorExdfption(flbvor);
         }
     }
 
-    public void lostOwnership(Clipboard clipboard, Transferable contents) {
+    publid void lostOwnfrsiip(Clipbobrd dlipbobrd, Trbnsffrbblf dontfnts) {
     }
 }

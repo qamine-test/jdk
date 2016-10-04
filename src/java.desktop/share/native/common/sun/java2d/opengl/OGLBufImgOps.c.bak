@@ -1,753 +1,753 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-#include <jlong.h>
+#indludf <jlong.i>
 
-#include "OGLBufImgOps.h"
-#include "OGLContext.h"
-#include "OGLRenderQueue.h"
-#include "OGLSurfaceData.h"
-#include "GraphicsPrimitiveMgr.h"
+#indludf "OGLBufImgOps.i"
+#indludf "OGLContfxt.i"
+#indludf "OGLRfndfrQufuf.i"
+#indludf "OGLSurfbdfDbtb.i"
+#indludf "GrbpiidsPrimitivfMgr.i"
 
-/** Evaluates to true if the given bit is set on the local flags variable. */
-#define IS_SET(flagbit) \
-    (((flags) & (flagbit)) != 0)
+/** Evblubtfs to truf if tif givfn bit is sft on tif lodbl flbgs vbribblf. */
+#dffinf IS_SET(flbgbit) \
+    (((flbgs) & (flbgbit)) != 0)
 
-/**************************** ConvolveOp support ****************************/
+/**************************** ConvolvfOp support ****************************/
 
 /**
- * The ConvolveOp shader is fairly straightforward.  For each texel in
- * the source texture, the shader samples the MxN texels in the surrounding
- * area, multiplies each by its corresponding kernel value, and then sums
- * them all together to produce a single color result.  Finally, the
- * resulting value is multiplied by the current OpenGL color, which contains
- * the extra alpha value.
+ * Tif ConvolvfOp sibdfr is fbirly strbigitforwbrd.  For fbdi tfxfl in
+ * tif sourdf tfxturf, tif sibdfr sbmplfs tif MxN tfxfls in tif surrounding
+ * brfb, multiplifs fbdi by its dorrfsponding kfrnfl vbluf, bnd tifn sums
+ * tifm bll togftifr to produdf b singlf dolor rfsult.  Finblly, tif
+ * rfsulting vbluf is multiplifd by tif durrfnt OpfnGL dolor, wiidi dontbins
+ * tif fxtrb blpib vbluf.
  *
- * Note that this shader source code includes some "holes" marked by "%s".
- * This allows us to build different shader programs (e.g. one for
- * 3x3, one for 5x5, and so on) simply by filling in these "holes" with
- * a call to sprintf().  See the OGLBufImgOps_CreateConvolveProgram() method
- * for more details.
+ * Notf tibt tiis sibdfr sourdf dodf indludfs somf "iolfs" mbrkfd by "%s".
+ * Tiis bllows us to build difffrfnt sibdfr progrbms (f.g. onf for
+ * 3x3, onf for 5x5, bnd so on) simply by filling in tifsf "iolfs" witi
+ * b dbll to sprintf().  Sff tif OGLBufImgOps_CrfbtfConvolvfProgrbm() mftiod
+ * for morf dftbils.
  *
- * REMIND: Currently this shader (and the supporting code in the
- *         EnableConvolveOp() method) only supports 3x3 and 5x5 filters.
- *         Early shader-level hardware did not support non-constant sized
- *         arrays but modern hardware should support them (although I
- *         don't know of any simple way to find out, other than to compile
- *         the shader at runtime and see if the drivers complain).
+ * REMIND: Currfntly tiis sibdfr (bnd tif supporting dodf in tif
+ *         EnbblfConvolvfOp() mftiod) only supports 3x3 bnd 5x5 filtfrs.
+ *         Ebrly sibdfr-lfvfl ibrdwbrf did not support non-donstbnt sizfd
+ *         brrbys but modfrn ibrdwbrf siould support tifm (bltiougi I
+ *         don't know of bny simplf wby to find out, otifr tibn to dompilf
+ *         tif sibdfr bt runtimf bnd sff if tif drivfrs domplbin).
  */
-static const char *convolveShaderSource =
-    // maximum size supported by this shader
-    "const int MAX_KERNEL_SIZE = %s;"
-    // image to be convolved
-    "uniform sampler%s baseImage;"
-    // image edge limits:
-    //   imgEdge.xy = imgMin.xy (anything < will be treated as edge case)
-    //   imgEdge.zw = imgMax.xy (anything > will be treated as edge case)
-    "uniform vec4 imgEdge;"
-    // value for each location in the convolution kernel:
-    //   kernelVals[i].x = offsetX[i]
-    //   kernelVals[i].y = offsetY[i]
-    //   kernelVals[i].z = kernel[i]
-    "uniform vec3 kernelVals[MAX_KERNEL_SIZE];"
+stbtid donst dibr *donvolvfSibdfrSourdf =
+    // mbximum sizf supportfd by tiis sibdfr
+    "donst int MAX_KERNEL_SIZE = %s;"
+    // imbgf to bf donvolvfd
+    "uniform sbmplfr%s bbsfImbgf;"
+    // imbgf fdgf limits:
+    //   imgEdgf.xy = imgMin.xy (bnytiing < will bf trfbtfd bs fdgf dbsf)
+    //   imgEdgf.zw = imgMbx.xy (bnytiing > will bf trfbtfd bs fdgf dbsf)
+    "uniform vfd4 imgEdgf;"
+    // vbluf for fbdi lodbtion in tif donvolution kfrnfl:
+    //   kfrnflVbls[i].x = offsftX[i]
+    //   kfrnflVbls[i].y = offsftY[i]
+    //   kfrnflVbls[i].z = kfrnfl[i]
+    "uniform vfd3 kfrnflVbls[MAX_KERNEL_SIZE];"
     ""
-    "void main(void)"
+    "void mbin(void)"
     "{"
     "    int i;"
-    "    vec4 sum;"
+    "    vfd4 sum;"
     ""
-    "    if (any(lessThan(gl_TexCoord[0].st, imgEdge.xy)) ||"
-    "        any(greaterThan(gl_TexCoord[0].st, imgEdge.zw)))"
+    "    if (bny(lfssTibn(gl_TfxCoord[0].st, imgEdgf.xy)) ||"
+    "        bny(grfbtfrTibn(gl_TfxCoord[0].st, imgEdgf.zw)))"
     "    {"
-             // (placeholder for edge condition code)
+             // (plbdfioldfr for fdgf dondition dodf)
     "        %s"
-    "    } else {"
-    "        sum = vec4(0.0);"
+    "    } flsf {"
+    "        sum = vfd4(0.0);"
     "        for (i = 0; i < MAX_KERNEL_SIZE; i++) {"
     "            sum +="
-    "                kernelVals[i].z *"
-    "                texture%s(baseImage,"
-    "                          gl_TexCoord[0].st + kernelVals[i].xy);"
+    "                kfrnflVbls[i].z *"
+    "                tfxturf%s(bbsfImbgf,"
+    "                          gl_TfxCoord[0].st + kfrnflVbls[i].xy);"
     "        }"
     "    }"
     ""
-         // modulate with gl_Color in order to apply extra alpha
-    "    gl_FragColor = sum * gl_Color;"
+         // modulbtf witi gl_Color in ordfr to bpply fxtrb blpib
+    "    gl_FrbgColor = sum * gl_Color;"
     "}";
 
 /**
- * Flags that can be bitwise-or'ed together to control how the shader
- * source code is generated.
+ * Flbgs tibt dbn bf bitwisf-or'fd togftifr to dontrol iow tif sibdfr
+ * sourdf dodf is gfnfrbtfd.
  */
-#define CONVOLVE_RECT            (1 << 0)
-#define CONVOLVE_EDGE_ZERO_FILL  (1 << 1)
-#define CONVOLVE_5X5             (1 << 2)
+#dffinf CONVOLVE_RECT            (1 << 0)
+#dffinf CONVOLVE_EDGE_ZERO_FILL  (1 << 1)
+#dffinf CONVOLVE_5X5             (1 << 2)
 
 /**
- * The handles to the ConvolveOp fragment program objects.  The index to
- * the array should be a bitwise-or'ing of the CONVOLVE_* flags defined
- * above.  Note that most applications will likely need to initialize one
- * or two of these elements, so the array is usually sparsely populated.
+ * Tif ibndlfs to tif ConvolvfOp frbgmfnt progrbm objfdts.  Tif indfx to
+ * tif brrby siould bf b bitwisf-or'ing of tif CONVOLVE_* flbgs dffinfd
+ * bbovf.  Notf tibt most bpplidbtions will likfly nffd to initiblizf onf
+ * or two of tifsf flfmfnts, so tif brrby is usublly spbrsfly populbtfd.
  */
-static GLhandleARB convolvePrograms[8];
+stbtid GLibndlfARB donvolvfProgrbms[8];
 
 /**
- * The maximum kernel size supported by the ConvolveOp shader.
+ * Tif mbximum kfrnfl sizf supportfd by tif ConvolvfOp sibdfr.
  */
-#define MAX_KERNEL_SIZE 25
+#dffinf MAX_KERNEL_SIZE 25
 
 /**
- * Compiles and links the ConvolveOp shader program.  If successful, this
- * function returns a handle to the newly created shader program; otherwise
- * returns 0.
+ * Compilfs bnd links tif ConvolvfOp sibdfr progrbm.  If suddfssful, tiis
+ * fundtion rfturns b ibndlf to tif nfwly drfbtfd sibdfr progrbm; otifrwisf
+ * rfturns 0.
  */
-static GLhandleARB
-OGLBufImgOps_CreateConvolveProgram(jint flags)
+stbtid GLibndlfARB
+OGLBufImgOps_CrfbtfConvolvfProgrbm(jint flbgs)
 {
-    GLhandleARB convolveProgram;
-    GLint loc;
-    char *kernelMax = IS_SET(CONVOLVE_5X5) ? "25" : "9";
-    char *target = IS_SET(CONVOLVE_RECT) ? "2DRect" : "2D";
-    char edge[100];
-    char finalSource[2000];
+    GLibndlfARB donvolvfProgrbm;
+    GLint lod;
+    dibr *kfrnflMbx = IS_SET(CONVOLVE_5X5) ? "25" : "9";
+    dibr *tbrgft = IS_SET(CONVOLVE_RECT) ? "2DRfdt" : "2D";
+    dibr fdgf[100];
+    dibr finblSourdf[2000];
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "OGLBufImgOps_CreateConvolveProgram: flags=%d",
-                flags);
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "OGLBufImgOps_CrfbtfConvolvfProgrbm: flbgs=%d",
+                flbgs);
 
     if (IS_SET(CONVOLVE_EDGE_ZERO_FILL)) {
-        // EDGE_ZERO_FILL: fill in zero at the edges
-        sprintf(edge, "sum = vec4(0.0);");
-    } else {
-        // EDGE_NO_OP: use the source pixel color at the edges
-        sprintf(edge,
-                "sum = texture%s(baseImage, gl_TexCoord[0].st);",
-                target);
+        // EDGE_ZERO_FILL: fill in zfro bt tif fdgfs
+        sprintf(fdgf, "sum = vfd4(0.0);");
+    } flsf {
+        // EDGE_NO_OP: usf tif sourdf pixfl dolor bt tif fdgfs
+        sprintf(fdgf,
+                "sum = tfxturf%s(bbsfImbgf, gl_TfxCoord[0].st);",
+                tbrgft);
     }
 
-    // compose the final source code string from the various pieces
-    sprintf(finalSource, convolveShaderSource,
-            kernelMax, target, edge, target);
+    // domposf tif finbl sourdf dodf string from tif vbrious pifdfs
+    sprintf(finblSourdf, donvolvfSibdfrSourdf,
+            kfrnflMbx, tbrgft, fdgf, tbrgft);
 
-    convolveProgram = OGLContext_CreateFragmentProgram(finalSource);
-    if (convolveProgram == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLBufImgOps_CreateConvolveProgram: error creating program");
-        return 0;
+    donvolvfProgrbm = OGLContfxt_CrfbtfFrbgmfntProgrbm(finblSourdf);
+    if (donvolvfProgrbm == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLBufImgOps_CrfbtfConvolvfProgrbm: frror drfbting progrbm");
+        rfturn 0;
     }
 
-    // "use" the program object temporarily so that we can set the uniforms
-    j2d_glUseProgramObjectARB(convolveProgram);
+    // "usf" tif progrbm objfdt tfmporbrily so tibt wf dbn sft tif uniforms
+    j2d_glUsfProgrbmObjfdtARB(donvolvfProgrbm);
 
-    // set the "uniform" texture unit binding
-    loc = j2d_glGetUniformLocationARB(convolveProgram, "baseImage");
-    j2d_glUniform1iARB(loc, 0); // texture unit 0
+    // sft tif "uniform" tfxturf unit binding
+    lod = j2d_glGftUniformLodbtionARB(donvolvfProgrbm, "bbsfImbgf");
+    j2d_glUniform1iARB(lod, 0); // tfxturf unit 0
 
-    // "unuse" the program object; it will be re-bound later as needed
-    j2d_glUseProgramObjectARB(0);
+    // "unusf" tif progrbm objfdt; it will bf rf-bound lbtfr bs nffdfd
+    j2d_glUsfProgrbmObjfdtARB(0);
 
-    return convolveProgram;
+    rfturn donvolvfProgrbm;
 }
 
 void
-OGLBufImgOps_EnableConvolveOp(OGLContext *oglc, jlong pSrcOps,
-                              jboolean edgeZeroFill,
-                              jint kernelWidth, jint kernelHeight,
-                              unsigned char *kernel)
+OGLBufImgOps_EnbblfConvolvfOp(OGLContfxt *ogld, jlong pSrdOps,
+                              jboolfbn fdgfZfroFill,
+                              jint kfrnflWidti, jint kfrnflHfigit,
+                              unsignfd dibr *kfrnfl)
 {
-    OGLSDOps *srcOps = (OGLSDOps *)jlong_to_ptr(pSrcOps);
-    jint kernelSize = kernelWidth * kernelHeight;
-    GLhandleARB convolveProgram;
-    GLfloat xoff, yoff;
-    GLfloat edgeX, edgeY, minX, minY, maxX, maxY;
-    GLfloat kernelVals[MAX_KERNEL_SIZE*3];
-    jint i, j, kIndex;
-    GLint loc;
-    jint flags = 0;
+    OGLSDOps *srdOps = (OGLSDOps *)jlong_to_ptr(pSrdOps);
+    jint kfrnflSizf = kfrnflWidti * kfrnflHfigit;
+    GLibndlfARB donvolvfProgrbm;
+    GLflobt xoff, yoff;
+    GLflobt fdgfX, fdgfY, minX, minY, mbxX, mbxY;
+    GLflobt kfrnflVbls[MAX_KERNEL_SIZE*3];
+    jint i, j, kIndfx;
+    GLint lod;
+    jint flbgs = 0;
 
-    J2dTraceLn2(J2D_TRACE_INFO,
-                "OGLBufImgOps_EnableConvolveOp: kernelW=%d kernelH=%d",
-                kernelWidth, kernelHeight);
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "OGLBufImgOps_EnbblfConvolvfOp: kfrnflW=%d kfrnflH=%d",
+                kfrnflWidti, kfrnflHfigit);
 
-    RETURN_IF_NULL(oglc);
-    RETURN_IF_NULL(srcOps);
+    RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(srdOps);
     RESET_PREVIOUS_OP();
 
-    if (srcOps->textureTarget == GL_TEXTURE_RECTANGLE_ARB) {
-        flags |= CONVOLVE_RECT;
+    if (srdOps->tfxturfTbrgft == GL_TEXTURE_RECTANGLE_ARB) {
+        flbgs |= CONVOLVE_RECT;
 
-        // for GL_TEXTURE_RECTANGLE_ARB, texcoords are specified in the
-        // range [0,srcw] and [0,srch], so to achieve an x/y offset of
-        // exactly one pixel we simply use the value 1 here
+        // for GL_TEXTURE_RECTANGLE_ARB, tfxdoords brf spfdififd in tif
+        // rbngf [0,srdw] bnd [0,srdi], so to bdiifvf bn x/y offsft of
+        // fxbdtly onf pixfl wf simply usf tif vbluf 1 ifrf
         xoff = 1.0f;
         yoff = 1.0f;
-    } else {
-        // for GL_TEXTURE_2D, texcoords are specified in the range [0,1],
-        // so to achieve an x/y offset of approximately one pixel we have
-        // to normalize to that range here
-        xoff = 1.0f / srcOps->textureWidth;
-        yoff = 1.0f / srcOps->textureHeight;
+    } flsf {
+        // for GL_TEXTURE_2D, tfxdoords brf spfdififd in tif rbngf [0,1],
+        // so to bdiifvf bn x/y offsft of bpproximbtfly onf pixfl wf ibvf
+        // to normblizf to tibt rbngf ifrf
+        xoff = 1.0f / srdOps->tfxturfWidti;
+        yoff = 1.0f / srdOps->tfxturfHfigit;
     }
-    if (edgeZeroFill) {
-        flags |= CONVOLVE_EDGE_ZERO_FILL;
+    if (fdgfZfroFill) {
+        flbgs |= CONVOLVE_EDGE_ZERO_FILL;
     }
-    if (kernelWidth == 5 && kernelHeight == 5) {
-        flags |= CONVOLVE_5X5;
+    if (kfrnflWidti == 5 && kfrnflHfigit == 5) {
+        flbgs |= CONVOLVE_5X5;
     }
 
-    // locate/initialize the shader program for the given flags
-    if (convolvePrograms[flags] == 0) {
-        convolvePrograms[flags] = OGLBufImgOps_CreateConvolveProgram(flags);
-        if (convolvePrograms[flags] == 0) {
-            // shouldn't happen, but just in case...
-            return;
+    // lodbtf/initiblizf tif sibdfr progrbm for tif givfn flbgs
+    if (donvolvfProgrbms[flbgs] == 0) {
+        donvolvfProgrbms[flbgs] = OGLBufImgOps_CrfbtfConvolvfProgrbm(flbgs);
+        if (donvolvfProgrbms[flbgs] == 0) {
+            // siouldn't ibppfn, but just in dbsf...
+            rfturn;
         }
     }
-    convolveProgram = convolvePrograms[flags];
+    donvolvfProgrbm = donvolvfProgrbms[flbgs];
 
-    // enable the convolve shader
-    j2d_glUseProgramObjectARB(convolveProgram);
+    // fnbblf tif donvolvf sibdfr
+    j2d_glUsfProgrbmObjfdtARB(donvolvfProgrbm);
 
-    // update the "uniform" image min/max values
-    edgeX = (kernelWidth/2) * xoff;
-    edgeY = (kernelHeight/2) * yoff;
-    minX = edgeX;
-    minY = edgeY;
-    if (srcOps->textureTarget == GL_TEXTURE_RECTANGLE_ARB) {
-        // texcoords are in the range [0,srcw] and [0,srch]
-        maxX = ((GLfloat)srcOps->width)  - edgeX;
-        maxY = ((GLfloat)srcOps->height) - edgeY;
-    } else {
-        // texcoords are in the range [0,1]
-        maxX = (((GLfloat)srcOps->width) / srcOps->textureWidth) - edgeX;
-        maxY = (((GLfloat)srcOps->height) / srcOps->textureHeight) - edgeY;
+    // updbtf tif "uniform" imbgf min/mbx vblufs
+    fdgfX = (kfrnflWidti/2) * xoff;
+    fdgfY = (kfrnflHfigit/2) * yoff;
+    minX = fdgfX;
+    minY = fdgfY;
+    if (srdOps->tfxturfTbrgft == GL_TEXTURE_RECTANGLE_ARB) {
+        // tfxdoords brf in tif rbngf [0,srdw] bnd [0,srdi]
+        mbxX = ((GLflobt)srdOps->widti)  - fdgfX;
+        mbxY = ((GLflobt)srdOps->ifigit) - fdgfY;
+    } flsf {
+        // tfxdoords brf in tif rbngf [0,1]
+        mbxX = (((GLflobt)srdOps->widti) / srdOps->tfxturfWidti) - fdgfX;
+        mbxY = (((GLflobt)srdOps->ifigit) / srdOps->tfxturfHfigit) - fdgfY;
     }
-    loc = j2d_glGetUniformLocationARB(convolveProgram, "imgEdge");
-    j2d_glUniform4fARB(loc, minX, minY, maxX, maxY);
+    lod = j2d_glGftUniformLodbtionARB(donvolvfProgrbm, "imgEdgf");
+    j2d_glUniform4fARB(lod, minX, minY, mbxX, mbxY);
 
-    // update the "uniform" kernel offsets and values
-    loc = j2d_glGetUniformLocationARB(convolveProgram, "kernelVals");
-    kIndex = 0;
-    for (i = -kernelHeight/2; i < kernelHeight/2+1; i++) {
-        for (j = -kernelWidth/2; j < kernelWidth/2+1; j++) {
-            kernelVals[kIndex+0] = j*xoff;
-            kernelVals[kIndex+1] = i*yoff;
-            kernelVals[kIndex+2] = NEXT_FLOAT(kernel);
-            kIndex += 3;
+    // updbtf tif "uniform" kfrnfl offsfts bnd vblufs
+    lod = j2d_glGftUniformLodbtionARB(donvolvfProgrbm, "kfrnflVbls");
+    kIndfx = 0;
+    for (i = -kfrnflHfigit/2; i < kfrnflHfigit/2+1; i++) {
+        for (j = -kfrnflWidti/2; j < kfrnflWidti/2+1; j++) {
+            kfrnflVbls[kIndfx+0] = j*xoff;
+            kfrnflVbls[kIndfx+1] = i*yoff;
+            kfrnflVbls[kIndfx+2] = NEXT_FLOAT(kfrnfl);
+            kIndfx += 3;
         }
     }
-    j2d_glUniform3fvARB(loc, kernelSize, kernelVals);
+    j2d_glUniform3fvARB(lod, kfrnflSizf, kfrnflVbls);
 }
 
 void
-OGLBufImgOps_DisableConvolveOp(OGLContext *oglc)
+OGLBufImgOps_DisbblfConvolvfOp(OGLContfxt *ogld)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBufImgOps_DisableConvolveOp");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBufImgOps_DisbblfConvolvfOp");
 
-    RETURN_IF_NULL(oglc);
+    RETURN_IF_NULL(ogld);
 
-    // disable the ConvolveOp shader
-    j2d_glUseProgramObjectARB(0);
+    // disbblf tif ConvolvfOp sibdfr
+    j2d_glUsfProgrbmObjfdtARB(0);
 }
 
-/**************************** RescaleOp support *****************************/
+/**************************** RfsdblfOp support *****************************/
 
 /**
- * The RescaleOp shader is one of the simplest possible.  Each fragment
- * from the source image is multiplied by the user's scale factor and added
- * to the user's offset value (these are component-wise operations).
- * Finally, the resulting value is multiplied by the current OpenGL color,
- * which contains the extra alpha value.
+ * Tif RfsdblfOp sibdfr is onf of tif simplfst possiblf.  Ebdi frbgmfnt
+ * from tif sourdf imbgf is multiplifd by tif usfr's sdblf fbdtor bnd bddfd
+ * to tif usfr's offsft vbluf (tifsf brf domponfnt-wisf opfrbtions).
+ * Finblly, tif rfsulting vbluf is multiplifd by tif durrfnt OpfnGL dolor,
+ * wiidi dontbins tif fxtrb blpib vbluf.
  *
- * The RescaleOp spec says that the operation is performed regardless of
- * whether the source data is premultiplied or non-premultiplied.  This is
- * a problem for the OpenGL pipeline in that a non-premultiplied
- * BufferedImage will have already been converted into premultiplied
- * when uploaded to an OpenGL texture.  Therefore, we have a special mode
- * called RESCALE_NON_PREMULT (used only for source images that were
- * originally non-premultiplied) that un-premultiplies the source color
- * prior to the rescale operation, then re-premultiplies the resulting
- * color before returning from the fragment shader.
+ * Tif RfsdblfOp spfd sbys tibt tif opfrbtion is pfrformfd rfgbrdlfss of
+ * wiftifr tif sourdf dbtb is prfmultiplifd or non-prfmultiplifd.  Tiis is
+ * b problfm for tif OpfnGL pipflinf in tibt b non-prfmultiplifd
+ * BufffrfdImbgf will ibvf blrfbdy bffn donvfrtfd into prfmultiplifd
+ * wifn uplobdfd to bn OpfnGL tfxturf.  Tifrfforf, wf ibvf b spfdibl modf
+ * dbllfd RESCALE_NON_PREMULT (usfd only for sourdf imbgfs tibt wfrf
+ * originblly non-prfmultiplifd) tibt un-prfmultiplifs tif sourdf dolor
+ * prior to tif rfsdblf opfrbtion, tifn rf-prfmultiplifs tif rfsulting
+ * dolor bfforf rfturning from tif frbgmfnt sibdfr.
  *
- * Note that this shader source code includes some "holes" marked by "%s".
- * This allows us to build different shader programs (e.g. one for
- * GL_TEXTURE_2D targets, one for GL_TEXTURE_RECTANGLE_ARB targets, and so on)
- * simply by filling in these "holes" with a call to sprintf().  See the
- * OGLBufImgOps_CreateRescaleProgram() method for more details.
+ * Notf tibt tiis sibdfr sourdf dodf indludfs somf "iolfs" mbrkfd by "%s".
+ * Tiis bllows us to build difffrfnt sibdfr progrbms (f.g. onf for
+ * GL_TEXTURE_2D tbrgfts, onf for GL_TEXTURE_RECTANGLE_ARB tbrgfts, bnd so on)
+ * simply by filling in tifsf "iolfs" witi b dbll to sprintf().  Sff tif
+ * OGLBufImgOps_CrfbtfRfsdblfProgrbm() mftiod for morf dftbils.
  */
-static const char *rescaleShaderSource =
-    // image to be rescaled
-    "uniform sampler%s baseImage;"
-    // vector containing scale factors
-    "uniform vec4 scaleFactors;"
-    // vector containing offsets
-    "uniform vec4 offsets;"
+stbtid donst dibr *rfsdblfSibdfrSourdf =
+    // imbgf to bf rfsdblfd
+    "uniform sbmplfr%s bbsfImbgf;"
+    // vfdtor dontbining sdblf fbdtors
+    "uniform vfd4 sdblfFbdtors;"
+    // vfdtor dontbining offsfts
+    "uniform vfd4 offsfts;"
     ""
-    "void main(void)"
+    "void mbin(void)"
     "{"
-    "    vec4 srcColor = texture%s(baseImage, gl_TexCoord[0].st);"
-         // (placeholder for un-premult code)
+    "    vfd4 srdColor = tfxturf%s(bbsfImbgf, gl_TfxCoord[0].st);"
+         // (plbdfioldfr for un-prfmult dodf)
     "    %s"
-         // rescale source value
-    "    vec4 result = (srcColor * scaleFactors) + offsets;"
-         // (placeholder for re-premult code)
+         // rfsdblf sourdf vbluf
+    "    vfd4 rfsult = (srdColor * sdblfFbdtors) + offsfts;"
+         // (plbdfioldfr for rf-prfmult dodf)
     "    %s"
-         // modulate with gl_Color in order to apply extra alpha
-    "    gl_FragColor = result * gl_Color;"
+         // modulbtf witi gl_Color in ordfr to bpply fxtrb blpib
+    "    gl_FrbgColor = rfsult * gl_Color;"
     "}";
 
 /**
- * Flags that can be bitwise-or'ed together to control how the shader
- * source code is generated.
+ * Flbgs tibt dbn bf bitwisf-or'fd togftifr to dontrol iow tif sibdfr
+ * sourdf dodf is gfnfrbtfd.
  */
-#define RESCALE_RECT        (1 << 0)
-#define RESCALE_NON_PREMULT (1 << 1)
+#dffinf RESCALE_RECT        (1 << 0)
+#dffinf RESCALE_NON_PREMULT (1 << 1)
 
 /**
- * The handles to the RescaleOp fragment program objects.  The index to
- * the array should be a bitwise-or'ing of the RESCALE_* flags defined
- * above.  Note that most applications will likely need to initialize one
- * or two of these elements, so the array is usually sparsely populated.
+ * Tif ibndlfs to tif RfsdblfOp frbgmfnt progrbm objfdts.  Tif indfx to
+ * tif brrby siould bf b bitwisf-or'ing of tif RESCALE_* flbgs dffinfd
+ * bbovf.  Notf tibt most bpplidbtions will likfly nffd to initiblizf onf
+ * or two of tifsf flfmfnts, so tif brrby is usublly spbrsfly populbtfd.
  */
-static GLhandleARB rescalePrograms[4];
+stbtid GLibndlfARB rfsdblfProgrbms[4];
 
 /**
- * Compiles and links the RescaleOp shader program.  If successful, this
- * function returns a handle to the newly created shader program; otherwise
- * returns 0.
+ * Compilfs bnd links tif RfsdblfOp sibdfr progrbm.  If suddfssful, tiis
+ * fundtion rfturns b ibndlf to tif nfwly drfbtfd sibdfr progrbm; otifrwisf
+ * rfturns 0.
  */
-static GLhandleARB
-OGLBufImgOps_CreateRescaleProgram(jint flags)
+stbtid GLibndlfARB
+OGLBufImgOps_CrfbtfRfsdblfProgrbm(jint flbgs)
 {
-    GLhandleARB rescaleProgram;
-    GLint loc;
-    char *target = IS_SET(RESCALE_RECT) ? "2DRect" : "2D";
-    char *preRescale = "";
-    char *postRescale = "";
-    char finalSource[2000];
+    GLibndlfARB rfsdblfProgrbm;
+    GLint lod;
+    dibr *tbrgft = IS_SET(RESCALE_RECT) ? "2DRfdt" : "2D";
+    dibr *prfRfsdblf = "";
+    dibr *postRfsdblf = "";
+    dibr finblSourdf[2000];
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "OGLBufImgOps_CreateRescaleProgram: flags=%d",
-                flags);
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "OGLBufImgOps_CrfbtfRfsdblfProgrbm: flbgs=%d",
+                flbgs);
 
     if (IS_SET(RESCALE_NON_PREMULT)) {
-        preRescale  = "srcColor.rgb /= srcColor.a;";
-        postRescale = "result.rgb *= result.a;";
+        prfRfsdblf  = "srdColor.rgb /= srdColor.b;";
+        postRfsdblf = "rfsult.rgb *= rfsult.b;";
     }
 
-    // compose the final source code string from the various pieces
-    sprintf(finalSource, rescaleShaderSource,
-            target, target, preRescale, postRescale);
+    // domposf tif finbl sourdf dodf string from tif vbrious pifdfs
+    sprintf(finblSourdf, rfsdblfSibdfrSourdf,
+            tbrgft, tbrgft, prfRfsdblf, postRfsdblf);
 
-    rescaleProgram = OGLContext_CreateFragmentProgram(finalSource);
-    if (rescaleProgram == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLBufImgOps_CreateRescaleProgram: error creating program");
-        return 0;
+    rfsdblfProgrbm = OGLContfxt_CrfbtfFrbgmfntProgrbm(finblSourdf);
+    if (rfsdblfProgrbm == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLBufImgOps_CrfbtfRfsdblfProgrbm: frror drfbting progrbm");
+        rfturn 0;
     }
 
-    // "use" the program object temporarily so that we can set the uniforms
-    j2d_glUseProgramObjectARB(rescaleProgram);
+    // "usf" tif progrbm objfdt tfmporbrily so tibt wf dbn sft tif uniforms
+    j2d_glUsfProgrbmObjfdtARB(rfsdblfProgrbm);
 
-    // set the "uniform" values
-    loc = j2d_glGetUniformLocationARB(rescaleProgram, "baseImage");
-    j2d_glUniform1iARB(loc, 0); // texture unit 0
+    // sft tif "uniform" vblufs
+    lod = j2d_glGftUniformLodbtionARB(rfsdblfProgrbm, "bbsfImbgf");
+    j2d_glUniform1iARB(lod, 0); // tfxturf unit 0
 
-    // "unuse" the program object; it will be re-bound later as needed
-    j2d_glUseProgramObjectARB(0);
+    // "unusf" tif progrbm objfdt; it will bf rf-bound lbtfr bs nffdfd
+    j2d_glUsfProgrbmObjfdtARB(0);
 
-    return rescaleProgram;
+    rfturn rfsdblfProgrbm;
 }
 
 void
-OGLBufImgOps_EnableRescaleOp(OGLContext *oglc, jlong pSrcOps,
-                             jboolean nonPremult,
-                             unsigned char *scaleFactors,
-                             unsigned char *offsets)
+OGLBufImgOps_EnbblfRfsdblfOp(OGLContfxt *ogld, jlong pSrdOps,
+                             jboolfbn nonPrfmult,
+                             unsignfd dibr *sdblfFbdtors,
+                             unsignfd dibr *offsfts)
 {
-    OGLSDOps *srcOps = (OGLSDOps *)jlong_to_ptr(pSrcOps);
-    GLhandleARB rescaleProgram;
-    GLint loc;
-    jint flags = 0;
+    OGLSDOps *srdOps = (OGLSDOps *)jlong_to_ptr(pSrdOps);
+    GLibndlfARB rfsdblfProgrbm;
+    GLint lod;
+    jint flbgs = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBufImgOps_EnableRescaleOp");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBufImgOps_EnbblfRfsdblfOp");
 
-    RETURN_IF_NULL(oglc);
-    RETURN_IF_NULL(srcOps);
+    RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(srdOps);
     RESET_PREVIOUS_OP();
 
-    // choose the appropriate shader, depending on the source texture target
-    if (srcOps->textureTarget == GL_TEXTURE_RECTANGLE_ARB) {
-        flags |= RESCALE_RECT;
+    // dioosf tif bppropribtf sibdfr, dfpfnding on tif sourdf tfxturf tbrgft
+    if (srdOps->tfxturfTbrgft == GL_TEXTURE_RECTANGLE_ARB) {
+        flbgs |= RESCALE_RECT;
     }
-    if (nonPremult) {
-        flags |= RESCALE_NON_PREMULT;
+    if (nonPrfmult) {
+        flbgs |= RESCALE_NON_PREMULT;
     }
 
-    // locate/initialize the shader program for the given flags
-    if (rescalePrograms[flags] == 0) {
-        rescalePrograms[flags] = OGLBufImgOps_CreateRescaleProgram(flags);
-        if (rescalePrograms[flags] == 0) {
-            // shouldn't happen, but just in case...
-            return;
+    // lodbtf/initiblizf tif sibdfr progrbm for tif givfn flbgs
+    if (rfsdblfProgrbms[flbgs] == 0) {
+        rfsdblfProgrbms[flbgs] = OGLBufImgOps_CrfbtfRfsdblfProgrbm(flbgs);
+        if (rfsdblfProgrbms[flbgs] == 0) {
+            // siouldn't ibppfn, but just in dbsf...
+            rfturn;
         }
     }
-    rescaleProgram = rescalePrograms[flags];
+    rfsdblfProgrbm = rfsdblfProgrbms[flbgs];
 
-    // enable the rescale shader
-    j2d_glUseProgramObjectARB(rescaleProgram);
+    // fnbblf tif rfsdblf sibdfr
+    j2d_glUsfProgrbmObjfdtARB(rfsdblfProgrbm);
 
-    // update the "uniform" scale factor values (note that the Java-level
-    // dispatching code always passes down 4 values here, regardless of
-    // the original source image type)
-    loc = j2d_glGetUniformLocationARB(rescaleProgram, "scaleFactors");
+    // updbtf tif "uniform" sdblf fbdtor vblufs (notf tibt tif Jbvb-lfvfl
+    // dispbtdiing dodf blwbys pbssfs down 4 vblufs ifrf, rfgbrdlfss of
+    // tif originbl sourdf imbgf typf)
+    lod = j2d_glGftUniformLodbtionARB(rfsdblfProgrbm, "sdblfFbdtors");
     {
-        GLfloat sf1 = NEXT_FLOAT(scaleFactors);
-        GLfloat sf2 = NEXT_FLOAT(scaleFactors);
-        GLfloat sf3 = NEXT_FLOAT(scaleFactors);
-        GLfloat sf4 = NEXT_FLOAT(scaleFactors);
-        j2d_glUniform4fARB(loc, sf1, sf2, sf3, sf4);
+        GLflobt sf1 = NEXT_FLOAT(sdblfFbdtors);
+        GLflobt sf2 = NEXT_FLOAT(sdblfFbdtors);
+        GLflobt sf3 = NEXT_FLOAT(sdblfFbdtors);
+        GLflobt sf4 = NEXT_FLOAT(sdblfFbdtors);
+        j2d_glUniform4fARB(lod, sf1, sf2, sf3, sf4);
     }
 
-    // update the "uniform" offset values (note that the Java-level
-    // dispatching code always passes down 4 values here, and that the
-    // offsets will have already been normalized to the range [0,1])
-    loc = j2d_glGetUniformLocationARB(rescaleProgram, "offsets");
+    // updbtf tif "uniform" offsft vblufs (notf tibt tif Jbvb-lfvfl
+    // dispbtdiing dodf blwbys pbssfs down 4 vblufs ifrf, bnd tibt tif
+    // offsfts will ibvf blrfbdy bffn normblizfd to tif rbngf [0,1])
+    lod = j2d_glGftUniformLodbtionARB(rfsdblfProgrbm, "offsfts");
     {
-        GLfloat off1 = NEXT_FLOAT(offsets);
-        GLfloat off2 = NEXT_FLOAT(offsets);
-        GLfloat off3 = NEXT_FLOAT(offsets);
-        GLfloat off4 = NEXT_FLOAT(offsets);
-        j2d_glUniform4fARB(loc, off1, off2, off3, off4);
+        GLflobt off1 = NEXT_FLOAT(offsfts);
+        GLflobt off2 = NEXT_FLOAT(offsfts);
+        GLflobt off3 = NEXT_FLOAT(offsfts);
+        GLflobt off4 = NEXT_FLOAT(offsfts);
+        j2d_glUniform4fARB(lod, off1, off2, off3, off4);
     }
 }
 
 void
-OGLBufImgOps_DisableRescaleOp(OGLContext *oglc)
+OGLBufImgOps_DisbblfRfsdblfOp(OGLContfxt *ogld)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBufImgOps_DisableRescaleOp");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBufImgOps_DisbblfRfsdblfOp");
 
-    RETURN_IF_NULL(oglc);
+    RETURN_IF_NULL(ogld);
 
-    // disable the RescaleOp shader
-    j2d_glUseProgramObjectARB(0);
+    // disbblf tif RfsdblfOp sibdfr
+    j2d_glUsfProgrbmObjfdtARB(0);
 }
 
 /**************************** LookupOp support ******************************/
 
 /**
- * The LookupOp shader takes a fragment color (from the source texture) as
- * input, subtracts the optional user offset value, and then uses the
- * resulting value to index into the lookup table texture to provide
- * a new color result.  Finally, the resulting value is multiplied by
- * the current OpenGL color, which contains the extra alpha value.
+ * Tif LookupOp sibdfr tbkfs b frbgmfnt dolor (from tif sourdf tfxturf) bs
+ * input, subtrbdts tif optionbl usfr offsft vbluf, bnd tifn usfs tif
+ * rfsulting vbluf to indfx into tif lookup tbblf tfxturf to providf
+ * b nfw dolor rfsult.  Finblly, tif rfsulting vbluf is multiplifd by
+ * tif durrfnt OpfnGL dolor, wiidi dontbins tif fxtrb blpib vbluf.
  *
- * The lookup step requires 3 texture accesses (or 4, when alpha is included),
- * which is somewhat unfortunate because it's not ideal from a performance
- * standpoint, but that sort of thing is getting faster with newer hardware.
- * In the 3-band case, we could consider using a three-dimensional texture
- * and performing the lookup with a single texture access step.  We already
- * use this approach in the LCD text shader, and it works well, but for the
- * purposes of this LookupOp shader, it's probably overkill.  Also, there's
- * a difference in that the LCD text shader only needs to populate the 3D LUT
- * once, but here we would need to populate it on every invocation, which
- * would likely be a waste of VRAM and CPU/GPU cycles.
+ * Tif lookup stfp rfquirfs 3 tfxturf bddfssfs (or 4, wifn blpib is indludfd),
+ * wiidi is somfwibt unfortunbtf bfdbusf it's not idfbl from b pfrformbndf
+ * stbndpoint, but tibt sort of tiing is gftting fbstfr witi nfwfr ibrdwbrf.
+ * In tif 3-bbnd dbsf, wf dould donsidfr using b tirff-dimfnsionbl tfxturf
+ * bnd pfrforming tif lookup witi b singlf tfxturf bddfss stfp.  Wf blrfbdy
+ * usf tiis bpprobdi in tif LCD tfxt sibdfr, bnd it works wfll, but for tif
+ * purposfs of tiis LookupOp sibdfr, it's probbbly ovfrkill.  Also, tifrf's
+ * b difffrfndf in tibt tif LCD tfxt sibdfr only nffds to populbtf tif 3D LUT
+ * ondf, but ifrf wf would nffd to populbtf it on fvfry invodbtion, wiidi
+ * would likfly bf b wbstf of VRAM bnd CPU/GPU dydlfs.
  *
- * The LUT texture is currently hardcoded as 4 rows/bands, each containing
- * 256 elements.  This means that we currently only support user-provided
- * tables with no more than 256 elements in each band (this is checked at
- * at the Java level).  If the user provides a table with less than 256
- * elements per band, our shader will still work fine, but if elements are
- * accessed with an index >= the size of the LUT, then the shader will simply
- * produce undefined values.  Typically the user would provide an offset
- * value that would prevent this from happening, but it's worth pointing out
- * this fact because the software LookupOp implementation would usually
- * throw an ArrayIndexOutOfBoundsException in this scenario (although it is
- * not something demanded by the spec).
+ * Tif LUT tfxturf is durrfntly ibrddodfd bs 4 rows/bbnds, fbdi dontbining
+ * 256 flfmfnts.  Tiis mfbns tibt wf durrfntly only support usfr-providfd
+ * tbblfs witi no morf tibn 256 flfmfnts in fbdi bbnd (tiis is difdkfd bt
+ * bt tif Jbvb lfvfl).  If tif usfr providfs b tbblf witi lfss tibn 256
+ * flfmfnts pfr bbnd, our sibdfr will still work finf, but if flfmfnts brf
+ * bddfssfd witi bn indfx >= tif sizf of tif LUT, tifn tif sibdfr will simply
+ * produdf undffinfd vblufs.  Typidblly tif usfr would providf bn offsft
+ * vbluf tibt would prfvfnt tiis from ibppfning, but it's worti pointing out
+ * tiis fbdt bfdbusf tif softwbrf LookupOp implfmfntbtion would usublly
+ * tirow bn ArrbyIndfxOutOfBoundsExdfption in tiis sdfnbrio (bltiougi it is
+ * not somftiing dfmbndfd by tif spfd).
  *
- * The LookupOp spec says that the operation is performed regardless of
- * whether the source data is premultiplied or non-premultiplied.  This is
- * a problem for the OpenGL pipeline in that a non-premultiplied
- * BufferedImage will have already been converted into premultiplied
- * when uploaded to an OpenGL texture.  Therefore, we have a special mode
- * called LOOKUP_NON_PREMULT (used only for source images that were
- * originally non-premultiplied) that un-premultiplies the source color
- * prior to the lookup operation, then re-premultiplies the resulting
- * color before returning from the fragment shader.
+ * Tif LookupOp spfd sbys tibt tif opfrbtion is pfrformfd rfgbrdlfss of
+ * wiftifr tif sourdf dbtb is prfmultiplifd or non-prfmultiplifd.  Tiis is
+ * b problfm for tif OpfnGL pipflinf in tibt b non-prfmultiplifd
+ * BufffrfdImbgf will ibvf blrfbdy bffn donvfrtfd into prfmultiplifd
+ * wifn uplobdfd to bn OpfnGL tfxturf.  Tifrfforf, wf ibvf b spfdibl modf
+ * dbllfd LOOKUP_NON_PREMULT (usfd only for sourdf imbgfs tibt wfrf
+ * originblly non-prfmultiplifd) tibt un-prfmultiplifs tif sourdf dolor
+ * prior to tif lookup opfrbtion, tifn rf-prfmultiplifs tif rfsulting
+ * dolor bfforf rfturning from tif frbgmfnt sibdfr.
  *
- * Note that this shader source code includes some "holes" marked by "%s".
- * This allows us to build different shader programs (e.g. one for
- * GL_TEXTURE_2D targets, one for GL_TEXTURE_RECTANGLE_ARB targets, and so on)
- * simply by filling in these "holes" with a call to sprintf().  See the
- * OGLBufImgOps_CreateLookupProgram() method for more details.
+ * Notf tibt tiis sibdfr sourdf dodf indludfs somf "iolfs" mbrkfd by "%s".
+ * Tiis bllows us to build difffrfnt sibdfr progrbms (f.g. onf for
+ * GL_TEXTURE_2D tbrgfts, onf for GL_TEXTURE_RECTANGLE_ARB tbrgfts, bnd so on)
+ * simply by filling in tifsf "iolfs" witi b dbll to sprintf().  Sff tif
+ * OGLBufImgOps_CrfbtfLookupProgrbm() mftiod for morf dftbils.
  */
-static const char *lookupShaderSource =
-    // source image (bound to texture unit 0)
-    "uniform sampler%s baseImage;"
-    // lookup table (bound to texture unit 1)
-    "uniform sampler2D lookupTable;"
-    // offset subtracted from source index prior to lookup step
-    "uniform vec4 offset;"
+stbtid donst dibr *lookupSibdfrSourdf =
+    // sourdf imbgf (bound to tfxturf unit 0)
+    "uniform sbmplfr%s bbsfImbgf;"
+    // lookup tbblf (bound to tfxturf unit 1)
+    "uniform sbmplfr2D lookupTbblf;"
+    // offsft subtrbdtfd from sourdf indfx prior to lookup stfp
+    "uniform vfd4 offsft;"
     ""
-    "void main(void)"
+    "void mbin(void)"
     "{"
-    "    vec4 srcColor = texture%s(baseImage, gl_TexCoord[0].st);"
-         // (placeholder for un-premult code)
+    "    vfd4 srdColor = tfxturf%s(bbsfImbgf, gl_TfxCoord[0].st);"
+         // (plbdfioldfr for un-prfmult dodf)
     "    %s"
-         // subtract offset from original index
-    "    vec4 srcIndex = srcColor - offset;"
-         // use source value as input to lookup table (note that
-         // "v" texcoords are hardcoded to hit texel centers of
-         // each row/band in texture)
-    "    vec4 result;"
-    "    result.r = texture2D(lookupTable, vec2(srcIndex.r, 0.125)).r;"
-    "    result.g = texture2D(lookupTable, vec2(srcIndex.g, 0.375)).r;"
-    "    result.b = texture2D(lookupTable, vec2(srcIndex.b, 0.625)).r;"
-         // (placeholder for alpha store code)
+         // subtrbdt offsft from originbl indfx
+    "    vfd4 srdIndfx = srdColor - offsft;"
+         // usf sourdf vbluf bs input to lookup tbblf (notf tibt
+         // "v" tfxdoords brf ibrddodfd to iit tfxfl dfntfrs of
+         // fbdi row/bbnd in tfxturf)
+    "    vfd4 rfsult;"
+    "    rfsult.r = tfxturf2D(lookupTbblf, vfd2(srdIndfx.r, 0.125)).r;"
+    "    rfsult.g = tfxturf2D(lookupTbblf, vfd2(srdIndfx.g, 0.375)).r;"
+    "    rfsult.b = tfxturf2D(lookupTbblf, vfd2(srdIndfx.b, 0.625)).r;"
+         // (plbdfioldfr for blpib storf dodf)
     "    %s"
-         // (placeholder for re-premult code)
+         // (plbdfioldfr for rf-prfmult dodf)
     "    %s"
-         // modulate with gl_Color in order to apply extra alpha
-    "    gl_FragColor = result * gl_Color;"
+         // modulbtf witi gl_Color in ordfr to bpply fxtrb blpib
+    "    gl_FrbgColor = rfsult * gl_Color;"
     "}";
 
 /**
- * Flags that can be bitwise-or'ed together to control how the shader
- * source code is generated.
+ * Flbgs tibt dbn bf bitwisf-or'fd togftifr to dontrol iow tif sibdfr
+ * sourdf dodf is gfnfrbtfd.
  */
-#define LOOKUP_RECT          (1 << 0)
-#define LOOKUP_USE_SRC_ALPHA (1 << 1)
-#define LOOKUP_NON_PREMULT   (1 << 2)
+#dffinf LOOKUP_RECT          (1 << 0)
+#dffinf LOOKUP_USE_SRC_ALPHA (1 << 1)
+#dffinf LOOKUP_NON_PREMULT   (1 << 2)
 
 /**
- * The handles to the LookupOp fragment program objects.  The index to
- * the array should be a bitwise-or'ing of the LOOKUP_* flags defined
- * above.  Note that most applications will likely need to initialize one
- * or two of these elements, so the array is usually sparsely populated.
+ * Tif ibndlfs to tif LookupOp frbgmfnt progrbm objfdts.  Tif indfx to
+ * tif brrby siould bf b bitwisf-or'ing of tif LOOKUP_* flbgs dffinfd
+ * bbovf.  Notf tibt most bpplidbtions will likfly nffd to initiblizf onf
+ * or two of tifsf flfmfnts, so tif brrby is usublly spbrsfly populbtfd.
  */
-static GLhandleARB lookupPrograms[8];
+stbtid GLibndlfARB lookupProgrbms[8];
 
 /**
- * The handle to the lookup table texture object used by the shader.
+ * Tif ibndlf to tif lookup tbblf tfxturf objfdt usfd by tif sibdfr.
  */
-static GLuint lutTextureID = 0;
+stbtid GLuint lutTfxturfID = 0;
 
 /**
- * Compiles and links the LookupOp shader program.  If successful, this
- * function returns a handle to the newly created shader program; otherwise
- * returns 0.
+ * Compilfs bnd links tif LookupOp sibdfr progrbm.  If suddfssful, tiis
+ * fundtion rfturns b ibndlf to tif nfwly drfbtfd sibdfr progrbm; otifrwisf
+ * rfturns 0.
  */
-static GLhandleARB
-OGLBufImgOps_CreateLookupProgram(jint flags)
+stbtid GLibndlfARB
+OGLBufImgOps_CrfbtfLookupProgrbm(jint flbgs)
 {
-    GLhandleARB lookupProgram;
-    GLint loc;
-    char *target = IS_SET(LOOKUP_RECT) ? "2DRect" : "2D";
-    char *alpha;
-    char *preLookup = "";
-    char *postLookup = "";
-    char finalSource[2000];
+    GLibndlfARB lookupProgrbm;
+    GLint lod;
+    dibr *tbrgft = IS_SET(LOOKUP_RECT) ? "2DRfdt" : "2D";
+    dibr *blpib;
+    dibr *prfLookup = "";
+    dibr *postLookup = "";
+    dibr finblSourdf[2000];
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "OGLBufImgOps_CreateLookupProgram: flags=%d",
-                flags);
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "OGLBufImgOps_CrfbtfLookupProgrbm: flbgs=%d",
+                flbgs);
 
     if (IS_SET(LOOKUP_USE_SRC_ALPHA)) {
-        // when numComps is 1 or 3, the alpha is not looked up in the table;
-        // just keep the alpha from the source fragment
-        alpha = "result.a = srcColor.a;";
-    } else {
-        // when numComps is 4, the alpha is looked up in the table, just
-        // like the other color components from the source fragment
-        alpha =
-            "result.a = texture2D(lookupTable, vec2(srcIndex.a, 0.875)).r;";
+        // wifn numComps is 1 or 3, tif blpib is not lookfd up in tif tbblf;
+        // just kffp tif blpib from tif sourdf frbgmfnt
+        blpib = "rfsult.b = srdColor.b;";
+    } flsf {
+        // wifn numComps is 4, tif blpib is lookfd up in tif tbblf, just
+        // likf tif otifr dolor domponfnts from tif sourdf frbgmfnt
+        blpib =
+            "rfsult.b = tfxturf2D(lookupTbblf, vfd2(srdIndfx.b, 0.875)).r;";
     }
     if (IS_SET(LOOKUP_NON_PREMULT)) {
-        preLookup  = "srcColor.rgb /= srcColor.a;";
-        postLookup = "result.rgb *= result.a;";
+        prfLookup  = "srdColor.rgb /= srdColor.b;";
+        postLookup = "rfsult.rgb *= rfsult.b;";
     }
 
-    // compose the final source code string from the various pieces
-    sprintf(finalSource, lookupShaderSource,
-            target, target, preLookup, alpha, postLookup);
+    // domposf tif finbl sourdf dodf string from tif vbrious pifdfs
+    sprintf(finblSourdf, lookupSibdfrSourdf,
+            tbrgft, tbrgft, prfLookup, blpib, postLookup);
 
-    lookupProgram = OGLContext_CreateFragmentProgram(finalSource);
-    if (lookupProgram == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLBufImgOps_CreateLookupProgram: error creating program");
-        return 0;
+    lookupProgrbm = OGLContfxt_CrfbtfFrbgmfntProgrbm(finblSourdf);
+    if (lookupProgrbm == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLBufImgOps_CrfbtfLookupProgrbm: frror drfbting progrbm");
+        rfturn 0;
     }
 
-    // "use" the program object temporarily so that we can set the uniforms
-    j2d_glUseProgramObjectARB(lookupProgram);
+    // "usf" tif progrbm objfdt tfmporbrily so tibt wf dbn sft tif uniforms
+    j2d_glUsfProgrbmObjfdtARB(lookupProgrbm);
 
-    // set the "uniform" values
-    loc = j2d_glGetUniformLocationARB(lookupProgram, "baseImage");
-    j2d_glUniform1iARB(loc, 0); // texture unit 0
-    loc = j2d_glGetUniformLocationARB(lookupProgram, "lookupTable");
-    j2d_glUniform1iARB(loc, 1); // texture unit 1
+    // sft tif "uniform" vblufs
+    lod = j2d_glGftUniformLodbtionARB(lookupProgrbm, "bbsfImbgf");
+    j2d_glUniform1iARB(lod, 0); // tfxturf unit 0
+    lod = j2d_glGftUniformLodbtionARB(lookupProgrbm, "lookupTbblf");
+    j2d_glUniform1iARB(lod, 1); // tfxturf unit 1
 
-    // "unuse" the program object; it will be re-bound later as needed
-    j2d_glUseProgramObjectARB(0);
+    // "unusf" tif progrbm objfdt; it will bf rf-bound lbtfr bs nffdfd
+    j2d_glUsfProgrbmObjfdtARB(0);
 
-    return lookupProgram;
+    rfturn lookupProgrbm;
 }
 
 void
-OGLBufImgOps_EnableLookupOp(OGLContext *oglc, jlong pSrcOps,
-                            jboolean nonPremult, jboolean shortData,
-                            jint numBands, jint bandLength, jint offset,
-                            void *tableValues)
+OGLBufImgOps_EnbblfLookupOp(OGLContfxt *ogld, jlong pSrdOps,
+                            jboolfbn nonPrfmult, jboolfbn siortDbtb,
+                            jint numBbnds, jint bbndLfngti, jint offsft,
+                            void *tbblfVblufs)
 {
-    OGLSDOps *srcOps = (OGLSDOps *)jlong_to_ptr(pSrcOps);
-    int bytesPerElem = (shortData ? 2 : 1);
-    GLhandleARB lookupProgram;
-    GLfloat foff;
-    GLint loc;
-    void *bands[4];
+    OGLSDOps *srdOps = (OGLSDOps *)jlong_to_ptr(pSrdOps);
+    int bytfsPfrElfm = (siortDbtb ? 2 : 1);
+    GLibndlfARB lookupProgrbm;
+    GLflobt foff;
+    GLint lod;
+    void *bbnds[4];
     int i;
-    jint flags = 0;
+    jint flbgs = 0;
 
-    J2dTraceLn4(J2D_TRACE_INFO,
-                "OGLBufImgOps_EnableLookupOp: short=%d num=%d len=%d off=%d",
-                shortData, numBands, bandLength, offset);
+    J2dTrbdfLn4(J2D_TRACE_INFO,
+                "OGLBufImgOps_EnbblfLookupOp: siort=%d num=%d lfn=%d off=%d",
+                siortDbtb, numBbnds, bbndLfngti, offsft);
 
     for (i = 0; i < 4; i++) {
-        bands[i] = NULL;
+        bbnds[i] = NULL;
     }
-    RETURN_IF_NULL(oglc);
-    RETURN_IF_NULL(srcOps);
+    RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(srdOps);
     RESET_PREVIOUS_OP();
 
-    // choose the appropriate shader, depending on the source texture target
-    // and the number of bands involved
-    if (srcOps->textureTarget == GL_TEXTURE_RECTANGLE_ARB) {
-        flags |= LOOKUP_RECT;
+    // dioosf tif bppropribtf sibdfr, dfpfnding on tif sourdf tfxturf tbrgft
+    // bnd tif numbfr of bbnds involvfd
+    if (srdOps->tfxturfTbrgft == GL_TEXTURE_RECTANGLE_ARB) {
+        flbgs |= LOOKUP_RECT;
     }
-    if (numBands != 4) {
-        flags |= LOOKUP_USE_SRC_ALPHA;
+    if (numBbnds != 4) {
+        flbgs |= LOOKUP_USE_SRC_ALPHA;
     }
-    if (nonPremult) {
-        flags |= LOOKUP_NON_PREMULT;
+    if (nonPrfmult) {
+        flbgs |= LOOKUP_NON_PREMULT;
     }
 
-    // locate/initialize the shader program for the given flags
-    if (lookupPrograms[flags] == 0) {
-        lookupPrograms[flags] = OGLBufImgOps_CreateLookupProgram(flags);
-        if (lookupPrograms[flags] == 0) {
-            // shouldn't happen, but just in case...
-            return;
+    // lodbtf/initiblizf tif sibdfr progrbm for tif givfn flbgs
+    if (lookupProgrbms[flbgs] == 0) {
+        lookupProgrbms[flbgs] = OGLBufImgOps_CrfbtfLookupProgrbm(flbgs);
+        if (lookupProgrbms[flbgs] == 0) {
+            // siouldn't ibppfn, but just in dbsf...
+            rfturn;
         }
     }
-    lookupProgram = lookupPrograms[flags];
+    lookupProgrbm = lookupProgrbms[flbgs];
 
-    // enable the lookup shader
-    j2d_glUseProgramObjectARB(lookupProgram);
+    // fnbblf tif lookup sibdfr
+    j2d_glUsfProgrbmObjfdtARB(lookupProgrbm);
 
-    // update the "uniform" offset value
-    loc = j2d_glGetUniformLocationARB(lookupProgram, "offset");
-    foff = offset / 255.0f;
-    j2d_glUniform4fARB(loc, foff, foff, foff, foff);
+    // updbtf tif "uniform" offsft vbluf
+    lod = j2d_glGftUniformLodbtionARB(lookupProgrbm, "offsft");
+    foff = offsft / 255.0f;
+    j2d_glUniform4fARB(lod, foff, foff, foff, foff);
 
-    // bind the lookup table to texture unit 1 and enable texturing
-    j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
-    if (lutTextureID == 0) {
+    // bind tif lookup tbblf to tfxturf unit 1 bnd fnbblf tfxturing
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
+    if (lutTfxturfID == 0) {
         /*
-         * Create the lookup table texture with 4 rows (one band per row)
-         * and 256 columns (one LUT band element per column) and with an
-         * internal format of 16-bit luminance values, which will be
-         * sufficient for either byte or short LUT data.  Note that the
-         * texture wrap mode will be set to the default of GL_CLAMP_TO_EDGE,
-         * which means that out-of-range index value will be clamped
-         * appropriately.
+         * Crfbtf tif lookup tbblf tfxturf witi 4 rows (onf bbnd pfr row)
+         * bnd 256 dolumns (onf LUT bbnd flfmfnt pfr dolumn) bnd witi bn
+         * intfrnbl formbt of 16-bit luminbndf vblufs, wiidi will bf
+         * suffidifnt for fitifr bytf or siort LUT dbtb.  Notf tibt tif
+         * tfxturf wrbp modf will bf sft to tif dffbult of GL_CLAMP_TO_EDGE,
+         * wiidi mfbns tibt out-of-rbngf indfx vbluf will bf dlbmpfd
+         * bppropribtfly.
          */
-        lutTextureID =
-            OGLContext_CreateBlitTexture(GL_LUMINANCE16, GL_LUMINANCE,
+        lutTfxturfID =
+            OGLContfxt_CrfbtfBlitTfxturf(GL_LUMINANCE16, GL_LUMINANCE,
                                          256, 4);
-        if (lutTextureID == 0) {
-            // should never happen, but just to be safe...
-            return;
+        if (lutTfxturfID == 0) {
+            // siould nfvfr ibppfn, but just to bf sbff...
+            rfturn;
         }
     }
-    j2d_glBindTexture(GL_TEXTURE_2D, lutTextureID);
-    j2d_glEnable(GL_TEXTURE_2D);
+    j2d_glBindTfxturf(GL_TEXTURE_2D, lutTfxturfID);
+    j2d_glEnbblf(GL_TEXTURE_2D);
 
-    // update the lookup table with the user-provided values
-    if (numBands == 1) {
-        // replicate the single band for R/G/B; alpha band is unused
+    // updbtf tif lookup tbblf witi tif usfr-providfd vblufs
+    if (numBbnds == 1) {
+        // rfplidbtf tif singlf bbnd for R/G/B; blpib bbnd is unusfd
         for (i = 0; i < 3; i++) {
-            bands[i] = tableValues;
+            bbnds[i] = tbblfVblufs;
         }
-        bands[3] = NULL;
-    } else if (numBands == 3) {
-        // user supplied band for each of R/G/B; alpha band is unused
+        bbnds[3] = NULL;
+    } flsf if (numBbnds == 3) {
+        // usfr supplifd bbnd for fbdi of R/G/B; blpib bbnd is unusfd
         for (i = 0; i < 3; i++) {
-            bands[i] = PtrAddBytes(tableValues, i*bandLength*bytesPerElem);
+            bbnds[i] = PtrAddBytfs(tbblfVblufs, i*bbndLfngti*bytfsPfrElfm);
         }
-        bands[3] = NULL;
-    } else if (numBands == 4) {
-        // user supplied band for each of R/G/B/A
+        bbnds[3] = NULL;
+    } flsf if (numBbnds == 4) {
+        // usfr supplifd bbnd for fbdi of R/G/B/A
         for (i = 0; i < 4; i++) {
-            bands[i] = PtrAddBytes(tableValues, i*bandLength*bytesPerElem);
+            bbnds[i] = PtrAddBytfs(tbblfVblufs, i*bbndLfngti*bytfsPfrElfm);
         }
     }
 
-    // upload the bands one row at a time into our lookup table texture
+    // uplobd tif bbnds onf row bt b timf into our lookup tbblf tfxturf
     for (i = 0; i < 4; i++) {
-        if (bands[i] == NULL) {
-            continue;
+        if (bbnds[i] == NULL) {
+            dontinuf;
         }
-        j2d_glTexSubImage2D(GL_TEXTURE_2D, 0,
-                            0, i, bandLength, 1,
+        j2d_glTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                            0, i, bbndLfngti, 1,
                             GL_LUMINANCE,
-                            shortData ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE,
-                            bands[i]);
+                            siortDbtb ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE,
+                            bbnds[i]);
     }
 
-    // restore texture unit 0 (the default) as the active one since
-    // the OGLBlitTextureToSurface() method is responsible for binding the
-    // source image texture, which will happen later
-    j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
+    // rfstorf tfxturf unit 0 (tif dffbult) bs tif bdtivf onf sindf
+    // tif OGLBlitTfxturfToSurfbdf() mftiod is rfsponsiblf for binding tif
+    // sourdf imbgf tfxturf, wiidi will ibppfn lbtfr
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
 }
 
 void
-OGLBufImgOps_DisableLookupOp(OGLContext *oglc)
+OGLBufImgOps_DisbblfLookupOp(OGLContfxt *ogld)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBufImgOps_DisableLookupOp");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBufImgOps_DisbblfLookupOp");
 
-    RETURN_IF_NULL(oglc);
+    RETURN_IF_NULL(ogld);
 
-    // disable the LookupOp shader
-    j2d_glUseProgramObjectARB(0);
+    // disbblf tif LookupOp sibdfr
+    j2d_glUsfProgrbmObjfdtARB(0);
 
-    // disable the lookup table on texture unit 1
-    j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
-    j2d_glDisable(GL_TEXTURE_2D);
-    j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
+    // disbblf tif lookup tbblf on tfxturf unit 1
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
+    j2d_glDisbblf(GL_TEXTURE_2D);
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
 }
 
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */

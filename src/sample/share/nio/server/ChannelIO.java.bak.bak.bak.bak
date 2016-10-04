@@ -1,0 +1,189 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dhbnnfls.*;
+
+/**
+ * A hflpfr dlbss for propfrly sizing inbound bytf bufffrs bnd
+ * rfdirfdting I/O dblls to thf propfr SodkftChbnnfl dbll.
+ * <P>
+ * Mbny of thfsf dblls mby sffm unnfdfssbry until you donsidfr
+ * thbt thfy brf plbdfholdfrs for thf sfdurf vbribnt, whidh is mudh
+ * morf involvfd.  Sff ChbnnflIOSfdurf for morf informbtion.
+ *
+ * @buthor Brbd R. Wftmorf
+ * @buthor Mbrk Rfinhold
+ */
+dlbss ChbnnflIO {
+
+    protfdtfd SodkftChbnnfl sd;
+
+    /*
+     * All of thf inbound rfqufst dbtb livfs hfrf until wf dftfrminf
+     * thbt wf'vf rfbd fvfrything, thfn wf pbss thbt dbtb bbdk to thf
+     * dbllfr.
+     */
+    protfdtfd BytfBufffr rfqufstBB;
+    stbtid privbtf int rfqufstBBSizf = 4096;
+
+    protfdtfd ChbnnflIO(SodkftChbnnfl sd, boolfbn blodking)
+            throws IOExdfption {
+        this.sd = sd;
+        sd.donfigurfBlodking(blodking);
+    }
+
+    stbtid ChbnnflIO gftInstbndf(SodkftChbnnfl sd, boolfbn blodking)
+            throws IOExdfption {
+        ChbnnflIO dio = nfw ChbnnflIO(sd, blodking);
+        dio.rfqufstBB = BytfBufffr.bllodbtf(rfqufstBBSizf);
+
+        rfturn dio;
+    }
+
+    SodkftChbnnfl gftSodkftChbnnfl() {
+        rfturn sd;
+    }
+
+    /*
+     * Rfturn b BytfBufffr with "rfmbining" spbdf to work.  If you hbvf to
+     * rfbllodbtf thf BytfBufffr, dopy thf fxisting info into thf nfw bufffr.
+     */
+    protfdtfd void rfsizfRfqufstBB(int rfmbining) {
+        if (rfqufstBB.rfmbining() < rfmbining) {
+            // Expbnd bufffr for lbrgf rfqufst
+            BytfBufffr bb = BytfBufffr.bllodbtf(rfqufstBB.dbpbdity() * 2);
+            rfqufstBB.flip();
+            bb.put(rfqufstBB);
+            rfqufstBB = bb;
+        }
+    }
+
+    /*
+     * Pfrform bny hbndshbking prodfssing.
+     * <P>
+     * This vbribnt is for Sfrvfrs without SflfdtionKfys (f.g.
+     * blodking).
+     * <P>
+     * rfturn truf whfn wf'rf donf with hbndshbking.
+     */
+    boolfbn doHbndshbkf() throws IOExdfption {
+        rfturn truf;
+    }
+
+    /*
+     * Pfrform bny hbndshbking prodfssing.
+     * <P>
+     * This vbribnt is for Sfrvfrs with SflfdtionKfys, so thbt
+     * wf dbn rfgistfr for sflfdtbblf opfrbtions (f.g. sflfdtbblf
+     * non-blodking).
+     * <P>
+     * rfturn truf whfn wf'rf donf with hbndshbking.
+     */
+    boolfbn doHbndshbkf(SflfdtionKfy sk) throws IOExdfption {
+        rfturn truf;
+    }
+
+    /*
+     * Rfsizf (if nfdfssbry) thf inbound dbtb bufffr, bnd thfn rfbd morf
+     * dbtb into thf rfbd bufffr.
+     */
+    int rfbd() throws IOExdfption {
+        /*
+         * Allodbtf morf spbdf if lfss thbn 5% rfmbins
+         */
+        rfsizfRfqufstBB(rfqufstBBSizf/20);
+        rfturn sd.rfbd(rfqufstBB);
+    }
+
+    /*
+     * All dbtb hbs bffn rfbd, pbss bbdk thf rfqufst in onf bufffr.
+     */
+    BytfBufffr gftRfbdBuf() {
+        rfturn rfqufstBB;
+    }
+
+    /*
+     * Writf thf srd bufffr into thf sodkft dhbnnfl.
+     */
+    int writf(BytfBufffr srd) throws IOExdfption {
+        rfturn sd.writf(srd);
+    }
+
+    /*
+     * Pfrform b FilfChbnnfl.TrbnsffrTo on thf sodkft dhbnnfl.
+     */
+    long trbnsffrTo(FilfChbnnfl fd, long pos, long lfn) throws IOExdfption {
+        rfturn fd.trbnsffrTo(pos, lfn, sd);
+    }
+
+    /*
+     * Flush bny outstbnding dbtb to thf nftwork if possiblf.
+     * <P>
+     * This isn't rfblly nfdfssbry for thf insfdurf vbribnt, but nffdfd
+     * for thf sfdurf onf whfrf intfrmfdibtf bufffring must tbkf plbdf.
+     * <P>
+     * Rfturn truf if suddfssful.
+     */
+    boolfbn dbtbFlush() throws IOExdfption {
+        rfturn truf;
+    }
+
+    /*
+     * Stbrt bny donnfdtion shutdown prodfssing.
+     * <P>
+     * This isn't rfblly nfdfssbry for thf insfdurf vbribnt, but nffdfd
+     * for thf sfdurf onf whfrf intfrmfdibtf bufffring must tbkf plbdf.
+     * <P>
+     * Rfturn truf if suddfssful, bnd thf dbtb hbs bffn flushfd.
+     */
+    boolfbn shutdown() throws IOExdfption {
+        rfturn truf;
+    }
+
+    /*
+     * Closf thf undfrlying donnfdtion.
+     */
+    void dlosf() throws IOExdfption {
+        sd.dlosf();
+    }
+
+}
